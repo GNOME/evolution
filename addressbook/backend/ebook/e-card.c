@@ -28,6 +28,7 @@ enum {
 	ARG_FULL_NAME,
 	ARG_NAME,
 	ARG_ADDRESS,
+	ARG_ADDRESS_LABEL,
 	ARG_PHONE,
 	ARG_EMAIL,
 	ARG_BIRTH_DATE,
@@ -65,6 +66,7 @@ static void parse_name(ECard *card, VObject *object);
 static void parse_email(ECard *card, VObject *object);
 static void parse_phone(ECard *card, VObject *object);
 static void parse_address(ECard *card, VObject *object);
+static void parse_address_label(ECard *card, VObject *object);
 static void parse_url(ECard *card, VObject *object);
 static void parse_org(ECard *card, VObject *object);
 static void parse_title(ECard *card, VObject *object);
@@ -86,20 +88,21 @@ struct {
 	ParsePropertyFunc function;
 } attribute_jump_array[] = 
 {
-	{ VCFullNameProp,     parse_full_name },
-	{ VCNameProp,         parse_name },
-	{ VCBirthDateProp,    parse_bday },
-	{ VCEmailAddressProp, parse_email },
-	{ VCTelephoneProp,    parse_phone },
-	{ VCAdrProp,          parse_address },
-	{ VCURLProp,          parse_url },
-	{ VCOrgProp,          parse_org },
-	{ VCTitleProp,        parse_title },
-	{ VCBusinessRoleProp, parse_role },
-	{ "NICKNAME",         parse_nickname },
-	{ "FBURL",            parse_fburl },
-	{ VCNoteProp,         parse_note },
-	{ VCUniqueStringProp, parse_id }
+	{ VCFullNameProp,      parse_full_name },
+	{ VCNameProp,          parse_name },
+	{ VCBirthDateProp,     parse_bday },
+	{ VCEmailAddressProp,  parse_email },
+	{ VCTelephoneProp,     parse_phone },
+	{ VCAdrProp,           parse_address },
+	{ VCDeliveryLabelProp, parse_address_label },
+	{ VCURLProp,           parse_url },
+	{ VCOrgProp,           parse_org },
+	{ VCTitleProp,         parse_title },
+	{ VCBusinessRoleProp,  parse_role },
+	{ "NICKNAME",          parse_nickname },
+	{ "FBURL",             parse_fburl },
+	{ VCNoteProp,          parse_note },
+	{ VCUniqueStringProp,  parse_id }
 };
 
 /**
@@ -247,6 +250,22 @@ char
 				addPropValue(addressprop, VCPostalCodeProp, address->code);
 			if ( address->country )
 				addPropValue(addressprop, VCCountryNameProp, address->country);
+		}
+		gtk_object_unref(GTK_OBJECT(iterator));
+	}
+
+	if ( card->address_label ) {
+		ECardIterator *iterator = e_card_list_get_iterator(card->address_label);
+		for ( ; e_card_iterator_is_valid(iterator) ;e_card_iterator_next(iterator) ) {
+			VObject *labelprop;
+			ECardAddrLabel *address_label = (ECardAddrLabel *) e_card_iterator_get(iterator);
+			if (address_label->data)
+				labelprop = addPropValue(vobj, VCDeliveryLabelProp, address_label->data);
+			else
+				labelprop = addProp(vobj, VCDeliveryLabelProp);
+			
+			set_address_flags (labelprop, address_label->flags);
+			addProp(labelprop, VCQuotedPrintableProp);
 		}
 		gtk_object_unref(GTK_OBJECT(iterator));
 	}
@@ -507,6 +526,22 @@ parse_address(ECard *card, VObject *vobj)
 }
 
 static void
+parse_address_label(ECard *card, VObject *vobj)
+{
+	ECardAddrLabel *next_addr = g_new(ECardAddrLabel, 1);
+	ECardList *list;
+
+	next_addr->flags   = get_address_flags (vobj);
+	assign_string(vobj, &next_addr->data);
+
+	gtk_object_get(GTK_OBJECT(card),
+		       "address_label", &list,
+		       NULL);
+	e_card_list_append(list, next_addr);
+	e_card_address_label_free (next_addr);
+}
+
+static void
 parse_url(ECard *card, VObject *vobj)
 {
 	if (card->url)
@@ -619,6 +654,8 @@ e_card_class_init (ECardClass *klass)
 				 GTK_TYPE_POINTER, GTK_ARG_READWRITE, ARG_NAME);
 	gtk_object_add_arg_type ("ECard::address",
 				 GTK_TYPE_OBJECT, GTK_ARG_READABLE, ARG_ADDRESS);
+	gtk_object_add_arg_type ("ECard::address_label",
+				 GTK_TYPE_OBJECT, GTK_ARG_READABLE, ARG_ADDRESS_LABEL);
 	gtk_object_add_arg_type ("ECard::phone",
 				 GTK_TYPE_OBJECT, GTK_ARG_READABLE, ARG_PHONE);
 	gtk_object_add_arg_type ("ECard::email",
@@ -712,6 +749,28 @@ e_card_delivery_address_copy (const ECardDeliveryAddress *addr)
 		return NULL;
 }
 
+void
+e_card_address_label_free (ECardAddrLabel *addr)
+{
+	if ( addr ) {
+		if ( addr->data )
+			g_free(addr->data);
+		g_free(addr);
+	}
+}
+
+ECardAddrLabel *
+e_card_address_label_copy (const ECardAddrLabel *addr)
+{
+	if ( addr ) {
+		ECardAddrLabel *addr_copy = g_new(ECardAddrLabel, 1);
+		addr_copy->data    = g_strdup(addr->data);
+		addr_copy->flags   = addr->flags;
+		return addr_copy;
+	} else
+		return NULL;
+}
+
 /*
  * ECard lifecycle management and vCard loading/saving.
  */
@@ -752,6 +811,8 @@ e_card_destroy (GtkObject *object)
 		gtk_object_unref(GTK_OBJECT(card->phone));
 	if (card->address)
 		gtk_object_unref(GTK_OBJECT(card->address));
+	if (card->address_label)
+		gtk_object_unref(GTK_OBJECT(card->address_label));
 }
 
 
@@ -851,6 +912,13 @@ e_card_get_arg (GtkObject *object, GtkArg *arg, guint arg_id)
 							NULL);
 		GTK_VALUE_OBJECT(*arg) = GTK_OBJECT(card->address);
 		break;
+	case ARG_ADDRESS_LABEL:
+		if (!card->address_label)
+			card->address_label = e_card_list_new((ECardListCopyFunc) e_card_address_label_copy, 
+							      (ECardListFreeFunc) e_card_address_label_free,
+							      NULL);
+		GTK_VALUE_OBJECT(*arg) = GTK_OBJECT(card->address_label);
+		break;
 	case ARG_PHONE:
 		if (!card->phone)
 			card->phone = e_card_list_new((ECardListCopyFunc) e_card_phone_copy, 
@@ -916,6 +984,7 @@ e_card_init (ECard *card)
 	card->email = NULL;
 	card->phone = NULL;
 	card->address = NULL;
+	card->address_label = NULL;
 	card->url = NULL;
 	card->org = NULL;
 	card->org_unit = NULL;

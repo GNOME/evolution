@@ -76,14 +76,12 @@ ECardPhoneFlags phone_correspondences[] = {
 	0xFF, /* E_CONTACT_EDITOR_PHONE_ID_TTYTTD,	   */
 };
 
-#if 0
-enum _EContactEditorAddressId {
-	E_CONTACT_EDITOR_ADDRESS_ID_BUSINESS,
-	E_CONTACT_EDITOR_ADDRESS_ID_HOME,
-	E_CONTACT_EDITOR_ADDRESS_ID_OTHER,
+ECardAddressFlags addr_correspondences[] = {
+	E_CARD_ADDR_WORK, /* E_CONTACT_EDITOR_ADDRESS_ID_BUSINESS, */
+	E_CARD_ADDR_HOME, /* E_CONTACT_EDITOR_ADDRESS_ID_HOME,	 */
+	E_CARD_ADDR_POSTAL, /* E_CONTACT_EDITOR_ADDRESS_ID_OTHER,    */
 	E_CONTACT_EDITOR_ADDRESS_ID_LAST
 };
-#endif
 
 GtkType
 e_contact_editor_get_type (void)
@@ -161,8 +159,7 @@ _add_details_images(GtkTable *table)
 {
 	_add_image(table, DATADIR "/evolution/briefcase.png", 0, 1, 0, 2);
 	_add_image(table, DATADIR "/evolution/head.png", 0, 1, 4, 6);
-	_add_image(table, DATADIR "/evolution/netmeeting.png", 0, 1, 7, 9);
-	_add_image(table, DATADIR "/evolution/netfreebusy.png", 0, 1, 10, 12);
+	_add_image(table, DATADIR "/evolution/netfreebusy.png", 0, 1, 7, 9);
 }
 
 static void
@@ -191,7 +188,7 @@ _replace_buttons(EContactEditor *editor)
 }
 
 static void
-phone_label_changed (GtkWidget *widget, EContactEditor *editor)
+phone_entry_changed (GtkWidget *widget, EContactEditor *editor)
 {
 	int which;
 	gchar *string;
@@ -208,30 +205,21 @@ phone_label_changed (GtkWidget *widget, EContactEditor *editor)
 	} else
 		return;
 	string = gtk_entry_get_text(entry);
-	if (string) {
-		if (editor->phone[editor->phone_choice[which - 1]]) {
-			if (editor->phone[editor->phone_choice[which - 1]]->number)
-				g_free(editor->phone[editor->phone_choice[which - 1]]->number);
-			editor->phone[editor->phone_choice[which - 1]]->number = NULL;
-		} else {
-			editor->phone[editor->phone_choice[which - 1]] = g_new(ECardPhone, 1);
-			editor->phone[editor->phone_choice[which - 1]]->number = NULL;
-			editor->phone[editor->phone_choice[which - 1]]->flags = 0;
-		}
-		editor->phone[editor->phone_choice[which - 1]]->number = g_strdup(string);
+	if (editor->phone[editor->phone_choice[which - 1]]) {
+		if (editor->phone[editor->phone_choice[which - 1]]->number)
+			g_free(editor->phone[editor->phone_choice[which - 1]]->number);
+		editor->phone[editor->phone_choice[which - 1]]->number = NULL;
 	} else {
-		if (editor->phone[editor->phone_choice[which - 1]]) {
-			if (editor->phone[editor->phone_choice[which - 1]]->number) {
-				g_free(editor->phone[editor->phone_choice[which - 1]]->number);
-				editor->phone[editor->phone_choice[which - 1]]->number = g_strdup("");
-			}
-		}
+		editor->phone[editor->phone_choice[which - 1]] = g_new(ECardPhone, 1);
+		editor->phone[editor->phone_choice[which - 1]]->number = NULL;
+		editor->phone[editor->phone_choice[which - 1]]->flags = 0;
 	}
+	editor->phone[editor->phone_choice[which - 1]]->number = g_strdup(string);
 	set_fields(editor);
 }
 
 static void
-email_label_changed (GtkWidget *widget, EContactEditor *editor)
+email_entry_changed (GtkWidget *widget, EContactEditor *editor)
 {
 	gchar *string;
 	GtkEntry *entry = GTK_ENTRY(widget);
@@ -244,8 +232,31 @@ email_label_changed (GtkWidget *widget, EContactEditor *editor)
 	string = gtk_entry_get_text(entry);
 
 	editor->email[editor->email_choice] = g_strdup(string);
+}
 
-	set_fields(editor);
+static void
+address_text_changed (GtkWidget *widget, EContactEditor *editor)
+{
+	gchar *string;
+	GtkEditable *editable = GTK_EDITABLE(widget);
+
+	if (editor->address[editor->address_choice]) {
+		g_free(editor->address[editor->address_choice]);
+		editor->address[editor->address_choice] = NULL;
+	}
+
+	string = gtk_editable_get_chars(editable, 0, -1);
+	if (editor->address[editor->address_choice]) {
+		if (editor->address[editor->address_choice]->data)
+			g_free(editor->address[editor->address_choice]->data);
+		editor->address[editor->address_choice]->data = NULL;
+	} else {
+		editor->address[editor->address_choice] = g_new(ECardAddrLabel, 1);
+		editor->address[editor->address_choice]->data = NULL;
+			editor->address[editor->address_choice]->flags = 0;
+	}
+	editor->address[editor->address_choice]->data = g_strdup(string);
+	g_free(string);
 }
 
 static void
@@ -253,7 +264,7 @@ set_entry_changed_signal_phone(EContactEditor *editor, char *id)
 {
 	GtkWidget *widget = glade_xml_get_widget(editor->gui, id);
 	gtk_signal_connect(GTK_OBJECT(widget), "changed",
-			   phone_label_changed, editor);
+			   phone_entry_changed, editor);
 }
 
 static void
@@ -266,7 +277,10 @@ set_entry_changed_signals(EContactEditor *editor)
 	set_entry_changed_signal_phone(editor, "entry-phone4");
 	widget = glade_xml_get_widget(editor->gui, "entry-email1");
 	gtk_signal_connect(GTK_OBJECT(widget), "changed",
-			   email_label_changed, editor);
+			   email_entry_changed, editor);
+	widget = glade_xml_get_widget(editor->gui, "text-address");
+	gtk_signal_connect(GTK_OBJECT(widget), "changed",
+			   address_text_changed, editor);
 }
 
 static void
@@ -699,8 +713,12 @@ _address_arrow_pressed (GtkWidget *widget, GdkEventButton *button, EContactEdito
 		editor->address_popup = gnome_popup_menu_new(editor->address_info);
 	}
 	
-	result = _arrow_pressed (widget, button, editor, editor->address_popup, &editor->address_list, &editor->address_info, "label-address1", "entry-address1", "Add new Address type");
-	result ++;
+	result = _arrow_pressed (widget, button, editor, editor->address_popup, &editor->address_list, &editor->address_info, "label-address1", "text-address", "Add new Address type");
+
+	if (result != -1) {
+		editor->address_choice = result;
+		set_fields(editor);
+	}
 }
 
 static void
@@ -715,6 +733,9 @@ static void
 set_fields(EContactEditor *editor)
 {
 	GtkEntry *entry;
+	GtkEditable *editable;
+	char *string = NULL;
+	int position;
 
 	entry = GTK_ENTRY(glade_xml_get_widget(editor->gui, "entry-phone1"));
 	if (editor->phone[editor->phone_choice[0]])
@@ -731,6 +752,7 @@ set_fields(EContactEditor *editor)
 		set_field(entry, editor->phone[editor->phone_choice[2]]->number);
 	else
 		set_field(entry, "");
+
 	entry = GTK_ENTRY(glade_xml_get_widget(editor->gui, "entry-phone4"));
 	if (editor->phone[editor->phone_choice[3]])
 		set_field(entry, editor->phone[editor->phone_choice[3]]->number);
@@ -741,6 +763,17 @@ set_fields(EContactEditor *editor)
 		set_field(entry, editor->email[editor->email_choice]);
 	else
 		set_field(entry, "");
+
+	if (editor->address[editor->address_choice]) {
+		string = g_strdup (editor->address[editor->address_choice]->data);
+	}
+	position = 0;
+	editable = GTK_EDITABLE(glade_xml_get_widget(editor->gui, "text-address"));
+	gtk_editable_delete_text(editable, 0, -1);
+	if (string) {
+		gtk_editable_insert_text(editable, string, strlen(string), &position);
+		g_free(string);
+	}
 }
 
 static void
@@ -763,25 +796,26 @@ fill_in_info(EContactEditor *editor)
 		const ECardPhone *phone;
 		const char *email;
 		const ECardDate *bday;
+		const ECardAddrLabel *address;
 		GtkEditable *editable;
 		int position = 0;
 
 		ECardIterator *iterator;
 
 		gtk_object_get(GTK_OBJECT(card),
-			       "full_name",  &fname,
-			       "address",    &address_list,
-			       "phone",      &phone_list,
-			       "email",      &email_list,
-			       "url",        &url,
-			       "org",        &org,
-			       "org_unit",   &org_unit,
-			       "title",      &title,
-			       "role",       &role,
-			       "nickname",   &nickname,
-			       "fburl",      &fburl,
-			       "note",       &note,
-			       "birth_date", &bday,
+			       "full_name",     &fname,
+			       "address_label", &address_list,
+			       "phone",         &phone_list,
+			       "email",         &email_list,
+			       "url",           &url,
+			       "org",           &org,
+			       "org_unit",      &org_unit,
+			       "title",         &title,
+			       "role",          &role,
+			       "nickname",      &nickname,
+			       "fburl",         &fburl,
+			       "note",          &note,
+			       "birth_date",    &bday,
 			       NULL);
 		
 		position = 0;
@@ -789,39 +823,7 @@ fill_in_info(EContactEditor *editor)
 		gtk_editable_delete_text(editable, 0, -1);
 		if (fname)
 			gtk_editable_insert_text(editable, fname, strlen(fname), &position);
-#if 0
-		position = 0;
-		iterator = e_card_list_get_iterator(address_list);
-		for (iterator = e_card_list_get_iterator(address_list); e_card_iterator_is_valid(iterator); e_card_iterator_next(iterator)) {
-			address = e_card_iterator_get(iterator);
-			if (address->flags & E_CARD_ADDR_WORK) {
-				if (editor->address[E_CONTACT_EDITOR_ADDRESS_ID_BUSINESS]) {
-					e_card_delivery_address_free(editor->address[E_CONTACT_EDITOR_ADDRESS_ID_BUSINESS]);
-				}
-				editor->address[E_CONTACT_EDITOR_ADDRESS_ID_BUSINESS] =
-					e_card_delivery_address_copy(address);
-			}
-			if (address->flags & E_CARD_ADDR_HOME) {
-				if (editor->address[E_CONTACT_EDITOR_ADDRESS_ID_HOME]) {
-					e_card_delivery_address_free(editor->address[E_CONTACT_EDITOR_ADDRESS_ID_HOME]);
-				}
-				editor->address[E_CONTACT_EDITOR_ADDRESS_ID_HOME] =
-					e_card_delivery_address_copy(address);
-			}
-			if (address->flags & E_CARD_ADDR_PARCEL) {
-				if (editor->address[E_CONTACT_EDITOR_ADDRESS_ID_OTHER]) {
-					e_card_delivery_address_free(editor->address[E_CONTACT_EDITOR_ADDRESS_ID_OTHER]);
-				}
-				editor->address[E_CONTACT_EDITOR_ADDRESS_ID_OTHER] =
-					e_card_delivery_address_copy(address);
-			}
-		}
-		editable = GTK_EDITABLE(glade_xml_get_widget(editor->gui, "text-address"));
-		gtk_editable_delete_text(editable, 0, -1);
-		if (address)
-			gtk_editable_insert_text(editable, address->city, strlen(address->city), &position);
-		gtk_object_unref(GTK_OBJECT(iterator));
-#endif
+
 		for (iterator = e_card_list_get_iterator(phone_list); e_card_iterator_is_valid(iterator); e_card_iterator_next(iterator)) {
 			int i;
 			phone = e_card_iterator_get(iterator);
@@ -840,6 +842,18 @@ fill_in_info(EContactEditor *editor)
 			for (i = 0; i < E_CONTACT_EDITOR_EMAIL_ID_LAST; i ++) {
 				if ((editor->email[i] == NULL)) {
 					editor->email[i] = g_strdup(email);
+					break;
+				}
+			}
+		}
+		gtk_object_unref(GTK_OBJECT(iterator));
+
+		for (iterator = e_card_list_get_iterator(address_list); e_card_iterator_is_valid(iterator); e_card_iterator_next(iterator)) {
+			int i;
+			address = e_card_iterator_get(iterator);
+			for (i = 0; i < E_CONTACT_EDITOR_ADDRESS_ID_LAST; i ++) {
+				if (((address->flags & addr_correspondences[i]) == addr_correspondences[i]) && (editor->address[i] == NULL)) {
+					editor->address[i] = e_card_address_label_copy(address);
 					break;
 				}
 			}
@@ -927,6 +941,7 @@ extract_info(EContactEditor *editor)
 		char *fburl;
 		char *note;
 		const ECardPhone *phone;
+		const ECardAddrLabel *address;
 		const char *email;
 		ECardDate *bday;
 		GtkEditable *editable;
@@ -940,9 +955,9 @@ extract_info(EContactEditor *editor)
 		ECardIterator *iterator;
 
 		gtk_object_get(GTK_OBJECT(card),
-			       "address",    &address_list,
-			       "phone",      &phone_list,
-			       "email",      &email_list,
+			       "address_label", &address_list,
+			       "phone",         &phone_list,
+			       "email",         &email_list,
 			       NULL);
 		
 		position = 0;
@@ -953,29 +968,6 @@ extract_info(EContactEditor *editor)
 				       "full_name", fname,
 				       NULL);
 		g_free(fname);
-#if 0
-		iterator = e_card_list_get_iterator(address_list);
-		address = e_card_iterator_get(iterator);
-		editable = GTK_EDITABLE(glade_xml_get_widget(editor->gui, "text-address"));
-		string = gtk_editable_get_chars(editable, 0, -1);
-		if (string && *string) {
-			if (address) {
-				address_copy = e_card_delivery_address_copy(address);
-				if (address_copy->city)
-					g_free(address_copy->city);
-				address_copy->city = string;
-				e_card_iterator_set(iterator, address_copy);
-				e_card_delivery_address_free(address_copy);
-			} else {
-				address_copy = g_new0(ECardDeliveryAddress, 1);
-				address_copy->city = string;
-				e_card_list_append(address_list, address_copy);
-				e_card_delivery_address_free(address_copy);
-			} 
-		} else
-			g_free(string);
-		gtk_object_unref(GTK_OBJECT(iterator));
-#endif
 
 		for (iterator = e_card_list_get_iterator(phone_list); e_card_iterator_is_valid(iterator); iterator_next ? e_card_iterator_next(iterator) : FALSE ) {
 			int i;
@@ -1033,20 +1025,37 @@ extract_info(EContactEditor *editor)
 				editor->email[i] = NULL;
 			}
 		}
-#if 0
-		position = 0;
-		iterator = e_card_list_get_iterator(email_list);
-		editable = GTK_EDITABLE(glade_xml_get_widget(editor->gui, "entry-email1"));
-		email = gtk_editable_get_chars(editable, 0, -1);
-		if (email && *email) {
-			if (e_card_iterator_is_valid(iterator))
-				e_card_iterator_set(iterator, email);
-			else
-				e_card_list_append(email_list, email);
-		}
-		g_free(email);
+
+		for (iterator = e_card_list_get_iterator(address_list); e_card_iterator_is_valid(iterator); iterator_next ? e_card_iterator_next(iterator) : FALSE ) {
+			int i;
+			address = e_card_iterator_get(iterator);
+			iterator_next = 1;
+			for (i = 0; i < E_CONTACT_EDITOR_ADDRESS_ID_LAST; i ++) {
+				if ((address->flags & addr_correspondences[i]) == addr_correspondences[i]) {
+					if (editor->address[i]) {
+						if (editor->address[i]->data && *editor->address[i]->data) {
+							e_card_iterator_set(iterator, editor->address[i]);
+						} else {
+							e_card_iterator_delete(iterator);
+							iterator_next = 0;
+						}
+						e_card_address_label_free(editor->address[i]);
+						editor->address[i] = NULL;
+						break;
+					}
+				}
+			}
+		}	
 		gtk_object_unref(GTK_OBJECT(iterator));
-#endif
+		for (i = 0; i < E_CONTACT_EDITOR_ADDRESS_ID_LAST; i ++) {
+			if (editor->address[i]) {
+				editor->address[i]->flags = addr_correspondences[i];
+				e_card_list_append(address_list, editor->address[i]);
+				e_card_address_label_free(editor->address[i]);
+				editor->address[i] = NULL;
+			}
+		}
+
 		position = 0;
 		editable = GTK_EDITABLE(glade_xml_get_widget(editor->gui, "entry-web"));
 		url = gtk_editable_get_chars(editable, 0, -1);

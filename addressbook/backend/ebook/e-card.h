@@ -34,10 +34,9 @@ struct _ECard {
 	char            *fname;         /* The full name.                   */
 	ECardName       *name;          /* The structured name.             */
 	ECardList       *address;  	/* Delivery addresses (ECardDeliveryAddress *) */
-#if 0
-	GList           *del_labels;    /* Delivery address labels
+	ECardList       *address_label; /* Delivery address labels
 					 * (ECardAddrLabel *)               */
-#endif
+
 	ECardList       *phone;         /* Phone numbers (ECardPhone *)     */
 	ECardList       *email;         /* Email addresses (char *)         */
 	char            *url;	        /* The person's web page.           */
@@ -106,6 +105,8 @@ void e_card_phone_free (ECardPhone *phone);
 ECardPhone *e_card_phone_copy (const ECardPhone *phone);
 void e_card_delivery_address_free (ECardDeliveryAddress *addr);
 ECardDeliveryAddress *e_card_delivery_address_copy (const ECardDeliveryAddress *addr);
+void e_card_address_label_free (ECardAddrLabel *addr);
+ECardAddrLabel *e_card_address_label_copy (const ECardAddrLabel *addr);
 
 
 /* Standard Gtk function */

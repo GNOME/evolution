@@ -200,12 +200,12 @@ typedef struct {
 	char           *country;
 } ECardDeliveryAddress;
 
-#if 0
 typedef struct {
 	ECardAddressFlags  flags;
 	char           *data;
 } ECardAddrLabel;
 
+#if 0
 /* ORGANIZATIONAL PROPERTIES */
 
 typedef struct {
