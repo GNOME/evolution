@@ -42,7 +42,7 @@
 #define PARENT_TYPE (gtk_object_get_type ())
 
 #define FOLDER_ETABLE_SPEC "<ETableSpecification cursor-mode=\"line\"> \
-        <ETableColumn model_col=\"0\" pixbuf=\"subscribed-image\" expansion=\"1.0\" minimum_width=\"20\" resizable=\"true\" cell=\"cell_toggle\" compare=\"string\"/> \
+        <ETableColumn model_col=\"0\" pixbuf=\"subscribed-image\" expansion=\"0.0\" minimum_width=\"16\" resizable=\"false\" cell=\"cell_toggle\" compare=\"integer\"/> \
         <ETableColumn model_col=\"1\" _title=\"Folder\" expansion=\"1.0\" minimum_width=\"20\" resizable=\"true\" cell=\"cell_tree\" compare=\"string\"/> \
 	<ETableState>                   			        \
 		<column source=\"0\"/>                                  \
@@ -125,21 +125,40 @@ make_folder_search_widget (GtkSignalFunc start_search_func,
 
 
 
+static gboolean
+folder_info_subscribed (SubscribeDialog *sc, CamelFolderInfo *info)
+{
+	char *path;
+	gboolean retval;
+
+	path = g_strdup_printf ("/%s", info->full_name);
+
+	retval = camel_store_folder_subscribed (sc->store, path);
+	
+	g_free (path);
+
+	return retval;
+}
+
 static void
 subscribe_folder_info (SubscribeDialog *sc, CamelFolderInfo *info)
 {
 	char *path;
+	CamelException *ex = camel_exception_new ();
 
-	path = g_strdup_printf ("/%s", info->full_name); /* XXX */
+	path = g_strdup_printf ("/%s", info->full_name);
 
-	camel_store_subscribe_folder (sc->store, info->name, NULL);
+	camel_store_subscribe_folder (sc->store, path, ex);
 
-	evolution_storage_new_folder (sc->storage,
-				      path,
-				      info->name, "mail",
-				      info->url,
-				      _("(No description)") /* XXX */);
+	if (!camel_exception_is_set (ex)) {
+		evolution_storage_new_folder (sc->storage,
+					      path,
+					      info->name, "mail",
+					      info->url,
+					      _("(No description)") /* XXX */);
+	}
 
+	camel_exception_free (ex);
 	g_free (path);
 }
 
@@ -147,13 +166,17 @@ static void
 unsubscribe_folder_info (SubscribeDialog *sc, CamelFolderInfo *info)
 {
 	char *path;
+	CamelException *ex = camel_exception_new ();
 
-	path = g_strdup_printf ("/%s", info->full_name); /* XXX */
+	path = g_strdup_printf ("/%s", info->full_name);
 
-	camel_store_unsubscribe_folder (sc->store, info->name, NULL);
+	camel_store_unsubscribe_folder (sc->store, path, ex);
 
-	evolution_storage_removed_folder (sc->storage, path);
+	if (!camel_exception_is_set (ex)) {
+		evolution_storage_removed_folder (sc->storage, path);
+	}
 
+	camel_exception_free (ex);
 	g_free (path);
 }
 
@@ -185,10 +208,7 @@ subscribe_folder_foreach (int model_row, gpointer closure)
 	ETreePath *node = e_tree_model_node_at_row (sc->folder_model, model_row);
 	CamelFolderInfo *info = e_tree_model_node_get_data (sc->folder_model, node);
 
-	printf ("subscribe: row %d, node_data %p\n", model_row,
-		e_tree_model_node_get_data (sc->folder_model, node));
-
-	if (!camel_store_folder_subscribed (sc->store, info->name)) {
+	if (!folder_info_subscribed (sc, info)) {
 		subscribe_folder_info (sc, info);
 		e_tree_model_node_changed (sc->folder_model, node);	
 	}
@@ -210,10 +230,7 @@ unsubscribe_folder_foreach (int model_row, gpointer closure)
 	ETreePath *node = e_tree_model_node_at_row (sc->folder_model, model_row);
 	CamelFolderInfo *info = e_tree_model_node_get_data (sc->folder_model, node);
 
-	printf ("unsubscribe: row %d, node_data %p\n", model_row,
-		e_tree_model_node_get_data (sc->folder_model, node));
-
-	if (camel_store_folder_subscribed (sc->store, info->name)) {
+	if (folder_info_subscribed(sc, info)) {
 		unsubscribe_folder_info (sc, info);
 		e_tree_model_node_changed (sc->folder_model, node);
 	}
@@ -367,7 +384,7 @@ folder_etree_value_at (ETreeModel *etree, ETreePath *path, int col, void *model_
 	if (col == FOLDER_COL_NAME)
 		return info->name;
 	else /* FOLDER_COL_SUBSCRIBED */
-		return GINT_TO_POINTER(camel_store_folder_subscribed (dialog->store, info->name));
+		return GINT_TO_POINTER(folder_info_subscribed(dialog, info));
 }
 
 static void
@@ -512,7 +529,7 @@ folder_toggle_cb (ETable *table,
 	ETreePath *node = e_tree_model_node_at_row (sc->folder_model, row);
 	CamelFolderInfo *info = e_tree_model_node_get_data (sc->folder_model, node);
 
-	if (camel_store_folder_subscribed (sc->store, info->name))
+	if (folder_info_subscribed(sc, info))
 		unsubscribe_folder_info (sc, info);
 	else
 		subscribe_folder_info (sc, info);
@@ -695,6 +712,12 @@ subscribe_dialog_gui_init (SubscribeDialog *sc)
 	e_table_extras_add_cell (extras, "cell_text", cell);
 	e_table_extras_add_cell (extras, "cell_toggle", e_cell_toggle_new (0, 2, toggles));
 	e_table_extras_add_cell (extras, "cell_tree", e_cell_tree_new(NULL, NULL, TRUE, cell));
+
+	gtk_object_set (GTK_OBJECT (cell),
+			"bold_column", FOLDER_COL_SUBSCRIBED,
+			NULL);
+
+	e_table_extras_add_pixbuf (extras, "subscribed-image", toggles[1]);
 
 	sc->folder_etable = e_table_scrolled_new (E_TABLE_MODEL(sc->folder_model),
 						  extras, FOLDER_ETABLE_SPEC, NULL);

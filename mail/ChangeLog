@@ -1,14 +1,29 @@
+2000-10-11  Chris Toshok  <toshok@helixcode.com>
+
+	* subscribe-dialog.c (FOLDER_ETABLE_SPEC): set expansion to 0.0,
+	minimum-width to 16, and resizable to false for the subscribed
+	column.
+	(folder_info_subscribed): new function so we can do the correct
+	path munging.
+	(subscribe_folder_info): only add the folder to the storage if
+	there wasn't an exception subscribing it.
+	(unsubscribe_folder_info): same, but unsubscribing.
+	(folder_etree_value_at): use folder_info_subscribed.
+	(folder_toggle_cb): same.
+	(unsubscribe_folder_foreach): same.
+	(subscribe_folder_foreach): same.
+	(subscribe_dialog_gui_init): set the bold column on the text cell,
+	and add the subscribed pixbuf.
+
 2000-10-11 Anna Marie Dirks   <anna@helixcode.com>
 	* mail-threads.c: Changed the password-getting dialog so that the
 	text entry has focus. 
 
-=======
 2000-10-11  Chris Toshok  <toshok@helixcode.com>
 
 	* subscribe-dialog.c (STORE_ETABLE_SPEC): change cell type to
 	"string" since we're not including it in the extras.
 
->>>>>>> 1.626
 2000-10-11  Christopher James Lahey  <clahey@helixcode.com>
 
 	* message-list.c, message-list.h, subscribe-dialog.c: Changed
