@@ -77,7 +77,7 @@ do
     aclocalinclude=""; \
     for k in $macrodirs; do \
         if test -d $k; then aclocalinclude="$aclocalinclude -I $k"; \
-        else echo "**Warning**: No such directory \`$k'.  Ignored."; fi \
+        else echo "**Warning**: No such directory \`$k'.  Ignored."; fi; \
     done; \
     libtoolize --copy --force; \
     aclocal $aclocalinclude; \
