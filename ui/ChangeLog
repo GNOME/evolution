@@ -1,3 +1,7 @@
+2001-06-28  Rodrigo Moya <rodrigo@ximian.com>
+
+	* evolution-tasks.xml: added cut/copy/paste entries to the main menu
+
 2001-06-27  Rodrigo Moya <rodrigo@ximian.com>
 
 	* evolution-calendar.xml: added cut/copy/paste entries to the main

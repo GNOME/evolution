@@ -6,6 +6,13 @@
 		<cmd name="TasksDelete" _label="Delete" pixtype="stock" pixname="Trash"
 		 _tip="Delete selected tasks" verb="TasksDelete"
 		 accel="Delete" sensitive="0"/>
+
+		<cmd name="TasksCut" pixtype="stock" pixmap="Cut"
+		 _tip="Cut selected task" verb="TasksCut" accel="*Control*x"/>
+		<cmd name="TasksCopy" pixtype="stock" pixmap="Copy"
+		 _tip="Copy selected task" verb="TasksCopy" accel="*Control*c"/>
+		<cmd name="TasksPaste" pixtype="stock" pixmap="Paste"
+		 _tip="Paste task from the clipboard" verb="TasksPaste" accel="*Control*v"/>
   	</commands>
   
 	<menu>
@@ -43,6 +50,9 @@
 
 		<submenu name="Edit">
 
+			<menuitem name="Cut" verb="TasksCut" _labek="C_ut"/>
+			<menuitem name="Copy" verb="TasksCopy _labek="_Copy"/>
+			<menuitem name="Paste" verb="TasksPaste" _label="_Paste"/>
 			<menuitem name="Delete" verb="TasksDelete"
 			_label="_Delete"/>
 
