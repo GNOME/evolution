@@ -161,7 +161,7 @@ e_canvas_new ()
 static int
 emit_event (GnomeCanvas *canvas, GdkEvent *event)
 {
-	GdkEvent ev;
+	GdkEvent *ev;
 	gint finished;
 	GnomeCanvasItem *item;
 	GnomeCanvasItem *parent;
@@ -225,14 +225,14 @@ emit_event (GnomeCanvas *canvas, GdkEvent *event)
 	 * offsets of the fields in the event structures.
 	 */
 
-	ev = *event;
+	ev = gdk_event_copy (event);
 
-	switch (ev.type) {
+	switch (ev->type) {
 	case GDK_ENTER_NOTIFY:
 	case GDK_LEAVE_NOTIFY:
 		gnome_canvas_window_to_world (canvas,
-					      ev.crossing.x, ev.crossing.y,
-					      &ev.crossing.x, &ev.crossing.y);
+					      ev->crossing.x, ev->crossing.y,
+					      &ev->crossing.x, &ev->crossing.y);
 		break;
 
 	case GDK_MOTION_NOTIFY:
@@ -241,8 +241,8 @@ emit_event (GnomeCanvas *canvas, GdkEvent *event)
 	case GDK_3BUTTON_PRESS:
 	case GDK_BUTTON_RELEASE:
 		gnome_canvas_window_to_world (canvas,
-					      ev.motion.x, ev.motion.y,
-					      &ev.motion.x, &ev.motion.y);
+					      ev->motion.x, ev->motion.y,
+					      &ev->motion.x, &ev->motion.y);
 		break;
 
 	default:
@@ -259,23 +259,15 @@ emit_event (GnomeCanvas *canvas, GdkEvent *event)
 	while (item && !finished) {
 		g_object_ref (item);
 
-		g_signal_emit_by_name (item, "event",
-				       &ev,
-				       &finished);
-
-#ifndef NO_WARNINGS
-#warning FIXME - needs thought
-#endif
-#if 0
-		if (GTK_OBJECT_DESTROYED (item))
-			finished = TRUE;
-#endif
+		g_signal_emit_by_name (item, "event", ev, &finished);
 
 		parent = item->parent;
 		g_object_unref (item);
 
 		item = parent;
 	}
+
+	gdk_event_free (ev);
 
 	return finished;
 }
@@ -696,8 +688,8 @@ e_canvas_style_set (GtkWidget *widget, GtkStyle *previous_style)
 static void
 e_canvas_realize (GtkWidget *widget)
 {
-	gint width, height;
 #ifdef GAL_GDK_IM
+	gint width, height;
 	ECanvas *ecanvas = E_CANVAS (widget);
 #endif
 
