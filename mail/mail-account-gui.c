@@ -1395,9 +1395,9 @@ mail_account_gui_new (MailConfigAccount *account, MailAccountsTab *dialog)
 		if (account->id->name)
 			e_utf8_gtk_entry_set_text (gui->full_name, account->id->name);
 		if (account->id->address)
-			gtk_entry_set_text (gui->email_address, account->id->address);
+			e_utf8_gtk_entry_set_text (gui->email_address, account->id->address);
 		if (account->id->reply_to)
-			gtk_entry_set_text (gui->reply_to, account->id->reply_to);
+			e_utf8_gtk_entry_set_text (gui->reply_to, account->id->reply_to);
 		if (account->id->organization)
 			e_utf8_gtk_entry_set_text (gui->organization, account->id->organization);
 		

@@ -1,5 +1,9 @@
 2002-10-01  Jeffrey Stedfast  <fejj@ximian.com>
 
+	* mail-account-gui.c (mail_account_gui_new): Use
+	e_utf8_gtk_entry_set_text for the email address and reply-to
+	fields. Fixes bug #31555.
+
 	* mail-format.c (mail_get_message_body): Handle a
 	multipart/encrypted part. Fixes bug #31547.
 
