@@ -863,8 +863,8 @@ mail_append_mail (CamelFolder *folder, CamelMimeMessage *message, CamelMessageIn
 {
 	struct _append_msg *m;
 	
-	g_return_if_fail (CAMEL_IS_FOLDER (folder));
-	g_return_if_fail (CAMEL_IS_MIME_MESSAGE (message));
+	g_assert(CAMEL_IS_FOLDER (folder));
+	g_assert(CAMEL_IS_MIME_MESSAGE (message));
 	
 	m = mail_msg_new (&append_mail_op, NULL, sizeof (*m));
 	m->folder = folder;
@@ -996,9 +996,9 @@ mail_transfer_messages (CamelFolder *source, GPtrArray *uids,
 {
 	struct _transfer_msg *m;
 	
-	g_return_if_fail (CAMEL_IS_FOLDER (source));
-	g_return_if_fail (uids != NULL);
-	g_return_if_fail (dest_uri != NULL);
+	g_assert(CAMEL_IS_FOLDER (source));
+	g_assert(uids != NULL);
+	g_assert(dest_uri != NULL);
 	
 	m = mail_msg_new(&transfer_messages_op, NULL, sizeof(*m));
 	m->source = source;
