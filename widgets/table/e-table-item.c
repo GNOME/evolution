@@ -353,7 +353,7 @@ eti_attach_cell_views (ETableItem *eti)
 
 	g_assert (eti->header);
 	g_assert (eti->table_model);
-	
+
 	/*
 	 * Now realize the various ECells
 	 */
@@ -2551,7 +2551,8 @@ eti_event (GnomeCanvasItem *item, GdkEvent *e)
 			return TRUE;
 
 		if (eti->motion_row != -1 && eti->motion_col != -1 &&
-		    (row != eti->motion_row || col != eti->motion_col)) {
+		    (row != eti->motion_row || col != eti->motion_col)
+		    && eti->motion_col < eti->n_cells) {
 			GdkEvent *cross = gdk_event_new (GDK_LEAVE_NOTIFY);
 			cross->crossing.time = e->motion.time;
 			return_val = eti_e_cell_event (eti, eti->cell_views [eti->motion_col],
