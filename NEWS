@@ -4,7 +4,7 @@ Version 0.6
 General:
 
   - Split out lots of functionality to gal.  Evolution now depends on
-    gal. (Chris, Gal Team)
+    gal. (Chris Lahey, Gal Team)
 
 Shell:
 
@@ -86,17 +86,18 @@ Addressbook:
 
   - Lots of bug fixes. (Chris, Chris, Matt Bissiri, Iain, Dan)
 
-  - Added a working field to save whether the contact wants HTML. (Chris)
+  - Added a working field to save whether the contact wants
+    HTML. (Chris Lahey)
 
-  - Added "Stop" and "View All" toolbar buttons. (Chris)
+  - Added "Stop" and "View All" toolbar buttons. (Chris Lahey)
 
-  - Lots of work on modifiable LDAP. (Chris)
+  - Lots of work on modifiable LDAP. (Chris Toshok)
 
   - Recognizes a lot more Prefixes and Suffixes when parsing names. (Nat)
 
-  - The card view doesn't write out cards unless they've changed. (Chris)
+  - The card view doesn't write out cards unless they've changed. (Chris Lahey)
 
-  - New layout of address editor dialog. (Anna, Chris)
+  - New layout of address editor dialog. (Anna, Chris Lahey)
 
 Version 0.5.1, "Salamended", 2000-09-15
 ---------------------------------------
