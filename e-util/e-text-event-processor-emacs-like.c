@@ -303,14 +303,14 @@ e_text_event_processor_emacs_like_event (ETextEventProcessor *tep, ETextEventPro
 				break;
 			case GDK_Return:
 			case GDK_KP_Enter:
-				if ((key.state & GDK_CONTROL_MASK) || (!tep->allow_newlines)) {
-					command.action = E_TEP_ACTIVATE;
-					command.position = E_TEP_SELECTION;
-				} else {
+				if (tep->allow_newlines) {
 					command.action = E_TEP_INSERT;
 					command.position = E_TEP_SELECTION;
 					command.value = 1;
 					command.string = "\n";
+				} else {
+					command.action = E_TEP_ACTIVATE;
+					command.position = E_TEP_SELECTION;
 				}
 				break;
 			case GDK_Escape:
