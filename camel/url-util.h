@@ -40,7 +40,7 @@ typedef struct {
 	GString *path;
 } Gurl;
 
-Gurl *new_g_url(GString* url_string);
+Gurl *g_url_new(GString* url_string);
 
 #ifdef __cplusplus
 }

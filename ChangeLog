@@ -1,4 +1,6 @@
 1999-04-24  bertrand <Bertrand.Guiheneuf@inria.fr>
+	
+	* camel/url-util.[ch]: s/new_g_url/g_url_new
 
 	* camel/url-util.c (new_g_url): URL 
 	rewritten completely. Error handling not

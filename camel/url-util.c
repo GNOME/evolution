@@ -71,7 +71,7 @@ static gboolean find_path(GString *url, GString **item, guint *position, gboolea
  * 
  * Return value: a Gurl structure containng the URL items.
  **/
-Gurl *new_g_url(GString* url_string)
+Gurl *g_url_new(GString* url_string)
 {
 	Gurl *g_url;
 	
