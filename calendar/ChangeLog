@@ -1,6 +1,14 @@
 2001-01-22  JP Rosevear  <jpr@ximian.com>
 
+	* conduits/todo/todo-conduit.c (for_each_modified): remove duplicate
+	message
+
+	* conduits/calendar/Makefile.am: Remove vfs lib dependency
+
+	* conduits/todo/Makefile.am: ditto
+
 	* conduits/calendar/calendar-conduit.c: Remove alarm foo for now
+	(for_each_modified): remove duplicate message
 
 2001-01-21  JP Rosevear  <jpr@ximian.com>
 

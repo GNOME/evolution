@@ -4,7 +4,7 @@ INCLUDES = 					\
 	-I$(top_srcdir)/libical/src/libical	\
 	-I$(top_builddir)/libical/src/libical	\
 	-I$(top_builddir)/e-util		\
-	$(BONOBO_VFS_GNOME_CFLAGS)		\
+	$(BONOBO_GNOME_CFLAGS)			\
 	$(PISOCK_INCLUDEDIR)			\
 	$(GNOME_PILOT_CFLAGS)
 
@@ -13,15 +13,15 @@ bin_PROGRAMS = e-calendar-conduit-control-applet
 
 e_calendar_conduit_control_applet_SOURCES = calendar-conduit-control-applet.c
 
-e_calendar_conduit_control_applet_LDADD = \
-		$(CAPPLET_LIBS)  \
-		$(GNOME_LIBDIR) \
-		$(GNOME_PILOT_LIBS) \
+e_calendar_conduit_control_applet_LDADD = 	\
+		$(CAPPLET_LIBS)  		\
+		$(GNOME_LIBDIR) 		\
+		$(GNOME_PILOT_LIBS) 		\
 		$(PISOCK_LIBDIR) $(PISOCK_LIBS) \
-		$(GNOME_CAPPLET_LIBS) \
-		$(BONOBO_VFS_GNOME_LIBS) \
-		$(GNOME_XML_LIB) \
-	        $(GNOMEUI_LIBS) \
+		$(GNOME_CAPPLET_LIBS) 		\
+		$(BONOBO_GNOME_LIBS) 		\
+		$(GNOME_XML_LIB) 		\
+	        $(GNOMEUI_LIBS) 		\
                 $(INTLLIBS)
 
 # Calendar Conduit
@@ -40,7 +40,7 @@ libecalendar_conduit_la_LIBADD = 					\
 	$(top_builddir)/libversit/libversit.la				\
 	$(top_builddir)/libical/src/libical/libical-static.la		\
 	$(top_builddir)/e-util/libeconduit-static.la	 		\
-	$(BONOBO_VFS_GNOME_LIBS)					\
+	$(BONOBO_GNOME_LIBS)						\
 	$(PISOCK_LIBDIR) $(PISOCK_LIBS) 				\
 	$(GNOME_LIBDIR) 						\
 	$(GNOME_LIBS)

@@ -923,8 +923,6 @@ for_each_modified (GnomePilotConduitSyncAbs *conduit,
 		if (iterator != NULL) {
 			CalClientChange *ccc = iterator->data;
 		
-			LOG ("iterating over %d records", g_hash_table_size (ctxt->changed_hash));
-
 			*local = g_new0 (ECalLocalRecord, 1);
 			local_record_from_comp (*local, ccc->comp, ctxt);
 		} else {
