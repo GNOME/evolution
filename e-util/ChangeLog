@@ -1,3 +1,8 @@
+2004-12-03  Not Zed  <NotZed@Ximian.com>
+
+	* e-config.c (ec_rebuild): revert the patch from chenthill, this
+	wont work yet.
+
 2004-11-29  Mengjie Yu  <meng-jie.yu@sun.com>
 
 	* e-config.c: (ec_rebuild):add mnemonic for label.
