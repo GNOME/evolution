@@ -1,3 +1,8 @@
+2001-07-01  Ettore Perazzoli  <ettore@ximian.com>
+
+	* Makefile.am (SUBDIRS): Build the composer after the addressbook,
+	as it needs some CORBA stuff from the latter.
+
 2001-06-30  Federico Mena Quintero  <federico@ximian.com>
 
 	* tools/killev: Added evolution-alarm-notify.

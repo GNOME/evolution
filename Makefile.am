@@ -23,11 +23,11 @@ SUBDIRS =			\
         libibex                 \
         camel                   \
         filter                  \
-        composer                \
         libical                 \
         libversit               \
 	libwombat		\
         addressbook             \
+        composer                \
         mail                    \
         calendar                \
         wombat                  \
