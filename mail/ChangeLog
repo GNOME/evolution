@@ -1,3 +1,12 @@
+2001-08-05  Ettore Perazzoli  <ettore@ximian.com>
+
+	[Revert the previous changes, there seems to be something wrong
+	with it.]
+
+	* component-factory.c (component_factory_init): Back to using
+	`bonobo_generic_factory_new()'.
+	(component_fn): Updated accordingly.
+
 2001-08-04  Ettore Perazzoli  <ettore@ximian.com>
 
 	* component-factory.c (component_factory_init): Use
