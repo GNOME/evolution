@@ -164,7 +164,10 @@ get_smtp_error_string (int error)
 	switch (error) {
 	case 0:
 		/* looks like a read problem, check errno */
-		return g_strerror (errno);
+		if (errno)
+			return g_strerror (errno);
+		else
+			return _("Unknown");
 	case 500:
 		return _("Syntax error, command unrecognized");
 	case 501:

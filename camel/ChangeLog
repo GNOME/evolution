@@ -1,3 +1,9 @@
+2001-11-20  Jeffrey Stedfast  <fejj@ximian.com>
+
+	* providers/smtp/camel-smtp-transport.c (get_smtp_error_string):
+	Check to see that errno is non-zero before returning
+	g_strerror. If it's 0, then we have an unknown error.
+
 2001-11-26  Jeffrey Stedfast  <fejj@ximian.com>
 
 	* camel-mime-filter-basic.c: For the uudecoding mode, garble up
