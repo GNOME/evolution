@@ -19,8 +19,6 @@ evolution_SOURCES =		\
 	main.c			\
 	e-folder.c		\
 	e-folder.h		\
-	e-folder-mail.c		\
-	e-folder-mail.h		\
 	e-init.c		\
 	e-init.h		\
 	e-shell.c		\

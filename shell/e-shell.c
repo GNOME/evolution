@@ -9,6 +9,7 @@
  */
 #include <config.h>
 #include <gtk/gtkmain.h>
+#include <libgnome/libgnome.h>
 #include "Evolution.h"
 #include "e-util/e-util.h"
 #include "e-shell.h"
@@ -142,8 +143,21 @@ init_e_shell_corba_class (void)
 }
 
 static void
+es_destroy_default_folders (EShell *eshell)
+{
+	gtk_object_unref (GTK_OBJECT (eshell->default_folders.inbox));
+	gtk_object_unref (GTK_OBJECT (eshell->default_folders.outbox));
+	gtk_object_unref (GTK_OBJECT (eshell->default_folders.drafts));
+	gtk_object_unref (GTK_OBJECT (eshell->default_folders.calendar));
+	gtk_object_unref (GTK_OBJECT (eshell->default_folders.tasks));
+}
+
+static void
 e_shell_destroy (GtkObject *object)
 {
+	EShell *eshell = E_SHELL (object);
+
+	es_destroy_default_folders (eshell);
 	GTK_OBJECT_CLASS (e_shell_parent_class)->destroy (object);
 }
 
@@ -213,6 +227,26 @@ e_shell_construct (EShell *eshell, GNOME_Evolution_Shell corba_eshell)
 	gnome_object_construct (GNOME_OBJECT (eshell), corba_eshell);
 }
 
+static void
+e_shell_setup_default_folders (EShell *eshell)
+{
+	eshell->default_folders.inbox = e_folder_new (
+		E_FOLDER_MAIL, "internal:inbox", _("Inbox"), _("New mail messages"),
+		NULL, "internal:mail_view");
+	eshell->default_folders.outbox = e_folder_new (
+		E_FOLDER_MAIL, "internal:outbox", _("Sent messages"), _("Sent mail messages"),
+		NULL, "internal:mail_view");
+	eshell->default_folders.drafts = e_folder_new (
+		E_FOLDER_MAIL, "internal:drafts", _("Drafts"), _("Draft mail messages"),
+		NULL, "internal:mail_view");
+	eshell->default_folders.calendar = e_folder_new (
+		E_FOLDER_CALENDAR, "internal:personal_calendar", _("Calendar"), _("Your calendar"),
+		NULL, "internal:calendar_daily");
+	eshell->default_folders.tasks = e_folder_new (
+		E_FOLDER_TASKS, "internal:personal_calendar", _("Tasks"), _("Tasks list"),
+		NULL, "internal:tasks_view");
+}
+
 EShell *
 e_shell_new (void)
 {
@@ -228,6 +262,9 @@ e_shell_new (void)
 	}
 	
 	e_shell_construct (eshell, corba_eshell);
+
+	e_shell_setup_default_folders (eshell);
+	
 	return eshell;
 }
 

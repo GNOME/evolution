@@ -8,6 +8,7 @@
  */
 #include <config.h>
 #include <gtk/gtksignal.h>
+#include <libgnome/libgnome.h>
 #include "e-util/e-util.h"
 #include "e-folder.h"
 
@@ -18,7 +19,7 @@ static GtkObjectClass *parent_class;
 #define EFC(o) E_FOLDER_CLASS (GTK_OBJECT (o)->klass)
 
 enum {
-	VIEW_CHANGED,
+	CHANGED,
 	LAST_SIGNAL
 };
 static guint efolder_signals [LAST_SIGNAL] = { 0, };
@@ -47,11 +48,11 @@ e_folder_class_init (GtkObjectClass *object_class)
 
 	object_class->destroy = e_folder_destroy;
 
-	efolder_signals [VIEW_CHANGED] =
-		gtk_signal_new ("view_changed",
+	efolder_signals [CHANGED] =
+		gtk_signal_new ("changed",
 				GTK_RUN_LAST,
 				object_class->type,
-				GTK_SIGNAL_OFFSET (EFolderClass, view_changed),
+				GTK_SIGNAL_OFFSET (EFolderClass, changed),
 				gtk_marshal_NONE__NONE,
 				GTK_TYPE_NONE,
 				0);
@@ -60,7 +61,12 @@ e_folder_class_init (GtkObjectClass *object_class)
 		object_class, efolder_signals, LAST_SIGNAL);
 }
 
-E_MAKE_TYPE (e_folder, "EFolder", EFolder, e_folder_class_init, NULL, PARENT_TYPE)
+static void
+e_folder_init (GtkObject *object)
+{
+}
+
+E_MAKE_TYPE (e_folder, "EFolder", EFolder, e_folder_class_init, e_folder_init, PARENT_TYPE)
 
 void
 e_folder_set_uri (EFolder *efolder, const char *uri)
@@ -134,17 +140,37 @@ e_folder_get_type_name (EFolder *efolder)
 	g_return_val_if_fail (efolder != NULL, NULL);
 	g_return_val_if_fail (E_IS_FOLDER (efolder), NULL);
 
-	return EFC (efolder)->get_type_name (efolder);
+	switch (efolder->type){
+	case E_FOLDER_MAIL:
+		return _("A folder containing mail items");
+
+	case E_FOLDER_CONTACTS:
+		return _("A folder containing contacts");
+		
+	case E_FOLDER_CALENDAR:
+		return _("A folder containing calendar entries");
+		
+	case E_FOLDER_TASKS:
+		return _("A folder containing tasks");
+
+	default:
+		g_assert_not_reached ();
+	}
+
+	return NULL;
 }
 
 void
-e_folder_construct (EFolder *efolder,
+e_folder_construct (EFolder *efolder, EFolderType type,
 		    const char *uri, const char *name,
 		    const char *desc, const char *home_page,
 		    const char *view_name)
 {
 	g_return_if_fail (efolder != NULL);
 	g_return_if_fail (E_IS_FOLDER (efolder));
+
+	/* EFolders are self-owned */
+	GTK_OBJECT_UNSET_FLAGS (GTK_OBJECT (efolder), GTK_FLOATING);
 
 	if (uri)
 		efolder->uri = g_strdup (uri);
@@ -156,6 +182,22 @@ e_folder_construct (EFolder *efolder,
 		efolder->home_page = g_strdup (home_page);
 	if (view_name)
 		efolder->view_name = g_strdup (view_name);
+
+	efolder->type = type;
+}
+
+EFolder *
+e_folder_new (EFolderType type,
+	      const char *uri, const char *name,
+	      const char *desc, const char *home_page,
+	      const char *view_name)
+{
+	EFolder *efolder;
+	
+	efolder = gtk_type_new (e_folder_get_type ());
+
+	e_folder_construct (efolder, type, uri, name, desc, home_page, view_name);
+	return efolder;
 }
 
 const char *
@@ -200,5 +242,5 @@ e_folder_set_view_name (EFolder *efolder, const char *view_name)
 	efolder->view_name = g_strdup (view_name);
 
 	gtk_signal_emit (GTK_OBJECT (efolder),
-			 efolder_signals [VIEW_CHANGED]);
+			 efolder_signals [CHANGED]);
 }

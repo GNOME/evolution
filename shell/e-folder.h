@@ -15,8 +15,18 @@ typedef enum {
 	E_FOLDER_DND_AS_MOVE_COPY
 } EFolderDragDropAction;
 
+typedef enum {
+	E_FOLDER_MAIL,
+	E_FOLDER_CONTACTS,
+	E_FOLDER_CALENDAR,
+	E_FOLDER_TASKS,
+	E_FOLDER_OTHER
+} EFolderType;
+
 typedef struct {
 	GtkObject parent_object;
+
+	EFolderType type;
 
 	/*
 	 * General properties
@@ -36,19 +46,17 @@ typedef struct {
 	GtkObjectClass parent_class;
 
 	/*
-	 * Virtual methods
+	 * Notifies views of visible changes in the Efolder
 	 */
-	/* eg: "Folder containing mail items */
-	const char *(*get_type_name) (EFolder *efolder);
-
-	/*
-	 * Signals
-	 */
-	void (*view_changed) (EFolder *efolder);
+	void (*changed) (EFolder *efolder);
 } EFolderClass;
 
 GtkType     e_folder_get_type        (void);
-void        e_folder_construct       (EFolder *efolder,
+void        e_folder_construct       (EFolder *efolder, EFolderType type,
+				      const char *uri, const char *name,
+				      const char *desc, const char *home_page,
+				      const char *view_name);
+EFolder    *e_folder_new             (EFolderType type,
 				      const char *uri, const char *name,
 				      const char *desc, const char *home_page,
 				      const char *view_name);

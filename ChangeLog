@@ -1,4 +1,25 @@
-2000-01-14  Christopher James Lahey  <clahey@helixcode.com>
+2000-01-10  Miguel de Icaza  <miguel@gnu.org>
+
+	* widgets/shortcut-bar/e-shortcut-bar.c (e_shortcut_bar_add_item):
+	Use e_bar_set_item_data.
+
+	Drop item_url;  Require image argument;  Require user data
+	argument. 
+
+2000-01-09  Miguel de Icaza  <miguel@gnu.org>
+
+	* widgets/shortcut-bar/e-icon-bar.c (e_icon_bar_init): Turn on anti-aliasing.
+
+2000-01-08  Miguel de Icaza  <miguel@gnu.org>
+
+	* widgets/shortcut-bar/e-icon-bar.c (e_icon_bar_add_item): Use
+	GdkPixbuf here. 
+	(e_icon_bar_get_item_image): ditto and initialize image.
+
+	* widgets/shortcut-bar/e-shortcut-bar.c (e_shortcut_bar_add_item):
+	Use gdk-pixbuf.
+
+2000-01-12    <clahey@galapagos.helixcode.com>
 
 	* widgets/e-text-event-processor-types.h,
 	widgets/e-text-event-processor-emacs-like.c, widgets/e-text.c,
@@ -71,6 +92,7 @@
 
 2000-01-12  Christopher James Lahey  <clahey@helixcode.com>
 
+>>>>>>> 1.169
 	* widgets/e-minicard.c, widgets/e-minicard.h: Added a resize
 	signal for when the card changes height.  Made it so that when you
 	press tab inside of a field, it goes to the next field.

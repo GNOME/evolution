@@ -1,6 +1,6 @@
 
 SUBDIRS =	\
-	meeting-time-sel shortcut-bar e-table
+	meeting-time-sel shortcut-bar e-table toolbar
 
 INCLUDES =					\
 	-I$(top_srcdir)/camel			\

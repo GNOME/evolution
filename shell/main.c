@@ -69,7 +69,7 @@ evolution_boot (void)
 	EShellView *e_shell_view;
 	
 	eshell = e_shell_new ();
-	e_shell_view = E_SHELL_VIEW (e_shell_view_new (eshell));
+	e_shell_view = E_SHELL_VIEW (e_shell_view_new (eshell, TRUE));
 
 	gtk_widget_show (GTK_WIDGET (e_shell_view));
 }

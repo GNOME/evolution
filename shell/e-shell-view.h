@@ -19,16 +19,28 @@ struct _EShellView {
 
 	/* Our user interface handler */
 	GnomeUIHandler *uih;
+
+	/*
+	 *
+	 */
+	char shortcut_displayed;
+	GtkWidget *shortcut_hpaned;
+	GtkWidget *shortcut_bar;
+	GtkWidget *contents;
 };
 
 typedef struct {
 	GnomeAppClass parent_class;
 } EShellViewClass;
 
-GtkWidget *e_shell_view_new          (EShell *eshell);
+GtkWidget *e_shell_view_new          (EShell *eshell, gboolean show_shortcut_bar);
 GtkType    e_shell_view_get_type     (void);
 
 void       e_shell_view_new_folder   (EShellView *esv);
 void       e_shell_view_new_shortcut (EShellView *esv);
+
+void       e_shell_view_set_view     (EShellView *eshell_view,
+				      EFolder *efolder);
+void e_shell_view_display_shortcut_bar (EShellView *eshell_view, gboolean display);
 
 #endif /* E_SHELL_VIEW_H */
