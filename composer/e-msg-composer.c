@@ -2267,11 +2267,14 @@ map_default_cb (EMsgComposer *composer, gpointer user_data)
         cf = bonobo_widget_get_control_frame (BONOBO_WIDGET (to));
         pb = bonobo_control_frame_get_control_property_bag (cf, NULL);
 	text = bonobo_property_bag_client_get_value_string (pb, "text", NULL);
+	bonobo_object_release_unref (pb, NULL);
 
 	if (!text || text[0] == '\0') {
 		bonobo_control_frame_focus_child (cf, GTK_DIR_TAB_FORWARD);
+		g_free (text);
 		return;
 	}
+	g_free (text);
 
 	/* If not, check the subject field */
 
@@ -2282,8 +2285,10 @@ map_default_cb (EMsgComposer *composer, gpointer user_data)
 		
 		widget = e_msg_composer_hdrs_get_subject_entry (E_MSG_COMPOSER_HDRS (composer->hdrs));
 		gtk_widget_grab_focus (GTK_WIDGET (E_ENTRY (widget)->canvas));
+		g_free (text);
 		return;
 	}
+	g_free (text);
 
 	/* Jump to the editor as a last resort. */
 
