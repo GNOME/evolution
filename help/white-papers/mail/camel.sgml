@@ -56,10 +56,6 @@
       which set some of the boundaries on its requirements and
       extensibility.
     </para>
-  </sect1>
-
-  <sect1 id="features">
-    <title>Features</title>
 
     <para>
       &Camel; sees all message repositories as stores containing
@@ -102,6 +98,8 @@
 
   <sect1 id="overview">
     <title>Overview</title>
+
+    <graphic format="gif" fileref="camel"></graphic>
 
     <para>
       To begin using &Camel;, an application first creates a
@@ -188,10 +186,6 @@
   <sect1 id="classes">
     <title>Major Subcomponents</title>
 
-    <para>
-      XXX
-    </para>
-
     <sect2 id="store">
       <title>The Message Store</title>
 
@@ -266,6 +260,8 @@
         handling for the RFC822 headers.
       </para>
 
+      <graphic format="gif" fileref="mimemessage"></graphic>
+
       <para>
         Consider a message with two parts: a text part (in both plain
         text and HTML), and an attached image:
@@ -276,18 +272,20 @@
 	  To: Matt Loper &lt;matt@helixcode.com&gt;
 	  Subject: the Camel white paper
 	  MIME-Version: 1.0
-	  Content-Type: multipart/mixed; boundary="jhTYrnsRrdhDFGa"
+	  Content-Type: multipart/mixed;
+		boundary="jhTYrnsRrdhDFGa"
 
 	  This is a multi-part message in MIME format.
 	  --jhTYrnsRrdhDFGa
-	  Content-Type: multipart/alternative; boundary="sFSenbAFDSgDfg"
+	  Content-Type: multipart/alternative;
+		boundary="sFSenbAFDSgDfg"
 
 	  --sFSenbAFDSgDfg
 	  Content-Type: text/plain
 
 	  Hey, Matt
 
-	  Check out this graphic and tell me if you think it works.
+	  Check out this graphic...
 
 	  -- Dan
 
@@ -296,7 +294,7 @@
 
 	  Hey, Matt&lt;br&gt;
 	  &lt;br&gt;
-	  Check out this graphic and tell me if you think it works.&lt;br&gt;
+	  Check out this graphic...&lt;br&gt;
 	  &lt;br&gt;
 	  -- Dan&lt;br&gt;
 	  &lt;br&gt;
@@ -315,6 +313,26 @@
 	</para>
 
         <graphic fileref="samplemsg"></graphic>
+      </sect2>
+
+      <sect2 id="streams">
+        <title>Streams</title>
+
+	<para>
+	  Streams are a generic data transport layer. Two basic stream
+	  classes are <classname>CamelStreamFs</classname>, for
+	  reading and writing files, and
+	  <classname>CamelStreamMem</classname>, for reading from and
+	  writing to objects that are already in memory.
+	</para>
+
+	<para>
+	  Streams can also be chained together. So a CamelMimePart
+	  containing base64-encoded data can filter its output through
+	  a CamelStreamB64. Other parts of the application that want
+	  to read its data will never need to even realize that the
+	  original data was encoded.
+	</para>
       </sect2>
 
 </article>
