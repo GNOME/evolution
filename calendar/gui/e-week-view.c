@@ -2419,7 +2419,7 @@ e_week_view_add_event (ECalComponent *comp,
 		event.comp_data = g_new0 (ECalModelComponent, 1);
 
 		event.comp_data->client = g_object_ref (e_cal_model_get_default_client (e_calendar_view_get_model (E_CALENDAR_VIEW (add_event_data->week_view))));
-		e_cal_component_commit_sequence (comp);
+		e_cal_component_abort_sequence (comp);
 		event.comp_data->icalcomp = icalcomponent_new_clone (e_cal_component_get_icalcomponent (comp));
 	}
 	event.start = start;
@@ -3329,6 +3329,7 @@ e_week_view_on_editing_stopped (EWeekView *week_view,
 		summary.value = text;
 		summary.altrep = NULL;
 		e_cal_component_set_summary (comp, &summary);
+		e_cal_component_commit_sequence (comp);
 		
 		if (!on_server) {
 			if (!e_cal_create_object (client, icalcomp, NULL, NULL))

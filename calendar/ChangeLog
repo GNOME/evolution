@@ -1,3 +1,18 @@
+2004-07-15  Rodrigo Moya <rodrigo@novell.com>
+
+	Fixes #57142
+
+	* gui/e-day-view.c (e_day_view_on_editing_stopped): commit the
+	sequence on the object before sending it to the backend.
+	(e_day_view_add_event): s/abort_sequence/commit_sequence.
+
+	* gui/e-week-view.c (e_week_view_on_editing_stopped): commit the
+	sequence here also.
+	(e_week_view_add_event): s/abort_sequence/commit_sequence.
+
+	* gui/comp-util.c (cal_comp_event_new_with_current_time): don't
+	commit the sequence here.
+
 2004-07-14  JP Rosevear  <jpr@novell.com>
  
  	Fixes #61572

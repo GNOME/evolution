@@ -348,8 +348,6 @@ cal_comp_event_new_with_current_time (ECal *client, gboolean all_day)
 		e_cal_component_set_dtend (comp, &dt);
 	}
 
-	e_cal_component_commit_sequence (comp);
-
 	return comp;
 }
 
