@@ -115,6 +115,7 @@ buttons_DATA = 				\
 	reply.png			\
 	reply-to-all.png		\
 	send-24-receive.png		\
+	send-24.png		\
 	weekview.xpm  			\
 	workweekview.xpm		\
 	yearview.xpm	
