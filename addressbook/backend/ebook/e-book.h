@@ -38,6 +38,7 @@ struct _EBookClass {
 	void (* open_progress)   (EBook *book, const char *msg, short percent);
 	void (* link_status)     (EBook *book, gboolean connected);
 	void (* writable_status) (EBook *book, gboolean writable);
+	void (* backend_died)    (EBook *book);
 };
 
 /* Callbacks for asynchronous functions. */

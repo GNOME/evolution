@@ -44,6 +44,7 @@ enum {
 	CARD_CHANGED,
 	MODEL_CHANGED,
 	STOP_STATE_CHANGED,
+	BACKEND_DIED,
 	LAST_SIGNAL
 };
 
@@ -260,6 +261,14 @@ writable_status (EBook *book,
 }
 
 static void
+backend_died (EBook *book,
+	      EAddressbookModel *model)
+{
+	gtk_signal_emit (GTK_OBJECT (model),
+			 e_addressbook_model_signals [BACKEND_DIED]);
+}
+
+static void
 e_addressbook_model_class_init (GtkObjectClass *object_class)
 {
 	parent_class = gtk_type_class (PARENT_TYPE);
@@ -347,6 +356,14 @@ e_addressbook_model_class_init (GtkObjectClass *object_class)
 				gtk_marshal_NONE__NONE,
 				GTK_TYPE_NONE, 0);
 
+	e_addressbook_model_signals [BACKEND_DIED] =
+		gtk_signal_new ("backend_died",
+				GTK_RUN_LAST,
+				object_class->type,
+				GTK_SIGNAL_OFFSET (EAddressbookModelClass, backend_died),
+				gtk_marshal_NONE__NONE,
+				GTK_TYPE_NONE, 0);
+
 	gtk_object_class_add_signals (object_class, e_addressbook_model_signals, LAST_SIGNAL);
 }
 
@@ -363,6 +380,7 @@ e_addressbook_model_init (GtkObject *object)
 	model->modify_card_id = 0;
 	model->status_message_id = 0;
 	model->writable_status_id = 0;
+	model->backend_died_id = 0;
 	model->sequence_complete_id = 0;
 	model->data = NULL;
 	model->data_count = 0;
@@ -481,8 +499,12 @@ e_addressbook_model_set_arg (GtkObject *o, GtkArg *arg, guint arg_id)
 			if (model->writable_status_id)
 				gtk_signal_disconnect(GTK_OBJECT (model->book),
 						      model->writable_status_id);
-
 			model->writable_status_id = 0;
+
+			if (model->backend_died_id)
+				gtk_signal_disconnect(GTK_OBJECT (model->book),
+						      model->backend_died_id);
+			model->backend_died_id = 0;
 
 			gtk_object_unref(GTK_OBJECT(model->book));
 		}
@@ -495,6 +517,9 @@ e_addressbook_model_set_arg (GtkObject *o, GtkArg *arg, guint arg_id)
 			gtk_signal_connect (GTK_OBJECT(model->book),
 					    "writable_status",
 					    writable_status, model);
+			gtk_signal_connect (GTK_OBJECT(model->book),
+					    "backend_died",
+					    backend_died, model);
 		}
 		break;
 	case ARG_QUERY:

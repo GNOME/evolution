@@ -1,5 +1,30 @@
 2002-08-29  Chris Toshok  <toshok@ximian.com>
 
+	[ fixes #20347 ]
+	* gui/widgets/e-addressbook-view.c (e_addressbook_view_init): hook
+	up the backend_died signal.
+	(backend_died): new function, pop up an error dialog saying the
+	backend died.
+
+	* gui/widgets/e-addressbook-model.c (backend_died): new function,
+	emit the backend_died signal.
+	(e_addressbook_model_class_init): create the backend_died signal.
+	(e_addressbook_model_init): init backend_died_id
+	(e_addressbook_model_set_arg): disconnect the backend_died signal
+	from the old book and hook it up to the new book.
+
+	* gui/widgets/e-addressbook-model.h: add the backend_died signal.
+
+	* backend/ebook/e-book.c (backend_died_cb): new function, emit the
+	backend_died signal.
+	(e_book_do_response_open): create the component listener and hook
+	up the backend_died signal.
+	(e_book_destroy): disconnect the component listener and unref it.
+
+	* backend/ebook/e-book.h: add backend_died signal.
+
+2002-08-29  Chris Toshok  <toshok@ximian.com>
+
 	* backend/pas/pas-backend-card-sexp.c (is_helper): use strcasecmp
 	here, since all the other helpers use case insensitive
 	comparisons.

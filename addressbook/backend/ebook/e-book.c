@@ -18,6 +18,7 @@
 #include "e-card-cursor.h"
 #include "e-book-listener.h"
 #include "e-book.h"
+#include "e-util/e-component-listener.h"
 
 GtkObjectClass *e_book_parent_class;
 
@@ -34,6 +35,7 @@ struct _EBookPrivate {
 	GList *iter;
 
 	EBookListener	      *listener;
+	EComponentListener    *comp_listener;
 
 	GNOME_Evolution_Addressbook_Book         corba_book;
 
@@ -55,6 +57,7 @@ enum {
 	OPEN_PROGRESS,
 	WRITABLE_STATUS,
 	LINK_STATUS,
+	BACKEND_DIED,
 	LAST_SIGNAL
 };
 
@@ -397,6 +400,15 @@ e_book_do_response_get_changes (EBook                 *book,
 }
 
 static void
+backend_died_cb (EComponentListener *cl, gpointer user_data)
+{
+	EBook *book = user_data;
+
+	book->priv->load_state = URINotLoaded;
+        gtk_signal_emit (GTK_OBJECT (book), e_book_signals [BACKEND_DIED]);
+}
+
+static void
 e_book_do_response_open (EBook                 *book,
 			 EBookListenerResponse *resp)
 {
@@ -405,6 +417,10 @@ e_book_do_response_open (EBook                 *book,
 	if (resp->status == E_BOOK_STATUS_SUCCESS) {
 		book->priv->corba_book  = resp->book;
 		book->priv->load_state  = URILoaded;
+
+		book->priv->comp_listener = e_component_listener_new (book->priv->corba_book, 0);
+                gtk_signal_connect (GTK_OBJECT (book->priv->comp_listener), "component_died",
+                                    GTK_SIGNAL_FUNC (backend_died_cb), book);
 	}
 
 	op = e_book_pop_op (book);
@@ -1474,6 +1490,12 @@ e_book_destroy (GtkObject *object)
 		}
 	}
 
+        if (book->priv->comp_listener) {
+                gtk_signal_disconnect_by_data (GTK_OBJECT (book->priv->comp_listener), book);
+                gtk_object_unref (GTK_OBJECT (book->priv->comp_listener));
+                book->priv->comp_listener = NULL;
+        }
+
 	g_free (book->priv->uri);
 
 	g_free (book->priv);
@@ -1505,6 +1527,14 @@ e_book_class_init (EBookClass *klass)
 				gtk_marshal_NONE__BOOL,
 				GTK_TYPE_NONE, 1,
 				GTK_TYPE_BOOL);
+
+	e_book_signals [BACKEND_DIED] =
+		gtk_signal_new ("backend_died",
+				GTK_RUN_LAST,
+				object_class->type,
+				GTK_SIGNAL_OFFSET (EBookClass, backend_died),
+				gtk_marshal_NONE__NONE,
+				GTK_TYPE_NONE, 0);
 
 	gtk_object_class_add_signals (object_class, e_book_signals,
 				      LAST_SIGNAL);

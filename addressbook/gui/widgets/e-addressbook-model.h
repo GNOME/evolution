@@ -29,7 +29,7 @@ struct _EAddressbookModel {
 	int data_count;
 	int allocated_count;
 
-	int create_card_id, remove_card_id, modify_card_id, status_message_id, writable_status_id, sequence_complete_id;
+	int create_card_id, remove_card_id, modify_card_id, status_message_id, writable_status_id, sequence_complete_id, backend_died_id;
 
 	guint search_in_progress : 1;
 	guint editable : 1;
@@ -53,6 +53,7 @@ struct _EAddressbookModelClass {
 	void (*card_changed)       (EAddressbookModel *model, gint index);
 	void (*model_changed)      (EAddressbookModel *model);
 	void (*stop_state_changed) (EAddressbookModel *model);
+	void (*backend_died)       (EAddressbookModel *model);
 };
 
 

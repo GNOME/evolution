@@ -83,6 +83,7 @@ static void search_result      (GtkObject *object, EBookViewStatus status, EAddr
 static void folder_bar_message (GtkObject *object, const gchar *status, EAddressbookView *eav);
 static void stop_state_changed (GtkObject *object, EAddressbookView *eav);
 static void writable_status (GtkObject *object, gboolean writable, EAddressbookView *eav);
+static void backend_died (GtkObject *object, EAddressbookView *eav);
 static void command_state_change (EAddressbookView *eav);
 static void alphabet_state_change (EAddressbookView *eav, gunichar letter);
 
@@ -250,6 +251,11 @@ e_addressbook_view_init (EAddressbookView *eav)
 	gtk_signal_connect (GTK_OBJECT(eav->model),
 			    "writable_status",
 			    GTK_SIGNAL_FUNC (writable_status),
+			    eav);
+
+	gtk_signal_connect (GTK_OBJECT(eav->model),
+			    "backend_died",
+			    GTK_SIGNAL_FUNC (backend_died),
 			    eav);
 
 	eav->editable = FALSE;
@@ -1358,6 +1364,17 @@ static void
 alphabet_state_change (EAddressbookView *eav, gunichar letter)
 {
 	gtk_signal_emit (GTK_OBJECT (eav), e_addressbook_view_signals [ALPHABET_STATE_CHANGE], letter);
+}
+
+static void
+backend_died (GtkObject *object, EAddressbookView *eav)
+{
+	char *message = g_strdup_printf (_("The addressbook backend for\n%s\nhas crashed. "
+					   "You will have to restart Evolution in order "
+					   "to use it again"),
+					 e_book_get_uri (eav->book));
+        gnome_error_dialog_parented (message, GTK_WINDOW (gtk_widget_get_toplevel (GTK_WIDGET (eav))));
+        g_free (message);
 }
 
 static void
