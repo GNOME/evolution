@@ -1511,7 +1511,7 @@ header_msgid_decode_internal(const char **in)
 	const char *inptr = *in;
 	char *msgid = NULL;
 
-	d(printf("decoding Message-ID: '%s'\n", in));
+	d(printf("decoding Message-ID: '%s'\n", *in));
 
 	header_decode_lwsp(&inptr);
 	if (*inptr == '<') {
@@ -1523,13 +1523,13 @@ header_msgid_decode_internal(const char **in)
 			if (*inptr == '>') {
 				inptr++;
 			} else {
-				w(g_warning("Missing closing '>' on message id: %s", in));
+				w(g_warning("Missing closing '>' on message id: %s", *in));
 			}
 		} else {
-			w(g_warning("Cannot find message id in: %s", in));
+			w(g_warning("Cannot find message id in: %s", *in));
 		}
 	} else {
-		w(g_warning("missing opening '<' on message id: %s", in));
+		w(g_warning("missing opening '<' on message id: %s", *in));
 	}
 	*in = inptr;
 
@@ -1593,7 +1593,8 @@ header_references_decode(const char *in)
 	if (in == NULL)
 		return NULL;
 
-	do {
+	header_decode_lwsp(&inptr);
+	while (*inptr == '<') {
 		last = inptr;
 		id = header_msgid_decode_internal(&inptr);
 		if (id) {
@@ -1602,7 +1603,8 @@ header_references_decode(const char *in)
 			head = node;
 			node->id = id;
 		}
-	} while (last != inptr);
+		header_decode_lwsp(&inptr);
+	} while (*inptr == '<' && last != inptr);
 
 	return head;
 }

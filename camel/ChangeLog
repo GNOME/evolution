@@ -1,3 +1,10 @@
+2000-06-07  Not Zed  <NotZed@HelixCode.com>
+
+	* camel-mime-utils.c (header_msgid_decode_internal): Properly
+	dereference warning/debug messages.
+	(header_references_decode): Check we actually have msgid stuff
+	before trying to decode it ...
+
 2000-06-06  Jeffrey Stedfast  <fejj@helixcode.com>
 
 	* camel-imap-stream.[c,h]: Removed
