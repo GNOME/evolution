@@ -1,3 +1,10 @@
+2004-03-10  Bill Zhu  <bill.zhu@sun.com>
+	
+	* e-shell-startup-wizzard.c (key_press_event_callback): Used the stock
+	icon in confirm dialog.
+
+	Fixes #55063
+	
 2004-03-06  Pratik V. Parikh <pratikvp@despammed.com>
 
 	* e-shell-window-commands.c (command_quick_reference): Check that 

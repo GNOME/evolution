@@ -791,8 +791,8 @@ key_press_event_callback (GtkWidget   *widget,
 							 GTK_BUTTONS_NONE,
 							 confirmations);
 
-		gtk_dialog_add_button (confirm_dialog, _("Cancel"), GTK_RESPONSE_CANCEL);
-		gtk_dialog_add_button (confirm_dialog, _("Quit Assistant"), GTK_RESPONSE_OK);
+		gtk_dialog_add_button (confirm_dialog, GTK_STOCK_CANCEL, GTK_RESPONSE_CANCEL);
+		gtk_dialog_add_button (confirm_dialog, GTK_STOCK_QUIT, GTK_RESPONSE_OK);
 
 		returnvalue = gtk_dialog_run (GTK_DIALOG (confirm_dialog));
 		gtk_widget_destroy (confirm_dialog);
