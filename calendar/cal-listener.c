@@ -36,9 +36,8 @@ typedef struct {
 /* Signal IDs */
 enum {
 	CAL_LOADED,
-	OBJ_ADDED,
+	OBJ_UPDATED,
 	OBJ_REMOVED,
-	OBJ_CHANGED,
 	LAST_SIGNAL
 };
 
@@ -115,11 +114,11 @@ cal_listener_class_init (CalListenerClass *class)
 				GTK_TYPE_NONE, 2,
 				GTK_TYPE_ENUM,
 				GTK_TYPE_POINTER);
-	cal_listener_signals[OBJ_ADDED] =
-		gtk_signal_new ("obj_added",
+	cal_listener_signals[OBJ_UPDATED] =
+		gtk_signal_new ("obj_updated",
 				GTK_RUN_FIRST,
 				object_class->type,
-				GTK_SIGNAL_OFFSET (CalListenerClass, obj_added),
+				GTK_SIGNAL_OFFSET (CalListenerClass, obj_updated),
 				gtk_marshal_NONE__POINTER,
 				GTK_TYPE_NONE, 1,
 				GTK_TYPE_POINTER);
@@ -128,14 +127,6 @@ cal_listener_class_init (CalListenerClass *class)
 				GTK_RUN_FIRST,
 				object_class->type,
 				GTK_SIGNAL_OFFSET (CalListenerClass, obj_removed),
-				gtk_marshal_NONE__POINTER,
-				GTK_TYPE_NONE, 1,
-				GTK_TYPE_POINTER);
-	cal_listener_signals[OBJ_CHANGED] =
-		gtk_signal_new ("obj_changed",
-				GTK_RUN_FIRST,
-				object_class->type,
-				GTK_SIGNAL_OFFSET (CalListenerClass, obj_changed),
 				gtk_marshal_NONE__POINTER,
 				GTK_TYPE_NONE, 1,
 				GTK_TYPE_POINTER);
@@ -272,16 +263,16 @@ Listener_cal_loaded (PortableServer_Servant servant,
 			 load_status, cal);
 }
 
-/* Listener::obj_added method */
+/* Listener::obj_updated method */
 static void
-Listener_obj_added (PortableServer_Servant servant,
-		    Evolution_Calendar_CalObjUID uid,
-		    CORBA_Environment *ev)
+Listener_obj_updated (PortableServer_Servant servant,
+		      Evolution_Calendar_CalObjUID uid,
+		      CORBA_Environment *ev)
 {
 	CalListener *listener;
 
 	listener = CAL_LISTENER (bonobo_object_from_servant (servant));
-	gtk_signal_emit (GTK_OBJECT (listener), cal_listener_signals[OBJ_ADDED],
+	gtk_signal_emit (GTK_OBJECT (listener), cal_listener_signals[OBJ_UPDATED],
 			 uid);
 }
 
@@ -295,19 +286,6 @@ Listener_obj_removed (PortableServer_Servant servant,
 
 	listener = CAL_LISTENER (bonobo_object_from_servant (servant));
 	gtk_signal_emit (GTK_OBJECT (listener), cal_listener_signals[OBJ_REMOVED],
-			 uid);
-}
-
-/* Listener::obj_changed method */
-static void
-Listener_obj_changed (PortableServer_Servant servant,
-		      Evolution_Calendar_CalObjUID uid,
-		      CORBA_Environment *ev)
-{
-	CalListener *listener;
-
-	listener = CAL_LISTENER (bonobo_object_from_servant (servant));
-	gtk_signal_emit (GTK_OBJECT (listener), cal_listener_signals[OBJ_CHANGED],
 			 uid);
 }
 
@@ -326,10 +304,8 @@ cal_listener_get_epv (void)
 
 	epv = g_new0 (POA_Evolution_Calendar_Listener__epv, 1);
 	epv->cal_loaded = Listener_cal_loaded;
-	epv->obj_added = Listener_obj_added;
+	epv->obj_updated = Listener_obj_updated;
 	epv->obj_removed = Listener_obj_removed;
-	epv->obj_changed = Listener_obj_changed;
-
 	return epv;
 }
 
@@ -415,7 +391,7 @@ cal_listener_new (void)
 	
 	if (ev._major != CORBA_NO_EXCEPTION || result) {
 		g_message ("cal_listener_new(): could not create the CORBA listener");
-		gtk_object_unref (GTK_OBJECT (listener));
+		bonobo_object_unref (BONOBO_OBJECT (listener));
 		CORBA_exception_free (&ev);
 		return NULL;
 	}

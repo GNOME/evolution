@@ -1,3 +1,44 @@
+2000-02-11  Federico Mena Quintero  <federico@helixcode.com>
+
+	* cal-client.c (cal_client_update_object): Implemented.
+
+	* cal.c (cal_notify_update): New function to notify the listener
+	about an updated object.
+	(Cal_update_object): Implemented.
+	(Cal_get_uids): set_release() the sequence to TRUE.
+	(Cal_get_events_in_range): Likewise.
+
+	* cal-backend.c (remove_object): New function to remove objects
+	from a calendar backend.
+	(cal_backend_update_object): New public function to update an
+	object and notify clients about it.
+
+	* evolution-calendar.idl (Cal): Added update_object() and
+	delete_object() methods.
+	(Listener): Removed the obj_changed method and renamed obj_added
+	to obj_updated.  We now only have updated and removed notifiers.
+
+	* cal-listener.[ch]: Removed the "changed" notification code.
+	Changed the "added" notification code to the "updated"
+	notification.
+
+	* cal-client.c: Likewise.
+
+	* tlacuache.c (create_cal_factory): Connect to "destroy" on the
+	factory and exit the main loop when the factory is destroyed.
+
+	* cal-factory.c (backend_destroy_cb): New callback used when a
+	backend is destroyed.  Removes the backend from the factory's hash
+	table and unrefs the factory if all backends go away.
+	(add_calendar_client): Free the environment.
+
+	* cal.c (cal_new): Use bonobo_object_unref() if we fail to
+	initialize.
+
+	* cal-listener.c (cal_listener_new): Likewise.
+
+	* layout.c (layout_events): Plug li.partition memory leak.
+
 2000-02-10  Federico Mena Quintero  <federico@helixcode.com>
 
 	* cal-backend.c (cal_backend_add_cal): Connect to the Cal's

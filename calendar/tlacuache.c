@@ -28,11 +28,6 @@
 
 
 
-/* The calendar factory */
-static CalFactory *factory;
-
-
-
 /* Stuff that the un-converted alarm code needs to build */
 
 int debug_alarms = FALSE;
@@ -54,10 +49,18 @@ calendar_notify (time_t time, CalendarAlarm *which, void *data)
 
 
 
+/* Callback used when the calendar factory is destroyed */
+static void
+factory_destroy_cb (GtkObject *object, gpointer data)
+{
+	gtk_main_quit ();
+}
+
 /* Creates and registers the calendar factory */
 static gboolean
 create_cal_factory (void)
 {
+	CalFactory *factory;
 	CORBA_Object object;
 	CORBA_Environment ev;
 	int result;
@@ -79,13 +82,19 @@ create_cal_factory (void)
 
 	if (ev._major != CORBA_NO_EXCEPTION || result == -1) {
 		g_message ("create_cal_factory(): could not register the calendar factory");
+		bonobo_object_unref (BONOBO_OBJECT (factory));
 		CORBA_exception_free (&ev);
 		return FALSE;
 	} else if (result == -2) {
 		g_message ("create_cal_factory(): a calendar factory is already registered");
+		bonobo_object_unref (BONOBO_OBJECT (factory));
 		CORBA_exception_free (&ev);
 		return FALSE;
 	}
+
+	gtk_signal_connect (GTK_OBJECT (factory), "destroy",
+			    GTK_SIGNAL_FUNC (factory_destroy_cb),
+			    NULL);
 
 	CORBA_exception_free (&ev);
 	return TRUE;

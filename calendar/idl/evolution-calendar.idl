@@ -41,7 +41,7 @@ module Calendar {
 	 * "virtual" objects in that they are used to represent instances of
 	 * recurring events and alarms.  "Real" objects just contain the
 	 * information required to figure out the times at which they recur or
-	 * trigger.  
+	 * trigger.
 	 */
 	struct CalObjInstance {
 		CalObjUID uid;
@@ -58,6 +58,7 @@ module Calendar {
 	interface Cal : Bonobo::Unknown {
 		exception NotFound {};
 		exception InvalidRange {};
+		exception InvalidObject {};
 
 		/* A calendar is identified by its URI */
 		readonly attribute string uri;
@@ -72,6 +73,16 @@ module Calendar {
 		/* Gets the events that occur or recur in the specified time range */
 		CalObjInstanceSeq get_events_in_range (in Time_t start, in Time_t end)
 			raises (InvalidRange);
+
+		/* Updates an object by adding it if it does not exist or by
+		 * changing an existing one.
+		 */
+		void update_object (in CalObjUID uid, in CalObj calobj)
+			raises (InvalidObject);
+
+		/* Removes an object */
+		void remove_object (in CalObjUID uid)
+			raises (NotFound);
 	};
 
 	/* Listener for changes in a calendar */
@@ -81,23 +92,20 @@ module Calendar {
 			SUCCESS,	/* All OK */
 			ERROR,		/* Generic error */
 			IN_USE		/* Requested create while a calendar
-					 * with the same URI was in use.  
+					 * with the same URI was in use.
 					 */
 		};
 
 		/* Called from a CalFactory when a calendar is initially loaded
-		 * or created.  The listener must remember the cal object.  
+		 * or created.  The listener must remember the cal object.
 		 */
 		void cal_loaded (in LoadStatus status, in Cal cal);
 
-		/* Called from a Calendar when an object is added */
-		void obj_added (in CalObjUID uid);
+		/* Called from a Calendar when an object is added or changed */
+		void obj_updated (in CalObjUID uid);
 
 		/* Called from a Calendar when an object is removed */
 		void obj_removed (in CalObjUID uid);
-
-		/* Called from a Calendar when an object is changed */
-		void obj_changed (in CalObjUID uid);
 	};
 
 	/* A calendar factory, can load and create calendars */

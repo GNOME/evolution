@@ -58,6 +58,8 @@ Evolution_Calendar_Cal cal_corba_object_create (BonoboObject *object);
 
 Cal *cal_new (CalBackend *backend, Evolution_Calendar_Listener listener);
 
+void cal_notify_update (Cal *cal, const char *uid);
+
 POA_Evolution_Calendar_Cal__epv *cal_get_epv (void);
 
 

@@ -54,9 +54,8 @@ typedef struct {
 /* Signal IDs */
 enum {
 	CAL_LOADED,
-	OBJ_ADDED,
+	OBJ_UPDATED,
 	OBJ_REMOVED,
-	OBJ_CHANGED,
 	LAST_SIGNAL
 };
 
@@ -120,11 +119,11 @@ cal_client_class_init (CalClientClass *class)
 				gtk_marshal_NONE__ENUM,
 				GTK_TYPE_NONE, 1,
 				GTK_TYPE_ENUM);
-	cal_client_signals[OBJ_ADDED] =
-		gtk_signal_new ("obj_added",
+	cal_client_signals[OBJ_UPDATED] =
+		gtk_signal_new ("obj_updated",
 				GTK_RUN_FIRST,
 				object_class->type,
-				GTK_SIGNAL_OFFSET (CalClientClass, obj_added),
+				GTK_SIGNAL_OFFSET (CalClientClass, obj_updated),
 				gtk_marshal_NONE__STRING,
 				GTK_TYPE_NONE, 1,
 				GTK_TYPE_STRING);
@@ -133,14 +132,6 @@ cal_client_class_init (CalClientClass *class)
 				GTK_RUN_FIRST,
 				object_class->type,
 				GTK_SIGNAL_OFFSET (CalClientClass, obj_removed),
-				gtk_marshal_NONE__STRING,
-				GTK_TYPE_NONE, 1,
-				GTK_TYPE_STRING);
-	cal_client_signals[OBJ_CHANGED] =
-		gtk_signal_new ("obj_changed",
-				GTK_RUN_FIRST,
-				object_class->type,
-				GTK_SIGNAL_OFFSET (CalClientClass, obj_changed),
 				gtk_marshal_NONE__STRING,
 				GTK_TYPE_NONE, 1,
 				GTK_TYPE_STRING);
@@ -215,7 +206,7 @@ static void
 destroy_cal (CalClient *client)
 {
 	CalClientPrivate *priv;
-	CORBA_Environment ev;	
+	CORBA_Environment ev;
 	int result;
 
 	priv = client->priv;
@@ -233,7 +224,7 @@ destroy_cal (CalClient *client)
 
 	if (result)
 		return;
-	
+
 	CORBA_exception_init (&ev);
 	Evolution_Calendar_Cal_unref (priv->cal, &ev);
 	if (ev._major != CORBA_NO_EXCEPTION)
@@ -343,14 +334,14 @@ cal_loaded_cb (CalListener *listener,
 			 client_status);
 }
 
-/* Handle the obj_added signal from the listener */
+/* Handle the obj_updated signal from the listener */
 static void
-obj_added_cb (CalListener *listener, const Evolution_Calendar_CalObjUID uid, gpointer data)
+obj_updated_cb (CalListener *listener, const Evolution_Calendar_CalObjUID uid, gpointer data)
 {
 	CalClient *client;
 
 	client = CAL_CLIENT (data);
-	gtk_signal_emit (GTK_OBJECT (client), cal_client_signals[OBJ_ADDED], uid);
+	gtk_signal_emit (GTK_OBJECT (client), cal_client_signals[OBJ_UPDATED], uid);
 }
 
 /* Handle the obj_removed signal from the listener */
@@ -361,16 +352,6 @@ obj_removed_cb (CalListener *listener, const Evolution_Calendar_CalObjUID uid, g
 
 	client = CAL_CLIENT (data);
 	gtk_signal_emit (GTK_OBJECT (client), cal_client_signals[OBJ_REMOVED], uid);
-}
-
-/* Handle the obj_changed signal from the listener */
-static void
-obj_changed_cb (CalListener *listener, const Evolution_Calendar_CalObjUID uid, gpointer data)
-{
-	CalClient *client;
-
-	client = CAL_CLIENT (data);
-	gtk_signal_emit (GTK_OBJECT (client), cal_client_signals[OBJ_CHANGED], uid);
 }
 
 
@@ -484,14 +465,11 @@ load_or_create (CalClient *client, const char *str_uri, gboolean load)
 	gtk_signal_connect (GTK_OBJECT (priv->listener), "cal_loaded",
 			    GTK_SIGNAL_FUNC (cal_loaded_cb),
 			    client);
-	gtk_signal_connect (GTK_OBJECT (priv->listener), "obj_added",
-			    GTK_SIGNAL_FUNC (obj_added_cb),
+	gtk_signal_connect (GTK_OBJECT (priv->listener), "obj_updated",
+			    GTK_SIGNAL_FUNC (obj_updated_cb),
 			    client);
 	gtk_signal_connect (GTK_OBJECT (priv->listener), "obj_removed",
 			    GTK_SIGNAL_FUNC (obj_removed_cb),
-			    client);
-	gtk_signal_connect (GTK_OBJECT (priv->listener), "obj_changed",
-			    GTK_SIGNAL_FUNC (obj_changed_cb),
 			    client);
 
 	corba_listener = (Evolution_Calendar_Listener) bonobo_object_corba_objref (
@@ -718,4 +696,53 @@ cal_client_get_events_in_range (CalClient *client, time_t start, time_t end)
 	elist = g_list_reverse (elist);
 
 	return elist;
+}
+
+/**
+ * cal_client_update_object:
+ * @client: A calendar client.
+ * @uid: Unique identifier of object to update.
+ * @calobj: String representation of the new calendar object.
+ *
+ * Asks a calendar to update an object based on its UID.  Any existing object
+ * with the specified UID will be replaced.  The client program should not
+ * assume that the object is actually in the server's storage until it has
+ * received the "obj_updated" notification signal.
+ *
+ * Return value: TRUE on success, FALSE on specifying an invalid object.
+ **/
+gboolean
+cal_client_update_object (CalClient *client, const char *uid, const char *calobj)
+{
+	CalClientPrivate *priv;
+	CORBA_Environment ev;
+	gboolean retval;
+
+	g_return_val_if_fail (client != NULL, FALSE);
+	g_return_val_if_fail (IS_CAL_CLIENT (client), FALSE);
+
+	priv = client->priv;
+	g_return_val_if_fail (priv->load_state == LOAD_STATE_LOADED, FALSE);
+
+	g_return_val_if_fail (uid != NULL, FALSE);
+	g_return_val_if_fail (calobj != NULL, FALSE);
+
+	retval = FALSE;
+
+	CORBA_exception_init (&ev);
+	Evolution_Calendar_Cal_update_object (priv->cal, uid, calobj, &ev);
+
+	if (ev._major == CORBA_USER_EXCEPTION &&
+	    strcmp (CORBA_exception_id (&ev), ex_Evolution_Calendar_Cal_InvalidObject) == 0)
+		goto out;
+	else if (ev._major != CORBA_NO_EXCEPTION) {
+		g_message ("cal_client_update_object(): could not update the object");
+		goto out;
+	}
+
+	retval = TRUE;
+
+ out:
+	CORBA_exception_free (&ev);
+	return retval;
 }

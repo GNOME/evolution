@@ -57,13 +57,15 @@ list_uids (gpointer data)
 			printf ("------------------------------\n%s", calobj);
 			printf ("------------------------------\n");
 
+			cal_client_update_object (client, uid, calobj);
+
 			g_free (calobj);
 		}
 	}
 
 	cal_obj_uid_list_free (uids);
 
-	gtk_object_unref (GTK_OBJECT (client));
+/*  	gtk_object_unref (GTK_OBJECT (client)); */
 
 	return FALSE;
 }
@@ -84,6 +86,13 @@ cal_loaded (CalClient *client, CalClientLoadStatus status, gpointer data)
 		gtk_object_unref (GTK_OBJECT (client));
 }
 
+/* Callback used when an object is updated */
+static void
+obj_updated (CalClient *client, const char *uid, gpointer data)
+{
+	cl_printf (client, "Object updated: %s\n", uid);
+}
+
 /* Creates a calendar client and tries to load the specified URI into it */
 static CalClient *
 create_client (const char *uri, gboolean load)
@@ -100,13 +109,16 @@ create_client (const char *uri, gboolean load)
 	gtk_signal_connect (GTK_OBJECT (client), "cal_loaded",
 			    GTK_SIGNAL_FUNC (cal_loaded),
 			    NULL);
+	gtk_signal_connect (GTK_OBJECT (client), "obj_updated",
+			    GTK_SIGNAL_FUNC (obj_updated),
+			    NULL);
 
 	printf ("Calendar loading `%s'...\n", uri);
 
 	if (load)
 		result = cal_client_load_calendar (client, uri);
 	else
-		result = cal_client_create_calendar (client, uri);
+		result = cal_client_load_calendar (client, uri);
 
 	if (!result) {
 		g_message ("create_client(): failure when issuing calendar load/create request `%s'",

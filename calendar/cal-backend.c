@@ -197,6 +197,19 @@ cal_backend_destroy (GtkObject *object)
 
 /* iCalObject manipulation functions */
 
+/* Looks up an object by its UID in the backend's object hash table */
+static iCalObject *
+lookup_object (CalBackend *backend, const char *uid)
+{
+	CalBackendPrivate *priv;
+	iCalObject *ico;
+
+	priv = backend->priv;
+	ico = g_hash_table_lookup (priv->object_hash, uid);
+
+	return ico;
+}
+
 /* Ensures that an iCalObject has a unique identifier.  If it doesn't have one,
  * it will create one for it.  Returns whether an UID was created or not.
  */
@@ -273,6 +286,49 @@ add_object (CalBackend *backend, iCalObject *ico)
 	/* FIXME: gnomecal old code */
 	ico->last_mod = time (NULL);
 #endif
+}
+
+/* Removes an object from the backend's hash and lists.  Does not perform
+ * notification on the clients.
+ */
+static void
+remove_object (CalBackend *backend, iCalObject *ico)
+{
+	CalBackendPrivate *priv;
+	GList **list, *l;
+
+	priv = backend->priv;
+
+	g_assert (ico->uid != NULL);
+	g_hash_table_remove (priv->object_hash, ico->uid);
+
+	switch (ico->type) {
+	case ICAL_EVENT:
+		list = &priv->events;
+		break;
+
+	case ICAL_TODO:
+		list = &priv->todos;
+		break;
+
+	case ICAL_JOURNAL:
+		list = &priv->journals;
+		break;
+
+	default:
+		list = NULL;
+	}
+
+	if (!list)
+		return;
+
+	l = g_list_find (*list, ico);
+	g_assert (l != NULL);
+
+	*list = g_list_remove_link (*list, l);
+	g_list_free_1 (l);
+
+	ical_object_destroy (ico);
 }
 
 /* Load a calendar from a VObject */
@@ -609,7 +665,7 @@ cal_backend_get_object (CalBackend *backend, const char *uid)
 
 	g_assert (priv->object_hash != NULL);
 
-	ico = g_hash_table_lookup (priv->object_hash, uid);
+	ico = lookup_object (backend, uid);
 
 	if (!ico)
 		return NULL;
@@ -781,4 +837,85 @@ cal_backend_get_events_in_range (CalBackend *backend, time_t start, time_t end)
 
 	c.event_list = g_list_sort (c.event_list, compare_instance_func);
 	return c.event_list;
+}
+
+/* Notifies a backend's clients that an object was updated */
+static void
+notify_update (CalBackend *backend, const char *uid)
+{
+	CalBackendPrivate *priv;
+	GList *l;
+
+	priv = backend->priv;
+
+	for (l = priv->clients; l; l = l->next) {
+		Cal *cal;
+
+		cal = CAL (l->data);
+		cal_notify_update (cal, uid);
+	}
+}
+
+/**
+ * cal_backend_update_object:
+ * @backend: A calendar backend.
+ * @uid: Unique identifier of the object to update.
+ * @calobj: String representation of the new calendar object.
+ * 
+ * Updates an object in a calendar backend.  It will replace any existing object
+ * that has the same UID as the specified one.  The backend will in turn notify
+ * all of its clients about the change.
+ * 
+ * Return value: TRUE on success, FALSE on being passed an invalid object.
+ **/
+gboolean
+cal_backend_update_object (CalBackend *backend, const char *uid, const char *calobj)
+{
+	CalBackendPrivate *priv;
+	iCalObject *ico, *new_ico;
+	CalObjFindStatus status;
+
+	g_return_val_if_fail (backend != NULL, FALSE);
+	g_return_val_if_fail (IS_CAL_BACKEND (backend), FALSE);
+
+	priv = backend->priv;
+	g_return_val_if_fail (priv->loaded, FALSE);
+	
+	g_return_val_if_fail (uid != NULL, FALSE);
+	g_return_val_if_fail (calobj != NULL, FALSE);
+
+	/* Pull the object from the string */
+
+	status = ical_object_find_in_string (uid, calobj, &new_ico);
+
+	if (status != CAL_OBJ_FIND_SUCCESS)
+		return FALSE;
+
+	/* Update the object */
+
+	ico = lookup_object (backend, uid);
+
+	if (ico)
+		remove_object (backend, ico);
+
+	add_object (backend, new_ico);
+
+	notify_update (backend, new_ico->uid);
+	return TRUE;
+}
+
+void
+cal_backend_remove_object (CalBackend *backend, const char *uid)
+{
+	CalBackendPrivate *priv;
+
+	g_return_if_fail (backend != NULL);
+	g_return_if_fail (IS_CAL_BACKEND (backend));
+
+	priv = backend->priv;
+	g_return_if_fail (priv->loaded);
+	
+	g_return_if_fail (uid != NULL);
+
+	/* FIXME */
 }

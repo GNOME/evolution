@@ -226,6 +226,7 @@ Cal_get_uids (PortableServer_Servant servant,
 	n = g_list_length (uids);
 
 	seq = Evolution_Calendar_CalObjUIDSeq__alloc ();
+	CORBA_sequence_set_release (seq, TRUE);
 	seq->_length = n;
 	seq->_buffer = CORBA_sequence_Evolution_Calendar_CalObjUID_allocbuf (n);
 
@@ -279,6 +280,7 @@ Cal_get_events_in_range (PortableServer_Servant servant,
 	n = g_list_length (elist);
 
 	seq = Evolution_Calendar_CalObjInstanceSeq__alloc ();
+	CORBA_sequence_set_release (seq, TRUE);
 	seq->_length = n;
 	seq->_buffer = CORBA_sequence_Evolution_Calendar_CalObjInstance_allocbuf (n);
 
@@ -304,6 +306,25 @@ Cal_get_events_in_range (PortableServer_Servant servant,
 	return seq;
 }
 
+/* Cal::update_object method */
+static void
+Cal_update_object (PortableServer_Servant servant,
+		   const Evolution_Calendar_CalObjUID uid,
+		   const Evolution_Calendar_CalObj calobj,
+		   CORBA_Environment *ev)
+{
+	Cal *cal;
+	CalPrivate *priv;
+
+	cal = CAL (bonobo_object_from_servant (servant));
+	priv = cal->priv;
+
+	if (!cal_backend_update_object (priv->backend, uid, calobj))
+		CORBA_exception_set (ev, CORBA_USER_EXCEPTION,
+				     ex_Evolution_Calendar_Cal_InvalidObject,
+				     NULL);
+}
+
 /**
  * cal_get_epv:
  * @void:
@@ -322,6 +343,7 @@ cal_get_epv (void)
 	epv->get_object = Cal_get_object;
 	epv->get_uids = Cal_get_uids;
 	epv->get_events_in_range = Cal_get_events_in_range;
+	epv->update_object = Cal_update_object;
 
 	return epv;
 }
@@ -438,7 +460,7 @@ cal_new (CalBackend *backend, Evolution_Calendar_Listener listener)
 	ret = CORBA_Object_is_nil ((CORBA_Object) corba_cal, &ev);
 	if (ev._major != CORBA_NO_EXCEPTION || ret) {
 		g_message ("cal_new(): could not create the CORBA object");
-		gtk_object_unref (GTK_OBJECT (cal));
+		bonobo_object_unref (BONOBO_OBJECT (cal));
 		CORBA_exception_free (&ev);
 		return NULL;
 	}
@@ -448,9 +470,40 @@ cal_new (CalBackend *backend, Evolution_Calendar_Listener listener)
 	retval = cal_construct (cal, corba_cal, backend, listener);
 	if (!retval) {
 		g_message ("cal_new(): could not construct the calendar client interface");
-		gtk_object_unref (GTK_OBJECT (cal));
+		bonobo_object_unref (BONOBO_OBJECT (cal));
 		return NULL;
 	}
 
 	return retval;
+}
+
+/**
+ * cal_notify_update:
+ * @cal: A calendar client interface.
+ * @uid: UID of object that was updated.
+ * 
+ * Notifies a listener attached to a calendar client interface object about an
+ * update to a calendar object.
+ **/
+void
+cal_notify_update (Cal *cal, const char *uid)
+{
+	CalPrivate *priv;
+	CORBA_Environment ev;
+
+	g_return_if_fail (cal != NULL);
+	g_return_if_fail (IS_CAL (cal));
+	g_return_if_fail (uid != NULL);
+
+	priv = cal->priv;
+	g_return_if_fail (priv->listener != CORBA_OBJECT_NIL);
+
+	CORBA_exception_init (&ev);
+	Evolution_Calendar_Listener_obj_updated (priv->listener, uid, &ev);
+
+	if (ev._major != CORBA_NO_EXCEPTION)
+		g_message ("cal_notify_update(): could not notify the listener "
+			   "about an updated object");
+
+	CORBA_exception_free (&ev);
 }

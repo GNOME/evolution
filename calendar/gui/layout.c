@@ -279,6 +279,7 @@ layout_events (GList *events, LayoutQueryTimeFunc func, int *num_slots, int **al
 
 	/* Clean up and return values */
 
+	g_free (li.partition);
 	g_free (li.array);
 
 	*num_slots = li.num_slots;

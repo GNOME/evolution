@@ -60,9 +60,8 @@ struct _CalClientClass {
 
 	void (* cal_loaded) (CalClient *client, CalClientLoadStatus status);
 
-	void (* obj_added) (CalClient *client, const char *uid);
+	void (* obj_updated) (CalClient *client, const char *uid);
 	void (* obj_removed) (CalClient *client, const char *uid);
-	void (* obj_changed) (CalClient *client, const char *uid);
 };
 
 GtkType cal_client_get_type (void);
@@ -79,6 +78,8 @@ char *cal_client_get_object (CalClient *client, const char *uid);
 GList *cal_client_get_uids (CalClient *client, CalObjType type);
 
 GList *cal_client_get_events_in_range (CalClient *client, time_t start, time_t end);
+
+gboolean cal_client_update_object (CalClient *client, const char *uid, const char *calobj);
 
 
 

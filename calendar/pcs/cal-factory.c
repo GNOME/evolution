@@ -20,6 +20,7 @@
  */
 
 #include <config.h>
+#include <gtk/gtksignal.h>
 #include "cal.h"
 #include "cal-backend.h"
 #include "cal-factory.h"
@@ -139,6 +140,8 @@ cal_factory_destroy (GtkObject *object)
 	factory = CAL_FACTORY (object);
 	priv = factory->priv;
 
+	/* Should we assert that there are no more backends? */
+
 	g_hash_table_foreach (priv->backends, free_backend, NULL);
 	g_hash_table_destroy (priv->backends);
 	priv->backends = NULL;
@@ -244,6 +247,41 @@ lookup_backend (CalFactory *factory, GnomeVFSURI *uri)
 	return backend;
 }
 
+/* Callback used when a backend is destroyed */
+static void
+backend_destroy_cb (GtkObject *object, gpointer data)
+{
+	CalFactory *factory;
+	CalFactoryPrivate *priv;
+	CalBackend *backend;
+	GnomeVFSURI *uri;
+	gpointer orig_key;
+	gboolean result;
+	GnomeVFSURI *orig_uri;
+
+	factory = CAL_FACTORY (data);
+	priv = factory->priv;
+
+	/* Remove the backend from the hash table */
+
+	backend = CAL_BACKEND (object);
+	uri = cal_backend_get_uri (backend);
+	g_assert (uri != NULL);
+
+	result = g_hash_table_lookup_extended (priv->backends, uri, &orig_key, NULL);
+	g_assert (result != FALSE);
+
+	orig_uri = orig_key;
+
+	g_hash_table_remove (priv->backends, orig_uri);
+	gnome_vfs_uri_unref (orig_uri);
+
+	/* If there are no more backends, then the factory can go away */
+
+	if (g_hash_table_size (priv->backends) == 0)
+		bonobo_object_unref (BONOBO_OBJECT (factory));
+}
+
 /* Adds a backend to the calendar factory's hash table */
 static void
 add_backend (CalFactory *factory, GnomeVFSURI *uri, CalBackend *backend)
@@ -254,9 +292,10 @@ add_backend (CalFactory *factory, GnomeVFSURI *uri, CalBackend *backend)
 
 	gnome_vfs_uri_ref (uri);
 	g_hash_table_insert (priv->backends, uri, backend);
-	/* FIXME: connect to destroy on the backend and remove it from
-	 * the hash table when it dies.
-	 */
+
+	gtk_signal_connect (GTK_OBJECT (backend), "destroy",
+			    GTK_SIGNAL_FUNC (backend_destroy_cb),
+			    factory);
 }
 
 /* Loads a calendar backend and puts it in the factory's backend hash table */
@@ -350,6 +389,8 @@ add_calendar_client (CalFactory *factory, CalBackend *backend, Evolution_Calenda
 		g_message ("add_calendar_client(): could not notify the listener");
 		bonobo_object_unref (BONOBO_OBJECT (cal));
 	}
+
+	CORBA_exception_free (&ev);
 }
 
 /* Job handler for the load calendar command */
@@ -566,7 +607,7 @@ cal_factory_new (void)
 
 	if (ev._major != CORBA_NO_EXCEPTION || retval) {
 		g_message ("cal_factory_new(): could not create the CORBA factory");
-		gtk_object_unref (GTK_OBJECT (factory));
+		bonobo_object_unref (BONOBO_OBJECT (factory));
 		CORBA_exception_free (&ev);
 		return NULL;
 	}
