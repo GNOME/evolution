@@ -652,6 +652,29 @@
 	  </listitem>
 	</orderedlist>
       </para>
+      <note id="when-filters-go-wrong">
+        <title>When Are Filters Applied?</title>
+         <para>
+           If you move mail from your server into your local system
+           using POP mail, filters are applied to incoming mail every
+           time you check for mail.
+        </para>
+        <para>
+           If you store your mail on the mail server and check your
+           mail with IMAP, filters are applied to the INBOX when you
+           open it. In some cases, you will see a number of unread
+           messages in the INBOX, click the INBOX, and then have the
+           messages move elsewhere as they are filtered out.
+         </para>
+         <para>
+           If you use Ximian Connector to store your mail on an
+           Exchange server, filters are not applied until you open
+           your INBOX folder and select
+           <menuchoice><guimenu>Actions</guimenu><guimenuitem>Apply
+           Filters</guimenuitem></menuchoice> or press
+           <keycombo><keycap>Ctrl</keycap><keycap>Y</keycap></keycombo>
+         </para>
+      </note>
       <example id="filter-example">
          <title>Using a Filter to Avoid Spam</title>
          <para>
@@ -780,9 +803,10 @@
 	    <itemizedlist>
 	      <listitem>
 		<para>
-		  Incoming email that your filters don't move goes into the Inbox; 
-		  outgoing mail that they don't move ends up in the Sent
-		  folder.  So be sure to change the filters that go with it.
+		  Incoming email that your filters don't move goes
+		  into the Inbox; outgoing mail that they don't move
+		  ends up in the Sent folder.  So be sure to change
+		  the filters that go with it.
 		</para>
 	      </listitem>
 	    </itemizedlist>
