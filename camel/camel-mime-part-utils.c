@@ -102,59 +102,74 @@ check_html_charset(char *buffer, int length)
 static GByteArray *
 convert_buffer (GByteArray *in, const char *to, const char *from)
 {
-	iconv_t ic;
-	size_t inlen, outlen;
-	char *inbuf, *outbuf;
-	char *buffer;
+	size_t inleft, outleft, outlen, converted = 0;
 	GByteArray *out = NULL;
-	int i = 2;
-
+	const char *inbuf;
+	char *outbuf;
+	iconv_t cd;
+	
 	d(printf("converting buffer from %s to %s: '%.*s'\n", from, to, (int)in->len, in->data));
-
-	ic = e_iconv_open(to, from);
-	if (ic == (iconv_t) -1) {
-		g_warning("Cannot convert from '%s' to '%s': %s", from, to, strerror(errno));
+	
+	cd = e_iconv_open(to, from);
+	if (cd == (iconv_t) -1) {
+		g_warning ("Cannot convert from '%s' to '%s': %s", from, to, g_strerror (errno));
 		return NULL;
 	}
-
+	
+	outlen = in->len * 2 + 16;
+	out = g_byte_array_new ();
+	g_byte_array_set_size (out, outlen);
+	
+	inbuf = in->data;
+	inleft = in->len;
+	
 	do {
-		/* make plenty of space? */
-		outlen = in->len * i + 16;
-		buffer = g_malloc(outlen);
-
-		inbuf = in->data;
-		inlen = in->len;
-		outbuf = buffer;
-
-		if (e_iconv(ic, (const char **)&inbuf, &inlen, &outbuf, &outlen) == (size_t) -1) {
-			g_free(buffer);
-			g_warning("conversion failed: %s", strerror(errno));
-			/* we didn't have enough space */
-			if (errno == E2BIG && i<6) {
-				i++;
-				continue;
-			}
-			break;
+		outbuf = out->data + converted;
+		outleft = outlen - converted;
+		
+		converted = e_iconv (cd, &inbuf, &inleft, &outbuf, &outleft);
+		if (converted == (size_t) -1) {
+			if (errno != E2BIG && errno != EINVAL)
+				goto fail;
 		}
-
-		out = g_byte_array_new();
-		g_byte_array_append(out, buffer, (in->len*i+16) - outlen);
-
-		/* close off the conversion */
-		outbuf = buffer;
-		outlen = in->len * i + 16;
-		if (e_iconv(ic, NULL, 0, &outbuf, &outlen) != (size_t) -1)
-			g_byte_array_append(out, buffer, (in->len*i+16) - outlen);
-		g_free(buffer);
-
-		d(printf("converted: '%.*s'\n", (int)out->len, out->data));
-
-		break;
-	} while (1);
-
-	e_iconv_close(ic);
-
+		
+		/*
+		 * E2BIG   There is not sufficient room at *outbuf.
+		 *
+		 * We just need to grow our outbuffer and try again.
+		 */
+		
+		converted = outlen - outleft;
+		if (errno == E2BIG) {
+			outlen += inleft * 2 + 16;
+			out = g_byte_array_set_size (out, outlen);
+			outbuf = out->data + converted;
+		}
+		
+	} while (errno == E2BIG && inleft > 0);
+	
+	/*
+	 * EINVAL  An  incomplete  multibyte sequence has been encoun­
+	 *         tered in the input.
+	 *
+	 * We'll just have to ignore it...
+	 */
+	
+	/* flush the iconv conversion */
+	e_iconv (cd, NULL, NULL, &outbuf, &outleft);
+	
+	e_iconv_close (cd);
+	
 	return out;
+	
+ fail:
+	g_warning ("Cannot convert from '%s' to '%s': %s", from, to, g_strerror (errno));
+	
+	g_byte_array_free (out, TRUE);
+	
+	e_iconv_close (cd);
+	
+	return NULL;
 }
 
 /* We don't really use the charset argument except for debugging... */

@@ -1,3 +1,10 @@
+2002-04-10  Jeffrey Stedfast  <fejj@ximian.com>
+
+	* camel-mime-part-utils.c (convert_buffer): Fixed a bug that would
+	miscalculate how much data to copy into the GByteArray (negative
+	value) thus causing a segfault. Also optimized it while I was at
+	it.
+
 2002-04-09  Jeffrey Stedfast  <fejj@ximian.com>
 
 	* camel-store.c (camel_store_init): Make the folder_lock
