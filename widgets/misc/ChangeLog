@@ -1,3 +1,8 @@
+2002-09-27  Ettore Perazzoli  <ettore@ximian.com>
+
+	* e-multi-config-dialog.c (create_page_container): Don't set up
+	the description label here.
+
 2002-09-24  Not Zed  <NotZed@Ximian.com>
 
 	* e-search-bar.c (clear_search): Clear search by setting text to
