@@ -596,6 +596,7 @@ async_open_cb (BonoboListener *listener, const char *event_name,
 			(* closure->callback) (closure->storage, result,
 					       closure->path, closure->data);
 			if (closure != orig_closure) {
+				g_object_unref (orig_closure->storage);
 				g_free (closure->path);
 				g_free (closure);
 			}
@@ -636,6 +637,8 @@ async_open_folder_idle (gpointer data)
 	listener = bonobo_listener_new (async_open_cb, closure);
 	corba_listener = bonobo_object_corba_objref (BONOBO_OBJECT (listener));
 
+	priv->pending_opens = g_list_prepend (priv->pending_opens, closure);
+
 	CORBA_exception_init (&ev);
 	GNOME_Evolution_Storage_asyncOpenFolder (priv->storage_interface,
 						 closure->path,
@@ -647,10 +650,12 @@ async_open_folder_idle (gpointer data)
 		g_object_unref (closure->storage);
 		g_free (closure->path);
 		g_free (closure);
+
+		priv->pending_opens = g_list_delete_link (priv->pending_opens,
+							  priv->pending_opens);
 	}
 	CORBA_exception_free (&ev);
 
-	priv->pending_opens = g_list_prepend (priv->pending_opens, closure);
 	return FALSE;
 }
 

@@ -1,3 +1,12 @@
+2003-04-25  Ettore Perazzoli  <ettore@ximian.com>
+
+	[#41059]
+
+	* e-corba-storage.c (async_open_cb): Added a missing unref of the
+	storage in the closure.
+	(async_open_folder_idle): Add the pending open to the pending open
+	list before calling asyncOpenFolder, instead of after.
+
 2003-04-23  Not Zed  <NotZed@Ximian.com>
 
 	* e-local-storage.c (load_folder): cast to remove warning.
@@ -6,19 +15,18 @@
 
 2003-04-22  Anna Marie Dirks  <anna@ximian.com>
 
-       * e-shell-settings-dialog.c (init): Add appropriate padding 
+	* e-shell-settings-dialog.c (init): Add appropriate padding 
 	to the Evolution Settings window. This is another bit of the 
 	fix for #41392.
 
-       * e-corba-config-page.c (e_corba_config_page_construct): Add 
+	* e-corba-config-page.c (e_corba_config_page_construct): Add 
 	appropriate padding to the corba_config_page widget. Partial 
 	fix for #41392.
 
-
 2003-04-23  Anna Marie Dirks  <anna@ximian.com>
 
-	*glade/e-folder-list.glade : replaced buttons with stock 
-	buttons and added HIG-blessed spacing. Fixes 41145. 
+	* glade/e-folder-list.glade: replaced buttons with stock buttons
+	and added HIG-blessed spacing. Fixes 41145.
 
 2003-04-22  Anna Marie Dirks  <anna@ximian.com>
 	
@@ -30,7 +38,6 @@
 	Group" . Partially fixes 41038.
 	(rename_shortcut_cb): Corrected the label capitalization for 
 	Rename dialog. Fixes 41567.
-
 
 2003-04-21  Chris Toshok  <toshok@ximian.com>
 
