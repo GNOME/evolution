@@ -139,30 +139,6 @@ show_folder_messages (CamelFolder *folder)
 
 	/* clear old message list */
 	gtk_clist_clear (GTK_CLIST (message_clist));
-	
-#if 0
-	folder_message_count = camel_folder_get_message_count (folder);
-	
-	for (i=0; i<folder_message_count; i++) {
-  		message = camel_folder_get_message (folder, i); 
-  		gtk_object_ref (GTK_OBJECT (message)); 
-  		sent_date = camel_mime_message_get_sent_date (message); 
-  		sender = camel_mime_message_get_from (message); 
- 		subject = camel_mime_message_get_subject (message); 
-
-		
-		if (sent_date) clist_row_text [0] = sent_date;
-		else clist_row_text [0] = NULL;
-		if (sender) clist_row_text [1] = sender;
-		else clist_row_text [1] = NULL;
-		if (subject) clist_row_text [2] = subject;
-		else clist_row_text [2] = NULL;
-
-		current_row = gtk_clist_append (GTK_CLIST (message_clist), clist_row_text);
-		gtk_clist_set_row_data_full (GTK_CLIST (message_clist), current_row, (gpointer)message, message_destroy_notify);
-	}
-
-#endif 
 
 	if (camel_folder_has_summary_capability (folder)) {
 		const GList *message_info_list;
@@ -183,7 +159,28 @@ show_folder_messages (CamelFolder *folder)
 			message_info_list = message_info_list->next;
 		}		
 	} else {
-		printf ("Folder does not have summary. Skipping\n");
+		printf ("Folder does not have summary. Opening all messages\n");
+		folder_message_count = camel_folder_get_message_count (folder);
+		
+		for (i=0; i<folder_message_count; i++) {
+			message = camel_folder_get_message (folder, i); 
+			gtk_object_ref (GTK_OBJECT (message)); 
+			sent_date = camel_mime_message_get_sent_date (message); 
+			sender = camel_mime_message_get_from (message); 
+			subject = camel_mime_message_get_subject (message); 
+			
+			
+			if (sent_date) clist_row_text [0] = sent_date;
+			else clist_row_text [0] = NULL;
+			if (sender) clist_row_text [1] = sender;
+			else clist_row_text [1] = NULL;
+			if (subject) clist_row_text [2] = subject;
+			else clist_row_text [2] = NULL;
+			
+			current_row = gtk_clist_append (GTK_CLIST (message_clist), clist_row_text);
+			gtk_clist_set_row_data_full (GTK_CLIST (message_clist), current_row, (gpointer)message, message_destroy_notify);
+		}
+
 	}
 }
 
