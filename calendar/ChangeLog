@@ -1,4 +1,14 @@
 2003-04-28  Anna Marie Dirks  <anna@ximian.com>
+	
+	* gui/dialogs/task-page.glade: Finishes up fixing #41256 by
+	adding appropriate spacing/padding to the main task page.
+
+	* gui/dialogs/task-details-page.glade: Added appropriate
+	spacing and padding to the task-details page. Partially 
+	fixes #41256.
+
+
+2003-04-28  Anna Marie Dirks  <anna@ximian.com>
 
 	* gui/dialogs/recurrence-page.glade: Added padding/spacing
 	to this page as specified by the HIG. Partially fixes #41215.

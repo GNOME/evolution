@@ -13,7 +13,7 @@
 
   <child>
     <widget class="GtkVBox" id="task-page">
-      <property name="border_width">4</property>
+      <property name="border_width">12</property>
       <property name="visible">True</property>
       <property name="homogeneous">False</property>
       <property name="spacing">6</property>
@@ -89,7 +89,7 @@
 
 	  <child>
 	    <widget class="GtkHBox" id="hbox4">
-	      <property name="border_width">4</property>
+	      <property name="border_width">6</property>
 	      <property name="visible">True</property>
 	      <property name="homogeneous">False</property>
 	      <property name="spacing">6</property>
@@ -263,7 +263,7 @@
 	<widget class="GtkVBox" id="vbox1">
 	  <property name="visible">True</property>
 	  <property name="homogeneous">False</property>
-	  <property name="spacing">0</property>
+	  <property name="spacing">6</property>
 
 	  <child>
 	    <widget class="GtkLabel" id="label18">
@@ -335,7 +335,7 @@
 
 	  <child>
 	    <widget class="GtkHBox" id="hbox6">
-	      <property name="border_width">2</property>
+	      <property name="border_width">6</property>
 	      <property name="visible">True</property>
 	      <property name="homogeneous">False</property>
 	      <property name="spacing">6</property>
