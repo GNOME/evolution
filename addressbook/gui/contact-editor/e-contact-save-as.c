@@ -38,6 +38,7 @@ save_it(GtkWidget *widget, SaveAsInfo *info)
 	g_free(vcard);
 	gtk_object_unref(GTK_OBJECT(info->card));
 	gtk_widget_destroy(GTK_WIDGET(info->filesel));
+	g_free(info);
 }
 
 static void
@@ -45,12 +46,14 @@ close_it(GtkWidget *widget, SaveAsInfo *info)
 {
 	gtk_object_unref(GTK_OBJECT(info->card));
 	gtk_widget_destroy(GTK_WIDGET(info->filesel));
+	g_free(info);
 }
 
 static void
 delete_it(GtkWidget *widget, SaveAsInfo *info)
 {
 	gtk_object_unref(GTK_OBJECT(info->card));
+	g_free(info);
 }
 
 void
