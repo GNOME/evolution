@@ -26,6 +26,14 @@
  * USA
  */
 
+/*
+  TODO:
+
+  If we are going to have all this LocalStore stuff, then the LocalStore
+  should have a reconfigure_folder method on it, as, in reality, it is
+  the maintainer of this information.
+
+*/
 #ifdef HAVE_CONFIG_H
 #include <config.h>
 #endif
