@@ -18,10 +18,10 @@
 static int
 simple_column_count (ETableModel *etm)
 {
-	ETableSimple *simple = E_TABLE_SIMPLE(etm);
+	ETreeSimple *simple = E_TREE_SIMPLE(etm);
 
 	if (simple->col_count)
-		return simple->col_count (etm, simple->data);
+		return simple->col_count (etm, simple->model_data);
 	else
 		return 0;
 }
@@ -30,10 +30,10 @@ simple_column_count (ETableModel *etm)
 static void *
 simple_duplicate_value (ETableModel *etm, int col, const void *value)
 {
-	ETableSimple *simple = E_TABLE_SIMPLE(etm);
+	ETreeSimple *simple = E_TREE_SIMPLE(etm);
 
 	if (simple->duplicate_value)
-		return simple->duplicate_value (etm, col, value, simple->data);
+		return simple->duplicate_value (etm, col, value, simple->model_data);
 	else
 		return (void *)value;
 }
@@ -41,19 +41,19 @@ simple_duplicate_value (ETableModel *etm, int col, const void *value)
 static void
 simple_free_value (ETableModel *etm, int col, void *value)
 {
-	ETableSimple *simple = E_TABLE_SIMPLE(etm);
+	ETreeSimple *simple = E_TREE_SIMPLE(etm);
 
 	if (simple->free_value)
-		simple->free_value (etm, col, value, simple->data);
+		simple->free_value (etm, col, value, simple->model_data);
 }
 
 static void *
 simple_initialize_value (ETableModel *etm, int col)
 {
-	ETableSimple *simple = E_TABLE_SIMPLE(etm);
+	ETreeSimple *simple = E_TREE_SIMPLE(etm);
 	
 	if (simple->initialize_value)
-		return simple->initialize_value (etm, col, simple->data);
+		return simple->initialize_value (etm, col, simple->model_data);
 	else
 		return NULL;
 }
@@ -61,10 +61,10 @@ simple_initialize_value (ETableModel *etm, int col)
 static gboolean
 simple_value_is_empty (ETableModel *etm, int col, const void *value)
 {
-	ETableSimple *simple = E_TABLE_SIMPLE(etm);
+	ETreeSimple *simple = E_TREE_SIMPLE(etm);
 	
 	if (simple->value_is_empty)
-		return simple->value_is_empty (etm, col, value, simple->data);
+		return simple->value_is_empty (etm, col, value, simple->model_data);
 	else
 		return FALSE;
 }
@@ -72,10 +72,10 @@ simple_value_is_empty (ETableModel *etm, int col, const void *value)
 static char *
 simple_value_to_string (ETableModel *etm, int col, const void *value)
 {
-	ETableSimple *simple = E_TABLE_SIMPLE(etm);
+	ETreeSimple *simple = E_TREE_SIMPLE(etm);
 	
 	if (simple->value_to_string)
-		return simple->value_to_string (etm, col, value, simple->data);
+		return simple->value_to_string (etm, col, value, simple->model_data);
 	else
 		return g_strdup ("");
 }

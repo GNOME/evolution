@@ -1,3 +1,7 @@
+2000-09-09  Christopher James Lahey  <clahey@helixcode.com>
+
+	* e-tree-simple.c: Fixed the ETableModel callbacks.
+
 2000-09-08  Christopher James Lahey  <clahey@helixcode.com>
 
 	* e-tree-example-1.c: Added base ETableModel functions.
