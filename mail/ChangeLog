@@ -1,3 +1,7 @@
+2000-08-02  Peter Williams  <peterw@helixcode.com>
+
+	* mail-config.h: #ifdef _MAIL_CONFIG_H protect the header.
+
 2000-08-01  Dan Winship  <danw@helixcode.com>
 
 	* mail-crypto.c: New code to spawn off GPG/PGP to do stuff.

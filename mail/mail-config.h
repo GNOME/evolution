@@ -18,6 +18,9 @@
  *  Foundation, Inc., 59 Temple Street #330, Boston, MA 02111-1307, USA.
  */
 
+#ifndef _MAIL_CONFIG_H
+#define _MAIL_CONFIG_H
+
 #include <glib.h>
 
 typedef struct 
@@ -47,3 +50,5 @@ void mail_config (void);
 void mail_config_druid (void);
 
 const MailConfig *mail_config_fetch (void);
+
+#endif
