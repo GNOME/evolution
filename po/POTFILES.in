@@ -227,8 +227,6 @@ composer/e-msg-composer.c
 composer/evolution-composer.c
 data/evolution.desktop.in.in
 data/evolution.keys.in
-default_user/searches.xml
-default_user/vfolders.xml
 designs/OOA/ooa.glade
 designs/read_receipts/read.glade
 e-util/e-categories-config.c
