@@ -1737,16 +1737,38 @@ e_tree_get_tooltip (ETree *et)
 	return E_CANVAS(et->priv->table_canvas)->tooltip_window;
 }
 
+typedef struct {
+	ETreePathFunc func;
+	gpointer data;
+	ETree *et;
+} FindNextCallback;
+
+static gboolean
+find_next_callback (ETreeModel *model, ETreePath path, gpointer data)
+{
+	FindNextCallback *cb_data = data;
+	ETree *et = cb_data->et;
+
+	path = e_tree_sorted_view_to_model_path(et->priv->sorted, path);
+
+	return cb_data->func (et->priv->model, path, cb_data->data);
+}
+
 gboolean
 e_tree_find_next (ETree *et, ETreeFindNextParams params, ETreePathFunc func, gpointer data)
 {
 	ETreePath cursor;
 	ETreePath found;
+	FindNextCallback cb_data;
+
+	cb_data.func = func;
+	cb_data.data = data;
+	cb_data.et   = et;
 
 	cursor = e_tree_get_cursor (et);
 	cursor = e_tree_sorted_model_to_view_path (et->priv->sorted, cursor);
 
-	found = e_tree_model_node_find (E_TREE_MODEL (et->priv->sorted), cursor, NULL, params & E_TREE_FIND_NEXT_FORWARD, func, data);
+	found = e_tree_model_node_find (E_TREE_MODEL (et->priv->sorted), cursor, NULL, params & E_TREE_FIND_NEXT_FORWARD, find_next_callback, &cb_data);
 
 	if (found) {
 		e_tree_table_adapter_show_node (et->priv->etta, found);
@@ -1756,7 +1778,7 @@ e_tree_find_next (ETree *et, ETreeFindNextParams params, ETreePathFunc func, gpo
 	}
 
 	if (params & E_TREE_FIND_NEXT_WRAP) {
-		found = e_tree_model_node_find (E_TREE_MODEL (et->priv->sorted), NULL, cursor, params & E_TREE_FIND_NEXT_FORWARD, func, data);
+		found = e_tree_model_node_find (E_TREE_MODEL (et->priv->sorted), NULL, cursor, params & E_TREE_FIND_NEXT_FORWARD, find_next_callback, &cb_data);
 
 		if (found && found != cursor) {
 			e_tree_table_adapter_show_node (et->priv->etta, found);
