@@ -78,6 +78,7 @@ select_source_dialog (GtkWindow *parent, ECalSourceType obj_type)
 	source_list = e_source_list_new_for_gconf (conf_client, gconf_key);
 
 	scroll = gtk_scrolled_window_new (NULL, NULL);
+	gtk_container_set_border_width (GTK_CONTAINER (scroll), 6);
 	gtk_scrolled_window_set_policy (GTK_SCROLLED_WINDOW (scroll),
 					GTK_POLICY_AUTOMATIC,
 					GTK_POLICY_AUTOMATIC);

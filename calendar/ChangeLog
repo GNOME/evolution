@@ -1,5 +1,8 @@
 2004-04-15  Rodrigo Moya <rodrigo@ximian.com>
 
+	* gui/dialogs/select-source-dialog.c (select_source_dialog): added some
+	spacing.
+
 	* gui/e-calendar-view.c (e_calendar_view_delete_selected_occurrence):
 	use the DTSTART for the recur-id if it's not available.
 
