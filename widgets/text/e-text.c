@@ -2857,6 +2857,7 @@ e_text_command(ETextEventProcessor *tep, ETextEventProcessorCommand *command, gp
 			}
 		}
 		lines --;
+		i --;
 		x = gdk_text_width(text->font,
 				   lines->text, 
 				   text->selection_end - (lines->text - text->text));
