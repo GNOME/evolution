@@ -1,3 +1,9 @@
+2001-08-17  Jeffrey Stedfast  <fejj@ximian.com>
+
+	* mail-config.c (mail_config_write): Save the always-sign options
+	for pgp and smime.
+	(config_read): Read in the always-save options for pgp and smime.
+
 2001-08-17  Christopher James Lahey  <clahey@ximian.com>
 
 	* message-list.etspec: Made the default values for column

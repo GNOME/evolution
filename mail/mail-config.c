@@ -342,6 +342,11 @@ config_read (void)
 		else
 			g_free (val);
 		
+		path = g_strdup_printf ("/Mail/Accounts/account_pgp_always_sign_%d", i);
+		account->pgp_always_sign = bonobo_config_get_boolean_with_default (
+		        config->db, path, TRUE, NULL);
+		g_free (path);
+		
 		path = g_strdup_printf ("/Mail/Accounts/account_pgp_encrypt_to_self_%d", i);
 		account->pgp_encrypt_to_self = bonobo_config_get_boolean_with_default (
 		        config->db, path, TRUE, NULL);
@@ -355,6 +360,11 @@ config_read (void)
 			account->smime_key = val;
 		else
 			g_free (val);
+		
+		path = g_strdup_printf ("/Mail/Accounts/account_smime_always_sign_%d", i);
+		account->smime_always_sign = bonobo_config_get_boolean_with_default (
+		        config->db, path, TRUE, NULL);
+		g_free (path);
 		
 		path = g_strdup_printf ("/Mail/Accounts/account_smime_encrypt_to_self_%d", i);
 		account->smime_encrypt_to_self = bonobo_config_get_boolean_with_default (
@@ -635,6 +645,10 @@ mail_config_write (void)
 		bonobo_config_set_string_wrapper (config->db, path, account->pgp_key, NULL);
 		g_free (path);
 		
+		path = g_strdup_printf ("/Mail/Accounts/account_pgp_always_sign_%d", i);
+		bonobo_config_set_boolean (config->db, path, account->pgp_always_sign, NULL);
+		g_free (path);
+		
 		path = g_strdup_printf ("/Mail/Accounts/account_pgp_encrypt_to_self_%d", i);
 		bonobo_config_set_boolean (config->db, path, 
 					   account->pgp_encrypt_to_self, NULL);
@@ -643,6 +657,10 @@ mail_config_write (void)
 		/* account s/mime options */
 		path = g_strdup_printf ("/Mail/Accounts/account_smime_key_%d", i);
 		bonobo_config_set_string_wrapper (config->db, path, account->smime_key, NULL);
+		g_free (path);
+		
+		path = g_strdup_printf ("/Mail/Accounts/account_smime_always_sign_%d", i);
+		bonobo_config_set_boolean (config->db, path, account->smime_always_sign, NULL);
 		g_free (path);
 		
 		path = g_strdup_printf ("/Mail/Accounts/account_smime_encrypt_to_self_%d", i);
