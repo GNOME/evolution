@@ -1,5 +1,11 @@
 2003-04-29  Chris Toshok  <toshok@ximian.com>
 
+	[ fixes bug #41255 ]
+	* gui/contact-list-editor/contact-list-editor.glade: use stock
+	buttons for Add/Remove.
+
+2003-04-29  Chris Toshok  <toshok@ximian.com>
+
 	[ fixes bug #41144 ]
 	* gui/component/ldap-config.glade: use stock buttons for the
 	Add/Delete buttons.  Switch from "Delete" to "Remove", though, as
