@@ -110,7 +110,6 @@ e_timezone_entry_init		(ETimezoneEntry	*tentry)
 {
 	ETimezoneEntryPrivate *priv;
 	GtkWidget *gtk_image;
-	GdkPixbuf *gdk_pixbuf;
 	AtkObject *a11y;
 
 	tentry->priv = priv = g_new0 (ETimezoneEntryPrivate, 1);
@@ -134,12 +133,9 @@ e_timezone_entry_init		(ETimezoneEntry	*tentry)
 		atk_object_set_name (a11y, _("Timezone Button"));
 	}
 
-	gdk_pixbuf = e_icon_factory_get_icon ("stock_timezone", E_ICON_SIZE_BUTTON);
-	gtk_image = gtk_image_new_from_pixbuf (gdk_pixbuf);
+	gtk_image = e_icon_factory_get_image ("stock_timezone", E_ICON_SIZE_BUTTON);
 	gtk_container_add (GTK_CONTAINER (priv->button), gtk_image);
 	gtk_widget_show (gtk_image);
-	
-	g_object_unref (gdk_pixbuf);
 }
 
 

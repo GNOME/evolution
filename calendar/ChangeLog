@@ -1,5 +1,12 @@
 2004-11-26  JP Rosevear  <jpr@novell.com>
 
+	* gui/alarm-notify/alarm-queue.c (display_notification): ditto
+
+	* gui/e-timezone-entry.c (e_timezone_entry_init): get the image
+	directly from the icon factory
+
+2004-11-26  JP Rosevear  <jpr@novell.com>
+	
 	* gui/alarm-notify/alarm-queue.c (display_notification): prevent
 	crash if there is no description
 

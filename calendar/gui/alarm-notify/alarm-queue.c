@@ -932,7 +932,6 @@ display_notification (time_t trigger, CompQueuedAlarms *cqa,
 	GSList *text_list;
 	char *str, *start_str, *end_str, *alarm_str;
 	icaltimezone *current_zone;
-	GdkPixbuf *pixbuf;
 
 	comp = cqa->alarms->comp;
 	qa = lookup_queued_alarm (cqa, alarm_id);
@@ -970,9 +969,7 @@ display_notification (time_t trigger, CompQueuedAlarms *cqa,
 	tooltips = gtk_tooltips_new ();
 
 	tray_icon = GTK_WIDGET (egg_tray_icon_new (qa->instance->auid));
-	pixbuf = e_icon_factory_get_icon  ("stock_appointment-reminder", E_ICON_SIZE_LARGE_TOOLBAR);
-	image = gtk_image_new_from_pixbuf (pixbuf);
-	gdk_pixbuf_unref (pixbuf);
+	image = e_icon_factory_get_image  ("stock_appointment-reminder", E_ICON_SIZE_LARGE_TOOLBAR);
 	ebox = gtk_event_box_new ();
 
 	gtk_widget_show (image);
