@@ -301,7 +301,7 @@ evolution_wizard_set_buttons_sensitive (EvolutionWizard *wizard,
 					      EVOLUTION_WIZARD_SET_BUTTONS_SENSITIVE,
 					      &any, &ev);
 	if (opt_ev == NULL && BONOBO_EX (&ev)) {
-		g_warning ("ERROR(%s): %s", __FUNCTION__, CORBA_exception_id (&ev));
+		g_warning ("ERROR(evolution_wizard_set_buttons_sensitive): %s", CORBA_exception_id (&ev));
 	}
 
 	if (opt_ev == NULL) {
@@ -336,7 +336,7 @@ evolution_wizard_set_show_finish (EvolutionWizard *wizard,
 					      EVOLUTION_WIZARD_SET_SHOW_FINISH,
 					      &any, &ev);
 	if (opt_ev == NULL && BONOBO_EX (&ev)) {
-		g_warning ("ERROR(%s): %s", __FUNCTION__, CORBA_exception_id (&ev));
+		g_warning ("ERROR(evolution_wizard_set_show_finish): %s", CORBA_exception_id (&ev));
 	}
 
 	if (opt_ev == NULL) {
@@ -375,7 +375,7 @@ evolution_wizard_set_page (EvolutionWizard *wizard,
 					      &any, &ev);
 
 	if (opt_ev == NULL && BONOBO_EX (&ev)) {
-		g_warning ("ERROR(%s): %s", __FUNCTION__, CORBA_exception_id (&ev));
+		g_warning ("ERROR(evolution_wizard_set_page): %s", CORBA_exception_id (&ev));
 	}
 
 	if (opt_ev == NULL) {

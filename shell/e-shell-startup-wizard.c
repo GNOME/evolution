@@ -157,7 +157,7 @@ make_mail_dialog_pages (SWData *data)
 	data->mailer = oaf_activate_from_id ("OAFIID:GNOME_Evolution_Mail_Wizard", 0, NULL, &ev);
 	if (BONOBO_EX (&ev)) {
 		e_notice (NULL, GNOME_MESSAGE_BOX_ERROR,
-			  _("(%s:%d)Could not start the Evolution Mailer Assistant interface\n%s"), __FUNCTION__, __LINE__, CORBA_exception_id (&ev));
+			  _("Could not start the Evolution Mailer Assistant interface\n(%s)"), CORBA_exception_id (&ev));
 		g_warning ("Could not start mailer (%s)", CORBA_exception_id (&ev));
 		CORBA_exception_free (&ev);
 		return;
@@ -166,7 +166,7 @@ make_mail_dialog_pages (SWData *data)
 	CORBA_exception_free (&ev);
 	if (data->mailer == CORBA_OBJECT_NIL) {
 		e_notice (NULL, GNOME_MESSAGE_BOX_ERROR,
-			  _("(%s:%d)Could not start the Evolution Mailer Assistant interface\n%s"), __FUNCTION__, __LINE__, "");
+			  _("Could not start the Evolution Mailer Assistant interface\n"));
 		return;
 	}
 

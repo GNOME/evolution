@@ -1,3 +1,14 @@
+2001-10-25  Ettore Perazzoli  <ettore@ximian.com>
+
+	* evolution-wizard.c (evolution_wizard_set_buttons_sensitive):
+	Don't use __FUNCTION__.
+	(evolution_wizard_set_show_finish): Likewise.
+	(evolution_wizard_set_page): Likewise.
+
+	* e-shell-startup-wizard.c (make_mail_dialog_pages): Do not use
+	__FUNCTION__ and __LINE__.  This breaks the string freeze, but the
+	old way made Evolution non-compilable with non-GNU compilers.
+
 2001-10-24  Ettore Perazzoli  <ettore@ximian.com>
 
 	* e-shell-about-box.c: Add a few names to the box.
