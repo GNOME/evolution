@@ -612,61 +612,65 @@ static void
 send_queue_send(struct _mail_msg *mm)
 {
 	struct _send_queue_msg *m = (struct _send_queue_msg *)mm;
+	extern CamelFolder *sent_folder; /* FIXME */
 	GPtrArray *uids;
 	int i;
-	extern CamelFolder *sent_folder; /* FIXME */
-
+	
 	printf("sending queue\n");
-
-	uids = camel_folder_get_uids(m->queue);
+	
+	uids = camel_folder_get_uids (m->queue);
 	if (uids == NULL || uids->len == 0)
 		return;
-
-	if (m->cancel)
-		camel_operation_register(m->cancel);
 	
-	for (i=0; i<uids->len; i++) {
+	if (m->cancel)
+		camel_operation_register (m->cancel);
+	
+	for (i = 0; i < uids->len; i++) {
 		CamelMimeMessage *message;
+		CamelMessageInfo *info;
 		char *destination;
-		int pc = (100 * i)/uids->len;
-
-		report_status(m, CAMEL_FILTER_STATUS_START, pc, "Sending message %d of %d", i+1, uids->len);
+		int pc = (100 * i) / uids->len;
 		
-		message = camel_folder_get_message(m->queue, uids->pdata[i], &mm->ex);
-		if (camel_exception_is_set(&mm->ex))
+		report_status (m, CAMEL_FILTER_STATUS_START, pc, "Sending message %d of %d", i+1, uids->len);
+		
+		message = camel_folder_get_message (m->queue, uids->pdata[i], &mm->ex);
+		if (camel_exception_is_set (&mm->ex))
 			break;
-
+		
+		/* Remove the X-Evolution header so we don't send our flags too ;-) */
+		camel_medium_remove_header (CAMEL_MEDIUM (message), "X-Evolution");
+		
 		/* Get the preferred transport URI */
-		destination = (char *)camel_medium_get_header(CAMEL_MEDIUM(message), "X-Evolution-Transport");
+		destination = (char *)camel_medium_get_header (CAMEL_MEDIUM (message), "X-Evolution-Transport");
 		if (destination) {
-			destination = g_strdup(destination);
-			camel_medium_remove_header(CAMEL_MEDIUM(message), "X-Evolution-Transport");
-			mail_send_message(message, g_strstrip(destination), m->driver, &mm->ex);
-			g_free(destination);
+			destination = g_strdup (destination);
+			camel_medium_remove_header (CAMEL_MEDIUM (message), "X-Evolution-Transport");
+			mail_send_message (message, g_strstrip (destination), m->driver, &mm->ex);
+			g_free (destination);
 		} else
-			mail_send_message(message, m->destination, m->driver, &mm->ex);
-
-		if (camel_exception_is_set(&mm->ex))
+			mail_send_message (message, m->destination, m->driver, &mm->ex);
+		
+		if (camel_exception_is_set (&mm->ex))
 			break;
-
-		camel_folder_set_message_flags(m->queue, uids->pdata[i], CAMEL_MESSAGE_DELETED, CAMEL_MESSAGE_DELETED);
+		
+		camel_folder_set_message_flags (m->queue, uids->pdata[i], CAMEL_MESSAGE_DELETED, CAMEL_MESSAGE_DELETED);
 	}
-
-	if (camel_exception_is_set(&mm->ex))
-		report_status(m, CAMEL_FILTER_STATUS_END, 100, "Failed on message %d of %d", i+1, uids->len);
+	
+	if (camel_exception_is_set (&mm->ex))
+		report_status (m, CAMEL_FILTER_STATUS_END, 100, "Failed on message %d of %d", i+1, uids->len);
 	else
-		report_status(m, CAMEL_FILTER_STATUS_END, 100, "Complete.");
-
-	camel_folder_free_uids(m->queue, uids);
-
-	if (!camel_exception_is_set(&mm->ex))
-		camel_folder_expunge(m->queue, &mm->ex);
+		report_status (m, CAMEL_FILTER_STATUS_END, 100, "Complete.");
+	
+	camel_folder_free_uids (m->queue, uids);
+	
+	if (!camel_exception_is_set (&mm->ex))
+		camel_folder_expunge (m->queue, &mm->ex);
 	
 	if (sent_folder)
-		camel_folder_sync(sent_folder, FALSE, &mm->ex);
-
+		camel_folder_sync (sent_folder, FALSE, &mm->ex);
+	
 	if (m->cancel)
-		camel_operation_unregister(m->cancel);
+		camel_operation_unregister (m->cancel);
 }
 
 static void

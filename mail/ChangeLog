@@ -1,3 +1,8 @@
+2001-03-10  Jeffrey Stedfast  <fejj@ximian.com>
+
+	* mail-ops.c (send_queue_send): Remove our X-Evolution header
+	before we send.
+
 2001-03-09  Jeffrey Stedfast  <fejj@ximian.com>
 
 	* mail-mt.c (mail_get_accept): New async function that will be
