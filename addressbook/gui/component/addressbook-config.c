@@ -240,10 +240,11 @@ dialog_to_source (AddressbookSourceDialog *dialog, ESource *source, gboolean tem
 #ifdef HAVE_LDAP
 		e_source_set_property (source, "email_addr", gtk_entry_get_text (GTK_ENTRY (dialog->email)));
 		e_source_set_property (source, "binddn", gtk_entry_get_text (GTK_ENTRY (dialog->binddn)));
-		e_source_set_property (source, "limit", gtk_entry_get_text (GTK_ENTRY (dialog->limit_spinbutton)));
+		str = g_strdup_printf ("%d", gtk_spin_button_get_value_as_int (GTK_ENTRY (dialog->limit_spinbutton)));
+		e_source_set_property (source, "limit", str);
+		g_free (str);
 		e_source_set_property (source, "ssl", ldap_unparse_ssl (dialog->ssl));
 		e_source_set_property (source, "auth", ldap_unparse_auth (dialog->auth));
-
 		str = g_strdup_printf ("%s:%s/%s?" /* trigraph prevention */ "?%s",
 				       gtk_entry_get_text (GTK_ENTRY (dialog->host)),
 				       gtk_entry_get_text (GTK_ENTRY (GTK_COMBO (dialog->port_combo)->entry)),
@@ -329,10 +330,10 @@ source_to_dialog (AddressbookSourceDialog *dialog)
 #ifdef HAVE_LDAP
 	gtk_entry_set_text (GTK_ENTRY (dialog->email), SOURCE_PROP_STRING (source, "email_addr"));
 	gtk_entry_set_text (GTK_ENTRY (dialog->binddn), SOURCE_PROP_STRING (source, "binddn"));
-	gtk_entry_set_text (GTK_ENTRY (dialog->limit_spinbutton),
-			    source && e_source_get_property (source, "limit") ?
-			    e_source_get_property (source, "limit") : "100");
-
+	gtk_spin_button_set_value ( GTK_SPIN_BUTTON (dialog->limit_spinbutton),
+				    g_strtod ( source && e_source_get_property (source, "limit") ?
+					       e_source_get_property (source, "limit") : "100", NULL));
+	
 	dialog->auth = source && e_source_get_property (source, "auth") ?
 		ldap_parse_auth (e_source_get_property (source, "auth")) : ADDRESSBOOK_LDAP_AUTH_NONE;
 	dialog->ssl = source && e_source_get_property (source, "ssl") ?
