@@ -1,3 +1,9 @@
+2003-03-04  Jeffrey Stedfast  <fejj@ximian.com>
+
+	* mail-callbacks.c (composer_get_message): Go back to using
+	e_destination_get_address() but use the camel-address parser on
+	the strings to make sure they are non-empty. Fixes bug #37854.
+
 2003-03-03  Jeffrey Stedfast  <fejj@ximian.com>
 
 	* mail-signature-editor.c (menu_file_save_cb): Use 'filename' when

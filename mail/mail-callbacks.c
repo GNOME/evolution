@@ -407,6 +407,7 @@ composer_get_message (EMsgComposer *composer, gboolean post, gboolean save_html_
 	CamelMimeMessage *message = NULL;
 	EDestination **recipients, **recipients_bcc;
 	gboolean send_html, confirm_html;
+	CamelInternetAddress *cia;
 	int hidden = 0, shown = 0;
 	int num = 0, num_bcc = 0;
 	GConfClient *gconf;
@@ -423,18 +424,24 @@ composer_get_message (EMsgComposer *composer, gboolean post, gboolean save_html_
 	/* get the message recipients */
 	recipients = e_msg_composer_get_recipients (composer);
 	
+	cia = camel_internet_address_new ();
+	
 	/* see which ones are visible/present, etc */
 	if (recipients) {
 		for (i = 0; recipients[i] != NULL; i++) {
-			const char *addr = e_destination_get_email (recipients[i]);
+			const char *addr = e_destination_get_address (recipients[i]);
 			
 			if (addr && addr[0]) {
-				num++;
-				if (e_destination_is_evolution_list (recipients[i])
-				    && !e_destination_list_show_addresses (recipients[i])) {
-					hidden++;
-				} else {
-					shown++;
+				camel_address_decode ((CamelAddress *) cia, addr);
+				if (camel_address_length ((CamelAddress *) cia) > 0) {
+					camel_address_remove ((CamelAddress *) cia, -1);
+					num++;
+					if (e_destination_is_evolution_list (recipients[i])
+					    && !e_destination_list_show_addresses (recipients[i])) {
+						hidden++;
+					} else {
+						shown++;
+					}
 				}
 			}
 		}
@@ -443,14 +450,21 @@ composer_get_message (EMsgComposer *composer, gboolean post, gboolean save_html_
 	recipients_bcc = e_msg_composer_get_bcc (composer);
 	if (recipients_bcc) {
 		for (i = 0; recipients_bcc[i] != NULL; i++) {
-			const char *addr = e_destination_get_email (recipients_bcc[i]);
+			const char *addr = e_destination_get_address (recipients_bcc[i]);
 			
-			if (addr && addr[0])
-				num_bcc++;
+			if (addr && addr[0]) {
+				camel_address_decode ((CamelAddress *) cia, addr);
+				if (camel_address_length ((CamelAddress *) cia) > 0) {
+					camel_address_remove ((CamelAddress *) cia, -1);
+					num_bcc++;
+				}
+			}
 		}
 		
 		e_destination_freev (recipients_bcc);
 	}
+	
+	camel_object_unref (cia);
 	
 	/* I'm sensing a lack of love, er, I mean recipients. */
 	if (num == 0 && !post) {
