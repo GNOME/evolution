@@ -1,3 +1,27 @@
+1998-10-02  Federico Mena Quintero  <federico@nuclecu.unam.mx>
+
+	* timeutil.c (time_day_begin): Changed name from
+	time_start_of_day() to be consistent with the other begin/end functions.
+	(time_day_end): Likewise.
+
+	* calobj.c (ical_object_get_first_weekday): New public function to
+	get the first toggled day in a weekday mask.  Since we do not
+	support multiple weekdays in a monthly-by-pos rule, we just fetch
+	the first toggled one.
+	(ical_object_generate_events): Added a missing break statement.
+
+	* timeutil.c (time_month_end): Made it consistent with the rest of
+	the time begin/end functions -- now it returns the first second of
+	the *next* month.
+	(time_week_end): Actually implemented this function.  It will be
+	used when the week view is rewritten.
+
+	* calobj.c (time_in_range): Fix off-by-one in the comparison of
+	the time against the end time.
+
+	* gncal-full-day.c (expand_space): Fixed bug where the columns not
+	were being expanded due to a missing "slot + j".
+
 1998-10-01  Federico Mena Quintero  <federico@nuclecu.unam.mx>
 
 	* month-view.c (month_view_init): Use the font #defines.

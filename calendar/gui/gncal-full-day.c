@@ -825,7 +825,7 @@ expand_space (char *array, int *allocations, int val, int lower, int count, int 
 	for (i = 0; i < count; i++){
 		slot = allocations [val] + 1;
 		for (j = 0; j < cols; j++)
-			xy (array, slot, lower+i) = val;
+			xy (array, slot + j, lower+i) = val;
 	}
 }
 

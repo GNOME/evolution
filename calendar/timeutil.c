@@ -210,33 +210,6 @@ time_from_day (int year, int month, int day)
 }
 
 time_t
-time_start_of_day (time_t t)
-{
-	struct tm tm;
-	
-	tm = *localtime (&t);
-	tm.tm_hour = 0;
-	tm.tm_min  = 0;
-	tm.tm_sec  = 0;
-
-	return mktime (&tm);
-}
-
-time_t
-time_end_of_day (time_t t)
-{
-	struct tm tm;
-	
-	tm = *localtime (&t);
-	tm.tm_hour = 0;
-	tm.tm_min  = 0;
-	tm.tm_sec  = 0;
-	tm.tm_mday++;
-	
-	return mktime (&tm);
-}
-
-time_t
 time_year_begin (time_t t)
 {
 	struct tm tm;
@@ -257,11 +230,12 @@ time_year_end (time_t t)
 	struct tm tm;
 
 	tm = *localtime (&t);
-	tm.tm_hour = 23;
-	tm.tm_min  = 59;
-	tm.tm_sec  = 59;
-	tm.tm_mon  = 11;
-	tm.tm_mday = 31;
+	tm.tm_hour = 0;
+	tm.tm_min  = 0;
+	tm.tm_sec  = 0;
+	tm.tm_mon  = 0;
+	tm.tm_mday = 1;
+	tm.tm_year++;
 
 	return mktime (&tm);
 }
@@ -286,21 +260,71 @@ time_month_end (time_t t)
 	struct tm tm;
 
 	tm = *localtime (&t);
-	tm.tm_hour = 23;
-	tm.tm_min  = 59;
-	tm.tm_sec  = 59;
-	tm.tm_mday = time_days_in_month (tm.tm_year + 1900, tm.tm_mon);
+	tm.tm_hour = 0;
+	tm.tm_min  = 0;
+	tm.tm_sec  = 0;
+	tm.tm_mday = 1;
+	tm.tm_mon++;
 
 	return mktime (&tm);
 }
 
 time_t
-time_week_begin   (time_t t)
+time_week_begin (time_t t)
 {
 	struct tm tm;
 
+	/* FIXME: make it take week_starts_on_monday into account */
+
 	tm = *localtime (&t);
+	tm.tm_hour = 0;
+	tm.tm_min  = 0;
+	tm.tm_sec  = 0;
 	tm.tm_mday -= tm.tm_wday;
+
+	return mktime (&tm);
+}
+
+time_t
+time_week_end (time_t t)
+{
+	struct tm tm;
+
+	/* FIXME: make it take week_starts_on_monday into account */
+
+	tm = *localtime (&t);
+	tm.tm_hour = 0;
+	tm.tm_min  = 0;
+	tm.tm_sec  = 0;
+	tm.tm_mday += 7 - tm.tm_wday;
+
+	return mktime (&tm);
+}
+
+time_t
+time_day_begin (time_t t)
+{
+	struct tm tm;
+	
+	tm = *localtime (&t);
+	tm.tm_hour = 0;
+	tm.tm_min  = 0;
+	tm.tm_sec  = 0;
+
+	return mktime (&tm);
+}
+
+time_t
+time_day_end (time_t t)
+{
+	struct tm tm;
+	
+	tm = *localtime (&t);
+	tm.tm_hour = 0;
+	tm.tm_min  = 0;
+	tm.tm_sec  = 0;
+	tm.tm_mday++;
+	
 	return mktime (&tm);
 }
 

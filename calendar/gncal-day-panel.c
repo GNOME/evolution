@@ -128,7 +128,7 @@ gncal_day_panel_new (GnomeCalendar *calendar, time_t start_of_day)
 			  0, 0);
 	gtk_widget_show (w);
 
-	w = gncal_full_day_new (calendar, time_start_of_day (start_of_day), time_end_of_day (start_of_day));
+	w = gncal_full_day_new (calendar, time_day_begin (start_of_day), time_day_end (start_of_day));
 	dpanel->fullday = GNCAL_FULL_DAY (w);
 	gtk_signal_connect (GTK_OBJECT (dpanel->fullday), "range_activated",
 			    (GtkSignalFunc) day_view_range_activated,
@@ -221,7 +221,7 @@ gncal_day_panel_set (GncalDayPanel *dpanel, time_t start_of_day)
 	g_return_if_fail (dpanel != NULL);
 	g_return_if_fail (GNCAL_IS_DAY_PANEL (dpanel));
 
-	dpanel->start_of_day = time_start_of_day (start_of_day);
+	dpanel->start_of_day = time_day_begin (start_of_day);
 	if (dpanel->fullday->lower == dpanel->start_of_day)
 		return;
 
@@ -229,7 +229,7 @@ gncal_day_panel_set (GncalDayPanel *dpanel, time_t start_of_day)
 	strftime (buf, sizeof (buf), "%a %b %d %Y", &tm);
 	gtk_label_set (GTK_LABEL (dpanel->date_label), buf);
 
-	gncal_full_day_set_bounds (dpanel->fullday, dpanel->start_of_day, time_end_of_day (dpanel->start_of_day));
+	gncal_full_day_set_bounds (dpanel->fullday, dpanel->start_of_day, time_day_end (dpanel->start_of_day));
 
 	gtk_calendar_select_month (dpanel->gtk_calendar, tm.tm_mon, tm.tm_year + 1900);
 

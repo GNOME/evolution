@@ -287,8 +287,8 @@ calendar_load (Calendar *cal, char *fname)
 		return "Could not load the calendar";
 
 	calendar_today     = time (NULL);
-	calendar_day_begin = time_start_of_day (calendar_today);
-	calendar_day_end   = time_end_of_day   (calendar_today);
+	calendar_day_begin = time_day_begin (calendar_today);
+	calendar_day_end   = time_day_end (calendar_today);
 		
 	calendar_load_from_vobject (cal, vcal);
 	cleanVObject (vcal);

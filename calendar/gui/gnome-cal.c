@@ -94,7 +94,7 @@ gnome_calendar_goto (GnomeCalendar *gcal, time_t new_time)
 
 	g_return_if_fail (new_time != -1);
 
-	new_time = time_start_of_day (new_time);
+	new_time = time_day_begin (new_time);
 
 	if (current == gcal->day_view)
 		gncal_day_panel_set (GNCAL_DAY_PANEL (gcal->day_view), new_time);
@@ -192,7 +192,7 @@ gnome_calendar_new (char *title)
 	
 	gtk_window_set_title(GTK_WINDOW(retval), title);
 
-	gcal->current_display = time_start_of_day (time (NULL));
+	gcal->current_display = time_day_begin (time (NULL));
 	gcal->cal = calendar_new (title);
 	setup_widgets (gcal);
 	return retval;
@@ -385,7 +385,7 @@ mark_gtk_calendar_day (iCalObject *obj, time_t start, time_t end, void *c)
 	time_t t, day_end;
 
 	tm_s = *localtime (&start);
-	day_end = time_end_of_day (end);
+	day_end = time_day_end (end);
 	
 	for (t = start; t <= day_end; t += 60*60*24){
 		time_t new = mktime (&tm_s);

@@ -565,7 +565,6 @@ ee_store_recur_rule_to_ical (EventEditor *ee)
 			ical->recur->u.month_day = option_menu_active_number (ee->recur_rr_month_weekday);
 		}
 
-
 		break;
 
 	case 4:

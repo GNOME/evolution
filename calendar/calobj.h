@@ -100,7 +100,7 @@ typedef struct {
 				 * this is what got specified)  or it is our computed
 				 * ending date (computed from the duration item).
 				 */
-	
+
 	int            weekday;
 
 	union {
@@ -175,7 +175,7 @@ typedef struct {
 } iCalObject;
 
 /* The callback for the recurrence generator */
-typedef int (*calendarfn)(iCalObject *, time_t, time_t, void *);
+typedef int (*calendarfn) (iCalObject *, time_t, time_t, void *);
 
 iCalObject *ical_new                        (char *comment, char *organizer, char *summary);
 iCalObject *ical_object_new                 (void);
@@ -189,6 +189,11 @@ void        ical_object_add_exdate          (iCalObject *o, time_t t);
 
 /* Computes the enddate field of the recurrence based on the duration */
 void        ical_object_compute_end         (iCalObject *ico);
+
+/* Returns the first toggled day in a weekday mask -- we do this because we do not support multiple
+ * days on a monthly-by-pos recurrence.  If no days are toggled, it returns -1.
+ */
+int ical_object_get_first_weekday (int weekday_mask);
 
 /* Returns the number of seconds configured to trigger the alarm in advance to an event */
 int         alarm_compute_offset (CalendarAlarm *a);

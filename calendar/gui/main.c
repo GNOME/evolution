@@ -511,7 +511,7 @@ static void
 process_dates (void)
 {
 	if (!from_t)
-		from_t = time_start_of_day (time (NULL));
+		from_t = time_day_begin (time (NULL));
 	
 	if (!to_t || to_t < from_t)
 		to_t = time_add_day (from_t, 1);
