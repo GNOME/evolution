@@ -1,5 +1,11 @@
 2004-08-13  Rodney Dawes  <dobey@novell.com>
 
+	* acinclude.m4: Remove EVO_CHECK_LIB
+	Update EVO_LDAP_CHECK to support --with-openldap-{libs,includes}
+	Sync with e-d-s acinclude.m4 (Adds GTK_DOC_CHECK)
+
+2004-08-13  Rodney Dawes  <dobey@novell.com>
+
 	* configure.in: Check for et/comm-err.h and comm_err.h so that
 	we can include the correct one
 
