@@ -857,16 +857,22 @@ e_meeting_time_selector_item_button_press (EMeetingTimeSelectorItem *mts_item,
 
 	/* Find the nearest half-hour or hour interval, depending on whether
 	   zoomed_out is set. */
-	if (mts->zoomed_out) {
+	if (e_date_edit_get_show_time (E_DATE_EDIT (mts->end_date_edit))) {
+		if (mts->zoomed_out) {
+			start_time.minute = 0;
+			end_time = start_time;
+			end_time.hour += 1;
+		} else {
+			start_time.minute -= start_time.minute % 30;
+			end_time = start_time;
+			end_time.minute += 30;
+		}
+	} else {
+		start_time.hour = 0;
 		start_time.minute = 0;
 		end_time = start_time;
-		end_time.hour += 1;
-	} else {
-		start_time.minute -= start_time.minute % 30;
-		end_time = start_time;
-		end_time.minute += 30;
 	}
-
+	
 	/* Fix any overflows. */
 	e_meeting_time_selector_fix_time_overflows (&end_time);
 

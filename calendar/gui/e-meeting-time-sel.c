@@ -2086,14 +2086,14 @@ e_meeting_time_selector_on_start_time_changed (GtkWidget *widget,
 	gint duration_days, duration_hours, duration_minutes;
 	EMeetingTime mtstime;
 	time_t newtime;
-	struct tm *newtime_tm;
 
+	/* Date */
 	newtime = e_date_edit_get_time (E_DATE_EDIT (mts->start_date_edit));
-	newtime_tm = localtime (&newtime);
 	g_date_clear (&mtstime.date, 1);
 	g_date_set_time (&mtstime.date, newtime);
-	mtstime.hour = newtime_tm->tm_hour;
-	mtstime.minute = newtime_tm->tm_min;
+
+	/* Time */
+	e_date_edit_get_time_of_day (E_DATE_EDIT (mts->start_date_edit), &mtstime.hour, &mtstime.minute);
 
 	/* If the time hasn't changed, just return. */
 	if (e_meeting_time_selector_compare_times (&mtstime, &mts->meeting_start_time) == 0)
@@ -2127,14 +2127,16 @@ e_meeting_time_selector_on_end_time_changed (GtkWidget *widget,
 {
 	EMeetingTime mtstime;
 	time_t newtime;
-	struct tm *newtime_tm;
 
+	/* Date */
 	newtime = e_date_edit_get_time (E_DATE_EDIT (mts->end_date_edit));
-	newtime_tm = localtime (&newtime);
 	g_date_clear (&mtstime.date, 1);
 	g_date_set_time (&mtstime.date, newtime);
-	mtstime.hour = newtime_tm->tm_hour;
-	mtstime.minute = newtime_tm->tm_min;
+	if (!e_date_edit_get_show_time (E_DATE_EDIT (mts->end_date_edit)))
+		g_date_add_days (&mtstime.date, 1);
+
+	/* Time */
+	e_date_edit_get_time_of_day (E_DATE_EDIT (mts->end_date_edit), &mtstime.hour, &mtstime.minute);
 
 	/* If the time hasn't changed, just return. */
 	if (e_meeting_time_selector_compare_times (&mtstime, &mts->meeting_end_time) == 0)
@@ -2477,15 +2479,13 @@ e_meeting_time_selector_remove_timeout (EMeetingTimeSelector *mts)
 static void
 e_meeting_time_selector_update_start_date_edit (EMeetingTimeSelector *mts)
 {
-	struct tm start_tm;
-	time_t start_time_t;
-
-	g_date_to_struct_tm (&mts->meeting_start_time.date, &start_tm);
-	start_tm.tm_hour = mts->meeting_start_time.hour;
-	start_tm.tm_min = mts->meeting_start_time.minute;
-	start_time_t = mktime (&start_tm);
-	e_date_edit_set_time (E_DATE_EDIT (mts->start_date_edit),
-			      start_time_t);
+	e_date_edit_set_date (E_DATE_EDIT (mts->start_date_edit),
+			      mts->meeting_start_time.date.year,
+			      mts->meeting_start_time.date.month,
+			      mts->meeting_start_time.date.day);
+	e_date_edit_set_time_of_day (E_DATE_EDIT (mts->start_date_edit),
+				     mts->meeting_start_time.hour,
+				     mts->meeting_start_time.minute);
 }
 
 
@@ -2493,15 +2493,13 @@ e_meeting_time_selector_update_start_date_edit (EMeetingTimeSelector *mts)
 static void
 e_meeting_time_selector_update_end_date_edit (EMeetingTimeSelector *mts)
 {
-	struct tm end_tm;
-	time_t end_time_t;
-
-	g_date_to_struct_tm (&mts->meeting_end_time.date, &end_tm);
-	end_tm.tm_hour = mts->meeting_end_time.hour;
-	end_tm.tm_min = mts->meeting_end_time.minute;
-	end_time_t = mktime (&end_tm);
-	e_date_edit_set_time (E_DATE_EDIT (mts->end_date_edit),
-			      end_time_t);
+	e_date_edit_set_date (E_DATE_EDIT (mts->end_date_edit),
+			      mts->meeting_end_time.date.year,
+			      mts->meeting_end_time.date.month,
+			      mts->meeting_end_time.date.day);
+	e_date_edit_set_time_of_day (E_DATE_EDIT (mts->end_date_edit),
+				     mts->meeting_end_time.hour,
+				     mts->meeting_end_time.minute);
 }
 
 

@@ -1,10 +1,30 @@
+2001-10-30  JP Rosevear  <jpr@ximian.com>
+
+	* gui/e-meeting-time-sel-item.c
+	(e_meeting_time_selector_item_button_press): move in whole day
+	increments if we are in all day mode
+
+	* gui/e-meeting-time-sel.c
+	(e_meeting_time_selector_on_start_time_changed): get rid of
+	localtime call
+	(e_meeting_time_selector_on_end_time_changed): ditto
+	(e_meeting_time_selector_update_start_date_edit): set the date
+	editor using the meeting time fields directly
+	(e_meeting_time_selector_update_end_date_edit): ditto
+
+	* gui/dialogs/schedule-page.c (update_time): do the set_show_time
+	stuff first
+
+	* conduits/calendar/calendar-conduit.c (process_multi_day): don't
+	adjust the time, set the default timezone for date values
+
 2001-10-30  Dan Winship  <danw@ximian.com>
 
 	* gui/alarm-notify/Makefile.am (INCLUDES):
 	s/BONOBO_HTML_GNOME_LIBS/BONOBO_HTML_GNOME_CFLAGS/
 
 2001-10-30  JP Rosevear  <jpr@ximian.com>
-
+	
 	* gui/e-meeting-model.c (e_meeting_model_count_actual_attendees):
 	count the actual attendees (doesn't include people delegating
 

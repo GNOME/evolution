@@ -276,6 +276,11 @@ update_time (SchedulePage *spage, CalComponentDateTime *start_date, CalComponent
 		}
 	}
 
+	e_date_edit_set_show_time (E_DATE_EDIT (priv->sel->start_date_edit),
+				   !all_day);
+	e_date_edit_set_show_time (E_DATE_EDIT (priv->sel->end_date_edit),
+				   !all_day);
+
 	e_date_edit_set_date (E_DATE_EDIT (priv->sel->start_date_edit), start_tt.year,
 			      start_tt.month, start_tt.day);
 	e_date_edit_set_time_of_day (E_DATE_EDIT (priv->sel->start_date_edit),
@@ -286,10 +291,6 @@ update_time (SchedulePage *spage, CalComponentDateTime *start_date, CalComponent
 	e_date_edit_set_time_of_day (E_DATE_EDIT (priv->sel->end_date_edit),
 				     end_tt.hour, end_tt.minute);
 
-	e_date_edit_set_show_time (E_DATE_EDIT (priv->sel->start_date_edit),
-				   !all_day);
-	e_date_edit_set_show_time (E_DATE_EDIT (priv->sel->end_date_edit),
-				   !all_day);
 }
 
 		

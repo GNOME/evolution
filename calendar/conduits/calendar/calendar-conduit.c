@@ -386,12 +386,10 @@ process_multi_day (ECalConduitContext *ctxt, CalClientChange *ccc, GList **multi
 	event_start = icaltime_as_timet_with_zone (*dt_start.value, tz_start);
 
 	cal_component_get_dtend (ccc->comp, &dt_end);
-	if (dt_end.value->is_date) {
-		icaltime_adjust (dt_end.value, 1, 0, 0, 0);
+	if (dt_end.value->is_date)
 		tz_end = ctxt->timezone;
-	} else {
+	else
 		tz_end = get_timezone (ctxt->client, dt_end.tzid);
-	}
 	event_end = icaltime_as_timet_with_zone (*dt_end.value, tz_end);
 
 	day_end = time_day_end_with_zone (event_start, ctxt->timezone);			
@@ -403,7 +401,6 @@ process_multi_day (ECalConduitContext *ctxt, CalClientChange *ccc, GList **multi
 		goto cleanup;
 	}
 
-	INFO ("Split info: %lu, %lu, %lu", event_start, event_end, day_end);
 	old_start_value = dt_start.value;
  	old_end_value = dt_end.value;
 	while (!last) {
