@@ -501,7 +501,7 @@ camel_folder_thread_messages_new(CamelFolder *folder, GPtrArray *uids)
 		}
 
 		c->message = mi;
-		c->order = i;
+		c->order = i+1;
 		child = c;
 		if (mi->references) {
 			int j;
@@ -652,7 +652,7 @@ camel_folder_thread_messages_new_summary(GPtrArray *summary)
 		}
 
 		c->message = mi;
-		c->order = i;
+		c->order = i+1;
 		child = c;
 		if (mi->references) {
 			int j;
