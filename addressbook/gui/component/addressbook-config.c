@@ -269,7 +269,7 @@ addressbook_config_source_with_gui (GladeXML *gui, AddressbookSource *source, Gt
 }
 
 void
-addressbook_create_new_source (char *new_source, GtkWidget *parent)
+addressbook_create_new_source (const char *new_source, GtkWidget *parent)
 {
 	AddressbookSourceDialog *dialog;
 	GladeXML *gui;

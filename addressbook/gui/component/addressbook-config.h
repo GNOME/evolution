@@ -26,6 +26,6 @@
 #include "addressbook-storage.h"
 
 void         addressbook_config (GNOME_Evolution_Shell shell);
-void         addressbook_create_new_source (char *new_source, GtkWidget *parent);
+void         addressbook_create_new_source (const char *new_source, GtkWidget *parent);
 
 #endif /* __ADDRESSBOOK_CONFIG_H__ */

@@ -40,6 +40,8 @@
 #include <config.h>
 #endif
 
+#include "addressbook-storage.h"
+
 #include <sys/types.h>
 #include <sys/fcntl.h>
 #include <sys/stat.h>
@@ -62,9 +64,8 @@
 #include "e-util/e-unicode-i18n.h"
 
 #include "evolution-shell-component.h"
-#include "evolution-storage.h"
 
-#include "addressbook-storage.h"
+#include "addressbook-config.h"
 
 #define ADDRESSBOOK_SOURCES_XML "addressbook-sources.xml"
 

@@ -1,3 +1,25 @@
+2001-10-29  Christopher James Lahey  <clahey@ximian.com>
+
+	* backend/ebook/e-card-simple.c, backend/ebook/e-card-simple.h
+	(e_card_simple_get): Handle returning dates here.
+	(e_card_simple_get_allow_newlines): New function.  Returns whether
+	it makes much sense to have newlines in this string.
+
+	* gui/component/addressbook-config.c,
+	gui/component/addressbook-config.h
+	(addressbook_create_new_source): The first argument here should
+	be const.
+
+	* gui/component/addressbook-storage.c: Added #include
+	"addressbook-config.h".
+
+	* gui/widgets/e-minicard-label.c (e_minicard_label_event): On an
+	escape here, cancel editing and remove the focus from the text.
+
+	* gui/widgets/e-minicard.c (add_field): Set allow_newlines here.
+	(field_activated): Stop editing on the activate signal and remove
+	the focus from the text.  Fixes Ximian bug #12286.
+
 2001-10-28  JP Rosevear  <jpr@ximian.com>
 
 	* conduit/address-conduit.h: tidy

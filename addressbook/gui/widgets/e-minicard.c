@@ -709,6 +709,13 @@ field_changed (EText *text, EMinicard *e_minicard)
 }
 
 static void
+field_activated (EText *text, EMinicard *e_minicard)
+{
+	e_text_stop_editing (text);
+	e_canvas_item_grab_focus (GNOME_CANVAS_ITEM (e_minicard), FALSE);
+}
+
+static void
 add_field (EMinicard *e_minicard, ECardSimpleField field, gdouble left_width)
 {
 	GnomeCanvasItem *new_item;
@@ -745,6 +752,11 @@ add_field (EMinicard *e_minicard, ECardSimpleField field, gdouble left_width)
 			       NULL );
 	gtk_signal_connect(GTK_OBJECT(E_MINICARD_LABEL(new_item)->field),
 			   "changed", GTK_SIGNAL_FUNC(field_changed), e_minicard);
+	gtk_signal_connect(GTK_OBJECT(E_MINICARD_LABEL(new_item)->field),
+			   "activate", GTK_SIGNAL_FUNC(field_activated), e_minicard);
+	gtk_object_set(GTK_OBJECT(E_MINICARD_LABEL(new_item)->field),
+		       "allow_newlines", e_card_simple_get_allow_newlines (e_minicard->simple, field),
+		       NULL);
 	gtk_object_set_data(GTK_OBJECT(E_MINICARD_LABEL(new_item)->field),
 			    "EMinicard:field",
 			    GINT_TO_POINTER(field));

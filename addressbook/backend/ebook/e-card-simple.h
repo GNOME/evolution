@@ -178,6 +178,8 @@ const char                 *e_card_simple_get_name               (ECardSimple   
 								  ECardSimpleField              field);
 const char                 *e_card_simple_get_short_name         (ECardSimple                  *simple,
 								  ECardSimpleField              field);
+gboolean                    e_card_simple_get_allow_newlines     (ECardSimple                  *simple,
+								  ECardSimpleField              field);
 
 
 /* Use these only if building lists of specific types.  It should be

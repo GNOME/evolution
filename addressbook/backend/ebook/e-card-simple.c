@@ -15,6 +15,7 @@
 #include <string.h>
 #include <gtk/gtkobject.h>
 #include <e-util/e-unicode-i18n.h>
+#include <gal/util/e-util.h>
 
 #include <libversit/vcc.h>
 #include "e-card-simple.h"
@@ -772,10 +773,19 @@ char     *e_card_simple_get            (ECardSimple          *simple,
 			return NULL;
 	case E_CARD_SIMPLE_INTERNAL_TYPE_DATE:
 		if (simple->card) {
+			char buf[26];
+			struct tm then;
 			gtk_object_get(GTK_OBJECT(simple->card),
 				       field_data[field].ecard_field, &date,
 				       NULL);
-			return NULL; /* FIXME!!!! */
+			then.tm_year = date->year;
+			then.tm_mon  = date->month - 1;
+			then.tm_mday = date->day;
+			then.tm_hour = 12;
+			then.tm_min  = 0;
+			then.tm_sec  = 0;
+			e_strftime_fix_am_pm (buf, 26, _("%x"), &then);
+			return g_strdup (buf);
 		} else
 			return NULL;
 	case E_CARD_SIMPLE_INTERNAL_TYPE_ADDRESS:
@@ -1094,6 +1104,31 @@ const char     *e_card_simple_get_name       (ECardSimple          *simple,
 					      ECardSimpleField      field)
 {
 	return U_(field_data[field].name);
+}
+
+gboolean
+e_card_simple_get_allow_newlines (ECardSimple          *simple,
+				  ECardSimpleField      field)
+{
+	ECardSimpleInternalType type = field_data[field].type;
+	switch(type) {
+	case E_CARD_SIMPLE_INTERNAL_TYPE_STRING:
+	case E_CARD_SIMPLE_INTERNAL_TYPE_PHONE:
+	case E_CARD_SIMPLE_INTERNAL_TYPE_EMAIL:
+	case E_CARD_SIMPLE_INTERNAL_TYPE_BOOL:
+	case E_CARD_SIMPLE_INTERNAL_TYPE_DATE:
+	case E_CARD_SIMPLE_INTERNAL_TYPE_SPECIAL:
+	default:
+		switch (field) {
+		case E_CARD_SIMPLE_FIELD_NOTE:
+			return TRUE;
+		default:
+			return FALSE;
+		}
+
+	case E_CARD_SIMPLE_INTERNAL_TYPE_ADDRESS:
+		return TRUE;
+	}
 }
 
 const char     *e_card_simple_get_short_name (ECardSimple          *simple,
