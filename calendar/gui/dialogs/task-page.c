@@ -39,6 +39,7 @@
 #include "e-util/e-dialog-widgets.h"
 #include "e-util/e-categories-config.h"
 #include "../e-timezone-entry.h"
+#include "../calendar-config.h"
 #include "comp-editor-util.h"
 #include "task-page.h"
 
@@ -335,6 +336,7 @@ task_page_fill_widgets (CompEditorPage *page, CalComponent *comp)
 
 	/* Due Date. */
 	cal_component_get_due (comp, &d);
+	zone = NULL;
 	if (d.value) {
 		struct icaltimetype *due_tt = d.value;
 		e_date_edit_set_date (E_DATE_EDIT (priv->due_date),
@@ -343,13 +345,22 @@ task_page_fill_widgets (CompEditorPage *page, CalComponent *comp)
 		e_date_edit_set_time_of_day (E_DATE_EDIT (priv->due_date),
 					     due_tt->hour, due_tt->minute);
 	} else {
+		char *location;
+
 		e_date_edit_set_time (E_DATE_EDIT (priv->due_date), -1);
+
+		/* If no time is set, we use the default timezone, so the
+		   user usually doesn't have to set this when they set the
+		   date. */
+		location = calendar_config_get_timezone ();
+		zone = icaltimezone_get_builtin_timezone (location);
 	}
 
 	/* Note that if we are creating a new task, the timezones may not be
 	   on the server, so we try to get the builtin timezone with the TZID
 	   first. */
-	zone = icaltimezone_get_builtin_timezone_from_tzid (d.tzid);
+	if (!zone)
+		zone = icaltimezone_get_builtin_timezone_from_tzid (d.tzid);
 	if (!zone) {
 		get_tz_status = cal_client_get_timezone (page->client, d.tzid,
 							 &zone);
@@ -366,6 +377,7 @@ task_page_fill_widgets (CompEditorPage *page, CalComponent *comp)
 
 	/* Start Date. */
 	cal_component_get_dtstart (comp, &d);
+	zone = NULL;
 	if (d.value) {
 		struct icaltimetype *start_tt = d.value;
 		e_date_edit_set_date (E_DATE_EDIT (priv->start_date),
@@ -374,10 +386,19 @@ task_page_fill_widgets (CompEditorPage *page, CalComponent *comp)
 		e_date_edit_set_time_of_day (E_DATE_EDIT (priv->start_date),
 					     start_tt->hour, start_tt->minute);
 	} else {
+		char *location;
+
 		e_date_edit_set_time (E_DATE_EDIT (priv->start_date), -1);
+
+		/* If no time is set, we use the default timezone, so the
+		   user usually doesn't have to set this when they set the
+		   date. */
+		location = calendar_config_get_timezone ();
+		zone = icaltimezone_get_builtin_timezone (location);
 	}
 
-	zone = icaltimezone_get_builtin_timezone_from_tzid (d.tzid);
+	if (!zone)
+		zone = icaltimezone_get_builtin_timezone_from_tzid (d.tzid);
 	if (!zone) {
 		get_tz_status = cal_client_get_timezone (page->client, d.tzid,
 							 &zone);
@@ -754,6 +775,8 @@ static gboolean
 init_widgets (TaskPage *tpage)
 {
 	TaskPagePrivate *priv;
+	char *location;
+	icaltimezone *zone;
 
 	priv = tpage->priv;
 
@@ -824,6 +847,12 @@ init_widgets (TaskPage *tpage)
 
 	gtk_container_add (GTK_CONTAINER (priv->contacts_box),
 			   priv->contacts_entry);
+
+	/* Set the default timezone, so the timezone entry may be hidden. */
+	location = calendar_config_get_timezone ();
+	zone = icaltimezone_get_builtin_timezone (location);
+	e_timezone_entry_set_default_timezone (E_TIMEZONE_ENTRY (priv->start_timezone), zone);
+	e_timezone_entry_set_default_timezone (E_TIMEZONE_ENTRY (priv->due_timezone), zone);
 
 	return TRUE;
 }
@@ -898,7 +927,7 @@ task_page_create_date_edit (void)
 {
 	GtkWidget *dedit;
 
-	dedit = comp_editor_new_date_edit (TRUE, TRUE);
+	dedit = comp_editor_new_date_edit (TRUE, TRUE, TRUE);
 	e_date_edit_set_allow_no_date_set (E_DATE_EDIT (dedit), TRUE);
 
 	return dedit;

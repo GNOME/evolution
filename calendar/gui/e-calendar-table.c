@@ -802,6 +802,7 @@ e_calendar_table_on_double_click (ETable *table,
 				  GdkEvent *event,
 				  ECalendarTable *cal_table)
 {
+	g_print ("In e_calendar_table_on_double_click\n");
 	open_task_by_row (cal_table, row);
 }
 

@@ -179,13 +179,17 @@ comp_editor_date_label (CompEditorPageDates *dates, GtkWidget *label)
  * comp_editor_new_date_edit:
  * @show_date: Whether to show a date picker in the widget.
  * @show_time: Whether to show a time picker in the widget.
+ * @make_time_insensitive: Whether the time field is made insensitive rather
+ * than hiding it. This is useful if you want to preserve the layout of the
+ * widgets.
  * 
  * Creates a new #EDateEdit widget, configured using the calendar's preferences.
  * 
  * Return value: A newly-created #EDateEdit widget.
  **/
 GtkWidget *
-comp_editor_new_date_edit (gboolean show_date, gboolean show_time)
+comp_editor_new_date_edit (gboolean show_date, gboolean show_time,
+			   gboolean make_time_insensitive)
 {
 	EDateEdit *dedit;
 
@@ -193,7 +197,11 @@ comp_editor_new_date_edit (gboolean show_date, gboolean show_time)
 
 	e_date_edit_set_show_date (dedit, show_date);
 	e_date_edit_set_show_time (dedit, show_time);
-
+#if 0
+	e_date_edit_set_make_time_insensitive (dedit, make_time_insensitive);
+#else
+	e_date_edit_set_make_time_insensitive (dedit, FALSE);
+#endif
 	calendar_config_configure_e_date_edit (dedit);
 
 	return GTK_WIDGET (dedit);

@@ -709,7 +709,7 @@ task_details_page_create_date_edit (void)
 {
 	GtkWidget *dedit;
 
-	dedit = comp_editor_new_date_edit (TRUE, TRUE);
+	dedit = comp_editor_new_date_edit (TRUE, TRUE, FALSE);
 	e_date_edit_set_allow_no_date_set (E_DATE_EDIT (dedit), TRUE);
 
 	return dedit;

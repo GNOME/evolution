@@ -38,6 +38,8 @@
 #include "dialogs/e-timezone-dialog.h"
 #include "e-timezone-entry.h"
 
+/* The timezone icon for the button. */
+#include "art/timezone-16.xpm"
 
 struct _ETimezoneEntryPrivate {
 	/* This is the timezone set in e_timezone_entry_set_timezone().
@@ -53,6 +55,11 @@ struct _ETimezoneEntryPrivate {
 
 	GtkWidget *entry;
 	GtkWidget *button;
+
+	/* This can be set to the default timezone. If the current timezone
+	   setting in the ETimezoneEntry matches this, then the entry field
+	   is hidden. This makes the user interface simpler. */
+	icaltimezone *default_zone;
 };
 
 
@@ -72,6 +79,8 @@ static void on_button_clicked		(GtkWidget	*widget,
 					 ETimezoneEntry	*tentry);
 
 static char* e_timezone_entry_get_display_name	(icaltimezone	*zone);
+
+static void e_timezone_entry_set_entry_visibility (ETimezoneEntry *tentry);
 
 
 static GtkHBoxClass *parent_class;
@@ -137,11 +146,16 @@ static void
 e_timezone_entry_init		(ETimezoneEntry	*tentry)
 {
 	ETimezoneEntryPrivate *priv;
+	GdkColormap *colormap;
+	GdkPixmap *timezone_icon;
+	GdkBitmap *timezone_mask;
+	GtkWidget *pixmap;
 
 	tentry->priv = priv = g_new0 (ETimezoneEntryPrivate, 1);
 
 	priv->zone = NULL;
 	priv->changed = FALSE;
+	priv->default_zone = NULL;
 
 	priv->entry  = gtk_entry_new ();
 	gtk_entry_set_editable (GTK_ENTRY (priv->entry), FALSE);
@@ -151,11 +165,18 @@ e_timezone_entry_init		(ETimezoneEntry	*tentry)
 	gtk_signal_connect (GTK_OBJECT (priv->entry), "changed",
 			    GTK_SIGNAL_FUNC (on_entry_changed), tentry);
 	
-	priv->button = gtk_button_new_with_label ("...");
+	priv->button = gtk_button_new ();
 	gtk_signal_connect (GTK_OBJECT (priv->button), "clicked",
 			    GTK_SIGNAL_FUNC (on_button_clicked), tentry);
 	gtk_box_pack_start (GTK_BOX (tentry), priv->button, FALSE, FALSE, 0);
 	gtk_widget_show (priv->button);
+
+	colormap = gtk_widget_get_colormap (priv->button);
+	timezone_icon = gdk_pixmap_colormap_create_from_xpm_d (NULL, colormap, &timezone_mask, NULL, timezone_16_xpm);
+
+	pixmap = gtk_pixmap_new (timezone_icon, timezone_mask);
+	gtk_container_add (GTK_CONTAINER (priv->button), pixmap);
+	gtk_widget_show (pixmap);
 }
 
 
@@ -233,6 +254,7 @@ on_button_clicked		(GtkWidget	*widget,
 		}
 
 		gtk_entry_set_text (GTK_ENTRY (priv->entry), display_name);
+		e_timezone_entry_set_entry_visibility (tentry);
 	}
 
 	gtk_object_unref (GTK_OBJECT (timezone_dialog));
@@ -287,6 +309,8 @@ e_timezone_entry_set_timezone		(ETimezoneEntry	*tentry,
 
 	gtk_entry_set_text (GTK_ENTRY (priv->entry),
 			    zone ? e_timezone_entry_get_display_name (zone) : "");
+
+	e_timezone_entry_set_entry_visibility (tentry);
 }
 
 
@@ -306,3 +330,45 @@ e_timezone_entry_get_display_name	(icaltimezone	*zone)
 
 	return display_name;
 }
+
+
+/* Sets the default timezone. If the current timezone matches this, then the
+   entry field is hidden. This is useful since most people do not use timezones
+   so it makes the user interface simpler. */
+void
+e_timezone_entry_set_default_timezone	(ETimezoneEntry	*tentry,
+					 icaltimezone	*zone)
+{
+	ETimezoneEntryPrivate *priv;
+
+	g_return_if_fail (E_IS_TIMEZONE_ENTRY (tentry));
+
+	priv = tentry->priv;
+
+	priv->default_zone = zone;
+
+	e_timezone_entry_set_entry_visibility (tentry);
+}
+
+
+static void
+e_timezone_entry_set_entry_visibility (ETimezoneEntry	*tentry)
+{
+	ETimezoneEntryPrivate *priv;
+	icaltimezone *zone;
+	gboolean show_entry = TRUE;
+
+	priv = tentry->priv;
+
+	if (priv->default_zone) {
+		zone = e_timezone_entry_get_timezone (tentry);
+		if (zone == priv->default_zone)
+			show_entry = FALSE;
+	}
+
+	if (show_entry)
+		gtk_widget_show (priv->entry);
+	else
+		gtk_widget_hide (priv->entry);
+}
+

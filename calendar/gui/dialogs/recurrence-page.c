@@ -1213,7 +1213,8 @@ make_ending_until_special (RecurrencePage *rpage)
 
 	/* Create the widget */
 
-	priv->ending_date_edit = comp_editor_new_date_edit (TRUE, FALSE);
+	priv->ending_date_edit = comp_editor_new_date_edit (TRUE, FALSE,
+							    FALSE);
 	de = E_DATE_EDIT (priv->ending_date_edit);
 
 	gtk_container_add (GTK_CONTAINER (priv->ending_special),
@@ -2237,3 +2238,13 @@ recurrence_page_new (void)
 
 	return rpage;
 }
+
+
+GtkWidget *make_exdate_date_edit (void);
+
+GtkWidget *
+make_exdate_date_edit (void)
+{
+	return comp_editor_new_date_edit (TRUE, TRUE, FALSE);
+}
+

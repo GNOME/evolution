@@ -299,6 +299,16 @@ check_all_day (EventPage *epage)
 
 	e_date_edit_set_show_time (E_DATE_EDIT (priv->start_time), !all_day);
 	e_date_edit_set_show_time (E_DATE_EDIT (priv->end_time), !all_day);
+
+	/* We will use DATE values for all-day events eventually, in which
+	   case timezones can't be used. */
+	if (all_day) {
+		gtk_widget_hide (priv->start_timezone);
+		gtk_widget_hide (priv->end_timezone);
+	} else {
+		gtk_widget_show (priv->start_timezone);
+		gtk_widget_show (priv->end_timezone);
+	}
 }
 
 /* Fills the widgets with default values */
@@ -602,6 +612,20 @@ event_page_fill_component (CompEditorPage *page, CalComponent *comp)
 
 	/* FIXME: We should use is_date at some point. */
 
+	/* If the all_day toggle is set, the end date is inclusive of the
+	   entire day on which it points to. Also, we will use DATE values
+	   eventually, which can't have timezones. So for now we just use
+	   the default timezone. */
+	all_day_event = e_dialog_toggle_get (priv->all_day_event);
+
+	if (all_day_event) {
+		char *location;
+
+		location = calendar_config_get_timezone ();
+		zone = icaltimezone_get_builtin_timezone (location);
+	}
+
+
 	date_set = e_date_edit_get_date (E_DATE_EDIT (priv->start_time),
 					 &icaltime.year,
 					 &icaltime.month,
@@ -610,14 +634,11 @@ event_page_fill_component (CompEditorPage *page, CalComponent *comp)
 				     &icaltime.hour,
 				     &icaltime.minute);
 	g_assert (date_set);
-	zone = e_timezone_entry_get_timezone (E_TIMEZONE_ENTRY (priv->start_timezone));
+	if (!all_day_event)
+		zone = e_timezone_entry_get_timezone (E_TIMEZONE_ENTRY (priv->start_timezone));
 	if (zone)
 		date.tzid = icaltimezone_get_tzid (zone);
 	cal_component_set_dtstart (comp, &date);
-
-	/* If the all_day toggle is set, the end date is inclusive of the
-	   entire day on which it points to. */
-	all_day_event = e_dialog_toggle_get (priv->all_day_event);
 
 	date_set = e_date_edit_get_date (E_DATE_EDIT (priv->end_time),
 					 &icaltime.year,
@@ -635,9 +656,10 @@ event_page_fill_component (CompEditorPage *page, CalComponent *comp)
 		icaltime_adjust (&icaltime, 1, 0, 0, 0);
 	}
 
-	zone = e_timezone_entry_get_timezone (E_TIMEZONE_ENTRY (priv->end_timezone));
+	if (!all_day_event)
+		zone = e_timezone_entry_get_timezone (E_TIMEZONE_ENTRY (priv->end_timezone));
 	if (zone)
-	  date.tzid = icaltimezone_get_tzid (zone);
+		date.tzid = icaltimezone_get_tzid (zone);
 	cal_component_set_dtend (comp, &date);
 
 
@@ -1036,6 +1058,16 @@ all_day_event_toggled_cb (GtkWidget *toggle, gpointer data)
 	e_date_edit_set_show_time (E_DATE_EDIT (priv->start_time), !all_day);
 	e_date_edit_set_show_time (E_DATE_EDIT (priv->end_time), !all_day);
 
+	/* We will use DATE values for all-day events eventually, in which
+	   case timezones can't be used. */
+	if (all_day) {
+		gtk_widget_hide (priv->start_timezone);
+		gtk_widget_hide (priv->end_timezone);
+	} else {
+		gtk_widget_show (priv->start_timezone);
+		gtk_widget_show (priv->end_timezone);
+	}
+
 	/* Notify upstream */
 	dates.start = &start_tt;
 	dates.end = &end_tt;
@@ -1097,6 +1129,8 @@ static gboolean
 init_widgets (EventPage *epage)
 {
 	EventPagePrivate *priv;
+	char *location;
+	icaltimezone *zone;
 
 	priv = epage->priv;
 
@@ -1186,6 +1220,12 @@ init_widgets (EventPage *epage)
 	gtk_container_add (GTK_CONTAINER (priv->contacts_box),
 			   priv->contacts_entry);
 
+	/* Set the default timezone, so the timezone entry may be hidden. */
+	location = calendar_config_get_timezone ();
+	zone = icaltimezone_get_builtin_timezone (location);
+	e_timezone_entry_set_default_timezone (E_TIMEZONE_ENTRY (priv->start_timezone), zone);
+	e_timezone_entry_set_default_timezone (E_TIMEZONE_ENTRY (priv->end_timezone), zone);
+
 	return TRUE;
 }
 
@@ -1257,7 +1297,7 @@ GtkWidget *make_date_edit (void);
 GtkWidget *
 make_date_edit (void)
 {
-	return comp_editor_new_date_edit (TRUE, TRUE);
+	return comp_editor_new_date_edit (TRUE, TRUE, TRUE);
 }
 
 GtkWidget *make_timezone_entry (void);

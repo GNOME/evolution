@@ -271,9 +271,9 @@
 	<widget>
 	  <class>GtkAlignment</class>
 	  <name>alignment1</name>
-	  <xalign>0.5</xalign>
+	  <xalign>1</xalign>
 	  <yalign>7.45058e-09</yalign>
-	  <xscale>1</xscale>
+	  <xscale>0</xscale>
 	  <yscale>0</yscale>
 	  <child>
 	    <left_attach>3</left_attach>

@@ -71,6 +71,12 @@ icaltimezone*   e_timezone_entry_get_timezone	(ETimezoneEntry	*tentry);
 void		e_timezone_entry_set_timezone	(ETimezoneEntry	*tentry,
 						 icaltimezone	*zone);
 
+/* Sets the default timezone. If the current timezone matches this, then the
+   entry field is hidden. This is useful since most people do not use timezones
+   so it makes the user interface simpler. */
+void	   e_timezone_entry_set_default_timezone(ETimezoneEntry	*tentry,
+						 icaltimezone	*zone);
+
 END_GNOME_DECLS
 
 #endif /* __E_TIMEZONE_ENTRY_H_ */

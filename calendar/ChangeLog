@@ -1,3 +1,31 @@
+2001-08-16  Damon Chaplin  <damon@ximian.com>
+
+	* gui/dialogs/event-page.c: hide the timezone fields for all-day
+	events. We will use DATE values for these eventually, and these
+	don't have timezones associated with them. Currently we just use the
+	default timezone for all-day events, as a workaround until we have
+	DATE values working.
+
+	* gui/dialogs/comp-editor-util.c (comp_editor_new_date_edit): added
+	make_time_insensitive flag. Though we may not use it.
+
+	* gui/dialogs/event-page.glade: made the 'All day event' toggle
+	right-aligned, so it doesn't move when the other widgets are shown
+	and hidden.
+
+	* gui/e-timezone-entry.c (e_timezone_entry_set_default_timezone): new
+	function to set the default timezone of the widget. If the current
+	timezone setting matches the default then the entry field is hidden.
+	Most people won't use timezones so this makes the GUI simpler.
+
+	* gui/dialogs/event-page.c (init_widgets): 
+	* gui/dialogs/task-page.c (init_widgets): set the default timezone
+	using the above function.
+
+	* gui/dialogs/task-page.c (task_page_fill_widgets): if the start date
+	or due date is not set, we use the default timezone, so the user
+	doesn't have to set this each time they set the date.
+
 2001-08-16  Federico Mena Quintero  <federico@ximian.com>
 
 	* gui/dialogs/alarm-page.c (alarm_page_fill_widgets): If the
