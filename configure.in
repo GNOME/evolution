@@ -118,6 +118,11 @@ BONOBO_GNOME_CFLAGS="`gnome-config --cflags gnomeui bonobo libglade gdk_pixbuf g
 AC_SUBST(BONOBO_GNOME_LIBS)
 AC_SUBST(BONOBO_GNOME_CFLAGS)
 
+BONOBO_HTML_GNOME_LIBS="`gnome-config --libs gnomeui bonobo libglade gdk_pixbuf gtkhtml gnomecanvaspixbuf ` `glib-config --libs gthread`"
+BONOBO_HTML_GNOME_CFLAGS="`gnome-config --cflags gnomeui bonobo libglade gdk_pixbuf gtkhtml gnomecanvaspixbuf ` `glib-config --cflags gthread`"
+AC_SUBST(BONOBO_HTML_GNOME_LIBS)
+AC_SUBST(BONOBO_HTML_GNOME_CFLAGS)
+
 EXTRA_GNOME_LIBS_THREADS="`gnome-config --libs gnomeui libglade gdk_pixbuf gnomecanvaspixbuf ` `glib-config --libs gthread`"
 EXTRA_GNOME_CFLAGS_THREADS="`gnome-config --cflags gnomeui libglade gdk_pixbuf gnomecanvaspixbuf ` `glib-config --cflags gthread`"
 AC_SUBST(EXTRA_GNOME_LIBS_THREADS)
