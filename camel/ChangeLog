@@ -1,5 +1,9 @@
 2003-09-23  Jeffrey Stedfast  <fejj@ximian.com>
 
+	* providers/local/camel-mbox-store.c (get_folder): If the CREATE
+	flag is set and the parent .sbd directory does not exist, create
+	it.
+
 	* camel-mime-utils.c (append_8bit): Don't forget to flush the
 	iconv conversion.
 

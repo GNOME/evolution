@@ -141,6 +141,7 @@ get_folder (CamelStore *store, const char *folder_name, guint32 flags, CamelExce
 	name = mbox_folder_name_to_path (store, folder_name);
 	
 	if (stat (name, &st) == -1) {
+		char *dirname;
 		int fd;
 		
 		if (errno != ENOENT) {
@@ -158,6 +159,18 @@ get_folder (CamelStore *store, const char *folder_name, guint32 flags, CamelExce
 			g_free (name);
 			return NULL;
 		}
+		
+		dirname = g_path_get_dirname (name);
+		if (camel_mkdir (dirname, 0777) == -1 && errno != EEXIST) {
+			camel_exception_setv (ex, CAMEL_EXCEPTION_STORE_NO_FOLDER,
+					      _("Could not create directory `%s':\n%s"),
+					      dirname, g_strerror (errno));
+			g_free (dirname);
+			g_free (name);
+			return NULL;
+		}
+		
+		g_free (dirname);
 		
 		fd = open (name, O_WRONLY | O_CREAT | O_APPEND, 0666);
 		if (fd == -1) {
