@@ -1,3 +1,15 @@
+2001-10-16  Jeffrey Stedfast  <fejj@ximian.com>
+
+	* camel-object.[c,h]: If CAMEL_DEBUG is defined, print some useful
+	ref/unref info.
+
+	* providers/imap/camel-imap-store.c (delete_folder): Fixed an
+	assignment warning.
+
+	* camel-uid-cache.c (camel_uid_cache_new): Make sure that the
+	parent directory exists before trying to open the filename, if it
+	doesn't, create it.
+
 2001-10-16    <NotZed@Ximian.com>
 
 	* camel-mime-utils.c (header_address_decode): If no content, dont

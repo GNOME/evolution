@@ -1046,7 +1046,7 @@ delete_folder (CamelStore *store, const char *folder_name, CamelException *ex)
 		char *journal_file;
 		char *folder_dir;
 		CamelFolderInfo *fi;
-		char *name;
+		const char *name;
 		
 		folder_dir = e_path_to_physical (imap_store->storage_path, folder_name);
 		if (access (folder_dir, F_OK) != 0) {

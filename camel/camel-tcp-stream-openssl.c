@@ -500,7 +500,6 @@ ssl_cert_is_saved (const char *certid)
 {
 	char *filename;
 	struct stat st;
-	int ret;
 	
 	filename = g_strdup_printf ("%s/.camel_certs/%s", getenv ("HOME"), certid);
 	

@@ -43,6 +43,31 @@ struct _uid_state {
 static void free_uid (gpointer key, gpointer value, gpointer data);
 static void maybe_write_uid (gpointer key, gpointer value, gpointer data);
 
+
+static int
+mkdir_heir (const char *path, mode_t mode)
+{
+	char *copy, *p;
+	
+	p = copy = g_strdup (path);
+	do {
+		p = strchr (p + 1, '/');
+		if (p)
+			*p = '\0';
+		if (access (copy, F_OK) == -1) {
+			if (mkdir (copy, mode) == -1) {
+				g_free (copy);
+				return -1;
+			}
+		}
+		if (p)
+			*p = '/';
+	} while (p);
+	
+	g_free (copy);
+	return 0;
+}
+
 /**
  * camel_uid_cache_new:
  * @filename: path to load the cache from
@@ -58,8 +83,12 @@ camel_uid_cache_new (const char *filename)
 {
 	CamelUIDCache *cache;
 	struct stat st;
-	char *buf, **uids;
+	char *dirname, *buf, **uids;
 	int fd, i;
+	
+	dirname = g_dirname (filename);
+	mkdir_heir (dirname, 0700);
+	g_free (dirname);
 	
 	fd = open (filename, O_RDWR | O_CREAT, 0700);
 	if (fd == -1)

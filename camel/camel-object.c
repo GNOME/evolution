@@ -478,6 +478,10 @@ camel_object_new (CamelType type)
 	return instance;
 }
 
+#ifdef camel_object_ref
+#undef camel_object_ref
+#endif
+
 void
 camel_object_ref (CamelObject * obj)
 {
@@ -487,6 +491,10 @@ camel_object_ref (CamelObject * obj)
 	obj->ref_count++;
 	G_UNLOCK (refcount);
 }
+
+#ifdef camel_object_unref
+#undef camel_object_unref
+#endif
 
 void
 camel_object_unref (CamelObject * obj)
