@@ -432,7 +432,7 @@ compute_min_size (YearView *yv)
 
 	args[0].name = "text_width";
 	args[1].name = "text_height";
-	gtk_object_getv (GTK_OBJECT (yv->heading), 1, args);
+	gtk_object_getv (GTK_OBJECT (yv->heading), 2, args);
 
 	m_width = GTK_VALUE_DOUBLE (args[0]);
 	m_height = 2 * HEAD_SPACING + GTK_VALUE_DOUBLE (args[1]);

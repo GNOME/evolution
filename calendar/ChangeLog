@@ -1,3 +1,9 @@
+1998-11-23  Herbert V. Riedel <hvr@hvrlab.ml.org>
+
+	* eventedit.c: use GPOINTER_TO_INT 
+
+	* gncal-todo.c: same.
+
 1998-11-22  Matthew Wilson  <msw@redhat.com>
 
 	* main.c: Fixed the popt event parsing callback to have the

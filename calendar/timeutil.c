@@ -7,6 +7,7 @@
  */
 
 #include <libgnome/libgnome.h>
+#include <string.h>
 #include "timeutil.h"
 
 #define digit_at(x,y) (x [y] - '0')

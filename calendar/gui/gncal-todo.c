@@ -143,7 +143,7 @@ get_clist_selected_ico (GtkCList *clist)
 	if (!clist->selection)
 		return NULL;
 
-	sel = (gint) clist->selection->data;
+	sel = GPOINTER_TO_INT(clist->selection->data);
 
 	return gtk_clist_get_row_data (clist, sel);
 }

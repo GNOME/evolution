@@ -1317,7 +1317,7 @@ change_exception (GtkWidget *widget, EventEditor *ee)
 	int sel;
 
 	clist = GTK_CLIST (ee->recur_ex_clist);
-	sel = (gint) clist->selection->data;
+	sel = GPOINTER_TO_INT(clist->selection->data);
 
 	t = gtk_clist_get_row_data (clist, sel);
 	*t = gnome_date_edit_get_date (GNOME_DATE_EDIT (ee->recur_ex_date));
@@ -1332,7 +1332,7 @@ delete_exception (GtkWidget *widget, EventEditor *ee)
 	int sel;
 
 	clist = GTK_CLIST (ee->recur_ex_clist);
-	sel = (gint) clist->selection->data;
+	sel = GPOINTER_TO_INT(clist->selection->data);
 
 	g_free (gtk_clist_get_row_data (clist, sel)); /* free the time_t stored there */
 
