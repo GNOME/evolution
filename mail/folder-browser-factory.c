@@ -32,7 +32,7 @@ static GnomeUIInfo gnome_toolbar [] = {
 
 	GNOMEUIINFO_SEPARATOR,
 
-	GNOMEUIINFO_ITEM_STOCK (N_("Refile"), N_("Move message to a new folder"), refile_msg, GNOME_STOCK_PIXMAP_MAIL_SND),
+	GNOMEUIINFO_ITEM_STOCK (N_("Move"), N_("Move message to a new folder"), move_msg, GNOME_STOCK_PIXMAP_MAIL_SND),
 
 	GNOMEUIINFO_ITEM_STOCK (N_("Print"), N_("Print the selected message"), print_msg, GNOME_STOCK_PIXMAP_PRINT),
 

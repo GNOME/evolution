@@ -739,15 +739,15 @@ forward_msg (GtkWidget *button, gpointer user_data)
 	gtk_widget_show (GTK_WIDGET (composer));	
 }
 
-struct refile_data {
+struct move_data {
 	CamelFolder *source, *dest;
 	CamelException *ex;
 };
 
 static void
-real_refile_msg (MessageList *ml, const char *uid, gpointer user_data)
+real_move_msg (MessageList *ml, const char *uid, gpointer user_data)
 {
-	struct refile_data *rfd = user_data;
+	struct move_data *rfd = user_data;
 
 	if (camel_exception_is_set (rfd->ex))
 		return;
@@ -756,12 +756,12 @@ real_refile_msg (MessageList *ml, const char *uid, gpointer user_data)
 }
 
 void
-refile_msg (GtkWidget *button, gpointer user_data)
+move_msg (GtkWidget *button, gpointer user_data)
 {
 	FolderBrowser *fb = user_data;
 	MessageList *ml = fb->message_list;
 	char *uri, *physical, *path;
-	struct refile_data rfd;
+	struct move_data rfd;
 	const char *allowed_types[] = { "mail", NULL };
 
 	extern EvolutionShellClient *global_shell_client;
@@ -771,7 +771,7 @@ refile_msg (GtkWidget *button, gpointer user_data)
 		last = g_strdup ("");
 
 	evolution_shell_client_user_select_folder  (global_shell_client,
-						    _("Refile message(s) to"),
+						    _("Move message(s) to"),
 						    last, allowed_types, &uri, &physical);
 	if (!uri)
 		return;
@@ -790,7 +790,7 @@ refile_msg (GtkWidget *button, gpointer user_data)
 		return;
 	rfd.ex = camel_exception_new ();
 
-	message_list_foreach (ml, real_refile_msg, &rfd);
+	message_list_foreach (ml, real_move_msg, &rfd);
 	gtk_object_unref (GTK_OBJECT (rfd.dest));
 
 	if (camel_exception_is_set (rfd.ex))

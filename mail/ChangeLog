@@ -1,3 +1,11 @@
+2000-07-26  Jeffrey Stedfast  <fejj@helixcode.com>
+
+	* mail-ops.c: s/struct refile_data/struct move_data
+	(real_move_msg): Renamed from real_refile_msg()
+	(move_msg): Renamed from refile_msg()
+
+	* folder-browser-factory.c: Changed Refile to Move.
+
 2000-07-26  Dan Winship  <danw@helixcode.com>
 
 	* mail-format.c (lookup_handler): Update for OAF and for external
