@@ -24,7 +24,7 @@ INCLUDES =						\
 	-I. 						\
 	-I.. 						\
 	-I$(top_builddir)				\
-        -I$(includedir)                                 \
+	-I$(top_srcdir)/libical/src/libical		\
 	$(BONOBO_GNOME_CFLAGS)
 
 lib_LTLIBRARIES = libcal-client.la
