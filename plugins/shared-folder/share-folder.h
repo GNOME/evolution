@@ -98,7 +98,6 @@ struct _ShareFolder {
 	gint users;
 	gboolean byme;
 	gboolean tome;
-	gint duplicate;
 	gint flag_for_ok;
 	gchar *email;
 	gboolean is_shared;

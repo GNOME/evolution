@@ -292,6 +292,10 @@ new_folder_response (EMFolderSelector *emfs, int response, EMFolderTreeModel *mo
 	GtkWidget *users_dialog;
 	GtkWidget *w;
 	struct ShareInfo *ssi;
+	const char *uri, *path;
+	EGwConnection *cnc;
+	CamelException ex;
+	CamelStore *store;
 
 	ssi = g_new0(struct ShareInfo, 1);
 	if (response != GTK_RESPONSE_OK) {
@@ -299,12 +303,21 @@ new_folder_response (EMFolderSelector *emfs, int response, EMFolderTreeModel *mo
 		return;
 	}
 	
+	/* i want store at this point to get cnc not sure proper or not*/
+	uri = em_folder_selector_get_selected_uri (emfs);
+	camel_exception_init (&ex);
+	if (!(store = (CamelStore *) camel_session_get_service (session, uri, CAMEL_PROVIDER_STORE, &ex))) {
+		camel_exception_clear (&ex);
+		return;
+	}
+
+	cnc = get_cnc (store);
 	users_dialog = gtk_dialog_new_with_buttons (
 			_("Users"), NULL, GTK_DIALOG_DESTROY_WITH_PARENT | GTK_DIALOG_NO_SEPARATOR, GTK_STOCK_CANCEL, GTK_RESPONSE_CANCEL,GTK_STOCK_OK, GTK_RESPONSE_OK, NULL);
 	w = gtk_label_new_with_mnemonic (_("Enter the users and set permissions"));
 	gtk_widget_show(w);
 	gtk_box_pack_start(GTK_BOX (GTK_DIALOG (users_dialog)->vbox), (GtkWidget *) w, TRUE, TRUE, 6);
-	ssi->sf = share_folder_new (NULL, NULL);
+	ssi->sf = share_folder_new (cnc, NULL);
 	((ssi->sf)->table)->parent = NULL;
 	gtk_widget_set_sensitive (GTK_WIDGET ((ssi->sf)->table), TRUE);	
 	ssi->model = model;
@@ -315,7 +328,9 @@ new_folder_response (EMFolderSelector *emfs, int response, EMFolderTreeModel *mo
 	gtk_widget_show(users_dialog);
 	g_signal_connect (users_dialog, "response", G_CALLBACK (users_dialog_response), ssi);
 	
+	camel_object_unref (store);
 	return ;
+
 }
 
 void 

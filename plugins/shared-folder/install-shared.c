@@ -192,6 +192,7 @@ org_gnome_popup_wizard (EPlugin *ep, EMEventTargetMessage *target)
 		camel_data_wrapper_write_to_stream(dw, (CamelStream *)content);
 		buffer = g_malloc0 (content->buffer->len+1) ;
 		buffer = memcpy (buffer, content->buffer->data, content->buffer->len) ;
+/*		buffer = camel_mime_message_build_mbox_from ( (CamelMimeMessage *)target->message) ;*/
 		from_addr = camel_mime_message_get_from ((CamelMimeMessage *)target->message);
 		if (camel_internet_address_get (from_addr,0, &name, &email))
 		subject = camel_mime_message_get_subject (target->message) ;
@@ -203,6 +204,7 @@ org_gnome_popup_wizard (EPlugin *ep, EMEventTargetMessage *target)
 		finish_page = GNOME_DRUID_PAGE_EDGE (gnome_druid_page_edge_new_with_vals(GNOME_EDGE_FINISH, TRUE, "finished Install the shared folder", "said", NULL,NULL, NULL));
 		wizard = GNOME_DRUID (gnome_druid_new_with_window ("Shared Folder Installation", NULL, TRUE, (GtkWidget**)(&window)));
 		gnome_druid_append_page(wizard, GNOME_DRUID_PAGE(title_page));
+		gtk_window_set_position (GTK_WINDOW (window) , GTK_WIN_POS_CENTER_ALWAYS);
 		gtk_widget_show_all (GTK_WIDGET (title_page));
 		gnome_druid_append_page(wizard, GNOME_DRUID_PAGE(middle_page));	
 		gtk_widget_show_all (GTK_WIDGET (middle_page));

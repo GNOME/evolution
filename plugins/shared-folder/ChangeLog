@@ -1,3 +1,10 @@
+2005-01-13 Vivek Jain <jvivek@novell.com> 
+	* share-folder.c :changed the function find_node to return user node
+	corresponding to the mail address given.
+	(add_clicked): added a condition so that user can't share folder to itself.
+	(user_selected): modified to display proper rights when owner is selected.
+	* share-folder-common.c : calling share_folder with a cnc in it.
+
 2005-01-11 Vivek Jain <jvivek@novell.com> 
 killed compile time warnings by including suitable definitions
 and type casting widgets
@@ -14,7 +21,7 @@ a shared folder is created so that different icons are displayed
 * share-folder.c : minor changes to fix the crash
 * Makefile.am : including install-shared.c in sources
 * org-gnome-shared-folder.eplug.in : added a plugin to the e-plugin list for
- the message-read event
+the message-read event
 
 2004-12-15 Vivek Jain <jvivek@novell.com>
 
@@ -25,19 +32,19 @@ Added (Create a shared folder) functionality in the plugin
 2004-12-15  Vivek Jain <jvivek@novell.com>
 
 * shared-folder-common.c : (org_gnome_shared_folder_factory)
-* shared-folder.c : some whitespace changes, typecasting widgets,
-in (on_add_clicked) removed assigning the rights portion
+	* shared-folder.c : some whitespace changes, typecasting widgets,
+	in (on_add_clicked) removed assigning the rights portion
 
-2004-12-08  Vivek Jain <jvivek@novell.com>
+	2004-12-08  Vivek Jain <jvivek@novell.com>
 
-The following files are added as an initial check in for the plugin that
-implements shared-folder functionality in the groupwise folders
-* share-folder.c
-* share-folder.h
-* share-folder-common.c
-* properties.glade
-* Makefile.am
-* org-gnome-shared-folder.eplug.in
+	The following files are added as an initial check in for the plugin that
+	implements shared-folder functionality in the groupwise folders
+	* share-folder.c
+	* share-folder.h
+	* share-folder-common.c
+	* properties.glade
+	* Makefile.am
+	* org-gnome-shared-folder.eplug.in
 
 
 
