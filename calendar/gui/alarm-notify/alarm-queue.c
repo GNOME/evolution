@@ -695,6 +695,10 @@ notify_dialog_cb (AlarmNotifyResult result, int snooze_mins, gpointer data)
 	switch (result) {
 	case ALARM_NOTIFY_SNOOZE:
 		create_snooze (c->cqa, c->alarm_id, snooze_mins);
+
+		g_object_unref (c->comp);
+		g_object_unref (c->client);
+		g_free (c);
 		return;
 
 	case ALARM_NOTIFY_EDIT:
