@@ -1,5 +1,11 @@
 2002-03-12  Christopher James Lahey  <clahey@ximian.com>
 
+	* e-multi-config-dialog.c: Removed Page struct.
+	(e_multi_config_dialog_add_page): Select the initial row after
+	appending to the model.
+
+2002-03-12  Christopher James Lahey  <clahey@ximian.com>
+
 	* e-multi-config-dialog.c (init): Use Use e_table_memory_store
 	instead of e_table_memory_callbacks.  Use e_cell_vbox to include a
 	pixbuf cell and a text cell.

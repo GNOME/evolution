@@ -41,13 +41,6 @@
 static GnomeDialogClass *parent_class = NULL;
 
 
-struct _Page {
-	char *title;
-	char *description;
-	GdkPixbuf *icon;
-	EConfigPage *page_widget;
-};
-typedef struct _Page Page;
 
 struct _EMultiConfigDialogPrivate {
 	GSList *pages;
@@ -105,38 +98,6 @@ update_buttons (EMultiConfigDialog *dialog)
 
 
 /* Page handling.  */
-
-static Page *
-page_new (const char *title,
-	  const char *description,
-	  GdkPixbuf *icon,
-	  EConfigPage *page_widget)
-{
-	Page *new;
-
-	new = g_new (Page, 1);
-	new->title       = g_strdup (title);
-	new->description = g_strdup (description);
-	new->icon        = icon;
-	new->page_widget = page_widget;
-
-	if (icon != NULL)
-		gdk_pixbuf_ref (icon);
-
-	return new;
-}
-
-static void
-page_free (Page *page)
-{
-	g_free (page->title);
-	g_free (page->description);
-
-	if (page->icon != NULL)
-		gdk_pixbuf_unref (page->icon);
-
-	g_free (page);
-}
 
 static GtkWidget *
 create_page_container (const char *description,
@@ -201,12 +162,10 @@ do_apply (EMultiConfigDialog *dialog)
 	priv = dialog->priv;
 
 	for (p = priv->pages; p != NULL; p = p->next) {
-		const Page *page;
+		EConfigPage *page_widget = p->data;
 
-		page = (const Page *) p->data;
-
-		if (! e_config_page_is_applied (page->page_widget)) {
-			e_config_page_apply (page->page_widget);
+		if (! e_config_page_is_applied (page_widget)) {
+			e_config_page_apply (page_widget);
 			priv->num_unapplied --;
 		}
 	}
@@ -249,13 +208,10 @@ impl_destroy (GtkObject *object)
 {
 	EMultiConfigDialog *dialog;
 	EMultiConfigDialogPrivate *priv;
-	GSList *p;
 
 	dialog = E_MULTI_CONFIG_DIALOG (object);
 	priv = dialog->priv;
 
-	for (p = priv->pages; p != NULL; p = p->next)
-		page_free ((Page *) p->data);
 	g_slist_free (priv->pages);
 
 	g_free (priv);
@@ -411,7 +367,6 @@ e_multi_config_dialog_add_page (EMultiConfigDialog *dialog,
 				EConfigPage *page_widget)
 {
 	EMultiConfigDialogPrivate *priv;
-	Page *new_page;
 
 	g_return_if_fail (E_IS_MULTI_CONFIG_DIALOG (dialog));
 	g_return_if_fail (title != NULL);
@@ -420,9 +375,13 @@ e_multi_config_dialog_add_page (EMultiConfigDialog *dialog,
 
 	priv = dialog->priv;
 
-	new_page = page_new (title, description, icon, page_widget);
+	priv->pages = g_slist_append (priv->pages, page_widget);
 
-	priv->pages = g_slist_append (priv->pages, new_page);
+	e_table_memory_store_insert_list (E_TABLE_MEMORY_STORE (priv->list_e_table_model), -1, NULL, title, icon);
+
+	gtk_notebook_append_page (GTK_NOTEBOOK (priv->notebook),
+				  create_page_container (description, GTK_WIDGET (page_widget)),
+				  NULL);
 
 	if (priv->pages->next == NULL) {
 		ETable *table;
@@ -433,12 +392,6 @@ e_multi_config_dialog_add_page (EMultiConfigDialog *dialog,
 		e_table_set_cursor_row (table, 0);
 		e_selection_model_select_all (e_table_get_selection_model (table));
 	}
-
-	e_table_memory_store_insert_list (E_TABLE_MEMORY_STORE (priv->list_e_table_model), -1, NULL, title, icon);
-
-	gtk_notebook_append_page (GTK_NOTEBOOK (priv->notebook),
-				  create_page_container (new_page->description, GTK_WIDGET (page_widget)),
-				  NULL);
 
 	if (! e_config_page_is_applied (page_widget))
 		priv->num_unapplied ++;
