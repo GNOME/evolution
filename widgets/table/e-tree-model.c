@@ -142,12 +142,15 @@ e_tree_path_unlink (ETreePath *path)
 void
 e_tree_model_node_traverse (ETreeModel *model, ETreePath *path, ETreePathFunc func, gpointer data)
 {
-	ETreePath *child;
+	ETreePath *child = path->first_child;
 
-	for (child = path->first_child; child; child = child->next_sibling) {
+	while (child) {
+		ETreePath *next_child = child->next_sibling;
 		e_tree_model_node_traverse (model, child, func, data);
 		if (func (model, child, data) == TRUE)
 			return;
+
+		child = next_child;
 	}
 }
 
