@@ -228,3 +228,4 @@ e_xml_get_translated_string_prop_by_name(const xmlNode *parent, const xmlChar *p
 	}
 	return ret_val;
 }
+

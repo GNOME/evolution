@@ -1,6 +1,16 @@
 #ifndef _E_UNICODE_H_
 #define _E_UNICODE_H_
 
+/*
+ * UTF-8 support functions for gal
+ *
+ * Authors:
+ *   Lauris Kaplinski <lauris@helixcode.com>
+ *
+ * Copyright (C) 2000-2001 Helix Code, Inc.
+ *
+ */
+
 #include <sys/types.h>
 #include <glib.h>
 #include <gtk/gtk.h>
@@ -14,6 +24,8 @@ BEGIN_GNOME_DECLS
 #define gnome_font_get_glyph_width gnome_font_get_width
 #define gnome_font_lookup_default gnome_font_get_glyph
 #endif
+
+#define G_UTF8_IN_GAL
 
 void e_unicode_init (void);
 
@@ -55,6 +67,9 @@ GtkWidget *e_utf8_gtk_menu_item_new_with_label (GtkMenu *menu, const gchar *labe
 
 void e_utf8_gtk_clist_set_text (GtkCList *clist, gint row, gint col, const gchar *text);
 gint e_utf8_gtk_clist_append (GtkCList *clist, gchar *text[]);
+
+gchar * e_utf8_xml1_decode (const gchar *text);
+gchar * e_utf8_xml1_encode (const gchar *text);
 
 gint g_unichar_to_utf8 (gint c, gchar *outbuf);
 guint32 gdk_keyval_to_unicode (guint keysym);

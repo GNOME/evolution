@@ -9,7 +9,9 @@
  */
 
 #include <config.h>
+#include <ctype.h>
 #include <string.h>
+#include <stdio.h>
 #include <unicode.h>
 #include <iconv.h>
 #include <gdk/gdk.h>
@@ -413,6 +415,89 @@ e_utf8_gtk_clist_append (GtkCList *clist, gchar *text[])
 		if (v[i]) g_free (v[i]);
 
 	return row;
+}
+
+/*
+ * Translate \U+XXXX\ sequences to utf8 chars
+ */
+
+gchar *
+e_utf8_xml1_decode (const gchar *text)
+{
+	const guchar *c;
+	guchar *u, *d;
+	int len, s, e;
+
+	g_return_val_if_fail (text != NULL, NULL);
+
+	len = strlen (text);
+	/* len * 2 is absolute maximum */
+	u = d = g_malloc (len * 2);
+
+	c = text;
+	s = 0;
+	while (s < len) {
+		if ((s <= (len - 8)) &&
+		    (c[s    ] == '\\') &&
+		    (c[s + 1] == 'U' ) &&
+		    (c[s + 2] == '+' ) &&
+		    isxdigit (c[s + 3]) &&
+		    isxdigit (c[s + 4]) &&
+		    isxdigit (c[s + 5]) &&
+		    isxdigit (c[s + 6]) &&
+		    (c[s + 7] == '\\')) {
+			/* Valid \U+XXXX\ sequence */
+			unsigned int unival;
+			unival = strtol (c + s + 3, NULL, 16);
+			d += g_unichar_to_utf8 (unival, d);
+			s += 8;
+		} else if (c[s] > 127) {
+			/* fixme: We assume iso-8859-1 currently */
+			d += g_unichar_to_utf8 (c[s], d);
+			s += 1;
+		} else {
+			*d++ = c[s++];
+		}
+	}
+	*d++ = '\0';
+	u = g_realloc (u, (d - u));
+
+	return u;
+}
+
+gchar *
+e_utf8_xml1_encode (const gchar *text)
+{
+	guchar *u, *d, *c;
+	int unival;
+	int len;
+
+	g_return_val_if_fail (text != NULL, NULL);
+
+	len = 0;
+	for (u = unicode_get_utf8 (text, &unival); u && unival; u = unicode_get_utf8 (u, &unival)) {
+		if ((unival >= 0x80) || (unival == '\\')) {
+			len += 8;
+		} else {
+			len += 1;
+		}
+	}
+	d = c = g_new (guchar, len + 1);
+
+	for (u = unicode_get_utf8 (text, &unival); u && unival; u = unicode_get_utf8 (u, &unival)) {
+		if ((unival >= 0x80) || (unival == '\\')) {
+			*c++ = '\\';
+			*c++ = 'U';
+			*c++ = '+';
+			c += sprintf (c, "%04x", unival);
+			*c++ = '\\';
+		} else {
+			*c++ = unival;
+		}
+	}
+	*c = '\0';
+
+	return d;
 }
 
 /**
