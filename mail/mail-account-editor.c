@@ -664,12 +664,11 @@ construct (MailAccountEditor *editor, const MailConfigAccount *account)
 	editor->source_passwd = GTK_ENTRY (glade_xml_get_widget (gui, "txtSourcePasswd"));
 	gtk_entry_set_text (editor->source_passwd, url && url->passwd ? url->passwd : "");
 	editor->source_path = GTK_ENTRY (glade_xml_get_widget (gui, "txtSourcePath"));
-	gtk_entry_set_text (editor->source_path, url && url->path);
+	gtk_entry_set_text (editor->source_path, url && url->path ? url->path : "");
 	editor->save_passwd = GTK_CHECK_BUTTON (glade_xml_get_widget (gui, "chkSavePasswd"));
 	gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (editor->save_passwd), account->source->save_passwd);
 	editor->source_auth = GTK_OPTION_MENU (glade_xml_get_widget (gui, "omenuSourceAuth"));
 	editor->source_ssl = GTK_CHECK_BUTTON (glade_xml_get_widget (gui, "chkSourceSSL"));
-	/* Anna's dialog doesn't have SSL either... */
 	if (editor->source_ssl)
 		gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (editor->source_ssl), account->source->use_ssl);
 	editor->keep_on_server = GTK_CHECK_BUTTON (glade_xml_get_widget (gui, "chkKeepMailOnServer"));
@@ -691,7 +690,6 @@ construct (MailAccountEditor *editor, const MailConfigAccount *account)
 	}
 	editor->transport_auth = GTK_OPTION_MENU (glade_xml_get_widget (gui, "omenuTransportAuth"));
 	editor->transport_ssl = GTK_CHECK_BUTTON (glade_xml_get_widget (gui, "chkTransportSSL"));
-	/* Anna's dialog doesn't have SSL... */
 	if (editor->transport_ssl)
 		gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (editor->transport_ssl), account->transport->use_ssl);
 	transport_type_init (editor, url);
