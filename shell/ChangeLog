@@ -1,3 +1,15 @@
+2001-05-27  Dan Winship  <danw@ximian.com>
+
+	* evolution-shell-component-utils.c: New file.
+	(e_pixmaps_update): Moved here from e-util to break e-util bonobo
+	dependency.
+
+	* e-shell-view-menu.c: #include
+	"evolution-shell-component-utils.h" instead of "e-gui-utils.h"
+
+	* Makefile.am (libeshell_la_SOURCES, eshellinclude_HEADERS): Add
+	evolution-shell-component-utils.[ch]
+
 2001-05-26  Dan Winship  <danw@ximian.com>
 
 	* e-storage-set-view.c (destroy): Don't free the hash keys in

@@ -51,7 +51,7 @@
 
 #include "e-shell-folder-commands.h"
 
-#include "e-util/e-gui-utils.h"
+#include "evolution-shell-component-utils.h"
 
 
 const char *authors[] = {

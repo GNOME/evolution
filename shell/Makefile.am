@@ -61,6 +61,7 @@ eshellinclude_HEADERS = 			\
 	evolution-shell-component-client.h	\
 	evolution-shell-component.h		\
 	evolution-shell-component-dnd.h		\
+	evolution-shell-component-utils.h	\
 	evolution-shell-view.h			\
 	evolution-storage-listener.h		\
 	evolution-storage-set-view-listener.h	\
@@ -75,6 +76,7 @@ libeshell_la_SOURCES = 				\
 	evolution-shell-component-client.c	\
 	evolution-shell-component.c		\
 	evolution-shell-component-dnd.c		\
+	evolution-shell-component-utils.c	\
 	evolution-shell-view.c			\
 	evolution-storage-listener.c		\
 	evolution-storage-set-view-listener.c	\
