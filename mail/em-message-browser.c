@@ -248,7 +248,7 @@ emmb_set_message(EMFolderView *emfv, const char *uid, int nomarkseen)
 	}
 	
 	/* Well we don't know if it got displayed (yet) ... but whatever ... */
-	if (!nomarkseen && emfv->mark_seen)
+	if (!nomarkseen)
 		camel_folder_set_message_flags(emfv->folder, uid, CAMEL_MESSAGE_SEEN, CAMEL_MESSAGE_SEEN);
 }
 

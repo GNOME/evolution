@@ -1,5 +1,11 @@
 2004-09-09  Jeffrey Stedfast  <fejj@novell.com>
 
+	* em-message-browser.c (emmb_set_message): Ignore the
+	emfv->mark_seen for deciding whether or not to mark the message as
+	seen. Fixes bug #65448.
+
+2004-09-09  Jeffrey Stedfast  <fejj@novell.com>
+
 	* mail-account-gui.c (mail_account_gui_new): If built with
 	gtkfilechooser support, we need to add a checkbox in the chooser
 	so that the user can select files or folders (allowing him to
