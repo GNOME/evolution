@@ -55,13 +55,13 @@ static CamelMessageInfo *digest_get_message_info (CamelFolder *folder, const cha
 
 /* message manipulation */
 static CamelMimeMessage *digest_get_message (CamelFolder *folder, const gchar *uid,
-					   CamelException *ex);
+					     CamelException *ex);
 static void digest_append_message (CamelFolder *folder, CamelMimeMessage *message,
-				 const CamelMessageInfo *info, CamelException *ex);
+				   const CamelMessageInfo *info, CamelException *ex);
 static void digest_copy_messages_to (CamelFolder *source, GPtrArray *uids,
-				   CamelFolder *destination, CamelException *ex);
+				     CamelFolder *destination, CamelException *ex);
 static void digest_move_messages_to (CamelFolder *source, GPtrArray *uids,
-				   CamelFolder *destination, CamelException *ex);
+				     CamelFolder *destination, CamelException *ex);
 
 
 static void
@@ -190,13 +190,13 @@ digest_refresh_info (CamelFolder *folder, CamelException *ex)
 static void
 digest_sync (CamelFolder *folder, gboolean expunge, CamelException *ex)
 {
-	
+	/* no-op */
 }
 
 static void
 digest_expunge (CamelFolder *folder, CamelException *ex)
 {
-	
+	/* no-op */
 }
 
 static GPtrArray *
@@ -272,7 +272,7 @@ digest_append_message (CamelFolder *folder, CamelMimeMessage *message,
 
 static void
 digest_copy_messages_to (CamelFolder *source, GPtrArray *uids,
-		       CamelFolder *destination, CamelException *ex)
+			 CamelFolder *destination, CamelException *ex)
 {
 	/* no-op */
 }

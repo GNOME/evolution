@@ -1,3 +1,12 @@
+2001-12-11  Jeffrey Stedfast  <fejj@ximian.com>
+
+	* camel-object.c (camel_type_register): Keep a name-to-type hash
+	so that we can make sure that the type has not yet been registered
+	(prevents a race condition such as the one in bug #16559).
+
+	* camel-service.c (camel_service_connect): Make sure that the
+	connect_op is non-NULL before unregistering/unreffing it.
+
 2001-12-04  Jeffrey Stedfast  <fejj@ximian.com>
 
 	* camel-mime-utils.c (header_content_type_simple): Protect against
