@@ -1,3 +1,8 @@
+2000-11-01  Jeffrey Stedfast  <fejj@helixcode.com>
+
+	* filter-datespec.c (validate): Check to make sure the user has
+	entered a valid date.
+
 2000-10-31  Jeffrey Stedfast  <fejj@helixcode.com>
 
 	* filtertypes.xml: Updated to allow the user to select "sounds
