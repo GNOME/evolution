@@ -137,7 +137,7 @@ e_book_listener_queue_get_cursor_response (EBookListener        *listener,
 	resp->op     = GetCursorResponse;
 	resp->status = status;
 	resp->cursor = cursor;
-	
+
 	e_book_listener_queue_response (listener, resp);
 }
 
@@ -153,7 +153,7 @@ e_book_listener_queue_get_view_response (EBookListener        *listener,
 	resp->op        = GetBookViewResponse;
 	resp->status    = status;
 	resp->book_view = book_view;
-	
+
 	e_book_listener_queue_response (listener, resp);
 }
 
@@ -169,7 +169,7 @@ e_book_listener_queue_get_changes_response (EBookListener        *listener,
 	resp->op        = GetChangesResponse;
 	resp->status    = status;
 	resp->book_view = book_view;
-	
+
 	e_book_listener_queue_response (listener, resp);
 }
 
@@ -283,7 +283,7 @@ impl_BookListener_respond_get_cursor (PortableServer_Servant servant,
 	EBookListener        *listener = E_BOOK_LISTENER (bonobo_object_from_servant (servant));
 	GNOME_Evolution_Addressbook_CardCursor  cursor_copy;
 
-	cursor_copy = CORBA_Object_duplicate (cursor, ev);
+	cursor_copy = bonobo_object_dup_ref (cursor, ev);
 
 	if (ev->_major != CORBA_NO_EXCEPTION) {
 		g_warning ("EBookListener: Exception while duplicating CardCursor!\n");
@@ -305,7 +305,7 @@ impl_BookListener_respond_get_view (PortableServer_Servant servant,
 	EBookListener        *listener = E_BOOK_LISTENER (bonobo_object_from_servant (servant));
 	GNOME_Evolution_Addressbook_BookView    book_view_copy;
 
-	book_view_copy = CORBA_Object_duplicate (book_view, ev);
+	book_view_copy = bonobo_object_dup_ref (book_view, ev);
 
 	if (ev->_major != CORBA_NO_EXCEPTION) {
 		g_warning ("EBookListener: Exception while duplicating BookView.\n");
@@ -327,7 +327,7 @@ impl_BookListener_respond_get_changes (PortableServer_Servant servant,
 	EBookListener        *listener = E_BOOK_LISTENER (bonobo_object_from_servant (servant));
 	GNOME_Evolution_Addressbook_BookView    book_view_copy;
 
-	book_view_copy = CORBA_Object_duplicate (book_view, ev);
+	book_view_copy = bonobo_object_dup_ref (book_view, ev);
 
 	if (ev->_major != CORBA_NO_EXCEPTION) {
 		g_warning ("EBookListener: Exception while duplicating BookView.\n");
@@ -349,7 +349,7 @@ impl_BookListener_respond_open_book (PortableServer_Servant servant,
 	EBookListener  *listener = E_BOOK_LISTENER (bonobo_object_from_servant (servant));
 	GNOME_Evolution_Addressbook_Book  book_copy;
 
-	book_copy = CORBA_Object_duplicate (book, ev);
+	book_copy = bonobo_object_dup_ref (book, ev);
 
 	if (ev->_major != CORBA_NO_EXCEPTION) {
 		g_warning ("EBookListener: Exception while duplicating Book!\n");
@@ -577,7 +577,7 @@ e_book_listener_destroy (GtkObject *object)
 
 			CORBA_exception_init (&ev);
 
-			CORBA_Object_release (resp->book, &ev);
+			bonobo_object_release_unref (resp->book, &ev);
 
 			if (ev._major != CORBA_NO_EXCEPTION) {
 				g_warning ("e_book_listener_destroy: "
@@ -593,7 +593,7 @@ e_book_listener_destroy (GtkObject *object)
 
 			CORBA_exception_init (&ev);
 
-			CORBA_Object_release (resp->cursor, &ev);
+			bonobo_object_release_unref (resp->cursor, &ev);
 
 			if (ev._major != CORBA_NO_EXCEPTION) {
 				g_warning ("e_book_listener_destroy: "
@@ -609,7 +609,7 @@ e_book_listener_destroy (GtkObject *object)
 
 			CORBA_exception_init (&ev);
 
-			CORBA_Object_release (resp->book_view, &ev);
+			bonobo_object_release_unref (resp->book_view, &ev);
 
 			if (ev._major != CORBA_NO_EXCEPTION) {
 				g_warning ("e_book_listener_destroy: "

@@ -195,16 +195,7 @@ e_book_do_response_get_cursor (EBook                 *book,
 	 */
 	CORBA_exception_init (&ev);
 
-	Bonobo_Unknown_unref  (resp->cursor, &ev);
-
-	if (ev._major != CORBA_NO_EXCEPTION) {
-		g_warning ("e_book_do_response_get_cursor: Exception unref'ing "
-			   "remote GNOME_Evolution_Addressbook_CardCursor interface!\n");
-		CORBA_exception_free (&ev);
-		CORBA_exception_init (&ev);
-	}
-	
-	CORBA_Object_release (resp->cursor, &ev);
+	bonobo_object_release_unref (resp->cursor, &ev);
 
 	if (ev._major != CORBA_NO_EXCEPTION) {
 		g_warning ("e_book_do_response_get_cursor: Exception releasing "
@@ -237,7 +228,7 @@ e_book_do_response_get_view (EBook                 *book,
 	}
 	
 	book_view = e_book_view_new(resp->book_view, op->listener);
-	
+
 	/* Only execute the callback if the operation is still flagged as active (i.e. hasn't
 	   been cancelled.  This is mildly wasteful since we unnecessaryily create the
 	   book_view, etc... but I'm leery of tinkering with the CORBA magic. */
@@ -253,16 +244,7 @@ e_book_do_response_get_view (EBook                 *book,
 	 */
 	CORBA_exception_init (&ev);
 
-	Bonobo_Unknown_unref  (resp->book_view, &ev);
-
-	if (ev._major != CORBA_NO_EXCEPTION) {
-		g_warning ("e_book_do_response_get_view: Exception unref'ing "
-			   "remote GNOME_Evolution_Addressbook_BookView interface!\n");
-		CORBA_exception_free (&ev);
-		CORBA_exception_init (&ev);
-	}
-	
-	CORBA_Object_release (resp->book_view, &ev);
+	bonobo_object_release_unref  (resp->book_view, &ev);
 
 	if (ev._major != CORBA_NO_EXCEPTION) {
 		g_warning ("e_book_do_response_get_view: Exception releasing "
@@ -307,16 +289,7 @@ e_book_do_response_get_changes (EBook                 *book,
 	 */
 	CORBA_exception_init (&ev);
 
-	Bonobo_Unknown_unref  (resp->book_view, &ev);
-
-	if (ev._major != CORBA_NO_EXCEPTION) {
-		g_warning ("e_book_do_response_get_changes: Exception unref'ing "
-			   "remote GNOME_Evolution_Addressbook_BookView interface!\n");
-		CORBA_exception_free (&ev);
-		CORBA_exception_init (&ev);
-	}
-	
-	CORBA_Object_release (resp->book_view, &ev);
+	bonobo_object_release_unref  (resp->book_view, &ev);
 
 	if (ev._major != CORBA_NO_EXCEPTION) {
 		g_warning ("e_book_do_response_get_changes: Exception releasing "
@@ -546,16 +519,7 @@ e_book_unload_uri (EBook *book)
 	 */
 	CORBA_exception_init (&ev);
 
-	Bonobo_Unknown_unref  (book->priv->corba_book, &ev);
-
-	if (ev._major != CORBA_NO_EXCEPTION) {
-		g_warning ("e_book_unload_uri: Exception unref'ing "
-			   "remote GNOME_Evolution_Addressbook_Book interface!\n");
-		CORBA_exception_free (&ev);
-		CORBA_exception_init (&ev);
-	}
-	
-	CORBA_Object_release (book->priv->corba_book, &ev);
+	bonobo_object_release_unref  (book->priv->corba_book, &ev);
 
 	if (ev._major != CORBA_NO_EXCEPTION) {
 		g_warning ("e_book_unload_uri: Exception releasing "
