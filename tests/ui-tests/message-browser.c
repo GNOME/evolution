@@ -366,22 +366,26 @@ on_object_requested (GtkHTML *html, GtkHTMLEmbedded *eb, void *data)
 	printf ("object requested : %s\n", class_id);
      	printf ("UID = %s\n", uid);
 
-	bonobo_embedable = bonobo_widget_new_subdoc  (class_id, NULL);
-	gtk_widget_show (bonobo_embedable);
 
-	gtk_container_add (GTK_CONTAINER(eb), bonobo_embedable);
-
-	
 	if (sscanf (uid, "camel://%p", &stream) == 1) {
 
+		bonobo_embedable = bonobo_widget_new_subdoc  (class_id, NULL);
+
+
 		server = bonobo_widget_get_server (BONOBO_WIDGET (bonobo_embedable));
-		
+
+		if (!server) {
+			printf ("Couldn't get the server for the bonobo embedable\n");
+			return;
+		}
+
 		/* if the component supports persistant streams, 
 		 * then we are going to create a mem stream */
 		if (bonobo_object_client_has_interface (server,
 							"IDL:Bonobo/PersistStream:1.0", 
 							NULL)) {
 			
+			printf ("the bonobo object supports PersistStream. Good\n");
 			tmp_gstring = g_string_new ("");
 
 			do {
@@ -400,6 +404,8 @@ on_object_requested (GtkHTML *html, GtkHTMLEmbedded *eb, void *data)
 				
 			} while (!camel_stream_eos (stream));
 		
+			printf ("After reading the stream, the temporary buffer has %d elements\n", tmp_gstring->len);
+
 			if (tmp_gstring->len) {
 				mem_stream = bonobo_stream_mem_create (tmp_gstring->str,tmp_gstring->len , TRUE);
 				
@@ -443,7 +449,12 @@ on_object_requested (GtkHTML *html, GtkHTMLEmbedded *eb, void *data)
 				CORBA_Object_release (persist, &ev);
 				
 				CORBA_exception_free (&ev);
+
 				
+				gtk_widget_show (bonobo_embedable);
+
+				gtk_container_add (GTK_CONTAINER(eb), bonobo_embedable);
+
 			}
 		}
 	}
