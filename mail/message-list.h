@@ -74,7 +74,7 @@ struct _MessageList {
 
 	char *search;		/* search string */
 
-	int cursor_row, rows_selected;
+	int cursor_row;
 	const char *cursor_uid;
 
 	/* row-selection and seen-marking timers */

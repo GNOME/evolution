@@ -57,8 +57,6 @@ static BonoboObjectClass *message_list_parent_class;
 static POA_Evolution_MessageList__vepv evolution_message_list_vepv;
 
 static void on_cursor_change_cmd (ETableScrolled *table, int row, gpointer user_data);
-static void on_row_selection (ETableScrolled *table, int row, gboolean selected,
-			      gpointer user_data);
 static void select_row (ETableScrolled *table, gpointer user_data);
 static void select_msg (MessageList *message_list, gint row);
 static char *filter_date (const void *data);
@@ -577,9 +575,6 @@ message_list_init (GtkObject *object)
 	gtk_signal_connect (GTK_OBJECT (message_list->etable), "cursor_change",
 			   GTK_SIGNAL_FUNC (on_cursor_change_cmd), message_list);
 
-	gtk_signal_connect (GTK_OBJECT (message_list->etable), "row_selection",
-			   GTK_SIGNAL_FUNC (on_row_selection), message_list);
-
 	gtk_widget_show (message_list->etable);
 	
 	gtk_object_ref (GTK_OBJECT (message_list->table_model));
@@ -851,7 +846,6 @@ message_list_regenerate (MessageList *message_list, const char *search)
 		camel_folder_free_uids (message_list->folder, uids);
 
 	e_table_model_changed (message_list->table_model);
-	message_list->rows_selected = 0;
 	select_msg (message_list, 0);
 }
 
@@ -934,19 +928,6 @@ on_cursor_change_cmd (ETableScrolled *table, int row, gpointer user_data)
 	if (!message_list->idle_id)
 		message_list->idle_id = g_idle_add_full (G_PRIORITY_LOW, on_cursor_change_idle, message_list, NULL);
 }
-
-static void
-on_row_selection (ETableScrolled *table, int row, gboolean selected,
-		  gpointer user_data)
-{
-	MessageList *message_list = user_data;
-
-	if (selected)
-		message_list->rows_selected++;
-	else
-		message_list->rows_selected--;
-}
-
 
 /* FIXME: this is all a kludge. */
 static gint

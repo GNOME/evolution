@@ -1,3 +1,8 @@
+2000-07-26  Christopher James Lahey  <clahey@helixcode.com>
+
+	* message-list.c, message-list.h: Removed counting of selected
+	messages.
+
 2000-07-26  Dan Winship  <danw@helixcode.com>
 
 	* mail-ops.c (real_fetch_mail): Don't create the tmp_mbox before
