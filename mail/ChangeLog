@@ -1,4 +1,13 @@
 2000-09-27  Jeffrey Stedfast  <fejj@helixcode.com>
+	Note: We need a configuration option to specify whether to log
+	filtering actions or not.
+
+	* mail-ops.c (do_filter_ondemand): Updated to pass a log file
+	pointer to filter_driver_run.
+	(do_fetch_mail): Same.
+	(mail_do_fetch_mail): Fixed a compiler warning.
+
+2000-09-27  Jeffrey Stedfast  <fejj@helixcode.com>
 
 	* mail-callbacks.c (composer_postpone_cb): Fix it so that "send
 	later" will still mark a message as being replied, forwarded,

@@ -127,6 +127,7 @@ do_fetch_mail (gpointer in_data, gpointer op_data, CamelException *ex)
 		FilterDriver *filter;
 		GPtrArray *uids, *new_uids;
 		char *url, *p, *filename;
+		FILE *logfile;
 		int i;
 		
 		userrules = g_strdup_printf ("%s/filters.xml", evolution_dir);
@@ -158,6 +159,7 @@ do_fetch_mail (gpointer in_data, gpointer op_data, CamelException *ex)
 			g_free (url);
 			
 			cache = camel_uid_cache_new (filename);
+			g_free (filename);
 			
 			if (cache) {
 				/* determine the new uids */
@@ -166,6 +168,14 @@ do_fetch_mail (gpointer in_data, gpointer op_data, CamelException *ex)
 				uids = new_uids;
 			}
 		}
+		
+		/* FIXME: find out if we want to log or not - config option */
+		if (TRUE /* perform_logging */) {
+			filename = g_strdup_printf ("%s/evolution-filter-log", evolution_dir);
+			logfile = fopen (filename, "a+");
+			g_free (filename);
+		} else
+			logfile = NULL;
 		
 		/* get/filter the new messages */
 		for (i = 0; i < uids->len; i++) {
@@ -188,7 +198,7 @@ do_fetch_mail (gpointer in_data, gpointer op_data, CamelException *ex)
 			}
 			
 			filter_driver_run (filter, message, info, input->destination,
-					   FILTER_SOURCE_INCOMING, ex);
+					   FILTER_SOURCE_INCOMING, logfile, ex);
 			
 			if (free_info)
 				camel_message_info_free (info);
@@ -203,6 +213,10 @@ do_fetch_mail (gpointer in_data, gpointer op_data, CamelException *ex)
 			}
 			camel_object_unref (CAMEL_OBJECT (message));
 		}
+		
+		/* close the log file */
+		if (logfile)
+			fclose (logfile);
 		
 		gtk_object_unref (GTK_OBJECT (filter));
 		
@@ -270,7 +284,7 @@ mail_do_fetch_mail (const gchar *source_url, gboolean keep_on_server,
 	
 	g_return_if_fail (source_url != NULL);
 	g_return_if_fail (destination == NULL ||
-			  CAMEL_IS_FOLDER (input->destination));
+			  CAMEL_IS_FOLDER (destination));
 
 	input = g_new (fetch_mail_input_t, 1);
 	input->source_url = g_strdup (source_url);
@@ -321,6 +335,8 @@ do_filter_ondemand (gpointer in_data, gpointer op_data, CamelException *ex)
 	if (camel_folder_get_message_count (input->source) != 0) {
 		FilterDriver *driver;
 		GPtrArray *uids;
+		char *filename;
+		FILE *logfile;
 		int i;
 		
 		uids = camel_folder_get_uids (input->source);
@@ -328,6 +344,14 @@ do_filter_ondemand (gpointer in_data, gpointer op_data, CamelException *ex)
 		camel_folder_freeze (input->source);
 		
 		driver = filter_driver_new (input->context, mail_tool_filter_get_folder_func, NULL);
+		
+		/* FIXME: find out if we want to log or not - config option */
+		if (TRUE /* perform_logging */) {
+			filename = g_strdup_printf ("%s/evolution-filter-log", evolution_dir);
+			logfile = fopen (filename, "a+");
+			g_free (filename);
+		} else
+			logfile = NULL;
 		
 		for (i = 0; i < uids->len; i++) {
 			CamelMimeMessage *message;
@@ -355,7 +379,7 @@ do_filter_ondemand (gpointer in_data, gpointer op_data, CamelException *ex)
 			}
 			
 			filtered = filter_driver_run (driver, message, info, NULL,
-						      FILTER_SOURCE_DEMAND, ex);
+						      FILTER_SOURCE_DEMAND, logfile, ex);
 			
 			if (free_info)
 				camel_message_info_free (info);
@@ -372,6 +396,10 @@ do_filter_ondemand (gpointer in_data, gpointer op_data, CamelException *ex)
 			
 			camel_object_unref (CAMEL_OBJECT (message));
 		}
+		
+		/* close the log file */
+		if (logfile)
+			fclose (logfile);
 		
 		gtk_object_unref (GTK_OBJECT (driver));
 		
