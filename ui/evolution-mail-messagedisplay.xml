@@ -26,20 +26,20 @@
       <placeholder name="MailMessageView"/>
     </submenu>
 
-    <placeholder name="Component"/>
-
-    <submenu name="Actions" _label="_Actions">
-      <placeholder name="Component">
+    <placeholder name="ComponentActionsPlaceholder">
+      <submenu name="Actions" _label="_Actions">
         <placeholder name="MailMessageActions"/>
-      </placeholder>
-    </submenu>
+      </submenu>
+    </placeholder>
 
-    <submenu name="Tools" _label="_Tools">
-      <placeholder name="Component">
-        <placeholder name="MailFilterTools"/>
-        <placeholder name="MailVFolderTools"/>
-      </placeholder>
-    </submenu>
+    <placeholder name="ComponentToolsPlaceholder">
+      <submenu name="Tools" _label="_Tools">
+	<placeholder name="Component">
+	  <placeholder name="MailFilterTools"/>
+	  <placeholder name="MailVFolderTools"/>
+	</placeholder>
+      </submenu>
+    </placeholder>
 
   </menu>
 
