@@ -1,3 +1,9 @@
+2000-10-23  Dan Winship  <danw@helixcode.com>
+
+	* providers/imap/camel-imap-command.c (imap_read_untagged): Fix a
+	"how could this have been working before" memory overrun bug
+	found by Vlad.
+
 2000-10-20  Chris Toshok  <toshok@helixcode.com>
 
 	* providers/Makefile.am (SUBDIRS): re-enable the nntp provider.
