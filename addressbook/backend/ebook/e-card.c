@@ -526,19 +526,19 @@ e_card_get_vobject (ECard *card, gboolean assumeUTF8)
 			addressprop = addProp(vobj, VCAdrProp);
 			
 			set_address_flags (addressprop, address->flags);
-			if ( address->po )
+			if (address->po)
 				ADD_PROP_VALUE_SET_IS_ASCII(addressprop, VCPostalBoxProp, address->po);
-			if ( address->ext )
+			if (address->ext)
 				ADD_PROP_VALUE_SET_IS_ASCII(addressprop, VCExtAddressProp, address->ext);
-			if ( address->street )
+			if (address->street)
 				ADD_PROP_VALUE_SET_IS_ASCII(addressprop, VCStreetAddressProp, address->street);
-			if ( address->city )
+			if (address->city)
 				ADD_PROP_VALUE_SET_IS_ASCII(addressprop, VCCityProp, address->city);
-			if ( address->region )
+			if (address->region)
 				ADD_PROP_VALUE_SET_IS_ASCII(addressprop, VCRegionProp, address->region);
-			if ( address->code )
+			if (address->code)
 				ADD_PROP_VALUE_SET_IS_ASCII(addressprop, VCPostalCodeProp, address->code);
-			if ( address->country )
+			if (address->country)
 				ADD_PROP_VALUE_SET_IS_ASCII(addressprop, VCCountryNameProp, address->country);
 
 			if (has_return)
@@ -646,7 +646,7 @@ e_card_get_vobject (ECard *card, gboolean assumeUTF8)
 	}
 	
 	if (card->caluri)
-		addPropValue(vobj, "CALURI", card->caluri);
+		addPropValueQP(vobj, "CALURI", card->caluri);
 
 	if (card->fburl)
 		ADD_PROP_VALUE(vobj, "FBURL", card->fburl);
@@ -729,7 +729,7 @@ e_card_get_vobject (ECard *card, gboolean assumeUTF8)
 		}
 	}
 
-	ADD_PROP_VALUE (vobj, VCUniqueStringProp, card->id ? card->id : "");
+	addPropValueQP (vobj, VCUniqueStringProp, (card->id ? card->id : ""));
 
 #if 0	
 	if (crd->photo.prop.used) {
@@ -2077,6 +2077,8 @@ e_card_set_arg (GtkObject *object, GtkArg *arg, guint arg_id)
 	case ARG_ID:
 		g_free(card->id);
 		card->id = g_strdup(GTK_VALUE_STRING(*arg));
+		if (card->id == NULL)
+			card->id = g_strdup ("");
 		break;
 	case ARG_LAST_USE:
 		g_free(card->last_use);

@@ -1,3 +1,11 @@
+2001-10-17  Christopher James Lahey  <clahey@ximian.com>
+
+	* backend/ebook/e-card.c (e_card_get_vobject): Did a bit of clean
+	up here.  Might fix some crashes, specifically Ximian bug #10164.
+
+	* gui/widgets/e-addressbook-view.c (SPEC): Updated the model
+	column numbers here.  Fixes Ximian bug #12308.
+
 2001-10-17  Chris Toshok  <toshok@ximian.com>
 
 	* backend/pas/pas-backend-file.c (pas_backend_file_upgrade_db):
