@@ -1,3 +1,8 @@
+2002-02-28  Rodrigo Moya <rodrigo@ximian.com>
+
+	* calendar/gui/e-itip-control.c (e_itip_control_set_data): added the
+	METHOD property to the top level component we create.
+
 2002-02-26  Rodrigo Moya <rodrigo@ximian.com>
 
 	* gui/control-factory.c (set_prop):

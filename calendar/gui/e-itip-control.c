@@ -1237,6 +1237,8 @@ e_itip_control_set_data (EItipControl *itip, const gchar *text)
 	}
 
 	priv->method = icalproperty_get_method (prop);
+	prop = icalproperty_new_method (priv->method);
+	icalcomponent_add_property (priv->top_level, prop);
 
 	tz_iter = icalcomponent_begin_component (priv->main_comp, ICAL_VTIMEZONE_COMPONENT);
 	while ((tz_comp = icalcompiter_deref (&tz_iter)) != NULL) {
