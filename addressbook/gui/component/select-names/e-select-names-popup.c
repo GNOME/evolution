@@ -37,6 +37,7 @@
 #include <libgnomeui/gnome-app.h>
 #include <libgnomeui/gnome-app-helper.h>
 #include <libgnomeui/gnome-popup-menu.h>
+#include <gal/widgets/e-unicode.h>
 
 #include <addressbook/backend/ebook/e-book-util.h>
 #include <addressbook/gui/contact-editor/e-contact-editor.h>
@@ -248,10 +249,11 @@ popup_menu_card (PopupInfo *info)
 	gboolean using_radio = FALSE;
 	ECard *card;
 	gint i=0;
-	GtkWidget *pop;
+	GtkWidget *pop, *label;
+	GList *item_children;
 	EIterator *iterator;
 	gint html_toggle;
-	gchar *name_label;
+	gchar *name_label, *quoted_name_label;
 
 	/*
 	 * Build up our GnomeUIInfo array.
@@ -262,9 +264,11 @@ popup_menu_card (PopupInfo *info)
 
 	card = e_destination_get_card (info->dest);
 
+	/* Use an empty label for now, we'll fill it later.
+	   If we set uiinfo label to contact name here, gnome_popup_menu_new
+	   could screw it up trying make a "translation". */
 	uiinfo[i].type = GNOME_APP_UI_ITEM;
-	name_label = quote_label (e_destination_get_name (info->dest));
-	uiinfo[i].label = name_label;
+	uiinfo[i].label = "";
 	++i;
 
 	uiinfo[i].type = GNOME_APP_UI_SEPARATOR;
@@ -337,7 +341,15 @@ popup_menu_card (PopupInfo *info)
 
 	init_html_mail (&(uiinfo[html_toggle]), info);
 
+	/* Now set label of the first item to contact name */
+	name_label = e_utf8_to_locale_string (e_destination_get_name (info->dest));
+	quoted_name_label = quote_label (name_label);
+	item_children = gtk_container_children (GTK_CONTAINER (uiinfo[0].widget));
+	label = item_children->data;
+	g_list_free (item_children);
+	gtk_label_set_text (GTK_LABEL (label), quoted_name_label);
 	g_free (name_label);
+	g_free (quoted_name_label);
 
 	return pop;
 }
@@ -354,22 +366,19 @@ popup_menu_nocard (PopupInfo *info)
 {
 	GnomeUIInfo uiinfo[ARBITRARY_UIINFO_LIMIT];
 	gint i=0;
-	GtkWidget *pop;
+	GtkWidget *pop, *label;
+	GList *item_children;
 	const gchar *str;
-	gchar *name_label;
+	gchar *name_label, *quoted_name_label;
 	gint html_toggle;
 
 	memset (uiinfo, 0, sizeof (uiinfo));
 
-	str = e_destination_get_name (info->dest);
-	if (str == NULL)
-		str = e_destination_get_email (info->dest);
-	if (str == NULL)
-		str = _("Unnamed Contact");
-	name_label = quote_label (str);
-
+	/* Use an empty label for now, we'll fill it later.
+	   If we set uiinfo label to contact name here, gnome_popup_menu_new
+	   could screw it up trying make a "translation". */
 	uiinfo[i].type = GNOME_APP_UI_ITEM;
-	uiinfo[i].label = name_label;
+	uiinfo[i].label = "";
 	++i;
 
 	uiinfo[i].type = GNOME_APP_UI_SEPARATOR;
@@ -395,8 +404,23 @@ popup_menu_nocard (PopupInfo *info)
 	pop = gnome_popup_menu_new (uiinfo);
 
 	init_html_mail (&(uiinfo[html_toggle]), info);
-	
+
+	/* Now set label of the first item to contact name */
+	str = e_destination_get_name (info->dest);
+	if (str == NULL)
+		str = e_destination_get_email (info->dest);
+	if (str != NULL) {
+		name_label = e_utf8_to_locale_string (str);
+	} else {
+		name_label = g_strdup (_("Unnamed Contact"));
+	}
+	quoted_name_label = quote_label (name_label);
+	item_children = gtk_container_children (GTK_CONTAINER (uiinfo[0].widget));
+	label = item_children->data;
+	g_list_free (item_children);
+	gtk_label_set_text (GTK_LABEL (label), quoted_name_label);
 	g_free (name_label);
+	g_free (quoted_name_label);
 	
 	return pop;
 }

@@ -1,3 +1,13 @@
+2001-08-23  Zbigniew Chyla  <cyba@gnome.pl>
+
+	* gui/component/select-names/e-select-names-popup.c
+	(popup_menu_card): Fixed two bugs:
+	- missing coversion of contact name to GTK+ locale,
+	- passing dynamically created string (contact name) inside uiinfo struct
+	to gnome-app-helper functions.
+	Remember: these functions may change strings, trying to translate them!
+	(popup_menu_nocard): Ditto
+
 2001-09-07  Christopher James Lahey  <clahey@ximian.com>
 
 	* gui/component/addressbook-component.c: Removed unused factory
