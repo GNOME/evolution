@@ -305,7 +305,7 @@ inline_cb (GtkWidget *widget, gpointer user_data)
 }
 
 static gboolean
-pixmap_press (GtkWidget *ebox, GdkEventButton *event, gpointer user_data)
+pixmap_press (GtkWidget *ebox, GdkEventButton *event, EScrollFrame *user_data)
 {
 	EPopupMenu menu[] = {
 		{ N_("Save to Disk..."), NULL,
@@ -320,11 +320,14 @@ pixmap_press (GtkWidget *ebox, GdkEventButton *event, gpointer user_data)
 	MailMimeHandler *handler;
 	int mask = 0;
 
-	if (event->button != 3)
-		return FALSE;
+	if (event->button != 3) {
+		gtk_propagate_event (GTK_WIDGET (user_data),
+				     (GdkEvent *)event);
+		return TRUE;
+	}
 
-	part = gtk_object_get_data (user_data, "CamelMimePart");
-	handler = mail_lookup_handler (gtk_object_get_data (user_data,
+	part = gtk_object_get_data (GTK_OBJECT (ebox), "CamelMimePart");
+	handler = mail_lookup_handler (gtk_object_get_data (GTK_OBJECT (ebox),
 							    "mime_type"));
 
 	/* Save item */
@@ -369,7 +372,7 @@ pixmap_press (GtkWidget *ebox, GdkEventButton *event, gpointer user_data)
 		mask |= 2;
 	}
 
-	e_popup_menu_run (menu, event, mask, 0, user_data);
+	e_popup_menu_run (menu, event, mask, 0, ebox);
 	g_free (menu[1].name);
 	g_free (menu[2].name);
 	return TRUE;
@@ -617,7 +620,7 @@ on_object_requested (GtkHTML *html, GtkHTMLEmbedded *eb, gpointer data)
 					  (GDestroyNotify)g_free);
 
 		gtk_signal_connect (GTK_OBJECT (ebox), "button_press_event",
-				    GTK_SIGNAL_FUNC (pixmap_press), ebox);
+				    GTK_SIGNAL_FUNC (pixmap_press), md->scroll);
 
 		gtk_container_add (GTK_CONTAINER (ebox), pbl->pixmap);
 		gtk_widget_show_all (ebox);

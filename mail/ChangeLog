@@ -1,3 +1,8 @@
+2001-01-09  Jason Leach  <jasonleach@usa.net>
+
+	* mail-display.c (pixmap_press): Bugfix for #1077: scrollwheel
+	doesn't work while hovering over an attachment icon.
+
 2001-01-09  Jeffrey Stedfast  <fejj@helixcode.com>
 
 	* mail-config-druid.glade: Moved to mail-config.glade
