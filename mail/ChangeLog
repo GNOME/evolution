@@ -1,3 +1,8 @@
+2000-07-31  Dan Winship  <danw@helixcode.com>
+
+	* mail-config.c (service_page_set_url): Fix a NULL-pointer strcmp
+	noticed by peterw.
+
 2000-07-31  Not Zed  <NotZed@HelixCode.com>
 
 	* mail-vfolder.h: Header for vfolder functions.
