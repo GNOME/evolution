@@ -730,9 +730,8 @@ msgid "Factory for the Addressbook's address popup"
 msgstr "Øydelagd oppsettfil."
 
 #: addressbook/gui/component/GNOME_Evolution_Addressbook.oaf.in.h:10
-#, fuzzy
 msgid "Factory for the sample Addressbook control"
-msgstr "Legg adresse til adresseboka"
+msgstr "Fabrikk for ein eksemple adressebokkontroll"
 
 #: addressbook/gui/component/addressbook-component.c:71
 #: calendar/gui/dialogs/comp-editor-util.c:310
@@ -1215,7 +1214,7 @@ msgstr "Ny telefontype"
 
 #: addressbook/gui/contact-editor/contact-editor.glade.h:22
 msgid "No_tes:"
-msgstr "No_tater:"
+msgstr "Mer_knadar:"
 
 #: addressbook/gui/contact-editor/contact-editor.glade.h:23
 msgid "Organi_zation:"
@@ -1234,13 +1233,12 @@ msgid "S_pouse:"
 msgstr "E_ktefelle"
 
 #: addressbook/gui/contact-editor/contact-editor.glade.h:28
-#, fuzzy
 msgid "This is the _mailing address"
-msgstr "Rediger e-post-adresser"
+msgstr ""
 
 #: addressbook/gui/contact-editor/contact-editor.glade.h:29
 msgid "Wants to receive _HTML mail"
-msgstr "Mottek _HTML-post"
+msgstr "Vil motta _HTML-post"
 
 #: addressbook/gui/contact-editor/contact-editor.glade.h:31
 #: calendar/gui/dialogs/alarm-page.glade.h:9
@@ -7307,9 +7305,9 @@ msgid "Unable to process spool folder"
 msgstr "Kan ikkje laga 'spool'-katalog"
 
 #: camel/camel-filter-driver.c:688
-#, fuzzy, c-format
+#, c-format
 msgid "Getting message %d (%d%%)"
-msgstr "Mottek meldingar frå %1"
+msgstr "Mottek melding %d (%d%%)"
 
 #: camel/camel-filter-driver.c:692
 msgid "Cannot open message"
@@ -7321,9 +7319,8 @@ msgid "Failed on message %d"
 msgstr "Kunne ikkje leggja til melding:\n"
 
 #: camel/camel-filter-driver.c:719 camel/camel-filter-driver.c:832
-#, fuzzy
 msgid "Syncing folder"
-msgstr "Synkroniser"
+msgstr "Synkroniser mapper"
 
 #: camel/camel-filter-driver.c:789
 #, fuzzy, c-format
@@ -11022,23 +11019,20 @@ msgid "Qmail maildir "
 msgstr "Qmail maildir "
 
 #: mail/mail-config.glade.h:59
-#, fuzzy
 msgid "Quoted"
-msgstr "Ingen"
+msgstr "Sitert"
 
 #: mail/mail-config.glade.h:60
-#, fuzzy
 msgid "Re_member this password"
-msgstr "Fjern denne oppføringa"
+msgstr "_Husk dette passordet"
 
 #: mail/mail-config.glade.h:61 shell/glade/evolution-startup-wizard.glade.h:6
-#, fuzzy
 msgid "Receiving Email"
-msgstr "Send"
+msgstr "Mottek e-post"
 
 #: mail/mail-config.glade.h:62
 msgid "Receiving Mail"
-msgstr "Mottek e-post"
+msgstr "Mottak av e-post"
 
 #: mail/mail-config.glade.h:63
 #, fuzzy
@@ -25174,18 +25168,16 @@ msgid "Open the selected message in a new window"
 msgstr "Opne vald melding i eit eige vindauge"
 
 #: ui/evolution-mail-message.xml.h:60
-#, fuzzy
 msgid "Open the selected message in the composer to re-send it"
-msgstr "Kopierer det merkte området til utklippstavla"
+msgstr "Opne vald melding for sending på nytt"
 
 #: ui/evolution-mail-message.xml.h:61
 msgid "Original Si_ze"
 msgstr "Orginall _storleik"
 
 #: ui/evolution-mail-message.xml.h:62
-#, fuzzy
 msgid "Preview the message to be printed"
-msgstr "Sen melding"
+msgstr "Førehandsvis meldinga som skal skrivast ut"
 
 #: ui/evolution-mail-message.xml.h:63
 msgid "Previous"
@@ -25217,12 +25209,11 @@ msgstr "Svar til alle"
 
 #: ui/evolution-mail-message.xml.h:74
 msgid "Reset the text to its original size"
-msgstr ""
+msgstr "Sett tilbake teksta til det opprinnelege"
 
 #: ui/evolution-mail-message.xml.h:75
-#, fuzzy
 msgid "S_earch Message..."
-msgstr "Søk i &meldingar ..."
+msgstr "S_øk i &meldingar ..."
 
 #: ui/evolution-mail-message.xml.h:76
 msgid "S_maller"
@@ -25860,9 +25851,8 @@ msgid ""
 msgstr ""
 
 #: widgets/menus/gal-view-menus.c:195
-#, fuzzy
 msgid "_Current View"
-msgstr "tid no"
+msgstr "_Aktiv visning"
 
 #: widgets/menus/gal-view-menus.c:222
 msgid "Define Views"
@@ -26030,7 +26020,7 @@ msgstr "Den personlege addresseboktenaren"
 #: wombat/GNOME_Evolution_WombatLDAP.oaf.in.h:2
 #: wombat/GNOME_Evolution_WombatNOLDAP.oaf.in.h:2
 msgid "The Personal Calendar Server; calendar factory"
-msgstr ""
+msgstr "Personleg kalendertenar: kalendarfabrikk"
 
 #: wombat/wombat.c:200
 msgid "setup_vfs(): could not initialize GNOME-VFS"
@@ -26044,285 +26034,9 @@ msgstr "init_corba(): klarte ikkje initialisere GNOME"
 msgid "init_bonobo(): could not initialize Bonobo"
 msgstr "init_bonobo(): klarte ikkje å initialisere Bonobo"
 
-#, fuzzy
-#~ msgid "100"
-#~ msgstr "100%"
-
-#, fuzzy
-#~ msgid "Display Cards?"
-#~ msgstr "Vis"
-
-#, fuzzy
-#~ msgid "Display Cards"
-#~ msgstr "Vis"
-
-#, fuzzy
-#~ msgid "Do not ask me about this program again."
-#~ msgstr "Ikkje spør igjen"
-
-#, fuzzy
-#~ msgid "Expunging"
-#~ msgstr "Forventar %1"
-
-#, fuzzy
-#~ msgid "Factory to import iCalendar files into Evolution"
-#~ msgstr "Fabrikk for å importere VCard-filer inn i Evolution."
-
-#, fuzzy
-#~ msgid "Imports iCalendar files into Evolution"
-#~ msgstr "Importerar VCard-filer inn i Evolution."
-
-#, fuzzy
-#~ msgid "Unable to create cache path"
-#~ msgstr "Kunne ikkje lasta kalender '%1'.\n"
-
-#, fuzzy
-#~ msgid "Could not remove cache entry: %s: %s"
-#~ msgstr ""
-#~ "Kan ikkje laga heimekatalog\n"
-#~ "Feil: %1"
-
-#, fuzzy
-#~ msgid "Failed to retrieve message"
-#~ msgstr "Kunne ikkje leggja til melding:\n"
-
-#, fuzzy
-#~ msgid "Error hashing password."
-#~ msgstr "Feil ved lasting av oppsett"
-
-#, fuzzy
-#~ msgid "Invalid password."
-#~ msgstr "(ugyldig)"
-
-#, fuzzy
-#~ msgid "Could not sign: certificate not found for \"%s\"."
-#~ msgstr "Kunne ikkje lasta biletet '%1'\n"
-
-#, fuzzy
-#~ msgid "Could not clearsign: certificate not found for \"%s\"."
-#~ msgstr "Kunne ikkje lasta biletet '%1'\n"
-
-#, fuzzy
-#~ msgid "Could not encrypt: failed to create encryption context."
-#~ msgstr "Kunne ikkje laga kio-jobb.\n"
-
-#, fuzzy
-#~ msgid "Could not encrypt data: invalid user key: \"%s\"."
-#~ msgstr "Kunne ikkje lasta kalender '%1'.\n"
-
-#, fuzzy
-#~ msgid "Could not encrypt: encoding failed."
-#~ msgstr "Klarte ikkje å lagre signaturfil."
-
-#, fuzzy
-#~ msgid "Cannot get message %s: %s"
-#~ msgstr "Kan ikkje setja blokkstorleik for band."
-
-#, fuzzy
-#~ msgid "User cancelled"
-#~ msgstr "Operasjonen vart avbroten"
-
-#, fuzzy
-#~ msgid "No such folder: %s"
-#~ msgstr "Vidaresendt melding"
-
-#, fuzzy
-#~ msgid "Could not get group: %s"
-#~ msgstr "Kunne ikkje laga katalog\n"
-
-#, fuzzy
-#~ msgid "%s: Scanning new messages"
-#~ msgstr "Melding"
-
-#, fuzzy
-#~ msgid "Unknown server response: %s"
-#~ msgstr "Ukjend feil"
-
-#, fuzzy
-#~ msgid "Use cancel"
-#~ msgstr "Avbryt"
-
-#, fuzzy
-#~ msgid "Operation failed: %s"
-#~ msgstr "Operasjonen vart avbroten"
-
-#, fuzzy
-#~ msgid "Could not parse recipient list"
-#~ msgstr ""
-#~ "Kan ikkje fjerna post frå\n"
-#~ "postboksen '%1':\n"
-#~ "%2"
-
-#, fuzzy
-#~ msgid "Cannot send message: one or more invalid recipients"
-#~ msgstr "Meldinga har ingen sendar"
-
-#, fuzzy
-#~ msgid "Factory for the Evolution executive summary component."
-#~ msgstr "Kan ikkje initialisera lokale variablar"
-
-#, fuzzy
-#~ msgid "Cannot initialize Evolution's Executive Summary component."
-#~ msgstr "Kan ikkje initialisera lokale variablar"
-
-#, fuzzy
-#~ msgid "Select a service"
-#~ msgstr "Vel ei fil"
-
-#, fuzzy
-#~ msgid "Send an email to %s"
-#~ msgstr "Send ein e-post"
-
-#, fuzzy
-#~ msgid "Change the view to %s"
-#~ msgstr "Endra namnet på denne mappa"
-
-#, fuzzy
-#~ msgid "Run %s"
-#~ msgstr "URL: %s"
-
-#, fuzzy
-#~ msgid "Close %s"
-#~ msgstr "Lukk"
-
-#, fuzzy
-#~ msgid "Move %s to the left"
-#~ msgstr "Bruk denne tekstboksen for å kommentera tittelen"
-
-#, fuzzy
-#~ msgid "Configure %s"
-#~ msgstr "Set opp %1"
-
-#, fuzzy
-#~ msgid "page"
-#~ msgstr "Side"
-
-#, fuzzy
-#~ msgid ""
-#~ "Cannot open the HTML file:\n"
-#~ "%s"
-#~ msgstr "Kunne ikkje lasta kalender '%1'.\n"
-
-#, fuzzy
-#~ msgid ""
-#~ "Error reading data:\n"
-#~ "%s"
-#~ msgstr "Feil ved asting av %s"
-
-#, fuzzy
-#~ msgid "Factory for the RDF summary."
-#~ msgstr "Øydelagd oppsettfil."
-
-#, fuzzy
-#~ msgid "RDF Summary"
-#~ msgstr "Samandrag"
-
-#, fuzzy
-#~ msgid "Factory for the test bonobo component."
-#~ msgstr "Øydelagd oppsettfil."
-
-#, fuzzy
-#~ msgid "Factory for the test component."
-#~ msgstr "Øydelagd oppsettfil."
-
-#, fuzzy
-#~ msgid "Test service"
-#~ msgstr "Baltisk"
-
-#, fuzzy
-#~ msgid "Update now"
-#~ msgstr "Oppdater"
-
-#, fuzzy
-#~ msgid "Update every "
-#~ msgstr "Oppdateringsfrekvens"
-
-#, fuzzy
-#~ msgid "Needs Reply"
-#~ msgstr "Svar"
-
-#, fuzzy
-#~ msgid "Mark as Needing Reply"
-#~ msgstr "Møte"
-
-#, fuzzy
-#~ msgid "Mark as Not Needing Reply"
-#~ msgstr "Møte"
-
-#, fuzzy
-#~ msgid "Composing Messages"
-#~ msgstr "Skriv ei melding"
-
-#, fuzzy
-#~ msgid "Defaults"
-#~ msgstr "Forvald"
-
-#, fuzzy
-#~ msgid "Execute Command..."
-#~ msgstr "Køyr autorun.sh"
-
-#, fuzzy
-#~ msgid "New Mail Notification"
-#~ msgstr "Oppsett"
-
-#, fuzzy
-#~ msgid "Specify filename:"
-#~ msgstr "Stilnamn:"
-
-#, fuzzy
-#~ msgid "Mail Summary"
-#~ msgstr "Postsamandrag"
-
-#, fuzzy
-#~ msgid "Donetsk"
-#~ msgstr "Ferdig"
-
-#, fuzzy
-#~ msgid "Lviv"
-#~ msgstr "Latvia"
-
-#, fuzzy
-#~ msgid "Odesa"
-#~ msgstr "Ein"
-
-#, fuzzy
-#~ msgid "Rivne"
-#~ msgstr "Liberia"
-
-#, fuzzy
-#~ msgid "Sympheropol"
-#~ msgstr "Stopp"
-
-#, fuzzy
-#~ msgid "Factory for the Evolution notes component."
-#~ msgstr "Øydelagd oppsettfil."
-
-#, fuzzy
-#~ msgid "Factory for the Notes control"
-#~ msgstr "Øydelagd oppsettfil."
-
-#, fuzzy
-#~ msgid "Test type"
-#~ msgstr "Filtype:"
-
-#, fuzzy
-#~ msgid "View the current contact"
-#~ msgstr "tid no"
-
-#, fuzzy
-#~ msgid "Delete completed tasks"
-#~ msgstr "Slett valde oppgåver"
-
-#, fuzzy
-#~ msgid "Mar_k as Complete"
-#~ msgstr "_Merk som komplett"
 
 #~ msgid "Hebrew"
 #~ msgstr "Hebraisk"
-
-#, fuzzy
-#~ msgid "Visual"
-#~ msgstr "Australia"
 
 #~ msgid "_Home"
 #~ msgstr "_Heim"
