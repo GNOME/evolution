@@ -1,3 +1,10 @@
+1998-02-13  Raja R Harinath  <harinath@cs.umn.edu>
+
+	* Makefile.am (macros.dep): New maintainer rule for handling
+	automatic rebuilding of aclocal.m4 if any of the macros change.
+	(MACROS): New variable.  List of all `m4' macros in this
+	directory.
+
 1998-02-12  Raja R Harinath  <harinath@cs.umn.edu>
 
 	* gnome-support.m4: New file.  Defines GNOME_SUPPORT_CHECKS for
