@@ -1,5 +1,13 @@
 2003-03-04  JP Rosevear  <jpr@ximian.com>
  
+ 	Fixes #37806, #37697
+ 	
+ 	* gui/e-itip-control.c (e_itip_control_set_data): if the text is
+ 	null or the empty string, just clear the widget
+ 	(init): set the html widget to initially be blank
+ 
+2003-03-04  JP Rosevear  <jpr@ximian.com>
+ 
  	* pcs/cal.c (impl_Cal_get_ldap_attribute): implement
  
  	* pcs/cal-backend.h: add virtual method
