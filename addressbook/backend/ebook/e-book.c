@@ -187,6 +187,8 @@ e_book_do_response_get_cursor (EBook                 *book,
 	g_free (op);
 }
 
+
+
 static void
 e_book_do_response_get_view (EBook                 *book,
 			     EBookListenerResponse *resp)
@@ -226,6 +228,56 @@ e_book_do_response_get_view (EBook                 *book,
 
 	if (ev._major != CORBA_NO_EXCEPTION) {
 		g_warning ("e_book_do_response_get_view: Exception releasing "
+			   "remote Evolution_BookView interface!\n");
+	}
+
+	CORBA_exception_free (&ev);
+
+	gtk_object_unref(GTK_OBJECT(book_view));
+	bonobo_object_unref(BONOBO_OBJECT(op->listener));
+	
+	g_free (op);
+}
+
+static void
+e_book_do_response_get_changes (EBook                 *book,
+				EBookListenerResponse *resp)
+{
+	CORBA_Environment ev;
+	EBookOp *op;
+	EBookView *book_view;
+
+	op = e_book_pop_op (book);
+
+	if (op == NULL) {
+		g_warning ("e_book_do_response_get_changes: Cannot find operation "
+			   "in local op queue!\n");
+		return;
+	}
+
+	book_view = e_book_view_new(resp->book_view, op->listener);
+	
+	if (op->cb)
+		((EBookBookViewCallback) op->cb) (book, resp->status, book_view, op->closure);
+
+	/*
+	 * Release the remote Evolution_Book in the PAS.
+	 */
+	CORBA_exception_init (&ev);
+
+	Bonobo_Unknown_unref  (resp->book_view, &ev);
+
+	if (ev._major != CORBA_NO_EXCEPTION) {
+		g_warning ("e_book_do_response_get_changs: Exception unref'ing "
+			   "remote Evolution_BookView interface!\n");
+		CORBA_exception_free (&ev);
+		CORBA_exception_init (&ev);
+	}
+	
+	CORBA_Object_release (resp->book_view, &ev);
+
+	if (ev._major != CORBA_NO_EXCEPTION) {
+		g_warning ("e_book_do_response_get_changes: Exception releasing "
 			   "remote Evolution_BookView interface!\n");
 	}
 
@@ -306,6 +358,9 @@ e_book_check_listener_queue (EBookListener *listener, EBook *book)
 		break;
 	case GetBookViewResponse:
 		e_book_do_response_get_view(book, resp);
+		break;
+	case GetChangesResponse:
+		e_book_do_response_get_changes(book, resp);
 		break;
 	case OpenBookResponse:
 		e_book_do_response_open (book, resp);

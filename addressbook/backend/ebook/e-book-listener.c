@@ -158,6 +158,22 @@ e_book_listener_queue_get_view_response (EBookListener        *listener,
 }
 
 static void
+e_book_listener_queue_get_changes_response (EBookListener        *listener,
+					    EBookStatus           status,
+					    Evolution_BookView    book_view)
+{
+	EBookListenerResponse *resp;
+	
+	resp = g_new0 (EBookListenerResponse, 1);
+
+	resp->op        = GetChangesResponse;
+	resp->status    = status;
+	resp->book_view = book_view;
+	
+	e_book_listener_queue_response (listener, resp);
+}
+
+static void
 e_book_listener_queue_link_status (EBookListener *listener,
 				   gboolean       connected)
 {
@@ -248,6 +264,28 @@ impl_BookListener_respond_get_view (PortableServer_Servant servant,
 	}
 
 	e_book_listener_queue_get_view_response (
+		listener,
+		e_book_listener_convert_status (status),
+		book_view_copy);
+}
+
+static void
+impl_BookListener_respond_get_changes (PortableServer_Servant servant,
+				       const Evolution_BookListener_CallStatus status,
+				       const Evolution_BookView book_view,
+				       CORBA_Environment *ev)
+{
+	EBookListener        *listener = E_BOOK_LISTENER (bonobo_object_from_servant (servant));
+	Evolution_BookView    book_view_copy;
+
+	book_view_copy = CORBA_Object_duplicate (book_view, ev);
+
+	if (ev->_major != CORBA_NO_EXCEPTION) {
+		g_warning ("EBookListener: Exception while duplicating BookView.\n");
+		return;
+	}
+
+	e_book_listener_queue_get_changes_response (
 		listener,
 		e_book_listener_convert_status (status),
 		book_view_copy);
@@ -525,6 +563,7 @@ e_book_listener_get_epv (void)
 
 	epv->respond_get_cursor        = impl_BookListener_respond_get_cursor;
 	epv->respond_get_view          = impl_BookListener_respond_get_view;
+	epv->respond_get_changes       = impl_BookListener_respond_get_changes;
 
 	epv->report_connection_status  = impl_BookListener_report_connection_status;
 

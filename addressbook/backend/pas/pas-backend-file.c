@@ -90,16 +90,23 @@ pas_backend_file_book_view_copy(const PASBackendFileBookView *book_view, void *c
 	new_book_view->search_sexp = book_view->search_sexp;
 	if (new_book_view->search_sexp)
 		gtk_object_ref(GTK_OBJECT(new_book_view->search_sexp));
-	new_book_view->search_context = g_new(PASBackendFileSearchContext, 1);
-	new_book_view->search_context->card = book_view->search_context->card;
-
+	if (book_view->search_context) {		
+		new_book_view->search_context = g_new(PASBackendFileSearchContext, 1);
+		new_book_view->search_context->card = book_view->search_context->card;
+	}
+	
 	new_book_view->change_id = g_strdup(book_view->change_id);
-	new_book_view->change_context = g_new(PASBackendFileChangeContext, 1);
-	new_book_view->change_context->db = book_view->change_context->db;
-	new_book_view->change_context->add_cards = book_view->change_context->add_cards;
-	new_book_view->change_context->mod_cards = book_view->change_context->mod_cards;
-	new_book_view->change_context->del_cards = book_view->change_context->del_cards;
-
+	if (book_view->change_context) {
+		new_book_view->change_context = g_new(PASBackendFileChangeContext, 1);
+		new_book_view->change_context->db = book_view->change_context->db;
+		new_book_view->change_context->add_cards = book_view->change_context->add_cards;
+		new_book_view->change_context->add_ids = book_view->change_context->add_ids;
+		new_book_view->change_context->mod_cards = book_view->change_context->mod_cards;
+		new_book_view->change_context->mod_ids = book_view->change_context->mod_ids;
+		new_book_view->change_context->del_cards = book_view->change_context->del_cards;
+		new_book_view->change_context->del_ids = book_view->change_context->del_ids;
+	}
+	
 	return new_book_view;
 }
 
@@ -548,9 +555,8 @@ pas_backend_file_changes (PASBackendFile  	      *bf,
 	if (!bf->priv->loaded)
 		return;
 
-	/* Find the changed ids */
-	filename = g_strdup ("test");
-	
+	/* Find the changed ids - FIX ME, patch should not be hard coded */
+	filename = g_strdup_printf ("%s/evolution/local/Contacts/%s.db", g_get_home_dir (), view->change_id);
 	ehash = e_dbhash_new (filename);
 	g_free (filename);
 	
@@ -582,7 +588,7 @@ pas_backend_file_changes (PASBackendFile  	      *bf,
 		db_error = db->seq(db, &id_dbt, &vcard_dbt, R_NEXT);
 	}
 
-	e_dbhash_foreach_key (ehash, (EDbHashFunc *)pas_backend_file_changes_foreach_key, view->change_context);
+   	e_dbhash_foreach_key (ehash, (EDbHashFunc)pas_backend_file_changes_foreach_key, view->change_context);
 
 	/* Update the hash */
 	for (i = ctx->add_ids, v = ctx->add_cards; i != NULL; i = i->next, v = v->next){
@@ -600,15 +606,18 @@ pas_backend_file_changes (PASBackendFile  	      *bf,
 		e_dbhash_remove (ehash, id);
 	}	
 
-	e_dbhash_write (ehash);
-	e_dbhash_destroy (ehash);
+  	e_dbhash_write (ehash);
+  	e_dbhash_destroy (ehash);
 
 	/* Send the changes */
 	if (db_error == -1) {
 		g_warning ("pas_backend_file_changes: error building list\n");
 	} else {
-		pas_book_view_notify_add (view->book_view, ctx->add_cards);
-		pas_book_view_notify_change (view->book_view, ctx->mod_cards);
+  		if (ctx->add_cards != NULL)
+  			pas_book_view_notify_add (view->book_view, ctx->add_cards);
+		
+		if (ctx->mod_cards != NULL)
+			pas_book_view_notify_change (view->book_view, ctx->mod_cards);
 
 		for (v = ctx->del_cards; v != NULL; v = v->next){
 			char *vcard = v->data;
@@ -1037,7 +1046,7 @@ pas_backend_file_process_get_changes (PASBackend *backend,
 	view.book_view = book_view;
 	view.change_id = req->change_id;
 	view.change_context = &ctx;
-	ctx.db = NULL;
+	ctx.db = bf->priv->file_db;
 	ctx.add_cards = NULL;
 	ctx.add_ids = NULL;
 	ctx.mod_cards = NULL;

@@ -1,3 +1,34 @@
+2000-11-09  JP Rosevear  <jpr@helixcode.com>
+
+	* conduit/address-conduit.h: Add changed_hash, change list and complete bool
+
+	* conduit/address-conduit.c (local_record_from_ecard): Add empty field checks
+	(card_added): callback for book view
+	(card_changed): ditto
+	(card_removed): ditto
+	(sequence_complete): ditto
+	(view_cb): callback for the get changes call
+	(pre_sync): force synchronous loading of book view
+	(for_each): we already have the card so create the local record directly
+	(for_each_modified): Uncomment and fix
+	(delete_record): ditto
+
+	* conduit/Makefile.am: link against gal for ebook - needs fixing
+
+	* backend/ebook/e-book.c (e_book_do_response_get_changes): Properly respond
+	to a get_changes call
+	(e_book_check_listener_queue): define the get changes response operation
+
+	* backend/ebook/e-book-listener.c (e_book_listener_queue_get_changes_response):
+	Queue up a get changes response
+	(impl_BookListener_respond_get_changes): Implement the get_changes method
+	(e_book_listener_get_epv): add get_changes implementation to epv
+
+	* backend/pas/pas-backend-file.c (pas_backend_file_book_view_copy): Only
+	copy the search_context and change_context elements if they actually exist
+	(pas_backend_file_changes): Hard code a path for now, only notify if
+	there is something to notify about
+
 2000-11-07  JP Rosevear  <jpr@helixcode.com>
 
 	* backend/pas/pas-book.h: Update PASRequest structure

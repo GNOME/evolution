@@ -77,6 +77,18 @@ typedef struct {
 	char *id;
 } add_card_cons;
 
+typedef enum {
+	CARD_ADDED,
+	CARD_MODIFIED,
+	CARD_DELETED
+} CardObjectChangeType;
+
+typedef struct 
+{
+	char *uid;
+	CardObjectChangeType type;
+} CardObjectChange;
+
 /* debug spew DELETE ME */
 static char *
 print_local (EAddrLocalRecord *local)
@@ -136,6 +148,8 @@ e_addr_context_new (EAddrConduitContext **ctxt, guint32 pilot_id)
 	*ctxt = g_new0 (EAddrConduitContext,1);
 	g_assert (ctxt!=NULL);
 
+	(*ctxt)->complete = FALSE;
+	
 	addrconduit_load_configuration (&(*ctxt)->cfg, pilot_id);
 }
 
@@ -299,18 +313,24 @@ local_record_from_ecard (EAddrLocalRecord *local, ECard *ecard, EAddrConduitCont
 
 	local->addr = g_new0 (struct Address, 1);
 
-	local->addr->entry[entryFirstname] = strdup (ecard->name->given);
-	local->addr->entry[entryLastname] = strdup (ecard->name->family);
-	local->addr->entry[entryCompany] = strdup (ecard->org);
-	local->addr->entry[entryTitle] = strdup (ecard->title);
+	if (ecard->name->given)
+		local->addr->entry[entryFirstname] = strdup (ecard->name->given);
+	if (ecard->name->family)
+		local->addr->entry[entryLastname] = strdup (ecard->name->family);
+	if (ecard->org)
+		local->addr->entry[entryCompany] = strdup (ecard->org);
+	if (ecard->title)
+		local->addr->entry[entryTitle] = strdup (ecard->title);
 
 	delivery = e_card_simple_get_delivery_address (simple, E_CARD_SIMPLE_ADDRESS_ID_HOME);
-	local->addr->entry[entryAddress] = strdup (delivery->street);
-	local->addr->entry[entryCity] = strdup (delivery->city);
-	local->addr->entry[entryState] = strdup (delivery->region);
-	local->addr->entry[entryZip] = strdup (delivery->code);
-	local->addr->entry[entryCountry] = strdup (delivery->country);
-
+	if (delivery) {
+		local->addr->entry[entryAddress] = strdup (delivery->street);
+		local->addr->entry[entryCity] = strdup (delivery->city);
+		local->addr->entry[entryState] = strdup (delivery->region);
+		local->addr->entry[entryZip] = strdup (delivery->code);
+		local->addr->entry[entryCountry] = strdup (delivery->country);
+	}
+	
 	/* FIX ME Phone numbers */
 
 	gtk_object_unref (GTK_OBJECT (simple));
@@ -465,6 +485,74 @@ check_for_slow_setting (GnomePilotConduit *c, EAddrConduitContext *ctxt)
 	}
 }
 
+static void
+card_added (EBookView *book_view, const GList *cards, EAddrConduitContext *ctxt)
+{
+	const GList *l;
+
+	for (l = cards; l != NULL; l = l->next) {
+		ECard *card = l->data;
+		CardObjectChange *coc = g_new0 (CardObjectChange, 1);
+		
+		coc->uid = e_card_get_id (card);
+		coc->type = CARD_ADDED;
+
+		ctxt->changed = g_list_prepend (ctxt->changed, coc);
+		g_hash_table_insert (ctxt->changed_hash, coc->uid, coc);
+	}
+}
+
+static void
+card_changed (EBookView *book_view, const GList *cards, EAddrConduitContext *ctxt)
+{
+	const GList *l;
+
+	for (l = cards; l != NULL; l = l->next) {
+		ECard *card = l->data;
+		CardObjectChange *coc = g_new0 (CardObjectChange, 1);
+	
+		coc->uid = e_card_get_id (card);
+		coc->type = CARD_MODIFIED;
+
+		ctxt->changed = g_list_prepend (ctxt->changed, coc);
+		g_hash_table_insert (ctxt->changed_hash, coc->uid, coc);
+	}	
+}
+
+
+static void
+card_removed (EBookView *book_view, const char *id, EAddrConduitContext *ctxt)
+{
+	CardObjectChange *coc = g_new0 (CardObjectChange, 1);
+	
+	coc->uid = g_strdup (id);
+	coc->type = CARD_DELETED;
+
+	ctxt->changed = g_list_prepend (ctxt->changed, coc);
+	g_hash_table_insert (ctxt->changed_hash, coc->uid, coc);
+}
+
+static void
+sequence_complete (EBookView *book_view, EAddrConduitContext *ctxt)
+{
+	ctxt->complete = TRUE;
+	gtk_main_quit ();
+}
+
+static void
+view_cb (EBook *book, EBookStatus status, EBookView *book_view, EAddrConduitContext *ctxt)
+{
+  	gtk_signal_connect (GTK_OBJECT (book_view), "card_added", 
+			    (GtkSignalFunc) card_added, ctxt);
+	gtk_signal_connect (GTK_OBJECT (book_view), "card_changed", 
+			    (GtkSignalFunc) card_changed, ctxt);
+	gtk_signal_connect (GTK_OBJECT (book_view), "card_removed", 
+			    (GtkSignalFunc) card_removed, ctxt);
+  	gtk_signal_connect (GTK_OBJECT (book_view), "sequence_complete", 
+			    (GtkSignalFunc) sequence_complete, ctxt);
+
+}
+
 /* Pilot syncing callbacks */
 static gint
 pre_sync (GnomePilotConduit *conduit,
@@ -476,6 +564,7 @@ pre_sync (GnomePilotConduit *conduit,
 	int len;
 	unsigned char *buf;
 	char *filename;
+	char *change_id;
 /*  	gint num_records; */
 
 	abs_conduit = GNOME_PILOT_CONDUIT_SYNC_ABS (conduit);
@@ -497,15 +586,22 @@ pre_sync (GnomePilotConduit *conduit,
 	e_pilot_map_read (filename, &ctxt->map);
 	g_free (filename);
 
+	/* Count and hash the changes */
+	change_id = g_strdup_printf ("pilot-sync-evolution-addressbook-%d", ctxt->cfg->pilot_id);
+	ctxt->changed_hash = g_hash_table_new (g_str_hash, g_str_equal);
+	e_book_get_changes (ctxt->ebook, change_id, view_cb, ctxt);
+
+	/* Force the view loading to be synchronous */
+	gtk_main ();
+
+	g_free (change_id);
+	
 	/* Set the count information */
 /*  	num_records = cal_client_get_n_objects (ctxt->client, CALOBJ_TYPE_TODO); */
 /*  	gnome_pilot_conduit_sync_abs_set_num_local_records(abs_conduit, num_records); */
-/*  	num_records = g_hash_table_size (ctxt->added); */
-/*  	gnome_pilot_conduit_sync_abs_set_num_new_local_records (abs_conduit, num_records); */
-/*  	num_records = g_hash_table_size (ctxt->modified); */
-/*  	gnome_pilot_conduit_sync_abs_set_num_updated_local_records (abs_conduit, num_records); */
-/*  	num_records = g_hash_table_size (ctxt->deleted); */
-/*  	gnome_pilot_conduit_sync_abs_set_num_deleted_local_records(abs_conduit, num_records); */
+/*  	gnome_pilot_conduit_sync_abs_set_num_new_local_records (abs_conduit, add_records); */
+/*  	gnome_pilot_conduit_sync_abs_set_num_updated_local_records (abs_conduit, mod_records); */
+/*  	gnome_pilot_conduit_sync_abs_set_num_deleted_local_records(abs_conduit, del_records); */
 
 	gtk_object_set_data (GTK_OBJECT (conduit), "dbinfo", dbi);
 
@@ -588,7 +684,7 @@ for_each (GnomePilotConduitSyncAbs *conduit,
 			LOG ("iterating over %d records", g_list_length (cards));
 
 			*local = g_new0 (EAddrLocalRecord, 1);
-/*  			local_record_from_uid (*local, uids->data, ctxt) */;
+  			local_record_from_ecard (*local, cards->data, ctxt);
 
 			iterator = cards;
 		} else {
@@ -602,7 +698,7 @@ for_each (GnomePilotConduitSyncAbs *conduit,
 			iterator = g_list_next (iterator);
 
 			*local = g_new0 (EAddrLocalRecord, 1);
-			local_record_from_uid (*local, iterator->data, ctxt);
+			local_record_from_ecard (*local, iterator->data, ctxt);
 		} else {
 			LOG ("for_each ending");
 
@@ -621,51 +717,51 @@ for_each_modified (GnomePilotConduitSyncAbs *conduit,
 		   EAddrLocalRecord **local,
 		   EAddrConduitContext *ctxt)
 {
-/*  	static GList *changes, *iterator; */
-/*  	static int count; */
+	static GList *changes, *iterator;
+	static int count;
 
-/*  	g_return_val_if_fail (local != NULL, 0); */
+	g_return_val_if_fail (local != NULL, 0);
 
-/*  	if (*local == NULL) { */
-/*  		LOG ("beginning for_each_modified: beginning\n"); */
+	if (*local == NULL) {
+		LOG ("beginning for_each_modified: beginning\n");
 		
-/*  		changes = ctxt->changed; */
+		changes = ctxt->changed;
 		
-/*  		count = 0; */
+		count = 0;
 		
-/*  		if (changes != NULL) { */
-/*  			CalObjChange *coc = changes->data; */
+		if (changes != NULL) {
+			CardObjectChange *coc = changes->data;
 			
-/*  			LOG ("iterating over %d records", g_list_length (changes)); */
+			LOG ("iterating over %d records", g_list_length (changes));
 			 
-/*  			*local = g_new0 (EAddrLocalRecord, 1); */
-/*  			local_record_from_uid (*local, coc->uid, ctxt); */
+			*local = g_new0 (EAddrLocalRecord, 1);
+			local_record_from_uid (*local, coc->uid, ctxt);
 
-/*  			iterator = changes; */
-/*  		} else { */
-/*  			LOG ("no events"); */
-/*  			(*local) = NULL; */
-/*  			return 0; */
-/*  		} */
-/*  	} else { */
-/*  		count++; */
-/*  		if (g_list_next (iterator)) { */
-/*  			CalObjChange *coc; */
+			iterator = changes;
+		} else {
+			LOG ("no events");
+			(*local) = NULL;
+			return 0;
+		}
+	} else {
+		count++;
+		if (g_list_next (iterator)) {
+			CardObjectChange *coc;
 
-/*  			iterator = g_list_next (iterator); */
-/*  			coc = iterator->data; */
+			iterator = g_list_next (iterator);
+			coc = iterator->data;
 
-/*  			*local = g_new0 (EAddrLocalRecord, 1); */
-/*  			local_record_from_uid (*local, coc->uid, ctxt); */
-/*  		} else { */
-/*  			LOG ("for_each_modified ending"); */
+			*local = g_new0 (EAddrLocalRecord, 1);
+			local_record_from_uid (*local, coc->uid, ctxt);
+		} else {
+			LOG ("for_each_modified ending");
 
     			/* Tell the pilot the iteration is over */
-/*  			(*local) = NULL; */
+			(*local) = NULL;
 
-/*  			return 0; */
-/*  		} */
-/*  	} */
+			return 0;
+		}
+	}
 
 	return 0;
 }
@@ -686,7 +782,7 @@ compare (GnomePilotConduitSyncAbs *conduit,
 	g_return_val_if_fail (local!=NULL,-1);
 	g_return_val_if_fail (remote!=NULL,-1);
 
-/*  	local_pilot = local_record_to_pilot_record (local, ctxt); */
+  	local_pilot = local_record_to_pilot_record (local, ctxt);
 	if (!local_pilot) 
 		return -1;
 
@@ -774,18 +870,22 @@ delete_record (GnomePilotConduitSyncAbs *conduit,
 	       EAddrLocalRecord *local,
 	       EAddrConduitContext *ctxt)
 {
-/*  	const char *uid; */
-
-/*  	g_return_val_if_fail (local != NULL, -1); */
-/*  	g_assert (local->comp != NULL); */
-
-/*  	cal_component_get_uid (local->comp, &uid); */
-
-/*  	LOG ("delete_record: deleting %s\n", uid); */
-
-/*  	cal_client_remove_object (ctxt->client, uid); */
+	EBookStatus commit_status;
+	int retval = 0;
 	
-        return 0;
+	g_return_val_if_fail (local != NULL, -1);
+	g_return_val_if_fail (local->ecard != NULL, -1);
+
+	LOG ("delete_record: delete %s\n", print_local (local));
+
+	e_book_remove_card_by_id (ctxt->ebook, local->ecard->id, status_cb, &commit_status);
+	
+	gtk_main (); /* enter sub mainloop */
+	
+	if (commit_status != E_BOOK_STATUS_SUCCESS)
+		WARN ("delete_record: failed to delete card in ebook\n");
+
+	return retval;
 }
 
 static gint
@@ -799,6 +899,8 @@ archive_record (GnomePilotConduitSyncAbs *conduit,
 	g_return_val_if_fail (local != NULL, -1);
 
 	LOG ("archive_record: %s\n", archive ? "yes" : "no");
+
+	e_pilot_map_insert (ctxt->map, local->local.ID, local->ecard->id, archive);
 	
         return retval;
 }
@@ -809,7 +911,7 @@ match (GnomePilotConduitSyncAbs *conduit,
        EAddrLocalRecord **local,
        EAddrConduitContext *ctxt)
 {
-/*  	char *uid; */
+  	char *uid;
 	
 	LOG ("match: looking for local copy of %s\n",
 	     print_remote (remote));	
@@ -817,16 +919,16 @@ match (GnomePilotConduitSyncAbs *conduit,
 	g_return_val_if_fail (local != NULL, -1);
 	g_return_val_if_fail (remote != NULL, -1);
 
-/*  	*local = NULL; */
-/*  	uid = g_hash_table_lookup (ctxt->map->pid_map, &remote->ID); */
+	*local = NULL;
+	uid = g_hash_table_lookup (ctxt->map->pid_map, &remote->ID);
 	
-/*  	if (!uid) */
-/*  		return 0; */
+	if (!uid)
+		return 0;
 
-/*  	LOG ("  matched\n"); */
+	LOG ("  matched\n");
 	
-/*  	*local = g_new0 (EAddrLocalRecord, 1); */
-/*  	local_record_from_uid (*local, uid, ctxt); */
+	*local = g_new0 (EAddrLocalRecord, 1);
+	local_record_from_uid (*local, uid, ctxt);
 	
 	return 0;
 }
@@ -840,7 +942,7 @@ free_match (GnomePilotConduitSyncAbs *conduit,
 
 	g_return_val_if_fail (local != NULL, -1);
 
-/*  	gtk_object_unref (GTK_OBJECT (local->comp)); */
+	gtk_object_unref (GTK_OBJECT (local->ecard));
 	g_free (local);
 
 	return 0;
@@ -854,10 +956,10 @@ prepare (GnomePilotConduitSyncAbs *conduit,
 {
 	LOG ("prepare: encoding local %s\n", print_local (local));
 
-/*  	*remote = local_record_to_pilot_record (local, ctxt); */
+	*remote = local_record_to_pilot_record (local, ctxt);
 
-/*  	if (!*remote) */
-/*  		return -1; */
+	if (!*remote)
+		return -1;
 	
 	return 0;
 }

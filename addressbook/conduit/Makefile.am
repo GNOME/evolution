@@ -35,9 +35,11 @@ libeaddress_conduit_la_SOURCES = \
 libeaddress_conduit_la_LIBADD = 					\
 	$(top_builddir)/addressbook/backend/ebook/libebook-static.la	\
 	$(top_builddir)/e-util/libeutil-static.la			\
+	$(top_builddir)/e-util/ename/libename-static.la			\
 	$(top_builddir)/libversit/libversit.la				\
 	$(top_builddir)/e-util/libeconduit-static.la	 		\
 	$(BONOBO_VFS_GNOME_LIBS)					\
+	$(EXTRA_GNOME_LIBS)						\
 	$(PISOCK_LIBDIR) $(PISOCK_LIBS) 				\
 	$(GNOME_LIBDIR) 						\
 	$(GNOME_LIBS)
