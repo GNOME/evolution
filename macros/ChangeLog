@@ -1,3 +1,7 @@
+2003-12-09  Carlos Garnacho Parro  <garnacho@tuxerver.net>
+
+	* Release 0.30.0
+
 2003-06-28  Sebastian Rittau  <srittau@jroger.in-berlin.de>
 
 	* gnome-x-checks.m4: Add third argument to AC_DEFINE.
