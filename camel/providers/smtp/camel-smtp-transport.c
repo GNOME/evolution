@@ -37,7 +37,7 @@
 #include <unistd.h>
 #undef MIN
 #undef MAX
-#include "camel-mime-filter-smtp.h"
+#include "camel-mime-filter-crlf.h"
 #include "camel-stream-filter.h"
 #include "camel-smtp-transport.h"
 #include "camel-mime-message.h"
@@ -623,7 +623,7 @@ smtp_data (CamelSmtpTransport *transport, CamelMedium *message, CamelException *
 	/* now we can actually send what's important :p */
 	gchar *cmdbuf, *respbuf = NULL;
 	CamelStreamFilter *filtered_stream;
-	CamelMimeFilterSmtp *mimefilter;
+	CamelMimeFilter *mimefilter;
 	gint id;
 
 	/* enclose address in <>'s since some SMTP daemons *require* that */
@@ -631,7 +631,7 @@ smtp_data (CamelSmtpTransport *transport, CamelMedium *message, CamelException *
 
 	fprintf (stderr, "sending : %s", cmdbuf);
 
-	if ( camel_stream_write (transport->ostream, cmdbuf, strlen (cmdbuf)) == -1) {
+	if (camel_stream_write (transport->ostream, cmdbuf, strlen (cmdbuf)) == -1) {
 		g_free (cmdbuf);
 		camel_exception_setv (ex, CAMEL_EXCEPTION_SYSTEM,
 				      "DATA request timed out: "
@@ -645,7 +645,7 @@ smtp_data (CamelSmtpTransport *transport, CamelMedium *message, CamelException *
 
 	fprintf (stderr, "received: %s\n", respbuf ? respbuf : "(null)");
 
-	if ( !respbuf || strncmp (respbuf, "354", 3) ) {
+	if (!respbuf || strncmp (respbuf, "354", 3) ) {
 		/* we should have gotten instructions on how to use the DATA command:
 		 * 354 Enter mail, end with "." on a line by itself
 		 */
@@ -658,7 +658,7 @@ smtp_data (CamelSmtpTransport *transport, CamelMedium *message, CamelException *
 	}
 	
 	/* setup stream filtering */
-	mimefilter = camel_mime_filter_smtp_new ();
+	mimefilter = camel_mime_filter_crlf_new (CAMEL_MIME_FILTER_CRLF_ENCODE, CAMEL_MIME_FILTER_CRLF_MODE_CRLF_DOTS);
         filtered_stream = camel_stream_filter_new_with_stream (transport->ostream);
 	id = camel_stream_filter_add (filtered_stream, CAMEL_MIME_FILTER (mimefilter));
 
@@ -693,14 +693,14 @@ smtp_data (CamelSmtpTransport *transport, CamelMedium *message, CamelException *
 
 		fprintf (stderr, "received: %s\n", respbuf ? respbuf : "(null)");
 
-		if ( !respbuf || strncmp (respbuf, "250", 3) ) {
+		if (!respbuf || strncmp (respbuf, "250", 3)) {
 			camel_exception_setv (ex, CAMEL_EXCEPTION_SYSTEM,
 					      "DATA response error: message termination: "
 					      "%s: mail not sent",
 					      g_strerror (errno));
 			return FALSE;
 		}
-	} while ( *(respbuf+3) == '-' ); /* if we got "250-" then loop again */
+	} while (*(respbuf+3) == '-'); /* if we got "250-" then loop again */
 	g_free (respbuf);
 
 	return TRUE;
@@ -733,7 +733,7 @@ smtp_rset (CamelSmtpTransport *transport, CamelException *ex)
 
 		fprintf (stderr, "received: %s\n", respbuf ? respbuf : "(null)");
 
-		if ( !respbuf || strncmp (respbuf, "250", 3) ) {
+		if (!respbuf || strncmp (respbuf, "250", 3)) {
 			camel_exception_setv (ex, CAMEL_EXCEPTION_SYSTEM,
 					      "RSET response error: "
 					      "%s",

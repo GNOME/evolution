@@ -436,7 +436,7 @@ imap_append_message (CamelFolder *folder, CamelMimeMessage *message, CamelExcept
 	        return;
 	}
 
-	mem->buffer = g_byte_array_append(mem->buffer, g_strdup("\n"), 2);
+	mem->buffer = g_byte_array_append(mem->buffer, g_strdup("\r\n"), 3);
 	status = camel_imap_command(CAMEL_IMAP_STORE (folder->parent_store),
 				    folder, &result,
 				    "APPEND %s (\\Seen) {%d}\r\n%s",
@@ -605,13 +605,29 @@ message_changed (CamelMimeMessage *m, int type, CamelImapFolder *mf)
 static CamelMimeMessage *
 imap_get_message_by_uid (CamelFolder *folder, const gchar *uid, CamelException *ex)
 {
-	CamelImapFolder *imap_folder = CAMEL_IMAP_FOLDER (folder);
-	CamelImapStore *store = CAMEL_IMAP_STORE (folder->parent_store);
 	CamelImapStream *imap_stream;
 	CamelMimeMessage *message;
-	gchar *cmdid, *cmdbuf;
+	CamelMimePart *part;
+	CamelDataWrapper *cdw;
+	gchar *cmdbuf;
 
+	/* TODO: fetch the correct part, get rid of the hard-coded stuff */
+	cmdbuf = g_strdup_printf("UID FETCH %s BODY[TEXT]", uid);
+	imap_stream = camel_imap_stream_new(folder, cmdbuf);
+	g_free(cmdbuf);
+
+	message = camel_mime_message_new();
 	
+	cdw = camel_data_wrapper_new();
+	camel_data_wrapper_construct_from_stream(cdw, imap_stream);
+	gtk_object_unref(GTK_OBJECT (imap_stream));
+	
+	camel_data_wrapper_set_mime_type (cdw, "text/plain");
+
+	camel_medium_set_content_object (CAMEL_MEDIUM (message), CAMEL_DATA_WRAPPER (cdw));
+	gtk_object_unref (GTK_OBJECT (cdw));
+	
+	return message;
 }
 
 #if 0

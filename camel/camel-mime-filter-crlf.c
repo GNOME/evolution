@@ -1,7 +1,9 @@
+/* -*- Mode: C; tab-width: 8; indent-tabs-mode: t; c-basic-offset: 8 -*- */
 /*
  *  Copyright (C) 2000 Helix Code, Inc.
  *
  *  Authors: Dan Winship <danw@helixcode.com>
+ *           Jeffrey Stedfast <fejj@helixcode.com>
  *
  *  This program is free software; you can redistribute it and/or
  *  modify it under the terms of the GNU Library General Public License
@@ -68,7 +70,10 @@ filter (CamelMimeFilter *f, char *in, size_t len, size_t prespace,
 	char **out, size_t *outlen, size_t *outprespace)
 {
 	CamelMimeFilterCRLF *crlf = (CamelMimeFilterCRLF *)f;
+	gboolean do_dots;
 	char *p, *q;
+
+	do_dots = crlf->mode == CAMEL_MIME_FILTER_CRLF_MODE_CRLF_DOTS;
 
 	if (crlf->direction == CAMEL_MIME_FILTER_CRLF_ENCODE) {
 		camel_mime_filter_set_size (f, 2 * len, FALSE);
@@ -78,6 +83,9 @@ filter (CamelMimeFilter *f, char *in, size_t len, size_t prespace,
 		while (p < in + len) {
 			if (*p == '\n')
 				*q++ = '\r';
+			else
+				if (do_dots && *(p - 1) == '\n' && *p == '.' && *(p + 1) != '.')
+					*q++ = '.';
 			*q++ = *p++;
 		}
 	} else {
@@ -86,15 +94,30 @@ filter (CamelMimeFilter *f, char *in, size_t len, size_t prespace,
 		p = in;
 		q = f->outbuf;
 		while (p < in + len) {
-			if (*p == '\r')
+			if (*p == '\r') {
 				crlf->saw_cr = TRUE;
-			else {
+				p++;
+			} else {
 				if (crlf->saw_cr) {
 					if (*p != '\n')
 						*q++ = '\r';
 					crlf->saw_cr = FALSE;
 				}
 				*q++ = *p++;
+			}
+
+			if (do_dots) {
+				if (*p == '.' && *(p - 1) == '\n') {
+					crlf->saw_dot = TRUE;
+					p++;
+				} else {
+					if (crlf->saw_dot) {
+						if (*p == '.')
+							p++;
+						crlf->saw_dot = FALSE;
+					}
+					*q++ = *p++;
+				}
 			}
 		}
 	}
@@ -121,11 +144,12 @@ reset (CamelMimeFilter *f)
 }
 
 CamelMimeFilter *
-camel_mime_filter_crlf_new (CamelMimeFilterCRLFDirection direction)
+camel_mime_filter_crlf_new (CamelMimeFilterCRLFDirection direction, CamelMimeFilterCRLFMode mode)
 {
 	CamelMimeFilterCRLF *crlf = gtk_type_new (CAMEL_MIME_FILTER_CRLF_TYPE);
 
 	crlf->direction = direction;
+	crlf->mode = mode;
 	crlf->saw_cr = FALSE;
 
 	return (CamelMimeFilter *)crlf;

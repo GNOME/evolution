@@ -1,3 +1,18 @@
+2000-06-12  Jeffrey Stedfast  <fejj@helixcode.com>
+
+	* camel-mime-filter-smtp.c: Deprecated.
+
+	* providers/smtp/camel-smtp-transport.c (smtp_data): Updated to use
+	camel-mime-filter-crlf with my 'dot' extension in place of
+	camel-mime-filter-smtp
+
+	* camel-mime-part.c (write_to_stream): Updated to reflect changes
+	made to camel-mime-filter-crlf.c
+
+	* camel-mime-filter-crlf.c (filter): Modified to be able to
+	encode/decode dots ("\n.\n"<->"\n..\n"). Also fixed the decoder
+	so that it should no longer get caught in an infinite loop.
+
 2000-06-12  Dan Winship  <danw@helixcode.com>
 
 	* providers/*/Makefile.am: don't pass a second (incorrect) -rpath

@@ -1,7 +1,9 @@
+/* -*- Mode: C; tab-width: 8; indent-tabs-mode: t; c-basic-offset: 8 -*- */
 /*
  *  Copyright (C) 2000 Helix Code Inc.
  *
  *  Authors: Dan Winship <danw@helixcode.com>
+ *           Jeffrey Stedfast <fejj@helixcode.com>
  *
  *  This program is free software; you can redistribute it and/or
  *  modify it under the terms of the GNU Library General Public License
@@ -35,11 +37,18 @@ typedef enum {
 	CAMEL_MIME_FILTER_CRLF_DECODE
 } CamelMimeFilterCRLFDirection;
 
+typedef enum {
+	CAMEL_MIME_FILTER_CRLF_MODE_CRLF_DOTS,
+	CAMEL_MIME_FILTER_CRLF_MODE_CRLF_ONLY,
+} CamelMimeFilterCRLFMode;
+
 struct _CamelMimeFilterCRLF {
 	CamelMimeFilter parent;
 
 	CamelMimeFilterCRLFDirection direction;
+	CamelMimeFilterCRLFMode mode;
 	gboolean saw_cr;
+	gboolean saw_dot;
 };
 
 struct _CamelMimeFilterCRLFClass {
@@ -48,6 +57,6 @@ struct _CamelMimeFilterCRLFClass {
 
 GtkType camel_mime_filter_crlf_get_type (void);
 
-CamelMimeFilter *camel_mime_filter_crlf_new (CamelMimeFilterCRLFDirection direction);
+CamelMimeFilter *camel_mime_filter_crlf_new (CamelMimeFilterCRLFDirection direction, CamelMimeFilterCRLFMode mode);
 
 #endif /* ! _CAMEL_MIME_FILTER_CRLF_H */

@@ -530,7 +530,8 @@ write_to_stream (CamelDataWrapper *data_wrapper, CamelStream *stream)
 		if (filter) {
 			filter_stream = camel_stream_filter_new_with_stream(stream);
 			if (!strcasecmp(mp->content_type->type, "text")) {
-				CamelMimeFilter *crlf = camel_mime_filter_crlf_new(CAMEL_MIME_FILTER_CRLF_ENCODE);
+				CamelMimeFilter *crlf = camel_mime_filter_crlf_new(CAMEL_MIME_FILTER_CRLF_ENCODE,
+										   CAMEL_MIME_FILTER_CRLF_MODE_CRLF_ONLY);
 				camel_stream_filter_add(filter_stream, crlf);
 				gtk_object_unref((GtkObject *)crlf);
 			}
