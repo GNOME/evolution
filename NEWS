@@ -53,6 +53,10 @@ Calendar:
 
   - Added activity bars for long calendar operations (Rodrigo)
 
+  - Added iCal file importer (Rodrigo)
+
+  - Show error dialogs on calendar failures (Rodrigo)
+
 
 Version 0.16 (Beta 6), 2001-10-10
 ---------------------------------
