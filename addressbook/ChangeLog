@@ -1,5 +1,12 @@
 2000-08-11  Chris Toshok  <toshok@helixcode.com>
 
+	* conduit/address-conduit.c (transmit): implement code to encode
+	the first email address and send to the pilot.
+	(get_phone_label_by_flag): rename find_phone_label_for_flags to
+	this, and implement by calling get_phone_label_by_name.
+
+2000-08-11  Chris Toshok  <toshok@helixcode.com>
+
 	* conduit/address-conduit.c (ecard_from_remote_record): add code
 	for handling email addresses from pilot (which stores it as a
 	phone number entry.  go figure.)
@@ -9,6 +16,7 @@
 	(merge_ecard_with_remote_record): implement function, but for now
 	just return the existing (desktop) record - we still don't allow
 	merge from the pilot.
+
 
 2000-08-10  Christopher James Lahey  <clahey@helixcode.com>
 

@@ -881,11 +881,25 @@ set_pilot_id (GnomePilotConduitStandardAbs *conduit,
 }
 
 static int
-find_phone_label_for_flags (struct AddressAppInfo *ai,
-			    int flags)
+get_phone_label_by_name (struct AddressAppInfo *ai,
+			 const char *name)
+{
+	int i;
+
+	for (i = 0; i < 8 /* the number of pilot address labels */; i ++) {
+		if (!strcmp(name, ai->phoneLabels[i]))
+			return i;
+	}
+
+	WARN ("couldn't find pilot label '%s'.\n", name);
+	return 0;
+}
+
+static int
+get_phone_label_by_flag (struct AddressAppInfo *ai,
+			 int flags)
 {
 	char *label_to_find;
-	int i;
 
 	if (flags & E_CARD_PHONE_PREF) label_to_find = "Main";
 	else if (flags & E_CARD_PHONE_WORK) label_to_find = "Work";
@@ -895,13 +909,7 @@ find_phone_label_for_flags (struct AddressAppInfo *ai,
 	else if (flags & E_CARD_PHONE_CELL) label_to_find = "Mobile";
 	else label_to_find = "Other";
 
-	for (i = 0; i < 8 /* the number of pilot address labels */; i ++) {
-		if (!strcmp(label_to_find, ai->phoneLabels[i]))
-			return i;
-	}
-
-	WARN ("couldn't find pilot label for phone type.\n");
-	return 0;
+	return get_phone_label_by_name (ai, label_to_find);
 }
 
 /*
@@ -921,7 +929,9 @@ transmit (GnomePilotConduitStandardAbs *conduit,
 	PilotRecord *p;
 	ECardName *ecard_name;
 	EList *ecard_phones;
+	EList *ecard_emails;
 	char *ecard_org, *ecard_note, *ecard_title;
+	int phone_entry = entryPhone1;
 	
 	LOG ("entering transmit");
 
@@ -944,6 +954,7 @@ transmit (GnomePilotConduitStandardAbs *conduit,
 			"note", &ecard_note,
 			"title", &ecard_title,
 			"phone", &ecard_phones,
+			"email", &ecard_emails,
 			NULL);
 
 	/* use strdup instead of g_strdup since free_transmit uses free, not g_free. */
@@ -961,6 +972,18 @@ transmit (GnomePilotConduitStandardAbs *conduit,
 	if (ecard_title) {
 		local->address->entry [ entryTitle ] = strdup (ecard_title);
 	}
+	if (ecard_emails) {
+		EIterator *iterator = e_list_get_iterator (ecard_emails);
+		char *email;
+
+		if ((email = (char *)e_iterator_get(iterator))) {
+			local->address->phoneLabel[phone_entry - entryPhone1] =
+				get_phone_label_by_name (&ctxt->ai, "E-mail");
+			local->address->entry [ phone_entry ] = strdup (email);
+
+			phone_entry++;
+		}
+	}
 	if (ecard_phones) {
 		int phone_entry = entryPhone1;
 		EIterator *iterator = e_list_get_iterator (ecard_phones);
@@ -969,7 +992,7 @@ transmit (GnomePilotConduitStandardAbs *conduit,
 		while ((phone = (ECardPhone*)e_iterator_get(iterator))) {
 
 			local->address->phoneLabel[phone_entry - entryPhone1] =
-				find_phone_label_for_flags (&ctxt->ai, phone->flags);
+				get_phone_label_by_flag (&ctxt->ai, phone->flags);
 			local->address->entry [ phone_entry ] = strdup (phone->number);
 
 			/* only store 5 numbers */
