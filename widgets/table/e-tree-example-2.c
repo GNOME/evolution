@@ -149,20 +149,20 @@ tree_value_at (ETreeModel *etm, ETreePath *path, int col, void *model_data)
 		static char buf[15];
 		if (vfs_info->info) {
 			if (vfs_info->info->type == GNOME_VFS_FILE_TYPE_DIRECTORY)
-				return NULL;
+				return "";
 			else {
 				g_snprintf (buf, sizeof(buf), "%ld", (glong) vfs_info->info->size);
 				return buf;
 			}
 		}
 		else
-			return NULL;
+			return "";
 	}
 	case 2: /* file type */
 		if (vfs_info->info)
 			return type_to_string (vfs_info->info->type);
 		else
-			return NULL;
+			return "";
 	case 3: /* mime type */ 
 		if (vfs_info->info) {
 			const char *mime_type = gnome_vfs_file_info_get_mime_type (vfs_info->info);
@@ -171,10 +171,52 @@ tree_value_at (ETreeModel *etm, ETreePath *path, int col, void *model_data)
 			return (void*)mime_type;
 		}
 		else {
-			return NULL;
+			return "";
 		}
-	default: return NULL;
+	default: return "";
 	}
+}
+
+/* This function returns the number of columns in our ETableModel. */
+static int
+tree_col_count (ETableModel *etc, void *data)
+{
+	return RIGHT_COLS;
+}
+
+/* This function duplicates the value passed to it. */
+static void *
+tree_duplicate_value (ETableModel *etc, int col, const void *value, void *data)
+{
+	return g_strdup (value);
+}
+
+/* This function frees the value passed to it. */
+static void
+tree_free_value (ETableModel *etc, int col, void *value, void *data)
+{
+	g_free (value);
+}
+
+/* This function creates an empty value. */
+static void *
+tree_initialize_value (ETableModel *etc, int col, void *data)
+{
+	return g_strdup ("");
+}
+
+/* This function reports if a value is empty. */
+static gboolean
+tree_value_is_empty (ETableModel *etc, int col, const void *value, void *data)
+{
+	return !(value && *(char *)value);
+}
+
+/* This function reports if a value is empty. */
+static char *
+tree_value_to_string (ETableModel *etc, int col, const void *value, void *data)
+{
+	return g_strdup(value);
 }
 
 static GdkPixbuf *
@@ -416,11 +458,17 @@ create_right_tree(GtkWidget *paned)
 
 	/* here we create our model.  This uses the functions we defined
 	   earlier. */
-	right_model = e_tree_simple_new (tree_icon_at,
-					  tree_value_at,
-					  tree_set_value_at,
-					  tree_is_editable,
-					  NULL);
+	right_model = e_tree_simple_new (tree_col_count,
+					 tree_duplicate_value,
+					 tree_free_value,
+					 tree_initialize_value,
+					 tree_value_is_empty,
+					 tree_value_to_string,
+					 tree_icon_at,
+					 tree_value_at,
+					 tree_set_value_at,
+					 tree_is_editable,
+					 NULL);
 
 	/* create the unexpanded root node and it's placeholder child. */
 	right_root = e_tree_model_node_insert (right_model, NULL,
@@ -517,11 +565,17 @@ create_left_tree (GtkWidget *paned, char *root_uri)
 
 	/* here we create our model.  This uses the functions we defined
 	   earlier. */
-	left_model = e_tree_simple_new (tree_icon_at,
-					  tree_value_at,
-					  tree_set_value_at,
-					  tree_is_editable,
-					  NULL);
+	left_model = e_tree_simple_new (tree_col_count,
+					tree_duplicate_value,
+					tree_free_value,
+					tree_initialize_value,
+					tree_value_is_empty,
+					tree_value_to_string,
+					tree_icon_at,
+					tree_value_at,
+					tree_set_value_at,
+					tree_is_editable,
+					NULL);
 
 	/* catch collapsed/expanded signals */
 	gtk_signal_connect (GTK_OBJECT (left_model), "node_expanded",

@@ -70,6 +70,48 @@ GtkWidget *e_table;
  * These are the callbacks that define the behavior of our custom model.
  */
 
+/* This function returns the number of columns in our ETableModel. */
+static int
+my_col_count (ETableModel *etc, void *data)
+{
+	return COLS;
+}
+
+/* This function duplicates the value passed to it. */
+static void *
+my_duplicate_value (ETableModel *etc, int col, const void *value, void *data)
+{
+	return g_strdup (value);
+}
+
+/* This function frees the value passed to it. */
+static void
+my_free_value (ETableModel *etc, int col, void *value, void *data)
+{
+	g_free (value);
+}
+
+/* This function creates an empty value. */
+static void *
+my_initialize_value (ETableModel *etc, int col, void *data)
+{
+	return g_strdup ("");
+}
+
+/* This function reports if a value is empty. */
+static gboolean
+my_value_is_empty (ETableModel *etc, int col, const void *value, void *data)
+{
+	return !(value && *(char *)value);
+}
+
+/* This function reports if a value is empty. */
+static char *
+my_value_to_string (ETableModel *etc, int col, const void *value, void *data)
+{
+	return g_strdup(value);
+}
+
 /* This function returns the value at a particular point in our ETreeModel. */
 static void *
 my_value_at (ETreeModel *etm, ETreePath *path, int col, void *model_data)
@@ -241,7 +283,13 @@ create_tree (void)
 
 	/* here we create our model.  This uses the functions we defined
 	   earlier. */
-	e_tree_model = e_tree_simple_new (my_icon_at,
+	e_tree_model = e_tree_simple_new (my_col_count,
+					  my_duplicate_value,
+					  my_free_value,
+					  my_initialize_value,
+					  my_value_is_empty,
+					  my_value_to_string,
+					  my_icon_at,
 					  my_value_at,
 					  my_set_value_at,
 					  my_is_editable,

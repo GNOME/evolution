@@ -1,3 +1,13 @@
+2000-09-08  Christopher James Lahey  <clahey@helixcode.com>
+
+	* e-tree-example-1.c: Added base ETableModel functions.
+
+	* e-tree-example-2.c: Added base ETableModel functions.  Made it
+	never return NULL as a string, instead return "".
+
+	* e-tree-simple.c, e-tree-simple.h: Require base ETableModel
+	functions.
+
 2000-09-01  Christopher James Lahey  <clahey@helixcode.com>
 
 	* e-table-item.c, e-table.c: Fixed a leak and a double unref.

@@ -4,6 +4,7 @@
 #define _E_TREE_SIMPLE_H_
 
 #include "e-tree-model.h"
+#include "e-table-simple.h"
 
 #define E_TREE_SIMPLE_TYPE        (e_tree_simple_get_type ())
 #define E_TREE_SIMPLE(o)          (GTK_CHECK_CAST ((o), E_TREE_SIMPLE_TYPE, ETreeSimple))
@@ -20,6 +21,15 @@ typedef gboolean   (*ETreeSimpleIsEditableFn) (ETreeModel *etree, ETreePath *pat
 typedef struct {
 	ETreeModel parent;
 
+	/* Table methods */
+	ETableSimpleColumnCountFn     col_count;
+	ETableSimpleDuplicateValueFn  duplicate_value;
+	ETableSimpleFreeValueFn       free_value;
+	ETableSimpleInitializeValueFn initialize_value;
+	ETableSimpleValueIsEmptyFn    value_is_empty;
+	ETableSimpleValueToStringFn   value_to_string;
+
+	/* Tree methods */
 	ETreeSimpleIconAtFn icon_at;
 	ETreeSimpleValueAtFn value_at;
 	ETreeSimpleSetValueAtFn set_value_at;
@@ -34,10 +44,16 @@ typedef struct {
 
 GtkType e_tree_simple_get_type (void);
 
-ETreeModel *e_tree_simple_new (ETreeSimpleIconAtFn icon_at,
-			       ETreeSimpleValueAtFn value_at,
-			       ETreeSimpleSetValueAtFn set_value_at,
-			       ETreeSimpleIsEditableFn is_editable,
-			       gpointer model_data);
+ETreeModel *e_tree_simple_new  (ETableSimpleColumnCountFn     col_count,
+				ETableSimpleDuplicateValueFn  duplicate_value,
+				ETableSimpleFreeValueFn       free_value,
+				ETableSimpleInitializeValueFn initialize_value,
+				ETableSimpleValueIsEmptyFn    value_is_empty,
+				ETableSimpleValueToStringFn   value_to_string,
+				ETreeSimpleIconAtFn           icon_at,
+				ETreeSimpleValueAtFn          value_at,
+				ETreeSimpleSetValueAtFn       set_value_at,
+				ETreeSimpleIsEditableFn       is_editable,
+				gpointer                      model_data);
 
 #endif /* _E_TREE_SIMPLE_H_ */
