@@ -25,7 +25,6 @@
 
 #include "gal-view-instance-save-as-dialog.h"
 
-#include <libgnomeui/gnome-dialog.h>
 #include "gal-define-views-model.h"
 #include "gal-view-new-dialog.h"
 #include <gal/e-table/e-table-scrolled.h>
@@ -34,6 +33,7 @@
 #include <gtk/gtkentry.h>
 #include <gtk/gtktogglebutton.h>
 #include <gtk/gtkbox.h>
+#include <gtk/gtkstock.h>
 
 static GtkDialogClass *parent_class = NULL;
 #define PARENT_TYPE GTK_TYPE_DIALOG

@@ -28,7 +28,6 @@
 #include <string.h>
 #include <libxml/parser.h>
 #include <libgnome/gnome-util.h>
-#include <libgnomeui/gnome-dialog.h>
 #include <gal/util/e-util.h>
 #include <gal/util/e-xml-utils.h>
 #include <gal/widgets/e-unicode.h>
@@ -399,20 +398,20 @@ gal_view_instance_set_custom_view (GalViewInstance *instance, GalView *view)
 }
 
 static void
-dialog_clicked(GtkWidget *dialog, int button, GalViewInstance *instance)
+dialog_response(GtkWidget *dialog, int id, GalViewInstance *instance)
 {
-	if (button == 0) {
+	if (id == GTK_RESPONSE_OK) {
 		gal_view_instance_save_as_dialog_save (GAL_VIEW_INSTANCE_SAVE_AS_DIALOG (dialog));
 	}
-	gnome_dialog_close(GNOME_DIALOG(dialog));
+	gtk_widget_destroy (dialog);
 }
 
 void
 gal_view_instance_save_as (GalViewInstance *instance)
 {
 	GtkWidget *dialog = gal_view_instance_save_as_dialog_new(instance);
-	g_signal_connect(dialog, "clicked",
-			 G_CALLBACK(dialog_clicked), instance);
+	g_signal_connect(dialog, "response",
+			 G_CALLBACK(dialog_response), instance);
 	gtk_widget_show(dialog);
 }
 
@@ -504,12 +503,12 @@ add_popup_menu_item (EPopupMenu *menu_item,
 }
 
 static void
-define_views_dialog_clicked(GtkWidget *dialog, int button, GalViewInstance *instance)
+define_views_dialog_response(GtkWidget *dialog, int id, GalViewInstance *instance)
 {
-	if (button == 0) {
+	if (id == GTK_RESPONSE_OK) {
 		gal_view_collection_save(instance->collection);
 	}
-	gnome_dialog_close(GNOME_DIALOG(dialog));
+	gtk_widget_destroy (dialog);
 }
 
 static void
@@ -517,8 +516,8 @@ define_views_cb(GtkWidget *widget,
 		GalViewInstance *instance)
 {
 	GtkWidget *dialog = gal_define_views_dialog_new(instance->collection);
-	g_signal_connect(dialog, "clicked",
-			 G_CALLBACK(define_views_dialog_clicked), instance);
+	g_signal_connect(dialog, "response",
+			 G_CALLBACK(define_views_dialog_response), instance);
 	gtk_widget_show(dialog);
 }
 

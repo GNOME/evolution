@@ -22,7 +22,6 @@
  */
 
 #include <config.h>
-#include <libgnomeui/gnome-dialog.h>
 #include <gtk/gtk.h>
 #include <gtk/gtktreeselection.h>
 #include "gal-view-new-dialog.h"
