@@ -1562,10 +1562,12 @@ e_table_item_focus (ETableItem *eti, int col, int row)
 		col = eti->cols - 1;
 	}
 
-	eti->cursor_col = col;
-
 	if (row != -1) {
-		e_canvas_item_set_cursor(GNOME_CANVAS_ITEM(eti), (gpointer) row);
+		int *nums;
+		nums = g_new(int, 2);
+		nums[0] = row;
+		nums[1] = col;
+		e_canvas_item_set_cursor(GNOME_CANVAS_ITEM(eti), nums);
 	}
 }
 
@@ -1623,8 +1625,9 @@ e_table_item_select_row (ETableItem *eti, int row)
 static void
 eti_selection (GnomeCanvasItem *item, int flags, gpointer data)
 {
-	int row = (int) data;
-	int col = 0;
+	int *nums = data;
+	int row = nums[0];
+	int col = nums[1];
 	ETableItem *eti = E_TABLE_ITEM(item);
 	int selected = e_table_item_is_row_selected(eti, row);
 	int cursored = (row == eti->cursor_row);
@@ -1649,7 +1652,7 @@ eti_selection (GnomeCanvasItem *item, int flags, gpointer data)
 		eti->cursor_col = -1;
 	}
 	if (flags & E_CANVAS_ITEM_SELECTION_DELETE_DATA) {
-		
+		g_free(data);
 	}
 }
 
