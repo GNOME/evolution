@@ -1,5 +1,7 @@
 2001-08-29  Peter Williams  <peterw@ximian.com>
 
+	* folder-browser-ui.c: Fix the pixmap for /commands/MessageUndelete.
+
 	* component-factory.c (owner_set_cb): Toss in a call to 
 	mail_config_init () cause it might contribute to solving 
 	bug 4911, and it won't hurt.

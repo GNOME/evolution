@@ -111,7 +111,8 @@
 
     <cmd name="MessageUndelete"
      _tip="Un-delete the selected messages"
-     accel="*Control*u"/>
+     accel="*Control*u"
+     pixtype="pixbuf"/>
 
     <cmd name="PrintMessage"
      _tip="Print this message"
