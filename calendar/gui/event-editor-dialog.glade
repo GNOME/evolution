@@ -620,6 +620,7 @@
 	  <widget>
 	    <class>GtkVBox</class>
 	    <name>vbox50</name>
+	    <border_width>4</border_width>
 	    <homogeneous>False</homogeneous>
 	    <spacing>4</spacing>
 

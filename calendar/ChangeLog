@@ -1,3 +1,7 @@
+2001-02-07  JP Rosevear  <jpr@ximian.com>
+
+	* gui/event-editor-dialog.glade: Fix spacing
+
 2001-02-06  JP Rosevear  <jpr@ximian.com>
 
 	* gui/event-editor-dialog.glade: Gui tweaks for bugs 1248 and 1246
