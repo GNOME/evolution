@@ -1,5 +1,9 @@
 2004-02-04  JP Rosevear <jpr@ximian.com>
 
+	* e-shell-view-menu[hc]: remove dead files
+
+2004-02-04  JP Rosevear <jpr@ximian.com>
+
 	* e-shell.c (e_shell_quit): make this C89 compliant
 
 2004-02-04  Not Zed  <NotZed@Ximian.com>
