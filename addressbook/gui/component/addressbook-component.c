@@ -146,7 +146,6 @@ load_primary_selection (AddressbookComponent *addressbook_component)
 {
 	AddressbookComponentPrivate *priv;
 	ESource *source;
-	char *uid;
 
 	priv = addressbook_component->priv;
 

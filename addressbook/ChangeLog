@@ -1,3 +1,30 @@
+2004-02-26  Hans Petter Jansson  <hpj@ximian.com>
+
+	* util/eab-destination.c (name_and_email_cb): Move unused variable
+	declaration inside notyet conditional.
+
+	* printing/e-contact-print.c: Include gal/util/e-util.h
+
+	* gui/merging/eab-contact-compare.c (eab_contact_locate_match): Cast
+	callback to an EBookCallback.
+	(eab_contact_locate_match_full): Ditto.
+
+	* gui/contact-editor/e-contact-quick-add.c (quick_add_set_name):
+	Remove unused variable and cast 3rd arg to e_contact_set () (perhaps
+	this should take a gconstpointer?).
+
+	* gui/contact-editor/e-contact-editor-im.c (setup_service_optmenu):
+	Remove unused variable.
+
+	* gui/component/select-names/e-select-names.c (e_select_names_init):
+	Cast the vbox to a GtkBox.
+
+	* gui/component/addressbook-config.c (dialog_to_source): Correctly cast
+	the spin button to a GtkSpinButton, not a GtkEntry.
+
+	* gui/component/addressbook-component.c (load_primary_selection):
+	Remove unused variable.
+
 2004-02-26  Chris Toshok  <toshok@ximian.com>
 
 	* gui/widgets/eab-contact-display.c (render_contact): add the

@@ -40,6 +40,7 @@
 #include <libgnomeprintui/gnome-print-job-preview.h>
 #include <libebook/e-book-async.h>
 #include <libebook/e-contact.h>
+#include <gal/util/e-util.h>
 #include <addressbook/util/eab-destination.h>
 
 #define SCALE 5

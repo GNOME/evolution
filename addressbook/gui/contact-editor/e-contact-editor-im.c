@@ -177,7 +177,6 @@ setup_service_optmenu(EContactEditorIm *editor)
 	GtkWidget *image;
 	GdkPixbuf *pixbuf;
 	GdkPixbuf *scale;
-	GList *p;
 	GtkSizeGroup *sg;
 	char *icon_path;
 	int i;

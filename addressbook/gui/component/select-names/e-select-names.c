@@ -481,7 +481,7 @@ e_select_names_init (ESelectNames *e_select_names)
 	}
 	gtk_widget_ref (widget);
 	gtk_container_remove (GTK_CONTAINER (widget->parent), widget);
-	gtk_box_pack_start (GTK_DIALOG (e_select_names)->vbox, widget, TRUE, TRUE, 0);
+	gtk_box_pack_start (GTK_BOX (GTK_DIALOG (e_select_names)->vbox), widget, TRUE, TRUE, 0);
 	gtk_widget_unref (widget);
 
 	gtk_dialog_add_buttons (GTK_DIALOG (e_select_names),

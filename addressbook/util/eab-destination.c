@@ -919,10 +919,10 @@ name_and_email_cb (EBook *book, EBookStatus status, GList *contacts, gpointer cl
 	
 	if (status == E_BOOK_ERROR_OK && g_list_length ((GList *) contacts) == 1) {
 		EContact *contact = E_CONTACT (contacts->data);
-		const char *email = eab_destination_get_email (dest);
 		int email_num = 0;
-		
 #if notyet
+		const char *email = eab_destination_get_email (dest);
+		
 		if (eab_destination_is_valid (dest) && email && *email) {
 			email_num = e_contact_email_find_number (contact, eab_destination_get_email (dest));
 		}

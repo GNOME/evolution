@@ -240,7 +240,7 @@ dialog_to_source (AddressbookSourceDialog *dialog, ESource *source, gboolean tem
 #ifdef HAVE_LDAP
 		e_source_set_property (source, "email_addr", gtk_entry_get_text (GTK_ENTRY (dialog->email)));
 		e_source_set_property (source, "binddn", gtk_entry_get_text (GTK_ENTRY (dialog->binddn)));
-		str = g_strdup_printf ("%d", gtk_spin_button_get_value_as_int (GTK_ENTRY (dialog->limit_spinbutton)));
+		str = g_strdup_printf ("%d", gtk_spin_button_get_value_as_int (GTK_SPIN_BUTTON (dialog->limit_spinbutton)));
 		e_source_set_property (source, "limit", str);
 		g_free (str);
 		e_source_set_property (source, "ssl", ldap_unparse_ssl (dialog->ssl));

@@ -29,6 +29,7 @@
 #include <ctype.h>
 #include <string.h>
 #include "util/eab-book-util.h"
+#include "../component/addressbook.h"
 #include "eab-contact-compare.h"
 
 /* This is an "optimistic" combiner: the best of the two outcomes is
@@ -707,7 +708,7 @@ eab_contact_locate_match (EContact *contact, EABContactMatchQueryCallback cb, gp
 	info->closure = closure;
 	info->avoid = NULL;
 
-	addressbook_load_default_book (use_common_book_cb, info);
+	addressbook_load_default_book ((EBookCallback) use_common_book_cb, info);
 }
 
 /**
@@ -740,6 +741,6 @@ eab_contact_locate_match_full (EBook *book, EContact *contact, GList *avoid, EAB
 	if (book)
 		use_common_book_cb (book, info);
 	else
-		addressbook_load_default_book (use_common_book_cb, info);
+		addressbook_load_default_book ((EBookCallback) use_common_book_cb, info);
 }
 
