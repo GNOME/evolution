@@ -1,4 +1,8 @@
 
+#ifdef HAVE_CONFIG_H
+#include <config.h>
+#endif
+
 #include <glib.h>
 
 #include <stdio.h>
@@ -6,6 +10,10 @@
 #include <ctype.h>
 #include <string.h>
 #include <errno.h>
+
+#ifdef HAVE_ALLOCA_H
+#include <alloca.h>
+#endif
 
 #include "ibex_internal.h"
 

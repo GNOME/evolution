@@ -1,6 +1,7 @@
 2001-09-20    <NotZed@Ximian.com>
 
-	* ibex_block.c: Turn off the o(x) debug set.
+	* ibex_block.c: Turn off the o(x) debug set, & include alloca.h &
+	config.h.
 
 2001-09-17    <NotZed@Ximian.com>
 
