@@ -202,14 +202,8 @@ static int	load(RuleContext *f, const char *system, const char *user)
 		f->system = NULL;
 		return -1;
 	}
+	/* doesn't matter if this doens't exist */
 	f->user = xmlParseFile(user);
-	if (f->user == NULL) {
-		rule_context_set_error(f, g_strdup_printf("Unable to load user rules '%s': %s",
-							  system, strerror(errno)));
-		xmlFreeDoc(f->system);
-		f->system = NULL;
-		return -1;
-	}
 
 	/* now parse structure */
 	/* get rule parts */
@@ -237,28 +231,30 @@ static int	load(RuleContext *f, const char *system, const char *user)
 	}
 
 	/* now load actual rules */
-	set = f->user->root->childs;
-	while (set) {
-		d(printf("set name = %s\n", set->name));
-		rule_map = g_hash_table_lookup(f->rule_set_map, set->name);
-		if (rule_map) {
-			d(printf("loading rules ...\n"));
-			rule = set->childs;
-			while (rule) {
-				printf("checking node: %s\n", rule->name);
-				if (!strcmp(rule->name, "rule")) {
-					FilterRule *part = FILTER_RULE(gtk_type_new(rule_map->type));
-					if (filter_rule_xml_decode(part, rule, f) == 0) {
-						rule_map->append(f, part);
-					} else {
-						gtk_object_unref((GtkObject *)part);
-						g_warning("Cannot load filter part");
+	if (f->user) {
+		set = f->user->root->childs;
+		while (set) {
+			d(printf("set name = %s\n", set->name));
+			rule_map = g_hash_table_lookup(f->rule_set_map, set->name);
+			if (rule_map) {
+				d(printf("loading rules ...\n"));
+				rule = set->childs;
+				while (rule) {
+					printf("checking node: %s\n", rule->name);
+					if (!strcmp(rule->name, "rule")) {
+						FilterRule *part = FILTER_RULE(gtk_type_new(rule_map->type));
+						if (filter_rule_xml_decode(part, rule, f) == 0) {
+							rule_map->append(f, part);
+						} else {
+							gtk_object_unref((GtkObject *)part);
+							g_warning("Cannot load filter part");
+						}
 					}
+					rule = rule->next;
 				}
-				rule = rule->next;
 			}
+			set = set->next;
 		}
-		set = set->next;
 	}
 	return 0;
 }

@@ -1,3 +1,8 @@
+2000-08-01  Not Zed  <NotZed@HelixCode.com>
+
+	* rule-context.c (load): If there are no user rules, dont bomb
+	out.
+
 2000-07-31  Not Zed  <NotZed@HelixCode.com>
 
 	* filter-input.c (filter_input_set_value): Set value of a simple
