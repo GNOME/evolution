@@ -2027,27 +2027,51 @@ eti_event (GnomeCanvasItem *item, GdkEvent *e)
 			handled = FALSE;
 			break;
 		}
+
 		if (!handled) {
-			if (!eti_editing (eti)){
-				gint col, row;
-				row = model_to_view_row(eti, cursor_row);
-				col = model_to_view_col(eti, cursor_col);
-				if (col != -1 && row != -1 && e_table_model_is_cell_editable(eti->table_model, col, row)) {
-					e_table_item_enter_edit (eti, col, row);
+			switch (e->key.keyval) {
+			case GDK_Scroll_Lock:
+			case GDK_Sys_Req:
+			case GDK_Shift_L:
+			case GDK_Shift_R:
+			case GDK_Control_L:
+			case GDK_Control_R:
+			case GDK_Caps_Lock:
+			case GDK_Shift_Lock:
+			case GDK_Meta_L:
+			case GDK_Meta_R:
+			case GDK_Alt_L:
+			case GDK_Alt_R:
+			case GDK_Super_L:
+			case GDK_Super_R:
+			case GDK_Hyper_L:
+			case GDK_Hyper_R:
+			case GDK_ISO_Lock:
+				break;
+
+			default:
+				if (!eti_editing (eti)){
+					gint col, row;
+					row = model_to_view_row(eti, cursor_row);
+					col = model_to_view_col(eti, cursor_col);
+					if (col != -1 && row != -1 && e_table_model_is_cell_editable(eti->table_model, col, row)) {
+						e_table_item_enter_edit (eti, col, row);
+					}
 				}
-			}
-			if (!eti_editing (eti)){
-				gtk_signal_emit (GTK_OBJECT (eti), eti_signals [KEY_PRESS],
-						 model_to_view_row(eti, cursor_row), cursor_col, e, &return_val);
-				if (!return_val)
-					e_selection_model_key_press(E_SELECTION_MODEL (eti->selection), (GdkEventKey *) e);
-			} else {
-				ecell_view = eti->cell_views [eti->editing_col];
-				return_val = eti_e_cell_event (eti, ecell_view, e, e->key.time,
-							       view_to_model_col(eti, eti->editing_col),
-							       eti->editing_col, eti->editing_row, E_CELL_EDITING);
-				if (!return_val)
-					e_selection_model_key_press(E_SELECTION_MODEL (eti->selection), (GdkEventKey *) e);
+				if (!eti_editing (eti)){
+					gtk_signal_emit (GTK_OBJECT (eti), eti_signals [KEY_PRESS],
+							 model_to_view_row(eti, cursor_row), cursor_col, e, &return_val);
+					if (!return_val)
+						e_selection_model_key_press(E_SELECTION_MODEL (eti->selection), (GdkEventKey *) e);
+				} else {
+					ecell_view = eti->cell_views [eti->editing_col];
+					return_val = eti_e_cell_event (eti, ecell_view, e, e->key.time,
+								       view_to_model_col(eti, eti->editing_col),
+								       eti->editing_col, eti->editing_row, E_CELL_EDITING);
+					if (!return_val)
+						e_selection_model_key_press(E_SELECTION_MODEL (eti->selection), (GdkEventKey *) e);
+				}
+				break;
 			}
 		}
 		eti->in_key_press = FALSE;
