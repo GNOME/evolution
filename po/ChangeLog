@@ -1,3 +1,8 @@
+2004-03-25  Gustavo Maciel Dias Vieira <gdvieira@zaz.com.br>
+
+	* pt_BR.po: Updated Brazilian Portuguese translation done by
+	Gustavo Maciel Dias Vieira <gdvieira@zaz.com.br>.
+
 2004-03-25  Rodney Dawes  <dobey@ximian.com>
 
 	* POTFILES.in: Remove mail/local-config.glade
