@@ -252,7 +252,7 @@ static char *search_string[] = {
 	"(match-all (header-contains \"from\" %s)",
 	"(or (body-contains %s) (match-all (header-contains \"Subject\" %s)))",
 	"(body-contains %s)",
-	"(match-all (header-contains \"Subject\" %s)",
+	"(match-all (header-contains \"Subject\" %s))",
 	"(match-all (not (body-contains %s)))",
 	"(match-all (not (header-contains \"Subject\" %s)))",
 };

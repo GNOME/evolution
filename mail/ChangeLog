@@ -1,3 +1,11 @@
+2001-01-24  Not Zed  <NotZed@Ximian.com>
+
+	* folder-browser.c (search_string[]): Fix the subject match
+	expression, which was missing a closing ).
+
+	* mail-send-recv.c (do_show_status): Escape any % signs in the
+	string before setting the format string.
+
 2001-01-24  Jeffrey Stedfast  <fejj@ximian.com>
 
 	* mail-config.glade: Added a 3rd page to the account editor to

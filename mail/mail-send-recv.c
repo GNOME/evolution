@@ -317,9 +317,19 @@ static void
 do_show_status(struct _mail_msg *mm)
 {
 	struct _status_msg *m = (struct _status_msg *)mm;
+	char *out, *p, *o, c;
 
+	out = alloca(strlen(m->desc)*2+1);
+	o = out;
+	p = m->desc;
+	while ((c = *p++)) {
+		if (c=='%')
+			*o++ = '%';
+		*o++ = c;
+	}
+	*o = 0;
 	gtk_progress_set_percentage((GtkProgress *)m->info->bar, (gfloat)(m->pc/100.0));
-	gtk_progress_set_format_string((GtkProgress *)m->info->bar, m->desc);
+	gtk_progress_set_format_string((GtkProgress *)m->info->bar, out);
 }
 
 static void
@@ -440,9 +450,6 @@ receive_get_folder(CamelFilterDriver *d, const char *uri, void *data, CamelExcep
 	/* and we assume the newer one is the same, but unref the old one anyway */
 	g_mutex_lock(info->data->lock);
 	
-	/* NotZed: I added this ref here, if I'm wrong feel free to remove it */
-	camel_object_ref (CAMEL_OBJECT (folder));
-	
 	if (g_hash_table_lookup_extended(info->data->folders, uri, (void **)&oldkey, (void **)&oldinfo)) {
 		camel_object_unref((CamelObject *)oldinfo->folder);
 		oldinfo->folder = folder;
@@ -453,7 +460,8 @@ receive_get_folder(CamelFilterDriver *d, const char *uri, void *data, CamelExcep
 		g_hash_table_insert(info->data->folders, oldinfo->uri, oldinfo);
 	}
 	g_mutex_unlock(info->data->lock);
-	
+
+	camel_object_ref((CamelObject *)folder);
 	return folder;
 }
 
