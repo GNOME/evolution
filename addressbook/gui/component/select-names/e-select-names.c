@@ -712,7 +712,7 @@ section_right_click_cb (ETable *et, int row, int col, GdkEvent *ev, ESelectNames
 	for (i=0;i<sizeof(esn_select_popups)/sizeof(esn_select_popups[0]);i++)
 		menus = g_slist_prepend(menus, &esn_select_popups[i]);
 
-	e_popup_add_items((EPopup *)ep, menus, esn_select_popup_free, NULL);
+	e_popup_add_items((EPopup *)ep, menus, NULL, esn_select_popup_free, NULL);
 
 	menu = e_popup_create_menu_once((EPopup *)ep, (EPopupTarget *)t, 0);
 	gtk_menu_popup(menu, NULL, NULL, NULL, NULL, ev->button.button, ev->button.time);

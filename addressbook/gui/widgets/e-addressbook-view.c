@@ -990,7 +990,7 @@ do_popup_menu(EABView *view, GdkEvent *event)
 	for (i=0;i<sizeof(eabv_popup_items)/sizeof(eabv_popup_items[0]);i++)
 		menus = g_slist_prepend(menus, &eabv_popup_items[i]);
 
-	e_popup_add_items((EPopup *)ep, menus, eabv_popup_free, contact_and_book);
+	e_popup_add_items((EPopup *)ep, menus, NULL, eabv_popup_free, contact_and_book);
 
 	menu = e_popup_create_menu_once((EPopup *)ep, (EPopupTarget *)t, 0);
 	gtk_menu_popup(menu, NULL, NULL, NULL, NULL, event?event->button.button:0, event?event->button.time:gtk_get_current_event_time());

@@ -782,7 +782,7 @@ popup_event_callback(ESourceSelector *selector, ESource *source, GdkEventButton 
 	for (i=0;i<sizeof(abv_source_popups)/sizeof(abv_source_popups[0]);i++)
 		menus = g_slist_prepend(menus, &abv_source_popups[i]);
 
-	e_popup_add_items((EPopup *)ep, menus, abv_source_popup_free, view);
+	e_popup_add_items((EPopup *)ep, menus, NULL, abv_source_popup_free, view);
 
 	menu = e_popup_create_menu_once((EPopup *)ep, (EPopupTarget *)t, 0);
 	gtk_menu_popup(menu, NULL, NULL, NULL, NULL, event?event->button:0, event?event->time:gtk_get_current_event_time());

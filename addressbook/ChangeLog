@@ -1,3 +1,13 @@
+2004-12-17  Not Zed  <NotZed@Ximian.com>
+
+	* util/ea-popup.c (emp_standard_menu_factory): 
+
+	* gui/component/select-names/e-select-names.c (section_right_click_cb): 
+
+	* gui/component/addressbook-view.c (popup_event_callback): 
+
+	* gui/widgets/e-addressbook-view.c (do_popup_menu): api changes.
+
 2004-12-21  JP Rosevear  <jpr@novell.com>
 
 	Fixes #61975
