@@ -30,13 +30,13 @@ struct _EWeekViewConfigPrivate {
 	GList *notifications;
 };
 
-static GObjectClass *parent_class = NULL;
-
 /* Property IDs */
 enum props {
 	PROP_0,
 	PROP_VIEW,
 };
+
+G_DEFINE_TYPE (EWeekViewConfig, e_week_view_config, G_TYPE_OBJECT);
 
 static void
 e_week_view_config_set_property (GObject *object, guint property_id, const GValue *value, GParamSpec *pspec)
@@ -86,8 +86,8 @@ e_week_view_config_dispose (GObject *object)
 
 	e_week_view_config_set_view (view_config, NULL);
 	
-	if (G_OBJECT_CLASS (parent_class)->dispose)
-		G_OBJECT_CLASS (parent_class)->dispose (object);
+	if (G_OBJECT_CLASS (e_week_view_config_parent_class)->dispose)
+		G_OBJECT_CLASS (e_week_view_config_parent_class)->dispose (object);
 }
 
 static void
@@ -100,8 +100,8 @@ e_week_view_config_finalize (GObject *object)
 
 	g_free (priv);
 	
-	if (G_OBJECT_CLASS (parent_class)->finalize)
-		G_OBJECT_CLASS (parent_class)->finalize (object);
+	if (G_OBJECT_CLASS (e_week_view_config_parent_class)->finalize)
+		G_OBJECT_CLASS (e_week_view_config_parent_class)->finalize (object);
 }
 
 static void
@@ -110,8 +110,6 @@ e_week_view_config_class_init (EWeekViewConfigClass *klass)
 	GObjectClass *gobject_class = G_OBJECT_CLASS (klass);
 	GParamSpec *spec;
 	
-	parent_class = g_type_class_peek_parent (klass);
-
 	/* Method override */
 	gobject_class->set_property = e_week_view_config_set_property;
 	gobject_class->get_property = e_week_view_config_get_property;
@@ -124,14 +122,11 @@ e_week_view_config_class_init (EWeekViewConfigClass *klass)
 }
 
 static void
-e_week_view_config_init (EWeekViewConfig *view_config, EWeekViewConfigClass *klass)
+e_week_view_config_init (EWeekViewConfig *view_config)
 {
 	view_config->priv = g_new0 (EWeekViewConfigPrivate, 1);
 
 }
-
-E_MAKE_TYPE (e_week_view_config, "EWeekViewConfig", EWeekViewConfig, e_week_view_config_class_init,
-	     e_week_view_config_init, G_TYPE_OBJECT);
 
 EWeekViewConfig *
 e_week_view_config_new (EWeekView *week_view)

@@ -28,16 +28,15 @@
  * edit the text.
  */
 
+#ifdef HAVE_CONFIG_H
 #include <config.h>
+#endif
 
 #include "e-util/e-categories-config.h"
 #include "e-week-view-event-item.h"
 
 #include <gtk/gtksignal.h>
 #include <gal/e-text/e-text.h>
-
-static void e_week_view_event_item_class_init	(EWeekViewEventItemClass *class);
-static void e_week_view_event_item_init		(EWeekViewEventItem *wveitem);
 
 static void e_week_view_event_item_set_arg	(GtkObject	 *o,
 						 GtkArg		 *arg,
@@ -89,8 +88,6 @@ static ECalendarViewPosition e_week_view_event_item_get_position (EWeekViewEvent
 							      gdouble y);
 
 
-static GnomeCanvasItemClass *parent_class;
-
 /* The arguments we take */
 enum {
 	ARG_0,
@@ -98,17 +95,13 @@ enum {
 	ARG_SPAN_NUM
 };
 
-E_MAKE_TYPE (e_week_view_event_item, "EWeekViewEventItem", EWeekViewEventItem,
-	     e_week_view_event_item_class_init, e_week_view_event_item_init,
-	     GNOME_TYPE_CANVAS_ITEM);
+G_DEFINE_TYPE (EWeekViewEventItem, e_week_view_event_item, GNOME_TYPE_CANVAS_ITEM);
 
 static void
 e_week_view_event_item_class_init (EWeekViewEventItemClass *class)
 {
 	GtkObjectClass  *object_class;
 	GnomeCanvasItemClass *item_class;
-
-	parent_class = g_type_class_peek_parent (class);
 
 	object_class = (GtkObjectClass *) class;
 	item_class = (GnomeCanvasItemClass *) class;
@@ -182,8 +175,8 @@ e_week_view_event_item_update (GnomeCanvasItem *item,
 	week_view = E_WEEK_VIEW (GTK_WIDGET (item->canvas)->parent);
 	g_return_if_fail (E_IS_WEEK_VIEW (week_view));
 
-	if (GNOME_CANVAS_ITEM_CLASS (parent_class)->update)
-		(* GNOME_CANVAS_ITEM_CLASS (parent_class)->update) (item, affine, clip_path, flags);
+	if (GNOME_CANVAS_ITEM_CLASS (e_week_view_event_item_parent_class)->update)
+		(* GNOME_CANVAS_ITEM_CLASS (e_week_view_event_item_parent_class)->update) (item, affine, clip_path, flags);
 
 	item->x1 = 0;
 	item->y1 = 0;

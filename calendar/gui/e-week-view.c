@@ -94,8 +94,6 @@ typedef struct {
 	ECalModelComponent *comp_data;
 } AddEventData;
 
-static void e_week_view_class_init (EWeekViewClass *class);
-static void e_week_view_init (EWeekView *week_view);
 static void e_week_view_destroy (GtkObject *object);
 static void e_week_view_realize (GtkWidget *widget);
 static void e_week_view_unrealize (GtkWidget *widget);
@@ -157,8 +155,6 @@ static void e_week_view_reshape_event_span (EWeekView *week_view,
 					    gint span_num);
 static void e_week_view_recalc_day_starts (EWeekView *week_view,
 					   time_t lower);
-static void e_week_view_on_adjustment_changed (GtkAdjustment *adjustment,
-					       EWeekView *week_view);
 static void e_week_view_on_editing_started (EWeekView *week_view,
 					    GnomeCanvasItem *item);
 static void e_week_view_on_editing_stopped (EWeekView *week_view,
@@ -209,10 +205,7 @@ static void e_week_view_queue_layout (EWeekView *week_view);
 static void e_week_view_cancel_layout (EWeekView *week_view);
 static gboolean e_week_view_layout_timeout_cb (gpointer data);
 
-static ECalendarViewClass *parent_class;
-
-E_MAKE_TYPE (e_week_view, "EWeekView", EWeekView, e_week_view_class_init,
-	     e_week_view_init, e_calendar_view_get_type ());
+G_DEFINE_TYPE (EWeekView, e_week_view, E_TYPE_CALENDAR_VIEW);
 
 static void
 e_week_view_class_init (EWeekViewClass *class)
@@ -221,7 +214,6 @@ e_week_view_class_init (EWeekViewClass *class)
 	GtkWidgetClass *widget_class;
 	ECalendarViewClass *view_class;
 
-	parent_class = g_type_class_peek_parent (class);
 	object_class = (GtkObjectClass *) class;
 	widget_class = (GtkWidgetClass *) class;
 	view_class = (ECalendarViewClass *) class;
@@ -741,7 +733,7 @@ e_week_view_destroy (GtkObject *object)
 		week_view->resize_width_cursor = NULL;
 	}
 
-	GTK_OBJECT_CLASS (parent_class)->destroy (object);
+	GTK_OBJECT_CLASS (e_week_view_parent_class)->destroy (object);
 }
 
 
@@ -753,8 +745,8 @@ e_week_view_realize (GtkWidget *widget)
 	gboolean success[E_WEEK_VIEW_COLOR_LAST];
 	gint nfailed;
 
-	if (GTK_WIDGET_CLASS (parent_class)->realize)
-		(*GTK_WIDGET_CLASS (parent_class)->realize)(widget);
+	if (GTK_WIDGET_CLASS (e_week_view_parent_class)->realize)
+		(*GTK_WIDGET_CLASS (e_week_view_parent_class)->realize)(widget);
 
 	week_view = E_WEEK_VIEW (widget);
 	week_view->main_gc = gdk_gc_new (widget->window);
@@ -842,8 +834,8 @@ e_week_view_unrealize (GtkWidget *widget)
 	g_object_unref (week_view->timezone_icon);
 	week_view->timezone_icon = NULL;
 
-	if (GTK_WIDGET_CLASS (parent_class)->unrealize)
-		(*GTK_WIDGET_CLASS (parent_class)->unrealize)(widget);
+	if (GTK_WIDGET_CLASS (e_week_view_parent_class)->unrealize)
+		(*GTK_WIDGET_CLASS (e_week_view_parent_class)->unrealize)(widget);
 }
 
 static gint
@@ -895,8 +887,8 @@ e_week_view_style_set (GtkWidget *widget,
 	PangoFontMetrics *font_metrics;
 	PangoLayout *layout;
 
-	if (GTK_WIDGET_CLASS (parent_class)->style_set)
-		(*GTK_WIDGET_CLASS (parent_class)->style_set)(widget, previous_style);
+	if (GTK_WIDGET_CLASS (e_week_view_parent_class)->style_set)
+		(*GTK_WIDGET_CLASS (e_week_view_parent_class)->style_set)(widget, previous_style);
 
 	week_view = E_WEEK_VIEW (widget);
 	style = gtk_widget_get_style (widget);
@@ -998,7 +990,7 @@ e_week_view_size_allocate (GtkWidget *widget, GtkAllocation *allocation)
 
 	week_view = E_WEEK_VIEW (widget);
 
-	(*GTK_WIDGET_CLASS (parent_class)->size_allocate) (widget, allocation);
+	(*GTK_WIDGET_CLASS (e_week_view_parent_class)->size_allocate) (widget, allocation);
 
 	e_week_view_recalc_cell_sizes (week_view);
 
@@ -1200,8 +1192,8 @@ e_week_view_expose_event (GtkWidget *widget,
 
 	e_week_view_draw_shadow (week_view);
 
-	if (GTK_WIDGET_CLASS (parent_class)->expose_event)
-		(*GTK_WIDGET_CLASS (parent_class)->expose_event)(widget, event);
+	if (GTK_WIDGET_CLASS (e_week_view_parent_class)->expose_event)
+		(*GTK_WIDGET_CLASS (e_week_view_parent_class)->expose_event)(widget, event);
 
 	return FALSE;
 }
@@ -3913,7 +3905,7 @@ e_week_view_key_press (GtkWidget *widget, GdkEventKey *event)
 
 	/* if not handled, try key bindings */
 	if (!handled)
-		handled = GTK_WIDGET_CLASS (parent_class)->key_press_event (widget, event);
+		handled = GTK_WIDGET_CLASS (e_week_view_parent_class)->key_press_event (widget, event);
 	return handled;
 }
 

@@ -1,5 +1,17 @@
 2004-10-14  JP Rosevear  <jpr@novell.com>
 
+	* gui/e-week-view-config.c: convert to G_DEFINE_TYPE
+
+	* gui/e-week-view-event-item.c: ditto
+
+	* gui/e-week-view-main-item.c: ditto
+
+	* gui/e-week-view-titles-item.c: ditto
+
+	* gui/e-week-view.c: ditto
+
+2004-10-14  JP Rosevear  <jpr@novell.com>
+	
 	* gui/e-day-view.c: convert to G_DEFINE_TYPE
 	
 	* gui/e-day-view-config.c: ditto
