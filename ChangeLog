@@ -1,3 +1,7 @@
+2004-04-26  Jeffrey Stedfast  <fejj@ximian.com>
+
+	* configure.in (UPGRADE_REVISION): Changed to 10.
+
 2004-04-26  Radek Doulik  <rodo@ximian.com>
 
 	* configure.in: require newer gtkhtml with new gtk_html_begin's
