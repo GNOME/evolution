@@ -1,5 +1,13 @@
 1998-04-18  Miguel de Icaza  <miguel@nuclecu.unam.mx>
 
+	* gncal-year-view.c (double_click): Fix this routine as well.
+
+	* gncal-week-view.c (jump_to_day): Bind the gtkcalendar signals to
+	the week. 
+
+	* gncal-year-view.c (gncal_year_view_set_year): Put things in the
+	proper range.  Now the year view actually matches this year. 
+
 	* gnome-cal.html: Added small documentation.
 
 	* main.c: Add more icons to the menus;  Rename some menubar

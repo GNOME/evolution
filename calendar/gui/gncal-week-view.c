@@ -2,7 +2,8 @@
  *
  * Copyright (C) 1998 The Free Software Foundation
  *
- * Author: Federico Mena <quartic@gimp.org>
+ * Authors: Federico Mena <quartic@gimp.org>
+ *          Miguel de Icaza <miguel@kernel.org>
  */
 
 #include <string.h>
@@ -48,6 +49,46 @@ gncal_week_view_init (GncalWeekView *wview)
 	wview->gtk_calendar = NULL;
 }
 
+static void
+jump_to_day (GtkCalendar *cal, GncalWeekView *wview, int day)
+{
+	struct tm tm;
+	time_t t;
+	static int inside;
+	
+	if (inside)
+		return;
+	inside = 1;
+	tm.tm_mday = day;
+	tm.tm_mon  = cal->month;
+	tm.tm_year = cal->year - 1900;
+	tm.tm_hour = 0;
+	tm.tm_min  = 0;
+	tm.tm_sec  = 0;
+	tm.tm_isdst = -1;
+	t = mktime (&tm);
+
+	gncal_week_view_set (wview, t);
+	inside = 0;
+}
+
+static void
+jump_to_day_click (GtkCalendar *cal, GncalWeekView *wview)
+{
+	jump_to_day (cal, wview, cal->selected_day);
+}
+
+static void
+sync_week (GtkCalendar *cal, GncalWeekView *wview)
+{
+	jump_to_day (cal, wview, wview->start_of_week.tm_mday + 7);
+}
+
+static void
+double_click_on_weekday (GtkWidget *widget, GdkEvent *e, GncalWeekView *wview)
+{
+}
+
 GtkWidget *
 gncal_week_view_new (GnomeCalendar *calendar, time_t start_of_week)
 {
@@ -64,7 +105,9 @@ gncal_week_view_new (GnomeCalendar *calendar, time_t start_of_week)
 
 	for (i = 0; i < 7; i++) {
 		wview->days[i] = GNCAL_DAY_VIEW (gncal_day_view_new (calendar, 0, 0));
-
+		gtk_signal_connect (GTK_OBJECT (wview->days [i]), "button_press_event",
+				    GTK_SIGNAL_CONNECT(double_click_on_weekday), wview);
+		
 		if (i < 5)
 			gtk_table_attach (GTK_TABLE (wview), GTK_WIDGET (wview->days[i]),
 					  i, i + 1,
@@ -83,12 +126,13 @@ gncal_week_view_new (GnomeCalendar *calendar, time_t start_of_week)
 		gtk_widget_show (GTK_WIDGET (wview->days[i]));
 	}
 
-	/* FIXME: for now this is a plain calendar (for not having anything better to put
-	 * there).  In the final version it should be a nice days/hours matrix with
-	 * "event density" display as in Sun's "cm" program.
-	 */
-
 	wview->gtk_calendar = GTK_CALENDAR (gtk_calendar_new ());
+
+	gtk_signal_connect (GTK_OBJECT (wview->gtk_calendar), "day_selected_double_click",
+			    GTK_SIGNAL_FUNC(jump_to_day), wview);
+	gtk_signal_connect (GTK_OBJECT (wview->gtk_calendar), "month_changed",
+			    GTK_SIGNAL_FUNC(sync_week), wview);
+	
 	gtk_calendar_display_options (wview->gtk_calendar,
 				      GTK_CALENDAR_SHOW_HEADING | GTK_CALENDAR_SHOW_DAY_NAMES);
 	gtk_table_attach (GTK_TABLE (wview), GTK_WIDGET (wview->gtk_calendar),

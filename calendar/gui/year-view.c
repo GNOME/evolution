@@ -22,10 +22,11 @@ double_click(GtkCalendar *gc, GncalYearView *yview)
 
 	tm.tm_mday = gc->selected_day;
 	tm.tm_mon  = gc->month;
-	tm.tm_year = gc->year;
+	tm.tm_year = gc->year - 1900;
 	tm.tm_hour = 0;
 	tm.tm_min  = 0;
 	tm.tm_sec  = 0;
+	tm.tm_isdst  = -1;
 	t = mktime (&tm);
 
 	gnome_calendar_dayjump (yview->gcal, t);
@@ -199,7 +200,7 @@ gncal_year_view_set_year (GncalYearView *yview, int year)
 	gtk_label_set(GTK_LABEL(yview->year_label), buff);
 	
 	for (i = 0; i < 12; i++) {
-		gtk_calendar_select_month (GTK_CALENDAR(yview->calendar[i]), i, yview->year);
+		gtk_calendar_select_month (GTK_CALENDAR(yview->calendar[i]), i, yview->year + 1900);
 		gtk_calendar_clear_marks (GTK_CALENDAR (yview->calendar[i]));
 	}
 	
