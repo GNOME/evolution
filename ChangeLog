@@ -1,3 +1,10 @@
+2000-06-02  Dan Winship  <danw@helixcode.com>
+
+	* README: Update dependencies. Rewrite the GOAD vs OAF thing some
+	more to reflect OAF's new ascendency. Make the fact that you don't
+	need pilot stuff clearer. Add some new directories to the
+	directory layout section.
+
 2000-06-02  Christopher James Lahey  <clahey@helixcode.com>
 
 	* widgets/misc/e-clipped-label.c: Free the finish data.
