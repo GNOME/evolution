@@ -1,3 +1,8 @@
+1999-11-30  Eskil Heyn Olsen  <deity@eskil.dk>
+
+	* calendar-conduit.c (compare): Fixed compare bug. Also neated up
+	some of the if's in set_status.
+
 1999-11-22  Russell Steinthal  <rms39@columbia.edu>
 
 	* Merged todo list coloring patch from stable

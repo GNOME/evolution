@@ -43,13 +43,14 @@ GnomePilotConduit * conduit_get_gpilot_conduit (guint32);
 void conduit_destroy_gpilot_conduit (GnomePilotConduit*);
 void local_record_from_icalobject(GCalLocalRecord *local,iCalObject *obj); 
 
-#define CONDUIT_VERSION "0.8.5"
+#define CONDUIT_VERSION "0.8.6"
 #ifdef G_LOG_DOMAIN
 #undef G_LOG_DOMAIN
 #endif
 #define G_LOG_DOMAIN "gcalconduit" 
 
 #define DEBUG_CALCONDUIT 
+/* #undef DEBUG_CALCONDUIT */
 
 #ifdef DEBUG_CALCONDUIT
 #define show_exception(e) g_warning ("Exception: %s\n", CORBA_exception_id (e))
@@ -819,7 +820,7 @@ set_status (GnomePilotConduitStandardAbs *conduit,
 	    gint status,
 	    GCalConduitContext *ctxt)
 {
-	LOG ("entering set_status");
+	LOG ("entering set_status(status=%d)",status);
 
 	g_return_val_if_fail(local!=NULL,-1);
 
@@ -839,14 +840,15 @@ set_status (GnomePilotConduitStandardAbs *conduit,
 		break;	  
 	}
 	
-	if ( status != GnomePilotRecordDeleted) 
+	if ( status == GnomePilotRecordDeleted) {
+		GNOME_Calendar_Repository_delete_object(ctxt->calendar,local->ical->uid,&(ctxt->ev));
+	} else {
 		GNOME_Calendar_Repository_update_pilot_id(ctxt->calendar,
 							  local->ical->uid,
 							  local->local.ID,
 							  local->ical->pilot_status,
 							  &(ctxt->ev));
-	else
-		GNOME_Calendar_Repository_delete_object(ctxt->calendar,local->ical->uid,&(ctxt->ev));
+	}
 	
 	if (ctxt->ev._major == CORBA_USER_EXCEPTION){
 		LOG ("Object did not exist");
@@ -1079,6 +1081,7 @@ compare (GnomePilotConduitStandardAbs *conduit,
 	/* used by the quick compare */
 	PilotRecord *remoteOfLocal;
 	int err;
+	int retval;
 
 	/* used by the tedious compare */
 	struct Appointment a; 
@@ -1092,20 +1095,19 @@ compare (GnomePilotConduitStandardAbs *conduit,
 	err = transmit(conduit,local,&remoteOfLocal,ctxt);
 	if (err != 0) return err;
 
+	retval = 0;
 	if (remote->length == remoteOfLocal->length) {
-		if (memcmp(remoteOfLocal,remote,remote->length)!=0) {
+		if (memcmp(remoteOfLocal->record,remote->record,remote->length)!=0) {
 			g_message("compare failed on contents");
-			free_transmit(conduit,local,&remoteOfLocal,ctxt);
-			return 1;
+			retval = 1;
 		}
 	} else {
 		g_message("compare failed on length");
-		free_transmit(conduit,local,&remoteOfLocal,ctxt);
-		return 1;
+		retval = 1;
 	}
 
 	free_transmit(conduit,local,&remoteOfLocal,ctxt);	
-	return 0;
+	return retval;
 
 #else
 	/** FIXME: All the { LOG("yadayada"); return 1; } bloat is for debug purposes.
