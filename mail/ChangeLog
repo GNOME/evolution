@@ -1,3 +1,8 @@
+2001-01-09  Dan Winship  <danw@helixcode.com>
+
+	* Makefile.am (evolution_mail_LDFLAGS): Add -export-dynamic, so
+	libglade can resolve evolution-mail symbols.
+
 2001-01-09  Jeffrey Stedfast  <fejj@helixcode.com>
 
 	* mail-format.c: Updated.

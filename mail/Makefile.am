@@ -117,6 +117,9 @@ evolution_mail_LDADD = 					\
 	$(UNICODE_LIBS)					\
 	$(GPGME_LIBS)
 
+evolution_mail_LDFLAGS =				\
+	-export-dynamic
+
 test_mail_SOURCES = \
 	test-mail.c
 
