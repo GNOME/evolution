@@ -1,5 +1,11 @@
 2001-10-25  Ettore Perazzoli  <ettore@ximian.com>
 
+	* e-shell.c (impl_Shell_selectUserFolder): Handle failure from
+	XGetClassHint properly.  Also, free res_name and res_class in case
+	of success.  Fixes #13554.
+
+2001-10-25  Ettore Perazzoli  <ettore@ximian.com>
+
 	* e-storage-set-view.c (etree_icon_at): Don't display an icon for
 	storages that have subfolders.
 

@@ -483,10 +483,12 @@ impl_Shell_selectUserFolder (PortableServer_Servant servant,
 
 		e_set_dialog_parent_from_xid (GTK_WINDOW (folder_selection_dialog), parent_xid);
 
-		XGetClassHint (GDK_DISPLAY (), (Window) parent_xid, &class_hints);
-
-		gtk_window_set_wmclass (GTK_WINDOW (folder_selection_dialog),
-					class_hints.res_name, class_hints.res_class);
+		if (XGetClassHint (GDK_DISPLAY (), (Window) parent_xid, &class_hints)) {
+			gtk_window_set_wmclass (GTK_WINDOW (folder_selection_dialog),
+						class_hints.res_name, class_hints.res_class);
+			XFree (class_hints.res_name);
+			XFree (class_hints.res_class);
+		}
 
 		gtk_widget_show (folder_selection_dialog);
 
