@@ -466,7 +466,7 @@ delete_msg (GtkWidget *button, gpointer user_data)
 }
 
 void
-expunge_folder (GtkWidget *button, gpointer user_data)
+expunge_folder (BonoboUIHandler *uih, void *user_data, const char *path)
 {
 	FolderBrowser *fb = FOLDER_BROWSER(user_data);
 	CamelException ex;
@@ -506,7 +506,8 @@ filter_druid_clicked(FilterEditor *fe, int button, FolderBrowser *fb)
 	}
 }
 
-void filter_edit (GtkWidget *button, gpointer user_data)
+void
+filter_edit (BonoboUIHandler *uih, void *user_data, const char *path)
 {
 	FolderBrowser *fb = FOLDER_BROWSER(user_data);
 	FilterEditor *fe;
@@ -594,7 +595,8 @@ vfolder_editor_clicked(FilterEditor *fe, int button, FolderBrowser *fb)
 	}
 }
 
-void vfolder_edit (GtkWidget *button, gpointer user_data)
+void
+vfolder_edit (BonoboUIHandler *uih, void *user_data, const char *path)
 {
 	FolderBrowser *fb = FOLDER_BROWSER(user_data);
 	FilterEditor *fe;
@@ -613,7 +615,8 @@ void vfolder_edit (GtkWidget *button, gpointer user_data)
 	gtk_widget_show((GtkWidget *)fe);
 }
 
-void providers_config (GtkWidget *button, gpointer user_data)
+void
+providers_config (BonoboUIHandler *uih, void *user_data, const char *path)
 {
 	GtkWidget *pc;
 

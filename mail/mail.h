@@ -54,11 +54,12 @@ void forward_msg (GtkWidget *button, gpointer user_data);
 void reply_to_sender (GtkWidget *button, gpointer user_data);
 void reply_to_all (GtkWidget *button, gpointer user_data);
 void delete_msg (GtkWidget *button, gpointer user_data);
-void expunge_folder (GtkWidget *button, gpointer user_data);
 
-void filter_edit (GtkWidget *button, gpointer user_data);
-void vfolder_edit (GtkWidget *button, gpointer user_data);
-void providers_config (GtkWidget *button, gpointer user_data);
+void expunge_folder (BonoboUIHandler *uih, void *user_data, const char *path);
+void filter_edit (BonoboUIHandler *uih, void *user_data, const char *path);
+void vfolder_edit (BonoboUIHandler *uih, void *user_data, const char *path);
+void providers_config (BonoboUIHandler *uih, void *user_data, const char *path);
+
 GtkWidget *providers_config_new (void);
 
 /* session */
