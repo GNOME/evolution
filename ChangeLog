@@ -1,3 +1,7 @@
+2005-01-26  Rodney Dawes  <dobey@novell.com>
+
+	* configure.in: Add mail/default/pt/Makefile to AC_OUTPUT
+
 2005-01-24  JP Rosevear  <jpr@novell.com>
 
 	* configure.in: bump version and requires

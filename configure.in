@@ -1546,6 +1546,7 @@ mail/default/C/Makefile
 mail/default/zh_CN/Makefile
 mail/default/ja/Makefile
 mail/default/nl/Makefile
+mail/default/pt/Makefile
 mail/importers/Makefile
 plugins/Makefile
 plugins/send-options/Makefile
