@@ -1,3 +1,8 @@
+2001-08-08  Ettore Perazzoli  <ettore@ximian.com>
+
+	* e-bonobo-widget.c: New.
+	* e-bonobo-widget.h: New.
+
 2001-08-05  Ettore Perazzoli  <ettore@ximian.com>
 
 	[Added an "Activate" button to the search bar.]

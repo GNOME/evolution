@@ -12,6 +12,8 @@ noinst_LIBRARIES =	\
 	libemiscwidgets.a
 
 libemiscwidgets_a_SOURCES = 	\
+	e-bonobo-widget.c	\
+	e-bonobo-widget.h	\
 	e-calendar.c		\
 	e-calendar.h		\
 	e-calendar-item.c	\
