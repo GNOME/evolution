@@ -22,7 +22,7 @@ void menus_create(GtkMenuEntry * entries, int nmenu_entries);
 
 static GtkMenuEntry menu_items[] =
 {
-        {"<Main>/File/Quit", "<control>Q", menu_file_quit, NULL},
+        {"<Main>/File/Exit", "<control>Q", menu_file_quit, NULL},
 	{"<Main>/Help/About", NULL, menu_help_about, NULL},
 
 };
