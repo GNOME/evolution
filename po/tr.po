@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: evolution 0.1\n"
 "POT-Creation-Date: 2000-06-05 12:01+0200\n"
-"PO-Revision-Date: 2000-06-05 15:14+0200\n"
+"PO-Revision-Date: 2000-06-06 21:52+0200\n"
 "Last-Translator: Fatih Demir <kabalak@gmx.net>\n"
 "Language-Team: Turkish <tr@li.org>\n"
 "MIME-Version: 1.0\n"
@@ -80,7 +80,7 @@ msgstr "Baþka faks"
 
 #: addressbook/contact-editor/e-contact-editor.c:826
 msgid "Pager"
-msgstr ""
+msgstr "Haberleyici"
 
 #: addressbook/contact-editor/e-contact-editor.c:827
 msgid "Primary"
@@ -253,15 +253,15 @@ msgstr "Þu anki günün numarasý :"
 
 #: calendar/gui/calendar-commands.c:63
 msgid "To-Do item that is not yet due:"
-msgstr ""
+msgstr "Daha geçmemiþ \"Yapýlacak\" birimi :"
 
 #: calendar/gui/calendar-commands.c:64
 msgid "To-Do item that is due today:"
-msgstr ""
+msgstr "Bugün geçecek olan \"Yapýlacak\" birimi :"
 
 #: calendar/gui/calendar-commands.c:65
 msgid "To-Do item that is overdue:"
-msgstr ""
+msgstr "Zamaný geçmiþ \"Yapýlacak\" birimi :"
 
 #: calendar/gui/calendar-commands.c:175
 msgid "Gnome Calendar"
@@ -510,7 +510,7 @@ msgstr "GnomePilot sunucusunu baþlatamadým"
 #: calendar/gui/todo-conduit-control-applet.c:272
 #: calendar/gui/todo-conduit-control-applet.c:273
 msgid "Cannot connect to the GnomePilot Daemon"
-msgstr "nomePilot sunucusuna badlanamadým"
+msgstr "GnomePilot sunucusuna badlanamadým"
 
 #: calendar/gui/calendar-conduit.c:116 calendar/gui/calendar-conduit.c:156
 #: calendar/gui/calendar-conduit.c:239 calendar/gui/calendar-conduit.c:279
@@ -518,53 +518,53 @@ msgstr "nomePilot sunucusuna badlanamadým"
 #: calendar/gui/calendar-conduit.c:858 calendar/gui/calendar-conduit.c:910
 #: calendar/gui/calendar-conduit.c:1332
 msgid "Error while communicating with calendar server"
-msgstr ""
+msgstr "Takvim sunucusuyla iletiþim kurarken hata oldu"
 
 #: calendar/gui/calendar-conduit.c:546
 #, c-format
 msgid "Calendar holds %d entries"
-msgstr ""
+msgstr "Takvim %d birim içeriyor"
 
 #: calendar/gui/calendar-conduit.c:568 calendar/gui/calendar-conduit.c:570
 msgid "Could not start gnomecal server"
-msgstr ""
+msgstr "gnomecal takvim sunucusunu baþlatamadým"
 
 #: calendar/gui/calendar-conduit.c:598 calendar/gui/calendar-conduit.c:601
 msgid "Could not read pilot's DateBook application block"
-msgstr ""
+msgstr "Pilot'un DateBook uygulama blokunu okuyamadým"
 
 #: calendar/gui/calendar-pilot-sync.c:60
 msgid "Specifies the port on which the Pilot is"
-msgstr ""
+msgstr "Pilot'un olduðu kapýyý belirtir"
 
 #: calendar/gui/calendar-pilot-sync.c:60
 msgid "PORT"
-msgstr ""
+msgstr "KAPI"
 
 #: calendar/gui/calendar-pilot-sync.c:62
 msgid "If you want to debug the attributes on records"
-msgstr ""
+msgstr "Kayýtlardaki birimleri incelemek istersen"
 
 #: calendar/gui/calendar-pilot-sync.c:64
 msgid "Only syncs from desktop to pilot"
-msgstr ""
+msgstr "Sadece masaüstünden pilot'a eþitler"
 
 #: calendar/gui/calendar-pilot-sync.c:66
 msgid "Only syncs from pilot to desktop"
-msgstr ""
+msgstr "Sadece pilot'tan masaüstüne eþitler"
 
 #: calendar/gui/calendar-pilot-sync.c:89
 msgid "Can not create Pilot socket\n"
-msgstr ""
+msgstr "Pilot socketini yaratamadým\n"
 
 #: calendar/gui/calendar-pilot-sync.c:96
 #, c-format
 msgid "Can not bind to device %s\n"
-msgstr ""
+msgstr "%s aygýtýna baðlanamadým\n"
 
 #: calendar/gui/calendar-pilot-sync.c:99
 msgid "Failed to get a connection from the Pilot device"
-msgstr ""
+msgstr "Pilot aygýtýndan bir baðlantý alamadým"
 
 #: calendar/gui/calendar-pilot-sync.c:102
 msgid "pi_accept failed"
@@ -579,6 +579,8 @@ msgid ""
 "\tObject has been modified on desktop and on the pilot, desktop takes "
 "precedence\n"
 msgstr ""
+"\tNesne masaüstünde ve pilot'ta deðiþtirilmiþtir, masaüstü öncelik "
+"sahibidir\n"
 
 #: calendar/gui/calendar-pilot-sync.c:475
 msgid "No description"
@@ -586,19 +588,19 @@ msgstr "Anlatýmý yok"
 
 #: calendar/gui/calendar-pilot-sync.c:547
 msgid "Syncing with the pilot..."
-msgstr ""
+msgstr "Pilot'la eþitleniyor ..."
 
 #: calendar/gui/calendar-pilot-sync.c:554
 msgid "Could not open DatebookDB on the Pilot"
-msgstr ""
+msgstr "Pilot'ta DatebookDB'yi açamadým"
 
 #: calendar/gui/calendar-pilot-sync.c:555
 msgid "Unable to open DatebookDB"
-msgstr ""
+msgstr "DatebookDB'yi açamadým"
 
 #: calendar/gui/calendar-pilot-sync.c:617
 msgid "Synced DateBook from Pilot to GnomeCal"
-msgstr ""
+msgstr "GnomeCal takvimini pilot'taki DateBook'le' eþitledim"
 
 #: calendar/gui/print.c:265
 msgid "1st"
@@ -754,7 +756,7 @@ msgstr "C.tesi"
 
 #: calendar/gui/print.c:894
 msgid "TODO Items"
-msgstr ""
+msgstr "\"Yapýlacak\" birimleri"
 
 #. Day
 #: calendar/gui/print.c:1019
@@ -807,7 +809,7 @@ msgstr "Yazdýrma önizlemesi"
 #: calendar/gui/e-day-view-time-item.c:391
 #, c-format
 msgid "%02i minute divisions"
-msgstr ""
+msgstr "%02i dakika bölmeleri"
 
 #: calendar/gui/e-day-view.c:2239 calendar/gui/e-day-view.c:2246
 #: calendar/gui/e-day-view.c:2255 calendar/gui/e-week-view.c:2549
@@ -851,10 +853,13 @@ msgid ""
 "When you click on a day, you will be taken\n"
 "to that date."
 msgstr ""
+"Gitmek istediðin tarihi belirt.\n"
+"Bir güne týkladýðýn zaman, o tarihe\n"
+"gideceksin."
 
 #: calendar/gui/goto.c:312
 msgid "Go to today"
-msgstr ""
+msgstr "Bugüne git"
 
 #: calendar/gui/control-factory.c:136
 #: calendar/gui/evolution-calendar-control.c:131
@@ -863,19 +868,19 @@ msgstr "Takvimin gösterecek olduðu URI"
 
 #: calendar/gui/gncal-todo.c:135
 msgid "Create to-do item"
-msgstr ""
+msgstr "Bir \"Yapýlacak\" birimi yarat"
 
 #: calendar/gui/gncal-todo.c:135
 msgid "Edit to-do item"
-msgstr ""
+msgstr "Bir \"Yapýlacak\" birimini deðiþtir"
 
 #: calendar/gui/gncal-todo.c:169
 msgid "Summary:"
-msgstr ""
+msgstr "Toplama :"
 
 #: calendar/gui/gncal-todo.c:179
 msgid "Due Date:"
-msgstr ""
+msgstr "Bu tarihe kadar :"
 
 #: calendar/gui/gncal-todo.c:188
 msgid "Priority:"
@@ -883,11 +888,11 @@ msgstr "Önem :"
 
 #: calendar/gui/gncal-todo.c:204
 msgid "Item Comments:"
-msgstr ""
+msgstr "Birim anlatýmý :"
 
 #: calendar/gui/gncal-todo.c:320
 msgid "Add to-do item..."
-msgstr ""
+msgstr "Bir \"Yapýlacak\" birimini ekle ..."
 
 #: calendar/gui/gncal-todo.c:321
 msgid "Edit this item..."
@@ -912,12 +917,12 @@ msgstr "Önem"
 
 #: calendar/gui/gncal-todo.c:423
 msgid "Time Left"
-msgstr ""
+msgstr "Kalan zaman"
 
 #. Label
 #: calendar/gui/gncal-todo.c:435
 msgid "To-do list"
-msgstr ""
+msgstr "\"Yapýlacak\"'lar listesi"
 
 #. Add
 #: calendar/gui/gncal-todo.c:474
@@ -964,7 +969,7 @@ msgstr "Saniye"
 #: calendar/gui/gnome-cal.c:442 calendar/gui/gnome-cal.c:1093
 #: calendar/gui/gnome-cal.c:1149
 msgid "Reminder of your appointment at "
-msgstr ""
+msgstr "Toplantý anýtlayýcýsý :"
 
 #: calendar/gui/gnome-cal.c:1085
 msgid "Snooze"
@@ -973,7 +978,7 @@ msgstr "Ikaz et"
 #. Idea: we need Snooze option :-)
 #: calendar/gui/gnome-cal.c:1098 calendar/gui/gnome-cal.c:1153
 msgid "Ok"
-msgstr ""
+msgstr "Oldu"
 
 #. Initialize by default to three-letter day names
 #: calendar/gui/gnome-month-item.c:736
@@ -1037,7 +1042,7 @@ msgstr "Pazartesi"
 #. Day range
 #: calendar/gui/prop.c:358
 msgid "Day range"
-msgstr ""
+msgstr "Gün sýnýrlarý"
 
 #: calendar/gui/prop.c:369
 msgid ""
@@ -1046,14 +1051,18 @@ msgid ""
 "Times outside this range will not be displayed\n"
 "by default."
 msgstr ""
+"Gön ve hafta bakýþýnda gösterilinecek baþlama ve\n"
+"bitme saatlerini belirle .\n"
+"Bu saatlerin dýþýnda kalan saatler normal bakýþta\n"
+"gösterilmeyecektir."
 
 #: calendar/gui/prop.c:385
 msgid "Day start:"
-msgstr ""
+msgstr "Gün baþlangýçý :"
 
 #: calendar/gui/prop.c:396
 msgid "Day end:"
-msgstr ""
+msgstr "Gün bitimi :"
 
 #: calendar/gui/prop.c:519
 msgid "Colors for display"
@@ -1065,35 +1074,35 @@ msgstr "Renkler"
 
 #: calendar/gui/prop.c:599
 msgid "Show on TODO List:"
-msgstr ""
+msgstr "\"Yapýlacak\"'lar listesinde göster :"
 
 #: calendar/gui/prop.c:606
 msgid "Time Until Due"
-msgstr ""
+msgstr "Geçmesine kalan zaman"
 
 #: calendar/gui/prop.c:637
 msgid "To Do List style options:"
-msgstr ""
+msgstr "\"Yapýlacak\" stil seçenekleri :"
 
 #: calendar/gui/prop.c:642
 msgid "Highlight overdue items"
-msgstr ""
+msgstr "Zamaný geçmiþ birimleri \"gözönüne\" ser"
 
 #: calendar/gui/prop.c:645
 msgid "Highlight not yet due items"
-msgstr ""
+msgstr "Daha zamaný geçmemiþ bilgileri \"gözönüne\" ser"
 
 #: calendar/gui/prop.c:648
 msgid "Highlight items due today"
-msgstr ""
+msgstr "Bugün zamaný dolacak birimleri \"gözönüne\" ser"
 
 #: calendar/gui/prop.c:678
 msgid "To Do List Properties"
-msgstr ""
+msgstr "\"Yapýlacak\"'lar listesi özellikler"
 
 #: calendar/gui/prop.c:681
 msgid "To Do List"
-msgstr ""
+msgstr "\"Yapýlacak\"'lar listesi"
 
 #: calendar/gui/prop.c:780
 msgid "Alarms"
@@ -1106,11 +1115,11 @@ msgstr "Ikaz özellikleri"
 
 #: calendar/gui/prop.c:793
 msgid "Beep on display alarms"
-msgstr ""
+msgstr "Ekran ikazlarýnda týngýrtý yap"
 
 #: calendar/gui/prop.c:803
 msgid "Audio alarms timeout after"
-msgstr ""
+msgstr "Sedai ikazlarý kapatma zamaný"
 
 #: calendar/gui/prop.c:814 calendar/gui/prop.c:831
 msgid " seconds"
@@ -1118,7 +1127,7 @@ msgstr " saniye"
 
 #: calendar/gui/prop.c:820
 msgid "Enable snoozing for "
-msgstr ""
+msgstr "Ikazlamayý aç :"
 
 #. populate default frame/box
 #: calendar/gui/prop.c:836
@@ -1127,7 +1136,7 @@ msgstr "Ince ayarlar"
 
 #: calendar/gui/todo-conduit-control-applet.c:112
 msgid "Gpilotd todo conduit"
-msgstr ""
+msgstr "Gpilotd \"Yapýlacak\"'lar parçasý"
 
 #: calendar/gui/todo-conduit-control-applet.c:113
 msgid "(C) 1998 the Free Software Foundation"
@@ -1135,7 +1144,7 @@ msgstr "Tel'if hakký (C) 1998 Free Software Foundation"
 
 #: calendar/gui/todo-conduit-control-applet.c:115
 msgid "Configuration utility for the todo conduit.\n"
-msgstr ""
+msgstr "\"Yapýlacak\"'lar parçasý için ayarlama uygulamasý .\n"
 
 #: calendar/gui/todo-conduit-control-applet.c:116
 msgid "gnome-unknown.xpm"
@@ -1147,11 +1156,11 @@ msgstr "Açýk"
 
 #: calendar/gui/dialogs/alarm-notify-dialog.c:181
 msgid "Alarm on %A %b %d %Y %H:%M"
-msgstr ""
+msgstr "%A %b %d %Y %H:%M'de ikaz et"
 
 #: calendar/gui/dialogs/alarm-notify-dialog.c:188
 msgid "Notification about your appointment on %A %b %d %Y %H:%M"
-msgstr ""
+msgstr "%A %b %d %Y %H:%M'deki toplantý için bildirme"
 
 #: calendar/gui/event-editor.c:286
 msgid "Edit Appointment"
@@ -1371,19 +1380,19 @@ msgstr "ABY : _Yeni toplantý"
 
 #: calendar/gui/event-editor.c:1257
 msgid "FIXME: Rec_urrence..."
-msgstr ""
+msgstr "ABY : _Kaynaklar ..."
 
 #: calendar/gui/event-editor.c:1259
 msgid "FIXME: Intive _Attendees..."
-msgstr ""
+msgstr "ABY : Garanti _ziyaretçiler .."
 
 #: calendar/gui/event-editor.c:1260
 msgid "FIXME: C_ancel Invitation..."
-msgstr ""
+msgstr "ABY : Daveti i_ptal et ..."
 
 #: calendar/gui/event-editor.c:1262
 msgid "FIXME: Forward as v_Calendar"
-msgstr ""
+msgstr "ABY : v_Calendat þeklinde ilet"
 
 #: calendar/gui/event-editor.c:1263
 msgid "FIXME: For_ward"
@@ -1391,7 +1400,7 @@ msgstr "ABY : _Ilet"
 
 #: calendar/gui/event-editor.c:1276
 msgid "_Insert"
-msgstr ""
+msgstr "_Içer"
 
 #: calendar/gui/event-editor.c:1277
 msgid "F_ormat"
@@ -1408,27 +1417,27 @@ msgstr "E_ylemler"
 
 #: calendar/gui/event-editor.c:1317
 msgid "FIXME: Save and Close"
-msgstr ""
+msgstr "ABY : KAydet ve kapat"
 
 #: calendar/gui/event-editor.c:1318
 msgid "Saves the appointment and closes the dialog box"
-msgstr ""
+msgstr "Toplantýyý kaydedip diyaloðu kapatýr"
 
 #: calendar/gui/event-editor.c:1322
 msgid "FIXME: Print..."
-msgstr ""
+msgstr "ABY : Yazdýr ..."
 
 #: calendar/gui/event-editor.c:1323
 msgid "FIXME: Insert File..."
-msgstr ""
+msgstr "ABY : Dosya içer ..."
 
 #: calendar/gui/event-editor.c:1325
 msgid "FIXME: Recurrence..."
-msgstr ""
+msgstr "ABY : Geliþler ..."
 
 #: calendar/gui/event-editor.c:1327
 msgid "FIXME: Invite Attendees..."
-msgstr ""
+msgstr "ABY : Ziyaretçileri davet et .."
 
 #: calendar/gui/event-editor.c:1329
 msgid "FIXME: Delete"
@@ -1436,40 +1445,40 @@ msgstr "ABY : Sil"
 
 #: calendar/gui/event-editor.c:1331
 msgid "FIXME: Previous"
-msgstr ""
+msgstr "ABY : Geri"
 
 #: calendar/gui/event-editor.c:1332
 msgid "FIXME: Next"
-msgstr ""
+msgstr "ABY : Ileri"
 
 #: calendar/gui/event-editor.c:1333
 msgid "FIXME: Help"
-msgstr ""
+msgstr "ABY : Yardým"
 
 #: calendar/gui/event-editor.c:1734
 msgid "%a %b %d %Y"
-msgstr ""
+msgstr "%a %b %d %Y"
 
 #: camel/providers/imap/imap.c:407
 msgid "IMAP server replied using unknown tokens.\n"
-msgstr ""
+msgstr "IMAP sunucusu bilinmeyen iþaretlerle cevap verdi .\n"
 
 #: camel/providers/imap/imap.c:450
 msgid "IMAP responded with \"no such message\".\n"
-msgstr ""
+msgstr "IMAP \"böyle bir ileti yok\" ile cevap verdi .\n"
 
 #: camel/providers/imap/imap.c:570
 #, c-format
 msgid "Connecting to IMAP server (%s)..."
-msgstr ""
+msgstr "IMAP sunucusuna baðlanýyorum ( %s ) ..."
 
 #: camel/providers/imap/imap.c:574
 msgid "failed.\n"
-msgstr ""
+msgstr "baþarýsýz oldu .\n"
 
 #: camel/providers/imap/imap.c:578
 msgid "success.\n"
-msgstr ""
+msgstr "baþarýlý oldu .\n"
 
 #: composer/e-msg-composer-address-dialog.c:183 composer/e-msg-composer.c:635
 msgid "Cut"
@@ -1724,6 +1733,9 @@ msgid ""
 "optionally, enter the name of your organization, and the name of a file to "
 "read your signature from."
 msgstr ""
+"Gönderdiðin ePostalarda kullanýlanacak isim ve ePosta adresini belirle. Ve "
+"istersen üye oldudun örgütün adýný ve imza dosyasý olarak kullanýlacak "
+"dosyanýn adýný belirtebilirsin."
 
 #: mail/mail-config.c:273
 msgid "Full name:"
@@ -1763,11 +1775,11 @@ msgstr "Doðrulama :"
 
 #: mail/mail-config.c:729 mail/mail-config.c:809
 msgid "Detect supported types..."
-msgstr ""
+msgstr "Desteklenen türleri dene ..."
 
 #: mail/mail-config.c:755 mail/mail-config.c:831
 msgid "Test these values before continuing"
-msgstr ""
+msgstr "Bu deðerleri devam etmekten önce bir dene"
 
 #: mail/mail-config.c:939
 msgid ""
@@ -1777,37 +1789,42 @@ msgid ""
 "If the server requires authentication, you can click the \"Detect supported "
 "types...\" button after entering the other information."
 msgstr ""
+"ePosta sunucusunun türünü seç ve gerekli bilgileri de verebilirsin. "
+"\n"
+"\n"
+"Sunucu bir tanýmlama bekliyorsa o zaman \"Desteklenen türleri dene ...\" "
+"basmasýna öbür bilgiler verdikten sonra basabilirsin ."
 
 #: mail/mail-config.c:957
 msgid "Select the method you would like to use to deliver your mail."
-msgstr ""
+msgstr "ePostaný gönderirken tercih ettiðin türü belirle."
 
 #: mail/mail-config.c:1120 mail/mail-config.c:1199
 msgid "Mail Configuration"
-msgstr ""
+msgstr "ePosta ayarlamasý"
 
 #. Identity page
 #: mail/mail-config.c:1137 mail/mail-config.c:1868
 msgid "Identity"
-msgstr ""
+msgstr "Kimlik"
 
 #. Source page
 #: mail/mail-config.c:1156
 msgid "Mail Source"
-msgstr ""
+msgstr "ePosta kaynaðý"
 
 #. Transport page
 #: mail/mail-config.c:1177
 msgid "Mail Transport"
-msgstr ""
+msgstr "ePosta transferi"
 
 #: mail/mail-config.c:1300
 msgid "Edit Identity"
-msgstr ""
+msgstr "Kimliði deðiþtir"
 
 #: mail/mail-config.c:1302
 msgid "Add Identity"
-msgstr ""
+msgstr "Kimlik ekle"
 
 #: mail/mail-config.c:1443
 msgid "Edit Source"
@@ -1859,7 +1876,7 @@ msgstr "Kaynaklar"
 
 #: mail/mail-config.c:2002
 msgid "Transports"
-msgstr ""
+msgstr "Taþýmalar"
 
 #: mail/mail-config.c:2023
 msgid "Send messages in HTML format"
@@ -1924,6 +1941,26 @@ msgid ""
 "We hope that you enjoy the results of our hard work, and we eagerly\n"
 "await your contributions!\n"
 msgstr ""
+"Merhaba. Evolution kitlesel iþlemler uygulamasýnýn önizleme neslini\n"
+"yüklemen için teþekkürler.\n"
+"\n"
+"Evolution takýmý Evolution'u mümkün olduðu kadariyle saðlam,\n"
+"eklemlenebilinir, iyi, hýzlý ve her ortama ayarlanabilinir \n"
+"Internet tiryaki kullanýcýlarý için bir uygulama yapmýþtör.\n"
+"Ve biz cök yorgunuz. Amma halen iþimizi bitiremedik -- daha bitiremedik.\n"
+"\n"
+"Evolution'u keþfetme sürecinde lütfen bizim iþin çoðunu bu uygulamanýn\n"
+"altýnda oturan tabaný kurmaya harcadýðýmýzý ve kullanýcý yüzüne\n"
+"o kadar çok zaman harcayamadýðýmýzý anla. Amma þu an daðýn tepesine\n"
+"vardýk ve þimdiden sonra ilgi ve sevigimizin büyük bir bölümünü kullanýcý\n"
+"yüzüne harcayacaðýz. Amma en azýndan bir deneme uygulamasýný kullanmýyorsun .\n"
+"Ve þimdi zaman bu vasat ikaz ve lisans iþlerine geldi. Evolution'un becerilerini sayalým :\n"
+"çökmeler, ePosta kaybý, ortada kalan yetim iþlemler, %%100 iþlem kullanýmý,\n"
+"kilitlenmeler, tesadüfi ePosta listelerine gönderilmiþ HTML ePostalarý ve arkadaþlarýnýn\n"
+"ve meslektaþlarýnýn önünde utanmalar. Yani riski sana kalmýþ.\n"
+"\n"
+"Aðýr bir iþin sonucunu beðindiðinizi umup, sizin katkýlarýný\n"
+"bekliyoruz !\n"
 
 #: shell/main.c:130
 msgid ""
