@@ -33,6 +33,7 @@
 #include "calendar-config.h"
 #include "calendar-component.h"
 #include "calendar-commands.h"
+#include "control-factory.h"
 #include "gnome-cal.h"
 #include "migration.h"
 #include "e-comp-editor-registry.h"
@@ -61,6 +62,8 @@ struct _CalendarComponentPrivate {
 	
 	GnomeCalendar *calendar;
 	GtkWidget *source_selector;
+
+	BonoboControl *view_control;
 
 	ECal *create_ecal;
 
@@ -191,7 +194,9 @@ update_uri_for_primary_selection (CalendarComponent *calendar_component)
 	uri = e_source_get_uri (source);
 	gnome_calendar_set_default_uri (priv->calendar, uri);
 	g_free (uri);
-	
+
+	calendar_control_sensitize_calendar_commands (priv->view_control, priv->calendar, TRUE);
+
 	/* Save the selection for next time we start up */
 	calendar_config_set_primary_calendar (e_source_peek_uid (source));
 }
@@ -515,19 +520,6 @@ impl_finalize (GObject *object)
 /* Evolution::Component CORBA methods.  */
 
 static void
-control_activate_cb (BonoboControl *control, gboolean activate, gpointer data)
-{
-	GnomeCalendar *gcal;
-
-	gcal = GNOME_CALENDAR (data);
-
-	if (activate)
-		calendar_control_activate (control, gcal);
-	else
-		calendar_control_deactivate (control, gcal);
-}
-
-static void
 impl_createControls (PortableServer_Servant servant,
 		     Bonobo_Control *corba_sidebar_control,
 		     Bonobo_Control *corba_view_control,
@@ -539,7 +531,6 @@ impl_createControls (PortableServer_Servant servant,
 	GtkWidget *selector_scrolled_window;
 	GtkWidget *statusbar_widget;
 	BonoboControl *sidebar_control;
-	BonoboControl *view_control;
 	BonoboControl *statusbar_control;
 	guint not;
 	
@@ -562,24 +553,14 @@ impl_createControls (PortableServer_Servant servant,
 	/* Create main calendar view */
 	/* FIXME Instead of returning, we should make a control with a
 	 * label describing the problem */
-	priv->calendar = GNOME_CALENDAR (gnome_calendar_new ());
-	if (!priv->calendar) {
-		g_warning (G_STRLOC ": could not create the calendar widget!");
-		bonobo_exception_set (ev, ex_GNOME_Evolution_Component_Failed);
-		return;
-	}
-	
-	gtk_widget_show (GTK_WIDGET (priv->calendar));
-
-	view_control = bonobo_control_new (GTK_WIDGET (priv->calendar));
-	if (!view_control) {
+	priv->view_control = control_factory_new_control ();
+	if (!priv->view_control) {
 		g_warning (G_STRLOC ": could not create the control!");
 		bonobo_exception_set (ev, ex_GNOME_Evolution_Component_Failed);
 		return;
 	}
-	g_object_set_data (G_OBJECT (priv->calendar), "control", view_control);
 
-	g_signal_connect (view_control, "activate", G_CALLBACK (control_activate_cb), priv->calendar);
+	priv->calendar = (GnomeCalendar *) bonobo_control_get_widget (priv->view_control);
 
 	g_signal_connect_object (priv->source_selector, "selection_changed",
 				 G_CALLBACK (source_selection_changed_cb), 
@@ -611,7 +592,7 @@ impl_createControls (PortableServer_Servant servant,
 	
 	/* Return the controls */
 	*corba_sidebar_control = CORBA_Object_duplicate (BONOBO_OBJREF (sidebar_control), ev);
-	*corba_view_control = CORBA_Object_duplicate (BONOBO_OBJREF (view_control), ev);
+	*corba_view_control = CORBA_Object_duplicate (BONOBO_OBJREF (priv->view_control), ev);
 	*corba_statusbar_control = CORBA_Object_duplicate (BONOBO_OBJREF (statusbar_control), ev);
 }
 

@@ -1,5 +1,16 @@
 2003-12-17  Rodrigo Moya <rodrigo@ximian.com>
 
+	* gui/calendar-component.c (update_uri_for_primary_selection): call
+	calendar_control_sensitize_calendar_commands when the primary selection
+	changes.
+	(impl_createControls): keep the view_control in the private structure and
+	use control_factory_new_control() to create the control.
+	(control_activate_cb): removed unneeded function.
+
+	* gui/tasks-component.c (impl_createControls): use tasks_control_new to
+	create the tasks view control.
+	(control_activate_cb): removed unneeded function.
+
 	* gui/gnome-cal.c (gnome_calendar_add_event_uri): check the return
 	value from e_cal_new_from_uri.
 

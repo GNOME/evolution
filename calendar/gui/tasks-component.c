@@ -66,8 +66,10 @@ struct _TasksComponentPrivate {
 	ETasks *tasks;
 	GtkWidget *source_selector;
 
+	BonoboControl *view_control;
+
 	ECal *create_ecal;
-	
+
 	GList *notifications;
 };
 
@@ -478,17 +480,6 @@ impl_finalize (GObject *object)
 /* Evolution::Component CORBA methods */
 
 static void
-control_activate_cb (BonoboControl *control, gboolean activate, gpointer data)
-{
-	ETasks *tasks = data;
-
-	if (activate)
-		tasks_control_activate (control, tasks);
-	else
-		tasks_control_deactivate (control, tasks);
-}
-
-static void
 impl_createControls (PortableServer_Servant servant,
 		     Bonobo_Control *corba_sidebar_control,
 		     Bonobo_Control *corba_view_control,
@@ -498,7 +489,7 @@ impl_createControls (PortableServer_Servant servant,
 	TasksComponent *component = TASKS_COMPONENT (bonobo_object_from_servant (servant));
 	TasksComponentPrivate *priv;
 	GtkWidget *selector_scrolled_window;
-	BonoboControl *sidebar_control, *view_control;
+	BonoboControl *sidebar_control;
 	guint not;
 	
 	priv = component->priv;
@@ -518,23 +509,14 @@ impl_createControls (PortableServer_Servant servant,
 	sidebar_control = bonobo_control_new (selector_scrolled_window);
 
 	/* create the tasks view */
-	priv->tasks = E_TASKS (e_tasks_new ());
-	if (!priv->tasks) {
-		g_warning (G_STRLOC ": could not create the control!");
-		bonobo_exception_set (ev, ex_GNOME_Evolution_Component_Failed);
-		return;
-	}
-	
-	gtk_widget_show (GTK_WIDGET (priv->tasks));
-
- 	view_control = bonobo_control_new (GTK_WIDGET (priv->tasks));
-	if (!view_control) {
+ 	priv->view_control = tasks_control_new ();
+	if (!priv->view_control) {
 		g_warning (G_STRLOC ": could not create the control!");
 		bonobo_exception_set (ev, ex_GNOME_Evolution_Component_Failed);
 		return;
 	}
 
-	g_signal_connect (view_control, "activate", G_CALLBACK (control_activate_cb), priv->tasks);
+	priv->tasks = (ETasks *) bonobo_control_get_widget (priv->view_control);
 
 	g_signal_connect_object (priv->source_selector, "selection_changed",
 				 G_CALLBACK (source_selection_changed_cb),
@@ -561,7 +543,7 @@ impl_createControls (PortableServer_Servant servant,
 
 	/* Return the controls */
 	*corba_sidebar_control = CORBA_Object_duplicate (BONOBO_OBJREF (sidebar_control), ev);
-	*corba_view_control = CORBA_Object_duplicate (BONOBO_OBJREF (view_control), ev);
+	*corba_view_control = CORBA_Object_duplicate (BONOBO_OBJREF (priv->view_control), ev);
 
 	/* The tasks component doesn't use the status bar so just return an empty label.  */
 	{
