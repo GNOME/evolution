@@ -64,6 +64,23 @@ resolve_image_url (HTMLEditorListener *l, gchar *url)
 	return cid;
 }
 
+static void
+reply_indent (HTMLEditorListener *l, CORBA_Environment * ev)
+{
+	if (!HTMLEditor_Engine_paragraph_is_empty (l->composer->editor_engine, ev)) {
+		if (HTMLEditor_Engine_paragraph_previous_is_empty (l->composer->editor_engine, ev))
+			HTMLEditor_Engine_command (l->composer->editor_engine, "cursor-backward", ev);
+		else {
+			HTMLEditor_Engine_command (l->composer->editor_engine, "insert-paragraph", ev);
+			return;
+		}
+			
+	}
+	HTMLEditor_Engine_command (l->composer->editor_engine, "style-normal", ev);
+	HTMLEditor_Engine_command (l->composer->editor_engine, "indent-zero", ev);
+	HTMLEditor_Engine_command (l->composer->editor_engine, "italic-off", ev);
+}
+
 static CORBA_any *
 impl_event (PortableServer_Servant _servant,
        const CORBA_char * name, const CORBA_any * arg,
@@ -79,11 +96,8 @@ impl_event (PortableServer_Servant _servant,
 		/* FIXME check for insert-paragraph command */
 		data = HTMLEditor_Engine_get_paragraph_data (l->composer->editor_engine, "orig", ev);
 		if (ev->_major == CORBA_NO_EXCEPTION && data) {
-			if (CORBA_TypeCode_equal (data->_type, TC_boolean, ev) && BONOBO_ARG_GET_BOOLEAN (data)) {
-				HTMLEditor_Engine_command (l->composer->editor_engine, "style-normal", ev);
-				HTMLEditor_Engine_command (l->composer->editor_engine, "indent-zero", ev);
-				HTMLEditor_Engine_command (l->composer->editor_engine, "italic-off", ev);
-			}
+			if (CORBA_TypeCode_equal (data->_type, TC_boolean, ev) && BONOBO_ARG_GET_BOOLEAN (data))
+				reply_indent (l, ev);
 			BONOBO_ARG_SET_BOOLEAN (data, CORBA_FALSE);
 			HTMLEditor_Engine_set_paragraph_data (l->composer->editor_engine, "orig", data, ev);
 		}

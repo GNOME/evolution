@@ -1,3 +1,8 @@
+2000-11-13  Radek Doulik  <rodo@helixcode.com>
+
+	* listener.c (reply_indent): extracted function, does reply
+	indentation, use updated editor engine api
+
 2000-11-10  Michael Meeks  <michael@helixcode.com>
 
 	* Makefile.am ($(HTML_EDITOR_GENERATED)): rearrnace
