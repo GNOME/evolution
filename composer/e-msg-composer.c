@@ -1084,7 +1084,9 @@ set_editor_text (EMsgComposer *composer, const char *text)
 	BonoboWidget *editor;
 	CORBA_Environment ev;
 	Bonobo_Unknown object;
-	
+	char *sig, *mem = NULL, *content;
+	size_t len;
+
 	g_return_if_fail (composer->persist_stream_interface != CORBA_OBJECT_NIL);
 	
 	persist = composer->persist_stream_interface;
@@ -1092,8 +1094,22 @@ set_editor_text (EMsgComposer *composer, const char *text)
 	editor = BONOBO_WIDGET (composer->editor);
 	
 	CORBA_exception_init (&ev);
-	
-	stream = bonobo_stream_mem_create (text, strlen (text), TRUE, FALSE);
+
+	/* This copying bullshit is because the bonobo stream interface is just painful */
+	sig = get_signature_html(composer);
+	len = strlen(text);
+	if (sig) {
+		len += strlen(sig);
+		content = mem = g_malloc(len+1);
+		memcpy(mem, text, strlen(text));
+		strcpy(mem + strlen(text), sig);
+	} else {
+		content = text;
+	}
+
+	stream = bonobo_stream_mem_create(content, len, TRUE, FALSE);
+	g_free(mem);
+
 	object = bonobo_object_corba_objref (BONOBO_OBJECT (stream));
 	Bonobo_PersistStream_load (persist, (Bonobo_Stream) object, "text/html", &ev);
 	if (ev._major != CORBA_NO_EXCEPTION) {
@@ -2866,7 +2882,7 @@ map_default_cb (EMsgComposer *composer, gpointer user_data)
 	CORBA_Environment ev;
 	const char *subject;
 	char *text;
-	
+
 	/* If the 'To:' field is empty, focus it (This is ridiculously complicated) */
 	
 	widget = e_msg_composer_hdrs_get_to_entry (E_MSG_COMPOSER_HDRS (composer->hdrs));
@@ -3177,7 +3193,6 @@ create_composer (int visible_mask)
 	gtk_widget_show (composer->editor);
 	
 	e_msg_composer_show_attachments (composer, FALSE);
-	
 	prepare_engine (composer);
 	if (composer->editor_engine == CORBA_OBJECT_NIL) {
 		e_activation_failure_dialog (GTK_WINDOW (composer),
@@ -3190,7 +3205,7 @@ create_composer (int visible_mask)
 	}
 	
 	setup_cut_copy_paste (composer);
-	
+
 	g_signal_connect (composer, "map", (GCallback) map_default_cb, NULL);
 	
 	if (am == NULL)
@@ -4185,12 +4200,7 @@ e_msg_composer_set_body_text (EMsgComposer *composer, const char *text)
 	g_return_if_fail (E_IS_MSG_COMPOSER (composer));
 	
 	set_editor_text (composer, text);
-	
-	/* set editor text unfortunately kills the signature so we
-           have to re-show it */
-	e_msg_composer_show_sig_file (composer);
 }
-
 
 /**
  * e_msg_composer_set_body:

@@ -1,3 +1,12 @@
+2004-01-28  Not Zed  <NotZed@Ximian.com>
+
+	** See Bug #53176, probably fixes others too.
+	
+	* e-msg-composer.c (set_editor_text): When we set the text, always
+	add the signature implictly.  Means we don't have to set it
+	manually and break changing the file, or hit any races.
+	(e_msg_composer_set_body_text): dont call show_sig_file here.
+
 2004-01-14  Not Zed  <NotZed@Ximian.com>
 
 	** See Bug #20017.
