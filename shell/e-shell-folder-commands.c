@@ -431,7 +431,7 @@ e_shell_command_add_to_shortcut_bar (EShell *shell,
 	group_num = e_shell_view_get_current_shortcuts_group_num (shell_view);
 	uri = e_shell_view_get_current_uri (shell_view);
 
-	e_shortcuts_add_shortcut (shortcuts, group_num, -1, uri);
+	e_shortcuts_add_shortcut (shortcuts, group_num, -1, uri, NULL, NULL);
 }
 
 

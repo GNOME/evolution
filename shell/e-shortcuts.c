@@ -26,9 +26,9 @@
    <?xml version="1.0"?>
    <shortcuts>
            <group title="Evolution shortcuts">
-	           <item>evolution:/local/Inbox</item>
-	           <item>evolution:/local/Trash</item>
-	           <item>evolution:/local/Calendar</item>
+	           <item name="Inbox" type="mail">evolution:/local/Inbox</item>
+	           <item name="Trash" type="vtrash">evolution:/local/Trash</item>
+	           <item name="Calendar" type="calendar">evolution:/local/Calendar</item>
 	   </group>
 
 	   <group title="Personal shortcuts">
@@ -74,7 +74,7 @@ struct _ShortcutGroup {
 	/* Title of the group.  */
 	char *title;
 
-	/* A list of strings with the URI for the shortcut.  */
+	/* A list of shortcuts.  */
 	GSList *shortcuts;
 };
 typedef struct _ShortcutGroup ShortcutGroup;
@@ -119,12 +119,69 @@ enum {
 static guint signals[LAST_SIGNAL] = { 0 };
 
 
+static EShortcutItem *
+shortcut_item_new (const char *uri,
+		   const char *name,
+		   const char *type)
+{
+	EShortcutItem *new;
+
+	if (name == NULL)
+		name = g_basename (uri);
+
+	new = g_new (EShortcutItem, 1);
+	new->uri  = g_strdup (uri);
+	new->name = g_strdup (name);
+	new->type = g_strdup (type);
+
+	return new;
+}
+
+static void
+shortcut_item_free (EShortcutItem *shortcut_item)
+{
+	g_free (shortcut_item->uri);
+	g_free (shortcut_item->name);
+	g_free (shortcut_item->type);
+
+	g_free (shortcut_item);
+}
+
+static ShortcutGroup *
+shortcut_group_new (const char *title)
+{
+	ShortcutGroup *new;
+
+	new = g_new (ShortcutGroup, 1);
+	new->title     = g_strdup (title);
+	new->shortcuts = NULL;
+
+	return new;
+}
+
+static void
+shortcut_group_free (ShortcutGroup *group)
+{
+	GSList *p;
+
+	g_free (group->title);
+
+	for (p = group->shortcuts; p != NULL; p = p->next)
+		shortcut_item_free ((EShortcutItem *) p->data);
+	g_slist_free (group->shortcuts);
+
+	g_free (group);
+}
+
+
+/* Utility functions.  */
+
 static void
 unload_shortcuts (EShortcuts *shortcuts)
 {
 	EShortcutsPrivate *priv;
 	GSList *orig_groups;
-	GSList *p, *q;
+	GSList *p;
 
 	priv = shortcuts->priv;
 	orig_groups = priv->groups;
@@ -137,12 +194,7 @@ unload_shortcuts (EShortcuts *shortcuts)
 		group = (ShortcutGroup *) p->data;
 
 		g_hash_table_remove (priv->title_to_group, group->title);
-
-		for (q = group->shortcuts; q != NULL; q = q->next)
-			g_free (q->data);
-		g_free (group->title);
-
-		g_slist_free (group->shortcuts);
+		shortcut_group_free (group);
 
 		priv->groups = priv->groups->next;
 	}
@@ -192,8 +244,7 @@ load_shortcuts (EShortcuts *shortcuts,
 		if (shortcut_group_title == NULL)
 			continue;
 
-		shortcut_group = g_hash_table_lookup (priv->title_to_group,
-						      shortcut_group_title);
+		shortcut_group = g_hash_table_lookup (priv->title_to_group, shortcut_group_title);
 		if (shortcut_group != NULL) {
 			g_warning ("Duplicate shortcut group title -- %s",
 				   shortcut_group_title);
@@ -201,21 +252,19 @@ load_shortcuts (EShortcuts *shortcuts,
 			continue;
 		}
 
-		shortcut_group = g_new (ShortcutGroup, 1);
-		shortcut_group->title = g_strdup (shortcut_group_title);
+		shortcut_group = shortcut_group_new (shortcut_group_title);
 		xmlFree (shortcut_group_title);
 
-		shortcut_group->shortcuts = NULL;
 		for (q = p->childs; q != NULL; q = q->next) {
-			char *content;
+			xmlChar *uri;
 
 			if (strcmp ((char *) q->name, "item") != 0)
 				continue;
 
-			content = xmlNodeListGetString (doc, q->childs, 1);
+			uri = xmlNodeListGetString (doc, q->childs, 1);
 			shortcut_group->shortcuts = g_slist_prepend (shortcut_group->shortcuts,
-								    g_strdup (content));
-			xmlFree (content);
+								     shortcut_item_new (uri, NULL, NULL));
+			xmlFree (uri);
 		}
 		shortcut_group->shortcuts = g_slist_reverse (shortcut_group->shortcuts);
 
@@ -255,10 +304,10 @@ save_shortcuts (EShortcuts *shortcuts,
 		xmlSetProp (group_node, (xmlChar *) "title", group->title);
 
 		for (q = group->shortcuts; q != NULL; q = q->next) {
-			const char *shortcut;
+			EShortcutItem *shortcut;
 
-			shortcut = (const char *) q->data;
-			xmlNewChild (group_node, NULL, (xmlChar *) "item", (xmlChar *) shortcut);
+			shortcut = (EShortcutItem *) q->data;
+			xmlNewChild (group_node, NULL, (xmlChar *) "item", (xmlChar *) shortcut->uri);
 		}
 	}
 
@@ -269,6 +318,35 @@ save_shortcuts (EShortcuts *shortcuts,
 
 	xmlFreeDoc (doc);
 	return TRUE;
+}
+
+
+static EShortcutItem *
+get_item (EShortcuts *shortcuts,
+	  int group_num,
+	  int num)
+{
+	EShortcutsPrivate *priv;
+	ShortcutGroup *group;
+	GSList *group_element;
+	GSList *shortcut_element;
+
+	g_return_val_if_fail (shortcuts != NULL, NULL);
+	g_return_val_if_fail (E_IS_SHORTCUTS (shortcuts), NULL);
+
+	priv = shortcuts->priv;
+
+	group_element = g_slist_nth (priv->groups, group_num);
+	if (group_element == NULL)
+		return NULL;
+
+	group = (ShortcutGroup *) group_element->data;
+
+	shortcut_element = g_slist_nth (group->shortcuts, num);
+	if (shortcut_element == NULL)
+		return NULL;
+
+	return (EShortcutItem *) shortcut_element->data;
 }
 
 
@@ -318,22 +396,6 @@ make_dirty (EShortcuts *shortcuts)
 
 	priv->dirty = TRUE;
 	schedule_idle (shortcuts);
-}
-
-/* Signal handlers for the storage set */
-static void
-removed_folder_cb (EStorageSet *storage_set,
-		   const char  *path,
-		   void        *data)
-{
-	EShortcuts *shortcuts;
-	char *tmp;
-
-	shortcuts = E_SHORTCUTS (data);
-
-	tmp = g_strconcat (E_SHELL_URI_PREFIX, path, NULL);
-	e_shortcuts_remove_shortcut_by_uri (shortcuts, tmp);
-	g_free (tmp);
 }
 
 
@@ -485,11 +547,9 @@ e_shortcuts_construct (EShortcuts  *shortcuts,
 
 	priv = shortcuts->priv;
 
+	/* FIXME: Get rid of the storage set, we dont' need it here.  */
 	gtk_object_ref (GTK_OBJECT (storage_set));
 	priv->storage_set = storage_set;
-
-	gtk_signal_connect (GTK_OBJECT (priv->storage_set), "removed_folder",
-			    removed_folder_cb, shortcuts);
 
 	gtk_object_ref (GTK_OBJECT (folder_type_registry));
 	priv->folder_type_registry = folder_type_registry;
@@ -540,14 +600,12 @@ e_shortcuts_get_group_titles (EShortcuts *shortcuts)
 	return g_slist_reverse (list);
 }
 
-GSList *
+const GSList *
 e_shortcuts_get_shortcuts_in_group (EShortcuts *shortcuts,
 				    const char *group_title)
 {
 	EShortcutsPrivate *priv;
 	ShortcutGroup *shortcut_group;
-	GSList *list;
-	GSList *p;
 
 	priv = shortcuts->priv;
 
@@ -559,12 +617,7 @@ e_shortcuts_get_shortcuts_in_group (EShortcuts *shortcuts,
 	if (shortcut_group == NULL)
 		return NULL;
 
-	list = NULL;
-
-	for (p = shortcut_group->shortcuts; p != NULL; p = p->next)
-		list = g_slist_prepend (list, g_strdup ((const char *) p->data));
-
-	return g_slist_reverse (list);
+	return shortcut_group->shortcuts;
 }
 
 
@@ -657,27 +710,15 @@ e_shortcuts_save (EShortcuts *shortcuts,
 }
 
 
-const char *
-e_shortcuts_get_uri (EShortcuts *shortcuts, int group_num, int num)
+const EShortcutItem *
+e_shortcuts_get_shortcut (EShortcuts *shortcuts,
+			  int group_num,
+			  int num)
 {
-	EShortcutsPrivate *priv;
-	ShortcutGroup *group;
-	GSList *shortcut_element;
-
 	g_return_val_if_fail (shortcuts != NULL, NULL);
 	g_return_val_if_fail (E_IS_SHORTCUTS (shortcuts), NULL);
 
-	priv = shortcuts->priv;
-
-	group = g_slist_nth (priv->groups, group_num)->data;
-	if (group == NULL)
-		return NULL;
-
-	shortcut_element = g_slist_nth (group->shortcuts, num);
-	if (shortcut_element == NULL)
-		return NULL;
-
-	return shortcut_element->data;
+	return (const EShortcutItem *) get_item (shortcuts, group_num, num);
 }
 
 
@@ -689,7 +730,7 @@ e_shortcuts_remove_shortcut (EShortcuts *shortcuts,
 	EShortcutsPrivate *priv;
 	ShortcutGroup *group;
 	GSList *p;
-	char *uri;
+	EShortcutItem *item;
 
 	g_return_if_fail (shortcuts != NULL);
 	g_return_if_fail (E_IS_SHORTCUTS (shortcuts));
@@ -706,8 +747,8 @@ e_shortcuts_remove_shortcut (EShortcuts *shortcuts,
 
 	gtk_signal_emit (GTK_OBJECT (shortcuts), signals[REMOVE_SHORTCUT], group_num, num);
 
-	uri = (char *) p->data;
-	g_free (uri);
+	item = (EShortcutItem *) p->data;
+	shortcut_item_free (item);
 
 	group->shortcuts = g_slist_remove_link (group->shortcuts, p);
 
@@ -718,10 +759,13 @@ void
 e_shortcuts_add_shortcut (EShortcuts *shortcuts,
 			  int group_num,
 			  int num,
-			  const char *uri)
+			  const char *uri,
+			  const char *name,
+			  const char *type)
 {
 	EShortcutsPrivate *priv;
 	ShortcutGroup *group;
+	EShortcutItem *item;
 	GSList *p;
 
 	g_return_if_fail (shortcuts != NULL);
@@ -737,7 +781,9 @@ e_shortcuts_add_shortcut (EShortcuts *shortcuts,
 	if (num == -1)
 		num = g_slist_length (group->shortcuts);
 
-	group->shortcuts = g_slist_insert (group->shortcuts, g_strdup (uri), num);
+	item = shortcut_item_new (uri, name, type);
+
+	group->shortcuts = g_slist_insert (group->shortcuts, item, num);
 
 	gtk_signal_emit (GTK_OBJECT (shortcuts), signals[NEW_SHORTCUT], group_num, num);
 
@@ -748,110 +794,31 @@ void
 e_shortcuts_update_shortcut (EShortcuts *shortcuts,
 			     int         group_num,
 			     int         num,
-			     const char *uri)
+			     const char *uri,
+			     const char *name,
+			     const char *type)
 {
+	EShortcutItem *shortcut_item;
+
 	g_return_if_fail (shortcuts != NULL);
 	g_return_if_fail (E_IS_SHORTCUTS (shortcuts));
+
+	shortcut_item = get_item (shortcuts, group_num, num);
+	g_free (shortcut_item->uri);
+
+	shortcut_item->uri  = g_strdup (uri);
+	shortcut_item->name = g_strdup (name);
+	shortcut_item->type = g_strdup (type);
 
 	gtk_signal_emit (GTK_OBJECT (shortcuts), signals[UPDATE_SHORTCUT], group_num, num);
 }
 
-
-/* The shortcuts_by_uri functions */
-
-
-typedef struct {
-	int group_num;
-	int num;
-} EShortcutPosition;
-
-static GSList *
-find_positions_by_uri (EShortcuts  *shortcuts,
-		       const char  *uri)
-{
-	EShortcutsPrivate *priv;
-	GSList *p = NULL, *q = NULL;
-	GSList *retval = NULL;
-	int group_num = 0, num = 0;
-
-	priv = shortcuts->priv;
-
-	for (p = priv->groups; p != NULL; p = p->next) {
-		ShortcutGroup *group;
-
-		group = (ShortcutGroup *) p->data;
-
-		for (q = group->shortcuts; q != NULL; q = q->next) {
-			char *listeduri = q->data;
-
-			if (!strcmp (uri, listeduri)) {
-				EShortcutPosition *position;
-
-				position = g_new (EShortcutPosition, 1);
-				position->group_num = group_num;
-				position->num = num;
-				
-				retval = g_slist_prepend (retval, position);
-			}
-			num++;
-		}
-
-		group_num++;
-		num = 0;
-	}
-
-	retval = g_slist_reverse (retval);
-	return retval;
-}
-
-void
-e_shortcuts_remove_shortcut_by_uri (EShortcuts *shortcuts,
-				    const char *uri)
-{
-	GSList *items = NULL;
-
-	items = find_positions_by_uri (shortcuts, uri);
-
-	while (items) {
-		EShortcutPosition *pos = (EShortcutPosition *) items->data;
-
-		if (pos) {
-			e_shortcuts_remove_shortcut (shortcuts, pos->group_num, pos->num);
-			g_free (pos);
-		}
-		items = g_slist_next (items);
-	}
-	g_slist_free (items);
-}
-
-void
-e_shortcuts_update_shortcut_by_uri (EShortcuts *shortcuts,
-				    const char *uri)
-{
-	GSList *items = NULL;
-
-	items = find_positions_by_uri (shortcuts, uri);
-
-	while (items) {
-		EShortcutPosition *pos = (EShortcutPosition *) items->data;
-
-		if (pos) {
-			e_shortcuts_update_shortcut (shortcuts,
-						     pos->group_num, pos->num,
-						     uri);
-			g_free (pos);
-		}
-		items = g_slist_next (items);
-	}
-	g_slist_free (items);
-}
-
+
 void
 e_shortcuts_remove_group (EShortcuts *shortcuts,
 			  int group_num)
 {
 	EShortcutsPrivate *priv;
-	ShortcutGroup *group;
 	GSList *p;
 
 	g_return_if_fail (shortcuts != NULL);
@@ -864,9 +831,7 @@ e_shortcuts_remove_group (EShortcuts *shortcuts,
 
 	gtk_signal_emit (GTK_OBJECT (shortcuts), signals[REMOVE_GROUP], group_num);
 
-	group = (ShortcutGroup *) p->data;
-
-	e_free_string_slist (group->shortcuts);
+	shortcut_group_free ((ShortcutGroup *) p->data);
 
 	priv->groups = g_slist_remove_link (priv->groups, p);
 
@@ -886,9 +851,7 @@ e_shortcuts_add_group (EShortcuts *shortcuts,
 
 	priv = shortcuts->priv;
 
-	group = g_new (ShortcutGroup, 1);
-	group->title     = g_strdup (group_name);
-	group->shortcuts = NULL;
+	group = shortcut_group_new (group_name);
 
 	if (group_num == -1)
 		group_num = g_slist_length (priv->groups);
@@ -925,4 +888,3 @@ e_shortcuts_get_group_title (EShortcuts *shortcuts,
 
 
 E_MAKE_TYPE (e_shortcuts, "EShortcuts", EShortcuts, class_init, init, PARENT_TYPE)
-

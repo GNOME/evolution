@@ -1105,16 +1105,17 @@ updated_folder_cb (EStorageSet *storage_set,
 {
 	EShellView *shell_view;
 	EShellViewPrivate *priv;
-	char *uri;
 
 	shell_view = E_SHELL_VIEW (data);
 	priv = shell_view->priv;
 
-	uri = g_strconcat (E_SHELL_URI_PREFIX, path, NULL);
+#if 0
+	char *uri = g_strconcat (E_SHELL_URI_PREFIX, path, NULL);
 
 	/* Update the shortcut bar */
 	e_shortcuts_update_shortcut_by_uri (e_shell_get_shortcuts (priv->shell), uri);
 	g_free (uri);
+#endif
 
 	/* Update the folder title bar and the window title bar */
 	update_for_current_uri (shell_view);

@@ -45,6 +45,13 @@ typedef struct _EShortcuts        EShortcuts;
 typedef struct _EShortcutsPrivate EShortcutsPrivate;
 typedef struct _EShortcutsClass   EShortcutsClass;
 
+struct _EShortcutItem {
+	char *uri;
+	char *name;
+	char *type;
+};
+typedef struct _EShortcutItem EShortcutItem;
+
 struct _EShortcuts {
 	GtkObject parent;
 
@@ -73,46 +80,43 @@ EShortcuts  *e_shortcuts_new                     (EStorageSet         *storage_s
 						  EFolderTypeRegistry *folder_type_registry,
 						  const char          *file_name);
 
-GSList      *e_shortcuts_get_group_titles        (EShortcuts          *shortcuts);
-const char  *e_shortcuts_get_group_title         (EShortcuts          *shortcuts,
-						  int                  group_num);
+GSList       *e_shortcuts_get_group_titles        (EShortcuts *shortcuts);
+const char   *e_shortcuts_get_group_title         (EShortcuts *shortcuts,
+						   int         group_num);
+const GSList *e_shortcuts_get_shortcuts_in_group  (EShortcuts *shortcuts,
+						   const char *group_title);
+const EShortcutItem *e_shortcuts_get_shortcut  (EShortcuts *shortcuts,
+						int         group_num,
+						int         num);
 
-GSList      *e_shortcuts_get_shortcuts_in_group  (EShortcuts          *shortcuts,
-						  const char          *group_title);
-EStorageSet *e_shortcuts_get_storage_set         (EShortcuts          *shortcuts);
-GtkWidget   *e_shortcuts_new_view                (EShortcuts          *shortcuts);
+EStorageSet  *e_shortcuts_get_storage_set          (EShortcuts *shortcuts);
+GtkWidget    *e_shortcuts_new_view                 (EShortcuts *shortcuts);
 
 gboolean     e_shortcuts_load                    (EShortcuts          *shortcuts,
 						  const char          *path);
 gboolean     e_shortcuts_save                    (EShortcuts          *shortcuts,
 						  const char          *path);
 
-const char  *e_shortcuts_get_uri                 (EShortcuts          *shortcuts,
-						  int                  group_num,
-						  int                  num);
-
-void         e_shortcuts_remove_shortcut         (EShortcuts          *shortcuts,
-						  int                  group_num,
-						  int                  num);
-void         e_shortcuts_add_shortcut            (EShortcuts          *shortcuts,
-						  int                  group_num,
-						  int                  num,
-						  const char          *uri);
-void         e_shortcuts_update_shortcut         (EShortcuts *shortcuts,
-						  int         group_num,
-						  int         num,
-						  const char *uri);
-void         e_shortcuts_remove_group            (EShortcuts          *shortcuts,
-						  int                  group_num);
-void         e_shortcuts_add_group               (EShortcuts          *shortcuts,
-						  int                  group_num,
-						  const char          *group_name);
-
-void         e_shortcuts_remove_shortcut_by_uri (EShortcuts *shortcuts,
-						 const char *uri);
-
-void         e_shortcuts_update_shortcut_by_uri  (EShortcuts *shortcuts,
-						  const char *uri);
+void  e_shortcuts_remove_shortcut  (EShortcuts *shortcuts,
+				    int         group_num,
+				    int         num);
+void  e_shortcuts_add_shortcut     (EShortcuts *shortcuts,
+				    int         group_num,
+				    int         num,
+				    const char *uri,
+				    const char *name,
+				    const char *type);
+void  e_shortcuts_update_shortcut  (EShortcuts *shortcuts,
+				    int         group_num,
+				    int         num,
+				    const char *uri,
+				    const char *name,
+				    const char *type);
+void  e_shortcuts_remove_group     (EShortcuts *shortcuts,
+				    int         group_num);
+void  e_shortcuts_add_group        (EShortcuts *shortcuts,
+				    int         group_num,
+				    const char *group_name);
 
 #ifdef __cplusplus
 }

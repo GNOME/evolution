@@ -1,3 +1,63 @@
+2001-06-29  Ettore Perazzoli  <ettore@ximian.com>
+
+	This is a first shoot at making shortcuts renameable [#3719];
+	unfinished.  Also, it causes the shortcut bar to stop displaying
+	message unread count, but this is unfixable until we get rid of
+	the ::LocalStorage interface, which should hopefully happen soon.
+
+	* e-shortcuts-view.c (icon_callback): Get the icon from the type
+	member of the shortcut item instead of going to the actual folder.
+
+	* e-shell-view.c (updated_folder_cb): Don't update the shortcuts
+	here for now.
+
+	* e-shortcuts-view.c (item_selected): Use
+	`e_shortcuts_get_shortcut()' instead of `e_shortcuts_get_uri()'.
+	(impl_shortcut_dropped): Pass a NULL @name and @type.
+
+	* e-shortcuts-view-model.c (load_group_into_model): Updated to
+	match the new `e_shortcuts_get_shortcuts_in_group()' function that
+	doesn't allocate the list anymore and returns a list of
+	EShortcutItems instead of a list of strings.
+	(load_group_into_model): Likewise.
+	(load_all_shortcuts_into_model): Likewise.
+	(shortcuts_new_shortcut_cb): Get the URI and the name from the
+	EShortcutItem instead of retrieving them from the storage.
+	(shortcuts_update_shortcut_cb): Likewise.
+	(get_storage_set_path_from_uri): Removed [now unused].
+
+	* e-shortcuts.c: Define the shortcuts to be EShortcutItems instead
+	of just strings.
+	(shortcut_new): New helper function to allocate a Shortcut.
+	(shortcut_free): New helper function to free a Shortcut.
+	(shortcut_group_new): New helper function to allocate a
+	ShortcutGroup.
+	(shortcut_group_free): New helper function to free a
+	ShortcutGroup.
+	(load_shortcuts): Use `shortcut_group_new()' here.
+	(e_shortcuts_add_group): Same here.
+	(unload_shortcuts): Use `shortcut_group_free()' here.
+	(e_shortcuts_remove_group): Here too.
+	(load_shortcuts): Update to handle `Shortcut's instead of simple
+	`char *'s representing the URIs.
+	(save_shortcuts): Likewise.
+	(e_shortcuts_get_shortcuts_in_group): Likewise.  The returned list
+	now doesn't belong to the caller anymore; the return type is now
+	const.
+	(removed_folder_cb): Removed.
+	(e_shortcuts_construct): Don't connect.
+	(e_shortcuts_get_group_titles): Dont' re-allocate the string.
+	(e_shortcuts_get_uri): Removed.
+	(e_shortcuts_get_shortcut): New.
+	(e_shortcuts_add_shortcut): new args @name, @type.
+	(e_shortcuts_update_shortcut_by_uri): Remove.
+	(e_shortcuts_remove_shortcut_by_uri): Remove.
+	(get_item): New helper function.
+	(e_shortcuts_get_shortcut): Use it.
+	(find_positions_by_uri): Removed.
+
+	* e-shortcuts.h: New typedef EShortcutItem.
+
 2001-06-29  Christopher James Lahey  <clahey@ximian.com>
 
 	* e-shortcuts-view-model.c (load_all_shortcuts_into_model):

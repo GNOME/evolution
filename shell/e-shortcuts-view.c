@@ -352,18 +352,18 @@ activate_shortcut_cb (GtkWidget *widget,
 	ShortcutRightClickMenuData *menu_data;
 	EShortcutsView *shortcuts_view;
 	EShortcuts *shortcuts;
-	const char *uri;
+	const EShortcutItem *shortcut_item;
 
 	menu_data = (ShortcutRightClickMenuData *) data;
 	shortcuts_view = menu_data->shortcuts_view;
 	shortcuts = shortcuts_view->priv->shortcuts;
 
-	uri = e_shortcuts_get_uri (shortcuts, menu_data->group_num, menu_data->item_num);
-	if (uri == NULL)
+	shortcut_item = e_shortcuts_get_shortcut (shortcuts, menu_data->group_num, menu_data->item_num);
+	if (shortcut_item == NULL)
 		return;
 
 	gtk_signal_emit (GTK_OBJECT (shortcuts_view), signals[ACTIVATE_SHORTCUT],
-			 shortcuts, uri);
+			 shortcuts, shortcut_item->uri);
 }
 
 static void
@@ -443,7 +443,7 @@ item_selected (EShortcutBar *shortcut_bar,
 {
 	EShortcuts *shortcuts;
 	EShortcutsView *shortcuts_view;
-	const char *uri;
+	const EShortcutItem *shortcut_item;
 
 	shortcuts_view = E_SHORTCUTS_VIEW (shortcut_bar);
 	shortcuts = shortcuts_view->priv->shortcuts;
@@ -463,12 +463,12 @@ item_selected (EShortcutBar *shortcut_bar,
 	if (item_num < 0)
 		return;
 
-	uri = e_shortcuts_get_uri (shortcuts, group_num, item_num);
-	if (uri == NULL)
+	shortcut_item = e_shortcuts_get_shortcut (shortcuts, group_num, item_num);
+	if (shortcut_item == NULL)
 		return;
 
 	gtk_signal_emit (GTK_OBJECT (shortcuts_view), signals[ACTIVATE_SHORTCUT],
-			 shortcuts, uri);
+			 shortcuts, shortcut_item->uri);
 }
 
 static void
@@ -484,7 +484,7 @@ impl_shortcut_dropped (EShortcutBar *shortcut_bar,
 	shortcuts_view = E_SHORTCUTS_VIEW (shortcut_bar);
 	priv = shortcuts_view->priv;
 
-	e_shortcuts_add_shortcut (priv->shortcuts, group_num, position, item_url);
+	e_shortcuts_add_shortcut (priv->shortcuts, group_num, position, item_url, NULL, NULL);
 }
 
 static void

@@ -47,27 +47,6 @@ struct _EShortcutsViewModelPrivate {
 
 /* View initialization.  */
 
-static const char *
-get_storage_set_path_from_uri (const char *uri)
-{
-	const char *colon;
-
-	if (g_path_is_absolute (uri))
-		return NULL;
-
-	colon = strchr (uri, ':');
-	if (colon == NULL || colon == uri || colon[1] == '\0')
-		return NULL;
-
-	if (! g_path_is_absolute (colon + 1))
-		return NULL;
-
-	if (g_strncasecmp (uri, "evolution", colon - uri) != 0)
-		return NULL;
-
-	return colon + 1;
-}
-
 static void
 load_group_into_model (EShortcutsViewModel *shortcuts_view_model,
 		       const char *group_title,
@@ -75,8 +54,8 @@ load_group_into_model (EShortcutsViewModel *shortcuts_view_model,
 {
 	EShortcutsViewModelPrivate *priv;
 	EStorageSet *storage_set;
-	GSList *shortcut_list;
-	GSList *p;
+	const GSList *shortcut_list;
+	const GSList *p;
 
 	priv = shortcuts_view_model->priv;
 
@@ -88,37 +67,19 @@ load_group_into_model (EShortcutsViewModel *shortcuts_view_model,
 		return;
 
 	for (p = shortcut_list; p != NULL; p = p->next) {
-		EFolder *folder = NULL;
-		const char *path;
-		const char *uri;
-		const char *name;
+		const EShortcutItem *item;
 
-		uri = (const char *) p->data;
-		path = get_storage_set_path_from_uri (uri);
-
-		if (path == NULL) {
-			name = _("Unknown link");
-		} else {
-			folder = e_storage_set_get_folder (storage_set, path);
-
-			if (folder != NULL)
-				name = e_folder_get_name (folder);
-			else
-				name = g_basename (path);
-		}
-
-		e_shortcut_model_add_item (E_SHORTCUT_MODEL (shortcuts_view_model), group_num, -1, uri, name);
+		item = (const EShortcutItem *) p->data;
+		e_shortcut_model_add_item (E_SHORTCUT_MODEL (shortcuts_view_model), group_num, -1, item->uri, item->name);
 	}
-
-	e_free_string_slist (shortcut_list);
 }
 
 static void
 load_all_shortcuts_into_model (EShortcutsViewModel *shortcuts_view_model)
 {
 	EShortcutsViewModelPrivate *priv;
-	GSList *group_titles;
-	GSList *p;
+	const GSList *group_titles;
+	const GSList *p;
 	int group_num;
 
 	priv = shortcuts_view_model->priv;
@@ -133,8 +94,6 @@ load_all_shortcuts_into_model (EShortcutsViewModel *shortcuts_view_model)
 
 		load_group_into_model (shortcuts_view_model, group_title, group_num);
 	}
-
-	e_free_string_slist (group_titles);
 }
 
 
@@ -175,28 +134,18 @@ shortcuts_new_shortcut_cb (EShortcuts *shortcuts,
 {
 	EShortcutsViewModel *shortcuts_view_model;
 	EShortcutsViewModelPrivate *priv;
-	EStorageSet *storage_set;
-	EFolder *folder;
-	const char *uri;
-	const char *storage_set_path;
-	const char *folder_name;
+	const EShortcutItem *shortcut_item;
 
 	shortcuts_view_model = E_SHORTCUTS_VIEW_MODEL (data);
 	priv = shortcuts_view_model->priv;
 
-	uri = e_shortcuts_get_uri (priv->shortcuts, group_num, item_num);
-	g_assert (uri != NULL);
-
-	storage_set_path = get_storage_set_path_from_uri (uri);
-	if (storage_set_path == NULL)
-		return;
-
-	storage_set = e_shortcuts_get_storage_set (priv->shortcuts);
-	folder = e_storage_set_get_folder (storage_set, storage_set_path);
-	folder_name = e_folder_get_name (folder);
+	shortcut_item = e_shortcuts_get_shortcut (priv->shortcuts, group_num, item_num);
+	g_assert (shortcut_item != NULL);
 
 	e_shortcut_model_add_item (E_SHORTCUT_MODEL (shortcuts_view_model),
-				   group_num, item_num, uri, folder_name);
+				   group_num, item_num,
+				   shortcut_item->uri,
+				   shortcut_item->name);
 }
 
 static void
@@ -219,28 +168,18 @@ shortcuts_update_shortcut_cb (EShortcuts *shortcuts,
 {
 	EShortcutsViewModel *shortcuts_view_model;
 	EShortcutsViewModelPrivate *priv;
-	EStorageSet *storage_set;
-	EFolder *folder;
-	const char *uri;
-	const char *storage_set_path;
-	const char *folder_name;
+	const EShortcutItem *shortcut_item;
 
 	shortcuts_view_model = E_SHORTCUTS_VIEW_MODEL (data);
 	priv = shortcuts_view_model->priv;
 
-	uri = e_shortcuts_get_uri (priv->shortcuts, group_num, item_num);
-	g_assert (uri != NULL);
-
-	storage_set_path = get_storage_set_path_from_uri (uri);
-	if (storage_set_path == NULL)
-		return;
-
-	storage_set = e_shortcuts_get_storage_set (priv->shortcuts);
-	folder = e_storage_set_get_folder (storage_set, storage_set_path);
-	folder_name = e_folder_get_name (folder);
+	shortcut_item = e_shortcuts_get_shortcut (priv->shortcuts, group_num, item_num);
+	g_assert (shortcut_item != NULL);
 
 	e_shortcut_model_update_item (E_SHORTCUT_MODEL (shortcuts_view_model),
-				      group_num, item_num, uri, folder_name);
+				      group_num, item_num,
+				      shortcut_item->uri,
+				      shortcut_item->name);
 }
 
 
