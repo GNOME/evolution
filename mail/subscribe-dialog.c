@@ -30,6 +30,8 @@
 #include <gal/util/e-util.h>
 #include <gal/widgets/e-unicode.h>
 #include <gal/e-table/e-cell-toggle.h>
+#include <gal/e-table/e-cell-text.h>
+#include <gal/e-table/e-cell-tree.h>
 #include <gal/e-table/e-table-scrolled.h>
 #include <gal/e-table/e-tree-simple.h>
 #include <gal/e-paned/e-hpaned.h>

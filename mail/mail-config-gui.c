@@ -900,27 +900,27 @@ service_page_item_new (MailDialogServicePage *page, MailService *mcs)
 	item->type = mcs->type;
 	
 	row = 0;
-	service_flags = mcs->service->url_flags & ~CAMEL_SERVICE_URL_NEED_AUTH;
+	service_flags = mcs->service->provider->url_flags & ~CAMEL_URL_NEED_AUTH;
 
-	if (service_flags & CAMEL_SERVICE_URL_ALLOW_HOST) {
+	if (service_flags & CAMEL_URL_ALLOW_HOST) {
 		item->host = service_page_add_elem (page, table, row++, _("Server:"));
-		item->hostneed = ((service_flags & CAMEL_SERVICE_URL_NEED_HOST)
-				  == CAMEL_SERVICE_URL_NEED_HOST);
+		item->hostneed = ((service_flags & CAMEL_URL_NEED_HOST)
+				  == CAMEL_URL_NEED_HOST);
 	}
 
-	if (service_flags & CAMEL_SERVICE_URL_ALLOW_USER) {
+	if (service_flags & CAMEL_URL_ALLOW_USER) {
 		item->user = service_page_add_elem (page, table, row++, _("Username:"));
-		item->userneed = ((service_flags & CAMEL_SERVICE_URL_NEED_USER)
-				  == CAMEL_SERVICE_URL_NEED_USER);
+		item->userneed = ((service_flags & CAMEL_URL_NEED_USER)
+				  == CAMEL_URL_NEED_USER);
 	}
 
-	if (service_flags & CAMEL_SERVICE_URL_ALLOW_PATH) {
+	if (service_flags & CAMEL_URL_ALLOW_PATH) {
 		item->path = service_page_add_elem (page, table, row++, _("Path:"));
-		item->pathneed = ((service_flags & CAMEL_SERVICE_URL_NEED_PATH)
-				  == CAMEL_SERVICE_URL_NEED_PATH);
+		item->pathneed = ((service_flags & CAMEL_URL_NEED_PATH)
+				  == CAMEL_URL_NEED_PATH);
 	}
 
-	if (mcs->service->url_flags & CAMEL_SERVICE_URL_ALLOW_AUTH) {
+	if (mcs->service->provider->url_flags & CAMEL_URL_ALLOW_AUTH) {
 		GtkWidget *label;
 		gchar *url;
 

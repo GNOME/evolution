@@ -30,12 +30,14 @@
 #include "composer/evolution-composer.h"
 #include "mail.h"
 
+#if 0
 static int blowup(int status)
 {
 	printf("memory blew up, status %d\n", status);
 	/*abort();*/
 	return status;
 }
+#endif
 
 int
 main (int argc, char *argv [])
