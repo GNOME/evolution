@@ -2,6 +2,12 @@
 
 	* providers/imap4/camel-imap4-store.c (imap4_build_folder_info):
 	Hide password, etc info in the fi->uri's.
+	(imap4_create_folder): Don't bother to use
+	imap4_get_folder_info(), we can construct the fi ourselves.
+	(imap4_delete_folder): Emit the folder_deleted signal and
+	construct an fi ourselves.
+	(imap4_subscribe_folder): Same.
+	(imap4_unsubscribe_folder): Same.
 
 	* providers/imap4/camel-imap4-provider.c: Specify that the
 	fragment is the path.

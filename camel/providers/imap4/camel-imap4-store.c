@@ -780,6 +780,7 @@ imap4_create_folder (CamelStore *store, const char *parent_name, const char *fol
 	CamelFolderInfo *fi = NULL;
 	CamelIMAP4Command *ic;
 	char *utf7_name;
+	CamelURL *url;
 	const char *c;
 	char *name;
 	char sep;
@@ -823,12 +824,19 @@ imap4_create_folder (CamelStore *store, const char *parent_name, const char *fol
 	
 	switch (ic->result) {
 	case CAMEL_IMAP4_RESULT_OK:
-		if (!(fi = imap4_get_folder_info (store, name, CAMEL_STORE_FOLDER_INFO_FAST, ex))) {
-			camel_imap4_command_unref (ic);
-			g_free (name);
-			
-			goto done;
-		}
+		url = camel_url_copy (engine->url);
+		camel_url_set_fragment (url, name);
+		
+		c = strrchr (name, '/');
+		
+		fi = g_malloc0 (sizeof (CamelFolderInfo));
+		fi->full_name = name;
+		fi->name = g_strdup (c ? c + 1: name);
+		fi->uri = camel_url_to_string (url, CAMEL_URL_HIDE_ALL);
+		camel_url_free (url);
+		fi->flags = 0;
+		fi->unread = -1;
+		fi->total = -1;
 		
 		camel_object_trigger_event (store, "folder_created", fi);
 		break;
@@ -837,19 +845,19 @@ imap4_create_folder (CamelStore *store, const char *parent_name, const char *fol
 		camel_exception_setv (ex, CAMEL_EXCEPTION_SYSTEM,
 				      _("Cannot create folder `%s': Invalid mailbox name"),
 				      name);
+		g_free (name);
 		break;
 	case CAMEL_IMAP4_RESULT_BAD:
 		camel_exception_setv (ex, CAMEL_EXCEPTION_SYSTEM,
 				      _("Cannot create folder `%s': Bad command"),
 				      name);
+		g_free (name);
 		break;
 	default:
 		g_assert_not_reached ();
 	}
 	
 	camel_imap4_command_unref (ic);
-	
-	g_free (name);
 	
  done:
 	
@@ -863,7 +871,10 @@ imap4_delete_folder (CamelStore *store, const char *folder_name, CamelException 
 {
 	CamelIMAP4Engine *engine = ((CamelIMAP4Store *) store)->engine;
 	CamelIMAP4Command *ic;
+	CamelFolderInfo *fi;
 	char *utf7_name;
+	CamelURL *url;
+	const char *p;
 	int id;
 	
 	if (!g_ascii_strcasecmp (folder_name, "INBOX")) {
@@ -893,10 +904,23 @@ imap4_delete_folder (CamelStore *store, const char *folder_name, CamelException 
 	switch (ic->result) {
 	case CAMEL_IMAP4_RESULT_OK:
 		/* deleted */
-		/* FIXME: emit the "folder_deleted" signal? */
-		/*fi = imap4_build_folder_info (store, folder_name);
+		url = camel_url_copy (engine->url);
+		camel_url_set_fragment (url, folder_name);
+		
+		p = strrchr (folder_name, '/');
+		
+		fi = g_malloc0 (sizeof (CamelFolderInfo));
+		fi->full_name = g_strdup (folder_name);
+		fi->name = g_strdup (p ? p + 1: folder_name);
+		fi->uri = camel_url_to_string (url, CAMEL_URL_HIDE_ALL);
+		camel_url_free (url);
+		fi->flags = 0;
+		fi->unread = -1;
+		fi->total = -1;
+		
 		camel_object_trigger_event (store, "folder_deleted", fi);
-		camel_folder_info_free (fi);*/
+		
+		camel_folder_info_free (fi);
 		break;
 	case CAMEL_IMAP4_RESULT_NO:
 		/* FIXME: would be good to save the NO reason into the err message */
@@ -1207,7 +1231,10 @@ imap4_subscribe_folder (CamelStore *store, const char *folder_name, CamelExcepti
 {
 	CamelIMAP4Engine *engine = ((CamelIMAP4Store *) store)->engine;
 	CamelIMAP4Command *ic;
+	CamelFolderInfo *fi;
 	char *utf7_name;
+	CamelURL *url;
+	const char *p;
 	int id;
 	
 	CAMEL_SERVICE_LOCK (store, connect_lock);
@@ -1229,11 +1256,22 @@ imap4_subscribe_folder (CamelStore *store, const char *folder_name, CamelExcepti
 	switch (ic->result) {
 	case CAMEL_IMAP4_RESULT_OK:
 		/* subscribed */
-		/* FIXME: emit the "folder_subscribed" signal? */
-		/*fi = imap4_build_folder_info (store, folder_name);
-		  fi->flags |= CAMEL_FOLDER_NOCHILDREN;
-		  camel_object_trigger_event (store, "folder_subscribed", fi);
-		  camel_folder_info_free (fi);*/
+		url = camel_url_copy (engine->url);
+		camel_url_set_fragment (url, folder_name);
+		
+		p = strrchr (folder_name, '/');
+		
+		fi = g_malloc0 (sizeof (CamelFolderInfo));
+		fi->full_name = g_strdup (folder_name);
+		fi->name = g_strdup (p ? p + 1: folder_name);
+		fi->uri = camel_url_to_string (url, CAMEL_URL_HIDE_ALL);
+		camel_url_free (url);
+		fi->flags = CAMEL_FOLDER_NOCHILDREN;
+		fi->unread = -1;
+		fi->total = -1;
+		
+		camel_object_trigger_event (store, "folder_subscribed", fi);
+		camel_folder_info_free (fi);
 		break;
 	case CAMEL_IMAP4_RESULT_NO:
 		/* FIXME: would be good to save the NO reason into the err message */
@@ -1258,7 +1296,10 @@ imap4_unsubscribe_folder (CamelStore *store, const char *folder_name, CamelExcep
 {
 	CamelIMAP4Engine *engine = ((CamelIMAP4Store *) store)->engine;
 	CamelIMAP4Command *ic;
+	CamelFolderInfo *fi;
 	char *utf7_name;
+	CamelURL *url;
+	const char *p;
 	int id;
 	
 	CAMEL_SERVICE_LOCK (store, connect_lock);
@@ -1280,10 +1321,22 @@ imap4_unsubscribe_folder (CamelStore *store, const char *folder_name, CamelExcep
 	switch (ic->result) {
 	case CAMEL_IMAP4_RESULT_OK:
 		/* unsubscribed */
-		/* FIXME: emit the "folder_unsubscribed" signal? */
-		/*fi = imap4_build_folder_info (store, folder_name);
-		  camel_object_trigger_event (store, "folder_unsubscribed", fi);
-		  camel_folder_info_free (fi);*/
+		url = camel_url_copy (engine->url);
+		camel_url_set_fragment (url, folder_name);
+		
+		p = strrchr (folder_name, '/');
+		
+		fi = g_malloc0 (sizeof (CamelFolderInfo));
+		fi->full_name = g_strdup (folder_name);
+		fi->name = g_strdup (p ? p + 1: folder_name);
+		fi->uri = camel_url_to_string (url, CAMEL_URL_HIDE_ALL);
+		camel_url_free (url);
+		fi->flags = 0;
+		fi->unread = -1;
+		fi->total = -1;
+		
+		camel_object_trigger_event (store, "folder_unsubscribed", fi);
+		camel_folder_info_free (fi);
 		break;
 	case CAMEL_IMAP4_RESULT_NO:
 		/* FIXME: would be good to save the NO reason into the err message */
