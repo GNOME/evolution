@@ -62,9 +62,12 @@ static guint signals [LAST_SIGNAL] = {0, };
 
 enum DndTargetType {
 	DND_TARGET_TYPE_VCARD_LIST,
+	DND_TARGET_TYPE_SOURCE_VCARD_LIST
 };
 #define VCARD_LIST_TYPE "text/x-vcard"
+#define SOURCE_VCARD_LIST_TYPE "text/x-source-vcard"
 static GtkTargetEntry drag_types[] = {
+	{ SOURCE_VCARD_LIST_TYPE, 0, DND_TARGET_TYPE_SOURCE_VCARD_LIST },
 	{ VCARD_LIST_TYPE, 0, DND_TARGET_TYPE_VCARD_LIST }
 };
 static gint num_drag_types = sizeof(drag_types) / sizeof(drag_types[0]);
@@ -92,32 +95,19 @@ e_minicard_view_drag_data_get(GtkWidget *widget,
 					value, strlen (value));
 		break;
 	}
+	case DND_TARGET_TYPE_SOURCE_VCARD_LIST: {
+		EBook *book;
+		char *value;
+		
+		g_object_get (view->adapter, "book", &book, NULL);
+		value = eab_book_and_contact_list_to_string (book, view->drag_list);
+
+		gtk_selection_data_set (selection_data,
+					selection_data->target,
+					8,
+					value, strlen (value));
+		break;
 	}
-}
-
-static void
-e_minicard_view_drag_data_delete (GtkWidget *widget,
-				  GdkDragContext *context,
-				  EMinicardView *view)
-{
-	EBook *book;
-	GList *l;
-
-	if (!E_IS_MINICARD_VIEW (view))
-		return;
-
-	if (!view->drag_list) {
-		g_warning ("e_minicard_view_drag_data_delete called without contact list");
-		return;
-	}
-
-	g_object_get (view->adapter, "book", &book, NULL);
-
-	for (l = view->drag_list; l; l = g_list_next (l)) {
-		EContact *contact = l->data;
-
-		/* XXX no callback */
-		e_book_async_remove_contact (book, contact, NULL, NULL);
 	}
 }
 
@@ -152,11 +142,6 @@ e_minicard_view_drag_begin (EAddressbookReflowAdapter *adapter, GdkEvent *event,
 								  "drag_data_get",
 								  G_CALLBACK (e_minicard_view_drag_data_get),
 								  view);
-	if (!view->canvas_drag_data_delete_id)
-		view->canvas_drag_data_delete_id = g_signal_connect (GNOME_CANVAS_ITEM (view)->canvas,
-								     "drag_data_delete",
-								     G_CALLBACK (e_minicard_view_drag_data_delete),
-								     view);
 
 	gtk_drag_set_icon_default (context);
 
@@ -312,12 +297,6 @@ e_minicard_view_dispose (GObject *object)
 		g_signal_handler_disconnect (GNOME_CANVAS_ITEM (view)->canvas,
 					     view->canvas_drag_data_get_id);
 		view->canvas_drag_data_get_id = 0;
-	}
-
-	if (view->canvas_drag_data_delete_id) {
-		g_signal_handler_disconnect (GNOME_CANVAS_ITEM (view)->canvas,
-					     view->canvas_drag_data_delete_id);
-		view->canvas_drag_data_delete_id = 0;
 	}
 
 	if (view->adapter) {
@@ -545,7 +524,6 @@ e_minicard_view_init (EMinicardView *view)
 	view->drag_list = NULL;
 	view->adapter = NULL;
 	view->canvas_drag_data_get_id = 0;
-	view->canvas_drag_data_delete_id = 0;
 	view->writable_status_id = 0;
 
 	set_empty_message (view);

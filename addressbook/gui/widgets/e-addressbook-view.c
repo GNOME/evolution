@@ -98,6 +98,7 @@ static void writable_status    (GtkObject *object, gboolean writable, EABView *e
 static void backend_died       (GtkObject *object, EABView *eav);
 static void contact_changed    (EABModel *model, gint index, EABView *eav);
 static void contact_removed    (EABModel *model, gint index, EABView *eav);
+static GList *get_selected_contacts (EABView *view);
 
 static void command_state_change (EABView *eav);
 
@@ -137,11 +138,14 @@ enum {
 };
 
 enum DndTargetType {
-	DND_TARGET_TYPE_VCARD,
+	DND_TARGET_TYPE_SOURCE_VCARD,
+	DND_TARGET_TYPE_VCARD
 };
 #define VCARD_TYPE "text/x-vcard"
+#define SOURCE_VCARD_TYPE "text/x-source-vcard"
 static GtkTargetEntry drag_types[] = {
-	{ VCARD_TYPE, 0, DND_TARGET_TYPE_VCARD },
+	{ SOURCE_VCARD_TYPE, 0, DND_TARGET_TYPE_SOURCE_VCARD },
+	{ VCARD_TYPE, 0, DND_TARGET_TYPE_VCARD }
 };
 static const int num_drag_types = sizeof (drag_types) / sizeof (drag_types[0]);
 
@@ -1218,36 +1222,6 @@ table_white_space_event(ETableScrolled *table, GdkEvent *event, EABView *view)
 }
 
 static void
-table_drag_data_delete (ETable         *table,
-			int             row,
-			int             col,
-			GdkDragContext *context,
-			gpointer        user_data)
-{
-	EABView *view = user_data;
-	EContact *contact;
-	EBook *book;
-
-	if (!E_IS_ADDRESSBOOK_TABLE_ADAPTER(view->object))
-		return;
-	
-	g_object_get(view->model,
-		     "book", &book,
-		     NULL);
-
-	contact = eab_model_contact_at(view->model, row);
-	/* Remove the card. */
-	/* XXX no callback specified... ugh */
-	e_book_async_remove_contact (book,
-				     contact,
-				     NULL,
-				     NULL);
-
-	g_object_unref(book);
-}
-
-
-static void
 table_drag_data_get (ETable             *table,
 		     int                 row,
 		     int                 col,
@@ -1258,15 +1232,29 @@ table_drag_data_get (ETable             *table,
 		     gpointer            user_data)
 {
 	EABView *view = user_data;
+	GList *contact_list;
 
 	if (!E_IS_ADDRESSBOOK_TABLE_ADAPTER(view->object))
 		return;
+
+	contact_list = get_selected_contacts (view);
 
 	switch (info) {
 	case DND_TARGET_TYPE_VCARD: {
 		char *value;
 
-		value = e_vcard_to_string (E_VCARD (view->model->data[row]), EVC_FORMAT_VCARD_30);
+		value = eab_contact_list_to_string (contact_list);
+
+		gtk_selection_data_set (selection_data,
+					selection_data->target,
+					8,
+					value, strlen (value));
+		break;
+	}
+	case DND_TARGET_TYPE_SOURCE_VCARD: {
+		char *value;
+
+		value = eab_book_and_contact_list_to_string (view->book, contact_list);
 
 		gtk_selection_data_set (selection_data,
 					selection_data->target,
@@ -1275,6 +1263,9 @@ table_drag_data_get (ETable             *table,
 		break;
 	}
 	}
+
+	g_list_foreach (contact_list, (GFunc) g_object_unref, NULL);
+	g_list_free (contact_list);
 }
 
 static void
@@ -1432,11 +1423,6 @@ create_table_view (EABView *view)
 	g_signal_connect (E_TABLE_SCROLLED(table)->table,
 			  "table_drag_data_get",
 			  G_CALLBACK (table_drag_data_get),
-			  view);
-	
-	g_signal_connect (E_TABLE_SCROLLED(table)->table,
-			  "table_drag_data_delete",
-			  G_CALLBACK (table_drag_data_delete),
 			  view);
 
 	gtk_paned_add1 (GTK_PANED (view->paned), table);

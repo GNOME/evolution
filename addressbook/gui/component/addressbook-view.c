@@ -93,9 +93,12 @@ struct _AddressbookViewPrivate {
 
 enum DndTargetType {
 	DND_TARGET_TYPE_VCARD_LIST,
+	DND_TARGET_TYPE_SOURCE_VCARD_LIST
 };
-#define VCARD_TYPE "text/x-vcard"
+#define VCARD_TYPE        "text/x-vcard"
+#define SOURCE_VCARD_TYPE "text/x-source-vcard"
 static GtkTargetEntry drag_types[] = {
+	{ SOURCE_VCARD_TYPE, 0, DND_TARGET_TYPE_SOURCE_VCARD_LIST },
 	{ VCARD_TYPE, 0, DND_TARGET_TYPE_VCARD_LIST }
 };
 static gint num_drag_types = sizeof(drag_types) / sizeof(drag_types[0]);
@@ -791,6 +794,79 @@ selector_tree_drag_motion (GtkWidget *widget,
 	return TRUE;
 }
 
+typedef struct
+{
+	guint     remove_from_source : 1;
+	guint     copy_done          : 1;
+	gint      pending_removals;
+
+	EContact *current_contact;
+	GList    *remaining_contacts;
+
+	EBook    *source_book;
+	EBook    *target_book;
+}
+MergeContext;
+
+static void
+destroy_merge_context (MergeContext *merge_context)
+{
+	if (merge_context->source_book)
+		g_object_unref (merge_context->source_book);
+	if (merge_context->target_book)
+		g_object_unref (merge_context->target_book);
+
+	g_free (merge_context);
+}
+
+static void
+removed_contact_cb (EBook *book, EBookStatus status, gpointer closure)
+{
+	MergeContext *merge_context = closure;
+
+	merge_context->pending_removals--;
+
+	if (merge_context->copy_done && merge_context->pending_removals == 0) {
+		/* Finished */
+
+		destroy_merge_context (merge_context);
+	}
+}
+
+static void
+merged_contact_cb (EBook *book, EBookStatus status, const char *id, gpointer closure)
+{
+	MergeContext *merge_context = closure;
+
+	if (merge_context->remove_from_source && status == E_BOOK_ERROR_OK) {
+		/* Remove previous contact from source */
+
+		e_book_async_remove_contact (merge_context->source_book, merge_context->current_contact,
+					     removed_contact_cb, merge_context);
+		merge_context->pending_removals++;
+	}
+
+	g_object_unref (merge_context->current_contact);
+
+	if (merge_context->remaining_contacts) {
+		/* Copy next contact */
+
+		merge_context->current_contact = merge_context->remaining_contacts->data;
+		merge_context->remaining_contacts = g_list_delete_link (merge_context->remaining_contacts,
+									merge_context->remaining_contacts);
+		eab_merging_book_add_contact (merge_context->target_book, merge_context->current_contact,
+					      merged_contact_cb, merge_context);
+	} else if (merge_context->pending_removals == 0) {
+		/* Finished */
+
+		destroy_merge_context (merge_context);
+	} else {
+		/* Finished, but have pending removals */
+
+		merge_context->copy_done = TRUE;
+	}
+}
+
 static gboolean 
 selector_tree_drag_data_received (GtkWidget *widget, 
 				  GdkDragContext *context, 
@@ -803,12 +879,13 @@ selector_tree_drag_data_received (GtkWidget *widget,
 {
 	GtkTreePath *path = NULL;
 	GtkTreeViewDropPosition pos;
-	gpointer source = NULL;
+	gpointer source, target = NULL;
 	GtkTreeModel *model;
 	GtkTreeIter iter;
 	gboolean success = FALSE;
 
-	EBook *book;
+	EBook *source_book, *target_book;
+	MergeContext *merge_context;
 	GList *contactlist;
 	GList *l;
 
@@ -821,37 +898,52 @@ selector_tree_drag_data_received (GtkWidget *widget,
 	if (!gtk_tree_model_get_iter (model, &iter, path))
 		goto finish;
 	
-	gtk_tree_model_get (model, &iter, 0, &source, -1);
+	gtk_tree_model_get (model, &iter, 0, &target, -1);
 
-	if (E_IS_SOURCE_GROUP (source) || e_source_get_readonly (source))
+	if (E_IS_SOURCE_GROUP (target) || e_source_get_readonly (target))
 		goto finish;
 	
-	book = e_book_new (source, NULL);
-	if (!book) {
+	target_book = e_book_new (target, NULL);
+	if (!target_book) {
 		g_message (G_STRLOC ":Couldn't create EBook.");
 		return FALSE;
 	}
-	e_book_open (book, TRUE, NULL);
-	contactlist = eab_contact_list_from_string (data->data);
-	
-	for (l = contactlist; l; l = l->next) {
-		EContact *contact = l->data;
-		
-		/* XXX NULL for a callback /sigh */
-		if (contact)
-			eab_merging_book_add_contact (book, contact, NULL /* XXX */, NULL);
-		success = TRUE;
+	e_book_open (target_book, TRUE, NULL);
+
+	eab_book_and_contact_list_from_string (data->data, &source_book, &contactlist);
+
+	if (source_book) {
+		if (!e_book_open (source_book, FALSE, NULL)) {
+			g_warning (G_STRLOC ": Couldn't open source EBook.");
+			g_object_unref (source_book);
+			source_book = NULL;
+		}
+	} else {
+		g_warning (G_STRLOC ": No source EBook provided.");
 	}
-	
-	g_list_foreach (contactlist, (GFunc)g_object_unref, NULL);
-	g_list_free (contactlist);
-	g_object_unref (book);
+
+	/* Set up merge context */
+
+	merge_context = g_new0 (MergeContext, 1);
+
+	merge_context->source_book = source_book;
+	merge_context->target_book = target_book;
+
+	merge_context->current_contact = contactlist->data;
+	merge_context->remaining_contacts = g_list_delete_link (contactlist, contactlist);
+
+	merge_context->remove_from_source = context->suggested_action == GDK_ACTION_MOVE ? TRUE : FALSE;
+
+	/* Start merge */
+
+	eab_merging_book_add_contact (target_book, merge_context->current_contact,
+				      merged_contact_cb, merge_context);
 
  finish:
 	if (path)
 		gtk_tree_path_free (path);
-	if (source)
-		g_object_unref (source);
+	if (target)
+		g_object_unref (target);
 		       
 	gtk_drag_finish (context, success, context->action == GDK_ACTION_MOVE, time);
 

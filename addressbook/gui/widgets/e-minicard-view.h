@@ -69,8 +69,6 @@ struct _EMinicardView
 	GList *drag_list;
 
 	guint canvas_drag_data_get_id;
-	guint canvas_drag_data_delete_id;
-
 	guint writable_status_id;
 };
 

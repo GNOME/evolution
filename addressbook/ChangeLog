@@ -1,3 +1,39 @@
+2004-06-23  Hans Petter Jansson  <hpj@ximian.com>
+
+	* gui/component/addressbook-view.c: Add an x-source-vcard target entry
+	that includes the source book URI.
+	(destroy_merge_context): Implement.
+	(removed_contact_cb): Implement.
+	(merged_contact_cb): Implement.
+	(selector_tree_drag_data_received): Get the source and target books,
+	and see if we need to remove contacts from source after they're added
+	to target. Copy contacts sequentially, not in parallel, with a
+	callback.
+
+	* gui/widgets/e-addressbook-view.c: Add an x-source-vcard target entry
+	that includes the source book URI.
+	(table_drag_data_delete): Remove. This is handled by the drag target.
+	(table_drag_data_get): Handle more than one contact. Supply source.
+	(create_table_view): Don't connect to the delete signal.
+
+	* gui/widgets/e-minicard-view.c: Add an x-source-vcard target entry
+	that includes the source book URI.
+	(e_minicard_view_drag_data_delete): Remove. This is handled by the
+	drag target.
+	(e_minicard_view_drag_data_get): Handle x-source-vcard target.
+	(e_minicard_view_drag_begin): Don't connect to the delete signal.
+	(e_minicard_view_dispose): Don't disconnect from the delete signal.
+	(e_minicard_view_init): Don't init delete_id.
+
+	* gui/widgets/e-minicard-view.h: Remove delete_id from struct.
+
+	* util/eab-book-util.[ch] (eab_contact_list_from_string): Skip the
+	source URI if present.
+	(eab_book_and_contact_list_from_string): Create the source book from
+	the provided URI, if present.
+	(eab_book_and_contact_list_to_string): Include the book URI in
+	generated string.
+
 2004-06-23  Rodney Dawes  <dobey@novell.com>
 
 	* gui/component/select-names/select-names.glade:
