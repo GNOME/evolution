@@ -737,6 +737,12 @@ contacts_clicked_cb (GtkWidget *button, gpointer data)
 
 	g_print ("In contacts_clicked_cb\n");
 	comp_editor_show_contacts_dialog (priv->corba_select_names);
+
+	/* FIXME: Currently we aren't getting the changed event from the
+	   SelectNames component correctly, so we aren't saving the event
+	   if just the contacts are changed. To work around that, we assume
+	   that if the contacts button is clicked it is changed. */
+	comp_editor_page_notify_changed (COMP_EDITOR_PAGE (tpage));
 }
 
 /* Callback used when the categories button is clicked; we must bring up the

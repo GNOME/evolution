@@ -646,7 +646,7 @@ Sunday
 	<name>vbox3</name>
 	<border_width>4</border_width>
 	<homogeneous>False</homogeneous>
-	<spacing>4</spacing>
+	<spacing>8</spacing>
 
 	<widget>
 	  <class>GtkTable</class>
@@ -759,6 +759,71 @@ Sunday
 	      <yshrink>False</yshrink>
 	      <xfill>True</xfill>
 	      <yfill>False</yfill>
+	    </child>
+	  </widget>
+	</widget>
+
+	<widget>
+	  <class>GtkHBox</class>
+	  <name>hbox14</name>
+	  <homogeneous>False</homogeneous>
+	  <spacing>4</spacing>
+	  <child>
+	    <padding>0</padding>
+	    <expand>False</expand>
+	    <fill>False</fill>
+	  </child>
+
+	  <widget>
+	    <class>GtkCheckButton</class>
+	    <name>tasks-hide-completed-checkbutton</name>
+	    <can_focus>True</can_focus>
+	    <label>Hide completed tasks after</label>
+	    <active>False</active>
+	    <draw_indicator>True</draw_indicator>
+	    <child>
+	      <padding>0</padding>
+	      <expand>False</expand>
+	      <fill>False</fill>
+	    </child>
+	  </widget>
+
+	  <widget>
+	    <class>GtkSpinButton</class>
+	    <name>tasks-hide-completed-spinbutton</name>
+	    <can_focus>True</can_focus>
+	    <climb_rate>1</climb_rate>
+	    <digits>0</digits>
+	    <numeric>False</numeric>
+	    <update_policy>GTK_UPDATE_ALWAYS</update_policy>
+	    <snap>False</snap>
+	    <wrap>False</wrap>
+	    <value>0</value>
+	    <lower>0</lower>
+	    <upper>9999</upper>
+	    <step>1</step>
+	    <page>10</page>
+	    <page_size>10</page_size>
+	    <child>
+	      <padding>0</padding>
+	      <expand>False</expand>
+	      <fill>True</fill>
+	    </child>
+	  </widget>
+
+	  <widget>
+	    <class>GtkOptionMenu</class>
+	    <name>tasks-hide-completed-optionmenu</name>
+	    <can_focus>True</can_focus>
+	    <items>Minutes
+Hours
+Days
+</items>
+	    <initial_choice>0</initial_choice>
+	    <child>
+	      <padding>0</padding>
+	      <expand>False</expand>
+	      <fill>False</fill>
 	    </child>
 	  </widget>
 	</widget>

@@ -1,5 +1,18 @@
 2001-08-18  Damon Chaplin  <damon@ximian.com>
 
+	* gui/dialogs/cal-prefs-dialog.glade: added option to hide completed
+	tasks after a given number of minutes/hours/days. Unfinished.
+
+	* gui/dialogs/event-page.c (event_page_fill_component): initialize
+	zone to NULL to avoid a warning.
+	(contacts_clicked_cb): work around a bug in SelectNames by notifying
+	that the page has changed when you click the 'Contacts' button.
+	Otherwise it is easy to lose changes.
+
+	* gui/dialogs/task-page.c (contacts_clicked_cb): ditto.
+
+2001-08-18  Damon Chaplin  <damon@ximian.com>
+
 	* gui/dialogs/comp-editor.c (pixmaps): used new Save/Save As icons.
 
 	* gui/tasks-control.c:
