@@ -1,3 +1,13 @@
+2000-08-13  Ettore Perazzoli  <ettore@helixcode.com>
+
+	* mail-threads.c (update_active_views): Just iterate through all
+	the controls, not just the active ones.
+
+	* folder-browser-factory.c: Don't keep track of active controls.
+	Rather, keep track of all of them.
+	(folder_browser_factory_get_active_control_list): Removed.
+	(folder_browser_factory_get_control_list): New.
+
 2000-08-13  Dan Winship  <danw@helixcode.com>
 
 	* Makefile.am (evolution_mail_SOURCES): add mail-local.h

@@ -26,8 +26,8 @@
 #include "shell/Evolution.h"
 #include "mail-config.h"
 
-/* The active folder browser BonoboControls.  */
-static GList *active_controls = NULL;
+/* The FolderBrowser BonoboControls we have.  */
+static GList *control_list = NULL;
 
 static GnomeUIInfo gnome_toolbar [] = {
 	GNOMEUIINFO_ITEM_STOCK (N_("Get mail"), N_("Check for new mail"), fetch_mail, GNOME_STOCK_PIXMAP_MAIL_RCV),
@@ -60,8 +60,6 @@ control_activate (BonoboControl *control, BonoboUIHandler *uih,
 	GnomeDockItemBehavior behavior;
 	GtkWidget *toolbar, *toolbar_frame, *folder_browser;
 	char *toolbar_name = g_strdup_printf ("/Toolbar%d", fb->serial);
-
-	active_controls = g_list_prepend (active_controls, control);
 
 	remote_uih = bonobo_control_get_remote_ui_handler (control);
 	bonobo_ui_handler_set_container (uih, remote_uih);
@@ -182,8 +180,6 @@ control_deactivate (BonoboControl *control,
 {
 	char *toolbar_name = g_strdup_printf ("/Toolbar%d", fb->serial);
 
-	active_controls = g_list_remove (active_controls, control);
-
 	bonobo_ui_handler_menu_remove (uih, "/File/<Print Placeholder>/separator1");
 	bonobo_ui_handler_menu_remove (uih, "/File/<Print Placeholder>/Print message...");
 
@@ -223,7 +219,7 @@ control_destroy_cb (BonoboControl *control,
 {
 	GtkWidget *folder_browser = user_data;
 
-	active_controls = g_list_remove (active_controls, control);
+	control_list = g_list_remove (control_list, control);
 
 	gtk_object_destroy (GTK_OBJECT (folder_browser));
 }
@@ -256,13 +252,15 @@ folder_browser_factory_new_control (const char *uri)
 			    control_activate_cb, folder_browser);
 
 	gtk_signal_connect (GTK_OBJECT (control), "destroy",
-			    control_destroy_cb, folder_browser);	
+			    control_destroy_cb, folder_browser);
+
+	control_list = g_list_prepend (control_list, control);
 
 	return control;
 }
 
 GList *
-folder_browser_factory_get_active_control_list (void)
+folder_browser_factory_get_control_list (void)
 {
-	return active_controls;
+	return control_list;
 }

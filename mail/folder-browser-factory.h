@@ -13,7 +13,7 @@
 
 #include <bonobo.h>
 
-BonoboControl *folder_browser_factory_new_control              (const char *uri);
-GList         *folder_browser_factory_get_active_control_list  (void);
+BonoboControl *folder_browser_factory_new_control       (const char *uri);
+GList         *folder_browser_factory_get_control_list  (void);
 
 #endif /* _FOLDER_BROWSER_FACTORY_H */

@@ -988,6 +988,9 @@ retrieve_shell_view_interface_from_control (BonoboControl *control)
 
 	control_frame = bonobo_control_get_control_frame (control);
 
+	if (control_frame == NULL)
+		return CORBA_OBJECT_NIL;
+
 	CORBA_exception_init (&ev);
 	shell_view_interface = Bonobo_Unknown_query_interface (control_frame,
 							       "IDL:Evolution/ShellView:1.0",
@@ -1007,11 +1010,11 @@ retrieve_shell_view_interface_from_control (BonoboControl *control)
 static void
 update_active_views (void)
 {
-	GList *active_controls;
+	GList *controls;
 	GList *p;
 
-	active_controls = folder_browser_factory_get_active_control_list ();
-	for (p = active_controls; p != NULL; p = p->next) {
+	controls = folder_browser_factory_get_control_list ();
+	for (p = controls; p != NULL; p = p->next) {
 		BonoboControl *control;
 		Evolution_ShellView shell_view_interface;
 		CORBA_Environment ev;
