@@ -1,3 +1,12 @@
+2001-04-03  Jeffrey Stedfast  <fejj@ximian.com>
+
+	* camel-mime-utils.c (header_decode_text): Ignore whitespace
+	between encoded words (there were a few cases where it didn't
+	before).
+	(header_encode_string): Preserve whitespace between words that are
+	to be encoded by encoding them too.
+	(header_encode_phrase): Same here but with phrases.
+
 2001-04-04  Kjartan Maraas  <kmaraas@gnome.org>
 
 	* camel-filter-driver.c: Added #include <config.h>. Marked
