@@ -173,7 +173,7 @@ query_components (EComponentRegistry *registry)
 		if (icon_name == NULL) {
 			icon = NULL;
 		} else {
-			icon = e_icon_factory_get_icon (icon_name, 24);
+			icon = e_icon_factory_get_icon (icon_name, E_ICON_SIZE_LARGE_TOOLBAR);
 		}
 
 		sort_order_string = bonobo_server_info_prop_lookup (& info_list->_buffer[i],

@@ -501,7 +501,7 @@ make_timezone_page (SWData *data)
 	page->page = glade_xml_get_widget (data->wizard, "timezone-page");
 	g_return_val_if_fail (page->page != NULL, NULL);
 
-	pixbuf = e_icon_factory_get_icon ("stock_timezone", 48);
+	pixbuf = e_icon_factory_get_icon ("stock_timezone", E_ICON_SIZE_DIALOG);
 	gnome_druid_page_standard_set_logo (GNOME_DRUID_PAGE_STANDARD (page->page), pixbuf);
 	g_object_unref (pixbuf);
 

@@ -1,3 +1,16 @@
+2004-04-19  Jeffrey Stedfast  <fejj@ximian.com>
+
+	* e-user-creatable-items-handler.c (ensure_menu_items): Same.
+
+	* e-shell-startup-wizard.c (make_timezone_page): Same.
+
+	* e-shell-settings-dialog.c (load_pages): Same.
+
+	* e-shell-importer.c (e_shell_importer_start_import): Same.
+
+	* e-component-registry.c (query_components): Don't use absolute
+	pixel sizes, use the E_ICON_SIZE enums instead.
+
 2004-04-19  Michael Terry  <mike@mterry.name>
 
 	* GNOME_Evolution_Test.server.in.in: Change component icons to use the

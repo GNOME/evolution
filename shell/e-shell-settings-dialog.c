@@ -204,7 +204,7 @@ load_pages (EShellSettingsDialog *dialog)
 			if (g_path_is_absolute (icon_path)) {
 				icon = gdk_pixbuf_new_from_file (icon_path, NULL);
 			} else {
-				icon = e_icon_factory_get_icon (icon_path, 48);
+				icon = e_icon_factory_get_icon (icon_path, E_ICON_SIZE_DIALOG);
 			}
 		}
 

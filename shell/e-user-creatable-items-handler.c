@@ -267,7 +267,7 @@ ensure_menu_items (EUserCreatableItemsHandler *handler)
 				if (corba_item->iconName == "") {
 					item->icon = NULL;
 				} else {
-					item->icon = e_icon_factory_get_icon (corba_item->iconName, 16);
+					item->icon = e_icon_factory_get_icon (corba_item->iconName, E_ICON_SIZE_MENU);
 				}
 
 				if (corba_item->type == GNOME_Evolution_CREATABLE_OBJECT)
