@@ -5,9 +5,11 @@ Shell:
 
 Mail:
 
-  - Added ability to specify a charset in the composer and for the Preview Pane.  (Jeff, Danw)
+  - Added ability to specify a charset in the composer and for the 
+    Preview Pane.  (Jeff, Danw)
 
-  - Auto-save messages during composition and composer crash-recovery.  (Larry)
+  - Auto-save messages during composition and composer 
+    crash-recovery.  (Larry)
 
   - Better signature file handling.  (Radek)
 
@@ -54,6 +56,10 @@ Mail:
   - Don't send BCC headers when sending via SMTP (Peter)
 
   - Let you show and hide attached message/rfc822's (Peter)
+
+  - Implemented Create/Remove/Move Folder. (JAson, Jeff)
+
+  - Many bug fixes all around.  (Michael, Jeff, Danw, Peter, Trow and others)
 
 Addressbook:
 
