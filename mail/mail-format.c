@@ -100,7 +100,7 @@ static gboolean handle_message_external_body (CamelMimePart *part,
 static gboolean handle_application_pgp       (CamelMimePart *part,
 					      const char *mime_type,
 					      MailDisplay *md);
-#ifdef /* APPLICATION_PGP_IS_NO_LONGER_SUPPORTED */
+#endif /* APPLICATION_PGP_IS_NO_LONGER_SUPPORTED */
 
 static gboolean handle_via_bonobo            (CamelMimePart *part,
 					      const char *mime_type,
