@@ -32,6 +32,7 @@
 #include <config.h>
 
 #include "e-dateedit.h"
+#include "e-util-marshal.h"
 
 #include <ctype.h>
 #include <stdio.h>
@@ -40,6 +41,7 @@
 #include <gdk/gdkkeysyms.h>
 #include <gtk/gtkarrow.h>
 #include <gtk/gtkbbox.h>
+#include <gtk/gtkbutton.h>
 #include <gtk/gtkcombo.h>
 #include <gtk/gtkdrawingarea.h>
 #include <gtk/gtkentry.h>
@@ -47,12 +49,8 @@
 #include <gtk/gtkhbbox.h>
 #include <gtk/gtklabel.h>
 #include <gtk/gtklist.h>
-#include <gtk/gtkmenu.h>
-#include <gtk/gtkmenuitem.h>
-#include <gtk/gtkoptionmenu.h>
 #include <gtk/gtkwindow.h>
 #include <gtk/gtkmain.h>
-#include <gtk/gtksignal.h>
 #include <gtk/gtkvbox.h>
 #include <libgnome/gnome-i18n.h>
 #include "e-util/e-time-utils.h"
@@ -135,7 +133,7 @@ static gint date_edit_signals [LAST_SIGNAL] = { 0 };
 static void e_date_edit_class_init		(EDateEditClass	*class);
 static void e_date_edit_init			(EDateEdit	*dedit);
 static void create_children			(EDateEdit	*dedit);
-static void e_date_edit_destroy			(GtkObject	*object);
+static void e_date_edit_dispose			(GObject	*object);
 static void e_date_edit_grab_focus		(GtkWidget	*widget);
 static void e_date_edit_forall			(GtkContainer   *container,
 						 gboolean	 include_internals,
@@ -210,23 +208,25 @@ static GtkHBoxClass *parent_class;
  *
  * Returns the GtkType for the EDateEdit widget
  */
-guint
+GType
 e_date_edit_get_type		(void)
 {
-	static guint date_edit_type = 0;
+	static GType date_edit_type = 0;
 
 	if (!date_edit_type){
-		GtkTypeInfo date_edit_info = {
-			"EDateEdit",
-			sizeof (EDateEdit),
+		static const GTypeInfo date_edit_info =  {
 			sizeof (EDateEditClass),
-			(GtkClassInitFunc) e_date_edit_class_init,
-			(GtkObjectInitFunc) e_date_edit_init,
-			NULL,
-			NULL,
+			NULL,           /* base_init */
+			NULL,           /* base_finalize */
+			(GClassInitFunc) e_date_edit_class_init,
+			NULL,           /* class_finalize */
+			NULL,           /* class_data */
+			sizeof (EDateEdit),
+			0,             /* n_preallocs */
+			(GInstanceInitFunc) e_date_edit_init,
 		};
 
-		date_edit_type = gtk_type_unique (gtk_hbox_get_type (), &date_edit_info);
+		date_edit_type = g_type_register_static (GTK_TYPE_HBOX, "EDateEdit", &date_edit_info, 0);
 	}
 	
 	return date_edit_type;
@@ -236,23 +236,22 @@ e_date_edit_get_type		(void)
 static void
 e_date_edit_class_init		(EDateEditClass	*class)
 {
-	GtkObjectClass *object_class = (GtkObjectClass *) class;
+	GObjectClass *object_class = (GObjectClass *) class;
 	GtkWidgetClass *widget_class = (GtkWidgetClass *) class;
 	GtkContainerClass *container_class = (GtkContainerClass *) class;
 
-	object_class = (GtkObjectClass*) class;
-
-	parent_class = gtk_type_class (gtk_hbox_get_type ());
+	parent_class = g_type_class_ref (GTK_TYPE_HBOX);
 
 	date_edit_signals [CHANGED] =
-		gtk_signal_new ("changed",
-				GTK_RUN_FIRST, GTK_CLASS_TYPE (object_class),
-				GTK_SIGNAL_OFFSET (EDateEditClass, changed),
-				gtk_signal_default_marshaller,
-				GTK_TYPE_NONE, 0);
-	
+		g_signal_new ("changed",
+			      G_OBJECT_CLASS_TYPE (object_class),
+			      G_SIGNAL_RUN_FIRST,
+			      G_STRUCT_OFFSET (EDateEditClass, changed),
+			      NULL, NULL,
+			      e_util_marshal_NONE__NONE,
+			      GTK_TYPE_NONE, 0);
 
-	object_class->destroy = e_date_edit_destroy;
+	object_class->dispose = e_date_edit_dispose;
 
 	widget_class->grab_focus = e_date_edit_grab_focus;
 
@@ -308,7 +307,7 @@ e_date_edit_new			(void)
 {
 	EDateEdit *dedit;
 
-	dedit = gtk_type_new (e_date_edit_get_type ());
+	dedit = g_object_new (E_TYPE_DATE_EDIT, NULL);
 
 	return GTK_WIDGET (dedit);
 }
@@ -328,17 +327,17 @@ create_children			(EDateEdit	*dedit)
 	gtk_widget_set_usize (priv->date_entry, 90, 0);
 	gtk_box_pack_start (GTK_BOX (dedit), priv->date_entry, FALSE, TRUE, 0);
 	
-	gtk_signal_connect (GTK_OBJECT (priv->date_entry), "key_press_event",
-			    (GtkSignalFunc) on_date_entry_key_press,
-			    dedit);
-	gtk_signal_connect_after (GTK_OBJECT (priv->date_entry),
-				  "focus_out_event",
-				  (GtkSignalFunc) on_date_entry_focus_out,
-				  dedit);
+	g_signal_connect (priv->date_entry, "key_press_event",
+			  G_CALLBACK (on_date_entry_key_press),
+			  dedit);
+	g_signal_connect_after (priv->date_entry,
+				"focus_out_event",
+				G_CALLBACK (on_date_entry_focus_out),
+				dedit);
 
 	priv->date_button = gtk_button_new ();
-	gtk_signal_connect (GTK_OBJECT (priv->date_button), "clicked",
-			    GTK_SIGNAL_FUNC (on_date_button_clicked), dedit);
+	g_signal_connect (priv->date_button, "clicked",
+			  G_CALLBACK (on_date_button_clicked), dedit);
 	gtk_box_pack_start (GTK_BOX (dedit), priv->date_button,
 			    FALSE, FALSE, 0);
 
@@ -361,18 +360,18 @@ create_children			(EDateEdit	*dedit)
 	gtk_box_pack_start (GTK_BOX (dedit), priv->time_combo, FALSE, TRUE, 0);
 	rebuild_time_popup (dedit);
 
-	gtk_signal_connect (GTK_OBJECT (GTK_COMBO (priv->time_combo)->entry),
-			    "key_press_event",
-			    (GtkSignalFunc) on_time_entry_key_press,
-			    dedit);
-	gtk_signal_connect_after (GTK_OBJECT (GTK_COMBO (priv->time_combo)->entry),
-				  "focus_out_event",
-				  (GtkSignalFunc) on_time_entry_focus_out,
-				  dedit);
-	gtk_signal_connect_after (GTK_OBJECT (GTK_COMBO (priv->time_combo)->list),
-				  "selection_changed",
-				  (GtkSignalFunc) on_date_edit_time_selected,
-				  dedit);
+	g_signal_connect (GTK_COMBO (priv->time_combo)->entry,
+			  "key_press_event",
+			  G_CALLBACK (on_time_entry_key_press),
+			  dedit);
+	g_signal_connect_after (GTK_COMBO (priv->time_combo)->entry,
+				"focus_out_event",
+				G_CALLBACK (on_time_entry_focus_out),
+				dedit);
+	g_signal_connect_after (GTK_COMBO (priv->time_combo)->list,
+				"selection_changed",
+				G_CALLBACK (on_date_edit_time_selected),
+				dedit);
 
 	if (priv->show_time || priv->make_time_insensitive)
 		gtk_widget_show (priv->time_combo);
@@ -388,15 +387,15 @@ create_children			(EDateEdit	*dedit)
 	gtk_widget_set_events (priv->cal_popup,
 			       gtk_widget_get_events (priv->cal_popup)
 			       | GDK_KEY_PRESS_MASK);
-	gtk_signal_connect (GTK_OBJECT (priv->cal_popup), "delete_event",
-			    (GtkSignalFunc) on_date_popup_delete_event,
-			    dedit);
-	gtk_signal_connect (GTK_OBJECT (priv->cal_popup), "key_press_event",
-			    (GtkSignalFunc) on_date_popup_key_press,
-			    dedit);
-	gtk_signal_connect (GTK_OBJECT (priv->cal_popup), "button_press_event",
-			    (GtkSignalFunc) on_date_popup_button_press,
-			    dedit);
+	g_signal_connect (priv->cal_popup, "delete_event",
+			  G_CALLBACK (on_date_popup_delete_event),
+			  dedit);
+	g_signal_connect (priv->cal_popup, "key_press_event",
+			  G_CALLBACK (on_date_popup_key_press),
+			  dedit);
+	g_signal_connect (priv->cal_popup, "button_press_event",
+			  G_CALLBACK (on_date_popup_button_press),
+			  dedit);
 	gtk_window_set_policy (GTK_WINDOW (priv->cal_popup),
 			       FALSE, FALSE, TRUE);
 
@@ -416,9 +415,9 @@ create_children			(EDateEdit	*dedit)
 			       "move_selection_when_moving", FALSE,
 			       NULL);
 
-	gtk_signal_connect (GTK_OBJECT (calendar->calitem),
-			    "selection_changed",
-			    GTK_SIGNAL_FUNC (on_date_popup_date_selected), dedit);
+	g_signal_connect (calendar->calitem,
+			  "selection_changed",
+			  G_CALLBACK (on_date_popup_date_selected), dedit);
 
 	gtk_box_pack_start (GTK_BOX (vbox), priv->calendar, FALSE, FALSE, 0);
         gtk_widget_show (priv->calendar);
@@ -434,26 +433,26 @@ create_children			(EDateEdit	*dedit)
 	priv->now_button = gtk_button_new_with_label (_("Now"));
 	gtk_container_add (GTK_CONTAINER (bbox), priv->now_button);
         gtk_widget_show (priv->now_button);
-	gtk_signal_connect (GTK_OBJECT (priv->now_button), "clicked",
-			    GTK_SIGNAL_FUNC (on_date_popup_now_button_clicked), dedit);
+	g_signal_connect (priv->now_button, "clicked",
+			  G_CALLBACK (on_date_popup_now_button_clicked), dedit);
 
 	priv->today_button = gtk_button_new_with_label (_("Today"));
 	gtk_container_add (GTK_CONTAINER (bbox), priv->today_button);
         gtk_widget_show (priv->today_button);
-	gtk_signal_connect (GTK_OBJECT (priv->today_button), "clicked",
-			    GTK_SIGNAL_FUNC (on_date_popup_today_button_clicked), dedit);
+	g_signal_connect (priv->today_button, "clicked",
+			  G_CALLBACK (on_date_popup_today_button_clicked), dedit);
 
 	/* Note that we don't show this here, since by default a 'None' date
 	   is not permitted. */
 	priv->none_button = gtk_button_new_with_label (_("None"));
 	gtk_container_add (GTK_CONTAINER (bbox), priv->none_button);
-	gtk_signal_connect (GTK_OBJECT (priv->none_button), "clicked",
-			    GTK_SIGNAL_FUNC (on_date_popup_none_button_clicked), dedit);
+	g_signal_connect (priv->none_button, "clicked",
+			  G_CALLBACK (on_date_popup_none_button_clicked), dedit);
 }
 
 
 static void
-e_date_edit_destroy		(GtkObject	*object)
+e_date_edit_dispose		(GObject	*object)
 {
 	EDateEdit *dedit;
 
@@ -461,16 +460,18 @@ e_date_edit_destroy		(GtkObject	*object)
 
 	dedit = E_DATE_EDIT (object);
 
-	e_date_edit_set_get_time_callback (dedit, NULL, NULL, NULL);
+	if (dedit->priv) {
+		e_date_edit_set_get_time_callback (dedit, NULL, NULL, NULL);
 
-	gtk_widget_destroy (dedit->priv->cal_popup);
-	dedit->priv->cal_popup = NULL;
+		gtk_widget_destroy (dedit->priv->cal_popup);
+		dedit->priv->cal_popup = NULL;
 
-	g_free (dedit->priv);
-	dedit->priv = NULL;
+		g_free (dedit->priv);
+		dedit->priv = NULL;
+	}
 
-	if (GTK_OBJECT_CLASS (parent_class)->destroy)
-		(* GTK_OBJECT_CLASS (parent_class)->destroy) (object);
+	if (G_OBJECT_CLASS (parent_class)->dispose)
+		(* G_OBJECT_CLASS (parent_class)->dispose) (object);
 }
 
 
@@ -639,8 +640,8 @@ e_date_edit_set_time		(EDateEdit	*dedit,
 
 	/* Emit the signals if the date and/or time has actually changed. */
 	if (date_changed || time_changed)
-		gtk_signal_emit (GTK_OBJECT (dedit),
-				 date_edit_signals [CHANGED]);
+		g_signal_emit (dedit,
+			       date_edit_signals [CHANGED], 0);
 }
 
 
@@ -712,8 +713,8 @@ e_date_edit_set_date		(EDateEdit	*dedit,
 
 	/* Emit the signals if the date has actually changed. */
 	if (date_changed)
-		gtk_signal_emit (GTK_OBJECT (dedit),
-				 date_edit_signals [CHANGED]);
+		g_signal_emit (dedit,
+			       date_edit_signals [CHANGED], 0);
 }
 
 
@@ -791,8 +792,8 @@ e_date_edit_set_time_of_day		(EDateEdit	*dedit,
 	e_date_edit_update_time_entry (dedit);
 
 	if (time_changed)
-		gtk_signal_emit (GTK_OBJECT (dedit),
-				 date_edit_signals [CHANGED]);
+		g_signal_emit (dedit,
+			       date_edit_signals [CHANGED], 0);
 }
 
 void 
@@ -820,8 +821,8 @@ e_date_edit_set_date_and_time_of_day       (EDateEdit      *dedit,
 	e_date_edit_update_time_combo_state (dedit);
 
 	if (date_changed || time_changed)
-		gtk_signal_emit (GTK_OBJECT (dedit),
-				 date_edit_signals [CHANGED]);
+		g_signal_emit (dedit,
+			       date_edit_signals [CHANGED], 0);
 }
 
 /**
@@ -989,9 +990,9 @@ e_date_edit_get_week_start_day		(EDateEdit	*dedit)
 
 	g_return_val_if_fail (E_IS_DATE_EDIT (dedit), 1);
 
-	gtk_object_get (GTK_OBJECT (E_CALENDAR (dedit->priv->calendar)->calitem),
-			"week_start_day", &week_start_day,
-			NULL);
+	g_object_get (E_CALENDAR (dedit->priv->calendar)->calitem,
+		      "week_start_day", &week_start_day,
+		      NULL);
 
 	return week_start_day;
 }
@@ -1024,9 +1025,9 @@ e_date_edit_get_show_week_numbers	(EDateEdit	*dedit)
 
 	g_return_val_if_fail (E_IS_DATE_EDIT (dedit), FALSE);
 
-	gtk_object_get (GTK_OBJECT (E_CALENDAR (dedit->priv->calendar)->calitem),
-			"show_week_numbers", &show_week_numbers,
-			NULL);
+	g_object_get (E_CALENDAR (dedit->priv->calendar)->calitem,
+		      "show_week_numbers", &show_week_numbers,
+		      NULL);
 
 	return show_week_numbers;
 }
@@ -1304,7 +1305,7 @@ on_date_popup_key_press			(GtkWidget	*widget,
 	if (event->keyval != GDK_Escape)
 		return FALSE;
 
-	gtk_signal_emit_stop_by_name (GTK_OBJECT (widget), "key_press_event");
+	g_signal_stop_emission_by_name (widget, "key_press_event");
 	hide_date_popup (dedit);
 
 	return TRUE;
@@ -1502,8 +1503,8 @@ on_date_entry_key_press			(GtkWidget	*widget,
 	if (event->state & GDK_MOD1_MASK
 	    && (event->keyval == GDK_Up || event->keyval == GDK_Down
 		|| event->keyval == GDK_Return)) {
-		gtk_signal_emit_stop_by_name (GTK_OBJECT (widget),
-					      "key_press_event");
+		g_signal_stop_emission_by_name (widget,
+						"key_press_event");
 		e_date_edit_show_date_popup (dedit);
 		return TRUE;
 	}
@@ -1532,17 +1533,17 @@ on_time_entry_key_press			(GtkWidget	*widget,
 #else
 	if (event->state & GDK_MOD1_MASK && event->keyval == GDK_Return) {
 #endif
-		gtk_signal_emit_stop_by_name (GTK_OBJECT (widget),
-					      "key_press_event");
-		gtk_signal_emit_by_name (GTK_OBJECT (GTK_COMBO (dedit->priv->time_combo)->entry), "activate");
+		g_signal_stop_emission_by_name (widget,
+						"key_press_event");
+		g_signal_emit_by_name (GTK_COMBO (dedit->priv->time_combo)->entry, "activate", 0);
 		return TRUE;
 	}
 
 	/* Stop the return key from emitting the activate signal, and check
 	   if we need to emit a "time_changed" signal. */
 	if (event->keyval == GDK_Return) {
-		gtk_signal_emit_stop_by_name (GTK_OBJECT (widget),
-					      "key_press_event");
+		g_signal_stop_emission_by_name (widget,
+						"key_press_event");
 		e_date_edit_check_time_changed (dedit);
 		return TRUE;
 	}
@@ -1723,8 +1724,8 @@ e_date_edit_check_date_changed		(EDateEdit	*dedit)
 						      tmp_tm.tm_mday);
 
 	if (date_changed)
-		gtk_signal_emit (GTK_OBJECT (dedit),
-				 date_edit_signals [CHANGED]);
+		g_signal_emit (dedit,
+			       date_edit_signals [CHANGED], 0);
 }
 
 
@@ -1754,8 +1755,8 @@ e_date_edit_check_time_changed		(EDateEdit	*dedit)
 						      tmp_tm.tm_min);
 
 	if (time_changed)
-		gtk_signal_emit (GTK_OBJECT (dedit),
-				 date_edit_signals [CHANGED]);
+		g_signal_emit (dedit,
+			       date_edit_signals [CHANGED], 0);
 }
 
 

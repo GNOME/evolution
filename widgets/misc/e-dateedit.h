@@ -73,7 +73,7 @@ struct _EDateEditClass {
 	void (* changed) (EDateEdit *dedit);
 };
 
-guint      e_date_edit_get_type			(void);
+GType      e_date_edit_get_type			(void);
 GtkWidget* e_date_edit_new			(void);
 
 /* Analogous to gtk_entry_set_editable.  disable editing, while still
