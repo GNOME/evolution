@@ -41,7 +41,7 @@ static gint etsm_get_row_count (ESelectionModelArray *esm);
 enum {
 	ARG_0,
 	ARG_MODEL,
-	ARG_HEADER,
+	ARG_HEADER
 };
 
 static void
@@ -311,7 +311,7 @@ e_table_selection_model_class_init (ETableSelectionModelClass *klass)
 }
 
 E_MAKE_TYPE(e_table_selection_model, "ETableSelectionModel", ETableSelectionModel,
-	    e_table_selection_model_class_init, e_table_selection_model_init, PARENT_TYPE);
+	    e_table_selection_model_class_init, e_table_selection_model_init, PARENT_TYPE)
 
 /** 
  * e_table_selection_model_new

@@ -43,7 +43,7 @@ enum {
 	LAST_SIGNAL
 };
 
-static gint etcta_signals [LAST_SIGNAL] = { 0, };
+static guint etcta_signals [LAST_SIGNAL] = { 0 };
 
 #define PARENT_OBJECT_TYPE gnome_canvas_group_get_type ()
 
@@ -57,7 +57,7 @@ enum {
 	ARG_MODEL,
 	ARG_MESSAGE,
 	ARG_WIDTH,
-	ARG_HEIGHT,
+	ARG_HEIGHT
 };
 
 static void

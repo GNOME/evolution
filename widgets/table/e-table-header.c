@@ -35,7 +35,7 @@ enum {
 	ARG_0,
 	ARG_SORT_INFO,
 	ARG_WIDTH,
-	ARG_WIDTH_EXTRAS,
+	ARG_WIDTH_EXTRAS
 };
 
 enum {

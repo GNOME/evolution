@@ -73,7 +73,7 @@ enum {
 	LAST_SIGNAL
 };
 
-static gint eti_signals [LAST_SIGNAL] = { 0, };
+static guint eti_signals [LAST_SIGNAL] = { 0, };
 
 enum {
 	ARG_0,
@@ -91,7 +91,7 @@ enum {
 	
 	ARG_MINIMUM_WIDTH,
 	ARG_WIDTH,
-	ARG_HEIGHT,
+	ARG_HEIGHT
 };
 
 #define DOUBLE_CLICK_TIME      250

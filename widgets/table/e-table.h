@@ -55,7 +55,7 @@ typedef struct _ETableDragSourceSite ETableDragSourceSite;
 typedef enum {
 	E_TABLE_CURSOR_LOC_NONE = 0,
 	E_TABLE_CURSOR_LOC_ETCTA = 1 << 0,
-	E_TABLE_CURSOR_LOC_TABLE = 1 << 1,
+	E_TABLE_CURSOR_LOC_TABLE = 1 << 1
 } ETableCursorLoc;
 
 typedef struct {

@@ -425,7 +425,7 @@ e_cell_toggle_init (GtkObject *object)
 	etog->n_states = 0;
 }
 
-E_MAKE_TYPE(e_cell_toggle, "ECellToggle", ECellToggle, e_cell_toggle_class_init, e_cell_toggle_init, PARENT_TYPE);
+E_MAKE_TYPE(e_cell_toggle, "ECellToggle", ECellToggle, e_cell_toggle_class_init, e_cell_toggle_init, PARENT_TYPE)
 
 /**
  * e_cell_toggle_construct:

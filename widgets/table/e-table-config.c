@@ -60,7 +60,7 @@ enum {
 
 enum {
 	ARG_0,
-	ARG_STATE,
+	ARG_STATE
 };
 
 static guint e_table_config_signals [LAST_SIGNAL] = { 0, };
@@ -586,13 +586,13 @@ configure_dialog (GladeXML *gui, const char *widget_name, ETableConfig *config)
 #endif
 
 static void
-connect_button (ETableConfig *config, GladeXML *gui, const char *widget_name, void *cback)
+connect_button (ETableConfig *config, GladeXML *gui, const char *widget_name, GtkSignalFunc cback)
 {
 	GtkWidget *button = glade_xml_get_widget (gui, widget_name);
 
 	if (button) {
 		gtk_signal_connect (GTK_OBJECT (button), "clicked",
-				    GTK_SIGNAL_FUNC (cback), config);
+				    cback, config);
 	}
 }
 
@@ -1134,4 +1134,4 @@ e_table_config_raise (ETableConfig *config)
 	gdk_window_raise (GTK_WIDGET (config->dialog_toplevel)->window);
 }
 
-E_MAKE_TYPE(e_table_config, "ETableConfig", ETableConfig, config_class_init, config_init, PARENT_TYPE);
+E_MAKE_TYPE(e_table_config, "ETableConfig", ETableConfig, config_class_init, config_init, PARENT_TYPE)

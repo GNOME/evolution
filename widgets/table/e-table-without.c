@@ -248,7 +248,7 @@ etw_init (ETableWithout *etw)
 	etw->priv->free_duplicated_key_func = NULL;
 }
 
-E_MAKE_TYPE(e_table_without, "ETableWithout", ETableWithout, etw_class_init, etw_init, PARENT_TYPE);
+E_MAKE_TYPE(e_table_without, "ETableWithout", ETableWithout, etw_class_init, etw_init, PARENT_TYPE)
 
 ETableModel *
 e_table_without_construct (ETableWithout                 *etw,

@@ -66,7 +66,7 @@ enum {
 	ARG_HEADER,
 	ARG_DND_CODE,
 	ARG_WIDTH,
-	ARG_HEIGHT,
+	ARG_HEIGHT
 };
 
 static void

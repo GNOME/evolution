@@ -42,7 +42,7 @@ static GtkObjectClass *parent_class;
 
 enum {
 	ARG_0,
-	ARG_TREE,
+	ARG_TREE
 };
 
 static void
@@ -219,5 +219,5 @@ e_tree_scrolled_class_init (ETreeScrolledClass *class)
 				 GTK_ARG_READABLE, ARG_TREE);
 }
 
-E_MAKE_TYPE(e_tree_scrolled, "ETreeScrolled", ETreeScrolled, e_tree_scrolled_class_init, e_tree_scrolled_init, PARENT_TYPE);
+E_MAKE_TYPE(e_tree_scrolled, "ETreeScrolled", ETreeScrolled, e_tree_scrolled_class_init, e_tree_scrolled_init, PARENT_TYPE)
 

@@ -110,7 +110,7 @@ static ECellPopupClass *parent_class;
 
 E_MAKE_TYPE (e_cell_combo, "ECellCombo", ECellCombo,
 	     e_cell_combo_class_init, e_cell_combo_init,
-	     e_cell_popup_get_type());
+	     e_cell_popup_get_type())
 
 
 static void

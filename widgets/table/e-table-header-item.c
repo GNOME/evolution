@@ -99,7 +99,7 @@ enum {
 	ARG_TABLE_FONTSET,
 	ARG_SORT_INFO,
 	ARG_TABLE,
-	ARG_TREE,
+	ARG_TREE
 };
 
 enum {

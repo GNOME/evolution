@@ -39,7 +39,7 @@ enum {
 	ARG_0,
 	ARG_FULL_HEADER,
 	ARG_HEADER,
-	ARG_DND_CODE,
+	ARG_DND_CODE
 };
 
 GtkType

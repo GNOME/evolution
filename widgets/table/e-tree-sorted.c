@@ -114,7 +114,7 @@ struct ETreeSortedPriv {
 enum {
 	ARG_0,
 
-	ARG_SORT_INFO,
+	ARG_SORT_INFO
 };
 
 static void ets_sort_info_changed (ETableSortInfo *sort_info, ETreeSorted *ets);

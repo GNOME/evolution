@@ -82,4 +82,4 @@ e_cell_number_new (const char *fontname, GtkJustification justify)
 	return (ECell *) ecn;
 }
 
-E_MAKE_TYPE(e_cell_number, "ECellNumber", ECellNumber, e_cell_number_class_init, e_cell_number_init, PARENT_TYPE);
+E_MAKE_TYPE(e_cell_number, "ECellNumber", ECellNumber, e_cell_number_class_init, e_cell_number_init, PARENT_TYPE)

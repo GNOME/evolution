@@ -44,7 +44,7 @@ enum {
 	ARG_CURSOR_COL,
 	ARG_MODEL,
 	ARG_ETTA,
-	ARG_ETS,
+	ARG_ETS
 };
 
 typedef struct ETreeSelectionModelNode {
@@ -1390,4 +1390,4 @@ e_tree_selection_model_new (void)
 }
 
 E_MAKE_TYPE(e_tree_selection_model, "ETreeSelectionModel", ETreeSelectionModel,
-	    e_tree_selection_model_class_init, e_tree_selection_model_init, PARENT_TYPE);
+	    e_tree_selection_model_class_init, e_tree_selection_model_init, PARENT_TYPE)

@@ -635,7 +635,7 @@ etta_init (ETreeTableAdapter *etta)
 	etta->priv->tree_model_node_request_collapse_id = 0;
 }
 
-E_MAKE_TYPE(e_tree_table_adapter, "ETreeTableAdapter", ETreeTableAdapter, etta_class_init, etta_init, PARENT_TYPE);
+E_MAKE_TYPE(e_tree_table_adapter, "ETreeTableAdapter", ETreeTableAdapter, etta_class_init, etta_init, PARENT_TYPE)
 
 static void
 etta_proxy_pre_change (ETreeModel *etm, ETreeTableAdapter *etta)

@@ -109,7 +109,7 @@ e_table_sort_info_class_init (ETableSortInfoClass *klass)
 }
 
 E_MAKE_TYPE(e_table_sort_info, "ETableSortInfo", ETableSortInfo,
-	    e_table_sort_info_class_init, e_table_sort_info_init, PARENT_TYPE);
+	    e_table_sort_info_class_init, e_table_sort_info_init, PARENT_TYPE)
 
 static void
 e_table_sort_info_sort_info_changed (ETableSortInfo *info)

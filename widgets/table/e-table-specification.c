@@ -92,7 +92,7 @@ etsp_init (ETableSpecification *etsp)
 	etsp->click_to_add_message   = NULL;
 }
 
-E_MAKE_TYPE (e_table_specification, "ETableSpecification", ETableSpecification, etsp_class_init, etsp_init, PARENT_TYPE);
+E_MAKE_TYPE (e_table_specification, "ETableSpecification", ETableSpecification, etsp_class_init, etsp_init, PARENT_TYPE)
 
 /**
  * e_table_specification_new:

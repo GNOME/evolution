@@ -94,7 +94,7 @@ enum {
 	ARG_0,
 	ARG_LENGTH_THRESHOLD,
 	ARG_MODEL,
-	ARG_UNIFORM_ROW_HEIGHT,
+	ARG_UNIFORM_ROW_HEIGHT
 };
 
 enum {
@@ -104,7 +104,7 @@ enum {
 	ET_SCROLL_RIGHT = 1 << 3
 };
 
-static gint et_signals [LAST_SIGNAL] = { 0, };
+static guint et_signals [LAST_SIGNAL] = { 0 };
 
 static void e_table_fill_table (ETable *e_table, ETableModel *model);
 static gboolean changed_idle (gpointer data);
@@ -3144,4 +3144,4 @@ e_table_class_init (ETableClass *class)
 				 GTK_ARG_READABLE, ARG_MODEL);
 }
 
-E_MAKE_TYPE(e_table, "ETable", ETable, e_table_class_init, e_table_init, PARENT_TYPE);
+E_MAKE_TYPE(e_table, "ETable", ETable, e_table_class_init, e_table_init, PARENT_TYPE)

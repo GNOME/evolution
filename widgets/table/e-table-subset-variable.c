@@ -130,7 +130,7 @@ etssv_class_init (GtkObjectClass *object_class)
 	klass->remove  = etssv_remove;
 }
 
-E_MAKE_TYPE(e_table_subset_variable, "ETableSubsetVariable", ETableSubsetVariable, etssv_class_init, NULL, PARENT_TYPE);
+E_MAKE_TYPE(e_table_subset_variable, "ETableSubsetVariable", ETableSubsetVariable, etssv_class_init, NULL, PARENT_TYPE)
 
 ETableModel *
 e_table_subset_variable_construct (ETableSubsetVariable *etssv,

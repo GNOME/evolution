@@ -266,7 +266,7 @@ etss_init (ETableSubset *etss)
 	etss->last_access = 0;
 }
 
-E_MAKE_TYPE(e_table_subset, "ETableSubset", ETableSubset, etss_class_init, etss_init, PARENT_TYPE);
+E_MAKE_TYPE(e_table_subset, "ETableSubset", ETableSubset, etss_class_init, etss_init, PARENT_TYPE)
 
 static void
 etss_proxy_model_pre_change_real (ETableSubset *etss, ETableModel *etm)

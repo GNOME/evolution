@@ -58,12 +58,12 @@ typedef enum {
 
 	E_CELL_EDITING        = 1 << 4,
 
-	E_CELL_CURSOR         = 1 << 5,
+	E_CELL_CURSOR         = 1 << 5
 } ECellFlags;
 
 typedef enum {
 	E_CELL_GRAB           = 1 << 0,
-	E_CELL_UNGRAB         = 1 << 1,
+	E_CELL_UNGRAB         = 1 << 1
 } ECellActions;
 
 typedef struct {

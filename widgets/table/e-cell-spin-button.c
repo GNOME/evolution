@@ -116,7 +116,7 @@ enum {
 	LAST_SIGNAL
 };
 
-static gint     signals[LAST_SIGNAL] = { 0 };
+static guint    signals[LAST_SIGNAL] = { 0 };
 static ECell   *parent_class;
 
 static void 
@@ -670,5 +670,5 @@ e_cell_spin_button_step_float  (ECellSpinButton       *ecsb,
 
 E_MAKE_TYPE (e_cell_spin_button, "ECellSpinButton", ECellSpinButton, 
 	     e_cell_spin_button_class_init, e_cell_spin_button_init, 
-	     PARENT_TYPE);
+	     PARENT_TYPE)
 

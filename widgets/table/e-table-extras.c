@@ -136,7 +136,7 @@ ete_init (ETableExtras *extras)
 	e_table_extras_add_cell(extras, "tree-string", e_cell_tree_new (NULL, NULL, TRUE, e_cell_text_new (NULL, GTK_JUSTIFY_LEFT)));
 }
 
-E_MAKE_TYPE(e_table_extras, "ETableExtras", ETableExtras, ete_class_init, ete_init, PARENT_TYPE);
+E_MAKE_TYPE(e_table_extras, "ETableExtras", ETableExtras, ete_class_init, ete_init, PARENT_TYPE)
 
 ETableExtras *
 e_table_extras_new (void)
@@ -188,14 +188,14 @@ e_table_extras_add_compare  (ETableExtras *extras,
 		g_free (old_key);
 	}
 
-	g_hash_table_insert(extras->compares, g_strdup(id), compare);
+	g_hash_table_insert(extras->compares, g_strdup(id), (gpointer) compare);
 }
 
 GCompareFunc
 e_table_extras_get_compare  (ETableExtras *extras,
 			     char         *id)
 {
-	return g_hash_table_lookup(extras->compares, id);
+	return (GCompareFunc) g_hash_table_lookup(extras->compares, id);
 }
 
 void

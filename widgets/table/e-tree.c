@@ -97,7 +97,7 @@ enum {
 	ARG_VERTICAL_DRAW_GRID,
 	ARG_DRAW_FOCUS,
 	ARG_ETTA,
-	ARG_UNIFORM_ROW_HEIGHT,
+	ARG_UNIFORM_ROW_HEIGHT
 };
 
 enum {
@@ -191,7 +191,7 @@ struct ETreePriv {
 	GList *expanded_list;
 };
 
-static gint et_signals [LAST_SIGNAL] = { 0, };
+static guint et_signals [LAST_SIGNAL] = { 0, };
 
 static void et_grab_focus (GtkWidget *widget);
 
@@ -3147,4 +3147,4 @@ e_tree_class_init (ETreeClass *class)
 				 GTK_ARG_READWRITE, ARG_UNIFORM_ROW_HEIGHT);
 }
 
-E_MAKE_TYPE(e_tree, "ETree", ETree, e_tree_class_init, e_tree_init, PARENT_TYPE);
+E_MAKE_TYPE(e_tree, "ETree", ETree, e_tree_class_init, e_tree_init, PARENT_TYPE)

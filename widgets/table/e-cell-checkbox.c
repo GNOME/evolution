@@ -45,7 +45,7 @@ e_cell_checkbox_class_init (GtkObjectClass *object_class)
 	checks [1] = gdk_pixbuf_new_from_xpm_data (check_filled_xpm);
 }
 
-E_MAKE_TYPE(e_cell_checkbox, "ECellCheckbox", ECellCheckbox, e_cell_checkbox_class_init, NULL, PARENT_TYPE);
+E_MAKE_TYPE(e_cell_checkbox, "ECellCheckbox", ECellCheckbox, e_cell_checkbox_class_init, NULL, PARENT_TYPE)
 
 /**
  * e_cell_checkbox_new:

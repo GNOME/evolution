@@ -61,7 +61,7 @@ etcf_init (ETableConfigField *etcf)
 	etcf->child_fields     = NULL;
 }
 
-E_MAKE_TYPE(e_table_config_field, "ETableConfigField", ETableConfigField, etcf_class_init, etcf_init, PARENT_TYPE);
+E_MAKE_TYPE(e_table_config_field, "ETableConfigField", ETableConfigField, etcf_class_init, etcf_init, PARENT_TYPE)
 
 ETableConfigField *
 e_table_config_field_new       (ETableSpecification *spec,

@@ -105,4 +105,4 @@ e_cell_size_new (const char *fontname, GtkJustification justify)
 	return (ECell *) ecd;
 }
 
-E_MAKE_TYPE(e_cell_size, "ECellSize", ECellSize, e_cell_size_class_init, e_cell_size_init, PARENT_TYPE);
+E_MAKE_TYPE(e_cell_size, "ECellSize", ECellSize, e_cell_size_class_init, e_cell_size_init, PARENT_TYPE)

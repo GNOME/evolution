@@ -81,7 +81,7 @@ etst_init (ETableState *state)
 	state->sort_info = e_table_sort_info_new();
 }
 
-E_MAKE_TYPE(e_table_state, "ETableState", ETableState, etst_class_init, etst_init, PARENT_TYPE);
+E_MAKE_TYPE(e_table_state, "ETableState", ETableState, etst_class_init, etst_init, PARENT_TYPE)
 
 ETableState *
 e_table_state_new (void)

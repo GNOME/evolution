@@ -34,7 +34,7 @@ static GtkObjectClass *parent_class;
 
 enum {
 	ARG_0,
-	ARG_SORTABLE,
+	ARG_SORTABLE
 };
 
 static void
@@ -102,7 +102,7 @@ e_table_col_init (ETableCol *etc)
 	etc->priority = 0;
 }
 
-E_MAKE_TYPE(e_table_col, "ETableCol", ETableCol, e_table_col_class_init, e_table_col_init, PARENT_TYPE);
+E_MAKE_TYPE(e_table_col, "ETableCol", ETableCol, e_table_col_class_init, e_table_col_init, PARENT_TYPE)
 
 /** 
  * e_table_col_new:

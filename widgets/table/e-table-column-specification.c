@@ -80,7 +80,7 @@ etcs_init (ETableColumnSpecification *specification)
 	specification->priority      = 0;
 }
 
-E_MAKE_TYPE(e_table_column_specification, "ETableColumnSpecification", ETableColumnSpecification, etcs_class_init, etcs_init, PARENT_TYPE);
+E_MAKE_TYPE(e_table_column_specification, "ETableColumnSpecification", ETableColumnSpecification, etcs_class_init, etcs_init, PARENT_TYPE)
 
 ETableColumnSpecification *
 e_table_column_specification_new (void)

@@ -159,7 +159,7 @@ e_cell_init (GtkObject *object)
 {
 }
 
-E_MAKE_TYPE(e_cell, "ECell", ECell, e_cell_class_init, e_cell_init, PARENT_TYPE);
+E_MAKE_TYPE(e_cell, "ECell", ECell, e_cell_class_init, e_cell_init, PARENT_TYPE)
 
 /**
  * e_cell_event:
