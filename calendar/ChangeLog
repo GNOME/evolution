@@ -1,3 +1,8 @@
+2003-08-21  Frederic Crozat  <fcrozat@mandrakesoft.com>
+
+	* gui/alarm-notify/notify-main.c: (main):
+	Ensure we get UTF-8 strings from gettext.
+
 2002-08-20  Hans Petter Jansson  <hpj@ximian.com>
 
 	* gui/e-itip-control.c (start_defalt_server): Rename to
