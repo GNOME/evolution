@@ -778,7 +778,7 @@ write_error_html (EItipControl *itip, const gchar *itip_err)
 	/* The column for the image */
 	gtk_html_stream_printf (html_stream, "<tr><td width=48 align=\"center\" valign=\"top\" rowspan=\"8\">");
 	/* The image */
-	filename = e_icon_factory_get_icon_filename ("stock_new-meeting", 48);
+	filename = e_icon_factory_get_icon_filename ("stock_new-meeting", E_ICON_SIZE_DIALOG);
 	gtk_html_stream_printf (html_stream, "<img src=\"%s\"></td>", filename);
 	g_free (filename);
 
@@ -837,7 +837,7 @@ write_html (EItipControl *itip, const gchar *itip_desc, const gchar *itip_title,
 	gtk_html_write (GTK_HTML (priv->html), html_stream, const_html, strlen(const_html));
 
 	/* The image */
-	filename = e_icon_factory_get_icon_filename ("stock_new-meeting", 48);
+	filename = e_icon_factory_get_icon_filename ("stock_new-meeting", E_ICON_SIZE_DIALOG);
 	gtk_html_stream_printf (html_stream, "<img src=\"%s\"></td>", filename);
 	g_free (filename);
 

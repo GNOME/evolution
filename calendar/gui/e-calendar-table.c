@@ -470,7 +470,7 @@ e_calendar_table_init (ECalendarTable *cal_table)
 
 	if (!icon_pixbufs[0])
 		for (i = 0; i < E_CALENDAR_MODEL_NUM_ICONS; i++) {
-			icon_pixbufs[i] = e_icon_factory_get_icon (icon_names[i], 16);
+			icon_pixbufs[i] = e_icon_factory_get_icon (icon_names[i], E_ICON_SIZE_LIST);
 		}
 
 	cell = e_cell_toggle_new (0, E_CALENDAR_MODEL_NUM_ICONS, icon_pixbufs);
@@ -480,7 +480,7 @@ e_calendar_table_init (ECalendarTable *cal_table)
 	e_table_extras_add_cell(extras, "icon", cell);
 	e_table_extras_add_pixbuf(extras, "icon", icon_pixbufs[0]);
 
-	pixbuf = e_icon_factory_get_icon ("stock_check-filled", 16);
+	pixbuf = e_icon_factory_get_icon ("stock_check-filled", E_ICON_SIZE_LIST);
 	e_table_extras_add_pixbuf(extras, "complete", pixbuf);
 	gdk_pixbuf_unref(pixbuf);
 
@@ -1382,9 +1382,9 @@ e_calendar_table_set_status_message (ECalendarTable *cal_table, const gchar *mes
 		}
         } else if (cal_table->activity_id == 0) {
                 char *client_id = g_strdup_printf ("%p", cal_table);
-                                 
+		
                 if (progress_icon == NULL)
-                        progress_icon = e_icon_factory_get_icon (EVOLUTION_TASKS_PROGRESS_IMAGE, 16);
+                        progress_icon = e_icon_factory_get_icon (EVOLUTION_TASKS_PROGRESS_IMAGE, E_ICON_SIZE_STATUS);
 
                 cal_table->activity_id = e_activity_handler_operation_started (cal_table->activity_handler, client_id,
 									       progress_icon, message, TRUE);

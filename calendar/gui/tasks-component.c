@@ -251,7 +251,7 @@ add_popup_menu_item (GtkMenu *menu, const char *label, const char *icon_name,
 		item = gtk_image_menu_item_new_with_label (label);
 
 		/* load the image */
-		pixbuf = e_icon_factory_get_icon (icon_name, 16);
+		pixbuf = e_icon_factory_get_icon (icon_name, E_ICON_SIZE_MENU);
 		image = gtk_image_new_from_pixbuf (pixbuf);
 
 		if (image) {

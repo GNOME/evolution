@@ -1,3 +1,25 @@
+2004-05-17  Jeffrey Stedfast  <fejj@novell.com>
+
+	* gui/tasks-component.c (add_popup_menu_item): Use
+	E_ICON_SIZE_MENU
+
+	* gui/e-timezone-entry.c (e_timezone_entry_init): Use
+	E_ICON_SIZE_BUTTON
+
+	* gui/e-itip-control.c (write_error_html): Use E_ICON_SIZE enums.
+	(write_html): Same.
+
+	* gui/e-calendar-view.c (e_calendar_view_set_status_message): Use
+	E_ICON_SIZE_STATUS
+	(setup_popup_icons): Use E_ICON_SIZE_MENU
+
+	* gui/e-calendar-table.c (e_calendar_table_init): Use
+	E_ICON_SIZE_LIST rather than a hard-coded value of 16 pixels.
+	(e_calendar_table_set_status_message): Use E_ICON_SIZE_STATUS
+
+	* gui/calendar-component.c (add_popup_menu_item): Use
+	E_ICON_SIZE_MENU rather than hard-coding the pixel size.
+
 2004-05-17    <jpr@ximian.com>
 
 	Fixes #56373

@@ -133,7 +133,7 @@ e_timezone_entry_init		(ETimezoneEntry	*tentry)
 	gtk_box_pack_start (GTK_BOX (tentry), priv->button, FALSE, FALSE, 6);
 	gtk_widget_show (priv->button);
 
-	gdk_pixbuf = e_icon_factory_get_icon ("stock_timezone", 16);
+	gdk_pixbuf = e_icon_factory_get_icon ("stock_timezone", E_ICON_SIZE_BUTTON);
 	gtk_image = gtk_image_new_from_pixbuf (gdk_pixbuf);
 	gtk_container_add (GTK_CONTAINER (priv->button), gtk_image);
 	gtk_widget_show (gtk_image);

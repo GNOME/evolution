@@ -563,7 +563,7 @@ e_calendar_view_set_status_message (ECalendarView *cal_view, const gchar *messag
 		char *client_id = g_strdup_printf ("%p", cal_view);
 
 		if (progress_icon == NULL)
-			progress_icon = e_icon_factory_get_icon (EVOLUTION_CALENDAR_PROGRESS_IMAGE, 16);
+			progress_icon = e_icon_factory_get_icon (EVOLUTION_CALENDAR_PROGRESS_IMAGE, E_ICON_SIZE_STATUS);
 
 		priv->activity_id = e_activity_handler_operation_started (priv->activity_handler, client_id, progress_icon, message, TRUE);
 
@@ -1348,22 +1348,22 @@ setup_popup_icons (EPopupMenu *context_menu)
 		else if (!strcmp (context_menu[i].name, _("_Go to Date...")))
 			pixmap_widget = gtk_image_new_from_stock (GTK_STOCK_JUMP_TO, GTK_ICON_SIZE_MENU);
 		else if (!strcmp (context_menu[i].name, _("New _Appointment..."))) {
-			pixbuf = e_icon_factory_get_icon ("stock_new-appointment", 16);
+			pixbuf = e_icon_factory_get_icon ("stock_new-appointment", E_ICON_SIZE_MENU);
 			pixmap_widget = gtk_image_new_from_pixbuf (pixbuf);
 			gdk_pixbuf_unref (pixbuf);
 		}
 		else if (!strcmp (context_menu[i].name, _("New All Day _Event"))) {
-			pixbuf = e_icon_factory_get_icon ("stock_new-24h-appointment", 16);
+			pixbuf = e_icon_factory_get_icon ("stock_new-24h-appointment", E_ICON_SIZE_MENU);
 			pixmap_widget = gtk_image_new_from_pixbuf (pixbuf);
 			gdk_pixbuf_unref (pixbuf);
 		}
 		else if (!strcmp (context_menu[i].name, _("New Meeting"))) {
-			pixbuf = e_icon_factory_get_icon ("stock_new-meeting", 16);
+			pixbuf = e_icon_factory_get_icon ("stock_new-meeting", E_ICON_SIZE_MENU);
 			pixmap_widget = gtk_image_new_from_pixbuf (pixbuf);
 			gdk_pixbuf_unref (pixbuf);
 		}
 		else if (!strcmp (context_menu[i].name, _("New Task"))) {
-			pixbuf = e_icon_factory_get_icon ("stock_task", 16);
+			pixbuf = e_icon_factory_get_icon ("stock_task", E_ICON_SIZE_MENU);
 			pixmap_widget = gtk_image_new_from_pixbuf (pixbuf);
 			gdk_pixbuf_unref (pixbuf);
 		}
