@@ -1,3 +1,8 @@
+2003-02-12  Ettore Perazzoli  <ettore@ximian.com>
+
+	* e-setup.c (DEFAULT_USER_PATH): Look into evolution/$BASE_VERSION
+	instead of evolution-$BASE_VERSION.
+
 2003-02-11  Joe Shaw  <joe@ximian.com>
 
 	* main.c (show_development_warning): Suggest people use 1.2.x instead

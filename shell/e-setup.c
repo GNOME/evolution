@@ -50,7 +50,7 @@
 #include <string.h>
 #include <unistd.h>
 
-#define DEFAULT_USER_PATH  EVOLUTION_DATADIR "/evolution-" BASE_VERSION "/default_user"
+#define DEFAULT_USER_PATH  EVOLUTION_DATADIR "/evolution/" BASE_VERSION "/default_user"
 
 
 static GList *
