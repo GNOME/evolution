@@ -1,3 +1,16 @@
+2000-10-08  Iain Holmes  <iain@helixcode.com>
+
+	* mail-summary.c (create_summary_view): Updated to use new icon code.
+
+2000-10-08  Iain Holmes  <iain@helixcode.com>
+
+	* mail-summary.c (generate_html_summary): Generic function to 
+	recreate the HTML of the summary. Checks all the folder summaries.
+	(generate_folder_summarys): Create a summary of all the vfolders
+	and the Inbox.
+	(create_summary_view): Generate the folder summarys before the
+	HTML.
+
 2000-10-09  Ettore Perazzoli  <ettore@helixcode.com>
 
 	* folder-browser.c: Don't #include "mail-search-dialogue.h" as
