@@ -34,10 +34,12 @@
 #include <glade/glade.h>
 #include "evolution-config-control.h"
 #include "ca-trust-dialog.h"
+#include "cert-trust-dialog.h"
 #include "certificate-manager.h"
 #include "certificate-viewer.h"
 
 #include "e-cert.h"
+#include "e-cert-trust.h"
 #include "e-cert-db.h"
 
 #include "nss.h"
@@ -320,6 +322,30 @@ view_contact (GtkWidget *widget, CertificateManagerData *cfm)
 }
 
 static void
+edit_contact (GtkWidget *widget, CertificateManagerData *cfm)
+{
+	GtkTreeIter iter;
+
+	if (gtk_tree_selection_get_selected (gtk_tree_view_get_selection (GTK_TREE_VIEW(cfm->contactcerts_treeview)),
+					     NULL,
+					     &iter)) {
+		ECert *cert;
+
+		gtk_tree_model_get (GTK_TREE_MODEL (cfm->contactcerts_streemodel),
+				    &iter,
+				    3, &cert,
+				    -1);
+
+		if (cert) {
+			GtkWidget *dialog = cert_trust_dialog_show (cert);
+			g_signal_connect (dialog, "response",
+					  G_CALLBACK (gtk_widget_destroy), NULL);
+			gtk_widget_show (dialog);
+		}
+	}
+}
+
+static void
 import_contact (GtkWidget *widget, CertificateManagerData *cfm)
 {
 	GtkWidget *filesel = gtk_file_selection_new (_("Select a cert to import..."));
@@ -438,6 +464,9 @@ initialize_contactcerts_ui (CertificateManagerData *cfm)
 	if (cfm->view_contact_button)
 		g_signal_connect (cfm->view_contact_button, "clicked", G_CALLBACK (view_contact), cfm);
 
+	if (cfm->edit_contact_button)
+		g_signal_connect (cfm->edit_contact_button, "clicked", G_CALLBACK (edit_contact), cfm);
+
 	if (cfm->import_contact_button)
 		g_signal_connect (cfm->import_contact_button, "clicked", G_CALLBACK (import_contact), cfm);
 
@@ -508,7 +537,7 @@ edit_ca (GtkWidget *widget, CertificateManagerData *cfm)
 							   trust_email,
 							   trust_objsign);
 				
-				CERT_ChangeCertTrust (e_cert_db_peek (), icert, &trust);
+				CERT_ChangeCertTrust (CERT_GetDefaultCertDB(), icert, &trust);
 			}
 
 			gtk_widget_destroy (dialog);
@@ -654,11 +683,17 @@ add_user_cert (CertificateManagerData *cfm, ECert *cert)
 	if (e_cert_get_cn (cert))
 		gtk_tree_store_set (GTK_TREE_STORE (model), &iter,
 				    0, e_cert_get_cn (cert),
+				    1, e_cert_get_usage(cert),
+				    2, e_cert_get_serial_number(cert),
+				    3, e_cert_get_expires_on(cert),
 				    4, cert,
 				    -1);
 	else
 		gtk_tree_store_set (GTK_TREE_STORE (model), &iter,
 				    0, e_cert_get_nickname (cert),
+				    1, e_cert_get_usage(cert),
+				    2, e_cert_get_serial_number(cert),
+				    3, e_cert_get_expires_on(cert),
 				    4, cert,
 				    -1);
 }
@@ -693,12 +728,14 @@ add_contact_cert (CertificateManagerData *cfm, ECert *cert)
 		gtk_tree_store_set (GTK_TREE_STORE (model), &iter,
 				    0, e_cert_get_cn (cert),
 				    1, e_cert_get_email (cert),
+				    2, e_cert_get_usage(cert),
 				    3, cert,
 				    -1);
 	else
 		gtk_tree_store_set (GTK_TREE_STORE (model), &iter,
 				    0, e_cert_get_nickname (cert),
 				    1, e_cert_get_email (cert),
+				    2, e_cert_get_usage(cert),
 				    3, cert,
 				    -1);
 }

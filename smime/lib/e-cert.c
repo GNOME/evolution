@@ -92,6 +92,8 @@ struct _ECertPrivate {
 
 	char *serial_number;
 
+	char *usage_string;
+
 	char *sha1_fingerprint;
 	char *md5_fingerprint;
 
@@ -131,6 +133,8 @@ e_cert_dispose (GObject *object)
 		PORT_Free (ec->priv->expires_on_string);
 	if (ec->priv->serial_number)
 		PORT_Free (ec->priv->serial_number);
+
+	g_free(ec->priv->usage_string);
 
 	if (ec->priv->sha1_fingerprint)
 		PORT_Free (ec->priv->sha1_fingerprint);
@@ -412,6 +416,38 @@ e_cert_get_expires_on (ECert *cert)
 	return cert->priv->expires_on_string;
 }
 
+static struct {
+	int bit;
+	const char *text;
+} usageinfo[] = {
+	/* x509 certificate usage types */
+	{ certificateUsageEmailSigner, N_("Sign") },
+	{ certificateUsageEmailRecipient, N_("Encrypt") },
+};
+
+const char*
+e_cert_get_usage(ECert *cert)
+{
+	if (cert->priv->usage_string == NULL) {
+		int i;
+		GString *str = g_string_new("");
+		CERTCertificate *icert = e_cert_get_internal_cert (cert);
+
+		for (i=0;i<sizeof(usageinfo)/sizeof(usageinfo[0]);i++) {
+			if (icert->keyUsage & usageinfo[i].bit) {
+				if (str->len != 0)
+					g_string_append(str, ", ");
+				g_string_append(str, _(usageinfo[i].text));
+			}
+		}
+
+		cert->priv->usage_string = str->str;
+		g_string_free(str, FALSE);
+	}
+
+	return cert->priv->usage_string;
+}
+
 const char*
 e_cert_get_serial_number (ECert *cert)
 {
@@ -453,6 +489,22 @@ e_cert_get_chain (ECert *ecert)
 	}
 
 	return l;
+}
+
+ECert *
+e_cert_get_ca_cert(ECert *ecert)
+{
+	CERTCertificate *cert, *next = e_cert_get_internal_cert(ecert);
+
+	do {
+		cert = next;
+		next = CERT_FindCertIssuer (cert, PR_Now(), certUsageAnyCA);
+	} while (next && next != cert);
+
+	if (cert == e_cert_get_internal_cert(ecert))
+		return g_object_ref(ecert);
+	else
+		return e_cert_new(cert);
 }
 
 static gboolean

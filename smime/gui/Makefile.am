@@ -21,6 +21,8 @@ noinst_LTLIBRARIES = libevolution-smime.la
 libevolution_smime_la_SOURCES = 	\
 	ca-trust-dialog.c		\
 	ca-trust-dialog.h		\
+	cert-trust-dialog.c		\
+	cert-trust-dialog.h		\
 	certificate-manager.c		\
 	certificate-manager.h		\
 	certificate-viewer.c		\

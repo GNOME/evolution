@@ -1,3 +1,30 @@
+2004-05-28  Not Zed  <NotZed@Ximian.com>
+
+	** See bugs #52061 & #52669.
+
+	* gui/smime-ui.glade: added cert-trust-dialog and tweaked the
+	ca-trust-dialog.
+
+	* gui/ca-trust-dialog.c (ca_trust_dialog_show): Fix the %s in the
+	label.  Slack.
+	(ca_trust_dialog_show): slight rearrangement.
+
+	* gui/certificate-manager.c (add_contact_cert): fill out fields.
+
+	* lib/e-cert.c (e_cert_get_usage): helper to get the usage of a
+	cert.
+
+	* gui/certificate-manager.c (edit_ca): use the right certdb, not
+	the e-one.
+	(add_user_cert): fill out missing columns.
+
+	* lib/e-cert.c (e_cert_get_ca_cert): new method to find the ca
+	cert of a cert.
+
+	* gui/cert-trust-dialog.[ch]: peer cert trust editor.
+
+	* gui/certificate-manager.c (edit_contact): implement.
+
 2004-05-17  Jon Oberheide  <jon@focalhost.com>
 
 	* gui/e-cert-selector.c (e_cert_selector_new): add "Select

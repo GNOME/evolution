@@ -88,12 +88,14 @@ PRTime               e_cert_get_issued_on_time  (ECert *cert);
 const char*          e_cert_get_issued_on       (ECert *cert);
 PRTime               e_cert_get_expires_on_time (ECert *cert);
 const char*          e_cert_get_expires_on      (ECert *cert);
+const char*	     e_cert_get_usage(ECert *cert);
 
 const char*          e_cert_get_serial_number    (ECert *cert);
 const char*          e_cert_get_sha1_fingerprint (ECert *cert);
 const char*          e_cert_get_md5_fingerprint  (ECert *cert);
 
 GList*               e_cert_get_chain       (ECert *cert);
+ECert *              e_cert_get_ca_cert     (ECert *ecert);
 EASN1Object*         e_cert_get_asn1_struct (ECert *cert);
 
 gboolean             e_cert_mark_for_deletion (ECert *cert);

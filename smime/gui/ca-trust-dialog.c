@@ -41,13 +41,12 @@ typedef struct {
 	GtkWidget *ssl_checkbutton;
 	GtkWidget *email_checkbutton;
 	GtkWidget *objsign_checkbutton;
-	GtkWidget *view_cert_button;
 
 	ECert *cert;
 } CATrustDialogData;
 
 static void
-free_data (gpointer data, GObject *where_the_object_was)
+free_data (gpointer data)
 {
 	CATrustDialogData *ctd = data;
 
@@ -57,21 +56,26 @@ free_data (gpointer data, GObject *where_the_object_was)
 }
 
 static void
-view_cert (GtkWidget *button, CATrustDialogData *data)
+catd_response(GtkWidget *w, guint id, CATrustDialogData *data)
 {
-	GtkWidget *dialog = certificate_viewer_show (data->cert);
+	switch (id) {
+	case GTK_RESPONSE_ACCEPT: {
+		GtkWidget *dialog = certificate_viewer_show (data->cert);
 
-	gtk_window_set_transient_for (GTK_WINDOW (dialog), GTK_WINDOW (data->dialog));
-
-	gtk_dialog_run (GTK_DIALOG (dialog));
-
-	gtk_widget_destroy (dialog);
+		g_signal_stop_emission_by_name(w, "response");
+		gtk_window_set_transient_for (GTK_WINDOW (dialog), GTK_WINDOW (data->dialog));
+		gtk_dialog_run (GTK_DIALOG (dialog));
+		gtk_widget_destroy (dialog);
+		break; }
+	}
 }
 
 GtkWidget*
 ca_trust_dialog_show (ECert *cert, gboolean importing)
 {
 	CATrustDialogData *ctd_data;
+	GtkWidget *w;
+	char *txt;
 
 	ctd_data = g_new0 (CATrustDialogData, 1);
 	ctd_data->gui = glade_xml_new (EVOLUTION_GLADEDIR "/" GLADE_FILE_NAME, NULL, NULL);
@@ -82,18 +86,15 @@ ca_trust_dialog_show (ECert *cert, gboolean importing)
 	ctd_data->ssl_checkbutton = glade_xml_get_widget (ctd_data->gui, "ssl_trust_checkbutton");
 	ctd_data->email_checkbutton = glade_xml_get_widget (ctd_data->gui, "email_trust_checkbutton");
 	ctd_data->objsign_checkbutton = glade_xml_get_widget (ctd_data->gui, "objsign_trust_checkbutton");
-	ctd_data->view_cert_button = glade_xml_get_widget (ctd_data->gui, "view_certificate_button");
 
-	g_signal_connect (ctd_data->view_cert_button,
-			  "clicked", G_CALLBACK (view_cert),
-			  ctd_data);
+	w = glade_xml_get_widget(ctd_data->gui, "ca-trust-label");
+	txt = g_strdup_printf(_("Certificate '%s' is a CA certificate.\n\nEdit trust settings:"), e_cert_get_cn(cert));
+	gtk_label_set_text((GtkLabel *)w, txt);
+	g_free(txt);
 
-	gtk_widget_realize (ctd_data->dialog);
-	gtk_container_set_border_width (GTK_CONTAINER (GTK_DIALOG (ctd_data->dialog)->action_area), 12);
+	g_signal_connect (ctd_data->dialog, "response", G_CALLBACK (catd_response), ctd_data);
 
-	g_object_weak_ref (G_OBJECT (ctd_data->dialog), free_data, ctd_data);
-
-	g_object_set_data (G_OBJECT (ctd_data->dialog), "CATrustDialogData", ctd_data);
+	g_object_set_data_full (G_OBJECT (ctd_data->dialog), "CATrustDialogData", ctd_data, free_data);
 
 	return ctd_data->dialog;
 }
