@@ -347,7 +347,7 @@ header_match(const char *value, const char *match, camel_search_match_t how)
 	
 	if (how == CAMEL_SEARCH_MATCH_SOUNDEX)
 		return header_soundex (value, match);
-	
+
 	vlen = strlen(value);
 	mlen = strlen(match);
 	if (vlen < mlen)

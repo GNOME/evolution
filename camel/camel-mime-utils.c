@@ -4080,11 +4080,11 @@ header_fold(const char *in, size_t headerlen)
 			g_string_append(out, "\n\t");
 			outlen = 1;
 			/* check for very long words, just cut them up */
-			while (outlen+len > CAMEL_FOLD_SIZE) {
-				for (i=0;i<CAMEL_FOLD_SIZE-outlen;i++)
+			while (outlen+len > CAMEL_FOLD_MAX_SIZE) {
+				for (i=0;i<CAMEL_FOLD_MAX_SIZE-outlen;i++)
 					g_string_append_c(out, inptr[i]);
-				inptr += CAMEL_FOLD_SIZE-outlen;
-				len -= CAMEL_FOLD_SIZE-outlen;
+				inptr += CAMEL_FOLD_MAX_SIZE-outlen;
+				len -= CAMEL_FOLD_MAX_SIZE-outlen;
 				g_string_append(out, "\n\t");
 				outlen = 1;
 			}
