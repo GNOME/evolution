@@ -1,3 +1,12 @@
+2001-07-30  Jason Leach  <jleach@ximian.com>
+
+	* gui/component/addressbook-storage.c (load_source_data): Fix a
+	return value bug, to make it so if it fails to load an
+	addressbook-sources.xml file (either a parse error or it doesn't
+	exist for example), it deregisters the storage.
+	(register_storage): Don't make a storage for users who don't have
+	LDAP support built in.  Bug #1950.
+
 2001-07-30  Frederic Crozat  <fcrozat@mandrakesoft.com>
 
 	* addressbook/gui/component/addressbook-factory.c: Fix crashes

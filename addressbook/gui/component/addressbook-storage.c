@@ -61,6 +61,7 @@
 
 #include <libgnome/gnome-defs.h>
 #include <libgnome/gnome-i18n.h>
+#include <libgnome/gnome-util.h>
 #include <bonobo/bonobo-object.h>
 
 #include <gal/util/e-util.h>
@@ -76,8 +77,8 @@
 
 static gboolean load_source_data (const char *file_path);
 static gboolean save_source_data (const char *file_path);
-static void register_storage(void);
-static void deregister_storage(void);
+static void register_storage (void);
+static void deregister_storage (void);
 
 static GList *sources;
 static EvolutionStorage *storage;
@@ -102,13 +103,15 @@ addressbook_storage_setup (EvolutionShellComponent *shell_component,
 
 	if (storage_path)
 		g_free (storage_path);
-	storage_path = g_strdup_printf ("%s/" ADDRESSBOOK_SOURCES_XML, evolution_homedir);
-	load_source_data (storage_path);
+	storage_path = g_concat_dir_and_file (evolution_homedir, ADDRESSBOOK_SOURCES_XML);
+	if (!load_source_data (storage_path))
+		deregister_storage ();
 }
 
 static void 
-register_storage() 
+register_storage (void) 
 {
+#ifdef HAVE_LDAP
 	EvolutionStorageResult result;
 
 	if (storage == NULL) {
@@ -134,12 +137,13 @@ register_storage()
 			break;
 		}
 	}
+#endif
 }
 
 static void 
-deregister_storage() 
+deregister_storage (void)
 {
-	if (evolution_storage_deregister_on_shell(storage, corba_shell) != 
+	if (evolution_storage_deregister_on_shell (storage, corba_shell) != 
 	    EVOLUTION_STORAGE_OK) {
 		g_warning("couldn't deregister storage");
 	}
@@ -248,13 +252,13 @@ load_source_data (const char *file_path)
 	xmlNode *root;
 	xmlNode *child;
 
-	register_storage();
+	register_storage ();
 
  tryagain:
 	doc = xmlParseFile (file_path);
 	if (doc == NULL) {
-		/* check to see if a ldapserver.xml.new file is
-                   there.  if it is, rename it and run with it */
+		/* Check to see if a addressbook-sources.xml.new file
+                   exists.  If it does, rename it and try loading it */
 		char *new_path = g_strdup_printf ("%s.new", file_path);
 		struct stat sb;
 
@@ -264,19 +268,17 @@ load_source_data (const char *file_path)
 			rv = rename (new_path, file_path);
 			g_free (new_path);
 
-			if (0 > rv) {
+			if (rv < 0) {
 				g_error ("Failed to rename %s: %s\n",
 					 ADDRESSBOOK_SOURCES_XML,
 					 strerror(errno));
 				return FALSE;
-			}
-			else {
+			} else
 				goto tryagain;
-			}
 		}
 
 		g_free (new_path);
-		return TRUE;
+		return FALSE;
 	}
 
 	root = xmlDocGetRootElement (doc);
@@ -325,12 +327,10 @@ load_source_data (const char *file_path)
 		g_free (path);
 	}
 
-	if (g_list_length(sources) == 0) {
+	if (g_list_length (sources) == 0)
 		deregister_storage();
-	}
 
 	xmlFreeDoc (doc);
-
 	return TRUE;
 }
 
@@ -447,8 +447,8 @@ addressbook_storage_add_source (AddressbookSource *source)
 
 	sources = g_list_append (sources, source);
 
-	/* and then to the ui */
-	register_storage();
+	/* And then to the ui */
+	register_storage ();
 	path = g_strdup_printf ("/%s", source->name);
 	evolution_storage_new_folder (storage, path, source->name, "contacts",
 				      source->uri, source->description, FALSE);
@@ -484,9 +484,8 @@ addressbook_storage_remove_source (const char *name)
 	path = g_strdup_printf ("/%s", name);
 	evolution_storage_removed_folder (storage, path);
 
-	if (g_list_length(sources) == 0) {
-		deregister_storage();
-	}
+	if (g_list_length (sources) == 0) 
+		deregister_storage ();
 
 	g_free (path);
 }
@@ -542,16 +541,16 @@ addressbook_source_foreach (AddressbookSource *source, gpointer data)
 }
 
 void
-addressbook_storage_clear_sources ()
+addressbook_storage_clear_sources (void)
 {
 	g_list_foreach (sources, (GFunc)addressbook_source_foreach, NULL);
 	g_list_free (sources);
-	deregister_storage();
+	deregister_storage ();
 	sources = NULL;
 }
 
 void
-addressbook_storage_write_sources ()
+addressbook_storage_write_sources (void)
 {
 	save_source_data (storage_path);
 }
