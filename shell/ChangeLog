@@ -1,3 +1,18 @@
+2002-04-17  Ettore Perazzoli  <ettore@ximian.com>
+
+	* e-storage-set-view.c (handle_evolution_path_drag_motion):
+	Removed.
+	(impl_tree_drag_motion): Rewritten to use
+	`e_folder_dnd_bridge_motion()'.
+	(impl_tree_drag_data_received): Rewritten to use
+	`e_folder_dnd_bridge_data_received()'.
+	(convert_gdk_drag_action_to_corba): Removed.
+	(convert_corba_drag_action_to_gdk): Removed.
+	(find_matching_target_for_drag_context): Removed.
+
+	* e-folder-dnd-bridge.c: New.
+	* e-folder-dnd-bridge.h: New.
+
 2002-04-10  Dan Winship  <danw@ximian.com>
 
 	* e-shell-config.c: Shell config page routines. Right now

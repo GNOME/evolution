@@ -114,6 +114,8 @@ evolution_SOURCES =				\
 	e-corba-storage-registry.h		\
 	e-corba-storage.c			\
 	e-corba-storage.h			\
+	e-folder-dnd-bridge.c			\
+	e-folder-dnd-bridge.h			\
 	e-folder-type-registry.c		\
 	e-folder-type-registry.h		\
 	e-folder.c				\
