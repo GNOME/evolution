@@ -1,3 +1,7 @@
+2000-04-26  Christopher James Lahey  <clahey@helixcode.com>
+
+	* src/test/Makefile.in: Removed.
+
 2000-04-25  Ettore Perazzoli  <ettore@helixcode.com>
 
 	* src/libicalss/Makefile.am (INCLUDES): Use `$(srcdir)' properly.
