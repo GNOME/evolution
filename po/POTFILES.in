@@ -392,11 +392,7 @@ tools/evolution-launch-composer.c
 tools/killev.c
 ui/evolution-addressbook.xml
 ui/evolution-calendar.xml
-ui/evolution-comp-editor.xml
 ui/evolution-composer-entries.xml
-ui/evolution-contact-editor.xml
-ui/evolution-contact-list-editor.xml
-ui/evolution-event-editor.xml
 ui/evolution-executive-summary.xml
 ui/evolution-mail-global.xml
 ui/evolution-mail-list.xml
@@ -405,7 +401,6 @@ ui/evolution-mail-message.xml
 ui/evolution-message-composer.xml
 ui/evolution-signature-editor.xml
 ui/evolution-subscribe.xml
-ui/evolution-task-editor.xml
 ui/evolution-tasks.xml
 ui/evolution.xml
 views/addressbook/galview.xml
