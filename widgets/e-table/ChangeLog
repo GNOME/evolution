@@ -1,3 +1,11 @@
+2000-04-10  Miguel de Icaza  <miguel@gnu.org>
+
+	* e-table-header-item.c (ethi_drag_motion): Drop frozen count
+	support from here. 
+	(ethi_start_drag): ditto.
+
+	* e-table-header.h: Kill frozen_count.
+
 2000-04-09  Matt Loper  <matt@helixcode.com>
 
 	* e-table-col.c (e_table_col_new_with_pixbuf): ref etc->ecell,

@@ -715,8 +715,6 @@ et_xml_to_header (ETable *e_table, ETableHeader *full_header, xmlNode *xmlColumn
 		e_table_header_add_column (nh, e_table_header_get_column (full_header, col), -1);
 	}
 
-	e_table_header_set_frozen_columns (nh, e_xml_get_integer_prop_by_name(xmlColumns, "frozen_columns"));
-	
 	return nh;
 }
 
@@ -864,8 +862,7 @@ et_build_column_spec (ETable *e_table)
 		xmlNewChild (columns_shown, NULL, "column", text);
 		g_free (text);
 	}
-	if (e_table->header->frozen_count != 0)
-		e_xml_set_integer_prop_by_name (columns_shown, "frozen_columns", e_table->header->frozen_count);
+
 	return columns_shown;
 }
 

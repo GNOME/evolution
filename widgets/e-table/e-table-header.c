@@ -95,7 +95,6 @@ e_table_header_new (void)
 	ETableHeader *eth;
 
 	eth = gtk_type_new (e_table_header_get_type ());
-	eth->frozen_count = 0;
 
 	return eth;
 }
@@ -343,12 +342,6 @@ e_table_header_col_diff (ETableHeader *eth, int start_col, int end_col)
 	}
 
 	return total;
-}
-
-void
-e_table_header_set_frozen_columns (ETableHeader *eth, int idx)
-{
-	eth->frozen_count = idx;
 }
 
 /* Forget model-view here.  Really, this information belongs in the view anyway. */

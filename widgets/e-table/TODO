@@ -2,7 +2,7 @@ Short Term TODO items:
 
 Functionality:
 
-	1. Remove the internal XML API.
+#	1. Remove the internal XML API.
 	2. Implement GUI grouping.
 	3. Implement context menu on item-bars.
 	4. Implement config tool for the view.

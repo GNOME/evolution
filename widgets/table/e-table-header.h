@@ -30,7 +30,6 @@ struct _ETableHeader {
 	int col_count;
 	ETableCol **columns;
 	gboolean selectable;
-        int frozen_count;
 
 #if 0
 	ETableHeaderSortInfo sort_info;
@@ -82,7 +81,6 @@ void        e_table_header_remove        (ETableHeader *eth, int idx);
 void        e_table_header_set_size      (ETableHeader *eth, int idx, int size);
 void        e_table_header_set_selection (ETableHeader *eth,
 					  gboolean allow_selection);
-void        e_table_header_set_frozen_columns (ETableHeader *eth, int idx);
 
 int         e_table_header_col_diff      (ETableHeader *eth,
 					  int start_col, int end_col);
