@@ -491,7 +491,7 @@ dnl ******************************
 
 AC_CONFIG_SUBDIRS(libical)
 
-EVOLUTION_DIR=`(cd srcdir; pwd)`
+EVOLUTION_DIR=`(cd $srcdir; pwd)`
 AC_SUBST(EVOLUTION_DIR)
 
 AC_OUTPUT([

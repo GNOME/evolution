@@ -1,5 +1,7 @@
 2000-07-17  Federico Mena Quintero  <federico@helixcode.com>
 
+	* configure.in (EVOLUTION_DIR): Typo fix.
+
 	* configure.in (AC_OUTPUT): Added the doc/devel Makefiles.
 	(EVOLUTION_DIR): Substitute EVOLUTION_DIR for the top_srcdir.
 	Added checks for gtk-doc.
