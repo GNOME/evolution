@@ -316,7 +316,6 @@ command_create_folder (BonoboUIHandler *uih,
 		       void *data,
 		       const char *path)
 {
-	GtkWidget *folder_selection_dialog;
 	EShellView *shell_view;
 	EShell *shell;
 	const char *current_uri;
@@ -347,14 +346,10 @@ func (GtkWidget *widget, gpointer data)					\
 
 DEFINE_UNIMPLEMENTED (command_new_shortcut)
 DEFINE_UNIMPLEMENTED (command_new_mail_message)
-DEFINE_UNIMPLEMENTED (command_new_meeting_request)
 DEFINE_UNIMPLEMENTED (command_new_contact)
 DEFINE_UNIMPLEMENTED (command_new_task)
 DEFINE_UNIMPLEMENTED (command_new_task_request)
 DEFINE_UNIMPLEMENTED (command_new_journal_entry)
-DEFINE_UNIMPLEMENTED (command_new_note)
-DEFINE_UNIMPLEMENTED (command_open_selected_items)
-DEFINE_UNIMPLEMENTED (command_close_open_items)
 
 
 /*
@@ -377,52 +372,33 @@ static GnomeUIInfo menu_file_new [] = {
 	
 	GNOMEUIINFO_SEPARATOR,
 
-	{ GNOME_APP_UI_ITEM, N_("_Mail message"),
+	{ GNOME_APP_UI_ITEM, N_("_Mail message (FIXME)"),
 	  N_("Composes a new mail message"), command_new_mail_message, NULL,
 	  NULL, 0, 0, 'n', GDK_CONTROL_MASK | GDK_SHIFT_MASK },
-	{ GNOME_APP_UI_ITEM, N_("_Appointment"),
+	{ GNOME_APP_UI_ITEM, N_("_Appointment (FIXME)"),
 	  N_("Composes a new mail message"), command_new_mail_message, NULL,
 	  NULL, 0, 0, 'a', GDK_CONTROL_MASK | GDK_SHIFT_MASK },
-	{ GNOME_APP_UI_ITEM, N_("Meeting Re_quest"), NULL,
-	  command_new_meeting_request, NULL,
-	  NULL, 0, 0, 'q', GDK_CONTROL_MASK | GDK_SHIFT_MASK },
-	{ GNOME_APP_UI_ITEM, N_("_Contact"), NULL,
+	{ GNOME_APP_UI_ITEM, N_("_Contact (FIXME)"), NULL,
 	  command_new_contact, NULL,
 	  NULL, 0, 0, 'c', GDK_CONTROL_MASK | GDK_SHIFT_MASK },
-	{ GNOME_APP_UI_ITEM, N_("_Task"), NULL,
+	{ GNOME_APP_UI_ITEM, N_("_Task (FIXME)"), NULL,
 	  command_new_task, NULL,
 	  NULL, 0, 0, 'k', GDK_CONTROL_MASK | GDK_SHIFT_MASK },
-	{ GNOME_APP_UI_ITEM, N_("Task _Request"), NULL,
+	{ GNOME_APP_UI_ITEM, N_("Task _Request (FIXME)"), NULL,
 	  command_new_task_request, NULL,
 	  NULL, 0, 0, 'u', GDK_CONTROL_MASK | GDK_SHIFT_MASK },
-	{ GNOME_APP_UI_ITEM, N_("_Journal Entry"), NULL,
+	{ GNOME_APP_UI_ITEM, N_("_Journal Entry (FIXME)"), NULL,
 	  command_new_journal_entry, NULL,
 	  NULL, 0, 0, 'j', GDK_CONTROL_MASK | GDK_SHIFT_MASK },
-	{ GNOME_APP_UI_ITEM, N_("_Note"), NULL,
-	  command_new_note, NULL,
-	  NULL, 0, 0, 'o', GDK_CONTROL_MASK | GDK_SHIFT_MASK },
 
-	GNOMEUIINFO_SEPARATOR,
-
-	GNOMEUIINFO_END
-};
-
-static GnomeUIInfo menu_file_open [] = {
-	{ GNOME_APP_UI_ITEM, N_("_Selected Items"), NULL,
-	  command_open_selected_items, NULL,
-	  NULL, 0, 0, 'o', GDK_CONTROL_MASK },
-	
 	GNOMEUIINFO_END
 };
 
 static GnomeUIInfo menu_file [] = {
 	GNOMEUIINFO_SUBTREE_STOCK (N_("_New"), menu_file_new, GNOME_STOCK_MENU_NEW),
-	GNOMEUIINFO_SUBTREE_STOCK (N_("_Open"), menu_file_open, GNOME_STOCK_MENU_NEW),
 
-	GNOMEUIINFO_ITEM_NONE (N_("Clos_e All Items"), N_("Closes all the open items"),
-			       command_close_open_items),
 	GNOMEUIINFO_SEPARATOR,
-
+	
 	GNOMEUIINFO_ITEM_NONE (N_("_Go to folder..."), N_("Display a different folder"),
 			       command_goto_folder),
 	GNOMEUIINFO_ITEM_NONE (N_("_Create new folder..."), N_("Create a new folder"),

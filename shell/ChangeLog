@@ -1,3 +1,10 @@
+2000-07-08  Ettore Perazzoli  <ettore@helixcode.com>
+
+	* e-shell-view-menu.c: Cleanup some unused menu items and added
+	"FIXMEs" for the ones we plan to add in the short term but are not
+	implemented yet.
+	(command_create_folder): Get rid of an unused variable.
+
 2000-07-07  Ettore Perazzoli  <ettore@helixcode.com>
 
 	* evolution-shell-client.c (user_select_folder): Fix small warning
