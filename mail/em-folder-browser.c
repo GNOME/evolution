@@ -632,7 +632,7 @@ emfb_mail_compose(BonoboUIComponent *uid, void *data, const char *path)
 static void
 emfb_mail_stop(BonoboUIComponent *uid, void *data, const char *path)
 {
-	camel_operation_cancel(NULL);
+	mail_cancel_all();
 }
 
 static void

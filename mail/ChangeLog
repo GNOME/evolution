@@ -1,3 +1,26 @@
+2004-06-16  Not Zed  <NotZed@Ximian.com>
+
+	** See #56479.
+
+	* em-utils.c (em_utils_in_addressbook): use the main thread to
+	setup the addressbook list.
+	(em_utils_in_addressbook): only check against the "completion"
+	sources, not all of them.
+
+2004-06-15  Not Zed  <NotZed@Ximian.com>
+
+	* em-folder-browser.c (emfb_mail_stop): call mail_cancel_all to
+	implement the stop button.
+
+	* em-utils.c (emu_addr_sources_refresh): don't unref the group
+	list, otherwise the sources become broken now (?).
+	(em_utils_in_addressbook): add some locking.  add cancellation.
+	this is almost certainly going to cause issues.
+
+	* mail-mt.c (mail_cancel_hook_add, mail_cancel_hook_remove)
+	(mail_cancel_all): new functions to implement a global mailer stop
+	button.
+
 2004-06-15  Jeffrey Stedfast  <fejj@ximian.com>
 
 	* mail-ops.c (save_part_save): This code no longer needs to do

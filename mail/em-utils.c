@@ -1663,42 +1663,41 @@ struct _addr_node {
 
 #define EMU_ADDR_CACHE_TIME (60*30) /* in seconds */
 
-static GSList *emu_addr_sources;
+static pthread_mutex_t emu_addr_lock = PTHREAD_MUTEX_INITIALIZER;
+static ESourceList *emu_addr_list;
 static GHashTable *emu_addr_cache;
 
-static void
-emu_addr_sources_refresh(void)
+/* runs sync, in main thread */
+static void *
+emu_addr_setup(void *dummy)
 {
 	GError *err = NULL;
-	ESourceList *list;
-	GSList *g, *s, *groups, *sources;
 
-	g_slist_foreach(emu_addr_sources, (GFunc)g_object_unref, NULL);
-	g_slist_free(emu_addr_sources);
-	emu_addr_sources = NULL;
+	emu_addr_cache = g_hash_table_new(g_str_hash, g_str_equal);
 
-	if (!e_book_get_addressbooks(&list, &err)) {
+	if (!e_book_get_addressbooks(&emu_addr_list, &err))
 		g_error_free(err);
-		return;
-	}
 
-	groups = e_source_list_peek_groups(list);
-	for (g=groups;g;g=g_slist_next(g)) {
-		sources = e_source_group_peek_sources((ESourceGroup *)g->data);
-		for (s=sources;s;s=g_slist_next(s)) {
-			emu_addr_sources = g_slist_prepend(emu_addr_sources, g_object_ref(s->data));
-		}
-	}
+	return NULL;
+}
 
-	g_object_unref(list);
+static void
+emu_addr_cancel_book(void *data)
+{
+	EBook *book = data;
+	GError *err = NULL;
+
+	/* we dunna care if this fails, its just the best we can try */
+	e_book_cancel(book, &err);
+	g_clear_error(&err);
 }
 
 gboolean
 em_utils_in_addressbook(CamelInternetAddress *iaddr)
 {
 	GError *err = NULL;
-	GSList *s;
-	int found = FALSE;
+	GSList *s, *g, *addr_sources = NULL;
+	int stop = FALSE, found = FALSE;
 	EBookQuery *query;
 	const char *addr;
 	struct _addr_node *node;
@@ -1708,69 +1707,106 @@ em_utils_in_addressbook(CamelInternetAddress *iaddr)
 	if (!camel_internet_address_get(iaddr, 0, NULL, &addr))
 		return FALSE;
 
+	pthread_mutex_lock(&emu_addr_lock);
+
 	if (emu_addr_cache == NULL) {
-		emu_addr_cache = g_hash_table_new(g_str_hash, g_str_equal);
-		emu_addr_sources_refresh();
+		mail_call_main(MAIL_CALL_p_p, emu_addr_setup, NULL);
+	}
+
+	if (emu_addr_list == NULL) {
+		pthread_mutex_unlock(&emu_addr_lock);
+		return FALSE;
 	}
 
 	now = time(0);
 
-	printf("Checking '%s' is in addressbook", addr);
+	d(printf("Checking '%s' is in addressbook", addr));
 
 	node = g_hash_table_lookup(emu_addr_cache, addr);
 	if (node) {
-		printf(" -> cached, found %s\n", node->found?"yes":"no");
-		if (node->stamp + EMU_ADDR_CACHE_TIME > now)
-			return node->found;
-		printf("    but expired!\n");
+		d(printf(" -> cached, found %s\n", node->found?"yes":"no"));
+		if (node->stamp + EMU_ADDR_CACHE_TIME > now) {
+			found = node->found;
+			pthread_mutex_unlock(&emu_addr_lock);
+			return found;
+		}
+		d(printf("    but expired!\n"));
 	} else {
-		printf(" -> not found in cache\n");
+		d(printf(" -> not found in cache\n"));
 		node = g_malloc0(sizeof(*node));
 		node->addr = g_strdup(addr);
+		g_hash_table_insert(emu_addr_cache, node->addr, node);
 	}
 
 	query = e_book_query_field_test(E_CONTACT_EMAIL, E_BOOK_QUERY_IS, addr);
 
-	for (s = emu_addr_sources;!found && s;s=g_slist_next(s)) {
+	/* FIXME: this aint threadsafe by any measure, but what can you do eh??? */
+
+	for (g = e_source_list_peek_groups(emu_addr_list);g;g=g_slist_next(g)) {
+		for (s = e_source_group_peek_sources((ESourceGroup *)g->data);s;s=g_slist_next(s)) {
+			ESource *src = s->data;
+			const char *completion = e_source_get_property (src, "completion");
+
+			if (completion && !g_ascii_strcasecmp (completion, "true")) {
+				addr_sources = g_slist_prepend(addr_sources, src);
+				g_object_ref(src);
+			}
+		}
+	}
+
+	for (s = addr_sources;!stop && !found && s;s=g_slist_next(s)) {
 		ESource *source = s->data;
 		GList *contacts;
 		EBook *book;
+		void *hook;
 
-		printf(" checking '%s'\n", e_source_get_uri(source));
+		d(printf(" checking '%s'\n", e_source_get_uri(source)));
 
+		/* could this take a while?  no way to cancel it? */
 		book = e_book_new(source, &err);
 
-		if (!book
-		    || !e_book_open(book, TRUE, &err)) {
-			printf("couldn't load source?\n");
+		if (book == NULL) {
+			g_warning("Unable to create addressbook: %s", err->message);
 			g_clear_error(&err);
-			g_object_unref(book);
 			continue;
 		}
 
-		if (!e_book_get_contacts(book, query, &contacts, &err)) {
-			printf("Can't get contacts?\n");
-			g_clear_error(&err);
+		hook = mail_cancel_hook_add(emu_addr_cancel_book, book);
+
+		/* ignore errors, but cancellation errors we don't try to go further either */
+		if (!e_book_open(book, TRUE, &err)
+		    || !e_book_get_contacts(book, query, &contacts, &err)) {
+			stop = err->domain == E_BOOK_ERROR && err->code == E_BOOK_ERROR_CANCELLED;
+			mail_cancel_hook_remove(hook);
 			g_object_unref(book);
+			g_warning("Can't get contacts: %s", err->message);
+			g_clear_error(&err);
 			continue;
 		}
 
-		found = contacts != NULL;
+		mail_cancel_hook_remove(hook);
 
-		printf(" %s\n", found?"found":"not found");
+		if (contacts != NULL) {
+			found = TRUE;
+			g_list_foreach(contacts, (GFunc)g_object_unref, NULL);
+			g_list_free(contacts);
+		}
 
-		g_list_foreach(contacts, (GFunc)g_object_unref, NULL);
-		g_list_free(contacts);
+		d(printf(" %s\n", stop?"found":"not found"));
 
 		g_object_unref(book);
 	}
 
+	g_slist_free(addr_sources);
+
+	if (!stop) {
+		node->found = found;
+		node->stamp = now;
+	}
+
 	e_book_query_unref(query);
 
-	node->found = found;
-	node->stamp = now;
-
-	g_hash_table_insert(emu_addr_cache, node->addr, node);
+	pthread_mutex_unlock(&emu_addr_lock);
 
 	return found;
 }
@@ -1779,7 +1815,7 @@ em_utils_in_addressbook(CamelInternetAddress *iaddr)
  * em_utils_snoop_type:
  * @part: 
  * 
- * Rries to snoop the mime type of a part.
+ * Tries to snoop the mime type of a part.
  * 
  * Return value: NULL if unknown (more likely application/octet-stream).
  **/

@@ -352,6 +352,60 @@ void mail_msg_wait_all(void)
 	}
 }
 
+/* **************************************** */
+struct _cancel_hook_data {
+	struct _cancel_hook_data *next;
+	struct _cancel_hook_data *prev;
+
+	GDestroyNotify func;
+	void *data;
+};
+
+static EDList cancel_hook_list = E_DLIST_INITIALISER(cancel_hook_list);
+
+void *mail_cancel_hook_add(GDestroyNotify func, void *data)
+{
+	struct _cancel_hook_data *d;
+
+	d = g_malloc0(sizeof(*d));
+	d->func = func;
+	d->data = data;
+
+	MAIL_MT_LOCK(mail_msg_lock);
+	e_dlist_addtail(&cancel_hook_list, (EDListNode *)d);
+	MAIL_MT_UNLOCK(mail_msg_lock);
+
+	return (void *)d;
+}
+
+void mail_cancel_hook_remove(void *handle)
+{
+	struct _cancel_hook_data *d = handle;
+
+	MAIL_MT_LOCK(mail_msg_lock);
+	e_dlist_remove((EDListNode *)d);
+	MAIL_MT_UNLOCK(mail_msg_lock);
+	g_free(d);
+}
+
+void mail_cancel_all(void)
+{
+	struct _cancel_hook_data *d, *n;
+
+	camel_operation_cancel(NULL);
+
+	/* I can ssee a deadlock coming on ... */
+	MAIL_MT_LOCK(mail_msg_lock);
+	d = (struct _cancel_hook_data *)cancel_hook_list.head;
+	n = d->next;
+	while (n) {
+		d->func(d->data);
+		d = n;
+		n = n->next;
+	}
+	MAIL_MT_UNLOCK(mail_msg_lock);
+}
+
 EMsgPort		*mail_gui_port;
 static GIOChannel	*mail_gui_channel;
 static guint		 mail_gui_watch;
