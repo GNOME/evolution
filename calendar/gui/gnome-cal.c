@@ -680,6 +680,7 @@ update_query (GnomeCalendar *gcal)
 		if (e_cal_get_load_state ((ECal *) l->data) != E_CAL_LOAD_LOADED)
 			continue;
 
+		old_query = NULL;
 		if (!e_cal_get_query ((ECal *) l->data, real_sexp, &old_query, NULL)) {
 			g_warning (G_STRLOC ": Could not create the query");
 
@@ -2243,6 +2244,7 @@ gnome_calendar_remove_source_by_uid (GnomeCalendar *gcal, ECalSourceType source_
 	ECal *client;
 	ECalModel *model;
 	int i;
+	GList *l;
 
 	g_return_val_if_fail (gcal != NULL, FALSE);
 	g_return_val_if_fail (GNOME_IS_CALENDAR (gcal), FALSE);
@@ -2260,10 +2262,24 @@ gnome_calendar_remove_source_by_uid (GnomeCalendar *gcal, ECalSourceType source_
 
 	switch (source_type) {
 	case E_CAL_SOURCE_TYPE_EVENT:
+		/* remove the query for this client */
+		for (l = priv->dn_queries; l != NULL; l = l->next) {
+			ECalView *query = l->data;
+
+			if (query && (client == e_cal_view_get_client (query))) {
+				g_signal_handlers_disconnect_matched (query, G_SIGNAL_MATCH_DATA,
+								      0, 0, NULL, NULL, gcal);
+				priv->dn_queries = g_list_remove (priv->dn_queries, query);
+				g_object_unref (query);
+				break;
+			}
+		}
+
 		for (i = 0; i < GNOME_CAL_LAST_VIEW; i++) {
 			model = e_calendar_view_get_model (priv->views[i]);
 			e_cal_model_remove_client (model, client);
 		}
+
 		break;
 		
 	case E_CAL_SOURCE_TYPE_TODO:
