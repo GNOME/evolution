@@ -81,7 +81,7 @@ get_header (CamelMimeMessage *message,
 {
 	const char *value;
 
-	value = camel_medium_get_header (CAMEL_MEDIUM (message), "Sender");
+	value = camel_medium_get_header (CAMEL_MEDIUM (message), header_name);
 	if (value == NULL)
 		return NULL;
 

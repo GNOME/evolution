@@ -311,7 +311,7 @@ filter_gui_add_for_mailing_list (CamelMimeMessage *msg,
 	systemrules = g_strdup_printf("%s/evolution/filtertypes.xml", EVOLUTION_DATADIR);
 	rule_context_load((RuleContext *)fc, systemrules, userrules, NULL, NULL);
 
-	rule = filter_rule_new ();
+	rule = (FilterRule *) filter_filter_new ();
 
 	part = rule_context_create_part((RuleContext *)fc, "header");
 	filter_rule_add_part((FilterRule *)rule, part);

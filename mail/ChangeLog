@@ -1,5 +1,18 @@
 2000-09-12  Ettore Perazzoli  <ettore@helixcode.com>
 
+	* message-list.c (on_right_click): Also display the name of the
+	mailing list in the "Filter on Mailing List" item for additional
+	Coolness factor.
+
+	* mail-autofilter.c (filter_gui_add_for_mailing_list): Create the
+	rule with `filter_filter_new()' so that it also has an action
+	part.
+
+	* mail-mlist-magic.c (get_header): Use the right header name to
+	retrieve the header.
+
+2000-09-12  Ettore Perazzoli  <ettore@helixcode.com>
+
 	* message-list.c (on_right_click): Grey out the mailing list
 	filter item if `mail_mlist_magic_detect_list()' returns NULL on
 	this message [i.e., if we cannot figure out a mailing list for
@@ -12,6 +25,7 @@
 	(check_delivered_to): Likewise.
 	(check_x_mailing_list): Likewise.
 	(check_x_loop): Likewise.
+	(get_header): Use the right header name to retrieve the header.
 
 	* message-list.c (on_right_click): Mark strings for translation.
 

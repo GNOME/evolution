@@ -1254,22 +1254,35 @@ on_right_click (ETableScrolled *table, gint row, gint col, GdkEvent *event, Mess
 		{ _("Filter on Mailing List"),  NULL, GTK_SIGNAL_FUNC (filter_mlist),      6 },
 		{ NULL,                         NULL, NULL,                                0 }
 	};
+	int last_item;
+	char *mailing_list_name;
+
+	/* Evil Hack.  */
+
+	last_item = (sizeof (menu) / sizeof (*menu)) - 2;
 
 	if (fb->folder != drafts_folder)
 		enable_mask |= 1;
 
 	if (fb->mail_display->current_message == NULL) {
-		enable_mask |= 6;
+		enable_mask |= 2;
+		mailing_list_name = NULL;
 	} else {
-		char *mailing_list_name;
-
 		mailing_list_name = mail_mlist_magic_detect_list (fb->mail_display->current_message,
 								  NULL, NULL);
-		if (mailing_list_name == NULL)
-			enable_mask |= 4;
+	}
+
+	if (mailing_list_name == NULL) {
+		enable_mask |= 4;
+		menu[last_item].name = g_strdup (_("Filter on Mailing List"));
+	} else {
+		menu[last_item].name = g_strdup_printf (_("Filter on Mailing List (%s)"),
+							mailing_list_name);
 	}
 
 	e_popup_menu_run (menu, (GdkEventButton *)event, enable_mask, 0, fb);
+
+	g_free (menu[last_item].name);
 	
 	return TRUE;
 }
