@@ -490,8 +490,8 @@ group_key_press (ETableGroup *etg, int row, int col, GdkEvent *event, ETable *et
 		y -= vadj->value;
 		e_table_get_cell_at (et, 30, y, &row_local, &col_local);
 		row_local = e_table_view_to_model_row (et, row_local);
-		col_local = e_selection_model_cursor_col(E_SELECTION_MODEL (et->selection));
-		e_selection_model_do_something(E_SELECTION_MODEL (et->selection), row_local, col_local, key->state);
+		col_local = e_selection_model_cursor_col (E_SELECTION_MODEL (et->selection));
+		e_selection_model_select_as_key_press (E_SELECTION_MODEL (et->selection), row_local, col_local, key->state);
 		return_val = 1;
 		break;
 	case GDK_Page_Up:
@@ -500,8 +500,8 @@ group_key_press (ETableGroup *etg, int row, int col, GdkEvent *event, ETable *et
 		y -= vadj->value;
 		e_table_get_cell_at (et, 30, y, &row_local, &col_local);
 		row_local = e_table_view_to_model_row (et, row_local);
-		col_local = e_selection_model_cursor_col(E_SELECTION_MODEL (et->selection));
-		e_selection_model_do_something(E_SELECTION_MODEL (et->selection), row_local, col_local, key->state);
+		col_local = e_selection_model_cursor_col (E_SELECTION_MODEL (et->selection));
+		e_selection_model_select_as_key_press (E_SELECTION_MODEL (et->selection), row_local, col_local, key->state);
 		return_val = 1;
 		break;
 	default:
