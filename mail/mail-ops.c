@@ -927,8 +927,8 @@ transfer_messages_transfer (struct _mail_msg *mm)
 			
 			/* Undelete the messages if they are marked as deleted */
 			for (i = 0; i < m->uids->len; i++)
-				camel_folder_set_message_flags (m->source, uids->pdata[i],
-								CAMEL_MESSAGE_DELETED, 0)
+				camel_folder_set_message_flags (m->source, m->uids->pdata[i],
+								CAMEL_MESSAGE_DELETED, 0);
 		} else {
 			(func) (m->source, m->uids, dest, &mm->ex);
 		}
