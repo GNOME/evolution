@@ -1,5 +1,23 @@
 2004-02-03  Jeffrey Stedfast  <fejj@ximian.com>
 
+	* camel-vee-folder.c (vee_folder_build_folder): Use macro casts
+	from int to pointer.
+
+	* camel-folder.c (camel_folder_change_info_add_source): Same as below.
+	(camel_folder_change_info_add_source_list): Same.
+
+	* camel-folder-search.c (camel_folder_search_execute_expression):
+	Use GINT_TO_POINTER() to cast 1 to a pointer for
+	g_hash_table_insert().
+
+	* camel-vee-folder.c (vee_folder_remove_folder): 64bit fixes.
+	(folder_added_uid): Same.
+	(vee_folder_build_folder): Here too.
+	(folder_changed_add_uid): And here.
+	(folder_changed_remove_uid): Same.
+
+2004-02-03  Jeffrey Stedfast  <fejj@ximian.com>
+
 	* tests/misc/url-scan.c: New test suite for url scanning.
 
 	* camel-url-scanner.c: Added single/double quotes to url_braces[]

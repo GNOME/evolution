@@ -1015,7 +1015,7 @@ add_type(GHashTable *map, camel_block_t id, int type)
 
 	if (old != 0 && old != type)
 		g_warning("block %x redefined as type %d, already type %d\n", id, type, old);
-	g_hash_table_insert(map, id, type|old);
+	g_hash_table_insert(map, id, GINT_TO_POINTER (type|old));
 }
 
 static void
@@ -1269,7 +1269,7 @@ camel_text_index_validate(CamelTextIndex *idx)
 			printf("Warning, name '%s' duplicates key (%x) with name '%s'\n", word, keyid, oldword);
 			g_free(word);
 		} else {
-			g_hash_table_insert(name_word, word, (void *)1);
+			g_hash_table_insert(name_word, word, GINT_TO_POINTER (1));
 			if ((flags & 1) == 0) {
 				g_hash_table_insert(names, GINT_TO_POINTER(keyid), word);
 			} else {

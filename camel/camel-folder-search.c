@@ -374,7 +374,7 @@ camel_folder_search_execute_expression(CamelFolderSearch *search, const char *ex
 			results = g_hash_table_new(g_str_hash, g_str_equal);
 			for (i=0;i<r->value.ptrarray->len;i++) {
 				d(printf("adding match: %s\n", (char *)g_ptr_array_index(r->value.ptrarray, i)));
-				g_hash_table_insert(results, g_ptr_array_index(r->value.ptrarray, i), (void *)1);
+				g_hash_table_insert(results, g_ptr_array_index(r->value.ptrarray, i), GINT_TO_POINTER (1));
 			}
 			for (i=0;i<search->summary->len;i++) {
 				CamelMessageInfo *info = g_ptr_array_index(search->summary, i);

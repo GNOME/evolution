@@ -1819,7 +1819,7 @@ camel_folder_change_info_add_source(CamelFolderChangeInfo *info, const char *uid
 		p->uid_source = g_hash_table_new(g_str_hash, g_str_equal);
 
 	if (g_hash_table_lookup(p->uid_source, uid) == NULL)
-		g_hash_table_insert(p->uid_source, e_mempool_strdup(p->uid_pool, uid), (void *)1);
+		g_hash_table_insert(p->uid_source, e_mempool_strdup(p->uid_pool, uid), GINT_TO_POINTER (1));
 }
 
 /**
@@ -1847,7 +1847,7 @@ camel_folder_change_info_add_source_list(CamelFolderChangeInfo *info, const GPtr
 		char *uid = list->pdata[i];
 
 		if (g_hash_table_lookup(p->uid_source, uid) == NULL)
-			g_hash_table_insert(p->uid_source, e_mempool_strdup(p->uid_pool, uid), (void *)1);
+			g_hash_table_insert(p->uid_source, e_mempool_strdup(p->uid_pool, uid), GINT_TO_POINTER (1));
 	}
 }
 
