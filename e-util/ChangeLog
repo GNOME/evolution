@@ -1,3 +1,14 @@
+2001-09-17  Damon Chaplin  <damon@ximian.com>
+
+	* e-time-utils.c (e_time_parse_date): only use 1 format, so we are
+	consistent everywhere. If we support multiple formats we have to
+	support that in e_time_parse_date_and_time() which means an explosion
+	of different formats. I don't think the alternatives are that useful,
+	anyway.
+	(e_time_parse_date_and_time): parse everything in one go, to avoid
+	i18n problems. Also only use '%p' if the locale has am/pm strings.
+	(e_time_parse_time): Only use '%p' if locale has am/pm strings.
+
 2001-09-17  Ettore Perazzoli  <ettore@ximian.com>
 
 	* e-gtk-utils.c (gtk_radio_button_get_nth_selected): Removed.
