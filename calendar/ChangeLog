@@ -1,5 +1,14 @@
 2000-05-06  Damon Chaplin  <damon@helixcode.com>
 
+	* gui/gncal-day-panel.[hc]:
+	* gui/gncal-day-view.[hc]:
+	* gui/gncal-full-day.[hc]:
+	* gui/gncal-week-view.[hc]:
+	* gui/layout.[hc]:
+	* gui/view-utils.[hc]: removed old calendar view files.
+	
+2000-05-06  Damon Chaplin  <damon@helixcode.com>
+
 	* cal-util/calobj.[hc]: added guint ref_count to iCalObject struct,
 	and ical_object_ref/unref() functions. I've updated all the gui/
 	stuff to use ref_counts but I haven't touched the pcs/ stuff. Maybe
