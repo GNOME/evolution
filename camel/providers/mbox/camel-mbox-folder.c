@@ -248,29 +248,39 @@ _check_get_or_maybe_generate_summary_file (CamelMboxFolder *mbox_folder,
 		 * about the messages.
 		 */
 		mbox_file_fd = open (mbox_folder->folder_file_path, O_RDONLY);
-		message_info_array =
-			camel_mbox_parse_file (mbox_file_fd, "From ", 0,
-					       &file_size, &next_uid, TRUE,
-					       NULL, 0, ex); 
-		close (mbox_file_fd);
-		if (camel_exception_get_id (ex))
-			return;
+		if (mbox_file_fd != -1) {
+			message_info_array =
+				camel_mbox_parse_file (mbox_file_fd, "From ",
+						       0, &file_size,
+						       &next_uid, TRUE,
+						       NULL, 0, ex); 
+			close (mbox_file_fd);
+			if (camel_exception_get_id (ex))
+				return;
 
-		next_uid = camel_mbox_write_xev (mbox_folder, mbox_folder->folder_file_path, 
-						 message_info_array, &file_size, next_uid, ex);
+			next_uid = camel_mbox_write_xev (mbox_folder,
+							 mbox_folder->folder_file_path, 
+							 message_info_array,
+							 &file_size,
+							 next_uid, ex);
+			if (camel_exception_get_id (ex)) { 
+				/* ** FIXME : free the preparsed information */
+				return;
+			}
 
-		if (camel_exception_get_id (ex)) { 
-			/* ** FIXME : free the preparsed information */
-			return;
+			summ = CAMEL_MBOX_SUMMARY (gtk_object_new (camel_mbox_summary_get_type (), NULL));
+			summ->message_info = parsed_information_to_mbox_summary (message_info_array);
+			summ->nb_message = summ->message_info->len;
+			summ->next_uid = next_uid;
+			summ->mbox_file_size = file_size;
+			/* **FIXME : Free the parsed information structure */
+		} else {
+			summ = CAMEL_MBOX_SUMMARY (gtk_object_new (camel_mbox_summary_get_type (), NULL));
+			summ->message_info = g_array_new (FALSE, FALSE, sizeof (CamelMboxSummaryInformation));
+			summ->nb_message = 0;
+			summ->next_uid = 0;
+			summ->mbox_file_size = 0;
 		}
-
-		summ = CAMEL_MBOX_SUMMARY (gtk_object_new (camel_mbox_summary_get_type (), NULL));
-		summ->message_info = 
-			parsed_information_to_mbox_summary (message_info_array);
-		summ->nb_message = summ->message_info->len;
-		summ->next_uid = next_uid;		
-		summ->mbox_file_size = file_size;		
-		/* **FIXME : Free the parsed information structure */
 
 		folder->summary = CAMEL_FOLDER_SUMMARY (summ);
 	}
@@ -860,7 +870,7 @@ _append_message (CamelFolder *folder, CamelMimeMessage *message, CamelException 
 		camel_data_wrapper_write_to_stream (CAMEL_DATA_WRAPPER (message), output_stream);
 	}
 	camel_stream_close (output_stream);
-	gtk_object_unref(output_stream);
+	gtk_object_unref (GTK_OBJECT (output_stream));
 
 	/* at this point we have saved the message to a
 	   temporary file, now, we have to add the x-evolution 
@@ -898,7 +908,7 @@ _append_message (CamelFolder *folder, CamelMimeMessage *message, CamelException 
 	   method as for parsing an entire mail file, 
 	   but I have no time to write a simpler parser 
 	*/
-	next_uid = camel_mbox_write_xev (folder, tmp_message_filename, 
+	next_uid = camel_mbox_write_xev (mbox_folder, tmp_message_filename, 
 					 message_info_array, &tmp_file_size, next_uid, ex);
 	
 	if (camel_exception_get_id (ex)) { 

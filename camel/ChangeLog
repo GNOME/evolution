@@ -1,3 +1,9 @@
+2000-03-28  Dan Winship  <danw@helixcode.com>
+
+	* providers/mbox/camel-mbox-folder.c
+	(_check_get_or_maybe_generate_summary_file): Make this work when
+	the inbox file doesn't yet exist.
+
 2000-03-27  Dan Winship  <danw@helixcode.com>
 
 	* providers/mbox/camel-mbox-folder.c (_append_message): uncomment
