@@ -16,7 +16,8 @@ test-thread
 *.bbg
 *.da
 *.gcov
-GNOME_Evolution_Mail.oaf
+GNOME_Evolution_Mail.server
+GNOME_Evolution_Mail.server.in
 Spell-common.c
 Spell-skels.c
 Spell-stubs.c

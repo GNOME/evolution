@@ -10,7 +10,6 @@ Evolution-common.c
 Evolution-skels.c
 Evolution-stubs.c
 Evolution.h
-GNOME_Evolution_Shell.oaf
 ID
 Makefile
 Makefile.in
@@ -22,3 +21,4 @@ libeshell.la
 e-shell-marshal.c
 e-shell-marshal.h
 GNOME_Evolution_Shell.server
+GNOME_Evolution_Shell.server.in
