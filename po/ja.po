@@ -9,8 +9,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: evolution HEAD\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2004-04-07 00:23+0900\n"
-"PO-Revision-Date: 2004-04-07 00:22+0900\n"
+"POT-Creation-Date: 2004-04-07 00:47+0900\n"
+"PO-Revision-Date: 2004-04-07 00:46+0900\n"
 "Last-Translator: Takeshi AIHANA <aihana@gnome.gr.jp>\n"
 "Language-Team: Japanese <gnome-translation@gnome.gr.jp>\n"
 "MIME-Version: 1.0\n"
@@ -9723,7 +9723,7 @@ msgstr "新着メールのチェック"
 #: camel/providers/groupwise/camel-groupwise-provider.c:55
 #: camel/providers/imap/camel-imap-provider.c:52
 msgid "Check for new messages in all folders"
-msgstr "全てのフォルダの新着メールをチェックします"
+msgstr "全てのフォルダの新着メールをチェックする"
 
 #: camel/providers/groupwise/camel-groupwise-provider.c:59
 msgid "Apply filters to new messages in Inbox on this server"
@@ -9904,7 +9904,7 @@ msgstr "サーバへ接続"
 
 #: camel/providers/imap/camel-imap-provider.c:45
 msgid "Use custom command to connect to server"
-msgstr "サーバへ接続する際にカスタム・コマンドを使用します"
+msgstr "サーバへ接続する際にカスタム・コマンドを使用する"
 
 #: camel/providers/imap/camel-imap-provider.c:47
 msgid "Command:"
@@ -9917,7 +9917,7 @@ msgstr "フォルダ"
 
 #: camel/providers/imap/camel-imap-provider.c:57
 msgid "Show only subscribed folders"
-msgstr "購読するフォルダだけ表示"
+msgstr "購読するフォルダだけ表示する"
 
 #: camel/providers/imap/camel-imap-provider.c:59
 msgid "Override server-supplied folder namespace"
@@ -9933,11 +9933,11 @@ msgstr "このサーバ上の INBOX 内にある新規メッセージへフィ�
 
 #: camel/providers/imap/camel-imap-provider.c:66
 msgid "Check new messages for Junk contents"
-msgstr "新着メールがスパムかどうかチェックします"
+msgstr "新着メールがスパムかどうかチェックする"
 
 #: camel/providers/imap/camel-imap-provider.c:68
 msgid "Only check for Junk messages in the INBOX folder"
-msgstr "INBOX フォルダにあるメールのみスパムかどうかチェックします"
+msgstr "INBOX フォルダにあるメールのみスパムかどうかチェックする"
 
 #: camel/providers/imap/camel-imap-provider.c:76
 msgid "IMAP"
@@ -12911,7 +12911,7 @@ msgstr "リンク先のコピー(_C)"
 #: mail/em-folder-view.c:2172
 #, c-format
 msgid "Click to mail %s"
-msgstr "メール %s をクリックして下さい"
+msgstr "クリックすると %s へのメッセージを作成します"
 
 #. message-search popup match count string
 #: mail/em-format-html-display.c:409
@@ -14561,7 +14561,7 @@ msgstr "メッセージ作成"
 msgid ""
 "Note: you will not be prompted for a password until you connect for the "
 "first time"
-msgstr "注意: 最初に接続するまで、パスワードの入力は求められません。"
+msgstr "注意: 最初に接続するまで、パスワードの入力は求められません"
 
 #: mail/mail-config.glade.h:102
 msgid "Or_ganization:"
@@ -14569,7 +14569,7 @@ msgstr "組織(_G):"
 
 #: mail/mail-config.glade.h:103
 msgid "PGP/GPG _Key ID:"
-msgstr "PGP/GnuPG キー ID(_K):"
+msgstr "PGP/GPG 鍵の ID(_K):"
 
 #: mail/mail-config.glade.h:107
 msgid "Pick a color"
@@ -14714,8 +14714,8 @@ msgid ""
 "Type the name by which you would like to refer to this account.\n"
 "For example: \"Work\" or \"Personal\""
 msgstr ""
-"このアカウントに対してお好みの名前を入力して下さい。\n"
-"(例: \"仕事\" または \"プライベート\")"
+"このアカウントにお好みの名前を付けて下さい:\n"
+"(例: \"仕事\" とか \"プライベート\" とか)"
 
 #: mail/mail-config.glade.h:148
 msgid "Use _Daemon"
@@ -16805,7 +16805,7 @@ msgstr "指定日に移動します"
 
 #: ui/evolution-calendar.xml.h:28
 msgid "Select today"
-msgstr "今日にする"
+msgstr "今日に移動します"
 
 #: ui/evolution-calendar.xml.h:29
 msgid "Show as list"
@@ -17271,7 +17271,7 @@ msgstr "別名で転送(_O)..."
 
 #: ui/evolution-mail-message.xml.h:33
 msgid "Filter _Junk"
-msgstr "Junk のフィルタ(_J)"
+msgstr "Junk フィルタリング(_J)"
 
 #: ui/evolution-mail-message.xml.h:34
 msgid "Filter on Mailing _List..."
