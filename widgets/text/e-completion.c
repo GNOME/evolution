@@ -37,6 +37,8 @@ enum {
 	E_COMPLETION_RESTART_COMPLETION,
 	E_COMPLETION_CANCEL_COMPLETION,
 	E_COMPLETION_END_COMPLETION,
+	E_COMPLETION_CLEAR_COMPLETION,
+	E_COMPLETION_LOST_COMPLETION,
 	E_COMPLETION_LAST_SIGNAL
 };
 
@@ -45,18 +47,15 @@ static guint e_completion_signals[E_COMPLETION_LAST_SIGNAL] = { 0 };
 struct _ECompletionPrivate {
 	gboolean searching;
 	gchar *search_text;
+	GPtrArray *matches;
 	gint pos;
 	gint limit;
-	gint match_count;
-	GList *matches;
 	double min_score, max_score;
 };
 
 static void e_completion_class_init (ECompletionClass *klass);
 static void e_completion_init       (ECompletion *complete);
 static void e_completion_destroy    (GtkObject *object);
-
-static void   match_list_free (GList *);
 
 static void     e_completion_add_match     (ECompletion *complete, ECompletionMatch *);
 static void     e_completion_clear_matches (ECompletion *complete);
@@ -138,6 +137,22 @@ e_completion_class_init (ECompletionClass *klass)
 				gtk_marshal_NONE__NONE,
 				GTK_TYPE_NONE, 0);
 
+	e_completion_signals[E_COMPLETION_CLEAR_COMPLETION] = 
+		gtk_signal_new ("clear_completion",
+				GTK_RUN_LAST,
+				object_class->type,
+				GTK_SIGNAL_OFFSET (ECompletionClass, clear_completion),
+				gtk_marshal_NONE__NONE,
+				GTK_TYPE_NONE, 0);
+
+	e_completion_signals[E_COMPLETION_LOST_COMPLETION] =
+		gtk_signal_new ("lost_completion",
+				GTK_RUN_LAST,
+				object_class->type,
+				GTK_SIGNAL_OFFSET (ECompletionClass, lost_completion),
+				gtk_marshal_NONE__POINTER,
+				GTK_TYPE_NONE, 1, GTK_TYPE_POINTER);
+
 	gtk_object_class_add_signals (object_class, e_completion_signals, E_COMPLETION_LAST_SIGNAL);
 
 	object_class->destroy = e_completion_destroy;
@@ -147,6 +162,7 @@ static void
 e_completion_init (ECompletion *complete)
 {
 	complete->priv = g_new0 (struct _ECompletionPrivate, 1);
+	complete->priv->matches = g_ptr_array_new ();
 }
 
 static void
@@ -159,6 +175,9 @@ e_completion_destroy (GtkObject *object)
 
 	e_completion_clear_matches (complete);
 
+	g_ptr_array_free (complete->priv->matches, TRUE);
+	complete->priv->matches = NULL;
+
 	g_free (complete->priv);
 	complete->priv = NULL;
 
@@ -167,23 +186,14 @@ e_completion_destroy (GtkObject *object)
 }
 
 static void
-match_list_free (GList *i)
-{
-	while (i) {
-		e_completion_match_unref ((ECompletionMatch *) i->data);
-		i = g_list_next (i);
-	}
-}
-
-static void
 e_completion_add_match (ECompletion *complete, ECompletionMatch *match)
 {
 	g_return_if_fail (complete && E_IS_COMPLETION (complete));
 	g_return_if_fail (match != NULL);
 
-	complete->priv->matches = g_list_append (complete->priv->matches, match);
+	g_ptr_array_add (complete->priv->matches, match);
 
-	if (complete->priv->match_count == 0) {
+	if (complete->priv->matches->len == 1) {
 
 		complete->priv->min_score = complete->priv->max_score = match->score;
 		
@@ -193,21 +203,36 @@ e_completion_add_match (ECompletion *complete, ECompletionMatch *match)
 		complete->priv->max_score = MAX (complete->priv->max_score, match->score);
 
 	}
-
-	++complete->priv->match_count;
 }
 
 static void
 e_completion_clear_matches (ECompletion *complete)
 {
-	match_list_free (complete->priv->matches);
-	g_list_free (complete->priv->matches);
-	complete->priv->matches = NULL;
+	ECompletionMatch *match;
+	GPtrArray *m;
+	int i;
 
-	complete->priv->match_count = 0;
+	g_return_if_fail (E_IS_COMPLETION (complete));
+
+	m = complete->priv->matches;
+	for (i = 0; i < m->len; i++) {
+		match = g_ptr_array_index (m, i);
+		e_completion_match_unref (match);
+	}
+	g_ptr_array_set_size (m, 0);
 
 	complete->priv->min_score = 0;
 	complete->priv->max_score = 0;
+}
+
+void
+e_completion_clear (ECompletion *complete)
+{
+	g_return_if_fail (E_IS_COMPLETION (complete));
+
+	/* FIXME: do we really want _clear and _clear_matches() ? */
+	e_completion_clear_matches (complete);
+	gtk_signal_emit (GTK_OBJECT (complete), e_completion_signals[E_COMPLETION_CLEAR_COMPLETION]);
 }
 
 void
@@ -282,13 +307,14 @@ e_completion_match_count (ECompletion *complete)
 	g_return_val_if_fail (complete != NULL, 0);
 	g_return_val_if_fail (E_IS_COMPLETION (complete), 0);
 
-	return complete->priv->match_count;
+	return complete->priv->matches->len;
 }
 
 void
 e_completion_foreach_match (ECompletion *complete, ECompletionMatchFn fn, gpointer closure)
 {
-	GList *i;
+	GPtrArray *m;
+	int i;
 
 	g_return_if_fail (complete != NULL);
 	g_return_if_fail (E_IS_COMPLETION (complete));
@@ -296,9 +322,9 @@ e_completion_foreach_match (ECompletion *complete, ECompletionMatchFn fn, gpoint
 	if (fn == NULL)
 		return;
 
-	for (i = complete->priv->matches; i != NULL; i = g_list_next (i)) {
-		fn ((ECompletionMatch *) i->data, closure);
-	}
+	m = complete->priv->matches;
+	for (i = 0; i < m->len; i++)
+		fn (g_ptr_array_index (m, i), closure);
 }
 
 ECompletion *
@@ -310,32 +336,30 @@ e_completion_new (void)
 static gboolean
 e_completion_sort (ECompletion *complete)
 {
-	GList *sort_list = NULL, *i, *j;
+	GPtrArray *m;
+	int i;
+	GList *sort_list = NULL, *j;
 	gboolean diff;
-	gint count;
 
-	for (i = complete->priv->matches; i != NULL; i = g_list_next (i)) {
-		sort_list = g_list_append (sort_list, i->data);
-	}
+	m = complete->priv->matches;
 
+	for (i = 0; i < m->len; i++)
+		sort_list = g_list_append (sort_list, 
+					   g_ptr_array_index (m, i));
+	
 	sort_list = g_list_sort (sort_list, (GCompareFunc) e_completion_match_compare_alpha);
 
 	diff = FALSE;
-	count = 0;
-	i = complete->priv->matches;
-	j = sort_list;
-	while (i && j && !diff && count < complete->priv->limit) {
-		
-		if (i->data != j->data)
-			diff = TRUE;
 
-		i = g_list_next (i);
-		j = g_list_next (j);
-		++count;
+	for (i=0, j=sort_list; i < m->len; i++, j = g_list_next (j)) {
+		if (g_ptr_array_index (m, i) == j->data)
+			continue;
+
+		diff = TRUE;
+		g_ptr_array_index (m, i) = j->data;
 	}
 
-	g_list_free (complete->priv->matches);
-	complete->priv->matches = sort_list;
+	g_list_free (sort_list);
 
 	return diff;
 }
@@ -344,17 +368,18 @@ e_completion_sort (ECompletion *complete)
 static void
 e_completion_restart (ECompletion *complete)
 {
-	GList *i;
-	gint count = 0;
+	GPtrArray *m;
+	gint i, count;
 
 	gtk_signal_emit (GTK_OBJECT (complete), e_completion_signals[E_COMPLETION_RESTART_COMPLETION]);
 	
-	i = complete->priv->matches;
-	while (i != NULL && count < complete->priv->limit) {
-		ECompletionMatch *m = (ECompletionMatch *) i->data;
-		gtk_signal_emit (GTK_OBJECT (complete), e_completion_signals[E_COMPLETION_COMPLETION], m);
-		i = g_list_next (i);
-		++count;
+	m = complete->priv->matches;
+	for (i = count = 0; 
+	     i < m->len && count < complete->priv->limit; 
+	     i++, count++) {
+		gtk_signal_emit (GTK_OBJECT (complete),
+				 e_completion_signals[E_COMPLETION_COMPLETION], 
+				 g_ptr_array_index (m, i));
 	}
 }
 
@@ -370,16 +395,37 @@ e_completion_found_match (ECompletion *complete, ECompletionMatch *match)
 		return;
 	}
 
-	e_completion_add_match (complete, match);
-
-	/* For now, do nothing when we hit the limit --- just don't announce the incoming matches. */
-	if (complete->priv->match_count >= complete->priv->limit) {
+	/* For now, do nothing when we hit the limit --- just don't
+	 * announce the incoming matches. */
+	if (complete->priv->matches->len >= complete->priv->limit) {
 		e_completion_match_unref (match);
 		return;
 	}
 
-	gtk_signal_emit (GTK_OBJECT (complete), e_completion_signals[E_COMPLETION_COMPLETION], match);
+	e_completion_add_match (complete, match);
 
+	gtk_signal_emit (GTK_OBJECT (complete), e_completion_signals[E_COMPLETION_COMPLETION], match);
+}
+
+/* to optimize this, make the match a hash table */
+void
+e_completion_lost_match (ECompletion *complete, ECompletionMatch *match)
+{
+	gboolean removed;
+
+	g_return_if_fail (E_IS_COMPLETION (complete));
+	g_return_if_fail (match != NULL);
+
+	/* FIXME: remove fast */
+	removed = g_ptr_array_remove (complete->priv->matches,
+				      match);
+
+	/* maybe just return here? */
+	g_return_if_fail (removed);
+
+	gtk_signal_emit (GTK_OBJECT (complete), e_completion_signals[E_COMPLETION_LOST_COMPLETION], match);
+
+	e_completion_match_unref (match);
 }
 
 void
@@ -389,6 +435,9 @@ e_completion_end_search (ECompletion *complete)
 	g_return_if_fail (E_IS_COMPLETION (complete));
 	g_return_if_fail (complete->priv->searching);
 
+	/* our table model should be sorted by a non-visible column of
+	 * doubles (the score) rather than whatever we are doing 
+	 */
 	/* If sorting by score accomplishes anything, issue a restart right before we end. */
 	if (e_completion_sort (complete))
 		e_completion_restart (complete);

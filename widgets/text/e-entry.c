@@ -211,10 +211,13 @@ e_entry_text_keypress (EText *text, guint keyval, guint state, EEntry *entry)
 		if (e_entry_is_empty (entry)) {
 			e_entry_cancel_delayed_completion (entry);
 			e_entry_show_popup (entry, FALSE);
-		} else if (entry->priv->popup_is_visible) {
-			e_entry_start_delayed_completion (entry, 1);
-		} else if (entry->priv->completion)
-			e_entry_start_delayed_completion (entry, entry->priv->completion_delay);
+		} else if (entry->priv->completion_delay >= 0) {
+			int delay;
+			delay = entry->priv->popup_is_visible 
+				? 1 
+				: entry->priv->completion_delay;
+			e_entry_start_delayed_completion (entry, delay);
+		}
 	}
 	entry->priv->changed_since_keypress = FALSE;
 }
@@ -612,7 +615,7 @@ full_cb (ECompletionView *view, gpointer user_data)
 {
 	EEntry *entry = E_ENTRY (user_data);
 
-	e_entry_show_popup (entry, view->choice_count > 0);
+	e_entry_show_popup (entry, view->choices->len > 0);
 }
 
 static void

@@ -287,6 +287,7 @@ static void
 e_completion_view_init (ECompletionView *completion)
 {
 	completion->border_width = 2;
+	completion->choices = g_ptr_array_new ();
 }
 
 static void
@@ -296,6 +297,8 @@ e_completion_view_destroy (GtkObject *object)
 
 	e_completion_view_disconnect (cv);
 	e_completion_view_clear_choices (cv);
+
+	g_ptr_array_free (cv->choices, TRUE);
 
 	if (cv->key_widget) {
 		gtk_signal_disconnect (GTK_OBJECT (cv->key_widget), cv->key_signal_id);
@@ -326,11 +329,17 @@ e_completion_view_disconnect (ECompletionView *cv)
 		gtk_signal_disconnect (GTK_OBJECT (cv->completion), cv->cancel_signal_id);
 	if (cv->end_signal_id)
 		gtk_signal_disconnect (GTK_OBJECT (cv->completion), cv->end_signal_id);
-	
+	if (cv->clear_signal_id)
+		gtk_signal_disconnect (GTK_OBJECT (cv->completion), cv->clear_signal_id);
+	if (cv->lost_signal_id)
+		gtk_signal_disconnect (GTK_OBJECT (cv->completion), cv->lost_signal_id);
+
 	cv->begin_signal_id   = 0;
 	cv->comp_signal_id    = 0;
 	cv->restart_signal_id = 0;
 	cv->end_signal_id     = 0;
+	cv->clear_signal_id   = 0;
+	cv->lost_signal_id    = 0;
 }
 
 static ETable *
@@ -342,19 +351,18 @@ e_completion_view_table (ECompletionView *cv)
 static void
 e_completion_view_clear_choices (ECompletionView *cv)
 {
-	GList *i;
+	ECompletionMatch *match;
+	GPtrArray *m;
+	int i;
 
-	g_return_if_fail (cv != NULL);
 	g_return_if_fail (E_IS_COMPLETION_VIEW (cv));
 
-	for (i = cv->choices; i != NULL; i = g_list_next (i)) {
-		e_completion_match_unref ((ECompletionMatch *) i->data);
+	m = cv->choices;
+	for (i = 0; i < m->len; i++) {
+		match = g_ptr_array_index (m, i);
+		e_completion_match_unref (match);
 	}
-
-	g_list_free (cv->choices);
-	cv->choices = NULL;
-
-	cv->choice_count = 0;
+	g_ptr_array_set_size (m, 0);
 }
 
 static void
@@ -368,7 +376,13 @@ e_completion_view_set_cursor_row (ECompletionView *cv, gint r)
 
 	g_return_if_fail (cv != NULL);
 	g_return_if_fail (E_IS_COMPLETION_VIEW (cv));
-	g_return_if_fail (r < cv->choice_count);
+#ifndef G_DISABLE_CHECKS
+	/* choices->len is unsigned, but it is reasonable for r to be
+	 * < 0 */
+	if (r > 0) {
+		g_return_if_fail (r < cv->choices->len);
+	}
+#endif
 
 	adj = e_scroll_frame_get_vadjustment (E_SCROLL_FRAME (cv->table));	
 
@@ -392,12 +406,12 @@ e_completion_view_set_cursor_row (ECompletionView *cv, gint r)
 	if (r == 0) {
 		gtk_adjustment_set_value (adj, adj->lower);
 		return;
-	} else if (r == cv->choice_count - 1) {		
+	} else if (r == cv->choices->len - 1) {		
 		gtk_adjustment_set_value (adj, adj->upper - adj->page_size);
 		return;
 	}
 	
-	fracline = ((adj->upper - adj->lower - adj->page_size) / cv->choice_count) / 4;
+	fracline = ((adj->upper - adj->lower - adj->page_size) / (gint)cv->choices->len) / 4;
 
 	while (iteration_count < 100) {
 		x = GTK_LAYOUT(table->table_canvas)->hadjustment->value;
@@ -424,7 +438,9 @@ e_completion_view_set_cursor_row (ECompletionView *cv, gint r)
 static void
 e_completion_view_select (ECompletionView *cv, gint r)
 {
-	ECompletionMatch *match = (ECompletionMatch *) g_list_nth_data (cv->choices, r);
+	ECompletionMatch *match;
+
+	match = g_ptr_array_index (cv->choices, r);
 
 	cv->selection = r;
 	e_completion_view_set_cursor_row (cv, r);
@@ -496,8 +512,8 @@ e_completion_view_key_press_handler (GtkWidget *w, GdkEventKey *key_event, gpoin
 
 	cv->selection += dir;
 
-	if (cv->selection >= cv->choice_count) {
-		cv->selection = cv->choice_count - 1;
+	if (cv->selection >= (int)cv->choices->len) {
+		cv->selection = cv->choices->len - 1;
 		/* Don't re-emit the browse signal */
 		goto stop_emission;
 	}
@@ -506,7 +522,7 @@ e_completion_view_key_press_handler (GtkWidget *w, GdkEventKey *key_event, gpoin
 
 	if (cv->selection >= 0)
 		gtk_signal_emit (GTK_OBJECT (cv), e_completion_view_signals[E_COMPLETION_VIEW_BROWSE], 
-				 g_list_nth_data (cv->choices, cv->selection));
+				 g_ptr_array_index (cv->choices, cv->selection));
 	else
 		gtk_signal_emit (GTK_OBJECT (cv), e_completion_view_signals[E_COMPLETION_VIEW_UNBROWSE]);
 
@@ -554,12 +570,11 @@ static void
 completion_cb (ECompletion *completion, ECompletionMatch *match, gpointer user_data)
 {
 	ECompletionView *cv = E_COMPLETION_VIEW (user_data);
-	gint r = cv->choice_count;
-	gboolean first = (cv->choices == NULL);
+	gint r = cv->choices->len;
+	gboolean first = (cv->choices->len == 0);
 
-	cv->choices = g_list_append (cv->choices, match);
 	e_completion_match_ref (match);
-	++cv->choice_count;
+	g_ptr_array_add (cv->choices, match);
 
 	e_table_model_row_inserted (cv->model, r);
 
@@ -579,6 +594,38 @@ end_completion_cb (ECompletion *completion, gpointer user_data)
 
 	cv->have_all_choices = TRUE;
 	gtk_signal_emit (GTK_OBJECT (cv), e_completion_view_signals[E_COMPLETION_VIEW_FULL]);
+}
+
+static void
+clear_completion_cb (ECompletion *completion, gpointer user_data)
+{
+	ECompletionView *cv = E_COMPLETION_VIEW (user_data);
+
+	e_completion_view_clear_choices (cv);
+	cv->have_all_choices = FALSE;
+
+	e_table_model_changed (cv->model);
+}
+
+static void
+lost_completion_cb (ECompletion *completion, ECompletionMatch *match, gpointer user_data)
+{
+	ECompletionView *cv = E_COMPLETION_VIEW (user_data);
+	int i;
+	GPtrArray *c = cv->choices;
+
+	for (i = 0; i < c->len; i++)
+		if (g_ptr_array_index (c, i) == match)
+			break;
+
+	g_return_if_fail (i == c->len);
+
+	/* FIXME: do remove_index_fast(), then row_changed and
+	 * row_deleted (if there are more than 1 row still) */
+	g_ptr_array_remove_index (c, i);
+	e_table_model_row_deleted (cv->model, i);
+	
+	e_completion_match_unref (match);
 }
 
 /*** Table Callbacks ***/
@@ -604,7 +651,7 @@ static gint
 table_row_count (ETableModel *etm, gpointer data)
 {
 	ECompletionView *cv = E_COMPLETION_VIEW (data);
-	return cv->choice_count;
+	return cv->choices->len;
 }
 
 static gboolean
@@ -619,7 +666,7 @@ table_value_at (ETableModel *etm, gint c, gint r, gpointer data)
 	ECompletionView *cv = E_COMPLETION_VIEW (data);
 	ECompletionMatch *match;
 
-	match = (ECompletionMatch *) g_list_nth_data (cv->choices, r);
+	match = g_ptr_array_index (cv->choices, r);
 
 	return (gpointer) e_completion_match_get_menu_text (match);
 }
@@ -673,6 +720,14 @@ e_completion_view_construct (ECompletionView *cv, ECompletion *completion)
 	cv->end_signal_id     = gtk_signal_connect (GTK_OBJECT (completion),
 						    "end_completion",
 						    GTK_SIGNAL_FUNC (end_completion_cb),
+						    cv);
+	cv->clear_signal_id   = gtk_signal_connect (GTK_OBJECT (completion),
+						    "clear_completion",
+						    GTK_SIGNAL_FUNC (clear_completion_cb),
+						    cv);
+	cv->lost_signal_id    = gtk_signal_connect (GTK_OBJECT (completion),
+						    "lost_completion",
+						    GTK_SIGNAL_FUNC (lost_completion_cb),
 						    cv);
 
 	cv->model = e_table_simple_new (table_col_count,
@@ -796,7 +851,7 @@ e_completion_view_set_width (ECompletionView *cv, gint width)
 	y += w->allocation.y;
 
 	lines = 5; /* default maximum */
-	lines = MIN (lines, cv->choice_count);
+	lines = MIN (lines, cv->choices->len);
 	
 	drop_room = (gdk_screen_height () - y) / (double)line_height;
 	drop_room = MAX (drop_room, 1);

@@ -59,6 +59,8 @@ struct _ECompletionClass {
 	void     (*restart_completion) (ECompletion *comp);
 	void     (*cancel_completion)  (ECompletion *comp);
 	void     (*end_completion)     (ECompletion *comp);
+	void     (*clear_completion)   (ECompletion *comp);
+	void     (*lost_completion)    (ECompletion *comp, ECompletionMatch *match);
 };
 
 GtkType      e_completion_get_type (void);
@@ -80,6 +82,8 @@ ECompletion *e_completion_new (void);
    or very bad things might happen. */
 
 void         e_completion_found_match (ECompletion *comp, ECompletionMatch *);
+void         e_completion_lost_match  (ECompletion *comp, ECompletionMatch *);
+void         e_completion_clear       (ECompletion *comp);
 void         e_completion_end_search  (ECompletion *comp);
 
 END_GNOME_DECLS

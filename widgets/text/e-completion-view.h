@@ -51,12 +51,16 @@ struct _ECompletionView {
 	ETableModel *model;
 	GtkWidget *table;
 
+	GPtrArray *choices;
+
 	ECompletion *completion;
 	guint begin_signal_id;
 	guint comp_signal_id;
 	guint restart_signal_id;
 	guint cancel_signal_id;
 	guint end_signal_id;
+	guint clear_signal_id;
+	guint lost_signal_id;
 
 	GtkWidget *key_widget;
 	guint key_signal_id;
@@ -64,8 +68,6 @@ struct _ECompletionView {
 	gint complete_key;
 	gint uncomplete_key;
 
-	GList *choices;
-	gint choice_count;
 	gboolean have_all_choices;
 
 	gboolean editable;
