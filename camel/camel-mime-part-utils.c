@@ -87,6 +87,7 @@ camel_mime_part_construct_content_from_stream (CamelMimePart *mime_part,
 	GtkType content_object_type;
 	CamelDataWrapper *content_object = NULL;
 	
+	
 	/* 
 	 * find content mime type 
 	 */

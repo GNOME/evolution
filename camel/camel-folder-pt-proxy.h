@@ -83,6 +83,8 @@ typedef struct {
 } CamelFolderPtProxyClass;
 
 
+GtkType       camel_folder_pt_proxy_get_type         (void);
+
 #ifdef __cplusplus
 }
 #endif /* __cplusplus */

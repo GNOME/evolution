@@ -63,12 +63,21 @@ struct _CamelStore
 typedef struct {
 	CamelServiceClass parent_class;
 	
-	void (*init) (CamelStore *store, CamelSession *session, const gchar *url_name, CamelException *ex);
-	void (*set_separator) (CamelStore *store, gchar sep, CamelException *ex);
-	gchar (*get_separator) (CamelStore *store, CamelException *ex);
-	CamelFolder * (*get_folder) (CamelStore *store, const gchar *folder_name, CamelException *ex);
-	CamelFolder * (*get_root_folder) (CamelStore *store, CamelException *ex);
-	CamelFolder * (*get_default_folder) (CamelStore *store, CamelException *ex);
+	void                (*init)                 (CamelStore *store, 
+						     CamelSession *session, 
+						     const gchar *url_name, 
+						     CamelException *ex);
+	void                (*set_separator)        (CamelStore *store, gchar sep, 
+						     CamelException *ex);
+	gchar               (*get_separator)        (CamelStore *store, 
+						     CamelException *ex);
+	CamelFolder *       (*get_folder)           (CamelStore *store, 
+						     const gchar *folder_name, 
+						     CamelException *ex);
+	CamelFolder *       (*get_root_folder)      (CamelStore *store, 
+						     CamelException *ex);
+	CamelFolder *       (*get_default_folder)   (CamelStore *store, 
+						     CamelException *ex);
 
 } CamelStoreClass;
 
@@ -78,10 +87,10 @@ typedef struct {
 /* Standard Gtk function */
 GtkType camel_store_get_type (void);
 
-void camel_store_init (CamelStore *store, CamelSession *session, const gchar *url_name, CamelException *ex);
-CamelFolder *camel_store_get_folder (CamelStore *store, const gchar *folder_name, CamelException *ex);
-gchar camel_store_get_separator (CamelStore *store, CamelException *ex);
-CamelSession *camel_store_get_session (CamelStore *store, CamelException *ex);
+void             camel_store_init             (CamelStore *store, CamelSession *session, const gchar *url_name, CamelException *ex);
+CamelFolder *    camel_store_get_folder       (CamelStore *store, const gchar *folder_name, CamelException *ex);
+gchar            camel_store_get_separator    (CamelStore *store, CamelException *ex);
+CamelSession *   camel_store_get_session      (CamelStore *store, CamelException *ex);
 
 #ifdef __cplusplus
 }

@@ -26,29 +26,43 @@
  */
 
 #include <config.h>
-#include "camel-multipart.h"
 #include "camel-log.h"
 #include "gmime-content-field.h"
 #include "gmime-utils.h"
 #include "camel-stream-mem.h"
+#include "camel-seekable-substream.h" 
+
+#include "camel-multipart.h"
 
 
-static void _add_part (CamelMultipart *multipart, CamelMimeBodyPart *part);
-static void _add_part_at (CamelMultipart *multipart, CamelMimeBodyPart *part, guint index);
-static void _remove_part (CamelMultipart *multipart, CamelMimeBodyPart *part);
-static CamelMimeBodyPart *_remove_part_at (CamelMultipart *multipart, guint index);
-static CamelMimeBodyPart *_get_part (CamelMultipart *multipart, guint index);
-static guint _get_number (CamelMultipart *multipart);
-static void _set_parent (CamelMultipart *multipart, CamelMimePart *parent);
-static CamelMimePart *_get_parent (CamelMultipart *multipart);
-static void _set_boundary (CamelMultipart *multipart, gchar *boundary);
-static const gchar *_get_boundary (CamelMultipart *multipart);
-static void _write_to_stream (CamelDataWrapper *data_wrapper, CamelStream *stream);
-static void _construct_from_stream (CamelDataWrapper *data_wrapper, CamelStream *stream);
+static void                  _add_part          (CamelMultipart *multipart, 
+						 CamelMimeBodyPart *part);
+static void                  _add_part_at       (CamelMultipart *multipart, 
+						 CamelMimeBodyPart *part, 
+						 guint index);
+static void                  _remove_part       (CamelMultipart *multipart, 
+						 CamelMimeBodyPart *part);
+static CamelMimeBodyPart *   _remove_part_at    (CamelMultipart *multipart, 
+						 guint index);
+static CamelMimeBodyPart *   _get_part          (CamelMultipart *multipart, 
+						 guint index);
+static guint                 _get_number        (CamelMultipart *multipart);
+static void                  _set_parent        (CamelMultipart *multipart, 
+						 CamelMimePart *parent);
+static CamelMimePart *       _get_parent        (CamelMultipart *multipart);
+static void                  _set_boundary      (CamelMultipart *multipart, 
+						 gchar *boundary);
+static const gchar *         _get_boundary      (CamelMultipart *multipart);
+static void                  _write_to_stream   (CamelDataWrapper *data_wrapper, 
+						 CamelStream *stream);
+static void                  _set_input_stream  (CamelDataWrapper *data_wrapper, 
+						 CamelStream *stream);
 
-static void _finalize (GtkObject *object);
+static void                  _finalize          (GtkObject *object);
 
 static CamelDataWrapperClass *parent_class=NULL;
+
+
 
 /* Returns the class for a CamelMultipart */
 #define CMP_CLASS(so) CAMEL_MULTIPART_CLASS (GTK_OBJECT(so)->klass)
@@ -79,7 +93,7 @@ camel_multipart_class_init (CamelMultipartClass *camel_multipart_class)
 
 	/* virtual method overload */
 	camel_data_wrapper_class->write_to_stream = _write_to_stream;
-	camel_data_wrapper_class->construct_from_stream = _construct_from_stream;
+	camel_data_wrapper_class->set_input_stream = _set_input_stream;
 
 	gtk_object_class->finalize = _finalize;
 }
@@ -150,8 +164,9 @@ _finalize (GtkObject *object)
 }
 
 
-CamelMultipart *
-camel_multipart_new ()
+
+CamelMultipart *           
+camel_multipart_new (void)
 {
 	CamelMultipart *multipart;
 	CAMEL_LOG_FULL_DEBUG ("CamelMultipart:: Entering new()\n");
@@ -177,7 +192,7 @@ void
 camel_multipart_add_part (CamelMultipart *multipart, CamelMimeBodyPart *part)
 {
 	CMP_CLASS (multipart)->add_part (multipart, part);	
-}
+} 
 
 
 static void
@@ -401,117 +416,6 @@ _write_to_stream (CamelDataWrapper *data_wrapper, CamelStream *stream)
 
 
 
-/**
- * _read_part: read one part in a multipart environement.
- * @new_part_stream: stream to add the part to
- * @stream: the stream  to read the lines from.
- * @normal_boundary: end of part bundary.
- * @end_boundary: end of multipart boundary.
- * 
- * This routine is a bit special: RFC 2046 says that, in a multipart 
- * environment, the last crlf before a boundary belongs to the boundary.
- * Thus, if there is no blank line before the boundary, the last crlf
- * of the last line of the part is removed. 
- * 
- * Return value: true if the last boundary element has been found or if no more data was available from the stream, flase otherwise 
- **/
-
-static gboolean
-_read_part (CamelStream *new_part_stream, CamelStream *stream, gchar *normal_boundary, gchar *end_boundary)
-{
-	gchar *new_line = NULL;
-	gboolean end_of_part = FALSE;
-	gboolean last_part = FALSE;
-	gboolean first_line = TRUE;
-
-	/* Note for future enhancements */
-	/* RFC 2046 precises that when parsing the content of a multipart 
-	 * element, the program should not think it will find the last boundary,
-	 * and in particular, the message could have been damaged during
-	 * transport, the parsing should still be OK */
-	CAMEL_LOG_FULL_DEBUG ("CamelMultipart:: Entering _read_part\n");
-
-	new_line = gmime_read_line_from_stream (stream);
-	while (new_line && !end_of_part && !last_part) {
-		end_of_part = (strcmp (new_line, normal_boundary) == 0);
-		last_part   = (strcmp (new_line, end_boundary) == 0);
-		if (!end_of_part && !last_part) {
-			if (first_line) {
-				first_line = FALSE;
-				camel_stream_write_string (new_part_stream, new_line);
-			} else camel_stream_write_strings (new_part_stream, "\n", new_line, NULL);
-			g_free (new_line);
-			new_line = gmime_read_line_from_stream (stream);
-		}
-	}
-	
-	if (new_line) g_free (new_line);
-	else last_part = TRUE;
-
-	CAMEL_LOG_FULL_DEBUG ("CamelMultipart:: Leaving _read_part\n");
-	return (last_part);
-}
-
-static void
-_construct_from_stream (CamelDataWrapper *data_wrapper, CamelStream *stream)
-{
-	CamelMultipart *multipart = CAMEL_MULTIPART (data_wrapper);
-	const gchar *boundary;
-	gchar *real_boundary_line;
-	gchar *end_boundary_line;
-	CamelStream *new_part_stream;
-	gboolean end_of_multipart;
-	CamelMimeBodyPart *body_part;
-
-	CAMEL_LOG_FULL_DEBUG ("Entering CamelMultipart::_construct_from_stream\n");
-	boundary = camel_multipart_get_boundary (multipart);
-	g_return_if_fail (boundary);
-	
-	real_boundary_line = g_strdup_printf ("--%s", boundary);
-	end_boundary_line = g_strdup_printf ("--%s--", boundary);
-
-	
-	/* read the prefix if any */
-	new_part_stream = camel_stream_mem_new (CAMEL_STREAM_MEM_RW);
-	end_of_multipart = _read_part (new_part_stream, stream, real_boundary_line, end_boundary_line);
-	CAMEL_LOG_FULL_DEBUG ("CamelMultipart::construct_from_stream freeing new_part_stream:%p\n", new_part_stream);
-	gtk_object_unref (GTK_OBJECT (new_part_stream));
-	if (multipart->preface) g_free (multipart->preface);
-
-	/* if ( (new_part->str)[0] != '\0') multipart->preface = g_strdup (new_part->str); */
-	
-	/* read all the real parts */
-	while (!end_of_multipart) {
-		CAMEL_LOG_FULL_DEBUG ("CamelMultipart::construct_from_stream, detected a new part\n");
-		new_part_stream = camel_stream_mem_new (CAMEL_STREAM_MEM_RW);
-		body_part = camel_mime_body_part_new ();
-		
-		end_of_multipart = _read_part ( new_part_stream, stream, real_boundary_line, end_boundary_line);
-		camel_seekable_stream_seek (new_part_stream, 0, CAMEL_STREAM_SET);
-		camel_data_wrapper_construct_from_stream (CAMEL_DATA_WRAPPER (body_part), new_part_stream);
-		camel_multipart_add_part (multipart, body_part);
-		gtk_object_destroy (GTK_OBJECT (new_part_stream));
-		
-	}
-
-	/* g_string_assign (new_part, ""); */
-	/* _read_part (new_part, stream, real_boundary_line, end_boundary_line); */
-
-	if (multipart->postface) g_free (multipart->postface);
-	/* if ( (new_part->str)[0] != '\0') multipart->postface = g_strdup (new_part->str); */
-
-	/* g_string_free (new_part, TRUE); */
-
-	g_free (real_boundary_line);
-	g_free (end_boundary_line);
-	CAMEL_LOG_FULL_DEBUG ("Leaving CamelMultipart::_construct_from_stream\n");
-}
-
-
-
-
-
-
 
 
 
@@ -543,7 +447,6 @@ _localize_part (CamelStream *stream,
 	gchar *new_line = NULL;
 	gboolean end_of_part = FALSE;
 	gboolean last_part = FALSE;
-	gboolean first_line = TRUE;
 	guint32 last_position;
 
 	/* Note for future enhancements */
@@ -553,8 +456,11 @@ _localize_part (CamelStream *stream,
 	 * transport, the parsing should still be OK */
 	CAMEL_LOG_FULL_DEBUG ("CamelMultipart:: Entering _localize_part\n");
 
-	last_position = camel_seekable_stream_get_current_position (stream);
+	g_assert (CAMEL_IS_SEEKABLE_STREAM (stream));
+
+	last_position = camel_seekable_stream_get_current_position (CAMEL_SEEKABLE_STREAM (stream));
 	new_line = gmime_read_line_from_stream (stream);
+
 	while (new_line && !end_of_part && !last_part) {
 		end_of_part = (strcmp (new_line, normal_boundary) == 0);
 		last_part   = (strcmp (new_line, end_boundary) == 0);
@@ -562,7 +468,9 @@ _localize_part (CamelStream *stream,
 			
 			g_free (new_line);
 			
-			last_position = camel_seekable_stream_get_current_position (stream);
+			last_position = 
+				camel_seekable_stream_get_current_position (CAMEL_SEEKABLE_STREAM (stream));
+
 			new_line = gmime_read_line_from_stream (stream);
 		}
 	}
@@ -570,7 +478,7 @@ _localize_part (CamelStream *stream,
 	if (new_line) g_free (new_line);
 	else last_part = TRUE;
 
-	*end_position = last_position
+	*end_position = last_position;
 
 	CAMEL_LOG_FULL_DEBUG ("CamelMultipart:: Leaving _localize_part\n");
 	return (last_part);
@@ -583,16 +491,18 @@ static void
 _set_input_stream (CamelDataWrapper *data_wrapper, CamelStream *stream)
 {
 	CamelMultipart *multipart = CAMEL_MULTIPART (data_wrapper);
+	CamelSeekableStream *seekable_stream = CAMEL_SEEKABLE_STREAM (stream);
 	const gchar *boundary;
 	gchar *real_boundary_line;
 	gchar *end_boundary_line;
-	CamelStream *new_part_stream;
 	gboolean end_of_multipart;
 	CamelMimeBodyPart *body_part;
 	guint32 part_begining, part_end;
 	CamelSeekableSubstream *body_part_input_stream;
+	guint32 saved_stream_pos;
+	
 
-	CAMEL_LOG_FULL_DEBUG ("Entering CamelMultipart::_construct_from_stream\n");
+	CAMEL_LOG_FULL_DEBUG ("Entering CamelMultipart::_set_input_stream\n");
 	boundary = camel_multipart_get_boundary (multipart);
 	g_return_if_fail (boundary);
 	
@@ -612,9 +522,9 @@ _set_input_stream (CamelDataWrapper *data_wrapper, CamelStream *stream)
 	/* read all the real parts */
 	while (!end_of_multipart) {
 		/* determine the position of the begining of the part */
-		part_begining = camel_seekable_stream_get_current_position (stream);
+		part_begining = camel_seekable_stream_get_current_position (seekable_stream);
 
-		CAMEL_LOG_FULL_DEBUG ("CamelMultipart::construct_from_stream, detected a new part\n");
+		CAMEL_LOG_FULL_DEBUG ("CamelMultipart::set_input_stream, detected a new part\n");
 		body_part = camel_mime_body_part_new ();
 		
 		end_of_multipart = _localize_part (stream, 
@@ -625,8 +535,18 @@ _set_input_stream (CamelDataWrapper *data_wrapper, CamelStream *stream)
 			camel_seekable_substream_new_with_seekable_stream_and_bounds (seekable_stream,
 										      part_begining, 
 										      part_end);
-		
-		camel_data_wrapper_set_input_stream (CAMEL_DATA_WRAPPER (body_part), body_part_input_stream);
+
+		/* the seekable substream may change the position of the stream
+		   so we must save it before calling set_input_stream */
+		saved_stream_pos = camel_seekable_stream_get_current_position (seekable_stream);
+
+		camel_data_wrapper_set_input_stream (CAMEL_DATA_WRAPPER (body_part), 
+						     CAMEL_STREAM (body_part_input_stream));
+
+		/* restore the stream position */
+		camel_seekable_stream_seek (seekable_stream, saved_stream_pos, CAMEL_STREAM_SET);
+
+		/* add the body part to the multipart object */
 		camel_multipart_add_part (multipart, body_part);
 		
 	}
@@ -641,5 +561,5 @@ _set_input_stream (CamelDataWrapper *data_wrapper, CamelStream *stream)
 
 	g_free (real_boundary_line);
 	g_free (end_boundary_line);
-	CAMEL_LOG_FULL_DEBUG ("Leaving CamelMultipart::_construct_from_stream\n");
+	CAMEL_LOG_FULL_DEBUG ("Leaving CamelMultipart::_set_input_stream\n");
 }

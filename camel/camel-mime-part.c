@@ -818,7 +818,7 @@ _set_input_stream (CamelDataWrapper *data_wrapper, CamelStream *stream)
 	guint32 content_stream_inf_bound;
 	
 
-	CAMEL_LOG_FULL_DEBUG ("CamelMimePart::construct_from_stream entering\n");
+	CAMEL_LOG_FULL_DEBUG ("CamelMimePart::set_input_stream entering\n");
 
 	g_assert (CAMEL_IS_SEEKABLE_STREAM (stream));
 	seekable_stream = CAMEL_SEEKABLE_STREAM (stream);
@@ -831,6 +831,7 @@ _set_input_stream (CamelDataWrapper *data_wrapper, CamelStream *stream)
 		camel_seekable_substream_new_with_seekable_stream_and_bounds (seekable_stream,
 									      content_stream_inf_bound, 
 									      -1);
+	CAMEL_LOG_FULL_DEBUG ("CamelMimePart::set_input_stream leaving\n");
 
 }
 

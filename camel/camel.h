@@ -62,7 +62,7 @@ extern "C" {
 #include <camel/string-utils.h>
 #include <camel/url-util.h>
 
-gint camel_init ();
+gint camel_init (void);
 
 #ifdef __cplusplus
 }

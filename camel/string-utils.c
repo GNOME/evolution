@@ -65,7 +65,6 @@ gchar
 string_dichotomy (const gchar *string, gchar sep, gchar **prefix, gchar **suffix,
 		    StringDichotomyOption options)
 {
-	gchar *tmp_str;
 	gint sep_pos, first, last, len;
 	
 	g_assert (string);

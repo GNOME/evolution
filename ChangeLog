@@ -1,3 +1,19 @@
+2000-02-16  bertrand  <Bertrand.Guiheneuf@aful.org>
+
+	* camel/camel-seekable-substream.c (_set_bounds): don't
+	seek the begining of the substream.
+	(_eos): fix eos condition testing. 
+	(_finalize): unref parent stream
+	(_init_with_seekable_stream_and_bounds): ref parent stream
+
+	* camel/gstring-util.c (g_string_equal_for_hash): 
+	(g_string_equal_for_glist): return type is int.
+
+	* camel/camel.h: 
+	* camel/camel.c (camel_init): use (void) 
+	instead of ().
+	
+
 2000-02-15  bertrand  <bertrand@helixcode.com>
 
 	* camel/camel-multipart.c (_localize_part): 

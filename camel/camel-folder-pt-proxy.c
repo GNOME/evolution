@@ -234,7 +234,6 @@ _finalize (GtkObject *object)
 {
 	CamelFolder *camel_folder = CAMEL_FOLDER (object);
 	CamelFolderPtProxy *camel_folder_pt_proxy = CAMEL_FOLDER_PT_PROXY (camel_folder);
-	GList *message_node;
 
 	CAMEL_LOG_FULL_DEBUG ("Entering CamelFolderPtProxy::finalize\n");
 

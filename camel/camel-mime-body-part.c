@@ -43,7 +43,6 @@ static CamelMimePartClass *parent_class=NULL;
 static void
 camel_mime_body_part_class_init (CamelMimeBodyPartClass *camel_mime_body_part_class)
 {
-	CamelMimePartClass *camel_mime_part_class = CAMEL_MIME_PART_CLASS (camel_mime_body_part_class);
 	parent_class = gtk_type_class (camel_mime_part_get_type ());
 		
 	/* virtual method definition */
@@ -54,7 +53,6 @@ camel_mime_body_part_class_init (CamelMimeBodyPartClass *camel_mime_body_part_cl
 static void
 camel_mime_body_part_init (gpointer   object,  gpointer   klass)
 {
-	CamelMimeBodyPart *camel_mime_body_part = CAMEL_MIME_BODY_PART (object);
 	camel_data_wrapper_set_mime_type (CAMEL_DATA_WRAPPER (object), "mime/body-part");
 }
 
@@ -86,7 +84,7 @@ camel_mime_body_part_get_type (void)
 }
 
 CamelMimeBodyPart *
-camel_mime_body_part_new ()
+camel_mime_body_part_new (void)
 {
 	CamelMimeBodyPart *mime_body_part;
 	CAMEL_LOG_FULL_DEBUG ("CamelMimeBodyPart:: Entering new()\n");

@@ -61,7 +61,8 @@ typedef struct {
 	CamelMimePartClass parent_class;
 	
 	/* Virtual methods */	
-	void (*set_parent) (CamelMimeBodyPart *mime_body_part, CamelMultipart *multipart);
+	void (*set_parent) (CamelMimeBodyPart *mime_body_part, 
+			    CamelMultipart *multipart);
 	const CamelMultipart * (*get_parent) (CamelMimeBodyPart *mime_body_part);
 
 } CamelMimeBodyPartClass;
@@ -72,8 +73,9 @@ GtkType camel_mime_body_part_get_type (void);
 
 
 /* public methods */
-CamelMimeBodyPart *camel_mime_body_part_new ();
-void camel_mime_body_part_set_parent (CamelMimeBodyPart *mime_body_part, CamelMultipart *multipart);
+CamelMimeBodyPart *   camel_mime_body_part_new (void);
+void                  camel_mime_body_part_set_parent (CamelMimeBodyPart *mime_body_part, 
+						       CamelMultipart *multipart);
 const CamelMultipart *camel_mime_body_part_get_parent (CamelMimeBodyPart *mime_body_part);
 
 

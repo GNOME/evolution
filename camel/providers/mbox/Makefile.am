@@ -4,7 +4,6 @@ SUBDIRS =
 
 libcamelmboxincludedir = $(includedir)/camel
 
-providerdir = $(libdir)/evolution/camel-providers/$(VERSION) 
 
 provider_LTLIBRARIES = libcamelmbox.la
 

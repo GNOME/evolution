@@ -27,7 +27,7 @@
 #include "camel.h"
 
 gint
-camel_init()
+camel_init(void)
 {
 
 

@@ -69,7 +69,7 @@ typedef struct {
 } CamelThreadProxy;
 
 
-CamelThreadProxy *camel_thread_proxy_new ();
+CamelThreadProxy *camel_thread_proxy_new (void);
 void camel_thread_proxy_free (CamelThreadProxy *proxy);
 
 void camel_thread_proxy_push_op (CamelThreadProxy *proxy, CamelOp *op);

@@ -210,11 +210,13 @@ g_string_append_g_string(GString *dest_string, GString *other_string)
  * 
  * Return value: 
  **/
+gint
 g_string_equal_for_hash (gconstpointer v, gconstpointer v2)
 {
   return strcmp ( ((const GString*)v)->str, ((const GString*)v2)->str) == 0;
 }
 
+gint
 g_string_equal_for_glist (gconstpointer v, gconstpointer v2)
 {
   return !strcmp ( ((const GString*)v)->str, ((const GString*)v2)->str) == 0;

@@ -72,7 +72,7 @@ _init_notify_system (CamelThreadProxy *proxy);
  * Return value: The newly created proxy object
  **/
 CamelThreadProxy *
-camel_thread_proxy_new ()
+camel_thread_proxy_new (void)
 {
 	CamelThreadProxy *proxy;
 	
@@ -137,7 +137,6 @@ camel_thread_proxy_free (CamelThreadProxy *proxy)
 void
 _op_run_free_and_notify (CamelOp *op)
 {
-	gboolean error;
 	CamelThreadProxy *th_proxy;
 	
 	CAMEL_LOG_FULL_DEBUG ("Entering CamelThreadProxy::_op_run_free_and_notify\n");
@@ -163,7 +162,6 @@ _run_next_op_in_thread (CamelThreadProxy *proxy)
 {
 	CamelOp *op;
 	CamelOpQueue *server_op_queue;
-	CamelThreadProxy *th_proxy;
 	pthread_t thread;
 
 	CAMEL_LOG_FULL_DEBUG ("Entering CamelThreadProxy::_run_next_op_in_thread\n");
@@ -260,7 +258,6 @@ _run_next_cb (CamelThreadProxy *proxy)
 {
 	CamelOp *op;
 	CamelOpQueue *client_op_queue;
-	CamelThreadProxy *th_proxy;
 
 	CAMEL_LOG_FULL_DEBUG ("Entering CamelThreadProxy::_run_next_cb\n");
 	client_op_queue = proxy->client_op_queue;
@@ -476,7 +473,6 @@ camel_thread_proxy_add_signals (CamelThreadProxy *proxy,
 				GtkObject *real_object,
 				char *signal_to_proxy[])
 {
-	GtkType camel_folder_type;
 	guint i;
  
 	CAMEL_LOG_FULL_DEBUG ("Entering CamelThreadProxy::camel_thread_proxy_init_signals\n");

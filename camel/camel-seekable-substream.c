@@ -142,11 +142,14 @@ _destroy (GtkObject *object)
 static void           
 _finalize (GtkObject *object)
 {
-
-
+	CamelSeekableStream *seekable_stream;
 	CAMEL_LOG_FULL_DEBUG ("Entering CamelSeekableSubstream::finalize\n");
 	
-	/* does nothing for the moment */
+	seekable_stream = CAMEL_SEEKABLE_STREAM (object);
+
+	if (seekable_stream->parent_stream)
+		gtk_object_unref (seekable_stream->parent_stream);
+
 	GTK_OBJECT_CLASS (parent_class)->finalize (object);
 	CAMEL_LOG_FULL_DEBUG ("Leaving CamelSeekableSubstream::finalize\n");
 }
@@ -165,8 +168,6 @@ _set_bounds (CamelSeekableSubstream *seekable_substream, guint32 inf_bound, gint
 	seekable_substream->inf_bound = inf_bound;
 	seekable_substream->sup_bound = sup_bound;
 
-	/* go to the first position */
-	camel_seekable_stream_seek (seekable_substream->parent_stream, inf_bound, SEEK_SET);
 
 	seekable_substream->cur_pos = 0;
 	
@@ -194,7 +195,8 @@ _init_with_seekable_stream_and_bounds	 (CamelSeekableSubstream *seekable_substre
 	
 	/* store the parent stream */
 	seekable_substream->parent_stream = parent_stream;
-	
+	gtk_object_ref (parent_stream);
+
 	/* set the bound of the substream */
 	_set_bounds (seekable_substream, inf_bound, sup_bound);
 }
@@ -245,7 +247,6 @@ _read (CamelStream *stream, gchar *buffer, gint n)
 	
 	g_assert (stream);
 	g_assert (seekable_substream->parent_stream);
-	g_assert (seekable_substream->open);
 
 
 
@@ -300,14 +301,7 @@ _read (CamelStream *stream, gchar *buffer, gint n)
 		seekable_stream->cur_pos += v;
 
 
-#if 0
-	/* restore the parent position */
-	camel_seekable_stream_seek (seekable_substream->parent_stream, 
-				    parent_stream_current_position,
-				    CAMEL_STREAM_SET);
 
-	
-#endif
 	/* return the number of bytes read */
 	return v;
 }
@@ -384,11 +378,10 @@ _eos (CamelStream *stream)
 	gboolean eos;
 	
 	g_assert (stream);
-	g_assert (seekable_substream->open);
 	
 	if (seekable_substream->sup_bound != -1) {
 		substream_len = seekable_substream->sup_bound - seekable_substream->inf_bound;		
-		eos = ( seekable_stream->cur_pos > substream_len);
+		eos = ( seekable_stream->cur_pos >= substream_len);
 	} else {
 		eos = camel_stream_eos (CAMEL_STREAM (seekable_substream->parent_stream));
 	}
