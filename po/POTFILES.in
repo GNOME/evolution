@@ -5,12 +5,11 @@ addressbook/backend/ebook/load-gnomecard-addressbook.c
 addressbook/backend/ebook/load-pine-addressbook.c
 addressbook/backend/ebook/test-client-list.c
 addressbook/backend/ebook/test-client.c
-addressbook/conduit/address-conduit-control-applet.c
 addressbook/conduit/address-conduit.c
-addressbook/conduit/e-address-conduit-control-applet.desktop.in
 addressbook/contact-editor/contact-editor.glade
 addressbook/contact-editor/e-contact-editor-confirm-delete.glade
 addressbook/contact-editor/e-contact-editor.c
+addressbook/contact-editor/e-contact-quick-add.c
 addressbook/contact-editor/fulladdr.glade
 addressbook/contact-editor/fullname.glade
 addressbook/gui/component/addressbook-factory.c
@@ -18,8 +17,10 @@ addressbook/gui/component/addressbook.c
 addressbook/gui/component/addressbook-storage.c
 addressbook/gui/component/addressbook-config.c
 addressbook/gui/component/addressbook-config.glade
+addressbook/gui/component/e-address-widget.c
 addressbook/gui/component/GNOME_Evolution_Addressbook.oaf.in
 addressbook/gui/component/select-names/GNOME_Evolution_Addressbook_SelectNames.oaf.in
+addressbook/gui/component/select-names/e-select-names-popup.c
 addressbook/gui/component/select-names/select-names.glade
 addressbook/gui/search/e-addressbook-search-dialog.c
 addressbook/gui/widgets/alphabet.glade
@@ -30,11 +31,7 @@ addressbook/gui/widgets/e-minicard.c
 addressbook/gui/widgets/gal-view-factory-minicard.c
 addressbook/printing/e-contact-print.glade
 calendar/cal-util/timeutil.c
-calendar/conduits/calendar/calendar-conduit-control-applet.c
 calendar/conduits/calendar/calendar-conduit.c
-calendar/conduits/calendar/e-calendar-conduit-control-applet.desktop.in
-calendar/conduits/todo/e-todo-conduit-control-applet.desktop.in
-calendar/conduits/todo/todo-conduit-control-applet.c
 calendar/conduits/todo/todo-conduit.c
 #calendar/gui/alarm-notify.c
 calendar/gui/calendar-commands.c
@@ -87,6 +84,7 @@ camel/camel-sasl-plain.c
 camel/camel-search-private.c
 camel/camel-service.c
 camel/camel-session.c
+camel/camel-store.c
 camel/camel-url.c
 camel/camel-vee-folder.c
 camel/providers/imap/camel-imap-command.c
@@ -121,6 +119,7 @@ composer/e-msg-composer-hdrs.c
 composer/e-msg-composer.c
 composer/evolution-composer.c
 data/evolution.keys.in
+default_user/searches.xml
 e-util/e-time-utils.c
 executive-summary/GNOME_Evolution_Summary.oaf.in
 executive-summary/component/component-factory.c
@@ -173,6 +172,7 @@ mail/mail-vfolder.c
 mail/mail-view.c
 mail/message-list.c
 mail/openpgp-utils.c
+mail/session.c
 mail/subscribe-dialog.c
 shell/glade/e-shell-folder-creation-dialog.glade
 shell/importer/importer.c
@@ -203,6 +203,7 @@ ui/evolution-tasks.xml
 ui/evolution.xml
 widgets/meeting-time-sel/e-meeting-time-sel-item.c
 widgets/meeting-time-sel/e-meeting-time-sel.c
+widgets/menus/gal-view-menus.c
 widgets/misc/e-calendar-item.c
 widgets/misc/e-calendar.c
 widgets/misc/e-cell-date-edit.c
