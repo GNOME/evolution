@@ -1,3 +1,22 @@
+2001-04-11  JP Rosevear  <jpr@ximian.com>
+
+	* providers/imap/Makefile.am: user GNOME_INCLUDEDIR since gnome
+	files are included in the top level camel headers and the gtk
+	include dir is now versioned and such
+
+	* providers/local/Makefile.am: ditto
+
+	* providers/pop3/Makefile.am: ditto
+
+	* providers/smtp/Makefile.am: ditto
+
+	* providers/sendmail/Makefile.am: ditto
+
+	* camel-service.c: use five arg version of gethostbyname_r if
+	appropriate
+	(camel_get_host_byname): check if msg->herr is non-zero instead of
+	checking if msg->hp is null since we may not always have msg->hp
+
 2001-04-11  Jeffrey Stedfast  <fejj@ximian.com>
 
 	* camel-sasl-digest-md5.c (digest_response): Use

@@ -504,7 +504,9 @@ struct _lookup_msg {
 	int result;
 	int herr;
 	struct hostent hostbuf;
+#ifndef GETHOSTBYNAME_R_FIVE_ARGS
 	struct hostent *hp;
+#endif
 	int hostbuflen;
 	char *hostbufmem;
 };
@@ -514,7 +516,11 @@ get_host(void *data)
 {
 	struct _lookup_msg *info = data;
 
+#ifdef GETHOSTBYNAME_R_FIVE_ARGS
+	while (gethostbyname_r(info->name, &info->hostbuf, info->hostbufmem, info->hostbuflen, &info->herr) && info->herr == ERANGE) {
+#else
 	while ((info->result = gethostbyname_r(info->name, &info->hostbuf, info->hostbufmem, info->hostbuflen, &info->hp, &info->herr)) == ERANGE) {
+#endif
 		d(printf("gethostbyname fialed?\n"));
 #ifdef ENABLE_THREADS
 		pthread_testcancel();
@@ -594,7 +600,7 @@ struct hostent *camel_get_host_byname(const char *name, CamelException *ex)
 
 	camel_operation_end(NULL);
 
-	if (msg->hp == NULL) {
+	if (msg->herr) {
  		if (!camel_exception_is_set(ex)) {
 			if (msg->herr == HOST_NOT_FOUND || msg->herr == NO_DATA)
 				camel_exception_setv(ex, 1, _("Host lookup failed: %s: host not found"), name);

@@ -27,3 +27,6 @@
 
 /* Define if ctime_r takes three arguments */
 #undef CTIME_R_THREE_ARGS
+
+/* Define if gethostbyname_r takes five arguments */
+#undef GETHOSTBYNAME_R_FIVE_ARGS

@@ -15,6 +15,7 @@ INCLUDES =					\
 	-I$(top_srcdir)/intl			\
 	-I$(top_srcdir)/camel			\
 	-I$(top_srcdir)/e-util			\
+	$(GNOME_INCLUDEDIR)			\
 	$(GTK_INCLUDEDIR)			\
 	$(NSPR_CFLAGS)				\
 	$(NSS_CFLAGS)				\

@@ -10,6 +10,7 @@ lib_LTLIBRARIES = libcamel.la
 INCLUDES = -I.. -I$(srcdir)/.. 			 \
 	-I$(top_srcdir)/intl			 \
 	-I$(top_srcdir)/e-util			 \
+	$(GNOME_INCLUDEDIR)			 \
 	$(GLIB_CFLAGS)				 \
 	$(GNOME_XML_CFLAGS)			 \
 	$(UNICODE_CFLAGS)			 \
