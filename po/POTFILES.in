@@ -224,5 +224,8 @@ widgets/misc/e-filter-bar.c
 widgets/misc/e-filter-bar.h
 widgets/misc/e-messagebox.c
 widgets/misc/e-search-bar.c
+views/addressbook/galview.xml
+views/mail/galview.xml
+views/tasks/galview.xml
 wombat/GNOME_Evolution_Wombat.oaf.in
 wombat/wombat.c
