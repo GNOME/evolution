@@ -39,7 +39,6 @@ typedef struct _EShellClass   EShellClass;
 
 #include "e-component-registry.h"
 #include "e-shell-window.h"
-#include "e-user-creatable-items-handler.h"
 
 
 #define E_TYPE_SHELL			(e_shell_get_type ())
@@ -136,8 +135,6 @@ void  e_shell_show_settings  (EShell       *shell,
 gboolean e_shell_quit (EShell *shell);
 
 const char *e_shell_construct_result_to_string (EShellConstructResult result);
-
-EUserCreatableItemsHandler *e_shell_peek_user_creatable_items_handler (EShell *shell);
 
 
 #ifdef __cplusplus

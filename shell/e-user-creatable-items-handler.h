@@ -1,7 +1,7 @@
 /* -*- Mode: C; indent-tabs-mode: t; c-basic-offset: 8; tab-width: 8 -*- */
-/* e-shell-user-creatable-items-handler.h
+/* e-user-creatable-items-handler.h
  *
- * Copyright (C) 2001  Ximian, Inc.
+ * Copyright (C) 2001-2004 Novell, Inc.
  *
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of version 2 of the GNU General Public
@@ -25,6 +25,7 @@
 
 #include <glib-object.h>
 #include <bonobo/bonobo-ui-component.h>
+#include <bonobo/bonobo-window.h>
 
 #ifdef __cplusplus
 extern "C" {
@@ -43,9 +44,6 @@ typedef struct _EUserCreatableItemsHandlerPrivate EUserCreatableItemsHandlerPriv
 typedef struct _EUserCreatableItemsHandlerClass   EUserCreatableItemsHandlerClass;
 
 
-#include "e-shell-window.h"
-
-
 struct _EUserCreatableItemsHandler {
 	GObject parent;
 
@@ -57,14 +55,11 @@ struct _EUserCreatableItemsHandlerClass {
 };
 
 
-GtkType                     e_user_creatable_items_handler_get_type  (void);
-EUserCreatableItemsHandler *e_user_creatable_items_handler_new       (EComponentRegistry *registry);
+GType                       e_user_creatable_items_handler_get_type   (void);
+EUserCreatableItemsHandler *e_user_creatable_items_handler_new        (const char *component_alias);
 
-void  e_user_creatable_items_handler_add_component  (EUserCreatableItemsHandler *handler,
-						     const char                 *id,
-						     GNOME_Evolution_Component   component);
-void  e_user_creatable_items_handler_attach_menus   (EUserCreatableItemsHandler *handler,
-						     EShellWindow               *window);
+void                        e_user_creatable_items_handler_activate   (EUserCreatableItemsHandler *handler,
+								       BonoboUIComponent          *ui_component);
 
 #ifdef __cplusplus
 }

@@ -12,6 +12,11 @@
 
 module GNOME {
 module Evolution {
+	enum CreatableItem {
+		CREATABLE_OBJECT,
+		CREATABLE_FOLDER
+	};
+
 	/* A type of item that the component can create when asked by the user,
 	   e.g. a mail message or an appointment.  */
 	struct CreatableItemType {
@@ -21,6 +26,7 @@ module Evolution {
 		string tooltip;
 		char menuShortcut;
 		string iconName;
+		CreatableItem type;
 	};
 	typedef sequence <CreatableItemType> CreatableItemTypeList;
 

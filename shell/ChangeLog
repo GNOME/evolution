@@ -1,3 +1,25 @@
+2004-04-09  Dan Winship  <danw@ximian.com>
+
+	* e-user-creatable-items-handler.c: Change this a lot. Now each
+	component will maintain its own EUserCreatableItemsHandler and
+	merge the button and menus in and out of the UI as its controls
+	are activated and deactivated. (This lets the connector component
+	display the correct default for the New button). Also, update to
+	the Product Design Team's new organization (separating object
+	types from folder types)
+
+	* e-shell.c: Remove all creatable_items_handler references
+
+	* e-shell-window.c (e_shell_window_new): Remove
+	creatable_items_handler reference
+
+	* Makefile.am: Move e-user-creatable-items-handler from evolution
+	to libeshell, and make libeshell depend on libemiscwidgets (for
+	the combo button)
+
+	* Evolution-Component.idl: add another field to CreatableItemType
+	so we can distinguish object types from folder types.
+
 2004-04-07  Jeffrey Stedfast  <fejj@ximian.com>
 
 	* Evolution-ConfigControl.idl: Removed the "apply" method.

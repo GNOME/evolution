@@ -738,8 +738,6 @@ e_shell_window_new (EShell *shell,
 				     gconf_client_get_int (gconf_client, "/apps/evolution/shell/view_defaults/width", NULL),
 				     gconf_client_get_int (gconf_client, "/apps/evolution/shell/view_defaults/height", NULL));
 
-	e_user_creatable_items_handler_attach_menus (e_shell_peek_user_creatable_items_handler (shell), window);
-
 	g_object_unref (gconf_client);
 	return GTK_WIDGET (window);
 }

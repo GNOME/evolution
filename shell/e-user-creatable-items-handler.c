@@ -1,7 +1,7 @@
 /* -*- Mode: C; indent-tabs-mode: t; c-basic-offset: 8; tab-width: 8 -*- */
-/* e-shell-user-creatable-items-handler.c
+/* e-user-creatable-items-handler.c
  *
- * Copyright (C) 2001  Ximian, Inc.
+ * Copyright (C) 2001-2004 Novell, Inc.
  *
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of version 2 of the GNU General Public
@@ -27,10 +27,10 @@
 #include "e-user-creatable-items-handler.h"
 
 #include "e-shell-utils.h"
-
-#include "widgets/misc/e-combo-button.h"
+#include "Evolution.h"
 
 #include "e-util/e-corba-utils.h"
+#include "widgets/misc/e-combo-button.h"
 
 #include <gal/util/e-util.h>
 
@@ -40,6 +40,11 @@
 
 #include <libgnome/gnome-i18n.h>
 
+#include <gtk/gtkaccelgroup.h>
+#include <gtk/gtkimage.h>
+#include <gtk/gtkimagemenuitem.h>
+#include <gtk/gtkmenu.h>
+#include <gtk/gtkseparatormenuitem.h>
 #include <gtk/gtksignal.h>
 #include <gtk/gtktooltips.h>
 
@@ -52,16 +57,8 @@
 static GObjectClass *parent_class = NULL;
 
 
-#define VERB_PREFIX "ShellUserCreatableItemVerb"
-
-#define EVOLUTION_MAIL_OAFIID "OAFIID:GNOME_Evolution_Mail_ShellComponent:" BASE_VERSION
-
-#define SHELL_WINDOW_KEY          "EUserCreatableItemsHandler:shell_window"
-#define COMBO_BUTTON_WIDGET_KEY "EUserCreatableItemsHandler:combo_button"
-#define TOOLTIPS_KEY            "EUserCreatableItemsHandler:tooltips"
-
 struct _Component {
-	char *id;
+	char *id, *alias;
 	GNOME_Evolution_Component component;
 	GNOME_Evolution_CreatableItemTypeList *type_list;
 };
@@ -73,23 +70,38 @@ struct _MenuItem {
 	char shortcut;
 	char *verb;
 	char *tooltip;
-	char *component_id;
+	char *component;
 	GdkPixbuf *icon;
 };
 typedef struct _MenuItem MenuItem;
 
 struct _EUserCreatableItemsHandlerPrivate {
+	/* This component's alias */
+	char *this_component;
+
 	/* The components that register user creatable items.  */
 	GSList *components;	/* Component */
 
 	/* The "New ..." menu items.  */
-	GSList *menu_items;     /* MenuItem */
+	GSList *objects;     /* MenuItem */
+	GSList *folders;     /* MenuItem */
 
 	/* The default item (the mailer's "message" item).  To be used when the
 	   component in the view we are in doesn't provide a default user
 	   creatable type.  This pointer always points to one of the menu items
-	   in ->menu_items.  */
+	   in ->objects.  */
 	const MenuItem *default_menu_item;
+
+	char *menu_xml;
+	GtkWidget *new_button, *new_menu;
+	BonoboControl *new_control;
+	GtkTooltips *tooltips;
+	GtkAccelGroup *accel_group;
+};
+
+enum {
+	PROP_THIS_COMPONENT = 1,
+	LAST_PROP
 };
 
 
@@ -97,6 +109,7 @@ struct _EUserCreatableItemsHandlerPrivate {
 
 static Component *
 component_new (const char *id,
+	       const char *component_alias,
 	       GNOME_Evolution_Component component)
 {
 	CORBA_Environment ev;
@@ -106,6 +119,7 @@ component_new (const char *id,
 
 	new = g_new (Component, 1);
 	new->id = g_strdup (id);
+	new->alias = g_strdup (component_alias);
 
 	new->type_list = GNOME_Evolution_Component__get_userCreatableItems (component, &ev);
 	if (BONOBO_EX (&ev))
@@ -132,6 +146,7 @@ component_free (Component *component)
 	Bonobo_Unknown_unref (component->component, &ev);
 
 	g_free (component->id);
+	g_free (component->alias);
 
 	if (component->type_list != NULL)
 		CORBA_free (component->type_list);
@@ -141,25 +156,47 @@ component_free (Component *component)
 	g_free (component);
 }
 
+static const char *component_query =
+	"repo_ids.has ('IDL:GNOME/Evolution/Component:" BASE_VERSION "')";
+
 static void
-get_components_from_registry (EUserCreatableItemsHandler *handler,
-			      EComponentRegistry *registry)
+get_components_from_bonobo (EUserCreatableItemsHandler *handler)
 {
-	GSList *registry_list = e_component_registry_peek_list (registry);
-	GSList *p;
+	Bonobo_ServerInfoList *info_list;
+	Bonobo_ActivationProperty *property;
+	CORBA_Environment ev;
+	char *iid, *alias;
+	GNOME_Evolution_Component corba_component;
+	Component *component;
+	int i;
 
-	for (p = registry_list; p != NULL; p = p->next) {
-		EComponentInfo *info = p->data;
-		Component *component = NULL;
-
-		e_component_registry_activate (registry, info->id, NULL);
-
-		if (info->iface != CORBA_OBJECT_NIL)
-			component = component_new (info->id, info->iface);
-
-		if (component)
-			handler->priv->components = g_slist_prepend (handler->priv->components, component);
+	CORBA_exception_init (&ev);
+	info_list = bonobo_activation_query (component_query, NULL, &ev);
+	if (BONOBO_EX (&ev)) {
+		char *ex_text = bonobo_exception_get_text (&ev);
+		g_warning ("Cannot query for components: %s\n", ex_text);
+		g_free (ex_text);
+		CORBA_exception_free (&ev);
+		return;
 	}
+
+	for (i = 0; i < info_list->_length; i++) {
+		iid = info_list->_buffer[i].iid;
+		corba_component = bonobo_activation_activate_from_id (iid, Bonobo_ACTIVATION_FLAG_EXISTING_ONLY, NULL, &ev);
+		if (BONOBO_EX (&ev)) {
+			CORBA_exception_free (&ev);
+			continue;
+		}
+
+		property = bonobo_server_info_prop_find (&info_list->_buffer[i],
+							 "evolution:component_alias");
+		alias = property ? property->v._u.value_string : "unknown";
+
+		component = component_new (iid, alias, corba_component);
+		handler->priv->components = g_slist_prepend (handler->priv->components, component);
+	}
+
+	CORBA_free (info_list);
 }
 
 
@@ -167,22 +204,24 @@ get_components_from_registry (EUserCreatableItemsHandler *handler,
 
 static gboolean
 item_is_default (const MenuItem *item,
-		 const char *component_id)
+		 const char *component)
 {
-	if (component_id == NULL)
+	if (component == NULL)
 		return FALSE;
 
-	if (strcmp (item->component_id, component_id) == 0)
+	if (strcmp (item->component, component) == 0)
 		return TRUE;
 	else
 		return FALSE;
 }
 
 static char *
-create_verb_from_component_number_and_type_id (int component_num,
-					       const char *type_id)
+create_verb (EUserCreatableItemsHandler *handler,
+	     int component_num, const char *type_id)
 {
-	return g_strdup_printf (VERB_PREFIX ":%d:%s", component_num, type_id);
+	return g_strdup_printf ("EUserCreatableItemsHandler-%s:%d:%s",
+				handler->priv->this_component,
+				component_num, type_id);
 }
 
 
@@ -193,16 +232,16 @@ static void
 ensure_menu_items (EUserCreatableItemsHandler *handler)
 {
 	EUserCreatableItemsHandlerPrivate *priv;
-	GSList *menu_items;
+	GSList *objects, *folders;
 	GSList *p;
 	int component_num;
 	const char *default_verb;
 
 	priv = handler->priv;
-	if (priv->menu_items != NULL)
+	if (priv->objects != NULL)
 		return;
 
-	menu_items = NULL;
+	objects = folders = NULL;
 	component_num = 0;
 	default_verb = NULL;
 	for (p = priv->components; p != NULL; p = p->next) {
@@ -212,42 +251,46 @@ ensure_menu_items (EUserCreatableItemsHandler *handler)
 		component = (const Component *) p->data;
 		if (component->type_list != NULL) {
 			for (i = 0; i < component->type_list->_length; i ++) {
-				const GNOME_Evolution_CreatableItemType *type;
+				const GNOME_Evolution_CreatableItemType *corba_item;
 				MenuItem *item;
 
-				type = (const GNOME_Evolution_CreatableItemType *) component->type_list->_buffer + i;
+				corba_item = (const GNOME_Evolution_CreatableItemType *) component->type_list->_buffer + i;
 
 				item = g_new (MenuItem, 1);
-				item->label        = type->menuDescription;
-				item->shortcut     = type->menuShortcut;
-				item->verb         = create_verb_from_component_number_and_type_id (component_num, type->id);
-				item->tooltip      = type->tooltip;
-				item->component_id = g_strdup (component->id);
+				item->label        = corba_item->menuDescription;
+				item->shortcut     = corba_item->menuShortcut;
+				item->verb         = create_verb (handler, component_num, corba_item->id);
+				item->tooltip      = corba_item->tooltip;
+				item->component    = g_strdup (component->alias);
 
-				if (strcmp (item->component_id, EVOLUTION_MAIL_OAFIID) == 0
-				    && strcmp (type->id, "message") == 0)
+				if (strcmp (item->component, "mail") == 0
+				    && strcmp (corba_item->id, "message") == 0)
 					default_verb = item->verb;
 
-				if (type->iconName == "") {
+				if (corba_item->iconName == "") {
 					item->icon = NULL;
 				} else {
-					char *icon_path = e_shell_get_icon_path (type->iconName, TRUE);
+					char *icon_path = e_shell_get_icon_path (corba_item->iconName, TRUE);
 					item->icon = gdk_pixbuf_new_from_file (icon_path, NULL);
 					g_free (icon_path);
 				}
 
-				menu_items = g_slist_prepend (menu_items, item);
+				if (corba_item->type == GNOME_Evolution_CREATABLE_OBJECT)
+					objects = g_slist_prepend (objects, item);
+				else
+					folders = g_slist_prepend (folders, item);
 			}
 		}
 
 		component_num ++;
 	}
 
-	priv->menu_items = g_slist_reverse (menu_items);
+	priv->objects = g_slist_reverse (objects);
+	priv->folders = g_slist_reverse (folders);
 
 	priv->default_menu_item = NULL;
 	if (default_verb != NULL) {
-		for (p = priv->menu_items; p != NULL; p = p->next) {
+		for (p = priv->objects; p != NULL; p = p->next) {
 			const MenuItem *item;
 
 			item = (const MenuItem *) p->data;
@@ -274,7 +317,7 @@ free_menu_items (GSList *menu_items)
 		if (item->icon != NULL)
 			g_object_unref (item->icon);
 
-		g_free (item->component_id);
+		g_free (item->component);
 		g_free (item);
 	}
 
@@ -282,24 +325,18 @@ free_menu_items (GSList *menu_items)
 }
 
 static const MenuItem *
-get_default_action_for_view (EUserCreatableItemsHandler *handler,
-			     EShellWindow *window)
+get_default_action_for_view (EUserCreatableItemsHandler *handler)
 {
 	EUserCreatableItemsHandlerPrivate *priv;
-	const char *window_component_id;
 	const GSList *p;
 
 	priv = handler->priv;
 
-	window_component_id = e_shell_window_peek_current_component_id (window);
-	if (window_component_id == NULL)
-		return priv->default_menu_item;
-
-	for (p = priv->menu_items; p != NULL; p = p->next) {
+	for (p = priv->objects; p != NULL; p = p->next) {
 		const MenuItem *item;
 
 		item = (const MenuItem *) p->data;
-		if (item_is_default (item, window_component_id))
+		if (item_is_default (item, priv->this_component))
 			return item;
 	}
 
@@ -307,163 +344,10 @@ get_default_action_for_view (EUserCreatableItemsHandler *handler,
 }
 
 
-/* The XML description for "File -> New".  */
-
-/* This adds a menu item for @item.  If @first is true, the keyboard shortcut
-   is going to be "Control-N" instead of whatever the component defines.  */
-static void
-append_xml_for_menu_item (GString *xml,
-			  const MenuItem *item,
-			  gboolean first)
-{
-	char *encoded_label;
-	char *encoded_tooltip;
-
-	encoded_label = bonobo_ui_util_encode_str (item->label);
-	g_string_append_printf (xml, "<menuitem name=\"New:%s\" verb=\"%s\" label=\"%s\"",
-				item->verb, item->verb, encoded_label);
-
-	if (first)
-		g_string_append_printf (xml, " accel=\"*Control*N\"");
-	else if (item->shortcut != '\0')
-		g_string_append_printf (xml, " accel=\"*Control**Shift*%c\"", item->shortcut);
-
-	if (item->icon != NULL) {
-		char *icon_xml;
-
-		icon_xml = bonobo_ui_util_pixbuf_to_xml (item->icon);
-		g_string_append_printf (xml, " pixtype=\"pixbuf\" pixname=\"%s\"", icon_xml);
-		g_free (icon_xml);
-	}
-
-	encoded_tooltip = bonobo_ui_util_encode_str (item->tooltip);
-	g_string_append_printf (xml, " tip=\"%s\"", encoded_tooltip);
-
-	g_string_append (xml, "/> ");
-
-	g_free (encoded_label);
-	g_free (encoded_tooltip);
-}
-
-static int
-item_types_sort_func (const void *a,
-		      const void *b)
-{
-	const MenuItem *item_a;
-	const MenuItem *item_b;
-	const char *p1, *p2;
-
-	item_a = (const MenuItem *) a;
-	item_b = (const MenuItem *) b;
-
-	p1 = item_a->label;
-	p2 = item_b->label;
-
-	while (*p1 != '\0' && *p2 != '\0') {
-		if (*p1 == '_') {
-			p1 ++;
-			continue;
-		}
-
-		if (*p2 == '_') {
-			p2 ++;
-			continue;
-		}
-
-		if (toupper ((int) *p1) < toupper ((int) *p2))
-			return -1;
-		else if (toupper ((int) *p1) > toupper ((int) *p2))
-			return +1;
-
-		p1 ++, p2 ++;
-	}
-
-	if (*p1 == '\0') {
-		if (*p2 == '\0')
-			return 0;
-		else
-			return -1;
-	} else {
-		return +1;
-	}
-}
-
-static char *
-create_menu_xml (EUserCreatableItemsHandler *handler,
-		 const char *component_id)
-{
-	EUserCreatableItemsHandlerPrivate *priv;
-	GString *xml;
-	GSList *p;
-	GSList *non_default_items;
-	char *retval;
-
-	priv = handler->priv;
-
-	ensure_menu_items (handler);
-
-	xml = g_string_new ("");
-
-	g_string_append (xml, "<placeholder name=\"ComponentItems\">");
-	g_string_append (xml, "<placeholder name=\"EUserCreatableItemsPlaceholder\">");
-
-	/* 1. Add all the elements that are default for this component.  (Note
-	   that we don't need to do any sorting since the items are already
-	   sorted alphabetically.)  */
-
-	if (component_id != NULL) {
-		gboolean first = TRUE;
-
-		for (p = priv->menu_items; p != NULL; p = p->next) {
-			const MenuItem *item;
-
-			item = (const MenuItem *) p->data;
-			if (item_is_default (item, component_id)) {
-				append_xml_for_menu_item (xml, item, first);
-				first = FALSE;
-			}
-		}
-	}
-
-	/* 2. Add a separator. */
-
-	if (component_id != NULL)
-		g_string_append_printf (xml,
-					"<separator f=\"\" name=\"EUserCreatableItemsHandlerSeparator\"/>");
-
-	/* 3. Add the elements that are not default for this component.  */
-
-	non_default_items = NULL;
-	for (p = priv->menu_items; p != NULL; p = p->next) {
-		const MenuItem *item;
-
-		item = (const MenuItem *) p->data;
-		if (! item_is_default (item, component_id))
-			non_default_items = g_slist_prepend (non_default_items, (void *) item);
-	}
-
-	non_default_items = g_slist_sort (non_default_items, item_types_sort_func);
-	for (p = non_default_items; p != NULL; p = p->next)
-		append_xml_for_menu_item (xml, (const MenuItem *) p->data, FALSE);
-	g_slist_free (non_default_items);
-
-	/* Done...  */
-
-	g_string_append (xml, "</placeholder>"); /* EUserCreatableItemsPlaceholder */
-	g_string_append (xml, "</placeholder>"); /* ComponentItems */
-
-	retval = xml->str;
-	g_string_free (xml, FALSE);
-
-	return retval;
-}
-
-
 /* Verb handling.  */
 
 static void
 execute_verb (EUserCreatableItemsHandler *handler,
-	      EShellWindow *window,
 	      const char *verb_name)
 {
 	EUserCreatableItemsHandlerPrivate *priv;
@@ -514,30 +398,21 @@ verb_fn (BonoboUIComponent *ui_component,
 	 void *data,
 	 const char *verb_name)
 {
-	EUserCreatableItemsHandler *handler;
-	EShellWindow *shell_window;
+	EUserCreatableItemsHandler *handler=
+		E_USER_CREATABLE_ITEMS_HANDLER (data);
 
-	shell_window = g_object_get_data (G_OBJECT (ui_component), SHELL_WINDOW_KEY);
-	g_assert (E_IS_SHELL_WINDOW (shell_window));
-
-	handler = E_USER_CREATABLE_ITEMS_HANDLER (data);
-
-	execute_verb (handler, shell_window, verb_name);
+	execute_verb (handler, verb_name);
 }
 
 static void
 add_verbs (EUserCreatableItemsHandler *handler,
-	   EShellWindow *window)
+	   BonoboUIComponent *ui_component)
 {
 	EUserCreatableItemsHandlerPrivate *priv;
-	BonoboUIComponent *ui_component;
 	int component_num;
 	GSList *p;
 
 	priv = handler->priv;
-
-	ui_component = e_shell_window_peek_bonobo_ui_component (window);
-	g_object_set_data (G_OBJECT (ui_component), SHELL_WINDOW_KEY, window);
 
 	component_num = 0;
 	for (p = priv->components; p != NULL; p = p->next) {
@@ -550,8 +425,9 @@ add_verbs (EUserCreatableItemsHandler *handler,
 			for (i = 0; i < component->type_list->_length; i ++) {
 				char *verb_name;
 
-				verb_name = create_verb_from_component_number_and_type_id
-					(component_num, component->type_list->_buffer[i].id);
+				verb_name = create_verb (handler,
+							 component_num,
+							 component->type_list->_buffer[i].id);
 
 				bonobo_ui_component_add_verb (ui_component, verb_name, verb_fn, handler);
 
@@ -564,117 +440,296 @@ add_verbs (EUserCreatableItemsHandler *handler,
 }
 
 
-/* The "New" button in the toolbar.  */
+/* Generic menu construction code */
 
-static void
-combo_button_activate_default_callback (EComboButton *combo_button,
-					void *data)
+static int
+item_types_sort_func (const void *a,
+		      const void *b)
 {
-	EShellWindow *shell_window;
-	EUserCreatableItemsHandler *handler;
-	const MenuItem *menu_item;
+	const MenuItem *item_a;
+	const MenuItem *item_b;
+	const char *p1, *p2;
 
-	shell_window = E_SHELL_WINDOW (data);
-	handler = e_shell_peek_user_creatable_items_handler (e_shell_window_peek_shell (shell_window));
+	item_a = (const MenuItem *) a;
+	item_b = (const MenuItem *) b;
 
-	menu_item = get_default_action_for_view (handler, shell_window);
-	execute_verb (handler, shell_window, menu_item->verb);
+	p1 = item_a->label;
+	p2 = item_b->label;
+
+	while (*p1 != '\0' && *p2 != '\0') {
+		if (*p1 == '_') {
+			p1 ++;
+			continue;
+		}
+
+		if (*p2 == '_') {
+			p2 ++;
+			continue;
+		}
+
+		if (toupper ((int) *p1) < toupper ((int) *p2))
+			return -1;
+		else if (toupper ((int) *p1) > toupper ((int) *p2))
+			return +1;
+
+		p1 ++, p2 ++;
+	}
+
+	if (*p1 == '\0') {
+		if (*p2 == '\0')
+			return 0;
+		else
+			return -1;
+	} else {
+		return +1;
+	}
 }
 
+typedef void (*EUserCreatableItemsHandlerMenuItemFunc) (EUserCreatableItemsHandler *, gpointer, MenuItem *, gboolean);
+typedef void (*EUserCreatableItemsHandlerSeparatorFunc) (EUserCreatableItemsHandler *, gpointer, int);
+
 static void
-setup_toolbar_button (EUserCreatableItemsHandler *handler,
-		      EShellWindow *window)
+construct_menu (EUserCreatableItemsHandler *handler, gpointer menu,
+		EUserCreatableItemsHandlerMenuItemFunc menu_item_func,
+		EUserCreatableItemsHandlerSeparatorFunc separator_func)
 {
 	EUserCreatableItemsHandlerPrivate *priv;
-	BonoboUIComponent *ui_component;
-	GtkWidget *combo_button;
-	GtkWidget *menu;
-	GtkTooltips *tooltips;
-	BonoboControl *control;
+	MenuItem *item;
+	GSList *p, *items;
+	gboolean first = TRUE;
 
 	priv = handler->priv;
 
-	menu = gtk_menu_new ();
+	/* First add the current component's creatable objects */
+	for (p = priv->objects; p != NULL; p = p->next) {
+		item = p->data;
+		if (item_is_default (item, priv->this_component)) {
+			menu_item_func (handler, menu, item, first);
+			first = FALSE;
+		}
+	}
 
-	combo_button = e_combo_button_new ();
-	e_combo_button_set_menu (E_COMBO_BUTTON (combo_button), GTK_MENU (menu));
-	e_combo_button_set_label (E_COMBO_BUTTON (combo_button), _("New"));
-	gtk_widget_show (combo_button);
+	/* Then its creatable folders */
+	for (p = priv->folders; p != NULL; p = p->next) {
+		item = p->data;
+		if (item_is_default (item, priv->this_component))
+			menu_item_func (handler, menu, item, FALSE);
+	}
 
-	g_signal_connect (combo_button, "activate_default", G_CALLBACK (combo_button_activate_default_callback), window);
+	/* Then a separator */
+	separator_func (handler, menu, 1);
 
-	ui_component = e_shell_window_peek_bonobo_ui_component (window);
-	bonobo_window_add_popup (BONOBO_WINDOW (window), GTK_MENU (menu), "/popups/NewPopup");
+	/* Then the objects from other components. */
+	items = NULL;
+	for (p = priv->objects; p != NULL; p = p->next) {
+		item = p->data;
+		if (! item_is_default (item, priv->this_component))
+			items = g_slist_prepend (items, item);
+	}
 
-	control = bonobo_control_new (combo_button);
+	items = g_slist_sort (items, item_types_sort_func);
+	for (p = items; p != NULL; p = p->next)
+		menu_item_func (handler, menu, p->data, FALSE);
+	g_slist_free (items);
 
-	bonobo_ui_component_object_set (ui_component, "/Toolbar/NewComboButton",
-					BONOBO_OBJREF (control), NULL);
+	/* Another separator */
+	separator_func (handler, menu, 2);
 
-	bonobo_object_unref (control);
-	
-	g_object_set_data (G_OBJECT (window), COMBO_BUTTON_WIDGET_KEY, combo_button);
+	/* And finally the folders from other components */
+	items = NULL;
+	for (p = priv->folders; p != NULL; p = p->next) {
+		item = p->data;
+		if (! item_is_default (item, priv->this_component))
+			items = g_slist_prepend (items, item);
+	}
 
-	tooltips = gtk_tooltips_new ();
-	g_object_set_data (G_OBJECT (combo_button), TOOLTIPS_KEY, tooltips);
+	items = g_slist_sort (items, item_types_sort_func);
+	for (p = items; p != NULL; p = p->next)
+		menu_item_func (handler, menu, p->data, FALSE);
+	g_slist_free (items);
+}
+
+/* The XML description for "File -> New".  */
+
+static void
+xml_menu_item_func (EUserCreatableItemsHandler *handler, gpointer menu,
+		    MenuItem *item, gboolean first)
+{
+	GString *xml = menu;
+	char *encoded_label;
+	char *encoded_tooltip;
+
+	encoded_label = bonobo_ui_util_encode_str (item->label);
+	g_string_append_printf (xml, "<menuitem name=\"New:%s\" verb=\"%s\" label=\"%s\"",
+				item->verb, item->verb, encoded_label);
+
+	if (first)
+		g_string_append_printf (xml, " accel=\"*Control*N\"");
+	else if (item->shortcut != '\0')
+		g_string_append_printf (xml, " accel=\"*Control**Shift*%c\"", item->shortcut);
+
+	if (item->icon != NULL) {
+		char *icon_xml;
+
+		icon_xml = bonobo_ui_util_pixbuf_to_xml (item->icon);
+		g_string_append_printf (xml, " pixtype=\"pixbuf\" pixname=\"%s\"", icon_xml);
+		g_free (icon_xml);
+	}
+
+	encoded_tooltip = bonobo_ui_util_encode_str (item->tooltip);
+	g_string_append_printf (xml, " tip=\"%s\"", encoded_tooltip);
+
+	g_string_append (xml, "/> ");
+
+	g_free (encoded_label);
+	g_free (encoded_tooltip);
+}
+
+static void
+xml_separator_func (EUserCreatableItemsHandler *handler, gpointer menu, int nth)
+{
+	GString *xml = menu;
+
+	g_string_append_printf (xml, "<separator f=\"\" name=\"EUserCreatableItemsHandlerSeparator%d\"/>", nth);
+}
+
+static void
+create_menu_xml (EUserCreatableItemsHandler *handler)
+{
+	GString *xml;
+
+	xml = g_string_new ("<placeholder name=\"NewMenu\">");
+	construct_menu (handler, xml, xml_menu_item_func, xml_separator_func);
+	g_string_append (xml, "</placeholder>");
+
+	handler->priv->menu_xml = xml->str;
+	g_string_free (xml, FALSE);
 }
 
 
+/* The GtkMenu for the toolbar button.  */
+
 static void
-update_for_window (EUserCreatableItemsHandler *handler,
-		   EShellWindow *window)
+menuitem_activate (GtkMenuItem *item, gpointer data)
 {
-	GtkWidget *combo_button_widget;
-	GtkTooltips *tooltips;
-	BonoboUIComponent *ui_component;
+	EUserCreatableItemsHandler *handler = data;
+	const char *verb;
+
+	verb = g_object_get_data (G_OBJECT (item), "EUserCreatableItemsHandler:verb");
+	execute_verb (handler, verb);
+}
+
+static void
+default_activate (EComboButton *combo_button, gpointer data)
+{
+	EUserCreatableItemsHandler *handler = data;
+
+	execute_verb (handler, handler->priv->default_menu_item->verb);
+}
+
+static void
+gtk_menu_item_func (EUserCreatableItemsHandler *handler, gpointer menu,
+		    MenuItem *item, gboolean first)
+{
+	GtkWidget *menuitem, *icon;
+
+	menuitem = gtk_image_menu_item_new_with_mnemonic (item->label);
+
+	if (item->icon) {
+		icon = gtk_image_new_from_pixbuf (item->icon);
+		gtk_image_menu_item_set_image (GTK_IMAGE_MENU_ITEM (menuitem),
+					       icon);
+	}
+
+	if (first) {
+		gtk_widget_add_accelerator (menuitem, "activate",
+					    handler->priv->accel_group,
+					    'n', GDK_CONTROL_MASK,
+					    GTK_ACCEL_VISIBLE);
+	} else {
+		gtk_widget_add_accelerator (menuitem, "activate",
+					    handler->priv->accel_group,
+					    item->shortcut,
+					    GDK_CONTROL_MASK | GDK_SHIFT_MASK,
+					    GTK_ACCEL_VISIBLE);
+	}
+
+	g_object_set_data (G_OBJECT (menuitem), "EUserCreatableItemsHandler:verb", item->verb);
+	g_signal_connect (menuitem, "activate",
+			  G_CALLBACK (menuitem_activate), handler);
+
+	gtk_menu_shell_append (menu, menuitem);
+}
+
+static void
+gtk_separator_func (EUserCreatableItemsHandler *handler, gpointer menu, int nth)
+{
+	gtk_menu_shell_append (menu, gtk_separator_menu_item_new ());
+}
+
+static void
+setup_toolbar_button (EUserCreatableItemsHandler *handler)
+{
+	EUserCreatableItemsHandlerPrivate *priv;
 	const MenuItem *default_menu_item;
-	char *menu_xml;
 
-	combo_button_widget = g_object_get_data (G_OBJECT (window), COMBO_BUTTON_WIDGET_KEY);
-	g_assert (E_IS_COMBO_BUTTON (combo_button_widget));
+	priv = handler->priv;
 
-	tooltips = g_object_get_data (G_OBJECT (combo_button_widget), TOOLTIPS_KEY);
-	g_assert (tooltips != NULL);
+	priv->new_button = e_combo_button_new ();
+	priv->new_menu = gtk_menu_new ();
+	priv->accel_group = gtk_accel_group_new ();
+	construct_menu (handler, priv->new_menu,
+			gtk_menu_item_func, gtk_separator_func);
+	gtk_widget_show_all (priv->new_menu);
+	e_combo_button_set_menu (E_COMBO_BUTTON (priv->new_button),
+				 GTK_MENU (priv->new_menu));
+	e_combo_button_set_label (E_COMBO_BUTTON (priv->new_button), _("New"));
+	gtk_widget_show (priv->new_button);
 
-	default_menu_item = get_default_action_for_view (handler, window);
-	if (default_menu_item == NULL) {
-		gtk_widget_set_sensitive (combo_button_widget, FALSE);
-		e_combo_button_set_label (E_COMBO_BUTTON (combo_button_widget), _("New"));
-		e_combo_button_set_icon (E_COMBO_BUTTON (combo_button_widget), NULL);
-		gtk_tooltips_set_tip (tooltips, combo_button_widget, NULL, NULL);
+	g_signal_connect (priv->new_button, "activate_default",
+			  G_CALLBACK (default_activate), handler);
+
+	priv->new_control = bonobo_control_new (priv->new_button);
+
+	default_menu_item = get_default_action_for_view (handler);
+	if (!default_menu_item) {
+		gtk_widget_set_sensitive (priv->new_button, FALSE);
 		return;
 	}
 
-	gtk_widget_set_sensitive (combo_button_widget, TRUE);
+	gtk_widget_set_sensitive (priv->new_button, TRUE);
 
-	e_combo_button_set_icon (E_COMBO_BUTTON (combo_button_widget), default_menu_item->icon);
-	gtk_tooltips_set_tip (tooltips, combo_button_widget, default_menu_item->tooltip, NULL);
+	e_combo_button_set_icon (E_COMBO_BUTTON (priv->new_button),
+				 default_menu_item->icon);
 
-	ui_component = e_shell_window_peek_bonobo_ui_component (window);
-	bonobo_ui_component_rm (ui_component, "/menu/File/New/ComponentItems/EUserCreatableItemsPlaceholder", NULL);
-	bonobo_ui_component_rm (ui_component, "/popups/NewPopup/ComponentItems/EUserCreatableItemsPlaceholder", NULL);
-
-	menu_xml = create_menu_xml (handler, e_shell_window_peek_current_component_id (window));
-
-	bonobo_ui_component_set (ui_component, "/menu/File/New", menu_xml, NULL);
-	bonobo_ui_component_set (ui_component, "/popups/NewPopup", menu_xml, NULL);
-	g_free (menu_xml);
-}
-
-
-/* This handles the menus for a given EShellWindow.  We have to rebuild the menu
-   and set the toolbar button every time the view changes, and clean up when
-   the view is destroyed.  */
-
-static void
-shell_window_component_changed_callback (EShellWindow *shell_window,
-					 EUserCreatableItemsHandler *handler)
-{
-	update_for_window (handler, shell_window);
+	priv->tooltips = gtk_tooltips_new ();
+	gtk_object_ref (GTK_OBJECT (priv->tooltips));
+	gtk_object_sink (GTK_OBJECT (priv->tooltips));
+	gtk_tooltips_set_tip (priv->tooltips, priv->new_button,
+			      default_menu_item->tooltip, NULL);
 }
 
 
 /* GObject methods.  */
+
+static void
+impl_set_property (GObject *object, guint prop_id,
+		   const GValue *value, GParamSpec *pspec)
+{
+	EUserCreatableItemsHandler *handler =
+		E_USER_CREATABLE_ITEMS_HANDLER (object);
+
+	switch (prop_id) {
+	case PROP_THIS_COMPONENT:
+		handler->priv->this_component = g_value_dup_string (value);
+
+		get_components_from_bonobo (handler);	
+		ensure_menu_items (handler);
+		break;
+	default:
+		break;
+	}
+}
 
 static void
 impl_dispose (GObject *object)
@@ -692,7 +747,21 @@ impl_dispose (GObject *object)
 	g_slist_free (priv->components);
 	priv->components = NULL;
 
-	
+	if (priv->new_control) {
+		bonobo_object_unref (priv->new_control);
+		priv->new_control = NULL;
+	}
+
+	if (priv->tooltips) {
+		g_object_unref (priv->tooltips);
+		priv->tooltips = NULL;
+	}
+
+	if (priv->accel_group) {
+		g_object_unref (priv->accel_group);
+		priv->accel_group = NULL;
+	}
+
 	(* G_OBJECT_CLASS (parent_class)->dispose) (object);
 }
 
@@ -705,7 +774,10 @@ impl_finalize (GObject *object)
 	handler = E_USER_CREATABLE_ITEMS_HANDLER (object);
 	priv = handler->priv;
 
-	free_menu_items (priv->menu_items);
+	g_free (priv->this_component);
+
+	free_menu_items (priv->objects);
+	free_menu_items (priv->folders);
 
 	g_free (priv);
 
@@ -718,73 +790,69 @@ class_init (GObjectClass *object_class)
 {
 	parent_class = g_type_class_ref(PARENT_TYPE);
 
-	object_class->dispose  = impl_dispose;
-	object_class->finalize = impl_finalize;
+	object_class->dispose      = impl_dispose;
+	object_class->finalize     = impl_finalize;
+	object_class->set_property = impl_set_property;
+
+	g_object_class_install_property (
+		object_class, PROP_THIS_COMPONENT,
+		g_param_spec_string ("this_component", "Component alias",
+				     "The component_alias of this component",
+				     NULL,
+				     G_PARAM_WRITABLE | G_PARAM_CONSTRUCT_ONLY));
 }
 
 static void
-init (EUserCreatableItemsHandler *shell_user_creatable_items_handler)
+init (EUserCreatableItemsHandler *handler)
 {
 	EUserCreatableItemsHandlerPrivate *priv;
 
-	priv = g_new (EUserCreatableItemsHandlerPrivate, 1);
-	priv->components 	= NULL;
-	priv->menu_items 	= NULL;
-	priv->default_menu_item = NULL;
+	priv = g_new0 (EUserCreatableItemsHandlerPrivate, 1);
 
-	shell_user_creatable_items_handler->priv = priv;
+	handler->priv = priv;
 }
 
 
 EUserCreatableItemsHandler *
-e_user_creatable_items_handler_new (EComponentRegistry *registry)
+e_user_creatable_items_handler_new (const char *component_alias)
 {
-	EUserCreatableItemsHandler *new;
-
-	new = g_object_new (e_user_creatable_items_handler_get_type (), NULL);
-
-	get_components_from_registry (new, registry);
-
-	return new;
+	return g_object_new (e_user_creatable_items_handler_get_type (),
+			     "this_component", component_alias,
+			     NULL);
 }
 
 
 /**
- * e_user_creatable_items_handler_attach_menus:
- * @handler: 
- * @shell_window: 
+ * e_user_creatable_items_handler_activate:
+ * @handler: the #EUserCreatableItemsHandler
+ * @ui_component: the #BonoboUIComponent to attach to
  * 
- * Set up the menus and toolbar items for @shell_window.  When the shell changes
- * view, the menu and the toolbar item will update automatically (i.e. the
- * actions for the current folder will go on top etc.).
+ * Set up the menus and toolbar items for @ui_component.
  **/
 void
-e_user_creatable_items_handler_attach_menus (EUserCreatableItemsHandler *handler,
-					     EShellWindow *window)
+e_user_creatable_items_handler_activate (EUserCreatableItemsHandler *handler,
+					 BonoboUIComponent *ui_component)
 {
-	BonoboUIComponent *ui_component;
 	EUserCreatableItemsHandlerPrivate *priv;
-	char *menu_xml;
 
 	g_return_if_fail (E_IS_USER_CREATABLE_ITEMS_HANDLER (handler));
-	g_return_if_fail (E_IS_SHELL_WINDOW (window));
+	g_return_if_fail (BONOBO_IS_UI_COMPONENT (ui_component));
 
 	priv = handler->priv;
 
-	setup_toolbar_button (handler, window);
-	g_signal_connect (window, "component_changed", G_CALLBACK (shell_window_component_changed_callback), handler);
+	if (!priv->menu_xml) {
+		create_menu_xml (handler);
+		setup_toolbar_button (handler);
+		add_verbs (handler, ui_component);
+	}
 
-	add_verbs (handler, window);
-	menu_xml = create_menu_xml (handler, e_shell_window_peek_current_component_id (window));
+	bonobo_ui_component_set (ui_component, "/menu/File/New",
+				 priv->menu_xml, NULL);
 
-	ui_component = e_shell_window_peek_bonobo_ui_component (window);
-	bonobo_ui_component_set (ui_component, "/menu/File/New", menu_xml, NULL);
-	bonobo_ui_component_set (ui_component, "/popups/NewPopup", menu_xml, NULL);
-
-	g_free (menu_xml);
-
-	update_for_window (handler, window);
+	bonobo_ui_component_object_set (ui_component,
+					"/Toolbar/NewComboButton",
+					BONOBO_OBJREF (priv->new_control),
+					NULL);
 }
-
 
 E_MAKE_TYPE (e_user_creatable_items_handler, "EUserCreatableItemsHandler", EUserCreatableItemsHandler, class_init, init, PARENT_TYPE)
