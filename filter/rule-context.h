@@ -58,8 +58,7 @@ struct _RuleContextClass {
 	GtkObjectClass parent_class;
 
 	/* virtual methods */
-	int (*load)(RuleContext *f, const char *system, const char *user,
-		    RCRegisterFunc on_demand_cb, gpointer user_data);
+	int (*load)(RuleContext *f, const char *system, const char *user);
 	int (*save)(RuleContext *f, const char *user);
 
 	/* signals */
@@ -88,8 +87,7 @@ guint		rule_context_get_type	(void);
 RuleContext	*rule_context_new	(void);
 
 /* methods */
-int		rule_context_load(RuleContext *f, const char *system, const char *user,
-				  RCRegisterFunc on_demand_cb, gpointer user_data);
+int		rule_context_load(RuleContext *f, const char *system, const char *user);
 int		rule_context_save(RuleContext *f, const char *user);
 
 void		rule_context_add_part(RuleContext *f, FilterPart *new);

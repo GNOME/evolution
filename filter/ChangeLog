@@ -1,3 +1,8 @@
+2000-10-06  Not Zed  <NotZed@HelixCode.com>
+
+	* rule-context.c (load): Remove the stupid on-demand cb shit.
+	(rule_context_load): And here too.
+
 2000-09-27  Jeffrey Stedfast  <fejj@helixcode.com>
 
 	* filter-driver.c (filter_driver_run): Now takes an argument to

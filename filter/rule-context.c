@@ -26,8 +26,7 @@
 
 #define d(x)
 
-static int	load(RuleContext *f, const char *system, const char *user,
-		     RCRegisterFunc on_demand_cb, gpointer user_data);
+static int	load(RuleContext *f, const char *system, const char *user);
 static int	save(RuleContext *f, const char *user);
 
 static void rule_context_class_init	(RuleContextClass *class);
@@ -168,25 +167,19 @@ rule_context_set_error(RuleContext *f, char *error)
  * @f: 
  * @system: 
  * @user: 
- * @on_demand_cb: An optional callback to allow UI registration of on-demand rules
- * @user_data: Extra data for the callback
- * 
+ *
  * Load a rule context from a system and user description file.
  * 
  * Return value: 
  **/
-int		rule_context_load(RuleContext *f, const char *system, const char *user, 
-				  RCRegisterFunc on_demand_cb, gpointer user_data )
+int		rule_context_load(RuleContext *f, const char *system, const char *user)
 {
 	d(printf("rule_context: loading %s %s\n", system, user));
 
-	return ((RuleContextClass *)((GtkObject *)f)->klass)->load(f, system, user,
-								   on_demand_cb,
-								   user_data);
+	return ((RuleContextClass *)((GtkObject *)f)->klass)->load(f, system, user);
 }
 
-static int	load(RuleContext *f, const char *system, const char *user,
-		     RCRegisterFunc on_demand_cb, gpointer user_data)
+static int	load(RuleContext *f, const char *system, const char *user)
 {
 	xmlNodePtr set, rule;
 	struct _part_set_map *part_map;
@@ -203,8 +196,7 @@ static int	load(RuleContext *f, const char *system, const char *user,
 		return -1;
 	}
 	if (strcmp(f->system->root->name, "filterdescription")) {
-		rule_context_set_error(f, g_strdup_printf("Unable to load system rules '%s': Invalid format",
-							  system));
+		rule_context_set_error(f, g_strdup_printf("Unable to load system rules '%s': Invalid format", system));
 		xmlFreeDoc(f->system);
 		f->system = NULL;
 		return -1;
@@ -252,9 +244,6 @@ static int	load(RuleContext *f, const char *system, const char *user,
 						FilterRule *part = FILTER_RULE(gtk_type_new(rule_map->type));
 						if (filter_rule_xml_decode(part, rule, f) == 0) {
 							rule_map->append(f, part);
-
-							if (on_demand_cb && part->source == FILTER_SOURCE_DEMAND)
-								(on_demand_cb) (f, part, user_data);
 						} else {
 							gtk_object_unref((GtkObject *)part);
 							g_warning("Cannot load filter part");
