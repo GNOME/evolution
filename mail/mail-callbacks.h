@@ -69,7 +69,7 @@ void view_msg              (GtkWidget *widget, gpointer user_data);
 void view_source           (GtkWidget *widget, gpointer user_data);
 void next_msg              (GtkWidget *widget, gpointer user_data);
 void previous_msg          (GtkWidget *widget, gpointer user_data);
-void next_unred_msg        (GtkWidget *widget, gpointer user_data);
+void next_unread_msg       (GtkWidget *widget, gpointer user_data);
 void previous_unread_msg   (GtkWidget *widget, gpointer user_data);
 void resend_msg            (GtkWidget *widget, gpointer user_data);
 void search_msg            (GtkWidget *widget, gpointer user_data);
