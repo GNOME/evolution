@@ -1311,19 +1311,17 @@ static void
 do_exit (EMsgComposer *composer)
 {
 	GtkWidget *dialog;
-	GtkWidget *label;
 	gint button;
 	
 	if (composer->has_changed) {
-		dialog = gnome_dialog_new (_("Evolution"),
-					   GNOME_STOCK_BUTTON_YES,      /* Save */
-					   GNOME_STOCK_BUTTON_NO,       /* Don't save */
-					   GNOME_STOCK_BUTTON_CANCEL,   /* Cancel */
-					   NULL);
-		
-		label = gtk_label_new (_("This message has not been sent.\n\nDo you wish to save your changes?"));
-		gtk_box_pack_start (GTK_BOX (GNOME_DIALOG (dialog)->vbox), label, TRUE, TRUE, 0);
-		gtk_widget_show (label);
+		dialog = gnome_message_box_new (_("This message has not been sent.\n\nDo you wish to save your changes?"),
+						GNOME_MESSAGE_BOX_QUESTION,
+						GNOME_STOCK_BUTTON_YES,      /* Save */
+						GNOME_STOCK_BUTTON_NO,       /* Don't save */
+						GNOME_STOCK_BUTTON_CANCEL,   /* Cancel */
+						NULL);
+	
+		gtk_window_set_title (GTK_WINDOW (dialog), _("Evolution"));
 		gnome_dialog_set_parent (GNOME_DIALOG (dialog), GTK_WINDOW (composer));
 		gnome_dialog_set_default (GNOME_DIALOG (dialog), 0);
 		button = gnome_dialog_run_and_close (GNOME_DIALOG (dialog));
