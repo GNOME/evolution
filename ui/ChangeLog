@@ -1,3 +1,8 @@
+2004-06-22  V Ravi Kumar Raju <vravikr@yahoo.co.uk>
+
+	* evolution-addressbook.xml: Remove the Menu Seperator in View
+	Menu when in the contacts view.
+
 2004-06-05  Christian Neumair  <chris@gnome-de.org>
 
 	* evolution-mail-list.xml: Remove trailing "..." from folder

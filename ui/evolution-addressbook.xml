@@ -85,7 +85,6 @@
 
     <submenu name="View" _label="_View">
       <menuitem name="ContactsViewPreview" verb="" _label="_Preview Pane"/>
-      <separator f="" name="addressbookglobal"/>
     </submenu>
 
     <placeholder name="EditPlaceholder">
