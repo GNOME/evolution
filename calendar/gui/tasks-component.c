@@ -1036,9 +1036,9 @@ impl__get_userCreatableItems (PortableServer_Servant servant,
 
 	list->_buffer[1].id = CREATE_TASK_LIST_ID;
 	list->_buffer[1].description = _("New tasks group");
-	list->_buffer[1].menuDescription = _("_Tasks Group");
+	list->_buffer[1].menuDescription = _("Tasks Gro_up");
 	list->_buffer[1].tooltip = _("Create a new tasks group");
-	list->_buffer[1].menuShortcut = 'n';
+	list->_buffer[1].menuShortcut = 'u';
 	list->_buffer[1].iconName = "stock_todo";
 	list->_buffer[1].type = GNOME_Evolution_CREATABLE_FOLDER;
 

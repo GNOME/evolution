@@ -1246,9 +1246,9 @@ impl__get_userCreatableItems (PortableServer_Servant servant,
 
 	list->_buffer[3].id = CREATE_CALENDAR_ID;
 	list->_buffer[3].description = _("New calendar");
-	list->_buffer[3].menuDescription = _("C_alendar");
+	list->_buffer[3].menuDescription = _("Cale_ndar");
 	list->_buffer[3].tooltip = _("Create a new calendar");
-	list->_buffer[3].menuShortcut = 'a';
+	list->_buffer[3].menuShortcut = 'n';
 	list->_buffer[3].iconName = "stock_calendar";
 	list->_buffer[3].type = GNOME_Evolution_CREATABLE_FOLDER;
 
