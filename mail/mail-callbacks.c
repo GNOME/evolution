@@ -1397,11 +1397,70 @@ edit_message (BonoboUIComponent *uih, void *user_data, const char *path)
 }
 
 void
-stop_threads(BonoboUIComponent *uih, void *user_data, const char *path)
+stop_threads (BonoboUIComponent *uih, void *user_data, const char *path)
 {
-	camel_operation_cancel(NULL);
+	camel_operation_cancel (NULL);
 }
 
+static void
+empty_trash_expunged_cb (CamelFolder *folder, void *data)
+{
+	camel_object_unref (CAMEL_OBJECT (folder));
+}
+
+void
+empty_trash (BonoboUIComponent *uih, void *user_data, const char *path)
+{
+	MailConfigAccount *account;
+	CamelProvider *provider;
+	CamelService *service;
+	CamelFolder *vtrash;
+	const GSList *accounts;
+	CamelException *ex;
+	
+	ex = camel_exception_new ();
+	
+	/* expunge all remote stores */
+	accounts = mail_config_get_accounts ();
+	while (accounts) {
+		account = accounts->data;
+		
+		/* make sure this is a valid source */
+		if (account->source && account->source->url) {
+			service = camel_session_get_service (session, account->source->url,
+							     CAMEL_PROVIDER_STORE, ex);
+			
+			if (service) {
+				provider = camel_service_get_provider (service);
+				
+				/* make sure this store is a remote store */
+				if (provider->flags & CAMEL_PROVIDER_IS_STORAGE &&
+				    provider->flags & CAMEL_PROVIDER_IS_REMOTE) {
+					char *url;
+					
+					url = g_strdup_printf ("vtrash:%s", account->source->url);
+					vtrash = mail_tool_uri_to_folder (url, ex);
+					g_free (url);
+					
+					if (vtrash)
+						mail_expunge_folder (vtrash, empty_trash_expunged_cb, NULL);
+				}
+				
+				camel_object_unref (CAMEL_OBJECT (service));
+			}
+		}
+		
+		camel_exception_clear (ex);
+		accounts = accounts->next;
+	}
+	
+	/* Now empty the local trash folder */
+	vtrash = mail_tool_uri_to_folder ("vtrash:file:/", ex);
+	if (vtrash)
+		mail_expunge_folder (vtrash, empty_trash_expunged_cb, NULL);
+	
+	camel_exception_free (ex);
+}
 
 static void
 create_folders (EvolutionStorage *storage, const char *prefix, CamelFolderInfo *fi)

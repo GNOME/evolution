@@ -88,6 +88,8 @@ void configure_folder      (BonoboUIComponent *uih, void *user_data, const char 
 
 void stop_threads          (BonoboUIComponent *uih, void *user_data, const char *path);
 
+void empty_trash           (BonoboUIComponent *uih, void *user_data, const char *path);
+
 void mail_reply            (CamelFolder *folder, CamelMimeMessage *msg, const char *uid, gboolean to_all);
 void composer_send_cb      (EMsgComposer *composer, gpointer data);
 void composer_postpone_cb  (EMsgComposer *composer, gpointer data);
@@ -96,7 +98,6 @@ void forward_messages	   (CamelFolder *folder, GPtrArray *uids, gboolean inline)
 
 void mail_print_preview_msg (MailDisplay *md);
 void mail_print_msg         (MailDisplay *md);
-
 
 /* CamelStore callbacks */
 void folder_created (CamelStore *store, CamelFolderInfo *fi);

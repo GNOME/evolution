@@ -98,6 +98,7 @@ BonoboUIVerb verbs [] = {
 	/* Folder Menu */
 	BONOBO_UI_UNSAFE_VERB ("FolderExpunge", expunge_folder),
 	BONOBO_UI_UNSAFE_VERB ("FolderConfig", configure_folder),
+	BONOBO_UI_UNSAFE_VERB ("ActionsEmptyTrash", empty_trash),
 	
 	/* Toolbar specific */
 	BONOBO_UI_UNSAFE_VERB ("MailStop", stop_threads),

@@ -1,3 +1,14 @@
+2001-03-11  Jeffrey Stedfast  <fejj@ximian.com>
+
+	* mail-ops.h: Added protection.
+
+	* folder-browser-factory.c: Add ActionsEmptyTrash. By the way -
+	should we rename the bonobo verbs now that our menu structure has
+	changed?
+
+	* mail-callbacks.c (empty_trash): New callback to empty ALL of the
+	trash folders.
+
 2001-03-10  Jeffrey Stedfast  <fejj@ximian.com>
 
 	* mail-ops.c (send_queue_send): Remove our X-Evolution header
