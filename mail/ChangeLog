@@ -1,3 +1,9 @@
+2003-03-03  Not Zed  <NotZed@Ximian.com>
+
+	* subscribe-dialog.c (fe_got_children): Remove the
+	e_tree_memory_sort_node, currently it crashes inside gal, the root
+	node seems to get free'd under it.
+
 2003-02-26  Jeffrey Stedfast  <fejj@ximian.com>
 
 	* mail-preferences.c: Reverted back to using e-iconv

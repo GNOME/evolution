@@ -471,8 +471,8 @@ subscribe_get_global_extras (void)
 {
 	if (global_extras == NULL) {
 		global_extras = g_object_new (fete_get_type(), NULL);
-		g_object_ref(global_extras);
-		gtk_object_sink((GtkObject *)global_extras);
+		/*g_object_ref(global_extras);
+		  gtk_object_sink((GtkObject *)global_extras);*/
 		g_object_weak_ref(G_OBJECT(global_extras), global_extras_destroyed, NULL);
 	} else {
 		g_object_ref(global_extras);
@@ -727,11 +727,13 @@ fe_got_children (CamelStore *store, char *prefix, CamelFolderInfo *info, gpointe
 		g_hash_table_insert(closure->ftree->node_full_name, ftree_node_get_full_name(node), child_path);
 	}
 
+#if 0
+	/* FIXME: this needs to be added back to sort the tree */
 	e_tree_memory_sort_node (E_TREE_MEMORY (closure->ftree), 
 				 closure->path,
 				 fe_sort_folder,
 				 NULL);
-
+#endif
 	if (closure->data)
 		closure->data->flags |= FTREE_NODE_GOT_CHILDREN;
 
