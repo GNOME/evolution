@@ -31,6 +31,7 @@ extern "C" {
 
 #include <gtk/gtkvbox.h>
 #include <gtk/gtkbutton.h>
+#include <gtk/gtkclist.h>
 #include <glade/glade.h>
 
 #include <gal/e-table/e-table.h>
@@ -59,8 +60,11 @@ struct _MailAccountsTab {
 	GtkWidget *druid;
 	GtkWidget *editor;
 	
+	GtkCList *table;
+#if 0
 	ETable *table;
 	ETableModel *model;
+#endif
 	
 	GtkButton *mail_add;
 	GtkButton *mail_edit;

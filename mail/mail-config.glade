@@ -4321,32 +4321,17 @@ Quoted
     <spacing>0</spacing>
 
     <widget>
-      <class>GtkScrolledWindow</class>
-      <name>scrolledwindow44</name>
-      <hscrollbar_policy>GTK_POLICY_AUTOMATIC</hscrollbar_policy>
-      <vscrollbar_policy>GTK_POLICY_AUTOMATIC</vscrollbar_policy>
-      <hupdate_policy>GTK_UPDATE_CONTINUOUS</hupdate_policy>
-      <vupdate_policy>GTK_UPDATE_CONTINUOUS</vupdate_policy>
+      <class>Custom</class>
+      <name>etableMailAccounts</name>
+      <creation_function>mail_accounts_etable_new</creation_function>
+      <int1>0</int1>
+      <int2>0</int2>
+      <last_modification_time>Thu, 28 Mar 2002 21:15:54 GMT</last_modification_time>
       <child>
 	<padding>0</padding>
 	<expand>True</expand>
 	<fill>True</fill>
       </child>
-
-      <widget>
-	<class>GtkViewport</class>
-	<name>viewport1</name>
-	<shadow_type>GTK_SHADOW_IN</shadow_type>
-
-	<widget>
-	  <class>Custom</class>
-	  <name>etableMailAccounts</name>
-	  <creation_function>mail_accounts_etable_new</creation_function>
-	  <int1>0</int1>
-	  <int2>0</int2>
-	  <last_modification_time>Thu, 21 Mar 2002 19:16:13 GMT</last_modification_time>
-	</widget>
-      </widget>
     </widget>
 
     <widget>

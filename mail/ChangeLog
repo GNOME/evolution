@@ -1,3 +1,10 @@
+2002-03-28  Jeffrey Stedfast  <fejj@ximian.com>
+
+	* mail-accounts.c: Use a GtkCList instead of an ETable, for some
+	reason the etable was getting into some infinite resize loop or
+	something. I probably did something wrong but I can't figure out
+	what so I'm using a clist for now.
+
 2002-03-27  Ettore Perazzoli  <ettore@ximian.com>
 
 	* mail-accounts.c (mail_accounts_tab_construct): Use
