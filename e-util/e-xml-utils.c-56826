@@ -22,6 +22,7 @@
 
 #include "e-xml-utils.h"
 #include <gnome-xml/parser.h>
+#include <locale.h>
 
 xmlNode *e_xml_get_child_by_name(xmlNode *parent, xmlChar *child_name)
 {
@@ -36,6 +37,36 @@ xmlNode *e_xml_get_child_by_name(xmlNode *parent, xmlChar *child_name)
 		}
 	}
 	return NULL;
+}
+
+/* Returns the first child with the name child_name and the "lang"
+ * attribute that matches the current LC_MESSAGES, or else, the first
+ * child with the name child_name and no "lang" attribute.
+ */
+xmlNode *
+e_xml_get_child_by_name_by_lang(xmlNode *parent, xmlChar *child_name, char *lang)
+{
+	xmlNode *child;
+	/* This is the default version of the string. */
+	xmlNode *C = NULL;
+
+	g_return_val_if_fail(parent != NULL, NULL);
+	g_return_val_if_fail(child_name != NULL, NULL);
+
+	if (lang == NULL)
+		lang = setlocale(LC_MESSAGES, NULL);
+
+	for (child = parent->childs; child; child = child->next) {
+		if ( !xmlStrcmp( child->name, child_name ) ) {
+			char *this_lang = xmlGetProp(child, "lang");
+			if ( this_lang == NULL ) {
+				C = child;
+			}
+			else if (!strcmp(this_lang, "lang"))
+				return child;
+		}
+	}
+	return C;
 }
 
 int

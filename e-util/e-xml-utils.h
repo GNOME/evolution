@@ -26,6 +26,8 @@
 #include <gnome.h>
 #include <gnome-xml/tree.h>
 xmlNode *e_xml_get_child_by_name(xmlNode *parent, xmlChar *child_name);
+/* lang set to NULL means use the current locale. */
+xmlNode *e_xml_get_child_by_name_by_lang(xmlNode *parent, xmlChar *child_name, char *lang);
 int e_xml_get_integer_prop_by_name(xmlNode *parent, xmlChar *prop_name);
 void e_xml_set_integer_prop_by_name(xmlNode *parent, xmlChar *prop_name, int value);
 

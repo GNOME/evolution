@@ -1,3 +1,8 @@
+2000-04-19  Christopher James Lahey  <clahey@helixcode.com>
+
+	* e-xml-utils.c, e-xml-utils.h: Added
+	e_xml_get_child_by_name_by_lang.
+
 2000-04-16  Anders Carlsson  <andersca@gnu.org>
 
       * e-canvas.c (e_canvas_class_init): Add realize.
