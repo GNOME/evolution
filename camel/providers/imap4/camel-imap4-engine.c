@@ -476,7 +476,7 @@ engine_parse_capability (CamelIMAP4Engine *engine, int sentinel, CamelException 
 				g_hash_table_insert (engine->authtypes, g_strdup (token.v.atom + 5), auth);
 		} else {
 			for (i = 0; imap4_capabilities[i].name; i++) {
-				if (!strcasecmp (imap4_capabilities[i].name, token.v.atom))
+				if (!g_ascii_strcasecmp (imap4_capabilities[i].name, token.v.atom))
 					engine->capa |= imap4_capabilities[i].flag;
 			}
 		}

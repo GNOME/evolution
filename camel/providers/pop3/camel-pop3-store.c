@@ -665,7 +665,7 @@ pop3_disconnect (CamelService *service, gboolean clean, CamelException *ex)
 static CamelFolder *
 get_folder (CamelStore *store, const char *folder_name, guint32 flags, CamelException *ex)
 {
-	if (strcasecmp (folder_name, "inbox") != 0) {
+	if (g_ascii_strcasecmp (folder_name, "inbox") != 0) {
 		camel_exception_setv (ex, CAMEL_EXCEPTION_FOLDER_INVALID,
 				      _("No such folder `%s'."), folder_name);
 		return NULL;

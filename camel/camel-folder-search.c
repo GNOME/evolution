@@ -871,7 +871,7 @@ check_header(struct _ESExp *f, int argc, struct _ESExpResult **argv, CamelFolder
 		} else if (!strcasecmp(headername, "cc")) {
 			header = camel_message_info_cc(search->current);
 			type = CAMEL_SEARCH_TYPE_ADDRESS;
-		} else if (!strcasecmp(headername, "x-camel-mlist")) {
+		} else if (!g_ascii_strcasecmp(headername, "x-camel-mlist")) {
 			header = camel_message_info_mlist(search->current);
 			type = CAMEL_SEARCH_TYPE_MLIST;
 		} else {

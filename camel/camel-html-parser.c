@@ -162,7 +162,7 @@ const char *camel_html_parser_attr(CamelHTMLParser *hp, const char *name)
 	CamelHTMLParserPrivate *p = hp->priv;
 
 	for (i=0;i<p->attrs->len;i++) {
-		if (!strcasecmp(((GString *)p->attrs->pdata[i])->str, name)) {
+		if (!g_ascii_strcasecmp(((GString *)p->attrs->pdata[i])->str, name)) {
 			return ((GString *)p->values->pdata[i])->str;
 		}
 	}

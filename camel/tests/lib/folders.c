@@ -546,7 +546,7 @@ test_folder_message_ops(CamelSession *session, const char *name, int local, cons
 			check_unref(folder, 2);
 		pull(); /* re-opening folder */
 
-		if (strcasecmp(mailbox, "INBOX") != 0) {
+		if (g_ascii_strcasecmp(mailbox, "INBOX") != 0) {
 			push("deleting test folder, with no messages in it");
 			camel_store_delete_folder(store, mailbox, ex);
 			check_msg(!camel_exception_is_set(ex), "%s", camel_exception_get_description(ex));

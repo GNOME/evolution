@@ -1646,7 +1646,7 @@ message_info_new(CamelFolderSummary *s, struct _camel_header_raw *h)
 	if ((content = camel_header_raw_find(&h, "Content-Type", NULL))
 	     && (ct = camel_content_type_decode(content))
 	     && (charset = camel_content_type_param(ct, "charset"))
-	     && (strcasecmp(charset, "us-ascii") == 0))
+	     && (g_ascii_strcasecmp(charset, "us-ascii") == 0))
 		charset = NULL;
 	
 	charset = charset ? e_iconv_charset_name (charset) : NULL;
@@ -2073,7 +2073,7 @@ summary_build_content_info(CamelFolderSummary *s, CamelMessageInfo *msginfo, Cam
 					else
 						camel_mime_filter_reset((CamelMimeFilter *)p->filter_64);
 					enc_id = camel_mime_parser_filter_add(mp, (CamelMimeFilter *)p->filter_64);
-				} else if (!strcasecmp(encoding, "quoted-printable")) {
+				} else if (!g_ascii_strcasecmp(encoding, "quoted-printable")) {
 					d(printf(" decoding quoted-printable\n"));
 					if (p->filter_qp == NULL)
 						p->filter_qp = camel_mime_filter_basic_new_type(CAMEL_MIME_FILTER_BASIC_QP_DEC);
@@ -2095,7 +2095,7 @@ summary_build_content_info(CamelFolderSummary *s, CamelMessageInfo *msginfo, Cam
 
 			charset = camel_content_type_param(ct, "charset");
 			if (charset!=NULL
-			    && !(strcasecmp(charset, "us-ascii")==0
+			    && !(g_ascii_strcasecmp(charset, "us-ascii")==0
 				 || strcasecmp(charset, "utf-8")==0)) {
 				d(printf(" Adding conversion filter from %s to UTF-8\n", charset));
 				mfc = g_hash_table_lookup(p->filter_charset, charset);
@@ -2578,7 +2578,7 @@ camel_system_flag (const char *name)
 	g_return_val_if_fail (name != NULL, 0);
 	
 	for (flag = flag_names; *flag->name; flag++)
-		if (!strcasecmp (name, flag->name))
+		if (!g_ascii_strcasecmp (name, flag->name))
 			return flag->value;
 	
 	return 0;
@@ -2656,7 +2656,7 @@ camel_message_info_new_from_header (struct _camel_header_raw *header)
 	if ((content = camel_header_raw_find(&header, "Content-Type", NULL))
 	    && (ct = camel_content_type_decode(content))
 	    && (charset = camel_content_type_param(ct, "charset"))
-	    && (strcasecmp(charset, "us-ascii") == 0))
+	    && (g_ascii_strcasecmp(charset, "us-ascii") == 0))
 		charset = NULL;
 	
 	charset = charset ? e_iconv_charset_name (charset) : NULL;

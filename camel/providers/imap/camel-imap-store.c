@@ -485,7 +485,7 @@ imap_get_capability (CamelService *service, CamelException *ex)
 			continue;
 		}
 		for (i = 0; capabilities[i].name; i++) {
-			if (strcasecmp (capa, capabilities[i].name) == 0) {
+			if (g_ascii_strcasecmp (capa, capabilities[i].name) == 0) {
 				store->capabilities |= capabilities[i].flag;
 				break;
 			}
@@ -1494,7 +1494,7 @@ imap_connect_online (CamelService *service, CamelException *ex)
 		for (i = 0; i < folders->len; i++) {
 			CamelFolderInfo *fi = folders->pdata[i];
 			
-			haveinbox = haveinbox || !strcasecmp (fi->full_name, "INBOX");
+			haveinbox = haveinbox || !g_ascii_strcasecmp (fi->full_name, "INBOX");
 			
 			if (fi->flags & (CAMEL_IMAP_FOLDER_MARKED | CAMEL_IMAP_FOLDER_UNMARKED))
 				store->capabilities |= IMAP_CAPABILITY_useful_lsub;
@@ -1514,7 +1514,7 @@ imap_connect_online (CamelService *service, CamelException *ex)
 				CamelFolderInfo *fi = folders->pdata[i];
 				
 				/* this should always be TRUE if folders->len > 0 */
-				if (!strcasecmp (fi->full_name, "INBOX")) {
+				if (!g_ascii_strcasecmp (fi->full_name, "INBOX")) {
 					haveinbox = TRUE;
 					
 					/* if INBOX is marked as \NoSelect then it is probably
@@ -1856,7 +1856,7 @@ get_folder_online (CamelStore *store, const char *folder_name, guint32 flags, Ca
 	if (!camel_imap_store_connected (imap_store, ex))
 		return NULL;
 	
-	if (!strcasecmp (folder_name, "INBOX"))
+	if (!g_ascii_strcasecmp (folder_name, "INBOX"))
 		folder_name = "INBOX";
 
 	/* Lock around the whole lot to check/create atomically */
@@ -2061,7 +2061,7 @@ get_folder_offline (CamelStore *store, const char *folder_name,
 	    !camel_service_connect (CAMEL_SERVICE (store), ex))
 		return NULL;
 	
-	if (!strcasecmp (folder_name, "INBOX"))
+	if (!g_ascii_strcasecmp (folder_name, "INBOX"))
 		folder_name = "INBOX";
 	
 	storage_path = g_strdup_printf("%s/folders", imap_store->storage_path);
@@ -2500,7 +2500,7 @@ get_subscribed_folders (CamelImapStore *imap_store, const char *top, CamelExcept
 		if (si->flags & CAMEL_STORE_INFO_FOLDER_SUBSCRIBED
 		    && imap_is_subfolder(camel_store_info_path(imap_store->summary, si), top)) {
 			g_ptr_array_add(names, (char *)camel_imap_store_info_full_name(imap_store->summary, si));
-			haveinbox = haveinbox || strcasecmp(camel_imap_store_info_full_name(imap_store->summary, si), "INBOX") == 0;
+			haveinbox = haveinbox || g_ascii_strcasecmp(camel_imap_store_info_full_name(imap_store->summary, si), "INBOX") == 0;
 		}
 		camel_store_summary_info_free((CamelStoreSummary *)imap_store->summary, si);
 	}
@@ -2767,7 +2767,7 @@ static guint folder_hash(const void *ap)
 {
 	const char *a = ap;
 
-	if (strcasecmp(a, "INBOX") == 0)
+	if (g_ascii_strcasecmp(a, "INBOX") == 0)
 		a = "INBOX";
 
 	return g_str_hash(a);
@@ -2778,9 +2778,9 @@ static int folder_eq(const void *ap, const void *bp)
 	const char *a = ap;
 	const char *b = bp;
 
-	if (strcasecmp(a, "INBOX") == 0)
+	if (g_ascii_strcasecmp(a, "INBOX") == 0)
 		a = "INBOX";
-	if (strcasecmp(b, "INBOX") == 0)
+	if (g_ascii_strcasecmp(b, "INBOX") == 0)
 		b = "INBOX";
 
 	return g_str_equal(a, b);
@@ -2890,7 +2890,7 @@ get_folders(CamelStore *store, const char *top, guint32 flags, CamelException *e
 		goto fail;
 	for (i=0; i<folders->len && !haveinbox; i++) {
 		fi = folders->pdata[i];
-		haveinbox = (strcasecmp(fi->full_name, "INBOX")) == 0;
+		haveinbox = (g_ascii_strcasecmp(fi->full_name, "INBOX")) == 0;
 	}
 
 	if (!haveinbox && top == imap_store->namespace) {

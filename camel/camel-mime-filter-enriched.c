@@ -169,7 +169,7 @@ enriched_tag_needs_param (const char *tag)
 	int i;
 	
 	for (i = 0; i < NUM_ENRICHED_TAGS; i++)
-		if (!strcasecmp (tag, enriched_tags[i].enriched))
+		if (!g_ascii_strcasecmp (tag, enriched_tags[i].enriched))
 			return enriched_tags[i].needs_param;
 	
 	return FALSE;
@@ -265,7 +265,7 @@ param_parse (const char *enriched, const char *inptr, int inlen)
 	int i;
 	
 	for (i = 0; i < NUM_ENRICHED_TAGS; i++) {
-		if (!strcasecmp (enriched, enriched_tags[i].enriched))
+		if (!g_ascii_strcasecmp (enriched, enriched_tags[i].enriched))
 			return enriched_tags[i].parse_param (inptr, inlen);
 	}
 	
