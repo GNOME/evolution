@@ -974,7 +974,7 @@ edit_msg (GtkWidget *widget, gpointer user_data)
 	uids = g_ptr_array_new ();
 	message_list_foreach (fb->message_list, enumerate_msg, uids);
 	
-	mail_get_messages(fb->folder, uids, do_edit_messages, fb);
+	mail_get_messages (fb->folder, uids, do_edit_messages, fb);
 }
 
 static void
@@ -1305,7 +1305,7 @@ do_view_message(CamelFolder *folder, char *uid, CamelMimeMessage *message, void 
 {
 	/*FolderBrowser *fb = data;*/
 	GtkWidget *view;
-
+	
 	if (message) {
 		view = mail_view_create(folder, uid, message);
 		gtk_widget_show(view);
@@ -1318,7 +1318,7 @@ view_msg (GtkWidget *widget, gpointer user_data)
 	FolderBrowser *fb = user_data;
 	GPtrArray *uids;
 	int i;
-
+	
 	if (!fb->folder)
 		return;
 	

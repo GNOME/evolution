@@ -786,8 +786,8 @@ on_double_click (ETable *table, gint row, gint col, GdkEvent *event, FolderBrows
 	 */
 	if (MESSAGE_LIST_COLUMN_IS_ACTIVE (col))
 		return;
-
-	view_msg (NULL, fb);
+	
+	open_msg (NULL, fb);
 }
 
 static void

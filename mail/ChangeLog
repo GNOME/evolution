@@ -1,5 +1,10 @@
 2001-03-08  Jeffrey Stedfast  <fejj@ximian.com>
 
+	* folder-browser.c (on_double_click): Call open_msg here so that
+	it does the Right Thing (tm).
+
+2001-03-08  Jeffrey Stedfast  <fejj@ximian.com>
+
 	* mail-local.c (mail_local_store_class_init): Override the default
 	init_trash() with the our custom one (since MailLocalStore doesn't
 	let the CamelStore keep a hash of opened folders and instead
