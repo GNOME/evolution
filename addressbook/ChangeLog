@@ -1,3 +1,9 @@
+2001-08-07  Jason Leach  <jleach@ximian.com>
+
+	* gui/component/select-names/e-select-names.c
+	(e_select_names_init): Make the OK button the keyboard default
+	instead of Cancel.  Bug #4942.
+
 2001-08-06  Radek Doulik  <rodo@ximian.com>
 
 	* backend/ebook/e-book.c (e_book_op_free): new EBookOp destructor

@@ -479,6 +479,7 @@ e_select_names_init (ESelectNames *e_select_names)
 				    GNOME_STOCK_BUTTON_OK,
 				    GNOME_STOCK_BUTTON_CANCEL,
 				    NULL);
+	gnome_dialog_set_default(GNOME_DIALOG(e_select_names), 0);
 	
 	gtk_window_set_policy(GTK_WINDOW(e_select_names), FALSE, TRUE, FALSE);
 
