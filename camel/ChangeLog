@@ -1,5 +1,11 @@
 2001-03-16  Jeffrey Stedfast  <fejj@ximian.com>
 
+	* camel-private.h: Same.
+
+	* camel-remote-store.h: Fixed #include to use <>'s instead of ""'s
+
+2001-03-16  Jeffrey Stedfast  <fejj@ximian.com>
+
 	* camel-tcp-stream-ssl.c (ssl_bad_cert): Print info about the
 	issuer of the certificate.
 

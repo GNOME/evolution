@@ -31,7 +31,7 @@ extern "C" {
 #pragma }
 #endif /* __cplusplus }*/
 
-#include "camel-store.h"
+#include <camel/camel-store.h>
 
 #define CAMEL_REMOTE_STORE_TYPE     (camel_remote_store_get_type ())
 #define CAMEL_REMOTE_STORE(obj)     (CAMEL_CHECK_CAST((obj), CAMEL_REMOTE_STORE_TYPE, CamelRemoteStore))

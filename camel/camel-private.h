@@ -36,7 +36,7 @@ extern "C" {
 
 #ifdef ENABLE_THREADS
 #include <pthread.h>
-#include "e-util/e-msgport.h"
+#include <e-util/e-msgport.h>
 #endif
 
 struct _CamelFolderPrivate {
