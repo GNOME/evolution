@@ -68,6 +68,7 @@
 #endif
 
 extern CamelFolder *drafts_folder;
+extern CamelFolder *sent_folder;
 
 struct post_send_data {
 	CamelFolder *folder;
@@ -1008,6 +1009,63 @@ do_edit_messages(CamelFolder *folder, GPtrArray *uids, GPtrArray *messages, void
 }
 
 static gboolean
+is_sent_folder (CamelFolder *folder)
+{
+	/* FIXME: hide other attributes of the URL? */
+	CamelService *service = CAMEL_SERVICE (folder->parent_store);
+	guint32 flags = CAMEL_URL_HIDE_PASSWORD | CAMEL_URL_HIDE_PARAMS;
+	const GSList *accounts;
+	CamelURL *url;
+	char *str;
+	
+	if (folder == sent_folder)
+		return TRUE;
+	
+	str = camel_url_to_string (service->url, flags);
+	url = camel_url_new (str, NULL);
+	g_free (str);
+	
+	g_free (url->path);
+	url->path = g_strdup_printf ("/%s", folder->full_name);
+	
+	accounts = mail_config_get_accounts ();
+	while (accounts) {
+		const MailConfigAccount *account = accounts->data;
+		
+		if (account && account->sent_folder_uri) {
+			CamelURL *sent_url;
+			
+			sent_url = camel_url_new (account->sent_folder_uri, NULL);
+			
+			if (sent_url) {
+				g_free (sent_url->passwd);
+				sent_url->passwd = NULL;
+				
+				if (sent_url->params) {
+					g_datalist_clear (&url->params);
+					url->params = NULL;
+				}
+				
+				if (camel_url_equal (url, sent_url)) {
+					camel_url_free (sent_url);
+					camel_url_free (url);
+					
+					return TRUE;
+				}
+				
+				camel_url_free (sent_url);
+			}
+		}
+		
+		accounts = accounts->next;
+	}
+	
+	camel_url_free (url);
+	
+	return FALSE;
+}
+
+static gboolean
 is_drafts_folder (CamelFolder *folder)
 {
 	/* FIXME: hide other attributes of the URL? */
@@ -1107,14 +1165,15 @@ do_resend_messages (CamelFolder *folder, GPtrArray *uids, GPtrArray *messages, v
 		mail_send_mail (account->transport->url, messages->pdata[i], NULL, NULL);
 }
 
+
+
 void
 resend_msg (GtkWidget *widget, gpointer user_data)
 {
 	FolderBrowser *fb = FOLDER_BROWSER (user_data);
-	extern CamelFolder *sent_folder;
 	GPtrArray *uids;
 	
-	if (fb->folder != sent_folder) {
+	if (!is_sent_folder (fb->folder)) {
 		GtkWidget *message;
 		
 		message = gnome_warning_dialog (_("You may only resend messages\n"
