@@ -906,6 +906,8 @@ destroy (GtkObject *object)
 	shell = E_SHELL (object);
 	priv = shell->priv;
 
+	priv->is_initialized = FALSE;
+
 	e_shell_disconnect_db (shell);
 
 	if (priv->iid != NULL)
@@ -1851,6 +1853,8 @@ e_shell_unregister_all (EShell *shell)
 	/* FIXME: This really really sucks.  */
 
 	priv = shell->priv;
+
+	priv->is_initialized = FALSE;
 
 	gtk_object_unref (GTK_OBJECT (priv->component_registry));
 	priv->component_registry = NULL;
