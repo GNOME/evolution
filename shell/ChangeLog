@@ -1,3 +1,11 @@
+2003-02-13  Ettore Perazzoli  <ettore@ximian.com>
+
+	[Ported SIGSEGV signal redirection hack from mail/.]
+
+	* main.c (segv_redirect): New, SIGSEGV signal handler.
+	(setup_segv_redirect): New function to set it up.
+	(main): Call setup_segv_redirect().
+
 2003-02-12  Ettore Perazzoli  <ettore@ximian.com>
 
 	* e-setup.c (DEFAULT_USER_PATH): Look into evolution/$BASE_VERSION

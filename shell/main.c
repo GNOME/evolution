@@ -66,10 +66,13 @@
 #include <gal/widgets/e-cursors.h>
 
 #include <fcntl.h>
+#include <signal.h>
 #include <string.h>
 #include <sys/types.h>
 #include <sys/stat.h>
 #include <unistd.h>
+
+#include <pthread.h>
 
 
 static EShell *shell = NULL;
@@ -438,6 +441,58 @@ idle_cb (void *data)
 	return FALSE;
 }
 
+
+/* SIGSEGV handling.
+   
+   The GNOME SEGV handler will lose if it's not run from the main Gtk
+   thread. So if we have to redirect the signal if the crash happens in another
+   thread.  */
+
+static void (*gnome_segv_handler) (int);
+static GStaticMutex segv_mutex = G_STATIC_MUTEX_INIT;
+static pthread_t main_thread;
+
+static void
+segv_redirect (int sig)
+{
+	if (pthread_self () == main_thread)
+		gnome_segv_handler (sig);
+	else {
+		pthread_kill (main_thread, sig);
+
+		/* We can't return from the signal handler or the thread may
+		   SEGV again. But we can't pthread_exit, because then the
+		   thread may get cleaned up before bug-buddy can get a stack
+		   trace. So we block by trying to lock a mutex we know is
+		   already locked.  */
+		g_static_mutex_lock (&segv_mutex);
+	}
+}
+
+static void
+setup_segv_redirect (void)
+{
+	struct sigaction sa, osa;
+
+	sigaction (SIGSEGV, NULL, &osa);
+	if (osa.sa_handler == SIG_DFL)
+		return;
+
+	main_thread = pthread_self ();
+
+	sa.sa_flags = 0;
+	sigemptyset (&sa.sa_mask);
+	sa.sa_handler = segv_redirect;
+	sigaction (SIGSEGV, &sa, NULL);
+	sigaction (SIGBUS, &sa, NULL);
+	sigaction (SIGFPE, &sa, NULL);
+		
+	sa.sa_handler = SIG_IGN;
+	sigaction (SIGXFSZ, &sa, NULL);
+	gnome_segv_handler = osa.sa_handler;
+	g_static_mutex_lock (&segv_mutex);
+}
+
 int
 main (int argc, char **argv)
 {
@@ -480,6 +535,8 @@ main (int argc, char **argv)
 		exit (1);
 	}
 
+	setup_segv_redirect ();
+	
 	if (evolution_debug_log) {
 		int fd;
 
