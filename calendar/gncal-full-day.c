@@ -41,14 +41,16 @@ struct layout_row {
 struct drag_info {
 	enum {
 		DRAG_NONE,
-		DRAG_SELECT,	/* selecting a range in the main window */
-		DRAG_MOVE,	/* moving a child */
-		DRAG_SIZE	/* resizing a child */
+		DRAG_SELECT,		/* selecting a range in the main window */
+		DRAG_MOVE,		/* moving a child */
+		DRAG_SIZE_TOP,		/* resizing a child */
+		DRAG_SIZE_BOTTOM
 	} drag_mode;
 
 	Child *child;
-	int start_row;
-	int rows_used;
+	int child_click_y;
+	int child_start_row;
+	int child_rows_used;
 
 	int sel_click_row;
 	int sel_start_row;
@@ -179,11 +181,14 @@ static void
 child_set_text_pos (Child *child)
 {
 	GtkAllocation allocation;
+	int has_focus;
 
-	allocation.x = 0;
-	allocation.y = (GTK_WIDGET_HAS_FOCUS (child->widget) ? HANDLE_SIZE : 0);
-	allocation.width = child->width;
-	allocation.height = child->height - (GTK_WIDGET_HAS_FOCUS (child->widget) ? (2 * HANDLE_SIZE) : 0);
+	has_focus = GTK_WIDGET_HAS_FOCUS (child->widget);
+
+	allocation.x = HANDLE_SIZE;
+	allocation.y = has_focus ? HANDLE_SIZE : 0;
+	allocation.width = child->width - HANDLE_SIZE;
+	allocation.height = child->height - (has_focus ? (2 * HANDLE_SIZE) : 0);
 
 	gtk_widget_size_request (child->widget, &child->widget->requisition); /* FIXME: is this needed? */
 	gtk_widget_size_allocate (child->widget, &allocation);
@@ -238,6 +243,7 @@ static void
 child_draw (GncalFullDay *fullday, Child *child, GdkRectangle *area, int draw_child)
 {
 	GdkRectangle arect, rect, dest;
+	int has_focus;
 
 	if (!area) {
 		arect.x = 0;
@@ -249,25 +255,40 @@ child_draw (GncalFullDay *fullday, Child *child, GdkRectangle *area, int draw_ch
 		area = &arect;
 	}
 
-	/* Top handle */
+	has_focus = GTK_WIDGET_HAS_FOCUS (child->widget);
+
+	/* Left handle */
 
 	rect.x = 0;
 	rect.y = 0;
-	rect.width = child->width;
-	rect.height = HANDLE_SIZE;
+	rect.width = HANDLE_SIZE;
+	rect.height = has_focus ? (child->height - HANDLE_SIZE) : child->height;
 
 	if (gdk_rectangle_intersect (&rect, area, &dest))
 		view_utils_draw_textured_frame (GTK_WIDGET (fullday), child->window, &rect, GTK_SHADOW_OUT);
 
-	/* Bottom handle */
+	if (has_focus) {
+		/* Top handle */
 
-	rect.y = child->height - HANDLE_SIZE;
+		rect.x = HANDLE_SIZE;
+		rect.y = 0;
+		rect.width = child->width - HANDLE_SIZE;
+		rect.height = HANDLE_SIZE;
 
-	if (gdk_rectangle_intersect (&rect, area, &dest))
-		view_utils_draw_textured_frame (GTK_WIDGET (fullday), child->window, &rect, GTK_SHADOW_OUT);
+		if (gdk_rectangle_intersect (&rect, area, &dest))
+			view_utils_draw_textured_frame (GTK_WIDGET (fullday), child->window, &rect, GTK_SHADOW_OUT);
+
+		/* Bottom handle */
+
+		rect.y = child->height - HANDLE_SIZE;
+
+		if (gdk_rectangle_intersect (&rect, area, &dest))
+			view_utils_draw_textured_frame (GTK_WIDGET (fullday), child->window, &rect, GTK_SHADOW_OUT);
+	}
 
 	if (draw_child) {
-		area->y -= HANDLE_SIZE;
+		area->x -= HANDLE_SIZE;
+		area->y -= has_focus ? HANDLE_SIZE : 0;
 		gtk_widget_draw (child->widget, area);
 	}
 }
@@ -1309,9 +1330,9 @@ draw_xor_rect (GncalFullDay *fullday)
 				    widget->style->white_gc,
 				    FALSE,
 				    di->child->x + i,
-				    di->start_row * row_height + ythickness + i,
+				    di->child_start_row * row_height + ythickness + i,
 				    di->child->width - 2 * i - 1,
-				    di->rows_used * row_height - 2 * i - 2);
+				    di->child_rows_used * row_height - 2 * i - 2);
 
 	gdk_gc_set_function (widget->style->white_gc, GDK_COPY);
 	gdk_gc_set_subwindow (widget->style->white_gc, GDK_CLIP_BY_CHILDREN);
@@ -1419,17 +1440,20 @@ button_1 (GncalFullDay *fullday, GdkEventButton *event)
 
 		gtk_widget_get_pointer (widget, NULL, &y);
 
-		if (event->y < HANDLE_SIZE)
+		if (event->x < HANDLE_SIZE)
 			di->drag_mode = DRAG_MOVE;
+		else if (event->y < HANDLE_SIZE)
+			di->drag_mode = DRAG_SIZE_TOP;
 		else
-			di->drag_mode = DRAG_SIZE;
+			di->drag_mode = DRAG_SIZE_BOTTOM;
 
 		row_height = calc_row_height (fullday);
 
 		di->child = child;
 
-		di->start_row = get_row_from_y (fullday, child->y, FALSE);
-		di->rows_used = child->height / row_height;
+		di->child_click_y = event->y;
+		di->child_start_row = get_row_from_y (fullday, child->y, FALSE);
+		di->child_rows_used = child->height / row_height;
 
 		gdk_pointer_grab (child->window, FALSE,
 				  (GDK_BUTTON_MOTION_MASK
@@ -1534,24 +1558,35 @@ recompute_motion (GncalFullDay *fullday, int y)
 		break;
 
 	case DRAG_MOVE:
-		row = get_row_from_y (fullday, y, FALSE);
+		row = get_row_from_y (fullday, y - di->child_click_y, TRUE);
 
-		if (row > (f_rows - di->rows_used))
-			row = f_rows - di->rows_used;
+		if (row > (f_rows - di->child_rows_used))
+			row = f_rows - di->child_rows_used;
 
-		di->start_row = row;
+		di->child_start_row = row;
 
 		break;
 
-	case DRAG_SIZE:
+	case DRAG_SIZE_TOP:
 		row = get_row_from_y (fullday, y, TRUE);
 
-		if (row <= di->start_row)
-			row = di->start_row + 1;
+		if (row > (di->child_start_row + di->child_rows_used - 1))
+			row = di->child_start_row + di->child_rows_used - 1;
+
+		di->child_rows_used = (di->child_start_row + di->child_rows_used) - row;
+		di->child_start_row = row;
+
+		break;
+
+	case DRAG_SIZE_BOTTOM:
+		row = get_row_from_y (fullday, y, TRUE);
+
+		if (row <= di->child_start_row)
+			row = di->child_start_row + 1;
 		else if (row > f_rows)
 			row = f_rows;
 
-		di->rows_used = row - di->start_row;
+		di->child_rows_used = row - di->child_start_row;
 
 		break;
 
@@ -1587,7 +1622,7 @@ update_from_drag_info (GncalFullDay *fullday)
 
 	widget = GTK_WIDGET (fullday);
 
-	get_time_from_rows (fullday, di->start_row, di->rows_used,
+	get_time_from_rows (fullday, di->child_start_row, di->child_rows_used,
 			    &di->child->ico->dtstart,
 			    &di->child->ico->dtend);
 
@@ -1632,14 +1667,15 @@ gncal_full_day_button_release (GtkWidget *widget, GdkEventButton *event)
 		break;
 
 	case DRAG_MOVE:
-	case DRAG_SIZE:
+	case DRAG_SIZE_TOP:
+	case DRAG_SIZE_BOTTOM:
 		draw_xor_rect (fullday);
 		recompute_motion (fullday, y);
 		gdk_pointer_ungrab (event->time);
 
 		update_from_drag_info (fullday);
 
-		di->rows_used = 0;
+		di->child_rows_used = 0;
 
 		break;
 
@@ -1693,7 +1729,8 @@ gncal_full_day_motion (GtkWidget *widget, GdkEventMotion *event)
 		break;
 
 	case DRAG_MOVE:
-	case DRAG_SIZE:
+	case DRAG_SIZE_TOP:
+	case DRAG_SIZE_BOTTOM:
 		draw_xor_rect (fullday);
 		recompute_motion (fullday, y);
 		draw_xor_rect (fullday);

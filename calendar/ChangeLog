@@ -1,5 +1,10 @@
 1998-04-15  Federico Mena Quintero  <federico@nuclecu.unam.mx>
 
+	* gncal-full-day.c (child_draw): Now children have a vertical
+	handle as well.  This can be used to move the child anytime, not
+	only when it is focused.
+	(recompute_motion): Modified for new drag behavior.
+
 	* eventedit.c (ee_init_general_page): The general_owner may be
 	null.  Do the proper thing when creating the label.
 	(ee_ok): Update the gnome calendar appropriately.
