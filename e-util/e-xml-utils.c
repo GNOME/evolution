@@ -59,7 +59,7 @@ e_xml_set_integer_prop_by_name(xmlNode *parent, xmlChar *prop_name, int value)
 	xmlChar *valuestr;
 
 	g_return_if_fail (parent != NULL);
-	g_return_val_if_fail (prop_name != NULL, 0);
+	g_return_if_fail (prop_name != NULL);
 
 	valuestr = g_strdup_printf("%d", value);
 	xmlSetProp(parent, prop_name, valuestr);
