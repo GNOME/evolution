@@ -37,6 +37,9 @@
 #include "camel-exception.h"
 #include "camel-private.h"
 
+#define d(x)
+#define w(x)
+
 static CamelServiceClass *parent_class = NULL;
 
 /* Returns the class for a CamelStore */
@@ -135,9 +138,9 @@ camel_store_finalize (CamelObject *object)
 
 	if (store->folders) {
 		if (g_hash_table_size (store->folders) != 0) {
-			g_warning ("Folder cache for store %p contains "
-				   "%d folders at destruction.", store,
-				   g_hash_table_size (store->folders));
+			d(g_warning ("Folder cache for store %p contains "
+				     "%d folders at destruction.", store,
+				     g_hash_table_size (store->folders)));
 		}
 		g_hash_table_destroy (store->folders);
 	}
@@ -209,8 +212,12 @@ construct (CamelService *service, CamelSession *session,
 static CamelFolder *
 get_folder (CamelStore *store, const char *folder_name, guint32 flags, CamelException *ex)
 {
-	g_warning ("CamelStore::get_folder not implemented for `%s'",
-		   camel_type_to_name(CAMEL_OBJECT_GET_TYPE(store)));
+	w(g_warning ("CamelStore::get_folder not implemented for `%s'",
+		     camel_type_to_name (CAMEL_OBJECT_GET_TYPE (store))));
+	
+	camel_exception_setv (ex, CAMEL_EXCEPTION_STORE_INVALID,
+			      _("Cannot get folder: Invalid operation on this store"));
+	
 	return NULL;
 }
 
@@ -266,11 +273,12 @@ static CamelFolderInfo *
 create_folder (CamelStore *store, const char *parent_name,
 	       const char *folder_name, CamelException *ex)
 {
-	g_warning ("CamelStore::create_folder not implemented for `%s'",
-		   camel_type_to_name (CAMEL_OBJECT_GET_TYPE (store)));
-
-	camel_exception_setv(ex, CAMEL_EXCEPTION_STORE_INVALID,
-			     _("Cannot create folder: Invalid operation on this store"));
+	w(g_warning ("CamelStore::create_folder not implemented for `%s'",
+		     camel_type_to_name (CAMEL_OBJECT_GET_TYPE (store))));
+	
+	camel_exception_setv (ex, CAMEL_EXCEPTION_STORE_INVALID,
+			      _("Cannot create folder: Invalid operation on this store"));
+	
 	return NULL;
 }
 
@@ -304,8 +312,8 @@ camel_store_create_folder (CamelStore *store, const char *parent_name,
 static void
 delete_folder (CamelStore *store, const char *folder_name, CamelException *ex)
 {
-	g_warning ("CamelStore::delete_folder not implemented for `%s'",
-		   camel_type_to_name (CAMEL_OBJECT_GET_TYPE (store)));
+	w(g_warning ("CamelStore::delete_folder not implemented for `%s'",
+		     camel_type_to_name (CAMEL_OBJECT_GET_TYPE (store))));
 }
 
 /** 
@@ -361,8 +369,8 @@ static void
 rename_folder (CamelStore *store, const char *old_name,
 	       const char *new_name, CamelException *ex)
 {
-	g_warning ("CamelStore::rename_folder not implemented for `%s'",
-		   camel_type_to_name (CAMEL_OBJECT_GET_TYPE (store)));
+	w(g_warning ("CamelStore::rename_folder not implemented for `%s'",
+		     camel_type_to_name (CAMEL_OBJECT_GET_TYPE (store))));
 }
 
 /**
@@ -491,7 +499,7 @@ get_trash (CamelStore *store, CamelException *ex)
 			/*camel_object_ref (CAMEL_OBJECT (store->vtrash));*/
 			return store->vtrash;
 		} else {
-			g_warning ("This store does not support vTrash.");
+			w(g_warning ("This store does not support vTrash."));
 			return NULL;
 		}
 	}
@@ -580,8 +588,9 @@ static CamelFolderInfo *
 get_folder_info (CamelStore *store, const char *top,
 		 guint32 flags, CamelException *ex)
 {
-	g_warning ("CamelStore::get_folder_info not implemented for `%s'",
-		   camel_type_to_name (CAMEL_OBJECT_GET_TYPE (store)));
+	w(g_warning ("CamelStore::get_folder_info not implemented for `%s'",
+		     camel_type_to_name (CAMEL_OBJECT_GET_TYPE (store))));
+	
 	return NULL;
 }
 
@@ -629,8 +638,8 @@ camel_store_get_folder_info (CamelStore *store, const char *top,
 static void
 free_folder_info (CamelStore *store, CamelFolderInfo *fi)
 {
-	g_warning ("CamelStore::free_folder_info not implemented for `%s'",
-		   camel_type_to_name (CAMEL_OBJECT_GET_TYPE (store)));
+	w(g_warning ("CamelStore::free_folder_info not implemented for `%s'",
+		     camel_type_to_name (CAMEL_OBJECT_GET_TYPE (store))));
 }
 
 /**
@@ -802,7 +811,7 @@ camel_folder_info_build (GPtrArray *folders, const char *namespace,
 				if (sep)
 					*sep = '\0';
 				else
-					g_warning ("huh, no \"%c\" in \"%s\"?", separator, fi->url);
+					d(g_warning ("huh, no \"%c\" in \"%s\"?", separator, fi->url));
 				
 				/* FIXME: wtf is this? This is WRONG. Parent folders can be selectable */
 				camel_url_set_param (url, "noselect", "yes");
@@ -843,8 +852,9 @@ camel_store_supports_subscriptions (CamelStore *store)
 static gboolean
 folder_subscribed (CamelStore *store, const char *folder_name)
 {
-	g_warning ("CamelStore::folder_subscribed not implemented for `%s'",
-		   camel_type_to_name (CAMEL_OBJECT_GET_TYPE (store)));
+	w(g_warning ("CamelStore::folder_subscribed not implemented for `%s'",
+		     camel_type_to_name (CAMEL_OBJECT_GET_TYPE (store))));
+	
 	return FALSE;
 }
 
@@ -875,8 +885,8 @@ camel_store_folder_subscribed (CamelStore *store,
 static void
 subscribe_folder (CamelStore *store, const char *folder_name, CamelException *ex)
 {
-	g_warning ("CamelStore::subscribe_folder not implemented for `%s'",
-		   camel_type_to_name (CAMEL_OBJECT_GET_TYPE (store)));
+	w(g_warning ("CamelStore::subscribe_folder not implemented for `%s'",
+		     camel_type_to_name (CAMEL_OBJECT_GET_TYPE (store))));
 }
 
 /**
@@ -902,8 +912,8 @@ camel_store_subscribe_folder (CamelStore *store,
 static void
 unsubscribe_folder (CamelStore *store, const char *folder_name, CamelException *ex)
 {
-	g_warning ("CamelStore::unsubscribe_folder not implemented for `%s'",
-		   camel_type_to_name (CAMEL_OBJECT_GET_TYPE (store)));
+	w(g_warning ("CamelStore::unsubscribe_folder not implemented for `%s'",
+		     camel_type_to_name (CAMEL_OBJECT_GET_TYPE (store))));
 }
 
 

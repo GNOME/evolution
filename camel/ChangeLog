@@ -1,3 +1,35 @@
+2001-10-05  Jeffrey Stedfast  <fejj@ximian.com>
+
+	* camel-service.c (camel_service_finalize): Turn off warnings.
+	(get_name): Same.
+
+	* camel-sasl.c (sasl_challenge): Turn off warnings.
+
+	* camel-tcp-stream.c (tcp_connect): Turn off warnings.
+	(tcp_getsockopt): Same.
+	(tcp_setsockopt): Here too.
+	(tcp_get_socket): And here.
+
+	* camel-folder.c (folder_sync): Turn off warnings.
+	(expunge): Same.
+	(append_message): Here too.
+	(get_message): And here.
+	(search_by_expression): And again here.
+	(folder_changed): Here too.
+
+	* camel-store.c (get_folder): Set an exception and turn off
+	debugging g_warnings.
+	(create_folder): Same.
+	(delete_folder): Here too.
+	(rename_folder): And here.
+	(get_trash): And here.
+	(get_folder_info): Same.
+	(free_folder_info): And again here.
+	(camel_folder_info_build): Here too.
+	(folder_subscribed): Same.
+	(subscribe_folder): Here too.
+	(unsubscribe_folder): And here.
+
 2001-10-05    <NotZed@Ximian.com>
 
 	* camel-mime-utils.c (header_decode_mailbox): Try harder to get

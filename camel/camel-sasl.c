@@ -36,6 +36,8 @@
 #include "camel-sasl-plain.h"
 #include "camel-sasl-popb4smtp.h"
 
+#define w(x)
+
 static CamelObjectClass *parent_class = NULL;
 
 /* Returns the class for a CamelSasl */
@@ -82,7 +84,7 @@ camel_sasl_get_type (void)
 static GByteArray *
 sasl_challenge (CamelSasl *sasl, GByteArray *token, CamelException *ex)
 {
-	g_warning ("sasl_challenge: Using default implementation!");
+	w(g_warning ("sasl_challenge: Using default implementation!"));
 	return NULL;
 }
 

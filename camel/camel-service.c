@@ -47,6 +47,7 @@
 #include "camel-private.h"
 
 #define d(x)
+#define w(x)
 
 static CamelObjectClass *parent_class = NULL;
 
@@ -103,8 +104,8 @@ camel_service_finalize (CamelObject *object)
 		camel_exception_init (&ex);
 		CSERV_CLASS (service)->disconnect (service, TRUE, &ex);
 		if (camel_exception_is_set (&ex)) {
-			g_warning ("camel_service_finalize: silent disconnect failure: %s",
-				   camel_exception_get_description (&ex));
+			w(g_warning ("camel_service_finalize: silent disconnect failure: %s",
+				     camel_exception_get_description (&ex)));
 		}
 		camel_exception_clear (&ex);
 	}
@@ -370,8 +371,8 @@ camel_service_get_url (CamelService *service)
 static char *
 get_name (CamelService *service, gboolean brief)
 {
-	g_warning ("CamelService::get_name not implemented for `%s'",
-		   camel_type_to_name (CAMEL_OBJECT_GET_TYPE (service)));
+	w(g_warning ("CamelService::get_name not implemented for `%s'",
+		     camel_type_to_name (CAMEL_OBJECT_GET_TYPE (service))));
 	return g_strdup ("???");
 }		
 

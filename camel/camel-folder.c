@@ -41,6 +41,7 @@
 #include "camel-private.h"
 
 #define d(x) 
+#define w(x)
 
 static CamelObjectClass *parent_class = NULL;
 
@@ -256,8 +257,8 @@ camel_folder_construct (CamelFolder *folder, CamelStore *parent_store,
 static void
 folder_sync (CamelFolder *folder, gboolean expunge, CamelException *ex)
 {
-	g_warning ("CamelFolder::sync not implemented for `%s'",
-		   camel_type_to_name (CAMEL_OBJECT_GET_TYPE (folder)));
+	w(g_warning ("CamelFolder::sync not implemented for `%s'",
+		     camel_type_to_name (CAMEL_OBJECT_GET_TYPE (folder))));
 }
 
 /**
@@ -380,8 +381,8 @@ camel_folder_get_parent_store (CamelFolder *folder)
 static void
 expunge (CamelFolder *folder, CamelException *ex)
 {
-	g_warning ("CamelFolder::expunge not implemented for `%s'",
-		   camel_type_to_name (CAMEL_OBJECT_GET_TYPE (folder)));
+	w(g_warning ("CamelFolder::expunge not implemented for `%s'",
+		     camel_type_to_name (CAMEL_OBJECT_GET_TYPE (folder))));
 }
 
 
@@ -474,12 +475,13 @@ static void
 append_message (CamelFolder *folder, CamelMimeMessage *message,
 		const CamelMessageInfo *info, CamelException *ex)
 {
-	camel_exception_setv(ex, CAMEL_EXCEPTION_FOLDER_INVALID,
-			     _("Unsupported operation: append message: for %s"),
-			     camel_type_to_name (CAMEL_OBJECT_GET_TYPE (folder)));
-
-	g_warning ("CamelFolder::append_message not implemented for `%s'",
-		   camel_type_to_name (CAMEL_OBJECT_GET_TYPE (folder)));
+	camel_exception_setv (ex, CAMEL_EXCEPTION_FOLDER_INVALID,
+			      _("Unsupported operation: append message: for %s"),
+			      camel_type_to_name (CAMEL_OBJECT_GET_TYPE (folder)));
+	
+	w(g_warning ("CamelFolder::append_message not implemented for `%s'",
+		     camel_type_to_name (CAMEL_OBJECT_GET_TYPE (folder))));
+	
 	return;
 
 }
@@ -861,8 +863,9 @@ camel_folder_has_summary_capability (CamelFolder *folder)
 static CamelMimeMessage *
 get_message (CamelFolder *folder, const gchar *uid, CamelException *ex)
 {
-	g_warning ("CamelFolder::get_message not implemented for `%s'",
-		   camel_type_to_name (CAMEL_OBJECT_GET_TYPE (folder)));
+	w(g_warning ("CamelFolder::get_message not implemented for `%s'",
+		     camel_type_to_name (CAMEL_OBJECT_GET_TYPE (folder))));
+	
 	return NULL;
 }
 
@@ -1041,12 +1044,13 @@ static GPtrArray *
 search_by_expression (CamelFolder *folder, const char *expression,
 		      CamelException *ex)
 {
-	camel_exception_setv(ex, CAMEL_EXCEPTION_FOLDER_INVALID,
-			     _("Unsupported operation: search by expression: for %s"),
-			     camel_type_to_name (CAMEL_OBJECT_GET_TYPE (folder)));
-
-	g_warning ("CamelFolder::search_by_expression not implemented for "
-		   "`%s'", camel_type_to_name (CAMEL_OBJECT_GET_TYPE (folder)));
+	camel_exception_setv (ex, CAMEL_EXCEPTION_FOLDER_INVALID,
+			      _("Unsupported operation: search by expression: for %s"),
+			      camel_type_to_name (CAMEL_OBJECT_GET_TYPE (folder)));
+	
+	w(g_warning ("CamelFolder::search_by_expression not implemented for "
+		     "`%s'", camel_type_to_name (CAMEL_OBJECT_GET_TYPE (folder))));
+	
 	return NULL;
 }
 
@@ -1485,8 +1489,8 @@ folder_changed (CamelObject *obj, gpointer event_data)
 		}
 		CAMEL_FOLDER_UNLOCK(folder, change_lock);
 	} else {
-			g_warning("Class %s is passing NULL to folder_changed event",
-				  camel_type_to_name (CAMEL_OBJECT_GET_TYPE (folder)));
+			w(g_warning ("Class %s is passing NULL to folder_changed event",
+				     camel_type_to_name (CAMEL_OBJECT_GET_TYPE (folder))));
 	}
 
 	return ret;
