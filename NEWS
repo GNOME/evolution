@@ -148,7 +148,12 @@ Bugzilla bugs fixed (see http://bugzilla.ximian.com/show_bug.cgi):
              (Michael)
     #40608 - Crash saving attachment.  (Jeff)
     #40679 - composer crash browsing files to attach.  (Jeff)
+    #40728 - crash while scrolling  (Jeff)
     #40764 - composer backs up drafts too often.  (Jeff)
+    #40778 - incorrect IMAP BODY parsing/display  (Jeff)
+    #40900 - vfolder creation dialog has wrong button order  (Michael)
+    #40904 - Spontaneous crash  (Jeff)
+    #40921 - cancel subscription dialogue while busy -> crash  (Michael)
 
   * Shell
 
