@@ -1,3 +1,13 @@
+2002-03-04  JP Rosevear  <jpr@ximian.com>
+
+	* gui/print.c: remove unneeded parameter from print_text_size
+	everywhere
+	(get_font_for_size): calculate a font size based on the available
+	height
+	(print_text): calculate the top of where the font should be drawn
+	(print_text_size): use get_font_for_size
+	(print_day_background): use get_font_for_size
+
 2002-03-04  Dan Winship  <danw@ximian.com>
 
 	* gui/itip-utils.c (comp_subject): Prefix the subject with an
