@@ -29,13 +29,13 @@
 #include <iconv.h>
 
 #include <gtk/gtkvbox.h>
+#include <gtk/gtkentry.h>
+#include <gtk/gtkstock.h>
 #include <gtk/gtklabel.h>
 #include <gtk/gtkmenuitem.h>
 #include <gtk/gtkoptionmenu.h>
 #include <gtk/gtksignal.h>
 
-#include <libgnomeui/gnome-dialog.h>
-#include <libgnomeui/gnome-dialog-util.h>
 #include <libgnome/gnome-i18n.h>
 
 #include <bonobo/bonobo-ui-node.h>
@@ -209,32 +209,64 @@ add_other_charset (GtkWidget *menu, GtkWidget *other, char *new_charset)
 }
 
 static void
-other_charset_callback (char *new_charset, gpointer data)
+activate_entry (GtkWidget *entry, GtkDialog *dialog)
 {
-	char **out = data;
-
-	*out = new_charset;
+	gtk_dialog_response (dialog, GTK_RESPONSE_OK);
 }
 
 static void
 activate_other (GtkWidget *item, gpointer menu)
 {
-	GtkWidget *window, *dialog;
+	GtkWidget *window, *entry, *label;
 	char *old_charset, *new_charset;
+	GtkDialog *dialog;
 
-	window = gtk_widget_get_ancestor (item, GTK_TYPE_WINDOW);
-	old_charset = g_object_get_data(G_OBJECT(menu), "other_charset");
-	dialog = gnome_request_dialog (FALSE,
-				       _("Enter the character set to use"),
-				       old_charset, 0, other_charset_callback,
-				       &new_charset, GTK_WINDOW (window));
-	gnome_dialog_run_and_close (GNOME_DIALOG (dialog));
+	window = gtk_widget_get_toplevel (menu);
+	if (!GTK_WIDGET_TOPLEVEL (window))
+		window = gtk_widget_get_ancestor (item, GTK_TYPE_WINDOW);
 
-	if (new_charset) {
-		if (add_other_charset (menu, item, new_charset))
-			return;
-		g_free (new_charset);
+	old_charset = g_object_get_data(menu, "other_charset");
+
+	dialog = GTK_DIALOG (gtk_dialog_new_with_buttons (_("Character Encoding"),
+							  GTK_WINDOW (window),
+							  GTK_DIALOG_MODAL | GTK_DIALOG_DESTROY_WITH_PARENT,
+							  GTK_STOCK_CANCEL, GTK_RESPONSE_CANCEL,
+							  GTK_STOCK_OK, GTK_RESPONSE_OK,
+							  NULL));
+
+	gtk_dialog_set_default_response (dialog, GTK_RESPONSE_OK);
+
+	label = gtk_label_new (_("Enter the character set to use"));
+	gtk_label_set_line_wrap (GTK_LABEL (label), TRUE);
+	gtk_misc_set_alignment (GTK_MISC (label), 0.0, 0.0);
+	gtk_widget_show (label);
+
+	entry = gtk_entry_new ();
+	if (old_charset)
+		gtk_entry_set_text (GTK_ENTRY (entry), old_charset);
+	g_signal_connect (entry, "activate",
+			  G_CALLBACK (activate_entry), dialog);
+			  
+	gtk_container_set_border_width (GTK_CONTAINER (dialog->vbox), 6);
+	gtk_box_pack_start (GTK_BOX (dialog->vbox), label, FALSE, FALSE, 6);
+	gtk_box_pack_start (GTK_BOX (dialog->vbox), entry, FALSE, FALSE, 6);
+
+	gtk_widget_show_all (GTK_WIDGET (dialog));
+
+	g_object_ref (dialog);
+	if (gtk_dialog_run (dialog) == GTK_RESPONSE_OK) {
+		new_charset = (char *)gtk_entry_get_text (GTK_ENTRY (entry));
+
+	       	if (*new_charset) {
+			if (add_other_charset (menu, item, new_charset)) {
+				gtk_widget_destroy (GTK_WIDGET (dialog));
+				g_object_unref (dialog);
+				return;
+			}
+		}
 	}
+	gtk_widget_destroy (GTK_WIDGET (dialog));
+	g_object_unref (dialog);
 
 	/* Revert to previous selection */
 	select_item (GTK_MENU_SHELL (menu), g_object_get_data(G_OBJECT(menu), "activated_item"));
@@ -348,36 +380,40 @@ char *
 e_charset_picker_dialog (const char *title, const char *prompt,
 			 const char *default_charset, GtkWindow *parent)
 {
-	GnomeDialog *dialog;
+	GtkDialog *dialog;
 	GtkWidget *label, *omenu, *picker;
-	int button;
-	char *charset;
+	char *charset = NULL;
 
-	dialog = GNOME_DIALOG (gnome_dialog_new (title, GNOME_STOCK_BUTTON_OK,
-						 GNOME_STOCK_BUTTON_CANCEL,
-						 NULL));
-	if (parent)
-		gnome_dialog_set_parent (dialog, parent);
+	dialog = GTK_DIALOG (gtk_dialog_new_with_buttons (title,
+							  parent,
+							  GTK_DIALOG_MODAL | GTK_DIALOG_DESTROY_WITH_PARENT,
+							  GTK_STOCK_CANCEL, GTK_RESPONSE_CANCEL,
+							  GTK_STOCK_OK, GTK_RESPONSE_OK,
+							  NULL));
+
+	gtk_dialog_set_default_response (dialog, GTK_RESPONSE_OK);
 
 	label = gtk_label_new (prompt);
 	gtk_label_set_line_wrap (GTK_LABEL (label), TRUE);
 	gtk_misc_set_alignment (GTK_MISC (label), 0.0, 0.0);
+
 	picker = e_charset_picker_new (default_charset);
 	omenu = gtk_option_menu_new ();
 	gtk_option_menu_set_menu (GTK_OPTION_MENU (omenu), picker);
 
-	gtk_container_set_border_width (GTK_CONTAINER (dialog->vbox), 4);
-	gtk_box_pack_start (GTK_BOX (dialog->vbox), label, FALSE, FALSE, 4);
-	gtk_box_pack_start (GTK_BOX (dialog->vbox), omenu, FALSE, FALSE, 4);
+	gtk_container_set_border_width (GTK_CONTAINER (dialog->vbox), 6);
+	gtk_box_pack_start (GTK_BOX (dialog->vbox), label, FALSE, FALSE, 6);
+	gtk_box_pack_start (GTK_BOX (dialog->vbox), omenu, FALSE, FALSE, 6);
 
 	gtk_widget_show_all (GTK_WIDGET (dialog));
-	button = gnome_dialog_run (dialog);
 
-	if (button == 0)
+	g_object_ref (dialog);
+
+	if (gtk_dialog_run (dialog) == GTK_RESPONSE_OK)
 		charset = e_charset_picker_get_charset (picker);
-	else
-		charset = NULL;
-	gnome_dialog_close (dialog);
+
+	gtk_widget_destroy (GTK_WIDGET (dialog));
+	g_object_unref (dialog);
 
 	return charset;
 }
