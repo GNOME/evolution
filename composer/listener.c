@@ -81,7 +81,6 @@ reply_indent (EditorListener *l, CORBA_Environment * ev)
 			GNOME_GtkHTML_Editor_Engine_runCommand (l->composer->editor_engine, "insert-paragraph", ev);
 			return;
 		}
-			
 	}
 
 	GNOME_GtkHTML_Editor_Engine_runCommand (l->composer->editor_engine, "style-normal", ev);
@@ -140,6 +139,24 @@ impl_event (PortableServer_Servant _servant,
 			BONOBO_ARG_SET_STRING (rv, url);
 			/* printf ("new url: %s\n", url); */
 			g_free (url);
+		}
+	} else if (!strcmp (name, "delete")) {
+		CORBA_char *orig;
+
+		if (GNOME_GtkHTML_Editor_Engine_isParagraphEmpty (l->composer->editor_engine, ev)) {
+			orig = GNOME_GtkHTML_Editor_Engine_getParagraphData (l->composer->editor_engine, "orig", ev);
+			if (ev->_major == CORBA_NO_EXCEPTION) {
+				if (orig && *orig == '1') {
+					GNOME_GtkHTML_Editor_Engine_setParagraphData (l->composer->editor_engine, "orig", "0", ev);
+
+					GNOME_GtkHTML_Editor_Engine_runCommand (l->composer->editor_engine, "indent-zero", ev);
+					GNOME_GtkHTML_Editor_Engine_runCommand (l->composer->editor_engine, "style-normal", ev);
+					GNOME_GtkHTML_Editor_Engine_runCommand (l->composer->editor_engine, "text-default-color", ev);
+					GNOME_GtkHTML_Editor_Engine_runCommand (l->composer->editor_engine, "italic-off", ev);
+					GNOME_GtkHTML_Editor_Engine_runCommand (l->composer->editor_engine, "insert-paragraph", ev);
+					GNOME_GtkHTML_Editor_Engine_runCommand (l->composer->editor_engine, "delete-back", ev);
+				}
+			}
 		}
 	}
 

@@ -1,3 +1,7 @@
+2001-08-06  Radek Doulik  <rodo@ximian.com>
+
+	* listener.c (impl_event): handle delete event
+
 2001-07-31  Peter Williams  <peterw@ximian.com>
 
 	* e-msg-composer.c (setup_ui): Set the config path for the composer so
