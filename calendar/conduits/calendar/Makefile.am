@@ -5,24 +5,8 @@ INCLUDES = 					\
 	-I$(top_builddir)/libical/src/libical	\
 	-I$(top_srcdir)/e-util			\
 	$(BONOBO_GNOME_CFLAGS)			\
-	$(PISOCK_INCLUDEDIR)			\
+	$(PISOCK_CFLAGS)			\
 	$(GNOME_PILOT_CFLAGS)
-
-# Calendar Capplet
-bin_PROGRAMS = e-calendar-conduit-control-applet
-
-e_calendar_conduit_control_applet_SOURCES = calendar-conduit-control-applet.c
-
-e_calendar_conduit_control_applet_LDADD = 	\
-		$(CAPPLET_LIBS)  		\
-		$(GNOME_LIBDIR) 		\
-		$(GNOME_PILOT_LIBS) 		\
-		$(PISOCK_LIBDIR) $(PISOCK_LIBS) \
-		$(GNOME_CAPPLET_LIBS) 		\
-		$(BONOBO_GNOME_LIBS) 		\
-		$(GNOME_XML_LIB) 		\
-	        $(GNOMEUI_LIBS) 		\
-                $(INTLLIBS)
 
 # Calendar Conduit
 e_calendar_conduitsdir=$(libdir)/gnome-pilot/conduits
@@ -41,31 +25,21 @@ libecalendar_conduit_la_LIBADD = 					\
 	$(top_builddir)/libical/src/libical/libical-static.la		\
 	$(top_builddir)/e-util/libeconduit-static.la	 		\
 	$(BONOBO_GNOME_LIBS)						\
-	$(PISOCK_LIBDIR) $(PISOCK_LIBS) 				\
+	$(PISOCK_LIBS) 							\
 	$(GNOME_LIBDIR) 						\
 	$(GNOME_LIBS)
 
 e-calendar.conduit: e-calendar.conduit.in Makefile
-	sed -e 's^\@prefix\@^$(prefix)^g' < $(srcdir)/e-calendar.conduit.in > e-calendar.conduit.tmp \
+	sed -e 's^\@prefix\@^$(prefix)^g' 				\
+	    -e 's^\@datadir\@^$(datadir)^g' 				\
+	    < $(srcdir)/e-calendar.conduit.in > e-calendar.conduit.tmp 	\
 	&& mv e-calendar.conduit.tmp e-calendar.conduit
-
-ccenterdir = $(datadir)/control-center
-ccenterPalmPilotdir = $(ccenterdir)/Peripherals
-ccenterConduitsdir = $(ccenterPalmPilotdir)/Conduits
-ccenterConduits_in_files = e-calendar-conduit-control-applet.desktop.in 
-ccenterConduits_DATA = $(ccenterConduits_in_files:.desktop.in=.desktop)
-@XML_I18N_MERGE_DESKTOP_RULE@
-
-panelConduitsdir = $(datadir)/gnome/apps/Settings/Peripherals/Conduits
-panelConduits_DATA = $(ccenterConduits_DATA)
 
 Conduitdir = $(datadir)/gnome-pilot/conduits/
 Conduit_DATA = e-calendar.conduit
 
 EXTRA_DIST = \
-	e-calendar.conduit.in \
-        $(ccenterConduits_in_files)
+	e-calendar.conduit.in
 
 install-data-local:
-	$(mkinstalldirs) $(ccenterConduitsdir)
 	$(mkinstalldirs) $(Conduitdir)

@@ -1,3 +1,8 @@
+2001-03-09  JP Rosevear  <jpr@ximian.com>
+
+	* conduit/Makefile.am: PISOCK_INCLUDEDIR has become
+	PISOCK_CFLAGS in gnome-pilot.m4 and remove capplet foo
+
 2001-02-12  Ettore Perazzoli  <ettore@ximian.com>
 
 	* conduit/Makefile.am (INCLUDES): `-I$(top_srcdir)/e-util', not
