@@ -1,3 +1,8 @@
+2000-12-23  Ettore Perazzoli  <ettore@helixcode.com>
+
+	* Makefile.am (INCLUDES): Add `-I$(top_builddir)/calendar/pcs' for
+	builddir compliance.
+
 2000-12-13  Ettore Perazzoli  <ettore@helixcode.com>
 
 	* Makefile.am (INCLUDES): Sigh.
