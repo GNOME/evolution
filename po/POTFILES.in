@@ -154,7 +154,6 @@ camel/camel-lock.c
 camel/camel-movemail.c
 camel/camel-multipart-encrypted.c
 camel/camel-multipart-signed.c
-camel/camel-pgp-mime.c
 camel/camel-process.c
 camel/camel-provider.c
 camel/camel-sasl-anonymous.c
