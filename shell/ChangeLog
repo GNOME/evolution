@@ -1,3 +1,43 @@
+2000-05-15  Ettore Perazzoli  <ettore@helixcode.com>
+
+	* e-storage-set-view.c: New members `in_drag' and `drag_button' in
+	`EStorageSetViewPrivate'.  New static variables `drag_types',
+	`num_drag_types', `target_list'.
+	(class_init): Create the `target_list'.
+	(init): Initialize the private `in_drag' member to false.
+	Initialize the private `drag_button' member to zero.
+	(button_release_event): Set it to false.
+	(motion_notify_event): New function, implementation of
+	`GtkWidget::motion_notify_event'.  If `in_drag' is false, set it
+	to true and set ourselves up as a drag source.
+	(button_press_event): New function, implementation of
+	`GtkWidget::button_press_event'.  Set `drag_button' to the event's
+	button number and then chain to the implementation in the parent
+	class.
+	(drag_end): New function, implementation of `GtkWidget::drag_end'.
+	(drag_data_get): New function, implementation of
+	`GtkWidget::drag_data_get'.
+	(set_e_shortcut_selection): New function, helper for `drag_data_get'.
+	(set_uri_list_selection): New function, helper for `drag_data_get'.
+	(class_init): Install these method implementations.
+
+	* e-storage-set-view.c: New member `selected_row_path' in
+	`EStorageSetViewPrivate'.
+	(init): Initialize it to NULL.
+	(tree_select_row): Set it to the path of the selected row.  Don't
+	emit "folder_selected" yet.  Also, keep the grab.
+	(button_release_event): New function, implementation of
+	`GtkWidget::button_release_event'.  If `selected_row_path' is not
+	NULL, emit the "folder_selected" signal with `selected_row_path'
+	as the parameter and then set `selected_row_path' to NULL again.
+	(class_init): Install `button_release_event'.
+
+	* e-storage-set-view.c: Made `ICON_WIDTH' and `ICON_HEIGHT' global
+	#defines.
+	(e_storage_set_view_construct): Set the row height to
+	`ICON_HEIGHT'.  Alos, set the selection mode to
+	`GTK_SELECTION_BROWSE'.
+
 2000-05-15  Iain Holmes  <ih@csd.abdn.ac.uk>
 
 	* e-local-folder.c (get_string_value): Use the correct function to

@@ -42,14 +42,49 @@ struct _EStorageSetViewPrivate {
            without the other, as they share the dynamically allocated path.  */
 	GHashTable *ctree_node_to_path;
 	GHashTable *path_to_ctree_node;
+
+	/* Path of the row selected by the latest "tree_select_row" signal.  */
+	const char *selected_row_path;
+
+	/* Whether we are currently performing a drag from this view.  */
+	int in_drag : 1;
+
+	/* Button used for the drag.  This is initialized in the `button_press_event'
+           handler.  */
+	int drag_button;
 };
 
+
 enum {
 	FOLDER_SELECTED,
 	LAST_SIGNAL
 };
 
 static guint signals[LAST_SIGNAL] = { 0 };
+
+
+#define ICON_WIDTH  24
+#define ICON_HEIGHT 24
+
+
+/* DND stuff.  */
+
+enum _DndTargetType {
+	DND_TARGET_TYPE_URI_LIST,
+	DND_TARGET_TYPE_E_SHORTCUT
+};
+typedef enum _DndTargetType DndTargetType;
+
+#define URI_LIST_TYPE   "text/uri-list"
+#define E_SHORTCUT_TYPE "E-SHORTCUT"
+
+static GtkTargetEntry drag_types [] = {
+	{ URI_LIST_TYPE, 0, DND_TARGET_TYPE_URI_LIST },
+	{ E_SHORTCUT_TYPE, 0, DND_TARGET_TYPE_E_SHORTCUT }
+};
+static const int num_drag_types = sizeof (drag_types) / sizeof (drag_types[0]);
+
+static GtkTargetList *target_list;
 
 
 /* GtkObject methods.  */
@@ -83,6 +118,188 @@ destroy (GtkObject *object)
 }
 
 
+/* GtkWidget methods.  */
+
+static int
+button_press_event (GtkWidget *widget,
+		    GdkEventButton *event)
+{
+	EStorageSetView *storage_set_view;
+	EStorageSetViewPrivate *priv;
+
+	(* GTK_WIDGET_CLASS (parent_class)->button_press_event) (widget, event);
+
+	storage_set_view = E_STORAGE_SET_VIEW (widget);
+	priv = storage_set_view->priv;
+
+	if (priv->in_drag)
+		return FALSE;
+
+	priv->drag_button = event->button;
+
+	/* KLUDGE ALERT.  So look at this.  We need to grab the pointer now, to check for
+           motion events and maybe start a drag operation.  And GtkCTree seems to do it
+           already in the `button_press_event'.  *But* for some reason something is very
+           broken somewhere and the grab misbehaves when done by GtkCTree's
+           `button_press_event'.  So we have to ungrab the pointer and re-grab it our way.
+           Weee!  */
+
+	gdk_pointer_ungrab (GDK_CURRENT_TIME);
+	gdk_flush ();
+	gdk_pointer_grab (GTK_CLIST (widget)->clist_window, FALSE,
+			  GDK_POINTER_MOTION_MASK | GDK_BUTTON_RELEASE_MASK,
+			  NULL, NULL, event->time);
+
+	return TRUE;
+}
+
+static int
+motion_notify_event (GtkWidget *widget,
+		     GdkEventMotion *event)
+{
+	EStorageSetView *storage_set_view;
+	EStorageSetViewPrivate *priv;
+
+	if (event->window != GTK_CLIST (widget)->clist_window)
+		return (* GTK_WIDGET_CLASS (parent_class)->motion_notify_event) (widget, event);
+
+	storage_set_view = E_STORAGE_SET_VIEW (widget);
+	priv = storage_set_view->priv;
+
+	if (priv->in_drag || priv->drag_button == 0)
+		return FALSE;
+
+	priv->in_drag = TRUE;
+
+	gtk_drag_begin (widget, target_list, GDK_ACTION_MOVE,
+			priv->drag_button, (GdkEvent *) event);
+
+	return TRUE;
+}
+
+static int
+button_release_event (GtkWidget *widget,
+		      GdkEventButton *event)
+{
+	EStorageSetView *storage_set_view;
+	EStorageSetViewPrivate *priv;
+
+	if (event->window != GTK_CLIST (widget)->clist_window)
+		return (* GTK_WIDGET_CLASS (parent_class)->button_release_event) (widget, event);
+
+	storage_set_view = E_STORAGE_SET_VIEW (widget);
+	priv = storage_set_view->priv;
+
+	if (! priv->in_drag && priv->selected_row_path != NULL) {
+		gdk_pointer_ungrab (GDK_CURRENT_TIME);
+		gdk_flush ();
+
+		gtk_signal_emit (GTK_OBJECT (widget), signals[FOLDER_SELECTED],
+				 priv->selected_row_path);
+		priv->selected_row_path = NULL;
+	}
+
+	return TRUE;
+}
+
+static void
+drag_end (GtkWidget *widget,
+	  GdkDragContext *context)
+{
+	EStorageSetView *storage_set_view;
+	EStorageSetViewPrivate *priv;
+
+	storage_set_view = E_STORAGE_SET_VIEW (widget);
+	priv = storage_set_view->priv;
+
+	priv->in_drag = FALSE;
+	priv->drag_button = 0;
+}
+
+static void
+set_uri_list_selection (EStorageSetView *storage_set_view,
+			GtkSelectionData *selection_data)
+{
+	EStorageSetViewPrivate *priv;
+	char *uri_list;
+
+	priv = storage_set_view->priv;
+
+	/* FIXME: Get `evolution:' from somewhere instead of hardcoding it here.  */
+	uri_list = g_strconcat ("evolution:", priv->selected_row_path, "\n", NULL);
+	gtk_selection_data_set (selection_data, selection_data->target,
+				8, (guchar *) uri_list, strlen (uri_list));
+	g_free (uri_list);
+}
+
+static void
+set_e_shortcut_selection (EStorageSetView *storage_set_view,
+			  GtkSelectionData *selection_data)
+{
+	EStorageSetViewPrivate *priv;
+	int shortcut_len;
+	char *shortcut;
+	const char *trailing_slash;
+	const char *name;
+
+	priv = storage_set_view->priv;
+
+	trailing_slash = strrchr (priv->selected_row_path, '/');
+	if (trailing_slash == NULL)
+		name = NULL;
+	else
+		name = trailing_slash + 1;
+
+	/* FIXME: Get `evolution:' from somewhere instead of hardcoding it here.  */
+
+	if (name != NULL)
+		shortcut_len = strlen (name);
+	else
+		shortcut_len = 0;
+	
+	shortcut_len ++;	/* Separating zero.  */
+
+	shortcut_len += strlen ("evolution:");
+	shortcut_len += strlen (priv->selected_row_path);
+	shortcut_len ++;	/* Trailing zero.  */
+
+	shortcut = g_malloc (shortcut_len);
+
+	if (name == NULL)
+		sprintf (shortcut, "%cevolution:%s", '\0', priv->selected_row_path);
+	else
+		sprintf (shortcut, "%s%cevolution:%s", name, '\0', priv->selected_row_path);
+
+	gtk_selection_data_set (selection_data, selection_data->target,
+				8, (guchar *) shortcut, shortcut_len);
+
+	g_free (shortcut);
+}
+
+static void
+drag_data_get (GtkWidget *widget,
+	       GdkDragContext *context,
+	       GtkSelectionData *selection_data,
+	       guint info,
+	       guint32 time)
+{
+	EStorageSetView *storage_set_view;
+
+	storage_set_view = E_STORAGE_SET_VIEW (widget);
+
+	switch (info) {
+	case DND_TARGET_TYPE_URI_LIST:
+		set_uri_list_selection (storage_set_view, selection_data);
+		break;
+	case DND_TARGET_TYPE_E_SHORTCUT:
+		set_e_shortcut_selection (storage_set_view, selection_data);
+		break;
+	default:
+		g_assert_not_reached ();
+	}
+}
+
+
 /* GtkCTree methods.  */
 
 static void
@@ -91,20 +308,19 @@ tree_select_row (GtkCTree *ctree,
 		 gint column)
 {
 	EStorageSetView *storage_set_view;
+	EStorageSetViewPrivate *priv;
 	const char *path;
 
 	(* GTK_CTREE_CLASS (parent_class)->tree_select_row) (ctree, row, column);
 
-	/* CTree is utterly stupid and grabs the pointer here.  */
-	gdk_pointer_ungrab (GDK_CURRENT_TIME);
-	gdk_flush ();
-
 	storage_set_view = E_STORAGE_SET_VIEW (ctree);
+	priv = storage_set_view->priv;
 
 	path = g_hash_table_lookup (storage_set_view->priv->ctree_node_to_path, row);
-	g_return_if_fail (path != NULL);
+	if (path == NULL)
+		return;
 
-	gtk_signal_emit (GTK_OBJECT (storage_set_view), signals[FOLDER_SELECTED], path);
+	priv->selected_row_path = path;
 }
 
 
@@ -112,12 +328,20 @@ static void
 class_init (EStorageSetViewClass *klass)
 {
 	GtkObjectClass *object_class;
+	GtkWidgetClass *widget_class;
 	GtkCTreeClass *ctree_class;
 
 	parent_class = gtk_type_class (gtk_ctree_get_type ());
 
 	object_class = GTK_OBJECT_CLASS (klass);
 	object_class->destroy = destroy;
+
+	widget_class = GTK_WIDGET_CLASS (klass);
+	widget_class->button_press_event   = button_press_event;
+	widget_class->motion_notify_event  = motion_notify_event;
+	widget_class->button_release_event = button_release_event;
+	widget_class->drag_end             = drag_end;
+	widget_class->drag_data_get        = drag_data_get;
 
 	ctree_class = GTK_CTREE_CLASS (klass);
 	ctree_class->tree_select_row = tree_select_row;
@@ -132,6 +356,11 @@ class_init (EStorageSetViewClass *klass)
 				  GTK_TYPE_STRING);
 
 	gtk_object_class_add_signals (object_class, signals, LAST_SIGNAL);
+
+	/* Set up DND.  */
+
+	target_list = gtk_target_list_new (drag_types, num_drag_types);
+	g_assert (target_list != NULL);
 }
 
 static void
@@ -143,9 +372,12 @@ init (EStorageSetView *storage_set_view)
 	GTK_WIDGET_UNSET_FLAGS (storage_set_view, GTK_CAN_FOCUS);
 
 	priv = g_new (EStorageSetViewPrivate, 1);
+
 	priv->storage_set        = NULL;
 	priv->ctree_node_to_path = g_hash_table_new (g_direct_hash, g_direct_equal);
 	priv->path_to_ctree_node = g_hash_table_new (g_str_hash, g_str_equal);
+	priv->selected_row_path  = NULL;
+	priv->in_drag            = FALSE;
 
 	storage_set_view->priv = priv;
 }
@@ -164,9 +396,6 @@ get_pixmap_and_mask_for_folder (EStorageSetView *storage_set_view,
 	GdkPixbuf *scaled_pixbuf;
 	GdkVisual *visual;
 	GdkGC *gc;
-
-#define ICON_WIDTH 16
-#define ICON_HEIGHT 16
 
 	storage_set = storage_set_view->priv->storage_set;
 	folder_type_repository = e_storage_set_get_folder_type_repository (storage_set);
@@ -201,9 +430,6 @@ get_pixmap_and_mask_for_folder (EStorageSetView *storage_set_view,
 					   ICON_WIDTH, ICON_HEIGHT, 0x7f);
 
 	gdk_pixbuf_unref (scaled_pixbuf);
-
-#undef ICON_WIDTH
-#undef ICON_HEIGHT
 }
 
 static int
@@ -303,8 +529,12 @@ e_storage_set_view_construct (EStorageSetView *storage_set_view,
 	g_return_if_fail (E_IS_STORAGE_SET (storage_set));
 
 	ctree = GTK_CTREE (storage_set_view);
+
+	/* Set up GtkCTree/GtkCList parameters.  */
 	gtk_ctree_construct (ctree, 1, 0, NULL);
 	gtk_ctree_set_line_style (ctree, GTK_CTREE_LINES_DOTTED);
+	gtk_clist_set_selection_mode (GTK_CLIST (ctree), GTK_SELECTION_BROWSE);
+	gtk_clist_set_row_height (GTK_CLIST (ctree), ICON_HEIGHT);
 	
 	priv = storage_set_view->priv;
 
@@ -318,9 +548,9 @@ e_storage_set_view_construct (EStorageSetView *storage_set_view,
 	for (p = storage_list; p != NULL; p = p->next) {
 		storage = E_STORAGE (p->data);
 
-		name = e_storage_get_name (storage); /* Yuck.  */
+		name = e_storage_get_name (storage);
+		text[0] = (char *) name; /* Yuck.  */
 
-		text[0] = (char *) name;
 		parent = gtk_ctree_insert_node (ctree, NULL, NULL,
 						text, 3,
 						NULL, NULL, NULL, NULL,
