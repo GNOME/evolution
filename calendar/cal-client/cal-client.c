@@ -687,6 +687,77 @@ cal_client_get_object (CalClient *client, const char *uid, iCalObject **ico)
 #endif
 }
 
+
+
+CalClientGetStatus cal_client_get_uid_by_pilot_id (CalClient *client,
+						   unsigned long pilot_id,
+						   char **uid)
+{
+	CalClientPrivate *priv;
+	CORBA_Environment ev;
+	CalClientGetStatus retval;
+	char *uid_str;
+
+	g_return_val_if_fail (client != NULL, CAL_CLIENT_GET_NOT_FOUND);
+	g_return_val_if_fail (IS_CAL_CLIENT (client),
+			      CAL_CLIENT_GET_NOT_FOUND);
+
+	priv = client->priv;
+	g_return_val_if_fail (priv->load_state == LOAD_STATE_LOADED,
+			      CAL_CLIENT_GET_NOT_FOUND);
+
+	retval = CAL_CLIENT_GET_NOT_FOUND;
+	*uid = NULL;
+
+	CORBA_exception_init (&ev);
+	uid_str = Evolution_Calendar_Cal_get_uid_by_pilot_id (priv->cal, pilot_id, &ev);
+
+	if (ev._major == CORBA_USER_EXCEPTION &&
+	    strcmp (CORBA_exception_id (&ev),
+		    ex_Evolution_Calendar_Cal_NotFound) == 0)
+		goto out;
+	else if (ev._major != CORBA_NO_EXCEPTION) {
+		//g_message ("cal_client_get_object(): could not get the object");
+		goto out;
+	}
+
+	if (uid_str) {
+		retval = CAL_CLIENT_GET_SUCCESS;
+		(*uid) = g_strdup (uid_str);
+		CORBA_free (uid_str);
+	}
+
+ out:
+
+	CORBA_exception_free (&ev);
+	return retval;
+}
+
+
+
+void cal_client_update_pilot_id (CalClient *client, char *uid,
+				 unsigned long pilot_id,
+				 unsigned long pilot_status)
+{
+	CalClientPrivate *priv;
+	CORBA_Environment ev;
+
+	g_return_if_fail (client != NULL);
+	g_return_if_fail (IS_CAL_CLIENT (client));
+
+	priv = client->priv;
+	g_return_if_fail (priv->load_state == LOAD_STATE_LOADED);
+
+	CORBA_exception_init (&ev);
+	Evolution_Calendar_Cal_update_pilot_id (priv->cal, uid,
+						pilot_id, pilot_status,
+						&ev);
+
+	CORBA_exception_free (&ev);
+}
+
+
+
 /**
  * cal_client_get_uids:
  * @client: A calendar client.
@@ -1052,7 +1123,7 @@ cal_client_remove_object (CalClient *client, const char *uid)
 	    strcmp (CORBA_exception_id (&ev), ex_Evolution_Calendar_Cal_NotFound) == 0)
 		goto out;
 	else if (ev._major != CORBA_NO_EXCEPTION) {
-		g_message ("cal_client_remove_object(): could not remove the object");
+		/*g_message ("cal_client_remove_object(): could not remove the object");*/
 		goto out;
 	}
 

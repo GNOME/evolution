@@ -1,3 +1,21 @@
+2000-06-29  Seth Alves  <alves@hungry.com>
+
+	* pcs/cal.c (Cal_get_uid_by_pilot_id): 
+	(Cal_update_pilot_id): 
+	* pcs/cal-backend-imc.c (cal_backend_imc_update_pilot_id): 
+	(cal_backend_imc_get_uid_by_pilot_id): 
+	* pcs/cal-backend.c (cal_backend_get_uid_by_pilot_id): 
+	(cal_backend_update_pilot_id):  server code to service these:
+
+	* gui/calendar-pilot-sync.c: updated to make use of cal-client.
+	also uses dirty bits on both sides to aid in syncing.
+
+	* cal-client/cal-client.c (cal_client_get_uid_by_pilot_id): new
+	function -- ask the cal server to return uid given an object's
+	pilot id.
+	(cal_client_update_pilot_id): new function -- inform the
+	cal server of an objects pilot id and pilot dirty-flag.
+
 2000-06-28  Federico Mena Quintero  <federico@helixcode.com>
 
 	* cal-util/cal-component.[ch]: New files for the new iCalendar

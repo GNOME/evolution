@@ -1,3 +1,4 @@
+/* -*- Mode: C; tab-width: 8; indent-tabs-mode: t; c-basic-offset: 8 -*- */
 /*
  * calendar-pilot-sync.c:
  *   
@@ -7,29 +8,43 @@
  *   Miguel de Icaza (miguel@gnome-support.com)
  *
  */
+
+
+/*
+ *
+ * this only works in a monogamous pilot/desktop situation.
+ *
+ */
+
+
+
 #include <config.h>
 #include <gnome.h>
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
-#include <libgnorba/gnome-factory.h>
+#include <bonobo.h>
+#include <bonobo/bonobo-control.h>
+
+#ifdef USING_OAF
+#include <liboaf/liboaf.h>
+#else
 #include <libgnorba/gnorba.h>
-#include "calobj.h"
-/* #include "calendar.h" DELETE */
-#include "timeutil.h"
-#include "GnomeCal.h"
+#endif
+
+#include <cal-client/cal-client.h>
+#include "cal-util/calobj.h"
+#include "cal-util/timeutil.h"
 #include "pi-source.h"
 #include "pi-socket.h"
 #include "pi-datebook.h"
 #include "pi-dlp.h"
 
-/* the CORBA ORB */
-CORBA_ORB orb;
+
+char *calendar_file;
 
 /* The default port to communicate with */
 char *pilot_port = "/dev/pilot";
-
-CORBA_Environment ev;
 
 /* Our pi-socket address where we connect to */
 struct pi_sockaddr addr;
@@ -43,17 +58,10 @@ int debug_alarms = 0;
 /* True if you want to dump the flags bits from the records */
 int debug_attrs = 0;
 
-/* Default values for alarms */
-CalendarAlarm alarm_defaults[4] = {
-	{ ALARM_MAIL, 0, 15, ALARM_MINUTES },
-	{ ALARM_PROGRAM, 0, 15, ALARM_MINUTES },
-	{ ALARM_DISPLAY, 0, 15, ALARM_MINUTES },
-	{ ALARM_AUDIO, 0, 15, ALARM_MINUTES }
-};
-
 int only_desktop_to_pilot = 0;
 
 int only_pilot_to_desktop = 0;
+
 
 const struct poptOption calendar_sync_options [] = {
 	{ "pilot", 0, POPT_ARG_STRING, &pilot_port, 0,
@@ -89,14 +97,15 @@ setup_connection (void)
 		g_error (_("Can not create Pilot socket\n"));
 
 	addr.pi_family = PI_AF_SLP;
-	strncpy ((void *) &addr.pi_device, pilot_port, sizeof (addr.pi_device));
+	strncpy ((void *)&addr.pi_device, pilot_port, sizeof (addr.pi_device));
 
 	ret = pi_bind (socket, (struct sockaddr *)&addr, sizeof (addr));
 	if (ret == -1)
 		g_error (_("Can not bind to device %s\n"), pilot_port);
 
 	if (pi_listen (socket, 1) == -1)
-		g_error (_("Failed to get a connection from the Pilot device"));
+		g_error (_("Failed to get a connection "
+			   "from the Pilot device"));
 
 	if ((news = pi_accept (socket, 0, 0)) == -1)
 		g_error (_("pi_accept failed"));
@@ -104,58 +113,90 @@ setup_connection (void)
 	return news;
 }
 
-static GNOME_Calendar_Repository
-locate_calendar_server (void)
-{
-	GNOME_Calendar_Repository repo;
-	
-	repo = goad_server_activate_with_id (
-		NULL, "IDL:GNOME:Calendar:Repository:1.0",
-		0, NULL);
-	
-	if (repo == CORBA_OBJECT_NIL)
-		g_error ("Can not communicate with GnomeCalendar server");
-
-	if (ev._major != CORBA_NO_EXCEPTION){
-		printf ("Exception: %s\n", CORBA_exception_id (&ev));
-		abort ();
-	}
-	
-	return repo;
-}
 
 static void
-delete_record (GNOME_Calendar_Repository repo, int id)
+init_bonobo (int *argc, char **argv)
+{
+#       ifdef USING_OAF
+	/* FIXME: VERSION instead of "0.0".  */
+	gnome_init_with_popt_table ("evolution-calendar", "0.0",
+				    *argc, argv, oaf_popt_options,
+				    0, NULL);
+	oaf_init (*argc, argv);
+#      else
+	CORBA_Environment ev;
+
+	CORBA_exception_init (&ev);
+	gnome_CORBA_init_with_popt_table (
+		"evolution-calendar", "0.0",
+		argc, argv, NULL, 0, NULL, GNORBA_INIT_SERVER_FUNC, &ev);
+	CORBA_exception_free (&ev);
+#       endif
+
+	if (bonobo_init (CORBA_OBJECT_NIL,
+			 CORBA_OBJECT_NIL, CORBA_OBJECT_NIL) == FALSE)
+		g_error (_("Could not initialize Bonobo"));
+}
+
+
+static void
+delete_record_from_desktop (CalClient *client, int id)
 {
 	char *uid;
+	CalClientGetStatus status;
 
-	uid = GNOME_Calendar_Repository_get_id_from_pilot_id (repo, id, &ev);
+	status = cal_client_get_uid_by_pilot_id (client, id, &uid);
 
-	/* The record was already deleted */
-	if (ev._major != CORBA_NO_EXCEPTION)
-		return;
-	
-	GNOME_Calendar_Repository_delete_object (repo, uid, &ev);
-	CORBA_free (uid);
+	if (status == CAL_CLIENT_GET_SUCCESS) {
+		cal_client_remove_object (client, uid);
+		g_free (uid);
+	}
 }
 
+
+
 static void
-update_record (GNOME_Calendar_Repository repo, int id, struct Appointment *a, int attr)
+dump_attr (int flags)
 {
-	char *vcal_string;
+	if (flags & dlpRecAttrDeleted)
+		printf (" Deleted");
+	if (flags & dlpRecAttrDirty)
+		printf (" Dirty");
+	if (flags & dlpRecAttrBusy)
+		printf (" Busy");
+	if (flags & dlpRecAttrSecret)
+		printf (" Secret");
+	if (flags & dlpRecAttrArchived)
+		printf (" Archive");
+	printf ("\n");
+}
+
+
+
+/* take a record retrieved from a pilot and merge it into the desktop cal */
+
+static void
+update_record (CalClient *client, int id, struct Appointment *a, int attr)
+{
 	iCalObject *obj;
 	int i;
-	char *str;
+	CalClientGetStatus status;
+	char *uid = NULL;
+	gboolean success;
 	
-	obj = ical_new (a->note ? a->note : "",
-			g_get_user_name (),
-			a->description ? a->description : "");
+	printf ("pilot->cal: %d, ", id);
 
-	printf ("requesting %d [%s]\n", id, a->description);
-	vcal_string = GNOME_Calendar_Repository_get_object_by_pilot_id (repo, id, &ev);
+	status = cal_client_get_uid_by_pilot_id (client, id, &uid);
+	if (status == CAL_CLIENT_GET_SUCCESS)
+		status = cal_client_get_object (client, uid, &obj);
 
-	if (ev._major == CORBA_USER_EXCEPTION){
+	if (status != CAL_CLIENT_GET_SUCCESS) {
+		/* Object did not exist, creating a new one */
 		time_t now = time (NULL);
+
+		obj = ical_new (a->note ? a->note : "",
+				g_get_user_name (),
+				a->description ? a->description : "");
 		
 		obj->created = now;
 		obj->last_mod = now;
@@ -164,14 +205,11 @@ update_record (GNOME_Calendar_Repository repo, int id, struct Appointment *a, in
 		obj->related = NULL;
 		obj->pilot_id = id;
 		obj->pilot_status = ICAL_PILOT_SYNC_NONE;
-		printf (_("\tObject did not exist, creating a new one\n"));
-	} else {
-		printf ("\tFound\n");
-		obj = ical_object_new_from_string (vcal_string);
 	}
 
-	if (obj->pilot_status == ICAL_PILOT_SYNC_MOD){
-		printf (_("\tObject has been modified on desktop and on the pilot, desktop takes precedence\n"));
+	if (obj->pilot_status == ICAL_PILOT_SYNC_MOD) {
+		printf (_("\tObject has been modified on desktop and on "
+			  "the pilot, desktop takes precedence\n"));
 		ical_object_unref (obj);
 		return;
 	}
@@ -191,11 +229,18 @@ update_record (GNOME_Calendar_Repository repo, int id, struct Appointment *a, in
 		a->end.tm_min = 0;
 		a->end.tm_hour = 10;
 	}
+
+	if (a->note)
+		obj->comment = g_strdup (a->note);
+
+	if (a->description)
+		obj->summary = g_strdup (a->description);
+
 	
 	obj->dtstart = mktime (&a->begin);
 	obj->dtend = mktime (&a->end);
 
-	/* Special case: daily repetitions are converted to a multi-day event */
+	/* Special case: daily repetitions are converted to a multiday event */
 	if (a->repeatType == repeatDaily){
 		time_t newt = time_add_day (obj->dtend, a->repeatFrequency);
 
@@ -302,14 +347,19 @@ update_record (GNOME_Calendar_Repository repo, int id, struct Appointment *a, in
 		obj->class = g_strdup ("PUBLIC");
 
 	/*
-	 * Now, convert the in memory iCalObject to a full vCalendar we can send
+	 * Now, convert the in memory iCalObject to a full vCalendar
+	 * we can send
 	 */
-	str = calendar_string_from_object (obj);
+	success = cal_client_update_object (client, obj);
+	/* set the pilot_status to sync_none so we don't send
+	   this event right back to the pilot */
+	cal_client_update_pilot_id (client, obj->uid, obj->pilot_id,
+				    ICAL_PILOT_SYNC_NONE);
 
-	GNOME_Calendar_Repository_update_object (repo, obj->uid, str, &ev);
 
-	free (str);
-	
+	dump_attr (attr);
+	printf (" but not used.\n");
+
 	/*
 	 * Shutdown
 	 */
@@ -346,8 +396,9 @@ try_alarm (CalendarAlarm *alarm, struct Appointment *a)
 	return 1;
 }
 
+
 static void
-sync_object_to_pilot (GNOME_Calendar_Repository repo, iCalObject *obj, int pilot_fd)
+sync_object_to_pilot (CalClient *client, iCalObject *obj, int pilot_fd)
 {
 	char buffer [65536];
 	struct Appointment *a;
@@ -360,10 +411,13 @@ sync_object_to_pilot (GNOME_Calendar_Repository repo, iCalObject *obj, int pilot
 	attr = 0;
 	cat = 0;
 	idx = 0;
-	
-	if (obj->pilot_id){
+
+	printf ("cal->pilot: pilotid=%d, ", obj->pilot_id);
+
+	if (obj->pilot_id) {
 		rec_len = dlp_ReadRecordById (pilot_fd, db, obj->pilot_id,
-					      buffer, &idx, &rec_len, &attr, &cat);
+					      buffer,
+					      &idx, &rec_len, &attr, &cat);
 
 		if (rec_len > 0)
 			unpack_Appointment (a, buffer, rec_len);
@@ -372,7 +426,8 @@ sync_object_to_pilot (GNOME_Calendar_Repository repo, iCalObject *obj, int pilot
 		cat = 0;
 	}
 	
-	/* a contains the appointment either cleared or with the data from the Pilot */
+	/* a contains the appointment either cleared or with
+	   the data from the Pilot */
 	a->begin = *localtime (&obj->dtstart);
 	a->end   = *localtime (&obj->dtend);
 
@@ -427,11 +482,12 @@ sync_object_to_pilot (GNOME_Calendar_Repository repo, iCalObject *obj, int pilot
 	}
 	
 	/*
-	 * Pilot uses a repeat-daily for a multi-day event, adjust for that case
+	 * Pilot uses a repeat-daily for a multi-day event, adjust
+	 * for that case
 	 */
 	if ((a->end.tm_mday != a->begin.tm_mday) ||
 	    (a->end.tm_mon != a->begin.tm_mon) ||
-	    (a->end.tm_year != a->begin.tm_year)){
+	    (a->end.tm_year != a->begin.tm_year)) {
 		a->event = 1;
 		a->begin.tm_sec = 0;
 		a->begin.tm_min = 0;
@@ -451,7 +507,7 @@ sync_object_to_pilot (GNOME_Calendar_Repository repo, iCalObject *obj, int pilot
 	 * Exceptions
 	 */
 	a->exceptions = g_list_length (obj->exdate);
-	a->exception = (struct tm *) malloc (sizeof (struct tm) * a->exceptions);
+	a->exception = (struct tm *)malloc (sizeof(struct tm) * a->exceptions);
 	for (i = 0, l = obj->exdate; l; l = l->next, i++){
 		time_t *exdate = l->data;
 
@@ -484,68 +540,150 @@ sync_object_to_pilot (GNOME_Calendar_Repository repo, iCalObject *obj, int pilot
 	 */
 	rec_len = pack_Appointment (a, buffer, sizeof (buffer));
 	attr &= ~dlpRecAttrDirty;
-	
-	dlp_WriteRecord (
-		pilot_fd, db, 0,
-		obj->pilot_id, 0, buffer, rec_len, &new_id);
-	
-	GNOME_Calendar_Repository_update_pilot_id (repo, obj->uid, new_id, ICAL_PILOT_SYNC_NONE, &ev);
+
+	dump_attr (attr);
+	printf ("\n");
+
+	dlp_WriteRecord (pilot_fd, db, attr,
+			 obj->pilot_id, 0, buffer, rec_len, &new_id);
+
+	cal_client_update_pilot_id (client, obj->uid, new_id,
+				    ICAL_PILOT_SYNC_NONE);
+
 	
 	conduit_free_Appointment (a);
 	g_free (a);
 }
 
 static void
-sync_cal_to_pilot (GNOME_Calendar_Repository repo, Calendar *cal, int pilot_fd)
+sync_cal_to_pilot (CalClient *client, int pilot_fd)
 {
-	GList *l;
-	int c = g_list_length (cal->events);
+	int c;
 	int i;
+	GList *uids;
+	GList *cur;
 
-	printf ("\n");
-	for (i = 0, l = cal->events; l; l = l->next, i++){
-		iCalObject *obj = l->data;
 
-		printf ("Syncing desktop to pilot: %d/%d\r", i + 1, c);
-		fflush (stdout);
-		if (obj->pilot_status != ICAL_PILOT_SYNC_MOD){
-			g_warning ("Strange, we were supposed to get only a dirty object");
-			continue;
+	uids = cal_client_get_uids (client, CALOBJ_TYPE_ANY);
+
+	c = g_list_length (uids);
+
+
+	for (cur=uids, i=0; cur; cur=cur->next, i++) {
+		const char *uid = cur->data;
+		CalClientGetStatus status;
+		iCalObject *ico;
+
+		status = cal_client_get_object (client, uid, &ico);
+		if (status == CAL_CLIENT_GET_SUCCESS &&
+		    ico->pilot_status == ICAL_PILOT_SYNC_MOD) {
+			printf ("uid='%s', pilot_status=%d\n", uid,
+				ico->pilot_status);
+			sync_object_to_pilot (client, ico, pilot_fd);
 		}
-		
-		sync_object_to_pilot (repo, obj, pilot_fd);
+		/*
+		else {
+			warn
+		}
+		*/
 	}
-	printf ("\n");
 }
 
-static void
-dump_attr (int flags)
-{
-	if (flags & dlpRecAttrDeleted)
-		fprintf(stderr, " Deleted");
-	if (flags & dlpRecAttrDirty)
-		fprintf(stderr, " Dirty");
-	if (flags & dlpRecAttrBusy)
-		fprintf(stderr, " Busy");
-	if (flags & dlpRecAttrSecret)
-		fprintf(stderr, " Secret");
-	if (flags & dlpRecAttrArchived)
-		fprintf(stderr, " Archive");
-	fprintf (stderr, "\n");
-}
 
 static void
-sync_pilot (GNOME_Calendar_Repository repo, int pilot_fd)
+sync_pilot_to_cal (CalClient *client, int pilot_fd)
 {
-	struct PilotUser user_info;
 	int record;
 	unsigned char buffer [65536];
-	Calendar *dirty_cal;
-	char *vcalendar_string;
-	char *error;
+
+	for (record = 0;; record++) {
+		struct Appointment a;
+		int rec_len, attr, size;
+		recordid_t id;
+			
+		rec_len = dlp_ReadRecordByIndex (pilot_fd, db,
+						 record, buffer,
+						 &id, &size, &attr, 0);
+		if (rec_len < 0)
+			break;
+			
+		unpack_Appointment (&a, buffer, rec_len);
+			
+		if (debug_attrs)
+			dump_attr (attr);
+			
+		/* If the object was deleted, remove it from
+		   the desktop database */
+		if (attr & dlpRecAttrDeleted) {
+			delete_record_from_desktop (client, id);
+			conduit_free_Appointment (&a);
+			dlp_DeleteRecord (pilot_fd, db, 0, id);
+			continue;
+		}
+
+		if (attr & dlpRecAttrArchived)
+			continue;
+
+		if (attr & dlpRecAttrDirty) {
+			update_record (client, id, &a, attr);
+		} else {
+			/* if the dirty flag is clear yet we have
+			   no copy of it in the desktop database, then
+			   we deleted it from the desktop database, so
+			   delete it from the pilot */
+
+			char *uid;
+			CalClientGetStatus status;
+			status = cal_client_get_uid_by_pilot_id (client,
+								 id, &uid);
+			if (status == CAL_CLIENT_GET_NOT_FOUND) {
+				printf ("deleting %ld from pilot\n", id);
+				dlp_DeleteRecord (pilot_fd, db, 0, id);
+			}
+			else
+				g_free (uid);
+		}
+
+		attr &= ~dlpRecAttrDirty;
+
+		conduit_free_Appointment (&a);
+	}
+}
+
+
+static void
+sync_pilot (CalClient *client, int pilot_fd)
+{
+	struct PilotUser user_info;
+	struct SysInfo sys_info;
+	unsigned char buffer [300];
 	
-	printf (_("Syncing with the pilot..."));
+
+	/* Get the pilot's system information.  FIX ME check return */
+	dlp_ReadSysInfo (pilot_fd, &sys_info);
+
+	/* Ask the pilot who it is.  FIX ME check return */
 	dlp_ReadUserInfo (pilot_fd, &user_info);
+
+
+	printf ("---------sys info--------------\n");
+	printf ("romVersion=%ld\n", sys_info.romVersion);
+	printf ("locale=%ld\n", sys_info.locale);
+	strncpy (buffer, sys_info.name, sys_info.nameLength);
+	printf ("name='%s'\n", buffer);
+	printf ("---------user info--------------\n");
+	printf ("userID=%ld\n", user_info.userID);
+	printf ("viewerID=%ld\n", user_info.viewerID);
+	printf ("lastSyncPC=%ld\n", user_info.lastSyncPC);
+	printf ("successfulSyncDate=%s",
+		ctime (& user_info.successfulSyncDate));
+	printf ("lastSyncDate=%s",
+		ctime (& user_info.lastSyncDate));
+	printf ("username='%s'\n", user_info.username);
+	strncpy (buffer, user_info.password, user_info.passwordLength);
+	printf ("password='%s'\n", buffer);
+	printf ("--------------------------------\n");
+
 
 	/* This informs the user of the progress on the Pilot */
 	dlp_OpenConduit (pilot_fd);
@@ -561,96 +699,115 @@ sync_pilot (GNOME_Calendar_Repository repo, int pilot_fd)
 	 * 1. Pull all the records from the Pilot, and make any updates
 	 *    required on the desktop side
 	 */
-	if (!only_desktop_to_pilot){
-		for (record = 0;; record++){
-			struct Appointment a;
-			int rec_len, attr, size;
-			recordid_t id;
-			
-			rec_len = dlp_ReadRecordByIndex (
-				pilot_fd, db,
-				record, buffer, &id, &size, &attr, 0);
+	if (! only_desktop_to_pilot)
+		sync_pilot_to_cal (client, pilot_fd);
 
-			if (rec_len < 0)
-				break;
-			
-			printf ("processing record %d\n", record);
-			unpack_Appointment (&a, buffer, rec_len);
-			
-			if (debug_attrs)
-				dump_attr (attr);
-			
-			/* If the object was deleted, remove it from the database */
-			if (attr & dlpRecAttrDeleted){
-				printf ("Deleting id %ld\n", id);
-				delete_record (repo, id);
-				conduit_free_Appointment (&a);
-				dlp_DeleteRecord (pilot_fd, db, 0, id);
-				continue;
-			}
 
-			if (attr & dlpRecAttrArchived)
-				continue;
-			
-			printf ("updating record\n");
-			update_record (repo, id, &a, attr);
-
-			conduit_free_Appointment (&a);
-		}
-	}
-	
 	/*
-	 * 2. Pull all the records from the Calendar, and move any new items
-	 *    to the pilot
+	 * 2. Push all changes on the desktop to the pilot.
+	 *
 	 */
-	if (!only_pilot_to_desktop){
-		vcalendar_string = GNOME_Calendar_Repository_get_updated_objects (repo, &ev);
-		dirty_cal = calendar_new ("Temporal",CALENDAR_INIT_NIL);
-		error = calendar_load_from_memory (dirty_cal, vcalendar_string);
-		if (!error)
-			sync_cal_to_pilot (repo, dirty_cal, pilot_fd);
-		calendar_destroy (dirty_cal);
-	}
-	
+
+	if (! only_pilot_to_desktop)
+		sync_cal_to_pilot (client, pilot_fd);	
+
+	/*
+	 * 3. Clear the dirty bits on all the pilot's events.
+	 *
+	 */
+
+	dlp_ResetSyncFlags (pilot_fd, db);
+
+	/*
+	 * 4. Close down.
+	 *
+	 */
 	
 	dlp_CloseDB (pilot_fd, db);
-	dlp_AddSyncLogEntry (pilot_fd, _("Synced DateBook from Pilot to GnomeCal"));
+	dlp_AddSyncLogEntry (pilot_fd,
+			     _("Synced DateBook from Pilot to GnomeCal"));
 	pi_close (pilot_fd);
+
+	/*
+	 * 5. Dump Core.
+	 *
+	 */
 }
+
+
+static void
+gnome_calendar_load_cb (GtkWidget *cal_client,
+			CalClientLoadStatus status,
+			int *link)
+{
+	CalClient *client = CAL_CLIENT (cal_client);
+	static int tried = 0;
+
+	if (status == CAL_CLIENT_LOAD_SUCCESS) {
+		printf ("<Syncing>\n");
+		sync_pilot (client, *link);
+		printf ("</Syncing>\n");
+	}
+	else {
+		if (tried) {
+			printf ("load and create of calendar failed\n");
+			return;
+		}
+
+		cal_client_create_calendar (client, calendar_file);
+		tried = 1;
+	}
+
+	gtk_main_quit ();
+}
+
 
 int
 main (int argc, char *argv [])
 {
 	int link;
-	GNOME_Calendar_Repository repository;
-	
-	CORBA_exception_init (&ev);
-	orb = gnome_CORBA_init_with_popt_table (
-		"calendar-pilot-sync", VERSION, &argc, argv,
-		calendar_sync_options, 0, NULL, 0, &ev);
+	CalClient *client;
 
-	printf ("Please, press HotSync button on the palm...");
-	fflush (stdout);
-	link = setup_connection ();
-	printf ("Connected\n");
+	init_bonobo (&argc, argv);
 
-	printf ("Launching GnomeCal...");
-	fflush (stdout);
-	repository = locate_calendar_server ();
-	printf ("Done\n");
+	g_log_set_always_fatal (G_LOG_LEVEL_ERROR |
+				G_LOG_LEVEL_CRITICAL |
+				G_LOG_LEVEL_WARNING);
 
-	printf ("<Syncing>\n");
-	sync_pilot (repository, link);
-	printf ("</Syncing>\n");
-	
-	GNOME_Calendar_Repository_done (repository, &ev);
-	
-	CORBA_exception_free (&ev);
+
+	/* FIX ME */
+	calendar_file = g_concat_dir_and_file (g_get_home_dir (),
+			       "evolution/local/Calendar/calendar.vcf");
+
+
+	for (;;) {
+		printf ("Please, press HotSync button on the palm...\n");
+		fflush (stdout);
+		link = setup_connection ();
+		printf ("Connected\n");
+
+		printf ("Contacting calendar server...\n");
+		fflush (stdout);
+		client = cal_client_new ();
+
+		gtk_signal_connect (GTK_OBJECT (client), "cal_loaded",
+				    gnome_calendar_load_cb, &link);
+
+		cal_client_load_calendar (client, calendar_file);
+
+		bonobo_main ();
+
+		gtk_object_unref (GTK_OBJECT (client));
+		pi_close (link);
+	}
 
 	return 0;
 }
 
 /* Just a stub to link with */
+
+void calendar_notify (time_t time, CalendarAlarm *which, void *data);
+
 void
 calendar_notify (time_t time, CalendarAlarm *which, void *data)
 {

@@ -314,6 +314,29 @@ cal_backend_get_alarms_for_object (CalBackend *backend, const char *uid,
 	return (* CLASS (backend)->get_alarms_for_object) (backend, uid, start, end, alarms);
 }
 
+
+char *cal_backend_get_uid_by_pilot_id (CalBackend *backend, unsigned long int pilot_id)
+{
+	g_return_val_if_fail (backend != NULL, FALSE);
+	g_return_val_if_fail (IS_CAL_BACKEND (backend), FALSE);
+	g_assert (CLASS(backend)->get_uid_by_pilot_id != NULL);
+	return (* CLASS(backend)->get_uid_by_pilot_id) (backend, pilot_id);
+}
+
+
+void cal_backend_update_pilot_id (CalBackend *backend, const char *uid,
+				  unsigned long int pilot_id,
+				  unsigned long int pilot_status)
+{
+	g_return_if_fail (backend != NULL);
+	g_return_if_fail (IS_CAL_BACKEND (backend));
+	g_assert (CLASS(backend)->update_pilot_id != NULL);
+	(* CLASS(backend)->update_pilot_id) (backend, uid,
+					     pilot_id, pilot_status);
+}
+
+
+
 /**
  * cal_backend_update_object:
  * @backend: A calendar backend.

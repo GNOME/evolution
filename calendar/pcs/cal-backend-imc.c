@@ -1,3 +1,4 @@
+/* -*- Mode: C; tab-width: 8; indent-tabs-mode: t; c-basic-offset: 8 -*- */
 /* Evolution calendar - Internet Mail Consortium formats backend
  *
  * Copyright (C) 2000 Helix Code, Inc.
@@ -86,6 +87,12 @@ static gboolean cal_backend_imc_get_alarms_for_object (CalBackend *backend, cons
 static gboolean cal_backend_imc_update_object (CalBackend *backend, const char *uid,
 					       const char *calobj);
 static gboolean cal_backend_imc_remove_object (CalBackend *backend, const char *uid);
+static char *cal_backend_imc_get_uid_by_pilot_id (CalBackend *backend, unsigned long int pilot_id);
+static void cal_backend_imc_update_pilot_id (CalBackend *backend,
+					     const char *uid,
+					     unsigned long int pilot_id,
+					     unsigned long int pilot_status);
+
 
 static CalBackendClass *parent_class;
 
@@ -147,6 +154,8 @@ cal_backend_imc_class_init (CalBackendIMCClass *class)
 	backend_class->get_alarms_for_object = cal_backend_imc_get_alarms_for_object;
 	backend_class->update_object = cal_backend_imc_update_object;
 	backend_class->remove_object = cal_backend_imc_remove_object;
+	backend_class->get_uid_by_pilot_id = cal_backend_imc_get_uid_by_pilot_id;
+	backend_class->update_pilot_id = cal_backend_imc_update_pilot_id;
 
 	object_class->destroy = cal_backend_imc_destroy;
 }
@@ -969,6 +978,65 @@ cal_backend_imc_get_uids (CalBackend *backend, CalObjType type)
 	return c.uid_list;
 }
 
+
+
+static char *
+cal_backend_imc_get_uid_by_pilot_id (CalBackend *backend,
+				     unsigned long int pilot_id)
+{
+	CalBackendIMC *cbimc;
+	IMCPrivate *priv;
+	GList *l;
+	iCalObject *obj = NULL;
+
+	g_return_val_if_fail (backend != NULL, NULL);
+	cbimc = CAL_BACKEND_IMC (backend);
+	priv = cbimc->priv;
+	g_return_val_if_fail (priv->loaded, NULL);
+
+	for (l = priv->events; l; l = l->next){
+		obj = l->data;
+		if (obj->pilot_id == pilot_id)
+			goto done;
+	}
+
+	for (l = priv->todos; l; l = l->next){
+		obj = l->data;
+		if (obj->pilot_id == pilot_id)
+			goto done;
+	}
+
+ done:
+	if (!obj || obj->pilot_id != pilot_id)
+		return NULL;
+
+	return g_strdup (obj->uid);
+}
+
+
+void
+cal_backend_imc_update_pilot_id (CalBackend *backend,
+				 const char *uid,
+				 unsigned long int pilot_id,
+				 unsigned long int pilot_status)
+{
+	CalBackendIMC *cbimc;
+	IMCPrivate *priv;
+	iCalObject *obj;
+
+	g_return_if_fail (backend != NULL);
+	cbimc = CAL_BACKEND_IMC (backend);
+	priv = cbimc->priv;
+	g_return_if_fail (priv->loaded);
+
+	obj = lookup_object (cbimc, uid);
+
+	obj->pilot_id = pilot_id;
+	obj->pilot_status = pilot_status;
+}
+
+
+
 /* Allocates and fills in a new CalObjInstance structure */
 static CalObjInstance *
 build_cal_obj_instance (iCalObject *ico, time_t start, time_t end)
@@ -1310,6 +1378,7 @@ cal_backend_imc_update_object (CalBackend *backend, const char *uid, const char 
 		remove_object (cbimc, ico);
 
 	add_object (cbimc, new_ico);
+	new_ico->pilot_status = ICAL_PILOT_SYNC_MOD;
 	save (cbimc);
 
 	/* FIXME: do the notification asynchronously */

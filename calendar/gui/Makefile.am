@@ -40,7 +40,8 @@ glade_DATA = 					\
 
 glade_messages = event-editor-dialog.glade.h
 
-bin_PROGRAMS = evolution-calendar
+bin_PROGRAMS = evolution-calendar calendar-pilot-sync #empty-pilot-calendar
+# calendar-conduit-control-applet
 
 evolution_calendar_SOURCES =			\
 	alarm.c					\
@@ -99,6 +100,30 @@ evolution_calendar_LDADD =					\
 	$(LINK_FLAGS)
 
 evolution_calendar_LDFLAGS = `gnome-config --libs gdk_pixbuf`
+
+
+
+calendar_pilot_sync_SOURCES =			\
+	calendar-pilot-sync.c
+
+calendar_pilot_sync_LDADD = -lpisock		\
+	$(EXTRA_GNOME_LIBS)			\
+	$(BONOBO_HTML_GNOME_LIBS)		\
+	$(LINK_FLAGS)
+
+
+#empty_pilot_calendar_SOURCES =			\
+#	empty-pilot-calendar.c
+
+#empty_pilot_calendar_LDADD = -lpisock		\
+#	$(EXTRA_GNOME_LIBS)			\
+#	$(BONOBO_HTML_GNOME_LIBS)		\
+#	$(LINK_FLAGS)
+
+
+#calendar_pilot_sync_LDADD =			\
+#	$(PISOCK_LIBDIR) $(PISOCK_LIBS)		\
+#	$(LINK_FLAGS)
 
 
 if USING_OAF

@@ -517,6 +517,57 @@ Cal_remove_object (PortableServer_Servant servant,
 				     NULL);
 }
 
+
+
+/* Cal::get_uid_by_pilot_id method */
+static Evolution_Calendar_CalObjUID
+Cal_get_uid_by_pilot_id (PortableServer_Servant servant,
+			 const Evolution_Calendar_PilotID pilot_id,
+			 CORBA_Environment *ev)
+{
+	Cal *cal;
+	CalPrivate *priv;
+	char *uid;
+
+	cal = CAL (bonobo_object_from_servant (servant));
+	priv = cal->priv;
+
+	uid = cal_backend_get_uid_by_pilot_id (priv->backend, pilot_id);
+
+	if (uid) {
+		CORBA_char *uid_copy;
+
+		uid_copy = CORBA_string_dup (uid);
+		g_free (uid);
+		return uid_copy;
+	} else {
+		CORBA_exception_set (ev, CORBA_USER_EXCEPTION,
+				     ex_Evolution_Calendar_Cal_NotFound,
+				     NULL);
+		return NULL;
+	}
+}
+
+
+/* Cal::update_pilot_id method */
+static void
+Cal_update_pilot_id (PortableServer_Servant servant,
+		     const Evolution_Calendar_CalObjUID uid,
+		     const Evolution_Calendar_PilotID pilot_id,
+		     const CORBA_unsigned_long pilot_status,
+		     CORBA_Environment * ev)
+{
+	Cal *cal;
+	CalPrivate *priv;
+
+	cal = CAL (bonobo_object_from_servant (servant));
+	priv = cal->priv;
+
+	cal_backend_update_pilot_id (priv->backend, uid,
+				     pilot_id, pilot_status);
+}
+
+
 /**
  * cal_get_epv:
  * @void:
@@ -540,6 +591,8 @@ cal_get_epv (void)
 	epv->get_alarms_for_object = Cal_get_alarms_for_object;
 	epv->update_object = Cal_update_object;
 	epv->remove_object = Cal_remove_object;
+	epv->get_uid_by_pilot_id = Cal_get_uid_by_pilot_id;
+	epv->update_pilot_id = Cal_update_pilot_id;
 
 	return epv;
 }

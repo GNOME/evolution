@@ -87,6 +87,14 @@ CalClientGetStatus cal_client_get_object (CalClient *client,
 					  const char *uid,
 					  iCalObject **ico);
 
+CalClientGetStatus cal_client_get_uid_by_pilot_id (CalClient *client,
+						   unsigned long pilot_id,
+						   char **uid);
+
+void cal_client_update_pilot_id (CalClient *client, char *uid,
+				 unsigned long pilot_id,
+				 unsigned long pilot_status);
+
 GList *cal_client_get_uids (CalClient *client, CalObjType type);
 
 GList *cal_client_get_events_in_range (CalClient *client, time_t start, time_t end);

@@ -45,6 +45,9 @@ module Calendar {
 	/* Used to store a time_t */
 	typedef unsigned long Time_t;
 
+	/* Used to store pilot IDs */
+	typedef unsigned long PilotID;
+
 	/* An instance of a calendar object that actually occurs.  These are
 	 * "virtual" objects in that they are used to represent instances of
 	 * recurring events and alarms.  "Real" objects just contain the
@@ -106,6 +109,23 @@ module Calendar {
 		CalAlarmInstanceSeq get_alarms_for_object (in CalObjUID uid,
 							   in Time_t start, in Time_t end)
 			raises (NotFound, InvalidRange);
+
+
+	        /* something
+		 *
+		 */
+		CalObjUID get_uid_by_pilot_id (in PilotID pilotid)
+			raises (NotFound);
+
+
+			/*
+			 * update_pilot_id:
+			 * @uid: Unique identifier for the event we want to update
+			 * @pilot_id: new ID assigned by the pilot
+			 * @pilot_status: Status to flag the event with
+			 */
+			void update_pilot_id (in CalObjUID uid, in PilotID pilot_id, in unsigned long pilot_status)
+				raises (NotFound);
 
 		/* Updates an object by adding it if it does not exist or by
 		 * changing an existing one.
