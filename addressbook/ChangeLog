@@ -1,5 +1,18 @@
 2001-08-08  Chris Toshok  <toshok@ximian.com>
 
+	* gui/contact-editor/e-contact-quick-add.c (ce_have_book): mark
+	the dialog as changed so the save button is immediately available.
+
+	* gui/contact-editor/e-contact-editor.c (card_modified_cb): once
+	we save reset the change flag to false if we aren't closing the
+	dialog.
+	(card_added_cb): same.
+	(e_contact_editor_class_init): add a "changed" arg.
+	(e_contact_editor_set_arg): add setter for "changed".
+	(e_contact_editor_get_arg): add getter for "changed".
+
+2001-08-08  Chris Toshok  <toshok@ximian.com>
+
 	* gui/contact-editor/e-contact-quick-add.c (ce_have_book): better
 	to assume that we can write to the local addressbook than that we
 	can't write to it :)

@@ -97,6 +97,7 @@ enum {
 	ARG_CARD,
 	ARG_IS_NEW_CARD,
 	ARG_EDITABLE,
+	ARG_CHANGED,
 	ARG_WRITABLE_FIELDS
 };
 
@@ -168,6 +169,8 @@ e_contact_editor_class_init (EContactEditorClass *klass)
 			   GTK_ARG_READWRITE, ARG_WRITABLE_FIELDS);
   gtk_object_add_arg_type ("EContactEditor::editable", GTK_TYPE_BOOL,
 			   GTK_ARG_READWRITE, ARG_EDITABLE);
+  gtk_object_add_arg_type ("EContactEditor::changed", GTK_TYPE_BOOL,
+			   GTK_ARG_READWRITE, ARG_CHANGED);
 
   contact_editor_signals[CARD_ADDED] =
 	  gtk_signal_new ("card_added",
@@ -797,8 +800,13 @@ card_added_cb (EBook *book, EBookStatus status, const char *id, EditorCloseStruc
 	if (status == E_BOOK_STATUS_SUCCESS) {
 		ce->is_new_card = FALSE;
 
-		if (should_close)
+		if (should_close) {
 			close_dialog (ce);
+		}
+		else {
+			ce->changed = FALSE;
+			command_state_changed (ce);
+		}
 	}
 }
 
@@ -814,8 +822,13 @@ card_modified_cb (EBook *book, EBookStatus status, EditorCloseStruct *ecs)
 			 status, ce->card);
 
 	if (status == E_BOOK_STATUS_SUCCESS) {
-		if (should_close)
+		if (should_close) {
 			close_dialog (ce);
+		}
+		else {
+			ce->changed = FALSE;
+			command_state_changed (ce);
+		}
 	}
 }
 
@@ -1367,6 +1380,17 @@ e_contact_editor_set_arg (GtkObject *o, GtkArg *arg, guint arg_id)
 		}
 		break;
 	}
+
+	case ARG_CHANGED: {
+		gboolean new_value = GTK_VALUE_BOOL (*arg) ? TRUE : FALSE;
+		gboolean changed = (editor->changed != new_value);
+
+		editor->changed = new_value;
+
+		if (changed)
+			command_state_changed (editor);
+		break;
+	}
 	case ARG_WRITABLE_FIELDS:
 		if (editor->writable_fields)
 			gtk_object_unref(GTK_OBJECT(editor->writable_fields));
@@ -1404,6 +1428,10 @@ e_contact_editor_get_arg (GtkObject *object, GtkArg *arg, guint arg_id)
 
 	case ARG_EDITABLE:
 		GTK_VALUE_BOOL (*arg) = e_contact_editor->editable ? TRUE : FALSE;
+		break;
+
+	case ARG_CHANGED:
+		GTK_VALUE_BOOL (*arg) = e_contact_editor->changed ? TRUE : FALSE;
 		break;
 
 	case ARG_WRITABLE_FIELDS:

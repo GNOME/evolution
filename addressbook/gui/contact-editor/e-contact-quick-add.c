@@ -181,6 +181,11 @@ ce_have_book (EBook *book, gpointer closure)
 	} else {
 		EContactEditor *contact_editor = e_contact_editor_new (book, qa->card, TRUE, TRUE /* XXX */);
 
+		/* mark it as changed so the Save buttons are enabled when we bring up the dialog. */
+		gtk_object_set (GTK_OBJECT(contact_editor),
+				"changed", TRUE,
+				NULL);
+
 		gtk_signal_connect (GTK_OBJECT (contact_editor),
 				    "card_added",
 				    GTK_SIGNAL_FUNC (card_added_cb),
