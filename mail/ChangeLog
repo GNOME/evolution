@@ -1,3 +1,9 @@
+2003-09-02  Jeffrey Stedfast  <fejj@ximian.com>
+
+	* mail-format.c (handle_text_plain): Scan for uuencoded parts and
+	show them as separate attachments if we encounter any. Works
+	around Broken Mailers (tm). Also fixes bug #43808.
+
 2003-08-28  Jeffrey Stedfast  <fejj@ximian.com>
 
 	* mail-display.c (on_link_clicked): Don't pass cid: nor

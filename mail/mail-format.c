@@ -116,6 +116,14 @@ free_data_urls (gpointer urls)
 	g_hash_table_destroy (urls);
 }
 
+static void
+fake_free (CamelObject *deadbeef, gpointer event_data, gpointer user_data)
+{
+	CamelObject *obj = user_data;
+	
+	camel_object_unref (obj);
+}
+
 /**
  * mail_format_mime_message: 
  * @mime_message: the input mime message
@@ -137,6 +145,7 @@ mail_format_mime_message (CamelMimeMessage *mime_message, MailDisplay *md,
 		g_datalist_set_data_full (md->data, "part_urls", hash,
 					  free_part_urls);
 	}
+	
 	hash = g_datalist_get_data (md->data, "data_urls");
 	if (!hash) {
 		hash = g_hash_table_new (g_str_hash, g_str_equal);
@@ -148,12 +157,6 @@ mail_format_mime_message (CamelMimeMessage *mime_message, MailDisplay *md,
 	if (!hash) {
 		hash = g_hash_table_new (NULL, NULL);
 		g_datalist_set_data_full (md->data, "attachment_states", hash,
-					  (GDestroyNotify) g_hash_table_destroy);
-	}
-	hash = g_datalist_get_data (md->data, "fake_parts");
-	if (!hash) {
-		hash = g_hash_table_new (NULL, NULL);
-		g_datalist_set_data_full (md->data, "fake_parts", hash,
 					  (GDestroyNotify) g_hash_table_destroy);
 	}
 	
@@ -1219,6 +1222,83 @@ write_hr (MailDisplayStream *stream)
 				   "</td></tr></table>\n");
 }
 
+static CamelMimePart *
+handle_uuencode (const char **in, const char *inend)
+{
+	const char *lineptr, *inptr = *in;
+	CamelDataWrapper *content;
+	CamelMimePart *mime_part;
+	unsigned char *outbuf;
+	CamelStream *stream;
+	GByteArray *buffer;
+	size_t buflen = 0;
+	guint32 save = 0;
+	int state;
+	
+	buffer = g_byte_array_new ();
+	g_byte_array_set_size (buffer, inend - inptr);
+	
+	state = CAMEL_UUDECODE_STATE_BEGIN;
+	
+	outbuf = buffer->data;
+	
+	while (inptr < inend) {
+		size_t n;
+		
+		lineptr = inptr;
+		
+		while (*inptr != '\n')
+			inptr++;
+		
+		if (inptr != inend)
+			inptr++;
+		
+		n = uudecode_step ((unsigned char *) lineptr, inptr - lineptr, outbuf, &state, &save);
+		outbuf += n;
+		buflen += n;
+		
+		if (state & CAMEL_UUDECODE_STATE_END) {
+			/* uudecode_step() sets STATE_END when it
+			 * encounters the end of the encoded data, not
+			 * when it encounters "^end\n" so we need to
+			 * check the next line and if it is "end\n",
+			 * then skip it. */
+			if (inptr < inend) {
+				lineptr = inptr;
+				
+				while (*inptr != '\n')
+					inptr++;
+				
+				if (inptr != inend)
+					inptr++;
+				
+				if (strncmp (lineptr, "end\n", 4) != 0)
+					inptr = lineptr;
+			}
+			
+			break;
+		}
+	}
+	
+	g_byte_array_set_size (buffer, (int) buflen);
+	stream = camel_stream_mem_new_with_byte_array (buffer);
+	
+	content = camel_data_wrapper_new ();
+	camel_data_wrapper_construct_from_stream (content, stream);
+	camel_object_unref (stream);
+	
+	camel_data_wrapper_set_mime_type (content, "application/octet-stream");
+	
+	mime_part = camel_mime_part_new ();
+	camel_medium_set_content_object ((CamelMedium *) mime_part, content);
+	camel_mime_part_set_encoding (mime_part, CAMEL_MIME_PART_ENCODING_UUENCODE);
+	camel_object_unref (content);
+	
+	*in = inptr;
+	
+	return mime_part;
+}
+
 /*----------------------------------------------------------------------*
  *                     Mime handling functions
  *----------------------------------------------------------------------*/
@@ -1235,6 +1315,7 @@ handle_text_plain (CamelMimePart *part, const char *mime_type,
 	GConfClient *gconf;
 	guint32 flags, rgb = 0;
 	GdkColor colour;
+	GByteArray *text;
 	char *buf;
 	
 	gconf = mail_config_get_gconf_client ();
@@ -1267,12 +1348,74 @@ handle_text_plain (CamelMimePart *part, const char *mime_type,
 	camel_stream_filter_add (filtered_stream, html_filter);
 	camel_object_unref (html_filter);
 	
-	camel_stream_write_string ((CamelStream *) stream, STANDARD_ISSUE_TABLE_OPEN "<tr><td><tt>\n");
-	
 	wrapper = camel_medium_get_content_object (CAMEL_MEDIUM (part));
-	mail_format_data_wrapper_write_to_stream (wrapper, md, (CamelStream *) filtered_stream);
 	
-	camel_stream_write_string ((CamelStream *) stream, "</tt></td></tr></table>\n");
+	text = mail_format_get_data_wrapper_text (wrapper, md);
+	if (text && text->len > 0) {
+		const char *lineptr, *inptr, *inend;
+		
+		camel_stream_write_string ((CamelStream *) stream, STANDARD_ISSUE_TABLE_OPEN "<tr><td><tt>\n");
+		
+		inend = text->data + text->len;
+		g_byte_array_append (text, "\n", 1);
+		inptr = text->data;
+		
+		while (inptr < inend) {
+			lineptr = inptr;
+			
+			while (*inptr != '\n')
+				inptr++;
+			
+			if (inptr != inend)
+				inptr++;
+			
+			if (!strncmp (lineptr, "begin ", 6) && lineptr[6] >= '0' && lineptr[6] <= '7') {
+				const char *q, *p = lineptr + 7;
+				CamelMimePart *uu_part;
+				char *filename;
+				int n = 1;
+				
+				while (n <= 4 && *p >= '0' && *p <= '7') {
+					p++;
+					n++;
+				}
+				
+				if (*p != ' ')
+					goto plain_text;
+				
+				p++;
+				q = inptr - 1;
+				filename = g_strndup (p, q - p);
+				
+				/* close the plain-text display */
+				camel_stream_flush ((CamelStream *) filtered_stream);
+				camel_stream_write_string ((CamelStream *) stream, "</tt></td></tr></table>\n");
+				
+				/* create the fake part... */
+				uu_part = handle_uuencode (&inptr, inend);
+				camel_mime_part_set_filename (uu_part, filename);
+				g_free (filename);
+				
+				/* this is so when the next message gets displayed, these parts get free'd */
+				camel_object_hook_event (part, "finalize", fake_free, uu_part);
+				
+				/* display the uuencoded part */
+				format_mime_part (uu_part, md, stream);
+				
+				/* re-open the plain text display */
+				camel_stream_write_string ((CamelStream *) stream, STANDARD_ISSUE_TABLE_OPEN "<tr><td><tt>\n");
+			} else {
+			plain_text:
+				camel_stream_write ((CamelStream *) filtered_stream, lineptr, inptr - lineptr);
+			}
+		}
+		
+		camel_stream_flush ((CamelStream *) filtered_stream);
+		camel_stream_write_string ((CamelStream *) stream, "</tt></td></tr></table>\n");
+	}
+	
+	if (text != NULL)
+		g_byte_array_free (text, TRUE);
 	
 	camel_object_unref (filtered_stream);
 	
