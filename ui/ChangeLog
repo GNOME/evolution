@@ -1,5 +1,10 @@
 2001-07-01  Ettore Perazzoli  <ettore@ximian.com>
 
+	* evolution-message-composer.xml: Enable the label next to the
+	"Attach" toolbar button, and get rid of the "Help" menu.
+
+2001-07-01  Ettore Perazzoli  <ettore@ximian.com>
+
 	* evolution.xml: Renamed "NewBarShortcut" verb into "NewShortcut".
 
 2001-06-30  Ettore Perazzoli  <ettore@ximian.com>

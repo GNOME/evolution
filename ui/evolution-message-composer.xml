@@ -163,12 +163,6 @@
 
                 </submenu>
 
-		<submenu name="Help" _label="_Help">
-	
-			<placeholder name="BuiltMenuItems"/>
-
-		</submenu>
-
 		<submenu name="Debug" _label="_Debug" hidden="1">
 
 			<menuitem name="DebugDumpXml" verb=""/>
@@ -181,7 +175,7 @@
 
 		<toolitem name="FileSend" verb="" priority="1"/>
 
-		<toolitem name="FileAttach" verb="" pixtype="pixbuf"/>
+		<toolitem name="FileAttach" verb="" pixtype="pixbuf" priority="1"/>
 
 		<separator/>
 
