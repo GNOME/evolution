@@ -315,6 +315,7 @@ filter_editor_set_rules(FilterEditor *e, GList *rules, GList *systemoptions, GLi
 	filter_druid_set_rules(p->druid, useroptions, rules, NULL);
 }
 
+#ifdef TESTING
 int main(int argc, char **argv)
 {
 	GList *rules, *options, *options2;
@@ -343,3 +344,4 @@ int main(int argc, char **argv)
 		gtk_main();
 	}
 }
+#endif

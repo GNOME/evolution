@@ -1,3 +1,12 @@
+2000-02-29  NotZed  <NotZed@HelixCode.com>
+
+	* filter-driver.c (main): Remove gui code, this will be actual
+	filtering code.
+
+	* Makefile: Added filter-editor to the library.
+
+	* filter-editor.c (main): Comment out, make it a proper library.
+
 2000-02-28  NotZed  <NotZed@HelixCode.com>
 
 	* filter-druid.c: Removed unused header.

@@ -11,11 +11,17 @@
 #include "filter-xml.h"
 #include "e-sexp.h"
 #include "filter-format.h"
-x
-extern int filter_find_arg(FilterArg *a, char *name);
 
-#include "check.xpm"
-#include "blank.xpm"
+#include "camel.h"
+#include "camel-mbox-folder.h"
+#include "camel-mbox-parser.h"
+#include "camel-mbox-utils.h"
+#include "camel-mbox-summary.h"
+#include "camel-log.h"
+#include "camel-exception.h"
+#include "camel-folder-summary.h"
+
+extern int filter_find_arg(FilterArg *a, char *name);
 
 /*
   splices ${cc} lines into a single string
@@ -138,259 +144,6 @@ find_optionrule(struct filter_option *option, char *name)
 	return NULL;
 }
 
-static char nooption[] = "<h1>Select option</h1><p>Select an option type from the list above.</p>";
-
-void
-html_write_options(GtkHTML *html, struct filter_option *option)
-{
-	GtkHTMLStreamHandle *stream;
-	GList *optionrulel;
-	
-	stream = gtk_html_begin(html, "");
-	gtk_html_write(html, stream, "<body bgcolor=white alink=blue>", strlen("<body bgcolor=white alink=blue>"));
-	if (option) {
-		optionrulel = option->options;
-		while (optionrulel) {
-			struct filter_optionrule *or = optionrulel->data;
-			
-			filter_description_html_write(or->rule->description, or->args, html, stream);
-			gtk_html_write(html, stream, "<br>", strlen("<br>"));
-			optionrulel = g_list_next(optionrulel);
-		}
-	} else {
-		gtk_html_write(html, stream, nooption, strlen(nooption));
-	}
-	gtk_html_end(html, stream, GTK_HTML_STREAM_OK);
-}
-
-void
-fill_rules(GtkWidget *list, GList *rules, struct filter_option *option, int type)
-{
-	GList *optionl, *rulel;
-	GtkWidget *listitem, *hbox, *checkbox, *label;
-	GList *items = NULL;
-
-	rulel = rules;
-	while (rulel) {
-		struct filter_rule *fr = rulel->data;
-		char *labeltext;
-
-		if (fr->type == type) {
-			int state;
-
-			state = find_optionrule(option, fr->name) != NULL;
-
-			labeltext = filter_description_text(fr->description, NULL);
-			
-			hbox = gtk_hbox_new(FALSE, 3);
-			checkbox = gnome_pixmap_new_from_xpm_d(state?check_xpm:blank_xpm);
-			gtk_box_pack_start(GTK_BOX(hbox), checkbox, FALSE, FALSE, 0);
-			label = gtk_label_new(labeltext);
-			gtk_box_pack_start(GTK_BOX(hbox), label, FALSE, TRUE, 0);
-			listitem = gtk_list_item_new();
-			gtk_container_add(GTK_CONTAINER(listitem), hbox);
-			gtk_widget_show_all(listitem);
-			
-			gtk_object_set_data(GTK_OBJECT(listitem), "checkbox", checkbox);
-			gtk_object_set_data(GTK_OBJECT(listitem), "checkstate", (void *)state);
-			gtk_object_set_data(GTK_OBJECT(listitem), "rule", fr);
-			
-			items = g_list_append(items, listitem);
-		}
-		rulel = g_list_next(rulel);
-	}
-	gtk_list_append_items(GTK_LIST(list), items);
-}
-
-void
-fill_options(GtkWidget *list, GList *options)
-{
-	GList *optionl, *rulel, *optionrulel;
-	GtkWidget *listitem, *hbox, *checkbox, *label;
-	GList *items = NULL;
-
-	optionl = options;
-	while (optionl) {
-		struct filter_option *op = optionl->data;
-		char *labeltext;
-
-		labeltext = filter_description_text(op->description, NULL);
-		listitem = gtk_list_item_new_with_label(labeltext);
-		g_free(labeltext);
-		gtk_widget_show_all(listitem);
-
-		gtk_object_set_data(GTK_OBJECT(listitem), "option", op);
-		
-		items = g_list_append(items, listitem);
-		optionl = g_list_next(optionl);
-	}
-	gtk_list_append_items(GTK_LIST(list), items);
-}
-
-GtkWidget *list_global, *html_global;
-struct filter_option *option_current;
-
-static void
-select_rule_child(GtkList *list, GtkWidget *child, void *data)
-{
-	GtkWidget *w;
-	struct filter_rule *fr = gtk_object_get_data(GTK_OBJECT(child), "rule");
-	int state;
-	struct filter_optionrule *rule;
-
-	w = gtk_object_get_data(GTK_OBJECT(child), "checkbox");
-	state = !(int) gtk_object_get_data(GTK_OBJECT(child), "checkstate");
-
-	gnome_pixmap_load_xpm_d(GNOME_PIXMAP(w), state?check_xpm:blank_xpm);
-	gtk_object_set_data(GTK_OBJECT(child), "checkstate", (void *)state);
-
-	if (state) {
-		printf("adding rule %p\n", fr);
-		rule = g_malloc0(sizeof(*rule));
-		rule->rule = fr;
-		option_current->options = g_list_prepend(option_current->options, rule);
-	} else {
-		/* FIXME: free optionrule */
-		rule = find_optionrule(option_current, fr->name);
-		if (rule)
-			option_current->options = g_list_remove(option_current->options, rule);
-	}
-
-	{
-		GString *s = g_string_new("");
-		expand_filter_option(s, option_current);
-		printf("Rules: %s\n", s->str);
-		g_string_free(s, TRUE);
-	}
-
-	html_write_options(html_global, option_current);
-}
-
-static void
-select_option_child(GtkList *list, GtkWidget *child, void *data)
-{
-	struct filter_option *op = gtk_object_get_data(GTK_OBJECT(child), "option");
-	struct filter_option *new;
-	GList *optionsl;
-
-	if (option_current) {
-		/* free option_current copy */
-		optionsl = option_current->options;
-		while (optionsl) {
-			GList *op = optionsl;
-			optionsl = g_list_next(optionsl);
-			g_free(op->data);
-		}
-		g_list_free(option_current->options);
-		g_free(option_current);
-		option_current = NULL;
-	}
-
-	/* clone the option */
-	new = g_malloc(sizeof(*new));
-	new->type = op->type;
-	new->description = op->description;
-	new->options = NULL;
-	optionsl = op->options;
-	while (optionsl) {
-		struct filter_optionrule *ornew = g_malloc(sizeof(*ornew)),
-			*or = optionsl->data;
-		ornew->rule = or->rule;
-		/* FIXME: must copy args too *sigh* */
-		ornew->args = or->args;
-		new->options = g_list_append(new->options, ornew);
-		optionsl = g_list_next(optionsl);
-	}
-	option_current = new;
-
-	html_write_options(GTK_HTML(html_global), option_current);
-}
-
-static void
-arg_link_clicked(GtkHTML *html, const char *url, void *data)
-{
-	printf("url clicked: %s\n", url);
-	if (!strncmp(url, "arg:", 4)) {
-		FilterArg *arg;
-		void *dummy;
-
-		if (sscanf(url+4, "%p %p", &dummy, &arg)==2
-			&& arg) {
-			printf("arg = %p\n", arg);
-			filter_arg_edit_values(arg);
-			/* should have a changed signal which propagates the rewrite */
-			html_write_options(GTK_HTML(html_global), option_current);
-		}
-	}
-}
-
-static void
-dialogue_clicked(GtkWidget *w, int button, void *data)
-{
-	GString *s = g_string_new("");
-
-	printf("button %d clicked ...\n");
-
-	if (option_current)
-		expand_filter_option(s, option_current);
-
-	g_string_free(s, TRUE);	
-}
-
-void create_dialogue(void)
-{
-	GtkWidget *dialogue,
-		*scrolled_window,
-		*list,
-		*html,
-		*frame;
-
-	dialogue = gnome_dialog_new("Filter Rules",
-				    GNOME_STOCK_BUTTON_PREV , GNOME_STOCK_BUTTON_NEXT, 
-				    "Finish", GNOME_STOCK_BUTTON_CANCEL, 0);
-
-	list = gtk_list_new();
-	frame = gtk_frame_new("Filter Type");
-	scrolled_window = gtk_scrolled_window_new(NULL, NULL);
-
-	gtk_scrolled_window_add_with_viewport(GTK_SCROLLED_WINDOW(scrolled_window), list);
-	gtk_scrolled_window_set_policy (GTK_SCROLLED_WINDOW (scrolled_window),
-					GTK_POLICY_AUTOMATIC,
-					GTK_POLICY_AUTOMATIC);
-	gtk_container_set_focus_vadjustment
-		(GTK_CONTAINER (list),
-		 gtk_scrolled_window_get_vadjustment
-		 (GTK_SCROLLED_WINDOW (scrolled_window)));
-	gtk_container_add(GTK_CONTAINER(frame), scrolled_window);
-	gtk_box_pack_start(GTK_BOX(GNOME_DIALOG(dialogue)->vbox), frame, TRUE, TRUE, GNOME_PAD);
-
-#if 0
-	gtk_signal_connect(GTK_OBJECT(list), "select_child", select_rule_child, NULL);
-	gtk_signal_connect(GTK_OBJECT(list), "unselect_child", select_rule_child, NULL);
-#else
-	gtk_signal_connect(GTK_OBJECT(list), "select_child", select_option_child, NULL);
-	gtk_signal_connect(GTK_OBJECT(list), "unselect_child", select_option_child, NULL);
-#endif
-
-	frame = gtk_frame_new("Filter Description");
-	html = gtk_html_new();
-	scrolled_window = gtk_scrolled_window_new (NULL, NULL);
-	gtk_scrolled_window_set_policy (GTK_SCROLLED_WINDOW (scrolled_window),
-					GTK_POLICY_AUTOMATIC,
-					GTK_POLICY_AUTOMATIC);
-	gtk_container_add(GTK_CONTAINER(scrolled_window), html);
-	gtk_container_add(GTK_CONTAINER(frame), scrolled_window);
-	gtk_box_pack_start(GTK_BOX(GNOME_DIALOG(dialogue)->vbox), frame, TRUE, TRUE, GNOME_PAD);
-
-	gtk_signal_connect(GTK_OBJECT(html), "link_clicked", arg_link_clicked, NULL);
-	gtk_signal_connect(GTK_OBJECT(dialogue), "clicked", dialogue_clicked, NULL);
-
-	list_global = list;
-	html_global = html;
-
-	gtk_widget_show_all(dialogue);
-}
-
 int main(int argc, char **argv)
 {
 	ESExp *f;
@@ -400,11 +153,13 @@ int main(int argc, char **argv)
 	GString *s;
 
 	gnome_init("Test", "0.0", argc, argv);
+#if 0
 	gdk_rgb_init ();
 	gtk_widget_set_default_colormap (gdk_rgb_get_cmap ());
 	gtk_widget_set_default_visual (gdk_rgb_get_visual ());
 
 	create_dialogue();
+#endif
 
 	doc = xmlParseFile("filterdescription.xml");
 	rules = filter_load_ruleset(doc);
@@ -413,6 +168,7 @@ int main(int argc, char **argv)
 	out = xmlParseFile("saveoptions.xml");
 	options = filter_load_optionset(out, rules);
 
+#if 0
 #if 0
 	option_current = options->data;
 	fill_rules(list_global, rules, options->data, FILTER_XML_MATCH);
@@ -441,6 +197,7 @@ int main(int argc, char **argv)
 	}
 
 	return 0;
+#endif
 
 	s = g_string_new("");
 	expand_filter_option(s, options->data);

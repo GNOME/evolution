@@ -23,6 +23,7 @@
 
 #include <gtk/gtk.h>
 #include <gnome.h>
+#include "filter-xml.h"
 
 #define FILTER_EDITOR(obj)         GTK_CHECK_CAST (obj, filter_editor_get_type (), FilterEditor)
 #define FILTER_EDITOR_CLASS(klass) GTK_CHECK_CLASS_CAST (klass, filter_editor_get_type (), FilterEditorClass)
