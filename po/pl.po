@@ -2,7 +2,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: evolution\n"
 "POT-Creation-Date: 2001-07-11 11:55+0200\n"
-"PO-Revision-Date: 2001-07-11 12:22+0200\n"
+"PO-Revision-Date: 2001-07-11 20:26+0200\n"
 "Last-Translator: GNOME PL Team <translators@gnome.pl>\n"
 "Language-Team: Polish <pl@li.org>\n"
 "MIME-Version: 1.0\n"
@@ -420,7 +420,7 @@ msgstr ""
 
 #: addressbook/gui/component/addressbook-config.c:1
 msgid "One"
-msgstr ""
+msgstr "Jeden"
 
 #: addressbook/gui/component/addressbook-config.c:1
 msgid "Subtree"
@@ -696,11 +696,11 @@ msgstr "W³±cz zapytania (Niebezpieczne!)"
 
 #: addressbook/gui/component/select-names/GNOME_Evolution_Addressbook_SelectNames.oaf.in.h:1
 msgid "Evolution's addressbook name selection interface."
-msgstr ""
+msgstr "Interfejs wyboru nazwy ksi±¿ki adresowej Evolution"
 
 #: addressbook/gui/component/select-names/GNOME_Evolution_Addressbook_SelectNames.oaf.in.h:1
 msgid "Factory for the Addressbook's name selection interface"
-msgstr ""
+msgstr "Generator interfejsu wyboru nazwy ksi±¿ki adresowej Evolution"
 
 #: addressbook/gui/component/select-names/e-select-names-popup.c:1
 #: addressbook/gui/component/select-names/e-select-names.c:1
@@ -971,7 +971,7 @@ msgstr "Teleks"
 
 #: addressbook/gui/contact-editor/e-contact-editor.c:1
 msgid "TTY/TDD"
-msgstr ""
+msgstr "TTy/TDD"
 
 #: addressbook/gui/contact-editor/e-contact-quick-add.c:1
 msgid "Contact Quick-Add"
@@ -1060,7 +1060,7 @@ msgstr "II"
 
 #: addressbook/gui/contact-editor/fullname.glade.h:1
 msgid "Jr."
-msgstr ""
+msgstr "Jr."
 
 #: addressbook/gui/contact-editor/fullname.glade.h:1
 msgid "Miss"
@@ -1080,7 +1080,7 @@ msgstr "Panna"
 
 #: addressbook/gui/contact-editor/fullname.glade.h:1
 msgid "Sr."
-msgstr ""
+msgstr "Sr."
 
 #: addressbook/gui/contact-editor/fullname.glade.h:1
 msgid "_First:"
@@ -1389,7 +1389,7 @@ msgstr "* Kliknij tutaj by dodaæ kontakt *"
 
 #: addressbook/gui/widgets/e-addressbook-view.c:1
 msgid "File As"
-msgstr ""
+msgstr "Zapisz jako"
 
 #: addressbook/gui/widgets/e-addressbook-view.c:1
 msgid "Email"
@@ -1413,7 +1413,7 @@ msgstr ""
 
 #: addressbook/gui/widgets/e-addressbook-view.c:1
 msgid "Company Phone"
-msgstr "Telefon firmowy"
+msgstr "Telefon s³u¿bowy"
 
 #: addressbook/gui/widgets/e-addressbook-view.c:1
 msgid "Home Phone"
@@ -1425,7 +1425,7 @@ msgstr "Organizacja"
 
 #: addressbook/gui/widgets/e-addressbook-view.c:1
 msgid "Business Address"
-msgstr ""
+msgstr "Adres firmowy"
 
 #: addressbook/gui/widgets/e-addressbook-view.c:1
 msgid "Home Address"
@@ -1453,7 +1453,7 @@ msgstr "Inny telefon"
 
 #: addressbook/gui/widgets/e-addressbook-view.c:1
 msgid "TTY"
-msgstr ""
+msgstr "TTY"
 
 #: addressbook/gui/widgets/e-addressbook-view.c:1
 msgid "Other Address"
@@ -1718,7 +1718,7 @@ msgstr ""
 
 #: calendar/gui/GNOME_Evolution_Calendar.oaf.in.h:1
 msgid "Evolution calendar iTip/iMip viewer"
-msgstr ""
+msgstr "Przegl±darka kalendarza iTip/iMip"
 
 #: calendar/gui/GNOME_Evolution_Calendar.oaf.in.h:1
 msgid "Evolution component for handling the calendar."
@@ -1726,7 +1726,7 @@ msgstr "Komponent Bonobo obs³uguj±cy kalendarz."
 
 #: calendar/gui/GNOME_Evolution_Calendar.oaf.in.h:1
 msgid "Factory for the Calendar Summary component."
-msgstr ""
+msgstr "Generator komponentu zestawienia kalendarza"
 
 #: calendar/gui/GNOME_Evolution_Calendar.oaf.in.h:1
 msgid "Factory for the Evolution calendar component."
@@ -1742,11 +1742,11 @@ msgstr ""
 
 #: calendar/gui/alarm-notify/GNOME_Evolution_Calendar_AlarmNotify.oaf.in.h:1
 msgid "Alarm notification service"
-msgstr ""
+msgstr "Us³uga przypominania o alarmie"
 
 #: calendar/gui/alarm-notify/GNOME_Evolution_Calendar_AlarmNotify.oaf.in.h:1
 msgid "Factory for the alarm notification service"
-msgstr ""
+msgstr "Generator us³ugi przypominania o alarmie"
 
 #: calendar/gui/alarm-notify/alarm-notify-dialog.c:1
 #, c-format
@@ -2492,7 +2492,7 @@ msgstr "minut przed wyst±pieniem"
 
 #: calendar/gui/dialogs/cancel-comp.c:1
 msgid "The meeting status has changed. Send an updated version?"
-msgstr ""
+msgstr "Termin spotkania zosta³ zmieniony. Zatwierdziæ wprowadzon± zmianê?"
 
 #: calendar/gui/dialogs/cancel-comp.c:1
 msgid "Are you sure you want to cancel and delete this meeting?"
@@ -2521,12 +2521,12 @@ msgstr "Wpis dziennika zosta³ usuniêty."
 #: calendar/gui/dialogs/changed-comp.c:1
 #, c-format
 msgid "%s  You have made changes. Forget those changes and close the editor?"
-msgstr ""
+msgstr "% Wprowadzono zmiany. Anulowaæ je wszystkie i zamkn±æ edytor?"
 
 #: calendar/gui/dialogs/changed-comp.c:1
 #, c-format
 msgid "%s  You have made no changes, close the editor?"
-msgstr ""
+msgstr "%s Nie wprowadzono ¿adnych zmian, zamkn±æ edytor?"
 
 #: calendar/gui/dialogs/changed-comp.c:1
 msgid "This event has been changed."
@@ -2553,7 +2553,7 @@ msgstr ""
 #: calendar/gui/dialogs/comp-editor-util.c:1
 #: calendar/gui/e-itip-control.c:1 calendar/gui/print.c:1
 msgid " to "
-msgstr ""
+msgstr " do "
 
 #: calendar/gui/dialogs/comp-editor-util.c:1
 #: calendar/gui/e-itip-control.c:1 calendar/gui/print.c:1
@@ -3285,7 +3285,7 @@ msgstr "Nie mo¿na wczytaæ zadania w \"%s\""
 #: calendar/gui/e-tasks.c:1
 #, c-format
 msgid "The method required to load `%s' is not supported"
-msgstr ""
+msgstr "Metoda wymagana do odczytu \"%s\" nie jest obs³ugiwana"
 
 #. strftime format %d = day of month, %B = full
 #. month name. You can change the order but don't
@@ -3618,6 +3618,8 @@ msgid ""
 "Could not open `%s'; no items from the calendar folder will be migrated to "
 "the tasks folder."
 msgstr ""
+"Nie mo¿na otworzyæ `%s'; ¿aden z elementów folderu kalendarza nie zosta³ "
+"przeniesiony do folderu zadañ."
 
 #: calendar/gui/tasks-migrate.c:1
 #, c-format
@@ -3628,11 +3630,11 @@ msgstr ""
 
 #: calendar/gui/weekday-picker.c:1 calendar/gui/weekday-picker.c:1
 msgid "SMTWTFS"
-msgstr ""
+msgstr "NPW¦CPS"
 
 #: camel/camel-cipher-context.c:1
 msgid "Signing is not supported by this cipher"
-msgstr ""
+msgstr "Ten rodzaj szyfrowania nie obs³uguje podpisywania"
 
 #: camel/camel-cipher-context.c:1
 msgid "Clearsigning is not supported by this cipher"
@@ -3640,15 +3642,15 @@ msgstr ""
 
 #: camel/camel-cipher-context.c:1
 msgid "Verifying is not supported by this cipher"
-msgstr ""
+msgstr "Ten rodzaj szyfrowania nie obs³uguje weryfikacji"
 
 #: camel/camel-cipher-context.c:1
 msgid "Encryption is not supported by this cipher"
-msgstr ""
+msgstr "Ten rodzaj szyfrowania nie obs³uguje kodowania"
 
 #: camel/camel-cipher-context.c:1
 msgid "Decryption is not supported by this cipher"
-msgstr ""
+msgstr "Ten rodzaj szyfrowania nie obs³uguje rozkodowywania"
 
 #: camel/camel-disco-diary.c:1
 #, c-format
@@ -3665,28 +3667,29 @@ msgid ""
 "%s\n"
 "Changes made to this folder will not be resynchronized."
 msgstr ""
+"Nie mo¿na otworzyæ \"%s\":\n"
+"%s\n"
+"Zmiany w tym folderze nie zostan± zsynchronizowane z serwerem."
 
 #: camel/camel-disco-diary.c:1
 msgid "Resynchronizing with server"
-msgstr ""
+msgstr "Ponowne synchronizowanie z serwerem"
 
 #: camel/camel-disco-store.c:1
 msgid "You must be working online to complete this operation"
-msgstr ""
+msgstr "Do zakoñczenia tej operacji konieczne jest po³±czenie z sieci±"
 
 #: camel/camel-filter-driver.c:1 camel/camel-filter-driver.c:1
 msgid "Syncing folders"
 msgstr "Synchronizowanie folderów"
 
 #: camel/camel-filter-driver.c:1
-#, fuzzy
 msgid "Unable to open spool folder"
-msgstr "Nie mo¿na otworzyæ ksi±¿ki adresowej"
+msgstr "Nie mo¿na otworzyæ folderu kolejki"
 
 #: camel/camel-filter-driver.c:1
-#, fuzzy
 msgid "Unable to process spool folder"
-msgstr "Nie mo¿na otworzyæ ksi±¿ki adresowej"
+msgstr "Nie mo¿na przetworzyæ folderu kolejki"
 
 #: camel/camel-filter-driver.c:1
 #, c-format
@@ -3760,7 +3763,7 @@ msgstr ""
 #: camel/camel-folder-search.c:1
 #, c-format
 msgid "Performing query on unknown header: %s"
-msgstr ""
+msgstr "Wykonywanie zapytania na nieznanym nag³ówku: %s"
 
 #: camel/camel-folder-search.c:1 camel/camel-folder-search.c:1
 msgid "Invalid type in body-contains, expecting string"
@@ -3852,7 +3855,7 @@ msgstr "Nie mo¿na stworzyæ procesu: %s"
 #: camel/camel-movemail.c:1
 #, c-format
 msgid "Movemail program failed: %s"
-msgstr ""
+msgstr "B³±d programu przesy³aj±cego pocztê: %s"
 
 #: camel/camel-movemail.c:1
 msgid "(Unknown error)"
@@ -3933,12 +3936,12 @@ msgstr "Nie mo¿na wczytaæ %s: Brak kodu inicjuj±cego w module."
 #: camel/camel-remote-store.c:1
 #, c-format
 msgid "%s server %s"
-msgstr ""
+msgstr "%s serwer %s"
 
 #: camel/camel-remote-store.c:1
 #, c-format
 msgid "%s service for %s on %s"
-msgstr ""
+msgstr "us³uga %s dla %s na %s"
 
 #: camel/camel-remote-store.c:1
 msgid "Connection cancelled"
@@ -4040,15 +4043,15 @@ msgstr ""
 
 #: camel/camel-sasl-digest-md5.c:1
 msgid "Server response did not contain authorization data\n"
-msgstr ""
+msgstr "Odpwoied¼ serwera nie zawiera danych o autoryzacji\n"
 
 #: camel/camel-sasl-digest-md5.c:1
 msgid "Server response contained incomplete authorization data\n"
-msgstr ""
+msgstr "Odpowied¼ serwera zawiera niekompletne dane o autoryzacji\n"
 
 #: camel/camel-sasl-digest-md5.c:1
 msgid "Server response does not match\n"
-msgstr ""
+msgstr "Niepotwierdzona odpowied¼ serwera\n"
 
 #: camel/camel-sasl-kerberos4.c:1
 msgid "Kerberos 4"
@@ -4076,7 +4079,7 @@ msgstr "Niepoprawna odpowied¼ serwera na uwierzytelnienie."
 
 #: camel/camel-sasl-login.c:1
 msgid "NT Login"
-msgstr ""
+msgstr "Logowanie NT"
 
 #: camel/camel-sasl-login.c:1 camel/camel-sasl-plain.c:1
 msgid "This option will connect to the server using a simple password."
@@ -4111,22 +4114,22 @@ msgstr "W URL-u \"%s\" wymagana jest ¶cie¿ka"
 #: camel/camel-service.c:1
 #, c-format
 msgid "Resolving: %s"
-msgstr "Wyszukiwanie nazwy: %s"
+msgstr "Wyszukiwanie: %s"
 
 #: camel/camel-service.c:1
 #, c-format
 msgid "Failure in name lookup: %s"
-msgstr "Nie uda³o siê odnale¼æ nazwy: %s"
+msgstr "Nie mo¿na ustaliæ adresu odpowiadaj±cego nazwie: %s"
 
 #: camel/camel-service.c:1
 #, c-format
 msgid "Host lookup failed: %s: host not found"
-msgstr "Nie mo¿na odnale¼æ komputera o nazwie %s"
+msgstr "Nie mo¿na ustaliæ adresu odpowiadaj±cego nazwie: %s: nazwa nie istnieje"
 
 #: camel/camel-service.c:1
 #, c-format
 msgid "Host lookup failed: %s: unknown reason"
-msgstr ""
+msgstr "Nie mo¿na ustaliæ adresu odpowiadaj±cego nazwie: %s: przyczyna nieznana"
 
 #: camel/camel-session.c:1
 msgid "Virtual folder email provider"
@@ -4264,7 +4267,7 @@ msgstr ""
 #: camel/providers/imap/camel-imap-command.c:1
 #, c-format
 msgid "IMAP server response did not contain %s information"
-msgstr ""
+msgstr "Odpowied¼ serwera IMAP nie zawiera informacji %s"
 
 #: camel/providers/imap/camel-imap-command.c:1
 #, c-format
@@ -4283,7 +4286,7 @@ msgstr "Nie mo¿na wczytaæ zestawienia dla %s"
 
 #: camel/providers/imap/camel-imap-folder.c:1
 msgid "Folder was destroyed and recreated on server."
-msgstr ""
+msgstr "Folder na serwerze zosta³ usuniêty stworzony ponownie."
 
 #: camel/providers/imap/camel-imap-folder.c:1
 msgid "Scanning IMAP folder"
@@ -4317,7 +4320,7 @@ msgstr "Foldery"
 
 #: camel/providers/imap/camel-imap-provider.c:1
 msgid "Show only subscribed folders"
-msgstr ""
+msgstr "Pokazuje tylko subskrybowane foldery"
 
 #: camel/providers/imap/camel-imap-provider.c:1
 msgid "Override server-supplied folder namespace"
@@ -4337,7 +4340,7 @@ msgstr "IMAPv4"
 
 #: camel/providers/imap/camel-imap-provider.c:1
 msgid "For reading and storing mail on IMAP servers."
-msgstr ""
+msgstr "Do przegl±dania i przechowywania poczty na serwerach IMAP."
 
 #: camel/providers/imap/camel-imap-provider.c:1
 msgid "This option will connect to the IMAP server using a plaintext password."
@@ -4388,7 +4391,7 @@ msgstr "Katalogi z listami formacie MH"
 
 #: camel/providers/local/camel-local-provider.c:1
 msgid "For storing local mail in MH-like mail directories"
-msgstr "Do zapisu lokalnej poczty w katalogach o formacie MH"
+msgstr "Do przechowywania lokalnej poczty w katalogach o formacie MH"
 
 #: camel/providers/local/camel-local-provider.c:1
 msgid "Standard Unix mailbox file"
@@ -4396,7 +4399,7 @@ msgstr "Standardowy uniksowy plik mailbox"
 
 #: camel/providers/local/camel-local-provider.c:1
 msgid "For storing local mail in standard mbox format"
-msgstr "Do zapisu lokalnej poczty w standardowym formacie mbox"
+msgstr "Do przechowywania lokalnej poczty w standardowym formacie mbox"
 
 #: camel/providers/local/camel-local-provider.c:1
 #, fuzzy
@@ -4409,11 +4412,11 @@ msgstr ""
 
 #: camel/providers/local/camel-local-provider.c:1
 msgid "Unix mbox spool-format mail files"
-msgstr ""
+msgstr "Uniksowe pliki mbox w postaci kolejki pocztowej"
 
 #: camel/providers/local/camel-local-provider.c:1
 msgid "For storing local mail in standard Unix spool directories"
-msgstr ""
+msgstr "Do przechowywania lokalnej poczty w uniksowych katalogach kolejkuj±cych"
 
 #: camel/providers/local/camel-local-store.c:1
 #: camel/providers/local/camel-spool-store.c:1
@@ -6476,7 +6479,7 @@ msgid ""
 "Really send?"
 msgstr ""
 "List nie zawiera tematu.\n"
-"Naprawdê wys³aæ?"
+"Rzeczywi¶cie wys³aæ?"
 
 #: mail/mail-callbacks.c:1
 msgid ""
