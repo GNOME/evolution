@@ -97,37 +97,43 @@ struct _EToDoConduitCfg {
 	GnomePilotConduitSyncType  sync_type;
 
 	gboolean secret;
+	gint priority;
+
 	gchar *last_uri;
 };
 
-static void 
-todoconduit_load_configuration (EToDoConduitCfg **c, guint32 pilot_id) 
+static EToDoConduitCfg *
+todoconduit_load_configuration (guint32 pilot_id) 
 {
+	EToDoConduitCfg *c;
 	GnomePilotConduitManagement *management;
 	GnomePilotConduitConfig *config;
 	gchar prefix[256];
 	g_snprintf (prefix, 255, "/gnome-pilot.d/e-todo-conduit/Pilot_%u/",
 		    pilot_id);
 	
-	*c = g_new0 (EToDoConduitCfg,1);
-	g_assert (*c != NULL);
+	c = g_new0 (EToDoConduitCfg,1);
+	g_assert (c != NULL);
 
-	(*c)->pilot_id = pilot_id;
+	c->pilot_id = pilot_id;
 
 	management = gnome_pilot_conduit_management_new ("e_todo_conduit", GNOME_PILOT_CONDUIT_MGMT_ID);
 	config = gnome_pilot_conduit_config_new (management, pilot_id);
-	if (!gnome_pilot_conduit_config_is_enabled (config, &(*c)->sync_type))
-		(*c)->sync_type = GnomePilotConduitSyncTypeNotSet;
+	if (!gnome_pilot_conduit_config_is_enabled (config, &c->sync_type))
+		c->sync_type = GnomePilotConduitSyncTypeNotSet;
 	gtk_object_unref (GTK_OBJECT (config));
 	gtk_object_unref (GTK_OBJECT (management));
 	
 	/* Custom settings */
 	gnome_config_push_prefix (prefix);
 
-	(*c)->secret = gnome_config_get_bool ("secret=FALSE");
-	(*c)->last_uri = gnome_config_get_string ("last_uri");
+	c->secret = gnome_config_get_bool ("secret=FALSE");
+	c->priority = gnome_config_get_int ("priority=1");
+	c->last_uri = gnome_config_get_string ("last_uri");
 
 	gnome_config_pop_prefix ();
+
+	return c;
 }
 
 static void
@@ -140,6 +146,7 @@ todoconduit_save_configuration (EToDoConduitCfg *c)
 
 	gnome_config_push_prefix (prefix);
 	gnome_config_set_bool ("secret", c->secret);
+	gnome_config_set_int ("priority", c->priority);
 	gnome_config_set_string ("last_uri", c->last_uri);
 	gnome_config_pop_prefix ();
 
@@ -159,6 +166,7 @@ todoconduit_dupe_configuration (EToDoConduitCfg *c)
 	retval->pilot_id = c->pilot_id;
 
 	retval->secret = c->secret;
+	retval->priority = c->priority;
 	retval->last_uri = g_strdup (c->last_uri);
 
 	return retval;
@@ -199,8 +207,9 @@ e_todo_context_new (guint32 pilot_id)
 {
 	EToDoConduitContext *ctxt = g_new0 (EToDoConduitContext, 1);
 
-	todoconduit_load_configuration (&ctxt->cfg, pilot_id);
-
+	ctxt->cfg = todoconduit_load_configuration (pilot_id);
+	ctxt->new_cfg = todoconduit_dupe_configuration (ctxt->cfg);
+	ctxt->ps = NULL;
 	ctxt->client = NULL;
 	ctxt->uids = NULL;
 	ctxt->changed_hash = NULL;

@@ -207,6 +207,7 @@ e_calendar_context_new (guint32 pilot_id)
 	
 	ctxt->cfg = calconduit_load_configuration (pilot_id);
 	ctxt->new_cfg = calconduit_dupe_configuration (ctxt->cfg);
+	ctxt->ps = NULL;
 	ctxt->dbi = NULL;
 	ctxt->client = NULL;
 	ctxt->timezone = NULL;
