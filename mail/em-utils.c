@@ -1365,7 +1365,7 @@ em_utils_get_proxy_uri(void)
  * Return Value: The part in displayable html format.
  **/
 char *
-em_utils_part_to_html(CamelMimePart *part)
+em_utils_part_to_html(CamelMimePart *part, ssize_t *len)
 {
 	EMFormatQuote *emfq;
 	CamelStreamMem *mem;
@@ -1385,6 +1385,8 @@ em_utils_part_to_html(CamelMimePart *part)
 	camel_object_unref (mem);
 	
 	text = buf->data;
+	if (len)
+		*len = buf->len;
 	g_byte_array_free (buf, FALSE);
 	
 	return text;
@@ -1402,7 +1404,7 @@ em_utils_part_to_html(CamelMimePart *part)
  * Return value: The html version.
  **/
 char *
-em_utils_message_to_html(CamelMimeMessage *message, const char *credits, guint32 flags)
+em_utils_message_to_html(CamelMimeMessage *message, const char *credits, guint32 flags, ssize_t *len)
 {
 	EMFormatQuote *emfq;
 	CamelStreamMem *mem;
@@ -1422,6 +1424,8 @@ em_utils_message_to_html(CamelMimeMessage *message, const char *credits, guint32
 	camel_object_unref (mem);
 	
 	text = buf->data;
+	if (len)
+		*len = buf->len;
 	g_byte_array_free (buf, FALSE);
 	
 	return text;

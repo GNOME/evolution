@@ -84,8 +84,8 @@ void em_utils_adjustment_page(struct _GtkAdjustment *adj, gboolean down);
 char *em_utils_get_proxy_uri(void);
 
 /* FIXME: should this have an override charset? */
-char *em_utils_part_to_html(struct _CamelMimePart *part);
-char *em_utils_message_to_html(struct _CamelMimeMessage *msg, const char *credits, guint32 flags);
+char *em_utils_part_to_html(struct _CamelMimePart *part, ssize_t *len);
+char *em_utils_message_to_html(struct _CamelMimeMessage *msg, const char *credits, guint32 flags, ssize_t *len);
 
 void em_utils_expunge_folder (struct _GtkWidget *parent, struct _CamelFolder *folder);
 void em_utils_empty_trash (struct _GtkWidget *parent);

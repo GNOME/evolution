@@ -881,15 +881,17 @@ forward_non_attached (GPtrArray *messages, int style, const char *fromuri)
 		flags |= EM_FORMAT_QUOTE_CITE;
 
 	for (i = 0; i < messages->len; i++) {
+		ssize_t len;
+
 		message = messages->pdata[i];
 		subject = mail_tool_generate_forward_subject (message);
 		
-		text = em_utils_message_to_html (message, _("-------- Forwarded Message --------"), flags);
+		text = em_utils_message_to_html (message, _("-------- Forwarded Message --------"), flags, &len);
 		
 		if (text) {
 			composer = create_new_composer (subject, fromuri);
 			
-			e_msg_composer_set_body_text (composer, text);
+			e_msg_composer_set_body_text (composer, text, len);
 						
 			e_msg_composer_unset_changed (composer);
 			e_msg_composer_drop_editor_undo (composer);
@@ -1663,6 +1665,7 @@ composer_set_body (EMsgComposer *composer, CamelMimeMessage *message)
 	char *text, *credits;
 	CamelMimePart *part;
 	GConfClient *gconf;
+	ssize_t len;
 	
 	gconf = mail_config_get_gconf_client ();
 	
@@ -1680,9 +1683,9 @@ composer_set_body (EMsgComposer *composer, CamelMimeMessage *message)
 	default:
 		/* do what any sane user would want when replying... */
 		credits = attribution_format (ATTRIBUTION, message);
-		text = em_utils_message_to_html(message, credits, EM_FORMAT_QUOTE_CITE);
+		text = em_utils_message_to_html(message, credits, EM_FORMAT_QUOTE_CITE, &len);
 		g_free (credits);
-		e_msg_composer_set_body_text(composer, text);
+		e_msg_composer_set_body_text(composer, text, len);
 		g_free (text);
 		break;
 	}

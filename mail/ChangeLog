@@ -1,3 +1,9 @@
+2004-07-23  Radek Doulik  <rodo@ximian.com>
+
+	* added len parameter to em_utils_part_to_html and
+	em_utils_message_to_html. it is used to return length of returned
+	buffer. we use that info later when setting composer body content.
+
 2004-07-22  Not Zed  <NotZed@Ximian.com>
 
 	* mail-component.c (impl_createControls): dont call
