@@ -627,7 +627,9 @@ mail_config_get_default_account (void)
 	   the default */
 	e_iterator_reset (iter);
 	account = (EAccount *) e_iterator_get (iter);
-	gconf_client_set_string (config->gconf, "/apps/evolution/mail/default_account", account->uid, NULL);
+	if (account)
+		gconf_client_set_string (config->gconf, "/apps/evolution/mail/default_account",
+					 account->uid, NULL);
 	g_object_unref (iter);
 	
 	return account;

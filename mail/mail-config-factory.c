@@ -90,10 +90,11 @@ mail_config_control_factory_cb (BonoboGenericFactory *factory, const char *compo
 		prefs = mail_font_prefs_new ();
 		data->apply = (ApplyFunc) mail_font_prefs_apply;
 #endif
+		return NULL;
 	} else {
 		g_assert_not_reached ();
 	}
-	
+
 	data->prefs = prefs;
 	g_object_ref (prefs);
 	

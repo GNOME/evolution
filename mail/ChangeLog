@@ -1,3 +1,13 @@
+2003-02-21  Hans Petter Jansson  <hpj@ximian.com>
+
+	* component-factory.c (factory): Don't try to get a FontPrefs control.
+
+	* mail-config-factory.c (mail_config_control_factory_cb): Just return
+	NULL if a FontPrefs control was requested.
+
+	* mail-config.c (mail_config_get_default_account): If no accounts
+	are defined, don't try to set the default account.
+
 2003-02-21  Dan Winship  <danw@ximian.com>
 
 	* Makefile.am (libevolution_mail_la_LIBADD): Remove libebook's

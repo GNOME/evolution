@@ -1631,7 +1631,7 @@ factory (BonoboGenericFactory *factory,
 	else if (strcmp (component_id, MAIL_ACCOUNTS_CONTROL_ID) == 0
 		 || strcmp (component_id, MAIL_PREFERENCES_CONTROL_ID) == 0
 		 || strcmp (component_id, MAIL_COMPOSER_PREFS_CONTROL_ID) == 0
-		 || strcmp (component_id, MAIL_FONT_PREFS_CONTROL_ID) == 0)
+		 /* || strcmp (component_id, MAIL_FONT_PREFS_CONTROL_ID) == 0 */)
 		return mail_config_control_factory_cb (factory, component_id, evolution_shell_client_corba_objref (global_shell_client));
 
 	g_warning (FACTORY_ID ": Don't know what to do with %s", component_id);
