@@ -1,3 +1,29 @@
+2000-04-03  Christopher James Lahey  <clahey@helixcode.com>
+
+	* addressbook/backend/ebook/e-card-cursor.h,
+	addressbook/backend/ebook/e-card.c: A bit of clean up.
+	
+	* addressbook/backend/ebook/e-book-types.h,
+	addressbook/backend/ebook/e-book-view-listener.c,
+	addressbook/backend/ebook/e-book-view-listener.h,
+	addressbook/backend/ebook/e-book-view.c,
+	addressbook/backend/ebook/e-book-view.h,
+	addressbook/backend/pas/pas-book-view.c,
+	addressbook/backend/pas/pas-book-view.h: New files for live views.
+
+	* addressbook/backend/ebook/Makefile.am,
+	addressbook/backend/ebook/e-book-listener.c,
+	addressbook/backend/ebook/e-book-listener.h,
+	addressbook/backend/ebook/e-book.c,
+	addressbook/backend/ebook/e-book.h,
+	addressbook/backend/ebook/test-client-list.c,
+	addressbook/backend/ebook/test-client.c,
+	addressbook/backend/pas/pas-backend-file.c,
+	addressbook/backend/pas/pas-book.c,
+	addressbook/backend/pas/pas-book.h,
+	addressbook/backend/idl/addressbook.idl: Added live views and
+	searching to the interface (neither is working yet.)
+
 2000-04-01  Matt Loper  <matt@helixcode.com>
 
 	* tests/.cvsignore: Added test-movemail.

@@ -91,12 +91,37 @@ pas_book_queue_modify_card (PASBook *book, const char *vcard)
 }
 
 static void
-pas_book_queue_get_all_cards (PASBook *book)
+pas_book_queue_get_cursor (PASBook *book, const char *search)
 {
 	PASRequest *req;
 
-	req        = g_new0 (PASRequest, 1);
-	req->op    = GetAllCards;
+	req         = g_new0 (PASRequest, 1);
+	req->op     = GetCursor;
+	req->search = g_strdup(search);
+
+	pas_book_queue_request (book, req);
+}
+
+static void
+pas_book_queue_get_book_view (PASBook *book, const Evolution_BookViewListener listener, const char *search)
+{
+	PASRequest *req;
+	CORBA_Environment ev;
+
+	req           = g_new0 (PASRequest, 1);
+	req->op       = GetBookView;
+	req->search   = g_strdup(search);
+	
+	CORBA_exception_init (&ev);
+
+	req->listener = CORBA_Object_duplicate(listener, &ev);
+
+	if (ev._major != CORBA_NO_EXCEPTION) {
+		g_warning ("pas_book_queue_get_book_view: Exception "
+			   "duplicating BookViewListener!\n");
+	}
+
+	CORBA_exception_free (&ev);
 
 	pas_book_queue_request (book, req);
 }
@@ -130,12 +155,12 @@ impl_Evolution_Book_get_vcard (PortableServer_Servant servant,
 
 static void
 impl_Evolution_Book_create_card (PortableServer_Servant servant,
-				 const CORBA_char *vcard,
+				 const Evolution_VCard vcard,
 				 CORBA_Environment *ev)
 {
 	PASBook *book = PAS_BOOK (bonobo_object_from_servant (servant));
 
-	pas_book_queue_create_card (book, vcard);
+	pas_book_queue_create_card (book, (const char *) vcard);
 }
 
 static void
@@ -150,21 +175,33 @@ impl_Evolution_Book_remove_card (PortableServer_Servant servant,
 
 static void
 impl_Evolution_Book_modify_card (PortableServer_Servant servant,
-				 const CORBA_char *vcard,
+				 const Evolution_VCard vcard,
 				 CORBA_Environment *ev)
 {
 	PASBook *book = PAS_BOOK (bonobo_object_from_servant (servant));
 
-	pas_book_queue_modify_card (book, vcard);
+	pas_book_queue_modify_card (book, (const char *) vcard);
 }
 
 static void
-impl_Evolution_Book_get_all_cards (PortableServer_Servant servant,
-				 CORBA_Environment *ev)
+impl_Evolution_Book_get_cursor (PortableServer_Servant servant,
+				const CORBA_char *search,
+				CORBA_Environment *ev)
 {
 	PASBook *book = PAS_BOOK (bonobo_object_from_servant (servant));
 
-	pas_book_queue_get_all_cards (book);
+	pas_book_queue_get_cursor (book, search);
+}
+
+static void
+impl_Evolution_Book_get_book_view (PortableServer_Servant servant,
+				   const Evolution_BookViewListener listener,
+				   const CORBA_char *search,
+				   CORBA_Environment *ev)
+{
+	PASBook *book = PAS_BOOK (bonobo_object_from_servant (servant));
+
+	pas_book_queue_get_book_view (book, listener, search);
 }
 
 static void
@@ -363,6 +400,32 @@ pas_book_respond_get_cursor (PASBook                           *book,
 }
 
 /**
+ * pas_book_respond_get_cursor:
+ */
+void
+pas_book_respond_get_book_view (PASBook                           *book,
+				Evolution_BookListener_CallStatus  status,
+				PASBookView                       *book_view)
+{
+	CORBA_Environment ev;
+	CORBA_Object      object;
+
+	CORBA_exception_init (&ev);
+	
+	object = bonobo_object_corba_objref(BONOBO_OBJECT(book_view));
+
+	Evolution_BookListener_respond_get_view (
+		book->priv->listener, status, object, &ev);
+
+	if (ev._major != CORBA_NO_EXCEPTION) {
+		g_warning ("pas_book_respond_get_cursor: Exception "
+			   "responding to BookListener!\n");
+	}
+
+	CORBA_exception_free (&ev);
+}
+
+/**
  * pas_book_report_connection:
  */
 void
@@ -379,70 +442,6 @@ pas_book_report_connection (PASBook  *book,
 	if (ev._major != CORBA_NO_EXCEPTION) {
 		g_warning ("pas_book_report_connection: Exception "
 			   "responding to BookListener!\n");
-	}
-
-	CORBA_exception_free (&ev);
-}
-
-
-/**
- * pas_book_notify_change:
- */
-void
-pas_book_notify_change (PASBook                *book,
-			const char             *id)
-{
-	CORBA_Environment ev;
-
-	CORBA_exception_init (&ev);
-
-	Evolution_BookListener_signal_card_changed (
-		book->priv->listener, (Evolution_CardId) id, &ev);
-
-	if (ev._major != CORBA_NO_EXCEPTION) {
-		g_warning ("pas_book_notify_change: Exception signaling BookListener!\n");
-	}
-
-	CORBA_exception_free (&ev);
-}
-
-/**
- * pas_book_notify_remove:
- */
-void
-pas_book_notify_remove (PASBook                *book,
-			const char             *id)
-{
-	CORBA_Environment ev;
-
-	CORBA_exception_init (&ev);
-
-	Evolution_BookListener_signal_card_removed (
-		book->priv->listener, (Evolution_CardId) id, &ev);
-
-	if (ev._major != CORBA_NO_EXCEPTION) {
-		g_warning ("pas_book_notify_remove: Exception signaling BookListener!\n");
-	}
-
-	CORBA_exception_free (&ev);
-}
-
-/**
- * pas_book_notify_add:
- */
-void
-pas_book_notify_add (PASBook                *book,
-		     const char             *id)
-{
-	CORBA_Environment ev;
-
-	CORBA_exception_init (&ev);
-
-	Evolution_BookListener_signal_card_added (
-		book->priv->listener, (Evolution_CardId) id, &ev);
-
-	if (ev._major != CORBA_NO_EXCEPTION) {
-		g_warning ("pas_book_notify_add: Exception signaling BookListener!\n");
 	}
 
 	CORBA_exception_free (&ev);
@@ -550,7 +549,8 @@ pas_book_get_epv (void)
 	epv->remove_card      = impl_Evolution_Book_remove_card;
 	epv->modify_card      = impl_Evolution_Book_modify_card;
 	epv->check_connection = impl_Evolution_Book_check_connection;
-	epv->get_all_cards    = impl_Evolution_Book_get_all_cards;
+	epv->get_cursor       = impl_Evolution_Book_get_cursor;
+	epv->get_book_view    = impl_Evolution_Book_get_book_view;
 
 	return epv;
 	

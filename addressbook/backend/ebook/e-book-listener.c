@@ -25,7 +25,6 @@ static BonoboObjectClass          *e_book_listener_parent_class;
 POA_Evolution_BookListener__vepv  e_book_listener_vepv;
 
 struct _EBookListenerPrivate {
-	EBook *book;
 	GList *response_queue;
 	gint   idle_id;
 };
@@ -142,6 +141,22 @@ e_book_listener_queue_get_cursor_response (EBookListener        *listener,
 }
 
 static void
+e_book_listener_queue_get_view_response (EBookListener        *listener,
+					 EBookStatus           status,
+					 Evolution_BookView    book_view)
+{
+	EBookListenerResponse *resp;
+	
+	resp = g_new0 (EBookListenerResponse, 1);
+
+	resp->op        = GetBookViewResponse;
+	resp->status    = status;
+	resp->book_view = book_view;
+	
+	e_book_listener_queue_response (listener, resp);
+}
+
+static void
 e_book_listener_queue_link_status (EBookListener *listener,
 				   gboolean       connected)
 {
@@ -151,22 +166,6 @@ e_book_listener_queue_link_status (EBookListener *listener,
 
 	resp->op        = LinkStatusEvent;
 	resp->connected = connected;
-
-	e_book_listener_queue_response (listener, resp);
-}
-
-static void
-e_book_listener_queue_generic_event (EBookListener          *listener,
-				     EBookStatus             status,
-				     const char             *id)
-{
-	EBookListenerResponse *resp;
-
-	resp = g_new0 (EBookListenerResponse, 1);
-
-	resp->op        = LinkStatusEvent;
-	resp->status    = status;
-	resp->id        = g_strdup (id);
 
 	e_book_listener_queue_response (listener, resp);
 }
@@ -232,6 +231,28 @@ impl_BookListener_respond_get_cursor (PortableServer_Servant servant,
 }
 
 static void
+impl_BookListener_respond_get_view (PortableServer_Servant servant,
+				    const Evolution_BookListener_CallStatus status,
+				    const Evolution_BookView book_view,
+				    CORBA_Environment *ev)
+{
+	EBookListener        *listener = E_BOOK_LISTENER (bonobo_object_from_servant (servant));
+	Evolution_BookView    book_view_copy;
+
+	book_view_copy = CORBA_Object_duplicate (book_view, ev);
+
+	if (ev->_major != CORBA_NO_EXCEPTION) {
+		g_warning ("EBookListener: Exception while duplicating BookView.\n");
+		return;
+	}
+
+	e_book_listener_queue_get_view_response (
+		listener,
+		e_book_listener_convert_status (status),
+		book_view_copy);
+}
+
+static void
 impl_BookListener_respond_open_book (PortableServer_Servant servant,
 				     const Evolution_BookListener_CallStatus status,
 				     const Evolution_Book book,
@@ -274,54 +295,6 @@ impl_BookListener_report_connection_status (PortableServer_Servant servant,
 
 	e_book_listener_queue_link_status (
 		listener, connected);
-}
-
-static void
-impl_BookListener_signal_card_added (PortableServer_Servant servant,
-				     const Evolution_CardId id,
-				     CORBA_Environment *ev)
-{
-	EBookListener *listener = E_BOOK_LISTENER (bonobo_object_from_servant (servant));
-
-	e_book_listener_queue_generic_event (
-		listener, CardAddedEvent, (const char *) id);
-}
-
-static void
-impl_BookListener_signal_card_removed (PortableServer_Servant servant,
-				       const Evolution_CardId id,
-				       CORBA_Environment *ev)
-{
-	EBookListener *listener = E_BOOK_LISTENER (bonobo_object_from_servant (servant));
-
-	e_book_listener_queue_generic_event (
-		listener, CardRemovedEvent, (const char *) id);
-}
-
-static void
-impl_BookListener_signal_card_changed (PortableServer_Servant servant,
-				       const Evolution_CardId id,
-				       CORBA_Environment *ev)
-{
-	EBookListener *listener = E_BOOK_LISTENER (bonobo_object_from_servant (servant));
-
-	e_book_listener_queue_generic_event (
-		listener, CardModifiedEvent, (const char *) id);
-}
-
-/**
- * e_book_listener_get_book:
- * @listener: the #EBookListener 
- *
- * Returns: the #EBook associated with the @listener.
- */
-EBook *
-e_book_listener_get_book (EBookListener *listener)
-{
-	g_return_val_if_fail (listener != NULL,              NULL);
-	g_return_val_if_fail (E_IS_BOOK_LISTENER (listener), NULL);
-
-	return listener->priv->book;
 }
 
 /**
@@ -392,7 +365,7 @@ e_book_listener_convert_status (const Evolution_BookListener_CallStatus status)
 }
 
 static EBookListener *
-e_book_listener_construct (EBookListener *listener, EBook *book)
+e_book_listener_construct (EBookListener *listener)
 {
 	POA_Evolution_BookListener *servant;
 	CORBA_Environment           ev;
@@ -400,10 +373,6 @@ e_book_listener_construct (EBookListener *listener, EBook *book)
 
 	g_assert (listener != NULL);
 	g_assert (E_IS_BOOK_LISTENER (listener));
-	g_assert (book != NULL);
-	g_assert (E_IS_BOOK (book));
-
-	listener->priv->book = book;
 
 	servant = (POA_Evolution_BookListener *) g_new0 (BonoboObjectServant, 1);
 	servant->vepv = &e_book_listener_vepv;
@@ -441,17 +410,14 @@ e_book_listener_construct (EBookListener *listener, EBook *book)
  * Returns: a new #EBookListener
  */
 EBookListener *
-e_book_listener_new (EBook *book)
+e_book_listener_new ()
 {
 	EBookListener *listener;
 	EBookListener *retval;
 
-	g_return_val_if_fail (book != NULL,     NULL);
-	g_return_val_if_fail (E_IS_BOOK (book), NULL);
-
 	listener = gtk_type_new (E_BOOK_LISTENER_TYPE);
 
-	retval = e_book_listener_construct (listener, book);
+	retval = e_book_listener_construct (listener);
 
 	if (retval == NULL) {
 		g_warning ("e_book_listener_new: Error constructing "
@@ -497,6 +463,38 @@ e_book_listener_destroy (GtkObject *object)
 			CORBA_exception_free (&ev);
 		}
 
+		if (resp->cursor != CORBA_OBJECT_NIL) {
+			CORBA_Environment ev;
+
+			CORBA_exception_init (&ev);
+
+			CORBA_Object_release (resp->cursor, &ev);
+
+			if (ev._major != CORBA_NO_EXCEPTION) {
+				g_warning ("e_book_listener_destroy: "
+					   "Exception destroying cursor "
+					   "in response queue!\n");
+			}
+			
+			CORBA_exception_free (&ev);
+		}
+
+		if (resp->book_view != CORBA_OBJECT_NIL) {
+			CORBA_Environment ev;
+
+			CORBA_exception_init (&ev);
+
+			CORBA_Object_release (resp->book_view, &ev);
+
+			if (ev._major != CORBA_NO_EXCEPTION) {
+				g_warning ("e_book_listener_destroy: "
+					   "Exception destroying book_view "
+					   "in response queue!\n");
+			}
+			
+			CORBA_exception_free (&ev);
+		}
+
 		g_free (resp);
 	}
 	g_list_free (listener->priv->response_queue);
@@ -521,12 +519,9 @@ e_book_listener_get_epv (void)
 	epv->respond_modify_card       = impl_BookListener_respond_modify_card;
 
 	epv->respond_get_cursor        = impl_BookListener_respond_get_cursor;
+	epv->respond_get_view          = impl_BookListener_respond_get_view;
 
 	epv->report_connection_status  = impl_BookListener_report_connection_status;
-
-	epv->signal_card_changed       = impl_BookListener_signal_card_changed;
-	epv->signal_card_removed       = impl_BookListener_signal_card_removed;
-	epv->signal_card_added         = impl_BookListener_signal_card_added;
 
 	return epv;
 }

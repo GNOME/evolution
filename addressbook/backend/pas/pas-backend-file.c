@@ -119,7 +119,9 @@ pas_backend_file_process_create_card (PASBackend *backend,
 	db_error = db->put (db, &id_dbt, &vcard_dbt, 0);
 
 	if (0 == db_error) {
+#if 0
 		pas_book_notify_add(book, id);
+#endif
 
 		pas_book_respond_create (
 				 book,
@@ -158,7 +160,9 @@ pas_backend_file_process_remove_card (PASBackend *backend,
 	db_error = db->del (db, &id_dbt, 0);
 
 	if (0 == db_error) {
+#if 0
 		pas_book_notify_remove (book, req->id);
+#endif
 
 		pas_book_respond_remove (
 				  book,
@@ -193,8 +197,9 @@ pas_backend_file_process_modify_card (PASBackend *backend,
 	db_error = db->put (db, &id_dbt, &vcard_dbt, 0);
 
 	if (0 == db_error) {
-
+#if 0
 		pas_book_notify_change (book, req->id);
+#endif
 
 		pas_book_respond_modify (
 				 book,
@@ -250,7 +255,57 @@ pas_backend_file_build_all_cards_list(PASBackend *backend,
 }
 
 static void
-pas_backend_file_process_get_all_cards (PASBackend *backend,
+pas_backend_file_process_get_cursor (PASBackend *backend,
+				     PASBook    *book,
+				     PASRequest *req)
+{
+	/*
+	  PASBackendFile *bf = PAS_BACKEND_FILE (backend);
+	  DB             *db = bf->priv->file_db;
+	  DBT            id_dbt, vcard_dbt;
+	*/
+	CORBA_Environment ev;
+	int            db_error = 0;
+	PASBackendFileCursorPrivate *cursor_data;
+	PASCardCursor *cursor;
+	Evolution_Book corba_book;
+
+	cursor_data = g_new(PASBackendFileCursorPrivate, 1);
+	cursor_data->backend = backend;
+	cursor_data->book = book;
+
+	pas_backend_file_build_all_cards_list(backend, cursor_data);
+
+	corba_book = bonobo_object_corba_objref(BONOBO_OBJECT(book));
+
+	CORBA_exception_init(&ev);
+
+	Evolution_Book_ref(corba_book, &ev);
+	
+	if (ev._major != CORBA_NO_EXCEPTION) {
+		g_warning("pas_backend_file_process_get_cursor: Exception reffing "
+			  "corba book.\n");
+	}
+
+	CORBA_exception_free(&ev);
+	
+	cursor = pas_card_cursor_new(get_length,
+				     get_nth,
+				     cursor_data);
+
+	gtk_signal_connect(GTK_OBJECT(cursor), "destroy",
+			   GTK_SIGNAL_FUNC(cursor_destroy), cursor_data);
+	
+	pas_book_respond_get_cursor (
+		book,
+		(db_error == 0 
+		 ? Evolution_BookListener_Success 
+		 : Evolution_BookListener_CardNotFound),
+		cursor);
+}
+
+static void
+pas_backend_file_process_get_book_view (PASBackend *backend,
 					PASBook    *book,
 					PASRequest *req)
 {
@@ -278,7 +333,7 @@ pas_backend_file_process_get_all_cards (PASBackend *backend,
 	Evolution_Book_ref(corba_book, &ev);
 	
 	if (ev._major != CORBA_NO_EXCEPTION) {
-		g_warning("pas_backend_file_process_get_all_cards: Exception reffing "
+		g_warning("pas_backend_file_process_get_book_view: Exception reffing "
 			  "corba book.\n");
 	}
 
@@ -338,8 +393,12 @@ pas_backend_file_process_client_requests (PASBook *book)
 		pas_backend_file_process_check_connection (backend, book, req);
 		break;
 		
-	case GetAllCards:
-		pas_backend_file_process_get_all_cards (backend, book, req);
+	case GetCursor:
+		pas_backend_file_process_get_cursor (backend, book, req);
+		break;
+		
+	case GetBookView:
+		pas_backend_file_process_get_book_view (backend, book, req);
 		break;
 	}
 

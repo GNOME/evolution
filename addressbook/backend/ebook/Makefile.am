@@ -41,6 +41,8 @@ lib_LTLIBRARIES = libebook.la
 libebook_la_SOURCES =					\
 	$(CORBA_SOURCE)					\
 	e-book-listener.c				\
+	e-book-view-listener.c				\
+	e-book-view.c					\
 	e-book.c					\
 	e-card-cursor.c					\
 	e-card.c
@@ -48,8 +50,10 @@ libebook_la_SOURCES =					\
 libebookincludedir = $(includedir)/backend
 
 libebookinclude_HEADERS =				\
-	e-book.h					\
 	e-book-listener.h				\
+	e-book-view-listener.h				\
+	e-book-view.h					\
+	e-book.h					\
 	e-card-cursor.h					\
 	e-card.h
 

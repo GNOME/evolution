@@ -44,9 +44,6 @@ struct _EBookPrivate {
 
 enum {
 	OPEN_PROGRESS,
-	CARD_CHANGED,
-	CARD_REMOVED,
-	CARD_ADDED,
 	LINK_STATUS,
 	LAST_SIGNAL
 };
@@ -56,6 +53,7 @@ static guint e_book_signals [LAST_SIGNAL];
 typedef struct {
 	gpointer  cb;
 	gpointer  closure;
+	EBookViewListener *listener;
 } EBookOp;
 
 /*
@@ -64,13 +62,15 @@ typedef struct {
 static void
 e_book_queue_op (EBook    *book,
 		 gpointer  cb,
-		 gpointer  closure)
+		 gpointer  closure,
+		 EBookViewListener *listener)
 {
 	EBookOp *op;
 
-	op          = g_new0 (EBookOp, 1);
-	op->cb      = cb;
-	op->closure = closure;
+	op           = g_new0 (EBookOp, 1);
+	op->cb       = cb;
+	op->closure  = closure;
+	op->listener = listener;
 
 	book->priv->pending_ops =
 		g_list_append (book->priv->pending_ops, op);
@@ -145,7 +145,7 @@ e_book_do_response_get_cursor (EBook                 *book,
 	op = e_book_pop_op (book);
 
 	if (op == NULL) {
-		g_warning ("e_book_do_response_create_card: Cannot find operation "
+		g_warning ("e_book_do_response_get_cursor: Cannot find operation "
 			   "in local op queue!\n");
 		return;
 	}
@@ -162,7 +162,7 @@ e_book_do_response_get_cursor (EBook                 *book,
 	Bonobo_Unknown_unref  (resp->cursor, &ev);
 
 	if (ev._major != CORBA_NO_EXCEPTION) {
-		g_warning ("e_book_do_response_get_curosr: Exception unref'ing "
+		g_warning ("e_book_do_response_get_cursor: Exception unref'ing "
 			   "remote Evolution_CardCursor interface!\n");
 		CORBA_exception_free (&ev);
 		CORBA_exception_init (&ev);
@@ -176,6 +176,57 @@ e_book_do_response_get_cursor (EBook                 *book,
 	}
 
 	CORBA_exception_free (&ev);
+
+	gtk_object_unref(GTK_OBJECT(cursor));
+	
+	g_free (op);
+}
+
+static void
+e_book_do_response_get_view (EBook                 *book,
+			     EBookListenerResponse *resp)
+{
+	CORBA_Environment ev;
+	EBookOp *op;
+	EBookView *book_view;
+
+	op = e_book_pop_op (book);
+
+	if (op == NULL) {
+		g_warning ("e_book_do_response_get_view: Cannot find operation "
+			   "in local op queue!\n");
+		return;
+	}
+
+	book_view = e_book_view_new(resp->book_view, op->listener);
+
+	((EBookBookViewCallback) op->cb) (book, resp->status, book_view, op->closure);
+
+	/*
+	 * Release the remote Evolution_Book in the PAS.
+	 */
+	CORBA_exception_init (&ev);
+
+	Bonobo_Unknown_unref  (resp->book_view, &ev);
+
+	if (ev._major != CORBA_NO_EXCEPTION) {
+		g_warning ("e_book_do_response_get_view: Exception unref'ing "
+			   "remote Evolution_BookView interface!\n");
+		CORBA_exception_free (&ev);
+		CORBA_exception_init (&ev);
+	}
+	
+	CORBA_Object_release (resp->book_view, &ev);
+
+	if (ev._major != CORBA_NO_EXCEPTION) {
+		g_warning ("e_book_do_response_get_view: Exception releasing "
+			   "remote Evolution_BookView interface!\n");
+	}
+
+	CORBA_exception_free (&ev);
+
+	gtk_object_unref(GTK_OBJECT(book_view));
+	gtk_object_unref(GTK_OBJECT(op->listener));
 	
 	g_free (op);
 }
@@ -221,48 +272,14 @@ e_book_do_link_event (EBook                 *book,
 			 resp->connected);
 }
 
-static void
-e_book_do_added_event (EBook                 *book,
-		       EBookListenerResponse *resp)
-{
-	gtk_signal_emit (GTK_OBJECT (book), e_book_signals [CARD_ADDED],
-			 resp->id);
-
-	g_free (resp->id); 
-}
-
-static void
-e_book_do_modified_event (EBook                 *book,
-			  EBookListenerResponse *resp)
-{
-	gtk_signal_emit (GTK_OBJECT (book), e_book_signals [CARD_CHANGED],
-			 resp->id);
-
-	g_free (resp->id); 
-}
-
-static void
-e_book_do_removed_event (EBook                 *book,
-			 EBookListenerResponse *resp)
-{
-	gtk_signal_emit (GTK_OBJECT (book), e_book_signals [CARD_REMOVED],
-			 resp->id);
-
-	g_free (resp->id); 
-}
-
 
 /*
  * Reading notices out of the EBookListener's queue.
  */
 static void
-e_book_check_listener_queue (EBookListener *listener)
+e_book_check_listener_queue (EBookListener *listener, EBook *book)
 {
-	EBook                 *book;
 	EBookListenerResponse *resp;
-	
-	book = e_book_listener_get_book (listener);
-	g_assert (book != NULL);
 
 	resp = e_book_listener_pop_response (listener);
 
@@ -280,6 +297,9 @@ e_book_check_listener_queue (EBookListener *listener)
 	case GetCursorResponse:
 		e_book_do_response_get_cursor (book, resp);
 		break;
+	case GetBookViewResponse:
+		e_book_do_response_get_view(book, resp);
+		break;
 	case OpenBookResponse:
 		e_book_do_response_open (book, resp);
 		break;
@@ -289,15 +309,6 @@ e_book_check_listener_queue (EBookListener *listener)
 		break;
 	case LinkStatusEvent:
 		e_book_do_link_event (book, resp);
-		break;
-	case CardAddedEvent:
-		e_book_do_added_event (book, resp);
-		break;
-	case CardModifiedEvent:
-		e_book_do_modified_event (book, resp);
-		break;
-	case CardRemovedEvent:
-		e_book_do_removed_event (book, resp);
 		break;
 	default:
 		g_error ("EBook: Unknown operation %d in listener queue!\n",
@@ -349,7 +360,7 @@ e_book_load_uri (EBook                     *book,
 
 	book->priv->load_state = URILoading;
 
-	e_book_queue_op (book, open_response, closure);
+	e_book_queue_op (book, open_response, closure, NULL);
 
 	/* Now we play the waiting game. */
 
@@ -426,14 +437,14 @@ e_book_construct (EBook *book)
 	/*
 	 * Create our local BookListener interface.
 	 */
-	book->priv->listener = e_book_listener_new (book);
+	book->priv->listener = e_book_listener_new ();
 	if (book->priv->listener == NULL) {
 		g_warning ("e_book_construct: Could not create EBookListener!\n");
 		return FALSE;
 	}
 
 	gtk_signal_connect (GTK_OBJECT (book->priv->listener), "responses_queued",
-			    e_book_check_listener_queue, NULL);
+			    e_book_check_listener_queue, book);
 
 	return TRUE;
 }
@@ -601,7 +612,7 @@ e_book_remove_card_by_id (EBook         *book,
 	
 	CORBA_exception_free (&ev);
 
-	e_book_queue_op (book, cb, closure);
+	e_book_queue_op (book, cb, closure, NULL);
 
 	return TRUE;
 }
@@ -670,7 +681,7 @@ e_book_add_vcard (EBook           *book,
 	CORBA_exception_init (&ev);
 
 	Evolution_Book_create_card (
-		book->priv->corba_book, vcard, &ev);
+		book->priv->corba_book, (const Evolution_VCard) vcard, &ev);
 
 	if (ev._major != CORBA_NO_EXCEPTION) {
 		g_warning ("e_book_add_vcard: Exception adding card to PAS!\n");
@@ -680,7 +691,7 @@ e_book_add_vcard (EBook           *book,
 
 	CORBA_exception_free (&ev);
 
-	e_book_queue_op (book, (EBookCallback) cb, closure);
+	e_book_queue_op (book, (EBookCallback) cb, closure, NULL);
 
 	return TRUE;
 }
@@ -749,7 +760,7 @@ e_book_commit_vcard (EBook         *book,
 	CORBA_exception_init (&ev);
 
 	Evolution_Book_modify_card (
-		book->priv->corba_book, vcard, &ev);
+		book->priv->corba_book, (const Evolution_VCard) vcard, &ev);
 
 	if (ev._major != CORBA_NO_EXCEPTION) {
 		g_warning ("e_book_commit_vcard: Exception "
@@ -760,7 +771,7 @@ e_book_commit_vcard (EBook         *book,
 
 	CORBA_exception_free (&ev);
 
-	e_book_queue_op (book, cb, closure);
+	e_book_queue_op (book, cb, closure, NULL);
 
 	return TRUE;
 }
@@ -797,9 +808,10 @@ e_book_check_connection (EBook *book)
 	return TRUE;
 }
 
-gboolean e_book_get_all_cards       (EBook         *book,
-				     EBookCursorCallback  cb,
-				     gpointer       closure)
+gboolean e_book_get_cursor       (EBook               *book,
+				  gchar               *query,
+				  EBookCursorCallback  cb,
+				  gpointer             closure)
 {
 	CORBA_Environment ev;
   
@@ -813,7 +825,7 @@ gboolean e_book_get_all_cards       (EBook         *book,
 	
 	CORBA_exception_init (&ev);
 	
-	Evolution_Book_get_all_cards (book->priv->corba_book, &ev);
+	Evolution_Book_get_cursor (book->priv->corba_book, query, &ev);
 
 	if (ev._major != CORBA_NO_EXCEPTION) {
 		g_warning ("e_book_get_all_cards: Exception "
@@ -824,7 +836,43 @@ gboolean e_book_get_all_cards       (EBook         *book,
 	
 	CORBA_exception_free (&ev);
 
-	e_book_queue_op (book, cb, closure);
+	e_book_queue_op (book, cb, closure, NULL);
+
+	return TRUE;
+}
+
+gboolean e_book_get_book_view       (EBook                 *book,
+				     gchar                 *query,
+				     EBookBookViewCallback  cb,
+				     gpointer               closure)
+{
+	CORBA_Environment ev;
+	EBookViewListener *listener;
+  
+	g_return_val_if_fail (book != NULL,     FALSE);
+	g_return_val_if_fail (E_IS_BOOK (book), FALSE);
+
+	if (book->priv->load_state != URILoaded) {
+		g_warning ("e_book_get_book_view: No URI loaded!\n");
+		return FALSE;
+	}
+
+	listener = e_book_view_listener_new();
+	
+	CORBA_exception_init (&ev);
+	
+	Evolution_Book_get_book_view (book->priv->corba_book, bonobo_object_corba_objref(BONOBO_OBJECT(listener)), query, &ev);
+
+	if (ev._major != CORBA_NO_EXCEPTION) {
+		g_warning ("e_book_get_book_view: Exception "
+			   "getting book_view!\n");
+		CORBA_exception_free (&ev);
+		return FALSE;
+	}
+	
+	CORBA_exception_free (&ev);
+
+	e_book_queue_op (book, cb, closure, listener);
 
 	return TRUE;
 }
@@ -907,33 +955,6 @@ e_book_class_init (EBookClass *klass)
 	GtkObjectClass *object_class = (GtkObjectClass *) klass;
 
 	e_book_parent_class = gtk_type_class (gtk_object_get_type ());
-
-	e_book_signals [CARD_CHANGED] =
-		gtk_signal_new ("card_changed",
-				GTK_RUN_LAST,
-				object_class->type,
-				GTK_SIGNAL_OFFSET (EBookClass, card_changed),
-				gtk_marshal_NONE__POINTER,
-				GTK_TYPE_NONE, 1,
-				GTK_TYPE_POINTER);
-
-	e_book_signals [CARD_ADDED] =
-		gtk_signal_new ("card_added",
-				GTK_RUN_LAST,
-				object_class->type,
-				GTK_SIGNAL_OFFSET (EBookClass, card_added),
-				gtk_marshal_NONE__POINTER,
-				GTK_TYPE_NONE, 1,
-				GTK_TYPE_POINTER);
-
-	e_book_signals [CARD_REMOVED] =
-		gtk_signal_new ("card_removed",
-				GTK_RUN_LAST,
-				object_class->type,
-				GTK_SIGNAL_OFFSET (EBookClass, card_removed),
-				gtk_marshal_NONE__POINTER,
-				GTK_TYPE_NONE, 1,
-				GTK_TYPE_POINTER);
 
 	e_book_signals [LINK_STATUS] =
 		gtk_signal_new ("link_status",

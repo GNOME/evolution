@@ -13,13 +13,11 @@
 #include <libgnome/gnome-defs.h>
 #include <gtk/gtk.h>
 #include "addressbook.h"
-
-typedef struct _ECardCursor        ECardCursor;
-
-#include <e-book.h>
+#include "e-card.h"
 
 BEGIN_GNOME_DECLS
 
+typedef struct _ECardCursor        ECardCursor;
 typedef struct _ECardCursorPrivate ECardCursorPrivate;
 typedef struct _ECardCursorClass   ECardCursorClass;
 

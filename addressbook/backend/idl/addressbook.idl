@@ -12,30 +12,62 @@
 module Evolution {
 
 	typedef string CardId;
+	typedef string VCard;
+	typedef sequence<VCard> VCardList;
 
 	interface CardCursor : Bonobo::Unknown {
 		long   get_length ();
 		string get_nth    (in long n);
 	};
 
+	/* 
+	 * A book view is a live view of a book.  It's either a view
+	 * of all the cards in the book or a view of a query.  When
+	 * created, it will get a series of signal_card_added calls
+	 * for all objects in the initial set.  After that, it will
+	 * get added, removed, or changed signals whenever the book
+	 * changes (if it affects the set of viewed cards.)
+	 */
+	interface BookViewListener : Bonobo::Unknown {
+		void signal_card_added (in VCardList cards);
+		void signal_card_removed (in CardId id);
+		void signal_card_changed (in VCardList cards);
+	};
+	
+	interface BookView : Bonobo::Unknown {
+	};
+
 	interface Book : Bonobo::Unknown {
 		/*
 		 * Fetching cards in the addresbook.
 		 */
-		string get_vcard (in CardId id);
+		VCard get_vcard (in CardId id);
 
 		/*
 		 * Adding and deleting cards in the book.
 		 */
-		void create_card (in string vcard);
+		void create_card (in VCard vcard);
 		void remove_card (in CardId Id);
-		    
+	        
 		/*
 		 * Modifying cards in the addressbook.
 		 */
-		void modify_card (in string vcard);
-
-		void get_all_cards ();
+		void modify_card (in VCard vcard);
+		
+		/*
+		 * These two functions return a cursor to the book
+		 * listener.  This is for people who want a snapshot
+		 * of the addressbook.  The syntax for the query
+		 * string is not yet defined.
+		 */
+		void get_cursor (in string query);
+		
+		/*
+		 * These two functions return a book view to the book
+		 * listener.  This is for people who want a live view
+		 * of the addressbook.
+		 */
+		void get_book_view(in BookViewListener listener, in string query);
 
 		void check_connection ();
 
@@ -63,6 +95,8 @@ module Evolution {
 
 		void respond_get_cursor (in CallStatus status, in CardCursor cursor);
 
+		void respond_get_view (in CallStatus status, in BookView view);
+
 		/**
 		 * report_connection_status:
 		 *
@@ -73,10 +107,6 @@ module Evolution {
 		 * being asked.
 		 */
 		void report_connection_status (in boolean connected);
-
-		void signal_card_added (in CardId id);
-		void signal_card_removed (in CardId id);
-		void signal_card_changed (in CardId id);
 	};
 
 	interface BookFactory : Bonobo::Unknown {

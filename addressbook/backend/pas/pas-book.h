@@ -15,6 +15,7 @@
 #include <bonobo/bonobo-object.h>
 #include <libgnome/gnome-defs.h>
 #include <addressbook.h>
+#include <pas-book-view.h>
 
 typedef struct _PASBook        PASBook;
 typedef struct _PASBookPrivate PASBookPrivate;
@@ -26,14 +27,17 @@ typedef enum {
 	CreateCard,
 	RemoveCard,
 	ModifyCard,
-	GetAllCards,
+	GetCursor,
+	GetBookView,
 	CheckConnection
 } PASOperation;
 
 typedef struct {
-	PASOperation  op;
-	char         *id;
-	char         *vcard;
+	PASOperation               op;
+	char                      *id;
+	char                      *vcard;
+	char                      *search;
+	Evolution_BookViewListener listener;
 } PASRequest;
 
 struct _PASBook {
@@ -50,37 +54,33 @@ typedef struct {
 
 typedef char * (*PASBookGetVCardFn) (PASBook *book, const char *id);
 
-PASBook                *pas_book_new                (PASBackend                        *backend,
-						     Evolution_BookListener             listener,
-						     PASBookGetVCardFn                  get_vcard);
-PASBackend             *pas_book_get_backend        (PASBook                           *book);
-Evolution_BookListener  pas_book_get_listener       (PASBook                           *book);
-int                     pas_book_check_pending      (PASBook                           *book);
-PASRequest             *pas_book_pop_request        (PASBook                           *book);
+PASBook                *pas_book_new                   (PASBackend                        *backend,
+						       	Evolution_BookListener             listener,
+						       	PASBookGetVCardFn                  get_vcard);
+PASBackend             *pas_book_get_backend           (PASBook                           *book);
+Evolution_BookListener  pas_book_get_listener          (PASBook                           *book);
+int                     pas_book_check_pending         (PASBook                           *book);
+PASRequest             *pas_book_pop_request           (PASBook                           *book);
 
-void                    pas_book_respond_open       (PASBook                           *book,
-						     Evolution_BookListener_CallStatus  status);
-void                    pas_book_respond_create     (PASBook                           *book,
-						     Evolution_BookListener_CallStatus  status,
-						     const char                        *id);
-void                    pas_book_respond_remove     (PASBook                           *book,
-						     Evolution_BookListener_CallStatus  status);
-void                    pas_book_respond_modify     (PASBook                           *book,
-						     Evolution_BookListener_CallStatus  status);
-void                    pas_book_respond_get_cursor (PASBook                           *book,
-						     Evolution_BookListener_CallStatus  status,
-						     PASCardCursor                     *cursor);
-void                    pas_book_report_connection  (PASBook                           *book,
-						     gboolean                           connected);
+void                    pas_book_respond_open          (PASBook                           *book,
+						       	Evolution_BookListener_CallStatus  status);
+void                    pas_book_respond_create        (PASBook                           *book,
+						       	Evolution_BookListener_CallStatus  status,
+						       	const char                        *id);
+void                    pas_book_respond_remove        (PASBook                           *book,
+						       	Evolution_BookListener_CallStatus  status);
+void                    pas_book_respond_modify        (PASBook                           *book,
+						       	Evolution_BookListener_CallStatus  status);
+void                    pas_book_respond_get_cursor    (PASBook                           *book,
+						       	Evolution_BookListener_CallStatus  status,
+						       	PASCardCursor                     *cursor);
+void                    pas_book_respond_get_book_view (PASBook                           *book,
+						     	Evolution_BookListener_CallStatus  status,
+						     	PASBookView                       *book_view);
+void                    pas_book_report_connection     (PASBook                           *book,
+						     	gboolean                           connected);
 
-void                    pas_book_notify_change      (PASBook                           *book,
-						     const char                        *id);
-void                    pas_book_notify_remove      (PASBook                           *book,
-						     const char                        *id);
-void                    pas_book_notify_add         (PASBook                           *book,
-						     const char                        *id);
-
-GtkType                 pas_book_get_type           (void);
+GtkType                 pas_book_get_type              (void);
 
 #define PAS_BOOK_TYPE        (pas_book_get_type ())
 #define PAS_BOOK(o)          (GTK_CHECK_CAST ((o), PAS_BOOK_TYPE, PASBook))

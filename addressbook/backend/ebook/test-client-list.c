@@ -30,7 +30,7 @@ get_cursor_cb (EBook *book, EBookStatus status, ECardCursor *cursor, gpointer cl
 	long length = e_card_cursor_get_length(cursor);
 	long i;
 	
-	printf ("Length: %d\n", length);
+	printf ("Length: %d\n", (int) length);
 	for ( i = 0; i < length; i++ ) {
 		ECard *card = e_card_cursor_get_nth(cursor, i);
 		char *vcard = e_card_get_vcard(card);
@@ -38,14 +38,13 @@ get_cursor_cb (EBook *book, EBookStatus status, ECardCursor *cursor, gpointer cl
 		g_free(vcard);
 		gtk_object_unref(GTK_OBJECT(card));
 	}
-	gtk_object_unref(GTK_OBJECT(cursor));
 }
 
 static void
 book_open_cb (EBook *book, EBookStatus status, gpointer closure)
 {
 	printf ("Book opened.\n");
-	e_book_get_all_cards(book, get_cursor_cb, NULL);
+	e_book_get_cursor(book, "", get_cursor_cb, NULL);
 }
 
 static guint

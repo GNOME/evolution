@@ -14,21 +14,13 @@
 #include <libgnome/gnome-defs.h>
 
 #include <e-card.h>
-
-typedef struct _EBook        EBook;
-
 #include <e-card-cursor.h>
+#include <e-book-view.h>
+#include <e-book-types.h>
 
 BEGIN_GNOME_DECLS
 
-typedef enum {
-	E_BOOK_STATUS_SUCCESS,
-	E_BOOK_STATUS_UNKNOWN,
-	E_BOOK_STATUS_REPOSITORY_OFFLINE,
-	E_BOOK_STATUS_PERMISSION_DENIED,
-	E_BOOK_STATUS_CARD_NOT_FOUND
-} EBookStatus;
-
+typedef struct _EBook        EBook;
 typedef struct _EBookClass   EBookClass;
 typedef struct _EBookPrivate EBookPrivate;
 
@@ -58,6 +50,7 @@ typedef void (*EBookOpenProgressCallback)     (EBook          *book,
 					       gpointer        closure);
 typedef void (*EBookIdCallback) (EBook *book, EBookStatus status, const char *id, gpointer closure);
 typedef void (*EBookCursorCallback) (EBook *book, EBookStatus status, ECardCursor *cursor, gpointer closure);
+typedef void (*EBookBookViewCallback) (EBook *book, EBookStatus status, EBookView *book_view, gpointer closure);
 
 
 /* Creating a new addressbook. */
@@ -107,9 +100,15 @@ gboolean  e_book_commit_vcard       (EBook         *book,
 /* Checking to see if we're connected to the card repository. */
 gboolean  e_book_check_connection   (EBook         *book);
 
-gboolean e_book_get_all_cards       (EBook         *book,
+gboolean e_book_get_cursor          (EBook               *book,
+				     char                *query,
 				     EBookCursorCallback  cb,
-				     gpointer       closure);
+				     gpointer             closure);
+
+gboolean e_book_get_book_view       (EBook                 *book,
+				     char                  *query,
+				     EBookBookViewCallback  cb,
+				     gpointer               closure);
 
 /* Getting the name of the repository. */
 char     *e_book_get_name           (EBook         *book);

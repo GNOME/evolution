@@ -115,8 +115,8 @@ e_card_get_type (void)
  *
  * Returns: a new #ECard that wraps the @vcard.
  */
-ECard
-*e_card_new (char *vcard)
+ECard *
+e_card_new (char *vcard)
 {
 	ECard *card = E_CARD(gtk_type_new(e_card_get_type()));
 	VObject *vobj = Parse_MIME(vcard, strlen(vcard));

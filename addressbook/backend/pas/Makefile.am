@@ -40,19 +40,21 @@ pas_libs = 						\
 
 libpas_la_SOURCES =					\
 	$(CORBA_SOURCE)					\
-	pas-book.c					\
 	pas-book-factory.c				\
-	pas-backend.c					\
+	pas-book-view.c					\
+	pas-book.c					\
 	pas-backend-file.c				\
+	pas-backend.c					\
 	pas-card-cursor.c
 
 libpasincludedir = $(includedir)/backend
 
 libpasinclude_HEADERS =					\
-	pas-book.h					\
 	pas-book-factory.h				\
-	pas-backend.h					\
+	pas-book-view.h					\
+	pas-book.h					\
 	pas-backend-file.h				\
+	pas-backend.h					\
 	pas-card-cursor.h
 
 wombat_SOURCES =					\

@@ -14,26 +14,28 @@
 
 #include <libgnome/gnome-defs.h>
 #include <bonobo/bonobo-object.h>
-#include <e-book.h>
 #include <addressbook.h>
+#include <e-book-types.h>
 
 BEGIN_GNOME_DECLS
 
+typedef struct _EBookListener EBookListener;
+typedef struct _EBookListenerClass EBookListenerClass;
 typedef struct _EBookListenerPrivate EBookListenerPrivate;
 
-typedef struct {
+struct _EBookListener {
 	BonoboObject           parent;
 	EBookListenerPrivate *priv;
-} EBookListener;
+};
 
-typedef struct {
+struct _EBookListenerClass {
 	BonoboObjectClass parent;
 
 	/*
 	 * Signals
 	 */
 	void (*responses_queued) (void);
-} EBookListenerClass;
+};
 
 typedef enum {
 	/* Async responses */
@@ -42,11 +44,9 @@ typedef enum {
 	RemoveCardResponse,
 	ModifyCardResponse,
 	GetCursorResponse,
+	GetBookViewResponse,
 
 	/* Async events */
-	CardAddedEvent,
-	CardRemovedEvent,
-	CardModifiedEvent,
 	LinkStatusEvent,
 	OpenProgressEvent,
 } EBookListenerOperation;
@@ -63,6 +63,9 @@ typedef struct {
 	/* For GetCursorResponse */
 	Evolution_CardCursor    cursor;
 
+	/* For GetBookViewReponse */
+	Evolution_BookView      book_view;
+
 	/* For OpenProgressEvent */
 	char                   *msg;
 	short                   percent;
@@ -74,8 +77,7 @@ typedef struct {
 	char                   *id;
 } EBookListenerResponse;
 
-EBookListener         *e_book_listener_new            (EBook         *book);
-EBook                 *e_book_listener_get_book       (EBookListener *listener);
+EBookListener         *e_book_listener_new            (void);
 int                    e_book_listener_check_pending  (EBookListener *listener);
 EBookListenerResponse *e_book_listener_pop_response   (EBookListener *listener);
 GtkType                e_book_listener_get_type       (void);

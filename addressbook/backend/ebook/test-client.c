@@ -67,7 +67,6 @@ get_cursor_cb (EBook *book, EBookStatus status, ECardCursor *cursor, gpointer cl
 		g_free(vcard);
 		gtk_object_unref(GTK_OBJECT(card));
 	}
-	gtk_object_unref(GTK_OBJECT(cursor));
 }
 
 static void
@@ -93,7 +92,7 @@ add_card_cb (EBook *book, EBookStatus status, const gchar *id, gpointer closure)
 	gtk_object_unref(GTK_OBJECT(card));
 
 	printf ("Getting cards..\n");
-	e_book_get_all_cards(book, get_cursor_cb, NULL);
+	e_book_get_cursor(book, "", get_cursor_cb, NULL);
 	printf ("Done getting all cards.\n");	
 }
 
