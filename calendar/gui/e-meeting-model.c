@@ -378,9 +378,6 @@ append_row (ETableModel *etm, ETableModel *source, int row)
 	e_meeting_attendee_set_language (ia, g_strdup (e_table_model_value_at (source, ITIP_LANGUAGE_COL, row)));
 
 	e_meeting_model_add_attendee (E_MEETING_MODEL (etm), ia);
-
-//	comp_editor_page_notify_needs_send (COMP_EDITOR_PAGE (im));
-//	comp_editor_page_notify_changed (COMP_EDITOR_PAGE (im));
 }
 
 static void *
@@ -465,9 +462,6 @@ set_value_at (ETableModel *etm, int col, int row, const void *val)
 		e_meeting_attendee_set_language (ia, g_strdup (val));
 		break;
 	}
-
-//	comp_editor_page_notify_needs_send (COMP_EDITOR_PAGE (im));
-//	comp_editor_page_notify_changed (COMP_EDITOR_PAGE (im));
 }
 
 static gboolean
@@ -735,11 +729,13 @@ build_etable (ETableModel *model, const gchar *spec_file, const gchar *state_fil
 	e_scroll_frame_set_scrollbar_spacing (E_SCROLL_FRAME (etable), 0);
 	e_table_load_state (real_table, state_file);
 
-//	gtk_signal_connect (GTK_OBJECT (real_table),
-//			    "right_click", GTK_SIGNAL_FUNC (right_click_cb), mpage);
-//	gtk_signal_connect (GTK_OBJECT (real_table->sort_info),
-//			    "sort_info_changed", GTK_SIGNAL_FUNC (sort_info_changed_cb), mts);
-	
+#if 0
+	gtk_signal_connect (GTK_OBJECT (real_table),
+			    "right_click", GTK_SIGNAL_FUNC (right_click_cb), mpage);
+	gtk_signal_connect (GTK_OBJECT (real_table->sort_info),
+			    "sort_info_changed", GTK_SIGNAL_FUNC (sort_info_changed_cb), mts);
+#endif
+
 	gtk_object_unref (GTK_OBJECT (extras));
 	
 	return E_TABLE_SCROLLED (etable);

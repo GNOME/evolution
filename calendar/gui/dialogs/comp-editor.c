@@ -265,6 +265,78 @@ comp_editor_destroy (GtkObject *object)
 
 
 /**
+ * comp_editor_set_changed:
+ * @editor: A component editor
+ * @changed: Value to set the changed state to
+ * 
+ * Set the dialog changed state to the given value
+ **/
+void
+comp_editor_set_changed (CompEditor *editor, gboolean changed)
+{
+	CompEditorPrivate *priv;
+	
+	priv = editor->priv;
+	
+	priv->changed = changed;	
+}
+
+/**
+ * comp_editor_get_changed:
+ * @editor: A component editor
+ * 
+ * Gets the changed state of the dialog
+ * 
+ * Return value: A boolean indicating if the dialog is in a changed
+ * state
+ **/
+gboolean
+comp_editor_get_changed (CompEditor *editor)
+{
+	CompEditorPrivate *priv;
+	
+	priv = editor->priv;
+	
+	return priv->changed;	
+}
+
+/**
+ * comp_editor_set_needs_send:
+ * @editor: A component editor
+ * @needs_send: Value to set the needs send state to
+ * 
+ * Set the dialog needs send state to the given value
+ **/
+void
+comp_editor_set_needs_send (CompEditor *editor, gboolean needs_send)
+{
+	CompEditorPrivate *priv;
+	
+	priv = editor->priv;
+	
+	priv->needs_send = needs_send;
+}
+
+/**
+ * comp_editor_get_needs_send:
+ * @editor: A component editor
+ * 
+ * Gets the needs send state of the dialog
+ * 
+ * Return value: A boolean indicating if the dialog is in a needs send
+ * state
+ **/
+gboolean
+comp_editor_get_needs_send (CompEditor *editor)
+{
+	CompEditorPrivate *priv;
+	
+	priv = editor->priv;
+	
+	return priv->needs_send;
+}
+
+/**
  * comp_editor_append_page:
  * @editor: A component editor
  * @page: A component editor page

@@ -87,9 +87,6 @@ static void schedule_page_focus_main_widget (CompEditorPage *page);
 static void schedule_page_fill_widgets (CompEditorPage *page, CalComponent *comp);
 static void schedule_page_fill_component (CompEditorPage *page, CalComponent *comp);
 
-static void model_row_changed_cb (ETableModel *etm, int row, gpointer data);
-static void row_count_changed_cb (ETableModel *etm, int row, int count, gpointer data);
-
 static CompEditorPageClass *parent_class = NULL;
 
 
@@ -235,7 +232,6 @@ schedule_page_fill_widgets (CompEditorPage *page, CalComponent *comp)
 {
 	SchedulePage *spage;
 	SchedulePagePrivate *priv;
-	GSList *attendees;
 	
 	spage = SCHEDULE_PAGE (page);
 	priv = spage->priv;
@@ -244,15 +240,6 @@ schedule_page_fill_widgets (CompEditorPage *page, CalComponent *comp)
 
 	/* Clean the screen */
 	clear_widgets (spage);
-
-	/* Attendees */
-	cal_component_get_attendee_list (comp, &attendees);
-
-	/* So the comp editor knows we need to send if anything changes */
-	if (attendees != NULL)
-		comp_editor_page_notify_needs_send (COMP_EDITOR_PAGE (spage));
-
-	cal_component_free_attendee_list (attendees);
 
 	priv->updating = FALSE;
 }
@@ -290,22 +277,6 @@ get_widgets (SchedulePage *spage)
 #undef GW
 
 	return TRUE;
-}
-
-/* Hooks the widget signals */
-static void
-init_widgets (SchedulePage *spage)
-{
-	SchedulePagePrivate *priv;
-
-	priv = spage->priv;
-
-	gtk_signal_connect (GTK_OBJECT (priv->model), "model_row_changed",
-			    GTK_SIGNAL_FUNC (model_row_changed_cb), spage);
-	gtk_signal_connect (GTK_OBJECT (priv->model), "model_rows_inserted",
-			    GTK_SIGNAL_FUNC (row_count_changed_cb), spage);
-	gtk_signal_connect (GTK_OBJECT (priv->model), "model_rows_deleted",
-			    GTK_SIGNAL_FUNC (row_count_changed_cb), spage);
 }
 
 
@@ -349,9 +320,6 @@ schedule_page_construct (SchedulePage *spage, EMeetingModel *emm)
 	gtk_widget_show (GTK_WIDGET (priv->sel));
 	gtk_box_pack_start (GTK_BOX (priv->main), GTK_WIDGET (priv->sel), TRUE, TRUE, 2);
 
-	/* Init the widget signals */
-	init_widgets (spage);
-
 	return spage;
 }
 
@@ -375,28 +343,4 @@ schedule_page_new (EMeetingModel *emm)
 	}
 
 	return spage;
-}
-
-static void
-model_row_changed_cb (ETableModel *etm, int row, gpointer data)
-{
-	SchedulePage *spage = SCHEDULE_PAGE (data);
-	SchedulePagePrivate *priv;
-	
-	priv = spage->priv;
-	
-	if (!priv->updating)
-		comp_editor_page_notify_changed (COMP_EDITOR_PAGE (spage));
-}
-
-static void
-row_count_changed_cb (ETableModel *etm, int row, int count, gpointer data)
-{
-	SchedulePage *spage = SCHEDULE_PAGE (data);
-	SchedulePagePrivate *priv;
-	
-	priv = spage->priv;
-	
-	if (!priv->updating)
-		comp_editor_page_notify_changed (COMP_EDITOR_PAGE (spage));
 }

@@ -348,7 +348,6 @@ meeting_page_fill_widgets (CompEditorPage *page, CalComponent *comp)
 	MeetingPage *mpage;
 	MeetingPagePrivate *priv;
 	CalComponentOrganizer organizer;
-	GSList *attendees;
 	GList *l;
 	
 	mpage = MEETING_PAGE (page);
@@ -399,12 +398,6 @@ meeting_page_fill_widgets (CompEditorPage *page, CalComponent *comp)
 
 		e_dialog_editable_set (GTK_COMBO (priv->organizer)->entry, priv->default_address);
 	}
-
-	/* So the comp editor knows we need to send if anything changes */
-	cal_component_get_attendee_list (comp, &attendees);
-	if (attendees != NULL)
-		comp_editor_page_notify_needs_send (COMP_EDITOR_PAGE (mpage));
-	cal_component_free_attendee_list (attendees);
 
 	priv->updating = FALSE;
 }
@@ -561,9 +554,6 @@ invite_entry_changed (BonoboListener    *listener,
 			else if (!strcmp (section, _("Non-Participants")))
 				e_meeting_attendee_set_role (ia, ICAL_ROLE_NONPARTICIPANT);
 			e_meeting_attendee_set_cn (ia, g_strdup (name));
-
- 			comp_editor_page_notify_needs_send (COMP_EDITOR_PAGE (mpage));
- 			comp_editor_page_notify_changed (COMP_EDITOR_PAGE (mpage));
 		}
 	}
 	e_destination_freev (destv);

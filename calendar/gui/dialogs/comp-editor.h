@@ -58,7 +58,12 @@ typedef struct {
 } CompEditorClass;
 
 GtkType       comp_editor_get_type         (void);
-CompEditor   *comp_editor_new              (void);
+void          comp_editor_set_changed      (CompEditor             *editor,
+					    gboolean                changed);
+gboolean      comp_editor_get_changed      (CompEditor             *editor);
+void          comp_editor_set_needs_send   (CompEditor             *editor,
+					    gboolean                needs_send);
+gboolean      comp_editor_get_needs_send   (CompEditor             *editor);
 void          comp_editor_append_page      (CompEditor             *editor,
 					    CompEditorPage         *page,
 					    const char             *label);
@@ -84,6 +89,7 @@ void          comp_editor_set_ui_prop      (CompEditor             *editor,
 					    const char             *attr,
 					    const char             *val);
 void          comp_editor_focus            (CompEditor             *editor);
+
 
 
 

@@ -1,3 +1,52 @@
+2001-09-19  JP Rosevear  <jpr@ximian.com>
+
+	* gui/dialogs/task-editor.c (init_widgets): listen for model
+	changes
+	(task_editor_edit_comp): add the attendees to the model and notify
+	of need send
+	(row_count_changed_cb): mark as changed when row added/deleted
+	(model_row_changed_cb): mark as changed when row changes
+	
+	* gui/dialogs/event-editor.c (init_widgets): listen for model
+	changes
+	(event_editor_init): flip page order
+	(event_editor_edit_comp): set needs send value
+	(schedule_meeting_cmd): flip page order
+	(row_count_changed_cb): mark as changed when row added/deleted
+	(model_row_changed_cb): mark as changed when row changes
+	
+	* gui/dialogs/schedule-page.c: remove model change notification
+	stuff
+	(schedule_page_fill_widgets): no need to do the needs_send here
+	because the editor handles this since it owns the model
+
+	* gui/dialogs/event-editor.c (init_widgets): listen for model
+	changes
+	(event_editor_init): flip page order
+	(event_editor_edit_comp): set needs send value
+	(schedule_meeting_cmd): flip page order
+	(row_count_changed_cb): mark as changed when row added/deleted
+	(model_row_changed_cb): mark as changed when row changes
+
+	* gui/dialogs/meeting-page.c (meeting_page_fill_widgets): no need
+	to do the needs_send here because the editor handles this since it
+	owns the model
+	(invite_entry_changed): ditto
+
+	* gui/dialogs/comp-editor.c (comp_editor_set_changed): new
+	accessor
+	(comp_editor_get_changed): ditto
+	(comp_editor_set_needs_send): ditto
+	(comp_editor_get_needs_send): ditto
+
+	* gui/dialogs/comp-editor.h: new protos
+
+	* gui/itip-utils.c (itip_addresses_get): reflect configuration
+	path changes in the mailer
+
+	* gui/e-meeting-model.c: remove commented out code, ifdef one
+	section for later
+
 2001-09-19  Rodrigo Moya <rodrigo@ximian.com>
 
 	* pcs/cal-factory.c (cal_factory_oaf_register): add a new parameter

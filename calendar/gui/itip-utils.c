@@ -84,8 +84,7 @@ itip_addresses_get (void)
 	static Bonobo_ConfigDatabase db = NULL;
 	CORBA_Environment ev;
 	GList *addresses = NULL;
-	gboolean have_default = FALSE;
-	gint len, i;
+	gint len, def, i;
 
 	if (db == NULL) {
 		CORBA_exception_init (&ev);
@@ -103,6 +102,7 @@ itip_addresses_get (void)
 	}
 	
 	len = bonobo_config_get_long_with_default (db, "/Mail/Accounts/num", 0, NULL);
+	def = bonobo_config_get_long_with_default (db, "/Mail/Accounts/default_account", 0, NULL);
 
 	for (i = 0; i < len; i++) {
 		ItipAddress *a;
@@ -119,24 +119,13 @@ itip_addresses_get (void)
 		a->address = bonobo_config_get_string (db, path, NULL);
 		g_free (path);
 
-		path = g_strdup_printf ("/Mail/Accounts/account_is_default_%d", i);
-		a->default_address = !have_default && bonobo_config_get_boolean (db, path, NULL);
-
-		if (a->default_address)
-			have_default = TRUE;
-		g_free (path);
+		if (i == def)
+			a->default_address = TRUE;
 
 		a->full = g_strdup_printf ("%s <%s>", a->name, a->address);
 		addresses = g_list_append (addresses, a);
 	}
 
-	/* If nothing was marked as default */
-	if (!have_default && addresses != NULL) {
-		ItipAddress *a = addresses->data;
-		
-		a->default_address = TRUE;
-	}
-	
 	return addresses;
 }
 

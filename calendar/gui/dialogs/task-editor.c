@@ -44,6 +44,7 @@ struct _TaskEditorPrivate {
 	EMeetingModel *model;
 	
 	gboolean meeting_shown;
+	gboolean updating;	
 };
 
 
@@ -57,6 +58,9 @@ static void assign_task_cmd (GtkWidget *widget, gpointer data);
 static void refresh_task_cmd (GtkWidget *widget, gpointer data);
 static void cancel_task_cmd (GtkWidget *widget, gpointer data);
 static void forward_cmd (GtkWidget *widget, gpointer data);
+
+static void model_row_changed_cb (ETableModel *etm, int row, gpointer data);
+static void row_count_changed_cb (ETableModel *etm, int row, int count, gpointer data);
 
 static BonoboUIVerb verbs [] = {
 	BONOBO_UI_UNSAFE_VERB ("ActionAssignTask", assign_task_cmd),
@@ -138,7 +142,22 @@ set_menu_sens (TaskEditor *te)
 				 "sensitive", priv->meeting_shown ? "1" : "0");
 }
 
-/* Object initialization function for the event editor */
+static void
+init_widgets (TaskEditor *te)
+{
+	TaskEditorPrivate *priv;
+
+	priv = te->priv;
+
+	gtk_signal_connect (GTK_OBJECT (priv->model), "model_row_changed",
+			    GTK_SIGNAL_FUNC (model_row_changed_cb), te);
+	gtk_signal_connect (GTK_OBJECT (priv->model), "model_rows_inserted",
+			    GTK_SIGNAL_FUNC (row_count_changed_cb), te);
+	gtk_signal_connect (GTK_OBJECT (priv->model), "model_rows_deleted",
+			    GTK_SIGNAL_FUNC (row_count_changed_cb), te);
+}
+
+/* Object initialization function for the task editor */
 static void
 task_editor_init (TaskEditor *te)
 {
@@ -169,6 +188,9 @@ task_editor_init (TaskEditor *te)
 			      verbs);
 
 	priv->meeting_shown = TRUE;
+	priv->updating = FALSE;	
+
+	init_widgets (te);
 	set_menu_sens (te);
 }
 
@@ -182,14 +204,32 @@ task_editor_edit_comp (CompEditor *editor, CalComponent *comp)
 	te = TASK_EDITOR (editor);
 	priv = te->priv;
 
+	priv->updating = TRUE;
+
 	cal_component_get_attendee_list (comp, &attendees);
 	if (attendees == NULL) {
 		comp_editor_remove_page (editor, COMP_EDITOR_PAGE (priv->meet_page));
 		priv->meeting_shown = FALSE;
 		set_menu_sens (te);
+	} else {
+		GSList *l;
+
+		for (l = attendees; l != NULL; l = l->next) {
+			CalComponentAttendee *ca = l->data;
+			EMeetingAttendee *ia = E_MEETING_ATTENDEE (e_meeting_attendee_new_from_cal_component_attendee (ca));
+			
+			e_meeting_model_add_attendee (priv->model, ia);
+			gtk_object_unref (GTK_OBJECT (ia));
+		}
+		priv->meeting_shown = TRUE;		
 	}
 	cal_component_free_attendee_list (attendees);
 
+	set_menu_sens (te);
+	comp_editor_set_needs_send (COMP_EDITOR (te), priv->meeting_shown);
+
+	priv->updating = FALSE;
+	
 	if (parent_class->edit_comp)
 		parent_class->edit_comp (editor, comp);
 }
@@ -244,7 +284,9 @@ assign_task_cmd (GtkWidget *widget, gpointer data)
 					 COMP_EDITOR_PAGE (priv->meet_page),
 					 _("Assignment"));
 		priv->meeting_shown = TRUE;
+
 		set_menu_sens (te);
+		comp_editor_set_needs_send (COMP_EDITOR (te), priv->meeting_shown);
 	}
 
 	comp_editor_show_page (COMP_EDITOR (te),
@@ -282,4 +324,26 @@ forward_cmd (GtkWidget *widget, gpointer data)
 	comp_editor_send_comp (COMP_EDITOR (te), CAL_COMPONENT_METHOD_PUBLISH);
 }
 
+static void
+model_row_changed_cb (ETableModel *etm, int row, gpointer data)
+{
+	TaskEditor *te = TASK_EDITOR (data);
+	TaskEditorPrivate *priv;
+	
+	priv = te->priv;
+	
+	if (!priv->updating)
+		comp_editor_set_changed (COMP_EDITOR (te), TRUE);
+}
 
+static void
+row_count_changed_cb (ETableModel *etm, int row, int count, gpointer data)
+{
+	TaskEditor *te = TASK_EDITOR (data);
+	TaskEditorPrivate *priv;
+	
+	priv = te->priv;
+	
+	if (!priv->updating)
+		comp_editor_set_changed (COMP_EDITOR (te), TRUE);
+}

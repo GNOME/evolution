@@ -49,6 +49,7 @@ struct _EventEditorPrivate {
 	EMeetingModel *model;
 	
 	gboolean meeting_shown;
+	gboolean updating;	
 };
 
 
@@ -64,6 +65,9 @@ static void schedule_meeting_cmd (GtkWidget *widget, gpointer data);
 static void refresh_meeting_cmd (GtkWidget *widget, gpointer data);
 static void cancel_meeting_cmd (GtkWidget *widget, gpointer data);
 static void forward_cmd (GtkWidget *widget, gpointer data);
+
+static void model_row_changed_cb (ETableModel *etm, int row, gpointer data);
+static void row_count_changed_cb (ETableModel *etm, int row, int count, gpointer data);
 
 static BonoboUIVerb verbs [] = {
 	BONOBO_UI_UNSAFE_VERB ("ActionScheduleMeeting", schedule_meeting_cmd),
@@ -147,6 +151,21 @@ set_menu_sens (EventEditor *ee)
 				 "sensitive", priv->meeting_shown ? "1" : "0");
 }
 
+static void
+init_widgets (EventEditor *ee)
+{
+	EventEditorPrivate *priv;
+
+	priv = ee->priv;
+
+	gtk_signal_connect (GTK_OBJECT (priv->model), "model_row_changed",
+			    GTK_SIGNAL_FUNC (model_row_changed_cb), ee);
+	gtk_signal_connect (GTK_OBJECT (priv->model), "model_rows_inserted",
+			    GTK_SIGNAL_FUNC (row_count_changed_cb), ee);
+	gtk_signal_connect (GTK_OBJECT (priv->model), "model_rows_deleted",
+			    GTK_SIGNAL_FUNC (row_count_changed_cb), ee);
+}
+
 /* Object initialization function for the event editor */
 static void
 event_editor_init (EventEditor *ee)
@@ -173,22 +192,25 @@ event_editor_init (EventEditor *ee)
 	
 	priv->model = E_MEETING_MODEL (e_meeting_model_new ());
 	
-	priv->meet_page = meeting_page_new (priv->model);
-	comp_editor_append_page (COMP_EDITOR (ee),
-				 COMP_EDITOR_PAGE (priv->meet_page),
-				 _("Meeting"));
-
 	priv->sched_page = schedule_page_new (priv->model);
 	comp_editor_append_page (COMP_EDITOR (ee),
 				 COMP_EDITOR_PAGE (priv->sched_page),
 				 _("Scheduling"));
 
+	priv->meet_page = meeting_page_new (priv->model);
+	comp_editor_append_page (COMP_EDITOR (ee),
+				 COMP_EDITOR_PAGE (priv->meet_page),
+				 _("Meeting"));
+
  	comp_editor_merge_ui (COMP_EDITOR (ee), EVOLUTION_DATADIR 
  			      "/gnome/ui/evolution-event-editor.xml",
  			      verbs);
-	
+
 	priv->meeting_shown = TRUE;
-	set_menu_sens (ee);
+	priv->updating = FALSE;	
+
+	init_widgets (ee);
+	set_menu_sens (ee);	
 }
 
 static void
@@ -216,15 +238,17 @@ event_editor_edit_comp (CompEditor *editor, CalComponent *comp)
 	ee = EVENT_EDITOR (editor);
 	priv = ee->priv;
 	
+	priv->updating = TRUE;
+	
 	cal_component_get_attendee_list (comp, &attendees);
 	if (attendees == NULL) {
 		comp_editor_remove_page (editor, COMP_EDITOR_PAGE (priv->meet_page));
 		comp_editor_remove_page (editor, COMP_EDITOR_PAGE (priv->sched_page));
 		e_meeting_model_remove_all_attendees (priv->model);
 		priv->meeting_shown = FALSE;
-		set_menu_sens (ee);
 	} else {
 		GSList *l;
+
 		for (l = attendees; l != NULL; l = l->next) {
 			CalComponentAttendee *ca = l->data;
 			EMeetingAttendee *ia = E_MEETING_ATTENDEE (e_meeting_attendee_new_from_cal_component_attendee (ca));
@@ -232,9 +256,15 @@ event_editor_edit_comp (CompEditor *editor, CalComponent *comp)
 			e_meeting_model_add_attendee (priv->model, ia);
 			gtk_object_unref (GTK_OBJECT (ia));
 		}
+		priv->meeting_shown = TRUE;		
 	}	
 	cal_component_free_attendee_list (attendees);
-		
+
+	set_menu_sens (ee);
+	comp_editor_set_needs_send (COMP_EDITOR (ee), priv->meeting_shown);
+	
+	priv->updating = FALSE;
+	
 	if (parent_class->edit_comp)
 		parent_class->edit_comp (editor, comp);
 }
@@ -311,13 +341,15 @@ schedule_meeting_cmd (GtkWidget *widget, gpointer data)
 
 	if (!priv->meeting_shown) {
 		comp_editor_append_page (COMP_EDITOR (ee),
-					 COMP_EDITOR_PAGE (priv->meet_page),
-					 _("Meeting"));
-		comp_editor_append_page (COMP_EDITOR (ee),
 					 COMP_EDITOR_PAGE (priv->sched_page),
 					 _("Scheduling"));
+		comp_editor_append_page (COMP_EDITOR (ee),
+					 COMP_EDITOR_PAGE (priv->meet_page),
+					 _("Meeting"));
 		priv->meeting_shown = TRUE;
+
 		set_menu_sens (ee);
+		comp_editor_set_needs_send (COMP_EDITOR (ee), priv->meeting_shown);
 	}
 	
 	comp_editor_show_page (COMP_EDITOR (ee),
@@ -355,3 +387,26 @@ forward_cmd (GtkWidget *widget, gpointer data)
 	comp_editor_send_comp (COMP_EDITOR (ee), CAL_COMPONENT_METHOD_PUBLISH);
 }
 
+static void
+model_row_changed_cb (ETableModel *etm, int row, gpointer data)
+{
+	EventEditor *ee = EVENT_EDITOR (data);
+	EventEditorPrivate *priv;
+	
+	priv = ee->priv;
+	
+	if (!priv->updating)
+		comp_editor_set_changed (COMP_EDITOR (ee), TRUE);
+}
+
+static void
+row_count_changed_cb (ETableModel *etm, int row, int count, gpointer data)
+{
+	EventEditor *ee = EVENT_EDITOR (data);
+	EventEditorPrivate *priv;
+	
+	priv = ee->priv;
+	
+	if (!priv->updating)
+		comp_editor_set_changed (COMP_EDITOR (ee), TRUE);
+}
