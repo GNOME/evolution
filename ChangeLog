@@ -1,3 +1,13 @@
+1999-08-17  bertrand  <Bertrand.Guiheneuf@aful.org>
+
+	* camel/camel-stream.c (camel_stream_read): 
+	return the number of bytes read. 
+	How can this have ever worked ?
+	(camel_stream_flush): don't return anything.
+
+	* camel/gmime-utils.c (get_header_table_from_stream): 
+	mem leak fixed.
+
 1999-08-16  bertrand  <Bertrand.Guiheneuf@aful.org>
 
 	* tests/ui-tests/store_listing.c:

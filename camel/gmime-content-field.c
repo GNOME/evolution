@@ -126,7 +126,7 @@ gmime_content_field_unref (GMimeContentField *content_field)
  * or valid parameters name depend on the content type object. For example, 
  * gmime_content_field_set_parameter (cf, "charset", "us-ascii");
  * will make sense for a "text/plain" content field but not for a 
- * "image/gif". This routine does not check parameter validuty.
+ * "image/gif". This routine does not check parameter validity.
  **/
 void 
 gmime_content_field_set_parameter (GMimeContentField *content_field, const gchar *attribute, const gchar *value)
@@ -356,6 +356,8 @@ gmime_content_field_construct_from_string (GMimeContentField *content_field, con
 			CAMEL_LOG_TRACE ( "GMimeContentField::construct_from_string, Found mime parameter \"%s\"=\"%s\"\n", param_name, param_value);
 			string_trim (param_value, " \t", STRING_TRIM_STRIP_TRAILING | STRING_TRIM_STRIP_LEADING);
 			gmime_content_field_set_parameter (content_field, param_name, param_value);
+			g_free (param_name);
+			g_free (param_value);
 			i++;
 			first = i;
 		}

@@ -136,11 +136,11 @@ string_dichotomy (const gchar *string, gchar sep, gchar **prefix, gchar **suffix
 		}
 	CAMEL_LOG_FULL_DEBUG ("string_dichotomy: separator found at :%d\n", sep_pos);
 	if (prefix) { /* return the prefix */
-		*prefix = g_strndup(string+first,sep_pos-first);
+		*prefix = g_strndup (string+first,sep_pos-first);
 		CAMEL_LOG_FULL_DEBUG ( "string_dichotomy:: prefix:\"%s\"\n", *prefix);
 	}
 	if (suffix) { /* return the suffix */
-		*suffix = g_strndup(string+sep_pos+1, last-sep_pos);
+		*suffix = g_strndup (string+sep_pos+1, last-sep_pos);
 		CAMEL_LOG_FULL_DEBUG ( "string_dichotomy:: suffix:\"%s\"\n", *suffix);
 	}
 	 

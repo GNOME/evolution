@@ -113,6 +113,8 @@ _store_header_pair_from_string (GHashTable *header_table, gchar *header_line)
 {
 	gchar dich_result;
 	gchar *header_name, *header_value;
+	gboolean key_exists;
+	gchar *old_header_name, *old_header_value;
 	
 	CAMEL_LOG_FULL_DEBUG ( "_store_header_pair_from_string:: Entering\n");
 	g_assert (header_table);
@@ -121,15 +123,23 @@ _store_header_pair_from_string (GHashTable *header_table, gchar *header_line)
 		dich_result = string_dichotomy ( header_line, ':', 
 						   &header_name, &header_value,
 						   STRING_DICHOTOMY_NONE);
-		if (dich_result != 'o')
+		if (dich_result != 'o') {
 			CAMEL_LOG_WARNING (
 					   "** WARNING **\n"
 					   "store_header_pair_from_string : dichotomy result is '%c'\n"
 					   "header line is :\n--\n%s\n--\n"
 					   "** \n", dich_result, header_line);	
-		else {
+			if (header_name) 
+				g_free (header_name);
+			if (header_value) 
+				g_free (header_value);
+			
+		} else {
 			string_trim (header_value, " \t",
 				     STRING_TRIM_STRIP_LEADING | STRING_TRIM_STRIP_TRAILING);
+			key_exists = g_hash_table_lookup_extended (header_table, header_name, &old_header_name, &old_header_name);
+			if (key_exists)
+				printf ("-------- Key %s already exists /n", header_name);
 			g_hash_table_insert (header_table, header_name, header_value);
 		}
 	}
@@ -186,9 +196,8 @@ get_header_table_from_stream (CamelStream *stream)
 					}
 					
 				default:
-					if (!crlf) header_line = g_string_append_c (header_line, next_char);
-					
-else end_of_header_line = TRUE;
+					if (!crlf) header_line = g_string_append_c (header_line, next_char);					
+					else end_of_header_line = TRUE;
 				}
 			} else {
 				end_of_file=TRUE;
@@ -201,8 +210,8 @@ else end_of_header_line = TRUE;
 
 		} while ( !end_of_header_line );
 		if ( strlen(header_line->str) ) {
-			str_header_line = g_strdup (header_line->str);
-			_store_header_pair_from_string (header_table, str_header_line);			
+			/*  str_header_line = g_strdup (header_line->str); */
+			_store_header_pair_from_string (header_table, header_line->str);			
 		}
 		g_string_free (header_line, FALSE);
 

@@ -220,7 +220,7 @@ _remove_part_at (CamelMultipart *multipart, guint index)
 
 	if (!(multipart->parts)) {
 		CAMEL_LOG_FULL_DEBUG ("CamelMultipart::remove_part_at part list is void \n");
-		return;
+		return NULL;
 	}
 
 	parts_list = multipart->parts;
@@ -337,7 +337,7 @@ _get_boundary (CamelMultipart *multipart)
 	CAMEL_LOG_FULL_DEBUG ("Entering CamelMultipart::_get_boundary\n");
 	if (!CAMEL_DATA_WRAPPER (multipart)->mime_type) {
 		CAMEL_LOG_WARNING ("CamelMultipart::_get_boundary CAMEL_DATA_WRAPPER (multipart)->mime_type is NULL\n");
-		return;
+		return NULL;
 	}
 	boundary = gmime_content_field_get_parameter (CAMEL_DATA_WRAPPER (multipart)->mime_type, "boundary");
 	CAMEL_LOG_FULL_DEBUG ("Leaving CamelMultipart::_get_boundary\n");
@@ -415,7 +415,7 @@ _write_to_stream (CamelDataWrapper *data_wrapper, CamelStream *stream)
 static gboolean
 _read_part (CamelStream *new_part_stream, CamelStream *stream, gchar *normal_boundary, gchar *end_boundary)
 {
-	gchar *new_line;
+	gchar *new_line = NULL;
 	gboolean end_of_part = FALSE;
 	gboolean last_part = FALSE;
 	gboolean first_line = TRUE;
@@ -436,10 +436,12 @@ _read_part (CamelStream *new_part_stream, CamelStream *stream, gchar *normal_bou
 				first_line = FALSE;
 				camel_stream_write_string (new_part_stream, new_line);
 			} else camel_stream_write_strings (new_part_stream, "\n", new_line, NULL);
-
+			g_free (new_line);
 			new_line = gmime_read_line_from_stream (stream);
 		}
 	}
+	if (new_line) g_free (new_line);
+
 	CAMEL_LOG_FULL_DEBUG ("CamelMultipart:: Leaving _read_part\n");
 	return (last_part || (new_line == NULL));
 }
@@ -466,7 +468,8 @@ _construct_from_stream (CamelDataWrapper *data_wrapper, CamelStream *stream)
 	/* read the prefix if any */
 	new_part_stream = camel_stream_mem_new (CAMEL_STREAM_MEM_RW);
 	end_of_multipart = _read_part (new_part_stream, stream, real_boundary_line, end_boundary_line);
-	gtk_object_destroy (GTK_OBJECT (new_part_stream));
+	CAMEL_LOG_FULL_DEBUG ("CamelMultipart::construct_from_stream freeing new_part_stream:%p\n", new_part_stream);
+	gtk_object_unref (GTK_OBJECT (new_part_stream));
 	if (multipart->preface) g_free (multipart->preface);
 	//if ( (new_part->str)[0] != '\0') multipart->preface = g_strdup (new_part->str);
 	

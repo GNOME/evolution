@@ -104,7 +104,7 @@ camel_stream_get_type (void)
 gint 
 camel_stream_read (CamelStream *stream, gchar *buffer, gint n)
 {
-	CS_CLASS (stream)->read (stream, buffer, n);
+	return CS_CLASS (stream)->read (stream, buffer, n);
 }
 
 /**
@@ -133,7 +133,7 @@ camel_stream_write (CamelStream *stream, const gchar *buffer, gint n)
 void
 camel_stream_flush (CamelStream *stream)
 {
-	return CS_CLASS (stream)->flush (stream);
+	CS_CLASS (stream)->flush (stream);
 }
 
 /**

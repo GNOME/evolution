@@ -159,7 +159,7 @@ _construct_from_stream (CamelDataWrapper *data_wrapper, CamelStream *stream)
 		g_byte_array_free (array, FALSE);
 	}
 	
-	array = g_byte_array_new();
+	array = g_byte_array_new ();
 	CAMEL_LOG_FULL_DEBUG ("CamelSimpleDataWrapper::construct_from_stream new byte array address:%p\n", array);
 	simple_data_wrapper->byte_array = array;
 	nb_bytes_read = camel_stream_read (stream, tmp_buf, _CMSDW_TMP_BUF_SIZE);

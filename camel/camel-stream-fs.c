@@ -66,7 +66,7 @@ camel_stream_fs_class_init (CamelStreamFsClass *camel_stream_fs_class)
 	camel_stream_class->seek = _seek;
 
 	gtk_object_class->finalize = _finalize;
-	gtk_object_class->finalize = _destroy;
+	gtk_object_class->destroy = _destroy;
 
 }
 
@@ -111,6 +111,7 @@ _destroy (GtkObject *object)
 		CAMEL_LOG_FULL_DEBUG ( "  Full error text is : %s\n", strerror(errno));
 	}
 	GTK_OBJECT_CLASS (parent_class)->destroy (object);
+	g_free (object);
 	CAMEL_LOG_FULL_DEBUG ("Leaving CamelStreamFs::destroy\n");
 }
 
@@ -194,10 +195,12 @@ camel_stream_fs_new_with_fd (int fd)
 static gint
 _read (CamelStream *stream, gchar *buffer, gint n)
 {
-	int v;
+	gint v;
 	do {
 		v = read ( (CAMEL_STREAM_FS (stream))->fd, buffer, n);
 	} while (v == -1 && errno == EINTR);
+	if (v<0)
+		CAMEL_LOG_FULL_DEBUG ("CamelStreamFs::read v=%d\n", v);
 	return v;
 }
 

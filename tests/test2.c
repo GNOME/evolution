@@ -32,10 +32,14 @@ main (int argc, char**argv)
 	camel_data_wrapper_construct_from_stream ( CAMEL_DATA_WRAPPER (message), input_stream);
 					     
 	camel_stream_close (input_stream);
+	gtk_object_unref (GTK_OBJECT (input_stream));
 
 	output_stream = camel_stream_fs_new_with_name ("mail2.test", CAMEL_STREAM_FS_WRITE);
 	camel_data_wrapper_write_to_stream (CAMEL_DATA_WRAPPER (message), output_stream);
 	camel_stream_close (output_stream);
+	gtk_object_unref (GTK_OBJECT (output_stream));
+	
+	gtk_object_unref (GTK_OBJECT (message));
 
 	return 0;
 
