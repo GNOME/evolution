@@ -208,6 +208,8 @@ send_queued_mail (GtkWidget *widget, gpointer user_data)
 		return;
 	}
 	
+	/* FIXME: use the preferred transport for each message */
+	
 	account = mail_config_get_default_account ();
 	if (!account || !account->transport) {
 		GtkWidget *win = gtk_widget_get_ancestor (GTK_WIDGET (user_data),
@@ -305,9 +307,21 @@ composer_send_cb (EMsgComposer *composer, gpointer data)
 	const char *subject;
 	struct post_send_data *psd = data;
 	struct _send_data *send;
-
-	/* Config info */
-        account = mail_config_get_default_account ();
+	
+	if (!mail_config_is_configured ()) {
+		GtkWidget *dialog;
+		
+		dialog = gnome_ok_dialog_parented (_("You must configure an account before you "
+						     "can send this email."),
+						   GTK_WINDOW (composer));
+		gnome_dialog_run_and_close (GNOME_DIALOG (dialog));
+		return;
+	}
+	
+	/* Use the preferred account */
+        account = e_msg_composer_get_preferred_account (composer);
+	if (!account)
+		account = mail_config_get_default_account ();
 	
 	/* Get the message */
 	message = e_msg_composer_get_message (composer);
@@ -317,7 +331,8 @@ composer_send_cb (EMsgComposer *composer, gpointer data)
 	if (!iaddr || CAMEL_ADDRESS (iaddr)->addresses->len == 0) {
 		GtkWidget *message_box;
 		
-		message_box = gnome_message_box_new (_("You must specify recipients in order to send this message."),
+		message_box = gnome_message_box_new (_("You must specify recipients in order to "
+						       "send this message."),
 						     GNOME_MESSAGE_BOX_WARNING,
 						     GNOME_STOCK_BUTTON_OK,
 						     NULL);

@@ -95,6 +95,7 @@ void     mail_config_set_mark_as_seen_timeout (gint timeout);
 
 const MailConfigAccount  *mail_config_get_default_account (void);
 const MailConfigAccount  *mail_config_get_account_by_name (const char *account_name);
+const MailConfigAccount  *mail_config_get_account_by_address (const char *address);
 const GSList             *mail_config_get_accounts        (void);
 void                      mail_config_add_account         (MailConfigAccount *account);
 void                      mail_config_set_default_account (const MailConfigAccount *account);

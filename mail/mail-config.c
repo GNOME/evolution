@@ -542,7 +542,26 @@ mail_config_get_account_by_name (const char *account_name)
 	l = config->accounts;
 	while (l) {
 		account = l->data;
-		if (!strcmp (account->name, account_name))
+		if (account && !strcmp (account->name, account_name))
+			return account;
+		
+		l = l->next;
+	}
+	
+	return NULL;
+}
+
+const MailConfigAccount *
+mail_config_get_account_by_address (const char *address)
+{
+	/* FIXME: this should really use a hash? */
+	const MailConfigAccount *account;
+	GSList *l;
+	
+	l = config->accounts;
+	while (l) {
+		account = l->data;
+		if (account && account->id && !g_strcasecmp (account->id->address, address))
 			return account;
 		
 		l = l->next;

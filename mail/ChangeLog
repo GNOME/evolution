@@ -1,3 +1,13 @@
+2001-01-12  Jeffrey Stedfast  <fejj@helixcode.com>
+
+	* mail-callbacks.c (composer_send_cb): Get the account by using
+	the new e_msg_composer_get_preferred_account() function. Also
+	check to make sure everything is configured (in case they deleted
+	their accounts while composing mail?).
+
+	* mail-config.c (mail_config_get_account_by_address): New
+	convenience function.
+
 2001-01-12  Ettore Perazzoli  <ettore@helixcode.com>
 
 	* component-factory.c (component_fn): Pass NULL as the
