@@ -1,3 +1,9 @@
+2004-04-15  Jeffrey Stedfast  <fejj@ximian.com>
+
+	* providers/imap/camel-imap-utils.c: Changed imap_atom_specials[]
+	to not treat ']' as an atom char (as per rfc3501). Fixes bug
+	#50985.
+
 2004-04-14  Jeffrey Stedfast  <fejj@ximian.com>
 
 	* providers/imap/camel-imap-store.c
