@@ -1,3 +1,8 @@
+2001-10-12  Christopher James Lahey  <clahey@ximian.com>
+
+	* backend/ebook/e-card-simple.c, backend/ebook/e-card-simple.h:
+	Added a boolean type here.
+
 2001-10-12  Jon Trowbridge  <trow@ximian.com>
 
 	* gui/component/select-names/e-select-names.c

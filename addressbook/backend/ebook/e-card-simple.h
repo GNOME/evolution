@@ -73,6 +73,7 @@ enum _ECardSimpleAddressId {
 enum _ECardSimpleType {
 	E_CARD_SIMPLE_TYPE_STRING,
 	E_CARD_SIMPLE_TYPE_DATE,
+	E_CARD_SIMPLE_TYPE_BOOL,
 };
 
 enum _ECardSimpleField {

@@ -36,6 +36,7 @@ enum _ECardSimpleInternalType {
 	E_CARD_SIMPLE_INTERNAL_TYPE_PHONE,
 	E_CARD_SIMPLE_INTERNAL_TYPE_EMAIL,
 	E_CARD_SIMPLE_INTERNAL_TYPE_SPECIAL,
+	E_CARD_SIMPLE_INTERNAL_TYPE_BOOL,
 };
 
 struct _ECardSimpleFieldData {
@@ -793,6 +794,19 @@ char     *e_card_simple_get            (ECardSimple          *simple,
 		string = e_card_simple_get_email(simple,
 						 field_data[field].list_type_index);
 		return g_strdup(string);
+	case E_CARD_SIMPLE_INTERNAL_TYPE_BOOL:
+		if (simple->card) {
+			gboolean boole;
+			gtk_object_get (GTK_OBJECT (simple->card),
+					field_data[field].ecard_field, &boole,
+					NULL);
+			if (boole)
+				return "true";
+			else
+				return NULL;
+		} else {
+			return NULL;
+		}
 	case E_CARD_SIMPLE_INTERNAL_TYPE_SPECIAL:
 		switch (field) {
 		case E_CARD_SIMPLE_FIELD_NAME_OR_ORG:
@@ -1028,6 +1042,18 @@ void            e_card_simple_set            (ECardSimple          *simple,
 			break;
 		case E_CARD_SIMPLE_INTERNAL_TYPE_SPECIAL:
 			break;
+		case E_CARD_SIMPLE_INTERNAL_TYPE_BOOL:
+			if (simple->card) {
+				gboolean boole = TRUE;
+				if (data == NULL)
+					boole = FALSE;
+				else if (strcasecmp (data, "false"))
+					boole = FALSE;
+				gtk_object_set (GTK_OBJECT (simple->card),
+						field_data[field].ecard_field, boole,
+						NULL);
+			}
+			break;
 		}
 		break;
 	}
@@ -1044,6 +1070,9 @@ ECardSimpleType e_card_simple_type       (ECardSimple          *simple,
 	case E_CARD_SIMPLE_INTERNAL_TYPE_EMAIL:
 	default:
 		return E_CARD_SIMPLE_TYPE_STRING;
+
+	case E_CARD_SIMPLE_INTERNAL_TYPE_BOOL:
+		return E_CARD_SIMPLE_TYPE_BOOL;
 
 	case E_CARD_SIMPLE_INTERNAL_TYPE_DATE:
 		return E_CARD_SIMPLE_TYPE_DATE;
