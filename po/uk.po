@@ -7703,9 +7703,8 @@ msgid "Go to the previous item"
 msgstr "Перейти до попереднього елементу"
 
 #: ui/evolution-event-editor.xml.h:26 ui/evolution-task-editor-dialog.xml.h:28
-#, fuzzy
 msgid "In_complete Task (FIXME)"
-msgstr "Завдання"
+msgstr "Невиконане завдання"
 
 #: ui/evolution-event-editor.xml.h:27 ui/evolution-task-editor-dialog.xml.h:30
 msgid "Modify the file's properties"
@@ -7728,7 +7727,6 @@ msgid "Pre_vious"
 msgstr "Попередн╕й"
 
 #: ui/evolution-event-editor.xml.h:34 ui/evolution-task-editor-dialog.xml.h:37
-#, fuzzy
 msgid "Print Pre_view"
 msgstr "Перегляд друку"
 
@@ -7805,7 +7803,7 @@ msgstr "Скоп╕ювати"
 #: ui/evolution-event-editor.xml.h:56 ui/evolution-message-composer.xml.h:42
 #: ui/evolution-task-editor-dialog.xml.h:68
 msgid "_Debug"
-msgstr ""
+msgstr "Налагодження"
 
 #: ui/evolution-event-editor.xml.h:60 ui/evolution-message-composer.xml.h:46
 #: ui/evolution-task-editor-dialog.xml.h:72 ui/evolution.xml.h:35
@@ -7833,7 +7831,6 @@ msgid "_Mail Message (FIXME)"
 msgstr "Завдання"
 
 #: ui/evolution-event-editor.xml.h:65 ui/evolution-task-editor-dialog.xml.h:78
-#, fuzzy
 msgid "_Move to Folder... (FIXME)"
 msgstr "Перенести в теку..."
 
@@ -7857,7 +7854,6 @@ msgid "_Properties..."
 msgstr "Властивост╕..."
 
 #: ui/evolution-event-editor.xml.h:72 ui/evolution-task-editor-dialog.xml.h:86
-#, fuzzy
 msgid "_Select All"
 msgstr "Вибрати все"
 
@@ -7890,9 +7886,8 @@ msgid "Executive Summary Settings..."
 msgstr ""
 
 #: ui/evolution-executive-summary.xml.h:5
-#, fuzzy
 msgid "New Mail"
-msgstr "Отримати пошту"
+msgstr "Нова пошта"
 
 #: ui/evolution-mail.xml.h:2
 msgid "Apply any new filters to the mail in this box"
@@ -8000,9 +7995,8 @@ msgid "Forward this message in-line with your mail, so you can edit it"
 msgstr "Переслати пов╕домлення без теми"
 
 #: ui/evolution-mail.xml.h:31
-#, fuzzy
 msgid "Full _Headers"
-msgstr "Верхн╕й колонтитул"
+msgstr "Повн╕ заголовки"
 
 #: ui/evolution-mail.xml.h:32
 #, fuzzy
@@ -8024,38 +8018,32 @@ msgid "Hide _Read messages"
 msgstr "Прибрати прочитан╕ пов╕домлення"
 
 #: ui/evolution-mail.xml.h:36
-#, fuzzy
 msgid "Invert Selection"
 msgstr "╤нвертувати виб╕р"
 
 #: ui/evolution-mail.xml.h:37
-#, fuzzy
 msgid "Manage _Subscriptions..."
-msgstr "Опис:"
+msgstr "Керування передплатами..."
 
 #: ui/evolution-mail.xml.h:38
-#, fuzzy
 msgid "Mar_k as Read"
-msgstr "Позначити як прочитане"
+msgstr "Позначити прочитаним"
 
 #: ui/evolution-mail.xml.h:39
-#, fuzzy
 msgid "Mark All as R_ead"
-msgstr "Позначити як прочитане"
+msgstr "Позначити вс╕ прочитаними"
 
 #: ui/evolution-mail.xml.h:40
-#, fuzzy
 msgid "Mark As Read"
-msgstr "Позначити як прочитане"
+msgstr "Позначити прочитаним"
 
 #: ui/evolution-mail.xml.h:41
 msgid "Mark As U_nread"
-msgstr "Позначити як непрочитане"
+msgstr "Позначити непрочитаним"
 
 #: ui/evolution-mail.xml.h:42
-#, fuzzy
 msgid "Mark as U_nread"
-msgstr "Позначити як непрочитане"
+msgstr "Позначити непрочитаним"
 
 #: ui/evolution-mail.xml.h:43
 #, fuzzy
@@ -8080,14 +8068,12 @@ msgid "Move selected messages to another folder"
 msgstr "Перенести пов╕домлення у нову теку"
 
 #: ui/evolution-mail.xml.h:48
-#, fuzzy
 msgid "Open in New Window"
 msgstr "В╕дкрити у новому в╕кн╕"
 
 #: ui/evolution-mail.xml.h:49
-#, fuzzy
 msgid "Open the current message in a new window"
-msgstr "В╕д╕слати пов╕домлення негайно"
+msgstr "В╕дкрити поточне пов╕домлення у новому в╕кн╕"
 
 #: ui/evolution-mail.xml.h:54
 msgid "Print Preview of message..."
@@ -8103,40 +8089,35 @@ msgstr "Надрукувати пов╕домлення..."
 
 #: ui/evolution-mail.xml.h:59
 msgid "Redirect (FIXME: implement me)"
-msgstr ""
+msgstr "Перенаправити"
 
 #: ui/evolution-mail.xml.h:62
 msgid "Reply to _All"
 msgstr "В╕дпов╕сти вс╕м"
 
 #: ui/evolution-mail.xml.h:63
-#, fuzzy
 msgid "Reply to all"
 msgstr "В╕дпов╕сти вс╕м"
 
 #: ui/evolution-mail.xml.h:65
-#, fuzzy
 msgid "Reply to sender"
 msgstr "В╕дпов╕сти в╕дправнику"
 
 #: ui/evolution-mail.xml.h:67
-#, fuzzy
 msgid "S_ource"
 msgstr "Джерело"
 
 #: ui/evolution-mail.xml.h:68
-#, fuzzy
 msgid "Save the message into a new file"
-msgstr "Зберегти пов╕домлення у вказан╕й тец╕"
+msgstr "Зберегти пов╕домлення у новому файл╕"
 
 #: ui/evolution-mail.xml.h:70 ui/evolution-subscribe.xml.h:7
 msgid "Select _All"
 msgstr "Вибрати все"
 
 #: ui/evolution-mail.xml.h:71
-#, fuzzy
 msgid "Select _Thread"
-msgstr "Вибрати все"
+msgstr "Вибрати г╕лку"
 
 #: ui/evolution-mail.xml.h:72
 #, fuzzy
@@ -8163,7 +8144,6 @@ msgid "Send queued mail and retrieve new mail"
 msgstr "В╕д╕слати пов╕домлення з черги та отримати нов╕"
 
 #: ui/evolution-mail.xml.h:78
-#, fuzzy
 msgid "Show _All"
 msgstr "Показати все"
 
@@ -8209,9 +8189,8 @@ msgid "_Apply Filters"
 msgstr "Застосувати ф╕льтри"
 
 #: ui/evolution-mail.xml.h:90
-#, fuzzy
 msgid "_Attachment"
-msgstr "долучення"
+msgstr "Долучення"
 
 #: ui/evolution-mail.xml.h:91
 msgid "_Copy to Folder..."
@@ -8228,9 +8207,8 @@ msgid "_Expunge"
 msgstr "Викреслити \"%s\""
 
 #: ui/evolution-mail.xml.h:95
-#, fuzzy
 msgid "_Filters..."
-msgstr "Поштов╕ ф╕льтри..."
+msgstr "Ф╕льтри..."
 
 #: ui/evolution-mail.xml.h:96 ui/evolution.xml.h:32
 msgid "_Folder"
@@ -8272,14 +8250,12 @@ msgid "_Quoted"
 msgstr ""
 
 #: ui/evolution-mail.xml.h:106
-#, fuzzy
 msgid "_Reply"
 msgstr "В╕дпов╕сти"
 
 #: ui/evolution-mail.xml.h:107
-#, fuzzy
 msgid "_Resend Messages"
-msgstr "Надрукувати пов╕домлення"
+msgstr "В╕д╕слати пов╕домлення знову"
 
 #: ui/evolution-mail.xml.h:109
 msgid "_Save Message As..."
@@ -8397,7 +8373,6 @@ msgid "Show _attachments"
 msgstr "Показати долучення"
 
 #: ui/evolution-message-composer.xml.h:32
-#, fuzzy
 msgid "Show attachments"
 msgstr "Показати долучення"
 
@@ -8459,7 +8434,7 @@ msgstr "Безпека"
 
 #: ui/evolution-subscribe.xml.h:1
 msgid "Add folder to your list of subscribed folders"
-msgstr ""
+msgstr "Додати теку до вашого списку передплачених тек"
 
 #: ui/evolution-subscribe.xml.h:3
 msgid "F_older"
@@ -8659,9 +8634,8 @@ msgid "Toggle whether to show the shortcut bar"
 msgstr "Перемикнути стан показу панел╕ тек"
 
 #: ui/evolution.xml.h:21
-#, fuzzy
 msgid "Using the C_ontact Manager"
-msgstr "Використання поштово╖ програми"
+msgstr "Використання менеджера контакт╕в"
 
 #: ui/evolution.xml.h:22
 msgid "Using the _Calendar"
