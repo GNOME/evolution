@@ -1,4 +1,36 @@
 dnl
+dnl LIBGTOP_CHECK_TYPE
+dnl
+dnl Improved version of AC_CHECK_TYPE which takes into account
+dnl that we need to #include some other header files on some
+dnl systems to get some types.
+
+dnl AC_LIBGTOP_CHECK_TYPE(TYPE, DEFAULT)
+AC_DEFUN(AC_LIBGTOP_CHECK_TYPE,
+[AC_REQUIRE([AC_HEADER_STDC])dnl
+AC_MSG_CHECKING(for $1)
+AC_CACHE_VAL(ac_cv_type_$1,
+[AC_EGREP_CPP(dnl
+changequote(<<,>>)dnl
+<<(^|[^a-zA-Z_0-9])$1[^a-zA-Z_0-9]>>dnl
+changequote([,]), [#include <sys/types.h>
+#if STDC_HEADERS
+#include <stdlib.h>
+#include <stddef.h>
+#endif
+
+/* For Tru64 */
+#ifdef HAVE_SYS_BITYPES_H
+#include <sys/bitypes.h>
+#endif
+], ac_cv_type_$1=yes, ac_cv_type_$1=no)])dnl
+AC_MSG_RESULT($ac_cv_type_$1)
+if test $ac_cv_type_$1 = no; then
+  AC_DEFINE($1, $2)
+fi
+])
+
+dnl
 dnl GNOME_LIBGTOP_TYPES
 dnl
 dnl some typechecks for libgtop.
@@ -6,8 +38,9 @@ dnl
 
 AC_DEFUN([GNOME_LIBGTOP_TYPES],
 [
-	AC_CHECK_TYPE(u_int64_t, unsigned long long int)
-	AC_CHECK_TYPE(int64_t, signed long long int)
+	AC_CHECK_HEADERS(sys/bitypes.h)
+	AC_LIBGTOP_CHECK_TYPE(u_int64_t, unsigned long long int)
+	AC_LIBGTOP_CHECK_TYPE(int64_t, signed long long int)
 ])
 
 dnl
