@@ -1,3 +1,24 @@
+2001-07-13  Jeffrey Stedfast  <fejj@ximian.com>
+
+	* camel-uid-cache.c (camel_uid_cache_new): We now use a structure
+	as the bucket data rather than just a cache level so set the save
+	state to TRUE.
+	(maybe_write_uid): We only save the uid if the cache levels are
+	the same *and* if the save state is TRUE.
+	(free_uid): Free the state value.
+	(camel_uid_cache_get_new_uids): New uids that get added to the
+	cache start with a save state of FALSE.
+	(camel_uid_cache_save_uid): Set the save state of the uid to
+	TRUE. What should we do if the uid isn't already in the cache?
+	Currently I make it add the uid, but maybe it shouldn't?
+
+	* providers/imap/camel-imap-folder.c (imap_filter_timeout): Update
+	to reflect CamelFilterDriver API changes.
+
+	* camel-filter-driver.c (camel_filter_driver_filter_folder): Take
+	a cache argument so we can tell the cache whether or not the uid
+	should be saved (meaning we have successfully filtered it).
+
 2001-07-12  Jeffrey Stedfast  <fejj@ximian.com>
 
 	* camel-filter-driver.c (camel_filter_driver_filter_message):

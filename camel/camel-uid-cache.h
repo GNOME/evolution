@@ -43,14 +43,13 @@ CamelUIDCache *camel_uid_cache_new (const char *filename);
 gboolean camel_uid_cache_save (CamelUIDCache *cache);
 void camel_uid_cache_destroy (CamelUIDCache *cache);
 
-GPtrArray *camel_uid_cache_get_new_uids (CamelUIDCache *cache,
-					 GPtrArray *uids);
-void camel_uid_cache_free_uids (GPtrArray *uids);
+GPtrArray *camel_uid_cache_get_new_uids (CamelUIDCache *cache, GPtrArray *uids);
 
+void camel_uid_cache_save_uid (CamelUIDCache *cache, const char *uid);
+void camel_uid_cache_free_uids (GPtrArray *uids);
 
 #ifdef __cplusplus
 }
 #endif /* __cplusplus */
-
 
 #endif /* CAMEL_UID_CACHE_H */

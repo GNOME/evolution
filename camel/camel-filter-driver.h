@@ -27,6 +27,7 @@
 #include <camel/camel-object.h>
 #include <camel/camel-session.h>
 #include <camel/camel-folder.h>
+#include <camel/camel-uid-cache.h>
 
 #define CAMEL_FILTER_DRIVER_TYPE   (camel_filter_driver_get_type())
 #define CAMEL_FILTER_DRIVER(obj)         CAMEL_CHECK_CAST (obj, camel_filter_driver_get_type (), CamelFilterDriver)
@@ -75,11 +76,13 @@ void 	camel_filter_driver_add_rule		(CamelFilterDriver *d, const char *name, con
 
 int      camel_filter_driver_filter_message      (CamelFilterDriver *driver, CamelMimeMessage *message,
 						  CamelMessageInfo *info, const char *uri,
-						  CamelFolder *source, const char *source_url, const char *original_source_url,
-						  CamelException *ex);
-int      camel_filter_driver_filter_mbox         (CamelFilterDriver *driver, const char *mbox, const char *original_source_url,
-						  CamelException *ex);
-int      camel_filter_driver_filter_folder       (CamelFilterDriver *driver, CamelFolder *folder,
+						  CamelFolder *source, const char *source_url,
+						  const char *original_source_url, CamelException *ex);
+
+int      camel_filter_driver_filter_mbox         (CamelFilterDriver *driver, const char *mbox,
+						  const char *original_source_url, CamelException *ex);
+
+int      camel_filter_driver_filter_folder       (CamelFilterDriver *driver, CamelFolder *folder, CamelUIDCache *cache,
 						  GPtrArray *uids, gboolean remove, CamelException *ex);
 
 #if 0

@@ -1677,8 +1677,7 @@ imap_filter_timeout (gpointer user_data)
 						  "incoming", &ex);
 
 	if (driver) {
-		camel_filter_driver_filter_folder (driver, 
-						   ftd->folder, 
+		camel_filter_driver_filter_folder (driver, ftd->folder, NULL,
 						   ftd->recents, FALSE, &ex);
 
 		if (camel_exception_is_set (&ex)) 

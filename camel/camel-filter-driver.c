@@ -712,6 +712,7 @@ fail:
  * camel_filter_driver_filter_folder:
  * @driver: CamelFilterDriver
  * @folder: CamelFolder to be filtered
+ * @cache: UID cache (needed for POP folders)
  * @uids: message uids to be filtered or NULL (as a shortcut to filter all messages)
  * @remove: TRUE to mark filtered messages as deleted
  * @ex: exception
@@ -724,7 +725,7 @@ fail:
  *
  **/
 int
-camel_filter_driver_filter_folder (CamelFilterDriver *driver, CamelFolder *folder,
+camel_filter_driver_filter_folder (CamelFilterDriver *driver, CamelFolder *folder, CamelUIDCache *cache,
 				   GPtrArray *uids, gboolean remove, CamelException *ex)
 {
 	struct _CamelFilterDriverPrivate *p = _PRIVATE (driver);
@@ -792,6 +793,9 @@ camel_filter_driver_filter_folder (CamelFilterDriver *driver, CamelFolder *folde
 			camel_folder_set_message_flags (folder, uids->pdata[i],
 							CAMEL_MESSAGE_DELETED | CAMEL_MESSAGE_SEEN,
 							CAMEL_MESSAGE_DELETED | CAMEL_MESSAGE_SEEN);
+		
+		if (cache)
+			camel_uid_cache_save_uid (cache, uids->pdata[i]);
 		
 		camel_object_unref (CAMEL_OBJECT (message));
 	}
