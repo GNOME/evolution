@@ -430,10 +430,11 @@ camel/providers/pop3/Makefile
 camel/providers/sendmail/Makefile
 composer/Makefile
 widgets/Makefile
+widgets/e-table/Makefile
 widgets/e-text/Makefile
 widgets/meeting-time-sel/Makefile
+widgets/misc/Makefile
 widgets/shortcut-bar/Makefile
-widgets/e-table/Makefile
 addressbook/Makefile
 addressbook/ename/Makefile
 addressbook/contact-editor/Makefile
