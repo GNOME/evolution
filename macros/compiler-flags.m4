@@ -5,6 +5,19 @@ AC_DEFUN([GNOME_COMPILE_WARNINGS],[
   AC_ARG_ENABLE(compile-warnings, 
     [  --enable-compile-warnings=[no/minimum/yes]	Turn on compiler warnings.],,enable_compile_warnings=minimum)
 
+  AC_ARG_ENABLE(warn-unused,
+    [  --enable-warn-unused    Warn about unused variables and parameters],,
+    enable_warn_unused=no)
+
+  AC_MSG_CHECKING(what "unused" warning flags to use)
+  wunusedCFLAGS=
+  if test "x$enable_warn_unused" = xyes ; then
+    wunusedCFLAGS='-Wunused'
+  else
+    wunusedCFLAGS='-Wno-unused'
+  fi
+  AC_MSG_RESULT($wunusedCFLAGS)
+
   AC_MSG_CHECKING(what warning flags to pass to the C compiler)
   warnCFLAGS=
   if test "x$enable_compile_warnings" != "xno"; then
@@ -15,14 +28,14 @@ AC_DEFUN([GNOME_COMPILE_WARNINGS],[
       esac
 
       if test "x$enable_compile_warnings" = "xyes"; then
-	warnCFLAGS="$warnCFLAGS -W -Wno-unused -Wmissing-prototypes -Wmissing-declarations -Wpointer-arith"
+	warnCFLAGS="$warnCFLAGS -W $wunusedCFLAGS -Wmissing-prototypes -Wmissing-declarations -Wpointer-arith"
       fi
     fi
   fi
   AC_MSG_RESULT($warnCFLAGS)
 
   AC_ARG_ENABLE(iso-c,
-    [  --enable-iso-c	Try to warn if code is not ISO C ],,
+    [  --enable-iso-c          Try to warn if code is not ISO C ],,
     enable_iso_c=no)
 
   AC_MSG_CHECKING(what language compliance flags to pass to the C compiler)
