@@ -1,3 +1,23 @@
+1999-10-12  Clifford R. Conover  <rusty@zootweb.com>
+
+	* gncal-todo.c Todo List improvements.
+
+	Cleaned up todo item highlighting, added support for highlighting
+ 	events due today, and events not due yet.  Colors are configurable
+ 	on the Colors Tab of the properties window.
+
+	Renamed Frame in Properties window to Colors rather then Month
+ 	Colors since we are now asking for Todo item colors.
+
+	Added ability to display time until todo item is due in list, it
+ 	automatically selects the best denomination of time (up to weeks)
+ 	and down to seconds to display.  This should be made configurable
+ 	in a future version.
+
+	Changed Todo dialog to ask for time that event is due.  This
+ 	allows more accurate tracking of then the item is due, before the
+ 	dialog was only asking for the date of the todo item.
+
 1999-12-03  Eskil Heyn Olsen  <deity@eskil.dk>
 
 	* calendar-conduit.c: undef DEBUG_CALCONDUT, suppresses debug output.
