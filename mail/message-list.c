@@ -96,7 +96,7 @@ typedef struct _EMailAddress EMailAddress;
 
 static ETableScrolledClass *message_list_parent_class;
 
-static void on_cursor_change_cmd (ETableScrolled *table, int row, gpointer user_data);
+static void on_cursor_activated_cmd (ETableScrolled *table, int row, gpointer user_data);
 static gint on_click (ETableScrolled *table, gint row, gint col, GdkEvent *event, MessageList *list);
 static char *filter_date (time_t date);
 static char *filter_size (int size);
@@ -1286,8 +1286,8 @@ message_list_construct (MessageList *message_list)
 	g_free (spec);
 	gtk_object_sink (GTK_OBJECT (extras));
 
-	gtk_signal_connect (GTK_OBJECT (message_list->table), "cursor_change",
-			    GTK_SIGNAL_FUNC (on_cursor_change_cmd),
+	gtk_signal_connect (GTK_OBJECT (message_list->table), "cursor_activated",
+			    GTK_SIGNAL_FUNC (on_cursor_activated_cmd),
 			    message_list);
 
 	gtk_signal_connect (GTK_OBJECT (message_list->table), "click",
@@ -2067,7 +2067,7 @@ message_list_set_folder (MessageList *message_list, CamelFolder *camel_folder)
 E_MAKE_TYPE (message_list, "MessageList", MessageList, message_list_class_init, message_list_init, PARENT_TYPE);
 
 static gboolean
-on_cursor_change_idle (gpointer data)
+on_cursor_activated_idle (gpointer data)
 {
 	MessageList *message_list = data;
 
@@ -2079,7 +2079,7 @@ on_cursor_change_idle (gpointer data)
 }
 
 static void
-on_cursor_change_cmd (ETableScrolled *table, int row, gpointer user_data)
+on_cursor_activated_cmd (ETableScrolled *table, int row, gpointer user_data)
 {
 	MessageList *message_list;
 	
@@ -2090,7 +2090,7 @@ on_cursor_change_cmd (ETableScrolled *table, int row, gpointer user_data)
 
 	if (!message_list->idle_id) {
 		message_list->idle_id =
-			g_idle_add_full (G_PRIORITY_LOW, on_cursor_change_idle,
+			g_idle_add_full (G_PRIORITY_LOW, on_cursor_activated_idle,
 					 message_list, NULL);
 	}
 }
