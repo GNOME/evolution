@@ -20,7 +20,7 @@
 		<item value="IDL:GNOME/Evolution/Importer:1.0"/>
 	</oaf_attribute>
 
-	<oaf_attribute name="evolution:menu-name" type="string"
+	<oaf_attribute name="evolution:menu_name" type="string"
 		       value="MBox (mbox)"/>
 	<oaf_attribute name="description" type="string"
 		       _value="Imports mbox files into Evolution"/>

@@ -1,5 +1,13 @@
 2003-03-19  Ettore Perazzoli  <ettore@ximian.com>
 
+	* importers/GNOME_Evolution_Mail_Mbox_Importer.server.in.in:
+	Replace "evolution:menu-name" prop with "evolution:menu_name".
+	[#39692]
+	* importers/GNOME_Evolution_Mail_Outlook_Importer.server.in.in:
+	Likewise.
+
+2003-03-19  Ettore Perazzoli  <ettore@ximian.com>
+
 	* mail-config-druid.c (mail_config_druid_new): Give the druid the
 	DIALOG hint.  [#39741 and friends.]
 
