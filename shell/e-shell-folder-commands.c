@@ -32,6 +32,7 @@
 #include <libgnomeui/gnome-dialog.h>
 #include <libgnomeui/gnome-stock.h>
 
+#include <gtk/gtklabel.h>
 #include <gtk/gtksignal.h>
 
 #include "e-shell-constants.h"
@@ -301,7 +302,7 @@ e_shell_command_move_folder (EShell *shell,
 }
 
 static void
-delete_cb (EStorage *storage,
+delete_cb (EStorageSet *storage_set,
 	   EStorageResult result,
 	   void *data)
 {
@@ -309,7 +310,7 @@ delete_cb (EStorage *storage,
 }
 
 static int
-delete_dialog (char *folder_name)
+delete_dialog (const char *folder_name)
 {
 	GnomeDialog *dialog;
 	char *title;
@@ -320,8 +321,7 @@ delete_dialog (char *folder_name)
 	/* Popup a dialog asking if they are sure they want to delete
            the folder */
 
-	title = g_strdup_printf (_("Delete folder '%s'"),
-				 folder_name);
+	title = g_strdup_printf (_("Delete folder '%s'"), folder_name);
 
 	dialog = GNOME_DIALOG (gnome_dialog_new (title,
 						 GNOME_STOCK_BUTTON_YES,
@@ -375,6 +375,7 @@ e_shell_command_delete_folder (EShell *shell,
 	g_free (path);
 }
 
+#if 0
 static char *
 rename_dialog (char *folder_name)
 {
@@ -397,6 +398,7 @@ rename_dialog (char *folder_name)
 
 	/* FIXME: Finish then make command_rename_folder use it */
 }
+#endif
 
 
 void

@@ -1,5 +1,13 @@
 2001-06-24  Ettore Perazzoli  <ettore@ximian.com>
 
+	* e-shell-folder-commands.c: #include <gtk/gtklabel.h>.
+	(delete_dialog): Constify @folder_name properly.
+	(delete_cb): Change the first arg to be an EStorageSet as expected
+	for EStorageSetResultCallbacks.
+	(rename_dialog): #if 0.
+
+2001-06-24  Ettore Perazzoli  <ettore@ximian.com>
+
 	* e-task-widget.h, e-task-widget.c: Changed to derive from
 	GtkEventBox.
 
