@@ -809,9 +809,11 @@ itip_send_comp (CalComponentItipMethod method, CalComponent *send_comp,
 	composer_server = BONOBO_OBJREF (bonobo_server);
 	
 	/* Give the server a chance to manipulate the comp */
-	if (!comp_server_send (method, send_comp, client, zones, &users))
-		goto cleanup;
-
+	if (method != CAL_COMPONENT_METHOD_PUBLISH) {
+		if (!comp_server_send (method, send_comp, client, zones, &users))
+			goto cleanup;
+	}
+	
 	/* Tidy up the comp */
 	comp = comp_compliant (method, send_comp);
 	if (comp == NULL)
@@ -819,8 +821,13 @@ itip_send_comp (CalComponentItipMethod method, CalComponent *send_comp,
 
 	/* Recipients */
 	to_list = comp_to_list (method, comp, users);
-	if (to_list == NULL || to_list->_length == 0)
-		goto cleanup;
+	if (method != CAL_COMPONENT_METHOD_PUBLISH) {
+		if (to_list == NULL || to_list->_length == 0) {
+			/* We sent them all via the server */
+			retval = TRUE;
+			goto cleanup;
+		}
+	}
 	
 	cc_list = GNOME_Evolution_Composer_RecipientList__alloc ();
 	cc_list->_maximum = cc_list->_length = 0;
