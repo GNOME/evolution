@@ -869,7 +869,7 @@ static void
 use_default_drafts_cb (gint reply, gpointer data)
 {
 	CamelFolder **folder = data;
-
+	
 	if (reply == 0)
 		*folder = drafts_folder;
 }
@@ -878,7 +878,7 @@ static void
 save_folder (char *uri, CamelFolder *folder, gpointer data)
 {
 	CamelFolder **save = data;
-
+	
 	if (folder) {
 		*save = folder;
 		camel_object_ref (CAMEL_OBJECT (folder));
@@ -894,18 +894,18 @@ save_draft (EMsgComposer *composer, int quitok)
 	struct _save_info *si;
 	gboolean old_send_html;
 	CamelFolder *folder = NULL;
-
+	
 	account = e_msg_composer_get_preferred_account (composer);
 	if (account && account->drafts_folder_uri &&
 	    strcmp (account->drafts_folder_uri, default_drafts_folder_uri) != 0) {
 		int id;
-
+		
 		id = mail_get_folder (account->drafts_folder_uri, save_folder, &folder);
 		mail_msg_wait (id);
-
+		
 		if (!folder) {
 			GtkWidget *dialog;
-
+			
 			dialog = gnome_ok_cancel_dialog_parented (_("Unable to open the drafts folder for this account.\n"
 								    "Would you like to use the default drafts folder?"),
 								  use_default_drafts_cb, &folder, GTK_WINDOW (composer));
@@ -915,13 +915,17 @@ save_draft (EMsgComposer *composer, int quitok)
 		}
 	} else
 		folder = drafts_folder;
-
-	/* always save drafts as HTML to keep formatting */
+	
+	/* always save drafts as HTML to preserve formatting */
 	old_send_html = composer->send_html;
 	composer->send_html = TRUE;
 	msg = e_msg_composer_get_message (composer);
 	composer->send_html = old_send_html;
-
+	
+	/* Attach whether this message was written in HTML */
+	camel_medium_set_header (CAMEL_MEDIUM (msg), "X-Evolution-Format",
+				 composer->send_html ? "text/html" : "text/plain");
+	
 	/* Attach account info to the draft. */
 	if (account && account->name)
 		camel_medium_set_header (CAMEL_MEDIUM (msg), "X-Evolution-Account", account->name);
@@ -2277,12 +2281,11 @@ e_msg_composer_new_with_message (CamelMimeMessage *msg)
 {
 	const CamelInternetAddress *to, *cc, *bcc;
 	GList *To = NULL, *Cc = NULL, *Bcc = NULL;
+	const char *format, *subject, *account_name;
 	CamelContentType *content_type;
 	struct _header_raw *headers;
-	const gchar *subject;
 	EMsgComposer *new;
 	guint len, i;
-	const gchar *account_name = NULL;
 	
 	g_return_val_if_fail (gtk_main_level () > 0, NULL);
 	
@@ -2291,7 +2294,7 @@ e_msg_composer_new_with_message (CamelMimeMessage *msg)
 		return NULL;
 	
 	subject = camel_mime_message_get_subject (msg);
-
+	
 	to = camel_mime_message_get_recipients (msg, CAMEL_RECIPIENT_TYPE_TO);
 	cc = camel_mime_message_get_recipients (msg, CAMEL_RECIPIENT_TYPE_CC);
 	bcc = camel_mime_message_get_recipients (msg, CAMEL_RECIPIENT_TYPE_BCC);
@@ -2338,10 +2341,11 @@ e_msg_composer_new_with_message (CamelMimeMessage *msg)
 		}
 	}
 	
+	/* Restore the Account preference */
 	account_name = camel_medium_get_header (CAMEL_MEDIUM (msg), "X-Evolution-Account");
 	if (account_name) {
-		while (*account_name && isspace (*account_name))
-			++account_name;
+		while (*account_name && isspace ((unsigned) *account_name))
+			account_name++;
 		camel_medium_remove_header (CAMEL_MEDIUM (msg), "X-Evolution-Account");
 	}
 	
@@ -2350,6 +2354,26 @@ e_msg_composer_new_with_message (CamelMimeMessage *msg)
 	free_recipients (To);
 	free_recipients (Cc);
 	free_recipients (Bcc);
+	
+	/* Restore the format editing preference */
+	format = camel_medium_get_header (CAMEL_MEDIUM (msg), "X-Evolution-Format");
+	if (format) {
+		while (*format && isspace ((unsigned) *format))
+			format++;
+		
+		if (!g_strcasecmp (format, "text/html"))
+			e_msg_composer_set_send_html (new, TRUE);
+		else
+			e_msg_composer_set_send_html (new, FALSE);
+		
+		camel_medium_remove_header (CAMEL_MEDIUM (msg), "X-Evolution-Format");
+	}
+	
+	/* Remove any other X-Evolution-* headers that may have been set */
+	if (camel_medium_get_header (CAMEL_MEDIUM (msg), "X-Evolution-Transport"))
+		camel_medium_remove_header (CAMEL_MEDIUM (msg), "X-Evolution-Transport");
+	if (camel_medium_get_header (CAMEL_MEDIUM (msg), "X-Evolution-Source"))
+		camel_medium_remove_header (CAMEL_MEDIUM (msg), "X-Evolution-Source");
 	
 	/* set extra headers */
 	headers = CAMEL_MIME_PART (msg)->headers;
