@@ -2,14 +2,13 @@
 noinst_LIBRARIES = libshortcut-bar.a
 noinst_PROGRAMS = test-shortcut-bar
 
-INCLUDES = \
-	-DEVOLUTION_VERSION=\""$(VERSION)"\"		\
-	$(EXTRA_GNOME_CFLAGS)				\
-	-DG_LOG_DOMAIN=\"shortcut-bar\" 
+INCLUDES = 					\
+	-I$(top_srcdir)/widgets/misc		\
+	-DEVOLUTION_VERSION=\""$(VERSION)"\"	\
+	$(EXTRA_GNOME_CFLAGS)			\
+	-DG_LOG_DOMAIN=\"shortcut-bar\"
 
 libshortcut_bar_a_SOURCES = 	\
-	e-clipped-label.c	\
-	e-clipped-label.h	\
 	e-group-bar.c		\
 	e-group-bar.h		\
 	e-icon-bar-bg-item.c	\
@@ -24,10 +23,11 @@ libshortcut_bar_a_SOURCES = 	\
 test_shortcut_bar_SOURCES = 	\
 	test-shortcut-bar.c
 
-test_shortcut_bar_LDADD = 	\
-	./libshortcut-bar.a	\
-	../e-text/libetext.a	\
-	../../e-util/libeutil.la\
+test_shortcut_bar_LDADD = 		\
+	./libshortcut-bar.a		\
+	../e-text/libetext.a		\
+	../misc/libemiscwidgets.a	\
+	../../e-util/libeutil.la	\
 	$(EXTRA_GNOME_LIBS)
 
 test_shortcut_bar_LDFLAGS =	\

@@ -1,3 +1,9 @@
+2000-05-16  Ettore Perazzoli  <ettore@helixcode.com>
+
+	* e-clipped-label.c: Moved to $(top_srcdir)/widgets/misc.
+	* e-clipped-label.h: Likewise.
+	* Makefile.am: Updated accordingly.
+
 2000-05-07  Larry Ewing  <lewing@helixcode.com>
 
 	* e-icon-bar.h (struct _EIconBarItem): remove the no longer needed

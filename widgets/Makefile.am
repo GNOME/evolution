@@ -1,3 +1,7 @@
 
-SUBDIRS =	\
-	e-text meeting-time-sel shortcut-bar e-table 
+SUBDIRS =			\
+	e-text			\
+	e-table			\
+	meeting-time-sel	\
+	misc			\
+	shortcut-bar
