@@ -118,9 +118,8 @@ impl_StorageListener_new_folder (PortableServer_Servant servant,
 				     ex_Evolution_StorageListener_Exists,
 				     NULL);
 		gtk_object_unref (GTK_OBJECT (e_folder));
-	}
-
-	g_print ("Folder registered successfully -- %s %s\n", path, folder->display_name);
+	} else
+		g_print ("Folder registered successfully -- %s %s\n", path, folder->display_name);
 }
 
 static void
