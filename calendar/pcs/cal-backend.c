@@ -27,6 +27,7 @@
 #include "libversit/vcc.h"
 #include "icalendar.h"
 
+
 
 
 /* Private part of the CalBackend structure */
@@ -131,6 +132,8 @@ static void save_to_vcal (CalBackend *backend, char *fname)
 {
 	FILE *fp;
 	CalBackendPrivate *priv = backend->priv;
+	VObject *vcal;
+	GList *l;
 
 	if (g_file_exists (fname)){
 		char *backup_name = g_strconcat (fname, "~", NULL);
@@ -142,34 +145,32 @@ static void save_to_vcal (CalBackend *backend, char *fname)
 		g_free (backup_name);
 	}
 
+	vcal = newVObject (VCCalProp);
+	addPropValue (vcal, VCProdIdProp,
+		      "-//GNOME//NONSGML GnomeCalendar//EN");
+	addPropValue (vcal, VCVersionProp, VERSION);
+
+	for (l = priv->events; l; l = l->next) {
+		iCalObject *ical = l->data;
+		VObject *vobject = ical_object_to_vobject (ical);
+		addVObjectProp (vcal, vobject);
+	}
+	for (l = priv->todos; l; l = l->next) {
+		iCalObject *ical = l->data;
+		VObject *vobject = ical_object_to_vobject (ical);
+		addVObjectProp (vcal, vobject);
+	}
+	for (l = priv->journals; l; l = l->next) {
+		iCalObject *ical = l->data;
+		VObject *vobject = ical_object_to_vobject (ical);
+		addVObjectProp (vcal, vobject);
+	}
+
 	fp = fopen(fname,"w");
 	if (fp) {
-		GList *l;
-
-		for (l = priv->events; l; l = l->next) {
-			iCalObject *ical = l->data;
-			VObject *vobject = ical_object_to_vobject (ical);
-			writeVObject(fp, vobject);
-			cleanVObject (vobject); 
-		}
-		for (l = priv->todos; l; l = l->next) {
-			iCalObject *ical = l->data;
-			VObject *vobject = ical_object_to_vobject (ical);
-			writeVObject(fp, vobject);
-			cleanVObject (vobject); 
-		}
-		for (l = priv->journals; l; l = l->next) {
-			iCalObject *ical = l->data;
-			VObject *vobject = ical_object_to_vobject (ical);
-			writeVObject(fp, vobject);
-			cleanVObject (vobject); 
-		}
-
+		writeVObject(fp, vcal);
 		fclose(fp);
-	} /*else {
-	    report bad problem  FIX ME;
-	    }*/
-	
+	}
 	cleanStrTbl ();
 }
 
@@ -188,8 +189,9 @@ save (CalBackend *backend)
 				    | GNOME_VFS_URI_HIDE_HOST_PORT
 				    | GNOME_VFS_URI_HIDE_TOPLEVEL_METHOD));
 
-	if (! priv->dirty)
+	if (! priv->dirty){
 		return;
+	}
 
 	switch (priv->format) {
 	case CAL_VCAL:
@@ -204,6 +206,7 @@ save (CalBackend *backend)
 	        break;
 	}
 }
+
 
 /* g_hash_table_foreach() callback to destroy an iCalObject */
 static void
@@ -298,8 +301,9 @@ ensure_uid (iCalObject *ico)
 	gulong str_time;
 	static guint seqno = 0;
 
-	if (ico->uid)
+	if (ico->uid){
 		return FALSE;
+	}
 
 	str_time = (gulong) time (NULL);
 
@@ -308,7 +312,6 @@ ensure_uid (iCalObject *ico)
 	buf = g_strdup_printf ("Evolution-Tlacuache-%d-%ld-%u",
 			       (int) getpid(), str_time, seqno++);
 	ico->uid = buf;
-
 	return TRUE;
 }
 
@@ -404,8 +407,9 @@ remove_object (CalBackend *backend, iCalObject *ico)
 		list = NULL;
 	}
 
-	if (!list)
+	if (!list){
 		return;
+	}
 
 	l = g_list_find (*list, ico);
 	g_assert (l != NULL);
@@ -592,7 +596,7 @@ icalendar_parse_file (char* fname)
 	gchar* str;
 	struct stat st;
 	int n;
-	
+
 	fp = fopen (fname, "r");
 	if (!fp) {
 		g_warning ("Cannot open open calendar file.");
@@ -613,7 +617,7 @@ icalendar_parse_file (char* fname)
 	
 	comp = icalparser_parse_string (str);
 	g_free (str);
-	
+
 	return comp;
 }
 
@@ -657,24 +661,28 @@ cal_get_type_from_filename (char *str_uri)
 {
 	int len;
 
-	if (str_uri == NULL)
+	if (str_uri == NULL){
 		return CAL_VCAL;
+	}
 
 	len = strlen (str_uri);
-	if (len < 5)
+	if (len < 5){
 		return CAL_VCAL;
+	}
 
 	if (str_uri[ len-4 ] == '.' &&
 	    str_uri[ len-3 ] == 'i' &&
 	    str_uri[ len-2 ] == 'c' &&
-	    str_uri[ len-1 ] == 's')
+	    str_uri[ len-1 ] == 's'){
 		return CAL_ICAL;
+	}
 
 	if (str_uri[ len-4 ] == '.' &&
 	    str_uri[ len-3 ] == 'i' &&
 	    str_uri[ len-2 ] == 'f' &&
-	    str_uri[ len-1 ] == 'b')
+	    str_uri[ len-1 ] == 'b'){
 		return CAL_ICAL;
+	}
 
 	return CAL_VCAL;
 }
@@ -716,6 +724,7 @@ cal_backend_load (CalBackend *backend, GnomeVFSURI *uri)
 				    | GNOME_VFS_URI_HIDE_HOST_PORT
 				    | GNOME_VFS_URI_HIDE_TOPLEVEL_METHOD));
 
+
 	/* look at the extension on the filename and decide
 	   if this is a ical or vcal file */
 
@@ -727,8 +736,9 @@ cal_backend_load (CalBackend *backend, GnomeVFSURI *uri)
 	case CAL_VCAL:
 	        vobject = Parse_MIME_FromFileName (str_uri);
 	
-		if (!vobject)
-		  return CAL_BACKEND_LOAD_ERROR;
+		if (!vobject){
+			return CAL_BACKEND_LOAD_ERROR;
+		}
 	
 		load_from_vobject (backend, vobject);
 		cleanVObject (vobject);
@@ -747,6 +757,7 @@ cal_backend_load (CalBackend *backend, GnomeVFSURI *uri)
 
 	priv->uri = uri;
 	priv->loaded = TRUE;
+
 	return CAL_BACKEND_LOAD_SUCCESS;
 }
 
@@ -818,10 +829,12 @@ cal_backend_get_object (CalBackend *backend, const char *uid)
 
 	ico = lookup_object (backend, uid);
 
-	if (!ico)
+	if (!ico){
 		return NULL;
+	}
 
 	buf = ical_object_to_string (ico);
+
 	return buf;
 }
 
@@ -1049,8 +1062,9 @@ cal_backend_update_object (CalBackend *backend, const char *uid,
 
 	status = ical_object_find_in_string (uid, calobj, &new_ico);
 
-	if (status != CAL_OBJ_FIND_SUCCESS)
+	if (status != CAL_OBJ_FIND_SUCCESS){
 		return FALSE;
+	}
 
 	/* Update the object */
 
@@ -1064,6 +1078,7 @@ cal_backend_update_object (CalBackend *backend, const char *uid,
 	/* FIXME: do the notification asynchronously */
 
 	notify_update (backend, new_ico->uid);
+
 	return TRUE;
 }
 
@@ -1093,8 +1108,9 @@ cal_backend_remove_object (CalBackend *backend, const char *uid)
 	g_return_val_if_fail (uid != NULL, FALSE);
 
 	ico = lookup_object (backend, uid);
-	if (!ico)
+	if (!ico){
 		return FALSE;
+	}
 
 	remove_object (backend, ico);
 
