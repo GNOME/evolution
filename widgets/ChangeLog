@@ -1,3 +1,17 @@
+1999-11-11  Miguel de Icaza  <miguel@gnu.org>
+
+	* e-table-header.c (e_table_header_add_column): Update offsets. 
+	(eth_update_offsets): New routine.
+
+	* e-table-col.h, e-table-col.c: New files.
+
+	* e-table-header.h (e_table_header_get_selected_indexes):
+	Pretify.
+
+	* table-test.c (main): New file;  used for testing ETable package.
+
+	* e-table-simple.h: Fix type.
+
 1999-11-12  Ettore Perazzoli  <ettore@gnu.org>
 
 	* e-msg-composer-address-dialog.glade: Cosmetical changes.

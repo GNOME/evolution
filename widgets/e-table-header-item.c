@@ -136,9 +136,7 @@ ethi_draw (GnomeCanvasItem *item, GdkDrawable *drawable, int x1, int y1, int wid
 			GTK_STATE_NORMAL, GTK_SHADOW_OUT,
 			x , -y1, col_width, ETHI_HEIGHT);
 
-		if (ecol->render != NULL)
-			(*ecol->render)(ecol, item, drawable, x1, y1, width, height, ecol->render_data);
-		else {
+		{
 			GdkRectangle clip;
 			GdkFont *font = GTK_WIDGET (canvas)->style->font;
 			
@@ -193,7 +191,7 @@ ethi_class_init (GtkObjectClass *object_class)
 	item_class->point       = ethi_point;
 	item_class->event       = ethi_event;
 	
-	gtk_object_add_arg_type ("ETableHeaderItem::ETableColumn", GTK_TYPE_POINTER,
+	gtk_object_add_arg_type ("ETableHeaderItem::ETableHeader", GTK_TYPE_POINTER,
 				 GTK_ARG_WRITABLE, ARG_TABLE_HEADER);
 }
 
@@ -207,7 +205,7 @@ ethi_init (GnomeCanvasItem *item)
 }
 
 GtkType
-e_table_header_view_get_type (void)
+e_table_header_item_get_type (void)
 {
 	static GtkType type = 0;
 
@@ -228,6 +226,4 @@ e_table_header_view_get_type (void)
 
 	return type;
 }
-
-
 

@@ -28,9 +28,9 @@ libevolutionwidgets_la_SOURCES = 		\
 	e-msg-composer-hdrs.c			\
 	e-msg-composer-hdrs.h			\
 	e-msg-composer.c			\
-	e-msg-composer.h
-
-EXTRA_DIST = 					\
+	e-msg-composer.h			\
+	e-table-col.c				\
+	e-table-col.h				\
 	e-table-group.c				\
 	e-table-group.h				\
 	e-table-header.c			\
@@ -39,6 +39,20 @@ EXTRA_DIST = 					\
 	e-table-header-item.h			\
 	e-table-model.c				\
 	e-table-model.h				\
+	e-table-render.c			\
+	e-table-render.h			\
 	e-table-simple.c			\
 	e-table-simple.h
 
+noinst_PROGRAMS =	\
+	table-test
+
+table_test_SOURCES = 	\
+	table-test.c 
+
+table_test_LDADD =		\
+	$(EXTRA_GNOME_LIBS)	\
+	libevolutionwidgets.a
+
+EXTRA_DIST =		\
+	sample.table

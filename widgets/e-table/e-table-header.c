@@ -104,21 +104,36 @@ eth_do_insert (ETableHeader *eth, int pos, ETableCol *val)
 	eth->columns [pos] = val;
 }
 
+static void
+eth_update_offsets (ETableHeader *eth)
+{
+	int i;
+	int x = 0;
+	
+	for (i = 0; i < eth->col_count; i++){
+		ETableCol *etc = eth->columns [i];
+
+		etc->x = x;
+		x += etc->width;
+	}
+}
+
 void
 e_table_header_add_column (ETableHeader *eth, ETableCol *tc, int pos)
 {
 	ETableCol **new_ptr;
 	
 	g_return_if_fail (eth != NULL);
-	g_return_if_fail (E_IS_TABLE_COLUMN (eth));
+	g_return_if_fail (E_IS_TABLE_HEADER (eth));
 	g_return_if_fail (tc != NULL);
-	g_return_if_fail (pos >= 0 && pos < eth->col_count);
+	g_return_if_fail (pos >= 0 && pos <= eth->col_count);
 
 	if (pos == -1)
 		pos = eth->col_count;
 	eth->columns = g_realloc (eth->columns, sizeof (ETableCol *) * (eth->col_count + 1));
 	eth_do_insert (eth, pos, tc);
 	eth->col_count++;
+	eth_update_offsets (eth);
 
 	gtk_signal_emit (GTK_OBJECT (eth), eth_signals [STRUCTURE_CHANGE]);
 }
@@ -127,7 +142,7 @@ ETableCol *
 e_table_header_get_column (ETableHeader *eth, int column)
 {
 	g_return_val_if_fail (eth != NULL, NULL);
-	g_return_val_if_fail (E_IS_TABLE_COLUMN (eth), NULL);
+	g_return_val_if_fail (E_IS_TABLE_HEADER (eth), NULL);
 
 	if (column < 0)
 		return NULL;
@@ -142,7 +157,7 @@ int
 e_table_header_count (ETableHeader *eth)
 {
 	g_return_val_if_fail (eth != NULL, 0);
-	g_return_val_if_fail (E_IS_TABLE_COLUMN (eth), 0);
+	g_return_val_if_fail (E_IS_TABLE_HEADER (eth), 0);
 
 	return eth->col_count;
 }
@@ -153,7 +168,7 @@ e_table_header_index (ETableHeader *eth, const char *identifier)
 	int i;
 	
 	g_return_val_if_fail (eth != NULL, 0);
-	g_return_val_if_fail (E_IS_TABLE_COLUMN (eth), 0);
+	g_return_val_if_fail (E_IS_TABLE_HEADER (eth), 0);
 	g_return_val_if_fail (identifier != NULL, 0);
 
 	for (i = 0; i < eth->col_count; i++){
@@ -172,7 +187,7 @@ e_table_header_get_index_at (ETableHeader *eth, int x_offset)
 	int i, total;
 	
 	g_return_val_if_fail (eth != NULL, 0);
-	g_return_val_if_fail (E_IS_TABLE_COLUMN (eth), 0);
+	g_return_val_if_fail (E_IS_TABLE_HEADER (eth), 0);
 
 	total = 0;
 	for (i = 0; i < eth->col_count; i++){
@@ -192,7 +207,7 @@ e_table_header_get_columns (ETableHeader *eth)
 	int i;
 	
 	g_return_val_if_fail (eth != NULL, 0);
-	g_return_val_if_fail (E_IS_TABLE_COLUMN (eth), 0);
+	g_return_val_if_fail (E_IS_TABLE_HEADER (eth), 0);
 
 	ret = g_new (ETableCol *, eth->col_count + 1);
 	memcpy (ret, eth->columns, sizeof (ETableCol *) * eth->col_count);
@@ -205,7 +220,7 @@ gboolean
 e_table_header_selection_ok (ETableHeader *eth)
 {
 	g_return_val_if_fail (eth != NULL, FALSE);
-	g_return_val_if_fail (E_IS_TABLE_COLUMN (eth), FALSE);
+	g_return_val_if_fail (E_IS_TABLE_HEADER (eth), FALSE);
 
 	return eth->selectable;
 }
@@ -217,7 +232,7 @@ ve_table_header_get_selected (ETableHeader *eth)
 	int selected = 0;
 	
 	g_return_val_if_fail (eth != NULL, 0);
-	g_return_val_if_fail (E_IS_TABLE_COLUMN (eth), 0);
+	g_return_val_if_fail (E_IS_TABLE_HEADER (eth), 0);
 
 	for (i = 0; i < eth->col_count; i++){
 		if (eth->columns [i]->selected)
@@ -233,7 +248,7 @@ e_table_header_total_width (ETableHeader *eth)
 	int total, i;
 	
 	g_return_val_if_fail (eth != NULL, 0);
-	g_return_val_if_fail (E_IS_TABLE_COLUMN (eth), 0);
+	g_return_val_if_fail (E_IS_TABLE_HEADER (eth), 0);
 
 	total = 0;
 	for (i = 0; i < eth->col_count; i++)
@@ -256,7 +271,7 @@ e_table_header_move (ETableHeader *eth, int source_index, int target_index)
 	ETableCol *old;
 	
 	g_return_if_fail (eth != NULL);
-	g_return_if_fail (E_IS_TABLE_COLUMN (eth));
+	g_return_if_fail (E_IS_TABLE_HEADER (eth));
 	g_return_if_fail (source_index >= 0);
 	g_return_if_fail (target_index >= 0);
 	g_return_if_fail (source_index < eth->col_count);
@@ -265,6 +280,8 @@ e_table_header_move (ETableHeader *eth, int source_index, int target_index)
 	old = eth->columns [source_index];
 	eth_do_remove (eth, source_index);
 	eth_do_insert (eth, target_index, old);
+	eth_update_offsets (eth);
+	
 	gtk_signal_emit (GTK_OBJECT (eth), eth_signals [STRUCTURE_CHANGE]);
 }
 
@@ -272,7 +289,7 @@ void
 e_table_header_remove (ETableHeader *eth, int idx)
 {
 	g_return_if_fail (eth != NULL);
-	g_return_if_fail (E_IS_TABLE_COLUMN (eth));
+	g_return_if_fail (E_IS_TABLE_HEADER (eth));
 	g_return_if_fail (idx >= 0);
 	g_return_if_fail (idx < eth->col_count);
 
@@ -289,7 +306,7 @@ void
 e_table_header_set_size (ETableHeader *eth, int idx, int size)
 {
 	g_return_if_fail (eth != NULL);
-	g_return_if_fail (E_IS_TABLE_COLUMN (eth));
+	g_return_if_fail (E_IS_TABLE_HEADER (eth));
 	g_return_if_fail (idx >= 0);
 	g_return_if_fail (idx < eth->col_count);
 	g_return_if_fail (size > 0);
@@ -297,3 +314,4 @@ e_table_header_set_size (ETableHeader *eth, int idx, int size)
 	eth->columns [idx]->width = size;
 	gtk_signal_emit (GTK_OBJECT (eth), eth_signals [DIMENSION_CHANGE], idx);
 }
+

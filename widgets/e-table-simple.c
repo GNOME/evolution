@@ -45,11 +45,11 @@ simple_value_at (ETableModel *etm, int col, int row)
 }
 
 static void
-simple_set_value_at (ETableModel *etm, int col, int row)
+simple_set_value_at (ETableModel *etm, int col, int row, void *val)
 {
 	ETableSimple *simple = (ETableSimple *)etm;
 
-	simple->set_value_at (etm, col, row, simple->data);
+	simple->set_value_at (etm, col, row, val, simple->data);
 }
 
 static gboolean

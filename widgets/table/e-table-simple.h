@@ -7,7 +7,7 @@ typedef int         (*ETableSimpleColumnCountFn)    (ETableModel *etm, void *dat
 typedef	const char *(*ETableSimpleColumnNameFn)     (ETableModel *etm, int col, void *data);
 typedef	int         (*ETableSimpleRowCountFn)       (ETableModel *etm, void *data);
 typedef	void       *(*ETableSimpleValueAtFn)        (ETableModel *etm, int col, int row, void *data);
-typedef	void        (*ETableSimpleSetValueAtFn)     (ETableModel *etm, int col, int row, void *data);
+typedef	void        (*ETableSimpleSetValueAtFn)     (ETableModel *etm, int col, int row, void *val, void *data);
 typedef	gboolean    (*ETableSimpleIsCellEditableFn) (ETableModel *etm, int col, int row, void *data);
 typedef int         (*ETableSimpleRowHeightFn)      (ETableModel *etm, int row, void *data);
 
@@ -25,7 +25,7 @@ typedef struct {
 } ETableSimple;
 
 typedef struct {
-	ETableModel parent_class;
+	ETableModelClass parent_class;
 } ETableSimpleClass;
 
 GtkType e_table_simple_get_type (void);

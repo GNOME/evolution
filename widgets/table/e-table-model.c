@@ -40,7 +40,7 @@ e_table_model_value_at (ETableModel *etable, int col, int row)
 void
 e_table_model_set_value_at (ETableModel *etable, int col, int row, void *data)
 {
-	return ETM_CLASS (etable)->set_value_at (etable, col, row);
+	return ETM_CLASS (etable)->set_value_at (etable, col, row, data);
 }
 
 gboolean
