@@ -1,4 +1,4 @@
-Evolution 1.2.3, 2002-03-14
+Evolution 1.2.3, 2003-03-17
 ---------------------------
 
 Bugzilla Bugs Fixed (see http://bugzilla.ximian.com/show_bug.cgi):
@@ -6,17 +6,33 @@ Bugzilla Bugs Fixed (see http://bugzilla.ximian.com/show_bug.cgi):
   * Mail
 
     #35123 -- The new/post button chooses a different default account
-              to the new message menu. (Leon Zhang)
+              to the new message menu.  (Leon Zhang)
     #33267 -- Filters on source account always match all messages when
-              applied to a local folder. (Michael)
+              applied to a local folder.  (Michael)
     #38418 -- Set the local provider name to non-NULL to prevent a
-              crash on Solaris (Jeff)
-    #38499 -- Header display should not collapse whitespace  (Jeff)
-    #37854 -- Re-Allow users to send to address-lists  (Jeff)
-    #36453 -- Text render bug in PGP passphrase prompt  (Jeff)
+              crash on Solaris.  (Jeff)
+    #38499 -- Header display should not collapse whitespace.  (Jeff)
+    #37854 -- Re-Allow users to send to address-lists.  (Jeff)
+    #36453 -- Text render bug in PGP passphrase prompt.  (Jeff)
     #39138 -- GPG signed part of message has extra blank line 
-              after signing when sent via sendmail  (Jeff)
-    #38073 -- Unimplemented option in Advanced Search dialog  (Jeff)
+              after signing when sent via sendmail.  (Jeff)
+    #38073 -- Unimplemented option in Advanced Search dialog.  (Jeff)
+
+Other fixes:
+
+  * Shell
+
+    - Fixed IDL #includes.  (Rodney)
+
+Updated translations:
+
+  - cs (Michal Bukovjan)    
+  - es (Francisco Javier Fernandez)
+  - fr (Christophe Merlet)
+  - it (Marco Ciampa)
+  - pt_BR (Gustavo Maciel Dias Vieira)
+  - ru (Russian translation team)
+  - sv (Christian Rose)
 
 Other fixes:
 
@@ -41,9 +57,10 @@ Other fixes:
       sendmail (Jeff)
     - Fixed a type-o in the IPv6 support code  (Jeff)
 
-  * Misc.
+  * Other
 
-    - backported xml hash utilities
+    - Backported XML hash utilities.
+
 
 Evolution 1.2.2, 2002-02-04
 ---------------------------

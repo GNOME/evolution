@@ -6,12 +6,12 @@
 # Martin Norbäck <d95mback@dtek.chalmers.se>, 2001.
 # Johan Dahlin <zilch.am@home.se>, 2001.
 #
-# $Id: sv.po,v 1.156.2.7 2003/03/07 17:58:35 menthos Exp $
+# $Id: sv.po,v 1.156.2.8 2003/03/17 20:44:51 ettore Exp $
 #
 msgid ""
 msgstr ""
 "Project-Id-Version: evolution\n"
-"POT-Creation-Date: 2003-03-07 18:55+0100\n"
+"POT-Creation-Date: 2003-03-17 12:10-0500\n"
 "PO-Revision-Date: 2003-03-07 18:57+0100\n"
 "Last-Translator: Christian Rose <menthos@menthos.com>\n"
 "Language-Team: Swedish <sv@li.org>\n"
@@ -5020,46 +5020,57 @@ msgid "_Due Date:"
 msgstr "Förfallo_datum:"
 
 #: calendar/gui/e-calendar-table.c:440
+#, c-format
 msgid "0%"
 msgstr "0%"
 
 #: calendar/gui/e-calendar-table.c:441
+#, c-format
 msgid "10%"
 msgstr "10%"
 
 #: calendar/gui/e-calendar-table.c:442
+#, c-format
 msgid "20%"
 msgstr "20%"
 
 #: calendar/gui/e-calendar-table.c:443
+#, c-format
 msgid "30%"
 msgstr "30%"
 
 #: calendar/gui/e-calendar-table.c:444
+#, c-format
 msgid "40%"
 msgstr "40%"
 
 #: calendar/gui/e-calendar-table.c:445
+#, c-format
 msgid "50%"
 msgstr "50%"
 
 #: calendar/gui/e-calendar-table.c:446
+#, c-format
 msgid "60%"
 msgstr "60%"
 
 #: calendar/gui/e-calendar-table.c:447
+#, c-format
 msgid "70%"
 msgstr "70%"
 
 #: calendar/gui/e-calendar-table.c:448
+#, c-format
 msgid "80%"
 msgstr "80%"
 
 #: calendar/gui/e-calendar-table.c:449
+#, c-format
 msgid "90%"
 msgstr "90%"
 
 #: calendar/gui/e-calendar-table.c:450
+#, c-format
 msgid "100%"
 msgstr "100%"
 
@@ -10028,45 +10039,45 @@ msgstr ""
 "För leverans av e-post genom att skicka det till programmet \"sendmail\" på "
 "det lokala systemet."
 
-#: camel/providers/sendmail/camel-sendmail-transport.c:109
+#: camel/providers/sendmail/camel-sendmail-transport.c:113
 msgid "Could not parse recipient list"
 msgstr "Kunde inte tolka mottagarlistan"
 
-#: camel/providers/sendmail/camel-sendmail-transport.c:140
+#: camel/providers/sendmail/camel-sendmail-transport.c:144
 #, c-format
 msgid "Could not create pipe to sendmail: %s: mail not sent"
 msgstr "Kunde inte skapa rör till sendmail: %s: brevet skickades inte"
 
-#: camel/providers/sendmail/camel-sendmail-transport.c:161
+#: camel/providers/sendmail/camel-sendmail-transport.c:165
 #, c-format
 msgid "Could not fork sendmail: %s: mail not sent"
 msgstr "Kunde inte grena sendmail: %s: brevet skickades inte"
 
-#: camel/providers/sendmail/camel-sendmail-transport.c:192
+#: camel/providers/sendmail/camel-sendmail-transport.c:203
 #, c-format
 msgid "Could not send message: %s"
 msgstr "Kunde inte skicka meddelande: %s"
 
-#: camel/providers/sendmail/camel-sendmail-transport.c:220
+#: camel/providers/sendmail/camel-sendmail-transport.c:231
 #, c-format
 msgid "sendmail exited with signal %s: mail not sent."
 msgstr "sendmail avslutade med signal %s: brevet skickades inte."
 
-#: camel/providers/sendmail/camel-sendmail-transport.c:227
+#: camel/providers/sendmail/camel-sendmail-transport.c:238
 #, c-format
 msgid "Could not execute %s: mail not sent."
 msgstr "Kunde inte köra %s: brevet skickades inte."
 
-#: camel/providers/sendmail/camel-sendmail-transport.c:232
+#: camel/providers/sendmail/camel-sendmail-transport.c:243
 #, c-format
 msgid "sendmail exited with status %d: mail not sent."
 msgstr "sendmail avslutade med status %d: brevet skickades inte."
 
-#: camel/providers/sendmail/camel-sendmail-transport.c:246
+#: camel/providers/sendmail/camel-sendmail-transport.c:257
 msgid "sendmail"
 msgstr "sendmail"
 
-#: camel/providers/sendmail/camel-sendmail-transport.c:248
+#: camel/providers/sendmail/camel-sendmail-transport.c:259
 msgid "Mail delivery via the sendmail program"
 msgstr "E-postleverans via programmet sendmail"
 
@@ -11283,7 +11294,7 @@ msgstr "börjar med"
 msgid "Stop Processing"
 msgstr "Stoppa behandling"
 
-#: filter/libfilter-i18n.h:60 mail/mail-format.c:937
+#: filter/libfilter-i18n.h:60 mail/mail-format.c:939
 #: mail/message-list.etspec.h:13 mail/message-tags.glade.h:4
 msgid "Subject"
 msgstr "Ämne"
@@ -12969,35 +12980,35 @@ msgstr "Dölj"
 msgid "External Viewer"
 msgstr "Externt visningsprogram"
 
-#: mail/mail-display.c:1320
+#: mail/mail-display.c:1325
 msgid "Downloading images"
 msgstr "Hämtar bilder"
 
-#: mail/mail-display.c:1497
+#: mail/mail-display.c:1502
 msgid "Loading message content"
 msgstr "Läser in meddelandeinnehåll"
 
-#: mail/mail-display.c:1784
+#: mail/mail-display.c:1789
 msgid "Overdue:"
 msgstr "Skulle ha utförts:"
 
-#: mail/mail-display.c:1788
+#: mail/mail-display.c:1793
 msgid "by %B %d, %Y, %l:%M %P"
 msgstr "den %d %B %Y %H.%M"
 
-#: mail/mail-display.c:2115
+#: mail/mail-display.c:2120
 msgid "Open Link in Browser"
 msgstr "Öppna länk i webbläsare"
 
-#: mail/mail-display.c:2116
+#: mail/mail-display.c:2121
 msgid "Copy Link Location"
 msgstr "Kopiera länkplats"
 
-#: mail/mail-display.c:2118
+#: mail/mail-display.c:2123
 msgid "Save Link as (FIXME)"
 msgstr "Spara länk som (FIXME)"
 
-#: mail/mail-display.c:2120
+#: mail/mail-display.c:2125
 msgid "Save Image as..."
 msgstr "Spara bild som..."
 
@@ -13006,94 +13017,94 @@ msgstr "Spara bild som..."
 msgid "Pinging %s"
 msgstr "Pingar %s"
 
-#: mail/mail-format.c:656
+#: mail/mail-format.c:658
 #, c-format
 msgid "%s attachment"
 msgstr "%s-bilaga"
 
-#: mail/mail-format.c:701 mail/mail-format.c:1732 mail/mail-format.c:1807
-#: mail/mail-format.c:1927 mail/mail-format.c:2052 mail/mail-format.c:2077
+#: mail/mail-format.c:703 mail/mail-format.c:1740 mail/mail-format.c:1815
+#: mail/mail-format.c:1935 mail/mail-format.c:2060 mail/mail-format.c:2085
 msgid "Could not parse MIME message. Displaying as source."
 msgstr "Kunde inte tolka MIME-meddelande. Visar som källkod."
 
-#: mail/mail-format.c:783 mail/message-list.etspec.h:2
+#: mail/mail-format.c:785 mail/message-list.etspec.h:2
 msgid "Date"
 msgstr "Datum"
 
-#: mail/mail-format.c:872
+#: mail/mail-format.c:874
 msgid "Bad Address"
 msgstr "Felaktig adress"
 
-#: mail/mail-format.c:915 mail/message-list.etspec.h:7
+#: mail/mail-format.c:917 mail/message-list.etspec.h:7
 #: mail/message-tags.glade.h:3
 msgid "From"
 msgstr "Från"
 
-#: mail/mail-format.c:919
+#: mail/mail-format.c:921
 msgid "Reply-To"
 msgstr "Svara till"
 
-#: mail/mail-format.c:924 mail/message-list.etspec.h:14
+#: mail/mail-format.c:926 mail/message-list.etspec.h:14
 msgid "To"
 msgstr "Till"
 
-#: mail/mail-format.c:929
+#: mail/mail-format.c:931
 msgid "Cc"
 msgstr "Kopia"
 
-#: mail/mail-format.c:934
+#: mail/mail-format.c:936
 msgid "Bcc"
 msgstr "Blindkopia"
 
-#: mail/mail-format.c:965
+#: mail/mail-format.c:967
 msgid "Mailer"
 msgstr "E-postprogram"
 
-#: mail/mail-format.c:1850
+#: mail/mail-format.c:1858
 msgid ""
 "This message is digitally signed. Click the lock icon for more information."
 msgstr ""
 "Detta meddelande är digitalt signerat. Klicka på låsikonen för mer "
 "information."
 
-#: mail/mail-format.c:1877
+#: mail/mail-format.c:1885
 msgid "Could not create a PGP verfication context"
 msgstr "Kunde inte skapa ett PGP-verifieringssammanhang"
 
-#: mail/mail-format.c:1886
+#: mail/mail-format.c:1894
 msgid "This message is digitally signed and has been found to be authentic."
 msgstr "Detta meddelande är digitalt signerat och har befunnits äkta."
 
-#: mail/mail-format.c:1894
+#: mail/mail-format.c:1902
 msgid "This message is digitally signed but can not be proven to be authentic."
 msgstr "Detta meddelande är digitalt signerat men äktheten kan inte bevisas."
 
-#: mail/mail-format.c:2159
+#: mail/mail-format.c:2167
 #, c-format
 msgid "Pointer to FTP site (%s)"
 msgstr "Pekare till FTP-plats (%s)"
 
-#: mail/mail-format.c:2173
+#: mail/mail-format.c:2181
 #, c-format
 msgid "Pointer to local file (%s) valid at site \"%s\""
 msgstr "Pekare till lokal fil (%s) giltig på platsen \"%s\""
 
-#: mail/mail-format.c:2178
+#: mail/mail-format.c:2186
 #, c-format
 msgid "Pointer to local file (%s)"
 msgstr "Pekare till lokal fil (%s)"
 
-#: mail/mail-format.c:2207
+#: mail/mail-format.c:2215
 #, c-format
 msgid "Pointer to remote data (%s)"
 msgstr "Pekare till fjärrdata (%s)"
 
-#: mail/mail-format.c:2215
+#: mail/mail-format.c:2223
 #, c-format
 msgid "Pointer to unknown external data (\"%s\" type)"
 msgstr "Pekare till okänd extern data (typen \"%s\")"
 
-#: mail/mail-format.c:2220
+#: mail/mail-format.c:2228
 msgid "Malformed external-body part."
 msgstr "Felaktig del med extern meddelandetext."
 
@@ -13387,20 +13398,20 @@ msgstr "Väntar..."
 msgid "User canceled operation."
 msgstr "Användaren avbröt åtgärden."
 
-#: mail/mail-session.c:272
+#: mail/mail-session.c:270
 msgid "_Remember this password"
 msgstr "_Kom ihåg detta lösenord"
 
-#: mail/mail-session.c:273
+#: mail/mail-session.c:271
 msgid "_Remember this password for the remainder of this session"
 msgstr "_Kom ihåg detta lösenord för resten av denna session"
 
-#: mail/mail-session.c:330
+#: mail/mail-session.c:328
 #, c-format
 msgid "Enter Password for %s"
 msgstr "Ange lösenord för %s"
 
-#: mail/mail-session.c:333
+#: mail/mail-session.c:331
 msgid "Enter Password"
 msgstr "Ange lösenord"
 

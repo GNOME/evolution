@@ -1,3 +1,7 @@
+2003-03-17  Ettore Perazzoli  <ettore@ximian.com>
+
+	* configure.in: Bump version number to 1.2.3.
+
 2003-02-20  Dan Winship  <danw@ximian.com>
 
 	* configure.in (CAMEL_INCLUDEDIR): Remove the "/camel" since
