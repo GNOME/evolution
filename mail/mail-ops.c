@@ -928,7 +928,9 @@ static void get_folderinfo_get(struct _mail_msg *mm)
 {
 	struct _get_folderinfo_msg *m = (struct _get_folderinfo_msg *)mm;
 
+	camel_operation_register(mm->cancel);
 	m->info = camel_store_get_folder_info(m->store, NULL, FALSE, TRUE, TRUE, &mm->ex);
+	camel_operation_unregister(mm->cancel);
 }
 
 static void get_folderinfo_got(struct _mail_msg *mm)
@@ -1079,7 +1081,9 @@ static void get_folder_get(struct _mail_msg *mm)
 {
 	struct _get_folder_msg *m = (struct _get_folder_msg *)mm;
 
+	camel_operation_register(mm->cancel);
 	m->folder = mail_tool_uri_to_folder(m->uri, &mm->ex);
+	camel_operation_unregister(mm->cancel);
 }
 
 static void get_folder_got(struct _mail_msg *mm)
@@ -1144,7 +1148,9 @@ static void get_store_get(struct _mail_msg *mm)
 {
 	struct _get_store_msg *m = (struct _get_store_msg *)mm;
 
+	camel_operation_register(mm->cancel);
 	m->store = camel_session_get_store(session, m->uri, &mm->ex);
+	camel_operation_unregister(mm->cancel);
 }
 
 static void get_store_got(struct _mail_msg *mm)
@@ -1214,9 +1220,11 @@ static void create_folder_get(struct _mail_msg *mm)
 	struct _create_folder_msg *m = (struct _create_folder_msg *)mm;
 
 	/* FIXME: supply a way to make indexes optional */
+	camel_operation_register(mm->cancel);
 	m->folder = mail_tool_get_folder_from_urlname(m->uri, "mbox",
 						      CAMEL_STORE_FOLDER_CREATE|CAMEL_STORE_FOLDER_BODY_INDEX,
 						      &mm->ex);
+	camel_operation_unregister(mm->cancel);
 }
 
 static void create_folder_got(struct _mail_msg *mm)
@@ -1275,7 +1283,9 @@ static void sync_folder_sync(struct _mail_msg *mm)
 {
 	struct _sync_folder_msg *m = (struct _sync_folder_msg *)mm;
 
+	camel_operation_register(mm->cancel);
 	camel_folder_sync(m->folder, FALSE, &mm->ex);
+	camel_operation_unregister(mm->cancel);
 }
 
 static void sync_folder_synced(struct _mail_msg *mm)

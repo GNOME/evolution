@@ -215,7 +215,7 @@ owner_set_cb (EvolutionShellComponent *shell_component,
 		g_free (uri);
 	}
 	
-	mail_msg_wait (vtrash_create ("file:/", NULL, NULL));
+	vtrash_create ("file:/", NULL, NULL);
 	
 	mail_session_enable_interaction (TRUE);
 	

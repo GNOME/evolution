@@ -55,22 +55,22 @@ extern CamelSession *session;
 CamelFolder *
 vtrash_uri_to_folder (const char *uri, CamelException *ex)
 {
-	CamelFolder *folder = NULL;
-	
-	g_return_val_if_fail (uri != NULL, NULL);
-	
-	if (strncmp (uri, "vtrash:", 7))
-			return NULL;
-	
-	VTRASH_LOCK (vtrash_hash_lock);
-	if (vtrash_hash) {
-		folder = g_hash_table_lookup (vtrash_hash, uri);
-		
-		camel_object_ref (CAMEL_OBJECT (folder));
-	}
-	VTRASH_UNLOCK (vtrash_hash_lock);
-	
-	return folder;
+        CamelFolder *folder = NULL;
+        
+        g_return_val_if_fail (uri != NULL, NULL);
+        
+        if (strncmp (uri, "vtrash:", 7))
+                        return NULL;
+        
+        VTRASH_LOCK (vtrash_hash_lock);
+        if (vtrash_hash) {
+                folder = g_hash_table_lookup (vtrash_hash, uri);
+                
+                camel_object_ref (CAMEL_OBJECT (folder));
+        }
+        VTRASH_UNLOCK (vtrash_hash_lock);
+        
+        return folder;
 }
 
 static void
@@ -207,7 +207,10 @@ get_trash_get (struct _mail_msg *mm)
 	struct _get_trash_msg *m = (struct _get_trash_msg *)mm;
 	CamelStore *store;
 	GPtrArray *urls;
-	
+
+	camel_operation_register(mm->cancel);
+	camel_operation_start(mm->cancel, _("Getting matches"));
+
 	urls = g_ptr_array_new ();
 	
 	/* we don't want to connect */
@@ -239,6 +242,9 @@ get_trash_get (struct _mail_msg *mm)
 			vtrash_add (store, m->folder, m->store_uri, _("vTrash"));
 		}
 	}
+
+	camel_operation_end(mm->cancel);
+	camel_operation_unregister(mm->cancel);
 }
 
 static void

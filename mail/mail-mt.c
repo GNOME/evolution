@@ -17,17 +17,35 @@
 
 #include "folder-browser-factory.h"
 
+#include <libgnomeui/gnome-dialog.h>
+#include <gtk/gtkprogress.h>
+
 #define d(x) 
 
 static void set_view_data(const char *current_message, int busy);
 static void set_stop(int sensitive);
-
 static void mail_enable_stop(void);
 static void mail_disable_stop(void);
+static void mail_operation_status(struct _CamelOperation *op, const char *what, int pc, void *data);
 
 #define MAIL_MT_LOCK(x) pthread_mutex_lock(&x)
 #define MAIL_MT_UNLOCK(x) pthread_mutex_unlock(&x)
 
+/* background operation status stuff */
+struct _mail_msg_priv {
+	GtkProgressBar *bar;
+	GtkLabel *label;
+
+	/* for pending requests, before timeout_id is activated (then bar will be ! NULL) */
+	char *what;
+	int pc;
+	int timeout_id;
+};
+
+static GtkWindow *progress_dialogue;
+static int progress_row;
+
+/* mail_msg stuff */
 static unsigned int mail_msg_seq; /* sequence number of each message */
 static GHashTable *mail_msg_active; /* table of active messages, must hold mail_msg_lock to access */
 static pthread_mutex_t mail_msg_lock = PTHREAD_MUTEX_INITIALIZER;
@@ -45,14 +63,24 @@ void *mail_msg_new(mail_msg_op_t *ops, EMsgPort *reply_port, size_t size)
 	msg->ops = ops;
 	msg->seq = mail_msg_seq++;
 	msg->msg.reply_port = reply_port;
-	msg->cancel = camel_operation_new(NULL, NULL); /* FIXME: report status somehow? */
+	msg->cancel = camel_operation_new(mail_operation_status, (void *)msg->seq);
 	camel_exception_init(&msg->ex);
+	msg->priv = g_malloc0(sizeof(*msg->priv));
 
 	g_hash_table_insert(mail_msg_active, (void *)msg->seq, msg);
 
 	MAIL_MT_UNLOCK(mail_msg_lock);
 
 	return msg;
+}
+
+/* either destroy the progress (in event_data), or the whole dialogue (in data) */
+static void destroy_widgets(CamelObject *o, void *event_data, void *data)
+{
+	if (data)
+		gtk_widget_destroy((GtkWidget *)data);
+	if (event_data)
+		gtk_widget_destroy((GtkWidget *)event_data);
 }
 
 void mail_msg_free(void *msg)
@@ -67,10 +95,27 @@ void mail_msg_free(void *msg)
 	g_hash_table_remove(mail_msg_active, (void *)m->seq);
 	pthread_cond_broadcast(&mail_msg_cond);
 
+	/* this closes the bar, and/or the whole progress dialogue, once we're out of things to do */
+	if (g_hash_table_size(mail_msg_active) == 0) {
+		if (progress_dialogue != NULL) {
+			void *data = progress_dialogue;
+			progress_dialogue = NULL;
+			progress_row = 0;
+			mail_proxy_event(destroy_widgets, NULL, data, NULL);
+		}
+	} else if (m->priv->bar) {
+		mail_proxy_event(destroy_widgets, NULL, m->priv->bar, m->priv->label);
+	}
+
+	if (m->priv->timeout_id > 0)
+		gtk_timeout_remove(m->priv->timeout_id);
+
 	MAIL_MT_UNLOCK(mail_msg_lock);
 
 	camel_operation_unref(m->cancel);
 	camel_exception_clear(&m->ex);
+	g_free(m->priv->what);
+	g_free(m->priv);
 	g_free(m);
 }
 
@@ -626,6 +671,160 @@ static void mail_disable_stop(void)
 		e_msgport_put(mail_gui_port, (EMsg *)m);
 	}
 	MAIL_MT_UNLOCK(status_lock);
+}
+
+/* ******************************************************************************** */
+
+struct _op_status_msg {
+	struct _mail_msg msg;
+
+	struct _CamelOperation *op;
+	char *what;
+	int pc;
+	void *data;
+};
+
+GtkTable *progress_table;
+
+static int op_status_timeout(void *d)
+{
+	int id = (int)d;
+	struct _mail_msg *msg;
+	struct _mail_msg_priv *data;
+	
+	MAIL_MT_LOCK(mail_msg_lock);
+
+	msg = g_hash_table_lookup(mail_msg_active, (void *)id);
+	if (msg == NULL) {
+		MAIL_MT_UNLOCK(mail_msg_lock);
+		return FALSE;
+	}
+
+	data = msg->priv;
+
+	if (progress_dialogue == NULL) {
+		progress_dialogue = (GtkWindow *)gtk_window_new(GTK_WINDOW_DIALOG);
+		gtk_window_set_title(progress_dialogue, _("Evolution progress"));
+		gtk_window_set_policy(progress_dialogue, 0, 0, 1);
+		gtk_window_set_position(progress_dialogue, GTK_WIN_POS_CENTER);
+		progress_table = (GtkTable *)gtk_table_new(1, 2, FALSE);
+		gtk_container_add((GtkContainer *)progress_dialogue, (GtkWidget *)progress_table);
+	}
+
+	data->bar = (GtkProgressBar *)gtk_progress_bar_new();
+	gtk_progress_set_show_text((GtkProgress *)data->bar, TRUE);
+
+	gtk_progress_set_percentage((GtkProgress *)data->bar, (gfloat)(data->pc/100.0));
+	gtk_progress_set_format_string((GtkProgress *)data->bar, data->what);
+
+	if (msg->ops->describe_msg) {
+		char *desc = msg->ops->describe_msg(msg, FALSE);
+		data->label = (GtkLabel *)gtk_label_new(desc);
+		g_free(desc);
+	} else {
+		data->label = (GtkLabel *)gtk_label_new(_("Working"));
+	}
+
+	gtk_table_attach(progress_table, (GtkWidget *)data->label, 0, 1, progress_row, progress_row+1, GTK_EXPAND|GTK_FILL, 0, 3, 1);
+	gtk_table_attach(progress_table, (GtkWidget *)data->bar, 1, 2, progress_row, progress_row+1, GTK_EXPAND|GTK_FILL, 0, 3, 1);
+	progress_row++;
+	
+	gtk_widget_show_all((GtkWidget *)progress_table);
+	gtk_widget_show((GtkWidget *)progress_dialogue);
+
+	data->timeout_id = -1;
+
+	MAIL_MT_UNLOCK(mail_msg_lock);
+
+	return FALSE;
+}
+
+static void do_op_status(struct _mail_msg *mm)
+{
+	struct _op_status_msg *m = (struct _op_status_msg *)mm;
+	struct _mail_msg *msg;
+	struct _mail_msg_priv *data;
+	char *out, *p, *o, c;
+
+	g_assert(mail_gui_thread == pthread_self());
+
+	MAIL_MT_LOCK(mail_msg_lock);
+
+	msg = g_hash_table_lookup(mail_msg_active, m->data);
+	if (msg == NULL) {
+		MAIL_MT_UNLOCK(mail_msg_lock);
+		return;
+	}
+
+	data = msg->priv;
+
+	out = alloca(strlen(m->what)*2+1);
+	o = out;
+	p = m->what;
+	while ((c = *p++)) {
+		if (c=='%')
+			*o++ = '%';
+		*o++ = c;
+	}
+	*o = 0;
+
+	if (data->timeout_id == 0) {
+		data->what = g_strdup(out);
+		data->pc = m->pc;
+		data->timeout_id = gtk_timeout_add(2000, op_status_timeout, m->data);
+		MAIL_MT_UNLOCK(mail_msg_lock);
+		return;
+	}
+
+	if (data->bar == NULL) {
+		g_free(data->what);
+		data->what = g_strdup(out);
+		data->pc = m->pc;
+		MAIL_MT_UNLOCK(mail_msg_lock);
+		return;
+	}
+
+	gtk_progress_set_percentage((GtkProgress *)data->bar, (gfloat)(m->pc/100.0));
+	gtk_progress_set_format_string((GtkProgress *)data->bar, out);
+
+	MAIL_MT_UNLOCK(mail_msg_lock);
+}
+
+static void do_op_status_free(struct _mail_msg *mm)
+{
+	struct _op_status_msg *m = (struct _op_status_msg *)mm;
+
+	g_free(m->what);
+}
+
+struct _mail_msg_op op_status_op = {
+	NULL,
+	do_op_status,
+	NULL,
+	do_op_status_free,
+};
+
+static void
+mail_operation_status(struct _CamelOperation *op, const char *what, int pc, void *data)
+{
+	struct _op_status_msg *m;
+
+	printf("got operation statys: %s %d%%\n", what, pc);
+
+	m = mail_msg_new(&op_status_op, NULL, sizeof(*m));
+	m->op = op;
+	m->what = g_strdup(what);
+	switch (pc) {
+	case CAMEL_OPERATION_START:
+		pc = 0;
+		break;
+	case CAMEL_OPERATION_END:
+		pc = 100;
+		break;
+	}
+	m->pc = pc;
+	m->data = data;
+	e_msgport_put(mail_gui_port, (EMsg *)m);
 }
 
 /* ******************** */

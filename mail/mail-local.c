@@ -445,6 +445,14 @@ struct _register_msg {
 	MailLocalFolder *local_folder;
 };
 
+static char *register_folder_desc(struct _mail_msg *mm, int done)
+{
+	struct _register_msg *m = (struct _register_msg *)mm;
+
+	printf("returning description for %s\n", m->local_folder->uri);
+
+	return g_strdup_printf(_("Opening '%s'"), m->local_folder->uri);
+}
 
 static void
 register_folder_register(struct _mail_msg *mm)
@@ -488,7 +496,7 @@ register_folder_register(struct _mail_msg *mm)
 	camel_object_unref (CAMEL_OBJECT (store));
 	free_metainfo (meta);
 
-	camel_operation_register(mm->cancel);
+	camel_operation_unregister(mm->cancel);
 }
 
 static void
@@ -518,16 +526,11 @@ register_folder_free(struct _mail_msg *mm)
 }
 
 static struct _mail_msg_op register_folder_op = {
-	NULL,
+	register_folder_desc,
 	register_folder_register,
 	register_folder_registered,
 	register_folder_free,
 };
-
-static void new_status(struct _CamelOperation *op, const char *what, int pc, void *data)
-{
-	printf("oepration %s %d %% complete\n", what, pc);
-}
 
 static void
 local_storage_new_folder_cb (EvolutionStorageListener *storage_listener,
@@ -556,10 +559,6 @@ local_storage_new_folder_cb (EvolutionStorageListener *storage_listener,
 	m = mail_msg_new(&register_folder_op, NULL, sizeof(*m));
 
 	m->local_folder = local_folder;
-
-	/* HACK: so we reuse the cancel pointer */
-	camel_operation_unref(m->msg.cancel);
-	m->msg.cancel = camel_operation_new(new_status, m);
 
 	/* run synchronous, the shell expects it (I think) */
 	id = m->msg.seq;

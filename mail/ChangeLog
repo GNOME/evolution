@@ -1,3 +1,24 @@
+2001-02-23  Not Zed  <NotZed@Ximian.com>
+
+	* mail-ops.c (create_folder_get): Make op cancellable/report
+	internals.
+	(get_folder_get): 
+	(sync_folder_sync): 
+	(get_folderinfo_get): Make op cancellable/report internals.
+
+	* mail-vtrash.c (get_trash_get): Setup the operation registration,
+	and create a pseudo "start/stop" operation.
+
+	* component-factory.c (owner_set_cb): Make trash creation async.
+
+	* mail-local.c (register_folder_desc): A description of what we're
+	doing.
+
+	* mail-mt.c (mail_msg_new): Set status callback to operation_new.
+	(mail_operation_status): Operation status function, proxy messages
+	to main thread, and attempt to present a meaningful ui experience
+	for operations.
+
 2001-02-22  Jeffrey Stedfast  <fejj@ximian.com>
 
 	* openpgp-utils.c (openpgp_verify): Fixed memory corruption bug.

@@ -35,6 +35,7 @@ typedef struct _mail_msg {
 	unsigned int seq;	/* seq number for synchronisation */
 	CamelOperation *cancel;	/* a cancellation/status handle */
 	CamelException ex;	/* an initialised camel exception, upto the caller to use this */
+	struct _mail_msg_priv *priv; /* private for internal use */
 } mail_msg_t;
 
 /* callback functions for thread message */
