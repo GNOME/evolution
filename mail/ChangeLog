@@ -1,5 +1,7 @@
 2000-11-29  Dan Winship  <danw@helixcode.com>
 
+	* main.c (main): Remove no-longer-needed e_unicode_init.
+
 	* mail-tools.c (mail_tool_quote_message): Fix the allocation here
 	(again) and put a comment explaining it. (Fixes a crash when
 	replying.)

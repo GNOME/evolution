@@ -80,8 +80,6 @@ main (int argc, char *argv [])
 
 	gnome_vfs_init ();
 
-	e_unicode_init ();
-
 	e_cursors_init ();
 
 	component_factory_init ();
