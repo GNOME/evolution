@@ -537,7 +537,7 @@ camel_folder_thread_messages_new(CamelFolder *folder, GPtrArray *uids)
 	sort_thread(&head);
 
 	/* remove any phantom nodes, this could possibly be put in group_root_set()? */
-	c = &head;
+	c = (CamelFolderThreadNode *)&head;
 	while (c->next) {
 		CamelFolderThreadNode *scan, *newtop;
 
@@ -548,7 +548,7 @@ camel_folder_thread_messages_new(CamelFolder *folder, GPtrArray *uids)
 			c->next = newtop;
 
 			/* link its siblings onto the end of its children */
-			scan = &newtop->child;
+			scan = (CamelFolderThreadNode *)&newtop->child;
 			while (scan->next)
 				scan = scan->next;
 			scan->next = newtop->next;

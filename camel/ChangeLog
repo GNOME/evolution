@@ -3,7 +3,9 @@
 	* camel-folder-thread.c (camel_folder_thread_messages_new):
 	Perform a final pass, removing any pseudo nodes we added earlier.
 	Quick patch to test the idea.
-	
+	(camel_folder_thread_messages_new): Added casts to rmeove some
+	warnings for the analites out there.
+
 2001-01-11  Dan Winship  <danw@ximian.com>
 
 	* providers/imap/camel-imap-folder.c (camel_imap_folder_selected):
