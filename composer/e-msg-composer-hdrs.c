@@ -647,7 +647,7 @@ set_recipients (CamelMimeMessage *msg, GtkWidget *entry_widget, const gchar *typ
 		dest_str = e_destination_get_address_textv (destv);
 		g_message ("destination is: %s", dest_str);
 
-		if (dest_str) {
+		if (dest_str && *dest_str) {
 			addr = camel_internet_address_new ();
 			camel_address_unformat (CAMEL_ADDRESS (addr), dest_str);
 	
