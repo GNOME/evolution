@@ -1,5 +1,10 @@
 2000-10-20  Damon Chaplin  <damon@helixcode.com>
 
+	* gui/calendar-model.c (calendar_model_value_at): use
+	cal_component_has_alarms().
+
+2000-10-20  Damon Chaplin  <damon@helixcode.com>
+
 	* gui/e-calendar-table.c (E_CALENDAR_TABLE_SPEC): added
 	_click-to-add-message, though I'm not sure if i18n will work.
 
