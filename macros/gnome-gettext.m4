@@ -76,6 +76,8 @@ AC_DEFUN(AM_GNOME_WITH_NLS,
 		  [CATOBJEXT=.mo
 		   DATADIRNAME=lib])
 		INSTOBJEXT=.mo
+	      else
+		echo "You must install msgfmt (part of gettext)."
 	      fi
 	    fi
 
