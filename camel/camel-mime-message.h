@@ -90,11 +90,11 @@ typedef struct {
 	void     (*set_received_date) (CamelMimeMessage *mime_message, gchar *received_date);
 	const gchar *  (*get_received_date) (CamelMimeMessage *mime_message);
 	const gchar *  (*get_sent_date) (CamelMimeMessage *mime_message);
-	void     (*set_reply_to) (CamelMimeMessage *mime_message, gchar *reply_to);
+	void     (*set_reply_to) (CamelMimeMessage *mime_message, const gchar *reply_to);
 	const gchar *  (*get_reply_to) (CamelMimeMessage *mime_message);
-	void     (*set_subject) (CamelMimeMessage *mime_message, gchar *subject);
+	void     (*set_subject) (CamelMimeMessage *mime_message, const gchar *subject);
 	const gchar *  (*get_subject) (CamelMimeMessage *mime_message);
-	void     (*set_from) (CamelMimeMessage *mime_message, gchar *from);
+	void     (*set_from) (CamelMimeMessage *mime_message, const gchar *from);
 	const gchar *  (*get_from) (CamelMimeMessage *mime_message);
 	void     (*add_recipient) (CamelMimeMessage *mime_message, const gchar *recipient_type, const gchar *recipient); 
 	void     (*remove_recipient) (CamelMimeMessage *mime_message, const gchar *recipient_type, const gchar *recipient);
@@ -116,14 +116,14 @@ GtkType camel_mime_message_get_type (void);
 CamelMimeMessage *camel_mime_message_new_with_session (CamelSession *session);
 
 
-void camel_mime_message_set_received_date (CamelMimeMessage *mime_message, gchar *received_date);
+void camel_mime_message_set_received_date (CamelMimeMessage *mime_message, const gchar *received_date);
 const gchar *camel_mime_message_get_received_date (CamelMimeMessage *mime_message);
 const gchar *camel_mime_message_get_sent_date (CamelMimeMessage *mime_message);
-void camel_mime_message_set_reply_to (CamelMimeMessage *mime_message, gchar *reply_to);
+void camel_mime_message_set_reply_to (CamelMimeMessage *mime_message, const gchar *reply_to);
 const gchar *camel_mime_message_get_reply_to (CamelMimeMessage *mime_message);
-void camel_mime_message_set_subject (CamelMimeMessage *mime_message, gchar *subject);
+void camel_mime_message_set_subject (CamelMimeMessage *mime_message, const gchar *subject);
 const gchar *camel_mime_message_get_subject (CamelMimeMessage *mime_message);
-void camel_mime_message_set_from (CamelMimeMessage *mime_message, gchar *from);
+void camel_mime_message_set_from (CamelMimeMessage *mime_message, const gchar *from);
 const gchar *camel_mime_message_get_from (CamelMimeMessage *mime_message);
 
 void camel_mime_message_add_recipient (CamelMimeMessage *mime_message, const gchar *recipient_type, const gchar *recipient);

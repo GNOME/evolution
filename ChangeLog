@@ -1,3 +1,22 @@
+1999-12-08  Ettore Perazzoli  <ettore@gnu.org>
+
+	* tests/test1.c (main): Removed the strdup()s, which are not
+	deeded anymore.
+
+	* camel/camel-mime-message.c (_set_subject): `subject' made const.
+	(camel_mime_message_set_subject): Likewise.
+	(_set_from): `from' made const.
+	(camel_mime_message_set_from): Likewise.
+	(_set_reply_to): Made `reply_to' const.
+	(camel_mime_message_set_reply_to): Likewise.
+	(_set_set_received_date): Made `received_date' const.
+	(camel_mime_message_set_reply_to): Likewise.
+	(_set_field): `value' made const.  Also, strdup the string before
+	assigning.
+
+	* camel/camel-mime-message.h: Virtual methods changed to use const
+	strings when setting header values.
+
 1999-11-17  Ettore Perazzoli  <ettore@gnu.org>
 
 	* composer/Makefile.am (EXTRA_DIST): Added `$(glade_DATA)'.

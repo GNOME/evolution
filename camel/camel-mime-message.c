@@ -55,14 +55,14 @@ static gchar *reply_to_str;
 static gchar *subject_str;
 static gchar *from_str;
 
-static void _set_received_date (CamelMimeMessage *mime_message, gchar *received_date);
+static void _set_received_date (CamelMimeMessage *mime_message, const gchar *received_date);
 static const gchar *_get_received_date (CamelMimeMessage *mime_message);
 static const gchar *_get_sent_date (CamelMimeMessage *mime_message);
-static void _set_reply_to (CamelMimeMessage *mime_message, gchar *reply_to);
+static void _set_reply_to (CamelMimeMessage *mime_message, const gchar *reply_to);
 static const gchar *_get_reply_to (CamelMimeMessage *mime_message);
-static void _set_subject (CamelMimeMessage *mime_message, gchar *subject);
+static void _set_subject (CamelMimeMessage *mime_message, const gchar *subject);
 static const gchar *_get_subject (CamelMimeMessage *mime_message);
-static void _set_from (CamelMimeMessage *mime_message, gchar *from);
+static void _set_from (CamelMimeMessage *mime_message, const gchar *from);
 static const gchar *_get_from (CamelMimeMessage *mime_message);
 static void _add_recipient (CamelMimeMessage *mime_message, const gchar *recipient_type, const gchar *recipient); 
 static void _remove_recipient (CamelMimeMessage *mime_message, const gchar *recipient_type, const gchar *recipient);
@@ -221,11 +221,11 @@ camel_mime_message_new_with_session (CamelSession *session)
 /* some utils func */
 
 static void
-_set_field (CamelMimeMessage *mime_message, gchar *name, gchar *value, gchar **variable)
+_set_field (CamelMimeMessage *mime_message, gchar *name, const gchar *value, gchar **variable)
 {
 	if (variable) {
 		g_free (*variable);
-		*variable = value;
+		*variable = g_strdup (value);
 	}
 }
 
@@ -250,13 +250,13 @@ _check_not_expunged (CamelMimeMessage *mime_message)
 
 
 static void
-_set_received_date (CamelMimeMessage *mime_message, gchar *received_date)
+_set_received_date (CamelMimeMessage *mime_message, const gchar *received_date)
 {
 	_set_field (mime_message, received_date_str, received_date, &(mime_message->received_date));
 }
 
 void
-camel_mime_message_set_received_date (CamelMimeMessage *mime_message, gchar *received_date)
+camel_mime_message_set_received_date (CamelMimeMessage *mime_message, const gchar *received_date)
 {
 	g_assert (mime_message);
 	g_return_if_fail (_check_not_expunged (mime_message));
@@ -295,13 +295,13 @@ camel_mime_message_get_sent_date (CamelMimeMessage *mime_message)
 
 
 static void
-_set_reply_to (CamelMimeMessage *mime_message, gchar *reply_to)
+_set_reply_to (CamelMimeMessage *mime_message, const gchar *reply_to)
 {
 	_set_field (mime_message, reply_to_str, reply_to, &(mime_message->reply_to));
 }
 
 void
-camel_mime_message_set_reply_to (CamelMimeMessage *mime_message, gchar *reply_to)
+camel_mime_message_set_reply_to (CamelMimeMessage *mime_message, const gchar *reply_to)
 {
 	g_assert (mime_message);
 	g_return_if_fail (_check_not_expunged (mime_message));
@@ -327,13 +327,14 @@ camel_mime_message_get_reply_to (CamelMimeMessage *mime_message)
 
 
 static void
-_set_subject (CamelMimeMessage *mime_message, gchar *subject)
+_set_subject (CamelMimeMessage *mime_message, const gchar *subject)
 {
 	_set_field (mime_message, subject_str, subject, &(mime_message->subject));
 }
 
 void
-camel_mime_message_set_subject (CamelMimeMessage *mime_message, gchar *subject)
+camel_mime_message_set_subject (CamelMimeMessage *mime_message,
+				const gchar *subject)
 {
 	g_assert (mime_message);
 	g_return_if_fail (_check_not_expunged (mime_message));
@@ -359,13 +360,13 @@ camel_mime_message_get_subject (CamelMimeMessage *mime_message)
 
 
 static void
-_set_from (CamelMimeMessage *mime_message, gchar *from)
+_set_from (CamelMimeMessage *mime_message, const gchar *from)
 {
 	_set_field (mime_message, from_str, from, &(mime_message->from));
 }
 
 void
-camel_mime_message_set_from (CamelMimeMessage *mime_message, gchar *from)
+camel_mime_message_set_from (CamelMimeMessage *mime_message, const gchar *from)
 {
 	g_assert (mime_message);
 	g_return_if_fail (_check_not_expunged (mime_message));
