@@ -1,6 +1,7 @@
 2003-02-06  Dan Winship  <danw@ximian.com>
 
-	* Makefile.am (INCLUDES): add EVOLUTION_PRIVDATADIR
+	* Makefile.am (INCLUDES): add EVOLUTION_PRIVDATADIR. Fix
+	EVOLUTION_ICONSDIR
 
 	* component-factory.c (owner_set_cb): Use EVOLUTION_PRIVDATADIR
 	* mail-autofilter.c (filter_gui_add_from_message): Likewise
