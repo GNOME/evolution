@@ -594,11 +594,11 @@ query_ldap_root_dse (PASBackendLDAP *bl)
 			g_object_unref (bl->priv->supported_auth_methods);
 		bl->priv->supported_auth_methods = e_list_new ((EListCopyFunc)g_strdup, (EListFreeFunc)g_free, NULL);
 
-		auth_method = g_strdup_printf ("ldap/simple-binddn|%s", _());
+		auth_method = g_strdup_printf ("ldap/simple-binddn|%s", _("Using Distinguished Name (DN)"));
 		e_list_append (bl->priv->supported_auth_methods, auth_method);
 		g_free (auth_method);
 
-		auth_method = g_strdup_printf ("ldap/simple-email|%s");
+		auth_method = g_strdup_printf ("ldap/simple-email|%s", _("Using Email Address"));
 		e_list_append (bl->priv->supported_auth_methods, auth_method);
 		g_free (auth_method);
 

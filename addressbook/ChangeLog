@@ -1,5 +1,10 @@
 2003-01-09  Chris Toshok  <toshok@ximian.com>
 
+	* backend/pas/pas-backend-ldap.c (query_ldap_root_dse): doh, fix
+	build error.
+
+2003-01-09  Chris Toshok  <toshok@ximian.com>
+
 	* gui/component/select-names/e-select-names-popup.c: #include
 	gtklabel.h, fixes an unresolved symbol.
 
