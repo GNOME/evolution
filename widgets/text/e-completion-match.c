@@ -82,43 +82,42 @@ e_completion_match_set_text (ECompletionMatch *match,
 			     const gchar *match_text,
 			     const gchar *menu_text)
 {
-	gchar *to_be_freed_match_text;
-	gchar *to_be_freed_menu_text;
-
 	g_return_if_fail (match != NULL);
 
-	to_be_freed_match_text = match->match_text;
-	to_be_freed_menu_text  = match->menu_text;
+	/* We silently drop any entries w/ invalid utf8.
+	   This is not optimal behavior. */
 
-	if (match_text == NULL) {
-		match_text = "Unknown_Match";
-	} else if (! g_utf8_validate (match_text, -1, NULL)) {
-		match_text = "Invalid_UTF8";
+	if (match_text && ! g_utf8_validate (match_text, -1, NULL)) {
+		match_text = NULL;
 	}
 
-	if (menu_text == NULL) {
-		menu_text = match_text;
-	} else if (! g_utf8_validate (menu_text, -1, NULL)) {
-		menu_text = "Invalid_UTF8";
+	if (menu_text && ! g_utf8_validate (menu_text, -1, NULL)) {
+		menu_text = NULL;
 	}
 
+	if (match->match_text && match->match_text != match_text) {
+		g_free (match->match_text);
+	}
 	match->match_text = g_strdup (match_text);
-	match->menu_text  = g_strdup (menu_text);
 
-	g_free (to_be_freed_match_text);
-	g_free (to_be_freed_menu_text);
+	if (match->menu_text && match->menu_text != menu_text) {
+		g_free (match->menu_text);
+	}
+	match->menu_text  = g_strdup (menu_text);
 }
 
 const gchar *
 e_completion_match_get_match_text (ECompletionMatch *match)
 {
-	return match ? match->match_text : "NULL_Match";
+	g_return_val_if_fail (match != NULL, NULL);
+	return match->match_text;
 }
 
 const gchar *
 e_completion_match_get_menu_text (ECompletionMatch *match)
 {
-	return match ? match->menu_text : "NULL_Match";
+	g_return_val_if_fail (match != NULL, NULL);
+	return match->menu_text;
 }
 
 gint
