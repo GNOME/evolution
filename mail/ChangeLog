@@ -1,5 +1,15 @@
 2004-04-07  Jeffrey Stedfast  <fejj@ximian.com>
 
+	Fix for bug #56538
+
+	* em-folder-view.c (emfv_set_folder_uri): Don't set the preview
+	empty here.
+	(emfv_set_folder): If the folder is the same as the folder already
+	on the emfv, just return. Otherwise clear the preview and continue
+	setting the folder as normal.
+
+2004-04-07  Jeffrey Stedfast  <fejj@ximian.com>
+
 	* em-account-prefs.c (em_account_prefs_apply): Removed.
 
 	* em-mailer-prefs.c (em_mailer_prefs_apply): Removed.

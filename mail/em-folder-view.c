@@ -355,27 +355,33 @@ emfv_set_folder(EMFolderView *emfv, CamelFolder *folder, const char *uri)
 		     && (em_utils_folder_is_drafts(folder, uri)
 			 || em_utils_folder_is_sent(folder, uri)
 			 || em_utils_folder_is_outbox(folder, uri)));
-
+	
+	if (folder == emfv->folder)
+		return;
+	
+	if (emfv->preview)
+		em_format_format ((EMFormat *) emfv->preview, NULL, NULL, NULL);
+	
 	message_list_set_folder(emfv->list, folder, uri, isout);
 	g_free(emfv->folder_uri);
 	emfv->folder_uri = g_strdup(uri);
-	if (folder != emfv->folder) {
-		if (emfv->folder) {
-			mail_sync_folder (emfv->folder, NULL, NULL);
-			camel_object_remove_event(emfv->folder, emfv->priv->folder_changed_id);
-			camel_object_remove_event(emfv->folder, emfv->priv->message_changed_id);
-			camel_object_unref(emfv->folder);
-		}
-		emfv->folder = folder;
-		if (folder) {
-			emfv->priv->folder_changed_id = camel_object_hook_event(folder, "folder_changed",
-										(CamelObjectEventHookFunc)emfv_folder_changed, emfv);
-			emfv->priv->message_changed_id = camel_object_hook_event(folder, "message_changed",
-										 (CamelObjectEventHookFunc)emfv_message_changed, emfv);
-			camel_object_ref(folder);
-		}
+	
+	if (emfv->folder) {
+		mail_sync_folder (emfv->folder, NULL, NULL);
+		camel_object_remove_event(emfv->folder, emfv->priv->folder_changed_id);
+		camel_object_remove_event(emfv->folder, emfv->priv->message_changed_id);
+		camel_object_unref(emfv->folder);
 	}
 
+	emfv->folder = folder;
+	if (folder) {
+		emfv->priv->folder_changed_id = camel_object_hook_event(folder, "folder_changed",
+									(CamelObjectEventHookFunc)emfv_folder_changed, emfv);
+		emfv->priv->message_changed_id = camel_object_hook_event(folder, "message_changed",
+									 (CamelObjectEventHookFunc)emfv_message_changed, emfv);
+		camel_object_ref(folder);
+	}
+	
 	emfv_enable_menus(emfv);
 }
 
@@ -383,16 +389,13 @@ static void
 emfv_got_folder(char *uri, CamelFolder *folder, void *data)
 {
 	EMFolderView *emfv = data;
-
+	
 	em_folder_view_set_folder(emfv, folder, uri);
 }
 
 static void
 emfv_set_folder_uri(EMFolderView *emfv, const char *uri)
 {
-	if (emfv->preview)
-		em_format_format((EMFormat *)emfv->preview, NULL, NULL, NULL);
-	
 	mail_get_folder(uri, 0, emfv_got_folder, emfv, mail_thread_new);
 }
 
