@@ -46,6 +46,34 @@ camel_exception_new ()
 	return ex;
 }
 
+
+/**
+ * camel_exception_clear: Clear an exception
+ * @exception: the exception object
+ * 
+ * Clear an exception, that is, set the 
+ * exception ID to CAMEL_EXCEPTION_NONE and
+ * free the description text.
+ * If the exception is NULL, this funtion just
+ * returns.
+ **/
+void 
+camel_exception_clear (CamelException *exception)
+{
+	if (!exception) return;
+	
+	/* free the description text */
+	if (exception->desc)
+		g_free (exception->desc);
+	exception->desc = NULL;
+
+	/* set the Exception Id to NULL */
+	exception->id = CAMEL_EXCEPTION_NONE;
+}
+
+
+
+
 /**
  * camel_exception_free: Free an exception 
  * @exception: The exception object to free
@@ -121,4 +149,50 @@ camel_exception_xfer (CamelException *ex_dst,
 
 	ex_src->desc = NULL;
 	ex_src->id = CAMEL_EXCEPTION_NONE;
+}
+
+
+
+
+
+
+
+/**
+ * camel_exception_get_id: get the exception id
+ * @ex: The exception object
+ * 
+ * Return the id of an exception. 
+ * If @ex is NULL, return CAMEL_EXCEPTION_NONE;
+ * 
+ * Return value: Exception ID.
+ **/
+ExceptionId
+camel_exception_get_id (CamelException *ex)
+{
+	if (ex)
+		return ex->id;
+	else 
+		return CAMEL_EXCEPTION_NONE;
+}
+
+
+
+
+/**
+ * camel_exception_get_description: get the description of an exception.
+ * @ex: The exception object
+ * 
+ * Return the exception description text. 
+ * If @ex is NULL, return NULL;
+ * 
+ * 
+ * Return value: Exception description text.
+ **/
+const gchar *
+camel_exception_get_description (CamelException *ex)
+{
+	if (ex)
+		return ex->desc;
+	else 
+		return NULL;
 }

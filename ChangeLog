@@ -1,3 +1,34 @@
+1999-12-17  bertrand  <Bertrand.Guiheneuf@aful.org>
+
+	* camel/camel-folder.c (_set_name): 
+	use exception mechanism.
+	(camel_folder_set_name): idem.
+	(camel_folder_set_full_name): idem.
+	(_get_name): idem.
+	(camel_folder_get_name): idem.
+	(_get_full_name): idem.
+	(camel_folder_get_full_name): idem.
+	(_can_hold_folders): idem.
+	(_can_hold_messages): idem.
+	(_exists): idem.
+	(camel_folder_exists): idem.
+	(_is_open): idem.
+	(_get_subfolder): idem.
+	(camel_folder_get_subfolder): idem.
+
+	* camel/camel-exception.c (camel_exception_clear): 
+	New function. Clear an exception.
+	(camel_exception_get_id): 
+	New function. 
+	(camel_exception_get_description): 
+	New function. 
+
+	* camel/camel-folder.c (_set_name): 
+	Use the exception system. When the folder
+	has no parent, don't set its full name 
+	field.
+
+	
 1999-12-16  bertrand  <Bertrand.Guiheneuf@aful.org>
 
 	* camel/camel-folder.c (camel_folder_expunge): 

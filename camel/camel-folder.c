@@ -218,6 +218,7 @@ _finalize (GtkObject *object)
 static void 
 _init_with_store (CamelFolder *folder, CamelStore *parent_store, CamelException *ex)
 {
+	
 	if (!folder) {
 		camel_exception_set (ex, 
 				     CAMEL_EXCEPTION_FOLDER_NULL,
@@ -232,7 +233,7 @@ _init_with_store (CamelFolder *folder, CamelStore *parent_store, CamelException 
 		return;
 	}
 	
-	if (!folder->parent_store) {
+	if (folder->parent_store) {
 		camel_exception_set (ex, 
 				     CAMEL_EXCEPTION_INVALID_FOLDER,
 				     "folder already has a parent store");
@@ -396,6 +397,12 @@ _close_async (CamelFolder *folder,
 	      gpointer user_data, 
 	      CamelException *ex)
 {	
+	if (!folder) {
+		camel_exception_set (ex, 
+				     CAMEL_EXCEPTION_FOLDER_NULL,
+				     "folder object is NULL");
+		return;
+	}
 	CAMEL_LOG_WARNING ("Calling CamelFolder::close_async directly. "
 			   "Should be overloaded\n");
 }
@@ -443,22 +450,46 @@ _set_name (CamelFolder *folder,
 	gchar *full_name;
 	const gchar *parent_full_name;
 	
-	g_assert (folder);
-	g_assert (name);
-	g_assert (folder->parent_store);
+	if (!folder) {
+		camel_exception_set (ex, 
+				     CAMEL_EXCEPTION_FOLDER_NULL,
+				     "folder object is NULL");
+		return;
+	}
+
+	if (!name) {
+		camel_exception_set (ex, 
+				     CAMEL_EXCEPTION_INVALID_PARAM,
+				     "name parameter is NULL");
+		return;
+	}	
 	
+	
+	if (!folder->parent_store) {
+		camel_exception_set (ex, 
+				     CAMEL_EXCEPTION_INVALID_FOLDER,
+				     "folder has no parent store");
+		return;
+	}
+
+	/* if the folder already has a name, free it */	
 	g_free (folder->name);
 	g_free (folder->full_name);
 	
-	separator = camel_store_get_separator (folder->parent_store);
+	/* set thos fields to NULL now, so that if an 
+	   exception occurs, they will be set anyway */
+	folder->name = NULL;
+	folder->full_name = NULL;
 	
+	
+	separator = camel_store_get_separator (folder->parent_store);
+	camel_exception_free (ex);
 	if (folder->parent_folder) {
 		parent_full_name = camel_folder_get_full_name (folder->parent_folder, ex);
-		full_name = g_strdup_printf ("%s%d%s", parent_full_name, separator, name);
+		if (camel_exception_get_id (ex)) return;
 		
-	} else {
-		full_name = g_strdup (name);
-	}
+		full_name = g_strdup_printf ("%s%d%s", parent_full_name, separator, name);		
+	} 
 	
 	folder->name = g_strdup (name);
 	folder->full_name = full_name;
@@ -475,6 +506,12 @@ _set_name (CamelFolder *folder,
 void
 camel_folder_set_name (CamelFolder *folder, const gchar *name, CamelException *ex)
 {
+	if (!folder) {
+		camel_exception_set (ex, 
+				     CAMEL_EXCEPTION_FOLDER_NULL,
+				     "folder object is NULL");
+	}
+
 	CF_CLASS(folder)->set_name (folder, name, ex);
 }
 
@@ -488,6 +525,12 @@ camel_folder_set_name (CamelFolder *folder, const gchar *name, CamelException *e
 static void
 _set_full_name (CamelFolder *folder, const gchar *name, CamelException *ex)
 {
+	if (!folder) {
+		camel_exception_set (ex, 
+				     CAMEL_EXCEPTION_FOLDER_NULL,
+				     "folder object is NULL");
+		return;
+	}
 	g_free(folder->full_name);
 	folder->full_name = g_strdup (name);
 }
@@ -504,6 +547,13 @@ _set_full_name (CamelFolder *folder, const gchar *name, CamelException *ex)
 void 
 camel_folder_set_full_name (CamelFolder *folder, const gchar *name, CamelException *ex)
 {
+	if (!folder) {
+		camel_exception_set (ex, 
+				     CAMEL_EXCEPTION_FOLDER_NULL,
+				     "folder object is NULL");
+		return;
+	}
+
 	CF_CLASS(folder)->set_full_name (folder, name, ex);
 }
 #endif
@@ -514,6 +564,12 @@ camel_folder_set_full_name (CamelFolder *folder, const gchar *name, CamelExcepti
 static const gchar *
 _get_name (CamelFolder *folder, CamelException *ex)
 {
+	if (!folder) {
+		camel_exception_set (ex, 
+				     CAMEL_EXCEPTION_FOLDER_NULL,
+				     "folder object is NULL");
+		return NULL;
+	}
 	return folder->name;
 }
 
@@ -530,6 +586,13 @@ _get_name (CamelFolder *folder, CamelException *ex)
 const gchar *
 camel_folder_get_name (CamelFolder *folder, CamelException *ex)
 {
+	if (!folder) {
+		camel_exception_set (ex, 
+				     CAMEL_EXCEPTION_FOLDER_NULL,
+				     "folder object is NULL");
+		return NULL;
+	}
+
 	return CF_CLASS(folder)->get_name (folder, ex);
 }
 
@@ -538,6 +601,13 @@ camel_folder_get_name (CamelFolder *folder, CamelException *ex)
 static const gchar *
 _get_full_name (CamelFolder *folder, CamelException *ex)
 {
+	if (!folder) {
+		camel_exception_set (ex, 
+				     CAMEL_EXCEPTION_FOLDER_NULL,
+				     "folder object is NULL");
+		return NULL;
+	}
+
 	return folder->full_name;
 }
 
@@ -552,6 +622,13 @@ _get_full_name (CamelFolder *folder, CamelException *ex)
 const gchar *
 camel_folder_get_full_name (CamelFolder *folder, CamelException *ex)
 {
+	if (!folder) {
+		camel_exception_set (ex, 
+				     CAMEL_EXCEPTION_FOLDER_NULL,
+				     "folder object is NULL");
+		return NULL;
+	}
+
 	return CF_CLASS(folder)->get_full_name (folder, ex);
 }
 
@@ -568,6 +645,13 @@ camel_folder_get_full_name (CamelFolder *folder, CamelException *ex)
 static gboolean
 _can_hold_folders (CamelFolder *folder, CamelException *ex)
 {
+	if (!folder) {
+		camel_exception_set (ex, 
+				     CAMEL_EXCEPTION_FOLDER_NULL,
+				     "folder object is NULL");
+		return FALSE;
+	}
+
 	return folder->can_hold_folders;
 }
 
@@ -587,6 +671,13 @@ _can_hold_folders (CamelFolder *folder, CamelException *ex)
 static gboolean
 _can_hold_messages (CamelFolder *folder, CamelException *ex)
 {
+	if (!folder) {
+		camel_exception_set (ex, 
+				     CAMEL_EXCEPTION_FOLDER_NULL,
+				     "folder object is NULL");
+		return FALSE;
+	}
+
 	return folder->can_hold_messages;
 }
 
@@ -595,6 +686,13 @@ _can_hold_messages (CamelFolder *folder, CamelException *ex)
 static gboolean
 _exists (CamelFolder *folder, CamelException *ex)
 {
+	if (!folder) {
+		camel_exception_set (ex, 
+				     CAMEL_EXCEPTION_FOLDER_NULL,
+				     "folder object is NULL");
+		return FALSE;
+	}
+
 	return FALSE;
 }
 
@@ -612,6 +710,13 @@ _exists (CamelFolder *folder, CamelException *ex)
 gboolean
 camel_folder_exists (CamelFolder *folder, CamelException *ex)
 {
+	if (!folder) {
+		camel_exception_set (ex, 
+				     CAMEL_EXCEPTION_FOLDER_NULL,
+				     "folder object is NULL");
+		return FALSE;
+	}
+
 	return (CF_CLASS(folder)->exists (folder, ex));
 }
 
@@ -629,6 +734,13 @@ camel_folder_exists (CamelFolder *folder, CamelException *ex)
 static gboolean
 _is_open (CamelFolder *folder, CamelException *ex)
 {
+	if (!folder) {
+		camel_exception_set (ex, 
+				     CAMEL_EXCEPTION_FOLDER_NULL,
+				     "folder object is NULL");
+		return FALSE;
+	}
+
 	return (folder->open_state == FOLDER_OPEN);
 } 
 
@@ -646,14 +758,32 @@ _get_subfolder (CamelFolder *folder,
 	const gchar *current_folder_full_name;
 	gchar separator;
 	
-	g_assert (folder);
-	g_assert (folder_name);
+	if (!folder) {
+		camel_exception_set (ex, 
+				     CAMEL_EXCEPTION_FOLDER_NULL,
+				     "folder object is NULL");
+		return;
+	}
+
 	
-	if (!folder->parent_store) return NULL;
+	if (!folder_name) {
+		camel_exception_set (ex, 
+				     CAMEL_EXCEPTION_INVALID_PARAM,
+				     "folder_name parameter is NULL");
+		return;
+	}	
+	
+	if (!folder->parent_store) {
+		camel_exception_set (ex, 
+				     CAMEL_EXCEPTION_INVALID_FOLDER,
+				     "folder has no parent store");
+		return;
+	}
 	
 	current_folder_full_name = camel_folder_get_full_name (folder, ex);
-	if (!current_folder_full_name) return NULL;
-	
+	if (camel_exception_get_id (ex)) return NULL;
+
+
 	separator = camel_store_get_separator (folder->parent_store);
 	full_name = g_strdup_printf ("%s%d%s", current_folder_full_name, separator, folder_name);
 	
@@ -678,6 +808,13 @@ _get_subfolder (CamelFolder *folder,
 CamelFolder *
 camel_folder_get_subfolder (CamelFolder *folder, gchar *folder_name, CamelException *ex)
 {
+	if (!folder) {
+		camel_exception_set (ex, 
+				     CAMEL_EXCEPTION_FOLDER_NULL,
+				     "folder object is NULL");
+		return FALSE;
+	}
+
 	return (CF_CLASS(folder)->get_subfolder(folder,folder_name, ex));
 }
 
@@ -699,7 +836,7 @@ camel_folder_get_subfolder (CamelFolder *folder, gchar *folder_name, CamelExcept
  * Return value: %TRUE if the folder exists, %FALSE otherwise 
  **/
 static gboolean
-_create(CamelFolder *folder, CamelException *ex)
+_create (CamelFolder *folder, CamelException *ex)
 {
 	gchar *prefix;
 	gchar dich_result;
@@ -710,9 +847,34 @@ _create(CamelFolder *folder, CamelException *ex)
 	g_assert (folder->parent_store);
 	g_assert (folder->name);
 	
+	if (!folder) {
+		camel_exception_set (ex, 
+				     CAMEL_EXCEPTION_FOLDER_NULL,
+				     "folder object is NULL");
+		return FALSE;
+	}
+
+	
+	if (!folder->name) {
+		camel_exception_set (ex, 
+				     CAMEL_EXCEPTION_INVALID_FOLDER,
+				     "folder has no name");
+		return FALSE;
+	}	
+	
+	if (!folder->parent_store) {
+		camel_exception_set (ex, 
+				     CAMEL_EXCEPTION_INVALID_FOLDER,
+				     "folder has no parent store");
+		return FALSE;
+	}
+
+	/* if the folder already exists on the 
+	   store, do nothing and return true */
 	if (CF_CLASS(folder)->exists (folder, ex))
 		return TRUE;
 	
+	/*** Ber : finis les exceptions ici **/
 	sep = camel_store_get_separator (folder->parent_store);	
 	if (folder->parent_folder)
 		camel_folder_create (folder->parent_folder, ex);

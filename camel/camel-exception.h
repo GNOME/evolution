@@ -44,19 +44,28 @@ typedef enum {
 } ExceptionId;
 
 typedef struct {
-
+	/* do not access the fields directly */
 	ExceptionId id;
 	char *desc;
 
 } CamelException;
 
-void camel_exception_free (CamelException *exception);
 CamelException *camel_exception_new ();
+void camel_exception_free (CamelException *exception);
+
+
+void camel_exception_clear (CamelException *exception);
 void camel_exception_set (CamelException *ex,
 			  ExceptionId id,
 			  const char *desc);
+
+
 void camel_exception_xfer (CamelException *ex_dst,
 			   CamelException *ex_src);
+
+
+ExceptionId camel_exception_get_id (CamelException *ex);
+const gchar *camel_exception_get_description (CamelException *ex);
 
 
 
