@@ -1,7 +1,6 @@
-2002-11-27  Stanislav Brabec  <sbrabec@suse.cz>
+2002-12-09  JP Rosevear  <jpr@ximian.com>
 
-	* gnome-pilot.m4: Added missing quotes:
-	PISOCK_LIBS="-lpisock -lpisync"
+	* gnome-pilot.m4: add quotes 
 
 2002-09-20  JP Rosevear  <jpr@ximian.com>
 
@@ -153,7 +152,7 @@
 
 	* gnome-pilot.m4: Revert my previous patch now that gnome-pim and
 	evolution are fixed to accomodate the change
-
+	
 2001-02-19  JP Rosevear  <jpr@ximian.com>
 
 	* gnome-pilot.m4: AC_SUBST the PISOCK_LIBDIR var
@@ -283,7 +282,7 @@ Sun Apr 23 12:15:14 2000  George Lebl <jirka@5z.com>
 	use AC_LIBGTOP_CHECK_TYPE rather than AC_CHECK_TYPE.
 
 2000-01-26  Dave Camp  <campd@oit.edu>
-
+	
 	* gnome-bonobo-check.m4 Include <bonobo.h> rather than 
 	<bonobo/gnome-object.h>
 
@@ -312,10 +311,10 @@ Sun Apr 23 12:15:14 2000  George Lebl <jirka@5z.com>
 	* gnome-pilot.m4: Fix typo in PILOT_LINK_HOOK.
 
 2000-01-15  Eskil Heyn Olsen  <deity@eskil.dk>
-
+	
 	* gnome-pilot.m4: PILOT_LINK_HOOK now check pilot-link version.
 	GNOME_PILOT_CHECK defaults to requiring 0.9.3.
-
+	
 2000-01-09  Martin Baulig  <martin@home-of-linux.org>
 
 	* gnome-libgtop-check.m4: Applied patch from R. Bernstein
@@ -370,7 +369,7 @@ Sun Apr 23 12:15:14 2000  George Lebl <jirka@5z.com>
 1999-09-01  Havoc Pennington  <hp@pobox.com>
 
 	* gnome-xml-check.m4: If you're going to AC_PATH_PROG then use the
-	prog you find :-)
+	prog you find :-)	
 
 1999-08-02  Peter Teichman  <pat4@acpub.duke.edu>
 
@@ -568,7 +567,7 @@ Tue Feb 16 19:35:42 1999  Owen Taylor  <otaylor@redhat.com>
 	* gnome-libgtop-check.m4: All parts of GNOME will now require
 	LibGTop >= 0.99.0 which is the latest version from CVS and
 	already feature-freezed for GNOME 1.0.
-
+	
 1998-12-09  Martin Baulig  <martin@home-of-linux.org>
 
 	* aclocal-include.m4 (AM_ACLOCAL_INCLUDE): Make this work
@@ -638,7 +637,7 @@ Sat Dec  5 23:30:01 PST 1998 Manish Singh <yosh@gimp.org>
 	* gnome-libgtop-sysdeps.m4: We need to check for <net/if_var.h>
 	and conditionally include it before <net/if_isppp.h> in the code
 	that check for I4B to make it work on FreeBSD 3.0.
-
+	
 1998-10-25  Marius Vollmer  <mvo@zagadka.ping.de>
 
 	* gnome-guile-checks.m4: Add GUILE_LIBS to LIBS when checking
@@ -660,7 +659,7 @@ Sat Dec  5 23:30:01 PST 1998 Manish Singh <yosh@gimp.org>
 	Gnorba info, if it is in a different location.
 
 	* Makefile.am (MACROS): Add gnome-gnorba-check.m4 to Makefile.
-
+	
 	* gnome-gnorba-check.m4: New file.
 
 1998-11-12  Raja R Harinath  <harinath@cs.umn.edu>
@@ -701,7 +700,7 @@ Sat Dec  5 23:30:01 PST 1998 Manish Singh <yosh@gimp.org>
 	included in "link".  Use "compile" instead of "info includedir".  Do
 	not include "1.2" in error message when Guile can't be found at
 	all.
-
+	
 1998-10-11  Martin Baulig  <martin@home-of-linux.org>
 
 	* gnome-libgtop-check.m4 (GNOME_INIT_LIBGTOP): Added optional
@@ -733,7 +732,7 @@ Sat Dec  5 23:30:01 PST 1998 Manish Singh <yosh@gimp.org>
 
 	* compiler-flags.m4 (--enable-warn-unused): New configure parameter
 	to add `-Wunused' to the warning flags.
-
+	
 1998-09-27  Martin Baulig  <martin@home-of-linux.org>
 
 	* gnome-libgtop-check.m4: Make it require libgtop >= 0.26.2.
@@ -788,7 +787,7 @@ Sat Dec  5 23:30:01 PST 1998 Manish Singh <yosh@gimp.org>
 
 	* gnome-libgtop-check.m4 (GNOME_INIT_LIBGTOP): Make it work
 	with a brain-dead /bin/sh and a brain-dead /bin/test.
-
+	
 	* gnome-libgtop-check.m4 (GNOME_INIT_LIBGTOP): Use `AC_MSG_WARN'
 	if LibGTop cannot be found and the `fail' argument is not given.
 
@@ -826,7 +825,7 @@ Sat Dec  5 23:30:01 PST 1998 Manish Singh <yosh@gimp.org>
 
 	* gnome-libgtop-check.m4: make it require libgtop >= 0.25.0.
 	Added (AC_SUBST): `LIBGTOP_MICRO_VERSION' and `LIBGTOP_EXTRA_LIBS'.
-
+	
 1998-08-17  Martin Baulig  <martin@home-of-linux.org>
 
 	* gnome-libgtop-check.m4: Completely rewrote this file. It
@@ -973,7 +972,7 @@ Fri Jun 26 14:36:08 1998  Scott D. Heavner  <sdh@po.cwru.edu>
 	This needs to be further cleaned up to only list what is
 	needed for gdiskfree.
 	* Makefile.am (MACROS): Add gnome-fileutils.m4.
-
+	
 1998-06-14  Martin Baulig  <martin@home-of-linux.org>
 
 	* gnome-libgtop-sysdeps.m4 (LINUX_TABLE): New automake conditional;
@@ -991,7 +990,7 @@ Fri Jun 26 14:36:08 1998  Scott D. Heavner  <sdh@po.cwru.edu>
 
 	* gnome-support.m4 (AC_PROG_AWK): Look for awk.
 	(CROSS_COMPILING): Remove conditional.
-
+	
 Wed Jun 10 14:19:39 EDT 1998 Gregory McLean <gregm@comstar.net>
 
 	* gnome-x-checks.m4: More tweeks to make building against gtk 1.0
@@ -1058,7 +1057,7 @@ Fri Apr 24 16:43:38 1998  Owen Taylor  <otaylor@gtk.org>
 	ACLOCAL_FLAGS to aclocal. This allows, for instance,
 
 	 ACLOCAL_FLAGS="-I /home/owen/share/aclocal/" autogen.sh
-
+	
 Sun Apr 19 01:35:53 EDT 1998 Gregory McLean <gregm@comstar.net>
 
         * gnome-x-checks.m4: Updated the gtk check to check for 1.0.0.
@@ -1083,7 +1082,7 @@ Thu Mar 19 23:23:30 1998  Tom Tromey  <tromey@cygnus.com>
 
 	* gnome.m4 (GNOME_INIT_HOOK): Provide a way to hook some code to
 	execute;  Accept a probe mode.
-
+	
 	(GNOME_INIT): Define in terms of GNOME_INIT_HOOK.
 
 Thu Mar 19 00:17:46 1998  Tom Tromey  <tromey@cygnus.com>
@@ -1172,7 +1171,7 @@ Fri Feb 27 10:05:34 1998  Tom Tromey  <tromey@cygnus.com>
 	* gnome-x-checks.m4: Add `AC_DEFINE(HAVE_LIBSM)' if `-lSM' is
 	already part of `$x_libs'.
 	Move pthread check to new file.
-
+	
 Sat Feb 14 12:45:35 1998  Tom Tromey  <tromey@cygnus.com>
 
 	* Makefile.am (macros.dep): Use single quotes, not double quotes.
@@ -1224,7 +1223,7 @@ Sat Feb 14 01:09:37 1998  Tom Tromey  <tromey@cygnus.com>
 	here, and renamed macro to GNOME_CHECK_GNOME.
 	* gnome-x-checks.m4: Likewise, move and renaming AC_GNOME_X_CHECKS 
 	to GNOME_X_CHECKS.
-
+	
 	* aclocal-include.m4: New file.  Defines AM_ACLOCAL_INCLUDE macro
 	to provide extra search directories to `aclocal'.
 
