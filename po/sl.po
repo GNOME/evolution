@@ -968,27 +968,25 @@ msgstr "URI"
 
 #: addressbook/gui/component/e-address-widget.c:365
 msgid "Disable Queries"
-msgstr ""
+msgstr "Izključi poizvedbe"
 
 #: addressbook/gui/component/e-address-widget.c:365
 msgid "Enable Queries (Dangerous!)"
-msgstr ""
+msgstr "Vključi poizvedbe (nevarno!)"
 
 #: addressbook/gui/component/e-address-widget.c:388
 #: addressbook/gui/component/select-names/e-select-names-popup.c:200
 msgid "Edit Contact Info"
-msgstr ""
+msgstr "Uredi podatke stika"
 
 #: addressbook/gui/component/e-address-widget.c:424
 #: addressbook/gui/component/select-names/e-select-names-popup.c:259
-#, fuzzy
 msgid "Add to Contacts"
-msgstr "Drugo stiki"
+msgstr "Dodaj k stikom"
 
 #: addressbook/gui/component/GNOME_Evolution_Addressbook.oaf.in.h:1
-#, fuzzy
 msgid "A Bonobo control for an address popup."
-msgstr "Kontrola Bonobo za prikaz naslova."
+msgstr "Kontrola Bonobo za vznik naslova."
 
 #: addressbook/gui/component/GNOME_Evolution_Addressbook.oaf.in.h:2
 msgid "A Bonobo control for displaying an address."
@@ -1019,9 +1017,8 @@ msgid "Factory for the Addressbook's address displayer"
 msgstr "Tovarna za prikazovalnik adresarjeve adrese"
 
 #: addressbook/gui/component/GNOME_Evolution_Addressbook.oaf.in.h:9
-#, fuzzy
 msgid "Factory for the Addressbook's address popup"
-msgstr "Tovarna za prikazovalnik adresarjeve adrese"
+msgstr "Tovarna za Adresarjev vznik naslova"
 
 #: addressbook/gui/component/GNOME_Evolution_Addressbook.oaf.in.h:10
 msgid "Factory for the Evolution addressbook component."
@@ -2268,19 +2265,16 @@ msgid "New Appointment"
 msgstr "Nov zmenek"
 
 #: calendar/gui/e-day-view.c:3029 calendar/gui/e-week-view.c:3237
-#, fuzzy
 msgid "New All Day Event"
-msgstr "_Celodnevni dogodek"
+msgstr "Nov celodnevni dogodek"
 
 #: calendar/gui/e-day-view.c:3034 calendar/gui/e-week-view.c:3242
-#, fuzzy
 msgid "Go to Today"
 msgstr "Pojdi na danes"
 
 #: calendar/gui/e-day-view.c:3036 calendar/gui/e-week-view.c:3244
-#, fuzzy
 msgid "Go to Date..."
-msgstr "Pojdi na datum"
+msgstr "Pojdi na datum..."
 
 #: calendar/gui/e-day-view.c:3043 calendar/gui/e-week-view.c:3250
 #: mail/folder-browser.c:543 ui/evolution-calendar.xml.h:19
@@ -3509,16 +3503,14 @@ msgstr "Pregledujem mapo IMAP"
 
 #: camel/providers/imap/camel-imap-folder.c:951
 #: camel/providers/imap/camel-imap-folder.c:1155
-#, fuzzy
 msgid "This message is not currently available"
 msgstr ""
-"To poročilo nima 'zadeve'.\n"
-"Resnično pošlji?"
+"To sporočilo trenutno ni na voljo"
 
 #: camel/providers/imap/camel-imap-folder.c:981
 #: camel/providers/imap/camel-imap-folder.c:1189
 msgid "Could not find message body in FETCH response."
-msgstr "Nisem mogel najti telesa sporočila v FETCH odgovoru."
+msgstr "Nisem mogel najti telesa sporočila v odgovoru FETCH."
 
 #: camel/providers/imap/camel-imap-provider.c:40
 msgid "IMAPv4"
@@ -3526,17 +3518,15 @@ msgstr "IMAPv4"
 
 #: camel/providers/imap/camel-imap-provider.c:42
 msgid "For reading and storing mail on IMAP servers."
-msgstr "Za branje in hranjenje pošte na IMAP strežnikih."
+msgstr "Za branje in hranjenje pošte na strežnikih IMAP."
 
 #: camel/providers/imap/camel-imap-provider.c:58
-#, fuzzy
 msgid "Secure IMAPv4"
-msgstr "IMAPv4"
+msgstr "Varni IMAPv4"
 
 #: camel/providers/imap/camel-imap-provider.c:60
-#, fuzzy
 msgid "For reading and storing mail on IMAP servers over an SSL connection."
-msgstr "Za branje in hranjenje pošte na IMAP strežnikih."
+msgstr "Za branje in hranjenje pošte na IMAP strežnikih preko povezave SSL."
 
 #: camel/providers/imap/camel-imap-provider.c:77
 msgid "This option will connect to the IMAP server using a plaintext password."
@@ -3582,7 +3572,7 @@ msgstr "Nisem mogel ustvariti imenika %s: %s"
 
 #: camel/providers/imap/camel-imap-store.c:1329
 msgid "You must be working online to complete this operation"
-msgstr ""
+msgstr "Za dokončanje te operacije morate delati z mrežo"
 
 #: camel/providers/local/camel-local-provider.c:36
 msgid "MH-format mail directories"
@@ -3921,7 +3911,7 @@ msgstr "USENET novičke"
 
 #: camel/providers/nntp/camel-nntp-provider.c:40
 msgid "This is a provider for reading from and posting toUSENET newsgroups."
-msgstr "To je nuditelj za branje in pisanje v USENET novičkarske skupine."
+msgstr "To je nuditelj za branje in pisanje v novičkarske skupine USENET."
 
 #: camel/providers/nntp/camel-nntp-store.c:226
 #, c-format
@@ -3967,7 +3957,7 @@ msgstr "Prenašam sporočilo POP %d"
 #: camel/providers/pop3/camel-pop3-folder.c:308
 #, c-format
 msgid "Could not retrieve message from POP server %s: %s"
-msgstr "Nisem uspel prenesti sporočila s POP strežnika %s: %s"
+msgstr "Nisem uspel prenesti sporočila s strežnika POP %s: %s"
 
 #: camel/providers/pop3/camel-pop3-provider.c:34
 msgid "POP"
@@ -3978,22 +3968,21 @@ msgid ""
 "For connecting to POP servers. The POP protocol can also be used to retrieve "
 "mail from certain web mail providers and proprietary email systems."
 msgstr ""
-"Za povezovanje s strežniki POP. POP protokol se lahko uporabi tudi za "
+"Za povezovanje s strežniki POP. Protokol POP se lahko uporabi tudi za "
 "prenašanje pošte iz nekaterih spletnih nuditeljev pošte in zaprtih "
 "sistemov e-pošte."
 
 #: camel/providers/pop3/camel-pop3-provider.c:52
 msgid "Secure POP"
-msgstr ""
+msgstr "Varni POP"
 
 #: camel/providers/pop3/camel-pop3-provider.c:54
-#, fuzzy
 msgid ""
 "For connecting to POP servers over an SSL connection. The POP protocol can "
 "also be used to retrieve mail from certain web mail providers and "
 "proprietary email systems."
 msgstr ""
-"Za povezovanje s strežniki POP. POP protokol se lahko uporabi tudi za "
+"Za povezovanje s strežniki POP preko povezave SSL. Protokol POP se lahko uporabi tudi za "
 "prenašanje pošte iz nekaterih spletnih nuditeljev pošte in zaprtih "
 "sistemov e-pošte."
 
@@ -4140,16 +4129,15 @@ msgstr ""
 
 #: camel/providers/smtp/camel-smtp-provider.c:52
 msgid "Secure SMTP"
-msgstr ""
+msgstr "Varni SMTP"
 
 #: camel/providers/smtp/camel-smtp-provider.c:54
-#, fuzzy
 msgid ""
 "For delivering mail by connecting to a remote mailhub using SMTP over an SSL "
 "connection.\n"
 msgstr ""
 "Za dostavo pošte preko povezave z oddaljenim poštnim razdelilcem z uporabo "
-"SMTP.\n"
+"SMTP preko povezave SSL.\n"
 
 #: camel/providers/smtp/camel-smtp-transport.c:146
 msgid "Syntax error, command unrecognized"
@@ -5076,9 +5064,8 @@ msgid "Assign Score"
 msgstr "Pripiši točke"
 
 #: filter/libfilter-i18n.h:5
-#, fuzzy
 msgid "Attachments"
-msgstr "Priloga"
+msgstr "Priloge"
 
 #: filter/libfilter-i18n.h:7
 msgid "contains"
@@ -5121,7 +5108,6 @@ msgid "does not start with"
 msgstr "se ne začne z"
 
 #: filter/libfilter-i18n.h:18
-#, fuzzy
 msgid "Do Not Exist"
 msgstr "ne obstaja"
 
@@ -5134,9 +5120,8 @@ msgid "ends with"
 msgstr "se konča z"
 
 #: filter/libfilter-i18n.h:21
-#, fuzzy
 msgid "Exist"
-msgstr "Izhod"
+msgstr "obstaja"
 
 #: filter/libfilter-i18n.h:22
 msgid "exists"
@@ -5256,9 +5241,8 @@ msgid "was before"
 msgstr "je bilo pred"
 
 #: filter/score-editor.c:126
-#, fuzzy
 msgid "Score Rules"
-msgstr "Uredi pravilo točk"
+msgstr "Točke pravil"
 
 #: mail/component-factory.c:319
 msgid "Cannot initialize Evolution's mail component."
@@ -5315,9 +5299,8 @@ msgid "Filter on Mailing List"
 msgstr "Filter glede na Poštni seznam"
 
 #: mail/folder-browser.c:545
-#, fuzzy
 msgid "Resend"
-msgstr "sekunda"
+msgstr "Znova pošlji"
 
 #: mail/folder-browser.c:547
 msgid "Save As..."
@@ -5585,13 +5568,11 @@ msgstr ""
 "v mapi Osnutki."
 
 #: mail/mail-callbacks.c:1048
-#, fuzzy
 msgid ""
 "You may only resend messages\n"
 "in the Sent folder."
 msgstr ""
-"Urejate lahko le sporočila shranjena\n"
-"v mapi Osnutki."
+"Znova lahko pošljete le sporočila\n iz mape Poslano."
 
 #: mail/mail-callbacks.c:1081 mail/mail-display.c:86
 msgid "Overwrite file?"
@@ -5631,9 +5612,8 @@ msgid "Printing of message failed"
 msgstr "Tiskanje sporočila ni uspelo"
 
 #: mail/mail-config.glade.h:1
-#, fuzzy
 msgid " color"
-msgstr "Barve"
+msgstr " barva"
 
 #: mail/mail-config.glade.h:2
 msgid "Account"
@@ -5708,9 +5688,8 @@ msgid "Full Name:"
 msgstr "Polno ime:"
 
 #: mail/mail-config.glade.h:29
-#, fuzzy
 msgid "Highlight citations with "
-msgstr "Osvetli predmete z današnjim rokom"
+msgstr "Osvetli citiranja z "
 
 #: mail/mail-config.glade.h:31
 msgid "Hostname:"
@@ -5964,17 +5943,15 @@ msgstr "Skrij"
 
 #: mail/mail-display.c:1062
 msgid "Open link in browser (FIXME)"
-msgstr ""
+msgstr "Odpri povezavo v brskalniku (FIXME)"
 
 #: mail/mail-display.c:1064
-#, fuzzy
 msgid "Save as (FIXME)"
-msgstr "_Naloga (FIXME)"
+msgstr "Shrani kot (FIXME)"
 
 #: mail/mail-display.c:1066
-#, fuzzy
 msgid "Copy location (FIXME)"
-msgstr "_Kontakt (FIXME)"
+msgstr "Kopiraj mesto (FIXME)"
 
 #: mail/mail-format.c:506
 #, c-format
@@ -6363,24 +6340,20 @@ msgid "Multiple Messages"
 msgstr "Več sporočil"
 
 #: mail/message-list.c:622
-#, fuzzy
 msgid "Lowest"
-msgstr "nizka"
+msgstr "najnižja"
 
 #: mail/message-list.c:623
-#, fuzzy
 msgid "Lower"
 msgstr "nizka"
 
 #: mail/message-list.c:627
-#, fuzzy
 msgid "Higher"
 msgstr "visoka"
 
 #: mail/message-list.c:628
-#, fuzzy
 msgid "Highest"
-msgstr "visoka"
+msgstr "najvišja"
 
 #: mail/message-list.c:878
 msgid "?"
@@ -7061,9 +7034,8 @@ msgid "Alter preferences"
 msgstr "Alternativne nastavitve"
 
 #: ui/evolution-calendar.xml.h:4
-#, fuzzy
 msgid "Create a new all day Event"
-msgstr "Ustvari nov koledar"
+msgstr "Ustvari nov celodnevni dogodek"
 
 #: ui/evolution-calendar.xml.h:5
 msgid "Create a new appointment"
@@ -7090,14 +7062,12 @@ msgid "Go forward in time"
 msgstr "Pojdi po času naprej"
 
 #: ui/evolution-calendar.xml.h:11
-#, fuzzy
 msgid "Go to _Date"
-msgstr "Pojdi na datum"
+msgstr "Pojdi na _datum"
 
 #: ui/evolution-calendar.xml.h:12
-#, fuzzy
 msgid "Go to _Today"
-msgstr "Pojdi na danes"
+msgstr "Pojdi na _danes"
 
 #: ui/evolution-calendar.xml.h:13
 msgid "Go to a specific date"
@@ -7112,9 +7082,8 @@ msgid "Month"
 msgstr "Mesec"
 
 #: ui/evolution-calendar.xml.h:17
-#, fuzzy
 msgid "New _Event"
-msgstr "Nov Ko_ledar"
+msgstr "Nov _dogodek"
 
 #: ui/evolution-calendar.xml.h:18 ui/evolution-event-editor.xml.h:29
 #: ui/evolution-task-editor-dialog.xml.h:32
@@ -7167,9 +7136,8 @@ msgid "Today"
 msgstr "Danes"
 
 #: ui/evolution-calendar.xml.h:35
-#, fuzzy
 msgid "W_ork Week"
-msgstr "Delavni teden"
+msgstr "_Delavni teden"
 
 #: ui/evolution-calendar.xml.h:36
 msgid "Week"
@@ -7180,14 +7148,12 @@ msgid "_Appointment"
 msgstr "_Zmenek"
 
 #: ui/evolution-calendar.xml.h:38
-#, fuzzy
 msgid "_Day"
-msgstr "Dan"
+msgstr "_Dan"
 
 #: ui/evolution-calendar.xml.h:39
-#, fuzzy
 msgid "_Month"
-msgstr "Mesec"
+msgstr "_Mesec"
 
 #: ui/evolution-calendar.xml.h:40 ui/evolution-event-editor.xml.h:66
 #: ui/evolution-task-editor-dialog.xml.h:79 ui/evolution.xml.h:38
@@ -7204,9 +7170,8 @@ msgid "_Save As..."
 msgstr "_Shrani kot..."
 
 #: ui/evolution-calendar.xml.h:45
-#, fuzzy
 msgid "_Week"
-msgstr "Teden"
+msgstr "_Teden"
 
 #: ui/evolution-contact-editor.xml.h:2
 msgid "Delete this item"
@@ -7565,9 +7530,8 @@ msgid "Display all of the message headers"
 msgstr "Kaži vse glave sporočil"
 
 #: ui/evolution-mail.xml.h:9
-#, fuzzy
 msgid "Empty _Trash"
-msgstr "Prazni dnevi:"
+msgstr "Sprazni smeti"
 
 #: ui/evolution-mail.xml.h:10
 msgid "Filter on Se_nder"
@@ -7590,9 +7554,8 @@ msgid "Forward As"
 msgstr "Posreduj kot"
 
 #: ui/evolution-mail.xml.h:17
-#, fuzzy
 msgid "Full _Headers"
-msgstr "Polne glave"
+msgstr "Celotne _glave"
 
 #: ui/evolution-mail.xml.h:18
 msgid "Hide S_elected Messages"
@@ -7655,16 +7618,14 @@ msgid "Select _Thread"
 msgstr "Izberi _nit"
 
 #: ui/evolution-mail.xml.h:42
-#, fuzzy
 msgid "Send / Receive"
-msgstr "Oddaja in sprejem"
+msgstr "Oddaja / sprejem"
 
 #: ui/evolution-mail.xml.h:43
-#, fuzzy
 msgid ""
 "Send queued mail\n"
 "    and retrieve new mail"
-msgstr "Pošlji pošto v vrsti in sprejmi novo pošto"
+msgstr "Pošlji čakajočo pošto\n    in sprejmi novo"
 
 #: ui/evolution-mail.xml.h:45
 msgid "Send queued mail and retrieve new mail"
@@ -7703,9 +7664,8 @@ msgid "_Apply Filters"
 msgstr "_Uveljavi filtre"
 
 #: ui/evolution-mail.xml.h:55
-#, fuzzy
 msgid "_Attachment"
-msgstr "Priloga"
+msgstr "_Priloga"
 
 #: ui/evolution-mail.xml.h:56
 msgid "_Compose"
@@ -7736,9 +7696,8 @@ msgid "_Forward"
 msgstr "_Posreduj naprej"
 
 #: ui/evolution-mail.xml.h:64
-#, fuzzy
 msgid "_Inline"
-msgstr "Znotraj"
+msgstr "_Kot del sporočila"
 
 #: ui/evolution-mail.xml.h:65 ui/evolution-subscribe.xml.h:12
 msgid "_Invert Selection"
@@ -7761,24 +7720,20 @@ msgid "_Open Selected Items"
 msgstr "Odpri izbrane predmete"
 
 #: ui/evolution-mail.xml.h:71
-#, fuzzy
 msgid "_Quoted"
-msgstr "Citirano"
+msgstr "_Citirano"
 
 #: ui/evolution-mail.xml.h:72
-#, fuzzy
 msgid "_Reply"
-msgstr "Odgovori"
+msgstr "_Odgovori"
 
 #: ui/evolution-mail.xml.h:73
-#, fuzzy
 msgid "_Resend Messages"
-msgstr "_Uredi sporočilo"
+msgstr "_Znova pošlji sporočila"
 
 #: ui/evolution-mail.xml.h:75
-#, fuzzy
 msgid "_Send / Receive"
-msgstr "_Oddaja in sprejem"
+msgstr "_Oddaja / sprejem"
 
 #: ui/evolution-mail.xml.h:76
 msgid "_Threaded"
@@ -7906,9 +7861,8 @@ msgid "Toggles whether the From chooser is displayed"
 msgstr "Preklopi prikaz izbirnika Od"
 
 #: ui/evolution-message-composer.xml.h:37
-#, fuzzy
 msgid "Toggles whether the Reply-To field is displayed"
-msgstr "Preklopi prikaz polja CC"
+msgstr "Preklopi prikaz polja Odgovori na"
 
 #: ui/evolution-message-composer.xml.h:39
 msgid "_Bcc Field"
@@ -7935,9 +7889,8 @@ msgid "_Open..."
 msgstr "_Odpri..."
 
 #: ui/evolution-message-composer.xml.h:50
-#, fuzzy
 msgid "_Reply-To Field"
-msgstr "Odgovori-na:"
+msgstr "Polje _Odgovori-na:"
 
 #: ui/evolution-message-composer.xml.h:52
 msgid "_Security"
@@ -8267,9 +8220,8 @@ msgid "All Attendees"
 msgstr "Vsi udeleženi"
 
 #: widgets/menus/gal-view-menus.c:171
-#, fuzzy
 msgid "_Current View"
-msgstr "Pogled vizitke"
+msgstr "_Trenutni pogled"
 
 #. Translators: These are the first characters of each day of the
 #. week, 'M' for 'Monday', 'T' for Tuesday etc.
@@ -8291,12 +8243,9 @@ msgid "OK"
 msgstr "V redu"
 
 #: widgets/misc/e-cell-date-edit.c:720
-#, fuzzy, c-format
 msgid "The time must be in the format: %s"
 msgstr ""
-"Datum mora biti vpisan v obliki: \n"
-"\n"
-"%s"
+"Datum mora biti v obliki: %s"
 
 #: widgets/misc/e-clipped-label.c:107
 msgid "..."
