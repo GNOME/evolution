@@ -52,8 +52,8 @@
 
 #include "camel-lock.h"
 
-/* dunno where this fucking thing is got from */
-#define _(x) (x)
+#include "gnome-i18n.h"  /* for _() */
+
 
 #define d(x) /*(printf("%s(%d): ", __FILE__, __LINE__),(x))*/
 

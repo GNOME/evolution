@@ -1,3 +1,7 @@
+2002-07-17  Jeffrey Stedfast  <fejj@ximian.com>
+
+	* camel-lock.c: Add the appropriate #include for the _() macro.
+
 2002-07-17  Not Zed  <NotZed@Ximian.com>
 
 	* providers/pop3/camel-pop3-store.c (pop3_try_authenticate): Got
