@@ -380,10 +380,10 @@ e_table_sort_info_load_from_node (ETableSortInfo *info,
 			e_table_sort_info_sorting_set_nth(info, i++, column);
 		}
 	} else {
+		gint gcnt = 0;
+		gint scnt = 0;
 		for (grouping = node->children; grouping; grouping = grouping->next) {
 			ETableSortColumn column;
-			gint gcnt = 0;
-			gint scnt = 0;
 
 			if (grouping->type != XML_ELEMENT_NODE)
 				continue;
