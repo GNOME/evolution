@@ -9,8 +9,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: evolution HEAD\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2005-01-31 15:16+0200\n"
-"PO-Revision-Date: 2005-01-31 15:27+0200\n"
+"POT-Creation-Date: 2005-01-31 20:40+0200\n"
+"PO-Revision-Date: 2005-01-31 20:41+0200\n"
 "Last-Translator: Žygimantas Beručka <uid0@akl.lt>\n"
 "Language-Team: Lithuanian <komp_lt@konferencijos.lt>\n"
 "MIME-Version: 1.0\n"
@@ -123,11 +123,11 @@ msgid ", %d events"
 msgstr ", %d įvykiai"
 
 #: a11y/calendar/ea-day-view.c:150
-msgid "work week view :"
+msgid "work week view:"
 msgstr "darbo savaitės vaizdas:"
 
 #: a11y/calendar/ea-day-view.c:154
-msgid "day view :"
+msgid "day view:"
 msgstr "dienos vaizdas:"
 
 #: a11y/calendar/ea-day-view.c:181
@@ -205,12 +205,12 @@ msgid "Click here, you can find more events."
 msgstr "Norėdami rasti daugiau įvykių, spauskite čia."
 
 #: a11y/calendar/ea-week-view.c:153
-msgid "month view :"
-msgstr "mėnesio vaizdas :"
+msgid "month view:"
+msgstr "mėnesio vaizdas:"
 
 #: a11y/calendar/ea-week-view.c:158
-msgid "week view :"
-msgstr "savaitės vaizdas :"
+msgid "week view:"
+msgstr "savaitės vaizdas:"
 
 #: a11y/calendar/ea-week-view.c:185
 msgid "calendar view for a month"
@@ -11546,11 +11546,11 @@ msgid "UID string of the default account."
 msgstr "Įprastos sąskaitos UID seka."
 
 #: mail/evolution-mail.schemas.in.in.h:91
-msgid "Use Spamasssassin daemon and client"
+msgid "Use Spamassassin daemon and client"
 msgstr "Naudoti Spamassasin demoną ir klientą"
 
 #: mail/evolution-mail.schemas.in.in.h:92
-msgid "Use Spamasssassin daemon and client (spamc/spamd)"
+msgid "Use Spamassassin daemon and client (spamc/spamd)"
 msgstr "Naudoti Spamassassin demoną ir klientą (spamc/spamd)"
 
 #: mail/evolution-mail.schemas.in.in.h:93
@@ -13179,8 +13179,8 @@ msgstr "Nepavyko pakeisti vAplanko „{0}“, nes nėra tokio aplanko."
 #. mail:vfolder-notexist secondary
 #: mail/mail-errors.xml.h:193
 msgid ""
-"This folder may have been added implictly, go to the virtual folder editor "
-"to add it explictly, if required."
+"This folder may have been added implicitly, go to the virtual folder editor "
+"to add it explicitly, if required."
 msgstr ""
 "Šis aplankas galėjo būti pridėtas aklai, paleiskite virtualių aplankų "
 "redaktorių ir pridėkite jį tiksliai, jeigu reikia."
