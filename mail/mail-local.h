@@ -2,8 +2,9 @@
 /* mail-local.h: Local mailbox support. */
 
 /* 
- * Author: 
+ * Authors: 
  *  Michael Zucchi <NotZed@helixcode.com>
+ *  Dan Winship <danw@helixcode.com>
  *
  * Copyright 2000 Helix Code, Inc. (http://www.helixcode.com)
  *
@@ -26,12 +27,12 @@
 #ifndef _MAIL_LOCAL_H
 #define _MAIL_LOCAL_H
 
-#include "camel/camel-folder.h"
+#include "evolution-shell-client.h"
 #include "folder-browser.h"
 
-/* mail-local.c */
-CamelFolder *mail_tool_local_uri_to_folder(const char *uri, CamelException *ex);
-void local_reconfigure_folder(FolderBrowser *fb);
-char *mail_local_map_uri(const char *uri, int *index);
+void mail_local_storage_startup (EvolutionShellClient *shellclient,
+				 const char *evolution_path);
+
+void mail_local_reconfigure_folder (FolderBrowser *fb);
 
 #endif

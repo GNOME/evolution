@@ -38,9 +38,9 @@
 #include "mail.h"		/* YUCK FIXME */
 #include "mail-tools.h"
 #include "mail-ops.h"
+#include "mail-local.h"
 #include "mail-session.h"
 #include <gal/widgets/e-gui-utils.h>
-#include "mail-local-storage.h"
 
 #include "component-factory.h"
 
@@ -141,7 +141,7 @@ owner_set_cb (EvolutionShellComponent *shell_component,
 	sources = mail_config_get_news ();
 	mail_load_storages (corba_shell, sources);
 
-	mail_local_storage_startup (shell_client);
+	mail_local_storage_startup (shell_client, evolution_dir);
 }
 
 static void

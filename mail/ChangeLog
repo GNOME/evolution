@@ -1,3 +1,29 @@
+2000-11-06  Dan Winship  <danw@helixcode.com>
+
+	First draft of folder tree unread message indication for /local
+	mail folders.
+	
+	* mail-local.c: Add a new CamelStore subclass, MailLocalStore,
+	which attaches to an Evolution_LocalStorage on one side and
+	CamelSession on the other, and keeps track of local folders. Some
+	of this code was previously in mail-local-storage.c, which no
+	longer exists.
+	(local_reconfigure_folder, etc): Various mail_op-related cleanups,
+	and wrap d() around a bunch of printfs.
+
+	* mail-tools.c (mail_tool_get_local_inbox_url,
+	mail_tool_get_local_movemail_url): Removed
+	(mail_tool_get_local_inbox): Simplified.
+	(mail_tool_do_movemail): Remove unused dest_url variable.
+	(mail_tool_uri_to_folder): Simplify. Now down to two cases
+	(vfolder, and everything else).
+
+	* component-factory.c (owner_set_cb): Pass evolution_dir to
+	mail_local_storage_startup.
+
+	* Makefile.am (evolution_mail_SOURCES): Remove
+	mail-local-storage.[ch]
+
 2000-11-06  Kjartan Maraas  <kmaraas@gnome.org>
 
 	* mail-autofilter.c: Fix up #include <config.h>

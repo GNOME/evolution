@@ -63,8 +63,6 @@ evolution_mail_SOURCES =		\
 	mail-identify.c			\
 	mail-local.c			\
 	mail-local.h			\
-	mail-local-storage.c		\
-	mail-local-storage.h		\
 	mail-mlist-magic.c		\
 	mail-mlist-magic.h		\
 	mail-ops.c			\

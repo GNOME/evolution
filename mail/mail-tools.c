@@ -136,23 +136,6 @@ mail_tool_get_folder_name (CamelFolder *folder)
 }
 
 gchar *
-mail_tool_get_local_inbox_url (int *index)
-{
-	char *uri, *new;
-
-	uri = g_strdup_printf("file://%s/local/Inbox", evolution_dir);
-	new = mail_local_map_uri(uri, index);
-	g_free(uri);
-	return new;
-}
-
-gchar *
-mail_tool_get_local_movemail_url (void)
-{
-	return g_strdup_printf ("mbox://%s/local/Inbox", evolution_dir);
-}
-
-gchar *
 mail_tool_get_local_movemail_path (void)
 {
 	return g_strdup_printf ("%s/local/Inbox/movemail", evolution_dir);
@@ -163,13 +146,9 @@ mail_tool_get_local_inbox (CamelException *ex)
 {
 	gchar *url;
 	CamelFolder *folder;
-	int index;
-	guint32 flags = CAMEL_STORE_FOLDER_CREATE;
 
-	url = mail_tool_get_local_inbox_url(&index);
-	if (index)
-		flags |= CAMEL_STORE_FOLDER_BODY_INDEX;
-	folder = mail_tool_get_folder_from_urlname (url, "mbox", flags, ex);
+	url = g_strdup_printf("file://%s/local/Inbox", evolution_dir);
+	folder = mail_tool_uri_to_folder (url, ex);
 	g_free (url);
 	return folder;
 }
@@ -186,7 +165,6 @@ mail_tool_get_inbox (const gchar *url, CamelException *ex)
 char *
 mail_tool_do_movemail (const gchar *source_url, CamelException *ex)
 {
-	gchar *dest_url;
 	gchar *dest_path;
 	const gchar *source;
 	struct stat sb;
@@ -197,7 +175,6 @@ mail_tool_do_movemail (const gchar *source_url, CamelException *ex)
 
 	/* Set up our destination. */
 
-	dest_url = mail_tool_get_local_movemail_url();
 	dest_path = mail_tool_get_local_movemail_path();
 
 	/* Create a new movemail mailbox file of 0 size */
@@ -210,7 +187,6 @@ mail_tool_do_movemail (const gchar *source_url, CamelException *ex)
 				      _("Couldn't create temporary "
 				      "mbox `%s': %s"), dest_path, g_strerror (errno));
 		g_free (dest_path);
-		g_free (dest_url);
 		return NULL;
 	}
 
@@ -232,17 +208,14 @@ mail_tool_do_movemail (const gchar *source_url, CamelException *ex)
 
 	if (stat (dest_path, &sb) < 0 || sb.st_size == 0) {
 		g_free (dest_path);
-		g_free (dest_url);
 		return NULL;
 	}
 
 	if (camel_exception_is_set (ex)) {
-		g_free (dest_url);
 		g_free (dest_path);
 		return NULL;
 	}
 
-	g_free (dest_url);
 	return dest_path;
 }
 
@@ -487,27 +460,30 @@ mail_tool_get_root_of_store (const char *source_uri, CamelException *ex)
 CamelFolder *
 mail_tool_uri_to_folder (const char *uri, CamelException *ex)
 {
+	CamelURL *url;
 	CamelStore *store = NULL;
 	CamelFolder *folder = NULL;
 
-	if (!strncmp (uri, "vfolder:", 8)) {
+	url = camel_url_new (uri, ex);
+	if (!url)
+		return NULL;
+
+	if (!strcmp (url->protocol, "vfolder")) {
 		folder = vfolder_uri_to_folder (uri, ex);
-	} else if (!strncmp (uri, "imap:", 5) || !strncmp (uri, "nntp:", 5)) {
+	} else {
 		mail_tool_camel_lock_up ();
 		store = camel_session_get_store (session, uri, ex);
 		if (store) {
-			char *ptr;
+			char *name;
 
-			for (ptr = (char *)(uri + 7); *ptr && *ptr != '/'; ptr++);
-			if (*ptr == '/')
-				folder = camel_store_get_folder (store, ptr + 1, CAMEL_STORE_FOLDER_CREATE, ex);
+			if (url->path && *url->path)
+				name = url->path + 1;
+			else
+				name = "";
+			folder = camel_store_get_folder (
+				store, name, CAMEL_STORE_FOLDER_CREATE, ex);
 		}
 		mail_tool_camel_lock_down ();
-	} else if (!strncmp (uri, "file:", 5)) {
-		folder = mail_tool_local_uri_to_folder (uri, ex);
-	} else {
-		camel_exception_setv (ex, CAMEL_EXCEPTION_SYSTEM,
-				      _("Don't know protocol to open URI `%s'"), uri);
 	}
 
 	if (camel_exception_is_set (ex)) {
@@ -516,9 +492,9 @@ mail_tool_uri_to_folder (const char *uri, CamelException *ex)
 			folder = NULL;
 		}
 	}
-
 	if (store)
 		camel_object_unref (CAMEL_OBJECT (store));
+	camel_url_free (url);
 
 	return folder;
 }
