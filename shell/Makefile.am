@@ -134,7 +134,6 @@ evolution_LDADD =						\
 	$(top_builddir)/widgets/misc/libemiscwidgets.a		\
 	$(top_builddir)/e-util/libeutil.la			\
 	$(EXTRA_GNOME_LIBS)					\
-	$(UNICODE_LIBS)						\
 	$(GNOME_PRINT_LIBS)					\
 	$(GTKHTML_LIBS)						\
 	$(BONOBO_GNOME_LIBS)
