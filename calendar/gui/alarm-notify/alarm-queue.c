@@ -394,6 +394,8 @@ load_alarms (ClientAlarms *ca, time_t start, time_t end)
 				  G_CALLBACK (query_objects_changed_cb), ca);
 		g_signal_connect (G_OBJECT (ca->query), "objects_removed",
 				  G_CALLBACK (query_objects_removed_cb), ca);
+
+		e_cal_view_start (ca->query);
 	}
 }
 
