@@ -912,13 +912,13 @@ e_tasks_set_default_uri (ETasks *tasks, const char *str_uri)
 	g_return_val_if_fail (str_uri != NULL, FALSE);
 
 	priv = tasks->priv;
-	
-	ecal = g_hash_table_lookup (priv->clients, str_uri);
+
+	model = e_calendar_table_get_model (E_CALENDAR_TABLE (priv->tasks_view));
+	ecal = e_cal_model_get_client_for_uri (model, str_uri);
 	if (!ecal)
 		return FALSE;
 
-	model = e_calendar_table_get_model (E_CALENDAR_TABLE (priv->tasks_view));
-	e_cal_model_set_default_client (model, ecal);	
+	e_cal_model_set_default_client (model, ecal);
 
 	return TRUE;
 }
