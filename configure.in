@@ -1506,7 +1506,6 @@ mail/Makefile
 mail/default/Makefile
 mail/default/C/Makefile
 mail/importers/Makefile
-plugins/Makefile
 smime/Makefile
 smime/lib/Makefile
 smime/gui/Makefile

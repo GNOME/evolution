@@ -1,5 +1,9 @@
 2004-10-13  JP Rosevear  <jpr@novell.com>
 
+	* configure.in: remove plugins from ac output
+	
+2004-10-13  JP Rosevear  <jpr@novell.com>
+
 	* configure.in: pull in libedataserverui as appropriate
 
 2004-10-01  Jeffrey Stedfast  <fejj@novell.com>
