@@ -1,3 +1,8 @@
+2001-09-12  Jeffrey Stedfast  <fejj@ximian.com>
+
+	* camel-filter-driver.c (camel_filter_driver_filter_mbox): Unref
+	the message info.
+
 2001-09-10    <NotZed@Ximian.com>
 
 	* providers/local/camel-maildir-store.c (get_folder_info): Pass in

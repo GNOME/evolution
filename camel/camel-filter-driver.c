@@ -636,7 +636,6 @@ camel_filter_driver_filter_mbox (CamelFilterDriver *driver, const char *mbox, co
 	int i = 0;
 	struct stat st;
 	int status;
-	CamelMessageInfo *info;
 	off_t last = 0;
 	
 	fd = open (mbox, O_RDONLY);
@@ -658,6 +657,7 @@ camel_filter_driver_filter_mbox (CamelFilterDriver *driver, const char *mbox, co
 	source_url = g_strdup_printf ("file://%s", mbox);
 	
 	while (camel_mime_parser_step (mp, 0, 0) == HSCAN_FROM) {
+		CamelMessageInfo *info;
 		CamelMimeMessage *msg;
 		int pc = 0;
 		
@@ -682,6 +682,7 @@ camel_filter_driver_filter_mbox (CamelFilterDriver *driver, const char *mbox, co
 		camel_object_unref (CAMEL_OBJECT (msg));
 		if (camel_exception_is_set (ex) || status == -1) {
 			report_status (driver, CAMEL_FILTER_STATUS_END, 100, _("Failed on message %d"), i);
+			camel_message_info_free (info);
 			goto fail;
 		}
 		
@@ -689,6 +690,8 @@ camel_filter_driver_filter_mbox (CamelFilterDriver *driver, const char *mbox, co
 		
 		/* skip over the FROM_END state */
 		camel_mime_parser_step (mp, 0, 0);
+
+		camel_message_info_free (info);
 	}
 	
 	if (p->defaultfolder) {
