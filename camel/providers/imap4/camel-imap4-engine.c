@@ -28,6 +28,7 @@
 
 #include <camel/camel-sasl.h>
 #include <camel/camel-stream-buffer.h>
+#include <camel/camel-i18n.h>
 
 #include "camel-imap4-summary.h"
 #include "camel-imap4-command.h"

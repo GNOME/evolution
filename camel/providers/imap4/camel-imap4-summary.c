@@ -35,6 +35,7 @@
 #include <e-util/md5-utils.h>
 
 #include <camel/camel-file-utils.h>
+#include <camel/camel-i18n.h>
 
 #include "camel-imap4-store.h"
 #include "camel-imap4-engine.h"
@@ -775,20 +776,20 @@ untagged_fetch_all (CamelIMAP4Engine *engine, CamelIMAP4Command *ic, guint32 ind
 		 * server is probably notifying us of a FLAGS change
 		 * by another client? */
 		g_assert (index < summary->messages->len);
-		iinfo = (CamelIMAP4MessageInfo *) info = summary->messages->pdata[index - 1];
+		iinfo = (CamelIMAP4MessageInfo *)(info = summary->messages->pdata[index - 1]);
 		g_assert (info != NULL);
 	} else {
 		if (index > (added->len + fetch->first - 1))
 			g_ptr_array_set_size (added, index - fetch->first + 1);
 		
 		if (!(envelope = added->pdata[index - fetch->first])) {
-			iinfo = (CamelIMAP4MessageInfo *) info = camel_folder_summary_info_new (summary);
+			iinfo = (CamelIMAP4MessageInfo *) (info = camel_folder_summary_info_new (summary));
 			envelope = g_new (struct imap4_envelope_t, 1);
 			added->pdata[index - fetch->first] = envelope;
 			envelope->info = info;
 			envelope->changed = 0;
 		} else {
-			iinfo = (CamelIMAP4MessageInfo *) info = envelope->info;
+			iinfo = (CamelIMAP4MessageInfo *) (info = envelope->info);
 		}
 	}
 	

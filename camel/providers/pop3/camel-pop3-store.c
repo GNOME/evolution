@@ -57,7 +57,8 @@
 #include "camel-i18n.h"
 
 /* Specified in RFC 1939 */
-#define POP3_PORT 110
+#define POP3_PORT "110"
+#define POP3S_PORT "995"
 
 static CamelStoreClass *parent_class = NULL;
 
@@ -269,13 +270,14 @@ connect_to_server (CamelService *service, struct addrinfo *ai, int ssl_mode, Cam
 static struct {
 	char *value;
 	char *serv;
+	char *port;
 	int mode;
 } ssl_options[] = {
-	{ "",              "pop3s", MODE_SSL   },  /* really old (1.x) */
-	{ "always",        "pop3s", MODE_SSL   },
-	{ "when-possible", "pop3",  MODE_TLS   },
-	{ "never",         "pop3",  MODE_CLEAR },
-	{ NULL,            "pop3",  MODE_CLEAR },
+	{ "",              "pop3s", POP3S_PORT, MODE_SSL   },  /* really old (1.x) */
+	{ "always",        "pop3s", POP3S_PORT, MODE_SSL   },
+	{ "when-possible", "pop3",  POP3S_PORT, MODE_TLS   },
+	{ "never",         "pop3",  POP3S_PORT, MODE_CLEAR },
+	{ NULL,            "pop3",  POP3S_PORT, MODE_CLEAR },
 };
 
 static gboolean
@@ -285,27 +287,36 @@ connect_to_server_wrapper (CamelService *service, CamelException *ex)
 	const char *ssl_mode;
 	int mode, ret, i;
 	char *serv;
-	
+	const char *port;
+
 	if ((ssl_mode = camel_url_get_param (service->url, "use_ssl"))) {
 		for (i = 0; ssl_options[i].value; i++)
 			if (!strcmp (ssl_options[i].value, ssl_mode))
 				break;
 		mode = ssl_options[i].mode;
 		serv = ssl_options[i].serv;
+		port = ssl_options[i].port;
 	} else {
 		mode = MODE_CLEAR;
 		serv = "pop3";
+		port = POP3S_PORT;
 	}
 	
 	if (service->url->port) {
 		serv = g_alloca (16);
 		sprintf (serv, "%d", service->url->port);
+		port = NULL;
 	}
 	
 	memset (&hints, 0, sizeof (hints));
 	hints.ai_socktype = SOCK_STREAM;
 	hints.ai_family = PF_UNSPEC;
-	if (!(ai = camel_getaddrinfo (service->url->host, serv, &hints, ex)))
+	ai = camel_getaddrinfo(service->url->host, serv, &hints, ex);
+	if (ai == NULL && port != NULL && camel_exception_get_id(ex) != CAMEL_EXCEPTION_USER_CANCEL) {
+		camel_exception_clear (ex);
+		ai = camel_getaddrinfo(service->url->host, port, &hints, ex);
+	}
+	if (ai == NULL)
 		return FALSE;
 	
 	ret = connect_to_server (service, ai, mode, ex);

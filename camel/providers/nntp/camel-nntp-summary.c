@@ -218,7 +218,7 @@ add_range_xover(CamelNNTPSummary *cns, CamelNNTPStore *store, unsigned int high,
 
 	camel_operation_start(NULL, _("%s: Scanning new messages"), ((CamelService *)store)->url->host);
 
-	ret = camel_nntp_raw_command(store, ex, &line, "xover %r", low, high);
+	ret = camel_nntp_raw_command_auth(store, ex, &line, "xover %r", low, high);
 	if (ret != 224) {
 		camel_operation_end(NULL);
 		if (ret != -1)
@@ -319,7 +319,7 @@ add_range_head(CamelNNTPSummary *cns, CamelNNTPStore *store, unsigned int high, 
 	for (i=low;i<high+1;i++) {
 		camel_operation_progress(NULL, (count * 100) / total);
 		count++;
-		ret = camel_nntp_raw_command(store, ex, &line, "head %u", i);
+		ret = camel_nntp_raw_command_auth(store, ex, &line, "head %u", i);
 		/* unknown article, ignore */
 		if (ret == 423)
 			continue;

@@ -1,3 +1,50 @@
+2004-10-13  Not Zed  <NotZed@Ximian.com>
+
+	* providers/imap4/camel-imap4-folder.c (camel_imap4_folder_new)
+	(imap4_sync_changes, imap4_sync): 
+	* providers/imap4/camel-imap4-summary.c (untagged_fetch_all): kill
+	cast as lvalue warning.
+
+	* camel-string-utils.h: add prototype for camel_toupper.
+
+	* providers/imap4/camel-imap4-utils.c: 
+	* providers/imap4/camel-imap4-summary.c: 
+	* providers/imap4/camel-imap4-folder.c: 
+	* providers/imap4/camel-imap4-engine.c: 
+	* providers/imap4/camel-imap4-command.c: 
+	* providers/imap4/camel-imap4-store.c: include camel-i18n.h.
+
+2004-10-12  Not Zed  <NotZed@Ximian.com>
+
+	** See bug ???
+
+ 	* providers/nntp/camel-nntp-store.c (connect_to_server): if we
+	have a username, try to authenticate before doing anything else.
+
+	** See bug #67895.
+
+	* providers/nntp/camel-nntp-summary.c (add_range_xover)
+	(add_range_head): use raw_command_auth since we might need auth
+	here.
+
+	* providers/nntp/camel-nntp-store.c (camel_nntp_raw_command_auth):
+	new almost-raw command that also does auth.
+	(xover_setup, connect_to_server, camel_nntp_command): use
+	raw_command_auth since we might need auth here.
+
+2004-10-12  Not Zed  <NotZed@Ximian.com>
+
+	** See bug #67898 and probably others.
+
+	* providers/imapp/camel-imapp-store.c (connect_to_server):
+	* providers/pop3/camel-pop3-store.c (connect_to_server_wrapper): 
+	* providers/imap4/camel-imap4-store.c (connect_to_server_wrapper): 
+	* providers/imap/camel-imap-store.c (connect_to_server_wrapper): 
+	* providers/nntp/camel-nntp-store.c (connect_to_server_wrapper): 
+	* providers/smtp/camel-smtp-transport.c (connect_to_server_wrapper):
+	Fallback to hard-coded port number if the name lookup fails and no
+	port was supplied.
+
 2004-10-11  Not Zed  <NotZed@Ximian.com>
 
 	** See bug #67211.

@@ -61,7 +61,8 @@ extern int camel_verbose_debug;
 #define d(x) (camel_verbose_debug ? (x) : 0)
 
 /* Specified in RFC 821 */
-#define SMTP_PORT 25
+#define SMTP_PORT "25"
+#define SMTPS_PORT "465"
 
 /* camel smtp transport class prototypes */
 static gboolean smtp_send_to (CamelTransport *transport, CamelMimeMessage *message,
@@ -377,13 +378,14 @@ connect_to_server (CamelService *service, struct addrinfo *ai, int ssl_mode, Cam
 static struct {
 	char *value;
 	char *serv;
+	char *port;
 	int mode;
 } ssl_options[] = {
-	{ "",              "smtps", MODE_SSL   },  /* really old (1.x) */
-	{ "always",        "smtps", MODE_SSL   },
-	{ "when-possible", "smtp",  MODE_TLS   },
-	{ "never",         "smtp",  MODE_CLEAR },
-	{ NULL,            "smtp",  MODE_CLEAR },
+	{ "",              "smtps", SMTPS_PORT, MODE_SSL   },  /* really old (1.x) */
+	{ "always",        "smtps", SMTPS_PORT, MODE_SSL   },
+	{ "when-possible", "smtp",  SMTP_PORT, MODE_TLS   },
+	{ "never",         "smtp",  SMTP_PORT, MODE_CLEAR },
+	{ NULL,            "smtp",  SMTP_PORT, MODE_CLEAR },
 };
 
 static gboolean
@@ -393,6 +395,7 @@ connect_to_server_wrapper (CamelService *service, CamelException *ex)
 	const char *ssl_mode;
 	int mode, ret, i;
 	char *serv;
+	const char *port;
 	
 	if ((ssl_mode = camel_url_get_param (service->url, "use_ssl"))) {
 		for (i = 0; ssl_options[i].value; i++)
@@ -400,22 +403,30 @@ connect_to_server_wrapper (CamelService *service, CamelException *ex)
 				break;
 		mode = ssl_options[i].mode;
 		serv = ssl_options[i].serv;
+		port = ssl_options[i].port;
 	} else {
 		mode = MODE_CLEAR;
 		serv = "smtp";
+		port = SMTP_PORT;
 	}
 	
 	if (service->url->port) {
 		serv = g_alloca (16);
 		sprintf (serv, "%d", service->url->port);
+		port = NULL;
 	}
 	
 	memset (&hints, 0, sizeof (hints));
 	hints.ai_socktype = SOCK_STREAM;
 	hints.ai_family = PF_UNSPEC;
-	if (!(ai = camel_getaddrinfo (service->url->host, serv, &hints, ex)))
+	ai = camel_getaddrinfo(service->url->host, serv, &hints, ex);
+	if (ai == NULL && port != NULL && camel_exception_get_id(ex) != CAMEL_EXCEPTION_USER_CANCEL) {
+		camel_exception_clear (ex);
+		ai = camel_getaddrinfo(service->url->host, port, &hints, ex);
+	}
+	if (ai == NULL)
 		return FALSE;
-	
+
 	ret = connect_to_server (service, ai, mode, ex);
 	
 	camel_freeaddrinfo (ai);

@@ -29,6 +29,7 @@
 #include <camel/camel-stream-null.h>
 #include <camel/camel-stream-filter.h>
 #include <camel/camel-mime-filter-crlf.h>
+#include <camel/camel-i18n.h>
 
 #include "camel-imap4-stream.h"
 #include "camel-imap4-engine.h"

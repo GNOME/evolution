@@ -40,6 +40,7 @@ char *camel_strstrcase (const char *haystack, const char *needle);
 
 const char *camel_strdown (char *str);
 char camel_tolower(char c);
+char camel_toupper(char c);
 
 #ifdef __cplusplus
 }

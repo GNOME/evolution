@@ -66,8 +66,8 @@
 #define d(x) 
 
 /* Specified in RFC 2060 */
-#define IMAP_PORT 143
-#define SIMAP_PORT 993
+#define IMAP_PORT "143"
+#define IMAPS_PORT "993"
 
 static CamelDiscoStoreClass *parent_class = NULL;
 
@@ -867,13 +867,14 @@ connect_to_server_process (CamelService *service, const char *cmd, CamelExceptio
 static struct {
 	char *value;
 	char *serv;
+	char *port;
 	int mode;
 } ssl_options[] = {
-	{ "",              "imaps", MODE_SSL   },  /* really old (1.x) */
-	{ "always",        "imaps", MODE_SSL   },
-	{ "when-possible", "imap",  MODE_TLS   },
-	{ "never",         "imap",  MODE_CLEAR },
-	{ NULL,            "imap",  MODE_CLEAR },
+	{ "",              "imaps", IMAPS_PORT, MODE_SSL   },  /* really old (1.x) */
+	{ "always",        "imaps", IMAPS_PORT, MODE_SSL   },
+	{ "when-possible", "imap",  IMAP_PORT, MODE_TLS   },
+	{ "never",         "imap",  IMAP_PORT, MODE_CLEAR },
+	{ NULL,            "imap",  IMAP_PORT, MODE_CLEAR },
 };
 
 static gboolean
@@ -883,7 +884,8 @@ connect_to_server_wrapper (CamelService *service, CamelException *ex)
 	struct addrinfo hints, *ai;
 	int mode, ret, i;
 	char *serv;
-	
+	const char *port;
+
 	if ((command = camel_url_get_param (service->url, "command")))
 		return connect_to_server_process (service, command, ex);
 	
@@ -893,22 +895,30 @@ connect_to_server_wrapper (CamelService *service, CamelException *ex)
 				break;
 		mode = ssl_options[i].mode;
 		serv = ssl_options[i].serv;
+		port = ssl_options[i].port;
 	} else {
 		mode = MODE_CLEAR;
 		serv = "imap";
+		port = IMAP_PORT;
 	}
 	
 	if (service->url->port) {
 		serv = g_alloca (16);
 		sprintf (serv, "%d", service->url->port);
+		port = NULL;
 	}
 	
 	memset (&hints, 0, sizeof (hints));
 	hints.ai_socktype = SOCK_STREAM;
 	hints.ai_family = PF_UNSPEC;
-	if (!(ai = camel_getaddrinfo (service->url->host, serv, &hints, ex)))
+	ai = camel_getaddrinfo(service->url->host, serv, &hints, ex);
+	if (ai == NULL && port != NULL && camel_exception_get_id(ex) != CAMEL_EXCEPTION_USER_CANCEL) {
+		camel_exception_clear (ex);
+		ai = camel_getaddrinfo(service->url->host, port, &hints, ex);
+	}
+	if (ai == NULL)
 		return FALSE;
-	
+
 	ret = connect_to_server (service, ai, mode, ex);
 	
 	camel_freeaddrinfo (ai);

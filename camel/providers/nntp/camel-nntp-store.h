@@ -102,6 +102,7 @@ CamelType camel_nntp_store_get_type (void);
 
 int camel_nntp_raw_commandv (CamelNNTPStore *store, struct _CamelException *ex, char **line, const char *fmt, va_list ap);
 int camel_nntp_raw_command(CamelNNTPStore *store, struct _CamelException *ex, char **line, const char *fmt, ...);
+int camel_nntp_raw_command_auth(CamelNNTPStore *store, struct _CamelException *ex, char **line, const char *fmt, ...);
 int camel_nntp_command (CamelNNTPStore *store, struct _CamelException *ex, struct _CamelNNTPFolder *folder, char **line, const char *fmt, ...);
 
 #ifdef __cplusplus

@@ -42,6 +42,7 @@
 #include <camel/camel-stream-mem.h>
 #include <camel/camel-stream-filter.h>
 #include <camel/camel-mime-filter-crlf.h>
+#include <camel/camel-i18n.h>
 
 #include "camel-imap4-utils.h"
 #include "camel-imap4-store.h"
@@ -278,7 +279,7 @@ camel_imap4_folder_new (CamelStore *store, const char *full_name, CamelException
 	
 	utf7_name = camel_utf8_utf7 (utf7_name);
 	
-	folder = (CamelFolder *) imap_folder = (CamelIMAP4Folder *) camel_object_new (CAMEL_TYPE_IMAP4_FOLDER);
+	folder = (CamelFolder *) (imap_folder = (CamelIMAP4Folder *)camel_object_new (CAMEL_TYPE_IMAP4_FOLDER));
 	camel_folder_construct (folder, store, full_name, name);
 	imap_folder->utf7_name = utf7_name;
 	
@@ -399,7 +400,7 @@ imap4_sync_changes (CamelFolder *folder, GPtrArray *sync, CamelException *ex)
 			continue;
 		
 		for (j = 0; j < sync->len; j++) {
-			iinfo = (CamelIMAP4MessageInfo *) info = sync->pdata[j];
+			iinfo = (CamelIMAP4MessageInfo *) (info = sync->pdata[j]);
 			camel_imap4_flags_diff (&diff, iinfo->server_flags, info->flags);
 			if (diff.changed & imap4_flags[i].flag) {
 				if (diff.bits & imap4_flags[i].flag) {
@@ -432,7 +433,7 @@ imap4_sync_changes (CamelFolder *folder, GPtrArray *sync, CamelException *ex)
 		return-1;
 	
 	for (i = 0; i < sync->len; i++) {
-		iinfo = (CamelIMAP4MessageInfo *) info = sync->pdata[i];
+		iinfo = (CamelIMAP4MessageInfo *) (info = sync->pdata[i]);
 		info->flags &= ~CAMEL_MESSAGE_FOLDER_FLAGGED;
 		iinfo->server_flags = info->flags & folder->permanent_flags;
 	}
@@ -458,7 +459,7 @@ imap4_sync (CamelFolder *folder, gboolean expunge, CamelException *ex)
 	sync = g_ptr_array_new ();
 	max = camel_folder_summary_count (folder->summary);
 	for (i = 0; i < max; i++) {
-		iinfo = (CamelIMAP4MessageInfo *) info = camel_folder_summary_index (folder->summary, i);
+		iinfo = (CamelIMAP4MessageInfo *) (info = camel_folder_summary_index (folder->summary, i));
 		if (info->flags & CAMEL_MESSAGE_FOLDER_FLAGGED) {
 			camel_imap4_flags_diff (&diff, iinfo->server_flags, info->flags);
 			diff.changed &= folder->permanent_flags;
