@@ -1286,6 +1286,7 @@ AC_SUBST(EVOLUTION_DIR)
 AC_OUTPUT([ po/Makefile.in
 Makefile
 a11y/Makefile
+a11y/addressbook/Makefile
 a11y/calendar/Makefile
 a11y/widgets/Makefile
 addressbook/Makefile
