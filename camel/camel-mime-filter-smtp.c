@@ -108,9 +108,9 @@ filter(CamelMimeFilter *mf, char *in, size_t len, size_t prespace, char **out, s
 
 		if (c == '\n' || !midline) {
 			/* if there isn't already a carriage-return before the line-feed, count it */
-			if (*(inptr-1) == '\n' && *(inptr-2) != '\r') {
+			if (c == '\n') {
 				linecount++;
-				node = alloca(sizeof(*node));
+				node = alloca (sizeof (*node));
 				node->type = EOLN_NODE;
 				node->pointer = inptr - 1;
 				node->next = NULL;
@@ -121,7 +121,7 @@ filter(CamelMimeFilter *mf, char *in, size_t len, size_t prespace, char **out, s
 			left = inend - inptr;
 		        if (left < 2) {
 				if (*inptr == '.') {
-					camel_mime_filter_backup(mf, inptr, left);
+					camel_mime_filter_backup (mf, inptr, left);
 					midline = FALSE;
 					inend = inptr;
 					break;
@@ -131,7 +131,7 @@ filter(CamelMimeFilter *mf, char *in, size_t len, size_t prespace, char **out, s
 				if (left > 0 && *inptr == '.' && *(inptr+1) != '.') {
 					midline = TRUE;
 					dotcount++;
-					node = alloca(sizeof(*node));
+					node = alloca (sizeof (*node));
 					node->type = DOT_NODE;
 					node->pointer = inptr;
 					node->next = NULL;
@@ -151,18 +151,18 @@ filter(CamelMimeFilter *mf, char *in, size_t len, size_t prespace, char **out, s
 	f->midline = midline;
 
 	if (dotcount > 0 || linecount > 0) {
-		camel_mime_filter_set_size(mf, len + dotcount + linecount, FALSE);
+		camel_mime_filter_set_size (mf, len + dotcount + linecount, FALSE);
 		node = head;
 		inptr = in;
 		outptr = mf->outbuf;
 		while (node) {
 			if (node->type == EOLN_NODE) {
-				memcpy(outptr, inptr, node->pointer - inptr);
+				memcpy (outptr, inptr, node->pointer - inptr);
 				outptr += node->pointer - inptr;
 				*outptr++ = '\r';
 			} else {
 				if (node->type == DOT_NODE) {
-					memcpy(outptr, inptr, node->pointer - inptr);
+					memcpy (outptr, inptr, node->pointer - inptr);
 					outptr += node->pointer - inptr;
 					*outptr++ = '.';
 				}
@@ -170,19 +170,19 @@ filter(CamelMimeFilter *mf, char *in, size_t len, size_t prespace, char **out, s
 			inptr = node->pointer;
 			node = node->next;
 		}
-		memcpy(outptr, inptr, inend - inptr);
+		memcpy (outptr, inptr, inend - inptr);
 		outptr += inend - inptr;
 		*out = mf->outbuf;
 		*outlen = outptr - mf->outbuf;
 		*outprespace = mf->outbuf - mf->outreal;
 
-		d(printf("Filtered '%.*s'\n", *outlen, *out));
+		d(printf ("Filtered '%.*s'\n", *outlen, *out));
 	} else {
 		*out = in;
 		*outlen = inend - in;
 		*outprespace = prespace;
 		
-		d(printf("Filtered '%.*s'\n", *outlen, *out));
+		d(printf ("Filtered '%.*s'\n", *outlen, *out));
 	}
 }
 

@@ -1,3 +1,8 @@
+2000-06-02  Jeffrey Stedfast  <fejj@helixcode.com>
+
+	* camel-mime-filter-smtp.c (filter): Fixed the filter so that it wouldn't
+	insert garbage under certain conditions.
+
 2000-06-02  Christopher James Lahey  <clahey@helixcode.com>
 
 	* camel-session.c: Don't ref the services in the cache.
