@@ -1531,6 +1531,8 @@ mail/Makefile
 mail/default/Makefile
 mail/default/C/Makefile
 mail/default/zh_CN/Makefile
+mail/default/ja/Makefile
+mail/default/nl/Makefile
 mail/importers/Makefile
 plugins/Makefile
 plugins/calendar-http/Makefile
