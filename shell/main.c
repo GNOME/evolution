@@ -460,6 +460,10 @@ main (int argc, char **argv)
 	/* Make ElectricFence work.  */
 	free (malloc (10));
 
+	bindtextdomain (GETTEXT_PACKAGE, EVOLUTION_LOCALEDIR);
+	bind_textdomain_codeset (GETTEXT_PACKAGE, "UTF-8");
+	textdomain (GETTEXT_PACKAGE);
+
 	gnome_program_init (PACKAGE, VERSION, LIBGNOMEUI_MODULE, argc, argv, 
 			    GNOME_PROGRAM_STANDARD_PROPERTIES,
 			    GNOME_PARAM_POPT_TABLE, options,
