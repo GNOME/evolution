@@ -1,8 +1,0 @@
-#!/bin/bash
-
-grep name Locations | cut -b 6- > Locations.h
-grep loc Locations | sed "s/ .... ...... ...$//"| sed "s/ .... :...... ...$//" | cut -d = -f 2 | sed "s/\\\\//g" >> Locations.h
-
-sed -e "s/^/N_(\"/" -e "s/$/\")/" Locations.h > Locations.h.tmp
-sort Locations.h.tmp | uniq > Locations.h
-rm Locations.h.tmp
