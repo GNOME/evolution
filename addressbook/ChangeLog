@@ -1,5 +1,18 @@
 2000-05-30  Christopher James Lahey  <clahey@helixcode.com>
 
+	* gui/minicard/e-minicard-view.c: Made double clicking create a
+	new card.  Set the empty message.
+
+	* gui/minicard/e-minicard.c: Made sorting be case insensitive.
+
+	* gui/minicard/e-reflow-sorted.c, e-reflow.c, e-reflow.h: Added a
+	message for when the reflow is empty.
+
+	* printing/e-contact-print.c, printing/medbook.ecps: Made the
+	default printout be full page.  Made sorting case insensitive.
+
+2000-05-30  Christopher James Lahey  <clahey@helixcode.com>
+
 	* backend/ebook/e-book-view-listener.c,
 	backend/ebook/e-book-view-listener.h, backend/ebook/e-book-view.c,
 	backend/ebook/e-book-view.h, backend/idl/addressbook.idl,

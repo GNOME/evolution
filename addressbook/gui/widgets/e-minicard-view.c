@@ -25,11 +25,13 @@
 #include <e-util/e-canvas.h>
 #include "e-minicard-view.h"
 #include "e-minicard.h"
+#include "e-contact-editor.h"
 static void e_minicard_view_init		(EMinicardView		 *reflow);
 static void e_minicard_view_class_init	(EMinicardViewClass	 *klass);
 static void e_minicard_view_set_arg (GtkObject *o, GtkArg *arg, guint arg_id);
 static void e_minicard_view_get_arg (GtkObject *object, GtkArg *arg, guint arg_id);
 static void e_minicard_view_destroy (GtkObject *object);
+static gboolean e_minicard_view_event (GnomeCanvasItem *item, GdkEvent *event);
 static void canvas_destroy (GtkObject *object, EMinicardView *view);
 static void disconnect_signals (EMinicardView *view);
 
@@ -86,6 +88,8 @@ e_minicard_view_class_init (EMinicardViewClass *klass)
 	object_class->set_arg   = e_minicard_view_set_arg;
 	object_class->get_arg   = e_minicard_view_get_arg;
 	object_class->destroy   = e_minicard_view_destroy;
+
+	item_class->event       = e_minicard_view_event;
 	
 	/* GnomeCanvasItem method overrides */
 }
@@ -101,6 +105,11 @@ e_minicard_view_init (EMinicardView *view)
 	view->remove_card_id = 0;
 	view->modify_card_id = 0;
 	view->canvas_destroy_id = 0;
+	
+	gtk_object_set(GTK_OBJECT(view),
+		       "empty_message", _("There are no items to show in this view\n\n"
+					  "Double-click here to create a new Contact."),
+		       NULL);
 
 	E_REFLOW_SORTED(view)->compare_func = (GCompareFunc) e_minicard_compare;
 	E_REFLOW_SORTED(view)->string_func  = (EReflowStringFunc) e_minicard_get_card_id;
@@ -256,6 +265,74 @@ e_minicard_view_destroy (GtkObject *object)
 		gtk_object_unref(GTK_OBJECT(view->book_view));
   
 	GTK_OBJECT_CLASS(parent_class)->destroy (object);
+}
+
+static void
+card_added_cb (EBook* book, EBookStatus status, const char *id,
+	    gpointer user_data)
+{
+	g_print ("%s: %s(): a card was added\n", __FILE__, __FUNCTION__);
+}
+
+static gboolean
+e_minicard_view_event (GnomeCanvasItem *item, GdkEvent *event)
+{
+	EMinicardView *view;
+ 
+	view = E_MINICARD_VIEW (item);
+
+	switch( event->type ) {
+	case GDK_2BUTTON_PRESS:
+		{
+			gint result;
+			ECard *card;
+			GtkWidget* contact_editor;
+			EBook *book;
+			GtkWidget* dlg = gnome_dialog_new ("Contact Editor", "Save", "Cancel", NULL);
+		
+			card = e_card_new("");
+			contact_editor = e_contact_editor_new(card);
+			gtk_object_sink(GTK_OBJECT(card));
+		
+			gtk_window_set_policy(GTK_WINDOW(dlg), FALSE, TRUE, FALSE);
+		
+			gtk_object_get(GTK_OBJECT(view), "book", &book, NULL);
+		
+		
+			g_assert (E_IS_BOOK (book));
+		
+			gtk_box_pack_start (GTK_BOX (GNOME_DIALOG (dlg)->vbox),
+					    contact_editor, TRUE, TRUE, 0);
+		
+			gtk_widget_show (contact_editor);
+			gtk_widget_show (dlg);
+		
+			gnome_dialog_close_hides (GNOME_DIALOG (dlg), TRUE);
+			result = gnome_dialog_run_and_close (GNOME_DIALOG (dlg));
+		
+		
+			/* If the user clicks "okay"...*/
+			if (result == 0) {
+				ECard *card;
+				g_assert (contact_editor);
+				g_assert (GTK_IS_OBJECT (contact_editor));
+				gtk_object_get(GTK_OBJECT(contact_editor),
+					       "card", &card,
+					       NULL);
+			
+				/* Add the card in the contact editor to our ebook */
+				e_book_add_card (
+						 book,
+						 card,
+						 card_added_cb,
+						 NULL);
+			}
+		}
+		return FALSE;
+	default:
+		return TRUE;
+		break;
+	}
 }
 
 static void

@@ -171,6 +171,7 @@ e_reflow_sorted_remove_item(EReflowSorted *e_reflow_sorted, const gchar *id)
 		gtk_object_destroy(GTK_OBJECT(item));
 		if ( GTK_OBJECT_FLAGS( e_reflow_sorted ) & GNOME_CANVAS_ITEM_REALIZED ) {
 			e_canvas_item_request_reflow(GNOME_CANVAS_ITEM(e_reflow_sorted));
+			e_reflow_post_add_item(E_REFLOW(e_reflow_sorted), NULL);
 		}
 	}
 }
@@ -231,4 +232,5 @@ e_reflow_sorted_add_item(EReflow *reflow, GnomeCanvasItem *item)
 			e_canvas_item_request_reflow(GNOME_CANVAS_ITEM(e_reflow_sorted));
 		}
 	}
+	e_reflow_post_add_item(reflow, item);
 }

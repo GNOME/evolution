@@ -57,6 +57,9 @@ struct _EReflow
 	GList *items; /* Of type GnomeCanvasItem */
 	GList *columns; /* Of type GList of type GnomeCanvasItem (points into items) */
 	gint column_count; /* Number of columnns */
+
+	GnomeCanvasItem *empty_text;
+	gchar *empty_message;
 	
 	double minimum_width;
 	double width;
@@ -97,6 +100,9 @@ struct _EReflowClass
  */
 void       e_reflow_add_item(EReflow *e_reflow, GnomeCanvasItem *item);
 GtkType    e_reflow_get_type (void);
+
+/* Internal usage only: */
+void e_reflow_post_add_item(EReflow *e_reflow, GnomeCanvasItem *item);
 
 #ifdef __cplusplus
 }

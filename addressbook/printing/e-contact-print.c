@@ -575,7 +575,7 @@ card_compare (ECard *card1, ECard *card2) {
 			       "file_as", &file_as2,
 			       NULL);
 		if (file_as1 && file_as2)
-			return strcmp(file_as1, file_as2);
+			return strcasecmp(file_as1, file_as2);
 		if (file_as1)
 			return -1;
 		if (file_as2)
@@ -876,7 +876,7 @@ e_contact_build_style(EContactPrintStyle *style)
 	style->center_footer = g_strdup("");
 	style->right_footer = g_strdup("");
 	style->reverse_on_even_pages = FALSE;
-	filename = g_concat_dir_and_file(EVOLUTION_ECPSDIR, "smallbook.ecps");
+	filename = g_concat_dir_and_file(EVOLUTION_ECPSDIR, "medbook.ecps");
 	styledoc = xmlParseFile(filename);
 	g_free(filename);
 	if (styledoc) {

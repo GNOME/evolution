@@ -674,7 +674,7 @@ e_minicard_compare (EMinicard *minicard1, EMinicard *minicard2)
 			       "file_as", &file_as2,
 			       NULL);
 		if (file_as1 && file_as2)
-			return strcmp(file_as1, file_as2);
+			return strcasecmp(file_as1, file_as2);
 		if (file_as1)
 			return -1;
 		if (file_as2)

@@ -24,6 +24,7 @@
 #include <gnome.h>
 #include <math.h>
 #include "e-reflow.h"
+#include "e-text.h"
 #include <e-util/e-canvas-utils.h>
 #include <e-util/e-canvas.h>
 #include <e-util/e-util.h>
@@ -42,6 +43,7 @@ static void e_reflow_update (GnomeCanvasItem *item, double affine[6], ArtSVP *cl
 static double e_reflow_point (GnomeCanvasItem *item, double x, double y, int cx, int cy, GnomeCanvasItem **actual_item);
 static void e_reflow_reflow (GnomeCanvasItem *item, int flags);
 static void e_reflow_real_add_item(EReflow *e_reflow, GnomeCanvasItem *item);
+static void set_empty(EReflow *e_reflow);
 
 static void e_reflow_resize_children (GnomeCanvasItem *item);
 
@@ -56,7 +58,8 @@ enum {
 	ARG_0,
 	ARG_MINIMUM_WIDTH,
 	ARG_WIDTH,
-	ARG_HEIGHT
+	ARG_HEIGHT,
+	ARG_EMPTY_MESSAGE,
 };
 
 GtkType
@@ -87,58 +90,63 @@ e_reflow_get_type (void)
 static void
 e_reflow_class_init (EReflowClass *klass)
 {
-  GtkObjectClass *object_class;
-  GnomeCanvasItemClass *item_class;
+	GtkObjectClass *object_class;
+	GnomeCanvasItemClass *item_class;
 
-  object_class = (GtkObjectClass*) klass;
-  item_class = (GnomeCanvasItemClass *) klass;
+	object_class = (GtkObjectClass*) klass;
+	item_class = (GnomeCanvasItemClass *) klass;
 
-  parent_class = gtk_type_class (gnome_canvas_group_get_type ());
+	parent_class = gtk_type_class (gnome_canvas_group_get_type ());
   
-  gtk_object_add_arg_type ("EReflow::minimum_width", GTK_TYPE_DOUBLE, 
-			   GTK_ARG_READWRITE, ARG_MINIMUM_WIDTH); 
-  gtk_object_add_arg_type ("EReflow::width", GTK_TYPE_DOUBLE, 
-			   GTK_ARG_READABLE, ARG_WIDTH); 
-  gtk_object_add_arg_type ("EReflow::height", GTK_TYPE_DOUBLE, 
-			   GTK_ARG_READWRITE, ARG_HEIGHT);
+	gtk_object_add_arg_type ("EReflow::minimum_width", GTK_TYPE_DOUBLE, 
+				 GTK_ARG_READWRITE, ARG_MINIMUM_WIDTH); 
+	gtk_object_add_arg_type ("EReflow::width", GTK_TYPE_DOUBLE, 
+				 GTK_ARG_READABLE, ARG_WIDTH); 
+	gtk_object_add_arg_type ("EReflow::height", GTK_TYPE_DOUBLE, 
+				 GTK_ARG_READWRITE, ARG_HEIGHT);
+	gtk_object_add_arg_type ("EReflow::empty_message", GTK_TYPE_STRING, 
+				 GTK_ARG_READWRITE, ARG_EMPTY_MESSAGE);
 
-  klass->add_item       = e_reflow_real_add_item;
+	klass->add_item       = e_reflow_real_add_item;
  
-  object_class->set_arg   = e_reflow_set_arg;
-  object_class->get_arg   = e_reflow_get_arg;
-  object_class->destroy   = e_reflow_destroy;
+	object_class->set_arg   = e_reflow_set_arg;
+	object_class->get_arg   = e_reflow_get_arg;
+	object_class->destroy   = e_reflow_destroy;
   
-  /* GnomeCanvasItem method overrides */
-  item_class->event       = e_reflow_event;
-  item_class->realize     = e_reflow_realize;
-  item_class->unrealize   = e_reflow_unrealize;
-  item_class->draw        = e_reflow_draw;
-  item_class->update      = e_reflow_update;
-  item_class->point       = e_reflow_point;
+	/* GnomeCanvasItem method overrides */
+	item_class->event       = e_reflow_event;
+	item_class->realize     = e_reflow_realize;
+	item_class->unrealize   = e_reflow_unrealize;
+	item_class->draw        = e_reflow_draw;
+	item_class->update      = e_reflow_update;
+	item_class->point       = e_reflow_point;
 }
 
 static void
 e_reflow_init (EReflow *reflow)
 {
-  reflow->items = NULL;
-  reflow->columns = NULL;
-  reflow->column_width = 150;
+	reflow->items = NULL;
+	reflow->columns = NULL;
+	reflow->column_width = 150;
 
-  reflow->minimum_width = 10;
-  reflow->width = 10;
-  reflow->height = 10;
-  reflow->idle = 0;
+	reflow->minimum_width = 10;
+	reflow->width = 10;
+	reflow->height = 10;
+	reflow->idle = 0;
 
-  reflow->column_drag = FALSE;
+	reflow->empty_message = NULL;
+	reflow->empty_text = NULL;
 
-  reflow->need_height_update = FALSE;
-  reflow->need_column_resize = FALSE;
+	reflow->column_drag = FALSE;
 
-  reflow->default_cursor_shown = TRUE;
-  reflow->arrow_cursor = NULL;
-  reflow->default_cursor = NULL;
+	reflow->need_height_update = FALSE;
+	reflow->need_column_resize = FALSE;
 
-  e_canvas_item_set_reflow_callback(GNOME_CANVAS_ITEM(reflow), e_reflow_reflow);
+	reflow->default_cursor_shown = TRUE;
+	reflow->arrow_cursor = NULL;
+	reflow->default_cursor = NULL;
+
+	e_canvas_item_set_reflow_callback(GNOME_CANVAS_ITEM(reflow), e_reflow_reflow);
 }
 
 static void
@@ -152,13 +160,20 @@ e_reflow_set_arg (GtkObject *o, GtkArg *arg, guint arg_id)
 	
 	switch (arg_id){
 	case ARG_HEIGHT:
-	  e_reflow->height = GTK_VALUE_DOUBLE (*arg);
-	  e_canvas_item_request_reflow(item);
-	  break;
-	case ARG_MINIMUM_WIDTH:
-		e_reflow->minimum_width = GTK_VALUE_DOUBLE (*arg);
+		e_reflow->height = GTK_VALUE_DOUBLE (*arg);
 		e_canvas_item_request_reflow(item);
 		break;
+	case ARG_MINIMUM_WIDTH:
+		e_reflow->minimum_width = GTK_VALUE_DOUBLE (*arg);
+		if (GNOME_CANVAS_ITEM_REALIZED & GTK_OBJECT_FLAGS(o))
+			set_empty(e_reflow);
+		e_canvas_item_request_reflow(item);
+		break;
+	case ARG_EMPTY_MESSAGE:
+		g_free(e_reflow->empty_message);
+		e_reflow->empty_message = g_strdup(GTK_VALUE_STRING (*arg));
+		if (GNOME_CANVAS_ITEM_REALIZED & GTK_OBJECT_FLAGS(o))
+			set_empty(e_reflow);
 	}
 }
 
@@ -171,17 +186,20 @@ e_reflow_get_arg (GtkObject *object, GtkArg *arg, guint arg_id)
 
 	switch (arg_id) {
 	case ARG_MINIMUM_WIDTH:
-	  GTK_VALUE_DOUBLE (*arg) = e_reflow->minimum_width;
-	  break;
+		GTK_VALUE_DOUBLE (*arg) = e_reflow->minimum_width;
+		break;
 	case ARG_WIDTH:
-	  GTK_VALUE_DOUBLE (*arg) = e_reflow->width;
-	  break;
+		GTK_VALUE_DOUBLE (*arg) = e_reflow->width;
+		break;
 	case ARG_HEIGHT:
-	  GTK_VALUE_DOUBLE (*arg) = e_reflow->height;
-	  break;
+		GTK_VALUE_DOUBLE (*arg) = e_reflow->height;
+		break;
+	case ARG_EMPTY_MESSAGE:
+		GTK_VALUE_STRING (*arg) = g_strdup(e_reflow->empty_message);
+		break;
 	default:
-	  arg->type = GTK_TYPE_INVALID;
-	  break;
+		arg->type = GTK_TYPE_INVALID;
+		break;
 	}
 }
 
@@ -193,6 +211,8 @@ e_reflow_destroy (GtkObject *object)
 	g_list_foreach(reflow->items, (GFunc) gtk_object_unref, NULL);
 	g_list_free(reflow->items);
 	reflow->items = NULL;
+	
+	g_free(reflow->empty_message);
   
 	GTK_OBJECT_CLASS(parent_class)->destroy (object);
 }
@@ -220,6 +240,8 @@ e_reflow_realize (GnomeCanvasItem *item)
 				      "width", (double) e_reflow->column_width,
 				      NULL);
 	}
+
+	set_empty(e_reflow);
 
 	e_canvas_item_request_reflow(item);
 	
@@ -456,6 +478,7 @@ e_reflow_real_add_item(EReflow *e_reflow, GnomeCanvasItem *item)
 		gnome_canvas_item_set(item,
 				      "width", (double) e_reflow->column_width,
 				      NULL);
+		e_reflow_post_add_item(e_reflow, item);
 		e_canvas_item_request_reflow(item);
 	}
 
@@ -678,7 +701,7 @@ _reflow( EReflow *e_reflow )
 
 	if (e_reflow->items == NULL) {
 		e_reflow->columns = NULL;
-		e_reflow->column_count = 1;
+		e_reflow->column_count = 0;
 		return;
 	}
 
@@ -703,6 +726,49 @@ _reflow( EReflow *e_reflow )
 			e_reflow->column_count ++;
 		} else {
 			running_height += item_height + E_REFLOW_BORDER_WIDTH;
+		}
+	}
+}
+
+static void
+set_empty(EReflow *e_reflow)
+{
+	if (e_reflow->items == NULL) {
+		if (e_reflow->empty_text) {
+			if (e_reflow->empty_message) {
+				gnome_canvas_item_set(e_reflow->empty_text,
+						      "width", e_reflow->minimum_width,
+						      "text", e_reflow->empty_message,
+						      NULL);
+				e_canvas_item_move_absolute(e_reflow->empty_text,
+							    e_reflow->minimum_width / 2,
+							    0);
+			} else {
+				gtk_object_destroy(GTK_OBJECT(e_reflow->empty_text));
+				e_reflow->empty_text = NULL;
+			}
+		} else {
+			if (e_reflow->empty_message)
+				e_reflow->empty_text = 
+					gnome_canvas_item_new(GNOME_CANVAS_GROUP(e_reflow),
+							      e_text_get_type(),
+							      "anchor", GTK_ANCHOR_N,
+							      "width", e_reflow->minimum_width,
+							      "clip", TRUE,
+							      "use_ellipsis", TRUE,
+							      "font_gdk", GTK_WIDGET(GNOME_CANVAS_ITEM(e_reflow)->canvas)->style->font,
+							      "fill_color", "black",
+							      "justification", GTK_JUSTIFY_CENTER,
+							      "text", e_reflow->empty_message,
+							      NULL);
+			e_canvas_item_move_absolute(e_reflow->empty_text,
+						    e_reflow->minimum_width / 2,
+						    0);
+		}
+	} else {
+		if (e_reflow->empty_text) {
+			gtk_object_destroy(GTK_OBJECT(e_reflow->empty_text));
+			e_reflow->empty_text = NULL;
 		}
 	}
 }
@@ -773,4 +839,10 @@ e_reflow_add_item(EReflow *e_reflow, GnomeCanvasItem *item)
 {
 	if (E_REFLOW_CLASS(GTK_OBJECT(e_reflow)->klass)->add_item)
 		(E_REFLOW_CLASS(GTK_OBJECT(e_reflow)->klass)->add_item) (e_reflow, item);
+}
+
+void
+e_reflow_post_add_item(EReflow *e_reflow, GnomeCanvasItem *item)
+{
+	set_empty(e_reflow);
 }
