@@ -884,9 +884,9 @@ emfv_popup(EMFolderView *emfv, GdkEvent *event)
 
 	menu = em_popup_create_menu_once(emp, target, target->mask, target->mask);
 
-	if (event == NULL ||  event->type == GDK_KEY_PRESS) {
+	if (event == NULL || event->type == GDK_KEY_PRESS) {
 		/* FIXME: menu pos function */
-		gtk_menu_popup(menu, NULL, NULL, NULL, NULL, 0, event->key.time);
+		gtk_menu_popup(menu, NULL, NULL, NULL, NULL, 0, event ? event->key.time : time (NULL));
 	} else {
 		gtk_menu_popup(menu, NULL, NULL, NULL, NULL, event->button.button, event->button.time);
 	}

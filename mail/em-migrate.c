@@ -1737,9 +1737,52 @@ upgrade_xml_uris_1_4 (const char *uri)
 	}
 }
 
-static int
-em_upgrade_xml_1_4 (xmlDocPtr doc)
+static void
+upgrade_vfolder_sources_1_4 (xmlDocPtr doc)
 {
+	xmlNodePtr root, node;
+	
+	if (!doc || !(root = xmlDocGetRootElement (doc)))
+		return;
+	
+	if (!root->name || strcmp (root->name, "filteroptions") != 0) {
+		/* root node is not <filteroptions>, nothing to upgrade */
+		return;
+	}
+	
+	if (!(node = xml_find_node (root, "ruleset"))) {
+		/* no ruleset node, nothing to upgrade */
+		return;
+	}
+	
+	node = node->children;
+	while (node != NULL) {
+		if (node->name && !strcmp (node->name, "rule")) {
+			xmlNodePtr sources;
+			char *src;
+			
+			if (!(src = xmlGetProp (node, "source")))
+				src = xmlStrdup ("local");  /* default to all local folders? */
+			
+			xmlSetProp (node, "source", "incoming");
+			
+			if (!(sources = xml_find_node (node, "sources")))
+				sources = xmlNewChild (node, NULL, "sources", NULL);
+			
+			xmlSetProp (sources, "with", src);
+			xmlFree (src);
+		}
+		
+		node = node->next;
+	}
+}
+
+static int
+em_upgrade_xml_1_4 (xmlDocPtr doc, gboolean vfolders_xml)
+{
+	if (vfolders_xml)
+		upgrade_vfolder_sources_1_4 (doc);
+	
 	return upgrade_xml_uris (doc, upgrade_xml_uris_1_4);
 }
 
@@ -2157,10 +2200,10 @@ em_migrate_1_4 (const char *evolution_dir, xmlDocPtr filters, xmlDocPtr vfolders
 	if (em_upgrade_accounts_1_4 () == -1)
 		return -1;
 	
-	if (em_upgrade_xml_1_4 (filters) == -1)
+	if (em_upgrade_xml_1_4 (filters, FALSE) == -1)
 		return -1;
 	
-	if (em_upgrade_xml_1_4 (vfolders) == -1)
+	if (em_upgrade_xml_1_4 (vfolders, TRUE) == -1)
 		return -1;
 	
 	path = g_build_filename (g_get_home_dir (), "evolution", "searches.xml", NULL);

@@ -1,3 +1,13 @@
+2004-03-04  Jeffrey Stedfast  <fejj@ximian.com>
+
+	* em-folder-view.c (emfv_popup): If event == NULL, don't try to
+	use event->key.time
+
+	* em-migrate.c (upgrade_vfolder_sources_1_4): New function to
+	upgrade vfolder sources.
+	(em_upgrade_xml_1_4): If the doc is vfolders.xml, upgrade the
+	sources nodes.
+
 2004-03-03  Not Zed  <NotZed@Ximian.com>
 
 	** See bug #53738.
