@@ -43,7 +43,7 @@
 
 static int initialised = FALSE;
 
-void
+static void
 camel_shutdown (void)
 {
 	void camel_operation_shutdown (void);
@@ -122,6 +122,8 @@ camel_init (const char *configdir, gboolean nss_init)
 	camel_certdb_set_default (certdb);
 	
 	camel_object_unref (certdb);
+	
+	g_atexit (camel_shutdown);
 	
 	initialised = TRUE;
 	
