@@ -1,3 +1,13 @@
+2004-03-04  Not Zed  <NotZed@Ximian.com>
+
+	** See #54991.
+	
+	* gui/component/select-names/e-select-names-completion.c
+	(e_select_names_completion_start_query): dont try to unref a null
+	query.
+	(name_style_query): use a GString to build the query, so we can
+	use e_sexp_encode_string to properly encode the sub terms.
+
 2004-03-03  Hans Petter Jansson  <hpj@ximian.com>
 
 	* gui/component/addressbook-component.c (delete_addressbook_cb):

@@ -39,6 +39,8 @@
 #include <addressbook/util/eab-destination.h>
 #include <addressbook/gui/merging/eab-contact-compare.h>
 
+#include <e-util/e-sexp.h>
+
 typedef struct {
 	EBook *book;
 	guint book_view_tag;
@@ -261,7 +263,8 @@ name_style_query (ESelectNamesCompletion *comp, const gchar *field)
 		gchar *cpy = g_strdup (comp->priv->query_text), *c;
 		gchar **strv;
 		gchar *query;
-		gint i, count=0;
+		gint i;
+		GString *out = g_string_new("");
 
 		for (c = cpy; *c; ++c) {
 			if (*c == ',')
@@ -269,23 +272,23 @@ name_style_query (ESelectNamesCompletion *comp, const gchar *field)
 		}
 
 		strv = g_strsplit (cpy, " ", 0);
+		if (strv[0] && strv[1])
+			g_string_append(out, "(and ");
 		for (i=0; strv[i]; ++i) {
-			gchar *old;
-			++count;
-			g_strstrip (strv[i]);
-			old = strv[i];
-			strv[i] = g_strdup_printf ("(beginswith \"%s\" \"%s\")", field, old);
-			g_free (old);
+			if (i==0)
+				g_string_append(out, "(beginswith ");
+			else
+				g_string_append(out, " (beginswith ");
+			e_sexp_encode_string(out, field);
+			g_strstrip(strv[i]);
+			e_sexp_encode_string(out, strv[i]);
+			g_string_append(out, ")");
 		}
+		if (strv[0] && strv[1])
+			g_string_append(out, ")");
 
-		if (count == 1) {
-			query = strv[0];
-			strv[0] = NULL;
-		} else {
-			gchar *joined = g_strjoinv (" ", strv);
-			query = g_strdup_printf ("(and %s)", joined);
-			g_free (joined);
-		}
+		query = out->str;
+		g_string_free(out, FALSE);
 
 		g_free (cpy);
 		g_strfreev (strv);
@@ -1025,12 +1028,12 @@ e_select_names_completion_start_query (ESelectNamesCompletion *comp, const gchar
 			   that the search is over. */
 			if (!comp->priv->pending_completion_seq)
 				e_select_names_completion_done (E_SELECT_NAMES_COMPLETION (comp));
+
+			e_book_query_unref (query);
 		} else {
 			g_free (comp->priv->query_text);
 			comp->priv->query_text = NULL;
 		}
-		e_book_query_unref (query);
-
 	} else {
 
 		comp->priv->waiting_query = g_strdup (query_text);
