@@ -81,12 +81,6 @@
           <menuitem name="EditSelectThread" verb="" _label="Select _Thread"/>
           <menuitem name="EditInvertSelection" verb="" _label="_Invert Selection"/>
 
-	  <separator f="" name="emaillist1"/>
-
-          <menuitem name="EditCut" verb="" _label="Cu_t"/>
-          <menuitem name="EditCopy" verb="" _label="_Copy"/>
-          <menuitem name="EditPaste" verb="" _label="_Paste"/>
-
 	  <separator f="" name="emaillist2"/>
         </placeholder>
 

@@ -1,3 +1,11 @@
+2003-08-27  Not Zed  <NotZed@Ximian.com>
+
+	* evolution-mail-message.xml: Moved EditCopy EditPaste, and
+	EditCut here.
+
+	* evolution-mail-list.xml: Removed EditCopy, EditPaste, and
+	EditCut.
+
 2003-09-11  Tim Wo <tim.wo@sun.com>
 
 	* evolution-contact-editor.xml: add mnemonic "C" for "Save and _Close",

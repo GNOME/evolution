@@ -9,6 +9,18 @@
     _tip="Show a blinking cursor in the body of displayed messages"
     type = "toggle" state = "0" accel="F7"/>
 
+    <cmd name="EditCut"
+     _tip="Cut selected message(s) to the clipboard"
+     accel="*Control*x" pixtype="pixbuf"/>
+
+    <cmd name="EditCopy"
+     _tip="Copy selected message(s) to the clipboard"
+     accel="*Control*c" pixtype="pixbuf"/>
+
+    <cmd name="EditPaste"
+     _tip="Paste message(s) from the clipboard"
+     accel="*Control*v" pixtype="pixbuf"/>
+
     <cmd name="MailNext"
      _tip="Display the next message"/>
 
@@ -237,14 +249,20 @@
     <placeholder name="EditPlaceholder">
       <submenu name="Edit">
         <placeholder name="MailMessageEdit">
-	  <menuitem name="MessageSearch" verb="" _label="S_earch in Message..."/>
+          <menuitem name="EditCut" verb="" _label="Cu_t"/>
+          <menuitem name="EditCopy" verb="" _label="_Copy"/>
+          <menuitem name="EditPaste" verb="" _label="_Paste"/>
 
 	  <separator f="" name="emaillist1"/>
+
+	  <menuitem name="MessageSearch" verb="" _label="S_earch in Message..."/>
+
+	  <separator f="" name="emaillist2"/>
 
           <menuitem name="MessageDelete" verb="" _label="_Delete"/>
           <menuitem name="MessageUndelete" verb="" _label="_Undelete"/>
 
-	  <separator f="" name="emaillist2"/>
+	  <separator f="" name="emaillist3"/>
 
           <menuitem name="MessageMarkAsRead" verb="" _label="Mar_k as Read"/>
           <menuitem name="MessageMarkAsUnRead" verb="" _label="Mark as U_nread"/>
