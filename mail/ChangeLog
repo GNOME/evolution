@@ -1,3 +1,9 @@
+2001-04-22  Jeffrey Stedfast  <fejj@ximian.com>
+
+	* mail-ops.c (mail_send_message): g_strdup() the sent_folder_uri
+	since we later free it. If we don't, then we get lovely corrupt
+	memory.
+
 2001-04-20  Dan Winship  <danw@ximian.com>
 
 	* mail-ops.c (send_mail_desc): Fix up a bit. (My bad... I told
