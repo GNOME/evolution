@@ -207,7 +207,9 @@ camel_medium_get_header (CamelMedium *medium, const gchar *header_name)
 	g_return_val_if_fail (CAMEL_IS_MEDIUM (medium), NULL);
 	g_return_val_if_fail (header_name != NULL, NULL);
 
+#ifndef NO_WARNINGS
 #warning No way to get multi-valued headers?
+#endif
 
 	return CM_CLASS (medium)->get_header (medium, header_name);
 }

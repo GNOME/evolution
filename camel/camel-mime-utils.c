@@ -541,7 +541,7 @@ int
 quoted_encode_step(unsigned char *in, int len, unsigned char *out, int *statep, int *save)
 {
 	register unsigned char *inptr, *outptr, *inend;
-	unsigned char c=0x100;
+	unsigned char c;
 	register int sofar = *save, /* keeps track of how many chars on a line */
 		last=*statep;	/* keeps track if last char to end was a space cr etc */
 
@@ -794,7 +794,7 @@ header_decode_lwsp(const char **in)
 
 	d2(printf("is ws: '%s'\n", *in));
 
-	while (is_lwsp(*inptr) || *inptr =='(' && *inptr != '\0') {
+	while (is_lwsp(*inptr) || (*inptr =='(' && *inptr != '\0')) {
 		while (is_lwsp(*inptr) && inptr != '\0') {
 			d2(printf("(%c)", *inptr));
 			inptr++;
@@ -1804,7 +1804,9 @@ header_address_decode(const char *in)
 
 	d(printf("decoding To: '%s'\n", in));
 
+#ifndef NO_WARNINGS
 #warning header_to_decode needs to return some structure
+#endif
 
 	if (in == NULL)
 		return NULL;
@@ -2562,7 +2564,9 @@ header_address_list_format_append(GString *out, struct _header_address *a)
 	while (a) {
 		switch (a->type) {
 		case HEADER_ADDRESS_NAME:
+#ifndef NO_WARNINGS
 #warning needs to rfc2047 encode address phrase
+#endif
 			/* FIXME: 2047 encoding?? */
 			if (a->name && *a->name)
 				g_string_sprintfa(out, "\"%s\" <%s>", a->name, a->v.addr);

@@ -76,7 +76,7 @@ void camel_mime_filter_complete(CamelMimeFilter *f,
 void camel_mime_filter_reset(CamelMimeFilter *f);
 
 /* sets/returns number of bytes backed up on the input */
-void camel_mime_filter_backup(CamelMimeFilter *f, char *data, size_t length);
+void camel_mime_filter_backup(CamelMimeFilter *f, const char *data, size_t length);
 
 /* ensure this much size available for filter output */
 void camel_mime_filter_set_size(CamelMimeFilter *f, size_t size, int keep);

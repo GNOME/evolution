@@ -411,7 +411,9 @@ construct_from_parser(CamelMimePart *dw, CamelMimeParser *mp)
 	}
 
 	d(printf("mime_message::construct_from_parser() leaving\n"));
+#ifndef NO_WARNINGS
 #warning "return a real error code"
+#endif
 	return 0;
 }
 

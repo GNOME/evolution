@@ -177,7 +177,7 @@ void camel_mime_filter_reset(CamelMimeFilter *f)
 }
 
 /* sets number of bytes backed up on the input, new calls replace previous ones */
-void camel_mime_filter_backup(CamelMimeFilter *f, char *data, size_t length)
+void camel_mime_filter_backup(CamelMimeFilter *f, const char *data, size_t length)
 {
 	if (f->backsize < length) {
 		/* g_realloc copies data, unnecessary overhead */

@@ -646,7 +646,7 @@ camel_folder_summary_encode_token(FILE *out, char *str)
 				lower[i] = tolower(str[i]);
 			lower[i] = 0;
 #ifdef USE_BSEARCH
-			match = bsearch(lower, tokens, tokens_len, sizeof(char *), (int (*)(void *, void *))token_search_cmp);
+			match = bsearch(lower, tokens, tokens_len, sizeof(char *), (int (*)(const void *, const void *))token_search_cmp);
 			if (match)
 				token = match-tokens;
 #else

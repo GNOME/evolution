@@ -60,7 +60,8 @@ camel_folder_search_class_init (CamelFolderSearchClass *klass)
 	klass->match_all = search_match_all;
 	klass->body_contains = search_body_contains;
 	klass->header_contains = search_header_contains;
-	klass->user_flag = search_user_tag;
+	klass->user_tag = search_user_tag;
+	klass->user_flag = search_user_flag;
 }
 
 static void
@@ -125,7 +126,8 @@ struct {
 	{ "match-all", CAMEL_STRUCT_OFFSET(CamelFolderSearchClass, match_all), 3 },
 	{ "body-contains", CAMEL_STRUCT_OFFSET(CamelFolderSearchClass, body_contains), 1 },
 	{ "header-contains", CAMEL_STRUCT_OFFSET(CamelFolderSearchClass, header_contains), 1 },
-	{ "user-tag", CAMEL_STRUCT_OFFSET(CamelFolderSearchClass, user_flag), 1 },
+	{ "user-tag", CAMEL_STRUCT_OFFSET(CamelFolderSearchClass, user_tag), 1 },
+	{ "user-flag", CAMEL_STRUCT_OFFSET(CamelFolderSearchClass, user_flag), 1 },
 };
 
 void

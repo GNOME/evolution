@@ -470,7 +470,7 @@ static void mh_set_message_flags(CamelFolder * folder, const char *uid, guint32 
 	info->flags = (info->flags & ~flags) | (set & flags) | CAMEL_MESSAGE_FOLDER_FLAGGED;
 	camel_folder_summary_touch(CAMEL_FOLDER_SUMMARY(mf->summary));
 
-	camel_object_trigger_event (CAMEL_OBJECT(folder), "message_changed", uid);
+	camel_object_trigger_event (CAMEL_OBJECT(folder), "message_changed", (char *) uid);
 }
 
 static gboolean mh_get_message_user_flag(CamelFolder * folder, const char *uid, const char *name)
@@ -495,5 +495,5 @@ static void mh_set_message_user_flag(CamelFolder * folder, const char *uid, cons
 	camel_flag_set(&info->user_flags, name, value);
 	info->flags |= CAMEL_MESSAGE_FOLDER_FLAGGED;
 	camel_folder_summary_touch(CAMEL_FOLDER_SUMMARY(mf->summary));
-	camel_object_trigger_event (CAMEL_OBJECT(folder), "message_changed", uid);
+	camel_object_trigger_event (CAMEL_OBJECT(folder), "message_changed", (char *) uid);
 }

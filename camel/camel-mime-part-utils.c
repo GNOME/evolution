@@ -44,12 +44,12 @@ simple_data_wrapper_construct_from_parser(CamelDataWrapper *dw, CamelMimeParser 
 	GByteArray *buffer;
 	char *buf;
 	int len;
-	off_t start, end;	/* ignore the start may be used unitialised warning */
+	off_t start = 0, end;
 	CamelMimeFilter *fdec = NULL, *fcrlf = NULL, *fch = NULL;
 	struct _header_content_type *ct;
-	int decid=-1, crlfid=-1, chrid=-1, cache=TRUE;
+	int decid=-1, crlfid=-1, chrid=-1;
 	CamelStream *source;
-	CamelSeekableStream *seekable_source; /* and ignore the warning about this one too. */
+	CamelSeekableStream *seekable_source = NULL;
 	char *encoding;
 
 	d(printf("constructing data-wrapper\n"));
@@ -64,7 +64,6 @@ simple_data_wrapper_construct_from_parser(CamelDataWrapper *dw, CamelMimeParser 
 		camel_object_ref((CamelObject *)source);
 		if (CAMEL_IS_SEEKABLE_STREAM (source)) {
 			seekable_source = CAMEL_SEEKABLE_STREAM (source);
-			cache = FALSE;
 		}
 	}
 
@@ -111,12 +110,12 @@ simple_data_wrapper_construct_from_parser(CamelDataWrapper *dw, CamelMimeParser 
 
 	buffer = g_byte_array_new();
 
-	if (!cache) {
+	if (seekable_source /* !cache */) {
 		start = camel_mime_parser_tell(mp) + seekable_source->bound_start;
 	}
 	while ( camel_mime_parser_step(mp, &buf, &len) != HSCAN_BODY_END ) {
 		if (buffer) {
-			if (buffer->len > 20480 && !cache) {
+			if (buffer->len > 20480 && seekable_source) {
 				/* is this a 'big' message?  Yes?  We dont want to convert it all then.*/
 				camel_mime_parser_filter_remove(mp, decid);
 				camel_mime_parser_filter_remove(mp, chrid);
@@ -203,7 +202,9 @@ camel_mime_part_construct_content_from_parser(CamelMimePart *dw, CamelMimeParser
 	case HSCAN_MULTIPART: {
 		CamelDataWrapper *bodypart;
 
+#ifndef NO_WARNINGS
 #warning This should use a camel-mime-multipart
+#endif
 		d(printf("Creating multi-part\n"));
 		content = (CamelDataWrapper *)camel_multipart_new();
 
@@ -223,7 +224,9 @@ camel_mime_part_construct_content_from_parser(CamelMimePart *dw, CamelMimeParser
 		g_warning("Invalid state encountered???: %d", camel_mime_parser_state(mp));
 	}
 	if (content) {
+#ifndef NO_WARNINGS
 #warning there just has got to be a better way ... to transfer the mime-type to the datawrapper
+#endif
 		/* would you believe you have to set this BEFORE you set the content object???  oh my god !!!! */
 		camel_data_wrapper_set_mime_type_field (content, 
 							camel_mime_part_get_content_type ((CamelMimePart *)dw));

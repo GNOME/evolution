@@ -742,7 +742,7 @@ camel_object_unhook_event (CamelObject * obj, const gchar * name,
 			g_free (hooklist->data);
 			head = g_slist_remove_link (head, hooklist);
 			g_slist_free_1 (hooklist);
-			g_hash_table_insert (obj->event_to_hooklist, name,
+			g_hash_table_insert (obj->event_to_hooklist, (char *) name,
 					     head);
 			return;
 		}

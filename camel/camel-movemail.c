@@ -53,8 +53,10 @@ static void movemail_external (const char *source, const char *dest,
 #endif
 
 /* these could probably be exposed as a utility? (but only mbox needs it) */
+#if 0
 static int camel_movemail_copy_filter(int fromfd, int tofd, off_t start, size_t bytes, CamelMimeFilter *filter);
 static int camel_movemail_copy(int fromfd, int tofd, off_t start, size_t bytes);
+#endif
 
 /**
  * camel_movemail: Copy an mbox file from a shared spool directory to a
@@ -352,6 +354,7 @@ movemail_external (const char *source, const char *dest, CamelException *ex)
 #endif
 
 
+#if 0
 static int
 camel_movemail_copy(int fromfd, int tofd, off_t start, size_t bytes)
 {
@@ -399,9 +402,11 @@ camel_movemail_copy(int fromfd, int tofd, off_t start, size_t bytes)
 
         return written;
 }
+#endif
 
 #define PRE_SIZE (32)
 
+#if 0
 static int
 camel_movemail_copy_filter(int fromfd, int tofd, off_t start, size_t bytes, CamelMimeFilter *filter)
 {
@@ -582,4 +587,4 @@ fail:
 
 	return -1;
 }
-
+#endif

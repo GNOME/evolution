@@ -243,9 +243,11 @@ message_info_load (CamelFolderSummary *s, FILE *in)
 
 	mi = ((CamelFolderSummaryClass *)camel_mbox_summary_parent)->message_info_load (s, in);
 	if (mi) {
+		guint32 position;
 		CamelMboxMessageInfo *mbi = (CamelMboxMessageInfo *)mi;
 
-		camel_folder_summary_decode_uint32 (in, &mbi->frompos);
+		camel_folder_summary_decode_uint32 (in, &position);
+		mbi->frompos = position;
 	}
 	
 	return mi;

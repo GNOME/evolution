@@ -477,7 +477,9 @@ write_to_stream (CamelDataWrapper *data_wrapper, CamelStream *stream)
 
 	/* FIXME: something needs to be done about this ... */
 	/* FIXME: need to count these bytes too */
+#ifndef NO_WARNINGS
 #warning content-languages should be stored as a header
+#endif
 
 	if (mp->headers) {
 		struct _header_raw *h = mp->headers;
@@ -570,7 +572,9 @@ construct_from_parser(CamelMimePart *dw, CamelMimeParser *mp)
 	}
 
 	d(printf("mime_part::construct_from_parser() leaving\n"));
+#ifndef NO_WARNINGS
 #warning "Need to work out how to detect a (fatally) bad parse in the parser"
+#endif
 	return 0;
 }
 

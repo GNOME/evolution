@@ -1,7 +1,9 @@
 /* -*- Mode: C; tab-width: 8; indent-tabs-mode: t; c-basic-offset: 8 -*- */
 /* camel-multipart.c : Abstract class for a multipart */
 
+#ifndef NO_WARNINGS
 #warning This should be a mostly abstract class, but it is not!
+#endif
 
 /*
  *

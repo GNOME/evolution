@@ -265,6 +265,8 @@ esmtp_get_authtypes (gchar *buffer)
 	return ret;
 }
 
+/* FIXME: use these? */
+#ifdef notyet
 static CamelServiceAuthType no_authtype = {
 	"No authentication required",
 
@@ -285,6 +287,7 @@ static CamelServiceAuthType cram_md5_authtype = {
 	"CRAM-MD5",
 	TRUE
 };
+#endif
 
 static GList *
 query_auth_types (CamelService *service, CamelException *ex)

@@ -84,7 +84,8 @@ complete(CamelMimeFilter *mf, char *in, size_t len, size_t prespace, char **out,
 {
 	CamelMimeFilterCharset *f = (CamelMimeFilterCharset *)mf;
 	int converted;
-	char *inbuf, *outbuf;
+	const char *inbuf;
+	char *outbuf;
 	int inlen, outlen;
 
 	if (f->ic == (unicode_iconv_t) -1) {
@@ -136,7 +137,8 @@ filter(CamelMimeFilter *mf, char *in, size_t len, size_t prespace, char **out, s
 {
 	CamelMimeFilterCharset *f = (CamelMimeFilterCharset *)mf;
 	int converted;
-	char *inbuf, *outbuf;
+	const char *inbuf;
+	char *outbuf;
 	int inlen, outlen;
 
 	if (f->ic == (unicode_iconv_t) -1) {
