@@ -78,11 +78,11 @@ New features:
       flags.  It is also possible to change the color in which a
       specific message is displayed in the mail list.
 
-    - When the mail list is sorted by a certain field, it is possible
+    - When the message list is sorted by a certain field, it is possible
       to jump to the first item in the list that matches a certain
-      string by just typing the string in.
-														
-    - Filters are now update automatically when the destination folder
+      string by just typing the first few characters.
+							
+    - Filters are now updated automatically when the destination folder
       gets moved.
 
     - A new filter rule allows you to pipe mail through an external
@@ -104,9 +104,11 @@ New features:
 
     - SMTP error reporting has been improved.
 
+    - Much improved GnuPG support.
+
   * Mail Composer
 
-    - You can now edit a set of signature within Evolution, and pick
+    - You can now edit a set of signatures within Evolution, and pick
       which signature you want when composing a message.
 
     - Handling of replies has been improved; in particular, you can
@@ -115,5 +117,4 @@ New features:
 
     - Evolution can now generate graphical smileys automatically as
       you type.
-
 
