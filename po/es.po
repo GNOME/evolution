@@ -16,7 +16,7 @@ msgstr ""
 "Project-Id-Version: evolution.evolution-1-4-branch\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2003-08-27 03:29+0200\n"
-"PO-Revision-Date: 2003-08-27 06:54+0200\n"
+"PO-Revision-Date: 2003-08-28 19:03+0200\n"
 "Last-Translator: Francisco Javier F. Serrador <serrador@arrakis.es>\n"
 "Language-Team: Spanish <traductores@es.gnome.org>\n"
 "MIME-Version: 1.0\n"
@@ -6140,7 +6140,7 @@ msgstr "Borrando los objetos seleccionados..."
 
 #: calendar/gui/e-tasks.c:675
 msgid "Expunging"
-msgstr "Purgando"
+msgstr "Compactando"
 
 #: calendar/gui/e-week-view.c:3691
 msgid "New _Appointment..."
@@ -11334,7 +11334,7 @@ msgstr "no comienza por"
 
 #: filter/libfilter-i18n.h:19
 msgid "Do Not Exist"
-msgstr "No Existe"
+msgstr "No existen"
 
 #: filter/libfilter-i18n.h:20
 msgid "Draft"
@@ -11346,7 +11346,7 @@ msgstr "acaba en"
 
 #: filter/libfilter-i18n.h:22
 msgid "Exist"
-msgstr "Salir"
+msgstr "Existen"
 
 #: filter/libfilter-i18n.h:23
 msgid "exists"
@@ -11394,7 +11394,7 @@ msgstr "no está marcado"
 
 #: filter/libfilter-i18n.h:35 mail/folder-browser.c:1822
 msgid "Label"
-msgstr "Etiquetar"
+msgstr "Etiqueta"
 
 #: filter/libfilter-i18n.h:36
 msgid "Mailing list"
@@ -13437,7 +13437,7 @@ msgstr "Actualizando carpeta"
 
 #: mail/mail-ops.c:1628 mail/mail-ops.c:1679
 msgid "Expunging folder"
-msgstr "Purgando carpeta"
+msgstr "Compactando carpeta"
 
 #: mail/mail-ops.c:1676
 #, c-format
