@@ -1102,6 +1102,8 @@ destroy (GtkObject *object)
 	shell_view = E_SHELL_VIEW (object);
 	priv = shell_view->priv;
 
+	cleanup_delayed_selection (shell_view);
+
 	gtk_object_unref (GTK_OBJECT (priv->tooltips));
 
 	if (priv->corba_interface != NULL)
@@ -1126,8 +1128,6 @@ destroy (GtkObject *object)
 	bonobo_object_unref (BONOBO_OBJECT (priv->ui_component));
 
 	g_free (priv->uri);
-
-	cleanup_delayed_selection (shell_view);
 
 	if (priv->set_folder_timeout != 0)
 		gtk_timeout_remove (priv->set_folder_timeout);
@@ -2026,8 +2026,11 @@ e_shell_view_display_uri (EShellView *shell_view,
 	} else if (! create_new_view_for_uri (shell_view, uri)) {
 		cleanup_delayed_selection (shell_view);
 		priv->delayed_selection = g_strdup (uri);
-		gtk_signal_connect_after (GTK_OBJECT (e_shell_get_storage_set (priv->shell)), "new_folder",
-					  GTK_SIGNAL_FUNC (new_folder_cb), shell_view);
+		e_gtk_signal_connect_full_while_alive (GTK_OBJECT (e_shell_get_storage_set (priv->shell)), "new_folder",
+						       GTK_SIGNAL_FUNC (new_folder_cb), NULL,
+						       shell_view, NULL,
+						       NULL, TRUE,
+						       GTK_OBJECT (shell_view));
 		retval = FALSE;
 		goto end;
 	}

@@ -1,5 +1,15 @@
 2001-10-28  Ettore Perazzoli  <ettore@ximian.com>
 
+	* e-shell-view.c (destroy): Call `cleanup_delayed_selection()' as
+	there is a slight chance that the callback gets invoked during the
+	cleanup phase.
+	(e_shell_view_display_uri): For extra safety, make sure we don't
+	get invoked on a dead object by connecting the "new_folder" signal
+	with `e_gtk_signal_connect_full_while_alive()' instead of using
+	plain `gtk_signal_connect_after()'.
+
+2001-10-28  Ettore Perazzoli  <ettore@ximian.com>
+
 	* e-shell-view.c (new_folder_cb): Don't do the
 	`gtk_signal_disconnect_by_func()' as it's already done in
 	`cleanup_delayed_selection()'.
