@@ -1390,6 +1390,7 @@ on_SourceConfigDialogButton_clicked (GnomeDialog *dialog, int button, gpointer u
 		gtk_clist_set_text (GTK_CLIST (data->clist), source_row, 0, data->source);
 		gtk_clist_set_row_data (GTK_CLIST (data->clist), source_row,
 					g_strdup (data->source));
+		source = data->source;
 		break;
 	case 1: /* Cancel clicked */
 		g_print ("Cancel clicked\n");

@@ -1,3 +1,9 @@
+2000-06-13  Jeffrey Stedfast  <fejj@helixcode.com>
+
+	* mail-config.c (on_SourceConfigDialogButton_clicked): Make sure source
+	is always pointing to something, so a blank is not written to the config file
+	on close.
+
 2000-06-13  Ettore Perazzoli  <ettore@helixcode.com>
 
 	* Makefile.am (SHELL_OBJS): Removed.
