@@ -763,7 +763,7 @@ delete_cb (GtkWidget *widget, gpointer data)
 			gtk_signal_emit (GTK_OBJECT (ce), contact_editor_signals[DELETE_CARD],
 					 card);
 		
-		file_close_cb(widget, data);
+		close_dialog (ce);
 	}
 
 	gtk_object_unref(GTK_OBJECT(card));

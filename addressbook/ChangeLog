@@ -1,3 +1,8 @@
+2001-06-14  Chris Toshok  <toshok@ximian.com>
+
+	* contact-editor/e-contact-editor.c (delete_cb): save ourselves a
+	function call - call close_dialog instead of file_close_cb.
+
 2001-06-14  Jeffrey Stedfast  <fejj@ximian.com>
 
 	* gui/component/addressbook-component.c: Set the
