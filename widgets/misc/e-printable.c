@@ -24,6 +24,7 @@ enum {
 	DATA_LEFT,
 	RESET,
 	HEIGHT,
+	WILL_FIT,
 	LAST_SIGNAL
 };
 
@@ -64,8 +65,16 @@ e_printable_class_init (GtkObjectClass *object_class)
 				GTK_RUN_LAST,
 				object_class->type,
 				GTK_SIGNAL_OFFSET (EPrintableClass, height),
-				e_marshal_DOUBLE__OBJECT_DOUBLE_DOUBLE,
-				GTK_TYPE_DOUBLE, 3, GTK_TYPE_OBJECT, GTK_TYPE_DOUBLE, GTK_TYPE_DOUBLE);
+				e_marshal_DOUBLE__OBJECT_DOUBLE_DOUBLE_BOOL,
+				GTK_TYPE_DOUBLE, 4, GTK_TYPE_OBJECT, GTK_TYPE_DOUBLE, GTK_TYPE_DOUBLE, GTK_TYPE_BOOL);
+
+	e_printable_signals [WILL_FIT] =
+		gtk_signal_new ("will_fit",
+				GTK_RUN_LAST,
+				object_class->type,
+				GTK_SIGNAL_OFFSET (EPrintableClass, will_fit),
+				e_marshal_BOOL__OBJECT_DOUBLE_DOUBLE_BOOL,
+				GTK_TYPE_BOOL, 4, GTK_TYPE_OBJECT, GTK_TYPE_DOUBLE, GTK_TYPE_DOUBLE, GTK_TYPE_BOOL);
 
 	gtk_object_class_add_signals (object_class, e_printable_signals, LAST_SIGNAL);
 
@@ -73,6 +82,7 @@ e_printable_class_init (GtkObjectClass *object_class)
 	klass->data_left = NULL;
 	klass->reset = NULL;
 	klass->height = NULL;
+	klass->will_fit = NULL;
 }
 
 
@@ -154,7 +164,8 @@ gdouble
 e_printable_height              (EPrintable        *e_printable,
 				 GnomePrintContext *context,
 				 gdouble            width,
-				 gdouble            max_height)
+				 gdouble            max_height,
+				 gboolean           quantized)
 {
         gdouble ret_val;
 
@@ -166,6 +177,30 @@ e_printable_height              (EPrintable        *e_printable,
 			 context,
 			 width,
 			 max_height,
+			 quantized,
+			 &ret_val);
+
+	return ret_val;
+}
+
+gboolean
+e_printable_will_fit            (EPrintable        *e_printable,
+				 GnomePrintContext *context,
+				 gdouble            width,
+				 gdouble            max_height,
+				 gboolean           quantized)
+{
+        gboolean ret_val;
+
+	g_return_val_if_fail (e_printable != NULL, -1);
+	g_return_val_if_fail (E_IS_PRINTABLE (e_printable), -1);
+
+	gtk_signal_emit (GTK_OBJECT (e_printable),
+			 e_printable_signals [WILL_FIT],
+			 context,
+			 width,
+			 max_height,
+			 quantized,
 			 &ret_val);
 
 	return ret_val;

@@ -204,24 +204,50 @@ e_marshal_NONE__OBJECT_DOUBLE_DOUBLE_BOOL (GtkObject * object,
 		  func_data);
 }
 
-typedef gdouble (*GtkSignal_DOUBLE__OBJECT_DOUBLE_DOUBLE) (GtkObject * object,
-							   GtkObject *arg1,
-							   gdouble arg2,
-							   gdouble arg3,
-							   gpointer user_data);
+typedef gdouble (*GtkSignal_DOUBLE__OBJECT_DOUBLE_DOUBLE_BOOL) (GtkObject * object,
+								GtkObject *arg1,
+								gdouble arg2,
+								gdouble arg3,
+								gboolean arg4,
+								gpointer user_data);
 
 void
-e_marshal_DOUBLE__OBJECT_DOUBLE_DOUBLE (GtkObject * object,
+e_marshal_DOUBLE__OBJECT_DOUBLE_DOUBLE_BOOL (GtkObject * object,
 					GtkSignalFunc func,
 					gpointer func_data, GtkArg * args)
 {
-	GtkSignal_DOUBLE__OBJECT_DOUBLE_DOUBLE rfunc;
+	GtkSignal_DOUBLE__OBJECT_DOUBLE_DOUBLE_BOOL rfunc;
 	gdouble *return_val;
-	return_val = GTK_RETLOC_DOUBLE (args[3]);
-	rfunc = (GtkSignal_DOUBLE__OBJECT_DOUBLE_DOUBLE) func;
+	return_val = GTK_RETLOC_DOUBLE (args[4]);
+	rfunc = (GtkSignal_DOUBLE__OBJECT_DOUBLE_DOUBLE_BOOL) func;
 	*return_val = (*rfunc) (object,
 				GTK_VALUE_OBJECT (args[0]),
 				GTK_VALUE_DOUBLE (args[1]),
 				GTK_VALUE_DOUBLE (args[2]),
+				GTK_VALUE_BOOL   (args[3]),
+				func_data);
+}
+
+typedef gdouble (*GtkSignal_BOOL__OBJECT_DOUBLE_DOUBLE_BOOL) (GtkObject * object,
+							      GtkObject *arg1,
+							      gdouble arg2,
+							      gdouble arg3,
+							      gboolean arg4,
+							      gpointer user_data);
+
+void
+e_marshal_BOOL__OBJECT_DOUBLE_DOUBLE_BOOL (GtkObject * object,
+					GtkSignalFunc func,
+					gpointer func_data, GtkArg * args)
+{
+	GtkSignal_BOOL__OBJECT_DOUBLE_DOUBLE_BOOL rfunc;
+	gboolean *return_val;
+	return_val = GTK_RETLOC_BOOL (args[4]);
+	rfunc = (GtkSignal_BOOL__OBJECT_DOUBLE_DOUBLE_BOOL) func;
+	*return_val = (*rfunc) (object,
+				GTK_VALUE_OBJECT (args[0]),
+				GTK_VALUE_DOUBLE (args[1]),
+				GTK_VALUE_DOUBLE (args[2]),
+				GTK_VALUE_BOOL   (args[3]),
 				func_data);
 }

@@ -50,9 +50,13 @@ void e_marshal_NONE__OBJECT_DOUBLE_DOUBLE_BOOL (GtkObject * object,
 						GtkSignalFunc func,
 						gpointer func_data, GtkArg * args);
 
-void e_marshal_DOUBLE__OBJECT_DOUBLE_DOUBLE (GtkObject * object,
-					     GtkSignalFunc func,
-					     gpointer func_data, GtkArg * args);
+void e_marshal_DOUBLE__OBJECT_DOUBLE_DOUBLE_BOOL (GtkObject * object,
+						  GtkSignalFunc func,
+						  gpointer func_data, GtkArg * args);
+
+void e_marshal_BOOL__OBJECT_DOUBLE_DOUBLE_BOOL (GtkObject * object,
+						GtkSignalFunc func,
+						gpointer func_data, GtkArg * args);
 
 
 #endif /* _E_UTIL_H_ */

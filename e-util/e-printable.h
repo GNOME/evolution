@@ -33,7 +33,16 @@ typedef struct {
 	void        (*print_page)  (EPrintable *etm, GnomePrintContext *context, gdouble width, gdouble height, gboolean quantized);
 	gboolean    (*data_left)   (EPrintable *etm);
 	void        (*reset)       (EPrintable *etm);
-	gdouble     (*height)      (EPrintable *etm, GnomePrintContext *context, gdouble width, gdouble max_height);
+	gdouble     (*height)      (EPrintable *etm, GnomePrintContext *context, gdouble width, gdouble max_height, gboolean quantized);
+
+	/* e_printable_will_fit (ep, ...) should be equal in value to
+	 * (e_printable_print_page (ep, ...),
+	 * !e_printable_data_left(ep)) except that the latter has the
+	 * side effect of doing the printing and advancing the
+	 * position of the printable.
+	 */
+
+	gboolean    (*will_fit)    (EPrintable *etm, GnomePrintContext *context, gdouble width, gdouble max_height, gboolean quantized);
 } EPrintableClass;
 
 GtkType     e_printable_get_type (void);
@@ -41,8 +50,7 @@ GtkType     e_printable_get_type (void);
 EPrintable *e_printable_new                 (void);
 	
 /*
- * Routines for emitting signals on the e_table
- */
+ * Routines for emitting signals on the e_table */
 void        e_printable_print_page          (EPrintable        *e_printable,
 					     GnomePrintContext *context,
 					     gdouble            width,
@@ -53,6 +61,12 @@ void        e_printable_reset               (EPrintable        *e_printable);
 gdouble     e_printable_height              (EPrintable        *e_printable,
 					     GnomePrintContext *context,
 					     gdouble            width,
-					     gdouble            max_height);
+					     gdouble            max_height,
+					     gboolean           quantized);
+gboolean    e_printable_will_fit            (EPrintable        *e_printable,
+					     GnomePrintContext *context,
+					     gdouble            width,
+					     gdouble            max_height,
+					     gboolean           quantized);
 
 #endif /* _E_PRINTABLE_H_ */
