@@ -91,7 +91,7 @@ static const int classification_map[] = {
 
 static void task_page_class_init (TaskPageClass *class);
 static void task_page_init (TaskPage *tpage);
-static void task_page_destroy (GtkObject *object);
+static void task_page_finalize (GObject *object);
 
 static GtkWidget *task_page_get_widget (CompEditorPage *page);
 static void task_page_focus_main_widget (CompEditorPage *page);
@@ -112,39 +112,19 @@ static CompEditorPageClass *parent_class = NULL;
  * 
  * Return value: The type ID of the #TaskPage class.
  **/
-GtkType
-task_page_get_type (void)
-{
-	static GtkType task_page_type;
 
-	if (!task_page_type) {
-		static const GtkTypeInfo task_page_info = {
-			"TaskPage",
-			sizeof (TaskPage),
-			sizeof (TaskPageClass),
-			(GtkClassInitFunc) task_page_class_init,
-			(GtkObjectInitFunc) task_page_init,
-			NULL, /* reserved_1 */
-			NULL, /* reserved_2 */
-			(GtkClassInitFunc) NULL
-		};
-
-		task_page_type = gtk_type_unique (TYPE_COMP_EDITOR_PAGE,
-						  &task_page_info);
-	}
-
-	return task_page_type;
-}
+E_MAKE_TYPE (task_page, "TaskPage", TaskPage, task_page_class_init, task_page_init,
+	     TYPE_COMP_EDITOR_PAGE);
 
 /* Class initialization function for the task page */
 static void
 task_page_class_init (TaskPageClass *class)
 {
 	CompEditorPageClass *editor_page_class;
-	GtkObjectClass *object_class;
+	GObjectClass *object_class;
 
 	editor_page_class = (CompEditorPageClass *) class;
-	object_class = (GtkObjectClass *) class;
+	object_class = (GObjectClass *) class;
 
 	parent_class = g_type_class_ref(TYPE_COMP_EDITOR_PAGE);
 
@@ -155,7 +135,7 @@ task_page_class_init (TaskPageClass *class)
 	editor_page_class->set_summary = task_page_set_summary;
 	editor_page_class->set_dates = task_page_set_dates;
 
-	object_class->destroy = task_page_destroy;
+	object_class->finalize = task_page_finalize;
 }
 
 /* Object initialization function for the task page */
@@ -192,7 +172,7 @@ task_page_init (TaskPage *tpage)
 
 /* Destroy handler for the task page */
 static void
-task_page_destroy (GtkObject *object)
+task_page_finalize (GObject *object)
 {
 	TaskPage *tpage;
 	TaskPagePrivate *priv;
@@ -219,8 +199,8 @@ task_page_destroy (GtkObject *object)
 	g_free (priv);
 	tpage->priv = NULL;
 
-	if (GTK_OBJECT_CLASS (parent_class)->destroy)
-		(* GTK_OBJECT_CLASS (parent_class)->destroy) (object);
+	if (G_OBJECT_CLASS (parent_class)->finalize)
+		(* G_OBJECT_CLASS (parent_class)->finalize) (object);
 }
 
 

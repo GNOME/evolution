@@ -86,7 +86,7 @@ struct _CompEditorPrivate {
 static void comp_editor_class_init (CompEditorClass *class);
 static void comp_editor_init (CompEditor *editor);
 static gint comp_editor_key_press_event (GtkWidget *d, GdkEventKey *e);
-static void comp_editor_destroy (GtkObject *object);
+static void comp_editor_finalize (GObject *object);
 
 static void real_set_cal_client (CompEditor *editor, CalClient *client);
 static void real_edit_comp (CompEditor *editor, CalComponent *comp);
@@ -148,38 +148,17 @@ static GtkObjectClass *parent_class;
 
 
 
-GtkType
-comp_editor_get_type (void)
-{
-	static GtkType comp_editor_type = 0;
-
-	if (!comp_editor_type) {
-		static const GtkTypeInfo comp_editor_info = {
-			"CompEditor",
-			sizeof (CompEditor),
-			sizeof (CompEditorClass),
-			(GtkClassInitFunc) comp_editor_class_init,
-			(GtkObjectInitFunc) comp_editor_init,
-			NULL, /* reserved_1 */
-			NULL, /* reserved_2 */
-			(GtkClassInitFunc) NULL
-		};
-
-		comp_editor_type = gtk_type_unique (BONOBO_TYPE_WINDOW,
-						    &comp_editor_info);
-	}
-
-	return comp_editor_type;
-}
+E_MAKE_TYPE (comp_editor, "CompEditor", CompEditor, comp_editor_class_init, comp_editor_init,
+	     BONOBO_TYPE_WINDOW);
 
 /* Class initialization function for the calendar component editor */
 static void
 comp_editor_class_init (CompEditorClass *klass)
 {
-	GtkObjectClass *object_class;
+	GObjectClass *object_class;
 	GtkWidgetClass *widget_class;
 
-	object_class = GTK_OBJECT_CLASS (klass);
+	object_class = G_OBJECT_CLASS (klass);
 	widget_class = GTK_WIDGET_CLASS (klass);
 
 	parent_class = g_type_class_ref(BONOBO_TYPE_WINDOW);
@@ -189,7 +168,7 @@ comp_editor_class_init (CompEditorClass *klass)
 	klass->send_comp = real_send_comp;
 
 	widget_class->key_press_event = comp_editor_key_press_event;
-	object_class->destroy = comp_editor_destroy;
+	object_class->finalize = comp_editor_finalize;
 }
 
 /* Creates the basic in the editor */
@@ -271,7 +250,7 @@ comp_editor_key_press_event (GtkWidget *d, GdkEventKey *e)
 
 /* Destroy handler for the calendar component editor */
 static void
-comp_editor_destroy (GtkObject *object)
+comp_editor_finalize (GObject *object)
 {
 	CompEditor *editor;
 	CompEditorPrivate *priv;
@@ -280,7 +259,7 @@ comp_editor_destroy (GtkObject *object)
 	editor = COMP_EDITOR (object);
 	priv = editor->priv;
 
-	gtk_signal_disconnect_by_data (GTK_OBJECT (priv->client), editor);
+	g_signal_handlers_disconnect_matched (priv->client, G_SIGNAL_MATCH_DATA, 0, 0, NULL, NULL, editor);
 
 	/* We want to destroy the pages after the widgets get destroyed,
 	   since they have lots of signal handlers connected to the widgets
@@ -296,8 +275,8 @@ comp_editor_destroy (GtkObject *object)
 	g_free (priv);
 	editor->priv = NULL;
 
-	if (GTK_OBJECT_CLASS (parent_class)->destroy)
-		(* GTK_OBJECT_CLASS (parent_class)->destroy) (object);
+	if (G_OBJECT_CLASS (parent_class)->finalize)
+		(* G_OBJECT_CLASS (parent_class)->finalize) (object);
 }
 
 static gboolean
@@ -708,8 +687,8 @@ comp_editor_remove_page (CompEditor *editor, CompEditorPage *page)
 		return;
 	
 	/* Disconnect all the signals added in append_page(). */
-	gtk_signal_disconnect_by_data (GTK_OBJECT (page), editor);
-	gtk_signal_disconnect_by_data (GTK_OBJECT (page_widget), page);
+	g_signal_handlers_disconnect_matched (page, G_SIGNAL_MATCH_DATA, 0, 0, NULL, NULL, editor);
+	g_signal_handlers_disconnect_matched (page_widget, G_SIGNAL_MATCH_DATA, 0, 0, NULL, NULL, page);
 
 	gtk_notebook_remove_page (priv->notebook, page_num);
 

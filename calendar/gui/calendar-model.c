@@ -308,7 +308,7 @@ calendar_model_destroy (GtkObject *object)
 	/* Free the calendar client interface object */
 
 	if (priv->client) {
-		gtk_signal_disconnect_by_data (GTK_OBJECT (priv->client), model);
+		g_signal_handlers_disconnect_matched (priv->client, G_SIGNAL_MATCH_DATA, 0, 0, NULL, NULL, model);
 		g_object_unref (priv->client);
 		priv->client = NULL;
 	}
@@ -319,7 +319,8 @@ calendar_model_destroy (GtkObject *object)
 	}
 
 	if (priv->query) {
-		gtk_signal_disconnect_by_data (GTK_OBJECT (priv->query), model);
+		g_signal_handlers_disconnect_matched (priv->query, G_SIGNAL_MATCH_DATA,
+						      0, 0, NULL, NULL, model);
 		g_object_unref (priv->query);
 		priv->query = NULL;
 	}
@@ -1965,7 +1966,8 @@ update_query (CalendarModel *model)
 	priv->query = NULL;
 
 	if (old_query) {
-		gtk_signal_disconnect_by_data (GTK_OBJECT (old_query), model);
+		g_signal_handlers_disconnect_matched (old_query, G_SIGNAL_MATCH_DATA,
+						      0, 0, NULL, NULL, model);
 		g_object_unref (old_query);
 	}
 
@@ -2156,7 +2158,7 @@ calendar_model_set_cal_client (CalendarModel *model, CalClient *client, CalObjTy
 		g_object_ref (client);
 
 	if (priv->client) {
-		gtk_signal_disconnect_by_data (GTK_OBJECT (priv->client), model);
+		g_signal_handlers_disconnect_matched (priv->client, G_SIGNAL_MATCH_DATA, 0, 0, NULL, NULL, model);
 		g_object_unref (priv->client);
 	}
 

@@ -93,7 +93,7 @@ struct _EventPagePrivate {
 
 static void event_page_class_init (EventPageClass *class);
 static void event_page_init (EventPage *epage);
-static void event_page_destroy (GtkObject *object);
+static void event_page_finalize (GObject *object);
 
 static GtkWidget *event_page_get_widget (CompEditorPage *page);
 static void event_page_focus_main_widget (CompEditorPage *page);
@@ -114,41 +114,21 @@ static CompEditorPageClass *parent_class = NULL;
  * 
  * Return value: The type ID of the #EventPage class.
  **/
-GtkType
-event_page_get_type (void)
-{
-	static GtkType event_page_type;
 
-	if (!event_page_type) {
-		static const GtkTypeInfo event_page_info = {
-			"EventPage",
-			sizeof (EventPage),
-			sizeof (EventPageClass),
-			(GtkClassInitFunc) event_page_class_init,
-			(GtkObjectInitFunc) event_page_init,
-			NULL, /* reserved_1 */
-			NULL, /* reserved_2 */
-			(GtkClassInitFunc) NULL
-		};
-
-		event_page_type = gtk_type_unique (TYPE_COMP_EDITOR_PAGE, 
-						   &event_page_info);
-	}
-
-	return event_page_type;
-}
+E_MAKE_TYPE (event_page, "EventPage", EventPage, event_page_class_init, event_page_init,
+	     TYPE_COMP_EDITOR_PAGE);
 
 /* Class initialization function for the event page */
 static void
 event_page_class_init (EventPageClass *class)
 {
 	CompEditorPageClass *editor_page_class;
-	GtkObjectClass *object_class;
+	GObjectClass *object_class;
 
 	editor_page_class = (CompEditorPageClass *) class;
-	object_class = (GtkObjectClass *) class;
+	object_class = (GObjectClass *) class;
 
-	parent_class = g_type_class_ref(TYPE_COMP_EDITOR_PAGE);
+	parent_class = g_type_class_ref (TYPE_COMP_EDITOR_PAGE);
 
 	editor_page_class->get_widget = event_page_get_widget;
 	editor_page_class->focus_main_widget = event_page_focus_main_widget;
@@ -157,7 +137,7 @@ event_page_class_init (EventPageClass *class)
 	editor_page_class->set_summary = event_page_set_summary;
 	editor_page_class->set_dates = event_page_set_dates;
 
-	object_class->destroy = event_page_destroy;
+	object_class->finalize = event_page_finalize;
 }
 
 /* Object initialization function for the event page */
@@ -199,7 +179,7 @@ event_page_init (EventPage *epage)
 
 /* Destroy handler for the event page */
 static void
-event_page_destroy (GtkObject *object)
+event_page_finalize (GObject *object)
 {
 	EventPage *epage;
 	EventPagePrivate *priv;
@@ -226,8 +206,8 @@ event_page_destroy (GtkObject *object)
 	g_free (priv);
 	epage->priv = NULL;
 
-	if (GTK_OBJECT_CLASS (parent_class)->destroy)
-		(* GTK_OBJECT_CLASS (parent_class)->destroy) (object);
+	if (G_OBJECT_CLASS (parent_class)->finalize)
+		(* G_OBJECT_CLASS (parent_class)->finalize) (object);
 }
 
 
@@ -360,7 +340,7 @@ update_time (EventPage *epage, CalComponentDateTime *start_date, CalComponentDat
 
 	gtk_signal_handler_block_by_data (GTK_OBJECT (priv->start_time),
 					  epage);
-	gtk_signal_handler_block_by_data (GTK_OBJECT (priv->end_time), epage);
+	g_signal_handlers_block_matched (priv->end_time, G_SIGNAL_MATCH_DATA, 0, 0, NULL, NULL, epage);
 
 	e_date_edit_set_date (E_DATE_EDIT (priv->start_time), start_tt->year,
 			      start_tt->month, start_tt->day);
@@ -381,7 +361,7 @@ update_time (EventPage *epage, CalComponentDateTime *start_date, CalComponentDat
 	   are the same. */
 	gtk_signal_handler_block_by_data (GTK_OBJECT (priv->start_timezone),
 					  epage);
-	gtk_signal_handler_block_by_data (GTK_OBJECT (priv->end_timezone), epage);
+	g_signal_handlers_block_matched (priv->end_timezone, G_SIGNAL_MATCH_DATA, 0, 0, NULL, NULL, epage);
 	
 	e_timezone_entry_set_timezone (E_TIMEZONE_ENTRY (priv->start_timezone),
 				       start_zone);
@@ -413,7 +393,7 @@ clear_widgets (EventPage *epage)
 	/* Start and end times */
 	gtk_signal_handler_block_by_data (GTK_OBJECT (priv->start_time),
 					  epage);
-	gtk_signal_handler_block_by_data (GTK_OBJECT (priv->end_time), epage);
+	g_signal_handlers_block_matched (priv->end_time, G_SIGNAL_MATCH_DATA, 0, 0, NULL, NULL, epage);
 
 	e_date_edit_set_time (E_DATE_EDIT (priv->start_time), 0);
 	e_date_edit_set_time (E_DATE_EDIT (priv->end_time), 0);
@@ -1011,22 +991,22 @@ times_updated (EventPage *epage, gboolean adjust_end_time)
 
 
 	if (set_start_date) {
-		gtk_signal_handler_block_by_data (GTK_OBJECT (priv->start_time), epage);
+		g_signal_handlers_block_matched (priv->start_time, G_SIGNAL_MATCH_DATA, 0, 0, NULL, NULL, epage);
 		e_date_edit_set_date (E_DATE_EDIT (priv->start_time),
 				      start_tt.year, start_tt.month,
 				      start_tt.day);
 		e_date_edit_set_time_of_day (E_DATE_EDIT (priv->start_time),
 					     start_tt.hour, start_tt.minute);
-		gtk_signal_handler_unblock_by_data (GTK_OBJECT (priv->start_time), epage);
+		g_signal_handlers_unblock_matched (priv->start_time, G_SIGNAL_MATCH_DATA, 0, 0, NULL, NULL, epage);
 	}
 
 	if (set_end_date) {
-		gtk_signal_handler_block_by_data (GTK_OBJECT (priv->end_time), epage);
+		g_signal_handlers_block_matched (priv->end_time, G_SIGNAL_MATCH_DATA, 0, 0, NULL, NULL, epage);
 		e_date_edit_set_date (E_DATE_EDIT (priv->end_time),
 				      end_tt.year, end_tt.month, end_tt.day);
 		e_date_edit_set_time_of_day (E_DATE_EDIT (priv->end_time),
 					     end_tt.hour, end_tt.minute);
-		gtk_signal_handler_unblock_by_data (GTK_OBJECT (priv->end_time), epage);
+		g_signal_handlers_unblock_matched (priv->end_time, G_SIGNAL_MATCH_DATA, 0, 0, NULL, NULL, epage);
 	}
 
 	/* Notify upstream */
@@ -1433,9 +1413,9 @@ event_page_new (void)
 {
 	EventPage *epage;
 
-	epage = gtk_type_new (TYPE_EVENT_PAGE);
+	epage = g_object_new (TYPE_EVENT_PAGE, NULL);
 	if (!event_page_construct (epage)) {
-		g_object_unref((epage));
+		g_object_unref ((epage));
 		return NULL;
 	}
 

@@ -58,7 +58,7 @@ static void event_editor_init (EventEditor *ee);
 static void event_editor_set_cal_client (CompEditor *editor, CalClient *client);
 static void event_editor_edit_comp (CompEditor *editor, CalComponent *comp);
 static gboolean event_editor_send_comp (CompEditor *editor, CalComponentItipMethod method);
-static void event_editor_destroy (GtkObject *object);
+static void event_editor_finalize (GObject *object);
 
 static void schedule_meeting_cmd (GtkWidget *widget, gpointer data);
 static void refresh_meeting_cmd (GtkWidget *widget, gpointer data);
@@ -94,38 +94,18 @@ static CompEditorClass *parent_class;
  *
  * Return value: The type ID of the #EventEditor class.
  **/
-GtkType
-event_editor_get_type (void)
-{
-	static GtkType event_editor_type = 0;
 
-	if (!event_editor_type) {
-		static const GtkTypeInfo event_editor_info = {
-			"EventEditor",
-			sizeof (EventEditor),
-			sizeof (EventEditorClass),
-			(GtkClassInitFunc) event_editor_class_init,
-			(GtkObjectInitFunc) event_editor_init,
-			NULL, /* reserved_1 */
-			NULL, /* reserved_2 */
-			(GtkClassInitFunc) NULL
-		};
-
-		event_editor_type = gtk_type_unique (TYPE_COMP_EDITOR,
-						     &event_editor_info);
-	}
-
-	return event_editor_type;
-}
+E_MAKE_TYPE (event_editor, "EventEditor", EventEditor, event_editor_class_init,
+	     event_editor_init, TYPE_COMP_EDITOR);
 
 /* Class initialization function for the event editor */
 static void
 event_editor_class_init (EventEditorClass *klass)
 {
-	GtkObjectClass *object_class;
+	GObjectClass *gobject_class;
 	CompEditorClass *editor_class;
 	
-	object_class = (GtkObjectClass *) klass;
+	gobject_class = (GObjectClass *) klass;
 	editor_class = (CompEditorClass *) klass;
 
 	parent_class = g_type_class_ref(TYPE_COMP_EDITOR);
@@ -134,7 +114,7 @@ event_editor_class_init (EventEditorClass *klass)
 	editor_class->edit_comp = event_editor_edit_comp;
 	editor_class->send_comp = event_editor_send_comp;
 	
-	object_class->destroy = event_editor_destroy;
+	gobject_class->finalize = event_editor_finalize;
 }
 
 static void
@@ -378,7 +358,7 @@ event_editor_send_comp (CompEditor *editor, CalComponentItipMethod method)
 
 /* Destroy handler for the event editor */
 static void
-event_editor_destroy (GtkObject *object)
+event_editor_finalize (GObject *object)
 {
 	EventEditor *ee;
 	EventEditorPrivate *priv;
@@ -398,8 +378,8 @@ event_editor_destroy (GtkObject *object)
 	gtk_object_destroy (GTK_OBJECT (priv->model));
 	g_object_unref((priv->model));
 
-	if (GTK_OBJECT_CLASS (parent_class)->destroy)
-		(* GTK_OBJECT_CLASS (parent_class)->destroy) (object);
+	if (G_OBJECT_CLASS (parent_class)->finalize)
+		(* G_OBJECT_CLASS (parent_class)->finalize) (object);
 }
 
 /**
@@ -416,7 +396,7 @@ event_editor_new (CalClient *client)
 {
 	EventEditor *ee;
 
-	ee = EVENT_EDITOR (gtk_type_new (TYPE_EVENT_EDITOR));
+	ee = EVENT_EDITOR (g_object_new (TYPE_EVENT_EDITOR, NULL));
 	return event_editor_construct (ee, client);
 }
 

@@ -107,7 +107,7 @@ struct _MeetingPagePrivate {
 
 static void meeting_page_class_init (MeetingPageClass *class);
 static void meeting_page_init (MeetingPage *mpage);
-static void meeting_page_destroy (GtkObject *object);
+static void meeting_page_finalize (GObject *object);
 
 static GtkWidget *meeting_page_get_widget (CompEditorPage *page);
 static void meeting_page_focus_main_widget (CompEditorPage *page);
@@ -128,42 +128,21 @@ static CompEditorPageClass *parent_class = NULL;
  * 
  * Return value: The type ID of the #MeetingPage class.
  **/
-GtkType
-meeting_page_get_type (void)
-{
-	static GtkType meeting_page_type;
 
-	if (!meeting_page_type) {
-		static const GtkTypeInfo meeting_page_info = {
-			"MeetingPage",
-			sizeof (MeetingPage),
-			sizeof (MeetingPageClass),
-			(GtkClassInitFunc) meeting_page_class_init,
-			(GtkObjectInitFunc) meeting_page_init,
-			NULL, /* reserved_1 */
-			NULL, /* reserved_2 */
-			(GtkClassInitFunc) NULL
-		};
-
-		meeting_page_type = 
-			gtk_type_unique (TYPE_COMP_EDITOR_PAGE,
-					 &meeting_page_info);
-	}
-
-	return meeting_page_type;
-}
+E_MAKE_TYPE (meeting_page, "MeetingPage", MeetingPage, meeting_page_class_init, meeting_page_init,
+	     TYPE_COMP_EDITOR_PAGE);
 
 /* Class initialization function for the task page */
 static void
 meeting_page_class_init (MeetingPageClass *class)
 {
 	CompEditorPageClass *editor_page_class;
-	GtkObjectClass *object_class;
+	GObjectClass *object_class;
 
 	editor_page_class = (CompEditorPageClass *) class;
-	object_class = (GtkObjectClass *) class;
+	object_class = (GObjectClass *) class;
 
-	parent_class = g_type_class_ref(TYPE_COMP_EDITOR_PAGE);
+	parent_class = g_type_class_ref (TYPE_COMP_EDITOR_PAGE);
 
 	editor_page_class->get_widget = meeting_page_get_widget;
 	editor_page_class->focus_main_widget = meeting_page_focus_main_widget;
@@ -172,7 +151,7 @@ meeting_page_class_init (MeetingPageClass *class)
 	editor_page_class->set_summary = NULL;
 	editor_page_class->set_dates = NULL;
 
-	object_class->destroy = meeting_page_destroy;
+	object_class->finalize = meeting_page_finalize;
 }
 
 /* Object initialization function for the task page */
@@ -235,7 +214,7 @@ cleanup_attendees (GPtrArray *attendees)
 
 /* Destroy handler for the task page */
 static void
-meeting_page_destroy (GtkObject *object)
+meeting_page_finalize (GObject *object)
 {
 	MeetingPage *mpage;
 	MeetingPagePrivate *priv;
@@ -264,8 +243,8 @@ meeting_page_destroy (GtkObject *object)
 	g_free (priv);
 	mpage->priv = NULL;
 
-	if (GTK_OBJECT_CLASS (parent_class)->destroy)
-		(* GTK_OBJECT_CLASS (parent_class)->destroy) (object);
+	if (G_OBJECT_CLASS (parent_class)->finalize)
+		(* G_OBJECT_CLASS (parent_class)->finalize) (object);
 }
 
 
@@ -818,7 +797,7 @@ meeting_page_new (EMeetingModel *emm, CalClient *client)
 {
 	MeetingPage *mpage;
 
-	mpage = gtk_type_new (TYPE_MEETING_PAGE);
+	mpage = g_object_new (TYPE_MEETING_PAGE, NULL);
 	if (!meeting_page_construct (mpage, emm, client)) {
 		g_object_unref((mpage));
 		return NULL;

@@ -620,7 +620,8 @@ query_eval_error_cb (CalQuery *query, const char *error_str, gpointer data)
 
 	set_status_message (tasks, NULL);
 
-	gtk_signal_disconnect_by_data (GTK_OBJECT (priv->query), tasks);
+	g_signal_handlers_disconnect_matched (priv->query, G_SIGNAL_MATCH_DATA,
+					      0, 0, NULL, NULL, tasks);
 	g_object_unref (priv->query);
 	priv->query = NULL;
 }
@@ -639,7 +640,8 @@ query_query_done_cb (CalQuery *query, CalQueryDoneStatus status, const char *err
 
 	set_status_message (tasks, NULL);
 
-	gtk_signal_disconnect_by_data (GTK_OBJECT (priv->query), tasks);
+	g_signal_handlers_disconnect_matched (priv->query, G_SIGNAL_MATCH_DATA,
+					      0, 0, NULL, NULL, tasks);
 	g_object_unref (priv->query);
 	priv->query = NULL;
 }

@@ -52,7 +52,7 @@ static void task_editor_class_init (TaskEditorClass *class);
 static void task_editor_init (TaskEditor *te);
 static void task_editor_edit_comp (CompEditor *editor, CalComponent *comp);
 static gboolean task_editor_send_comp (CompEditor *editor, CalComponentItipMethod method);
-static void task_editor_destroy (GtkObject *object);
+static void task_editor_finalize (GObject *object);
 
 static void assign_task_cmd (GtkWidget *widget, gpointer data);
 static void refresh_task_cmd (GtkWidget *widget, gpointer data);
@@ -83,38 +83,18 @@ static CompEditorClass *parent_class;
  *
  * Return value: The type ID of the #TaskEditor class.
  **/
-GtkType
-task_editor_get_type (void)
-{
-	static GtkType task_editor_type = 0;
 
-	if (!task_editor_type) {
-		static const GtkTypeInfo task_editor_info = {
-			"TaskEditor",
-			sizeof (TaskEditor),
-			sizeof (TaskEditorClass),
-			(GtkClassInitFunc) task_editor_class_init,
-			(GtkObjectInitFunc) task_editor_init,
-			NULL, /* reserved_1 */
-			NULL, /* reserved_2 */
-			(GtkClassInitFunc) NULL
-		};
-
-		task_editor_type = gtk_type_unique (TYPE_COMP_EDITOR,
-						     &task_editor_info);
-	}
-
-	return task_editor_type;
-}
+E_MAKE_TYPE (task_editor, "TaskEditor", TaskEditor, task_editor_class_init, task_editor_init,
+	     TYPE_COMP_EDITOR);
 
 /* Class initialization function for the event editor */
 static void
 task_editor_class_init (TaskEditorClass *klass)
 {
-	GtkObjectClass *object_class;
+	GObjectClass *object_class;
 	CompEditorClass *editor_class;
 
-	object_class = (GtkObjectClass *) klass;
+	object_class = (GObjectClass *) klass;
 	editor_class = (CompEditorClass *) klass;
 
 	parent_class = g_type_class_ref(TYPE_COMP_EDITOR);
@@ -122,7 +102,7 @@ task_editor_class_init (TaskEditorClass *klass)
 	editor_class->edit_comp = task_editor_edit_comp;
 	editor_class->send_comp = task_editor_send_comp;
 
-	object_class->destroy = task_editor_destroy;
+	object_class->finalize = task_editor_finalize;
 }
 
 static void
@@ -334,7 +314,7 @@ task_editor_send_comp (CompEditor *editor, CalComponentItipMethod method)
 
 /* Destroy handler for the event editor */
 static void
-task_editor_destroy (GtkObject *object)
+task_editor_finalize (GObject *object)
 {
 	TaskEditor *te;
 	TaskEditorPrivate *priv;
@@ -351,8 +331,8 @@ task_editor_destroy (GtkObject *object)
 	
 	g_object_unref((priv->model));
 	
-	if (GTK_OBJECT_CLASS (parent_class)->destroy)
-		(* GTK_OBJECT_CLASS (parent_class)->destroy) (object);
+	if (G_OBJECT_CLASS (parent_class)->finalize)
+		(* G_OBJECT_CLASS (parent_class)->finalize) (object);
 }
 
 /**
@@ -369,7 +349,7 @@ task_editor_new (CalClient *client)
 {
 	TaskEditor *te;
 
-	te = TASK_EDITOR (gtk_type_new (TYPE_TASK_EDITOR));
+	te = g_object_new (TYPE_TASK_EDITOR, NULL);
 	return task_editor_construct (te, client);
 }
 

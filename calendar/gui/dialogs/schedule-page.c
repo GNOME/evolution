@@ -77,7 +77,7 @@ struct _SchedulePagePrivate {
 
 static void schedule_page_class_init (SchedulePageClass *class);
 static void schedule_page_init (SchedulePage *spage);
-static void schedule_page_destroy (GtkObject *object);
+static void schedule_page_finalize (GObject *object);
 
 static GtkWidget *schedule_page_get_widget (CompEditorPage *page);
 static void schedule_page_focus_main_widget (CompEditorPage *page);
@@ -99,42 +99,21 @@ static CompEditorPageClass *parent_class = NULL;
  * 
  * Return value: The type ID of the #SchedulePage class.
  **/
-GtkType
-schedule_page_get_type (void)
-{
-	static GtkType schedule_page_type;
 
-	if (!schedule_page_type) {
-		static const GtkTypeInfo schedule_page_info = {
-			"SchedulePage",
-			sizeof (SchedulePage),
-			sizeof (SchedulePageClass),
-			(GtkClassInitFunc) schedule_page_class_init,
-			(GtkObjectInitFunc) schedule_page_init,
-			NULL, /* reserved_1 */
-			NULL, /* reserved_2 */
-			(GtkClassInitFunc) NULL
-		};
-
-		schedule_page_type = 
-			gtk_type_unique (TYPE_COMP_EDITOR_PAGE,
-					 &schedule_page_info);
-	}
-
-	return schedule_page_type;
-}
+E_MAKE_TYPE (schedule_page, "SchedulePage", SchedulePage, schedule_page_class_init,
+	     schedule_page_init, TYPE_COMP_EDITOR_PAGE);
 
 /* Class initialization function for the schedule page */
 static void
 schedule_page_class_init (SchedulePageClass *class)
 {
 	CompEditorPageClass *editor_page_class;
-	GtkObjectClass *object_class;
+	GObjectClass *object_class;
 
 	editor_page_class = (CompEditorPageClass *) class;
-	object_class = (GtkObjectClass *) class;
+	object_class = (GObjectClass *) class;
 
-	parent_class = g_type_class_ref(TYPE_COMP_EDITOR_PAGE);
+	parent_class = g_type_class_ref (TYPE_COMP_EDITOR_PAGE);
 
 	editor_page_class->get_widget = schedule_page_get_widget;
 	editor_page_class->focus_main_widget = schedule_page_focus_main_widget;
@@ -143,7 +122,7 @@ schedule_page_class_init (SchedulePageClass *class)
 	editor_page_class->set_summary = NULL;
 	editor_page_class->set_dates = schedule_page_set_dates;
 
-	object_class->destroy = schedule_page_destroy;
+	object_class->finalize = schedule_page_finalize;
 }
 
 /* Object initialization function for the schedule page */
@@ -166,7 +145,7 @@ schedule_page_init (SchedulePage *spage)
 
 /* Destroy handler for the schedule page */
 static void
-schedule_page_destroy (GtkObject *object)
+schedule_page_finalize (GObject *object)
 {
 	SchedulePage *spage;
 	SchedulePagePrivate *priv;
@@ -187,8 +166,8 @@ schedule_page_destroy (GtkObject *object)
 	g_free (priv);
 	spage->priv = NULL;
 
-	if (GTK_OBJECT_CLASS (parent_class)->destroy)
-		(* GTK_OBJECT_CLASS (parent_class)->destroy) (object);
+	if (G_OBJECT_CLASS (parent_class)->finalize)
+		(* G_OBJECT_CLASS (parent_class)->finalize) (object);
 }
 
 
@@ -474,7 +453,7 @@ schedule_page_new (EMeetingModel *emm)
 {
 	SchedulePage *spage;
 
-	spage = gtk_type_new (TYPE_SCHEDULE_PAGE);
+	spage = g_object_new (TYPE_SCHEDULE_PAGE, NULL);
 	if (!schedule_page_construct (spage, emm)) {
 		g_object_unref((spage));
 		return NULL;

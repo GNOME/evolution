@@ -89,7 +89,7 @@ static const int priority_map[] = {
 
 static void task_details_page_class_init (TaskDetailsPageClass *class);
 static void task_details_page_init (TaskDetailsPage *tdpage);
-static void task_details_page_destroy (GtkObject *object);
+static void task_details_page_finalize (GObject *object);
 
 static GtkWidget *task_details_page_get_widget (CompEditorPage *page);
 static void task_details_page_focus_main_widget (CompEditorPage *page);
@@ -108,40 +108,19 @@ static CompEditorPageClass *parent_class = NULL;
  * 
  * Return value: The type ID of the #TaskDetailsPage class.
  **/
-GtkType
-task_details_page_get_type (void)
-{
-	static GtkType task_details_page_type;
 
-	if (!task_details_page_type) {
-		static const GtkTypeInfo task_details_page_info = {
-			"TaskDetailsPage",
-			sizeof (TaskDetailsPage),
-			sizeof (TaskDetailsPageClass),
-			(GtkClassInitFunc) task_details_page_class_init,
-			(GtkObjectInitFunc) task_details_page_init,
-			NULL, /* reserved_1 */
-			NULL, /* reserved_2 */
-			(GtkClassInitFunc) NULL
-		};
-
-		task_details_page_type = 
-			gtk_type_unique (TYPE_COMP_EDITOR_PAGE,
-					 &task_details_page_info);
-	}
-
-	return task_details_page_type;
-}
+E_MAKE_TYPE (task_details_page, "TaskDetailsPage", TaskDetailsPage, task_details_page_class_init,
+	     task_details_page_init, TYPE_COMP_EDITOR_PAGE);
 
 /* Class initialization function for the task page */
 static void
 task_details_page_class_init (TaskDetailsPageClass *class)
 {
 	CompEditorPageClass *editor_page_class;
-	GtkObjectClass *object_class;
+	GObjectClass *object_class;
 
 	editor_page_class = (CompEditorPageClass *) class;
-	object_class = (GtkObjectClass *) class;
+	object_class = (GObjectClass *) class;
 
 	parent_class = g_type_class_ref(TYPE_COMP_EDITOR_PAGE);
 
@@ -150,7 +129,7 @@ task_details_page_class_init (TaskDetailsPageClass *class)
 	editor_page_class->fill_widgets = task_details_page_fill_widgets;
 	editor_page_class->fill_component = task_details_page_fill_component;
 
-	object_class->destroy = task_details_page_destroy;
+	object_class->finalize = task_details_page_finalize;
 }
 
 /* Object initialization function for the task page */
@@ -180,7 +159,7 @@ task_details_page_init (TaskDetailsPage *tdpage)
 
 /* Destroy handler for the task page */
 static void
-task_details_page_destroy (GtkObject *object)
+task_details_page_finalize (GObject *object)
 {
 	TaskDetailsPage *tdpage;
 	TaskDetailsPagePrivate *priv;
@@ -199,8 +178,8 @@ task_details_page_destroy (GtkObject *object)
 	g_free (priv);
 	tdpage->priv = NULL;
 
-	if (GTK_OBJECT_CLASS (parent_class)->destroy)
-		(* GTK_OBJECT_CLASS (parent_class)->destroy) (object);
+	if (G_OBJECT_CLASS (parent_class)->finalize)
+		(* G_OBJECT_CLASS (parent_class)->finalize) (object);
 }
 
 
@@ -760,9 +739,9 @@ task_details_page_new (void)
 {
 	TaskDetailsPage *tdpage;
 
-	tdpage = gtk_type_new (TYPE_TASK_DETAILS_PAGE);
+	tdpage = g_object_new (TYPE_TASK_DETAILS_PAGE, NULL);
 	if (!task_details_page_construct (tdpage)) {
-		g_object_unref((tdpage));
+		g_object_unref ((tdpage));
 		return NULL;
 	}
 

@@ -477,7 +477,7 @@ e_week_view_destroy (GtkObject *object)
 	week_view->events = NULL;
 
 	if (week_view->client) {
-		gtk_signal_disconnect_by_data (GTK_OBJECT (week_view->client), week_view);
+		g_signal_handlers_disconnect_matched (week_view->client, G_SIGNAL_MATCH_DATA, 0, 0, NULL, NULL, week_view);
 		g_object_unref (week_view->client);
 		week_view->client = NULL;
 	}
@@ -488,7 +488,8 @@ e_week_view_destroy (GtkObject *object)
 	}
 
 	if (week_view->query) {
-		gtk_signal_disconnect_by_data (GTK_OBJECT (week_view->query), week_view);
+		g_signal_handlers_disconnect_matched (week_view->query, G_SIGNAL_MATCH_DATA,
+						      0, 0, NULL, NULL, week_view);
 		g_object_unref (week_view->query);
 		week_view->query = NULL;
 	}
@@ -1170,7 +1171,8 @@ update_query (EWeekView *week_view)
 	week_view->query = NULL;
 
 	if (old_query) {
-		gtk_signal_disconnect_by_data (GTK_OBJECT (old_query), week_view);
+		g_signal_handlers_disconnect_matched (old_query, G_SIGNAL_MATCH_DATA,
+						      0, 0, NULL, NULL, week_view);
 		g_object_unref (old_query);
 	}
 
@@ -1238,7 +1240,7 @@ e_week_view_set_cal_client	(EWeekView	*week_view,
 		g_object_ref (client);
 
 	if (week_view->client) {
-		gtk_signal_disconnect_by_data (GTK_OBJECT (week_view->client), week_view);
+		g_signal_handlers_disconnect_matched (week_view->client, G_SIGNAL_MATCH_DATA, 0, 0, NULL, NULL, week_view);
 		g_object_unref (week_view->client);
 	}
 

@@ -226,7 +226,7 @@ struct _RecurrencePagePrivate {
 
 static void recurrence_page_class_init (RecurrencePageClass *class);
 static void recurrence_page_init (RecurrencePage *rpage);
-static void recurrence_page_destroy (GtkObject *object);
+static void recurrence_page_finalize (GObject *object);
 
 static GtkWidget *recurrence_page_get_widget (CompEditorPage *page);
 static void recurrence_page_focus_main_widget (CompEditorPage *page);
@@ -249,39 +249,19 @@ static CompEditorPageClass *parent_class = NULL;
  * 
  * Return value: The type ID of the #RecurrencePage class.
  **/
-GtkType
-recurrence_page_get_type (void)
-{
-	static GtkType recurrence_page_type;
 
-	if (!recurrence_page_type) {
-		static const GtkTypeInfo recurrence_page_info = {
-			"RecurrencePage",
-			sizeof (RecurrencePage),
-			sizeof (RecurrencePageClass),
-			(GtkClassInitFunc) recurrence_page_class_init,
-			(GtkObjectInitFunc) recurrence_page_init,
-			NULL, /* reserved_1 */
-			NULL, /* reserved_2 */
-			(GtkClassInitFunc) NULL
-		};
-
-		recurrence_page_type = gtk_type_unique (TYPE_COMP_EDITOR_PAGE,
-							&recurrence_page_info);
-	}
-
-	return recurrence_page_type;
-}
+E_MAKE_TYPE (recurrence_page, "RecurrencePage", RecurrencePage, recurrence_page_class_init,
+	     recurrence_page_init, TYPE_COMP_EDITOR_PAGE);
 
 /* Class initialization function for the recurrence page */
 static void
 recurrence_page_class_init (RecurrencePageClass *class)
 {
 	CompEditorPageClass *editor_page_class;
-	GtkObjectClass *object_class;
+	GObjectClass *object_class;
 
 	editor_page_class = (CompEditorPageClass *) class;
-	object_class = (GtkObjectClass *) class;
+	object_class = (GObjectClass *) class;
 
 	parent_class = g_type_class_ref(TYPE_COMP_EDITOR_PAGE);
 
@@ -292,7 +272,7 @@ recurrence_page_class_init (RecurrencePageClass *class)
 	editor_page_class->set_summary = recurrence_page_set_summary;
 	editor_page_class->set_dates = recurrence_page_set_dates;
 
-	object_class->destroy = recurrence_page_destroy;
+	object_class->finalize = recurrence_page_finalize;
 }
 
 /* Object initialization function for the recurrence page */
@@ -346,7 +326,7 @@ free_exception_date_time (CalComponentDateTime *dt)
 
 /* Destroy handler for the recurrence page */
 static void
-recurrence_page_destroy (GtkObject *object)
+recurrence_page_finalize (GObject *object)
 {
 	RecurrencePage *rpage;
 	RecurrencePagePrivate *priv;
@@ -370,8 +350,8 @@ recurrence_page_destroy (GtkObject *object)
 	g_free (priv);
 	rpage->priv = NULL;
 
-	if (GTK_OBJECT_CLASS (parent_class)->destroy)
-		(* GTK_OBJECT_CLASS (parent_class)->destroy) (object);
+	if (G_OBJECT_CLASS (parent_class)->finalize)
+		(* G_OBJECT_CLASS (parent_class)->finalize) (object);
 }
 
 
@@ -425,35 +405,35 @@ clear_widgets (RecurrencePage *rpage)
 	priv->month_num = MONTH_NUM_DAY;
 	priv->month_day = MONTH_DAY_NTH;
 
-	gtk_signal_handler_block_by_data (GTK_OBJECT (priv->none), rpage);
-	gtk_signal_handler_block_by_data (GTK_OBJECT (priv->simple), rpage);
-	gtk_signal_handler_block_by_data (GTK_OBJECT (priv->custom), rpage);
+	g_signal_handlers_block_matched (priv->none, G_SIGNAL_MATCH_DATA, 0, 0, NULL, NULL, rpage);
+	g_signal_handlers_block_matched (priv->simple, G_SIGNAL_MATCH_DATA, 0, 0, NULL, NULL, rpage);
+	g_signal_handlers_block_matched (priv->custom, G_SIGNAL_MATCH_DATA, 0, 0, NULL, NULL, rpage);
 	e_dialog_radio_set (priv->none, RECUR_NONE, type_map);
-	gtk_signal_handler_unblock_by_data (GTK_OBJECT (priv->none), rpage);
-	gtk_signal_handler_unblock_by_data (GTK_OBJECT (priv->simple), rpage);
-	gtk_signal_handler_unblock_by_data (GTK_OBJECT (priv->custom), rpage);
+	g_signal_handlers_unblock_matched (priv->none, G_SIGNAL_MATCH_DATA, 0, 0, NULL, NULL, rpage);
+	g_signal_handlers_unblock_matched (priv->simple, G_SIGNAL_MATCH_DATA, 0, 0, NULL, NULL, rpage);
+	g_signal_handlers_unblock_matched (priv->custom, G_SIGNAL_MATCH_DATA, 0, 0, NULL, NULL, rpage);
 
 	adj = gtk_spin_button_get_adjustment (GTK_SPIN_BUTTON (priv->interval_value));
-	gtk_signal_handler_block_by_data (GTK_OBJECT (adj), rpage);
+	g_signal_handlers_block_matched (adj, G_SIGNAL_MATCH_DATA, 0, 0, NULL, NULL, rpage);
 	e_dialog_spin_set (priv->interval_value, 1);
-	gtk_signal_handler_unblock_by_data (GTK_OBJECT (adj), rpage);
+	g_signal_handlers_unblock_matched (adj, G_SIGNAL_MATCH_DATA, 0, 0, NULL, NULL, rpage);
 
 	menu = gtk_option_menu_get_menu (GTK_OPTION_MENU (priv->interval_unit));
-	gtk_signal_handler_block_by_data (GTK_OBJECT (menu), rpage);
+	g_signal_handlers_block_matched (menu, G_SIGNAL_MATCH_DATA, 0, 0, NULL, NULL, rpage);
 	e_dialog_option_menu_set (priv->interval_unit,
 				  ICAL_DAILY_RECURRENCE,
 				  freq_map);
-	gtk_signal_handler_unblock_by_data (GTK_OBJECT (menu), rpage);
+	g_signal_handlers_unblock_matched (menu, G_SIGNAL_MATCH_DATA, 0, 0, NULL, NULL, rpage);
 
 	priv->ending_date_tt = icaltime_today ();
 	priv->ending_count = 1;
 
 	menu = gtk_option_menu_get_menu (GTK_OPTION_MENU (priv->ending_menu));
-	gtk_signal_handler_block_by_data (GTK_OBJECT (menu), rpage);
+	g_signal_handlers_block_matched (menu, G_SIGNAL_MATCH_DATA, 0, 0, NULL, NULL, rpage);
 	e_dialog_option_menu_set (priv->ending_menu, 
 				  ENDING_FOREVER,
 				  ending_types_map);
-	gtk_signal_handler_unblock_by_data (GTK_OBJECT (menu), rpage);
+	g_signal_handlers_unblock_matched (menu, G_SIGNAL_MATCH_DATA, 0, 0, NULL, NULL, rpage);
 
 	/* Exceptions list */
 	gtk_clist_clear (GTK_CLIST (priv->exception_list));
@@ -503,7 +483,7 @@ append_exception (RecurrencePage *rpage, CalComponentDateTime *datetime)
 
 	clist = GTK_CLIST (priv->exception_list);
 
-	gtk_signal_handler_block_by_data (GTK_OBJECT (clist), rpage);
+	g_signal_handlers_block_matched (clist, G_SIGNAL_MATCH_DATA, 0, 0, NULL, NULL, rpage);
 
 	c[0] = get_exception_string (dt);
 	i = gtk_clist_append (clist, c);
@@ -511,7 +491,7 @@ append_exception (RecurrencePage *rpage, CalComponentDateTime *datetime)
 	gtk_clist_set_row_data_full (clist, i, dt, (GtkDestroyNotify) free_exception_date_time);
 
 	gtk_clist_select_row (clist, i, 0);
-	gtk_signal_handler_unblock_by_data (GTK_OBJECT (clist), rpage);
+	g_signal_handlers_unblock_matched (clist, G_SIGNAL_MATCH_DATA, 0, 0, NULL, NULL, rpage);
 
 	tt = dt->value;
 	e_date_edit_set_date (E_DATE_EDIT (priv->exception_date), 
@@ -1523,7 +1503,7 @@ fill_ending_date (RecurrencePage *rpage, struct icalrecurrencetype *r)
 	priv = rpage->priv;
 
 	menu = gtk_option_menu_get_menu (GTK_OPTION_MENU (priv->ending_menu));
-	gtk_signal_handler_block_by_data (GTK_OBJECT (menu), rpage);
+	g_signal_handlers_block_matched (menu, G_SIGNAL_MATCH_DATA, 0, 0, NULL, NULL, rpage);
 
 	if (r->count == 0) {
 		if (r->until.year == 0) {
@@ -1573,7 +1553,7 @@ fill_ending_date (RecurrencePage *rpage, struct icalrecurrencetype *r)
 					  ending_types_map);
 	}
 
-	gtk_signal_handler_unblock_by_data (GTK_OBJECT (menu), rpage);
+	g_signal_handlers_unblock_matched (menu, G_SIGNAL_MATCH_DATA, 0, 0, NULL, NULL, rpage);
 
 	make_ending_special (rpage);
 }
@@ -1715,11 +1695,11 @@ recurrence_page_fill_widgets (CompEditorPage *page, CalComponent *comp)
 			goto custom;
 
 		menu = gtk_option_menu_get_menu (GTK_OPTION_MENU (priv->interval_unit));
-		gtk_signal_handler_block_by_data (GTK_OBJECT (menu), rpage);
+		g_signal_handlers_block_matched (menu, G_SIGNAL_MATCH_DATA, 0, 0, NULL, NULL, rpage);
 		e_dialog_option_menu_set (priv->interval_unit,
 					  ICAL_DAILY_RECURRENCE,
 					  freq_map);
-		gtk_signal_handler_unblock_by_data (GTK_OBJECT (menu), rpage);
+		g_signal_handlers_unblock_matched (menu, G_SIGNAL_MATCH_DATA, 0, 0, NULL, NULL, rpage);
 		break;
 
 	case ICAL_WEEKLY_RECURRENCE: {
@@ -1782,11 +1762,11 @@ recurrence_page_fill_widgets (CompEditorPage *page, CalComponent *comp)
 		priv->weekday_day_mask = day_mask;
 
 		menu = gtk_option_menu_get_menu (GTK_OPTION_MENU (priv->interval_unit));
-		gtk_signal_handler_block_by_data (GTK_OBJECT (menu), rpage);
+		g_signal_handlers_block_matched (menu, G_SIGNAL_MATCH_DATA, 0, 0, NULL, NULL, rpage);
 		e_dialog_option_menu_set (priv->interval_unit,
 					  ICAL_WEEKLY_RECURRENCE,
 					  freq_map);
-		gtk_signal_handler_unblock_by_data (GTK_OBJECT (menu), rpage);
+		g_signal_handlers_unblock_matched (menu, G_SIGNAL_MATCH_DATA, 0, 0, NULL, NULL, rpage);
 		break;
 	}
 
@@ -1881,11 +1861,11 @@ recurrence_page_fill_widgets (CompEditorPage *page, CalComponent *comp)
 			goto custom;
 
 		menu = gtk_option_menu_get_menu (GTK_OPTION_MENU (priv->interval_unit));
-		gtk_signal_handler_block_by_data (GTK_OBJECT (menu), rpage);
+		g_signal_handlers_block_matched (menu, G_SIGNAL_MATCH_DATA, 0, 0, NULL, NULL, rpage);
 		e_dialog_option_menu_set (priv->interval_unit,
 					  ICAL_MONTHLY_RECURRENCE,
 					  freq_map);
-		gtk_signal_handler_unblock_by_data (GTK_OBJECT (menu), rpage);
+		g_signal_handlers_unblock_matched (menu, G_SIGNAL_MATCH_DATA, 0, 0, NULL, NULL, rpage);
 		break;
 
 	case ICAL_YEARLY_RECURRENCE:
@@ -1898,11 +1878,11 @@ recurrence_page_fill_widgets (CompEditorPage *page, CalComponent *comp)
 			goto custom;
 
 		menu = gtk_option_menu_get_menu (GTK_OPTION_MENU (priv->interval_unit));
-		gtk_signal_handler_block_by_data (GTK_OBJECT (menu), rpage);
+		g_signal_handlers_block_matched (menu, G_SIGNAL_MATCH_DATA, 0, 0, NULL, NULL, rpage);
 		e_dialog_option_menu_set (priv->interval_unit,
 					  ICAL_YEARLY_RECURRENCE,
 					  freq_map);
-		gtk_signal_handler_unblock_by_data (GTK_OBJECT (menu), rpage);
+		g_signal_handlers_unblock_matched (menu, G_SIGNAL_MATCH_DATA, 0, 0, NULL, NULL, rpage);
 		break;
 
 	default:
@@ -1911,13 +1891,13 @@ recurrence_page_fill_widgets (CompEditorPage *page, CalComponent *comp)
 
 	/* If we got here it means it is a simple recurrence */
 
-	gtk_signal_handler_block_by_data (GTK_OBJECT (priv->none), rpage);
-	gtk_signal_handler_block_by_data (GTK_OBJECT (priv->simple), rpage);
-	gtk_signal_handler_block_by_data (GTK_OBJECT (priv->custom), rpage);
+	g_signal_handlers_block_matched (priv->none, G_SIGNAL_MATCH_DATA, 0, 0, NULL, NULL, rpage);
+	g_signal_handlers_block_matched (priv->simple, G_SIGNAL_MATCH_DATA, 0, 0, NULL, NULL, rpage);
+	g_signal_handlers_block_matched (priv->custom, G_SIGNAL_MATCH_DATA, 0, 0, NULL, NULL, rpage);
 	e_dialog_radio_set (priv->simple, RECUR_SIMPLE, type_map);
-	gtk_signal_handler_unblock_by_data (GTK_OBJECT (priv->none), rpage);
-	gtk_signal_handler_unblock_by_data (GTK_OBJECT (priv->simple), rpage);
-	gtk_signal_handler_unblock_by_data (GTK_OBJECT (priv->custom), rpage);
+	g_signal_handlers_unblock_matched (priv->none, G_SIGNAL_MATCH_DATA, 0, 0, NULL, NULL, rpage);
+	g_signal_handlers_unblock_matched (priv->simple, G_SIGNAL_MATCH_DATA, 0, 0, NULL, NULL, rpage);
+	g_signal_handlers_unblock_matched (priv->custom, G_SIGNAL_MATCH_DATA, 0, 0, NULL, NULL, rpage);
 
 	gtk_widget_set_sensitive (priv->custom, FALSE);
 
@@ -1925,9 +1905,9 @@ recurrence_page_fill_widgets (CompEditorPage *page, CalComponent *comp)
 	make_recurrence_special (rpage);
 
 	adj = gtk_spin_button_get_adjustment (GTK_SPIN_BUTTON (priv->interval_value));
-	gtk_signal_handler_block_by_data (GTK_OBJECT (adj), rpage);
+	g_signal_handlers_block_matched (adj, G_SIGNAL_MATCH_DATA, 0, 0, NULL, NULL, rpage);
 	e_dialog_spin_set (priv->interval_value, r->interval);
-	gtk_signal_handler_unblock_by_data (GTK_OBJECT (adj), rpage);
+	g_signal_handlers_unblock_matched (adj, G_SIGNAL_MATCH_DATA, 0, 0, NULL, NULL, rpage);
 
 	fill_ending_date (rpage, r);
 
@@ -1935,13 +1915,13 @@ recurrence_page_fill_widgets (CompEditorPage *page, CalComponent *comp)
 
  custom:
 
-	gtk_signal_handler_block_by_data (GTK_OBJECT (priv->none), rpage);
-	gtk_signal_handler_block_by_data (GTK_OBJECT (priv->simple), rpage);
-	gtk_signal_handler_block_by_data (GTK_OBJECT (priv->custom), rpage);
+	g_signal_handlers_block_matched (priv->none, G_SIGNAL_MATCH_DATA, 0, 0, NULL, NULL, rpage);
+	g_signal_handlers_block_matched (priv->simple, G_SIGNAL_MATCH_DATA, 0, 0, NULL, NULL, rpage);
+	g_signal_handlers_block_matched (priv->custom, G_SIGNAL_MATCH_DATA, 0, 0, NULL, NULL, rpage);
 	e_dialog_radio_set (priv->custom, RECUR_CUSTOM, type_map);
-	gtk_signal_handler_unblock_by_data (GTK_OBJECT (priv->none), rpage);
-	gtk_signal_handler_unblock_by_data (GTK_OBJECT (priv->simple), rpage);
-	gtk_signal_handler_unblock_by_data (GTK_OBJECT (priv->custom), rpage);
+	g_signal_handlers_unblock_matched (priv->none, G_SIGNAL_MATCH_DATA, 0, 0, NULL, NULL, rpage);
+	g_signal_handlers_unblock_matched (priv->simple, G_SIGNAL_MATCH_DATA, 0, 0, NULL, NULL, rpage);
+	g_signal_handlers_unblock_matched (priv->custom, G_SIGNAL_MATCH_DATA, 0, 0, NULL, NULL, rpage);
 
 	gtk_widget_set_sensitive (priv->custom, TRUE);
 	sensitize_recur_widgets (rpage);
@@ -2459,7 +2439,7 @@ recurrence_page_new (void)
 {
 	RecurrencePage *rpage;
 
-	rpage = gtk_type_new (TYPE_RECURRENCE_PAGE);
+	rpage = g_object_new (TYPE_RECURRENCE_PAGE, NULL);
 	if (!recurrence_page_construct (rpage)) {
 		g_object_unref((rpage));
 		return NULL;

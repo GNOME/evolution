@@ -1,3 +1,69 @@
+2002-12-19  Hans Petter Jansson  <hpj@ximian.com>
+
+	* gui/calendar-commands.c (calendar_control_deactivate):
+	Replace gtk_signal_disconnect_by_data() with
+	g_signal_handlers_disconnect_matched(). Former takes GtkObject,
+	latter takes GObject.
+
+	* gui/calendar-model.c (calendar_model_destroy): Ditto.
+	(update_query): Ditto.
+	(calendar_model_set_cal_client): Ditto.
+
+	* gui/e-day-view.c (e_day_view_destroy): Ditto.
+	(update_query): Ditto.
+	(e_day_view_set_cal_client): Ditto.
+
+	* gui/e-tasks.c (query_eval_error_cb): Ditto.
+	(query_query_done_cb): Ditto.
+
+	* gui/e-week-view.c (e_week_view_destroy): Ditto.
+	(update_query): Ditto.
+	(e_week_view_set_cal_client): Ditto.
+
+	* gui/gnome-cal.c (update_query): Ditto.
+	(gnome_calendar_destroy): Ditto.
+
+	* gui/tasks-control.c (tasks_control_deactivate): Ditto.
+
+	* gui/e-comp-editor-registry.c (foreach_close_cb): Replace
+	gtk_signal_handler_(un)block_by_data() with
+	g_signal_handlers_(un)block_matched(). Former takes GtkObject, latter
+	takes GObject.
+
+	* gui/dialogs/alarm-page.c (alarm_page_get_type): Replace with
+	E_MAKE_TYPE().
+	(alarm_page_class_init): Use GObject as base class instead of
+	GtkObject, and set up finalization instead of destroy handler.
+	(alarm_page_destroy): Change to alarm_page_finalize() and assume
+	parent is GObject, not GtkObject.
+	(alarm_page_new): Use g_object_new(), not gtk_type_new().
+
+	* gui/dialogs/event-page.c: Same general changes as above file.
+	(update_time): Replace gtk_signal_handler_(un)block_by_data()
+	with g_signal_handlers_(un)block_matched().
+	(clear_widgets): Ditto.
+	(times_updated): Ditto.
+
+	* gui/dialogs/recurrence-page.c: Same general changes as above file.
+	(clear_widgets): Replace gtk_signal_handler_(un)block_by_data()
+	with g_signal_handlers_(un)block_matched().
+	(append_exception): Ditto.
+	(fill_ending_date): Ditto.
+	(recurrence_page_fill_widgets): Ditto.
+
+	* gui/dialogs/comp-editor.c: Same general changes as above file.
+	(comp_editor_finalize): Replace gtk_signal_disconnect_by_data()
+	with g_signal_handlers_disconnect_matched().
+	(comp_editor_remove_page): Ditto.
+
+	* gui/dialogs/event-editor.c: Same general changes as above file.
+	* gui/dialogs/meeting-page.c: Same general changes as above file.
+	* gui/dialogs/schedule-page.c: Same general changes as above file.
+	* gui/dialogs/task-details-page.c: Same general changes.
+	* gui/dialogs/task-editor.c: Same general changes as above file.
+	* gui/dialogs/task-page.c: Same general changes as above file.
+	* gui/dialogs/e-delegate-dialog.c: Same general changes.
+
 2002-12-16  Jeffrey Stedfast  <fejj@ximian.com>
 
 	* gui/e-itip-control.c (write_html): Use camel_text_to_html()

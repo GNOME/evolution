@@ -148,11 +148,11 @@ foreach_close_cb (gpointer key, gpointer value, gpointer data)
 
 	rdata = value;
 
-	gtk_signal_handler_block_by_data (GTK_OBJECT (rdata->editor), data);
+	g_signal_handlers_block_matched (rdata->editor, G_SIGNAL_MATCH_DATA, 0, 0, NULL, NULL, data);
 	
 	comp_editor_focus (rdata->editor);
 	if (!comp_editor_close (rdata->editor)) {
-		gtk_signal_handler_unblock_by_data (GTK_OBJECT (rdata->editor), data);
+		g_signal_handlers_unblock_matched (rdata->editor, G_SIGNAL_MATCH_DATA, 0, 0, NULL, NULL, data);
 		return FALSE;
 	}
 	

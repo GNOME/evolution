@@ -513,7 +513,8 @@ update_query (GnomeCalendar *gcal)
 	priv->dn_query = NULL;
 
 	if (old_query) {
-		gtk_signal_disconnect_by_data (GTK_OBJECT (old_query), gcal);
+		g_signal_handlers_disconnect_matched (old_query, G_SIGNAL_MATCH_DATA,
+						      0, 0, NULL, NULL, gcal);
 		g_object_unref (old_query);
 	}
 
@@ -926,7 +927,8 @@ gnome_calendar_destroy (GtkObject *object)
 	g_free (filename);
 
 	if (priv->dn_query) {
-		gtk_signal_disconnect_by_data (GTK_OBJECT (priv->dn_query), gcal);
+		g_signal_handlers_disconnect_matched (priv->dn_query, G_SIGNAL_MATCH_DATA,
+						      0, 0, NULL, NULL, gcal);
 		g_object_unref (priv->dn_query);
 		priv->dn_query = NULL;
 	}
@@ -937,13 +939,15 @@ gnome_calendar_destroy (GtkObject *object)
 	}
 
 	if (priv->client) {
-		gtk_signal_disconnect_by_data (GTK_OBJECT (priv->client), gcal);
+		g_signal_handlers_disconnect_matched (priv->client, G_SIGNAL_MATCH_DATA,
+						      0, 0, NULL, NULL, gcal);
 		g_object_unref (priv->client);
 		priv->client = NULL;
 	}
 
 	if (priv->task_pad_client) {
-		gtk_signal_disconnect_by_data (GTK_OBJECT (priv->task_pad_client), gcal);
+		g_signal_handlers_disconnect_matched (priv->task_pad_client, G_SIGNAL_MATCH_DATA,
+						      0, 0, NULL, NULL, gcal);
 		g_object_unref (priv->task_pad_client);
 		priv->task_pad_client = NULL;
 	}

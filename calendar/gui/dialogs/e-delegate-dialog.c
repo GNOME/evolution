@@ -31,6 +31,7 @@
 #include <gnome.h>
 #include <ical.h>
 #include <glade/glade.h>
+#include <gal/util/e-util.h>
 #include <widgets/misc/e-map.h>
 #include <ebook/e-destination.h>
 #include "Evolution-Addressbook-SelectNames.h"
@@ -57,49 +58,27 @@ static const char *section_name = "Delegate To";
 
 static void e_delegate_dialog_class_init	(EDelegateDialogClass *class);
 static void e_delegate_dialog_init		(EDelegateDialog      *edd);
-static void e_delegate_dialog_destroy		(GtkObject	*object);
+static void e_delegate_dialog_finalize		(GObject	*object);
 
 static gboolean get_widgets			(EDelegateDialog *edd);
 static void addressbook_clicked_cb              (GtkWidget *widget, gpointer data);
 
 static GtkObjectClass *parent_class;
 
-
-GtkType
-e_delegate_dialog_get_type (void)
-{
-	static GtkType e_delegate_dialog_type = 0;
-
-	if (!e_delegate_dialog_type) {
-		static const GtkTypeInfo e_delegate_dialog_info = {
-			"EDelegateDialog",
-			sizeof (EDelegateDialog),
-			sizeof (EDelegateDialogClass),
-			(GtkClassInitFunc) e_delegate_dialog_class_init,
-			(GtkObjectInitFunc) e_delegate_dialog_init,
-			NULL, /* reserved_1 */
-			NULL, /* reserved_2 */
-			(GtkClassInitFunc) NULL
-		};
-
-		e_delegate_dialog_type = gtk_type_unique (GTK_TYPE_OBJECT,
-							  &e_delegate_dialog_info);
-	}
-
-	return e_delegate_dialog_type;
-}
+E_MAKE_TYPE (e_delegate_dialog, "EDelegateDialog", EDelegateDialog, e_delegate_dialog_class_init,
+	     e_delegate_dialog_init, G_TYPE_OBJECT);
 
 /* Class initialization function for the event editor */
 static void
 e_delegate_dialog_class_init (EDelegateDialogClass *class)
 {
-	GtkObjectClass *object_class;
+	GObjectClass *gobject_class;
 
-	object_class = (GtkObjectClass *) class;
+	gobject_class = (GObjectClass *) class;
 
-	parent_class = g_type_class_ref(GTK_TYPE_OBJECT);
+	parent_class = g_type_class_ref (G_TYPE_OBJECT);
 
-	object_class->destroy = e_delegate_dialog_destroy;
+	gobject_class->finalize = e_delegate_dialog_finalize;
 }
 
 /* Object initialization function for the event editor */
@@ -116,7 +95,7 @@ e_delegate_dialog_init (EDelegateDialog *edd)
 
 /* Destroy handler for the event editor */
 static void
-e_delegate_dialog_destroy (GtkObject *object)
+e_delegate_dialog_finalize (GObject *object)
 {
 	EDelegateDialog *edd;
 	EDelegateDialogPrivate *priv;
@@ -138,8 +117,8 @@ e_delegate_dialog_destroy (GtkObject *object)
 	g_free (priv);
 	edd->priv = NULL;
 
-	if (GTK_OBJECT_CLASS (parent_class)->destroy)
-		(* GTK_OBJECT_CLASS (parent_class)->destroy) (object);
+	if (G_OBJECT_CLASS (parent_class)->finalize)
+		(* G_OBJECT_CLASS (parent_class)->finalize) (object);
 }
 
 
@@ -269,7 +248,7 @@ e_delegate_dialog_new (const char *name, const char *address)
 {
 	EDelegateDialog *edd;
 
-	edd = E_DELEGATE_DIALOG (gtk_type_new (E_TYPE_DELEGATE_DIALOG));
+	edd = E_DELEGATE_DIALOG (g_object_new (E_TYPE_DELEGATE_DIALOG, NULL));
 	return e_delegate_dialog_construct (E_DELEGATE_DIALOG (edd), name, address);
 }
 
