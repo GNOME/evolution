@@ -1,3 +1,30 @@
+2000-10-30  Dan Winship  <danw@helixcode.com>
+
+	* providers/imap/camel-imap-auth.c: New file with code for IMAP
+	authentication mechanisms. (Currently just krb4, and without
+	integrity/privacy protection).
+
+	* providers/imap/Makefile.am: Add camel-imap-auth.[ch] and krb4
+	CFLAGS/LDFLAGS
+
+	* providers/imap/camel-imap-store.c (connect_to_server): Split out
+	from imap_connect. Just does the basic connect and CAPABILITY
+	check. Redo the CAPABILITY code more robustly.
+	(query_auth_types_connected): Do this right rather than punting to
+	query_auth_types_generic. Check for KERBEROS_V4 if compiled with
+	krb4 support.
+	(query_auth_types_generic): Mention KERBEROS_V4 if compiled with
+	krb4 support.
+	(imap_connect): Use connect_to_server().
+
+	* camel-mime-utils.c (base64_encode_step, base64_encode_close):
+	Take an additional argument, "break_lines", saying whether or not
+	to add '\n's to the output.
+
+	* camel-multipart.c (set_boundary): 
+	* camel-mime-filter-basic.c (filter, complete): Update for base64
+	api change.
+
 2000-10-29  Dan Winship  <danw@helixcode.com>
 
 	Improved IMAP namespace handling: leave the namespace in the

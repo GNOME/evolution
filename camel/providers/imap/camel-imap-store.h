@@ -45,6 +45,14 @@ typedef enum {
 	IMAP_LEVEL_IMAP4REV1
 } CamelImapServerLevel;
 
+#define IMAP_CAPABILITY_IMAP4			(1 << 0)
+#define IMAP_CAPABILITY_IMAP4REV1		(1 << 1)
+#define IMAP_CAPABILITY_STATUS			(1 << 2)
+#define IMAP_CAPABILITY_NAMESPACE		(1 << 3)
+#define IMAP_CAPABILITY_AUTH_KERBEROS_V4	(1 << 4)
+#define IMAP_CAPABILITY_AUTH_GSSAPI		(1 << 5)
+#define IMAP_CAPABILITY_UIDPLUS			(1 << 6)
+#define IMAP_CAPABILITY_LITERALPLUS		(1 << 7)
 
 typedef struct {
 	CamelRemoteStore parent_object;	
@@ -54,7 +62,7 @@ typedef struct {
 	guint32 command;
 	
 	CamelImapServerLevel server_level;
-	gboolean has_status_capability;
+	guint32 capabilities;
 	
 	gchar dir_sep, *storage_path, *base_url;
 	

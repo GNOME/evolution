@@ -34,6 +34,7 @@
 #include <gal/util/e-util.h>
 
 #include "camel-imap-store.h"
+#include "camel-imap-auth.h"
 #include "camel-imap-folder.h"
 #include "camel-imap-utils.h"
 #include "camel-imap-command.h"
@@ -157,6 +158,76 @@ camel_imap_store_get_type (void)
 	return camel_imap_store_type;
 }
 
+static struct {
+	const char *name;
+	guint32 flag;
+} capabilities[] = {
+	{ "IMAP4",		IMAP_CAPABILITY_IMAP4 },
+	{ "IMAP4REV1",		IMAP_CAPABILITY_IMAP4REV1 },
+	{ "STATUS",		IMAP_CAPABILITY_STATUS },
+	{ "NAMESPACE",		IMAP_CAPABILITY_NAMESPACE },
+	{ "AUTH=KERBEROS_V4",	IMAP_CAPABILITY_AUTH_KERBEROS_V4 },
+	{ "AUTH=GSSAPI",	IMAP_CAPABILITY_AUTH_GSSAPI },
+	{ "UIDPLUS",		IMAP_CAPABILITY_UIDPLUS },
+	{ "LITERAL+",		IMAP_CAPABILITY_LITERALPLUS },
+	{ NULL, 0 }
+};
+
+static gboolean
+connect_to_server (CamelService *service, CamelException *ex)
+{
+	CamelImapStore *store = CAMEL_IMAP_STORE (service);
+	CamelImapResponse *response;
+	char *result, *buf, *capa, *lasts;
+	int i;
+
+	if (!CAMEL_SERVICE_CLASS (remote_store_class)->connect (service, ex))
+		return FALSE;
+
+	store->command = 0;
+
+	/* Read the greeting, if any. FIXME: deal with PREAUTH */
+	if (camel_remote_store_recv_line (CAMEL_REMOTE_STORE (service),
+					  &buf, ex) < 0) {
+		return FALSE;
+	}
+	g_free (buf);
+	store->connected = TRUE;
+	
+	/* Find out the IMAP capabilities */
+	store->capabilities = 0;
+	response = camel_imap_command (store, NULL, ex, "CAPABILITY");
+	if (!response)
+		return FALSE;
+	result = camel_imap_response_extract (response, "CAPABILITY", ex);
+	if (!result)
+		return FALSE;
+
+	/* Skip over "* CAPABILITY". */
+	capa = imap_next_word (result + 2);
+
+	for (capa = strtok_r (capa, " ", &lasts); capa;
+	     capa = strtok_r (NULL, " ", &lasts)) {
+		for (i = 0; capabilities[i].name; i++) {
+			if (g_strcasecmp (capa, capabilities[i].name) == 0) {
+				store->capabilities |= capabilities[i].flag;
+				break;
+			}
+		}
+	}
+	g_free (result);
+
+	if (store->capabilities & IMAP_CAPABILITY_IMAP4REV1) {
+		store->server_level = IMAP_LEVEL_IMAP4REV1;
+		store->capabilities |= IMAP_CAPABILITY_STATUS;
+	} else if (store->capabilities & IMAP_CAPABILITY_IMAP4)
+		store->server_level = IMAP_LEVEL_IMAP4;
+	else
+		store->server_level = IMAP_LEVEL_UNKNOWN;
+
+	return TRUE;
+}
+
 static CamelServiceAuthType password_authtype = {
 	N_("Password"),
 	
@@ -167,44 +238,45 @@ static CamelServiceAuthType password_authtype = {
 	TRUE
 };
 
+#ifdef HAVE_KRB4
+static CamelServiceAuthType kerberos_v4_authtype = {
+	N_("Kerberos 4"),
+
+	N_("This option will connect to the IMAP server using "
+	   "Kerberos 4 authentication."),
+
+	"KERBEROS_V4",
+	FALSE
+};
+#endif
+
 static GList *
 query_auth_types_connected (CamelService *service, CamelException *ex)
 {
-#if 0	
-	GList *ret = NULL;
-	gboolean passwd = TRUE;
-	
-	if (service->url) {
-		passwd = try_connect (service, ex);
-		if (camel_exception_get_id (ex) != CAMEL_EXCEPTION_NONE)
-			return NULL;
-	}
-	
-	if (passwd)
-		ret = g_list_append (ret, &password_authtype);
-	
-	if (!ret) {
-		camel_exception_setv (ex, CAMEL_EXCEPTION_SERVICE_UNAVAILABLE,
-				      _("Could not connect to IMAP server on %s."),
-				      service->url->host ? service->url->host : 
-				      _("(unknown host)"));
-	}				      
-	
-	return ret;
-#else
-	g_warning ("imap::query_auth_types_connected: not implemented. Defaulting.");
-	/* FIXME: use the classfunc instead of the local? */
-	return query_auth_types_generic (service, ex);
+	GList *types;
+
+	if (!connect_to_server (service, ex))
+		return NULL;
+
+	types = CAMEL_SERVICE_CLASS (remote_store_class)->query_auth_types_connected (service, ex);
+#ifdef HAVE_KRB4
+	if (CAMEL_IMAP_STORE (service)->capabilities &
+	    IMAP_CAPABILITY_AUTH_KERBEROS_V4)
+		types = g_list_prepend (types, &kerberos_v4_authtype);
 #endif
+	return g_list_prepend (types, &password_authtype);
 }
 
 static GList *
 query_auth_types_generic (CamelService *service, CamelException *ex)
 {
-	GList *prev;
+	GList *types;
 	
-	prev = CAMEL_SERVICE_CLASS (remote_store_class)->query_auth_types_generic (service, ex);
-	return g_list_prepend (prev, &password_authtype);
+	types = CAMEL_SERVICE_CLASS (remote_store_class)->query_auth_types_generic (service, ex);
+#ifdef HAVE_KRB4
+	types = g_list_prepend (types, &kerberos_v4_authtype);
+#endif
+	return g_list_prepend (types, &password_authtype);
 }
 
 static gboolean
@@ -212,65 +284,78 @@ imap_connect (CamelService *service, CamelException *ex)
 {
 	CamelImapStore *store = CAMEL_IMAP_STORE (service);
 	CamelSession *session = camel_service_get_session (CAMEL_SERVICE (store));
-	gchar *result, *buf, *errbuf = NULL, *namespace;
+	gchar *result, *errbuf = NULL, *namespace;
 	CamelImapResponse *response;
 	gboolean authenticated = FALSE;
 	int len;
 
-	if (CAMEL_SERVICE_CLASS (remote_store_class)->connect (service, ex) == FALSE)
+	if (connect_to_server (service, ex) == 0)
 		return FALSE;
-	
-	store->command = 0;
-	if (!store->storage_path) {
-		store->storage_path =
-			camel_session_get_storage_path (session, service, ex);
-		if (camel_exception_is_set (ex))
-			return FALSE;
-	}
-	
-	/* Read the greeting, if any. */
-	if (camel_remote_store_recv_line (CAMEL_REMOTE_STORE (service), &buf, ex) < 0) {
-		return FALSE;
-	}
-	g_free (buf);
 	
 	/* authenticate the user */
+#ifdef HAVE_KRB4
+	if (service->url->authmech &&
+	    !g_strcasecmp (service->url->authmech, "KERBEROS_V4")) {
+		if (!(store->capabilities & IMAP_CAPABILITY_AUTH_KERBEROS_V4)) {
+			camel_exception_setv (ex, CAMEL_EXCEPTION_SERVICE_CANT_AUTHENTICATE,
+					      "IMAP server %s does not "
+					      "support requested "
+					      "authentication type %s",
+					      service->url->host,
+					      service->url->authmech);
+			camel_service_disconnect (service, NULL);
+			return FALSE;
+		}
+
+		authenticated = imap_try_kerberos_v4_auth (store, ex);
+		if (camel_exception_is_set (ex)) {
+			camel_service_disconnect (service, NULL);
+			return FALSE;
+		}
+	}
+#endif
+
 	while (!authenticated) {
 		if (errbuf) {
 			/* We need to un-cache the password before prompting again */
-			camel_session_query_authenticator (session,
-							   CAMEL_AUTHENTICATOR_TELL, NULL,
-							   TRUE, service, "password", ex);
+			camel_session_query_authenticator (
+				session, CAMEL_AUTHENTICATOR_TELL, NULL,
+				TRUE, service, "password", ex);
 			g_free (service->url->passwd);
 			service->url->passwd = NULL;
 		}
-		
+
 		if (!service->url->authmech && !service->url->passwd) {
-			gchar *prompt;
-			
-			prompt = g_strdup_printf (_("%sPlease enter the IMAP password for %s@%s"),
-						  errbuf ? errbuf : "", service->url->user, service->url->host);
+			char *prompt;
+
+			prompt = g_strdup_printf (_("%sPlease enter the IMAP "
+						    "password for %s@%s"),
+						  errbuf ? errbuf : "",
+						  service->url->user,
+						  service->url->host);
 			service->url->passwd =
-				camel_session_query_authenticator (session,
-								   CAMEL_AUTHENTICATOR_ASK, prompt,
-								   TRUE, service, "password", ex);
+				camel_session_query_authenticator (
+					session, CAMEL_AUTHENTICATOR_ASK,
+					prompt, TRUE, service, "password", ex);
 			g_free (prompt);
 			g_free (errbuf);
 			errbuf = NULL;
-			
+
 			if (!service->url->passwd) {
 				camel_exception_set (ex, CAMEL_EXCEPTION_USER_CANCEL,
 						     "You didn\'t enter a password.");
+				camel_service_disconnect (service, NULL);
 				return FALSE;
 			}
 		}
-		
+
 		response = camel_imap_command (store, NULL, ex,
 					       "LOGIN \"%s\" \"%s\"",
 					       service->url->user,
 					       service->url->passwd);
 		if (!response) {
-			errbuf = g_strdup_printf (_("Unable to authenticate to IMAP server.\n%s\n\n"),
+			errbuf = g_strdup_printf (_("Unable to authenticate "
+						    "to IMAP server.\n%s\n\n"),
 						  camel_exception_get_description (ex));
 			camel_exception_clear (ex);
 		} else {
@@ -278,32 +363,14 @@ imap_connect (CamelService *service, CamelException *ex)
 			camel_imap_response_free (response);
 		}
 	}
-	
-	/* At this point we know we're connected... */
-	store->connected = TRUE;
-	
-	/* Now lets find out the IMAP capabilities */
-	response = camel_imap_command (store, NULL, ex, "CAPABILITY");
-	if (!response)
-		return FALSE;
-	result = camel_imap_response_extract (response, "CAPABILITY", ex);
-	if (!result)
-		return FALSE;
 
-	/* parse for capabilities here. */
-	if (e_strstrcase (result, "IMAP4REV1"))
-		store->server_level = IMAP_LEVEL_IMAP4REV1;
-	else if (e_strstrcase (result, "IMAP4"))
-		store->server_level = IMAP_LEVEL_IMAP4;
-	else
-		store->server_level = IMAP_LEVEL_UNKNOWN;
-
-	if ((store->server_level >= IMAP_LEVEL_IMAP4REV1) ||
-	    (e_strstrcase (result, "STATUS")))
-		store->has_status_capability = TRUE;
-	else
-		store->has_status_capability = FALSE;
-	g_free (result);
+	/* Find our storage path. */
+	if (!store->storage_path) {
+		store->storage_path =
+			camel_session_get_storage_path (session, service, ex);
+		if (camel_exception_is_set (ex)) 
+			return FALSE;
+	}
 
 	/* Find the hierarchy separator for our namespace. */
 	namespace = service->url->path;
