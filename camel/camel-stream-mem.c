@@ -36,7 +36,7 @@ static CamelStreamClass *parent_class=NULL;
 
 
 /* Returns the class for a CamelStreamMEM */
-#define CS_CLASS(so) CAMEL_STREAM_MEM_CLASS (GTK_OBJECT(so)->klass)
+#define CSM_CLASS(so) CAMEL_STREAM_MEM_CLASS (GTK_OBJECT(so)->klass)
 
 static gint _read (CamelStream *stream, gchar *buffer, gint n);
 static gint _write (CamelStream *stream, const gchar *buffer, gint n);
@@ -44,13 +44,14 @@ static void _flush (CamelStream *stream);
 static gint _available (CamelStream *stream);
 static gboolean _eos (CamelStream *stream);
 static void _close (CamelStream *stream);
-static gint _seek (CamelStream *stream, gint offset, CamelStreamSeekPolicy policy);
+static gint _seek (CamelSeekableStream *stream, gint offset, CamelStreamSeekPolicy policy);
 
 static void _finalize (GtkObject *object);
 
 static void
 camel_stream_mem_class_init (CamelStreamMemClass *camel_stream_mem_class)
 {
+	CamelSeekableStreamClass *camel_seekable_stream_class = CAMEL_SEEKABLE_STREAM_CLASS (camel_stream_mem_class);
 	CamelStreamClass *camel_stream_class = CAMEL_STREAM_CLASS (camel_stream_mem_class);
 	GtkObjectClass *gtk_object_class = GTK_OBJECT_CLASS (camel_stream_mem_class);
 	
@@ -65,7 +66,8 @@ camel_stream_mem_class_init (CamelStreamMemClass *camel_stream_mem_class)
 	camel_stream_class->available = _available;
 	camel_stream_class->eos = _eos;
 	camel_stream_class->close = _close;
-	camel_stream_class->seek = _seek;
+
+	camel_seekable_stream_class->seek = _seek;
 	
 	gtk_object_class->finalize = _finalize;
 	
@@ -96,7 +98,7 @@ camel_stream_mem_get_type (void)
 			(GtkClassInitFunc) NULL,
 		};
 		
-		camel_stream_mem_type = gtk_type_unique (camel_stream_get_type (), &camel_stream_mem_info);
+		camel_stream_mem_type = gtk_type_unique (camel_seekable_stream_get_type (), &camel_stream_mem_info);
 	}
 	
 	return camel_stream_mem_type;
@@ -258,7 +260,7 @@ _close (CamelStream *stream)
 
 
 static gint
-_seek (CamelStream *stream, gint offset, CamelStreamSeekPolicy policy)
+_seek (CamelSeekableStream *stream, gint offset, CamelStreamSeekPolicy policy)
 {
 	gint position;
 	CamelStreamMem *camel_stream_mem = CAMEL_STREAM_MEM (stream);

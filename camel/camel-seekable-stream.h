@@ -1,5 +1,5 @@
 /* -*- Mode: C; tab-width: 8; indent-tabs-mode: t; c-basic-offset: 8 -*- */
-/* camel-stream-mem.h :stream based on memory buffer */
+/* camel-stream-fs.h :stream based on unix filesystem */
 
 /* 
  *
@@ -25,8 +25,8 @@
  */
 
 
-#ifndef CAMEL_STREAM_MEM_H
-#define CAMEL_STREAM_MEM_H 1
+#ifndef CAMEL_SEEKABLE_STREAM_H
+#define CAMEL_SEEKABLE_STREAM_H 1
 
 
 #ifdef __cplusplus
@@ -36,55 +36,52 @@ extern "C" {
 
 #include <gtk/gtk.h>
 #include <stdio.h>
-#include "camel-seekable-stream.h"
+#include "camel-stream.h"
 
-#define CAMEL_STREAM_MEM_TYPE     (camel_stream_mem_get_type ())
-#define CAMEL_STREAM_MEM(obj)     (GTK_CHECK_CAST((obj), CAMEL_STREAM_MEM_TYPE, CamelStreamMem))
-#define CAMEL_STREAM_MEM_CLASS(k) (GTK_CHECK_CLASS_CAST ((k), CAMEL_STREAM_MEM_TYPE, CamelStreamMemClass))
-#define CAMEL_IS_STREAM_MEM(o)    (GTK_CHECK_TYPE((o), CAMEL_STREAM_MEM_TYPE))
+#define CAMEL_SEEKABLE_STREAM_TYPE     (camel_seekable_stream_get_type ())
+#define CAMEL_SEEKABLE_STREAM(obj)     (GTK_CHECK_CAST((obj), CAMEL_SEEKABLE_STREAM_TYPE, CamelSeekableStream))
+#define CAMEL_SEEKABLE_STREAM_CLASS(k) (GTK_CHECK_CLASS_CAST ((k), CAMEL_SEEKABLE_STREAM_TYPE, CamelSeekableStreamClass))
+#define CAMEL_IS_SEEKABLE_STREAM(o)    (GTK_CHECK_TYPE((o), CAMEL_SEEKABLE_STREAM_TYPE))
 
-typedef enum 
+
+typedef enum
 {
-	CAMEL_STREAM_MEM_READ   =   1,
-	CAMEL_STREAM_MEM_WRITE  =   2,
-	CAMEL_STREAM_MEM_RW     =   3
-} CamelStreamMemMode;
+	CAMEL_STREAM_SET,
+	CAMEL_STREAM_CUR,
+	CAMEL_STREAM_END
+
+} CamelStreamSeekPolicy;
 
 
 typedef struct 
 {
-	CamelSeekableStream parent_object;
-
-	GByteArray *buffer;
-	gint position;
-	CamelStreamMemMode mode;
-
-} CamelStreamMem;
+	CamelStream parent_object;
+	
+} CamelSeekableStream;
 
 
 
 typedef struct {
-	CamelSeekableStreamClass parent_class;
+	CamelStreamClass parent_class;
 	
 	/* Virtual methods */	
+	gint (*seek)       (CamelSeekableStream *stream, gint offset, CamelStreamSeekPolicy policy);
 
-} CamelStreamMemClass;
+
+} CamelSeekableStreamClass;
 
 
 
 /* Standard Gtk function */
-GtkType camel_stream_mem_get_type (void);
+GtkType camel_seekable_stream_get_type (void);
 
 
 /* public methods */
-CamelStream *camel_stream_mem_new (CamelStreamMemMode mode);
-CamelStream * camel_stream_mem_new_with_buffer (GByteArray *buffer, 
-						CamelStreamMemMode mode);
-
+gint     camel_stream_seek      (CamelSeekableStream *stream, gint offset, CamelStreamSeekPolicy policy);
 
 
 #ifdef __cplusplus
 }
 #endif /* __cplusplus */
 
-#endif /* CAMEL_STREAM_MEM_H */
+#endif /* CAMEL_SEEKABLE_STREAM_H */

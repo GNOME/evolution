@@ -144,7 +144,7 @@ close (CamelStream *stream)
 }
 
 static gint
-seek (CamelStream *stream,
+seek (CamelSeekableStream *stream,
       gint offset,
       CamelStreamSeekPolicy policy)
 {

@@ -31,6 +31,8 @@
 #include <gtk/gtk.h>
 
 #include "camel-simple-data-wrapper.h"
+#include "camel-seekable-stream.h"
+
 
 #ifdef __cplusplus
 extern "C" {
@@ -53,7 +55,7 @@ typedef struct _CamelSimpleDataWrapperStream       CamelSimpleDataWrapperStream;
 typedef struct _CamelSimpleDataWrapperStreamClass  CamelSimpleDataWrapperStreamClass;
 
 struct _CamelSimpleDataWrapperStream {
-	CamelStream parent;
+	CamelSeekableStream parent;
 
 	CamelSimpleDataWrapper *wrapper;
 	gint current_position;

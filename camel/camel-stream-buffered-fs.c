@@ -47,7 +47,7 @@ static void _flush (CamelStream *stream);
 static gint _available (CamelStream *stream);
 static gboolean _eos (CamelStream *stream);
 static void _close (CamelStream *stream);
-static gint _seek (CamelStream *stream, gint offset, CamelStreamSeekPolicy policy);
+static gint _seek (CamelSeekableStream *stream, gint offset, CamelStreamSeekPolicy policy);
 
 static void _finalize (GtkObject *object);
 static void _destroy (GtkObject *object);
@@ -259,7 +259,7 @@ _close (CamelStream *stream)
 
 
 static gint
-_seek (CamelStream *stream, gint offset, CamelStreamSeekPolicy policy)
+_seek (CamelSeekableStream *stream, gint offset, CamelStreamSeekPolicy policy)
 {
 	return 0;
 }

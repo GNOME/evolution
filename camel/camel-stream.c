@@ -45,12 +45,6 @@ default_camel_close (CamelStream *stream)
 	/* nothing */
 }
 
-static gint
-default_camel_seek (CamelStream *stream, gint offset, CamelStreamSeekPolicy policy)
-{
-	/* nothing */
-	return -1;
-}
 
 static void
 camel_stream_class_init (CamelStreamClass *camel_stream_class)
@@ -65,7 +59,6 @@ camel_stream_class_init (CamelStreamClass *camel_stream_class)
 	camel_stream_class->available = NULL;
 	camel_stream_class->eos = NULL; 
 	camel_stream_class->close = default_camel_close;
-	camel_stream_class->seek = default_camel_seek;
 
 	/* virtual method overload */
 }
@@ -178,23 +171,6 @@ void
 camel_stream_close (CamelStream *stream)
 {
 	CS_CLASS (stream)->close (stream);
-}
-
-
-/**
- * camel_stream_seek:
- * @stream: a CamelStream object.
- * @offset: offset value
- * @policy: what to do with the offset
- * 
- * 
- * 
- * Return value: new position, -1 if operation failed.
- **/
-gint
-camel_stream_seek (CamelStream *stream, gint offset, CamelStreamSeekPolicy policy)
-{
-	return CS_CLASS (stream)->seek (stream, offset, policy);
 }
 
 

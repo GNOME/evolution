@@ -36,7 +36,7 @@ extern "C" {
 
 #include <gtk/gtk.h>
 #include <stdio.h>
-#include "camel-stream.h"
+#include "camel-seekable-stream.h"
 
 #define CAMEL_STREAM_FS_TYPE     (camel_stream_fs_get_type ())
 #define CAMEL_STREAM_FS(obj)     (GTK_CHECK_CAST((obj), CAMEL_STREAM_FS_TYPE, CamelStreamFs))
@@ -53,7 +53,8 @@ typedef enum
 typedef struct 
 {
 
-	CamelStream parent_object;
+	CamelSeekableStream parent_object;
+
 	gchar *name;       /* name of the underlying file */
 	gint fd;           /* file descriptor on the underlying file */
 	guint32 cur_pos;     /* current postion in the stream */
@@ -65,7 +66,7 @@ typedef struct
 
 
 typedef struct {
-	CamelStreamClass parent_class;
+	CamelSeekableStreamClass parent_class;
 	
 	/* Virtual methods */	
 	void (*init_with_fd) (CamelStreamFs *stream_fs, int fd);

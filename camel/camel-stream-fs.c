@@ -34,7 +34,7 @@
 #include <string.h>
 #include "camel-log.h"
 
-static CamelStreamClass *parent_class=NULL;
+static CamelSeekableStreamClass *parent_class=NULL;
 
 
 /* Returns the class for a CamelStreamFS */
@@ -46,7 +46,7 @@ static void _flush (CamelStream *stream);
 static gint _available (CamelStream *stream);
 static gboolean _eos (CamelStream *stream);
 static void _close (CamelStream *stream);
-static gint _seek (CamelStream *stream, gint offset, CamelStreamSeekPolicy policy);
+static gint _seek (CamelSeekableStream *stream, gint offset, CamelStreamSeekPolicy policy);
 
 static void _finalize (GtkObject *object);
 static void _destroy (GtkObject *object);
@@ -60,6 +60,7 @@ static void _init_with_name_and_bounds (CamelStreamFs *stream_fs, const gchar *n
 static void
 camel_stream_fs_class_init (CamelStreamFsClass *camel_stream_fs_class)
 {
+	CamelSeekableStreamClass *camel_seekable_stream_class = CAMEL_SEEKABLE_STREAM_CLASS (camel_stream_fs_class);
 	CamelStreamClass *camel_stream_class = CAMEL_STREAM_CLASS (camel_stream_fs_class);
 	GtkObjectClass *gtk_object_class = GTK_OBJECT_CLASS (camel_stream_fs_class);
 
@@ -78,7 +79,8 @@ camel_stream_fs_class_init (CamelStreamFsClass *camel_stream_fs_class)
 	camel_stream_class->available = _available;
 	camel_stream_class->eos = _eos;
 	camel_stream_class->close = _close;
-	camel_stream_class->seek = _seek;
+
+	camel_seekable_stream_class->seek = _seek;
 
 	gtk_object_class->finalize = _finalize;
 	gtk_object_class->destroy = _destroy;
@@ -112,7 +114,7 @@ camel_stream_fs_get_type (void)
 			(GtkClassInitFunc) NULL,
 		};
 		
-		camel_stream_fs_type = gtk_type_unique (camel_stream_get_type (), &camel_stream_fs_info);
+		camel_stream_fs_type = gtk_type_unique (camel_seekable_stream_get_type (), &camel_stream_fs_info);
 	}
 	
 	return camel_stream_fs_type;
@@ -375,7 +377,7 @@ _write (CamelStream *stream, const gchar *buffer, gint n)
 	CAMEL_LOG_FULL_DEBUG ( "CamelStreamFs:: entering write. n=%d\n", n);
 
 	if (stream_fs->sup_bound != -1)
-		nb_to_write =  MIN (stream_fs->sup_bound - stream_fs->cur_pos, n);;
+		nb_to_write =  MIN (stream_fs->sup_bound - stream_fs->cur_pos, n);
 	else 
 		nb_to_write = n;
 
@@ -459,7 +461,7 @@ _close (CamelStream *stream)
 
 
 static gint
-_seek (CamelStream *stream, gint offset, CamelStreamSeekPolicy policy)
+_seek (CamelSeekableStream *stream, gint offset, CamelStreamSeekPolicy policy)
 {
 	int whence;
 	gint return_position;
