@@ -417,6 +417,28 @@ attempt_upgrade (EShell *shell)
 }
 
 
+static void
+open_uris (GNOME_Evolution_Shell corba_shell, GSList *uri_list)
+{
+	GSList *p;
+	CORBA_Environment ev;
+
+	CORBA_exception_init (&ev);
+
+	for (p = uri_list; p != NULL; p = p->next) {
+		const char *uri;
+
+		uri = (const char *) p->data;
+		GNOME_Evolution_Shell_handleURI (corba_shell, uri, &ev);
+		if (ev._major != CORBA_NO_EXCEPTION) {
+			g_warning ("Invalid URI: %s", uri);
+			CORBA_exception_free (&ev);
+		}
+	}
+
+	CORBA_exception_free (&ev);
+}
+
 /* This is for doing stuff that requires the GTK+ loop to be running already.  */
 
 static gint
@@ -427,7 +449,6 @@ idle_cb (void *data)
 	CORBA_Environment ev;
 	EShellConstructResult result;
 	EShellStartupLineMode startup_line_mode;
-	GSList *p;
 	gboolean have_evolution_uri;
 
 #ifdef KILL_PROCESS_CMD
@@ -490,26 +511,20 @@ idle_cb (void *data)
 
 	if (shell != NULL) {
 		e_shell_create_window (shell, default_component_id, NULL);
+		open_uris (corba_shell, uri_list);
 	} else {
 		CORBA_Environment ev;
 
 		CORBA_exception_init (&ev);
-		if (default_component_id == NULL)
-			GNOME_Evolution_Shell_createNewWindow (corba_shell, "", &ev);
+		if (uri_list != NULL)
+			open_uris (corba_shell, uri_list);
 		else
-			GNOME_Evolution_Shell_createNewWindow (corba_shell, default_component_id, &ev);
+			if (default_component_id == NULL)
+				GNOME_Evolution_Shell_createNewWindow (corba_shell, "", &ev);
+			else
+				GNOME_Evolution_Shell_createNewWindow (corba_shell, default_component_id, &ev);
+
 		CORBA_exception_free (&ev);
-	}
-
-	for (p = uri_list; p != NULL; p = p->next) {
-		const char *uri;
-
-		uri = (const char *) p->data;
-		GNOME_Evolution_Shell_handleURI (corba_shell, uri, &ev);
-		if (ev._major != CORBA_NO_EXCEPTION) {
-			g_warning ("Invalid URI: %s", uri);
-			CORBA_exception_free (&ev);
-		}
 	}
 
 	g_slist_free (uri_list);

@@ -1,3 +1,12 @@
+2004-01-23  Rodney Dawes  <dobey@ximian.com>
+
+	* main.c (idle_cb): Move uri_list loop into a separate function
+	so we don't duplicate code in both instances where we are creating
+	a new shell or using a current one, and don't open a new shell window
+	if we are passing in a uri and a shell is already up
+
+	Fixes #53216
+
 2004-01-15  JP Rosevear <jpr@ximian.com>
 
 	* e-config-upgrade.c: remove calendar and task keys for upgrade,
