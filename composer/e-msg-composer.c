@@ -697,7 +697,7 @@ get_file_content (EMsgComposer *composer, const char *file_name, gboolean want_h
 	camel_object_unref (CAMEL_OBJECT (stream));
 	
 	charset = composer ? composer->charset : mail_config_get_default_charset ();
-	charenc = (CamelMimeFilter *) camel_mime_filter_charset_new_convert (composer->charset, "utf-8");
+	charenc = (CamelMimeFilter *) camel_mime_filter_charset_new_convert (charset, "utf-8");
 	camel_stream_filter_add (filtered_stream, charenc);
 	camel_object_unref (CAMEL_OBJECT (charenc));
 	
