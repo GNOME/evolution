@@ -1,5 +1,13 @@
 2001-10-29    <NotZed@Ximian.com>
 
+	* mail-folder-cache.c (store_folder_renamed): Sort the folder
+	updates first, since we dont seem to get them in the right order,
+	or infact in any tree representation whatsoever when using IMAP
+	...? get_folder_info bugs?
+
+	Unrelated note to self, the subscribe dialogue may interfere with
+	the folder cache.
+	
 	* mail-vfolder.c (rule_changed): Copy the folder's full_name
 	before trying to use it to rename.
 	(vfolder_edit_rule): Set 'orig' to be a reference of the original

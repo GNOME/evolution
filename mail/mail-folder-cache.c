@@ -47,7 +47,7 @@
 #include "mail-vfolder.h"
 #include "mail-autofilter.h"
 
-#define d(x) x
+#define d(x) 
 
 /* note that many things are effectively serialised by having them run in
    the main loop thread which they need to do because of corba/gtk calls */
@@ -517,6 +517,8 @@ rename_folders(struct _store_info *si, const char *oldbase, const char *newbase,
 
 	up = g_malloc0(sizeof(*up));
 
+	d(printf("oldbase '%s' newbase '%s' new '%s'\n", oldbase, newbase, fi->full_name));
+
 	/* Form what was the old name, and try and look it up */
 	old = g_strdup_printf("%s%s", oldbase, fi->full_name + strlen(newbase));
 	mfi = g_hash_table_lookup(si->folders, old);
@@ -561,30 +563,33 @@ rename_folders(struct _store_info *si, const char *oldbase, const char *newbase,
 
 	e_dlist_addtail(&updates, (EDListNode *)up);
 	flush_updates();
-
+#if 0
 	if (fi->sibling)
-		rename_folders(si, oldbase, newbase, fi->sibling);
+		rename_folders(si, oldbase, newbase, fi->sibling, folders);
 	if (fi->child)
-		rename_folders(si, oldbase, newbase, fi->child);
+		rename_folders(si, oldbase, newbase, fi->child, folders);
+#endif
 }
 
-#if 0
-/* This is if we want to get the folders individually and sort them and change them on
-   the shell atomically (whcih of course, we can't) */
 static void
-get_folders(GPtrArray *folders, CamelFolderInfo *fi)
+get_folders(CamelFolderInfo *fi, GPtrArray *folders)
 {
+	g_ptr_array_add(folders, fi);
+
+	if (fi->child)
+		get_folders(fi->child, folders);
+	if (fi->sibling)
+		get_folders(fi->sibling, folders);
 }
 
 static int
 folder_cmp(const void *ap, const void *bp)
 {
-	const struct _folder_update *a = ((struct _folder_update **)ap)[0];
-	const struct _folder_update *b = ((struct _folder_update **)bp)[0];
+	const CamelFolderInfo *a = ((CamelFolderInfo **)ap)[0];
+	const CamelFolderInfo *b = ((CamelFolderInfo **)bp)[0];
 
 	return strcmp(a->path, b->path);
 }
-#endif
 
 static void
 store_folder_renamed(CamelObject *o, void *event_data, void *data)
@@ -598,22 +603,22 @@ store_folder_renamed(CamelObject *o, void *event_data, void *data)
 	LOCK(info_lock);
 	si = g_hash_table_lookup(stores, store);
 	if (si) {
-#if 0
 		GPtrArray *folders = g_ptr_array_new();
-		struct _folder_update *up;
+		CamelFolderInfo *fi, *top;
+		int i;
 
-		/* first, get an array of all folders */
-		get_folders(folders, info->new);
-#endif
-		rename_folders(si, info->old_base, info->new->full_name, info->new);
-#if 0
+		/* Ok, so for some reason the folderinfo we have comes in all messed up from
+		   imap, should find out why ... this makes it workable */
+		get_folders(info->new, folders);
 		qsort(folders->pdata, folders->len, sizeof(folders->pdata[0]), folder_cmp);
-		up = g_malloc0(sizeof(*up));
-		up->renamed = folders;
 
-		e_dlist_addtail(&updates, (EDListNode *)up);
-		flush_updates();
-#endif
+		top = folders->pdata[0];
+		for (i=0;i<folders->len;i++) {
+			rename_folders(si, info->old_base, top->full_name, folders->pdata[i]);
+		}
+
+		g_ptr_array_free(folders, TRUE);
+
 	}
 	UNLOCK(info_lock);
 }

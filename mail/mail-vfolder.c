@@ -44,7 +44,7 @@
 
 #include "e-util/e-unicode-i18n.h"
 
-#define d(x) x
+#define d(x) 
 
 static VfolderContext *context;	/* context remains open all time */
 static CamelStore *vfolder_store; /* the 1 static vfolder store */
