@@ -541,7 +541,7 @@ impl__get_userCreatableItems (PortableServer_Servant servant,
 {
 	GNOME_Evolution_CreatableItemTypeList *list = GNOME_Evolution_CreatableItemTypeList__alloc ();
 
-	list->_length  = 2;
+	list->_length  = 3;
 	list->_maximum = list->_length;
 	list->_buffer  = GNOME_Evolution_CreatableItemTypeList_allocbuf (list->_length);
 
@@ -561,6 +561,13 @@ impl__get_userCreatableItems (PortableServer_Servant servant,
 	list->_buffer[1].menuShortcut = 'l';
 	list->_buffer[1].iconName = "contact-list-16.png";
 
+	list->_buffer[2].id = "address_book";
+	list->_buffer[2].description = _("New Addressbook Book");
+	list->_buffer[2].menuDescription = _("_Address Book");
+	list->_buffer[2].tooltip = _("Create a new address book");
+	list->_buffer[2].menuShortcut = 'a';
+	list->_buffer[2].iconName = "evolution-contacts-mini.png";
+
 	return list;
 }
 
@@ -572,11 +579,16 @@ impl_requestCreateItem (PortableServer_Servant servant,
 	AddressbookComponent *addressbook_component = ADDRESSBOOK_COMPONENT (bonobo_object_from_servant (servant));
 	AddressbookComponentPrivate *priv;
 	EBook *book;
-	EContact *contact = e_contact_new ();
+	EContact *contact;
 	ESource *selected_source;
 	gchar *uri;
 
 	priv = addressbook_component->priv;
+
+	if (!strcmp (item_type_name, "address_book")) {
+		addressbook_config_create_new_source (NULL);
+		return;
+	}
 
 	selected_source = get_primary_source (addressbook_component);
 	if (!selected_source) {
@@ -602,11 +614,14 @@ impl_requestCreateItem (PortableServer_Servant servant,
 
 	if (!item_type_name) {
 		CORBA_exception_set (ev, CORBA_USER_EXCEPTION, ex_GNOME_Evolution_Component_UnknownType, NULL);
-	} else if (!strcmp (item_type_name, "contact")) {
+	}
+	else if (!strcmp (item_type_name, "contact")) {
 		eab_show_contact_editor (book, contact, TRUE, TRUE);
-	} else if (!strcmp (item_type_name, "contact_list")) {
+	}
+	else if (!strcmp (item_type_name, "contact_list")) {
 		eab_show_contact_list_editor (book, contact, TRUE, TRUE);
-	} else {
+	}
+	else {
 		CORBA_exception_set (ev, CORBA_USER_EXCEPTION, ex_GNOME_Evolution_Component_UnknownType, NULL);
 	}
 

@@ -1,5 +1,16 @@
 2004-03-30  Chris Toshok  <toshok@ximian.com>
 
+	[ fixes bug #53544 ]
+	
+	* gui/component/addressbook-component.c
+	(impl__get_userCreatableItems): add "address_book" to the user
+	creatable items list. complete with incorrect accelerator and
+	shortcut!
+	(impl_requestCreateItem): handle "address_book" here, and plug a
+	memory leak.
+
+2004-03-30  Chris Toshok  <toshok@ximian.com>
+
 	[ part of the fix for #51977, the other part is in e-d-s ]
 	
 	* gui/widgets/e-addressbook-view.c (search_activated): the name of
