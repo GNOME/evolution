@@ -318,11 +318,13 @@ static int
 compute_elision_length (GdkFont *font, const char *str, int max_width)
 {
 	int len;
-	int l, left, right;
+	int l = 0, left, right;
 	int rbearing;
 
 	len = strlen (str);
-	g_assert (len > 0);
+
+	if (len <= 0)
+	  return 0;
 
 	left = 0;
 	right = len;
