@@ -9,7 +9,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: it\n"
 "POT-Creation-Date: 2004-01-12 22:53-0500\n"
-"PO-Revision-Date: 2004-01-26 13:10+0100\n"
+"PO-Revision-Date: 2004-01-26 18:36+0100\n"
 "Last-Translator: Marco Ciampa <ciampix@libero.it>\n"
 "Language-Team:  <tp@lists.linux.it>,<it@li.org>\n"
 "MIME-Version: 1.0\n"
@@ -4324,40 +4324,30 @@ msgid "Remote"
 msgstr "Rimuovi"
 
 #: calendar/gui/dialogs/calendar-setup.glade.h:18
-#, fuzzy
 msgid ""
 "Specifying a display name and group is the first step in setting up a "
 "calendar."
-msgstr ""
-"Specificare un nome da mostrare ed un gruppo è l'ultimo passo necessario per "
-"la configurazione di una rubrica."
+msgstr "Specificare un nome da mostrare ed un gruppo è il primo passo necessario per la configurazione di un calendario."
 
 #: calendar/gui/dialogs/calendar-setup.glade.h:19
-#, fuzzy
 msgid ""
 "Specifying a display name and group is the first step in setting up a task "
 "list."
-msgstr ""
-"Specificare un nome da mostrare ed un gruppo è l'ultimo passo necessario per "
-"la configurazione di una rubrica."
+msgstr "Specificare un nome da mostrare ed un gruppo è il primo passo necessario per la configurazione di un'elenco attività"
 
 #: calendar/gui/dialogs/calendar-setup.glade.h:21
-#, fuzzy
 msgid "Step 2: Remote Folder Parameters"
-msgstr "Passo 1: caratteristiche della cartella"
+msgstr "Passo 2: parametri della cartella remota"
 
 #: calendar/gui/dialogs/calendar-setup.glade.h:22
-#, fuzzy
 msgid "Task List Creation Assistant"
-msgstr "Assistente alla creazione della rubrica"
+msgstr "Assistente alla creazione dell'elenco attività"
 
 #: calendar/gui/dialogs/calendar-setup.glade.h:23
-#, fuzzy
 msgid "Task List Properties"
-msgstr "Gruppo elenco attività"
+msgstr "Proprietà elenco attività"
 
 #: calendar/gui/dialogs/calendar-setup.glade.h:24
-#, fuzzy
 msgid ""
 "This assistant will help you create a new calendar. \n"
 "\n"
@@ -4365,15 +4355,13 @@ msgid ""
 "parameters may be required. Please contact your system\n"
 "administrator if you need help finding this information."
 msgstr ""
-"Quest'assistente vi aiuterà durante la creazione della nuova rubrica.\n"
+"L'assistente vi aiuterà durante la creazione del nuovo calendario.\n"
 "\n"
-"A seconda del tipo di rubrica che si vuole creare, potrà essere\n"
-"necessario indicare ulteriori informazioni. Contattare\n"
-"l'amministratore di sistema se serve aiuto per cercare questo tipo\n"
-"di informazioni."
+"A seconda del tipo di calendario che si intende creare, potrà essere\n"
+"necessario indicare ulteriori parametri. Contattare l'amministratore\n"
+"di sistema se serve aiuto per cercare questo tipo di informazioni."
 
 #: calendar/gui/dialogs/calendar-setup.glade.h:29
-#, fuzzy
 msgid ""
 "This assistant will help you create a new task list.\n"
 "\n"
@@ -4381,19 +4369,18 @@ msgid ""
 "parameters may be required. Please contact your system\n"
 "administrator if you need help finding this information."
 msgstr ""
-"Quest'assistente vi aiuterà durante la creazione della nuova rubrica.\n"
+"L'assistente vi aiuterà durante la creazione di un nuovo elenco attività.\n"
 "\n"
-"A seconda del tipo di rubrica che si vuole creare, potrà essere\n"
-"necessario indicare ulteriori informazioni. Contattare\n"
-"l'amministratore di sistema se serve aiuto per cercare questo tipo\n"
-"di informazioni."
+"A seconda del tipo dell'elenco attività che si intende creare, potrà essere\n"
+"necessario indicare ulteriori parametri. Contattare l'amministratore\n"
+"di sistema se serve aiuto per cercare questo tipo di informazioni."
 
 #: calendar/gui/dialogs/calendar-setup.glade.h:35
 msgid ""
 "You're creating a folder in a group that's stored in a remote location. This "
 "requires you\n"
 "to specify additional parameters."
-msgstr ""
+msgstr "Si sta creando una cartella in un gruppo che è memorizzato in una locazione remota. Ciò richiede che si specifichi dei parametri addizionali."
 
 #: calendar/gui/dialogs/calendar-setup.glade.h:38
 msgid "_Refresh Interval:"
@@ -10438,38 +10425,35 @@ msgstr "Impossibile ricevere l'elenco gruppi dal server."
 
 #: camel/providers/nntp/camel-nntp-folder.c:353
 msgid "Posting not allowed by news server"
-msgstr ""
+msgstr "Spedizione di posta non permessa dal server delle news"
 
 #: camel/providers/nntp/camel-nntp-folder.c:364
 #, c-format
 msgid "Failed to send newsgroups header: %s: message not posted"
-msgstr ""
+msgstr "Fallita la spedizione dell'intestazione dei newsgroup: %s: messaggio non spedito"
 
 #: camel/providers/nntp/camel-nntp-folder.c:404
 #: camel/providers/nntp/camel-nntp-folder.c:417
 #, c-format
 msgid "Error posting to newsgroup: %s: message not posted"
-msgstr ""
+msgstr "Errore durante la spedizione ad un newsgroup: %s: messaggio non spedito"
 
 #: camel/providers/nntp/camel-nntp-folder.c:429
 msgid "Error reading response to posted message: message not posted"
-msgstr ""
+msgstr "Errore durante la lettura della risposta al messaggio spedito: messaggio non spedito"
 
 #: camel/providers/nntp/camel-nntp-folder.c:432
-#, fuzzy, c-format
+#, c-format
 msgid "Error posting message: %s: message not posted"
-msgstr ""
-"Errore nel salvataggio automatico del messaggio: %s\n"
-"%s"
+msgstr "Errore nella spedizione del messaggio: %s: messaggio non spedito"
 
 #: camel/providers/nntp/camel-nntp-folder.c:448
 msgid "You cannot post NNTP messages while working offline!"
-msgstr ""
+msgstr "È impossibile spedire messaggi NNTP durante una sessione di lavoro non in linea!"
 
 #: camel/providers/nntp/camel-nntp-folder.c:459
-#, fuzzy
 msgid "You cannot copy messages from a NNTP folder!"
-msgstr "Impossibile copiare messaggi alla cartella mbox temporanea: %s"
+msgstr "È impossibile copiare messaggi da una cartella NNTP!"
 
 #: camel/providers/nntp/camel-nntp-grouplist.c:45
 msgid "Could not get group list from server."
@@ -10489,11 +10473,11 @@ msgstr "Impossibile salvare l'elenco gruppi per %s: %s"
 #: camel/providers/nntp/camel-nntp-provider.c:43
 msgid ""
 "Show folders in short notation (e.g. c.o.linux rather than comp.os.linux)"
-msgstr ""
+msgstr "Mostra le cartelle in formato corto (cioè c.o.linux invece che comp.os.linux)"
 
 #: camel/providers/nntp/camel-nntp-provider.c:45
 msgid "In the subscription dialog, show relative folder names"
-msgstr ""
+msgstr "Nella finestra di dialogo per la sottoscrizione, mostra i nomi delle cartelle relative"
 
 #: camel/providers/nntp/camel-nntp-provider.c:52
 msgid "USENET news"
@@ -10547,6 +10531,9 @@ msgid ""
 "\n"
 "No such newsgroup. The selected item is a probably a parent folder."
 msgstr ""
+"Impossibile iscriversi a questo newsgroup:\n"
+"\n"
+"nessun newsgroup con tale nome. La voce selezionata è probabilmente una cartella genitore."
 
 #: camel/providers/nntp/camel-nntp-store.c:768
 msgid ""
@@ -10554,25 +10541,26 @@ msgid ""
 "\n"
 "newsgroup does not exist!"
 msgstr ""
+"Impossibile disiscriversi da questo newsgroup:\n"
+"\n"
+"il newsgroup non esiste!"
 
 #: camel/providers/nntp/camel-nntp-store.c:793
 msgid "You cannot create a folder in a News store: subscribe instead."
-msgstr ""
+msgstr "Impossibile creare una cartella in un magazzino di news: puoi invece iscriverti."
 
 #: camel/providers/nntp/camel-nntp-store.c:801
-#, fuzzy
 msgid "You cannot rename a folder in a News store."
-msgstr "Impossibile rinominare la cartella %s con %s: %s"
+msgstr "Impossibile rinominare una cartella in un magazzino di news."
 
 #: camel/providers/nntp/camel-nntp-store.c:809
-#, fuzzy
 msgid "You cannot remove a folder in a News store: unsubscribe instead."
-msgstr "Impossibile spostare una cartella in una delle sue sottostanti."
+msgstr "Impossibile eliminare una cartella in un magazzino news: puoi invece disiscriverti."
 
 #: camel/providers/nntp/camel-nntp-summary.c:229
-#, fuzzy, c-format
+#, c-format
 msgid "Connection error: %s"
-msgstr "Errore sconosciuto: %s"
+msgstr "Errore di connessione: %s"
 
 #: camel/providers/nntp/camel-nntp-summary.c:240
 #, c-format
@@ -10585,9 +10573,8 @@ msgid "Could not get group: %s"
 msgstr "Impossibile ricevere il gruppo: %s"
 
 #: camel/providers/nntp/camel-nntp-summary.c:311
-#, fuzzy
 msgid "Could not get messages: unspecificed error"
-msgstr "Impossibile inviare il messaggio: %s"
+msgstr "Impossibile ricevere messaggi: errore non specificato"
 
 #: camel/providers/nntp/camel-nntp-summary.c:356
 #, c-format
@@ -11354,11 +11341,11 @@ msgstr[1] ""
 
 #: composer/e-msg-composer.c:2274
 msgid "Hide _Attachment Bar (drop attachments here)"
-msgstr ""
+msgstr "Nascondi la barra _allegati (rilascia qua gli allegati)"
 
 #: composer/e-msg-composer.c:2277 composer/e-msg-composer.c:3136
 msgid "Show _Attachment Bar (drop attachments here)"
-msgstr ""
+msgstr "Mostra la barra _allegati (rilascia qua gli allegati)"
 
 #: composer/e-msg-composer.c:2294 composer/e-msg-composer.c:3020
 #: composer/e-msg-composer.c:3021
@@ -13462,11 +13449,11 @@ msgstr "Stringa UID dell'account predefinito."
 
 #: mail/evolution-mail.schemas.in.in.h:73
 msgid "Use Spamasssassin daemon and client"
-msgstr ""
+msgstr "Usa il demone ed il client Spamassassin"
 
 #: mail/evolution-mail.schemas.in.in.h:74
 msgid "Use Spamasssassin daemon and client (spamc/spamd)"
-msgstr ""
+msgstr "Usa il client e il demone Spamassassin (spamc/spamd)"
 
 #: mail/evolution-mail.schemas.in.in.h:75
 msgid "Use custom fonts"
@@ -18157,69 +18144,63 @@ msgid "Find _Now"
 msgstr "_Trova ora"
 
 #: shell/GNOME_Evolution_Test.server.in.in.h:1
-#, fuzzy
 msgid "Evolution Test"
-msgstr "Evolution"
+msgstr "Test di Evolution"
 
 #: shell/GNOME_Evolution_Test.server.in.in.h:2
-#, fuzzy
 msgid "Evolution Test component"
-msgstr "Componente di prova di Evolution"
+msgstr "Componente di test di Evolution"
 
 #: widgets/misc/e-expander.c:181
-#, fuzzy
 msgid "Expanded"
-msgstr "_Elimina per sempre"
+msgstr "Espansa"
 
 #: widgets/misc/e-expander.c:182
-#, fuzzy
 msgid "Whether or not the expander is expanded"
-msgstr "Chiedi conferma prima di eliminare una cartella"
+msgstr "Chiedi se l'espansore è espanso"
 
 #: widgets/misc/e-expander.c:190
 msgid "Text of the expander's label"
-msgstr ""
+msgstr "Testo per l'etichetta dell'espansore"
 
 #: widgets/misc/e-expander.c:197
-#, fuzzy
 msgid "Use underline"
-msgstr "Non definita"
+msgstr "Usa sottolineatura"
 
 #: widgets/misc/e-expander.c:198
 msgid ""
 "If set, an underline in the text indicates the next character should be used "
 "for the mnemonic accelerator key"
-msgstr ""
+msgstr "Se impostata, una sottolineatura nel testo indica il prossimo carattere che dovrebbe essere usato per il tasto mnemonico di accelerazione"
 
 #: widgets/misc/e-expander.c:205
-#, fuzzy
 msgid "Spacing"
-msgstr "Spagna"
+msgstr "Spaziatura"
 
 #: widgets/misc/e-expander.c:206
 msgid "Space to put between the label and the child"
-msgstr ""
+msgstr "Spazio da mettere tra l'etichetta e il figlio"
 
 #: widgets/misc/e-expander.c:215
 msgid "Label widget"
-msgstr ""
+msgstr "Widget etichetta"
 
 #: widgets/misc/e-expander.c:216
 msgid "A widget to display in place of the usual expander label"
-msgstr ""
+msgstr "Un widget per mostrare al posto della solita etichetta espansa"
 
 #: widgets/misc/e-expander.c:222
 msgid "Expander Size"
-msgstr ""
+msgstr "Ampiezza dell'espansore"
 
 #: widgets/misc/e-expander.c:223
 msgid "Size of the expander arrow"
-msgstr ""
+msgstr "Ampiezza della freccia dell'espansore"
 
 #: widgets/misc/e-expander.c:231
 msgid "Indicator Spacing"
-msgstr ""
+msgstr "Spaziatura indicatore"
 
 #: widgets/misc/e-expander.c:232
 msgid "Spacing around expander arrow"
-msgstr ""
+msgstr "Spaziatura attorno la freccia dell'espansore"
