@@ -433,7 +433,7 @@ cal_util_generate_alarms_for_comp (CalComponent *comp,
 
 	alarms = g_new (CalComponentAlarms, 1);
 	alarms->comp = comp;
-	gtk_object_ref (GTK_OBJECT (alarms->comp));
+	g_object_ref (G_OBJECT (alarms->comp));
 	alarms->alarms = g_slist_sort (aod.triggers, compare_alarm_instance);
 
 	return alarms;

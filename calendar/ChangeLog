@@ -1,3 +1,10 @@
+2002-11-04  Rodrigo Moya <rodrigo@ximian.com>
+
+	* cal-util/cal-component.[ch]: ported to GObject.
+
+	* cal-util/cal-util.c (cal_util_generate_alarms_for_comp): use
+	g_object_* instead of gtk_object_*.
+
 2002-11-03  Rodrigo Moya <rodrigo@ximian.com>
 
 	* cal-client/cal-client.c (get_default_uri): use EConfigListener
