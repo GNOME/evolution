@@ -473,7 +473,6 @@ cal_opened_cb (ECal *client, ECalendarStatus status, gpointer data)
 		g_assert_not_reached ();
 		return;
 	}
-	gtk_dialog_set_has_separator (GTK_DIALOG (dialog), FALSE);
 
 	gtk_dialog_run (GTK_DIALOG (dialog));
 	gtk_widget_destroy (dialog);

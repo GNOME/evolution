@@ -152,7 +152,6 @@ delete_component_dialog (ECalComponent *comp,
 	dialog = gtk_message_dialog_new ((GtkWindow *)gtk_widget_get_toplevel (widget),
 					 0, GTK_MESSAGE_QUESTION, GTK_BUTTONS_YES_NO, "%s", str);
 	g_free (str);
-	gtk_dialog_set_has_separator (GTK_DIALOG (dialog), FALSE);
 	ret = gtk_dialog_run ((GtkDialog *)dialog) == GTK_RESPONSE_YES;
 	gtk_widget_destroy (dialog);
 

@@ -357,7 +357,6 @@ delete_calendar_cb (GtkWidget *widget, CalendarComponent *comp)
 		GTK_BUTTONS_YES_NO,
 		_("Calendar '%s' will be removed. Are you sure you want to continue?"),
 		e_source_peek_name (selected_source));
-	gtk_dialog_set_has_separator (GTK_DIALOG (dialog), FALSE);
 	if (gtk_dialog_run (GTK_DIALOG (dialog)) == GTK_RESPONSE_YES) {
 		if (e_source_selector_source_is_selected (E_SOURCE_SELECTOR (priv->source_selector),
 							  selected_source))
@@ -766,7 +765,6 @@ setup_create_ecal (CalendarComponent *calendar_component)
 							 GTK_MESSAGE_WARNING, GTK_BUTTONS_OK,
 							 _("Unable to open the calendar '%s' for creating events and meetings"), 
 							   e_source_peek_name (source));
-			gtk_dialog_set_has_separator (GTK_DIALOG (dialog), FALSE);
 			gtk_dialog_run (GTK_DIALOG (dialog));
 			gtk_widget_destroy (dialog);
 
@@ -778,7 +776,6 @@ setup_create_ecal (CalendarComponent *calendar_component)
 		dialog = gtk_message_dialog_new (NULL, GTK_DIALOG_MODAL,
 						 GTK_MESSAGE_WARNING, GTK_BUTTONS_OK,
 						 _("There is no calendar available for creating events and meetings"));
-		gtk_dialog_set_has_separator (GTK_DIALOG (dialog), FALSE);
 		gtk_dialog_run (GTK_DIALOG (dialog));
 		gtk_widget_destroy (dialog);
 

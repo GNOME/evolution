@@ -2,6 +2,7 @@
 <!DOCTYPE glade-interface SYSTEM "http://glade.gnome.org/glade-2.0.dtd">
 
 <glade-interface>
+<requires lib="gnome"/>
 
 <widget class="GtkDialog" id="new-task-list-dialog">
   <property name="border_width">12</property>
@@ -12,7 +13,7 @@
   <property name="modal">False</property>
   <property name="resizable">False</property>
   <property name="destroy_with_parent">False</property>
-  <property name="has_separator">False</property>
+  <property name="has_separator">True</property>
 
   <child internal-child="vbox">
     <widget class="GtkVBox" id="dialog-vbox1">

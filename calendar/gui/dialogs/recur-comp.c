@@ -66,7 +66,6 @@ recur_component_dialog (ECal *client,
 
 	dialog = gtk_message_dialog_new (parent, 0, GTK_MESSAGE_QUESTION, GTK_BUTTONS_OK_CANCEL, "%s", str);
 	g_free (str);
-	gtk_dialog_set_has_separator (GTK_DIALOG (dialog), FALSE);
 	
 	hbox = gtk_hbox_new (FALSE, 2);
 	gtk_container_add (GTK_CONTAINER (GTK_DIALOG (dialog)->vbox), hbox);
