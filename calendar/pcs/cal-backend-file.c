@@ -77,7 +77,7 @@ static CalObjType cal_backend_file_get_type_by_uid (CalBackend *backend, const c
 static GList *cal_backend_file_get_uids (CalBackend *backend, CalObjType type);
 static GList *cal_backend_file_get_objects_in_range (CalBackend *backend, CalObjType type,
 						     time_t start, time_t end);
-static GList *cal_backend_file_get_free_busy (CalBackend *backend, time_t start, time_t end);
+static char *cal_backend_file_get_free_busy (CalBackend *backend, time_t start, time_t end);
 static GNOME_Evolution_Calendar_CalObjChangeSeq *cal_backend_file_get_changes (
 	CalBackend *backend, CalObjType type, const char *change_id);
 
@@ -979,7 +979,7 @@ cal_backend_file_get_objects_in_range (CalBackend *backend, CalObjType type,
 }
 
 /* Get_free_busy handler for the file backend */
-static GList *
+static char *
 cal_backend_file_get_free_busy (CalBackend *backend, time_t start, time_t end)
 {
 	return NULL;

@@ -4,6 +4,8 @@ INCLUDES =						\
 	-I$(top_srcdir)/calendar			\
 	-I$(top_srcdir)/libical/src/libical		\
 	-I$(top_builddir)/libical/src/libical		\
+	-I$(top_srcdir)/libwombat			\
+	-I$(top_builddir)/libwombat			\
 	$(BONOBO_VFS_GNOME_CFLAGS)			\
 	$(EXTRA_GNOME_CFLAGS)				\
         -DGNOMELOCALEDIR=\""$(localedir)"\"

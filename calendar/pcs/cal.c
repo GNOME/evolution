@@ -24,6 +24,7 @@
 #include <ical.h>
 #include "cal.h"
 #include "query.h"
+#include "wombat.h"
 
 #define PARENT_TYPE         BONOBO_X_OBJECT_TYPE
 
@@ -36,6 +37,9 @@ struct _CalPrivate {
 
 	/* Listener on the client we notify */
 	GNOME_Evolution_Calendar_Listener listener;
+
+	/* and a reference to the WombatClient interface */
+	GNOME_Evolution_WombatClient wombat_client;
 };
 
 
@@ -228,7 +232,7 @@ impl_Cal_get_objects_in_range (PortableServer_Servant servant,
 }
 
 /* Cal::get_free_busy method */
-static GNOME_Evolution_Calendar_CalObjUIDSeq *
+static GNOME_Evolution_Calendar_CalObj
 impl_Cal_get_free_busy (PortableServer_Servant servant,
 			GNOME_Evolution_Calendar_Time_t start,
 			GNOME_Evolution_Calendar_Time_t end,
@@ -237,8 +241,7 @@ impl_Cal_get_free_busy (PortableServer_Servant servant,
 	Cal *cal;
 	CalPrivate *priv;
 	time_t t_start, t_end;
-	GNOME_Evolution_Calendar_CalObjUIDSeq *seq;
-	GList *uids;
+	char *calobj;
 
 	cal = CAL (bonobo_object_from_servant (servant));
 	priv = cal->priv;
@@ -253,12 +256,20 @@ impl_Cal_get_free_busy (PortableServer_Servant servant,
 		return NULL;
 	}
 
-	uids = cal_backend_get_free_busy (priv->backend, t_start, t_end);
-	seq = build_uid_seq (uids);
+	calobj = cal_backend_get_free_busy (priv->backend, t_start, t_end);
+        if (calobj) {
+		CORBA_char *calobj_copy;
 
-	cal_obj_uid_list_free (uids);
+		calobj_copy = CORBA_string_dup (calobj);
+		g_free (calobj);
+		return calobj_copy;
+	}
 
-	return seq;
+	CORBA_exception_set (ev, CORBA_USER_EXCEPTION,
+			     ex_GNOME_Evolution_Calendar_Cal_NotFound,
+			     NULL);
+
+	return NULL;
 }
 
 /* Cal::get_alarms_in_range method */
@@ -447,6 +458,16 @@ cal_construct (Cal *cal,
 		priv->listener = CORBA_OBJECT_NIL;
 		CORBA_exception_free (&ev);
 		return NULL;
+	}
+
+	/* obtain the WombatClient interface */
+	priv->wombat_client = Bonobo_Unknown_queryInterface (
+		priv->listener,
+		"IDL:GNOME/Evolution/WombatClient:1.0",
+		&ev);
+	if (ev._major != CORBA_NO_EXCEPTION) {
+		g_message ("cal_construct: could not get the WombatClient interface");
+		priv->wombat_client = CORBA_OBJECT_NIL;
 	}
 
 	CORBA_exception_free (&ev);

@@ -141,7 +141,7 @@ module Calendar {
 			raises (InvalidRange);
 
 		/* Returns free/busy objects for the given interval */
-		CalObjUIDSeq getFreeBusy (in Time_t start, in Time_t end);
+		CalObj getFreeBusy (in Time_t start, in Time_t end);
 
 		/* Gets the alarms for the specified component that trigger in
 		 * the specified time range.  

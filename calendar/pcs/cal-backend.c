@@ -333,13 +333,11 @@ cal_backend_get_objects_in_range (CalBackend *backend, CalObjType type,
  * @start: Start time for query.
  * @end: End time for query.
  * 
- * Builds a list of unique identifiers corresponding to free/busy calendar
- * objects of the that occur or recur within the specified time range.
+ * Gets a free/busy object for the given time interval
  * 
- * Return value: A list of UID strings.  The list should be freed using the
- * cal_obj_uid_list_free() function.
+ * Return value: a free/busy object
  **/
-GList *
+char *
 cal_backend_get_free_busy (CalBackend *backend, time_t start, time_t end)
 {
 	g_return_val_if_fail (backend != NULL, NULL);

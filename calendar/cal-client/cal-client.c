@@ -463,7 +463,7 @@ client_forget_password_cb (WombatClient *w_client,
         CalClient *client;
 
         client = CAL_CLIENT (user_data);
-        g_return_val_if_fail (IS_CAL_CLIENT (client), NULL);
+        g_return_if_fail (IS_CAL_CLIENT (client));
 
         gtk_signal_emit (GTK_OBJECT (client),
                          cal_client_signals [FORGET_PASSWORD],
@@ -566,8 +566,8 @@ cal_client_new (void)
 void
 cal_client_set_auth_func (CalClient *client, CalClientAuthFunc func, gpointer data)
 {
-	g_return_val_if_fail (client != NULL, FALSE);
-	g_return_val_if_fail (IS_CAL_CLIENT (client), FALSE);
+	g_return_if_fail (client != NULL);
+	g_return_if_fail (IS_CAL_CLIENT (client));
 
 	client->priv->auth_func = func;
 	client->priv->auth_user_data = data;
@@ -612,6 +612,9 @@ cal_client_open_calendar (CalClient *client, const char *str_uri, gboolean only_
 		g_message ("cal_client_open_calendar(): could not create the listener");
 		return FALSE;
 	}
+
+	bonobo_object_add_interface (BONOBO_OBJECT (priv->listener),
+				     BONOBO_OBJECT (priv->w_client));
 
 	corba_listener = (GNOME_Evolution_Calendar_Listener) bonobo_object_corba_objref (
 		BONOBO_OBJECT (priv->listener));
@@ -1018,37 +1021,51 @@ cal_client_get_objects_in_range (CalClient *client, CalObjType type, time_t star
  *
  * Gets free/busy information from the calendar server
  */
-GList *
-cal_client_get_free_busy (CalClient *client, time_t start, time_t end)
+CalClientGetStatus
+cal_client_get_free_busy (CalClient *client, time_t start, time_t end, CalComponent **comp)
 {
 	CalClientPrivate *priv;
 	CORBA_Environment ev;
-	GNOME_Evolution_Calendar_CalObjUIDSeq *seq;
-	GList *uids;
+	CORBA_char *calobj;
+	icalcomponent *icalcomp;
 
-	g_return_val_if_fail (client != NULL, NULL);
-	g_return_val_if_fail (IS_CAL_CLIENT (client), NULL);
+	g_return_val_if_fail (client != NULL, CAL_CLIENT_GET_NOT_FOUND);
+	g_return_val_if_fail (IS_CAL_CLIENT (client), CAL_CLIENT_GET_NOT_FOUND);
 
 	priv = client->priv;
-	g_return_val_if_fail (priv->load_state == CAL_CLIENT_LOAD_LOADED, NULL);
+	g_return_val_if_fail (priv->load_state == CAL_CLIENT_LOAD_LOADED, CAL_CLIENT_GET_NOT_FOUND);
 
-	g_return_val_if_fail (start != -1 && end != -1, NULL);
-	g_return_val_if_fail (start <= end, NULL);
+	g_return_val_if_fail (start != -1 && end != -1, CAL_CLIENT_GET_NOT_FOUND);
+	g_return_val_if_fail (start <= end, CAL_CLIENT_GET_NOT_FOUND);
+	g_return_val_if_fail (comp != NULL, CAL_CLIENT_GET_NOT_FOUND);
+
+	*comp = NULL;
 
 	CORBA_exception_init (&ev);
 
-	seq = GNOME_Evolution_Calendar_Cal_getFreeBusy (priv->cal, start, end, &ev);
+	calobj = GNOME_Evolution_Calendar_Cal_getFreeBusy (priv->cal, start, end, &ev);
 	if (ev._major != CORBA_NO_EXCEPTION) {
 		g_message ("cal_client_get_free_busy(): could not get the objects");
 		CORBA_exception_free (&ev);
-		return NULL;
+		return CAL_CLIENT_GET_NOT_FOUND;
 	}
 	CORBA_exception_free (&ev);
 
-	uids = build_uid_list (seq);
-	CORBA_free (seq);
+	icalcomp = icalparser_parse_string (calobj);
+	CORBA_free (calobj);
+	if (!icalcomp) {
+		return CAL_CLIENT_GET_SYNTAX_ERROR;
+	}
 
-	return uids;
+	*comp = cal_component_new ();
+	if (!cal_component_set_icalcomponent (*comp, icalcomp)) {
+		icalcomponent_free (icalcomp);
+		gtk_object_unref (GTK_OBJECT (*comp));
+		*comp = NULL;
+		return CAL_CLIENT_GET_SYNTAX_ERROR;
+	}
+
+	return CAL_CLIENT_GET_SUCCESS;
 }
 
 /* Callback used when an object is updated and we must update the copy we have */

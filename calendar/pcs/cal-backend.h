@@ -88,7 +88,7 @@ struct _CalBackendClass {
 
 	GList *(* get_objects_in_range) (CalBackend *backend, CalObjType type,
 					 time_t start, time_t end);
-	GList *(* get_free_busy) (CalBackend *backend, time_t start, time_t end);
+	char *(* get_free_busy) (CalBackend *backend, time_t start, time_t end);
 
 	/* Change related virtual methods */
 	GNOME_Evolution_Calendar_CalObjChangeSeq * (* get_changes) (
@@ -126,7 +126,7 @@ GList *cal_backend_get_uids (CalBackend *backend, CalObjType type);
 GList *cal_backend_get_objects_in_range (CalBackend *backend, CalObjType type,
 					 time_t start, time_t end);
 
-GList *cal_backend_get_free_busy (CalBackend *backend, time_t start, time_t end);
+char *cal_backend_get_free_busy (CalBackend *backend, time_t start, time_t end);
 
 GNOME_Evolution_Calendar_CalObjChangeSeq * cal_backend_get_changes (
 	CalBackend *backend, CalObjType type, const char *change_id);

@@ -1,3 +1,25 @@
+2001-06-22  Rodrigo Moya <rodrigo@ximian.com>
+
+	* idl/evolution-calendar.idl: changed getFreeBusy method to return
+	a CalObj instead of a sequence
+
+	* cal-client/cal-client.[ch] (cal_client_get_free_busy): changed it to
+	work like the cal_client_get_object function, that is, it does not
+	return anymore a list of UIDs, but a CalClientGetStatus code, and
+	added a new parameter for the caller to get the component back when
+	this function returns
+	(cal_client_open): aggregate WombatClient interface to the CalListener
+	being used
+
+	* pcs/cal-backend-db.c, pcs/cal-backend-file.c (..get_free_busy): set
+	return value to "char *" as it will be returning a FreeBusy object,
+	and not a list of UIDs
+
+	* pcs/cal-backend.[ch] (cal_backend_get_free_busy): ditto
+
+	* pcs/cal.c (cal_construct): queryInterface on the listener to obtain
+	the WombatClient interface
+
 2001-06-21  JP Rosevear  <jpr@ximian.com>
 
 	* gui/main.c (main): update to new call
