@@ -14921,8 +14921,8 @@ msgstr[1] "%d spams"
 #, c-format
 msgid "%d draft"
 msgid_plural "%d drafts"
-msgstr[0] "%d jour"
-msgstr[1] "%d jours"
+msgstr[0] "%d brouillon"
+msgstr[1] "%d brouillons"
 
 #: mail/mail-component.c:491
 #, c-format
