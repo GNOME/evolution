@@ -1,3 +1,8 @@
+2000-08-17  Peter Williams  <peterw@helixcode.com>
+
+	* folder-browser-factory.c (control_activate): Fix menu item names.
+	(register_ondemand): Put the ondemand hooks into the new folder menu.
+
 2000-08-17  Ettore Perazzoli  <ettore@helixcode.com>
 
 	* mail-vfolder.c (vfolder_gui_add_rule): Use stock OK/Cancel

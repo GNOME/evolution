@@ -63,10 +63,10 @@ register_ondemand (RuleContext *f, FilterRule *rule, gpointer data)
 	oc = g_new (struct fb_ondemand_closure, 1);
 	oc->rule = rule;
 	oc->fb = fb;
-	oc->path = g_strdup_printf ("/Actions/Filter-%s", rule->name);
+	oc->path = g_strdup_printf ("/<Component Placeholder>/Folder/Filter-%s", rule->name);
 
 	if (fb->filter_menu_paths == NULL)
-		bonobo_ui_handler_menu_new_separator (uih, "/Actions/separator2", -1);
+		bonobo_ui_handler_menu_new_separator (uih, "/<Component Placeholder>/Folder/separator1", -1);
 
 	text = g_strdup_printf (_("Run filter \"%s\""), rule->name);
 	fb->filter_menu_paths = g_slist_prepend (fb->filter_menu_paths, oc);
@@ -148,6 +148,12 @@ control_activate (BonoboControl *control, BonoboUIHandler *uih,
 					    BONOBO_UI_HANDLER_PIXMAP_NONE, NULL,
 					    0, 0);
 
+	bonobo_ui_handler_menu_new_item (uih, "/<Component Placeholder>/Folder/Mark all as Read",
+					 _("_Mark all as Read"),
+					 NULL, -1,
+					 BONOBO_UI_HANDLER_PIXMAP_NONE, NULL,
+					 0, 0, mark_all_seen, folder_browser);
+
 	bonobo_ui_handler_menu_new_item (uih, "/<Component Placeholder>/Folder/Expunge",
 					 _("_Expunge"),
 					 NULL, -1,
@@ -155,7 +161,7 @@ control_activate (BonoboControl *control, BonoboUIHandler *uih,
 					 GNOME_STOCK_MENU_TRASH,
 					 0, 0, expunge_folder, folder_browser);
 
-	bonobo_ui_handler_menu_new_item (uih, "<Component Placeholder>/Folder/Configure Folder",
+	bonobo_ui_handler_menu_new_item (uih, "/<Component Placeholder>/Folder/Configure Folder",
 					 _("_Configure Folder"),
 					 NULL, -1,
 					 BONOBO_UI_HANDLER_PIXMAP_NONE,
@@ -181,12 +187,6 @@ control_activate (BonoboControl *control, BonoboUIHandler *uih,
 					 BONOBO_UI_HANDLER_PIXMAP_STOCK,
 					 GNOME_STOCK_MENU_MAIL,
 					 0, 0, view_message, folder_browser);
-
-	bonobo_ui_handler_menu_new_item (uih, "/<Component Placeholder>/Message/Mark as Read",
-					 _("_Mark as Read"),
-					 NULL, -1,
-					 BONOBO_UI_HANDLER_PIXMAP_NONE, NULL,
-					 0, 0, mark_all_seen, folder_browser);
 
 	bonobo_ui_handler_menu_new_item (uih, "/Settings/Mail Filters ...",
 					 _("Mail _Filters ..."),
@@ -261,18 +261,18 @@ control_deactivate (BonoboControl *control,
 	bonobo_ui_handler_menu_remove (uih, "/View/Threaded");
 
 	bonobo_ui_handler_menu_remove (uih, "/<Component Placeholder>/Folder");
+	bonobo_ui_handler_menu_remove (uih, "/<Component Placeholder>/Folder/Mark all as Read");
 	bonobo_ui_handler_menu_remove (uih, "/<Component Placeholder>/Folder/Expunge");
+	bonobo_ui_handler_menu_remove (uih, "/<Component Placeholder>/Folder/Configure Folder");
 
 	bonobo_ui_handler_menu_remove (uih, "/<Component Placeholder>/Message");
 	bonobo_ui_handler_menu_remove (uih, "/<Component Placeholder>/Message/Edit");
 	bonobo_ui_handler_menu_remove (uih, "/<Component Placeholder>/Message/View");
-	bonobo_ui_handler_menu_remove (uih, "/<Component Placeholder>/Message/Mark as Read");
 
 	bonobo_ui_handler_menu_remove (uih, "/Settings/Mail Filters ...");
 	bonobo_ui_handler_menu_remove (uih, "/Settings/vFolder Editor ...");
 	bonobo_ui_handler_menu_remove (uih, "/Settings/Mail Configuration ...");
 	bonobo_ui_handler_menu_remove (uih, "/Settings/Forget Passwords");
-	bonobo_ui_handler_menu_remove (uih, "/Settings/Configure Folder");
 
 	bonobo_ui_handler_dock_remove (uih, toolbar_name);
 	g_free (toolbar_name);
