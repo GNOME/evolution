@@ -39,7 +39,7 @@
 static BonoboObjectClass *parent_class = NULL;
 
 static void (*send_cb) (EMsgComposer *, gpointer);
-static void (*postpone_cb) (EMsgComposer *, gpointer);
+static void (*save_draft_cb) (EMsgComposer *, int, gpointer);
 
 /* CORBA interface implementation.  */
 
@@ -280,8 +280,8 @@ init (EvolutionComposer *composer)
 
 	gtk_signal_connect (GTK_OBJECT (composer->composer), "send",
 			    GTK_SIGNAL_FUNC (send_cb), NULL);
-	gtk_signal_connect (GTK_OBJECT (composer->composer), "postpone",
-			    GTK_SIGNAL_FUNC (postpone_cb), NULL);
+	gtk_signal_connect (GTK_OBJECT (composer->composer), "save-draft",
+			    GTK_SIGNAL_FUNC (save_draft_cb), NULL);
 }
 
 #if 0
@@ -383,7 +383,7 @@ factory_fn (BonoboGenericFactory *factory, void *closure)
 
 void
 evolution_composer_factory_init (void (*send) (EMsgComposer *, gpointer),
-				 void (*postpone) (EMsgComposer *, gpointer))
+				 void (*save_draft) (EMsgComposer *, int, gpointer))
 {
 	if (bonobo_generic_factory_new (GNOME_EVOLUTION_MAIL_COMPOSER_FACTORY_ID,
 					factory_fn, NULL) == NULL) {
@@ -393,5 +393,5 @@ evolution_composer_factory_init (void (*send) (EMsgComposer *, gpointer),
 	}
 
 	send_cb = send;
-	postpone_cb = postpone;
+	save_draft_cb = save_draft;
 }

@@ -118,7 +118,6 @@
 
 enum {
 	SEND,
-	POSTPONE,
 	SAVE_DRAFT,
 	LAST_SIGNAL
 };
@@ -1170,8 +1169,6 @@ autosave_load_draft (const char *filename)
 		
 		gtk_signal_connect (GTK_OBJECT (composer), "send",
 				    GTK_SIGNAL_FUNC (composer_send_cb), NULL);
-		gtk_signal_connect (GTK_OBJECT (composer), "postpone",
-				    GTK_SIGNAL_FUNC (composer_postpone_cb), NULL);
 		
 		gtk_widget_show (GTK_WIDGET (composer));
 	}
@@ -1467,18 +1464,7 @@ menu_file_send_cb (BonoboUIComponent *uic,
 		   void *data,
 		   const char *path)
 {
-	if (session && camel_session_is_online (session))
-		gtk_signal_emit (GTK_OBJECT (data), signals[SEND]);
-	else
-		gtk_signal_emit (GTK_OBJECT (data), signals[POSTPONE]);
-}
-
-static void
-menu_file_send_later_cb (BonoboUIComponent *uic,
-			 void *data,
-			 const char *path)
-{
-	gtk_signal_emit (GTK_OBJECT (data), signals[POSTPONE]);
+	gtk_signal_emit (GTK_OBJECT (data), signals[SEND]);
 }
 
 static void
@@ -1742,7 +1728,6 @@ static BonoboUIVerb verbs [] = {
 	BONOBO_UI_VERB ("FileAttach",     menu_file_add_attachment_cb),
 	
 	BONOBO_UI_VERB ("FileSend",       menu_file_send_cb),
-	BONOBO_UI_VERB ("FileSendLater",  menu_file_send_later_cb),
 	
 	BONOBO_UI_VERB ("DeleteAll",  menu_edit_delete_all_cb),
 	
@@ -1755,7 +1740,6 @@ static EPixmap pixcache [] = {
 	
 /*	E_PIXMAP ("/menu/Insert/FileAttach", "buttons/add-attachment.png"), */
 	E_PIXMAP ("/commands/FileSend", "send-16.png"),
-	E_PIXMAP ("/commands/FileSendLater", "send-later-16.png"),
 	E_PIXMAP ("/commands/FileSave", "save-16.png"),
 	E_PIXMAP ("/commands/FileSaveAs", "save-as-16.png"),
 	
@@ -1971,27 +1955,6 @@ setup_ui (EMsgComposer *composer)
 					     menu_changed_charset_cb,
 					     composer);
 	g_free (default_charset);
-	
-	if (!session || !camel_session_is_online (session)) {
-		char *tooltip;
-		
-		/* Move the accelerator from Send to Send Later */
-		bonobo_ui_component_set_prop (
-			composer->uic, "/commands/FileSend",
-			"accel", NULL, NULL);
-		bonobo_ui_component_set_prop (
-			composer->uic, "/commands/FileSendLater",
-			"accel", "*Ctrl*Return", NULL);
-		
-		/* Update the FileSend tooltip to be the same as the FileSendLater tooltip... */
-		tooltip = bonobo_ui_component_get_prop (
-			composer->uic, "/commands/FileSendLater",
-			"tip", NULL);
-		bonobo_ui_component_set_prop (
-			composer->uic, "/commands/FileSend",
-			"tip", tooltip, NULL);
-		g_free (tooltip);
-	}
 	
 	/* Format -> HTML */
 	bonobo_ui_component_set_prop (
@@ -2512,14 +2475,6 @@ class_init (EMsgComposerClass *klass)
 				GTK_RUN_LAST,
 				object_class->type,
 				GTK_SIGNAL_OFFSET (EMsgComposerClass, send),
-				gtk_marshal_NONE__NONE,
-				GTK_TYPE_NONE, 0);
-	
-	signals[POSTPONE] =
-		gtk_signal_new ("postpone",
-				GTK_RUN_LAST,
-				object_class->type,
-				GTK_SIGNAL_OFFSET (EMsgComposerClass, postpone),
 				gtk_marshal_NONE__NONE,
 				GTK_TYPE_NONE, 0);
 	

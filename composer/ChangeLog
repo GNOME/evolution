@@ -1,3 +1,15 @@
+2002-07-05  Jeffrey Stedfast  <fejj@ximian.com>
+
+	* evolution-composer.c (init): Don't connect to the postpone
+	signal, but do connect to the save-draft signal.
+	(evolution_composer_factory_init): No longer takes a postpone_cb
+	argument, but does now take a save_draft_cb argument.
+
+	* e-msg-composer.c (menu_file_send_later_cb): Removed.
+	(class_init): Removed the POSTPONE signal.
+	(setup_ui): Don't need to swap the Send/SendLater tooltips and
+	accels anymore, since SendLater no longer exists.
+
 2002-06-26  Jeffrey Stedfast  <fejj@ximian.com>
 
 	* e-msg-composer.c (build_message): Use the new

@@ -61,7 +61,7 @@ void               evolution_composer_construct    (EvolutionComposer *,
 EvolutionComposer *evolution_composer_new          (void);
 
 void               evolution_composer_factory_init (void (*send) (EMsgComposer *, gpointer),
-						    void (*postpone) (EMsgComposer *, gpointer));
+						    void (*save_draft) (EMsgComposer *, int, gpointer));
 
 #ifdef __cplusplus
 }
