@@ -148,7 +148,6 @@ evolution_SOURCES =				\
 evolution_LDADD =						\
 	libeshell.la						\
 	importer/libevolution-importer.la			\
-	$(DB3_LDADD)						\
 	$(top_builddir)/widgets/misc/libemiscwidgets.a		\
 	$(top_builddir)/e-util/libeutil.la			\
 	$(EXTRA_GNOME_LIBS)					\
