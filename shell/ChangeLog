@@ -1,5 +1,10 @@
 2001-10-26  Ettore Perazzoli  <ettore@ximian.com>
 
+	* e-shell-view.c (set_current_notebook_page): Clear the folder bar
+	label to be empty.  [#12553]
+
+2001-10-26  Ettore Perazzoli  <ettore@ximian.com>
+
 	* e-shell-about-box.c (timeout_callback): Draw one more line.
 
 2001-10-26  Ettore Perazzoli  <ettore@ximian.com>

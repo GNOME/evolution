@@ -1687,6 +1687,7 @@ set_current_notebook_page (EShellView *shell_view,
 		bonobo_control_frame_control_deactivate (control_frame);
 	}
 
+	e_shell_folder_title_bar_set_folder_bar_label  (priv->folder_title_bar, "");
 	gtk_notebook_set_page (notebook, page_num);
 
 	if (page_num == -1 || page_num == 0)
