@@ -67,7 +67,6 @@
 
 2001-09-05  Ettore Perazzoli  <ettore@ximian.com>
 
->>>>>>> 1.1649
 	* message-browser.c (message_browser_new): s/Evolution/Ximian
 	Evolution/.
 
