@@ -1,0 +1,21 @@
+2003-08-20  Bolian Yin <bolian.yin@sun.com>
+	setup the a11y directory for evolution accessibility work
+	New files are:
+		ChangeLog
+		ea-factory.h
+		Makefile.am
+		calendar/ea-calendar.c
+		calendar/ea-calendar.h
+		calendar/ea-calendar-helpers.c
+		calendar/ea-calendar-helpers.h
+		calendar/ea-cal-view.c
+		calendar/ea-cal-view.h
+		calendar/ea-cal-view-event.c
+		calendar/ea-cal-view-event.h
+		calendar/ea-day-view.c
+		calendar/ea-day-view.h
+		calendar/ea-week-view.c
+		calendar/ea-week-view.h
+		calendar/ea-gnome-calendar.c
+		calendar/ea-gnome-calendar.h
+		calendar/Makefile.am
