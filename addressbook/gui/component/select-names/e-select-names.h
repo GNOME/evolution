@@ -73,6 +73,7 @@ struct _ESelectNames
 	GtkWidget *categories;
 	GtkWidget *categories_entry;
 	GtkWidget *search_entry;
+	GtkWidget *status_message;
 	EvolutionStorageListener *local_listener;
 	EvolutionStorageListener *other_contacts_listener;
 	GHashTable *folders;
