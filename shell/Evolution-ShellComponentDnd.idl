@@ -1,9 +1,10 @@
 /* -*- Mode: IDL; tab-width: 8; indent-tabs-mode: t; c-basic-offset: 8 -*- */
 /*
- * Interface for the Evolution components.
+ * Interface for the Evolution components that want to support Drag and Drop
+ * operations on their folders.
  *
  * Authors:
- *   Ettore Perazzoli <ettore@helixcode.com>
+ *   Ettore Perazzoli <ettore@ximian.com>
  *
  * Copyright (C) 2001 Ximian, Inc.
  */
