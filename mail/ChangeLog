@@ -1,3 +1,12 @@
+2001-10-09  Larry Ewing  <lewing@ximian.com>
+
+	* mail-display.c (save_part): ref the part.
+	(save_destroy_cb): new function to unref the part when we have
+	closed the dialog.
+	(save_url): fake a mime part so that we can save data urls without
+	extra effort.  This is less sucky than it seems since it handles
+	filenames and ref counting with minimal fuss.
+
 2001-10-09    <NotZed@Ximian.com>
 
 	* mail-folder-cache.c (folder_changed): Ref folder so it hangs

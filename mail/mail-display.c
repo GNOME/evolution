@@ -173,6 +173,12 @@ save_data_cb (GtkWidget *widget, gpointer user_data)
 	gtk_widget_destroy (GTK_WIDGET (file_select));
 }
 
+static void
+save_destroy_cb (GtkWidget *widget, CamelMimePart *part) 
+{
+	camel_object_unref (CAMEL_OBJECT (part));
+}
+
 static gboolean
 idle_redisplay (gpointer data)
 {
@@ -193,6 +199,17 @@ mail_display_queue_redisplay (MailDisplay *md)
 }
 
 static void
+mail_display_jump_to_anchor (MailDisplay *md, const char *url)
+{
+	char *anchor = strstr (url, "#");
+	
+	g_return_if_fail (anchor != NULL);
+
+	if (anchor)
+		gtk_html_jump_to_anchor (md->html, anchor + 1);
+}
+
+static void
 on_link_clicked (GtkHTML *html, const char *url, MailDisplay *md)
 {
 	if (!g_strncasecmp (url, "news:", 5) ||
@@ -204,7 +221,9 @@ on_link_clicked (GtkHTML *html, const char *url, MailDisplay *md)
 		g_datalist_set_data (md->data, "show_pgp",
 				     GINT_TO_POINTER (1));
 		mail_display_queue_redisplay (md);
-	} else
+	} else if (*url == '#')
+		mail_display_jump_to_anchor (md, url);
+	else
 		gnome_url_show (url);
 }
 
@@ -213,6 +232,9 @@ save_part (CamelMimePart *part)
 {
 	GtkFileSelection *file_select;
 	char *filename;
+	
+	g_return_if_fail (part != NULL);
+	camel_object_ref (CAMEL_OBJECT (part));
 	
 	if (save_pathname == NULL)
 		save_pathname = g_strdup (g_get_home_dir ());
@@ -233,6 +255,9 @@ save_part (CamelMimePart *part)
 				   GTK_SIGNAL_FUNC (gtk_widget_destroy),
 				   GTK_OBJECT (file_select));
 	
+	gtk_signal_connect (GTK_OBJECT (file_select), "destroy",
+			    GTK_SIGNAL_FUNC (save_destroy_cb), part);
+
 	gtk_widget_show (GTK_WIDGET (file_select));
 }
 
@@ -694,6 +719,39 @@ save_url (MailDisplay *md, const char *url)
 	g_return_val_if_fail (urls != NULL, NULL);
 
 	part = g_hash_table_lookup (urls, url);
+	if (part == NULL) {
+		GByteArray *ba;
+
+		urls = g_datalist_get_data (md->data, "data_urls");
+		g_return_val_if_fail (urls != NULL, NULL);
+
+		/* See if it's some piece of cached data if it is then pretend it
+		 * is a mime part so that we can use the mime part saveing routines.
+		 * It is gross but it keeps duplicated code to a minimum and helps
+		 * out with ref counting and the like.
+		 */
+		ba = g_hash_table_lookup (urls, url);
+		if (ba) {
+			CamelStream *memstream;
+			CamelDataWrapper *wrapper;
+			const char *name;
+			
+			name = strrchr (url, '/');
+			name = name ? name : url;
+
+			memstream = camel_stream_mem_new_with_byte_array (ba);			
+			wrapper = camel_data_wrapper_new ();
+			camel_data_wrapper_construct_from_stream (wrapper, memstream);
+			camel_object_unref (CAMEL_OBJECT (memstream));
+			part = camel_mime_part_new ();
+			camel_medium_set_content_object (CAMEL_MEDIUM (part), wrapper);
+			camel_object_unref (CAMEL_OBJECT (wrapper));
+			camel_mime_part_set_filename (part, name);
+		}
+	} else {
+		camel_object_ref (CAMEL_OBJECT (part));
+	}
+
 	if (part) {
 		CamelDataWrapper *data;
 
@@ -705,20 +763,11 @@ save_url (MailDisplay *md, const char *url)
 		}
 
 		save_part (part);
+		camel_object_unref (CAMEL_OBJECT (part));
 		return NULL;
 	}
 	
 	g_warning ("part not found");
-#if 0
-	urls = g_datalist_get_data (md->data, "data_urls");
-	g_return_val_if_fail (urls != NULL, NULL);
-
-	/* See if it's some piece of cached data */
-	ba = g_hash_table_lookup (urls, url);
-	if (ba) {
-		return ba;
-	}
-#endif
 	return NULL;
 }
 
