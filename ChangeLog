@@ -1,3 +1,8 @@
+2001-10-22  JP Rosevear  <jpr@ximian.com>
+
+	* data/Makefile.am: include destdir in the path of the kde desktop
+	installation dir
+
 2001-10-20  Ettore Perazzoli  <ettore@ximian.com>
 
 	* data/Makefile.am [HAVE_KDE_APPLNK]: Install `evolution.desktop'
