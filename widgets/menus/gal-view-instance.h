@@ -31,13 +31,13 @@
 G_BEGIN_DECLS
 
 #define GAL_VIEW_INSTANCE_TYPE        (gal_view_instance_get_type ())
-#define GAL_VIEW_INSTANCE(o)          (GTK_CHECK_CAST ((o), GAL_VIEW_INSTANCE_TYPE, GalViewInstance))
-#define GAL_VIEW_INSTANCE_CLASS(k)    (GTK_CHECK_CLASS_CAST((k), GAL_VIEW_INSTANCE_TYPE, GalViewInstanceClass))
-#define GAL_IS_VIEW_INSTANCE(o)       (GTK_CHECK_TYPE ((o), GAL_VIEW_INSTANCE_TYPE))
-#define GAL_IS_VIEW_INSTANCE_CLASS(k) (GTK_CHECK_CLASS_TYPE ((k), GAL_VIEW_INSTANCE_TYPE))
+#define GAL_VIEW_INSTANCE(o)          (G_TYPE_CHECK_INSTANCE_CAST ((o), GAL_VIEW_INSTANCE_TYPE, GalViewInstance))
+#define GAL_VIEW_INSTANCE_CLASS(k)    (G_TYPE_CHECK_CLASS_CAST((k), GAL_VIEW_INSTANCE_TYPE, GalViewInstanceClass))
+#define GAL_IS_VIEW_INSTANCE(o)       (G_TYPE_CHECK_INSTANCE_TYPE ((o), GAL_VIEW_INSTANCE_TYPE))
+#define GAL_IS_VIEW_INSTANCE_CLASS(k) (G_TYPE_CHECK_CLASS_TYPE ((k), GAL_VIEW_INSTANCE_TYPE))
 
 typedef struct {
-	GtkObject base;
+	GObject base;
 
 	GalViewCollection *collection;
 
@@ -59,7 +59,7 @@ typedef struct {
 } GalViewInstance;
 
 typedef struct {
-	GtkObjectClass parent_class;
+	GObjectClass parent_class;
 
 	/*
 	 * Signals
@@ -70,7 +70,7 @@ typedef struct {
 } GalViewInstanceClass;
 
 /* Standard functions */
-GtkType          gal_view_instance_get_type             (void);
+GType            gal_view_instance_get_type             (void);
 
 /* */
 /*collection should be loaded when you call this.

@@ -33,10 +33,11 @@ extern "C" {
 #endif /* __cplusplus */
 
 #define GAL_VIEW_FACTORY_ETABLE_TYPE        (gal_view_factory_etable_get_type ())
-#define GAL_VIEW_FACTORY_ETABLE(o)          (GTK_CHECK_CAST ((o), GAL_VIEW_FACTORY_ETABLE_TYPE, GalViewFactoryEtable))
-#define GAL_VIEW_FACTORY_ETABLE_CLASS(k)    (GTK_CHECK_CLASS_CAST((k), GAL_VIEW_FACTORY_ETABLE_TYPE, GalViewFactoryEtableClass))
-#define GAL_IS_VIEW_FACTORY_ETABLE(o)       (GTK_CHECK_TYPE ((o), GAL_VIEW_FACTORY_ETABLE_TYPE))
-#define GAL_IS_VIEW_FACTORY_ETABLE_CLASS(k) (GTK_CHECK_CLASS_TYPE ((k), GAL_VIEW_FACTORY_ETABLE_TYPE))
+#define GAL_VIEW_FACTORY_ETABLE(o)          (G_TYPE_CHECK_INSTANCE_CAST ((o), GAL_VIEW_FACTORY_ETABLE_TYPE, GalViewFactoryEtable))
+#define GAL_VIEW_FACTORY_ETABLE_CLASS(k)    (G_TYPE_CHECK_CLASS_CAST((k), GAL_VIEW_FACTORY_ETABLE_TYPE, GalViewFactoryEtableClass))
+#define GAL_IS_VIEW_FACTORY_ETABLE(o)       (G_TYPE_CHECK_INSTANCE_TYPE ((o), GAL_VIEW_FACTORY_ETABLE_TYPE))
+#define GAL_IS_VIEW_FACTORY_ETABLE_CLASS(k) (G_TYPE_CHECK_CLASS_TYPE ((k), GAL_VIEW_FACTORY_ETABLE_TYPE))
+#define GAL_VIEW_FACTORY_ETABLE_GET_CLASS(o) (G_TYPE_INSTANCE_GET_CLASS ((o), GAL_VIEW_FACTORY_ETABLE_TYPE, GalViewFactoryEtableClass))
 
 typedef struct {
 	GalViewFactory base;
@@ -49,7 +50,7 @@ typedef struct {
 } GalViewFactoryEtableClass;
 
 /* Standard functions */
-GtkType         gal_view_factory_etable_get_type   (void);
+GType           gal_view_factory_etable_get_type   (void);
 GalViewFactory *gal_view_factory_etable_new        (ETableSpecification  *spec);
 GalViewFactory *gal_view_factory_etable_construct  (GalViewFactoryEtable *factory,
 						    ETableSpecification  *spec);

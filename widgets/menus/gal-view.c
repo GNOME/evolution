@@ -22,20 +22,17 @@
  */
 
 #include <config.h>
-#include <gtk/gtksignal.h>
 #include "gal-view.h"
 #include "gal/util/e-util.h"
 
-#define GV_CLASS(e) ((GalViewClass *)(GTK_OBJECT_GET_CLASS (e)))
-
-#define PARENT_TYPE gtk_object_get_type ()
+#define PARENT_TYPE G_TYPE_OBJECT
 
 #define d(x)
 
 d(static gint depth = 0;)
 
 
-static GtkObjectClass *gal_view_parent_class;
+static GObjectClass *gal_view_parent_class;
 
 enum {
 	CHANGED,
@@ -54,8 +51,8 @@ gal_view_edit            (GalView *view)
 	g_return_if_fail (view != NULL);
 	g_return_if_fail (GAL_IS_VIEW (view));
 
-	if (GV_CLASS (view)->edit)
-		GV_CLASS (view)->edit (view);
+	if (GAL_VIEW_GET_CLASS (view)->edit)
+		GAL_VIEW_GET_CLASS (view)->edit (view);
 }
 
 /**
@@ -70,8 +67,8 @@ gal_view_load  (GalView *view,
 	g_return_if_fail (view != NULL);
 	g_return_if_fail (GAL_IS_VIEW (view));
 
-	if (GV_CLASS (view)->load)
-		GV_CLASS (view)->load (view, filename);
+	if (GAL_VIEW_GET_CLASS (view)->load)
+		GAL_VIEW_GET_CLASS (view)->load (view, filename);
 }
 
 /**
@@ -86,8 +83,8 @@ gal_view_save    (GalView *view,
 	g_return_if_fail (view != NULL);
 	g_return_if_fail (GAL_IS_VIEW (view));
 
-	if (GV_CLASS (view)->save)
-		GV_CLASS (view)->save (view, filename);
+	if (GAL_VIEW_GET_CLASS (view)->save)
+		GAL_VIEW_GET_CLASS (view)->save (view, filename);
 }
 
 /**
@@ -102,8 +99,8 @@ gal_view_get_title       (GalView *view)
 	g_return_val_if_fail (view != NULL, NULL);
 	g_return_val_if_fail (GAL_IS_VIEW (view), NULL);
 
-	if (GV_CLASS (view)->get_title)
-		return GV_CLASS (view)->get_title (view);
+	if (GAL_VIEW_GET_CLASS (view)->get_title)
+		return GAL_VIEW_GET_CLASS (view)->get_title (view);
 	else
 		return NULL;
 }
@@ -120,8 +117,8 @@ gal_view_set_title       (GalView *view,
 	g_return_if_fail (view != NULL);
 	g_return_if_fail (GAL_IS_VIEW (view));
 
-	if (GV_CLASS (view)->set_title)
-		GV_CLASS (view)->set_title (view, title);
+	if (GAL_VIEW_GET_CLASS (view)->set_title)
+		GAL_VIEW_GET_CLASS (view)->set_title (view, title);
 }
 
 /**
@@ -136,8 +133,8 @@ gal_view_get_type_code (GalView *view)
 	g_return_val_if_fail (view != NULL, NULL);
 	g_return_val_if_fail (GAL_IS_VIEW (view), NULL);
 
-	if (GV_CLASS (view)->get_type_code)
-		return GV_CLASS (view)->get_type_code (view);
+	if (GAL_VIEW_GET_CLASS (view)->get_type_code)
+		return GAL_VIEW_GET_CLASS (view)->get_type_code (view);
 	else
 		return NULL;
 }
@@ -154,8 +151,8 @@ gal_view_clone       (GalView *view)
 	g_return_val_if_fail (view != NULL, NULL);
 	g_return_val_if_fail (GAL_IS_VIEW (view), NULL);
 
-	if (GV_CLASS (view)->clone)
-		return GV_CLASS (view)->clone (view);
+	if (GAL_VIEW_GET_CLASS (view)->clone)
+		return GAL_VIEW_GET_CLASS (view)->clone (view);
 	else
 		return NULL;
 }
@@ -170,15 +167,15 @@ gal_view_changed       (GalView *view)
 	g_return_if_fail (view != NULL);
 	g_return_if_fail (GAL_IS_VIEW (view));
 
-	gtk_signal_emit(GTK_OBJECT(view),
-			 gal_view_signals [CHANGED]);
+	g_signal_emit(view,
+		      gal_view_signals [CHANGED], 0);
 }
 
 static void
-gal_view_class_init      (GtkObjectClass *object_class)
+gal_view_class_init      (GObjectClass *object_class)
 {
 	GalViewClass *klass   = GAL_VIEW_CLASS(object_class);
-	gal_view_parent_class = gtk_type_class (PARENT_TYPE);
+	gal_view_parent_class = g_type_class_ref (PARENT_TYPE);
 	
 	klass->edit           = NULL;     
 	klass->load           = NULL;     
@@ -189,37 +186,18 @@ gal_view_class_init      (GtkObjectClass *object_class)
 	klass->changed        = NULL;
 
 	gal_view_signals [CHANGED] =
-		gtk_signal_new ("changed",
-				GTK_RUN_LAST,
-				E_OBJECT_CLASS_TYPE (object_class),
-				GTK_SIGNAL_OFFSET (GalViewClass, changed),
-				gtk_marshal_NONE__NONE,
-				GTK_TYPE_NONE, 0);
-
-	E_OBJECT_CLASS_ADD_SIGNALS (object_class, gal_view_signals, LAST_SIGNAL);
+		g_signal_new ("changed",
+			      G_OBJECT_CLASS_TYPE (object_class),
+			      G_SIGNAL_RUN_LAST,
+			      G_STRUCT_OFFSET (GalViewClass, changed),
+			      NULL, NULL,
+			      g_cclosure_marshal_VOID__VOID,
+			      G_TYPE_NONE, 0);
 }
 
-GtkType
-gal_view_get_type        (void)
+static void
+gal_view_init      (GalView *view)
 {
-	static guint type = 0;
-	
-	if (!type)
-	{
-		GtkTypeInfo info =
-		{
-			"GalView",
-			sizeof (GalView),
-			sizeof (GalViewClass),
-			(GtkClassInitFunc) gal_view_class_init,
-			NULL,
-			/* reserved_1 */ NULL,
-			/* reserved_2 */ NULL,
-			(GtkClassInitFunc) NULL,
-		};
-		
-		type = gtk_type_unique (PARENT_TYPE, &info);
-	}
-
-	return type;
 }
+
+E_MAKE_TYPE(gal_view, "GalView", GalView, gal_view_class_init, gal_view_init, PARENT_TYPE)

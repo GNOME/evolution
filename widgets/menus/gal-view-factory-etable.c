@@ -23,10 +23,9 @@
 
 #include <config.h>
 #include "gal/util/e-i18n.h"
+#include "gal/util/e-util.h"
 #include "gal-view-factory-etable.h"
 #include "gal-view-etable.h"
-
-#define GVFE_CLASS(e) ((GalViewFactoryEtableClass *)((GtkObject *)e)->klass)
 
 #define PARENT_TYPE gal_view_factory_get_type ()
 
@@ -52,29 +51,29 @@ gal_view_factory_etable_get_type_code (GalViewFactory *factory)
 }
 
 static void
-gal_view_factory_etable_destroy         (GtkObject *object)
+gal_view_factory_etable_dispose         (GObject *object)
 {
 	GalViewFactoryEtable *factory = GAL_VIEW_FACTORY_ETABLE(object);
 
 	if (factory->spec)
-		gtk_object_unref(GTK_OBJECT(factory->spec));
+		g_object_unref(factory->spec);
 	factory->spec = NULL;
 
-	if (GTK_OBJECT_CLASS (gal_view_factory_etable_parent_class)->destroy)
-		(* GTK_OBJECT_CLASS (gal_view_factory_etable_parent_class)->destroy) (object);
+	if (G_OBJECT_CLASS (gal_view_factory_etable_parent_class)->dispose)
+		(* G_OBJECT_CLASS (gal_view_factory_etable_parent_class)->dispose) (object);
 }
 
 static void
-gal_view_factory_etable_class_init      (GtkObjectClass *object_class)
+gal_view_factory_etable_class_init      (GObjectClass *object_class)
 {
 	GalViewFactoryClass *view_factory_class = GAL_VIEW_FACTORY_CLASS(object_class);
-	gal_view_factory_etable_parent_class    = gtk_type_class (PARENT_TYPE);
+	gal_view_factory_etable_parent_class    = g_type_class_ref (PARENT_TYPE);
 
 	view_factory_class->get_title           = gal_view_factory_etable_get_title;
 	view_factory_class->new_view            = gal_view_factory_etable_new_view;
 	view_factory_class->get_type_code       = gal_view_factory_etable_get_type_code;
 
-	object_class->destroy                   = gal_view_factory_etable_destroy;
+	object_class->dispose                   = gal_view_factory_etable_dispose;
 }
 
 static void
@@ -95,7 +94,7 @@ gal_view_factory_etable_init            (GalViewFactoryEtable *factory)
 GalViewFactory *
 gal_view_factory_etable_new        (ETableSpecification  *spec)
 {
-	return gal_view_factory_etable_construct (gtk_type_new (gal_view_factory_etable_get_type ()), spec);
+	return gal_view_factory_etable_construct (g_object_new (GAL_VIEW_FACTORY_ETABLE_TYPE, NULL), spec);
 }
 
 /**
@@ -113,32 +112,9 @@ gal_view_factory_etable_construct  (GalViewFactoryEtable *factory,
 				    ETableSpecification  *spec)
 {
 	if (spec)
-		gtk_object_ref(GTK_OBJECT(spec));
+		g_object_ref(spec);
 	factory->spec = spec;
 	return GAL_VIEW_FACTORY(factory);
 }
 
-GtkType
-gal_view_factory_etable_get_type  (void)
-{
-	static guint type = 0;
-	
-	if (!type)
-	{
-		GtkTypeInfo info =
-		{
-			"GalViewFactoryEtable",
-			sizeof (GalViewFactoryEtable),
-			sizeof (GalViewFactoryEtableClass),
-			(GtkClassInitFunc) gal_view_factory_etable_class_init,
-			(GtkObjectInitFunc) gal_view_factory_etable_init,
-			/* reserved_1 */ NULL,
-			/* reserved_2 */ NULL,
-			(GtkClassInitFunc) NULL,
-		};
-		
-		type = gtk_type_unique (PARENT_TYPE, &info);
-	}
-
-	return type;
-}
+E_MAKE_TYPE(gal_view_factory_etable, "GalViewFactoryEtable", GalViewFactoryEtable, gal_view_factory_etable_class_init, gal_view_factory_etable_init, PARENT_TYPE)

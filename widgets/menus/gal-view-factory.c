@@ -23,16 +23,15 @@
 
 #include <config.h>
 #include "gal-view-factory.h"
+#include "gal/util/e-util.h"
 
-#define GVF_CLASS(e) ((GalViewFactoryClass *)(GTK_OBJECT_GET_CLASS (e)))
-
-#define PARENT_TYPE gtk_object_get_type ()
+#define PARENT_TYPE G_TYPE_OBJECT
 
 #define d(x)
 
 d(static gint depth = 0;)
 
-static GtkObjectClass *gal_view_factory_parent_class;
+static GObjectClass *gal_view_factory_parent_class;
 
 /**
  * gal_view_factory_get_title:
@@ -46,8 +45,8 @@ gal_view_factory_get_title (GalViewFactory *factory)
 	g_return_val_if_fail (factory != NULL, 0);
 	g_return_val_if_fail (GAL_IS_VIEW_FACTORY (factory), 0);
 
-	if (GVF_CLASS (factory)->get_title)
-		return GVF_CLASS (factory)->get_title (factory);
+	if (GAL_VIEW_FACTORY_GET_CLASS (factory)->get_title)
+		return GAL_VIEW_FACTORY_GET_CLASS (factory)->get_title (factory);
 	else
 		return NULL;
 }
@@ -66,8 +65,8 @@ gal_view_factory_new_view        (GalViewFactory *factory,
 	g_return_val_if_fail (factory != NULL, NULL);
 	g_return_val_if_fail (GAL_IS_VIEW_FACTORY (factory), NULL);
 
-	if (GVF_CLASS (factory)->new_view)
-		return GVF_CLASS (factory)->new_view (factory, name);
+	if (GAL_VIEW_FACTORY_GET_CLASS (factory)->new_view)
+		return GAL_VIEW_FACTORY_GET_CLASS (factory)->new_view (factory, name);
 	else
 		return NULL;
 }
@@ -84,43 +83,25 @@ gal_view_factory_get_type_code (GalViewFactory *factory)
 	g_return_val_if_fail (factory != NULL, NULL);
 	g_return_val_if_fail (GAL_IS_VIEW_FACTORY (factory), NULL);
 
-	if (GVF_CLASS (factory)->get_type_code)
-		return GVF_CLASS (factory)->get_type_code (factory);
+	if (GAL_VIEW_FACTORY_GET_CLASS (factory)->get_type_code)
+		return GAL_VIEW_FACTORY_GET_CLASS (factory)->get_type_code (factory);
 	else
 		return NULL;
 }
 
 static void
-gal_view_factory_class_init      (GtkObjectClass *object_class)
+gal_view_factory_class_init      (GObjectClass *object_class)
 {
 	GalViewFactoryClass *klass = GAL_VIEW_FACTORY_CLASS(object_class);
-	gal_view_factory_parent_class = gtk_type_class (PARENT_TYPE);
+	gal_view_factory_parent_class = g_type_class_ref (PARENT_TYPE);
 	
 	klass->get_title = NULL;     
 	klass->new_view  = NULL;     
 }
 
-GtkType
-gal_view_factory_get_type        (void)
+static void
+gal_view_factory_init      (GalViewFactory *factory)
 {
-	static guint type = 0;
-	
-	if (!type)
-	{
-		GtkTypeInfo info =
-		{
-			"GalViewFactory",
-			sizeof (GalViewFactory),
-			sizeof (GalViewFactoryClass),
-			(GtkClassInitFunc) gal_view_factory_class_init,
-			NULL,
-			/* reserved_1 */ NULL,
-			/* reserved_2 */ NULL,
-			(GtkClassInitFunc) NULL,
-		};
-		
-		type = gtk_type_unique (PARENT_TYPE, &info);
-	}
-
-	return type;
 }
+
+E_MAKE_TYPE(gal_view_factory, "GalViewFactory", GalViewFactory, gal_view_factory_class_init, gal_view_factory_init, PARENT_TYPE)

@@ -22,7 +22,6 @@
  */
 
 #include <config.h>
-#include <gtk/gtksignal.h>
 #include "gal-view-etable.h"
 #include <gal/e-table/e-table-config.h>
 
@@ -36,11 +35,11 @@ detach_table (GalViewEtable *view)
 	if (view->table == NULL)
 		return;
 	if (view->table_state_changed_id) {
-		gtk_signal_disconnect (GTK_OBJECT (view->table),
-				       view->table_state_changed_id);
+		g_signal_handler_disconnect (view->table,
+					     view->table_state_changed_id);
 		view->table_state_changed_id = 0;
 	}
-	gtk_object_unref (GTK_OBJECT (view->table));
+	g_object_unref (view->table);
 	view->table = NULL;
 }
 
@@ -50,11 +49,11 @@ detach_tree (GalViewEtable *view)
 	if (view->tree == NULL)
 		return;
 	if (view->tree_state_changed_id) {
-		gtk_signal_disconnect (GTK_OBJECT (view->tree),
-				       view->tree_state_changed_id);
+		g_signal_handler_disconnect (view->tree,
+					     view->tree_state_changed_id);
 		view->tree_state_changed_id = 0;
 	}
-	gtk_object_unref (GTK_OBJECT (view->tree));
+	g_object_unref (view->tree);
 	view->tree = NULL;
 }
 
@@ -63,10 +62,10 @@ config_changed (ETableConfig *config, GalViewEtable *view)
 {
 	ETableState *state;
 	if (view->state)
-		gtk_object_unref(GTK_OBJECT(view->state));
-	gtk_object_get (GTK_OBJECT (config),
-			"state", &state,
-			NULL);
+		g_object_unref(view->state);
+	g_object_get (config,
+		      "state", &state,
+		      NULL);
 	view->state = e_table_state_duplicate(state);
 	gal_view_changed(GAL_VIEW(view));
 }
@@ -81,8 +80,8 @@ gal_view_etable_edit            (GalView *view)
 				    etable_view->spec,
 				    etable_view->state);
 
-	gtk_signal_connect(GTK_OBJECT(config), "changed",
-			   GTK_SIGNAL_FUNC(config_changed), view);
+	g_signal_connect(config, "changed",
+			 G_CALLBACK(config_changed), view);
 }
 
 static void  
@@ -126,18 +125,18 @@ gal_view_etable_clone       (GalView *view)
 
 	gve = GAL_VIEW_ETABLE(view);
 
-	new        = gtk_type_new (gal_view_etable_get_type ());
+	new        = g_object_new (GAL_VIEW_ETABLE_TYPE, NULL);
 	new->spec  = gve->spec;
 	new->title = g_strdup (gve->title);
 	new->state = e_table_state_duplicate(gve->state);
 
-	gtk_object_ref(GTK_OBJECT(new->spec));
+	g_object_ref(new->spec);
 
 	return GAL_VIEW(new);
 }
 
 static void
-gal_view_etable_destroy         (GtkObject *object)
+gal_view_etable_dispose         (GObject *object)
 {
 	GalViewEtable *view = GAL_VIEW_ETABLE(object);
 
@@ -147,22 +146,22 @@ gal_view_etable_destroy         (GtkObject *object)
 	view->title = NULL;
 
 	if (view->spec)
-		gtk_object_unref(GTK_OBJECT(view->spec));
+		g_object_unref(view->spec);
 	view->spec = NULL;
 
 	if (view->state)
-		gtk_object_unref(GTK_OBJECT(view->state));
+		g_object_unref(view->state);
 	view->state = NULL;
 
-	if (GTK_OBJECT_CLASS (gal_view_etable_parent_class)->destroy)
-		(* GTK_OBJECT_CLASS (gal_view_etable_parent_class)->destroy) (object);
+	if (G_OBJECT_CLASS (gal_view_etable_parent_class)->dispose)
+		(* G_OBJECT_CLASS (gal_view_etable_parent_class)->dispose) (object);
 }
 
 static void
-gal_view_etable_class_init      (GtkObjectClass *object_class)
+gal_view_etable_class_init      (GObjectClass *object_class)
 {
 	GalViewClass *gal_view_class  = GAL_VIEW_CLASS(object_class);
-	gal_view_etable_parent_class  = gtk_type_class (PARENT_TYPE);
+	gal_view_etable_parent_class  = g_type_class_ref (PARENT_TYPE);
 
 	gal_view_class->edit          = gal_view_etable_edit         ;
 	gal_view_class->load          = gal_view_etable_load         ;
@@ -172,7 +171,7 @@ gal_view_etable_class_init      (GtkObjectClass *object_class)
 	gal_view_class->get_type_code = gal_view_etable_get_type_code;
 	gal_view_class->clone         = gal_view_etable_clone        ;
 
-	object_class->destroy         = gal_view_etable_destroy      ;
+	object_class->dispose         = gal_view_etable_dispose      ;
 }
 
 static void
@@ -183,30 +182,7 @@ gal_view_etable_init      (GalViewEtable *gve)
 	gve->title = NULL;
 }
 
-GtkType
-gal_view_etable_get_type        (void)
-{
-	static guint type = 0;
-	
-	if (!type)
-	{
-		GtkTypeInfo info =
-		{
-			"GalViewEtable",
-			sizeof (GalViewEtable),
-			sizeof (GalViewEtableClass),
-			(GtkClassInitFunc) gal_view_etable_class_init,
-			(GtkObjectInitFunc) gal_view_etable_init,
-			/* reserved_1 */ NULL,
-			/* reserved_2 */ NULL,
-			(GtkClassInitFunc) NULL,
-		};
-		
-		type = gtk_type_unique (PARENT_TYPE, &info);
-	}
-
-	return type;
-}
+E_MAKE_TYPE(gal_view_etable, "GalViewEtable", GalViewEtable, gal_view_etable_class_init, gal_view_etable_init, PARENT_TYPE)
 
 /**
  * gal_view_etable_new
@@ -222,7 +198,7 @@ GalView *
 gal_view_etable_new (ETableSpecification *spec,
 		     const gchar *title)
 {
-	return gal_view_etable_construct (gtk_type_new (gal_view_etable_get_type ()), spec, title);
+	return gal_view_etable_construct (g_object_new (GAL_VIEW_ETABLE_TYPE, NULL), spec, title);
 }
 
 /**
@@ -242,11 +218,11 @@ gal_view_etable_construct  (GalViewEtable *view,
 			    const gchar *title)
 {
 	if (spec)
-		gtk_object_ref(GTK_OBJECT(spec));
+		g_object_ref(spec);
 	view->spec = spec;
 
 	if (view->state)
-		gtk_object_unref(GTK_OBJECT(view->state));
+		g_object_unref(view->state);
 	view->state = e_table_state_duplicate(spec->state);
 
 	view->title = g_strdup(title);
@@ -258,7 +234,7 @@ void
 gal_view_etable_set_state (GalViewEtable *view, ETableState *state)
 {
 	if (view->state)
-		gtk_object_unref(GTK_OBJECT(view->state));
+		g_object_unref(view->state);
 	view->state = e_table_state_duplicate(state);
 
 	gal_view_changed(GAL_VIEW(view));
@@ -270,7 +246,7 @@ table_state_changed (ETable *table, GalViewEtable *view)
 	ETableState *state;
 
 	state = e_table_get_state_object (table);
-	gtk_object_unref (GTK_OBJECT (view->state));
+	g_object_unref (view->state);
 	view->state = state;
 
 	gal_view_changed(GAL_VIEW(view));
@@ -282,7 +258,7 @@ tree_state_changed (ETree *tree, GalViewEtable *view)
 	ETableState *state;
 
 	state = e_tree_get_state_object (tree);
-	gtk_object_unref (GTK_OBJECT (view->state));
+	g_object_unref (view->state);
 	view->state = state;
 
 	gal_view_changed(GAL_VIEW(view));
@@ -296,10 +272,10 @@ gal_view_etable_attach_table (GalViewEtable *view, ETable *table)
 	view->table = table;
 
 	e_table_set_state_object(view->table, view->state);
-	gtk_object_ref (GTK_OBJECT (view->table));
+	g_object_ref (view->table);
 	view->table_state_changed_id =
-		gtk_signal_connect(GTK_OBJECT(view->table), "state_change",
-				   GTK_SIGNAL_FUNC (table_state_changed), view);
+		g_signal_connect(view->table, "state_change",
+				 G_CALLBACK (table_state_changed), view);
 }
 
 void
@@ -310,10 +286,10 @@ gal_view_etable_attach_tree (GalViewEtable *view, ETree *tree)
 	view->tree = tree;
 
 	e_tree_set_state_object(view->tree, view->state);
-	gtk_object_ref (GTK_OBJECT (view->tree));
+	g_object_ref (view->tree);
 	view->tree_state_changed_id =
-		gtk_signal_connect(GTK_OBJECT(view->tree), "state_change",
-				   GTK_SIGNAL_FUNC (tree_state_changed), view);
+		g_signal_connect(view->tree, "state_change",
+				 G_CALLBACK (tree_state_changed), view);
 }
 
 void

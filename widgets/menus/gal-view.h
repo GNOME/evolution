@@ -32,17 +32,18 @@ extern "C" {
 #endif /* __cplusplus */
 
 #define GAL_VIEW_TYPE        (gal_view_get_type ())
-#define GAL_VIEW(o)          (GTK_CHECK_CAST ((o), GAL_VIEW_TYPE, GalView))
-#define GAL_VIEW_CLASS(k)    (GTK_CHECK_CLASS_CAST((k), GAL_VIEW_TYPE, GalViewClass))
-#define GAL_IS_VIEW(o)       (GTK_CHECK_TYPE ((o), GAL_VIEW_TYPE))
-#define GAL_IS_VIEW_CLASS(k) (GTK_CHECK_CLASS_TYPE ((k), GAL_VIEW_TYPE))
+#define GAL_VIEW(o)          (G_TYPE_CHECK_INSTANCE_CAST ((o), GAL_VIEW_TYPE, GalView))
+#define GAL_VIEW_CLASS(k)    (G_TYPE_CHECK_CLASS_CAST((k), GAL_VIEW_TYPE, GalViewClass))
+#define GAL_IS_VIEW(o)       (G_TYPE_CHECK_INSTANCE_TYPE ((o), GAL_VIEW_TYPE))
+#define GAL_IS_VIEW_CLASS(k) (G_TYPE_CHECK_CLASS_TYPE ((k), GAL_VIEW_TYPE))
+#define GAL_VIEW_GET_CLASS(o) (G_TYPE_INSTANCE_GET_CLASS ((o), GAL_VIEW_TYPE, GalViewClass))
 
 typedef struct {
-	GtkObject base;
+	GObject base;
 } GalView;
 
 typedef struct {
-	GtkObjectClass parent_class;
+	GObjectClass parent_class;
 
 	/*
 	 * Virtual methods
@@ -63,7 +64,7 @@ typedef struct {
 } GalViewClass;
 
 /* Standard functions */
-GtkType     gal_view_get_type       (void);
+GType       gal_view_get_type       (void);
 
 /* Open an editor dialog for this view. */
 void        gal_view_edit           (GalView    *view);

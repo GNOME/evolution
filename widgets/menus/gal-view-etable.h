@@ -34,10 +34,10 @@
 G_BEGIN_DECLS
 
 #define GAL_VIEW_ETABLE_TYPE        (gal_view_etable_get_type ())
-#define GAL_VIEW_ETABLE(o)          (GTK_CHECK_CAST ((o), GAL_VIEW_ETABLE_TYPE, GalViewEtable))
-#define GAL_VIEW_ETABLE_CLASS(k)    (GTK_CHECK_CLASS_CAST((k), GAL_VIEW_ETABLE_TYPE, GalViewEtableClass))
-#define GAL_IS_VIEW_ETABLE(o)       (GTK_CHECK_TYPE ((o), GAL_VIEW_ETABLE_TYPE))
-#define GAL_IS_VIEW_ETABLE_CLASS(k) (GTK_CHECK_CLASS_TYPE ((k), GAL_VIEW_ETABLE_TYPE))
+#define GAL_VIEW_ETABLE(o)          (G_TYPE_CHECK_INSTANCE_CAST ((o), GAL_VIEW_ETABLE_TYPE, GalViewEtable))
+#define GAL_VIEW_ETABLE_CLASS(k)    (G_TYPE_CHECK_CLASS_CAST((k), GAL_VIEW_ETABLE_TYPE, GalViewEtableClass))
+#define GAL_IS_VIEW_ETABLE(o)       (G_TYPE_CHECK_INSTANCE_TYPE ((o), GAL_VIEW_ETABLE_TYPE))
+#define GAL_IS_VIEW_ETABLE_CLASS(k) (G_TYPE_CHECK_CLASS_TYPE ((k), GAL_VIEW_ETABLE_TYPE))
 
 typedef struct {
 	GalView base;
@@ -58,7 +58,7 @@ typedef struct {
 } GalViewEtableClass;
 
 /* Standard functions */
-GtkType  gal_view_etable_get_type      (void);
+GType    gal_view_etable_get_type      (void);
 GalView *gal_view_etable_new           (ETableSpecification *spec,
 					const gchar         *title);
 GalView *gal_view_etable_construct     (GalViewEtable       *view,

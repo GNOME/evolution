@@ -40,11 +40,9 @@
 #include <unistd.h>
 #include <gtk/gtkcheckmenuitem.h>
 
-#define GVI_CLASS(e) ((GalViewInstanceClass *)((GtkObject *)e)->klass)
+#define PARENT_TYPE G_TYPE_OBJECT
 
-#define PARENT_TYPE gtk_object_get_type ()
-
-static GtkObjectClass *gal_view_instance_parent_class;
+static GObjectClass *gal_view_instance_parent_class;
 
 static const EPopupMenu separator = E_POPUP_SEPARATOR;
 static const EPopupMenu terminator = E_POPUP_TERMINATOR;
@@ -66,8 +64,8 @@ gal_view_instance_changed (GalViewInstance *instance)
 	g_return_if_fail (instance != NULL);
 	g_return_if_fail (GAL_IS_VIEW_INSTANCE (instance));
 
-	gtk_signal_emit (GTK_OBJECT (instance),
-			 gal_view_instance_signals [CHANGED]);
+	g_signal_emit (instance,
+		       gal_view_instance_signals [CHANGED], 0);
 }
 
 static void
@@ -76,9 +74,9 @@ gal_view_instance_display_view (GalViewInstance *instance, GalView *view)
 	g_return_if_fail (instance != NULL);
 	g_return_if_fail (GAL_IS_VIEW_INSTANCE (instance));
 
-	gtk_signal_emit (GTK_OBJECT (instance),
-			 gal_view_instance_signals [DISPLAY_VIEW],
-			 view);
+	g_signal_emit (instance,
+		       gal_view_instance_signals [DISPLAY_VIEW], 0,
+		       view);
 }
 
 static void
@@ -118,11 +116,11 @@ disconnect_view (GalViewInstance *instance)
 {
 	if (instance->current_view) {
 		if (instance->view_changed_id) {
-			gtk_signal_disconnect (GTK_OBJECT (instance->current_view),
-					       instance->view_changed_id);
+			g_signal_handler_disconnect (instance->current_view,
+						     instance->view_changed_id);
 		}
 
-		gtk_object_unref (GTK_OBJECT (instance->current_view));
+		g_object_unref (instance->current_view);
 	}
 	g_free (instance->current_type);
 	g_free (instance->current_title);
@@ -142,23 +140,23 @@ connect_view (GalViewInstance *instance, GalView *view)
 	instance->current_title = g_strdup (gal_view_get_title(view));
 	instance->current_type = g_strdup (gal_view_get_type_code(view));
 	instance->view_changed_id =
-		gtk_signal_connect(GTK_OBJECT(instance->current_view), "changed",
-				   GTK_SIGNAL_FUNC(view_changed), instance);
+		g_signal_connect(instance->current_view, "changed",
+				 G_CALLBACK (view_changed), instance);
 
 	gal_view_instance_display_view (instance, instance->current_view);
 }
 
 static void
-gal_view_instance_destroy (GtkObject *object)
+gal_view_instance_dispose (GObject *object)
 {
 	GalViewInstance *instance = GAL_VIEW_INSTANCE(object);
 
 	if (instance->collection) {
 		if (instance->collection_changed_id) {
-			gtk_signal_disconnect (GTK_OBJECT (instance->collection),
-					       instance->collection_changed_id);
+			g_signal_handler_disconnect (instance->collection,
+						     instance->collection_changed_id);
 		}
-		gtk_object_unref (GTK_OBJECT (instance->collection));
+		g_object_unref (instance->collection);
 	}
 
 	g_free (instance->instance_id);
@@ -170,35 +168,35 @@ gal_view_instance_destroy (GtkObject *object)
 
 	g_free (instance->default_view);
 
-	if (gal_view_instance_parent_class->destroy)
-		(*gal_view_instance_parent_class->destroy)(object);
+	if (gal_view_instance_parent_class->dispose)
+		(*gal_view_instance_parent_class->dispose)(object);
 }
 
 static void
-gal_view_instance_class_init (GtkObjectClass *object_class)
+gal_view_instance_class_init (GObjectClass *object_class)
 {
 	GalViewInstanceClass *klass = GAL_VIEW_INSTANCE_CLASS(object_class);
-	gal_view_instance_parent_class = gtk_type_class (PARENT_TYPE);
+	gal_view_instance_parent_class = g_type_class_ref (PARENT_TYPE);
 	
-	object_class->destroy = gal_view_instance_destroy;
+	object_class->dispose = gal_view_instance_dispose;
 
 	gal_view_instance_signals [DISPLAY_VIEW] =
-		gtk_signal_new ("display_view",
-				GTK_RUN_LAST,
-				E_OBJECT_CLASS_TYPE (object_class),
-				GTK_SIGNAL_OFFSET (GalViewInstanceClass, display_view),
-				gtk_marshal_NONE__OBJECT,
-				GTK_TYPE_NONE, 1, GAL_VIEW_TYPE);
+		g_signal_new ("display_view",
+			      G_OBJECT_CLASS_TYPE (object_class),
+			      G_SIGNAL_RUN_LAST,
+			      G_STRUCT_OFFSET (GalViewInstanceClass, display_view),
+			      NULL, NULL,
+			      g_cclosure_marshal_VOID__OBJECT,
+			      G_TYPE_NONE, 1, GAL_VIEW_TYPE);
 
 	gal_view_instance_signals [CHANGED] =
-		gtk_signal_new ("changed",
-				GTK_RUN_LAST,
-				E_OBJECT_CLASS_TYPE (object_class),
-				GTK_SIGNAL_OFFSET (GalViewInstanceClass, changed),
-				gtk_marshal_NONE__NONE,
-				GTK_TYPE_NONE, 0);
-
-	E_OBJECT_CLASS_ADD_SIGNALS (object_class, gal_view_instance_signals, LAST_SIGNAL);
+		g_signal_new ("changed",
+			      G_OBJECT_CLASS_TYPE (object_class),
+			      G_SIGNAL_RUN_LAST,
+			      G_STRUCT_OFFSET (GalViewInstanceClass, changed),
+			      NULL, NULL,
+			      g_cclosure_marshal_VOID__VOID,
+			      G_TYPE_NONE, 0);
 
 	klass->display_view = NULL;
 	klass->changed      = NULL;
@@ -225,34 +223,7 @@ gal_view_instance_init (GalViewInstance *instance)
 	instance->default_view = NULL;
 }
 
-/**
- * gal_view_instance_get_type:
- *
- */
-GtkType
-gal_view_instance_get_type (void)
-{
-	static guint type = 0;
-	
-	if (!type)
-	{
-		GtkTypeInfo info =
-		{
-			"GalViewInstance",
-			sizeof (GalViewInstance),
-			sizeof (GalViewInstanceClass),
-			(GtkClassInitFunc) gal_view_instance_class_init,
-			(GtkObjectInitFunc) gal_view_instance_init,
-			/* reserved_1 */ NULL,
-			/* reserved_2 */ NULL,
-			(GtkClassInitFunc) NULL,
-		};
-		
-		type = gtk_type_unique (PARENT_TYPE, &info);
-	}
-
-  return type;
-}
+E_MAKE_TYPE(gal_view_instance, "GalViewInstance", GalViewInstance, gal_view_instance_class_init, gal_view_instance_init, PARENT_TYPE)
 
 static void
 collection_changed (GalView *view, GalViewInstance *instance)
@@ -330,11 +301,11 @@ load_current_view (GalViewInstance *instance)
 GalViewInstance *
 gal_view_instance_new (GalViewCollection *collection, const char *instance_id)
 {
-	GalViewInstance *instance = gtk_type_new(gal_view_instance_get_type());
+	GalViewInstance *instance = g_object_new (GAL_VIEW_INSTANCE_TYPE, NULL);
 	if (gal_view_instance_construct (instance, collection, instance_id))
 		return instance;
 	else {
-		gtk_object_unref (GTK_OBJECT (instance));
+		g_object_unref (instance);
 		return NULL;
 	}
 }
@@ -349,10 +320,10 @@ gal_view_instance_construct (GalViewInstance *instance, GalViewCollection *colle
 
 	instance->collection = collection;
 	if (collection)
-		gtk_object_ref (GTK_OBJECT (collection));
+		g_object_ref (collection);
 	instance->collection_changed_id =
-		gtk_signal_connect (GTK_OBJECT (collection), "changed",
-				    GTK_SIGNAL_FUNC (collection_changed), instance);
+		g_signal_connect (collection, "changed",
+				  G_CALLBACK (collection_changed), instance);
 	instance->instance_id = g_strdup (instance_id);
 
 	safe_id = g_strdup (instance->instance_id);
@@ -441,8 +412,8 @@ void
 gal_view_instance_save_as (GalViewInstance *instance)
 {
 	GtkWidget *dialog = gal_view_instance_save_as_dialog_new(instance);
-	gtk_signal_connect(GTK_OBJECT(dialog), "clicked",
-			   GTK_SIGNAL_FUNC(dialog_clicked), instance);
+	g_signal_connect(dialog, "clicked",
+			 G_CALLBACK(dialog_clicked), instance);
 	gtk_widget_show(dialog);
 }
 
@@ -547,8 +518,8 @@ define_views_cb(GtkWidget *widget,
 		GalViewInstance *instance)
 {
 	GtkWidget *dialog = gal_define_views_dialog_new(instance->collection);
-	gtk_signal_connect(GTK_OBJECT(dialog), "clicked",
-			   GTK_SIGNAL_FUNC(define_views_dialog_clicked), instance);
+	g_signal_connect(dialog, "clicked",
+			 G_CALLBACK(define_views_dialog_clicked), instance);
 	gtk_widget_show(dialog);
 }
 
@@ -581,7 +552,7 @@ gal_view_instance_get_popup_menu (GalViewInstance *instance)
 		closure            = g_new (ListenerClosure, 1);
 		closure->instance  = instance;
 		closure->id        = item->id;
-		gtk_object_ref (GTK_OBJECT(closure->instance));
+		g_object_ref (closure->instance);
 
 		if (!found && id && !strcmp (id, item->id)) {
 			found = TRUE;
@@ -611,7 +582,7 @@ gal_view_instance_free_popup_menu (GalViewInstance *instance, EPopupMenu *menu)
 	int i;
 	/* This depends on the first non-custom closure to be a separator or a terminator. */
 	for (i = 0; menu[i].name && *(menu[i].name); i++) { 
-		gtk_object_unref (GTK_OBJECT ( ((ListenerClosure *)(menu[i].closure))->instance));
+		g_object_unref (((ListenerClosure *)(menu[i].closure))->instance);
 		g_free (menu[i].closure);
 	}
 
