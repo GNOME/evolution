@@ -1,3 +1,8 @@
+2004-08-27  Not Zed  <NotZed@Ximian.com>
+
+	* e-passwords.c (e_passwords_ask_password): return cancelled if
+	we're in an offline state.
+
 2004-08-26  Rodrigo Moya <rodrigo@novell.com>
 
 	* eggtrayicon.[ch]: updated from libegg.

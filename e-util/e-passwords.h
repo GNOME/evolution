@@ -39,6 +39,7 @@ void e_passwords_init (void);
 
 void        e_passwords_shutdown          (void);
 void	    e_passwords_cancel(void);
+void        e_passwords_set_online(int state);
 void        e_passwords_remember_password (const char *component, const char *key);
 void        e_passwords_add_password      (const char *key, const char *passwd);
 char       *e_passwords_get_password      (const char *component, const char *key);
@@ -55,6 +56,7 @@ typedef enum {
 	/* option bits */
 	E_PASSWORDS_SECRET = 1<<8,
 	E_PASSWORDS_REPROMPT = 1<<9,
+	E_PASSWORDS_ONLINE = 1<<10, /* only ask if we're online */
 } EPasswordsRememberType;
 
 char *      e_passwords_ask_password      (const char *title, 
