@@ -1,3 +1,10 @@
+2004-02-13  Jeffrey Stedfast  <fejj@ximian.com>
+
+	* em-folder-tree.c (emft_drop_folder): Make sure the drop-target
+	folder doesn't already contain a folder named identical to the one
+	we are dropping by using the new CAMEL_STORE_FOLDER_EXCL
+	flag. Fixes bug #53810.
+
 2004-02-13  Radek Doulik  <rodo@ximian.com>
 
 	* evolution-mail.schemas.in.in: added defaults for composer

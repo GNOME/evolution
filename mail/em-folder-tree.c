@@ -707,11 +707,11 @@ emft_drop_folder(struct _DragDataReceivedAsync *m)
 		m->moved = !camel_exception_is_set (&m->msg.ex);
 	} else {
 		CamelFolder *dest;
-
+		
 		/* FIXME: should check we're not coming from a vfolder, otherwise bad stuff could happen */
 		
 		/* copy the folder to the new location */
-		if ((dest = camel_store_get_folder(m->store, new_name, CAMEL_STORE_FOLDER_CREATE, &m->msg.ex))) {
+		if ((dest = camel_store_get_folder(m->store, new_name, CAMEL_STORE_FOLDER_CREATE_EXCL, &m->msg.ex))) {
 			GPtrArray *uids;
 			
 			uids = camel_folder_get_uids (src);
@@ -900,8 +900,6 @@ tree_drag_data_received(GtkWidget *widget, GdkDragContext *context, int x, int y
 	if (!gtk_tree_view_get_dest_row_at_pos (priv->treeview, x, y, &dest_path, &pos))
 		return;
 	
-	/*em_folder_tree_model_drag_data_received (priv->model, context, path, selection, info);*/
-
 	/* this means we are receiving no data */
 	if (!selection->data || selection->length == -1) {
 		gtk_drag_finish(context, FALSE, FALSE, GDK_CURRENT_TIME);
@@ -924,7 +922,7 @@ tree_drag_data_received(GtkWidget *widget, GdkDragContext *context, int x, int y
 	}
 	
 	full_name = path[0] == '/' ? path + 1 : path;
-
+	
 	m = mail_msg_new (&emft_drop_async_op, NULL, sizeof (struct _DragDataReceivedAsync));
 	m->context = context;
 	g_object_ref(context);
