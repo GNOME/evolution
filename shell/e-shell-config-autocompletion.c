@@ -87,7 +87,7 @@ e_shell_config_autocompletion_create_widget (EShell *shell, EvolutionConfigContr
 	EvolutionAutocompletionConfig *ac;
 	char *xml;
 	CORBA_Environment ev;
-	static const char *possible_types[] = { "contacts", "ldap-contacts", NULL };
+	static const char *possible_types[] = { "contacts/*", NULL };
 
 	ac = g_new0 (EvolutionAutocompletionConfig, 1);
 	ac->db = e_shell_get_config_db (shell);

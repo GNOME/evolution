@@ -1,3 +1,23 @@
+2002-09-25  Dan Winship  <danw@ximian.com>
+
+	* e-shell-folder-selection-dialog.c (check_folder_type_valid):
+	If one of the allowed types is "type/*", allow anything starting
+	with "type/". 
+	(impl_clicked): If the first allowed type is "type/*", pass "type"
+	to e_shell_show_folder_creation_dialog.
+
+	* evolution-folder-selector-button.c
+	(evolution_folder_selector_button_set_uri): Handle "type/*" as an
+	allowed type.
+
+	* e-shell-settings-dialog.c (e_shell_settings_dialog_show_type):
+	If there are no pages for the current folder type, try the parent
+	type (eg, "mail" for "mail/public").
+
+	* e-shell-config-autocompletion.c
+	(e_shell_config_autocompletion_create_widget): Use "contacts/*" as
+	the allowed folder type.
+
 2002-09-25  Ettore Perazzoli  <ettore@ximian.com>
 
 	[Finish fixing #11645.]

@@ -341,7 +341,7 @@ void
 e_shell_settings_dialog_show_type (EShellSettingsDialog *dialog, const char *type)
 {
 	EShellSettingsDialogPrivate *priv;
-	gpointer value;
+	gpointer key, value;
 	int page;
 	
 	g_return_if_fail (dialog != NULL);
@@ -350,7 +350,17 @@ e_shell_settings_dialog_show_type (EShellSettingsDialog *dialog, const char *typ
 
 	priv = dialog->priv;
 	
-	value = g_hash_table_lookup (priv->types, type);
+	if (!g_hash_table_lookup_extended (priv->types, type, &key, &value)) {
+		char *slash, *supertype;
+
+		slash = strchr (type, '/');
+		if (slash) {
+			supertype = g_strndup (type, slash - type);
+			value = g_hash_table_lookup (priv->types, type);
+			g_free (supertype);
+		} else
+			value = NULL;
+	}
 	page = GPOINTER_TO_INT (value);
 	
 	e_multi_config_dialog_show_page (E_MULTI_CONFIG_DIALOG (dialog), page);

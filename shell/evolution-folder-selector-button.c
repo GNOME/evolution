@@ -358,6 +358,7 @@ evolution_folder_selector_button_set_uri (EvolutionFolderSelectorButton *folder_
 {
 	EvolutionFolderSelectorButtonPrivate *priv;
 	GNOME_Evolution_Folder *folder;
+	char *slash;
 	int i;
 
 	g_return_val_if_fail (EVOLUTION_IS_FOLDER_SELECTOR_BUTTON (folder_selector_button), FALSE);
@@ -376,6 +377,13 @@ evolution_folder_selector_button_set_uri (EvolutionFolderSelectorButton *folder_
 
 	for (i = 0; priv->possible_types[i]; i++) {
 		if (!strcmp (folder->type, priv->possible_types[i])) {
+			set_folder (folder_selector_button, folder);
+			return TRUE;
+		}
+		slash = strchr (priv->possible_types[i], '/');
+		if (slash && slash[1] == '*' &&
+		    !strncmp (folder->type, priv->possible_types[i],
+			      slash - priv->possible_types[i])) {
 			set_folder (folder_selector_button, folder);
 			return TRUE;
 		}

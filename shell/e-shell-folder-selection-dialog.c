@@ -88,10 +88,14 @@ check_folder_type_valid (EShellFolderSelectionDialog *folder_selection_dialog)
 	folder_type = e_folder_get_type_string (folder);
 
 	for (p = priv->allowed_types; p != NULL; p = p->next) {
-		const char *type;
+		const char *type, *slash;
 
 		type = (const char *) p->data;
 		if (strcasecmp (folder_type, type) == 0)
+			return TRUE;
+		slash = strchr (type, '/');
+		if (slash && slash[1] == '*' &&
+		    g_strncasecmp (folder_type, type, slash - type) == 0)
 			return TRUE;
 	}
 
@@ -199,7 +203,8 @@ impl_clicked (GnomeDialog *dialog,
 	EShellFolderSelectionDialogPrivate *priv;
 	EStorageSetView *storage_set_view;
 	const char *default_parent_folder;
-	const char *default_type;
+	const char *default_subtype;
+	char *default_type;
 
 	folder_selection_dialog = E_SHELL_FOLDER_SELECTION_DIALOG (dialog);
 	priv = folder_selection_dialog->priv;
@@ -224,15 +229,19 @@ impl_clicked (GnomeDialog *dialog,
 		   first of the allowed types.  If all types are allowed,
 		   hardcode to "mail".  */
 		if (priv->allowed_types == NULL)
-			default_type = "mail";
-		else
-			default_type = (const char *) priv->allowed_types->data;
+			default_type = g_strdup ("mail");
+		else {
+			default_subtype = (const char *) priv->allowed_types->data;
+			default_type = g_strndup (default_subtype,
+						  strcspn (default_subtype, "/"));
+		}
 
 		e_shell_show_folder_creation_dialog (priv->shell, GTK_WINDOW (dialog),
 						     default_parent_folder,
 						     default_type,
 						     folder_creation_dialog_result_cb,
 						     dialog);
+		g_free (default_type);
 
 		break;
 	}
@@ -316,16 +325,12 @@ double_click_cb (EStorageSetView *essv,
 		 GdkEvent *event,
 		 EShellFolderSelectionDialog *folder_selection_dialog)
 {
-	EShellFolderSelectionDialogPrivate *priv;
-
 	g_return_if_fail (folder_selection_dialog != NULL);
 
-	priv = folder_selection_dialog->priv;
 	if (check_folder_type_valid (folder_selection_dialog)) {
 		gtk_signal_emit (GTK_OBJECT (folder_selection_dialog),
 				 signals[FOLDER_SELECTED],
 				 e_shell_folder_selection_dialog_get_selected_path (folder_selection_dialog));
-
 		gnome_dialog_close (GNOME_DIALOG (folder_selection_dialog));
 	}
 }
