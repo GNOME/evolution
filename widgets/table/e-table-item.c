@@ -1862,13 +1862,15 @@ eti_event (GnomeCanvasItem *item, GdkEvent *e)
 		e_canvas_hide_tooltip (E_CANVAS(GNOME_CANVAS_ITEM(eti)->canvas));
 
 #ifdef DO_TOOLTIPS
-		if (eti->tooltip->timer > 0)
-			gtk_timeout_remove (eti->tooltip->timer);
-		eti->tooltip->col = col;
-		eti->tooltip->row = row;
-		eti->tooltip->cx = e->motion.x;
-		eti->tooltip->cy = e->motion.y;
-		eti->tooltip->timer = gtk_timeout_add (100, (GSourceFunc)_do_tooltip, eti);
+		if (g_getenv ("GAL_DO_TOOLTIPS")) {
+			if (eti->tooltip->timer > 0)
+				gtk_timeout_remove (eti->tooltip->timer);
+			eti->tooltip->col = col;
+			eti->tooltip->row = row;
+			eti->tooltip->cx = e->motion.x;
+			eti->tooltip->cy = e->motion.y;
+			eti->tooltip->timer = gtk_timeout_add (100, (GSourceFunc)_do_tooltip, eti);
+		}
 #endif
 
 		if (cursor_row == view_to_model_row(eti, row) && cursor_col == view_to_model_col(eti, col)){
