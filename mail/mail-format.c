@@ -1381,7 +1381,6 @@ try_inline_pgp_sig (char *start, CamelMimePart *mime_part,
 	msg_end = strstr (msg_start, "\n-----BEGIN PGP SIGNATURE-----\n");
 	if (!msg_end)
 		return start;
-	msg_end--;
 	
 	sig_start = msg_end;
 	sig_end = strstr (sig_start, "\n-----END PGP SIGNATURE-----\n");

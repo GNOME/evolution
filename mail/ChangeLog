@@ -1,3 +1,7 @@
+2001-10-31  Dan Winship  <danw@ximian.com>
+
+	* mail-format.c (try_inline_pgp_sig): Make this work again.
+
 2001-10-30  Larry Ewing  <lewing@ximian.com>
 
 	* mail-account-gui.c (delete_event_cb): add delete_event_handler.
