@@ -1,5 +1,8 @@
 2003-02-18  Jeffrey Stedfast  <fejj@ximian.com>
 
+	* mail-callbacks.c (mark_all_as_seen): Fixed a memory leak - make
+	sure to free all uids.
+
 	* mail-config.c (uri_to_key): Removed.
 	(lookup_signature): Removed.
 	(xml_get_int): Removed.
