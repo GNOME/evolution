@@ -1,3 +1,16 @@
+2000-11-17  Jeffrey Stedfast  <fejj@helixcode.com>
+
+	* providers/imap/camel-imap-command.c (imap_read_untagged): Use
+	the byte-read count to decrement the number of bytes left to read
+	rather than using strlen. Not only does this protect against a DoS
+	(embedded NUL chars in the literal string would make strlen
+	inaccurate) but it also improves performace a little.
+
+	* camel-remote-store.c (remote_recv_line): *Sigh* Return the
+	number of bytes read on success rather than 0. Also don't use
+	camel_stream_buffer_read_line since we can't get an accurate octet
+	count.
+
 2000-11-17  Not Zed  <NotZed@HelixCode.com>
 
 	* camel-stream-buffer.c (camel_stream_buffer_gets): We should

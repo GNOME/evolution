@@ -404,10 +404,13 @@ camel_remote_store_send_stream (CamelRemoteStore *store, CamelStream *stream, Ca
 	return CRSC (store)->send_stream (store, stream, ex);
 }
 
-static gint
+static int
 remote_recv_line (CamelRemoteStore *store, char **dest, CamelException *ex)
 {
 	CamelStreamBuffer *stream = CAMEL_STREAM_BUFFER (store->istream);
+	GByteArray *bytes;
+	gchar buf[1024], *ret;
+	guint nread;
 	
 	*dest = NULL;
 	
@@ -428,7 +431,29 @@ remote_recv_line (CamelRemoteStore *store, char **dest, CamelException *ex)
 		return -1;
 	}
 	
-	*dest = camel_stream_buffer_read_line (stream);
+	bytes = g_byte_array_new ();
+	
+	nread = 1024;
+	while (nread == 1024) {
+		nread = camel_stream_buffer_gets (stream, buf, 1024);
+		if (nread > 0)
+			g_byte_array_append (bytes, buf, nread - 1);
+	}
+	
+	g_byte_array_append (bytes, "", 1);
+	ret = bytes->data;
+	nread = bytes->len - 1;
+	g_byte_array_free (bytes, FALSE);
+	
+	/* strip off the CRLF sequence at the end of the string */
+	for ( ; nread > 0; nread--) {
+		if (ret[nread] == '\r') {
+			ret[nread] = '\0';
+			break;
+		}
+	}
+	
+	*dest = ret;
 	
 	if (!*dest) {
 		camel_exception_set (ex, CAMEL_EXCEPTION_SERVICE_UNAVAILABLE,
@@ -443,7 +468,7 @@ remote_recv_line (CamelRemoteStore *store, char **dest, CamelException *ex)
 		fprintf (stderr, "received: %s\n", *dest);
 #endif
 	
-	return 0;
+	return nread;
 }
 
 /**

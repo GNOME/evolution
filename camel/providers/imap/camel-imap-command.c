@@ -239,6 +239,7 @@ imap_read_untagged (CamelImapStore *store, char *line, CamelException *ex)
 	int fulllen, length, left, i;
 	GPtrArray *data;
 	char *end, *p;
+	int n;
 
 	p = strrchr (line, '{');
 	if (!p)
@@ -257,8 +258,7 @@ imap_read_untagged (CamelImapStore *store, char *line, CamelException *ex)
 	g_ptr_array_add (data, line);
 	left = length;
 	while (1) {
-		if (camel_remote_store_recv_line (CAMEL_REMOTE_STORE (store),
-						  &line, ex) < 0) {
+		if ((n = camel_remote_store_recv_line (CAMEL_REMOTE_STORE (store), &line, ex)) < 0) {
 			for (i = 0; i < data->len; i++)
 				g_free (data->pdata[i]);
 			g_ptr_array_free (data, TRUE);
@@ -268,9 +268,9 @@ imap_read_untagged (CamelImapStore *store, char *line, CamelException *ex)
 
 		if (left <= 0)
 			break;
-
-		left -= strlen (line) + 2;
-
+		
+		left -= n + 2;
+		
 		/* The output string will have only LF, not CRLF, so
 		 * decrement the length by one.
 		 */
