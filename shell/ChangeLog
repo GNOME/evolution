@@ -1,3 +1,9 @@
+2001-01-25  Ettore Perazzoli  <ettore@ximian.com>
+
+	* e-shell-view.c (e_shell_view_construct): Connect the
+	"updated_folder" with `gtk_signal_connect_while_alive()' so that
+	it gets disconnected when the shell view dies.
+
 2001-01-24  Jason Leach  <jasonleach@usa.net>
 
 	(Fix #1252: Need a File->Close way to close a view)

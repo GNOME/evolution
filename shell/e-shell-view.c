@@ -938,8 +938,8 @@ e_shell_view_construct (EShellView *shell_view,
 
 	priv->shell = shell;
 
-	gtk_signal_connect (GTK_OBJECT (e_shell_get_storage_set (priv->shell)), "updated_folder",
-			    updated_folder_cb, shell_view);
+	gtk_signal_connect_while_alive (GTK_OBJECT (e_shell_get_storage_set (priv->shell)), "updated_folder",
+					updated_folder_cb, shell_view, GTK_OBJECT (shell_view));
 
 	container = bonobo_ui_container_new ();
 	bonobo_ui_container_set_win (container, BONOBO_WINDOW (shell_view));
