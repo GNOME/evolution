@@ -78,8 +78,8 @@ evolution_mail_SOURCES =		\
 	message-thread.c		\
 	message-thread.h		\
 	session.c			\
-	subscribe-control.c		\
-	subscribe-control.h		\
+	subscribe-dialog.c		\
+	subscribe-dialog.h		\
 	mail.h
 
 evolution_mail_LDADD = 					\

@@ -1,6 +1,6 @@
 /* -*- Mode: C; tab-width: 8; indent-tabs-mode: t; c-basic-offset: 8 -*- */
 /*
- * subscribe-control.c: Subscribe control top level component
+ * subscribe-dialog.c: Subscribe dialog
  *
  * Author:
  *   Chris Toshok (toshok@helixcode.com)
@@ -9,7 +9,7 @@
  */
 #include <config.h>
 #include <gnome.h>
-#include "subscribe-control.h"
+#include "subscribe-dialog.h"
 #include "e-util/e-html-utils.h"
 #include <gtkhtml/gtkhtml.h>
 #include <gal/util/e-util.h>
@@ -70,7 +70,7 @@ typedef struct {
 } SubscribeData;
 
 
-static GtkObjectClass *subscribe_control_parent_class;
+static GtkObjectClass *subscribe_dialog_parent_class;
 
 static void subscribe_close (BonoboUIHandler *uih, void *user_data, const char *path);
 static void subscribe_select_all (BonoboUIHandler *uih, void *user_data, const char *path);
@@ -155,7 +155,7 @@ static void
 subscribe_close (BonoboUIHandler *uih,
 		 void *user_data, const char *path)
 {
-	SubscribeControl *sc = (SubscribeControl*)user_data;
+	SubscribeDialog *sc = (SubscribeDialog*)user_data;
 
 	gtk_widget_destroy (sc->app);
 }
@@ -175,7 +175,7 @@ subscribe_unselect_all (BonoboUIHandler *uih,
 static void
 subscribe_folder_foreach (int model_row, gpointer closure)
 {
-	SubscribeControl *sc = SUBSCRIBE_CONTROL (closure);
+	SubscribeDialog *sc = SUBSCRIBE_DIALOG (closure);
 	ETreePath *node = e_tree_model_node_at_row (sc->model, model_row);
 	SubscribeData *data = e_tree_model_node_get_data (sc->model, node);
 
@@ -190,7 +190,7 @@ subscribe_folder_foreach (int model_row, gpointer closure)
 static void
 subscribe_folder (GtkWidget *widget, gpointer user_data)
 {
-	SubscribeControl *sc = SUBSCRIBE_CONTROL (user_data);
+	SubscribeDialog *sc = SUBSCRIBE_DIALOG (user_data);
 
 	e_table_selected_row_foreach (E_TABLE_SCROLLED(sc->etable)->table,
 				      subscribe_folder_foreach, sc);
@@ -199,7 +199,7 @@ subscribe_folder (GtkWidget *widget, gpointer user_data)
 static void
 unsubscribe_folder_foreach (int model_row, gpointer closure)
 {
-	SubscribeControl *sc = SUBSCRIBE_CONTROL (closure);
+	SubscribeDialog *sc = SUBSCRIBE_DIALOG (closure);
 	ETreePath *node = e_tree_model_node_at_row (sc->model, model_row);
 	SubscribeData *data = e_tree_model_node_get_data (sc->model, node);
 
@@ -215,7 +215,7 @@ unsubscribe_folder_foreach (int model_row, gpointer closure)
 static void
 unsubscribe_folder (GtkWidget *widget, gpointer user_data)
 {
-	SubscribeControl *sc = SUBSCRIBE_CONTROL (user_data);
+	SubscribeDialog *sc = SUBSCRIBE_DIALOG (user_data);
 
 	e_table_selected_row_foreach (E_TABLE_SCROLLED(sc->etable)->table,
 				      unsubscribe_folder_foreach, sc);
@@ -381,7 +381,7 @@ etree_is_editable (ETreeModel *etree, ETreePath *path, int col, void *model_data
 "                 from The Book of Mozilla, 12:10"
 
 static void
-subscribe_control_gui_init (SubscribeControl *sc)
+subscribe_dialog_gui_init (SubscribeDialog *sc)
 {
 	int i;
 	ECell *cells[3];
@@ -411,7 +411,7 @@ subscribe_control_gui_init (SubscribeControl *sc)
 	/* Build the menu and toolbar */
 	sc->uih = bonobo_ui_handler_new ();
 	if (!sc->uih) {
-		g_message ("subscribe_control_gui_init(): eeeeek, could not create the UI handler!");
+		g_message ("subscribe_dialog_gui_init(): eeeeek, could not create the UI handler!");
 		return;
 	}
 
@@ -490,7 +490,6 @@ subscribe_control_gui_init (SubscribeControl *sc)
 	cells[1] = e_cell_toggle_new (0, 2, toggles);
 	cells[0] = e_cell_tree_new (E_TABLE_MODEL(sc->model),
 				    NULL, NULL,
-				    /*tree_expanded_pixbuf, tree_unexpanded_pixbuf,*/
 				    TRUE, cells[2]);
 
 	for (i = 0; i < COL_LAST; i++) {
@@ -536,51 +535,52 @@ subscribe_control_gui_init (SubscribeControl *sc)
 }
 
 static void
-subscribe_control_destroy (GtkObject *object)
+subscribe_dialog_destroy (GtkObject *object)
 {
-	SubscribeControl *subscribe_control;
+	SubscribeDialog *subscribe_dialog;
 
-	subscribe_control = SUBSCRIBE_CONTROL (object);
+	subscribe_dialog = SUBSCRIBE_DIALOG (object);
 
-	subscribe_control_parent_class->destroy (object);
+	subscribe_dialog_parent_class->destroy (object);
 }
 
 static void
-subscribe_control_class_init (GtkObjectClass *object_class)
+subscribe_dialog_class_init (GtkObjectClass *object_class)
 {
-	object_class->destroy = subscribe_control_destroy;
+	object_class->destroy = subscribe_dialog_destroy;
 
-	subscribe_control_parent_class = gtk_type_class (PARENT_TYPE);
+	subscribe_dialog_parent_class = gtk_type_class (PARENT_TYPE);
 }
 
 static void
-subscribe_control_init (GtkObject *object)
+subscribe_dialog_init (GtkObject *object)
 {
 }
 
 static void
-subscribe_control_construct (GtkObject *object)
+subscribe_dialog_construct (GtkObject *object, Evolution_Shell shell)
 {
-	SubscribeControl *sc = SUBSCRIBE_CONTROL (object);
+	SubscribeDialog *sc = SUBSCRIBE_DIALOG (object);
 
 	/*
 	 * Our instance data
 	 */
+	sc->shell = shell;
 
-	subscribe_control_gui_init (sc);
+	subscribe_dialog_gui_init (sc);
 }
 
 GtkWidget *
-subscribe_control_new ()
+subscribe_dialog_new (Evolution_Shell shell)
 {
-	SubscribeControl *subscribe_control;
+	SubscribeDialog *subscribe_dialog;
 
-	subscribe_control = gtk_type_new (subscribe_control_get_type ());
+	subscribe_dialog = gtk_type_new (subscribe_dialog_get_type ());
 
-	subscribe_control_construct (GTK_OBJECT (subscribe_control));
+	subscribe_dialog_construct (GTK_OBJECT (subscribe_dialog), shell);
 
-	return GTK_WIDGET (subscribe_control->app);
+	return GTK_WIDGET (subscribe_dialog->app);
 }
 
-E_MAKE_TYPE (subscribe_control, "SubscribeControl", SubscribeControl, subscribe_control_class_init, subscribe_control_init, PARENT_TYPE);
+E_MAKE_TYPE (subscribe_dialog, "SubscribeDialog", SubscribeDialog, subscribe_dialog_class_init, subscribe_dialog_init, PARENT_TYPE);
 

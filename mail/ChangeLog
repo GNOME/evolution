@@ -1,5 +1,20 @@
 2000-10-02  Chris Toshok  <toshok@helixcode.com>
 
+	* Makefile.am (evolution_mail_SOURCES): subscribe-control.[ch] -> subscribe_dialog.[ch]
+
+	* mail-callbacks.c (manage_subscriptions): subscribe_control ->
+	subscribe_dialog.  Also, pass the shell to subscribe_dialog_new.
+
+	* mail-types.h: SubscribeControl -> SubscribeDialog.
+
+	* subscribe-dialog.c, subscribe-dialog.h: rename from subscribe-control.[ch].
+
+	* subscribe-dialog.c (subscribe_dialog_construct): pass
+	Evolution_Shell in.
+	(subscribe_dialog_new): takes Evolution_Shell argument now.
+
+2000-10-02  Chris Toshok  <toshok@helixcode.com>
+
 	* message-list.c (message_list_init_renderers): remove the 2 tree
 	pixbufs, so adjust the offsets to the score pixbufs.  also, pass
 	NULL for the open/closed pixbufs to the tree cell renderer.
