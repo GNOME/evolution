@@ -1,3 +1,65 @@
+2000-11-15  Not Zed  <NotZed@HelixCode.com>
+
+	* providers/Makefile.am: Removed local again, not quite ready.
+
+2000-11-14  Not Zed  <NotZed@HelixCode.com>
+
+	* camel-folder-summary.c (message_info_new_from_message): Use
+	message_info_new to create the summary from headers, instead of
+	getting directly from the message.
+	(format_recipients): No longer required.
+
+	* providers/Makefile.am (SUBDIRS): Added local.
+
+2000-11-11  Not Zed  <NotZed@HelixCode.com>
+
+	* camel-mime-parser.c (folder_push_part): Make sure 'atleast' is
+	at least 1, always.  This is possibly a temporary fix for a
+	bad failure mode on bad multipart messages.
+	(folder_scan_content): Go until inend, not inend+1.  Changed the
+	continuation and retry logic to be simpler and more robust.  If we
+	can't find a marker within
+	the atleast we need, just set it to 1, and try again, rather than
+	just going to the next smaller limit (boundary check checks the
+	length anyway).
+	(header_append): streamline the empty line case.  And strip
+	trailing \r's if there are any (\n's already stripped).
+	(folder_scan_header): Reordered and cleaned up a lot.  Check for
+	continuation only once, and compress lwsp then.	Assume the header
+	buffer already has end of line's stripped, and simplify some things:
+		Only check for end of headers once and easier.
+		Dont check to remove end of line character
+	Dont bother testing inptr-start if we get a boundary match - it is
+	always zero.
+	(folder_scan_header): Removed the unused part variable, and a few
+	pointless assignments.
+	(folder_scan_header): Change the end limit to be 1 higher, to make
+	sure we get all content.
+	(folder_scan_content): And here too.
+	(folder_scan_header): Killed a warning.
+	(folder_push_part): Removed a bad comment.  Actually
+	boundarylenfinal can be zero for a new message not in a
+	multipart.  So we fix that here.
+
+2000-11-09  Not Zed  <NotZed@HelixCode.com>
+
+	* camel-mime-utils.c (header_decode_param_list): Renamed from
+	header_param_list_decode.
+	(header_param_list_decode): New external function to decode a
+	parameter list.
+	(header_param_list_format_append): Made public.
+	(header_param_list_format): Another new public helper function for
+	formatting just a param list.
+
+	* camel-folder-summary.c (next_uid_string): Default implementation
+	is the same as before.
+	(camel_folder_summary_class_init): And set it up.
+
+	* camel-folder-summary.h: Make next_uid_string a virtual function.
+
+	* camel-folder.c (camel_folder_change_info_changed): New function
+	to return true if the changeset contains any changes.
+
 2000-11-14  Jeffrey Stedfast  <fejj@helixcode.com>
 
 	* camel-stream.c (camel_stream_printf): Don't cast an int to a

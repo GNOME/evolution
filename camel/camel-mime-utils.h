@@ -102,8 +102,11 @@ char *header_address_list_encode(struct _header_address *a);
 char *header_address_list_format(struct _header_address *a);
 
 /* structured header prameters */
+struct _header_param *header_param_list_decode(const char *in);
 char *header_param(struct _header_param *p, const char *name);
 struct _header_param *header_set_param(struct _header_param **l, const char *name, const char *value);
+void header_param_list_format_append(GString *out, struct _header_param *p);
+char *header_param_list_format(struct _header_param *p);
 void header_param_list_free(struct _header_param *p);
 
 /* Content-Type header */

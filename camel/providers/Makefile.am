@@ -4,4 +4,4 @@
 SUBDIRS = mbox pop3 sendmail smtp vee imap mh nntp
 
 # these ones are disabled for the moment.
-# maildir
+# maildir local

@@ -91,6 +91,8 @@ static CamelMessageContentInfo * content_info_load(CamelFolderSummary *, FILE *)
 static int		         content_info_save(CamelFolderSummary *, FILE *, CamelMessageContentInfo *);
 static void		         content_info_free(CamelFolderSummary *, CamelMessageContentInfo *);
 
+const char *next_uid_string(CamelFolderSummary *s);
+
 static CamelMessageContentInfo * summary_build_content_info(CamelFolderSummary *s, CamelMimeParser *mp);
 static CamelMessageContentInfo * summary_build_content_info_message(CamelFolderSummary *s, CamelMessageInfo *msginfo, CamelMimePart *object);
 
@@ -121,6 +123,8 @@ camel_folder_summary_class_init (CamelFolderSummaryClass *klass)
 	klass->content_info_load = content_info_load;
 	klass->content_info_save = content_info_save;
 	klass->content_info_free = content_info_free;
+
+	klass->next_uid_string = next_uid_string;
 }
 
 static void
@@ -352,7 +356,9 @@ void camel_folder_summary_set_uid(CamelFolderSummary *s, guint32 uid)
 char *
 camel_folder_summary_next_uid_string(CamelFolderSummary *s)
 {
-	return g_strdup_printf("%u", camel_folder_summary_next_uid(s));
+	char *(*next_uid_string)(CamelFolderSummary *);
+
+	return ((CamelFolderSummaryClass *)(CAMEL_OBJECT_GET_CLASS(s)))->next_uid_string(s);
 }
 
 /* loads the content descriptions, recursively */
@@ -1369,54 +1375,11 @@ static CamelMessageContentInfo * content_info_new_from_parser(CamelFolderSummary
 	return ci;
 }
 
-static char *
-format_recipients(const CamelInternetAddress *addr)
-{
-	const char *namep, *addrp;
-	char *ret;
-	int i;
-	GString *out;
-
-	if (addr == NULL)
-		return NULL;
-
-	out = g_string_new("");
-
-	for (i=0;camel_internet_address_get(addr, i, &namep, &addrp);i++) {
-		if (i>0)
-			g_string_append(out, ", ");
-		if (namep)
-			g_string_sprintfa(out, "%s <%s>", namep, addrp);
-		else
-			g_string_sprintfa(out, "<%s>", addrp);
-	}
-	/* well, this is probably more memory efficient, unfortunately */
-	ret = g_strdup(out->str);
-	g_string_free(out, TRUE);
-
-	return ret;
-}
-
 static CamelMessageInfo * message_info_new_from_message(CamelFolderSummary *s, CamelMimeMessage *msg)
 {
 	CamelMessageInfo *mi;
 
-	mi = g_malloc0(s->message_info_size);
-
-	mi->subject = g_strdup(camel_mime_message_get_subject(msg));
-	mi->from = camel_address_format((CamelAddress *)camel_mime_message_get_from(msg));
-	mi->to = format_recipients(camel_mime_message_get_recipients(msg, "to"));
-	mi->cc = format_recipients(camel_mime_message_get_recipients(msg, "cc"));
-	mi->user_flags = NULL;
-	mi->user_tags = NULL;
-	mi->date_sent = camel_mime_message_get_date(msg, NULL);
-	mi->date_received = camel_mime_message_get_date_received(msg, NULL);
-	mi->message_id = header_msgid_decode(camel_medium_get_header((CamelMedium *)msg, "message-id"));
-	/* if we have a references, use that, otherwise, see if we have an in-reply-to
-	   header, with parsable content, otherwise *shrug* */
-	mi->references = header_references_decode(camel_medium_get_header((CamelMedium *)msg, "message-id"));
-	if (mi->references == NULL)
-		mi->references = header_references_decode(camel_medium_get_header((CamelMedium *)msg, "message-id"));
+	mi = ((CamelFolderSummaryClass *)(CAMEL_OBJECT_GET_CLASS(s)))->message_info_new(s, ((CamelMimePart *)msg)->headers);
 
 	return mi;
 }
@@ -1704,6 +1667,12 @@ content_info_free(CamelFolderSummary *s, CamelMessageContentInfo *ci)
 	g_free(ci->description);
 	g_free(ci->encoding);
 	g_free(ci);
+}
+
+const char *
+next_uid_string(CamelFolderSummary *s)
+{
+	return g_strdup_printf("%u", camel_folder_summary_next_uid(s));
 }
 
 /*

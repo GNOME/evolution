@@ -2168,7 +2168,7 @@ header_mime_decode(const char *in, int *maj, int *min)
 }
 
 static struct _header_param *
-header_param_list_decode(const char **in)
+header_decode_param_list(const char **in)
 {
 	const char *inptr = *in;
 	struct _header_param *head = NULL, *tail = NULL;
@@ -2198,7 +2198,16 @@ header_param_list_decode(const char **in)
 	return head;
 }
 
-static void
+struct _header_param *
+header_param_list_decode(const char *in)
+{
+	if (in == NULL)
+		return NULL;
+
+	return header_decode_param_list(&in);
+}
+
+void
 header_param_list_format_append(GString *out, struct _header_param *p)
 {
 	int len = out->len;
@@ -2227,6 +2236,18 @@ header_param_list_format_append(GString *out, struct _header_param *p)
 	}
 }
 
+char *
+header_param_list_format(struct _header_param *p)
+{
+	GString *out = g_string_new("");
+	char *ret;
+
+	header_param_list_format_append(out, p);
+	ret = out->str;
+	g_string_free(out, FALSE);
+	return ret;
+}
+
 struct _header_content_type *
 header_content_type_decode(const char *in)
 {
@@ -2253,7 +2274,7 @@ header_content_type_decode(const char *in)
 		}
 
 		t = header_content_type_new(type, subtype);
-		t->params = header_param_list_decode(&inptr);
+		t->params = header_decode_param_list(&inptr);
 		g_free(type);
 		g_free(subtype);
 	} else {
@@ -2334,7 +2355,7 @@ CamelMimeDisposition *header_disposition_decode(const char *in)
 	d->disposition = decode_token(&inptr);
 	if (d->disposition == NULL)
 		w(g_warning("Empty disposition type"));
-	d->params = header_param_list_decode(&inptr);
+	d->params = header_decode_param_list(&inptr);
 	return d;
 }
 

@@ -275,6 +275,7 @@ void camel_folder_free_deep    (CamelFolder *folder, GPtrArray *array);
 CamelFolderChangeInfo *	camel_folder_change_info_new		(void);
 void			camel_folder_change_info_clear		(CamelFolderChangeInfo *info);
 void			camel_folder_change_info_free		(CamelFolderChangeInfo *info);
+gboolean		camel_folder_change_info_changed	(CamelFolderChangeInfo *info);
 
 /* for building diff's automatically */
 void			camel_folder_change_info_add_source	(CamelFolderChangeInfo *info, const char *uid);

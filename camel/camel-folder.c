@@ -1321,6 +1321,20 @@ change_info_clear(GPtrArray *uids)
 }
 
 /**
+ * camel_folder_change_info_changed:
+ * @info: 
+ * 
+ * Return true if the changeset contains any changes.
+ *
+ * Return Value:
+ **/
+gboolean
+camel_folder_change_info_changed(CamelFolderChangeInfo *info)
+{
+	return (info->uid_added->len || info->uid_removed->len || info->uid_changed->len);
+}
+
+/**
  * camel_folder_change_info_clear:
  * @info: 
  * 
