@@ -690,7 +690,7 @@ e_msg_composer_hdrs_get_cc_entry (EMsgComposerHdrs *hdrs)
 {
 	g_return_val_if_fail (hdrs != NULL, NULL);
 	g_return_val_if_fail (E_IS_MSG_COMPOSER_HDRS (hdrs), NULL);
-
+	
 	return hdrs->priv->cc_entry;
 }
 

@@ -1,5 +1,11 @@
 2000-08-28  Jeffrey Stedfast  <fejj@helixcode.com>
 
+	* e-msg-composer.c (e_msg_composer_new_with_message): Always
+	request to import the HTML version if at all possible so that we
+	maintain formatting and other nifty stuff :-)
+
+2000-08-28  Jeffrey Stedfast  <fejj@helixcode.com>
+	
 	* e-msg-composer-hdrs.c (e_msg_composer_hdrs_to_message): Set the
 	"From" address in the CamelMimeMessage. Also updated to use
 	get_subject to both make our lives easier and prepare for using UTF8

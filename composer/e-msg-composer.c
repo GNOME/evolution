@@ -1381,7 +1381,7 @@ e_msg_composer_new_with_message (CamelMimeMessage *msg)
 {
 	const CamelInternetAddress *to, *cc, *bcc;
 	GList *To = NULL, *Cc = NULL, *Bcc = NULL;
-	gboolean want_plain, is_html;
+	gboolean is_html;
 	CamelDataWrapper *contents;
 	const gchar *subject;
 	GtkWidget *new;
@@ -1429,10 +1429,8 @@ e_msg_composer_new_with_message (CamelMimeMessage *msg)
 	free_recipients (Cc);
 	free_recipients (Bcc);
 	
-	want_plain = !mail_config_send_html ();
-
 	contents = camel_medium_get_content_object (CAMEL_MEDIUM (msg));
-	text = mail_get_message_body (contents, want_plain, &is_html);
+	text = mail_get_message_body (contents, FALSE, &is_html);
 	if (is_html)
 		final_text = g_strdup (text);
 	else
