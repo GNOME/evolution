@@ -1,5 +1,8 @@
 1999-12-01  Miguel de Icaza  <miguel@gnu.org>
 
+	* e-cell-text.c (ect_draw): Keep track of the originally allocated
+	piece of code.
+
 	* e-table-header-item.c (ethi_unrealize): Removed change cursor
 	from here.
 

@@ -184,11 +184,13 @@ ect_draw (ECellView *ecell_view, GdkDrawable *drawable,
 	if (edit_display){
 		CellEdit *edit = text_view->edit;
 		const char *text = gtk_entry_get_text (edit->entry);
-		GdkWChar *text_wc = g_new (GdkWChar, strlen (text) + 1);
-		int text_wc_len = gdk_mbstowcs (text_wc, text, strlen (text));
+		GdkWChar *p, *text_wc;
+		int text_wc_len;
 		const int cursor_pos = GTK_EDITABLE (edit->entry)->current_pos;
 		const int left_len = gdk_text_width_wc (text_view->font, text_wc, cursor_pos);
 
+		text_wc = g_new (GdkWChar, strlen (text) + 1);
+		text_wc_len = gdk_mbstowcs (text_wc, text, strlen (text));
 		text_wc [text_wc_len] = 0;
 		
 		/*
@@ -220,9 +222,9 @@ ect_draw (ECellView *ecell_view, GdkDrawable *drawable,
 			if ((px + left_len) > x2)
 				px -= left_len - (x2-x1);
 				
-			for (i = 0; *text_wc; text_wc++, i++){
+			for (i = 0, p = text_wc; *p; p++, i++){
 				gdk_draw_text_wc (
-					drawable, font, gc, px, y, text_wc, 1);
+					drawable, font, gc, px, y, p, 1);
 
 				if (i == cursor_pos){
 					gdk_draw_line (
@@ -231,7 +233,7 @@ ect_draw (ECellView *ecell_view, GdkDrawable *drawable,
 						px, y + font->descent - 1);
 				}
 
-				px += gdk_text_width_wc (font, text_wc, 1);
+				px += gdk_text_width_wc (font, p, 1);
 			}
 
 			if (i == cursor_pos){
