@@ -835,11 +835,11 @@ mail_accounts_tab_construct (MailAccountsTab *prefs)
 	gtk_signal_connect (GTK_OBJECT (prefs->news_add), "clicked",
 			    news_add_clicked, prefs);
 	
-	prefs->mail_edit = GTK_BUTTON (glade_xml_get_widget (gui, "cmdNewsEdit"));
+	prefs->news_edit = GTK_BUTTON (glade_xml_get_widget (gui, "cmdNewsEdit"));
 	gtk_signal_connect (GTK_OBJECT (prefs->news_edit), "clicked",
 			    news_edit_clicked, prefs);
 	
-	prefs->mail_delete = GTK_BUTTON (glade_xml_get_widget (gui, "cmdNewsDelete"));
+	prefs->news_delete = GTK_BUTTON (glade_xml_get_widget (gui, "cmdNewsDelete"));
 	gtk_signal_connect (GTK_OBJECT (prefs->news_delete), "clicked",
 			    news_delete_clicked, prefs);
 #endif /* ENABLE_NNTP */

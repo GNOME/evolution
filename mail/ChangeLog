@@ -1,3 +1,12 @@
+2002-06-04  Not Zed  <NotZed@Ximian.com>
+
+	* mail-accounts.c (mail_accounts_tab_construct): Duh, we want to
+	set the news_edit/delete buttons for the news page, not overwrite
+	the mail ones!  That would've saved a bit of angst ...
+
+	* mail-config-druid.c (extra_prepare): dont call build_extra_conf,
+	otherwise it blows away any settings with defaults.
+
 2002-06-04  Jeffrey Stedfast  <fejj@ximian.com>
 
 	* mail-account-gui.c (mail_account_gui_save): Write the signature
