@@ -1,3 +1,8 @@
+2001-08-19  Christopher James Lahey  <clahey@ximian.com>
+
+	* gui/contact-editor/fulladdr.glade: Added full country list.
+	Fixes Ximian bug #5123.
+
 2001-08-18  Ettore Perazzoli  <ettore@ximian.com>
 
 	* gui/component/addressbook.c: Hook up `delete-message.png' as the
