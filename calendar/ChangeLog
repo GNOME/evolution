@@ -1,3 +1,11 @@
+2004-01-08  Rodrigo Moya <rodrigo@ximian.com>
+
+	* gui/dialogs/comp-editor.c (save_comp): moved the line that sets
+	priv->updating to FALSE up some lines, to avoid getting callbacks
+	with an incorrect value on it.
+	(obj_modified_cb): check the UIDs of the objects we get passed to
+	see if the one being edited is amongst them.
+
 2004-01-08  Kidd Wang  <kidd.wang@sun.com>
 
         * gui/e-cal-view.h: delete the ECalViewMoveDirection type declaration
