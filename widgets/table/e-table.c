@@ -26,12 +26,14 @@
 #include "e-util/e-util.h"
 #include "e-util/e-xml-utils.h"
 #include "e-util/e-canvas.h"
+#include "e-util/e-canvas-vbox.h"
 #include "e-table.h"
 #include "e-table-header-item.h"
 #include "e-table-subset.h"
 #include "e-table-item.h"
 #include "e-table-group.h"
 #include "e-table-group-leaf.h"
+#include "e-table-click-to-add.h"
 
 #define COLUMN_HEADER_HEIGHT 16
 #define TITLE_HEIGHT         16
@@ -56,6 +58,7 @@ enum {
 	ARG_TABLE_DRAW_FOCUS,
 	ARG_CURSOR_MODE,
 	ARG_LENGTH_THRESHOLD,
+	ARG_CLICK_TO_ADD_MESSAGE,
 };
 
 static gint et_signals [LAST_SIGNAL] = { 0, };
@@ -99,6 +102,8 @@ et_destroy (GtkObject *object)
 		et->rebuild_idle_id = 0;
 	}
 	
+	g_free(et->click_to_add_message);
+	
 	(*e_table_parent_class->destroy)(object);
 }
 
@@ -121,6 +126,8 @@ e_table_init (GtkObject *object)
 	
 	e_table->need_rebuild = 0;
 	e_table->rebuild_idle_id = 0;
+	
+	e_table->click_to_add_message = NULL;
 }
 
 static void
@@ -167,7 +174,7 @@ table_canvas_reflow_idle (ETable *e_table)
 	gdouble height, width;
 	GtkAllocation *alloc = &(GTK_WIDGET (e_table->table_canvas)->allocation);
 
-	gtk_object_get (GTK_OBJECT (e_table->group),
+	gtk_object_get (GTK_OBJECT (e_table->canvas_vbox),
 			"height", &height,
 			"width", &width,
 			NULL);
@@ -186,8 +193,8 @@ table_canvas_size_allocate (GtkWidget *widget, GtkAllocation *alloc,
 	gdouble width;
 	width = alloc->width;
 
-	gtk_object_set (GTK_OBJECT (e_table->group),
-			"minimum_width", width,
+	gtk_object_set (GTK_OBJECT (e_table->canvas_vbox),
+			"width", width,
 			NULL);
 	gtk_object_set (GTK_OBJECT (e_table->header),
 			"width", width,
@@ -210,6 +217,10 @@ group_row_selection (ETableGroup *etg, int row, gboolean selected, ETable *et)
 	gtk_signal_emit (GTK_OBJECT (et),
 			 et_signals [ROW_SELECTION],
 			 row, selected);
+	if (et->row_selection_active && selected) {
+		e_table_click_to_add_commit (E_TABLE_CLICK_TO_ADD(et->click_to_add));
+		et->row_selection_active = FALSE;
+	}
 }
 
 static void
@@ -255,12 +266,13 @@ changed_idle (gpointer data)
 
 	if (et->need_rebuild) {
 		gtk_object_destroy (GTK_OBJECT (et->group));
-		et->group = e_table_group_new (GNOME_CANVAS_GROUP (et->table_canvas->root),
+		et->group = e_table_group_new (GNOME_CANVAS_GROUP (et->canvas_vbox),
 					       et->full_header,
 					       et->header,
 					       et->model,
 					       et->sort_info,
 					       0);
+		e_canvas_vbox_add_item(E_CANVAS_VBOX(et->canvas_vbox), GNOME_CANVAS_ITEM(et->group));
 		gnome_canvas_item_set(GNOME_CANVAS_ITEM(et->group),
 				      "drawgrid", et->draw_grid,
 				      "drawfocus", et->draw_focus,
@@ -279,8 +291,8 @@ changed_idle (gpointer data)
 				    GTK_SIGNAL_FUNC (group_key_press), et);
 		e_table_fill_table (et, et->model);
 		
-		gtk_object_set (GTK_OBJECT (et->group),
-				"minimum_width", (double) GTK_WIDGET (et->table_canvas)->allocation.width,
+		gtk_object_set (GTK_OBJECT (et->canvas_vbox),
+				"width", (double) GTK_WIDGET (et->table_canvas)->allocation.width,
 				NULL);
 	}
 
@@ -330,6 +342,14 @@ et_table_row_deleted (ETableModel *table_model, int row, ETable *et)
 }
 
 static void
+click_to_add_row_selection (ETableClickToAdd *etcta, int row, gboolean selected, ETable *et)
+{
+	if ((!et->row_selection_active) && selected) {
+		et->row_selection_active = TRUE;
+	}
+}
+
+static void
 e_table_setup_table (ETable *e_table, ETableHeader *full_header, ETableHeader *header,
 		     ETableModel *model)
 {
@@ -342,11 +362,32 @@ e_table_setup_table (ETable *e_table, ETableHeader *full_header, ETableHeader *h
 			    GTK_SIGNAL_FUNC (table_canvas_reflow), e_table);
 				 
 	gtk_widget_show (GTK_WIDGET (e_table->table_canvas));
+
+	e_table->canvas_vbox = gnome_canvas_item_new(gnome_canvas_root(e_table->table_canvas),
+						     e_canvas_vbox_get_type(),
+						     "spacing", 10.0,
+						     NULL);
+
+	if (e_table->use_click_to_add) {
+		e_table->click_to_add = gnome_canvas_item_new (GNOME_CANVAS_GROUP(e_table->canvas_vbox),
+							       e_table_click_to_add_get_type (),
+							       "header", e_table->header,
+							       "model", e_table->model,
+							       "message", e_table->click_to_add_message,
+							       NULL);
+		
+		gtk_signal_connect(GTK_OBJECT(e_table->click_to_add), "row_selection",
+				   GTK_SIGNAL_FUNC(click_to_add_row_selection), e_table);				   
+		
+		e_canvas_vbox_add_item(E_CANVAS_VBOX(e_table->canvas_vbox), e_table->click_to_add);
+	}
+
 	
 	e_table->group = e_table_group_new (
-		GNOME_CANVAS_GROUP (e_table->table_canvas->root),
+		GNOME_CANVAS_GROUP (e_table->canvas_vbox),
 		full_header, header,
 		model, e_table->sort_info, 0);
+	e_canvas_vbox_add_item(E_CANVAS_VBOX(e_table->canvas_vbox), GNOME_CANVAS_ITEM(e_table->group));
 
 	gnome_canvas_item_set(GNOME_CANVAS_ITEM(e_table->group),
 			      "drawgrid", e_table->draw_grid,
@@ -385,6 +426,7 @@ e_table_setup_table (ETable *e_table, ETableHeader *full_header, ETableHeader *h
 	e_table->table_row_deleted_id = gtk_signal_connect (
 		GTK_OBJECT (model), "model_row_deleted",
 		GTK_SIGNAL_FUNC (et_table_row_deleted), e_table);
+
 }
 
 static void
@@ -463,7 +505,7 @@ et_real_construct (ETable *e_table, ETableHeader *full_header, ETableModel *etm,
 	xmlNode *xmlRoot;
 	xmlNode *xmlColumns;
 	xmlNode *xmlGrouping;
-	int no_header;
+	gboolean no_header;
 	int row = 0;
 
 	GtkWidget *internal_table;
@@ -477,6 +519,8 @@ et_real_construct (ETable *e_table, ETableHeader *full_header, ETableModel *etm,
 		return NULL;
 
 	no_header = e_xml_get_integer_prop_by_name(xmlRoot, "no-header");
+	e_table->use_click_to_add = e_xml_get_integer_prop_by_name(xmlRoot, "click-to-add");
+
 	
 	e_table->full_header = full_header;
 	gtk_object_ref (GTK_OBJECT (full_header));
@@ -521,9 +565,8 @@ et_real_construct (ETable *e_table, ETableHeader *full_header, ETableModel *etm,
 		/*
 		 * The header
 		 */
-		gtk_table_attach (
-				  GTK_TABLE (internal_table), GTK_WIDGET (e_table->header_canvas),
-				  0, 1, 0, 1,
+		gtk_table_attach (GTK_TABLE (internal_table), GTK_WIDGET (e_table->header_canvas),
+				  0, 1, 0 + row, 1 + row,
 				  GTK_FILL | GTK_EXPAND,
 				  GTK_FILL, 0, 0);
 		row ++;
@@ -732,6 +775,10 @@ et_get_arg (GtkObject *o, GtkArg *arg, guint arg_id)
 	case ARG_TABLE_DRAW_FOCUS:
 		GTK_VALUE_BOOL (*arg) = etable->draw_focus;
 		break;
+
+	case ARG_CLICK_TO_ADD_MESSAGE:
+		GTK_VALUE_STRING (*arg) = g_strdup (etable->click_to_add_message);
+		break;
 	}
 }
 
@@ -780,6 +827,15 @@ et_set_arg (GtkObject *o, GtkArg *arg, guint arg_id)
 					"cursor_mode", GTK_VALUE_INT (*arg),
 					NULL);
 		}
+		break;
+	case ARG_CLICK_TO_ADD_MESSAGE:
+		if (etable->click_to_add_message)
+			g_free(etable->click_to_add_message);
+		etable->click_to_add_message = g_strdup(GTK_VALUE_STRING (*arg));
+		if (etable->click_to_add)
+			gnome_canvas_item_set(etable->click_to_add,
+					      "message", etable->click_to_add_message,
+					      NULL);
 		break;
 	}
 }
@@ -850,8 +906,8 @@ e_table_class_init (GtkObjectClass *object_class)
 				 GTK_ARG_WRITABLE, ARG_CURSOR_MODE);
 	gtk_object_add_arg_type ("ETable::length_threshold", GTK_TYPE_INT,
 				 GTK_ARG_WRITABLE, ARG_LENGTH_THRESHOLD);
-	
-	
+	gtk_object_add_arg_type ("ETable::click_to_add_message", GTK_TYPE_STRING,
+				 GTK_ARG_READWRITE, ARG_CLICK_TO_ADD_MESSAGE);
 }
 
 E_MAKE_TYPE(e_table, "ETable", ETable, e_table_class_init, e_table_init, PARENT_TYPE);

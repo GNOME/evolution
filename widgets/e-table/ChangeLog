@@ -1,3 +1,45 @@
+2000-06-26  Christopher James Lahey  <clahey@helixcode.com>
+
+	* Makefile.am: Added e-table-click-to-add.c,
+	e-table-click-to-add.h, e-table-one.c, and e-table-one.h.
+
+	* e-table-click-to-add.c, e-table-click-to-add.h: A new canvas
+	item that represents a single row that sometimes exists.  It's for
+	adding new rows to your table.
+
+	* e-table-example-1.c, e-table-example-2.c, e-table-size-test.c,
+	test-check.c, test-cols.c, test-table.c: Added value_to_string handlers.
+
+	* e-table-group-container.c: Use value_to_string to make grouping
+	not crash for non string columns.  Made some changes to work
+	properly in an ECanvasVbox.
+
+	* e-table-group-leaf.c, e-table-item.c: Made some changes to work
+	properly in an ECanvasVbox.
+
+	* e-table-model.c, e-table-model.h: Added append_row and
+	value_to_string methods.
+
+	* e-table-one.c, e-table-one.h: Given a source ETableModel, this
+	provides a single row model that uses the initialize_value,
+	duplicate_value, free_value, and value_is_empty methods of the
+	original source to implement set_value and value_at (and proxies
+	most of the other methods.)  This is used for ETableClickToAdd.
+
+	* e-table-simple.c, e-table-simple.h: Added append_row and
+	value_to_string handlers.  append_row uses a GtkArg instead of a
+	parameter to e_table_simple_new.
+
+	* e-table-subset.c: Added append_row and value_to_string handlers.
+
+	* e-table.c, e-table.h: Use a vbox containing an ETableClickToAdd
+	and an ETableItem instead of an ETableItem directly.  Only show
+	the ETableClickToAdd if the top level of the xml SPEC has the
+	attribute click-to-add set to some non-zero integer.
+	(click-to-add="1").  Add a "click_to_add_message" argument.
+
+	* e-tree-model.c: Add a commented out value_to_string handler.
+
 2000-06-23  Larry Ewing  <lewing@helixcode.com>
 
 	* e-cell-toggle.c (etog_draw): draw pixmaps with he right

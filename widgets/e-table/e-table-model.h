@@ -25,6 +25,7 @@ typedef struct {
 	void       *(*value_at)         (ETableModel *etm, int col, int row);
 	void        (*set_value_at)     (ETableModel *etm, int col, int row, const void *value);
 	gboolean    (*is_cell_editable) (ETableModel *etm, int col, int row);
+	gint        (*append_row)       (ETableModel *etm);
 
 	/* Allocate a copy of the given value. */
 	void       *(*duplicate_value)  (ETableModel *etm, int col, const void *value);
@@ -34,6 +35,8 @@ typedef struct {
 	void	   *(*initialize_value) (ETableModel *etm, int col);
 	/* Return TRUE if value is equivalent to an empty cell. */
 	gboolean    (*value_is_empty)   (ETableModel *etm, int col, const void *value);
+	/* Return an allocated string. */
+	char       *(*value_to_string)  (ETableModel *etm, int col, const void *value);
 	
 	/*
 	 * Signals
@@ -62,11 +65,13 @@ int         e_table_model_row_count        (ETableModel *e_table_model);
 void       *e_table_model_value_at         (ETableModel *e_table_model, int col, int row);
 void        e_table_model_set_value_at     (ETableModel *e_table_model, int col, int row, const void *value);
 gboolean    e_table_model_is_cell_editable (ETableModel *e_table_model, int col, int row);
+gint        e_table_model_append_row       (ETableModel *e_table_model);
 
 void       *e_table_model_duplicate_value  (ETableModel *e_table_model, int col, const void *value);
 void        e_table_model_free_value       (ETableModel *e_table_model, int col, void *value);
 void       *e_table_model_initialize_value (ETableModel *e_table_model, int col);
 gboolean    e_table_model_value_is_empty   (ETableModel *e_table_model, int col, const void *value);
+char       *e_table_model_value_to_string  (ETableModel *e_table_model, int col, const void *value);
 
 /*
  * Routines for emitting signals on the e_table

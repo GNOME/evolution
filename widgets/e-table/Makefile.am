@@ -36,6 +36,8 @@ libetable_a_SOURCES = 				\
 	e-cell-tree.h				\
 	e-table.c				\
 	e-table.h				\
+	e-table-click-to-add.c			\
+	e-table-click-to-add.h			\
 	e-table-col-dnd.h			\
 	e-table-col.c				\
 	e-table-col.h				\
@@ -62,6 +64,8 @@ libetable_a_SOURCES = 				\
 	e-table-item.h				\
 	e-table-model.c				\
 	e-table-model.h				\
+	e-table-one.c				\
+	e-table-one.h				\
 	e-table-simple.c			\
 	e-table-simple.h			\
 	e-table-sort-info.c			\

@@ -334,6 +334,7 @@ e_tree_model_class_init (GtkObjectClass *klass)
 	table_class->free_value       = etable_free_value;
 	table_class->initialize_value = etable_initialize_value;
 	table_class->value_is_empty   = etable_value_is_empty;
+	table_class->value_to_string  = etable_value_to_string;
 	table_class->thaw             = etable_thaw;
 #endif
 

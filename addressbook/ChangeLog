@@ -1,3 +1,20 @@
+2000-06-26  Christopher James Lahey  <clahey@helixcode.com>
+
+	* contact-editor/e-contact-editor-categories.c,
+	addressbook/gui/component/e-cardlist-model.c: Added
+	value_to_string handlers.
+
+	* demo/addressbook-widget.c, demo/demo.c: Removed usage of "x" and
+	"y" arguments.
+
+	* addressbook/gui/component/addressbook.c: Activated Click To Add
+	and set the click to add message.
+
+	* addressbook/gui/component/e-addressbook-model.c: Added
+	value_to_string and append_row handlers.
+
+	* addressbook/gui/component/e-select-names.c: Added a column.
+
 2000-06-26  Chris Toshok  <toshok@helixcode.com>
 
 	* backend/pas/pas-backend-ldap.c (poll_ldap): remove spew.

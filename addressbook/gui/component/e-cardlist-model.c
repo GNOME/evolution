@@ -107,6 +107,12 @@ e_cardlist_model_value_is_empty (ETableModel *etc, int col, const void *value)
 	return !(value && *(char *)value);
 }
 
+static char *
+e_cardlist_model_value_to_string (ETableModel *etc, int col, const void *value)
+{
+	return g_strdup(value);
+}
+
 void
 e_cardlist_model_add(ECardlistModel *model,
 		     ECard **cards,
@@ -160,6 +166,7 @@ e_cardlist_model_class_init (GtkObjectClass *object_class)
 	model_class->free_value = e_cardlist_model_free_value;
 	model_class->initialize_value = e_cardlist_model_initialize_value;
 	model_class->value_is_empty = e_cardlist_model_value_is_empty;
+	model_class->value_to_string = e_cardlist_model_value_to_string;
 }
 
 static void

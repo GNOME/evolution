@@ -85,6 +85,18 @@ e_table_model_is_cell_editable (ETableModel *e_table_model, int col, int row)
 	return ETM_CLASS (e_table_model)->is_cell_editable (e_table_model, col, row);
 }
 
+gint
+e_table_model_append_row (ETableModel *e_table_model)
+{
+	g_return_val_if_fail (e_table_model != NULL, -1);
+	g_return_val_if_fail (E_IS_TABLE_MODEL (e_table_model), -1);
+
+	if (ETM_CLASS (e_table_model)->append_row)
+		return ETM_CLASS (e_table_model)->append_row (e_table_model);
+	else
+		return -1;
+}
+
 void *
 e_table_model_duplicate_value (ETableModel *e_table_model, int col, const void *value)
 {
@@ -129,6 +141,18 @@ e_table_model_value_is_empty (ETableModel *e_table_model, int col, const void *v
 		return ETM_CLASS (e_table_model)->value_is_empty (e_table_model, col, value);
 	else
 		return FALSE;
+}
+
+char *
+e_table_model_value_to_string (ETableModel *e_table_model, int col, const void *value)
+{
+	g_return_val_if_fail (e_table_model != NULL, NULL);
+	g_return_val_if_fail (E_IS_TABLE_MODEL (e_table_model), NULL);
+
+	if (ETM_CLASS (e_table_model)->value_to_string)
+		return ETM_CLASS (e_table_model)->value_to_string (e_table_model, col, value);
+	else
+		return g_strdup("");
 }
 
 static void
@@ -193,10 +217,13 @@ e_table_model_class_init (GtkObjectClass *object_class)
 	klass->value_at = NULL;         
 	klass->set_value_at = NULL;     
 	klass->is_cell_editable = NULL; 
+	klass->append_row = NULL;
+
 	klass->duplicate_value = NULL;  
 	klass->free_value = NULL;       
 	klass->initialize_value = NULL; 
 	klass->value_is_empty = NULL;   
+	klass->value_to_string = NULL;
 	klass->model_changed = NULL;    
 	klass->model_row_changed = NULL;
 	klass->model_cell_changed = NULL;

@@ -27,6 +27,7 @@ typedef struct {
 
 	ETableHeader *full_header, *header;
 
+	GnomeCanvasItem *canvas_vbox;
 	ETableGroup  *group;
 
 	ETableSortInfo *sort_info;
@@ -55,6 +56,11 @@ typedef struct {
 	 */
 	guint draw_grid : 1;
 	guint draw_focus : 1;
+	guint row_selection_active : 1;
+	
+	char *click_to_add_message;
+	GnomeCanvasItem *click_to_add;
+	gboolean use_click_to_add;
 
 	ETableCursorMode cursor_mode;
 } ETable;

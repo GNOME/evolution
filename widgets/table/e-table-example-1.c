@@ -171,6 +171,13 @@ my_value_is_empty (ETableModel *etc, int col, const void *value, void *data)
 	return !(value && *(char *)value);
 }
 
+/* This function reports if a value is empty. */
+static char *
+my_value_to_string (ETableModel *etc, int col, const void *value, void *data)
+{
+	return g_strdup(value);
+}
+
 /* We create a window containing our new table. */
 static void
 create_table (void)
@@ -193,6 +200,7 @@ create_table (void)
 					    my_set_value_at, my_is_cell_editable,
 					    my_duplicate_value, my_free_value, 
 					    my_initialize_value, my_value_is_empty,
+					    my_value_to_string,
 					    NULL);
 	/*
 	 * Next we create a header.  The ETableHeader is used in two

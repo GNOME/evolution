@@ -202,6 +202,12 @@ value_is_empty (ETableModel *etc, int col, const void *value, void *data)
 	return !(value && *(char *)value);
 }
 
+static char *
+value_to_string (ETableModel *etc, int col, const void *value, void *data)
+{
+	return g_strdup(value);
+}
+
 static void
 set_canvas_size (GnomeCanvas *canvas, GtkAllocation *alloc)
 {
@@ -228,6 +234,7 @@ table_browser_test (void)
 		set_value_at, is_cell_editable,
 		duplicate_value, free_value,
 		initialize_value, value_is_empty,
+		value_to_string,
 		NULL);
 
 	/*
@@ -325,6 +332,7 @@ do_e_table_demo (const char *spec)
 					    set_value_at, is_cell_editable,
 					    duplicate_value, free_value,
 					    initialize_value, value_is_empty,
+					    value_to_string,
 					    NULL);
 
 	full_header = e_table_header_new ();

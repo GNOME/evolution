@@ -13,6 +13,11 @@
 #include <config.h>
 #include "e-table-simple.h"
 
+enum {
+	ARG_0,
+	ARG_APPEND_ROW,
+};
+
 #define PARENT_TYPE e_table_model_get_type ()
 
 static int
@@ -111,10 +116,61 @@ simple_value_is_empty (ETableModel *etm, int col, const void *value)
 		return FALSE;
 }
 
+static char *
+simple_value_to_string (ETableModel *etm, int col, const void *value)
+{
+	ETableSimple *simple = E_TABLE_SIMPLE(etm);
+	
+	if (simple->value_to_string)
+		return simple->value_to_string (etm, col, value, simple->data);
+	else
+		return g_strdup ("");
+}
+
+static int
+simple_append_row (ETableModel *etm)
+{
+	ETableSimple *simple = E_TABLE_SIMPLE(etm);
+	
+	if (simple->append_row)
+		return simple->append_row (etm, simple->data);
+	else
+		return -1;
+}
+
+static void
+simple_get_arg (GtkObject *o, GtkArg *arg, guint arg_id)
+{
+	ETableSimple *simple = E_TABLE_SIMPLE (o);
+
+	switch (arg_id){
+	case ARG_APPEND_ROW:
+		GTK_VALUE_POINTER(*arg) = simple->append_row;
+		break;
+	}
+}
+
+static void
+simple_set_arg (GtkObject *o, GtkArg *arg, guint arg_id)
+{
+	ETableSimple *simple = E_TABLE_SIMPLE (o);
+	
+	switch (arg_id){
+	case ARG_APPEND_ROW:
+		simple->append_row = GTK_VALUE_POINTER(*arg);
+		break;
+	default:
+		arg->type = GTK_TYPE_INVALID;
+	}
+}
+
 static void
 e_table_simple_class_init (GtkObjectClass *object_class)
 {
 	ETableModelClass *model_class = (ETableModelClass *) object_class;
+
+	object_class->set_arg = simple_set_arg;
+	object_class->get_arg = simple_get_arg;
 
 	model_class->column_count = simple_column_count;
 	model_class->row_count = simple_row_count;
@@ -125,6 +181,11 @@ e_table_simple_class_init (GtkObjectClass *object_class)
 	model_class->free_value = simple_free_value;
 	model_class->initialize_value = simple_initialize_value;
 	model_class->value_is_empty = simple_value_is_empty;
+	model_class->value_to_string = simple_value_to_string;
+	model_class->append_row = simple_append_row;
+
+	gtk_object_add_arg_type ("ETableSimple::append_row", GTK_TYPE_POINTER,
+				 GTK_ARG_READWRITE, ARG_APPEND_ROW);
 }
 
 GtkType
@@ -160,6 +221,7 @@ e_table_simple_new (ETableSimpleColumnCountFn col_count,
 		    ETableSimpleFreeValueFn free_value,
 		    ETableSimpleInitializeValueFn initialize_value,
 		    ETableSimpleValueIsEmptyFn value_is_empty,
+		    ETableSimpleValueToStringFn value_to_string,
 		    void *data)
 {
 	ETableSimple *et;
@@ -175,6 +237,7 @@ e_table_simple_new (ETableSimpleColumnCountFn col_count,
 	et->free_value = free_value;
 	et->initialize_value = initialize_value;
 	et->value_is_empty = value_is_empty;
+	et->value_to_string = value_to_string;
 	et->data = data;
 	
 	return (ETableModel *) et;

@@ -262,6 +262,7 @@ etgl_set_arg (GtkObject *object, GtkArg *arg, guint arg_id)
 		}
 		break;
 	case ARG_MINIMUM_WIDTH:
+	case ARG_WIDTH:
 		etgl->minimum_width = GTK_VALUE_DOUBLE(*arg);
 		if (etgl->item) {
 			gnome_canvas_item_set (GNOME_CANVAS_ITEM(etgl->item),
@@ -371,7 +372,7 @@ etgl_class_init (GtkObjectClass *object_class)
 	gtk_object_add_arg_type ("ETableGroupLeaf::height", GTK_TYPE_DOUBLE, 
 				 GTK_ARG_READABLE, ARG_HEIGHT);
 	gtk_object_add_arg_type ("ETableGroupLeaf::width", GTK_TYPE_DOUBLE, 
-				 GTK_ARG_READABLE, ARG_WIDTH);
+				 GTK_ARG_READWRITE, ARG_WIDTH);
 	gtk_object_add_arg_type ("ETableGroupLeaf::minimum_width", GTK_TYPE_DOUBLE,
 				 GTK_ARG_READWRITE, ARG_MINIMUM_WIDTH);
 	gtk_object_add_arg_type ("ETableGroupLeaf::frozen", GTK_TYPE_BOOL,

@@ -471,6 +471,46 @@ ml_value_is_empty (ETableModel *etm, int col, const void *value, void *data)
 	}
 }
 
+static char *
+ml_value_to_string (ETableModel *etm, int col, const void *value, void *data)
+{
+	switch (col){
+	case COL_MESSAGE_STATUS:
+		switch ((int) value) {
+		case 0:
+			return g_strdup("Unseen");
+			break;
+		case 1:
+			return g_strdup("Seen");
+			break;
+		case 2:
+			return g_strdup("Answered");
+			break;
+		default:
+			return g_strdup("");
+			break;
+		}
+		break;
+	case COL_ONLINE_STATUS:
+	case COL_PRIORITY:
+	case COL_ATTACHMENT:
+	case COL_DELETED:
+	case COL_UNREAD:
+	case COL_SENT:
+	case COL_RECEIVED:
+		return g_strdup_printf("%d", (int) value);
+
+	case COL_FROM:
+	case COL_SUBJECT:
+	case COL_TO:
+	case COL_SIZE:
+		return g_strdup(value);
+	default:
+		g_assert_not_reached ();
+		return NULL;
+	}
+}
+
 static struct {
 	char **image_base;
 	GdkPixbuf  *pixbuf;
@@ -688,6 +728,7 @@ message_list_init (GtkObject *object)
 		ml_set_value_at, ml_is_cell_editable,
 		ml_duplicate_value, ml_free_value,
 		ml_initialize_value, ml_value_is_empty,
+		ml_value_to_string,
 		message_list);
 
 	message_list_init_renderers (message_list);

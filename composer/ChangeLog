@@ -1,3 +1,8 @@
+2000-06-26  Christopher James Lahey  <clahey@helixcode.com>
+
+	* Makefile.am: Added e-msg-composer-select-file.h for make
+	distcheck.
+
 2000-06-26  Ettore Perazzoli  <ettore@helixcode.com>
 
 	* e-msg-composer.c

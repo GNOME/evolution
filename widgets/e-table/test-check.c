@@ -118,6 +118,15 @@ value_is_empty (ETableModel *etc, int col, const void *value, void *data)
 		return !(value && *(char *)value);
 }
 
+static char *
+value_to_string (ETableModel *etc, int col, const void *value, void *data)
+{
+	if (col == 0)
+		return g_strdup_printf("%d", (int) value);
+	else
+		return g_strdup(value);
+}
+
 static void
 set_canvas_size (GnomeCanvas *canvas, GtkAllocation *alloc)
 {
@@ -143,6 +152,7 @@ check_test (void)
 		set_value_at, is_cell_editable, 
 		duplicate_value, free_value, 
 		initialize_value, value_is_empty,
+		value_to_string,
 		NULL);
 
 	/*

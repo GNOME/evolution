@@ -43,6 +43,7 @@ enum {
 typedef struct {
 	ETableGroup *child;
 	void *key;
+	char *string;
 	GnomeCanvasItem *text;
 	GnomeCanvasItem *rect;
 	gint count;
@@ -62,6 +63,7 @@ e_table_group_container_child_node_free (ETableGroupContainer          *etgc,
 	gtk_object_destroy (GTK_OBJECT (child));
 	e_table_model_free_value (etg->model, etgc->ecol->col_idx,
 				  child_node->key);
+	g_free(child_node->string);
 	gtk_object_destroy (GTK_OBJECT (child_node->text));
 	gtk_object_destroy (GTK_OBJECT (child_node->rect));
 }
@@ -253,8 +255,10 @@ etgc_event (GnomeCanvasItem *item, GdkEvent *event)
 			}
 		}
 		return_val = FALSE;
+		break;
 	default:
 		return_val = FALSE;
+		break;
 	}
 	if (return_val == FALSE) {
 		if (GNOME_CANVAS_ITEM_CLASS(etgc_parent_class)->event)
@@ -293,12 +297,18 @@ etgc_unrealize (GnomeCanvasItem *item)
 static void
 compute_text (ETableGroupContainer *etgc, ETableGroupContainerChildNode *child_node)
 {
-	/* FIXME : What a hack, eh? */
-	gchar *text = g_strdup_printf ("%s : %s (%d item%s)",
-				       etgc->ecol->text,
-				       (gchar *)child_node->key,
-				       (gint) child_node->count,
-				       child_node->count == 1 ? "" : "s");
+	gchar *text;
+	if (etgc->ecol->text)
+		text = g_strdup_printf ("%s : %s (%d item%s)",
+					etgc->ecol->text,
+					child_node->string,
+					(gint) child_node->count,
+					child_node->count == 1 ? "" : "s");
+	else
+		text = g_strdup_printf ("%s (%d item%s)",
+					child_node->string,
+					(gint) child_node->count,
+					child_node->count == 1 ? "" : "s");
 	gnome_canvas_item_set (child_node->text, 
 			       "text", text,
 			       NULL);
@@ -399,6 +409,7 @@ etgc_add (ETableGroup *etg, gint row)
 			    GTK_SIGNAL_FUNC (child_key_press), etgc);
 	child_node->child = child;
 	child_node->key = e_table_model_duplicate_value (etg->model, etgc->ecol->col_idx, val);
+	child_node->string = e_table_model_value_to_string (etg->model, etgc->ecol->col_idx, val);
 	child_node->count = 1;
 	e_table_group_add (child, row);
 
@@ -557,6 +568,7 @@ etgc_set_arg (GtkObject *object, GtkArg *arg, guint arg_id)
 		}
 		break;
 	case ARG_MINIMUM_WIDTH:
+	case ARG_WIDTH:
 		etgc->minimum_width = GTK_VALUE_DOUBLE(*arg);
 
 		for (list = etgc->children; list; list = g_list_next (list)) {
@@ -676,7 +688,7 @@ etgc_class_init (GtkObjectClass *object_class)
 	gtk_object_add_arg_type ("ETableGroupContainer::height", GTK_TYPE_DOUBLE, 
 				 GTK_ARG_READABLE, ARG_HEIGHT);
 	gtk_object_add_arg_type ("ETableGroupContainer::width", GTK_TYPE_DOUBLE, 
-				 GTK_ARG_READABLE, ARG_WIDTH);
+				 GTK_ARG_READWRITE, ARG_WIDTH);
 	gtk_object_add_arg_type ("ETableGroupContainer::minimum_width", GTK_TYPE_DOUBLE,
 				 GTK_ARG_READWRITE, ARG_MINIMUM_WIDTH);
 }

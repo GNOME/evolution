@@ -35,7 +35,8 @@ libcomposer_la_SOURCES = 			\
 	e-msg-composer-hdrs.c			\
 	e-msg-composer-hdrs.h			\
 	e-msg-composer-select-file.c		\
-	e-msg-composer.c			
+	e-msg-composer-select-file.h		\
+	e-msg-composer.c			\
 	e-msg-composer.h			
 
 EXTRA_DIST =					\

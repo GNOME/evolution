@@ -12,6 +12,8 @@ libeutil_la_SOURCES =			\
 	e-canvas.h			\
 	e-canvas-utils.c		\
 	e-canvas-utils.h		\
+	e-canvas-vbox.c			\
+	e-canvas-vbox.h			\
 	e-cursors.c			\
 	e-cursors.h			\
 	e-dialog-widgets.c		\

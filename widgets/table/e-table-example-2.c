@@ -207,6 +207,18 @@ my_value_is_empty (ETableModel *etc, int col, const void *value, void *data)
 	}
 }
 
+static char *
+my_value_to_string (ETableModel *etc, int col, const void *value, void *data)
+{
+	if (col == COLOR_COLUMN){
+		return g_strdup_printf("%d", (int) value);
+	} else if (col == IMPORTANCE_COLUMN){
+		return g_strdup_printf("%d", (int) value);
+	} else {
+		return g_strdup(value);
+	}
+}
+
 /* We create a window containing our new table. */
 static void
 create_table ()
@@ -234,6 +246,7 @@ create_table ()
 					    my_set_value_at, my_is_cell_editable,
 					    my_duplicate_value, my_free_value,
 					    my_initialize_value, my_value_is_empty,
+					    my_value_to_string,
 					    NULL);
 	/*
 	  Next we create a header.  The ETableHeader is used in two

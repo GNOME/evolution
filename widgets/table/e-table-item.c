@@ -816,6 +816,7 @@ eti_set_arg (GtkObject *o, GtkArg *arg, guint arg_id)
 		break;
 
 	case ARG_MINIMUM_WIDTH:
+	case ARG_WIDTH:
 		if (eti->minimum_width == eti->width && GTK_VALUE_DOUBLE (*arg) > eti->width)
 			e_canvas_item_request_reflow (GNOME_CANVAS_ITEM (eti));
 		eti->minimum_width = GTK_VALUE_DOUBLE (*arg);

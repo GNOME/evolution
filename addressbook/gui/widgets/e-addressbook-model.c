@@ -113,6 +113,19 @@ addressbook_is_cell_editable (ETableModel *etc, int col, int row)
 	return TRUE;
 }
 
+static gint
+addressbook_append_row (ETableModel *etm)
+{
+	ECard *card;
+	EAddressbookModel *model = E_ADDRESSBOOK_MODEL(etm);
+	model->data = g_realloc(model->data, (model->data_count + 1) * sizeof(ECard *));
+	card = e_card_new("");
+	model->data[model->data_count++] = e_card_simple_new (card);
+	gtk_object_unref(GTK_OBJECT(card));
+	e_table_model_row_inserted(E_TABLE_MODEL(model), model->data_count - 1);
+	return model->data_count - 1;
+}
+
 /* This function duplicates the value passed to it. */
 static void *
 addressbook_duplicate_value (ETableModel *etc, int col, const void *value)
@@ -139,6 +152,12 @@ addressbook_value_is_empty (ETableModel *etc, int col, const void *value)
 	return !(value && *(char *)value);
 }
 
+static char *
+addressbook_value_to_string (ETableModel *etc, int col, const void *value)
+{
+	return g_strdup(value);
+}
+
 static void
 create_card(EBookView *book_view,
 	    const GList *cards,
@@ -146,7 +165,6 @@ create_card(EBookView *book_view,
 {
 	model->data = g_realloc(model->data, (model->data_count + g_list_length((GList *)cards)) * sizeof(ECard *));
 	for ( ; cards; cards = cards->next) {
-		gtk_object_ref(GTK_OBJECT(cards->data));
 		model->data[model->data_count++] = e_card_simple_new (E_CARD(cards->data));
 		e_table_model_row_inserted(E_TABLE_MODEL(model), model->data_count - 1);
 	}
@@ -207,10 +225,12 @@ e_addressbook_model_class_init (GtkObjectClass *object_class)
 	model_class->value_at = addressbook_value_at;
 	model_class->set_value_at = addressbook_set_value_at;
 	model_class->is_cell_editable = addressbook_is_cell_editable;
+	model_class->append_row = addressbook_append_row;
 	model_class->duplicate_value = addressbook_duplicate_value;
 	model_class->free_value = addressbook_free_value;
 	model_class->initialize_value = addressbook_initialize_value;
 	model_class->value_is_empty = addressbook_value_is_empty;
+	model_class->value_to_string = addressbook_value_to_string;
 }
 
 static void

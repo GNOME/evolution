@@ -42,6 +42,7 @@ static void *e_contact_editor_categories_duplicate_value (ETableModel *etc, int 
 static void e_contact_editor_categories_free_value (ETableModel *etc, int col, void *value, gpointer data);
 static void *e_contact_editor_categories_initialize_value (ETableModel *etc, int col, gpointer data);
 static gboolean e_contact_editor_categories_value_is_empty (ETableModel *etc, int col, const void *value, gpointer data);
+static char * e_contact_editor_categories_value_to_string (ETableModel *etc, int col, const void *value, gpointer data);
 
 static GnomeDialogClass *parent_class = NULL;
 
@@ -274,6 +275,7 @@ e_contact_editor_categories_init (EContactEditorCategories *categories)
 					       e_contact_editor_categories_free_value,
 					       e_contact_editor_categories_initialize_value,
 					       e_contact_editor_categories_value_is_empty,
+					       e_contact_editor_categories_value_to_string,
 					       categories);
 
 	header = e_table_header_new();
@@ -453,4 +455,13 @@ e_contact_editor_categories_value_is_empty (ETableModel *etc, int col, const voi
 		return value == NULL;
 	else
 		return !(value && *(char *)value);
+}
+
+static char *
+e_contact_editor_categories_value_to_string (ETableModel *etc, int col, const void *value, gpointer data)
+{
+	if (col == 0)
+		return g_strdup_printf("%d", (int) value);
+	else
+		return g_strdup(value);
 }

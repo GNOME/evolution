@@ -745,7 +745,7 @@ set_prop (BonoboPropertyBag *bag,
 }
 
 #define SPEC "<?xml version=\"1.0\"?>    \
-<ETableSpecification>                    \
+<ETableSpecification click-to-add=\"1\"> \
   <columns-shown>                        \
     <column>0</column>                   \
     <column>1</column>                   \
@@ -1022,6 +1022,10 @@ create_table_view (AddressbookView *view, char *initial_query)
 			   GTK_SIGNAL_FUNC(table_double_click), view);
 	gtk_signal_connect(GTK_OBJECT(view->table), "right_click",
 			   GTK_SIGNAL_FUNC(table_right_click), view);
+
+	gtk_object_set (GTK_OBJECT(view->table),
+			"click_to_add_message", _("* Click here to add a contact *"),
+			NULL);
 
 	gtk_box_pack_start(GTK_BOX(view->vbox), view->table, TRUE, TRUE, 0);
 

@@ -82,6 +82,23 @@ etss_is_cell_editable (ETableModel *etm, int col, int row)
 	return e_table_model_is_cell_editable (etss->source, col, etss->map_table [row]);
 }
 
+static gint
+etss_append_row (ETableModel *etm)
+{
+	ETableSubset *etss = (ETableSubset *)etm;
+	gint source_row = e_table_model_append_row (etss->source);
+	const int n = etss->n_map;
+	const int * const map_table = etss->map_table;
+	int i;
+
+	for (i = 0; i < n; i++){
+		if (map_table [i] == source_row){
+			return i;
+		}
+	}
+	return -1;
+}
+
 static void *
 etss_duplicate_value (ETableModel *etm, int col, const void *value)
 {
@@ -114,6 +131,14 @@ etss_value_is_empty (ETableModel *etm, int col, const void *value)
 	return e_table_model_value_is_empty (etss->source, col, value);
 }
 
+static char *
+etss_value_to_string (ETableModel *etm, int col, const void *value)
+{
+	ETableSubset *etss = (ETableSubset *)etm;
+
+	return e_table_model_value_to_string (etss->source, col, value);
+}
+
 static void
 etss_class_init (GtkObjectClass *klass)
 {
@@ -128,10 +153,12 @@ etss_class_init (GtkObjectClass *klass)
 	table_class->value_at         = etss_value_at;
 	table_class->set_value_at     = etss_set_value_at;
 	table_class->is_cell_editable = etss_is_cell_editable;
+	table_class->append_row       = etss_append_row;
 	table_class->duplicate_value  = etss_duplicate_value;
 	table_class->free_value       = etss_free_value;
 	table_class->initialize_value = etss_initialize_value;
 	table_class->value_is_empty   = etss_value_is_empty;
+	table_class->value_to_string  = etss_value_to_string;
 }
 
 E_MAKE_TYPE(e_table_subset, "ETableSubset", ETableSubset, etss_class_init, NULL, PARENT_TYPE);

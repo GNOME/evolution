@@ -15,23 +15,27 @@ typedef	int         (*ETableSimpleRowCountFn)        (ETableModel *etm, void *da
 typedef	void       *(*ETableSimpleValueAtFn)         (ETableModel *etm, int col, int row, void *data);
 typedef	void        (*ETableSimpleSetValueAtFn)      (ETableModel *etm, int col, int row, const void *val, void *data);
 typedef	gboolean    (*ETableSimpleIsCellEditableFn)  (ETableModel *etm, int col, int row, void *data);
+typedef gint        (*ETableSimpleAppendRowFn)       (ETableModel *etm, void *data);
 typedef	void       *(*ETableSimpleDuplicateValueFn)  (ETableModel *etm, int col, const void *val, void *data);
 typedef	void        (*ETableSimpleFreeValueFn)       (ETableModel *etm, int col, void *val, void *data);
 typedef void       *(*ETableSimpleInitializeValueFn) (ETableModel *etm, int col, void *data);
 typedef gboolean    (*ETableSimpleValueIsEmptyFn)    (ETableModel *etm, int col, const void *val, void *data);
+typedef char       *(*ETableSimpleValueToStringFn)   (ETableModel *etm, int col, const void *val, void *data);
 
 typedef struct {
 	ETableModel parent;
 
-	ETableSimpleColumnCountFn    col_count;
-	ETableSimpleRowCountFn       row_count;
-	ETableSimpleValueAtFn        value_at;
-	ETableSimpleSetValueAtFn     set_value_at;
-	ETableSimpleIsCellEditableFn is_cell_editable;
-	ETableSimpleDuplicateValueFn duplicate_value;
-	ETableSimpleFreeValueFn      free_value;
+	ETableSimpleColumnCountFn     col_count;
+	ETableSimpleRowCountFn        row_count;
+	ETableSimpleValueAtFn         value_at;
+	ETableSimpleSetValueAtFn      set_value_at;
+	ETableSimpleIsCellEditableFn  is_cell_editable;
+	ETableSimpleDuplicateValueFn  duplicate_value;
+	ETableSimpleFreeValueFn       free_value;
 	ETableSimpleInitializeValueFn initialize_value;
-	ETableSimpleValueIsEmptyFn value_is_empty;
+	ETableSimpleValueIsEmptyFn    value_is_empty;
+	ETableSimpleValueToStringFn   value_to_string;
+	ETableSimpleAppendRowFn       append_row;
 	void *data;
 } ETableSimple;
 
@@ -50,6 +54,7 @@ ETableModel *e_table_simple_new (ETableSimpleColumnCountFn col_count,
 				 ETableSimpleFreeValueFn free_value,
 				 ETableSimpleInitializeValueFn initialize_value,
 				 ETableSimpleValueIsEmptyFn value_is_empty,
+				 ETableSimpleValueToStringFn value_to_string,
 				 void *data);
 
 #endif /* _E_TABLE_SIMPLE_H_ */

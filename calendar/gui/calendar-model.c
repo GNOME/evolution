@@ -55,6 +55,7 @@ static void *calendar_model_duplicate_value (ETableModel *etm, int col, const vo
 static void calendar_model_free_value (ETableModel *etm, int col, void *value);
 static void *calendar_model_initialize_value (ETableModel *etm, int col);
 static gboolean calendar_model_value_is_empty (ETableModel *etm, int col, const void *value);
+static char * calendar_model_value_to_string (ETableModel *etm, int col, const void *value);
 
 static ETableModelClass *parent_class;
 
@@ -115,6 +116,9 @@ calendar_model_class_init (CalendarModelClass *class)
 	etm_class->free_value = calendar_model_free_value;
 	etm_class->initialize_value = calendar_model_initialize_value;
 	etm_class->value_is_empty = calendar_model_value_is_empty;
+#if 0
+	etm_class->value_to_string = calendar_model_value_to_string;
+#endif
 }
 
 /* Object initialization function for the calendar table model */

@@ -1333,7 +1333,7 @@ e_text_get_arg (GtkObject *object, GtkArg *arg, guint arg_id)
 		break;
 
 	case ARG_HEIGHT:
-		GTK_VALUE_DOUBLE (*arg) = text->max_width / text->item.canvas->pixels_per_unit;
+		GTK_VALUE_DOUBLE (*arg) = text->clip && text->clip_height != -1 ? text->clip_height : text->height / text->item.canvas->pixels_per_unit;
 		break;
 
 	default:

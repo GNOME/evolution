@@ -97,6 +97,7 @@ e_select_names_class_init (ESelectNamesClass *klass)
 #define SPEC "<ETableSpecification no-header=\"1\">    	       \
 	<columns-shown>                  			       \
 		<column> 0 </column>     			       \
+                <column> 2 </column>                                   \
 	</columns-shown>                 			       \
 	<grouping> <leaf column=\"0\" ascending=\"1\"/> </grouping>    \
 </ETableSpecification>"

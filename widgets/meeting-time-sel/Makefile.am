@@ -1,6 +1,7 @@
 
 INCLUDES =					\
 	$(GNOME_INCLUDEDIR)			\
+	-I $(top_srcdir)			\
 	-DG_LOG_DOMAIN=\"meeting-time-sel\"
 
 noinst_LIBRARIES =				\

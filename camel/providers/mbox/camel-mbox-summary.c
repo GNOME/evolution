@@ -1,3 +1,4 @@
+/* -*- Mode: C; tab-width: 8; indent-tabs-mode: t; c-basic-offset: 8; fill-column: 160 -*- */
 /*
  *  Copyright (C) 2000 Helix Code Inc.
  *
@@ -30,7 +31,7 @@
 #include <stdlib.h>
 
 #define io(x)
-#define d(x)
+#define d(x) (x)
 
 #define CAMEL_MBOX_SUMMARY_VERSION (0x1000)
 
@@ -597,6 +598,7 @@ camel_mbox_summary_sync(CamelMboxSummary *mbs, gboolean expunge)
 				if (unlink(tmpname) != -1)
 					goto retry_out;
 			tmpname = 0;
+			g_warning("Something failed (yo!)");
 			goto error;
 		}
 	}
@@ -632,16 +634,20 @@ camel_mbox_summary_sync(CamelMboxSummary *mbs, gboolean expunge)
 
 			/* find the next message, header parts */
 			camel_mime_parser_seek(mp, info->frompos, SEEK_SET);
-			if (camel_mime_parser_step(mp, &buffer, &len) != HSCAN_FROM)
+			if (camel_mime_parser_step(mp, &buffer, &len) != HSCAN_FROM) {
+				g_warning("camel_mime_parser_step failed (1)");
 				goto error;
+			}
 
 			if (camel_mime_parser_tell_start_from(mp) != info->frompos) {
 				g_warning("Summary/mbox mismatch, aborting sync");
 				goto error;
 			}
 			
-			if (camel_mime_parser_step(mp, &buffer, &len) == HSCAN_FROM_END)
+			if (camel_mime_parser_step(mp, &buffer, &len) == HSCAN_FROM_END) {
+				g_warning("camel_mime_parser_step failed (2)");
 				goto error;
+			}
 
 			xev = camel_mime_parser_header(mp, "X-Evolution", &xevoffset);
 			if (xev && header_evolution_decode(xev, &uid, &flags) != -1) {
@@ -669,6 +675,7 @@ camel_mbox_summary_sync(CamelMboxSummary *mbs, gboolean expunge)
 				lseek (fd, lastpos, SEEK_SET);
 				g_free(buffer);
 				if (len == -1) {
+					g_warning("Yahoo!  len == -1");
 					goto error;
 				}
 			} else {
@@ -741,8 +748,10 @@ camel_mbox_summary_sync(CamelMboxSummary *mbs, gboolean expunge)
 			ibex_save(mbs->index);
 	}
 
-	if (stat(mbs->folder_path, &st) == -1)
+	if (stat(mbs->folder_path, &st) == -1) {
+		g_warning("Hmm...  stat(mbs->folder_path, &st) == -1");
 		goto error;
+	}
 
 	camel_folder_summary_touch(s);
 	s->time = st.st_mtime;
