@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: evolution 1.5.3\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2004-08-28 14:07+0900\n"
-"PO-Revision-Date: 2004-08-28 14:08+0900\n"
+"POT-Creation-Date: 2004-08-29 01:10+0900\n"
+"PO-Revision-Date: 2004-08-29 01:11+0900\n"
 "Last-Translator: Changwoo Ryu <cwryu@debian.org>\n"
 "Language-Team: GNOME Korea <gnome-kr-hackers@lists.kldp.net>\n"
 "MIME-Version: 1.0\n"
@@ -16113,7 +16113,9 @@ msgstr "GroupWise 서버에 연결할 수 없습니다"
 msgid ""
 "\n"
 "Please check your account settings and try again.\n"
-msgstr "\n계정 설정을 확인하고 다시 시도해 보십시오.\n"
+msgstr ""
+"\n"
+"계정 설정을 확인하고 다시 시도해 보십시오.\n"
 
 #: mail/mail-folder-cache.c:795
 #, c-format
@@ -19556,38 +19558,3 @@ msgstr "%s (...)"
 #, c-format
 msgid "%s (%d%% complete)"
 msgstr "%s (%d%% 완료)"
-
-#~ msgid "*Control*F2"
-#~ msgstr "*Control*F2"
-
-#~ msgid "*Control*F3"
-#~ msgstr "*Control*F3"
-
-#~ msgid "*Control*F4"
-#~ msgstr "*Control*F4"
-
-#~ msgid "*Control*F1"
-#~ msgstr "*Control*F1"
-
-#~ msgid ""
-#~ "Could not connect to {0}. Groupwise account setup is incomplete. You may "
-#~ "need to setup  the account again"
-#~ msgstr ""
-#~ "{0}에 연결할 수 없습니다. Groupwise 계정 설정이 불완전합니다. 계정을 다시 "
-#~ "설정해야 할 수도 있습니다"
-
-#~ msgid "480"
-#~ msgstr "480"
-
-#~ msgid ""
-#~ "The contact cannot be saved to the selected address book. Do you want to "
-#~ "discard changes?"
-#~ msgstr ""
-#~ "연락처를 선택하신 주소록에 저장할 수 없습니다. 바뀐 부분을 버리시겠습니까?"
-
-#~ msgid ""
-#~ "You are moving the contact from one address book to another, but it "
-#~ "cannot be removed from the source. Do you want to save a copy instead?"
-#~ msgstr ""
-#~ "연락처를 한 주소록에서 다른 주소록으로 옮기려 했지만 연락처를 원래 주소록"
-#~ "에서 지울 수 없습니다. 옮기는 대신에 복사하시겠습니까?"
