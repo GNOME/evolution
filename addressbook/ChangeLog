@@ -5,8 +5,6 @@
 	broken build.
 	(save_as): same.
 
-	* gui/widgets/e-addressbook-reflow-adapter.c (save_as): same.
-
 2002-06-15  Chris Toshok  <toshok@ximian.com>
 
 	[ fixes bug #26130 ]
