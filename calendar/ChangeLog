@@ -1,3 +1,11 @@
+2001-07-25  Damon Chaplin  <damon@ximian.com>
+
+	* gui/dialogs/comp-editor.c (pixmaps): used the new print preview icon.
+
+	* gui/print.c (range_selector_new): changed the 'Current day/week...'
+	strings to 'Selected day/week...' to make a little less confusing.
+	Fixes bug #5451.
+
 2001-07-25  JP Rosevear  <jpr@ximian.com>
 
 	* gui/dialogs/meeting-page.c (is_duplicate): see if the address is

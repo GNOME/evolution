@@ -105,7 +105,7 @@ static EPixmap pixmaps [] =
 	E_PIXMAP ("/menu/File/FilePrintPreview",		"print-preview.xpm"),
 
 	E_PIXMAP ("/Toolbar/FilePrint",			        "buttons/print.png"),
-	E_PIXMAP ("/Toolbar/FilePrintPreview",		        "print-preview.xpm"),
+	E_PIXMAP ("/Toolbar/FilePrintPreview",		        "buttons/print-preview-24.png"),
 
 	E_PIXMAP_END
 };

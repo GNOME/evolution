@@ -1812,7 +1812,7 @@ range_selector_new (GtkWidget *dialog, time_t at, int *view)
 
 	/* Day */
 
-	strftime (text, sizeof (text), _("Current day (%a %b %d %Y)"), &tm);
+	strftime (text, sizeof (text), _("Selected day (%a %b %d %Y)"), &tm);
 	radio = gtk_radio_button_new_with_label (NULL, text);
 	group = gtk_radio_button_group (GTK_RADIO_BUTTON (radio));
 	gtk_box_pack_start (GTK_BOX (box), radio, FALSE, FALSE, 0);
@@ -1843,7 +1843,7 @@ range_selector_new (GtkWidget *dialog, time_t at, int *view)
 		}
 	}
 
-	g_snprintf (text, sizeof (text), _("Current week (%s - %s)"), str1, str2);
+	g_snprintf (text, sizeof (text), _("Selected week (%s - %s)"), str1, str2);
 
 	radio = gtk_radio_button_new_with_label (group, text);
 	group = gtk_radio_button_group (GTK_RADIO_BUTTON (radio));
@@ -1851,14 +1851,14 @@ range_selector_new (GtkWidget *dialog, time_t at, int *view)
 
 	/* Month */
 
-	strftime (text, sizeof (text), _("Current month (%b %Y)"), &tm);
+	strftime (text, sizeof (text), _("Selected month (%b %Y)"), &tm);
 	radio = gtk_radio_button_new_with_label (group, text);
 	group = gtk_radio_button_group (GTK_RADIO_BUTTON (radio));
 	gtk_box_pack_start (GTK_BOX (box), radio, FALSE, FALSE, 0);
 
 	/* Year */
 
-	strftime (text, sizeof (text), _("Current year (%Y)"), &tm);
+	strftime (text, sizeof (text), _("Selected year (%Y)"), &tm);
 	radio = gtk_radio_button_new_with_label (group, text);
 	group = gtk_radio_button_group (GTK_RADIO_BUTTON (radio));
 	gtk_box_pack_start (GTK_BOX (box), radio, FALSE, FALSE, 0);
