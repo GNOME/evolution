@@ -36,6 +36,8 @@
 #include "e-util/e-dialog-utils.h"
 #include "e-util/e-passwords.h"
 
+#include <glib/gprintf.h>
+
 #include <libgnome/gnome-exec.h>
 #include <libgnome/gnome-url.h>
 #include <libgnome/gnome-i18n.h>
@@ -129,15 +131,204 @@ command_submit_bug (BonoboUIComponent *uih,
                 e_notice (NULL, GTK_MESSAGE_ERROR, _("Bug buddy could not be run."));
 }
 
-static int
-about_box_event_callback (GtkWidget *widget,
-			  GdkEvent *event,
-			  GtkWidget **widget_pointer)
+static GtkWidget *
+about_box_new (void)
 {
-	gtk_widget_destroy (GTK_WIDGET (*widget_pointer));
-	*widget_pointer = NULL;
+	GtkWidget *about_box = NULL;
+	GdkPixbuf *pixbuf = NULL;
+	char copyright[1024];
+	char *filename = NULL;
 
-	return TRUE;
+	/* must be in utf8, the weird breaking of escaped strings
+	   is so the hex escape strings dont swallow too many chars */
+	static const char *authors[] = {
+		"Darin Adler",
+		"Arturo Espinosa Aldama",
+		"H\xC3\xA9" "ctor Garc\xC3\xAD" "a \xC3\x81" "lvarez",
+		"Jes\xC3\xBA" "s Bravo \xC3\x81" "lvarez",
+		"Seth Alves",
+		"Marius Andreiana",
+		"Sean Atkinson",
+		"Szabolcs BAN",
+		"Timur Bakeyev",
+		"Martin Baulig",
+		"Frank Belew",
+		"Dan Berger",
+		"Jacob Berkman",
+		"Matt Bissiri",
+		"Jonathan Blandford",
+		"Richard Boulton",
+		"Robert Brady",
+		"Kevin Breit",
+		"Martha Burke",
+		"Dave Camp",
+		"Ian Campbell",
+		"Anders Carlsson",
+		"Damon Chaplin",
+		"Abel Cheung",
+		"Zbigniew Chyla",
+		"Clifford R. Conover",
+		"Sam Creasey",
+		"Frederic Crozat",
+		"Wayne Davis",
+		"Rodney Dawes",
+		"Jos Dehaes",
+		"Fatih Demir",
+		"Arik Devens",
+		"Anna Marie Dirks",
+		"Bob Doan",
+		"Radek Doul\xC3\xADk",
+		"Edd Dumbill",
+		"Larry Ewing",
+		"Gilbert Fang",
+		"Francisco Javier F. Serrador",
+		"Nuno Ferreira",
+		"Valek Filippov",
+		"Nat Friedman",
+		"Sean Gao",
+		"Jeff Garzik",
+		"Nike Gerdts",
+		"Grzegorz Goawski",
+		"Jody Goldberg",
+		"Pablo Gonzalo del Campo",
+		"Mark Gordon",
+		"Kenny Graunke",
+		"Alex Graveley",
+		"Bertrand Guiheneuf",
+		"Jean-Noel Guiheneuf",
+		"Mikael Hallendal",
+		"Raja R Harinath",
+		"Heath Harrelson",
+		"Taylor Hayward",
+		"Jon K Hellan",
+		"Martin Hicks",
+		"Iain Holmes",
+		"Max Horn",
+		"Greg Hudson",
+		"Richard Hult",
+		"Andreas Hyden",
+		"Miguel de Icaza",
+		"Hans Petter Jansson",
+		"Jack Jia",
+		"Wang Jian",
+		"Sanshao Jiang",
+		"Benjamin Kahn",
+		"Yanko Kaneti",
+		"Lauris Kaplinski",
+		"Jeremy Katz",
+		"Mike Kestner",
+		"Christian Kreibich",
+		"Nicholas J Kreucher",
+		"Ronald Kuetemeier",
+		"Tuomas Kuosmanen",
+		"Mathieu Lacage",
+		"Christopher J. Lahey",
+		"Eneko Lacunza",
+		"Miles Lane",
+		"Jason Leach",
+		"Elliot Lee",
+		"Ji Lee",
+		"Timothy Lee",
+		"T\xC3\xB5" "ivo Leedj\xC3\xA4" "rv",
+		"Richard Li",
+		"Matthew Loper",
+		"Duarte Loreto",
+		"Harry Lu",
+		"Michael MacDonald",
+		"Duncan Mak",
+		"Kjartan Maraas",
+		"Garardo Marin",
+		"Matt Martin",
+		"Carlos Perell\xC3\xB3" " Mar\xC3\xAD" "n",
+		"Dietmar Maurer",
+		"William Jon McCann",
+		"Mike McEwan",
+		"Alastair McKinstry",
+		"Michael Meeks",
+		"Federico Mena",
+		"Christophe Merlet",
+		"Michael M. Morrison",
+		"Rodrigo Moya",
+		"Steve Murphy",
+		"Yukihiro Nakai",
+		"Martin Norb\xC3\xA4" "ck",
+		"Tomas Ogren",
+		"Ismael Olea",
+		"Eskil Heyn Olsen",
+		"Sergey Panov",
+		"Gediminas Paulauskas",
+		"Jesse Pavel",
+		"Havoc Pennington",
+		"Ettore Perazzoli",
+		"Petta Pietikainen",
+		"Herbert V. Riedel",
+		"Ariel Rios",
+		"JP Rosevear",
+		"Cody Russell",
+		"Changwoo Ryu",
+		"Pablo Saratxaga",
+		"Carsten Schaar",
+		"Joe Shaw",
+		"Timo Sirainen",
+		"Craig Small",
+		"Maciej Stachowiak",
+		"Jeffrey Stedfast",
+		"Jakub Steiner",
+		"Russell Steinthal",
+		"Vadim Strizhevsky",
+		"Yuri Syrota",
+		"Jason Tackaberry",
+		"Peter Teichman",
+		"Chris Toshok",
+		"Tom Tromey",
+		"Jon Trowbridge",
+		"Andrew T. Veliath",
+		"Gustavo Maciel Dias Vieira",
+		"Luis Villa",
+		"Stanislav Visnovsky",
+		"Aaron Weber",
+		"Dave West",
+		"Peter Williams",
+		"Matt Wilson",
+		"Matthew Wilson",
+		"Dan Winship",
+		"Jeremy Wise",
+		"Leon Zhang",
+		"Philip Zhao",
+		"Jukka Zitting",
+		"Michael Zucchi",
+		NULL
+	};
+
+	static const char *documentors[] = { 
+		"Aaron Weber",
+		"David Trowbridge",
+		NULL };
+
+	static const char *translator_credits = "The GNOME Translation Project";
+
+
+	g_sprintf (copyright, "Copyright \xC2\xA9 1999 - 2004 Novell, Inc.");
+                                                                                
+	filename = g_build_filename (EVOLUTION_DATADIR, "pixmaps",
+				     "evolution-1.5.png", NULL);
+	if (filename != NULL) {
+		pixbuf = gdk_pixbuf_new_from_file (filename, NULL);
+		g_free (filename);
+	}
+                                                                                
+	about_box = gnome_about_new ("Evolution",
+				     VERSION,
+				     copyright,
+				     _("Groupware Suite"),
+				     authors, documentors,
+				     translator_credits,
+				     pixbuf);
+	
+        if (pixbuf != NULL)
+                g_object_unref (pixbuf);
+
+	return GTK_WIDGET (about_box);
 }
 
 static void
@@ -146,30 +337,19 @@ command_about_box (BonoboUIComponent *uih,
 		   const char *path)
 {
 	static GtkWidget *about_box_window = NULL;
-	GtkWidget *about_box;
 
 	if (about_box_window != NULL) {
 		gdk_window_raise (about_box_window->window);
 		return;
 	}
 
-	about_box = e_shell_about_box_new ();
-	gtk_widget_show (about_box);
-
-	about_box_window = gtk_window_new (GTK_WINDOW_TOPLEVEL);
-	gtk_window_set_type_hint (GTK_WINDOW (about_box_window), GDK_WINDOW_TYPE_HINT_DIALOG);
+	about_box_window = about_box_new ();
 	
-	gtk_window_set_resizable (GTK_WINDOW (about_box_window), FALSE);
-	g_signal_connect (about_box_window, "key_press_event",
-			  G_CALLBACK (about_box_event_callback), &about_box_window);
-	g_signal_connect (about_box_window, "button_press_event",
-			  G_CALLBACK (about_box_event_callback), &about_box_window);
-	g_signal_connect (about_box_window, "delete_event",
-			  G_CALLBACK (about_box_event_callback), &about_box_window);
+	g_signal_connect (G_OBJECT (about_box_window), "destroy",
+			  G_CALLBACK (gtk_widget_destroyed), &about_box_window);
 
 	gtk_window_set_transient_for (GTK_WINDOW (about_box_window), GTK_WINDOW (window));
-	gtk_window_set_title (GTK_WINDOW (about_box_window), _("About Evolution"));
-	gtk_container_add (GTK_CONTAINER (about_box_window), about_box);
+
 	gtk_widget_show (about_box_window);
 }
 

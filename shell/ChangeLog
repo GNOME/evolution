@@ -1,3 +1,10 @@
+2004-05-28  William Jon McCann  <mccann@jhu.edu>
+
+       * Makefile.am (evolution_SOURCES): Remove e-shell-about-box.
+
+       * e-shell-window-commands.c (command_about_box, about_box_new):
+       Use GNOME about box.
+
 2004-05-27  Rodney Dawes  <dobey@novell.com>
 
 	* Makefile.am (EXTRA_DIST): Add $(error_i18n) for "make dist"

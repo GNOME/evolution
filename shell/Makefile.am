@@ -136,8 +136,6 @@ evolution_SOURCES =				\
 	e-corba-config-page.h			\
 	e-history.c				\
 	e-history.h				\
-	e-shell-about-box.c			\
-	e-shell-about-box.h			\
 	e-shell-constants.h			\
 	e-shell-folder-title-bar.c		\
 	e-shell-folder-title-bar.h		\
