@@ -1,3 +1,12 @@
+2001-01-09  Dave Camp  <dave@helixcode.com>
+
+	* gui/Makefile.am: Replaced e-meet-dialog.glade.h with 
+	e-meeting-dialog.glade in glade_messages.
+
+	* gui/e-meeting-dialog.glade: Enabled the translatable string option.
+
+	* gui/e-itip-control.glade: Likewise.
+
 2001-01-09  Federico Mena Quintero  <federico@helixcode.com>
 
 	* idl/evolution-calendar.idl (AlarmNotify): New interface for the

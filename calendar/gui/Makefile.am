@@ -47,7 +47,7 @@ glade_DATA = 					\
 
 glade_messages = 				\
 	event-editor-dialog.glade.h		\
-	e-meet-dialog.glade.h			\
+	e-meeting-dialog.glade.h		\
 	e-itip-control.glade.h			\
 	goto-dialog.glade.h
 
