@@ -626,7 +626,6 @@ imap_get_uids (CamelFolder *folder, CamelException *ex)
 	for (i = 0; i < count; i++) {
 		info = (CamelMessageInfo *) g_ptr_array_index (infolist, i);
 		array->pdata[i] = g_strdup (info->uid);
-		d(fprintf (stderr, "array->pdata[%d] = g_strdup (\"%s\");\n", i, (char *)array->pdata[i]));
 	}
 
 	return array;

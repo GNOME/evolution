@@ -1,3 +1,13 @@
+2000-07-22  Jeffrey Stedfast  <fejj@helixcode.com>
+
+	* providers/imap/camel-imap-store.c (get_folder): Clear CamelExceptions when
+	appropriate (eg when folder is marked as \NoSelect). Still needs some 
+	cleanup and perhaps Dan will have a better way of doing this as this seems
+	like a messy way of handling this.
+
+	* providers/imap/camel-imap-folder.c (imap_get_uids): Took out some debug
+	statements as they are no longer needed.
+
 2000-07-21  Jeffrey Stedfast  <fejj@helixcode.com>
 
 	* providers/imap/camel-imap-folder.c (imap_get_subfolder_names): Updated to
