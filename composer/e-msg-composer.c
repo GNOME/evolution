@@ -120,9 +120,19 @@ static GnomeAppClass *parent_class = NULL;
 
 /* local prototypes */
 static GList *add_recipients   (GList *list, const char *recips, gboolean decode);
-static void handle_multipart   (EMsgComposer *composer, CamelMultipart *multipart,
-				gboolean just_inlines, int depth);
+
 static void message_rfc822_dnd (EMsgComposer *composer, CamelStream *stream);
+
+/* used by e_msg_composer_add_message_attachments() */
+static void add_attachments_from_multipart (EMsgComposer *composer, CamelMultipart *multipart,
+					    gboolean just_inlines, int depth);
+
+/* used by e_msg_composer_new_with_message() */
+static void handle_multipart_alternative (EMsgComposer *composer, CamelMultipart *multipart, int depth);
+
+static void handle_multipart (EMsgComposer *composer, CamelMultipart *multipart, int depth);
+
+
 
 
 static GByteArray *
@@ -2414,112 +2424,6 @@ e_msg_composer_new (void)
 	return new;
 }
 
-static void
-e_msg_composer_set_pending_body (EMsgComposer *composer, char *text)
-{
-	char *old;
-
-	old = gtk_object_get_data (GTK_OBJECT (composer), "body:text");
-        g_free (old);
-	gtk_object_set_data (GTK_OBJECT (composer), "body:text", text);
-}
-
-static void
-e_msg_composer_flush_pending_body (EMsgComposer *composer, gboolean apply)
-{
-        char *body;
-	
-	body = gtk_object_get_data (GTK_OBJECT (composer), "body:text");
-	if (body) {
-		if (apply) 
-			e_msg_composer_set_body_text (composer, body);
-
-		gtk_object_set_data (GTK_OBJECT (composer), "body:text", NULL);
-		g_free (body);
-	}
-}	
-		
-static void
-handle_multipart_alternative (EMsgComposer *composer, CamelMultipart *multipart)
-{
-	/* Find the text/html part and set the composer body to it's contents */
-	int i, nparts;
-	
-	nparts = camel_multipart_get_number (multipart);
-	
-	for (i = 0; i < nparts; i++) {
-		CamelContentType *content_type;
-		CamelMimePart *mime_part;
-		
-		mime_part = camel_multipart_get_part (multipart, i);
-		content_type = camel_mime_part_get_content_type (mime_part);
-		
-		if (header_content_type_is (content_type, "text", "html")) {
-			CamelDataWrapper *contents;
-			char *text;
-			
-			contents = camel_medium_get_content_object (CAMEL_MEDIUM (mime_part));
-			text = mail_get_message_body (contents, FALSE, FALSE);
-			
-			if (text)
-				e_msg_composer_set_pending_body (composer, text);
-			
-			return;
-		}
-	}
-}
-
-static void
-handle_multipart (EMsgComposer *composer, CamelMultipart *multipart, gboolean just_inlines, int depth)
-{
-	int i, nparts;
-	
-	nparts = camel_multipart_get_number (multipart);
-	
-	for (i = 0; i < nparts; i++) {
-		CamelContentType *content_type;
-		CamelMimePart *mime_part;
-		
-		mime_part = camel_multipart_get_part (multipart, i);
-		content_type = camel_mime_part_get_content_type (mime_part);
-		
-		if (header_content_type_is (content_type, "multipart", "alternative")) {
-			/* this structure contains the body */
-			CamelDataWrapper *wrapper;
-			CamelMultipart *mpart;
-			
-			wrapper = camel_medium_get_content_object (CAMEL_MEDIUM (mime_part));
-			mpart = CAMEL_MULTIPART (wrapper);
-			
-			handle_multipart_alternative (composer, mpart);
-		} else if (header_content_type_is (content_type, "multipart", "*")) {
-			/* another layer of multipartness... */
-			CamelDataWrapper *wrapper;
-			CamelMultipart *mpart;
-			
-			wrapper = camel_medium_get_content_object (CAMEL_MEDIUM (mime_part));
-			mpart = CAMEL_MULTIPART (wrapper);
-			
-			handle_multipart (composer, mpart, just_inlines, depth + 1);
-		} else if (depth == 0 && i == 0) {
-			/* Since the first part is not multipart/alternative, then this must be the body */
-			CamelDataWrapper *contents;
-			char *text;
-			
-			contents = camel_medium_get_content_object (CAMEL_MEDIUM (mime_part));
-			text = mail_get_message_body (contents, FALSE, FALSE);
-			
-			if (text)
-				e_msg_composer_set_pending_body (composer, text);
-		} else if (just_inlines) {
-			if (camel_mime_part_get_content_id (mime_part) ||
-			    camel_mime_part_get_content_location (mime_part))
-				e_msg_composer_add_inline_image_from_mime_part (composer, mime_part);
-		} else {
-			e_msg_composer_attach (composer, mime_part);
-		}
-	}
-}
 
 /* FIXME: are there any other headers?? */
 /* This is a list of headers that we DO NOT want to append to the
@@ -2565,11 +2469,75 @@ is_special_header (const char *hdr_name)
 	return FALSE;
 }
 
+static void
+e_msg_composer_set_pending_body (EMsgComposer *composer, char *text)
+{
+	char *old;
+	
+	old = gtk_object_get_data (GTK_OBJECT (composer), "body:text");
+        g_free (old);
+	gtk_object_set_data (GTK_OBJECT (composer), "body:text", text);
+}
+
+static void
+e_msg_composer_flush_pending_body (EMsgComposer *composer, gboolean apply)
+{
+        char *body;
+	
+	body = gtk_object_get_data (GTK_OBJECT (composer), "body:text");
+	if (body) {
+		if (apply) 
+			e_msg_composer_set_body_text (composer, body);
+		
+		gtk_object_set_data (GTK_OBJECT (composer), "body:text", NULL);
+		g_free (body);
+	}
+}	
+
+static void
+add_attachments_from_multipart (EMsgComposer *composer, CamelMultipart *multipart,
+				gboolean just_inlines, int depth)
+{
+	/* find appropriate message attachments to add to the composer */
+	int i, nparts;
+	
+	nparts = camel_multipart_get_number (multipart);
+	
+	for (i = 0; i < nparts; i++) {
+		CamelContentType *content_type;
+		CamelMimePart *mime_part;
+		
+		mime_part = camel_multipart_get_part (multipart, i);
+		content_type = camel_mime_part_get_content_type (mime_part);
+		
+		if (header_content_type_is (content_type, "multipart", "*")) {
+			/* another layer of multipartness... */
+			CamelDataWrapper *wrapper;
+			CamelMultipart *mpart;
+			
+			wrapper = camel_medium_get_content_object (CAMEL_MEDIUM (mime_part));
+			mpart = CAMEL_MULTIPART (wrapper);
+			
+			add_attachments_from_multipart (composer, mpart, just_inlines, depth + 1);
+		} else if (header_content_type_is (content_type, "text", "*")) {
+			/* do nothing */
+		} else if (header_content_type_is (content_type, "message", "*")) {
+			/* do nothing */
+		} else if (just_inlines) {
+			if (camel_mime_part_get_content_id (mime_part) ||
+			    camel_mime_part_get_content_location (mime_part))
+				e_msg_composer_add_inline_image_from_mime_part (composer, mime_part);
+		} else {
+			e_msg_composer_attach (composer, mime_part);
+		}
+	}
+}
+
+
 /**
  * e_msg_composer_add_message_attachments:
  * @composer: the composer to add the attachments to.
  * @message: the source message to copy the attachments from.
- * @settext: set the text of the composer
  * @just_inlines: whether to attach all attachments or just add
  * inline images.
  *
@@ -2578,21 +2546,12 @@ is_special_header (const char *hdr_name)
  */
 void
 e_msg_composer_add_message_attachments (EMsgComposer *composer, CamelMimeMessage *message,
-					gboolean settext, gboolean just_inlines)
+					gboolean just_inlines)
 {
 	CamelContentType *content_type;
 	
 	content_type = camel_mime_part_get_content_type (CAMEL_MIME_PART (message));
-	if (header_content_type_is (content_type, "multipart", "alternative")) {
-		/* this contains the text/plain and text/html versions of the message body */
-		CamelDataWrapper *wrapper;
-		CamelMultipart *multipart;
-		
-		wrapper = camel_medium_get_content_object (CAMEL_MEDIUM (CAMEL_MIME_PART (message)));
-		multipart = CAMEL_MULTIPART (wrapper);
-		
-		handle_multipart_alternative (composer, multipart);
-	} else if (header_content_type_is (content_type, "multipart", "*")) {
+	if (header_content_type_is (content_type, "multipart", "*")) {
 		/* there must be attachments... */
 		CamelDataWrapper *wrapper;
 		CamelMultipart *multipart;
@@ -2600,31 +2559,127 @@ e_msg_composer_add_message_attachments (EMsgComposer *composer, CamelMimeMessage
 		wrapper = camel_medium_get_content_object (CAMEL_MEDIUM (CAMEL_MIME_PART (message)));
 		multipart = CAMEL_MULTIPART (wrapper);
 		
-		handle_multipart (composer, multipart, just_inlines, 0);
-	} else if (settext) {
-		/* We either have a text/plain or a text/html part */
+		add_attachments_from_multipart (composer, multipart, just_inlines, 0);
+	} else {
+		/* do nothing... */
+	}
+}
+
+
+static void
+handle_multipart_alternative (EMsgComposer *composer, CamelMultipart *multipart, int depth)
+{
+	/* Find the text/html part and set the composer body to it's contents */
+	CamelMimePart *text_part = NULL;
+	int i, nparts;
+	
+	nparts = camel_multipart_get_number (multipart);
+	
+	for (i = 0; i < nparts; i++) {
+		CamelContentType *content_type;
+		CamelMimePart *mime_part;
+		
+		mime_part = camel_multipart_get_part (multipart, i);
+		content_type = camel_mime_part_get_content_type (mime_part);
+		
+		if (header_content_type_is (content_type, "multipart", "*")) {
+			/* another layer of multipartness... */
+			CamelDataWrapper *wrapper;
+			CamelMultipart *mpart;
+			
+			wrapper = camel_medium_get_content_object (CAMEL_MEDIUM (mime_part));
+			mpart = CAMEL_MULTIPART (wrapper);
+			
+			/* depth doesn't matter so long as we don't pass 0 */
+			handle_multipart (composer, mpart, depth + 1);
+		} else if (header_content_type_is (content_type, "text", "html")) {
+			/* text/html is preferable, so once we find it we're done... */
+			text_part = mime_part;
+			break;
+		} else if (header_content_type_is (content_type, "text", "*")) {
+			/* anyt text part not text/html is second rate so the first
+			   text part we find isn't necessarily the one we'll use. */
+			if (!text_part)
+				text_part = mime_part;
+		} else {
+			e_msg_composer_attach (composer, mime_part);
+		}
+	}
+	
+	if (text_part) {
 		CamelDataWrapper *contents;
 		char *text;
 		
-		contents = camel_medium_get_content_object (CAMEL_MEDIUM (message));
+		contents = camel_medium_get_content_object (CAMEL_MEDIUM (text_part));
 		text = mail_get_message_body (contents, FALSE, FALSE);
 		
 		if (text)
 			e_msg_composer_set_pending_body (composer, text);
 	}
-	
-	/* We wait until now to set the body text because we need to ensure that
-	 * the attachment bar has all the attachments, before we request them.
-	 */
-	e_msg_composer_flush_pending_body (composer, settext);
 }
+
+static void
+handle_multipart (EMsgComposer *composer, CamelMultipart *multipart, int depth)
+{
+	int i, nparts;
 	
+	nparts = camel_multipart_get_number (multipart);
+	
+	for (i = 0; i < nparts; i++) {
+		CamelContentType *content_type;
+		CamelMimePart *mime_part;
+		
+		mime_part = camel_multipart_get_part (multipart, i);
+		content_type = camel_mime_part_get_content_type (mime_part);
+		
+		if (header_content_type_is (content_type, "multipart", "alternative")) {
+			/* this structure contains the body */
+			CamelDataWrapper *wrapper;
+			CamelMultipart *mpart;
+			
+			wrapper = camel_medium_get_content_object (CAMEL_MEDIUM (mime_part));
+			mpart = CAMEL_MULTIPART (wrapper);
+			
+			handle_multipart_alternative (composer, mpart, depth + 1);
+		} else if (header_content_type_is (content_type, "multipart", "*")) {
+			/* another layer of multipartness... */
+			CamelDataWrapper *wrapper;
+			CamelMultipart *mpart;
+			
+			wrapper = camel_medium_get_content_object (CAMEL_MEDIUM (mime_part));
+			mpart = CAMEL_MULTIPART (wrapper);
+			
+			handle_multipart (composer, mpart, depth + 1);
+		} else if (depth == 0 && i == 0) {
+			/* Since the first part is not multipart/alternative, then this must be the body */
+			CamelDataWrapper *contents;
+			char *text;
+			
+			contents = camel_medium_get_content_object (CAMEL_MEDIUM (mime_part));
+			text = mail_get_message_body (contents, FALSE, FALSE);
+			
+			if (text)
+				e_msg_composer_set_pending_body (composer, text);
+		} else if (camel_mime_part_get_content_id (mime_part) ||
+			   camel_mime_part_get_content_location (mime_part)) {
+			/* special in-line attachment */
+			e_msg_composer_add_inline_image_from_mime_part (composer, mime_part);
+		} else {
+			/* normal attachment */
+			e_msg_composer_attach (composer, mime_part);
+		}
+	}
+}
+
+
 /**
  * e_msg_composer_new_with_message:
  * @message: The message to use as the source
  * 
  * Create a new message composer widget.
- * 
+ *
+ * Note: Designed to work only for messages constructed using Evolution.
+ *
  * Return value: A pointer to the newly created widget
  **/
 EMsgComposer *
@@ -2634,6 +2689,7 @@ e_msg_composer_new_with_message (CamelMimeMessage *message)
 	GList *To = NULL, *Cc = NULL, *Bcc = NULL;
 	EDestination **Tov, **Ccv, **Bccv;
 	const char *format, *subject, *account_name;
+	CamelContentType *content_type;
 	struct _header_raw *headers;
 	EMsgComposer *new;
 	XEvolution *xev;
@@ -2737,7 +2793,42 @@ e_msg_composer_new_with_message (CamelMimeMessage *message)
 		headers = headers->next;
 	}
 	
-	e_msg_composer_add_message_attachments (new, message, TRUE, TRUE);
+	/* Restore the attachments and body text */
+	content_type = camel_mime_part_get_content_type (CAMEL_MIME_PART (message));
+	if (header_content_type_is (content_type, "multipart", "alternative")) {
+		/* this contains the text/plain and text/html versions of the message body */
+		CamelDataWrapper *wrapper;
+		CamelMultipart *multipart;
+		
+		wrapper = camel_medium_get_content_object (CAMEL_MEDIUM (CAMEL_MIME_PART (message)));
+		multipart = CAMEL_MULTIPART (wrapper);
+		
+		handle_multipart_alternative (new, multipart, 0);
+	} else if (header_content_type_is (content_type, "multipart", "*")) {
+		/* there must be attachments... */
+		CamelDataWrapper *wrapper;
+		CamelMultipart *multipart;
+		
+		wrapper = camel_medium_get_content_object (CAMEL_MEDIUM (CAMEL_MIME_PART (message)));
+		multipart = CAMEL_MULTIPART (wrapper);
+		
+		handle_multipart (new, multipart, 0);
+	} else {
+		/* We either have a text/plain or a text/html part */
+		CamelDataWrapper *contents;
+		char *text;
+		
+		contents = camel_medium_get_content_object (CAMEL_MEDIUM (message));
+		text = mail_get_message_body (contents, FALSE, FALSE);
+		
+		if (text)
+			e_msg_composer_set_pending_body (new, text);
+	}
+	
+	/* We wait until now to set the body text because we need to ensure that
+	 * the attachment bar has all the attachments, before we request them.
+	 */
+	e_msg_composer_flush_pending_body (new, TRUE);
 	
 	return new;
 }
@@ -2963,6 +3054,9 @@ void
 e_msg_composer_set_body_text (EMsgComposer *composer, const char *text)
 {
 	g_return_if_fail (E_IS_MSG_COMPOSER (composer));
+	
+	printf ("setting as body text:\n-----\n%s\n-----\n", text);
+	fflush (stdout);
 	
 	set_editor_text (composer, text);
 }

@@ -177,7 +177,6 @@ gchar *           e_msg_composer_get_sig_file_content   (const char       *sigfi
 
 void              e_msg_composer_add_message_attachments (EMsgComposer *composer, 
 							  CamelMimeMessage *message,
-							  gboolean settext,
 							  gboolean just_inlines);
 
 #ifdef __cplusplus
