@@ -8,10 +8,8 @@
  * Copyright 2002, Ximian, Inc.
  */
 
-#include <gtk/gtksignal.h>
 #include <bonobo/bonobo-exception.h>
 #include <bonobo/bonobo-object.h>
-#include <gal/util/e-util.h>
 #include "e-component-listener.h"
 #include <libgnome/gnome-i18n.h>
 
@@ -25,10 +23,10 @@ struct _EComponentListenerPrivate {
 };
 
 static void e_component_listener_class_init (EComponentListenerClass *klass);
-static void e_component_listener_init       (EComponentListener *cl);
-static void e_component_listener_destroy    (GtkObject *object);
+static void e_component_listener_init       (EComponentListener *cl, EComponentListenerClass *klass);
+static void e_component_listener_finalize   (GObject *object);
 
-static GtkObjectClass *parent_class = NULL;
+static GObjectClass *parent_class = NULL;
 
 enum {
 	COMPONENT_DIED,
@@ -40,25 +38,25 @@ static guint comp_listener_signals[LAST_SIGNAL];
 static void
 e_component_listener_class_init (EComponentListenerClass *klass)
 {
-	GtkObjectClass *object_class = GTK_OBJECT_CLASS (klass);
+	GObjectClass *object_class = G_OBJECT_CLASS (klass);
 
-	parent_class = gtk_type_class (PARENT_TYPE);
+	parent_class = g_type_class_peek_parent (klass);
 
-	object_class->destroy = e_component_listener_destroy;
+	object_class->finalize = e_component_listener_finalize;
 	klass->component_died = NULL;
 
 	comp_listener_signals[COMPONENT_DIED] =
-		gtk_signal_new ("component_died",
-				GTK_RUN_FIRST,
-				object_class->type,
-				GTK_SIGNAL_OFFSET (EComponentListenerClass, component_died),
-				gtk_marshal_NONE__NONE,
-				GTK_TYPE_NONE, 0);
-	gtk_object_class_add_signals (object_class, comp_listener_signals, LAST_SIGNAL);
+		g_signal_new ("component_died",
+			      G_TYPE_FROM_CLASS (klass),
+			      G_SIGNAL_RUN_FIRST,
+			      G_STRUCT_OFFSET (EComponentListenerClass, component_died),
+			      NULL, NULL,
+			      g_cclosure_marshal_VOID__VOID,
+			      G_TYPE_NONE, 0);
 }
 
 static void
-e_component_listener_init (EComponentListener *cl)
+e_component_listener_init (EComponentListener *cl, EComponentListenerClass *klass)
 {
 	/* allocate internal structure */
 	cl->priv = g_new (EComponentListenerPrivate, 1);
@@ -68,7 +66,7 @@ e_component_listener_init (EComponentListener *cl)
 }
 
 static void
-e_component_listener_destroy (GtkObject *object)
+e_component_listener_finalize (GObject *object)
 {
 	EComponentListener *cl = (EComponentListener *) object;
 
@@ -85,28 +83,27 @@ e_component_listener_destroy (GtkObject *object)
 	g_free (cl->priv);
 	cl->priv = NULL;
 
-	if (GTK_OBJECT_CLASS (parent_class)->destroy)
-		(* GTK_OBJECT_CLASS (parent_class)->destroy) (object);
+	if (G_OBJECT_CLASS (parent_class)->finalize)
+		(* G_OBJECT_CLASS (parent_class)->finalize) (object);
 }
 
-GtkType
+GType
 e_component_listener_get_type (void)
 {
-	static GtkType type = 0;
+	static GType type = 0;
 
 	if (!type) {
-		static const GtkTypeInfo info = {
-			"EComponentListener",
-			sizeof (EComponentListener),
-			sizeof (EComponentListenerClass),
-			(GtkClassInitFunc) e_component_listener_class_init,
-			(GtkObjectInitFunc) e_component_listener_init,
-			NULL, /* reserved_1 */
-			NULL, /* reserved_2 */
-			(GtkClassInitFunc) NULL
-		};
-
-		type = gtk_type_unique (PARENT_TYPE, &info);
+		static GTypeInfo info = {
+                        sizeof (EComponentListenerClass),
+                        (GBaseInitFunc) NULL,
+                        (GBaseFinalizeFunc) NULL,
+                        (GClassInitFunc) e_component_listener_class_init,
+                        NULL, NULL,
+                        sizeof (EComponentListener),
+                        0,
+                        (GInstanceInitFunc) e_component_listener_init
+                };
+		type = g_type_register_static (G_TYPE_OBJECT, "EComponentListener", &info, 0);
 	}
 
 	return type;
@@ -132,26 +129,28 @@ ping_component_callback (gpointer user_data)
 			     "CORBA object is nil or not"));
 		goto out;
 	}
-	CORBA_exception_free (&ev);
 
 	if (is_nil)
 		goto out;
 
-	alive = bonobo_unknown_ping (cl->priv->component);
-	if (alive)
+	alive = bonobo_unknown_ping (cl->priv->component, &ev);
+	if (alive) {
+		CORBA_exception_free (&ev);
 		return TRUE;
+	}
 
  out:
 	/* the component has died, so we notify and close the timeout */
+	CORBA_exception_free (&ev);
 
 	/* we ref the object just in case it gets destroyed in the callbacks */
-	gtk_object_ref (GTK_OBJECT (cl));
-	gtk_signal_emit (GTK_OBJECT (cl), comp_listener_signals[COMPONENT_DIED]);
+	g_object_ref (G_OBJECT (cl));
+	g_signal_emit (G_OBJECT (cl), comp_listener_signals[COMPONENT_DIED], 0);
 
 	cl->priv->component = CORBA_OBJECT_NIL;
 	cl->priv->ping_timeout_id = -1;
 
-	gtk_object_unref (GTK_OBJECT (cl));
+	g_object_unref (G_OBJECT (cl));
 
 	return FALSE;
 }
@@ -182,7 +181,7 @@ e_component_listener_new (Bonobo_Unknown comp, int ping_delay)
 {
 	EComponentListener *cl;
 
-	cl = gtk_type_new (E_COMPONENT_LISTENER_TYPE);
+	cl = g_object_new (E_COMPONENT_LISTENER_TYPE, NULL);
 	cl->priv->component = comp;
 
 	/* set up the timeout function */

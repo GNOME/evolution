@@ -11,32 +11,31 @@
 #ifndef __E_COMPONENT_LISTENER_H__
 #define __E_COMPONENT_LISTENER_H__
 
-#include <glib/gmacros.h>
+#include <glib-object.h>
 #include <bonobo/Bonobo.h>
-#include <gtk/gtkobject.h>
 
 G_BEGIN_DECLS
 
 #define E_COMPONENT_LISTENER_TYPE        (e_component_listener_get_type ())
-#define E_COMPONENT_LISTENER(o)          (GTK_CHECK_CAST ((o), E_COMPONENT_LISTENER_TYPE, EComponentListener))
-#define E_COMPONENT_LISTENER_CLASS(k)    (GTK_CHECK_CLASS_CAST((k), E_COMPONENT_LISTENER_TYPE, EComponentListenerClass))
-#define E_IS_COMPONENT_LISTENER(o)       (GTK_CHECK_TYPE ((o), E_COMPONENT_LISTENER_TYPE))
-#define E_IS_COMPONENT_LISTENER_CLASS(k) (GTK_CHECK_CLASS_TYPE ((k), E_COMPONENT_LISTENER_TYPE))
+#define E_COMPONENT_LISTENER(o)          (G_TYPE_CHECK_INSTANCE_CAST ((o), E_COMPONENT_LISTENER_TYPE, EComponentListener))
+#define E_COMPONENT_LISTENER_CLASS(k)    (G_TYPE_CHECK_CLASS_CAST((k), E_COMPONENT_LISTENER_TYPE, EComponentListenerClass))
+#define E_IS_COMPONENT_LISTENER(o)       (G_TYPE_CHECK_INSTANCE_TYPE ((o), E_COMPONENT_LISTENER_TYPE))
+#define E_IS_COMPONENT_LISTENER_CLASS(k) (G_TYPE_CHECK_CLASS_TYPE ((k), E_COMPONENT_LISTENER_TYPE))
 
 typedef struct _EComponentListenerPrivate EComponentListenerPrivate;
 
 typedef struct {
-	GtkObject object;
+	GObject object;
 	EComponentListenerPrivate *priv;
 } EComponentListener;
 
 typedef struct {
-	GtkObjectClass parent_class;
+	GObjectClass parent_class;
 
 	void (* component_died) (EComponentListener *cl);
 } EComponentListenerClass;
 
-GtkType             e_component_listener_get_type       (void);
+GType               e_component_listener_get_type       (void);
 EComponentListener *e_component_listener_new            (Bonobo_Unknown comp, int ping_delay);
 
 int                 e_component_listener_get_ping_delay (EComponentListener *cl);

@@ -1,3 +1,9 @@
+2002-11-05  Rodrigo Moya <rodrigo@ximian.com>
+
+	* e-component-listener.[ch]: ported to GObject.
+
+	* Makefile.am: re-enabled e-component-listener.[ch]
+
 2002-11-03  Rodrigo Moya <rodrigo@ximian.com>
 
 	* e-config-listener.[ch] (e_config_listener_get_boolean,
