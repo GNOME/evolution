@@ -1259,7 +1259,7 @@ handle_text_plain_flowed (char *buf, MailDisplay *md, GtkHTML *html, GtkHTMLStre
 	char *text, *line, *eol, *p;
 	int prevquoting = 0, quoting, len, br_pending = 0;
 	guint32 citation_color = mail_config_get_citation_color ();
-
+	
 	mail_html_write (html, stream,
 			 "\n<!-- text/plain, flowed -->\n"
 			 "<table cellspacing=0 cellpadding=10 width=\"100%\"><tr><td>\n<tt>\n");
@@ -1269,7 +1269,7 @@ handle_text_plain_flowed (char *buf, MailDisplay *md, GtkHTML *html, GtkHTMLStre
 		eol = strchr (line, '\n');
 		if (eol)
 			*eol = '\0';
-
+		
 		quoting = 0;
 		for (p = line; *p == '>'; p++)
 			quoting++;
@@ -1319,16 +1319,17 @@ handle_text_plain_flowed (char *buf, MailDisplay *md, GtkHTML *html, GtkHTMLStre
 			mail_html_write (html, stream, text);
 		g_free (text);
 		
-		if (p[len - 1] != ' ' || !strcmp (p, "-- "))
+		if ((len > 0 && p[len - 1]) != ' ' || !strcmp (p, "-- "))
 			br_pending++;
 		
 		if (!eol)
 			break;
 	}
+	
 	g_free (buf);
-
+	
 	mail_html_write (html, stream, "</tt>\n</td></tr></table>\n");
-
+	
 	return TRUE;
 }
 

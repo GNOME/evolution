@@ -1,3 +1,9 @@
+2002-04-16  Jeffrey Stedfast  <fejj@ximian.com>
+
+	* mail-config-factory.c (config_control_factory_cb): Ref the prefs
+	widget here since we unref in the destroy callback. Caught this
+	thanks to purify.
+
 2002-04-13  Jeffrey Stedfast  <fejj@ximian.com>
 
 	* mail-accounts.c: Build fixes for --enable-nntp.

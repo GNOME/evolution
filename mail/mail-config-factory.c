@@ -87,6 +87,8 @@ config_control_factory_cb (BonoboGenericFactory *factory, const char *component_
 	}
 	
 	data->prefs = prefs;
+	gtk_object_ref (GTK_OBJECT (prefs));
+	
 	gtk_widget_show_all (prefs);
 	
 	control = evolution_config_control_new (prefs);
