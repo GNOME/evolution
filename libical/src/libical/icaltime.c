@@ -39,9 +39,11 @@ icaltime_from_timet(time_t tm, int is_date, int is_utc)
     struct icaltimetype tt;
     struct tm t;
 
+#if 0 /* This is incorrect; a time_t *is* in UTC by definition.  So we just ignore the flag. */
     if(is_utc == 0){
 	tm += icaltime_local_utc_offset();
     }
+#endif
 
     t = *(localtime(&tm));
 
@@ -52,7 +54,10 @@ icaltime_from_timet(time_t tm, int is_date, int is_utc)
     tt.month = t.tm_mon + 1;
     tt.year = t.tm_year+ 1900;
     
+#if 0
     tt.is_utc = is_utc;
+#endif
+    tt.is_utc = 1;
     tt.is_date = is_date; 
 
     return tt;

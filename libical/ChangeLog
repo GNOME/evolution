@@ -1,3 +1,13 @@
+2000-12-13  Federico Mena Quintero  <federico@helixcode.com>
+
+	* src/libical/icaltime.c (icaltime_from_timet): time_t values
+	*are* in UTC by definition, so the is_utc argument is useless.
+	Removed the conversion to UTC and made the icaltimetype.is_utc be
+	TRUE always.  This breaks libical's owne internal use of this
+	function, but since we do not use any of the functions that use it
+	that way, we can ignore this.  This is basically a temporary
+	measure until libical does the right thing.
+
 2000-12-12  Eric Busboom  <eric@softwarestudio.org>
 
 	* icalparser.c Addedd support for x-parameters. 
