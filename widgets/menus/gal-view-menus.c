@@ -32,6 +32,8 @@ struct _GalViewMenusPrivate {
 	BonoboUIComponent *component;
 	EList *listenerClosures;
 	GtkWidget *define_views_dialog;
+
+	guint show_define_views : 1;
 };
 
 typedef struct {
@@ -177,6 +179,7 @@ gvm_init (GalViewMenus *gvm)
 	gvm->priv->component             = NULL;
 	gvm->priv->listenerClosures      = NULL;
 	gvm->priv->define_views_dialog   = NULL;
+	gvm->priv->show_define_views     = TRUE;
 }
 
 E_MAKE_TYPE(gal_view_menus, "GalViewMenus", GalViewMenus, gvm_class_init, gvm_init, PARENT_TYPE);
@@ -337,46 +340,48 @@ build_menus(GalViewMenus *menus)
 		closure_free (closure, menus);
 	}
 
-	if (!found) {
+	if (menus->priv->show_define_views) {
+		if (!found) {
 
-		menuitem = bonobo_ui_node_new_child(submenu, "separator");
-		bonobo_ui_node_set_attr(menuitem, "name", "GalView:first_sep");
-		bonobo_ui_node_set_attr(menuitem, "f", "");
+			menuitem = bonobo_ui_node_new_child(submenu, "separator");
+			bonobo_ui_node_set_attr(menuitem, "name", "GalView:first_sep");
+			bonobo_ui_node_set_attr(menuitem, "f", "");
 		
 
+			menuitem = bonobo_ui_node_new_child(submenu, "menuitem");
+			bonobo_ui_node_set_attr(menuitem, "name", "custom_view");
+			bonobo_ui_node_set_attr(menuitem, "id", "custom_view");
+			bonobo_ui_node_set_attr(menuitem, "group", "GalViewMenus");
+			bonobo_ui_node_set_attr(menuitem, "type", "radio");
+			/* bonobo displays this string so it must be in locale */
+			bonobo_ui_node_set_attr(menuitem, "_label", N_("Custom View"));
+
+			command = bonobo_ui_node_new_child (commands, "cmd");
+			bonobo_ui_node_set_attr(command, "name", "custom_view");
+			bonobo_ui_node_set_attr(command, "group", "GalViewMenus");
+
+
+			menuitem = bonobo_ui_node_new_child(submenu, "menuitem");
+			bonobo_ui_node_set_attr(menuitem, "name", "SaveCurrentView");
+			bonobo_ui_node_set_attr(menuitem, "_label", N_("Save Custom View"));
+			bonobo_ui_node_set_attr(menuitem, "verb", "");
+
+			command = bonobo_ui_node_new_child(commands, "cmd");
+			bonobo_ui_node_set_attr(command, "name", "SaveCurrentView");
+		}
+
+		menuitem = bonobo_ui_node_new_child(submenu, "separator");
+		bonobo_ui_node_set_attr(menuitem, "name", "GalView:second_sep");
+		bonobo_ui_node_set_attr(menuitem, "f", "");
+
 		menuitem = bonobo_ui_node_new_child(submenu, "menuitem");
-		bonobo_ui_node_set_attr(menuitem, "name", "custom_view");
-		bonobo_ui_node_set_attr(menuitem, "id", "custom_view");
-                bonobo_ui_node_set_attr(menuitem, "group", "GalViewMenus");
-                bonobo_ui_node_set_attr(menuitem, "type", "radio");
-		/* bonobo displays this string so it must be in locale */
-		bonobo_ui_node_set_attr(menuitem, "_label", N_("Custom View"));
-
-		command = bonobo_ui_node_new_child (commands, "cmd");
-		bonobo_ui_node_set_attr(command, "name", "custom_view");
-                bonobo_ui_node_set_attr(command, "group", "GalViewMenus");
-
-
-		menuitem = bonobo_ui_node_new_child(submenu, "menuitem");
-		bonobo_ui_node_set_attr(menuitem, "name", "SaveCurrentView");
-		bonobo_ui_node_set_attr(menuitem, "_label", N_("Save Custom View"));
+		bonobo_ui_node_set_attr(menuitem, "name", "DefineViews");
+		bonobo_ui_node_set_attr(menuitem, "_label", N_("Define Views"));
 		bonobo_ui_node_set_attr(menuitem, "verb", "");
 
 		command = bonobo_ui_node_new_child(commands, "cmd");
-		bonobo_ui_node_set_attr(command, "name", "SaveCurrentView");
+		bonobo_ui_node_set_attr(command, "name", "DefineViews");
 	}
-
-	menuitem = bonobo_ui_node_new_child(submenu, "separator");
-	bonobo_ui_node_set_attr(menuitem, "name", "GalView:second_sep");
-	bonobo_ui_node_set_attr(menuitem, "f", "");
-
-	menuitem = bonobo_ui_node_new_child(submenu, "menuitem");
-	bonobo_ui_node_set_attr(menuitem, "name", "DefineViews");
-	bonobo_ui_node_set_attr(menuitem, "_label", N_("Define Views"));
-	bonobo_ui_node_set_attr(menuitem, "verb", "");
-
-	command = bonobo_ui_node_new_child(commands, "cmd");
-	bonobo_ui_node_set_attr(command, "name", "DefineViews");
 
 	string = bonobo_ui_node_to_string(root, TRUE);
 	xml = g_strdup(string);
@@ -439,6 +444,24 @@ build_stuff (GalViewMenus      *gvm,
 	bonobo_ui_component_add_verb_list_with_data(gvm->priv->component, verbs, gvm);
 
 	set_radio (gvm, ev);
+}
+
+void
+gal_view_menus_set_show_define_views (GalViewMenus *gvm,
+				      gboolean show_define_views)
+{
+	if (gvm->priv->show_define_views == show_define_views)
+		return;
+
+	gvm->priv->show_define_views = show_define_views;
+
+	if (gvm->priv->component) {
+		CORBA_Environment ev;
+
+		CORBA_exception_init (&ev);
+		build_stuff(gvm, &ev);
+		CORBA_exception_free (&ev);
+	}
 }
 
 void

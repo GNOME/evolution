@@ -1,5 +1,11 @@
 2002-06-04  Christopher James Lahey  <clahey@ximian.com>
 
+	* menus/gal-view-menus.c, menus/gal-view-menus.h
+	(gal_view_menus_set_show_define_views): Added this function to let
+	you disable the define views dialog.
+
+2002-06-04  Christopher James Lahey  <clahey@ximian.com>
+
 	* menus/gal-view-menus.c (define_views): Don't show this dialog
 	more than once per collection.
 

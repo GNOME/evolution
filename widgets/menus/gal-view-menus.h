@@ -24,17 +24,20 @@ typedef struct {
 	GtkObjectClass parent_class;
 } GalViewMenusClass;
 
-GtkType       gal_view_menus_get_type      (void);
-GalViewMenus *gal_view_menus_new           (GalViewInstance   *instance);
-GalViewMenus *gal_view_menus_construct     (GalViewMenus      *menus,
-					    GalViewInstance   *instance);
+GtkType       gal_view_menus_get_type               (void);
+GalViewMenus *gal_view_menus_new                    (GalViewInstance   *instance);
+GalViewMenus *gal_view_menus_construct              (GalViewMenus      *menus,
+						     GalViewInstance   *instance);
 
-void          gal_view_menus_apply         (GalViewMenus      *menus,
-					    BonoboUIComponent *component,
-					    CORBA_Environment *opt_ev);
-void          gal_view_menus_unmerge       (GalViewMenus      *gvm,
-					    CORBA_Environment *opt_ev);
-void          gal_view_menus_set_instance  (GalViewMenus      *gvm,
-					    GalViewInstance   *instance);
+void          gal_view_menus_set_show_define_views  (GalViewMenus      *menus,
+						     gboolean           show_define_views);
+
+void          gal_view_menus_apply                  (GalViewMenus      *menus,
+						     BonoboUIComponent *component,
+						     CORBA_Environment *opt_ev);
+void          gal_view_menus_unmerge                (GalViewMenus      *gvm,
+						     CORBA_Environment *opt_ev);
+void          gal_view_menus_set_instance           (GalViewMenus      *gvm,
+						     GalViewInstance   *instance);
 
 #endif /* _GAL_VIEW_MENUS_H_ */
