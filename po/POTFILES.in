@@ -43,7 +43,6 @@ calendar/gui/alarm-notify/GNOME_Evolution_Calendar_AlarmNotify.oaf.in
 calendar/gui/alarm-notify/notify-main.c
 calendar/gui/calendar-commands.c
 calendar/gui/calendar-model.c
-calendar/gui/calendar-summary.c
 calendar/gui/control-factory.c
 calendar/gui/dialogs/alarm-notify-dialog.c
 calendar/gui/dialogs/alarm-notify.glade
