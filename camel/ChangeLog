@@ -1,3 +1,10 @@
+2002-12-15  Jeffrey Stedfast  <fejj@ximian.com>
+
+	* camel-multipart-signed.c (camel_multipart_signed_verify): Don't
+	apply the CANON_STRIP filter here, since we are verifying whatever
+	raw data we received (all we want to do is convert o the canonical
+	CRLF format).
+
 2002-12-10  Jeffrey Stedfast  <fejj@ximian.com>
 
 	* camel-mime-filter-tohtml.c (html_convert): Use camel-url-scanner

@@ -586,7 +586,8 @@ camel_multipart_signed_sign(CamelMultipartSigned *mps, CamelCipherContext *conte
 
 	mem = camel_stream_mem_new();
 	filter = camel_stream_filter_new_with_stream(mem);
-
+	
+	/* Note: see rfc2015 or rfc3156, section 5 */
 	canon_filter = camel_mime_filter_canon_new(CAMEL_MIME_FILTER_CANON_STRIP|CAMEL_MIME_FILTER_CANON_CRLF|CAMEL_MIME_FILTER_CANON_FROM);
 	camel_stream_filter_add(filter, (CamelMimeFilter *)canon_filter);
 	camel_object_unref((CamelObject *)canon_filter);
@@ -683,9 +684,9 @@ camel_multipart_signed_verify(CamelMultipartSigned *mps, CamelCipherContext *con
 		sub = camel_seekable_substream_new((CamelSeekableStream *)((CamelDataWrapper *)mps)->stream, mps->start1, mps->end1);
 		constream = (CamelStream *)camel_stream_filter_new_with_stream(sub);
 		camel_object_unref((CamelObject *)sub);
-
+		
 		/* Note: see rfc2015 or rfc3156, section 5 */
-		canon_filter = camel_mime_filter_canon_new(CAMEL_MIME_FILTER_CANON_STRIP|CAMEL_MIME_FILTER_CANON_CRLF);
+		canon_filter = camel_mime_filter_canon_new (CAMEL_MIME_FILTER_CANON_CRLF);
 		camel_stream_filter_add((CamelStreamFilter *)constream, (CamelMimeFilter *)canon_filter);
 		camel_object_unref((CamelObject *)canon_filter);
 	}
