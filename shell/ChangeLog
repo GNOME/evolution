@@ -1,5 +1,11 @@
 2002-02-21  Ettore Perazzoli  <ettore@ximian.com>
 
+	* e-shell-user-creatable-items-handler.c
+	(get_default_action_for_view): Return NULL if there is no
+	component ID for the current view.
+	
+2002-02-21  Ettore Perazzoli  <ettore@ximian.com>
+
 	* e-shell-user-creatable-items-handler.c (ensure_menu_items): Set
 	the icons for all the "New..." menu items from the specified one
 	in the type definitions.

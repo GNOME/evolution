@@ -280,6 +280,8 @@ get_default_action_for_view (EShellUserCreatableItemsHandler *handler,
 	   little more complex.  Also, this is a pretty brutal and ugly hack.  */
 
 	view_component_id = e_shell_view_get_current_component_id (shell_view);
+	if (view_component_id == NULL)
+		return NULL;
 
 	for (p = priv->components, component_num = 0; p != NULL; p = p->next, component_num ++) {
 		const Component *component;
