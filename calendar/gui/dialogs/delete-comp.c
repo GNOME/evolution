@@ -45,10 +45,13 @@
  * @widget: A widget to use as a basis for conversion from UTF8 into font
  * encoding.
  * 
- * Pops up a dialog box asking the user whether he wants to delete a number
- * of calendar components.
+ * Pops up a dialog box asking the user whether he wants to delete a number of
+ * calendar components.  The dialog will not appear, however, if the
+ * configuration option for confirmation is turned off.
  * 
- * Return value: TRUE if the user clicked Yes, FALSE otherwise.
+ * Return value: TRUE if the user clicked Yes, FALSE otherwise.  If the
+ * configuration option for confirmation is turned off, this function will
+ * unconditionally return TRUE.
  **/
 gboolean
 delete_component_dialog (CalComponent *comp,
@@ -68,6 +71,9 @@ delete_component_dialog (CalComponent *comp,
 
 	g_return_val_if_fail (widget != NULL, FALSE);
 	g_return_val_if_fail (GTK_IS_WIDGET (widget), FALSE);
+
+	if (!calendar_config_get_confirm_delete ())
+		return TRUE;
 
 	if (comp) {
 		CalComponentText summary;

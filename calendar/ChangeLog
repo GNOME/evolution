@@ -1,3 +1,22 @@
+2001-09-18  Federico Mena Quintero  <federico@ximian.com>
+
+	Fixes bug #2830.
+
+	* gui/calendar-config.c (calendar_config_get_confirm_delete): New
+	function.
+	(calendar_config_set_confirm_delete): New function.
+	(config_read): Get the default value for the ConfirmDelete option.
+	(calendar_config_write): Set the value of ConfirmDelete.
+
+	* gui/dialogs/delete-comp.c (delete_component_dialog): Handle the
+	configuration option for confirmation.
+
+	* gui/dialogs/cal-prefs-dialog.c (CalPrefsDialogPrivate): Added
+	the fields for the Other page.
+	(get_widgets): Handle the new widgets.
+	(cal_prefs_dialog_show_config): Likewise.
+	(cal_prefs_dialog_update_config): Likewise.
+
 2001-09-18  Rodrigo Moya <rodrigo@ximian.com>
 
 	* cal-client/cal-client-multi.[ch]: new class for managing multiple

@@ -65,6 +65,7 @@ typedef struct
 	gboolean	hide_completed_tasks;
 	CalUnits	hide_completed_tasks_units;
 	gint		hide_completed_tasks_value;
+	gboolean	confirm_delete;
 } CalendarConfig;
 
 
@@ -208,6 +209,8 @@ config_read				(void)
 	config->hide_completed_tasks_value = bonobo_config_get_long_with_default (
 		db, "/Calendar/Tasks/HideCompletedTasksValue", 1, NULL);
 
+	config->confirm_delete = bonobo_config_get_boolean_with_default (
+		db, "/Calendar/Other/ConfirmDelete", TRUE, NULL);
 
 	bonobo_object_release_unref (db, NULL);
 }
@@ -277,6 +280,8 @@ calendar_config_write			(void)
 	bonobo_config_set_long (db, 
 				"/Calendar/Tasks/HideCompletedTasksValue", 
 				config->hide_completed_tasks_value, NULL);
+
+	bonobo_config_set_boolean (db, "/Calendar/Other/ConfirmDelete", config->confirm_delete, NULL);
 
 	Bonobo_ConfigDatabase_sync (db, &ev);
  
@@ -624,6 +629,33 @@ void
 calendar_config_set_hide_completed_tasks_value	(gint		value)
 {
 	config->hide_completed_tasks_value = value;
+}
+
+/**
+ * calendar_config_get_confirm_delete:
+ * 
+ * Queries the configuration value for whether a confirmation dialog is
+ * presented when deleting calendar/tasks items.
+ * 
+ * Return value: Whether confirmation is required when deleting items.
+ **/
+gboolean
+calendar_config_get_confirm_delete (void)
+{
+	return config->confirm_delete;
+}
+
+/**
+ * calendar_config_set_confirm_delete:
+ * @confirm: Whether confirmation is required when deleting items.
+ * 
+ * Sets the configuration value for whether a confirmation dialog is presented
+ * when deleting calendar/tasks items.
+ **/
+void
+calendar_config_set_confirm_delete (gboolean confirm)
+{
+	config->confirm_delete = confirm;
 }
 
 

@@ -68,6 +68,12 @@ struct _CalPrefsDialogPrivate {
 	GtkWidget *tasks_hide_completed_checkbutton;
 	GtkWidget *tasks_hide_completed_spinbutton;
 	GtkWidget *tasks_hide_completed_optionmenu;
+
+	/* Other page options */
+	GtkWidget *confirm_delete;
+	GtkWidget *default_reminder;
+	GtkWidget *default_reminder_interval;
+	GtkWidget *default_reminder_units;
 };
 
 static const int week_start_day_map[] = {
@@ -239,6 +245,11 @@ get_widgets (CalPrefsDialog *prefs)
 	priv->tasks_hide_completed_spinbutton = GW ("tasks-hide-completed-spinbutton");
 	priv->tasks_hide_completed_optionmenu = GW ("tasks-hide-completed-optionmenu");
 
+	priv->confirm_delete = GW ("confirm-delete");
+	priv->default_reminder = GW ("default-reminder");
+	priv->default_reminder_interval = GW ("default-reminder-interval");
+	priv->default_reminder_units = GW ("default-reminder-units");
+
 #undef GW
 
 	return (priv->dialog
@@ -264,7 +275,11 @@ get_widgets (CalPrefsDialog *prefs)
 		&& priv->tasks_overdue_color
 		&& priv->tasks_hide_completed_checkbutton
 		&& priv->tasks_hide_completed_spinbutton
-		&& priv->tasks_hide_completed_optionmenu);
+		&& priv->tasks_hide_completed_optionmenu
+		&& priv->confirm_delete
+		&& priv->default_reminder
+		&& priv->default_reminder_interval
+		&& priv->default_reminder_units);
 }
 
 
@@ -497,7 +512,7 @@ cal_prefs_dialog_show_config	(CalPrefsDialog	*prefs)
 	working_days = calendar_config_get_working_days ();
 	mask = 1 << 0;
 	for (day = 0; day < 7; day++) {
-		gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (priv->working_days[day]), (working_days & mask) ? TRUE : FALSE);
+		e_dialog_toggle_set (priv->working_days[day], (working_days & mask) ? TRUE : FALSE);
 		mask <<= 1;
 	}
 
@@ -518,9 +533,9 @@ cal_prefs_dialog_show_config	(CalPrefsDialog	*prefs)
 
 	/* 12/24 Hour Format. */
 	if (calendar_config_get_24_hour_format ())
-		gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (priv->use_24_hour), TRUE);
+		e_dialog_toggle_set (priv->use_24_hour, TRUE);
 	else
-		gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (priv->use_12_hour), TRUE);
+		e_dialog_toggle_set (priv->use_12_hour, TRUE);
 
 	sensitive = calendar_config_locale_supports_12_hour_format ();
 	gtk_widget_set_sensitive (priv->use_12_hour, sensitive);
@@ -533,18 +548,21 @@ cal_prefs_dialog_show_config	(CalPrefsDialog	*prefs)
 				  time_division_map);
 
 	/* Show Appointment End Times. */
-	gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (priv->show_end_times),
-				      calendar_config_get_show_event_end ());
+	e_dialog_toggle_set (priv->show_end_times, calendar_config_get_show_event_end ());
 
 	/* Compress Weekend. */
-	gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (priv->compress_weekend), calendar_config_get_compress_weekend ());
+	e_dialog_toggle_set (priv->compress_weekend, calendar_config_get_compress_weekend ());
 
 	/* Date Navigator - Show Week Numbers. */
-	gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (priv->dnav_show_week_no), calendar_config_get_dnav_show_week_no ());
+	e_dialog_toggle_set (priv->dnav_show_week_no, calendar_config_get_dnav_show_week_no ());
 
 	/* Task list */
 
 	show_task_list_config (prefs);
+
+	/* Other page */
+
+	e_dialog_toggle_set (priv->confirm_delete, calendar_config_get_confirm_delete ());
 }
 
 /* Returns a pointer to a static string with an X color spec for the current
@@ -597,48 +615,50 @@ cal_prefs_dialog_update_config	(CalPrefsDialog	*prefs)
 	working_days = 0;
 	mask = 1 << 0;
 	for (day = 0; day < 7; day++) {
-		if (gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (priv->working_days[day])))
+		if (e_dialog_toggle_get (priv->working_days[day]))
 			working_days |= mask;
 		mask <<= 1;
 	}
 	calendar_config_set_working_days (working_days);
 
 	/* Week Start Day. */
-	week_start_day = e_dialog_option_menu_get (priv->week_start_day,
-						   week_start_day_map);
+	week_start_day = e_dialog_option_menu_get (priv->week_start_day, week_start_day_map);
 	calendar_config_set_week_start_day (week_start_day);
 
 	/* Start of Day. */
-	e_date_edit_get_time_of_day (E_DATE_EDIT (priv->start_of_day),
-				     &hour, &minute);
+	e_date_edit_get_time_of_day (E_DATE_EDIT (priv->start_of_day), &hour, &minute);
 	calendar_config_set_day_start_hour (hour);
 	calendar_config_set_day_start_minute (minute);
 
 	/* End of Day. */
-	e_date_edit_get_time_of_day (E_DATE_EDIT (priv->end_of_day),
-				     &hour, &minute);
+	e_date_edit_get_time_of_day (E_DATE_EDIT (priv->end_of_day), &hour, &minute);
 	calendar_config_set_day_end_hour (hour);
 	calendar_config_set_day_end_minute (minute);
 
 	/* 12/24 Hour Format. */
-	calendar_config_set_24_hour_format (gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (priv->use_24_hour)));
+	calendar_config_set_24_hour_format (e_dialog_toggle_get (priv->use_24_hour));
 
 	/* Time Divisions. */
-	time_divisions = e_dialog_option_menu_get (priv->time_divisions,
-						   time_division_map);
+	time_divisions = e_dialog_option_menu_get (priv->time_divisions, time_division_map);
 	calendar_config_set_time_divisions (time_divisions);
 
 	/* Show Appointment End Times. */
-	calendar_config_set_show_event_end (gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (priv->show_end_times)));
+	calendar_config_set_show_event_end (e_dialog_toggle_get (priv->show_end_times));
 
 	/* Compress Weekend. */
-	calendar_config_set_compress_weekend (gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (priv->compress_weekend)));
+	calendar_config_set_compress_weekend (e_dialog_toggle_get (priv->compress_weekend));
 
 	/* Date Navigator - Show Week Numbers. */
-	calendar_config_set_dnav_show_week_no (gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (priv->dnav_show_week_no)));
+	calendar_config_set_dnav_show_week_no (e_dialog_toggle_get (priv->dnav_show_week_no));
 
 	/* Task list */
 	update_task_list_config (prefs);
+
+	/* Other page */
+
+	calendar_config_set_confirm_delete (e_dialog_toggle_get (priv->confirm_delete));
+
+	/* Done */
 
 	calendar_config_write ();
 	update_all_config_settings ();

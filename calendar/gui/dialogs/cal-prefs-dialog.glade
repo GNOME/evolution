@@ -851,7 +851,7 @@ Days
 
 	<widget>
 	  <class>GtkCheckButton</class>
-	  <name>checkbutton1</name>
+	  <name>confirm-delete</name>
 	  <can_focus>True</can_focus>
 	  <label>_Ask for confirmation when deleting items</label>
 	  <active>False</active>
@@ -865,7 +865,7 @@ Days
 
 	<widget>
 	  <class>GtkCheckButton</class>
-	  <name>checkbutton2</name>
+	  <name>default-reminder</name>
 	  <can_focus>True</can_focus>
 	  <label>Create new appointments with a default _reminder</label>
 	  <active>False</active>
@@ -909,7 +909,7 @@ Days
 
 	  <widget>
 	    <class>GtkSpinButton</class>
-	    <name>spinbutton1</name>
+	    <name>default-reminder-interval</name>
 	    <can_focus>True</can_focus>
 	    <climb_rate>1</climb_rate>
 	    <digits>0</digits>
@@ -932,7 +932,7 @@ Days
 
 	  <widget>
 	    <class>GtkOptionMenu</class>
-	    <name>optionmenu1</name>
+	    <name>default-reminder-units</name>
 	    <can_focus>True</can_focus>
 	    <items>Minutes
 Hours
