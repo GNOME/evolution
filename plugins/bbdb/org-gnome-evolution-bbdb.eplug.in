@@ -1,0 +1,20 @@
+<e-plugin-list>
+	<e-plugin id="org.gnome.evolution.bbdb" type="shlib" name="BBDB Functionality for Evolution" description="Automatically tracks contacts"
+		location="@PLUGINDIR@/liborg-gnome-evolution-bbdb.so">
+
+		<hook class="org.gnome.evolution.mail.events:1.0">
+			<event
+			   id="message.replying"
+			   handle="bbdb_handle_reply"
+			   target="message"
+			/>
+		</hook>
+
+		<hook class="org.gnome.evolution.mail.config:1.0">
+			<group target="prefs">
+				<item type="page" path="80.bbdb" label="BBDB" factory="bbdb_page_factory"/>
+			</group>
+		</hook>
+
+	</e-plugin>
+</e-plugin-list>

@@ -1341,7 +1341,7 @@ AC_SUBST_FILE(EVO_PLUGIN_RULE)
 AC_ARG_ENABLE(plugins, [  --enable-plugins=[no/all/list]      Enable plugins.],enable_plugins="$enableval",enable_plugins=no)
 
 dnl Add any new plugins here
-plugins_all="subject-thread save-attachments prefer-plain save-calendar select-one-source copy-tool mail-to-task"
+plugins_all="subject-thread save-attachments prefer-plain save-calendar select-one-source copy-tool mail-to-task bbdb"
 
 if test x"$enable_plugins" = "xno"; then
 	plugins_enabled=""
@@ -1539,6 +1539,7 @@ plugins/save-attachments/Makefile
 plugins/save-calendar/Makefile
 plugins/select-one-source/Makefile
 plugins/prefer-plain/Makefile
+plugins/bbdb/Makefile
 plugins/copy-tool/Makefile
 smime/Makefile
 smime/lib/Makefile

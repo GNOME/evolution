@@ -124,6 +124,7 @@ autocompletion_config_control_new (void)
 	/*	g_signal_connect (ac->source_list, "changed", G_CALLBACK (source_list_changed), ac); */
 
 	scrolledwin = gtk_scrolled_window_new (NULL, NULL);
+
 	gtk_scrolled_window_set_policy (GTK_SCROLLED_WINDOW (scrolledwin),
 					GTK_POLICY_AUTOMATIC,
 					GTK_POLICY_AUTOMATIC);
