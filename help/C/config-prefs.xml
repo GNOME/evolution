@@ -610,16 +610,6 @@ smtp.omniport.com:143
        </varlistentry>
 
        <varlistentry>
-         <term><guilabel>Automatically detect links</guilabel></term>
-         <listitem>
-           <para>
-             Check this box to have Evolution look for web addresses in your mail
-             and make them clickable automatically.
-           </para>
-         </listitem>
-       </varlistentry>
-
-       <varlistentry>
          <term><guilabel>Prompt when sending HTML messages to contacts that don't want them</guilabel></term>
          <listitem>
            <para>
@@ -650,17 +640,6 @@ smtp.omniport.com:143
         spell checking.  In the General tab, you can set:
 
          <variablelist>
-
-	  <varlistentry>
-	    <term><guilabel>Shortcuts Type</guilabel></term>
-	    <listitem>
-	      <para>
-                 Choose a keyboard shortcut scheme: do you prefer
-                 keyboard shortcuts similar to those of Microsoft
-                 Windows, XEmacs, or Emacs?
-               </para>
-	    </listitem>
-	  </varlistentry>
 
 	  <varlistentry>
 	    <term><guilabel>Default Behavior</guilabel></term>
