@@ -1,3 +1,21 @@
+2002-10-23  Ettore Perazzoli  <ettore@ximian.com>
+
+	* e-shell.c (setup_local_storage): Set the is_stock flag to TRUE
+	for the summary folder.
+
+	* e-shell-view.c (setup_verb_sensitivity_for_folder): Don't allow
+	folder operations on pseudo-folders that have a NULL physical_uri.
+
+	* e-corba-storage.c (async_remove_folder): Make sure the folder
+	has a physical URI.  [#30950]
+
+2002-10-23  Ettore Perazzoli  <ettore@ximian.com>
+
+	* e-shell-shared-folder-picker-dialog.c
+	(setup_server_option_menu): Use
+	e_utf8_gtk_menu_item_new_with_label() to create the option menu
+	items from the storage's UTF-8 name.  [#31564]
+
 2002-10-21  Ettore Perazzoli  <ettore@ximian.com>
 
 	* evolution-shell-component-utils.c

@@ -747,6 +747,7 @@ setup_local_storage (EShell *shell)
 
 	summary_folder = e_folder_new (U_("Summary"), "summary", "");
 	e_folder_set_physical_uri (summary_folder, "/");
+	e_folder_set_is_stock (summary_folder, TRUE);
 	priv->summary_storage = e_storage_new (E_SUMMARY_STORAGE_NAME,
 					       summary_folder);
 	e_storage_set_add_storage (priv->storage_set, priv->summary_storage);

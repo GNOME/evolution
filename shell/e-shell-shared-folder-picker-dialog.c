@@ -34,6 +34,7 @@
 #include "Evolution-Addressbook-SelectNames.h"
 
 #include <gal/widgets/e-gui-utils.h>
+#include <gal/widgets/e-unicode.h>
 
 #include <libgnomeui/gnome-stock.h>
 #include <libgnomeui/gnome-dialog.h>
@@ -187,7 +188,7 @@ setup_server_option_menu (EShell *shell,
 
 		storage_name = e_storage_get_name (E_STORAGE (p->data));
 
-		menu_item = gtk_menu_item_new_with_label (storage_name);
+		menu_item = e_utf8_gtk_menu_item_new_with_label (GTK_MENU (menu), storage_name);
 		gtk_signal_connect (GTK_OBJECT (menu_item), "activate",
 				    GTK_SIGNAL_FUNC (server_option_menu_item_activate_callback),
 				    storage_name_return);

@@ -308,9 +308,11 @@ setup_verb_sensitivity_for_folder (EShellView *shell_view,
 		folder = e_storage_set_get_folder (e_shell_get_storage_set (priv->shell), path);
 
 	/* Adjust sensitivity for menu options depending on whether the folder
-           selected is a stock folder.  */
+	   selected can actually be manipulated or not.  */
 
-	if (folder != NULL && ! e_folder_get_is_stock (folder))
+	if (folder != NULL
+	    && ! e_folder_get_is_stock (folder)
+	    && e_folder_get_physical_uri (folder) != NULL)
 		prop = "1";
 	else
 		prop = "0";
@@ -621,7 +623,6 @@ storage_set_view_box_button_release_event_cb (GtkWidget *widget,
 		return FALSE;
 
 	popdown_transient_folder_bar (shell_view);
-
 	return TRUE;
 }
 

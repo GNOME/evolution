@@ -351,8 +351,10 @@ async_create_folder (EStorage *storage, const char *path,
 }
 
 static void
-async_remove_folder (EStorage *storage, const char *path,
-		     EStorageResultCallback callback, void *data)
+async_remove_folder (EStorage *storage,
+		     const char *path,
+		     EStorageResultCallback callback,
+		     void *data)
 {
 	ECorbaStorage *corba_storage;
 	ECorbaStoragePrivate *priv;
@@ -366,8 +368,14 @@ async_remove_folder (EStorage *storage, const char *path,
 	priv = corba_storage->priv;
 
 	folder = e_storage_get_folder (storage, path);
-	if (e_folder_get_is_stock (folder))
+	if (e_folder_get_is_stock (folder)) {
 		(* callback) (storage, E_STORAGE_CANTCHANGESTOCKFOLDER, data);
+		return;
+	}
+	if (e_folder_get_physical_uri (folder) == NULL) {
+		(* callback) (storage, E_STORAGE_GENERICERROR, data);
+		return;
+	}
 
 	closure = g_new (struct async_folder_closure, 1);
 	closure->callback = callback;
