@@ -1670,8 +1670,10 @@ set_view (GnomeCalendar *gcal, GnomeCalendarViewType view_type, gboolean range_s
 	}
 
 	priv->range_selected = range_selected;
+	priv->current_view_type = view_type;
 
 	gal_view_instance_set_current_view_id (priv->view_instance, view_id);
+	focus_current_view (gcal);
 }
 
 

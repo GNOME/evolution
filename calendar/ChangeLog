@@ -1,3 +1,8 @@
+2004-07-02  Rodrigo Moya <rodrigo@novell.com>
+
+	* gui/gnome-cal.c (set_view): update the internal current_view_type
+	field and focus the newly selected view.
+
 2004-07-02  Rodney Dawes  <dobey@novell.com>
 
 	* gui/dialogs/url-editor-dialog.c (get_widgets):
