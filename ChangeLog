@@ -1,3 +1,7 @@
+2003-12-02  Jeffrey Stedfast  <fejj@ximian.com>
+
+	* configure.in (EVOLUTION_DIR): Remove the Junk folder
+
 2003-12-01  Rodney Dawes  <dobey@ximian.com>
 
 	* data/Makefile.am: Install evolution.desktop as
