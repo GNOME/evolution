@@ -753,7 +753,7 @@ em_mailer_prefs_construct (EMMailerPrefs *prefs)
 	toggle_button_init (prefs, prefs->font_share, TRUE,
 			    "/apps/evolution/mail/display/fonts/use_custom",
 			    G_CALLBACK (custom_font_changed));
-	font_share_changed (prefs->font_share, prefs);
+	custom_font_changed (prefs->font_share, prefs);
 	
 	/* HTML Mail tab */
 	

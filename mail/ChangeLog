@@ -1,3 +1,8 @@
+2004-04-07  Jeffrey Stedfast  <fejj@ximian.com>
+
+	* em-mailer-prefs.c (em_mailer_prefs_construct): Don't call a
+	function that doesn't exist anymore.
+
 2004-04-06  Jeffrey Stedfast  <fejj@ximian.com>
 
 	* em-mailer-prefs.c (em_mailer_prefs_construct): Changed to save
