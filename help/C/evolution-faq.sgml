@@ -455,23 +455,6 @@ cp -r ~/evolution/local/Inbox/subfolders/Foo ~/evolution/local/Inbox/subfolders/
       </qandaentry>
 
       <qandaentry>
-	<question>
-	  <para>
-            If Mozilla can import <filename>.pst</filename> files, why can't Evolution?
-          </para> 
-	</question>
-	<answer>
-	  <para>
-             Mozilla on Windows accesses the <filename>.pst</filename>
-             files through the <filename>MAPI.DLL</filename>, which is
-             only available on Windows.  <filename>MAPI.DLL</filename>
-             is the only way to access <filename>.pst</filename> files
-             and Evolution cannot use this DLL in Linux.
-          </para>
-	</answer> 
-      </qandaentry>
-
-      <qandaentry>
         <question>
           <para>
             How should I compile Evolution avoiding conflicts with my
