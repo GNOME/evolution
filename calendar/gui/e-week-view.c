@@ -1059,7 +1059,8 @@ query_obj_updated_cb (CalQuery *query, const char *uid,
 				      week_view->day_starts[0],
 				      week_view->day_starts[num_days],
 				      e_week_view_add_event, week_view,
-				      cal_client_resolve_tzid_cb, week_view->client);
+				      cal_client_resolve_tzid_cb, week_view->client,
+				      week_view->zone);
 
 	gtk_object_unref (GTK_OBJECT (comp));
 
@@ -3232,13 +3233,19 @@ e_week_view_key_press (GtkWidget *widget, GdkEventKey *event)
 	dtend = week_view->day_starts[week_view->selection_end_day + 1];
 
 	date.value = &itt;
-	date.tzid = icaltimezone_get_tzid (week_view->zone);
+	date.tzid = NULL;
 
-	*date.value = icaltime_from_timet_with_zone (dtstart, FALSE,
+	/* We use DATE values now, so we don't need the timezone. */
+	/*date.tzid = icaltimezone_get_tzid (week_view->zone);*/
+
+	*date.value = icaltime_from_timet_with_zone (dtstart, TRUE,
 						     week_view->zone);
 	cal_component_set_dtstart (comp, &date);
-	*date.value = icaltime_from_timet_with_zone (dtend, FALSE,
+
+	/* We have to take a day off the end time as it is a DATE value. */
+	*date.value = icaltime_from_timet_with_zone (dtend, TRUE,
 						     week_view->zone);
+	icaltime_adjust (date.value, -1, 0, 0, 0);
 	cal_component_set_dtend (comp, &date);
 
 	cal_component_set_categories (comp, week_view->default_category);

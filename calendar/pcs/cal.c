@@ -448,6 +448,26 @@ impl_Cal_get_query (PortableServer_Servant servant,
 	return query_copy;
 }
 
+/* Cal::set_default_timezone method */
+static void
+impl_Cal_set_default_timezone (PortableServer_Servant servant,
+			       const GNOME_Evolution_Calendar_CalTimezoneObjUID tzid,
+			       CORBA_Environment *ev)
+{
+	Cal *cal;
+	CalPrivate *priv;
+	gboolean zone_set;
+
+	cal = CAL (bonobo_object_from_servant (servant));
+	priv = cal->priv;
+
+	zone_set = cal_backend_set_default_timezone (priv->backend, tzid);
+
+	if (!zone_set) {
+		bonobo_exception_set (ev, ex_GNOME_Evolution_Calendar_Cal_NotFound);
+	}
+}
+
 /* Cal::get_timezone_object method */
 static GNOME_Evolution_Calendar_CalObj
 impl_Cal_get_timezone_object (PortableServer_Servant servant,
@@ -609,6 +629,7 @@ cal_class_init (CalClass *klass)
 	epv->setMode = impl_Cal_set_mode;
 	epv->countObjects = impl_Cal_get_n_objects;
 	epv->getObject = impl_Cal_get_object;
+	epv->setDefaultTimezone = impl_Cal_set_default_timezone;
 	epv->getTimezoneObject = impl_Cal_get_timezone_object;
 	epv->getUIDs = impl_Cal_get_uids;
 	epv->getChanges = impl_Cal_get_changes;

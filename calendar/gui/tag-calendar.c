@@ -218,11 +218,11 @@ tag_calendar_by_comp (ECalendar *ecal, CalComponent *comp, CalClient *client, gb
 		cal_recur_generate_instances (comp, c.start_time, c.end_time,
 					      tag_calendar_cb, &c,
 					      cal_client_resolve_tzid_cb,
-					      client);
+					      client, c.zone);
 	} else {
 		cal_recur_generate_instances (comp, c.start_time, c.end_time,
 					      tag_calendar_cb, &c,
 					      resolve_tzid_cb,
-					      client);
+					      client, c.zone);
 	}
 }

@@ -79,6 +79,10 @@ struct _CalBackendFilePrivate {
 	
 	/* Idle handler for saving the calendar when it is dirty */
 	guint idle_id;
+
+	/* The calendar's default timezone, used for resolving DATE and
+	   floating DATE-TIME values. */
+	icaltimezone *default_zone;
 };
 
 
@@ -118,6 +122,9 @@ static gboolean cal_backend_file_update_objects (CalBackend *backend, const char
 static gboolean cal_backend_file_remove_object (CalBackend *backend, const char *uid);
 
 static icaltimezone* cal_backend_file_get_timezone (CalBackend *backend, const char *tzid);
+static icaltimezone* cal_backend_file_get_default_timezone (CalBackend *backend);
+static gboolean cal_backend_file_set_default_timezone (CalBackend *backend,
+						       const char *tzid);
 
 static void notify_categories_changed (CalBackendFile *cbfile);
 
@@ -190,6 +197,8 @@ cal_backend_file_class_init (CalBackendFileClass *class)
 	backend_class->remove_object = cal_backend_file_remove_object;
 
 	backend_class->get_timezone = cal_backend_file_get_timezone;
+	backend_class->get_default_timezone = cal_backend_file_get_default_timezone;
+	backend_class->set_default_timezone = cal_backend_file_set_default_timezone;
 }
 
 static Bonobo_ConfigDatabase
@@ -234,6 +243,9 @@ cal_backend_file_init (CalBackendFile *cbfile)
 
 	priv->categories = g_hash_table_new (g_str_hash, g_str_equal);
 	priv->removed_categories = g_hash_table_new (g_str_hash, g_str_equal);
+
+	/* The timezone defaults to UTC. */
+	priv->default_zone = icaltimezone_get_utc_timezone ();
 
 	priv->db = load_db ();
 	
@@ -1015,7 +1027,7 @@ cal_backend_file_get_timezone_object (CalBackend *backend, const char *tzid)
 {
 	CalBackendFile *cbfile;
 	CalBackendFilePrivate *priv;
-	icaltimezone *icaltz;
+	icaltimezone *zone;
 	icalcomponent *icalcomp;
 	char *ical_string;
 
@@ -1027,11 +1039,11 @@ cal_backend_file_get_timezone_object (CalBackend *backend, const char *tzid)
 	g_return_val_if_fail (priv->icalcomp != NULL, NULL);
 	g_assert (priv->comp_uid_hash != NULL);
 
-	icaltz = icalcomponent_get_timezone (priv->icalcomp, tzid);
-	if (!icaltz)
+	zone = icalcomponent_get_timezone (priv->icalcomp, tzid);
+	if (!zone)
 		return NULL;
 
-	icalcomp = icaltimezone_get_component (icaltz);
+	icalcomp = icaltimezone_get_component (zone);
 	if (!icalcomp)
 		return NULL;
 
@@ -1131,7 +1143,7 @@ add_instance (CalComponent *comp, time_t start, time_t end, gpointer data)
  * within a specific time range.
  */
 static void
-get_instances_in_range (GHashTable *uid_hash, GList *components, time_t start, time_t end)
+get_instances_in_range (GHashTable *uid_hash, GList *components, time_t start, time_t end, icaltimezone *default_zone)
 {
 	GList *l;
 
@@ -1147,7 +1159,7 @@ get_instances_in_range (GHashTable *uid_hash, GList *components, time_t start, t
 		vcalendar_comp = icalcomponent_get_parent (icalcomp);
 		g_assert (vcalendar_comp != NULL);
 
-		cal_recur_generate_instances (comp, start, end, add_instance, uid_hash, resolve_tzid, vcalendar_comp);
+		cal_recur_generate_instances (comp, start, end, add_instance, uid_hash, resolve_tzid, vcalendar_comp, default_zone);
 	}
 }
 
@@ -1188,13 +1200,16 @@ cal_backend_file_get_objects_in_range (CalBackend *backend, CalObjType type,
 	uid_hash = g_hash_table_new (g_str_hash, g_str_equal);
 
 	if (type & CALOBJ_TYPE_EVENT)
-		get_instances_in_range (uid_hash, priv->events, start, end);
+		get_instances_in_range (uid_hash, priv->events, start, end,
+					priv->default_zone);
 
 	if (type & CALOBJ_TYPE_TODO)
-		get_instances_in_range (uid_hash, priv->todos, start, end);
+		get_instances_in_range (uid_hash, priv->todos, start, end,
+					priv->default_zone);
 
 	if (type & CALOBJ_TYPE_JOURNAL)
-		get_instances_in_range (uid_hash, priv->journals, start, end);
+		get_instances_in_range (uid_hash, priv->journals, start, end,
+					priv->default_zone);
 
 	event_list = NULL;
 	g_hash_table_foreach (uid_hash, add_uid_to_list, &event_list);
@@ -1232,6 +1247,7 @@ create_user_free_busy (CalBackendFile *cbfile, const char *address, const char *
 	icalcomponent_set_dtend (vfb, icaltime_from_timet (end, 1));
 
 	/* add all objects in the given interval */
+
 	uids = cal_backend_get_objects_in_range (CAL_BACKEND (cbfile),
 						 CALOBJ_TYPE_ANY, start, end);
 	for (l = uids; l != NULL; l = l->next) {
@@ -1466,7 +1482,8 @@ cal_backend_file_get_changes (CalBackend *backend, CalObjType type, const char *
 
 /* Get_alarms_in_range handler for the file backend */
 static GNOME_Evolution_Calendar_CalComponentAlarmsSeq *
-cal_backend_file_get_alarms_in_range (CalBackend *backend, time_t start, time_t end)
+cal_backend_file_get_alarms_in_range (CalBackend *backend,
+				      time_t start, time_t end)
 {
 	CalBackendFile *cbfile;
 	CalBackendFilePrivate *priv;
@@ -1491,10 +1508,12 @@ cal_backend_file_get_alarms_in_range (CalBackend *backend, time_t start, time_t 
 
 	n_comp_alarms += cal_util_generate_alarms_for_list (priv->events, start, end,
 							    &comp_alarms, resolve_tzid,
-							    priv->icalcomp);
+							    priv->icalcomp,
+							    priv->default_zone);
 	n_comp_alarms += cal_util_generate_alarms_for_list (priv->todos, start, end,
 							    &comp_alarms, resolve_tzid,
-							    priv->icalcomp);
+							    priv->icalcomp,
+							    priv->default_zone);
 
 	seq = GNOME_Evolution_Calendar_CalComponentAlarmsSeq__alloc ();
 	CORBA_sequence_set_release (seq, TRUE);
@@ -1525,7 +1544,8 @@ cal_backend_file_get_alarms_in_range (CalBackend *backend, time_t start, time_t 
 /* Get_alarms_for_object handler for the file backend */
 static GNOME_Evolution_Calendar_CalComponentAlarms *
 cal_backend_file_get_alarms_for_object (CalBackend *backend, const char *uid,
-					time_t start, time_t end, gboolean *object_found)
+					time_t start, time_t end,
+					gboolean *object_found)
 {
 	CalBackendFile *cbfile;
 	CalBackendFilePrivate *priv;
@@ -1558,7 +1578,7 @@ cal_backend_file_get_alarms_for_object (CalBackend *backend, const char *uid,
 	corba_alarms->calobj = CORBA_string_dup (comp_str);
 	g_free (comp_str);
 
-	alarms = cal_util_generate_alarms_for_comp (comp, start, end, resolve_tzid, priv->icalcomp);
+	alarms = cal_util_generate_alarms_for_comp (comp, start, end, resolve_tzid, priv->icalcomp, priv->default_zone);
 	if (alarms) {
 		cal_backend_util_fill_alarm_instances_seq (&corba_alarms->alarms, alarms->alarms);
 		cal_component_alarms_free (alarms);
@@ -1632,6 +1652,48 @@ clean_removed_categories (CalBackendFile *cbfile)
 				     NULL);
 }
 
+
+/* Creates a CalComponent for the given icalcomponent and adds it to our
+   cache. Note that the icalcomponent is not added to the toplevel
+   icalcomponent here. That needs to be done elsewhere. It returns the uid
+   of the added component, or NULL if it failed. */
+static const char*
+cal_backend_file_update_object (CalBackendFile *cbfile,
+				icalcomponent *icalcomp)
+{
+	CalComponent *old_comp;
+	CalComponent *comp;
+	const char *comp_uid;
+
+	/* Create a CalComponent wrapper for the icalcomponent. */
+	comp = cal_component_new ();
+	if (!cal_component_set_icalcomponent (comp, icalcomp)) {
+		gtk_object_unref (GTK_OBJECT (comp));
+		return NULL;
+	}
+
+	/* Get the UID, and check it isn't empty. */
+	cal_component_get_uid (comp, &comp_uid);
+	if (!comp_uid || !comp_uid[0]) {
+		gtk_object_unref (GTK_OBJECT (comp));
+		return NULL;
+	}
+
+	/* Remove any old version of the component. */
+	old_comp = lookup_component (cbfile, comp_uid);
+	if (old_comp)
+		remove_component (cbfile, old_comp);
+
+	/* Now add the component to our local cache, but we pass FALSE as
+	   the last argument, since the libical component is assumed to have
+	   been added already. */
+	add_component (cbfile, comp, FALSE);
+
+	return comp_uid;
+}
+
+
+
 /* Update_objects handler for the file backend. */
 static gboolean
 cal_backend_file_update_objects (CalBackend *backend, const char *calobj)
@@ -1640,10 +1702,10 @@ cal_backend_file_update_objects (CalBackend *backend, const char *calobj)
 	CalBackendFilePrivate *priv;
 	icalcomponent *toplevel_comp, *icalcomp = NULL;
 	icalcomponent_kind kind;
-	CalComponent *old_comp;
-	CalComponent *comp;
-	const char *comp_uid;
 	int old_n_categories, new_n_categories;
+	icalcomponent *subcomp;
+	gboolean retval = TRUE;
+	GList *comp_uid_list = NULL, *elem;
 
 	cbfile = CAL_BACKEND_FILE (backend);
 	priv = cbfile->priv;
@@ -1661,59 +1723,17 @@ cal_backend_file_update_objects (CalBackend *backend, const char *calobj)
 
 	kind = icalcomponent_isa (toplevel_comp);
 
-	if (kind == ICAL_VCALENDAR_COMPONENT) {
-		int num_found = 0;
-		icalcomponent_kind child_kind;
-		icalcomponent *subcomp;
-
-		/* We have a VCALENDAR containing the VEVENT/VTODO and the
-		   related timezone data, so we have to step through it to
-		   find the actual VEVENT/VTODO component. */
-		subcomp = icalcomponent_get_first_component (toplevel_comp,
-							     ICAL_ANY_COMPONENT);
-		while (subcomp) {
-			child_kind = icalcomponent_isa (subcomp);
-			if (child_kind == ICAL_VEVENT_COMPONENT
-			    || child_kind == ICAL_VTODO_COMPONENT
-			    || child_kind == ICAL_VJOURNAL_COMPONENT) {
-				icalcomp = subcomp;
-				num_found++;
-			}
-			subcomp = icalcomponent_get_next_component (toplevel_comp,
-								    ICAL_ANY_COMPONENT);
-		}
-
-		/* If we didn't find exactly 1 VEVENT/VTODO it is an error. */
-		if (num_found != 1) {
-			icalcomponent_free (toplevel_comp);
-			return FALSE;
-		}
-
-	} else if (kind == ICAL_VEVENT_COMPONENT
-		   || kind == ICAL_VTODO_COMPONENT
-		   || kind == ICAL_VJOURNAL_COMPONENT) {
+	if (kind == ICAL_VEVENT_COMPONENT
+	    || kind == ICAL_VTODO_COMPONENT
+	    || kind == ICAL_VJOURNAL_COMPONENT) {
+		/* Create a temporary toplevel component and put the VEVENT
+		   or VTODO in it, to simplify the code below. */
 		icalcomp = toplevel_comp;
-	} else {
+		toplevel_comp = cal_util_new_top_level ();
+		icalcomponent_add_component (toplevel_comp, icalcomp);
+	} else if (kind != ICAL_VCALENDAR_COMPONENT) {
 		/* We don't support this type of component */
 		icalcomponent_free (toplevel_comp);
-		return FALSE;
-	}
-
-	comp = cal_component_new ();
-	if (!cal_component_set_icalcomponent (comp, icalcomp)) {
-		gtk_object_unref (GTK_OBJECT (comp));
-		icalcomponent_free (toplevel_comp);
-		return FALSE;
-	}
-
-	/* Get the UID, and check it isn't empty. */
-
-	cal_component_get_uid (comp, &comp_uid);
-
-	if (!comp_uid || !comp_uid[0]) {
-		gtk_object_unref (GTK_OBJECT (comp));
-		if (kind == ICAL_VCALENDAR_COMPONENT)
-			icalcomponent_free (toplevel_comp);
 		return FALSE;
 	}
 
@@ -1724,32 +1744,54 @@ cal_backend_file_update_objects (CalBackend *backend, const char *calobj)
 
 	old_n_categories = g_hash_table_size (priv->categories);
 
-	/* Update the component */
+	/* Step throught the VEVENT/VTODOs being added, create CalComponents
+	   for them, and add them to our cache. */
+	subcomp = icalcomponent_get_first_component (toplevel_comp,
+						     ICAL_ANY_COMPONENT);
+	while (subcomp) {
+		/* We ignore anything except VEVENT, VTODO and VJOURNAL
+		   components. */
+		icalcomponent_kind child_kind = icalcomponent_isa (icalcomp);
+		if (child_kind == ICAL_VEVENT_COMPONENT
+		    || child_kind == ICAL_VTODO_COMPONENT
+		    || child_kind == ICAL_VJOURNAL_COMPONENT) {
+			const char *comp_uid;
 
-	old_comp = lookup_component (cbfile, comp_uid);
-
-	if (old_comp)
-		remove_component (cbfile, old_comp);
-
-	if (kind == ICAL_VCALENDAR_COMPONENT) {
-		/* If we have a VCALENDAR component with child VTIMEZONEs and
-		   the VEVENT/VTODO, we have to merge it into the existing
-		   VCALENDAR, resolving any conflicting TZIDs. */
-		icalcomponent_merge_component (priv->icalcomp, toplevel_comp);
-
-		/* Now we add the component to our local cache, but we pass
-		   FALSE as the last argument, since we have already added
-		   the libical component when merging above.*/
-		add_component (cbfile, comp, FALSE);
-	} else {
-		add_component (cbfile, comp, TRUE);
+			comp_uid = cal_backend_file_update_object (cbfile,
+								   icalcomp);
+			if (comp_uid) {
+				/* We add a copy of the UID to a list, so we
+				   can emit notification signals later. We do
+				   a g_strdup() in case any of the components
+				   get removed while we are emitting
+				   notification signals. */
+				comp_uid_list = g_list_prepend (comp_uid_list,
+								g_strdup (comp_uid));
+			} else {
+				retval = FALSE;
+			}
+		}
+		subcomp = icalcomponent_get_next_component (toplevel_comp,
+							    ICAL_ANY_COMPONENT);
 	}
+
+	/* Merge the iCalendar components with our existing VCALENDAR,
+	   resolving any conflicting TZIDs. */
+	icalcomponent_merge_component (priv->icalcomp, toplevel_comp);
 
 	new_n_categories = g_hash_table_size (priv->categories);
 
 	mark_dirty (cbfile);
 
-	notify_update (cbfile, comp_uid);
+	/* Now emit notification signals for all of the added components.
+	   We do this after adding them all to make sure the calendar is in a
+	   stable state before emitting signals. */
+	for (elem = comp_uid_list; elem; elem = elem->next) {
+		char *comp_uid = elem->data;
+		notify_update (cbfile, comp_uid);
+		g_free (comp_uid);
+	}
+	g_list_free (comp_uid_list);
 
 	if (old_n_categories != new_n_categories ||
 	    g_hash_table_size (priv->removed_categories) != 0) {
@@ -1757,8 +1799,9 @@ cal_backend_file_update_objects (CalBackend *backend, const char *calobj)
 		notify_categories_changed (cbfile);
 	}
 
-	return TRUE;
+	return retval;
 }
+
 
 /* Remove_object handler for the file backend */
 static gboolean
@@ -1814,5 +1857,45 @@ cal_backend_file_get_timezone (CalBackend *backend, const char *tzid)
 		return icaltimezone_get_utc_timezone ();
 	else
 		return icalcomponent_get_timezone (priv->icalcomp, tzid);
+}
+
+
+static icaltimezone*
+cal_backend_file_get_default_timezone (CalBackend *backend)
+{
+	CalBackendFile *cbfile;
+	CalBackendFilePrivate *priv;
+
+	cbfile = CAL_BACKEND_FILE (backend);
+	priv = cbfile->priv;
+
+	g_return_val_if_fail (priv->icalcomp != NULL, NULL);
+
+	return priv->default_zone;
+}
+
+
+static gboolean
+cal_backend_file_set_default_timezone (CalBackend *backend,
+				       const char *tzid)
+{
+	CalBackendFile *cbfile;
+	CalBackendFilePrivate *priv;
+	icaltimezone *zone;
+
+	cbfile = CAL_BACKEND_FILE (backend);
+	priv = cbfile->priv;
+
+	g_return_val_if_fail (priv->icalcomp != NULL, FALSE);
+
+	/* Look up the VTIMEZONE in our icalcomponent. */
+	zone = icalcomponent_get_timezone (priv->icalcomp, tzid);
+	if (!zone)
+		return FALSE;
+
+	/* Set the default timezone to it. */
+	priv->default_zone = zone;
+
+	return TRUE;
 }
 

@@ -948,6 +948,10 @@ pre_sync (GnomePilotConduit *conduit,
 		return -1;
 	LOG ("  Using timezone: %s", icaltimezone_get_tzid (ctxt->timezone));
 	
+	/* Set the default timezone on the backend. */
+	if (ctxt->timezone)
+		cal_client_set_default_timezone (ctxt->client, ctxt->timezone);
+
 	/* Load the uid <--> pilot id mapping */
 	filename = map_name (ctxt);
 	e_pilot_map_read (filename, &ctxt->map);

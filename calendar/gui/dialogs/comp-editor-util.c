@@ -59,6 +59,9 @@ comp_editor_dates (CompEditorPageDates *dates, CalComponent *comp)
 	dates->due = NULL;
 	dates->complete = NULL;
 	
+	/* Note that the CalComponentDateTime's returned contain allocated
+	   icaltimetype and tzid values, so we just take over ownership of
+	   those. */
 	cal_component_get_dtstart (comp, &dt);
 	if (dt.value) {
 		dates->start = g_new (CalComponentDateTime, 1);
@@ -87,14 +90,22 @@ comp_editor_dates (CompEditorPageDates *dates, CalComponent *comp)
 void
 comp_editor_free_dates (CompEditorPageDates *dates)
 {
-	if (dates->start)
+	/* Note that cal_component_free_datetime() only frees the fields in
+	   the struct. It doesn't free the struct itself, so we do that. */
+	if (dates->start) {
 		cal_component_free_datetime (dates->start);
+		g_free (dates->start);
+	}
 
-	if (dates->end)
+	if (dates->end) {
 		cal_component_free_datetime (dates->end);
+		g_free (dates->end);
+	}
 
-	if (dates->due)
+	if (dates->due) {
 		cal_component_free_datetime (dates->due);
+		g_free (dates->due);
+	}
 
 	if (dates->complete)
 		cal_component_free_icaltimetype (dates->complete);

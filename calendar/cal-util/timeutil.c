@@ -367,8 +367,6 @@ time_days_in_month (int year, int month)
 {
 	int days;
 
-	g_print ("Year: %i Month: %i\n", year, month);
-
 	g_return_val_if_fail (year >= 1900, 0);
 	g_return_val_if_fail ((month >= 0) && (month < 12), 0);
 

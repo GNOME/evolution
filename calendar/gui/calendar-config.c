@@ -36,6 +36,7 @@
 #include "component-factory.h"
 #include "calendar-commands.h"
 #include "e-tasks.h"
+#include "e-cell-date-edit-text.h"
 #include "calendar-config.h"
 #include <bonobo/bonobo-exception.h>
 #include <bonobo/bonobo-moniker-util.h>
@@ -719,8 +720,18 @@ calendar_config_configure_e_cell_date_edit	(ECellDateEdit	*ecde)
 {
 	gboolean use_24_hour;
 	gint start_hour, end_hour;
+	ECellPopup *ecp;
+	ECellDateEditText *ecd;
+	char *location;
+	icaltimezone *zone;
 
 	g_return_if_fail (E_IS_CELL_DATE_EDIT (ecde));
+
+	ecp = E_CELL_POPUP (ecde);
+	ecd = E_CELL_DATE_EDIT_TEXT (ecp->child);
+
+	location = calendar_config_get_timezone ();
+	zone = icaltimezone_get_builtin_timezone (location);
 
 	calendar_config_configure_e_calendar (E_CALENDAR (ecde->calendar));
 
@@ -743,6 +754,9 @@ calendar_config_configure_e_cell_date_edit	(ECellDateEdit	*ecde)
 #endif
 			NULL);
 	e_cell_date_edit_thaw (ecde);
+
+	e_cell_date_edit_text_set_timezone (ecd, zone);
+	e_cell_date_edit_text_set_use_24_hour_format (ecd, use_24_hour);
 }
 
 

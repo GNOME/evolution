@@ -1345,9 +1345,15 @@ client_cal_opened_cb (CalClient *client, CalClientOpenStatus status, gpointer da
 
 	switch (status) {
 	case CAL_CLIENT_OPEN_SUCCESS:
-		if (client == priv->client)
+		/* If this is the main CalClient, update the Date Navigator. */
+		if (client == priv->client) {
 			update_query (gcal);
+		}
 
+		/* Set the client's default timezone, if we have one. */
+		if (priv->zone) {
+			cal_client_set_default_timezone (client, priv->zone);
+		}
 		break;
 
 	case CAL_CLIENT_OPEN_ERROR:
@@ -1826,6 +1832,16 @@ gnome_calendar_update_config_settings (GnomeCalendar *gcal,
 	location = calendar_config_get_timezone ();
 	priv->zone = icaltimezone_get_builtin_timezone (location);
 
+	if (priv->client
+	    && cal_client_get_load_state (priv->client) == CAL_CLIENT_LOAD_LOADED) {
+		cal_client_set_default_timezone (priv->client, priv->zone);
+	}
+	if (priv->task_pad_client
+	    && cal_client_get_load_state (priv->task_pad_client) == CAL_CLIENT_LOAD_LOADED) {
+		cal_client_set_default_timezone (priv->task_pad_client,
+						 priv->zone);
+	}
+
 	e_day_view_set_timezone (E_DAY_VIEW (priv->day_view), priv->zone);
 	e_day_view_set_timezone (E_DAY_VIEW (priv->work_week_view), priv->zone);
 	e_week_view_set_timezone (E_WEEK_VIEW (priv->week_view), priv->zone);
@@ -1996,7 +2012,10 @@ gnome_calendar_new_appointment_for (GnomeCalendar *cal,
 	priv = cal->priv;
 
 	dt.value = &itt;
-	dt.tzid = icaltimezone_get_tzid (priv->zone);
+	if (all_day)
+		dt.tzid = NULL;
+	else
+		dt.tzid = icaltimezone_get_tzid (priv->zone);
 
 	/* Component type */
 
@@ -2006,18 +2025,21 @@ gnome_calendar_new_appointment_for (GnomeCalendar *cal,
 	/* DTSTART, DTEND */
 
 	itt = icaltime_from_timet_with_zone (dtstart, FALSE, priv->zone);
-	if (all_day)
+	if (all_day) {
 		itt.hour = itt.minute = itt.second = 0;
+		itt.is_date = TRUE;
+	}
 	cal_component_set_dtstart (comp, &dt);
 
 	itt = icaltime_from_timet_with_zone (dtend, FALSE, priv->zone);
 	if (all_day) {
-		/* If we want an all-day event and the end time isn't on a
-		   day boundary, we move it to the end of the day it is in. */
-		if (itt.hour != 0 || itt.minute != 0 || itt.second != 0) {
-			itt.hour = itt.minute = itt.second = 0;
-			icaltime_adjust (&itt, 1, 0, 0, 0);
+		/* We round it down to the start of the day, or the start of
+		   the previous day if it is midnight. */
+		if (itt.hour == 0 && itt.minute == 0 && itt.second == 0) {
+			icaltime_adjust (&itt, -1, 0, 0, 0);
 		}
+		itt.hour = itt.minute = itt.second = 0;
+		itt.is_date = TRUE;
 	}
 	cal_component_set_dtend (comp, &dt);
 

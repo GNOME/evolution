@@ -1555,7 +1555,8 @@ query_obj_updated_cb (CalQuery *query, const char *uid,
 	cal_recur_generate_instances (comp, day_view->lower,
 				      day_view->upper,
 				      e_day_view_add_event, day_view,
-				      cal_client_resolve_tzid_cb, day_view->client);
+				      cal_client_resolve_tzid_cb, day_view->client,
+				      day_view->zone);
 	gtk_object_unref (GTK_OBJECT (comp));
 
 	e_day_view_queue_layout (day_view);
@@ -5012,8 +5013,8 @@ e_day_view_key_press (GtkWidget *widget, GdkEventKey *event)
 	guint keyval;
 	gboolean stop_emission;
 	time_t dtstart, dtend;
-	CalComponentDateTime dt;
-	struct icaltimetype itt;
+	CalComponentDateTime start_dt, end_dt;
+	struct icaltimetype start_tt, end_tt;
 	const char *uid;
 
 	g_return_val_if_fail (widget != NULL, FALSE);
@@ -5108,16 +5109,27 @@ e_day_view_key_press (GtkWidget *widget, GdkEventKey *event)
 
 	e_day_view_get_selected_time_range (day_view, &dtstart, &dtend);
 
-	dt.value = &itt;
-	dt.tzid = icaltimezone_get_tzid (day_view->zone);
+	start_tt = icaltime_from_timet_with_zone (dtstart, FALSE,
+						  day_view->zone);
 
-	*dt.value = icaltime_from_timet_with_zone (dtstart, FALSE,
-						   day_view->zone);
-	cal_component_set_dtstart (comp, &dt);
+	end_tt = icaltime_from_timet_with_zone (dtend, FALSE,
+						day_view->zone);
 
-	*dt.value = icaltime_from_timet_with_zone (dtend, FALSE,
-						   day_view->zone);
-	cal_component_set_dtend (comp, &dt);
+	if (day_view->selection_in_top_canvas) {
+		start_dt.tzid = NULL;
+		start_tt.is_date = 1;
+		end_tt.is_date = 1;
+		/* We have to take a day off the end time as it is a DATE. */
+		icaltime_adjust (&end_tt, -1, 0, 0, 0);
+	} else {
+		start_dt.tzid = icaltimezone_get_tzid (day_view->zone);
+	}
+
+	start_dt.value = &start_tt;
+	end_dt.value = &end_tt;
+	end_dt.tzid = start_dt.tzid;
+	cal_component_set_dtstart (comp, &start_dt);
+	cal_component_set_dtend (comp, &end_dt);
 
 	cal_component_set_categories (comp, day_view->default_category);
 
@@ -6595,6 +6607,7 @@ e_day_view_on_top_canvas_drag_data_received  (GtkWidget          *widget,
 	CalComponentDateTime date;
 	struct icaltimetype itt;
 	time_t dt;
+	gboolean all_day_event;
 
 	/* Note that we only support DnD within the EDayView at present. */
 	if ((data->length >= 0) && (data->format == 8)
@@ -6606,7 +6619,7 @@ e_day_view_on_top_canvas_drag_data_received  (GtkWidget          *widget,
 			const char *uid;
 			num_days = 1;
 			start_offset = 0;
-			end_offset = -1;
+			end_offset = 0;
 
 			if (day_view->drag_event_day == E_DAY_VIEW_LONG_EVENT) {
 				event = &g_array_index (day_view->long_events, EDayViewEvent,
@@ -6638,28 +6651,47 @@ e_day_view_on_top_canvas_drag_data_received  (GtkWidget          *widget,
 			if (!event_uid || !uid || strcmp (event_uid, uid))
 				g_warning ("Unexpected event UID");
 
-			/* We use a temporary shallow of the comp since we
-			   don't want to change the original comp here.
+			/* We clone the event since we don't want to change
+			   the original comp here.
 			   Otherwise we would not detect that the event's time
 			   had changed in the "update_event" callback. */
 
 			comp = cal_component_clone (event->comp);
 
+			if (start_offset == 0 && end_offset == 0)
+				all_day_event = TRUE;
+			else
+				all_day_event = FALSE;
+
 			date.value = &itt;
-			/* FIXME: Should probably keep the timezone of the
-			   original start and end times. */
-			date.tzid = icaltimezone_get_tzid (day_view->zone);
 
 			dt = day_view->day_starts[day] + start_offset * 60;
-			*date.value = icaltime_from_timet_with_zone (dt, FALSE,
-								     day_view->zone);
+			itt = icaltime_from_timet_with_zone (dt, FALSE,
+							     day_view->zone);
+			if (all_day_event) {
+				itt.is_date = TRUE;
+				date.tzid = NULL;
+			} else {
+				/* FIXME: Should probably keep the timezone of
+				   the original start and end times. */
+				date.tzid = icaltimezone_get_tzid (day_view->zone);
+			}
 			cal_component_set_dtstart (comp, &date);
-			if (end_offset == -1 || end_offset == 0)
+
+			if (end_offset == 0)
 				dt = day_view->day_starts[day + num_days];
 			else
 				dt = day_view->day_starts[day + num_days - 1] + end_offset * 60;
-			*date.value = icaltime_from_timet_with_zone (dt, FALSE,
-								     day_view->zone);
+			itt = icaltime_from_timet_with_zone (dt, FALSE,
+							     day_view->zone);
+			if (all_day_event) {
+				itt.is_date = TRUE;
+				date.tzid = NULL;
+			} else {
+				/* FIXME: Should probably keep the timezone of
+				   the original start and end times. */
+				date.tzid = icaltimezone_get_tzid (day_view->zone);
+			}
 			cal_component_set_dtend (comp, &date);
 
 			gtk_drag_finish (context, TRUE, TRUE, time);

@@ -50,6 +50,9 @@ struct _QueryPrivate {
 	/* The backend we are monitoring */
 	CalBackend *backend;
 
+	/* The default timezone for the calendar. */
+	icaltimezone *default_zone;
+
 	/* Listener to which we report changes in the live query */
 	GNOME_Evolution_Calendar_QueryListener ql;
 
@@ -117,6 +120,7 @@ query_init (Query *query)
 	query->priv = priv;
 
 	priv->backend = NULL;
+	priv->default_zone = NULL;
 	priv->ql = CORBA_OBJECT_NIL;
 	priv->sexp = NULL;
 
@@ -526,7 +530,7 @@ func_occur_in_time_range (ESExp *esexp, int argc, ESExpResult **argv, void *data
 
 	cal_recur_generate_instances (comp, start, end,
 				      instance_occur_cb, &occurs,
-				      resolve_tzid, query);
+				      resolve_tzid, query, priv->default_zone);
 
 	result = e_sexp_result_new (esexp, ESEXP_RES_BOOL);
 	result->value.bool = occurs;
@@ -1382,6 +1386,8 @@ query_construct (Query *query,
 
 	priv->backend = backend;
 	gtk_object_ref (GTK_OBJECT (priv->backend));
+
+	priv->default_zone = cal_backend_get_default_timezone (backend);
 
 	gtk_signal_connect (GTK_OBJECT (priv->backend), "obj_updated",
 			    GTK_SIGNAL_FUNC (backend_obj_updated_cb),

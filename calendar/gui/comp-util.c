@@ -105,6 +105,14 @@ cal_comp_util_compare_event_timezones (CalComponent *comp,
 	cal_component_get_dtstart (comp, &start_datetime);
 	cal_component_get_dtend (comp, &end_datetime);
 
+	/* If either the DTSTART or the DTEND is a DATE value, we return TRUE.
+	   Maybe if one was a DATE-TIME we should check that, but that should
+	   not happen often. */
+	if (start_datetime.value->is_date || end_datetime.value->is_date) {
+		retval = TRUE;
+		goto out;
+	}
+
 	/* FIXME: DURATION may be used instead. */
 	if (cal_component_compare_tzid (tzid, start_datetime.tzid)
 	    && cal_component_compare_tzid (tzid, end_datetime.tzid)) {

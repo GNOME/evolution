@@ -1925,6 +1925,8 @@ set_datetime (CalComponent *comp, struct datetime *datetime,
 
 	priv = comp->priv;
 
+	/* If we are setting the property to NULL (i.e. removing it), then
+	   we remove it if it exists. */
 	if (!dt) {
 		if (datetime->prop) {
 			icalcomponent_remove_property (priv->icalcomp, datetime->prop);
@@ -1942,10 +1944,12 @@ set_datetime (CalComponent *comp, struct datetime *datetime,
 	/* If the TZID is set to "UTC", we set the is_utc flag. */
 	if (dt->tzid && !strcmp (dt->tzid, "UTC"))
 		dt->value->is_utc = 1;
+	else
+		dt->value->is_utc = 0;
 
-	if (datetime->prop)
+	if (datetime->prop) {
 		(* prop_set_func) (datetime->prop, *dt->value);
-	else {
+	} else {
 		datetime->prop = (* prop_new_func) (*dt->value);
 		icalcomponent_add_property (priv->icalcomp, datetime->prop);
 	}
@@ -1954,9 +1958,9 @@ set_datetime (CalComponent *comp, struct datetime *datetime,
 	if (dt->tzid && strcmp (dt->tzid, "UTC")) {
 		g_assert (datetime->prop != NULL);
 
-		if (datetime->tzid_param)
+		if (datetime->tzid_param) {
 			icalparameter_set_tzid (datetime->tzid_param, (char *) dt->tzid);
-		else {
+		} else {
 			datetime->tzid_param = icalparameter_new_tzid ((char *) dt->tzid);
 			icalproperty_add_parameter (datetime->prop, datetime->tzid_param);
 		}

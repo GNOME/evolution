@@ -108,6 +108,12 @@ CalClient *cal_client_new (void);
 
 void cal_client_set_auth_func (CalClient *client, CalClientAuthFunc func, gpointer data);
 
+/* Sets the default timezone to use to resolve DATE and floating DATE-TIME
+   values. This will typically be from the user's timezone setting. Call this
+   before using any other functions. It will pass the default timezone on to
+   the server. Returns TRUE on success. */
+gboolean cal_client_set_default_timezone (CalClient *client, icaltimezone *zone);
+
 gboolean cal_client_open_calendar (CalClient *client, const char *str_uri, gboolean only_if_exists);
 GList *cal_client_uri_list (CalClient *client, CalMode mode);
 

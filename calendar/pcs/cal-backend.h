@@ -113,6 +113,8 @@ struct _CalBackendClass {
 
 	/* Timezone related virtual methods */
 	icaltimezone *(* get_timezone) (CalBackend *backend, const char *tzid);
+	icaltimezone *(* get_default_timezone) (CalBackend *backend);
+	gboolean (* set_default_timezone) (CalBackend *backend, const char *tzid);
 };
 
 GtkType cal_backend_get_type (void);
@@ -134,6 +136,8 @@ int cal_backend_get_n_objects (CalBackend *backend, CalObjType type);
 char *cal_backend_get_object (CalBackend *backend, const char *uid);
 
 CalComponent *cal_backend_get_object_component (CalBackend *backend, const char *uid);
+
+gboolean cal_backend_set_default_timezone (CalBackend *backend, const char *tzid);
 
 char *cal_backend_get_timezone_object (CalBackend *backend, const char *tzid);
 
@@ -163,6 +167,7 @@ gboolean cal_backend_update_objects (CalBackend *backend, const char *calobj);
 gboolean cal_backend_remove_object (CalBackend *backend, const char *uid);
 
 icaltimezone* cal_backend_get_timezone (CalBackend *backend, const char *tzid);
+icaltimezone* cal_backend_get_default_timezone (CalBackend *backend);
 
 void cal_backend_last_client_gone (CalBackend *backend);
 void cal_backend_opened (CalBackend *backend, CalBackendOpenStatus status);

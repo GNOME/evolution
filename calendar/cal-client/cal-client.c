@@ -63,6 +63,10 @@ struct _CalClientPrivate {
 	/* A cache of timezones retrieved from the server, to avoid getting
 	   them repeatedly for each get_object() call. */
 	GHashTable *timezones;
+
+	/* The default timezone to use to resolve DATE and floating DATE-TIME
+	   values. */
+	icaltimezone *default_zone;
 };
 
 
@@ -215,6 +219,7 @@ cal_client_init (CalClient *client)
 	priv->uri = NULL;
 	priv->factories = NULL;
 	priv->timezones = g_hash_table_new (g_str_hash, g_str_equal);
+	priv->default_zone = icaltimezone_get_utc_timezone ();
 
 	/* create the WombatClient */
 	priv->w_client = wombat_client_new (
@@ -1714,7 +1719,8 @@ cal_client_generate_instances (CalClient *client, CalObjType type,
 
 		comp = l->data;
 		cal_recur_generate_instances (comp, start, end, add_instance, &instances,
-					      cal_client_resolve_tzid_cb, client);
+					      cal_client_resolve_tzid_cb, client,
+					      priv->default_zone);
 		gtk_object_unref (GTK_OBJECT (comp));
 	}
 
@@ -2285,3 +2291,126 @@ cal_client_get_query (CalClient *client, const char *sexp)
 
 	return cal_query_new (priv->cal, sexp);
 }
+
+
+/* This ensures that the given timezone is on the server. We use this to pass
+   the default timezone to the server, so it can resolve DATE and floating
+   DATE-TIME values into specific times. (Most of our IDL interface uses
+   time_t values to pass specific times from the server to the client.) */
+static gboolean
+cal_client_ensure_timezone_on_server (CalClient *client, icaltimezone *zone)
+{
+	CalClientPrivate *priv;
+	char *tzid, *obj_string;
+	icaltimezone *tmp_zone;
+	GString *vcal_string;
+	gboolean retval = FALSE;
+	icalcomponent *vtimezone_comp;
+	char *vtimezone_as_string;
+	CORBA_Environment ev;
+
+	priv = client->priv;
+
+	/* If the zone is NULL or UTC we don't need to do anything. */
+	if (!zone)
+		return TRUE;
+	
+	tzid = icaltimezone_get_tzid (zone);
+
+	if (!strcmp (tzid, "UTC"))
+		return TRUE;
+
+	/* See if we already have it in the cache. If we do, it must be on
+	   the server already. */
+	tmp_zone = g_hash_table_lookup (priv->timezones, tzid);
+	if (tmp_zone)
+		return TRUE;
+
+	/* Now we have to send it to the server, in case it doesn't already
+	   have it. */
+
+	vcal_string = g_string_new (NULL);
+	g_string_append (vcal_string,
+			 "BEGIN:VCALENDAR\n"
+			 "PRODID:-//Ximian//NONSGML Evolution Calendar//EN\n"
+			 "VERSION:2.0\n");
+
+	/* Convert the timezone to a string and add it. */
+	vtimezone_comp = icaltimezone_get_component (zone);
+	if (!vtimezone_comp) {
+		g_string_free (vcal_string, TRUE);
+		return FALSE;
+	}
+
+	/* We don't need to free this string as libical owns it. */
+	vtimezone_as_string = icalcomponent_as_ical_string (vtimezone_comp);
+	g_string_append (vcal_string, vtimezone_as_string);
+
+	g_string_append (vcal_string, "END:VCALENDAR\n");
+
+	obj_string = vcal_string->str;
+	g_string_free (vcal_string, FALSE);
+
+	CORBA_exception_init (&ev);
+	GNOME_Evolution_Calendar_Cal_updateObjects (priv->cal, obj_string, &ev);
+	g_free (obj_string);
+	
+	if (BONOBO_USER_EX (&ev, ex_GNOME_Evolution_Calendar_Cal_InvalidObject))
+	    goto out;
+	else if (BONOBO_EX (&ev)) {
+		g_message ("cal_client_ensure_timezone_on_server(): could not add the timezone to the server");
+		goto out;
+	}
+
+	retval = TRUE;
+
+ out:
+	CORBA_exception_free (&ev);
+	return retval;
+}
+
+
+gboolean
+cal_client_set_default_timezone (CalClient *client, icaltimezone *zone)
+{
+	CalClientPrivate *priv;
+	gboolean retval = FALSE;
+	CORBA_Environment ev;
+	const char *tzid;
+
+	g_return_val_if_fail (client != NULL, FALSE);
+	g_return_val_if_fail (IS_CAL_CLIENT (client), FALSE);
+	g_return_val_if_fail (zone != NULL, FALSE);
+
+	priv = client->priv;
+
+	g_return_val_if_fail (priv->load_state == CAL_CLIENT_LOAD_LOADED,
+			      FALSE);
+
+	/* Make sure the server has the VTIMEZONE data. */
+	if (!cal_client_ensure_timezone_on_server (client, zone))
+		return FALSE;
+
+	/* Now set the default timezone on the server. */
+	CORBA_exception_init (&ev);
+	tzid = icaltimezone_get_tzid (zone);
+	GNOME_Evolution_Calendar_Cal_setDefaultTimezone (priv->cal,
+							 (char *) tzid, &ev);
+
+	if (BONOBO_USER_EX (&ev, ex_GNOME_Evolution_Calendar_Cal_NotFound))
+		goto out;
+	else if (BONOBO_EX (&ev)) {
+		g_message ("cal_client_set_default_timezone(): could not set the default timezone");
+		goto out;
+	}
+
+	retval = TRUE;
+
+	priv->default_zone = zone;
+
+ out:
+
+	CORBA_exception_free (&ev);
+	return retval;
+}
+

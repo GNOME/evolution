@@ -40,7 +40,9 @@
 #include <gal/e-table/e-cell-combo.h>
 #include <gal/widgets/e-popup-menu.h>
 #include <widgets/misc/e-cell-date-edit.h>
+#include <widgets/misc/e-cell-percent.h>
 #include "e-calendar-table.h"
+#include "e-cell-date-edit-text.h"
 #include "calendar-config.h"
 #include "calendar-model.h"
 #include "dialogs/delete-comp.h"
@@ -244,26 +246,46 @@ task_compare_cb (gconstpointer a, gconstpointer b)
 static gint
 date_compare_cb (gconstpointer a, gconstpointer b)
 {
-	const char *value1 = a, *value2 = b;
+	ECellDateEditValue *dv1 = (ECellDateEditValue *) a;
+	ECellDateEditValue *dv2 = (ECellDateEditValue *) b;
+	struct icaltimetype tt;
 
-	g_print ("In date_compare_cb '%s' '%s'\n", value1, value2);
+	/* First check if either is NULL. NULL dates sort last. */
+	if (!dv1 || !dv2) {
+		if (dv1 == dv2)
+			return 0;
+		else if (dv1)
+			return -1;
+		else
+			return 1;
+	}
 
-	return 0;
+	/* Copy the 2nd value and convert it to the same timezone as the
+	   first. */
+	tt = dv2->tt;
+
+	icaltimezone_convert_time (&tt, dv2->zone, dv1->zone);
+
+	/* Now we can compare them. */
+
+	return icaltime_compare (dv1->tt, tt);
 }
 
 static gint
 percent_compare_cb (gconstpointer a, gconstpointer b)
 {
-	const char *value1 = a, *value2 = b;
+	int percent1 = GPOINTER_TO_INT (a);
+	int percent2 = GPOINTER_TO_INT (b);
+	int retval;
 
-	/* FIXME: Currently this isn't working as the ETableSorter caches
-	   all the values in the table before sorting, but our get_value()
-	   function returns a pointer to a static buffer. So all the cached
-	   pointers point to the same buffer. */
+	if (percent1 > percent2)
+		retval = 1;
+	else if (percent1 < percent2)
+		retval = -1;
+	else
+		retval = 0;
 
-	g_print ("In percent_compare_cb '%s' '%s'\n", value1, value2);
-
-	return 0;
+	return retval;
 }
 
 static gint
@@ -324,7 +346,7 @@ e_calendar_table_init (ECalendarTable *cal_table)
 	/*
 	 * Date fields.
 	 */
-	cell = e_cell_text_new (NULL, GTK_JUSTIFY_LEFT);
+	cell = e_cell_date_edit_text_new (NULL, GTK_JUSTIFY_LEFT);
 	gtk_object_set (GTK_OBJECT (cell),
 			"strikeout_column", CAL_COMPONENT_FIELD_COMPLETE,
 			"bold_column", CAL_COMPONENT_FIELD_OVERDUE,
@@ -392,7 +414,7 @@ e_calendar_table_init (ECalendarTable *cal_table)
 	e_table_extras_add_cell (extras, "priority", popup_cell);
 
 	/* Percent field. */
-	cell = e_cell_text_new (NULL, GTK_JUSTIFY_LEFT);
+	cell = e_cell_percent_new (NULL, GTK_JUSTIFY_LEFT);
 	gtk_object_set (GTK_OBJECT (cell),
 			"strikeout_column", CAL_COMPONENT_FIELD_COMPLETE,
 			"bold_column", CAL_COMPONENT_FIELD_OVERDUE,

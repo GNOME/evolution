@@ -575,7 +575,8 @@ cal_backend_get_changes (CalBackend *backend, CalObjType type, const char *chang
  * if @valid_range returns FALSE.
  **/
 GNOME_Evolution_Calendar_CalComponentAlarmsSeq *
-cal_backend_get_alarms_in_range (CalBackend *backend, time_t start, time_t end, gboolean *valid_range)
+cal_backend_get_alarms_in_range (CalBackend *backend, time_t start, time_t end,
+				 gboolean *valid_range)
 {
 	g_return_val_if_fail (backend != NULL, NULL);
 	g_return_val_if_fail (IS_CAL_BACKEND (backend), NULL);
@@ -764,8 +765,7 @@ cal_backend_obj_removed (CalBackend *backend, const char *uid)
  * Returns the icaltimezone* corresponding to the TZID, or NULL if the TZID
  * can't be found.
  * 
- * Return value: TRUE on success, FALSE on being passed an UID for an object
- * that does not exist in the backend.
+ * Returns: The icaltimezone* corresponding to the given TZID, or NULL.
  **/
 icaltimezone*
 cal_backend_get_timezone (CalBackend *backend, const char *tzid)
@@ -776,5 +776,48 @@ cal_backend_get_timezone (CalBackend *backend, const char *tzid)
 
 	g_assert (CLASS (backend)->get_timezone != NULL);
 	return (* CLASS (backend)->get_timezone) (backend, tzid);
+}
+
+
+/**
+ * cal_backend_get_default_timezone:
+ * @backend: A calendar backend.
+ * 
+ * Returns the default timezone for the calendar, which is used to resolve
+ * DATE and floating DATE-TIME values.
+ * 
+ * Returns: The default icaltimezone* for the calendar.
+ **/
+icaltimezone*
+cal_backend_get_default_timezone (CalBackend *backend)
+{
+	g_return_val_if_fail (backend != NULL, NULL);
+	g_return_val_if_fail (IS_CAL_BACKEND (backend), NULL);
+
+	g_assert (CLASS (backend)->get_default_timezone != NULL);
+	return (* CLASS (backend)->get_default_timezone) (backend);
+}
+
+
+/**
+ * cal_backend_set_default_timezone:
+ * @backend: A calendar backend.
+ * @tzid: The TZID identifying the timezone.
+ * 
+ * Sets the default timezone for the calendar, which is used to resolve
+ * DATE and floating DATE-TIME values.
+ * 
+ * Returns: TRUE if the VTIMEZONE data for the timezone was found, or FALSE if
+ * not.
+ **/
+gboolean
+cal_backend_set_default_timezone (CalBackend *backend, const char *tzid)
+{
+	g_return_val_if_fail (backend != NULL, FALSE);
+	g_return_val_if_fail (IS_CAL_BACKEND (backend), FALSE);
+	g_return_val_if_fail (tzid != NULL, FALSE);
+
+	g_assert (CLASS (backend)->set_default_timezone != NULL);
+	return (* CLASS (backend)->set_default_timezone) (backend, tzid);
 }
 

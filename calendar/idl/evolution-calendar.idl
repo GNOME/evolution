@@ -145,6 +145,11 @@ module Calendar {
 		CalObj getObject (in CalObjUID uid)
 			raises (NotFound);
 
+		/* Sets the default timezone to be used for resolving DATE
+		   and floating DATE-TIME values. */
+		void setDefaultTimezone (in CalTimezoneObjUID tzid)
+			raises (NotFound);
+
 		/* Gets a VTIMEZONE component based on its TZID */
 		CalTimezoneObj getTimezoneObject (in CalTimezoneObjUID tzid)
 			raises (NotFound);
@@ -179,15 +184,16 @@ module Calendar {
 			raises (NotFound, InvalidRange);
 
 
-		/* Updates a component by adding it if it does not exist or by
-		 * changing an existing one. This can be a simple VEVENT/VTODO
-		 * object if no timezone data is needed for the component or
-		 * it hasn't changed. To add or change the associated VTIMEZONE
-		 * data the calobj should be a VCALENDAR component with
-		 * VTIMEZONE and VEVENT/VTODO subcomponents. The VTIMEZONE data
-		 * will be merged into the calendar, possibly by renaming TZIDs
-		 * (though not for builtin VTIMEZONEs), so don't rely on the
+		/* Adds or updates one or more VEVENT/VTODO/VTIMEZONE
+		 * components. The calobj should be a string representation of
+		 * a complete VCALENDAR object (we also support single
+		 * VEVENT/VTODO strings, but that is deprecated).
+		 *
+		 * The VTIMEZONE data will be merged into the calendar,
+		 * possibly by renaming TZIDs (though not for builtin
+		 * VTIMEZONEs, which have unique TZIDs), so don't rely on the
 		 * TZIDs being the same in the new object on the server.
+		 *
 		 * The client should probably immediately free its copy of the
 		 * object after this call, and call getObject to get the
 		 * updated version.

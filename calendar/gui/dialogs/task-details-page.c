@@ -509,7 +509,7 @@ date_changed_cb (EDateEdit *dedit, gpointer data)
 	TaskDetailsPage *tdpage;
 	TaskDetailsPagePrivate *priv;
 	CompEditorPageDates dates = {NULL, NULL, NULL, NULL};
-	struct icaltimetype completed_tt;
+	struct icaltimetype completed_tt = icaltime_null_time ();
 	icalproperty_status status;
 	gboolean date_set;
 

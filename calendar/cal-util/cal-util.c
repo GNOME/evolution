@@ -312,6 +312,8 @@ compare_alarm_instance (gconstpointer a, gconstpointer b)
  * @end: end time
  * @resolve_tzid: callback for resolving timezones
  * @user_data: data to be passed to the resolve_tzid callback
+ * @default_timezone: the timezone used to resolve DATE and floating DATE-TIME
+ * values.
  *
  * Generates alarm instances for a calendar component.  Returns the instances
  * structure, or NULL if no alarm instances occurred in the specified time
@@ -322,7 +324,8 @@ cal_util_generate_alarms_for_comp (CalComponent *comp,
 				   time_t start,
 				   time_t end,
 				   CalRecurResolveTimezoneFn resolve_tzid,
-				   gpointer user_data)
+				   gpointer user_data,
+				   icaltimezone *default_timezone)
 {
 	GList *alarm_uids;
 	time_t alarm_start, alarm_end;
@@ -343,7 +346,8 @@ cal_util_generate_alarms_for_comp (CalComponent *comp,
 
 	cal_recur_generate_instances (comp, alarm_start, alarm_end,
 				      add_alarm_occurrences_cb, &aod,
-				      resolve_tzid, user_data);
+				      resolve_tzid, user_data,
+				      default_timezone);
 
 	/* We add the ABSOLUTE triggers separately */
 	generate_absolute_triggers (comp, &aod);
@@ -369,6 +373,8 @@ cal_util_generate_alarms_for_comp (CalComponent *comp,
  * @comp_alarms: list to be returned
  * @resolve_tzid: callback for resolving timezones
  * @user_data: data to be passed to the resolve_tzid callback
+ * @default_timezone: the timezone used to resolve DATE and floating DATE-TIME
+ * values.
  *
  * Iterates through all the components in the comps list and generates alarm
  * instances for them; putting them in the comp_alarms list.
@@ -381,7 +387,8 @@ cal_util_generate_alarms_for_list (GList *comps,
 				   time_t end,
 				   GSList **comp_alarms,
 				   CalRecurResolveTimezoneFn resolve_tzid,
-				   gpointer user_data)
+				   gpointer user_data,
+				   icaltimezone *default_timezone)
 {
 	GList *l;
 	int n;
@@ -393,7 +400,7 @@ cal_util_generate_alarms_for_list (GList *comps,
 		CalComponentAlarms *alarms;
 
 		comp = CAL_COMPONENT (l->data);
-		alarms = cal_util_generate_alarms_for_comp (comp, start, end, resolve_tzid, user_data);
+		alarms = cal_util_generate_alarms_for_comp (comp, start, end, resolve_tzid, user_data, default_timezone);
 
 		if (alarms) {
 			*comp_alarms = g_slist_prepend (*comp_alarms, alarms);

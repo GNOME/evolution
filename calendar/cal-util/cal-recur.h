@@ -52,6 +52,9 @@ typedef icaltimezone* (* CalRecurResolveTimezoneFn)	(const char   *tzid,
  * The tz_cb is used to resolve references to timezones. It is passed a TZID
  * and should return the icaltimezone* corresponding to that TZID. We need to
  * do this as we access timezones in different ways on the client & server.
+ *
+ * The default_timezone argument is used for DTSTART or DTEND properties that
+ * are DATE values or do not have a TZID (i.e. floating times).
  */
 void	cal_recur_generate_instances	(CalComponent		*comp,
 					 time_t			 start,
@@ -59,7 +62,8 @@ void	cal_recur_generate_instances	(CalComponent		*comp,
 					 CalRecurInstanceFn	 cb,
 					 gpointer                cb_data,
 					 CalRecurResolveTimezoneFn tz_cb,
-					 gpointer		   tz_cb_data);
+					 gpointer		   tz_cb_data,
+					 icaltimezone		*default_timezone);
 
 END_GNOME_DECLS
 

@@ -69,13 +69,15 @@ CalComponentAlarms *cal_util_generate_alarms_for_comp (CalComponent *comp,
 						       time_t start,
 						       time_t end,
 						       CalRecurResolveTimezoneFn resolve_tzid,
-						       gpointer user_data);
+						       gpointer user_data,
+						       icaltimezone *default_timezone);
 int cal_util_generate_alarms_for_list (GList *comps,
 				       time_t start,
 				       time_t end,
 				       GSList **comp_alarms,
 				       CalRecurResolveTimezoneFn resolve_tzid,
-				       gpointer user_data);
+				       gpointer user_data,
+				       icaltimezone *default_timezone);
 
 icaltimezone *cal_util_resolve_tzid (const char *tzid, gpointer data);
 

@@ -1,3 +1,87 @@
+2001-10-22  Damon Chaplin  <damon@ximian.com>
+
+	* idl/evolution-calendar.idl: added setDefaultTimezone() method.
+
+	* pcs/cal-backend.c (cal_backend_get_default_timezone): 
+	(cal_backend_set_default_timezone): new functions to call class
+	methods.
+
+	* pcs/cal-backend-file.c: lots of changes to handle the default
+	timezone and use it.
+
+	* pcs/query.c: use the default timezone.
+
+	* gui/dialogs/task-details-page.c (date_changed_cb): initialized
+	completed_tt.
+
+	* gui/dialogs/event-page.c: changed it to handle DATE values. The
+	'All Day Event' checkbox is only set now when the DTSTART and DTEND
+	are DATE values.
+
+	* gui/dialogs/comp-editor-util.c (comp_editor_free_dates): free the
+	CalComponentDateTime structs as well.
+
+	* gui/e-tasks.c: set the default timezone on the server.
+
+	* gui/tag-calendar.c: 
+	* gui/gnome-cal.c: 
+	* gui/e-week-view.c: 
+	* gui/e-day-view.c: updates to handle DATE values.
+
+	* gui/e-calendar-table.c (date_compare_cb): updated to use the new
+	ECellDateEditValue values, so it now works.
+	(percent_compare_cb): updated to use GPOINTER_TO_INT values.
+	(e_calendar_table_init): use an ECellPercent for the percent field
+	and an ECellDateEditText for the date fields.
+
+	* gui/comp-util.c (cal_comp_util_compare_event_timezones): return TRUE
+	if the DTSTART or DTEND is a DATE value. We don't want to show the
+	timezone icons for DATE values.
+
+	* gui/comp-editor-factory.c (resolve_pending_requests): set the default
+	timezone on the server.
+
+	* gui/calendar-model.c: major changes to support sorting properly.
+	For date and percent fields we now use subclasses of ECellText, so
+	we don't use a char* as the model value. For the percent field we now
+	use a GINT_TO_POINTER. For the date fields we now use a
+	ECellDateEditValue* as the value.
+
+	* gui/calendar-config.c (calendar_config_configure_e_cell_date_edit): 
+	set the timezone and use_24_hour flags of the new ECellDateEditText.
+
+	* conduits/todo/todo-conduit.c (pre_sync): 
+	* conduits/calendar/calendar-conduit.c (pre_sync): set the default
+	timezone on the server.
+
+	* cal-util/timeutil.c (time_days_in_month): removed debug message.
+
+	* cal-util/test-recur.c: try to handle timezones in the iCalendar
+	file properly, and updated to pass default timezone.
+
+	* cal-util/cal-util.c (cal_util_generate_alarms_for_comp):
+	(cal_util_generate_alarms_for_list): added default timezone argument.
+
+	* cal-util/cal-recur.c: changed many of the functions to take a default
+	timezone, to use to resolve DATE and floating DATE-TIME values.
+
+	* cal-client/cal-client.c (cal_client_set_default_timezone): new
+	function to set the default timezone.
+	(cal_client_ensure_timezone_on_server): new function to ensure that
+	a given timezone is on the server.
+
+	* gui/e-cell-date-edit-text.c: new subclass of ECellText to display
+	and edit a date value.
+
+	* cal-util/cal-recur.c (cal_obj_byday_expand_monthly): changed week_num
+	to -week_num when calculating the weeks to go back from the end of the
+	month for things like BYDAY=-2WE. Fixes bug #11525.
+	(cal_recur_generate_instances_of_rule): only go up to MAX_YEAR (2037).
+	We can't really handle anything past that anyway.
+	(cal_recur_ensure_rule_end_date): initialize cb_date.end_date to 0,
+	so if the RULE doesn't generate COUNT instances we save 0 as the
+	time_t.
+
 2001-10-22  Federico Mena Quintero  <federico@ximian.com>
 
 	* gui/tasks-control-factory.c (tasks_control_factory_fn): Put up a
