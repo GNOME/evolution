@@ -9254,14 +9254,14 @@ msgstr ""
 "testo semplice."
 
 #: camel/providers/imap/camel-imap-store.c:457
-#, fuzzy, c-format
+#, c-format
 msgid "IMAP server %s"
-msgstr "SMTP server %s"
+msgstr "IMAP server %s"
 
 #: camel/providers/imap/camel-imap-store.c:459
-#, fuzzy, c-format
+#, c-format
 msgid "IMAP service for %s on %s"
-msgstr "%s servizio per %s su  %s"
+msgstr "servizio IMAP per %s su %s"
 
 #: camel/providers/imap/camel-imap-store.c:584
 #: camel/providers/nntp/camel-nntp-store.c:130
@@ -9279,23 +9279,19 @@ msgstr "Impossibile connettersi a %s (porta %d): %s"
 
 #: camel/providers/imap/camel-imap-store.c:646
 #: camel/providers/imap/camel-imap-store.c:677
-#, fuzzy, c-format
+#, c-format
 msgid "Failed to connect to IMAP server %s in secure mode: %s"
-msgstr ""
-"Impossibile connettersi al server POP.\\n\n"
-"Errore nell'invio della password: %s"
+msgstr "Impossibile connettersi al server IMAP.%s in modalità sicura: %s"
 
 #: camel/providers/imap/camel-imap-store.c:647
 #: camel/providers/pop3/camel-pop3-store.c:213
-#, fuzzy
 msgid "SSL/TLS extension not supported."
-msgstr "Operazione non supportata"
+msgstr "Estensione SSL/TLS non supportata"
 
 #: camel/providers/imap/camel-imap-store.c:678
 #: camel/providers/pop3/camel-pop3-store.c:254
-#, fuzzy
 msgid "SSL negotiations failed"
-msgstr "Autenticazione fallita"
+msgstr "Negoziazione SSL fallita"
 
 #: camel/providers/imap/camel-imap-store.c:1082
 #, c-format
@@ -9336,14 +9332,14 @@ msgid "No such folder %s"
 msgstr "Non è presente la cartella %s"
 
 #: camel/providers/imap/camel-imap-store.c:1848
-#, fuzzy, c-format
+#, c-format
 msgid "The folder name \"%s\" is invalid because it containes the character \"%c\""
-msgstr "Il nome di una cartella non può contenere il carattere Invio."
+msgstr "Il nome della cartella \"%s\" non è valido perché contiene il carattere \"%c\""
 
 #: camel/providers/imap/camel-imap-store.c:1860
-#, fuzzy, c-format
+#, c-format
 msgid "Unknown parent folder: %s"
-msgstr "Errore sconosciuto: %s"
+msgstr "Cartella genitrice sconosciuta: %s"
 
 #: camel/providers/imap/camel-imap-store.c:1896
 msgid "The parent folder is not allowed to contain subfolders"
@@ -9351,26 +9347,26 @@ msgstr "Alla cartella madre non è permesso contenere sottocartelle"
 
 #. $HOME relative path + protocol string
 #: camel/providers/local/camel-local-folder.c:352
-#, fuzzy, c-format
+#, c-format
 msgid "~%s (%s)"
-msgstr "%s (%d)"
+msgstr "~%s (%s)"
 
 #. /var/spool/mail relative path + protocol
 #: camel/providers/local/camel-local-folder.c:356
 #: camel/providers/local/camel-local-folder.c:359
-#, fuzzy, c-format
+#, c-format
 msgid "mailbox:%s (%s)"
-msgstr "Impossibile aprire la casella di posta: %s: %s\n"
+msgstr "casella di posta: %s (%s)"
 
 #. a full path + protocol
 #: camel/providers/local/camel-local-folder.c:363
-#, fuzzy, c-format
+#, c-format
 msgid "%s (%s)"
-msgstr "%s (%d)"
+msgstr "%s (%s)"
 
 #: camel/providers/local/camel-local-provider.c:43
 msgid "Use the `.folders' folder summary file (exmh)"
-msgstr ""
+msgstr "Usa i `.folders' file di sommario cartelle (exmh)"
 
 #: camel/providers/local/camel-local-provider.c:49
 msgid "MH-format mail directories"
@@ -9385,11 +9381,12 @@ msgid "Local delivery"
 msgstr "Consegne locali"
 
 #: camel/providers/local/camel-local-provider.c:66
-#, fuzzy
 msgid ""
 "For retrieving (moving) local mail from standard mbox formated spools into "
 "folders managed by Evolution."
-msgstr "Per ricevere la posta locale da mbox formato standard."
+msgstr ""
+"Per ricevere (spostare) la posta locale dalle caselle formato mbox in "
+"cartelle gestite da Evolution."
 
 #: camel/providers/local/camel-local-provider.c:77
 #: camel/providers/local/camel-local-provider.c:94
@@ -9406,31 +9403,31 @@ msgstr "Per memorizzare la posta locale in directory maildir."
 
 #: camel/providers/local/camel-local-provider.c:95
 msgid "Store status headers in Elm/Pine/Mutt format"
-msgstr ""
+msgstr "Memorizza le intestazioni di stato in formato Elm/Pine/Mutt"
 
 #: camel/providers/local/camel-local-provider.c:101
-#, fuzzy
 msgid "Standard Unix mbox spool or directory"
-msgstr "Spool standard Unix"
+msgstr "Spool o directory Unix standard mbox"
 
 #: camel/providers/local/camel-local-provider.c:102
-#, fuzzy
 msgid ""
 "For reading and storing local mail in external standard mbox spool files.\n"
 "May also be used to read a tree of Elm, Pine, or Mutt style folders."
-msgstr "Per leggere e memorizzare la posta in file standard mbox."
+msgstr ""
+"Per leggere e memorizzare la posta in file di spool esterni standard mbox.\n"
+"Può anche essere usata per leggere un albero di cartelle stile Elm, Pine o Mutt."
 
 #: camel/providers/local/camel-local-store.c:139
 #: camel/providers/local/camel-local-store.c:227
 #: camel/providers/local/camel-spool-store.c:112
 #, c-format
 msgid "Store root %s is not an absolute path"
-msgstr ""
+msgstr "La radice %s non è un percorso assoluto"
 
 #: camel/providers/local/camel-local-store.c:146
 #, c-format
 msgid "Store root %s is not a regular directory"
-msgstr ""
+msgstr "La radice di archiviazione %s non è una directory normale"
 
 #: camel/providers/local/camel-local-store.c:155
 #: camel/providers/local/camel-local-store.c:171
@@ -9441,7 +9438,7 @@ msgstr "Impossibile avere la cartella %s: %s"
 
 #: camel/providers/local/camel-local-store.c:186
 msgid "Local stores do not have an inbox"
-msgstr ""
+msgstr "Gli archivi locali non hanno una cartella della posta in arrivo"
 
 #: camel/providers/local/camel-local-store.c:198
 #, c-format
@@ -9454,9 +9451,9 @@ msgid "Could not rename folder %s to %s: %s"
 msgstr "Impossibile rinominare la cartella %s con %s: %s"
 
 #: camel/providers/local/camel-local-store.c:363
-#, fuzzy, c-format
+#, c-format
 msgid "Could not rename '%s': %s"
-msgstr "Impossibile rinominare la cartella: %s"
+msgstr "Impossibile rinominare la cartella %s con %s: %s"
 
 #: camel/providers/local/camel-local-store.c:384
 #, c-format
@@ -9551,14 +9548,12 @@ msgid "Cannot open maildir directory path: %s: %s"
 msgstr "Impossibile aprire il percorso della directory maildir: %s: %s"
 
 #: camel/providers/local/camel-maildir-summary.c:539
-#, fuzzy
 msgid "Checking folder consistency"
-msgstr "Controllo nuova posta"
+msgstr "Controllo consistenza cartelle"
 
 #: camel/providers/local/camel-maildir-summary.c:640
-#, fuzzy
 msgid "Checking for new messages"
-msgstr "Ricerca nuovi messaggi"
+msgstr "Verifica nuovi messaggi"
 
 #: camel/providers/local/camel-maildir-summary.c:729
 #: camel/providers/local/camel-mbox-summary.c:345
@@ -9706,9 +9701,9 @@ msgid "Unknown error: %s"
 msgstr "Errore sconosciuto: %s"
 
 #: camel/providers/local/camel-mbox-summary.c:883
-#, fuzzy, c-format
+#, c-format
 msgid "Could not store folder: %s"
-msgstr "Impossibile rinominare la cartella: %s"
+msgstr "Impossibile memorizzare la cartella: %s"
 
 #: camel/providers/local/camel-mbox-summary.c:976
 #: camel/providers/local/camel-mbox-summary.c:1001
@@ -9741,14 +9736,14 @@ msgid "Cannot open MH directory path: %s: %s"
 msgstr "Impossibile aprire il percorso della directory MH: %s: %s"
 
 #: camel/providers/local/camel-spool-store.c:118
-#, fuzzy, c-format
+#, c-format
 msgid "Spool `%s' cannot be opened: %s"
-msgstr "Le cartelle spool non possono essere rinominate"
+msgstr "Impossibile aprire le cartelle di spool `%s': %s"
 
 #: camel/providers/local/camel-spool-store.c:130
-#, fuzzy, c-format
+#, c-format
 msgid "Spool `%s' is not a regular file or directory"
-msgstr "`%s' non è una directory maildir."
+msgstr "La cartella di spool `%s' non è un file o una direcory normali"
 
 #: camel/providers/local/camel-spool-store.c:150
 #, c-format
@@ -9756,13 +9751,13 @@ msgid "Folder `%s/%s' does not exist."
 msgstr "La cartella `%s/%s' non esiste."
 
 #: camel/providers/local/camel-spool-store.c:176
-#, fuzzy, c-format
+#, c-format
 msgid "`%s' is not a mailbox file."
-msgstr "`%s' non è un file regolare."
+msgstr "`%s' non è un file di posta"
 
 #: camel/providers/local/camel-spool-store.c:193
 msgid "Store does not support an INBOX"
-msgstr ""
+msgstr "L'archivio non supporta la casella di posta in arrivo (INBOX)"
 
 #: camel/providers/local/camel-spool-store.c:205
 #, c-format
@@ -9770,9 +9765,9 @@ msgid "Spool mail file %s"
 msgstr "File spool di posta %s"
 
 #: camel/providers/local/camel-spool-store.c:205
-#, fuzzy, c-format
+#, c-format
 msgid "Spool folder tree %s"
-msgstr "Le cartelle spool non possono essere rinominate"
+msgstr "Albero di cartelle di posta %s"
 
 #: camel/providers/local/camel-spool-store.c:213
 msgid "Spool folders cannot be renamed"
@@ -9814,14 +9809,14 @@ msgid "This is a provider for reading from and posting toUSENET newsgroups."
 msgstr "Questo è un fornitore per la lettura e l'invio a newsgroups USENET."
 
 #: camel/providers/nntp/camel-nntp-store.c:151
-#, fuzzy, c-format
+#, c-format
 msgid "Could not read greeting from %s: %s"
-msgstr "Impossibile creare la directory %s: %s"
+msgstr "Impossibile leggere i saluti da %s: %s"
 
 #: camel/providers/nntp/camel-nntp-store.c:163
 #, c-format
 msgid "NNTP server %s returned error code %d: %s"
-msgstr ""
+msgstr "Il server NNTP %s ha restituito il codice di errore %d: %s"
 
 #: camel/providers/nntp/camel-nntp-store.c:262
 #, c-format
@@ -9955,51 +9950,46 @@ msgstr ""
 "anche su server che affermano di supportarlo. "
 
 #: camel/providers/pop3/camel-pop3-store.c:183
-#, fuzzy, c-format
+#, c-format
 msgid "Could not connect to POP server %s (port %d): %s"
-msgstr "Impossibile connettersi a %s (porta %d): %s"
+msgstr "Impossibile connettersi al server POP %s (porta %d): %s"
 
 #: camel/providers/pop3/camel-pop3-store.c:212
 #: camel/providers/pop3/camel-pop3-store.c:241
 #: camel/providers/pop3/camel-pop3-store.c:253
-#, fuzzy, c-format
+#, c-format
 msgid "Failed to connect to POP server %s in secure mode: %s"
-msgstr ""
-"Impossibile connettersi al server POP.\\n\n"
-"Errore nell'invio della password: %s"
+msgstr "Impossibile connettersi al server POP %s in modalità sicura: %s"
 
 #: camel/providers/pop3/camel-pop3-store.c:351
-#, fuzzy, c-format
+#, c-format
 msgid "Could not connect to POP server %s"
-msgstr "Impossibile connettersi al server POP su %s"
+msgstr "Impossibile connettersi al server POP %s"
 
 #: camel/providers/pop3/camel-pop3-store.c:392
 #: camel/providers/pop3/camel-pop3-store.c:502
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "Unable to connect to POP server %s: No support for requested authentication "
 "mechanism."
 msgstr ""
-"Impossibile connettersi al server POP.\\n\n"
-"Non è presente il supporto per il meccaniscmo di autenticazione richiesto."
+"Impossibile connettersi al server POP %s: Non è presente il supporto per il "
+"meccanismo di autenticazione richiesto."
 
 #: camel/providers/pop3/camel-pop3-store.c:408
-#, fuzzy, c-format
+#, c-format
 msgid "SASL `%s' Login failed for POP server %s: %s"
-msgstr "SASL `%s' Login fallito: %s"
+msgstr "Registrazione `%s' SASL fallita per il server POP %s: %s"
 
 #: camel/providers/pop3/camel-pop3-store.c:420
 #, c-format
 msgid "Cannot login to POP server %s: SASL Protocol error"
-msgstr ""
+msgstr "Impossibile registrarsi al POP server %s: errore di protocollo SASL"
 
 #: camel/providers/pop3/camel-pop3-store.c:439
-#, fuzzy, c-format
+#, c-format
 msgid "Failed to authenticate on POP server %s: %s"
-msgstr ""
-"Non in grado di autenticare al server IMAP.\n"
-"%s\n"
-"\n"
+msgstr "Impossibile autenticarsi al server POP %s: %s"
 
 #: camel/providers/pop3/camel-pop3-store.c:462
 #, c-format
@@ -10008,12 +9998,12 @@ msgstr "%sPrego inserire la password del POP per %s@%s "
 
 #: camel/providers/pop3/camel-pop3-store.c:516
 #: camel/providers/pop3/camel-pop3-store.c:522
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "Unable to connect to POP server %s.\n"
 "Error sending password: %s"
 msgstr ""
-"Impossibile connettersi al server POP.\\n\n"
+"Impossibile connettersi al server POP.%s.\n"
 "Errore nell'invio della password: %s"
 
 #: camel/providers/pop3/camel-pop3-store.c:614
@@ -10185,37 +10175,32 @@ msgid "Authentication required"
 msgstr "Autenticazione richiesta"
 
 #: camel/providers/smtp/camel-smtp-transport.c:295
-#, fuzzy
 msgid "Welcome response error"
-msgstr "Errore nella risposta di QUIT"
+msgstr "Errore nella risposta di benvenuto"
 
 #: camel/providers/smtp/camel-smtp-transport.c:339
 #: camel/providers/smtp/camel-smtp-transport.c:378
-#, fuzzy, c-format
+#, c-format
 msgid "Failed to connect to SMTP server %s in secure mode: %s"
-msgstr ""
-"Impossibile connettersi al server POP.\\n\n"
-"Errore nell'invio della password: %s"
+msgstr "Impossibile connettersi al server SMTP %s in modalità sicura: %s"
 
 #: camel/providers/smtp/camel-smtp-transport.c:340
-#, fuzzy
 msgid "server does not appear to support SSL"
-msgstr "Il messaggio non sembra avere un formato valido"
+msgstr "il server non sembra supportare SSL"
 
 #: camel/providers/smtp/camel-smtp-transport.c:354
-#, fuzzy, c-format
+#, c-format
 msgid "STARTTLS request timed out: %s"
-msgstr "Richiesta AUTH scaduta: %s"
+msgstr "Richiesta STARTTLS scaduta: %s"
 
 #: camel/providers/smtp/camel-smtp-transport.c:369
-#, fuzzy
 msgid "STARTTLS response error"
-msgstr "Errore nella risposta di DATA"
+msgstr "Errore nella risposta di STARTTLS"
 
 #: camel/providers/smtp/camel-smtp-transport.c:472
-#, fuzzy, c-format
+#, c-format
 msgid "SMTP server %s does not support requested authentication type %s."
-msgstr "Il server IMAP %s non supporta il tipo di autenticazione richiesto %s"
+msgstr "Il server SMTP %s non supporta il tipo di autenticazione richiesto %s."
 
 #: camel/providers/smtp/camel-smtp-transport.c:510
 #, c-format
@@ -10264,14 +10249,13 @@ msgid "SMTP Greeting"
 msgstr "Saluti SMTP"
 
 #: camel/providers/smtp/camel-smtp-transport.c:927
-#, fuzzy, c-format
+#, c-format
 msgid "HELO request timed out: %s"
-msgstr "Richiesta RSET scaduta: %s"
+msgstr "Richiesta HELO scaduta: %s"
 
 #: camel/providers/smtp/camel-smtp-transport.c:949
-#, fuzzy
 msgid "HELO response error"
-msgstr "Errore nella risposta di RSET"
+msgstr "Errore nella risposta di HELO"
 
 #: camel/providers/smtp/camel-smtp-transport.c:1015
 msgid "SMTP Authentication"
@@ -10348,28 +10332,28 @@ msgid "RSET response error"
 msgstr "Errore nella risposta di RSET"
 
 #: camel/providers/smtp/camel-smtp-transport.c:1422
-#, fuzzy, c-format
+#, c-format
 msgid "QUIT request timed out: %s"
-msgstr "Richiesta AUTH scaduta: %s"
+msgstr "Richiesta QUIT scaduta: %s"
 
 #: camel/providers/smtp/camel-smtp-transport.c:1442
 msgid "QUIT response error"
 msgstr "Errore nella risposta di QUIT"
 
 #: composer/e-msg-composer-attachment-bar.c:107
-#, fuzzy, c-format
+#, c-format
 msgid "%.0fK"
-msgstr "%.1fK"
+msgstr "%.0fK"
 
 #: composer/e-msg-composer-attachment-bar.c:110
-#, fuzzy, c-format
+#, c-format
 msgid "%.0fM"
-msgstr "%.1fM"
+msgstr "%.0fM"
 
 #: composer/e-msg-composer-attachment-bar.c:113
-#, fuzzy, c-format
+#, c-format
 msgid "%.0fG"
-msgstr "%.1fG"
+msgstr "%.0fG"
 
 #. This is a filename. Translators take note.
 #: composer/e-msg-composer-attachment-bar.c:371 mail/mail-display.c:227
@@ -10477,14 +10461,12 @@ msgstr ""
 #. * Post-To
 #.
 #: composer/e-msg-composer-hdrs.c:447
-#, fuzzy
 msgid "Post To:"
-msgstr "Porto"
+msgstr "Invia a:"
 
 #: composer/e-msg-composer-hdrs.c:449
-#, fuzzy
 msgid "Posting destination"
-msgstr "Nessuna descrizione disponibile"
+msgstr "Destinatario"
 
 #: composer/e-msg-composer-select-file.c:275
 #: ui/evolution-message-composer.h:26 ui/evolution-message-composer.xml.h:2
@@ -10492,9 +10474,8 @@ msgid "Attach a file"
 msgstr "Allega un file"
 
 #: composer/e-msg-composer.c:514
-#, fuzzy
 msgid "Could not create a PGP signature context"
-msgstr "Impossibile creare un contesto per la firma PGP."
+msgstr "Impossibile creare un contesto per la firma PGP"
 
 #: composer/e-msg-composer.c:787
 #, c-format
@@ -10569,15 +10550,15 @@ msgstr ""
 "Si desidera tentare di recuperarli?"
 
 #: composer/e-msg-composer.c:1525
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "The message \"%s\" has not been sent.\n"
 "\n"
 "Do you wish to save your changes?"
 msgstr ""
-"Questo messaggio non è stato inviato.\n"
+"Il messaggio \"%s\" non è stato inviato.\n"
 "\n"
-"Salvare le modifiche?"
+"Vuoi salvare le modifiche?"
 
 #: composer/e-msg-composer.c:1536
 msgid "Warning: Modified Message"
@@ -10588,13 +10569,12 @@ msgid "Open file"
 msgstr "Apri file"
 
 #: composer/e-msg-composer.c:1927
-#, fuzzy
 msgid "Signature:"
-msgstr "Salva firma"
+msgstr "Firma:"
 
 #: composer/e-msg-composer.c:1968 mail/mail-account-gui.c:1231
 msgid "Autogenerated"
-msgstr ""
+msgstr "Autogenerata"
 
 #: composer/e-msg-composer.c:2155 composer/e-msg-composer.c:2779
 msgid "Compose a message"
@@ -10609,7 +10589,6 @@ msgstr ""
 "impossibile attivare il controllo del selettore di indirizzi."
 
 #: composer/e-msg-composer.c:2822
-#, fuzzy
 msgid ""
 "Could not create composer window:\n"
 "Unable to activate HTML editor component.\n"
@@ -10617,7 +10596,9 @@ msgid ""
 "of gtkhtml and libgtkhtml installed.\n"
 msgstr ""
 "Impossibile creare la finestra di composizione:\n"
-"Il componente HTML non è disponibile."
+"Impossibile attivare un componente editor HTML.\n"
+"Prego assicurarsi di aver installato la versione corretta\n"
+"di gtkhtml e libgtkhtml.\n"
 
 #: composer/e-msg-composer.c:2879
 msgid ""
@@ -10632,6 +10613,8 @@ msgid ""
 "<b>(The composer contains a non-text message body, which cannot be edited.)"
 "<b>"
 msgstr ""
+"<b>(Il compositore contiene un corpo non di testo che non è possibile modificare.)"
+"<b>"
 
 #: composer/evolution-composer.c:394
 msgid ""
@@ -10642,7 +10625,6 @@ msgstr ""
 "stata ancora configurata nessuna identità nel componente della posta."
 
 #: composer/evolution-composer.c:413
-#, fuzzy
 msgid "Cannot initialize the Evolution composer."
 msgstr "Impossibile inizializzare il composer di Evolution."
 
@@ -10696,7 +10678,7 @@ msgstr "L'oggetto non contiene"
 
 #: e-util/e-component-listener.c:131
 msgid "ping_timeout_callback: could not determine if the CORBA object is nil or not"
-msgstr ""
+msgstr "ping_timeout_callback: impossibile determinare se l'oggetto CORBA è nil o no"
 
 #: e-util/e-dialog-utils.c:237 mail/mail-callbacks.c:2563
 msgid ""
@@ -10716,7 +10698,7 @@ msgstr "Ricorda questa password per il resto della sessione"
 
 #: e-util/e-pilot-settings.c:96
 msgid "Sync Private Records:"
-msgstr ""
+msgstr "Record privati Sync:"
 
 #: e-util/e-pilot-settings.c:105
 msgid "Sync Categories:"
@@ -10846,9 +10828,8 @@ msgid "years"
 msgstr "anni"
 
 #: filter/filter-datespec.c:174
-#, fuzzy
 msgid "You must choose a date."
-msgstr "La data non è stata specificata."
+msgstr "Devi immettere una data."
 
 #: filter/filter-datespec.c:269
 msgid "<click here to select a date>"
@@ -10860,15 +10841,14 @@ msgstr "adesso"
 
 #. strftime for date filter display, only needs to show a day date (i.e. no time)
 #: filter/filter-datespec.c:279
-#, fuzzy
 msgid "%d-%b-%Y"
-msgstr "%a %d %b %Y"
+msgstr "%d-%b-%Y"
 
 #. 1 (minute|day|...) ago (singular time ago)
 #: filter/filter-datespec.c:292 filter/filter-datespec.c:295
-#, fuzzy, c-format
+#, c-format
 msgid "%d %s ago"
-msgstr " fa"
+msgstr "%d %s fa"
 
 #: filter/filter-datespec.c:407
 msgid "Select a time to compare against"
@@ -10879,33 +10859,30 @@ msgid "Filter Rules"
 msgstr "Regole dei Filtri"
 
 #: filter/filter-file.c:178
-#, fuzzy
 msgid "You must specify a file name"
-msgstr "Specifica nome del file:"
+msgstr "Devi specificare un nome file"
 
 #: filter/filter-file.c:190
-#, fuzzy, c-format
+#, c-format
 msgid "File '%s' does not exist or is not a regular file."
-msgstr "Spool `%s' non esiste oppure non è un file regolare."
+msgstr "File `%s' non esiste oppure non è un file regolare."
 
 #: filter/filter-file.c:307
-#, fuzzy
 msgid "Choose a file"
-msgstr "Specificare un'operazione:"
+msgstr "Scegliere un file"
 
 #. and now for the action area
 #: filter/filter-filter.c:513
 msgid "Then"
-msgstr "Di"
+msgstr "Allora"
 
 #: filter/filter-filter.c:527
 msgid "Add action"
 msgstr "Aggiungi Azione"
 
 #: filter/filter-folder.c:149
-#, fuzzy
 msgid "You must specify a folder.\n"
-msgstr "Specifica nome del file:"
+msgstr "Devi specificare una cartella.\n"
 
 #: filter/filter-folder.c:236 filter/vfolder-rule.c:391
 #: mail/mail-account-gui.c:1464 mail/mail-account-gui.c:1478
@@ -10929,28 +10906,24 @@ msgstr "Importante"
 #. red
 #: filter/filter-label.c:137 mail/mail-config.c:69
 #: mail/mail-config.glade.h:133
-#, fuzzy
 msgid "Work"
-msgstr "Cork"
+msgstr "Lavoro"
 
 #. orange
 #: filter/filter-label.c:138 mail/mail-config.c:70 mail/mail-config.glade.h:86
-#, fuzzy
 msgid "Personal"
-msgstr "Pownal"
+msgstr "Personale"
 
 #. forest green
 #: filter/filter-label.c:139 mail/mail-config.c:71
 #: mail/mail-config.glade.h:124
-#, fuzzy
 msgid "To Do"
-msgstr "Togo"
+msgstr "Da fare"
 
 #. blue
 #: filter/filter-label.c:140 mail/mail-config.c:72 mail/mail-config.glade.h:66
-#, fuzzy
 msgid "Later"
-msgstr "dopo"
+msgstr "Piu tardi"
 
 #: filter/filter-part.c:545 shell/evolution-test-component.c:49
 msgid "Test"
@@ -10981,7 +10954,6 @@ msgid "if all criteria are met"
 msgstr "se tutti i criteri sonon soddisfatti"
 
 #: filter/filter-rule.c:812
-#, fuzzy
 msgid "if any criteria are met"
 msgstr "se qualche criterio è soddisfatto"
 
@@ -11018,32 +10990,29 @@ msgid "Outgoing"
 msgstr "In uscita"
 
 #: filter/filter.glade.h:7
-#, fuzzy
 msgid ""
 "The message's date will be compared against\n"
 "12:00am of the date specified."
 msgstr ""
 "La data del messaggio verrà confrontata\n"
-"con quella specificata qui."
+"con le 12:00am della data specificata."
 
 #: filter/filter.glade.h:9
-#, fuzzy
 msgid ""
 "The message's date will be compared against\n"
 "a time relative to when filtering occurs."
 msgstr ""
 "La data del messaggio verrà confrontata\n"
-"con una data relativa all'avvio del filtro;\n"
-"\"una settimana fa\", ad esempio."
+"con una data relativa all'avvio del filtro."
+
 
 #: filter/filter.glade.h:11
-#, fuzzy
 msgid ""
 "The message's date will be compared against\n"
 "the current time when filtering occurs."
 msgstr ""
 "La data del messaggio verrà confrontata\n"
-"con quella specificata qui."
+"con l'ora corrente all'avvio del filtro."
 
 #: filter/filter.glade.h:13 filter/vfolder-editor.c:130
 msgid "Virtual Folders"
@@ -11066,9 +11035,8 @@ msgid "the current time"
 msgstr "L'ora corrente"
 
 #: filter/filter.glade.h:27
-#, fuzzy
 msgid "the time you specify"
-msgstr "una data specifica"
+msgstr "l'ora specificata"
 
 #: filter/filter.glade.h:28
 msgid "vFolder Sources"
@@ -11088,9 +11056,8 @@ msgstr "tutte le cartelle locali"
 
 #. Automatically generated. Do not edit.
 #: filter/libfilter-i18n.h:2
-#, fuzzy
 msgid "Adjust Score"
-msgstr "Assegna un punteggio"
+msgstr "Aggiusta il punteggio"
 
 #: filter/libfilter-i18n.h:3
 msgid "Assign Color"
@@ -11105,9 +11072,8 @@ msgid "Attachments"
 msgstr "Allegati"
 
 #: filter/libfilter-i18n.h:6
-#, fuzzy
 msgid "Beep"
-msgstr "Belem"
+msgstr "Bip"
 
 #: filter/libfilter-i18n.h:7
 msgid "contains"
@@ -11142,9 +11108,8 @@ msgid "does not exist"
 msgstr "non esiste"
 
 #: filter/libfilter-i18n.h:16
-#, fuzzy
 msgid "does not return"
-msgstr "non esiste"
+msgstr "non ritorna"
 
 #: filter/libfilter-i18n.h:17
 msgid "does not sound like"
@@ -11180,7 +11145,7 @@ msgstr "Espressione"
 
 #: filter/libfilter-i18n.h:25
 msgid "Follow Up"
-msgstr ""
+msgstr "Segue"
 
 #: filter/libfilter-i18n.h:27
 msgid "is"
@@ -11215,9 +11180,8 @@ msgid "is not Flagged"
 msgstr "non è segnato"
 
 #: filter/libfilter-i18n.h:35 mail/folder-browser.c:1766
-#, fuzzy
 msgid "Label"
-msgstr "Laurel"
+msgstr "Etichetta"
 
 #: filter/libfilter-i18n.h:36
 msgid "Mailing list"
@@ -11236,14 +11200,12 @@ msgid "Move to Folder"
 msgstr "Sposta nella Cartella..."
 
 #: filter/libfilter-i18n.h:40
-#, fuzzy
 msgid "Pipe Message to Shell Command"
-msgstr "Esegui un comado della shell"
+msgstr "Manda messaggio in pipe ad un comando della shell"
 
 #: filter/libfilter-i18n.h:41
-#, fuzzy
 msgid "Play Sound"
-msgstr "Emetti un suono:"
+msgstr "Emetti un suono"
 
 #: filter/libfilter-i18n.h:42 mail/message-tag-followup.c:60
 msgid "Read"
@@ -11262,19 +11224,16 @@ msgid "Replied to"
 msgstr "Risposto a"
 
 #: filter/libfilter-i18n.h:46
-#, fuzzy
 msgid "returns"
-msgstr "Burns"
+msgstr "ritorna"
 
 #: filter/libfilter-i18n.h:47
-#, fuzzy
 msgid "returns greater than"
-msgstr "è maggiore di"
+msgstr "ritorna maggiore di"
 
 #: filter/libfilter-i18n.h:48
-#, fuzzy
 msgid "returns less than"
-msgstr "è minore di"
+msgstr "ritorna minore di"
 
 #: filter/libfilter-i18n.h:49 filter/score-rule.c:204 filter/score-rule.c:206
 #: mail/message-list.etspec.h:10
@@ -11290,9 +11249,8 @@ msgid "Set Status"
 msgstr "Imposta _Stato"
 
 #: filter/libfilter-i18n.h:52
-#, fuzzy
 msgid "Shell Command"
-msgstr "Esegui un comado della shell"
+msgstr "Comado della shell"
 
 #: filter/libfilter-i18n.h:53
 msgid "Size (kB)"
@@ -11324,9 +11282,8 @@ msgid "Subject"
 msgstr "Oggetto"
 
 #: filter/libfilter-i18n.h:61
-#, fuzzy
 msgid "Unset Status"
-msgstr "Imposta _Stato"
+msgstr "Deimposta Stato"
 
 #: filter/rule-editor.c:180
 msgid "Rules"
@@ -11335,7 +11292,7 @@ msgstr "Regole"
 #: filter/rule-editor.c:239 filter/rule-editor.c:335
 #, c-format
 msgid "Rule name '%s' is not unique, choose another"
-msgstr ""
+msgstr "Il nome della regola '%s' non è unico, usane un altro"
 
 #: filter/rule-editor.c:299
 msgid "Add Rule"
@@ -11410,9 +11367,9 @@ msgstr ""
 "Si desidera importarli in Evolution?"
 
 #: importers/netscape-importer.c:70
-#, fuzzy, c-format
+#, c-format
 msgid "Priority Filter \"%s\""
-msgstr "Priorità: %s"
+msgstr "Filtro Priorità \"%s\""
 
 #: importers/netscape-importer.c:653
 msgid ""
@@ -11428,6 +11385,17 @@ msgid ""
 "of priorities. Check the imported filters to make sure\n"
 "everything still works as intended."
 msgstr ""
+"Alcuni dei Vostri filtri di posta di Netscape sono basati sulla\n"
+"priorità dei messaggi email, cosa non utilizzata da Evolution.\n"
+"Diversamente, Evolution gestisce dei punteggi che variano da\n"
+"-3 a 3 che possono essere assegnati i messaggi email e\n"
+"filtrati di conseguenza.\n"
+"\n"
+"Come accorgimento è stato aggiunto un insieme di filtri chiamati\n"
+"\"Filtri di Priorità\" che convertono le priorità dei messaggi email\n"
+"di Netscape nei punteggi di Evolution ed i filtri coinvolti usano i\n"
+"punteggi invece delle priorità. Controllate i filtri di importazione\n"
+"in modo da essere sicuri che il tutto funzioni come ci si aspetta."
 
 #: importers/netscape-importer.c:677
 msgid ""
@@ -11436,6 +11404,9 @@ msgid ""
 "feature, which is not supported in Evolution.\n"
 "These filters will be dropped."
 msgstr ""
+"Alcuni dei Vostri filtri di posta di Netscape usano la caratteristica\n"
+" \"Ignora il Thread\" o \"Controlla il Thread\", non supportata da\n"
+"Evolution. Questi filtri saranno tralasciati."
 
 #: importers/netscape-importer.c:694
 msgid ""
@@ -11445,6 +11416,11 @@ msgid ""
 "were modified to test whether that string is or is not\n"
 "contained in the message body."
 msgstr ""
+"Alcuni dei Vostri filtri di email di Netscape controllano il\n"
+"corpo dei messaggi per le (dis)uguaglianze ad una data stringa,\n"
+"cosa non supportata in Evolution. Questi filtri sono stati\n"
+"modificati per controllare se una stringa è o non è contenuta\n"
+"nel corpo del messaggio."
 
 #: importers/netscape-importer.c:1227
 msgid "Evolution is importing your old Netscape data"
@@ -11457,9 +11433,8 @@ msgid "Trash"
 msgstr "Cestino"
 
 #: importers/netscape-importer.c:2028
-#, fuzzy
 msgid "Scanning mail filters"
-msgstr "File di posta locale: %s"
+msgstr "Scansione filtri di posta"
 
 #: importers/netscape-importer.c:2038 importers/pine-importer.c:570
 msgid "Scanning directory"
@@ -11474,9 +11449,8 @@ msgid "Settings"
 msgstr "Impostazioni"
 
 #: importers/netscape-importer.c:2138
-#, fuzzy
 msgid "Mail Filters"
-msgstr "Modifica Filtri"
+msgstr "Filtri di posta"
 
 #: importers/netscape-importer.c:2161
 msgid ""
@@ -11504,45 +11478,39 @@ msgstr "Pine"
 
 #: mail/GNOME_Evolution_Mail.oaf.in.h:1
 msgid "Composer Preferences"
-msgstr ""
+msgstr "Preferenze di composizione"
 
 #: mail/GNOME_Evolution_Mail.oaf.in.h:2
-#, fuzzy
 msgid "Configuration control for the Evolution Display Fonts."
-msgstr "Fabbrica per il compositore di Evolution."
+msgstr "Controlli di configurazione per i font di visualizzazione di Evolution."
 
 #: mail/GNOME_Evolution_Mail.oaf.in.h:3
-#, fuzzy
 msgid "Configuration control for the Evolution Mail Accounts."
-msgstr "Fabbrica per il controllo di visualizzazione delle attività di Evolution."
+msgstr "Controlli di configurazione per gli account della posta di Evolution."
 
 #: mail/GNOME_Evolution_Mail.oaf.in.h:4
-#, fuzzy
 msgid "Configuration control for the Evolution Mailer."
-msgstr "Fabbrica per il compositore di Evolution."
+msgstr "Controlli di configurazione per il gestore della posta di Evolution."
 
 #: mail/GNOME_Evolution_Mail.oaf.in.h:5
-#, fuzzy
 msgid "Configuration control for the Evolution Message Composer."
-msgstr "Fabbrica per il compositore di Evolution."
+msgstr "Controlli di configurazione per il compositore di messaggi di Evolution."
 
 #: mail/GNOME_Evolution_Mail.oaf.in.h:6
 msgid "Configure mail preferences, including security and message display, here"
-msgstr ""
+msgstr "onfigura qui le tue preferenze della posta, incluse sicurezza e aspetto visualizzazione"
 
 #: mail/GNOME_Evolution_Mail.oaf.in.h:7
 msgid "Configure spell-checking, signatures, and the message composer here"
-msgstr ""
+msgstr "Configura qui il controllo ortografico, le firme e il compositore dei messaggi"
 
 #: mail/GNOME_Evolution_Mail.oaf.in.h:8
-#, fuzzy
 msgid "Configure the fonts used by Evolution here"
-msgstr "Fabbrica per il compositore di Evolution."
+msgstr "Configura qui i font utilizzati da Evolution"
 
 #: mail/GNOME_Evolution_Mail.oaf.in.h:9
-#, fuzzy
 msgid "Configure your email accounts here"
-msgstr "Crea o modifica account si posta ed altre preferenze"
+msgstr "Configura qui i tuoi account di posta elettronica"
 
 #: mail/GNOME_Evolution_Mail.oaf.in.h:10
 msgid "Evolution component for handling mail."
@@ -11573,18 +11541,16 @@ msgid "Factory for the Mail Summary component."
 msgstr "Fabbrica per il componente del Sommario della Posta"
 
 #: mail/GNOME_Evolution_Mail.oaf.in.h:17
-#, fuzzy
 msgid "Font Preferences"
-msgstr "_Nessuna Ricorrenza"
+msgstr "Preferenze caratteri"
 
 #: mail/GNOME_Evolution_Mail.oaf.in.h:18
-#, fuzzy
 msgid "Mail Accounts"
-msgstr "Account"
+msgstr "Account di posta"
 
 #: mail/GNOME_Evolution_Mail.oaf.in.h:19 mail/mail-config.glade.h:69
 msgid "Mail Preferences"
-msgstr ""
+msgstr "Preferenze di posta"
 
 #: mail/GNOME_Evolution_Mail.oaf.in.h:20
 msgid "Mail configuration interface"
@@ -11595,14 +11561,12 @@ msgid "Folder containing mail"
 msgstr "Cartella contente la posta"
 
 #: mail/component-factory.c:103
-#, fuzzy
 msgid "Public Mail"
-msgstr "Pubblico"
+msgstr "Posta Pubblica"
 
 #: mail/component-factory.c:103
-#, fuzzy
 msgid "Public folder containing mail"
-msgstr "Cartella contente la posta"
+msgstr "Cartella pubblica contente la posta"
 
 #: mail/component-factory.c:104
 msgid "Virtual Trash"
@@ -11638,12 +11602,11 @@ msgstr "Non è stato impostato un sistema di trasporto per la posta"
 
 #: mail/component-factory.c:998
 msgid "You have unsent messages, do you wish to quit anyway?"
-msgstr ""
+msgstr "Hai dei messaggi da spedire; vuoi davvero uscire?"
 
 #: mail/component-factory.c:1004
-#, fuzzy
 msgid "Warning: Unsent Messages"
-msgstr "Attenzione: Messaggio Modificato"
+msgstr "Attenzione: messaggi da spedire"
 
 #: mail/component-factory.c:1046
 msgid "New Mail Message"
@@ -11651,30 +11614,25 @@ msgstr "Nuovo Messaggio di Posta"
 
 #: mail/component-factory.c:1046
 msgid "_Mail Message"
-msgstr "Invia _Messaggio"
+msgstr "Invia _messaggio"
 
 #: mail/component-factory.c:1047
-#, fuzzy
 msgid "Compose a new mail message"
-msgstr "Componi un nuovo messaggio"
+msgstr "Componi un nuovo messaggio di posta"
 
 #: mail/component-factory.c:1055
-#, fuzzy
 msgid "New Message Post"
-msgstr "Nuovo Messaggio"
+msgstr "Spedizione nuovo messaggio"
 
 #: mail/component-factory.c:1055
-#, fuzzy
 msgid "_Post Message"
-msgstr "Messaggio Precedente"
+msgstr "Spedizione messaggio"
 
 #: mail/component-factory.c:1056
-#, fuzzy
 msgid "Post a new mail message"
-msgstr "Nuovo Messaggio di Posta"
+msgstr "Spedire un nuovo messaggio di posta"
 
 #: mail/component-factory.c:1084
-#, fuzzy
 msgid "Cannot initialize the Evolution mail component."
 msgstr "Impossibile inizializzare il componente della posta di Evolution."
 
@@ -11689,9 +11647,8 @@ msgid "Cannot initialize Evolution's folder info component."
 msgstr "Impossibile attivare il componente folder info di Evolution."
 
 #: mail/component-factory.c:1340 mail/component-factory.c:1370
-#, fuzzy
 msgid "Connecting..."
-msgstr "Connessione al server..."
+msgstr "Connessione..."
 
 #: mail/component-factory.c:1381
 msgid "Cannot register storage with shell"
@@ -11752,9 +11709,8 @@ msgid "%d total"
 msgstr "%d totali"
 
 #: mail/folder-browser.c:1118
-#, fuzzy
 msgid "Create _Virtual Folder From Search..."
-msgstr "Crea una Cartella _Virtuale dal Messaggio"
+msgstr "Crea una cartella _virtuale dalla ricerca..."
 
 #: mail/folder-browser.c:1702
 msgid "VFolder on _Subject"
@@ -11814,80 +11770,70 @@ msgstr "_Inoltra"
 
 #: mail/folder-browser.c:1743
 msgid "Follo_w Up..."
-msgstr ""
+msgstr "Segue..."
 
 #: mail/folder-browser.c:1744
-#, fuzzy
 msgid "Fla_g Completed"
-msgstr "Completato"
+msgstr "Flag completato"
 
 #: mail/folder-browser.c:1745
-#, fuzzy
 msgid "Cl_ear Flag"
-msgstr "Annulla"
+msgstr "Azzera flag"
 
 #. separator here?
 #: mail/folder-browser.c:1749 ui/evolution-mail-message.xml.h:43
 msgid "Mar_k as Read"
-msgstr "Segna come _Letto"
+msgstr "Segna come _letto"
 
 #: mail/folder-browser.c:1750
-#, fuzzy
 msgid "Mark as _Unread"
-msgstr "Segna come _Non Letto"
+msgstr "Segna come _non letto"
 
 #: mail/folder-browser.c:1751
 msgid "Mark as _Important"
 msgstr "Segna come _Importante"
 
 #: mail/folder-browser.c:1752
-#, fuzzy
 msgid "_Mark as Unimportant"
-msgstr "Segna come _Nonimportante"
+msgstr "Segna come _nonimportante"
 
 #: mail/folder-browser.c:1757
-#, fuzzy
 msgid "U_ndelete"
 msgstr "_Ripristina"
 
 #: mail/folder-browser.c:1761
-#, fuzzy
 msgid "Mo_ve to Folder..."
-msgstr "_Sposta nella Cartella..."
+msgstr "_Sposta nella cartella..."
 
 #: mail/folder-browser.c:1762 ui/evolution-addressbook.xml.h:31
 msgid "_Copy to Folder..."
 msgstr "_Copia nella Cartella..."
 
 #: mail/folder-browser.c:1770
-#, fuzzy
 msgid "Add Sender to Address_book"
-msgstr "Aggiungi Mittente alla _Rubrica"
+msgstr "Aggiungi mittente alla _rubrica"
 
 #: mail/folder-browser.c:1774
-#, fuzzy
 msgid "Appl_y Filters"
-msgstr "Applica Filtri"
+msgstr "Applica filtri"
 
 #: mail/folder-browser.c:1778
-#, fuzzy
 msgid "Crea_te Rule From Message"
-msgstr "Crea Rego_la dal Messaggio"
+msgstr "Crea regola dal messaggio"
 
 #: mail/folder-browser.c:2036
-#, fuzzy
 msgid "VFolder on M_ailing List"
-msgstr "Cartella Virtuale sulla Mailng List"
+msgstr "Cartella virtuale sulla mailng list"
 
 #: mail/folder-browser.c:2038
-#, fuzzy, c-format
+#, c-format
 msgid "Filter on _Mailing List (%s)"
-msgstr "Filtra sulla Mailng List (%s)"
+msgstr "Filtro sulla mailng list (%s)"
 
 #: mail/folder-browser.c:2039
-#, fuzzy, c-format
+#, c-format
 msgid "VFolder on M_ailing List (%s)"
-msgstr "Cartella Virtuale sulla Mailng List (%s)"
+msgstr "Cartella virtuale sulla m_ailing list (%s)"
 
 #: mail/folder-browser.h:26 mail/mail-config.glade.h:38
 msgid "Default"
@@ -11918,9 +11864,8 @@ msgid "Current store format:"
 msgstr "Formato corrente:"
 
 #: mail/local-config.glade.h:2
-#, fuzzy
 msgid "Index body contents"
-msgstr "Contenuto del corpo dei messaggi"
+msgstr "Indice del contenuto del corpo messaggi"
 
 #: mail/local-config.glade.h:3
 msgid "New store format:"
@@ -11962,9 +11907,8 @@ msgid "_Host:"
 msgstr "_Host:"
 
 #: mail/mail-account-gui.c:747 mail/mail-config.glade.h:127
-#, fuzzy
 msgid "User_name:"
-msgstr "_Username:"
+msgstr "_Nomeutente:"
 
 #: mail/mail-account-gui.c:751 mail/mail-config.glade.h:164
 msgid "_Path:"
@@ -11999,9 +11943,8 @@ msgid "Enable"
 msgstr "Abilita"
 
 #: mail/mail-accounts.c:467
-#, fuzzy
 msgid "[Default]"
-msgstr "Predefinito"
+msgstr "[Predefinito]"
 
 #: mail/mail-accounts.c:538 mail/mail-accounts.etspec.h:2
 #: mail/mail-config.glade.h:53
@@ -12009,17 +11952,15 @@ msgid "Enabled"
 msgstr "Abilitato"
 
 #: mail/mail-accounts.c:539 mail/mail-accounts.etspec.h:1
-#, fuzzy
 msgid "Account name"
-msgstr "Nome dell' _Account:"
+msgstr "Nome dell'account"
 
 #: mail/mail-accounts.c:540 mail/mail-accounts.etspec.h:3
-#, fuzzy
 msgid "Protocol"
-msgstr "Porto Rico"
+msgstr "Protocollo"
 
 #: mail/mail-autofilter.c:78
-#, fuzzy, c-format
+#, c-format
 msgid "Mail to %s"
 msgstr "Mail a %s"
 
@@ -12044,19 +11985,18 @@ msgstr "Aggiungi una regola di Filtro"
 
 #: mail/mail-autofilter.c:376
 msgid "The following filter rule(s):\n"
-msgstr ""
+msgstr "Le seguenti regole di filtro:\n"
 
 #: mail/mail-autofilter.c:382
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "Used the removed folder:\n"
 "    '%s'\n"
 "And have been updated."
 msgstr ""
-"Le seguenti vFolder:\n"
-"%sUsavano la cartella:\n"
+"Usava(no) la cartella rimossa:\n"
 "    '%s'\n"
-"che ora è stata rimossa, e quindi sono state aggiornate."
+"e quindi sono state aggiornate."
 
 #: mail/mail-callbacks.c:154
 msgid ""
@@ -12088,13 +12028,12 @@ msgstr ""
 
 #. FIXME: this wording sucks
 #: mail/mail-callbacks.c:255
-#, fuzzy
 msgid ""
 "You are sending an HTML-formatted message. Please make sure that\n"
 "the following recipients are willing and able to receive HTML mail:\n"
 msgstr ""
-"Il messaggio è in HTML, ma i seguenti destinatari non vogliono ricevere "
-"posta HTML:\n"
+"Si sta spedendo un messaggio formattato in HTML. Prego verificare che\n"
+"i seguenti destinatari vogliano e possano ricevere posta in HTML:\n"
 
 #: mail/mail-callbacks.c:270
 msgid "Send anyway?"
@@ -12202,15 +12141,16 @@ msgid "Save Messages As..."
 msgstr "Salva messaggi con nome..."
 
 #: mail/mail-callbacks.c:2681
-#, fuzzy
 msgid "Go to next folder with unread messages?"
-msgstr "Mostra il prossimo messaggio non letto"
+msgstr "Andare alla prossima cartella con messaggi non letti?"
 
 #: mail/mail-callbacks.c:2688
 msgid ""
 "There are no more new messages in this folder.\n"
 "Would you like to go to the next folder?"
 msgstr ""
+"Non ci sono più nuovi messaggi in questa cartella.\n"
+"Vuoi andare alla prossima cartella?"
 
 #: mail/mail-callbacks.c:2931
 msgid ""
@@ -12265,69 +12205,63 @@ msgid ""
 "Please specify signature filename\n"
 "in Advanced section of signature settings."
 msgstr ""
+"Prego specificare il nome del file della firma\n"
+"nella sezione avanzata delle impostazioni delle firme."
 
 #: mail/mail-composer-prefs.c:243 mail/mail-composer-prefs.c:368
 #: mail/mail-composer-prefs.c:416
-#, fuzzy
 msgid " [script]"
-msgstr "Nessuna descrizione disponibile"
+msgstr " [script]"
 
 #: mail/mail-composer-prefs.c:309
 msgid "Please specify a valid script name"
-msgstr ""
+msgstr "Prego specificare un nome script valido"
 
 #: mail/mail-composer-prefs.c:325 mail/mail-config.c:2629
-#, fuzzy
 msgid "Unnamed"
-msgstr "Contatto senza nome"
+msgstr "Senza nome"
 
 #: mail/mail-composer-prefs.c:880
-#, fuzzy
 msgid "Add script signature"
-msgstr "Aggiungi criterio"
+msgstr "Aggiungi firma script"
 
 #: mail/mail-composer-prefs.c:881
-#, fuzzy
 msgid "Add Signature"
-msgstr "Salva firma"
+msgstr "Aggiungi firma"
 
 #: mail/mail-config-druid.c:146
-#, fuzzy
 msgid ""
 "Please enter your name and email address below. The \"optional\" fields "
 "below do not need to be filled in, unless you wish to include this "
 "information in email you send."
 msgstr ""
-"Inserire nome e indirizzo email qui sotto. Non è necessario riempire i campi "
+"Prego inserire nome e indirizzo email qui sotto. Non è necessario riempire i campi "
 "\"opzionali\",\n"
 "a meno che non si desideri includere queste informazioni alle email spedite."
 
 #: mail/mail-config-druid.c:148
-#, fuzzy
 msgid ""
 "Please enter information about your incoming mail server below. If you are "
 "not sure, ask your system administrator or Internet Service Provider."
 msgstr ""
-"Inserire qui sotto le informazioni riguardanti il server di posta in "
+"Prego inserire qui sotto le informazioni riguardanti il server di posta in "
 "entrata. Se non si è sicuri, chiedere\n"
-"all'amministratore di sistema o al Provider."
+"all'amministratore di sistema o al Vostro Provider Internet."
 
 #: mail/mail-config-druid.c:150
 msgid "Please select among the following options"
 msgstr "Selezionare una delle seguenti opzioni"
 
 #: mail/mail-config-druid.c:152
-#, fuzzy
 msgid ""
 "Please enter information about the way you will send mail. If you are not "
 "sure, ask your system administrator or Internet Service Provider."
 msgstr ""
-"Inserire qui sotto le informazioni riguardanti le modalità di invio della "
-"posta. Se non si è sicuri, chiedere\\n\"\n"
-"\"all'amministratore di sistema o al Provider."
+"Prego inserire le informazioni riguardanti le modalità di invio della posta. "
+"Se non si è sicuri, chiedere all'amministratore di sistema o al Vostro Provider"
+"Internet."
 
 #: mail/mail-config-druid.c:154
-#, fuzzy
 msgid ""
 "You are almost done with the mail configuration process. The identity, "
 "incoming mail server and outgoing mail transport method which you provided "
@@ -12335,13 +12269,10 @@ msgid ""
 "name for this account in the space below. This name will be used for display "
 "purposes only."
 msgstr ""
-"La co9nfigurazione della posta è quasi terminata. L'identità, il server di "
-"posta in entrata\n"
-"e il metodo di trasporto della posta in uscita forniti verranno raggruppati "
-"per\n"
-"creare un account di posta in Evolution.  Inserire un nome per questo "
-"account nello spazio sottostante.\n"
-"Questo nome è usato solo allo scopo di visualizzare."
+"La configurazione della posta è quasi terminata. L'identità, il server di posta "
+"in entrata e il metodo di trasporto della posta in uscita forniti verranno raggruppati "
+"per creare un account di posta in Evolution. Prego inserire un nome per questo "
+"account nello spazio sottostante. Questo nome è usato solo a scopo identificativo."
 
 #. set window title
 #: mail/mail-config-druid.c:637
@@ -12349,9 +12280,9 @@ msgid "Evolution Account Assistant"
 msgstr "Guida agli Account di Evolution"
 
 #: mail/mail-config.c:622
-#, fuzzy, c-format
+#, c-format
 msgid "Account %d"
-msgstr "Account"
+msgstr "Account %d"
 
 #: mail/mail-config.c:2316
 msgid "Checking Service"
@@ -12379,12 +12310,11 @@ msgstr "Cifra _sempre con la mia chiave quando invio posta cifrata"
 
 #: mail/mail-config.glade.h:5
 msgid "AaBbCcDdEeFfGgHhIiJjKkLlMmNnOoPpQqRrSsTtUuVvWwXxYyZz"
-msgstr ""
+msgstr "AaBbCcDdEeFfGgHhIiJjKkLlMmNnOoPpQqRrSsTtUuVvWwXxYyZz"
 
 #: mail/mail-config.glade.h:6
-#, fuzzy
 msgid "Account Editor"
-msgstr "Account %d"
+msgstr "Editor account"
 
 #: mail/mail-config.glade.h:7
 msgid "Account Information"
@@ -12395,22 +12325,18 @@ msgid "Account Management"
 msgstr "Gestione degli Account"
 
 #: mail/mail-config.glade.h:9
-#, fuzzy
 msgid "Add Sc_ript"
-msgstr "Aggiungi criterio"
+msgstr "Aggiungi script"
 
 #: mail/mail-config.glade.h:10
-#, fuzzy
 msgid "Add new signature..."
-msgstr "Salva firma"
+msgstr "Aggiungi nuova firma..."
 
 #: mail/mail-config.glade.h:11
-#, fuzzy
 msgid "Al_ways encrypt to myself when sending encrypted mail"
-msgstr "Cifra _sempre con la mia chiave quando invio posta cifrata"
+msgstr "Cifra sempre con la mia chiave durante l'invio di posta crittografata"
 
 #: mail/mail-config.glade.h:13
-#, fuzzy
 msgid "Alwa_ys sign outgoing messages when using this account"
 msgstr "Firmare sempre i messaggi in uscita quando si usa questo account"
 
@@ -12424,12 +12350,11 @@ msgstr "Sempre _copia carbone (Cc) a:"
 
 #: mail/mail-config.glade.h:17
 msgid "Always _trust keys in my keyring when encrypting"
-msgstr ""
+msgstr "Sempre chiavi di fiducia nel mio mazzo di chiavi quando crittografo"
 
 #: mail/mail-config.glade.h:18
-#, fuzzy
 msgid "Attach original message"
-msgstr "Allegare un file al messaggio"
+msgstr "Allega messaggio originale"
 
 #: mail/mail-config.glade.h:19 mail/message-list.etspec.h:1
 msgid "Attachment"
@@ -12440,40 +12365,36 @@ msgid "Authentication"
 msgstr "Autenticazione"
 
 #: mail/mail-config.glade.h:21
-#, fuzzy
 msgid "Automatically _detect links"
-msgstr "Controlla la posta _automaticamente"
+msgstr "Rileva collegamenti automaticamente"
 
 #: mail/mail-config.glade.h:22
 msgid "Baltic (ISO-8859-13)"
-msgstr ""
+msgstr "Baltico (ISO-8859-13)"
 
 #: mail/mail-config.glade.h:23
 msgid "Baltic (ISO-8859-4)"
-msgstr ""
+msgstr "Baltico (ISO-8859-4)"
 
 #: mail/mail-config.glade.h:24
-#, fuzzy
 msgid "C_haracter set:"
-msgstr "Set di caratteri sconosciuto: %s"
+msgstr "Set di caratteri:"
 
 #: mail/mail-config.glade.h:25
-#, fuzzy
 msgid "C_olors"
-msgstr "C_hiudi"
+msgstr "C_olori"
 
 #: mail/mail-config.glade.h:26
 msgid "Check spelling while I _type"
-msgstr ""
+msgstr "Controlla l'ortografia durante la digitazione"
 
 #: mail/mail-config.glade.h:27
 msgid "Checking for New Mail"
 msgstr "Controllo Nuova Posta"
 
 #: mail/mail-config.glade.h:28
-#, fuzzy
 msgid "Color for _misspelled words:"
-msgstr "Colore attività di oggi"
+msgstr "Colore per errori di ortografia:"
 
 #: mail/mail-config.glade.h:29
 msgid "Composing Messages"
@@ -12504,93 +12425,80 @@ msgid "De_fault"
 msgstr "Pr_edefinito"
 
 #: mail/mail-config.glade.h:39
-#, fuzzy
 msgid "Default Behavior"
-msgstr "Priorità Predefinita:"
+msgstr "Comportamento predefinito"
 
 #: mail/mail-config.glade.h:40
-#, fuzzy
 msgid "Default character _encoding:"
-msgstr "Codice dei caratteri predefinito: "
+msgstr "Codice dei caratteri predefinito:"
 
 #: mail/mail-config.glade.h:41
-#, fuzzy
 msgid "Deleting Mail"
-msgstr "Ricezione Posta"
+msgstr "Cancellazione posta"
 
 #: mail/mail-config.glade.h:43
 msgid "Digital IDs..."
 msgstr "ID digitali..."
 
 #: mail/mail-config.glade.h:44
-#, fuzzy
 msgid "Do not quote original message"
-msgstr "Impossibile aprire il messaggio"
+msgstr "Non citare il messaggio originale"
 
 #: mail/mail-config.glade.h:45
 msgid "Don't sign _meeting requests (for Outlook compatibility)"
-msgstr ""
+msgstr "Non firmare le richieste di riunione (per compatibilità con Outlook)"
 
 #: mail/mail-config.glade.h:46 shell/glade/evolution-startup-wizard.glade.h:2
 msgid "Done"
 msgstr "Completato"
 
 #: mail/mail-config.glade.h:47
-#, fuzzy
 msgid "Drafts _folder:"
-msgstr "Cartella delle _Bozze:"
+msgstr "Cartella delle bozze:"
 
 #: mail/mail-config.glade.h:48
 msgid "E_nable"
 msgstr "_Abilita"
 
 #: mail/mail-config.glade.h:49
-#, fuzzy
 msgid "Emacs"
-msgstr "Est"
+msgstr "Emacs"
 
 #: mail/mail-config.glade.h:50
-#, fuzzy
 msgid "Email Accounts"
-msgstr "Email contiene"
+msgstr "Cartelle Email"
 
 #: mail/mail-config.glade.h:51
-#, fuzzy
 msgid "Email _address:"
-msgstr "Indirizzo _Email:"
+msgstr "Indirizzo email:"
 
 #: mail/mail-config.glade.h:52
-#, fuzzy
 msgid "Empty _trash folders on exit"
-msgstr "_Svuota cestino all'uscita"
+msgstr "Svuota cestino all'uscita"
 
 #: mail/mail-config.glade.h:54
 msgid "Execute Command..."
 msgstr "Esegui comando..."
 
 #: mail/mail-config.glade.h:55
-#, fuzzy
 msgid "Fi_xed -width:"
-msgstr "finisce per"
+msgstr "Larghezza fissa:"
 
 #: mail/mail-config.glade.h:56
-#, fuzzy
 msgid "Font Properties"
-msgstr "Proprietà"
+msgstr "Proprietà caratteri"
 
 #: mail/mail-config.glade.h:57
-#, fuzzy
 msgid "Format messages in _HTML"
-msgstr "Messaggio inoltrato"
+msgstr "Formato Messaggi in _HTML"
 
 #: mail/mail-config.glade.h:58
 msgid "Get Digital ID..."
 msgstr "Prendi ID digitale..."
 
 #: mail/mail-config.glade.h:59
-#, fuzzy
 msgid "Highlight _quotations with"
-msgstr "_Evidenzia citazioni con"
+msgstr "Evidenzia citazioni con"
 
 #: mail/mail-config.glade.h:60
 msgid "IMAPv4 "
@@ -12609,14 +12517,12 @@ msgid "Kerberos "
 msgstr "Kerberos "
 
 #: mail/mail-config.glade.h:65
-#, fuzzy
 msgid "Labels and Colors"
-msgstr "Salva ed Esci"
+msgstr "Etichette e colori"
 
 #: mail/mail-config.glade.h:67
-#, fuzzy
 msgid "Loading Images"
-msgstr "Carica _Immagini"
+msgstr "Caricamento immagini"
 
 #: mail/mail-config.glade.h:68
 msgid "Mail Configuration"
@@ -12627,19 +12533,16 @@ msgid "Mailbox location"
 msgstr "Collocazione della Mailbox"
 
 #: mail/mail-config.glade.h:71
-#, fuzzy
 msgid "Message Composer"
-msgstr "Header del messaggio"
+msgstr "Compositore messaggio"
 
 #: mail/mail-config.glade.h:72
-#, fuzzy
 msgid "Message Display"
-msgstr "Visualizzazione _Messaggio"
+msgstr "Visualizzazione Messaggio"
 
 #: mail/mail-config.glade.h:73
-#, fuzzy
 msgid "Microsoft"
-msgstr "Micronesia"
+msgstr "Microsoft"
 
 #: mail/mail-config.glade.h:76
 msgid "New Mail Notification"
@@ -12650,19 +12553,19 @@ msgid ""
 "Note: you will not be prompted for a password until you connect for the "
 "first time"
 msgstr ""
+"Nota: non verrà richiesta una password fino alla prima connessione"
 
 #: mail/mail-config.glade.h:79
 msgid "On Screen fonts"
-msgstr ""
+msgstr "Caratteri sullo schermo"
 
 #: mail/mail-config.glade.h:80
 msgid "Optional Information"
 msgstr "Informazioni Opzionali"
 
 #: mail/mail-config.glade.h:82
-#, fuzzy
 msgid "Or_ganization:"
-msgstr "Organi_zzazione:"
+msgstr "Or_ganizzazione:"
 
 #: mail/mail-config.glade.h:83
 msgid "PGP/GPG _Key ID:"
@@ -12673,7 +12576,6 @@ msgid "Pick a color"
 msgstr "Scegliere un colore"
 
 #: mail/mail-config.glade.h:88
-#, fuzzy
 msgid "Pr_ompt when sending messages with only Bcc recipients defined"
 msgstr "Segnala l'invio di messaggi con solo destinatari _Bcc"
 
@@ -12682,18 +12584,16 @@ msgid "Pretty Good Privacy (PGP/GPG)"
 msgstr "Pretty Good Privacy (PGP/GPG)"
 
 #: mail/mail-config.glade.h:90
-#, fuzzy
 msgid "Printed Fonts"
-msgstr "Stampa i contatti selezionati"
+msgstr "Caratteri di stampa"
 
 #: mail/mail-config.glade.h:91
 msgid "Qmail maildir "
 msgstr "Qmail maildir"
 
 #: mail/mail-config.glade.h:92
-#, fuzzy
 msgid "Quote original message"
-msgstr "Impossibile aprire il messaggio"
+msgstr "Cita messaggio originale"
 
 #: mail/mail-config.glade.h:93
 msgid "Quoted"
@@ -12704,7 +12604,6 @@ msgid "Re_member this password"
 msgstr "Ri_corda questa password"
 
 #: mail/mail-config.glade.h:95
-#, fuzzy
 msgid "Re_ply-To:"
 msgstr "Rispondi-a:"
 
@@ -12713,28 +12612,24 @@ msgid "Receiving Email"
 msgstr "Ricezione Email"
 
 #: mail/mail-config.glade.h:97
-#, fuzzy
 msgid "Receiving _Options"
-msgstr "Opzioni di Ricezione"
+msgstr "_Opzioni di Ricezione"
 
 #: mail/mail-config.glade.h:98
-#, fuzzy
 msgid "Remember this _password"
-msgstr "Ricorda questa password"
+msgstr "Ricorda questa _password"
 
 #: mail/mail-config.glade.h:99
 msgid "Required Information"
 msgstr "Informazioni Richieste"
 
 #: mail/mail-config.glade.h:100
-#, fuzzy
 msgid "Restore Defaults"
-msgstr "Predefiniti"
+msgstr "Ripristina predefiniti"
 
 #: mail/mail-config.glade.h:102
-#, fuzzy
 msgid "S_ecurity"
-msgstr "Sicurezza"
+msgstr "Sicur_ezza"
 
 #: mail/mail-config.glade.h:103
 msgid "Secure MIME (S/MIME)"
@@ -12742,19 +12637,19 @@ msgstr "MIME sicuro (S/MIME)"
 
 #: mail/mail-config.glade.h:104
 msgid "Select HTML fixed width font"
-msgstr ""
+msgstr "Seleziona font a larghezza fissa HTML"
 
 #: mail/mail-config.glade.h:105
 msgid "Select HTML fixed width font for printing"
-msgstr ""
+msgstr "Seleziona carattere HTML a larghezza fissa per la stampa"
 
 #: mail/mail-config.glade.h:106
 msgid "Select HTML variable width font"
-msgstr ""
+msgstr "Seleziona carattere HTML a larghezza variabile"
 
 #: mail/mail-config.glade.h:107
 msgid "Select HTML variable width font for printing"
-msgstr ""
+msgstr "Seleziona carattere HTML a larghezza variabile per la stampa"
 
 #: mail/mail-config.glade.h:108 shell/glade/evolution-startup-wizard.glade.h:7
 msgid "Sending Email"
@@ -12781,22 +12676,20 @@ msgid "Server _Type: "
 msgstr "_Tipo di Server:"
 
 #: mail/mail-config.glade.h:115
-#, fuzzy
 msgid "Shortcuts _type:"
-msgstr "Collegamenti"
+msgstr "_Tipo scorciatoie:"
 
 #: mail/mail-config.glade.h:116
-#, fuzzy
 msgid "Specify _filename:"
-msgstr "Specifica nome del file:"
+msgstr "Specifica nome del _file:"
 
 #: mail/mail-config.glade.h:117
 msgid "Spell Checking Language"
-msgstr ""
+msgstr "Lingua controllo ortografico"
 
 #: mail/mail-config.glade.h:118
 msgid "Spell _Checking"
-msgstr ""
+msgstr "Controllo ortografico"
 
 #: mail/mail-config.glade.h:119
 msgid "Standard Unix mbox"
@@ -12808,6 +12701,9 @@ msgid ""
 "signature. The name you specify will be used\n"
 "for display purposes only. "
 msgstr ""
+"Il risultato di questo script verrà usato come Vostra\n"
+"firma. Il nome che specificherete avrà solo scopo\n"
+"visivo."
 
 #: mail/mail-config.glade.h:123
 msgid ""
@@ -12815,17 +12711,21 @@ msgid ""
 "list of languages here reflects only the languages for which you have a "
 "dictionary installed."
 msgstr ""
+"Questa pagina permette di configurare il comportamento del controllo "
+"ortografico e la lingua. L'elenco delle lingue riflette solamente le lingue di "
+"cui si ha il dizionario installato."
 
 #: mail/mail-config.glade.h:125
 msgid ""
 "Type the name by which you would like to refer to this account.\n"
 "For example: \"Work\" or \"Personal\""
 msgstr ""
+"Battere il nome con il quale ci si vuole riferire a questo account.\n"
+"Per esempio: \"Lavoro\" o \"Personale\""
 
 #: mail/mail-config.glade.h:128
-#, fuzzy
 msgid "V_ariable-width:"
-msgstr "Variabile"
+msgstr "Larghezza variabile:"
 
 #: mail/mail-config.glade.h:129
 msgid ""
@@ -12838,14 +12738,12 @@ msgstr ""
 "Cliccare \"successivo\" per cominciare."
 
 #: mail/mail-config.glade.h:134
-#, fuzzy
 msgid "XEmacs"
-msgstr "Est"
+msgstr "XEmacs"
 
 #: mail/mail-config.glade.h:136
-#, fuzzy
 msgid "_Add Signature"
-msgstr "_File con la firma:"
+msgstr "_Aggiungi firma"
 
 #: mail/mail-config.glade.h:137
 msgid "_Always load images off the net"
@@ -12868,12 +12766,10 @@ msgid "_Automatically check for new mail"
 msgstr "Controlla la posta _automaticamente"
 
 #: mail/mail-config.glade.h:142
-#, fuzzy
 msgid "_Automatically insert smiley images"
-msgstr "Controlla la posta _automaticamente"
+msgstr "Inserisci _automaticamente immagini delle faccine"
 
 #: mail/mail-config.glade.h:143
-#, fuzzy
 msgid "_Beep when new mail arrives"
 msgstr "Emetti un suono quando arriva nuova posta"
 
@@ -12882,64 +12778,54 @@ msgid "_Certificate ID:"
 msgstr "ID del _Certificato:"
 
 #: mail/mail-config.glade.h:145
-#, fuzzy
 msgid "_Confirm when expunging a folder"
-msgstr "Chiedi conferma prima di eliminare definitivamente i messaggi"
+msgstr "_Chiedi conferma prima di eliminare definitivamente i messaggi"
 
 #: mail/mail-config.glade.h:146
-#, fuzzy
 msgid "_Default signature:"
-msgstr "Firma _HTML:"
+msgstr "Firma pre_definita:"
 
 #: mail/mail-config.glade.h:147
-#, fuzzy
 msgid "_Defaults"
-msgstr "Predefiniti"
+msgstr "Pre_definiti"
 
 #: mail/mail-config.glade.h:149
-#, fuzzy
 msgid "_Do not notify me when new mail arrives"
-msgstr "Non notificare l'arrivo di nuova posta"
+msgstr "Non notificare l'arrivo _di nuova posta"
 
 #: mail/mail-config.glade.h:151
-#, fuzzy
 msgid "_Enable"
 msgstr "Abilita"
 
 #: mail/mail-config.glade.h:152
 msgid "_Fixed-width:"
-msgstr ""
+msgstr "Larghezza _fissa:"
 
 #: mail/mail-config.glade.h:153
-#, fuzzy
 msgid "_Forward style:"
-msgstr "_Inoltra Messaggio"
+msgstr "Stile Inoltra:"
 
 #: mail/mail-config.glade.h:154
 msgid "_Full name:"
 msgstr "_Nome e cognome:"
 
 #: mail/mail-config.glade.h:156
-#, fuzzy
 msgid "_HTML Mail"
-msgstr "Posta HTML"
+msgstr "Posta _HTML"
 
 #: mail/mail-config.glade.h:158
-#, fuzzy
 msgid "_Identity"
-msgstr "Identità"
+msgstr "_Identità"
 
 #: mail/mail-config.glade.h:159
 msgid "_Load images if sender is in addressbook"
 msgstr "_Carica le immagini se il mittente è nella rubrica"
 
 #: mail/mail-config.glade.h:160
-#, fuzzy
 msgid "_Make this my default account"
-msgstr "Imposta come mio account _predefinito"
+msgstr "Imposta come _mio account predefinito"
 
 #: mail/mail-config.glade.h:161
-#, fuzzy
 msgid "_Mark messages as read after"
 msgstr "Segna i _messaggi come letti dopo"
 
@@ -12952,74 +12838,60 @@ msgid "_Never load images off the net"
 msgstr "_Non caricare mai le immagini dalla rete"
 
 #: mail/mail-config.glade.h:165
-#, fuzzy
 msgid "_Play sound file when new mail arrives"
 msgstr "Suona un file sonoro quando arriva nuova posta"
 
 #: mail/mail-config.glade.h:166
-#, fuzzy
 msgid "_Prompt when sending HTML messages to contacts that don't want them"
-msgstr ""
-"Chiedere conferma prima di inviare messaggi HTML a contatti che non li "
-"desiderano"
+msgstr "Chiedere conferma _prima di inviare messaggi HTML a contatti che non li desiderano"
 
 #: mail/mail-config.glade.h:167
-#, fuzzy
 msgid "_Prompt when sending messages with an empty subject line"
-msgstr "Segnala l'invio di messaggi _senza oggetto."
+msgstr "Segnala l'invio di messaggi senza oggetto"
 
 #: mail/mail-config.glade.h:168
-#, fuzzy
 msgid "_Receiving Mail"
-msgstr "Ricezione Posta"
+msgstr "_Ricezione Posta"
 
 #: mail/mail-config.glade.h:169
-#, fuzzy
 msgid "_Reply style:"
-msgstr "Rispondi a Tutti"
+msgstr "Stile _risposta:"
 
 #: mail/mail-config.glade.h:170
 msgid "_Restore defaults"
-msgstr ""
+msgstr "_Ripristina predefiniti"
 
 #: mail/mail-config.glade.h:171
-#, fuzzy
 msgid "_Script:"
-msgstr "_Sicurezza"
+msgstr "_Script:"
 
 #: mail/mail-config.glade.h:172
-#, fuzzy
 msgid "_Sending Mail"
-msgstr "Invio Posta"
+msgstr "_Spedizione Posta"
 
 #: mail/mail-config.glade.h:173
-#, fuzzy
 msgid "_Show animated images"
-msgstr "Mostra ora come"
+msgstr "Mostra immagini animate"
 
 #: mail/mail-config.glade.h:174
-#, fuzzy
 msgid "_Signatures"
-msgstr "_File con la firma:"
+msgstr "Firme"
 
 #: mail/mail-config.glade.h:175
-#, fuzzy
 msgid "_Use secure connection (SSL):"
-msgstr "Usa conn_essione sicura (SSL)"
+msgstr "_Usa connessione sicura (SSL):"
 
 #: mail/mail-config.glade.h:176
-#, fuzzy
 msgid "_Variable-width:"
-msgstr "Variabile"
+msgstr "Larghezza _Variabile:"
 
 #: mail/mail-config.glade.h:177
 msgid "_every"
 msgstr "_ogni"
 
 #: mail/mail-config.glade.h:178
-#, fuzzy
 msgid "color"
-msgstr " colore"
+msgstr "colore"
 
 #: mail/mail-config.glade.h:179
 msgid "description"
@@ -13046,12 +12918,12 @@ msgid "Could not create a S/MIME decode context."
 msgstr "Impossibile creare un contesto di codifica  S/MIME."
 
 #: mail/mail-display.c:194
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "File `%s' already exists.\n"
 "Overwrite it?"
 msgstr ""
-"Esiste già un file con questo nome.\n"
+"Il file `%s' esiste già.\n"
 "Sovrascriverlo?"
 
 #: mail/mail-display.c:326
@@ -13059,14 +12931,13 @@ msgid "Save Attachment"
 msgstr "Salva Allegati"
 
 #: mail/mail-display.c:391
-#, fuzzy, c-format
+#, c-format
 msgid "Could not create temporary file '%s': %s"
-msgstr "Impossibile creare una directory temporanea: %s"
+msgstr "Impossibile creare il file temporaneo '%s': %s"
 
 #: mail/mail-display.c:437
-#, fuzzy
 msgid "Save Attachment..."
-msgstr "Salva Allegati"
+msgstr "Salva allegati..."
 
 #: mail/mail-display.c:438
 msgid "View Inline"
@@ -13091,23 +12962,20 @@ msgid "External Viewer"
 msgstr "Visualizzatore Esterno"
 
 #: mail/mail-display.c:1320
-#, fuzzy
 msgid "Downloading images"
-msgstr "Carica _Immagini"
+msgstr "Scaricamento immagini"
 
 #: mail/mail-display.c:1497
 msgid "Loading message content"
 msgstr "Caricamento del contenuto del messaggio"
 
 #: mail/mail-display.c:1784
-#, fuzzy
 msgid "Overdue:"
-msgstr "_Attività scadute:"
+msgstr "Scadute:"
 
 #: mail/mail-display.c:1788
-#, fuzzy
 msgid "by %B %d, %Y, %l:%M %P"
-msgstr "%b %d %l:%M %p"
+msgstr "da %B %d, %Y, %l:%M %P" 
 
 #: mail/mail-display.c:2115
 msgid "Open Link in Browser"
@@ -13126,9 +12994,9 @@ msgid "Save Image as..."
 msgstr "Salva Immagine con nome..."
 
 #: mail/mail-folder-cache.c:743
-#, fuzzy, c-format
+#, c-format
 msgid "Pinging %s"
-msgstr "Scansione di \"%s\""
+msgstr "Sto facendo ping a %s"
 
 #: mail/mail-format.c:656
 #, c-format
@@ -13170,9 +13038,8 @@ msgid "Bcc"
 msgstr "Bcc"
 
 #: mail/mail-format.c:963
-#, fuzzy
 msgid "Mailer"
-msgstr "Posta"
+msgstr "Gestore di posta"
 
 #: mail/mail-format.c:1848
 msgid "This message is digitally signed. Click the lock icon for more information."
@@ -13181,7 +13048,6 @@ msgstr ""
 "ulteriori informazioni."
 
 #: mail/mail-format.c:1875
-#, fuzzy
 msgid "Could not create a PGP verfication context"
 msgstr "Impossibile creare un contesto per la verifica PGP."
 
@@ -13225,21 +13091,21 @@ msgid "Malformed external-body part."
 msgstr "Parte esterna del messaggio malformata."
 
 #: mail/mail-local.c:539 mail/mail-local.c:541
-#, fuzzy, c-format
+#, c-format
 msgid "Local folders/%s"
-msgstr "Cartelle Locali"
+msgstr "Cartelle/%s locali"
 
 #: mail/mail-local.c:671
 msgid "Reconfiguring folder"
 msgstr "Riconfigurazione cartella"
 
 #: mail/mail-local.c:752
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "Cannot save folder metainfo; you may find you can't\n"
 "open this folder anymore: %s: %s"
 msgstr ""
-"Impossibile salvare le metainfo della cartella; probabilmente non \n"
+"Impossibile salvare le metainfo della cartella; probabilmente non\n"
 "sarà più possibile riaprire questa cartella: %s: %s"
 
 #: mail/mail-local.c:808
@@ -13519,9 +13385,8 @@ msgid "_Remember this password"
 msgstr "_Ricorda questa password"
 
 #: mail/mail-session.c:273
-#, fuzzy
 msgid "_Remember this password for the remainder of this session"
-msgstr "Ricorda questa password per il resto della sessione"
+msgstr "_Ricorda questa password per il resto della sessione"
 
 #: mail/mail-session.c:330
 #, c-format
@@ -13533,9 +13398,9 @@ msgid "Enter Password"
 msgstr "Inserire la Password"
 
 #: mail/mail-signature-editor.c:81
-#, fuzzy, c-format
+#, c-format
 msgid "Could not save signature file: %s"
-msgstr "Impossibile memorizzare la firma."
+msgstr "Impossibile memorizzare la firma: %s"
 
 #: mail/mail-signature-editor.c:175
 msgid "Save signature"
@@ -13552,14 +13417,12 @@ msgstr ""
 "Salvare le modifiche?"
 
 #: mail/mail-signature-editor.c:333
-#, fuzzy
 msgid "Edit signature"
-msgstr "Aggiungi criterio"
+msgstr "Modifica firma"
 
 #: mail/mail-signature-editor.c:372
-#, fuzzy
 msgid "Enter a name for this signature."
-msgstr "Firma _HTML:"
+msgstr "Inserire un nome per questa firma."
 
 #: mail/mail-signature-editor.c:375 my-evolution/e-summary-preferences.c:852
 msgid "Name:"
@@ -13701,20 +13564,19 @@ msgstr "Scadenza "
 
 #: mail/message-list.etspec.h:4
 msgid "Flag Status"
-msgstr ""
+msgstr "Segnazione di Stato"
 
 #: mail/message-list.etspec.h:5
 msgid "Flagged"
-msgstr "Con la bandierina"
+msgstr "Con segnalazione"
 
 #: mail/message-list.etspec.h:6
 msgid "Follow Up Flag"
-msgstr ""
+msgstr "Segnalazione che segue"
 
 #: mail/message-list.etspec.h:8
-#, fuzzy
 msgid "Original Location"
-msgstr "Contatto Originale:"
+msgstr "Posizione originale"
 
 #: mail/message-list.etspec.h:9
 msgid "Received"
@@ -13725,23 +13587,20 @@ msgid "Size"
 msgstr "Dimensione"
 
 #: mail/message-tag-followup.c:54
-#, fuzzy
 msgid "Call"
-msgstr "McCall"
+msgstr "Chiamata"
 
 #: mail/message-tag-followup.c:55
-#, fuzzy
 msgid "Do Not Forward"
-msgstr "Vai avanti"
+msgstr "Non inoltrare"
 
 #: mail/message-tag-followup.c:56
 msgid "Follow-Up"
-msgstr ""
+msgstr "Segue"
 
 #: mail/message-tag-followup.c:57
-#, fuzzy
 msgid "For Your Information"
-msgstr "Informazione Sorgenti"
+msgstr "Per Vostra informazione"
 
 #: mail/message-tag-followup.c:58 ui/evolution-mail-message.xml.h:36
 msgid "Forward"
@@ -13749,7 +13608,7 @@ msgstr "Inoltra"
 
 #: mail/message-tag-followup.c:59
 msgid "No Response Necessary"
-msgstr ""
+msgstr "Non è necessario rispondere"
 
 #: mail/message-tag-followup.c:61 ui/evolution-mail-message.xml.h:72
 msgid "Reply"
@@ -13760,39 +13619,36 @@ msgid "Reply to All"
 msgstr "Rispondi a Tutti"
 
 #: mail/message-tag-followup.c:63
-#, fuzzy
 msgid "Review"
 msgstr "Anteprima"
 
 #: mail/message-tag-followup.c:246 mail/message-tags.glade.h:2
 msgid "Flag to Follow Up"
-msgstr ""
+msgstr "Segnalazione che segue"
 
 #: mail/message-tags.glade.h:1
-#, fuzzy
 msgid "C_ompleted"
-msgstr "Completato"
+msgstr "C_ompletato"
 
 #: mail/message-tags.glade.h:5
 msgid ""
 "The messages you have selected for follow up are listed below.\n"
 "Please select a follow up action from the \"Flag\" menu."
 msgstr ""
+"I messaggi selezionati come seguenti sono elencati sotto.\n"
+"Prego selezionare un'azione seguente dal menu \"Segnalazioni\"."
 
 #: mail/message-tags.glade.h:7
-#, fuzzy
 msgid "_Clear Flag"
-msgstr "Annulla"
+msgstr "Azzera segnalazione"
 
 #: mail/message-tags.glade.h:8
-#, fuzzy
 msgid "_Due by:"
-msgstr "Scadenza "
+msgstr "Scadenza il:"
 
 #: mail/message-tags.glade.h:9
-#, fuzzy
 msgid "_Flag:"
-msgstr "Nome del file:"
+msgstr "Segnalazione:"
 
 #: mail/subscribe-dialog.c:231
 #, c-format
@@ -13820,9 +13676,8 @@ msgid "Folder"
 msgstr "Cartella"
 
 #: mail/subscribe-dialog.c:1450
-#, fuzzy
 msgid "Scanning folders..."
-msgstr "Salva nella cartella..."
+msgstr "Scansione cartelle..."
 
 #: mail/subscribe-dialog.c:1557
 msgid "No server has been selected"
@@ -13837,9 +13692,8 @@ msgid "All folders"
 msgstr "Tutte le cartelle"
 
 #: mail/subscribe-dialog.glade.h:2
-#, fuzzy
 msgid "Apri file"
-msgstr "Aprile"
+msgstr "Apri file"
 
 #: mail/subscribe-dialog.glade.h:3 ui/evolution-comp-editor.xml.h:2
 #: ui/evolution-contact-editor.xml.h:1
@@ -13851,7 +13705,6 @@ msgid "Close"
 msgstr "Chiudi"
 
 #: mail/subscribe-dialog.glade.h:4
-#, fuzzy
 msgid "Display Options"
 msgstr "Visualizza opzioni"
 
@@ -13868,14 +13721,12 @@ msgid "Refresh List"
 msgstr "Aggiorna Lista"
 
 #: mail/subscribe-dialog.glade.h:8
-#, fuzzy
 msgid "S_elect server: "
-msgstr "Scegliere un servizio"
+msgstr "S_elezionare un server: "
 
 #: mail/subscribe-dialog.glade.h:9
-#, fuzzy
 msgid "Salve file"
-msgstr "Scegliere un file"
+msgstr "Salvare file"
 
 #: mail/subscribe-dialog.glade.h:10
 msgid "_Subscribe"
@@ -18283,14 +18134,12 @@ msgid "Kushiro Airport"
 msgstr "Kushiro Aeroporto"
 
 #: my-evolution/Locations.h:1147
-#, fuzzy
 msgid "Kyiv/Boryspil"
-msgstr "Kyyiv/Boryspil"
+msgstr "Kyiv/Boryspil"
 
 #: my-evolution/Locations.h:1148
-#, fuzzy
 msgid "Kyiv/Zhulyany"
-msgstr "Kyyiv/Zhulyany"
+msgstr "Kyiv/Zhulyany"
 
 #: my-evolution/Locations.h:1149
 msgid "La Ceiba"
@@ -22409,9 +22258,8 @@ msgid "Tallahassee"
 msgstr "Tallahassee"
 
 #: my-evolution/Locations.h:2211
-#, fuzzy
 msgid "Tallinn"
-msgstr "Talinn"
+msgstr "Tallinn"
 
 #: my-evolution/Locations.h:2212
 msgid "Tamanrasset"
@@ -23745,20 +23593,17 @@ msgid "News Feed"
 msgstr "Notiziario"
 
 #: my-evolution/e-summary-shown.c:519
-#, fuzzy
 msgid "All"
-msgstr "McAllen"
+msgstr "Tutto"
 
 #. Fixme: nice GFX version
 #: my-evolution/e-summary-shown.c:531
-#, fuzzy
 msgid "Add"
-msgstr "A_ggiungi"
+msgstr "Aggiungi"
 
 #: my-evolution/e-summary-shown.c:546 my-evolution/e-summary-table.c:58
-#, fuzzy
 msgid "Shown"
-msgstr "Shannon"
+msgstr "Mostra"
 
 #: my-evolution/e-summary-tasks.c:328
 msgid "No tasks"
@@ -24983,9 +24828,8 @@ msgid "C_elsius"
 msgstr "C_elsius"
 
 #: my-evolution/my-evolution.glade.h:4
-#, fuzzy
 msgid "Delete news feed"
-msgstr "Aggiungi not_iziario"
+msgstr "Cancella notiziario"
 
 #: my-evolution/my-evolution.glade.h:5
 msgid "How many days should the calendar display at once?"
@@ -25036,7 +24880,6 @@ msgid "Tasks "
 msgstr "Attività "
 
 #: my-evolution/my-evolution.glade.h:17
-#, fuzzy
 msgid "Weather Settings"
 msgstr "Impostazioni Meteo"
 
@@ -25069,18 +24912,16 @@ msgid "_Weather"
 msgstr "_Meteo"
 
 #: shell/GNOME_Evolution_Shell.oaf.in.h:1
-#, fuzzy
 msgid "Configuration control for Evolution folder settings."
-msgstr "Fabbrica per il compositore di Evolution."
+msgstr "Controllo configurazione per le impostazioni cartelle di Evolution."
 
 #: shell/GNOME_Evolution_Shell.oaf.in.h:2
 msgid "Configure special folders and offline folder behavior here"
-msgstr ""
+msgstr "Configura qui il comportamento delle cartelle speciali e non in linea"
 
 #: shell/GNOME_Evolution_Shell.oaf.in.h:3
-#, fuzzy
 msgid "Folder Settings"
-msgstr "Impostazioni Posta"
+msgstr "Impostazioni Cartella"
 
 #: shell/GNOME_Evolution_Shell.oaf.in.h:4
 msgid "The Evolution shell."
@@ -25104,14 +24945,13 @@ msgstr ""
 "%s"
 
 #: shell/e-folder-list.c:113 shell/evolution-folder-selector-button.c:121
-#, fuzzy, c-format
+#, c-format
 msgid "\"%s\" in \"%s\""
-msgstr "Apri in %s..."
+msgstr "\"%s\" in \"%s\""
 
 #: shell/e-folder-list.c:312
-#, fuzzy
 msgid "Add a Folder"
-msgstr "Come Cartella Inviati"
+msgstr "Aggiungi una cartella"
 
 #: shell/e-local-storage.c:178
 msgid "Drafts"
@@ -25244,41 +25084,34 @@ msgid "Brought to you by"
 msgstr "Sviluppato da"
 
 #: shell/e-shell-config-autocompletion.c:106
-#, fuzzy
 msgid "Extra Completion folders"
-msgstr "Ultimato il"
+msgstr "Cartelle extra di completamento"
 
 #: shell/e-shell-config-default-folders.c:133
-#, fuzzy
 msgid "Select Default Folder"
-msgstr "Scegli Cartella"
+msgstr "Scegli cartella predefinita"
 
 #: shell/e-shell-config-folder-settings.c:71
-#, fuzzy
 msgid "Default Folders"
-msgstr "Scegli Cartella"
+msgstr "Cartelle predefinite"
 
 #: shell/e-shell-config-folder-settings.c:74
-#, fuzzy
 msgid "Offline Folders"
-msgstr "Scegli Cartella"
+msgstr "Cartelle non in linea"
 
 #: shell/e-shell-config-folder-settings.c:77
-#, fuzzy
 msgid "Autocompletion Folders"
-msgstr "Ultimato il"
+msgstr "Cartelle di autocompletamento"
 
 #: shell/e-shell-folder-commands.c:140
-#, fuzzy, c-format
+#, c-format
 msgid "Cannot copy folder: %s"
-msgstr "Impossibile controllare la cartella: %s: %s"
+msgstr "Impossibile copiare la cartella: %s"
 
 #: shell/e-shell-folder-commands.c:143
-#, fuzzy, c-format
+#, c-format
 msgid "Cannot move folder: %s"
-msgstr ""
-"Impossibile rinomincare la cartella:\n"
-"%s"
+msgstr "Impossibile spostare la cartella: %s"
 
 #: shell/e-shell-folder-commands.c:190
 msgid "Cannot move a folder over itself."
@@ -25325,11 +25158,9 @@ msgid "Delete \"%s\""
 msgstr "Elimina \"%s\""
 
 #: shell/e-shell-folder-commands.c:407
-#, fuzzy, c-format
+#, c-format
 msgid "Really delete folder \"%s\"?"
-msgstr ""
-"Impossibile cancellare la cartella:\n"
-"%s"
+msgstr "Sicuri di voler cancellare la cartella \"%s\"?"
 
 #: shell/e-shell-folder-commands.c:488
 #, c-format
@@ -25357,15 +25188,15 @@ msgstr "Il nome della cartella specificato non è valido: %s"
 
 #: shell/e-shell-folder-commands.c:586
 msgid "Selected folder does not belong to another user"
-msgstr ""
+msgstr "La cartella selezionata non appartiene ad un altro utente"
 
 #: shell/e-shell-folder-commands.c:589
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "Cannot remove folder:\n"
 "%s"
 msgstr ""
-"Impossibile rinomincare la cartella:\n"
+"Impossibile rimuovere la cartella:\n"
 "%s"
 
 #: shell/e-shell-folder-creation-dialog.c:122
@@ -25378,9 +25209,8 @@ msgstr ""
 "%s"
 
 #: shell/e-shell-folder-creation-dialog.c:288
-#, fuzzy
 msgid "Create New Folder"
-msgstr "Crea _Nuova cartella..."
+msgstr "Crea nuova cartella"
 
 #: shell/e-shell-folder-selection-dialog.c:393
 msgid "New..."
@@ -25422,9 +25252,8 @@ msgstr ""
 "Importazione dell'oggetto %d."
 
 #: shell/e-shell-importer.c:355
-#, fuzzy
 msgid "Select importer"
-msgstr "Scegli Cartella"
+msgstr "Seleziona importatore"
 
 #: shell/e-shell-importer.c:487
 #, c-format
@@ -25535,16 +25364,15 @@ msgid "Closing connections..."
 msgstr "Chiusura connessione..."
 
 #: shell/e-shell-offline-sync.c:161
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "Error synchronizing \"%s\":\n"
 "%s"
 msgstr ""
-"Errore durante '%s':\n"
+"Errore durante la sincronizzazione \"%s\":\n"
 "%s"
 
 #: shell/e-shell-offline-sync.c:239
-#, fuzzy
 msgid "Syncing Folder"
 msgstr "Sincronizzazione cartella"
 
@@ -25552,17 +25380,15 @@ msgstr "Sincronizzazione cartella"
 #: shell/e-shell-offline-sync.c:317
 #, c-format
 msgid "Synchronizing \"%s\" (%d of %d) ..."
-msgstr ""
+msgstr "Sincronizzazione \"%s\" (%d di %d) ..."
 
 #: shell/e-shell-settings-dialog.c:327
-#, fuzzy
 msgid "Evolution Settings"
-msgstr "Evolution "
+msgstr "Impostazioni di Evolution"
 
 #: shell/e-shell-shared-folder-picker-dialog.c:357
-#, fuzzy
 msgid "Opening Folder"
-msgstr "Lettura cartella %s in corso"
+msgstr "Apertura cartella"
 
 #: shell/e-shell-shared-folder-picker-dialog.c:364
 #, fuzzy, c-format
