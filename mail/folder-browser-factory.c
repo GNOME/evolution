@@ -100,41 +100,6 @@ development_warning ()
 } 
 
 static void
-msg_composer_send_cb (EMsgComposer *composer,
-		      gpointer data)
-{
-	CamelMimeMessage *message;
-	CamelStream *stream;
-	gint stdout_dup;
-
-	message = e_msg_composer_get_message (composer);
-
-	stdout_dup = dup (1);
-	stream = camel_stream_fs_new_with_fd (stdout_dup);
-	camel_data_wrapper_write_to_stream (CAMEL_DATA_WRAPPER (message),
-					    stream);
-	camel_stream_close (stream);
-
-	gtk_object_unref (GTK_OBJECT (message));
-
-#if 0
-	gtk_widget_destroy (GTK_WIDGET (composer));
-	gtk_main_quit ();
-#endif
-}
-
-
-static void
-msg_composer_cb (BonoboUIHandler *uih, void *user_data, const char *path)
-{
-	GtkWidget *composer;
-
-	composer = e_msg_composer_new ();
-	gtk_signal_connect (GTK_OBJECT (composer), "send", GTK_SIGNAL_FUNC (msg_composer_send_cb), NULL);
-	gtk_widget_show (composer);
-}
-
-static void
 random_cb (GtkWidget *button, gpointer user_data)
 {
 	printf ("Yow! I am called back!\n");
@@ -142,13 +107,13 @@ random_cb (GtkWidget *button, gpointer user_data)
 
 static GnomeUIInfo gnome_toolbar [] = {
 	GNOMEUIINFO_ITEM_STOCK (N_("New mail"), N_("Check for new mail"), fetch_mail, GNOME_STOCK_PIXMAP_MAIL_RCV),
-	GNOMEUIINFO_ITEM_STOCK (N_("Send"), N_("Send a new message"), random_cb, GNOME_STOCK_PIXMAP_MAIL_SND),
+	GNOMEUIINFO_ITEM_STOCK (N_("Send"), N_("Send a new message"), send, GNOME_STOCK_PIXMAP_MAIL_SND),
 	GNOMEUIINFO_ITEM_STOCK (N_("Find"), N_("Find messages"), random_cb, GNOME_STOCK_PIXMAP_SEARCH),
 
 	GNOMEUIINFO_SEPARATOR,
 
-	GNOMEUIINFO_ITEM_STOCK (N_("Reply"), N_("Reply to the sender of this message"), random_cb, GNOME_STOCK_PIXMAP_SEARCH),
-	GNOMEUIINFO_ITEM_STOCK (N_("Reply to All"), N_("Reply to all recipients of this message"), random_cb, GNOME_STOCK_PIXMAP_MAIL_RPL),
+	GNOMEUIINFO_ITEM_STOCK (N_("Reply"), N_("Reply to the sender of this message"), reply_to_sender, GNOME_STOCK_PIXMAP_MAIL_RPL),
+	GNOMEUIINFO_ITEM_STOCK (N_("Reply to All"), N_("Reply to all recipients of this message"), reply_to_all, GNOME_STOCK_PIXMAP_MAIL_RPL),
 
 	GNOMEUIINFO_ITEM_STOCK (N_("Forward"), N_("Forward this message"), random_cb, GNOME_STOCK_PIXMAP_MAIL_FWD),
 
@@ -174,7 +139,7 @@ control_activate (BonoboControl *control, BonoboUIHandler *uih)
 	bonobo_ui_handler_menu_new_item (uih, "/File/Mail", N_("_Mail"),
 					 NULL, -1,
 					 BONOBO_UI_HANDLER_PIXMAP_NONE, NULL,
-					 0, 0, msg_composer_cb, NULL);
+					 0, 0, send, NULL);
 
 	folder_browser = bonobo_control_get_widget (control);
 

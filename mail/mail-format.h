@@ -32,6 +32,7 @@ extern "C" {
 
 #include <gtkhtml/gtkhtml.h>
 #include "camel/camel.h"
+#include "composer/e-msg-composer.h"
 
 void mail_format_mime_message (CamelMimeMessage *mime_message,
 			       GtkHTMLStreamHandle *header_stream,
@@ -39,11 +40,12 @@ void mail_format_mime_message (CamelMimeMessage *mime_message,
 
 void mail_write_html (GtkHTMLStreamHandle *stream, const char *data);
 
-CamelMimeMessage *mail_generate_reply (CamelMimeMessage *mime_message);
+EMsgComposer *mail_generate_reply (CamelMimeMessage *mime_message,
+				   gboolean to_all);
 
-CamelMimeMessage *mail_generate_forward (CamelMimeMessage *mime_message,
-					 gboolean forward_as_attachment,
-					 gboolean keep_attachments);
+EMsgComposer *mail_generate_forward (CamelMimeMessage *mime_message,
+				     gboolean forward_as_attachment,
+				     gboolean keep_attachments);
 
 #ifdef __cplusplus
 }

@@ -1,3 +1,18 @@
+2000-04-22  Dan Winship  <danw@helixcode.com>
+
+	* folder-browser-factory.c: move msg_composer_cb and
+	msg_composer_send_cb to mail-ops. Attach send, reply, and "reply
+	to all" buttons.
+
+	* mail-ops.c (composer_send_cb, send): moved from
+	folder-browser-factory.c.
+	(reply_to_sender, reply_to_all): new functions to do replies.
+
+	* mail-format.c (text_to_html): Add an "add_pre" flag, to make
+	it wrap the output in <pre></pre>.
+	(mail_generate_reply): New function to create a composer and build
+	a reply in it.
+
 2000-04-21  Dan Winship  <danw@helixcode.com>
 
 	* mail-display.c (on_url_requested): deal with cid: URLs.

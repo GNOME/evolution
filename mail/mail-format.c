@@ -30,12 +30,6 @@
 #include <ctype.h>    /* for isprint */
 #include <string.h>   /* for strstr  */
 
-/* We shouldn't be doing this, but I don't feel like fixing it right
- * now. (It's for gtk_html_stream_write.) When gtkhtml has nicer
- * interfaces, we can fix it.
- */
-#include <gtkhtml/gtkhtml-private.h>
-
 static void handle_text_plain           (CamelDataWrapper *wrapper,
 			                 GtkHTMLStreamHandle *stream,
 					 CamelDataWrapper *root);
@@ -69,6 +63,7 @@ static void handle_unknown_type         (CamelDataWrapper *wrapper,
 static gchar *text_to_html (const guchar *input,
 			    guint len,
 			    guint *encoded_len_return,
+			    gboolean add_pre,
 			    gboolean convert_newlines_to_br);
 
 /* writes the header info for a mime message into an html stream */
@@ -325,21 +320,21 @@ call_handler_function (CamelDataWrapper *wrapper,
 /* Convert plain text in equivalent-looking valid HTML. */
 static gchar *
 text_to_html (const guchar *input, guint len,
-	      guint *encoded_len_return,
+	      guint *encoded_len_return, gboolean add_pre,
 	      gboolean convert_newlines_to_br)
 {
 	const guchar *cur = input;
 	guchar *buffer = NULL;
 	guchar *out = NULL;
 	gint buffer_size = 0;
-	guint count;
 
 	/* Allocate a translation buffer.  */
-	buffer_size = len * 2;
+	buffer_size = len * 2 + 5;
 	buffer = g_malloc (buffer_size);
 
 	out = buffer;
-	count = 0;
+	if (add_pre)
+		out += sprintf (out, "<PRE>\n");
 
 	while (len--) {
 		if (out - buffer > buffer_size - 100) {
@@ -392,7 +387,10 @@ text_to_html (const guchar *input, guint len,
 		cur++;
 	}
 
-	*out = '\0';
+	if (add_pre)
+		strcpy (out, "</PRE>");
+	else
+		*out = '\0';
 	if (encoded_len_return)
 		*encoded_len_return = out - buffer;
 
@@ -411,7 +409,7 @@ write_field_to_stream (const gchar *description, const gchar *value,
 		unsigned char *p;
 
 		encoded_value = text_to_html (value, strlen(value),
-					      NULL, TRUE);
+					      NULL, FALSE, TRUE);
 		for (p = (unsigned char *)encoded_value; *p; p++) {
 			if (!isprint (*p))
 				*p = '?';
@@ -543,7 +541,7 @@ handle_text_plain (CamelDataWrapper *wrapper, GtkHTMLStreamHandle *stream,
 			text = text_to_html (tmp_buffer,
 					     nb_bytes_read,
 					     &returned_strlen,
-					     FALSE);
+					     FALSE, FALSE);
 			mail_write_html (stream, text);
 			g_free (text);
 		}
@@ -834,4 +832,231 @@ void
 mail_write_html (GtkHTMLStreamHandle *stream, const char *data)
 {
 	gtk_html_stream_write (stream, data, strlen (data));
+}
+
+static char *
+get_data_wrapper_text (CamelDataWrapper *data)
+{
+	CamelStream *memstream;
+	GByteArray *ba;
+	char *text;
+
+	ba = g_byte_array_new ();
+	memstream = camel_stream_mem_new_with_byte_array (ba, CAMEL_STREAM_MEM_WRITE);
+
+	camel_data_wrapper_write_to_stream (data, memstream);
+	text = g_malloc (ba->len + 1);
+	memcpy (text, ba->data, ba->len);
+	text[ba->len] = '\0';
+
+	camel_stream_close (memstream);
+	return text;
+}
+
+static char *
+reply_body (CamelDataWrapper *data, gboolean *html)
+{
+	CamelMultipart *mp;
+	CamelMimePart *subpart;
+	int i, nparts;
+	char *subtext, *old;
+	const char *boundary, *disp;
+	char *text = NULL;
+	GMimeContentField *mime_type;
+
+	/* We only include text, message, and multipart bodies. */
+	mime_type = camel_data_wrapper_get_mime_type_field (data);
+
+	if (strcasecmp (mime_type->type, "message") == 0)
+		return get_data_wrapper_text (data);
+
+	if (strcasecmp (mime_type->type, "text") == 0) {
+		*html = !strcasecmp (mime_type->subtype, "html");
+		return get_data_wrapper_text (data);
+	}
+
+	/* If it's not message and it's not text, and it's not
+	 * multipart, we don't want to deal with it.
+	 */
+	if (strcasecmp (mime_type->type, "multipart") != 0)
+		return NULL;
+
+	mp = CAMEL_MULTIPART (data);
+
+	if (strcasecmp (mime_type->subtype, "alternative") == 0) {
+		/* Pick our favorite alternative and reply to it. */
+
+		subpart = find_preferred_alternative (mp);
+		if (!subpart)
+			return NULL;
+
+		return reply_body (camel_medium_get_content_object (CAMEL_MEDIUM (subpart)), html);
+	}
+
+	nparts = camel_multipart_get_number (mp);
+
+	/* If any subpart is HTML, pull it out and reply to it by itself.
+	 * (If we supported any other non-plain text types, we'd do the
+	 * same for them here.)
+	 */
+	for (i = 0; i < nparts; i++) {
+		subpart = CAMEL_MIME_PART (camel_multipart_get_part (mp, i));
+
+		if (strcasecmp (MIME_TYPE_SUB (subpart), "html") == 0)
+			return reply_body (camel_medium_get_content_object (CAMEL_MEDIUM (subpart)), html);
+	}
+
+	/* Otherwise, concatenate all the parts that:
+	 *   - are text/plain or message
+	 *   - are not explicitly tagged with non-inline disposition
+	 */
+	boundary = camel_multipart_get_boundary (mp);
+	for (i = 0; i < nparts; i++) {
+		subpart = CAMEL_MIME_PART (camel_multipart_get_part (mp, i));
+
+		disp = camel_mime_part_get_disposition (subpart);
+		if (disp && strcasecmp (disp, "inline") != 0)
+			continue;
+
+		subtext = get_data_wrapper_text (data);
+		if (text) {
+			old = text;
+			text = g_strdup_printf ("%s\n--%s\n%s", text,
+						boundary, subtext);
+			g_free (subtext);
+			g_free (old);
+		} else
+			text = subtext;
+	}
+
+	if (!text)
+		return NULL;
+
+	old = text;
+	text = g_strdup_printf ("%s\n--%s--\n", text, boundary);
+	g_free (old);
+
+	return text;
+}
+
+EMsgComposer *
+mail_generate_reply (CamelMimeMessage *message, gboolean to_all)
+{
+	CamelDataWrapper *contents;
+	char *text, *subject;
+	EMsgComposer *composer;
+	gboolean html;
+	const char *repl_to, *message_id, *references;
+	GList *to, *cc;
+
+	contents = camel_medium_get_content_object (CAMEL_MEDIUM (message));
+	text = reply_body (contents, &html);
+
+	composer = E_MSG_COMPOSER (e_msg_composer_new ());
+
+	/* Set the quoted reply text. */
+	if (text) {
+		char *repl_text;
+
+		if (html) {
+			repl_text = g_strdup_printf ("<blockquote><i>\n%s\n"
+						     "</i></blockquote>\n",
+						     text);
+		} else {
+			char *s, *d, *quoted_text;
+			int lines, len;
+
+			/* Count the number of lines in the body. If
+			 * the text ends with a \n, this will be one
+			 * too high, but that's ok. Allocate enough
+			 * space for the text and the "> "s.
+			 */
+			for (s = text, lines = 0; s; s = strchr (s + 1, '\n'))
+				lines++;
+			quoted_text = g_malloc (strlen (text) + lines * 2);
+
+			s = text;
+			d = quoted_text;
+
+			/* Copy text to quoted_text line by line,
+			 * prepending "> ".
+			 */
+			while (1) {
+				len = strcspn (s, "\n");
+				if (len == 0 && !*s)
+					break;
+				sprintf (d, "> %.*s\n", len, s);
+				s += len;
+				if (!*s++)
+					break;
+				d += len + 3;
+			}
+
+			/* Now convert that to HTML. */
+			repl_text = text_to_html (quoted_text,
+						  strlen (quoted_text),
+						  &len, TRUE, FALSE);
+			g_free (quoted_text);
+		}
+		e_msg_composer_set_body_text (composer, repl_text);
+		g_free (repl_text);
+		g_free (text);
+	}
+
+	/* Set the recipients */
+	repl_to = camel_mime_message_get_reply_to (message);
+	if (!repl_to)
+		repl_to = camel_mime_message_get_from (message);
+	to = g_list_append (NULL, repl_to);
+
+	if (to_all) {
+		const GList *recip;
+
+		recip = camel_mime_message_get_recipients (message, 
+			CAMEL_RECIPIENT_TYPE_TO);
+		cc = g_list_copy (recip);
+
+		recip = camel_mime_message_get_recipients (message,
+			CAMEL_RECIPIENT_TYPE_CC);
+		while (recip) {
+			cc = g_list_append (cc, recip->data);
+			recip = recip->next;
+		}
+	} else
+		cc = NULL;
+
+	/* Set the subject of the new message. */
+	subject = camel_mime_message_get_subject (message);
+	if (!subject)
+		subject = g_strdup ("");
+	else if (!strncasecmp (subject, "Re: ", 4))
+		subject = g_strdup (subject);
+	else
+		subject = g_strdup_printf ("Re: %s", subject);
+
+	e_msg_composer_set_headers (composer, to, cc, NULL, subject);
+	g_list_free (to);
+	g_list_free (cc);
+	g_free (subject);
+
+	/* Add In-Reply-To and References. */
+	message_id = camel_medium_get_header (CAMEL_MEDIUM (message),
+					      "Message-Id");
+	references = camel_medium_get_header (CAMEL_MEDIUM (message),
+					      "References");
+	if (message_id) {
+		e_msg_composer_add_header (composer, "In-Reply-To",
+					   message_id);
+		if (references) {
+			char *reply_refs;
+			reply_refs = g_strdup_printf ("%s %s", references,
+						      message_id);
+			e_msg_composer_add_header (composer, "References",
+						   reply_refs);
+			g_free (reply_refs);
+		}
+	} else if (references)
+		e_msg_composer_add_header (composer, "References", references);
+
+	return composer;
 }

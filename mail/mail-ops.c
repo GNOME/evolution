@@ -31,6 +31,7 @@
 #include "folder-browser.h"
 #include "session.h"
 #include "e-util/e-setup.h"
+#include "composer/e-msg-composer.h"
 
 #ifndef HAVE_MKSTEMP
 #include <fcntl.h>
@@ -249,4 +250,64 @@ fetch_mail (GtkWidget *button, gpointer user_data)
 	camel_exception_free (ex);
 	if (msg)
 		gtk_object_unref (GTK_OBJECT (msg));
+}
+
+
+static void
+composer_send_cb (EMsgComposer *composer, gpointer data)
+{
+	CamelMimeMessage *message;
+	CamelStream *stream;
+	int stdout_dup;
+
+	message = e_msg_composer_get_message (composer);
+
+	stdout_dup = dup (1);
+	stream = camel_stream_fs_new_with_fd (stdout_dup);
+	camel_data_wrapper_write_to_stream (CAMEL_DATA_WRAPPER (message),
+					    stream);
+	camel_stream_close (stream);
+
+	gtk_object_unref (GTK_OBJECT (message));
+	gtk_object_destroy (GTK_OBJECT (composer));
+}
+
+
+void
+send (GtkWidget *widget, gpointer user_data)
+{
+	GtkWidget *composer;
+
+	composer = e_msg_composer_new ();
+
+	gtk_signal_connect (GTK_OBJECT (composer), "send",
+			    GTK_SIGNAL_FUNC (composer_send_cb), NULL);
+	gtk_widget_show (composer);
+}
+
+
+static void
+reply (FolderBrowser *fb, gboolean to_all)
+{
+	EMsgComposer *composer;
+
+	composer = mail_generate_reply (fb->mail_display->current_message,
+					to_all);
+
+	gtk_signal_connect (GTK_OBJECT (composer), "send",
+			    GTK_SIGNAL_FUNC (composer_send_cb), NULL);
+
+	gtk_widget_show (GTK_WIDGET (composer));	
+}
+
+void
+reply_to_sender (GtkWidget *button, gpointer user_data)
+{
+	reply (FOLDER_BROWSER (user_data), FALSE);
+}
+
+void
+reply_to_all (GtkWidget *button, gpointer user_data)
+{
+	reply (FOLDER_BROWSER (user_data), TRUE);
 }
