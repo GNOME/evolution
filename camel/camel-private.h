@@ -182,6 +182,7 @@ struct _CamelStoreSummaryPrivate {
 struct _CamelVeeFolderPrivate {
 	GList *folders;			/* lock using subfolder_lock before changing/accessing */
 	GList *folders_changed;		/* for list of folders that have changed between updates */
+	int freeze_count;
 	
 #ifdef ENABLE_THREADS
 	GMutex *summary_lock;		/* for locking vfolder summary */
