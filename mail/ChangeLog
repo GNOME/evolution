@@ -1,5 +1,7 @@
 2000-05-01  NotZed  <NotZed@HelixCode.com>
 
+	* pixmaps.h: Added envelope-deleted state.
+
 	* folder-browser-factory.c: Setup callback for actual delete op.
 	(control_activate): Setup a tool menu item to expnge deleted
 	messages.
@@ -25,6 +27,17 @@
 	result.
 	(select_msg): Changed to use get_message_info, so searches work.
 	(ml_value_at): And same here.
+	(message_list_init_renderers): Added a 3rd state to message_status
+	= deleted.
+	(ml_value_at): Show the message state as deleted, if it is marked
+	for deletion.
+	(folder_changed): When the folder changes, update the display.
+	(message_list_set_folder): Connect to the folder_changed event
+	here.
+	(message_changed): Callback to update the display when the message
+	changes.
+	(select_msg): And connect to the message_changed signal so we know
+	when it cahgnes.
 
 	* mail-display.c: Include missing errno.h.
 

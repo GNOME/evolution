@@ -80,6 +80,12 @@ CamelMessageInfo *get_message_info(MessageList *message_list, gint row)
 	return info;
 }
 
+static void
+message_changed(CamelMimeMessage *m, enum _MessageChangeType type, MessageList *message_list)
+{
+	e_table_model_changed (message_list->table_model);
+}
+
 /* select a message and display it */
 static void
 select_msg (MessageList *message_list, gint row)
@@ -104,9 +110,11 @@ select_msg (MessageList *message_list, gint row)
 			}
 		}
 		
-		if (message)
+		if (message) {
+			gtk_signal_connect((GtkObject *)message, "message_changed", message_changed, message_list);
 			mail_display_set_message (message_list->parent_folder_browser->mail_display,
 						  CAMEL_MEDIUM (message));
+		}
 	}
 	
 }
@@ -183,7 +191,10 @@ ml_value_at (ETableModel *etm, int col, int row, void *data)
 		break;
 		
 	case COL_MESSAGE_STATUS:
-		retval = GINT_TO_POINTER (1);
+		if (msg_info->flags & CAMEL_MESSAGE_DELETED)
+			retval = GINT_TO_POINTER (2);
+		else
+			retval = GINT_TO_POINTER (1);
 		break;
 		
 	case COL_PRIORITY:
@@ -321,6 +332,7 @@ static struct {
 	{ attachment_header_xpm, NULL },
 	{ online_status_xpm,     NULL },
 	{ message_status_xpm,    NULL },
+	{ envelope_deleted_xpm,  NULL },
 	{ NULL,                  NULL },
 };
 
@@ -357,12 +369,13 @@ message_list_init_renderers (MessageList *message_list)
 	 * Message status
 	 */
 	{
-		GdkPixbuf *images [2];
+		GdkPixbuf *images [3];
 
 		images [0] = states_pixmaps [0].pixbuf;
 		images [1] = states_pixmaps [1].pixbuf;
+		images [2] = states_pixmaps [7].pixbuf;
 		
-		message_list->render_message_status = e_cell_toggle_new (0, 2, images);
+		message_list->render_message_status = e_cell_toggle_new (0, 3, images);
 	}
 
 	/*
@@ -688,6 +701,13 @@ message_list_set_search (MessageList *message_list, const char *search)
 	select_msg (message_list, 0);
 }
 
+static void
+folder_changed(CamelFolder *f, int type, MessageList *message_list)
+{
+	e_table_model_changed (message_list->table_model);
+	select_msg (message_list, 0);
+}
+
 void
 message_list_set_folder (MessageList *message_list, CamelFolder *camel_folder)
 {
@@ -736,14 +756,15 @@ message_list_set_folder (MessageList *message_list, CamelFolder *camel_folder)
 	   
 	}
 
-	
 	camel_folder_open (camel_folder, FOLDER_OPEN_RW, &ex);
 	if (camel_exception_get_id (&ex)) {
 		printf ("Unable to open folder: %s\n",
 			ex.desc?ex.desc:"unknown_reason");	  
 		return;
 	}
-	
+
+	gtk_signal_connect((GtkObject *)camel_folder, "folder_changed", folder_changed, message_list);
+
 	gtk_object_ref (GTK_OBJECT (camel_folder));
 	
 	e_table_model_changed (message_list->table_model);

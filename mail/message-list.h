@@ -75,6 +75,7 @@ GtkType        message_list_get_type   (void);
 BonoboObject   *message_list_new        (FolderBrowser *parent_folder_browser);
 void           message_list_set_folder (MessageList *message_list,
 					CamelFolder *camel_folder);
+void           message_list_set_search (MessageList *message_list, const char *search);
 GtkWidget     *message_list_get_widget (MessageList *message_list);
 
 #endif /* _MESSAGE_LIST_H_ */

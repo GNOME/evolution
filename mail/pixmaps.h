@@ -8,6 +8,7 @@
 #include "pixmaps/attachment-header.xpm"
 #include "pixmaps/online-status.xpm"
 #include "pixmaps/message-status.xpm"
+#include "pixmaps/envelope-deleted.xpm"
 
 #endif /* EVOLUTION_PIXMAPS_H */
 
