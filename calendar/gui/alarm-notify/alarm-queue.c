@@ -69,9 +69,6 @@ typedef struct {
 	/* Monitored client */
 	ECal *client;
 
-	/* Number of times this client has been registered */
-	int refcount;
-
 	/* Hash table of component UID -> CompQueuedAlarms.  If an element is
 	 * present here, then it means its cqa->queued_alarms contains at least
 	 * one queued alarm.  When all the alarms for a component have been
@@ -840,7 +837,6 @@ display_notification (time_t trigger, CompQueuedAlarms *cqa,
 {
 	QueuedAlarm *qa;
 	ECalComponent *comp;
-	ECal *client;
 	ECalComponentVType vtype;
 	const char *message;
 	ECalComponentAlarm *alarm;
@@ -1126,7 +1122,6 @@ alarm_queue_init (void)
 static void
 free_client_alarms_cb (gpointer key, gpointer value, gpointer user_data)
 {
-	ECal *client = key;
 	ClientAlarms *ca = value;
 
 	if (ca) {
@@ -1186,7 +1181,6 @@ alarm_queue_add_client (ECal *client)
 
 	ca = lookup_client (client);
 	if (ca) {
-		ca->refcount++;
 		return;
 	}
 
@@ -1195,7 +1189,6 @@ alarm_queue_add_client (ECal *client)
 	ca->client = client;
 	g_object_ref (ca->client);
 
-	ca->refcount = 1;
 	g_hash_table_insert (client_alarms_hash, client, ca);
 
 	ca->uid_alarms_hash = g_hash_table_new (g_str_hash, g_str_equal);
@@ -1204,13 +1197,6 @@ alarm_queue_add_client (ECal *client)
 		g_signal_connect (client, "cal_opened",
 				  G_CALLBACK (cal_opened_cb),
 				  ca);
-
-	g_signal_connect (client, "obj_updated",
-			  G_CALLBACK (obj_updated_cb),
-			  ca);
-	g_signal_connect (client, "obj_removed",
-			  G_CALLBACK (obj_removed_cb),
-			  ca);
 
 	if (e_cal_get_load_state (client) == E_CAL_LOAD_LOADED) {
 		load_alarms_for_today (ca);
@@ -1275,12 +1261,6 @@ alarm_queue_remove_client (ECal *client)
 
 	ca = lookup_client (client);
 	g_return_if_fail (ca != NULL);
-
-	g_assert (ca->refcount > 0);
-	ca->refcount--;
-
-	if (ca->refcount > 0)
-		return;
 
 	remove_client_alarms (ca);
 

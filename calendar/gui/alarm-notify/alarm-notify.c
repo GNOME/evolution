@@ -179,6 +179,7 @@ alarm_notify_add_calendar (AlarmNotify *an, const char *str_uri, gboolean load_a
 		if (e_cal_open (client, FALSE, NULL)) {
 			g_hash_table_insert (priv->uri_client_hash,
 					     g_strdup (str_uri), client);
+			alarm_queue_add_client (client);
 		}
 	}
 }
@@ -188,13 +189,15 @@ alarm_notify_remove_calendar (AlarmNotify *an, const char *str_uri)
 {
 	AlarmNotifyPrivate *priv;
 	ECal *client;
+	gpointer orig_key, orig_value;
 
 	priv = an->priv;
 
-	client = g_hash_table_lookup (priv->uri_client_hash, str_uri);
-	if (client) {
+	if (g_hash_table_lookup_extended (priv->uri_client_hash, str_uri, &orig_key, &orig_value)) {
 		alarm_queue_remove_client (client);
 
 		g_hash_table_remove (priv->uri_client_hash, str_uri);
+		g_free (orig_key);
+		g_object_unref (orig_value);
 	}
 }

@@ -1,3 +1,16 @@
+2003-12-17  Rodrigo Moya <rodrigo@ximian.com>
+
+	* gui/alarm-notify/alarm-notify.c (alarm_notify_remove_calendar):
+	make sure we free the data stored in the hash table.
+	(alarm_notify_add_calendar): call alarm_queue_add_client, or we wont
+	have alarms at all.
+
+	* gui/alarm-notify/alarm-queue.c: no need to hold a ref count.
+	(alarm_queue_add_client, alarm_queue_remove_client): don't use the
+	refcount private member.
+	(alarm_queue_add_client): don't connect to non-existing ECal signals.
+	(display_notification, free_client_alarms_cb): fixed warnings.
+
 2003-12-16  Rodrigo Moya <rodrigo@ximian.com>
 
 	Fixes part of #41237
