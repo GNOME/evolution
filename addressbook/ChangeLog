@@ -1,3 +1,9 @@
+2001-10-21  Christopher James Lahey  <clahey@ximian.com>
+
+	* gui/component/select-names/e-select-names.c
+	(e_select_names_add_section, e_select_names_set_default): Use an
+	EEntry here instead of a GtkLabel.  Fixes Ximian bug #7067.
+
 2001-10-21  Jon Trowbridge  <trow@ximian.com>
 
 	* gui/component/addressbook.c (control_activate_cb): Call

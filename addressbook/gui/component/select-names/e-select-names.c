@@ -46,6 +46,7 @@
 #include "e-select-names-table-model.h"
 #include <gal/widgets/e-categories-master-list-combo.h>
 #include <gal/widgets/e-unicode.h>
+#include <gal/e-text/e-entry.h>
 #include <e-util/e-categories-master-list-wombat.h>
 
 static void e_select_names_init		(ESelectNames		 *card);
@@ -797,7 +798,7 @@ e_select_names_add_section(ESelectNames *e_select_names, char *name, char *id, E
 	child = g_new(ESelectNamesChild, 1);
 
 	child->names = e_select_names;
-	child->title = g_strdup(_(name));
+	child->title = e_utf8_from_locale_string(_(name));
 
 	e_select_names->child_count++;
 
@@ -805,8 +806,21 @@ e_select_names_add_section(ESelectNames *e_select_names, char *name, char *id, E
 
 	button = gtk_button_new ();
 
+	label = e_entry_new ();
+	gtk_object_set(GTK_OBJECT(label),
+		       "draw_background", FALSE,
+		       "draw_borders", FALSE,
+		       "editable", FALSE,
+		       "text", "",
+		       "use_ellipsis", TRUE,
+		       "justification", GTK_JUSTIFY_CENTER,
+		       NULL);
+	gtk_widget_set_usize (label, 40, 0);
+
 	label_text = g_strconcat (child->title, " ->", NULL);
-	label = gtk_label_new (label_text);
+	gtk_object_set (GTK_OBJECT (label),
+			"text", label_text,
+			NULL);
 	g_free (label_text);
 	gtk_container_add (GTK_CONTAINER (button), label);
 	child->label = label;
@@ -911,7 +925,9 @@ e_select_names_set_default (ESelectNames *e_select_names,
 	if (e_select_names->def) {
 		child = g_hash_table_lookup(e_select_names->children, e_select_names->def);
 		if (child)
-			gtk_widget_restore_default_style(child->label);
+			gtk_object_set (GTK_OBJECT (E_ENTRY (child->label)->item),
+					"bold", FALSE,
+					NULL);
 	}
 
 	g_free(e_select_names->def);
@@ -919,35 +935,9 @@ e_select_names_set_default (ESelectNames *e_select_names,
 
 	if (e_select_names->def) {
 		child = g_hash_table_lookup(e_select_names->children, e_select_names->def);
-		if (child) {
-			EFont *efont;
-			GdkFont *gdkfont;
-			GtkStyle *oldstyle;
-
-			oldstyle = gtk_widget_get_style(child->label);
-
-			efont = e_font_from_gdk_font(oldstyle->font);
-			gdkfont = e_font_to_gdk_font(efont, E_FONT_BOLD);
-			e_font_unref(efont);
-			
-			if (gdkfont != NULL) {
-				GtkStyle *style;
-
-				style = gtk_style_copy(oldstyle);
-				
-				gdk_font_ref(gdkfont);
-				gdk_font_unref(style->font);
-				style->font = gdkfont;
-
-				gtk_widget_set_style(child->label, style);
-
-			}
-			gtk_style_unref(oldstyle);
-		}
+		if (child)
+			gtk_object_set (GTK_OBJECT (E_ENTRY (child->label)->item),
+					"bold", TRUE,
+					NULL);
 	}
 }
-
-
-
-
-
