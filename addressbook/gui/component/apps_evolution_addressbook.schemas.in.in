@@ -22,8 +22,8 @@
       <type>int</type>
       <default>3</default>
       <locale name="C">
-        <short>The number of characters that must be typed before evolution will attempt to autocomplete</short>
-        <long>The number of characters that must be typed before evolution will attempt to autocomplete.</long>
+        <short>The number of characters that must be typed before Evolution will attempt to autocomplete</short>
+        <long>The number of characters that must be typed before Evolution will attempt to autocomplete.</long>
       </locale>
     </schema>
 

@@ -1,3 +1,9 @@
+2004-11-22  Joan Sanfeliu  <joan@fibranet.com>
+
+	* gui/component/apps_evolution_addressbook.schemas.in.in:
+	* gui/component/ldap-config.glade : Evolution product name spelled
+	with an uppercase E
+
 2004-11-22  Rodney Dawes  <dobey@novell.com>
 
 	* importers/GNOME_Evolution_Addressbook_VCard_Importer.server.in.in:

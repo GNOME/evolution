@@ -586,7 +586,7 @@
 			  <child>
 			    <widget class="GtkOptionMenu" id="auth-optionmenu">
 			      <property name="visible">True</property>
-			      <property name="tooltip" translatable="yes">This is the method evolution will use to authenticate you.  Note that setting this to &quot;Email Address&quot; requires anonymous access to your ldap server.</property>
+			      <property name="tooltip" translatable="yes">This is the method Evolution will use to authenticate you.  Note that setting this to &quot;Email Address&quot; requires anonymous access to your ldap server.</property>
 			      <property name="can_focus">True</property>
 			      <property name="history">0</property>
 
