@@ -448,102 +448,9 @@ mail_tool_make_message_attachment (CamelMimeMessage *message)
 }
 
 CamelFolder *
-mail_tool_fetch_mail_into_searchable (const char *source_url, gboolean keep_on_server, CamelException *ex)
-{
-	CamelFolder *search_folder = NULL;
-	CamelFolder *spool_folder = NULL;
-
-	/* If fetching mail from an mbox store, safely copy it to a
-	 * temporary store first.
-	 */
-
-	if (!strncmp (source_url, "mbox:", 5))
-		spool_folder = mail_tool_do_movemail (source_url, ex);
-	else
-		spool_folder = mail_tool_get_inbox (source_url, ex);
-
-	/* No new mail */
-	if (spool_folder == NULL)
-		return NULL;
-
-	if (camel_exception_is_set (ex))
-		goto cleanup;
-
-	/* can we perform filtering on this source? */
-
-	if (!(spool_folder->has_summary_capability
-	      && spool_folder->has_search_capability)) {
-
-		/* no :-(. Copy the messages to a local tempbox
-		 * so that the folder browser can search it. */
-		gchar *url;
-
-		url = mail_tool_get_local_movemail_url();
-		search_folder = mail_tool_get_folder_from_urlname (url, "movemail", TRUE, ex);
-		g_free (url);
-		if (camel_exception_is_set (ex))
-			goto cleanup;
-
-		mail_tool_move_folder_contents (spool_folder, search_folder, keep_on_server, ex);
-		if (camel_exception_is_set (ex))
-			goto cleanup;
-
-	} else {
-		/* we can search! don't bother movemailing */
-		search_folder = spool_folder;
-		mail_tool_camel_lock_up();
-		camel_object_ref (CAMEL_OBJECT (search_folder));
-		mail_tool_camel_lock_down();
-	}
-
- cleanup:
-	mail_tool_camel_lock_up();
-	camel_object_unref (CAMEL_OBJECT (spool_folder));
-	mail_tool_camel_lock_down();
-	return search_folder;
-}
-
-CamelFolder *
 mail_tool_filter_get_folder_func (FilterDriver *d, const char *uri, void *data)
 {
 	return mail_tool_uri_to_folder_noex (uri);
-}
-
-void
-mail_tool_filter_contents_into (CamelFolder *source, CamelFolder *dest, 
-				gboolean delete_source,
-				gpointer hook_func, gpointer hook_data,
-				CamelException *ex)
-{
-	gchar *userrules;
-	gchar *systemrules;
-	FilterContext *fc;
-	FilterDriver *filter;
-	gchar *unlink;
-
-        userrules = g_strdup_printf ("%s/filters.xml", evolution_dir);
-        systemrules = g_strdup_printf ("%s/evolution/filtertypes.xml", EVOLUTION_DATADIR);
-	fc = filter_context_new();
-	rule_context_load ((RuleContext *)fc, systemrules, userrules, NULL, NULL);
-        g_free (userrules);
-        g_free (systemrules);
-
-        filter = filter_driver_new (fc, mail_tool_filter_get_folder_func, 0);
-
-	if (hook_func)
-		camel_object_hook_event (CAMEL_OBJECT (dest), "folder_changed",
-					 hook_func, hook_data);
-
-	if (delete_source)
-		unlink = mail_tool_get_local_movemail_path();
-	else
-		unlink = NULL;
-
-        filter_driver_run (filter, source, dest, FILTER_SOURCE_INCOMING,
-			   TRUE, hook_func, hook_data, unlink);
-
-	if (unlink)
-		g_free (unlink);
 }
 
 CamelFolder *
@@ -552,11 +459,11 @@ mail_tool_get_root_of_store (const char *source_uri, CamelException *ex)
 	CamelStore *store;
 	CamelFolder *folder;
 
-	mail_tool_camel_lock_up();
+	mail_tool_camel_lock_up ();
 
 	store = camel_session_get_store (session, source_uri, ex);
 	if (!store) {
-		mail_tool_camel_lock_down();
+		mail_tool_camel_lock_down ();
 		return NULL;
 	}
 

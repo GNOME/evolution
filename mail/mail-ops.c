@@ -107,28 +107,24 @@ do_fetch_mail (gpointer in_data, gpointer op_data, CamelException *ex)
 {
 	fetch_mail_input_t *input = (fetch_mail_input_t *) in_data;
 	fetch_mail_data_t *data = (fetch_mail_data_t *) op_data;
-
-	CamelFolder *search_folder = NULL;
-
+	CamelFolder *folder = NULL;
+	
 	/* If using IMAP, don't do anything... */
-
 	if (!strncmp (input->source_url, "imap:", 5)) {
 		data->empty = FALSE;
 		return;
 	}
-
+	
 	if (input->destination == NULL) {
 		input->destination = mail_tool_get_local_inbox (ex);
-
+		
 		if (input->destination == NULL)
 			return;
 	}
-
-	search_folder =
-		mail_tool_fetch_mail_into_searchable (input->source_url, 
-						      input->keep_on_server, ex);
-
-	if (search_folder == NULL) {
+	
+	folder = mail_tool_get_inbox (input->source_url, ex);
+	
+	if (folder == NULL) {
 		/* This happens with an IMAP source and on error 
 		 * and on "no new mail"
 		 */
@@ -137,20 +133,59 @@ do_fetch_mail (gpointer in_data, gpointer op_data, CamelException *ex)
 		data->empty = TRUE;
 		return;
 	}
-
+	
 	mail_tool_camel_lock_up ();
-	if (camel_folder_get_message_count (search_folder) == 0) {
+	if (camel_folder_get_message_count (folder) == 0) {
 		data->empty = TRUE;
 	} else {
-		mail_tool_filter_contents_into (search_folder, input->destination,
-						TRUE,
-						input->hook_func, input->hook_data,
-						ex);
+		gchar *userrules;
+		gchar *systemrules;
+		FilterContext *fc;
+		FilterDriver *filter;
+		GPtrArray *uids;
+		int i;
+		
+		userrules = g_strdup_printf ("%s/filters.xml", evolution_dir);
+		systemrules = g_strdup_printf ("%s/evolution/filtertypes.xml", EVOLUTION_DATADIR);
+		fc = filter_context_new();
+		rule_context_load ((RuleContext *)fc, systemrules, userrules, NULL, NULL);
+		g_free (userrules);
+		g_free (systemrules);
+		
+		filter = filter_driver_new (fc, mail_tool_filter_get_folder_func, 0);
+		
+		if (input->hook_func)
+			camel_object_hook_event (CAMEL_OBJECT (input->destination), "folder_changed",
+						 input->hook_func, input->hook_data);
+		
+		uids = camel_folder_get_uids (folder);
+		for (i = 0; i < uids->len; i++) {
+			CamelMimeMessage *message;
+			
+			message = camel_folder_get_message (folder, uids->pdata[i], ex);
+			filter_driver_run (filter, message, input->destination,
+					   FILTER_SOURCE_INCOMING, TRUE,
+					   input->hook_func, input->hook_data);
+			
+			if (!input->keep_on_server) {
+				guint32 flags;
+				
+				flags = camel_folder_get_message_flags (folder, uids->pdata[i]);
+				camel_folder_set_message_flags (folder, uids->pdata[i],
+								CAMEL_MESSAGE_DELETED,
+								~flags);
+			}
+			camel_object_unref (CAMEL_OBJECT (message));
+			g_free (uids->pdata[i]);
+		}
+		
+		g_ptr_array_free (uids, TRUE);
+		
 		data->empty = FALSE;
 	}
 	mail_tool_camel_lock_down ();
-
-	camel_object_unref (CAMEL_OBJECT (search_folder));
+	
+	camel_object_unref (CAMEL_OBJECT (folder));
 }
 
 static void
@@ -189,15 +224,153 @@ mail_do_fetch_mail (const gchar *source_url, gboolean keep_on_server,
 		    gpointer hook_func, gpointer hook_data)
 {
 	fetch_mail_input_t *input;
-
+	
 	input = g_new (fetch_mail_input_t, 1);
 	input->source_url = g_strdup (source_url);
 	input->keep_on_server = keep_on_server;
 	input->destination = destination;
 	input->hook_func = hook_func;
 	input->hook_data = hook_data;
-
+	
 	mail_operation_queue (&op_fetch_mail, input, TRUE);
+}
+
+/* ** FILTER ON DEMAND ********************************************************** */
+
+typedef struct filter_ondemand_input_s
+{
+	FilterDriver *driver;
+	CamelFolder *source;
+	CamelFolder *destination;
+} filter_ondemand_input_t;
+
+typedef struct filter_ondemand_data_s {
+	gboolean empty;
+} filter_ondemand_data_t;
+
+static gchar *describe_filter_ondemand (gpointer in_data, gboolean gerund);
+static void setup_filter_ondemand (gpointer in_data, gpointer op_data,
+				   CamelException *ex);
+static void do_filter_ondemand (gpointer in_data, gpointer op_data,
+				CamelException *ex);
+static void cleanup_filter_ondemand (gpointer in_data, gpointer op_data,
+				     CamelException *ex);
+
+static gchar *
+describe_filter_ondemand (gpointer in_data, gboolean gerund)
+{
+	/*filter_ondemand_input_t *input = (filter_ondemand_input_t *) in_data;*/
+	
+	if (gerund)
+		return g_strdup_printf (_("Filtering email on demand"));
+	else
+		return g_strdup_printf (_("Filter email on demand"));
+}
+
+static void
+setup_filter_ondemand (gpointer in_data, gpointer op_data, CamelException *ex)
+{
+	filter_ondemand_input_t *input = (filter_ondemand_input_t *) in_data;
+	filter_ondemand_data_t *data = (filter_ondemand_data_t *) op_data;
+	
+	if (!IS_FILTER_DRIVER (input->driver)) {
+		camel_exception_set (ex, CAMEL_EXCEPTION_INVALID_PARAM,
+				     _("Bad filter driver specified"));
+		return;
+	}
+	
+	if (input->source == NULL)
+		return;
+	
+	if (!CAMEL_IS_FOLDER (input->source)) {
+		camel_exception_set (ex, CAMEL_EXCEPTION_INVALID_PARAM,
+				     _("Bad input source defined for filtering"));
+		return;
+	}
+	
+	if (input->destination == NULL)
+		return;
+	
+	if (!CAMEL_IS_FOLDER (input->destination)) {
+		camel_exception_set (ex, CAMEL_EXCEPTION_INVALID_PARAM,
+				     _("Bad default destination folder"));
+		return;
+	}
+	
+	data->empty = FALSE;
+	
+	gtk_object_ref (GTK_OBJECT (input->driver));
+	camel_object_ref (CAMEL_OBJECT (input->source));
+	camel_object_ref (CAMEL_OBJECT (input->destination));
+}
+
+static void
+do_filter_ondemand (gpointer in_data, gpointer op_data, CamelException *ex)
+{
+	filter_ondemand_input_t *input = (filter_ondemand_input_t *) in_data;
+	filter_ondemand_data_t *data = (filter_ondemand_data_t *) op_data;
+	
+	mail_tool_camel_lock_up ();
+	if (camel_folder_get_message_count (input->source) == 0) {
+		data->empty = TRUE;
+	} else {
+		GPtrArray *uids;
+		int i;
+		
+		uids = camel_folder_get_uids (input->source);
+		for (i = 0; i < uids->len; i++) {
+			CamelMimeMessage *message;
+			
+			message = camel_folder_get_message (input->source, uids->pdata[i], ex);
+			filter_driver_run (input->driver, message, input->destination,
+					   FILTER_SOURCE_DEMAND, TRUE, NULL, NULL);
+			
+			camel_object_unref (CAMEL_OBJECT (message));
+			g_free (uids->pdata[i]);
+		}
+		
+		g_ptr_array_free (uids, TRUE);
+		
+		data->empty = FALSE;
+	}
+	mail_tool_camel_lock_down ();
+}
+
+static void
+cleanup_filter_ondemand (gpointer in_data, gpointer op_data, CamelException *ex)
+{
+	filter_ondemand_input_t *input = (filter_ondemand_input_t *) in_data;
+	/*filter_ondemand_data_t *data = (filter_ondemand_data_t *) op_data;*/
+	
+	if (input->source)
+		camel_object_unref (CAMEL_OBJECT (input->source));
+	
+	if (input->destination)
+		camel_object_unref (CAMEL_OBJECT (input->destination));
+	
+	if (input->driver)
+		gtk_object_unref (GTK_OBJECT (input->driver));
+}
+
+static const mail_operation_spec op_filter_ondemand = {
+	describe_filter_ondemand,
+	sizeof (filter_ondemand_data_t),
+	setup_filter_ondemand,
+	do_filter_ondemand,
+	cleanup_filter_ondemand
+};
+
+void
+mail_do_filter_ondemand (FilterDriver *driver, CamelFolder *source, CamelFolder *destination)
+{
+	filter_ondemand_input_t *input;
+	
+	input = g_new (filter_ondemand_input_t, 1);
+	input->driver = driver;
+	input->source = source;
+	input->destination = destination;
+	
+	mail_operation_queue (&op_filter_ondemand, input, TRUE);
 }
 
 /* ** SEND MAIL *********************************************************** */

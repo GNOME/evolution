@@ -79,18 +79,6 @@ mail_tool_send_via_transport (CamelTransport *transport, CamelMedium *medium, Ca
 CamelMimePart *
 mail_tool_make_message_attachment (CamelMimeMessage *message);
 
-/* Fetch mail from the source URL's inbox into a searchable folder.
- * (not guaranteed to be local). Returns the searchable folder. */
-CamelFolder *
-mail_tool_fetch_mail_into_searchable (const char *source_url, gboolean keep_on_server, CamelException *ex);
-
-/* Filter source into dest using the default filters. */
-void
-mail_tool_filter_contents_into (CamelFolder *source, CamelFolder *dest, 
-				gboolean delete_source,
-				gpointer hook_func, gpointer hook_data,
-				CamelException *ex);
-
 /* Get the root folder of the store specified by @source_uri */
 CamelFolder *
 mail_tool_get_root_of_store (const char *source_uri, CamelException *ex);

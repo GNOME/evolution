@@ -1,3 +1,19 @@
+2000-09-06  Jeffrey Stedfast  <fejj@helixcode.com>
+
+	* mail-ops.c (mail_do_filter_ondemand): New async function to
+	filter messages on demand.
+	(do_fetch_mail): Updated to filter 1 message at a time using the
+	new filter-driver code
+	
+	* mail-callbacks.c (composer_postpone_cb): Send NULL as the
+	message info.
+	(run_filter_ondemand): Use mail_do_filter_ondemand instead of
+	filter_driver_run
+	
+	* mail-tools.c: Removed mail_tool_filter_contents_into and
+	mail_tool_fetch_mail_into_searchable as they have now been
+	deprecated.
+
 2000-09-06  Dan Winship  <danw@helixcode.com>
 
 	* message-list.c (clear_tree): set the data to NULL for the tree

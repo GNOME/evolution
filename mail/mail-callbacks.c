@@ -2,9 +2,10 @@
 /* mail-ops.c: callbacks for the mail toolbar/menus */
 
 /* 
- * Author : 
+ * Authors: 
  *  Dan Winship <danw@helixcode.com>
  *  Peter Williams <peterw@helixcode.com>
+ *  Jeffrey Stedfast <fejj@helixcode.com>
  *
  * Copyright 2000 Helix Code, Inc. (http://www.helixcode.com)
  *
@@ -291,7 +292,6 @@ composer_postpone_cb (EMsgComposer *composer, gpointer data)
 	/* FIXME: do we want to use post_send_data to set flags and stuff? */
 	extern CamelFolder *outbox_folder;
 	CamelMimeMessage *message;
-	CamelMessageInfo *info;
 	const char *subject;
 	
 	/* Get the message */
@@ -307,10 +307,7 @@ composer_postpone_cb (EMsgComposer *composer, gpointer data)
 	}
 	
 	/* Save the message in Outbox */
-	info = g_new0 (CamelMessageInfo, 1);
-	info->flags = 0;
-	mail_do_append_mail (outbox_folder, message, info);
-	g_free (info);
+	mail_do_append_mail (outbox_folder, message, NULL);
 	gtk_widget_destroy (GTK_WIDGET (composer));
 }
 
@@ -321,21 +318,21 @@ create_msg_composer (const char *url)
        gboolean send_html;
        gchar *sig_file = NULL;
        GtkWidget *composer_widget;
-
+       
        id = mail_config_get_default_identity ();
        send_html = mail_config_send_html ();
-
+       
        if (id)
                sig_file = id->sig;
-
+       
        if (url != NULL)
                composer_widget = e_msg_composer_new_from_url (url);
        else
                composer_widget = e_msg_composer_new_with_sig_file (sig_file);
-
+       
        e_msg_composer_set_send_html (E_MSG_COMPOSER (composer_widget), 
                                      send_html);
-
+       
        return composer_widget;
 }
 
@@ -383,28 +380,28 @@ mail_reply (CamelFolder *folder, CamelMimeMessage *msg, const char *uid, gboolea
 {
 	EMsgComposer *composer;
 	struct post_send_data *psd;
-
+	
 	/* FIXME: I just don't feel like implementing the folder-browser-passing
 	 * garbage. */
 	if (!check_send_configuration (NULL) || !folder ||
 	    !msg || !uid)
 		return;
-
+	
 	psd = g_new (struct post_send_data, 1);
 	psd->folder = folder;
 	camel_object_ref (CAMEL_OBJECT (psd->folder));
 	psd->uid = g_strdup (uid);
 	psd->flags = CAMEL_MESSAGE_ANSWERED;
-
+	
 	composer = mail_generate_reply (msg, to_all);
-
+	
 	gtk_signal_connect (GTK_OBJECT (composer), "send",
 			    GTK_SIGNAL_FUNC (composer_send_cb), psd);
 	gtk_signal_connect (GTK_OBJECT (composer), "postpone",
 			    GTK_SIGNAL_FUNC (composer_postpone_cb), psd);
 	gtk_signal_connect (GTK_OBJECT (composer), "destroy",
 			    GTK_SIGNAL_FUNC (free_psd), psd);
-
+	
 	gtk_widget_show (GTK_WIDGET (composer));	
 }
 
@@ -412,7 +409,7 @@ void
 reply_to_sender (GtkWidget *widget, gpointer user_data)
 {
 	FolderBrowser *fb = FOLDER_BROWSER (user_data);
-
+	
 	mail_reply (fb->folder, fb->mail_display->current_message, 
 	       fb->message_list->cursor_uid, FALSE);
 }
@@ -421,7 +418,7 @@ void
 reply_to_all (GtkWidget *widget, gpointer user_data)
 {
 	FolderBrowser *fb = FOLDER_BROWSER (user_data);
-
+	
 	mail_reply (fb->folder, fb->mail_display->current_message, 
 	       fb->message_list->cursor_uid, TRUE);
 }
@@ -440,21 +437,21 @@ forward_msg (GtkWidget *widget, gpointer user_data)
 	EMsgComposer *composer;
 	CamelMimeMessage *cursor_msg;
 	GPtrArray *uids;
-
+	
 	cursor_msg = fb->mail_display->current_message;
 	if (!check_send_configuration (fb) || !cursor_msg)
 		return;
-
+	
 	composer = E_MSG_COMPOSER (e_msg_composer_new ());
-
+	
 	uids = g_ptr_array_new();
 	message_list_foreach (fb->message_list, enumerate_msg, uids);
-
+	
 	gtk_signal_connect (GTK_OBJECT (composer), "send",
 			    GTK_SIGNAL_FUNC (composer_send_cb), NULL);
 	gtk_signal_connect (GTK_OBJECT (composer), "postpone",
 			    GTK_SIGNAL_FUNC (composer_postpone_cb), NULL);
-
+	
 	mail_do_forward_message (cursor_msg,
 				 fb->message_list->folder,
 				 uids,
@@ -472,28 +469,28 @@ transfer_msg (GtkWidget *widget, gpointer user_data, gboolean delete_from_source
 	const char *allowed_types[] = { "mail", NULL };
 	extern EvolutionShellClient *global_shell_client;
 	static char *last = NULL;
-
+	
 	if (last == NULL)
 		last = g_strdup ("");
-
+	
 	if (delete_from_source)
 		desc = _("Move message(s) to");
 	else
 		desc = _("Copy message(s) to");
-
+	
 	evolution_shell_client_user_select_folder  (global_shell_client,
 						    desc,
 						    last, allowed_types, &uri, &physical);
 	if (!uri)
 		return;
-
+	
 	path = strchr (uri, '/');
 	if (path && strcmp (last, path) != 0) {
 		g_free (last);
 		last = g_strdup (path);
 	}
 	g_free (uri);
-
+	
 	uids = g_ptr_array_new ();
 	message_list_foreach (ml, enumerate_msg, uids);
 	mail_do_transfer_messages (ml->folder, uids, delete_from_source, physical);
@@ -516,10 +513,10 @@ mark_all_seen (BonoboUIHandler *uih, void *user_data, const char *path)
 {
         FolderBrowser *fb = FOLDER_BROWSER(user_data);
         MessageList *ml = fb->message_list;
-
+	
 	if (ml->folder == NULL)
 		return;
-
+	
 	mail_do_flag_all_messages (ml->folder, FALSE,
 				   CAMEL_MESSAGE_SEEN, CAMEL_MESSAGE_SEEN);
 }
@@ -529,10 +526,10 @@ mark_all_deleted (BonoboUIHandler *uih, void *user_data, const char *path)
 {
 	FolderBrowser *fb = FOLDER_BROWSER (user_data);
 	MessageList *ml = fb->message_list;
-
+	
 	if (ml->folder == NULL)
 		return;
-
+	
 	mail_do_flag_all_messages (ml->folder, FALSE,
 				   CAMEL_MESSAGE_DELETED, CAMEL_MESSAGE_DELETED);
 }
@@ -570,13 +567,13 @@ delete_msg (GtkWidget *button, gpointer user_data)
 	FolderBrowser *fb = user_data;
 	MessageList *ml = fb->message_list;
 	GPtrArray *uids;
-
+	
 	uids = g_ptr_array_new ();
 	message_list_foreach (ml, enumerate_msg, uids);
 	if (uids->len == 1) {
 		guint32 flags;
 		char *uid = uids->pdata[0];
-
+		
 		mail_tool_camel_lock_up ();
 		flags = camel_folder_get_message_flags (ml->folder, uid);
 		camel_folder_set_message_flags (ml->folder, uid,
@@ -594,9 +591,9 @@ void
 expunge_folder (BonoboUIHandler *uih, void *user_data, const char *path)
 {
 	FolderBrowser *fb = FOLDER_BROWSER(user_data);
-
+	
 	e_table_model_pre_change (fb->message_list->table_model);
-
+	
 	if (fb->message_list->folder)
 		mail_do_expunge_folder (fb->message_list->folder);
 }
@@ -605,10 +602,10 @@ static void
 filter_druid_clicked (GtkWidget *w, int button, FolderBrowser *fb)
 {
 	FilterContext *fc;
-
+	
 	if (button == 0) {
 		char *user;
-
+		
 		fc = gtk_object_get_data (GTK_OBJECT (w), "context");
 		user = g_strdup_printf ("%s/filters.xml", evolution_dir);
 		rule_context_save ((RuleContext *)fc, user);
@@ -627,18 +624,18 @@ filter_edit (BonoboUIHandler *uih, void *user_data, const char *path)
 	FilterContext *fc;
 	char *user, *system;
 	GtkWidget *w;
-
+	
 	fc = filter_context_new();
 	user = g_strdup_printf ("%s/filters.xml", evolution_dir);
 	system = g_strdup_printf ("%s/evolution/filtertypes.xml", EVOLUTION_DATADIR);
 	rule_context_load ((RuleContext *)fc, system, user, NULL, NULL);
 	g_free (user);
 	g_free (system);
-
+	
 	if (((RuleContext *)fc)->error) {
 		GtkWidget *dialog;
 		gchar *err;
-
+		
 		err = g_strdup_printf (_("Error loading filter information:\n"
 					 "%s"), ((RuleContext *)fc)->error);
 		dialog = gnome_warning_dialog (err);
@@ -647,7 +644,7 @@ filter_edit (BonoboUIHandler *uih, void *user_data, const char *path)
 		gnome_dialog_run_and_close (GNOME_DIALOG (dialog));
 		return;
 	}
-
+	
 	w = filter_editor_construct (fc);
 	gtk_object_set_data_full (GTK_OBJECT (w), "context", fc, (GtkDestroyNotify)gtk_object_unref);
 	gtk_signal_connect (GTK_OBJECT (w), "clicked", filter_druid_clicked, fb);
@@ -658,7 +655,7 @@ void
 vfolder_edit_vfolders (BonoboUIHandler *uih, void *user_data, const char *path)
 {
         void vfolder_edit(void);
-
+	
         vfolder_edit();
 }
 
@@ -674,16 +671,16 @@ mail_print_msg (MailDisplay *md)
 	GnomePrintMaster *print_master;
 	GnomePrintContext *print_context;
 	GtkWidget *preview;
-
+	
 	print_master = gnome_print_master_new ();
-
+	
 	print_context = gnome_print_master_get_context (print_master);
 	gtk_html_print (md->html, print_context);
-
+	
 	preview = GTK_WIDGET (gnome_print_master_preview_new (
 		print_master, "Mail Print Preview"));
 	gtk_widget_show (preview);
-
+	
 	gtk_object_unref (GTK_OBJECT (print_master));
 }
 
@@ -691,7 +688,7 @@ void
 print_msg (GtkWidget *button, gpointer user_data)
 {
 	FolderBrowser *fb = user_data;
-
+	
 	mail_print_msg (fb->mail_display);
 }
 
@@ -699,7 +696,7 @@ void
 configure_folder(BonoboUIHandler *uih, void *user_data, const char *path)
 {
 	FolderBrowser *fb = FOLDER_BROWSER(user_data);
-
+	
 	local_reconfigure_folder(fb);
 }
 
@@ -708,10 +705,10 @@ view_msg (GtkWidget *widget, gpointer user_data)
 {
 	FolderBrowser *fb = user_data;
 	GPtrArray *uids;
-
+	
 	if (!fb->folder)
 		return;
-
+	
 	uids = g_ptr_array_new ();
 	message_list_foreach (fb->message_list, enumerate_msg, uids);
 	mail_do_view_messages (fb->folder, uids, fb);
@@ -734,16 +731,19 @@ run_filter_ondemand (BonoboUIHandler *uih, gpointer user_data, const char *path)
 {
 	struct fb_ondemand_closure *oc = (struct fb_ondemand_closure *) user_data;
 	FilterDriver *d;
-
+	
 	if (oc->fb->folder == NULL)
 		return;
-
+	
 	printf ("Running filter \"%s\"\n", oc->rule->name);
-
+	
 	d = filter_driver_new (oc->fb->filter_context, 
 			       mail_tool_filter_get_folder_func,
 			       NULL);
-	filter_driver_run (d, oc->fb->folder, oc->fb->folder,
-			   FILTER_SOURCE_DEMAND, TRUE,
-			   NULL, NULL, NULL);
+	
+	mail_do_filter_ondemand (d, oc->fb->folder, oc->fb->folder);
+	
+	/*filter_driver_run (d, oc->fb->folder, oc->fb->folder,
+	  FILTER_SOURCE_DEMAND, TRUE,
+	  NULL, NULL, NULL);*/
 }

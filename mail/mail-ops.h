@@ -23,6 +23,7 @@
  */
 
 #include <camel/camel.h>
+#include <filter/filter-driver.h>
 #include "mail-threads.h"
 #include "evolution-storage.h"	/*EvolutionStorage */
 #include "composer/e-msg-composer.h"	/*EMsgComposer */
@@ -31,6 +32,8 @@
 void mail_do_fetch_mail (const gchar *source_url, gboolean keep_on_server,
 			 CamelFolder *destination,
 			 gpointer hook_func, gpointer hook_data);
+void mail_do_filter_ondemand (FilterDriver *driver, CamelFolder *source,
+			      CamelFolder *destination);
 void mail_do_send_mail (const char *xport_uri,
 			CamelMimeMessage *message,
 			CamelFolder *done_folder,
