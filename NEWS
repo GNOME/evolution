@@ -1,3 +1,32 @@
+Version 0.13 (Beta 3)  "Radioactive Waste", 2001-08-21
+------------------------------------------------------
+
+Shell:
+
+Mail:
+
+  - Fixed creating IMAP folders.  (Jeff)
+
+  - Fixed Crash on Exit bugs.  (Jeff)
+
+  - Many more i18n fixes.  (Zbigniew Chyla, Jeff and others)
+
+  - Displaying PGP signed messages now shows icons.  (Jeff)
+
+  - Always-sign options for PGP.  (Jeff)
+
+  - Fixed keep-on-server for POP servers that don't support UIDL.
+    (Jeff)
+
+  - Several IMAP fixes. (Peter, Jeff, Danw)
+
+Calendar & Tasks:
+
+Addressbook:
+
+My Evolution:
+
+
 Version 0.12 (Beta 2), 2001-07-31
 ---------------------------------
 
