@@ -217,7 +217,7 @@ gncal_todo_edit (CalClient *client, CalComponent *comp)
 
 	due_entry = gtk_entry_new ();
 	cal_component_get_dtend (comp, &date);
-	d = time_from_icaltimetype (*date.value);
+	d = icaltime_as_timet (*date.value);
 	due_entry = date_edit_new (d, TRUE);
 	gtk_box_pack_start (GTK_BOX (due_box), due_entry, TRUE, TRUE, 0);
 	gtk_widget_show (due_entry);
@@ -717,7 +717,7 @@ insert_in_clist (GncalTodo *todo, CalComponent *comp)
 	  
 	  /* for right now all I'll do is up to the hours. */
 	  cal_component_get_dtend (comp, &date);
-	  time_remain = time_from_icaltimetype (*date.value) - time (NULL);
+	  time_remain = icaltime_as_timet (*date.value) - time (NULL);
 	  if(time_remain < 0) {
 	    text[3] = "Overdue!";
 	  }
@@ -799,7 +799,7 @@ insert_in_clist (GncalTodo *todo, CalComponent *comp)
 	 */
 
 	cal_component_get_dtend (comp, &date);
-	d = time_from_icaltimetype (*date.value);
+	d = icaltime_as_timet (*date.value);
 	if(todo_show_due_date)
 	  {
 	    text[1] = convert_time_t_to_char (d);

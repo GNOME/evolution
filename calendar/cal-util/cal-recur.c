@@ -483,7 +483,7 @@ cal_recur_generate_instances (CalComponent		*comp,
 		goto out;
 	}
 
-	dtstart_time = time_from_icaltimetype (*dtstart.value);
+	dtstart_time = icaltime_as_timet (*dtstart.value);
 
 	cal_component_get_rrule_list (comp, &rrules);
 	cal_component_get_rdate_list (comp, &rdates);
@@ -497,7 +497,7 @@ cal_recur_generate_instances (CalComponent		*comp,
 		time_t dtend_time;
 
 		if (dtend.value)
-			dtend_time = time_from_icaltimetype (*dtend.value);
+			dtend_time = icaltime_as_timet (*dtend.value);
 		else
 			dtend_time = time_day_end (dtstart_time);
 
@@ -640,7 +640,7 @@ cal_recur_from_icalrecurrencetype (struct icalrecurrencetype *ir)
 	/* FIXME: we don't deal with ir->count.  Also, how does libical
 	 * distinguish between n-occurrences and until-some-date rules?
 	 */
-	r->enddate = time_from_icaltimetype (ir->until);
+	r->enddate = icaltime_as_timet (ir->until);
 
 	switch (ir->week_start) {
 	case ICAL_MONDAY_WEEKDAY:
@@ -787,7 +787,7 @@ generate_instances_for_year (CalComponent	*comp,
 		/* FIXME: this only deals with the start time */
 
 		period = elem->data;
-		t = time_from_icaltimetype (period->start);
+		t = icaltime_as_timet (period->start);
 
 		cal_object_time_from_time (&cotime, t);
 		g_array_append_val (occs, cotime);
@@ -818,7 +818,7 @@ generate_instances_for_year (CalComponent	*comp,
 		/* FIXME: this only deals with the start time */
 
 		period = elem->data;
-		t = time_from_icaltimetype (period->start);
+		t = icaltime_as_timet (period->start);
 
 		cal_object_time_from_time (&cotime, t);
 		g_array_append_val (ex_occs, cotime);

@@ -12,37 +12,6 @@
 
 
 
-/**
- * time_from_icaltimetype:
- * @itt: A struct icaltimetype value.
- * 
- * Converts a struct icaltimetype value into a time_t value.  Does not deal with
- * timezones.
- * 
- * Return value: A time_t value.
- **/
-time_t
-time_from_icaltimetype (struct icaltimetype itt)
-{
-	struct tm tm;
-
-	/* FIXME: this does not handle timezones */
-
-	memset (&tm, 0, sizeof (tm));
-
-	tm.tm_year = itt.year - 1900;
-	tm.tm_mon = itt.month - 1;
-	tm.tm_mday = itt.day;
-
-	if (!itt.is_date) {
-		tm.tm_hour = itt.hour;
-		tm.tm_min = itt.minute;
-		tm.tm_sec = itt.second;
-	}
-
-	return mktime (&tm);
-}
-
 #define digit_at(x,y) (x [y] - '0')
 	
 time_t

@@ -723,9 +723,9 @@ fill_widgets (EventEditor *ee)
 	   3rd Feb as the end date, since it really ends at midnight on 3rd,
 	   so we have to subtract a day so we only show the 2nd. */
 	cal_component_get_dtstart (priv->comp, &d);
-	dtstart = time_from_icaltimetype (*d.value);
+	dtstart = icaltime_as_timet (*d.value);
 	cal_component_get_dtend (priv->comp, &d);
-	dtend = time_from_icaltimetype (*d.value);
+	dtend = icaltime_as_timet (*d.value);
 	if (time_day_begin (dtstart) == dtstart
 	    && time_day_begin (dtend) == dtend) {
 		dtend = time_add_day (dtend, -1);
@@ -885,7 +885,7 @@ fill_widgets (EventEditor *ee)
 						   r->count);
 			}
 		} else {
-			time_t t = time_from_icaltimetype (r->until);
+			time_t t = icaltime_as_timet (r->until);
 			e_dialog_toggle_set (priv->recurrence_ending_date_end_on, TRUE);
 			/* Shorten by one day, as we store end-on date a day ahead */
 			/* FIXME is this correct? */
@@ -906,7 +906,7 @@ fill_widgets (EventEditor *ee)
 		time_t ext;
 		
 		t = l->data;
-		ext = time_from_icaltimetype (*t);
+		ext = icaltime_as_timet (*t);
 		append_exception (ee, ext);
 	}
 	cal_component_free_exdate_list (list);

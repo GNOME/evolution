@@ -353,7 +353,7 @@ get_completed (CalComponent *comp)
 	if (!completed)
 		t = 0;
 	else {
-		t = time_from_icaltimetype (*completed);
+		t = icaltime_as_timet (*completed);
 		cal_component_free_icaltimetype (completed);
 	}
 
@@ -369,7 +369,7 @@ get_and_free_datetime (CalComponentDateTime dt)
 	if (!dt.value)
 		t = 0;
 	else
-		t = time_from_icaltimetype (*dt.value);
+		t = icaltime_as_timet (*dt.value);
 
 	cal_component_free_datetime (&dt);
 
@@ -599,7 +599,7 @@ get_is_overdue (CalComponent *comp)
 		 * really overdue?
 		 **/
 
-		t = time_from_icaltimetype (*dt.value);
+		t = icaltime_as_timet (*dt.value);
 
 		if (t < time (NULL))
 			retval = TRUE;
