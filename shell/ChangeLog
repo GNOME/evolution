@@ -1,5 +1,10 @@
 2002-09-23  Ettore Perazzoli  <ettore@ximian.com>
 
+	* e-shell.c (e_shell_construct): Oops, no @shell argument to
+	e_shell_startup_wizard_create().
+
+2002-09-23  Ettore Perazzoli  <ettore@ximian.com>
+
 	[#28317]
 
 	* e-shell-view-menu.c (command_close): Use

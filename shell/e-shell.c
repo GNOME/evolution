@@ -1302,7 +1302,7 @@ e_shell_construct (EShell *shell,
 	if (show_splash)
 		gtk_widget_destroy (splash);
 	
-	if (e_shell_startup_wizard_create (shell) == FALSE) {
+	if (e_shell_startup_wizard_create () == FALSE) {
 		e_shell_unregister_all (shell);
 		bonobo_object_unref (BONOBO_OBJECT (shell));
 
