@@ -318,7 +318,8 @@ config_control_destroy_callback (GtkObject *object,
 
 	dialog_data = (DialogData *) data;
 
-	/* (Nothing to free in the struct.)  */
+	gtk_object_unref (GTK_OBJECT (dialog_data->xml));
+	
 	g_free (dialog_data);
 }
 

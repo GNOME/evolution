@@ -601,7 +601,7 @@ comp_minimal (CalComponent *comp, gboolean attendee)
 	const char *uid;
 	GSList *comments;
 	struct icaltimetype itt;
-	CalComponentRange *recur_id;
+	CalComponentRange recur_id;
 	
 	clone = cal_component_new ();
 	cal_component_set_new_vtype (clone, cal_component_get_vtype (comp));
@@ -644,8 +644,8 @@ comp_minimal (CalComponent *comp, gboolean attendee)
 	cal_component_free_text_list (comments);
 	
 	cal_component_get_recurid (comp, &recur_id);
-	if (recur_id->datetime->value != NULL)
-		cal_component_set_recurid (clone, recur_id);
+	if (recur_id.datetime.value != NULL)
+		cal_component_set_recurid (clone, &recur_id);
 	
 	icomp = cal_component_get_icalcomponent (comp);
 	icomp_clone = cal_component_get_icalcomponent (clone);

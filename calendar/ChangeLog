@@ -1,3 +1,15 @@
+2002-05-14  JP Rosevear  <jpr@ximian.com>
+
+	* cal-util/cal-component.h: make the range datetime member a
+	struct not a pointer
+
+	* cal-util/cal-component.c (cal_component_get_recurid): take a
+	pointer to a range
+	(cal_component_set_recurid): ditto
+
+	* gui/itip-utils.c (comp_minimal): get/set the recurrence id
+	properly
+	
 2002-05-09  Ettore Perazzoli  <ettore@ximian.com>
 
 	* gui/e-itip-control.c (get_servers): use
