@@ -1,3 +1,49 @@
+1999-11-12  Ettore Perazzoli  <ettore@gnu.org>
+
+	* e-msg-composer-address-dialog.glade: Cosmetical changes.
+
+	* e-msg-composer-attachment-bar.c (size_to_string): New helper
+	function.
+	(update): Put the size in the icon's label using this function.
+	(ICON_SEPARATORS): Remove '.' to avoid wrapping of the size string
+	on the decimal dot.  But gnome-libs is broken and this has no real
+	effect!  :-(
+	(e_msg_composer_attachment_bar_new): No longer make text editable.
+	Use the `GTK_SELECTION_MULTIPLE' selection mode.
+	(remove_selected): No longer assume only one attachment is
+	selected.
+
+	* e-msg-composer-attachment.c: #include <sys/stat.h>
+	(init): Initialize all the members.
+	(e_msg_composer_attachment_new): Set size using `stat()'.
+
+	* e-msg-composer-attachment.h: New member `size' in `struct
+	_EMsgComposerAttachment'.
+
+	* e-msg-composer.c (setup_signals): Connect `address_dialog_cb' to
+	the "show_address_dialog" signal of the header widget.
+
+	* e-msg-composer-hdrs.c (add_address_header): Renamed to
+	`add_header'.  New parameter `addrbook_button': if true, use a
+	button instead of a label and make it trigger an
+	"show_address_dialog" signal.
+	(address_button_clicked_cb): Signal handler to handle this on a
+	"clicked" signal from the button.
+	(setup_headers): Updated accordingly.  Also, make "Subject" the
+	last item.  (This makes it look more like Outlook and friends.)
+
+	* e-msg-composer-hdrs.c: New signal "show_address_dialog".
+	* e-msg-composer-hdrs.h: Updated accordingly.
+
+	* e-msg-composer-hdrs.c (add_address_header): Reduce padding
+	considerably.
+
+	* e-msg-composer.c (e_msg_composer_construct): Do not use any
+	padding in the main vbox.
+
+	* Makefile.am: Moved the `e-table*' sources to `EXTRA_DIST'.
+	Compile as a shared library.
+
 1999-11-08  Ettore Perazzoli  <ettore@gnu.org>
 
 	* e-msg-composer-address-dialog.c: Implemented cut & paste for the

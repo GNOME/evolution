@@ -51,6 +51,8 @@ struct _EMsgComposerHdrs {
 
 struct _EMsgComposerHdrsClass {
 	GtkTableClass parent_class;
+
+	void (* show_address_dialog) (EMsgComposerHdrs *hdrs);
 };
 
 

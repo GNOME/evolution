@@ -29,7 +29,7 @@
 
 
 #define ICON_WIDTH 64
-#define ICON_SEPARATORS " /-_."
+#define ICON_SEPARATORS " /-_"
 #define ICON_SPACING 2
 #define ICON_ROW_SPACING ICON_SPACING
 #define ICON_COL_SPACING ICON_SPACING
@@ -57,6 +57,43 @@ static guint signals[LAST_SIGNAL] = { 0 };
 
 
 static void update (EMsgComposerAttachmentBar *bar);
+
+
+static gchar *
+size_to_string (gulong size)
+{
+	gchar *size_string;
+
+	/* FIXME: The following should probably go into a separate module, as
+           we might have to do the same thing in other places as well.  Also,
+	   I am not sure this will be OK for all the languages.  */
+
+	if (size < 1e3L) {
+		if (size == 1)
+			size_string = g_strdup (_("1 byte"));
+		else
+			size_string = g_strdup_printf (_("%u bytes"),
+						       (guint) size);
+	} else {
+		gdouble displayed_size;
+
+		if (size < 1e6L) {
+			displayed_size = (gdouble) size / 1.0e3;
+			size_string = g_strdup_printf (_("%.1fK"),
+						       displayed_size);
+		} else if (size < 1e9L) {
+			displayed_size = (gdouble) size / 1.0e6;
+			size_string = g_strdup_printf (_("%.1fM"),
+						       displayed_size);
+		} else {
+			displayed_size = (gdouble) size / 1.0e9;
+			size_string = g_strdup_printf (_("%.1fG"),
+						       displayed_size);
+		}
+	}
+
+	return size_string;
+}
 
 
 /* Sorting.  */
@@ -162,6 +199,8 @@ update (EMsgComposerAttachmentBar *bar)
 	for (p = priv->attachments; p != NULL; p = p->next) {
 		EMsgComposerAttachment *attachment;
 		const gchar *icon_name;
+		gchar *size_string;
+		gchar *label;
 
 		attachment = p->data;
 		icon_name = gnome_mime_get_value (attachment->mime_type,
@@ -172,8 +211,17 @@ update (EMsgComposerAttachmentBar *bar)
 			icon_name = gnome_mime_get_value ("text/plain",
 							  "icon-filename");
 
-		gnome_icon_list_append (icon_list, icon_name,
-					attachment->description);
+		size_string = size_to_string (attachment->size);
+
+		/* FIXME: If GnomeIconList honoured "\n", the result would be a
+                   lot better.  */
+		label = g_strconcat (attachment->description, "\n(",
+				     size_string, ")", NULL);
+
+		gnome_icon_list_append (icon_list, icon_name, label);
+
+		g_free (label);
+		g_free (size_string);
 	}
 
 	gnome_icon_list_thaw (icon_list);
@@ -184,17 +232,29 @@ remove_selected (EMsgComposerAttachmentBar *bar)
 {
 	GnomeIconList *icon_list;
 	EMsgComposerAttachment *attachment;
+	GList *attachment_list;
+	GList *p;
 	gint num;
 
 	icon_list = GNOME_ICON_LIST (bar);
-	num = GPOINTER_TO_INT (icon_list->selection->data);
 
-	/* FIXME do this with icon data.  */
+	/* Weee!  I am especially proud of this piece of cheesy code: it is
+           truly awful.  But unless one attaches a huge number of files, it
+           will not be as greedy as intended.  FIXME of course.  */
 
-	attachment = E_MSG_COMPOSER_ATTACHMENT
-		(g_list_nth (bar->priv->attachments, num)->data);
+	attachment_list = NULL;
+	for (p = icon_list->selection; p != NULL; p = p->next) {
+		num = GPOINTER_TO_INT (p->data);
+		attachment = E_MSG_COMPOSER_ATTACHMENT
+			(g_list_nth (bar->priv->attachments, num)->data);
+		attachment_list = g_list_prepend (attachment_list, attachment);
+	}
 
-	remove_attachment (bar, attachment);
+	for (p = attachment_list; p != NULL; p = p->next)
+		remove_attachment (bar, E_MSG_COMPOSER_ATTACHMENT (p->data));
+
+	g_list_free (attachment_list);
+
 	update (bar);
 }
 
@@ -299,7 +359,7 @@ remove_cb (GtkWidget *widget,
 
 static GnomeUIInfo icon_context_menu_info[] = {
 	GNOMEUIINFO_ITEM (N_("Remove"),
-			  N_("Remove this item from the attachment list"),
+			  N_("Remove selected items from the attachment list"),
 			  remove_cb, NULL),
 	GNOMEUIINFO_MENU_PROPERTIES_ITEM (properties_cb, NULL),
 	GNOMEUIINFO_END
@@ -481,7 +541,8 @@ init (EMsgComposerAttachmentBar *bar)
 
 	/* FIXME partly hardcoded.  We should compute height from the font, and
            allow at least 2 lines for every item.  */
-	icon_size = ICON_WIDTH + ICON_SPACING + ICON_BORDER + ICON_TEXT_SPACING + 24;
+	icon_size = ICON_WIDTH + ICON_SPACING + ICON_BORDER + ICON_TEXT_SPACING;
+	icon_size += 24;
 
 	gtk_widget_set_usize (GTK_WIDGET (bar), icon_size * 4, icon_size);
 }
@@ -524,15 +585,14 @@ e_msg_composer_attachment_bar_new (GtkAdjustment *adj)
 
 	icon_list = GNOME_ICON_LIST (new);
 
-	gnome_icon_list_construct (icon_list, ICON_WIDTH, adj,
-				   GNOME_ICON_LIST_IS_EDITABLE);
+	gnome_icon_list_construct (icon_list, ICON_WIDTH, adj, 0);
 
 	gnome_icon_list_set_separators (icon_list, ICON_SEPARATORS);
 	gnome_icon_list_set_row_spacing (icon_list, ICON_ROW_SPACING);
 	gnome_icon_list_set_col_spacing (icon_list, ICON_COL_SPACING);
 	gnome_icon_list_set_icon_border (icon_list, ICON_BORDER);
 	gnome_icon_list_set_text_spacing (icon_list, ICON_TEXT_SPACING);
-	gnome_icon_list_set_selection_mode (icon_list, GTK_SELECTION_SINGLE);
+	gnome_icon_list_set_selection_mode (icon_list, GTK_SELECTION_MULTIPLE);
 
 	return GTK_WIDGET (new);
 }

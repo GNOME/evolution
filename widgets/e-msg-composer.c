@@ -323,6 +323,10 @@ setup_signals (EMsgComposer *composer)
 			    "changed",
 			    GTK_SIGNAL_FUNC (attachment_bar_changed),
 			    composer);
+
+	gtk_signal_connect (GTK_OBJECT (composer->hdrs), "show_address_dialog",
+			    GTK_SIGNAL_FUNC (address_dialog_cb),
+			    composer);
 }
 
 
@@ -455,7 +459,7 @@ e_msg_composer_construct (EMsgComposer *composer)
 				 glade_xml_get_widget (composer->appbar_gui,
 						       "appbar"));
 
-	vbox = gtk_vbox_new (FALSE, GNOME_PAD);
+	vbox = gtk_vbox_new (FALSE, 0);
 
 	composer->hdrs = e_msg_composer_hdrs_new ();
 	gtk_box_pack_start (GTK_BOX (vbox), composer->hdrs, FALSE, TRUE, 0);
@@ -492,7 +496,7 @@ e_msg_composer_construct (EMsgComposer *composer)
 			   composer->attachment_bar);
 	gtk_box_pack_start (GTK_BOX (vbox),
 			    composer->attachment_scrolled_window,
-			    FALSE, TRUE, 0);
+			    FALSE, TRUE, GNOME_PAD_SMALL);
 
 	gnome_app_set_contents (GNOME_APP (composer), vbox);
 	gtk_widget_show (vbox);

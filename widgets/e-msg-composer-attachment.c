@@ -21,7 +21,16 @@
  * Author: Ettore Perazzoli
  */
 
+/* This is the object representing an email attachment.  It is implemented as a
+   GtkObject to make it easier for the application to handle it.  For example,
+   the "changed" signal is emitted whenever something changes in the
+   attachment.  Also, this contains the code to let users edit the
+   attachment manually. */
+
+#include <sys/stat.h>
+
 #include <gnome.h>
+
 #include "e-msg-composer-attachment.h"
 
 
@@ -122,6 +131,11 @@ class_init (EMsgComposerAttachmentClass *klass)
 static void
 init (EMsgComposerAttachment *msg_composer_attachment)
 {
+	msg_composer_attachment->editor_gui = NULL;
+	msg_composer_attachment->file_name = NULL;
+	msg_composer_attachment->description = NULL;
+	msg_composer_attachment->mime_type = NULL;
+	msg_composer_attachment->size = 0;
 }
 
 GtkType
@@ -158,6 +172,7 @@ EMsgComposerAttachment *
 e_msg_composer_attachment_new (const gchar *file_name)
 {
 	EMsgComposerAttachment *new;
+	struct stat statbuf;
 
 	g_return_val_if_fail (file_name != NULL, NULL);
 
@@ -167,6 +182,11 @@ e_msg_composer_attachment_new (const gchar *file_name)
 
 	new->file_name = g_strdup (file_name);
 	new->description = g_strdup (g_basename (new->file_name));
+
+	if (stat (file_name, &statbuf) < 0)
+		new->size = 0;
+	else
+		new->size = statbuf.st_size;
 
 	init_mime_type (new);
 

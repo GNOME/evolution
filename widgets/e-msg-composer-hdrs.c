@@ -46,29 +46,55 @@ struct _EMsgComposerHdrsPrivate {
 
 static GtkTableClass *parent_class = NULL;
 
+enum {
+	SHOW_ADDRESS_DIALOG,
+	LAST_SIGNAL
+};
+
+static gint signals[LAST_SIGNAL];
+
 
+static void
+address_button_clicked_cb (GtkButton *button,
+			   gpointer data)
+{
+	gtk_signal_emit (GTK_OBJECT (data), signals[SHOW_ADDRESS_DIALOG]);
+}
+
 static GtkWidget *
-add_address_header (EMsgComposerHdrs *hdrs,
-		    const gchar *name)
+add_header (EMsgComposerHdrs *hdrs,
+	    const gchar *name,
+	    gboolean addrbook_button)
 {
 	EMsgComposerHdrsPrivate *priv;
 	GtkWidget *label;
 	GtkWidget *entry;
+	guint pad;
 
 	priv = hdrs->priv;
 
-	label = gtk_label_new (name);
+	if (addrbook_button) {
+		label = gtk_button_new_with_label (name);
+		gtk_signal_connect (GTK_OBJECT (label), "clicked",
+				    GTK_SIGNAL_FUNC (address_button_clicked_cb),
+				    hdrs);
+		pad = 2;
+	} else {
+		label = gtk_label_new (name);
+		pad = GNOME_PAD;
+	}
+
 	gtk_table_attach (GTK_TABLE (hdrs), label,
 			  0, 1, priv->num_hdrs, priv->num_hdrs + 1,
 			  GTK_FILL, GTK_FILL,
-			  GNOME_PAD, GNOME_PAD);
+			  pad, pad);
 	gtk_widget_show (label);
 
 	entry = e_msg_composer_address_entry_new ();
 	gtk_table_attach (GTK_TABLE (hdrs), entry,
 			  1, 2, priv->num_hdrs, priv->num_hdrs + 1,
 			  GTK_FILL | GTK_EXPAND, GTK_FILL,
-			  GNOME_PAD, GNOME_PAD);
+			  2, 2);
 	gtk_widget_show (entry);
 
 	priv->num_hdrs++;
@@ -83,10 +109,10 @@ setup_headers (EMsgComposerHdrs *hdrs)
 
 	priv = hdrs->priv;
 
-	priv->subject_entry = add_address_header (hdrs, _("Subject:"));
-	priv->to_entry = add_address_header (hdrs, _("To:"));
-	priv->cc_entry = add_address_header (hdrs, _("Cc:"));
-	priv->bcc_entry = add_address_header (hdrs, _("Bcc:"));
+	priv->to_entry = add_header (hdrs, _("To:"), TRUE);
+	priv->cc_entry = add_header (hdrs, _("Cc:"), TRUE);
+	priv->bcc_entry = add_header (hdrs, _("Bcc:"), TRUE);
+	priv->subject_entry = add_header (hdrs, _("Subject:"), FALSE);
 }
 
 
@@ -98,6 +124,17 @@ class_init (EMsgComposerHdrsClass *klass)
 	object_class = (GtkObjectClass*) klass;
 
 	parent_class = gtk_type_class (gtk_table_get_type ());
+
+	signals[SHOW_ADDRESS_DIALOG] =
+		gtk_signal_new ("show_address_dialog",
+				GTK_RUN_LAST,
+				object_class->type,
+				GTK_SIGNAL_OFFSET (EMsgComposerHdrsClass,
+						   show_address_dialog),
+				gtk_marshal_NONE__NONE,
+				GTK_TYPE_NONE, 0);
+
+	gtk_object_class_add_signals (object_class, signals, LAST_SIGNAL);
 }
 
 static void

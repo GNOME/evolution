@@ -49,12 +49,13 @@ struct _EMsgComposerAttachment {
 	gchar *file_name;
 	gchar *description;
 	gchar *mime_type;
+
+	gulong size;
 };
 
 struct _EMsgComposerAttachmentClass {
 	GtkObjectClass parent_class;
 
-	/* Signals go here */
 	void (*changed)	(EMsgComposerAttachment *msg_composer_attachment);
 };
 
