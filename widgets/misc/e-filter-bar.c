@@ -550,7 +550,7 @@ get_property (GObject *object, guint property_id, GValue *value, GParamSpec *psp
 			GString *out = g_string_new ("");
 			
 			filter_rule_build_code (efb->current_query, out);
-			g_value_take_string (value, out->str);
+			g_value_set_string_take_ownership (value, out->str);
 			g_string_free (out, FALSE);
 		} else {
 			g_value_set_string (value, NULL);
@@ -595,7 +595,7 @@ get_property (GObject *object, guint property_id, GValue *value, GParamSpec *psp
 		text[n] = '\0';
 		xmlFree (xmlbuf);
 		
-		g_value_take_string (value, text);
+		g_value_set_string_take_ownership (value, text);
 		
 		break; }
 	default:

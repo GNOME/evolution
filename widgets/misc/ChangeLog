@@ -1,5 +1,14 @@
 2004-01-28  Jeffrey Stedfast  <fejj@ximian.com>
 
+	* e-search-bar.c (impl_get_property): Same.
+
+	* e-filter-bar.c (get_property): Use
+	g_value_set_string_take_ownership() instead of
+	g_value_take_string() since we need snaps to work with glib-2.0
+	earlier than 2.3.x.
+
+2004-01-28  Jeffrey Stedfast  <fejj@ximian.com>
+
 	* e-filter-bar.c: Added a new property "state" which is READ-WRITE
 	so that we can save/restore state in the mailer code if we want
 	to. Sort of a work-in-progress toward fixing bug #53195.
