@@ -1,3 +1,17 @@
+2000-08-15  Peter Williams  <peterw@curious-george.helixcode.com>
+
+	* vfoldertype.xml, filtertypes.xml: Add entries defining the
+	date-based message filtering and vfoldering.
+
+	* filter-datespec.{c,h}: New files implementing the UI for
+	date-based filtering and vfoldering -- specifically, choosing
+	what to compare the message to.
+
+	* filter-element,c: Hook up to create a datespec filter if
+	that's what's called for.
+
+	* Makefile.am: Build the new -datespec files.
+
 2000-08-13  Dan Winship  <danw@helixcode.com>
 
 	* Makefile.am (EXTRA_DIST): remove blank.xpm and check.xpm which
