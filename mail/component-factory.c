@@ -63,6 +63,9 @@ static const EvolutionShellComponentFolderType folder_types[] = {
 
 static GList *browsers;
 
+/* GROSS HACK: for passing to other parts of the program */
+Evolution_Shell global_shell_interface;
+
 /* EvolutionShellComponent methods and signals.  */
 
 static EvolutionShellComponentResult
@@ -123,6 +126,8 @@ owner_set_cb (EvolutionShellComponent *shell_component,
 {
 	g_print ("evolution-mail: Yeeeh! We have an owner!\n");	/* FIXME */
 
+	/* GROSS HACK */
+	global_shell_interface = shell_interface;
 	create_vfolder_storage (shell_component);
 	create_imap_storage (shell_component);
 	create_news_storage (shell_component);
