@@ -40,9 +40,9 @@ extern "C" {
  * text          string         RW              Text in the entry box.
  */
 
-#define E_SEARCH_BAR_TYPE			(e_search_bar_get_type ())
-#define E_SEARCH_BAR(obj)			(GTK_CHECK_CAST ((obj), E_SEARCH_BAR_TYPE, ESearchBar))
-#define E_SEARCH_BAR_CLASS(klass)		(GTK_CHECK_CLASS_CAST ((klass), E_SEARCH_BAR_TYPE, ESearchBarClass))
+#define E_SEARCH_BAR_TYPE		(e_search_bar_get_type ())
+#define E_SEARCH_BAR(obj)		(GTK_CHECK_CAST ((obj), E_SEARCH_BAR_TYPE, ESearchBar))
+#define E_SEARCH_BAR_CLASS(klass)	(GTK_CHECK_CLASS_CAST ((klass), E_SEARCH_BAR_TYPE, ESearchBarClass))
 #define E_IS_SEARCH_BAR(obj)		(GTK_CHECK_TYPE ((obj), E_SEARCH_BAR_TYPE))
 #define E_IS_SEARCH_BAR_CLASS(klass)	(GTK_CHECK_CLASS_TYPE ((obj), E_SEARCH_BAR_TYPE))
 

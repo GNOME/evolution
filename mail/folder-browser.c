@@ -1075,10 +1075,13 @@ enum {
 };
 
 static ESearchBarItem folder_browser_search_menu_items[] = {
+	E_FILTERBAR_ADVANCED,
+	{ NULL, 0, NULL },
 	E_FILTERBAR_SAVE,
-	{ N_("Create vFolder from Search"),  ESB_SAVE, NULL  },
 	E_FILTERBAR_EDIT,
-	{ NULL,                           -1, NULL           }
+	{ NULL, 0, NULL },
+	{ N_("Create _Virtual Folder From Search..."), ESB_SAVE, NULL  },
+	{ NULL, -1, NULL }
 };
 
 static void

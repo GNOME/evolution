@@ -1,3 +1,8 @@
+2002-03-20  Ettore Perazzoli  <ettore@ximian.com>
+
+	* folder-browser.c: Reorder folder_browser_search_menu_items
+	according to #16246.
+
 2002-03-19  Larry Ewing  <lewing@ximian.com>
 
 	* mail-display.c: add missing NULL closure data to popup menu

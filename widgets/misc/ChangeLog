@@ -1,5 +1,13 @@
 2002-03-20  Ettore Perazzoli  <ettore@ximian.com>
 
+	* e-search-bar.c (update_bonobo_menus): Add accelerators for "Find
+	Now" and "Clear".
+
+	* e-filter-bar.h: Change search labels as suggested in Anna's
+	redesign [#16246].
+
+2002-03-20  Ettore Perazzoli  <ettore@ximian.com>
+
 	* e-search-bar.c (update_bonobo_menus): Remove all the SearchBar
 	items before setting them up again.
 	(free_menu_items): New.
