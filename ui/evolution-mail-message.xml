@@ -220,12 +220,14 @@
   </commands>
 
   <keybindings>
-    <accel name="*Control*comma"        verb="MailPreviousUnread"/>
-    <accel name="comma"        verb="MailPreviousUnread"/>
-    <accel name="bracketleft"  verb="MailPreviousUnread"/>
-    <accel name="*Control*period"       verb="MailNextUnread"/>
-    <accel name="period"       verb="MailNextUnread"/>
-    <accel name="bracketright" verb="MailNextUnread"/>
+    <accel verb="MailPreviousUnread" name="*Control*comma"/>
+    <accel verb="MailPreviousUnread" name="comma"/>
+    <accel verb="MailPreviousUnread" name="bracketleft"/>
+    <accel verb="MailNextUnread"     name="*Control*period"/>
+    <accel verb="MailNextUnread"     name="period"/>
+    <accel verb="MailNextUnread"     name="bracketright"/>
+    <accel verb="MessageDelete"      name="Delete"/>
+    <accel verb="MessageDelete"      name="KP_Delete"/>
   </keybindings>
 
   <menu>
