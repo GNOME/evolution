@@ -694,7 +694,7 @@ mail_component_get_tree_model (MailComponent *component)
 {
 	EMFolderTreeModel *model;
 	
-	model = (EMFolderTreeModel *) gtk_tree_view_get_model ((GtkTreeView *) component->priv->emft);
+	model = em_folder_tree_get_model ((GtkTreeView *) component->priv->emft);
 	g_object_ref (model);
 	
 	return model;

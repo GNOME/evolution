@@ -70,6 +70,8 @@ void em_folder_tree_set_selected (EMFolderTree *emft, const char *uri);
 const char *em_folder_tree_get_selected_uri (EMFolderTree *emft);
 const char *em_folder_tree_get_selected_path (EMFolderTree *emft);
 
+EMFolderTreeModel *em_folder_tree_get_model (EMFolderTree *emft);
+
 #ifdef __cplusplus
 }
 #endif /* __cplusplus */
