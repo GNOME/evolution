@@ -1,3 +1,78 @@
+Evolution 2.1.3, 2004-01-10
+----------------------------
+
+Bugzilla bugs fixed (see http://bugzilla.ximian.com/show_bug.cgi):
+
+ * Calendar
+
+   #69663 - Task list on the web does not mark tasks as finished (JP)
+   #61076 - Evolution calendar messages unnecessarily marked for translation (JP)
+   #41624 - only the last exception is deleted on palm device (JP)
+
+ * Addressbook
+
+   #61068 - Extraneous space in evolution message (Andre Klapper)
+   #61975 - Can't translate string "Reflow test" (JP)
+
+ * Plugins
+
+   #30992 - Preferences dialog greys out OK button after Apply (JP)
+
+Other bugs
+
+ * Address Book
+
+    - set read only state better for contact editor (Hans)
+    - add UI for marking calendars offline (Siva)
+    - use new name selector api (Hans)
+
+ * Mail
+
+    - Display icon for shared folder (Vivek)
+    - New offline folder/store classes (Jeff)
+    - Handle reply in mailto: (Michael)
+    - a11y fixes (Mengjie Yu)
+    -  (Mengjie Yu)
+		
+ * Calendar
+
+    - detached instance recurrence handling (Rodrigo)
+    - calendar attachments (Harish)
+    - send options for meeting (Chen)
+    - handle calendar:// uris (JP)
+    - handle different calendars having the same uid (Rodrigo)
+    - add UI for marking calendars offline (Chen)
+    - use new name selector API (Hans)
+    - prevent crash when searching for f/b info (JP)
+    - a11y fixes (Harry)
+    - calendar config cleanup (JP)
+	
+ * Shell
+
+    - Make component buttons configurable (JP)
+    - Set offline with gconf key (Siva)
+
+  * Plugins
+
+    - add component.migration event for calendar (David Trowbridge)
+    - fix translations of popup menus (Michael)
+    - HIG config dialog fixes (Rodney)
+    - Add calendar file config plugin so local calendar get set up right (JP)
+    - Add calendar weather config plugin (David Trowbridge)
+    - Add exchange account config plugin (Sushma)
+    - Add groupwise send options plugin (Partha)
+    - Add itip formatter plugin (JP)
+    - Add new-mail-notify plugin that uses DBUS (Miguel Angel Lopez Hernandez)
+    - Use standard error messages in save-calendar plugin (Philip Van Hoof)
+    - Add send options plugin for account editor (Chen)
+    - Add shared folder notification plugin (vivek)
+
+Updated translations:
+  - lt (Zygimantas Berucka)
+  - ja (Takeshi AIHANA)
+  - bg (Vladimir Petkov, Alexander Shopov)
+  - et (Priit Laes, Ivar Smolin)
+
 Evolution 2.1.2, 2004-12-20
 ----------------------------
 

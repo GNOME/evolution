@@ -11,13 +11,11 @@ plugin_DATA = org-gnome-shared-folder.eplug
 plugin_LTLIBRARIES = liborg-gnome-shared-folder.la
 
 liborg_gnome_shared_folder_la_SOURCES = share-folder-common.c share-folder.c install-shared.c share-folder.h 
-liborg_gnome_shared_folder_la_LIBADD= $(prefix)/lib/libegroupwise-1.2.la
+liborg_gnome_shared_folder_la_LIBADD= $(CAMEL_GROUPWISE_LIBS)
 
 
 liborg_gnome_shared_folder_la_LDFLAGS = -module -avoid-version
 
- glade_DATA =properties.glade 
+glade_DATA =properties.glade 
 
-
-
-EXTRA_DIST =$(glade_DATA)
+EXTRA_DIST = $(glade_DATA) org-gnome-shared-folder.eplug.in
