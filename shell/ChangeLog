@@ -1,5 +1,10 @@
 2001-07-01  Ettore Perazzoli  <ettore@ximian.com>
 
+	* e-uri-schema-registry.c (init): Unset the FLOATING flag on the
+	object.
+
+2001-07-01  Ettore Perazzoli  <ettore@ximian.com>
+
 	* e-shell-view.c: Fixing a bug that could cause Evolution to crash
 	if a new ShellView was created and then destroyed, and then a new
 	folder would appear in the folder tree.  Sigh, this code with the

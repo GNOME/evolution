@@ -116,6 +116,8 @@ init (EUriSchemaRegistry *uri_schema_registry)
 	priv->schema_to_handler = g_hash_table_new (g_str_hash, g_str_equal);
 
 	uri_schema_registry->priv = priv;
+
+	GTK_OBJECT_UNSET_FLAGS (uri_schema_registry, GTK_FLOATING);
 }
 
 
