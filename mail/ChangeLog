@@ -1,3 +1,12 @@
+2002-04-01  Jeffrey Stedfast  <fejj@ximian.com>
+
+	* mail-composer-prefs.c (mail_composer_prefs_construct):
+	Re-Implemented the signature editor stuff (mostly just copy/paste
+	from Radeks original code).
+
+	* mail-signature-editor.c (mail_signature_editor): Use the right
+	oafiid for the html editor control.
+
 2002-04-01  Dan Winship  <danw@ximian.com>
 
 	* importers/Makefile.am (liboutlook_la_LDFLAGS,

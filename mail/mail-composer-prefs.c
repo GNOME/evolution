@@ -26,6 +26,7 @@
 #endif
 
 #include "mail-composer-prefs.h"
+#include "composer/e-msg-composer.h"
 
 #include <bonobo/bonobo-generic-factory.h>
 
@@ -35,7 +36,10 @@
 
 static void mail_composer_prefs_class_init (MailComposerPrefsClass *class);
 static void mail_composer_prefs_init       (MailComposerPrefs *dialog);
+static void mail_composer_prefs_destroy    (GtkObject *obj);
 static void mail_composer_prefs_finalise   (GtkObject *obj);
+
+static void sig_event_client (MailConfigSigEvent event, MailConfigSignature *sig, MailComposerPrefs *prefs);
 
 static GtkVBoxClass *parent_class = NULL;
 
@@ -70,6 +74,7 @@ mail_composer_prefs_class_init (MailComposerPrefsClass *klass)
 	object_class = (GtkObjectClass *) klass;
 	parent_class = gtk_type_class (gtk_vbox_get_type ());
 	
+	object_class->destroy = mail_composer_prefs_destroy;
 	object_class->finalize = mail_composer_prefs_finalise;
 	/* override methods */
 	
@@ -84,13 +89,20 @@ mail_composer_prefs_init (MailComposerPrefs *composer_prefs)
 static void
 mail_composer_prefs_finalise (GtkObject *obj)
 {
-	MailComposerPrefs *composer_prefs = (MailComposerPrefs *) obj;
+	MailComposerPrefs *prefs = (MailComposerPrefs *) obj;
 	
-	gtk_object_unref (GTK_OBJECT (composer_prefs->gui));
+	gtk_object_unref (GTK_OBJECT (prefs->gui));
 	
         ((GtkObjectClass *)(parent_class))->finalize (obj);
 }
 
+static void
+mail_composer_prefs_destroy (GtkObject *obj)
+{
+	MailComposerPrefs *prefs = (MailComposerPrefs *) obj;
+	
+	mail_config_signature_unregister_client ((MailConfigSignatureClient) sig_event_client, prefs);
+}
 
 static void
 colorpicker_set_color (GnomeColorPicker *color, guint32 rgb)
@@ -161,9 +173,331 @@ option_menu_connect (GtkOptionMenu *omenu, gpointer user_data)
 }
 
 static void
+run_script (char *script)
+{
+	struct stat st;
+	
+	if (stat (script, &st))
+		return;
+	
+	if (!S_ISREG (st.st_mode) || !(st.st_mode & (S_IXOTH | S_IXGRP | S_IXUSR)))
+		return;
+	
+	mail_config_signature_run_script (script);
+}
+
+static void
+sig_load_preview (MailComposerPrefs *prefs, MailConfigSignature *sig)
+{
+	char *str;
+	
+	if (!sig) {
+		gtk_html_load_from_string (GTK_HTML (prefs->sig_preview), " ", 1);
+		return;
+	}
+	
+	str = e_msg_composer_get_sig_file_content (sig->filename, sig->html);
+	if (!str)
+		str = g_strdup (" ");
+	
+	/* printf ("HTML: %s\n", str); */
+	if (sig->html)
+		gtk_html_load_from_string (GTK_HTML (prefs->sig_preview), str, strlen (str));
+	else {
+		GtkHTMLStream *stream;
+		int len;
+		
+		len = strlen (str);
+		stream = gtk_html_begin (GTK_HTML (prefs->sig_preview));
+		gtk_html_write (GTK_HTML (prefs->sig_preview), stream, "<PRE>", 5);
+		if (len)
+			gtk_html_write (GTK_HTML (prefs->sig_preview), stream, str, len);
+		gtk_html_write (GTK_HTML (prefs->sig_preview), stream, "</PRE>", 6);
+		gtk_html_end (GTK_HTML (prefs->sig_preview), stream, GTK_HTML_STREAM_OK);
+	}
+	
+	g_free (str);
+}
+
+static void
+sig_write_and_update_preview (MailComposerPrefs *prefs, MailConfigSignature *sig)
+{
+	sig_load_preview (prefs, sig);
+	mail_config_signature_write (sig);
+}
+
+static MailConfigSignature *
+sig_current_sig (MailComposerPrefs *prefs)
+{
+	return gtk_clist_get_row_data (GTK_CLIST (prefs->sig_clist), prefs->sig_row);
+}
+
+static void
+sig_script_activate (GtkWidget *widget, MailComposerPrefs *prefs)
+{
+	MailConfigSignature *sig = sig_current_sig (prefs);
+	
+	if (sig && sig->script && *sig->script) {
+		run_script (sig->script);
+		sig_write_and_update_preview (prefs, sig);
+	}
+}
+
+static void
+sig_edit (GtkWidget *widget, MailComposerPrefs *prefs)
+{
+	MailConfigSignature *sig = sig_current_sig (prefs);
+	
+	if (sig->filename && *sig->filename)
+		mail_signature_editor (sig);
+	else
+		e_notice (GTK_WINDOW (prefs), GNOME_MESSAGE_BOX_ERROR,
+			  _("Please specify signature filename\nin Andvanced section of signature settings."));
+}
+
+MailConfigSignature *
+mail_composer_prefs_new_signature (MailComposerPrefs *prefs, gboolean html)
+{
+	MailConfigSignature *sig;
+	char *name[2];
+	int row;
+	
+	sig = mail_config_signature_add (html);
+	
+	name[0] = sig->name;
+	name[1] = sig->random ? _("yes") : _("no");
+	row = gtk_clist_append (GTK_CLIST (prefs->sig_clist), name);
+	gtk_clist_set_row_data (GTK_CLIST (prefs->sig_clist), row, sig);
+	gtk_clist_select_row (GTK_CLIST (prefs->sig_clist), row, 0);
+	/*gtk_widget_grab_focus (prefs->sig_name);*/
+	
+	sig_edit (NULL, prefs);
+	
+	return sig;
+}
+
+static void sig_row_unselect (GtkCList *clist, int row, int col, GdkEvent *event, MailComposerPrefs *prefs);
+
+static void
+sig_delete (GtkWidget *widget, MailComposerPrefs *prefs)
+{
+	MailConfigSignature *sig = sig_current_sig (prefs);
+	
+	gtk_clist_remove (prefs->sig_clist, prefs->sig_row);
+	mail_config_signature_delete (sig);
+	if (prefs->sig_row < prefs->sig_clist->rows)
+		gtk_clist_select_row (prefs->sig_clist, prefs->sig_row, 0);
+	else if (prefs->sig_row)
+		gtk_clist_select_row (prefs->sig_clist, prefs->sig_row - 1, 0);
+	else
+		sig_row_unselect (prefs->sig_clist, prefs->sig_row, 0, NULL, prefs);
+}
+
+static void
+sig_add (GtkWidget *widget, MailComposerPrefs *prefs)
+{
+	mail_composer_prefs_new_signature (prefs, FALSE);
+}
+
+static void
+sig_row_select (GtkCList *clist, int row, int col, GdkEvent *event, MailComposerPrefs *prefs)
+{
+	MailConfigSignature *sig;
+	
+	printf ("sig_row_select\n");
+	gtk_widget_set_sensitive ((GtkWidget *) prefs->sig_delete, TRUE);
+	gtk_widget_set_sensitive ((GtkWidget *) prefs->sig_edit, TRUE);
+	/*gtk_widget_set_sensitive ((GtkWidget *) prefs->sig_name, TRUE);*/
+	gtk_widget_set_sensitive ((GtkWidget *) prefs->sig_random, TRUE);
+	gtk_widget_set_sensitive ((GtkWidget *) prefs->sig_html, TRUE);
+	gtk_widget_set_sensitive ((GtkWidget *) prefs->sig_filename, TRUE);
+	gtk_widget_set_sensitive ((GtkWidget *) prefs->sig_script, TRUE);
+	gtk_widget_set_sensitive ((GtkWidget *) prefs->sig_html, TRUE);
+	
+	prefs->sig_switch = TRUE;
+	sig = gtk_clist_get_row_data (prefs->sig_clist, row);
+	if (sig) {
+		/*if (sig->name)
+		  e_utf8_gtk_entry_set_text (GTK_ENTRY (prefs->sig_name), sig->name);*/
+		gtk_toggle_button_set_active (prefs->sig_random, sig->random);
+		gtk_toggle_button_set_active (prefs->sig_html, sig->html);
+		if (sig->filename)
+			gtk_entry_set_text (GTK_ENTRY (gnome_file_entry_gtk_entry (prefs->sig_filename)),
+					    sig->filename);
+		if (sig->script)
+			gtk_entry_set_text (GTK_ENTRY (gnome_file_entry_gtk_entry (prefs->sig_script)),
+					    sig->script);
+	}
+	prefs->sig_switch = FALSE;
+	prefs->sig_row = row;
+	
+	sig_load_preview (prefs, sig);
+}
+
+static void
+sig_row_unselect (GtkCList *clist, int row, int col, GdkEvent *event, MailComposerPrefs *prefs)
+{
+	printf ("sig_row_unselect\n");
+	gtk_widget_set_sensitive ((GtkWidget *) prefs->sig_delete, FALSE);
+	gtk_widget_set_sensitive ((GtkWidget *) prefs->sig_edit, FALSE);
+	/*gtk_widget_set_sensitive ((GtkWidget *) prefs->sig_name, FALSE);*/
+	gtk_widget_set_sensitive ((GtkWidget *) prefs->sig_random, FALSE);
+	gtk_widget_set_sensitive ((GtkWidget *) prefs->sig_html, FALSE);
+	gtk_widget_set_sensitive ((GtkWidget *) prefs->sig_filename, FALSE);
+	gtk_widget_set_sensitive ((GtkWidget *) prefs->sig_script, FALSE);
+	
+	prefs->sig_switch = TRUE;
+	/*gtk_entry_set_text (GTK_ENTRY (prefs->sig_name), "");*/
+	gtk_toggle_button_set_active (prefs->sig_random, FALSE);
+	gtk_entry_set_text (GTK_ENTRY (gnome_file_entry_gtk_entry (prefs->sig_filename)), "");
+	gtk_entry_set_text (GTK_ENTRY (gnome_file_entry_gtk_entry (prefs->sig_script)), "");
+	prefs->sig_switch = FALSE;
+}
+
+static void
+sig_fill_clist (GtkCList *clist)
+{
+	GList *l;
+	char *name[2];
+	int row;
+	
+	gtk_clist_freeze (clist);
+	for (l = mail_config_get_signature_list (); l; l = l->next) {
+		name[0] = ((MailConfigSignature *) l->data)->name;
+		name[1] = ((MailConfigSignature *) l->data)->random ? _("yes") : _("no");
+		row = gtk_clist_append (clist, name);
+		gtk_clist_set_row_data (clist, row, l->data);
+	}
+	gtk_clist_thaw (clist);
+}
+
+static void
+sig_name_changed (GtkWidget *widget, MailComposerPrefs *prefs)
+{
+	MailConfigSignature *sig = sig_current_sig (prefs);
+	
+	if (prefs->sig_switch)
+		return;
+	
+	/*mail_config_signature_set_name (sig, e_utf8_gtk_entry_get_text (GTK_ENTRY (prefs->sig_name)));*/
+	gtk_clist_set_text (GTK_CLIST (prefs->sig_clist), prefs->sig_row, 0, sig->name);
+	
+	sig_write_and_update_preview (prefs, sig);
+}
+
+static void
+sig_random_toggled (GtkWidget *widget, MailComposerPrefs *prefs)
+{
+	MailConfigSignature *sig = sig_current_sig (prefs);
+	
+	if (prefs->sig_switch)
+		return;
+	
+	mail_config_signature_set_random (sig, gtk_toggle_button_get_active (prefs->sig_random));
+	
+	gtk_clist_set_text (prefs->sig_clist, prefs->sig_row, 1, sig->random ? _("yes") : _("no"));
+	
+	sig_write_and_update_preview (prefs, sig);
+}
+
+static void
+sig_html_toggled (GtkWidget *widget, MailComposerPrefs *prefs)
+{
+	MailConfigSignature *sig = sig_current_sig (prefs);
+	
+	if (prefs->sig_switch)
+		return;
+	
+	sig->html = gtk_toggle_button_get_active (prefs->sig_html);
+	
+	sig_write_and_update_preview (prefs, sig);
+}
+
+static void
+sig_filename_changed (GtkWidget *widget, MailComposerPrefs *prefs)
+{
+	MailConfigSignature *sig = sig_current_sig (prefs);
+	
+	if (prefs->sig_switch)
+		return;
+	
+	mail_config_signature_set_filename (sig, gnome_file_entry_get_full_path (prefs->sig_filename, FALSE));
+	sig_write_and_update_preview (prefs, sig);
+}
+
+static void
+sig_script_changed (GtkWidget *widget, MailComposerPrefs *prefs)
+{
+	MailConfigSignature *sig = sig_current_sig (prefs);
+	
+	if (prefs->sig_switch)
+		return;
+	
+	g_free (sig->script);
+	sig->script = g_strdup (gnome_file_entry_get_full_path (prefs->sig_script, FALSE));
+	
+	sig_write_and_update_preview (prefs, sig);
+}
+
+static void
+url_requested (GtkHTML *html, const char *url, GtkHTMLStream *handle)
+{
+	GtkHTMLStreamStatus status;
+	int fd;
+	
+	if (!strncmp (url, "file:", 5))
+		url += 5;
+	
+	fd = open (url, O_RDONLY);
+	status = GTK_HTML_STREAM_OK;
+	if (fd != -1) {
+		ssize_t size;
+		void *buf = alloca (1 << 7);
+		while ((size = read (fd, buf, 1 << 7))) {
+			if (size == -1) {
+				status = GTK_HTML_STREAM_ERROR;
+				break;
+			} else
+				gtk_html_write (html, handle, (const gchar *) buf, size);
+		}
+	} else
+		status = GTK_HTML_STREAM_ERROR;
+	
+	gtk_html_end (html, handle, status);
+}
+
+static void
+sig_event_client (MailConfigSigEvent event, MailConfigSignature *sig, MailComposerPrefs *prefs)
+{
+	switch (event) {
+	case MAIL_CONFIG_SIG_EVENT_NAME_CHANGED:
+		printf ("accounts NAME CHANGED\n");
+		gtk_clist_set_text (GTK_CLIST (prefs->sig_clist), sig->id, 0, sig->name);
+		if (sig == sig_current_sig (prefs)) {
+			prefs->sig_switch = TRUE;
+			/*e_utf8_gtk_entry_set_text (GTK_ENTRY (prefs->sig_name), sig->name);*/
+			prefs->sig_switch = FALSE;
+		}
+		break;
+	case MAIL_CONFIG_SIG_EVENT_CONTENT_CHANGED:
+		printf ("accounts CONTENT CHANGED\n");
+		if (sig == sig_current_sig (prefs))
+			sig_load_preview (prefs, sig);
+		break;
+	case MAIL_CONFIG_SIG_EVENT_HTML_CHANGED:
+		printf ("accounts HTML CHANGED\n");
+		if (sig == sig_current_sig (prefs))
+			gtk_toggle_button_set_active (prefs->sig_html, sig->html);
+		break;
+	default:
+		;
+	}
+}
+
+static void
 mail_composer_prefs_construct (MailComposerPrefs *prefs)
 {
-	GtkWidget *toplevel, *menu;
+	GtkWidget *toplevel, *widget, *menu;
 	GladeXML *gui;
 	int style;
 	
@@ -223,7 +557,55 @@ mail_composer_prefs_construct (MailComposerPrefs *prefs)
 			       attach_style_info, &style);
 	option_menu_connect (prefs->reply_style, prefs);
 	
-	/* FIXME: do the other tabs... */
+	/* Signatures */
+	prefs->sig_add = GTK_BUTTON (glade_xml_get_widget (gui, "cmdSignatureAdd"));
+	gtk_signal_connect (GTK_OBJECT (prefs->sig_add), "clicked",
+			    GTK_SIGNAL_FUNC (sig_add), prefs);
+	
+	prefs->sig_edit = GTK_BUTTON (glade_xml_get_widget (gui, "cmdSignatureEdit"));
+	gtk_signal_connect (GTK_OBJECT (prefs->sig_edit), "clicked",
+			    GTK_SIGNAL_FUNC (sig_edit), prefs);
+	
+	prefs->sig_delete = GTK_BUTTON (glade_xml_get_widget (gui, "cmdSignatureDelete"));
+	gtk_signal_connect (GTK_OBJECT (prefs->sig_delete), "clicked",
+			    GTK_SIGNAL_FUNC (sig_delete), prefs);
+	
+	prefs->sig_random = GTK_TOGGLE_BUTTON (glade_xml_get_widget (gui, "chkRandomSignature"));
+	gtk_signal_connect (GTK_OBJECT (prefs->sig_random), "toggled",
+			    GTK_SIGNAL_FUNC (sig_random_toggled), prefs);
+	
+	prefs->sig_clist = GTK_CLIST (glade_xml_get_widget (gui, "clistSignatures"));
+	sig_fill_clist (prefs->sig_clist);
+	gtk_signal_connect (GTK_OBJECT (prefs->sig_clist), "select_row",
+			    GTK_SIGNAL_FUNC (sig_row_select), prefs);
+	gtk_signal_connect (GTK_OBJECT (prefs->sig_clist), "unselect_row",
+			    GTK_SIGNAL_FUNC (sig_row_unselect), prefs);
+	
+	prefs->sig_html = GTK_TOGGLE_BUTTON (glade_xml_get_widget (gui, "chkHtmlSignature"));
+	gtk_signal_connect (GTK_OBJECT (prefs->sig_html), "toggled",
+			    GTK_SIGNAL_FUNC (sig_html_toggled), prefs);
+	
+	prefs->sig_filename = GNOME_FILE_ENTRY (glade_xml_get_widget (gui, "fileSignatureFilename"));
+	gtk_signal_connect (GTK_OBJECT (gnome_file_entry_gtk_entry (prefs->sig_filename)),
+			    "changed", GTK_SIGNAL_FUNC (sig_filename_changed), prefs);
+	
+	prefs->sig_script = GNOME_FILE_ENTRY (glade_xml_get_widget (gui, "fileSignatureScript"));
+	gtk_signal_connect (GTK_OBJECT (gnome_file_entry_gtk_entry (prefs->sig_script)),
+			    "changed", GTK_SIGNAL_FUNC (sig_script_changed), prefs);
+	gtk_signal_connect (GTK_OBJECT (gnome_file_entry_gtk_entry (prefs->sig_script)),
+			    "activate", GTK_SIGNAL_FUNC (sig_script_activate), prefs);
+	
+	/* preview GtkHTML widget */
+	widget = glade_xml_get_widget (gui, "scrolled-sig");
+	prefs->sig_preview = (GtkHTML *) gtk_html_new ();
+	gtk_signal_connect (GTK_OBJECT (prefs->sig_preview), "url_requested", GTK_SIGNAL_FUNC (url_requested), NULL);
+	gtk_widget_show (GTK_WIDGET (prefs->sig_preview));
+	gtk_container_add (GTK_CONTAINER (widget), GTK_WIDGET (prefs->sig_preview));
+	
+	if (GTK_CLIST (prefs->sig_clist)->rows)
+		gtk_clist_select_row (GTK_CLIST (prefs->sig_clist), 0, 0);
+	
+	mail_config_signature_register_client ((MailConfigSignatureClient) sig_event_client, prefs);
 }
 
 

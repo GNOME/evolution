@@ -1,3 +1,30 @@
+/* -*- Mode: C; tab-width: 8; indent-tabs-mode: t; c-basic-offset: 8 -*- */
+/*
+ *  Authors: Radek Doulik <rodo@ximian.com>
+ *
+ *  Copyright 2002 Ximian, Inc. (www.ximian.com)
+ *
+ *  This program is free software; you can redistribute it and/or modify
+ *  it under the terms of the GNU General Public License as published by
+ *  the Free Software Foundation; either version 2 of the License, or
+ *  (at your option) any later version.
+ *
+ *  This program is distributed in the hope that it will be useful,
+ *  but WITHOUT ANY WARRANTY; without even the implied warranty of
+ *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ *  GNU General Public License for more details.
+ *
+ *  You should have received a copy of the GNU General Public License
+ *  along with this program; if not, write to the Free Software
+ *  Foundation, Inc., 59 Temple Street #330, Boston, MA 02111-1307, USA.
+ *
+ */
+
+
+#ifdef HAVE_CONFIG_H
+#include <config.h>
+#endif
+
 #include <bonobo.h>
 #include <bonobo/bonobo-stream-memory.h>
 
@@ -287,11 +314,11 @@ mail_signature_editor (MailConfigSignature *sig)
 	bonobo_ui_component_add_verb_list_with_data (component, verbs, editor);
 	bonobo_ui_util_set_ui (component, EVOLUTION_DATADIR, "evolution-signature-editor.xml", "evolution-signature-editor");
 	
-	editor->control = bonobo_widget_new_control ("OAFIID:GNOME_GtkHTML_Editor",
+	editor->control = bonobo_widget_new_control ("OAFIID:GNOME_GtkHTML_Editor:1.1",
 						     bonobo_ui_component_get_container (component));
 	
 	if (editor->control == NULL) {
-		g_warning ("Cannot get 'OAFIID:GNOME_GtkHTML_Editor'.");
+		g_warning ("Cannot get 'OAFIID:GNOME_GtkHTML_Editor:1.1'.");
 		
 		destroy_editor (editor);
 		return;

@@ -6091,7 +6091,7 @@ Microsoft
 
 	  <widget>
 	    <class>GtkCList</class>
-	    <name>clist-sig</name>
+	    <name>clistSignatures</name>
 	    <can_focus>True</can_focus>
 	    <columns>2</columns>
 	    <column_widths>189,80</column_widths>
@@ -6102,7 +6102,7 @@ Microsoft
 	    <widget>
 	      <class>GtkLabel</class>
 	      <child_name>CList:title</child_name>
-	      <name>label443</name>
+	      <name>lblSignature</name>
 	      <label>Signature</label>
 	      <justify>GTK_JUSTIFY_CENTER</justify>
 	      <wrap>False</wrap>
@@ -6115,7 +6115,7 @@ Microsoft
 	    <widget>
 	      <class>GtkLabel</class>
 	      <child_name>CList:title</child_name>
-	      <name>label444</name>
+	      <name>lblRandomized</name>
 	      <label>Randomized</label>
 	      <justify>GTK_JUSTIFY_CENTER</justify>
 	      <wrap>False</wrap>
@@ -6129,7 +6129,7 @@ Microsoft
 
 	<widget>
 	  <class>GtkVBox</class>
-	  <name>vbox157</name>
+	  <name>vboxSignatureButtons</name>
 	  <border_width>3</border_width>
 	  <homogeneous>False</homogeneous>
 	  <spacing>3</spacing>
@@ -6141,7 +6141,7 @@ Microsoft
 
 	  <widget>
 	    <class>GtkLabel</class>
-	    <name>label445</name>
+	    <name>lblSpacer</name>
 	    <label></label>
 	    <justify>GTK_JUSTIFY_CENTER</justify>
 	    <wrap>False</wrap>
@@ -6173,7 +6173,7 @@ Microsoft
 
 	    <widget>
 	      <class>GtkButton</class>
-	      <name>button-sig-add</name>
+	      <name>cmdSignatureAdd</name>
 	      <can_default>True</can_default>
 	      <can_focus>True</can_focus>
 	      <label>_Add</label>
@@ -6182,7 +6182,7 @@ Microsoft
 
 	    <widget>
 	      <class>GtkButton</class>
-	      <name>button-sig-edit</name>
+	      <name>cmdSignatureEdit</name>
 	      <can_default>True</can_default>
 	      <can_focus>True</can_focus>
 	      <label>_Edit</label>
@@ -6191,7 +6191,7 @@ Microsoft
 
 	    <widget>
 	      <class>GtkButton</class>
-	      <name>button-sig-delete</name>
+	      <name>cmdSignatureDelete</name>
 	      <can_default>True</can_default>
 	      <can_focus>True</can_focus>
 	      <label>_Delete</label>
@@ -6200,28 +6200,17 @@ Microsoft
 	  </widget>
 
 	  <widget>
-	    <class>GtkVButtonBox</class>
-	    <name>vbuttonbox26</name>
-	    <layout_style>GTK_BUTTONBOX_DEFAULT_STYLE</layout_style>
-	    <spacing>10</spacing>
-	    <child_min_width>85</child_min_width>
-	    <child_min_height>27</child_min_height>
-	    <child_ipad_x>7</child_ipad_x>
-	    <child_ipad_y>0</child_ipad_y>
+	    <class>GtkToggleButton</class>
+	    <name>chkRandomSignature</name>
+	    <can_focus>True</can_focus>
+	    <label>_Random</label>
+	    <relief>GTK_RELIEF_NORMAL</relief>
+	    <active>False</active>
 	    <child>
 	      <padding>0</padding>
-	      <expand>True</expand>
-	      <fill>True</fill>
+	      <expand>False</expand>
+	      <fill>False</fill>
 	    </child>
-
-	    <widget>
-	      <class>GtkButton</class>
-	      <name>button-sig-randomize</name>
-	      <can_default>True</can_default>
-	      <can_focus>True</can_focus>
-	      <label>_Randomize</label>
-	      <relief>GTK_RELIEF_NORMAL</relief>
-	    </widget>
 	  </widget>
 	</widget>
       </widget>
@@ -6240,7 +6229,7 @@ Microsoft
 
 	<widget>
 	  <class>GtkFrame</class>
-	  <name>frame-sig-preview</name>
+	  <name>frameSignaturePreview</name>
 	  <label_xalign>0</label_xalign>
 	  <shadow_type>GTK_SHADOW_IN</shadow_type>
 	  <child>
@@ -6250,14 +6239,23 @@ Microsoft
 	  </child>
 
 	  <widget>
-	    <class>Placeholder</class>
+	    <class>GtkScrolledWindow</class>
+	    <name>scrolled-sig</name>
+	    <hscrollbar_policy>GTK_POLICY_AUTOMATIC</hscrollbar_policy>
+	    <vscrollbar_policy>GTK_POLICY_AUTOMATIC</vscrollbar_policy>
+	    <hupdate_policy>GTK_UPDATE_CONTINUOUS</hupdate_policy>
+	    <vupdate_policy>GTK_UPDATE_CONTINUOUS</vupdate_policy>
+
+	    <widget>
+	      <class>Placeholder</class>
+	    </widget>
 	  </widget>
 	</widget>
       </widget>
 
       <widget>
 	<class>GtkCheckButton</class>
-	<name>check-sig-advanced</name>
+	<name>chkAdvancedSignature</name>
 	<can_focus>True</can_focus>
 	<label>Enable advanced options</label>
 	<active>False</active>
@@ -6320,12 +6318,12 @@ Microsoft
 
 	  <widget>
 	    <class>GnomeFileEntry</class>
-	    <name>file-sig-filename</name>
+	    <name>fileSignatureFilename</name>
 	    <history_id>sig-filename</history_id>
 	    <max_saved>10</max_saved>
 	    <title>Select a signature file</title>
 	    <directory>False</directory>
-	    <modal>False</modal>
+	    <modal>True</modal>
 	    <child>
 	      <left_attach>1</left_attach>
 	      <right_attach>2</right_attach>
@@ -6355,12 +6353,12 @@ Microsoft
 
 	  <widget>
 	    <class>GnomeFileEntry</class>
-	    <name>file-sig-script</name>
+	    <name>fileSignatureScript</name>
 	    <history_id>sig-script</history_id>
 	    <max_saved>10</max_saved>
 	    <title>Select a signature script</title>
 	    <directory>False</directory>
-	    <modal>False</modal>
+	    <modal>True</modal>
 	    <child>
 	      <left_attach>1</left_attach>
 	      <right_attach>2</right_attach>
@@ -6417,7 +6415,7 @@ Microsoft
 
 	  <widget>
 	    <class>GtkCheckButton</class>
-	    <name>check-sig-html</name>
+	    <name>chkHtmlSignature</name>
 	    <can_focus>True</can_focus>
 	    <label>Use _HTML for this signature</label>
 	    <active>False</active>

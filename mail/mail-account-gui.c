@@ -1149,14 +1149,14 @@ sig_new_text (GtkWidget *w, MailAccountGui *gui)
 #if 0
 	if (!gui->dialog)
 		return;
-
+	
 	sig_switch_to_list (w, gui);
-
-	gui->text_signature = mail_accounts_dialog_new_signature (gui->dialog, FALSE);
+	
+	gui->text_signature = mail_composer_prefs_new_signature (gui->dialog, FALSE);
 	gui->text_random = FALSE;
 	
 	gtk_option_menu_set_history (GTK_OPTION_MENU (gui->sig_option_text), sig_get_index (gui->text_signature));
-
+	
 	sig_set_and_write (gui);
 	gtk_widget_set_sensitive (gui->sig_edit_text, TRUE);
 #endif

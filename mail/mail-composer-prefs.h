@@ -34,6 +34,9 @@ extern "C" {
 #include <libgnomeui/gnome-color-picker.h>
 #include <libgnomeui/gnome-dialog.h>
 #include <libgnomeui/gnome-file-entry.h>
+#include <gtkhtml/gtkhtml.h>
+
+#include "mail-signature-editor.h"
 
 #include "evolution-config-control.h"
 
@@ -77,7 +80,17 @@ struct _MailComposerPrefs {
 	GtkCList *keybindings;
 	
 	/* Signatures */
-	
+	GtkCList *sig_clist;
+	GtkButton *sig_add;
+	GtkButton *sig_edit;
+	GtkButton *sig_delete;
+	GtkToggleButton *sig_random;
+	GtkToggleButton *sig_html;
+	GnomeFileEntry *sig_filename;
+	GnomeFileEntry *sig_script;
+	GtkHTML *sig_preview;
+	gboolean sig_switch;
+	int sig_row;
 };
 
 struct _MailComposerPrefsClass {
@@ -93,6 +106,9 @@ GtkType mail_composer_prefs_get_type (void);
 GtkWidget *mail_composer_prefs_new (void);
 
 void mail_composer_prefs_apply (MailComposerPrefs *prefs);
+
+
+MailConfigSignature *mail_composer_prefs_new_signature (MailComposerPrefs *prefs, gboolean html);
 
 /* needed by global config */
 #define MAIL_COMPOSER_PREFS_CONTROL_ID "OAFIID:GNOME_Evolution_Mail_ComposerPrefs_ConfigControl"

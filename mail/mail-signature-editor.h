@@ -30,6 +30,7 @@ extern "C" {
 #endif /* __cplusplus */
 
 #include <glib.h>
+#include <mail-config.h>
 
 void mail_signature_editor (MailConfigSignature *sig);
 
