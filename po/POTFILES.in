@@ -395,3 +395,5 @@ widgets/misc/e-dateedit.c
 widgets/misc/e-filter-bar.c
 widgets/misc/e-filter-bar.h
 widgets/misc/e-search-bar.c
+shell/GNOME_Evolution_Test.server.in.in
+widgets/misc/e-expander.c

@@ -1,5 +1,10 @@
 2004-01-11  Kjartan Maraas  <kmaraas@gnome.org>
 
+	* POTFILES.in: Added missing files.
+	* no.po: Updated slightly.
+
+2004-01-11  Kjartan Maraas  <kmaraas@gnome.org>
+
 	* no.po: Updated Norwegian translation.
 
 2004-01-10  Danilo Šegan  <dsegan@gmx.net>

@@ -6,8 +6,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: evolution 1.5\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2004-01-11 13:26+0100\n"
-"PO-Revision-Date: 2004-01-11 14:13+0100\n"
+"POT-Creation-Date: 2004-01-11 14:34+0100\n"
+"PO-Revision-Date: 2004-01-11 14:37+0100\n"
 "Last-Translator: Kjartan Maraas <kmaraas@gnome.org>\n"
 "Language-Team: Norwegian <i18n-nb@lister.ping.uio.no>\n"
 "MIME-Version: 1.0\n"
@@ -242,26 +242,35 @@ msgstr "Denne spørringen ble ikke fullført."
 msgid ""
 "We were unable to open this addressbook.  Please check that the path exists "
 "and that you have permission to access it."
-msgstr "Kunne ikke åpne denne adresseboken. Vennligst sjekk at stien eksisterer og at du har rettigheter til å aksessere den."
+msgstr ""
+"Kunne ikke åpne denne adresseboken. Vennligst sjekk at stien eksisterer og "
+"at du har rettigheter til å aksessere den."
 
 #: addressbook/gui/component/addressbook.c:599
 msgid ""
 "We were unable to open this addressbook.  This either means you have entered "
 "an incorrect URI, or the LDAP server is unreachable."
-msgstr "Kunne ikke åpne denne adresseboken. Dette betyr enten at du har skrevet inn en ugyldig URI, eller at LDAP-tjeneren ikke kan nås."
+msgstr ""
+"Kunne ikke åpne denne adresseboken. Dette betyr enten at du har skrevet inn "
+"en ugyldig URI, eller at LDAP-tjeneren ikke kan nås."
 
 #: addressbook/gui/component/addressbook.c:604
 msgid ""
 "This version of Evolution does not have LDAP support compiled in to it.  If "
 "you want to use LDAP in Evolution you must compile the program from the CVS "
 "sources after retrieving OpenLDAP from the link below."
-msgstr "Denne versjonen av Evolution har ikke LDAP-støtte kompilert inn. Hvis du ønsker å bruke LDAP i Evolution må du kompilere programmet fra kildekoden i CVS etter å ha hentet OpenLDAP fra lenken under."
+msgstr ""
+"Denne versjonen av Evolution har ikke LDAP-støtte kompilert inn. Hvis du "
+"ønsker å bruke LDAP i Evolution må du kompilere programmet fra kildekoden i "
+"CVS etter å ha hentet OpenLDAP fra lenken under."
 
 #: addressbook/gui/component/addressbook.c:613
 msgid ""
 "We were unable to open this addressbook.  This either means you have entered "
 "an incorrect URI, or the server is unreachable."
-msgstr "Kunne ikke åpne denne adresseboken. Dette betyr enten at du har skrevet inn en ugyldig URI, eller at tjeneren ikke kan nås."
+msgstr ""
+"Kunne ikke åpne denne adresseboken. Dette betyr enten at du har skrevet inn "
+"en ugyldig URI, eller at tjeneren ikke kan nås."
 
 #: addressbook/gui/component/addressbook.c:630
 msgid "Unable to open addressbook"
@@ -512,7 +521,9 @@ msgstr ""
 msgid ""
 "Specifying a display name and group is the first step in setting up an "
 "addressbook."
-msgstr "Spesifisering av visningsnavn og gruppe er det siste steget i konfigurasjon av en adressebok."
+msgstr ""
+"Spesifisering av visningsnavn og gruppe er det siste steget i konfigurasjon "
+"av en adressebok."
 
 #: addressbook/gui/component/ldap-config.glade.h:48
 #: calendar/gui/dialogs/calendar-setup.glade.h:20
@@ -573,7 +584,8 @@ msgid ""
 "A search scope of \"one\" will only include the entries one level beneath "
 "your base.\n"
 msgstr ""
-"Søkeområdet definerer hvor dypt du ønsker at søket skal gå ned i katalogtreet.\n"
+"Søkeområdet definerer hvor dypt du ønsker at søket skal gå ned i "
+"katalogtreet.\n"
 "Et søkeområde som «sub» vil ta med alle oppføringer under din søkebase.\n"
 "Et søkeområde som «one» vil kun ta med oppføringer ett nivå under basen.\n"
 
@@ -631,7 +643,9 @@ msgstr ""
 msgid ""
 "This is the name that will appear in your Evolution folder list. It is for "
 "display purposes only. "
-msgstr "Dette er navnet som vises i mappelisten i Evolution og brukes kun for visning på skjermen."
+msgstr ""
+"Dette er navnet som vises i mappelisten i Evolution og brukes kun for "
+"visning på skjermen."
 
 #: addressbook/gui/component/ldap-config.glade.h:75
 msgid ""
@@ -821,7 +835,8 @@ msgid ""
 "of that information here."
 msgstr ""
 "<b>Kalendertilgang</b>\n"
-"Hvis en person publiserer ledig-/opptatt informasjon eller annen kalenderinformasjon på internett, skriv inn adressen\n"
+"Hvis en person publiserer ledig-/opptatt informasjon eller annen "
+"kalenderinformasjon på internett, skriv inn adressen\n"
 "til denne informasjonen her."
 
 #: addressbook/gui/contact-editor/contact-editor.glade.h:6
@@ -3561,7 +3576,9 @@ msgid ""
 "This operation will permanently erase all events older than the selected "
 "amount of time. If you continue, you will not be able to recover these "
 "events."
-msgstr "Denne operasjonen vil fjerne alle hendelser innen valgt tidsrom permanent. Hvis du fortsetter vil du ikke kunne gjenopprette disse hendelsene. "
+msgstr ""
+"Denne operasjonen vil fjerne alle hendelser innen valgt tidsrom permanent. "
+"Hvis du fortsetter vil du ikke kunne gjenopprette disse hendelsene. "
 
 #: calendar/gui/calendar-commands.c:377
 msgid "Purge events older than"
@@ -4171,7 +4188,8 @@ msgid ""
 msgstr ""
 "Gratulerer. Du har fullført oppsett av denne kalenderen. \n"
 "\n"
-"Vennligst klikk på «Fullfør»-knappen for å lagre innstillingenene du har oppgitt her."
+"Vennligst klikk på «Fullfør»-knappen for å lagre innstillingenene du har "
+"oppgitt her."
 
 #: calendar/gui/dialogs/calendar-setup.glade.h:7
 msgid ""
@@ -4182,7 +4200,8 @@ msgid ""
 msgstr ""
 "Gratulerer. Du har fullført oppsett av denne oppgavelisten. \n"
 "\n"
-"Vennligst klikk på «Fullfør»-knappen for å lagre innstillingenene du har oppgitt her."
+"Vennligst klikk på «Fullfør»-knappen for å lagre innstillingenene du har "
+"oppgitt her."
 
 #: calendar/gui/dialogs/calendar-setup.glade.h:14
 #: calendar/gui/tasks-component.c:396
@@ -6627,7 +6646,8 @@ msgstr "Skriveroppsett"
 #: calendar/gui/tasks-component.c:350
 #, c-format
 msgid "Task List '%s' will be removed. Are you sure you want to continue?"
-msgstr "Oppgaveliste «%s» vil bli fjernet. Er du sikker på at du vil fortsette?"
+msgstr ""
+"Oppgaveliste «%s» vil bli fjernet. Er du sikker på at du vil fortsette?"
 
 #: calendar/gui/tasks-component.c:623
 msgid "New task"
@@ -11452,7 +11472,7 @@ msgstr "Oppgaver"
 msgid "Later"
 msgstr "Senere"
 
-#: filter/filter-part.c:531
+#: filter/filter-part.c:531 shell/GNOME_Evolution_Test.server.in.in.h:3
 msgid "Test"
 msgstr "Test"
 
@@ -11650,6 +11670,7 @@ msgid "Follow Up"
 msgstr "Følg opp"
 
 #: filter/libfilter-i18n.h:18 mail/em-folder-view.c:739
+#: widgets/misc/e-expander.c:189
 msgid "Label"
 msgstr "Etikett"
 
@@ -12105,7 +12126,7 @@ msgid "Could not create temporary directory: %s"
 msgstr "Kunne ikke opprette midlertidig katalog: %s"
 
 #: mail/em-folder-tree-model.c:569
-#, c-format, fuzzy
+#, fuzzy, c-format
 msgid "Could not create temporary mbox store: %s"
 msgstr "Kunne ikke opprette midlertidig katalog: %s"
 
@@ -12373,7 +12394,9 @@ msgstr "Usignert"
 msgid ""
 "This message is not signed.  There is no guarantee the sender of the message "
 "is authentic."
-msgstr "Denne meldingen er ikke signert. Du har ingen garanti for at avsender av meldingen er autentisk."
+msgstr ""
+"Denne meldingen er ikke signert. Du har ingen garanti for at avsender av "
+"meldingen er autentisk."
 
 #: mail/em-format-html-display.c:633 mail/em-format-html.c:565
 msgid "Valid signature"
@@ -17709,122 +17732,64 @@ msgstr "Tekst"
 msgid "Find _Now"
 msgstr "Finn _nå "
 
-#~ msgid "Select Names"
-#~ msgstr "Velg navn"
+#: shell/GNOME_Evolution_Test.server.in.in.h:1
+msgid "Evolution Test"
+msgstr "Evolution test"
 
-#~ msgid "Selected Contacts:"
-#~ msgstr "Valgte kontakter:"
+#: shell/GNOME_Evolution_Test.server.in.in.h:2
+msgid "Evolution Test component"
+msgstr "Testkomponent for Evolution"
 
-#~ msgid ""
-#~ "Type a name into the entry, or\n"
-#~ "select one from the list below:"
-#~ msgstr ""
-#~ "Skriv et navn inn i feltet,\n"
-#~ "eller velg et fra listen under:"
+#: widgets/misc/e-expander.c:181
+msgid "Expanded"
+msgstr "Utvidet"
 
-#~ msgid "_Folder:"
-#~ msgstr "_Mappe:"
+#: widgets/misc/e-expander.c:182
+msgid "Whether or not the expander is expanded"
+msgstr "Om utvideren er utvidet eller ikke"
 
-#~ msgid "East Timor"
-#~ msgstr "Øst-Timor"
+#: widgets/misc/e-expander.c:190
+msgid "Text of the expander's label"
+msgstr "Tekst for utviderens etikett"
 
-#~ msgid "Yugoslavia"
-#~ msgstr "Jugoslavia"
+#: widgets/misc/e-expander.c:197
+msgid "Use underline"
+msgstr "Bruk understreking"
 
-#~ msgid "Rename this calendar to"
-#~ msgstr "Gi nytt navn til denne kalenderen"
+#: widgets/misc/e-expander.c:198
+msgid ""
+"If set, an underline in the text indicates the next character should be used "
+"for the mnemonic accelerator key"
+msgstr ""
 
-#~ msgid "A group must be selected"
-#~ msgstr "En gruppe må velges"
+#: widgets/misc/e-expander.c:205
+msgid "Spacing"
+msgstr "Mellomrom"
 
-#~ msgid "The method required to load `%s' is not supported"
-#~ msgstr "Metoden som er nødvendig for å laste «%s» er ikke støttet"
+#: widgets/misc/e-expander.c:206
+msgid "Space to put between the label and the child"
+msgstr "Mellomrom mellom etiketten og barnet"
 
-#~ msgid "You don't have permission to open the folder in `%s'"
-#~ msgstr "Du har ikke rettigheter til å åpne mappen i «%s»"
+#: widgets/misc/e-expander.c:215
+msgid "Label widget"
+msgstr "Etikettkomponent"
 
-#~ msgid "Could not open the folder in `%s'"
-#~ msgstr "Kunne ikke åpne mappen i «%s»"
+#: widgets/misc/e-expander.c:216
+msgid "A widget to display in place of the usual expander label"
+msgstr "En komponent som vises i stedet for den vanlige utvideretiketten"
 
-#~ msgid "The method required to open `%s' is not supported"
-#~ msgstr "Metoden som er nødvendig for å åpne «%s» er ikke støttet"
+#: widgets/misc/e-expander.c:222
+msgid "Expander Size"
+msgstr "Størrelse på utvider"
 
-#~ msgid "Rename this task list to"
-#~ msgstr "Gi nytt navn til denne oppgavelisten"
+#: widgets/misc/e-expander.c:223
+msgid "Size of the expander arrow"
+msgstr "Størrelse på utviderpilen"
 
-#~ msgid "Important mail (local)"
-#~ msgstr "Viktige meldinger (lokalt)"
+#: widgets/misc/e-expander.c:231
+msgid "Indicator Spacing"
+msgstr "Indikatormellomrom"
 
-#~ msgid "Unread mail (local)"
-#~ msgstr "Uleste meldinger (lokal)"
-
-#~ msgid "Could not update files correctly"
-#~ msgstr "Kunne ikke oppdatere filene."
-
-#~ msgid ""
-#~ "Cannot create the directory\n"
-#~ "%s\n"
-#~ "Error: %s"
-#~ msgstr ""
-#~ "Kan ikke opprette katalogen\n"
-#~ "%s\n"
-#~ "Feil: %s"
-
-#~ msgid ""
-#~ "An error occurred in copying files into\n"
-#~ "`%s'."
-#~ msgstr ""
-#~ "En feil oppsto under kopiering av filer til\n"
-#~ "«%s»."
-
-#~ msgid ""
-#~ "The file `%s' is not a directory.\n"
-#~ "Please move it in order to allow installation\n"
-#~ "of the Evolution user files."
-#~ msgstr ""
-#~ "Filen «%s» er ikke en katalog.\n"
-#~ "Vennligst flytt denne for å tillate installasjon\n"
-#~ "av Evolution's brukerfiler."
-
-#~ msgid ""
-#~ "The directory `%s' exists but is not the\n"
-#~ "Evolution directory.  Please move it in order\n"
-#~ "to allow installation of the Evolution user files."
-#~ msgstr ""
-#~ "Katalogen «%s» eksisterer men er ikke.\n"
-#~ "Evolution-katalogen. Vennligst flytt den for å \n"
-#~ "tillate installasjon av Evolution's brukerfiler."
-
-#~ msgid "Basics"
-#~ msgstr "Basis"
-
-#~ msgid "Time"
-#~ msgstr "Tid"
-
-#~ msgid "Su_mmary:"
-#~ msgstr "Sa_mmendrag:"
-
-#~ msgid "_Web Page:"
-#~ msgstr "_Hjemmeside:"
-
-#~ msgid "Select Calendar Folder"
-#~ msgstr "Velg kalendermappe"
-
-#~ msgid "Select Tasks Folder"
-#~ msgstr "Velg oppgavemappe"
-
-#~ msgid "Adding alarms for %s"
-#~ msgstr "Legger til alarmer for %s"
-
-#~ msgid "New _Calendar"
-#~ msgstr "Ny _kalender"
-
-#~ msgid "_Forward Message"
-#~ msgstr "_Videresend melding"
-
-#~ msgid "Configure special folders and offline folder behavior here"
-#~ msgstr ""
-#~ "Konfigurer spesielle mapper og oppførsel når du arbeider frakoblet her"
-
-#~ msgid "Folder Settings"
-#~ msgstr "Mappeinnstillinger"
+#: widgets/misc/e-expander.c:232
+msgid "Spacing around expander arrow"
+msgstr "Mellomrom rundt utviderpilen"
