@@ -272,6 +272,8 @@ filter_gui_add_from_message (CamelMimeMessage *msg, int flags)
 	char *userrules, *systemrules;
 	FilterRule *rule;
 	extern char *evolution_dir;
+
+	g_return_if_fail (msg != NULL);
 	
 	fc = filter_context_new ();
 	userrules = g_strdup_printf ("%s/filters.xml", evolution_dir);

@@ -427,6 +427,8 @@ filter_mlist (GtkWidget *w, FolderBrowser *fb)
 	char *header_value;
 	const char *header_name;
 	
+	g_return_if_fail (fb->mail_display->current_message != NULL);
+
 	name = mail_mlist_magic_detect_list (fb->mail_display->current_message, &header_name, &header_value);
 	if (name == NULL)
 		return;

@@ -310,6 +310,8 @@ vfolder_gui_add_from_message(CamelMimeMessage *msg, int flags, const char *sourc
 {
 	VfolderRule *rule;
 
+	g_return_if_fail (msg != NULL);
+
 	rule = (VfolderRule*)vfolder_rule_from_message(context, msg, flags, source);
 	vfolder_gui_add_rule(rule);
 }

@@ -425,13 +425,9 @@ mail_reply (CamelFolder *folder, CamelMimeMessage *msg, const char *uid, gboolea
 	EMsgComposer *composer;
 	struct post_send_data *psd;
 	
-	/* FIXME: I just don't feel like implementing the folder-browser-passing
-	 * garbage. */
-	/* FIXME: We really need some way to get the folder_browser into this
-	   function */
-	if (!check_send_configuration (NULL) || !folder ||
-	    !msg || !uid)
-		return;
+	g_return_if_fail (folder != NULL);
+	g_return_if_fail (msg != NULL);
+	g_return_if_fail (uid != NULL);
 
 	psd = g_new (struct post_send_data, 1);
 	psd->folder = folder;
@@ -491,7 +487,9 @@ forward_message (FolderBrowser *fb, gboolean attach)
 	GPtrArray *uids;
 	
 	cursor_msg = fb->mail_display->current_message;
-	if (!check_send_configuration (fb) || !cursor_msg)
+	g_return_if_fail (cursor_msg != NULL);
+
+	if (!check_send_configuration (fb))
 		return;
 	
 	composer = e_msg_composer_new ();

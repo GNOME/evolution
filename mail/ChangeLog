@@ -1,3 +1,13 @@
+2000-12-07  Dan Winship  <danw@helixcode.com>
+
+	* mail-callbacks.c: (various)
+	* folder-browser.c (filter_mlist): 
+	* mail-autofilter.c (filter_gui_add_from_message): 
+	* mail-vfolder.c (vfolder_gui_add_from_message): Add some
+	g_return_if_fail()s to protect from crashes until the code to
+	enable/disable commands based on how many messages are selected is
+	done.
+
 2000-12-06  Jeffrey Stedfast  <fejj@helixcode.com>
 
 	* mail-vfolder.c (vfolder_gui_add_rule): Make the vfolder editor
