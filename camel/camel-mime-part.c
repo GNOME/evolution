@@ -505,6 +505,8 @@ write_to_stream (CamelDataWrapper *data_wrapper, CamelStream *stream)
 #ifdef CAN_THIS_GO_ELSEWHERE
 		CamelMimeFilter *filter = NULL;
 		CamelStreamFilter *filter_stream = NULL;
+		CamelMimeFilter *charenc = NULL;
+		const char *charset;
 
 		switch(mp->encoding) {
 		case CAMEL_MIME_PART_ENCODING_BASE64:
@@ -516,25 +518,31 @@ write_to_stream (CamelDataWrapper *data_wrapper, CamelStream *stream)
 		default:
 			break;
 		}
-		if (filter) {
+
+		if (gmime_content_field_is_type(mp->content_type, "text", "*")) {
+			charset = gmime_content_field_get_parameter(mp->content_type, "charset");
+			if (!(charset == NULL || !strcasecmp(charset, "us-ascii") || !strcasecmp(charset, "utf-8"))) {
+				charenc = (CamelMimeFilter *)camel_mime_filter_charset_new_convert("utf-8", charset);
+			} 
+		}
+
+		if (filter || charenc) {
 			filter_stream = camel_stream_filter_new_with_stream(stream);
-			if (gmime_content_field_is_type(mp->content_type, "text", "*")) {
+
+			/* if we have a character encoder, add that always */
+			if (charenc) {
+				camel_stream_filter_add(filter_stream, charenc);
+				camel_object_unref((CamelObject *)charenc);
+			}
+
+			/* we only re-do crlf on encoded blocks */
+			if (filter && gmime_content_field_is_type(mp->content_type, "text", "*")) {
 				CamelMimeFilter *crlf = camel_mime_filter_crlf_new(CAMEL_MIME_FILTER_CRLF_ENCODE,
 										   CAMEL_MIME_FILTER_CRLF_MODE_CRLF_ONLY);
-				const char *charset;
 
 				camel_stream_filter_add(filter_stream, crlf);
 				camel_object_unref((CamelObject *)crlf);
 
-				charset = gmime_content_field_get_parameter(mp->content_type, "charset");
-				if (!(charset == NULL || !strcasecmp(charset, "us-ascii") || !strcasecmp(charset, "utf-8"))) {
-					CamelMimeFilter *charenc;
-					charenc = (CamelMimeFilter *)camel_mime_filter_charset_new_convert("utf-8", charset);
-					camel_stream_filter_add(filter_stream, charenc);
-					/* well some idiot changed the _add function to do its own ref'ing for
-					   no decent purpose whatsoever ... */
-					camel_object_unref((CamelObject *)charenc);
-				} 
 			}
 			camel_stream_filter_add(filter_stream, filter);
 			camel_object_unref((CamelObject *)filter);

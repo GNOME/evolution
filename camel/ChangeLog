@@ -7,6 +7,8 @@
 	filter to do that too.
 	(write_to_stream): Fix some warnings/use the right constructor,
 	oops.
+	(write_to_stream): Rearrange the logic so it always does charset
+	conversion, and not just if we have a qp/base64 block.
 
 	* camel-mime-utils.c (append_latin1): New function - even though
 	its broken, we'll assume mailers send latin1 headers instead of
