@@ -1,5 +1,9 @@
 2000-06-14  Jeffrey Stedfast  <fejj@helixcode.com>
 
+	* camel-mime-filter-crlf.c (filter): Updated the encoder to allocate more
+	memory (since we are also now adding dots). Also updated the decoder as we
+	have found that it sometimes passes the end of the buffer.
+
 	* providers/pop3/camel-pop3-folder.c (get_message_by_uid): Took out the
 	filter code ( we already filter in camel_pop3_command_get_additional_data)
 
