@@ -1,3 +1,9 @@
+2001-04-21  Jeffrey Stedfast  <fejj@ximian.com>
+
+	* configure.in (have_nspr_libs): We need to link in more than just
+	libnspr4, we also need libpthread.
+	(have_nss_libs): Don't forget to add nsprlibs to the LDFLAGS.
+
 2001-04-21  Duncan Mak  <duncan@ximian.com>
 
 	* art/Makefile.am (images_DATA): Added in composer-message.png.
