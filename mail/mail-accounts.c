@@ -314,6 +314,13 @@ account_able_clicked (GtkButton *button, gpointer user_data)
 }
 
 static void
+account_double_click (GtkTreeView *treeview, GtkTreePath *path,
+		      GtkTreeViewColumn *column, MailAccountsTab *prefs)
+{
+	account_edit_clicked (NULL, prefs);
+}
+
+static void
 account_cursor_change (GtkTreeSelection *selection, MailAccountsTab *prefs)
 {
 	const MailConfigAccount *account;
@@ -328,10 +335,6 @@ account_cursor_change (GtkTreeSelection *selection, MailAccountsTab *prefs)
 			gtk_button_set_label (prefs->mail_able, _("Disable"));
 		else
 			gtk_button_set_label (prefs->mail_able, _("Enable"));
-		/* FIXME: how do we get double clicks?? */
-#warning "how to get double-clicks from gtktreeview"
-		/*if (event && event->type == GDK_2BUTTON_PRESS)
-		  account_edit_clicked (NULL, user_data);*/
 	} else {
 		gtk_widget_grab_focus (GTK_WIDGET (prefs->mail_add));
 	}
@@ -458,9 +461,10 @@ mail_accounts_tab_construct (MailAccountsTab *prefs)
 	
 	widget = glade_xml_get_widget (gui, "etableMailAccounts");
 	
-	prefs->table = GTK_TREE_VIEW (g_object_get_data ((GObject *) widget, "table"));
+	prefs->table = (GtkTreeView *) g_object_get_data ((GObject *) widget, "table");
 	g_signal_connect (gtk_tree_view_get_selection (prefs->table),
 			  "changed", G_CALLBACK (account_cursor_change), prefs);
+	g_signal_connect (prefs->table, "row-activated", G_CALLBACK (account_double_click), prefs);
 	
 	mail_accounts_load (prefs);
 	

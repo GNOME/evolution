@@ -1,5 +1,10 @@
 2002-12-12  Jeffrey Stedfast  <fejj@ximian.com>
 
+	* mail-accounts.c (mail_accounts_tab_construct): Setup
+	double-click here.
+
+2002-12-12  Jeffrey Stedfast  <fejj@ximian.com>
+
 	* mail-accounts.c (account_delete_clicked): Get rid of the ETable
 	#ifdef's - we won't ever be using ETable.
 	(account_default_clicked): Same.
