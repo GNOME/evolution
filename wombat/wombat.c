@@ -160,7 +160,7 @@ setup_vfs (int argc, char **argv)
 static void
 init_corba (int *argc, char **argv)
 {
-	if (gnome_init_with_popt_table ("Personal Addressbook Server", "0.0",
+	if (gnome_init_with_popt_table ("wombat", VERSION,
 					*argc, argv, oaf_popt_options, 0, NULL) != 0) {
 		g_message (_("init_corba(): could not initialize GNOME"));
 		exit (EXIT_FAILURE);

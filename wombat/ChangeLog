@@ -1,3 +1,8 @@
+2001-02-27  Federico Mena Quintero  <federico@ximian.com>
+
+	* wombat.c (init_corba): Use VERSION and the Wombat description
+	for gnome_init_with_popt_table().
+
 2001-02-16  Federico Mena Quintero  <federico@ximian.com>
 
 	* wombat.c (main): Unref the factories if we failed to initialize
