@@ -65,7 +65,7 @@ list_uids (gpointer data)
 
 	cal_obj_uid_list_free (uids);
 
-/*  	gtk_object_unref (GTK_OBJECT (client)); */
+	gtk_object_unref (GTK_OBJECT (client));
 
 	return FALSE;
 }
@@ -118,15 +118,31 @@ create_client (const char *uri, gboolean load)
 	if (load)
 		result = cal_client_load_calendar (client, uri);
 	else
-		result = cal_client_load_calendar (client, uri);
+		result = cal_client_create_calendar (client, uri);
 
 	if (!result) {
-		g_message ("create_client(): failure when issuing calendar load/create request `%s'",
+		g_message ("create_client(): failure when issuing calendar %s request `%s'",
+			   load ? "load" : "create",
 			   uri);
 		exit (1);
 	}
 
 	return client;
+}
+
+/* Callback used when a client is destroyed */
+static void
+client_destroy_cb (GtkObject *object, gpointer data)
+{
+	if (CAL_CLIENT (object) == client1)
+		client1 = NULL;
+	else if (CAL_CLIENT (object) == client2)
+		client2 = NULL;
+	else
+		g_assert_not_reached ();
+
+	if (!client1 && !client2)
+		gtk_main_quit ();
 }
 
 int
@@ -151,8 +167,15 @@ main (int argc, char **argv)
 		exit (1);
 	}
 
-	client1 = create_client ("/cvs/evolution/calendar/test2.vcf", TRUE);
-	client2 = create_client ("/cvs/evolution/calendar/test2.vcf", FALSE);
+	client1 = create_client ("/cvs/evolution/calendar/gui/test2.vcf", TRUE);
+	gtk_signal_connect (GTK_OBJECT (client1), "destroy",
+			    client_destroy_cb,
+			    NULL);
+
+	client2 = create_client ("/cvs/evolution/calendar/gui/test2.vcf", FALSE);
+	gtk_signal_connect (GTK_OBJECT (client2), "destroy",
+			    client_destroy_cb,
+			    NULL);
 
 	bonobo_main ();
 

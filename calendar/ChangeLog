@@ -1,3 +1,13 @@
+2000-04-24  Federico Mena Quintero  <federico@helixcode.com>
+
+	* cal-client/client-test.c (main): The path to the test calendar
+	changed when we moved stuff around.  Users will have to tweak this
+	for their CVS setup, anyways.
+	(create_client): Create or load the calendar as appropriate.
+	(client_destroy_cb): Exit the main loop if both clients are gone.
+	(main): Connect to the "destroy" signal of the clients so that we
+	can terminate the test program.
+
 2000-04-24  Seth Alves  <alves@hungry.com>
 
 	* pcs/icalendar.c (parse_person): allow for null CN
