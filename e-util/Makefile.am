@@ -2,14 +2,15 @@ SUBDIRS = . ename
 
 imagesdir = $(datadir)/images/evolution
 
-INCLUDES =					\
-	$(DB3_CFLAGS)				\
-	-I$(top_srcdir)				\
-	$(GNOME_INCLUDEDIR)			\
-	$(EXTRA_GNOME_CFLAGS)			\
-	$(BONOBO_CONF_CFLAGS)			\
-	$(PISOCK_CFLAGS)			\
-	-DEVOLUTION_IMAGES=\""$(imagesdir)"\"	\
+INCLUDES =							\
+	$(DB3_CFLAGS)						\
+	-I$(top_srcdir)						\
+	$(GNOME_INCLUDEDIR)					\
+	$(EXTRA_GNOME_CFLAGS)					\
+	$(BONOBO_CONF_CFLAGS)					\
+	$(PISOCK_CFLAGS)					\
+	-DEVOLUTION_IMAGES=\""$(imagesdir)"\"			\
+	-DEVOLUTION_CATEGORY_ICONS=\""$(imagedir)/categories"\"	\
 	-DG_LOG_DOMAIN=\"e-utils\"
 
 noinst_LTLIBRARIES = libeutil.la libeutil-static.la \

@@ -1,3 +1,15 @@
+2001-07-17  Rodrigo Moya <rodrigo@ximian.com>
+
+	* e-categories-config.c (initialize_categories_config): generate
+	default configuration for icons-per-category the first time. And
+	use a global (for this file) Bonobo_ConfigDatabase
+
+2001-07-16  Rodrigo Moya <rodrigo@ximian.com>
+
+	* e-categories-config.c (e_categories_config_get_icon_for):
+	(e_categories_config_get_icon_file_for):
+	(e_categories_config_set_icon_file_for): use GdkPixbuf to load images
+
 2001-07-16  Federico Mena Quintero  <federico@ximian.com>
 
 	* e-time-utils.c (parse_with_strptime): Generalized function for
