@@ -101,7 +101,7 @@ ecpe_linelist_dimensions(GnomeFont *font, char *address, EcpeLine *linelist, dou
 	int i;
 	if (widthp) {
 		for (i = 0; linelist[i].length != -1; i++) {
-			width = MAX(width, gnome_font_get_width_string_n (font, address + linelist[i].start, linelist[i].length));
+			width = MAX(width, gnome_font_get_width_utf8_sized (font, address + linelist[i].start, linelist[i].length));
 		}
 		*widthp = width;
 	} else {
