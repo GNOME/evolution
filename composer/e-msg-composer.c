@@ -1169,7 +1169,7 @@ autosave_manager_query_load_orphans (AutosaveManager *am, EMsgComposer *composer
 	closedir (dir);
 	
 	if (match != NULL) {
-		dialog = gnome_question_dialog_parented (_("Evolution has found unsaved files from a previous session.\n"
+		dialog = gnome_question_dialog_parented (_("Ximian Evolution has found unsaved files from a previous session.\n"
 							   "Would you like to try to recover them?"),
 							 autosave_query_cb, &load, GTK_WINDOW (composer));
 		
@@ -1324,7 +1324,7 @@ do_exit (EMsgComposer *composer)
 						GNOME_STOCK_BUTTON_CANCEL,   /* Cancel */
 						NULL);
 	
-		gtk_window_set_title (GTK_WINDOW (dialog), _("Evolution"));
+		gtk_window_set_title (GTK_WINDOW (dialog), _("Warning: Modified Message"));
 		gnome_dialog_set_parent (GNOME_DIALOG (dialog), GTK_WINDOW (composer));
 		gnome_dialog_set_default (GNOME_DIALOG (dialog), 0);
 		button = gnome_dialog_run_and_close (GNOME_DIALOG (dialog));

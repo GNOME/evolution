@@ -1,3 +1,18 @@
+2001-09-05  Ettore Perazzoli  <ettore@ximian.com>
+
+	* main.c (development_warning): s/Evolution/Ximian Evolution/.
+	(idle_cb): Likewise.
+
+	* e-splash.c (e_splash_construct): s/Evolution/Ximian Evolution/.
+
+	* e-shell-view.c (e_shell_view_construct): s/Evolution/Ximian
+	Evolution/.
+	(update_for_current_uri): Likewise.
+	(update_offline_toggle_status): Likewise.
+
+	* e-shell-view-menu.c (command_about_box): s/Evolution/Ximian
+	Evolution/.
+
 2001-09-04  Ettore Perazzoli  <ettore@ximian.com>
 
 	[Fix #6474 and friends, crash when selecting things from the

@@ -88,14 +88,14 @@ development_warning (void)
 {
 	GtkWidget *label, *warning_dialog;
 	
-	warning_dialog = gnome_dialog_new ("Evolution " VERSION, GNOME_STOCK_BUTTON_OK, NULL);
+	warning_dialog = gnome_dialog_new ("Ximian Evolution " VERSION, GNOME_STOCK_BUTTON_OK, NULL);
 
 	label = gtk_label_new (
 		/* xgettext:no-c-format */
 		_("Hi.  Thanks for taking the time to download this preview release\n"
-		  "of the Evolution groupware suite.\n"
+		  "of the Ximian Evolution groupware suite.\n"
 		  "\n"
-		  "Evolution is not yet complete. It's getting close, but there are\n"
+		  "Ximian Evolution is not yet complete. It's getting close, but there are\n"
 		  "places where features are either missing or only half working. \n"
 		  "\n"
 		  "If you find bugs, please report them to us at bugzilla.ximian.com.\n"
@@ -114,7 +114,7 @@ development_warning (void)
 	label = gtk_label_new (
 		_(
 		  "Thanks\n"
-		  "The Evolution Team\n"
+		  "The Ximian Evolution Team\n"
 		  ));
 	gtk_label_set_justify(GTK_LABEL(label), GTK_JUSTIFY_RIGHT);
 	gtk_misc_set_alignment(GTK_MISC(label), 1, .5);
@@ -170,7 +170,7 @@ idle_cb (void *data)
 		corba_shell = oaf_activate_from_id (E_SHELL_OAFIID, 0, NULL, &ev);
 		if (ev._major != CORBA_NO_EXCEPTION || corba_shell == CORBA_OBJECT_NIL) {
 			e_notice (NULL, GNOME_MESSAGE_BOX_ERROR,
-				  _("Cannot access the Evolution shell."));
+				  _("Cannot access the Ximian Evolution shell."));
 			CORBA_exception_free (&ev);
 			gtk_main_quit ();
 			return FALSE;
@@ -181,7 +181,7 @@ idle_cb (void *data)
 
 	default:
 		e_notice (NULL, GNOME_MESSAGE_BOX_ERROR,
-			  _("Cannot initialize the Evolution shell: %s"),
+			  _("Cannot initialize the Ximian Evolution shell: %s"),
 			  e_shell_construct_result_to_string (result));
 		CORBA_exception_free (&ev);
 		gtk_main_quit ();

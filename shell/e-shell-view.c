@@ -1275,7 +1275,7 @@ e_shell_view_construct (EShellView *shell_view,
 
 	priv = shell_view->priv;
 
-	view = E_SHELL_VIEW (bonobo_window_construct (BONOBO_WINDOW (shell_view), "evolution", "Evolution"));
+	view = E_SHELL_VIEW (bonobo_window_construct (BONOBO_WINDOW (shell_view), "evolution", "Ximian Evolution"));
 
 	if (!view) {
 		gtk_object_unref (GTK_OBJECT (shell_view));
@@ -1499,9 +1499,9 @@ update_for_current_uri (EShellView *shell_view)
 		title = g_strdup (folder_name);
 
 	if (SUB_VERSION[0] == '\0')
-		utf8_window_title = g_strdup_printf (_("%s - Evolution %s"), title, VERSION);
+		utf8_window_title = g_strdup_printf (_("%s - Ximian Evolution %s"), title, VERSION);
 	else
-		utf8_window_title = g_strdup_printf (_("%s - Evolution %s [%s]"), title, VERSION, SUB_VERSION);
+		utf8_window_title = g_strdup_printf (_("%s - Ximian Evolution %s [%s]"), title, VERSION, SUB_VERSION);
 
 	gtk_window_title = e_utf8_to_gtk_string (GTK_WIDGET (shell_view), utf8_window_title);
 	gtk_window_set_title (GTK_WINDOW (shell_view), gtk_window_title);
@@ -1541,20 +1541,20 @@ update_offline_toggle_status (EShellView *shell_view)
 		icon_pixmap = online_pixmap;
 		icon_mask   = online_mask;
 		sensitive   = TRUE;
-		tooltip     = _("Evolution is currently online.  "
+		tooltip     = _("Ximian Evolution is currently online.  "
 				"Click on this button to work offline.");
 		break;
 	case E_SHELL_LINE_STATUS_GOING_OFFLINE:
 		icon_pixmap = online_pixmap;
 		icon_mask   = online_mask;
 		sensitive   = FALSE;
-		tooltip     = _("Evolution is in the process of going offline.");
+		tooltip     = _("Ximian Evolution is in the process of going offline.");
 		break;
 	case E_SHELL_LINE_STATUS_OFFLINE:
 		icon_pixmap = offline_pixmap;
 		icon_mask   = offline_mask;
 		sensitive   = TRUE;
-		tooltip     = _("Evolution is currently offline.  "
+		tooltip     = _("Ximian Evolution is currently offline.  "
 				"Click on this button to work online.");
 		break;
 	default:

@@ -1,3 +1,8 @@
+2001-09-05  Ettore Perazzoli  <ettore@ximian.com>
+
+	* message-browser.c (message_browser_new): s/Evolution/Ximian
+	Evolution/.
+
 2001-09-04  Ettore Perazzoli  <ettore@ximian.com>
 
 	[Fix #7542, "Crash Afer Closing".]

@@ -214,7 +214,7 @@ message_browser_new (const GNOME_Evolution_Shell shell, const char *uri, const c
 	FolderBrowser *fb;
 	
 	new = gtk_type_new (MESSAGE_BROWSER_TYPE);
-	new = (MessageBrowser *) bonobo_window_construct (BONOBO_WINDOW (new), "Evolution", "");
+	new = (MessageBrowser *) bonobo_window_construct (BONOBO_WINDOW (new), "Ximian Evolution", "");
 	if (!new) {
 		g_warning ("Failed to construct Bonobo window!");
 		return NULL;

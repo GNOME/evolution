@@ -214,11 +214,11 @@ command_about_box (BonoboUIComponent *uih,
 		else
 			version = g_strdup_printf ("%s [%s]", VERSION, SUB_VERSION);
 
-		about_box = gnome_about_new(_("Evolution"),
+		about_box = gnome_about_new(_("Ximian Evolution"),
 					    version,
 					    _("Copyright 1999, 2000, 2001 Ximian, Inc."),
 					    authors,
-					    _("Evolution is a suite of groupware applications\n"
+					    _("Ximian Evolution is a suite of groupware applications\n"
 					      "for mail, calendaring, and contact management\n"
 					      "within the GNOME desktop environment."),
 					    NULL);
