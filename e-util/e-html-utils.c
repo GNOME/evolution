@@ -145,7 +145,7 @@ is_citation (const unsigned char *c, gboolean saw_citation)
 	}
 
 	/* Check for "Rupert> " and the like... */
-	for (i = 0; c && *c && *c != '\n' && i < 10; i ++, c = g_utf8_next_char (c)) {
+	for (i = 0; c && *c && g_unichar_validate (g_utf8_get_char (c)) && *c != '\n' && i < 10; i ++, c = g_utf8_next_char (c)) {
 		u = g_utf8_get_char (c);
 		if (u == '>')
 			return TRUE;
@@ -304,7 +304,7 @@ e_text_to_html_full (const char *input, unsigned int flags, guint32 color)
 			}
 		}
 
-		if (u == (gunichar)-1) {
+		if (!g_unichar_validate (u)) {
 			/* Sigh. Someone sent undeclared 8-bit data.
 			 * Assume it's iso-8859-1.
 			 */

@@ -227,11 +227,12 @@ camel_charset_step(CamelCharset *c, const char *in, int len)
 		gunichar c;
 		const char *newinptr;
 		newinptr = g_utf8_next_char(inptr);
-		if (newinptr == NULL) {
+		c = g_utf8_get_char(inptr);
+		if (newinptr == NULL || !g_unichar_validate (c)) {
 			inptr++;
 			continue;
 		}
-		c = g_utf8_get_char(inptr);
+
 		inptr = newinptr;
 		if (c<=0xffff) {
 			mask &= charset_mask(c);

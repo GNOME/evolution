@@ -992,7 +992,7 @@ pgp_verify (CamelCipherContext *ctx, CamelStream *istream,
 			inptr = diagnostics;
 			inend = inptr + inlen;
 			
-			while (inptr && inptr < inend) {
+			while (inptr && inptr < inend && g_unichar_validate (g_utf8_get_char (inptr))) {
 				*outbuf++ = g_utf8_get_char (inptr) & 0xff;
 				inptr = g_utf8_next_char (inptr);
 			}

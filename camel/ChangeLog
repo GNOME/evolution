@@ -1,3 +1,19 @@
+2001-05-14  Jon Trowbridge  <trow@ximian.com>
+
+	* camel-search-private.c (utf8_get): Replicate the semantics of
+	the libunicode utf8 functions by returning NULL in the arg
+	on invalid utf8.
+
+	* camel-pgp-context.c (pgp_verify): Check for valid utf8,
+	terminate loop if something looks wrong.
+
+	* camel-mime-utils.c (header_encode_phrase_get_words): Properly
+	check for invalid utf8.
+	(header_encode_string): Properly check for invalid utf8.
+
+	* camel-charset-map.c (camel_charset_step): Properly check for
+	invalid utf8.
+
 2001-05-14  Jeffrey Stedfast  <fejj@ximian.com>
 
 	* tests/folder/test9.c: 

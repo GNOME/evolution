@@ -1255,6 +1255,8 @@ header_encode_string (const unsigned char *in)
 	int encoding;
 	GString *out;
 	char *outstr;
+
+	g_return_val_if_fail (g_utf8_validate (in, -1, NULL), NULL);
 	
 	if (in == NULL)
 		return NULL;
@@ -1281,13 +1283,14 @@ header_encode_string (const unsigned char *in)
 		const char *newinptr;
 		
 		newinptr = g_utf8_next_char (inptr);
-		if (newinptr == NULL) {
+		c = g_utf8_get_char (inptr);
+		if (newinptr == NULL || !g_unichar_validate (c)) {
 			w(g_warning ("Invalid UTF-8 sequence encountered (pos %d, char '%c'): %s",
 				     (inptr-in), inptr[0], in));
 			inptr++;
 			continue;
 		}
-		c = g_utf8_get_char (inptr);
+
 		
 		if (g_unichar_isspace (c) && !last_was_space) {
 			/* we've reached the end of a 'word' */
@@ -1427,13 +1430,15 @@ header_encode_phrase_get_words (const unsigned char *in)
 		const char *newinptr;
 		
 		newinptr = g_utf8_next_char (inptr);
-		if (newinptr == NULL) {
+		c = g_utf8_get_char (inptr);
+
+		if (!g_unichar_validate (c)) {
 			w(g_warning ("Invalid UTF-8 sequence encountered (pos %d, char '%c'): %s",
 				     (inptr - in), inptr[0], in));
 			inptr++;
 			continue;
 		}
-		c = g_utf8_get_char (inptr);
+
 		
 		inptr = newinptr;
 		if (g_unichar_isspace (c)) {

@@ -200,7 +200,7 @@ utf8_get (const char **inp)
 	g_return_val_if_fail (p != NULL, 0);
 	
 	c = g_utf8_get_char (p);
-	*inp = g_utf8_next_char (p);
+	*inp = g_unichar_validate (c) ? g_utf8_next_char (p) : NULL;
 	
 	return c;
 }
