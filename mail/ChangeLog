@@ -1,3 +1,17 @@
+2000-08-11  Peter Williams  <peterw@helixcode.com>
+
+	* mail-config-gui.c (service_acceptable): Make verify-service
+	an asynchronous operation.
+
+	* Makefile.am (noinst_PROGRAMS): Don't build test-thread
+	while mail-threads.c is in flux.
+
+	* mail-threads.c (mail_operation_queue): Make the error
+	and query dialogs modal.
+
+	* mail-local.c (update_progress): Don't use the
+	temporarily-disabled mail_op_set_percentage().
+
 2000-08-11  Chris Toshok  <toshok@helixcode.com>
 
 	* mail-config.c (mail_config_get_default_news): use config->news
