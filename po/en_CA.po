@@ -15282,7 +15282,7 @@ msgstr "Bug buddy could not be run."
 #. * about box
 #: ../shell/e-shell-window-commands.c:501
 msgid "translator-credits"
-msgstr "Adam Weinberger <adamw@FreeBSD.org>"
+msgstr "Adam Weinberger <adamw@gnome.org>"
 
 #: ../shell/e-shell-window-commands.c:515
 msgid "Groupware Suite"
