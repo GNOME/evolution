@@ -90,7 +90,7 @@ menu_deactivate_cb (GtkMenuShell *menu_shell,
 
 	dropdown_button = E_DROPDOWN_BUTTON (data);
 
-	gtk_button_clicked (GTK_BUTTON (dropdown_button));
+	gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (dropdown_button), FALSE);
 	return TRUE;
 }
 
@@ -115,29 +115,25 @@ impl_destroy (GtkObject *object)
 
 /* GtkWidget methods.  */
 
-static int
-impl_button_press_event (GtkWidget *widget,
-			 GdkEventButton *event)
+static void
+impl_toggled (GtkToggleButton *toggle_button)
 {
 	EDropdownButton *dropdown_button;
 	EDropdownButtonPrivate *priv;
 
-	dropdown_button = E_DROPDOWN_BUTTON (widget);
+	if (parent_class->toggled)
+		parent_class->toggled (toggle_button);
+
+	dropdown_button = E_DROPDOWN_BUTTON (toggle_button);
 	priv = dropdown_button->priv;
 
-	gtk_menu_popup (GTK_MENU (priv->menu), NULL, NULL,
-			menu_position_cb, dropdown_button,
-			1, GDK_CURRENT_TIME);
-
-	gnome_popup_menu_do_popup (GTK_WIDGET (priv->menu), menu_position_cb, dropdown_button,
-				   event, NULL);
-
-	if (! GTK_WIDGET_HAS_FOCUS (widget))
- 		gtk_widget_grab_focus (widget);
-
-	gtk_button_clicked (GTK_BUTTON (widget));
-
-	return TRUE;
+	if (toggle_button->active) {
+		gtk_menu_popup (GTK_MENU (priv->menu), NULL, NULL,
+				menu_position_cb, dropdown_button,
+				1, GDK_CURRENT_TIME);
+	} else {
+		gtk_menu_popdown (GTK_MENU (priv->menu));
+	}
 }
 
 
@@ -146,13 +142,14 @@ class_init (EDropdownButtonClass *klass)
 {
 	GtkObjectClass *object_class;
 	GtkWidgetClass *widget_class;
+	GtkToggleButtonClass *toggle_class;
 
 	object_class = GTK_OBJECT_CLASS (klass);
 	widget_class = GTK_WIDGET_CLASS (klass);
+	toggle_class = GTK_TOGGLE_BUTTON_CLASS (klass);
 
 	object_class->destroy = impl_destroy;
-
-	widget_class->button_press_event = impl_button_press_event;
+	toggle_class->toggled = impl_toggled;
 
 	parent_class = gtk_type_class (PARENT_TYPE);
 }

@@ -1,3 +1,13 @@
+2001-07-17  jacob berkman  <jacob@ximian.com>
+
+	* e-search-bar.c (set_dropdown): don't unset _CAN_FOCUS
+
+	* e-dropdown-button.c (menu_deactivate_cb): un-toggle ourself
+	(impl_toggled): override the toggled rather than clicked signal.
+	if we are active, popup the menu; else, popdown
+
+	these fix ximian #2016
+
 2001-07-02  Damon Chaplin  <damon@ximian.com>
 
 	* e-calendar-item.c: 

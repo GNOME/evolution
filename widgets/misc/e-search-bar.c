@@ -153,7 +153,6 @@ set_dropdown (ESearchBar *esb,
 	gtk_widget_show_all (menu);
 
 	dropdown = e_dropdown_button_new (_("Sear_ch"), GTK_MENU (menu));
-	GTK_WIDGET_UNSET_FLAGS (dropdown, GTK_CAN_FOCUS);
 	gtk_widget_show (dropdown);
 
 	if (esb->dropdown_holder == NULL) {
