@@ -1,5 +1,10 @@
 2004-04-09  Chris Toshok  <toshok@ximian.com>
 
+	* e-shell.c (e_shell_attempt_upgrade): make sure the component is
+	activated before calling upgradeFromVersion.
+
+2004-04-09  Chris Toshok  <toshok@ximian.com>
+
 	* e-shell.c (e_shell_attempt_upgrade): use BASE_VERSION to supply
 	the major/minor version, and use UPGRADE_REVISION for the
 	revision.

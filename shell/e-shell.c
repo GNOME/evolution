@@ -687,7 +687,10 @@ e_shell_attempt_upgrade (EShell *shell, int major, int minor, int revision)
 
 		CORBA_exception_init (&ev);
 
-		component_upgraded = GNOME_Evolution_Component_upgradeFromVersion (info->iface, major, minor, revision, &ev);
+		e_component_registry_activate (shell->priv->component_registry, info->id, &ev);
+
+		if (!BONOBO_EX (&ev))
+		    component_upgraded = GNOME_Evolution_Component_upgradeFromVersion (info->iface, major, minor, revision, &ev);
 		
 		if (BONOBO_EX (&ev)) {
 			char *exception_text;
