@@ -822,11 +822,12 @@ rdf_remove_clicked_cb (GtkButton *button,
 	row = GPOINTER_TO_INT (GTK_CLIST (pd->rdf->shown)->selection->data);
 	p = gtk_clist_get_row_data (GTK_CLIST (pd->rdf->shown), row);
 	gtk_clist_remove (GTK_CLIST (pd->rdf->shown), row);
-	
+
 	pd->summary->preferences->rdf_urls = g_list_remove_link (pd->summary->preferences->rdf_urls, p);
 	g_free (p->data);
 	g_list_free (p);
 
+	gtk_clist_select_row (GTK_CLIST (pd->rdf->shown), row, 0);
 	gnome_property_box_changed (pd->box);
 }
 
@@ -1022,6 +1023,7 @@ weather_remove_clicked_cb (GtkButton *button,
 	g_free (p->data);
 	g_list_free (p);
 
+	gtk_clist_select_row (GTK_CLIST (pd->weather->shown), row, 0);
 	gnome_property_box_changed (pd->box);
 }
 

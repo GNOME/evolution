@@ -1,5 +1,11 @@
 2001-09-18  Iain Holmes  <iain@ximian.com>
 
+	* e-summary-preferences.c (weather_remove_clicked_cb): Select the next
+	row.
+	(rdf_remove_clicked_cb): Select the next row.
+
+2001-09-18  Iain Holmes  <iain@ximian.com>
+
 	* e-summary-preferences.c (mail_remove_clicked_cb): Select the next
 	folder for removal.
 
