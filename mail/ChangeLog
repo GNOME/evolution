@@ -1,5 +1,10 @@
 2000-06-02  Dan Winship  <danw@helixcode.com>
 
+	* component-factory.c (create_view): keep a GList of folder
+	browsers created
+	(owner_unset_cb): Go through the list and close each folder before
+	exiting so they sync their summary state, etc to disk.
+
 	* mail-ops.c (fetch_mail): Use camel_service_connect, not
 	connect_with_url, since we already passed the URL into
 	camel_session_get_store.

@@ -33,6 +33,7 @@
 #include "evolution-shell-component.h"
 #include "folder-browser.h"
 #include "mail.h"		/* YUCK FIXME */
+#include "e-util/e-gui-utils.h"
 
 #include "filter/filter-driver.h"
 #include "component-factory.h"
@@ -53,6 +54,8 @@ static const EvolutionShellComponentFolderType folder_types[] = {
 	{ NULL, NULL }
 };
 
+static GList *browsers;
+
 
 /* EvolutionShellComponent methods and signals.  */
 
@@ -70,6 +73,8 @@ create_view (EvolutionShellComponent *shell_component,
 
 	g_assert (folder_browser_widget != NULL);
 	g_assert (IS_FOLDER_BROWSER (folder_browser_widget));
+
+	browsers = g_list_prepend (browsers, folder_browser_widget);
 
 	/* dum de dum, hack to let the folder browser know the storage its in */
 	gtk_object_set_data((GtkObject *)folder_browser_widget, "e-storage",
@@ -94,6 +99,18 @@ owner_set_cb (EvolutionShellComponent *shell_component,
 static void
 owner_unset_cb (EvolutionShellComponent *shell_component, gpointer user_data)
 {
+	FolderBrowser *fb;
+
+	/* Close each open folder to make them sync their state to
+	 * disk. We should do more cleanup than this, but then, we shouldn't
+	 * be just exiting here either. FIXME.
+	 */
+	while (browsers) {
+		fb = browsers->data;
+		camel_folder_close (fb->folder, FALSE, NULL);
+		browsers = browsers->next;
+	}
+
 	gtk_main_quit ();
 }
 
