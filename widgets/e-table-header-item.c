@@ -157,6 +157,7 @@ ethi_realize (GnomeCanvasItem *item)
 	ETableHeaderItem *ethi = E_TABLE_HEADER_ITEM (item);
 	GdkWindow *window;
 	GdkColor c;
+	int i;
 	
 	if (GNOME_CANVAS_ITEM_CLASS (ethi_parent_class)-> realize)
 		(*GNOME_CANVAS_ITEM_CLASS (ethi_parent_class)->realize)(item);
@@ -171,13 +172,27 @@ ethi_realize (GnomeCanvasItem *item)
 
 	if (!ethi->font)
 		ethi_font_load (ethi, "fixed");
+
+	/*
+	 * Now realize the various ECells
+	 */
+	ethi->n_cells = e_table_header_count (ethi->eth);
+	ethi->cell_views = g_new (ECellView *, ethi->n_cells);
+
+	for (i = 0; i < ethi->n_cells; i++){
+		ETableCol *col = e_table_header_get_column (ethi->eth, i);
+		
+		ethi->cell_views [i] = e_cell_realize (col->ecell, item->canvas);
+	}
+			 
 }
 
 static void
 ethi_unrealize (GnomeCanvasItem *item)
 {
 	ETableHeaderItem *ethi = E_TABLE_HEADER_ITEM (item);
-
+	int i;
+	
 	gdk_gc_unref (ethi->gc);
 	ethi->gc = NULL;
 
@@ -187,6 +202,14 @@ ethi_unrealize (GnomeCanvasItem *item)
 	gdk_cursor_destroy (ethi->normal_cursor);
 	ethi->normal_cursor = NULL;
 
+	for (i = 0; i < ethi->n_cells; i++){
+		ETableCol *col = e_table_header_get_column (ethi->eth, i);
+		
+		e_cell_unrealize (col->ecell, ethi->cell_views [i]);
+		ethi->cell_views = NULL;
+	}
+	g_free (ethi->cell_views);
+	
 	if (GNOME_CANVAS_ITEM_CLASS (ethi_parent_class)->unrealize)
 		(*GNOME_CANVAS_ITEM_CLASS (ethi_parent_class)->unrealize)(item);
 }
@@ -244,8 +267,10 @@ ethi_draw (GnomeCanvasItem *item, GdkDrawable *drawable, int x1, int y1, int wid
 	total = 0;
 	x = -x1;
 
+#if 0
 	printf ("My coords are: %g %g %g %g\n",
 		item->x1, item->y1, item->x2, item->y2);
+#endif
 	
 	for (col = 0; col < cols; col++){
 		ETableCol *ecol = e_table_header_get_column (ethi->eth, col);
@@ -353,11 +378,6 @@ ethi_end_resize (ETableHeaderItem *ethi, int new_size)
 {
 	e_table_header_set_size (ethi->eth, ethi->resize_col, new_size);
 
-	if (ethi->resize_guide){
-#warning Fix this
-		/* gtk_object_destroy (ethi->resize_guide);*/
-		ethi->resize_guide = NULL;
-	}
 	ethi->resize_col = -1;
 	ethi_request_redraw (ethi);
 }
@@ -394,9 +414,12 @@ ethi_event (GnomeCanvasItem *item, GdkEvent *e)
 
 			if (x - ethi->resize_start_pos <= 0)
 				break;
-			
+
+			ethi_request_redraw (ethi);
+
 			ethi->resize_width = x - ethi->resize_start_pos;
-			
+			e_table_header_set_size (ethi->eth, ethi->resize_col, ethi->resize_width);
+
 			ethi_request_redraw (ethi);
 		} else
 			set_cursor (ethi, x);

@@ -10,6 +10,8 @@
 #define E_IS_TABLE_HEADER_ITEM(o)       (GTK_CHECK_TYPE ((o), E_TABLE_HEADER_ITEM_TYPE))
 #define E_IS_TABLE_HEADER_ITEM_CLASS(k) (GTK_CHECK_CLASS_TYPE ((k), E_TABLE_HEADER_ITEM_TYPE))
 
+typedef struct _ECellView ECellView;
+
 typedef struct {
 	GnomeCanvasItem  parent;
 	ETableHeader    *eth;
@@ -28,6 +30,9 @@ typedef struct {
 	int              resize_start_pos;
 	GtkObject       *resize_guide;
 
+	ECellView      **cell_views;
+	int              n_cells;
+	
 	/*
 	 * Ids
 	 */

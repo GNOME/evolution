@@ -27,11 +27,14 @@ typedef struct {
 	int              header_dim_change_id;
 	int              header_structure_change_id;
 	int              table_model_change_id;
-
+	int              table_model_selection_id;
+	
 	GdkGC           *fill_gc;
 	GdkGC           *grid_gc;
 
 	unsigned int     draw_grid:1;
+
+	int              focused_col, focused_row;
 } ETableItem;
 
 typedef struct {
@@ -39,5 +42,7 @@ typedef struct {
 } ETableItemClass;
 
 GtkType    e_table_item_get_type (void);
+void       e_table_item_focus    (ETableItem *eti, int col, int row);
+void       e_table_item_unfocus  (ETableItem *eti);
 
 #endif /* _E_TABLE_ITEM_H_ */

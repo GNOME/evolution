@@ -11,7 +11,6 @@
 #include "e-table-simple.h"
 #include "e-table-header.h"
 #include "e-table-header-item.h"
-#include "e-table-render.h"
 #include "e-table-item.h"
 
 char buffer [1024];
@@ -185,6 +184,7 @@ main (int argc, char *argv [])
 	GtkWidget *canvas, *window;
 	ETableModel *e_table_model;
 	ETableHeader *e_table_header;
+	ECell *cell_left_just;
 	int i;
 	
 	gnome_init ("TableTest", "TableTest", argc, argv);
@@ -203,10 +203,12 @@ main (int argc, char *argv [])
 	 * Header
 	 */
 	e_table_header = e_table_header_new ();
+	cell_left_just = e_cell_text_new ("fixed", GTK_JUSTIFY_LEFT);
+	
 	for (i = 0; i < cols; i++){
 		ETableCol *ecol = e_table_col_new (
-			column_labels [i], 80, 20, e_table_render_string,
-			NULL, g_str_equal, TRUE);
+			column_labels [i], 80, 20, cell_left_just,
+			g_str_equal, TRUE);
 
 		e_table_header_add_column (e_table_header, ecol, i);
 	}

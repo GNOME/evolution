@@ -16,6 +16,7 @@ static GtkObjectClass *e_table_model_parent_class;
 
 enum {
 	MODEL_CHANGED,
+	ROW_SELECTION,
 	LAST_SIGNAL
 };
 
@@ -88,6 +89,14 @@ e_table_model_class_init (GtkObjectClass *object_class)
 				GTK_SIGNAL_OFFSET (ETableModelClass, model_changed),
 				gtk_marshal_NONE__NONE,
 				GTK_TYPE_NONE, 0);
+
+	etm_signals [ROW_SELECTION] =
+		gtk_signal_new ("row_selection",
+				GTK_RUN_LAST,
+				object_class->type,
+				GTK_SIGNAL_OFFSET (ETableModelClass, row_selection),
+				gtk_marshal_NONE__INT_INT,
+				GTK_TYPE_NONE, 2, GTK_TYPE_INT, GTK_TYPE_INT);
 	
 	gtk_object_class_add_signals (object_class, etm_signals, LAST_SIGNAL);
 }
@@ -158,3 +167,29 @@ e_table_model_max_col_width (ETableModel *etm, int col)
 	return max;
 }
 #endif
+
+void
+e_table_model_select_row (ETableModel *etm, int row)
+{
+	gtk_signal_emit (GTK_OBJECT (etm), etm_signals [ROW_SELECTION], row, 1);
+	etm->row_selected = row;
+}
+
+void
+e_table_model_unselect_row (ETableModel *etm, int row)
+{
+	if (etm->row_selected != -1){
+		gtk_signal_emit (
+			GTK_OBJECT (etm), etm_signals [ROW_SELECTION],
+			etm->row_selected, 0);
+	}
+	
+	etm->row_selected = -1;
+}
+
+gint
+e_table_model_get_selected_row (ETableModel *etm)
+{
+	return etm->row_selected;
+}
+

@@ -25,8 +25,6 @@ libevolutionwidgets_a_SOURCES = 		\
 	e-table-item.h				\
 	e-table-model.c				\
 	e-table-model.h				\
-	e-table-render.c			\
-	e-table-render.h			\
 	e-table-simple.c			\
 	e-table-simple.h			\
 	e-table-sorted.c			\

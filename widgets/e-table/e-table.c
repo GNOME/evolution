@@ -9,28 +9,14 @@
 #include <config.h>
 #include <libgnomeui/gnome-canvas.h>
 #include "e-table.h"
+#include "e-util.h"
 
 #define PARENT_OBJECT_TYPE gnome_canvas_get_type ()
 
-GtkType
-e_table_get_type (void)
+E_MAKE_TYPE(e_table, "ETable", ETable, e_table_class_init, NULL, PARENT_TYPE);
+
+ETable *
+e_table_new (ETableHeader *eth, ETableModel *etm)
 {
-	static GtkType type = 0;
-
-	if (!type){
-		GtkTypeInfo info = {
-			"ETable",
-			sizeof (ETable),
-			sizeof (ETableClass),
-			(GtkClassInitFunc) e_table_class_init,
-			(GtkObjectInitFunc) NULL,
-			NULL, /* reserved 1 */
-			NULL, /* reserved 2 */
-			(GtkClassInitFunc) NULL
-		};
-
-		type = gtk_type_unique (PARENT_OBJECT_TYPE, &info);
-	}
-
-	return type;
 }
+

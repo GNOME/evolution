@@ -13,8 +13,7 @@
 
 ETableCol *
 e_table_col_new (const char *id, int width, int min_width,
-		 ETableColRenderFn render, void *render_data,
-		 GCompareFunc compare, gboolean resizable)
+		 ECell *ecell, GCompareFunc compare, gboolean resizable)
 {
 	ETableCol *etc;
 	
@@ -22,7 +21,6 @@ e_table_col_new (const char *id, int width, int min_width,
 	g_return_if_fail (width >= 0);
 	g_return_if_fail (min_width >= 0);
 	g_return_if_fail (width >= min_width);
-	g_return_if_fail (render != NULL);
 	g_return_if_fail (compare != NULL);
 
 	etc = g_new (ETableCol, 1);
@@ -30,8 +28,7 @@ e_table_col_new (const char *id, int width, int min_width,
 	etc->id = g_strdup (id);
 	etc->width = width;
 	etc->min_width = min_width;
-	etc->render = render;
-	etc->render_data = render_data;
+	etc->ecell = ecell;
 	etc->compare = compare;
 
 	etc->selected = 0;

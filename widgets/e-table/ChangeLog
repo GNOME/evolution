@@ -1,3 +1,22 @@
+1999-11-25  Miguel de Icaza  <miguel@gnu.org>
+
+	* e-table-header-item.c (ethi_realize): Realize cells.
+
+	* e-table-item.c (eti_header_dim_changed): redraw before and after.
+
+	* e-table-header-item.c (ethi_event): Add continuous resizing.
+
+1999-11-24  Miguel de Icaza  <miguel@gnu.org>
+
+	* e-table-subset.h, e-table-subset.c: New files, used to implement
+	subset tables.
+
+	* e-table-sorted.h, e-table-sorted.c: Now they derive from
+	e-table-subset. 
+
+	* e-cell.c, e-cell.h: realize method now return per view instance
+	data. 
+	
 1999-11-20  Miguel de Icaza  <miguel@gnu.org>
 
 	* e-table-item.c (eti_draw): WOOOOHOOOOOoO!  It took me quite a

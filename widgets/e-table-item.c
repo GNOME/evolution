@@ -44,9 +44,11 @@ eti_remove_table_model (ETableItem *eti)
 		return;
 
 	gtk_signal_disconnect (eti->table_model_change_id);
+	gtk_signal_disconnect (eti->table_model_selection_id);
 	gtk_object_unref (GTK_OBJECT (eti->table_model));
 
 	eti->table_model_change_id = 0;
+	eti->table_model_selection_id = 0;
 	eti->table_model = NULL;
 }
 
@@ -74,6 +76,23 @@ eti_table_model_changed (ETableModel *table_model, ETableItem *eti)
 }
 
 static void
+eti_request_redraw (ETableItem *eti)
+{
+	GnomeCanvas *canvas = GNOME_CANVAS_ITEM (eti)->canvas;
+
+	gnome_canvas_request_redraw (canvas, eti->x1, eti->y1,
+				     eti->x1 + eti->width + 1,
+				     eti->y1 + eti->height + 1);
+}
+
+static void
+eti_table_model_row_selection (ETableModel *table_model, ETableItem *eti)
+{
+	/* FIXME: we should optimize this to only redraw the selection change */
+	eti_request_redraw (eti);
+}
+
+static void
 eti_add_table_model (ETableItem *eti, ETableModel *table_model)
 {
 	g_assert (eti->table_model == NULL);
@@ -83,31 +102,30 @@ eti_add_table_model (ETableItem *eti, ETableModel *table_model)
 	eti->table_model_change_id = gtk_signal_connect (
 		GTK_OBJECT (table_model), "model_changed",
 		GTK_SIGNAL_FUNC (eti_table_model_changed), eti);
-}
-
-static void
-eti_request_redraw (ETableItem *eti)
-{
-	GnomeCanvas *canvas = GNOME_CANVAS_ITEM (eti)->canvas;
-
-	gnome_canvas_request_redraw (canvas, eti->x1, eti->y1, eti->x1 + eti->width, eti->y1 + eti->height);
+	eti->table_model_selection_id = gtk_signal_connect (
+		GTK_OBJECT (table_model), "row_selection",
+		GTK_SIGNAL_FUNC (eti_table_model_row_selection), eti);
 }
 
 static void
 eti_header_dim_changed (ETableHeader *eth, int col, ETableItem *eti)
 {
-	eti->width = e_table_header_total_width (eti->header);
+	eti_request_redraw (eti);
 
+	eti->width = e_table_header_total_width (eti->header);
 	eti_update (GNOME_CANVAS_ITEM (eti), NULL, NULL, 0);
+
 	eti_request_redraw (eti);
 }
 
 static void
 eti_header_structure_changed (ETableHeader *eth, ETableItem *eti)
 {
-	eti->width = e_table_header_total_width (eti->header);
+	eti_request_redraw (eti);
 
+	eti->width = e_table_header_total_width (eti->header);
 	eti_update (GNOME_CANVAS_ITEM (eti), NULL, NULL, 0);
+
 	eti_request_redraw (eti);
 }
 
@@ -181,6 +199,9 @@ static void
 eti_init (GnomeCanvasItem *item)
 {
 	ETableItem *eti = E_TABLE_ITEM (item);
+
+	eti->focused_col = -1;
+	eti->focused_row = -1;
 }
 
 static void
@@ -199,6 +220,7 @@ eti_realize (GnomeCanvasItem *item)
 	gdk_gc_ref (canvas_widget->style->white_gc);
 	eti->grid_gc = gdk_gc_new (window);
 	gdk_gc_set_foreground (eti->grid_gc, &canvas_widget->style->fg [GTK_STATE_NORMAL]);
+
 }
 
 static void
@@ -277,7 +299,10 @@ eti_draw (GnomeCanvasItem *item, GdkDrawable *drawable, int x, int y, int width,
 	if (first_col == -1)
 		return;
 
+#if 0
 	printf ("Cols %d %d\n", first_col, last_col);
+#endif
+	
 	/*
 	 * Draw individual lines
 	 */
@@ -318,6 +343,25 @@ eti_point (GnomeCanvasItem *item, double x, double y, int cx, int cy,
 static int
 eti_event (GnomeCanvasItem *item, GdkEvent *e)
 {
+	ETableItem *eti = E_TABLE_ITEM (item);
+	ETableCol *etc;
+	
+	switch (e->type){
+	case GDK_BUTTON_PRESS:
+	case GDK_BUTTON_RELEASE:
+	case GDK_2BUTTON_PRESS:
+
+	case GDK_KEY_PRESS:
+	case GDK_KEY_RELEASE:
+		if (eti->focused_col == -1)
+			return FALSE;
+
+		etc = e_table_header_get_column (eti->header, eti->focused_col);
+
+		e_cell_event (etc->ecell, e, eti->focused_col, eti->focused_row);
+		break;
+		
+	}
 	return FALSE;
 }
 	
@@ -371,3 +415,19 @@ e_table_item_get_type (void)
 	return type;
 }
 
+void
+e_table_item_focus (ETableItem *eti, int col, int row)
+{
+	if (eti->focused_col != -1)
+		e_table_item_unfocus (eti);
+
+	eti->focused_col = col;
+	eti->focused_row = row;	
+}
+
+void
+e_table_item_unfocus (ETableItem *eti)
+{
+	eti->focused_col = -1;
+	eti->focused_row = -1;	
+}

@@ -3,7 +3,6 @@
 
 #include <gtk/gtkobject.h>
 #include "e-table-model.h"
-#include "e-table-header.h"
 
 #define E_TABLE_SUBSET_TYPE        (e_table_subset_get_type ())
 #define E_TABLE_SUBSET(o)          (GTK_CHECK_CAST ((o), E_TABLE_SUBSET_TYPE, ETableSubset))
@@ -15,15 +14,16 @@ typedef struct {
 	ETableModel base;
 
 	ETableModel  *source;
-	int  subset_count;
-	int *subset_table;
+	int  n_map;
+	int *map_table;
 } ETableSubset;
 
 typedef struct {
 	ETableModelClass parent_class;
 } ETableSubsetClass;
 
-GtkType      e_table_subset_get_type (void);
-ETableModel *e_table_subset_new      (ETableModel *etm,
-				      int n_vals, int *ptrs);
+GtkType      e_table_subset_get_type  (void);
+ETableModel *e_table_subset_new       (ETableModel *etm, int n_vals);
+ETableModel *e_table_subset_construct (ETableSubset *ets, ETableModel *source, int nvals);
+
 #endif /* _E_TABLE_SUBSET_H_ */

@@ -29,14 +29,6 @@ e-table-simple.h, e-table-simple.c:
 	routines (you provide the callbacks).  For lazy people, like
 	me. 
 
-e-table-header.h, e-table-header.c:
-
-	These implement the ETableHeader model.  They describe what
-	columns are shown in the screen and in which order.
-
-	These emit signals: column-size-changed and structure-changed
-	(if a column is added/removed)
-
 e-cell.c, e-cell.h:
 
 	These are actually miss-named.  Objects of type e-cell know
@@ -59,6 +51,17 @@ e-table-col.h, e-table-col.c:
 
 
 * The Views
+
+e-table-header.h, e-table-header.c:
+
+	These implement the ETableHeaderItem canvas item.  This item is
+	used both to control the columns displayed as well as displaying them. 
+
+	They describe what columns are shown in the screen and in
+	which order.
+
+	These emit signals: column-size-changed and structure-changed
+	(if a column is added/removed)
 
 e-table-item.c, e-table-item.h
 

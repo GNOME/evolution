@@ -3,7 +3,7 @@
 
 #include <gtk/gtkobject.h>
 #include "e-table-model.h"
-#include "e-table-header.h"
+#include "e-table-subset.h"
 
 #define E_TABLE_SORTED_TYPE        (e_table_sorted_get_type ())
 #define E_TABLE_SORTED(o)          (GTK_CHECK_CAST ((o), E_TABLE_SORTED_TYPE, ETableSorted))
@@ -12,23 +12,18 @@
 #define E_IS_TABLE_SORTED_CLASS(k) (GTK_CHECK_CLASS_TYPE ((k), E_TABLE_SORTED_TYPE))
 
 typedef struct {
-	ETableModel base;
+	ETableSubset base;
 
-	ETableModel  *source;
-	ETableHeader *header;
-	ETableCol    *sort_col;
-	short         sort_idx;
-	
-	int           n_map;
-	unsigned int  *map_table;
+	short         sort_col;
+	GCompareFunc  compare;
 } ETableSorted;
 
 typedef struct {
-	ETableModelClass parent_class;
+	ETableSubset parent_class;
 } ETableSortedClass;
 
 GtkType      e_table_sorted_get_type (void);
-ETableModel *e_table_sorted_new      (ETableModel *etm, ETableHeader *header,
-				      short sort_field);
+ETableModel *e_table_sorted_new      (ETableModel *etm, int col, GCompareFunc compare);
+void         e_table_sorted_resort   (ETableSorted *ets, int col, GCompareFunc compare);
 
 #endif /* _E_TABLE_SORTED_H_ */

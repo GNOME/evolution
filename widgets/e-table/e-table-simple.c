@@ -12,6 +12,8 @@
 #include <config.h>
 #include "e-table-simple.h"
 
+#define PARENT_TYPE e_table_model_get_type()
+
 static int
 simple_column_count (ETableModel *etm)
 {
@@ -99,7 +101,7 @@ e_table_simple_get_type (void)
 			(GtkClassInitFunc) NULL
 		};
 
-		type = gtk_type_unique (e_table_model_get_type (), &info);
+		type = gtk_type_unique (PARENT_TYPE, &info);
 	}
 
 	return type;
