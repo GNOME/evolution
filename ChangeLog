@@ -1,3 +1,7 @@
+2002-03-12  Christopher James Lahey  <clahey@ximian.com>
+
+	* configure.in: Bumped the required version of gal.
+
 2002-03-06  Jeffrey Stedfast  <fejj@ximian.com>
 
 	* configure.in: Allow the user to enable OpenSSL over Mozilla NSS
