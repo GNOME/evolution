@@ -1,3 +1,11 @@
+2004-04-14  Jeffrey Stedfast  <fejj@ximian.com>
+
+	* providers/imap/camel-imap-store.c
+	(imap_check_folder_still_extant): Use %F instead of %S so that the
+	folder name gets properly converted from using '/' path delimeters
+	to whatever the native character the server uses. Should fix bug
+	#56715.
+
 2004-04-14  Not Zed  <NotZed@Ximian.com>
 
 	* camel-disco-store.c (set_status): do offline mail syncing (only

@@ -1076,7 +1076,7 @@ imap_check_folder_still_extant (CamelImapStore *imap_store, const char *full_nam
 {
 	CamelImapResponse *response;
 
-	response = camel_imap_command (imap_store, NULL, ex, "LIST \"\" %S",
+	response = camel_imap_command (imap_store, NULL, ex, "LIST \"\" %F",
 				       full_name);
 
 	if (response) {
