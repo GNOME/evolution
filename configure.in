@@ -938,6 +938,11 @@ if test "x${enable_nss}" = "xyes"; then
 		[
 			LDFLAGS="$LDFLAGS -L$with_nspr_libs $nsprlibs -L$with_nss_libs $nsslibs"
 			AC_TRY_LINK_FUNC(NSS_Init, moz_nss_libs="yes", moz_nss_libs="no")
+			if test "$moz_nss_libs" = no; then
+				nsslibs="-lssl3 -lsmime3 -lnss3 -lsoftokn3"
+				LDFLAGS="$LDFLAGS -L$with_nspr_libs $nsprlibs -L$with_nss_libs $nsslibs"
+				AC_TRY_LINK_FUNC(NSS_Init, moz_nss_libs="yes", moz_nss_libs="no")	
+			fi
 			LDFLAGS="$LDFLAGS_save"
 		])
 		if test "$moz_nss_libs" != no; then

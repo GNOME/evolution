@@ -1,3 +1,8 @@
+2002-06-18  JP Rosevear  <jpr@ximian.com>
+
+	* configure.in: check for libsoftokn3 if we couldn't link the
+	first time
+
 2002-06-14  Chris Toshok  <toshok@ximian.com>
 
 	* libversit/vobject.c (unUseStr): fix a braindead typo that caused
