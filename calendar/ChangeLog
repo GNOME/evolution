@@ -1,3 +1,7 @@
+2003-10-21  Rodney Dawes  <dobey@ximian.com>
+
+	* cal-client/Makefile.am: Fix typo in libcal_client_la_SOURCES
+	
 2003-10-21  Rodrigo Moya <rodrigo@ximian.com>
 
 	* gui/calendar-component.c (calendar_component_init): fixed

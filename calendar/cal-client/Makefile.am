@@ -39,7 +39,7 @@ libcal_client_la_SOURCES =	\
 	$(CORBA_GENERATED_C)	\
 	cal-client-types.c	\
 	cal-marshal.c	\
-	cal--marshal.h	\
+	cal-marshal.h	\
 	cal-client.c		\
 	cal-listener.c		\
 	cal-listener.h		\
