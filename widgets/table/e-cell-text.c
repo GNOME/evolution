@@ -323,27 +323,12 @@ ect_cancel_edit (ECellTextView *text_view)
 static ECellView *
 ect_new_view (ECell *ecell, ETableModel *table_model, void *e_table_item_view)
 {
-	ECellText *ect = E_CELL_TEXT (ecell);
 	ECellTextView *text_view = g_new0 (ECellTextView, 1);
 	GnomeCanvas *canvas = GNOME_CANVAS_ITEM (e_table_item_view)->canvas;
 	
 	text_view->cell_view.ecell = ecell;
 	text_view->cell_view.e_table_model = table_model;
 	text_view->cell_view.e_table_item_view = e_table_item_view;
-	
-	if (ect->font_name){
-#if 0
-		GdkFont *f;
-
-		f = gdk_fontset_load (ect->font_name);
-		text_view->font = f;
-#endif
-		text_view->font = e_font_from_gdk_name (ect->font_name);
-	}
-	if (!text_view->font){
-		gdk_font_ref (GTK_WIDGET (canvas)->style->font);
-		text_view->font = e_font_from_gdk_font (GTK_WIDGET (canvas)->style->font);
-	}
 
 	text_view->canvas = canvas;
 
@@ -371,10 +356,19 @@ static void
 ect_realize (ECellView *ecell_view)
 {
 	ECellTextView *text_view = (ECellTextView *) ecell_view;
+	ECellText *ect = (ECellText *) ecell_view->ecell;
 	
 	text_view->gc = gdk_gc_new (GTK_WIDGET (text_view->canvas)->window);
 
 	text_view->i_cursor = gdk_cursor_new (GDK_XTERM);
+	
+	if (ect->font_name){
+		text_view->font = e_font_from_gdk_name (ect->font_name);
+	}
+	if (!text_view->font){
+		gdk_font_ref (GTK_WIDGET (text_view->canvas)->style->font);
+		text_view->font = e_font_from_gdk_font (GTK_WIDGET (text_view->canvas)->style->font);
+	}
 	
 	calc_ellipsis (text_view);
 

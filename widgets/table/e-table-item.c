@@ -28,6 +28,10 @@
 
 #define FOCUSED_BORDER 2
 
+/* FIXME: Do an analysis of which cell functions are needed before
+   realize and make sure that all of them are doable by all the cells
+   and that all of the others are only done after realization. */
+
 static GnomeCanvasItemClass *eti_parent_class;
 
 enum {
@@ -590,6 +594,8 @@ eti_table_model_pre_change (ETableModel *table_model, ETableItem *eti)
 static void
 eti_table_model_changed (ETableModel *table_model, ETableItem *eti)
 {
+	if (!(GTK_OBJECT_FLAGS(eti) & GNOME_CANVAS_ITEM_REALIZED))
+		return;
 #if 0
 	int view_row;
 #endif
@@ -685,6 +691,8 @@ eti_request_region_show (ETableItem *eti,
 static void
 eti_table_model_row_changed (ETableModel *table_model, int row, ETableItem *eti)
 {
+	if (!(GTK_OBJECT_FLAGS(eti) & GNOME_CANVAS_ITEM_REALIZED))
+		return;
 	if (eti->renderers_can_change_size &&
 	    eti->height_cache && eti->height_cache[row] != -1 &&
 	    eti_row_height_real(eti, row) != eti->height_cache[row]) {
@@ -698,6 +706,8 @@ eti_table_model_row_changed (ETableModel *table_model, int row, ETableItem *eti)
 static void
 eti_table_model_cell_changed (ETableModel *table_model, int col, int row, ETableItem *eti)
 {
+	if (!(GTK_OBJECT_FLAGS(eti) & GNOME_CANVAS_ITEM_REALIZED))
+		return;
 	if (eti->renderers_can_change_size &&
 	    eti->height_cache && eti->height_cache[row] != -1 &&
 	    eti_row_height_real(eti, row) != eti->height_cache[row]) {
@@ -711,6 +721,8 @@ eti_table_model_cell_changed (ETableModel *table_model, int col, int row, ETable
 static void
 eti_table_model_rows_inserted (ETableModel *table_model, int row, int count, ETableItem *eti)
 {
+	if (!(GTK_OBJECT_FLAGS(eti) & GNOME_CANVAS_ITEM_REALIZED))
+		return;
 	eti->rows = e_table_model_row_count (eti->table_model);
 
 	if (eti->height_cache) {
@@ -730,6 +742,8 @@ eti_table_model_rows_inserted (ETableModel *table_model, int row, int count, ETa
 static void
 eti_table_model_rows_deleted (ETableModel *table_model, int row, int count, ETableItem *eti)
 {
+	if (!(GTK_OBJECT_FLAGS(eti) & GNOME_CANVAS_ITEM_REALIZED))
+		return;
 	eti->rows = e_table_model_row_count (eti->table_model);
 
 	if (eti->height_cache)
@@ -1130,6 +1144,9 @@ eti_realize (GnomeCanvasItem *item)
 	if (GNOME_CANVAS_ITEM_CLASS (eti_parent_class)->realize)
                 (*GNOME_CANVAS_ITEM_CLASS (eti_parent_class)->realize)(item);
 
+
+	eti->rows = e_table_model_row_count (eti->table_model);
+
 	/*
 	 * Gdk Resource allocation
 	 */
@@ -1165,6 +1182,8 @@ eti_realize (GnomeCanvasItem *item)
 		eti_attach_cell_views (eti);
 	
 	eti_realize_cell_views (eti);
+
+	free_height_cache(eti);
 
 	eti->needs_compute_height = 1;
 	eti->needs_compute_width = 1;
