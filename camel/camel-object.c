@@ -30,6 +30,13 @@
 #include <string.h>
 #include "camel-object.h"
 
+/* FIXME: Make the code so this isn't necessary, its just the hook locking thats the problem */
+#ifndef ENABLE_THREADS
+#error "Threads must be enabled to compile this version of camel"
+#endif
+
+#include <pthread.h>
+
 /* I just mashed the keyboard for these... */
 #define CAMEL_OBJECT_MAGIC_VALUE           0x77A344EF
 #define CAMEL_OBJECT_CLASS_MAGIC_VALUE     0xEE26A990
@@ -63,12 +70,27 @@ typedef struct _CamelTypeInfo
 }
 CamelTypeInfo;
 
+/* A 'locked' hooklist, that is only allocated on demand */
+typedef struct _CamelHookList {
+	pthread_mutex_t lock;
+
+	struct _CamelHookPair *list;
+} CamelHookList;
+
+/* a 'hook pair', actually a hook tuple, we just store all hooked events in the same list,
+   and just comapre as we go, rather than storing separate lists for each hook type
+
+   the name field just points directly to the key field in the class's preplist hashtable.
+   This way we can just use a direct pointer compare when scanning it, and also saves
+   copying the string */
 typedef struct _CamelHookPair
 {
+	struct _CamelHookPair *next; /* next MUST be the first member */
+
+	const char *name;	/* points to the key field in the classes preplist, static memory */
 	CamelObjectEventHookFunc func;
-	gpointer user_data;
-}
-CamelHookPair;
+	void *data;
+} CamelHookPair;
 
 /* ************************************************************************ */
 
@@ -83,6 +105,8 @@ static void obj_class_finalize (CamelObjectClass * class);
 static gboolean shared_is_of_type (CamelObjectShared * sh, CamelType ctype,
 				   gboolean is_obj);
 static void make_global_classfuncs (CamelTypeInfo * type_info);
+
+static void camel_object_free_hooks(CamelObject *o);
 
 /* ************************************************************************ */
 
@@ -322,7 +346,7 @@ obj_init (CamelObject * obj)
 {
 	obj->s.magic = CAMEL_OBJECT_MAGIC_VALUE;
 	obj->ref_count = 1;
-	obj->event_to_hooklist = NULL;
+	obj->hooks = NULL;
 	obj->in_event = 0;
 	obj->destroying = 0;
 }
@@ -336,11 +360,7 @@ obj_finalize (CamelObject * obj)
 
 	obj->s.magic = CAMEL_OBJECT_FINALIZED_VALUE;
 
-	if (obj->event_to_hooklist) {
-		g_hash_table_foreach (obj->event_to_hooklist, (GHFunc) g_free, NULL);
-		g_hash_table_destroy (obj->event_to_hooklist);
-		obj->event_to_hooklist = NULL;
-	}
+	camel_object_free_hooks(obj);
 }
 
 static void
@@ -359,6 +379,7 @@ obj_class_finalize (CamelObjectClass * class)
 	class->s.magic = CAMEL_OBJECT_CLASS_FINALIZED_VALUE;
 
 	if (class->event_to_preplist) {
+		/* FIXME: This leaks the preplist slist entries */
 		g_hash_table_foreach (class->event_to_preplist,
 				      (GHFunc) g_free, NULL);
 		g_hash_table_destroy (class->event_to_preplist);
@@ -411,6 +432,7 @@ camel_object_new (CamelType type)
 		type_info->free_instances =
 			g_list_remove_link (type_info->free_instances, first);
 		g_list_free_1 (first);
+		memset (instance, 0, type_info->instance_size);
 	} else {
 		instance = g_mem_chunk_alloc0 (type_info->instance_chunk);
 	}
@@ -557,10 +579,11 @@ camel_object_unref (CamelObject * obj)
 	/* A little bit of cleaning up.
 
 	 * Don't erase the type, so we can peek at it if a finalized object
-	 * is check_cast'ed somewhere.
+	 * is check_cast'ed somewhere.  Fill it with gunk to help detect
+	 * other invalid ref's of it.
 	 */
 
-	memset (obj, 0, type_info->instance_size);
+	memset (obj, 0xEB, type_info->instance_size);
 	obj->s.type = type_info->self;
 	obj->s.magic = CAMEL_OBJECT_FINALIZED_VALUE;
 
@@ -682,18 +705,98 @@ camel_object_class_declare_event (CamelObjectClass * class,
 	g_hash_table_insert (class->event_to_preplist, g_strdup (name), prep);
 }
 
-void
-camel_object_hook_event (CamelObject * obj, const gchar * name,
-			 CamelObjectEventHookFunc hook, gpointer user_data)
+/* free hook data */
+static void camel_object_free_hooks(CamelObject *o)
 {
-	GSList *hooklist;
+	CamelHookPair *pair, *next;
+
+	if (o->hooks) {
+		pair = o->hooks->list;
+		while (pair) {
+			next = pair->next;
+			g_free(pair);
+			pair = next;
+		}
+		g_free(o->hooks);
+		o->hooks = NULL;
+	}
+}
+
+/* return (allocate if required) the object's hook list, locking at the same time */
+static CamelHookList *camel_object_get_hooks(CamelObject *o)
+{
+#ifdef ENABLE_THREADS
+	static pthread_mutex_t lock = PTHREAD_MUTEX_INITIALIZER;
+#endif
+	CamelHookList *hooks;
+
+	/* if we have it, we dont have to do any other locking,
+	   otherwise use a global lock to setup the object's hook data */
+#ifdef ENABLE_THREADS
+	if (o->hooks == NULL) {
+		pthread_mutex_lock(&lock);
+#endif
+		if (o->hooks == NULL) {
+			hooks = g_malloc(sizeof(*o->hooks));
+#ifdef ENABLE_THREADS
+			pthread_mutex_init(&hooks->lock, NULL);
+#endif
+			hooks->list = NULL;
+			o->hooks = hooks;
+		}
+#ifdef ENABLE_THREADS
+		pthread_mutex_unlock(&lock);
+	}
+#endif
+
+#ifdef ENABLE_THREADS
+	pthread_mutex_lock(&o->hooks->lock);
+#endif
+	return o->hooks;	
+}
+
+/* unlock object hooks' list */
+#ifdef ENABLE_THREADS
+#define camel_object_unget_hooks(o) (pthread_mutex_unlock(&(CAMEL_OBJECT(o)->hooks->lock)))
+#else
+#define camel_object_unget_hooks(o)
+#endif
+
+void
+camel_object_hook_event (CamelObject * obj, const char * name,
+			 CamelObjectEventHookFunc func, void *data)
+{
 	CamelHookPair *pair;
-	gpointer old_name, old_hooklist;
+	const char *prepname;
+	CamelObjectEventPrepFunc prep;
+	CamelHookList *hooks;
 
 	g_return_if_fail (CAMEL_IS_OBJECT (obj));
-	g_return_if_fail (name);
-	g_return_if_fail (hook);
+	g_return_if_fail (name != NULL);
+	g_return_if_fail (func != NULL);
 
+	/* first, does this event exist? */
+	if (obj->classfuncs->event_to_preplist == NULL
+	    || !g_hash_table_lookup_extended(obj->classfuncs->event_to_preplist, name,
+					     (void **)&prepname, (void **)&prep)) {
+		g_warning("camel_object_hook_event: trying to hook event `%s' in class `%s' with no defined events.",
+			  name, camel_type_to_name (obj->s.type));
+		return;
+	}
+
+	/* setup hook pair */
+	pair = g_malloc(sizeof(*pair));
+	pair->name = prepname;	/* effectively static! */
+	pair->func = func;
+	pair->data = data;
+
+	/* get the hook list object, locked, link in new event hook, unlock */
+	hooks = camel_object_get_hooks(obj);
+	pair->next = hooks->list;
+	hooks->list = pair;
+	camel_object_unget_hooks(obj);
+
+#if 0
 	if (obj->event_to_hooklist == NULL)
 		obj->event_to_hooklist =
 			g_hash_table_new (g_str_hash, g_str_equal);
@@ -712,19 +815,61 @@ camel_object_hook_event (CamelObject * obj, const gchar * name,
 		g_hash_table_insert (obj->event_to_hooklist, g_strdup (name),
 				     hooklist);
 	}
+#endif
 }
 
 void
-camel_object_unhook_event (CamelObject * obj, const gchar * name,
-			   CamelObjectEventHookFunc hook, gpointer user_data)
+camel_object_unhook_event (CamelObject * obj, const char * name,
+			   CamelObjectEventHookFunc func, void *data)
 {
+#if 0
 	GSList *hooklist;
 	GSList *head;
+#endif
+	char *prepname;
+	CamelObjectEventPrepFunc prep;
+	CamelHookList *hooks;
+	CamelHookPair *pair, *parent;
 
 	g_return_if_fail (CAMEL_IS_OBJECT (obj));
-	g_return_if_fail (name);
-	g_return_if_fail (hook);
+	g_return_if_fail (name != NULL);
+	g_return_if_fail (func != NULL);
 
+	if (obj->hooks == NULL) {
+		g_warning("camel_object_unhook_event: trying to unhook `%s` from an instance of `%s' with no hooks",
+			  name, camel_type_to_name(obj->s.type));
+		return;
+	}
+
+	/* get event name static pointer */
+	if (obj->classfuncs->event_to_preplist == NULL
+	    || !g_hash_table_lookup_extended(obj->classfuncs->event_to_preplist, name,
+					     (void **)&prepname, (void **)&prep)) {
+		g_warning("camel_object_hook_event: trying to hook event `%s' in class `%s' with no defined events.",
+			  name, camel_type_to_name (obj->s.type));
+		return;
+	}
+
+	/* scan hooks for this event, remove it */
+	hooks = camel_object_get_hooks(obj);
+	parent = (CamelHookPair *)&hooks->list;
+	pair = parent->next;
+	while (pair) {
+		if (pair->name == prepname && pair->func == func && pair->data == data) {
+			parent->next = pair->next;
+			g_free(pair);
+			camel_object_unget_hooks(obj);
+			return;
+		}
+		parent = pair;
+		pair = pair->next;
+	}
+	camel_object_unget_hooks(obj);
+
+	g_warning("camel_object_unhook_event: cannot find hook/data pair %p/%p in an instance of `%s' attached to `%s'",
+		  func, data, camel_type_to_name (obj->s.type), name);
+
+#if 0
 	if (obj->event_to_hooklist == NULL) {
 		g_warning
 			("camel_object_unhook_event: trying to unhook `%s' from an instance "
@@ -764,23 +909,54 @@ camel_object_unhook_event (CamelObject * obj, const gchar * name,
 		("camel_object_unhook_event: cannot find hook/data pair %p/%p in an "
 		 "instance of `%s' attached to `%s'", hook, user_data,
 		 camel_type_to_name (obj->s.type), name);
+#endif
 }
 
 void
-camel_object_trigger_event (CamelObject * obj, const gchar * name,
-			    gpointer event_data)
+camel_object_trigger_event (CamelObject * obj, const char * name, void *event_data)
 {
-	GSList *hooklist;
 	CamelHookPair *pair;
 	CamelObjectEventPrepFunc prep;
+	const char *prepname;
+	CamelHookList *hooks;
 
 	g_return_if_fail (CAMEL_IS_OBJECT (obj));
 	g_return_if_fail (name);
 
+	/* no hooks, dont bother going anywhere */
+	if (obj->hooks == NULL)
+		return;
+
+	/* get event name static pointer/prep func */
+	if (obj->classfuncs->event_to_preplist == NULL
+	    || !g_hash_table_lookup_extended(obj->classfuncs->event_to_preplist, name,
+					     (void **)&prepname, (void **)&prep)) {
+		g_warning("camel_object_hook_event: trying to hook event `%s' in class `%s' with no defined events.",
+			  name, camel_type_to_name (obj->s.type));
+		return;
+	}
+
+	/* lock the object for hook emission */
+	camel_object_ref(obj);
+	hooks = camel_object_get_hooks(obj);
+
+	if (prep == NULL_PREP_VALUE || prep(obj, event_data)) {
+		pair = hooks->list;
+		while (pair) {
+			if (pair->name == prepname)
+				(pair->func) (obj, event_data, pair->data);
+			
+			pair = pair->next;
+		}
+	}
+
+	camel_object_unget_hooks(obj);
+	camel_object_unref(obj);
+
+#if 0
 	if (obj->in_event) {
-		g_warning
-			("camel_object_trigger_event: trying to trigger `%s' in class "
-			 "`%s' while already triggering another event", name,
+		g_warning("camel_object_trigger_event: trying to trigger `%s' in class "
+			  "`%s' while already triggering another event", name,
 			 camel_type_to_name (obj->s.type));
 		return;
 	}
@@ -827,6 +1003,7 @@ camel_object_trigger_event (CamelObject * obj, const gchar * name,
 
 	obj->in_event = 0;
 	camel_object_unref (obj);
+#endif
 }
 
 /* ** Static helpers ****************************************************** */

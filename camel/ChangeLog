@@ -1,3 +1,16 @@
+2001-09-27    <NotZed@Ximian.com>
+
+	* camel-object.c (camel_object_unref): Fill the finalised data
+	with nonsense, rather than 0's - more easily detect bad data.
+	(camel_object_new): Clear instance data when we retrieve it off
+	the list.
+
+	* camel-object.h (_CamelObject): Added an event lock pointer for
+	uh, locking event stuff.  Also change the hooklist hashtable into
+	a list.  Changed all the code to handle it.  Result: thread-safe
+	events, event-hooks, and save memory too, and SHOULD FINALLY FIX
+	THAT UNREAD COUNT PROBLEM.
+
 2001-09-27  Jeffrey Stedfast  <fejj@ximian.com>
 
 	* camel-pgp-mime.c (camel_pgp_mime_part_decrypt): CRLF decode the
