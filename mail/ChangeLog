@@ -1,3 +1,9 @@
+2000-07-08  Dan Winship  <danw@helixcode.com>
+
+	* message-list.c (get_message_info): Fix Jeff's FIXME: This does
+	get called with out-of-range data sometimes, so we do need the
+	check. Use e_table_model_row_count to get the actual right answer.
+
 2000-07-07  Jeffrey Stedfast  <fejj@helixcode.com>
 
 	* message-list.c (get_message_info): This wasn't quite right, it

@@ -30,8 +30,6 @@
 #include "art/tree-expanded.xpm"
 #include "art/tree-unexpanded.xpm"
 
-#define d(x) x
-
 /*
  * Default sizes for the ETable display
  *
@@ -89,23 +87,12 @@ get_message_info (MessageList *message_list, int row)
 	ETreePath *node;
 	char *uid;
 
-	d(printf ("\t*** row = %d ***\n", row));
-#if 0
-	/* FIXME: The reason this is commented out is because this is not a good
-	   safety check. Let me explain: Since we can have more rows than actual messages,
-	   the condition row >= [size] could fail beyond a certain point in the message
-	   list. We need a way to account for the "No item in this view" rows */
-	if (row >= g_hash_table_size (message_list->uid_rowmap)) {
-		d(printf ("\t*** max row = %d ***\n", g_hash_table_size (message_list->uid_rowmap)));
+	if (row >= e_table_model_row_count (message_list->table_model))
 		return NULL;
-	}
-#endif
 
 	node = e_tree_model_node_at_row (model, row);
-	d(printf ("\t*** node = %p ***\n", node));
 	g_return_val_if_fail (node != NULL, NULL);
 	uid = e_tree_model_node_get_data (model, node);
-	d(printf ("\t*** uid = %s ***\n", uid));
 	g_return_val_if_fail (uid != NULL, NULL);
 
 	return camel_folder_get_message_info (message_list->folder, uid);
