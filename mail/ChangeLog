@@ -1,3 +1,9 @@
+2002-10-09  Jeffrey Stedfast  <fejj@ximian.com>
+
+	* folder-browser.c (main_folder_changed): Don't do anything if the
+	message_list is NULL (this means the FolderBrowser has been
+	destroyed). Fixes bug #32002.
+
 2002-10-08  Jeffrey Stedfast  <fejj@ximian.com>
 
 	* component-factory.c (storage_remove_folder): The CamelFolderInfo

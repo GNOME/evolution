@@ -800,8 +800,10 @@ static gboolean
 update_status_bar_idle_cb(gpointer data)
 {
 	FolderBrowser *fb = data;
+	
 	if (!GTK_OBJECT_DESTROYED (fb))
 		update_status_bar (fb);
+	
 	fb->update_status_bar_idle_id = 0;
 	gtk_object_unref (GTK_OBJECT (fb));
 	return FALSE;
@@ -819,7 +821,10 @@ update_status_bar_idle(FolderBrowser *fb)
 static void main_folder_changed(CamelObject *o, void *event_data, void *data)
 {
 	FolderBrowser *fb = data;
-
+	
+	if (fb->message_list == NULL)
+		return;
+	
 	/* so some corba unref doesnt blow us away while we're busy */
 	gtk_object_ref((GtkObject *)fb);
 	update_status_bar(fb);
