@@ -85,14 +85,14 @@
           <title>Evolution Mail</title>
           <screenshot>
             <screeninfo>Inbox</screeninfo>
-            <graphic fileref="fig/mail-inbox.png" format="png" srccredit="Kevin Breit">
+            <graphic fileref="fig/mail-inbox" format="png" srccredit="Kevin Breit">
         </graphic>
         </screenshot>
       </figure>
 <!-- ==============End of Figure============================== -->
 
     <para>
-      <inlinegraphic fileref="fig/full-1.png" format="png"></inlinegraphic>
+      <inlinegraphic fileref="fig/full-1" format="png"></inlinegraphic>
       <guilabel>Email Viewer</guilabel>
     </para>
     
@@ -101,7 +101,7 @@
     </para>
 
     <para>
-      <inlinegraphic fileref="fig/full-2.png" format="png"></inlinegraphic>
+      <inlinegraphic fileref="fig/full-2" format="png"></inlinegraphic>
       <guilabel>Email List</guilabel>
     </para>
     
@@ -434,16 +434,12 @@
         <title>New Message Window</title>
         <screenshot>
           <screeninfo>Evolution Main Window</screeninfo>
-          <graphic fileref="fig/newmsg-pic" format="png" srccredit="Kevin Breit">
+          <graphic fileref="fig/newmsg" format="png" srccredit="Aaron Weber">
         </graphic>
         </screenshot>
       </figure>
 <!-- ==============End of Figure=================================== -->
 
- <!-- Check the alignment of the following paragraph in the PS and
- HTML output: it's indented for no good reason 
-      Kevin Breit: I dont see a problem with the HTML.
-    -->
       <para>
       Enter an address in the <guilabel>To:</guilabel> field.  If you wish
       enter a  subject in the <guilabel>Subject:</guilabel> and a message in

@@ -1,3 +1,10 @@
+2001-08-10  Aaron Weber  <aaron@ximian.com>
+
+	* C/usage-mail.sgml: Switched all images in entire document to
+	*not* use file extensions, so that they work properly with
+	db2ps. This doesn't completely fix the db2ps issues, but it's
+	apparently the right way to do this.
+
 2001-08-09  Aaron Weber  <aaron@ximian.com>
 
 	* C/config-prefs.sgml: Made sharing tip an orderedlist.
