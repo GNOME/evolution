@@ -1,5 +1,11 @@
 2003-08-28  Hans Petter Jansson  <hpj@ximian.com>
 
+	* gui/alarm-notify/alarm-queue.c (tray_icon_blink_cb)
+	(display_notification): Use images that come with Evolution instead
+	of unreleased stock, for now.
+
+2003-08-28  Hans Petter Jansson  <hpj@ximian.com>
+
 	* gui/alarm-notify/util.[ch]: Added alarm-notify utils.
 
 	* gui/alarm-notify/Makefile.am: Added alarm-notify utils.

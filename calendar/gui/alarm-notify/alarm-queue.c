@@ -821,11 +821,13 @@ tray_icon_blink_cb (gpointer data)
 {
 	TrayIconData *tray_data = data;
 
+	/* FIXME: Use stock image equivalents when they become available */
+
 	tray_data->blink_state = tray_data->blink_state == TRUE ? FALSE : TRUE;
-	gtk_image_set_from_stock (GTK_IMAGE (tray_data->image),
-				  tray_data->blink_state == TRUE ?
-				  "appointment-reminder-excl" : "appointment-reminder",
-				  GTK_ICON_SIZE_LARGE_TOOLBAR);
+	gtk_image_set_from_file (GTK_IMAGE (tray_data->image),
+				 tray_data->blink_state == TRUE ?
+				 EVOLUTION_IMAGESDIR "/appointment-reminder-excl.png" :
+				 EVOLUTION_IMAGESDIR "/appointment-reminder.png");
 
 	return TRUE;
 }
@@ -875,8 +877,9 @@ display_notification (time_t trigger, CompQueuedAlarms *cqa,
 	/* create the tray icon */
 	tooltips = gtk_tooltips_new ();
 
+	/* FIXME: Use stock image equivalent when it becomes available */
 	tray_icon = egg_tray_icon_new (qa->instance->auid);
-	image = gtk_image_new_from_stock ("appointment-reminder", GTK_ICON_SIZE_LARGE_TOOLBAR);
+	image = gtk_image_new_from_file (EVOLUTION_IMAGESDIR "/appointment-reminder.png");
 	ebox = gtk_event_box_new ();
 
 	gtk_widget_show (image);
