@@ -1,3 +1,13 @@
+2001-05-21  Jeffrey Stedfast  <fejj@ximian.com>
+
+	* providers/imap/camel-imap-store.c (get_folder_info_online):
+	Store the CamelFolderInfo tree that was returned from
+	camel_folder_info_build() in a new variable, 'tree', rather than
+	'fi' since we later use 'fi' when syncing folders. Not only does
+	this fix a memory leak, but it also fixes the bug where the user
+	would only see the last folder in the folder list and/or it's
+	subfolders.
+
 2001-05-16  Jeffrey Stedfast  <fejj@ximian.com>
 
 	* camel-session.c (camel_session_forget_password): The service can
@@ -29,7 +39,7 @@
 	variables so we don't link in tons of extra cruft that we don't
 	need.
 
-	* tests/smime/pkcs7.c: Added t the test suite - tests the S/MIME
+	* tests/smime/pkcs7.c: Added to the test suite - tests the S/MIME
 	pkcs7 functions.
 
 2001-05-14  Jeffrey Stedfast  <fejj@ximian.com>

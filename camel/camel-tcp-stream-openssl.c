@@ -445,6 +445,8 @@ open_ssl_connection (CamelService *service, int sockfd)
 	
 	/* SSLv23_client_method will negotiate with SSL v2, v3, or TLS v1 */
 	ssl_ctx = SSL_CTX_new (SSLv23_client_method ());
+	g_return_val_if_fail (ssl_ctx != NULL, NULL);
+	
 	SSL_CTX_set_verify (ssl_ctx, SSL_VERIFY_PEER, &ssl_verify);
 	ssl = SSL_new (ssl_ctx);
 	SSL_set_fd (ssl, sockfd);

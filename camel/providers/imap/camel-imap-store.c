@@ -1053,7 +1053,7 @@ get_folder_info_online (CamelStore *store, const char *top,
 	GPtrArray *folders;
 	const char *name;
 	char *pattern, *status, *p;
-	CamelFolderInfo *fi;
+	CamelFolderInfo *fi, *tree;
 	int i;
 
 	if (!camel_remote_store_connected (CAMEL_REMOTE_STORE (store), ex))
@@ -1133,10 +1133,10 @@ get_folder_info_online (CamelStore *store, const char *top,
 	}
 
 	/* Assemble. */
-	fi = camel_folder_info_build (folders, name, imap_store->dir_sep, TRUE);
+	tree = camel_folder_info_build (folders, name, imap_store->dir_sep, TRUE);
 	if (flags & CAMEL_STORE_FOLDER_INFO_FAST) {
 		g_ptr_array_free (folders, TRUE);
-		return fi;
+		return tree;
 	}
 
 	/* Get unread counts. Sync flag changes to the server first so
@@ -1185,7 +1185,7 @@ get_folder_info_online (CamelStore *store, const char *top,
 	}
 
 	g_ptr_array_free (folders, TRUE);
-	return fi;
+	return tree;
 }
 
 static gboolean
