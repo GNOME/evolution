@@ -1,3 +1,7 @@
+2001-08-19  Chris Toshok  <toshok@ximian.com>
+
+	* filter-input.c: #include <sys/types.h> for regex_t on freebsd.
+
 2001-08-15  Jeffrey Stedfast  <fejj@ximian.com>
 
 	* filter.glade: Added key accelerators.
