@@ -54,12 +54,11 @@
 #include "camel-imap-private.h"
 #include "camel-private.h"
 
-#define d(x) x
-
 /* Specified in RFC 2060 */
 #define IMAP_PORT 143
 
 static CamelRemoteStoreClass *remote_store_class = NULL;
+static char imap_tag_prefix = 'A';
 
 static void construct (CamelService *service, CamelSession *session,
 		       CamelProvider *provider, CamelURL *url,
@@ -169,9 +168,12 @@ camel_imap_store_init (gpointer object, gpointer klass)
 	
 	imap_store->dir_sep = '\0';
 	imap_store->current_folder = NULL;
-
 	imap_store->connected = FALSE;
 	imap_store->subscribed_folders = NULL;
+
+	imap_store->tag_prefix = imap_tag_prefix++;
+	if (imap_tag_prefix > 'Z')
+		imap_tag_prefix = 'A';
 
 	imap_store->priv = g_malloc0 (sizeof (*imap_store->priv));
 #ifdef ENABLE_THREADS
@@ -653,7 +655,7 @@ imap_store_setup_online (CamelImapStore *store, CamelException *ex)
 			if (!imap_parse_list_response (result, &flags, NULL, &name))
 				continue;
 			if (flags & (IMAP_LIST_FLAG_MARKED | IMAP_LIST_FLAG_UNMARKED))
-				store->useful_lsub = TRUE;
+				store->capabilities |= IMAP_CAPABILITY_useful_lsub;
 			if (flags & IMAP_LIST_FLAG_NOSELECT) {
 				g_free (name);
 				continue;
@@ -1161,7 +1163,8 @@ get_folder_info (CamelStore *store, const char *top, gboolean fast,
 		 * use get_subscribed_folders_by_hand. In all other
 		 * cases, use a single LIST or LSUB command.
 		 */
-		if (subscribed_only && !imap_store->useful_lsub &&
+		if (subscribed_only &&
+		    !(imap_store->capabilities & IMAP_CAPABILITY_useful_lsub) &&
 		     (imap_store->parameters & IMAP_PARAM_CHECK_ALL)) {
 			get_subscribed_folders_by_hand (imap_store, name,
 							folders, ex);

@@ -128,8 +128,8 @@ camel_imap_command (CamelImapStore *store, CamelFolder *folder,
 	va_end (ap);
 
 	camel_remote_store_send_string (CAMEL_REMOTE_STORE (store), ex,
-					"A%.5d %s\r\n", store->command++,
-					cmdbuf);
+					"%c%.5d %s\r\n", store->tag_prefix,
+					store->command++, cmdbuf);
 	g_free (cmdbuf);
 	if (camel_exception_is_set (ex)) {
 		CAMEL_IMAP_STORE_UNLOCK (store, command_lock);

@@ -52,6 +52,7 @@ typedef enum {
 #define IMAP_CAPABILITY_NAMESPACE		(1 << 3)
 #define IMAP_CAPABILITY_UIDPLUS			(1 << 4)
 #define IMAP_CAPABILITY_LITERALPLUS		(1 << 5)
+#define IMAP_CAPABILITY_useful_lsub		(1 << 6)
 
 #define IMAP_PARAM_OVERRIDE_NAMESPACE		(1 << 0)
 #define IMAP_PARAM_CHECK_ALL			(1 << 1)
@@ -61,20 +62,17 @@ struct _CamelImapStore {
 	CamelRemoteStore parent_object;	
 	struct _CamelImapStorePrivate *priv;
 
-	CamelFolder *current_folder;
-	
+	/* Information about the command channel / connection status */
+	gboolean connected;
+	char tag_prefix;
 	guint32 command;
-	
+	CamelFolder *current_folder;
+
+	/* Information about the server */
 	CamelImapServerLevel server_level;
 	guint32 capabilities, parameters;
-	GHashTable *authtypes;
-	
-	char *namespace, dir_sep, *storage_path, *base_url;
-	
-	gboolean connected;
-
-	GHashTable *subscribed_folders;
-	gboolean useful_lsub;
+	char *namespace, dir_sep, *base_url, *storage_path;
+	GHashTable *authtypes, *subscribed_folders;
 };
 
 

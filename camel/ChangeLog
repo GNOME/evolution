@@ -1,5 +1,17 @@
 2001-05-02  Dan Winship  <danw@ximian.com>
 
+	* providers/imap/camel-imap-store.h: Clean this up a bit. Add a
+	"tag_prefix" member. Move "useful_lsub" into capabilities.
+
+	* providers/imap/camel-imap-store.c (camel_imap_store_init):
+	Initialize the tag_prefix, based on a static variable.
+
+	* providers/imap/camel-imap-command.c (camel_imap_command): Use
+	the store's tag_prefix character rather than "A" at the start of
+	the tag. Makes the verbose debug output easier to parse when
+	connected to multiple IMAP servers. (Well, unless you're connected
+	to more than 26 servers...)
+
 	* providers/imap/camel-imap-utils.c (imap_uid_array_to_set): Fix
 	this up... it was losing count in some cases and giving a more
 	verbose answer than it needed to.
