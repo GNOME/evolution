@@ -1,6 +1,3 @@
-<!--
-<!DOCTYPE Chapter PUBLIC "-//GNOME//DTD DocBook PNG Variant V1.1//EN">
--->
 
 <chapter id="usage-mail">
   <title>Using Evolution for Email</title>
@@ -89,12 +86,11 @@
 	message with the original, so you can follow the thread of a
 	conversation from one message to the next.
       </para>
-
 <figure>
         <title>Threaded Mail View</title>
 <screenshot>
 <screeninfo>Threaded Mail View</screeninfo>
-<mediaobject><imageobject><imagedata  format="png" fileref="mail-threaded" srccredit="Aaron Weber">
+<mediaobject><imageobject><imagedata  format="png" fileref="figures/mail-threaded" srccredit="Aaron Weber">
 </imageobject></mediaobject>
 </screenshot>
 </figure>

@@ -1,3 +1,7 @@
+2001-10-01  Aaron Weber  <aaron@ximian.com>
+
+	* C/usage-mail.sgml: missing directory for figure file ref.
+
 2001-09-29  Kevin Breit  <battery841@mediaone.net>
 
 	* C/usage-mail.sgml: Slightly improved encryption documentation.

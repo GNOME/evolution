@@ -44,6 +44,5 @@ sgml_ents =	\
 	usage-mainwindow.sgml	\
 	usage-print.sgml	\
 	usage-sync.sgml
-	
 include $(top_srcdir)/help/sgmldocs.make
 dist-hook: app-dist-hook
