@@ -434,6 +434,36 @@ book_open_cb (EBook *book, EBookStatus status, gpointer closure)
 	AddressbookView *view = closure;
 	if (status == E_BOOK_STATUS_SUCCESS) {
 		set_book (view);
+	} else {
+		GtkWidget *warning_dialog, *label, *href;
+        	warning_dialog = gnome_dialog_new (
+        		_("Unable to open addressbook"),
+			GNOME_STOCK_BUTTON_CLOSE,
+        		NULL);
+        
+        	label = gtk_label_new (
+        		_("We were unable to open this addressbook.\n"
+			  "This either means you have entered an\n"
+			  "incorrect URI, or have tried to access an\n"
+			  "LDAP server and don't have LDAP support"
+			  "compiled in.  If you've entered a URI, check the\n"
+			  "the URI for correctness and reenter.\n"
+			  "If not, you probably have attempted to access\n"
+			  "an LDAP server.  If you wish to be able to use\n"
+			  "use LDAP, you'll need to download and install\n"
+			  "OpenLDAP and recompile and install evolution.\n"));
+		gtk_box_pack_start (GTK_BOX (GNOME_DIALOG (warning_dialog)->vbox), 
+				    label, TRUE, TRUE, 0);
+        	gtk_widget_show (label);
+
+		href = gnome_href_new ("http://www.openldap.org/", "OpenLDAP at http://www.openldap.org/");
+		gtk_box_pack_start (GTK_BOX (GNOME_DIALOG (warning_dialog)->vbox), 
+				    href, FALSE, FALSE, 0);
+        	gtk_widget_show (label);
+
+		gnome_dialog_run (GNOME_DIALOG (warning_dialog));
+		
+		gtk_object_destroy (GTK_OBJECT (warning_dialog));
 	}
 }
 
