@@ -2059,6 +2059,7 @@ emft_create_folder__free (struct _mail_msg *mm)
 {
 	struct _EMCreateFolder *m = (struct _EMCreateFolder *) mm;
 	
+	camel_store_free_folder_info (m->store, m->fi);
 	camel_object_unref (m->store);
 	g_free (m->full_name);
 	g_free (m->parent);
@@ -2218,8 +2219,6 @@ emft_popup_new_folder (GtkWidget *item, EMFolderTree *emft)
 	em_folder_selector_set_selected ((EMFolderSelector *) dialog, emft->priv->selected_uri);
 	g_signal_connect (dialog, "response", G_CALLBACK (emft_popup_new_folder_response), emft);
 	gtk_widget_show (dialog);
-	/* FIXME: what is this crap, this should go in the folder selector */
-	gtk_widget_grab_focus ((GtkWidget *) ((EMFolderSelector *)dialog)->name_entry);
 }
 
 static void
