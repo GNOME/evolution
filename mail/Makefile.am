@@ -16,12 +16,11 @@ INCLUDES = \
 	-I$(top_srcdir)/shell				\
 	-I$(top_srcdir)/shell/importer			\
 	-I$(top_builddir)/shell/importer		\
-	$(EVOLUTION_MAIL_CFLAGS)				\
+	$(MAILER_CFLAGS)				\
 	-DEVOLUTION_DATADIR=\""$(datadir)"\"		\
 	-DEVOLUTION_GLADEDIR=\""$(gladedir)"\"		\
 	-DEVOLUTION_ETSPECDIR=\""$(etspecdir)"\"	\
 	-DEVOLUTION_ICONSDIR=\""$(iconsdir)"\"		\
-	-DEVOLUTION_IMAGES=\""$(datadir)/images/evolution"\"	\
 	-DEVOLUTION_BUTTONSDIR=\""$(buttonsdir)"\"	\
 	-DEVOLUTION_LOCALEDIR=\""$(localedir)"\"	\
 	-DCAMEL_PROVIDERDIR=\""$(camel_providerdir)"\"	\
@@ -40,24 +39,10 @@ EVOLUTION_MAIL_NNTP  =                  \
 	mail-account-editor-news.h	
 endif
 
-SPELL_IDL = Spell.idl
-
-IDL_GENERATED = 		\
-	Spell.h			\
-	Spell-common.c		\
-	Spell-skels.c		\
-	Spell-stubs.c
-
-$(IDL_GENERATED): $(SPELL_IDL)
-	$(ORBIT_IDL) -I $(srcdir) -I $(datadir)/idl -I `$(GNOME_CONFIG) --cflags idl` \
-	-I `$(GNOME_CONFIG) --datadir`/idl $(srcdir)/Spell.idl
-
-Spell-impl.o: Spell.h
 
 evolution_mail_SOURCES =		\
 	$(EVOLUTION_MAIL_CORBA_GENERATED)	\
 	$(EVOLUTION_MAIL_NNTP)          \
-	$(IDL_GENERATED)		\
 	component-factory.c		\
 	component-factory.h		\
 	e-searching-tokenizer.c		\
@@ -68,10 +53,7 @@ evolution_mail_SOURCES =		\
 	folder-browser-factory.h	\
 	folder-browser-ui.c		\
 	folder-browser-ui.h		\
-	folder-browser-window.c		\
-	folder-browser-window.h		\
 	folder-info.c			\
-	folder-info.h			\
 	mail-accounts.c			\
 	mail-accounts.h			\
 	mail-account-editor.c		\
@@ -82,16 +64,10 @@ evolution_mail_SOURCES =		\
 	mail-autofilter.h		\
 	mail-callbacks.c		\
 	mail-callbacks.h		\
-	mail-composer-prefs.c		\
-	mail-composer-prefs.h		\
-	mail-font-prefs.c		\
-	mail-font-prefs.h		\
 	mail-config.c			\
 	mail-config.h			\
 	mail-config-druid.c		\
 	mail-config-druid.h		\
-	mail-config-factory.c		\
-	mail-config-factory.h		\
 	mail-crypto.c			\
 	mail-crypto.h			\
 	mail-display.c			\
@@ -110,8 +86,6 @@ evolution_mail_SOURCES =		\
 	mail-offline-handler.h		\
 	mail-ops.c			\
 	mail-ops.h			\
-	mail-preferences.c		\
-	mail-preferences.h		\
 	mail-search.c			\
 	mail-search.h			\
 	mail-search-dialogue.c		\
@@ -120,8 +94,6 @@ evolution_mail_SOURCES =		\
 	mail-send-recv.h		\
 	mail-session.c			\
 	mail-session.h			\
-	mail-signature-editor.c		\
-	mail-signature-editor.h		\
 	mail-stream-gtkhtml.c		\
 	mail-stream-gtkhtml.h		\
 	mail-tools.c			\
@@ -134,10 +106,6 @@ evolution_mail_SOURCES =		\
 	main.c				\
 	message-list.c			\
 	message-list.h			\
-	message-tag-editor.c		\
-	message-tag-editor.h		\
-	message-tag-followup.c		\
-	message-tag-followup.h		\
 	subscribe-dialog.c		\
 	subscribe-dialog.h		\
 	mail.h
@@ -149,12 +117,13 @@ evolution_mail_LDADD = 					\
 	$(top_builddir)/composer/libcomposer.a		\
 	$(top_builddir)/widgets/misc/libemiscwidgets.a	\
 	$(top_builddir)/addressbook/backend/ebook/libebook.la	\
-	$(top_builddir)/libversit/libversit.a		\
+	$(top_builddir)/libversit/libversit.la		\
 	$(top_builddir)/e-util/ename/libename.la	\
+	$(top_builddir)/libibex/libibex.la		\
 	$(top_builddir)/filter/libfilter.la		\
 	$(top_builddir)/shell/importer/libevolution-importer.la				\
 	$(top_builddir)/widgets/menus/libmenus.la	\
-	$(EVOLUTION_MAIL_LIBS)
+	$(MAILER_LIBS)
 
 evolution_mail_LDFLAGS =				\
 	-export-dynamic
@@ -166,10 +135,10 @@ oaf_DATA = $(oaf_in_files:.oaf.in=.oaf)
 @XML_I18N_MERGE_OAF_RULE@
 
 gladedir   = $(datadir)/evolution/glade
-glade_DATA = mail-config.glade local-config.glade subscribe-dialog.glade message-tags.glade
+glade_DATA = mail-config.glade local-config.glade subscribe-dialog.glade
 
 etspecdir = $(datadir)/evolution/etspec/
-etspec_DATA = mail-accounts.etspec message-list.etspec subscribe-dialog.etspec
+etspec_DATA = message-list.etspec subscribe-dialog.etspec
 
 iconsdir = $(datadir)/images/evolution
 buttonsdir = $(datadir)/images/evolution/buttons
@@ -180,7 +149,6 @@ $(EVOLUTION_MAIL_CORBA_GENERATED): Mail.idl
 
 EXTRA_DIST = 				\
 	Mail.idl 			\
-	$(SPELL_IDL)			\
 	$(glade_DATA)			\
 	$(oaf_in_files)			\
 	$(oaf_DATA)			\
@@ -199,8 +167,8 @@ evolution-mail.pure: evolution-mail
 
 endif
 
+BUILT_SOURCES = $(EVOLUTION_MAIL_CORBA_GENERATED)
+CLEANFILES = $(BUILT_SOURCES)
+
 dist-hook:
 	cd $(distdir); rm -f $(BUILT_SOURCES)
-
-BUILT_SOURCES = $(EVOLUTION_MAIL_CORBA_GENERATED)
-CLEANFILES = $(BUILT_SOURCES) $(IDL_GENERATED)

@@ -69,11 +69,6 @@ static void forward_cmd (GtkWidget *widget, gpointer data);
 static void model_row_changed_cb (ETableModel *etm, int row, gpointer data);
 static void row_count_changed_cb (ETableModel *etm, int row, int count, gpointer data);
 
-static EPixmap pixmaps [] = {
-	E_PIXMAP ("/Toolbar/Actions/ActionScheduleMeeting", "schedule-meeting-24.png"),
-	E_PIXMAP_END
-};
-
 static BonoboUIVerb verbs [] = {
 	BONOBO_UI_UNSAFE_VERB ("ActionScheduleMeeting", schedule_meeting_cmd),
 	BONOBO_UI_UNSAFE_VERB ("ActionRefreshMeeting", refresh_meeting_cmd),
@@ -211,7 +206,7 @@ event_editor_init (EventEditor *ee)
 				 COMP_EDITOR_PAGE (priv->meet_page),
 				 _("Meeting"));
 
- 	comp_editor_merge_ui (COMP_EDITOR (ee), "evolution-event-editor.xml", verbs, pixmaps);
+ 	comp_editor_merge_ui (COMP_EDITOR (ee), "evolution-event-editor.xml", verbs);
 
 	priv->meeting_shown = TRUE;
 	priv->existing_org = FALSE;
@@ -358,8 +353,9 @@ event_editor_new (void)
 }
 
 static void
-show_meeting (EventEditor *ee)
+schedule_meeting_cmd (GtkWidget *widget, gpointer data)
 {
+	EventEditor *ee = EVENT_EDITOR (data);
 	EventEditorPrivate *priv;
 
 	priv = ee->priv;
@@ -380,24 +376,6 @@ show_meeting (EventEditor *ee)
 	
 	comp_editor_show_page (COMP_EDITOR (ee),
 			       COMP_EDITOR_PAGE (priv->meet_page));
-}
-
-void
-event_editor_show_meeting (EventEditor *ee)
-{
-	g_return_if_fail (ee != NULL);
-	g_return_if_fail (IS_EVENT_EDITOR (ee));
-
-
-	show_meeting (ee);
-}
-
-static void
-schedule_meeting_cmd (GtkWidget *widget, gpointer data)
-{
-	EventEditor *ee = EVENT_EDITOR (data);
-
-	show_meeting (ee);
 }
 
 static void

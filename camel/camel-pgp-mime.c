@@ -28,12 +28,9 @@
 #include "camel-pgp-mime.h"
 #include "camel-mime-message.h"
 #include "camel-mime-filter-from.h"
-#include "camel-mime-filter-bestenc.h"
 #include "camel-mime-filter-crlf.h"
 #include "camel-mime-filter-charset.h"
-#include "camel-mime-filter-chomp.h"
 #include "camel-stream-filter.h"
-#include "camel-stream-null.h"
 #include "camel-stream-mem.h"
 #include "camel-stream-fs.h"
 
@@ -45,7 +42,7 @@
 
 #define d(x) x
 
-/** rfc2015/rfc3156 stuff (aka PGP/MIME) *******************************/
+/** rfc2015 stuff (aka PGP/MIME) *******************************/
 
 gboolean
 camel_pgp_mime_is_rfc2015_signed (CamelMimePart *mime_part)
@@ -199,10 +196,7 @@ pgp_mime_part_sign_prepare_part (CamelMimePart *mime_part, GSList **encodings)
 			pgp_mime_part_sign_prepare_part (part, encodings);
 		}
 	} else {
-		CamelMimePartEncodingType encoding, best;
-		CamelStream *stream, *filtered_stream;
-		CamelMimeFilterBestenc *bestenc;
-		guint32 flags;
+		CamelMimePartEncodingType encoding;
 		
 		if (CAMEL_IS_MIME_MESSAGE (wrapper)) {
 			/* prepare the message parts' subparts */
@@ -210,29 +204,12 @@ pgp_mime_part_sign_prepare_part (CamelMimePart *mime_part, GSList **encodings)
 		} else {
 			encoding = camel_mime_part_get_encoding (mime_part);
 			
-			if (encoding != CAMEL_MIME_PART_ENCODING_BASE64) {
-				flags = CAMEL_BESTENC_GET_ENCODING;
-				
-				stream = camel_stream_null_new ();
-				filtered_stream = (CamelStream *) camel_stream_filter_new_with_stream (stream);
-				camel_object_unref (CAMEL_OBJECT (stream));
-				bestenc = camel_mime_filter_bestenc_new (flags);
-				camel_stream_filter_add (CAMEL_STREAM_FILTER (filtered_stream),
-							 CAMEL_MIME_FILTER (bestenc));
-				
-				camel_data_wrapper_write_to_stream (wrapper, filtered_stream);
-				
-				best = camel_mime_filter_bestenc_get_best_encoding (bestenc, CAMEL_BESTENC_7BIT);
-				
-				camel_object_unref (CAMEL_OBJECT (filtered_stream));
-				camel_object_unref (CAMEL_OBJECT (bestenc));
-				
-				if (encoding != best) {
-					camel_mime_part_set_encoding (mime_part, best);
-					
-					*encodings = g_slist_append (*encodings, GINT_TO_POINTER (encoding));
-				}
-			}
+			/* FIXME: find the best encoding for this part and use that instead?? */
+			/* the encoding should really be QP or Base64 */
+			if (encoding != CAMEL_MIME_PART_ENCODING_BASE64)
+				camel_mime_part_set_encoding (mime_part, CAMEL_MIME_PART_ENCODING_QUOTEDPRINTABLE);
+			
+			*encodings = g_slist_append (*encodings, GINT_TO_POINTER (encoding));
 		}
 	}
 }
@@ -258,10 +235,10 @@ camel_pgp_mime_part_sign (CamelPgpContext *context, CamelMimePart **mime_part, c
 	CamelMultipart *multipart;
 	CamelContentType *mime_type;
 	CamelStreamFilter *filtered_stream;
-	CamelMimeFilter *crlf_filter, *from_filter, *chomp_filter;
+	CamelMimeFilter *crlf_filter, *from_filter;
 	CamelStream *stream, *sigstream;
+	gchar *hash_type = NULL;
 	GSList *encodings = NULL;
-	char *hash_type = NULL;
 	
 	g_return_if_fail (*mime_part != NULL);
 	g_return_if_fail (CAMEL_IS_MIME_PART (*mime_part));
@@ -274,50 +251,29 @@ camel_pgp_mime_part_sign (CamelPgpContext *context, CamelMimePart **mime_part, c
 	
 	/* get the cleartext */
 	stream = camel_stream_mem_new ();
-	filtered_stream = camel_stream_filter_new_with_stream (stream);
-	
-	/* Note: see rfc3156, section 3 - second note */
-	from_filter = CAMEL_MIME_FILTER (camel_mime_filter_from_new ());
-	camel_stream_filter_add (filtered_stream, CAMEL_MIME_FILTER (from_filter));
-	camel_object_unref (CAMEL_OBJECT (from_filter));
-	
-	/* Note: see rfc3156, section 5.4 (this is the big thing that changed between rfc2015 and rfc3156) */
-	chomp_filter = camel_mime_filter_chomp_new ();
-	camel_stream_filter_add (filtered_stream, CAMEL_MIME_FILTER (chomp_filter));
-	camel_object_unref (CAMEL_OBJECT (chomp_filter));
-	
-	/* Note: see rfc2015 or rfc3156, section 5.1 */
 	crlf_filter = camel_mime_filter_crlf_new (CAMEL_MIME_FILTER_CRLF_ENCODE,
 						  CAMEL_MIME_FILTER_CRLF_MODE_CRLF_ONLY);
+	from_filter = CAMEL_MIME_FILTER (camel_mime_filter_from_new ());
+	filtered_stream = camel_stream_filter_new_with_stream (stream);
 	camel_stream_filter_add (filtered_stream, CAMEL_MIME_FILTER (crlf_filter));
 	camel_object_unref (CAMEL_OBJECT (crlf_filter));
-	
+	camel_stream_filter_add (filtered_stream, CAMEL_MIME_FILTER (from_filter));
+	camel_object_unref (CAMEL_OBJECT (from_filter));
 	camel_data_wrapper_write_to_stream (CAMEL_DATA_WRAPPER (part), CAMEL_STREAM (filtered_stream));
-	camel_stream_flush (CAMEL_STREAM (filtered_stream));
 	camel_object_unref (CAMEL_OBJECT (filtered_stream));
 	
 	/* reset the stream */
 	camel_stream_reset (stream);
 	
-	printf ("attempting to sign data:\n----- BEGIN SIGNED PART -----\n%.*s----- END SIGNED PART -----\n",
-		CAMEL_STREAM_MEM (stream)->buffer->len, CAMEL_STREAM_MEM (stream)->buffer->data);
-	
 	/* construct the signature stream */
 	sigstream = camel_stream_mem_new ();
 	
 	switch (hash) {
-	case CAMEL_CIPHER_HASH_MD2:
-		/* this is a new addition with rfc3156 */
-		hash_type = "pgp-md2";
-		break;
 	case CAMEL_CIPHER_HASH_MD5:
 		hash_type = "pgp-md5";
 		break;
 	case CAMEL_CIPHER_HASH_SHA1:
 		hash_type = "pgp-sha1";
-		break;
-	case CAMEL_CIPHER_HASH_RIPEMD160:
-		hash_type = "pgp-ripemd160";
 		break;
 	default:
 		/* set a reasonable default */
@@ -394,9 +350,10 @@ camel_pgp_mime_part_verify (CamelPgpContext *context, CamelMimePart *mime_part, 
 	CamelMultipart *multipart;
 	CamelMimePart *part, *sigpart;
 	CamelStreamFilter *filtered_stream;
-	CamelMimeFilter *crlf_filter, *chomp_filter;
+	CamelMimeFilter *crlf_filter, *from_filter;
 	CamelStream *stream, *sigstream;
 	CamelCipherValidity *valid;
+	CamelContentType *type;
 	
 	g_return_val_if_fail (mime_part != NULL, NULL);
 	g_return_val_if_fail (CAMEL_IS_MIME_PART (mime_part), NULL);
@@ -410,22 +367,40 @@ camel_pgp_mime_part_verify (CamelPgpContext *context, CamelMimePart *mime_part, 
 	/* get the plain part */
 	part = camel_multipart_get_part (multipart, 0);
 	stream = camel_stream_mem_new ();
-	filtered_stream = camel_stream_filter_new_with_stream (stream);
-	
-	/* Note: see rfc3156, section 5.4 (this is the big thing that changed between rfc2015 and rfc3156) */
-	chomp_filter = camel_mime_filter_chomp_new ();
-	camel_stream_filter_add (filtered_stream, CAMEL_MIME_FILTER (chomp_filter));
-	camel_object_unref (CAMEL_OBJECT (chomp_filter));
-	
-	/* Note: see rfc2015 or rfc3156, section 5.1 */
 	crlf_filter = camel_mime_filter_crlf_new (CAMEL_MIME_FILTER_CRLF_ENCODE,
 						  CAMEL_MIME_FILTER_CRLF_MODE_CRLF_ONLY);
+	from_filter = CAMEL_MIME_FILTER (camel_mime_filter_from_new ());
+	filtered_stream = camel_stream_filter_new_with_stream (stream);
 	camel_stream_filter_add (filtered_stream, CAMEL_MIME_FILTER (crlf_filter));
 	camel_object_unref (CAMEL_OBJECT (crlf_filter));
+	camel_stream_filter_add (filtered_stream, CAMEL_MIME_FILTER (from_filter));
+	camel_object_unref (CAMEL_OBJECT (from_filter));
 	
-	wrapper = CAMEL_DATA_WRAPPER (part);
+	type = camel_mime_part_get_content_type (mime_part);
+	if (header_content_type_param (type, "x-inline-pgp-hack")) {
+		/* this is a kludge around inline pgp signatures - basically,
+		   the multipart/signed is faked - the original part (aka part #1)
+		   is the original mime part and the signature is a copy of the
+		   signature in part #1 */
+		CamelMimeFilterCharset *charset_filter;
+		CamelContentType *content_type;
+		const char *charset;
+		
+		content_type = camel_mime_part_get_content_type (part);
+		charset = header_content_type_param (content_type, "charset");
+		if (charset) {
+			charset_filter = camel_mime_filter_charset_new_convert ("utf-8", charset);
+			if (charset_filter) {
+				camel_stream_filter_add (filtered_stream,
+							 CAMEL_MIME_FILTER (charset_filter));
+				camel_object_unref (CAMEL_OBJECT (charset_filter));
+			}
+		}
+		
+		wrapper = camel_medium_get_content_object (CAMEL_MEDIUM (part));
+	} else
+		wrapper = CAMEL_DATA_WRAPPER (part);
 	camel_data_wrapper_write_to_stream (wrapper, CAMEL_STREAM (filtered_stream));
-	camel_stream_flush (CAMEL_STREAM (filtered_stream));
 	camel_object_unref (CAMEL_OBJECT (filtered_stream));
 	camel_stream_reset (stream);
 	
@@ -438,9 +413,6 @@ camel_pgp_mime_part_verify (CamelPgpContext *context, CamelMimePart *mime_part, 
 	
 	/* verify */
 	valid = camel_pgp_verify (context, stream, sigstream, ex);
-	
-	printf ("attempted to verify data:\n----- BEGIN SIGNED PART -----\n%.*s----- END SIGNED PART -----\n",
-		CAMEL_STREAM_MEM (stream)->buffer->len, CAMEL_STREAM_MEM (stream)->buffer->data);
 	
 	camel_object_unref (CAMEL_OBJECT (sigstream));
 	camel_object_unref (CAMEL_OBJECT (stream));
@@ -510,6 +482,7 @@ camel_pgp_mime_part_encrypt (CamelPgpContext *context, CamelMimePart **mime_part
 	camel_mime_part_set_content (encrypted_part, CAMEL_STREAM_MEM (ciphertext)->buffer->data,
 				     CAMEL_STREAM_MEM (ciphertext)->buffer->len,
 				     "application/octet-stream; name=encrypted.asc");
+	camel_mime_part_set_description (encrypted_part, _("This is an encrypted message part"));
 	camel_object_unref (CAMEL_OBJECT (ciphertext));
 	camel_mime_part_set_encoding (encrypted_part, CAMEL_MIME_PART_ENCODING_7BIT);
 	
@@ -588,6 +561,27 @@ camel_pgp_mime_part_decrypt (CamelPgpContext *context, CamelMimePart *mime_part,
 	
 	camel_object_unref (CAMEL_OBJECT (ciphertext));
 	camel_stream_reset (stream);
+	
+	mime_type = camel_mime_part_get_content_type (mime_part);
+	if (header_content_type_param (mime_type, "x-inline-pgp-hack")) {
+		/* this is a kludge around inline pgp encryption -  basically,
+		   the multipart/encrypted is fake - the original encrypted
+		   content is not really an encrypted mime part so after
+		   decrypting it, we have to fake some mime content headers */
+		CamelStream *hack;
+		
+		hack = camel_stream_mem_new ();
+		
+#define CONTENT_TYPE_TEXT_PLAIN "Content-Type: text/plain\r\n\r\n"
+		camel_stream_write (hack, CONTENT_TYPE_TEXT_PLAIN,
+				    sizeof (CONTENT_TYPE_TEXT_PLAIN) - 1);
+		
+		camel_stream_write_to_stream (stream, hack);
+		camel_stream_reset (hack);
+		
+		camel_object_unref (CAMEL_OBJECT (stream));
+		stream = hack;
+	}
 	
 	/* construct the new decrypted mime part from the stream */
 	part = camel_mime_part_new ();

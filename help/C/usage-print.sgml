@@ -1,18 +1,18 @@
 <chapter id="usage-print">
   <title>Printing with Evolution</title>
   <para>
-    If you've printed from most any other
-    <application>Gnome</application> application, you should be able
-    to print from <application>Evolution</application> without much
-    trouble.
+    Like most GNOME applications, <application>Evolution</application> uses
+    the gnome-print system, so if you've used any other GNOME
+    application to print, you should be able to print from
+    <application>Evolution</application> immediately.
   </para>
   <para>
     Whether you're printing a message, a calendar page, or a selection
-    of address cards, you can choose to print directly to a printer,
-    or save the print output to a <glossterm
-    linkend="postscript">postscript</glossterm> file.  You can also
-    use the preview feature to see how your printed output will look.
+    of address cards, you can choose to print directly to a printer, or
+    save the print output to a postscript file.  You can also use the
+    preview feature to see how your printed output will look.
   </para>
+  
   
   <sect1 id="printpreview">
     <title>Print Preview</title>

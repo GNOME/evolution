@@ -25,21 +25,9 @@
 #include <gtk/gtksignal.h>
 #include <libgnome/gnome-defs.h>
 #include <libgnome/gnome-i18n.h>
-#include <libgnome/gnome-paper.h>
 #include <libgnome/gnome-util.h>
-#include <libgnomeui/gnome-dialog.h>
-#include <libgnomeui/gnome-dialog-util.h>
-#include <libgnomeui/gnome-stock.h>
-#include <libgnomeprint/gnome-print.h>
-#include <libgnomeprint/gnome-print-copies.h>
-#include <libgnomeprint/gnome-print-master.h>
-#include <libgnomeprint/gnome-print-master-preview.h>
-#include <libgnomeprint/gnome-print-preview.h>
-#include <libgnomeprint/gnome-printer-dialog.h>
 #include <bonobo/bonobo-control.h>
 #include <bonobo/bonobo-ui-util.h>
-#include <gal/widgets/e-gui-utils.h>
-#include <e-util/e-dialog-utils.h>
 #include "dialogs/cal-prefs-dialog.h"
 #include "calendar-config.h"
 #include "calendar-commands.h"
@@ -86,22 +74,13 @@ static void tasks_control_paste_cmd             (BonoboUIComponent      *uic,
 static void tasks_control_delete_cmd		(BonoboUIComponent	*uic,
 						 gpointer		 data,
 						 const char		*path);
-static void tasks_control_complete_cmd		(BonoboUIComponent	*uic,
-						 gpointer		 data,
-						 const char		*path);
-static void tasks_control_expunge_cmd		(BonoboUIComponent	*uic,
-						 gpointer		 data,
-						 const char		*path);
-static void tasks_control_print_cmd		(BonoboUIComponent	*uic,
-						 gpointer		 data,
-						 const char		*path);
-static void tasks_control_print_preview_cmd	(BonoboUIComponent	*uic,
+static void tasks_control_settings_cmd		(BonoboUIComponent	*uic,
 						 gpointer		 data,
 						 const char		*path);
 
 
 BonoboControl *
-tasks_control_new (void)
+tasks_control_new			(void)
 {
 	BonoboControl *control;
 	GtkWidget *tasks;
@@ -109,11 +88,11 @@ tasks_control_new (void)
 	tasks = e_tasks_new ();
 	if (!tasks)
 		return NULL;
+
 	gtk_widget_show (tasks);
 
 	control = bonobo_control_new (tasks);
 	if (!control) {
-		gtk_widget_destroy (tasks);
 		g_message ("control_factory_fn(): could not create the control!");
 		return NULL;
 	}
@@ -243,9 +222,6 @@ sensitize_commands (ETasks *tasks, BonoboControl *control, int n_selected)
 	bonobo_ui_component_set_prop (uic, "/commands/TasksDelete", "sensitive",
 				      n_selected == 0 ? "0" : "1",
 				      NULL);
-	bonobo_ui_component_set_prop (uic, "/commands/TasksMarkComplete", "sensitive",
-				      n_selected == 0 ? "0" : "1",
-				      NULL);
 }
 
 /* Callback used when the selection in the table changes */
@@ -265,18 +241,13 @@ static BonoboUIVerb verbs [] = {
 	BONOBO_UI_VERB ("TasksCopy", tasks_control_copy_cmd),
 	BONOBO_UI_VERB ("TasksPaste", tasks_control_paste_cmd),
 	BONOBO_UI_VERB ("TasksDelete", tasks_control_delete_cmd),
-	BONOBO_UI_VERB ("TasksMarkComplete", tasks_control_complete_cmd),
-	BONOBO_UI_VERB ("TasksExpunge", tasks_control_expunge_cmd),
-	BONOBO_UI_VERB ("TasksPrint", tasks_control_print_cmd),
-	BONOBO_UI_VERB ("TasksPrintPreview", tasks_control_print_preview_cmd),
+	BONOBO_UI_VERB ("TasksSettings", tasks_control_settings_cmd),
 
 	BONOBO_UI_VERB_END
 };
 
 static EPixmap pixmaps [] = {
 	E_PIXMAP ("/menu/File/New/NewFirstItem/NewTask",            "new_task-16.png"),
-	E_PIXMAP ("/menu/File/Print/Print",			    "print.xpm"),
-	E_PIXMAP ("/menu/File/Print/PrintPreview",		    "print-preview.xpm"),
 	E_PIXMAP ("/menu/EditPlaceholder/Edit/TasksCut",            "16_cut.png"),
 	E_PIXMAP ("/menu/EditPlaceholder/Edit/TasksCopy",           "16_copy.png"),
 	E_PIXMAP ("/menu/EditPlaceholder/Edit/TasksPaste",          "16_paste.png"),
@@ -287,7 +258,6 @@ static EPixmap pixmaps [] = {
 	E_PIXMAP ("/Toolbar/Copy",                                  "buttons/copy.png"),
 	E_PIXMAP ("/Toolbar/Paste",                                 "buttons/paste.png"),
 	E_PIXMAP ("/Toolbar/Delete",                                "buttons/delete-message.png"),
-	E_PIXMAP ("/Toolbar/Print",				    "buttons/print.png"),
 	E_PIXMAP_END
 };
 
@@ -302,8 +272,6 @@ tasks_control_activate (BonoboControl *control, ETasks *tasks)
 
 	uic = bonobo_control_get_ui_component (control);
 	g_assert (uic != NULL);
-
-	e_tasks_set_ui_component (tasks, uic);
 
 	remote_uih = bonobo_control_get_remote_ui_container (control);
 	bonobo_ui_component_set_container (uic, remote_uih);
@@ -349,10 +317,7 @@ static void
 tasks_control_deactivate (BonoboControl *control, ETasks *tasks)
 {
 	BonoboUIComponent *uic = bonobo_control_get_ui_component (control);
-
 	g_assert (uic != NULL);
-
-	e_tasks_set_ui_component (tasks, NULL);
 
 	e_tasks_discard_view_menus (tasks);
 
@@ -425,260 +390,17 @@ tasks_control_delete_cmd		(BonoboUIComponent	*uic,
 	e_tasks_delete_selected (tasks);
 }
 
+/* Callback used for the tasks settings command */
 static void
-tasks_control_complete_cmd		(BonoboUIComponent	*uic,
-					 gpointer		 data,
-					 const char		*path)
+tasks_control_settings_cmd (BonoboUIComponent *uic, gpointer data, const char *path)
 {
 	ETasks *tasks;
+	static CalPrefsDialog *prefs_dialog = NULL;
 
 	tasks = E_TASKS (data);
-	e_tasks_complete_selected (tasks);
-}
 
-static gboolean
-confirm_expunge (ETasks *tasks)
-{
-	GtkWidget *dialog, *label, *checkbox;
-	int button;
-	
-	if (!calendar_config_get_confirm_expunge ())
-		return TRUE;
-	
-	dialog = gnome_dialog_new (_("Warning"),
-				   GNOME_STOCK_BUTTON_YES,
-				   GNOME_STOCK_BUTTON_NO,
-				   NULL);
-	e_gnome_dialog_set_parent (GNOME_DIALOG (dialog), 
-				   GTK_WINDOW (gtk_widget_get_ancestor (GTK_WIDGET (tasks),
-									GTK_TYPE_WINDOW)));
-	
-	label = gtk_label_new (_("This operation will permanently erase all tasks marked as completed. If you continue, you will not be able to recover these tasks.\n\nReally erase these tasks?"));
-	
-	gtk_label_set_line_wrap (GTK_LABEL (label), TRUE);
-	gtk_label_set_justify (GTK_LABEL (label), GTK_JUSTIFY_LEFT);
-	gtk_widget_show (label);
-	gtk_box_pack_start (GTK_BOX (GNOME_DIALOG (dialog)->vbox), label, TRUE, TRUE, 4);
-	
-	checkbox = gtk_check_button_new_with_label (_("Do not ask me again."));
-	gtk_widget_show (checkbox);
-	gtk_box_pack_start (GTK_BOX (GNOME_DIALOG (dialog)->vbox), checkbox, TRUE, TRUE, 4);
-	
-	button = gnome_dialog_run (GNOME_DIALOG (dialog));	
-	if (button == 0 && gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (checkbox)))
-		calendar_config_set_confirm_expunge (FALSE);
-	gnome_dialog_close (GNOME_DIALOG (dialog));
-	
-	if (button == 0)
-		return TRUE;
+	if (!prefs_dialog)
+		prefs_dialog = cal_prefs_dialog_new (CAL_PREFS_DIALOG_PAGE_TASKS);
 	else
-		return FALSE;
+		cal_prefs_dialog_show (prefs_dialog, CAL_PREFS_DIALOG_PAGE_TASKS);
 }
-
-static void
-tasks_control_expunge_cmd		(BonoboUIComponent	*uic,
-					 gpointer		 data,
-					 const char		*path)
-{
-	ETasks *tasks;
-
-	tasks = E_TASKS (data);
-	
-	if (confirm_expunge (tasks))
-	    e_tasks_delete_completed (tasks);
-}
-
-
-static void
-print_title (GnomePrintContext *pc,
-	     double page_width, double page_height)
-{
-	GnomeFont *font;
-	char *text;
-	double w, x, y;
-
-	font = gnome_font_new_closest ("Times", GNOME_FONT_BOLD, 0, 18);
-
-	text = _("Tasks");
-	w = gnome_font_get_width_utf8 (font, text);
-
-	x = (page_width - w) / 2;
-	y = page_height - gnome_font_get_ascender (font);
-
-	gnome_print_moveto (pc, x, y);
-	gnome_print_setfont (pc, font);
-	gnome_print_setrgbcolor (pc, 0, 0, 0);
-	gnome_print_show (pc, text);
-
-	gtk_object_unref (GTK_OBJECT (font));
-}
-
-
-static void
-print_tasks (ETasks *tasks, gboolean preview, gboolean landscape,
-	     int copies, gboolean collate)
-{
-	ECalendarTable *cal_table;
-	EPrintable *printable;
-	ETable *etable;
-	GnomePrintMaster *master;
-	GnomePrintContext *pc;
-	const GnomePaper *paper_info;
-	double l, r, t, b, page_width, page_height, left_margin, bottom_margin;
-
-	cal_table = e_tasks_get_calendar_table (tasks);
-	etable = e_calendar_table_get_table (E_CALENDAR_TABLE (cal_table));
-	printable = e_table_get_printable (etable);
-
-	master = gnome_print_master_new ();
-
-	paper_info = gnome_paper_with_name (gnome_paper_name_default ());
-	gnome_print_master_set_paper (master, paper_info);
-
-	gnome_print_master_set_copies (master, copies, collate);
-	pc = gnome_print_master_get_context (master);
-	e_printable_reset (printable);
-
-	l = gnome_paper_lmargin (paper_info);
-	r = gnome_paper_pswidth (paper_info)
-		- gnome_paper_rmargin (paper_info);
-	t = gnome_paper_psheight (paper_info)
-		- gnome_paper_tmargin (paper_info);
-	b = gnome_paper_bmargin (paper_info);
-
-	if (landscape) {
-		page_width = t - b;
-		page_height = r - l;
-		left_margin = b;
-		bottom_margin = gnome_paper_rmargin (paper_info);
-	} else {
-		page_width = r - l;
-		page_height = t - b;
-		left_margin = l;
-		bottom_margin = b;
-	}
-
-	while (e_printable_data_left (printable)) {
-		gnome_print_beginpage (pc, "Tasks");
-		gnome_print_gsave (pc);
-		if (landscape) {
-			gnome_print_rotate (pc, 90);
-			gnome_print_translate (pc, 0, -gnome_paper_pswidth (paper_info));
-		}
-
-		gnome_print_translate (pc, left_margin, bottom_margin);
-
-		print_title (pc, page_width, page_height);
-
-		e_printable_print_page (printable, pc,
-					page_width, page_height - 24, TRUE);
-
-		gnome_print_grestore (pc);
-		gnome_print_showpage (pc);
-	}
-	gnome_print_master_close (master);
-
-	if (preview) {
-		GnomePrintMasterPreview *gpmp;
-		gpmp = gnome_print_master_preview_new_with_orientation (master, _("Print Preview"), landscape);
-		gtk_widget_show (GTK_WIDGET (gpmp));
-	} else {
-		gnome_print_master_print (master);
-	}
-
-	gtk_object_unref (GTK_OBJECT (master));
-	gtk_object_unref (GTK_OBJECT (printable));
-}
-
-
-/* File/Print callback */
-static void
-tasks_control_print_cmd (BonoboUIComponent *uic,
-			 gpointer data,
-			 const char *path)
-{
-	ETasks *tasks;
-	GtkWidget *gpd, *mode_box, *portrait_radio, *landscape_radio;
-	GtkWidget *dialog_vbox, *dialog_hbox, *mode_frame;
-	GList *children;
-	GSList *group;
-	gboolean preview = FALSE, landscape = FALSE;
-	GnomePrinter *printer;
-	int copies;
-	gboolean collate;
-
-	tasks = E_TASKS (data);
-
-	gpd = gnome_print_dialog_new (_("Print Tasks"),
-				      GNOME_PRINT_DIALOG_COPIES);
-
-	mode_frame = gtk_frame_new (_("Orientation"));
-
-	mode_box = gtk_vbox_new (FALSE, 4);
-	gtk_container_add (GTK_CONTAINER (mode_frame), mode_box);
-
-	/* Portrait */
-	portrait_radio = gtk_radio_button_new_with_label (NULL, _("Portrait"));
-	group = gtk_radio_button_group (GTK_RADIO_BUTTON (portrait_radio));
-	gtk_box_pack_start (GTK_BOX (mode_box), portrait_radio,
-			    FALSE, FALSE, 0);
-
-	/* Landscape */
-	landscape_radio = gtk_radio_button_new_with_label (group,
-							   _("Landscape"));
-	gtk_box_pack_start (GTK_BOX (mode_box), landscape_radio,
-			    FALSE, FALSE, 0);
-
-	gtk_widget_show_all (mode_frame);
-
-	/* A bit of a hack to insert our own Orientation option. */
-	dialog_vbox = GNOME_DIALOG (gpd)->vbox;
-	children = gtk_container_children (GTK_CONTAINER (dialog_vbox));
-	dialog_hbox = children->next->data;
-	g_list_free (children);
-	gtk_box_pack_start (GTK_BOX (dialog_hbox), mode_frame,
-			    FALSE, FALSE, 3);
-
-	gnome_dialog_set_default (GNOME_DIALOG (gpd), GNOME_PRINT_PRINT);
-
-	/* Run dialog */
-	switch (gnome_dialog_run (GNOME_DIALOG (gpd))) {
-	case GNOME_PRINT_PRINT:
-		break;
-
-	case GNOME_PRINT_PREVIEW:
-		preview = TRUE;
-		break;
-
-	case -1:
-		return;
-
-	default:
-		gnome_dialog_close (GNOME_DIALOG (gpd));
-		return;
-	}
-
-	gnome_print_dialog_get_copies (GNOME_PRINT_DIALOG (gpd),
-				       &copies, &collate);
-	if (GTK_TOGGLE_BUTTON (landscape_radio)->active)
-		landscape = TRUE;
-
-	printer = gnome_print_dialog_get_printer (GNOME_PRINT_DIALOG (gpd));
-
-	gnome_dialog_close (GNOME_DIALOG (gpd));
-
-	print_tasks (tasks, preview, landscape, copies, collate);
-}
-
-static void
-tasks_control_print_preview_cmd (BonoboUIComponent *uic,
-				 gpointer data,
-				 const char *path)
-{
-	ETasks *tasks;
-
-	tasks = E_TASKS (data);
-
-	print_tasks (tasks, TRUE, FALSE, 1, FALSE);
-}
-

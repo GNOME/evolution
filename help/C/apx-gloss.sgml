@@ -290,16 +290,6 @@
   </glossdef>
  </glossentry>
 
-  <glossentry id="postscript">
-    <glossterm>Postscript:</glossterm>
-    <glossdef>
-      <para>
-	A standard document publishing format.  Many printers read raw
-	Postscript, making Postscript quite versatile.
-      </para>
-    </glossdef>
-  </glossentry>
-  
  <glossentry id="public-key-encryption">
   <glossterm>Public Key Encryption:</glossterm>
   <glossdef>

@@ -118,7 +118,7 @@ load_calendars (gpointer user_data)
 	uris = get_calendars_to_load ();
 	if (!uris) {
 		g_message ("load_calendars(): Could not get the list of calendars to load");
-		return TRUE; /* should we continue retrying? */;
+		return TRUE; /* should we continue retrying? */
 	}
 
 	for (i = 0; i < uris->len; i++) {

@@ -22,8 +22,6 @@
 
 #include <gtk/gtkhbox.h>
 
-#include <bonobo/bonobo-ui-component.h>
-
 #ifdef __cplusplus
 extern "C" {
 #pragma }
@@ -40,9 +38,9 @@ extern "C" {
  * text          string         RW              Text in the entry box.
  */
 
-#define E_SEARCH_BAR_TYPE		(e_search_bar_get_type ())
-#define E_SEARCH_BAR(obj)		(GTK_CHECK_CAST ((obj), E_SEARCH_BAR_TYPE, ESearchBar))
-#define E_SEARCH_BAR_CLASS(klass)	(GTK_CHECK_CLASS_CAST ((klass), E_SEARCH_BAR_TYPE, ESearchBarClass))
+#define E_SEARCH_BAR_TYPE			(e_search_bar_get_type ())
+#define E_SEARCH_BAR(obj)			(GTK_CHECK_CAST ((obj), E_SEARCH_BAR_TYPE, ESearchBar))
+#define E_SEARCH_BAR_CLASS(klass)		(GTK_CHECK_CLASS_CAST ((klass), E_SEARCH_BAR_TYPE, ESearchBarClass))
 #define E_IS_SEARCH_BAR(obj)		(GTK_CHECK_TYPE ((obj), E_SEARCH_BAR_TYPE))
 #define E_IS_SEARCH_BAR_CLASS(klass)	(GTK_CHECK_CLASS_TYPE ((obj), E_SEARCH_BAR_TYPE))
 
@@ -64,23 +62,20 @@ typedef struct _ESearchBarClass  ESearchBarClass;
 struct _ESearchBar
 {
 	GtkHBox parent;
-
-	BonoboUIComponent *ui_component;
-
-	GSList *menu_items;
 	
 	/* item specific fields */
+	GtkWidget *dropdown;
 	GtkWidget *option;
 	GtkWidget *entry;
 	GtkWidget *suboption; /* an option menu for the choices associated with some options */
 	
+
 	/* PRIVATE */
 	GtkWidget *dropdown_holder;	/* holds the dropdown */
 	GtkWidget *option_menu;
 	GtkWidget *suboption_menu;
 	GtkWidget *dropdown_menu;
 	GtkWidget *activate_button;
-	GtkWidget *clear_button;
 	GtkWidget *entry_box;
 	guint      pending_activate;
 
@@ -104,45 +99,31 @@ struct _ESearchBarClass
 
 
 GtkType    e_search_bar_get_type   (void);
-void       e_search_bar_construct  (ESearchBar        *search_bar,
-				    ESearchBarItem    *menu_items,
-				    ESearchBarItem    *option_items);
-GtkWidget *e_search_bar_new        (ESearchBarItem    *menu_items,
-				    ESearchBarItem    *option_items);
+void       e_search_bar_set_menu   (ESearchBar *search_bar, ESearchBarItem *menu_items);
+void	   e_search_bar_add_menu   (ESearchBar *search_bar, ESearchBarItem *menu_item);
 
-void  e_search_bar_set_ui_component  (ESearchBar        *search_bar,
-				      BonoboUIComponent *ui_component);
+void       e_search_bar_set_option (ESearchBar *search_bar, ESearchBarItem *option_items);
+void       e_search_bar_set_suboption (ESearchBar *search_bar, int option_id,
+				       ESearchBarSubitem *subitems);
 
-void  e_search_bar_set_menu  (ESearchBar     *search_bar,
-			      ESearchBarItem *menu_items);
-void  e_search_bar_add_menu  (ESearchBar     *search_bar,
-			      ESearchBarItem *menu_item);
+void       e_search_bar_construct  (ESearchBar     *search_bar,
+				    ESearchBarItem *menu_items,
+				    ESearchBarItem *option_items);
+GtkWidget *e_search_bar_new        (ESearchBarItem *menu_items,
+				    ESearchBarItem *option_items);
 
-void  e_search_bar_set_option     (ESearchBar        *search_bar,
-				   ESearchBarItem    *option_items);
-void  e_search_bar_set_suboption  (ESearchBar        *search_bar,
-				   int                option_id,
-				   ESearchBarSubitem *subitems);
+void       e_search_bar_set_menu_sensitive(ESearchBar *search_bar, int id, gboolean state);
 
-void  e_search_bar_set_menu_sensitive  (ESearchBar *search_bar,
-					int         id,
-					gboolean    state);
+void       e_search_bar_set_item_id    (ESearchBar *search_bar, int id);
+int        e_search_bar_get_item_id    (ESearchBar *search_bar);
 
-void  e_search_bar_set_item_id  (ESearchBar *search_bar,
-				 int         id);
-int   e_search_bar_get_item_id  (ESearchBar *search_bar);
+void       e_search_bar_set_subitem_id (ESearchBar *search_bar, int id);
+int        e_search_bar_get_subitem_id (ESearchBar *search_bar);
 
-void  e_search_bar_set_subitem_id  (ESearchBar *search_bar,
-				    int         id);
-int   e_search_bar_get_subitem_id  (ESearchBar *search_bar);
+void       e_search_bar_set_ids (ESearchBar *search_bar, int item_id, int subitem_id);
 
-void  e_search_bar_set_ids  (ESearchBar *search_bar,
-			     int         item_id,
-			     int         subitem_id);
-
-void  e_search_bar_set_text  (ESearchBar *search_bar,
-			      const char *text);
-char *e_search_bar_get_text  (ESearchBar *search_bar);
+void       e_search_bar_set_text             (ESearchBar *search_bar, const char *text);
+char      *e_search_bar_get_text             (ESearchBar *search_bar);
 
 #ifdef __cplusplus
 }

@@ -22,11 +22,10 @@
 
 #include <gtk/gtktable.h>
 #include <bonobo/bonobo-ui-component.h>
-#include <gal/menus/gal-view-instance.h>
+#include <gal/menus/gal-view-collection.h>
 #include "e-addressbook-model.h"
 #include "widgets/menus/gal-view-menus.h"
 #include "addressbook/backend/ebook/e-book.h"
-#include <gal/unicode/gunicode.h>
 
 #ifdef __cplusplus
 extern "C" {
@@ -75,15 +74,12 @@ struct _EAddressbookView
 
 	GtkObject *object;
 	GtkWidget *widget;
-	GtkWidget *current_alphabet_widget;
 
 	GtkWidget *vbox;
 
-	/* Menus handler and the view instance */
-	GalViewInstance *view_instance;
+	/* Menus handler and the view collection */
+	GalViewCollection *view_collection;
 	GalViewMenus *view_menus;
-	GalView *current_view;
-	BonoboUIComponent *uic;
 };
 
 struct _EAddressbookViewClass
@@ -93,50 +89,43 @@ struct _EAddressbookViewClass
 	/*
 	 * Signals
 	 */
-	void (*status_message)        (EAddressbookView *view, const gchar *message);
-	void (*folder_bar_message)    (EAddressbookView *view, const gchar *message);
-	void (*command_state_change)  (EAddressbookView *view);
-	void (*alphabet_state_change) (EAddressbookView *view, gunichar letter);
+	void (*status_message)       (EAddressbookView *view, const gchar *message);
+	void (*folder_bar_message)   (EAddressbookView *view, const gchar *message);
+	void (*command_state_change) (EAddressbookView *view);
 };
 
-GtkWidget *e_addressbook_view_new                 (void);
-GtkType    e_addressbook_view_get_type            (void);
+GtkWidget *e_addressbook_view_new               (void);
+GtkType    e_addressbook_view_get_type          (void);
 
-void       e_addressbook_view_setup_menus         (EAddressbookView  *view,
-						   BonoboUIComponent *uic);
+void       e_addressbook_view_setup_menus       (EAddressbookView  *view,
+						 BonoboUIComponent *uic);
+void       e_addressbook_view_discard_menus     (EAddressbookView  *view);
 
-void       e_addressbook_view_discard_menus       (EAddressbookView  *view);
+void       e_addressbook_view_save_as           (EAddressbookView  *view);
+void       e_addressbook_view_send              (EAddressbookView  *view);
+void       e_addressbook_view_send_to           (EAddressbookView  *view);
+void       e_addressbook_view_print             (EAddressbookView  *view);
+void       e_addressbook_view_print_preview     (EAddressbookView  *view);
+void       e_addressbook_view_delete_selection  (EAddressbookView  *view);
+void       e_addressbook_view_cut               (EAddressbookView  *view);
+void       e_addressbook_view_copy              (EAddressbookView  *view);
+void       e_addressbook_view_paste             (EAddressbookView  *view);
+void       e_addressbook_view_select_all        (EAddressbookView  *view);
+void       e_addressbook_view_show_all          (EAddressbookView  *view);
+void       e_addressbook_view_stop              (EAddressbookView  *view);
 
-void       e_addressbook_view_save_as             (EAddressbookView  *view);
-void       e_addressbook_view_view                (EAddressbookView  *view);
-void       e_addressbook_view_send                (EAddressbookView  *view);
-void       e_addressbook_view_send_to             (EAddressbookView  *view);
-void       e_addressbook_view_print               (EAddressbookView  *view);
-void       e_addressbook_view_print_preview       (EAddressbookView  *view);
-void       e_addressbook_view_delete_selection    (EAddressbookView  *view);
-void       e_addressbook_view_cut                 (EAddressbookView  *view);
-void       e_addressbook_view_copy                (EAddressbookView  *view);
-void       e_addressbook_view_paste               (EAddressbookView  *view);
-void       e_addressbook_view_select_all          (EAddressbookView  *view);
-void       e_addressbook_view_show_all            (EAddressbookView  *view);
-void       e_addressbook_view_stop                (EAddressbookView  *view);
-void       e_addressbook_view_copy_to_folder      (EAddressbookView  *view);
-void       e_addressbook_view_move_to_folder      (EAddressbookView  *view);
-
-gboolean   e_addressbook_view_can_create          (EAddressbookView  *view);
-gboolean   e_addressbook_view_can_print           (EAddressbookView  *view);
-gboolean   e_addressbook_view_can_save_as         (EAddressbookView  *view);
-gboolean   e_addressbook_view_can_view            (EAddressbookView  *view);
-gboolean   e_addressbook_view_can_send            (EAddressbookView  *view);
-gboolean   e_addressbook_view_can_send_to         (EAddressbookView  *view);
-gboolean   e_addressbook_view_can_delete          (EAddressbookView  *view);
-gboolean   e_addressbook_view_can_cut             (EAddressbookView  *view);
-gboolean   e_addressbook_view_can_copy            (EAddressbookView  *view);
-gboolean   e_addressbook_view_can_paste           (EAddressbookView  *view);
-gboolean   e_addressbook_view_can_select_all      (EAddressbookView  *view);
-gboolean   e_addressbook_view_can_stop            (EAddressbookView  *view);
-gboolean   e_addressbook_view_can_copy_to_folder  (EAddressbookView  *view);
-gboolean   e_addressbook_view_can_move_to_folder  (EAddressbookView  *view);
+gboolean   e_addressbook_view_can_create        (EAddressbookView  *view);
+gboolean   e_addressbook_view_can_create_lists  (EAddressbookView  *view);
+gboolean   e_addressbook_view_can_print         (EAddressbookView  *view);
+gboolean   e_addressbook_view_can_save_as       (EAddressbookView  *view);
+gboolean   e_addressbook_view_can_send          (EAddressbookView  *view);
+gboolean   e_addressbook_view_can_send_to       (EAddressbookView  *view);
+gboolean   e_addressbook_view_can_delete        (EAddressbookView  *view);
+gboolean   e_addressbook_view_can_cut           (EAddressbookView  *view);
+gboolean   e_addressbook_view_can_copy          (EAddressbookView  *view);
+gboolean   e_addressbook_view_can_paste         (EAddressbookView  *view);
+gboolean   e_addressbook_view_can_select_all    (EAddressbookView  *view);
+gboolean   e_addressbook_view_can_stop          (EAddressbookView  *view);
 
 #ifdef __cplusplus
 }

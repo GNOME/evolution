@@ -690,23 +690,23 @@ destroy (GtkObject *obj)
 		gtk_object_unref (GTK_OBJECT (priv->client));
 
 	if (priv->ebook != NULL)
-		gtk_object_unref (GTK_OBJECT (priv->ebook));
+		gtk_object_unref (GTK_OBJECT (priv->ebook));        
 
 	if (priv->corba_select_names != CORBA_OBJECT_NIL) {
-		CORBA_Environment ev;
+                CORBA_Environment ev;
 		CORBA_exception_init (&ev);
 		bonobo_object_release_unref (priv->corba_select_names, &ev);
 		CORBA_exception_free (&ev);
-	}
+        }
 
- 	while (priv->refresh_queue->len > 0)
- 		refresh_queue_remove (im, g_ptr_array_index (priv->refresh_queue, 0));
- 	g_ptr_array_free (priv->refresh_queue, TRUE);
- 	g_hash_table_destroy (priv->refresh_data);
- 	
- 	if (priv->refresh_idle_id)
- 		g_source_remove (priv->refresh_idle_id);
- 		
+	while (priv->refresh_queue->len > 0)
+		refresh_queue_remove (im, g_ptr_array_index (priv->refresh_queue, 0));
+	g_ptr_array_free (priv->refresh_queue, TRUE);
+	g_hash_table_destroy (priv->refresh_data);
+	
+	if (priv->refresh_idle_id)
+		g_source_remove (priv->refresh_idle_id);
+	
 	g_free (priv);
 }
 
@@ -1252,20 +1252,22 @@ process_free_busy_comp (EMeetingAttendee *ia,
 static void
 process_free_busy (EMeetingModelQueueData *qdata, char *text)
 {
- 	EMeetingModel *im = qdata->im;
- 	EMeetingModelPrivate *priv;
- 	EMeetingAttendee *ia = qdata->ia;
+	EMeetingModel *im = qdata->im;
+	EMeetingModelPrivate *priv;
+	EMeetingAttendee *ia = qdata->ia;
 	icalcomponent *main_comp;
 	icalcomponent_kind kind = ICAL_NO_COMPONENT;
 
 	priv = im->priv;
 
 	main_comp = icalparser_parse_string (text);
- 	if (main_comp == NULL) {
- 		process_callbacks (qdata);
-  		return;
- 	}
-
+	if (main_comp == NULL) {
+		process_callbacks (qdata);
+		return;
+	}
+	
+	e_meeting_attendee_set_has_calendar_info (ia, TRUE);
+	
 	kind = icalcomponent_isa (main_comp);
 	if (kind == ICAL_VCALENDAR_COMPONENT) {	
 		icalcompiter iter;

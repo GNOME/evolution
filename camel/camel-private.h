@@ -43,6 +43,7 @@ struct _CamelFolderPrivate {
 	EMutex *lock;
 	EMutex *change_lock;
 #endif
+
 	/* must require the 'change_lock' to access this */
 	int frozen;
 	struct _CamelFolderChangeInfo *changed_frozen; /* queues changed events */
@@ -60,8 +61,6 @@ struct _CamelStorePrivate {
 #ifdef ENABLE_THREADS
 	EMutex *folder_lock;	/* for locking folder operations */
 	EMutex *cache_lock;	/* for locking access to the cache */
-#else
-	gpointer dummy;
 #endif
 };
 
@@ -76,8 +75,6 @@ struct _CamelStorePrivate {
 struct _CamelTransportPrivate {
 #ifdef ENABLE_THREADS
 	GMutex *send_lock;   /* for locking send operations */
-#else
-	gpointer dummy;
 #endif
 };
 
@@ -93,8 +90,6 @@ struct _CamelServicePrivate {
 #ifdef ENABLE_THREADS
 	EMutex *connect_lock;	/* for locking connection operations */
 	EMutex *connect_op_lock;/* for locking the connection_op */
-#else
-	gpointer dummy;
 #endif
 };
 
@@ -114,8 +109,6 @@ struct _CamelSessionPrivate {
 	int thread_id;
 	GHashTable *thread_active;
 	EThread *thread_queue;
-#else
-	gpointer dummy;
 #endif
 };
 
@@ -131,8 +124,6 @@ struct _CamelSessionPrivate {
 struct _CamelRemoteStorePrivate {
 #ifdef ENABLE_THREADS
 	EMutex *stream_lock;	/* for locking stream operations */
-#else
-	gpointer dummy;
 #endif
 };
 
@@ -151,13 +142,10 @@ struct _CamelFolderSummaryPrivate {
 	struct _CamelMimeFilterIndex *filter_index;
 	struct _CamelMimeFilterBasic *filter_64;
 	struct _CamelMimeFilterBasic *filter_qp;
-	struct _CamelMimeFilterBasic *filter_uu;
 	struct _CamelMimeFilterSave *filter_save;
 	struct _CamelMimeFilterHTML *filter_html;
 
-	struct _CamelStreamFilter *filter_stream;
-
-	struct _CamelIndex *index;
+	struct ibex *index;
 
 #ifdef ENABLE_THREADS
 	GMutex *summary_lock;	/* for the summary hashtable/array */
@@ -174,25 +162,6 @@ struct _CamelFolderSummaryPrivate {
 #else
 #define CAMEL_SUMMARY_LOCK(f, l)
 #define CAMEL_SUMMARY_UNLOCK(f, l)
-#endif
-
-struct _CamelStoreSummaryPrivate {
-#ifdef ENABLE_THREADS
-	GMutex *summary_lock;	/* for the summary hashtable/array */
-	GMutex *io_lock;	/* load/save lock, for access to saved_count, etc */
-	GMutex *alloc_lock;	/* for setting up and using allocators */
-	GMutex *ref_lock;	/* for reffing/unreffing messageinfo's ALWAYS obtain before summary_lock */
-#else
-	gpointer dummy;
-#endif
-};
-
-#ifdef ENABLE_THREADS
-#define CAMEL_STORE_SUMMARY_LOCK(f, l) (g_mutex_lock(((CamelStoreSummary *)f)->priv->l))
-#define CAMEL_STORE_SUMMARY_UNLOCK(f, l) (g_mutex_unlock(((CamelStoreSummary *)f)->priv->l))
-#else
-#define CAMEL_STORE_SUMMARY_LOCK(f, l)
-#define CAMEL_STORE_SUMMARY_UNLOCK(f, l)
 #endif
 
 struct _CamelVeeFolderPrivate {

@@ -56,7 +56,6 @@ extern "C" {
 
 typedef struct _ESelectNames       ESelectNames;
 typedef struct _ESelectNamesClass  ESelectNamesClass;
-typedef struct _ESelectNamesFolder ESelectNamesFolder;
 
 struct _ESelectNames
 {
@@ -72,15 +71,13 @@ struct _ESelectNames
 	ETableModel *without;
 	EAddressbookModel *model;
 	GtkWidget *categories;
+	GtkWidget *categories_entry;
 	GtkWidget *search_entry;
-	GtkWidget *select_entry;
 	GtkWidget *status_message;
 	EvolutionStorageListener *local_listener;
 	EvolutionStorageListener *other_contacts_listener;
 	GHashTable *folders;
-	GHashTable *folders_by_uri;
 	char *def;
-	ESelectNamesFolder *current_folder;
 };
 
 struct _ESelectNamesClass

@@ -352,8 +352,7 @@ select_source_with(GtkWidget *w, struct _source_data *data)
 static void
 source_add(GtkWidget *widget, struct _source_data *data)
 {
-	static const char *allowed_types[] = { "mail", NULL };
-	GNOME_Evolution_Folder *folder;
+	const char *allowed_types[] = { "mail", NULL };
 	char *def, *uri;
 	GtkListItem *item;
 	GList *l;
@@ -364,18 +363,16 @@ source_add(GtkWidget *widget, struct _source_data *data)
 	evolution_shell_client_user_select_folder (global_shell_client,
 						   GTK_WINDOW (gtk_widget_get_toplevel (widget)),
 						   _("Select Folder"),
-						   def, allowed_types, &folder);
+						   def, allowed_types, NULL, &uri);
 
 	if (GTK_OBJECT_DESTROYED(widget)) {
-		if (folder)
-			CORBA_free (folder);
+		g_free(uri);
 		return;
 	}
 
 	gtk_widget_set_sensitive(widget, TRUE);
 
-	if (folder) {
-		uri = g_strdup (folder->physicalUri);
+	if (uri != NULL && uri[0] != '\0') {
 		data->vr->sources = g_list_append(data->vr->sources, uri);
 
 		l = NULL;
@@ -388,8 +385,9 @@ source_add(GtkWidget *widget, struct _source_data *data)
 		gtk_list_append_items(data->list, l);
 		gtk_list_select_child(data->list, (GtkWidget *)item);
 		data->current = uri;
+	} else {
+		g_free(uri);
 	}
-	CORBA_free (folder);
 	set_sensitive(data);
 }
 

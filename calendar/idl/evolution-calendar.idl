@@ -131,7 +131,6 @@ module Calendar {
 		exception InvalidRange {};
 		exception InvalidObject {};
 		exception CouldNotCreate {};
-		exception PermissionDenied {};
 		
 		/* A calendar is identified by its URI */
 		readonly attribute string uri;
@@ -200,11 +199,11 @@ module Calendar {
 		 * updated version.
 		 */
 		void updateObjects (in CalObj calobj)
-			raises (InvalidObject, PermissionDenied);
+			raises (InvalidObject);
 
 		/* Removes a component */
 		void removeObject (in CalObjUID uid)
-			raises (NotFound, PermissionDenied);
+			raises (NotFound);
 
 		/* Initiates a live query of the calendar.  Returns a handle
 		 * to the live query itself; changes to components that are
@@ -223,8 +222,7 @@ module Calendar {
 			NOT_FOUND,		/* Requested opening in only_if_exists mode
 						 * when the URI did not exist.
 						 */
-			METHOD_NOT_SUPPORTED,	/* A method handler is not registered */
-			PERMISSION_DENIED
+			METHOD_NOT_SUPPORTED	/* A method handler is not registered */
 		};
 
 		/* Return status when setting calendar mode */
@@ -294,11 +292,10 @@ module Calendar {
 		exception NilListener {};
 		exception InvalidURI {};
 		exception UnsupportedMethod {};
-		exception PermissionDenied {};
 
 		/* Open a calendar from an URI */
 		void open (in string uri, in boolean only_if_exists, in Listener listener)
-			raises (NilListener, InvalidURI, UnsupportedMethod, PermissionDenied);
+			raises (NilListener, InvalidURI, UnsupportedMethod);
 
 		/* List of open URI's */
 		StringSeq uriList (in CalMode mode);
@@ -331,18 +328,12 @@ module Calendar {
 		exception BackendContactError {};
 		exception UnsupportedType {};
 
-		typedef long CompEditorMode;
-		const CompEditorMode EDITOR_MODE_EVENT        = 1 << 0;
-		const CompEditorMode EDITOR_MODE_ALLDAY_EVENT = 1 << 1;
-		const CompEditorMode EDITOR_MODE_MEETING      = 1 << 2;
-		const CompEditorMode EDITOR_MODE_TODO         = 1 << 3;
-
 		/* Loads a calendar and opens an editor for the specified object */
 		void editExisting (in string uri, in CalObjUID uid)
 			raises (InvalidURI, BackendContactError);
 
 		/* Loads a calendar and creates a new component of the specified type */
-		void editNew (in string uri, in CompEditorMode mode)
+		void editNew (in string uri, in CalObjType type)
 			raises (InvalidURI, BackendContactError, UnsupportedType);
 	};
 };

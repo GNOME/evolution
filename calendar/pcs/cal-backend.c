@@ -143,7 +143,6 @@ cal_backend_class_init (CalBackendClass *class)
 	class->get_uri = NULL;
 	class->open = NULL;
 	class->is_loaded = NULL;
-	class->get_query = NULL;
 	class->get_mode = NULL;
 	class->set_mode = NULL;	
 	class->get_n_objects = NULL;
@@ -293,32 +292,6 @@ cal_backend_is_loaded (CalBackend *backend)
 
 	g_assert (CLASS (backend)->is_loaded != NULL);
 	result = (* CLASS (backend)->is_loaded) (backend);
-
-	return result;
-}
-
-/**
- * cal_backend_get_query:
- * @backend: A calendar backend.
- * @ql: The query listener.
- * @sexp: Search expression.
- *
- * Create a query object for this backend.
- */
-Query *
-cal_backend_get_query (CalBackend *backend,
-		       GNOME_Evolution_Calendar_QueryListener ql,
-		       const char *sexp)
-{
-	Query *result;
-
-	g_return_val_if_fail (backend != NULL, FALSE);
-	g_return_val_if_fail (IS_CAL_BACKEND (backend), FALSE);
-
-	if (CLASS (backend)->get_query != NULL)
-		result = (* CLASS (backend)->get_query) (backend, ql, sexp);
-	else
-		result = query_new (backend, ql, sexp);
 
 	return result;
 }
@@ -673,10 +646,10 @@ cal_backend_get_alarms_for_object (CalBackend *backend, const char *uid,
  * object that has the same UID as the specified one.  The backend will in
  * turn notify all of its clients about the change.
  * 
- * Return value: a #CalBackendResult value, which indicates the
- * result of the operation.
+ * Return value: TRUE on success, FALSE on being passed an invalid object or one
+ * with an unsupported type.
  **/
-CalBackendResult
+gboolean
 cal_backend_update_objects (CalBackend *backend, const char *calobj)
 {
 	g_return_val_if_fail (backend != NULL, FALSE);
@@ -695,10 +668,10 @@ cal_backend_update_objects (CalBackend *backend, const char *calobj)
  * Removes an object in a calendar backend.  The backend will notify all of its
  * clients about the change.
  * 
- * Return value: a #CalBackendResult value, which indicates the
- * result of the operation.
+ * Return value: TRUE on success, FALSE on being passed an UID for an object
+ * that does not exist in the backend.
  **/
-CalBackendResult
+gboolean
 cal_backend_remove_object (CalBackend *backend, const char *uid)
 {
 	g_return_val_if_fail (backend != NULL, FALSE);

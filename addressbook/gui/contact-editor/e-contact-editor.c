@@ -78,7 +78,6 @@ static GtkWidget *e_contact_editor_build_dialog(EContactEditor *editor, gchar *e
 static void _email_arrow_pressed (GtkWidget *widget, GdkEventButton *button, EContactEditor *editor);
 static void _phone_arrow_pressed (GtkWidget *widget, GdkEventButton *button, EContactEditor *editor);
 static void _address_arrow_pressed (GtkWidget *widget, GdkEventButton *button, EContactEditor *editor);
-static void find_address_mailing (EContactEditor *editor);
 static void enable_writable_fields(EContactEditor *editor);
 static void set_editable(EContactEditor *editor);
 static void fill_in_info(EContactEditor *editor);
@@ -111,8 +110,6 @@ enum {
 	DYNAMIC_LIST_PHONE,
 	DYNAMIC_LIST_ADDRESS
 };
-
-static GSList *all_contact_editors = NULL;
 
 GtkType
 e_contact_editor_get_type (void)
@@ -316,19 +313,6 @@ address_text_changed (GtkWidget *widget, EContactEditor *editor)
 
 	address = e_card_address_label_new();
 
-	if (editor->address_mailing == editor->address_choice || editor->address_mailing == -1) {
-		GtkWidget *check;
-		
-		address->flags |= E_CARD_ADDR_DEFAULT;
-		
-		check = glade_xml_get_widget(editor->gui, "checkbutton-mailingaddress");
-		if (check && GTK_IS_CHECK_BUTTON (check)) {
-			gtk_signal_handler_block_by_data (GTK_OBJECT (check), editor);
-			gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (check), TRUE);
-			gtk_signal_handler_unblock_by_data (GTK_OBJECT (check), editor);
-		}
-	}
-	
 	address->data = e_utf8_gtk_editable_get_chars(editable, 0, -1);
 
 	e_card_simple_set_address(editor->simple, editor->address_choice, address);
@@ -336,58 +320,6 @@ address_text_changed (GtkWidget *widget, EContactEditor *editor)
 
 	widget_changed (widget, editor);
 }
-
-
-static void
-address_mailing_changed (GtkWidget *widget, EContactEditor *editor)
-{
-	ECardAddrLabel *address;
-	GtkWidget *text;
-	gboolean mailing_address;
-
-	if (editor->address_choice == -1)
-		return;
-
-	mailing_address = gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (widget));
-	
-	/* Mark the current address as the mailing address */
- 	text = glade_xml_get_widget(editor->gui, "text-address");
-	if (text && GTK_IS_TEXT(text)) {
-
-		address = e_card_address_label_new();
-		
-		if (mailing_address)
-			address->flags |= E_CARD_ADDR_DEFAULT;
-		else
-			address->flags &= ~E_CARD_ADDR_DEFAULT;
-		address->data = e_utf8_gtk_editable_get_chars(GTK_EDITABLE (text), 0, -1);
-	
-		e_card_simple_set_address(editor->simple, editor->address_choice, address);
-		e_card_address_label_unref(address);
-	}
-
-	/* Unset the previous mailing address flag */
-	if (mailing_address && editor->address_mailing != -1) {
-		const ECardAddrLabel *curr;
-
-		curr = e_card_simple_get_address(editor->simple, 
-						 editor->address_mailing);
-		address = e_card_address_label_copy (curr);
-		address->flags &= ~E_CARD_ADDR_DEFAULT;
-		e_card_simple_set_address(editor->simple, 
-					  editor->address_mailing,
-					  address);
-	}
-
-	/* Remember the new mailing address */
-	if (mailing_address)
-		editor->address_mailing = editor->address_choice;
-	else
-		editor->address_mailing = -1;
-
-	widget_changed (widget, editor);
-}
-
 
 /* This function tells you whether name_to_style will make sense.  */
 static gboolean
@@ -1306,7 +1238,6 @@ e_contact_editor_init (EContactEditor *e_contact_editor)
 	e_contact_editor->phone_choice[2] = E_CARD_SIMPLE_PHONE_ID_BUSINESS_FAX;
 	e_contact_editor->phone_choice[3] = E_CARD_SIMPLE_PHONE_ID_MOBILE;
 	e_contact_editor->address_choice = 0;
-	e_contact_editor->address_mailing = -1;
 
 	e_contact_editor->arbitrary_fields = NULL;
 	
@@ -1336,11 +1267,6 @@ e_contact_editor_init (EContactEditor *e_contact_editor)
 	if (wants_html && GTK_IS_TOGGLE_BUTTON(wants_html))
 		gtk_signal_connect(GTK_OBJECT(wants_html), "toggled",
 				   wants_html_changed, e_contact_editor);
-
- 	widget = glade_xml_get_widget(e_contact_editor->gui, "checkbutton-mailingaddress");
-	if (widget && GTK_IS_TOGGLE_BUTTON(widget))
-		gtk_signal_connect(GTK_OBJECT(widget), "toggled",
-				   address_mailing_changed, e_contact_editor);
 	
 	widget = glade_xml_get_widget(e_contact_editor->gui, "button-fullname");
 	if (widget && GTK_IS_BUTTON(widget))
@@ -1491,14 +1417,6 @@ supported_fields_cb (EBook *book, EBookStatus status,
 	command_state_changed (ce);
 }
 
-static void
-contact_editor_destroy_notify (void *data)
-{
-	EContactEditor *ce = E_CONTACT_EDITOR (data);
-
-	all_contact_editors = g_slist_remove (all_contact_editors, ce);
-}
-
 EContactEditor *
 e_contact_editor_new (EBook *book,
 		      ECard *card,
@@ -1511,9 +1429,6 @@ e_contact_editor_new (EBook *book,
 	g_return_val_if_fail (E_IS_CARD (card), NULL);
 
 	ce = E_CONTACT_EDITOR (gtk_type_new (E_CONTACT_EDITOR_TYPE));
-
-	all_contact_editors = g_slist_prepend (all_contact_editors, ce);
-	gtk_object_weakref (GTK_OBJECT (ce), contact_editor_destroy_notify, ce);
 
 	gtk_object_set (GTK_OBJECT (ce),
 			"book", book,
@@ -1993,7 +1908,7 @@ _address_arrow_pressed (GtkWidget *widget, GdkEventButton *button, EContactEdito
 		gtk_check_menu_item_set_show_toggle(GTK_CHECK_MENU_ITEM(editor->address_info[i].widget),
 						    TRUE);
 	}
-
+	
 	result = _arrow_pressed (widget, button, editor, editor->address_popup, &editor->address_list, &editor->address_info, "label-address", "text-address", "Add new Address type");
 
 	if (result != -1) {
@@ -2002,30 +1917,6 @@ _address_arrow_pressed (GtkWidget *widget, GdkEventButton *button, EContactEdito
 		/* make sure the buttons/entry is/are sensitive */
 		enable_widget (glade_xml_get_widget (editor->gui, "label-address"), TRUE);
 		enable_widget (glade_xml_get_widget (editor->gui, "text-address"), editor->editable);
-	}
-}
-
-static void
-find_address_mailing (EContactEditor *editor)
-{
-	const ECardAddrLabel *address;
-	int i;
-	
-	editor->address_mailing = -1;
-	for (i = 0; i < E_CARD_SIMPLE_ADDRESS_ID_LAST; i++) {
-		address = e_card_simple_get_address(editor->simple, i);
-		if (address && (address->flags & E_CARD_ADDR_DEFAULT)) {
-			if (editor->address_mailing == -1) {
-				editor->address_mailing = i;
-			} else {
-				ECardAddrLabel *new;
-				
-				new = e_card_address_label_copy (address);
-				new->flags &= ~E_CARD_ADDR_DEFAULT;
-				e_card_simple_set_address(editor->simple, i, new);
-				e_card_address_label_unref (new);
-			}
-		}
 	}
 }
 
@@ -2050,8 +1941,6 @@ static void
 set_fields(EContactEditor *editor)
 {
 	GtkWidget *entry;
-	GtkWidget *label_widget;
-	int i;
 
 	entry = glade_xml_get_widget(editor->gui, "entry-phone1");
 	if (entry && GTK_IS_ENTRY(entry))
@@ -2072,38 +1961,18 @@ set_fields(EContactEditor *editor)
 	entry = glade_xml_get_widget(editor->gui, "entry-email1");
 	if (entry && GTK_IS_ENTRY(entry))
 		set_field(GTK_ENTRY(entry), e_card_simple_get_email(editor->simple, editor->email_choice));
-
-
-
-	e_contact_editor_build_address_ui (editor);
-
-	for (i = 0; i < E_CARD_SIMPLE_ADDRESS_ID_LAST; i++) {
-		const ECardAddrLabel *address = e_card_simple_get_address(editor->simple, i);
-
-		if (address && address->data && *address->data)
-			break;
-	}
-	if (i == E_CARD_SIMPLE_ADDRESS_ID_LAST)
-		i = 0;
-
-	label_widget = glade_xml_get_widget(editor->gui, "label-address");
-	if (label_widget && GTK_IS_LABEL(label_widget)) {
-		gtk_object_set(GTK_OBJECT(label_widget),
-			       "label", _(g_list_nth_data(editor->address_list, i)),
-			       NULL);
-	}
-
-	set_address_field(editor, i);
+	
+	set_address_field(editor, -1);
 }
 
 static void
 set_address_field(EContactEditor *editor, int result)
 {
-	GtkWidget *text, *check;
+	GtkWidget *widget;
 	
-	text = glade_xml_get_widget(editor->gui, "text-address");
+	widget = glade_xml_get_widget(editor->gui, "text-address");
 
-	if (text && GTK_IS_TEXT(text)) {
+	if (widget && GTK_IS_TEXT(widget)) {
 		int position;
 		GtkEditable *editable;
 		const ECardAddrLabel *address;
@@ -2113,8 +1982,7 @@ set_address_field(EContactEditor *editor, int result)
 		editor->address_choice = -1;
 
 		position = 0;
-		editable = GTK_EDITABLE(text);
-
+		editable = GTK_EDITABLE(widget);
 		gtk_editable_delete_text(editable, 0, -1);
 		address = e_card_simple_get_address(editor->simple, result);
 		if (address && address->data) {
@@ -2123,15 +1991,6 @@ set_address_field(EContactEditor *editor, int result)
 			g_free (u);
 		}
 
-		check = glade_xml_get_widget(editor->gui, "checkbutton-mailingaddress");
-		if (check && GTK_IS_CHECK_BUTTON (check)) {
-			if (address && address->data)
-				gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (check), 
-							      address->flags & E_CARD_ADDR_DEFAULT);
-			else
-				gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (check), FALSE);
-		}
-		
 		editor->address_choice = result;
 	}
 }
@@ -2360,7 +2219,7 @@ enable_writable_fields(EContactEditor *editor)
 
 	/* disable the label widgets for the dropdowns (4 phone, 1
            email and the toggle button, and 1 address and one for
-           the full address button */
+           the full adress button */
 	for (i = 0; i < 4; i ++) {
 		widget_name = g_strdup_printf ("label-phone%d", i+1);
 		enable_widget (glade_xml_get_widget (editor->gui, widget_name), FALSE);
@@ -2382,7 +2241,7 @@ enable_writable_fields(EContactEditor *editor)
 		GtkWidget *widget = g_hash_table_lookup (dropdown_hash, field);
 
 		if (widget) {
-			enable_widget (widget, TRUE);
+			enable_widget (widget, editor->editable);
 		}
 		else {
 			/* if it's not a field that's handled by the
@@ -2512,8 +2371,6 @@ fill_in_info(EContactEditor *editor)
 			fill_in_single_field(editor, list->data);
 		}
 
-		find_address_mailing (editor);
-		
 		if (wants_html_set) {
 			GtkWidget *widget = glade_xml_get_widget(editor->gui, "checkbutton-htmlmail");
 			if (widget && GTK_IS_CHECK_BUTTON(widget)) {
@@ -2758,28 +2615,4 @@ enable_widget (GtkWidget *widget, gboolean enabled)
 	}
 	else
 		gtk_widget_set_sensitive (widget, enabled);
-}
-
-
-gboolean
-e_contact_editor_request_close_all (void)
-{
-	GSList *p;
-	GSList *pnext;
-	gboolean retval;
-
-	retval = TRUE;
-	for (p = all_contact_editors; p != NULL; p = pnext) {
-		pnext = p->next;
-
-		e_contact_editor_raise (E_CONTACT_EDITOR (p->data));
-		if (! prompt_to_save_changes (E_CONTACT_EDITOR (p->data))) {
-			retval = FALSE;
-			break;
-		}
-
-		close_dialog (E_CONTACT_EDITOR (p->data));
-	}
-
-	return retval;
 }

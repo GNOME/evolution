@@ -133,6 +133,8 @@ e_timezone_dialog_init (ETimezoneDialog *etd)
 {
 	ETimezoneDialogPrivate *priv;
 
+	GTK_OBJECT_UNSET_FLAGS (etd, GTK_FLOATING);
+
 	priv = g_new0 (ETimezoneDialogPrivate, 1);
 	etd->priv = priv;
 

@@ -97,8 +97,6 @@ enum {
 	ARG_EDITABLE
 };
 
-static GSList *all_contact_list_editors = NULL;
-
 GtkType
 e_contact_list_editor_get_type (void)
 {
@@ -503,9 +501,9 @@ BonoboUIVerb verbs [] = {
 	BONOBO_UI_UNSAFE_VERB ("ContactListEditorSave", file_save_cb),
 	BONOBO_UI_UNSAFE_VERB ("ContactListEditorSaveClose", tb_save_and_close_cb),
 	BONOBO_UI_UNSAFE_VERB ("ContactListEditorDelete", delete_cb),
-	BONOBO_UI_UNSAFE_VERB ("ContactListEditorSaveAs", file_save_as_cb),
-	BONOBO_UI_UNSAFE_VERB ("ContactListEditorSendAs", file_send_as_cb),
-	BONOBO_UI_UNSAFE_VERB ("ContactListEditorSendTo", file_send_to_cb),
+	BONOBO_UI_UNSAFE_VERB ("ContactEditorSaveAs", file_save_as_cb),
+	BONOBO_UI_UNSAFE_VERB ("ContactEditorSendAs", file_send_as_cb),
+	BONOBO_UI_UNSAFE_VERB ("ContactEditorSendTo", file_send_to_cb),
 	BONOBO_UI_UNSAFE_VERB ("ContactListEditorClose", file_close_cb),
 	BONOBO_UI_VERB_END
 };
@@ -540,14 +538,6 @@ create_ui (EContactListEditor *ce)
 	e_pixmaps_update (ce->uic, pixmaps);
 }
 
-static void
-contact_list_editor_destroy_notify (void *data)
-{
-	EContactListEditor *ce = E_CONTACT_LIST_EDITOR (data);
-
-	all_contact_list_editors = g_slist_remove (all_contact_list_editors, ce);
-}
-
 EContactListEditor *
 e_contact_list_editor_new (EBook *book,
 			   ECard *list_card,
@@ -557,9 +547,6 @@ e_contact_list_editor_new (EBook *book,
 	EContactListEditor *ce;
 
 	ce = E_CONTACT_LIST_EDITOR (gtk_type_new (E_CONTACT_LIST_EDITOR_TYPE));
-
-	all_contact_list_editors = g_slist_prepend (all_contact_list_editors, ce);
-	gtk_object_weakref (GTK_OBJECT (ce), contact_list_editor_destroy_notify, ce);
 
 	gtk_object_set (GTK_OBJECT (ce),
 			"book", book,
@@ -990,28 +977,4 @@ fill_in_info(EContactListEditor *editor)
 			e_iterator_next (email_iter);
 		}
 	}
-}
-
-
-gboolean
-e_contact_list_editor_request_close_all (void)
-{
-	GSList *p;
-	GSList *pnext;
-	gboolean retval;
-
-	retval = TRUE;
-	for (p = all_contact_list_editors; p != NULL; p = pnext) {
-		pnext = p->next;
-
-		e_contact_list_editor_raise (E_CONTACT_LIST_EDITOR (p->data));
-		if (! prompt_to_save_changes (E_CONTACT_LIST_EDITOR (p->data))) {
-			retval = FALSE;
-			break;
-		}
-
-		close_dialog (E_CONTACT_LIST_EDITOR (p->data));
-	}
-
-	return retval;
 }

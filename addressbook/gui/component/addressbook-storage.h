@@ -27,6 +27,12 @@
 #include "evolution-storage.h"
 
 typedef enum {
+	ADDRESSBOOK_SOURCE_LDAP,
+	ADDRESSBOOK_SOURCE_FILE,
+	ADDRESSBOOK_SOURCE_LAST
+} AddressbookSourceType;
+
+typedef enum {
 	ADDRESSBOOK_LDAP_AUTH_NONE,
 	ADDRESSBOOK_LDAP_AUTH_SIMPLE_EMAIL,
 	ADDRESSBOOK_LDAP_AUTH_SIMPLE_BINDDN,
@@ -39,13 +45,8 @@ typedef enum {
 	ADDRESSBOOK_LDAP_SCOPE_LAST
 } AddressbookLDAPScopeType;
 
-typedef enum {
-	ADDRESSBOOK_LDAP_SSL_ALWAYS,
-	ADDRESSBOOK_LDAP_SSL_WHENEVER_POSSIBLE,
-	ADDRESSBOOK_LDAP_SSL_NEVER
-} AddressbookLDAPSSLType;
-
 typedef struct {
+	AddressbookSourceType type;
 	char *name;
 	char *description;
 	char *host;
@@ -53,12 +54,9 @@ typedef struct {
 	char *rootdn;
 	AddressbookLDAPScopeType scope;
 	AddressbookLDAPAuthType auth;
-	AddressbookLDAPSSLType ssl;
 	char *email_addr;                   /* used in AUTH_SIMPLE_EMAIL */
 	char *binddn;                       /* used in AUTH_SIMPLE_BINDDN */
 	gboolean remember_passwd;
-	int limit;
-
 	char *uri; /* filled in from the above */
 } AddressbookSource;
 

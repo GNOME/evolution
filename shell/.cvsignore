@@ -2,10 +2,6 @@
 .deps
 .libs
 .pure
-Evolution-Addressbook-SelectNames-common.c
-Evolution-Addressbook-SelectNames-skels.c
-Evolution-Addressbook-SelectNames-stubs.c
-Evolution-Addressbook-SelectNames.h
 Evolution-common.c
 Evolution-skels.c
 Evolution-stubs.c
@@ -15,6 +11,7 @@ ID
 Makefile
 Makefile.in
 evolution
+evolution-nognome
 evolution-test-component
 evolution.pure
 libeshell.la

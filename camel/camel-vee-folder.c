@@ -54,8 +54,7 @@ static void vee_sync (CamelFolder *folder, gboolean expunge, CamelException *ex)
 static void vee_expunge (CamelFolder *folder, CamelException *ex);
 
 static CamelMimeMessage *vee_get_message (CamelFolder *folder, const gchar *uid, CamelException *ex);
-static void vee_append_message(CamelFolder *folder, CamelMimeMessage *message, const CamelMessageInfo *info, char **appended_uid, CamelException *ex);
-static void vee_transfer_messages_to(CamelFolder *source, GPtrArray *uids, CamelFolder *dest, GPtrArray **transferred_uids, gboolean delete_originals, CamelException *ex);
+static void vee_move_messages_to(CamelFolder *source, GPtrArray *uids, CamelFolder *dest, CamelException *ex);
 
 static GPtrArray *vee_search_by_expression(CamelFolder *folder, const char *expression, CamelException *ex);
 static GPtrArray *vee_search_by_uids(CamelFolder *folder, const char *expression, GPtrArray *uids, CamelException *ex);
@@ -124,8 +123,7 @@ camel_vee_folder_class_init (CamelVeeFolderClass *klass)
 	folder_class->expunge = vee_expunge;
 
 	folder_class->get_message = vee_get_message;
-	folder_class->append_message = vee_append_message;
-	folder_class->transfer_messages_to = vee_transfer_messages_to;
+	folder_class->move_messages_to = vee_move_messages_to;
 
 	folder_class->search_by_expression = vee_search_by_expression;
 	folder_class->search_by_uids = vee_search_by_uids;
@@ -348,7 +346,8 @@ camel_vee_folder_add_folder(CamelVeeFolder *vf, CamelFolder *sub)
 		camel_object_ref((CamelObject *)sub);
 		p->folders = g_list_append(p->folders, sub);
 	}
-	if ((vf->flags & CAMEL_STORE_FOLDER_PRIVATE) == 0 && !CAMEL_IS_VEE_FOLDER(sub)) {
+	if ((vf->flags & CAMEL_STORE_FOLDER_PRIVATE) == 0
+	    && !CAMEL_IS_VEE_FOLDER(sub)) {
 		camel_object_ref((CamelObject *)sub);
 		up->folders = g_list_append(up->folders, sub);
 	}
@@ -512,38 +511,6 @@ camel_vee_folder_hash_folder(CamelFolder *folder, char buffer[8])
 	}
 }
 
-/**
- * camel_vee_folder_get_location:
- * @vf: 
- * @vinfo: 
- * @realuid: if not NULL, set to the uid of the real message, must be
- * g_free'd by caller.
- * 
- * Find the real folder (and uid)
- * 
- * Return value: 
- **/
-CamelFolder *
-camel_vee_folder_get_location(CamelVeeFolder *vf, const CamelVeeMessageInfo *vinfo, char **realuid)
-{
-	/* locking?  yes?  no?  although the vfolderinfo is valid when obtained
-	   the folder in it might not necessarily be so ...? */
-	if (CAMEL_IS_VEE_FOLDER(vinfo->folder)) {
-		CamelFolder *folder;
-		const CamelVeeMessageInfo *vfinfo;
-
-		vfinfo = (CamelVeeMessageInfo *)camel_folder_get_message_info(vinfo->folder, camel_message_info_uid(vinfo)+8);
-		folder = camel_vee_folder_get_location((CamelVeeFolder *)vinfo->folder, vfinfo, realuid);
-		camel_folder_free_message_info(vinfo->folder, (CamelMessageInfo *)vfinfo);
-		return folder;
-	} else {
-		if (realuid)
-			*realuid = g_strdup(camel_message_info_uid(vinfo)+8);
-
-		return vinfo->folder;
-	}
-}
-
 static void vee_refresh_info(CamelFolder *folder, CamelException *ex)
 {
 	CamelVeeFolder *vf = (CamelVeeFolder *)folder;
@@ -604,7 +571,7 @@ vee_sync(CamelFolder *folder, gboolean expunge, CamelException *ex)
 static void
 vee_expunge (CamelFolder *folder, CamelException *ex)
 {
-	((CamelFolderClass *)((CamelObject *)folder)->klass)->sync(folder, TRUE, ex);
+	((CamelFolderClass *)((CamelObject *)folder)->classfuncs)->sync(folder, TRUE, ex);
 }
 
 static CamelMimeMessage *
@@ -635,14 +602,10 @@ vee_search_by_expression(CamelFolder *folder, const char *expression, CamelExcep
 	CamelVeeFolder *vf = (CamelVeeFolder *)folder;
 	struct _CamelVeeFolderPrivate *p = _PRIVATE(vf);
 	GHashTable *searched = g_hash_table_new(NULL, NULL);
-	
+
 	CAMEL_VEE_FOLDER_LOCK(vf, subfolder_lock);
-	
-	if (vf != folder_unmatched)
-		expr = g_strdup_printf ("(and %s %s)", vf->expression, expression);
-	else
-		expr = g_strdup (expression);
-	
+
+	expr = g_strdup_printf("(and %s %s)", vf->expression, expression);
 	node = p->folders;
 	while (node) {
 		CamelFolder *f = node->data;
@@ -764,15 +727,29 @@ vee_set_message_user_flag(CamelFolder *folder, const char *uid, const char *name
 }
 
 static void
-vee_append_message(CamelFolder *folder, CamelMimeMessage *message, const CamelMessageInfo *info, char **appended_uid, CamelException *ex)
+vee_move_messages_to (CamelFolder *folder, GPtrArray *uids, CamelFolder *dest, CamelException *ex)
 {
-	camel_exception_set(ex, CAMEL_EXCEPTION_SYSTEM, _("Cannot copy or move messages into a Virtual Folder"));
-}
-
-static void
-vee_transfer_messages_to (CamelFolder *folder, GPtrArray *uids, CamelFolder *dest, GPtrArray **transferred_uids, gboolean delete_originals, CamelException *ex)
-{
-	camel_exception_set(ex, CAMEL_EXCEPTION_SYSTEM, _("Cannot copy or move messages into a Virtual Folder"));
+	CamelVeeMessageInfo *mi;
+	int i;
+	
+	for (i = 0; i < uids->len && !camel_exception_is_set (ex); i++) {
+		mi = (CamelVeeMessageInfo *) camel_folder_summary_uid (folder->summary, uids->pdata[i]);
+		if (mi) {
+			/* noop if it we're moving from the same vfolder (uh, which should't happen but who knows) */
+			if (folder != mi->folder) {
+				GPtrArray *uids;
+				
+				uids = g_ptr_array_new ();
+				g_ptr_array_add (uids, (char *) (camel_message_info_uid (mi) + 8));
+				camel_folder_move_messages_to (mi->folder, uids, dest, ex);
+				g_ptr_array_free (uids, TRUE);
+			}
+			camel_folder_summary_info_free (folder->summary, (CamelMessageInfo *)mi);
+		} else {
+			camel_exception_setv (ex, CAMEL_EXCEPTION_FOLDER_INVALID_UID,
+					      _("No such message: %s"), uids->pdata[i]);
+		}
+	}
 }
 
 static void vee_rename(CamelFolder *folder, const char *new)
