@@ -1,3 +1,9 @@
+2003-02-04  Hans Petter Jansson  <hpj@ximian.com>
+
+	* gui/e-meeting-time-sel-item.c
+	(e_meeting_time_selector_item_paint_day_top): Use PangoLayout to
+	draw text.
+
 2003-02-02  Hans Petter Jansson  <hpj@ximian.com>
 
 	* gui/e-day-view.c (e_day_view_set_event_font_cb): Skip setting the
