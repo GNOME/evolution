@@ -36,6 +36,7 @@
 #include "shell/evolution-shell-client.h"
 #include "mail-account-gui.h"
 #include "mail-session.h"
+#include "mail-send-recv.h"
 #include "e-msg-composer.h"
 
 extern char *default_drafts_folder_uri, *default_sent_folder_uri;
@@ -1570,6 +1571,8 @@ mail_account_gui_save (MailAccountGui *gui)
 	g_free (account->smime_key);
 	account->smime_key = e_utf8_gtk_entry_get_text (gui->smime_key);
 	account->smime_encrypt_to_self = gtk_toggle_button_get_active (gui->smime_encrypt_to_self);
+	
+	mail_autoreceive_setup ();
 	
 	return TRUE;
 }

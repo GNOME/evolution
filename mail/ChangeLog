@@ -1,3 +1,9 @@
+2001-07-15  Jeffrey Stedfast  <fejj@ximian.com>
+
+	* mail-account-gui.c (mail_account_gui_save): Call
+	mail_autoreceive_setup() so that any changes to the list of
+	accounts will be respected the next time mail is checked.
+
 2001-07-13  Peter Williams  <peterw@ximian.com>
 
 	* mail-callbacks.c (expunge_folder): Segfault prevention here if
