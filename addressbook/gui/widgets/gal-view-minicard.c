@@ -17,12 +17,6 @@
 
 static GalViewClass *gal_view_minicard_parent_class;
 
-static void
-gal_view_minicard_edit            (GalView *view, GtkWindow *parent_window)
-{
-	/* GalViewMinicard *minicard_view = GAL_VIEW_MINICARD(view); */
-}
-
 static void  
 gal_view_minicard_load (GalView *view,
 			const char *filename)
@@ -106,7 +100,7 @@ gal_view_minicard_class_init      (GObjectClass *object_class)
 	GalViewClass *gal_view_class  = GAL_VIEW_CLASS(object_class);
 	gal_view_minicard_parent_class  = g_type_class_ref (PARENT_TYPE);
 
-	gal_view_class->edit          = gal_view_minicard_edit         ;
+	gal_view_class->edit          = NULL			       ;
 	gal_view_class->load          = gal_view_minicard_load         ;
 	gal_view_class->save          = gal_view_minicard_save         ;
 	gal_view_class->get_title     = gal_view_minicard_get_title    ;

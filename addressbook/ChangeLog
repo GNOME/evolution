@@ -1,3 +1,10 @@
+2005-03-16  Li Yuan  <li.yuan@sun.com>
+
+	* gui/widgets/gal-view-minicard.c: (gal_view_minicard_class_init):
+	remove the edit function.
+
+	Fixes #40762
+
 2005-03-16  Mengjie Yu  <meng-jie.yu@sun.com>
 
 	* gui/widgets/e-addressbook-view.c: (search_menu_activated):
