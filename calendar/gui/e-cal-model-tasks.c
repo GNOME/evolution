@@ -242,7 +242,7 @@ get_completed (ECalModelComponent *comp_data)
 			return NULL;
 
 		tt_completed = icalproperty_get_completed (prop);
-		if (!icaltime_is_valid_time (tt_completed))
+		if (!icaltime_is_valid_time (tt_completed) || icaltime_is_null_time (tt_completed))
 			return NULL;
 
 		comp_data->completed = g_new0 (ECellDateEditValue, 1);
@@ -272,7 +272,7 @@ get_due (ECalModelComponent *comp_data)
 			return NULL;
 
 		tt_due = icalproperty_get_due (prop);
-		if (!icaltime_is_valid_time (tt_due))
+		if (!icaltime_is_valid_time (tt_due) || icaltime_is_null_time (tt_due))
 			return NULL;
 
 		comp_data->due = g_new0 (ECellDateEditValue, 1);
