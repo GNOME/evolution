@@ -1,13 +1,13 @@
 /* -*- Mode: C; tab-width: 8; indent-tabs-mode: t; c-basic-offset: 8 -*- */
 
-/* 
- * Author : 
+/*
+ * Author :
  *  Damon Chaplin <damon@helixcode.com>
  *
  * Copyright 1999, Helix Code, Inc.
  *
- * This program is free software; you can redistribute it and/or 
- * modify it under the terms of the GNU General Public License as 
+ * This program is free software; you can redistribute it and/or
+ * modify it under the terms of the GNU General Public License as
  * published by the Free Software Foundation; either version 2 of the
  * License, or (at your option) any later version.
  *
@@ -522,7 +522,7 @@ e_week_view_style_set (GtkWidget *widget,
 		day_width = gdk_string_width (font, buffer);
 		week_view->day_widths[day] = day_width;
 		max_day_width = MAX (max_day_width, day_width);
-				       
+
 		g_date_strftime (buffer, 128, "%a", &date);
 		day_width = gdk_string_width (font, buffer);
 		week_view->abbr_day_widths[day] = day_width;
@@ -540,7 +540,7 @@ e_week_view_style_set (GtkWidget *widget,
 		month_width = gdk_string_width (font, buffer);
 		week_view->month_widths[month] = month_width;
 		max_month_width = MAX (max_month_width, month_width);
-				       
+
 		g_date_strftime (buffer, 128, "%b", &date);
 		month_width = gdk_string_width (font, buffer);
 		week_view->abbr_month_widths[month] = month_width;
@@ -904,7 +904,7 @@ obj_updated_cb (CalClient *client, const char *uid, gpointer data)
 	/* Add the occurrences of the event. */
 	num_days = week_view->multi_week_view ? week_view->weeks_shown * 7 : 7;
 
-	cal_recur_generate_instances (comp, 
+	cal_recur_generate_instances (comp,
 				      week_view->day_starts[0],
 				      week_view->day_starts[num_days],
 				      e_week_view_add_event,
@@ -937,7 +937,7 @@ obj_removed_cb (CalClient *client, const char *uid, gpointer data)
  * e_week_view_set_cal_client:
  * @week_view: A week view.
  * @client: A calendar client interface object.
- * 
+ *
  * Sets the calendar client interface object that a week view will monitor.
  **/
 void
@@ -1348,13 +1348,13 @@ e_week_view_update_event_cb (EWeekView *week_view,
 
 		if (span->text_item) {
 			CalComponentText t;
-			
+
 			cal_component_get_summary (event->comp, &t);
 			text = (char*) t.value;
 			gnome_canvas_item_set (span->text_item,
 					       "text", text ? text : "",
 					       NULL);
-			
+
 			e_week_view_reshape_event_span (week_view, event_num,
 							span_num);
 		}
@@ -1376,7 +1376,7 @@ e_week_view_foreach_event_with_uid (EWeekView *week_view,
 {
 	EWeekViewEvent *event;
 	gint event_num;
-	
+
 	for (event_num = week_view->events->len - 1;
 	     event_num >= 0;
 	     event_num--) {
@@ -1384,7 +1384,7 @@ e_week_view_foreach_event_with_uid (EWeekView *week_view,
 
 		event = &g_array_index (week_view->events, EWeekViewEvent,
 					event_num);
-		
+
 		cal_component_get_uid (event->comp, &u);
 		if (u && !strcmp (uid, u)) {
 			if (!(*callback) (week_view, event_num, data))
@@ -1409,7 +1409,7 @@ e_week_view_remove_event_cb (EWeekView *week_view,
 	   on_editing_stopped doesn't try to update the event. */
 	if (week_view->editing_event_num == event_num)
 		week_view->editing_event_num = -1;
-		
+
 	/* We leave the span elements in the array, but set the canvas item
 	   pointers to NULL. */
 	for (span_num = 0; span_num < event->num_spans; span_num++) {
@@ -1835,7 +1835,7 @@ e_week_view_reload_events (EWeekView *week_view)
 	    && g_date_valid (&week_view->first_day_shown)) {
 		num_days = week_view->multi_week_view
 			? week_view->weeks_shown * 7 : 7;
-		
+
 		cal_client_generate_instances (week_view->client,
 					       CALOBJ_TYPE_EVENT,
 					       week_view->day_starts[0],
@@ -2264,7 +2264,7 @@ e_week_view_reshape_event_span (EWeekView *week_view,
 	/* Create the text item if necessary. */
 	if (!span->text_item) {
 		CalComponentText text;
-		
+
 		cal_component_get_summary (comp, &text);
 		span->text_item =
 			gnome_canvas_item_new (GNOME_CANVAS_GROUP (GNOME_CANVAS (week_view->main_canvas)->root),
@@ -2433,7 +2433,7 @@ e_week_view_find_day (EWeekView *week_view,
 
 
 /* This returns the last day in the same span as the given day. A span is all
-   the days which are displayed next to each other from left to right. 
+   the days which are displayed next to each other from left to right.
    In the week view all spans are only 1 day, since Tuesday is below Monday
    rather than beside it etc. In the month view, if the weekends are not
    compressed then each week is a span, otherwise Monday to Saturday of each
@@ -2711,7 +2711,7 @@ e_week_view_on_editing_stopped (EWeekView *week_view,
 	gchar *text = NULL;
 	CalComponentText summary;
 	const char *uid;
-	
+
 	/* Note: the item we are passed here isn't reliable, so we just stop
 	   the edit of whatever item was being edited. We also receive this
 	   event twice for some reason. */
@@ -2752,7 +2752,7 @@ e_week_view_on_editing_stopped (EWeekView *week_view,
 	summary.value = text;
 	cal_component_set_summary (event->comp, &summary);
 	g_free (text);
-	
+
 	if (!cal_client_update_object (week_view->client, event->comp))
 		g_message ("e_week_view_on_editing_stopped(): Could not update the object!");
 }
@@ -2805,7 +2805,7 @@ e_week_view_find_event_from_uid (EWeekView	  *week_view,
 	num_events = week_view->events->len;
 	for (event_num = 0; event_num < num_events; event_num++) {
 		const char *u;
-		
+
 		event = &g_array_index (week_view->events, EWeekViewEvent,
 					event_num);
 
@@ -2858,7 +2858,7 @@ e_week_view_key_press (GtkWidget *widget, GdkEventKey *event)
 	struct icaltimetype itt;
 	time_t dtstart, dtend;
 	const char *uid;
-	
+
 	g_return_val_if_fail (widget != NULL, FALSE);
 	g_return_val_if_fail (E_IS_WEEK_VIEW (widget), FALSE);
 	g_return_val_if_fail (event != NULL, FALSE);
@@ -2896,7 +2896,7 @@ e_week_view_key_press (GtkWidget *widget, GdkEventKey *event)
 	cal_component_set_new_vtype (comp, CAL_COMPONENT_EVENT);
 	dtstart = week_view->day_starts[week_view->selection_start_day];
 	dtend = week_view->day_starts[week_view->selection_end_day + 1];
-	
+
 	date.value = &itt;
 	date.tzid = NULL;
 
@@ -2908,7 +2908,7 @@ e_week_view_key_press (GtkWidget *widget, GdkEventKey *event)
 	/* We add the event locally and start editing it. When we get the
 	   "update_event" callback from the server, we basically ignore it.
 	   If we were to wait for the "update_event" callback it wouldn't be
-	   as responsive and we may lose a few keystrokes. */ 
+	   as responsive and we may lose a few keystrokes. */
 	e_week_view_add_event (comp, dtstart, dtend, week_view);
 	e_week_view_check_layout (week_view);
 	gtk_widget_queue_draw (week_view->main_canvas);
@@ -2976,7 +2976,7 @@ e_week_view_show_popup_menu (EWeekView	     *week_view,
 		   We could possibly set up another method of checking it. */
 		not_being_edited = TRUE;
 
-		if (cal_component_has_rrules (event->comp) 
+		if (cal_component_has_rrules (event->comp)
 		    || cal_component_has_rdates (event->comp)) {
 			num_items = 6;
 			context_menu = &recur_child_items[0];
@@ -3010,7 +3010,7 @@ e_week_view_on_new_appointment (GtkWidget *widget, gpointer data)
 	CalComponentDateTime date;
 	struct icaltimetype itt;
 	time_t dt;
-	
+
 	week_view = E_WEEK_VIEW (data);
 
 	comp = cal_component_new ();
@@ -3060,7 +3060,7 @@ e_week_view_on_delete_occurrence (GtkWidget *widget, gpointer data)
 	CalComponent *comp;
 	CalComponentDateTime *date=NULL;
 	GSList *list;
-	
+
 	week_view = E_WEEK_VIEW (data);
 
 	if (week_view->popup_event_num == -1)
@@ -3071,7 +3071,7 @@ e_week_view_on_delete_occurrence (GtkWidget *widget, gpointer data)
 
 	/* We must duplicate the CalComponent, or we won't know it has changed
 	   when we get the "update_event" callback. */
-	
+
 	comp = cal_component_clone (event->comp);
 	cal_component_get_exdate_list (comp, &list);
 	list = g_slist_append (list, date);
@@ -3094,7 +3094,7 @@ e_week_view_on_delete_appointment (GtkWidget *widget, gpointer data)
 	EWeekView *week_view;
 	EWeekViewEvent *event;
 	const char *uid;
-	
+
 	week_view = E_WEEK_VIEW (data);
 
 	if (week_view->popup_event_num == -1)
@@ -3102,10 +3102,13 @@ e_week_view_on_delete_appointment (GtkWidget *widget, gpointer data)
 
 	event = &g_array_index (week_view->events, EWeekViewEvent,
 				week_view->popup_event_num);
-	
+
 	cal_component_get_uid (event->comp, &uid);
-	if (!cal_client_remove_object (week_view->client, uid))
-		g_message ("e_week_view_on_delete_appointment(): Could not remove the object!");
+
+	/* We don't check the return value; FALSE can mean the object was not in
+	 * the server anyways.
+	 */
+	cal_client_remove_object (week_view->client, uid);
 }
 
 
@@ -3120,15 +3123,15 @@ e_week_view_on_unrecur_appointment (GtkWidget *widget, gpointer data)
 	GSList *list;
 
 	week_view = E_WEEK_VIEW (data);
-	
+
 	if (week_view->popup_event_num == -1)
 		return;
 
 	event = &g_array_index (week_view->events, EWeekViewEvent,
 				week_view->popup_event_num);
-	
+
 	date.value = &itt;
-	date.tzid = NULL;	
+	date.tzid = NULL;
 
 	/* For the recurring object, we add a exception to get rid of the
 	   instance. */
@@ -3153,7 +3156,7 @@ e_week_view_on_unrecur_appointment (GtkWidget *widget, gpointer data)
 	cal_component_set_dtstart (new_comp, &date);
 	*date.value = icaltime_from_timet (event->end, TRUE, FALSE);
 	cal_component_set_dtend (new_comp, &date);
-	
+
 	/* Now update both CalComponents. Note that we do this last since at
 	   present the updates happen synchronously so our event may disappear.
 	*/

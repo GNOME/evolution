@@ -2670,8 +2670,11 @@ e_day_view_on_delete_appointment (GtkWidget *widget, gpointer data)
 		e_day_view_stop_editing_event (day_view);
 
 	cal_component_get_uid (event->comp, &uid);
-	if (!cal_client_remove_object (day_view->client, uid))
-		g_message ("e_day_view_on_delete_appointment(): Could not remove the object!");
+
+	/* We don't check the return value; FALSE can mean the object was not in
+	 * the server anyways.
+	 */
+	cal_client_remove_object (day_view->client, uid);
 }
 
 

@@ -88,7 +88,6 @@ gboolean cal_client_is_loaded (CalClient *client);
 
 int cal_client_get_n_objects (CalClient *client, CalObjType type);
 
-gboolean cal_client_object_exists (CalClient *client, const char *uid);
 CalClientGetStatus cal_client_get_object (CalClient *client,
 					  const char *uid,
 					  CalComponent **comp);

@@ -1763,8 +1763,10 @@ calendar_model_delete_task (CalendarModel *model,
 
 	cal_component_get_uid (comp, &uid);
 
-	if (!cal_client_remove_object (priv->client, uid))
-		g_message ("calendar_model_delete_task(): Could not remove the object!");
+	/* We don't check the return value; FALSE can mean the object was not in
+	 * the server anyways.
+	 */
+	cal_client_remove_object (priv->client, uid);
 }
 
 

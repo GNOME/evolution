@@ -198,6 +198,23 @@ event_editor_init (EventEditor *ee)
 	ee->priv = priv;
 }
 
+/* Frees the rows and the row data in the recurrence exceptions GtkCList */
+static void
+free_exception_clist_data (GtkCList *clist)
+{
+	int i;
+
+	for (i = 0; i < clist->rows; i++) {
+		gpointer data;
+
+		data = gtk_clist_get_row_data (clist, i);
+		g_free (data);
+		gtk_clist_set_row_data (clist, i, NULL);
+	}
+
+	gtk_clist_clear (clist);
+}
+
 /* Destroy handler for the event editor */
 static void
 event_editor_destroy (GtkObject *object)
@@ -216,6 +233,8 @@ event_editor_destroy (GtkObject *object)
 		priv->uih = NULL;
 	}
 
+	free_exception_clist_data (GTK_CLIST (priv->recurrence_exceptions_list));
+
 	if (priv->app) {
 		gtk_signal_disconnect_by_data (GTK_OBJECT (priv->app), ee);
 		gtk_widget_destroy (priv->app);
@@ -225,6 +244,12 @@ event_editor_destroy (GtkObject *object)
 	if (priv->comp) {
 		gtk_object_unref (GTK_OBJECT (priv->comp));
 		priv->comp = NULL;
+	}
+
+	if (priv->client) {
+		gtk_signal_disconnect_by_data (GTK_OBJECT (priv->client), ee);
+		gtk_object_unref (GTK_OBJECT (priv->client));
+		priv->client = NULL;
 	}
 
 	if (priv->xml) {
@@ -454,23 +479,6 @@ recur_options_get (GtkWidget *widget)
 
 static const int month_pos_map[] = { 0, 1, 2, 3, 4, -1 };
 static const int weekday_map[] = { 0, 1, 2, 3, 4, 5, 6, -1 };
-
-/* Frees the rows and the row data in the recurrence exceptions GtkCList */
-static void
-free_exception_clist_data (GtkCList *clist)
-{
-	int i;
-
-	for (i = 0; i < clist->rows; i++) {
-		gpointer data;
-
-		data = gtk_clist_get_row_data (clist, i);
-		g_free (data);
-		gtk_clist_set_row_data (clist, i, NULL);
-	}
-
-	gtk_clist_clear (clist);
-}
 
 /* Hooks the widget signals */
 static void
@@ -1084,23 +1092,6 @@ close_dialog (EventEditor *ee)
 
 	g_assert (priv->app != NULL);
 
-	free_exception_clist_data (GTK_CLIST (priv->recurrence_exceptions_list));
-
-	gtk_widget_destroy (priv->app);
-	priv->app = NULL;
-
-	if (priv->comp) {
-		gtk_object_unref (GTK_OBJECT (priv->comp));
-		priv->comp = NULL;
-	}
-
-	if (priv->client) {
-		gtk_signal_disconnect_by_data (GTK_OBJECT (priv->client), ee);
-		gtk_object_unref (GTK_OBJECT (priv->client));
-		priv->client = NULL;
-	}
-
-
 	gtk_object_destroy (GTK_OBJECT (ee));
 }
 
@@ -1133,9 +1124,11 @@ file_delete_cb (GtkWidget *widget, gpointer data)
 	g_return_if_fail (priv->comp);
 
 	cal_component_get_uid (priv->comp, &uid);
-	if (cal_client_object_exists (priv->client, uid))
-		if (!cal_client_remove_object (priv->client, uid))
-			g_message ("file_delete_cb (): Could not remove the object!");
+
+	/* We don't check the return value; FALSE can mean the object was not in
+	 * the server anyways.
+	 */
+	cal_client_remove_object (priv->client, uid);
 
 	close_dialog (ee);
 }

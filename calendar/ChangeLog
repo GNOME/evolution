@@ -1,3 +1,22 @@
+2000-08-31  Federico Mena Quintero  <federico@helixcode.com>
+
+	* gui/event-editor.c (file_delete_cb): No need to spit a warning
+	if removal fails.
+	(event_editor_destroy): Free the exception clist data.  Unref the
+	calendar client here.
+	(close_dialog): Just call gtk_object_destroy() on the event
+	editor; the destroy handler will free everything else.
+
+	* cal-client/cal-client.c (cal_client_object_exists): Removed
+	function; this is not useful because we operate asynchronously.
+
+	* gui/e-day-view.c (e_day_view_on_delete_appointment): No need to
+	spit a warning if removal fails.
+
+	* gui/e-week-view.c (e_week_view_on_delete_appointment): Likewise.
+
+	* gui/calendar-model.c (calendar_model_delete_task): Likewise.
+
 2000-08-31  JP Rosevear  <jpr@helixcode.com>
 
 	* gui/event-editor.c (file_delete_cb): Implement delete option
