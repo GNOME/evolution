@@ -24,7 +24,7 @@
  * USA
  */
 
-
+#include <ctype.h>
 #include "glib.h"
 #include "hash-table-utils.h"
 
