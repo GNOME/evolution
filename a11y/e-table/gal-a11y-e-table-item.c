@@ -38,6 +38,7 @@ struct _GalA11yETableItemPrivate {
 	gpointer *cell_data;
 	int selection_change_id;
 	int cursor_change_id;
+	ETableCol ** columns;
 };
 
 #if 0
@@ -89,6 +90,11 @@ eti_dispose (GObject *object)
 	if ( priv->cell_data != NULL ) {
 		g_free(priv->cell_data);
 		priv->cell_data = NULL;
+	}
+
+	if (priv->columns) {
+		g_free(priv->columns);
+		priv->columns = NULL;
 	}
 
 	if (parent_class->dispose)
@@ -706,6 +712,150 @@ eti_rows_deleted (ETableModel * model, int row, int count,
 	g_signal_emit_by_name (table_item, "visible-data-changed");
 }
 
+enum {
+        ETI_HEADER_UNCHANGED = 0,
+        ETI_HEADER_REORDERED,
+        ETI_HEADER_NEW_ADDED,
+        ETI_HEADER_REMOVED,
+};
+                                                                                
+/*
+ * 1. Check what actually happened: column reorder, remove or add
+ * 2. Update cache
+ * 3. Emit signals
+ */
+static void
+eti_header_structure_changed (ETableHeader *eth, AtkObject *a11y)
+{
+                                                                                
+        gboolean reorder_found=FALSE, added_found=FALSE, removed_found=FALSE;
+        GalA11yETableItem * a11y_item;
+        ETableCol ** cols, **prev_cols;
+        GalA11yETableItemPrivate *priv;
+        gint *state = NULL, *prev_state = NULL, *reorder = NULL;
+        gint i,j,n_rows,n_cols, prev_n_cols;
+        gpointer * cell_data, * tmp;
+                                                                                
+        a11y_item = GAL_A11Y_E_TABLE_ITEM (a11y);
+        priv = GET_PRIVATE (a11y_item);
+                                                                                
+	g_return_if_fail (priv && priv->cell_data);
+	cell_data = priv->cell_data ;
+
+	/* Assume rows do not changed. */
+        n_rows = priv->rows;
+
+        prev_n_cols = priv->cols;
+        prev_cols = priv->columns;
+
+        cols = e_table_header_get_columns (eth);
+	n_cols = eth->col_count;
+                                                                                
+        g_return_if_fail (cols && prev_cols && n_cols > 0);
+                                                                                
+        /* Init to ETI_HEADER_UNCHANGED. */
+        state = g_malloc0 (sizeof (gint) * n_cols);
+        prev_state = g_malloc0 (sizeof (gint) * prev_n_cols);
+        reorder = g_malloc0 (sizeof (gint) * n_cols);
+
+        /* Compare with previously saved column headers. */
+        for ( i = 0 ; i < n_cols && cols[i]; i ++ ) {
+                for ( j = 0 ; j < prev_n_cols && prev_cols[j]; j ++ ) {
+                        if ( prev_cols [j] == cols[i] && i != j ) {
+
+                                reorder_found = TRUE;
+                                state [i] = ETI_HEADER_REORDERED;
+				reorder [i] = j;
+
+                                break;
+                        } else if (prev_cols[j] == cols[i]) {
+                                /* OK, this column is not changed. */
+                                break;
+                        }
+                }
+                                                                                
+                /* cols[i] is new added column. */
+                if ( j == prev_n_cols ) {
+			gint row;
+
+			added_found = TRUE;
+                        state[i] = ETI_HEADER_NEW_ADDED;
+                }
+        }
+
+        /* Now try to find if there are removed columns. */
+        for (i = 0 ; i < prev_n_cols && prev_cols[i]; i ++) {
+                for (j = 0 ; j < n_cols && cols[j]; j ++)
+                        if ( prev_cols [j] == cols[i] )
+				break;
+                                                                                
+                /* Removed columns found. */
+                if ( j == n_cols ) {
+			removed_found = TRUE;
+			prev_state[j] = ETI_HEADER_REMOVED;
+                }
+        }
+
+	/* If nothing interesting just return. */
+	if (!reorder_found && !added_found && !removed_found)
+		return;
+
+	/* Now update our cache. */
+	tmp = g_malloc0 (n_rows*n_cols*sizeof(gpointer));
+	g_return_if_fail (tmp);
+
+	for (i = 0 ; i < n_rows; i ++) {
+		for ( j = 0 ; j < n_cols; j ++ ) {
+			if ( state[j] == ETI_HEADER_REORDERED ) {
+				tmp [i*n_cols+j] = cell_data[i*prev_n_cols+reorder[j]];
+				if (tmp[i*n_cols+j] &&  ATK_IS_OBJECT(tmp[i*n_cols+j])) {
+					GAL_A11Y_E_CELL(tmp[i*n_cols+j])->view_col = j;
+				}
+			} else if (state[j] == ETI_HEADER_UNCHANGED) {
+				tmp [i*n_cols+j] = cell_data[i*prev_n_cols+j];
+			} /* else: new added, keep NULL. */
+		}
+	}
+
+	g_free (cell_data);
+	priv->cell_data = tmp;
+
+	/* Emit signals */
+	if (reorder_found)
+        	g_signal_emit_by_name (G_OBJECT(a11y_item), "column_reordered");
+
+
+	if (removed_found) {
+		for (i = 0; i < prev_n_cols; i ++ ) {
+			if (prev_state[i] == ETI_HEADER_REMOVED) {
+				g_signal_emit_by_name (G_OBJECT(a11y_item), "column-deleted", i, 1);
+				for (j = 0 ; j < n_rows; j ++)
+					g_signal_emit_by_name (G_OBJECT(a11y_item), "children_changed::remove", (j*prev_n_cols+i), NULL, NULL);
+			}
+		}
+	}
+
+	if (added_found) {
+		for ( i = 0; i < n_cols; i ++ ) {
+			if (state[i] == ETI_HEADER_NEW_ADDED) {
+				g_signal_emit_by_name (G_OBJECT(a11y_item), "column-inserted", i, 1);
+				for (j = 0 ; j < n_rows; j ++)
+					g_signal_emit_by_name (G_OBJECT(a11y_item), "children_changed::add", (j*n_cols+i), NULL, NULL);
+			}
+		}
+	}
+
+	priv->cols = n_cols;
+
+	g_free (state);
+	g_free (reorder);
+	g_free (prev_state);
+
+	g_free (priv->columns);
+	priv->columns = cols;
+}
+
+
 static void
 eti_real_initialize (AtkObject *obj, 
 		     gpointer data)
@@ -724,6 +874,9 @@ eti_real_initialize (AtkObject *obj,
 	g_signal_connect (model, "model-rows-deleted",
 			  G_CALLBACK (eti_rows_deleted),
 			  obj);
+	g_signal_connect (G_OBJECT (eti->header), "structure_change",
+			  G_CALLBACK (eti_header_structure_changed), obj);
+
 }
 
 static void
@@ -868,6 +1021,10 @@ gal_a11y_e_table_item_new (AtkObject *parent,
 	/* memory error. */
 	if ( GET_PRIVATE (a11y) == NULL)
 		return NULL;
+
+        GET_PRIVATE (a11y)->columns = e_table_header_get_columns (item->header);                                                                                
+        if ( GET_PRIVATE (a11y)->columns == NULL)
+                return NULL;
 
 	if (item) {
 		g_signal_connect (G_OBJECT(item), "selection_model_removed",
