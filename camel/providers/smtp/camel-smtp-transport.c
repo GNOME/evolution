@@ -1063,8 +1063,8 @@ smtp_auth (CamelSmtpTransport *transport, const char *mech, CamelException *ex)
 		broken_smtp_server:
 			d(fprintf (stderr, "Your SMTP server's implementation of the %s SASL\n"
 				   "authentication mechanism is broken. Please report this to the\n"
-				   "appropriate vendor and suggest that they re-read rfc2222 again\n"
-				   "for the first time (specifically Section 4, paragraph 2).\n",
+				   "appropriate vendor and suggest that they re-read rfc2554 again\n"
+				   "for the first time (specifically Section 4).\n",
 				   mech));
 		}
 		
