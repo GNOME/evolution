@@ -573,6 +573,8 @@ pgp_sign (CamelCipherContext *ctx, const char *userid, CamelCipherHash hash,
 		}
 		
 		argv[i++] = "--verbose";
+		argv[i++] = "--no-secmem-warning";
+		argv[i++] = "--no-greeting";
 		argv[i++] = "--yes";
 		argv[i++] = "--batch";
 		
@@ -745,6 +747,8 @@ pgp_clearsign (CamelCipherContext *ctx, const char *userid, CamelCipherHash hash
 		}
 		
 		argv[i++] = "--verbose";
+		argv[i++] = "--no-secmem-warning";
+		argv[i++] = "--no-greeting";
 		argv[i++] = "--yes";
 		argv[i++] = "--batch";
 		
@@ -913,6 +917,8 @@ pgp_verify (CamelCipherContext *ctx, CamelCipherHash hash, CamelStream *istream,
 		argv[i++] = "gpg";
 		
 		argv[i++] = "--verbose";
+		argv[i++] = "--no-secmem-warning";
+		argv[i++] = "--no-greeting";
 		argv[i++] = "--yes";
 		argv[i++] = "--batch";
 		
@@ -1105,6 +1111,8 @@ pgp_encrypt (CamelCipherContext *ctx, gboolean sign, const char *userid, GPtrArr
 		g_ptr_array_add (argv, "gpg");
 		
 		g_ptr_array_add (argv, "--verbose");
+		g_ptr_array_add (argv, "--no-secmem-warning");
+		g_ptr_array_add (argv, "--no-greeting");
 		g_ptr_array_add (argv, "--yes");
 		g_ptr_array_add (argv, "--batch");
 		
@@ -1278,7 +1286,10 @@ pgp_decrypt (CamelCipherContext *ctx, CamelStream *istream,
 	switch (context->priv->type) {
 	case CAMEL_PGP_TYPE_GPG:
 		argv[i++] = "gpg";
+		
 		argv[i++] = "--verbose";
+		argv[i++] = "--no-secmem-warning";
+		argv[i++] = "--no-greeting";
 		argv[i++] = "--yes";
 		argv[i++] = "--batch";
 		
