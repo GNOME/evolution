@@ -5,8 +5,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: E-volution\n"
-"POT-Creation-Date: 2000-12-18 17:49+0300\n"
-"PO-Revision-Date: 2000-12-18 17:56+03:00\n"
+"POT-Creation-Date: 2000-12-21 12:06+0300\n"
+"PO-Revision-Date: 2000-12-21 12:07+03:00\n"
 "Last-Translator: Valek Filippov <frob@df.ru>\n"
 "Language-Team: Russian <ru@li.org>\n"
 "MIME-Version: 1.0\n"
@@ -285,10 +285,10 @@ msgstr ""
 #: addressbook/backend/ebook/load-pine-addressbook.c:17
 #: addressbook/backend/ebook/test-client-list.c:18
 #: addressbook/backend/ebook/test-client.c:29
-#: addressbook/conduit/address-conduit.c:991
+#: addressbook/conduit/address-conduit.c:1020
 #: addressbook/gui/component/addressbook-factory.c:38
-#: calendar/conduits/calendar/calendar-conduit.c:1136
-#: calendar/conduits/todo/todo-conduit.c:945 calendar/gui/main.c:54
+#: calendar/conduits/calendar/calendar-conduit.c:1151
+#: calendar/conduits/todo/todo-conduit.c:966 calendar/gui/main.c:53
 msgid "Could not initialize Bonobo"
 msgstr "Не удалось инициализировать Bonobo"
 
@@ -411,28 +411,28 @@ msgstr ""
 "При попытке получить список Пилотов\n"
 "от демона gnome-pilot возникла ошибка"
 
-#: addressbook/conduit/address-conduit.c:197
+#: addressbook/conduit/address-conduit.c:191
 msgid "Cursor could not be loaded\n"
 msgstr "Курсор не может быть загружен\n"
 
-#: addressbook/conduit/address-conduit.c:210
+#: addressbook/conduit/address-conduit.c:204
 msgid "EBook not loaded\n"
 msgstr "EBook не загружена\n"
 
-#: addressbook/conduit/address-conduit.c:583
-#: calendar/conduits/calendar/calendar-conduit.c:715
-#: calendar/conduits/todo/todo-conduit.c:523
+#: addressbook/conduit/address-conduit.c:604
+#: calendar/conduits/calendar/calendar-conduit.c:730
+#: calendar/conduits/todo/todo-conduit.c:545
 msgid "Could not start wombat server"
 msgstr "Не удалось запустить сервер wombat"
 
-#: addressbook/conduit/address-conduit.c:584
-#: calendar/conduits/calendar/calendar-conduit.c:716
-#: calendar/conduits/todo/todo-conduit.c:524
+#: addressbook/conduit/address-conduit.c:605
+#: calendar/conduits/calendar/calendar-conduit.c:731
+#: calendar/conduits/todo/todo-conduit.c:546
 msgid "Could not start wombat"
 msgstr "Не удалось запустить wombat"
 
-#: addressbook/conduit/address-conduit.c:616
-#: addressbook/conduit/address-conduit.c:619
+#: addressbook/conduit/address-conduit.c:637
+#: addressbook/conduit/address-conduit.c:640
 msgid "Could not read pilot's Address application block"
 msgstr "Невозможно прочесть блок приложения адресов Пилота"
 
@@ -960,7 +960,7 @@ msgstr "f"
 msgid "g"
 msgstr "g"
 
-#: calendar/cal-util/timeutil.c:66 po/tmp/alphabet.glade.h:14
+#: po/tmp/alphabet.glade.h:14
 msgid "h"
 msgstr "h"
 
@@ -1036,7 +1036,7 @@ msgstr "y"
 msgid "z"
 msgstr "z"
 
-#: addressbook/gui/widgets/e-addressbook-view.c:417
+#: addressbook/gui/widgets/e-addressbook-view.c:451
 #: addressbook/gui/widgets/e-minicard.c:338
 msgid "Save as VCard"
 msgstr "Сохранить как VCard"
@@ -1231,18 +1231,6 @@ msgstr "Ширина:"
 msgid "label26"
 msgstr "метка26"
 
-#. String to use in 12-hour time format for times in the morning.
-#: calendar/cal-util/timeutil.c:64 calendar/gui/e-day-view.c:551
-#: calendar/gui/e-week-view.c:288 calendar/gui/print.c:605
-msgid "am"
-msgstr "д.п."
-
-#. String to use in 12-hour time format for times in the afternoon.
-#: calendar/cal-util/timeutil.c:64 calendar/gui/e-day-view.c:554
-#: calendar/gui/e-week-view.c:291 calendar/gui/print.c:604
-msgid "pm"
-msgstr "п.п."
-
 #: calendar/conduits/calendar/calendar-conduit-control-applet.c:127
 msgid "Evolution Calendar Conduit"
 msgstr "Кондуит календаря Evolution"
@@ -1251,13 +1239,13 @@ msgstr "Кондуит календаря Evolution"
 msgid "Configuration utility for the evolution calendar conduit.\n"
 msgstr "Средство настройки для кондуита календаря Evolution.\n"
 
-#: calendar/conduits/calendar/calendar-conduit.c:671
-#: calendar/conduits/todo/todo-conduit.c:479
+#: calendar/conduits/calendar/calendar-conduit.c:686
+#: calendar/conduits/todo/todo-conduit.c:501
 msgid "Error while communicating with calendar server"
 msgstr "Ошибка при подключении к серверу календаря"
 
-#: calendar/conduits/calendar/calendar-conduit.c:770
-#: calendar/conduits/calendar/calendar-conduit.c:773
+#: calendar/conduits/calendar/calendar-conduit.c:785
+#: calendar/conduits/calendar/calendar-conduit.c:788
 msgid "Could not read pilot's Calendar application block"
 msgstr "Невозможно прочесть блок приложения календарь Пилота"
 
@@ -1269,8 +1257,8 @@ msgstr "Кондуит заданий Evolution"
 msgid "Configuration utility for the evolution todo conduit.\n"
 msgstr "Средство настройки для кондуита заданий Evolution.\n"
 
-#: calendar/conduits/todo/todo-conduit.c:578
-#: calendar/conduits/todo/todo-conduit.c:581
+#: calendar/conduits/todo/todo-conduit.c:600
+#: calendar/conduits/todo/todo-conduit.c:603
 msgid "Could not read pilot's ToDo application block"
 msgstr "Невозможно прочесть блок приложения заданий Пилота"
 
@@ -1474,7 +1462,7 @@ msgstr "Закрыть"
 msgid "Edit appointment"
 msgstr "Правка встречи"
 
-#: calendar/gui/gnome-cal.c:1466 po/tmp/alarm-notify.glade.h:8
+#: calendar/gui/gnome-cal.c:1476 po/tmp/alarm-notify.glade.h:8
 msgid "Snooze"
 msgstr "Короткий сон"
 
@@ -1910,6 +1898,18 @@ msgstr "%a %d %b"
 msgid "%d %b"
 msgstr "%d %b"
 
+#. String to use in 12-hour time format for times in the morning.
+#: calendar/gui/e-day-view.c:551 calendar/gui/e-week-view.c:288
+#: calendar/gui/print.c:605
+msgid "am"
+msgstr "д.п."
+
+#. String to use in 12-hour time format for times in the afternoon.
+#: calendar/gui/e-day-view.c:554 calendar/gui/e-week-view.c:291
+#: calendar/gui/print.c:604
+msgid "pm"
+msgstr "п.п."
+
 #: calendar/gui/e-day-view.c:2944 calendar/gui/e-day-view.c:2951
 #: calendar/gui/e-day-view.c:2960 calendar/gui/e-week-view.c:3167
 #: calendar/gui/e-week-view.c:3174 calendar/gui/e-week-view.c:3183
@@ -2140,28 +2140,28 @@ msgstr ""
 msgid "%a %b %d %Y"
 msgstr "%a %b %d %Y"
 
-#: calendar/gui/gnome-cal.c:718 calendar/gui/gnome-cal.c:1474
-#: calendar/gui/gnome-cal.c:1530
+#: calendar/gui/gnome-cal.c:720 calendar/gui/gnome-cal.c:1484
+#: calendar/gui/gnome-cal.c:1540
 msgid "Reminder of your appointment at "
 msgstr "Напоминание о вашей встрече в "
 
-#: calendar/gui/gnome-cal.c:1152
+#: calendar/gui/gnome-cal.c:1158
 #, c-format
 msgid "Could not load the calendar in `%s'"
 msgstr "Невозможно загрузить календарь в \"%s\""
 
-#: calendar/gui/gnome-cal.c:1163
+#: calendar/gui/gnome-cal.c:1169
 #, c-format
 msgid "Could not create a calendar in `%s'"
 msgstr "Не удалось создать календарь в \"%s\""
 
-#: calendar/gui/gnome-cal.c:1174
+#: calendar/gui/gnome-cal.c:1180
 #, c-format
 msgid "The method required to load `%s' is not supported"
 msgstr "Метод необходимый для загрузки \"%s\" не поддерживается"
 
 #. Idea: we need Snooze option :-)
-#: calendar/gui/gnome-cal.c:1479 calendar/gui/gnome-cal.c:1534
+#: calendar/gui/gnome-cal.c:1489 calendar/gui/gnome-cal.c:1544
 #: mail/mail-search-dialogue.c:104
 msgid "Ok"
 msgstr "Ок"
@@ -2188,6 +2188,10 @@ msgstr ""
 #: calendar/gui/goto.c:318
 msgid "Go to today"
 msgstr "Перейти к сегодняшнему дню"
+
+#: calendar/gui/main.c:48
+msgid "Could not initialize GNOME"
+msgstr "Не удалось инициализировать GNOME"
 
 #: calendar/gui/print.c:288
 msgid "1st"
@@ -2564,40 +2568,40 @@ msgstr ""
 msgid "Bad authentication response from server."
 msgstr "Отрицательный ответ идентификации от сервера."
 
-#: camel/providers/imap/camel-imap-command.c:216
+#: camel/providers/imap/camel-imap-command.c:226
 #, c-format
 msgid "Unexpected response from IMAP server: %s"
 msgstr "Неожиданный ответ от сервера IMAP: %s"
 
-#: camel/providers/imap/camel-imap-command.c:224
+#: camel/providers/imap/camel-imap-command.c:234
 #, c-format
 msgid "IMAP command failed: %s"
 msgstr "Сбой команды IMAP: %s"
 
-#: camel/providers/imap/camel-imap-command.c:225 shell/e-storage.c:411
+#: camel/providers/imap/camel-imap-command.c:235 shell/e-storage.c:411
 msgid "Unknown error"
 msgstr "Неизвестная ошибка"
 
-#: camel/providers/imap/camel-imap-command.c:271
+#: camel/providers/imap/camel-imap-command.c:281
 msgid "Server response ended too soon."
 msgstr "Ответ сервера закончился слишком рано."
 
-#: camel/providers/imap/camel-imap-command.c:407
+#: camel/providers/imap/camel-imap-command.c:417
 #, c-format
 msgid "IMAP server response did not contain %s information"
 msgstr "Ответ IMAP сервера не содержит информации об %s"
 
-#: camel/providers/imap/camel-imap-command.c:443
+#: camel/providers/imap/camel-imap-command.c:453
 #, c-format
 msgid "Unexpected OK response from IMAP server: %s"
 msgstr "Неожиданный ответ \"OK\" от IMAP сервера: %s"
 
-#: camel/providers/imap/camel-imap-folder.c:216
+#: camel/providers/imap/camel-imap-folder.c:217
 #, c-format
 msgid "Could not load summary for %s"
 msgstr "Невозможно загрузить итог для %s"
 
-#: camel/providers/imap/camel-imap-folder.c:586
+#: camel/providers/imap/camel-imap-folder.c:574
 msgid "Could not find message body in FETCH response."
 msgstr "Невозможно найти тело сообщения в ответе FETCH."
 
@@ -3637,35 +3641,35 @@ msgstr "Сбой выполнения поиска рег.выражения в заголовке сообщения: %s"
 msgid "Test"
 msgstr "Проверка"
 
-#: filter/filter-rule.c:520
+#: filter/filter-rule.c:522
 msgid "Rule name: "
 msgstr "Название фильтра: "
 
-#: filter/filter-rule.c:524
+#: filter/filter-rule.c:526
 msgid "Untitled"
 msgstr "Неозаглавленное"
 
-#: filter/filter-rule.c:540
+#: filter/filter-rule.c:542
 msgid "If"
 msgstr "Если"
 
-#: filter/filter-rule.c:557
+#: filter/filter-rule.c:559
 msgid "Execute actions"
 msgstr "Выполнить действия"
 
-#: filter/filter-rule.c:561
+#: filter/filter-rule.c:563
 msgid "if all criteria are met"
 msgstr "если удовлетворяет всем критериям"
 
-#: filter/filter-rule.c:566
+#: filter/filter-rule.c:568
 msgid "if any criteria are met"
 msgstr "если удовлетворяет любому из критериев"
 
-#: filter/filter-rule.c:577
+#: filter/filter-rule.c:579
 msgid "Add criterion"
 msgstr "Добавить критерий"
 
-#: filter/filter-rule.c:583
+#: filter/filter-rule.c:585
 msgid "Remove criterion"
 msgstr "Удалить критерий"
 
@@ -4524,31 +4528,31 @@ msgstr "Зашифрованное сообщение"
 msgid "Click icon to decrypt."
 msgstr "Щелкните на пиктограмме для дешифрации."
 
-#: mail/mail-format.c:1442
+#: mail/mail-format.c:1450
 #, c-format
 msgid "Pointer to FTP site (%s)"
 msgstr "Указатель на FTP сайт (%s)"
 
-#: mail/mail-format.c:1454
+#: mail/mail-format.c:1462
 #, c-format
 msgid "Pointer to local file (%s) valid at site \"%s\""
 msgstr ""
 
-#: mail/mail-format.c:1458
+#: mail/mail-format.c:1466
 #, c-format
 msgid "Pointer to local file (%s)"
 msgstr "Указатель на локальный файл (%s)"
 
-#: mail/mail-format.c:1492
+#: mail/mail-format.c:1500
 #, c-format
 msgid "Pointer to unknown external data (\"%s\" type)"
 msgstr "Указатель на неизвестные внешние данные (типа \"%s\")"
 
-#: mail/mail-format.c:1497
+#: mail/mail-format.c:1505
 msgid "Malformed external-body part."
 msgstr ""
 
-#: mail/mail-format.c:1667
+#: mail/mail-format.c:1675
 #, c-format
 msgid "On %s, %s wrote:\n"
 msgstr "%s, %s написал:\n"
@@ -5045,11 +5049,11 @@ msgstr "%s, и т.д."
 msgid "<unknown>"
 msgstr "<неизвестное>"
 
-#: mail/message-list.c:2252
+#: mail/message-list.c:2253
 msgid "Rebuilding message view"
 msgstr "Перестроение окна сообщения"
 
-#: mail/message-list.c:2254
+#: mail/message-list.c:2255
 msgid "Rebuild message view"
 msgstr "Перестроить окно сообщения"
 
@@ -5622,8 +5626,8 @@ msgid "_Print this calendar"
 msgstr "Напечатать этот календарь"
 
 #: po/tmp/evolution-calendar.xml.h:35
-msgid "_Save Calendar As"
-msgstr "Сохранить календарь как"
+msgid "_Save As..."
+msgstr "Сохранить как..."
 
 #: po/tmp/evolution-contact-editor.xml.h:7
 msgid "Delete this item"
