@@ -104,6 +104,8 @@ void	   gnome_calendar_set_selected_time_range (GnomeCalendar *gcal,
 void       gnome_calendar_edit_object           (GnomeCalendar *gcal,
 						 CalComponent  *comp);
 
+void       gnome_calendar_new_appointment       (GnomeCalendar *gcal);
+
 /* Returns the selected time range for the current view. Note that this may be
    different from the fields in the GnomeCalendar, since the view may clip
    this or choose a more appropriate time. */

@@ -1,6 +1,15 @@
 2000-08-10  Federico Mena Quintero  <federico@helixcode.com>
 
+	* gui/gnome-cal.c (gnome_calendar_new_appointment): New function.
+	Mostly moved over from calendar-commands.c:display_objedit().
+
 	* gui/calendar-commands.c (calendar_iterate): Removed.  Wheee!
+	(display_objedit): Removed.
+	(new_appointment_cb): New function.  Just call
+	gnome_calendar_new_appointment().
+	(display_objedit_today): Removed.
+	(calendar_control_activate): Removed the "New appointment for
+	today" option, since it is pretty useless.
 
 2000-08-10  Federico Mena Quintero  <federico@helixcode.com>
 

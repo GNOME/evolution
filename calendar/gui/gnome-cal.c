@@ -1361,6 +1361,43 @@ gnome_calendar_edit_object (GnomeCalendar *gcal, iCalObject *ico)
 	event_editor_focus (ee);
 }
 
+/**
+ * gnome_calendar_new_appointment:
+ * @gcal: An Evolution calendar.
+ * 
+ * Opens an event editor dialog for a new appointment.  The appointment's start
+ * and end times are set to the currently selected time range in the calendar
+ * views.
+ **/
+void
+gnome_calendar_new_appointment (GnomeCalendar *gcal)
+{
+	CalComponent *comp;
+	time_t dtstart, dtend;
+	CalComponentDateTime dt;
+	struct icaltimetype itt;
+
+	g_return_if_fail (gcal != NULL);
+	g_return_if_fail (GNOME_IS_CALENDAR (gcal));
+
+	gnome_calendar_get_current_time_range (gcal, dtstart, dtend);
+	dt.value = &itt;
+	dt.tzid = NULL;
+
+	comp = cal_component_new ();
+	cal_component_set_new_vtype (comp, CAL_COMPONENT_EVENT);
+
+	itt = icaltimetype_from_timet (dtstart);
+	cal_component_set_dtstart (comp, &dt);
+
+	itt = icaltimetype_from_timet (dtend);
+	cal_component_set_dtend (comp, &dt);
+
+	gnome_calendar_edit_object (gcal, comp);
+	gtk_object_unref (GTK_OBJECT (comp));
+	
+}
+
 /* Returns the selected time range for the current view. Note that this may be
    different from the fields in the GnomeCalendar, since the view may clip
    this or choose a more appropriate time. */

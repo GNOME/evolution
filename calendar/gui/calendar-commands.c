@@ -28,7 +28,10 @@
 #include "workweekview.xpm"
 #include "weekview.xpm"
 #include "monthview.xpm"
+
+#if 0
 #include "yearview.xpm"
+#endif
 
 /* The username, used to set the `owner' field of the event */
 char *user_name;
@@ -121,7 +124,7 @@ init_default_alarms (void)
 	alarm_defaults [ALARM_AUDIO].type   = ALARM_AUDIO;
 	alarm_defaults [ALARM_PROGRAM].type = ALARM_PROGRAM;
 	alarm_defaults [ALARM_MAIL].type    = ALARM_MAIL;
-	
+
 	for (i = 0; i < 4; i++) {
 		switch (alarm_defaults [i].type) {
 		case ALARM_DISPLAY:
@@ -137,7 +140,7 @@ init_default_alarms (void)
 			gnome_config_push_prefix ("/calendar/alarms/def_mail_");
 			break;
 		}
-		
+
 		alarm_defaults[i].enabled = gnome_config_get_int ("enabled=0");
 		if (alarm_defaults[i].type != ALARM_MAIL) {
 			alarm_defaults[i].count   = gnome_config_get_int ("count=15");
@@ -146,7 +149,7 @@ init_default_alarms (void)
 			alarm_defaults[i].count   = gnome_config_get_int ("count=1");
 			alarm_defaults[i].count   = gnome_config_get_int ("count=2");
 		}
-		
+
 		alarm_defaults[i].data = gnome_config_get_string_with_default ("data=",
 									       &def);
 		if (def)
@@ -156,7 +159,7 @@ init_default_alarms (void)
 	}
 }
 #endif
-	
+
 static void
 about_calendar_cmd (BonoboUIHandler *uih, void *user_data, const char *path)
 {
@@ -179,58 +182,14 @@ about_calendar_cmd (BonoboUIHandler *uih, void *user_data, const char *path)
         gtk_widget_show (about);
 }
 
+/* Callback for the new appointment command */
 static void
-display_objedit (BonoboUIHandler *uih, void *user_data, const char *path)
+new_appointment_cb (BonoboUIHandler *uih, void *user_data, const char *path)
 {
 	GnomeCalendar *gcal;
-	CalComponent *comp;
-	time_t dtstart, dtend;
-	CalComponentDateTime dt;
-	struct icaltimetype itt;
 
 	gcal = GNOME_CALENDAR (user_data);
-
-	gnome_calendar_get_current_time_range (gcal, dtstart, dtend);
-	dt.value = &itt;
-	dt.tzid = NULL;
-
-	comp = cal_component_new ();
-	cal_component_set_new_vtype (comp, CAL_COMPONENT_EVENT);
-
-	itt = icaltimetype_from_timet (dtstart);
-	cal_component_set_dtstart (comp, &dt);
-
-	itt = icaltimetype_from_timet (dtend);
-	cal_component_set_dtend (comp, &dt);
-
-	gnome_calendar_edit_object (gcal, comp);
-	gtk_object_unref (GTK_OBJECT (comp));
-}
-
-static void
-display_objedit_today (BonoboUIHandler *uih, void *user_data, const char *path)
-{
-	GnomeCalendar *gcal;
-	iCalObject *ico;
-	struct tm tm;
-
-	gcal = GNOME_CALENDAR (user_data);
-
-	ico = ical_new ("", user_name, "");
-	ico->new = TRUE;
-	ico->dtstart = time (NULL);
-
-	tm = *localtime (&ico->dtstart);
-	tm.tm_hour++;
-	ico->dtend = mktime (&tm);
-	if (ico->dtend == -1) {
-		g_message ("display_objedit_today(): mktime() generated -1 invalid time!");
-		ical_object_unref (ico);
-		return;
-	}
-
-	gnome_calendar_edit_object (gcal, ico);
-	ical_object_unref (ico);
+	gnome_calendar_new_appointment (gcal);
 }
 
 /* Prints the calendar at its current view and time range */
@@ -296,11 +255,11 @@ colors_changed (void)
 		gnome_calendar_colors_changed (GNOME_CALENDAR (l->data));
 }
 
-void 
-todo_properties_changed(void) 
+void
+todo_properties_changed(void)
 {
         GList *l;
-	
+
 	for (l = all_calendars; l; l = l->next)
 		gnome_calendar_todo_properties_changed (GNOME_CALENDAR (l->data));
 }
@@ -549,7 +508,8 @@ static GnomeUIInfo gnome_toolbar_view_buttons [] = {
 
 
 static GnomeUIInfo calendar_toolbar [] = {
-	GNOMEUIINFO_ITEM_STOCK (N_("New"), N_("Create a new appointment"), display_objedit, GNOME_STOCK_PIXMAP_NEW),
+	GNOMEUIINFO_ITEM_STOCK (N_("New"), N_("Create a new appointment"),
+				new_appointment_cb, GNOME_STOCK_PIXMAP_NEW),
 
 	GNOMEUIINFO_SEPARATOR,
 
@@ -576,7 +536,7 @@ static GnomeUIInfo calendar_toolbar [] = {
 
 /* Performs signal connection as appropriate for interpreters or native bindings */
 static void
-do_ui_signal_connect (GnomeUIInfo *uiinfo, gchar *signal_name, 
+do_ui_signal_connect (GnomeUIInfo *uiinfo, gchar *signal_name,
 		      GnomeUIBuilderData *uibdata)
 {
 	if (uibdata->is_interp)
@@ -599,11 +559,15 @@ calendar_control_activate (BonoboControl *control,
 {
 	Bonobo_UIHandler  remote_uih;
 	GtkWidget *toolbar, *toolbar_frame;
+	BonoboControl *toolbar_control;
 	GnomeUIBuilderData uibdata;
-	BonoboUIHandler *uih = bonobo_control_get_ui_handler (control);
+	BonoboUIHandler *uih;
 	gchar *page_name;
 	gint button, i;
-	g_assert (uih);
+	int behavior;
+
+	uih = bonobo_control_get_ui_handler (control);
+	g_assert (uih != NULL);
 
 	uibdata.connect_func = do_ui_signal_connect;
 	uibdata.data = cal;
@@ -620,7 +584,7 @@ calendar_control_activate (BonoboControl *control,
 	toolbar = gtk_toolbar_new (GTK_ORIENTATION_HORIZONTAL,
 				   GTK_TOOLBAR_BOTH);
 	gnome_app_fill_toolbar_custom (GTK_TOOLBAR (toolbar),
-				       calendar_toolbar, &uibdata, 
+				       calendar_toolbar, &uibdata,
 				       /*app->accel_group*/ NULL);
 
 	/*gtk_toolbar_append_space (GTK_TOOLBAR (toolbar));*/
@@ -639,8 +603,10 @@ calendar_control_activate (BonoboControl *control,
 		button = 2;
 	} else if (!strcmp (page_name, "monthview")) {
 		button = 3;
+#if 0
 	} else if (!strcmp (page_name, "yearview")) {
 		button = 4;
+#endif
 	} else {
 		g_warning ("Unknown calendar view: %s", page_name);
 		button = 0;
@@ -657,17 +623,18 @@ calendar_control_activate (BonoboControl *control,
 
 	gtk_widget_show_all (toolbar_frame);
 
-	behavior = GNOME_DOCK_ITEM_BEH_EXCLUSIVE |
-		   GNOME_DOCK_ITEM_BEH_NEVER_VERTICAL;
+	behavior = GNOME_DOCK_ITEM_BEH_EXCLUSIVE | GNOME_DOCK_ITEM_BEH_NEVER_VERTICAL;
+
 	if (!gnome_preferences_get_toolbar_detachable ())
 		behavior |= GNOME_DOCK_ITEM_BEH_LOCKED;
 
+	toolbar_control = bonobo_control_new (toolbar_frame);
+
 	bonobo_ui_handler_dock_add (uih, "/Toolbar",
-				    bonobo_object_corba_objref (BONOBO_OBJECT (bonobo_control_new (toolbar_frame))),
+				    bonobo_object_corba_objref (BONOBO_OBJECT (toolbar_control)),
 				    behavior,
 				    GNOME_DOCK_TOP,
 				    1, 1, 0);
-
 
 	/* file menu */
 	bonobo_ui_handler_menu_new_item (uih, "/File/New/Calendar", N_("New Ca_lendar"),
@@ -696,13 +663,7 @@ calendar_control_activate (BonoboControl *control,
 					 N_("_New appointment..."), N_("Create a new appointment"),
 					 -1, BONOBO_UI_HANDLER_PIXMAP_STOCK,
 					 GNOME_STOCK_MENU_NEW, 0, 0,
-					 display_objedit, cal);
-	bonobo_ui_handler_menu_new_item (uih, "/Edit/New Appointment for today",
-					 N_("New appointment for _today..."),
-					 N_("Create a new appointment for today"),
-					 -1, BONOBO_UI_HANDLER_PIXMAP_STOCK,
-					 GNOME_STOCK_MENU_NEW, 0, 0,
-					 display_objedit_today, cal);
+					 new_appointment_cb, cal);
 
 	//bonobo_ui_handler_menu_new_separator (uih, "/Edit", -1);
 
@@ -760,7 +721,7 @@ new_calendar (char *full_name, char *geometry, char *page, gboolean hidden)
 	g_snprintf(title, 128, _("%s%s"), full_name, _("'s calendar"));
 
 	toplevel = gnome_calendar_new (title);
-	    
+
 	if (gnome_parse_geometry (geometry, &xpos, &ypos, &width, &height)){
 		if (xpos != -1)
 			gtk_widget_set_uposition (toplevel, xpos, ypos);
@@ -777,7 +738,7 @@ new_calendar (char *full_name, char *geometry, char *page, gboolean hidden)
 
 	if (hidden){
 		GnomeWinState state;
-		
+
 		/* Realize the toplevel window to prevent a segfault */
 		gtk_widget_realize (toplevel);
 		state = gnome_win_hints_get_state (toplevel);
@@ -785,7 +746,7 @@ new_calendar (char *full_name, char *geometry, char *page, gboolean hidden)
 		state |= WIN_STATE_MINIMIZED;
 		gnome_win_hints_set_state (toplevel, state);
 	}
-	
+
 	gtk_widget_show (toplevel);
 
 	return GNOME_CALENDAR (toplevel);
@@ -858,15 +819,15 @@ init_calendar (void)
 	todo_show_due_date = gnome_config_get_bool("/calendar/Todo/show_due_date");
 
 	todo_item_dstatus_highlight_overdue = gnome_config_get_bool("/calendar/Todo/highlight_overdue");
-	
+
 	todo_item_dstatus_highlight_due_today = gnome_config_get_bool("/calendar/Todo/highlight_due_today");
-	
+
 	todo_item_dstatus_highlight_not_due_yet = gnome_config_get_bool("/calendar/Todo/highlight_not_due_yet");
 
         todo_current_sort_column = gnome_config_get_int("/calendar/Todo/sort_column");
-	
+
 	todo_current_sort_type = gnome_config_get_int("/calendar/Todo/sort_type");
-	
+
 	todo_show_priority = gnome_config_get_bool("/calendar/Todo/show_priority");
 
 	/* read alarm settings */
