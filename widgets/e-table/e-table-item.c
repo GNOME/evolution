@@ -1277,7 +1277,7 @@ eti_event (GnomeCanvasItem *item, GdkEvent *e)
 				}
 			}
 
-			if (eti_editing(eti) && eti->cursor_row == view_to_model_row(eti, row) && eti->cursor_col == col){
+			if (eti->cursor_row == view_to_model_row(eti, row) && eti->cursor_col == col){
 
 				e_table_item_focus (eti, col, view_to_model_row(eti, row), shifted);
 				
@@ -1323,7 +1323,7 @@ eti_event (GnomeCanvasItem *item, GdkEvent *e)
 			if (!find_cell (eti, e->button.x, e->button.y, &col, &row, &x1, &y1))
 				return TRUE;
 			
-			if (eti_editing(eti) && eti->cursor_row == view_to_model_row(eti, row) && eti->cursor_col == col){
+			if (eti->cursor_row == view_to_model_row(eti, row) && eti->cursor_col == col){
 
 				ecol = e_table_header_get_column (eti->header, col);
 				ecell_view = eti->cell_views [col];
@@ -1373,7 +1373,7 @@ eti_event (GnomeCanvasItem *item, GdkEvent *e)
 		if (!find_cell (eti, e->motion.x, e->motion.y, &col, &row, &x1, &y1))
 			return TRUE;
 
-		if (eti_editing(eti) && eti->cursor_row == view_to_model_row(eti, row) && eti->cursor_col == col){
+		if (eti->cursor_row == view_to_model_row(eti, row) && eti->cursor_col == col){
 			ecol = e_table_header_get_column (eti->header, col);
 			ecell_view = eti->cell_views [col];
 
