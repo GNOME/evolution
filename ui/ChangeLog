@@ -1,5 +1,9 @@
 2001-08-20  Damon Chaplin  <damon@ximian.com>
 
+	* evolution-calendar.xml: changed Goto icon to pixbuf.
+
+2001-08-20  Damon Chaplin  <damon@ximian.com>
+
 	* evolution-addressbook.xml: use new Delete icon for menu.
 
 2001-08-20  Damon Chaplin  <damon@ximian.com>
