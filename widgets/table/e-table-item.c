@@ -1941,11 +1941,10 @@ eti_event (GnomeCanvasItem *item, GdkEvent *e)
 							       eti->editing_col, eti->editing_row, E_CELL_EDITING);
 #endif
 			}
-			return_val = e_table_selection_model_key_press(eti->selection, (GdkEventKey *) e);
-			if (!return_val) {
-				gtk_signal_emit (GTK_OBJECT (eti), eti_signals [KEY_PRESS],
-						 model_to_view_row(eti, cursor_row), cursor_col, e, &return_val);
-			}
+			gtk_signal_emit (GTK_OBJECT (eti), eti_signals [KEY_PRESS],
+					 model_to_view_row(eti, cursor_row), cursor_col, e, &return_val);
+			if (!return_val)
+				return_val = e_table_selection_model_key_press(eti->selection, (GdkEventKey *) e);
 			break;
 			
 		default:

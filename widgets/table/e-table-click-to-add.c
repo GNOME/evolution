@@ -263,6 +263,55 @@ etcta_point (GnomeCanvasItem *item, double x, double y, int cx, int cy,
 	return 0.0;
 }
 
+static void finish_editing (ETableClickToAdd *etcta);
+
+static int
+item_key_press (ETableItem *item, int row, int col, GdkEvent *event, ETableClickToAdd *etcta)
+{
+	switch (event->key.keyval) {
+		case GDK_Return:
+		case GDK_KP_Enter:
+		case GDK_ISO_Enter:
+		case GDK_3270_Enter:
+			finish_editing(etcta);
+			return TRUE;
+	}
+	return FALSE;
+}
+
+static void
+finish_editing (ETableClickToAdd *etcta)
+{
+	if (etcta->row) {
+		ETableModel *one;
+
+		e_table_one_commit(E_TABLE_ONE(etcta->one));
+		etcta_drop_one (etcta);
+		gtk_object_destroy(GTK_OBJECT(etcta->row));
+		etcta->row = NULL;
+
+		one = e_table_one_new(etcta->model);
+		etcta_add_one (etcta, one);
+		gtk_object_unref(GTK_OBJECT(one));
+
+		e_table_selection_model_clear(etcta->selection);
+
+		etcta->row = gnome_canvas_item_new(GNOME_CANVAS_GROUP(etcta),
+						   e_table_item_get_type(),
+						   "ETableHeader", etcta->eth,
+						   "ETableModel", etcta->one,
+						   "minimum_width", etcta->width,
+						   "drawgrid", TRUE,
+						   "table_selection_model", etcta->selection,
+						   NULL);
+
+		gtk_signal_connect(GTK_OBJECT(etcta->row), "key_press",
+				   GTK_SIGNAL_FUNC(item_key_press), etcta);
+
+		e_table_item_set_cursor(E_TABLE_ITEM(etcta->row), 0, 0);
+	}
+}
+
 /*
  * Handles the events on the ETableClickToAdd, particularly it creates the ETableItem and passes in some events.
  */
@@ -300,6 +349,8 @@ etcta_event (GnomeCanvasItem *item, GdkEvent *e)
 							   "table_selection_model", etcta->selection,
 							   NULL);
 
+			gtk_signal_connect(GTK_OBJECT(etcta->row), "key_press",
+					   GTK_SIGNAL_FUNC(item_key_press), etcta);
 		}
 		/* Fall through.  No break; */
 	case GDK_BUTTON_RELEASE:
@@ -324,32 +375,7 @@ etcta_event (GnomeCanvasItem *item, GdkEvent *e)
 		case GDK_Tab:
 		case GDK_KP_Tab:
 		case GDK_ISO_Left_Tab:
-
-			if (etcta->row) {
-				ETableModel *one;
-
-				e_table_one_commit(E_TABLE_ONE(etcta->one));
-				etcta_drop_one (etcta);
-				gtk_object_destroy(GTK_OBJECT(etcta->row));
-				etcta->row = NULL;
-
-				one = e_table_one_new(etcta->model);
-				etcta_add_one (etcta, one);
-				gtk_object_unref(GTK_OBJECT(one));
-
-				e_table_selection_model_clear(etcta->selection);
-
-				etcta->row = gnome_canvas_item_new(GNOME_CANVAS_GROUP(item),
-								   e_table_item_get_type(),
-								   "ETableHeader", etcta->eth,
-								   "ETableModel", etcta->one,
-								   "minimum_width", etcta->width,
-								   "drawgrid", TRUE,
-								   "table_selection_model", etcta->selection,
-								   NULL);
-
-				e_table_item_set_cursor(E_TABLE_ITEM(etcta->row), 0, 0);
-			}
+			finish_editing (etcta);
 			break;
 		default:
 			break;
