@@ -725,7 +725,7 @@ display_menu:
 static int
 etree_key (ETree *tree, int row, ETreePath path, int col, GdkEvent *ev, FolderBrowser *fb)
 {
-	if ((ev->key.state & !(GDK_SHIFT_MASK | GDK_LOCK_MASK)) != 0)
+	if ((ev->key.state & GDK_CONTROL_MASK) != 0)
 		return FALSE;
 
 	switch (ev->key.keyval) {

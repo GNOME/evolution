@@ -1,5 +1,10 @@
 2001-03-20  Christopher James Lahey  <clahey@ximian.com>
 
+	* folder-browser.c (etree_key): Made this check if the control
+	mask is set.
+
+2001-03-20  Christopher James Lahey  <clahey@ximian.com>
+
 	* message-list.c (remove_node_diff, build_flat_diff): Remove the
 	node before freeing the data it points to.
 
