@@ -51,7 +51,7 @@ main (int argc, char**argv)
 	camel_medium_add_header (CAMEL_MEDIUM (message), "X-test2", "the value of another test");
 	/*camel_mime_part_add_content_language (CAMEL_MIME_PART (message), g_string_new ("es-ca"));*/
 
-	camel_mime_message_set_received_date (message, g_strdup ("Thu, 20 May 1999, 10:39:14 +0200"));
+	camel_mime_message_set_date (message, CAMEL_MESSAGE_DATE_CURRENT, 0);
 	camel_mime_message_set_subject (message, g_strdup ("A test message"));
 	camel_mime_message_set_reply_to (message, g_strdup ("toto@toto.com"));
 	camel_mime_message_set_from (message, g_strdup ("Bertrand.Guiheneuf@aful.org"));
