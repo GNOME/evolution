@@ -1,5 +1,11 @@
 2001-07-25  Jason Leach  <jleach@ximian.com>
 
+	* e-shell-folder-selection-dialog.c (folder_selected_cb): New
+	function.  When a folder is selected set the OK button to be
+	sensitive (but before that have it desensitized).  Bug #5483.
+	
+2001-07-25  Jason Leach  <jleach@ximian.com>
+
 	* e-shortcuts-view.c (icon_callback): A warning fix from Jacob.
 	Bug #5057.
 

@@ -286,6 +286,17 @@ set_default_folder (EShellFolderSelectionDialog *shell_folder_selection_dialog,
 	g_free (default_path);
 }
 
+static void
+folder_selected_cb (EStorageSetView *storage_set_view,
+		    const char *path,
+		    void *data)
+{
+	GnomeDialog *dialog;
+
+	dialog = GNOME_DIALOG (data);
+
+	gnome_dialog_set_sensitive (dialog, 0, TRUE);
+}
 
 /**
  * e_shell_folder_selection_dialog_construct:
@@ -332,6 +343,7 @@ e_shell_folder_selection_dialog_construct (EShellFolderSelectionDialog *folder_s
 				     _("New..."),
 				     NULL);
 	gnome_dialog_set_default (GNOME_DIALOG (folder_selection_dialog), 0);
+	gnome_dialog_set_sensitive (GNOME_DIALOG (folder_selection_dialog), 0, FALSE);
 
 	/* Make sure we get destroyed if the shell gets destroyed.  */
 
@@ -367,8 +379,11 @@ e_shell_folder_selection_dialog_construct (EShellFolderSelectionDialog *folder_s
 	g_free (filename);
 
 	GTK_WIDGET_SET_FLAGS (priv->storage_set_view, GTK_CAN_FOCUS);
-	gtk_signal_connect (GTK_OBJECT (priv->storage_set_view),
-			    "double_click", GTK_SIGNAL_FUNC (dbl_click_cb),
+	gtk_signal_connect (GTK_OBJECT (priv->storage_set_view), "double_click",
+			    GTK_SIGNAL_FUNC (dbl_click_cb),
+			    folder_selection_dialog);
+	gtk_signal_connect (GTK_OBJECT (priv->storage_set_view), "folder_selected",
+			    GTK_SIGNAL_FUNC (folder_selected_cb),
 			    folder_selection_dialog);
 
 	g_assert (priv->allowed_types == NULL);
