@@ -302,7 +302,6 @@ mail_display_jump_to_anchor (MailDisplay *md, const char *url)
 static void
 on_link_clicked (GtkHTML *html, const char *url, MailDisplay *md)
 {
-
 	if (!strncasecmp (url, "mailto:", 7)) {
 		send_to_url (url, NULL);
 	} else if (*url == '#') {
@@ -2080,7 +2079,6 @@ mail_display_destroy (GtkObject *object)
 		g_object_unref (mail_display->html);
 		mail_display->html = NULL;
 	}
-
 	
 	if (mail_display->current_message) {
 		camel_object_unref (mail_display->current_message);

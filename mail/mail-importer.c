@@ -3,7 +3,7 @@
  *
  * Authors: Iain Holmes <iain@ximian.com>
  *
- * Copyright (C) 2001  Ximian, Inc.
+ * Copyright (C) 2001-2003 Ximian, Inc.
  *
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of version 2 of the GNU General Public

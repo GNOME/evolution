@@ -281,7 +281,7 @@ ask_confirm_for_empty_subject (EMsgComposer *composer)
 	
 	gconf = gconf_client_get_default ();
 	
-	if (gconf_client_get_bool (gconf, "/apps/evolution/mail/prompts/empty_subject", NULL))
+	if (!gconf_client_get_bool (gconf, "/apps/evolution/mail/prompts/empty_subject", NULL))
 		return TRUE;
 	
 	res = e_question ((GtkWindow *) composer, GTK_RESPONSE_YES, &show_again,

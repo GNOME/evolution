@@ -47,6 +47,7 @@ mail_search_finalise (GObject *obj)
 	MailSearch *ms = MAIL_SEARCH (obj);
 
 	g_free (ms->last_search);
+	g_object_weak_unref ((GObject *) ms->mail, (GWeakNotify) gtk_widget_destroy, ms);
 	g_object_unref (ms->mail);
 	
 	G_OBJECT_CLASS (parent_class)->finalize (obj);
@@ -57,11 +58,13 @@ mail_search_destroy (GtkObject *obj)
 {
 	MailSearch *ms = (MailSearch *) obj;
 	ESearchingTokenizer *st = mail_search_tokenizer (ms);
-
+	
 	if (ms->begin_handler) {
-		g_signal_handler_disconnect(ms->mail->html->engine->ht, ms->match_handler);
-		g_signal_handler_disconnect(ms->mail->html->engine->ht, ms->begin_handler);
+		g_signal_handler_disconnect (ms->mail->html->engine->ht, ms->begin_handler);
 		ms->begin_handler = 0;
+		g_signal_handler_disconnect (ms->mail->html->engine->ht, ms->match_handler);
+		ms->match_handler = 0;
+		
 		e_searching_tokenizer_set_primary_search_string (st, NULL);
 		mail_search_redisplay_message (ms);
 	}
