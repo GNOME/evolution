@@ -411,6 +411,7 @@ composer_get_message (EMsgComposer *composer)
 	
 	/* Add info about the sending account */
 	account = e_msg_composer_get_preferred_account (composer);
+	
 	if (account) {
 		camel_medium_set_header (CAMEL_MEDIUM (message), "X-Evolution-Account", account->name);
 		camel_medium_set_header (CAMEL_MEDIUM (message), "X-Evolution-Transport", account->transport->url);
@@ -693,15 +694,20 @@ composer_save_draft_cb (EMsgComposer *composer, int quit, gpointer data)
 }
 
 static GtkWidget *
-create_msg_composer (const char *url)
+create_msg_composer (const MailConfigAccount *account, const char *url)
 {
-	const MailConfigAccount *account;
 	gboolean send_html;
 	EMsgComposer *composer;
 	
-	account   = mail_config_get_default_account ();
+	/* Make sure that we've actually been passed in an account. If one has
+	 * not been passed in, grab the default account.
+	 */
+	if (account == NULL) {
+		account = mail_config_get_default_account ();
+	}
+	
 	send_html = mail_config_get_send_html ();
-
+	
 	composer = url ? e_msg_composer_new_from_url (url) : e_msg_composer_new ();
 	
 	if (composer) {
@@ -716,13 +722,17 @@ create_msg_composer (const char *url)
 void
 compose_msg (GtkWidget *widget, gpointer user_data)
 {
+	MailConfigAccount *account;
 	FolderBrowser *fb = FOLDER_BROWSER (user_data);
 	GtkWidget *composer;
 	
 	if (FOLDER_BROWSER_IS_DESTROYED (fb) || !check_send_configuration (fb))
 		return;
 	
-	composer = create_msg_composer (NULL);
+	/* Figure out which account we want to initially compose from */
+	account = mail_config_get_account_by_source_url (fb->uri);
+	
+	composer = create_msg_composer (account, NULL);
 	if (!composer)
 		return;
 	
@@ -747,7 +757,8 @@ send_to_url (const char *url)
 	if (!check_send_configuration (NULL))
 		return;
 	
-	composer = create_msg_composer (url);
+	/* Tell create_msg_composer to use the default email profile */
+	composer = create_msg_composer (NULL, url);
 	if (!composer)
 		return;
 	

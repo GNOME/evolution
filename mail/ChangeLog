@@ -1,3 +1,13 @@
+2002-01-29  Dave West  <kat@unleashed.org>
+
+	* mail-callbacks.c (create_msg_composer): Changed the function
+	signature so that we can pass in whom we want to compose as.
+	Should fix bug #10391.
+	(compose_msg): Get the current profile account and pass it along
+	to create_msg_composer.
+	(send_to_url): Pass in a NULL profile account to cause
+	create_msg_composer to use the default account.
+
 2002-01-29  Jeffrey Stedfast  <fejj@ximian.com>
 
 	* mail-ops.c (mail_send_message): Make X-Evolution-Account take
