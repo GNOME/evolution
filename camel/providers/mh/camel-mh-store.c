@@ -111,8 +111,6 @@ static CamelFolder *get_folder(CamelStore * store, const char *folder_name, gboo
 
 	printf("getting folder: %s\n", name);
 	if (stat(name, &st) == -1) {
-		int fd;
-		
 		printf("doesn't exist ...\n");
 
 		if (errno != ENOENT) {

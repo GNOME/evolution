@@ -221,7 +221,7 @@ delete_folder (CamelStore *store, const char *folder_name, CamelException *ex)
 	}
 }
 
-static int xrename(char *oldp, char *newp, char *prefix, char *suffix, CamelException *ex)
+static int xrename(const char *oldp, const char *newp, const char *prefix, const char *suffix, CamelException *ex)
 {
 	struct stat st;
 	char *old = g_strconcat(prefix, oldp, suffix, 0);

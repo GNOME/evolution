@@ -74,7 +74,7 @@ static gint imap_get_message_count (CamelFolder *folder);
 static gint imap_get_unread_message_count (CamelFolder *folder);
 
 static CamelMimeMessage *imap_get_message (CamelFolder *folder, const gchar *uid, CamelException *ex);
-static void imap_append_message (CamelFolder *folder, CamelMimeMessage *message, guint32 flags, CamelException *ex);
+static void imap_append_message (CamelFolder *folder, CamelMimeMessage *message, const CamelMessageInfo *info, CamelException *ex);
 static void imap_copy_message_to (CamelFolder *source, const char *uid, CamelFolder *destination, CamelException *ex);
 static void imap_move_message_to (CamelFolder *source, const char *uid, CamelFolder *destination, CamelException *ex);
 
@@ -553,7 +553,7 @@ imap_get_unread_message_count (CamelFolder *folder)
 }
 
 static void
-imap_append_message (CamelFolder *folder, CamelMimeMessage *message, guint32 flags, CamelException *ex)
+imap_append_message (CamelFolder *folder, CamelMimeMessage *message, const CamelMessageInfo *info, CamelException *ex)
 {
 	CamelStore *store = CAMEL_STORE (folder->parent_store);
 	CamelURL *url = CAMEL_SERVICE (store)->url;
@@ -586,16 +586,18 @@ imap_append_message (CamelFolder *folder, CamelMimeMessage *message, guint32 fla
 		folder_path = g_strdup (folder->full_name);
 
 	/* create flag string param */
-	if (flags) {
-		flagstr = g_strconcat (" (", flags & CAMEL_MESSAGE_SEEN ? "\\Seen " : "",
-				       flags & CAMEL_MESSAGE_DRAFT ? "\\Draft " : "",
-				       flags & CAMEL_MESSAGE_DELETED ? "\\Answered " : "",
+	if (info && info->flags) {
+		flagstr = g_strconcat (" (", info->flags & CAMEL_MESSAGE_SEEN ? "\\Seen " : "",
+				       info->flags & CAMEL_MESSAGE_DRAFT ? "\\Draft " : "",
+				       info->flags & CAMEL_MESSAGE_DELETED ? "\\Answered " : "",
 				       NULL);
 		if (flagstr)
 			*(flagstr + strlen (flagstr) - 1) = ')';
 	}
 	
 	/* FIXME: len isn't really correct I don't think, we need to crlf/dot filter */
+	/* FIXME: Dont copy the message ANOTHER TIME, its already in memory entirely
+	   copied, thats bad enough */
 	status = camel_imap_command_extended (CAMEL_IMAP_STORE (folder->parent_store),
 					      folder, &result, "APPEND %s%s {%d}\r\n%s",
 					      folder_path, flagstr ? flagstr : "",

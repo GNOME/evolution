@@ -107,7 +107,7 @@ typedef struct {
 
 	void (*append_message)  (CamelFolder *folder, 
 				 CamelMimeMessage *message,
-				 guint32 flags,
+				 const CamelMessageInfo *info,
 				 CamelException *ex);
 	
 	guint32 (*get_permanent_flags) (CamelFolder *folder);
@@ -151,8 +151,9 @@ typedef struct {
 					     const char *expression,
 					     CamelException *ex);
 
-	const CamelMessageInfo * (*get_message_info) (CamelFolder *,
-						      const char *uid);
+	void (*search_free) (CamelFolder *folder, GPtrArray *result);
+
+	const CamelMessageInfo * (*get_message_info) (CamelFolder *, const char *uid);
 
 	void (*copy_message_to) (CamelFolder *source,
 				 const char *uid,
@@ -226,7 +227,7 @@ void		   camel_folder_set_message_user_flag  (CamelFolder *folder,
 /* message manipulation */
 void               camel_folder_append_message         (CamelFolder *folder, 
 							CamelMimeMessage *message,
-							guint32 flags,
+							const CamelMessageInfo *info,
 							CamelException *ex);
 
 
@@ -263,6 +264,7 @@ gboolean           camel_folder_has_search_capability (CamelFolder *folder);
 GPtrArray *	   camel_folder_search_by_expression  (CamelFolder *folder,
 						       const char *expression,
 						       CamelException *ex);
+void		   camel_folder_search_free	      (CamelFolder *folder, GPtrArray *);
 
 /* summary info */
 const CamelMessageInfo *camel_folder_get_message_info (CamelFolder *summary,

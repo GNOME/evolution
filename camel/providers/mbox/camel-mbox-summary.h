@@ -74,6 +74,8 @@ int camel_mbox_summary_load(CamelMboxSummary *mbs, int forceindex);
 int camel_mbox_summary_update(CamelMboxSummary *mbs, off_t offset);
 /* perform a folder sync or expunge, if needed */
 int camel_mbox_summary_sync (CamelMboxSummary *mbs, gboolean expunge, CamelException *ex);
+/* generate a From line from headers */
+char *camel_mbox_summary_build_from(struct _header_raw *header);
 
 #endif /* ! _CAMEL_MBOX_SUMMARY_H */
 

@@ -48,7 +48,7 @@
 extern int strdup_count, malloc_count, free_count;
 #endif
 
-#define CAMEL_FOLDER_SUMMARY_VERSION (6)
+#define CAMEL_FOLDER_SUMMARY_VERSION (7)
 
 struct _CamelFolderSummaryPrivate {
 	GHashTable *filter_charset;	/* CamelMimeFilterCharset's indexed by source charset */
@@ -951,6 +951,7 @@ message_info_new(CamelFolderSummary *s, struct _header_raw *h)
 	mi->to = camel_summary_format_address(h, "to");
 	mi->cc = camel_summary_format_address(h, "cc");
 	mi->user_flags = NULL;
+	mi->user_tags = NULL;
 	mi->date_sent = header_decode_date(header_raw_find(&h, "date", NULL), NULL);
 	received = header_raw_find(&h, "received", NULL);
 	if (received)
@@ -1012,6 +1013,16 @@ message_info_load(CamelFolderSummary *s, FILE *in)
 		g_free(name);
 	}
 
+	camel_folder_summary_decode_uint32(in, &count);
+	for (i=0;i<count;i++) {
+		char *name, *value;
+		camel_folder_summary_decode_string(in, &name);
+		camel_folder_summary_decode_string(in, &value);
+		camel_tag_set(&mi->user_tags, name, value);
+		g_free(name);
+		g_free(value);
+	}
+
 	return mi;
 }
 
@@ -1020,6 +1031,7 @@ message_info_save(CamelFolderSummary *s, FILE *out, CamelMessageInfo *mi)
 {
 	guint32 count;
 	CamelFlag *flag;
+	CamelTag *tag;
 	struct _header_references *refs;
 
 	io(printf("Saving message info\n"));
@@ -1051,6 +1063,16 @@ message_info_save(CamelFolderSummary *s, FILE *out, CamelMessageInfo *mi)
 		camel_folder_summary_encode_string(out, flag->name);
 		flag = flag->next;
 	}
+
+	count = camel_tag_list_size(&mi->user_tags);
+	camel_folder_summary_encode_uint32(out, count);
+	tag = mi->user_tags;
+	while (tag) {
+		camel_folder_summary_encode_string(out, tag->name);
+		camel_folder_summary_encode_string(out, tag->value);
+		tag = tag->next;
+	}
+
 	return ferror(out);
 }
 
@@ -1356,6 +1378,76 @@ camel_flag_list_free(CamelFlag **list)
 	*list = NULL;
 }
 
+const char	*camel_tag_get(CamelTag **list, const char *name)
+{
+	CamelTag *tag;
+
+	tag = *list;
+	while (tag) {
+		if (!strcmp(tag->name, name))
+			return (const char *)tag->value;
+		tag = tag->next;
+	}
+	return NULL;
+}
+
+void		camel_tag_set(CamelTag **list, const char *name, const char *value)
+{
+	CamelTag *tag, *tmp;
+
+	/* this 'trick' works because tag->next is the first element */
+	tag = (CamelTag *)list;
+	while (tag->next) {
+		tmp = tag->next;
+		if (!strcmp(tmp->name, name)) {
+			if (value == NULL) { /* clear it? */
+				tag->next = tmp->next;
+				g_free(tmp->value);
+				g_free(tmp);
+			} else if (strcmp(tmp->value, value)) { /* has it changed? */
+				g_free(tmp->value);
+				tmp->value = g_strdup(value);
+			}
+			return;
+		}
+		tag = tmp;
+	}
+
+	if (value) {
+		tmp = g_malloc(sizeof(*tmp)+strlen(name));
+		strcpy(tmp->name, name);
+		tmp->value = g_strdup(value);
+		tmp->next = 0;
+		tag->next = tmp;
+	}
+}
+
+int		camel_tag_list_size(CamelTag **list)
+{
+	int count=0;
+	CamelTag *tag;
+
+	tag = *list;
+	while (tag) {
+		count++;
+		tag = tag->next;
+	}
+	return count;
+}
+
+void		camel_tag_list_free(CamelTag **list)
+{
+	CamelTag *tag, *tmp;
+	tag = *list;
+	while (tag) {
+		tmp = tag->next;
+		g_free(tag->value);
+		g_free(tag);
+		tag = tmp;
+	}
+	*list = NULL;
+}
+
 /**
  * camel_message_info_dup_to:
  * @from: source message info
@@ -1370,6 +1462,7 @@ void
 camel_message_info_dup_to(const CamelMessageInfo *from, CamelMessageInfo *to)
 {
 	CamelFlag *flag;
+	CamelTag *tag;
 
 	/* Copy numbers */
 	to->flags = from->flags;
@@ -1393,6 +1486,12 @@ camel_message_info_dup_to(const CamelMessageInfo *from, CamelMessageInfo *to)
 		flag = flag->next;
 	}
 
+	tag = from->user_tags;
+	while (tag) {
+		camel_tag_set(&to->user_tags, tag->name, tag->value);
+		tag = tag->next;
+	}
+
 	/* FIXME some day */
 	to->content = NULL;
 }
@@ -1414,6 +1513,7 @@ camel_message_info_free(CamelMessageInfo *mi)
 	g_free(mi->message_id);
 	header_references_list_clear(&mi->references);
 	camel_flag_list_free(&mi->user_flags);
+	camel_tag_list_free(&mi->user_tags);
 	/* FIXME: content info? */
 	g_free(mi);
 }

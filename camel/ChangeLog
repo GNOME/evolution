@@ -1,3 +1,66 @@
+2000-08-11  Not Zed  <NotZed@HelixCode.com>
+
+	* camel-mime-parser.c (folder_scan_header): A better way to
+	compress leading whitespace.  The code is probably invalid anyway,
+	I dont think it will work across buffer boundaries.
+
+	* providers/mbox/camel-mbox-folder.c (mbox_append_message): And
+	write out proper format From lines here too.
+
+	* providers/mbox/camel-mbox-summary.c
+	(camel_mbox_summary_build_from): New function to build a more
+	compatible mbox "From " line.
+	(camel_mbox_summary_sync): Write From lines in the proper format.
+
+2000-08-10  Not Zed  <NotZed@HelixCode.com>
+
+	* providers/mh/camel-mh-store.c (get_folder): Remove warnin g.
+
+	* providers/mbox/camel-mbox-store.c (xrename): Kill some warnings
+	with constification.
+
+	* providers/imap/camel-imap-folder.c (imap_append_message): Fixed
+	for append api change.  Eek this routine seriously wastes memory.
+
+	* providers/mh/camel-mh-folder.c (mh_search_free): Impelemnt.
+	(mh_append_message): Fix for api change, and include user flags
+	and tags in new message.
+
+	* providers/vee/camel-vee-folder.c (vee_search_by_expression): Fix
+	for search api change.
+
+	* camel-folder.c (camel_folder_search_free): New function for
+	freeing search results.
+	(search_free): Changed my mind, implement a default that actually
+	does something.  Free as to the old interface.
+	(camel_folder_append_message): Changed to accept a
+	camelmessageinfo rather than flags, which just doesn't have enough
+	info in it.
+	(copy_message_to): Change for append_message api change.
+	(move_message_to): Likewise.
+
+	* providers/mbox/camel-mbox-folder.c (mbox_search_free):
+	Implement.
+	(mbox_append_message): Fix for api change, and also copy user
+	flags/tags across to new summary.
+
+	* camel-folder-search.c (search_user_tag): A search expression
+	that returns the current use flag by name.
+	(camel_folder_search_free_result): New function to free the result
+	of a search.
+
+	* camel-folder-summary.c: Bump summary version.
+	(message_info_new): 
+	(message_info_load): 
+	(message_info_save): 
+	(camel_message_info_dup_to): 
+	(camel_message_info_free): Added support for arbitrary tag/value
+	pairs (CamelTag's).
+	(camel_tag_get): 
+	(camel_tag_set):
+	(camel_tag_list_size):
+	(camel_tag_list_free): Operations for working with CamelTags.
+
 2000-08-09  Ettore Perazzoli  <ettore@helixcode.com>
 
 	* providers/nntp/camel-nntp-folder.c

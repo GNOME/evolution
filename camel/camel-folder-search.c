@@ -42,6 +42,7 @@ static ESExpResult *search_header_contains(struct _ESExp *f, int argc, struct _E
 static ESExpResult *search_match_all(struct _ESExp *f, int argc, struct _ESExpTerm **argv, CamelFolderSearch *search);
 static ESExpResult *search_body_contains(struct _ESExp *f, int argc, struct _ESExpResult **argv, CamelFolderSearch *search);
 static ESExpResult *search_user_flag(struct _ESExp *f, int argc, struct _ESExpResult **argv, CamelFolderSearch *s);
+static ESExpResult *search_user_tag(struct _ESExp *f, int argc, struct _ESExpResult **argv, CamelFolderSearch *s);
 
 static ESExpResult *search_dummy(struct _ESExp *f, int argc, struct _ESExpResult **argv, CamelFolderSearch *search);
 
@@ -92,6 +93,7 @@ camel_folder_search_class_init (CamelFolderSearchClass *klass)
 	klass->body_contains = search_body_contains;
 	klass->header_contains = search_header_contains;
 	klass->user_flag = search_user_flag;
+	klass->user_flag = search_user_tag;
 
 	gtk_object_class_add_signals (object_class, signals, LAST_SIGNAL);
 }
@@ -137,6 +139,7 @@ struct {
 	{ "body-contains", GTK_STRUCT_OFFSET(CamelFolderSearchClass, body_contains), 1 },
 	{ "header-contains", GTK_STRUCT_OFFSET(CamelFolderSearchClass, header_contains), 1 },
 	{ "user-flag", GTK_STRUCT_OFFSET(CamelFolderSearchClass, user_flag), 1 },
+	{ "user-tag", GTK_STRUCT_OFFSET(CamelFolderSearchClass, user_flag), 1 },
 };
 
 void
@@ -246,9 +249,8 @@ camel_folder_search_set_body_index(CamelFolderSearch *search, ibex *index)
  * TODO: The interface should probably return summary items instead
  * (since they are much more useful to any client).
  * 
- * Return value: A GPtrArray of strings of all matching messages.  Once
- * finished with this, the array AND CONTENTS should be free'd
- * by the caller.
+ * Return value: A GPtrArray of strings of all matching messages.
+ * This must only be freed by camel_folder_search_free_result.
  **/
 GPtrArray *
 camel_folder_search_execute_expression(CamelFolderSearch *search, const char *expr, CamelException *ex)
@@ -303,6 +305,15 @@ camel_folder_search_execute_expression(CamelFolderSearch *search, const char *ex
 	search->body_index = NULL;
 
 	return matches;
+}
+
+void camel_folder_search_free_result(CamelFolderSearch *search, GPtrArray *result)
+{
+	int i;
+
+	for (i=0;i<result->len;i++)
+		g_free(g_ptr_array_index(result, i));
+	g_ptr_array_free(result, TRUE);
 }
 
 /* dummy function, returns false always, or an empty match array */
@@ -506,6 +517,28 @@ static ESExpResult *search_user_flag(struct _ESExp *f, int argc, struct _ESExpRe
 		}
 		r = e_sexp_result_new(ESEXP_RES_BOOL);
 		r->value.bool = truth;
+	} else {
+		r = e_sexp_result_new(ESEXP_RES_ARRAY_PTR);
+		r->value.ptrarray = g_ptr_array_new();
+	}
+
+	return r;
+}
+
+static ESExpResult *search_user_tag(struct _ESExp *f, int argc, struct _ESExpResult **argv, CamelFolderSearch *search)
+{
+	ESExpResult *r;
+
+	r(printf("executing user-tag\n"));
+
+	/* are we inside a match-all? */
+	if (search->current) {
+		const char *value = NULL;
+		if (argc == 1) {
+			value = camel_tag_get(&search->current->user_tags, argv[0]->value.string);
+		}
+		r = e_sexp_result_new(ESEXP_RES_STRING);
+		r->value.string = g_strdup(value?value:"");
 	} else {
 		r = e_sexp_result_new(ESEXP_RES_ARRAY_PTR);
 		r->value.ptrarray = g_ptr_array_new();

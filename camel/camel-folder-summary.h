@@ -79,8 +79,14 @@ enum _CamelMessageFlags {
 
 typedef struct _CamelFlag {
 	struct _CamelFlag *next;
-	char name[1];
+	char name[1];		/* name allocated as part of the structure */
 } CamelFlag;
+
+typedef struct _CamelTag {
+	struct _CamelTag *next;
+	char *value;
+	char name[1];		/* name allocated as part of the structure */
+} CamelTag;
 
 /* information about a given object */
 typedef struct {
@@ -102,6 +108,7 @@ typedef struct {
 	struct _header_references *references; /* from parent to root */
 
 	struct _CamelFlag *user_flags;
+	struct _CamelTag *user_tags;
 
 	/* tree of content description - NULL if it is not available */
 	CamelMessageContentInfo *content;
@@ -217,6 +224,12 @@ gboolean	camel_flag_get(CamelFlag **list, const char *name);
 void		camel_flag_set(CamelFlag **list, const char *name, gboolean state);
 int		camel_flag_list_size(CamelFlag **list);
 void		camel_flag_list_free(CamelFlag **list);
+
+/* message tag operations */
+const char	*camel_tag_get(CamelTag **list, const char *name);
+void		camel_tag_set(CamelTag **list, const char *name, const char *value);
+int		camel_tag_list_size(CamelTag **list);
+void		camel_tag_list_free(CamelTag **list);
 
 /* message info utils */
 void camel_message_info_dup_to(const CamelMessageInfo *from, CamelMessageInfo *to);

@@ -72,6 +72,9 @@ struct _CamelFolderSearchClass {
 
 	/* (user-flag "flagname" "flagname" ...) If one of user-flag set */
 	ESExpResult * (*user_flag)(struct _ESExp *f, int argc, struct _ESExpResult **argv, CamelFolderSearch *s);
+
+	/* (user-tag "flagname") Returns the value of a user tag.  Can only be used in match-all */
+	ESExpResult * (*user_tag)(struct _ESExp *f, int argc, struct _ESExpResult **argv, CamelFolderSearch *s);
 };
 
 guint		camel_folder_search_get_type	(void);
@@ -82,5 +85,6 @@ void camel_folder_search_set_folder(CamelFolderSearch *search, CamelFolder *fold
 void camel_folder_search_set_summary(CamelFolderSearch *search, GPtrArray *summary);
 void camel_folder_search_set_body_index(CamelFolderSearch *search, ibex *index);
 GPtrArray *camel_folder_search_execute_expression(CamelFolderSearch *search, const char *expr, CamelException *ex);
+void camel_folder_search_free_result(CamelFolderSearch *search, GPtrArray *);
 
 #endif /* ! _CAMEL_FOLDER_SEARCH_H */

@@ -60,7 +60,7 @@ static void mh_init(CamelFolder * folder, CamelStore * parent_store,
 static void mh_sync(CamelFolder * folder, gboolean expunge, CamelException * ex);
 static gint mh_get_message_count(CamelFolder * folder);
 static gint mh_get_unread_message_count(CamelFolder * folder);
-static void mh_append_message(CamelFolder * folder, CamelMimeMessage * message, guint32 flags, CamelException * ex);
+static void mh_append_message(CamelFolder * folder, CamelMimeMessage * message, const CamelMessageInfo *info, CamelException * ex);
 static GPtrArray *mh_get_uids(CamelFolder * folder);
 static GPtrArray *mh_get_subfolder_names(CamelFolder * folder);
 static GPtrArray *mh_get_summary(CamelFolder * folder);
@@ -71,6 +71,7 @@ static void mh_expunge(CamelFolder * folder, CamelException * ex);
 static const CamelMessageInfo *mh_get_message_info(CamelFolder * folder, const char *uid);
 
 static GPtrArray *mh_search_by_expression(CamelFolder * folder, const char *expression, CamelException * ex);
+static void mh_search_free(CamelFolder *folder, GPtrArray *result);
 
 static guint32 mh_get_message_flags(CamelFolder * folder, const char *uid);
 static void mh_set_message_flags(CamelFolder * folder, const char *uid, guint32 flags, guint32 set);
@@ -105,6 +106,7 @@ static void camel_mh_folder_class_init(CamelMhFolderClass * camel_mh_folder_clas
 	camel_folder_class->get_message = mh_get_message;
 
 	camel_folder_class->search_by_expression = mh_search_by_expression;
+	camel_folder_class->search_free = mh_search_free;
 
 	camel_folder_class->get_message_info = mh_get_message_info;
 
@@ -268,12 +270,13 @@ static gint mh_get_unread_message_count(CamelFolder * folder)
 	return count;
 }
 
-static void mh_append_message(CamelFolder * folder, CamelMimeMessage * message, guint32 flags, CamelException * ex)
+static void mh_append_message(CamelFolder * folder, CamelMimeMessage * message, const CamelMessageInfo *info, CamelException * ex)
 {
 	CamelMhFolder *mh_folder = CAMEL_MH_FOLDER(folder);
 	CamelStream *output_stream = NULL;
 	char *name = NULL;
 	char *uid = NULL;
+	CamelMessageInfo *newinfo;
 
 	/* FIXME: probably needs additional locking */
 
@@ -298,6 +301,21 @@ static void mh_append_message(CamelFolder * folder, CamelMimeMessage * message, 
 
 	/* index/summarise the message.  Yes this re-reads it, its just simpler */
 	camel_mh_summary_add(mh_folder->summary, uid, TRUE);
+	if (info
+	    && (newinfo = camel_folder_summary_uid(CAMEL_FOLDER_SUMMARY(mh_folder->summary), uid))) {
+		CamelFlag *flag = info->user_flags;
+		CamelTag *tag = info->user_tags;
+
+		newinfo->flags = info->flags;
+		while (flag) {
+			camel_flag_set(&newinfo->user_flags, flag->name, TRUE);
+			flag = flag->next;
+		}
+		while (tag) {
+			camel_tag_set(&newinfo->user_tags, tag->name, tag->value);
+			tag = tag->next;
+		}
+	}
 	gtk_signal_emit_by_name(GTK_OBJECT(folder), "folder_changed", 0);
 	g_free(name);
 	g_free(uid);
@@ -429,6 +447,13 @@ static GPtrArray *mh_search_by_expression(CamelFolder * folder, const char *expr
 	camel_folder_search_set_body_index(mh_folder->search, mh_folder->index);
 
 	return camel_folder_search_execute_expression(mh_folder->search, expression, ex);
+}
+
+static void mh_search_free(CamelFolder *folder, GPtrArray *result)
+{
+	CamelMhFolder *mh_folder = CAMEL_MH_FOLDER (folder);
+
+	camel_folder_search_free_result(mh_folder->search, result);
 }
 
 static guint32 mh_get_message_flags(CamelFolder * folder, const char *uid)
