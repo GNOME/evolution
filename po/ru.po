@@ -903,7 +903,7 @@ msgstr "Атрибут LDAP"
 
 #: addressbook/gui/component/ldap-config.glade.h:35
 msgid "LDAP Configuration Assistant"
-msgstr "Ассистент настройки LDAP"
+msgstr "Помощник настройки LDAP"
 
 #: addressbook/gui/component/ldap-config.glade.h:36
 #, fuzzy
@@ -3801,9 +3801,8 @@ msgid "Public Calendar"
 msgstr "URI публичного календаря:"
 
 #: calendar/gui/component-factory.c:77
-#, fuzzy
 msgid "Public folder containing appointments and events"
-msgstr "Папка, содержащая встречи и события"
+msgstr "Публичная папка, содержащая встречи и события"
 
 #: calendar/gui/component-factory.c:81 calendar/gui/e-tasks.c:722
 #: calendar/gui/print.c:1777 calendar/gui/tasks-control.c:508
@@ -3829,9 +3828,8 @@ msgid "Public folder containing to-do items"
 msgstr "Папка содержащая элементы \"Выполнить\""
 
 #: calendar/gui/component-factory.c:750
-#, fuzzy
 msgid "New appointment"
-msgstr "Создать встречу"
+msgstr "Новая встреча"
 
 #: calendar/gui/component-factory.c:750
 msgid "_Appointment"
@@ -4287,9 +4285,8 @@ msgid "_Compress weekends in month view"
 msgstr "Ужимать выходные дни в представлении месяца"
 
 #: calendar/gui/dialogs/cal-prefs-dialog.glade.h:37
-#, fuzzy
 msgid "_Day begins:"
-msgstr "Показывать станции:"
+msgstr "Начало дня:"
 
 #: calendar/gui/dialogs/cal-prefs-dialog.glade.h:38
 msgid "_Display"
@@ -5157,7 +5154,7 @@ msgstr "Время окончания"
 
 #: calendar/gui/e-calendar-table.etspec.h:11
 msgid "Geographical Position"
-msgstr ""
+msgstr "Географическая позиция"
 
 #: calendar/gui/e-calendar-table.etspec.h:12
 msgid "Priority"
@@ -5306,37 +5303,35 @@ msgid "Yes. (Complex Recurrence)"
 msgstr "Простое повторение"
 
 #: calendar/gui/e-itip-control.c:696
-#, fuzzy
 msgid "Every day"
-msgstr "Каждый"
+msgstr "Каждый день"
 
 #: calendar/gui/e-itip-control.c:698
-#, fuzzy, c-format
+#, c-format
 msgid "Every %d days"
-msgstr "%d дней"
+msgstr "Каждые %d дней"
 
 #: calendar/gui/e-itip-control.c:704
-#, fuzzy
 msgid "Every week"
-msgstr "Каждый"
+msgstr "Каждую неделю"
 
 #: calendar/gui/e-itip-control.c:706
-#, fuzzy, c-format
+#, c-format
 msgid "Every %d weeks"
-msgstr "%d недель"
+msgstr "Каждые %d недель"
 
 #: calendar/gui/e-itip-control.c:709
 msgid "Every week on "
-msgstr ""
+msgstr "Еженедельно в "
 
 #: calendar/gui/e-itip-control.c:711
-#, fuzzy, c-format
+#, c-format
 msgid "Every %d weeks on "
-msgstr "%d недель"
+msgstr "Каждые %d недель в "
 
 #: calendar/gui/e-itip-control.c:719
 msgid " and "
-msgstr ""
+msgstr " и "
 
 #: calendar/gui/e-itip-control.c:726
 #, c-format
@@ -5349,9 +5344,8 @@ msgid "The %s %s of "
 msgstr ""
 
 #: calendar/gui/e-itip-control.c:744
-#, fuzzy
 msgid "every month"
-msgstr "Один месяц"
+msgstr "каждый месяц"
 
 #: calendar/gui/e-itip-control.c:749
 #, c-format
@@ -5359,9 +5353,8 @@ msgid "every %d months"
 msgstr ""
 
 #: calendar/gui/e-itip-control.c:755
-#, fuzzy
 msgid "Every year"
-msgstr "Каждый"
+msgstr "Каждый год"
 
 #: calendar/gui/e-itip-control.c:757
 #, c-format
@@ -5423,9 +5416,8 @@ msgid "<i>None</i>"
 msgstr ""
 
 #: calendar/gui/e-itip-control.c:1035
-#, fuzzy
 msgid "Location:"
-msgstr "Геогр.расположение: "
+msgstr "Расположение: "
 
 #: calendar/gui/e-itip-control.c:1049
 msgid "Status:"
@@ -5497,7 +5489,7 @@ msgstr "Опубликовать информацию о занятости"
 
 #: calendar/gui/e-itip-control.c:1187
 msgid "Update respondent status"
-msgstr ""
+msgstr "Изменить статус респондента"
 
 #: calendar/gui/e-itip-control.c:1200
 #, fuzzy
@@ -5589,9 +5581,8 @@ msgid "<b>%s</b> has published task information."
 msgstr "Получить последнюю информацию по задаче"
 
 #: calendar/gui/e-itip-control.c:1362
-#, fuzzy
 msgid "Task Information"
-msgstr "Информация"
+msgstr "Информация о задании"
 
 #: calendar/gui/e-itip-control.c:1367
 #, c-format
@@ -5613,18 +5604,17 @@ msgid "<b>%s</b> wishes to add to an existing task."
 msgstr ""
 
 #: calendar/gui/e-itip-control.c:1375
-#, fuzzy
 msgid "Task Update"
-msgstr "Список задач"
+msgstr "Изменение задания"
 
 #: calendar/gui/e-itip-control.c:1379
-#, fuzzy, c-format
+#, c-format
 msgid "<b>%s</b> wishes to receive the latest task information."
-msgstr "Получить последнюю информацию по задаче"
+msgstr "<b>%s</b> желает получить последнюю информацию о задаче"
 
 #: calendar/gui/e-itip-control.c:1380
 msgid "Task Update Request"
-msgstr ""
+msgstr "Запрос на изменение задачи"
 
 #: calendar/gui/e-itip-control.c:1387
 #, c-format
@@ -5642,9 +5632,8 @@ msgid "<b>%s</b> has cancelled a task."
 msgstr ""
 
 #: calendar/gui/e-itip-control.c:1396
-#, fuzzy
 msgid "Task Cancellation"
-msgstr "Отменить операцию"
+msgstr "Отмена задачи"
 
 #: calendar/gui/e-itip-control.c:1404
 #, fuzzy
@@ -5652,24 +5641,22 @@ msgid "Bad Task Message"
 msgstr "Сообщение календаря"
 
 #: calendar/gui/e-itip-control.c:1423
-#, fuzzy, c-format
+#, c-format
 msgid "<b>%s</b> has published free/busy information."
-msgstr "Опубликовать информацию о занятости"
+msgstr "<b>%s</b> опубликовал(а) информацию о занятости"
 
 #: calendar/gui/e-itip-control.c:1424
-#, fuzzy
 msgid "Free/Busy Information"
-msgstr "Опубликовать информацию о занятости"
+msgstr "Информация о занятости"
 
 #: calendar/gui/e-itip-control.c:1428
 #, c-format
 msgid "<b>%s</b> requests your free/busy information."
-msgstr ""
+msgstr "<b>%s</b> запросил информацию о вашей занятости."
 
 #: calendar/gui/e-itip-control.c:1429
-#, fuzzy
 msgid "Free/Busy Request"
-msgstr "URL \"свободен/занят\":"
+msgstr "Запрос \"свободен/занят\""
 
 #: calendar/gui/e-itip-control.c:1433
 #, c-format
@@ -5704,11 +5691,11 @@ msgstr ""
 
 #: calendar/gui/e-itip-control.c:1856 calendar/gui/e-itip-control.c:1948
 msgid "Object is invalid and cannot be updated\n"
-msgstr ""
+msgstr "Обьект неверен и не может быть изменен\n"
 
 #: calendar/gui/e-itip-control.c:1859 calendar/gui/e-itip-control.c:1951
 msgid "There was an error on the CORBA system\n"
-msgstr ""
+msgstr "Ошибка в системе CORBA\n"
 
 #: calendar/gui/e-itip-control.c:1862 calendar/gui/e-itip-control.c:1954
 msgid "Object could not be found\n"
@@ -6020,9 +6007,9 @@ msgstr "Метод, необходимый для открытия \"%s\", не поддерживается"
 
 #. add the alarms for this client
 #: calendar/gui/gnome-cal.c:1581
-#, fuzzy, c-format
+#, c-format
 msgid "Adding alarms for %s"
-msgstr "Сигнал в %s"
+msgstr "Добавления сигнала для %s"
 
 #: calendar/gui/gnome-cal.c:1767
 #, c-format
@@ -6115,14 +6102,12 @@ msgid "At least one attendee is necessary"
 msgstr "Необходим как минимум один участник"
 
 #: calendar/gui/itip-utils.c:462 calendar/gui/itip-utils.c:571
-#, fuzzy
 msgid "Event information"
-msgstr "информация календаря"
+msgstr "Информация о событии"
 
 #: calendar/gui/itip-utils.c:464 calendar/gui/itip-utils.c:573
-#, fuzzy
 msgid "Task information"
-msgstr "Информация"
+msgstr "Информация о задаче"
 
 #: calendar/gui/itip-utils.c:466 calendar/gui/itip-utils.c:575
 #, fuzzy
@@ -6130,19 +6115,16 @@ msgid "Journal information"
 msgstr "Дополнительная информация"
 
 #: calendar/gui/itip-utils.c:468 calendar/gui/itip-utils.c:595
-#, fuzzy
 msgid "Free/Busy information"
-msgstr "Информация о занятости (с %s до %s)"
+msgstr "Информация о занятости"
 
 #: calendar/gui/itip-utils.c:470
-#, fuzzy
 msgid "Calendar information"
-msgstr "информация календаря"
+msgstr "Информация календаря"
 
 #: calendar/gui/itip-utils.c:506
-#, fuzzy
 msgid "Updated"
-msgstr "Обновить сейчас"
+msgstr "Обновить"
 
 #: calendar/gui/itip-utils.c:514
 msgid "Refresh"
@@ -6150,10 +6132,10 @@ msgstr "Обновить"
 
 #: calendar/gui/itip-utils.c:518
 msgid "Counter-proposal"
-msgstr ""
+msgstr "Контрпредложение"
 
 #: calendar/gui/itip-utils.c:589
-#, fuzzy, c-format
+#, c-format
 msgid "Free/Busy information (%s to %s)"
 msgstr "Информация о занятости (с %s до %s)"
 
@@ -6491,7 +6473,7 @@ msgstr "Импортирует файлы iCalendar в Evolution."
 
 #: calendar/importers/GNOME_Evolution_Calendar_Importer.oaf.in.h:3
 msgid "Imports vCalendar files into Evolution"
-msgstr "Импортирует файлы iCalendar в Evolution."
+msgstr "Импортирует файлы vCalendar в Evolution."
 
 #: calendar/importers/icalendar-importer.c:168
 #, fuzzy, c-format
@@ -6637,7 +6619,7 @@ msgstr "Выполнение выражения поиска не выдало логического значения"
 #: calendar/pcs/query.c:1483
 #, fuzzy
 msgid "Parse error"
-msgstr "Иная ошибка"
+msgstr "Ошибка разбора"
 
 #.
 #. * These are the timezone names from the Olson timezone data.
@@ -6754,7 +6736,7 @@ msgstr "Африка/Хартум"
 
 #: calendar/zones.h:34
 msgid "Africa/Kigali"
-msgstr ""
+msgstr "Африка/Кигали"
 
 #: calendar/zones.h:35
 msgid "Africa/Kinshasa"
@@ -7334,7 +7316,7 @@ msgstr ""
 
 #: calendar/zones.h:179
 msgid "Antarctica/Davis"
-msgstr ""
+msgstr "Антарктика/Девис"
 
 #: calendar/zones.h:180
 msgid "Antarctica/DumontDUrville"
@@ -7370,7 +7352,7 @@ msgstr ""
 
 #: calendar/zones.h:188
 msgid "Asia/Aden"
-msgstr ""
+msgstr "Азия/Аден"
 
 #: calendar/zones.h:189
 msgid "Asia/Almaty"
@@ -7462,7 +7444,7 @@ msgstr "Азия/Душанбе"
 
 #: calendar/zones.h:211
 msgid "Asia/Gaza"
-msgstr ""
+msgstr "Азия/Газа"
 
 #: calendar/zones.h:212
 msgid "Asia/Harbin"
@@ -7809,7 +7791,7 @@ msgstr "Европа/Будапешт"
 
 #: calendar/zones.h:297
 msgid "Europe/Chisinau"
-msgstr ""
+msgstr "Европа/Кишинев"
 
 #: calendar/zones.h:298
 msgid "Europe/Copenhagen"
@@ -8145,7 +8127,7 @@ msgstr ""
 
 #: calendar/zones.h:381
 msgid "Pacific/Tahiti"
-msgstr ""
+msgstr "Тихий океан/Таити"
 
 #: calendar/zones.h:382
 msgid "Pacific/Tarawa"
@@ -8405,7 +8387,6 @@ msgid "No data provided"
 msgstr "Не указано имя файла."
 
 #: camel/camel-gpg-context.c:830
-#, fuzzy
 msgid "Failed to encrypt: No valid recipients specified."
 msgstr "Невозможно зашифровать это сообщение: не определены получатели"
 
@@ -8423,16 +8404,15 @@ msgid "Failed to GPG %s message: %s\n"
 msgstr "Сбой при кэшировании сообщения %s: %s"
 
 #: camel/camel-gpg-context.c:1197
-#, fuzzy, c-format
+#, c-format
 msgid "Failed to execute gpg: %s"
-msgstr "Не удалось декодировать сообщение."
+msgstr "Не удалось исполнить gpg: %s"
 
 #: camel/camel-gpg-context.c:1227 camel/camel-gpg-context.c:1305
 #: camel/camel-gpg-context.c:1379 camel/camel-gpg-context.c:1409
 #: camel/camel-gpg-context.c:1436 camel/camel-gpg-context.c:1466
-#, fuzzy
 msgid "Failed to execute gpg."
-msgstr "Не удалось декодировать сообщение."
+msgstr "Не удалось исполнить gpg."
 
 #: camel/camel-gpg-context.c:1290
 #, c-format
@@ -8892,9 +8872,8 @@ msgid "Certificate not yet valid"
 msgstr ""
 
 #: camel/camel-tcp-stream-openssl.c:582
-#, fuzzy
 msgid "Certificate has expired"
-msgstr "Идентификатор сертификата:"
+msgstr "Cрок действия сертификата истек"
 
 #: camel/camel-tcp-stream-openssl.c:584
 msgid "CRL not yet valid"
@@ -9077,9 +9056,8 @@ msgid "No such message %s in %s"
 msgstr "Нет сообщения %s в %s"
 
 #: camel/camel-vee-folder.c:816 camel/camel-vee-folder.c:822
-#, fuzzy
 msgid "Cannot copy or move messages into a Virtual Folder"
-msgstr "Проверять новую почту во всех папках"
+msgstr "Невозможно копировать или переместить сообщения в Виртуальную Папку"
 
 #: camel/camel-vee-store.c:296
 #, c-format
@@ -9425,7 +9403,7 @@ msgstr "Для хранения локальной почты в почтовых каталогах maildir."
 
 #: camel/providers/local/camel-local-provider.c:95
 msgid "Store status headers in Elm/Pine/Mutt format"
-msgstr ""
+msgstr "Сохранять заголовки состояния в формате Elm/Pine/Mutt"
 
 #: camel/providers/local/camel-local-provider.c:101
 #, fuzzy
@@ -9772,9 +9750,9 @@ msgid "Folder `%s/%s' does not exist."
 msgstr "Папка \"%s%s\" не существует."
 
 #: camel/providers/local/camel-spool-store.c:176
-#, fuzzy, c-format
+#, c-format
 msgid "`%s' is not a mailbox file."
-msgstr "\"%s\" не является обычным файлом."
+msgstr "\"%s\" не является файлом хранилища."
 
 #: camel/providers/local/camel-spool-store.c:193
 msgid "Store does not support an INBOX"
@@ -12237,7 +12215,6 @@ msgid "Are you sure you want to open all %d messages in separate windows?"
 msgstr "Вы уверены что хотите открыть все %d сообщений в отдельных окнах?"
 
 #: mail/mail-composer-prefs.c:223
-#, fuzzy
 msgid ""
 "Please specify signature filename\n"
 "in Advanced section of signature settings."
@@ -12480,9 +12457,8 @@ msgid "Digital IDs..."
 msgstr "Цифровые ID..."
 
 #: mail/mail-config.glade.h:44
-#, fuzzy
 msgid "Do not quote original message"
-msgstr "Невозможно открыть сообщение"
+msgstr "Не цитировать исходное сообщение"
 
 #: mail/mail-config.glade.h:45
 msgid "Don't sign _meeting requests (for Outlook compatibility)"
@@ -12968,12 +12944,12 @@ msgid "Could not create a S/MIME decode context."
 msgstr "Не удалось создать контекст декодирования S/MIME"
 
 #: mail/mail-display.c:194
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "File `%s' already exists.\n"
 "Overwrite it?"
 msgstr ""
-"Файл с таким названием уже существует.\n"
+"Файл `%s' уже существует.\n"
 "Перезаписать его?"
 
 #: mail/mail-display.c:326
@@ -26180,12 +26156,10 @@ msgid "_Print Contacts..."
 msgstr "Контакты..."
 
 #: ui/evolution-addressbook.h:10
-#, fuzzy
 msgid "As _Table"
-msgstr "Отключить"
+msgstr "Как таблицу"
 
 #: ui/evolution-addressbook.h:11
-#, fuzzy
 msgid "_New Contact"
 msgstr "Создать контакт"
 
@@ -26195,24 +26169,20 @@ msgid "_Tools"
 msgstr "Инструменты"
 
 #: ui/evolution-addressbook.h:13
-#, fuzzy
 msgid "_Search for contacts"
 msgstr "Найти контакты"
 
 #: ui/evolution-addressbook.h:17
-#, fuzzy
 msgid "Find a contact"
-msgstr "Найти контакт в"
+msgstr "Найти контакт"
 
 #: ui/evolution-addressbook.h:19
-#, fuzzy
 msgid "Print contacts"
-msgstr "Напечатать выбранные контакты"
+msgstr "Напечатать контакты"
 
 #: ui/evolution-addressbook.h:21
-#, fuzzy
 msgid "Delete a contact"
-msgstr "Удалить контакт?"
+msgstr "Удалить контакт"
 
 #: ui/evolution-addressbook.h:22
 #, fuzzy
@@ -27209,7 +27179,6 @@ msgid "Attach"
 msgstr "Присоединить"
 
 #: ui/evolution-message-composer.h:27
-#, fuzzy
 msgid "HTML"
 msgstr "HTML"
 
@@ -27245,7 +27214,6 @@ msgid "Send _Later"
 msgstr "Отправить позже"
 
 #: ui/evolution-message-composer.h:41
-#, fuzzy
 msgid "F_ormat"
 msgstr "Формат"
 
