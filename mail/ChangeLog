@@ -1,3 +1,8 @@
+2001-03-28  Jeffrey Stedfast  <fejj@ximian.com>
+
+	* mail-account-gui.c (setup_service): Move the
+	gtk_toggle_button_set_active outside the if.
+
 2001-03-28  Dan Winship  <danw@ximian.com>
 
 	* mail-account-gui.c (mail_account_gui_new): Set up the

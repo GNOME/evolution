@@ -730,9 +730,10 @@ setup_service (MailAccountGuiService *gsvc, MailConfigService *service)
 		}
 		g_list_free (children);
 
-		gtk_toggle_button_set_active (gsvc->remember, service->save_passwd);
 		has_auth = TRUE;
 	}
+	
+	gtk_toggle_button_set_active (gsvc->remember, service->save_passwd);
 
 	return has_auth;
 }
@@ -783,7 +784,8 @@ mail_account_gui_new (MailConfigAccount *account)
 			e_utf8_gtk_entry_set_text (gui->organization, account->id->organization);
 		if (account->id->signature) {
 			gnome_file_entry_set_default_path (gui->signature, account->id->signature);
-			gtk_entry_set_text (GTK_ENTRY (gnome_file_entry_gtk_entry (gui->signature)), account->id->signature);
+			gtk_entry_set_text (GTK_ENTRY (gnome_file_entry_gtk_entry (gui->signature)),
+					    account->id->signature);
 		}
 	}
 
@@ -802,7 +804,8 @@ mail_account_gui_new (MailConfigAccount *account)
 	gui->source.authtype = GTK_OPTION_MENU (glade_xml_get_widget (gui->xml, "source_auth_omenu"));
 	gui->source.remember = GTK_TOGGLE_BUTTON (glade_xml_get_widget (gui->xml, "source_remember_password"));
 	gui->source.check_supported = GTK_BUTTON (glade_xml_get_widget (gui->xml, "source_check_supported"));
-	gtk_signal_connect (GTK_OBJECT (gui->source.check_supported), "clicked", GTK_SIGNAL_FUNC (service_check_supported), &gui->source);
+	gtk_signal_connect (GTK_OBJECT (gui->source.check_supported), "clicked",
+			    GTK_SIGNAL_FUNC (service_check_supported), &gui->source);
 	gui->source_auto_check = GTK_TOGGLE_BUTTON (glade_xml_get_widget (gui->xml, "extra_auto_check"));
 	gui->source_auto_check_min = GTK_SPIN_BUTTON (glade_xml_get_widget (gui->xml, "extra_auto_check_min"));
 
@@ -820,10 +823,13 @@ mail_account_gui_new (MailConfigAccount *account)
 	gui->transport.authtype = GTK_OPTION_MENU (glade_xml_get_widget (gui->xml, "transport_auth_omenu"));
 	gui->transport.remember = GTK_TOGGLE_BUTTON (glade_xml_get_widget (gui->xml, "transport_remember_password"));
 	gui->transport.check_supported = GTK_BUTTON (glade_xml_get_widget (gui->xml, "transport_check_supported"));
-	gtk_signal_connect (GTK_OBJECT (gui->transport.check_supported), "clicked", GTK_SIGNAL_FUNC (service_check_supported), &gui->transport);
+	gtk_signal_connect (GTK_OBJECT (gui->transport.check_supported), "clicked",
+			    GTK_SIGNAL_FUNC (service_check_supported), &gui->transport);
 
+	/* Drafts folder */
 	gui->drafts_folder_button = GTK_BUTTON (glade_xml_get_widget (gui->xml, "drafts_button"));
-	gtk_signal_connect (GTK_OBJECT (gui->drafts_folder_button), "clicked", GTK_SIGNAL_FUNC (folder_picker_clicked), &gui->drafts_folder);
+	gtk_signal_connect (GTK_OBJECT (gui->drafts_folder_button), "clicked",
+			    GTK_SIGNAL_FUNC (folder_picker_clicked), &gui->drafts_folder);
 	if (account->drafts_folder_uri) {
 		gui->drafts_folder.uri = g_strdup (account->drafts_folder_uri);
 		gui->drafts_folder.name = g_strdup (account->drafts_folder_name);
@@ -832,8 +838,11 @@ mail_account_gui_new (MailConfigAccount *account)
 		gui->drafts_folder.name = g_strdup (strrchr (default_drafts_folder_uri, '/') + 1);
 	}
 	set_folder_picker_label (gui->drafts_folder_button, gui->drafts_folder.name);
+	
+	/* Sent folder */
 	gui->sent_folder_button = GTK_BUTTON (glade_xml_get_widget (gui->xml, "sent_button"));
-	gtk_signal_connect (GTK_OBJECT (gui->sent_folder_button), "clicked", GTK_SIGNAL_FUNC (folder_picker_clicked), &gui->sent_folder);
+	gtk_signal_connect (GTK_OBJECT (gui->sent_folder_button), "clicked",
+			    GTK_SIGNAL_FUNC (folder_picker_clicked), &gui->sent_folder);
 	if (account->sent_folder_uri) {
 		gui->sent_folder.uri = g_strdup (account->sent_folder_uri);
 		gui->sent_folder.name = g_strdup (account->sent_folder_name);
