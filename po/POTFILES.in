@@ -276,7 +276,6 @@ mail/mail-format.c
 mail/mail-local.c
 mail/mail-mt.c
 mail/mail-ops.c
-mail/mail-search-dialogue.c
 mail/mail-search.c
 mail/mail-search.c
 mail/mail-send-recv.c
