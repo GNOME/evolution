@@ -18,6 +18,9 @@ typedef struct {
 	GNode      *root;
 	gboolean   root_visible;
 	GArray     *row_array; /* used in the mapping between ETable and our tree */
+	guint32    num_expanded_to_save;
+	guint32    num_collapsed_to_save;
+	GHashTable *expanded_state; /* used for loading/saving expanded state */
 } ETreeModel;
 
 typedef struct {
@@ -107,5 +110,12 @@ void  e_tree_model_node_inserted (ETreeModel *tree_model, ETreePath *parent_node
 void  e_tree_model_node_removed  (ETreeModel *tree_model, ETreePath *parent_node, ETreePath *removed_node);
 void  e_tree_model_node_collapsed (ETreeModel *tree_model, ETreePath *node);
 void  e_tree_model_node_expanded  (ETreeModel *tree_model, ETreePath *node, gboolean *allow_expand);
+
+/* expanded state saving stuff */
+gboolean   e_tree_model_save_expanded_state (ETreeModel *etm, const char *filename);
+gboolean   e_tree_model_load_expanded_state (ETreeModel *etm, const char *filename);
+void       e_tree_model_node_set_save_id    (ETreeModel *etm, ETreePath *node, const char *id);
+ETreePath* e_tree_model_node_insert_id      (ETreeModel *tree_model, ETreePath *parent_path,
+					     int position, gpointer node_data, const char *save_id);
 
 #endif /* _E_TREE_MODEL_H */

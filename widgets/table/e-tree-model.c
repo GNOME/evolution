@@ -10,9 +10,19 @@
  * (C) 2000 Helix Code, Inc.
  */
 #include <config.h>
+
+#include <stdio.h>
+#include <errno.h>
+#include <unistd.h>
+#include <fcntl.h>
+
+#include <gnome-xml/parser.h>
+#include <gnome-xml/xmlmemory.h>
+
 #include <gtk/gtksignal.h>
 #include <stdlib.h>
 #include "gal/util/e-util.h"
+#include "gal/util/e-xml-utils.h"
 #include "e-tree-model.h"
 
 #define ETM_CLASS(e) ((ETreeModelClass *)((GtkObject *)e)->klass)
@@ -24,6 +34,7 @@ static ETableModel *e_tree_model_parent_class;
 typedef struct {
 	gboolean expanded;
 	guint visible_descendents;
+	char *save_id;
 	gpointer node_data;
 } ENode;
 
@@ -43,6 +54,13 @@ static void add_visible_descendents_to_array (ETreeModel *etm, GNode *gnode, int
 
 /* virtual methods */
 
+static gboolean
+expanded_remove_func (gpointer key, gpointer value, gpointer user_data)
+{
+	g_free (key);
+	return TRUE;
+}
+
 static void
 etree_destroy (GtkObject *object)
 {
@@ -50,7 +68,9 @@ etree_destroy (GtkObject *object)
 
 	/* XXX lots of stuff to free here */
 	g_array_free (etree->row_array, TRUE);
-	
+	g_hash_table_foreach_remove (etree->expanded_state,
+				     expanded_remove_func, NULL);
+
 	GTK_OBJECT_CLASS (e_tree_model_parent_class)->destroy (object);
 }
 
@@ -147,6 +167,20 @@ etree_set_expanded (ETreeModel *etm, ETreePath* node, gboolean expanded)
 	}
 
 	enode->expanded = expanded;
+	if (enode->save_id) {
+		g_hash_table_insert (etm->expanded_state, enode->save_id, (gpointer)expanded);
+
+		if (expanded) {
+			/* the node previously was collapsed */
+			etm->num_collapsed_to_save --;
+			etm->num_expanded_to_save ++;
+		}
+		else {
+			/* the node previously was expanded */
+			etm->num_expanded_to_save --;
+			etm->num_collapsed_to_save ++;
+		}
+	}
 
 	/* if the node wasn't visible at present */
 	if ((row = e_tree_model_row_of_node (etm, node)) == -1) {
@@ -464,6 +498,7 @@ e_tree_model_construct (ETreeModel *etree)
 	etree->root = NULL;
 	etree->root_visible = TRUE;
 	etree->row_array = g_array_new (FALSE, FALSE, sizeof(GNode*));
+	etree->expanded_state = g_hash_table_new (g_str_hash, g_str_equal);
 }
 
 ETreeModel *
@@ -693,6 +728,21 @@ e_tree_model_node_insert (ETreeModel *tree_model,
 
 	return new_path;
 }
+
+ETreePath*
+e_tree_model_node_insert_id (ETreeModel *tree_model,
+			     ETreePath *parent_path,
+			     int position,
+			     gpointer node_data,
+			     const char *save_id)
+{
+	ETreePath *path = e_tree_model_node_insert (tree_model, parent_path, position, node_data);
+
+	e_tree_model_node_set_save_id (tree_model, path, save_id);
+
+	return path;
+}
+
 			  
 ETreePath *
 e_tree_model_node_insert_before (ETreeModel *etree,
@@ -799,17 +849,12 @@ e_tree_model_node_sort (ETreeModel *tree_model,
 
 	child_index = e_tree_model_row_of_node (tree_model, node) + 1;
 
-	printf ("====== before sort ==== \n");
 	for (i = 0; i < num_nodes; i ++) {
 		path_array[i] = g_node_first_child(node);
-		printf ("i: %s\n", e_tree_model_node_get_data (tree_model, path_array[i]));
-		g_node_unlink (path_array[i]);
-	}
-
-	for (i = 0; i < num_nodes; i ++) {
 		expanded[i] = e_tree_model_node_is_expanded (tree_model, path_array[i]);
 		e_tree_model_node_set_expanded(tree_model, path_array[i], FALSE);
 		tree_model->row_array = g_array_remove_index (tree_model->row_array, child_index);
+		g_node_unlink (path_array[i]);
 	}
 
 	qsort (path_array, num_nodes, sizeof(ETreePath*), compare);
@@ -824,4 +869,155 @@ e_tree_model_node_sort (ETreeModel *tree_model,
 	g_free (expanded);
 
 	e_table_model_changed (E_TABLE_MODEL (tree_model));
+}
+
+static void
+save_expanded_state_func (char *key, gboolean expanded, gpointer user_data)
+{
+	if (expanded) {
+		xmlNode *root = (xmlNode*)user_data;
+		xmlNode *node_root = xmlNewNode (NULL, (xmlChar*) "node");
+
+		xmlAddChild (root, node_root);
+		xmlNewChild (node_root, NULL, (xmlChar *) "id", (xmlChar*) key);
+	}
+}
+
+gboolean
+e_tree_model_save_expanded_state (ETreeModel *etm, const char *filename)
+{
+	xmlDoc *doc;
+	xmlNode *root;
+	int fd, rv;
+	xmlChar *buf;
+	int buf_size;
+	gboolean save_expanded = etm->num_expanded_to_save < etm->num_collapsed_to_save;
+
+	g_print ("saving expanded state: %d expanded, %d collapsed, should save %s\n",
+		 etm->num_expanded_to_save, etm->num_collapsed_to_save,
+		 save_expanded ? "expanded" : "collapsed");
+
+	doc = xmlNewDoc ((xmlChar*) "1.0");
+	root = xmlNewDocNode (doc, NULL, (xmlChar *) save_expanded ? "expanded_state" : "collapsed_state", NULL);
+	xmlDocSetRootElement (doc, root);
+
+	g_hash_table_foreach (etm->expanded_state, (GHFunc)save_expanded_state_func, root);
+
+	fd = open (filename, O_CREAT | O_TRUNC | O_WRONLY, 0777);
+
+	xmlDocDumpMemory (doc, &buf, &buf_size);
+
+	if (buf == NULL) {
+		g_error ("Failed to write %s: xmlBufferCreate() == NULL", filename);
+		return FALSE;
+	}
+
+	rv = write (fd, buf, buf_size);
+	xmlFree (buf);
+	close (fd);
+
+	if (0 > rv) {
+		g_error ("Failed to write new %s: %d\n", filename, errno);
+		unlink (filename);
+		return FALSE;
+	}
+
+	return TRUE;
+}
+
+static char *
+get_string_value (xmlNode *node,
+		  const char *name)
+{
+	xmlNode *p;
+	xmlChar *xml_string;
+	char *retval;
+
+	p = e_xml_get_child_by_name (node, (xmlChar *) name);
+	if (p == NULL)
+		return NULL;
+
+	p = e_xml_get_child_by_name (p, (xmlChar *) "text");
+	if (p == NULL) /* there's no text between the tags, return the empty string */
+		return g_strdup("");
+
+	xml_string = xmlNodeListGetString (node->doc, p, 1);
+	retval = g_strdup ((char *) xml_string);
+	xmlFree (xml_string);
+
+	return retval;
+}
+
+gboolean
+e_tree_model_load_expanded_state (ETreeModel *etm, const char *filename)
+{
+	xmlDoc *doc;
+	xmlNode *root;
+	xmlNode *child;
+
+	doc = xmlParseFile (filename);
+	if (!doc)
+		return FALSE;
+
+	root = xmlDocGetRootElement (doc);
+	if (root == NULL || strcmp (root->name, "expanded_state") != 0) {
+		xmlFreeDoc (doc);
+		return FALSE;
+	}
+
+	for (child = root->childs; child; child = child->next) {
+		char *id;
+
+		if (strcmp (child->name, "node")) {
+			g_warning ("unknown node '%s' in %s", child->name, filename);
+			continue;
+		}
+
+		id = get_string_value (child, "id");
+
+		g_hash_table_insert (etm->expanded_state, id, (gpointer)TRUE);
+	}
+
+	xmlFreeDoc (doc);
+
+	return TRUE;
+}
+
+
+void
+e_tree_model_node_set_save_id (ETreeModel *etm, ETreePath *node, const char *id)
+{
+	ENode *enode;
+	char *key;
+	gboolean expanded_state;
+
+	g_return_if_fail (E_TREE_MODEL (etm));
+	g_return_if_fail (node && node->data);
+
+	enode = (ENode*)node->data;
+
+	if (g_hash_table_lookup_extended (etm->expanded_state,
+					  id, (gpointer*)&key, (gpointer*)&expanded_state)) {
+
+		e_tree_model_node_set_expanded (etm, node,
+						expanded_state);
+
+		if (expanded_state)
+			etm->num_expanded_to_save ++;
+		else
+			etm->num_collapsed_to_save ++;
+
+		/* important that this comes after the e_tree_model_node_set_expanded */
+		enode->save_id = key;
+	}
+	else {
+		enode->save_id = g_strdup (id);
+
+		g_hash_table_insert (etm->expanded_state, enode->save_id, (gpointer)enode->expanded);
+
+		if (enode->expanded)
+			etm->num_expanded_to_save ++;
+		else
+			etm->num_collapsed_to_save ++;
+	}
 }
