@@ -151,6 +151,7 @@ impl_requestCreateItem (PortableServer_Servant servant,
 {
 	AddressbookComponent *addressbook_component = ADDRESSBOOK_COMPONENT (bonobo_object_from_servant (servant));
 	AddressbookComponentPrivate *priv;
+	EBook *book;
 
 	priv = addressbook_component->priv;
 
@@ -167,7 +168,8 @@ impl_requestCreateItem (PortableServer_Servant servant,
 		return;
 	}
 
-	e_book_async_get_default_addressbook (book_loaded_cb, g_strdup (item_type_name));
+	book = e_book_new_default_addressbook (NULL);
+	e_book_async_open (book, FALSE, book_loaded_cb, g_strdup (item_type_name));
 }
 
 static void

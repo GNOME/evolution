@@ -1,3 +1,8 @@
+2004-05-20  Chris Toshok  <toshok@ximian.com>
+
+	* gui/component/addressbook-component.c (impl_requestCreateItem):
+	use the new ebook api here.  missed this one in my earlier commit.
+
 2004-05-20  Radek Doulik  <rodo@ximian.com>
 
 	* printing/e-contact-print.c (complete_sequence): finish pages
