@@ -37,14 +37,6 @@ typedef struct _xevolution {
 	char *format;
 } XEvolution;
 
-/* Get a CamelFolder from a root url and a foldername (uses the global session)*/
-CamelFolder *
-mail_tool_get_folder_from_urlname (const gchar *url, const gchar *name,
-				   guint32 flags, CamelException *ex);
-
-/* Get a useful name for a given CamelFolder (ie, not "mbox") */
-char *mail_tool_get_folder_name (CamelFolder *folder);
-
 /* Get the filename for our movemail folder or storage */
 gchar *mail_tool_get_local_movemail_path (void);
 

@@ -1,3 +1,18 @@
+2001-10-01  Dan Winship  <danw@ximian.com>
+
+	* mail-local.c (mail_local_reconfigure_folder): Don't use
+	mail_tool_get_folder_name here since that function only existed to
+	be clever in a certain case that this is not.
+	(reconfigure_folder_free): Remove the dialog from the hash table
+	here so that it gets removed in the successfully-reconfigured case
+	too. Don't unref folder_out if it never got set.
+	(reconfigure_clicked): Remove the hash table code from here; it's
+	in reconfigure_folder_free now.
+
+	* mail-tools.c (mail_tool_get_folder_name): No longer used by
+	anything.
+	(mail_tool_get_folder_from_urlname): Also not used anywhere.
+
 2001-10-01  Jeffrey Stedfast  <fejj@ximian.com>
 
 	* mail-tools.c (mail_tool_uri_to_folder): Don't pass the CREATE

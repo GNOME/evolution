@@ -48,46 +48,6 @@
 
 /* **************************************** */
 
-CamelFolder *
-mail_tool_get_folder_from_urlname (const gchar *url, const gchar *name,
-				   guint32 flags, CamelException *ex)
-{
-	CamelStore *store;
-	CamelFolder *folder;
-	
-	store = camel_session_get_store (session, url, ex);
-	if (!store)
-		return NULL;
-	
-	folder = camel_store_get_folder (store, name, flags, ex);
-	camel_object_unref (CAMEL_OBJECT (store));
-	
-	return folder;
-}
-
-char *
-mail_tool_get_folder_name (CamelFolder *folder)
-{
-	const char *name = camel_folder_get_full_name (folder);
-	char *path, *pend;
-	
-	/* This is a kludge. */
-	if (strcmp (name, "mbox") && strcmp (name, "mh") && strcmp (name, "maildir"))
-		return g_strdup (name);
-	
-	/* For mbox/mh, return the parent store's final path component. */
-	path = g_strdup (CAMEL_SERVICE (folder->parent_store)->url->path);
-	pend = path + strlen (path) - 1;
-	if (*pend == '/')
-		*pend = '\0';
-	
-	pend = path;
-	path = g_strdup (g_basename (path));
-	g_free (pend);
-	
-	return path;
-}
-
 gchar *
 mail_tool_get_local_movemail_path (void)
 {

@@ -1063,6 +1063,9 @@ struct _reconfigure_msg {
 	CamelFolder *folder_out;
 };
 
+/* hash table of folders that the user has a reconfig-folder dialog for */
+static GHashTable *reconfigure_folder_hash = NULL;
+
 static char *
 reconfigure_folder_describe (struct _mail_msg *mm, int done)
 {
@@ -1117,7 +1120,16 @@ reconfigure_folder_free (struct _mail_msg *mm)
 {
 	struct _reconfigure_msg *m = (struct _reconfigure_msg *)mm;
 
-	camel_object_unref (CAMEL_OBJECT (m->folder_out));
+	/* remove this folder from our hash since we are done with it */
+	g_hash_table_remove (reconfigure_folder_hash, m->fb->folder);
+	if (g_hash_table_size (reconfigure_folder_hash) == 0) {
+		/* additional cleanup */
+		g_hash_table_destroy (reconfigure_folder_hash);
+		reconfigure_folder_hash = NULL;
+	}
+
+	if (m->folder_out)
+		camel_object_unref (CAMEL_OBJECT (m->folder_out));
 	gtk_object_unref (GTK_OBJECT (m->fb));
 	g_free (m->newtype);
 }
@@ -1128,9 +1140,6 @@ static struct _mail_msg_op reconfigure_folder_op = {
 	reconfigure_folder_reconfigured,
 	reconfigure_folder_free,
 };
-
-/* hash table of folders that the user has a reconfig-folder dialog for */
-static GHashTable *reconfigure_folder_hash = NULL;
 
 static void
 reconfigure_clicked (GnomeDialog *dialog, int button, struct _reconfigure_msg *m)
@@ -1155,17 +1164,8 @@ reconfigure_clicked (GnomeDialog *dialog, int button, struct _reconfigure_msg *m
 	} else
 		mail_msg_free ((struct _mail_msg *)m);
 	
-	if (button != -1) {
-		/* remove this folder from our hash since we are done with it */
-		g_hash_table_remove (reconfigure_folder_hash, m->fb->folder);
-		if (g_hash_table_size (reconfigure_folder_hash) == 0) {
-			/* additional cleanup */
-			g_hash_table_destroy (reconfigure_folder_hash);
-			reconfigure_folder_hash = NULL;
-		}
-
+	if (button != -1)
 		gnome_dialog_close (dialog);
-	}
 }
 
 void
@@ -1174,7 +1174,7 @@ mail_local_reconfigure_folder (FolderBrowser *fb)
 	GladeXML *gui;
 	GnomeDialog *gd;
 	struct _reconfigure_msg *m;
-	char *name, *title;
+	char *title;
 	GList *p;
 	GtkWidget *menu;
 	char *currentformat;
@@ -1205,11 +1205,10 @@ mail_local_reconfigure_folder (FolderBrowser *fb)
 	gui = glade_xml_new (EVOLUTION_GLADEDIR "/local-config.glade", "dialog_format");
 	gd = (GnomeDialog *)glade_xml_get_widget (gui, "dialog_format");
 	
-	name = mail_tool_get_folder_name (fb->folder);
-	title = g_strdup_printf (_("Reconfigure %s"), name);
+	title = g_strdup_printf (_("Reconfigure /%s"),
+				 camel_folder_get_full_name (fb->folder));
 	gtk_window_set_title (GTK_WINDOW (gd), title);
 	g_free (title);
-	g_free (name);
 	
 	m->frame = glade_xml_get_widget (gui, "frame_format");
 	m->apply = glade_xml_get_widget (gui, "apply_format");
