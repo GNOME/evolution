@@ -271,6 +271,7 @@ AC_CACHE_CHECK([if system has necessary structs and functions for IPv6 support],
 		getaddrinfo ("www.ximian.com", NULL, &hints, &res);
 		freeaddrinfo (res);
 	],[
+		AC_DEFINE(ENABLE_IPv6,1,[Enable IPv6 support])
 		msg_ipv6=yes
 	],[
 		enable_ipv6=no
