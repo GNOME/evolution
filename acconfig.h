@@ -22,6 +22,7 @@
 #undef USE_FLOCK
 #undef NEED_KRB_SENDAUTH_PROTO
 #undef HAVE_ISBLANK
+#undef ENABLE_NNTP
 
 /* Sub-version identification string.  */
 #undef SUB_VERSION

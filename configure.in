@@ -167,7 +167,7 @@ dnl **************************************************
 AC_ARG_ENABLE(nntp, 
 [  --enable-nntp=[no/yes]      Enable NNTP support in evolution],,enable_nntp=no)
 if test "x$enable_nntp" = "xyes"; then
-	AC_DEFINE (ENABLE_NNTP)
+	AC_DEFINE(ENABLE_NNTP)
 	msg_nntp=Yes
 else
 	msg_nntp=No

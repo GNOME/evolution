@@ -1,3 +1,13 @@
+2001-01-29  Eskil Heyn Olsen  <eskil@eazel.com>
+
+	reviewed by: JP Rosevear  <jpr@ximian.com>
+
+	* acconfig.h:
+	Added the ENABLE_NNTP define
+	
+	* configure.in:
+	Fixed the NNTP m4 section.
+
 2001-01-29  Stanislav Visnovsky  <visnovsky@nenya.ms.mff.cuni.cz>
 
 	* configure.in: added sk to ALL_LINGUAS.
