@@ -103,7 +103,8 @@
 		</submenu>
 
 		<submenu name="View" _label="_View">
-			<menuitem name="ShortcutBar" id="ViewShortcutBar"/>
+	                <placeholder name="ViewBegin"/>
+	    		<menuitem name="ShortcutBar" id="ViewShortcutBar"/>
 			<menuitem name="FolderBar" id="ViewFolderBar"/>
 		</submenu>
 

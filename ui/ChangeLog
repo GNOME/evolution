@@ -1,3 +1,12 @@
+2001-03-16  Miguel de Icaza  <miguel@ximian.com>
+
+	* evolution-mail.xml: Added accelerator to elements missing
+	accelerators (Reply, Inline, Quoted, Attachments, Empty Trash,
+	Full Headers).
+
+	* evolution.xml: Added a placeholder for the beginning of the
+	view. 
+
 2001-03-12  Jeffrey Stedfast  <fejj@ximian.com>
 
 	* evolution-message-composer.xml: Added Reply-To field.

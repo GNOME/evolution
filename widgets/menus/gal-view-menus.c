@@ -148,10 +148,7 @@ define_views(BonoboUIComponent *component,
 static char *
 build_menus(GalViewMenus *menus)
 {
-	BonoboUINode *root;
-	BonoboUINode *menu;
-	BonoboUINode *submenu;
-	BonoboUINode *menuitem;
+	BonoboUINode *root, *menu, *submenu, *place, *menuitem;
 	char *xml;
 	xmlChar *string;
 	int length;
@@ -166,7 +163,10 @@ build_menus(GalViewMenus *menus)
 	submenu = bonobo_ui_node_new_child(menu, "submenu");
 	bonobo_ui_node_set_attr(submenu, "name", "View");
 
-	submenu = bonobo_ui_node_new_child(submenu, "submenu");
+	place = bonobo_ui_node_new_child(submenu, "placeholder");
+	bonobo_ui_node_set_attr(place, "name", "ViewBegin");
+	
+	submenu = bonobo_ui_node_new_child(place, "submenu");
 	bonobo_ui_node_set_attr(submenu, "name", "CurrentView");
 	bonobo_ui_node_set_attr(submenu, "_label", _("_Current View"));
 
