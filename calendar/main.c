@@ -229,7 +229,7 @@ close_save (GtkWidget *w)
 }
 
 void
-save_calendar_cmd (GtkWidget *widget, void *data)
+save_as_calendar_cmd (GtkWidget *widget, void *data)
 {
 	GtkFileSelection *fs;
 
@@ -251,6 +251,17 @@ save_calendar_cmd (GtkWidget *widget, void *data)
 	gtk_widget_destroy (GTK_WIDGET (fs));
 }
 
+void
+save_calendar_cmd (GtkWidget *widget, void *data)
+{
+	GnomeCalendar *gcal = data;
+
+	if (gcal->cal->filename)
+		calendar_save (gcal->cal, gcal->cal->filename);
+	else
+		save_as_calendar_cmd (widget, data);
+}
+
 GnomeUIInfo gnome_cal_file_menu [] = {
 	{ GNOME_APP_UI_ITEM, N_("New calendar"),  NULL, new_calendar_cmd },
 
@@ -258,6 +269,9 @@ GnomeUIInfo gnome_cal_file_menu [] = {
 	  GNOME_APP_PIXMAP_STOCK, GNOME_STOCK_MENU_OPEN },
 
 	{ GNOME_APP_UI_ITEM, N_("Save calendar..."), NULL, save_calendar_cmd, NULL, NULL,
+	  GNOME_APP_PIXMAP_STOCK, GNOME_STOCK_MENU_SAVE },
+
+	{ GNOME_APP_UI_ITEM, N_("Save calendar as..."), NULL, save_as_calendar_cmd, NULL, NULL,
 	  GNOME_APP_PIXMAP_STOCK, GNOME_STOCK_MENU_SAVE },
 
 	{ GNOME_APP_UI_SEPARATOR },
@@ -284,7 +298,7 @@ GnomeUIInfo gnome_cal_edit_menu [] = {
 
 GnomeUIInfo gnome_cal_menu [] = {
 	{ GNOME_APP_UI_SUBTREE, N_("File"), NULL, &gnome_cal_file_menu },
-	{ GNOME_APP_UI_SUBTREE, N_("Edit"), NULL, &gnome_cal_edit_menu },
+	{ GNOME_APP_UI_SUBTREE, N_("Calendar"), NULL, &gnome_cal_edit_menu },
 	{ GNOME_APP_UI_SUBTREE, N_("Help"), NULL, &gnome_cal_about_menu },
 	GNOMEUIINFO_END
 };

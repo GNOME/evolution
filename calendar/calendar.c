@@ -256,6 +256,9 @@ calendar_load_from_vobject (Calendar *cal, VObject *vcal)
 
 		if (strcmp (object_name, VCVersionProp) == 0)
 			continue; /* FIXME: implement */
+
+		if (strcmp (object_name, VCTimeZoneProp) == 0)
+			continue; /* FIXME: implement */
 		
 		ical = ical_object_create_from_vobject (this, object_name);
 
@@ -296,13 +299,17 @@ calendar_save (Calendar *cal, char *fname)
 {
 	VObject *vcal;
 	GList   *l;
-
+	time_t  now = time (NULL);
+	
 	if (fname == NULL)
 		fname = cal->filename;
+
+	/* WE call localtime for the side effect of setting tzname */
+	localtime (&now);
 	
 	vcal = newVObject (VCCalProp);
 	addPropValue (vcal, VCProdIdProp, "-//GNOME//NONSGML GnomeCalendar//EN");
-	addPropValue (vcal, VCTimeZoneProp, "NONE");
+	addPropValue (vcal, VCTimeZoneProp, tzname [0]);
 	addPropValue (vcal, VCVersionProp, VERSION);
 	cal->temp = vcal;
 

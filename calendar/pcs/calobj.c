@@ -303,7 +303,7 @@ load_recur_yearly_day (iCalObject *o, char **str)
 static void
 duration (iCalObject *o, char **str)
 {
-	int duration = 0;
+	unsigned int duration = 0;
 	
 	ignore_space (str);
 	if (**str != '#')
@@ -735,7 +735,7 @@ save_alarm (VObject *o, CalendarAlarm *alarm, iCalObject *ical)
 VObject *
 ical_object_to_vobject (iCalObject *ical)
 {
-	VObject *o, *alarm;
+	VObject *o, *alarm, *s;
 	GList *l;
 	
 	if (ical->type == ICAL_EVENT)
@@ -757,7 +757,7 @@ ical_object_to_vobject (iCalObject *ical)
 	addPropValue (o, VCDTendProp, isodate_from_time_t (ical->dtend));
 
 	/* dcreated */
-	addPropValue (o, VCDTendProp, isodate_from_time_t (ical->created));
+	addPropValue (o, VCDCreatedProp, isodate_from_time_t (ical->created));
 
 	/* completed */
 	if (ical->completed)
@@ -771,11 +771,20 @@ ical_object_to_vobject (iCalObject *ical)
 		store_list (o, VCExpDateProp, ical->exdate, ',');
 
 	/* description/comment */
-	addPropValue (o, VCDescriptionProp, ical->comment ? ical->comment : "No Comment");
+	if (ical->comment && strlen (ical->comment)){
+		s = addPropValue (o, VCDescriptionProp, ical->comment);
+		if (strchr (ical->comment, '\n'))
+			addProp (s, VCQuotedPrintableProp);
+	}
 
 	/* summary */
-	if (ical->summary)
-		addPropValue (o, VCSummaryProp, ical->summary);
+	if (strlen (ical->summary)){
+		s = addPropValue (o, VCSummaryProp, ical->summary);
+		if (strchr (ical->summary, '\n'))
+			addProp (s, VCQuotedPrintableProp);
+	} else {
+		addPropValue (o, VCSummaryProp, _("Appointment"));
+	}
 	
 	/* status */
 	addPropValue (o, VCStatusProp, ical->status);
