@@ -1546,7 +1546,7 @@ struct _sync_folder_msg {
 
 static char *sync_folder_desc(struct _mail_msg *mm, int done)
 {
-	return g_strdup(_("Synchronising folder"));
+	return g_strdup(_("Synchronizing folder"));
 }
 
 static void sync_folder_sync(struct _mail_msg *mm)
