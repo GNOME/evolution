@@ -178,7 +178,7 @@ Other bugs:
     - Alarm notification fixes (Rodrigo)
     - Timezone dialog fix (Dan)
     - Use weak refs instead of destroy signal (Rodrigo, Hans Petter)
-    - Use GtkMessageDialogs to for meeting-related questions (Rodrigo)
+    - Use GtkMessageDialogs for meeting-related questions (Rodrigo)
     - GtkObject -> GObject fixes (Everyone)
     - Connector-related fixes (Dan)
     - Made meeting/scheduling work correctly (JP)
