@@ -1,5 +1,10 @@
 2000-08-07  Jeffrey Stedfast  <fejj@helixcode.com>
 
+	* folder-browser-factory.c (control_activate): New menu item under
+	Actions to allow editing of messages.
+
+	* mail-ops.c (edit_message): New function for editing messages.
+
 	* component-factory.c (owner_set_cb): Create a global reference to
 	the Drafts mbox folder for the Composer to use
 

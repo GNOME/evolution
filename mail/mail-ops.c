@@ -834,11 +834,42 @@ mark_all_seen (BonoboUIHandler *uih, void *user_data, const char *path)
 	int i;
 
 	uids = camel_folder_get_uids (ml->folder);
-	for (i = 0; i < uids->len; i++)
-	{
+	for (i = 0; i < uids->len; i++) {
 		camel_folder_set_message_flags (ml->folder, uids->pdata[i],
 						CAMEL_MESSAGE_SEEN,
 						CAMEL_MESSAGE_SEEN);
+	}
+}
+
+static void
+real_edit_msg (MessageList *ml, const char *uid, gpointer user_data)
+{
+	CamelException *ex = user_data;
+	CamelMimeMessage *msg;
+	GtkWidget *composer;
+	
+	if (camel_exception_is_set (ex))
+		return;
+	
+	msg = camel_folder_get_message (ml->folder, uid, ex);
+	
+	composer = e_msg_composer_new_with_message (msg);
+	gtk_widget_show (composer);
+}
+
+void
+edit_message (BonoboUIHandler *uih, void *user_data, const char *path)
+{
+	FolderBrowser *fb = FOLDER_BROWSER (user_data);
+	MessageList *ml = fb->message_list;
+	CamelException ex;
+	
+	camel_exception_init (&ex);
+	message_list_foreach (ml, real_edit_msg, &ex);
+	if (camel_exception_is_set (&ex)) {
+		mail_exception_dialog ("Could not open message for editing", &ex, fb);
+		camel_exception_clear (&ex);
+		return;
 	}
 }
 
