@@ -211,6 +211,7 @@ e_week_view_main_item_draw_day (EWeekViewMainItem *wvmitem,
 	gchar buffer[128], *format_string;
 	gint month, day_of_month, max_width;
 	GdkColor *bg_color;
+	PangoLayout *layout;
 
 #if 0
 	g_print ("Drawing Day:%i at %i,%i\n", day, x, y);
@@ -325,12 +326,6 @@ e_week_view_main_item_draw_day (EWeekViewMainItem *wvmitem,
 			format_string = _("%d %b");
 	}
 
-	g_date_strftime (buffer, sizeof (buffer),
-			 format_string ? format_string : "%d", date);
-	date_width = gdk_string_width (font, buffer);
-	date_x = x + width - date_width - E_WEEK_VIEW_DATE_R_PAD;
-	date_x = MAX (date_x, x + 1);
-
 	if (selected) {
 		gdk_gc_set_foreground (gc, &week_view->colors[E_WEEK_VIEW_COLOR_DATES_SELECTED]);
 	} else if (week_view->multi_week_view) {
@@ -347,10 +342,20 @@ e_week_view_main_item_draw_day (EWeekViewMainItem *wvmitem,
 	} else {
 		gdk_gc_set_foreground (gc, &week_view->colors[E_WEEK_VIEW_COLOR_DATES]);
 	}
-	
-	gdk_draw_string (drawable, font, gc,
-			 date_x, y + E_WEEK_VIEW_DATE_T_PAD + font->ascent,
-			 buffer);
+
+	g_date_strftime (buffer, sizeof (buffer),
+			 format_string ? format_string : "%d", date);
+
+	layout = gtk_widget_create_pango_layout (GTK_WIDGET (week_view), buffer);
+	pango_layout_get_pixel_size (layout, &date_width, NULL);
+	date_x = x + width - date_width - E_WEEK_VIEW_DATE_R_PAD;
+	date_x = MAX (date_x, x + 1);
+
+	gdk_draw_layout (drawable, gc,
+			 date_x,
+			 y + E_WEEK_VIEW_DATE_T_PAD,
+			 layout);
+	g_object_unref (layout);
 
 	/* Draw the line under the date. */
 	if (!week_view->multi_week_view) {

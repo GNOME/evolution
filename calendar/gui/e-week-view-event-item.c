@@ -462,65 +462,91 @@ e_week_view_draw_time	(EWeekView	*week_view,
 {
 	GtkStyle *style;
 	GdkGC *gc;
-	GdkFont *font, *small_font;
+	GdkFont *font;
 	gint hour_to_display, suffix_width;
 	gint time_y_normal_font, time_y_small_font;
 	gchar buffer[128], *suffix;
+	PangoLayout *layout;
+	PangoFontDescription *small_font_desc;
 
 	style = gtk_widget_get_style (GTK_WIDGET (week_view));
 	font = gtk_style_get_font (style);
-	small_font = week_view->small_font;
+	small_font_desc = week_view->small_font_desc;
 	gc = week_view->main_gc;
 
 	gdk_gc_set_foreground (gc, &week_view->colors[E_WEEK_VIEW_COLOR_EVENT_TEXT]);
 
-	time_y_normal_font = time_y_small_font = time_y + font->ascent;
-	if (small_font)
-		time_y_small_font = time_y + small_font->ascent;
+	layout = gtk_widget_create_pango_layout (GTK_WIDGET (week_view), NULL);
+
+	time_y_normal_font = time_y_small_font = time_y;
+	if (small_font_desc)
+		time_y_small_font = time_y;
 
 	e_week_view_convert_time_to_display (week_view, hour, &hour_to_display,
 					     &suffix, &suffix_width);
 
-	if (week_view->use_small_font && week_view->small_font) {
+	if (week_view->use_small_font && week_view->small_font_desc) {
 		g_snprintf (buffer, sizeof (buffer), "%2i:%02i",
 			    hour_to_display, minute);
 
 		/* Draw the hour. */
-		if (hour_to_display < 10)
-			gdk_draw_text (drawable, font, gc,
-				       time_x + week_view->digit_width,
-				       time_y_normal_font, buffer + 1, 1);
-		else
-			gdk_draw_text (drawable, font, gc,
-				       time_x, time_y_normal_font, buffer, 2);
+		if (hour_to_display < 10) {
+			pango_layout_set_text (layout, buffer + 1, 1);
+			gdk_draw_layout (drawable, gc,
+					 time_x + week_view->digit_width,
+					 time_y_normal_font,
+					 layout);
+		} else {
+			pango_layout_set_text (layout, buffer, 2);
+			gdk_draw_layout (drawable, gc,
+					 time_x,
+					 time_y_normal_font,
+					 layout);
+		}
 
 		time_x += week_view->digit_width * 2;
 
 		/* Draw the start minute, in the small font. */
-		gdk_draw_text (drawable, week_view->small_font, gc,
-			       time_x, time_y_small_font, buffer + 3, 2);
+		pango_layout_set_font_description (layout, week_view->small_font_desc);
+		pango_layout_set_text (layout, buffer + 3, 2);
+		gdk_draw_layout (drawable, gc,
+				 time_x,
+				 time_y_small_font,
+				 layout);
+
+		pango_layout_set_font_description (layout, style->font_desc);
 
 		time_x += week_view->small_digit_width * 2;
 
 		/* Draw the 'am'/'pm' suffix, if 12-hour format. */
 		if (!week_view->use_24_hour_format) {
-			gdk_draw_string (drawable, font, gc,
-					 time_x, time_y_normal_font, suffix);
+			pango_layout_set_text (layout, suffix, -1);
+			gdk_draw_layout (drawable, gc,
+					 time_x,
+					 time_y_normal_font,
+					 layout);
 		}
 	} else {
 		/* Draw the start time in one go. */
 		g_snprintf (buffer, sizeof (buffer), "%2i:%02i%s",
 			    hour_to_display, minute, suffix);
-		if (hour_to_display < 10)
-			gdk_draw_string (drawable, font, gc,
+		if (hour_to_display < 10) {
+			pango_layout_set_text (layout, buffer + 1, -1);
+			gdk_draw_layout (drawable, gc,
 					 time_x + week_view->digit_width,
-					 time_y_normal_font, buffer + 1);
-		else
-			gdk_draw_string (drawable, font, gc,
-					 time_x, time_y_normal_font,
-					 buffer);
+					 time_y_normal_font,
+					 layout);
+		} else {
+			pango_layout_set_text (layout, buffer, -1);
+			gdk_draw_layout (drawable, gc,
+					 time_x,
+					 time_y_normal_font,
+					 layout);
+		}
 
 	}
+
+	g_object_unref (layout);
 }
 
 

@@ -580,7 +580,7 @@ comp_description (CalComponent *comp)
                 if (start != NULL && end != NULL) {
                         char *tmp, *tmp_utf;
                         tmp = g_strdup_printf (_("Free/Busy information (%s to %s)"), start, end);
-                        tmp_utf = e_utf8_from_locale_string (tmp);
+			tmp_utf = g_locale_to_utf8 (tmp, -1, NULL, NULL, NULL);
                         description = CORBA_string_dup (tmp_utf);
                         g_free (tmp_utf);
                         g_free (tmp);

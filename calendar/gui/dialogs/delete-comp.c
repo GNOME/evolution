@@ -86,7 +86,7 @@ delete_component_dialog (CalComponent *comp,
 
 		if (!consider_as_untitled) {
 			cal_component_get_summary (comp, &summary);
-			tmp = e_utf8_to_gtk_string (widget, summary.value);
+			tmp = g_strdup (summary.value);
 		} else
 			tmp = NULL;
 

@@ -77,10 +77,7 @@
 /* The minimum amount of space wanted on each side of the date string. */
 #define E_DAY_VIEW_DATE_X_PAD	4
 
-#define E_DAY_VIEW_LARGE_FONT	\
-	"-adobe-utopia-regular-r-normal-*-*-240-*-*-p-*-iso8859-*"
-#define E_DAY_VIEW_LARGE_FONT_FALLBACK	\
-	"-adobe-helvetica-bold-r-normal-*-*-240-*-*-p-*-iso8859-*"
+#define E_DAY_VIEW_LARGE_FONT_PTSIZE 24
 
 /* The offset from the top/bottom of the canvas before auto-scrolling starts.*/
 #define E_DAY_VIEW_AUTO_SCROLL_OFFSET	16
@@ -607,7 +604,7 @@ e_day_view_init (EDayView *day_view)
 
 	day_view->default_category = NULL;
 
-	day_view->large_font = NULL;
+	day_view->large_font_desc = NULL;
 
 	/* String to use in 12-hour time format for times in the morning. */
 	day_view->am_string = _("am");
@@ -911,9 +908,9 @@ e_day_view_destroy (GtkObject *object)
 		day_view->query = NULL;
 	}
 
-	if (day_view->large_font) {
-		gdk_font_unref (day_view->large_font);
-		day_view->large_font = NULL;
+	if (day_view->large_font_desc) {
+		g_object_unref (day_view->large_font_desc);
+		day_view->large_font_desc = NULL;
 	}
 
 	if (day_view->default_category) {
@@ -1106,6 +1103,7 @@ e_day_view_style_set (GtkWidget *widget,
 {
 	EDayView *day_view;
 	GdkFont *font;
+	PangoContext *context;
 	gint top_rows, top_canvas_height;
 	gint hour, max_large_hour_width;
 	gint minute, max_minute_width, i;
@@ -1123,14 +1121,13 @@ e_day_view_style_set (GtkWidget *widget,
 	font = gtk_style_get_font (gtk_widget_get_style (widget));
 
 	/* Create the large font. */
-	if (day_view->large_font != NULL) 
-		gdk_font_unref (day_view->large_font);
+	if (day_view->large_font_desc != NULL) 
+		g_object_unref (day_view->large_font_desc);
 
-	day_view->large_font = gdk_font_load (E_DAY_VIEW_LARGE_FONT);
-	if (!day_view->large_font)
-		day_view->large_font = gdk_font_load (E_DAY_VIEW_LARGE_FONT_FALLBACK);
-	if (!day_view->large_font)
-		day_view->large_font = font;
+	day_view->large_font_desc =
+		pango_font_description_copy (gtk_widget_get_style (widget)->font_desc);
+	pango_font_description_set_size (day_view->large_font_desc,
+					 E_DAY_VIEW_LARGE_FONT_PTSIZE * PANGO_SCALE);
 
 	/* Recalculate the height of each row based on the font size. */
 	day_view->row_height = font->ascent + font->descent + E_DAY_VIEW_EVENT_BORDER_HEIGHT + E_DAY_VIEW_EVENT_Y_PAD * 2 + 2 /* FIXME */;
@@ -1234,12 +1231,16 @@ e_day_view_style_set (GtkWidget *widget,
 	e_day_view_foreach_event (day_view, e_day_view_set_event_font_cb,
 				  font);
 
+#if 0
+	/* FIXME: Port. */
+
 	/* Set the fonts for the text items used when dragging. */
 	gnome_canvas_item_set (day_view->drag_long_event_item,
 			       "font_gdk", font, NULL);
 
 	gnome_canvas_item_set (day_view->drag_item,
 			       "font_gdk", font, NULL);
+#endif
 }
 
 

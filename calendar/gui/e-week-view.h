@@ -270,7 +270,7 @@ struct _EWeekView
 	gboolean use_small_font;
 
 	/* Small font to display the minutes. */
-	GdkFont *small_font;
+	PangoFontDescription *small_font_desc;
 
 	/* The widths of various pieces of text, used to determine which of
 	   several date formats to display, set in e_week_view_style_set(). */

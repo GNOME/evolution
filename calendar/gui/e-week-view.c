@@ -72,10 +72,7 @@
 #include "art/timezone-16.xpm"
 #include "art/jump.xpm"
 
-#define E_WEEK_VIEW_SMALL_FONT	\
-	"-adobe-utopia-regular-r-normal-*-*-100-*-*-p-*-iso8859-*"
-#define E_WEEK_VIEW_SMALL_FONT_FALLBACK	\
-	"-adobe-helvetica-medium-r-normal-*-*-80-*-*-p-*-iso8859-*"
+#define E_WEEK_VIEW_SMALL_FONT_PTSIZE 7
 
 #define E_WEEK_VIEW_JUMP_BUTTON_WIDTH	16
 #define E_WEEK_VIEW_JUMP_BUTTON_HEIGHT	8
@@ -337,11 +334,11 @@ e_week_view_init (EWeekView *week_view)
 
 	/* Create the small font. */
 	week_view->use_small_font = TRUE;
-	week_view->small_font = gdk_font_load (E_WEEK_VIEW_SMALL_FONT);
-	if (!week_view->small_font)
-		week_view->small_font = gdk_font_load (E_WEEK_VIEW_SMALL_FONT_FALLBACK);
-	if (!week_view->small_font)
-		week_view->use_small_font = FALSE;
+
+	week_view->small_font_desc =
+		pango_font_description_copy (gtk_widget_get_style (GTK_WIDGET (week_view))->font_desc);
+	pango_font_description_set_size (week_view->small_font_desc,
+					 E_WEEK_VIEW_SMALL_FONT_PTSIZE * PANGO_SCALE);
 
 	/* String to use in 12-hour time format for times in the morning. */
 	week_view->am_string = _("am");
@@ -494,9 +491,9 @@ e_week_view_destroy (GtkObject *object)
 		week_view->query = NULL;
 	}
 
-	if (week_view->small_font) {
-		gdk_font_unref (week_view->small_font);
-		week_view->small_font = NULL;
+	if (week_view->small_font_desc) {
+		g_object_unref (week_view->small_font_desc);
+		week_view->small_font_desc = NULL;
 	}
 
 	if (week_view->default_category) {
@@ -619,25 +616,62 @@ e_week_view_unrealize (GtkWidget *widget)
 		(*GTK_WIDGET_CLASS (parent_class)->unrealize)(widget);
 }
 
+static gint
+get_string_width (PangoLayout *layout, const gchar *string)
+{
+	gint width;
+
+	pango_layout_set_text (layout, string, -1);
+	pango_layout_get_pixel_size (layout, &width, NULL);
+	return width;
+}
+
+/* FIXME: This is also needed in e-day-view-time-item.c. We should probably use
+ * pango's approximation function, but it needs a language tag. Find out how to
+ * get one of those properly. */
+static gint
+get_digit_width (PangoLayout *layout)
+{
+	gint digit;
+	gint max_digit_width = 1;
+
+	for (digit = '0'; digit <= '9'; digit++) {
+		gchar digit_char;
+		gint  digit_width;
+
+		digit_char = digit;
+
+		pango_layout_set_text (layout, &digit_char, 1);
+		pango_layout_get_pixel_size (layout, &digit_width, NULL);
+
+		max_digit_width = MAX (max_digit_width, digit_width);
+	}
+
+	return max_digit_width;
+}
 
 static void
 e_week_view_style_set (GtkWidget *widget,
-		      GtkStyle  *previous_style)
+		       GtkStyle  *previous_style)
 {
 	EWeekView *week_view;
 	EWeekViewEventSpan *span;
 	GdkFont *font;
+	GtkStyle *style;
 	gint day, day_width, max_day_width, max_abbr_day_width;
 	gint month, month_width, max_month_width, max_abbr_month_width;
 	gint span_num;
 	GDate date;
 	gchar buffer[128];
+	PangoLayout *layout;
 
 	if (GTK_WIDGET_CLASS (parent_class)->style_set)
 		(*GTK_WIDGET_CLASS (parent_class)->style_set)(widget, previous_style);
 
 	week_view = E_WEEK_VIEW (widget);
-	font = gtk_style_get_font (gtk_widget_get_style (widget));
+	style = gtk_widget_get_style (widget);
+	font = gtk_style_get_font (style);
+	layout = gtk_widget_create_pango_layout (widget, NULL);
 
 	/* Recalculate the height of each row based on the font size. */
 	week_view->row_height = font->ascent + font->descent + E_WEEK_VIEW_EVENT_BORDER_HEIGHT * 2 + E_WEEK_VIEW_EVENT_TEXT_Y_PAD * 2;
@@ -645,8 +679,8 @@ e_week_view_style_set (GtkWidget *widget,
 
 	/* Check that the small font is smaller than the default font.
 	   If it isn't, we won't use it. */
-	if (week_view->small_font) {
-		if (font->ascent + font->descent <= week_view->small_font->ascent + week_view->small_font->descent)
+	if (week_view->small_font_desc) {
+		if (font->ascent + font->descent <= E_WEEK_VIEW_SMALL_FONT_PTSIZE)
 			week_view->use_small_font = FALSE;
 	}
 
@@ -663,12 +697,12 @@ e_week_view_style_set (GtkWidget *widget,
 	max_abbr_day_width = 0;
 	for (day = 0; day < 7; day++) {
 		g_date_strftime (buffer, 128, "%A", &date);
-		day_width = gdk_string_width (font, buffer);
+		day_width = get_string_width (layout, buffer);
 		week_view->day_widths[day] = day_width;
 		max_day_width = MAX (max_day_width, day_width);
 
 		g_date_strftime (buffer, 128, "%a", &date);
-		day_width = gdk_string_width (font, buffer);
+		day_width = get_string_width (layout, buffer);
 		week_view->abbr_day_widths[day] = day_width;
 		max_abbr_day_width = MAX (max_abbr_day_width, day_width);
 
@@ -681,30 +715,33 @@ e_week_view_style_set (GtkWidget *widget,
 		g_date_set_month (&date, month + 1);
 
 		g_date_strftime (buffer, 128, "%B", &date);
-		month_width = gdk_string_width (font, buffer);
+		month_width = get_string_width (layout, buffer);
 		week_view->month_widths[month] = month_width;
 		max_month_width = MAX (max_month_width, month_width);
 
 		g_date_strftime (buffer, 128, "%b", &date);
-		month_width = gdk_string_width (font, buffer);
+		month_width = get_string_width (layout, buffer);
 		week_view->abbr_month_widths[month] = month_width;
 		max_abbr_month_width = MAX (max_abbr_month_width, month_width);
 	}
 
-	week_view->space_width = gdk_string_width (font, " ");
-	week_view->colon_width = gdk_string_width (font, ":");
-	week_view->slash_width = gdk_string_width (font, "/");
-	week_view->digit_width = gdk_string_width (font, "5");
-	if (week_view->small_font)
-		week_view->small_digit_width = gdk_string_width (week_view->small_font, "5");
+	week_view->space_width = get_string_width (layout, " ");
+	week_view->colon_width = get_string_width (layout, ":");
+	week_view->slash_width = get_string_width (layout, "/");
+	week_view->digit_width = get_digit_width (layout);
+	if (week_view->small_font_desc) {
+		pango_layout_set_font_description (layout, week_view->small_font_desc);
+		week_view->small_digit_width = get_digit_width (layout);
+		pango_layout_set_font_description (layout, style->font_desc);
+	}
 	week_view->max_day_width = max_day_width;
 	week_view->max_abbr_day_width = max_abbr_day_width;
 	week_view->max_month_width = max_month_width;
 	week_view->max_abbr_month_width = max_abbr_month_width;
 
-	week_view->am_string_width = gdk_string_width (font,
+	week_view->am_string_width = get_string_width (layout,
 						       week_view->am_string);
-	week_view->pm_string_width = gdk_string_width (font,
+	week_view->pm_string_width = get_string_width (layout,
 						       week_view->pm_string);
 
 	/* Set the font of all the EText items. */
@@ -719,6 +756,8 @@ e_week_view_style_set (GtkWidget *widget,
 						       NULL);
 		}
 	}
+
+	g_object_unref (layout);
 }
 
 
@@ -857,7 +896,7 @@ e_week_view_recalc_cell_sizes (EWeekView *week_view)
 	time_width = e_week_view_get_time_string_width (week_view);
 
 	week_view->time_format = E_WEEK_VIEW_TIME_NONE;
-	if (week_view->use_small_font && week_view->small_font) {
+	if (week_view->use_small_font && week_view->small_font_desc) {
 		if (week_view->show_event_end_times
 		    && width / 2 > time_width * 2 + E_WEEK_VIEW_EVENT_TIME_SPACING)
 			week_view->time_format = E_WEEK_VIEW_TIME_BOTH_SMALL_MIN;
@@ -4088,7 +4127,7 @@ e_week_view_get_time_string_width	(EWeekView	*week_view)
 {
 	gint time_width;
 
-	if (week_view->use_small_font && week_view->small_font)
+	if (week_view->use_small_font && week_view->small_font_desc)
 		time_width = week_view->digit_width * 2
 			+ week_view->small_digit_width * 2;
 	else

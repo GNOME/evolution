@@ -171,6 +171,7 @@ e_day_view_top_item_draw (GnomeCanvasItem *canvas_item,
 	gint item_height, event_num;
 	struct tm day_start = { 0 };
 	struct icaltimetype day_start_tt;
+	PangoLayout *layout;
 
 #if 0
 	g_print ("In e_day_view_top_item_draw %i,%i %ix%i\n",
@@ -280,8 +281,13 @@ e_day_view_top_item_draw (GnomeCanvasItem *canvas_item,
 
 		date_width = gdk_string_width (font, buffer);
 		date_x = day_view->day_offsets[day] + (day_view->day_widths[day] - date_width) / 2;
-		gdk_draw_string (drawable, font, fg_gc,
-				 date_x - x, 3 + font->ascent - y, buffer);
+
+		layout = gtk_widget_create_pango_layout (GTK_WIDGET (day_view), buffer);
+		gdk_draw_layout (drawable, fg_gc,
+				 date_x - x,
+				 3 - y,
+				 layout);
+		g_object_unref (layout);
 
 		gdk_gc_set_clip_rectangle (fg_gc, NULL);
 
@@ -481,7 +487,11 @@ e_day_view_top_item_draw_long_event (EDayViewTopItem *dvtitem,
 				 item_y + E_DAY_VIEW_LONG_EVENT_BORDER_HEIGHT
 				 + E_DAY_VIEW_LONG_EVENT_Y_PAD
 				 + font->ascent - y,
+#if 0
 				 buffer);
+#else
+		"FIXME text");
+#endif
 
 		gdk_gc_set_clip_rectangle (fg_gc, NULL);
 
@@ -522,7 +532,11 @@ e_day_view_top_item_draw_long_event (EDayViewTopItem *dvtitem,
 					 time_x,
 					 item_y + E_DAY_VIEW_LONG_EVENT_Y_PAD
 					 + font->ascent + 1 - y,
+#if 0
 					 buffer);
+#else
+			"FIXME text");
+#endif
 
 			max_icon_x -= time_width + E_DAY_VIEW_LONG_EVENT_TIME_X_PAD;
 		}

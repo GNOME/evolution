@@ -344,9 +344,7 @@ meeting_page_fill_widgets (CompEditorPage *page, CalComponent *comp)
 				string = g_strdup_printf ("%s <%s>", organizer.cn, strip);
 			else
 				string = g_strdup (strip);
-			s = e_utf8_to_gtk_string (priv->existing_organizer, string);
-			gtk_label_set_text (GTK_LABEL (priv->existing_organizer), s);
-			g_free (s);
+			gtk_label_set_text (GTK_LABEL (priv->existing_organizer), string);
 			g_free (string);
 
 			priv->existing = TRUE;
@@ -744,8 +742,7 @@ meeting_page_construct (MeetingPage *mpage, EMeetingModel *emm,
 		ItipAddress *a = l->data;
 		char *s;
 		
-		s = e_utf8_to_gtk_string (GTK_COMBO (priv->organizer)->entry, a->full);
-		priv->address_strings = g_list_append (priv->address_strings, s);
+		priv->address_strings = g_list_append (priv->address_strings, g_strdup (a->full));
 
 		/* Note that the address specified by the backend gets
 		 * precedence over the default mail address.

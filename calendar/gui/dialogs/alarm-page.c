@@ -620,9 +620,7 @@ alarm_page_set_summary (CompEditorPage *page, const char *summary)
 	apage = ALARM_PAGE (page);
 	priv = apage->priv;
 
-	s = e_utf8_to_gtk_string (priv->summary, summary);
-	gtk_label_set_text (GTK_LABEL (priv->summary), s);
-	g_free (s);
+	gtk_label_set_text (GTK_LABEL (priv->summary), summary);
 }
 
 /* set_dates handler for the alarm page */

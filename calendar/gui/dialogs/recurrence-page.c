@@ -1930,9 +1930,7 @@ recurrence_page_set_summary (CompEditorPage *page, const char *summary)
 	rpage = RECURRENCE_PAGE (page);
 	priv = rpage->priv;
 
-	s = e_utf8_to_gtk_string (priv->summary, summary);
-	gtk_label_set_text (GTK_LABEL (priv->summary), s);
-	g_free (s);
+	gtk_label_set_text (GTK_LABEL (priv->summary), summary);
 }
 
 /* set_dates handler for the recurrence page */

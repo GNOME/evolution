@@ -1,3 +1,67 @@
+2003-01-25  Hans Petter Jansson  <hpj@ximian.com>
+
+	Mainly making all views use PangoLayouts for text. When drawing a
+	PangoLayout, the draw offset is the top left corner of the layout,
+	not the text's baseline. Keep this in mind when viewing the
+	changes. I'll be brief about the exact changes, since they speak
+	better for themselves.
+
+	* gui/e-day-view-time-item.c (e_day_view_time_item_get_column_width):
+	Use Pango.
+	(e_day_view_time_item_draw): Use Pango.
+
+	* gui/e-day-view-top-item.c (e_day_view_top_item_draw): Use Pango.
+	(e_day_view_top_item_draw_long_event): Add some FIXME text so we can
+	see when this is being used. Is it in use at all?
+
+	* gui/e-day-view.c: No longer specify an explicit X font string for
+	the large font. Use the main font, and change the point size.
+	(e_day_view_init): Use Pango.
+	(e_day_view_style_set): Use Pango. Comment out the gdk_font setting
+	for the drag text items for now.
+
+	* gui/e-day-view.h: Use Pango.
+
+	* gui/e-week-view-event-item.c (e_week_view_draw_time): Use Pango.
+
+	* gui/e-week-view-main-item.c (e_week_view_main_item_draw_day):
+	Use Pango.
+
+	* gui/e-week-view-titles-item.c (e_week_view_titles_item_draw):
+	Use Pango.
+
+	* gui/e-week-view.c: No longer specify an explicit X font string for
+	the small font. Use the main font, and change the point size.
+	(e_week_view_init): Use Pango.
+	(e_week_view_destroy): Use Pango.
+	(get_string_width): Implemented for convenience.
+	(get_digit_width): Implemented for convenience.
+	(e_week_view_style_set): Use Pango.
+	(e_week_view_recalc_cell_sizes): Use Pango.
+	(e_week_view_get_time_string_width): Use Pango.
+
+	* gui/e-week-view.h: Use Pango.
+
+	Following are some random UTF-8 fixes and a crash fix.
+
+	* gui/itip-utils.c (comp_description): Use g_locale_to_utf8 ().
+
+	* gui/dialogs/comp-editor.c (make_title_from_comp): Return a
+	UTF-8 string.
+
+	* gui/dialogs/alarm-page.c (alarm_page_set_summary): Pass UTF-8
+	directly to GTK.
+
+	* gui/dialogs/delete-comp.c (delete_component_dialog): Ditto.
+
+	* gui/dialogs/meeting-page.c (meeting_page_fill_widgets): Ditto.
+	(meeting_page_construct): Ditto.
+
+	* gui/dialogs/recurrence-page.c (recurrence_page_set_summary): Ditto.
+
+	* gui/dialogs/event-editor.c (event_editor_finalize): Fix crash caused
+	by gtk_object_destroy()-ing a non-GtkObject.
+
 2003-01-24  Hans Petter Jansson  <hpj@ximian.com>
 
 	* gui/e-day-view.c (e_day_view_on_editing_stopped): Don't insist

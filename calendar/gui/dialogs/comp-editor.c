@@ -768,7 +768,7 @@ comp_editor_get_cal_client (CompEditor *editor)
 static char *
 make_title_from_comp (CalComponent *comp)
 {
-	char *title;
+	char *title, *title_utf8;
 	const char *type_string;
 	CalComponentVType type;
 	CalComponentText text;
@@ -794,14 +794,15 @@ make_title_from_comp (CalComponent *comp)
 
 	cal_component_get_summary (comp, &text);
 	if (text.value) {
-		char *summary;
-		summary = e_utf8_to_locale_string (text.value);
-		title = g_strdup_printf (type_string, summary);
-		g_free (summary);
-	} else
+		title = g_strdup_printf (type_string, text.value);
+	} else {
 		title = g_strdup_printf (type_string, _("No summary"));
+	}
 
-	return title;
+	title_utf8 = g_locale_to_utf8 (title, -1, NULL, NULL, NULL);
+	g_free (title);
+
+	return title_utf8;
 }
 
 static const char *

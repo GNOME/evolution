@@ -375,7 +375,6 @@ event_editor_finalize (GObject *object)
 	g_object_unref((priv->meet_page));
 	g_object_unref((priv->sched_page));
 
-	gtk_object_destroy (GTK_OBJECT (priv->model));
 	g_object_unref((priv->model));
 
 	if (G_OBJECT_CLASS (parent_class)->finalize)
