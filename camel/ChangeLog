@@ -1,3 +1,10 @@
+2003-05-22  Jeffrey Stedfast  <fejj@ximian.com>
+
+	* camel-object.c (camel_object_bag_destroy): Lets try this
+	again. We don't actually want to free the key here, because
+	camel_object_bag_remove() does that for us. This should fix bug
+	#43406 properly.
+
 2003-05-20  Jeffrey Stedfast  <fejj@ximian.com>
 
 	* camel-object.c (camel_object_bag_destroy): Create a second

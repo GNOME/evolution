@@ -1107,29 +1107,18 @@ save_object(void *key, CamelObject *o, GPtrArray *objects)
 	g_ptr_array_add(objects, o);
 }
 
-static void
-save_key(void *key, CamelObject *o, GPtrArray *keys)
-{
-	g_ptr_array_add (keys, key);
-}
-
 void camel_object_bag_destroy(CamelObjectBag *bag)
 {
 	GPtrArray *objects = g_ptr_array_new();
-	GPtrArray *keys = g_ptr_array_new ();
 	int i;
 
 	sem_getvalue(&bag->reserve_sem, &i);
 	g_assert(i == 1);
 
 	g_hash_table_foreach(bag->object_table, (GHFunc)save_object, objects);
-	g_hash_table_foreach(bag->object_table, (GHFunc)save_key, keys);
-	for (i=0;i<objects->len;i++) {
+	for (i=0;i<objects->len;i++)
 		camel_object_bag_remove(bag, objects->pdata[i]);
-		bag->free_key (keys->pdata[i]);
-	}
 	
-	g_ptr_array_free (keys, TRUE);
 	g_ptr_array_free(objects, TRUE);
 	g_hash_table_destroy(bag->object_table);
 	g_hash_table_destroy(bag->key_table);
