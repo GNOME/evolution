@@ -1,5 +1,16 @@
 2001-01-21  Jeffrey Stedfast  <fejj@ximian.com>
 
+	* mail-crypto.c (pgp_mime_part_sign): Don't forget to unref the
+	filters.
+	(pgp_mime_part_verify): Same.
+	(pgp_mime_part_encrypt): Same.
+	(pgp_mime_part_decrypt): Take NotZed's advice and use
+	camel_stream_mem_new_with_buffer instead of writing to a new
+	stream_mem. Also use camel_data_wrapper_construct_from_stream
+	instead of creating a parser and using that.
+
+2001-01-21  Jeffrey Stedfast  <fejj@ximian.com>
+
 	* mail-crypto.c: Updated header comment and fixed some ref/unref
 	count problems in the various functions. Also fixed some other
 	little things.
