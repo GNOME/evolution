@@ -1777,18 +1777,74 @@ void
 icalvalue_set_text(icalvalue* value, char* v)
 {
     struct icalvalue_impl* impl; 
-    
+    char *p,*d;
+
     icalerror_check_arg_rv( (value!=0),"value");
     icalerror_check_arg_rv( (v!=0),"v");
 
     icalerror_check_value_type(value, ICAL_TEXT_VALUE);
 
     impl = (struct icalvalue_impl*)value;
-    impl->data.v_string = strdup(v);
+    impl->data.v_string = malloc(strlen(v)+1);
 
     if (impl->data.v_string == 0){
       errno = ENOMEM;
+      return;
     }
+
+    for(d=impl->data.v_string,p=v; *p!=0; p++){
+
+	if (*p == '\\') { 
+	    p++;
+
+	    if (p == 0){
+		break;
+	    }
+
+	    switch(*p){
+		case 'n': {
+		    *d='\n';d++;
+		    break;
+		}
+
+		case '\\': {
+		    *d='\\';d++;
+		    break;
+		}
+		
+		case 't': {
+		    *d='\n';d++;
+		    break;
+		}
+		case 'r': {
+		    *d='\r';d++;
+		    break;
+		}
+		case 'b': {
+		    *d='\b';d++;
+		    break;
+		}
+		case 'f': {
+		    *d='\f';d++;
+		    break;
+		}
+		
+		case ';':
+		case ',':{
+		    *d=*p;d++;
+		    break;
+		}
+
+		case '"':{
+		    *d='\"';d++;
+		    break;
+		}		
+	    }
+	} else {
+	    *d=*p;d++;
+	}
+    }
+    *d='\0';
 
 }
 

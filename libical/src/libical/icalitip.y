@@ -6,7 +6,7 @@
   
   DESCRIPTION:
   
-  $Id: icalitip.y,v 1.1 2000/02/17 18:02:27 alves Exp $
+  $Id: icalitip.y,v 1.1.1.2 2000/02/21 13:19:26 alves Exp $
   $Locker:  $
 
   (C) COPYRIGHT 1999 Eric Busboom 
@@ -393,7 +393,7 @@ utcoffset_value:
 
 
 void clear_recur()
-{
+{   
     memset(&skiplist, ICAL_RECURRENCE_ARRAY_MAX_BYTE, sizeof(skiplist));
     skippos = 0;
 

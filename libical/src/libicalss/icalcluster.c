@@ -67,7 +67,6 @@ icalerrorenum icalcluster_create_cluster(char *path)
     f = fopen(path,"w");
 
     if (f == 0){
-	fclose(f);
 	icalerror_set_errno(ICAL_FILE_ERROR);
 	return ICAL_FILE_ERROR;
     }

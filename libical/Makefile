@@ -1,5 +1,5 @@
 # Generated automatically from Makefile.in by configure.
-VERSION = 0.15
+VERSION = 0.15a
 DISTNAME = libical
 SUBDIRS = src
 
@@ -26,7 +26,7 @@ depend:
 	done
 
 clean:
-	-/bin/rm -rf $(DISTNAME)* config.log config.cache config.status
+	-/bin/rm -rf $(DISTNAME)* config.log config.cache config.status configure.scan
 	-/bin/rm *~
 	for dir in $(SUBDIRS) ; do \
 	  (cd $$dir ; $(MAKE) $@) || exit 1; \

@@ -1237,15 +1237,38 @@ void test_duration()
 
     printf("%s\n",icalvalue_as_ical_string(v));
 
+    icalvalue_free(v);
     v = icalvalue_new_from_string(ICAL_PERIOD_VALUE,
 				  "19971015T050000Z/PT8H30M");
 
     printf("%s\n",icalvalue_as_ical_string(v));
 
+    icalvalue_free(v);
     v = icalvalue_new_from_string(ICAL_PERIOD_VALUE,
 				  "19971015T050000Z/19971015T060000Z");
 
     printf("%s\n",icalvalue_as_ical_string(v));
+    icalvalue_free(v);
+
+
+}
+
+
+void test_strings(){
+
+    icalvalue *v;
+
+    v = icalvalue_new_text("foo;bar;bats");
+    
+    printf("%s\n",icalvalue_as_ical_string(v));
+
+    icalvalue_free(v);
+
+    v = icalvalue_new_text("foo\\;b\nar\\;ba\tts");
+    
+    printf("%s\n",icalvalue_as_ical_string(v));
+    
+    icalvalue_free(v);
 
 
 }
@@ -1253,24 +1276,27 @@ void test_duration()
 int main(int argc, char *argv[])
 {
 
+
+    printf("\n------------Test strings---------------\n");
+    test_strings();
+
+exit(0);
+
+    printf("\n------------Test recur---------------\n");
+    test_recur();
+
 #if 0
     printf("\n------------Test Calendar---------------\n");
     test_calendar();
 
     printf("\n------------Test Store---------------\n");
     test_store();
+#endif
 
     printf("\n------------Test duration---------------\n");
     test_duration();
 
-#endif
 
-    printf("\n------------Test recur---------------\n");
-    test_recur();
-
-
-
-exit(0);
 
     printf("\n------------Test Restriction---------------\n");
     test_restriction();

@@ -206,11 +206,13 @@ void icalstore_free(icalstore* s)
 	icalcluster_free(impl->cluster);
     }
 
-    while( (str=pvl_pop(impl->directory)) != 0){
+    while(impl->directory !=0 &&  (str=pvl_pop(impl->directory)) != 0){
 	free(str);
     }
 
-    pvl_free(impl->directory);
+    if(impl->directory != 0){
+	pvl_free(impl->directory);
+    }
 
     impl->directory = 0;
     impl->directory_iterator = 0;
