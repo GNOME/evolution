@@ -1,3 +1,8 @@
+2003-12-16  JP Rosevear  <jpr@ximian.com>
+
+	* em-format-html-display.c: #ifdef out certain code pieces if
+	s/mime isn't supported
+
 2003-12-14  JP Rosevear <jpr@ximian.com>
 
 	* em-folder-tree.c (emft_tree_row_collapsed): Fix erroneous

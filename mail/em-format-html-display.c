@@ -73,8 +73,10 @@
 #include <e-util/e-gui-utils.h>
 #include <e-util/e-dialog-utils.h>
 
+#if defined(HAVE_NSS)
 #include "certificate-viewer.h"
 #include "e-cert-db.h"
+#endif
 
 #include "mail-config.h"
 
@@ -638,6 +640,7 @@ efhd_xpkcs7mime_info_response(GtkWidget *w, guint button, struct _smime_pobject 
 	po->widget = NULL;
 }
 
+#if defined(HAVE_NSS)
 static void
 efhd_xpkcs7mime_viewcert_clicked(GtkWidget *button, struct _smime_pobject *po)
 {
@@ -662,6 +665,7 @@ efhd_xpkcs7mime_viewcert_clicked(GtkWidget *button, struct _smime_pobject *po)
 		g_warning("can't find certificate for %s <%s>", info->name?info->name:"", info->email?info->email:"");
 	}
 }
+#endif
 
 static void
 efhd_xpkcs7mime_add_cert_table(GtkWidget *vbox, EDList *certlist, struct _smime_pobject *po)
@@ -691,10 +695,15 @@ efhd_xpkcs7mime_add_cert_table(GtkWidget *vbox, EDList *certlist, struct _smime_
 			gtk_misc_set_alignment((GtkMisc *)w, 0.0, 0.5);
 			g_free(la);
 			gtk_table_attach(table, w, 0, 1, n, n+1, GTK_FILL, GTK_FILL, 3, 3);
+#if defined(HAVE_NSS)
 			w = gtk_button_new_with_mnemonic(_("_View Certificate"));
 			gtk_table_attach(table, w, 1, 2, n, n+1, 0, 0, 3, 3);
 			g_object_set_data((GObject *)w, "e-cert-info", info);
 			g_signal_connect(w, "clicked", G_CALLBACK(efhd_xpkcs7mime_viewcert_clicked), po);
+#else
+			w = gtk_label_new (_("This certificate is not viewable"));
+			gtk_table_attach(table, w, 1, 2, n, n+1, 0, 0, 3, 3);
+#endif
 			n++;
 		}
 		
