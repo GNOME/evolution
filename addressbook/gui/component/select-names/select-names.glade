@@ -114,7 +114,7 @@
 	<widget>
 	  <class>GtkTable</class>
 	  <name>table4</name>
-	  <rows>1</rows>
+	  <rows>2</rows>
 	  <columns>2</columns>
 	  <homogeneous>False</homogeneous>
 	  <row_spacing>6</row_spacing>
@@ -124,29 +124,6 @@
 	    <expand>True</expand>
 	    <fill>True</fill>
 	  </child>
-
-	  <widget>
-	    <class>Custom</class>
-	    <name>table-source</name>
-	    <creation_function>e_addressbook_create_ebook_table</creation_function>
-	    <int1>0</int1>
-	    <int2>0</int2>
-	    <last_modification_time>Sat, 10 Jun 2000 22:02:57 GMT</last_modification_time>
-	    <child>
-	      <left_attach>0</left_attach>
-	      <right_attach>1</right_attach>
-	      <top_attach>0</top_attach>
-	      <bottom_attach>1</bottom_attach>
-	      <xpad>0</xpad>
-	      <ypad>0</ypad>
-	      <xexpand>True</xexpand>
-	      <yexpand>True</yexpand>
-	      <xshrink>False</xshrink>
-	      <yshrink>False</yshrink>
-	      <xfill>True</xfill>
-	      <yfill>True</yfill>
-	    </child>
-	  </widget>
 
 	  <widget>
 	    <class>GtkTable</class>
@@ -160,7 +137,7 @@
 	      <left_attach>1</left_attach>
 	      <right_attach>2</right_attach>
 	      <top_attach>0</top_attach>
-	      <bottom_attach>1</bottom_attach>
+	      <bottom_attach>2</bottom_attach>
 	      <xpad>0</xpad>
 	      <ypad>0</ypad>
 	      <xexpand>True</xexpand>
@@ -174,7 +151,7 @@
 	    <widget>
 	      <class>GtkLabel</class>
 	      <name>label20</name>
-	      <label>Message Recipients</label>
+	      <label>_Message Recipients:</label>
 	      <justify>GTK_JUSTIFY_CENTER</justify>
 	      <wrap>False</wrap>
 	      <xalign>0</xalign>
@@ -194,6 +171,58 @@
 		<yshrink>False</yshrink>
 		<xfill>True</xfill>
 		<yfill>False</yfill>
+	      </child>
+	    </widget>
+	  </widget>
+
+	  <widget>
+	    <class>GtkVBox</class>
+	    <name>vbox6</name>
+	    <homogeneous>False</homogeneous>
+	    <spacing>3</spacing>
+	    <child>
+	      <left_attach>0</left_attach>
+	      <right_attach>1</right_attach>
+	      <top_attach>0</top_attach>
+	      <bottom_attach>2</bottom_attach>
+	      <xpad>0</xpad>
+	      <ypad>0</ypad>
+	      <xexpand>True</xexpand>
+	      <yexpand>True</yexpand>
+	      <xshrink>False</xshrink>
+	      <yshrink>False</yshrink>
+	      <xfill>True</xfill>
+	      <yfill>True</yfill>
+	    </child>
+
+	    <widget>
+	      <class>GtkLabel</class>
+	      <name>label22</name>
+	      <label>Co_ntacts:</label>
+	      <justify>GTK_JUSTIFY_CENTER</justify>
+	      <wrap>False</wrap>
+	      <xalign>0</xalign>
+	      <yalign>0.5</yalign>
+	      <xpad>0</xpad>
+	      <ypad>0</ypad>
+	      <child>
+		<padding>0</padding>
+		<expand>False</expand>
+		<fill>False</fill>
+	      </child>
+	    </widget>
+
+	    <widget>
+	      <class>Custom</class>
+	      <name>table-source</name>
+	      <creation_function>e_addressbook_create_ebook_table</creation_function>
+	      <int1>0</int1>
+	      <int2>0</int2>
+	      <last_modification_time>Sat, 10 Jun 2000 22:02:57 GMT</last_modification_time>
+	      <child>
+		<padding>0</padding>
+		<expand>True</expand>
+		<fill>True</fill>
 	      </child>
 	    </widget>
 	  </widget>
