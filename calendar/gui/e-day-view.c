@@ -48,6 +48,7 @@
 #include <libgnome/gnome-i18n.h>
 #include <libgnome/gnome-exec.h>
 #include <libgnome/gnome-util.h>
+#include <e-util/e-categories-config.h>
 #include <e-util/e-dialog-utils.h>
 
 #include "cal-util/timeutil.h"
