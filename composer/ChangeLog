@@ -1,3 +1,9 @@
+2004-02-06  Rodney Dawes  <dobey@ximian.com>
+
+	* e-msg-composer-attachment-bar.c: add accel and icon for
+	the "remove" item in the popup menu.
+	Patch from Paolo Borelli  <pborelli@katamail.com>
+
 2004-02-03  Chris Toshok  <toshok@ximian.com>
 
 	* e-msg-composer.c (e_msg_composer_guess_mime_type): use

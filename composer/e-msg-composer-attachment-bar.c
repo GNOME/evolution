@@ -437,13 +437,14 @@ remove_cb (GtkWidget *widget, gpointer data, GtkWidget *for_widget)
 	remove_selected (bar);
 }
 
-
+
 /* Popup menu handling.  */
 
 static GnomeUIInfo icon_context_menu_info[] = {
-	GNOMEUIINFO_ITEM (N_("Remove"),
-			  N_("Remove selected items from the attachment list"),
-			  remove_cb, NULL),
+	GNOMEUIINFO_ITEM_STOCK (N_("_Remove"),
+				N_("Remove selected items from the attachment list"),
+				remove_cb,
+				GTK_STOCK_REMOVE),
 	GNOMEUIINFO_MENU_PROPERTIES_ITEM (properties_cb, NULL),
 	GNOMEUIINFO_END
 };
