@@ -26,10 +26,6 @@
 #include <config.h>
 #endif
 
-#ifdef HAVE_ALLOCA_H
-#include <alloca.h>
-#endif
-
 #include "e-xml-utils.h"
 
 #include <stdio.h>
@@ -441,3 +437,66 @@ e_xml_get_translated_string_prop_by_name (const xmlNode *parent, const xmlChar *
 }
 
 
+int
+e_xml_save_file (const char *filename, xmlDocPtr doc)
+{
+	char *filesave, *slash, *xmlbuf;
+	size_t n, written = 0;
+	int ret, fd, size;
+	int errnosave;
+	ssize_t w;
+	
+	filesave = alloca (strlen (filename) + 5);
+	slash = strrchr (filename, '/');
+	if (slash)
+		sprintf (filesave, "%.*s.#%s", slash - filename + 1, filename, slash + 1);
+	else
+		sprintf (filesave, ".#%s", filename);
+	
+	fd = open (filesave, O_WRONLY | O_CREAT | O_TRUNC, 0600);
+	if (fd == -1)
+		return -1;
+	
+	xmlDocDumpMemory (doc, (xmlChar **) &xmlbuf, &size);
+	if (size <= 0) {
+		close (fd);
+		unlink (filesave);
+		errno = ENOMEM;
+		return -1;
+	}
+	
+	n = (size_t) size;
+	do {
+		do {
+			w = write (fd, xmlbuf + written, n - written);
+		} while (w == -1 && errno == EINTR);
+		
+		if (w > 0)
+			written += w;
+	} while (w != -1 && written < n);
+	
+	xmlFree (xmlbuf);
+	
+	if (written < n || fsync (fd) == -1) {
+		errnosave = errno;
+		close (fd);
+		unlink (filesave);
+		errno = errnosave;
+		return -1;
+	}
+	
+	while ((ret = close (fd)) == -1 && errno == EINTR)
+		;
+	
+	if (ret == -1)
+		return -1;
+	
+	if (rename (filesave, filename) == -1) {
+		errnosave = errno;
+		unlink (filesave);
+		errno = errnosave;
+		return -1;
+	}
+	
+	return 0;
+}
