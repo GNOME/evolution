@@ -193,7 +193,7 @@ service_setv (CamelObject *object, CamelException *ex, CamelArgV *args)
 		} else if (tag == CAMEL_SERVICE_PATH) {
 			/* set the path */
 			if (strcmp (url->path, args->argv[i].ca_str) != 0) {
-				camel_url_set_host (url, args->argv[i].ca_str);
+				camel_url_set_path (url, args->argv[i].ca_str);
 				reconnect = TRUE;
 			}
 		} else {

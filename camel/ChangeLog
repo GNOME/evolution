@@ -1,3 +1,8 @@
+2004-06-21  Christian Kellner <gicmo@xatom.net>
+
+	* camel-service.c (service_setv): Really set the path if tag is 
+	CAMEL_SERVICE_PATH.
+
 2004-06-21  Jeffrey Stedfast  <fejj@novell.com>
 
 	* camel-mime-filter-enriched.c (enriched_to_html): Fixed a number
