@@ -39,7 +39,8 @@ static EReflowSortedClass *parent_class = NULL;
 /* The arguments we take */
 enum {
 	ARG_0,
-	ARG_BOOK
+	ARG_BOOK,
+	ARG_QUERY
 };
 
 GtkType
@@ -70,28 +71,31 @@ e_minicard_view_get_type (void)
 static void
 e_minicard_view_class_init (EMinicardViewClass *klass)
 {
-  GtkObjectClass *object_class;
-  GnomeCanvasItemClass *item_class;
-
-  object_class = (GtkObjectClass*) klass;
-  item_class = (GnomeCanvasItemClass *) klass;
-
-  parent_class = gtk_type_class (e_reflow_sorted_get_type ());
-  
-gtk_object_add_arg_type ("EMinicardView::book", GTK_TYPE_OBJECT, 
-			   GTK_ARG_READWRITE, ARG_BOOK);
-
-  object_class->set_arg   = e_minicard_view_set_arg;
-  object_class->get_arg   = e_minicard_view_get_arg;
-  object_class->destroy   = e_minicard_view_destroy;
-  
-  /* GnomeCanvasItem method overrides */
+	GtkObjectClass *object_class;
+	GnomeCanvasItemClass *item_class;
+	
+	object_class = (GtkObjectClass*) klass;
+	item_class = (GnomeCanvasItemClass *) klass;
+	
+	parent_class = gtk_type_class (e_reflow_sorted_get_type ());
+	
+	gtk_object_add_arg_type ("EMinicardView::book", GTK_TYPE_OBJECT, 
+				 GTK_ARG_READWRITE, ARG_BOOK);
+	gtk_object_add_arg_type ("EMinicardView::query", GTK_TYPE_STRING,
+				 GTK_ARG_READWRITE, ARG_QUERY);
+	
+	object_class->set_arg   = e_minicard_view_set_arg;
+	object_class->get_arg   = e_minicard_view_get_arg;
+	object_class->destroy   = e_minicard_view_destroy;
+	
+	/* GnomeCanvasItem method overrides */
 }
 
 static void
 e_minicard_view_init (EMinicardView *view)
 {
 	view->book = NULL;
+	view->query = g_strdup("(contains \"full_name\" \"\")");
 	view->book_view = NULL;
 	view->get_view_idle = 0;
 	view->create_card_id = 0;
@@ -170,7 +174,7 @@ static gboolean
 get_view(EMinicardView *view)
 {
 	E_REFLOW(view)->items = NULL;
-	e_book_get_book_view(view->book, "(contains \"full_name\" \"\")", book_view_loaded, view);
+	e_book_get_book_view(view->book, view->query, book_view_loaded, view);
 
 	view->get_view_idle = 0;
 	return FALSE;
@@ -196,6 +200,13 @@ e_minicard_view_set_arg (GtkObject *o, GtkArg *arg, guint arg_id)
 				g_idle_add((GSourceFunc)get_view, view);
 		}
 		break;
+	case ARG_QUERY:
+		if (view->query)
+			g_free(view->query);
+		view->query = g_strdup(GTK_VALUE_STRING (*arg));
+		if (view->get_view_idle == 0)
+			g_idle_add((GSourceFunc)get_view, view);
+		break;
 	}
 }
 
@@ -208,11 +219,13 @@ e_minicard_view_get_arg (GtkObject *object, GtkArg *arg, guint arg_id)
 
 	switch (arg_id) {
 	case ARG_BOOK:
-	  GTK_VALUE_OBJECT (*arg) = GTK_OBJECT(e_minicard_view->book);
-	  break;
+		GTK_VALUE_OBJECT (*arg) = GTK_OBJECT(e_minicard_view->book);
+		break;
+	case ARG_QUERY:
+		GTK_VALUE_STRING (*arg) = g_strdup(e_minicard_view->query);
 	default:
-	  arg->type = GTK_TYPE_INVALID;
-	  break;
+		arg->type = GTK_TYPE_INVALID;
+		break;
 	}
 }
 

@@ -36,6 +36,14 @@ extern "C" {
  *
  * name		type		read/write	description
  * --------------------------------------------------------------------------------
+ * book         EBook           RW              book to query
+ * query        string          RW              query string
+ *
+ * From EReflowSorted:   (you should really know what you're doing if you set these.)
+ * compare_func  GCompareFunc   RW              compare function
+ * string_func   EReflowStringFunc RW           string function
+ *
+ * From EReflow:
  * minimum_width double         RW              minimum width of the reflow.  width >= minimum_width
  * width        double          R               width of the reflow
  * height       double          RW              height of the reflow
@@ -57,6 +65,7 @@ struct _EMinicardView
 	
 	/* item specific fields */
 	EBook *book;
+	char *query;
 	EBookView *book_view;
 
 	int get_view_idle;

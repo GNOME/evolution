@@ -1,3 +1,10 @@
+2000-04-10  Christopher James Lahey  <clahey@helixcode.com>
+
+	* addressbook/gui/minicard/e-minicard-view.c,
+	addressbook/gui/minicard/e-minicard-view.h: Added a "query"
+	argument to the e-minicard-view.  Documented all the arguments to
+	the e-minicard-view.
+
 2000-04-10  Chris Toshok  <toshok@helixcode.com>
 
 	* addressbook/gui/minicard/e-minicard-view.c (get_view): change
