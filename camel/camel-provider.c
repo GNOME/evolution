@@ -153,3 +153,39 @@ camel_provider_load (CamelSession *session, const char *path, CamelException *ex
 
 	camel_provider_module_init (session);
 }
+
+
+/**
+ * camel_provider_auto_detect:
+ * @provider: camel provider
+ * @settings: currently set settings
+ * @auto_detected: output hash table of auto-detected values
+ * @ex: exception
+ *
+ * After filling in the standard Username/Hostname/Port/Path settings
+ * (which must be set in @settings), if the provider supports it, you
+ * may wish to have the provider auto-detect further settings based on
+ * the aformentioned settings.
+ *
+ * If the provider does not support auto-detection, @auto_detected
+ * will be set to %NULL. Otherwise the provider will attempt to
+ * auto-detect whatever it can and file them into @auto_detected. If
+ * for some reason it cannot auto-detect anything (not enough
+ * information provided in @settings?) then @auto_deetected will be
+ * set to %NULL and an exception may be set to explain why it failed.
+ *
+ * Returns 0 on success or -1 on fail.
+ **/
+int
+camel_provider_auto_detect (CamelProvider *provider, GHashTable *settings,
+			    GHashTable **auto_detected, CamelException *ex)
+{
+	g_return_val_if_fail (provider != NULL, -1);
+	
+	if (provider->auto_detect) {
+		return provider->auto_detect (settings, auto_detected, ex);
+	} else {
+		*auto_detected = NULL;
+		return 0;
+	}
+}

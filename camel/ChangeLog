@@ -1,3 +1,8 @@
+2002-04-26  Jeffrey Stedfast  <fejj@ximian.com>
+
+	* camel-provider.c (camel_provider_auto_detect): New function to
+	auto-detect configuration settings.
+
 2002-04-26  Not Zed  <NotZed@Ximian.com>
 
 	* camel-block-file.c (block_file_validate_root): Remove the

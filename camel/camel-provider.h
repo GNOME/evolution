@@ -36,6 +36,7 @@ extern "C" {
 
 #include <camel/camel-types.h>
 #include <camel/camel-object.h>
+#include <camel/camel-exception.h>
 
 #define CAMEL_PROVIDER(obj) ((CamelProvider *)(obj))
 
@@ -128,6 +129,8 @@ typedef struct {
 #define CAMEL_PROVIDER_CONF_DEFAULT_HOSTNAME  { CAMEL_PROVIDER_CONF_LABEL, "hostname", NULL, N_("_Host:"), NULL }
 #define CAMEL_PROVIDER_CONF_DEFAULT_PATH      { CAMEL_PROVIDER_CONF_ENTRY, "path", NULL, N_("_Path:"), "" }
 
+typedef int (*CamelProviderAutoDetectFunc) (GHashTable *settings, GHashTable **auto_detected, CamelException *ex);
+
 typedef struct {
 	/* Provider name used in CamelURLs. */
 	char *protocol;
@@ -155,18 +158,21 @@ typedef struct {
 	/* Extra configuration information */
 	CamelProviderConfEntry *extra_conf;
 	
+	/* auto-detection function */
+	CamelProviderAutoDetectFunc auto_detect;
+	
 	/* CamelType(s) of its store and/or transport. If both are
 	 * set, then they are assumed to be linked together and the
 	 * transport type can only be used in an account that also
 	 * uses the store type (eg, Exchange or NNTP).
 	 */
 	CamelType object_types[CAMEL_NUM_PROVIDER_TYPES];
-
+	
 	/* GList of CamelServiceAuthTypes the provider supports */
 	GList *authtypes;
-
+	
 	GHashTable *service_cache[CAMEL_NUM_PROVIDER_TYPES];
-
+	
 	GHashFunc url_hash;
 	GCompareFunc url_equal;
 } CamelProvider;
@@ -176,6 +182,10 @@ void camel_provider_load (CamelSession *session, const char *path, CamelExceptio
 
 /* This is defined by each module, not by camel-provider.c. */
 void camel_provider_module_init (CamelSession *session);
+
+
+int camel_provider_auto_detect (CamelProvider *provider, GHashTable *settings,
+				GHashTable **auto_detected, CamelException *ex);
 
 #ifdef __cplusplus
 }
