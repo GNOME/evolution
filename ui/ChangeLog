@@ -1,3 +1,7 @@
+2001-03-19  Jeffrey Stedfast  <fejj@ximian.com>
+
+	* evolution-mail.xml: Add Resend Message under the File menu.
+
 2001-03-17  Miguel de Icaza  <miguel@ximian.com>
 
 	* evolution-calendar.xml: Added ShowWeekView, ShowMonthView,

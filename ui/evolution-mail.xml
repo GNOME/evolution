@@ -34,14 +34,18 @@
         </submenu>
       
         <placeholder name="FileOps">
-
+        
         <menuitem name="MessageOpen" verb=""
-        _label="_Open Selected Items"
-        accel="*Control*o"/>
-
+         _label="_Open Selected Items"
+         accel="*Control*o"/>
+        
+        <menuitem name="MessageResend" verb=""
+         _label="_Resend Messages"
+         accel=""/>
+        
         <menuitem name="MessageSaveAs" verb=""
-        _label="_Save As..."
-	pixtype="stock" pixname="Save"
+         _label="_Save As..."
+	 pixtype="stock" pixname="Save"
          accel="*Control**Alt*s"/>
         </placeholder>
 
@@ -126,42 +130,42 @@
         <placeholder name="Component">
       	    <menuitem name="SendReceive" verb="MailGetSend"
       	     _label="_Send and Receive"/>
-      	      
+      	    
       	    <separator/>
-      	  
+      	    
       	    <menuitem name="MessageReplySndr" verb=""
       	    _label="_Reply"
       	    pixtype="pixbuf"
       	    accel="*Control*r"/>
-      	  
+      	    
       	    <menuitem name="MessageReplyAll" verb=""
       	    _label="Reply to _All"
       	    pixtype="pixbuf"
       	    accel="*Control**Shift*r"/>
-      	  
+      	    
       	    <menuitem name="MessageForwardAttached" verb=""
       	    _label="_Forward"
       	     accel="*Control*f"/>
-      	  
+      	    
       	    <submenu name="ForwardAs" _label="Forward As">
-      	  	<menuitem name="MessageForwardInlined" verb=""
+                <menuitem name="MessageForwardInlined" verb=""
       	  	 _label="_Inline"
       	  	 accel="*Control**Shift*j"/>
-
-      	  	 <menuitem name="MessageForwardQuoted" verb=""
-      	  	  _label="_Quoted"/>
-
-      	  	  <menuitem name="MessageForwardAttachment" verb=""
-      	  	  _label="_Attachment"/>
-      	  
-      	  	 <separator/>
-      	  		    
-      	  	 <menuitem name="Redirect" verb=""
-      	  	  _label="Redirect (FIXME: implement me)"/>
+                
+                <menuitem name="MessageForwardQuoted" verb=""
+      	  	 _label="_Quoted"/>
+                
+                <menuitem name="MessageForwardAttachment" verb=""
+      	  	 _label="_Attachment"/>
+                
+      	  	<separator/>
+                
+      	  	<menuitem name="Redirect" verb=""
+                 _label="Redirect (FIXME: implement me)"/>
       	    </submenu>
-      	  
-      	    <separator/>
-      	  
+      	    
+            <separator/>
+      	    
      	    <menuitem name="MessageMove" verb=""
       	    _label="_Move to Folder..."
       	    pixtype="pixbuf"
