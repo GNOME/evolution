@@ -1410,11 +1410,11 @@ emc_popup_properties_response(GtkWidget *dialog, int response, struct _prop_data
 
 		switch (arg->tag & CAMEL_ARG_TYPE) {
 		case CAMEL_ARG_BOO:
-			arg->ca_int = gtk_toggle_button_get_active(prop_data->widgets[i]);
+			arg->ca_int = gtk_toggle_button_get_active ((GtkToggleButton *) prop_data->widgets[i]);
 			break;
 		case CAMEL_ARG_STR:
 			g_free(arg->ca_str);
-			arg->ca_str = gtk_entry_get_text(prop_data->widgets[i]);
+			arg->ca_str = gtk_entry_get_text ((GtkEntry *) prop_data->widgets[i]);
 			break;
 		default:
 			printf("unknown property type set\n");
@@ -1441,14 +1441,12 @@ emc_popup_properties_free(void *data)
 }
 
 static void
-emc_popup_properties_got_folder(const char *uri, CamelFolder *folder, void *data)
+emc_popup_properties_got_folder (char *uri, CamelFolder *folder, void *data)
 {
-	MailComponent *mc = data;
-
 	if (folder) {
 		GtkWidget *dialog, *w, *table, *label;
 		GSList *list, *l;
-		char *name, *txt;
+		char *name;
 		int row = 1;
 		gint32 count, i;
 		struct _prop_data *prop_data;
@@ -1466,15 +1464,15 @@ emc_popup_properties_got_folder(const char *uri, CamelFolder *folder, void *data
 
 		/* TODO: maybe we want some basic properties here, like message counts/approximate size/etc */
 		w = gtk_frame_new(_("Properties"));
-		gtk_box_pack_start(((GtkDialog *)dialog)->vbox, w, TRUE, TRUE, 6);
+		gtk_box_pack_start ((GtkBox *) ((GtkDialog *)dialog)->vbox, w, TRUE, TRUE, 6);
 		table = gtk_table_new(g_slist_length(list)+1, 2, FALSE);
 		gtk_container_add((GtkContainer *)w, table);
 		label = gtk_label_new(_("Folder Name"));
-		gtk_misc_set_alignment(label, 1.0, 0.5);
-		gtk_table_attach(table, label, 0, 1, 0, 1, GTK_FILL|GTK_EXPAND, 0, 3, 0);
+		gtk_misc_set_alignment ((GtkMisc *) label, 1.0, 0.5);
+		gtk_table_attach ((GtkTable *) table, label, 0, 1, 0, 1, GTK_FILL|GTK_EXPAND, 0, 3, 0);
 		label = gtk_label_new(name);
-		gtk_misc_set_alignment(label, 0.0, 0.5);
-		gtk_table_attach(table, label, 1, 2, 0, 1, GTK_FILL|GTK_EXPAND, 0, 3, 0);
+		gtk_misc_set_alignment ((GtkMisc *) label, 0.0, 0.5);
+		gtk_table_attach ((GtkTable *) table, label, 1, 2, 0, 1, GTK_FILL|GTK_EXPAND, 0, 3, 0);
 
 		/* build an arggetv/argv to retrieve/store the results */
 		count = g_slist_length(list);
@@ -1511,26 +1509,26 @@ emc_popup_properties_got_folder(const char *uri, CamelFolder *folder, void *data
 			case CAMEL_ARG_BOO:
 				w = gtk_check_button_new_with_label(prop->description);
 				gtk_toggle_button_set_active((GtkToggleButton *)w, argv->argv[i].ca_int != 0);
-				gtk_table_attach(table, w, 0, 2, row, row+1, 0, 0, 3, 3);
+				gtk_table_attach ((GtkTable *) table, w, 0, 2, row, row+1, 0, 0, 3, 3);
 				prop_data->widgets[i] = w;
 				break;
 			case CAMEL_ARG_STR:
 				label = gtk_label_new(prop->description);
-				gtk_misc_set_alignment(label, 1.0, 0.5);
-				gtk_table_attach(table, label, 0, 1, row, row+1, GTK_FILL|GTK_EXPAND, 0, 3, 3);
+				gtk_misc_set_alignment ((GtkMisc *) label, 1.0, 0.5);
+				gtk_table_attach ((GtkTable *) table, label, 0, 1, row, row+1, GTK_FILL|GTK_EXPAND, 0, 3, 3);
 
 				w = gtk_entry_new();
 				if (argv->argv[i].ca_str) {
-					gtk_entry_set_text((GtkEntry *)w, txt);
+					gtk_entry_set_text((GtkEntry *)w, argv->argv[i].ca_str);
 					camel_object_free(folder, argv->argv[i].tag, argv->argv[i].ca_str);
 					argv->argv[i].ca_str = NULL;
 				}
-				gtk_table_attach(table, w, 1, 2, row, row+1, GTK_FILL, 0, 3, 3);
+				gtk_table_attach ((GtkTable *) table, w, 1, 2, row, row+1, GTK_FILL, 0, 3, 3);
 				prop_data->widgets[i] = w;
 				break;
 			default:
 				w = gtk_label_new("CamelFolder error: unsupported propery type");
-				gtk_table_attach(table, w, 0, 2, row, row+1, 0, 0, 3, 3);
+				gtk_table_attach ((GtkTable *) table, w, 0, 2, row, row+1, 0, 0, 3, 3);
 				break;
 			}
 
