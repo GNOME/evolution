@@ -591,7 +591,7 @@ construct_phone_list(ECard *card, const char *prop, char **values)
 		       NULL);
 
 	for (i = 0; values[i]; i ++) {
-		ECardPhone *phone_entry = g_new0(ECardPhone, 1);
+		ECardPhone *phone_entry = e_card_phone_new();
 		phone_entry->number = g_strdup (values[i]);
 		e_card_list_append(list, phone_entry);
 	}
@@ -609,8 +609,9 @@ struct prop_info {
 	/* query prop,  ldap attr,          type,              list construct function */
 	{ "full_name",  "cn",               PROP_TYPE_NORMAL,  NULL },
 	{ "title",      "title",            PROP_TYPE_NORMAL,  NULL },
+	{ "org",        "o",                PROP_TYPE_NORMAL,  NULL },
 	{ "email",      "mail",             PROP_TYPE_LIST,    construct_email_list },
-	{ "phone",      "telephoneNumber",  PROP_TYPE_LIST,    construct_phone_list },
+	{ "phone",      "telephonenumber",  PROP_TYPE_LIST,    construct_phone_list },
 };
 
 static int num_prop_infos = sizeof(prop_info_table) / sizeof(prop_info_table[0]);

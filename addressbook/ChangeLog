@@ -1,5 +1,9 @@
 2000-05-09  Christopher James Lahey  <clahey@helixcode.com>
 
+	* backend/pas/pas-backend-ldap.c: Enabled a couple more fields
+
+2000-05-09  Christopher James Lahey  <clahey@helixcode.com>
+
 	* backend/pas/pas-backend-file.c: Added a default card to all new
 	file backends.
 
