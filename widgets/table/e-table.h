@@ -94,6 +94,7 @@ typedef struct {
 
 	int structure_change_id;
 	int expansion_change_id;
+	int dimension_change_id;
 
 	int reflow_idle_id;
 	int scroll_idle_id;

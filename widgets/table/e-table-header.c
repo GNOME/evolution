@@ -599,7 +599,7 @@ e_table_header_move (ETableHeader *eth, int source_index, int target_index)
 	eth_do_insert (eth, target_index, old);
 	eth_update_offsets (eth);
 	
-	gtk_signal_emit (GTK_OBJECT (eth), eth_signals [DIMENSION_CHANGE]);
+	gtk_signal_emit (GTK_OBJECT (eth), eth_signals [DIMENSION_CHANGE], eth->width);
 	gtk_signal_emit (GTK_OBJECT (eth), eth_signals [STRUCTURE_CHANGE]);
 }
 
@@ -838,7 +838,7 @@ eth_calc_widths (ETableHeader *eth)
 	}
 	g_free (widths);
 	if (changed)
-		gtk_signal_emit (GTK_OBJECT (eth), eth_signals [DIMENSION_CHANGE]);
+		gtk_signal_emit (GTK_OBJECT (eth), eth_signals [DIMENSION_CHANGE], eth->width);
 	eth_update_offsets (eth);
 }
 

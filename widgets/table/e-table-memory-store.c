@@ -42,7 +42,8 @@ duplicate_value (ETableMemoryStore *etms, int col, const void *val)
 	case E_TABLE_MEMORY_STORE_COLUMN_TYPE_STRING:
 		return g_strdup (val);
 	case E_TABLE_MEMORY_STORE_COLUMN_TYPE_PIXBUF:
-		gdk_pixbuf_ref ((GdkPixbuf *) val);
+		if (val)
+			gdk_pixbuf_ref ((GdkPixbuf *) val);
 		return (GdkPixbuf *) val;
 	case E_TABLE_MEMORY_STORE_COLUMN_TYPE_CUSTOM:
 		if (etms->priv->columns[col].custom.duplicate_value)
@@ -107,7 +108,8 @@ etms_free_value (ETableModel *etm, int col, void *value)
 		g_free (value);
 		break;
 	case E_TABLE_MEMORY_STORE_COLUMN_TYPE_PIXBUF:
-		gdk_pixbuf_unref (value);
+		if (value)
+			gdk_pixbuf_unref (value);
 		break;
 	case E_TABLE_MEMORY_STORE_COLUMN_TYPE_CUSTOM:
 		if (etms->priv->columns[col].custom.free_value)

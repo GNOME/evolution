@@ -153,9 +153,10 @@ ecv_draw (ECellView *ecell_view, GdkDrawable *drawable,
 	for (i = 0; i < vbox_view->subcell_view_count; i++) {
 		/* Now cause our subcells to draw their contents,
 		   shifted by subcell_offset pixels */
+		int height = e_cell_height (vbox_view->subcell_views[i], vbox_view->model_cols[i], view_col, row);
 		e_cell_draw (vbox_view->subcell_views[i], drawable,
 			     vbox_view->model_cols[i], view_col, row, flags,
-			     x1, y1 + subcell_offset, x2, y2);
+			     x1, y1 + subcell_offset, x2, y1 + subcell_offset + height);
 
 		subcell_offset += e_cell_height (vbox_view->subcell_views[i], vbox_view->model_cols[i], view_col, row);
 	}

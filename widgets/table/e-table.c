@@ -192,27 +192,37 @@ e_table_state_change (ETable *et)
 			 et_signals [STATE_CHANGE]);
 }
 
+#define CHECK_HORIZONTAL(et) if ((et)->horizontal_scrolling || (et)->horizontal_resize) e_table_header_update_horizontal (et->header);
+
 static void
-e_table_header_change (ETable *et)
+set_header_width (ETable *et)
 {
-	e_table_state_change (et);
 	if (et->horizontal_resize) {
 		int width = e_table_header_total_width (et->header);
-		gtk_widget_set_usize (GTK_WIDGET (et->header_canvas), width,
+		gtk_widget_set_usize (GTK_WIDGET (et->table_canvas), width,
 				      -2);
+		gtk_widget_queue_resize (GTK_WIDGET (et->table_canvas));
 	}
 }
 
 static void
 structure_changed (ETableHeader *header, ETable *et)
 {
-	e_table_header_change (et);
+	e_table_state_change (et);
+	set_header_width (et);
 }
 
 static void
 expansion_changed (ETableHeader *header, ETable *et)
 {
-	e_table_header_change (et);
+	e_table_state_change (et);
+	set_header_width (et);
+}
+
+static void
+dimension_changed (ETableHeader *header, int total_width, ETable *et)
+{
+	set_header_width (et);
 }
 
 static void
@@ -227,6 +237,9 @@ disconnect_header (ETable *e_table)
 	if (e_table->expansion_change_id)
 		gtk_signal_disconnect (GTK_OBJECT (e_table->header),
 				       e_table->expansion_change_id);
+	if (e_table->dimension_change_id)
+		gtk_signal_disconnect (GTK_OBJECT (e_table->header),
+				       e_table->dimension_change_id);
 
 	gtk_object_unref(GTK_OBJECT(e_table->header));
 	e_table->header = NULL;
@@ -246,6 +259,9 @@ connect_header (ETable *e_table, ETableState *state)
 	e_table->expansion_change_id =
 		gtk_signal_connect (GTK_OBJECT (e_table->header), "expansion_change",
 				    expansion_changed, e_table);
+	e_table->dimension_change_id =
+		gtk_signal_connect (GTK_OBJECT (e_table->header), "dimension_change",
+				    dimension_changed, e_table);
 }
 
 static void
@@ -400,6 +416,7 @@ e_table_init (GtkObject *object)
 	e_table->sort_info_change_id    = 0;
 	e_table->structure_change_id    = 0;
 	e_table->expansion_change_id    = 0;
+	e_table->dimension_change_id    = 0;
 	e_table->reflow_idle_id         = 0;
 	e_table->scroll_idle_id         = 0;
 
@@ -774,8 +791,7 @@ et_table_row_changed (ETableModel *table_model, int row, ETable *et)
 	if (!et->need_rebuild) {
 		if (e_table_group_remove (et->group, row))
 			e_table_group_add (et->group, row);
-		if (et->horizontal_scrolling || et->horizontal_resize)
-			e_table_header_update_horizontal(et->header);
+		CHECK_HORIZONTAL(et);
 	}
 }
 
@@ -796,8 +812,7 @@ et_table_rows_inserted (ETableModel *table_model, int row, int count, ETable *et
 			e_table_group_increment(et->group, row, count);
 		for (i = 0; i < count; i++)
 			e_table_group_add (et->group, row + i);
-		if (et->horizontal_scrolling || et->horizontal_resize)
-			e_table_header_update_horizontal(et->header);
+		CHECK_HORIZONTAL(et);
 	}
 }
 
@@ -811,8 +826,7 @@ et_table_rows_deleted (ETableModel *table_model, int row, int count, ETable *et)
 			e_table_group_remove (et->group, row + i);
 		if (row != row_count)
 			e_table_group_decrement(et->group, row, count);
-		if (et->horizontal_scrolling || et->horizontal_resize)
-			e_table_header_update_horizontal(et->header);
+		CHECK_HORIZONTAL(et);
 	}
 }
 
@@ -907,8 +921,7 @@ changed_idle (gpointer data)
 	et->need_rebuild = 0;
 	et->rebuild_idle_id = 0;
 
-	if (et->horizontal_scrolling || et->horizontal_resize)
-		e_table_header_update_horizontal(et->header);
+	CHECK_HORIZONTAL(et);
 
 	return FALSE;
 }
@@ -920,6 +933,9 @@ et_canvas_realize (GtkWidget *canvas, ETable *e_table)
 		e_table->white_item,
 		"fill_color_gdk", &GTK_WIDGET(e_table->table_canvas)->style->base[GTK_STATE_NORMAL],
 		NULL);
+
+	CHECK_HORIZONTAL(e_table);
+	set_header_width (e_table);
 }
 
 static void

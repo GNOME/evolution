@@ -66,7 +66,7 @@ typedef struct {
 	GtkObjectClass parent_class;
 
 	void (*structure_change) (ETableHeader *eth);
-	void (*dimension_change) (ETableHeader *eth, int col);
+	void (*dimension_change) (ETableHeader *eth, int width);
 	void (*expansion_change) (ETableHeader *eth);
 	int (*request_width) (ETableHeader *eth, int col);
 } ETableHeaderClass;
