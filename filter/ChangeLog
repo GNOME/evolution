@@ -1,3 +1,7 @@
+2000-06-02  Christopher James Lahey  <clahey@helixcode.com>
+
+	* filter-driver.c: Free the exception and the priv struct.
+
 2000-06-01  Christopher James Lahey  <clahey@helixcode.com>
 
 	* filter-arg-types.c (arg_address_edit_value): Search for ad in

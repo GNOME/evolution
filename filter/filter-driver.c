@@ -163,6 +163,10 @@ filter_driver_finalise (GtkObject *obj)
 
 	gtk_object_unref((GtkObject *)p->eval);
 
+	camel_exception_free(p->ex);
+	
+	g_free(p);
+
 	((GtkObjectClass *)(filter_driver_parent))->finalize((GtkObject *)obj);
 }
 
