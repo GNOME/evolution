@@ -164,6 +164,14 @@ void mail_msg_free(void *msg)
 		mail_proxy_event(destroy_objects, NULL, activity, NULL);
 }
 
+/* hash table of ops->dialogue of active errors */
+static GHashTable *active_errors = NULL;
+
+static void error_gone(GtkObject *o, void *data)
+{
+	g_hash_table_remove(active_errors, data);
+}
+
 void mail_msg_check_error(void *msg)
 {
 	struct _mail_msg *m = msg;
@@ -181,6 +189,9 @@ void mail_msg_check_error(void *msg)
 	    || m->ex.id == CAMEL_EXCEPTION_USER_CANCEL)
 		return;
 
+	if (active_errors == NULL)
+		active_errors = g_hash_table_new(NULL, NULL);
+
 	if (m->ops->describe_msg)
 		what = m->ops->describe_msg(m, FALSE);
 
@@ -190,9 +201,21 @@ void mail_msg_check_error(void *msg)
 	} else
 		text = g_strdup_printf(_("Error while performing operation:\n%s"), camel_exception_get_description(&m->ex));
 
+	/* check to see if we have dialogue already running for this operation */
+	/* we key on the operation pointer, which is at least accurate enough
+	   for the operation type, although it could be on a different object. */
+	if (g_hash_table_lookup(active_errors, m->ops)) {
+		g_warning("Error occured while existing dialogue active:\n%s", text);
+		g_free(text);
+		return;
+	}
+
 	gd = (GnomeDialog *)gnome_error_dialog(text);
-	gnome_dialog_run_and_close(gd);
+	g_hash_table_insert(active_errors, m->ops, gd);
 	g_free(text);
+	gtk_signal_connect((GtkObject *)gd, "destroy", error_gone, m->ops);
+	gnome_dialog_set_close(gd, TRUE);
+	gtk_widget_show((GtkWidget *)gd);
 }
 
 void mail_msg_cancel(unsigned int msgid)

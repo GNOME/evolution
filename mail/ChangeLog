@@ -1,3 +1,11 @@
+2001-09-21    <NotZed@Ximian.com>
+
+	* mail-mt.c (mail_msg_check_error): If we have an operation that
+	failed before, dont show the dialogue for the the new error.  Also
+	use gtk_widget_show rather than invoking another main loop.  Fix
+	for lazy people who like to leave their mailers running and go
+	home.
+
 2001-09-21  Jeffrey Stedfast  <fejj@ximian.com>
 
 	* mail-ops.c (mail_send_message): Use the mail-tools convenience
