@@ -1,5 +1,15 @@
 2001-06-11  Christopher James Lahey  <clahey@ximian.com>
 
+	* backend/ebook/e-book.c (e_book_load_uri,
+	e_book_get_supported_fields, e_book_authenticate_user,
+	e_book_remove_card_by_id, e_book_add_vcard, e_book_commit_vcard,
+	e_book_get_cursor, e_book_get_book_view, e_book_get_changes): Made
+	it so that all of these functions queue their ops before calling
+	their CORBA functions.  This way, if the response is sent back
+	before the CORBA function returns there's no problem.  Added
+	e_book_unqueue_op so that the op could be unqueued if the CORBA
+	call fails.
+
 	* backend/ebook/e-book-listener.c, backend/ebook/e-book-listener.h
 	(e_book_listener_unpop_response): Added this function to put a
 	response back into the queue.
