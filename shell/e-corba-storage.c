@@ -105,14 +105,14 @@ impl_StorageListener_new_folder (PortableServer_Servant servant,
 	storage_listener_servant = (StorageListenerServant *) servant;
 	storage = storage_listener_servant->storage;
 
-	e_folder = e_folder_new (folder->name,
+	e_folder = e_folder_new (folder->display_name,
 				 folder->type,
 				 folder->description);
 
 	e_folder_set_physical_uri (e_folder, folder->physical_uri);
 
 	if (! e_storage_new_folder (storage, path, e_folder)) {
-		g_print ("Cannot register folder -- %s %s\n", path, folder->name);
+		g_print ("Cannot register folder -- %s %s\n", path, folder->display_name);
 		CORBA_exception_set (ev,
 				     CORBA_USER_EXCEPTION,
 				     ex_Evolution_StorageListener_Exists,
@@ -120,7 +120,7 @@ impl_StorageListener_new_folder (PortableServer_Servant servant,
 		gtk_object_unref (GTK_OBJECT (e_folder));
 	}
 
-	g_print ("Folder registered successfully -- %s %s\n", path, folder->name);
+	g_print ("Folder registered successfully -- %s %s\n", path, folder->display_name);
 }
 
 static void

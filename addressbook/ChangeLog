@@ -1,3 +1,9 @@
+2000-09-01  Ettore Perazzoli  <ettore@helixcode.com>
+
+	* gui/component/e-ldap-storage.c (load_ldap_data): Updated for the
+	extra arg now needed by `evolution_storage_new_folder()'.
+	(e_ldap_storage_add_server): Likewise.
+
 2000-08-31  Ettore Perazzoli  <ettore@helixcode.com>
 
 	* conduit/Makefile.am (INCLUDES): Add `BONOBO_GNOME_CFLAGS' and

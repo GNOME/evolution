@@ -14,7 +14,7 @@ module Evolution {
 	struct Folder {
 		string type;
 		string description;
-		string name;
+		string display_name;
 		string physical_uri;
 	};
 

@@ -890,6 +890,7 @@ cleanup_scan_subfolders (gpointer in_data, gpointer op_data,
 		info = data->new_folders->pdata[i];
 		evolution_storage_new_folder (input->storage,
 					      info->path,
+					      g_basename (info->path),
 					      "mail",
 					      info->uri, _("(No description)"));
 		g_free (info->path);

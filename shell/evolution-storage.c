@@ -287,6 +287,7 @@ evolution_storage_register_on_shell (EvolutionStorage *evolution_storage,
 EvolutionStorageResult
 evolution_storage_new_folder (EvolutionStorage *evolution_storage,
 			      const char *path,
+			      const char *display_name,
 			      const char *type,
 			      const char *physical_uri,
 			      const char *description)
@@ -313,21 +314,17 @@ evolution_storage_new_folder (EvolutionStorage *evolution_storage,
 	path_basename = g_basename (path);
 
 	/* Yuck.  */
-	corba_folder.name = (CORBA_char *) path_basename;
-	corba_folder.description = (CORBA_char *) description;
-	corba_folder.type = (CORBA_char *) type;
+	corba_folder.display_name = (CORBA_char *) display_name;
+	corba_folder.description  = (CORBA_char *) description;
+	corba_folder.type         = (CORBA_char *) type;
 	corba_folder.physical_uri = (CORBA_char *) physical_uri;
-
-	if (path_basename - path > 1) {
-		parent_path = g_strndup (path, path_basename - path - 1);
-	} else {
-		parent_path = g_strdup (G_DIR_SEPARATOR_S);
-	}
 
 	CORBA_exception_init (&ev);
 
-	Evolution_StorageListener_new_folder (priv->corba_storage_listener, parent_path,
-					      &corba_folder, &ev);
+	Evolution_StorageListener_new_folder (priv->corba_storage_listener,
+					      path,
+					      &corba_folder,
+					      &ev);
 
 	if (ev._major == CORBA_NO_EXCEPTION)
 		result = EVOLUTION_STORAGE_OK;
@@ -339,8 +336,6 @@ evolution_storage_new_folder (EvolutionStorage *evolution_storage,
 		result = EVOLUTION_STORAGE_ERROR_GENERIC;
 
 	CORBA_exception_free (&ev);
-
-	g_free (parent_path);
 
 	return result;
 }

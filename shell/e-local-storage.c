@@ -169,7 +169,7 @@ load_folders (ELocalStorage *local_storage,
 		if (folder == NULL)
 			return FALSE;
 
-		e_storage_new_folder (E_STORAGE (local_storage), parent_path, folder);
+		e_storage_new_folder (E_STORAGE (local_storage), path, folder);
 
 		subfolder_directory_path = g_concat_dir_and_file (physical_path, SUBFOLDER_DIR_NAME);
 	}
@@ -295,8 +295,8 @@ shell_component_result_to_storage_result (EvolutionShellComponentResult result)
 struct _AsyncCreateFolderCallbackData {
 	EStorage *storage;
 
-	char *parent_path;
-	char *name;
+	char *path;
+	char *display_name;
 	char *type;
 	char *description;
 	char *physical_uri;
@@ -322,7 +322,7 @@ component_async_create_folder_callback (EvolutionShellComponentClient *shell_com
 	} else {
 		EFolder *folder;
 
-		folder = e_local_folder_new (callback_data->name,
+		folder = e_local_folder_new (callback_data->display_name,
 					     callback_data->type,
 					     callback_data->description);
 
@@ -330,7 +330,7 @@ component_async_create_folder_callback (EvolutionShellComponentClient *shell_com
 
 		if (e_local_folder_save (E_LOCAL_FOLDER (folder))) {
 			e_storage_new_folder (callback_data->storage,
-					      callback_data->parent_path,
+					      callback_data->path,
 					      folder);
 		} else {
 			rmdir (callback_data->physical_path);
@@ -345,8 +345,8 @@ component_async_create_folder_callback (EvolutionShellComponentClient *shell_com
 				     shell_component_result_to_storage_result (result),
 				     callback_data->callback_data);
 
-	g_free (callback_data->parent_path);
-	g_free (callback_data->name);
+	g_free (callback_data->path);
+	g_free (callback_data->display_name);
 	g_free (callback_data->type);
 	g_free (callback_data->description);
 	g_free (callback_data->physical_uri);
@@ -465,8 +465,8 @@ impl_async_create_folder (EStorage *storage,
 
 	callback_data = g_new (AsyncCreateFolderCallbackData, 1);
 	callback_data->storage       = storage;
-	callback_data->parent_path   = parent_path;
-	callback_data->name          = g_strdup (folder_name);
+	callback_data->path          = path;
+	callback_data->display_name  = g_strdup (folder_name);
 	callback_data->type          = g_strdup (type);
 	callback_data->description   = g_strdup (description);
 	callback_data->physical_uri  = physical_uri;

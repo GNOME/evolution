@@ -1,3 +1,15 @@
+2000-09-01  Ettore Perazzoli  <ettore@helixcode.com>
+
+	* evolution-storage.c (evolution_storage_new_folder): Handle @path
+	as the full path.
+
+	* e-storage.c (e_storage_new_folder): Consider @path to be the
+	full path, not the parent path.
+	* e-local-storage.c (load_folders): Updated accordingly.
+
+	* Evolution-Storage.idl: Member `name' of `struct Folder' renamed
+	to `display_name'.
+
 2000-08-31  Chris Toshok  <toshok@helixcode.com>
 
 	* e-shell-view.c: add delayed_selection to _EShellViewPrivate.

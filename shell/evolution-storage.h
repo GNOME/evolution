@@ -85,6 +85,7 @@ EvolutionStorageResult  evolution_storage_register_on_shell  (EvolutionStorage  
 
 EvolutionStorageResult  evolution_storage_new_folder      (EvolutionStorage *evolution_storage,
 							   const char       *path,
+							   const char       *display_name,
 							   const char       *type,
 							   const char       *physical_uri,
 							   const char       *description);

@@ -154,6 +154,24 @@ free_private (EStorage *storage)
 }
 
 
+/* Private utility functions.  */
+
+static char *
+get_parent_path (const char *path)
+{
+	const char *last_separator;
+
+	g_assert (g_path_is_absolute (path));
+
+	last_separator = strrchr (path, G_DIR_SEPARATOR);
+
+	if (last_separator == path)
+		return g_strdup (G_DIR_SEPARATOR_S);
+
+	return g_strndup (path, last_separator - path);
+}
+
+
 /* GtkObject methods.  */
 
 static void
@@ -436,7 +454,7 @@ e_storage_result_to_string (EStorageResult result)
 }
 
 
-/* Utility functions.  */
+/* Public utility functions.  */
 
 struct _GetPathForPhysicalUriForeachData {
 	const char *physical_uri;
@@ -511,28 +529,30 @@ e_storage_get_path_for_physical_uri (EStorage *storage,
 
 gboolean
 e_storage_new_folder (EStorage *storage,
-		      const char *path,
+		      const char *full_path,
 		      EFolder *e_folder)
 {
 	EStoragePrivate *priv;
 	Folder *folder;
 	Folder *parent_folder;
 	const char *name;
-	char *full_path;
+	char *parent_path;
 
 	g_return_val_if_fail (storage != NULL, FALSE);
 	g_return_val_if_fail (E_IS_STORAGE (storage), FALSE);
-	g_return_val_if_fail (path != NULL, FALSE);
-	g_return_val_if_fail (g_path_is_absolute (path), FALSE);
+	g_return_val_if_fail (full_path != NULL, FALSE);
+	g_return_val_if_fail (g_path_is_absolute (full_path), FALSE);
 	g_return_val_if_fail (e_folder != NULL, FALSE);
 	g_return_val_if_fail (E_IS_FOLDER (e_folder), FALSE);
 
 	priv = storage->priv;
 
-	parent_folder = g_hash_table_lookup (priv->path_to_folder, path);
+	parent_path = get_parent_path (full_path);
+
+	parent_folder = g_hash_table_lookup (priv->path_to_folder, parent_path);
 	if (parent_folder == NULL) {
 		g_warning ("%s: Trying to add a subfolder to a path that does not exist yet -- %s",
-			   __FUNCTION__, path);
+			   __FUNCTION__, parent_path);
 		return FALSE;
 	}
 
@@ -540,13 +560,10 @@ e_storage_new_folder (EStorage *storage,
 	g_assert (name != NULL);
 	g_return_val_if_fail (*name != G_DIR_SEPARATOR, FALSE);
 
-	full_path = g_concat_dir_and_file (path, name);
-
 	folder = g_hash_table_lookup (priv->path_to_folder, full_path);
 	if (folder != NULL) {
 		g_warning ("%s: Trying to add a subfolder for a path that already exists -- %s",
 			   __FUNCTION__, full_path);
-		g_free (full_path);
 		return FALSE;
 	}
 
@@ -557,7 +574,7 @@ e_storage_new_folder (EStorage *storage,
 
 	gtk_signal_emit (GTK_OBJECT (storage), signals[NEW_FOLDER], folder->path);
 
-	g_free (full_path);
+	g_free (parent_path);
 
 	return TRUE;
 }

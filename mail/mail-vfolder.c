@@ -91,7 +91,9 @@ vfolder_refresh(void)
 				uri = g_strdup_printf("vfolder:%s", info->name);
 				path = g_strdup_printf("/%s", info->name);
 				evolution_storage_removed_folder(vfolder_storage, path);
-				evolution_storage_new_folder (vfolder_storage, path,
+				evolution_storage_new_folder (vfolder_storage,
+							      path,
+							      g_basename (path),
 							      "mail",
 							      uri,
 							      info->name);
@@ -107,7 +109,9 @@ vfolder_refresh(void)
 			/*uri = g_strdup_printf("vfolder:%s/vfolder/%s?%s", evolution_dir, info->name, info->query);*/
 			uri = g_strdup_printf("vfolder:%s", info->name);
 			path = g_strdup_printf("/%s", info->name);
-			evolution_storage_new_folder (vfolder_storage, path,
+			evolution_storage_new_folder (vfolder_storage,
+						      path,
+						      g_basename (path),
 						      "mail",
 						      uri,
 						      info->name);
