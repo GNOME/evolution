@@ -41,6 +41,8 @@ typedef struct
 {
 	CamelDataWrapper parent_object;
 
+	struct _CamelImapWrapperPrivate *priv;
+
 	CamelFolder *folder;
 	char *uid, *part_spec;
 	CamelMimePart *part;

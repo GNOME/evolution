@@ -66,6 +66,20 @@ struct _CamelImapFolderPrivate {
 #define CAMEL_IMAP_FOLDER_UNLOCK(f, l)
 #endif
 
+struct _CamelImapWrapperPrivate {
+#ifdef ENABLE_THREADS
+	GMutex *lock;
+#endif
+};
+
+#ifdef ENABLE_THREADS
+#define CAMEL_IMAP_WRAPPER_LOCK(f, l) (g_mutex_lock(((CamelImapWrapper *)f)->priv->l))
+#define CAMEL_IMAP_WRAPPER_UNLOCK(f, l) (g_mutex_unlock(((CamelImapWrapper *)f)->priv->l))
+#else
+#define CAMEL_IMAP_WRAPPER_LOCK(f, l)
+#define CAMEL_IMAP_WRAPPER_UNLOCK(f, l)
+#endif
+
 #ifdef __cplusplus
 }
 #endif /* __cplusplus */
