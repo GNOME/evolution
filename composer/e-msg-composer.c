@@ -1441,7 +1441,7 @@ setup_ui (EMsgComposer *composer)
 	
 	composer->uic = bonobo_ui_component_new ("evolution-message-composer");
 	bonobo_ui_component_set_container (
-		composer->uic, bonobo_object_corba_objref (BONOBO_OBJECT (container)));
+	        composer->uic, bonobo_object_corba_objref (BONOBO_OBJECT (container)));
 	
 	bonobo_ui_component_add_verb_list_with_data (
 		composer->uic, verbs, composer);	
@@ -1968,9 +1968,7 @@ e_msg_composer_construct (EMsgComposer *composer)
 	composer->persist_stream_interface
 		= bonobo_object_query_interface (editor_server, "IDL:Bonobo/PersistStream:1.0");
 	
-	gtk_widget_show (composer->editor);
 	gtk_box_pack_start (GTK_BOX (vbox), composer->editor, TRUE, TRUE, 0);
-	gtk_widget_show (composer->editor);
 
 	/* Attachment editor, wrapped into an EScrollFrame.  We don't
            show it for now.  */
@@ -1994,6 +1992,11 @@ e_msg_composer_construct (EMsgComposer *composer)
 	
 	bonobo_window_set_contents (BONOBO_WINDOW (composer), vbox);
 	gtk_widget_show (vbox);
+
+	/* If we show this widget earlier, we lose network transparency. i.e. the
+	   component appears on the machine evo is running on, ignoring any DISPLAY
+	   variable. */
+	gtk_widget_show (composer->editor);
 	
 	e_msg_composer_show_attachments (composer, FALSE);
 

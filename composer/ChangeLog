@@ -1,3 +1,9 @@
+2001-06-11  Jon Trowbridge  <trow@ximian.com>
+
+	* e-msg-composer.c (e_msg_composer_construct): Rearranged
+	gtk_widget_show()s a bit to fix Bug#3204.  The composer is now
+	(like the rest of Evo) properly network transparent.
+
 2001-06-08  Jon Trowbridge  <trow@ximian.com>
 
 	* e-msg-composer.c (save_draft): When saving a draft, attach
