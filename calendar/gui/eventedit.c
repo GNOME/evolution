@@ -1184,12 +1184,14 @@ ee_rp_init_rule (EventEditor *ee)
 
 	/* Finish setting this up */
 
-	gtk_notebook_append_page (notebook, none, gtk_label_new (""));
-	gtk_notebook_append_page (notebook, daily, gtk_label_new (""));
-	gtk_notebook_append_page (notebook, weekly, gtk_label_new (""));
-	gtk_notebook_append_page (notebook, monthly, gtk_label_new (""));
-	gtk_notebook_append_page (notebook, yearly, gtk_label_new (""));
 	gtk_notebook_set_show_tabs (notebook, FALSE);
+
+	gtk_notebook_append_page (notebook, none, NULL);
+	gtk_notebook_append_page (notebook, daily, NULL);
+	gtk_notebook_append_page (notebook, weekly, NULL);
+	gtk_notebook_append_page (notebook, monthly, NULL);
+	gtk_notebook_append_page (notebook, yearly, NULL);
+
 	gtk_notebook_set_show_border (notebook, FALSE);
 
 	gtk_notebook_set_page (notebook, page);
@@ -1468,6 +1470,7 @@ ee_init_recurrence_page (EventEditor *ee)
 	gtk_notebook_append_page (GTK_NOTEBOOK (ee->notebook), ee->recur_vbox,
 				  ee->recur_page_label);
 
+
 	ee_rp_init_rule (ee);
 
 	/* pack here so that the box gets inserted after the recurrence rule frame */
@@ -1475,6 +1478,7 @@ ee_init_recurrence_page (EventEditor *ee)
 
 	ee_rp_init_ending_date (ee);
 	ee_rp_init_exceptions (ee);
+
 }
 
 static void

@@ -1,5 +1,8 @@
 2000-04-19  Seth Alves  <alves@hungry.com>
 
+	* gui/eventedit.c (ee_rp_init_rule): changed the order around
+	a bit to avoid a Gtk-CRITICAL crash
+
 	* gui/gncal-todo.c (gncal_todo_update): fixed code to populate
 	the todo clist
 
