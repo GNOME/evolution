@@ -4,7 +4,7 @@ SUBDIRS = . providers tests
 
 libcamelincludedir = $(includedir)/evolution-$(BASE_VERSION)/camel
 
-camellibexecdir = $(libexec)/evolution/$(BASE_VERSION)/camel/
+camellibexecdir = $(libexecdir)/evolution/$(BASE_VERSION)/camel/
 camellibexec_PROGRAMS =	camel-lock-helper camel-index-control
 
 privlib_LTLIBRARIES = libcamel.la

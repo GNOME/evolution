@@ -1,3 +1,7 @@
+2003-01-22  Hans Petter Jansson  <hpj@ximan.com>
+
+	* Makefile.am: $(libexec) -> $(libexecdir)
+
 2003-01-22  Ettore Perazzoli  <ettore@ximian.com>
 
 	* providers/imap/Makefile.am (libcamelimapincludedir): Update to
