@@ -633,9 +633,11 @@ migrate_calendars (CalendarComponent *component, int major, int minor, int revis
 			
 			for (i = 0; keys[i]; i++) {
 				gconf_val = gconf_client_get (gconf, keys[i], NULL);
-				if (gconf_val->type != GCONF_VALUE_INT)
-					gconf_client_unset (gconf, keys[i], NULL);
-				gconf_value_free (gconf_val);
+				if (gconf_val) {
+					if (gconf_val->type != GCONF_VALUE_INT)
+						gconf_client_unset (gconf, keys[i], NULL);
+					gconf_value_free (gconf_val);
+				}
 			}
 			
 			g_object_unref (gconf);

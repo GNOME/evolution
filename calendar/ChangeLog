@@ -1,3 +1,9 @@
+2004-04-21  Frederic Crozat  <fcrozat@mandrakesoft.com>
+
+	* gui/migration.c: (migrate_calendars):
+	Fix crash when gconf value are not existing in the gconf
+        database.
+
 2004-04-21  Not Zed  <NotZed@Ximian.com>
 
 	* gui/gnome-cal.c (gnome_calendar_set_ui_component): fix for
