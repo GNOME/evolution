@@ -1,3 +1,18 @@
+Evolution 1.0.4, ???
+--------------------
+
+Bugzilla Bugs Fixed (see http://bugzilla.ximian.com/show_bug.cgi):
+
+  * Calendar
+
+    #22624 -- Unable to accept meeting request that doesn't list user
+              as attendee.  (JP)
+
+  * Startup Wizard
+
+    #22047 -- Crash after closing the start-up wizard.  (Ettore)
+
+
 Evolution 1.0.3, 19-03-2002
 ---------------------------
 
