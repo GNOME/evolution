@@ -27,22 +27,22 @@ DOC_DIR_INSTALL_FILES =					\
 	evolution-services-decl.txt		\
 	evolution-services-sections.txt
 
-SOURCE_FILES =							\
-	$(top_srcdir)/executive-summary/evolution-services/executive-summary-component.c	\
-	$(top_srcdir)/executive-summary/evolution-services/executive-summary-component-factory-client.c		\
+SOURCE_FILES = \
+	$(top_srcdir)/executive-summary/evolution-services/executive-summary-component.c		\
+	$(top_srcdir)/executive-summary/evolution-services/executive-summary-component-factory-client.c	\
 	$(top_srcdir)/executive-summary/evolution-services/executive-summary-html-view.c
 
 IGNORED_HEADER_FILES =		\
 	Executive-Summary.h
-	
-scan_generated =						\
+
+scan_generated =					\
 	evolution-services-decl.txt			\
 	evolution-services.args				\
 	evolution-services.hierarchy			\
 	evolution-services.signals			\
 	evolution-services.types
 
-tmpl_dependencies =						\
+tmpl_dependencies =					\
 	evolution-services-decl.txt			\
 	evolution-services-sections.txt			\
 	evolution-services.args				\
@@ -112,7 +112,7 @@ maintainer-clean-local: clean
 install-data-local:
 	$(mkinstalldirs) $(DOC_DIR)
 	for i in $(DOC_DIR_INSTALL_FILES); do		\
-		$(INSTALL_DATA) $$i $(DOC_DIR);		\
+		$(INSTALL_DATA) $(srcdir)/$$i $(DOC_DIR);		\
 	done
 
 dist-hook:
