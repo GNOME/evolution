@@ -35,7 +35,7 @@
 #include <e-table/e-cell-text.h>
 #include "e-calendar-table.h"
 #include "calendar-model.h"
-#include "gncal-todo.h"
+#include "dialogs/task-editor.h"
 
 /* Pixmaps. */
 #include "task.xpm"
@@ -415,16 +415,14 @@ static void
 e_calendar_table_open_task (ECalendarTable *cal_table,
 			    gint row)
 {
+	TaskEditor *tedit;
 	CalComponent *comp;
 
-#if 0
-	task_editor_new ();
-	/* FIXME: Set iCalObject to edit. */
-#endif
+	tedit = task_editor_new ();
+	task_editor_set_cal_client (tedit, calendar_model_get_cal_client (cal_table->model));
 
 	comp = calendar_model_get_cal_object (cal_table->model, row);
-
-	gncal_todo_edit (calendar_model_get_cal_client (cal_table->model), comp);
+	task_editor_set_todo_object (tedit, comp);
 }
 
 

@@ -189,7 +189,11 @@ gncal_todo_edit (CalClient *client, CalComponent *comp)
 
 	due_entry = gtk_entry_new ();
 	cal_component_get_dtend (comp, &date);
-	d = icaltime_as_timet (*date.value);
+	/* FIXME: Does GnomeDateEdit support no time set? */
+	if (date.value)
+	  d = icaltime_as_timet (*date.value);
+	else
+	  d = time (NULL);
 	due_entry = date_edit_new (d, TRUE);
 	gtk_box_pack_start (GTK_BOX (due_box), due_entry, TRUE, TRUE, 0);
 	gtk_widget_show (due_entry);

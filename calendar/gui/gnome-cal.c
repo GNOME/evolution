@@ -444,8 +444,6 @@ gnome_calendar_set_view_internal	(GnomeCalendar	*gcal,
 	int view;
 	gboolean round_selection = FALSE;
 
-	g_print ("In gnome_calendar_set_view_internal: %s\n", page_name);
-
 	if (!strcmp (page_name, "dayview")) {
 		view = GNOME_CALENDAR_VIEW_DAY;
 		if (!range_selected)
@@ -520,9 +518,6 @@ gnome_calendar_set_pane_positions	(GnomeCalendar	*gcal)
 	else
 		top_pane_height = top_pane_height * (row_height
 			+ top_border + bottom_border) + 0.5;
-
-	g_print ("right width:%g top height:%g\n", right_pane_width,
-		 top_pane_height);
 
 	e_paned_set_position (E_PANED (gcal->hpane), -1);
 	e_paned_set_position (E_PANED (gcal->vpane), -1);
@@ -1309,6 +1304,11 @@ gnome_calendar_tag_calendar (GnomeCalendar *gcal, ECalendar *ecal)
 	if (!GTK_WIDGET_VISIBLE (ecal))
 		return;
 
+	e_calendar_item_clear_marks (ecal->calitem);
+
+	if (!cal_client_is_loaded (gcal->client))
+		return;
+
 	e_calendar_item_get_date_range	(ecal->calitem,
 					 &start_year, &start_month, &start_day,
 					 &end_year, &end_month, &end_day);
@@ -1328,8 +1328,6 @@ gnome_calendar_tag_calendar (GnomeCalendar *gcal, ECalendar *ecal)
 	end_tm.tm_min = 0;
 	end_tm.tm_sec = 0;
 	end_tm.tm_isdst = -1;
-
-	e_calendar_item_clear_marks (ecal->calitem);
 
 	c.calitem = ecal->calitem;
 	c.start_time = mktime (&start_tm);
@@ -1607,8 +1605,6 @@ gnome_calendar_on_date_navigator_selection_changed (ECalendarItem    *calitem,
 	gboolean starts_on_week_start_day = FALSE;
 	struct tm tm;
 
-	g_print ("In gnome_calendar_on_date_navigator_selection_changed\n");
-
 	if (!gnome_calendar_get_days_shown (gcal, &start_date, &days_shown))
 		return;
 
@@ -1744,9 +1740,6 @@ gnome_calendar_on_date_navigator_size_allocate (GtkWidget     *widget,
 	gint top_border, bottom_border, left_border, right_border;
 	gfloat hpane_pos, vpane_pos;
 
-	g_print ("In gnome_calendar_on_date_navigator_size_allocate %ix%i\n",
-		 allocation->width, allocation->height);
-
 	if (gcal->current_view_type != GNOME_CALENDAR_VIEW_NOT_SET) {
 		e_calendar_get_border_size (gcal->date_navigator,
 					    &top_border, &bottom_border,
@@ -1777,9 +1770,6 @@ gnome_calendar_on_date_navigator_size_allocate (GtkWidget     *widget,
 			gcal->hpane_pos = hpane_pos;
 			gcal->vpane_pos = vpane_pos;
 		}
-
-		g_print ("  hpane_pos:%g vpane_pos:%g\n", hpane_pos, vpane_pos);
-
 	}
 }
 

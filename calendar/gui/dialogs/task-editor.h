@@ -54,8 +54,13 @@ struct _TaskEditorClass
 
 
 GtkType	    task_editor_get_type	(void);
+TaskEditor* task_editor_construct	(TaskEditor	*tedit);
 TaskEditor* task_editor_new		(void);
 
+void	    task_editor_set_cal_client	(TaskEditor	*tedit,
+					 CalClient	*client);
+void	    task_editor_set_todo_object	(TaskEditor	*tedit,
+					 CalComponent	*comp);
 
 
 END_GNOME_DECLS

@@ -1549,6 +1549,7 @@ obj_updated_cb (CalClient *client, const char *uid, gpointer data)
 	EventEditorPrivate *priv;
 	CalComponent *comp;
 	CalClientGetStatus status;
+	const gchar *editing_uid;
 
 	ee = EVENT_EDITOR (data);
 
@@ -1556,6 +1557,14 @@ obj_updated_cb (CalClient *client, const char *uid, gpointer data)
 
 	priv = ee->priv;
 	
+	/* If we aren't showing the object which has been updated, return. */
+	if (!priv->comp)
+	  return;
+	cal_component_get_uid (priv->comp, &editing_uid);
+	if (strcmp (uid, editing_uid))
+	  return;
+
+
 	/* Get the event from the server. */
 	status = cal_client_get_object (priv->client, uid, &comp);
 
@@ -1586,6 +1595,7 @@ obj_removed_cb (CalClient *client, const char *uid, gpointer data)
 {
 	EventEditor *ee;
 	EventEditorPrivate *priv;
+	const gchar *editing_uid;
 
 	ee = EVENT_EDITOR (data);
 
@@ -1593,6 +1603,14 @@ obj_removed_cb (CalClient *client, const char *uid, gpointer data)
 	g_return_if_fail (IS_EVENT_EDITOR (ee));
 
 	priv = ee->priv;
+
+	/* If we aren't showing the object which has been updated, return. */
+	if (!priv->comp)
+	  return;
+	cal_component_get_uid (priv->comp, &editing_uid);
+	if (strcmp (uid, editing_uid))
+	  return;
+
 
 	raise_and_focus (priv->app);
 }

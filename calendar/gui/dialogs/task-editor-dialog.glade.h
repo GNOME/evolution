@@ -4,30 +4,30 @@
  * DO NOT compile it as part of your application.
  */
 
-gchar *s = N_("S_ubject:");
-gchar *s = N_("Owner:");
+gchar *s = N_("task-editor-dialog");
+gchar *s = N_("S_ummary");
 gchar *s = N_("Sta_rt Date:");
 gchar *s = N_("_Due Date:");
+gchar *s = N_("% Comp_lete:");
 gchar *s = N_("_Status:");
 gchar *s = N_("Not Started\n"
               "In Progress\n"
               "Completed\n"
               "Cancelled\n"
               "");
-gchar *s = N_("Not Started");
 gchar *s = N_("_Priority:");
 gchar *s = N_("High\n"
               "Normal\n"
               "Low\n"
               "");
-gchar *s = N_("High");
-gchar *s = N_("% Comp_lete:");
+gchar *s = N_("C_lassification:");
+gchar *s = N_("Public\n"
+              "Private\n"
+              "Confidential\n"
+              "");
 gchar *s = N_("_Contacts...");
 gchar *s = N_("Ca_tegories...");
-gchar *s = N_("Private");
 gchar *s = N_("Task");
 gchar *s = N_("Date Completed:");
-gchar *s = N_("Location:");
 gchar *s = N_("URL:");
-gchar *s = N_("Resources:");
 gchar *s = N_("Details");

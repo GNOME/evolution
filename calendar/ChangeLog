@@ -1,3 +1,25 @@
+2000-09-06  Damon Chaplin  <damon@helixcode.com>
+
+	* gui/e-calendar-table.c (e_calendar_table_open_task): uses the new
+	TaskEditor dialog.
+
+	* gui/dialogs/task-editor.[hc]: 
+	* gui/dialogs/task-editor-dialog.glade: updated. Still need to fix the
+	'Status' property (CalComponent doesn't support it yet), and use a
+	replacement for GnomeDateEdit, since we need to support setting 'None'
+	as the date.
+
+2000-09-04  Damon Chaplin  <damon@helixcode.com>
+
+	* gui/event-editor.c (obj_updated_cb): 
+	(obj_removed_cb): compare the updated object's uid with the one we
+	are editing, and just return if it doesn't match.
+
+2000-09-01  Damon Chaplin  <damon@helixcode.com>
+
+	* gui/gnome-cal.c (gnome_calendar_tag_calendar): added check to see
+	if the client has loaded successfully. Gets rid of a few warnings.
+
 2000-09-05  JP Rosevear  <jpr@helixcode.com>
 
 	* cal-util/cal-recur.c (generate_instances_for_year): The exdate
@@ -143,6 +165,16 @@
 2000-08-30  Lauris Kaplinski  <lauris@helixcode.com>
 
 	* gui/print.c: Countless small changes for gnome-print 0.21+
+
+2000-08-30  Damon Chaplin  <damon@helixcode.com>
+
+	* gui/e-day-view.[hc]: 
+	* gui/e-day-view-main-item.c: 
+	* gui/e-week-view.[hc]: 
+	* gui/e-week-view-main-item.c: 
+	* gui/calendar-commands.c:
+	* gui/gnome-cal.[hc]: switched to using new ECalendar widget,
+	and a few other fixes.
 
 2000-08-30  Federico Mena Quintero  <federico@helixcode.com>
 

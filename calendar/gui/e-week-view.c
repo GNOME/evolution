@@ -820,7 +820,7 @@ cal_loaded_cb (CalClient *client, CalClientLoadStatus status, gpointer data)
 	if (status != CAL_CLIENT_LOAD_SUCCESS)
 		return;
 
-	e_week_view_reload_events (week_view);
+	e_week_view_queue_reload_events (week_view);
 }
 
 /* Callback used when the calendar client tells us that an object changed */
@@ -972,7 +972,7 @@ e_week_view_set_cal_client	(EWeekView	*week_view,
 				    GTK_SIGNAL_FUNC (obj_removed_cb), week_view);
 	}
 
-	e_week_view_reload_events (week_view);
+	e_week_view_queue_reload_events (week_view);
 }
 
 
@@ -1588,7 +1588,7 @@ e_week_view_on_button_press (GtkWidget *widget,
 {
 	gint x, y, day;
 
-#if 0
+#if 1
 	g_print ("In e_week_view_on_button_press\n");
 #endif
 
@@ -1609,6 +1609,8 @@ e_week_view_on_button_press (GtkWidget *widget,
 	/* If an event is pressed just return. */
 	if (week_view->pressed_event_num != -1)
 		return FALSE;
+
+	g_print ("In e_week_view_on_button_press 2\n");
 
 	/* Convert the mouse position to a week & day. */
 	x = event->x;
@@ -1844,6 +1846,7 @@ e_week_view_reload_events (EWeekView *week_view)
 					       week_view);
 	}
 
+	week_view->events_need_reshape = TRUE;
 	e_week_view_check_layout (week_view);
 
 	gtk_widget_queue_draw (week_view->main_canvas);
@@ -1855,9 +1858,15 @@ e_week_view_free_events (EWeekView *week_view)
 {
 	EWeekViewEvent *event;
 	EWeekViewEventSpan *span;
-	gint event_num, span_num;
+	gint event_num, span_num, num_days, day;
 
-	/* FIXME: set any indices into the arrays to -1? */
+	/* Reset all our indices. */
+	week_view->pressed_event_num = -1;
+	week_view->pressed_span_num = -1;
+	week_view->editing_event_num = -1;
+	week_view->editing_span_num = -1;
+	week_view->popup_event_num = -1;
+	week_view->editing_new_event = FALSE;
 
 	for (event_num = 0; event_num < week_view->events->len; event_num++) {
 		event = &g_array_index (week_view->events, EWeekViewEvent,
@@ -1880,6 +1889,12 @@ e_week_view_free_events (EWeekView *week_view)
 		}
 		g_array_free (week_view->spans, TRUE);
 		week_view->spans = NULL;
+	}
+
+	/* Clear the number of rows used per day. */
+	num_days = week_view->multi_week_view ? week_view->weeks_shown * 7 : 7;
+	for (day = 0; day <= num_days; day++) {
+		week_view->rows_per_day[day] = 0;
 	}
 }
 
@@ -2553,8 +2568,7 @@ e_week_view_start_editing_event (EWeekView *week_view,
 }
 
 
-/* This stops the current edit. If accept is TRUE the event summary is update,
-   else the edit is cancelled. */
+/* This stops any current edit. */
 void
 e_week_view_stop_editing_event (EWeekView *week_view)
 {

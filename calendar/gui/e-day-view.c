@@ -1345,7 +1345,7 @@ e_day_view_set_cal_client	(EDayView	*day_view,
 				    GTK_SIGNAL_FUNC (obj_removed_cb), day_view);
 	}
 
-	e_day_view_reload_events (day_view);
+	e_day_view_queue_reload_events (day_view);
 }
 
 
