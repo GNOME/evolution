@@ -84,19 +84,13 @@ struct _TasksComponentPrivate {
 static void
 add_uri_for_source (ESource *source, ETasks *tasks)
 {
-	char *uri = e_source_get_uri (source);
-
-	e_tasks_add_todo_uri (tasks, uri);
-	g_free (uri);
+	e_tasks_add_todo_source (tasks, source);
 }
 
 static void
 remove_uri_for_source (ESource *source, ETasks *tasks)
 {
-	char *uri = e_source_get_uri (source);
-
-	e_tasks_remove_todo_uri (tasks, uri);
-	g_free (uri);
+	e_tasks_remove_todo_source (tasks, source);
 }
 
 static gboolean
@@ -186,7 +180,6 @@ update_uri_for_primary_selection (TasksComponent *component)
 {
 	TasksComponentPrivate *priv;
 	ESource *source;
-	char *uri;
 	ECalendarTable *cal_table;
 	ETable *etable;
 
@@ -197,9 +190,7 @@ update_uri_for_primary_selection (TasksComponent *component)
 		return;
 
 	/* Set the default */
-	uri = e_source_get_uri (source);
-	e_tasks_set_default_uri (priv->tasks, uri);
-	g_free (uri);
+	e_tasks_set_default_source (priv->tasks, source);
 
 	cal_table = e_tasks_get_calendar_table (priv->tasks);
 	etable = e_calendar_table_get_table (cal_table);

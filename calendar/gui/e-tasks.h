@@ -27,6 +27,7 @@
 
 #include <bonobo/bonobo-ui-component.h>
 #include <gtk/gtktable.h>
+#include <libedataserver/e-source.h>
 #include <libecal/e-cal.h>
 #include "e-calendar-table.h"
 
@@ -61,13 +62,13 @@ GtkWidget *e_tasks_construct       (ETasks *tasks);
 
 GtkWidget *e_tasks_new             (void);
 
-void  e_tasks_set_ui_component  (ETasks            *tasks,
-				 BonoboUIComponent *ui_component);
+void       e_tasks_set_ui_component  (ETasks            *tasks,
+				      BonoboUIComponent *ui_component);
 
-gboolean e_tasks_add_todo_uri (ETasks *tasks, const char *str_uri);
-gboolean e_tasks_remove_todo_uri (ETasks *tasks, const char *str_uri);
-gboolean e_tasks_set_default_uri (ETasks *tasks, const char *str_uri);
-ECal *e_tasks_get_default_client    (ETasks *tasks);
+gboolean   e_tasks_add_todo_source (ETasks *tasks, ESource *source);
+gboolean   e_tasks_remove_todo_source (ETasks *tasks, ESource *source);
+gboolean   e_tasks_set_default_source (ETasks *tasks, ESource *source);
+ECal      *e_tasks_get_default_client    (ETasks *tasks);
 
 void       e_tasks_open_task         (ETasks		*tasks);
 void       e_tasks_new_task          (ETasks            *tasks);

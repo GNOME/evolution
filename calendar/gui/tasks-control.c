@@ -192,13 +192,20 @@ tasks_control_set_property		(BonoboPropertyBag	*bag,
 {
 	ETasks *tasks = user_data;
 	char *uri;
+	ESource *source;
+	ESourceGroup *group;
 
 	switch (arg_id) {
 
 	case TASKS_CONTROL_PROPERTY_URI_IDX:
 		/* FIXME Remove the old uri? */
 		uri = BONOBO_ARG_GET_STRING (arg);
-		if (!e_tasks_add_todo_uri (tasks, uri)) {
+
+		group = e_source_group_new ("", uri);
+		source = e_source_new ("", "");
+		e_source_set_group (source, group);
+
+		if (!e_tasks_add_todo_source (tasks, source)) {
 			char *msg;
 
 			msg = g_strdup_printf (_("Could not load the tasks in `%s'"), uri);
@@ -207,6 +214,10 @@ tasks_control_set_property		(BonoboPropertyBag	*bag,
 				GTK_WINDOW (gtk_widget_get_toplevel (GTK_WIDGET (tasks))));
 			g_free (msg);
 		}
+
+		g_object_unref (source);
+		g_object_unref (group);
+
 		break;
 
 	default:

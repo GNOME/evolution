@@ -789,27 +789,31 @@ e_tasks_new_task			(ETasks		*tasks)
 }
 
 gboolean
-e_tasks_add_todo_uri (ETasks *tasks, const char *str_uri)
+e_tasks_add_todo_source (ETasks *tasks, ESource *source)
 {
 	ETasksPrivate *priv;
 	ECal *client;
 	ECalModel *model;
+	char *str_uri;
 	GError *error = NULL;
 
 	g_return_val_if_fail (tasks != NULL, FALSE);
 	g_return_val_if_fail (E_IS_TASKS (tasks), FALSE);
-	g_return_val_if_fail (str_uri != NULL, FALSE);
+	g_return_val_if_fail (E_IS_SOURCE (source), FALSE);
 
 	priv = tasks->priv;
 
+	str_uri = e_source_get_uri (source);
 	client = g_hash_table_lookup (priv->clients, str_uri);
-	if (client)
+	if (client) {
+		g_free (str_uri);
 		return TRUE;
+	}
 
 	set_status_message (tasks, _("Opening tasks at %s"), str_uri);
 
-	client = auth_new_cal_from_uri (str_uri, E_CAL_SOURCE_TYPE_TODO);
-	g_hash_table_insert (priv->clients, g_strdup (str_uri), client);
+	client = auth_new_cal_from_source (source, E_CAL_SOURCE_TYPE_TODO);
+	g_hash_table_insert (priv->clients, str_uri, client);
 	priv->clients_list = g_list_prepend (priv->clients_list, client);
 	
 	g_signal_connect (G_OBJECT (client), "backend_error", G_CALLBACK (backend_error_cb), tasks);
@@ -830,6 +834,9 @@ e_tasks_add_todo_uri (ETasks *tasks, const char *str_uri)
 		g_signal_handlers_disconnect_matched (client, G_SIGNAL_MATCH_DATA,
 						      0, 0, NULL, NULL, tasks);	
 
+		g_free (str_uri);
+		g_object_unref (client);
+
 		gtk_dialog_run (GTK_DIALOG (dialog));
 		gtk_widget_destroy (dialog);
 
@@ -849,21 +856,24 @@ e_tasks_add_todo_uri (ETasks *tasks, const char *str_uri)
 }
 
 gboolean
-e_tasks_remove_todo_uri (ETasks *tasks, const char *str_uri)
+e_tasks_remove_todo_source (ETasks *tasks, ESource *source)
 {
 	ETasksPrivate *priv;
 	ECal *client;
 	ECalModel *model;
+	char *str_uri, *orig_uri;
 
 	g_return_val_if_fail (tasks != NULL, FALSE);
 	g_return_val_if_fail (E_IS_TASKS (tasks), FALSE);
-	g_return_val_if_fail (str_uri != NULL, FALSE);
+	g_return_val_if_fail (E_IS_SOURCE (source), FALSE);
 
 	priv = tasks->priv;
 
-	client = g_hash_table_lookup (priv->clients, str_uri);
-	if (!client)
+	str_uri = e_source_get_uri (source);
+	if (!g_hash_table_lookup_extended (priv->clients, str_uri, &orig_uri, &client)) {
+		g_free (str_uri);
 		return TRUE;
+	}
 
 	g_hash_table_remove (priv->clients, str_uri);
 	priv->clients_list = g_list_remove (priv->clients_list, client);
@@ -873,24 +883,31 @@ e_tasks_remove_todo_uri (ETasks *tasks, const char *str_uri)
 	model = e_calendar_table_get_model (E_CALENDAR_TABLE (priv->tasks_view));
 	e_cal_model_remove_client (model, client);
 
+	g_free (str_uri);
+	g_free (orig_uri);
+	g_object_unref (client);
+
 	return TRUE;
 }
 
 gboolean
-e_tasks_set_default_uri (ETasks *tasks, const char *str_uri)
+e_tasks_set_default_source (ETasks *tasks, ESource *source)
 {
 	ETasksPrivate *priv;
 	ECal *ecal;
 	ECalModel *model;
+	char *str_uri;
 	
 	g_return_val_if_fail (tasks != NULL, FALSE);
 	g_return_val_if_fail (E_IS_TASKS (tasks), FALSE);
-	g_return_val_if_fail (str_uri != NULL, FALSE);
+	g_return_val_if_fail (E_IS_SOURCE (source), FALSE);
 
 	priv = tasks->priv;
 
+	str_uri = e_source_get_uri (source);
 	model = e_calendar_table_get_model (E_CALENDAR_TABLE (priv->tasks_view));
 	ecal = e_cal_model_get_client_for_uri (model, str_uri);
+	g_free (str_uri);
 	if (!ecal)
 		return FALSE;
 
