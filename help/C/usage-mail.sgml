@@ -587,7 +587,9 @@
 	      from the Internet while you work. When you want to
 	      reconnect, choose
 	      <menuchoice><guimenu>File</guimenu><guimenuitem>Work
-	      Online</guimenuitem></menuchoice>.  Alternativly, you can click the connection button at the bottom left side of the window.
+	      Online</guimenuitem></menuchoice>.  Alternativly, you
+	      can click the connection button at the bottom left side
+	      of the window.
             </para>
          </note>
 
@@ -2183,16 +2185,6 @@ wwwkeys.pgp.net 32j38dk2</command>.  Substitute your key ID for
         plain text file and enter the command <command>gpg --import
         filename</command>. This will add it to your keyring.
       </para>
-      <tip>
-	<title>Recieving Keys Without the Command Line</title>
-	<para>
-	  <application>gpg</application> allows you to automatically
-	  download keys off the servers without using a command line.
-	  To do this, simply type:<command>keyserver
-	  wwwkeys.pgp.net</command> in the
-	  <filename>~/.gnupg/options</filename> file.
-	</para>
-      </tip>
     </sect2>
 
     <sect2 id="encrypt-evo-integ">

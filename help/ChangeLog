@@ -1,11 +1,21 @@
+2002-06-10  Aaron Weber  <aaron@ximian.com>
+
+	* C/usage-contact.sgml: some of this was shamefully inaccurate.
+
+	* C/preface.sgml: add original location.
+
 2002-06-04  Kevin Breit  <mrproper@ximian.com>
 
-	* C/usage-mail.sgml: Added a tip mentioning that gpg can automagically contact the server for keys without having to use a console.
+	* C/usage-mail.sgml: Added a tip mentioning that gpg can
+	automagically contact the server for keys without having to use a
+	console.
 
 2002-05-30  Kevin Breit  <mrproper@ximian.com>
 
-	* C/usage-mail.sgml: Reworded the signature introduction paragraph. 
-	Started work on documenting the new signature editor.  I am kind of unsure of the full functionality, so I'm going to wait a little bit on it.
+	* C/usage-mail.sgml: Reworded the signature introduction
+	paragraph.  Started work on documenting the new signature editor.
+	I am kind of unsure of the full functionality, so I'm going to
+	wait a little bit on it.
 
 2002-05-30  Aaron Weber  <aaron@ximian.com>
 

@@ -493,47 +493,26 @@
            right-click on the list's address card in the Addressbook
            and select <guimenuitem>Send Message to List</guimenuitem>.
         </para>
+        <para>
+           Ximian Evolution cannot store contact lists on Exchange
+           servers.
+        </para>
+
       </sect3>
-
-
     </sect2>
   </sect1>
   
-<!-- we need a LDAP server up for me to test this -->
   <sect1 id="usage-contact-sharing">
     <title>Sharing your Cards</title>
     <para>
       The <glossterm linkend="ldap">LDAP</glossterm> protocol was
       created to let users share contact information over a network.
-      LDAP allows for users to browse other people's addressbooks, or
-      maintain a shared set of contact information for a company or
-      department.  This feature comes in handy if you are in a group
-      where there are lots of people using the same contacts.  Such an
-      example would be the sales department of a company with their
-      client list.
+      LDAP allows a company to maintain a shared set of contact
+      information for a company or department.  Many companies keep a
+      common LDAP address book for all their employees or for client
+      contacts.
     </para>
 
-     <example id="usage-contact-sharing-ex">
-	<title>Sharing Address Cards and Calendar Data</title>
-	  <para>
-	    Rich wants to schedule a meeting with Company X, so he
-	    checks the network for the Company X address card so he
-	    knows whom to call there.  Since his company also shares
-	    calendars, he then learns that his co-worker Deanna has
-	    already scheduled a meeting with Company X next Thursday.
-	    He can either go to the meeting himself or ask Deanna to
-	    discuss his concerns for him.  Either way, he avoids
-	    scheduling an extra meeting with Company X. 
-	 </para>
-      </example>
-
-    <para>
-       Of course, you don't want to share all of your cards&mdash; why
-       overload the network with a list of babysitters or tell
-       everyone in the office you're talking to new job prospects?  If
-       you keep cards on your own computer, you can decide which items
-       you want to make accessible to others.
-    </para>
     <para>
        To learn how to add a remote directory to your available
        contact folders, see <xref linkend="config-prefs-contact">.
@@ -567,8 +546,8 @@
 	  </listitem>
 	  <listitem>
 	    <para>
-              Your ability to view, change, add, and delete contacts
-              depends on the settings of the LDAP server. 
+              LDAP servers do not normally permit individual users to
+              alter or delete cards.
 	    </para>
 	  </listitem>
 	</itemizedlist>

@@ -106,7 +106,6 @@ Lastly, we'll have warnings, in cases where you should be careful:
 	    </listitem>
 	  </varlistentry>
 
-
 	  <varlistentry>
 	    <term>Performance Improvements</term>
 	    <listitem>
@@ -129,27 +128,37 @@ Lastly, we'll have warnings, in cases where you should be careful:
                 again and it will go to the next folder that starts
                 with that letter.  Similarly, you can press a letter
                 key in the message list and the message selection will
-                move to the next message whose sender begins with that
-                letter. For example, you could press the
-                <keycap>r</keycap> key to go to the next message that
-                Russell sent you.
+                move to the next message whose sender or subject
+                begins with that letter, depending on which column you
+                sort by.
               </para>
 	      <para>
                 That means that unmodified letter shortcuts from
-                Evolution 1.0 won't work any more. The changes are:
+                Evolution 1.0 won't work any more. The displaced
+                shortcuts are:
                 <simplelist>
 		  <member>
                     <keycap>,</keycap> (comma) and <keycap>.</keycap>
                     (period) are now the keyboard shortcuts for Next
-                    and Previous unread messages
+                    and Previous unread messages. You can also use the
+                    square brackets <keycap>]</keycap> and
+                    <keycap>[</keycap>.
                  </member>
 		 <member>
-                   <keycap>'</keycap> (the single apostrophe) toggles
+                   <keycap>`</keycap> (backtick) toggles
                    the message preview pane.
                  </member>
 		</simplelist>
                 Shortcuts that used the <keycap>Control</keycap> key
                 are not affected.
+             </para>
+             <para>
+               The shortcuts
+               <keycombo><keycap>Alt</keycap><keycap>l</keycap></keycombo>
+               <keycombo><keycap>Alt</keycap><keycap>c</keycap></keycombo>
+               <keycombo><keycap>Alt</keycap><keycap>u</keycap></keycombo> will
+               change the selection or current word to lowercase,
+               title case, or uppercase, respectively.
              </para>
 	    </listitem>
 	  </varlistentry>
@@ -183,12 +192,11 @@ Lastly, we'll have warnings, in cases where you should be careful:
 	  </varlistentry>
 
 	  <varlistentry>
-	    <term>Folder Naming Limits Removed</term>
+	    <term>Folder Naming Internationalization</term>
 	    <listitem>
 	      <para>
-                You can now have IMAP folders with names including the
-                ampersand (&amp;) and dash (-) characters, and even
-                UTF-8 (unicode) characters.
+                You can now use Unicode (UTF-8) characters in the
+                names for IMAP folders.
               </para>
 	    </listitem>
 	  </varlistentry>
@@ -204,24 +212,26 @@ Lastly, we'll have warnings, in cases where you should be careful:
 	  </varlistentry>
 
 	  <varlistentry>
-	    <term>Additional Message Status Options</term>
-	    <listitem>
-	      <para>
-                You can now mark messages by color (Right click on a
-                menu and select "Labels), or flag them for a follow-up
-                action. Filters can now be based on these criteria.
-              </para>
-	    </listitem>
-	  </varlistentry>
-
-
-	  <varlistentry>
 	    <term>Filters and vFolders Notice Moved or Missing Folders</term>
 	    <listitem>
 	      <para>
                 vFolders and filters now notice if you move or delete
                 a folder that they use, and update themselves
                 accordingly.
+              </para>
+	    </listitem>
+	  </varlistentry>
+
+	  <varlistentry>
+	    <term>vFolder "Original Location" Feature</term>
+	    <listitem>
+	      <para>
+                vFolders can now display the actual folder location
+                for each message they contain.  To do so, right click
+                on the column headers in the message list of any
+                vFolder, select <guimenuitem>Add a
+                Column</guimenuitem>, and drag the <guibutton>Original
+                Location</guibutton> item into position.
               </para>
 	    </listitem>
 	  </varlistentry>
@@ -238,29 +248,22 @@ Lastly, we'll have warnings, in cases where you should be careful:
 	  </varlistentry>
 
 	  <varlistentry>
-	    <term>New Filter Criteria and Actions</term>
+	    <term>New Criteria and Actions</term>
 	    <listitem>
 	      <para>
-                 You can now filter based on score, flag-for-followup
-                 or message coloration status, or the existence of
-                 attachments. New actions include beeping, playing
-                 sounds, running shell commands, and piping messages
-                 to external processes.
+                 There are many new filter criteria and actions,
+                 including additional message flags such as Flag for
+                 Followup.
               </para>
 	    </listitem>
 	  </varlistentry>
 
          <varlistentry>
-	    <term>Folder Preferences for Autocompletion and Offline Mode</term>
+	    <term>Folder Selection for Offline Mode</term>
 	    <listitem>
               <para>
                You may now select which network folders which will be
-               cached locally when you go into Offline mode. Offline
-               mode now works better in general.
-             </para>
-	      <para>
-                You may also select which contact folders will be used
-                to autocomplete addresses in the mail composer.
+               cached locally when you go into Offline mode.
              </para>
 	    </listitem>
 	  </varlistentry>
@@ -290,9 +293,9 @@ Lastly, we'll have warnings, in cases where you should be careful:
 	    <term>Digest-mode Display of Forwarded Messages</term>
 	    <listitem>
 	      <para>
-                Messages that have been forwarded to you as
-                attachments are now displayed in "Digest Mode" rather
-                than inline.
+                Messages that contain multiple forwarded messages are
+                now displayed as a digest rather than inline or as a
+                series of attachments.
              </para>
 	    </listitem>
 	  </varlistentry>
