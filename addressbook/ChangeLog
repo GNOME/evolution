@@ -1,3 +1,10 @@
+2002-05-13  Christopher James Lahey  <clahey@ximian.com>
+
+	* gui/contact-editor/e-contact-editor.c (enable_writable_fields):
+	Enable the dropdown widgets even if the contact is not editable so
+	that you can view any email address, phone number, or postal
+	address on read only contacts.
+
 2002-05-10  Christopher James Lahey  <clahey@ximian.com>
 
 	* gui/component/select-names/Evolution-Addressbook-SelectNames.idl:

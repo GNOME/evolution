@@ -2369,7 +2369,7 @@ enable_writable_fields(EContactEditor *editor)
 		GtkWidget *widget = g_hash_table_lookup (dropdown_hash, field);
 
 		if (widget) {
-			enable_widget (widget, editor->editable);
+			enable_widget (widget, TRUE);
 		}
 		else {
 			/* if it's not a field that's handled by the
