@@ -1,5 +1,14 @@
 2003-04-11  JP Rosevear  <jpr@ximian.com>
 
+	* gui/e-meeting-model.c (start_addressbook_server): load the
+	default book to look for additional free/busy info in
+	(init): ugly hack to make sure we get destroyed, set idle id to 0
+	(process_callbacks): unref the im because we are now done with it
+	(refresh_busy_periods): set idle id to 0, ref the model and handle
+	e_book_get_cursor error
+
+2003-04-11  JP Rosevear  <jpr@ximian.com>
+	
 	* gui/e-meeting-time-sel-item.c
 	(e_meeting_time_selector_item_destroy): guard against multiple
 	destroy calls

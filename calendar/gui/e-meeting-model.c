@@ -1,4 +1,4 @@
-/* -*- Mode: C; indent-tabs-mode: t; c-basic-offset: 8; tab-width: 8 -*- */
+/* -*- Mod:e C; indent-tabs-mode: t; c-basic-offset: 8; tab-width: 8 -*- */
 /* itip-model.c
  *
  * Copyright (C) 2001  Ximian, Inc.
@@ -36,6 +36,7 @@
 #include <gal/e-table/e-cell-popup.h>
 #include <gal/e-table/e-cell-combo.h>
 #include <ebook/e-book.h>
+#include <ebook/e-book-util.h>
 #include <ebook/e-card-types.h>
 #include <ebook/e-card-cursor.h>
 #include <ebook/e-card.h>
@@ -69,7 +70,7 @@ struct _EMeetingModelPrivate
 
 	GPtrArray *refresh_queue;
 	GHashTable *refresh_data;
-	gint refresh_idle_id;
+	guint refresh_idle_id;
 
 	/* For invite others dialogs */
         GNOME_Evolution_Addressbook_SelectNames corba_select_names;
@@ -157,20 +158,11 @@ static void
 start_addressbook_server (EMeetingModel *im)
 {
 	EMeetingModelPrivate *priv;
-	gchar *uri, *path;
 
 	priv = im->priv;
 	
 	priv->ebook = e_book_new ();
-
-	path = g_concat_dir_and_file (g_get_home_dir (),
-				      "evolution/local/Contacts/addressbook.db");
-	uri = g_strdup_printf ("file://%s", path);
-	g_free (path);
-
-	e_book_load_uri (priv->ebook, uri, book_open_cb, im);
-
-	g_free (uri);
+	e_book_load_default_book (priv->ebook, book_open_cb, im);
 }
 
 static EMeetingAttendee *
@@ -666,6 +658,11 @@ init (EMeetingModel *im)
 							      free_duplicated_key,
 							      NULL));
 	e_table_without_hide (priv->without, g_strdup ("delegator"));
+
+	/* FIXME We basically sink a ref otherwise the without table
+	 * will own a ref to us and we will never get finalized */
+	g_object_unref (im);
+	
 	priv->tables = NULL;
 
 	priv->client = NULL;
@@ -677,7 +674,7 @@ init (EMeetingModel *im)
 
 	priv->refresh_queue = g_ptr_array_new ();
 	priv->refresh_data = g_hash_table_new (g_direct_hash, g_direct_equal);
-	priv->refresh_idle_id = -1;
+	priv->refresh_idle_id = 0;
 	
 	priv->corba_select_names = CORBA_OBJECT_NIL;
 	
@@ -1122,7 +1119,7 @@ refresh_queue_add (EMeetingModel *im, int row,
 	g_object_ref (ia);
 	g_ptr_array_add (priv->refresh_queue, ia);
 
-	if (priv->refresh_idle_id == -1)
+	if (priv->refresh_idle_id == 0)
 		priv->refresh_idle_id = g_idle_add (refresh_busy_periods, im);
 }
 
@@ -1151,6 +1148,7 @@ refresh_queue_remove (EMeetingModel *im, EMeetingAttendee *ia)
 static void
 process_callbacks (EMeetingModelQueueData *qdata) 
 {
+	EMeetingModel *im;
 	int i;
 
 	for (i = 0; i < qdata->call_backs->len; i++) {
@@ -1163,7 +1161,9 @@ process_callbacks (EMeetingModelQueueData *qdata)
 		call_back (data);
 	}
 
+	im = qdata->im;
 	refresh_queue_remove (qdata->im, qdata->ia);
+	g_object_unref (im);
 }
 
 static void
@@ -1424,12 +1424,15 @@ refresh_busy_periods (gpointer data)
 
 	/* The everything in the queue is being refreshed */
 	if (i >= priv->refresh_queue->len) {
-		priv->refresh_idle_id = -1;
+		priv->refresh_idle_id = 0;
 		return FALSE;
 	}
 	
 	/* Indicate we are trying to refresh it */
 	qdata->refreshing = TRUE;
+
+	/* We take a ref in case we get destroyed in the gui during a callback */
+	g_object_ref (qdata->im);
 	
 	/* Check the server for free busy data */	
 	if (priv->client) {
@@ -1485,7 +1488,8 @@ refresh_busy_periods (gpointer data)
 	
 	query = g_strdup_printf ("(contains \"email\" \"%s\")", 
 				 itip_strip_mailto (e_meeting_attendee_get_address (ia)));
-	e_book_get_cursor (priv->ebook, query, cursor_cb, qdata);
+	if (!e_book_get_cursor (priv->ebook, query, cursor_cb, qdata))
+		process_callbacks (qdata);
 	g_free (query);
 
 	return TRUE;
