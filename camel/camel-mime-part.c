@@ -502,7 +502,7 @@ camel_mime_part_set_encoding (CamelMimePart *mime_part,
 				 "Content-Transfer-Encoding", text);
 }
 
-const CamelMimePartEncodingType
+CamelMimePartEncodingType
 camel_mime_part_get_encoding (CamelMimePart *mime_part)
 {
 	return mime_part->encoding;
