@@ -1,3 +1,8 @@
+2000-03-07  Federico Mena Quintero  <federico@helixcode.com>
+
+	* cal-client/Makefile.am: Removed cal-client-alarm.[ch] from the
+	list of sources.  This was a miscommunication on our part.
+
 2000-03-05  Seth Alves  <alves@hungry.com>
 
 	* cal-client/cal-client-alarm.c: stubs for client side

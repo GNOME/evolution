@@ -33,8 +33,6 @@ libcal_clientincludedir = $(includedir)/cal-client
 
 libcal_client_la_SOURCES =	\
 	$(CORBA_GENERATED)	\
-	cal-client-alarm.c	\
-	cal-client-alarm.h	\
 	cal-client.c		\
 	cal-listener.c		\
 	cal-listener.h
