@@ -741,6 +741,7 @@ bound_text(GnomePrintContext *pc, GnomeFont *font, const char *text,
 				width+=gnome_font_get_glyph_width(font, gnome_font_lookup_default (font, c));
 				if (width>maxwidth) {
 					o--;
+					p--;
 					dump=1;
 				}
 			}
@@ -768,9 +769,8 @@ bound_text(GnomePrintContext *pc, GnomeFont *font, const char *text,
 				maxwidth -= indent;
 				first=0;
 			}
-		} else {
-			p++;
 		}
+		p++;
 	}
 	if (dump==0) {
 		*o=0;
