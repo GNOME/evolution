@@ -195,7 +195,37 @@ e_write_file(const char *filename, const char *data, int flags)
 			}
 		}
 	}
-	close(fd);
+	if (close(fd) != 0) {
+		return errno;
+	}
+	return 0;
+}
+
+gint
+e_write_file_mkstemp(char *filename, const char *data)
+{
+	int fd;
+	int length = strlen(data);
+	int bytes;
+	fd = mkstemp (filename);
+	if (fd == -1)
+		return errno;
+	while (length > 0) {
+		bytes = write(fd, data, length);
+		if (bytes > 0) {
+			length -= bytes;
+			data += bytes;
+		} else {
+			if (errno != EINTR && errno != EAGAIN) {
+				int save_errno = errno;
+				close(fd);
+				return save_errno;
+			}
+		}
+	}
+	if (close(fd) != 0) {
+		return errno;
+	}
 	return 0;
 }
 
