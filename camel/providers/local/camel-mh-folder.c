@@ -168,9 +168,13 @@ mh_append_message (CamelFolder *folder, CamelMimeMessage *message, const CamelMe
 	camel_folder_summary_remove_uid (CAMEL_FOLDER_SUMMARY (folder->summary),
 					 camel_message_info_uid (mi));
 	
-	camel_exception_setv (ex, CAMEL_EXCEPTION_SYSTEM,
-			      _("Cannot append message to mh folder: %s: %s"),
-			      name, g_strerror (errno));
+	if (errno == EINTR)
+		camel_exception_set (ex, CAMEL_EXCEPTION_USER_CANCEL,
+				     _("MH append message cancelled"));
+	else
+		camel_exception_setv (ex, CAMEL_EXCEPTION_SYSTEM,
+				      _("Cannot append message to mh folder: %s: %s"),
+				      name, g_strerror (errno));
 	
 	if (output_stream) {
 		camel_object_unref (CAMEL_OBJECT (output_stream));

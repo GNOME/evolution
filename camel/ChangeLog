@@ -1,5 +1,11 @@
 2001-10-17  Jeffrey Stedfast  <fejj@ximian.com>
 
+	* providers/local/camel-mh-folder.c (mh_append_message): Same as
+	maildir and mbox append-message.
+
+	* providers/local/camel-maildir-folder.c (maildir_append_message):
+	Same as mbox append.
+
 	* camel-exception.c (camel_exception_set): Make sure the new
 	description isn't the same as the old description pointer before
 	freeing the old one.
