@@ -28,6 +28,8 @@
 #include <gtk/gtkscrolledwindow.h>
 #include <gtk/gtkbutton.h>
 
+#include <gconf/gconf-client.h>
+
 #include <camel/camel-folder.h>
 
 #include <bonobo/bonobo-main.h>
@@ -41,6 +43,10 @@
 #include "em-message-browser.h"
 
 #include "evolution-shell-component-utils.h" /* Pixmap stuff, sigh */
+
+
+#define DEFAULT_WIDTH  600
+#define DEFAULT_HEIGHT 400
 
 struct _EMMessageBrowserPrivate {
 	GtkWidget *preview;	/* container for message display */
@@ -131,6 +137,23 @@ em_message_browser_get_type(void)
 	return type;
 }
 
+static GtkAllocation window_size = { 0, 0, 0, 0 };
+
+static void
+window_size_allocate (GtkWidget *widget, GtkAllocation *allocation)
+{
+	GConfClient *gconf;
+	
+	/* save to in-memory variable for current session access */
+	window_size = *allocation;
+	
+	/* save the setting across sessions */
+	gconf = gconf_client_get_default ();
+	gconf_client_set_int (gconf, "/apps/evolution/mail/message_window/width", window_size.width, NULL);
+	gconf_client_set_int (gconf, "/apps/evolution/mail/message_window/height", window_size.height, NULL);
+	g_object_unref (gconf);
+}
+
 GtkWidget *em_message_browser_new(void)
 {
 	EMMessageBrowser *emmb = g_object_new(em_message_browser_get_type(), 0);
@@ -155,10 +178,32 @@ GtkWidget *em_message_browser_window_new(void)
 	bonobo_ui_component_set_container(uic, BONOBO_OBJREF(uicont), NULL);
 
 	em_folder_view_activate((EMFolderView *)emmb, uic, TRUE);
-
-	/* FIXME: keep track of size changes for next instantation */
-	gtk_window_set_default_size((GtkWindow *)emmb->window, 600, 400);
-
+	
+	if (window_size.width == 0) {
+		/* initialize @window_size with the previous session's size */
+		GConfClient *gconf;
+		GError *err = NULL;
+		
+		gconf = gconf_client_get_default ();
+		
+		window_size.width = gconf_client_get_int (gconf, "/apps/evolution/mail/message_window/width", &err);
+		if (err != NULL) {
+			window_size.width = DEFAULT_WIDTH;
+			g_clear_error (&err);
+		}
+		
+		window_size.height = gconf_client_get_int (gconf, "/apps/evolution/mail/message_window/height", &err);
+		if (err != NULL) {
+			window_size.height = DEFAULT_HEIGHT;
+			g_clear_error (&err);
+		}
+		
+		g_object_unref (gconf);
+	}
+	
+	gtk_window_set_default_size ((GtkWindow *) emmb->window, window_size.width, window_size.height);
+	g_signal_connect (emmb->window, "size-allocate", G_CALLBACK (window_size_allocate), NULL);
+	
 	/* cleanup? */
 
 	return (GtkWidget *)emmb;
