@@ -1,5 +1,9 @@
 2002-11-14  Ettore Perazzoli  <ettore@ximian.com>
 
+	* my-evolution.glade: Converted to Glade 2.
+
+2002-11-14  Ettore Perazzoli  <ettore@ximian.com>
+
 	* e-summary-calendar.c: Replaced all gtk_signal_connect() calls
 	with g_signal_connect() ones.
 	* e-summary-mail.c: Likewise.
