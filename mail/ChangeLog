@@ -1,5 +1,15 @@
 2004-02-23  Jeffrey Stedfast  <fejj@ximian.com>
 
+	Fix for bug #54057
+
+	* em-utils.c (em_utils_folder_is_sent): Use provider->url_equal()
+	rather than camel_store_uri_cmp() since that function did not do
+	anything close to what it claimed to do. Also use
+	em_uri_to_camel() here on the account sent_folder_uri.
+	(em_utils_folder_is_drafts): Same.
+
+2004-02-23  Jeffrey Stedfast  <fejj@ximian.com>
+
 	* em-message-browser.c (emmb_list_message_selected): Protect
 	against NULL uids.
 	(emmb_set_message): Same.
