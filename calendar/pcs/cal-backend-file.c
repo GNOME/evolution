@@ -183,28 +183,20 @@ save (CalBackendFile *cbfile)
 	g_assert (priv->icalcomp != NULL);
 
 	/* Make a backup copy of the file if it exists */
-	if (gnome_vfs_uri_exists (priv->uri)) {
-		tmp = gnome_vfs_uri_to_string (priv->uri, GNOME_VFS_URI_HIDE_NONE);
-		if (tmp) {
-			GnomeVFSURI *backup_uri;
-			gchar *backup_uristr;
-			
-			backup_uristr = g_strconcat (tmp, "~", NULL);
-			backup_uri = gnome_vfs_uri_new (backup_uristr);
-			
-			result = gnome_vfs_move_uri (priv->uri, backup_uri, TRUE);
-			gnome_vfs_uri_unref (backup_uri);
-			
-			g_free (tmp);
-			g_free (backup_uristr);
-		}
-	} else {
-		result = GNOME_VFS_OK;
+	tmp = gnome_vfs_uri_to_string (priv->uri, GNOME_VFS_URI_HIDE_NONE);
+	if (tmp) {
+		GnomeVFSURI *backup_uri;
+		gchar *backup_uristr;
+		
+		backup_uristr = g_strconcat (tmp, "~", NULL);
+		backup_uri = gnome_vfs_uri_new (backup_uristr);
+		
+		result = gnome_vfs_move_uri (priv->uri, backup_uri, TRUE);
+		gnome_vfs_uri_unref (backup_uri);
+		
+		g_free (tmp);
+		g_free (backup_uristr);
 	}
-	
-
-	if (result != GNOME_VFS_OK)
-		goto error;
 	
 	/* Now write the new file out */
 	result = gnome_vfs_create_uri (&handle, priv->uri, 
