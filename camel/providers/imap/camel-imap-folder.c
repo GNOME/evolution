@@ -195,17 +195,17 @@ camel_imap_folder_new (CamelStore *parent, char *folder_name, CamelException *ex
 		camel_object_unref (CAMEL_OBJECT (folder));
 		return NULL;
 	}
-
+	
 	if (!strcmp (folder_name, url->path + 1))
 		folder->can_hold_messages = FALSE;
 	
-	CF_CLASS (folder)->refresh_info (folder, ex);
-
+	/*CF_CLASS (folder)->refresh_info (folder, ex);*/
+	
 	if (camel_exception_is_set (ex)) {
 		camel_object_unref (CAMEL_OBJECT (folder));
 		return NULL;
 	}
-
+	
 	return folder;
 }
 
@@ -531,7 +531,7 @@ imap_get_unread_message_count (CamelFolder *folder)
 	if (!imap_folder->summary)
 		return 0;
 	
-	infolist = imap_get_summary (folder);
+	infolist = imap_folder->summary;
 	
 	for (i = 0; i < infolist->len; i++) {
 		info = (CamelMessageInfo *) g_ptr_array_index (infolist, i);
@@ -679,7 +679,8 @@ imap_get_uids (CamelFolder *folder)
 	gint i, count;
 	
 	infolist = imap_get_summary (folder);
-	count = infolist->len;
+	
+	count = infolist ? infolist->len : 0;
 	
 	array = g_ptr_array_new ();
 	g_ptr_array_set_size (array, count);

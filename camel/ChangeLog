@@ -1,3 +1,22 @@
+2000-09-13  Jeffrey Stedfast  <fejj@helixcode.com>
+
+	* providers/imap/camel-imap-store.c (imap_folder_exists): Rewrote
+	to take a third argument (gboolean *selectable) so that we can
+	find out if the folder is selectable or not as we look to see if
+	it exists. Also, don't use EXAMINE because that will not work on
+	non-selectable folders, so use LIST instead.
+	(get_folder): Check to see if the folder exists even vefore
+	calling imap_create as this will save time. If the folder does
+	exist, find out if it's selectable. Moved the call to refresh_info
+	here.
+
+	* providers/imap/camel-imap-folder.c (imap_get_uids): Check for a
+	NULL summary.
+	(camel_imap_folder_new): Don't call refresh_info here - call it in
+	get_folder() because we don't know if this folder even exists on
+	the server yet! And even if it does, we don't know if it can hold
+	messages or not yet.
+
 2000-09-12  Jeffrey Stedfast  <fejj@helixcode.com>
 
 	* camel-mime-parser.c (folder_scan_step): Make sure *datalength is

@@ -320,6 +320,64 @@ camel_imap_store_get_toplevel_dir (CamelImapStore *store)
 }
 
 static gboolean
+imap_folder_exists (CamelFolder *folder, gboolean *selectable, CamelException *ex)
+{
+	CamelStore *store = CAMEL_STORE (folder->parent_store);
+	CamelURL *url = CAMEL_SERVICE (store)->url;
+	gchar *result, *folder_path, *dir_sep;
+	char *flags, *sep, *dirname;
+	gint status;
+	
+	dir_sep = CAMEL_IMAP_STORE (folder->parent_store)->dir_sep;
+	
+	g_return_val_if_fail (dir_sep, FALSE);
+	
+	if (url && url->path && *(url->path + 1) && g_strcasecmp (folder->full_name, "INBOX"))
+		folder_path = g_strdup_printf ("%s%s%s", url->path + 1, dir_sep, folder->full_name);
+	else
+		folder_path = g_strdup (folder->full_name);
+	
+	if (!g_strcasecmp (folder_path, "INBOX")) {
+		g_free (folder_path);
+		if (selectable)
+			*selectable = TRUE;
+		return TRUE;
+	}
+	
+	/* it's always gonna be FALSE unless it's true - how's that for a comment? ;-) */
+	if (selectable)
+		*selectable = FALSE;
+	
+	status = camel_imap_command_extended (CAMEL_IMAP_STORE (store), NULL,
+					      &result, ex, "LIST \"\" %s", folder_path);
+	
+	g_free (folder_path);
+	
+	if (status != CAMEL_IMAP_OK) {
+		g_free (result);
+		return FALSE;
+	}
+	
+	if (imap_parse_list_response (result, "", &flags, &sep, &dirname)) {
+		if (selectable)
+			*selectable = !e_strstrcase (flags, "NoSelect");
+		
+		g_free (flags);
+		g_free (sep);
+		g_free (dirname);
+		
+		return TRUE;
+	}
+	
+	g_free (flags);
+	g_free (sep);
+	g_free (dirname);
+	
+	return FALSE;
+}
+
+#if 0
+static gboolean
 imap_folder_exists (CamelFolder *folder, CamelException *ex)
 {
 	CamelStore *store = CAMEL_STORE (folder->parent_store);
@@ -331,7 +389,7 @@ imap_folder_exists (CamelFolder *folder, CamelException *ex)
 	
 	g_return_val_if_fail (dir_sep, FALSE);
 	
-	if (url && url->path && *(url->path + 1) && strcmp (folder->full_name, "INBOX"))
+	if (url && url->path && *(url->path + 1) && g_strcasecmp (folder->full_name, "INBOX"))
 		folder_path = g_strdup_printf ("%s%s%s", url->path + 1, dir_sep, folder->full_name);
 	else
 		folder_path = g_strdup (folder->full_name);
@@ -348,6 +406,7 @@ imap_folder_exists (CamelFolder *folder, CamelException *ex)
 	
 	return TRUE;
 }
+#endif
 
 static gboolean
 imap_create (CamelFolder *folder, CamelException *ex)
@@ -365,10 +424,10 @@ imap_create (CamelFolder *folder, CamelException *ex)
 		return FALSE;
 	}
 	
-	if (!strcmp (folder->full_name, "INBOX"))
+	if (!g_strcasecmp (folder->full_name, "INBOX"))
 		return TRUE;
 	
-	if (imap_folder_exists (folder, ex))
+	if (imap_folder_exists (folder, NULL, ex))
 		return TRUE;
 	
         /* create the directory for the subfolder */
@@ -376,7 +435,7 @@ imap_create (CamelFolder *folder, CamelException *ex)
 	
 	g_return_val_if_fail (dir_sep, FALSE);
 	
-	if (url && url->path && *(url->path + 1) && strcmp (folder->full_name, "INBOX"))
+	if (url && url->path && *(url->path + 1) && g_strcasecmp (folder->full_name, "INBOX"))
 		folder_path = g_strdup_printf ("%s%s%s", url->path + 1, dir_sep, folder->full_name);
 	else
 		folder_path = g_strdup (folder->full_name);
@@ -391,13 +450,14 @@ imap_create (CamelFolder *folder, CamelException *ex)
 	return TRUE;
 }
 
+#if 0
 static gboolean
 folder_is_selectable (CamelStore *store, const char *folder_path, CamelException *ex)
 {
 	char *result, *flags, *sep, *folder;
 	int status;
 	
-	if (!strcmp (folder_path, "INBOX"))
+	if (!g_strcasecmp (folder_path, "INBOX"))
 		return TRUE;
 	
 	status = camel_imap_command_extended (CAMEL_IMAP_STORE (store), NULL,
@@ -421,6 +481,7 @@ folder_is_selectable (CamelStore *store, const char *folder_path, CamelException
 	
 	return FALSE;
 }
+#endif
 
 static CamelFolder *
 get_folder (CamelStore *store, const char *folder_name, gboolean create, CamelException *ex)
@@ -428,6 +489,8 @@ get_folder (CamelStore *store, const char *folder_name, gboolean create, CamelEx
 	CamelURL *url = CAMEL_SERVICE (store)->url;
 	CamelFolder *new_folder;
 	char *folder_path, *dir_sep;
+	gboolean exists = FALSE;
+	gboolean selectable;
 	
 	g_return_val_if_fail (store != NULL, NULL);
 	g_return_val_if_fail (folder_name != NULL, NULL);
@@ -444,22 +507,32 @@ get_folder (CamelStore *store, const char *folder_name, gboolean create, CamelEx
 	
 	if (camel_exception_is_set (ex))
 		return NULL;
-
-	/* this is the top-level dir, we already know it exists - it has to! */
-	if (!strcmp (folder_name, dir_sep))
-		return new_folder;
 	
-	if (create && !imap_create (new_folder, ex)) {
-		if (!folder_is_selectable (store, folder_path, ex)) {
+	/* this is the top-level dir, we already know it exists - it has to! */
+	if (!strcmp (folder_name, dir_sep)) {
+		camel_folder_refresh_info (new_folder, ex);
+		return new_folder;
+	}
+	
+	if (imap_folder_exists (new_folder, &selectable, ex)) {
+	        /* ah huh, so the folder *does* exist... */
+		exists = TRUE;
+		
+		/* now lets see if it's selectable... */
+		if (!selectable) {
 			camel_exception_clear (ex);
 			new_folder->can_hold_messages = FALSE;
-			return new_folder;
-		} else {
-			g_free (folder_path);
-			camel_object_unref (CAMEL_OBJECT (new_folder));		
-			return NULL;
 		}
 	}
+	
+	if (!exists && create && !imap_create (new_folder, ex)) {
+		g_free (folder_path);
+		camel_object_unref (CAMEL_OBJECT (new_folder));		
+		return NULL;
+	}
+	
+	/* this is where we *should refresh_info, not in imap_folder_new() */
+	camel_folder_refresh_info (new_folder, ex);
 	
 	return new_folder;
 }
@@ -535,7 +608,7 @@ check_current_folder (CamelImapStore *store, CamelFolder *folder, char *fmt, Cam
 	
 	dir_sep = store->dir_sep;
 	
-	if (url && url->path && *(url->path + 1) && strcmp (folder->full_name, "INBOX"))
+	if (url && url->path && *(url->path + 1) && g_strcasecmp (folder->full_name, "INBOX"))
 		folder_path = g_strdup_printf ("%s%s%s", url->path + 1, dir_sep, folder->full_name);
 	else
 		folder_path = g_strdup (folder->full_name);
