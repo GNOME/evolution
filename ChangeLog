@@ -1,3 +1,8 @@
+2001-07-16  Not Zed  <NotZed@Ximian.com>
+
+	* configure.in: Changed to use test -h instead of -L for checking
+	/var/mail vs /var/spool/mail
+
 2001-07-13  JP Rosevear  <jpr@ximian.com>
 
 	* NEWS: more updates
