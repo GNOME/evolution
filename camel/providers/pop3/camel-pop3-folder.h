@@ -46,12 +46,6 @@ extern "C" {
 typedef struct {
 	CamelFolder parent_object;
 
-	CamelFolderSummary *summary;
-	/* the external summary is intended to be read by callers */
-	
-	CamelPop3Summary *internal_summary; /* internal summary object */
-	GList  *uid_array;
-
 } CamelPop3Folder;
 
 
@@ -65,6 +59,7 @@ typedef struct {
 
 
 /* public methods */
+CamelFolder *camel_pop3_folder_new (CamelStore *parent, CamelException *ex);
 
 /* Standard Gtk function */
 GtkType camel_pop3_folder_get_type (void);

@@ -45,7 +45,9 @@
 
 
 
-static gboolean _connect (CamelService *service, CamelException *ex);
+static gboolean connect (CamelService *service, CamelException *ex);
+static CamelFolder *get_folder (CamelStore *store, const gchar *folder_name, 
+				CamelException *ex);
 
 
 static void
@@ -53,9 +55,15 @@ camel_pop3_store_class_init (CamelPop3StoreClass *camel_pop3_store_class)
 {
 	CamelServiceClass *camel_service_class =
 		CAMEL_SERVICE_CLASS (camel_pop3_store_class);
+	CamelStoreClass *camel_store_class =
+		CAMEL_STORE_CLASS (camel_pop3_store_class);
 	
 	/* virtual method overload */
-	camel_service_class->connect = _connect;
+	camel_service_class->connect = connect;
+
+	camel_store_class->get_root_folder = camel_pop3_folder_new;
+	camel_store_class->get_default_folder = camel_pop3_folder_new;
+	camel_store_class->get_folder = get_folder;
 }
 
 
@@ -171,16 +179,16 @@ _connect (CamelService *service, CamelException *ex)
 		for (s = md5sum, d = md5asc; d < md5asc + 32; s++, d += 2)
 			sprintf(d, "%.2x", *s);
 
-		status = camel_pop3_command(store->stream, NULL, "APOP %s %s",
+		status = camel_pop3_command(store, NULL, "APOP %s %s",
 					    service->url->user, md5asc);
 	}
 	g_free(buf);
 
 	if (status != CAMEL_POP3_OK ) {
-		status = camel_pop3_command(store->stream, NULL, "USER %s",
+		status = camel_pop3_command(store, NULL, "USER %s",
 					    service->url->user);
 		if (status == CAMEL_POP3_OK) {
-			status = camel_pop3_command(store->stream, NULL,
+			status = camel_pop3_command(store, NULL,
 						    "PASS %s", pass);
 		}
 	}
@@ -195,9 +203,22 @@ _connect (CamelService *service, CamelException *ex)
 	return TRUE;
 }
 
-int
-camel_pop3_command (CamelStreamBuffer *stream, char **ret, char *fmt, ...)
+static CamelFolder *get_folder (CamelStore *store, const gchar *folder_name, 
+				CamelException *ex)
 {
+	if (!strcasecmp (folder_name, "inbox"))
+		return camel_pop3_folder_new (store, ex);
+	else {
+		camel_exception_setv (ex, CAMEL_EXCEPTION_FOLDER_INVALID,
+				      "No such folder `%s'.", folder_name);
+		return NULL;
+	}
+}
+
+int
+camel_pop3_command (CamelPop3Store *store, char **ret, char *fmt, ...)
+{
+	CamelStreamBuffer *stream = store->stream;
 	char *cmdbuf, *respbuf;
 	va_list ap;
 	int status, i;
@@ -220,35 +241,52 @@ camel_pop3_command (CamelStreamBuffer *stream, char **ret, char *fmt, ...)
 		status = CAMEL_POP3_ERR;
 	else
 		status = CAMEL_POP3_FAIL;
+
+	if (ret) {
+		if (status != CAMEL_POP3_FAIL) {
+			*ret = strchr (respbuf, ' ');
+			if (*ret)
+				*ret = g_strdup (ret + 1);
+		} else
+			*ret = NULL;
+	}
 	g_free (respbuf);
 
-	if (status != CAMEL_POP3_OK || !ret)
-		return status;
+	return status;
+}
 
-	/* Read the additional data. */
+char *
+camel_pop3_command_get_additional_data (CamelPop3Store *store)
+{
+	CamelStreamBuffer *stream = store->stream;
+	GPtrArray *data;
+	char *buf;
+	int i, status = CAMEL_POP3_OK;
+
 	data = g_ptr_array_new ();
 	while (1) {
-		respbuf = camel_stream_buffer_read_line (stream);
-		if (!respbuf) {
+		buf = camel_stream_buffer_read_line (stream);
+		if (!buf) {
 			status = CAMEL_POP3_FAIL;
 			break;
 		}
 
-		if (!strcmp (respbuf, "."))
+		if (!strcmp (buf, "."))
 			break;
-		if (*respbuf == '.')
-			memmove (respbuf, respbuf + 1, strlen (respbuf));
-		g_ptr_array_add (data, respbuf);
+		if (*buf == '.')
+			memmove (buf, buf + 1, strlen (buf));
+		g_ptr_array_add (data, buf);
 	}
 
 	if (status == CAMEL_POP3_OK) {
 		g_ptr_array_add (data, NULL);
-		*ret = g_strjoinv ("\n", (char **)data->pdata);
-	}
+		buf = g_strjoinv ("\n", (char **)data->pdata);
+	} else
+		buf = NULL;
 
 	for (i = 0; i < data->len; i++)
 		g_free (data->pdata[i]);
 	g_ptr_array_free (data, TRUE);
 
-	return status;
+	return buf;
 }

@@ -1,3 +1,12 @@
+2000-03-22  Dan Winship  <danw@helixcode.com>
+
+	* providers/pop3/camel-pop3-folder.c: fill this in partially
+	* providers/pop3/camel-pop3-store.c: make camel_pop3_command
+	return the text after "+OK"/"-ERR" and add a separate
+	camel_pop3_get_additional_data to get the message body or
+	whatever. Also make them take a CamelPop3Store rather than
+	a CamelStreamBuffer.
+
 2000-03-22  Matt Loper  <matt@helixcode.com>
 
 	* camel-formatter.c (debug): Disabled some useless debug
