@@ -22208,7 +22208,7 @@ msgstr "%s (%d%% hotových)"
 #~ msgstr "Krok 4. Meno displeja"
 
 #~ msgid "Find contact in"
-#~ msgstr "Nájs� kontakt v"
+#~ msgstr "Nájsť kontakt v"
 
 #~ msgid "* Click here to add a contact *"
 #~ msgstr "* Kliknutím pridáte kontakt *"
