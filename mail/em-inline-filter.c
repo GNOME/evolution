@@ -224,6 +224,23 @@ emif_scan(CamelMimeFilter *f, char *in, size_t len, int final)
 				emif_add_part(emif, data_start, inptr-data_start);
 				data_start = inptr;
 				emif->state = EMIF_PLAIN;
+			} else {
+				int len, linelen;
+
+				/* check the length byte matches the data, if not, output what we have and re-scan this line */
+				len = ((start[0] - ' ') & 077) * 4 / 3;
+				linelen = inptr-start-1;
+				while (linelen > 0 && (start[linelen] == '\r' || start[linelen] == '\n'))
+					linelen--;
+				linelen--;
+				if (linelen != len) {
+					inptr[-1] = '\n';
+					emif_add_part(emif, data_start, start-data_start);
+					data_start = start;
+					inptr = start;
+					emif->state = EMIF_PLAIN;
+					continue;
+				}
 			}
 			break;
 		case EMIF_BINHEX:

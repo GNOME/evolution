@@ -1,5 +1,8 @@
 2004-04-02  Not Zed  <NotZed@Ximian.com>
 
+	* em-inline-filter.c: do a per-line validation of the uuencoded
+	stuff, based on the length byte.
+
 	** See bug #56338.
 
 	* em-format-html.c (emfh_gethttp): fix the fugly "load http if"
