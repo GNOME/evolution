@@ -1175,8 +1175,11 @@ e_shell_quit(EShell *shell)
 	if (can_quit) {
 		GList *p = shell->priv->windows;
 
-		for (; p != NULL; p = p->next)
+		for (; p != NULL; p = p->next) {
 			gtk_widget_set_sensitive (GTK_WIDGET (p->data), FALSE);
+			if (p == shell->priv->windows)
+				e_shell_window_save_defaults (p->data);
+		}
 		can_quit = !es_run_quit(shell);
 	}
 

@@ -1,3 +1,11 @@
+2004-04-30  Dan Winship  <danw@ximian.com>
+
+	* e-shell-window-commands.c (command_quit): Don't save window
+	state here.
+
+	* e-shell.c (e_shell_quit): Do it here, so it gets called if you
+	quit by closing the last window via its close button too. #57529
+
 2004-04-30  Not Zed  <NotZed@Ximian.com>
 
 	* e-component-registry.c:
