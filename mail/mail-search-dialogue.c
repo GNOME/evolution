@@ -1,5 +1,5 @@
 /*
- *  Copyright (C) 2000 Helix Code Inc.
+ *  Copyright (C) 2000, 2001 Ximian, Inc.
  *
  *  Authors: Not Zed <notzed@lostzed.mmc.com.au>
  *

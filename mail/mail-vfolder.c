@@ -1,5 +1,5 @@
 /*
-  Copyright 2000 Helix Code Inc.
+  Copyright 2000, 2001 Helix Code Inc.
 
   Author: Michael Zucchi <notzed@helixcode.com>
 
