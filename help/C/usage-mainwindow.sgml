@@ -482,7 +482,8 @@
 	  </listitem>
 	  <listitem>
 	    <para>
-	      Organization &mdash; The company you work for (optional).
+	      Organization &mdash; The name of the organization you are a part
+	      of (example: Big Company, Inc.).
 	    </para>
 	  </listitem>
 	  <listitem>
@@ -516,7 +517,7 @@
 		  <para>
 		    IMAPv4 &mdash; Keeps the email on your server so you can
 		    access your email from any computer that supports IMAPv4 and
-		    have everything be the same.
+		    have everything be there.
 		  </para>
 		</listitem>
 		<listitem>
@@ -533,13 +534,13 @@
 		</listitem>
 		<listitem>
 		  <para>
-		    Qmail maildir format files &mdash; If you download your
-		    mail using qmail, you'll want to use this.
+		    Qmail maildir format files &mdash; Mail format which the
+		    qmail server writes as.
 		  </para>
 		</listitem>
 		<listitem>
 		  <para>
-		    None &mdash How do you  have None?  figure out!
+		    None &mdash You intend on not reading email using this identity.
 		  </para>
 		</listitem>
 	      </itemizedlist>
@@ -584,13 +585,14 @@
 	      <itemizedlist>
 		<listitem>
 		  <para>
-		    SMTP &mdash; Downloads mail into your mailbox file.
+		    SMTP &mdash; Downloads mail from a server using <application>Evolution</application>.
 		  </para>
 		</listitem>
 		<listitem>
 		  <para>
 		    Sendmail &mdash; Uses another program to download your mail
-		    to your mailbox files.
+		    to your mailbox files.  <application>Evolution</application>
+		    then reads the mail from the files.
 		  </para>
 		</listitem>
 	      </itemizedlist>
@@ -598,7 +600,7 @@
 	  </listitem>
 	  <listitem>
 	    <para>
-	      Host &mdash; The server to connect to that sends your mail.
+	      Host &mdash; The server that sends your email.
 	    </para>
 	  </listitem>
 	  <listitem>

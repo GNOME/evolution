@@ -1,3 +1,7 @@
+2001-07-20  Kevin Breit  <battery841@mediaone.net>
+
+	* C/usage-mainwindow.sgml: Fixed the first time druid stuff a little more.
+
 2001-07-15  Kevin Breit  <battery841@mediaone.net>
 
 	* C/config-sync.sgml: Updated slightly for new design.
