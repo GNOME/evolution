@@ -1,3 +1,7 @@
+2001-08-20  Damon Chaplin  <damon@ximian.com>
+
+	* folder-browser-ui.c: use new small trash icon for Delete command.
+
 2001-08-20  Ettore Perazzoli  <ettore@ximian.com>
 
 	* mail-ops.c (sync_folder_desc): s/Synchronising/Synchronizing/.

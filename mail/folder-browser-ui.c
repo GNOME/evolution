@@ -115,7 +115,7 @@ static BonoboUIVerb global_verbs [] = {
 static EPixmap message_pixcache [] = {
 	E_PIXMAP ("/commands/PrintMessage", "print.xpm"),
 	E_PIXMAP ("/commands/PrintPreviewMessage", "print-preview.xpm"),
-	E_PIXMAP ("/commands/MessageDelete", "delete_message.xpm"),
+	E_PIXMAP ("/commands/MessageDelete", "evolution-trash-mini.png"),
 	E_PIXMAP ("/commands/MessageUndelete", "undelete_message.xpm"),
 	E_PIXMAP ("/commands/MessageCopy", "copy_16_message.xpm"),
 	E_PIXMAP ("/commands/MessageMove", "move_message.xpm"),
