@@ -302,11 +302,11 @@ msgstr ""
 #: addressbook/backend/ebook/GNOME_Evolution_Addressbook_GnomeCard_Importer.oaf.in.h:1
 msgid "Factory to import GnomeCard files into Evolution."
 msgstr ""
-"\"GnomeCard\" fayllarını \"Evolution\" içinə gətirən e'malatxana."
+"'GnomeCard' fayllarını 'Evolution' içinə gətirən e'malatxana."
 
 #: addressbook/backend/ebook/GNOME_Evolution_Addressbook_GnomeCard_Importer.oaf.in.h:2
 msgid "Imports GnomeCard files into Evolution."
-msgstr "\"GnomeCard\" fayllarını \"Evolution\" içinə gətirir."
+msgstr "'GnomeCard' fayllarını 'Evolution' içinə gətirir."
 
 #: addressbook/backend/ebook/load-gnomecard-addressbook.c:16
 #: addressbook/backend/ebook/load-pine-addressbook.c:17
@@ -1006,11 +1006,11 @@ msgstr "Evolution Ünvan Dəftəri kiçik kart nümaiyişi"
 
 #: addressbook/gui/component/GNOME_Evolution_Addressbook.oaf.in.h:5
 msgid "Evolution component for handling contacts."
-msgstr "Əlaqələri idarə edici \"Evolution\" əlavəsi."
+msgstr "Əlaqələri idarə edici 'Evolution' əlavəsi."
 
 #: addressbook/gui/component/GNOME_Evolution_Addressbook.oaf.in.h:6
 msgid "Factory for the Addressbook Minicard control"
-msgstr "\"Evolution\"un Ünvan Dəftəri Kiçik Kart e'malatxanası"
+msgstr "'Evolution'un Ünvan Dəftəri Kiçik Kart e'malatxanası"
 
 #: addressbook/gui/component/GNOME_Evolution_Addressbook.oaf.in.h:7
 msgid "Factory for the Addressbook's address displayer"
@@ -1018,7 +1018,7 @@ msgstr "Ünvan Dəftəriidə ünvan göstərici"
 
 #: addressbook/gui/component/GNOME_Evolution_Addressbook.oaf.in.h:8
 msgid "Factory for the Evolution addressbook component."
-msgstr "\"Evolution\"un Ünvan Dəftəri e'malatxanası."
+msgstr "'Evolution'un Ünvan Dəftəri e'malatxanası."
 
 #: addressbook/gui/component/GNOME_Evolution_Addressbook.oaf.in.h:9
 msgid "Factory for the sample Addressbook control"
@@ -2779,7 +2779,7 @@ msgstr "Evolution Təqvim iTip/iMip Nümayişçisi"
 
 #: calendar/gui/GNOME_Evolution_Calendar.oaf.in.h:4
 msgid "Evolution component for handling the calendar."
-msgstr "\"Evolution\"un Təqvim əlavəsi."
+msgstr "'Evolution'un Təqvim əlavəsi."
 
 #: calendar/gui/GNOME_Evolution_Calendar.oaf.in.h:5
 msgid "Factory for the Calendar Summary component."
@@ -4694,11 +4694,11 @@ msgstr "%I:%M:%S %p"
 
 #: executive-summary/GNOME_Evolution_Summary.oaf.in.h:1
 msgid "Evolution component for the executive summary."
-msgstr "İcracı mündəricat üçün \"Evolution\" parçası."
+msgstr "İcracı mündəricat üçün 'Evolution' parçası."
 
 #: executive-summary/GNOME_Evolution_Summary.oaf.in.h:2
 msgid "Factory for the Evolution executive summary component."
-msgstr "\"Evolution\"un icracı mündəricat parçası e'malatxanası."
+msgstr "'Evolution'un icracı mündəricat parçası e'malatxanası."
 
 #: executive-summary/component/component-factory.c:152
 msgid "Cannot initialize Evolution's Executive Summary component."
@@ -5415,31 +5415,31 @@ msgstr "(%s) Məktublaşma Qrupundakı VFolder"
 
 #: mail/GNOME_Evolution_Mail.oaf.in.h:1
 msgid "Evolution component for handling mail."
-msgstr "Məktub taşkilatcısı \"Evolution\" parçası."
+msgstr "Məktub taşkilatcısı 'Evolution' parçası."
 
 #: mail/GNOME_Evolution_Mail.oaf.in.h:2
 msgid "Evolution mail composer."
-msgstr "\"Evolution\"un ePoçt yazıçısı."
+msgstr "'Evolution'un ePoçt yazıçısı."
 
 #: mail/GNOME_Evolution_Mail.oaf.in.h:3
 msgid "Evolution mail executive summary component."
-msgstr "\"Evolution\"un icracı mündəricat parçası."
+msgstr "'Evolution'un icracı mündəricat parçası."
 
 #: mail/GNOME_Evolution_Mail.oaf.in.h:4
 msgid "Evolution mail folder display component."
-msgstr "\"Evolution\"un məktub qovluğu nümayişcisi."
+msgstr "'Evolution'un məktub qovluğu nümayişcisi."
 
 #: mail/GNOME_Evolution_Mail.oaf.in.h:5
 msgid "Evolution mail folder factory component."
-msgstr "\"Evolution\"un məktub qovluğu nümayişcisi e'malatxanası."
+msgstr "'Evolution'un məktub qovluğu nümayişcisi e'malatxanası."
 
 #: mail/GNOME_Evolution_Mail.oaf.in.h:6
 msgid "Factory for the Evolution composer."
-msgstr "\"Evolution\"un məktub yazıçısı e'malatxanası."
+msgstr "'Evolution'un məktub yazıçısı e'malatxanası."
 
 #: mail/GNOME_Evolution_Mail.oaf.in.h:7
 msgid "Factory for the Evolution mail component."
-msgstr "\"Evolution\"un məktub parçası e'malatxanası."
+msgstr "'Evolution'un məktub parçası e'malatxanası."
 
 #: mail/GNOME_Evolution_Mail.oaf.in.h:8
 msgid "Factory for the Mail Summary component."
@@ -6940,7 +6940,7 @@ msgstr "Bu qeydlərdə belirtilen növ dəstəklənmir"
 
 #: shell/GNOME_Evolution_Shell.oaf.in.h:1
 msgid "The Evolution shell."
-msgstr "\"Evolution\" qabığı."
+msgstr "'Evolution' qabığı."
 
 #: shell/main.c:73
 #, no-c-format
