@@ -300,14 +300,13 @@ static CamelFolderInfo *folder_info_new(CamelStore *store, const char *root, con
 	fi->unread_message_count = 0;
 
 	/* check unread count if open */
-	CAMEL_STORE_LOCK(store, cache_lock);
-	folder = g_hash_table_lookup(store->folders, path);
+	folder = camel_object_bag_get(store->folders, path);
 	if (folder) {
 		if ((((CamelMhStore *)store)->flags & CAMEL_STORE_FOLDER_INFO_FAST) == 0)
 			camel_folder_refresh_info(folder, NULL);
 		fi->unread_message_count = camel_folder_get_unread_message_count(folder);
+		camel_object_unref(folder);
 	}
-	CAMEL_STORE_UNLOCK(store, cache_lock);
 
 	/* We could: if we have no folder, and FAST isn't specified, perform a full
 	   scan of all messages for their status flags.  But its probably not worth

@@ -285,13 +285,13 @@ static int scan_dir(CamelStore *store, GHashTable *visited, char *root, const ch
 	} else if (S_ISREG(st.st_mode)) {
 		/* incase we start scanning from a file.  messy duplication :-/ */
 		if (path) {
-			CAMEL_STORE_LOCK(store, cache_lock);
-			folder = g_hash_table_lookup(store->folders, path);
-			if (folder)
+			folder = camel_object_bag_get(store->folders, path);
+			if (folder) {
+				/* should this refresh if ! FAST? */
 				unread = camel_folder_get_unread_message_count(folder);
-			else
+				camel_object_unref(folder);
+			} else
 				unread = -1;
-			CAMEL_STORE_UNLOCK(store, cache_lock);
 			tmp = strrchr(path, '/');
 			if (tmp)
 				tmp++;
@@ -346,13 +346,13 @@ static int scan_dir(CamelStore *store, GHashTable *visited, char *root, const ch
 
 			if (S_ISREG(st.st_mode)) {
 				/* first, see if we already have it open */
-				CAMEL_STORE_LOCK(store, cache_lock);
-				folder = g_hash_table_lookup(store->folders, fname);
-				if (folder)
+				folder = camel_object_bag_get(store->folders, path);
+				if (folder) {
+					/* should this refresh if ! FAST? */
 					unread = camel_folder_get_unread_message_count(folder);
-				else
+					camel_object_unref(folder);
+				} else
 					unread = -1;
-				CAMEL_STORE_UNLOCK(store, cache_lock);
 
 				/* no?  check its content to see if its a folder or not */
 				if (folder == NULL) {
@@ -457,13 +457,12 @@ get_folder_info_mbox(CamelStore *store, const char *top, guint32 flags, CamelExc
 		fi->name = g_strdup("INBOX");
 		fi->url = g_strdup_printf("%s:%s#%s", service->url->protocol, service->url->path, fi->name);
 
-		CAMEL_STORE_LOCK(store, cache_lock);
-		folder = g_hash_table_lookup(store->folders, fi->full_name);
-		if (folder)
+		folder = camel_object_bag_get(store->folders, fi->full_name);
+		if (folder) {
 			fi->unread_message_count = camel_folder_get_unread_message_count(folder);
-		else
+			camel_object_unref(folder);
+		} else
 			fi->unread_message_count = -1;
-		CAMEL_STORE_UNLOCK(store, cache_lock);
 
 		camel_folder_info_build_path(fi, '/');
 	}

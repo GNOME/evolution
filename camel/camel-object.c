@@ -35,6 +35,8 @@
 #include <e-util/e-msgport.h>
 #endif
 
+#define d(x)
+
 /* I just mashed the keyboard for these... */
 #define CAMEL_OBJECT_MAGIC           	 0x77A344ED
 #define CAMEL_OBJECT_CLASS_MAGIC     	 0xEE26A997
@@ -77,9 +79,32 @@ typedef struct _CamelHookPair
 	void *data;
 } CamelHookPair;
 
+struct _CamelObjectBag {
+	GHashTable *object_table; /* object by key */
+	GHashTable *key_table;	/* key by object */
+	guint32 flags;
+#ifdef ENABLE_THREADS
+	pthread_t owner;
+	pthread_cond_t cond;
+#endif
+};
+
+#define CAMEL_OBJECT_BAG_RESERVED (1)
+
+/* used to tag a bag hookpair */
+static const char *bag_name = "object:bag";
+
 /* ********************************************************************** */
 
+static CamelHookList *camel_object_get_hooks(CamelObject *o);
 static void camel_object_free_hooks(CamelObject *o);
+static void camel_object_bag_remove_unlocked(CamelObjectBag *inbag, CamelObject *o, CamelHookList *hooks);
+
+#ifdef ENABLE_THREADS
+#define camel_object_unget_hooks(o) (e_mutex_unlock((CAMEL_OBJECT(o)->hooks->lock)))
+#else
+#define camel_object_unget_hooks(o)
+#endif
 
 /* ********************************************************************** */
 
@@ -191,6 +216,8 @@ cobject_init (CamelObject *o, CamelObjectClass *klass)
 static void
 cobject_finalise(CamelObject *o)
 {
+	/*printf("%p: finalise %s\n", o, o->klass->name);*/
+
 	g_assert(o->ref_count == 0);
 
 	camel_object_free_hooks(o);
@@ -392,6 +419,7 @@ camel_object_new(CamelType type)
 		return NULL;
 
 	CLASS_LOCK(type);
+
 	o = e_memchunk_alloc0(type->instance_chunks);
 
 #ifdef CAMEL_OBJECT_TRACK_INSTANCES
@@ -403,7 +431,10 @@ camel_object_new(CamelType type)
 #endif
 
 	CLASS_UNLOCK(type);
+
 	camel_object_init(o, type, type);
+
+	d(printf("%p: new %s()\n", o, o->klass->name));
 
 	return o;
 }
@@ -415,9 +446,12 @@ camel_object_ref(void *vo)
 
 	g_return_if_fail(CAMEL_IS_OBJECT(o));
 
-	CLASS_LOCK(o->klass);
+	E_LOCK(type_lock);
+
 	o->ref_count++;
-	CLASS_UNLOCK(o->klass);
+	d(printf("%p: ref %s(%d)\n", o, o->klass->name, o->ref_count));
+
+	E_UNLOCK(type_lock);
 }
 
 void
@@ -425,22 +459,38 @@ camel_object_unref(void *vo)
 {
 	register CamelObject *o = vo;
 	register CamelObjectClass *klass, *k;
+	CamelHookList *hooks = NULL;
 
 	g_return_if_fail(CAMEL_IS_OBJECT(o));
 	
 	klass = o->klass;
 
-	CLASS_LOCK(klass);
+	if (o->hooks)
+		hooks = camel_object_get_hooks(o);
+
+	E_LOCK(type_lock);
+
 	o->ref_count--;
+
+	d(printf("%p: unref %s(%d)\n", o, o->klass->name, o->ref_count));
+
 	if (o->ref_count > 0
 	    || (o->flags & CAMEL_OBJECT_DESTROY)) {
-		CLASS_UNLOCK(klass);
+		E_UNLOCK(type_lock);
+		if (hooks)
+			camel_object_unget_hooks(o);
 		return;
 	}
 
 	o->flags |= CAMEL_OBJECT_DESTROY;
 
-	CLASS_UNLOCK(klass);
+	if (hooks)
+		camel_object_bag_remove_unlocked(NULL, o, hooks);
+
+	E_UNLOCK(type_lock);
+
+	if (hooks)
+		camel_object_unget_hooks(o);
 
 	camel_object_trigger_event(o, "finalize", NULL);
 
@@ -685,13 +735,6 @@ static CamelHookList *camel_object_get_hooks(CamelObject *o)
 #endif
 	return o->hooks;	
 }
-
-/* unlock object hooks' list */
-#ifdef ENABLE_THREADS
-#define camel_object_unget_hooks(o) (e_mutex_unlock((CAMEL_OBJECT(o)->hooks->lock)))
-#else
-#define camel_object_unget_hooks(o)
-#endif
 
 unsigned int
 camel_object_hook_event(void *vo, const char * name, CamelObjectEventHookFunc func, void *data)
@@ -1039,4 +1082,244 @@ void
 camel_object_class_dump_tree(CamelType root)
 {
 	object_class_dump_tree_rec(root, 0);
+}
+
+CamelObjectBag *camel_object_bag_new(GHashFunc hash, GEqualFunc equal)
+{
+	CamelObjectBag *bag;
+
+	bag = g_malloc(sizeof(*bag));
+	bag->object_table = g_hash_table_new(hash, equal);
+	bag->key_table = g_hash_table_new(NULL, NULL);
+	bag->flags = 0;
+#ifdef ENABLE_THREADS
+	pthread_cond_init(&bag->cond, NULL);
+#endif
+	return bag;
+}
+
+static void
+remove_bag(char *key, CamelObject *o, CamelObjectBag *bag)
+{
+	camel_object_bag_remove(bag, o);
+	g_free(key);
+}
+
+void camel_object_bag_destroy(CamelObjectBag *bag)
+{
+	g_assert(bag->flags == 0);
+
+	g_hash_table_foreach(bag->object_table, (GHFunc)remove_bag, bag);
+	g_hash_table_destroy(bag->object_table);
+	g_hash_table_destroy(bag->key_table);
+	g_free(bag);
+}
+
+void camel_object_bag_add(CamelObjectBag *bag, const char *key, void *vo)
+{
+	CamelObject *o = vo;
+	CamelHookList *hooks;
+	CamelHookPair *pair;
+	char *k;
+
+	hooks = camel_object_get_hooks(o);
+	E_LOCK(type_lock);
+
+	pair = hooks->list;
+	while (pair) {
+		if (pair->name == bag_name && pair->data == bag) {
+			E_UNLOCK(type_lock);
+			camel_object_unget_hooks(o);
+			return;
+		}
+		pair = pair->next;
+	}
+
+	pair = pair_alloc();
+	pair->name = bag_name;
+	pair->data = bag;
+	pair->flags = 0;
+
+	pair->next = hooks->list;
+	hooks->list = pair;
+	hooks->list_length++;
+
+	k = g_strdup(key);
+	g_hash_table_insert(bag->object_table, k, vo);
+	g_hash_table_insert(bag->key_table, vo, k);
+
+#ifdef ENABLE_THREADS
+	if (bag->flags & CAMEL_OBJECT_BAG_RESERVED
+	    && bag->owner == pthread_self()) {
+		bag->flags &= ~CAMEL_OBJECT_BAG_RESERVED;
+		pthread_cond_broadcast(&bag->cond);
+	}
+#endif
+
+	E_UNLOCK(type_lock);
+	camel_object_unget_hooks(o);
+}
+
+void *camel_object_bag_get(CamelObjectBag *bag, const char *key)
+{
+	CamelObject *o;
+	int retry;
+
+	E_LOCK(type_lock);
+
+	do {
+		retry = FALSE;
+		o = g_hash_table_lookup(bag->object_table, key);
+		if (o) {
+			/* we use the same lock as the refcount */
+			o->ref_count++;
+		}
+#ifdef ENABLE_THREADS
+		else {
+			if (bag->flags & CAMEL_OBJECT_BAG_RESERVED) {
+				e_mutex_cond_wait(&bag->cond, type_lock);
+				retry = TRUE;
+			}
+		}
+#endif
+	} while (retry);
+	
+	E_UNLOCK(type_lock);
+
+	return o;
+}
+
+/* like get, but also reserve a spot for key if it isn't there */
+/* After calling reserve, you MUST call bag_abort or bag_add */
+/* Also note that currently you can only reserve a single key
+   at any one time in a given thread */
+void *camel_object_bag_reserve(CamelObjectBag *bag, const char *key)
+{
+	CamelObject *o;
+	int retry;
+
+	E_LOCK(type_lock);
+
+	do {
+		retry = FALSE;
+		o = g_hash_table_lookup(bag->object_table, key);
+		if (o) {
+			/* we use the same lock as the refcount */
+			o->ref_count++;
+		}
+#ifdef ENABLE_THREADS
+		else {
+			/* NOTE: We dont actually reserve the key, we just reserve
+			   the whole bag.  We could do either but this is easier */
+			if (bag->flags & CAMEL_OBJECT_BAG_RESERVED) {
+				e_mutex_cond_wait(&bag->cond, type_lock);
+				retry = TRUE;
+			} else {
+				bag->flags |= CAMEL_OBJECT_BAG_RESERVED;
+				bag->owner = pthread_self();
+			}
+		}
+#endif
+	} while (retry);
+	
+	E_UNLOCK(type_lock);
+
+	return o;
+}
+
+/* abort a reserved key */
+void camel_object_bag_abort(CamelObjectBag *bag, const char *key)
+{
+	CamelObject *o;
+	int retry;
+
+	E_LOCK(type_lock);
+
+	/* NOTE: We dont actually reserve the key, we just reserve
+	   the whole bag.  We could do either but this is easier */
+
+	g_assert(bag->owner == pthread_self());
+	g_assert(bag->flags & CAMEL_OBJECT_BAG_RESERVED);
+
+	bag->owner = 0;
+	bag->flags &= ~CAMEL_OBJECT_BAG_RESERVED;
+
+	pthread_cond_broadcast(&bag->cond);
+	
+	E_UNLOCK(type_lock);
+}
+
+static void
+save_bag(char *key, CamelObject *o, GPtrArray *list)
+{
+	/* we have the refcount lock already */
+	o->ref_count++;
+	g_ptr_array_add(list, o);
+}
+
+/* get a list of all objects in the bag, ref'd */
+GPtrArray *camel_object_bag_list(CamelObjectBag *bag)
+{
+	GPtrArray *list;
+
+	list = g_ptr_array_new();
+	E_LOCK(type_lock);
+
+	while (bag->flags & CAMEL_OBJECT_BAG_RESERVED)
+		e_mutex_cond_wait(&bag->cond, type_lock);
+
+	g_hash_table_foreach(bag->object_table, (GHFunc)save_bag, list);
+	E_UNLOCK(type_lock);
+
+	return list;
+}
+
+/* if bag is NULL, remove all bags from object */
+static void camel_object_bag_remove_unlocked(CamelObjectBag *inbag, CamelObject *o, CamelHookList *hooks)
+{
+	CamelHookPair *pair, *parent;
+	char *oldkey;
+	CamelObjectBag *bag;
+
+	parent = (CamelHookPair *)&hooks->list;
+	pair = parent->next;
+	while (pair) {
+		if (pair->name == bag_name
+		    && (inbag == NULL || inbag == pair->data)) {
+			bag = pair->data;
+			/* lookup object in table? */
+			oldkey = g_hash_table_lookup(bag->key_table, o);
+			if (oldkey) {
+				g_hash_table_remove(bag->key_table, o);
+				g_hash_table_remove(bag->object_table, oldkey);
+				g_free(oldkey);
+			}
+			parent->next = pair->next;
+			pair_free(pair);
+			hooks->list_length--;
+		} else {
+			parent = pair;
+		}
+		pair = parent->next;
+	}
+}
+
+void camel_object_bag_remove(CamelObjectBag *inbag, void *vo)
+{
+	CamelObject *o = vo;
+	CamelHookPair *pair, *parent;
+	CamelHookList *hooks;
+	char *oldkey;
+	CamelObjectBag *bag;
+
+	if (o->hooks == NULL)
+		return;
+
+	hooks = camel_object_get_hooks(o);
+	E_LOCK(type_lock);
+
+	camel_object_bag_remove_unlocked(inbag, o, hooks);
+		
+	E_UNLOCK(type_lock);
+	camel_object_unget_hooks(o);
 }

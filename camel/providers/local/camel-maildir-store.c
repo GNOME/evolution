@@ -273,16 +273,15 @@ static int scan_dir(CamelStore *store, GHashTable *visited, char *root, const ch
 		base = path;
 
 	/* if we have this folder open, get the real unread count */
-	unread = -1;
-
-	CAMEL_STORE_LOCK(store, cache_lock);
-	folder = g_hash_table_lookup(store->folders, path);
+	folder = camel_object_bag_get(store->folders, path);
 	if (folder) {
 		if ((flags & CAMEL_STORE_FOLDER_INFO_FAST) == 0)
 			camel_folder_refresh_info(folder, NULL);
 		unread = camel_folder_get_unread_message_count(folder);
+		camel_object_unref(folder);
+	} else {
+		unread = -1;
 	}
-	CAMEL_STORE_UNLOCK(store, cache_lock);
 
 	/* if we dont have a folder, then scan the directory and get the unread
 	   count from there, which is reasonably cheap (on decent filesystem) */

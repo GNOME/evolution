@@ -319,7 +319,7 @@ static void
 rename_folder(CamelStore *store, const char *old, const char *new, CamelException *ex)
 {
 	char *path = CAMEL_LOCAL_STORE (store)->toplevel_dir;
-	CamelLocalFolder *folder;
+	CamelLocalFolder *folder = NULL;
 	char *newibex = g_strdup_printf("%s%s.ibex", path, new);
 	char *oldibex = g_strdup_printf("%s%s.ibex", path, old);
 
@@ -327,8 +327,7 @@ rename_folder(CamelStore *store, const char *old, const char *new, CamelExceptio
 
 	d(printf("local rename folder '%s' '%s'\n", old, new));
 
-	CAMEL_STORE_LOCK(store, cache_lock);
-	folder = g_hash_table_lookup(store->folders, old);
+	folder = camel_object_bag_get(store->folders, old);
 	if (folder && folder->index) {
 		if (camel_index_rename(folder->index, newibex) == -1)
 			goto ibex_failed;
@@ -344,10 +343,11 @@ rename_folder(CamelStore *store, const char *old, const char *new, CamelExceptio
 	if (xrename(old, new, path, "", FALSE, ex))
 		goto base_failed;
 
-	CAMEL_STORE_UNLOCK(store, cache_lock);
-
 	g_free(newibex);
 	g_free(oldibex);
+
+	if (folder)
+		camel_object_unref(folder);
 
 	return;
 
@@ -365,9 +365,11 @@ ibex_failed:
 			      _("Could not rename '%s': %s"),
 			      old, g_strerror (errno));
 
-	CAMEL_STORE_UNLOCK(store, cache_lock);
 	g_free(newibex);
 	g_free(oldibex);
+
+	if (folder)
+		camel_object_unref(folder);
 }
 
 /* default implementation, only delete metadata */

@@ -46,7 +46,7 @@ extern "C" {
 #endif
 
 /* turn on so that camel_object_class_dump_tree() dumps object instances as well */
-/*#define CAMEL_OBJECT_TRACK_INSTANCES*/
+#define CAMEL_OBJECT_TRACK_INSTANCES
 
 typedef struct _CamelObjectClass *CamelType;
 
@@ -213,6 +213,18 @@ int camel_object_getv(void *obj, struct _CamelException *ex, CamelArgGetV *);
 
 /* free a bunch of objects, list must be 0 terminated */
 void camel_object_free(void *vo, guint32 tag, void *value);
+
+/* for managing bags of weakly-ref'd 'child' objects */
+typedef struct _CamelObjectBag CamelObjectBag;
+
+CamelObjectBag *camel_object_bag_new(GHashFunc hash, GEqualFunc equal);
+void *camel_object_bag_get(CamelObjectBag *bag, const char *key);
+void *camel_object_bag_reserve(CamelObjectBag *bag, const char *key);
+void camel_object_bag_add(CamelObjectBag *bag, const char *key, void *o);
+void camel_object_bag_abort(CamelObjectBag *bag, const char *key);
+GPtrArray *camel_object_bag_list(CamelObjectBag *bag);
+void camel_object_bag_remove(CamelObjectBag *bag, void *o);
+void camel_object_bag_destroy(CamelObjectBag *bag);
 
 #ifdef __cplusplus
 }

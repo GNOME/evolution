@@ -59,7 +59,6 @@ struct _CamelFolderPrivate {
 struct _CamelStorePrivate {
 #ifdef ENABLE_THREADS
 	EMutex *folder_lock;	/* for locking folder operations */
-	EMutex *cache_lock;	/* for locking access to the cache */
 #else
 	int dummy;
 #endif

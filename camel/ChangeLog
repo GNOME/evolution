@@ -1,3 +1,87 @@
+2002-12-07  Not Zed  <NotZed@Ximian.com>
+
+	* camel-data-cache.c (data_cache_init): Use a bag instead of a
+	hashtable to track the cache streams.
+	(data_cache_finalise): Same.
+	(free_busy): No longer needed.
+	(data_cache_expire): use bag instead of hashtable.
+	(stream_finalised): No longer required.
+	(camel_data_cache_add): objectbagise
+	(camel_data_cache_get): "
+	(camel_data_cache_remove): "
+	(data_cache_path): Set the now expired date before running expiry,
+	so it plays better with multiple threads.  Still a couple of
+	harmless races.
+
+2002-12-06  Not Zed  <NotZed@Ximian.com>
+
+	* providers/local/camel-spool-store.c (scan_dir): folders ->
+	object bag.
+	(get_folder_info_mbox): folders -> object bag.
+
+	* providers/local/camel-mh-store.c (folder_info_new): folders ->
+	object bag.
+
+	* providers/local/camel-maildir-store.c (scan_dir): folders ->
+	object bag.
+
+	* providers/local/camel-local-store.c (rename_folder): folders ->
+	object bag.
+
+	* camel-private.h (CamelStorePrivate): Remove 'cache' lock,
+	handled by the objectbag.
+
+	* providers/imap/camel-imap-store.c (copy_folder): Removed.
+	(imap_store_refresh_folders): folders -> object bag.
+	(get_folder_counts): folders -> object bag.
+
+	* camel-vee-store.c (vee_get_folder): changes for folders
+	objectbag.
+	(vee_get_folder_info): Change to use folders objectbag.  Also,
+	dont refresh the base folder if we're in FAST mode.
+	(build_info): Removed, no longer needed.
+	(vee_rename_folder): Fixed for folders objectbag.
+
+	* camel-store.c (camel_store_init): init the folders objectbag.
+	(camel_store_finalize): Destroy the folders object bag.
+	(folder_matches): 
+	(folder_finalize): Removed, now handled implicitly by the
+	objectbag.
+	(camel_store_get_folder): object bag changes.
+	(camel_store_delete_folder): "
+	(get_subfolders): Removed, now handled without a callback.
+	(camel_store_rename_folder): Changed to use object bag of folders.	
+	(trash_add_folder): Removed.
+	(init_trash): use folders object bag.
+	(copy_folder_cache): 
+	(sync_folder): Removed, no longer needed.  Weird arsed code anyway.
+	(store_sync): Use folder object bag instead of hashtable.
+	(camel_store_unsubscribe_folder): "
+	(camel_store_init): remove cache_lock init, no longer used.
+	(camel_store_finalize): Same for cleanup.
+
+2002-12-05  Not Zed  <NotZed@Ximian.com>
+
+	* camel-store.h (struct _CamelStore): change folders from a
+	hashtable into a CamelObjectBag.
+
+	* camel-object.c (camel_object_ref): Use type_lock instead of
+	class lock for ref counting.
+	(camel_object_unref): Use type_lock instead of class lock for
+	unref.
+	(camel_object_unref): If the object is 'bagged', then also look
+	hooks, and remove it from any bags.
+	(camel_object_bag_new):
+	(camel_object_bag_destroy):
+	(camel_object_bag_add):
+	(camel_object_bag_get):
+	(camel_object_bag_remove_unlocked):
+	(camel_object_bag_list): 
+	(camel_object_bag_abort): 
+	(camel_object_bag_remove): New functions to implement a utility
+	object which can manage a 'bag' of weakly ref'd children in an
+	atomic & threadsafe way.
+
 2002-12-04  Jeffrey Stedfast  <fejj@ximian.com>
 
 	* providers/imap/camel-imap-store-summary.c

@@ -55,27 +55,17 @@ static void stream_finalised(CamelObject *o, void *event_data, void *data);
 #define CAMEL_DATA_CACHE_CYCLE_TIME (60*60)
 
 struct _CamelDataCachePrivate {
-	GHashTable *busy_stream;
-	GHashTable *busy_path;
+	CamelObjectBag *busy_bag;
 
 	int expire_inc;
 	time_t expire_last[1<<CAMEL_DATA_CACHE_BITS];
-
-#ifdef ENABLE_THREADS
-	GMutex *lock;
-#define CDC_LOCK(c, l) g_mutex_lock(((CamelDataCache *)(c))->priv->l)
-#define CDC_UNLOCK(c, l) g_mutex_unlock(((CamelDataCache *)(c))->priv->l)
-#else
-#define CDC_LOCK(c, l)
-#define CDC_UNLOCK(c, l)
-#endif
 };
 
 static CamelObject *camel_data_cache_parent;
 
 static void data_cache_class_init(CamelDataCacheClass *klass)
 {
-	camel_data_cache_parent = (CamelObject *)camel_type_get_global_classfuncs (camel_object_get_type ());
+	camel_data_cache_parent = (CamelObject *)camel_object_get_type ();
 
 #if 0
 	klass->add = data_cache_add;
@@ -91,39 +81,17 @@ static void data_cache_init(CamelDataCache *cdc, CamelDataCacheClass *klass)
 	struct _CamelDataCachePrivate *p;
 
 	p = cdc->priv = g_malloc0(sizeof(*cdc->priv));
-
-	p->busy_stream = g_hash_table_new(NULL, NULL);
-	p->busy_path = g_hash_table_new(g_str_hash, g_str_equal);
-
-#ifdef ENABLE_THREADS
-	p->lock = g_mutex_new();
-#endif
-}
-
-static void
-free_busy(CamelStream *stream, char *path, CamelDataCache *cdc)
-{
-	d(printf(" Freeing busy stream %p path %s\n", stream, path));
-	camel_object_unhook_event((CamelObject *)stream, "finalize", stream_finalised, cdc);
-	camel_object_unref((CamelObject *)stream);
-	g_free(path);
+	p->busy_bag = camel_object_bag_new(g_str_hash, g_str_equal);
 }
 
 static void data_cache_finalise(CamelDataCache *cdc)
 {
 	struct _CamelDataCachePrivate *p;
+	GPtrArray *streams;
+	int i;
 
 	p = cdc->priv;
-
-	d(printf("cache finalised, %d (= %d?) streams reamining\n", g_hash_table_size(p->busy_stream), g_hash_table_size(p->busy_path)));
-
-	g_hash_table_foreach(p->busy_stream, (GHFunc)free_busy, cdc);
-	g_hash_table_destroy(p->busy_path);
-	g_hash_table_destroy(p->busy_stream);
-
-#ifdef ENABLE_THREADS
-	g_mutex_free(p->lock);
-#endif
+	camel_object_bag_destroy(p->busy_bag);
 	g_free(p);
 	
 	g_free (cdc->path);
@@ -249,10 +217,10 @@ data_cache_expire(CamelDataCache *cdc, const char *path, const char *keep, time_
 			|| (cdc->expire_access != -1 && st.st_atime + cdc->expire_access < now))) {
 			dd(printf("Has expired!  Removing!\n"));
 			unlink(s->str);
-			if (g_hash_table_lookup_extended(cdc->priv->busy_path, s->str, (void **)&oldpath, (void **)&stream)) {
-				g_hash_table_remove(cdc->priv->busy_path, oldpath);
-				g_hash_table_remove(cdc->priv->busy_stream, stream);
-				g_free(oldpath);
+			stream = camel_object_bag_get(cdc->priv->busy_bag, s->str);
+			if (stream) {
+				camel_object_bag_remove(cdc->priv->busy_bag, stream);
+				camel_object_unref(stream);
 			}
 		}
 	}
@@ -283,10 +251,11 @@ data_cache_path(CamelDataCache *cdc, int create, const char *path, const char *k
 
 		dd(printf("Checking expire cycle time on dir '%s'\n", dir));
 
+		/* This has a race, but at worst we re-run an expire cycle which is safe */
 		now = time(0);
 		if (cdc->priv->expire_last[hash] + CAMEL_DATA_CACHE_CYCLE_TIME < now) {
-			data_cache_expire(cdc, dir, key, now);
 			cdc->priv->expire_last[hash] = now;
+			data_cache_expire(cdc, dir, key, now);
 		}
 		cdc->priv->expire_inc = (cdc->priv->expire_inc + 1) & CAMEL_DATA_CACHE_MASK;
 	}
@@ -296,27 +265,6 @@ data_cache_path(CamelDataCache *cdc, int create, const char *path, const char *k
 	g_free(tmp);
 
 	return real;
-}
-
-static void
-stream_finalised(CamelObject *o, void *event_data, void *data)
-{
-	CamelDataCache *cdc = data;
-	char *key;
-
-	d(printf("Stream finalised '%p'\n", data));
-
-	CDC_LOCK(cdc, lock);
-	key = g_hash_table_lookup(cdc->priv->busy_stream, o);
-	if (key) {
-		d(printf("  For path '%s'\n", key));
-		g_hash_table_remove(cdc->priv->busy_path, key);
-		g_hash_table_remove(cdc->priv->busy_stream, o);
-		g_free(key);
-	} else {
-		d(printf("  Unknown stream?!\n"));
-	}
-	CDC_UNLOCK(cdc, lock);
 }
 
 /**
@@ -340,29 +288,24 @@ stream_finalised(CamelObject *o, void *event_data, void *data)
 CamelStream *
 camel_data_cache_add(CamelDataCache *cdc, const char *path, const char *key, CamelException *ex)
 {
-	char *real, *oldpath;
+	char *real;
 	CamelStream *stream;
 
-	CDC_LOCK(cdc, lock);
-
 	real = data_cache_path(cdc, TRUE, path, key);
-	if (g_hash_table_lookup_extended(cdc->priv->busy_path, real, (void **)&oldpath, (void **)&stream)) {
-		g_hash_table_remove(cdc->priv->busy_path, oldpath);
-		g_hash_table_remove(cdc->priv->busy_stream, stream);
-		unlink(oldpath);
-		g_free(oldpath);
+	stream = camel_object_bag_reserve(cdc->priv->busy_bag, real);
+	if (stream) {
+		unlink(real);
+		camel_object_bag_remove(cdc->priv->busy_bag, stream);
+		camel_object_unref(stream);
 	}
 
 	stream = camel_stream_fs_new_with_name(real, O_RDWR|O_CREAT|O_TRUNC, 0600);
-	if (stream) {
-		camel_object_hook_event((CamelObject *)stream, "finalize", stream_finalised, cdc);
-		g_hash_table_insert(cdc->priv->busy_stream, stream, real);
-		g_hash_table_insert(cdc->priv->busy_path, real, stream);
-	} else {
-		g_free(real);
-	}
+	if (stream)
+		camel_object_bag_add(cdc->priv->busy_bag, real, stream);
+	else
+		camel_object_bag_abort(cdc->priv->busy_bag, real);
 
-	CDC_UNLOCK(cdc, lock);
+	g_free(real);
 
 	return stream;
 }
@@ -387,25 +330,16 @@ camel_data_cache_get(CamelDataCache *cdc, const char *path, const char *key, Cam
 	char *real;
 	CamelStream *stream;
 
-	CDC_LOCK(cdc, lock);
-
 	real = data_cache_path(cdc, FALSE, path, key);
-	stream = g_hash_table_lookup(cdc->priv->busy_path, real);
-	if (stream) {
-		camel_object_ref((CamelObject *)stream);
-		g_free(real);
-	} else {
+	stream = camel_object_bag_reserve(cdc->priv->busy_bag, real);
+	if (!stream) {
 		stream = camel_stream_fs_new_with_name(real, O_RDWR, 0600);
-		if (stream) {
-			camel_object_hook_event((CamelObject *)stream, "finalize", stream_finalised, cdc);
-			g_hash_table_insert(cdc->priv->busy_stream, stream, real);
-			g_hash_table_insert(cdc->priv->busy_path, real, stream);
-		} else {
-			g_free (real);
-		}
+		if (stream)
+			camel_object_bag_add(cdc->priv->busy_bag, real, stream);
+		else
+			camel_object_bag_abort(cdc->priv->busy_bag, real);
 	}
-
-	CDC_UNLOCK(cdc, lock);
+	g_free(real);
 
 	return stream;
 }
@@ -425,16 +359,14 @@ int
 camel_data_cache_remove(CamelDataCache *cdc, const char *path, const char *key, CamelException *ex)
 {
 	CamelStream *stream;
-	char *real, *oldpath;
+	char *real;
 	int ret;
 
-	CDC_LOCK(cdc, lock);
-
 	real = data_cache_path(cdc, FALSE, path, key);
-	if (g_hash_table_lookup_extended(cdc->priv->busy_path, real, (void **)&oldpath, (void **)&stream)) {
-		g_hash_table_remove(cdc->priv->busy_path, oldpath);
-		g_hash_table_remove(cdc->priv->busy_stream, stream);
-		g_free(oldpath);
+	stream = camel_object_bag_get(cdc->priv->busy_bag, real);
+	if (stream) {
+		camel_object_bag_remove(cdc->priv->busy_bag, stream);
+		camel_object_unref(stream);
 	}
 
 	/* maybe we were a mem stream */
@@ -448,8 +380,6 @@ camel_data_cache_remove(CamelDataCache *cdc, const char *path, const char *key, 
 	}
 
 	g_free(real);
-
-	CDC_UNLOCK(cdc, lock);
 
 	return ret;
 }

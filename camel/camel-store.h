@@ -89,8 +89,7 @@ struct _CamelStore
 	
 	CamelFolder *vtrash;
 	
-	/* should have cache_lock when accessing this (priv->cache_lock) */
-	GHashTable *folders;
+	CamelObjectBag *folders;
 
 	int flags;
 
