@@ -117,6 +117,7 @@ bbdb_handle_reply (EPlugin *ep, EMEventTargetMessage *target)
 		bbdb_do_it (book, name, email);
 	}
 
+	/* If this is a reply-all event, process To: and Cc: also. */
 	if (((EEventTarget *) target)->mask & EM_EVENT_MESSAGE_REPLY_ALL) {
 		g_object_unref (G_OBJECT (book));
 		return;
@@ -148,12 +149,16 @@ bbdb_do_it (EBook *book, const char *name, const char *email)
 	gboolean status;
 	GError *error = NULL;
 
-	g_return_if_fail (name != NULL);
-	g_return_if_fail (email != NULL);
 	g_return_if_fail (book != NULL);
-	g_return_if_fail (strcmp (name, ""));
-	g_return_if_fail (strcmp (email, ""));
-	g_return_if_fail (strchr (email, '@') != NULL);
+
+	if (name == NULL || email == NULL)
+		return;
+
+	if (! strcmp (name, "") || ! strcmp (email, ""))
+		return;
+
+	if (strchr (email, '@') == NULL)
+		return;
 
 	/* If any contacts exists with this email address, don't do anything */
 	query_string = g_strdup_printf ("(contains \"email\" \"%s\")", email);
@@ -161,10 +166,8 @@ bbdb_do_it (EBook *book, const char *name, const char *email)
 	g_free (query_string);
 
 	status = e_book_get_contacts (book, query, &contacts, NULL);
-	if (contacts != NULL) {
-		g_warning ("bbdb: contact exists, bailing\n");
+	if (contacts != NULL)
 		return;
-	}
 
 	/* If a contact exists with this name, add the email address to it. */
 	query_string = g_strdup_printf ("(is \"full_name\" \"%s\")", name);
@@ -173,6 +176,12 @@ bbdb_do_it (EBook *book, const char *name, const char *email)
 
 	status = e_book_get_contacts (book, query, &contacts, NULL);
 	if (contacts != NULL) {
+
+		/* If there's more than one contact with this name,
+		   just give up; we're not smart enough for this. */
+		if (contacts->next != NULL)
+			return;
+		
 		contact = (EContact *) contacts->data;
 		add_email_to_contact (contact, email);
 		if (! e_book_commit_contact (book, contact, &error))
@@ -326,3 +335,6 @@ cleanup_cb (GObject *o, gpointer data)
 	g_object_unref (stuff->source_list);
 	g_free (stuff);
 }
+
+
+
