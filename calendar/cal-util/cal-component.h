@@ -69,6 +69,22 @@ typedef struct {
 	const char *tzid;
 } CalComponentDateTime;
 
+typedef enum {
+	CAL_COMPONENT_PERIOD_DATETIME,
+	CAL_COMPONENT_PERIOD_DURATION
+} CalComponentPeriodType;
+
+typedef struct {
+	CalComponentPeriodType type;
+
+	struct icaltimetype start;
+
+	union {
+		struct icaltimetype end;
+		struct icaldurationtype duration;
+	} u;
+} CalComponentPeriod;
+
 typedef struct {
 	/* Description string */
 	const char *value;
@@ -89,11 +105,13 @@ typedef struct _CalComponentAlarm CalComponentAlarm;
 typedef struct _CalComponent CalComponent;
 typedef struct _CalComponentClass CalComponentClass;
 
+typedef struct _CalComponentPrivate CalComponentPrivate;
+
 struct _CalComponent {
 	GtkObject object;
 
 	/* Private data */
-	gpointer priv;
+	CalComponentPrivate *priv;
 };
 
 struct _CalComponentClass {
@@ -114,6 +132,8 @@ void cal_component_set_icalcomponent (CalComponent *comp, icalcomponent *icalcom
 icalcomponent *cal_component_get_icalcomponent (CalComponent *comp);
 
 CalComponentVType cal_component_get_vtype (CalComponent *comp);
+
+char *cal_component_get_as_string (CalComponent *comp);
 
 void cal_component_get_uid (CalComponent *comp, const char **uid);
 void cal_component_set_uid (CalComponent *comp, const char *uid);
@@ -157,6 +177,11 @@ void cal_component_set_due (CalComponent *comp, CalComponentDateTime *dt);
 
 void cal_component_get_last_modified (CalComponent *comp, struct icaltimetype **t);
 void cal_component_set_last_modified (CalComponent *comp, struct icaltimetype *t);
+
+void cal_component_free_period_list (GSList *period_list);
+
+void cal_component_get_rdate_list (CalComponent *comp, GSList **period_list);
+void cal_component_set_rdate_list (CalComponent *comp, GSList *period_list);
 
 void cal_component_get_sequence (CalComponent *comp, int **sequence);
 void cal_component_set_sequence (CalComponent *comp, int *sequence);

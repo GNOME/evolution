@@ -1,3 +1,36 @@
+2000-07-25  Federico Mena Quintero  <federico@helixcode.com>
+
+	* cal-util/cal-component.c (cal_component_free_period_list): New function.
+	(scan_property): Handle the RDATE property.
+	(scan_period): Likewise.
+	(free_icalcomponent): Likewise.
+	(get_period_list): Likewise.
+	(set_period_list): Likewise.
+	(cal_component_get_rdate_list): Likewise.
+	(cal_component_set_rdate_list): Likewise.
+	(scan_text): Simplify a bit since we only handle the ALTREP
+	parameter; there is no need to iterate over all parameters.
+	(scan_datetime): Simplify; just handle the TZID parameter.
+	(scan_summary): Simplify; just handle the ALTREP parameter.
+	(cal_component_get_as_string): New function.
+
+	* idl/evolution-calendar.idl (CalObjType): Removed the TYPE_OTHER;
+	now we only expose the types of objects we know about.
+
+	* cal-util/cal-util.h (CalObjType): Likewise.
+
+	* cal-client/cal-client.c (cal_client_get_n_objects): Likewise.
+	(cal_client_get_uids): Likewise.
+
+	* conduits/calendar/calendar-conduit.c (get_calendar_objects): Likewise.
+	(check_for_slow_setting): Likewise.
+
+	* pcs/cal-backend-imc.c (count_objects): Likewise.
+	(build_uids_list): Likewise.
+
+	* pcs/cal.c (Cal_get_uids): Likewise.
+	(Cal_get_n_objects): Likewise.
+
 2000-07-25  Damon Chaplin  <damon@helixcode.com>
 
 	* gui/e-calendar-table.[hc]: new ECalendarTable to show an ETable view

@@ -182,8 +182,7 @@ get_calendar_objects(GnomePilotConduitStandardAbs *conduit,
 	uids = cal_client_get_uids (ctxt->client,
 				    CALOBJ_TYPE_EVENT |
 				    /*CALOBJ_TYPE_TODO |*/
-				    CALOBJ_TYPE_JOURNAL |
-				    CALOBJ_TYPE_OTHER);
+				    CALOBJ_TYPE_JOURNAL);
 
 	if (status != NULL)
 		(*status) = TRUE;
@@ -577,9 +576,7 @@ check_for_slow_setting (GnomePilotConduit *c, GCalConduitContext *ctxt)
 	uids = cal_client_get_uids (ctxt->client,
 				    CALOBJ_TYPE_EVENT |
 				    /*CALOBJ_TYPE_TODO |*/
-				    CALOBJ_TYPE_JOURNAL |
-				    CALOBJ_TYPE_OTHER);
-
+				    CALOBJ_TYPE_JOURNAL);
 
 	entry_number = g_list_length (uids);
 

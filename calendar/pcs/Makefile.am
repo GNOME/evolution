@@ -37,10 +37,8 @@ libpcs_a_SOURCES =		\
 	job.c			\
 	job.h
 
-
-
-
-
+#	cal-backend-file.c	\
+#	cal-backend-file.h	\
 
 BUILT_SOURCES = $(CORBA_GENERATED)
 CLEANFILES += $(BUILT_SOURCES)

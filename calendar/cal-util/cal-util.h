@@ -57,8 +57,7 @@ typedef enum {
 	CALOBJ_TYPE_EVENT   = 1 << 0,
 	CALOBJ_TYPE_TODO    = 1 << 1,
 	CALOBJ_TYPE_JOURNAL = 1 << 2,
-	CALOBJ_TYPE_OTHER   = 1 << 3,
-	CALOBJ_TYPE_ANY     = 0x0f
+	CALOBJ_TYPE_ANY     = 0x07
 } CalObjType;
 
 void cal_obj_uid_list_free (GList *list);

@@ -187,7 +187,6 @@ Cal_get_n_objects (PortableServer_Servant servant,
 	t = (((type & Evolution_Calendar_TYPE_EVENT) ? CALOBJ_TYPE_EVENT : 0)
 	     | ((type & Evolution_Calendar_TYPE_TODO) ? CALOBJ_TYPE_TODO : 0)
 	     | ((type & Evolution_Calendar_TYPE_JOURNAL) ? CALOBJ_TYPE_JOURNAL : 0)
-	     | ((type & Evolution_Calendar_TYPE_OTHER) ? CALOBJ_TYPE_OTHER : 0)
 	     /*
 	     | ((type & Evolution_Calendar_TYPE_ANY) ? CALOBJ_TYPE_ANY : 0)
 	     */
@@ -247,7 +246,6 @@ Cal_get_uids (PortableServer_Servant servant,
 	t = (((type & Evolution_Calendar_TYPE_EVENT) ? CALOBJ_TYPE_EVENT : 0)
 	     | ((type & Evolution_Calendar_TYPE_TODO) ? CALOBJ_TYPE_TODO : 0)
 	     | ((type & Evolution_Calendar_TYPE_JOURNAL) ? CALOBJ_TYPE_JOURNAL : 0)
-	     | ((type & Evolution_Calendar_TYPE_OTHER) ? CALOBJ_TYPE_OTHER : 0)
 	     /*
 	     | ((type & Evolution_Calendar_TYPE_ANY) ? CALOBJ_TYPE_ANY : 0)
 	     */

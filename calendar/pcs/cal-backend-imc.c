@@ -869,8 +869,6 @@ count_objects (gpointer key, gpointer value, gpointer data)
 		store = (c->type & CALOBJ_TYPE_TODO) != 0;
 	else if (ico->type == ICAL_JOURNAL)
 		store = (c->type & CALOBJ_TYPE_JOURNAL) != 0;
-	else
-		store = (c->type & CALOBJ_TYPE_OTHER) != 0;
 
 	if (store)
 		c->n++;
@@ -950,8 +948,6 @@ build_uids_list (gpointer key, gpointer value, gpointer data)
 		store = (c->type & CALOBJ_TYPE_TODO) ? TRUE : FALSE;
 	else if (ico->type == ICAL_JOURNAL)
 		store = (c->type & CALOBJ_TYPE_JOURNAL) ? TRUE : FALSE;
-	else
-		store = (c->type & CALOBJ_TYPE_OTHER) ? TRUE : FALSE;
 
 	if (store)
 		c->uid_list = g_list_prepend (c->uid_list, g_strdup (ico->uid));
@@ -970,9 +966,6 @@ cal_backend_imc_get_uids (CalBackend *backend, CalObjType type)
 
 	g_return_val_if_fail (priv->loaded, NULL);
 
-	/* We go through the hash table instead of the lists of particular
-	 * object types so that we can pick up CALOBJ_TYPE_OTHER objects.
-	 */
 	c.type = type;
 	c.uid_list = NULL;
 	g_hash_table_foreach (priv->object_hash, build_uids_list, &c);

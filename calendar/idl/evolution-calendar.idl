@@ -31,8 +31,7 @@ module Calendar {
 	const CalObjType TYPE_EVENT   = 1 << 0;
 	const CalObjType TYPE_TODO    = 1 << 1;
 	const CalObjType TYPE_JOURNAL = 1 << 2;
-	const CalObjType TYPE_OTHER   = 1 << 3;
-	const CalObjType TYPE_ANY     = 0x0f;
+	const CalObjType TYPE_ANY     = 0x07;
 
 	/* Types of alarms */
 	enum AlarmType {
