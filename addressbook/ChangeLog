@@ -1,3 +1,10 @@
+2004-03-30  Chris Toshok  <toshok@ximian.com>
+
+	[ gui part of the fix required for #48665 ]
+	
+	* gui/widgets/e-addressbook-model.c (get_view): pass the source's
+	"limit" property (if it exists) to e_book_async_get_book_view.
+
 2004-03-29  Larry Ewing  <lewing@ximian.com>
 
 	* gui/component/addressbook-component.c

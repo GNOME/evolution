@@ -490,6 +490,16 @@ get_view (EABModel *model)
 	gboolean success;
 
 	if (model->book && model->query) {
+		ESource *source;
+		const char *limit_str;
+		int limit = -1;
+
+		source = e_book_get_source (model->book);
+
+		limit_str = e_source_get_property (source, "limit");
+		if (limit_str && *limit_str)
+			limit = atoi (limit_str);
+
 		remove_book_view(model);
 		free_data (model);
 
@@ -497,7 +507,7 @@ get_view (EABModel *model)
 			model->first_get_view = FALSE;
 
 			if (e_book_check_static_capability (model->book, "do-initial-query")) {
-				success = e_book_async_get_book_view (model->book, model->query, NULL, -1, book_view_loaded, model);
+				success = e_book_async_get_book_view (model->book, model->query, NULL, limit, book_view_loaded, model);
 			} else {
 				g_signal_emit (model,
 					       eab_model_signals [MODEL_CHANGED], 0);
@@ -507,7 +517,7 @@ get_view (EABModel *model)
 			}
 		}
 		else
-			success = e_book_async_get_book_view (model->book, model->query, NULL, -1, book_view_loaded, model);
+			success = e_book_async_get_book_view (model->book, model->query, NULL, limit, book_view_loaded, model);
 
 	}
 }
