@@ -34,6 +34,7 @@
 
 #include "widgets/misc/e-clipped-label.h"
 #include "e-util/e-util.h"
+#include "e-util/e-gui-utils.h"
 
 #include "e-shell-constants.h"
 #include "e-shell-folder-title-bar.h"
@@ -632,31 +633,6 @@ set_current_notebook_page (EShellView *shell_view,
 	bonobo_control_frame_control_activate (control_frame);
 }
 
-static void
-show_error (EShellView *shell_view,
-	    const char *uri)
-{
-	EShellViewPrivate *priv;
-	GtkWidget *label;
-	GtkNotebook *notebook;
-	char *s;
-
-	priv = shell_view->priv;
-
-	s = g_strdup_printf (_("Cannot open location: %s"), uri);
-	label = e_clipped_label_new (s);
-	g_free (s);
-
-	gtk_widget_show (label);
-
-	notebook = GTK_NOTEBOOK (priv->notebook);
-
-	gtk_notebook_remove_page (notebook, 0);
-	gtk_notebook_prepend_page (notebook, label, NULL);
-
-	set_current_notebook_page (shell_view, 0);
-}
-
 /* Create a new view for @uri with @control.  It assumes a view for @uri does not exist yet.  */
 static GtkWidget *
 get_control_for_uri (EShellView *shell_view,
@@ -777,10 +753,8 @@ create_new_view_for_uri (EShellView *shell_view,
 	priv = shell_view->priv;
 
 	control = get_control_for_uri (shell_view, uri);
-	if (control == NULL) {
-		show_error (shell_view, uri);
+	if (control == NULL)
 		return FALSE;
-	}
 
 	gtk_widget_show (control);
 
@@ -821,30 +795,26 @@ e_shell_view_display_uri (EShellView *shell_view,
 		}
 
 		retval = TRUE;
+
 		goto end;
 	}
 
-	g_free (priv->uri);
-	priv->uri = g_strdup (uri);
-
 	if (strncmp (uri, E_SHELL_URI_PREFIX, E_SHELL_URI_PREFIX_LEN) != 0) {
-		show_error (shell_view, uri);
-		return FALSE;
+		retval = FALSE;
+		goto end;
 	}
 
 	control = g_hash_table_lookup (priv->uri_to_control, uri);
 	if (control != NULL) {
 		g_assert (GTK_IS_WIDGET (control));
 		show_existing_view (shell_view, uri, control);
-		retval = TRUE;
-		goto end;
-	}
-
-	if (! create_new_view_for_uri (shell_view, uri)) {
-		show_error (shell_view, uri);
+	} else if (! create_new_view_for_uri (shell_view, uri)) {
 		retval = FALSE;
 		goto end;
 	}
+
+	g_free (priv->uri);
+	priv->uri = g_strdup (uri);
 
 	retval = TRUE;
 

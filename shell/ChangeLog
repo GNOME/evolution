@@ -1,5 +1,11 @@
 2000-07-08  Ettore Perazzoli  <ettore@helixcode.com>
 
+	* e-shell-view.c (e_shell_view_display_uri): Don't update the
+	current URI if there are problems creating a view for it.
+	(show_error): Remove.  Not used anymore.
+
+2000-07-08  Ettore Perazzoli  <ettore@helixcode.com>
+
 	* e-shell-view-menu.c: Cleanup some unused menu items and added
 	"FIXMEs" for the ones we plan to add in the short term but are not
 	implemented yet.
