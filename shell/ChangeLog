@@ -1,3 +1,8 @@
+2002-09-18  Not Zed  <NotZed@Ximian.com>
+
+	* evolution-wizard.c (impl_GNOME_Evolution_Wizard_notifyAction):
+	Allow 'back' to run if we're on the finish page.  For #29293.
+
 2002-09-17  Ettore Perazzoli  <ettore@ximian.com>
 
 	* e-storage.c (e_storage_result_to_string): Add description for

@@ -100,7 +100,9 @@ impl_GNOME_Evolution_Wizard_notifyAction (PortableServer_Servant servant,
 	wizard = EVOLUTION_WIZARD (bonobo_object);
 	priv = wizard->priv;
 
-	if (pagenumber < 0 || pagenumber >= priv->page_count) {
+	if (pagenumber < 0
+	    || pagenumber > priv->page_count
+	    || (action != GNOME_Evolution_Wizard_BACK && pagenumber == priv->page_count)) {
 		CORBA_exception_set (ev, CORBA_USER_EXCEPTION,
 				     ex_GNOME_Evolution_Wizard_NoPage, NULL);
 		return;
