@@ -14,8 +14,7 @@
 		<cmd name="TasksPaste" pixtype="stock" pixname="Paste"
 		 _tip="Paste task from the clipboard" verb="TasksPaste" accel="*Control*v"/>
 
-		<cmd name="TasksPreferences" _tip="Set task view preferences"
-		 _verb="TasksPreferences"/>
+		<cmd name="TasksSettings" _tip="Configure the task view's settings"/>
   	</commands>
   
 	<menu>
@@ -68,9 +67,9 @@
 		<submenu name="Tools">
 
 			<placeholder name="Component">
-				<menuitem name="Preferences"
-				 _label="_Tasks Settings..."
-				 verb="TasksPreferences"/>
+				<menuitem name="TasksSettings"
+				 _label="Tasks Settings"
+				 verb="TasksSettings" pixtype="pixbuf"/>
 			</placeholder>
 
 		</submenu>
