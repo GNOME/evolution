@@ -1,3 +1,16 @@
+2004-01-05  Jeffrey Stedfast  <fejj@ximian.com>
+
+	* em-folder-tree-model.c (folder_renamed_cb): Clone the
+	CamelRenameInfo and ref the store before emitting the async event.
+	(folder_deleted_cb): Same idea but for CamelFolderInfo's.
+	(folder_created_cb): Here too.
+	(folder_subscribed_cb): Same.
+	(folder_unsubscribed_cb): And here.
+	(folder_renamed): Split out from folder_rename_cb(), free the
+	CamelRenameInfo and unref the store when done.
+	(folder_unsubscribed): Same idea.
+	(folder_subscribed): Same.
+
 2004-01-05  Radek Doulik  <rodo@ximian.com>
 
 	* em-junk-filter.c: add NULL at the end of argv for execvp (poited

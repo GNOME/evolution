@@ -786,31 +786,25 @@ em_folder_tree_model_set_folder_info (EMFolderTreeModel *model, GtkTreeIter *ite
 
 
 static void
-folder_subscribed_cb (CamelStore *store, void *event_data, EMFolderTreeModel *model)
+folder_subscribed (CamelStore *store, CamelFolderInfo *fi, EMFolderTreeModel *model)
 {
 	struct _EMFolderTreeModelStoreInfo *si;
-	CamelFolderInfo *fi = event_data;
 	GtkTreeRowReference *row;
 	GtkTreeIter parent, iter;
 	GtkTreePath *path;
 	gboolean load;
 	char *dirname;
 	
-	if (pthread_self () != mail_gui_thread) {
-		mail_async_event_emit (mail_async_event, MAIL_ASYNC_GUI, (MailAsyncFunc) folder_subscribed_cb, store, event_data, model);
-		return;
-	}
-	
 	if (!(si = g_hash_table_lookup (model->store_hash, store)))
-		return;
+		goto done;
 	
 	/* make sure we don't already know about it? */
 	if (g_hash_table_lookup (si->path_hash, fi->path))
-		return;
+		goto done;
 	
 	/* get our parent folder's path */
 	if (!(dirname = g_path_get_dirname (fi->path)))
-		return;
+		goto done;
 	
 	if (!strcmp (dirname, "/")) {
 		/* user subscribed to a toplevel folder */
@@ -824,13 +818,13 @@ folder_subscribed_cb (CamelStore *store, void *event_data, EMFolderTreeModel *mo
 		 * when the user expands enough nodes - it will be
 		 * added auto-magically */
 		if (row == NULL)
-			return;
+			goto done;
 	}
 	
 	path = gtk_tree_row_reference_get_path (row);
 	if (!(gtk_tree_model_get_iter ((GtkTreeModel *) model, &parent, path))) {
 		gtk_tree_path_free (path);
-		return;
+		goto done;
 	}
 	
 	gtk_tree_path_free (path);
@@ -838,98 +832,118 @@ folder_subscribed_cb (CamelStore *store, void *event_data, EMFolderTreeModel *mo
 	/* make sure parent's subfolders have already been loaded */
 	gtk_tree_model_get ((GtkTreeModel *) model, &parent, COL_BOOL_LOAD_SUBDIRS, &load, -1);
 	if (load)
-		return;
+		goto done;
 	
 	/* append a new node */
 	gtk_tree_store_append ((GtkTreeStore *) model, &iter, &parent);
 	
 	em_folder_tree_model_set_folder_info (model, &iter, si, fi);
+	
+ done:
+	
+	camel_object_unref (store);
+	camel_folder_info_free (fi);
+}
+
+static void
+folder_subscribed_cb (CamelStore *store, void *event_data, EMFolderTreeModel *model)
+{
+	CamelFolderInfo *fi;
+	
+	camel_object_ref (store);
+	fi = camel_folder_info_clone (event_data);
+	mail_async_event_emit (mail_async_event, MAIL_ASYNC_GUI, (MailAsyncFunc) folder_subscribed, store, fi, model);
+}
+
+static void
+folder_unsubscribed (CamelStore *store, CamelFolderInfo *fi, EMFolderTreeModel *model)
+{
+	struct _EMFolderTreeModelStoreInfo *si;
+	GtkTreeRowReference *row;
+	GtkTreePath *path;
+	GtkTreeIter iter;
+	
+	if (!(si = g_hash_table_lookup (model->store_hash, store)))
+		goto done;
+	
+	if (!(row = g_hash_table_lookup (si->path_hash, fi->path)))
+		goto done;
+	
+	path = gtk_tree_row_reference_get_path (row);
+	if (!(gtk_tree_model_get_iter ((GtkTreeModel *) model, &iter, path))) {
+		gtk_tree_path_free (path);
+		goto done;
+	}
+	
+	em_folder_tree_model_remove_folders (model, si, &iter);
+	
+ done:
+	
+	camel_object_unref (store);
+	camel_folder_info_free (fi);
 }
 
 static void
 folder_unsubscribed_cb (CamelStore *store, void *event_data, EMFolderTreeModel *model)
 {
-	struct _EMFolderTreeModelStoreInfo *si;
-	CamelFolderInfo *fi = event_data;
-	GtkTreeRowReference *row;
-	GtkTreePath *path;
-	GtkTreeIter iter;
+	CamelFolderInfo *fi;
 	
-	if (pthread_self () != mail_gui_thread) {
-		mail_async_event_emit (mail_async_event, MAIL_ASYNC_GUI, (MailAsyncFunc) folder_unsubscribed_cb, store, event_data, model);
-		return;
-	}
-	
-	if (!(si = g_hash_table_lookup (model->store_hash, store)))
-		return;
-	
-	if (!(row = g_hash_table_lookup (si->path_hash, fi->path)))
-		return;
-	
-	path = gtk_tree_row_reference_get_path (row);
-	if (!(gtk_tree_model_get_iter ((GtkTreeModel *) model, &iter, path))) {
-		gtk_tree_path_free (path);
-		return;
-	}
-	
-	em_folder_tree_model_remove_folders (model, si, &iter);
+	camel_object_ref (store);
+	fi = camel_folder_info_clone (event_data);
+	mail_async_event_emit (mail_async_event, MAIL_ASYNC_GUI, (MailAsyncFunc) folder_unsubscribed, store, fi, model);
 }
 
 static void
 folder_created_cb (CamelStore *store, void *event_data, EMFolderTreeModel *model)
 {
-	if (pthread_self () != mail_gui_thread) {
-		mail_async_event_emit (mail_async_event, MAIL_ASYNC_GUI, (MailAsyncFunc) folder_created_cb, store, event_data, model);
-		return;
-	}
+	CamelFolderInfo *fi;
 	
 	/* we only want created events to do more work if we don't support subscriptions */
-	if (!camel_store_supports_subscriptions (store))
-		folder_subscribed_cb (store, event_data, model);
+	if (camel_store_supports_subscriptions (store))
+		return;
+	
+	camel_object_ref (store);
+	fi = camel_folder_info_clone (event_data);
+	mail_async_event_emit (mail_async_event, MAIL_ASYNC_GUI, (MailAsyncFunc) folder_subscribed_cb, store, fi, model);
 }
 
 static void
 folder_deleted_cb (CamelStore *store, void *event_data, EMFolderTreeModel *model)
 {
-	if (pthread_self () != mail_gui_thread) {
-		mail_async_event_emit (mail_async_event, MAIL_ASYNC_GUI, (MailAsyncFunc) folder_deleted_cb, store, event_data, model);
-		return;
-	}
+	CamelFolderInfo *fi;
 	
 	/* we only want deleted events to do more work if we don't support subscriptions */
-	if (!camel_store_supports_subscriptions (store))
-		folder_unsubscribed_cb (store, event_data, model);
+	if (camel_store_supports_subscriptions (store))
+		return;
+	
+	camel_object_ref (store);
+	fi = camel_folder_info_clone (event_data);
+	mail_async_event_emit (mail_async_event, MAIL_ASYNC_GUI, (MailAsyncFunc) folder_unsubscribed_cb, store, fi, model);
 }
 
 static void
-folder_renamed_cb (CamelStore *store, void *event_data, EMFolderTreeModel *model)
+folder_renamed (CamelStore *store, CamelRenameInfo *info, EMFolderTreeModel *model)
 {
 	struct _EMFolderTreeModelStoreInfo *si;
-	CamelRenameInfo *info = event_data;
 	GtkTreeRowReference *row;
 	GtkTreeIter root, iter;
 	GtkTreePath *path;
 	char *parent, *p;
 	
-	if (pthread_self () != mail_gui_thread) {
-		mail_async_event_emit (mail_async_event, MAIL_ASYNC_GUI, (MailAsyncFunc) folder_renamed_cb, store, event_data, model);
-		return;
-	}
-	
 	if (!(si = g_hash_table_lookup (model->store_hash, store)))
-		return;
+		goto done;
 	
 	parent = g_strdup_printf ("/%s", info->old_base);
 	if (!(row = g_hash_table_lookup (si->path_hash, parent))) {
 		g_free (parent);
-		return;
+		goto done;
 	}
 	g_free (parent);
 	
 	path = gtk_tree_row_reference_get_path (row);
 	if (!(gtk_tree_model_get_iter ((GtkTreeModel *) model, &iter, path))) {
 		gtk_tree_path_free (path);
-		return;
+		goto done;
 	}
 	
 	em_folder_tree_model_remove_folders (model, si, &iter);
@@ -949,7 +963,7 @@ folder_renamed_cb (CamelStore *store, void *event_data, EMFolderTreeModel *model
 			 * tree */
 			g_assert_not_reached ();
 			g_free (parent);
-			return;
+			goto done;
 		}
 		
 		path = gtk_tree_row_reference_get_path (row);
@@ -960,13 +974,34 @@ folder_renamed_cb (CamelStore *store, void *event_data, EMFolderTreeModel *model
 	if (!gtk_tree_model_get_iter ((GtkTreeModel *) model, &root, path)) {
 		gtk_tree_path_free (path);
 		g_assert_not_reached ();
-		return;
+		goto done;
 	}
 	
 	gtk_tree_store_append ((GtkTreeStore *) model, &iter, &root);
 	em_folder_tree_model_set_folder_info (model, &iter, si, info->new);
+	
+ done:
+	
+	camel_object_unref (store);
+	
+	g_free (info->old_base);
+	camel_folder_info_free (info->new);
+	g_free (info);
 }
 
+static void
+folder_renamed_cb (CamelStore *store, void *event_data, EMFolderTreeModel *model)
+{
+	CamelRenameInfo *rinfo, *info = event_data;
+	
+	camel_object_ref (store);
+	
+	rinfo = g_new0 (CamelRenameInfo, 1);
+	rinfo->old_base = g_strdup (info->old_base);
+	rinfo->new = camel_folder_info_clone (info->new);
+	
+	mail_async_event_emit (mail_async_event, MAIL_ASYNC_GUI, (MailAsyncFunc) folder_renamed, store, rinfo, model);
+}
 
 void
 em_folder_tree_model_add_store (EMFolderTreeModel *model, CamelStore *store, const char *display_name)
