@@ -1570,6 +1570,7 @@ sig_fill_menu (MailAccountGui *gui)
 	
 	item = gtk_menu_item_new_with_label (_("None"));
 	gtk_widget_show (item);
+	g_signal_connect (item, "activate", G_CALLBACK (sig_activate), gui);
 	gtk_menu_shell_append (GTK_MENU_SHELL (menu), item);
 	
 	signatures = mail_config_get_signatures ();

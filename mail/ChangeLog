@@ -1,3 +1,10 @@
+2004-09-08  Not Zed  <NotZed@Ximian.com>
+
+	** See bug #60515.
+
+	* mail-account-gui.c (sig_fill_menu): connect to the activate
+	signal for the none item.
+
 2004-09-03  Not Zed  <NotZed@Ximian.com>
 
 	** See bug #59717.
