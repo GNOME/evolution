@@ -1,5 +1,9 @@
 2004-11-02  Jeffrey Stedfast  <fejj@novell.com>
 
+	* providers/imap4/camel-imap4-utils.c
+	(camel_imap4_get_path_delim): If namespaces is NULL, return the
+	default folder delim ('/').
+
 	* providers/imap4/camel-imap4-stream.c
 	(camel_imap4_stream_literal): Update stream->inptr after fetching
 	the literal chunk.
