@@ -28,7 +28,7 @@
 
 
 
-void e_dialog_editable_set (GtkWidget *widget, char *value);
+void e_dialog_editable_set (GtkWidget *widget, const char *value);
 char *e_dialog_editable_get (GtkWidget *widget);
 
 void e_dialog_radio_set (GtkWidget *widget, int value, const int *value_map);

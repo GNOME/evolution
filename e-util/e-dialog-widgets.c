@@ -340,7 +340,7 @@ get_editable_value (GtkEditable *editable, gpointer value_var, gpointer data)
  * Sets the string value inside a #GtkEditable-derived widget.
  **/
 void
-e_dialog_editable_set (GtkWidget *widget, char *value)
+e_dialog_editable_set (GtkWidget *widget, const char *value)
 {
 	g_return_if_fail (widget != NULL);
 	g_return_if_fail (GTK_IS_EDITABLE (widget));
