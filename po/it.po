@@ -1,5 +1,4 @@
-# translation of it.po to 
-# translation of it.po to
+# translation of it.po to italian
 # Traduzione Italiana del po di Evolution.
 # Clara Tattoni <clara.tattoni@libero.it>, 2000-2002
 # Ettore Perazzoli <ettore@ximian.com>, 2001
@@ -9,8 +8,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: it\n"
 "POT-Creation-Date: 2003-06-02 15:28-0400\n"
-"PO-Revision-Date: 2003-06-19 08:27GMT\n"
-"Last-Translator: \n"
+"PO-Revision-Date: 2003-06-19 10:59GMT\n"
+"Last-Translator: Marco Ciampa <ciampix@libero.it>\n"
 "Language-Team:  <it@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -918,7 +917,7 @@ msgstr ""
 "Congratulazioni, hai finito di impostare questo server LDAP. Ora\n"
 "sei pronto per accedere a questa directory.\n"
 "\n"
-"Prego premere il tasto \"Fine\" per salvare le impostazioni che si è sin qui "
+"Prego premere il tasto \"Applica\" per salvare le impostazioni che si è sin qui "
 "inserite."
 
 #: addressbook/gui/component/ldap-config.glade.h:19
@@ -12984,7 +12983,7 @@ msgstr "Abilita"
 
 #: mail/mail-config.glade.h:145
 msgid "_Forward style:"
-msgstr "Stile Inoltra:"
+msgstr "Stile inoltra:"
 
 #: mail/mail-config.glade.h:146
 msgid "_Full name:"
@@ -21295,7 +21294,7 @@ msgstr "Ronneby"
 
 #: my-evolution/Locations.h:1914
 msgid "Roosevelt"
-msgstr "oosevelt"
+msgstr "Roosevelt"
 
 #: my-evolution/Locations.h:1915
 msgid "Roros"
@@ -23707,7 +23706,7 @@ msgstr "Zurigo"
 
 #: my-evolution/component-factory.c:56
 msgid "Folder containing the Evolution Summary"
-msgstr "Cartella contente il Sommario di Evolution"
+msgstr "Cartella contente il sommario di Evolution"
 
 #: my-evolution/e-summary-calendar.c:381
 msgid "Appointments"
@@ -23731,15 +23730,15 @@ msgstr "Nessuna descrizione disponibile"
 
 #: my-evolution/e-summary-mail.c:189
 msgid "Mail summary"
-msgstr "Sommario della Posta"
+msgstr "Sommario della posta"
 
 #: my-evolution/e-summary-preferences.c:355
 msgid "Dictionary.com Word of the Day"
-msgstr "Dictionary.com Parola del Giorno"
+msgstr "Dictionary.com: parola del giorno"
 
 #: my-evolution/e-summary-preferences.c:373
 msgid "Quotes of the Day"
-msgstr "Citazione del Giorno"
+msgstr "Citazione del giorno"
 
 #: my-evolution/e-summary-preferences.c:565
 msgid "New News Feed"
@@ -23771,7 +23770,7 @@ msgstr "Nessuna attività"
 
 #: my-evolution/e-summary-tasks.c:364
 msgid "(No Description)"
-msgstr "(Nessuna Descrizione Disponibile)"
+msgstr "(nessuna descrizione disponibile)"
 
 #: my-evolution/e-summary-weather.c:73
 msgid "My Weather"
@@ -23803,11 +23802,11 @@ msgstr "Attendere prego..."
 
 #: my-evolution/e-summary.c:620 ui/my-evolution.xml.h:2
 msgid "Print Summary"
-msgstr "Stampa Sommario"
+msgstr "Stampa sommario"
 
 #: my-evolution/e-summary.c:655
 msgid "Printing of Summary failed"
-msgstr "Stampa Sommario non riuscita"
+msgstr "Stampa sommario non riuscita"
 
 #: my-evolution/metar.c:30
 msgid " F"
@@ -24217,7 +24216,7 @@ msgstr "Gragnola a chiazze"
 
 #: my-evolution/metar.c:210
 msgid "Partial ice pellets"
-msgstr "arziale gragnola"
+msgstr "Parziale gragnola"
 
 #: my-evolution/metar.c:211
 msgid "Ice pellet storm"
@@ -24412,7 +24411,7 @@ msgstr "Fitta foschia"
 
 #: my-evolution/metar.c:268
 msgid "Shallow mist"
-msgstr "Foschia  poco intensa"
+msgstr "Foschia poco intensa"
 
 #: my-evolution/metar.c:269
 msgid "Patches of mist"
@@ -24989,11 +24988,11 @@ msgstr "C_elsius"
 
 #: my-evolution/my-evolution.glade.h:3
 msgid "How many days should the calendar display at once?"
-msgstr "Quanti giorni contemporaneamente devono essere visualizzati dal calendario?"
+msgstr "Quanti giorni devono essere visualizzati dal calendario contemporaneamente?"
 
 #: my-evolution/my-evolution.glade.h:5
 msgid "News Feed Settings"
-msgstr "Impostazioni Notiziari"
+msgstr "Impostazioni notiziari"
 
 #: my-evolution/my-evolution.glade.h:6
 msgid "News Feeds"
@@ -25013,7 +25012,7 @@ msgstr "Tempo per il r_efresh (secondi):"
 
 #: my-evolution/my-evolution.glade.h:10
 msgid "Refresh _time (seconds):"
-msgstr "Tempo _per il refresh (secondi):"
+msgstr "_Tempo per il refresh (secondi):"
 
 #: my-evolution/my-evolution.glade.h:11
 msgid "Schedule"
@@ -25021,7 +25020,7 @@ msgstr "Pianifica"
 
 #: my-evolution/my-evolution.glade.h:12
 msgid "Show _all tasks"
-msgstr "Mostra _tutte le attività"
+msgstr "Mostra tutte le _attività"
 
 #: my-evolution/my-evolution.glade.h:13
 msgid "Show _today's tasks"
@@ -25037,7 +25036,7 @@ msgstr "Attività "
 
 #: my-evolution/my-evolution.glade.h:17
 msgid "Weather Settings"
-msgstr "Impostazioni Meteo"
+msgstr "Impostazioni meteo"
 
 #: my-evolution/my-evolution.glade.h:18
 msgid "_Delete Feed"
@@ -25077,19 +25076,19 @@ msgstr "La shell di Evolution"
 
 #: shell/GNOME_Evolution_Shell.server.in.in.h:3
 msgid "Evolution folder settings configuration control"
-msgstr "Controllo di configurazione delle impostazioni delle cartelle di Evolution."
+msgstr "Controllo di configurazione delle impostazioni delle cartelle di Evolution"
 
 #: shell/GNOME_Evolution_Shell.server.in.in.h:4
 msgid "Folder Settings"
-msgstr "Impostazioni Cartella"
+msgstr "Impostazioni cartella"
 
 #: shell/e-activity-handler.c:164
 msgid "Show Details"
-msgstr "Mostra Dettagli"
+msgstr "Mostra dettagli"
 
 #: shell/e-activity-handler.c:166
 msgid "Cancel Operation"
-msgstr "Annulla Operazione"
+msgstr "Annulla operazione"
 
 #: shell/e-folder-dnd-bridge.c:55
 #, c-format
@@ -25116,11 +25115,11 @@ msgstr "Bozze"
 #: shell/e-local-storage.c:180 shell/e-shell-view.c:481
 #: shell/e-shortcuts.c:1084
 msgid "Inbox"
-msgstr "Posta in Arrivo"
+msgstr "Posta in arrivo"
 
 #: shell/e-local-storage.c:181
 msgid "Outbox"
-msgstr "Posta in Uscita"
+msgstr "Posta in uscita"
 
 #: shell/e-local-storage.c:182
 msgid "Sent"
@@ -25168,8 +25167,8 @@ msgid ""
 "Evolution directory.  Please move it in order\n"
 "to allow installation of the Evolution user files."
 msgstr ""
-"La directory `%s'  esiste ma non è la \n"
-"directorydi Evolution. Spostarla per permettere \n"
+"La directory `%s' esiste ma non è la \n"
+"directory di Evolution. Spostarla per permettere\n"
 "l'installazione dei file utente di Evolution."
 
 #: shell/e-shell-about-box.c:45
@@ -25182,7 +25181,7 @@ msgstr "Cartelle extra di completamento"
 
 #: shell/e-shell-config-default-folders.c:149
 msgid "Select Default Folder"
-msgstr "Scegli cartella predefinita"
+msgstr "Scegli la cartella predefinita"
 
 #: shell/e-shell-config-folder-settings.c:70
 msgid "Default Folders"
@@ -25216,7 +25215,7 @@ msgstr "Impossibile copiare una cartella su se stessa."
 
 #: shell/e-shell-folder-commands.c:204
 msgid "Cannot move a folder into one of its descendants."
-msgstr "Impossibile spostare una cartella in una delle sue suttostanti."
+msgstr "Impossibile spostare una cartella in una delle sue sottostanti."
 
 #: shell/e-shell-folder-commands.c:319
 #, c-format
@@ -25230,7 +25229,7 @@ msgstr "Copia cartella"
 #: shell/e-shell-folder-commands.c:363
 #, c-format
 msgid "Specify a folder to move folder \"%s\" into:"
-msgstr "Specifica una cartella in cui copiare la cartella \"%s\":"
+msgstr "Specifica una cartella in cui spostare la cartella \"%s\":"
 
 #: shell/e-shell-folder-commands.c:367
 msgid "Move Folder"
@@ -25261,7 +25260,7 @@ msgid ""
 "Cannot rename folder:\n"
 "%s"
 msgstr ""
-"Impossibile rinomincare la cartella:\n"
+"Impossibile rinominare la cartella:\n"
 "%s"
 
 #: shell/e-shell-folder-commands.c:538
@@ -25321,11 +25320,11 @@ msgid ""
 "You can select \"Automatic\" if you do not know, and Evolution will attempt "
 "to work it out."
 msgstr ""
-"Scegliere il file che si vuole importare in Evolution, e selezionare che "
-"tipo di file sia dalla lista.\n"
+"Scegliere il file che si vuole importare in Evolution e selezionare il "
+"tipo di file dalla lista.\n"
 "\n"
-"Si può selezionare \"Automatico\" se non si conosce, Evolution tenterà di "
-"arrangiarsi."
+"Se non lo si conosce, è possibile selezionare \"Automatico\" ed Evolution tenterà "
+" di arrangiarsi."
 
 #: shell/e-shell-importer.c:148 shell/e-shell-startup-wizard.c:709
 msgid "Please select the information that you would like to import:"
@@ -25360,7 +25359,7 @@ msgid ""
 "There is no importer that is able to handle\n"
 "%s"
 msgstr ""
-"Non c'é un importatore adatto a gestire\n"
+"Non c'è un importatore adatto a gestire\n"
 "%s"
 
 #: shell/e-shell-importer.c:484
@@ -25429,7 +25428,7 @@ msgstr ""
 
 #: shell/e-shell-importer.c:749
 msgid "Starting Intelligent Importers"
-msgstr "Avvio degli Importatori Intelligenti"
+msgstr "Avvio degli importatori intelligenti"
 
 #: shell/e-shell-importer.c:873 shell/e-shell-startup-wizard.c:664
 #, c-format
@@ -25463,7 +25462,7 @@ msgstr ""
 
 #: shell/e-shell-offline-sync.c:232
 msgid "Syncing Folder"
-msgstr "Sincronizzazione Cartella"
+msgstr "Sincronizzazione cartella"
 
 #. Prepare the dialog.
 #: shell/e-shell-offline-sync.c:311
@@ -25489,7 +25488,7 @@ msgstr "Apertura cartella"
 #: shell/e-shell-shared-folder-picker-dialog.c:393
 #, c-format
 msgid "Opening Folder \"%s\""
-msgstr "Apertura Cartella \"%s\""
+msgstr "Apertura cartella \"%s\""
 
 #: shell/e-shell-shared-folder-picker-dialog.c:398
 #, c-format
@@ -25517,7 +25516,7 @@ msgstr "Nessun nome di cartella specificato."
 
 #: shell/e-shell-utils.c:123
 msgid "Folder name cannot contain the Return character."
-msgstr "Il nome di una cartella non può contenere il carattere Invio."
+msgstr "Il nome di una cartella non può contenere il carattere di invio."
 
 #: shell/e-shell-utils.c:129
 msgid "Folder name cannot contain the character \"/\"."
@@ -25533,7 +25532,7 @@ msgstr "I nomi di cartelle '.' e '..' sono riservati."
 
 #: shell/e-shell-view-menu.c:89
 msgid "The GNOME Pilot tools do not appear to be installed on this system."
-msgstr "I tool di GNOME Pilot non sembrano essere installati in questo sistema."
+msgstr "I tool di GNOME Pilot non sembrano essere installati."
 
 #: shell/e-shell-view-menu.c:97
 #, c-format
@@ -25554,7 +25553,7 @@ msgstr "Informazioni su Ximian Evolution"
 
 #: shell/e-shell-view-menu.c:502
 msgid "Go to folder..."
-msgstr "Vai alla Cartella..."
+msgstr "Vai alla cartella..."
 
 #: shell/e-shell-view-menu.c:503
 msgid "Select the folder that you want to open"
@@ -25570,11 +25569,11 @@ msgstr "Selezionare la cartella a cui si vuole che punti il collegamento:"
 
 #: shell/e-shell-view-menu.c:769
 msgid "_Work Online"
-msgstr "_Lavora Connesso"
+msgstr "_Lavora connesso"
 
 #: shell/e-shell-view-menu.c:782 ui/evolution.xml.h:65
 msgid "_Work Offline"
-msgstr "_Lavora Disconnesso"
+msgstr "_Lavora disconnesso"
 
 #: shell/e-shell-view-menu.c:795 ui/evolution.xml.h:39
 msgid "Work Offline"
@@ -25582,7 +25581,7 @@ msgstr "Non connesso"
 
 #: shell/e-shell-view.c:264
 msgid "(No folder displayed)"
-msgstr "(Nessuna cartella mostrata)"
+msgstr "(nessuna cartella mostrata)"
 
 #: shell/e-shell-view.c:2040
 #, c-format
@@ -25591,12 +25590,12 @@ msgstr "%s (%d)"
 
 #: shell/e-shell-view.c:2042
 msgid "(None)"
-msgstr "(Nessuno)"
+msgstr "(nessuno)"
 
 #: shell/e-shell-view.c:2083
 msgid "Ximian Evolution is currently online.  Click on this button to work offline."
 msgstr ""
-"Ximian Evolution è al momento connesso.  Cliccare questo bottone per "
+"Ximian Evolution è al momento connesso.  Premere questo tasto per "
 "disconnettersi."
 
 #: shell/e-shell-view.c:2090
@@ -25606,7 +25605,7 @@ msgstr "Ximian Evolution si sta disconnettendo."
 #: shell/e-shell-view.c:2096
 msgid "Ximian Evolution is currently offline.  Click on this button to work online."
 msgstr ""
-"Ximian Evolution è al momento disconnesso.  Cliccare questo bottone per "
+"Ximian Evolution è al momento disconnesso.  Premere questo tasto per "
 "connettersi."
 
 #: shell/e-shell.c:175
@@ -25623,7 +25622,7 @@ msgstr ""
 #: shell/e-shell.c:741
 #, c-format
 msgid "Cannot set up local storage -- %s"
-msgstr "Impossibile impostare il local storage --%s"
+msgstr "Impossibile impostare il local storage -- %s"
 
 #: shell/e-shell.c:1804
 #, c-format
@@ -25642,11 +25641,11 @@ msgstr "Argomenti non validi"
 
 #: shell/e-shell.c:2071
 msgid "Cannot register on OAF"
-msgstr "Impossibile registrare OAF"
+msgstr "Impossibile registrare su OAF"
 
 #: shell/e-shell.c:2073
 msgid "Configuration Database not found"
-msgstr "Database di Configurazione non trovato"
+msgstr "Database di configurazione non trovato"
 
 #: shell/e-shell.c:2075 shell/e-storage.c:568
 msgid "Generic error"
@@ -25658,7 +25657,7 @@ msgstr "Crea un nuovo gruppo di collegamento"
 
 #: shell/e-shortcuts-view.c:81
 msgid "Group name:"
-msgstr "Nome del Gruppo:"
+msgstr "Nome del gruppo:"
 
 #: shell/e-shortcuts-view.c:179
 #, c-format
@@ -25669,15 +25668,15 @@ msgstr ""
 
 #: shell/e-shortcuts-view.c:222
 msgid "Rename Shortcut Group"
-msgstr "Rimnomina questo Gruppo di Collegamento"
+msgstr "Rinomina gruppo di collegamento"
 
 #: shell/e-shortcuts-view.c:223
 msgid "Rename selected shortcut group to:"
-msgstr "Rinomina questo gruppo di collegamento come:"
+msgstr "Rinomina gruppo di collegamento selezionato come:"
 
 #: shell/e-shortcuts-view.c:255
 msgid "_Small Icons"
-msgstr "Icone _Piccole"
+msgstr "Icone _piccole"
 
 #: shell/e-shortcuts-view.c:256
 msgid "Show the shortcuts as small icons"
@@ -25685,7 +25684,7 @@ msgstr "Mostra i collegamenti come icone piccole "
 
 #: shell/e-shortcuts-view.c:258
 msgid "_Large Icons"
-msgstr "Icone _Grandi"
+msgstr "Icone _grandi"
 
 #: shell/e-shortcuts-view.c:259
 msgid "Show the shortcuts as large icons"
@@ -25701,7 +25700,7 @@ msgstr "Crea un nuovo gruppo di collegamento"
 
 #: shell/e-shortcuts-view.c:273
 msgid "_Remove this Group..."
-msgstr "_Rimuovi questo Gruppo..."
+msgstr "_Rimuovi questo gruppo..."
 
 #: shell/e-shortcuts-view.c:274
 msgid "Remove this shortcut group"
@@ -25709,7 +25708,7 @@ msgstr "Rimuovi questo gruppo di collegamento"
 
 #: shell/e-shortcuts-view.c:276
 msgid "Re_name this Group..."
-msgstr "_Rinomina questo Gruppo..."
+msgstr "_Rinomina questo gruppo..."
 
 #: shell/e-shortcuts-view.c:277
 msgid "Rename this shortcut group"
@@ -25717,7 +25716,7 @@ msgstr "Rinomina questo gruppo di collegamento"
 
 #: shell/e-shortcuts-view.c:282
 msgid "_Hide the Shortcut Bar"
-msgstr "_Nascondi la Barra dei Collegamenti"
+msgstr "_Nascondi la barra dei collegamenti"
 
 #: shell/e-shortcuts-view.c:283
 msgid "Hide the shortcut bar"
@@ -25733,23 +25732,23 @@ msgstr "Crea scorciatoie predefinite"
 
 #: shell/e-shortcuts-view.c:408
 msgid "Rename Shortcut"
-msgstr "Rinomina collegamento"
+msgstr "Rinomina scorciatoia"
 
 #: shell/e-shortcuts-view.c:409
 msgid "Rename selected shortcut to:"
-msgstr "Rinomina il collegamento selezionato come:"
+msgstr "Rinomina la scorciatoia selezionata come:"
 
 #: shell/e-shortcuts-view.c:422
 msgid "Open the folder linked to this shortcut"
-msgstr "Aprire la cartella relativa a questo collegamento"
+msgstr "Aprire la cartella relativa a questa scorciatoia"
 
 #: shell/e-shortcuts-view.c:424 ui/evolution.xml.h:23
 msgid "Open in New _Window"
-msgstr "Aprire in una Nuova _Finestra"
+msgstr "Aprire in una nuova _finestra"
 
 #: shell/e-shortcuts-view.c:424
 msgid "Open the folder linked to this shortcut in a new window"
-msgstr "Aprire la cartella relativa a questo collegamento in una nuova finestra"
+msgstr "Aprire la cartella relativa a questa scorciatoia in una nuova finestra"
 
 #: shell/e-shortcuts-view.c:427
 msgid "_Rename"
@@ -25757,7 +25756,7 @@ msgstr "_Rinomina"
 
 #: shell/e-shortcuts-view.c:427
 msgid "Rename this shortcut"
-msgstr "Rinomina questo collegamento"
+msgstr "Rinomina questa scorciatoia"
 
 #: shell/e-shortcuts-view.c:429
 msgid "Re_move"
@@ -25765,15 +25764,15 @@ msgstr "Ri_muovere"
 
 #: shell/e-shortcuts-view.c:429
 msgid "Remove this shortcut from the shortcut bar"
-msgstr "Rimuovi il collegamento dalla barra dei collegamenti"
+msgstr "Rimuovi la scorciatoia dalla barra dei collegamenti"
 
 #: shell/e-shortcuts.c:649
 msgid "Error saving shortcuts."
-msgstr "Errore di salvataggio dei collegamenti."
+msgstr "Errore di salvataggio delle scorciatoie"
 
 #: shell/e-shortcuts.c:1096
 msgid "Shortcuts"
-msgstr "Collegamenti"
+msgstr "Scorciatoie"
 
 #: shell/e-storage-set-view.etspec.h:1
 msgid "Checkbox"
@@ -25793,7 +25792,7 @@ msgstr "Il tipo di cartella specificato non è valido"
 
 #: shell/e-storage.c:574
 msgid "I/O error"
-msgstr "Errore I/O"
+msgstr "Errore di I/O"
 
 #: shell/e-storage.c:576
 msgid "Not enough space to create the folder"
@@ -25817,7 +25816,7 @@ msgstr "Operazione non supportata"
 
 #: shell/e-storage.c:588
 msgid "The specified type is not supported in this storage"
-msgstr "Il tipo specificatp non è supportato"
+msgstr "Il tipo specificato non è supportato"
 
 #: shell/e-storage.c:590
 msgid "The specified folder cannot be modified or removed"
@@ -25870,7 +25869,7 @@ msgid ""
 msgstr ""
 "%s\n"
 "\n"
-"L'errore del sistema dei componenti è:\n"
+"L'errore dal sistema dei componenti è:\n"
 "%s"
 
 #: shell/evolution-shell-component-utils.c:134
@@ -25883,7 +25882,7 @@ msgid ""
 msgstr ""
 "%s\n"
 "\n"
-"L'errore del sistema di attivazione è:\n"
+"L'errore dal sistema di attivazione è:\n"
 "%s"
 
 #: shell/evolution-shell-component.c:1184
@@ -25900,7 +25899,7 @@ msgstr "Argomento non valido"
 
 #: shell/evolution-shell-component.c:1190
 msgid "Already has an owner"
-msgstr "Ha già una shell"
+msgstr "Ha già un proprietario"
 
 #: shell/evolution-shell-component.c:1192
 msgid "No owner"
@@ -25940,11 +25939,11 @@ msgstr "Ha delle sottocartelle"
 
 #: shell/evolution-shell-component.c:1214
 msgid "No space left"
-msgstr "Spazio sul dispositivo esaurito"
+msgstr "Spazio esaurito"
 
 #: shell/evolution-shell-component.c:1216
 msgid "Old owner has died"
-msgstr "La shell precedente è scomparsa"
+msgstr "Il vecchio proprietario è morto"
 
 #: shell/evolution-test-component.c:63
 msgid "Test type"
@@ -25964,7 +25963,7 @@ msgstr "Fare click su OK per chiudere queste connessioni e disconnettersi"
 
 #: shell/glade/e-active-connection-dialog.glade.h:3
 msgid "The following connections are currently active:"
-msgstr "Le seguenti connessioni sono al momento attive;"
+msgstr "In questo momento sono attive le seguenti connessioni:"
 
 #: shell/glade/e-shell-config-default-folders.glade.h:1
 msgid "C_alendar:"
@@ -25972,15 +25971,15 @@ msgstr "C_alendario:"
 
 #: shell/glade/e-shell-config-default-folders.glade.h:2
 msgid "_Contacts:"
-msgstr "_Contatti: "
+msgstr "_Contatti:"
 
 #: shell/glade/e-shell-config-default-folders.glade.h:3
 msgid "_Mail:"
-msgstr "Posta:"
+msgstr "_Posta:"
 
 #: shell/glade/e-shell-config-default-folders.glade.h:4
 msgid "_Tasks:"
-msgstr "Attività:"
+msgstr "_Attività:"
 
 #: shell/glade/e-shell-folder-creation-dialog.glade.h:2
 msgid "Folder _name:"
@@ -25996,7 +25995,7 @@ msgstr "Specificare dove creare la cartella:"
 
 #: shell/glade/e-shell-shared-folder-picker-dialog.glade.h:1
 msgid "Open Other User's Folder"
-msgstr "Apri Cartella degli Altri Utenti"
+msgstr "Apri la cartella degli altri utenti"
 
 #: shell/glade/e-shell-shared-folder-picker-dialog.glade.h:2
 msgid "_Account:"
@@ -26012,15 +26011,15 @@ msgstr "_Utente:"
 
 #: shell/glade/evolution-startup-wizard.glade.h:2
 msgid "Evolution Setup Assistant"
-msgstr "Assistente Configurazione di Evolution"
+msgstr "Assistente alla configurazione di Evolution"
 
 #: shell/glade/evolution-startup-wizard.glade.h:3
 msgid "Importing Files"
-msgstr "Importazione File"
+msgstr "Importazione file"
 
 #: shell/glade/evolution-startup-wizard.glade.h:4
 msgid "Timezone "
-msgstr "Fuso orario"
+msgstr "Fuso orario "
 
 #: shell/glade/evolution-startup-wizard.glade.h:5
 msgid "Welcome"
@@ -26038,7 +26037,7 @@ msgstr ""
 "ad Evolution di connettersi ai tuoi account di posta e di\n"
 "importare file da altre applicazioni.\n"
 "\n"
-"Premere il pulsante \"Succ\" per proseguire."
+"Premere il pulsante \"Avanti\" per proseguire."
 
 #: shell/glade/evolution-startup-wizard.glade.h:11
 msgid ""
@@ -26058,23 +26057,23 @@ msgstr "Cliccare \"Importa\" per iniziare l'importazione del file in Evolution. 
 
 #: shell/importer/import.glade.h:2
 msgid "Evolution Import Assistant"
-msgstr "Assistente Importazione di Evolution"
+msgstr "Assistente all'importazione di Evolution"
 
 #: shell/importer/import.glade.h:3
 msgid "Import File (step 3 of 3)"
-msgstr "Importare un File (Passo 3 di 3)"
+msgstr "Importare un file (passo 3 di 3)"
 
 #: shell/importer/import.glade.h:4
 msgid "Importer Type (step 1 of 3)"
-msgstr "Tipo di Imporazione (passo 1 di 3)"
+msgstr "Tipo di imporazione (passo 1 di 3)"
 
 #: shell/importer/import.glade.h:5
 msgid "Select Importers (step 2 of 3)"
-msgstr "Selezionare Tipo di Importazione (passo 2 di 3)"
+msgstr "Selezionare un tipo di importazione (passo 2 di 3)"
 
 #: shell/importer/import.glade.h:6
 msgid "Select a File (step 2 of 3)"
-msgstr "Selezionare un File (Passo 2 di 3)"
+msgstr "Selezionare un file (passo 2 di 3)"
 
 #: shell/importer/import.glade.h:7
 msgid ""
@@ -26082,8 +26081,8 @@ msgid ""
 "With this assistant you will be guided through the process of\n"
 "importing external files into Evolution."
 msgstr ""
-"Assistente di Importazione di Evolution, benvenuti.\n"
-"Questa guida vi accompagnerà attraverso il processo \n"
+"Benvenuti nell'assistente all'importazione di Evolution.\n"
+"Questa guida vi accompagnerà attraverso il processo\n"
 "di importazione di file esterni in Evoution."
 
 #: shell/importer/intelligent.c:189
@@ -26108,7 +26107,7 @@ msgstr "Evolution"
 
 #: shell/main.c:118
 msgid "Evolution is now exiting ..."
-msgstr "Evolution sta ora terminando ..."
+msgstr "Evolution si sta chiudendo ..."
 
 #. Preview/Alpha/Beta version warning message
 #: shell/main.c:274
@@ -26157,16 +26156,16 @@ msgstr ""
 
 #: shell/main.c:306
 msgid "Don't tell me again"
-msgstr "Non chiedere nuovamente"
+msgstr "Non chiedere più"
 
 #: shell/main.c:401
 msgid "Cannot access the Ximian Evolution shell."
-msgstr "Impossibile inizializzare la shell di  Ximian Evolution."
+msgstr "Impossibile inizializzare la shell di Ximian Evolution."
 
 #: shell/main.c:410
 #, c-format
 msgid "Cannot initialize the Ximian Evolution shell: %s"
-msgstr "Impossibile inizializzare la shell di  Ximian Evolution: %s"
+msgstr "Impossibile inizializzare la shell di Ximian Evolution: %s"
 
 #: shell/main.c:542
 msgid "Disable splash screen"
@@ -26186,7 +26185,7 @@ msgstr "Forza la chiusura di tutti i componenti di Evolution"
 
 #: shell/main.c:552
 msgid "Send the debugging output of all components to a file."
-msgstr "Inviare l'output del debugging di tutte i componenti ad un file"
+msgstr "Inviare l'output del debugging di tutte i componenti ad un file."
 
 #: shell/main.c:578
 #, c-format
@@ -26209,7 +26208,7 @@ msgstr "File sorgente"
 
 #: tools/evolution-addressbook-import.c:82
 msgid "No filename provided."
-msgstr "È necessario fornire un nome di file."
+msgstr "Non è stato fornito un nome di file."
 
 #: tools/evolution-launch-composer.c:324
 msgid "An attachment to add."
@@ -26229,7 +26228,7 @@ msgstr "Descrizione dell'allegato."
 
 #: tools/evolution-launch-composer.c:328
 msgid "Mark attachment to be shown inline by default."
-msgstr "Segna allegato come da mostrare in linea per impostazione predefinita."
+msgstr "Segna allegato come da mostrare in linea come impostazione predefinita."
 
 #: tools/evolution-launch-composer.c:329
 msgid "Default subject for the message."
@@ -26254,7 +26253,7 @@ msgstr "Copia contatto(i) su un'altra cartella..."
 
 #: ui/evolution-addressbook.xml.h:4 ui/evolution-calendar.xml.h:2
 msgid "Copy the selection"
-msgstr "Copia selezionato"
+msgstr "Copia la selezione"
 
 #: ui/evolution-addressbook.xml.h:5
 msgid "Copy to Folder..."
@@ -26262,11 +26261,11 @@ msgstr "Copia nella cartella..."
 
 #: ui/evolution-addressbook.xml.h:7 ui/evolution-calendar.xml.h:3
 msgid "Cut the selection"
-msgstr "Taglia selezionato"
+msgstr "Taglia la selezione"
 
 #: ui/evolution-addressbook.xml.h:9
 msgid "Delete selected contacts"
-msgstr "Cancella il contatto selezionato"
+msgstr "Cancella i contatti selezionati"
 
 #: ui/evolution-addressbook.xml.h:11
 msgid "Move Contact(s) to Another Folder..."
@@ -26278,7 +26277,7 @@ msgstr "Sposta nella cartella..."
 
 #: ui/evolution-addressbook.xml.h:14 ui/evolution-calendar.xml.h:17
 msgid "Paste the clipboard"
-msgstr "Incolla agli appunti"
+msgstr "Incolla gli appunti"
 
 #: ui/evolution-addressbook.xml.h:15
 msgid "Previews the contacts to be printed"
@@ -26342,11 +26341,11 @@ msgstr "_Azioni"
 
 #: ui/evolution-addressbook.xml.h:34 ui/evolution-contact-editor.xml.h:13
 msgid "_Forward Contact..."
-msgstr "_Inoltra Contatto..."
+msgstr "_Inoltra contatto..."
 
 #: ui/evolution-addressbook.xml.h:35
 msgid "_Move to Folder..."
-msgstr "_Sposta nella Cartella..."
+msgstr "_Sposta nella cartella..."
 
 #: ui/evolution-addressbook.xml.h:39
 msgid "_Save as VCard"
@@ -26354,15 +26353,15 @@ msgstr "_Salva come VCard"
 
 #: ui/evolution-addressbook.xml.h:40
 msgid "_Search for Contacts"
-msgstr "_Cerca Contatti"
+msgstr "_Cerca contatti"
 
 #: ui/evolution-addressbook.xml.h:41
 msgid "_Select All"
-msgstr "_Seleziona Tutto"
+msgstr "_Seleziona tutto"
 
 #: ui/evolution-addressbook.xml.h:42
 msgid "_Send Message to Contact..."
-msgstr "Invia un Messaggio al Contatto..."
+msgstr "Invia un messaggio al contatto..."
 
 #: ui/evolution-calendar.xml.h:4
 msgid "Day"
@@ -26386,7 +26385,7 @@ msgstr "Elimina questa ricorrenza"
 
 #: ui/evolution-calendar.xml.h:9
 msgid "Go To"
-msgstr "Vai al"
+msgstr "Vai a"
 
 #: ui/evolution-calendar.xml.h:10
 msgid "Go back"
@@ -26422,7 +26421,7 @@ msgstr "Stampa questo calendario"
 
 #: ui/evolution-calendar.xml.h:21
 msgid "Publish Free/Busy information for this calendar"
-msgstr "Rende note le informazioni sulla Disponibilità per questo calendario"
+msgstr "Rende note le informazioni sulla disponibilità per questo calendario"
 
 #: ui/evolution-calendar.xml.h:22
 msgid "Show one day"
@@ -26454,7 +26453,7 @@ msgstr "Chiudi"
 
 #: ui/evolution-comp-editor.xml.h:3
 msgid "Close this item"
-msgstr "Elimina quest'oggetto"
+msgstr "Chiudi quest'oggetto"
 
 #: ui/evolution-comp-editor.xml.h:5 ui/evolution-contact-editor.xml.h:3
 msgid "Delete this item"
@@ -26463,7 +26462,7 @@ msgstr "Elimina quest'oggetto"
 #: ui/evolution-comp-editor.xml.h:6 ui/evolution-event-editor.xml.h:5
 #: ui/evolution-mail-messagedisplay.xml.h:3 ui/evolution.xml.h:18
 msgid "Main toolbar"
-msgstr "Barra dagli strimenti principale"
+msgstr "Barra dagli strumenti principale"
 
 #: ui/evolution-comp-editor.xml.h:7
 msgid "Preview the printed item"
@@ -26486,7 +26485,7 @@ msgstr "Salva con nome..."
 #: ui/evolution-contact-list-editor.xml.h:6
 #: ui/evolution-signature-editor.xml.h:6
 msgid "Save and Close"
-msgstr "Salva ed Esci"
+msgstr "Salva ed esci"
 
 #: ui/evolution-comp-editor.xml.h:15
 msgid "Save the item and close the dialog box"
@@ -26494,7 +26493,7 @@ msgstr "Salva l'oggetto e chiudi la finestra di dialogo"
 
 #: ui/evolution-comp-editor.xml.h:16
 msgid "Save this item to disk"
-msgstr "Salva l'ogetto sol disco"
+msgstr "Salva l'oggetto sul disco"
 
 #: ui/evolution-comp-editor.xml.h:18 ui/evolution-contact-editor.xml.h:12
 #: ui/evolution-contact-list-editor.xml.h:11
@@ -26524,7 +26523,7 @@ msgstr "Incolla il testo dagli appunti"
 #: ui/evolution-composer-entries.xml.h:5 ui/evolution-mail-list.xml.h:13
 #: ui/evolution-subscribe.xml.h:6
 msgid "Select _All"
-msgstr "Seleziona _Tutto"
+msgstr "Selezion_a tutto"
 
 #: ui/evolution-composer-entries.xml.h:6
 msgid "Select all text"
@@ -26532,13 +26531,13 @@ msgstr "Seleziona tutto il testo"
 
 #: ui/evolution-contact-editor.xml.h:5
 msgid "Print En_velope..."
-msgstr "Stampa _Busta..."
+msgstr "Stampa _busta..."
 
 #: ui/evolution-contact-editor.xml.h:7
 #: ui/evolution-contact-list-editor.xml.h:5
 #: ui/evolution-message-composer.xml.h:18
 msgid "Save _As..."
-msgstr "Salva _Come..."
+msgstr "Salva con no_me..."
 
 #: ui/evolution-contact-editor.xml.h:9
 msgid "Save the contact and close the dialog box"
@@ -26546,7 +26545,7 @@ msgstr "Salva il contatto e chiudi la finestra di dialogo"
 
 #: ui/evolution-contact-editor.xml.h:10
 msgid "Send _Message to Contact..."
-msgstr "Invia un _Messaggio al Contatto..."
+msgstr "Invia un _messaggio al contatto..."
 
 #: ui/evolution-contact-editor.xml.h:15
 #: ui/evolution-contact-list-editor.xml.h:12
@@ -26569,7 +26568,7 @@ msgstr "Salva la lista e chiudi la finestra di dialogo"
 
 #: ui/evolution-contact-list-editor.xml.h:8
 msgid "Se_nd list to other..."
-msgstr "_Invia lista ad altri..."
+msgstr "_Invia la lista ad altri..."
 
 #: ui/evolution-contact-list-editor.xml.h:9
 msgid "Send _message to list..."
@@ -26577,7 +26576,7 @@ msgstr "Invia un _messaggio alla lista..."
 
 #: ui/evolution-event-editor.xml.h:1
 msgid "Cancel Mee_ting"
-msgstr "Annulla R_iunione"
+msgstr "Annulla r_iunione"
 
 #: ui/evolution-event-editor.xml.h:2
 msgid "Cancel the meeting for this item"
@@ -26597,15 +26596,15 @@ msgstr "Ottieni le informazioni sull'ultima riunione"
 
 #: ui/evolution-event-editor.xml.h:8
 msgid "Re_fresh Meeting"
-msgstr "_Aggiorna Riunione"
+msgstr "_Aggiorna riunione"
 
 #: ui/evolution-event-editor.xml.h:9
 msgid "Schedule _Meeting"
-msgstr "Pianifica una _Riunione"
+msgstr "Pianifica una _riunione"
 
 #: ui/evolution-event-editor.xml.h:10
 msgid "Schedule a meeting for this item"
-msgstr "Pianifica una Riunione su questo argomento"
+msgstr "Pianifica una riunione su questo argomento"
 
 #: ui/evolution-executive-summary.xml.h:1
 msgid "Customize My Evolution"
@@ -26617,11 +26616,11 @@ msgstr "Annulla l'operazione corrente di posta"
 
 #: ui/evolution-mail-global.xml.h:3
 msgid "Compose _New Message"
-msgstr "Componi _Nuovo Messaggio"
+msgstr "Componi _nuovo messaggio"
 
 #: ui/evolution-mail-global.xml.h:4
 msgid "Create or edit rules for filtering new mail"
-msgstr "Crea o modifica regole per selezionare la nuova posta"
+msgstr "Crea o modifica le regole per filtrare la nuova posta"
 
 #: ui/evolution-mail-global.xml.h:5
 msgid "Create or edit virtual folder definitions"
@@ -26629,11 +26628,11 @@ msgstr "Crea o modifica le definizioni delle cartelle virtuali"
 
 #: ui/evolution-mail-global.xml.h:6
 msgid "Empty _Trash"
-msgstr "Vuota _Cestino"
+msgstr "Vuota _cestino"
 
 #: ui/evolution-mail-global.xml.h:7
 msgid "Forget _Passwords"
-msgstr "Dimentica _Password"
+msgstr "Dimentica _password"
 
 #: ui/evolution-mail-global.xml.h:8
 msgid "Forget remembered passwords so you will be prompted for them again"
@@ -26669,7 +26668,7 @@ msgstr "Sottoscrivi e annulla sottoscrizione a cartelle su server remoti"
 
 #: ui/evolution-mail-global.xml.h:16
 msgid "Virtual Folder _Editor..."
-msgstr "_Editor delle Cartelle Virtuali..."
+msgstr "_Editor delle cartelle virtuali..."
 
 #: ui/evolution-mail-global.xml.h:18
 msgid "_Filters..."
@@ -26693,15 +26692,15 @@ msgstr "Taglia messaggio(i) selezionato(i) negli appunti"
 
 #: ui/evolution-mail-list.xml.h:5
 msgid "Hide S_elected Messages"
-msgstr "Nascondi Messaggi _Selezionati"
+msgstr "Nascondi i messaggi _selezionati"
 
 #: ui/evolution-mail-list.xml.h:6
 msgid "Hide _Deleted Messages"
-msgstr "Nascondi Messaggi _Cancellati"
+msgstr "Nascondi i messaggi _cancellati"
 
 #: ui/evolution-mail-list.xml.h:7
 msgid "Hide _Read Messages"
-msgstr "Nascondi Messaggi _Letti"
+msgstr "Nascondi messaggi _letti"
 
 #: ui/evolution-mail-list.xml.h:8
 msgid "Hide deleted messages rather than displaying them with a line through them"
@@ -26711,11 +26710,11 @@ msgstr ""
 
 #: ui/evolution-mail-list.xml.h:9
 msgid "Mark All as R_ead"
-msgstr "Segna _Tutti Come Letti"
+msgstr "Segna _tutti come letti"
 
 #: ui/evolution-mail-list.xml.h:10
 msgid "Mark all visible messages as read"
-msgstr "Segna tutti  i messaggi visibili come letti"
+msgstr "Segna tutti i messaggi visibili come letti"
 
 #: ui/evolution-mail-list.xml.h:11
 msgid "Paste message(s) from the clipboard"
@@ -26727,7 +26726,7 @@ msgstr "Rimuovi permanentemente i messaggi cancellati da questa cartella"
 
 #: ui/evolution-mail-list.xml.h:14
 msgid "Select _Thread"
-msgstr "Seleziona _Discussione"
+msgstr "Seleziona _discussione"
 
 #: ui/evolution-mail-list.xml.h:15
 msgid "Select all and only the messages that are not currently selected"
@@ -26745,7 +26744,7 @@ msgstr "Seleziona tutti i messaggi visibili"
 
 #: ui/evolution-mail-list.xml.h:18
 msgid "Sh_ow Hidden Messages"
-msgstr "M_ostra Messaggi Nascosti"
+msgstr "M_ostra messaggi nascosti"
 
 #: ui/evolution-mail-list.xml.h:19
 msgid "Show messages that have been temporarily hidden"
@@ -26761,11 +26760,11 @@ msgstr "Nascondi temporaneamente i messaggi selezionati"
 
 #: ui/evolution-mail-list.xml.h:22
 msgid "Threaded Message list"
-msgstr "Lista per Discussioni"
+msgstr "Elenca per discussioni"
 
 #: ui/evolution-mail-list.xml.h:26 ui/evolution-tasks.xml.h:18
 msgid "_Expunge"
-msgstr "_Elimina per Sempre"
+msgstr "_Elimina per sempre"
 
 #: ui/evolution-mail-list.xml.h:27 ui/evolution.xml.h:47
 msgid "_Folder"
@@ -26773,7 +26772,7 @@ msgstr "_Cartelle"
 
 #: ui/evolution-mail-list.xml.h:28 ui/evolution-subscribe.xml.h:12
 msgid "_Invert Selection"
-msgstr "_Inverti Selezione"
+msgstr "_Inverti selezione"
 
 #: ui/evolution-mail-list.xml.h:30
 msgid "_Properties..."
@@ -26781,7 +26780,7 @@ msgstr "_Proprietà"
 
 #: ui/evolution-mail-list.xml.h:31
 msgid "_Threaded Message List"
-msgstr "Raggruppa per _discussioni"
+msgstr "Elenca per _discussioni"
 
 #: ui/evolution-mail-message.xml.h:1
 msgid "A_dd Sender to Addressbook"
@@ -26817,7 +26816,7 @@ msgstr "Copia i messaggi selezionati in una nuova cartella"
 
 #: ui/evolution-mail-message.xml.h:10
 msgid "Create _Virtual Folder From Message"
-msgstr "Crea una Cartella _Virtuale dal Messaggio"
+msgstr "Crea una cartella _virtuale dal messaggio"
 
 #: ui/evolution-mail-message.xml.h:11
 msgid "Create a rule to filter messages from this sender"
@@ -26893,15 +26892,15 @@ msgstr "Filtro sulla mailing _list..."
 
 #: ui/evolution-mail-message.xml.h:30
 msgid "Filter on Se_nder..."
-msgstr "Filtro sul _Mittente..."
+msgstr "Filtro sul _mittente..."
 
 #: ui/evolution-mail-message.xml.h:31
 msgid "Filter on _Recipients..."
-msgstr "Filtro sui _Destinatari..."
+msgstr "Filtro sui _destinatari..."
 
 #: ui/evolution-mail-message.xml.h:32
 msgid "Filter on _Subject..."
-msgstr "Filtra sull'_Oggetto..."
+msgstr "Filtra sull'_oggetto..."
 
 #: ui/evolution-mail-message.xml.h:33
 msgid "Flag selected message(s) for follow-up"
@@ -26925,11 +26924,11 @@ msgstr "Inoltra il messaggio selezionato citato come in una risposta"
 
 #: ui/evolution-mail-message.xml.h:39
 msgid "Forward the selected message to someone"
-msgstr "Inoltra il messaggio selezionato come"
+msgstr "Inoltra il messaggio selezionato a qualcuno"
 
 #: ui/evolution-mail-message.xml.h:40
 msgid "Forward the selected message to someone as an attachment"
-msgstr "Inoltra il messaggio selezionato a qualcuno come un allegato"
+msgstr "Inoltra come allegato il messaggio selezionato a qualcuno"
 
 #: ui/evolution-mail-message.xml.h:41
 msgid "Increase the text size"
@@ -26937,19 +26936,19 @@ msgstr "Aumenta la dimensione del testo"
 
 #: ui/evolution-mail-message.xml.h:42
 msgid "Load _Images"
-msgstr "Carica _Immagini"
+msgstr "Carica le _mmagini"
 
 #: ui/evolution-mail-message.xml.h:44
 msgid "Mark as I_mportant"
-msgstr "Segna come I_mportante"
+msgstr "Segna come i_mportante"
 
 #: ui/evolution-mail-message.xml.h:45
 msgid "Mark as U_nread"
-msgstr "Segna come _Non Letto"
+msgstr "Segna come _non letto"
 
 #: ui/evolution-mail-message.xml.h:46
 msgid "Mark as Unimp_ortant"
-msgstr "Segna come Non Im_portante"
+msgstr "Segna come non im_portante"
 
 #: ui/evolution-mail-message.xml.h:47
 msgid "Mark the selected message(s) as having been read"
@@ -26965,7 +26964,7 @@ msgstr "Segna i messaggi selezionati come se non fossero stati letti"
 
 #: ui/evolution-mail-message.xml.h:50
 msgid "Mark the selected message(s) as unimportant"
-msgstr "Segna i messaggi selezionati come non important"
+msgstr "Segna i messaggi selezionati come non importanti"
 
 #: ui/evolution-mail-message.xml.h:51
 msgid "Mark the selected messages for deletion"
@@ -27045,15 +27044,15 @@ msgstr "Ridirige (rimbalza) il messaggio selezionato a qualcuno"
 
 #: ui/evolution-mail-message.xml.h:76
 msgid "Reset the text to its original size"
-msgstr "Reimpostare il testo alla dimensione predefinita"
+msgstr "Reimpostare il testo alla dimensione originale"
 
 #: ui/evolution-mail-message.xml.h:77
 msgid "S_earch Message..."
-msgstr "C_erca Messaggio..."
+msgstr "C_erca messaggio..."
 
 #: ui/evolution-mail-message.xml.h:78
 msgid "S_maller"
-msgstr "Più _Piccolo"
+msgstr "Più _piccolo"
 
 #: ui/evolution-mail-message.xml.h:79
 msgid "Save the message as a text file"
@@ -27069,11 +27068,11 @@ msgstr "Imposta i parametri della pagina per la stampante corrente"
 
 #: ui/evolution-mail-message.xml.h:82
 msgid "Show Email _Source"
-msgstr "Mostra _Sorgente dell'Email"
+msgstr "Mostra _sorgente dell'email"
 
 #: ui/evolution-mail-message.xml.h:83
 msgid "Show Full _Headers"
-msgstr "Mostra_Headers completi"
+msgstr "Mostra _headers completi"
 
 #: ui/evolution-mail-message.xml.h:84
 msgid "Show message in the normal style"
@@ -27089,7 +27088,7 @@ msgstr "Mostra il sorgente grezzo del messaggio"
 
 #: ui/evolution-mail-message.xml.h:87
 msgid "Text Si_ze"
-msgstr "Dimensione del _Testo"
+msgstr "Dimensione del _testo"
 
 #: ui/evolution-mail-message.xml.h:88
 msgid "Un-delete the selected messages"
@@ -27097,15 +27096,15 @@ msgstr "Annulla la cancellazione del messaggio selezionato"
 
 #: ui/evolution-mail-message.xml.h:89
 msgid "VFolder on Mailing _List..."
-msgstr "Cartella Virtuale sulla Mailing _List..."
+msgstr "Cartella virtuale sulla mailing _list..."
 
 #: ui/evolution-mail-message.xml.h:90
 msgid "VFolder on Se_nder..."
-msgstr "Cartella Virtuale sul _Mittente..."
+msgstr "Cartella virtuale sul _mittente..."
 
 #: ui/evolution-mail-message.xml.h:91
 msgid "VFolder on _Recipients..."
-msgstr "Cartella Virtuale sui _Destinatari..."
+msgstr "Cartella virtuale sui _destinatari..."
 
 #: ui/evolution-mail-message.xml.h:92
 msgid "VFolder on _Subject..."
@@ -27117,7 +27116,7 @@ msgstr "_Allegato"
 
 #: ui/evolution-mail-message.xml.h:95
 msgid "_Copy to Folder"
-msgstr "_Copia nella Cartella"
+msgstr "_Copia nella cartella"
 
 #: ui/evolution-mail-message.xml.h:96
 msgid "_Create Filter From Message"
@@ -27213,11 +27212,11 @@ msgstr "Cancella tutto tranne la firma"
 
 #: ui/evolution-message-composer.xml.h:6
 msgid "Encrypt this message with PGP"
-msgstr "Cifra Messaggio con PGP"
+msgstr "Cifra messaggio con PGP"
 
 #: ui/evolution-message-composer.xml.h:7
 msgid "Encrypt this message with your S/MIME Encryption Cetificate"
-msgstr "Cifra questo messaggio con il proprio Certificato di Crittazione S/MIME"
+msgstr "Cifra questo messaggio con il proprio certificato di crittazione S/MIME"
 
 #: ui/evolution-message-composer.xml.h:8 ui/evolution-signature-editor.xml.h:3
 msgid "For_mat"
@@ -27253,11 +27252,11 @@ msgstr "Firma con S/MIME"
 
 #: ui/evolution-message-composer.xml.h:17
 msgid "Save As"
-msgstr "Salva con Nome"
+msgstr "Salva con nome"
 
 #: ui/evolution-message-composer.xml.h:19
 msgid "Save _Draft"
-msgstr "Salva _Bozza"
+msgstr "Salva _bozza"
 
 #: ui/evolution-message-composer.xml.h:20
 msgid "Save in folder..."
@@ -27307,23 +27306,23 @@ msgstr "Frima questo messaggio con la chiave PGP"
 
 #: ui/evolution-message-composer.xml.h:31
 msgid "Sign this message with your S/MIME Signature Certificate"
-msgstr "Frima questo messaggio con il Certificato di Firma S/MIME"
+msgstr "Frima questo messaggio con il certificato di firma S/MIME"
 
 #: ui/evolution-message-composer.xml.h:32
 msgid "Toggles whether the BCC field is displayed"
-msgstr "Mostra/nasconde il campo BCC"
+msgstr "Mostra / nascondi il campo BCC"
 
 #: ui/evolution-message-composer.xml.h:33
 msgid "Toggles whether the CC field is displayed"
-msgstr "Mostra/nasconde il campo CC"
+msgstr "Mostra / nascondi il campo CC"
 
 #: ui/evolution-message-composer.xml.h:34
 msgid "Toggles whether the From chooser is displayed"
-msgstr "Mostra/nasconde il campo di selezione Da"
+msgstr "Mostra / nascondi il campo di selezione Da"
 
 #: ui/evolution-message-composer.xml.h:35
 msgid "Toggles whether the Reply-To field is displayed"
-msgstr "Mostra/nasconde il campo Rispondi A"
+msgstr "Mostra / nasconde il campo Rispondi a"
 
 #: ui/evolution-message-composer.xml.h:36
 msgid "_Attachment..."
@@ -27380,11 +27379,11 @@ msgstr "C_artelle"
 
 #: ui/evolution-subscribe.xml.h:3
 msgid "Refresh List"
-msgstr "Aggiorna Lista"
+msgstr "Aggiorna lista"
 
 #: ui/evolution-subscribe.xml.h:4
 msgid "Refresh List of Folders"
-msgstr "Aggiorna la Lista delle Cartelle"
+msgstr "Aggiorna la lista delle cartelle"
 
 #: ui/evolution-subscribe.xml.h:5
 msgid "Remove folder from your list of subscribed folders"
@@ -27400,7 +27399,7 @@ msgstr "Annulla iscrizione"
 
 #: ui/evolution-task-editor.xml.h:1
 msgid "Assign Task"
-msgstr "Assegna Attività"
+msgstr "Assegna attività"
 
 #: ui/evolution-task-editor.xml.h:2
 msgid "Assign this task to others"
@@ -27408,7 +27407,7 @@ msgstr "Assegna attività ad altri"
 
 #: ui/evolution-task-editor.xml.h:3
 msgid "Cancel Task"
-msgstr "Annulla Attività"
+msgstr "Annulla attività"
 
 #: ui/evolution-task-editor.xml.h:4
 msgid "Cancel this task"
@@ -27420,7 +27419,7 @@ msgstr "Aggiorna informazioni sull'attività"
 
 #: ui/evolution-task-editor.xml.h:8
 msgid "Re_fresh Task"
-msgstr "A_ggiorna Attività"
+msgstr "A_ggiorna attività"
 
 #: ui/evolution-tasks.xml.h:3
 msgid "Copy selected task"
@@ -27440,7 +27439,7 @@ msgstr "Elimina attività selezionate"
 
 #: ui/evolution-tasks.xml.h:8
 msgid "Mar_k as Complete"
-msgstr "_Segna come Completato"
+msgstr "_Segna come completato"
 
 #: ui/evolution-tasks.xml.h:10
 msgid "Paste task from the clipboard"
@@ -27460,7 +27459,7 @@ msgstr "Informazioni su Ximian Evolution..."
 
 #: ui/evolution.xml.h:2
 msgid "Add to _Shortcut Bar"
-msgstr "Aggiungi alla _Barra dei Collegamenti"
+msgstr "Aggiungi alla _barra dei collegamenti"
 
 #: ui/evolution.xml.h:3
 msgid "Change Evolution's settings"
@@ -27476,7 +27475,7 @@ msgstr "Copia questa cartella"
 
 #: ui/evolution.xml.h:8
 msgid "Create a link to this folder in the shortcut bar"
-msgstr "Creaun  collegamento a questa cartella nella barra dei collegamenti"
+msgstr "Crea un collegamento a questa cartella nella barra dei collegamenti"
 
 #: ui/evolution.xml.h:9
 msgid "Create a new folder"
@@ -27508,11 +27507,11 @@ msgstr "_Finestra di Evolution"
 
 #: ui/evolution.xml.h:16
 msgid "Exit the program"
-msgstr "Esci dal Programma"
+msgstr "Esci dal programma"
 
 #: ui/evolution.xml.h:17
 msgid "Import data from other programs"
-msgstr "Imporare dati da altre applicazioni"
+msgstr "Importare dati da altre applicazioni"
 
 #: ui/evolution.xml.h:19
 msgid "Move this folder to another place"
@@ -27520,7 +27519,7 @@ msgstr "Sposta questa cartella altrove"
 
 #: ui/evolution.xml.h:20
 msgid "Open Other _User's Folder..."
-msgstr "Apri Cartella degli Altri _Utenti..."
+msgstr "Apri cartella degli altri _utenti..."
 
 #: ui/evolution.xml.h:21
 msgid "Open a folder belonging to some other user on the server"
@@ -27528,7 +27527,7 @@ msgstr "Apri una cartella appartenente a qualche altro utente sul server"
 
 #: ui/evolution.xml.h:22
 msgid "Open in New Window"
-msgstr "Apri in una Nuova Finestra"
+msgstr "Apri in una nuova finestra"
 
 #: ui/evolution.xml.h:24
 msgid "Open this folder in an other window"
@@ -27540,11 +27539,11 @@ msgstr "Impostazioni Pi_lot..."
 
 #: ui/evolution.xml.h:26
 msgid "Remove a folder added with \"Open Other User's Folder\""
-msgstr "Elimina una cartella aggiunta con \"Apri Cartella degli Altri Utenti\""
+msgstr "Elimina una cartella aggiunta con \"Apri cartella degli altri utenti\""
 
 #: ui/evolution.xml.h:27
 msgid "Send / Receive"
-msgstr "Invia / Ricevi"
+msgstr "Invia / ricevi"
 
 #: ui/evolution.xml.h:28
 msgid "Send queued items and retrieve new items"
@@ -27560,27 +27559,27 @@ msgstr "Mostra informazioni su Ximian Evolution"
 
 #: ui/evolution.xml.h:31
 msgid "Submit Bug Report"
-msgstr "Invia un Bug Report"
+msgstr "Invia un bug report"
 
 #: ui/evolution.xml.h:32
 msgid "Submit _Bug Report"
-msgstr "Invia un _Bug Report"
+msgstr "Invia un _bug report"
 
 #: ui/evolution.xml.h:33
 msgid "Submit a bug report using Bug Buddy"
-msgstr "Inoltra un Bug Report usando Bug Buddy"
+msgstr "Inoltra un bug report usando Bug Buddy"
 
 #: ui/evolution.xml.h:34
 msgid "Toggle"
-msgstr "Mostra/nasconde"
+msgstr "Mostra / nascondi"
 
 #: ui/evolution.xml.h:35
 msgid "Toggle whether to show the folder bar"
-msgstr "Mostra/nascondi la barra delle cartelle"
+msgstr "Mostra / nascondi la barra delle cartelle"
 
 #: ui/evolution.xml.h:36
 msgid "Toggle whether to show the shortcut bar"
-msgstr "Mostra/nascondi la barra dei collegamenti"
+msgstr "Mostra / nascondi la barra dei collegamenti"
 
 #: ui/evolution.xml.h:37
 msgid "Toggle whether we are working offline."
@@ -27604,7 +27603,7 @@ msgstr "_Copia..."
 
 #: ui/evolution.xml.h:48
 msgid "_Folder Bar"
-msgstr "Barra delle _Cartelle"
+msgstr "Barra delle _cartelle"
 
 #: ui/evolution.xml.h:49
 msgid "_Folder..."
@@ -27612,7 +27611,7 @@ msgstr "Cartella..."
 
 #: ui/evolution.xml.h:50
 msgid "_Go to Folder..."
-msgstr "_Visualizza Cartella..."
+msgstr "_Visualizza cartella..."
 
 #: ui/evolution.xml.h:51
 msgid "_Help"
@@ -27632,7 +27631,7 @@ msgstr "_Nuovo"
 
 #: ui/evolution.xml.h:55
 msgid "_New Folder"
-msgstr "_Nuova Cartella"
+msgstr "_Nuova cartella"
 
 #: ui/evolution.xml.h:56
 msgid "_New Folder..."
@@ -27640,7 +27639,7 @@ msgstr "_Nuova cartella"
 
 #: ui/evolution.xml.h:57
 msgid "_Remove Other User's Folder"
-msgstr "_Rimuovi Cartella degli Altri Utenti"
+msgstr "_Rimuovi cartella degli altri utenti"
 
 #: ui/evolution.xml.h:58
 msgid "_Rename..."
@@ -27648,11 +27647,11 @@ msgstr "_Rinomina..."
 
 #: ui/evolution.xml.h:59
 msgid "_Send / Receive"
-msgstr "_Invia / Ricevi"
+msgstr "_Invia / ricevi"
 
 #: ui/evolution.xml.h:61
 msgid "_Shortcut Bar"
-msgstr "_Barra dei Collegamenti"
+msgstr "_Barra dei collegamenti"
 
 #: ui/evolution.xml.h:62
 msgid "_Shortcut..."
@@ -27672,51 +27671,51 @@ msgstr "Aggiorna questa vista"
 
 #: views/addressbook/galview.xml.h:1
 msgid "By _Company"
-msgstr "Per Società"
+msgstr "Per società"
 
 #: views/addressbook/galview.xml.h:2
 msgid "_Address Cards"
-msgstr "Card Indirizzo"
+msgstr "Card indirizzo"
 
 #: views/addressbook/galview.xml.h:3
 msgid "_Phone List"
-msgstr "Elenco Telefoni"
+msgstr "Elenco telefonico"
 
 #: views/calendar/galview.xml.h:1
 msgid "W_eek View"
-msgstr "Vista Settimanale"
+msgstr "Vista settimanale"
 
 #: views/calendar/galview.xml.h:2
 msgid "_Day View"
-msgstr "Vista Giornaliera"
+msgstr "Vista giornaliera"
 
 #: views/calendar/galview.xml.h:3
 msgid "_Month View"
-msgstr "Vista _Mensile"
+msgstr "Vista _mensile"
 
 #: views/calendar/galview.xml.h:4
 msgid "_Work Week View"
-msgstr "Vista Settimana Lavorativa"
+msgstr "Vista settimana lavorativa"
 
 #: views/mail/galview.xml.h:1
 msgid "As Sent Folder"
-msgstr "Come Cartella Inviati"
+msgstr "Come cartella inviati"
 
 #: views/mail/galview.xml.h:2
 msgid "By Follow Up Flag"
-msgstr "Per Segnato come Seguente"
+msgstr "Per segnato come seguente"
 
 #: views/mail/galview.xml.h:3
 msgid "By Sender"
-msgstr "Per Mittente"
+msgstr "Per mittente"
 
 #: views/mail/galview.xml.h:4
 msgid "By Status"
-msgstr "Per Stato"
+msgstr "Per stato"
 
 #: views/mail/galview.xml.h:5
 msgid "By Subject"
-msgstr "Per Oggetto"
+msgstr "Per oggetto"
 
 #: views/mail/galview.xml.h:6
 msgid "Messages"
@@ -27724,7 +27723,7 @@ msgstr "Messaggi"
 
 #: views/tasks/galview.xml.h:1
 msgid "With _Category"
-msgstr "Con _Categoria"
+msgstr "Con _categoria"
 
 #: views/tasks/galview.xml.h:2
 msgid "_Tasks"
@@ -27737,7 +27736,7 @@ msgstr "UTC"
 
 #: widgets/e-timezone-dialog/e-timezone-dialog.glade.h:2
 msgid "Select a Time Zone"
-msgstr "Selezionare un Fuso Orario"
+msgstr "Selezionare un fuso orario"
 
 #: widgets/e-timezone-dialog/e-timezone-dialog.glade.h:3
 msgid "Time Zones"
@@ -27759,7 +27758,7 @@ msgstr "_Selezione:"
 
 #: widgets/menus/gal-view-menus.c:290
 msgid "_Current View"
-msgstr "Vista _Corrente"
+msgstr "Vista _corrente"
 
 #. bonobo displays this string so it must be in locale
 #: widgets/menus/gal-view-menus.c:349
@@ -27808,7 +27807,7 @@ msgstr "Baltico"
 
 #: widgets/misc/e-charset-picker.c:62
 msgid "Central European"
-msgstr "Europeo Centrale"
+msgstr "Europeo centrale"
 
 #: widgets/misc/e-charset-picker.c:63
 msgid "Chinese"
@@ -27844,7 +27843,7 @@ msgstr "Unicode"
 
 #: widgets/misc/e-charset-picker.c:71
 msgid "Western European"
-msgstr "Europero Occidentale"
+msgstr "Europero occidentale"
 
 #: widgets/misc/e-charset-picker.c:88
 msgid "Traditional"
@@ -27869,7 +27868,7 @@ msgstr "Set di caratteri sconosciuto: %s"
 
 #: widgets/misc/e-charset-picker.c:230 widgets/misc/e-charset-picker.c:459
 msgid "Character Encoding"
-msgstr "Codifica dei Caratteri"
+msgstr "Codifica dei caratteri"
 
 #: widgets/misc/e-charset-picker.c:239
 msgid "Enter the character set to use"
@@ -27885,20 +27884,20 @@ msgstr "..."
 
 #: widgets/misc/e-filter-bar.c:185
 msgid "Search Editor"
-msgstr "Cerca Editor"
+msgstr "Cerca editor"
 
 #. FIXME: get the toplevel window...
 #: widgets/misc/e-filter-bar.c:206
 msgid "Save Search"
-msgstr "Salva Ricerca"
+msgstr "Salva ricerca"
 
 #: widgets/misc/e-filter-bar.h:91 widgets/misc/e-filter-bar.h:98
 msgid "_Save Search..."
-msgstr "_Salva Ricerca..."
+msgstr "_Salva ricerca..."
 
 #: widgets/misc/e-filter-bar.h:92 widgets/misc/e-filter-bar.h:99
 msgid "_Edit Saved Searches..."
-msgstr "Modifica Ricerche Salvate..."
+msgstr "Modifica ricerche salvate..."
 
 #: widgets/misc/e-filter-bar.h:93 widgets/misc/e-filter-bar.h:100
 msgid "_Advanced..."
@@ -27926,7 +27925,7 @@ msgstr "_Cerca"
 
 #: widgets/misc/e-search-bar.c:537
 msgid "_Find Now"
-msgstr "Trova Ora"
+msgstr "Trova ora"
 
 #: widgets/misc/e-search-bar.c:538
 msgid "_Clear"
@@ -27950,7 +27949,7 @@ msgstr "Annulla"
 
 #: widgets/misc/e-search-bar.c:930
 msgid "Find Now"
-msgstr "Trova Ora"
+msgstr "Trova ora"
 
 #: wombat/GNOME_Evolution_WombatLDAP.server.in.in.h:1
 msgid "Evolution Addressbook local/LDAP backend"
