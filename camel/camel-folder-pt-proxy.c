@@ -497,7 +497,7 @@ _get_name (CamelFolder *folder, CamelException *ex)
 
 	proxy_folder = CAMEL_FOLDER_PT_PROXY (folder);
 	return CF_CLASS (proxy_folder->real_folder)->
-		get_name (proxy_folder->real_folder, ex);
+		get_name (proxy_folder->real_folder);
 }
 
 
@@ -512,7 +512,7 @@ _get_full_name (CamelFolder *folder, CamelException *ex)
 
 	proxy_folder = CAMEL_FOLDER_PT_PROXY (folder);
 	return CF_CLASS (proxy_folder->real_folder)->
-		get_full_name (proxy_folder->real_folder, ex);
+		get_full_name (proxy_folder->real_folder);
 }
 
 

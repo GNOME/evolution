@@ -1,3 +1,10 @@
+2000-04-06  Matt Loper  <matt@helixcode.com>
+
+	* camel-folder-pt-proxy.c (_get_full_name): Remove exception param
+	from get_full_name() called, since get_full_name() was changed to
+	not have an exception in the last param (see dan's notes below).
+	(_get_name): same.
+
 2000-04-06  Dan Winship  <danw@helixcode.com>
 
 	* camel-store.[ch]: Reorganize the folder-fetching methods and
