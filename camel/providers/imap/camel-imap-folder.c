@@ -2261,7 +2261,7 @@ imap_update_summary (CamelFolder *folder, int exists,
 			camel_folder_summary_info_free(folder->summary, mi);
 			continue;
 		}
-
+		
 		camel_folder_summary_add (folder->summary, mi);
 		camel_folder_change_info_add_uid (changes, camel_message_info_uid (mi));
 		
