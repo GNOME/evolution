@@ -840,7 +840,7 @@ remodel( EMinicard *e_minicard )
 		list = e_minicard->fields;
 		e_minicard->fields = NULL;
 
-		for(field = E_CONTACT_FULL_NAME; field != E_CONTACT_LAST_SIMPLE_STRING && count < 5; field++) {
+		for(field = E_CONTACT_FULL_NAME; field != (E_CONTACT_LAST_SIMPLE_STRING -1) && count < 5; field++) {
 			EMinicardField *minicard_field = NULL;
 
 			if (field == E_CONTACT_FAMILY_NAME || field == E_CONTACT_GIVEN_NAME)

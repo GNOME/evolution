@@ -1,3 +1,10 @@
+2005-01-06  Sivaiah Nallagatla <snallagatla@novell.com>
+
+	* e-minicard.c (remodel) : changed the loop
+	termination check to E_CONACT_LAST_SIMPLE_STRING -1
+	so that we will avoid displaying revision field
+	value in the minicard 
+
 2005-01-04 vivek jain <jvivek@novell.com>
 	
 	* gui/component/addressbook.c (load_source_auth_cb):
