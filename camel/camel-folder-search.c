@@ -30,8 +30,8 @@
 #include "camel-folder-search.h"
 #include "string-utils.h"
 
-#define d(x)
-#define r(x)
+#define d(x) x
+#define r(x) x
 
 struct _CamelFolderSearchPrivate {
 };
@@ -43,6 +43,9 @@ static ESExpResult *search_match_all(struct _ESExp *f, int argc, struct _ESExpTe
 static ESExpResult *search_body_contains(struct _ESExp *f, int argc, struct _ESExpResult **argv, CamelFolderSearch *search);
 static ESExpResult *search_user_flag(struct _ESExp *f, int argc, struct _ESExpResult **argv, CamelFolderSearch *s);
 static ESExpResult *search_user_tag(struct _ESExp *f, int argc, struct _ESExpResult **argv, CamelFolderSearch *s);
+static ESExpResult *search_get_sent_date(struct _ESExp *f, int argc, struct _ESExpResult **argv, CamelFolderSearch *s);
+static ESExpResult *search_get_received_date(struct _ESExp *f, int argc, struct _ESExpResult **argv, CamelFolderSearch *s);
+static ESExpResult *search_get_current_date(struct _ESExp *f, int argc, struct _ESExpResult **argv, CamelFolderSearch *s);
 
 static ESExpResult *search_dummy(struct _ESExp *f, int argc, struct _ESExpResult **argv, CamelFolderSearch *search);
 
@@ -62,6 +65,9 @@ camel_folder_search_class_init (CamelFolderSearchClass *klass)
 	klass->header_contains = search_header_contains;
 	klass->user_tag = search_user_tag;
 	klass->user_flag = search_user_flag;
+	klass->get_sent_date = search_get_sent_date;
+	klass->get_received_date = search_get_received_date;
+	klass->get_current_date = search_get_current_date;
 }
 
 static void
@@ -128,6 +134,9 @@ struct {
 	{ "header-contains", CAMEL_STRUCT_OFFSET(CamelFolderSearchClass, header_contains), 1 },
 	{ "user-tag", CAMEL_STRUCT_OFFSET(CamelFolderSearchClass, user_tag), 1 },
 	{ "user-flag", CAMEL_STRUCT_OFFSET(CamelFolderSearchClass, user_flag), 1 },
+	{ "get-sent-date", CAMEL_STRUCT_OFFSET(CamelFolderSearchClass, get_sent_date), 1 },
+	{ "get-received-date", CAMEL_STRUCT_OFFSET(CamelFolderSearchClass, get_received_date), 1 },
+	{ "get-current-date", CAMEL_STRUCT_OFFSET(CamelFolderSearchClass, get_current_date), 1 }
 };
 
 void
@@ -534,3 +543,56 @@ static ESExpResult *search_user_tag(struct _ESExp *f, int argc, struct _ESExpRes
 
 	return r;
 }
+
+static ESExpResult *
+search_get_sent_date(struct _ESExp *f, int argc, struct _ESExpResult **argv, CamelFolderSearch *s)
+{
+	ESExpResult *r;
+
+	r(printf("executing get-sent-date\n"));
+
+	/* are we inside a match-all? */
+	if (s->current) {
+		r = e_sexp_result_new (ESEXP_RES_INT);
+
+		r->value.number = s->current->date_sent;
+	} else {
+		r = e_sexp_result_new (ESEXP_RES_ARRAY_PTR);
+		r->value.ptrarray = g_ptr_array_new ();
+	}
+
+	return r;
+}
+
+static ESExpResult *
+search_get_received_date(struct _ESExp *f, int argc, struct _ESExpResult **argv, CamelFolderSearch *s)
+{
+	ESExpResult *r;
+
+	r(printf("executing get-received-date\n"));
+
+	/* are we inside a match-all? */
+	if (s->current) {
+		r = e_sexp_result_new (ESEXP_RES_INT);
+
+		r->value.number = s->current->date_received;
+	} else {
+		r = e_sexp_result_new (ESEXP_RES_ARRAY_PTR);
+		r->value.ptrarray = g_ptr_array_new ();
+	}
+
+	return r;
+}
+
+static ESExpResult *
+search_get_current_date(struct _ESExp *f, int argc, struct _ESExpResult **argv, CamelFolderSearch *s)
+{
+	ESExpResult *r;
+
+	r(printf("executing get-current-date\n"));
+
+	r = e_sexp_result_new (ESEXP_RES_INT);
+	r->value.number = time (NULL);
+	return r;
+}
+
