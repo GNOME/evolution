@@ -1,3 +1,8 @@
+2000-08-30  Ettore Perazzoli  <ettore@helixcode.com>
+
+	* mail-view.c (mail_view_create): Make the HTML widget grab the
+	focus.
+
 2000-08-30  Peter Williams  <peterw@helixcode.com>
 
 	* mail-config-gui.c (do_test_service): Explicitly connect to

@@ -248,6 +248,7 @@ mail_view_create (CamelFolder *source, const char *uid, CamelMimeMessage *msg)
 	mail_display_set_message (MAIL_DISPLAY (mail_display), CAMEL_MEDIUM (msg));
 	data->md = MAIL_DISPLAY (mail_display);
 	gnome_app_set_contents (GNOME_APP (window), mail_display);
+	gtk_widget_grab_focus (GTK_WIDGET (MAIL_DISPLAY (mail_display)->html));
 
 	gtk_signal_connect (GTK_OBJECT (window), "size_allocate",
 			    GTK_SIGNAL_FUNC (view_size_allocate_cb), NULL);
