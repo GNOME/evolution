@@ -210,8 +210,10 @@ event_editor_edit_comp (CompEditor *editor, ECalComponent *comp)
 
 	/* Set up the attendees */
 	if (attendees == NULL && !priv->is_meeting) {
-		comp_editor_remove_page (editor, COMP_EDITOR_PAGE (priv->meet_page));
-		comp_editor_remove_page (editor, COMP_EDITOR_PAGE (priv->sched_page));
+		if (priv->meet_page)
+			comp_editor_remove_page (editor, COMP_EDITOR_PAGE (priv->meet_page));
+		if (priv->sched_page)
+			comp_editor_remove_page (editor, COMP_EDITOR_PAGE (priv->sched_page));
 		priv->meeting_shown = FALSE;
 	} else {
 		GSList *l;

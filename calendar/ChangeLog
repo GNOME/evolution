@@ -1,3 +1,8 @@
+2004-12-24  Harish Krishnaswamy <kharish@novell.com>
+	* gui/dialogs/event-editor.c (event_editor_edit_comp):
+	Check for the existense of the meet/sched pages before
+	attempting to remove them.
+
 2004-12-23  Chenthill Palanisamy <pchenthill@novell.com>
 
 	Part of merge from offline branch 
