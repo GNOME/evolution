@@ -5,7 +5,8 @@ XML_FILES =				\
 	evolution-contact-editor.xml	\
 	evolution-mail.xml		\
 	evolution-calendar.xml		\
-	evolution-subscribe.xml
+	evolution-subscribe.xml		\
+	evolution-executive-summary.xml
 
 uidir = $(datadir)/gnome/ui
 ui_DATA = $(XML_FILES)
