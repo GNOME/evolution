@@ -44,7 +44,6 @@ entities =	\
 	preface.xml		\
 	usage-calendar.xml	\
 	usage-contact.xml	\
-	usage-exec-summary.xml	\
 	usage-exchange.xml	\
 	usage-mail-org.xml	\
 	usage-mail.xml		\

@@ -1,3 +1,7 @@
+2004-01-09  Rodney Dawes  <dobey@ximian.com>
+
+	* C/Makefile.am (entities): Remove usage-exec-summary.xml
+
 2004-01-07 Aaron Weber <aaron@ximian.com>
 	*  help/C/Makefile.am: remove old graphic files
 	* help/C/evolution-1.5.xml  updated style notes, date, version
