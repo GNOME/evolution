@@ -311,6 +311,14 @@ sgml-parent-document: ("../../../evolution-devel-guide.sgml" "book" "refsect2" "
 End:
 -->
 
+<!-- ##### SIGNAL CalClient::categories-changed ##### -->
+<para>
+
+</para>
+
+@calclient: the object which received the signal.
+@arg1: 
+
 <!-- ##### SIGNAL CalClient::forget-password ##### -->
 <para>
 

@@ -128,6 +128,11 @@ CalClient *client, CalObjType type
 CalClient *client,const char *uid,CalComponent **comp
 </FUNCTION>
 <FUNCTION>
+<NAME>cal_client_get_timezone</NAME>
+<RETURNS>CalClientGetStatus  </RETURNS>
+CalClient *client,const char *tzid,icaltimezone **zone
+</FUNCTION>
+<FUNCTION>
 <NAME>cal_client_get_uids</NAME>
 <RETURNS>GList  *</RETURNS>
 CalClient *client, CalObjType type
@@ -173,6 +178,11 @@ CalClient *client, const char *uid,time_t start, time_t end,CalComponentAlarms *
 CalClient *client, CalComponent *comp
 </FUNCTION>
 <FUNCTION>
+<NAME>cal_client_update_objects</NAME>
+<RETURNS>gboolean  </RETURNS>
+CalClient *client, icalcomponent *icalcomp
+</FUNCTION>
+<FUNCTION>
 <NAME>cal_client_remove_object</NAME>
 <RETURNS>gboolean  </RETURNS>
 CalClient *client, const char *uid
@@ -181,6 +191,11 @@ CalClient *client, const char *uid
 <NAME>cal_client_get_query</NAME>
 <RETURNS>CalQuery  *</RETURNS>
 CalClient *client, const char *sexp
+</FUNCTION>
+<FUNCTION>
+<NAME>cal_client_resolve_tzid_cb</NAME>
+<RETURNS>icaltimezone  *</RETURNS>
+const char *tzid, gpointer data
 </FUNCTION>
 <MACRO>
 <NAME>CAL_QUERY_TYPE</NAME>
@@ -316,4 +331,9 @@ QueryListener *ql,QueryListenerObjUpdatedFn obj_updated_fn,QueryListenerObjRemov
 <NAME>query_listener_new</NAME>
 <RETURNS>QueryListener  *</RETURNS>
 QueryListenerObjUpdatedFn obj_updated_fn,QueryListenerObjRemovedFn obj_removed_fn,QueryListenerQueryDoneFn query_done_fn,QueryListenerEvalErrorFn eval_error_fn,gpointer fn_data
+</FUNCTION>
+<FUNCTION>
+<NAME>query_listener_stop_notification</NAME>
+<RETURNS>void  </RETURNS>
+QueryListener *ql
 </FUNCTION>
