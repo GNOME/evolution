@@ -402,6 +402,13 @@ camel_imap_response_free (CamelImapStore *store, CamelImapResponse *response)
 								sizeof (int));
 				}
 				g_array_append_val (expunged, number);
+
+				/* camel_imap_folder_changed expects
+				 * "exists" to be the value after all
+				 * expunges.
+				 */
+				if (exists)
+					exists--;
 			}
 		}
 		g_free (resp);

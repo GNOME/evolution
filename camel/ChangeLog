@@ -1,3 +1,12 @@
+2001-07-16  Dan Winship  <danw@ximian.com>
+
+	* providers/imap/camel-imap-command.c (camel_imap_response_free):
+	Given:
+		* 4 EXISTS
+		* 1 EXPUNGE
+	We have to pass 3, not 4 to camel_imap_folder_changed for the
+	exists count. Fixes ximian bug #2112 (finally!).
+
 2001-07-14  Jeffrey Stedfast  <fejj@ximian.com>
 
 	* providers/imap/camel-imap-folder.c (camel_imap_folder_changed):
