@@ -1,7 +1,8 @@
 # Finnish messages for evolution
 # Copyright (C) 2000-2003 Free Software Foundation, Inc.
 # Jarkko Ranta <jjranta@cc.joensuu.fi> 2000-2001,
-# Sami Pesonen <sampeson@iki.fi> 2001-2003.
+# Sami Pesonen <sampeson@iki.fi> 2001-2003,
+# Ilkka Tuohela <hile@iki.fi> 2003.
 #
 msgid ""
 msgstr ""
