@@ -1,3 +1,9 @@
+2002-09-05  Ettore Perazzoli  <ettore@ximian.com>
+
+	* NEWS: Updated with the new 1.2 features (unfinished).
+
+	* NEWS-1.0: New, contains the changes up to version 1.0.8.
+
 2002-09-04  Dan Winship  <danw@ximian.com>
 
 	* acinclude.m4 (EVO_CHECK_TIMEZONE): Remove this from here.

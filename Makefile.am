@@ -16,6 +16,7 @@ EXTRA_DIST =			\
 	HACKING			\
 	MAINTAINERS		\
 	NEWS			\
+	NEWS-1.0		\
 	xml-i18n-merge.in	\
 	xml-i18n-update.in	\
 	xml-i18n-extract.in	\
