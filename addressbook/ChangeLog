@@ -1,3 +1,9 @@
+2003-02-13  Jack Jia  <jack.jia@sun.com>
+
+	[ fixes bug #34900 ]
+	* gui/contact-editor/e-contact-save-as.c: change the "delete_event"
+	signal to  "destroy".
+
 2003-02-03  Jack Jia  <jack.jia@sun.com>
 
 	[ the fix for #33672 ]
