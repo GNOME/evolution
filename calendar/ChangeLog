@@ -1,3 +1,9 @@
+2003-08-12  Andrew Wu <andrew.wu@sun.com>
+
+	* gui/e-calendar-table.c: Alt+o to open task.
+	* gui/e-day-view.c: e_day_view_on_open_event  replaces e_day_view_on_event_double_click.
+	* gui/e-week-view.c: (e_week_view_on_open_event) new function, Alt+o to open event.
+
 2003-08-05  Jack Jia  <jack.jia@sun.com>
 
 	* gui/dialogs/event-page.glade: changed one of the "Con_fidential" to 

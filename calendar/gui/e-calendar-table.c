@@ -1169,6 +1169,10 @@ e_calendar_table_on_key_press (ETable *table,
 	if (event->keyval == GDK_Delete) {
 		delete_cb (NULL, cal_table);
 		return TRUE;
+	} else if ((event->keyval == GDK_o)
+		   &&(event->state & GDK_MOD1_MASK)) {
+		open_task_by_row (cal_table, row);
+		return TRUE;
 	}
 
 	return FALSE;

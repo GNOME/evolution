@@ -262,7 +262,7 @@ static void e_day_view_on_event_click (EDayView *day_view,
 				       EDayViewPosition pos,
 				       gint		event_x,
 				       gint		event_y);
-static void e_day_view_on_event_double_click (EDayView *day_view,
+static void e_day_view_on_open_event (EDayView *day_view,
 					      gint day,
 					      gint event_num);
 static void e_day_view_on_event_right_click (EDayView *day_view,
@@ -3290,8 +3290,7 @@ e_day_view_on_long_event_button_press (EDayView		*day_view,
 							event_x, event_y);
 			return TRUE;
 		} else if (event->type == GDK_2BUTTON_PRESS) {
-			e_day_view_on_event_double_click (day_view, -1,
-							  event_num);
+			e_day_view_on_open_event (day_view, E_DAY_VIEW_LONG_EVENT, event_num);
 			gtk_signal_emit_stop_by_name (GTK_OBJECT (day_view->top_canvas),
 						      "button_press_event");
 			return TRUE;
@@ -3339,8 +3338,7 @@ e_day_view_on_event_button_press (EDayView	  *day_view,
 						   event_x, event_y);
 			return TRUE;
 		} else if (event->type == GDK_2BUTTON_PRESS) {
-			e_day_view_on_event_double_click (day_view, day,
-							  event_num);
+			e_day_view_on_open_event (day_view, day, event_num);
 			gtk_signal_emit_stop_by_name (GTK_OBJECT (day_view->main_canvas),
 						      "button_press_event");
 			return TRUE;
@@ -3620,16 +3618,16 @@ e_day_view_reshape_resize_rect_item (EDayView *day_view)
 	gnome_canvas_item_show (day_view->resize_bar_item);
 }
 
-
+/* open a dialog to edit the event */
 static void
-e_day_view_on_event_double_click (EDayView *day_view,
+e_day_view_on_open_event (EDayView *day_view,
 				  gint day,
 				  gint event_num)
 {
 	EDayViewEvent *event;
 	gboolean destroyed;
 
-	if (day == -1)
+	if (day == E_DAY_VIEW_LONG_EVENT)
 		event = &g_array_index (day_view->long_events, EDayViewEvent,
 					event_num);
 	else 
@@ -6472,6 +6470,12 @@ e_day_view_on_text_item_event (GnomeCanvasItem *item,
 			gtk_signal_emit_stop_by_name (GTK_OBJECT (item), "event");
 			/* focus should go to day view when stop editing */
 			gtk_widget_grab_focus (GTK_WIDGET (day_view));
+			return TRUE;
+		} else  if ((event->key.keyval == GDK_o)
+			    &&(event->key.state & GDK_MOD1_MASK)) {
+			e_day_view_on_open_event (day_view, 
+						  day_view->editing_event_day, 
+						  day_view->editing_event_num);
 			return TRUE;
 		}
 		break;

@@ -179,6 +179,7 @@ static void e_week_view_foreach_event_with_uid (EWeekView *week_view,
 static gboolean e_week_view_on_text_item_event (GnomeCanvasItem *item,
 						GdkEvent *event,
 						EWeekView *week_view);
+static gboolean e_week_view_on_open_event (GnomeCanvasItem *item, EWeekView *week_view);
 static gboolean e_week_view_on_jump_button_event (GnomeCanvasItem *item,
 						  GdkEvent *event,
 						  EWeekView *week_view);
@@ -3175,7 +3176,6 @@ e_week_view_on_text_item_event (GnomeCanvasItem *item,
 				GdkEvent *gdkevent,
 				EWeekView *week_view)
 {
-	EWeekViewEvent *event;
 	gint event_num, span_num;
 
 #if 0
@@ -3200,24 +3200,14 @@ e_week_view_on_text_item_event (GnomeCanvasItem *item,
 			/* focus should go to week view when stop editing */
 			gtk_widget_grab_focus (GTK_WIDGET (week_view));
 			return TRUE;
+		} else  if ((gdkevent->key.keyval == GDK_o)
+			&&(gdkevent->key.state & GDK_MOD1_MASK)) {
+			return e_week_view_on_open_event (item, week_view);
+
 		}
 		break;
 	case GDK_2BUTTON_PRESS:
-		if (!e_week_view_find_event_from_item (week_view, item,
-						       &event_num, &span_num))
-			return FALSE;
-
-		event = &g_array_index (week_view->events, EWeekViewEvent,
-					event_num);
-
-		if (week_view->calendar)
-			gnome_calendar_edit_object (week_view->calendar,
-						    event->comp, FALSE);
-		else
-			g_warning ("Calendar not set");
-
-		gtk_signal_emit_stop_by_name (GTK_OBJECT (item), "event");
-		return TRUE;
+		return e_week_view_on_open_event (item, week_view);
 	case GDK_BUTTON_PRESS:
 		if (!e_week_view_find_event_from_item (week_view, item,
 						       &event_num, &span_num))
@@ -3312,6 +3302,32 @@ e_week_view_on_text_item_event (GnomeCanvasItem *item,
 	}
 
 	return FALSE;
+}
+
+/* open a dialog to edit the event */
+static gboolean e_week_view_on_open_event (GnomeCanvasItem *item,
+					   EWeekView *week_view)
+{
+	EWeekViewEvent *event;
+	gint event_num, span_num;
+	GnomeCalendar *calendar;
+
+	calendar = week_view->calendar;
+
+	if (!e_week_view_find_event_from_item (week_view, item,
+					       &event_num, &span_num))
+		return FALSE;
+
+	event = &g_array_index (week_view->events, EWeekViewEvent,
+				event_num);
+
+	if (calendar)
+		gnome_calendar_edit_object (calendar, event->comp, FALSE);
+	else
+		g_warning ("Calendar not set");
+
+	gtk_signal_emit_stop_by_name (GTK_OBJECT (item), "event");
+	return TRUE;
 }
 
 
