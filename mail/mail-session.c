@@ -434,6 +434,12 @@ user_message_response (GtkDialog *dialog, int button, struct _user_message_msg *
 }
 
 static void
+user_message_destroy_notify (struct _user_message_msg *m, GObject *deadbeef)
+{
+	message_dialog = NULL;
+}
+
+static void
 do_user_message (struct _mail_msg *mm)
 {
 	struct _user_message_msg *m = (struct _user_message_msg *)mm;
@@ -461,7 +467,7 @@ do_user_message (struct _mail_msg *mm)
 	message_dialog = (GtkDialog *) gtk_message_dialog_new (
 		NULL, 0, msg_type,
 		m->allow_cancel ? GTK_BUTTONS_OK_CANCEL : GTK_BUTTONS_OK,
-		m->prompt);
+		"%s", m->prompt);
 	gtk_dialog_set_default_response (message_dialog, m->allow_cancel ? GTK_RESPONSE_CANCEL : GTK_RESPONSE_OK);
 	g_object_set ((GObject *) message_dialog, "allow_shrink", TRUE, "allow_grow", TRUE, NULL);
 	
@@ -474,6 +480,8 @@ do_user_message (struct _mail_msg *mm)
 			gtk_widget_show ((GtkWidget *) message_dialog);
 		}
 	} else {
+		g_signal_connect (message_dialog, "response", G_CALLBACK (gtk_widget_destroy), message_dialog);
+		g_object_weak_ref ((GObject *) message_dialog, (GWeakNotify) user_message_destroy_notify, m);
 		gtk_widget_show ((GtkWidget *) message_dialog);
 		m->result = TRUE;
 		e_msgport_reply ((EMsg *)m);

@@ -1,3 +1,14 @@
+2003-03-20  Jeffrey Stedfast  <fejj@ximian.com>
+
+	* mail-session.c (do_user_message): Make the 5th argument to
+	gtk_message_dialog_new() "%s" and move the m->prompt to arg 6 so
+	that we are safe if the prompt string contains any %'s. Also
+	connect to the response signal for the user_msg dialog and set the
+	callback to gtk_widget_destroy so that the user can actually close
+	the dialog. We also need to g_object_weak_ref() the dialog so that
+	we can set the global message_dialog pointer back to NULL when it
+	gets destroyed. Fixes bug #40043.
+
 2003-03-20  Dan Winship  <danw@ximian.com>
 
 	* mail-ops.c (build_from): Remove this since there's a function in
