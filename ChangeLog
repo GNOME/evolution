@@ -1,3 +1,8 @@
+2000-04-11  Chris Toshok  <toshok@helixcode.com>
+
+	* configure.in: check for timezone as a variable (as it is in
+	linux, but not in freebsd or netbsd.)
+
 2000-04-11  Larry Ewing  <lewing@helixcode.com>
 
 	* widgets/e-table/e-cell-toggle.c (etog_draw): update for new
