@@ -1,3 +1,8 @@
+2004-10-21  Rodrigo Moya <rodrigo@novell.com>
+
+	* gui/dialogs/select-source-dialog.c: use the new source selector
+	dialog in libedataserverui.
+
 2004-10-20  JP Rosevear  <jpr@novell.com>
 
 	* gui/calendar-component.c: put an icon on the properties menu item
