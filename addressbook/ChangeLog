@@ -1,5 +1,11 @@
 2001-10-17  Chris Toshok  <toshok@ximian.com>
 
+	* gui/component/addressbook-config.c (addressbook_source_dialog):
+	grab focus in the Account entry when preparing the dialog, fixes
+	#10406.
+
+2001-10-17  Chris Toshok  <toshok@ximian.com>
+
 	* gui/component/select-names/e-select-names.c (new_folder): make
 	sure to also add "ldap-contacts" folders to the option menu.
 

@@ -247,6 +247,10 @@ addressbook_source_dialog (GladeXML *gui, AddressbookSource *source, GtkWidget *
 				     GTK_SIGNAL_FUNC (addressbook_source_dialog_ok_clicked),
 				     dialog);
 
+	/* and set focus to be the Account field (the first editable
+           field on the first page) */
+	gtk_widget_grab_focus (dialog->name);
+
 	return dialog;
 }
 
