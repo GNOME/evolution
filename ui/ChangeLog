@@ -1,3 +1,19 @@
+2002-02-21  Ettore Perazzoli  <ettore@ximian.com>
+
+	* evolution.xml: Add NewComboButton and a separator.
+
+	* evolution-calendar.xml: remove CalendarNewAppointment and
+	CalendarNewTask from the toolbar.
+
+	* evolution-tasks.xml: Remove TasksNewTask button from the
+	toolbar.
+
+	* evolution-addressbook.xml: Remove ContactNew and ContactNewList
+	from the toolbar.
+
+	* evolution-mail-global.xml: Remove the MessageNew from the
+	toolbar.
+
 2002-02-13  Christopher James Lahey  <clahey@ximian.com>
 
 	* evolution-addressbook.xml: Added Copy to Folder and Move to

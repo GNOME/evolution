@@ -120,10 +120,6 @@
 
   <dockitem name="Toolbar">
 
-     <toolitem name="MailCompose" verb=""
-     _label="New Message" priority="1"
-     pixtype="pixbuf"/>
-
     <toolitem name="MailGetSend" verb=""
      _label="Send / Receive" priority="1"
      pixtype="pixbuf"/>

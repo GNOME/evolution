@@ -103,14 +103,6 @@
 
   <dockitem name="Toolbar">
   
-    <toolitem name="New" verb="CalendarNewAppointment" _label="New Appointment"
-	      priority="1" pixtype="pixbuf"/>
-
-    <toolitem name="NewTask" verb="CalendarNewTask" _label="New Task"
-	      priority="1" pixtype="pixbuf"/>
-
-    <separator f="" name="ecal1"/>
-
     <toolitem name="Print" verb="CalendarPrint" pixtype = "pixbuf"/>
     <toolitem name="Delete" verb="" pixtype="pixbuf"/>
 

@@ -62,10 +62,6 @@
   </menu>
 
   <dockitem name="Toolbar">
-    <toolitem name="New" _label="New Task" verb="TasksNewTask" priority="1" pixtype="pixbuf"/>
-
-    <separator/>
-
     <toolitem name="Cut" _label="Cut" verb="TasksCut" pixtype="pixbuf"/>
     <toolitem name="Copy" _label="Copy" verb="TasksCopy" pixtype="pixbuf"/>
     <toolitem name="Paste" _label="Paste" verb="TasksPaste" pixtype="pixbuf"/>

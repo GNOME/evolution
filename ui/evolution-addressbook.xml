@@ -151,16 +151,6 @@
 	</menu>
 
 	<dockitem name="Toolbar">
-		<toolitem name="ContactNew" verb=""
-		_label="New Contact"
-		pixtype="pixbuf" priority="1"/>
-
-		<toolitem name="ContactNewList" verb=""
-		_label="New List"
-		pixtype="pixbuf" priority="1"/>
-
-		<separator f="" name="eadbk4"/>
-
 		<toolitem name="ContactsPrint" verb=""
 		_label="Print" pixtype="pixbuf"/>
 
