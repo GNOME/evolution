@@ -70,11 +70,6 @@ typedef struct {
 
 	GtkWidget *mail;
 	gboolean do_mail;
-	GtkWidget *alias;
-	gboolean do_alias;
-
-	GtkWidget *ask;
-	gboolean ask_again;
 
 	Bonobo_ConfigDatabase db;
 } ElmImporter;
@@ -94,10 +89,6 @@ elm_store_settings (ElmImporter *importer)
 {
 	bonobo_config_set_boolean (importer->db, "/Importer/Elm/mail", 
 				   importer->do_mail, NULL);
-	bonobo_config_set_boolean (importer->db, "/Importer/Elm/alias", 
-				   importer->do_alias, NULL);
-	bonobo_config_set_boolean (importer->db, "/Importer/Elm/ask-again", 
-				   importer->ask_again, NULL);
 }
 
 static void
@@ -105,12 +96,6 @@ elm_restore_settings (ElmImporter *importer)
 {
 	importer->do_mail = bonobo_config_get_boolean_with_default (
 		importer->db, "/Importer/Elm/mail", TRUE, NULL);
-
-	importer->do_alias = bonobo_config_get_boolean_with_default (
-		importer->db, "/Importer/Elm/alias", TRUE, NULL);
-
-	importer->ask_again = bonobo_config_get_boolean_with_default (
-                importer->db, "/Importer/Elm/ask-again", FALSE, NULL);
 }
 
 static void
@@ -123,10 +108,7 @@ importer_cb (EvolutionImporterListener *listener,
 	CORBA_Object objref;
 	CORBA_Environment ev;
 
-	g_print ("Processed.....\n");
 	if (more_items) {
-		g_print ("Processing.....\n");
-
 		CORBA_exception_init (&ev);
 		objref = bonobo_object_corba_objref (BONOBO_OBJECT (importer->listener));
 		GNOME_Evolution_Importer_processItem (importer->importer,
@@ -152,8 +134,6 @@ elm_import_file (ElmImporter *importer,
 	CORBA_Environment ev;
 	CORBA_Object objref;
 
-	g_warning ("Importing %s as %s", path, folderpath);
-	
 	CORBA_exception_init (&ev);
 	result = GNOME_Evolution_Importer_loadFile (importer->importer, path,
 						    folderpath, &ev);
@@ -266,26 +246,16 @@ elm_can_import (EvolutionIntelligentImporter *ii,
 	mail = bonobo_config_get_boolean_with_default (importer->db, 
                 "/Importer/Elm/mail-imported", FALSE, NULL);
 
-	alias = bonobo_config_get_boolean_with_default (importer->db, 
-                "/Importer/Elm/alias-imported", FALSE, NULL);
-
-	if (alias && mail)
+	if (mail)
 		return FALSE;
-       
+	
 	importer->do_mail = !mail;
 	gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (importer->mail),
 				      importer->do_mail);
-	importer->do_alias = !alias;
-	gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (importer->alias),
-				      importer->do_alias);
-
-	if (importer->ask_again == TRUE) {
-		return FALSE;
-	}
-
+	
 	elmdir = gnome_util_prepend_user_home (".elm");
 	exists = g_file_exists (elmdir);
-
+	
 	g_free (elmdir);
 	if (exists == FALSE)
 		return FALSE;
@@ -339,6 +309,12 @@ import_next (ElmImporter *importer)
 		g_free (data);
 		importer->dir_list = importer->dir_list->next;
 	}
+
+	if (importer->db) {
+		bonobo_object_release_unref (importer->db, NULL);
+	}
+	bonobo_object_release_unref (importer->importer, NULL);
+	gtk_main_quit ();
 }
 
 static void
@@ -419,10 +395,6 @@ elm_create_structure (EvolutionIntelligentImporter *ii,
 
 	elm_store_settings (importer);
 
-	if (importer->do_alias == TRUE) {
-		/* Do the aliases */
-	}
-
 	if (importer->do_mail == TRUE) {
 		char *elmdir;
 
@@ -466,10 +438,6 @@ elm_destroy_cb (GtkObject *object,
 {
 	CORBA_Environment ev;
 
-	g_print ("\n----------Settings-------\n");
-	g_print ("Mail - %s\n", importer->do_mail ? "Yes" : "No");
-	g_print ("Alias - %s\n", importer->do_alias ? "Yes" : "No");
-
 	elm_store_settings (importer);
 
 	CORBA_exception_init (&ev);
@@ -479,6 +447,7 @@ elm_destroy_cb (GtkObject *object,
 	if (importer->db != CORBA_OBJECT_NIL)
 		bonobo_object_release_unref (importer->db, NULL);
 	importer->db = CORBA_OBJECT_NIL;
+	bonobo_object_release_unref (importer->importer, NULL);
 
 	gtk_main_quit ();
 }
@@ -495,7 +464,7 @@ checkbox_toggle_cb (GtkToggleButton *tb,
 static BonoboControl *
 create_checkboxes_control (ElmImporter *importer)
 {
-	GtkWidget *container, *vbox, *sep;
+	GtkWidget *container, *vbox;
 	BonoboControl *control;
 
 	container = gtk_frame_new (_("Import"));
@@ -507,32 +476,11 @@ create_checkboxes_control (ElmImporter *importer)
 	gtk_signal_connect (GTK_OBJECT (importer->mail), "toggled",
 			    GTK_SIGNAL_FUNC (checkbox_toggle_cb),
 			    &importer->do_mail);
-	importer->alias = gtk_check_button_new_with_label (_("Elm Aliases"));
-	gtk_signal_connect (GTK_OBJECT (importer->alias), "toggled",
-			    GTK_SIGNAL_FUNC (checkbox_toggle_cb),
-			    &importer->do_alias);
-
-	sep = gtk_hseparator_new ();
-
-	importer->ask = gtk_check_button_new_with_label (_("Don't ask me again"));
-	gtk_signal_connect (GTK_OBJECT (importer->ask), "toggled",
-			    GTK_SIGNAL_FUNC (checkbox_toggle_cb),
-			    &importer->ask_again);
 
 	gtk_box_pack_start (GTK_BOX (vbox), importer->mail, FALSE, FALSE, 0);
-	gtk_box_pack_start (GTK_BOX (vbox), importer->alias, FALSE, FALSE, 0);
-	gtk_box_pack_start (GTK_BOX (vbox), sep, FALSE, FALSE, 0);
-	gtk_box_pack_start (GTK_BOX (vbox), importer->ask, FALSE, FALSE, 0);
-
-	/* Disable the things that can't be done */
-	gtk_widget_set_sensitive (importer->alias, FALSE);
 
 	gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (importer->mail), 
 				      importer->do_mail);
-	gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (importer->alias),
-				      importer->do_alias);
-	gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (importer->ask), 
-				      importer->ask_again);
 
 	gtk_widget_show_all (container);
 	control = bonobo_control_new (container);

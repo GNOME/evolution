@@ -1,5 +1,9 @@
 2001-07-10  Iain Holmes  <iain@ximian.com>
 
+	* elm-importer.c: Removed all the Don't ask again and alias code.
+
+2001-07-10  Iain Holmes  <iain@ximian.com>
+
 	* pine-importer.c: Removed all the Don't ask again and settings code.
 	Made it quit correctly after it imports addressbooks.
 
