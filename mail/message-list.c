@@ -65,6 +65,7 @@
 #include "mail-mt.h"
 #include "mail-tools.h"
 #include "mail-ops.h"
+#include "em-popup.h"
 
 #include "em-utils.h"
 #include <e-util/e-icon-factory.h>
@@ -89,6 +90,35 @@ struct _MessageListPrivate {
 	GtkWidget *invisible;	/* 4 selection */
 
 	struct _MLSelection clipboard;
+};
+
+static struct {
+	char *target;
+	GdkAtom atom;
+	guint32 actions;
+} ml_drag_info[] = {
+	{ "x-uid-list", 0, GDK_ACTION_ASK|GDK_ACTION_MOVE|GDK_ACTION_COPY },
+	{ "message/rfc822", 0, GDK_ACTION_COPY },
+	{ "text/uri-list", 0, GDK_ACTION_COPY },
+};
+
+enum {
+	DND_X_UID_LIST,		/* x-uid-list */
+	DND_MESSAGE_RFC822,	/* message/rfc822 */
+	DND_TEXT_URI_LIST	/* text/uri-list */
+};
+
+/* What we send */
+static GtkTargetEntry ml_drag_types[] = {
+	{ "x-uid-list", 0, DND_X_UID_LIST },
+	{ "text/uri-list", 0, DND_TEXT_URI_LIST },
+};
+
+/* What we accept */
+static GtkTargetEntry ml_drop_types[] = {
+	{ "x-uid-list", 0, DND_X_UID_LIST },
+	{ "message/rfc822", 0, DND_MESSAGE_RFC822 },
+	{ "text/uri-list", 0, DND_TEXT_URI_LIST },
 };
 
 /*
@@ -1462,29 +1492,6 @@ ml_selection_clear_event(GtkWidget *widget, GdkEventSelection *event, MessageLis
 }
 
 static void
-ml_selection_received_uidlist(MessageList *ml, GtkSelectionData *data)
-{
-	CamelFolder *folder;
-	GPtrArray *uids;
-	char *uri;
-
-	if (em_utils_selection_get_uidlist(data, &uri, &uids) == 0)
-		return;
-
-	folder = mail_tool_uri_to_folder(uri, 0, NULL);
-	if (folder) {
-		mail_transfer_messages(folder, uids, FALSE, ml->folder_uri, 0, NULL, NULL);
-		camel_object_unref(folder);
-	} else {
-		/* FIXME: error box? */
-		g_warning("could not open paste source uri '%s'", uri);
-		em_utils_uids_free(uids);
-	}
-
-	g_free(uri);
-}
-
-static void
 ml_selection_received(GtkWidget *widget, GtkSelectionData *data, guint time, MessageList *ml)
 {
 	if (data->target != gdk_atom_intern ("x-uid-list", FALSE)) {
@@ -1493,15 +1500,8 @@ ml_selection_received(GtkWidget *widget, GtkSelectionData *data, guint time, Mes
 		return;
 	}
 
-	ml_selection_received_uidlist(ml, data);
+	em_utils_selection_get_uidlist(data, ml->folder, FALSE, NULL);
 }
-
-static GtkTargetEntry ml_drag_types[] = {
-	{ "x-uid-list", 0, 0 },
-	{ "message/rfc822", 0, 1 },
-	/* not included in dest types */
-	{ "text/uri-list", 0, 2 },
-};
 
 static void
 ml_tree_drag_data_get (ETree *tree, int row, ETreePath path, int col,
@@ -1514,13 +1514,10 @@ ml_tree_drag_data_get (ETree *tree, int row, ETreePath path, int col,
 
 	if (uids->len > 0) {
 		switch (info) {
-		case 0 /* DND_TARGET_TYPE_X_UID_LIST */:
+		case DND_X_UID_LIST:
 			em_utils_selection_set_uidlist(data, ml->folder_uri, uids);
 			break;
-		case 1 /* DND_TARGET_TYPE_MESSAGE_RFC822 */:
-			em_utils_selection_set_mailbox(data, ml->folder, uids);
-			break;
-		case 2 /* DND_TARGET_TYPE_TEXT_URI_LIST */:
+		case DND_TEXT_URI_LIST:
 			em_utils_selection_set_urilist(data, ml->folder, uids);
 			break;
 		}
@@ -1529,29 +1526,200 @@ ml_tree_drag_data_get (ETree *tree, int row, ETreePath path, int col,
 	message_list_free_uids(ml, uids);
 }
 
+/* TODO: merge this with the folder tree stuff via empopup targets */
+/* Drop handling */
+struct _drop_msg {
+	struct _mail_msg msg;
+	
+	GdkDragContext *context;
+
+	/* Only selection->data and selection->length are valid */
+	GtkSelectionData *selection;
+
+	CamelFolder *folder;
+
+	guint32 action;
+	guint info;
+	
+	unsigned int move:1;
+	unsigned int moved:1;
+	unsigned int aborted:1;
+};
+
+static char *
+ml_drop_async_desc (struct _mail_msg *mm, int done)
+{
+	struct _drop_msg *m = (struct _drop_msg *) mm;
+
+	if (m->move)
+		return g_strdup_printf(_("Moving messages into folder %s"), m->folder->full_name);
+	else
+		return g_strdup_printf(_("Copying messages into folder %s"), m->folder->full_name);
+}
+
+static void
+ml_drop_async_drop(struct _mail_msg *mm)
+{
+	struct _drop_msg *m = (struct _drop_msg *)mm;
+
+	switch (m->info) {
+	case DND_X_UID_LIST:
+		em_utils_selection_get_uidlist(m->selection, m->folder, m->action == GDK_ACTION_MOVE, &mm->ex);
+		break;
+	case DND_MESSAGE_RFC822:
+		em_utils_selection_get_message(m->selection, m->folder);
+		break;
+	case DND_TEXT_URI_LIST:
+		em_utils_selection_get_urilist(m->selection, m->folder);
+		break;
+	}
+}
+
+static void
+ml_drop_async_done(struct _mail_msg *mm)
+{
+	struct _drop_msg *m = (struct _drop_msg *)mm;
+	gboolean success, delete;
+	
+	/* ?? */
+	if (m->aborted) {
+		success = FALSE;
+		delete = FALSE;
+	} else {
+		success = !camel_exception_is_set (&mm->ex);
+		delete = success && m->move && !m->moved;
+	}
+
+	gtk_drag_finish(m->context, success, delete, GDK_CURRENT_TIME);
+}
+
+static void
+ml_drop_async_free(struct _mail_msg *mm)
+{
+	struct _drop_msg *m = (struct _drop_msg *)mm;
+	
+	g_object_unref(m->context);
+	camel_object_unref(m->folder);
+
+	g_free(m->selection->data);
+	g_free(m->selection);
+}
+
+static struct _mail_msg_op ml_drop_async_op = {
+	ml_drop_async_desc,
+	ml_drop_async_drop,
+	ml_drop_async_done,
+	ml_drop_async_free,
+};
+
+static void
+ml_drop_action(struct _drop_msg *m)
+{
+	m->move = m->action == GDK_ACTION_MOVE;
+	e_thread_put (mail_thread_new, (EMsg *) m);
+}
+
+static void
+ml_drop_popup_copy(GtkWidget *item, struct _drop_msg *m)
+{
+	m->action = GDK_ACTION_COPY;
+	ml_drop_action(m);
+}
+
+static void
+ml_drop_popup_move(GtkWidget *item, struct _drop_msg *m)
+{
+	m->action = GDK_ACTION_MOVE;
+	ml_drop_action(m);
+}
+
+static void
+ml_drop_popup_cancel(GtkWidget *item, struct _drop_msg *m)
+{
+	m->aborted = TRUE;
+	mail_msg_free(&m->msg);
+}
+
+static EMPopupItem ml_drop_popup_menu[] = {
+	{ EM_POPUP_ITEM, "00.emc.02", N_("_Copy"), G_CALLBACK(ml_drop_popup_copy), NULL, "stock_folder-copy", 0 },
+	{ EM_POPUP_ITEM, "00.emc.03", N_("_Move"), G_CALLBACK(ml_drop_popup_move), NULL, "stock_folder-move", 0 },
+	{ EM_POPUP_BAR, "10.emc" },
+	{ EM_POPUP_ITEM, "99.emc.00", N_("Cancel _Drag"), G_CALLBACK(ml_drop_popup_cancel), NULL, NULL, 0 },
+};
+
 static void
 ml_tree_drag_data_received (ETree *tree, int row, ETreePath path, int col,
 			    GdkDragContext *context, gint x, gint y,
 			    GtkSelectionData *data, guint info,
 			    guint time, MessageList *ml)
 {
+	struct _drop_msg *m;
+
 	/* this means we are receiving no data */
 	if (data->data == NULL || data->length == -1)
 		return;
 
-	/* Note: we don't receive text/uri-list, since we have no
-	   guarantee on what the content would be */
-	
-	switch (info) {
-	case 1 /* DND_TARGET_TYPE_MESSAGE_RFC822 */:
-		em_utils_selection_get_mailbox(data, ml->folder);
-		break;
-	case 0 /* DND_TARGET_TYPE_X_UID_LIST */:
-		ml_selection_received_uidlist(ml, data);
-		break;
+	m = mail_msg_new(&ml_drop_async_op, NULL, sizeof(*m));
+	m->context = context;
+	g_object_ref(context);
+	m->folder = ml->folder;
+	camel_object_ref(m->folder);
+	m->action = context->action;
+	m->info = info;
+
+	/* need to copy, goes away once we exit */
+	m->selection = g_malloc0(sizeof(*m->selection));
+	m->selection->data = g_malloc(data->length);
+	memcpy(m->selection->data, data->data, data->length);
+	m->selection->length = data->length;
+
+	if (context->action == GDK_ACTION_ASK) {
+		EMPopup *emp;
+		GSList *menus = NULL;
+		GtkMenu *menu;
+		int i;
+
+		emp = em_popup_new("com.ximian.mail.messagelist.popup.drop");
+		for (i=0;i<sizeof(ml_drop_popup_menu)/sizeof(ml_drop_popup_menu[0]);i++) {
+			EMPopupItem *item = &ml_drop_popup_menu[i];
+
+			item->activate_data = m;
+			menus = g_slist_append(menus, item);
+		}
+		em_popup_add_items(emp, menus, (GDestroyNotify)g_slist_free);
+		menu = em_popup_create_menu_once(emp, NULL, 0, 0);
+		gtk_menu_popup(menu, NULL, NULL, NULL, NULL, 0, gtk_get_current_event_time());
+	} else {
+		ml_drop_action(m);
 	}
-	
-	gtk_drag_finish(context, TRUE, TRUE, time);
+}
+
+static gboolean
+ml_tree_drag_motion(ETree *tree, GdkDragContext *context, gint x, gint y, guint time, MessageList *ml)
+{
+	GList *targets;
+	GdkDragAction action, actions = 0;
+
+	for (targets = context->targets; targets; targets = targets->next) {
+		int i;
+
+		printf("atom drop '%s'\n", gdk_atom_name(targets->data));
+		for (i=0;i<sizeof(ml_drag_info)/sizeof(ml_drag_info[0]);i++)
+			if (targets->data == (void *)ml_drag_info[i].atom)
+				actions |= ml_drag_info[i].actions;
+	}
+	printf("\n");
+
+	actions &= context->actions;
+	action = context->suggested_action;
+	if (action == GDK_ACTION_COPY && (actions & GDK_ACTION_MOVE))
+		action = GDK_ACTION_MOVE;
+	else if (action == GDK_ACTION_ASK && (actions & (GDK_ACTION_MOVE|GDK_ACTION_COPY)) != (GDK_ACTION_MOVE|GDK_ACTION_COPY))
+		action = GDK_ACTION_MOVE;
+
+	gdk_drag_status(context, action, time);
+
+	return action != 0;
 }
 
 static void
@@ -1709,7 +1877,12 @@ message_list_finalise (GObject *object)
 static void
 message_list_class_init (GObjectClass *object_class)
 {
+	int i;
+
 	message_list_parent_class = g_type_class_ref(PARENT_TYPE);
+
+	for (i=0;i<sizeof(ml_drag_info)/sizeof(ml_drag_info[0]);i++)
+		ml_drag_info[i].atom = gdk_atom_intern(ml_drag_info[i].target, FALSE);
 
 	object_class->finalize = message_list_finalise;
 	((GtkObjectClass *)object_class)->destroy = message_list_destroy;
@@ -1804,18 +1977,18 @@ message_list_construct (MessageList *message_list)
 
 	e_tree_drag_source_set(message_list->tree, GDK_BUTTON1_MASK,
 			       ml_drag_types, sizeof(ml_drag_types)/sizeof(ml_drag_types[0]),
-			       GDK_ACTION_MOVE|GDK_ACTION_COPY);
+			       GDK_ACTION_MOVE|GDK_ACTION_COPY|GDK_ACTION_ASK);
 	
 	g_signal_connect(message_list->tree, "tree_drag_data_get",
 			 G_CALLBACK(ml_tree_drag_data_get), message_list);
 
-	/* note, we only include 2 types, we don't include text/uri-list as a receiver */
 	e_tree_drag_dest_set(message_list->tree, GTK_DEST_DEFAULT_ALL,
-			     ml_drag_types, 2,
-			     GDK_ACTION_MOVE|GDK_ACTION_COPY);
+			     ml_drop_types, sizeof(ml_drop_types)/sizeof(ml_drop_types[0]),
+			     GDK_ACTION_MOVE|GDK_ACTION_COPY|GDK_ACTION_ASK);
 	
 	g_signal_connect(message_list->tree, "tree_drag_data_received",
 			 G_CALLBACK(ml_tree_drag_data_received), message_list);
+	g_signal_connect(message_list->tree, "drag-motion", G_CALLBACK(ml_tree_drag_motion), message_list);
 }
 
 /**

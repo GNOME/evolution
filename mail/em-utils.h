@@ -39,6 +39,7 @@ struct _CamelMimeMessage;
 struct _CamelMimePart;
 struct _GtkSelectionData;
 struct _GtkAdjustment;
+struct _CamelException;
 
 gboolean em_utils_prompt_user(struct _GtkWindow *parent, const char *promptkey, const char *tag, const char *arg0, ...);
 
@@ -65,10 +66,12 @@ void em_utils_flag_for_followup_completed (struct _GtkWidget *parent, struct _Ca
 
 void em_utils_selection_set_mailbox(struct _GtkSelectionData *data, struct _CamelFolder *folder, GPtrArray *uids);
 void em_utils_selection_get_mailbox(struct _GtkSelectionData *data, struct _CamelFolder *folder);
+void em_utils_selection_get_message(struct _GtkSelectionData *data, struct _CamelFolder *folder);
 /* FIXME: be nice if these also worked on struct _CamelFolder's, no easy way to get uri from folder yet tho */
 void em_utils_selection_set_uidlist(struct _GtkSelectionData *data, const char *uri, GPtrArray *uids);
-int  em_utils_selection_get_uidlist(struct _GtkSelectionData *data, char **uri, GPtrArray **uidsp);
+void em_utils_selection_get_uidlist(struct _GtkSelectionData *data, struct _CamelFolder *dest, int move, struct _CamelException *ex);
 void em_utils_selection_set_urilist(struct _GtkSelectionData *data, struct _CamelFolder *folder, GPtrArray *uids);
+void em_utils_selection_get_urilist(struct _GtkSelectionData *data, struct _CamelFolder *folder);
 
 char *em_utils_temp_save_part(struct _GtkWidget *parent, struct _CamelMimePart *part);
 

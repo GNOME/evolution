@@ -747,7 +747,6 @@ static const struct {
 	{ N_("Subject"), EM_FORMAT_HEADER_BOLD },
 	{ N_("Date"), EM_FORMAT_HEADER_BOLD },
 	{ N_("Newsgroups"), EM_FORMAT_HEADER_BOLD },
-	{ "x-evolution-mailer", 0 }, /* DO NOT translate */
 };
 
 /**
@@ -764,7 +763,7 @@ em_format_default_headers(EMFormat *emf)
 	int i;
 	
 	em_format_clear_headers(emf);
-	for (i = 0; i < G_N_ELEMENTS (default_headers) - 1; i++)
+	for (i=0; i<sizeof(default_headers)/sizeof(default_headers[0]); i++)
 		em_format_add_header(emf, default_headers[i].name, default_headers[i].flags);
 }
 

@@ -1,3 +1,65 @@
+2004-05-17  Not Zed  <NotZed@Ximian.com>
+
+	** Bug #6556.
+
+	* message-list.c (ml_drop_async_desc, ml_drop_async_drop)
+	(ml_drop_async_done, ml_drop_async_free, ml_drag_data_action)
+	(ml_drop_popup_copy, ml_drop_popup_move, ml_drop_popup_cancel)
+	(ml_tree_drag_data_received): implement async drop operations and
+	the ask drop option menu.
+
+2004-05-14  Not Zed  <NotZed@Ximian.com>
+
+	** Bug #6556.
+
+	* message-list.c (ml_selection_received_uidlist): removed, not
+	needed anymore.
+	(ml_selection_received): call get_uidlist to paste the selection.
+	(ml_tree_drag_data_received): same here.
+
+	* em-folder-tree.c (emft_drop_uid_list): removed, not needed
+	because of below change.
+
+	* em-utils.c (em_utils_selection_get_uidlist): actually do the
+	copy now, don't just decode the data.
+
+	* em-folder-tree.c (tree_drag_data_received): just copy the
+	selection data data itself, dont decode yet.
+	(emft_import_message_rfc822): removed, not needed, use em utils
+	stuff instead.
+	(emft_drop_message_rfc822): same.
+	(emft_drop_text_uri_list): same.
+	(emft_drop_async_free): simply free stuff.
+	(emft_drop_async_drop): call em_utils stuff where they exist to do
+	the drop.
+
+	* message-list.c (ml_tree_drag_data_get): send x-mailbox instead
+	of message/rfc822 for the mailbox.
+	(ml_tree_drag_data_received): handle drop of x-mailbox differently
+	to message/rfc822.
+	(ml_tree_drag_motion): implement so proper options are setup
+	whilst dragging.
+	(message_list_construct): seutp the drag src/dest types for
+	changes typs and with ASK action.
+
+	* em-utils.c (em_utils_read_messages_from_stream): dont unref the
+	stream when we get it.
+	(em_utils_selection_get_mailbox): add an argument to scan from or
+	not, for message/rfc822 vs x-mailbox drops.
+	(em_utils_read_messages_from_stream): Same.
+
+	* em-folder-tree.c (tree_drag_motion): default to move properly.
+
+	* message-list.c (ml_selection_received_uidlist): take a move flag.
+	(ml_tree_drag_data_received): handle move action.
+
+	* em-folder-tree.c (em_folder_tree_new_with_model): got sick of
+	this bloody warning.
+
+	* em-format.c (default_headers[]): just remove x-mailer from the
+	header list, if it isn't on by default.  This is the default list.
+	(em_format_default_headers): loop through everything.
+
 2004-05-14  Jeffrey Stedfast  <fejj@novell.com>
 
 	* em-popup.h: s/RESEND/EDIT/

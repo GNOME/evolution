@@ -793,7 +793,6 @@ em_utils_read_messages_from_stream(CamelFolder *folder, CamelStream *stream)
 
 	camel_mime_parser_scan_from(mp, TRUE);
 	camel_mime_parser_init_with_stream(mp, stream);
-	camel_object_unref(stream);
 
 	while (camel_mime_parser_step(mp, 0, 0) == CAMEL_MIME_PARSER_STATE_FROM) {
 		CamelMimeMessage *msg;
@@ -872,6 +871,33 @@ em_utils_selection_get_mailbox(GtkSelectionData *data, CamelFolder *folder)
 }
 
 /**
+ * em_utils_selection_get_message:
+ * @data: 
+ * @folder: 
+ * 
+ * get a message/rfc822 data.
+ **/
+void
+em_utils_selection_get_message(GtkSelectionData *data, CamelFolder *folder)
+{
+	CamelStream *stream;
+	CamelException *ex;
+	CamelMimeMessage *msg;
+
+	if (data->data == NULL || data->length == -1)
+		return;
+
+	ex = camel_exception_new();
+	stream = camel_stream_mem_new_with_buffer(data->data, data->length);
+	msg = camel_mime_message_new();
+	if (camel_data_wrapper_construct_from_stream((CamelDataWrapper *)msg, stream) == 0)
+		camel_folder_append_message(folder, msg, NULL, NULL, ex);
+	camel_object_unref(msg);
+	camel_object_unref(stream);
+	camel_exception_free(ex);
+}
+
+/**
  * em_utils_selection_set_uidlist:
  * @data: selection data
  * @uri:
@@ -901,27 +927,22 @@ em_utils_selection_set_uidlist(GtkSelectionData *data, const char *uri, GPtrArra
 /**
  * em_utils_selection_get_uidlist:
  * @data: selection data
- * @urip: Pointer to uri string, to be free'd by caller
- * @uidsp: Pointer to an array of uid's.
+ * @move: do we delete the messages.
  * 
- * Convert an x-uid-list type to a uri and a uid list.
+ * Convert a uid list into a copy/move operation.
  * 
- * Return value: The number of uid's found.  If 0, then @urip and
- * @uidsp will be empty.
+ * Warning: Could take some time to run.
  **/
-int
-em_utils_selection_get_uidlist(GtkSelectionData *data, char **urip, GPtrArray **uidsp)
+void
+em_utils_selection_get_uidlist(GtkSelectionData *data, CamelFolder *dest, int move, CamelException *ex)
 {
 	/* format: "uri\0uid1\0uid2\0uid3\0...\0uidn" */
 	char *inptr, *inend;
 	GPtrArray *uids;
-	int res;
-
-	*urip = NULL;
-	*uidsp = NULL;
+	CamelFolder *folder;
 
 	if (data == NULL || data->data == NULL || data->length == -1)
-		return 0;
+		return;
 	
 	uids = g_ptr_array_new();
 
@@ -941,14 +962,16 @@ em_utils_selection_get_uidlist(GtkSelectionData *data, char **urip, GPtrArray **
 
 	if (uids->len == 0) {
 		g_ptr_array_free(uids, TRUE);
-		res = 0;
-	} else {
-		*urip = g_strdup(data->data);
-		*uidsp = uids;
-		res = uids->len;
+		return;
 	}
 
-	return res;
+	folder = mail_tool_uri_to_folder(data->data, 0, ex);
+	if (folder) {
+		camel_folder_transfer_messages_to(folder, uids, dest, NULL, move, ex);
+		camel_object_unref(folder);
+	}
+
+	em_utils_uids_free(uids);
 }
 
 /**
@@ -1009,6 +1032,48 @@ em_utils_selection_set_urilist(GtkSelectionData *data, CamelFolder *folder, GPtr
 
 		camel_object_unref(fstream);
 	}
+}
+
+/**
+ * em_utils_selection_set_urilist:
+ * @data: 
+ * @folder: 
+ * @uids: 
+ * 
+ * Get the selection data @data from a uri list which points to a
+ * file, which is a berkely mailbox format mailbox.  The file is
+ * automatically cleaned up when the application quits.
+ **/
+void
+em_utils_selection_get_urilist(GtkSelectionData *data, CamelFolder *folder)
+{
+	CamelStream *stream;
+	CamelURL *url;
+	int fd, i, res = 0;
+	char *tmp, **uris;
+
+	d(printf(" * drop uri list\n"));
+
+	tmp = g_strndup(data->data, data->length);
+	uris = g_strsplit(tmp, "\n", 0);
+	g_free(tmp);
+	for (i=0;res == 0 && uris[i];i++) {
+		g_strstrip(uris[i]);
+
+		url = camel_url_new(uris[i], NULL);
+		if (url == NULL)
+			continue;
+
+		if (strcmp(url->protocol, "file") == 0
+		    && (fd = open(url->path, O_RDONLY)) != -1) {
+			stream = camel_stream_fs_new_with_fd(fd);
+			res = em_utils_read_messages_from_stream(folder, stream);
+			camel_object_unref(stream);
+		}
+		camel_url_free(url);
+	}
+
+	g_strfreev(uris);
 }
 
 static void
