@@ -32,6 +32,16 @@
             </listitem>
           </varlistentry>
 
+	  <varlistentry>
+	    <term>iCalendar (.ics)</term>
+	    <listitem>
+	      <para>
+		A format for storing calendar files.  iCalendar is used by 
+		PalmOS based handhelds, Ximian <application>Evolution</application>, and Microsoft <application>Outlook</application>.
+	      </para>
+	    </listitem>
+	  </varlistentry>
+
           <varlistentry>
             <term>Microsoft Outlook Express 4 (.mbx)</term>
             <listitem>

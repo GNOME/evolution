@@ -1,5 +1,7 @@
 2001-10-28  Kevin Breit  <mrproper@ximian.com>
 
+	* C/usage-mail-org.sgml: Added the iCalendar format to the list of imported types.  The .ics importing was added _last minute_.
+
 	* C/usage-calendar.sgml: Fixed stupid build bugs
 
 	* C/usage-mail.sgml: Fixed a boo-boo
