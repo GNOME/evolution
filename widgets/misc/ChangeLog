@@ -1,3 +1,8 @@
+2004-07-26  JP Rosevear  <jpr@novell.com>
+ 
+ 	* e-search-bar.c (setup_bonobo_menus): use ctrl-shift-q to clear
+ 	search bar
+	
 2004-07-20  Not Zed  <NotZed@Ximian.com>
 
 	* e-error.c: include config.h.  See #61395.

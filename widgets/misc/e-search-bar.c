@@ -544,7 +544,7 @@ setup_bonobo_menus (ESearchBar *esb)
 	g_string_append (xml, "<placeholder name=\"SearchBar\">");
 	
 	append_xml_menu_item (xml, "FindNow", _("_Find Now"), "ESearchBar:FindNow", NULL);
-	append_xml_menu_item (xml, "Clear", _("_Clear"), "ESearchBar:Clear", "*Control**Shift*b");
+	append_xml_menu_item (xml, "Clear", _("_Clear"), "ESearchBar:Clear", "*Control**Shift*q");
 	
 	for (p = esb->menu_items; p != NULL; p = p->next) {
 		const ESearchBarItem *item;
