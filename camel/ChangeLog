@@ -824,7 +824,7 @@
 	* camel-filter-search.c (camel_filter_search_match): Take new
 	session arg.  Update callers.
 	(symbols[]): changed get-source to header-source
-	(header_source): Chagned from get_source.  Now a boolean, returns
+	(header_source): Changed from get_source.  Now a boolean, returns
 	true if source matches one of the arguments.  Uses the provider
 	url comparison directly for accurate checking.  Makes 'filter on
 	source' work.
@@ -1045,7 +1045,7 @@
 
 	* tests/misc/utf7.c: some utf7/utf8 tests.
 
-	* providers/imap/camel-imap-utils.c (imap_mailbox_encode): Chagned
+	* providers/imap/camel-imap-utils.c (imap_mailbox_encode): Changed
 	to use camel_utf8_utf7 code.
 	(imap_mailbox_decode): As above, using camel_utf8_utf7.  'UTF-7'
 	isn't a widely support iconv() codeset, and besides the new code
@@ -2787,7 +2787,7 @@
 	<prez@magick.tm> to make camel only use literals if it needs to
 	for simple strings.  Changed slightly to use imap_is_atom() and
 	more consistent formatting.
-	providers/imap/camel-imap-utils.c (imap_is_atom): Chagned from
+	* providers/imap/camel-imap-utils.c (imap_is_atom): Changed from
 	imap_needs_quoting().
 
 	** Merged in camel-object2 branch.  Simpler camelobject
@@ -7031,7 +7031,7 @@
 
 2001-07-31  Not Zed  <NotZed@Ximian.com>
 
-	* camel-folder.c (camel_folder_init): Chagned mutexes to
+	* camel-folder.c (camel_folder_init): Changed mutexes to
 	e_mutexes, folder lock recursive.  This fixes the imap filtering
 	bug, or at least some cases of it.
 	(camel_folder_finalize): Free mutexes.
@@ -11147,7 +11147,7 @@
 	New smtp error-code to string mapping function.
 	(smtp_connect): Use the new error->string function for reporting
 	useful errors.
-	(smtp_helo): Same. Also use a case-insensitive strstr for 8BITMIEM
+	(smtp_helo): Same. Also use a case-insensitive strstr for 8BITMIME
 	as it seems Exchange sends back lowercase for that one single SMTP
 	extension. Everything else is uppercase. I'm seeing a lack of love
 	for that extension by Microsoft dudes...
