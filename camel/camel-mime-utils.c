@@ -2238,7 +2238,7 @@ header_decode_domain(const char **in)
 	header_decode_lwsp(&inptr);
 	while (go) {
 		if (*inptr == '[') { /* domain literal */
-			domain = g_string_append(domain, "[ ");
+			domain = g_string_append_c(domain, '[');
 			inptr++;
 			header_decode_lwsp(&inptr);
 			start = inptr;
@@ -2247,7 +2247,7 @@ header_decode_domain(const char **in)
 				inptr++;
 			}
 			if (*inptr == ']') {
-				domain = g_string_append(domain, " ]");
+				domain = g_string_append_c(domain, ']');
 				inptr++;
 			} else {
 				w(g_warning("closing ']' not found in domain: %s", *in));
