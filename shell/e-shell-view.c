@@ -1793,6 +1793,8 @@ update_folder_title_bar (EShellView *shell_view,
 		e_shell_folder_title_bar_set_title (E_SHELL_FOLDER_TITLE_BAR (priv->folder_title_bar), s);
 		g_free (s);
 	}
+
+	gdk_pixbuf_unref (folder_icon);
 }
 
 static void

@@ -1,3 +1,36 @@
+2002-07-11  Ettore Perazzoli  <ettore@ximian.com>
+
+	* e-shell-folder-title-bar.c: Remove some `#if 0'ed broken code.
+	New members title_icon and title_button_icon in struct
+	EShellFolderTitleBarPrivate.  Remove member icon_widget.  New
+	static global variable empty_pixbuf.
+	(init): Initialize these new members to NULL.  Don't initialize
+	icon_widget anymore since it's gone.
+	(e_shell_folder_title_bar_construct): Create the title_button_icon
+	and pack it into the title_button_hbox.  Also, create the
+	title_icon and pack that one as well.  Retouched some of the
+	hardcoded padding values.
+	(size_allocate_icon): Rewritten to use the title_icon and return
+	the allocated space like size_allocate_navigation_buttons.
+	(e_shell_folder_title_bar_set_icon): Remove bogus const from the
+	@icon arg.  Ref the pixbuf, and update the two pixmap widgets from
+	it.  If @icon is NULL, use the empty_pixbuf.
+	(impl_destroy): Renamed from destroy().
+	(realize): Removed.
+	(unrealize): Removed.
+	(impl_size_allocate): Renamed from size_allocate().
+	(class_init): Call it.
+	(add_icon_widget): Removed.
+	(new_empty_pixbuf): New.
+	(new_empty_pixmap_widget): New.
+	(size_allocate_navigation_buttons_and_title_icon): Renamed from
+	size_allocate_navigation_buttons; set up the title_icon too.
+
+	* e-shell-view.c (update_folder_title_bar): Unref the folder_icon
+	after using it.
+
+	* e-icon-factory.c (e_icon_factory_get_icon): Ref the returned pixbuf.
+
 2002-07-10  Ettore Perazzoli  <ettore@ximian.com>
 
 	* e-shell-view.c (update_folder_title_bar): Get a @folder arg

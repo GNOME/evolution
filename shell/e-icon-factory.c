@@ -152,8 +152,11 @@ e_icon_factory_get_icon (const char *icon_name,
 		g_hash_table_insert (name_to_icon, icon->name, icon);
 	}
 
-	if (mini)
+	if (mini) {
+		gdk_pixbuf_ref (icon->small_pixbuf);
 		return icon->small_pixbuf;
-	else
+	} else {
+		gdk_pixbuf_ref (icon->large_pixbuf);
 		return icon->large_pixbuf;
+	}
 }
