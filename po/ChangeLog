@@ -1,3 +1,7 @@
+2002-01-13  Dan Winship  <danw@ximian.com>
+
+	* POTFILES.in: Revert previous change AGAIN.
+
 2002-01-12  Christian Rose  <menthos@menthos.com>
 
 	* POTFILES.in: Sorted and added LOTS of missing files.
