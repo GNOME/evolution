@@ -234,5 +234,29 @@ e_history_add (EHistory *history,
 	priv->current_item = priv->current_item->next;
 }
 
+void
+e_history_remove_matching (EHistory *history,
+			   const void *data,
+			   GCompareFunc compare_func)
+{
+	EHistoryPrivate *priv;
+	GList *p;
+
+	g_return_if_fail (history != NULL);
+	g_return_if_fail (E_IS_HISTORY (history));
+	g_return_if_fail (compare_func != NULL);
+
+	priv = history->priv;
+
+	for (p = priv->items; p != NULL; p = p->next) {
+		if ((* compare_func) (data, p->data) == 0) {
+			if (priv->items == priv->current_item)
+				priv->items = priv->current_item = g_list_remove_link (priv->items, p);
+			else
+				priv->items = g_list_remove_link (priv->items, p);
+		}
+	}
+}
+
 
 E_MAKE_TYPE (e_history, "EHistory", EHistory, class_init, init, GTK_TYPE_OBJECT)

@@ -1,5 +1,16 @@
 2002-02-22  Ettore Perazzoli  <ettore@ximian.com>
 
+	* e-shell-view.c (remove_uri_from_history): New helper function to
+	remove all the matching URIs from the history.
+	(history_uri_matching_func): Compare function for using
+	e_history_remove_matching.
+	(storage_set_removed_folder_callback): Call
+	`remove_uri_from_history()'.
+
+	* e-history.c (e_history_remove_matching): New.
+
+2002-02-22  Ettore Perazzoli  <ettore@ximian.com>
+
 	* e-shell-view.c (update_navigation_buttons): New.
 	(display_uri): Call it before returning so the navigation buttons
 	always have the right sensitivity.

@@ -77,6 +77,10 @@ void     *e_history_get_current  (EHistory *history);
 void      e_history_add          (EHistory *history,
 				  void     *data);
 
+void  e_history_remove_matching  (EHistory     *history,
+				  const void   *data,
+				  GCompareFunc  compare_func);
+
 #ifdef __cplusplus
 }
 #endif /* __cplusplus */

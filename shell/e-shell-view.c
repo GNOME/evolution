@@ -316,6 +316,42 @@ setup_verb_sensitivity_for_folder (EShellView *shell_view,
 	bonobo_ui_component_set_prop (ui_component, "/commands/RenameFolder", "sensitive", prop, NULL);
 }
 
+
+static void
+update_navigation_buttons (EShellView *shell_view)
+{
+	EShellViewPrivate *priv;
+
+	priv = shell_view->priv;
+
+	e_shell_folder_title_bar_update_navigation_buttons (E_SHELL_FOLDER_TITLE_BAR (priv->folder_title_bar),
+							    e_history_has_prev (priv->history),
+							    e_history_has_next (priv->history));
+}
+
+static int
+history_uri_matching_func (const void *a,
+			   const void *b)
+{
+	const char *s1, *s2;
+
+	s1 = (const char *) a;
+	s2 = (const char *) b;
+
+	return strcmp (s1, s2);
+}
+
+static void
+remove_uri_from_history (EShellView *shell_view,
+			 const char *uri)
+{
+	EShellViewPrivate *priv;
+
+	priv = shell_view->priv;
+	
+	e_history_remove_matching (priv->history, uri, history_uri_matching_func);
+}
+
 
 /* Callbacks for the EStorageSet.  */
 
@@ -336,7 +372,16 @@ storage_set_removed_folder_callback (EStorageSet *storage_set,
 	priv = shell_view->priv;
 
 	uri = g_strconcat (E_SHELL_URI_PREFIX, path, NULL);
+
+	remove_uri_from_history (shell_view, uri);
+	update_navigation_buttons (shell_view);
+
+	/* (Note that at this point the current URI in the history might have
+	   been changed and not match the current view.  But we catch this case
+	   when checking if this was the current view, below.)  */
+
 	view = g_hash_table_lookup (priv->uri_to_view, uri);
+
 	g_free (uri);
 
 	if (view == NULL)
@@ -802,7 +847,7 @@ offline_toggle_clicked_cb (GtkButton *button,
 }
 
 
-/* Handling of the navigation buttons.  */
+/* Navigation button callbacks.  */
 
 static void
 back_clicked_callback (EShellFolderTitleBar *title_bar,
@@ -840,18 +885,6 @@ forward_clicked_callback (EShellFolderTitleBar *title_bar,
 	new_uri = (const char *) e_history_next (priv->history);
 
 	display_uri (shell_view, new_uri, FALSE);
-}
-
-static void
-update_navigation_buttons (EShellView *shell_view)
-{
-	EShellViewPrivate *priv;
-
-	priv = shell_view->priv;
-
-	e_shell_folder_title_bar_update_navigation_buttons (priv->folder_title_bar,
-							    e_history_has_prev (priv->history),
-							    e_history_has_next (priv->history));
 }
 
 
