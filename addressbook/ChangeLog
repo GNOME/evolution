@@ -1,3 +1,9 @@
+2002-06-25  Chris Toshok  <toshok@ximian.com>
+
+	* gui/component/addressbook-component.c (create_component):
+	reorder the adding of creatable items so the default is a new
+	contact, not a new contact list.
+
 2002-06-21  Sean Atkinson  <sean@cantab.net>
 
 	* gui/component/addressbook-config.c (addressbook_edit_server_dialog):
