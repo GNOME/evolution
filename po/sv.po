@@ -5,7 +5,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: evolution 0.1\n"
-"POT-Creation-Date: 2000-07-15 23:39+0000\n"
+"POT-Creation-Date: 2000-07-19 02:01+0000\n"
 "PO-Revision-Date: 2000-04-04 19:23+0200\n"
 "Last-Translator: Andreas Hyden <a.hyden@cyberpoint.se>\n"
 "Language-Team: Swedish <sv@li.org>\n"
@@ -14,7 +14,7 @@ msgstr ""
 "Content-Transfer-Encoding: 8-bit\n"
 
 #: addressbook/backend/ebook/load-pine-addressbook.c:41
-#: addressbook/gui/component/addressbook-factory.c:58 calendar/gui/main.c:68
+#: addressbook/gui/component/addressbook-factory.c:59 calendar/gui/main.c:68
 msgid "Could not initialize Bonobo"
 msgstr "Kunde inte initialisera bonobo"
 
@@ -311,9 +311,8 @@ msgstr ""
 
 #: addressbook/contact-editor/e-contact-editor.c:793
 #: calendar/gui/event-editor.c:1266
-#, fuzzy
 msgid "FIXME: For_ward"
-msgstr "Skicka vidare"
+msgstr ""
 
 #: addressbook/contact-editor/e-contact-editor.c:805
 #: calendar/gui/event-editor.c:1279
@@ -405,7 +404,7 @@ msgstr ""
 #: addressbook/contact-editor/e-contact-editor.c:863
 #: calendar/gui/event-editor.c:1344
 msgid "See online help"
-msgstr ""
+msgstr "Läs direkthjälp"
 
 #: addressbook/contact-editor/e-contact-editor.c:1278
 msgid "Assistant"
@@ -485,7 +484,7 @@ msgstr ""
 
 #: addressbook/contact-editor/e-contact-editor.c:1296
 msgid "TTY/TDD"
-msgstr ""
+msgstr "TTY/TDD"
 
 #: addressbook/contact-editor/e-contact-editor-strings.h:23
 #: addressbook/contact-editor/e-contact-editor.c:1340
@@ -607,9 +606,8 @@ msgid "_Nickname:"
 msgstr "_Smeknamn:"
 
 #: addressbook/contact-editor/e-contact-editor-strings.h:35
-#, fuzzy
 msgid "_Spouse:"
-msgstr "Make:"
+msgstr ""
 
 #: addressbook/contact-editor/e-contact-editor-strings.h:36
 msgid "_Birthday:"
@@ -620,14 +618,12 @@ msgid "_Assistant's name:"
 msgstr "_Assistantnamn:"
 
 #: addressbook/contact-editor/e-contact-editor-strings.h:38
-#, fuzzy
 msgid "_Manager's Name:"
-msgstr "Chefens namn:"
+msgstr "Chefens na_mn:"
 
 #: addressbook/contact-editor/e-contact-editor-strings.h:39
-#, fuzzy
 msgid "Anni_versary:"
-msgstr "Jubileum:"
+msgstr "_Jubileum:"
 
 #: addressbook/contact-editor/e-contact-editor-strings.h:40
 msgid "No_tes:"
@@ -698,13 +694,12 @@ msgstr ""
 
 #: addressbook/gui/component/addressbook.c:420
 #: calendar/gui/calendar-commands.c:544
-#, fuzzy
 msgid "New"
-msgstr "_Ny"
+msgstr "Ny"
 
 #: addressbook/gui/component/addressbook.c:420
 msgid "Create a new contact"
-msgstr ""
+msgstr "Skapa en ny kontakt"
 
 #: addressbook/gui/component/addressbook.c:424
 msgid "Find"
@@ -734,9 +729,8 @@ msgid "As _Table"
 msgstr ""
 
 #: addressbook/gui/component/addressbook.c:506
-#, fuzzy
 msgid "_New Contact"
-msgstr "_Kontakt"
+msgstr "_Ny kontakt"
 
 #: addressbook/gui/component/addressbook.c:514
 msgid "N_ew Directory Server"
@@ -769,7 +763,7 @@ msgstr "* Klicka här för att lägga till en kontakt *"
 
 #: addressbook/gui/component/addressbook.c:1046
 msgid "As _Minicards"
-msgstr ""
+msgstr "Som _minikort"
 
 #: addressbook/gui/component/addressbook.c:1097
 msgid "The URI that the Folder Browser will display"
@@ -1395,10 +1389,12 @@ msgid "No summary"
 msgstr "Ingen sammanfattning"
 
 #: calendar/gui/event-editor.c:298
+#, c-format
 msgid "Appointment - %s"
 msgstr "Ärende - %s"
 
 #: calendar/gui/event-editor.c:301
+#, c-format
 msgid "Task - %s"
 msgstr "Uppgift - %s"
 
@@ -2287,7 +2283,7 @@ msgstr "%.1fG"
 msgid "Add attachment"
 msgstr "Lägg till bilaga"
 
-#: composer/e-msg-composer-attachment-bar.c:362 shell/e-shortcuts-view.c:332
+#: composer/e-msg-composer-attachment-bar.c:362 shell/e-shortcuts-view.c:333
 msgid "Remove"
 msgstr "Ta bort"
 
@@ -2602,8 +2598,8 @@ msgid ""
 "optionally, enter the name of your organization, and the name of a file to "
 "read your signature from."
 msgstr ""
-"Ange ditt namn och epost-adress som ska användas i utgående post. Du kan också, "
-"om du vill, ange namnet på din organisation, och namnet på en fil att "
+"Ange ditt namn och epost-adress som ska användas i utgående post. Du kan "
+"också, om du vill, ange namnet på din organisation, och namnet på en fil att "
 "läsa din signatur från."
 
 #: mail/mail-config.c:277
@@ -2727,7 +2723,7 @@ msgstr ""
 "Detta meddelandet har inget ämne.\n"
 "Vill du verkligen skicka?"
 
-#: mail/mail-ops.c:731
+#: mail/mail-ops.c:743
 #, fuzzy
 msgid "Refile message(s) to"
 msgstr "Nya brev"
@@ -2798,7 +2794,8 @@ msgstr "Det verkar som det är första gången du kör Evolution."
 
 #: shell/e-setup.c:52
 msgid "Please click \"OK\" to install the Evolution user files under"
-msgstr "Var vänlig klicka på \"OK\" för att installera Evolutions användarfiler i"
+msgstr ""
+"Var vänlig klicka på \"OK\" för att installera Evolutions användarfiler i"
 
 #: shell/e-setup.c:69
 #, c-format
@@ -3021,6 +3018,7 @@ msgid "None"
 msgstr "Inga"
 
 #: shell/e-shell-view.c:600
+#, c-format
 msgid "Evolution - %s"
 msgstr "Evolution - %s"
 
@@ -3045,15 +3043,15 @@ msgstr "S_tora ikoner"
 msgid "Show the shortcuts as large icons"
 msgstr "Visa genvägarna som stora ikoner"
 
-#: shell/e-shortcuts-view.c:329
+#: shell/e-shortcuts-view.c:330
 msgid "Activate"
 msgstr "Aktivera"
 
-#: shell/e-shortcuts-view.c:329
+#: shell/e-shortcuts-view.c:330
 msgid "Activate this shortcut"
 msgstr "Aktivera denna genvägen"
 
-#: shell/e-shortcuts-view.c:332
+#: shell/e-shortcuts-view.c:333
 msgid "Remove this shortcut from the shortcut bar"
 msgstr "Ta bort denna genvägen från genvägsraden"
 
@@ -3335,7 +3333,8 @@ msgstr ""
 msgid "..."
 msgstr "..."
 
-#: widgets/shortcut-bar/e-group-bar.c:633
+#: widgets/shortcut-bar/e-group-bar.c:632
+#, c-format
 msgid "Group %i"
 msgstr "Grupp %i"
 
