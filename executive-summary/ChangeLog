@@ -1,3 +1,10 @@
+2000-10-05  Michael Meeks  <michael@helixcode.com>
+
+	* component/e-summary-factory.c (control_activate): upd.
+	(set_pixmap): upd. (update_pixmaps): upd.
+	(control_activate_cb): upd.
+	(control_deactivate): upd.
+
 2000-10-04  Iain Holmes  <iain@helixcode.com>
 
 	* idl/SummaryComponent.idl: Added a title argument to the 

@@ -1,3 +1,9 @@
+2000-10-05  Michael Meeks  <michael@helixcode.com>
+
+	* gui/calendar-commands.c: upd.
+	(calendar_control_activate): upd.
+	(calendar_control_deactivate): upd.
+
 2000-10-05  Damon Chaplin  <damon@helixcode.com>
 
 	* gui/e-day-view.c: 

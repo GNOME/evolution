@@ -60,7 +60,7 @@ struct _EContactEditor
 	ECardSimple *simple;
 
 	/* UI handler */
-	BonoboUIHandler *uih;
+	BonoboUIComponent *uic;
 	
 	GladeXML *gui;
 	GtkWidget *app;

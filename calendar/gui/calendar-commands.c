@@ -483,17 +483,17 @@ static GnomeUIInfo gnome_toolbar_view_buttons [] = {
 #endif
 
 BonoboUIVerb verbs [] = {
-	BONOBO_UI_VERB ("CalendarNew", new_calendar_cmd),
-	BONOBO_UI_VERB ("CalendarOpen", open_calendar_cmd),
-	BONOBO_UI_VERB ("CalendarSaveAs", save_as_calendar_cmd),
-	BONOBO_UI_VERB ("CalendarPrint", file_print_cb),
-	BONOBO_UI_VERB ("EditNewAppointment", new_appointment_cb),
-	BONOBO_UI_VERB ("CalendarPreferences", properties_cmd),
+	BONOBO_UI_UNSAFE_VERB ("CalendarNew", new_calendar_cmd),
+	BONOBO_UI_UNSAFE_VERB ("CalendarOpen", open_calendar_cmd),
+	BONOBO_UI_UNSAFE_VERB ("CalendarSaveAs", save_as_calendar_cmd),
+	BONOBO_UI_UNSAFE_VERB ("CalendarPrint", file_print_cb),
+	BONOBO_UI_UNSAFE_VERB ("EditNewAppointment", new_appointment_cb),
+	BONOBO_UI_UNSAFE_VERB ("CalendarPreferences", properties_cmd),
 
-	BONOBO_UI_VERB ("CalendarPrev", previous_clicked),
-	BONOBO_UI_VERB ("CalendarToday", today_clicked),
-	BONOBO_UI_VERB ("CalendarNext", next_clicked),
-	BONOBO_UI_VERB ("CalendarGoto", goto_clicked),
+	BONOBO_UI_UNSAFE_VERB ("CalendarPrev", previous_clicked),
+	BONOBO_UI_UNSAFE_VERB ("CalendarToday", today_clicked),
+	BONOBO_UI_UNSAFE_VERB ("CalendarNext", next_clicked),
+	BONOBO_UI_UNSAFE_VERB ("CalendarGoto", goto_clicked),
 
 	BONOBO_UI_VERB_END
 };
@@ -503,15 +503,15 @@ calendar_control_activate (BonoboControl *control,
 			   GnomeCalendar *cal)
 {
 	Bonobo_UIContainer remote_uih;
-	BonoboUIHandler *uih;
+	BonoboUIComponent *uic;
 
-	uih = bonobo_control_get_ui_handler (control);
-	g_assert (uih != NULL);
+	uic = bonobo_control_get_ui_component (control);
+	g_assert (uic != NULL);
 
 	g_print ("In calendar_control_activate\n");
 
-	remote_uih = bonobo_control_get_remote_ui_handler (control);
-	bonobo_ui_handler_set_container (uih, remote_uih);
+	remote_uih = bonobo_control_get_remote_ui_container (control);
+	bonobo_ui_component_set_container (uic, remote_uih);
 	bonobo_object_release_unref (remote_uih, NULL);
 
 #if 0
@@ -557,38 +557,25 @@ calendar_control_activate (BonoboControl *control,
 				    1, 1, 0);
 #endif
 	
-	{
-		Bonobo_UIContainer container;
-		BonoboUIComponent *component;
+	bonobo_ui_component_add_verb_list_with_data (
+		uic, verbs, cal);
 
-		component = bonobo_ui_compat_get_component (uih);
-		bonobo_ui_component_add_verb_list_with_data (
-			component, verbs, cal);
-
-		container = bonobo_ui_compat_get_container (uih);
-		g_return_if_fail (container != CORBA_OBJECT_NIL);
-
-		bonobo_ui_util_set_ui (component, container,
-				       EVOLUTION_DATADIR,
-				       "evolution-calendar.xml",
-				       "evolution-calendar");
-	}
+	bonobo_ui_util_set_ui (uic, EVOLUTION_DATADIR,
+			       "evolution-calendar.xml",
+			       "evolution-calendar");
 }
 
 
 void
 calendar_control_deactivate (BonoboControl *control)
 {
-	BonoboUIHandler *uih = bonobo_control_get_ui_handler (control);
-	g_assert (uih);
+	BonoboUIComponent *uic = bonobo_control_get_ui_component (control);
+	g_assert (uic != NULL);
 
 	g_print ("In calendar_control_deactivate\n");
 
-	bonobo_ui_component_rm (
-		bonobo_ui_compat_get_component (uih),
-		bonobo_ui_compat_get_container (uih), "/", NULL);
-
- 	bonobo_ui_handler_unset_container (uih);
+	bonobo_ui_component_rm (uic, "/", NULL);
+ 	bonobo_ui_component_unset_container (uic);
 }
 
 

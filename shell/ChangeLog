@@ -1,3 +1,16 @@
+2000-10-05  Michael Meeks  <michael@helixcode.com>
+
+	* e-shell-view-menu.c (shortcut_bar_mode_changed_cb): upd.
+	(folder_bar_mode_changed_cb): upd.
+	(command_xml_dump): clobber.
+	(e_shell_view_menu_setup): upd.
+
+	* e-shell-view.c (shell_view_interface_set_message_cb): upd.
+	(shell_view_interface_unset_message_cb): upd.
+	(e_shell_view_construct): upd.
+	(get_control_for_uri): upd.
+	(e_shell_view_get_bonobo_ui_component): upd.
+
 2000-10-04  Michael Meeks  <michael@helixcode.com>
 
 	* e-shell-view.c (setup_progress_bar): remove evil usize set.

@@ -724,13 +724,13 @@ tb_save_and_close_cb (BonoboUIHandler *uih, void *data, const char *path)
 
 static
 BonoboUIVerb verbs [] = {
-	BONOBO_UI_VERB ("ContactEditorSave", file_save_cb),
-	BONOBO_UI_VERB ("ContactEditorSaveAs", file_save_as_cb),
-	BONOBO_UI_VERB ("ContactEditorSaveClose", tb_save_and_close_cb),
-	BONOBO_UI_VERB ("ContactEditorDelete", delete_cb),
-	BONOBO_UI_VERB ("ContactEditorPrint", print_cb),
-	/*	BONOBO_UI_VERB ("ContactEditorPageSetup", file_page_setup_menu), */
-	BONOBO_UI_VERB ("ContactEditorClose", file_close_cb),
+	BONOBO_UI_UNSAFE_VERB ("ContactEditorSave", file_save_cb),
+	BONOBO_UI_UNSAFE_VERB ("ContactEditorSaveAs", file_save_as_cb),
+	BONOBO_UI_UNSAFE_VERB ("ContactEditorSaveClose", tb_save_and_close_cb),
+	BONOBO_UI_UNSAFE_VERB ("ContactEditorDelete", delete_cb),
+	BONOBO_UI_UNSAFE_VERB ("ContactEditorPrint", print_cb),
+	/*	BONOBO_UI_UNSAFE_VERB ("ContactEditorPageSetup", file_page_setup_menu), */
+	BONOBO_UI_UNSAFE_VERB ("ContactEditorClose", file_close_cb),
 	
 	BONOBO_UI_VERB_END
 };
@@ -738,17 +738,10 @@ BonoboUIVerb verbs [] = {
 static void
 create_ui (EContactEditor *ce)
 {
-	BonoboUIComponent *component;
-	Bonobo_UIContainer container;
-
-	component = bonobo_ui_compat_get_component (ce->uih);
-	container = bonobo_ui_compat_get_container (ce->uih);
-	
 	bonobo_ui_component_add_verb_list_with_data (
-		component, verbs, ce);
+		ce->uic, verbs, ce);
 
-	bonobo_ui_util_set_ui (component, container,
-			       EVOLUTION_DATADIR,
+	bonobo_ui_util_set_ui (ce->uic, EVOLUTION_DATADIR,
 			       "evolution-contact-editor.xml",
 			       "evolution-contact-editor");
 }
@@ -811,6 +804,7 @@ e_contact_editor_init (EContactEditor *e_contact_editor)
 	GtkWidget *widget;
 	GtkWidget *bonobo_win;
 	GtkWidget *wants_html;
+	BonoboUIContainer *container;
 
 	e_contact_editor->email_info = NULL;
 	e_contact_editor->phone_info = NULL;
@@ -894,13 +888,17 @@ e_contact_editor_init (EContactEditor *e_contact_editor)
 
 	/* Build the menu and toolbar */
 
-	e_contact_editor->uih = bonobo_ui_handler_new ();
-	if (!e_contact_editor->uih) {
+	container = bonobo_ui_container_new ();
+	bonobo_ui_container_set_win (container, BONOBO_WIN (e_contact_editor->app));
+
+	e_contact_editor->uic = bonobo_ui_component_new_default ();
+	if (!e_contact_editor->uic) {
 		g_message ("e_contact_editor_init(): eeeeek, could not create the UI handler!");
 		return;
 	}
-
-	bonobo_ui_handler_set_app (e_contact_editor->uih, BONOBO_WIN (e_contact_editor->app));
+	bonobo_ui_component_set_container (e_contact_editor->uic,
+					   bonobo_object_corba_objref (
+						   BONOBO_OBJECT (container)));
 
 	create_ui (e_contact_editor);
 

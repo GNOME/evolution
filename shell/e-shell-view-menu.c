@@ -42,19 +42,19 @@ shortcut_bar_mode_changed_cb (EShellView *shell_view,
 			      EShellViewSubwindowMode new_mode,
 			      void *data)
 {
-	BonoboUIHandler *uih;
+	BonoboUIComponent *uic;
 	const char *path;
-	gboolean toggle_state;
+	char *txt;
 
 	if (new_mode == E_SHELL_VIEW_SUBWINDOW_HIDDEN)
-		toggle_state = FALSE;
+		txt = "0";
 	else
-		toggle_state = TRUE;
+		txt = "1";
 
 	path = (const char *) data;
-	uih = e_shell_view_get_bonobo_ui_handler (shell_view);
+	uic = e_shell_view_get_bonobo_ui_component (shell_view);
 
-	bonobo_ui_handler_menu_set_toggle_state (uih, path, toggle_state);
+	bonobo_ui_component_set_prop (uic, path, "state", txt, NULL);
 }
 
 static void
@@ -62,19 +62,19 @@ folder_bar_mode_changed_cb (EShellView *shell_view,
 			    EShellViewSubwindowMode new_mode,
 			    void *data)
 {
-	BonoboUIHandler *uih;
+	BonoboUIComponent *uic;
 	const char *path;
-	gboolean toggle_state;
+	char *txt;
 
 	if (new_mode == E_SHELL_VIEW_SUBWINDOW_HIDDEN)
-		toggle_state = FALSE;
+		txt = "0";
 	else
-		toggle_state = TRUE;
+		txt = "1";
 
 	path = (const char *) data;
-	uih = e_shell_view_get_bonobo_ui_handler (shell_view);
+	uic = e_shell_view_get_bonobo_ui_component (shell_view);
 
-	bonobo_ui_handler_menu_set_toggle_state (uih, path, toggle_state);
+	bonobo_ui_component_set_prop (uic, path, "state", txt, NULL);
 }
 
 
@@ -360,17 +360,20 @@ command_create_folder (BonoboUIHandler *uih,
 }
 
 static void
-command_xml_dump (gpointer         dummy,
-		  EShellView      *view)
+command_xml_dump (gpointer    dummy,
+		  EShellView *view)
 {
+#if 0
 	BonoboUIHandler *uih;
 	BonoboWin *win;
 
-	uih = e_shell_view_get_bonobo_ui_handler (view);
+	uih = e_shell_view_get_bonobo_ui_component (view);
 	
 	win = bonobo_ui_handler_get_app (uih);
        
 	bonobo_win_dump (win, "On demand");
+#endif
+	g_warning ("FIXME: to re-instate debugging dump we need to get the container");
 }
 
 
@@ -378,7 +381,7 @@ command_xml_dump (gpointer         dummy,
 
 #define DEFINE_UNIMPLEMENTED(func)					\
 static void								\
-func (BonoboUIHandler *uih, void *data, const char *path)		\
+func (BonoboUIComponent *uic, void *data, const char *path)		\
 {									\
 	g_warning ("EShellView: %s: not implemented.", __FUNCTION__);	\
 }									\
@@ -389,32 +392,32 @@ DEFINE_UNIMPLEMENTED (command_new_contact)
 DEFINE_UNIMPLEMENTED (command_new_task_request)
 
 BonoboUIVerb new_verbs [] = {
-	BONOBO_UI_VERB ("NewView", command_new_view),
-	BONOBO_UI_VERB ("NewFolder", command_new_folder),
-	BONOBO_UI_VERB ("NewShortcut", command_new_shortcut),
-	BONOBO_UI_VERB ("NewMailMessage", command_new_mail_message),
+	BONOBO_UI_UNSAFE_VERB ("NewView", command_new_view),
+	BONOBO_UI_UNSAFE_VERB ("NewFolder", command_new_folder),
+	BONOBO_UI_UNSAFE_VERB ("NewShortcut", command_new_shortcut),
+	BONOBO_UI_UNSAFE_VERB ("NewMailMessage", command_new_mail_message),
 
-	BONOBO_UI_VERB ("NewAppointment", command_new_shortcut),
-	BONOBO_UI_VERB ("NewContact", command_new_contact),
-	BONOBO_UI_VERB ("NewTask", command_new_task_request),
+	BONOBO_UI_UNSAFE_VERB ("NewAppointment", command_new_shortcut),
+	BONOBO_UI_UNSAFE_VERB ("NewContact", command_new_contact),
+	BONOBO_UI_UNSAFE_VERB ("NewTask", command_new_task_request),
 
 	BONOBO_UI_VERB_END
 };
 
 BonoboUIVerb file_verbs [] = {
-	BONOBO_UI_VERB ("FileGoToFolder", command_goto_folder),
-	BONOBO_UI_VERB ("FileCreateFolder", command_create_folder),
-	BONOBO_UI_VERB ("FileExit", command_quit),
+	BONOBO_UI_UNSAFE_VERB ("FileGoToFolder", command_goto_folder),
+	BONOBO_UI_UNSAFE_VERB ("FileCreateFolder", command_create_folder),
+	BONOBO_UI_UNSAFE_VERB ("FileExit", command_quit),
 
 	BONOBO_UI_VERB_END
 };
 
 BonoboUIVerb help_verbs [] = {
-	BONOBO_UI_VERB_DATA ("HelpIndex", command_help, "index.html"),
-	BONOBO_UI_VERB_DATA ("HelpGetStarted", command_help, "usage-mainwindow.html"),
-	BONOBO_UI_VERB_DATA ("HelpUsingMail", command_help, "usage-mail.html"),
-	BONOBO_UI_VERB_DATA ("HelpUsingCalendar", command_help, "usage-calendar.html"),
-	BONOBO_UI_VERB_DATA ("HelpUsingContact", command_help, "usage-contact.html"),
+	BONOBO_UI_UNSAFE_VERB_DATA ("HelpIndex", command_help, "index.html"),
+	BONOBO_UI_UNSAFE_VERB_DATA ("HelpGetStarted", command_help, "usage-mainwindow.html"),
+	BONOBO_UI_UNSAFE_VERB_DATA ("HelpUsingMail", command_help, "usage-mail.html"),
+	BONOBO_UI_UNSAFE_VERB_DATA ("HelpUsingCalendar", command_help, "usage-calendar.html"),
+	BONOBO_UI_UNSAFE_VERB_DATA ("HelpUsingContact", command_help, "usage-contact.html"),
 
 	BONOBO_UI_VERB_END
 };
@@ -441,32 +444,29 @@ menu_do_misc (BonoboUIComponent *component,
 }
 
 
-#define SHORTCUT_BAR_TOGGLE_PATH "/View/ShortcutBar"
-#define FOLDER_BAR_TOGGLE_PATH "/View/FolderBar"
+#define SHORTCUT_BAR_TOGGLE_PATH "/menu/View/ShortcutBar"
+#define FOLDER_BAR_TOGGLE_PATH "/menu/View/FolderBar"
 
 void
 e_shell_view_menu_setup (EShellView *shell_view)
 {
-	BonoboUIHandler *uih;
-	BonoboUIComponent *component;
+	BonoboUIComponent *uic;
 
 	g_return_if_fail (shell_view != NULL);
 	g_return_if_fail (E_IS_SHELL_VIEW (shell_view));
 
-	uih = e_shell_view_get_bonobo_ui_handler (shell_view);
-
-	component = bonobo_ui_compat_get_component (uih);
+	uic = e_shell_view_get_bonobo_ui_component (shell_view);
 
 	bonobo_ui_component_add_verb_list_with_data (
-		component, file_verbs, shell_view);
+		uic, file_verbs, shell_view);
 
 	bonobo_ui_component_add_verb_list_with_data (
-		component, new_verbs, shell_view);
+		uic, new_verbs, shell_view);
 
 	bonobo_ui_component_add_verb_list (
-		component, help_verbs);
+		uic, help_verbs);
 
-	menu_do_misc (component, shell_view);
+	menu_do_misc (uic, shell_view);
 
 	gtk_signal_connect (GTK_OBJECT (shell_view), "shortcut_bar_mode_changed",
 			    GTK_SIGNAL_FUNC (shortcut_bar_mode_changed_cb),

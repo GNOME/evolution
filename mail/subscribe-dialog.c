@@ -74,34 +74,8 @@ typedef struct {
 
 static GtkObjectClass *subscribe_dialog_parent_class;
 
-static void subscribe_close (BonoboUIHandler *uih, void *user_data, const char *path);
-static void subscribe_select_all (BonoboUIHandler *uih, void *user_data, const char *path);
-static void subscribe_unselect_all (BonoboUIHandler *uih, void *user_data, const char *path);
-static void subscribe_folder (GtkWidget *widget, gpointer user_data);
-static void unsubscribe_folder (GtkWidget *widget, gpointer user_data);
-static void subscribe_refresh_list (GtkWidget *widget, gpointer user_data);
-static void subscribe_search (GtkWidget *widget, gpointer user_data);
-
-static BonoboUIVerb verbs [] = {
-	/* File Menu */
-	BONOBO_UI_VERB ("FileCloseWin", subscribe_close),
-
-	/* Edit Menu */
-	BONOBO_UI_VERB ("EditSelectAll", subscribe_select_all),
-	BONOBO_UI_VERB ("EditUnSelectAll", subscribe_unselect_all),
-	
-	/* Folder Menu / Toolbar */
-	BONOBO_UI_VERB ("SubscribeFolder", subscribe_folder),
-	BONOBO_UI_VERB ("UnsubscribeFolder", unsubscribe_folder),
-
-	/* Toolbar Specific */
-	BONOBO_UI_VERB ("RefreshList", subscribe_refresh_list),
-
-	BONOBO_UI_VERB_END
-};
-
 static void
-set_pixmap (Bonobo_UIContainer container,
+set_pixmap (BonoboUIComponent *component,
 	    const char        *xml_path,
 	    const char        *icon)
 {
@@ -113,7 +87,7 @@ set_pixmap (Bonobo_UIContainer container,
 	pixbuf = gdk_pixbuf_new_from_file (path);
 	g_return_if_fail (pixbuf != NULL);
 
-	bonobo_ui_util_set_pixbuf (container, xml_path, pixbuf);
+	bonobo_ui_util_set_pixbuf (component, xml_path, pixbuf);
 
 	gdk_pixbuf_unref (pixbuf);
 
@@ -121,11 +95,11 @@ set_pixmap (Bonobo_UIContainer container,
 }
 
 static void
-update_pixmaps (Bonobo_UIContainer container)
+update_pixmaps (BonoboUIComponent *component)
 {
-	set_pixmap (container, "/Toolbar/SubscribeFolder", "fetch-mail.png"); /* XXX */
-	set_pixmap (container, "/Toolbar/UnsubscribeFolder", "compose-message.png"); /* XXX */
-	set_pixmap (container, "/Toolbar/RefreshList", "forward.png"); /* XXX */
+	set_pixmap (component, "/Toolbar/SubscribeFolder", "fetch-mail.png"); /* XXX */
+	set_pixmap (component, "/Toolbar/UnsubscribeFolder", "compose-message.png"); /* XXX */
+	set_pixmap (component, "/Toolbar/RefreshList", "forward.png"); /* XXX */
 }
 
 static GtkWidget*
@@ -154,7 +128,7 @@ make_folder_search_widget (GtkSignalFunc start_search_func,
 
 
 static void
-subscribe_close (BonoboUIHandler *uih,
+subscribe_close (BonoboUIComponent *uic,
 		 void *user_data, const char *path)
 {
 	SubscribeDialog *sc = (SubscribeDialog*)user_data;
@@ -163,13 +137,13 @@ subscribe_close (BonoboUIHandler *uih,
 }
 
 static void
-subscribe_select_all (BonoboUIHandler *uih,
+subscribe_select_all (BonoboUIComponent *uic,
 		      void *user_data, const char *path)
 {
 }
 
 static void
-subscribe_unselect_all (BonoboUIHandler *uih,
+subscribe_unselect_all (BonoboUIComponent *uic,
 			void *user_data, const char *path)
 {
 }
@@ -391,6 +365,24 @@ storage_selected_cb (EvolutionStorageSetViewListener *listener,
 "          earth. Their tags shall blink until the end of days. \n" \
 "                 from The Book of Mozilla, 12:10"
 
+static BonoboUIVerb verbs [] = {
+	/* File Menu */
+	BONOBO_UI_UNSAFE_VERB ("FileCloseWin", subscribe_close),
+
+	/* Edit Menu */
+	BONOBO_UI_UNSAFE_VERB ("EditSelectAll", subscribe_select_all),
+	BONOBO_UI_UNSAFE_VERB ("EditUnSelectAll", subscribe_unselect_all),
+	
+	/* Folder Menu / Toolbar */
+	BONOBO_UI_UNSAFE_VERB ("SubscribeFolder", subscribe_folder),
+	BONOBO_UI_UNSAFE_VERB ("UnsubscribeFolder", unsubscribe_folder),
+
+	/* Toolbar Specific */
+	BONOBO_UI_UNSAFE_VERB ("RefreshList", subscribe_refresh_list),
+
+	BONOBO_UI_VERB_END
+};
+
 static void
 subscribe_dialog_gui_init (SubscribeDialog *sc)
 {
@@ -399,7 +391,7 @@ subscribe_dialog_gui_init (SubscribeDialog *sc)
 	ETableHeader *e_table_header;
 	GdkPixbuf *toggles[2];
 	BonoboUIComponent *component;
-	Bonobo_UIContainer container;
+	BonoboUIContainer *container;
 	GtkWidget         *folder_search_widget, *vbox, *storage_set_title_bar;
 	BonoboControl     *search_control;
 	CORBA_Environment ev;
@@ -410,31 +402,26 @@ subscribe_dialog_gui_init (SubscribeDialog *sc)
 	sc->app = bonobo_win_new ("subscribe-dialog", "Manage Subscriptions");
 
 	/* Build the menu and toolbar */
-	sc->uih = bonobo_ui_handler_new ();
-	if (!sc->uih) {
-		g_message ("subscribe_dialog_gui_init(): eeeeek, could not create the UI handler!");
-		return;
-	}
-
-	bonobo_ui_handler_set_app (sc->uih, BONOBO_WIN (sc->app));
+	container = bonobo_ui_container_new ();
+	bonobo_ui_container_set_win (container, BONOBO_WIN (sc->app));
 
 	/* set up the bonobo stuff */
-	component = bonobo_ui_compat_get_component (sc->uih);
-	container = bonobo_ui_compat_get_container (sc->uih);
+	component = bonobo_ui_component_new_default ();
+	bonobo_ui_component_set_container (
+		component, bonobo_object_corba_objref (BONOBO_OBJECT (container)));
 	
 	bonobo_ui_component_add_verb_list_with_data (
 		component, verbs, sc);
 
-	bonobo_ui_container_freeze (container, NULL);
+	bonobo_ui_component_freeze (component, NULL);
 
-	bonobo_ui_util_set_ui (component, container,
-			       EVOLUTION_DATADIR,
+	bonobo_ui_util_set_ui (component, EVOLUTION_DATADIR,
 			       "evolution-subscribe.xml",
 			       "evolution-subscribe");
 
-	update_pixmaps (container);
+	update_pixmaps (component);
 
-	bonobo_ui_container_thaw (container, NULL);
+	bonobo_ui_component_thaw (component, NULL);
 
 	sc->storage_set_control = Evolution_Shell_create_storage_set_view (sc->shell, &ev);
 	sc->storage_set_view = Bonobo_Unknown_query_interface (sc->storage_set_control,
@@ -444,9 +431,10 @@ subscribe_dialog_gui_init (SubscribeDialog *sc)
 	/* we just want to show storages */
 	Evolution_StorageSetView__set_show_folders (sc->storage_set_view, FALSE, &ev);
 
-	sc->storage_set_view_widget = bonobo_widget_new_control_from_objref (sc->storage_set_control,
-									     container);
-
+	sc->storage_set_view_widget =
+		bonobo_widget_new_control_from_objref (
+			sc->storage_set_control,
+			bonobo_object_corba_objref (BONOBO_OBJECT (container)));
 
 	/* we also want a listener so we can tell when storages are selected */
 	sc->listener = evolution_storage_set_view_listener_new ();
@@ -480,10 +468,9 @@ subscribe_dialog_gui_init (SubscribeDialog *sc)
 	gtk_widget_show_all (folder_search_widget);
 	search_control = bonobo_control_new (folder_search_widget);
 
-	bonobo_ui_container_object_set (container,
-					"/Toolbar/FolderSearch",
-					bonobo_object_corba_objref (BONOBO_OBJECT (search_control)),
-					NULL);
+	bonobo_ui_component_object_set (
+		component, "/Toolbar/FolderSearch",
+		bonobo_object_corba_objref (BONOBO_OBJECT (search_control)), NULL);
 					
 	/* set our our contents */
 	sc->description = html_new (TRUE);

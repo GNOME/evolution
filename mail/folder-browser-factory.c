@@ -35,7 +35,8 @@ static void
 register_ondemand (RuleContext *f, FilterRule *rule, gpointer data)
 {
 	FolderBrowser *fb = FOLDER_BROWSER (data);
-	BonoboUIHandler *uih = gtk_object_get_data (GTK_OBJECT (fb), "uih");
+	BonoboUIComponent *uic = gtk_object_get_data (GTK_OBJECT (fb), "uih");
+	BonoboUIHandler *uih;
 	gchar *text;
 	struct fb_ondemand_closure *oc;
 	
@@ -43,7 +44,11 @@ register_ondemand (RuleContext *f, FilterRule *rule, gpointer data)
 	oc->rule = rule;
 	oc->fb = fb;
 	oc->path = g_strdup_printf ("/*Component Placeholder*/Folder/Filter-%s", rule->name);
-	
+
+#warning FIXME: this should not use the bonobo_ui_handler API.
+
+	uih = bonobo_ui_handler_new_from_component (uic);
+
 	if (fb->filter_menu_paths == NULL)
 		bonobo_ui_handler_menu_new_separator (uih, "/*Component Placeholder*/Folder/separator1", -1);
 	
@@ -59,14 +64,14 @@ register_ondemand (RuleContext *f, FilterRule *rule, gpointer data)
 }
 
 static void
-create_ondemand_hooks (FolderBrowser *fb, BonoboUIHandler *uih)
+create_ondemand_hooks (FolderBrowser *fb, BonoboUIComponent *uic)
 {
 	gchar *system, *user;
 	
 	user = g_strdup_printf ("%s/filters.xml", evolution_dir);
 	system = EVOLUTION_DATADIR "/evolution/filtertypes.xml";
 	fb->filter_context = filter_context_new();
-	gtk_object_set_data (GTK_OBJECT (fb), "uih", uih);
+	gtk_object_set_data (GTK_OBJECT (fb), "uih", uic);
 	rule_context_load ((RuleContext *) fb->filter_context, system, user,
 			   register_ondemand, fb);
 	gtk_object_remove_data (GTK_OBJECT (fb), "uih");
@@ -77,55 +82,55 @@ create_ondemand_hooks (FolderBrowser *fb, BonoboUIHandler *uih)
  * Add with 'folder_browser'
  */
 BonoboUIVerb verbs [] = {
-	BONOBO_UI_VERB ("PrintMessage", print_msg),
-	BONOBO_UI_VERB ("PrintPreviewMessage", print_preview_msg),
+	BONOBO_UI_UNSAFE_VERB ("PrintMessage", print_msg),
+	BONOBO_UI_UNSAFE_VERB ("PrintPreviewMessage", print_preview_msg),
 	
 	/* Edit Menu */
-	BONOBO_UI_VERB ("EditSelectAll", select_all),
-	BONOBO_UI_VERB ("EditInvertSelection", invert_selection),
+	BONOBO_UI_UNSAFE_VERB ("EditSelectAll", select_all),
+	BONOBO_UI_UNSAFE_VERB ("EditInvertSelection", invert_selection),
 	
 	/* Settings Menu */
-	BONOBO_UI_VERB ("SetMailFilter", filter_edit),
-	BONOBO_UI_VERB ("VFolderEdit", vfolder_edit_vfolders),
-	BONOBO_UI_VERB ("SetMailConfig", providers_config),
-	BONOBO_UI_VERB ("SetSubscribe", manage_subscriptions),
-	BONOBO_UI_VERB ("SetForgetPwd", forget_passwords),
+	BONOBO_UI_UNSAFE_VERB ("SetMailFilter", filter_edit),
+	BONOBO_UI_UNSAFE_VERB ("VFolderEdit", vfolder_edit_vfolders),
+	BONOBO_UI_UNSAFE_VERB ("SetMailConfig", providers_config),
+	BONOBO_UI_UNSAFE_VERB ("SetSubscribe", manage_subscriptions),
+	BONOBO_UI_UNSAFE_VERB ("SetForgetPwd", forget_passwords),
 	
 	/* Message Menu */
-	BONOBO_UI_VERB ("MessageOpenNewWnd", view_message),
-	BONOBO_UI_VERB ("MessageEdit", edit_message),
-	BONOBO_UI_VERB ("MessagePrint", print_msg),
-	BONOBO_UI_VERB ("MessageReplySndr", reply_to_sender),
-	BONOBO_UI_VERB ("MessageReplyAll", reply_to_all),
-	BONOBO_UI_VERB ("MessageForward", forward_msg),
+	BONOBO_UI_UNSAFE_VERB ("MessageOpenNewWnd", view_message),
+	BONOBO_UI_UNSAFE_VERB ("MessageEdit", edit_message),
+	BONOBO_UI_UNSAFE_VERB ("MessagePrint", print_msg),
+	BONOBO_UI_UNSAFE_VERB ("MessageReplySndr", reply_to_sender),
+	BONOBO_UI_UNSAFE_VERB ("MessageReplyAll", reply_to_all),
+	BONOBO_UI_UNSAFE_VERB ("MessageForward", forward_msg),
 	
-	BONOBO_UI_VERB ("MessageMarkAsRead", mark_as_seen),
-	BONOBO_UI_VERB ("MessageMarkAsUnRead", mark_as_unseen),
-	BONOBO_UI_VERB ("MessageDelete", delete_msg),
-	BONOBO_UI_VERB ("MessageMove", move_msg),
-	BONOBO_UI_VERB ("MessageCopy", copy_msg),
+	BONOBO_UI_UNSAFE_VERB ("MessageMarkAsRead", mark_as_seen),
+	BONOBO_UI_UNSAFE_VERB ("MessageMarkAsUnRead", mark_as_unseen),
+	BONOBO_UI_UNSAFE_VERB ("MessageDelete", delete_msg),
+	BONOBO_UI_UNSAFE_VERB ("MessageMove", move_msg),
+	BONOBO_UI_UNSAFE_VERB ("MessageCopy", copy_msg),
 	
-	BONOBO_UI_VERB ("MessageVFolderSubj", vfolder_subject),
-	BONOBO_UI_VERB ("MessageVFolderSndr", vfolder_sender),
-	BONOBO_UI_VERB ("MessageVFolderRecip", vfolder_recipient),
+	BONOBO_UI_UNSAFE_VERB ("MessageVFolderSubj", vfolder_subject),
+	BONOBO_UI_UNSAFE_VERB ("MessageVFolderSndr", vfolder_sender),
+	BONOBO_UI_UNSAFE_VERB ("MessageVFolderRecip", vfolder_recipient),
 	
-	BONOBO_UI_VERB ("MessageFilterSubj", filter_subject),
-	BONOBO_UI_VERB ("MessageFilderSndr", filter_sender),
-	BONOBO_UI_VERB ("MessageFilderRecip", filter_recipient),
+	BONOBO_UI_UNSAFE_VERB ("MessageFilterSubj", filter_subject),
+	BONOBO_UI_UNSAFE_VERB ("MessageFilderSndr", filter_sender),
+	BONOBO_UI_UNSAFE_VERB ("MessageFilderRecip", filter_recipient),
 	
 	/* Folder Menu */
-	BONOBO_UI_VERB ("FolderExpunge", expunge_folder),
-	BONOBO_UI_VERB ("FolderConfig", configure_folder),
+	BONOBO_UI_UNSAFE_VERB ("FolderExpunge", expunge_folder),
+	BONOBO_UI_UNSAFE_VERB ("FolderConfig", configure_folder),
 	
 	/* Toolbar specific */
-	BONOBO_UI_VERB ("MailGet", send_receieve_mail),
-	BONOBO_UI_VERB ("MailCompose", compose_msg),
+	BONOBO_UI_UNSAFE_VERB ("MailGet", send_receieve_mail),
+	BONOBO_UI_UNSAFE_VERB ("MailCompose", compose_msg),
 	
 	BONOBO_UI_VERB_END
 };
 
 static void
-set_pixmap (Bonobo_UIContainer container,
+set_pixmap (BonoboUIComponent *uic,
 	    const char        *xml_path,
 	    const char        *icon)
 {
@@ -137,7 +142,7 @@ set_pixmap (Bonobo_UIContainer container,
 	pixbuf = gdk_pixbuf_new_from_file (path);
 	g_return_if_fail (pixbuf != NULL);
 
-	bonobo_ui_util_set_pixbuf (container, xml_path, pixbuf);
+	bonobo_ui_util_set_pixbuf (uic, xml_path, pixbuf);
 
 	gdk_pixbuf_unref (pixbuf);
 
@@ -145,74 +150,69 @@ set_pixmap (Bonobo_UIContainer container,
 }
 
 static void
-update_pixmaps (Bonobo_UIContainer container)
+update_pixmaps (BonoboUIComponent *uic)
 {
-	set_pixmap (container, "/Toolbar/MailGet", "fetch-mail.png");
-	set_pixmap (container, "/Toolbar/MailCompose", "compose-message.png");
-	set_pixmap (container, "/Toolbar/Reply", "reply.png");
-	set_pixmap (container, "/Toolbar/ReplyAll", "reply-to-all.png");
-	set_pixmap (container, "/Toolbar/Forward", "forward.png");
-	set_pixmap (container, "/Toolbar/Move", "move-message.png");
-	set_pixmap (container, "/Toolbar/Copy", "copy-message.png");
+	set_pixmap (uic, "/Toolbar/MailGet", "fetch-mail.png");
+	set_pixmap (uic, "/Toolbar/MailCompose", "compose-message.png");
+	set_pixmap (uic, "/Toolbar/Reply", "reply.png");
+	set_pixmap (uic, "/Toolbar/ReplyAll", "reply-to-all.png");
+	set_pixmap (uic, "/Toolbar/Forward", "forward.png");
+	set_pixmap (uic, "/Toolbar/Move", "move-message.png");
+	set_pixmap (uic, "/Toolbar/Copy", "copy-message.png");
 }
 
 static void
-control_activate (BonoboControl *control, BonoboUIHandler *uih,
-		  FolderBrowser *fb)
+control_activate (BonoboControl     *control,
+		  BonoboUIComponent *uic,
+		  FolderBrowser     *fb)
 {
 	GtkWidget         *folder_browser;
-	BonoboUIComponent *component;
 	Bonobo_UIContainer container;
 
-	container = bonobo_control_get_remote_ui_handler (control);
-	bonobo_ui_handler_set_container (uih, container);
+	container = bonobo_control_get_remote_ui_container (control);
+	bonobo_ui_component_set_container (uic, container);
 	bonobo_object_release_unref (container, NULL);
 
-	g_assert (container == bonobo_ui_compat_get_container (uih));
+	g_assert (container == bonobo_ui_component_get_container (uic));
 	g_return_if_fail (container != CORBA_OBJECT_NIL);
 		
 	folder_browser = bonobo_control_get_widget (control);
 
-	component = bonobo_ui_compat_get_component (uih);
 	bonobo_ui_component_add_verb_list_with_data (
-		component, verbs, folder_browser);
+		uic, verbs, folder_browser);
 
-	bonobo_ui_container_freeze (container, NULL);
+	bonobo_ui_component_freeze (uic, NULL);
 
 	bonobo_ui_util_set_ui (
-		component, container,
-		EVOLUTION_DATADIR, "evolution-mail.xml",
-		"evolution-mail");
+		uic, EVOLUTION_DATADIR,
+		"evolution-mail.xml", "evolution-mail");
 
 	if (mail_config_thread_list ())
-		bonobo_ui_container_set_prop (
-			container, "/menu/View/Threaded", "state", "1", NULL);
+		bonobo_ui_component_set_prop (
+			uic, "/menu/View/Threaded", "state", "1", NULL);
 	else
-		bonobo_ui_container_set_prop (
-			container, "/menu/View/Threaded", "state", "0", NULL);
+		bonobo_ui_component_set_prop (
+			uic, "/menu/View/Threaded", "state", "0", NULL);
 
 	bonobo_ui_component_add_verb (
-		component, "ViewThreaded",
+		uic, "ViewThreaded",
 		(BonoboUIVerbFn) message_list_toggle_threads,
 		FOLDER_BROWSER (folder_browser)->message_list);
 
-	create_ondemand_hooks (fb, uih);
+	create_ondemand_hooks (fb, uic);
 
-	update_pixmaps (container);
+	update_pixmaps (uic);
 
-	bonobo_ui_container_thaw (container, NULL);
+	bonobo_ui_component_thaw (uic, NULL);
 }
 
 static void
-control_deactivate (BonoboControl *control,
-		    BonoboUIHandler *uih,
-		    FolderBrowser *fb)
+control_deactivate (BonoboControl     *control,
+		    BonoboUIComponent *uic,
+		    FolderBrowser     *fb)
 {
-	bonobo_ui_component_rm (
-		bonobo_ui_compat_get_component (uih),
-		bonobo_ui_compat_get_container (uih), "/", NULL);
-
- 	bonobo_ui_handler_unset_container (uih);
+	bonobo_ui_component_rm (uic, "/", NULL);
+ 	bonobo_ui_component_unset_container (uic);
 
 	mail_do_sync_folder (fb->folder);
 }
@@ -222,15 +222,15 @@ control_activate_cb (BonoboControl *control,
 		     gboolean activate, 
 		     gpointer user_data)
 {
-	BonoboUIHandler  *uih;
+	BonoboUIComponent *uic;
 
-	uih = bonobo_control_get_ui_handler (control);
-	g_assert (uih);
+	uic = bonobo_control_get_ui_component (control);
+	g_assert (uic != NULL);
 
 	if (activate)
-		control_activate (control, uih, user_data);
+		control_activate (control, uic, user_data);
 	else
-		control_deactivate (control, uih, user_data);
+		control_deactivate (control, uic, user_data);
 }
 
 static void

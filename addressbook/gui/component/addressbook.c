@@ -49,18 +49,6 @@ typedef struct {
 static void change_view_type (AddressbookView *view, EAddressbookViewType view_type);
 
 static void
-control_deactivate (BonoboControl *control, BonoboUIHandler *uih)
-{
-	Bonobo_UIContainer container = bonobo_ui_compat_get_container (uih);
-
-	g_return_if_fail (container != CORBA_OBJECT_NIL);
-
-	bonobo_ui_component_rm (
-		bonobo_ui_compat_get_component (uih),
-		container, "/", NULL);
-}
-
-static void
 card_added_cb (EBook* book, EBookStatus status, const char *id,
 	    gpointer user_data)
 {
@@ -323,48 +311,42 @@ stop_loading_cb (BonoboUIHandler *uih, void *user_data, const char *path)
 }
 
 BonoboUIVerb verbs [] = {
-	BONOBO_UI_VERB ("ContactsPrint", print_cb),
-	BONOBO_UI_VERB ("ViewAsTable", toggle_view_as_cb),
-	BONOBO_UI_VERB ("ViewNewContact", new_contact_cb),
-	BONOBO_UI_VERB ("ToolSearch", search_cb),
+	BONOBO_UI_UNSAFE_VERB ("ContactsPrint", print_cb),
+	BONOBO_UI_UNSAFE_VERB ("ViewAsTable", toggle_view_as_cb),
+	BONOBO_UI_UNSAFE_VERB ("ViewNewContact", new_contact_cb),
+	BONOBO_UI_UNSAFE_VERB ("ToolSearch", search_cb),
 
-	BONOBO_UI_VERB ("ContactNew", new_contact_cb),
-/*	BONOBO_UI_VERB ("ContactFind", find_contact_cb),*/
-	BONOBO_UI_VERB ("ContactDelete", delete_contact_cb),
-	BONOBO_UI_VERB ("ContactViewAll", show_all_contacts_cb),
-	BONOBO_UI_VERB ("ContactStop", stop_loading_cb),
+	BONOBO_UI_UNSAFE_VERB ("ContactNew", new_contact_cb),
+/*	BONOBO_UI_UNSAFE_VERB ("ContactFind", find_contact_cb),*/
+	BONOBO_UI_UNSAFE_VERB ("ContactDelete", delete_contact_cb),
+	BONOBO_UI_UNSAFE_VERB ("ContactViewAll", show_all_contacts_cb),
+	BONOBO_UI_UNSAFE_VERB ("ContactStop", stop_loading_cb),
 #ifdef HAVE_LDAP
-	BONOBO_UI_VERB ("ContactNewServer", new_server_cb),
+	BONOBO_UI_UNSAFE_VERB ("ContactNewServer", new_server_cb),
 #endif
 	
 	BONOBO_UI_VERB_END
 };
 
 static void
-control_activate (BonoboControl *control, BonoboUIHandler *uih,
-		  AddressbookView *view)
+control_activate (BonoboControl     *control,
+		  BonoboUIComponent *uic,
+		  AddressbookView   *view)
 {
-	Bonobo_UIContainer remote_uih;
-	Bonobo_UIContainer container;
-	BonoboUIComponent *component;
+	Bonobo_UIContainer remote_ui_container;
 	GtkWidget *quick_search_widget;
 	BonoboControl *search_control;
 
-	remote_uih = bonobo_control_get_remote_ui_handler (control);
-	bonobo_ui_handler_set_container (uih, remote_uih);		
-	bonobo_object_release_unref (remote_uih, NULL);
+	remote_ui_container = bonobo_control_get_remote_ui_container (control);
+	bonobo_ui_component_set_container (uic, remote_ui_container);
+	bonobo_object_release_unref (remote_ui_container, NULL);
 
-	component = bonobo_ui_compat_get_component (uih);
-	
 	bonobo_ui_component_add_verb_list_with_data (
-		component, verbs, view);
+		uic, verbs, view);
 	
-	container = bonobo_ui_compat_get_container (uih);
-	g_return_if_fail (container != CORBA_OBJECT_NIL);
-	
-	bonobo_ui_container_freeze (container, NULL);
+	bonobo_ui_component_freeze (uic, NULL);
 
-	bonobo_ui_util_set_ui (component, container, EVOLUTION_DATADIR,
+	bonobo_ui_util_set_ui (uic, EVOLUTION_DATADIR,
 #ifdef HAVE_LDAP
 			       "evolution-addressbook-ldap.xml",
 #else
@@ -378,12 +360,12 @@ control_activate (BonoboControl *control, BonoboUIHandler *uih,
 	gtk_widget_show_all (quick_search_widget);
 	search_control = bonobo_control_new (quick_search_widget);
 
-	bonobo_ui_container_object_set (
-		container, "/Toolbar/QuickSearch",
+	bonobo_ui_component_object_set (
+		uic, "/Toolbar/QuickSearch",
 		bonobo_object_corba_objref (BONOBO_OBJECT (search_control)),
 		NULL);
 
-	bonobo_ui_container_thaw (container, NULL);
+	bonobo_ui_component_thaw (uic, NULL);
 }
 
 static void
@@ -391,15 +373,15 @@ control_activate_cb (BonoboControl *control,
 		     gboolean activate, 
 		     AddressbookView *view)
 {
-	BonoboUIHandler  *uih;
+	BonoboUIComponent *uic;
 
-	uih = bonobo_control_get_ui_handler (control);
-	g_assert (uih);
+	uic = bonobo_control_get_ui_component (control);
+	g_assert (uic != NULL);
 	
 	if (activate)
-		control_activate (control, uih, view);
+		control_activate (control, uic, view);
 	else
-		control_deactivate (control, uih);
+		bonobo_ui_component_unset_container (uic);
 }
 
 static void

@@ -60,7 +60,7 @@ struct _EShellViewPrivate {
 	EShell *shell;
 
 	/* The UI handler.  */
-	BonoboUIHandler *uih;
+	BonoboUIComponent *ui_component;
 
 	/* Currently displayed URI.  */
 	char *uri;
@@ -442,9 +442,8 @@ setup_progress_bar (EShellViewPrivate *priv)
 	control = bonobo_control_new (priv->progress_bar);
 	g_return_if_fail (control != NULL);
 
-	bonobo_ui_container_object_set (
-		bonobo_ui_compat_get_container (priv->uih),
-		"/status/Progress",
+	bonobo_ui_component_object_set (
+		priv->ui_component, "/status/Progress",
 		bonobo_object_corba_objref (BONOBO_OBJECT (control)),
 		NULL);
 }
@@ -555,7 +554,7 @@ destroy (GtkObject *object)
 	g_hash_table_foreach (priv->uri_to_control, hash_forall_destroy_control, NULL);
 	g_hash_table_destroy (priv->uri_to_control);
 
-	bonobo_object_unref (BONOBO_OBJECT (priv->uih));
+	bonobo_object_unref (BONOBO_OBJECT (priv->ui_component));
 
 	g_free (priv->uri);
 
@@ -605,7 +604,7 @@ class_init (EShellViewClass *klass)
 
 	object_class->destroy = destroy;
 
-	parent_class = gtk_type_class (BONOBO_WIN_TYPE);
+	parent_class = gtk_type_class (BONOBO_TYPE_WIN);
 
 	signals[SHORTCUT_BAR_MODE_CHANGED]
 		= gtk_signal_new ("shortcut_bar_mode_changed",
@@ -636,7 +635,7 @@ init (EShellView *shell_view)
 	priv = g_new (EShellViewPrivate, 1);
 
 	priv->shell                   = NULL;
-	priv->uih                     = NULL;
+	priv->ui_component            = NULL;
 	priv->uri                     = NULL;
 	priv->delayed_selection       = NULL;
 
@@ -754,9 +753,8 @@ shell_view_interface_set_message_cb (EvolutionShellView *shell_view,
 	} else
 		status = g_strdup ("");
 
-	bonobo_ui_container_set_status (
-		bonobo_ui_compat_get_container (view->priv->uih),
-		status, NULL);
+	bonobo_ui_component_set_status (
+		view->priv->ui_component, status, NULL);
 
 	g_free (status);
 
@@ -776,9 +774,8 @@ shell_view_interface_unset_message_cb (EvolutionShellView *shell_view,
 
 	g_return_if_fail (view != NULL);
 
-	bonobo_ui_container_set_status (
-		bonobo_ui_compat_get_container (view->priv->uih),
-		"", NULL);
+	bonobo_ui_component_set_status (
+		view->priv->ui_component, "", NULL);
 
 	stop_progress_bar (E_SHELL_VIEW (data));
 }
@@ -791,8 +788,7 @@ e_shell_view_construct (EShellView *shell_view,
 	EShellViewPrivate *priv;
 	EShellView *view;
 	GtkObject *window;
-	Bonobo_UIContainer container;
-	BonoboUIComponent *component;
+	BonoboUIContainer *container;
 
 	g_return_val_if_fail (shell != NULL, NULL);
 	g_return_val_if_fail (shell_view != NULL, NULL);
@@ -818,18 +814,18 @@ e_shell_view_construct (EShellView *shell_view,
 
 	priv->shell = shell;
 
-	priv->uih = bonobo_ui_handler_new ();
-	bonobo_ui_handler_set_app (priv->uih, BONOBO_WIN (shell_view));
+	container = bonobo_ui_container_new ();
+	bonobo_ui_container_set_win (container, BONOBO_WIN (shell_view));
 
-	component = bonobo_ui_compat_get_component (priv->uih);
-	container = bonobo_ui_compat_get_container (priv->uih);
-	g_return_val_if_fail (container != CORBA_OBJECT_NIL, NULL);
+	priv->ui_component = bonobo_ui_component_new ("evolution");
+	bonobo_ui_component_set_container (
+		priv->ui_component,
+		bonobo_object_corba_objref (BONOBO_OBJECT (container)));
 
-	bonobo_ui_container_freeze (container, NULL);
+	bonobo_ui_component_freeze (priv->ui_component, NULL);
 
-	bonobo_ui_util_set_ui (component, container, 
-			       EVOLUTION_DATADIR, "evolution.xml",
-			       "evolution");
+	bonobo_ui_util_set_ui (priv->ui_component, EVOLUTION_DATADIR,
+			       "evolution.xml", "evolution");
 
 	setup_widgets (shell_view);
 
@@ -837,7 +833,7 @@ e_shell_view_construct (EShellView *shell_view,
 
 	e_shell_view_set_folder_bar_mode (shell_view, E_SHELL_VIEW_SUBWINDOW_HIDDEN);
 
-	bonobo_ui_container_thaw (container, NULL);
+	bonobo_ui_component_thaw (priv->ui_component, NULL);
 
 	return view;
 }
@@ -1122,7 +1118,7 @@ get_control_for_uri (EShellView *shell_view,
 
 	control = bonobo_widget_new_control_from_objref (
 		corba_control,
-		bonobo_ui_compat_get_container (priv->uih));
+		bonobo_ui_component_get_container (priv->ui_component));
 
 	setup_evolution_shell_view_interface (shell_view, control);
 
@@ -1148,10 +1144,8 @@ show_existing_view (EShellView *shell_view,
 	   control is dead; if it's zombie, we have to recreate it.  */
 	if (bonobo_widget_is_dead (BONOBO_WIDGET (control))) {
 		GtkWidget *parent;
-		Bonobo_UIContainer uih;
 
 		parent = control->parent;
-		uih = bonobo_object_corba_objref (BONOBO_OBJECT (priv->uih));			
 
 		/* Out with the old.  */
 		gtk_container_remove (GTK_CONTAINER (parent), control);
@@ -1375,13 +1369,13 @@ e_shell_view_get_shell (EShellView *shell_view)
 	return shell_view->priv->shell;
 }
 
-BonoboUIHandler *
-e_shell_view_get_bonobo_ui_handler (EShellView *shell_view)
+BonoboUIComponent *
+e_shell_view_get_bonobo_ui_component (EShellView *shell_view)
 {
 	g_return_val_if_fail (shell_view != NULL, NULL);
 	g_return_val_if_fail (E_IS_SHELL_VIEW (shell_view), NULL);
 
-	return shell_view->priv->uih;
+	return shell_view->priv->ui_component;
 }
 
 GtkWidget *
@@ -1491,4 +1485,4 @@ e_shell_view_load_settings (EShellView *shell_view,
 }
 
 
-E_MAKE_TYPE (e_shell_view, "EShellView", EShellView, class_init, init, BONOBO_WIN_TYPE)
+E_MAKE_TYPE (e_shell_view, "EShellView", EShellView, class_init, init, BONOBO_TYPE_WIN)

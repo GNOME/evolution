@@ -1,3 +1,23 @@
+2000-10-05  Michael Meeks  <michael@helixcode.com>
+
+	* component-factory.c (summary_fn, component_factory_init): Disable
+	summary stuff, it appears to be badly broken.
+
+	* Makefile.am (evolution_mail_SOURCES): add mail-summary.[ch]
+
+	* subscribe-dialog.c (update_pixmaps): upd.
+	(set_pixmap): upd.
+	(subscribe_dialog_gui_init): upd.
+	remove redundant and annoying forward definitions.
+
+	* folder-browser-factory.c (control_deactivate): upd.
+	(control_activate_cb): upd.
+	(control_activate): upd.
+	(set_pixmap): upd.
+	(update_pixmaps): upd.
+	(register_ondemand): upd.
+	(create_ondemand_hooks): upd.
+
 2000-10-04  Jeffrey Stedfast  <fejj@helixcode.com>
 
 	* message-list.c (address_compare): Use CamelInternetAddress
