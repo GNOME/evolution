@@ -1,3 +1,11 @@
+2004-04-28  Rodney Dawes  <dobey@ximian.com>
+
+	* main.c (main): Call gnome_program_init with PACKAGE "-" BASE_VERSION
+	so that we start up the right version of evolution when we get killed
+	by logout or whatever
+
+	Fixes #54087
+
 2004-04-27  JP Rosevear  <jpr@ximian.com>
 
 	* e-shell-window.c (sidebar_button_selected_callback): init the
