@@ -373,6 +373,12 @@ etsm_select_all (ESelectionModel *selection)
 	etsm->root->all_children_selected = TRUE;
 	etsm->root->any_children_selected = TRUE;
 
+	e_tree_selection_model_node_fill_children(etsm, e_tree_model_get_root(E_TREE_MODEL(etsm->ets)), etsm->root);
+	etsm->root->all_children_selected_array = e_bit_array_new(etsm->root->num_children);
+	etsm->root->any_children_selected_array = e_bit_array_new(etsm->root->num_children);
+	e_bit_array_select_all(etsm->root->all_children_selected_array);
+	e_bit_array_select_all(etsm->root->any_children_selected_array);
+
 	if (etsm->cursor_col == -1)
 		etsm->cursor_col = 0;
 	if (etsm->cursor_path == NULL)
@@ -526,7 +532,7 @@ update_parents (ETreeSelectionModel *etsm, ETreePath path)
 
 	depth = e_tree_model_node_depth (E_TREE_MODEL(ets), path);
 
-	orig_position_sequence = g_new(int, depth);
+	orig_position_sequence = g_new(int, depth + 1);
 	node_sequence = g_new(ETreeSelectionModelNode *, depth + 1);
 
 	parents = path;
@@ -746,15 +752,16 @@ etsm_foreach_all_recurse (ETreeSelectionModel *etsm,
 			  ETreeForeachFunc callback,
 			  gpointer closure)
 {
-	ETreePath child = e_tree_model_node_get_first_child(E_TREE_MODEL(etsm->ets), path);
-	for ( ; child; child = e_tree_model_node_get_next(E_TREE_MODEL(etsm->ets), child)) {
-		if (child) {
-			ETreePath model_path = e_tree_sorted_view_to_model_path(etsm->ets, child);
-			callback(model_path, closure);
+	ETreePath model_path;
+	ETreePath child;
 
+	model_path = e_tree_sorted_view_to_model_path(etsm->ets, path);
+	callback(model_path, closure);
+
+	child = e_tree_model_node_get_first_child(E_TREE_MODEL(etsm->ets), path);
+	for ( ; child; child = e_tree_model_node_get_next(E_TREE_MODEL(etsm->ets), child))
+		if (child)
 			etsm_foreach_all_recurse (etsm, child, callback, closure);
-		}
-	}
 }
 
 static void
