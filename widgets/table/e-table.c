@@ -747,6 +747,10 @@ e_table_set_state_object(ETable *e_table, ETableState *state)
 					    e_table);
 	}
 
+	if (e_table->sorter)
+		gtk_object_set(GTK_OBJECT(e_table->sorter),
+			       "sort_info", e_table->sort_info,
+			       NULL);
 	if (e_table->header_item)
 		gtk_object_set(GTK_OBJECT(e_table->header_item),
 			       "ETableHeader", e_table->header,

@@ -14,6 +14,12 @@
 #include "gal/util/e-util.h"
 #include "e-table-sorter.h"
 
+/* The arguments we take */
+enum {
+	ARG_0,
+	ARG_SORT_INFO
+};
+
 #define PARENT_TYPE gtk_object_get_type()
 
 #define INCREMENT_AMOUNT 100
@@ -58,6 +64,41 @@ ets_destroy (GtkObject *object)
 }
 
 static void
+ets_set_arg (GtkObject *object, GtkArg *arg, guint arg_id)
+{
+	ETableSorter *ets = E_TABLE_SORTER (object);
+
+	switch (arg_id) {
+	case ARG_SORT_INFO:
+		if (ets->sort_info) {
+			if (ets->sort_info_changed_id)
+				gtk_signal_disconnect(GTK_OBJECT(ets->sort_info), ets->sort_info_changed_id);
+			gtk_object_unref(GTK_OBJECT(ets->sort_info));
+		}
+
+		ets->sort_info = E_TABLE_SORT_INFO(GTK_VALUE_OBJECT (*arg));
+		ets->sort_info_changed_id = gtk_signal_connect (GTK_OBJECT (ets->sort_info), "sort_info_changed",
+								GTK_SIGNAL_FUNC (ets_sort_info_changed), ets);
+
+		ets_clean (ets);
+		break;
+	default:
+		break;
+	}
+}
+
+static void
+ets_get_arg (GtkObject *object, GtkArg *arg, guint arg_id)
+{
+	ETableSorter *ets = E_TABLE_SORTER (object);
+	switch (arg_id) {
+	case ARG_SORT_INFO:
+		GTK_VALUE_OBJECT (*arg) = GTK_OBJECT(ets->sort_info);
+		break;
+	}
+}
+
+static void
 ets_class_init (ETableSorterClass *klass)
 {
 	GtkObjectClass *object_class = GTK_OBJECT_CLASS(klass);
@@ -65,6 +106,11 @@ ets_class_init (ETableSorterClass *klass)
 	parent_class = gtk_type_class (PARENT_TYPE);
 
 	object_class->destroy = ets_destroy;
+	object_class->set_arg = ets_set_arg;
+	object_class->get_arg = ets_get_arg;
+
+	gtk_object_add_arg_type ("ETableSorter::sort_info", GTK_TYPE_OBJECT, 
+				 GTK_ARG_READWRITE, ARG_SORT_INFO); 
 }
 
 static void
@@ -190,6 +236,8 @@ ets_sort(ETableSorter *ets)
 	if (ets->sorted)
 		return;
 
+	ets->needs_sorting = 0;
+
 	rows = e_table_model_row_count(ets->source);
 	group_cols = e_table_sort_info_grouping_get_count(ets->sort_info);
 	cols = e_table_sort_info_sorting_get_count(ets->sort_info) + group_cols;
@@ -272,10 +320,12 @@ e_table_sorter_model_to_sorted (ETableSorter *sorter, int row)
 	g_return_val_if_fail(row >= 0, -1);
 	g_return_val_if_fail(row < rows, -1);
 
-	if (e_table_sorter_needs_sorting(sorter)) {
+	if (e_table_sorter_needs_sorting(sorter))
 		ets_backsort(sorter);
+
+	if (sorter->backsorted)
 		return sorter->backsorted[row];
-	} else
+	else
 		return row;
 }
 
@@ -287,9 +337,11 @@ e_table_sorter_sorted_to_model (ETableSorter *sorter, int row)
 	g_return_val_if_fail(row >= 0, -1);
 	g_return_val_if_fail(row < rows, -1);
 
-	if (e_table_sorter_needs_sorting(sorter)) {
+	if (e_table_sorter_needs_sorting(sorter))
 		ets_sort(sorter);
+
+	if (sorter->sorted)
 		return sorter->sorted[row];
-	} else
+	else
 		return row;
 }
