@@ -80,6 +80,9 @@ struct _AlarmPagePrivate {
 	EAlarmList *list_store;
 
 	gboolean updating;
+
+	/* Old summary, to detect changes */
+	gchar *old_summary;
 };
 
 /* "relative" types */
@@ -218,6 +221,7 @@ alarm_page_init (AlarmPage *apage)
         icalcomponent_add_property (icalcomp, icalprop);
 
 	priv->updating = FALSE;
+	priv->old_summary = NULL;
 }
 
 /* Destroy handler for the alarm page */
@@ -249,6 +253,11 @@ alarm_page_finalize (GObject *object)
 	if (priv->list_store) {
 		g_object_unref (priv->list_store);
 		priv->list_store = NULL;
+	}
+
+	if (priv->old_summary) {
+		g_free (priv->old_summary);
+		priv->old_summary = NULL;
 	}
 
 	g_free (priv);
@@ -499,6 +508,39 @@ alarm_page_set_summary (CompEditorPage *page, const char *summary)
 	priv = apage->priv;
 
 	gtk_label_set_text (GTK_LABEL (priv->summary), summary);
+
+	/* iterate over all alarms */
+	if (priv->old_summary) {
+		GtkTreeView *view;
+		GtkTreeModel *model;
+		GtkTreeIter iter;
+		gboolean valid_iter;
+
+		view = GTK_TREE_VIEW (priv->list);
+		model = GTK_TREE_MODEL (priv->list_store);
+
+		for (valid_iter = gtk_tree_model_get_iter_first (model, &iter); valid_iter;
+		     valid_iter = gtk_tree_model_iter_next (model, &iter)) {
+			CalComponentAlarm *alarm;
+			CalComponentText desc;
+
+			alarm = (CalComponentAlarm *) e_alarm_list_get_alarm (priv->list_store, &iter);
+			g_assert (alarm != NULL);
+
+			cal_component_alarm_get_description (alarm, &desc);
+			if (desc.value && *desc.value) {
+				if (!strcmp (desc.value, priv->old_summary)) {
+					desc.value = summary;
+					cal_component_alarm_set_description (alarm, &desc);
+				}
+			}
+		}
+
+		g_free (priv->old_summary);
+	}
+	
+	/* update old summary */
+	priv->old_summary = g_strdup (summary);
 }
 
 /* set_dates handler for the alarm page */
