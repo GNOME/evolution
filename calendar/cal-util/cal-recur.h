@@ -26,6 +26,7 @@
 
 #include <libgnome/gnome-defs.h>
 #include <glib.h>
+#include "calobj.h"
 
 BEGIN_GNOME_DECLS
 
@@ -106,7 +107,15 @@ struct _CalObjTime {
 };
 
 
+/* This will eventually replace ical_object_generate_events(). */
+void	cal_object_generate_events	(iCalObject	*ico,
+					 time_t		 start,
+					 time_t		 end,
+					 calendarfn	 cb,
+					 void		*closure);
 
+
+/* This is an internal function, only here for testing. */
 GArray* cal_obj_expand_recurrence	(CalObjTime	*event_start,
 					 CalObjRecurrence *recur,
 					 CalObjTime	*interval_start,

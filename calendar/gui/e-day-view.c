@@ -5052,6 +5052,7 @@ e_day_view_on_top_canvas_drag_data_received  (GtkWidget          *widget,
 	EDayViewEvent *event;
 	EDayViewPosition pos;
 	gint day, start_day, end_day, num_days;
+	gint start_offset, end_offset;
 	gchar *event_uid;
 	iCalObject ico;
 
@@ -5061,6 +5062,9 @@ e_day_view_on_top_canvas_drag_data_received  (GtkWidget          *widget,
 								 NULL);
 		if (pos != E_DAY_VIEW_POS_OUTSIDE) {
 			num_days = 1;
+			start_offset = 0;
+			end_offset = 0;
+
 			if (day_view->drag_event_day == E_DAY_VIEW_LONG_EVENT) {
 				event = &g_array_index (day_view->long_events, EDayViewEvent,
 							day_view->drag_event_num);
@@ -5074,6 +5078,10 @@ e_day_view_on_top_canvas_drag_data_received  (GtkWidget          *widget,
 				num_days = end_day - start_day + 1;
 				/* Make sure we don't go off the screen. */
 				day = MIN (day, day_view->days_shown - num_days);
+
+				start_offset = event->start_minute;
+				end_offset = event->end_minute;
+
 			} else if (day_view->drag_event_day != -1) {
 				event = &g_array_index (day_view->events[day_view->drag_event_day],
 							EDayViewEvent,
@@ -5092,8 +5100,8 @@ e_day_view_on_top_canvas_drag_data_received  (GtkWidget          *widget,
 			   had changed in the "update_event" callback. */
 			ico = *event->ico;
 
-			ico.dtstart = day_view->day_starts[day];
-			ico.dtend = day_view->day_starts[day + num_days];
+			ico.dtstart = day_view->day_starts[day] + start_offset * 60;
+			ico.dtend = day_view->day_starts[day + num_days - 1] + end_offset * 60;
 
 			gtk_drag_finish (context, TRUE, TRUE, time);
 
@@ -5127,6 +5135,7 @@ e_day_view_on_main_canvas_drag_data_received  (GtkWidget          *widget,
 	EDayViewEvent *event;
 	EDayViewPosition pos;
 	gint day, row, start_row, end_row, num_rows, scroll_x, scroll_y;
+	gint start_offset, end_offset;
 	gchar *event_uid;
 	iCalObject ico;
 
@@ -5141,6 +5150,9 @@ e_day_view_on_main_canvas_drag_data_received  (GtkWidget          *widget,
 								  &row, NULL);
 		if (pos != E_DAY_VIEW_POS_OUTSIDE) {
 			num_rows = 1;
+			start_offset = 0;
+			end_offset = 0;
+
 			if (day_view->drag_event_day == E_DAY_VIEW_LONG_EVENT) {
 				event = &g_array_index (day_view->long_events, EDayViewEvent,
 							day_view->drag_event_num);
@@ -5154,6 +5166,13 @@ e_day_view_on_main_canvas_drag_data_received  (GtkWidget          *widget,
 				start_row = event->start_minute / day_view->mins_per_row;
 				end_row = (event->end_minute - 1) / day_view->mins_per_row;
 				num_rows = end_row - start_row + 1;
+
+				start_offset = event->start_minute % day_view->mins_per_row;
+				end_offset = event->end_minute % day_view->mins_per_row;
+				if (end_offset != 0)
+					end_offset = day_view->mins_per_row - end_offset;
+				g_print ("Start offset: %i End offset: %i\n",
+					 start_offset, end_offset);
 			}
 
 			event_uid = data->data;
@@ -5168,8 +5187,8 @@ e_day_view_on_main_canvas_drag_data_received  (GtkWidget          *widget,
 			   had changed in the "update_event" callback. */
 			ico = *event->ico;
 
-			ico.dtstart = e_day_view_convert_grid_position_to_time (day_view, day, row);
-			ico.dtend = e_day_view_convert_grid_position_to_time (day_view, day, row + num_rows);
+			ico.dtstart = e_day_view_convert_grid_position_to_time (day_view, day, row) + start_offset * 60;
+			ico.dtend = e_day_view_convert_grid_position_to_time (day_view, day, row + num_rows) - end_offset * 60;
 
 			gtk_drag_finish (context, TRUE, TRUE, time);
 
