@@ -466,7 +466,9 @@ Click &quot;Finish&quot; to save your settings.</text>
 	  <widget>
 	    <class>GnomeFileEntry</class>
 	    <name>fileentry_signature</name>
+	    <history_id>sig-file-gnome-entry</history_id>
 	    <max_saved>10</max_saved>
+	    <title>Signature file:</title>
 	    <directory>False</directory>
 	    <modal>False</modal>
 	    <child>
@@ -548,7 +550,9 @@ Click &quot;Finish&quot; to save your settings.</text>
 	  <widget>
 	    <class>GnomeFileEntry</class>
 	    <name>fileentry_html_signature</name>
+	    <history_id>html-sig-file-gnome-entry</history_id>
 	    <max_saved>10</max_saved>
+	    <title>HTML signature file:</title>
 	    <directory>False</directory>
 	    <modal>False</modal>
 	    <child>

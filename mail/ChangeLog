@@ -1,3 +1,10 @@
+2001-08-02  Jason Leach  <jleach@ximian.com>
+
+	* mail-config.glade: Set history_id's for the sig and html sig
+	gnome file entry boxes so it can persist history, also add titles
+	to the dialogs that popup when you click the "Browse..." button.
+	Bug #5595.
+
 2001-08-02  Jeffrey Stedfast  <fejj@ximian.com>
 
 	* mail-vfolder.c (vfolder_create_storage): Connect to the
@@ -92,7 +99,6 @@
 	* mail-account-gui.c (mail_account_gui_new): Restore old security
 	settings from the saved configuration. Fixes bug #5710.
 
->>>>>>> 1.1477
 2001-07-30  Not Zed  <NotZed@Ximian.com>
 
 	* mail-session.c (do_register_timeout): Actually add the timeout,
