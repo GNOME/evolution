@@ -1,3 +1,18 @@
+2002-07-16  Jeffrey Stedfast  <fejj@ximian.com>
+
+	* mail-accounts.c (account_able_clicked): Re-enable some #if 0'd code.
+
+	* mail-vfolder.c (vfolder_load_storage): Updated to not pass TRUE
+	for an auto_connect argument since that argument no longer exists.
+
+	* mail-account-gui.c (add_new_store): Updated to not pass an
+	auto_connect argument.
+
+	* component-factory.c (add_storage): Don't ever auto-connect here.
+	(mail_add_storage): No longer takes an auto_connect argument.
+	(mail_load_storages): Only load the account storages that are
+	enabled.
+
 2002-07-15  Jeffrey Stedfast  <fejj@ximian.com>
 
 	* mail-callbacks.c (composer_send_cb): Pass 'info' into
