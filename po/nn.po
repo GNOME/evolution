@@ -8,8 +8,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: nn\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2004-08-31 01:11+0000\n"
-"PO-Revision-Date: 2004-08-30 23:26+0000\n"
+"POT-Creation-Date: 2004-08-31 21:40+0000\n"
+"PO-Revision-Date: 2004-08-31 22:45+0000\n"
 "Last-Translator: Åsmund Skjæveland <aasmunds@fys.uio.no>\n"
 "Language-Team: Norwegian Nynorsk <i18n-nn@lister.ping.uio.no>\n"
 "MIME-Version: 1.0\n"
@@ -217,8 +217,7 @@ msgstr "Evolution-adresseboka har avslutta uventa."
 
 #. addressbook:backend-died secondary
 #: addressbook/addressbook-errors.xml.h:53
-msgid ""
-"Your contacts for {0} will not be available until Evolution is restarted."
+msgid "Your contacts for {0} will not be available until Evolution is restarted."
 msgstr ""
 "Kontaktane dine for {0} vil ikkje vera tilgjengelege før Evolution vert "
 "starta på nytt."
@@ -331,8 +330,7 @@ msgstr "Lag ei ny adressebok"
 
 #: addressbook/gui/component/addressbook-component.c:184
 msgid "Failed upgrading Addressbook settings or folders."
-msgstr ""
-"Klarte ikkje å oppgradera innstillingane eller mappene til adresseboka."
+msgstr "Klarte ikkje å oppgradera innstillingane eller mappene til adresseboka."
 
 #: addressbook/gui/component/addressbook-migrate.c:72
 #: calendar/gui/migration.c:141 mail/em-migrate.c:1160
@@ -424,8 +422,7 @@ msgstr ""
 #: addressbook/gui/component/addressbook-view.c:711
 #, c-format
 msgid "Address book '%s' will be removed. Are you sure you want to continue?"
-msgstr ""
-"Adresseboka «%s» vil verta fjerna. Er du sikker på at du vil halda fram?"
+msgstr "Adresseboka «%s» vil verta fjerna. Er du sikker på at du vil halda fram?"
 
 #: addressbook/gui/component/addressbook-view.c:814
 #: addressbook/gui/widgets/e-addressbook-view.c:1124
@@ -471,8 +468,7 @@ msgstr "Plasseringa til det loddrette panelet i hovudvisinga"
 msgid ""
 "The number of characters that must be typed before evolution will attempt to "
 "autocomplete"
-msgstr ""
-"Talet på teikn som må vera skrivne for at Evolution skal prøva å autofullføra"
+msgstr "Talet på teikn som må vera skrivne for at Evolution skal prøva å autofullføra"
 
 #: addressbook/gui/component/apps_evolution_addressbook.schemas.in.in.h:4
 msgid "URI for the folder last used in the select names dialog"
@@ -579,8 +575,7 @@ msgid "Email address"
 msgstr "E-postadresse"
 
 #: addressbook/gui/component/ldap-config.glade.h:21
-msgid ""
-"Evolution will use this email address to authenticate you with the server."
+msgid "Evolution will use this email address to authenticate you with the server."
 msgstr ""
 "Evolution kjem til å bruka denne e-postaddressa til å autentisera deg mot "
 "tenaren."
@@ -904,7 +899,7 @@ msgstr "Adresse:"
 #: addressbook/gui/contact-editor/contact-editor.glade.h:13
 #, fuzzy
 msgid "Anniversary:"
-msgstr "Bryllupsdag:"
+msgstr "Merkedag:"
 
 #: addressbook/gui/contact-editor/contact-editor.glade.h:14
 msgid "Assistant:"
@@ -3463,8 +3458,7 @@ msgid "Export in asynchronous mode "
 msgstr "Eksporter i asynkron modus"
 
 #: addressbook/tools/evolution-addressbook-export.c:63
-msgid ""
-"The number of cards in one output file in asychronous mode,default size 100."
+msgid "The number of cards in one output file in asychronous mode,default size 100."
 msgstr "Talet på kort i ei utfil i asynkron modus, standard storleik er 100."
 
 #: addressbook/tools/evolution-addressbook-export.c:63
@@ -3472,8 +3466,7 @@ msgid "NUMBER"
 msgstr "TAL"
 
 #: addressbook/tools/evolution-addressbook-export.c:91
-msgid ""
-"Command line arguments error, please use --help option to see the usage."
+msgid "Command line arguments error, please use --help option to see the usage."
 msgstr "Feil i kommandolinjeargumenta. Bruk --help for å sjå ein hjelpetekst."
 
 #: addressbook/tools/evolution-addressbook-export.c:105
@@ -3544,8 +3537,7 @@ msgstr "Er du sikker på at du vil sletta dette møtet?"
 
 #. calendar:prompt-delete-meeting secondary
 #: calendar/calendar-errors.xml.h:10
-msgid ""
-"All information on this meeting will be deleted and can not be restored."
+msgid "All information on this meeting will be deleted and can not be restored."
 msgstr ""
 "All informasjonen om dette møtet vil verta sletta, og kan ikkje "
 "gjenopprettast."
@@ -3610,8 +3602,7 @@ msgstr "Er du sikker på at du vil sletta avtalen «{0}»?"
 #. calendar:prompt-delete-titled-appointment secondary
 #. calendar:prompt-delete-appointment secondary
 #: calendar/calendar-errors.xml.h:34 calendar/calendar-errors.xml.h:38
-msgid ""
-"All information on this appointment will be deleted and can not be restored."
+msgid "All information on this appointment will be deleted and can not be restored."
 msgstr ""
 "All informasjonen om denne avtalen vil verta sletta og kan ikkje "
 "gjenopprettast."
@@ -3634,8 +3625,7 @@ msgstr "Er du sikker på at du vil sletta journaloppføringa «{0}»?"
 #. calendar:prompt-delete-named-journal secondary
 #. calendar:prompt-delete-journal secondary
 #: calendar/calendar-errors.xml.h:50 calendar/calendar-errors.xml.h:54
-msgid ""
-"All information in this journal will be deleted and can not be restored."
+msgid "All information in this journal will be deleted and can not be restored."
 msgstr ""
 "All informasjonen i denne journalen vil verta sletta, og kan ikkje "
 "gjenopprettast."
@@ -3726,8 +3716,7 @@ msgstr "Vil du senda ein møteinvitasjon til deltakarane?"
 
 #. calendar:prompt-meeting-invite secondary
 #: calendar/calendar-errors.xml.h:86
-msgid ""
-"Email invitations will be sent to all participants and allow them to RSVP."
+msgid "Email invitations will be sent to all participants and allow them to RSVP."
 msgstr ""
 "E-post-invitasjonar vil verta sendt til alle deltakarane, som også vil verta "
 "bedne om å svara."
@@ -4037,8 +4026,7 @@ msgstr "Timen arbeidsdagen startar på"
 
 #: calendar/gui/apps_evolution_calendar.schemas.in.in.h:9
 msgid "Intervals shown in Day and Work Week views"
-msgstr ""
-"Kor store tidsrom som vert viste i arbeidsdag- og arbeidsvekeframsyningane"
+msgstr "Kor store tidsrom som vert viste i arbeidsdag- og arbeidsvekeframsyningane"
 
 #: calendar/gui/apps_evolution_calendar.schemas.in.in.h:10
 msgid "List of urls for free/busy publishing"
@@ -4218,8 +4206,7 @@ msgstr "%d. %b"
 #: calendar/gui/calendar-component.c:370
 #, c-format
 msgid "Calendar '%s' will be removed. Are you sure you want to continue?"
-msgstr ""
-"Kalenderen «%s» vil verta fjerna. Er du sikker på at du vil halda fram?"
+msgstr "Kalenderen «%s» vil verta fjerna. Er du sikker på at du vil halda fram?"
 
 #: calendar/gui/calendar-component.c:426
 msgid "New Calendar"
@@ -4839,8 +4826,7 @@ msgstr "Journalopføringa er endra."
 #: calendar/gui/dialogs/changed-comp.c:101
 #, c-format
 msgid "%s  You have made changes. Forget those changes and update the editor?"
-msgstr ""
-"%s  Du har gjort endringar. Forkast desse endringane og oppdater redigering?"
+msgstr "%s  Du har gjort endringar. Forkast desse endringane og oppdater redigering?"
 
 #: calendar/gui/dialogs/changed-comp.c:103
 #, c-format
@@ -5312,10 +5298,8 @@ msgid "You are modifying a recurring task, what would you like to modify?"
 msgstr "Du endrar ei oppgåve som skal gjerast fleire gongar. Kva vil du endra?"
 
 #: calendar/gui/dialogs/recur-comp.c:59
-msgid ""
-"You are modifying a recurring journal entry, what would you like to modify?"
-msgstr ""
-"Du endrar ei journaloppføring som står fleire gongar. Kva vil du endra?"
+msgid "You are modifying a recurring journal entry, what would you like to modify?"
+msgstr "Du endrar ei journaloppføring som står fleire gongar. Kva vil du endra?"
 
 #: calendar/gui/dialogs/recur-comp.c:87
 msgid "This Instance Only"
@@ -5335,8 +5319,7 @@ msgstr "Alle instansane"
 
 #: calendar/gui/dialogs/recurrence-page.c:511
 msgid "This appointment contains recurrences that Evolution cannot edit."
-msgstr ""
-"Denne avtalen skal gjenta seg på ein måte som Evolution ikkje kan redigera."
+msgstr "Denne avtalen skal gjenta seg på ein måte som Evolution ikkje kan redigera."
 
 #: calendar/gui/dialogs/recurrence-page.c:806
 msgid "Recurrence date is invalid"
@@ -6252,8 +6235,7 @@ msgid ""
 msgstr "Møtet er avlyst, men det var ikkje ført opp i kalenderane dine"
 
 #: calendar/gui/e-itip-control.c:1250
-msgid ""
-"The task has been cancelled, however it could not be found in your task lists"
+msgid "The task has been cancelled, however it could not be found in your task lists"
 msgstr "Oppgåva er avlyst, men ho var ikkje ført opp i kalenderane dine"
 
 #: calendar/gui/e-itip-control.c:1329
@@ -6411,8 +6393,7 @@ msgstr "Fri/ledig forespørsel"
 #: calendar/gui/e-itip-control.c:1489
 #, c-format
 msgid "<b>%s</b> has replied to a free/busy request."
-msgstr ""
-"<b>%s</b> har svart på ein førespurnad etter ledig/oppteken-informasjon."
+msgstr "<b>%s</b> har svart på ein førespurnad etter ledig/oppteken-informasjon."
 
 #: calendar/gui/e-itip-control.c:1490
 msgid "Free/Busy Reply"
@@ -6454,8 +6435,7 @@ msgstr ""
 
 #: calendar/gui/e-itip-control.c:1976
 msgid "Attendee status could not be updated because of an invalid status!\n"
-msgstr ""
-"Deltakarstatusen kan ikkje oppdaterast på grunn av ein ugyldig status!\n"
+msgstr "Deltakarstatusen kan ikkje oppdaterast på grunn av ein ugyldig status!\n"
 
 #: calendar/gui/e-itip-control.c:1993
 msgid "Attendee status updated\n"
@@ -6463,8 +6443,7 @@ msgstr "Deltakarstatus oppdatert\n"
 
 #: calendar/gui/e-itip-control.c:1996
 msgid "Attendee status can not be updated because the item no longer exists"
-msgstr ""
-"Deltakarstatus kan ikkje oppdaterast, for oppføringa finst ikkje lenger."
+msgstr "Deltakarstatus kan ikkje oppdaterast, for oppføringa finst ikkje lenger."
 
 #: calendar/gui/e-itip-control.c:2023
 msgid "Removal Complete"
@@ -7155,8 +7134,7 @@ msgstr "Utskriftoppsett"
 #: calendar/gui/tasks-component.c:314
 #, c-format
 msgid "Task List '%s' will be removed. Are you sure you want to continue?"
-msgstr ""
-"Oppgåvelista «%s» vil verta fjerna. Er du sikker på at du vil halda fram?"
+msgstr "Oppgåvelista «%s» vil verta fjerna. Er du sikker på at du vil halda fram?"
 
 #: calendar/gui/tasks-component.c:372
 msgid "New Task List"
@@ -9120,8 +9098,7 @@ msgstr "Avbroten."
 
 #: camel/camel-gpg-context.c:822
 msgid "Failed to unlock secret key: 3 bad passphrases given."
-msgstr ""
-"Klarte ikkje å låsa opp hemmeleg nøkkel: 3 ugyldige adgangsfrasar oppgjevne."
+msgstr "Klarte ikkje å låsa opp hemmeleg nøkkel: 3 ugyldige adgangsfrasar oppgjevne."
 
 #: camel/camel-gpg-context.c:828
 #, c-format
@@ -9181,8 +9158,7 @@ msgstr "Kan ikkje stadfesta signaturen på meldinga: Feil format på meldinga"
 #: camel/camel-gpg-context.c:1477
 #, c-format
 msgid "Cannot verify message signature: could not create temp file: %s"
-msgstr ""
-"Kan ikkje stadfesta signaturen på meldinga: Kan ikkje laga mellombels fil: %s"
+msgstr "Kan ikkje stadfesta signaturen på meldinga: Kan ikkje laga mellombels fil: %s"
 
 #: camel/camel-gpg-context.c:1565
 #, c-format
@@ -10198,8 +10174,7 @@ msgstr "Passord"
 #: camel/providers/imap/camel-imap-provider.c:95
 #: camel/providers/imapp/camel-imapp-provider.c:67
 msgid "This option will connect to the IMAP server using a plaintext password."
-msgstr ""
-"Dette valet let deg kopla til ein IMAP-tenar med eit klartekst-passord."
+msgstr "Dette valet let deg kopla til ein IMAP-tenar med eit klartekst-passord."
 
 #: camel/providers/groupwise/camel-gw-listener.c:362
 msgid "Checklist"
@@ -10324,8 +10299,7 @@ msgstr "Ufullstendig tenarsvar: ingen UID oppgitt for melding %d"
 
 #: camel/providers/imap/camel-imap-folder.c:2482
 #, c-format
-msgid ""
-"Unexpected server response: Identical UIDs provided for messages %d and %d"
+msgid "Unexpected server response: Identical UIDs provided for messages %d and %d"
 msgstr "Ufullstendig tenarsvar: like UID oppgitt for meldingane %d og %d"
 
 #: camel/providers/imap/camel-imap-folder.c:2658
@@ -10505,8 +10479,7 @@ msgstr "Mappa «%s» finst ikkje"
 #: camel/providers/imap/camel-imap-store.c:2259
 #: camel/providers/imap4/camel-imap4-store.c:764
 #, c-format
-msgid ""
-"The folder name \"%s\" is invalid because it contains the character \"%c\""
+msgid "The folder name \"%s\" is invalid because it contains the character \"%c\""
 msgstr "Mappenamnet «%s» er ugyldig. Det inneheld teiknet «%c»"
 
 #: camel/providers/imap/camel-imap-store.c:1939
@@ -10614,14 +10587,12 @@ msgstr "Kan ikkje kopiera meldingane frå mappa «%s» til mappa «%s»: Ukjend"
 #: camel/providers/imap4/camel-imap4-folder.c:947
 #, c-format
 msgid "Cannot move messages from folder `%s' to folder `%s': Bad command"
-msgstr ""
-"Kan ikkje flytta meldingane frå mappa «%s» til mappa «%s»: Ugyldig kommando"
+msgstr "Kan ikkje flytta meldingane frå mappa «%s» til mappa «%s»: Ugyldig kommando"
 
 #: camel/providers/imap4/camel-imap4-folder.c:951
 #, c-format
 msgid "Cannot copy messages from folder `%s' to folder `%s': Bad command"
-msgstr ""
-"Kan ikkje kopiera meldingane frå mappa «%s» til mappa «%s»: Ugyldig kommando"
+msgstr "Kan ikkje kopiera meldingane frå mappa «%s» til mappa «%s»: Ugyldig kommando"
 
 #: camel/providers/imap4/camel-imap4-provider.c:53
 msgid "IMAPv4rev1"
@@ -10634,10 +10605,8 @@ msgstr ""
 "EKSPERIMENTELL!!"
 
 #: camel/providers/imap4/camel-imap4-provider.c:72
-msgid ""
-"This option will connect to the IMAPv4rev1 server using a plaintext password."
-msgstr ""
-"Dette valet let deg kopla til IMAPv4rev1-tenaren med eit klartekst-passord."
+msgid "This option will connect to the IMAPv4rev1 server using a plaintext password."
+msgstr "Dette valet let deg kopla til IMAPv4rev1-tenaren med eit klartekst-passord."
 
 #: camel/providers/imap4/camel-imap4-store.c:257
 #, c-format
@@ -10650,10 +10619,8 @@ msgstr ""
 
 #: camel/providers/imap4/camel-imap4-store.c:363
 #, c-format
-msgid ""
-"Cannot authenticate to IMAP server %s using the %s authentication mechanism"
-msgstr ""
-"Kan ikkje autentisera med IMAP-tenaren «%s» med autentiseringsmekanismen «%s»"
+msgid "Cannot authenticate to IMAP server %s using the %s authentication mechanism"
+msgstr "Kan ikkje autentisera med IMAP-tenaren «%s» med autentiseringsmekanismen «%s»"
 
 #: camel/providers/imap4/camel-imap4-store.c:408
 #, c-format
@@ -10713,8 +10680,7 @@ msgstr "Kan ikkje endra namnet på «%s» til «%s»: Ugyldig kommando"
 #: camel/providers/imap4/camel-imap4-store.c:1221
 #, c-format
 msgid "Cannot get %s information for pattern `%s' on IMAP server %s: %s"
-msgstr ""
-"Kan ikkje henta informasjonen «%s» om mønsteret «%s» på IMAP-tenaren «%s»: %s"
+msgstr "Kan ikkje henta informasjonen «%s» om mønsteret «%s» på IMAP-tenaren «%s»: %s"
 
 #: camel/providers/imap4/camel-imap4-store.c:1223
 msgid "Bad command"
@@ -11380,8 +11346,7 @@ msgid "Unable to save grouplist file for %s: %s"
 msgstr "Kan ikkje lagra gruppeliste-fila for %s: %s"
 
 #: camel/providers/nntp/camel-nntp-provider.c:43
-msgid ""
-"Show folders in short notation (e.g. c.o.linux rather than comp.os.linux)"
+msgid "Show folders in short notation (e.g. c.o.linux rather than comp.os.linux)"
 msgstr "Vis mappenamn på kortform (dvs. c.o.linux i staden for comp.os.linux)"
 
 #: camel/providers/nntp/camel-nntp-provider.c:45
@@ -11394,7 +11359,7 @@ msgstr "USENET diskusjonar"
 
 #: camel/providers/nntp/camel-nntp-provider.c:54
 msgid "This is a provider for reading from and posting toUSENET newsgroups."
-msgstr ""
+msgstr "Dette er ein leverandør av USENET-tilgang."
 
 #: camel/providers/nntp/camel-nntp-provider.c:73
 msgid ""
@@ -11465,8 +11430,7 @@ msgstr "Du kan ikkje endra namn på mapper i eit diskusjonslager."
 
 #: camel/providers/nntp/camel-nntp-store.c:945
 msgid "You cannot remove a folder in a News store: unsubscribe instead."
-msgstr ""
-"Du kan ikkje sletta mapper i eit diskusjonslager. Slutt å abonnera i staden."
+msgstr "Du kan ikkje sletta mapper i eit diskusjonslager. Slutt å abonnera i staden."
 
 #: camel/providers/nntp/camel-nntp-store.c:1118
 msgid "Authentication requested but not username provided"
@@ -11504,7 +11468,7 @@ msgstr "Uventa tenarsvar frå hovud: %s"
 
 #: camel/providers/nntp/camel-nntp-summary.c:368
 msgid "Use cancel"
-msgstr ""
+msgstr "Bruk tilbakekalling"
 
 #: camel/providers/nntp/camel-nntp-summary.c:370
 #, c-format
@@ -11846,8 +11810,7 @@ msgstr "STARTTLS-kommandoen feila"
 #: camel/providers/smtp/camel-smtp-transport.c:476
 #, c-format
 msgid "SMTP server %s does not support requested authentication type %s."
-msgstr ""
-"SMTP-tenaren «%s» støttar ikkje den etterspurde autentiseringstypen %s."
+msgstr "SMTP-tenaren «%s» støttar ikkje den etterspurde autentiseringstypen %s."
 
 #: camel/providers/smtp/camel-smtp-transport.c:514
 #, c-format
@@ -11985,17 +11948,17 @@ msgstr "QUIT-kommandoen feila"
 #: composer/e-msg-composer-attachment-bar.c:106
 #, fuzzy, c-format
 msgid "%.0fK"
-msgstr "%.1fK"
+msgstr "%.0fK"
 
 #: composer/e-msg-composer-attachment-bar.c:109
 #, fuzzy, c-format
 msgid "%.0fM"
-msgstr "%.1fM"
+msgstr "%.0fM"
 
 #: composer/e-msg-composer-attachment-bar.c:112
 #, fuzzy, c-format
 msgid "%.0fG"
-msgstr "%.1fG"
+msgstr "%.0fG"
 
 #: composer/e-msg-composer-attachment-bar.c:298 mail/em-utils.c:436
 msgid "attachment"
@@ -12123,8 +12086,7 @@ msgid "Attach file(s)"
 msgstr "Legg ved filer"
 
 #: composer/e-msg-composer.c:704
-msgid ""
-"Cannot sign outgoing message: No signing certificate set for this account"
+msgid "Cannot sign outgoing message: No signing certificate set for this account"
 msgstr ""
 "Kan ikkje signera utgåande melding. Ingen signeringssertifikat til denne "
 "kontoen"
@@ -12134,21 +12096,20 @@ msgid ""
 "Cannot encrypt outgoing message: No encryption certificate set for this "
 "account"
 msgstr ""
+"Kan ikkje kryptera utgåande melding. Det er ikkje valt noko "
+"krypteringssertifikat til denne kontoen"
 
 #: composer/e-msg-composer.c:1268
-#, fuzzy
 msgid "Could not open file"
-msgstr "Klarte ikkje opna fil"
+msgstr "Klarte ikkje opna fila"
 
 #: composer/e-msg-composer.c:1276
-#, fuzzy
 msgid "Unable to retrieve message from editor"
-msgstr "Kunne ikkje motta fil"
+msgstr "Klarte ikkje henta meldinga frå redigeringa"
 
 #: composer/e-msg-composer.c:1546
-#, fuzzy
 msgid "Untitled Message"
-msgstr "Fleire meldingar"
+msgstr "Melding utan namn"
 
 #: composer/e-msg-composer.c:1576
 msgid "Open file"
@@ -12156,10 +12117,9 @@ msgstr "Opna fil"
 
 #: composer/e-msg-composer.c:1983 mail/mail-account-gui.c:1491
 msgid "Autogenerated"
-msgstr ""
+msgstr "Laga automatisk"
 
 #: composer/e-msg-composer.c:2082
-#, fuzzy
 msgid "Signature:"
 msgstr "Signatur:"
 
@@ -12167,16 +12127,16 @@ msgstr "Signatur:"
 #, c-format
 msgid "<b>%d</b> File Attached"
 msgid_plural "<b>%d</b> Files Attached"
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "<b>%d</b> fil lagt ved"
+msgstr[1] "<b>%d</b> filer lagt ved"
 
 #: composer/e-msg-composer.c:2312
 msgid "Hide _Attachment Bar (drop attachments here)"
-msgstr ""
+msgstr "Gøym _vedleggslinje (slepp vedlegg her)"
 
 #: composer/e-msg-composer.c:2315 composer/e-msg-composer.c:3271
 msgid "Show _Attachment Bar (drop attachments here)"
-msgstr ""
+msgstr "vis _vedleggslinje (slepp vedlegg her)"
 
 #: composer/e-msg-composer.c:2332 composer/e-msg-composer.c:3163
 #: composer/e-msg-composer.c:3164
@@ -12184,9 +12144,9 @@ msgid "Compose a message"
 msgstr "Skriv ei melding"
 
 #: composer/e-msg-composer.c:2634
-#, fuzzy, c-format
+#, c-format
 msgid "Attached message - %s"
-msgstr "Vidaresendt melding - %s"
+msgstr "Vedlagt melding - %s"
 
 #. translators, this count will always be >1
 #: composer/e-msg-composer.c:2639 composer/e-msg-composer.c:2783
@@ -12200,7 +12160,7 @@ msgstr[1] "%d vedlagte meldingar"
 msgid ""
 "<b>(The composer contains a non-text message body, which cannot be edited.)"
 "<b>"
-msgstr ""
+msgstr "<b>(Redigeringsvindauget inneheld ein meldingskropp som ikkje er tekst, og ikkje kan redigerast.)</b>"
 
 #. mail-composer:no-attach primary
 #: composer/mail-composer-errors.xml.h:2
@@ -12222,7 +12182,7 @@ msgstr "Katalogar kan ikkje leggjast ved meldingar."
 msgid ""
 "To attach the contents of this directory, either attach the files in this "
 "directory individually, or create an archive of the directory and attach it."
-msgstr ""
+msgstr "For å leggja til innhaldet i denne katalogen må du anten leggja ved filene ei og ei eller laga eit arkiv av katalogen og leggja ved arkivet."
 
 #. mail-composer:attach-nomessages primary
 #: composer/mail-composer-errors.xml.h:12
@@ -12240,7 +12200,7 @@ msgstr "Kunne ikkje henta meldingane som skulle leggjast ved frå {0}."
 #: mail/mail-errors.xml.h:112 widgets/misc/e-system-errors.xml.h:11
 #: widgets/misc/e-system-errors.xml.h:15
 msgid "Because \"{1}\"."
-msgstr ""
+msgstr "Fordi «{1}»."
 
 #. mail-composer:recover-autosave title
 #: composer/mail-composer-errors.xml.h:16
@@ -12257,7 +12217,7 @@ msgstr "Vil du gjenoppretta dei uferdige meldingane?"
 msgid ""
 "Evolution quit unexpectedly while you were composing a new message. "
 "Recovering the message will allow you to continue where you left off."
-msgstr ""
+msgstr "Evolution avslutta uventa medan du skreiv ei ny melding. Du kan gjenoppretta meldinga og halda fram der du slapp."
 
 #: composer/mail-composer-errors.xml.h:21
 msgid "Don't Recover"
@@ -12270,12 +12230,12 @@ msgstr "Gjenopprett"
 #. mail-composer:no-autosave primary
 #: composer/mail-composer-errors.xml.h:24
 msgid "Could not save to autosave file \"{0}\"."
-msgstr ""
+msgstr "Klarte ikkje lagra til autolagringsfila «{0}»."
 
 #. mail-composer:no-autosave secondary
 #: composer/mail-composer-errors.xml.h:26
 msgid "Error saving to autosave because \"{1}\"."
-msgstr ""
+msgstr "Feil under autolagring fordi «{1}»."
 
 #. mail-composer:exit-unsaved title
 #: composer/mail-composer-errors.xml.h:28
@@ -12287,7 +12247,7 @@ msgstr "Åtvaring: Melding er endra"
 msgid ""
 "Are you sure you want to discard the message, titled '{0}', you are "
 "composing?"
-msgstr ""
+msgstr "Er du sikker på at du vil forkasta meldinga du held på å skriva, med tittel «{0}»?"
 
 #. mail-composer:exit-unsaved secondary
 #: composer/mail-composer-errors.xml.h:32
@@ -12295,7 +12255,7 @@ msgid ""
 "Closing this composer window will discard the message permanently, unless "
 "you choose to save the message in your Drafts folder. This will allow you to "
 "continue the message at a later date."
-msgstr ""
+msgstr "Å lukka redigeringsvindauget vil forkasta meldinga for godt, med mindre du lagrar eit utkast i utkastmappa. Det vil la deg halda fram med meldinga ein annan gong."
 
 #: composer/mail-composer-errors.xml.h:34
 msgid "Save Message"
@@ -12304,22 +12264,22 @@ msgstr "Lagra melding"
 #. mail-composer:no-build-message primary
 #: composer/mail-composer-errors.xml.h:36
 msgid "Could not create message."
-msgstr ""
+msgstr "Klarte ikkje laga meldinga."
 
 #. mail-composer:no-build-message secondary
 #: composer/mail-composer-errors.xml.h:38
 msgid "Because \"{0}\", you may need to select different mail options."
-msgstr ""
+msgstr "Fordi «{0}» må du kanskje gjera andre brukarval for e-post."
 
 #. mail-composer:no-sig-file primary
 #: composer/mail-composer-errors.xml.h:40
 msgid "Could not read signature file \"{0}\"."
-msgstr ""
+msgstr "Klarte ikkje lesa signaturfila «{0}»."
 
 #. mail-composer:all-accounts-deleted primary
 #: composer/mail-composer-errors.xml.h:44
 msgid "All accounts have been removed."
-msgstr ""
+msgstr "Alle kontoane er fjerna."
 
 #. mail-composer:all-accounts-deleted secondary
 #: composer/mail-composer-errors.xml.h:46
@@ -12330,33 +12290,33 @@ msgstr "Du må setja opp ein konto før du kan skriva e-post."
 #. mail-composer:no-editor-control primary
 #: composer/mail-composer-errors.xml.h:48
 #: composer/mail-composer-errors.xml.h:52
-#, fuzzy
 msgid "Could not create composer window."
-msgstr "Kan ikkje laga røyr: %s"
+msgstr "Klarte ikkje laga redigeringsvindauge."
 
 #. mail-composer:no-address-control secondary
 #: composer/mail-composer-errors.xml.h:50
 msgid "Unable to activate the address selector control."
-msgstr ""
+msgstr "Klarte ikkje aktivera adressveljarkontrollen."
 
 #. mail-composer:no-editor-control secondary
 #: composer/mail-composer-errors.xml.h:54
-#, fuzzy
 msgid ""
 "Unable to activate the HTML editor control.\n"
 "\n"
 "Please make sure that you have the correct version of gtkhtml and libgtkhtml "
 "installed."
-msgstr "Kan ikkje laga nytt vindauge.\n"
+msgstr ""
+"Klarte ikkje aktivera HTML-redigeringskontrollen.\n"
+"\n"
+"Kontroller at du har installert dei rette versjonane av gtkhtml og libgtkhtml."
 
 #: data/evolution.desktop.in.in.h:1 shell/main.c:503
 msgid "Evolution"
 msgstr "Evolution"
 
 #: data/evolution.desktop.in.in.h:2
-#, fuzzy
 msgid "The Evolution Groupware Suite"
-msgstr "Gruppevareverktyet Evolution"
+msgstr "Pakken Evolution Groupware"
 
 #: data/evolution.keys.in.in.h:1
 msgid "address card"
@@ -12372,11 +12332,13 @@ msgid ""
 "\n"
 "Would you like to change your status to \"In the Office\"? "
 msgstr ""
+"<b>No er statusen din «ikkje på kontoret».</b>\n"
+"\n"
+"Vil du endra statusen til «på kontoret»? "
 
 #: designs/OOA/ooa.glade.h:4
-#, fuzzy
 msgid "<b>Out of Office Message:</b>"
-msgstr "Ute av kontoret"
+msgstr "<b>Ikkje på kontoret-melding:</b>"
 
 #: designs/OOA/ooa.glade.h:5
 msgid "<b>Status:</b>"
@@ -12388,43 +12350,40 @@ msgid ""
 "who sends\n"
 "mail to you while you are out of the office.</small>"
 msgstr ""
+"<small>Meldinga under vil automatisk verta sendt til alle som sender e-post til deg\n"
+"medan du ikkje er på kontoret.</small>"
 
 #: designs/OOA/ooa.glade.h:8
 msgid "I am currently in the office"
-msgstr ""
+msgstr "Er er på kontoret no"
 
 #: designs/OOA/ooa.glade.h:9
 msgid "I am currently out of the office"
-msgstr ""
+msgstr "Eg er ikkje på kontoret no"
 
 #: designs/OOA/ooa.glade.h:10
 msgid "No, Don't Change Status"
-msgstr ""
+msgstr "Ikkje endra status"
 
 #: designs/OOA/ooa.glade.h:12
-#, fuzzy
 msgid "Out of Office Assistant"
-msgstr "Ute av kontoret"
+msgstr "Ikkje på kontoret-assistent"
 
 #: designs/OOA/ooa.glade.h:13
-#, fuzzy
 msgid "Yes, Change Status"
-msgstr "Status"
+msgstr "Ja, endra status"
 
 #: designs/read_receipts/read.glade.h:1
-#, fuzzy
 msgid "      "
 msgstr "      "
 
 #: designs/read_receipts/read.glade.h:2
-#, fuzzy
 msgid "<b>Receiving Email</b>"
-msgstr "Mottek e-post"
+msgstr "<b>Mottek e-post</b>"
 
 #: designs/read_receipts/read.glade.h:3
-#, fuzzy
 msgid "<b>Sending Email:</b>"
-msgstr "Send"
+msgstr "<b>Sender e-post</b>"
 
 #: designs/read_receipts/read.glade.h:4
 msgid ""
@@ -12447,9 +12406,8 @@ msgid "Never send back a read receipt"
 msgstr ""
 
 #: designs/read_receipts/read.glade.h:9
-#, fuzzy
 msgid "Read Receipts"
-msgstr "Mottakarar"
+msgstr ""
 
 #: designs/read_receipts/read.glade.h:10
 msgid "Request a read receipt for all messages I send"
@@ -12479,9 +12437,8 @@ msgid "Overwrite file?"
 msgstr "Skriv over fil?"
 
 #: e-util/e-passwords.c:463
-#, fuzzy
 msgid "_Remember this password"
-msgstr "Fjern denne oppføringa"
+msgstr ""
 
 #: e-util/e-passwords.c:464
 msgid "_Remember this password for the remainder of this session"
@@ -12586,46 +12543,46 @@ msgid "%I %p"
 msgstr "%I %p"
 
 #: filter/filter-datespec.c:73
-#, fuzzy, c-format
+#, c-format
 msgid "1 second ago"
 msgid_plural "%d seconds ago"
-msgstr[0] "1 sekund"
-msgstr[1] "1 sekund"
+msgstr[0] "1 sekund sidan"
+msgstr[1] "%d sekund sidan"
 
 #: filter/filter-datespec.c:74
-#, fuzzy, c-format
+#, c-format
 msgid "1 minute ago"
 msgid_plural "%d minutes ago"
-msgstr[0] "1 minutt"
-msgstr[1] "1 minutt"
+msgstr[0] "1 minutt sidan"
+msgstr[1] "%d minutt sidan"
 
 #: filter/filter-datespec.c:75
-#, fuzzy, c-format
+#, c-format
 msgid "1 hour ago"
 msgid_plural "%d hours ago"
-msgstr[0] "1 time"
-msgstr[1] "1 time"
+msgstr[0] "1 time sidan"
+msgstr[1] "%d timar sidan"
 
 #: filter/filter-datespec.c:76
-#, fuzzy, c-format
+#, c-format
 msgid "1 day ago"
 msgid_plural "%d days ago"
-msgstr[0] "1 dag"
-msgstr[1] "1 dag"
+msgstr[0] "1 dag sidan"
+msgstr[1] "%d dagar sidan"
 
 #: filter/filter-datespec.c:77
-#, fuzzy, c-format
+#, c-format
 msgid "1 week ago"
 msgid_plural "%d weeks ago"
-msgstr[0] "1 veke"
-msgstr[1] "1 veke"
+msgstr[0] "1 veke sidan"
+msgstr[1] "%d veker sidan"
 
 #: filter/filter-datespec.c:78
-#, fuzzy, c-format
+#, c-format
 msgid "1 month ago"
 msgid_plural "%d months ago"
 msgstr[0] "1 månad sidan"
-msgstr[1] "1 månad sidan"
+msgstr[1] "%d månader sidan"
 
 #: filter/filter-datespec.c:79
 #, c-format
@@ -12644,65 +12601,54 @@ msgstr "no"
 
 #. strftime for date filter display, only needs to show a day date (i.e. no time)
 #: filter/filter-datespec.c:290
-#, fuzzy
 msgid "%d-%b-%Y"
-msgstr "%d. %a %b %Y"
+msgstr "%a %d. %b %Y"
 
 #: filter/filter-datespec.c:406
-#, fuzzy
 msgid "Select a time to compare against"
-msgstr "Vel ei biletefil"
+msgstr "Vel ei tid å samanlikna med"
 
 #. filter:no-date primary
 #: filter/filter-errors.xml.h:2
-#, fuzzy
 msgid "Missing date."
-msgstr "Møteoppdatering"
+msgstr "Manglar dato"
 
 #. filter:no-date secondary
 #: filter/filter-errors.xml.h:4
-#, fuzzy
 msgid "You must choose a date."
-msgstr "Du har gløymt å velje ein dato."
+msgstr "Du må velja ein dato."
 
 #. filter:no-file primary
 #: filter/filter-errors.xml.h:6
-#, fuzzy
 msgid "Missing file name."
-msgstr "Distinguished _name:"
+msgstr "Manglar filnamn."
 
 #. filter:no-file secondary
 #. filter:bad-file secondary
 #: filter/filter-errors.xml.h:8 filter/filter-errors.xml.h:12
-#, fuzzy
 msgid "You must specify a file name."
-msgstr "Stilnamn:"
+msgstr "Du må oppgje eit filnamn."
 
 #. filter:bad-file primary
 #: filter/filter-errors.xml.h:10
-#, fuzzy
 msgid "File \"{0}\" does not exist or is not a regular file."
-msgstr "Fila «%s» finst ikkje, eller er ikkje ei vanleg fil."
+msgstr "Fila «{0}» finst ikkje, eller er ikkje ei vanleg fil."
 
 #. filter:bad-regexp primary
 #: filter/filter-errors.xml.h:14
-#, fuzzy
 msgid "Bad regular expression \"{0}\"."
-msgstr ""
-"Feil i det regulære uttrykket «%s»:\n"
-"%s"
+msgstr "Feil i det regulære uttrykket «{0}»."
 
 #. filter:bad-regexp secondary
 #: filter/filter-errors.xml.h:16
 msgid "Could not compile regular expression \"{1}\"."
-msgstr ""
+msgstr "Klarte ikkje kompilera det regulære uttrykket «{1}»."
 
 #. filter:no-name primary
 #. mail:no-name-vfolder primary
 #: filter/filter-errors.xml.h:18 mail/mail-errors.xml.h:214
-#, fuzzy
 msgid "Missing name."
-msgstr "Tildeling"
+msgstr "Manglar namn."
 
 #. filter:no-name secondary
 #: filter/filter-errors.xml.h:20
@@ -12720,9 +12666,8 @@ msgid "Please choose another name."
 msgstr ""
 
 #: filter/filter-file.c:288
-#, fuzzy
 msgid "Choose a file"
-msgstr "Vel ei handling:"
+msgstr "Vel ei fil"
 
 #: filter/filter-label.c:121 mail/em-filter-i18n.h:26 mail/em-migrate.c:1011
 #: mail/mail-config.c:76 mail/mail-config.glade.h:93
@@ -12746,14 +12691,12 @@ msgid "Test"
 msgstr "Test"
 
 #: filter/filter-rule.c:790
-#, fuzzy
 msgid "Rule name:"
-msgstr "Regelnamn: "
+msgstr "Regelnamn:"
 
 #: filter/filter-rule.c:817
-#, fuzzy
 msgid "<b>If</b>"
-msgstr "<b>Skal vera ferdig:</b>"
+msgstr "<b>Dersom</b>"
 
 #: filter/filter-rule.c:854
 msgid "if all criteria are met"
@@ -12768,24 +12711,20 @@ msgid "Execute actions"
 msgstr "Utfør handlingar"
 
 #: filter/filter-rule.c:877
-#, fuzzy
 msgid "All related"
-msgstr "Delegert"
+msgstr ""
 
 #: filter/filter-rule.c:877
-#, fuzzy
 msgid "Replies"
-msgstr "Mottakarar"
+msgstr "Svar"
 
 #: filter/filter-rule.c:877
-#, fuzzy
 msgid "Replies and parents"
-msgstr "Svart til"
+msgstr "Svar og foreldre"
 
 #: filter/filter-rule.c:879
-#, fuzzy
 msgid "Include threads"
-msgstr "Inkluder:"
+msgstr "Ta med trådar"
 
 #: filter/filter-rule.c:974
 msgid "incoming"
@@ -12796,14 +12735,12 @@ msgid "outgoing"
 msgstr "Utgåande"
 
 #: filter/filter.glade.h:1
-#, fuzzy
 msgid "<b>_Filter Rules</b>"
-msgstr "Filter-reglar"
+msgstr "<b>_Filterreglar</b>"
 
 #: filter/filter.glade.h:2
-#, fuzzy
 msgid "Compare against"
-msgstr "Kompilatoråtvaringar"
+msgstr "Samanlikn med"
 
 #: filter/filter.glade.h:3
 msgid "Incoming"
@@ -12828,11 +12765,11 @@ msgid ""
 msgstr ""
 
 #: filter/filter.glade.h:11
-#, fuzzy
 msgid "a time relative to the current time"
-msgstr "Vis hendingane for denne dagen"
+msgstr "ei tid relativt til tida no"
 
 #: filter/filter.glade.h:12
+#, fuzzy
 msgid "ago"
 msgstr "sidan"
 
@@ -12849,9 +12786,8 @@ msgid "the current time"
 msgstr "tid no"
 
 #: filter/filter.glade.h:19
-#, fuzzy
 msgid "the time you specify"
-msgstr "ei tid du spesifiserar"
+msgstr "ei tid du oppgjev"
 
 #: filter/filter.glade.h:21
 msgid "years"
@@ -12874,8 +12810,7 @@ msgid "Composer Preferences"
 msgstr "Redigerarinstillingar"
 
 #: mail/GNOME_Evolution_Mail.server.in.in.h:2
-msgid ""
-"Configure mail preferences, including security and message display, here"
+msgid "Configure mail preferences, including security and message display, here"
 msgstr "Set opp e-postinnstillingar, inkludert tryggleik og meldingsvising"
 
 #: mail/GNOME_Evolution_Mail.server.in.in.h:3
@@ -12926,15 +12861,13 @@ msgid "Mail Preferences"
 msgstr "E-postinnstillingar"
 
 #: mail/GNOME_Evolution_Mail.server.in.in.h:14
-#, fuzzy
 msgid "_Mail"
-msgstr "_E-post:"
+msgstr "_E-post"
 
 #. translators: default account indicator
 #: mail/em-account-prefs.c:418
-#, fuzzy
 msgid "[Default]"
-msgstr "[Forvald]"
+msgstr "[Standard]"
 
 #: mail/em-account-prefs.c:472
 msgid "Account name"
@@ -12946,7 +12879,6 @@ msgstr "Protokoll"
 
 #: mail/em-composer-prefs.c:305 mail/em-composer-prefs.c:424
 #: mail/mail-config.c:1045
-#, fuzzy
 msgid "Unnamed"
 msgstr "Namnlaus"
 
@@ -12955,18 +12887,16 @@ msgid "Language(s)"
 msgstr "Språk"
 
 #: mail/em-composer-prefs.c:955
-#, fuzzy
 msgid "Add signature script"
-msgstr "_HTML-signatur:"
+msgstr ""
 
 #: mail/em-composer-prefs.c:975
 msgid "Signature(s)"
 msgstr "Signatur(ar)"
 
 #: mail/em-composer-utils.c:889
-#, fuzzy
 msgid "-------- Forwarded Message --------"
-msgstr "Vidaresendt melding"
+msgstr "-------- Vidaresendt melding --------"
 
 #: mail/em-composer-utils.c:1502
 msgid "an unknown sender"
@@ -12982,9 +12912,8 @@ msgid ""
 msgstr ""
 
 #: mail/em-filter-editor.c:147
-#, fuzzy
 msgid "_Filter Rules"
-msgstr "Filter-reglar"
+msgstr "_Filterreglar"
 
 #: mail/em-filter-folder-element.c:237 mail/em-vfolder-rule.c:494
 #: mail/mail-account-gui.c:1347
@@ -12993,7 +12922,6 @@ msgstr "Vel mappe"
 
 #. Automatically generated. Do not edit.
 #: mail/em-filter-i18n.h:2
-#, fuzzy
 msgid "Adjust Score"
 msgstr "Juster poeng"
 
@@ -13002,18 +12930,16 @@ msgid "Assign Color"
 msgstr "Tildel farge"
 
 #: mail/em-filter-i18n.h:4
-#, fuzzy
 msgid "Assign Score"
-msgstr "Tildel farge"
+msgstr "Tildel poeng"
 
 #: mail/em-filter-i18n.h:5
 msgid "Attachments"
 msgstr "Vedlegg"
 
 #: mail/em-filter-i18n.h:6
-#, fuzzy
 msgid "Beep"
-msgstr "Pipelyd"
+msgstr "Pip"
 
 #: mail/em-filter-i18n.h:7
 msgid "contains"
@@ -13048,9 +12974,8 @@ msgid "does not exist"
 msgstr "finst ikkje"
 
 #: mail/em-filter-i18n.h:16
-#, fuzzy
 msgid "does not return"
-msgstr "finst ikkje"
+msgstr "returnerer ikkje"
 
 #: mail/em-filter-i18n.h:17
 msgid "does not sound like"
@@ -13085,24 +13010,20 @@ msgid "Expression"
 msgstr "Uttrykk"
 
 #: mail/em-filter-i18n.h:25
-#, fuzzy
 msgid "Follow Up"
-msgstr "_Følg opp ..."
+msgstr "Følg opp"
 
 #: mail/em-filter-i18n.h:27
-#, fuzzy
 msgid "is"
-msgstr "er lik"
+msgstr "er"
 
 #: mail/em-filter-i18n.h:28
-#, fuzzy
 msgid "is after"
-msgstr "var etter"
+msgstr "er etter"
 
 #: mail/em-filter-i18n.h:29
-#, fuzzy
 msgid "is before"
-msgstr "var før"
+msgstr "er før"
 
 #: mail/em-filter-i18n.h:30
 msgid "is Flagged"
@@ -13125,9 +13046,8 @@ msgid "is not Flagged"
 msgstr "er ikkje flagga"
 
 #: mail/em-filter-i18n.h:36
-#, fuzzy
 msgid "Junk Test"
-msgstr "Juni"
+msgstr "Skrottest"
 
 #: mail/em-filter-i18n.h:37 mail/em-folder-view.c:932
 #: widgets/misc/e-expander.c:189
@@ -13147,28 +13067,24 @@ msgid "Message Header"
 msgstr "Meldingshovud"
 
 #: mail/em-filter-i18n.h:41
-#, fuzzy
 msgid "Message is Junk"
-msgstr "Meldingar"
+msgstr "Meldinga er skrot"
 
 #: mail/em-filter-i18n.h:42
-#, fuzzy
 msgid "Message is not Junk"
-msgstr "Marker som v_iktig"
+msgstr "Meldinga er ikkje skrot"
 
 #: mail/em-filter-i18n.h:43
 msgid "Move to Folder"
 msgstr "Flytt til mappe"
 
 #: mail/em-filter-i18n.h:44
-#, fuzzy
 msgid "Pipe to Program"
-msgstr "Avslutt programmet"
+msgstr "Send til program"
 
 #: mail/em-filter-i18n.h:45
-#, fuzzy
 msgid "Play Sound"
-msgstr "Spel lyd:"
+msgstr "Spel lyd"
 
 #: mail/em-filter-i18n.h:46 mail/message-tag-followup.c:79
 msgid "Read"
@@ -13199,9 +13115,8 @@ msgid "returns less than"
 msgstr "returnerer mindre enn"
 
 #: mail/em-filter-i18n.h:53
-#, fuzzy
 msgid "Run Program"
-msgstr "Køyr program:"
+msgstr "Køyr program"
 
 #: mail/em-filter-i18n.h:54 mail/message-list.etspec.h:10
 msgid "Score"
@@ -13253,37 +13168,33 @@ msgstr "Nullstill status"
 
 #. and now for the action area
 #: mail/em-filter-rule.c:488
-#, fuzzy
 msgid "<b>Then</b>"
-msgstr "<b>Skal vera ferdig:</b>"
+msgstr "<b>Då</b>"
 
 #: mail/em-folder-browser.c:129
 msgid "Create _Virtual Folder From Search..."
 msgstr "Lag _virtuell mappe frå søk ..."
 
 #: mail/em-folder-properties.c:122
-#, fuzzy
 msgid "Folder Properties"
 msgstr "Mappeeigenskapar"
 
 #. TODO: can this be done in a loop?
 #: mail/em-folder-properties.c:161
-#, fuzzy
 msgid "Total message:"
 msgid_plural "Total messages:"
-msgstr[0] "Lagra melding"
-msgstr[1] "Lagra melding"
+msgstr[0] "Tal på melding:"
+msgstr[1] "Tal på meldingar:"
 
 #: mail/em-folder-properties.c:173
-#, fuzzy
 msgid "Unread message:"
 msgid_plural "Unread messages:"
-msgstr[0] "Neste _ulesne melding"
-msgstr[1] "Neste _ulesne melding"
+msgstr[0] "Ulest melding:"
+msgstr[1] "Uleste meldingar:"
 
 #: mail/em-folder-selection-button.c:120
 msgid "<click here to select a folder>"
-msgstr "<klikk her for å velje mappe>"
+msgstr "<klikk her for å velja mappe>"
 
 #: mail/em-folder-selector.c:166
 msgid "Create New Folder"
@@ -13295,7 +13206,6 @@ msgid "Specify where to create the folder:"
 msgstr "Oppgje kor mappa skal lagast:"
 
 #: mail/em-folder-selector.c:300
-#, fuzzy
 msgid "Create"
 msgstr "Lag"
 
@@ -13318,29 +13228,28 @@ msgid "Loading..."
 msgstr "Lastar ..."
 
 #: mail/em-folder-tree.c:901
-#, fuzzy, c-format
+#, c-format
 msgid "Moving folder %s"
-msgstr "Fjernar mappe %s"
+msgstr "Flyttar mappa %s"
 
 #: mail/em-folder-tree.c:903
-#, fuzzy, c-format
+#, c-format
 msgid "Copying folder %s"
-msgstr "Opnar mappe %s"
+msgstr "Kopierer mappa %s"
 
 #: mail/em-folder-tree.c:910 mail/message-list.c:1613
-#, fuzzy, c-format
+#, c-format
 msgid "Moving messages into folder %s"
-msgstr "Flyttar meldingar til %s"
+msgstr "Flyttar meldingar til mappa %s"
 
 #: mail/em-folder-tree.c:912 mail/message-list.c:1615
-#, fuzzy, c-format
+#, c-format
 msgid "Copying messages into folder %s"
-msgstr "Kopierer meldingar til %s"
+msgstr "Kopierer meldingar til mappa %s"
 
 #: mail/em-folder-tree.c:928
-#, fuzzy
 msgid "Cannot drop message(s) into toplevel store"
-msgstr "Berre sjekk for ny e-post."
+msgstr "Kan ikkje sleppa meldingar i topplageret"
 
 #: mail/em-folder-tree.c:1018 ui/evolution-mail-message.xml.h:110
 msgid "_Copy to Folder"
@@ -13352,14 +13261,12 @@ msgstr "_Flytt til mappe"
 
 #: mail/em-folder-tree.c:1021 mail/em-folder-tree.c:2220
 #: mail/em-folder-view.c:803 mail/message-list.c:1703
-#, fuzzy
 msgid "_Move"
 msgstr "_Flytt"
 
 #: mail/em-folder-tree.c:1023 mail/message-list.c:1705
-#, fuzzy
 msgid "Cancel _Drag"
-msgstr "Avbryt oppgåve"
+msgstr "Avbryt _dra"
 
 #: mail/em-folder-tree.c:2207 mail/em-folder-tree.c:2220
 #: mail/em-folder-view.c:803 mail/em-folder-view.c:817
@@ -13369,17 +13276,15 @@ msgid "Select folder"
 msgstr "Vel mappe"
 
 #: mail/em-folder-tree.c:2207 mail/em-folder-view.c:817
-#, fuzzy
 msgid "C_opy"
-msgstr "Kopier"
+msgstr "K_opier"
 
 #: mail/em-folder-tree.c:2247
-#, fuzzy, c-format
+#, c-format
 msgid "Creating folder `%s'"
-msgstr "Lagrar mappe «%s»"
+msgstr "Lagar mappa «%s»"
 
 #: mail/em-folder-tree.c:2433 mail/mail-component.c:711
-#, fuzzy
 msgid "Create folder"
 msgstr "Lag ei ny mappe"
 
@@ -13403,28 +13308,23 @@ msgid "Open in _New Window"
 msgstr "Opna i _nytt vindauge"
 
 #: mail/em-folder-tree.c:2711
-#, fuzzy
 msgid "_Copy..."
-msgstr "_Kopier"
+msgstr "_Kopier ..."
 
 #: mail/em-folder-tree.c:2712
-#, fuzzy
 msgid "_Move..."
 msgstr "_Flytt ..."
 
 #. FIXME: need to disable for nochildren folders
 #: mail/em-folder-tree.c:2716
-#, fuzzy
 msgid "_New Folder..."
-msgstr "_Ny mappe"
+msgstr "_Ny mappe ..."
 
 #: mail/em-folder-tree.c:2719
-#, fuzzy
 msgid "_Rename..."
 msgstr "_Gje nytt namn ..."
 
 #: mail/em-folder-tree.c:2722 ui/evolution-mail-list.xml.h:27
-#, fuzzy
 msgid "_Properties"
 msgstr "_Eigenskapar"
 
@@ -13486,14 +13386,12 @@ msgid "_Mark as Unimportant"
 msgstr "Marker som ikkje vi_ktig"
 
 #: mail/em-folder-view.c:920 ui/evolution-mail-message.xml.h:54
-#, fuzzy
 msgid "Mark as _Junk"
-msgstr "Marker som _ulesen"
+msgstr "Marker som _skrot"
 
 #: mail/em-folder-view.c:921 ui/evolution-mail-message.xml.h:55
-#, fuzzy
 msgid "Mark as _Not Junk"
-msgstr "Marker som v_iktig"
+msgstr "Marker som _ikkje skrot"
 
 #: mail/em-folder-view.c:925
 msgid "U_ndelete"
@@ -13518,9 +13416,8 @@ msgid "Appl_y Filters"
 msgstr "_Bruk filter"
 
 #: mail/em-folder-view.c:941
-#, fuzzy
 msgid "F_ilter Junk"
-msgstr "Filter-reglar"
+msgstr "F_iltrer skrot"
 
 #: mail/em-folder-view.c:944
 msgid "Crea_te Rule From Message"
@@ -13569,25 +13466,23 @@ msgid "Print Message"
 msgstr "Skriv ut melding"
 
 #: mail/em-folder-view.c:2115
-#, fuzzy
 msgid "_Copy Link Location"
-msgstr "Kopier lenkjeadresse"
+msgstr "_Kopier lenkjeadresse"
 
 #: mail/em-folder-view.c:2380
-#, fuzzy, c-format
+#, c-format
 msgid "Click to mail %s"
-msgstr "Trykk her for å leggje til ei oppgåve"
+msgstr "Klikk for å senda e-post til %s"
 
 #. message-search popup match count string
 #: mail/em-format-html-display.c:410
-#, fuzzy, c-format
+#, c-format
 msgid "Matches: %d"
-msgstr "Treff:"
+msgstr "Stemmer med: %d"
 
 #: mail/em-format-html-display.c:643 mail/em-format-html.c:582
-#, fuzzy
 msgid "Unsigned"
-msgstr "Tildelt"
+msgstr "Ikkje signert"
 
 #: mail/em-format-html-display.c:643
 msgid ""
@@ -13596,41 +13491,38 @@ msgid ""
 msgstr ""
 
 #: mail/em-format-html-display.c:644 mail/em-format-html.c:583
-#, fuzzy
 msgid "Valid signature"
-msgstr "Legg til kriterium"
+msgstr "Gyldig signatur"
 
 #: mail/em-format-html-display.c:644
 msgid ""
 "This message is signed and is valid meaning that it is very likely that this "
 "message is authentic."
-msgstr ""
+msgstr "Denne meldinga er signert og gyldig. Det er svært sannsynleg at meldinga er autentisk."
 
 #: mail/em-format-html-display.c:645 mail/em-format-html.c:584
-#, fuzzy
 msgid "Invalid signature"
-msgstr "Legg til kriterium"
+msgstr "Ugyldig signatur"
 
 #: mail/em-format-html-display.c:645
 msgid ""
 "The signature of this message cannot be verified, it may have been altered "
 "in transit."
-msgstr ""
+msgstr "Signaturen på denne meldinga kan ikkje stadfestast. Det er mogleg at ho har vorte tukla med undervegs."
 
 #: mail/em-format-html-display.c:646
 msgid "Valid signature, cannot verify sender"
-msgstr ""
+msgstr "Gyldig signatur, kan ikkje stadfesta avsendar"
 
 #: mail/em-format-html-display.c:646
 msgid ""
 "This message is signed with a valid signature, but the sender of the message "
 "cannot be verified."
-msgstr ""
+msgstr "Denne meldinga er signert med ein gyldig signatur, men avsendaren kan ikkje stadfestast."
 
 #: mail/em-format-html-display.c:652 mail/em-format-html.c:591
-#, fuzzy
 msgid "Unencrypted"
-msgstr "Avbroten"
+msgstr "Ukryptert"
 
 #: mail/em-format-html-display.c:652
 msgid ""
@@ -13650,7 +13542,6 @@ msgid ""
 msgstr ""
 
 #: mail/em-format-html-display.c:654 mail/em-format-html.c:593
-#, fuzzy
 msgid "Encrypted"
 msgstr "Kryptert"
 
@@ -13672,37 +13563,31 @@ msgid ""
 msgstr ""
 
 #: mail/em-format-html-display.c:756 smime/gui/smime-ui.glade.h:47
-#, fuzzy
 msgid "_View Certificate"
-msgstr "_Sertifikat-ID:"
+msgstr "_Vis sertifikat"
 
 #: mail/em-format-html-display.c:771
-#, fuzzy
 msgid "This certificate is not viewable"
-msgstr "Denne meldinga er ikkje tilgjengeleg."
+msgstr "Dette sertifikatet er ikkje mogleg å visa"
 
 #: mail/em-format-html-display.c:1006
 #, fuzzy
 msgid "Completed on %B %d, %Y, %l:%M %p"
-msgstr "%d. %b %k:%M"
+msgstr ""
 
 #: mail/em-format-html-display.c:1014
-#, fuzzy
 msgid "Overdue:"
-msgstr "&Syntaksmerkingsmodusar"
+msgstr "Over tida:"
 
 #: mail/em-format-html-display.c:1017
-#, fuzzy
 msgid "by %B %d, %Y, %l:%M %p"
-msgstr "%d. %b %k:%M"
+msgstr ""
 
 #: mail/em-format-html-display.c:1056
-#, fuzzy
 msgid "_View Inline"
-msgstr "Vis innvevd"
+msgstr "_Vis innvevd"
 
 #: mail/em-format-html-display.c:1057
-#, fuzzy
 msgid "_Hide"
 msgstr "_Gøym"
 
@@ -13712,13 +13597,13 @@ msgid "Page %d of %d"
 msgstr "Side %d av %d"
 
 #: mail/em-format-html.c:475 mail/em-format-html.c:477
-#, fuzzy, c-format
+#, c-format
 msgid "Retrieving `%s'"
-msgstr "Hentar melding %s"
+msgstr "Hentar «%s»"
 
 #: mail/em-format-html.c:585
 msgid "Valid signature but cannot verify sender"
-msgstr ""
+msgstr "Gyldig signatur, men kan ikkje stadfesta avsendar"
 
 #: mail/em-format-html.c:848
 msgid "Malformed external-body part."
@@ -13750,9 +13635,8 @@ msgid "Pointer to unknown external data (\"%s\" type)"
 msgstr ""
 
 #: mail/em-format-html.c:1165
-#, fuzzy
 msgid "Formatting message"
-msgstr "Flyttar melding"
+msgstr "Formaterer melding"
 
 #: mail/em-format-html.c:1441 mail/em-format-quote.c:192 mail/em-format.c:800
 #: mail/em-mailer-prefs.c:82 mail/message-list.etspec.h:7
@@ -13802,7 +13686,6 @@ msgid "Date"
 msgstr "Dato"
 
 #: mail/em-format-html.c:1617 mail/em-format.c:807 mail/em-mailer-prefs.c:89
-#, fuzzy
 msgid "Newsgroups"
 msgstr "Diskusjonsgrupper"
 
@@ -13812,9 +13695,8 @@ msgid "%s attachment"
 msgstr "%s vedlegg"
 
 #: mail/em-format.c:1095 mail/em-format.c:1228
-#, fuzzy
 msgid "Could not parse S/MIME message: Unknown error"
-msgstr "Kunne ikkje senda meldinga: %s"
+msgstr "Kunne ikkje tolka S/MIME-meldinga: Ukjend feil"
 
 #: mail/em-format.c:1218
 msgid "Unsupported encryption type for multipart/encrypted"
@@ -13825,42 +13707,36 @@ msgid "Could not parse MIME message. Displaying as source."
 msgstr ""
 
 #: mail/em-format.c:1398
-#, fuzzy
 msgid "Unsupported signature format"
-msgstr "Ustøtta skjema"
+msgstr "Ikkje støtta signaturformat"
 
 #: mail/em-format.c:1406
-#, fuzzy
 msgid "Error verifying signature"
-msgstr "Kan ikkje dekryptera sertifikatsignaturen."
+msgstr "Feil under stadfesting av signatur"
 
 #: mail/em-format.c:1406
-#, fuzzy
 msgid "Unknown error verifying signature"
-msgstr "Kan ikkje dekryptera sertifikatsignaturen."
+msgstr "Ukjend feil under stadfesting av signatur"
 
 #: mail/em-junk-filter.c:86
 msgid "Spamassassin (built-in)"
-msgstr ""
+msgstr "Spamassassin (innebygd)"
 
 #: mail/em-mailer-prefs.c:100
-#, fuzzy
 msgid "Every time"
-msgstr "Kvart år"
+msgstr "Kvar gong"
 
 #: mail/em-mailer-prefs.c:101
 msgid "Once per day"
 msgstr ""
 
 #: mail/em-mailer-prefs.c:102
-#, fuzzy
 msgid "Once per week"
-msgstr "Kvar veke"
+msgstr "Ein gong i veka"
 
 #: mail/em-mailer-prefs.c:103
-#, fuzzy
 msgid "Once per month"
-msgstr "kvar månad"
+msgstr "Ein gong i månaden"
 
 #: mail/em-migrate.c:1168
 msgid ""
@@ -13875,31 +13751,29 @@ msgstr ""
 "Ha tolmod medan Evolution overfører mappene dine ..."
 
 #: mail/em-migrate.c:1602
-#, fuzzy, c-format
+#, c-format
 msgid "Unable to create new folder `%s': %s"
-msgstr "Kan ikkje laga mappa: %s: %s"
+msgstr "Klarte ikkje laga mappa «%s»: %s"
 
 #: mail/em-migrate.c:1628
-#, fuzzy, c-format
+#, c-format
 msgid "Unable to copy folder `%s' to `%s': %s"
-msgstr ""
-"Kan ikkje kopiera fildeskriptor: %s\n"
-"%s"
+msgstr "Klarte ikkje kopiera mappa «%s» til «%s»: %s"
 
 #: mail/em-migrate.c:1813
-#, fuzzy, c-format
+#, c-format
 msgid "Unable to scan for existing mailboxes at `%s': %s"
-msgstr "Kan ikkje lagra gruppeliste-fila for %s: %s"
+msgstr "Klarte ikkje å leita etter eksisterande postboksar på «%s»: %s"
 
 #: mail/em-migrate.c:2017
-#, fuzzy, c-format
+#, c-format
 msgid "Unable to open old POP keep-on-server data `%s': %s"
-msgstr "Autentisering mot POP-tenaren «%s» feila: %s"
+msgstr "Klarte ikkje å opna gamle data lagra på POP-tenaren «%s»: %s"
 
 #: mail/em-migrate.c:2031
-#, fuzzy, c-format
+#, c-format
 msgid "Unable to create POP3 keep-on-server data directory `%s': %s"
-msgstr "Kan ikkje oppretta røyr til «%s»: %s"
+msgstr "Klarte ikkje å laga katalog til å ha data liggjande i på POP-katalogen «%s»: %s"
 
 #: mail/em-migrate.c:2060
 #, c-format
@@ -13907,16 +13781,14 @@ msgid "Unable to copy POP3 keep-on-server data `%s': %s"
 msgstr ""
 
 #: mail/em-migrate.c:2415 mail/em-migrate.c:2427
-#, fuzzy, c-format
+#, c-format
 msgid "Failed to create local mail storage `%s': %s"
-msgstr "Kan ikkje oppretta røyr til «%s»: %s"
+msgstr "Klarte ikkje å laga lokalt e-postlager «%s»: %s"
 
 #: mail/em-migrate.c:2578
-#, fuzzy, c-format
+#, c-format
 msgid "Unable to create local mail folders at `%s': %s"
-msgstr ""
-"Kan ikkje laga utdatafil: %s\n"
-" %s"
+msgstr "Klarte ikkje å laga lokale e-postmapper på «%s»: %s"
 
 #: mail/em-migrate.c:2596
 msgid ""
@@ -13934,29 +13806,24 @@ msgid "untitled_image.%s"
 msgstr ""
 
 #: mail/em-popup.c:808
-#, fuzzy
 msgid "Set as _Background"
 msgstr "Bruk til _bakgrunn"
 
 #: mail/em-popup.c:810
-#, fuzzy
 msgid "_Reply to sender"
 msgstr "Sva_r til avsendar"
 
 #: mail/em-popup.c:859
-#, fuzzy
 msgid "_Open Link in Browser"
-msgstr "Opna ved innsetjing"
+msgstr "_Opna lenkje i nettlesar"
 
 #: mail/em-popup.c:860
-#, fuzzy
 msgid "Se_nd message to..."
-msgstr "Sender ei melding til ein nettverksspelar"
+msgstr "Se_nd melding til ..."
 
 #: mail/em-popup.c:861
-#, fuzzy
 msgid "_Add to Addressbook"
-msgstr "Legg til adressebok"
+msgstr "Legg til _adressebok"
 
 #: mail/em-popup.c:985
 #, c-format
@@ -13964,14 +13831,12 @@ msgid "Open in %s..."
 msgstr "Opna i %s ..."
 
 #: mail/em-subscribe-editor.c:606
-#, fuzzy
 msgid "This store does not support subscriptions, or they are not enabled."
-msgstr "Denne tenaren stør ikkje LDAPv3 skjemainformasjon"
+msgstr "Dette lageret støttar ikkje abonnement, eller dei er slått av."
 
 #: mail/em-subscribe-editor.c:635
-#, fuzzy
 msgid "Subscribed"
-msgstr "Abonnér"
+msgstr "Abonnert"
 
 #: mail/em-subscribe-editor.c:639
 msgid "Folder"
@@ -13995,29 +13860,26 @@ msgid "Filters"
 msgstr "Filter"
 
 #: mail/em-utils.c:434
-#, fuzzy
 msgid "message"
-msgstr "Melding"
+msgstr "melding"
 
 #: mail/em-utils.c:543
 msgid "Save Message..."
 msgstr "Lagra melding ..."
 
 #: mail/em-utils.c:592
-#, fuzzy
 msgid "Add address"
-msgstr "Adresse"
+msgstr "Legg til adresse"
 
 #. Drop filename for messages from a mailbox
 #: mail/em-utils.c:1053
-#, fuzzy, c-format
+#, c-format
 msgid "Messages from %s"
-msgstr "Melding frå %s"
+msgstr "Meldingar frå %s"
 
 #: mail/em-vfolder-editor.c:104
-#, fuzzy
 msgid "Virtual _Folders"
-msgstr "Virtuelle mapper"
+msgstr "Virtuelle _mapper"
 
 #: mail/em-vfolder-rule.c:494
 msgid "_Add"
@@ -14028,14 +13890,12 @@ msgid "VFolder source"
 msgstr "vMappe-kjelde"
 
 #: mail/evolution-mail.schemas.in.in.h:1
-#, fuzzy
 msgid "Automatic link recognition"
-msgstr "enkle innlegg"
+msgstr "Kjenn att lenkjer automatisk"
 
 #: mail/evolution-mail.schemas.in.in.h:2
-#, fuzzy
 msgid "Automatic smiley recognition"
-msgstr "enkle innlegg"
+msgstr "Kjenn att smilefjes automatisk"
 
 #: mail/evolution-mail.schemas.in.in.h:3
 msgid "Check incoming mail being junk"
@@ -14058,78 +13918,64 @@ msgid "Composer Window default width"
 msgstr ""
 
 #: mail/evolution-mail.schemas.in.in.h:8
-#, fuzzy
 msgid "Default charset in which to compose messages"
-msgstr "Standardemne for meldinga"
+msgstr "Standardteiknsett å bruka til å skriva meldingar"
 
 #: mail/evolution-mail.schemas.in.in.h:9
-#, fuzzy
 msgid "Default charset in which to compose messages."
-msgstr "Standardemne for meldinga"
+msgstr "Standardteiknsett å bruka til å skriva meldingar."
 
 #: mail/evolution-mail.schemas.in.in.h:10
-#, fuzzy
 msgid "Default charset in which to display messages"
-msgstr "Skriv tittelen på ruta her."
+msgstr "Standardteiknsett å bruka til å visa meldingar"
 
 #: mail/evolution-mail.schemas.in.in.h:11
-#, fuzzy
 msgid "Default charset in which to display messages."
-msgstr "Skriv tittelen på ruta her."
+msgstr "Standardteiknsett å bruka til å visa meldingar."
 
 #: mail/evolution-mail.schemas.in.in.h:12
-#, fuzzy
 msgid "Default forward style"
-msgstr "Standard vidaresendingsstil er: "
+msgstr "Standard vidaresendingsstil"
 
 #: mail/evolution-mail.schemas.in.in.h:13
-#, fuzzy
 msgid "Default height of the Composer Window"
-msgstr "Standardemne for meldinga"
+msgstr "Standardhøgde på redigeringsvindauget"
 
 #: mail/evolution-mail.schemas.in.in.h:14
-#, fuzzy
 msgid "Default height of the Message Window"
-msgstr "Standardemne for meldinga"
+msgstr "Standardhøgde på meldingsvindauget"
 
 #: mail/evolution-mail.schemas.in.in.h:15
-#, fuzzy
 msgid "Default height of the Subscribe dialog"
-msgstr "Standardemne for meldinga"
+msgstr "Standardhøgde på abonneringsdialogen"
 
 #: mail/evolution-mail.schemas.in.in.h:16
-#, fuzzy
 msgid "Default reply style"
-msgstr "Standard vidaresendingsstil er: "
+msgstr "Standard svarstil"
 
 #: mail/evolution-mail.schemas.in.in.h:17
-#, fuzzy
 msgid "Default width of the Composer Window"
-msgstr "Gøym snarveglinja"
+msgstr "Standardbreidde på redigeringsvindauget"
 
 #: mail/evolution-mail.schemas.in.in.h:18
-#, fuzzy
 msgid "Default width of the Message Window"
-msgstr "Gøym snarveglinja"
+msgstr "Standardbreidde på meldingsvindauget"
 
 #: mail/evolution-mail.schemas.in.in.h:19
-#, fuzzy
 msgid "Default width of the Subscribe dialog"
-msgstr "Gøym snarveglinja"
+msgstr "Standardbreidde på abonneringsdialogen"
 
 #: mail/evolution-mail.schemas.in.in.h:20
 msgid "Draw spelling error indicators on words as you type."
-msgstr ""
+msgstr "Marker skrivefeil etterkvart som du skriv."
 
 #: mail/evolution-mail.schemas.in.in.h:21
-#, fuzzy
 msgid "Empty Trash folders on exit"
-msgstr "_Tøm papirkorga ved avslutting"
+msgstr "Tøm papirkorga ved slutt"
 
 #: mail/evolution-mail.schemas.in.in.h:22
-#, fuzzy
 msgid "Empty all Trash folders when exiting Evolution."
-msgstr "_Tøm papirkorga ved avslutting"
+msgstr "Tøm alle papirkorgene når Evolution avsluttar."
 
 #: mail/evolution-mail.schemas.in.in.h:23
 msgid "Enable caret mode, so that you can see a cursor when reading mail."
@@ -14140,9 +13986,8 @@ msgid "Enable/disable caret mode"
 msgstr ""
 
 #: mail/evolution-mail.schemas.in.in.h:25
-#, fuzzy
 msgid "Height of the message-list pane"
-msgstr "Send meldinga seinare"
+msgstr ""
 
 #: mail/evolution-mail.schemas.in.in.h:26
 msgid "Height of the message-list pane."
@@ -14164,14 +14009,12 @@ msgid "List of Labels and their associated colors"
 msgstr ""
 
 #: mail/evolution-mail.schemas.in.in.h:30
-#, fuzzy
 msgid "List of accepted licenses"
-msgstr "E-postkontoar"
+msgstr "Liste over godtekne lisensar"
 
 #: mail/evolution-mail.schemas.in.in.h:31
-#, fuzzy
 msgid "List of accounts"
-msgstr "E-postkontoar"
+msgstr "Liste over kontoar"
 
 #: mail/evolution-mail.schemas.in.in.h:32
 msgid ""
@@ -14209,28 +14052,25 @@ msgid ""
 msgstr ""
 
 #: mail/evolution-mail.schemas.in.in.h:39
-#, fuzzy
 msgid "Log filter actions"
-msgstr "_Loggfør filterhandlingar til:"
+msgstr "Loggfør filterhandlingar"
 
 #: mail/evolution-mail.schemas.in.in.h:40
 #, fuzzy
 msgid "Log filter actions to the specified log file."
-msgstr "_Loggfør filterhandlingar til:"
+msgstr "Loggfør filterhandlingar til:"
 
 #: mail/evolution-mail.schemas.in.in.h:41
-#, fuzzy
 msgid "Logfile to log filter actions"
-msgstr "_Loggfør filterhandlingar til:"
+msgstr "Loggfør filterhandlingar til denne fila"
 
 #: mail/evolution-mail.schemas.in.in.h:42
-#, fuzzy
 msgid "Logfile to log filter actions."
-msgstr "_Loggfør filterhandlingar til:"
+msgstr "Loggfør filterhandlingar til denne fila."
 
 #: mail/evolution-mail.schemas.in.in.h:43
 msgid "Mark as Seen after specified timeout"
-msgstr ""
+msgstr "Marker som lesen etter ei gitt tid"
 
 #: mail/evolution-mail.schemas.in.in.h:44
 msgid "Mark as Seen after specified timeout."
@@ -14245,13 +14085,12 @@ msgid "Mark citations in the message \"Preview\"."
 msgstr ""
 
 #: mail/evolution-mail.schemas.in.in.h:47
-#, fuzzy
 msgid "Message Window default height"
-msgstr "Standard prioritet:"
+msgstr "Standardhøgde på meldingsvindauget"
 
 #: mail/evolution-mail.schemas.in.in.h:48
 msgid "Message Window default width"
-msgstr ""
+msgstr "Standardbreidde på meldingsvindauget"
 
 #: mail/evolution-mail.schemas.in.in.h:49
 msgid "Message-display style (normal, full headers, source)"
@@ -14266,26 +14105,23 @@ msgid "Minimum time between emptying the trash on exit, in days."
 msgstr ""
 
 #: mail/evolution-mail.schemas.in.in.h:52
-#, fuzzy
 msgid "New Mail Notify sound file"
-msgstr "Påminning ved ny e-post"
+msgstr "Lyd å spela ved ny e-post"
 
 #: mail/evolution-mail.schemas.in.in.h:53
-#, fuzzy
 msgid "New Mail Notify type"
-msgstr "Påminning ved ny e-post"
+msgstr "Type varsling om ny e-post"
 
 #: mail/evolution-mail.schemas.in.in.h:54
 msgid "Prompt on empty subject"
-msgstr ""
+msgstr "Sei ifrå når emnefeltet er tomt"
 
 #: mail/evolution-mail.schemas.in.in.h:55
 msgid "Prompt the user when he or she tries to expunge a folder."
-msgstr ""
+msgstr "Sei ifrå når brukaren tømmer ei av mappe."
 
 #: mail/evolution-mail.schemas.in.in.h:56
-msgid ""
-"Prompt the user when he or she tries to send a message without a Subject."
+msgid "Prompt the user when he or she tries to send a message without a Subject."
 msgstr ""
 
 #: mail/evolution-mail.schemas.in.in.h:57
@@ -14297,17 +14133,14 @@ msgid "Prompt when user only fills Bcc"
 msgstr ""
 
 #: mail/evolution-mail.schemas.in.in.h:59
-#, fuzzy
 msgid ""
 "Prompt when user tries to send HTML mail to recipients that may not want to "
 "receive HTML mail."
-msgstr ""
-"S_pør ved sending av HTML-meldingar til kontaktar som ikkje vil ha slike"
+msgstr "Spør når brukaren sender HTML-meldingar til mottakarar som kanskje ikkje vil ha slikt."
 
 #: mail/evolution-mail.schemas.in.in.h:60
-#, fuzzy
 msgid "Prompt when user tries to send a message with no To or Cc recipients."
-msgstr "Spø_r ved sending av melding som berre har mottakarar i Bcc-feltet"
+msgstr "Spør når brukaren sender ei melding som ikkje har mottakarar i To:- eller Cc:-felta."
 
 #: mail/evolution-mail.schemas.in.in.h:61
 msgid "Prompt when user tries to send unwanted HTML"
@@ -14326,38 +14159,32 @@ msgid "Run junk test on incoming mail"
 msgstr ""
 
 #: mail/evolution-mail.schemas.in.in.h:65
-#, fuzzy
 msgid "Send HTML mail by default"
-msgstr "Send e-post i HTML-format?"
+msgstr "Send e-post i HTML-format som standard"
 
 #: mail/evolution-mail.schemas.in.in.h:66
-#, fuzzy
 msgid "Send HTML mail by default."
-msgstr "Send e-post i HTML-format?"
+msgstr "Send e-post i HTML-format som standard."
 
 #: mail/evolution-mail.schemas.in.in.h:67
-#, fuzzy
 msgid "Show Animations"
-msgstr "Vi_s animerte bilete"
+msgstr "Vis animasjonar"
 
 #: mail/evolution-mail.schemas.in.in.h:68
-#, fuzzy
 msgid "Show animated images as animations."
-msgstr "Vi_s animerte bilete"
+msgstr "Vis animerte bilete som animasjonar."
 
 #: mail/evolution-mail.schemas.in.in.h:69
 msgid "Show deleted messages (with a strike-through) in the message-list."
 msgstr ""
 
 #: mail/evolution-mail.schemas.in.in.h:70
-#, fuzzy
 msgid "Show deleted messages in the message-list"
-msgstr "Vis melding på normal måte"
+msgstr "Vis sletta meldingar i meldingslista"
 
 #: mail/evolution-mail.schemas.in.in.h:71
-#, fuzzy
 msgid "Show the \"Preview\" pane"
-msgstr "Førehandsvis i"
+msgstr "Vis «Førehandsvis»-ramma"
 
 #: mail/evolution-mail.schemas.in.in.h:72
 msgid "Show the \"Preview\" pane."
@@ -14376,18 +14203,16 @@ msgid "Spell check inline"
 msgstr ""
 
 #: mail/evolution-mail.schemas.in.in.h:76
-#, fuzzy
 msgid "Subscribe dialog default height"
-msgstr "Standard prioritet:"
+msgstr "Standardhøgde på abonneringsdialogen"
 
 #: mail/evolution-mail.schemas.in.in.h:77
 msgid "Subscribe dialog default width"
-msgstr ""
+msgstr "Standardbreidde på abonneringsdialogen"
 
 #: mail/evolution-mail.schemas.in.in.h:78
-#, fuzzy
 msgid "Terminal font"
-msgstr "_Terminalskrifttype:"
+msgstr "Terminalskrifttype"
 
 #: mail/evolution-mail.schemas.in.in.h:79
 msgid "The last time empty trash was run, in days since the epoch."
@@ -14410,31 +14235,28 @@ msgid ""
 msgstr ""
 
 #: mail/evolution-mail.schemas.in.in.h:83
-#, fuzzy
 msgid "Thread the message list."
-msgstr "Tråda meldingsliste"
+msgstr "Vis tråda meldingsliste."
 
 #: mail/evolution-mail.schemas.in.in.h:84
-#, fuzzy
 msgid "Thread the message-list"
-msgstr "Tråda meldingsliste"
+msgstr "Vis tråda meldingsliste"
 
 #: mail/evolution-mail.schemas.in.in.h:85
 msgid "Thread the message-list based on Subject"
-msgstr ""
+msgstr "Sorter meldingslista i trådar etter emne"
 
 #: mail/evolution-mail.schemas.in.in.h:86
 msgid "Timeout for marking message as Seen"
-msgstr ""
+msgstr "Tid å venta før melding er lesen"
 
 #: mail/evolution-mail.schemas.in.in.h:87
 msgid "Timeout for marking message as Seen."
-msgstr ""
+msgstr "Tid å venta før melding er lesen."
 
 #: mail/evolution-mail.schemas.in.in.h:88
-#, fuzzy
 msgid "UID string of the default account."
-msgstr "Gjer _denne til standardkonto"
+msgstr "UID-streng til standardkontoen."
 
 #: mail/evolution-mail.schemas.in.in.h:89
 msgid "Use Spamasssassin daemon and client"
@@ -14461,9 +14283,8 @@ msgid "Use only the local spam tests (no DNS)."
 msgstr ""
 
 #: mail/evolution-mail.schemas.in.in.h:95
-#, fuzzy
 msgid "Variable width font"
-msgstr "V_ariabel breidde:"
+msgstr "Skrifttype med variabel breidde"
 
 #: mail/evolution-mail.schemas.in.in.h:96
 msgid "View/Bcc menu item is checked"
@@ -14516,9 +14337,8 @@ msgid "port for starting user runned spamd"
 msgstr ""
 
 #: mail/evolution-mail.schemas.in.in.h:108
-#, fuzzy
 msgid "spamd port"
-msgstr "Importér"
+msgstr "spamd-port"
 
 #: mail/importers/GNOME_Evolution_Mail_Importers.server.in.in.h:1
 msgid "Evolution Elm importer"
@@ -14567,9 +14387,8 @@ msgid "Please wait"
 msgstr "Vent litt"
 
 #: mail/importers/elm-importer.c:244
-#, fuzzy
 msgid "Importing Elm data"
-msgstr "Importerer filer"
+msgstr "Importerer Elm-data"
 
 #: mail/importers/elm-importer.c:436
 msgid ""
@@ -14590,22 +14409,20 @@ msgstr "Målmappe:"
 
 #: mail/importers/evolution-mbox-importer.c:119
 #: mail/importers/evolution-outlook-importer.c:133
-#, fuzzy
 msgid "Select folder to import into"
-msgstr "Vel importerar"
+msgstr "Vel mappe å importera til"
 
 #: mail/importers/evolution-mbox-importer.c:222
 #: mail/importers/evolution-outlook-importer.c:256
 #: mail/importers/mail-importer.c:226
-#, fuzzy, c-format
+#, c-format
 msgid "Importing `%s'"
-msgstr "Importerar"
+msgstr "Importerer «%s»"
 
 #: mail/importers/evolution-outlook-importer.c:304
 #: mail/importers/mail-importer.c:140
-#, fuzzy
 msgid "Importing mailbox"
-msgstr "Importerer filer"
+msgstr "Importerer postboks"
 
 #: mail/importers/mail-importer.c:361
 #, c-format
@@ -14675,9 +14492,8 @@ msgid "Evolution is importing your old Netscape data"
 msgstr "Evolution importerer gamle Netscape-data"
 
 #: mail/importers/netscape-importer.c:1707
-#, fuzzy
 msgid "Importing Netscape data"
-msgstr "Evolution importerer gamle Netscape-data"
+msgstr "Importerer Netscape-data"
 
 #: mail/importers/netscape-importer.c:1907
 msgid "Settings"
@@ -14700,9 +14516,8 @@ msgid "Evolution is importing your old Pine data"
 msgstr "Evolution importerar dine galme Pine-data"
 
 #: mail/importers/pine-importer.c:314
-#, fuzzy
 msgid "Importing Pine data"
-msgstr "Importerer filer"
+msgstr "Importerer Pine-data"
 
 #: mail/importers/pine-importer.c:479
 msgid "Addressbook"
@@ -14767,62 +14582,62 @@ msgid "Mail from %s"
 msgstr "Melding frå %s"
 
 #: mail/mail-autofilter.c:271
-#, fuzzy, c-format
+#, c-format
 msgid "%s mailing list"
 msgstr "%s e-postliste"
 
 #: mail/mail-autofilter.c:326
 msgid "Add Filter Rule"
-msgstr "Legg til filter-regel"
+msgstr "Legg til filterregel"
 
 #: mail/mail-component.c:463
-#, fuzzy, c-format
+#, c-format
 msgid "%d deleted"
 msgid_plural "%d deleted"
-msgstr[0] "Sletta"
-msgstr[1] "Sletta"
+msgstr[0] "%d sletta"
+msgstr[1] "%d sletta"
 
 #: mail/mail-component.c:465
 #, c-format
 msgid "%d junk"
 msgid_plural "%d junk"
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "%d skrot"
+msgstr[1] "%d skrot"
 
 #: mail/mail-component.c:488
-#, fuzzy, c-format
+#, c-format
 msgid "%d draft"
 msgid_plural "%d drafts"
-msgstr[0] "%d dagar"
-msgstr[1] "%d dagar"
+msgstr[0] "%d utkast"
+msgstr[1] "%d utkast"
 
 #: mail/mail-component.c:490
-#, fuzzy, c-format
+#, c-format
 msgid "%d sent"
 msgid_plural "%d sent"
-msgstr[0] "%d sekund"
-msgstr[1] "%d sekund"
+msgstr[0] "%d sendt"
+msgstr[1] "%d sendte"
 
 #: mail/mail-component.c:492
-#, fuzzy, c-format
+#, c-format
 msgid "%d unsent"
 msgid_plural "%d unsent"
-msgstr[0] "%d sekund"
-msgstr[1] "%d sekund"
+msgstr[0] "%d usendt"
+msgstr[1] "%d usendte"
 
 #: mail/mail-component.c:496
-#, fuzzy, c-format
+#, c-format
 msgid "%d total"
 msgid_plural "%d total"
-msgstr[0] "%d kontaktar"
-msgstr[1] "%d kontaktar"
+msgstr[0] "%d samanlagt"
+msgstr[1] "%d samanlagt"
 
 #: mail/mail-component.c:498
 #, c-format
 msgid ", %d unread"
 msgid_plural ", %d unread"
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] ", %d ulesen"
+msgstr[1] ", %d ulesne"
 
 #: mail/mail-component.c:663
 msgid "New Mail Message"
@@ -14837,19 +14652,16 @@ msgid "Compose a new mail message"
 msgstr "Skriv ein e-post"
 
 #: mail/mail-component.c:671
-#, fuzzy
 msgid "New Mail Folder"
-msgstr "Ny vMappe"
+msgstr "Ny e-post-mappe"
 
 #: mail/mail-component.c:672
-#, fuzzy
 msgid "Mail _Folder"
-msgstr "E-postfilter"
+msgstr "E-post-_mappe"
 
 #: mail/mail-component.c:673
-#, fuzzy
 msgid "Create a new mail folder"
-msgstr "Lag ein ny kalender"
+msgstr "Lag ny e-post-mappe"
 
 #: mail/mail-component.c:805
 msgid "Failed upgrading Mail settings or folders."
@@ -14868,9 +14680,8 @@ msgstr ""
 
 #: mail/mail-config-druid.c:370 mail/mail-config-druid.c:377
 #: mail/mail-config.glade.h:119
-#, fuzzy
 msgid "Receiving Mail"
-msgstr "Mottak av e-post"
+msgstr "Hent e-post"
 
 #: mail/mail-config-druid.c:372
 msgid ""
@@ -14883,9 +14694,8 @@ msgid "Please select among the following options"
 msgstr ""
 
 #: mail/mail-config-druid.c:382 mail/mail-config.glade.h:131
-#, fuzzy
 msgid "Sending Mail"
-msgstr "Sender e-post"
+msgstr "Send e-post"
 
 #: mail/mail-config-druid.c:384
 msgid ""
@@ -14895,7 +14705,7 @@ msgstr ""
 
 #: mail/mail-config-druid.c:389 mail/mail-config.glade.h:37
 msgid "Account Management"
-msgstr ""
+msgstr "Kontostyring"
 
 #: mail/mail-config-druid.c:391
 msgid ""
@@ -14911,75 +14721,68 @@ msgid "Checking Service"
 msgstr "Sjekkar teneste"
 
 #: mail/mail-config.c:973 mail/mail-config.c:977
-#, fuzzy
 msgid "Connecting to server..."
-msgstr " Koplar til tenar ..."
+msgstr "Koplar til tenar ..."
 
 #: mail/mail-config.glade.h:1 mail/mail-dialogs.glade.h:5
-#, fuzzy
 msgid "    "
 msgstr "    "
 
 #: mail/mail-config.glade.h:2
-#, fuzzy
 msgid " Ch_eck for Supported Types "
 msgstr " _Søk etter støtta typar "
 
 #: mail/mail-config.glade.h:5
-#, fuzzy
 msgid "<b>SSL is not supported in this build of evolution</b>"
-msgstr "Den oppgitte fila finst ikkje"
+msgstr "<b>SSL er ikkje støtta i denne varianten av Evolution</b>"
 
 #: mail/mail-config.glade.h:6
-#, fuzzy
 msgid "<b>S_ignatures</b>"
-msgstr "<b>Status:</b>"
+msgstr "<b>S_ignaturar</b>"
 
 #: mail/mail-config.glade.h:7
-#, fuzzy
 msgid "<b>_Languages</b>"
-msgstr "<b>Status:</b>"
+msgstr "<b>S_pråk</b>"
 
 #: mail/mail-config.glade.h:8
 msgid "<small>This will make the the filter more reliable, but slower</small>"
-msgstr ""
+msgstr "<small>Dette vil gjera filteret meir påliteleg, men tregare</small>"
 
 #: mail/mail-config.glade.h:9
 msgid "<span weight=\"bold\">Account Information</span>"
-msgstr ""
+msgstr "<span weight=\"bold\">Kontoinformasjon</span>"
 
 #: mail/mail-config.glade.h:10
 msgid "<span weight=\"bold\">Alerts</span>"
-msgstr ""
+msgstr "<span weight=\"bold\">Varsel</span>"
 
 #: mail/mail-config.glade.h:11
 msgid "<span weight=\"bold\">Authentication Type</span>"
-msgstr ""
+msgstr "<span weight=\"bold\">Autentiseringstype</span>"
 
 #: mail/mail-config.glade.h:12
 msgid "<span weight=\"bold\">Authentication</span>"
-msgstr ""
+msgstr "<span weight=\"bold\">Autentisering</span>"
 
 #: mail/mail-config.glade.h:13
-#, fuzzy
 msgid "<span weight=\"bold\">Checking for New Mail</span>"
-msgstr "Ser etter ny e-post"
+msgstr "<span weight=\"bold\">Sjå etter ny e-post</span>"
 
 #: mail/mail-config.glade.h:14
 msgid "<span weight=\"bold\">Composing Messages</span>"
-msgstr ""
+msgstr "<span weight=\"bold\">Skriva meldingar</span>"
 
 #: mail/mail-config.glade.h:15
 msgid "<span weight=\"bold\">Configuration</span>"
-msgstr ""
+msgstr "<span weight=\"bold\">Oppsett</span>"
 
 #: mail/mail-config.glade.h:16
 msgid "<span weight=\"bold\">Default Behavior</span>"
-msgstr ""
+msgstr "<span weight=\"bold\">Vanleg åtferd</span>"
 
 #: mail/mail-config.glade.h:17
 msgid "<span weight=\"bold\">Delete Mail</span>"
-msgstr ""
+msgstr "<span weight=\"bold\">Slett e-post</span>"
 
 #: mail/mail-config.glade.h:18
 msgid "<span weight=\"bold\">Displayed Mail _Headers</span>"
@@ -14987,11 +14790,11 @@ msgstr ""
 
 #: mail/mail-config.glade.h:19
 msgid "<span weight=\"bold\">Filter Options</span>"
-msgstr ""
+msgstr "<span weight=\"bold\">Filterval</span>"
 
 #: mail/mail-config.glade.h:20
 msgid "<span weight=\"bold\">General</span>"
-msgstr ""
+msgstr "<span weight=\"bold\">Allmennt</span>"
 
 #: mail/mail-config.glade.h:21
 msgid "<span weight=\"bold\">Labels and Colors</span>"
@@ -15010,111 +14813,102 @@ msgid "<span weight=\"bold\">Message Fonts</span>"
 msgstr ""
 
 #: mail/mail-config.glade.h:25
-#, fuzzy
 msgid "<span weight=\"bold\">New Mail Notification</span>"
-msgstr "Påminning ved ny e-post"
+msgstr "<span weight=\"bold\">Varsla om ny e-post</span>"
 
 #: mail/mail-config.glade.h:26
 msgid "<span weight=\"bold\">Optional Information</span>"
-msgstr ""
+msgstr "<span weight=\"bold\">Valfri informasjon</span>"
 
 #: mail/mail-config.glade.h:27
 msgid "<span weight=\"bold\">Options</span>"
-msgstr ""
+msgstr "<span weight=\"bold\">Brukarval</span>"
 
 #: mail/mail-config.glade.h:28
-#, fuzzy
 msgid "<span weight=\"bold\">Pretty Good Privacy (PGP/GPG)</span>"
-msgstr "Pretty Good Privacy"
+msgstr "<span weight=\"bold\">Pretty Good Privacy (PGP/GPG)</span>"
 
 #: mail/mail-config.glade.h:29
 msgid "<span weight=\"bold\">Printed Fonts</span>"
-msgstr ""
+msgstr "<span weight=\"bold\">Typesnitt i utskrift</span>"
 
 #: mail/mail-config.glade.h:30
 msgid "<span weight=\"bold\">Required Information</span>"
-msgstr ""
+msgstr "<span weight=\"bold\">Påkravd informasjon</span>"
 
 #: mail/mail-config.glade.h:31
 msgid "<span weight=\"bold\">Secure MIME (S/MIME)</span>"
-msgstr ""
+msgstr "<span weight=\"bold\">Secure MIME (S/MIME)</span>"
 
 #: mail/mail-config.glade.h:32
 msgid "<span weight=\"bold\">Security</span>"
-msgstr ""
+msgstr "<span weight=\"bold\">Tryggleik</span>"
 
 #: mail/mail-config.glade.h:33
-#, fuzzy
 msgid "<span weight=\"bold\">Sent and Draft Messages</span>"
-msgstr "Send meldingar"
+msgstr "<span weight=\"bold\">Utkast og sendte meldingar</span>"
 
 #: mail/mail-config.glade.h:34
 msgid "<span weight=\"bold\">Server Configuration</span>"
-msgstr ""
+msgstr "<span weight=\"bold\">Tenaroppsett</span>"
 
 #: mail/mail-config.glade.h:35
 msgid "A_lso encrypt to self when sending encrypted mail"
-msgstr ""
+msgstr "K_rypter til meg sjølv når eg sender kryptert e-post"
 
 #: mail/mail-config.glade.h:36
 msgid "Account Editor"
-msgstr "Kontoredigerar"
+msgstr "Kontoredigering"
 
 #: mail/mail-config.glade.h:38
-#, fuzzy
 msgid "Add Ne_w Signature..."
-msgstr "Legg til ny signatur ..."
+msgstr "_Legg til ny signatur ..."
 
 #: mail/mail-config.glade.h:39
-#, fuzzy
 msgid "Add _Script"
-msgstr "Legg til skript"
+msgstr "Legg til _skript"
 
 #: mail/mail-config.glade.h:40
 msgid "Al_ways encrypt to myself when sending encrypted mail"
-msgstr ""
+msgstr "All_tid krypter til meg sjølv når eg sender e-post"
 
 #: mail/mail-config.glade.h:41
 msgid "Alway_s carbon-copy (cc) to:"
-msgstr ""
+msgstr "Alltid _send kopi (Cc:) til:"
 
 #: mail/mail-config.glade.h:43
 msgid "Always _blind carbon-copy (bcc) to:"
-msgstr ""
+msgstr "Alltid send _blinkopi (Bcc:) til:"
 
 #: mail/mail-config.glade.h:44
 msgid "Always _sign outgoing messages when using this account"
-msgstr ""
+msgstr "_Signer alle utgåande meldingar frå denne kontoen"
 
 #: mail/mail-config.glade.h:45
 msgid "Always _trust keys in my keyring when encrypting"
-msgstr ""
+msgstr "S_tol alltid på nøklar i nøkkelringen min ved kryptering"
 
 #: mail/mail-config.glade.h:46
-#, fuzzy
 msgid "Attach original message"
-msgstr "Kunne ikkje lagra melding(ar)."
+msgstr "Legg ved opprinneleg melding"
 
 #: mail/mail-config.glade.h:47 mail/message-list.etspec.h:1
 msgid "Attachment"
 msgstr "Vedlegg"
 
 #: mail/mail-config.glade.h:48
-#, fuzzy
 msgid "Automatically _insert smiley images"
-msgstr "Legg til smilefjes _automatisk"
+msgstr "Sett inn smilefjes _automatisk"
 
 #: mail/mail-config.glade.h:49
-#, fuzzy
 msgid "Automatically check for _new mail every"
 msgstr "_Sjå etter nye meldingar kvart"
 
 #: mail/mail-config.glade.h:50
 msgid "Baltic (ISO-8859-13)"
-msgstr ""
+msgstr "Baltisk (ISO-8859-13)"
 
 #: mail/mail-config.glade.h:51
-#, fuzzy
 msgid "Baltic (ISO-8859-4)"
 msgstr "Baltisk (ISO-8859-4)"
 
@@ -15127,34 +14921,30 @@ msgid "C_haracter set:"
 msgstr "T_eiknsett:"
 
 #: mail/mail-config.glade.h:54
-#, fuzzy
 msgid "Ch_eck for Supported Types "
 msgstr " _Søk etter støtta typar "
 
 #: mail/mail-config.glade.h:55
-#, fuzzy
 msgid "Check _incoming mail for junk"
-msgstr "Ser etter ny e-post"
+msgstr "Sjå etter skrot i _inngåande post"
 
 #: mail/mail-config.glade.h:56
 msgid "Check spelling while I _type"
-msgstr ""
+msgstr "Kontroller s_tavinga medan eg skriv"
 
 #: mail/mail-config.glade.h:57
 msgid "Checks incoming mail messages to be Junk"
-msgstr ""
+msgstr "Ser etter om ny e-post er skrot"
 
 #: mail/mail-config.glade.h:58
 msgid "Color for _misspelled words:"
-msgstr "_Farge for feilstava ord:"
+msgstr "_Farge å bruka på feilstava ord:"
 
 #: mail/mail-config.glade.h:59
-#, fuzzy
 msgid "Colors"
 msgstr "Fargar"
 
 #: mail/mail-config.glade.h:60
-#, fuzzy
 msgid "Confirm _when expunging a folder"
 msgstr "_Stadfest ved tøming av mappe"
 
@@ -15167,18 +14957,22 @@ msgid ""
 "\n"
 "Click \"Apply\" to save your settings."
 msgstr ""
+"Gratulerer, e-post-oppsettet ditt er ferdig.\n"
+"\n"
+"No er du klar til å senda og motta e-post\n"
+"med Evolution.\n"
+"\n"
+"Klikk på «Bruk» for å lagra innstillingane dine."
 
 #: mail/mail-config.glade.h:67
 msgid "De_fault"
 msgstr "_Standard"
 
 #: mail/mail-config.glade.h:69
-#, fuzzy
 msgid "Default character e_ncoding:"
 msgstr "Standardt_eiknsett:"
 
 #: mail/mail-config.glade.h:70
-#, fuzzy
 msgid "Defaults"
 msgstr "Standard"
 
@@ -15195,63 +14989,52 @@ msgid "Done"
 msgstr "Ferdig"
 
 #: mail/mail-config.glade.h:75
-#, fuzzy
 msgid "Drafts _Folder:"
-msgstr "Mappe for _utkast:"
+msgstr "_Utkastmappe:"
 
 #: mail/mail-config.glade.h:77
-#, fuzzy
 msgid "Email Accounts"
-msgstr "E-post inneheld"
+msgstr "E-post-kontoar"
 
 #: mail/mail-config.glade.h:78
-#, fuzzy
 msgid "Email _Address:"
 msgstr "E-post_adresse:"
 
 #: mail/mail-config.glade.h:79
-#, fuzzy
 msgid "Empty trash folders on e_xit"
-msgstr "_Tøm papirkorga ved avslutting"
+msgstr "_Tøm papirkorga ved slutt"
 
 #: mail/mail-config.glade.h:80
-#, fuzzy
 msgid "Encry_ption certificate:"
-msgstr "_Sertifikat-ID:"
+msgstr "Kry_pteringssertifikat:"
 
 #: mail/mail-config.glade.h:81
-#, fuzzy
 msgid "Evolution Account Assistant"
-msgstr "KDeelop-installering"
+msgstr "Evolution kontoassistent"
 
 #: mail/mail-config.glade.h:82
-#, fuzzy
 msgid "Execute Command..."
-msgstr "Køyr autorun.sh"
+msgstr "Køyr kommando ..."
 
 #: mail/mail-config.glade.h:83
-#, fuzzy
 msgid "Fi_xed-width:"
 msgstr "Fast _breidd:"
 
 #: mail/mail-config.glade.h:84
-#, fuzzy
 msgid "Font Properties"
-msgstr "Eigenskapar"
+msgstr "Skrifttypeeigenskapar"
 
 #: mail/mail-config.glade.h:85
 msgid "Format messages in _HTML"
 msgstr "Formater meldingar med _HTML"
 
 #: mail/mail-config.glade.h:87
-#, fuzzy
 msgid "HTML Mail"
-msgstr "_HTML-e-post"
+msgstr "HTML-e-post"
 
 #: mail/mail-config.glade.h:88
-#, fuzzy
 msgid "Headers"
-msgstr "Topptekst"
+msgstr "Hovud"
 
 #: mail/mail-config.glade.h:89
 msgid "Highlight _quotations with"
@@ -15262,9 +15045,8 @@ msgid "IMAPv4 "
 msgstr "IMAPv4 "
 
 #: mail/mail-config.glade.h:91
-#, fuzzy
 msgid "I_nclude remote tests"
-msgstr "Inkluder:"
+msgstr "Ta _med eksterne testar"
 
 #: mail/mail-config.glade.h:94
 msgid "Inline"
@@ -15283,9 +15065,8 @@ msgid "Mailbox location"
 msgstr "Postkaseeplassering"
 
 #: mail/mail-config.glade.h:101
-#, fuzzy
 msgid "Message Composer"
-msgstr "Melding motteken"
+msgstr "Meldingsredigering"
 
 #: mail/mail-config.glade.h:104
 msgid ""
@@ -15294,7 +15075,6 @@ msgid ""
 msgstr ""
 
 #: mail/mail-config.glade.h:105
-#, fuzzy
 msgid "Or_ganization:"
 msgstr "Organi_sasjon:"
 
@@ -15323,9 +15103,8 @@ msgid "Quoted"
 msgstr "Sitert"
 
 #: mail/mail-config.glade.h:116
-#, fuzzy
 msgid "Re_member password"
-msgstr "Hugs dette passordet"
+msgstr "Hu_gs passordet"
 
 #: mail/mail-config.glade.h:117
 msgid "Re_ply-To:"
@@ -15333,25 +15112,21 @@ msgstr "S_var-til:"
 
 #: mail/mail-config.glade.h:118
 msgid "Receiving Email"
-msgstr "Mottek e-post"
+msgstr "Ta imot e-post"
 
 #: mail/mail-config.glade.h:120
-#, fuzzy
 msgid "Receiving Options"
-msgstr "Val for m_ottak"
+msgstr "Val for mottak"
 
 #: mail/mail-config.glade.h:121
-#, fuzzy
 msgid "Remember _password"
-msgstr "Hugs dette passordet"
+msgstr "Hugs _passordet"
 
 #: mail/mail-config.glade.h:123
-#, fuzzy
 msgid "S_tandard Font:"
-msgstr "_Standard skrifttype:"
+msgstr "S_tandard skrifttype:"
 
 #: mail/mail-config.glade.h:124
-#, fuzzy
 msgid "Security"
 msgstr "Tryggleik"
 
@@ -15372,19 +15147,16 @@ msgid "Select HTML variable width font for printing"
 msgstr ""
 
 #: mail/mail-config.glade.h:129
-#, fuzzy
 msgid "Select..."
 msgstr "Vel ..."
 
 #: mail/mail-config.glade.h:130
-#, fuzzy
 msgid "Sending Email"
-msgstr "Send"
+msgstr "Senda e-post"
 
 #: mail/mail-config.glade.h:133
-#, fuzzy
 msgid "Sent _Messages Folder:"
-msgstr "Mappe for sendte _meldingar:"
+msgstr "Mappe til sendte _meldingar:"
 
 #: mail/mail-config.glade.h:134
 msgid "Ser_ver requires authentication"
@@ -15395,17 +15167,14 @@ msgid "Server _Type: "
 msgstr "Tenar-_type: "
 
 #: mail/mail-config.glade.h:136
-#, fuzzy
 msgid "Si_gning certificate:"
-msgstr "Oppsettsdatabasen ikkje funnen"
+msgstr "Si_gneringssertifikat:"
 
 #: mail/mail-config.glade.h:137
-#, fuzzy
 msgid "Signat_ure:"
-msgstr "Signatur:"
+msgstr "Signat_ur:"
 
 #: mail/mail-config.glade.h:138
-#, fuzzy
 msgid "Signatures"
 msgstr "Signaturar"
 
@@ -15414,7 +15183,6 @@ msgid "Specify _filename:"
 msgstr "Oppgje _filnamn:"
 
 #: mail/mail-config.glade.h:140
-#, fuzzy
 msgid "Spell Checking"
 msgstr "Stavekontroll"
 
@@ -15423,14 +15191,12 @@ msgid "Standard Unix mbox"
 msgstr "Standard unix e-postkasse"
 
 #: mail/mail-config.glade.h:142
-#, fuzzy
 msgid "T_erminal Font:"
 msgstr "_Terminalskrifttype:"
 
 #: mail/mail-config.glade.h:143
-#, fuzzy
 msgid "T_ype: "
-msgstr "Type:"
+msgstr "T_ype:"
 
 #: mail/mail-config.glade.h:144
 msgid ""
@@ -15464,14 +15230,12 @@ msgid ""
 msgstr ""
 
 #: mail/mail-config.glade.h:158
-#, fuzzy
 msgid "_Add Signature"
-msgstr "_HTML-signatur:"
+msgstr "Le_gg til signatur"
 
 #: mail/mail-config.glade.h:159
-#, fuzzy
 msgid "_Always load images from the Internet"
-msgstr "Last aldri bilete frå _nettet"
+msgstr "Last _alltid bilete frå nettet"
 
 #: mail/mail-config.glade.h:160
 msgid "_Digitally sign outgoing messages (by default)"
@@ -15513,8 +15277,7 @@ msgstr "Last aldri bilete frå _nettet"
 
 #: mail/mail-config.glade.h:174
 msgid "_Prompt when sending HTML messages to contacts that don't want them"
-msgstr ""
-"S_pør ved sending av HTML-meldingar til kontaktar som ikkje vil ha slike"
+msgstr "S_pør ved sending av HTML-meldingar til kontaktar som ikkje vil ha slike"
 
 #: mail/mail-config.glade.h:175
 msgid "_Prompt when sending messages with an empty subject line"
@@ -15680,8 +15443,7 @@ msgstr "Autentisering"
 msgid ""
 "This server does not support this type of authentication and may not support "
 "authentication at all."
-msgstr ""
-"SMTP-tenaren «%s» støttar ikkje den etterspurde autentiseringstypen %s."
+msgstr "SMTP-tenaren «%s» støttar ikkje den etterspurde autentiseringstypen %s."
 
 #. mail:camel-service-auth-failed primary
 #: mail/mail-errors.xml.h:6
@@ -15763,8 +15525,7 @@ msgstr ""
 
 #. mail:send-no-recipients primary
 #: mail/mail-errors.xml.h:34
-msgid ""
-"This message cannot be sent because you have not specified any Recipients"
+msgid "This message cannot be sent because you have not specified any Recipients"
 msgstr ""
 
 #. mail:send-no-recipients secondary
@@ -16772,8 +16533,7 @@ msgid "Last upgraded Evolution configuration version"
 msgstr "Evolution grensesnitt for oppsett av e-post"
 
 #: shell/apps_evolution_shell.schemas.in.in.h:9
-msgid ""
-"List of paths for the folders to be synchronized to disk for offline usage"
+msgid "List of paths for the folders to be synchronized to disk for offline usage"
 msgstr ""
 
 #: shell/apps_evolution_shell.schemas.in.in.h:10
@@ -16995,8 +16755,7 @@ msgstr "«.» og «..» er resverte mappenamn."
 
 #: shell/e-shell-window-commands.c:67
 msgid "The GNOME Pilot tools do not appear to be installed on this system."
-msgstr ""
-"GNOME Pilot-verktøya ser ikkje ut til å vera installerte på denne maskinen."
+msgstr "GNOME Pilot-verktøya ser ikkje ut til å vera installerte på denne maskinen."
 
 #: shell/e-shell-window-commands.c:75
 #, c-format
@@ -17031,8 +16790,7 @@ msgstr "Arbeid fråkopla"
 #: shell/e-shell-window.c:337
 #, fuzzy
 msgid "Evolution is currently online.  Click on this button to work offline."
-msgstr ""
-"Ximian Evolution er tilkopla. Klikk på denne knappen for å arbeida fråkopla."
+msgstr "Ximian Evolution er tilkopla. Klikk på denne knappen for å arbeida fråkopla."
 
 #: shell/e-shell-window.c:344
 #, fuzzy
@@ -17042,8 +16800,7 @@ msgstr "Ximian Evolution held på å kopla frå."
 #: shell/e-shell-window.c:350
 #, fuzzy
 msgid "Evolution is currently offline.  Click on this button to work online."
-msgstr ""
-"Ximian Evolution er fråkopla. Klikk på denne knappen for å arbeida tilkopla."
+msgstr "Ximian Evolution er fråkopla. Klikk på denne knappen for å arbeida tilkopla."
 
 #: shell/e-shell-window.c:637
 #, fuzzy, c-format
@@ -17669,13 +17426,11 @@ msgstr "Stol på at sertifikatet er autentisk"
 
 #: smime/gui/smime-ui.glade.h:38
 msgid "Trust this CA to identify email users."
-msgstr ""
-"Stol på denne sertifiseringsinstansen ved identifisering av e-postbrukarar."
+msgstr "Stol på denne sertifiseringsinstansen ved identifisering av e-postbrukarar."
 
 #: smime/gui/smime-ui.glade.h:39
 msgid "Trust this CA to identify software developers."
-msgstr ""
-"Stol på denne sertifiserinsinstansen ved identifisering av programutviklarar."
+msgstr "Stol på denne sertifiserinsinstansen ved identifisering av programutviklarar."
 
 #: smime/gui/smime-ui.glade.h:40
 msgid "Trust this CA to identify web sites."
@@ -17690,8 +17445,7 @@ msgid "You have certificates from these organizations that identify you:"
 msgstr "Du har sertifikat som identifiserer deg frå desse organisasjonane:"
 
 #: smime/gui/smime-ui.glade.h:43
-msgid ""
-"You have certificates on file that identify these certificate authorities:"
+msgid "You have certificates on file that identify these certificate authorities:"
 msgstr "Du har sertifikat som identifiserer desse sertifiseringsinstansane:"
 
 #: smime/gui/smime-ui.glade.h:44
@@ -18461,8 +18215,7 @@ msgid "Hide _Read Messages"
 msgstr "Gøym _lesne meldingar"
 
 #: ui/evolution-mail-list.xml.h:8
-msgid ""
-"Hide deleted messages rather than displaying them with a line through them"
+msgid "Hide deleted messages rather than displaying them with a line through them"
 msgstr "Gøym dei sletta meldingane i staden for å visa dei gjennomstreka"
 
 #: ui/evolution-mail-list.xml.h:9
@@ -19576,8 +19329,7 @@ msgstr "Evolution spørjing"
 #. setup a dummy error
 #: widgets/misc/e-error.c:421
 #, c-format
-msgid ""
-"<span weight=\"bold\">Internal error, unknown error '%s' requested</span>"
+msgid "<span weight=\"bold\">Internal error, unknown error '%s' requested</span>"
 msgstr "<span weight=\"bold\">Intern feil, bedt om ukjend feil «%s»</span>"
 
 #: widgets/misc/e-expander.c:181
@@ -19734,3 +19486,4 @@ msgstr "%s (...)"
 #, c-format
 msgid "%s (%d%% complete)"
 msgstr "%s (%d %% ferdig)"
+
