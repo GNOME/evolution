@@ -425,10 +425,6 @@ ethi_drag_motion (GtkObject *canvas, GdkDragContext *context,
 		  gint x, gint y, guint time,
 		  ETableHeaderItem *ethi)
 {
-	/* Check if it's the correct ethi */
-	if (ethi->drag_col == -1)
-		return FALSE;
-
 	gdk_drag_status (context, 0, time);
 	if ((x >= 0) && (x <= (ethi->width)) &&
 	    (y >= 0) && (y <= (ethi->height))){
@@ -437,16 +433,19 @@ ethi_drag_motion (GtkObject *canvas, GdkDragContext *context,
 		col = ethi_find_col_by_x (ethi, x);
 		
 		if (col != -1){
-			ethi_remove_destroy_marker (ethi);
+			if (ethi->drag_col != -1)
+				ethi_remove_destroy_marker (ethi);
 			ethi_add_drop_marker (ethi, col);
 			gdk_drag_status (context, context->suggested_action, time);
 		} else {
 			ethi_remove_drop_marker (ethi);
-			ethi_add_destroy_marker (ethi);
+			if (ethi->drag_col != -1)
+				ethi_add_destroy_marker (ethi);
 		}
 	} else {
 		ethi_remove_drop_marker (ethi);
-		ethi_add_destroy_marker (ethi);
+		if (ethi->drag_col != -1)
+			ethi_add_destroy_marker (ethi);
 	}
 
 	return TRUE;
@@ -455,9 +454,6 @@ ethi_drag_motion (GtkObject *canvas, GdkDragContext *context,
 static void
 ethi_drag_end (GtkWidget *canvas, GdkDragContext *context, ETableHeaderItem *ethi)
 {
-	if (ethi->drag_col == -1)
-		return;
-
 	if (context->action == 0) {
 		e_table_header_remove (ethi->eth, ethi->drag_col);
 		gnome_canvas_item_request_update(GNOME_CANVAS_ITEM(ethi));
@@ -503,6 +499,7 @@ ethi_drag_data_received (GtkWidget *canvas,
 			}
 		}
 	}
+	ethi_remove_drop_marker (ethi);
 	gnome_canvas_item_request_update(GNOME_CANVAS_ITEM(ethi));
 }
 
@@ -537,9 +534,6 @@ ethi_drag_drop (GtkWidget *canvas,
 {
 	gboolean successful = FALSE;
 
-	if (ethi->drag_col == -1)
-		return FALSE;
-
 	if ((x >= 0) && (x <= (ethi->width)) &&
 	    (y >= 0) && (y <= (ethi->height))){
 		int col;
@@ -563,11 +557,9 @@ ethi_drag_drop (GtkWidget *canvas,
 static void
 ethi_drag_leave (GtkWidget *widget, GdkDragContext *context, guint time, ETableHeaderItem *ethi)
 {
-	if (ethi->drag_col == -1)
-		return;
-
 	ethi_remove_drop_marker (ethi);
-	ethi_add_destroy_marker (ethi);
+	if (ethi->drag_col != -1)
+		ethi_add_destroy_marker (ethi);
 }
 
 static void

@@ -96,6 +96,8 @@ e_table_field_chooser_dialog_init (ETableFieldChooserDialog *e_table_field_choos
 				    GNOME_STOCK_BUTTON_CLOSE,
 				    NULL);
 
+	gtk_window_set_policy(GTK_WINDOW(e_table_field_chooser_dialog), FALSE, TRUE, FALSE);
+
 	widget = e_table_field_chooser_new();
 	e_table_field_chooser_dialog->etfc = E_TABLE_FIELD_CHOOSER(widget);
 	

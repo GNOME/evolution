@@ -1,5 +1,21 @@
 2000-06-08  Christopher James Lahey  <clahey@helixcode.com>
 
+	* The field chooser works now.
+
+	* e-table-field-chooser-dialog.c: Make the dialog resizable.
+
+	* e-table-field-chooser-item.c: Requested a reflow on
+	realization.  Made the correct column get dragged.
+
+	* e-table-field-chooser.c: Set the height correctly.
+
+	* e-table-field-chooser.glade: Replace the GnomeCanvas with an
+	ECanvas.
+
+	* e-table-header-item.c: Receive drags from the new dialog.
+
+2000-06-08  Christopher James Lahey  <clahey@helixcode.com>
+
 	* e-table-field-chooser-dialog.c, e-table-field-chooser-dialog.h,
 	e-table-field-chooser-item.c, e-table-field-chooser.c,
 	e-table-field-chooser.glade, e-table-field-chooser.h,

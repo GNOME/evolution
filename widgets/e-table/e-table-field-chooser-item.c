@@ -150,6 +150,7 @@ etfci_drop_table_header (ETableFieldChooserItem *etfci)
 		gtk_object_unref (header);
 	etfci->full_header = NULL;
 	etfci->height = 0;
+	e_canvas_item_request_reflow(GNOME_CANVAS_ITEM(etfci));
 }
 
 static void 
@@ -280,6 +281,7 @@ etfci_realize (GnomeCanvasItem *item)
 	etfci->drag_data_get_id = gtk_signal_connect (
 		GTK_OBJECT (item->canvas), "drag_data_get",
 		GTK_SIGNAL_FUNC (etfci_drag_data_get), etfci);
+	e_canvas_item_request_reflow(GNOME_CANVAS_ITEM(etfci));
 }
 
 static void
@@ -407,7 +409,7 @@ etfci_maybe_start_drag (ETableFieldChooserItem *etfci, double x, double y)
 }
 
 static void
-etfci_start_drag (ETableFieldChooserItem *etfci, GdkEvent *event)
+etfci_start_drag (ETableFieldChooserItem *etfci, GdkEvent *event, double x, double y)
 {
 	GtkWidget *widget = GTK_WIDGET (GNOME_CANVAS_ITEM (etfci)->canvas);
 	GtkTargetList *list;
@@ -420,7 +422,7 @@ etfci_start_drag (ETableFieldChooserItem *etfci, GdkEvent *event)
 		{ TARGET_ETABLE_COL_TYPE, 0, TARGET_ETABLE_COL_HEADER },
 	};
 
-	drag_col = event->motion.x / etfci->button_height;
+	drag_col = y / etfci->button_height;
 
 	if (drag_col < 0 || drag_col > e_table_header_count(etfci->full_header))
 		return;
@@ -464,7 +466,7 @@ etfci_event (GnomeCanvasItem *item, GdkEvent *e)
 		gnome_canvas_w2c (canvas, e->motion.x, e->motion.y, &x, &y);
 
 		if (etfci_maybe_start_drag (etfci, x, y))
-			etfci_start_drag (etfci, e);
+			etfci_start_drag (etfci, e, x, y);
 		break;
 		
 	case GDK_BUTTON_PRESS:
