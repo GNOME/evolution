@@ -1,3 +1,12 @@
+2004-01-26  Rodney Dawes  <dobey@ximian.com>
+
+	* e-shell-window.c (setup_widgets): Add panded widget to
+	EShellWindowPrivate and handle state saving of position (#52049)
+	* e-task-bar.c (init): Switch to EClippedLabel instead of GtkLabel
+	for the status bar text (#52937)
+
+	Fixes #52049 and #52937
+
 2004-01-26  JP Rosevear <jpr@ximian.com>
 
 	* e-shell.c (e_shell_construct): there is no splash screen any

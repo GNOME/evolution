@@ -27,12 +27,12 @@
 #include "e-task-bar.h"
 
 #include <gal/util/e-util.h>
-#include <gtk/gtklabel.h>
+#include "widgets/misc/e-clipped-label.h"
 
 
 struct _ETaskBarPrivate
 {
-	GtkLabel *message_label;
+	EClippedLabel *message_label;
 	GtkHBox  *hbox;
 };
 
@@ -103,11 +103,11 @@ init (ETaskBar *task_bar)
 
 	gtk_box_set_spacing (GTK_BOX (task_bar), 10);
 	
-	label = gtk_label_new ("");
+	label = e_clipped_label_new ("", PANGO_WEIGHT_NORMAL, 1.0);
 	gtk_widget_show (label);
 	gtk_box_pack_start (GTK_BOX (task_bar), label, FALSE, TRUE, 0);
 	gtk_misc_set_alignment (GTK_MISC (label), 0, 0.5); 
-	task_bar->priv->message_label = GTK_LABEL (label);
+	task_bar->priv->message_label = E_CLIPPED_LABEL (label);
 
 	hbox = gtk_hbox_new (0, FALSE);
 	gtk_widget_show (hbox);
@@ -142,7 +142,8 @@ e_task_bar_set_message (ETaskBar   *task_bar,
 {
 	if (message) {
 		gtk_widget_show (GTK_WIDGET (task_bar->priv->message_label));
-		gtk_label_set_text (task_bar->priv->message_label, message);
+		e_clipped_label_set_text (task_bar->priv->message_label,
+					  message);
 	} else {
 		e_task_bar_unset_message (task_bar);
 	}

@@ -84,6 +84,9 @@ struct _EShellWindowPrivate {
 	/* All the ComponentViews.  */
 	GSList *component_views;
 
+	/* The paned widget for the sidebar and component views */
+	GtkWidget *paned;
+
 	/* The sidebar.  */
 	GtkWidget *sidebar;
 
@@ -544,17 +547,17 @@ setup_widgets (EShellWindow *window)
 {
 	EShellWindowPrivate *priv = window->priv;
 	EComponentRegistry *registry = e_shell_peek_component_registry (priv->shell);
-	GtkWidget *paned;
+	GConfClient *gconf_client = gconf_client_get_default ();
 	GtkWidget *contents_vbox;
 	GSList *p;
 	int button_id;
 
-	paned = gtk_hpaned_new ();
+	priv->paned = gtk_hpaned_new ();
 
 	priv->sidebar = e_sidebar_new ();
 	g_signal_connect (priv->sidebar, "button_selected",
 			  G_CALLBACK (sidebar_button_selected_callback), window);
-	gtk_paned_pack1 (GTK_PANED (paned), priv->sidebar, FALSE, FALSE);
+	gtk_paned_pack1 (GTK_PANED (priv->paned), priv->sidebar, FALSE, FALSE);
 
 	priv->sidebar_notebook = gtk_notebook_new ();
 	gtk_notebook_set_show_tabs (GTK_NOTEBOOK (priv->sidebar_notebook), FALSE);
@@ -564,9 +567,10 @@ setup_widgets (EShellWindow *window)
 	priv->view_notebook = gtk_notebook_new ();
 	gtk_notebook_set_show_tabs (GTK_NOTEBOOK (priv->view_notebook), FALSE);
 	gtk_notebook_set_show_border (GTK_NOTEBOOK (priv->view_notebook), FALSE);
-	gtk_paned_pack2 (GTK_PANED (paned), priv->view_notebook, TRUE, TRUE);
+	gtk_paned_pack2 (GTK_PANED (priv->paned), priv->view_notebook, TRUE, TRUE);
 
-	gtk_paned_set_position (GTK_PANED (paned), 200);
+	gtk_paned_set_position (GTK_PANED (priv->paned),
+				gconf_client_get_int (gconf_client, "/apps/evolution/shell/view_defaults/folder_bar/width", NULL));
 
 	button_id = 0;
 	for (p = e_component_registry_peek_list (registry); p != NULL; p = p->next) {
@@ -582,7 +586,7 @@ setup_widgets (EShellWindow *window)
 	setup_status_bar (window);
 
 	contents_vbox = gtk_vbox_new (FALSE, 0);
-	gtk_box_pack_start (GTK_BOX (contents_vbox), paned, TRUE, TRUE, 0);
+	gtk_box_pack_start (GTK_BOX (contents_vbox), priv->paned, TRUE, TRUE, 0);
 	gtk_box_pack_start (GTK_BOX (contents_vbox), priv->status_bar, FALSE, TRUE, 0);
 	gtk_widget_show_all (contents_vbox);
 
@@ -590,6 +594,7 @@ setup_widgets (EShellWindow *window)
 	gtk_widget_hide (priv->menu_hint_label);
 
 	bonobo_window_set_contents (BONOBO_WINDOW (window), contents_vbox);
+	g_object_unref (gconf_client);
 }
 
 
@@ -809,6 +814,9 @@ e_shell_window_save_defaults (EShellWindow *window)
 			      GTK_WIDGET (window)->allocation.width, NULL);
 	gconf_client_set_int (client, "/apps/evolution/shell/view_defaults/height",
 			      GTK_WIDGET (window)->allocation.height, NULL);
+
+	gconf_client_set_int (client, "/apps/evolution/shell/view_defaults/folder_bar/width",
+			      gtk_paned_get_position (GTK_PANED (window->priv->paned)), NULL);
 
 	g_object_unref (client);
 }
