@@ -6559,11 +6559,11 @@ msgstr ">_>"
 
 #: calendar/gui/e-meeting-time-sel.c:584
 msgid "_All People and Resources"
-msgstr "'Ολα τα ¶τομα και οι Πόροι"
+msgstr "Όλα _τα ¶τομα και οι Πόροι"
 
 #: calendar/gui/e-meeting-time-sel.c:597
 msgid "All _People and One Resource"
-msgstr "'Ολα τα ¶τομα και ένας Πόρος"
+msgstr "Όλα τα ¶τομα και ένας _Πόρος"
 
 #: calendar/gui/e-meeting-time-sel.c:610
 msgid "_Required People"
@@ -7152,7 +7152,7 @@ msgid ""
 msgstr ""
 "Δεν ήταν δυνατό το άνοιγμα του`%s':\n"
 "%s\n"
-"Οι αλλαγές σ' αυτόν τον φάκελο δεν θα ξανασυγχρονιστούν."
+"Οι αλλαγές σε αυτόν τον φάκελο δεν θα ξανασυγχρονιστούν."
 
 #: camel/camel-disco-diary.c:277
 msgid "Resynchronizing with server"
@@ -7286,7 +7286,7 @@ msgstr ""
 #: camel/camel-lock-client.c:215
 #, c-format
 msgid "Could not lock '%s'"
-msgstr "Δεν ήταν δυνατό το κλείδωμα του '%s"
+msgstr "Δεν ήταν δυνατό το κλείδωμα του %s"
 
 #. well, this is really only a programatic error
 #: camel/camel-lock.c:91 camel/camel-lock.c:110
@@ -7676,7 +7676,7 @@ msgstr ""
 #: camel/camel-service.c:173
 #, c-format
 msgid "URL '%s' needs a path component"
-msgstr "Η ηλεκτρονική διεύθυνση '%s'χρειάζεται ένα συστατικό θέσης"
+msgstr "Η ηλεκτρονική διεύθυνση '%s' χρειάζεται ένα συστατικό θέσης"
 
 #: camel/camel-service.c:614
 #, c-format
