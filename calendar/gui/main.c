@@ -34,10 +34,9 @@
 #include <liboaf/liboaf.h>
 
 #include <gal/widgets/e-cursors.h>
-#include <cal-util/timeutil.h>
-#include <gui/alarm.h>
-#include <gui/gnome-cal.h>
-#include <gui/calendar-commands.h>
+#include "alarm.h"
+#include "calendar-commands.h"
+#include "calendar-config.h"
 #include "component-factory.h"
 #include "control-factory.h"
 #include "e-itip-control.h"
@@ -59,10 +58,10 @@ init_bonobo (int *argc, char **argv)
 int
 main (int argc, char **argv)
 {
-	#ifdef ENABLE_NLS
+#ifdef ENABLE_NLS
 	bindtextdomain(PACKAGE, EVOLUTION_LOCALEDIR);
 	textdomain(PACKAGE);
-	#endif
+#endif
 	
 	init_bonobo (&argc, argv);
 	glade_gnome_init ();

@@ -1,3 +1,33 @@
+2000-11-05  Federico Mena Quintero  <federico@helixcode.com>
+
+	* gui/event-editor-dialog.glade: Removed the old recurrence page.
+	Wheeeeeeeeee!
+
+	* gui/event-editor.c (make_recurrence_special): Clear the monthly
+	widgets.
+	(make_recur_monthly_special): Create the monthly widgets.
+	(clear_widgets): Clear the monthly values.
+	(simple_recur_to_comp_object): Fill in the monthly values.
+	(fill_recurrence_widgets): Fill in the monthly and yearly source
+	values.
+	(dialog_to_comp_object): Take in a CalComponent instead of using
+	the event editor's directly.
+	(recur_to_comp_object): Likewise.
+	(simple_recur_to_comp_object): Likewise.
+	(EventEditorPrivate): Removed the widgets from the old recurrence
+	page.
+	(get_widgets): Likewise.
+	(clear_widgets): Likewise.
+	(dialog_to_comp_object): If the description or summary are empty,
+	just clear the description list or summary property, respectively,
+	instead of saving empty ones.
+	(simple_recur_to_comp_object): Set the week_start field.
+
+	* gui/main.c: Fix includes, and add calendar-config.h.
+
+	* gui/Makefile.am (evolution_calendar_SOURCES): The glade messages
+	file should not be in SOURCES.
+
 2000-11-05  Christopher James Lahey  <clahey@helixcode.com>
 
 	* doc/.cvsignore, doc/C/.cvsignore: Removed unnecessary .cvsignore

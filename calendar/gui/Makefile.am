@@ -81,6 +81,10 @@ evolution_calendar_SOURCES =			\
 	e-day-view-top-item.h			\
 	e-day-view.c				\
 	e-day-view.h				\
+	e-itip-control.h			\
+	e-itip-control.c			\
+	e-meeting-edit.h			\
+	e-meeting-edit.c			\
 	e-week-view-event-item.c		\
 	e-week-view-event-item.h		\
 	e-week-view-main-item.c			\
@@ -89,13 +93,8 @@ evolution_calendar_SOURCES =			\
 	e-week-view-titles-item.h		\
 	e-week-view.c				\
 	e-week-view.h				\
-	e-meeting-edit.h			\
-	e-meeting-edit.c			\
-	e-itip-control.h			\
-	e-itip-control.c			\
 	event-editor.c				\
 	event-editor.h				\
-	event-editor-dialog.glade.h		\
 	getdate.y				\
 	gncal-todo.c				\
 	gncal-todo.h				\

@@ -34,6 +34,30 @@
 
 
 
+/* Options for monthly recurrences */
+enum month_day_options {
+	MONTH_DAY_NTH,
+	MONTH_DAY_MON,
+	MONTH_DAY_TUE,
+	MONTH_DAY_WED,
+	MONTH_DAY_THU,
+	MONTH_DAY_FRI,
+	MONTH_DAY_SAT,
+	MONTH_DAY_SUN
+};
+
+static const int month_day_options_map[] = {
+	MONTH_DAY_NTH,
+	MONTH_DAY_MON,
+	MONTH_DAY_TUE,
+	MONTH_DAY_WED,
+	MONTH_DAY_THU,
+	MONTH_DAY_FRI,
+	MONTH_DAY_SAT,
+	MONTH_DAY_SUN,
+	-1
+};
+
 struct _EventEditorPrivate {
 	/* Glade XML data */
 	GladeXML *xml;
@@ -96,6 +120,13 @@ struct _EventEditorPrivate {
 	GtkWidget *recurrence_weekday_picker;
 	guint8 recurrence_weekday_day_mask;
 
+	/* For monthly recurrences, created by hand */
+	GtkWidget *recurrence_month_index_spin;
+	int recurrence_month_index;
+
+	GtkWidget *recurrence_month_day_menu;
+	enum month_day_options recurrence_month_day;
+
 	/* For ending date, created by hand */
 	GtkWidget *recurrence_ending_date_edit;
 	time_t recurrence_ending_date;
@@ -103,32 +134,6 @@ struct _EventEditorPrivate {
 	/* For ending count of ocurrences, created by hand */
 	GtkWidget *recurrence_ending_count_spin;
 	int recurrence_ending_count;
-
-	GtkWidget *recurrence_rule_notebook;
-	GtkWidget *recurrence_rule_none;
-	GtkWidget *recurrence_rule_daily;
-	GtkWidget *recurrence_rule_weekly;
-	GtkWidget *recurrence_rule_monthly;
-	GtkWidget *recurrence_rule_yearly;
-
-	GtkWidget *recurrence_rule_daily_days;
-
-	GtkWidget *recurrence_rule_weekly_weeks;
-	GtkWidget *recurrence_rule_weekly_sun;
-	GtkWidget *recurrence_rule_weekly_mon;
-	GtkWidget *recurrence_rule_weekly_tue;
-	GtkWidget *recurrence_rule_weekly_wed;
-	GtkWidget *recurrence_rule_weekly_thu;
-	GtkWidget *recurrence_rule_weekly_fri;
-	GtkWidget *recurrence_rule_weekly_sat;
-
-	GtkWidget *recurrence_rule_monthly_on_day;
-	GtkWidget *recurrence_rule_monthly_weekday;
-	GtkWidget *recurrence_rule_monthly_day_nth;
-	GtkWidget *recurrence_rule_monthly_week;
-	GtkWidget *recurrence_rule_monthly_weekpos;
-	GtkWidget *recurrence_rule_monthly_every_n_months;
-	GtkWidget *recurrence_rule_yearly_every_n_years;
 
 	/* More widgets from the Glade file */
 
@@ -354,11 +359,82 @@ make_recur_weekly_special (EventEditor *ee)
 	weekday_picker_set_days (wp, priv->recurrence_weekday_day_mask);
 }
 
+/* Creates the option menu for the monthly recurrence days */
+static GtkWidget *
+make_recur_month_menu (void)
+{
+	static const char *options[] = {
+		N_("day"),
+		N_("Monday"),
+		N_("Tuesday"),
+		N_("Wednesday"),
+		N_("Thursday"),
+		N_("Friday"),
+		N_("Saturday"),
+		N_("Sunday")
+	};
+
+	GtkWidget *menu;
+	GtkWidget *omenu;
+	int i;
+
+	menu = gtk_menu_new ();
+
+	for (i = 0; i < sizeof (options) / sizeof (options[0]); i++) {
+		GtkWidget *item;
+
+		item = gtk_menu_item_new_with_label (_(options[i]));
+		gtk_menu_append (GTK_MENU (menu), item);
+		gtk_widget_show (item);
+	}
+
+	omenu = gtk_option_menu_new ();
+	gtk_option_menu_set_menu (GTK_OPTION_MENU (omenu), menu);
+
+	return omenu;
+}
+
 /* Creates the special contents for monthly recurrences */
 static void
 make_recur_monthly_special (EventEditor *ee)
 {
-	/* FIXME: create the "on the" <nth> [day, Weekday, last Weekday] */
+	EventEditorPrivate *priv;
+	GtkWidget *hbox;
+	GtkWidget *label;
+	GtkAdjustment *adj;
+
+	priv = ee->priv;
+
+	g_assert (GTK_BIN (priv->recurrence_special)->child == NULL);
+	g_assert (priv->recurrence_month_index_spin == NULL);
+	g_assert (priv->recurrence_month_day_menu == NULL);
+
+	/* Create the widgets */
+
+	hbox = gtk_hbox_new (FALSE, 2);
+	gtk_container_add (GTK_CONTAINER (priv->recurrence_special), hbox);
+
+	label = gtk_label_new (_("on the"));
+	gtk_box_pack_start (GTK_BOX (hbox), label, FALSE, FALSE, 0);
+
+	adj = GTK_ADJUSTMENT (gtk_adjustment_new (1, 1, 31, 1, 10, 10));
+	priv->recurrence_month_index_spin = gtk_spin_button_new (adj, 1, 0);
+	gtk_box_pack_start (GTK_BOX (hbox), priv->recurrence_month_index_spin, FALSE, FALSE, 0);
+
+	label = gtk_label_new (_("th"));
+	gtk_box_pack_start (GTK_BOX (hbox), label, FALSE, FALSE, 0);
+
+	priv->recurrence_month_day_menu = make_recur_month_menu ();
+	gtk_box_pack_start (GTK_BOX (hbox), priv->recurrence_month_day_menu, FALSE, FALSE, 0);
+
+	gtk_widget_show_all (hbox);
+
+	/* Set the options */
+
+	e_dialog_spin_set (priv->recurrence_month_index_spin, priv->recurrence_month_index);
+	e_dialog_option_menu_set (priv->recurrence_month_day_menu,
+				  priv->recurrence_month_day,
+				  month_day_options_map);
 }
 
 static const int recur_freq_map[] = {
@@ -373,7 +449,7 @@ static const int recur_freq_map[] = {
  *
  * For daily recurrences: nothing.
  * For weekly recurrences: weekday selector.
- * For monthly recurrences: "on the" <nth> [day, Weekday, last Weekday]
+ * For monthly recurrences: "on the" <nth> [day, Weekday]
  * For yearly recurrences: nothing.
  */
 static void
@@ -388,6 +464,8 @@ make_recurrence_special (EventEditor *ee)
 		gtk_widget_destroy (GTK_BIN (priv->recurrence_special)->child);
 
 		priv->recurrence_weekday_picker = NULL;
+		priv->recurrence_month_index_spin = NULL;
+		priv->recurrence_month_day_menu = NULL;
 	}
 
 	frequency = e_dialog_option_menu_get (priv->recurrence_interval_unit, recur_freq_map);
@@ -672,13 +750,6 @@ get_widgets (EventEditor *ee)
 	priv->recurrence_ending_menu = GW ("recurrence-ending-menu");
 	priv->recurrence_ending_special = GW ("recurrence-ending-special");
 
-	priv->recurrence_rule_monthly_on_day = GW ("recurrence-rule-monthly-on-day");
-	priv->recurrence_rule_monthly_weekday = GW ("recurrence-rule-monthly-weekday");
-	priv->recurrence_rule_monthly_day_nth = GW ("recurrence-rule-monthly-day-nth");
-	priv->recurrence_rule_monthly_week = GW ("recurrence-rule-monthly-week");
-	priv->recurrence_rule_monthly_weekpos = GW ("recurrence-rule-monthly-weekpos");
-	priv->recurrence_rule_monthly_every_n_months = GW ("recurrence-rule-monthly-every-n-months");
-
 	priv->recurrence_exception_date = GW ("recurrence-exception-date");
 	priv->recurrence_exception_list = GW ("recurrence-exception-list");
 	priv->recurrence_exception_add = GW ("recurrence-exception-add");
@@ -720,14 +791,6 @@ get_widgets (EventEditor *ee)
 		&& priv->recurrence_special
 		&& priv->recurrence_ending_menu
 		&& priv->recurrence_ending_special
-
-		&& priv->recurrence_rule_monthly_on_day
-		&& priv->recurrence_rule_monthly_weekday
-		&& priv->recurrence_rule_monthly_day_nth
-		&& priv->recurrence_rule_monthly_week
-		&& priv->recurrence_rule_monthly_weekpos
-		&& priv->recurrence_rule_monthly_every_n_months
-
 		&& priv->recurrence_exception_date
 		&& priv->recurrence_exception_list
 		&& priv->recurrence_exception_add
@@ -958,6 +1021,9 @@ clear_widgets (EventEditor *ee)
 
 	priv->recurrence_weekday_day_mask = 0;
 
+	priv->recurrence_month_index = 1;
+	priv->recurrence_month_day = MONTH_DAY_NTH;
+
 	e_dialog_radio_set (priv->recurrence_none, RECUR_NONE, recur_type_map);
 
 	e_dialog_spin_set (priv->recurrence_interval_value, 1);
@@ -969,15 +1035,6 @@ clear_widgets (EventEditor *ee)
 
 	e_dialog_option_menu_set (priv->recurrence_ending_menu, ENDING_FOREVER,
 				  ending_types_map);
-
-	/* Old recurrences */
-
-	e_dialog_toggle_set (priv->recurrence_rule_monthly_on_day, TRUE);
-	e_dialog_spin_set (priv->recurrence_rule_monthly_day_nth, 1);
-	e_dialog_spin_set (priv->recurrence_rule_monthly_every_n_months, 1);
-	e_dialog_option_menu_set (priv->recurrence_rule_monthly_week, 0, month_pos_map);
-	e_dialog_option_menu_set (priv->recurrence_rule_monthly_weekpos, 0, weekday_map);
-	e_dialog_spin_set (priv->recurrence_rule_monthly_every_n_months, 1);
 
 	/* Exceptions list */
 
@@ -1188,7 +1245,86 @@ fill_recurrence_widgets (EventEditor *ee)
 	}
 
 	case ICAL_MONTHLY_RECURRENCE:
-		/* FIXME */
+		if (n_by_year_day != 0
+		    || n_by_week_no != 0
+		    || n_by_month != 0
+		    || n_by_set_pos != 0)
+			goto custom;
+
+		if (n_by_month_day == 1) {
+			int nth;
+
+			nth = r->by_month_day[0];
+			if (nth < 1)
+				goto custom;
+
+			priv->recurrence_month_index = nth;
+			priv->recurrence_month_day = MONTH_DAY_NTH;
+		} else if (n_by_day == 1) {
+			enum icalrecurrencetype_weekday weekday;
+			int pos;
+			enum month_day_options month_day;
+
+			weekday = icalrecurrencetype_day_day_of_week (r->by_day[0]);
+			pos = icalrecurrencetype_day_position (r->by_day[0]);
+
+			if (pos < 1)
+				goto custom;
+
+			switch (weekday) {
+			case ICAL_MONDAY_WEEKDAY:
+				month_day = MONTH_DAY_MON;
+				break;
+
+			case ICAL_TUESDAY_WEEKDAY:
+				month_day = MONTH_DAY_TUE;
+				break;
+
+			case ICAL_WEDNESDAY_WEEKDAY:
+				month_day = MONTH_DAY_WED;
+				break;
+
+			case ICAL_THURSDAY_WEEKDAY:
+				month_day = MONTH_DAY_THU;
+				break;
+
+			case ICAL_FRIDAY_WEEKDAY:
+				month_day = MONTH_DAY_FRI;
+				break;
+
+			case ICAL_SATURDAY_WEEKDAY:
+				month_day = MONTH_DAY_SAT;
+				break;
+
+			case ICAL_SUNDAY_WEEKDAY:
+				month_day = MONTH_DAY_SUN;
+				break;
+
+			default:
+				goto custom;
+			}
+
+			priv->recurrence_month_index = pos;
+			priv->recurrence_month_day = month_day;
+		} else
+			goto custom;
+
+		e_dialog_option_menu_set (priv->recurrence_interval_unit, ICAL_MONTHLY_RECURRENCE,
+					  recur_freq_map);
+		break;
+
+	case ICAL_YEARLY_RECURRENCE:
+		if (n_by_day != 0
+		    || n_by_month_day != 0
+		    || n_by_year_day != 0
+		    || n_by_week_no != 0
+		    || n_by_month != 0
+		    || n_by_set_pos != 0)
+			goto custom;
+
+		e_dialog_option_menu_set (priv->recurrence_interval_unit, ICAL_YEARLY_RECURRENCE,
+					  recur_freq_map);
+		break;
 
 	default:
 		goto custom;
@@ -1278,9 +1414,9 @@ fill_widgets (EventEditor *ee)
 	e_dialog_toggle_set (priv->alarm_program, priv->ico->palarm.enabled);
 	e_dialog_toggle_set (priv->alarm_audio, priv->ico->aalarm.enabled);
 	e_dialog_toggle_set (priv->alarm_mail, priv->ico->malarm.enabled);
-#endif
+
 	/* Alarm data */
-#if 0
+
 	e_dialog_spin_set (priv->alarm_display_amount, priv->ico->dalarm.count);
 	e_dialog_spin_set (priv->alarm_audio_amount, priv->ico->aalarm.count);
 	e_dialog_spin_set (priv->alarm_program_amount, priv->ico->palarm.count);
@@ -1315,51 +1451,7 @@ fill_widgets (EventEditor *ee)
 	}
 
 	/* Recurrences */
-
 	fill_recurrence_widgets (ee);
-
-#if 0
-	
-	if (cal_component_has_rrules (priv->comp)) {
-		struct icalrecurrencetype *r;
-		int i;
-		
-		cal_component_get_rrule_list (priv->comp, &list);
-		r = list->data;
-		
-		switch (r->freq) {
-		case ICAL_MONTHLY_RECURRENCE:
-			e_dialog_radio_set (priv->recurrence_rule_monthly, ICAL_MONTHLY_RECURRENCE,
-					    recur_options_map);
-			
-			if (r->by_month_day[0] != ICAL_RECURRENCE_ARRAY_MAX) {
-				e_dialog_toggle_set (priv->recurrence_rule_monthly_on_day, TRUE);
-				e_dialog_spin_set (priv->recurrence_rule_monthly_day_nth, 
-						   r->by_month_day[0]);
-			} else if (r->by_day[0] != ICAL_RECURRENCE_ARRAY_MAX) {
-				e_dialog_toggle_set (priv->recurrence_rule_monthly_weekday, TRUE);
-				/* libical does not handle ints in by day */
-/*  				e_dialog_option_menu_set (priv->recurrence_rule_monthly_week, */
-/*  							  priv->ico->recur->u.month_pos, */
-/*  							  month_pos_map); */
-/*  				e_dialog_option_menu_set (priv->recurrence_rule_monthly_weekpos, */
-/*  							  priv->ico->recur->weekday, */
-/*  							  weekday_map); */
-			}
-			
-			e_dialog_spin_set (priv->recurrence_rule_monthly_every_n_months,
-					   r->interval);
-			break;
-
-		default:
-			break;
-/*  			g_assert_not_reached (); */
-		}
-
-		cal_component_free_recur_list (list);
-	}
-
-#endif
 
 	/* Exceptions list */
 
@@ -1404,16 +1496,23 @@ classification_get (GtkWidget *widget)
 	return e_dialog_radio_get (widget, classification_map);
 }
 
+/* Encondes a position/weekday pair into the proper format for
+ * icalrecurrencetype.by_day.
+ */
+static short
+nth_weekday (int pos, icalrecurrencetype_weekday weekday)
+{
+	return (pos << 3) | (int) weekday;
+}
+
 /* Gets the simple recurrence data from the recurrence widgets and stores it in
  * the calendar component object.
  */
 static void
-simple_recur_to_comp_object (EventEditor *ee)
+simple_recur_to_comp_object (EventEditor *ee, CalComponent *comp)
 {
 	EventEditorPrivate *priv;
 	struct icalrecurrencetype r;
-	guint8 day_mask;
-	int i;
 	GSList l;
 	enum ending_type ending_type;
 
@@ -1421,10 +1520,11 @@ simple_recur_to_comp_object (EventEditor *ee)
 
 	icalrecurrencetype_clear (&r);
 
-	/* Frequency and interval */
+	/* Frequency, interval, week start */
 
 	r.freq = e_dialog_option_menu_get (priv->recurrence_interval_unit, recur_freq_map);
 	r.interval = e_dialog_spin_get_int (priv->recurrence_interval_value);
+	r.week_start = week_starts_on_monday ? ICAL_MONDAY_WEEKDAY : ICAL_SUNDAY_WEEKDAY;
 
 	/* Frequency-specific data */
 
@@ -1433,7 +1533,10 @@ simple_recur_to_comp_object (EventEditor *ee)
 		/* Nothing else is required */
 		break;
 
-	case ICAL_WEEKLY_RECURRENCE:
+	case ICAL_WEEKLY_RECURRENCE: {
+		guint8 day_mask;
+		int i;
+
 		g_assert (GTK_BIN (priv->recurrence_special)->child != NULL);
 		g_assert (priv->recurrence_weekday_picker != NULL);
 		g_assert (IS_WEEKDAY_PICKER (priv->recurrence_weekday_picker));
@@ -1464,10 +1567,61 @@ simple_recur_to_comp_object (EventEditor *ee)
 			r.by_day[i++] = ICAL_SATURDAY_WEEKDAY;
 
 		break;
+	}
 
-	case ICAL_MONTHLY_RECURRENCE:
-		/* FIXME */
+	case ICAL_MONTHLY_RECURRENCE: {
+		int day_index;
+		enum month_day_options month_day;
+
+		g_assert (GTK_BIN (priv->recurrence_special)->child != NULL);
+		g_assert (priv->recurrence_month_index_spin != NULL);
+		g_assert (GTK_IS_SPIN_BUTTON (priv->recurrence_month_index_spin));
+		g_assert (priv->recurrence_month_day_menu != NULL);
+		g_assert (GTK_IS_OPTION_MENU (priv->recurrence_month_day_menu));
+
+		day_index = e_dialog_spin_get_int (priv->recurrence_month_index_spin);
+		month_day = e_dialog_option_menu_get (priv->recurrence_month_day_menu,
+						      month_day_options_map);
+
+		switch (month_day) {
+		case MONTH_DAY_NTH:
+			r.by_month_day[0] = day_index;
+			break;
+
+		case MONTH_DAY_MON:
+			r.by_day[0] = nth_weekday (day_index, ICAL_MONDAY_WEEKDAY);
+			break;
+
+		case MONTH_DAY_TUE:
+			r.by_day[0] = nth_weekday (day_index, ICAL_TUESDAY_WEEKDAY);
+			break;
+
+		case MONTH_DAY_WED:
+			r.by_day[0] = nth_weekday (day_index, ICAL_WEDNESDAY_WEEKDAY);
+			break;
+
+		case MONTH_DAY_THU:
+			r.by_day[0] = nth_weekday (day_index, ICAL_THURSDAY_WEEKDAY);
+			break;
+
+		case MONTH_DAY_FRI:
+			r.by_day[0] = nth_weekday (day_index, ICAL_FRIDAY_WEEKDAY);
+			break;
+
+		case MONTH_DAY_SAT:
+			r.by_day[0] = nth_weekday (day_index, ICAL_SATURDAY_WEEKDAY);
+			break;
+
+		case MONTH_DAY_SUN:
+			r.by_day[0] = nth_weekday (day_index, ICAL_SUNDAY_WEEKDAY);
+			break;
+
+		default:
+			g_assert_not_reached ();
+		}
+
 		break;
+	}
 
 	case ICAL_YEARLY_RECURRENCE:
 		/* Nothing else is required */
@@ -1511,32 +1665,31 @@ simple_recur_to_comp_object (EventEditor *ee)
 	l.data = &r;
 	l.next = NULL;
 
-	cal_component_set_rrule_list (priv->comp, &l);
+	cal_component_set_rrule_list (comp, &l);
 }
 
 /* Gets the data from the recurrence widgets and stores it in the calendar
  * component object.
  */
 static void
-recur_to_comp_object (EventEditor *ee)
+recur_to_comp_object (EventEditor *ee, CalComponent *comp)
 {
 	EventEditorPrivate *priv;
 	enum recur_type recur_type;
 
 	priv = ee->priv;
-	g_assert (priv->comp != NULL);
 
 	recur_type = e_dialog_radio_get (priv->recurrence_none, recur_type_map);
 
 	switch (recur_type) {
 	case RECUR_NONE:
-		cal_component_set_rdate_list (priv->comp, NULL);
-		cal_component_set_rrule_list (priv->comp, NULL);
-		cal_component_set_exrule_list (priv->comp, NULL);
+		cal_component_set_rdate_list (comp, NULL);
+		cal_component_set_rrule_list (comp, NULL);
+		cal_component_set_exrule_list (comp, NULL);
 		break;
 
 	case RECUR_SIMPLE:
-		simple_recur_to_comp_object (ee);
+		simple_recur_to_comp_object (ee, comp);
 		break;
 
 	case RECUR_CUSTOM:
@@ -1550,32 +1703,51 @@ recur_to_comp_object (EventEditor *ee)
 
 /* Gets the data from the widgets and stores it in the calendar component object */
 static void
-dialog_to_comp_object (EventEditor *ee)
+dialog_to_comp_object (EventEditor *ee, CalComponent *comp)
 {
 	EventEditorPrivate *priv;
-	CalComponent *comp;
-	CalComponentText *text;
 	CalComponentDateTime date;
 	time_t t;
 	gboolean all_day_event;
 	GtkCList *exception_list;
 	GSList *list;
+	char *str;
 	int i;
 	
 	priv = ee->priv;
-	g_assert (priv->comp != NULL);
 
-	comp = priv->comp;
+	/* Summary */
 
-	text = g_new0 (CalComponentText, 1);
-	text->value = e_dialog_editable_get (priv->general_summary);
-	cal_component_set_summary (comp, text);
+	str = e_dialog_editable_get (priv->general_summary);
+	if (strlen (str) == 0)
+		cal_component_set_summary (comp, NULL);
+	else {
+		CalComponentText text;
 
-	list = NULL;
-	text->value  = e_dialog_editable_get (priv->description);
-	list = g_slist_prepend (list, text);
-	cal_component_set_description_list (comp, list);
-	cal_component_free_text_list (list);
+		text.value = str;
+		text.altrep = NULL;
+
+		cal_component_set_summary (comp, &text);
+	}
+
+	/* Description */
+
+	str = e_dialog_editable_get (priv->description);
+	if (strlen (str) == 0)
+		cal_component_set_description_list (comp, NULL);
+	else {
+		GSList l;
+		CalComponentText text;
+
+		text.value = str;
+		text.altrep = NULL;
+		l.data = &text;
+		l.next = NULL;
+
+		cal_component_set_description_list (comp, &l);
+	}
+
+	/* Dates */
 	
 	date.value = g_new (struct icaltimetype, 1);
 	t = e_date_edit_get_time (E_DATE_EDIT (priv->start_time));
@@ -1623,68 +1795,19 @@ dialog_to_comp_object (EventEditor *ee)
 	cal_component_set_classification (comp, classification_get (priv->classification_radio));
 
 	/* Recurrence information */
+	recur_to_comp_object (ee, comp);
 
-	recur_to_comp_object (ee);
-
-#if 0
-	switch (recur.freq) {
-	case ICAL_MONTHLY_RECURRENCE:
-
-		if (e_dialog_toggle_get (priv->recurrence_rule_monthly_on_day)) {
-				/* by day of in the month (ex: the 5th) */
-			recur.by_month_day[0] = 
-				e_dialog_spin_get_int (priv->recurrence_rule_monthly_day_nth);
-		} else if (e_dialog_toggle_get (priv->recurrence_rule_monthly_weekday)) {
-
-/* "recurrence-rule-monthly-weekday" is TRUE */
-				/* by position on the calendar (ex: 2nd monday) */
-			/* libical does not handle this yet */
-/*  			ico->recur->u.month_pos = e_dialog_option_menu_get ( */
-/*  				priv->recurrence_rule_monthly_week, */
-/*  				month_pos_map); */
-/*  			ico->recur->weekday = e_dialog_option_menu_get ( */
-/*  				priv->recurrence_rule_monthly_weekpos, */
-/*  				weekday_map); */
-
-		} else
-			g_assert_not_reached ();
-
-		recur.interval = e_dialog_spin_get_int (priv->recurrence_rule_monthly_every_n_months);
-
-		break;
-
-	default:
-		break;
-/*  		g_assert_not_reached (); */
-	}
-
-	if (recur.freq != ICAL_NO_RECURRENCE) {
-		/* recurrence start of week */
-		if (week_starts_on_monday)
-			recur.week_start = ICAL_MONDAY_WEEKDAY;
-		else
-			recur.week_start = ICAL_SUNDAY_WEEKDAY;
-
-		list = NULL;
-		list = g_slist_append (list, &recur);
-		cal_component_set_rrule_list (comp, list);
-		g_slist_free (list);
-	} else {
-		list = NULL;
-		cal_component_set_rrule_list (comp, list);		
-	}
-#endif	
 	/* Set exceptions */
 
 	list = NULL;
 	exception_list = GTK_CLIST (priv->recurrence_exception_list);
 	for (i = 0; i < exception_list->rows; i++) {
 		struct icaltimetype *tt;
-		time_t *t;
+		time_t *tim;
 		
-		t = gtk_clist_get_row_data (exception_list, i);
+		tim = gtk_clist_get_row_data (exception_list, i);
 		tt = g_new0 (struct icaltimetype, 1);
-		*tt = icaltime_from_timet (*t, FALSE, FALSE);
+		*tt = icaltime_from_timet (*tim, FALSE, FALSE);
 		
 		list = g_slist_prepend (list, tt);
 	}
@@ -1709,7 +1832,7 @@ save_event_object (EventEditor *ee)
 	if (!priv->comp)
 		return;
 
-	dialog_to_comp_object (ee);
+	dialog_to_comp_object (ee, priv->comp);
 
 	title = make_title_from_comp (priv->comp);
 	gtk_window_set_title (GTK_WINDOW (priv->app), title);
