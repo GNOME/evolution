@@ -330,7 +330,7 @@ message_list_drag_data_get (ETree *tree, int row, ETreePath path, int col,
 		
 		uri_list = g_strdup_printf ("file://%s/%s", tmpdir, filename);
 		
-		fd = open (uri_list + 7, O_WRONLY | O_CREAT);
+		fd = open (uri_list + 7, O_WRONLY | O_CREAT | O_EXCL, 0600);
 		if (fd == -1) {
 			/* cleanup and abort */
 			camel_object_unref (CAMEL_OBJECT (message));

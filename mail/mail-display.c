@@ -180,7 +180,7 @@ write_data_to_file (CamelMimePart *part, const char *name, gboolean unique)
 	
 	g_return_val_if_fail (CAMEL_IS_MIME_PART (part), FALSE);
 	
-	fd = open (name, O_WRONLY | O_CREAT | O_EXCL, S_IRUSR | S_IWUSR);
+	fd = open (name, O_WRONLY | O_CREAT | O_EXCL, 0666);
 	if (fd == -1 && errno == EEXIST && !unique) {
 		GtkWidget *dlg;
 		GtkWidget *text;

@@ -1,3 +1,12 @@
+2002-10-24  Jeffrey Stedfast  <fejj@ximian.com>
+
+	* mail-display.c (write_data_to_file): Use the mode 0666 when
+	creating a new file and let the user's umask handle permissions.
+
+	* folder-browser.c (message_list_drag_data_get): When using open()
+	with the O_CREAT flag, we need to pass a mode argument. Also use
+	O_EXCL.
+
 2002-10-24  Not Zed  <NotZed@Ximian.com>
 
 	* subscribe-dialog.c (fe_got_children): Use a hashtable to only
