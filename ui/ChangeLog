@@ -1,3 +1,7 @@
+2003-12-17  Rodrigo Moya <rodrigo@ximian.com>
+
+	* evolution-calendar.xml: removed the 'NewCalendar' verb.
+
 2003-12-09  Not Zed  <NotZed@Ximian.com>
 
 	* evolution-mail-global.xml: add a _label to View option.  Bug
