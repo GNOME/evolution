@@ -799,12 +799,16 @@ static gboolean
 best_encoding (CamelMimeMessage *msg, CamelMimePart *part, void *datap)
 {
 	struct _enc_data *data = datap;
-	char *charset;
 	CamelMimePartEncodingType encoding;
+	CamelDataWrapper *wrapper;
+	char *charset;
+	
+	wrapper = camel_medium_get_content_object (CAMEL_MEDIUM (part));
+	if (!wrapper)
+		return FALSE;
 	
 	/* we only care about actual content objects */
-	if (!CAMEL_IS_MULTIPART (part) && !CAMEL_IS_MIME_MESSAGE (part)) {
-		
+	if (!CAMEL_IS_MULTIPART (wrapper) && !CAMEL_IS_MIME_MESSAGE (wrapper)) {
 		encoding = find_best_encoding (part, data->required, data->enctype, &charset);
 		/* we always set the encoding, if we got this far.  GET_CHARSET implies
 		   also GET_ENCODING */

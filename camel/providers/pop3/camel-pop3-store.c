@@ -348,7 +348,7 @@ pop3_try_authenticate (CamelService *service, const char *errmsg,
 	CamelPop3Store *store = (CamelPop3Store *)service;
 	int status;
 	char *msg;
-
+	
 	/* The KPOP code will have set the password to be the username
 	 * in connect_to_server. Password and APOP are the only other
 	 * cases, and they both need a password. So if there's no
@@ -356,19 +356,18 @@ pop3_try_authenticate (CamelService *service, const char *errmsg,
 	 */
 	if (!service->url->passwd) {
 		char *prompt;
-
+		
 		prompt = g_strdup_printf (_("%sPlease enter the POP3 password "
 					    "for %s@%s"), errmsg ? errmsg : "",
 					  service->url->user,
 					  service->url->host);
-		service->url->passwd = camel_session_get_password (
-			camel_service_get_session (service),
-			prompt, TRUE, service, "password", ex);
+		service->url->passwd = camel_session_get_password (camel_service_get_session (service),
+								   prompt, TRUE, service, "password", ex);
 		g_free (prompt);
 		if (!service->url->passwd)
 			return FALSE;
 	}
-
+	
 	if (!service->url->authmech || !strcmp (service->url->authmech, "+KPOP")) {
 		status = camel_pop3_command (store, &msg, ex, "USER %s",
 					     service->url->user);
@@ -385,22 +384,22 @@ pop3_try_authenticate (CamelService *service, const char *errmsg,
 			return FALSE;
 		}
 		g_free (msg);
-
+		
 		status = camel_pop3_command (store, &msg, ex, "PASS %s",
 					     service->url->passwd);
 	} else if (!strcmp (service->url->authmech, "+APOP")
 		   && store->apop_timestamp) {
 		char *secret, md5asc[33], *d;
 		unsigned char md5sum[16], *s;
-
+		
 		secret = g_strdup_printf ("%s%s", store->apop_timestamp,
 					  service->url->passwd);
 		md5_get_digest (secret, strlen (secret), md5sum);
 		g_free (secret);
-
+		
 		for (s = md5sum, d = md5asc; d < md5asc + 32; s++, d += 2)
 			sprintf (d, "%.2x", *s);
-
+		
 		status = camel_pop3_command (store, &msg, ex, "APOP %s %s",
 					     service->url->user, md5asc);
 	} else {
@@ -410,15 +409,16 @@ pop3_try_authenticate (CamelService *service, const char *errmsg,
 				       "authentication mechanism."));
 		return FALSE;
 	}
-
+	
 	if (status == CAMEL_POP3_ERR) {
 		camel_exception_setv (ex, CAMEL_EXCEPTION_SERVICE_CANT_AUTHENTICATE,
 				      _("Unable to connect to POP server.\n"
 					"Error sending password: %s"),
 				      msg ? msg : _("(Unknown)"));
 	}
-
+	
 	g_free (msg);
+	
 	return status == CAMEL_POP3_ERR;
 }
 
@@ -427,36 +427,33 @@ pop3_connect (CamelService *service, CamelException *ex)
 {
 	char *errbuf = NULL;
 	gboolean tryagain;
-
+	
 	if (!connect_to_server (service, ex))
 		return FALSE;
-
+	
 	camel_exception_clear (ex);
 	do {
 		if (camel_exception_is_set (ex)) {
-			errbuf = g_strdup_printf (
-				"%s\n\n",
-				camel_exception_get_description (ex));
+			errbuf = g_strdup_printf ("%s\n\n", camel_exception_get_description (ex));
 			camel_exception_clear (ex);
-
+			
 			/* Uncache the password before prompting again. */
-			camel_session_forget_password (
-				camel_service_get_session (service),
-				service, "password", ex);
+			camel_session_forget_password (camel_service_get_session (service),
+						       service, "password", ex);
 			g_free (service->url->passwd);
 			service->url->passwd = NULL;
 		}
-
+		
 		tryagain = pop3_try_authenticate (service, errbuf, ex);
 		g_free (errbuf);
 		errbuf = NULL;
 	} while (tryagain);
-
+	
 	if (camel_exception_is_set (ex)) {
 		camel_service_disconnect (service, TRUE, ex);
 		return FALSE;
 	}
-
+	
 	return TRUE;
 }
 

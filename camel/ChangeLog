@@ -1,3 +1,19 @@
+2001-11-29  Jeffrey Stedfast  <fejj@ximian.com>
+
+	* camel-folder-search.c (search_body_contains): Don't use regex
+	matching. Fixes bug #16227.
+
+	* camel-mime-message.c (best_encoding): Check the content-object's
+	mime type, not the mime part types. Should fix bug #15843.
+
+2001-11-27  Jeffrey Stedfast  <fejj@ximian.com>
+
+	* providers/imap/camel-imap-folder.c (get_content): Return NULL if
+	construct_from_stream fails.
+	(get_message): Same.
+	(get_message_simple): Here too.
+	(add_message_from_data): And here.
+
 2001-11-14    <NotZed@Ximian.com>
 
 	* camel-vee-folder.c (folder_changed_remove_uid): Use the uid
@@ -10,12 +26,12 @@
 	order, always summary_lock before ref_lock.
 	(camel_folder_summary_array): "
 	(camel_folder_summary_uid): "
-	(camel_folder_summary_remove_uid): "  Fixes a deadlock.
+	(camel_folder_summary_remove_uid): " Fixes a deadlock.
 
 2001-11-30  Not Zed  <NotZed@Ximian.com>
   
-	* providers/nntp/camel-nntp-*.c:
-	Completely new implementation of NNTP.
+	* providers/nntp/camel-nntp-*.c: Completely new implementation of
+	NNTP.
 	
 	Doesn't support subscriptions yet (lists all folders), but should
 	be more reliable (faster?), and has an integrated cache.
@@ -46,9 +62,10 @@
 	the uid doesn't have a ',' in it, fail to crash.
 
 	* providers/nntp/camel-nntp-newsrc.c
-	(camel_nntp_newsrc_article_is_read): check group != NULL before scanning.
+	(camel_nntp_newsrc_article_is_read): check group != NULL before
+	scanning.
 	(camel_nntp_newsrc_get_highest_article_read): "
-	(camel_nntp_newsrc_get_num_articles_read): " 
+	(camel_nntp_newsrc_get_num_articles_read): "
 	(camel_nntp_newsrc_mark_range_read): "
 
 	* providers/nntp/camel-nntp-store.c

@@ -34,7 +34,7 @@ extern "C" {
 #endif /* __cplusplus }*/
 
 #include "camel-imap-types.h"
-#include "camel-disco-folder.h"
+#include <camel/camel-disco-folder.h>
 #include <camel/camel-folder-search.h>
 
 #define CAMEL_IMAP_FOLDER_TYPE     (camel_imap_folder_get_type ())
