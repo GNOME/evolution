@@ -428,7 +428,7 @@ ep_ask_password(EPassMsg *msg)
 							       0,
 							       GTK_MESSAGE_QUESTION,
 							       GTK_BUTTONS_OK_CANCEL,
-							       msg->prompt);
+							       "%s", msg->prompt);
 	gtk_window_set_title(GTK_WINDOW(password_dialog), msg->title);
 
 #if !GTK_CHECK_VERSION (2,4,0)
