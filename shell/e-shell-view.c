@@ -269,7 +269,8 @@ storage_set_view_box_button_release_event_cb (GtkWidget *widget,
 	shell_view = E_SHELL_VIEW (data);
 	priv = shell_view->priv;
 
-	if (button_event->window == E_PANED (priv->view_hpaned)->handle)
+	if (button_event->window == E_PANED (priv->view_hpaned)->handle
+	    || button_event->button != 1)
 		return FALSE;
 
 	popdown_transient_folder_bar (shell_view);
