@@ -197,7 +197,6 @@ update_folder_cb (EvolutionStorageListener *listener,
 
 	proto = g_strconcat ("file://", evolution_dir, NULL);
 	uri = e_path_to_physical (proto, path);
-	printf ("uri in update: %s\n", uri);
 
 	e_summary_mail_get_info (summary->mail, uri, summary->mail->listener);
 
