@@ -1,3 +1,8 @@
+2001-05-10  Jeffrey Stedfast  <fejj@ximian.com>
+
+	* camel-session.c (camel_session_get_password): Don't abort if the
+	Service is NULL, this is perfectly valid for cipher contexts.
+
 2001-05-09  Peter Williams  <peterw@ximian.com>
 
 	* providers/imap/camel-imap-folder.c (imap_move_messages_to): Pass

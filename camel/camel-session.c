@@ -542,7 +542,6 @@ camel_session_get_password (CamelSession *session, const char *prompt,
 			    const char *item, CamelException *ex)
 {
 	g_return_val_if_fail (CAMEL_IS_SESSION (session), NULL);
-	g_return_val_if_fail (CAMEL_IS_SERVICE (service), NULL);
 	g_return_val_if_fail (prompt != NULL, NULL);
 	g_return_val_if_fail (item != NULL, NULL);
 
