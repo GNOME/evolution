@@ -428,6 +428,13 @@ subscribe_dialog_gui_init (SubscribeDialog *sc)
 	bonobo_ui_container_thaw (container, NULL);
 
 	sc->storage_set_control = Evolution_Shell_create_storage_set_view (sc->shell, &ev);
+	sc->storage_set_view = Bonobo_Unknown_query_interface (sc->storage_set_control,
+							       "IDL:Evolution/StorageSetView:1.0",
+							       &ev);
+
+	/* we just want to show storages */
+	Evolution_StorageSetView__set_show_folders (sc->storage_set_view, FALSE, &ev);
+
 	sc->storage_set_view_widget = bonobo_widget_new_control_from_objref (sc->storage_set_control,
 									     container);
 

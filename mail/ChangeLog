@@ -1,5 +1,11 @@
 2000-10-02  Chris Toshok  <toshok@helixcode.com>
 
+	* subscribe-dialog.c (subscribe_dialog_gui_init): get
+	Evolution::StorageSetView interface on our storage set view
+	control, and set "show_folders" to FALSE.
+
+2000-10-02  Chris Toshok  <toshok@helixcode.com>
+
 	* Makefile.am (INCLUDES): add -I$(top_srcdir)/widgets/misc
 
 	* subscribe-dialog.c (subscribe_dialog_gui_init): change the
