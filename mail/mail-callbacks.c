@@ -401,9 +401,9 @@ composer_get_message (EMsgComposer *composer)
 	const CamelInternetAddress *iaddr;
 	const MailConfigAccount *account;
 	CamelMimeMessage *message;
+	EDestination **recipients;
 	const char *subject;
 	int num_addrs, i;
-	EDestination **recipients;
 	
 	message = e_msg_composer_get_message (composer);
 	if (message == NULL)
@@ -444,44 +444,8 @@ composer_get_message (EMsgComposer *composer)
 		}
 	}
 	
+	/* get the message recipients */
 	recipients = e_msg_composer_get_recipients (composer);
-	
-	/* Check for invalid recipients */
-	if (recipients) {
-		gboolean have_invalid = FALSE;
-		char *msg, *new_msg;
-		GtkWidget *message_box;
-		
-		for (i = 0; recipients[i] && !have_invalid; ++i) {
-			if (!e_destination_is_valid (recipients[i]))
-				have_invalid = TRUE;
-		}
-		
-		if (have_invalid) {
-			msg = g_strdup (_("This message contains invalid recipients:"));
-			for (i = 0; recipients[i]; ++i) {
-				if (!e_destination_is_valid (recipients[i])) {
-					new_msg = g_strdup_printf ("%s\n    %s", msg,
-								   e_destination_get_address (recipients[i]));
-					g_free (msg);
-					msg = new_msg;
-				}
-			}
-			
-			new_msg = e_utf8_from_locale_string (msg);
-			g_free (msg);
-			msg = new_msg;
-			
-			message_box = gnome_message_box_new (msg, GNOME_MESSAGE_BOX_WARNING, GNOME_STOCK_BUTTON_OK, NULL);
-			g_free (msg);
-			
-			gnome_dialog_run_and_close (GNOME_DIALOG (message_box));
-			
-			camel_object_unref (CAMEL_OBJECT (message));
-			message = NULL;
-			goto finished;
-		}
-	}
 	
 	/* Check for recipients */
 	for (num_addrs = 0, i = 0; i < 3; i++) {
@@ -537,12 +501,12 @@ composer_get_message (EMsgComposer *composer)
 	    && mail_config_get_confirm_unwanted_html ()) {
 		gboolean html_problem = FALSE;
 		for (i = 0; recipients[i] != NULL && !html_problem; ++i) {
-			if (! e_destination_get_html_mail_pref (recipients[i]))
+			if (!e_destination_get_html_mail_pref (recipients[i]))
 				html_problem = TRUE;
 		}
 		
 		if (html_problem) {
-			html_problem = ! ask_confirm_for_unwanted_html_mail (composer, recipients);
+			html_problem = !ask_confirm_for_unwanted_html_mail (composer, recipients);
 			if (html_problem) {
 				camel_object_unref (CAMEL_OBJECT (message));
 				message = NULL;
@@ -562,11 +526,12 @@ composer_get_message (EMsgComposer *composer)
 	}
 	
 	/* Get the message recipients and 'touch' them, boosting their use scores */
-	recipients = e_msg_composer_get_recipients (composer);
 	e_destination_touchv (recipients);
 	
  finished:
+	
 	e_destination_freev (recipients);
+	
 	return message;
 }
 
