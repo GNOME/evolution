@@ -13,8 +13,15 @@
 #include <string.h>
 #include <glib.h>
 
+#ifdef E_ADDRESS_WESTERN_TEST 
+
+#include "e-address-western.h"
+
+#else
+
 #include <ename/e-address-western.h>
 
+#endif
 
 static gboolean
 e_address_western_is_line_blank (gchar *line)
@@ -195,6 +202,10 @@ e_address_western_extract_locality (gchar *line)
 		return g_strndup (line, index);
 }
 
+
+/* Whatever resides between the comma and the start of the
+  postal code is deemed to be the region. */
+
 gchar *
 e_address_western_extract_region (gchar *line)
 {
@@ -205,10 +216,17 @@ e_address_western_extract_region (gchar *line)
 	while (isspace(line[start]))
 		start++;
 	
-	end = start;
+	end = strlen(line) - 1;
+	while (isspace (line[end]))
+		end--;
+
 	while (!isspace (line[end]))
-		end++;
-	
+		end--;
+
+	while (isspace (line[end]))
+		end--;
+	end++;
+
 	/* Between start and end lie the string. */
 	return g_strndup ( (line+start), end-start);
 }
