@@ -35,10 +35,10 @@
     </partintro>
 
     &calendar-public-reference;
-    &importer-public-reference;
-    &evolution-services-public-reference;
-    &importer-private-reference;
-    &evolution-services-private-reference;
+    <!-- &importer-public-reference; -->
+    <!-- &evolution-services-public-reference; -->
+    <!-- &importer-private-reference; -->
+    <!-- &evolution-services-private-reference; -->
   </part>
 
 <!--
