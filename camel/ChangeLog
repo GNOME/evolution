@@ -26,7 +26,8 @@
 
 	* camel-file-utils.c (camel_file_util_encode_string): Since
 	decoding a string doesn't allow strings longer than 65536,
-	truncate strings that are longer than 65536 here.
+	truncate strings that are longer than 65536 here. Fixes bug
+	#54319.
 
 2004-02-09  Not Zed  <NotZed@Ximian.com>
 
