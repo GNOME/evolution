@@ -153,6 +153,31 @@ etta_update_parent_child_counts(ETreeTableAdapter *etta, ETreePath path, int cha
 }
 
 static int
+find_next_node_maybe_deleted(ETreeTableAdapter *adapter, int row)
+{
+	ETreePath path = adapter->priv->map_table[row];
+	if (path) {
+		ETreeTableAdapterNode *current = find_node (adapter, path);
+		return row + (current ? current->num_visible_children : 0) + 1;
+	} else
+		return -1;
+}
+
+static int
+find_first_child_node_maybe_deleted(ETreeTableAdapter *adapter, int row)
+{
+	if (row != -1) {
+		ETreePath path = adapter->priv->map_table[row];
+		ETreeTableAdapterNode *current = find_node (adapter, path);
+		if (current && current->expanded)
+			return row + 1;
+		else
+			return -1;
+	} else
+		return 0;
+}
+
+static int
 find_next_node(ETreeTableAdapter *adapter, int row)
 {
 	ETreePath path = adapter->priv->map_table[row];
@@ -183,12 +208,12 @@ find_first_child_node(ETreeTableAdapter *adapter, int row)
 }
 
 static int
-find_child_row_num(ETreeTableAdapter *etta, int row, ETreePath path)
+find_child_row_num_maybe_deleted(ETreeTableAdapter *etta, int row, ETreePath path)
 {
-	row = find_first_child_node(etta, row);
+	row = find_first_child_node_maybe_deleted(etta, row);
 
 	while (row != -1 && path != etta->priv->map_table[row]) {
-		row = find_next_node(etta, row);
+		row = find_next_node_maybe_deleted(etta, row);
 	}
 
 	return row;
@@ -667,7 +692,7 @@ static void
 etta_proxy_node_removed (ETableModel *etm, ETreePath parent, ETreePath child, int old_position, ETreeTableAdapter *etta)
 {
 	int parent_row = find_row_num(etta, parent);
-	int row = find_child_row_num(etta, parent_row, child);
+	int row = find_child_row_num_maybe_deleted(etta, parent_row, child);
 	ETreeTableAdapterNode *parent_node = find_node(etta, parent);
 	if (parent_row != -1 && parent_node) {
 		if (parent_node->expandable != e_tree_model_node_is_expandable(etta->priv->source, parent)) {
