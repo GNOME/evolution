@@ -112,7 +112,7 @@ e_summary_preferences_restore (ESummaryPrefs *prefs)
 	if (gconf_client_get_bool (gconf_client, "/apps/evolution/summary/tasks/show_all", NULL))
 		prefs->show_tasks = E_SUMMARY_CALENDAR_ALL_TASKS;
 	else
-		prefs->show_tasks = E_SUMMARY_CALENDAR_ONE_DAY;
+		prefs->show_tasks = E_SUMMARY_CALENDAR_TODAYS_TASKS;
 
 	g_object_unref (gconf_client);
 	return TRUE;

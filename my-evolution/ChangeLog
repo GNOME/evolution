@@ -1,3 +1,11 @@
+2003-12-03  Ettore Perazzoli  <ettore@ximian.com>
+
+	Patch from Gary Ekker <gekker@novell.com>
+
+	* e-summary-preferences.c: Change E_SUMMARY_CALENDAR_ONE_DAY to
+	E_SUMMARY_CALENDAR_TODAYS_TASKS so that prefs->show_tasks wouldn't
+	be restored incorrectly.
+
 2003-09-08  Calvin Liu <calvin.liu@sun.com>
 
 	** For bug #48175
