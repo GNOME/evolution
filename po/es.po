@@ -1,6 +1,5 @@
-# translation of evolution.evolution-1-2-branch.es.po to Spanish
 # Evolution's Spanish translation.
-# Copyright (C) 2000-2002,2003 Free Software Foundation, Inc.
+# Copyright © 2000-2002,2003 Free Software Foundation, Inc.
 # Francisco Javier Fernández <serrador@arakis.es>2002-2003
 # Héctor García Álvarez <hector@scouts-es.org>, 2000-2002.
 # Carlos Perelló Marín <carlos@gnome-db.org>, 2000-2001.
@@ -11,13 +10,13 @@ msgid ""
 msgstr ""
 "Project-Id-Version: evolution.evolution-1-2-branch.es\n"
 "POT-Creation-Date: 2003-02-05 19:34+0100\n"
-"PO-Revision-Date: 2003-02-07 01:37GMT+1\n"
-"Last-Translator: Francisco Javier Fernandez <serrador@arrakis.es>\n"
+"PO-Revision-Date: 2003-02-10 11:54-0300\n"
+"Last-Translator: Pablo Gonzalo del Campo <pablodc@bigfoot.com>\n"
 "Language-Team: Spanish <traductores@es.gnome.org>\n"
 "MIME-Version: 1.0\n"
-"Content-Type: text/plain; ISO-8859\n"
+"Content-Type: text/plain; charset=ISO-8859-1\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Generator: KBabel 1.0\n"
+"X-Generator: KBabel 1.1\n"
 
 #: addressbook/backend/ebook/GNOME_Evolution_Addressbook_LDIF_Importer.oaf.in.h:1
 msgid "Factory to import LDIF files into Evolution."
@@ -596,8 +595,8 @@ msgid ""
 "We were unable to open this addressbook.  Please check that the\n"
 "path exists and that you have permission to access it."
 msgstr ""
-"No se ha podido abrir esta libreta de direcciones.  Por favor \n"
-"compruebe que existe la ruta y que tiene permisos para acceder a ella."
+"No pudimos abrir esta libreta de direcciones.  Por favor compruebe\n"
+"que existe la ruta y que tiene permisos para acceder a ella."
 
 #: addressbook/gui/component/addressbook.c:490
 msgid ""
@@ -679,7 +678,7 @@ msgstr ""
 "Esta consulta ha determinado que coinciden más tarjetas\n "
 "de las que el servidor está configurado para devolver o\n"
 "Evolution está configurado para mostrar.\n"
-"Por favor, sea más específico o aumente el límite de resuktados\n"
+"Por favor, sea más específico o aumente el límite de resultados\n"
 "en las preferencias del servidor de directorio para esta libreta de direcciones"
 
 #: addressbook/gui/component/addressbook.c:962
@@ -1025,8 +1024,8 @@ msgstr ""
 "Seleccionar esta opción significa que Evolution sólo intentará usar SSL/"
 "TLSsi está en \n"
 "un entorno inseguro. Por ejemplo, si usted y su servidor LDAP están detrás "
-"de uncortafuegos en el trabajo, entonces Evolution no necesita usar SSL/TLS "
-"porque  suconexión ya es\n"
+"de un cortafuegos en el trabajo, entonces Evolution no necesita usar SSL/TLS "
+"porque  su conexión ya es\n"
 "segura"
 
 #: addressbook/gui/component/ldap-config.glade.h:61
@@ -1039,7 +1038,7 @@ msgid ""
 msgstr ""
 "Seleccionar esta opción significa que su servidor LDAP no soporta ni SSL ni "
 "TLS. Esto \n"
-"significa que su conexión será incegura, y que usted será vulnerablea fallos "
+"significa que su conexión será insegura, y que usted será vulnerable a fallos "
 "de seguridad"
 
 #: addressbook/gui/component/ldap-config.glade.h:64
@@ -1048,7 +1047,7 @@ msgid ""
 "LDAP\n"
 "searches, and for creating and editing contacts. "
 msgstr ""
-"Seleccionar esta opción le permite cambiar los ajustes predeterminadosde "
+"Seleccionar esta opción le permite cambiar los ajustes predeterminados de "
 "Evolution para búsquedas\n"
 "y para crear y editar contactos"
 
@@ -1057,7 +1056,7 @@ msgid ""
 "Specifying a display name is the last required step in configuring an LDAP "
 "server."
 msgstr ""
-"Especificar un nombre para mostrar es el último paso para configurar un"
+"Especificar un nombre para mostrar es el último paso para configurar un "
 "servidor LDAP"
 
 #: addressbook/gui/component/ldap-config.glade.h:67
@@ -1091,7 +1090,7 @@ msgid ""
 "information. Please ask your system administrator if you are unsure of this "
 "information."
 msgstr ""
-"El primer paso para configurar un servidor LDAP es proporcionar sunombre y "
+"El primer paso para configurar un servidor LDAP es proporcionar su nombre y "
 "su información de inicio de sesión\n"
 "Por favor, pregunte a su administrador de sistema si no está seguro de "
 "estainformación."
@@ -1115,7 +1114,7 @@ msgid ""
 "begin. If you leave this blank, the search will begin at the root of the "
 "directory tree."
 msgstr ""
-"La báse de búsqueda es el nombre distinguido (ND) de la entrada dondesus "
+"La base de búsqueda es el nombre distinguido (ND) de la entrada dondesus "
 "búsquedas comenzarán\n"
 "Si deja esto en blanco, la búsqueda comenzará en la raíz del árbol de "
 "directorios"
@@ -1129,10 +1128,10 @@ msgid ""
 "A search scope of \"one\" will only include the entries one level beneath "
 "your base.\n"
 msgstr ""
-"El ámbito de búsqueda define a qué profundidad quiere que labúsqueda se "
+"El ámbito de búsqueda define a qué profundidad quiere que la búsqueda se "
 "extienda bajo su base de búsqueda.\n"
 "Un ámbito de búsqueda de «uno» sólo incluirá entradas de un nivel por "
-"debajode su base.\n"
+"debajo de su base.\n"
 
 #: addressbook/gui/component/ldap-config.glade.h:84
 msgid ""
@@ -2693,7 +2692,7 @@ msgstr ""
 
 #: addressbook/gui/contact-editor/file-exists.glade.h:1
 msgid "Confirm Overwrite"
-msgstr "Confime la sobreescritura"
+msgstr "Confirme la sobreescritura"
 
 #: addressbook/gui/contact-editor/file-exists.glade.h:2
 msgid "Don't bother translating this string.  It's not used."
@@ -3202,7 +3201,7 @@ msgstr "Teléfono del trabajo 2"
 
 #: addressbook/gui/widgets/e-addressbook-view.etspec.h:8
 msgid "Callback Phone"
-msgstr "Teléfono de callback"
+msgstr "Teléfono de llamada revertida"
 
 #: addressbook/gui/widgets/e-addressbook-view.etspec.h:9
 msgid "Car Phone"
@@ -7690,7 +7689,7 @@ msgstr "Asia/Yerevan"
 
 #: calendar/zones.h:266
 msgid "Atlantic/Azores"
-msgstr "Atlantico/Azores"
+msgstr "Atlántico/Azores"
 
 #: calendar/zones.h:267
 msgid "Atlantic/Bermuda"
@@ -7698,7 +7697,7 @@ msgstr "Atlántico/Bermudas"
 
 #: calendar/zones.h:268
 msgid "Atlantic/Canary"
-msgstr "Atlantico/Canarias"
+msgstr "Atlántico/Canarias"
 
 #: calendar/zones.h:269
 msgid "Atlantic/Cape_Verde"
@@ -7706,31 +7705,31 @@ msgstr "Atlántico/Cabo_Verde"
 
 #: calendar/zones.h:270
 msgid "Atlantic/Faeroe"
-msgstr "Atlantico/Feroe"
+msgstr "Atlántico/Feroe"
 
 #: calendar/zones.h:271
 msgid "Atlantic/Jan_Mayen"
-msgstr "Atlantico/Jan_Mayen"
+msgstr "Atlántico/Jan_Mayen"
 
 #: calendar/zones.h:272
 msgid "Atlantic/Madeira"
-msgstr "Atlantico/Madeira"
+msgstr "Atlántico/Madeira"
 
 #: calendar/zones.h:273
 msgid "Atlantic/Reykjavik"
-msgstr "Atlantico/Reykjavik"
+msgstr "Atlántico/Reykjavik"
 
 #: calendar/zones.h:274
 msgid "Atlantic/South_Georgia"
-msgstr "Atlantico/South_Georgia"
+msgstr "Atlántico/South_Georgia"
 
 #: calendar/zones.h:275
 msgid "Atlantic/St_Helena"
-msgstr "Atlantico/St_Helena"
+msgstr "Atlántico/St_Helena"
 
 #: calendar/zones.h:276
 msgid "Atlantic/Stanley"
-msgstr "Atlantico/Stanley"
+msgstr "Atlántico/Stanley"
 
 #: calendar/zones.h:277
 msgid "Australia/Adelaide"
@@ -8912,7 +8911,7 @@ msgstr "Certificado autofirmado de profundidad nula"
 
 #: camel/camel-tcp-stream-openssl.c:597
 msgid "Self-signed certificate in chain"
-msgstr "Certificado autodirmado en cadena"
+msgstr "Certificado autofirmado en cadena"
 
 #: camel/camel-tcp-stream-openssl.c:599
 msgid "Unable to get issuer's certificate locally"
@@ -8948,7 +8947,7 @@ msgstr "Certificado no confiable:"
 
 #: camel/camel-tcp-stream-openssl.c:615
 msgid "Certificate rejected"
-msgstr "Cretificado rechazado:"
+msgstr "Certificado rechazado:"
 
 #: camel/camel-tcp-stream-openssl.c:618
 msgid "Subject/Issuer mismatch"
@@ -8968,7 +8967,7 @@ msgstr "El uso de la clave no soporta firma de certificados"
 
 #: camel/camel-tcp-stream-openssl.c:627
 msgid "Error in application verification"
-msgstr "Error en la verificacion de la aplicación"
+msgstr "Error en la verificación de la aplicación"
 
 #: camel/camel-tcp-stream-openssl.c:694 camel/camel-tcp-stream-ssl.c:805
 #, c-format
@@ -11406,7 +11405,7 @@ msgid ""
 "everything still works as intended."
 msgstr ""
 "Algunos de sus filtros de correo  de Netscape están\n"
-"basados en prioridades de correo, las cuáles no se usan enEvolution.\n"
+"basados en prioridades de correo, las cuáles no se usan en Evolution.\n"
 "En su lugar, Evolution proporciona puntuaciones en el rango de\n"
 "-3 a 3 que pueden asignarse a los correos filtrados\n"
 "\n"
@@ -11436,7 +11435,7 @@ msgid ""
 "were modified to test whether that string is or is not\n"
 "contained in the message body."
 msgstr ""
-"Algunos de sus filtros de mensajes de Nestcape  prueban el\n"
+"Algunos de sus filtros de mensajes de Netscape  prueban el\n"
 "cuerpo de los mensajes sea (des)igual a una cadena dada,\n"
 "lo cual no está soportado en Evolution. Aquellos filtros\n"
 "serán modificados para verificar si dicha cadena está o no\n"
@@ -11564,7 +11563,7 @@ msgstr "Fábrica para el componente de Resumen de Correo."
 
 #: mail/GNOME_Evolution_Mail.oaf.in.h:17
 msgid "Font Preferences"
-msgstr "Opciones de Tipografías"
+msgstr "Opciones de tipografías"
 
 #: mail/GNOME_Evolution_Mail.oaf.in.h:18
 msgid "Mail Accounts"
@@ -12414,7 +12413,7 @@ msgstr "C_olores"
 
 #: mail/mail-config.glade.h:28
 msgid "Check spelling while I _type"
-msgstr "Verificar or_tografía cuando escribo"
+msgstr "Verificar la or_tografía al escribir"
 
 #: mail/mail-config.glade.h:29
 msgid "Checking for New Mail"
@@ -12441,12 +12440,12 @@ msgid ""
 "\n"
 "Click \"Finish\" to save your settings."
 msgstr ""
-"Enhorabuena, la configuración de su correo esta terminada.\n"
+"Felicitaciones, la configuración de su correo esta terminada.\n"
 "\n"
 "Ahora está listo para mandar y recibir correo \n"
 "usando Evolution. \n"
 "\n"
-"Pulse «Finalizar» para guardar su configuración."
+"Pulse «Terminar» para guardar su configuración."
 
 #: mail/mail-config.glade.h:39
 msgid "De_fault"
@@ -12708,7 +12707,7 @@ msgstr "_Tipo de servidor:"
 
 #: mail/mail-config.glade.h:117
 msgid "Shortcuts _type:"
-msgstr "_Tipo de atajos"
+msgstr "_Tipo de combinación de teclas"
 
 #: mail/mail-config.glade.h:118
 msgid "Specify _filename:"
@@ -12751,7 +12750,7 @@ msgid ""
 "Type the name by which you would like to refer to this account.\n"
 "For example: \"Work\" or \"Personal\""
 msgstr ""
-"Escriba el nombre por el que le gustaría referirise a esta cuenta. \n"
+"Escriba el nombre por el que le gustaría referirse a esta cuenta. \n"
 "Por ejemplo: «Trabajo» o «Personal»"
 
 #: mail/mail-config.glade.h:130
@@ -12798,7 +12797,7 @@ msgstr "Comprobar el correo _automáticamente"
 
 #: mail/mail-config.glade.h:144
 msgid "_Automatically insert smiley images"
-msgstr "Introducir smileys _automáticamente"
+msgstr "Introducir caritas _automáticamente"
 
 #: mail/mail-config.glade.h:145
 msgid "_Beep when new mail arrives"
@@ -12955,7 +12954,7 @@ msgid ""
 "Overwrite it?"
 msgstr ""
 "El archivo «%s» ya existe .\n"
-"¿Lo sobreescribo?"
+"¿Desea sobreescribirlo?"
 
 #: mail/mail-display.c:326
 msgid "Save Attachment"
@@ -13186,7 +13185,7 @@ msgid ""
 "Error while performing operation:\n"
 "%s"
 msgstr ""
-"Error mientras se efectuába la operación:\n"
+"Error mientras se efectuaba la operación:\n"
 "%s"
 
 #: mail/mail-mt.c:904
@@ -13639,7 +13638,7 @@ msgstr "Seguimiento"
 
 #: mail/message-tag-followup.c:57
 msgid "For Your Information"
-msgstr "Para su Información"
+msgstr "Para su información"
 
 #: mail/message-tag-followup.c:58 ui/evolution-mail-message.xml.h:36
 msgid "Forward"
@@ -13647,7 +13646,7 @@ msgstr "Reenviar"
 
 #: mail/message-tag-followup.c:59
 msgid "No Response Necessary"
-msgstr "Reapuesta No Necesaria"
+msgstr "Respuesta no necesaria"
 
 #: mail/message-tag-followup.c:61 ui/evolution-mail-message.xml.h:72
 msgid "Reply"
@@ -13663,7 +13662,7 @@ msgstr "Revisar"
 
 #: mail/message-tag-followup.c:246 mail/message-tags.glade.h:2
 msgid "Flag to Follow Up"
-msgstr "Marca de Seguimiento..."
+msgstr "Marca de seguimiento..."
 
 #: mail/message-tags.glade.h:1
 msgid "C_ompleted"
@@ -13751,7 +13750,7 @@ msgstr "Carpetas cuyo nombre comience por:"
 
 #: mail/subscribe-dialog.glade.h:7
 msgid "Manage Subscriptions"
-msgstr "Administrar Suscripciones"
+msgstr "Administrar suscripciones"
 
 #: mail/subscribe-dialog.glade.h:8 ui/evolution-subscribe.xml.h:3
 msgid "Refresh List"
@@ -13763,7 +13762,7 @@ msgstr "Actualizando listado de carpeta"
 
 #: mail/subscribe-dialog.glade.h:10
 msgid "S_elect server: "
-msgstr "S_eleccione servidor:"
+msgstr "S_eleccione un servidor:"
 
 #: mail/subscribe-dialog.glade.h:11
 msgid "_Subscribe"
@@ -14395,11 +14394,11 @@ msgstr "Bagotville"
 
 #: my-evolution/Locations.h:162
 msgid "Bahia Blanca"
-msgstr "Bahia Blanca"
+msgstr "Bahía Blanca"
 
 #: my-evolution/Locations.h:163
 msgid "Bahias de Huatulco"
-msgstr "Bahias de Huatulco"
+msgstr "Bahías de Huatulco"
 
 #: my-evolution/Locations.h:165
 msgid "Baker City"
@@ -22533,7 +22532,7 @@ msgstr "Helipuerto de Tokio"
 
 #: my-evolution/Locations.h:2269
 msgid "Tokyo International Airport"
-msgstr "Aeropuerto internacional deTokio"
+msgstr "Aeropuerto internacional de Tokio"
 
 #: my-evolution/Locations.h:2270
 msgid "Tokyo New International Airport"
@@ -22561,7 +22560,7 @@ msgstr "Topeka-Forbes Field"
 
 #: my-evolution/Locations.h:2276
 msgid "Torino/Bric Della Croce"
-msgstr "Turin/Bric Della Croce"
+msgstr "Torino/Bric Della Croce"
 
 #: my-evolution/Locations.h:2277
 msgid "Torino/Caselle"
@@ -24963,7 +24962,7 @@ msgstr "Configura aquí el comportamiento de las carpetas en conexión y desconexi
 
 #: shell/GNOME_Evolution_Shell.oaf.in.h:3
 msgid "Folder Settings"
-msgstr "Configuración de carpetas"
+msgstr "Configuración de las carpetas"
 
 #: shell/GNOME_Evolution_Shell.oaf.in.h:4
 msgid "The Evolution shell."
@@ -26101,7 +26100,7 @@ msgstr "Enviar la salida de depurado de todos los componente a un archivo."
 
 #: shell/main.c:429
 msgid "Force upgrading of configuration files from Evolution 1.0.x"
-msgstr "Forzar actualización de los archivos de configuracion de Evolution 1.0.x"
+msgstr "Forzar actualización de los archivos de configuración de Evolution 1.0.x"
 
 #: shell/main.c:447
 #, c-format
@@ -26588,7 +26587,7 @@ msgstr "_Suscribirse a las carpetas..."
 
 #: ui/evolution-mail-global.xml.h:14
 msgid "Show message preview window"
-msgstr "Mostrar ventana de previsualizacion del mensaje"
+msgstr "Mostrar la ventana de previsualización del mensaje"
 
 #: ui/evolution-mail-global.xml.h:15
 msgid "Subscribe or unsubscribe to folders on remote servers"
@@ -27591,7 +27590,7 @@ msgstr "Enviar informe de _fallo"
 
 #: ui/evolution.xml.h:36
 msgid "Submit a bug report using Bug Buddy"
-msgstr "Envia un informe de fallo usando Bug Buddy"
+msgstr "Envía un informe de fallo usando Bug Buddy"
 
 #: ui/evolution.xml.h:37
 msgid "Toggle"
