@@ -10,6 +10,21 @@
     <cmd name="FileExit" _label="E_xit" _tip="Exit the program"
       pixtype="stock" pixname="gtk-quit" accel="*Control*q"/>
 
+    <cmd name="ViewButtonsIconText" _label="Icons _and text" 
+      type="radio" group="button_display" _tip="Display window buttons with icons and text"/>
+
+    <cmd name="ViewButtonsIcon" _label="_Icons only" 
+      type="radio" group="button_display" _tip="Display window buttons with icons only"/>
+
+    <cmd name="ViewButtonsText" _label="_Text only" 
+      type="radio" group="button_display" _tip="Display window buttons with text only"/>
+
+    <cmd name="ViewButtonsToolbar" _label="Tool_bar style" 
+      type="radio" group="button_display" _tip="Display window buttons using the desktop toolbar setting"/>
+
+    <cmd name="ViewButtonsHide" _label="_Hide buttons" 
+      type="toggle" _tip="Hide window buttons"/>
+
     <cmd name="ViewToolbar" _label="Tool_bar" type="toggle"
       _tip="Change the visibility of the toolbar" state="1"/>
 
@@ -76,6 +91,14 @@
     <submenu name="View" _label="_View">
       <placeholder name="ViewBegin"/>
       <submenu name="Window" _label="_Window"/>
+      <submenu name="Buttons" _label="Window B_uttons">
+            <menuitem name="ViewButtonsIconText" id="ViewButtonsIconText" verb=""/>
+            <menuitem name="ViewButtonsIcon" id="ViewButtonsIcon" verb=""/>
+            <menuitem name="ViewButtonsText" id="ViewButtonsText" verb=""/>
+            <menuitem name="ViewButtonsGnome" id="ViewButtonsToolbar" verb=""/>
+            <separator/>
+            <menuitem name="ViewButtonsHide" id="ViewButtonsHide" verb=""/>
+      </submenu>
       <menuitem name="ViewToolbar" id="ViewToolbar" verb="" accel="*Control**Shift*o"/>
       <placeholder name="ViewAfterControl"/>
     </submenu>
@@ -119,8 +142,7 @@
     </submenu>
   </menu>
 
-  <dockitem name="Toolbar" relief="none" behavior="exclusive" config="0" _tip="Main toolbar"
-            hlook="system" vlook="icon">
+  <dockitem name="Toolbar" relief="none" behavior="exclusive" config="0" _tip="Main toolbar" look="system">
     <control name="NewComboButton"/>
     <separator f="" name="eshell4"/>
 

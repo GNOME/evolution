@@ -143,7 +143,7 @@
 		
 	</menu>
 	
-	<dockitem name="Toolbar" behavior="exclusive" hlook="system" vlook="icon">
+	<dockitem name="Toolbar" behavior="exclusive" look="system">
 		<toolitem name="FileSend" verb="" pixtype="pixbuf" priority="1"/>
 		<toolitem name="FileAttach" verb="" pixtype="pixbuf" priority="1"/>	
 

@@ -119,7 +119,8 @@
 
     <cmd name="MessageOpen"
      _tip="Open the selected message in a new window"
-     accel="*Control*o"/>
+     accel="*Control*o"
+     pixtype="pixbuf"/>
 
     <cmd name="MessagePostReply"
      _tip="Post a reply to a message in a Public folder"
