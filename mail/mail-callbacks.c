@@ -822,7 +822,7 @@ mail_generate_reply (CamelFolder *folder, CamelMimeMessage *message, const char 
 	const int max_subject_length = 1024;
 	
 	composer = e_msg_composer_new ();
-	e_msg_composer_add_message_attachments (composer, message, FALSE);
+	e_msg_composer_add_message_attachments (composer, message, TRUE);
 
 	if (!composer)
 		return NULL;
@@ -1139,7 +1139,7 @@ do_forward_non_attached (CamelFolder *folder, char *uid, CamelMimeMessage *messa
 			
 			wrapper = camel_medium_get_content_object (CAMEL_MEDIUM (message));
 			if (CAMEL_IS_MULTIPART (wrapper))
-				e_msg_composer_add_message_attachments (composer, message);
+				e_msg_composer_add_message_attachments (composer, message, FALSE);
 			
 			gtk_widget_show (GTK_WIDGET (composer));
 			e_msg_composer_unset_changed (composer);
