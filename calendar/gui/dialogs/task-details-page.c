@@ -584,7 +584,10 @@ status_changed (GtkMenu	*menu, TaskDetailsPage *tdpage)
 		e_date_edit_set_time (E_DATE_EDIT (priv->completed_date), ctime);
 		complete_date_changed (tdpage, 0, FALSE);
 	} else if (status == ICAL_STATUS_INPROCESS) {
-		e_dialog_spin_set (priv->percent_complete, 50);
+		gint percent_complete = e_dialog_spin_get_int (priv->percent_complete);
+		if (percent_complete <= 0 || percent_complete >= 100)
+			e_dialog_spin_set (priv->percent_complete, 50);
+
 		e_date_edit_set_time (E_DATE_EDIT (priv->completed_date), ctime);
 		complete_date_changed (tdpage, 0, FALSE);
 	} else if (status == ICAL_STATUS_COMPLETED) {

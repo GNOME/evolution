@@ -1,3 +1,11 @@
+2003-08-27  Hans Petter Jansson  <hpj@ximian.com>
+
+	Fixes #29032.
+
+	* gui/dialogs/task-details-page.c (status_changed): When task status
+	is set to "In Progress", set percent complete to 50% only if it was
+	previously set to 0% or 100%.
+
 2003-08-26  Jack Jia  <jack.jia@sun.com>
 
 	** Fixes #47863.
