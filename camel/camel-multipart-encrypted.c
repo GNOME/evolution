@@ -25,12 +25,14 @@
 #include <config.h>
 #endif
 
+#include <stdio.h>
 #include <string.h>
 
 #include "camel-multipart-encrypted.h"
 #include "camel-mime-filter-crlf.h"
 #include "camel-stream-filter.h"
 #include "camel-stream-mem.h"
+#include "camel-stream-fs.h"
 #include "camel-mime-utils.h"
 #include "camel-mime-part.h"
 
@@ -181,7 +183,7 @@ camel_multipart_encrypted_encrypt (CamelMultipartEncrypted *mpe, CamelMimePart *
 	
 	/* construct the version part */
 	stream = camel_stream_mem_new ();
-	camel_stream_write_string (stream, "Version: 1");
+	camel_stream_write_string (stream, "Version: 1\n");
 	camel_stream_reset (stream);
 	
 	version_part = camel_mime_part_new ();
@@ -263,15 +265,14 @@ camel_multipart_encrypted_decrypt (CamelMultipartEncrypted *mpe,
 		protocol = cipher->encrypt_protocol;
 	}
 	
-	version_part = camel_multipart_get_part (CAMEL_MULTIPART (mpe), CAMEL_MULTIPART_ENCRYPTED_VERSION);
-	
 	/* make sure the protocol matches the version part's content-type */
-	content_type = camel_data_wrapper_get_mime_type ((CamelDataWrapper *) version_part);
+	version_part = camel_multipart_get_part (CAMEL_MULTIPART (mpe), CAMEL_MULTIPART_ENCRYPTED_VERSION);
+	wrapper = camel_medium_get_content_object (CAMEL_MEDIUM (version_part));
+	content_type = camel_data_wrapper_get_mime_type (wrapper);
 	if (strcasecmp (content_type, protocol) != 0) {
 		camel_exception_set (ex, CAMEL_EXCEPTION_SYSTEM,
 				     _("Failed to decrypt MIME part: protocol error"));
 		
-		camel_object_unref (version_part);
 		g_free (content_type);
 		
 		return NULL;
@@ -284,14 +285,12 @@ camel_multipart_encrypted_decrypt (CamelMultipartEncrypted *mpe,
 	if (!header_content_type_is (mime_type, "application", "octet-stream")) {
 		camel_exception_set (ex, CAMEL_EXCEPTION_SYSTEM,
 				     _("Failed to decrypt MIME part: invalid structure"));
-		camel_object_unref (encrypted_part);
-		camel_object_unref (version_part);
 		return NULL;
 	}
 	
 	/* get the ciphertext stream */
 	ciphertext = camel_stream_mem_new ();
-	wrapper = camel_medium_get_content_object ((CamelMedium *) encrypted_part);
+	wrapper = camel_medium_get_content_object (CAMEL_MEDIUM (encrypted_part));
 	camel_data_wrapper_write_to_stream (wrapper, ciphertext);
 	camel_stream_reset (ciphertext);
 	
@@ -314,6 +313,7 @@ camel_multipart_encrypted_decrypt (CamelMultipartEncrypted *mpe,
 	camel_stream_flush (filtered_stream);
 	camel_object_unref (filtered_stream);
 	camel_object_unref (ciphertext);
+	camel_stream_reset (stream);
 	
 	decrypted_part = camel_mime_part_new ();
 	camel_data_wrapper_construct_from_stream (CAMEL_DATA_WRAPPER (decrypted_part), stream);

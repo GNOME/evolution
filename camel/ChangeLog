@@ -1,5 +1,13 @@
 2002-07-12  Jeffrey Stedfast  <fejj@ximian.com>
 
+	* camel-multipart-encrypted.c (camel_multipart_encrypted_decrypt):
+	On error, do not unref the parts gotten using
+	camel_multipart_get_part() since that function does not ref the
+	parts. Also don't forget to reset the decrypted stream before
+	trying to parse it ;-)
+
+2002-07-12  Jeffrey Stedfast  <fejj@ximian.com>
+
 	* camel-multipart.c (camel_multipart_class_init): Updated to not
 	use camel_type_get_global_classfuncs() since this is just a cast
 	macro now.
