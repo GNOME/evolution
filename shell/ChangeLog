@@ -1,3 +1,8 @@
+2002-01-15  Iain Holmes  <iain@ximian.com>
+
+	* e-shell-importer.c (show_import_wizard): Set the importer druid
+	as a transient window of the parent shell.
+
 2002-01-15  Ettore Perazzoli  <ettore@ximian.com>
 
 	[Fix #17441, Crash trying to import Multiple VCard file into LDAP

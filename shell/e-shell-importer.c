@@ -1155,7 +1155,8 @@ show_import_wizard (BonoboUIComponent *component,
 	data->dialog = glade_xml_get_widget (data->wizard, "importwizard");
 	gtk_window_set_wmclass (GTK_WINDOW (data->dialog), "importdruid",
 				"Evolution:shell");
-
+	gtk_window_set_transient_for (GTK_WINDOW (data->dialog), GTK_WINDOW (user_data));
+	
 	data->druid = glade_xml_get_widget (data->wizard, "druid1");
 	gtk_signal_connect (GTK_OBJECT (data->druid), "cancel",
 			    GTK_SIGNAL_FUNC (import_druid_cancel), data);
