@@ -41,6 +41,8 @@ e_table_scrolled_init (GtkObject *object)
 	ets          = E_TABLE_SCROLLED (object);
 	scroll_frame = E_SCROLL_FRAME   (object);
 
+	GTK_WIDGET_SET_FLAGS (ets, GTK_CAN_FOCUS);
+
 	ets->table = gtk_type_new(e_table_get_type());
 
 	e_scroll_frame_set_policy      (scroll_frame, GTK_POLICY_AUTOMATIC, GTK_POLICY_AUTOMATIC);
@@ -162,14 +164,48 @@ ets_get_arg (GtkObject *o, GtkArg *arg, guint arg_id)
 		break;
 	}
 }
-	
+
+/* Grab_focus handler for the scrolled ETable */
 static void
-e_table_scrolled_class_init (GtkObjectClass *object_class)
+ets_grab_focus (GtkWidget *widget)
 {
+	ETableScrolled *ets;
+
+	ets = E_TABLE_SCROLLED (widget);
+
+	gtk_widget_grab_focus (GTK_WIDGET (ets->table));
+}
+
+/* Focus handler for the scrolled ETable */
+static gint
+ets_focus (GtkContainer *container, GtkDirectionType direction)
+{
+	ETableScrolled *ets;
+
+	ets = E_TABLE_SCROLLED (container);
+
+	return gtk_container_focus (GTK_CONTAINER (ets->table), direction);
+}
+
+static void
+e_table_scrolled_class_init (ETableScrolledClass *class)
+{
+	GtkObjectClass *object_class;
+	GtkWidgetClass *widget_class;
+	GtkContainerClass *container_class;
+
+	object_class = (GtkObjectClass *) class;
+	widget_class = (GtkWidgetClass *) class;
+	container_class = (GtkContainerClass *) class;
+
 	parent_class = gtk_type_class (PARENT_TYPE);
 
 	object_class->get_arg = ets_get_arg;
-	
+
+	widget_class->grab_focus = ets_grab_focus;
+
+	container_class->focus = ets_focus;
+
 	gtk_object_add_arg_type ("ETableScrolled::table", GTK_TYPE_OBJECT,
 				 GTK_ARG_READABLE, ARG_TABLE);
 }
