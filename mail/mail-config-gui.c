@@ -1223,6 +1223,12 @@ identity_dialog (const MailConfigIdentity *id, GtkWidget *parent)
 
         /* Get the identity widget */
 	iddialog->page = identity_page_new (id);
+	gnome_dialog_editable_enters (GNOME_DIALOG (iddialog->dialog),
+				      GTK_EDITABLE (iddialog->page->name));
+	gnome_dialog_editable_enters (GNOME_DIALOG (iddialog->dialog),
+				      GTK_EDITABLE (iddialog->page->address));
+	gnome_dialog_editable_enters (GNOME_DIALOG (iddialog->dialog),
+				      GTK_EDITABLE (iddialog->page->org));
 	gtk_box_pack_start (GTK_BOX (dialog_vbox), 
 			    iddialog->page->vbox, TRUE, TRUE, 0);
 
@@ -1246,7 +1252,7 @@ identity_dialog (const MailConfigIdentity *id, GtkWidget *parent)
 				    GNOME_STOCK_BUTTON_CANCEL);	
 
 	gnome_dialog_set_default (GNOME_DIALOG (iddialog->dialog), 0);
-	gnome_dialog_set_default (GNOME_DIALOG (iddialog->dialog), 1);
+/*  	gnome_dialog_set_default (GNOME_DIALOG (iddialog->dialog), 1); */
 	
 	gnome_dialog_set_sensitive (GNOME_DIALOG (iddialog->dialog), 0, FALSE);
 	
@@ -2037,6 +2043,7 @@ mail_config (Evolution_Shell shell)
 	dialog->clistIdentities = 
 		glade_xml_get_widget (gui, "clistIdentities");
 	clist = GTK_CLIST (dialog->clistIdentities);
+	gtk_clist_column_titles_passive (GTK_CLIST (clist));
 	gtk_clist_set_column_width (clist, 0, 80);
 
 	l = mail_config_get_identities ();
@@ -2080,6 +2087,7 @@ mail_config (Evolution_Shell shell)
 	/* Sources Page */
 	dialog->clistSources = glade_xml_get_widget (gui, "clistSources");
 	clist = GTK_CLIST (dialog->clistSources);
+	gtk_clist_column_titles_passive (GTK_CLIST (clist));
 	gtk_clist_set_column_width (clist, 0, 80);
 
 	l = mail_config_get_sources ();	
@@ -2121,7 +2129,8 @@ mail_config (Evolution_Shell shell)
 	dialog->clistNews = glade_xml_get_widget (gui, "clistNews");
 	clist = GTK_CLIST (dialog->clistNews);
 	gtk_clist_set_column_width (clist, 0, 80);
-
+	gtk_clist_column_titles_passive (GTK_CLIST (clist));
+	
 	l = mail_config_get_news ();	
 
 	dialog->maxnrow = g_slist_length (l) - 1;

@@ -487,7 +487,6 @@ on_object_requested (GtkHTML *html, GtkHTMLEmbedded *eb, gpointer data)
 			pbl->type = g_strdup (eb->type);
 			pixmap = bonobo_ui_toolbar_icon_new ();
 
-			gtk_widget_set_usize (pixmap, 24, 24);
 			pbl->pixmap = pixmap;
 			
 			g_idle_add_full (G_PRIORITY_LOW, (GSourceFunc)pixbuf_gen_idle, 
