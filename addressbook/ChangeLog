@@ -1,3 +1,8 @@
+2000-11-15  JP Rosevear  <jpr@helixcode.com>
+
+	* backend/pas/pas-backend-file.c (pas_backend_file_book_view_copy): 
+	Initialize destination struct with '0's.
+
 2000-11-12  Christopher James Lahey  <clahey@helixcode.com>
 
 	* backend/ebook/e-card.c: Changed the mime type from "text/vcard"

@@ -83,7 +83,7 @@ static PASBackendFileBookView *
 pas_backend_file_book_view_copy(const PASBackendFileBookView *book_view, void *closure)
 {
 	PASBackendFileBookView *new_book_view;
-	new_book_view = g_new(PASBackendFileBookView, 1);
+	new_book_view = g_new0 (PASBackendFileBookView, 1);
 	new_book_view->book_view = book_view->book_view;
 
 	new_book_view->search = g_strdup(book_view->search);
