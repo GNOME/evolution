@@ -388,10 +388,11 @@ static pthread_mutex_t status_lock = PTHREAD_MUTEX_INITIALIZER;
 struct _pass_msg {
 	struct _mail_msg msg;
 	const char *prompt;
-	int secret;
+	gboolean secret;
+	gboolean *cache;
 	char *result;
 	char *service_url;
-	GtkWidget *tb;
+	GtkWidget *check;
 };
 
 static void
@@ -400,25 +401,28 @@ pass_got (char *string, void *data)
 	struct _pass_msg *m = data;
 	
 	if (string) {
+		MailConfigService *service = NULL;
 		const MailConfigAccount *mca;
 		gboolean remember;
 		
 		m->result = g_strdup (string);
 		
-		remember = gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (m->tb));
+		remember = gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (m->check));
 		if (m->service_url) {
 			mca = mail_config_get_account_by_source_url (m->service_url);
-			if (mca)
-				mail_config_service_set_save_passwd (mca->source, remember);
-			else {
+			if (mca) {
+				service = mca->source;
+			} else {
 				mca = mail_config_get_account_by_transport_url (m->service_url);
 				if (mca)
-					mail_config_service_set_save_passwd (mca->transport, remember);
-				else
-					printf ("Cannot figure out which account owns URL \"%s\" (could before?)\n",
-						m->service_url);
+					service = mca->transport;
 			}
+			
+			mail_config_service_set_save_passwd (service, remember);
 		}
+		
+		if (m->cache)
+			*(m->cache) = remember;
 	}
 }
 
@@ -428,31 +432,35 @@ do_get_pass (struct _mail_msg *mm)
 	struct _pass_msg *m = (struct _pass_msg *)mm;
 	const MailConfigAccount *mca;
 	GtkWidget *dialogue;
-	GtkWidget *tb, *entry;
+	GtkWidget *check, *entry;
 	GList *children, *iter;
+	gboolean show;
 	
 	/* this api is just awful ... hence the hacks */
 	dialogue = gnome_request_dialog (m->secret, m->prompt, NULL,
 					 0, pass_got, m, NULL);
 	
 	/* Remember the password? */
-	tb = gtk_check_button_new_with_label (_("Remember this password"));
-	gtk_widget_show (tb);
+	check = gtk_check_button_new_with_label (_("Remember this password"));
+	show = TRUE;
 	
 	if (m->service_url) {
 		mca = mail_config_get_account_by_source_url (m->service_url);
 		if (mca)
-			gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (tb), mca->source->save_passwd);
+			gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (check), mca->source->save_passwd);
 		else {
 			mca = mail_config_get_account_by_transport_url (m->service_url);
 			if (mca)
-				gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (tb), mca->transport->save_passwd);
+				gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (check), mca->transport->save_passwd);
 			else {
-				printf ("Cannot figure out which account owns URL \"%s\"\n", m->service_url);
-				gtk_widget_hide (tb);
+				d(printf ("Cannot figure out which account owns URL \"%s\"\n", m->service_url));
+				show = FALSE;
 			}
 		}
 	}
+	
+	if (show)
+		gtk_widget_show (check);
 	
 	/* do some dirty stuff to put the checkbutton after the entry */
 	entry = NULL;
@@ -473,7 +481,7 @@ do_get_pass (struct _mail_msg *mm)
 	}
 	
 	gtk_box_pack_end (GTK_BOX (GNOME_DIALOG (dialogue)->vbox),
-			  tb, TRUE, FALSE, 0);
+			  check, TRUE, FALSE, 0);
 	
 	if (entry) {
 		gtk_box_pack_end (GTK_BOX (GNOME_DIALOG (dialogue)->vbox), entry, TRUE, FALSE, 0);
@@ -481,7 +489,7 @@ do_get_pass (struct _mail_msg *mm)
 		gtk_object_unref (GTK_OBJECT (entry));
 	}
 	
-	m->tb = tb;
+	m->check = check;
 	
 	/* hrm, we can't run this async since the gui_port from which we're called
 	   will reply to our message for us */
@@ -509,7 +517,7 @@ struct _mail_msg_op get_pass_op = {
 
 /* returns the password, or NULL if cancelled */
 char *
-mail_get_password (CamelService *service, const char *prompt, gboolean secret)
+mail_get_password (CamelService *service, const char *prompt, gboolean secret, gboolean *cache)
 {
 	char *ret;
 	struct _pass_msg *m, *r;
@@ -521,10 +529,9 @@ mail_get_password (CamelService *service, const char *prompt, gboolean secret)
 	
 	m->prompt = prompt;
 	m->secret = secret;
+	m->cache = cache;
 	if (service) {
-		m->service_url = camel_url_to_string (service->url, 
-						      CAMEL_URL_HIDE_PASSWORD |
-						      CAMEL_URL_HIDE_PARAMS);
+		m->service_url = camel_url_to_string (service->url, CAMEL_URL_HIDE_ALL);
 	} else
 		m->service_url = NULL;
 	

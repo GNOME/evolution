@@ -1,3 +1,14 @@
+2001-09-18  Jeffrey Stedfast  <fejj@ximian.com>
+
+	* mail-session.c (get_password): Pass a 'cache-me' argument to
+	mail_get_password.
+
+	* mail-mt.c (pass_got): Make less confusing...
+	(mail_get_password): Now takes an argument 'cache' that allows our
+	caller to determine if the user wanted to cache his/her password
+	or not.
+	(pass_got): Set the cache option.
+
 2001-09-18  Dan Winship  <danw@ximian.com>
 
 	* mail-format.c (mail_format_raw_message): Call

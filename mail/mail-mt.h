@@ -58,7 +58,8 @@ void mail_msg_cancel(unsigned int msgid);
 void mail_msg_wait(unsigned int msgid);
 
 /* request a string/password */
-char *mail_get_password (CamelService *service, const char *prompt, gboolean secret);
+char *mail_get_password (CamelService *service, const char *prompt,
+			 gboolean secret, gboolean *cache);
 
 /* present information and get an ok (or possibly cancel)
  * "type" is as for gnome_message_box_new();

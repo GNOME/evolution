@@ -152,16 +152,17 @@ get_password (CamelSession *session, const char *prompt, gboolean secret,
 	      CamelService *service, const char *item, CamelException *ex)
 {
 	MailSession *mail_session = MAIL_SESSION (session);
+	gboolean cache = TRUE;
 	char *key, *ans;
-
-	if (!strcmp(item, "popb4smtp_uri")) {
+	
+	if (!strcmp (item, "popb4smtp_uri")) {
 		char *url = camel_url_to_string(service->url, 0);
 		const MailConfigAccount *account = mail_config_get_account_by_transport_url(url);
-
+		
 		g_free(url);
 		if (account == NULL)
 			return NULL;
-
+		
 		return g_strdup(account->source->url);
 	}
 	
@@ -176,14 +177,16 @@ get_password (CamelSession *session, const char *prompt, gboolean secret,
 	}
 	
 	if (!mail_session->interaction_enabled ||
-	    !(ans = mail_get_password (service, prompt, secret))) {
+	    !(ans = mail_get_password (service, prompt, secret, &cache))) {
 		g_free (key);
 		camel_exception_set (ex, CAMEL_EXCEPTION_USER_CANCEL,
 				     _("User canceled operation."));
 		return NULL;
 	}
 	
-	g_hash_table_insert (mail_session->passwords, key, g_strdup (ans));
+	if (cache)
+		g_hash_table_insert (mail_session->passwords, key, g_strdup (ans));
+	
 	return ans;
 }
 
