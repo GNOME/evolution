@@ -251,6 +251,7 @@ extern "C" {
 
 #define XPilotIdProp                            "X-PILOTID"
 #define XPilotStatusProp                        "X-PILOTSTAT"
+#define XPilotNoTimeProp                        "X-PILOT-NOTIME"
 
 typedef struct VObject VObject;
 
