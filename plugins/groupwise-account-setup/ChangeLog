@@ -1,3 +1,17 @@
+2005-03-07  Sivaiah Nallagatla <snallagatla@novell.com>
+
+	* camel-gw-listner.c (add_addressbook_sources) :
+	don't free container list here. It is chaced in 
+	connection and will be frred later. 
+
+	Fixes #72807 
+
+2005-02-16  Not Zed  <NotZed@Ximian.com>
+
+	* groupwise-account-setup.c (org_gnome_gw_account_setup): return
+	NULL, not an invisible, so it doesn't interfere with account
+	editor.
+
 2005-02-23  JP Rosevear  <jpr@novell.com>
 
 	* org-gnome-gw-account-setup.eplug.in: add account wizard item

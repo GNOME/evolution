@@ -56,12 +56,11 @@ GtkWidget *
 org_gnome_gw_account_setup(struct _EPlugin *epl, struct _EConfigHookItemFactoryData *data)
 {
 	GtkWidget *w;
-  
+
 	if (data->old)
 		return data->old;
         /* FIXME, with new soap camel provider we don't need extra settings in receiving options page, Remove them
 	   from camel-groupwise-provider.c once soap provider is ready and add any groupwise sepcific settings like "add contacts automatically to Frequent contacts folder" here*/
-       
-	w = gtk_invisible_new ();
-	return w;
+
+	return NULL;
 }

@@ -1,3 +1,9 @@
+2005-03-10  Vivek Jain <jvivek@novell.com>
+	
+	**Fixes #73201
+	* share-folder-common.c : (org_gnome_shared_folder_factory)
+	 use full_name given by CamelFolder to get the selected folder name 
+
 2005-02-24  Björn Torkelsson  <torkel@acc.umu.se>
 
        * org-gnome-shared-folder.eplug.in: Added Groupwise to name.

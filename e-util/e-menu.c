@@ -829,7 +829,7 @@ emph_construct(EPluginHook *eph, EPlugin *ep, xmlNodePtr root)
 
 			menu = emph_construct_menu(eph, node);
 			if (menu) {
-				printf(" plugin adding factory %p\n", klass);
+				d(printf(" plugin adding factory %p\n", klass));
 				e_menu_class_add_factory(klass, menu->id, emph_menu_factory, menu);
 				emph->menus = g_slist_append(emph->menus, menu);
 			}
@@ -857,7 +857,7 @@ emph_finalise(GObject *o)
 static void
 emph_class_init(EPluginHookClass *klass)
 {
-	printf("EMenuHook class init %p '%s'\n", klass, g_type_name(((GObjectClass *)klass)->g_type_class.g_type));
+	d(printf("EMenuHook class init %p '%s'\n", klass, g_type_name(((GObjectClass *)klass)->g_type_class.g_type)));
 
 	((GObjectClass *)klass)->finalize = emph_finalise;
 	klass->construct = emph_construct;

@@ -336,8 +336,6 @@ md5_get_digest_from_file (const gchar *filename, guchar digest[16])
 	gint nb_bytes_read;
 	FILE *fp;
 
-	printf("generating checksum\n");
-
 	md5_init (&ctx);
 	fp = fopen(filename, "r");
 	if (!fp) {
@@ -354,10 +352,4 @@ md5_get_digest_from_file (const gchar *filename, guchar digest[16])
 
 	
 	md5_final (&ctx, digest);
-	
-	printf("checksum done\n");
 }
-
-
-
-

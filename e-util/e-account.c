@@ -33,6 +33,8 @@
 
 #include <gconf/gconf-client.h>
 
+#define d(x)
+
 enum {
 	CHANGED,
 	LAST_SIGNAL
@@ -820,6 +822,7 @@ gboolean e_account_get_bool(EAccount *ea, e_account_item_t type)
 	return *((gboolean *)addr(ea, type));
 }
 
+#if d(!)0
 static void
 dump_account(EAccount *ea)
 {
@@ -830,6 +833,7 @@ dump_account(EAccount *ea)
 	printf(" ->\n%s\n", xml);
 	g_free(xml);
 }
+#endif
 
 /* TODO: should it return true if it changed? */
 void e_account_set_string(EAccount *ea, e_account_item_t type, const char *val)
@@ -840,13 +844,12 @@ void e_account_set_string(EAccount *ea, e_account_item_t type, const char *val)
 		g_warning("Trying to set non-writable option account value");
 	} else {
 		p = (char **)addr(ea, type);
-		printf("Setting string %d: old '%s' new '%s'\n", type, *p, val);
+		d(printf("Setting string %d: old '%s' new '%s'\n", type, *p, val));
 		if (*p != val
 		    && (*p == NULL || val == NULL || strcmp(*p, val) != 0)) {
 			g_free(*p);
 			*p = g_strdup(val);
-
-			dump_account(ea);
+			d(dump_account(ea));
 			g_signal_emit(ea, signals[CHANGED], 0, type);
 		}
 	}
@@ -861,7 +864,7 @@ void e_account_set_int(EAccount *ea, e_account_item_t type, int val)
 
 		if (*p != val) {
 			*p = val;
-			dump_account(ea);
+			d(dump_account(ea));
 			g_signal_emit(ea, signals[CHANGED], 0, type);
 		}
 	}
@@ -876,7 +879,7 @@ void e_account_set_bool(EAccount *ea, e_account_item_t type, gboolean val)
 
 		if (*p != val) {
 			*p = val;
-			dump_account(ea);
+			d(dump_account(ea));
 			g_signal_emit(ea, signals[CHANGED], 0, type);
 		}
 	}
@@ -899,7 +902,7 @@ e_account_writable_option(EAccount *ea, const char *protocol, const char *option
 		info = g_hash_table_lookup(ea_option_table, key);
 	}
 
-	printf("checking writable option '%s' perms=%08x\n", option, info?info->perms:0);
+	d(printf("checking writable option '%s' perms=%08x\n", option, info?info->perms:0));
 
 	return info == NULL
 		|| (info->perms & ea_perms) == 0;

@@ -360,23 +360,26 @@ org_gnome_shared_folder_factory (EPlugin *ep, EConfigHookItemFactoryData *hook_d
 	gchar *account = NULL;
 	gchar *id = NULL;
 	gchar *sub = NULL;
+	gchar *folder_name = NULL;
 	EGwConnection *cnc;
 	ShareFolder *sharing_tab;
 	EMConfigTargetFolder *target=  (EMConfigTargetFolder *)hook_data->config->target;
-
-	folderuri = g_strdup(target->uri);
-	if (folderuri) {
-		account = g_strrstr(folderuri, "groupwise");
-		sub = g_strrstr(folderuri, "#");
-	} else
-		return NULL;
+	CamelFolder *folder = target->folder;
 	
-	if(sub == NULL)
-		sub = g_strrstr(folderuri, "/");
+	folder_name = g_strdup (folder->full_name);
+	folderuri = g_strdup(target->uri);
+	if (folderuri && folder_name) 
+		account = g_strrstr(folderuri, "groupwise");
+	else
+		return NULL;
+
+	sub =  g_strrstr (folder_name, "/");
 	if (sub)
 		sub++;
 	else
-		return NULL;
+		sub = folder_name;	
+
+	/* This is kind of bad..but we don't have types for all these folders.*/
 
 	if ( !( strcmp (sub, "Mailbox") && strcmp (sub, "Calendar") && strcmp (sub, "Contacts") && strcmp (sub, "Documents") && strcmp (sub, "Authored") && strcmp (sub, "Default Library") && strcmp (sub, "Work In Progress") && strcmp (sub, "Cabinet") && strcmp (sub, "Sent Items") && strcmp (sub, "Trash") && strcmp (sub, "Checklist"))) {
 		g_free (folderuri);
@@ -384,23 +387,22 @@ org_gnome_shared_folder_factory (EPlugin *ep, EConfigHookItemFactoryData *hook_d
 	}
 
 	if (account) {
-		CamelFolder *folder = target->folder;
 		CamelStore *store = folder->parent_store;	
 		cnc = get_cnc (store);	
+	
 		if (E_IS_GW_CONNECTION (cnc)) 
 			id = get_container_id (cnc, sub);
 		else
 			g_warning("Could not Connnect\n");
 		
-		g_free (folderuri);
 		if (cnc && id)
 			sharing_tab = share_folder_new (cnc, id);
 		else 
 			return NULL;
-
+		
 		gtk_notebook_append_page((GtkNotebook *) hook_data->parent, (GtkWidget *) sharing_tab->vbox, gtk_label_new_with_mnemonic N_("Sharing"));
 		common = sharing_tab;
-
+		g_free (folderuri);
 		return GTK_WIDGET (sharing_tab);
 	} else
 		return NULL;
@@ -460,7 +462,7 @@ get_container_id(EGwConnection *cnc, gchar *fname)
 		GList *container = NULL;
 
 		for (container = container_list; container != NULL; container = container->next) {
-			name = e_gw_container_get_name (container->data);
+			name = g_strdup (e_gw_container_get_name (container->data));
 			/* if Null is passed as name then we return top lavel id*/
 			if (fname == NULL) {
 				id = g_strdup (e_gw_container_get_id (container->data));
@@ -469,6 +471,7 @@ get_container_id(EGwConnection *cnc, gchar *fname)
 				id = g_strdup (e_gw_container_get_id (container->data));
 				break;
 			}
+			g_free (name);
 		}
 		e_gw_connection_free_container_list (container_list);
 	}

@@ -543,13 +543,7 @@ add_addressbook_sources (EAccount *account)
 		e_source_set_property (source, "use_ssl", use_ssl);
 		e_source_group_add_source (group, source, -1);
 		g_object_unref (source);
-		g_object_unref (E_GW_CONTAINER(temp_list->data));
-		
 	}
-		
-	g_list_free (books_list);			
-
-      
 	e_source_list_add_group (list, group, -1);
       	e_source_list_sync (list, NULL);	
 	g_object_unref (group);
