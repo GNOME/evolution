@@ -92,7 +92,7 @@ struct _EMFolderBrowserPrivate {
 	guint search_menu_activated_id;
 	guint search_activated_id;
 	guint search_query_changed_id;
-	
+
 	double default_scroll_position;
 	guint idle_scroll_id;
 	guint list_scrolled_id;
@@ -101,6 +101,7 @@ struct _EMFolderBrowserPrivate {
 	guint list_built_id;	/* hook onto list-built for delayed 'select first unread' stuff */
 	
 	char *select_uid;
+	guint folder_changed_id;
 
 	EMMenu *menu;		/* toplevel menu manager */
 };
@@ -248,6 +249,9 @@ emfb_destroy(GtkObject *o)
 		g_source_remove (emfb->priv->idle_scroll_id);
 		emfb->priv->idle_scroll_id = 0;
 	}
+
+	if (emfb->view.folder && emfb->priv->folder_changed_id)
+		camel_object_remove_event(emfb->view.folder, emfb->priv->folder_changed_id);
 	
 	((GtkObjectClass *)emfb_parent)->destroy(o);
 }
@@ -836,6 +840,31 @@ scroll_idle_cb (EMFolderBrowser *emfb)
 	return FALSE;
 }
 
+static void
+emfb_gui_folder_changed(CamelFolder *folder, void *dummy, EMFolderBrowser *emfb)
+{
+	if (emfb->priv->select_uid) {
+		CamelMessageInfo *mi;
+
+		mi = camel_folder_get_message_info(emfb->view.folder, emfb->priv->select_uid);
+		if (mi) {
+			camel_folder_free_message_info(emfb->view.folder, mi);
+			em_folder_view_set_message(&emfb->view, emfb->priv->select_uid, TRUE);
+			g_free (emfb->priv->select_uid);
+			emfb->priv->select_uid = NULL;
+		}
+	}
+
+	g_object_unref(emfb);
+}
+
+static void
+emfb_folder_changed(CamelFolder *folder, CamelFolderChangeInfo *changes, EMFolderBrowser *emfb)
+{
+	g_object_ref(emfb);
+	mail_async_event_emit(emfb->view.async, MAIL_ASYNC_GUI, (MailAsyncFunc)emfb_gui_folder_changed, folder, NULL, emfb);
+}
+
 /* TODO: This should probably be handled by message-list, by storing/queueing
    up the select operation if its busy rebuilding the message-list */
 static void
@@ -849,9 +878,17 @@ emfb_list_built (MessageList *ml, EMFolderBrowser *emfb)
 	
 	if (emfv->list->cursor_uid == NULL) {
 		if (emfb->priv->select_uid) {
-			em_folder_view_set_message(emfv, emfb->priv->select_uid, TRUE);
-			g_free (emfb->priv->select_uid);
-			emfb->priv->select_uid = NULL;
+			CamelMessageInfo *mi;
+
+			/* If the message isn't in the folder yet, keep select_uid around, it could be caught by
+			   folder_changed, at some later date */
+			mi = camel_folder_get_message_info(emfv->folder, emfb->priv->select_uid);
+			if (mi) {
+				camel_folder_free_message_info(emfv->folder, mi);
+				em_folder_view_set_message(emfv, emfb->priv->select_uid, TRUE);
+				g_free (emfb->priv->select_uid);
+				emfb->priv->select_uid = NULL;
+			}
 			
 			/* change the default to the current position */
 			position = message_list_get_scrollbar_position (ml);
@@ -888,7 +925,12 @@ emfb_set_folder(EMFolderView *emfv, CamelFolder *folder, const char *uri)
 		g_source_remove (emfb->priv->idle_scroll_id);
 		emfb->priv->idle_scroll_id = 0;
 	}
-	
+
+	if (emfb->view.folder) {
+		camel_object_remove_event(emfb->view.folder, emfb->priv->folder_changed_id);
+		emfb->priv->folder_changed_id = 0;
+	}
+
 	emfb_parent->set_folder(emfv, folder, uri);
 	
 	/* This is required since we get activated the first time
@@ -898,6 +940,9 @@ emfb_set_folder(EMFolderView *emfv, CamelFolder *folder, const char *uri)
 		char *sstate;
 		int state;
 		GConfClient *gconf = mail_config_get_gconf_client();
+
+		emfb->priv->folder_changed_id = camel_object_hook_event(folder, "folder_changed",
+									(CamelObjectEventHookFunc)emfb_folder_changed, emfb);
 
 		/* FIXME: this mostly copied from activate() */
 		if ((sstate = camel_object_meta_get(folder, "evolution:show_preview"))) {

@@ -1,3 +1,13 @@
+2004-11-30  Not Zed  <NotZed@Ximian.com>
+
+	** See bug #68958.
+
+	* em-folder-browser.c (emfb_list_built): if the pending selected
+	uid isn't in the folder (yet), don't clear it, just keep it
+	around.  Hook/unhook folder_changed events.
+	(emfb_folder_changed, emfb_gui_folder_changed): if a select_uid is
+	set, and the message is now available, then select it.
+
 2004-11-28	S.Çağlar Onur <caglar@uludag.org.tr>
 
 	** See bug #69446.
