@@ -1287,7 +1287,7 @@ e_text_draw (GnomeCanvasItem *item, GdkDrawable *drawable,
 					  NULL, widget, "entry",
 					  thisx, thisy, thiswidth, thisheight);
 		
-#if 1
+#if 0
 			if (text->editing) {
 				thisx += 1;
 				thisy += 1;
