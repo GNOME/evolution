@@ -1,4 +1,5 @@
 
+
 <chapter id="config-prefs">
 
 <!--this chapter needs a LOT of work.  structurally it needs for the
@@ -6,7 +7,7 @@ mail and other sections to be similar.  it needs content in the
 Calendar section and the Contact section.  Calendar prefs functions
 documentation-ready, although subject to substantial change. Contact
 functions are not yet available for doc'ing.  . aaron, june 5. 7 am.
-.-->
+-->
 
       <title>Advanced Configuration</title>
       <para>
@@ -254,45 +255,239 @@ functions are not yet available for doc'ing.  . aaron, june 5. 7 am.
           <guimenuitem>Preferences</guimenuitem> from the
           <guimenu>Edit</guimenu> menu.  This will open up the
           <interface>Preferences</interface> window.  It contains four
-          tabs: (each tab to be a sect1 by tuesday june 6)
+          tabs: <guilabel>Time display</guilabel>,
+          <guilabel>Colors</guilabel>, <guilabel>To Do List</guilabel>
+          and <guilabel>Alarms</guilabel>.  The <interface>calendar
+          preferences window</interface> is illustrated in <xref
+          linkend="config-prefs-cal-fig">.
+
+      <!-- ==============Figure===================== -->
+      <figure id="config-prefs-cal-fig">
+	<title>Calendar Preferences Dialog</title>
+	<screenshot>
+	  <screeninfo>If this worked on my job as well as my calendar...</screeninfo>
+	  <graphic fileref="fig/config-cal" format="png" srccredit="Aaron Weber">
+	    </graphic>
+	</screenshot>
+      </figure>
+      <!-- ==============End of Figure================-->
+        </para>
+
+    <sect2 id="config-prefs-cal-time">
+      <title>Time Display Settings</title>
+      <para>
+        The first tab, <interface>Time display tab</interface>, lets
+        you set the following:
+        <variablelist>
+	  <varlistentry>
+	    <term>Time format</term>
+	    <listitem>
+	      <para>You may choose between twelve-hour (AM/PM) and
+	      twenty-four hour time formats here by clicking the
+	      appropriate radio button.
+              </para>
+	    </listitem>
+	  </varlistentry>
+	  <varlistentry>
+	    <term>Weeks start on</term>
+	    <listitem>
+	      <para>You can set weeks to start on Sunday or on Monday.</para>
+	    </listitem>
+	  </varlistentry>
+	  <varlistentry>
+	    <term>Day range</term>
+	    <listitem>
+               <para>
+                 When does your work day start, and when does it end?
+                 In the day and week views,
+                 <application>Evolution</application> displays all the
+                 hours in the range you select here, even if there are
+                 no appointments for those times.  Of course, if you
+                 set your days to end before they begin, you may be in
+                 for a little confusion.
+               </para>
+	    </listitem>
+	  </varlistentry>
+	</variablelist>
+       </para>
+    </sect2>
+    <sect2 id="config-prefs-cal-color">
+      <title>Calendar Colors</title>
+      <para>
+        The <interface>colors tab</interface> allows you to decide
+        what color your calendar will be.  The tab consists of a
+        sample calendar on the right and a list of ten items that can
+        be colored in different ways.  If you click on the color
+        button to the right of each item, you will bring up a
+        color-selector window where you can choose to alter that
+        color.  By clicking <guibutton>OK</guibutton> in the color
+        selection dialog, you can see the results of the color on the
+        sample calendar.
+     </para>
+     <para>The display elements whose color you can set are:
 
           <itemizedlist>
            <listitem>
               <para>
-          <guilabel>Time display</guilabel>
-             </para>
+                <guilabel>Outline:</guilabel> The lines between days
+                and at the top of the display.
+              </para>
             </listitem>
+
            <listitem>
-              <para> 
-        <guilabel>Colors</guilabel>
-               </para>
+              <para> <guilabel>Headings:</guilabel> Text color for day
+                and month names and other headings.
+              </para>
             </listitem>
+
            <listitem>
-              <para> 
-        <guilabel>To Do List</guilabel>
+              <para> <guilabel>Empty days:</guilabel> This is the
+                background color for any time slots in which you have no appointments.
                </para>
             </listitem>  
+
          <listitem>
               <para>         
-              <guilabel>Alarms</guilabel>
+             <guilabel>Appointments:</guilabel> This is the
+                background color for any time slots in which you have appointments.
                </para>
             </listitem>
+     
+	  <listitem>
+	    <para> <guilabel>Highlighted day:</guilabel> The
+              background color for a selected time slot.
+             </para>
+	  </listitem>
+
+          
+	  <listitem>
+	    <para>         
+              <guilabel>Day numbers:</guilabel> Text color for date numbers.
+            </para>
+	  </listitem>
+
+              
+	  <listitem>
+	    <para>
+              <guilabel>Current day's number:</guilabel> Text color for today's date.
+             </para>
+	  </listitem>
+
+	  <listitem>
+	    <para> <guilabel>To-Do item that is not yet
+             due:</guilabel> Text color for To-Do list items that are
+             not yet due.  (Or maybe background color? find out!)
+               </para>
+	  </listitem>
+
+
+	  <listitem>
+	    <para> <guilabel>To-Do item that is due today:</guilabel>
+             Text color for today's tasks.
+               </para>
+	  </listitem>
+
+	  <listitem>
+	    <para> <guilabel>To-Do item that is overdue:</guilabel>
+             Text color for overdue tasks.
+               </para>
+	  </listitem>
+
           </itemizedlist>
         </para>
-        <para>
-          You can set the following options: <!--insert variable list
-          here-->
-        </para>
-      </sect1>
+    </sect2>
+
+    <sect2 id="config-prefs-cal-todo">
+      <title>To Do list settings</title>
+     <para>
+       You can choose what information the To Do list displays and the
+       way it is displayed.  The two areas of the <interface>To Do
+       List</interface> tab offer several options each:
+       <variablelist>
+	 <varlistentry>
+	   <term>Show on To Do List</term>
+	    <listitem>
+	      <para>
+                This box contains three items.  If you select the
+                check boxes next to them, that information will appear
+                in the To Do list for each task it contains:
+                <itemizedlist>
+                  <listitem>
+		    <para><guilabel>Due Date</guilabel></para>
+                   </listitem>
+                  <listitem>
+		    <para><guilabel>Time Until Due</guilabel></para>
+                   </listitem>
+                  <listitem>
+		    <para><guilabel>Priority</guilabel></para>
+                   </listitem>
+               </itemizedlist>
+               </para>
+	    </listitem>
+	  </varlistentry>
+	  <varlistentry>
+	    <term>Style Options</term>
+	    <listitem>
+               <para>
+                 Select among the following checkboxes to determine
+                 how your To Do list will look:
+                <itemizedlist>
+                  <listitem>
+		    <para><guilabel>Highlight overdue items</guilabel></para>
+                   </listitem>
+                  <listitem>
+		    <para><guilabel>Highlight items due today</guilabel></para>
+                   </listitem>
+                  <listitem>
+		    <para><guilabel>Highlight not yet due items</guilabel></para>
+                   </listitem>
+               </itemizedlist>                 
+               </para>
+	    </listitem>
+	  </varlistentry>
+	</variablelist>
+      </para>
+    </sect2>
+
+    <sect2 id="config-prefs-cal-alarms">
+      <title>Alarms settings</title>
+      <para>  
+        The <interface>alarms tab</interface> enables you to select from three boxes:
+        <itemizedlist>
+	  <listitem>
+	    <para><guilabel>Beep on display alarms</guilabel>: select
+	    this box to have <application>Evolution</application> beep
+	    at you for any alarms you have set.  If you leave this box
+	    unchecked, <application>Evolution</application> will only
+	    alert you to events by opening a dialog box.
+           </para>
+	  </listitem>
+	  <listitem>
+	    <para><guilabel>Audio alarms timeout after: </guilabel>
+	    Select this button to have the beeping stop automatically
+	    after a certain number of seconds.  </para>
+	  </listitem>
+	  <listitem>
+	    <para><guilabel>Enable snoozing for:</guilabel> If you
+	    would like to have the option to tell
+	    <application>Evolution</application> to repeat an alarm in
+	    a few minutes, select this button and decide how long
+	    you'd like it to wait.
+           </para>
+	  </listitem>
+	</itemizedlist>   
+      </para>
+    </sect2>
 
 
-      <sect1 id="config-prefs-general">
-	<title>General Preferences</title> 
-	<para>
+  </sect1>
+  <sect1 id="config-prefs-general">
+    <title>General Preferences</title> 
+    <para>
           Overall Evolution prefs-- whatever else doesn't fit.
         </para>
-      </sect1>
-    </chapter>
+  </sect1>
+</chapter>
     
 
 
