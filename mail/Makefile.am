@@ -179,6 +179,7 @@ $(EVOLUTION_MAIL_CORBA_GENERATED): Mail.idl
 
 EXTRA_DIST = 				\
 	Mail.idl 			\
+	$(SPELL_IDL)			\
 	$(glade_DATA)			\
 	$(oaf_in_files)			\
 	$(oaf_DATA)			\

@@ -1,3 +1,7 @@
+2002-05-09  JP Rosevear  <jpr@ximian.com>
+
+	* Makefile.am: dist Spell.idl
+
 2002-05-08  Radek Doulik  <rodo@ximian.com>
 
 	* mail-composer-prefs.c: implemented (c'n'p-ed and updated) spell
