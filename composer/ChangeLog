@@ -1,3 +1,8 @@
+2001-07-31  Jason Leach  <jleach@ximian.com>
+
+	* e-msg-composer.c: Use Tuomas' and Jakub's new (and beautiful)
+	icons for Send and Send Later in the toolbar and menus.
+
 2001-07-30  Jeffrey Stedfast  <fejj@ximian.com>
 
 	* e-msg-composer.c (message_rfc822_dnd): Properly add the

@@ -57,6 +57,7 @@ images_DATA = \
 	evolution-trash.png 		\
 	executive-summary-bg.png	\
 	executive-summary-curve.png	\
+	fetch-mail.png			\
 	globe.png           		\
 	hide_deleted_messages.xpm	\
 	hide_read_messages.xpm		\
@@ -78,6 +79,8 @@ images_DATA = \
 	new_appointment.xpm		\
 	new_contact.xpm			\
 	new-message.xpm			\
+	send-16.png                     \
+	send-later-16.png		\
 	send-receive.xpm		\
 	service-close.png		\
 	service-configure.png		\

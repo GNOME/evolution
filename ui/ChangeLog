@@ -1,3 +1,8 @@
+2001-07-31  Jason Leach  <jleach@ximian.com>
+
+	* evolution-message-composer.xml: Use the new Send and Send Later
+	icons from Jakub and Tuomas.
+
 2001-07-29  Damon Chaplin  <damon@ximian.com>
 
 	* evolution-tasks.xml: use the new print icons.

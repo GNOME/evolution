@@ -1682,7 +1682,12 @@ static BonoboUIVerb verbs [] = {
 
 static EPixmap pixcache [] = {
 	E_PIXMAP ("/Toolbar/FileAttach", "buttons/add-attachment.png"),
-	
+	E_PIXMAP ("/Toolbar/FileSend", "buttons/send-24.png"),
+
+/*	E_PIXMAP ("/menu/Insert/FileAttach", "buttons/add-attachment.png"), */
+	E_PIXMAP ("/menu/File/FileSend", "send-16.png"),
+	E_PIXMAP ("/menu/File/FileSendLater", "send-later-16.png"),
+
 	E_PIXMAP_END
 };
 

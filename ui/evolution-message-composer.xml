@@ -25,10 +25,10 @@
 		
 		<cmd name="FileSend" _label="Send" _tip="Send this message now"
 		accel="*Ctrl*Return"
-                pixtype="stock" pixname="Send Mail"/>
+                pixtype="pixbuf"/>
 		
 		<cmd name="FileSendLater" _label="Send _later" _tip="Send the message later"
-		pixtype="stock" pixname="Send Mail"/> 
+		pixtype="pixbuf"/>
 		
 		<cmd name="FileAttach" _label="Attach" _tip="Attach a file"
 		accel="*Ctrl**Alt*a"
@@ -83,8 +83,10 @@
 		<submenu name="File" _label="_File">
 			<menuitem name="FileOpen" verb="" _label="_Open..."/>
 			<placeholder name="FileOps"/>
-			<menuitem name="FileSend" verb="" _label="Send"/>
-			<menuitem name="FileSendLater" verb="" _label="Send _Later"/>
+			<menuitem name="FileSend" verb=""
+			_label="Send" pixtype="pixbuf"/>
+			<menuitem name="FileSendLater" verb=""
+			_label="Send _Later" pixtype="pixbuf"/>
 			<separator/>
 			<menuitem name="FileSave" verb="" _label="_Save"/>
 			<menuitem name="FileSaveAs" verb="" _label="Save _As..."/>
@@ -117,7 +119,7 @@
 		
                 <submenu name="Insert" _label="_Insert">
 	                <menuitem name="FileAttach" verb=""
-	                _label="_Attachment..."/>
+	                _label="_Attachment..." pixtype="pixbuf"/>
 			<menuitem name="FileInsertFile" verb="" 
                         _label="Inline Text _File..."/>
                 	<placeholder name="Component"/>
@@ -144,7 +146,7 @@
 	
 	<dockitem name="Toolbar" behavior="exclusive" hlook="text" vlook="icon">
 	
-		<toolitem name="FileSend" verb="" priority="1"/>
+		<toolitem name="FileSend" verb="" pixtype="pixbuf" priority="1"/>
 		
 		<toolitem name="FileAttach" verb="" pixtype="pixbuf" priority="1"/>
 		
