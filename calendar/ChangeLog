@@ -1,5 +1,10 @@
 2003-03-05  JP Rosevear  <jpr@ximian.com>
 
+	* gui/apps_evolution_calendar.schemas: fix defaults and
+	descriptions to match what calendar-config wants them to be
+
+2003-03-05  JP Rosevear  <jpr@ximian.com>
+	
 	* gui/e-itip-control.c (show_current): g_objectify ref/unref
 
 	* gui/itip-bonobo-control.c (set_data_idle_cb): as above
