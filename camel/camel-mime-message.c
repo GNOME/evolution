@@ -846,17 +846,17 @@ static gboolean
 check_content_id (CamelMimeMessage *message, CamelMimePart *part, struct _check_content_id *data)
 {
 	const char *content_id;
-	gboolean ret;
+	gboolean found;
 	
 	content_id = camel_mime_part_get_content_id (part);
 	
-	ret = content_id && !strcmp (content_id, data->content_id) ? TRUE : FALSE;
-	if (ret) {
+	found = content_id && !strcmp (content_id, data->content_id) ? TRUE : FALSE;
+	if (found) {
 		data->part = part;
 		camel_object_ref (CAMEL_OBJECT (part));
 	}
 	
-	return ret;
+	return !found;
 }
 
 CamelMimePart *

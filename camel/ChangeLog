@@ -3,6 +3,9 @@
 	* camel-mime-message.c
 	(camel_mime_message_get_part_by_content_id): New function to
 	convenience Larry ;-)
+	(check_content_id): Oops, return !found instead of found. This
+	callback has to return whether or not to keep searching, not
+	whether or not it found what it's looking for. Do'h!
 
 	* camel-pgp-mime.c (camel_pgp_mime_is_rfc2015_signed): block out
 	some code if ENABLE_PEDANTIC_PGPMIME is not defined.
