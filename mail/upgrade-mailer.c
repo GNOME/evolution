@@ -373,8 +373,10 @@ exchange_url_upgrade (const char *uri)
 			folder++;
 	}
 	
+	folder = hex_decode (folder, strlen (folder));
 	url = g_strdup_printf ("%s/personal/%s", base_url, folder);
 	g_free (base_url);
+	g_free (folder);
 	
 	return url;
 }

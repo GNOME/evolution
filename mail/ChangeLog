@@ -6,6 +6,9 @@
 	folder, don't g_free it until later.
 	(hex_encode): Don't forget to increment inptr after hex encoding a
 	character.
+	(exchange_url_upgrade): Apprently exchange uri's are rebelious and
+	do not want to be hex encoded like every other url, so hex decode
+	the folder names here before concatenating them onto the base url.
 
 2002-09-05  Jeffrey Stedfast  <fejj@ximian.com>
 
