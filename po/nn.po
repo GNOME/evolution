@@ -9,7 +9,7 @@ msgstr ""
 "Project-Id-Version: nn\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2004-09-03 11:48+0000\n"
-"PO-Revision-Date: 2004-09-03 12:51+0000\n"
+"PO-Revision-Date: 2004-09-03 13:10+0000\n"
 "Last-Translator: Åsmund Skjæveland <aasmunds@fys.uio.no>\n"
 "Language-Team: Norwegian Nynorsk <i18n-nn@lister.ping.uio.no>\n"
 "MIME-Version: 1.0\n"
@@ -14379,11 +14379,11 @@ msgstr "Vis/Svar til-menyoppføring er merka."
 msgid ""
 "Whether or not to fall back on threading by subjects when the messages do "
 "not contain In-Reply-To or References headers."
-msgstr ""
+msgstr "Om meldingslista skal trådast etter emne når meldingane ikkje inneheld In-Reply-To eller References i meldingshovudet."
 
 #: mail/evolution-mail.schemas.in.in.h:107
 msgid "port for starting user runned spamd"
-msgstr ""
+msgstr "port å starta spamd køyrt av brukar på"
 
 #: mail/evolution-mail.schemas.in.in.h:108
 msgid "spamd port"
@@ -14597,11 +14597,15 @@ msgid ""
 "for %s displayed below\n"
 "and tick the check box for accepting it\n"
 msgstr ""
+"\n"
+"Les nøye gjennom listensavtalen\n"
+"for %s, vist under.\n"
+"Kryss av i boksen for å godta lisensen.\n"
 
 #: mail/mail-account-gui.c:252
 #, c-format
 msgid "%s License Agreement"
-msgstr ""
+msgstr "%s lisensavtale"
 
 #: mail/mail-account-gui.c:957 mail/mail-config.glade.h:167
 msgid "_Host:"
@@ -14714,7 +14718,7 @@ msgstr "Lag ny e-post-mappe"
 
 #: mail/mail-component.c:805
 msgid "Failed upgrading Mail settings or folders."
-msgstr ""
+msgstr "Klarte ikkje å oppgradera e-post-innstillingane eller mappene."
 
 #: mail/mail-config-druid.c:362 mail/mail-config.glade.h:92
 msgid "Identity"
@@ -14725,7 +14729,7 @@ msgid ""
 "Please enter your name and email address below. The \"optional\" fields "
 "below do not need to be filled in, unless you wish to include this "
 "information in email you send."
-msgstr ""
+msgstr "Skriv namnet og e-post-adressa di under. Dei valfrie felta treng du ikkje fylla inn viss du ikkje vil ha med denne informasjonen i e-post du sender."
 
 #: mail/mail-config-druid.c:370 mail/mail-config-druid.c:377
 #: mail/mail-config.glade.h:119
@@ -14736,11 +14740,11 @@ msgstr "Hent e-post"
 msgid ""
 "Please enter information about your incoming mail server below. If you are "
 "not sure, ask your system administrator or Internet Service Provider."
-msgstr ""
+msgstr "Skriv inn informasjon om tenar for inngåande e-post under. Dersom du ikkje er sikker, bør du spørja systemansvarleg eller internett-leverandøren din."
 
 #: mail/mail-config-druid.c:379
 msgid "Please select among the following options"
-msgstr ""
+msgstr "Vel frå desse vala"
 
 #: mail/mail-config-druid.c:382 mail/mail-config.glade.h:131
 msgid "Sending Mail"
@@ -14750,7 +14754,7 @@ msgstr "Send e-post"
 msgid ""
 "Please enter information about the way you will send mail. If you are not "
 "sure, ask your system administrator or Internet Service Provider."
-msgstr ""
+msgstr "Skriv inn informasjon om korleis du vil senda e-post. Dersom du ikkje er sikker, bør du spørja systemansvarleg eller internettleverandøren din."
 
 #: mail/mail-config-druid.c:389 mail/mail-config.glade.h:37
 msgid "Account Management"
@@ -14763,7 +14767,7 @@ msgid ""
 "will be grouped together to make an Evolution mail account. Please enter a "
 "name for this account in the space below. This name will be used for display "
 "purposes only."
-msgstr ""
+msgstr "Du er nesten ferdig med e-post-oppsettet. Identiteten, tenar for innkommande e-post og transport av utgåande e-post vil verta kopla ihop for å laga ein Evolution e-post-konto. Skriv inn eit namn på denne kontoen under. Dette namnet vert berre brukt til å visa kjenna att kontoen i Evolution."
 
 #: mail/mail-config.c:895
 msgid "Checking Service"
@@ -14835,7 +14839,7 @@ msgstr "<span weight=\"bold\">Slett e-post</span>"
 
 #: mail/mail-config.glade.h:18
 msgid "<span weight=\"bold\">Displayed Mail _Headers</span>"
-msgstr ""
+msgstr "<span weight=\"bold\">Meldings_hovudlinjer som vert viste</span>"
 
 #: mail/mail-config.glade.h:19
 msgid "<span weight=\"bold\">Filter Options</span>"
@@ -14847,19 +14851,19 @@ msgstr "<span weight=\"bold\">Allmennt</span>"
 
 #: mail/mail-config.glade.h:21
 msgid "<span weight=\"bold\">Labels and Colors</span>"
-msgstr ""
+msgstr "<span weight=\"bold\">Merkelappar og fargar</span>"
 
 #: mail/mail-config.glade.h:22
 msgid "<span weight=\"bold\">Loading Images</span>"
-msgstr ""
+msgstr "<span weight=\"bold\">Lastar bilete</span>"
 
 #: mail/mail-config.glade.h:23
 msgid "<span weight=\"bold\">Message Display</span>"
-msgstr ""
+msgstr "<span weight=\"bold\">Framsyning av meldingar</span>"
 
 #: mail/mail-config.glade.h:24
 msgid "<span weight=\"bold\">Message Fonts</span>"
-msgstr ""
+msgstr "<span weight=\"bold\">Skrifttypar i meldingar</span>"
 
 #: mail/mail-config.glade.h:25
 msgid "<span weight=\"bold\">New Mail Notification</span>"
@@ -14963,7 +14967,7 @@ msgstr "Baltisk (ISO-8859-4)"
 
 #: mail/mail-config.glade.h:52
 msgid "Beep w_hen new mail arrives"
-msgstr ""
+msgstr "Pip _når det kjem ny e-post"
 
 #: mail/mail-config.glade.h:53
 msgid "C_haracter set:"
@@ -15031,7 +15035,7 @@ msgstr "Ikkje siter opprinneleg melding"
 
 #: mail/mail-config.glade.h:73
 msgid "Don't sign _meeting requests (for Outlook compatibility)"
-msgstr ""
+msgstr "Ikkje signer førespurnader om _møter (for å vera kompatibel med Outlook)"
 
 #: mail/mail-config.glade.h:74 shell/evolution-startup-wizard.glade.h:1
 msgid "Done"
@@ -15121,7 +15125,7 @@ msgstr "Meldingsredigering"
 msgid ""
 "Note: you will not be prompted for a password until you connect for the "
 "first time"
-msgstr ""
+msgstr "Merk at du vil ikkje verta spurd om passordet før du koplar deg på for fyrste gong"
 
 #: mail/mail-config.glade.h:105
 msgid "Or_ganization:"
@@ -15133,7 +15137,7 @@ msgstr "PGP/GPG-nø_kkel-ID:"
 
 #: mail/mail-config.glade.h:111
 msgid "Play sound file when new mail arri_ves"
-msgstr ""
+msgstr "Spel lydfil når det _kjem ny e-post"
 
 #: mail/mail-config.glade.h:112
 msgid "Pr_ompt when sending messages with only Bcc recipients defined"
@@ -15181,19 +15185,19 @@ msgstr "Tryggleik"
 
 #: mail/mail-config.glade.h:125
 msgid "Select HTML fixed width font"
-msgstr ""
+msgstr "Vel skrifttype med fast breidde, til HTML-meldingar"
 
 #: mail/mail-config.glade.h:126
 msgid "Select HTML fixed width font for printing"
-msgstr ""
+msgstr "Vel skrifttype med fast breidde, til utskrift av HTML-meldingar"
 
 #: mail/mail-config.glade.h:127
 msgid "Select HTML variable width font"
-msgstr ""
+msgstr "Vel skrifttype med variabel breidde, til HTML-meldingar"
 
 #: mail/mail-config.glade.h:128
 msgid "Select HTML variable width font for printing"
-msgstr ""
+msgstr "Vel skrifttype med variabel breidde, til utskrift av HTML-meldingar"
 
 #: mail/mail-config.glade.h:129
 msgid "Select..."
@@ -15253,19 +15257,24 @@ msgid ""
 "signature. The name you specify will be used\n"
 "for display purposes only. "
 msgstr ""
+"Utdata frå dette skriptet vil verta brukt som\n"
+"signaturen din. Namnet du oppgjev vil berre\n"
+"verta brukt til å kjenna att skriptet i Evolution. "
 
 #: mail/mail-config.glade.h:147
 msgid ""
 "This page allows you to configure spell checking behavior and language. The "
 "list of languages here reflects only the languages for which you have a "
 "dictionary installed."
-msgstr ""
+msgstr "Denne sida let deg stilla inn åtferda og språket til stavekontrollen. Det er berre språk du har installert ordliste til som vert viste."
 
 #: mail/mail-config.glade.h:149
 msgid ""
 "Type the name by which you would like to refer to this account.\n"
 "For example: \"Work\" or \"Personal\""
 msgstr ""
+"Skriv eit namn du vil bruka til å referera til denne kontoen.\n"
+"Til dømes: «Arbeid» og «Personleg»"
 
 #: mail/mail-config.glade.h:152
 msgid "V_ariable-width:"
@@ -15277,6 +15286,9 @@ msgid ""
 "\n"
 "Click \"Forward\" to begin. "
 msgstr ""
+"Velkommen til oppsettsvegvisaren til Evolution.\n"
+"\n"
+"Klikk «Framover» for å byrja. "
 
 #: mail/mail-config.glade.h:158
 msgid "_Add Signature"
@@ -15288,11 +15300,11 @@ msgstr "Last _alltid bilete frå nettet"
 
 #: mail/mail-config.glade.h:160
 msgid "_Digitally sign outgoing messages (by default)"
-msgstr ""
+msgstr "Signer utgåande meldingar _digitalt (som standard)"
 
 #: mail/mail-config.glade.h:161
 msgid "_Do not notify me when new mail arrives"
-msgstr ""
+msgstr "Ikkje varsla når det kjem _ny e-post"
 
 #: mail/mail-config.glade.h:163
 msgid "_Enable"
@@ -15300,14 +15312,13 @@ msgstr "_Skru på"
 
 #: mail/mail-config.glade.h:164
 msgid "_Encrypt outgoing messages (by default)"
-msgstr ""
+msgstr "_Krypter utgåande meldingar (som standard)"
 
 #: mail/mail-config.glade.h:165
 msgid "_Forward style:"
 msgstr "_Vidaresendingsstil:"
 
 #: mail/mail-config.glade.h:168
-#, fuzzy
 msgid "_Load images if sender is in address book"
 msgstr "_Last bileta dersom sendaren står i adresseboka"
 
@@ -15320,7 +15331,6 @@ msgid "_Mark messages as read after"
 msgstr "_Merk meldingar som lest etter"
 
 #: mail/mail-config.glade.h:172
-#, fuzzy
 msgid "_Never load images from the Internet"
 msgstr "Last aldri bilete frå _nettet"
 
@@ -15337,22 +15347,20 @@ msgid "_Reply style:"
 msgstr "Sva_rstil:"
 
 #: mail/mail-config.glade.h:177
-#, fuzzy
 msgid "_Script:"
-msgstr "_Tryggleik"
+msgstr "_Skript:"
 
 #: mail/mail-config.glade.h:178
 msgid "_Show animated images"
 msgstr "Vi_s animerte bilete"
 
 #: mail/mail-config.glade.h:179
-#, fuzzy
 msgid "_Use Secure Connection (SSL):"
-msgstr "Br_uk sikker tilknytning (SSL)"
+msgstr "Br_uk trygg tilknytning (SSL):"
 
 #: mail/mail-config.glade.h:180
 msgid "_Use the same fonts as other applications"
-msgstr ""
+msgstr "Br_uk dei same skrifttypane som andre program"
 
 #: mail/mail-config.glade.h:181
 msgid "color"
@@ -15368,29 +15376,29 @@ msgid ""
 " Please read carefully the license agreement displayed\n"
 " below and tick the check box for accepting it\n"
 msgstr ""
+"\n"
+"Les nøye gjennom lisensavtalen under og kryss av\n"
+"i boksen for å godta\n"
 
 #: mail/mail-dialogs.glade.h:7
-#, fuzzy
 msgid "<b>vFolder Sources</b>"
-msgstr "vMappe-kjelder"
+msgstr "<b>vMappe-kjelder</b>"
 
 #: mail/mail-dialogs.glade.h:8
 msgid "<span weight=\"bold\">Digital Signature</span>"
-msgstr ""
+msgstr "<span weight=\"bold\">Digital signatur</span>"
 
 #: mail/mail-dialogs.glade.h:9
 msgid "<span weight=\"bold\">Encryption</span>"
-msgstr ""
+msgstr "<span weight=\"bold\">Kryptering</span>"
 
 #: mail/mail-dialogs.glade.h:10
-#, fuzzy
 msgid "Accept License"
-msgstr "Akseptert"
+msgstr "Godta lisens"
 
 #: mail/mail-dialogs.glade.h:11 mail/message-tags.glade.h:2
-#, fuzzy
 msgid "C_ompleted"
-msgstr "Ferdig"
+msgstr "F_erdig"
 
 #: mail/mail-dialogs.glade.h:12
 msgid "Case Sensitive"
@@ -15407,30 +15415,25 @@ msgstr "Finn:"
 #: mail/mail-dialogs.glade.h:16 mail/message-tag-followup.c:294
 #: mail/message-tags.glade.h:3
 msgid "Flag to Follow Up"
-msgstr ""
+msgstr "Merk med Skal følgjast opp"
 
 #: mail/mail-dialogs.glade.h:17
-#, fuzzy
 msgid "Folder Subscriptions"
-msgstr "Handsam abonnement"
+msgstr "Mappeabonnement"
 
 #: mail/mail-dialogs.glade.h:18
-#, fuzzy
 msgid "License Agreement"
 msgstr "Lisensavtale"
 
 #: mail/mail-dialogs.glade.h:19
-#, fuzzy
 msgid "None Selected"
-msgstr "Valde:"
+msgstr "Ingen valde"
 
 #: mail/mail-dialogs.glade.h:20
-#, fuzzy
 msgid "S_erver:"
-msgstr "_kvar"
+msgstr "T_enar:"
 
 #: mail/mail-dialogs.glade.h:21
-#, fuzzy
 msgid "Security Information"
 msgstr "Tryggleiksinformasjon"
 
@@ -15439,19 +15442,18 @@ msgid ""
 "The messages you have selected for follow up are listed below.\n"
 "Please select a follow up action from the \"Flag\" menu."
 msgstr ""
+"Meldingane du har valt å følgja opp er lista opp under.\n"
+"Vel ei oppfølgingshandling frå «flagg»-menyen."
 
 #: mail/mail-dialogs.glade.h:25
-#, fuzzy
 msgid "Tick this to accept the license agreement"
-msgstr "E-postkontoar"
+msgstr "Kryss av her for å godta lisensavtalen"
 
 #: mail/mail-dialogs.glade.h:26 mail/message-tags.glade.h:6
-#, fuzzy
 msgid "_Due By:"
-msgstr "Ferdig"
+msgstr ""
 
 #: mail/mail-dialogs.glade.h:27 mail/message-tags.glade.h:7
-#, fuzzy
 msgid "_Flag:"
 msgstr "_Flagg:"
 
@@ -15464,40 +15466,37 @@ msgid "_Unsubscribe"
 msgstr "_Fjern abbonnment"
 
 #: mail/mail-dialogs.glade.h:30
-#, fuzzy
 msgid "specific folders only"
-msgstr "Den oppgitte fila finst ikkje"
+msgstr "berre bestemte mapper"
 
 #: mail/mail-dialogs.glade.h:31
 msgid "with all active remote folders"
-msgstr ""
+msgstr "med alle aktive eksterne mapper"
 
 #: mail/mail-dialogs.glade.h:32
 msgid "with all local and active remote folders"
-msgstr ""
+msgstr "med alle lokale og aktive eksterne mapper"
 
 #: mail/mail-dialogs.glade.h:33
 msgid "with all local folders"
-msgstr ""
+msgstr "med alle lokale mapper"
 
 #. mail:camel-service-auth-invalid primary
 #: mail/mail-errors.xml.h:2
-#, fuzzy
 msgid "Invalid authentication"
-msgstr "Autentisering"
+msgstr "Ugyldig autentisering"
 
 #. mail:camel-service-auth-invalid secondary
 #: mail/mail-errors.xml.h:4
-#, fuzzy
 msgid ""
 "This server does not support this type of authentication and may not support "
 "authentication at all."
-msgstr "SMTP-tenaren «%s» støttar ikkje den etterspurde autentiseringstypen %s."
+msgstr "Denne tenaren støttar ikkje denne typen autentisering, og støttar kanskje ikkje autentisering i det heile."
 
 #. mail:camel-service-auth-failed primary
 #: mail/mail-errors.xml.h:6
 msgid "Your login to your server \"{0}\" as \"{0}\" failed."
-msgstr ""
+msgstr "Innlogginga på tenaren «{0}» som «{0}» feila."
 
 #. mail:camel-service-auth-failed secondary
 #: mail/mail-errors.xml.h:8
