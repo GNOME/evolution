@@ -1,3 +1,10 @@
+2003-05-02  Not Zed  <NotZed@Ximian.com>
+
+	[#41849]
+
+	* e-summary-rdf.c (tree_walk): check the in-memory charset, not
+	the transport charset when creating output.
+
 2003-04-18  Rodney Dawes  <dobey@ximian.com>
 
 	[#21499]

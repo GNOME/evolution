@@ -180,11 +180,21 @@ tree_walk (xmlNodePtr root,
 	int i;
 	char *t, *u;
 	char *tmp;
+	char *charset;
 
 	if (r->summary->preferences == NULL) {
 		limit = 10;
 	} else {
 		limit = r->summary->preferences->limit;
+	}
+
+	/* check in-memory encoding first, fallback to transport encoding, which may or may not be correct */
+	if (r->cache->charset == XML_CHAR_ENCODING_UTF8
+	    || r->cache->charset == XML_CHAR_ENCODING_ASCII) {
+		charset = NULL;
+	} else {
+		/* bad/missing encoding, fallback to latin1 (locale?) */
+		charset = r->cache->encoding ? r->cache->encoding : "iso-8859-1";
 	}
 
 	/* FIXME: Need arrows */
@@ -252,8 +262,8 @@ tree_walk (xmlNodePtr root,
 	if (*u != '\0')
 		g_string_sprintfa (html, "<a href=\"%s\">", u);
 
-	if (r->cache->encoding) {
-		char *tmp = e_utf8_from_charset_string (r->cache->encoding, t);
+	if (charset) {
+		char *tmp = e_utf8_from_charset_string (charset, t);
 		g_string_append (html, tmp);
 		g_free (tmp);
 	} else {
@@ -278,9 +288,9 @@ tree_walk (xmlNodePtr root,
 		tmp = g_strdup_printf ("<LI><font size=\"-1\"><A href=\"%s\">\n", layer_find_url(item[i]->children, "link", ""));
 		g_string_append (html, tmp);
 		g_free (tmp);
-		
-		if (r->cache->encoding) {
-			char *tmp = e_utf8_from_charset_string (r->cache->encoding, p);
+
+		if (charset) {
+			char *tmp = e_utf8_from_charset_string (charset, p);
 			g_string_append (html, tmp);
 			g_free (tmp);
 		} else {
