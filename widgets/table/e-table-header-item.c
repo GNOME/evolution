@@ -821,7 +821,7 @@ ethi_draw (GnomeCanvasItem *item, GdkDrawable *drawable, int x, int y, int width
 		if (x2 < x)
 			continue;
 		
-		gc = GTK_WIDGET (canvas)->style->bg_gc [GTK_STATE_ACTIVE];
+		gc = GTK_WIDGET (canvas)->style->bg_gc [GTK_STATE_NORMAL];
 
 		draw_button (ethi, ecol, drawable, gc,
 			     GTK_WIDGET (canvas)->style,
