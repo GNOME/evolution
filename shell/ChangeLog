@@ -1,3 +1,10 @@
+2002-09-19  Ettore Perazzoli  <ettore@ximian.com>
+
+	* e-storage-set-view.c (resort): New.
+	(sort_idle_callback): Use it.
+	(insert_storages): Use resort() instead of queue_resort() so we
+	sort immediately.
+
 2002-09-18  Mike Kestner  <mkestner@ximian.com>
 
 	* e-storage-set-view.c (etree_value_at): bandaid for 30248.

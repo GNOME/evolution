@@ -188,7 +188,7 @@ storage_sort_callback (ETreeMemory *etmm,
 		return -1;
 	if (path_2_local)
 		return 1;
-	
+
 	return g_utf8_collate (e_tree_model_value_at (E_TREE_MODEL (etmm), node1, 0),
 	                       e_tree_model_value_at (E_TREE_MODEL (etmm), node2, 0));
 }
@@ -241,6 +241,20 @@ sort_traverse_callback (ETreeModel *model,
 	return FALSE;
 }
 
+static void
+resort (EStorageSetView *storage_set_view)
+{
+	EStorageSetViewPrivate *priv;
+
+	priv = storage_set_view->priv;
+
+	e_tree_memory_sort_node (E_TREE_MEMORY (priv->etree_model), priv->root_node,
+				 storage_sort_callback, storage_set_view);
+
+	e_tree_model_node_traverse (priv->etree_model, priv->root_node,
+				    sort_traverse_callback, storage_set_view);
+}
+
 static int
 sort_idle_callback (void *data)
 {
@@ -250,11 +264,7 @@ sort_idle_callback (void *data)
 	storage_set_view = E_STORAGE_SET_VIEW (data);
 	priv = storage_set_view->priv;
 
-	e_tree_memory_sort_node (E_TREE_MEMORY (priv->etree_model), priv->root_node,
-				 storage_sort_callback, storage_set_view);
-
-	e_tree_model_node_traverse (priv->etree_model, priv->root_node,
-				    sort_traverse_callback, storage_set_view);
+	resort (storage_set_view);
 
 	priv->sort_idle_id = 0;
 	return FALSE;
@@ -2082,8 +2092,6 @@ insert_folders (EStorageSetView *storage_set_view,
 	}
 
 	e_free_string_list (folder_path_list);
-
-	queue_resort (storage_set_view);
 }
 
 static void
@@ -2119,7 +2127,7 @@ insert_storages (EStorageSetView *storage_set_view)
 
 	e_free_object_list (storage_list);
 
-	queue_resort (storage_set_view);
+	resort (storage_set_view);
 }
 
 void
