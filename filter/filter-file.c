@@ -286,6 +286,7 @@ get_widget (FilterElement *fe)
 	GtkWidget *fileentry, *entry;
 	
 	fileentry = gnome_file_entry_new (NULL, _("Choose a file"));
+	g_object_set (G_OBJECT (fileentry), "use_filechooser", TRUE, NULL);
 	gnome_file_entry_set_default_path (GNOME_FILE_ENTRY (fileentry), file->path);
 	gnome_file_entry_set_modal (GNOME_FILE_ENTRY (fileentry), TRUE);
 	
