@@ -1,3 +1,8 @@
+2002-04-09  Dan Winship  <danw@ximian.com>
+
+	* component-factory.c (create_view): Add view_info arg, but don't
+	do anything with it.
+
 2002-04-08  Not Zed  <NotZed@Ximian.com>
 
 	* mail-send-recv.c (receive_update_got_folderinfo): Argh!

@@ -124,6 +124,7 @@ static EvolutionShellComponentResult
 create_view (EvolutionShellComponent *shell_component,
 	     const char *physical_uri,
 	     const char *folder_type,
+	     const char *view_info,
 	     BonoboControl **control_return,
 	     void *closure)
 {
