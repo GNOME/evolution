@@ -1,3 +1,11 @@
+2001-03-14  Jeffrey Stedfast  <fejj@ximian.com>
+
+	* camel-tcp-stream-openssl.[c,h]: Added
+
+	* Makefile.am: Added camel-tcp-stream-openssl.[c,h] to the build.
+
+	* camel-types.h: Added CamelTcpStreamSSL and CamelTcpStreamOpenSSL
+
 2001-03-14  Not Zed  <NotZed@Ximian.com>
 
 	* camel-mime-filter-charset.c (filter, complete): re-constify

@@ -66,6 +66,8 @@ typedef struct _CamelStreamFs CamelStreamFs;
 typedef struct _CamelStreamMem CamelStreamMem;
 typedef struct _CamelTcpStream CamelTcpStream;
 typedef struct _CamelTcpStreamRaw CamelTcpStreamRaw;
+typedef struct _CamelTcpStreamSSL CamelTcpStreamSSL;
+typedef struct _CamelTcpStreamOpenSSL CamelTcpStreamOpenSSL;
 typedef struct _CamelTransport CamelTransport;
 
 #ifdef __cplusplus
