@@ -30,32 +30,8 @@
 
 #include <gtk/gtkentry.h>
 #include <gtk/gtksignal.h>
-#include <gtk/gtkmessagedialog.h>
 #include <gdk-pixbuf/gdk-pixbuf.h>
 #include <libgnomecanvas/gnome-canvas-pixbuf.h>
-
-/* should probably just deprecate/remove this and have callers change
-   to using gtk_message_dialog_new */
-/* This should probably be moved into evolution/e-util */
-void
-e_notice (GtkWindow *parent, GtkMessageType type, const char *format, ...)
-{
-	GtkWidget *dialog;
-	va_list args;
-	char *str;
-
-	va_start (args, format);
-	str = g_strdup_vprintf (format, args);
-	dialog = gtk_message_dialog_new (parent, GTK_DIALOG_DESTROY_WITH_PARENT, type,
-					 GTK_BUTTONS_CLOSE,
-					 "%s",
-					 str);
-	va_end (args);
-	g_free (str);
-	
-	gtk_dialog_run (GTK_DIALOG (dialog));
-	gtk_widget_destroy (dialog);
-}
 
 void
 e_auto_kill_popup_menu_on_selection_done (GtkMenu *menu)
