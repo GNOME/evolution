@@ -16,6 +16,7 @@ libcamel_la_SOURCES = 				\
 	camel-folder.c				\
 	camel-provider.c			\
 	camel-service.c				\
+	camel-session.c				\
 	camel-store.c				\
 	gstring-util.c				\
 	url-util.c
@@ -25,6 +26,7 @@ libcamelinclude_HEADERS =			\
 	camel-folder.h				\
 	camel-provider.h			\
 	camel-service.h				\
+	camel-session.h				\
 	camel-store.h				\
 	gstring-util.h			\
 	url-util.h

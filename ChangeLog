@@ -1,5 +1,16 @@
 1999-04-25  bertrand <Bertrand.Guiheneuf@inria.fr>
 
+	* camel/camel-session.c (camel_session_get_store_from_provider): 
+	initialize folder object.
+
+	* camel/camel-store.c (init): new method.
+	called by session object at instantiation time.
+
+	* camel/camel-store.h (struct _CamelStore): 
+	new fields : session and url_name
+
+1999-04-25  bertrand <Bertrand.Guiheneuf@inria.fr>
+
 	* camel/camel-session.c (camel_session_set_provider): 
 	new method to set the default provider for a protocol.
 	(camel_session_get_store_from_provider): 

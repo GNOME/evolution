@@ -31,6 +31,7 @@ static GtkObjectClass *parent_class=NULL;
 static void camel_store_set_separator(CamelStore *store, gchar sep);
 static CamelFolder *camel_store_get_root_folder(CamelStore *store);
 static CamelFolder *camel_store_get_default_folder(CamelStore *store);
+static void __camel_store_init(CamelStore *store, CamelSession *session, GString *url_name);
 
 
 
@@ -40,6 +41,7 @@ camel_store_class_init (CamelStoreClass *camel_store_class)
 	parent_class = gtk_type_class (camel_service_get_type ());
 	
 	/* virtual method definition */
+	camel_store_class->init = __camel_store_init;
 	camel_store_class->set_separator = camel_store_set_separator;
 	camel_store_class->get_separator = camel_store_get_separator;
 	camel_store_class->get_folder = camel_store_get_folder;
@@ -83,31 +85,46 @@ camel_store_get_type (void)
 
 
 /**
- * camel_store_new: create a new store from an URL
- * @url: The url representing this store
+ * camel_store_init: call store's init method
+ * @store: the store to initialize
+ * @session: session which instantiates the store
+ * @url_name: URL defining the store
+ *
+ * This routine is called by the session object from which this 
+ * store is created. It must not be called directly.
  * 
- * This routine creates a store from an URL name.
- * The URL may be for example:
- * pop3://user:passwd@host
- * 
- * WARNING : THIS METHOD DEFINITION IS SUBJECT TO 
- * CHANGES.
- * 
- * Return value: the newly created store
  **/
-CamelStore *
-camel_store_new(GString *url)
+void 
+camel_store_init(CamelStore *store, CamelSession *session, GString *url_name)
 {
-	/* this method must be overloaded by providers */
-	CamelStore *store;
-#warning must fill this
-	/* here si what will happen here :
-	   In fact the method will take a Session object as a supplemental 
-	   argument. From this object and from the url protocol 
-	   (pop/mh/mbox ...) the correct provider will be selected an the 
-	   corresponding store object will be created */
-	
+	g_assert(store);
+	CS_CLASS(store)->init(store, session, url_name);
 }
+
+
+/**
+ * init: method called by a session object to 
+ * initialize a store object
+ * @store: the store to initialize
+ * @session: session which instantiates the store
+ * @url_name: URL defining the store
+ * 
+ * This routine is called by the session object from which this 
+ * store is created. 
+ * 
+ **/
+static void 
+__camel_store_init(CamelStore *store, CamelSession *session, GString *url_name)
+{
+	
+	
+	g_assert(session);
+	g_assert(url_name);
+
+	store->session = session;
+	store->url_name = url_name;
+}
+
 
 
 /** 

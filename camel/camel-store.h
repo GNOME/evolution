@@ -37,6 +37,7 @@ typedef struct _CamelStore CamelStore;
 
 #include "camel-folder.h"
 #include "camel-service.h"
+#include "camel-session.h"
 
 #define CAMEL_STORE_TYPE     (camel_store_get_type ())
 #define CAMEL_STORE(obj)     (GTK_CHECK_CAST((obj), CAMEL_STORE_TYPE, CamelStore))
@@ -48,6 +49,8 @@ struct _CamelStore
 {
 	CamelService parent_object;	
 	
+	CamelSession *session;
+	GString *url_name;
 	gchar separator;
 };
 
@@ -55,7 +58,8 @@ struct _CamelStore
 
 typedef struct {
 	CamelServiceClass parent_class;
-
+	
+	void (*init) (CamelStore *store, CamelSession *session, GString *url_name);
 	void (*set_separator) (CamelStore *store, gchar sep);
 	gchar (*get_separator) (CamelStore *store);
 	CamelFolder * (*get_folder) (CamelStore *store, GString *folder_name);
@@ -70,7 +74,7 @@ typedef struct {
 /* Standard Gtk function */
 GtkType camel_store_get_type (void);
 
-CamelStore *camel_store_new(GString *url);
+void camel_store_init(CamelStore *store, CamelSession *session, GString *url_name);
 CamelFolder *camel_store_get_folder(CamelStore *store, GString *folder_name);
 gchar camel_store_get_separator(CamelStore *store);
 

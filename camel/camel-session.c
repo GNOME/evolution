@@ -46,8 +46,8 @@ camel_session_class_init (CamelSessionClass *camel_session_class)
 static void
 camel_session_init (CamelSession *session)
 {
-	store_provider_list = g_hash_table_new (g_str_hash, g_str_equal);
-	transport_provider_list = g_hash_table_new (g_str_hash, g_str_equal);
+	session->store_provider_list = g_hash_table_new (g_str_hash, g_str_equal);
+	session->transport_provider_list = g_hash_table_new (g_str_hash, g_str_equal);
 }
 
 
@@ -126,6 +126,7 @@ camel_session_get_store_from_provider (CamelSession *session, CamelProvider *pro
 	g_assert(provider);
 
 	store = gtk_object_new (provider->object_type, NULL);
-#warning add session initialisation on object 
+#warning set the url to a useful value.
+	camel_store_init(store, session, NULL);
 	return store;
 }
