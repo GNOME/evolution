@@ -32,8 +32,12 @@ AC_DEFUN(EVO_CHECK_LIB, [
 	ok=yes
 	if test "$pkgvers" -lt $cmpminvers; then
 		ok=no
-	elif test -n "$maxvers" -a "$pkgvers" -ge $cmpmaxvers; then
-		ok=no
+	elif test -n "$maxvers"; then
+		if test "$pkgvers" -gt $cmpmaxvers; then
+			ok=no
+		elif test "$maxvers" != "$minvers" -a "$cmpmaxvers" -eq "$pkgvers"; then
+			ok=no
+		fi
 	fi
 	if test $ok = no; then
 		case $maxvers in

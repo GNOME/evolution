@@ -1,3 +1,7 @@
+2001-07-17  Dan Winship  <danw@ximian.com>
+
+	* configure.in: Fix up the "exactly version N" case of EVO_CHECK_LIB
+
 2001-07-16  Not Zed  <NotZed@Ximian.com>
 
 	* configure.in: Changed to use test -h instead of -L for checking
