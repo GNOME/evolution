@@ -26,5 +26,6 @@
 #include <gnome.h>
 void e_canvas_item_move_absolute (GnomeCanvasItem *item, double dx, double dy);
 void e_canvas_item_show_area     (GnomeCanvasItem *item, double x1, double y1, double x2, double y2);
+void e_canvas_item_show_area_delayed     (GnomeCanvasItem *item, double x1, double y1, double x2, double y2, gint delay);
 
 #endif /* __E_CANVAS_UTILS__ */
