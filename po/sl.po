@@ -1015,7 +1015,7 @@ msgstr "Tiskaj z uporabo sivinskega senèenja"
 
 #: addressbook/printing/e-contact-print.glade.h:28
 msgid "Format"
-msgstr "Format"
+msgstr "Oblika izpisa"
 
 #: addressbook/printing/e-contact-print.glade.h:29
 #: addressbook/printing/e-contact-print.glade.h:50
