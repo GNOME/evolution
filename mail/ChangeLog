@@ -16,6 +16,24 @@
 
 2005-01-28  Not Zed  <NotZed@Ximian.com>
 
+	* em-account-editor.c (emae_service_provider_changed): handle
+	'hide' bits, don't get/set values from the widgets at all.
+
+	* em-account-editor.c: put some tables back into the
+	druid and editor, since econfig supports tables now.
+
+	* em-account-editor.c (emae_service_provider_changed): handle
+	'hide' bits, don't get/set values from the widgets at all.
+
+	* em-account-editor.c: put some tables back into the
+	druid and editor, since econfig supports tables now.
+
+	* em-account-editor.c (emae_service_provider_changed): handle
+	'hide' bits, don't get/set values from the widgets at all.
+
+	* em-account-editor.c: put some tables back into the
+	druid and editor, since econfig supports tables now.
+
 	** See bug #71520.
 	
 	* em-account-prefs.c (account_edit_clicked): repeat the nasty hack

@@ -1,3 +1,22 @@
+2005-01-28  Not Zed  <NotZed@Ximian.com>
+
+	** related to bug #71520.
+
+	* exchange-account-setup.c: All but re-written.
+	  Fixed the license of the file.
+	  Fixed a translation string.
+	  Modified return condition check.
+	  Fixed problem over writing current account with the old data.
+	  Removed duplicated code.
+	  Removed the hack for handling NULL hostname, now using 
+	  CAMEL_URL_HIDDEN_HOST url flag in the provider.
+	  Using E_ACCOUNT_SOURCE_SAVE_PASSWD for remember password.
+	  Removed the way owa url entry was added to table in config section,
+	  Now econfig supports tables. 
+
+	* exchange-ask-password.c: removed, functionality moved to
+	exchange-account-setup.c.
+
 2005-01-25  Sushma Rai  <rsushma@novell.com>
 
 	* exchange-account-setup.c (create_page): Fixed empty
