@@ -41,4 +41,26 @@
         </group>
     </hook>
   </e-plugin>
+
+   <e-plugin
+    type="shlib"
+    id="org.gnome.evolution.plugin.exchange-set-url"
+    location="@PLUGINDIR@/liborg-gnome-exchange-account-settings.so"
+    load-on-startup="true"
+    name="Exchange OWA URL in Account Editor"
+    description="A pluign to read OWA url in account editor">
+
+    <hook class="org.gnome.evolution.mail.config:1.0">
+        <group
+                target="account"
+                id="org.gnome.evolution.mail.config.accountEditor">
+                <item type="section"
+                        path="10.receive/10.config"
+			label="OWA Url"/>
+		<item type="item"
+			path="10.receive/10.config/00.owa"
+			factory="org_gnome_exchange_set_url"/>
+        </group>
+    </hook>
+  </e-plugin>
 </e-plugin-list>

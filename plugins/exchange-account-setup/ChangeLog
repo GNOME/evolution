@@ -1,4 +1,15 @@
-2005-01-11  Not Zed  <NotZed@Ximian.com>
+2005-01-12  Sushma Rai  <rsushma@novell.com>
+
+	* org-gnome-exchange-account-setup.eplug.in: Factory
+	method to add owa url entry to account editor. 
+
+	* exchange-ask-password.c: (org_gnome_exchange_set_url)
+	(add_owa_entry_to_editor): Adds owa url entry to the 
+	account editor for Exchange account.
+	(validate_exchange_user): Using the CamelProvider private
+	function defined by Exchange camel provider.
+ 
+2005-01-11  Sushma Rai  <rsushma@novell.com>
 
 	* org-gnome-exchange-account-setup.eplug.in: Removed page check plugin
 

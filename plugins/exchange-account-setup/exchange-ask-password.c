@@ -39,15 +39,23 @@
 
 int e_plugin_lib_enable (EPluginLib *ep, int enable);
 
-//gboolean org_gnome_exchange_ask_password (EPlugin *epl, EConfigHookPageCheckData *data);
 GtkWidget *org_gnome_exchange_read_url(EPlugin *epl, EConfigHookItemFactoryData *data);
+GtkWidget *org_gnome_exchange_set_url(EPlugin *epl, EConfigHookItemFactoryData *data);
 
 char *owa_entry_text = NULL; 
+
+typedef gboolean (CamelProviderValidateUserFunc) (CamelURL *camel_url, char *url, CamelException *ex);
+
+typedef struct {
+        CamelProviderValidateUserFunc *validate_user;
+}CamelProviderValidate;
+
 
 static gboolean
 validate_exchange_user (void *data)
 {
 	EMConfigTargetAccount *target_account = data;
+	CamelProviderValidate *validate;
 	CamelURL *url=NULL;
 	CamelProvider *provider = NULL;
 	gboolean valid = TRUE;
@@ -65,7 +73,8 @@ validate_exchange_user (void *data)
 		return FALSE;	/* This should never happen */
 	}
 
-	valid = camel_provider_validate_user (provider, url, owa_entry_text, NULL);
+	validate = provider->priv; 
+	validate->validate_user (url, owa_entry_text, NULL);
 	if (valid) {
 		count ++;
 		url_string = camel_url_to_string (url, 0);
@@ -122,6 +131,34 @@ add_owa_entry (GtkWidget *parent, EConfig *config, EMConfigTargetAccount *target
 	return section;	/* FIXME: return entry */
 }
 
+static GtkWidget *
+add_owa_entry_to_editor (GtkWidget *parent, EConfig *config, EMConfigTargetAccount *target_account)
+{
+	GtkWidget *section, *owa_entry;
+	GtkWidget *hbox, *label;
+
+	section =  gtk_vbox_new (FALSE, 0);
+	gtk_widget_show (section);
+	gtk_box_pack_start (GTK_BOX (parent), section, FALSE, FALSE, 0);
+
+	hbox = gtk_hbox_new (FALSE, 6);
+	gtk_widget_show(hbox);
+	gtk_box_pack_start (GTK_BOX (section), hbox, FALSE, FALSE, 0);
+	label = gtk_label_new_with_mnemonic(_("_Url:"));
+	gtk_widget_show (label);
+	owa_entry = gtk_entry_new ();
+	if (owa_entry_text)
+		gtk_entry_set_text (owa_entry, owa_entry_text);
+	gtk_widget_show (owa_entry);
+
+	gtk_box_pack_start (GTK_BOX (hbox), label, FALSE, FALSE, 0);
+	gtk_box_pack_start (GTK_BOX (hbox), owa_entry, TRUE, TRUE, 0);
+
+	g_signal_connect (owa_entry, "changed", G_CALLBACK(owa_entry_changed), NULL); /* FIXME - gconf handling*/
+	return section;	/* FIXME: return entry */
+	/* FIXME: Proper placing of the widget */
+}
+
 int
 e_plugin_lib_enable (EPluginLib *ep, int enable)
 {
@@ -169,4 +206,28 @@ org_gnome_exchange_read_url(EPlugin *epl, EConfigHookItemFactoryData *data)
 		g_free (account_url);
 		return NULL;
 	}
+}
+
+GtkWidget *
+org_gnome_exchange_set_url(EPlugin *epl, EConfigHookItemFactoryData *data)
+{
+	EMConfigTargetAccount *target_account;
+	EConfig *config;
+	char *account_url = NULL, *exchange_url = NULL;
+	GtkWidget *owa_entry = NULL, *parent;
+
+	target_account = (EMConfigTargetAccount *)data->config->target;
+	account_url = g_strdup (target_account->account->source->url);
+	exchange_url = g_strrstr (account_url, "exchange");
+	config = data->config;
+
+	if (exchange_url) {
+		if (data->old)
+			return data->old;
+
+		parent = data->parent;
+		owa_entry = add_owa_entry_to_editor(parent, config, target_account);
+	}
+	g_free (account_url);
+	return owa_entry;
 }
