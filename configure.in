@@ -735,8 +735,8 @@ addressbook/gui/component/select-names/Makefile
 shell/Makefile
 shell/glade/Makefile
 shell/importer/Makefile
-mail/importers/Makefile
 mail/Makefile
+mail/importers/Makefile
 data/Makefile
 libversit/Makefile
 libibex/Makefile

@@ -1,5 +1,10 @@
 2001-04-16  Ettore Perazzoli  <ettore@ximian.com>
 
+	* configure.in: `mail/importers/Makefile' must come after
+	`mail/Makefile'.
+
+2001-04-16  Ettore Perazzoli  <ettore@ximian.com>
+
 	* Makefile.am (SUBDIRS): Add `doc'.
 
 	* configure.in: Check for Editor.idl using `$GNOME_PATH' as well.
