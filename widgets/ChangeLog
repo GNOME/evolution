@@ -1,6 +1,15 @@
 2002-02-07  Christopher James Lahey  <clahey@ximian.com>
 
 	* menus/gal-view-menus.c, menus/gal-view-menus.h
+	(gal_view_menus_unmerge): New function to handle unmerging menus
+	at control deactivation time.
+	(d): Turned off debugging output here.
+	(build_menus): Gave the separators names and marked them with f=""
+	to make them work better with bonobo 1.
+
+2002-02-07  Christopher James Lahey  <clahey@ximian.com>
+
+	* menus/gal-view-menus.c, menus/gal-view-menus.h
 	(gal_view_menus_new): Made this take a GalViewInstance instead of
 	a GalViewCollection.  Reworked most of this to utilize the
 	interfaces provided by GalViewInstance.

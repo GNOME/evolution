@@ -47,7 +47,8 @@ static void collection_changed (GalViewCollection *collection,
 static void instance_changed (GalViewInstance *instance,
 			      GalViewMenus *gvm);
 
-#define d(x) x
+#define d(x)
+#define CURRENT_VIEW_PATH "/menu/View/ViewBegin/CurrentView"
 
 static void
 closure_free (void *data, void *user_data)
@@ -137,10 +138,7 @@ gvm_destroy (GtkObject *object)
 
 	remove_instance (gvm);
 
-	if (gvm->priv->component) {
-		bonobo_object_unref (BONOBO_OBJECT (gvm->priv->component));
-		gvm->priv->component = NULL;
-	}
+	gal_view_menus_unmerge (gvm, NULL);
 
 	g_free(gvm->priv);
 	gvm->priv = NULL;
@@ -313,6 +311,9 @@ build_menus(GalViewMenus *menus)
 	if (id == NULL) {
 
 		menuitem = bonobo_ui_node_new_child(submenu, "separator");
+		bonobo_ui_node_set_attr(menuitem, "name", "GalView:first_sep");
+		bonobo_ui_node_set_attr(menuitem, "f", "");
+		
 
 		menuitem = bonobo_ui_node_new_child(submenu, "menuitem");
 		bonobo_ui_node_set_attr(menuitem, "name", "custom_view");
@@ -337,6 +338,8 @@ build_menus(GalViewMenus *menus)
 	}
 
 	menuitem = bonobo_ui_node_new_child(submenu, "separator");
+	bonobo_ui_node_set_attr(menuitem, "name", "GalView:second_sep");
+	bonobo_ui_node_set_attr(menuitem, "f", "");
 
 	menuitem = bonobo_ui_node_new_child(submenu, "menuitem");
 	bonobo_ui_node_set_attr(menuitem, "name", "DefineViews");
@@ -390,18 +393,13 @@ set_radio (GalViewMenus *gvm,
 	g_free (id);
 }
 
-#define CURRENT_VIEW_PATH "/menu/View/ViewBegin/CurrentView"
 static void
 build_stuff (GalViewMenus      *gvm,
 	     CORBA_Environment *ev)
 {
 	char *xml;
 
-	d(g_print ("%s:\n", __FUNCTION__));
-	if (bonobo_ui_component_path_exists  (gvm->priv->component, CURRENT_VIEW_PATH, ev)) {
-		d(g_print ("%s: Removing path\n", __FUNCTION__));
-		bonobo_ui_component_rm (gvm->priv->component, CURRENT_VIEW_PATH, ev);
-	}
+	gal_view_menus_unmerge (gvm, ev);
 
 	remove_listeners(gvm);
 	remove_xml(gvm);
@@ -417,7 +415,7 @@ build_stuff (GalViewMenus      *gvm,
 void
 gal_view_menus_apply     (GalViewMenus      *gvm,
 			  BonoboUIComponent *component,
-			  CORBA_Environment *ev)
+			  CORBA_Environment *opt_ev)
 {
 	if (component != gvm->priv->component) {
 		if (component)
@@ -429,8 +427,19 @@ gal_view_menus_apply     (GalViewMenus      *gvm,
 
 	gvm->priv->component = component;
 
-	build_stuff (gvm, ev);
-	set_radio (gvm, ev);
+	build_stuff (gvm, opt_ev);
+	set_radio (gvm, opt_ev);
+}
+
+void
+gal_view_menus_unmerge   (GalViewMenus      *gvm,
+			  CORBA_Environment *opt_ev)
+{
+	d(g_print ("%s:\n", __FUNCTION__));
+	if (bonobo_ui_component_path_exists  (gvm->priv->component, CURRENT_VIEW_PATH, opt_ev)) {
+		d(g_print ("%s: Removing path\n", __FUNCTION__));
+		bonobo_ui_component_rm (gvm->priv->component, CURRENT_VIEW_PATH, opt_ev);
+	}
 }
 
 static void
