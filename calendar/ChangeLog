@@ -1,3 +1,12 @@
+2004-05-10  Trent Lloyd  <lathiat@bur.st>
+
+	* gui/dialogs/select-source-dialog.c: Include gtkhbox.h and gtkvbox.h
+	to fix implicit declaration
+	* gui/dialogs/meeting-page.c: (get_current_page) Cast GTK_ENTRY from
+	GTK_COMBO to fix compiler warning
+	* gui/dialogs/cal-prefs-dialog.c: Remove lvalue casts, produces
+	compiler warnings and are not necessary
+	
 2004-05-07  JP Rosevear  <jpr@ximian.com>
 
 	Fixes #52294

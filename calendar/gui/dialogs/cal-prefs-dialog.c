@@ -720,12 +720,12 @@ cal_prefs_dialog_url_remove_clicked (GtkWidget *button, DialogData *dialog_data)
 					  GTK_BUTTONS_NONE,
 					  _("Are you sure you want to remove this URL?"));
 	
-	(GtkButton *) button = gtk_button_new_from_stock (GTK_STOCK_YES);
+	button = gtk_button_new_from_stock (GTK_STOCK_YES);
 	gtk_button_set_label ((GtkButton *) button, _("Remove"));
 	gtk_dialog_add_action_widget ((GtkDialog *) confirm, (GtkWidget *) button, GTK_RESPONSE_YES);
 	gtk_widget_show ((GtkWidget *) button);
 	
-	(GtkButton *) button = gtk_button_new_from_stock (GTK_STOCK_NO);
+	button = gtk_button_new_from_stock (GTK_STOCK_NO);
 	gtk_button_set_label ((GtkButton *) button, _("Don't Remove"));
 	gtk_dialog_add_action_widget ((GtkDialog *) confirm, 
 				      (GtkWidget *) button, GTK_RESPONSE_NO);
