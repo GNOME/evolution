@@ -1121,17 +1121,16 @@ e_shell_restore_from_settings (EShell *shell)
 }
 
 /**
- * e_shell_quit:
- * @shell: An EShell.
+ * e_shell_destroy_all_views:
+ * @shell: 
  * 
- * Make @shell quit.  This will close all the associated views and destroy the
- * object.
+ * Destroy all the views in @shell.
  **/
 void
-e_shell_quit (EShell *shell)
+e_shell_destroy_all_views (EShell *shell)
 {
 	EShellPrivate *priv;
-	GList *p;
+	GList *p, *pnext;
 
 	g_return_if_fail (shell != NULL);
 	g_return_if_fail (E_IS_SHELL (shell));
@@ -1141,43 +1140,14 @@ e_shell_quit (EShell *shell)
 
 	priv = shell->priv;
 
-	for (p = priv->views; p != NULL; p = p->next) {
+	for (p = priv->views; p != NULL; p = pnext) {
 		EShellView *shell_view;
 
+		pnext = p->next;
+
 		shell_view = E_SHELL_VIEW (p->data);
-		gtk_signal_disconnect_by_func (
-			GTK_OBJECT (shell_view),
-			GTK_SIGNAL_FUNC (view_destroy_cb), shell);
-		gtk_object_destroy (GTK_OBJECT (shell_view));
+		gtk_widget_destroy (GTK_WIDGET (shell_view));
 	}
-
-	g_list_free (priv->views);
-	priv->views = NULL;
-
-	bonobo_object_unref (BONOBO_OBJECT (priv->corba_storage_registry));
-
-	priv->corba_storage_registry = NULL;
-
-	e_storage_set_remove_all_storages (priv->storage_set);
-
-	/*
-	 *  Ok, so you thought the GUI components lifecycle was coupled to
-	 * the Shell's, in fact this is not the case, they are unref'd
-	 * here, and NULL'd to avoid shell destruction killing them again.
-	 * So; the shell can be destroyed either remotely or localy.
-	 */
-
-	gtk_object_unref (GTK_OBJECT (priv->storage_set));
-	gtk_object_unref (GTK_OBJECT (priv->shortcuts));
-	gtk_object_unref (GTK_OBJECT (priv->folder_type_registry));
-	gtk_object_unref (GTK_OBJECT (priv->component_registry));
-
-	priv->storage_set          = NULL;
-	priv->shortcuts            = NULL;
-	priv->folder_type_registry = NULL;
-	priv->component_registry   = NULL;
-
-	bonobo_object_unref (BONOBO_OBJECT (shell));
 }
 
 

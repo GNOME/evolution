@@ -1,3 +1,14 @@
+2001-06-25  Ettore Perazzoli  <ettore@ximian.com>
+
+	* main.c (no_views_left_cb): Don't call `e_shell_quit()' anymore.
+
+	* e-shell-view-menu.c (command_quit): Call
+	`e_shell_destroy_all_views()' instead of `e_shell_quit()', which
+	does not exist anymore.
+
+	* e-shell.c (e_shell_quit): Removed.
+	(e_shell_destroy_all_views): New.
+
 2001-06-24  Ettore Perazzoli  <ettore@ximian.com>
 
 	* Makefile.am: s/\.oafinfo/.oaf/g.

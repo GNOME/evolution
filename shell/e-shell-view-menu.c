@@ -159,9 +159,7 @@ command_quit (BonoboUIComponent *uih,
 	shell_view = E_SHELL_VIEW (data);
 
 	shell = e_shell_view_get_shell (shell_view);
-	e_shell_quit (shell);
-
-	gtk_main_quit ();
+	e_shell_destroy_all_views (shell);
 }
 
 #if 0

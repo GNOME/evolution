@@ -56,7 +56,9 @@ extern char *evolution_debug_log;
 static void
 no_views_left_cb (EShell *shell, gpointer data)
 {
-	e_shell_quit (shell);
+	/* FIXME: This is wrong.  We should exit only when the shell is
+	   destroyed.  But refcounting is broken at present, so this is a
+	   reasonable workaround for now.  */
 	gtk_main_quit ();
 }
 
