@@ -89,6 +89,11 @@ typedef void (*MessageListForeachFunc) (MessageList *message_list,
 					const char *uid,
 					gpointer user_data);
 
+typedef enum {
+	MESSAGE_LIST_SELECT_NEXT = 1,
+	MESSAGE_LIST_SELECT_PREVIOUS = -1
+} MessageListSelectDirection;
+
 GtkType        message_list_get_type   (void);
 BonoboObject   *message_list_new        (FolderBrowser *parent_folder_browser);
 void           message_list_set_folder (MessageList *message_list,
@@ -100,7 +105,9 @@ void           message_list_foreach    (MessageList *message_list,
 					MessageListForeachFunc callback,
 					gpointer user_data);
 
-void           message_list_select_next(MessageList *message_list, int row,
+void           message_list_select     (MessageList *message_list,
+					int base_row,
+					MessageListSelectDirection direction,
 					guint32 flags, guint32 mask);
 
 extern gboolean threaded_view;
