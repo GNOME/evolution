@@ -18,12 +18,12 @@ SUBDIRS =			\
         macros                  \
         data                    \
         e-util                  \
+	libical			\
         widgets                 \
         shell                   \
         libibex                 \
         camel                   \
         filter                  \
-        libical                 \
         libversit               \
 	libwombat		\
 	addressbook             \

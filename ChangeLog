@@ -1,3 +1,7 @@
+2001-08-17  Iain Holmes  <iain@ximian.com>
+
+	* Makefile.am: Move the libical compile order.
+
 2001-08-16  "Big Iain" Holmes  <iain@ximian.com>
 
 	* configure.in: Add widgets/e-timezone-dialog/Makefile
