@@ -1,3 +1,8 @@
+2004-01-16  Not Zed  <NotZed@Ximian.com>
+
+	* configure.in: added mail/default/Makefile and
+	mail/default/C/Makefile.
+
 2004-01-13  Rodney Dawes  <dobey@ximian.com>
 
 	* configure.in: Check for libsoup separately

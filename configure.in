@@ -1350,6 +1350,8 @@ calendar/gui/alarm-notify/Makefile
 calendar/gui/dialogs/Makefile
 composer/Makefile
 mail/Makefile
+mail/default/Makefile
+mail/default/C/Makefile
 smime/Makefile
 smime/lib/Makefile
 smime/gui/Makefile
