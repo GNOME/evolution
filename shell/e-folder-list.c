@@ -77,6 +77,10 @@ e_folder_list_destroy (GtkObject *object)
 
 	if (efl->priv->gui)
 		gtk_object_unref(GTK_OBJECT(efl->priv->gui));
+	if (efl->priv->client)
+		bonobo_object_client_unref(BONOBO_OBJECT_CLIENT(efl->priv->client), NULL);
+	g_free (efl->priv);
+	efl->priv = NULL;
 
 	if (GTK_OBJECT_CLASS (parent_class)->destroy)
 		(* GTK_OBJECT_CLASS (parent_class)->destroy) (object);
@@ -239,7 +243,7 @@ add_clicked (GtkButton *button, EFolderList *efl)
 	evolution_shell_client_user_select_folder (efl->priv->client,
 						   GTK_WINDOW (gtk_widget_get_toplevel (GTK_WIDGET (efl))),
 						   _("Add a Folder"),
-						   NULL,
+						   "",
 						   (const gchar **) efl->priv->possible_types,
 						   &folder);
 
@@ -509,6 +513,7 @@ GtkWidget*
 e_folder_list_construct (EFolderList *efl, EvolutionShellClient *client, char *xml)
 {
 	efl->priv->client = client;
+	bonobo_object_client_ref (BONOBO_OBJECT_CLIENT (efl->priv->client), NULL);
 	e_folder_list_set_xml (efl, xml);
 	return GTK_WIDGET (efl);
 }

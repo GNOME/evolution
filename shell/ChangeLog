@@ -1,5 +1,16 @@
 2002-05-03  Christopher James Lahey  <clahey@ximian.com>
 
+	* e-folder-list.c: Use bonobo_object_client_(un)?ref instead of
+	gtk_object_(un)?ref.
+	(add_clicked): Don't pass NULL to
+	evolution_shell_client_user_select_folder.
+
+	* glade/Makefile.am: Added e-folder-list.glade
+
+	* glade/e-folder-list.glade: The glade file for e-folder-list.
+
+2002-05-03  Christopher James Lahey  <clahey@ximian.com>
+
 	* Makefile.am (eshellinclude_HEADERS): Added e-folder-list.h.
 	(libeshell_la_SOURCES): Added e-folder-list.c.
 
