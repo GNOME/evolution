@@ -28,8 +28,11 @@
 #  error "You need libdb3 to compile the DB backend"
 #endif
 
+#define ENVIRONMENT_DIRECTORY "%s/evolution/local/Calendar/db.environment"
+
 /* structure to identify an open cursor */
 typedef struct {
+	gint ref;
 	DBC* dbc;
 	DB*  parent_db;
 	/* TODO: convert into a hash table */
@@ -43,6 +46,7 @@ struct _CalBackendDBPrivate {
 	GnomeVFSURI *uri;
 
 	/* Berkeley DB's library handles */
+	DB_ENV *environment;
 	DB *objects_db;
 	DB *history_db;
 
@@ -86,9 +90,13 @@ static gboolean cal_backend_db_update_object (CalBackend *backend,
 static gboolean cal_backend_db_remove_object (CalBackend *backend, const char *uid);
 
 static void close_cursor (CalBackendDB *cbdb, CalBackendDBCursor *cursor);
-static CalBackendDBCursor* open_cursor (CalBackendDB *cbdb, DB *db);
-static CalBackendDBCursor* find_cursor_by_db (CalBackendDB *cbdb, DB *db);
-static DBT* find_record_by_id (CalBackendDBCursor *cursor, const gchar *id);
+static CalBackendDBCursor *open_cursor (CalBackendDB *cbdb, DB *db);
+static CalBackendDBCursor *find_cursor_by_db (CalBackendDB *cbdb, DB *db);
+static DBT *find_record_by_id (CalBackendDBCursor *cursor, const gchar *id);
+
+static DB_TXN *begin_transaction (CalBackendDB *cbdb);
+static void commit_transaction (DB_TXN *tid);
+static void rollback_transaction (DB_TXN *tid);
 
 static CalBackendClass *parent_class;
 
@@ -216,6 +224,10 @@ close_cursor (CalBackendDB *cbdb, CalBackendDBCursor *cursor)
 
 	g_return_if_fail(cursor != NULL);
 
+	cursor->ref--;
+	if (cursor->ref > 0)
+		return;
+
 	/* free all keys and data */
 	while ((node = g_list_first(cursor->keys))) {
 		dbt = (DBT *) node->data;
@@ -247,8 +259,10 @@ open_cursor (CalBackendDB *cbdb, DB *db)
 
 	/* search for the cursor in our list of cursors */
 	cursor = find_cursor_by_db(cbdb, db);
-	if (cursor)
+	if (cursor) {
+		cursor->ref++;
 		return cursor;
+	}
 
 	/* create the cursor */
 	cursor = g_new0(CalBackendDBCursor, 1);
@@ -265,8 +279,7 @@ open_cursor (CalBackendDB *cbdb, DB *db)
 			cursor->data = g_list_append(cursor->data, g_memdup(&data, sizeof(data)));
 		}
 		if (ret == DB_NOTFOUND) {
-			cbdb->priv->cursors = g_list_prepend(cbdb->priv->cursors,
-							     (gpointer) cursor);
+			cbdb->priv->cursors = g_list_prepend(cbdb->priv->cursors, (gpointer) cursor);
 			return cursor;
 		}
 
@@ -309,7 +322,7 @@ find_record_by_id (CalBackendDBCursor *cursor, const gchar *id)
 	for (node = g_list_first(cursor->keys); node != NULL; node = g_list_next(node)) {
 		DBT* key = (DBT *) node->data;
 		if (key) {
-			if (!strcmp(key->data, id)) {
+			if (!strcmp((gchar *) key->data, id)) {
 				GList* tmp = g_list_nth(cursor->data, pos);
 				if (tmp)
 					return (DBT *) node->data;
@@ -319,6 +332,47 @@ find_record_by_id (CalBackendDBCursor *cursor, const gchar *id)
 	}
 
 	return NULL; /* not found */
+}
+
+static DB_TXN *
+begin_transaction (CalBackendDB *cbdb)
+{
+	DB_TXN *tid;
+	gint ret;
+	
+	g_return_val_if_fail(IS_CAL_BACKEND_DB(cbdb), NULL);
+	g_return_val_if_fail(cbdb->priv != NULL, NULL);
+	
+	if ((ret = txn_begin(cbdb->priv->environment, NULL, &tid, 0)) != 0) {
+		/* TODO: error logging */
+		return NULL;
+	}
+	
+	return tid;
+}
+
+static void
+commit_transaction (DB_TXN *tid)
+{
+	gint ret;
+	
+	g_return_if_fail(tid != NULL);
+	
+	if ((ret = txn_begin(tid, 0)) != 0) {
+		/* TODO: error logging? */
+	}
+}
+
+static void
+rollback_transaction (DB_TXN *tid)
+{
+	gint ret;
+	
+	g_return_if_fail(tid != NULL);
+	
+	if ((ret = txn_abort(tid)) != 0) {
+		/* TODO: error logging? */
+	}
 }
 
 /*
@@ -400,6 +454,7 @@ static gboolean
 open_database_file (CalBackendDB *cbdb, const gchar *str_uri, gboolean only_if_exists)
 {
 	gint ret;
+	struct stat sb;
 
 	g_return_val_if_fail(IS_CAL_BACKEND_DB(cbdb), FALSE);
 	g_return_val_if_fail(cbdb->priv != NULL, FALSE);
@@ -407,13 +462,50 @@ open_database_file (CalBackendDB *cbdb, const gchar *str_uri, gboolean only_if_e
 	g_return_val_if_fail(cbdb->priv->history_db != NULL, FALSE);
 	g_return_val_if_fail(str_uri != NULL, FALSE);
 
+	/* initialize DB environment (for transactions) */
+	if (stat(ENVIRONMENT_DIRECTORY, &sb) != 0) {
+		gchar *dir;
+		
+		/* if the directory exists, we're done, since DB will fail if it's the
+		 * wrong one. If it does not exist, create the environment */
+		dir = g_strdup_printf(ENVIRONMENT_DIRECTORY, g_get_home_dir());
+		if (mkdir(dir, I_RWXU) != 0) {
+			g_free((gpointer) dir);
+			return FALSE;
+		}
+
+		g_free((gpointer) dir);
+		
+		/* create the environment handle */
+		if ((ret = db_env_create(&cbdb->priv->environment, 0)) != 0) {
+			return FALSE;
+		}
+		
+		cbdb->priv->environment->set_errorpfx(cbdb->priv->environment, "cal-backend-db");
+		
+		/* open the transactional environment */
+		if ((ret = cbdb->priv->environment->open(cbdb->priv->environment,
+		                                         ENVIRONMENT_DIRECTORY,
+		                                         DB_CREATE | DB_INIT_LOCK | DB_INIT_LOG |
+		                                         DB_INIT_MPOOL | DB_INIT_TXN |
+		                                         DB_RECOVER | DB_THREAD,
+		                                         S_IRUSR | S_IWUSR)) != 0) {
+			return FALSE;
+		}
+	}
+	
 	/* open/create objects database into given file */
+	if ((ret = db_create(&cbdb->priv->objects_db, cbdb->priv->environment, 0)) != 0
+	    || (ret = db_create(&cbdb->priv->history_db, cbdb->priv->environment, 0)) != 0) {
+		return FALSE;
+	}
+
 	if (only_if_exists) {
 		ret = cbdb->priv->objects_db->open(cbdb->priv->objects_db,
 		                                   str_uri,
 		                                   "calendar_objects",
 		                                   DB_HASH,
-		                                   0,
+		                                   DB_THREAD,
 		                                   0644);
 	}
 	else {
@@ -421,7 +513,7 @@ open_database_file (CalBackendDB *cbdb, const gchar *str_uri, gboolean only_if_e
 		                                   str_uri,
 		                                   "calendar_objects",
 		                                   DB_HASH,
-		                                   DB_CREATE,
+		                                   DB_CREATE | DB_THREAD,
 		                                   0644);
 	}
 	if (ret == 0) {
@@ -466,11 +558,6 @@ cal_backend_db_open (CalBackend *backend, GnomeVFSURI *uri, gboolean only_if_exi
 					   | GNOME_VFS_URI_HIDE_TOPLEVEL_METHOD));
 
 	/* open database file */
-	if ((ret = db_create(&cbdb->priv->objects_db, NULL, 0)) != 0
-	    || (ret = db_create(&cbdb->priv->history_db, NULL, 0)) != 0) {
-		g_free((gpointer) str_uri);
-		return CAL_BACKEND_OPEN_ERROR;
-	}
 	if (!open_database_file(cbdb, (const gchar *) str_uri, only_if_exists)) {
 		g_free((gpointer) str_uri);
 		return CAL_BACKEND_OPEN_ERROR;
@@ -524,6 +611,7 @@ cal_backend_db_get_n_objects (CalBackend *backend, CalObjType type)
 				icalcomponent_free(icalcomp);
 			}
 		}
+		close_cursor(cbdb, cursor);
 	}
 
 	return total_count;
@@ -549,8 +637,13 @@ cal_backend_db_get_object (CalBackend *backend, const char *uid)
 		DBT *data;
 
 		data = find_record_by_id(cursor, uid);
-		if (data)
-			return (char *) data->data;
+		if (data) {
+			gchar *str = g_strdup((char *) data->data);
+			close_cursor(cbdb, cursor);
+			return str;
+		}
+		
+		close_cursor(cbdb, cursor);
 	}
 
 	return NULL;
@@ -573,6 +666,7 @@ cal_backend_db_get_type_by_uid (CalBackend *backend, const char *uid)
 	cursor = open_cursor(cbdb, cbdb->priv->objects_db);
 	if (cursor) {
 		DBT *data = find_record_by_id(cursor, uid);
+
 		if (data) {
 			icalcomponent icalcomp = icalparser_parse_string((char *) data->data);
 			if (icalcomp) {
@@ -593,9 +687,11 @@ cal_backend_db_get_type_by_uid (CalBackend *backend, const char *uid)
 				}
 
 				icalcomponent_free(icalcomp);
+				close_cursor(cbdb, cursor);
 				return type;
 			}
 		}
+		close_cursor(cbdb, cursor);
 	}
 
 	return CAL_COMPONENT_NO_TYPE;
@@ -663,6 +759,7 @@ cal_backend_db_get_uids (CalBackend *backend, CalObjType type)
 		for (node = g_list_first(cursor->data); node != NULL; node = g_list_next(node)) {
 			list = add_uid_if_match(list, cursor, node, type);
 		}
+		close_cursor(cbdb, cursor);
 	}
 
 	return list;
@@ -788,6 +885,8 @@ cal_backend_db_get_objects_in_range (CalBackend *backend,
 		/* build the list to be returned from the hash table */
 		g_hash_table_foreach(uid_hash, add_uid_to_list, &list);
 		g_hash_table_destroy(uid_hash);
+		
+		close_cursor(cbdb, cursor);
 	}
 	
 	return list;
@@ -836,6 +935,8 @@ cal_backend_db_get_alarms_in_range (CalBackend *backend, time_t start, time_t en
 		seq->_buffer = CORBA_sequence_GNOME_Evolution_Calendar_CalComponentAlarms_allocbuf(number_of_alarms);
 		
 		/* TODO: populate CORBA sequence */
+		
+		close_cursor(cbdb, cursor);
 	}
 	
 	g_list_free(alarm_list);
@@ -872,6 +973,8 @@ cal_backend_db_get_alarms_for_object (CalBackend *backend,
 		corba_alarms = GNOME_Evolution_Calendar_CalComponentAlarms__alloc();
 		
 		/* TODO: populate the CORBA alarms */
+		
+		close_cursor(cbdb, cursor);
 	}
 
 	return corba_alarms;
@@ -900,6 +1003,7 @@ cal_backend_db_update_object (CalBackend *backend, const char *uid, const char *
 			DBT key;
 			DBT new_data;
 			int ret;
+			DB_TXN *tid;
 			
 			/* try to change the value in the cursor */
 			memset(&key, 0, sizeof(key));
@@ -910,25 +1014,32 @@ cal_backend_db_update_object (CalBackend *backend, const char *uid, const char *
 			new_data.data = (void *) calobj;
 			new_data.size = strlen(calobj); // + 1
 			
-			/* move the cursor to the given key */
-			if ((ret = cursor->dbc->c_get(cursor->dbc, &key, NULL, DB_FIRST)) != 0) {
+			/* start transaction */
+			tid = begin_transaction(cbdb);
+			if (!tid) {
+				close_cursor(cbdb, cursor);
 				return FALSE;
 			}
 			
-			/* TODO: start transaction */
-			
-			if ((ret = cursor->dbc->c_put(cursor->dbc, &key, &new_data, DB_CURRENT)) != 0) {
-				/* TODO: rollback transaction */
+			if ((ret = cursor->parent_db->put(cursor->parent_db,
+			                                  tid,
+			                                  &key,
+			                                  &new_data,
+			                                  0)) != 0) {
+				rollback_transaction(tid);
+				close_cursor(cbdb, cursor);
 				return FALSE;
 			}
 			
 			/* TODO: update history database */
-			/* TODO: commit transaction */
+			commit_transaction(tid);
+			close_cursor(cbdb, cursor);
 			
 			memcpy(data, &new_data, sizeof(new_data));
 			
 			return TRUE;
 		}
+		close_cursor(cbdb, cursor);
 	}
 	
 	return FALSE;
@@ -954,25 +1065,28 @@ cal_backend_db_remove_object (CalBackend *backend, const char *uid)
 			GList *l;
 			int ret;
 			DBT key;
+			DB_TXN *tid;
 			
 			memset(&key, 0, sizeof(key);
 			key.data = (void *) uid;
 			key.size = strlen(uid); // + 1
 			
-			if ((ret = cursor->dbc->c_get(cursor->dbc, &key, NULL, DB_FIRST)) != 0) {
+			/* start transaction */
+			tid = begin_transaction(cbdb);
+			if (!tid) {
+				close_cursor(cbdb, cursor);
 				return FALSE;
 			}
 			
-			/* TODO: begin transaction */
-			
 			/* remove record from cursor */
-			if ((ret = cursor->dbc->c_del(cursor->dbc, 0)) != 0) {
-				/* TODO: rollback transaction */
+			if ((ret = cursor->parent_db->del(cursor->parent_db, tid, key, 0)) != 0) {
+				rollback_transaction(tid);
+				close_cursor(cbdb, cursor);
 				return FALSE;
 			}
 			
 			/* TODO: update history database */
-			/* TODO: commit transaction */
+			commit_transaction(tid);
 			
 			/* remove record from in-memory lists */
 			l = g_list_nth(cursor->keys,
@@ -986,9 +1100,11 @@ cal_backend_db_remove_object (CalBackend *backend, const char *uid)
 				cursor->data = g_list_remove(cursor->data, (gpointer) data);
 				g_free((gpointer) data);
 			}
+			close_cursor(cbdb, cursor);
 			
 			return TRUE;
 		}
+		close_cursor(cbdb, cursor);
 	}
 	
 	return FALSE;
