@@ -75,7 +75,7 @@ get_prop (BonoboPropertyBag *bag,
 	switch (arg_id) {
 
 	case PROPERTY_CALENDAR_URI_IDX:
-		uri = cal_client_get_uri (gnome_calendar_get_cal_client (gcal));
+		uri = cal_client_get_uri (e_cal_model_get_default_client (gnome_calendar_get_calendar_model (gcal)));
 		BONOBO_ARG_SET_STRING (arg, uri);
 		break;
 

@@ -25,6 +25,7 @@
 
 #include <cal-client/cal-client.h>
 #include <gtk/gtktable.h>
+#include "e-cal-model.h"
 #include "gnome-cal.h"
 
 G_BEGIN_DECLS
@@ -49,8 +50,8 @@ typedef enum {
 
 #define E_CAL_VIEW_EVENT_FIELDS \
         GnomeCanvasItem *canvas_item; \
-        CalClient *client; \
-        CalComponent *comp; \
+        ECalModelComponent *comp_data; \
+        gboolean allocated_comp_data; \
         time_t start; \
         time_t end; \
         guint16 start_minute; \
@@ -91,10 +92,8 @@ GType          e_cal_view_get_type (void);
 
 GnomeCalendar *e_cal_view_get_calendar (ECalView *cal_view);
 void           e_cal_view_set_calendar (ECalView *cal_view, GnomeCalendar *calendar);
-CalClient     *e_cal_view_get_cal_client (ECalView *cal_view);
-void           e_cal_view_set_cal_client (ECalView *cal_view, CalClient *client);
-const gchar   *e_cal_view_get_query (ECalView *cal_view);
-void           e_cal_view_set_query (ECalView *cal_view, const gchar *sexp);
+ECalModel     *e_cal_view_get_model (ECalView *cal_view);
+void           e_cal_view_set_model (ECalView *cal_view, ECalModel *model);
 icaltimezone  *e_cal_view_get_timezone (ECalView *cal_view);
 void           e_cal_view_set_timezone (ECalView *cal_view, icaltimezone *zone);
 

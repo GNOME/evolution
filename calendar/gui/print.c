@@ -561,7 +561,7 @@ print_month_small (GnomePrintContext *pc, GnomeCalendar *gcal, time_t month,
 
 	top -= header_size;
 
-	client = gnome_calendar_get_cal_client (gcal);
+	client = gnome_calendar_get_default_client (gcal);
 
 	col_width = (right - left) / 7;
 
@@ -855,68 +855,68 @@ print_day_add_event (CalComponent *comp,
 		     GArray	  **events)
 
 {
-	icaltimezone *zone = get_timezone ();
-	EDayViewEvent event;
-	gint day, offset;
-	struct icaltimetype start_tt, end_tt;
+/* 	icaltimezone *zone = get_timezone (); */
+/* 	EDayViewEvent event; */
+/* 	gint day, offset; */
+/* 	struct icaltimetype start_tt, end_tt; */
 
-#if 0
-	g_print ("Day view lower: %s", ctime (&day_starts[0]));
-	g_print ("Day view upper: %s", ctime (&day_starts[days_shown]));
-	g_print ("Event start: %s", ctime (&start));
-	g_print ("Event end  : %s\n", ctime (&end));
-#endif
+/* #if 0 */
+/* 	g_print ("Day view lower: %s", ctime (&day_starts[0])); */
+/* 	g_print ("Day view upper: %s", ctime (&day_starts[days_shown])); */
+/* 	g_print ("Event start: %s", ctime (&start)); */
+/* 	g_print ("Event end  : %s\n", ctime (&end)); */
+/* #endif */
 
-	/* Check that the event times are valid. */
-	g_return_val_if_fail (start <= end, -1);
-	g_return_val_if_fail (start < day_starts[days_shown], -1);
-	g_return_val_if_fail (end > day_starts[0], -1);
+/* 	/\* Check that the event times are valid. *\/ */
+/* 	g_return_val_if_fail (start <= end, -1); */
+/* 	g_return_val_if_fail (start < day_starts[days_shown], -1); */
+/* 	g_return_val_if_fail (end > day_starts[0], -1); */
 
-	start_tt = icaltime_from_timet_with_zone (start, FALSE, zone);
-	end_tt = icaltime_from_timet_with_zone (end, FALSE, zone);
+/* 	start_tt = icaltime_from_timet_with_zone (start, FALSE, zone); */
+/* 	end_tt = icaltime_from_timet_with_zone (end, FALSE, zone); */
 
-	event.comp = comp;
-	g_object_ref (comp);
-	event.start = start;
-	event.end = end;
-	event.canvas_item = NULL;
+/* 	event.comp = comp; */
+/* 	g_object_ref (comp); */
+/* 	event.start = start; */
+/* 	event.end = end; */
+/* 	event.canvas_item = NULL; */
 
-	/* Calculate the start & end minute, relative to the top of the
-	   display. */
-	/*offset = day_view->first_hour_shown * 60
-	  + day_view->first_minute_shown;*/
-	offset = 0;
-	event.start_minute = start_tt.hour * 60 + start_tt.minute - offset;
-	event.end_minute = end_tt.hour * 60 + end_tt.minute - offset;
+/* 	/\* Calculate the start & end minute, relative to the top of the */
+/* 	   display. *\/ */
+/* 	/\*offset = day_view->first_hour_shown * 60 */
+/* 	  + day_view->first_minute_shown;*\/ */
+/* 	offset = 0; */
+/* 	event.start_minute = start_tt.hour * 60 + start_tt.minute - offset; */
+/* 	event.end_minute = end_tt.hour * 60 + end_tt.minute - offset; */
 
-	event.start_row_or_col = 0;
-	event.num_columns = 0;
+/* 	event.start_row_or_col = 0; */
+/* 	event.num_columns = 0; */
 
-	/* Find out which array to add the event to. */
-	for (day = 0; day < days_shown; day++) {
-		if (start >= day_starts[day] && end <= day_starts[day + 1]) {
+/* 	/\* Find out which array to add the event to. *\/ */
+/* 	for (day = 0; day < days_shown; day++) { */
+/* 		if (start >= day_starts[day] && end <= day_starts[day + 1]) { */
 
-			/* Special case for when the appointment ends at
-			   midnight, i.e. the start of the next day. */
-			if (end == day_starts[day + 1]) {
+/* 			/\* Special case for when the appointment ends at */
+/* 			   midnight, i.e. the start of the next day. *\/ */
+/* 			if (end == day_starts[day + 1]) { */
 
-				/* If the event last the entire day, then we
-				   skip it here so it gets added to the top
-				   canvas. */
-				if (start == day_starts[day])
-				    break;
+/* 				/\* If the event last the entire day, then we */
+/* 				   skip it here so it gets added to the top */
+/* 				   canvas. *\/ */
+/* 				if (start == day_starts[day]) */
+/* 				    break; */
 
-				event.end_minute = 24 * 60;
-			}
+/* 				event.end_minute = 24 * 60; */
+/* 			} */
 
-			g_array_append_val (events[day], event);
-			return day;
-		}
-	}
+/* 			g_array_append_val (events[day], event); */
+/* 			return day; */
+/* 		} */
+/* 	} */
 
-	/* The event wasn't within one day so it must be a long event,
-	   i.e. shown in the top canvas. */
-	g_array_append_val (long_events, event);
+/* 	/\* The event wasn't within one day so it must be a long event, */
+/* 	   i.e. shown in the top canvas. *\/ */
+/* 	g_array_append_val (long_events, event); */
 	return E_DAY_VIEW_LONG_EVENT;
 }
 
@@ -945,7 +945,6 @@ free_event_array (GArray *array)
 		event = &g_array_index (array, EDayViewEvent, event_num);
 		if (event->canvas_item)
 			gtk_object_destroy (GTK_OBJECT (event->canvas_item));
-		g_object_unref (event->comp);
 	}
 
 	g_array_set_size (array, 0);
@@ -958,7 +957,7 @@ print_day_long_event (GnomePrintContext *pc, GnomeFont *font,
 		      double row_height, EDayViewEvent *event,
 		      struct pdinfo *pdi)
 {
-	CalComponentText summary;
+	const gchar *summary;
 	double x1, x2, y1, y2;
 	double left_triangle_width = -1.0, right_triangle_width = -1.0;
 	char *text;
@@ -1023,8 +1022,8 @@ print_day_long_event (GnomePrintContext *pc, GnomeFont *font,
 	}
 
 	/* Print the text. */
-	cal_component_get_summary (event->comp, &summary);
-	text = summary.value ? (char*) summary.value : "";
+	summary = icalcomponent_get_summary (event->comp_data->icalcomp);
+	text = summary ? (char*) summary : "";
 
 	x1 += 4;
 	x2 -= 4;
@@ -1037,7 +1036,7 @@ print_day_event (GnomePrintContext *pc, GnomeFont *font,
 		 double left, double right, double top, double bottom,
 		 EDayViewEvent *event, struct pdinfo *pdi)
 {
-	CalComponentText summary;
+	const gchar *summary;
 	double x1, x2, y1, y2, col_width, row_height;
 	int start_offset, end_offset, start_row, end_row;
 	char *text, start_buffer[32], end_buffer[32];
@@ -1075,8 +1074,8 @@ print_day_event (GnomePrintContext *pc, GnomeFont *font,
 
 	print_border (pc, x1, x2, y1, y2, 1.0, 0.95);
 
-	cal_component_get_summary (event->comp, &summary);
-	text = summary.value ? (char*) summary.value : "";
+	summary = icalcomponent_get_summary (event->comp_data->icalcomp);
+	text = summary ? (char*) summary : "";
 
 
 	if (display_times) {
@@ -1142,7 +1141,7 @@ print_day_details (GnomePrintContext *pc, GnomeCalendar *gcal, time_t whence,
 	pdi.use_24_hour_format = calendar_config_get_24_hour_format ();
 
 	/* Get the events from the server. */
-	client = gnome_calendar_get_cal_client (gcal);
+	client = gnome_calendar_get_default_client (gcal);
 	cal_client_generate_instances (client, CALOBJ_TYPE_EVENT, start, end,
 				       print_day_details_cb, &pdi);
 	qsort (pdi.long_events->data, pdi.long_events->len,
@@ -1239,40 +1238,40 @@ print_week_summary_cb (CalComponent *comp,
 		       gpointer	  data)
 
 {
-	icaltimezone *zone = get_timezone ();
-	EWeekViewEvent event;
-	struct icaltimetype start_tt, end_tt;
+/* 	icaltimezone *zone = get_timezone (); */
+/* 	EWeekViewEvent event; */
+/* 	struct icaltimetype start_tt, end_tt; */
 
-	struct psinfo *psi = (struct psinfo *)data;
+/* 	struct psinfo *psi = (struct psinfo *)data; */
 
-	/* Check that the event times are valid. */
+/* 	/\* Check that the event times are valid. *\/ */
 
-#if 0
-	g_print ("View start:%li end:%li  Event start:%li end:%li\n",
-		 psi->day_starts[0], psi->day_starts[psi->days_shown],
-		 start, end);
-#endif
+/* #if 0 */
+/* 	g_print ("View start:%li end:%li  Event start:%li end:%li\n", */
+/* 		 psi->day_starts[0], psi->day_starts[psi->days_shown], */
+/* 		 start, end); */
+/* #endif */
 
-	g_return_val_if_fail (start <= end, TRUE);
-	g_return_val_if_fail (start < psi->day_starts[psi->days_shown], TRUE);
-	g_return_val_if_fail (end > psi->day_starts[0], TRUE);
+/* 	g_return_val_if_fail (start <= end, TRUE); */
+/* 	g_return_val_if_fail (start < psi->day_starts[psi->days_shown], TRUE); */
+/* 	g_return_val_if_fail (end > psi->day_starts[0], TRUE); */
 
-	start_tt = icaltime_from_timet_with_zone (start, FALSE, zone);
-	end_tt = icaltime_from_timet_with_zone (end, FALSE, zone);
+/* 	start_tt = icaltime_from_timet_with_zone (start, FALSE, zone); */
+/* 	end_tt = icaltime_from_timet_with_zone (end, FALSE, zone); */
 
-	event.comp = comp;
-	g_object_ref (event.comp);
-	event.start = start;
-	event.end = end;
-	event.spans_index = 0;
-	event.num_spans = 0;
+/* 	event.comp = comp; */
+/* 	g_object_ref (event.comp); */
+/* 	event.start = start; */
+/* 	event.end = end; */
+/* 	event.spans_index = 0; */
+/* 	event.num_spans = 0; */
 
-	event.start_minute = start_tt.hour * 60 + start_tt.minute;
-	event.end_minute = end_tt.hour * 60 + end_tt.minute;
-	if (event.end_minute == 0 && start != end)
-		event.end_minute = 24 * 60;
+/* 	event.start_minute = start_tt.hour * 60 + start_tt.minute; */
+/* 	event.end_minute = end_tt.hour * 60 + end_tt.minute; */
+/* 	if (event.end_minute == 0 && start != end) */
+/* 		event.end_minute = 24 * 60; */
 
-	g_array_append_val (psi->events, event);
+/* 	g_array_append_val (psi->events, event); */
 
 	return TRUE;
 }
@@ -1404,13 +1403,13 @@ print_week_event (GnomePrintContext *pc, GnomeFont *font,
 {
 	EWeekViewEventSpan *span;
 	gint span_num;
-	CalComponentText summary;
+	const gchar *summary;
 	char *text;
 	int num_days, start_x, start_y, start_h, end_x, end_y, end_h;
 	double x1, x2, y1, y2;
 
-	cal_component_get_summary (event->comp, &summary);
-	text = summary.value ? (char*) summary.value : "";
+	summary = icalcomponent_get_summary (event->comp_data->icalcomp);
+	text = summary ? (char*) summary : "";
 
 	for (span_num = 0; span_num < event->num_spans; span_num++) {
 		span = &g_array_index (spans, EWeekViewEventSpan,
@@ -1578,7 +1577,7 @@ print_week_summary (GnomePrintContext *pc, GnomeCalendar *gcal,
 	}
 
 	/* Get the events from the server. */
-	client = gnome_calendar_get_cal_client (gcal);
+	client = gnome_calendar_get_default_client (gcal);
 	cal_client_generate_instances (client, CALOBJ_TYPE_EVENT,
 				       psi.day_starts[0],
 				       psi.day_starts[psi.days_shown],
@@ -1632,7 +1631,6 @@ print_week_summary (GnomePrintContext *pc, GnomeCalendar *gcal,
 	/* Free everything. */
 	for (event_num = 0; event_num < psi.events->len; event_num++) {
 		event = &g_array_index (psi.events, EWeekViewEvent, event_num);
-		g_object_unref (event->comp);
 	}
 	g_array_free (psi.events, TRUE);
 	g_array_free (spans, TRUE);

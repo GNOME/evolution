@@ -353,6 +353,7 @@ e_day_view_top_item_draw_long_event (EDayViewTopItem *dvtitem,
 	GdkRectangle clip_rect;
 	GSList *categories_list, *elem;
 	PangoLayout *layout;
+	GdkColor bg_color;
 
 	day_view = dvtitem->day_view;
 
@@ -375,7 +376,8 @@ e_day_view_top_item_draw_long_event (EDayViewTopItem *dvtitem,
 	gc = day_view->main_gc;
 	fg_gc = style->fg_gc[GTK_STATE_NORMAL];
 	bg_gc = style->bg_gc[GTK_STATE_NORMAL];
-	comp = event->comp;
+	comp = cal_component_new ();
+	cal_component_set_icalcomponent (comp, icalcomponent_new_clone (event->comp_data->icalcomp));
 
 	/* Draw the lines across the top & bottom of the entire event. */
 	gdk_gc_set_foreground (gc, &day_view->colors[E_DAY_VIEW_COLOR_LONG_EVENT_BORDER]);
@@ -387,7 +389,18 @@ e_day_view_top_item_draw_long_event (EDayViewTopItem *dvtitem,
 		       item_x + item_w - 1 - x, item_y + item_h - 1 - y);
 
 	/* Fill it in. */
-	gdk_gc_set_foreground (gc, &day_view->colors[E_DAY_VIEW_COLOR_LONG_EVENT_BACKGROUND]);
+	if (gdk_color_parse (e_cal_model_get_color_for_component (e_cal_view_get_model (E_CAL_VIEW (day_view)),
+								  event->comp_data),
+			     &bg_color)) {
+		GdkColormap *colormap;
+
+		colormap = gtk_widget_get_colormap (GTK_WIDGET (day_view));
+		if (gdk_colormap_alloc_color (colormap, &bg_color, TRUE, TRUE))
+			gdk_gc_set_foreground (gc, &bg_color);
+		else
+			gdk_gc_set_foreground (gc, &day_view->colors[E_DAY_VIEW_COLOR_LONG_EVENT_BACKGROUND]);
+	} else
+		gdk_gc_set_foreground (gc, &day_view->colors[E_DAY_VIEW_COLOR_LONG_EVENT_BACKGROUND]);
 	gdk_draw_rectangle (drawable, gc, TRUE,
 			    item_x - x, item_y + 1 - y,
 			    item_w, item_h - 2);
@@ -594,6 +607,7 @@ e_day_view_top_item_draw_long_event (EDayViewTopItem *dvtitem,
 	}
 
 	cal_component_free_categories_list (categories_list);
+	g_object_unref (comp);
 
 	gdk_gc_set_clip_mask (gc, NULL);
 }

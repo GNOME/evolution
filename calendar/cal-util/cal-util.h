@@ -99,6 +99,15 @@ char *cal_util_expand_uri (char *uri, gboolean tasks);
 void cal_util_add_timezones_from_component (icalcomponent *vcal_comp,
 					    icalcomponent *icalcomp);
 
+gboolean cal_util_component_is_instance (icalcomponent *icalcomp);
+gboolean cal_util_component_has_alarms (icalcomponent *icalcomp);
+gboolean cal_util_component_has_organizer (icalcomponent *icalcomp);
+gboolean cal_util_component_has_recurrences (icalcomponent *icalcomp);
+gboolean cal_util_component_has_rdates (icalcomponent *icalcomp);
+gboolean cal_util_component_has_rrules (icalcomponent *icalcomp);
+
+gboolean cal_util_event_dates_match (icalcomponent *icalcomp1, icalcomponent *icalcomp2);
+
 /* The static capabilities to be supported by backends */
 #define CAL_STATIC_CAPABILITY_NO_ALARM_REPEAT             "no-alarm-repeat"
 #define CAL_STATIC_CAPABILITY_NO_AUDIO_ALARMS             "no-audio-alarms"

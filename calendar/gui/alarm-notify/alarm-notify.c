@@ -445,16 +445,17 @@ alarm_notify_add_calendar (AlarmNotify *an, const char *str_uri, gboolean load_a
 			/* we only add the URI to load_afterwards if we open it
 			   correctly */
 			lc = g_new (LoadedClient, 1);
+			lc->client = client;
+			lc->uri = uri;
+			lc->refcount = 1;
+			lc->timeout_id = -1;
+
 
 			g_signal_connect (G_OBJECT (client), "cal_opened",
 					  G_CALLBACK (cal_opened_cb),
 					  lc);
 
 			if (cal_client_open_calendar (client, str_uri, FALSE)) {
-				lc->client = client;
-				lc->uri = uri;
-				lc->refcount = 1;
-				lc->timeout_id = -1;
 				g_hash_table_insert (priv->uri_client_hash,
 						     g_strdup (str_uri), lc);
 			} else {

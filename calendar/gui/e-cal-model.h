@@ -88,6 +88,7 @@ void                e_cal_model_set_default_category (ECalModel *model, const gc
 void                e_cal_model_set_use_24_hour_format (ECalModel *model, gboolean use24);
 
 CalClient          *e_cal_model_get_default_client (ECalModel *model);
+GList              *e_cal_model_get_client_list (ECalModel *model);
 void                e_cal_model_add_client (ECalModel *model, CalClient *client);
 void                e_cal_model_remove_client (ECalModel *model, CalClient *client);
 void                e_cal_model_remove_all_clients (ECalModel *model);
@@ -99,6 +100,8 @@ const gchar        *e_cal_model_get_color_for_component (ECalModel *model, ECalM
 ECalModelComponent *e_cal_model_get_component_at (ECalModel *model, gint row);
 
 gchar              *e_cal_model_date_value_to_string (ECalModel *model, const void *value);
+
+void                e_cal_model_free_component_data (ECalModelComponent *comp_data);
 
 G_END_DECLS
 

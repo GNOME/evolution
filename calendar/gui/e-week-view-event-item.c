@@ -236,6 +236,7 @@ e_week_view_event_item_draw (GnomeCanvasItem  *canvas_item,
 	gboolean draw_start, draw_end;
 	gboolean draw_start_triangle = FALSE, draw_end_triangle = FALSE;
 	GdkRectangle clip_rect;
+	GdkColor bg_color;
 
 #if 0
 	g_print ("In e_week_view_event_item_draw %i,%i %ix%i\n",
@@ -282,7 +283,29 @@ e_week_view_event_item_draw (GnomeCanvasItem  *canvas_item,
 	one_day_event = e_week_view_is_one_day_event (week_view,
 						      wveitem->event_num);
 	if (one_day_event) {
-		time_x = x1 + E_WEEK_VIEW_EVENT_L_PAD;
+		time_x = x1 + E_WEEK_VIEW_EVENT_L_PAD + 1;
+		rect_x = x1 + E_WEEK_VIEW_EVENT_L_PAD;
+		rect_w = x2 - x1 - E_WEEK_VIEW_EVENT_L_PAD - E_WEEK_VIEW_EVENT_R_PAD + 1;
+
+		if (gdk_color_parse (e_cal_model_get_color_for_component (e_cal_view_get_model (E_CAL_VIEW (week_view)),
+									  event->comp_data),
+				     &bg_color)) {
+			GdkColormap *colormap;
+
+			colormap = gtk_widget_get_colormap (GTK_WIDGET (week_view));
+			if (gdk_colormap_alloc_color (colormap, &bg_color, TRUE, TRUE))
+				gdk_gc_set_foreground (gc, &bg_color);
+			else
+				gdk_gc_set_foreground (gc, &week_view->colors[E_WEEK_VIEW_COLOR_EVENT_BACKGROUND]);
+		} else
+			gdk_gc_set_foreground (gc, &week_view->colors[E_WEEK_VIEW_COLOR_EVENT_BACKGROUND]);
+		gdk_draw_rectangle (drawable, gc, TRUE, rect_x, y1 + 1, rect_w, y2 - y1 - 1);
+
+		gdk_gc_set_foreground (gc, &week_view->colors[E_WEEK_VIEW_COLOR_EVENT_BORDER]);
+		gdk_draw_line (drawable, gc, rect_x,  y1 + 1, rect_x + rect_w, y1 + 1);
+		gdk_draw_line (drawable, gc, rect_x,  y2, rect_x + rect_w, y2);
+		gdk_draw_line (drawable, gc, rect_x, y1 + 1, rect_x, y1 + (y2 - (y1 + 1)));
+		gdk_draw_line (drawable, gc, rect_x + rect_w, y1 + 1, rect_x + rect_w, y1 + (y2 - (y1 + 1)));
 
 		/* Draw the start and end times, as required. */
 		switch (week_view->time_format) {
@@ -354,9 +377,19 @@ e_week_view_event_item_draw (GnomeCanvasItem  *canvas_item,
 			rect_w -= 2;
 		}
 
-		gdk_gc_set_foreground (gc, &week_view->colors[E_WEEK_VIEW_COLOR_EVENT_BACKGROUND]);
-		gdk_draw_rectangle (drawable, gc, TRUE,
-				    rect_x, y1 + 1, rect_w, y2 - y1 - 1);
+		if (gdk_color_parse (e_cal_model_get_color_for_component (e_cal_view_get_model (E_CAL_VIEW (week_view)),
+									  event->comp_data),
+				     &bg_color)) {
+			GdkColormap *colormap;
+
+			colormap = gtk_widget_get_colormap (GTK_WIDGET (week_view));
+			if (gdk_colormap_alloc_color (colormap, &bg_color, TRUE, TRUE))
+				gdk_gc_set_foreground (gc, &bg_color);
+			else
+				gdk_gc_set_foreground (gc, &week_view->colors[E_WEEK_VIEW_COLOR_EVENT_BACKGROUND]);
+		} else
+			gdk_gc_set_foreground (gc, &week_view->colors[E_WEEK_VIEW_COLOR_EVENT_BACKGROUND]);
+		gdk_draw_rectangle (drawable, gc, TRUE, rect_x, y1 + 1, rect_w, y2 - y1 - 1);
 
 		gdk_gc_set_foreground (gc, &week_view->colors[E_WEEK_VIEW_COLOR_EVENT_BORDER]);
 		rect_x2 = rect_x + rect_w - 1;
@@ -572,7 +605,8 @@ e_week_view_event_item_draw_icons (EWeekViewEventItem *wveitem,
 				wveitem->event_num);
 	span = &g_array_index (week_view->spans, EWeekViewEventSpan,
 			       event->spans_index + wveitem->span_num);
-	comp = event->comp;
+	comp = cal_component_new ();
+	cal_component_set_icalcomponent (comp, icalcomponent_new_clone (event->comp_data->icalcomp));
 
 	gc = week_view->main_gc;
 
@@ -870,7 +904,7 @@ e_week_view_event_item_double_click (EWeekViewEventItem *wveitem,
 
 	calendar = e_cal_view_get_calendar (E_CAL_VIEW (week_view));
 	if (calendar)
-		gnome_calendar_edit_object (calendar, event->comp, FALSE);
+		gnome_calendar_edit_object (calendar, event->comp_data->client, event->comp_data->icalcomp, FALSE);
 	else
 		g_warning ("Calendar not set");
 

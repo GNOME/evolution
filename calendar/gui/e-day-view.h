@@ -528,7 +528,7 @@ void	   e_day_view_set_week_start_day	(EDayView	*day_view,
 						 gint		 week_start_day);
 
 void       e_day_view_delete_occurrence         (EDayView       *day_view);
-
+void       e_day_view_unrecur_appointment       (EDayView *day_view);
 
 /* Returns the number of selected events (0 or 1 at present). */
 gint	   e_day_view_get_num_events_selected	(EDayView	*day_view);

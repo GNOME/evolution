@@ -326,11 +326,16 @@ e_day_view_main_item_draw_events_in_vbars (EDayViewMainItem *dvmitem,
 	/* Draw the busy times corresponding to the events in the day. */
 	for (event_num = 0; event_num < day_view->events[day]->len;
 	     event_num++) {
+		CalComponent *comp;
+
 		event = &g_array_index (day_view->events[day], EDayViewEvent,
 					event_num);
 
+		comp = cal_component_new ();
+		cal_component_set_icalcomponent (comp, icalcomponent_new_clone (event->comp_data->icalcomp));
+
 		/* If the event is TRANSPARENT, skip it. */
-		cal_component_get_transparency (event->comp, &transparency);
+		cal_component_get_transparency (comp, &transparency);
 		if (transparency == CAL_COMPONENT_TRANSP_TRANSPARENT)
 			continue;
 
@@ -350,6 +355,8 @@ e_day_view_main_item_draw_events_in_vbars (EDayViewMainItem *dvmitem,
 		gdk_draw_rectangle (drawable, gc, TRUE,
 				    grid_x, bar_y,
 				    E_DAY_VIEW_BAR_WIDTH - 2, bar_h);
+
+		g_object_unref (comp);
 	}
 }
 
@@ -373,11 +380,16 @@ e_day_view_main_item_draw_long_events_in_vbars (EDayViewMainItem *dvmitem,
 
 	for (event_num = 0; event_num < day_view->long_events->len;
 	     event_num++) {
+		CalComponent *comp;
+
 		event = &g_array_index (day_view->long_events, EDayViewEvent,
 					event_num);
 
+		comp = cal_component_new ();
+		cal_component_set_icalcomponent (comp, icalcomponent_new_clone (event->comp_data->icalcomp));
+
 		/* If the event is TRANSPARENT, skip it. */
-		cal_component_get_transparency (event->comp, &transparency);
+		cal_component_get_transparency (comp, &transparency);
 		if (transparency == CAL_COMPONENT_TRANSP_TRANSPARENT)
 			continue;
 
@@ -416,6 +428,7 @@ e_day_view_main_item_draw_long_events_in_vbars (EDayViewMainItem *dvmitem,
 		}
 
 
+		g_object_unref (comp);
 	}
 }
 
@@ -451,6 +464,7 @@ e_day_view_main_item_draw_day_event (EDayViewMainItem *dvmitem,
 	gint item_x, item_y, item_w, item_h, bar_y1, bar_y2;
 	GtkStyle *style;
 	GdkGC *gc;
+	GdkColor bg_color;
 	CalComponent *comp;
 	gint num_icons, icon_x, icon_y, icon_x_inc, icon_y_inc;
 	gint max_icon_w, max_icon_h;
@@ -469,7 +483,6 @@ e_day_view_main_item_draw_day_event (EDayViewMainItem *dvmitem,
 	style = GTK_WIDGET (day_view)->style;
 
 	gc = day_view->main_gc;
-	gdk_gc_set_foreground (gc, &day_view->colors[E_DAY_VIEW_COLOR_EVENT_VBAR]);
 
 	/* Get the position of the event. If it is not shown skip it.*/
 	if (!e_day_view_get_event_position (day_view, day, event_num,
@@ -483,21 +496,33 @@ e_day_view_main_item_draw_day_event (EDayViewMainItem *dvmitem,
 	event = &g_array_index (day_view->events[day], EDayViewEvent,
 				event_num);
 
-	/* Fill in the white background. Note that for events in the first
+	/* Fill in the event background. Note that for events in the first
 	   column of the day, we might not want to paint over the vertical bar,
 	   since that is used for multiple events. But then you can't see
 	   where the event in the first column finishes. */
+
+	if (gdk_color_parse (e_cal_model_get_color_for_component (e_cal_view_get_model (E_CAL_VIEW (day_view)), event->comp_data),
+			     &bg_color)) {
+		GdkColormap *colormap;
+
+		colormap = gtk_widget_get_colormap (GTK_WIDGET (day_view));
+		if (gdk_colormap_alloc_color (colormap, &bg_color, TRUE, TRUE))
+			gdk_gc_set_foreground (gc, &bg_color);
+	}
+
 #if 1
 	if (event->start_row_or_col == 0)
-		gdk_draw_rectangle (drawable, style->white_gc, TRUE,
+		gdk_draw_rectangle (drawable, gc, TRUE,
 				    item_x + E_DAY_VIEW_BAR_WIDTH, item_y + 1,
 				    MAX (item_w - E_DAY_VIEW_BAR_WIDTH - 1, 0),
 				    item_h - 2);
 	else
 #endif
-		gdk_draw_rectangle (drawable, style->white_gc, TRUE,
+		gdk_draw_rectangle (drawable, gc, TRUE,
 				    item_x + 1, item_y + 1,
 				    MAX (item_w - 2, 0), item_h - 2);
+
+	gdk_gc_set_foreground (gc, &day_view->colors[E_DAY_VIEW_COLOR_EVENT_VBAR]);
 
 	/* Draw the right edge of the vertical bar. */
 	gdk_draw_line (drawable, style->black_gc,
@@ -521,8 +546,11 @@ e_day_view_main_item_draw_day_event (EDayViewMainItem *dvmitem,
 			bar_y2 = item_y + item_h - 1;
 	}
 
+	comp = cal_component_new ();
+	cal_component_set_icalcomponent (comp, icalcomponent_new_clone (event->comp_data->icalcomp));
+
 	/* Only fill it in if the event isn't TRANSPARENT. */
-	cal_component_get_transparency (event->comp, &transparency);
+	cal_component_get_transparency (comp, &transparency);
 	if (transparency != CAL_COMPONENT_TRANSP_TRANSPARENT) {
 		gdk_draw_rectangle (drawable, gc, TRUE,
 				    item_x + 1, bar_y1,
@@ -560,7 +588,6 @@ e_day_view_main_item_draw_day_event (EDayViewMainItem *dvmitem,
 	icon_x = item_x + E_DAY_VIEW_BAR_WIDTH + E_DAY_VIEW_ICON_X_PAD;
 	icon_y = item_y + E_DAY_VIEW_EVENT_BORDER_HEIGHT
 		+ E_DAY_VIEW_ICON_Y_PAD;
-	comp = event->comp;
 
 	if (cal_component_has_alarms (comp)) {
 		draw_reminder_icon = TRUE;
@@ -724,6 +751,7 @@ e_day_view_main_item_draw_day_event (EDayViewMainItem *dvmitem,
 
 	/* free memory */
 	cal_component_free_categories_list (categories_list);
+	g_object_unref (comp);
 }
 
 

@@ -516,7 +516,6 @@
 	* cal-client/cal-client-multi.[ch]:
 	* cal-client/Makefile.am: removed obsolete code.
 
->>>>>>> 1.1841.2.20
 2003-07-29  Rodrigo Moya <rodrigo@ximian.com>
 
 	Fixes all "alarm daemon doesn't start with session"

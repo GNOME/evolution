@@ -95,7 +95,7 @@ static void comp_editor_factory_finalize (GObject *object);
 
 static void impl_editExisting (PortableServer_Servant servant,
 			       const CORBA_char *str_uri,
-			       const GNOME_Evolution_Calendar_CalObjUID uid,
+			       const CORBA_char *uid,
 			       CORBA_Environment *ev);
 static void impl_editNew (PortableServer_Servant servant,
 			  const CORBA_char *str_uri,
@@ -585,7 +585,7 @@ queue_edit_existing (OpenClient *oc, const char *uid)
 static void
 impl_editExisting (PortableServer_Servant servant,
 		   const CORBA_char *str_uri,
-		   const GNOME_Evolution_Calendar_CalObjUID uid,
+		   const CORBA_char *uid,
 		   CORBA_Environment *ev)
 {
 	CompEditorFactory *factory;

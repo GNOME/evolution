@@ -395,6 +395,8 @@ void	   e_week_view_set_24_hour_format	(EWeekView	*week_view,
 
 void       e_week_view_delete_occurrence        (EWeekView      *week_view);
 
+void       e_week_view_unrecur_appointment      (EWeekView *week_view);
+
 /* Returns the number of selected events (0 or 1 at present). */
 gint	   e_week_view_get_num_events_selected	(EWeekView	*week_view);
 

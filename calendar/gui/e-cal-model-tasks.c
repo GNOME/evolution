@@ -957,9 +957,11 @@ ecmt_get_color_for_component (ECalModel *model, ECalModelComponent *comp_data)
 	case E_CAL_MODEL_TASKS_DUE_NEVER:
 	case E_CAL_MODEL_TASKS_DUE_FUTURE:
 	case E_CAL_MODEL_TASKS_DUE_COMPLETE:
+		break;
 	}
 
-	return E_CAL_MODEL_CLASS (parent_class)->get_color_for_component (model, comp_data);
+	return "black";
+	/* return E_CAL_MODEL_CLASS (parent_class)->get_color_for_component (model, comp_data); */
 }
 
 static void
