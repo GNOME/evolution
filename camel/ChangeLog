@@ -1,7 +1,14 @@
+2001-01-15  Jeffrey Stedfast  <fejj@ximian.com>
+
+	* camel-tcp-stream-raw.c (stream_getsockopt): Updated to be able
+	to get the CAMEL_SOCKOPT_NONBLOCKING socket opt.
+	(stream_setsockopt): Updated to be able to set the
+	CAMEL_SOCKOPT_NONBLOCKING socket opt.
+
 2001-01-15  Peter Williams  <peterw@ximian.com>
 
-	* providers/imap/camel-imap-folder.c (camel_imap_folder_new): Lock around the
-	imap_rescan, which needs it.
+	* providers/imap/camel-imap-folder.c (camel_imap_folder_new): Lock
+	around the imap_rescan, which needs it.
 
 2001-01-15  Not Zed  <NotZed@Ximian.com>
 
