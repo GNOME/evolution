@@ -76,11 +76,25 @@ typedef struct {
 
 
 
-/* flags for url_flags. (others can be added if needed) */
-#define CAMEL_SERVICE_URL_NEED_USER	(1 << 1)
-#define CAMEL_SERVICE_URL_NEED_AUTH	(1 << 2)
-#define CAMEL_SERVICE_URL_NEED_HOST	(1 << 4)
-#define CAMEL_SERVICE_URL_NEED_PATH	(1 << 6)
+/* Flags for url_flags. "ALLOW" means the config dialog will let
+ * the user configure it. "NEED" implies "ALLOW" but means the user
+ * must configure it. Service code can assume that any url part
+ * for which it has set the NEED flag will be set when the service
+ * is created.
+ */
+#define CAMEL_SERVICE_URL_ALLOW_USER	 (1 << 0)
+#define CAMEL_SERVICE_URL_ALLOW_AUTH	 (1 << 1)
+#define CAMEL_SERVICE_URL_ALLOW_PASSWORD (1 << 2)
+#define CAMEL_SERVICE_URL_ALLOW_HOST	 (1 << 3)
+#define CAMEL_SERVICE_URL_ALLOW_PORT	 (1 << 4)
+#define CAMEL_SERVICE_URL_ALLOW_PATH	 (1 << 5)
+
+#define CAMEL_SERVICE_URL_NEED_USER	 (1 << 6 | 1 << 0)
+#define CAMEL_SERVICE_URL_NEED_AUTH	 (1 << 7 | 1 << 1)
+#define CAMEL_SERVICE_URL_NEED_PASSWORD	 (1 << 8 | 1 << 2)
+#define CAMEL_SERVICE_URL_NEED_HOST	 (1 << 9 | 1 << 3)
+#define CAMEL_SERVICE_URL_NEED_PORT	 (1 << 10 | 1 << 4)
+#define CAMEL_SERVICE_URL_NEED_PATH	 (1 << 11 | 1 << 5)
 
 
 /* query_auth_types returns a GList of these */

@@ -99,7 +99,9 @@ camel_imap_store_init (gpointer object, gpointer klass)
 	CamelService *service = CAMEL_SERVICE (object);
 	CamelStore *store = CAMEL_STORE (object);
 
-	service->url_flags = (CAMEL_SERVICE_URL_NEED_USER | CAMEL_SERVICE_URL_NEED_HOST);
+	service->url_flags = (CAMEL_SERVICE_URL_NEED_USER |
+			      CAMEL_SERVICE_URL_NEED_HOST |
+			      CAMEL_SERVICE_URL_ALLOW_PATH);
 
 	store->folders = g_hash_table_new (g_str_hash, g_str_equal);
 }

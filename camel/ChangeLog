@@ -1,3 +1,12 @@
+2000-07-13  Dan Winship  <danw@helixcode.com>
+
+	* camel-service.h: define a set of CAMEL_SERVICE_URL_ALLOW_* flags
+	parallel to the _NEED_* flags, and make the _NEED_* flags imply
+	the _ALLOW_* ones.
+
+	* providers/imap/camel-imap-store.c (camel_imap_store_init): imap
+	urls ALLOW_PATH
+
 2000-07-13  Jeffrey Stedfast  <fejj@helixcode.com>
 
 	* providers/imap/camel-imap-folder.c (imap_get_summary): New
