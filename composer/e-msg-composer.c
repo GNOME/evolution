@@ -2476,7 +2476,7 @@ from_changed_cb (EMsgComposerHdrs *hdrs, void *data)
 		e_msg_composer_set_pgp_sign (composer,
 					     account->pgp_always_sign &&
 					     (!account->pgp_no_imip_sign || !composer->mime_type ||
-					      strncasecmp (composer->mime_type, "text/calendar", 13) != 0));
+					      g_ascii_strncasecmp (composer->mime_type, "text/calendar", 13) != 0));
 		e_msg_composer_set_smime_sign (composer, account->smime_sign_default);
 		e_msg_composer_set_smime_encrypt (composer, account->smime_encrypt_default);
 		update_auto_recipients (hdrs, UPDATE_AUTO_CC, account->always_cc ? account->cc_addrs : NULL);
@@ -2704,8 +2704,12 @@ drag_data_received (EMsgComposer *composer, GdkDragContext *context,
 		
 		for (i = 0; urls[i] != NULL; i++) {
 			str = g_strstrip (urls[i]);
-			
-			if (!strncasecmp (str, "mailto:", 7)) {
+			if (urls[i][0] == '#') {
+				g_free(str);
+				continue;
+			}
+
+			if (!g_ascii_strncasecmp (str, "mailto:", 7)) {
 				handle_mailto (composer, str);
 				g_free (str);
 			} else {
@@ -2715,7 +2719,7 @@ drag_data_received (EMsgComposer *composer, GdkDragContext *context,
 				if (url == NULL)
 					continue;
 
-				if (!strcasecmp (url->protocol, "file"))
+				if (!g_ascii_strcasecmp (url->protocol, "file"))
 					e_msg_composer_attachment_bar_attach
 						(E_MSG_COMPOSER_ATTACHMENT_BAR (composer->attachment_bar),
 					 	url->path);
@@ -3344,10 +3348,10 @@ is_special_header (const char *hdr_name)
 	   1. it's not a X-* header or
 	   2. it's an X-Evolution* header
 	*/
-	if (strncasecmp (hdr_name, "X-", 2))
+	if (g_ascii_strncasecmp (hdr_name, "X-", 2))
 		return TRUE;
 	
-	if (!strncasecmp (hdr_name, "X-Evolution", 11))
+	if (!g_ascii_strncasecmp (hdr_name, "X-Evolution", 11))
 		return TRUE;
 	
 	/* we can keep all other X-* headers */
@@ -3890,8 +3894,8 @@ e_msg_composer_new_with_message (CamelMimeMessage *message)
 	headers = CAMEL_MIME_PART (message)->headers;
 	while (headers) {
 		if (!is_special_header (headers->name) ||
-		    !strcasecmp (headers->name, "References") ||
-		    !strcasecmp (headers->name, "In-Reply-To")) {
+		    !g_ascii_strcasecmp (headers->name, "References") ||
+		    !g_ascii_strcasecmp (headers->name, "In-Reply-To")) {
 			g_ptr_array_add (new->extra_hdr_names, g_strdup (headers->name));
 			g_ptr_array_add (new->extra_hdr_values, g_strdup (headers->value));
 		}
@@ -4048,13 +4052,13 @@ handle_mailto (EMsgComposer *composer, const char *mailto)
 			content = g_strndup (p, clen);
 			camel_url_decode (content);
 			
-			if (!strcasecmp (header, "to")) {
+			if (!g_ascii_strcasecmp (header, "to")) {
 				to = add_recipients (to, content);
-			} else if (!strcasecmp (header, "cc")) {
+			} else if (!g_ascii_strcasecmp (header, "cc")) {
 				cc = add_recipients (cc, content);
-			} else if (!strcasecmp (header, "bcc")) {
+			} else if (!g_ascii_strcasecmp (header, "bcc")) {
 				bcc = add_recipients (bcc, content);
-			} else if (!strcasecmp (header, "subject")) {
+			} else if (!g_ascii_strcasecmp (header, "subject")) {
 				g_free (subject);
 				if (g_utf8_validate (content, -1, NULL)) {
 					subject = content;
@@ -4067,7 +4071,7 @@ handle_mailto (EMsgComposer *composer, const char *mailto)
 						subject[nwritten] = '\0';
 					}
 				}
-			} else if (!strcasecmp (header, "body")) {
+			} else if (!g_ascii_strcasecmp (header, "body")) {
 				g_free (body);
 				if (g_utf8_validate (content, -1, NULL)) {
 					body = content;
@@ -4080,7 +4084,7 @@ handle_mailto (EMsgComposer *composer, const char *mailto)
 						body[nwritten] = '\0';
 					}
 				}
-			} else if (!strcasecmp (header, "attach")) {
+			} else if (!g_ascii_strcasecmp (header, "attach")) {
 				/* Change file url to absolute path */
 				if (!strncasecmp (content, "file:", 5)) {
 					url = camel_url_new (content, NULL);
@@ -4091,9 +4095,9 @@ handle_mailto (EMsgComposer *composer, const char *mailto)
 					e_msg_composer_attachment_bar_attach (E_MSG_COMPOSER_ATTACHMENT_BAR (composer->attachment_bar),
 									      content);
 				}
-			} else if (!strcasecmp (header, "from")) {
+			} else if (!g_ascii_strcasecmp (header, "from")) {
 				/* Ignore */
-			} else if (!strcasecmp (header, "reply-to")) {
+			} else if (!g_ascii_strcasecmp (header, "reply-to")) {
 				/* ignore */
 			} else {
 				/* add an arbitrary header? */
@@ -4157,7 +4161,7 @@ e_msg_composer_new_from_url (const char *url)
 {
 	EMsgComposer *composer;
 	
-	g_return_val_if_fail (strncasecmp (url, "mailto:", 7) == 0, NULL);
+	g_return_val_if_fail (g_ascii_strncasecmp (url, "mailto:", 7) == 0, NULL);
 	
 	composer = e_msg_composer_new ();
 	if (!composer)
@@ -5143,22 +5147,19 @@ e_msg_composer_guess_mime_type (const char *file_name)
 {
 	GnomeVFSFileInfo *info;
 	GnomeVFSResult result;
-	
+	char *type = NULL;
+
 	info = gnome_vfs_file_info_new ();
 	result = gnome_vfs_get_file_info (file_name, info,
 					  GNOME_VFS_FILE_INFO_GET_MIME_TYPE |
 					  GNOME_VFS_FILE_INFO_FORCE_SLOW_MIME_TYPE |
 					  GNOME_VFS_FILE_INFO_FOLLOW_LINKS);
-	if (result == GNOME_VFS_OK) {
-		char *type;
-		
+	if (result == GNOME_VFS_OK)
 		type = g_strdup (gnome_vfs_file_info_get_mime_type (info));
-		gnome_vfs_file_info_unref (info);
-		return type;
-	} else {
-		gnome_vfs_file_info_unref (info);
-		return NULL;
-	}
+
+	gnome_vfs_file_info_unref (info);
+
+	return type;
 }
 
 

@@ -1,3 +1,21 @@
+2004-06-16  Not Zed  <NotZed@Ximian.com>
+
+	* e-msg-composer.c (e_msg_composer_guess_mime_type): clean up the
+	code slightly.
+
+	* evolution-composer.c (impl_Composer_set_headers): Fix all the
+	strn?casecmp calls.
+
+	* e-msg-composer.c (from_changed_cb, drag_data_received) 
+	(is_special_header, e_msg_composer_new_with_message) 
+	(handle_mailto, e_msg_composer_new_from_url): as above.
+
+	* e-msg-composer-attachment.c (e_msg_composer_attachment_new): as
+	above.
+
+	* e-msg-composer.c (drag_data_received): handle comments in uri
+	lists.
+
 2004-06-14  Jeffrey Stedfast  <fejj@novell.com>
 
 	* e-msg-composer.c (create_composer): Don't connect to the

@@ -189,7 +189,7 @@ e_msg_composer_attachment_new (const char *file_name,
 	
 	mime_type = e_msg_composer_guess_mime_type (file_name);
 	if (mime_type) {
-		if (!strcasecmp (mime_type, "message/rfc822")) {
+		if (!g_ascii_strcasecmp (mime_type, "message/rfc822")) {
 			wrapper = (CamelDataWrapper *) camel_mime_message_new ();
 		} else {
 			wrapper = camel_data_wrapper_new ();
