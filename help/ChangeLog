@@ -1,6 +1,11 @@
+2002-10-22  Aaron Weber  <aaron@ximian.com>
+
+	* C/usage-mail.sgml: Edit-->Undelete, not Actions-->Undelete
+
 2002-10-16  Aaron Weber  <aaron@ximian.com>
 
 	* C/usage-mail.sgml: no longer need to enter path.
+	
 
 2002-10-15  Aaron Weber  <aaron@ximian.com>
 
