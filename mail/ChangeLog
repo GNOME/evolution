@@ -1,5 +1,14 @@
 2002-04-16  Jeffrey Stedfast  <fejj@ximian.com>
 
+	* mail-tools.c (mail_tool_destroy_xevolution): Free the format
+	string.
+
+	* mail-config.c (config_write_signature): Don't leak the path
+	strings here.
+
+	* mail-signature-editor.c (menu_file_save_cb): Free the dirname
+	string.
+
 	* mail-config-factory.c (config_control_factory_cb): Ref the prefs
 	widget here since we unref in the destroy callback. Caught this
 	thanks to purify.

@@ -442,7 +442,7 @@ config_read_signatures ()
 static void
 config_write_signature (MailConfigSignature *sig, gint i)
 {
-	gchar *path;
+	char *path;
 
 	printf ("config_write_signature i: %d id: %d\n", i, sig->id);
 
@@ -460,9 +460,11 @@ config_write_signature (MailConfigSignature *sig, gint i)
 
 	path = g_strdup_printf ("/Mail/Signatures/random_%d", i);
 	bonobo_config_set_boolean (config->db, path, sig->random, NULL);
-
+	g_free (path);
+	
 	path = g_strdup_printf ("/Mail/Signatures/html_%d", i);
 	bonobo_config_set_boolean (config->db, path, sig->html, NULL);
+	g_free (path);
 }
 
 static void

@@ -100,6 +100,7 @@ menu_file_save_cb (BonoboUIComponent *uic,
 	printf ("basename = %s\n", filename);
 	filename = g_strdup_printf ("%s/.#%s", dirname, filename);
 	printf ("filename = %s\n", filename);
+	g_free (dirname);
 	
 	CORBA_exception_init (&ev);
 	
