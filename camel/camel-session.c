@@ -183,7 +183,7 @@ camel_session_list_providers (CamelSession *session, gboolean load)
 }
 
 static void
-service_cache_remove(CamelService *service, CamelSession *session)
+service_cache_remove (CamelService *service, CamelSession *session)
 {
 	g_hash_table_remove(session->service_cache, service->url);
 }
@@ -201,7 +201,7 @@ camel_session_get_service (CamelSession *session, const char *url_string,
 		return NULL;
 
 	/* lookup in cache first */
-	printf("looking up service in cache: %s\n", url_string);
+	printf("looking up service in cache: \"%s\"\n", camel_url_to_string (url, FALSE));
 	service = g_hash_table_lookup(session->service_cache, url);
 	if (service != NULL) {
 		printf("found!!\n");
@@ -225,8 +225,7 @@ camel_session_get_service (CamelSession *session, const char *url_string,
 				return NULL;
 			}
 		}
-		provider = g_hash_table_lookup (session->providers,
-						url->protocol);
+		provider = g_hash_table_lookup (session->providers, url->protocol);
 	}
 
 	if (!provider || !provider->object_types[type]) {
@@ -243,6 +242,7 @@ camel_session_get_service (CamelSession *session, const char *url_string,
 		g_hash_table_insert(session->service_cache, url, service);
 		gtk_signal_connect((GtkObject *)service, "destroy", service_cache_remove, session);
 	}
+
 	return service;
 }
 

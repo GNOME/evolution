@@ -315,7 +315,7 @@ guint camel_url_hash (const void *v)
 }
 
 static int
-check_equal(char *s1, char *s2)
+check_equal (char *s1, char *s2)
 {
 	if (s1 == NULL) {
 		if (s2 == NULL)
@@ -323,23 +323,20 @@ check_equal(char *s1, char *s2)
 		else
 			return FALSE;
 	}
-	if (s2 == NULL) {
-		if (s1 == NULL)
-			return TRUE;
-		else
-			return FALSE;
-	}
-	return strcmp(s1, s2) == 0;
+	
+	if (s2 == NULL)
+		return FALSE;
+
+	return strcmp (s1, s2) == 0;
 }
 
 int camel_url_equal(const void *v, const void *v2)
 {
 	const CamelURL *u1 = v, *u2 = v2;
-
+	
 	return check_equal(u1->protocol, u2->protocol)
 		&& check_equal(u1->user, u2->user)
 		&& check_equal(u1->authmech, u2->authmech)
-		&& check_equal(u1->passwd, u2->passwd)
 		&& check_equal(u1->host, u2->host)
 		&& check_equal(u1->path, u2->path)
 		&& u1->port == u2->port;

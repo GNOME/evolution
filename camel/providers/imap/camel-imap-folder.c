@@ -209,7 +209,27 @@ static void
 imap_finalize (GtkObject *object)
 {
 	/* TODO: do we need to do more here? */
+	CamelImapFolder *imap_folder = CAMEL_IMAP_FOLDER (object);
+	CamelMessageInfo *info;
+	gint i, max;
+	
 	GTK_OBJECT_CLASS (parent_class)->finalize (object);
+
+	g_return_if_fail (imap_folder->summary != NULL);
+	
+	max = imap_folder->summary->len;
+	for (i = 0; i < max; i++) {
+		info = g_ptr_array_index (imap_folder->summary, i);
+		g_free (info->subject);
+		g_free (info->to);
+		g_free (info->from);
+		g_free (info->uid);
+		g_free (info);
+		info = NULL;
+	}
+
+	g_ptr_array_free (imap_folder->summary, TRUE);
+	imap_folder->summary = NULL;
 }
 
 static void 
@@ -745,16 +765,17 @@ imap_get_summary (CamelFolder *folder, CamelException *ex)
 	CamelImapFolder *imap_folder = CAMEL_IMAP_FOLDER (folder);
 	GPtrArray *array = NULL;
 	CamelMessageInfo *info;
-	int i, num, status;
+	gint num, i = 0, status = 0;
 	char *result, *datestr, *p, *q;
 
-	imap_free_summary (folder, imap_folder->summary);
+	if (imap_folder->summary)
+		return imap_folder->summary;
 	
 	num = imap_get_message_count (folder, ex);
 	
 	array = g_ptr_array_new ();
 	
-	for (i = 0; i < num; i++) {
+	for (i = 1; i <= num; i++) {
 		status = camel_imap_command_extended (CAMEL_IMAP_STORE (folder->parent_store), folder,
 						      &result, "FETCH %d BODY.PEEK[HEADER]", i);
 		
@@ -798,6 +819,7 @@ imap_get_summary (CamelFolder *folder, CamelException *ex)
 			g_free (info->to);
 			g_free (info->from);
 			g_free (info);
+			info = NULL;
 
 			break;
 		}
@@ -810,6 +832,7 @@ imap_get_summary (CamelFolder *folder, CamelException *ex)
 			g_free (info->to);
 			g_free (info->from);
 			g_free (info);
+			info = NULL;
 			
 			break;
 		}
@@ -823,6 +846,7 @@ imap_get_summary (CamelFolder *folder, CamelException *ex)
 			g_free (info->to);
 			g_free (info->from);
 			g_free (info);
+			info = NULL;
 			
 			break;
 		}
@@ -850,6 +874,7 @@ imap_get_summary (CamelFolder *folder, CamelException *ex)
 			g_free (info->to);
 			g_free (info->from);
 			g_free (info);
+			info = NULL;
 
 			break;
 		}
@@ -862,6 +887,7 @@ imap_get_summary (CamelFolder *folder, CamelException *ex)
 			g_free (info->to);
 			g_free (info->from);
 			g_free (info);
+			info = NULL;
 			
 			break;
 		}
@@ -875,6 +901,7 @@ imap_get_summary (CamelFolder *folder, CamelException *ex)
 			g_free (info->to);
 			g_free (info->from);
 			g_free (info);
+			info = NULL;
 			
 			break;
 		}
@@ -905,23 +932,7 @@ imap_get_summary (CamelFolder *folder, CamelException *ex)
 void
 imap_free_summary (CamelFolder *folder, GPtrArray *array)
 {
-	CamelMessageInfo *info;
-	gint i, max;
-
-	max = array->len;
-	for (i = 0; i < max; i++) {
-		info = g_ptr_array_index (array, i);
-		g_free (info->subject);
-		g_free (info->to);
-		g_free (info->from);
-		g_free (info->uid);
-		g_free (info);
-		info = NULL;
-	}
-
-	g_ptr_array_free (array, TRUE);
-	array = NULL;
-	
+	/* no-op */
 	return;
 }
 

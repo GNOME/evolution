@@ -105,8 +105,9 @@ folder_browser_load_folder (FolderBrowser *fb, const char *name)
 		char *service, *ptr;
 		
 		fprintf (stderr, "\n****** name = %s ******\n\n", name);
-		service = g_strdup (name);
+		service = g_strdup_printf ("%s/", name);
 		for (ptr = service + 7; *ptr && *ptr != '/'; ptr++);
+		ptr++;
 		*ptr = '\0';
 		fprintf (stderr, "\n****** service = %s ******\n\n", service);
 		store = camel_session_get_store (session, service, ex);

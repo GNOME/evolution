@@ -1,3 +1,15 @@
+2000-06-20  Jeffrey Stedfast  <fejj@helixcode.com>
+
+	* providers/imap/camel-imap-folder.c (imap_get_summary): Only
+	fetch the summary if the folder summary doesn't already exist.
+	When the summary *does* exist, start fetching from 1, not 0.
+	(imap_free_summary): Don't do anything here.
+	(imap_finalize): Free the summary here instead of in
+	imap_free_summary().
+
+	* camel-url.c (check_equal): No need to check s1 if s2 is NULL
+	(camel_url_equal): Don't check the passwd component of the url.
+
 2000-06-20  Dan Winship  <danw@helixcode.com>
 
 	* camel-folder-summary.c (camel_folder_summary_add): mark the

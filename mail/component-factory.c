@@ -270,11 +270,15 @@ create_imap_storage (EvolutionShellComponent *shell_component)
 	corba_shell = evolution_shell_component_get_owner (shell_component);
 	if (corba_shell == CORBA_OBJECT_NIL) {
 		g_warning ("We have no shell!?");
+		g_free (source);
 		return;
 	}
 
-	if (!(server = strchr (source, '@')))
+	if (!(server = strchr (source, '@'))) {
+		g_free (source);
 		return;
+	}
+	
 	server++;
 	for (p = server; *p && *p != '/'; p++);
 
@@ -285,6 +289,7 @@ create_imap_storage (EvolutionShellComponent *shell_component)
 
 	if (evolution_storage_register_on_shell (storage, corba_shell) != EVOLUTION_STORAGE_OK) {
 		g_warning ("Cannot register storage");
+		g_free (source);
 		return;
 	}
 
