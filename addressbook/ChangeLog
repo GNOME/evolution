@@ -1,3 +1,11 @@
+2003-02-11  JP Rosevear  <jpr@ximian.com>
+
+	Fixes #37881
+	
+	* gui/component/select-names/e-simple-card-bonobo.c
+	(impl_SimpleCard_get): if we get a null value, send back the empty
+	string
+
 2003-02-07  JP Rosevear  <jpr@ximian.com>
 
 	* gui/component/select-names/e-select-names.etspec: reflect prior column addition
