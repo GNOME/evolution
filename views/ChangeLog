@@ -1,3 +1,10 @@
+2003-12-05  Hans Petter Jansson  <hpj@ximian.com>
+
+	* addressbook/By_Company.galview: Match new column values, change
+	default columns shown.
+
+	* addressbook/Phone_List.galview: Ditto.
+
 2003-11-18  JP Rosevear <jpr@ximian.com>
 
 	* tasks/With_Category.galview: match new column values
