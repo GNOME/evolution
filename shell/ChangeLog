@@ -1,3 +1,11 @@
+2001-10-12  Ettore Perazzoli  <ettore@ximian.com>
+
+	* e-shell-offline-handler.c (prepare_for_offline): Only invoke
+	`progress_listener_servant_free()', no need to also do `__fini()'
+	on it as `__fini()' is also called by the former.  [Fixes #12329.]
+	Also, print out the CORBA exception that gets raised so we have
+	some more clues about what is wrong.
+
 2001-10-11  Ettore Perazzoli  <ettore@ximian.com>
 
 	* e-shell-view.c

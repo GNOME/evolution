@@ -408,10 +408,8 @@ prepare_for_offline (EShellOfflineHandler *offline_handler)
 
 		GNOME_Evolution_Offline_prepareForOffline (offline_interface, &active_connection_list, &ev);
 		if (ev._major != CORBA_NO_EXCEPTION) {
-			g_warning ("Cannot prepare component component to go offline -- %s", id);
+			g_warning ("Cannot prepare component component to go offline -- %s [%s]", id, ev._repo_id);
 
-			POA_GNOME_Evolution_OfflineProgressListener__fini
-				((POA_GNOME_Evolution_OfflineProgressListener *) progress_listener_servant, &ev);
 			progress_listener_servant_free (progress_listener_servant);
 			
 			CORBA_Object_release (progress_listener_interface, &ev);
