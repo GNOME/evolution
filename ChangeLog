@@ -2,6 +2,8 @@
 
 	* Version 0.2.
 
+	* configure.in: Reverse the GtkHTML check.
+
 2000-07-10  Jeffrey Stedfast <fejj@helixcode.com>
 
 	* configure.in: Updated to check for required GtkHTML and

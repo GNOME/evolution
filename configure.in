@@ -326,7 +326,7 @@ if gnome-config --libs gtkhtml > /dev/null 2>&1; then
 	vers=`gnome-config --modversion gtkhtml`
 	case $vers
 	in
-	    gtkhtml-0.5) gtkhtml_ok=false ;;
+	    gtkhtml-0.[01234]) gtkhtml_ok=false ;;
 	    *) gtkhtml_ok=true ;;
 	esac
 else
