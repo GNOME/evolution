@@ -1931,7 +1931,11 @@ imap_update_summary (CamelFolder *folder, int exists,
 					break;
 			}
 			
-			g_assert (pmi);
+			if (pmi == NULL) {
+				/* Server response is *really* fucked up,
+				   I guess we just pretend it never happened? */
+				continue;
+			}
 			
 			mi = camel_message_info_new ();
 			camel_message_info_dup_to (pmi, mi);

@@ -1,3 +1,9 @@
+2002-01-29  Jeffrey Stedfast  <fejj@ximian.com>
+
+	* providers/imap/camel-imap-folder.c (imap_update_summary): Added
+	more kludge to an existing Exchange IMAP 5.5 kludge to work around
+	it returning multiple messages with the same UIDs.
+
 2002-01-28  Jeffrey Stedfast  <fejj@ximian.com>
 
 	* camel-mime-message.c (process_header): Handle Resent headers
