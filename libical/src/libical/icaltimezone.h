@@ -74,6 +74,10 @@ char*	icaltimezone_get_location		(icaltimezone	*zone);
    may also return NULL. */
 char*	icaltimezone_get_tznames		(icaltimezone	*zone);
 
+/* Returns a string suitable for displaying to the user. If there is a
+   LOCATION property it returns that, else the TZNAMEs, else the TZID. */
+char*	icaltimezone_get_display_name		(icaltimezone	*zone);
+
 /* Returns the latitude of a builtin timezone. */
 double	icaltimezone_get_latitude		(icaltimezone	*zone);
 

@@ -87,7 +87,8 @@ struct _icaltimezone {
     /* If this is not NULL it points to the builtin icaltimezone that the
        above TZID refers to. This icaltimezone should be used instead when
        accessing the timezone changes data, so that the expanded timezone
-       changes data is shared between calendar components. */
+       changes data is shared between calendar components. (I don't think
+       we actually use this at present.) */
     icaltimezone	*builtin_timezone;
 
     /* This is the last year for which we have expanded the data to.
@@ -1205,6 +1206,25 @@ icaltimezone_set_component		(icaltimezone	*zone,
 {
     icaltimezone_reset (zone);
     return icaltimezone_get_vtimezone_properties (zone, comp);
+}
+
+
+/* Returns the timezone name to display to the user. We prefer to use the
+   Olson city name, but fall back on the TZNAME, or finally the TZID. We don't
+   want to use "" as it may be wrongly interpreted as a floating time.
+   Do not free the returned string. */
+char*
+icaltimezone_get_display_name		(icaltimezone	*zone)
+{
+	char *display_name;
+
+	display_name = icaltimezone_get_location (zone);
+	if (!display_name)
+		display_name = icaltimezone_get_tznames (zone);
+	if (!display_name)
+		display_name = icaltimezone_get_tzid (zone);
+
+	return display_name;
 }
 
 
