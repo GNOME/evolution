@@ -77,7 +77,6 @@ struct _EMComposerPrefs {
 	gboolean spell_active;
 	
 	struct _GdkPixbuf *enabled_pixbuf;
-	struct _GtkWidget *spell_able_button;
 	
 	/* Forwards and Replies */
 	struct _GtkOptionMenu *forward_style;

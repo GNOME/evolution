@@ -579,28 +579,6 @@ spell_color_set (GtkWidget *widget, guint r, guint g, guint b, guint a, EMCompos
 	gconf_client_set_int (prefs->gconf, GNOME_SPELL_GCONF_DIR "/spell_error_color_blue", b, NULL);
 }
 
-static void
-spell_live_toggled (GtkWidget *widget, gpointer user_data)
-{
-	/* FIXME: what gconf key is this? */
-}
-
-static void
-spell_language_selection_changed (GtkTreeSelection *selection, EMComposerPrefs *prefs)
-{
-	GtkTreeIter iter;
-	GtkTreeModel *model;
-	gboolean state = FALSE;
-	
-	if (gtk_tree_selection_get_selected (selection, &model, &iter)) {
-		gtk_tree_model_get ((GtkTreeModel *) model, &iter, 0, &state, -1);
-		gtk_button_set_label ((GtkButton *) prefs->spell_able_button, state ? _("Disable") : _("Enable"));
-		state = TRUE;
-	}
-	
-	gtk_widget_set_sensitive (prefs->spell_able_button, state);
-}
-
 static char *
 spell_get_language_str (EMComposerPrefs *prefs)
 {
@@ -637,58 +615,25 @@ spell_get_language_str (EMComposerPrefs *prefs)
 	return rv;
 }
 
-static void
-spell_language_enable (GtkWidget *widget, EMComposerPrefs *prefs)
+static void 
+spell_language_toggled (GtkCellRendererToggle *renderer, const char *path_string, EMComposerPrefs *prefs)
 {
-	GtkTreeIter iter;
-	GtkTreeModel *model;
-	GtkTreeSelection *selection;
-	gboolean state;
-	char *str;
-	
-	selection = gtk_tree_view_get_selection (prefs->language);
-	if (!gtk_tree_selection_get_selected (selection, &model, &iter))
-		return;
-	
-	gtk_tree_model_get (model, &iter, 0, &state, -1);
-	gtk_list_store_set ((GtkListStore *) model, &iter, 0, !state, -1);
-	gtk_button_set_label ((GtkButton *) prefs->spell_able_button, state ? _("Enable") : _("Disable"));
-	
-	str = spell_get_language_str (prefs);
-	gconf_client_set_string (prefs->gconf, GNOME_SPELL_GCONF_DIR "/language", str ? str : "", NULL);
-	g_free (str);
-}
-
-static gboolean
-spell_language_button_press (GtkTreeView *treeview, GdkEventButton *event, EMComposerPrefs *prefs)
-{
-	GtkTreeViewColumn *column = NULL;
-	GtkTreePath *path = NULL;
+	GtkTreePath *path = gtk_tree_path_new_from_string (path_string);
 	GtkTreeModel *model;
 	GtkTreeIter iter;
 	gboolean enabled;
 	char *str;
 	
-	if (!(gtk_tree_view_get_path_at_pos (treeview, event->x, event->y, &path, &column, NULL, NULL)))
-		return FALSE;
-	
-	/* FIXME: This routine should just be a "toggled" event handler on the checkbox cell renderer which
-	   has "activatable" set. */
-	
-	if (strcmp (gtk_tree_view_column_get_title (column), _("Enabled")) != 0)
-		return FALSE;
-	
-	model = gtk_tree_view_get_model (treeview);
+	model = gtk_tree_view_get_model (prefs->language);
 	gtk_tree_model_get_iter (model, &iter, path);
 	gtk_tree_model_get (model, &iter, 0, &enabled, -1);
 	gtk_list_store_set ((GtkListStore *) model, &iter, 0, !enabled, -1);
-	gtk_button_set_label ((GtkButton *) prefs->spell_able_button, enabled ? _("Enable") : _("Disable"));
 	
 	str = spell_get_language_str (prefs);
 	gconf_client_set_string (prefs->gconf, GNOME_SPELL_GCONF_DIR "/language", str ? str : "", NULL);
 	g_free (str);
-	
-	return FALSE;
+
+	gtk_tree_path_free (path);
 }
 
 static void
@@ -715,14 +660,6 @@ spell_setup (EMComposerPrefs *prefs)
 	
 	widget = glade_xml_get_widget (prefs->gui, "colorpickerSpellCheckColor");
 	g_signal_connect (widget, "color_set", G_CALLBACK (spell_color_set), prefs);
-	
-	widget = glade_xml_get_widget (prefs->gui, "buttonSpellCheckEnable");
-	g_signal_connect (widget, "clicked", G_CALLBACK (spell_language_enable), prefs);
-	
-	widget = glade_xml_get_widget (prefs->gui, "chkEnableSpellChecking");
-	g_signal_connect (widget, "toggled", G_CALLBACK (spell_live_toggled), prefs);
-	
-	g_signal_connect (prefs->language, "button_press_event", G_CALLBACK (spell_language_button_press), prefs);
 }
 
 static gboolean
@@ -879,6 +816,7 @@ em_composer_prefs_construct (EMComposerPrefs *prefs)
 	GladeXML *gui;
 	GtkListStore *model;
 	GtkTreeSelection *selection;
+	GtkCellRenderer *cell_renderer;
 	int style;
 	char *buf;
 	EMConfig *ec;
@@ -942,19 +880,19 @@ em_composer_prefs_construct (EMComposerPrefs *prefs)
 	prefs->language = GTK_TREE_VIEW (glade_xml_get_widget (gui, "listSpellCheckLanguage"));
 	model = gtk_list_store_new (3, G_TYPE_BOOLEAN, G_TYPE_STRING, G_TYPE_POINTER);
 	gtk_tree_view_set_model (prefs->language, (GtkTreeModel *) model);
+	cell_renderer = gtk_cell_renderer_toggle_new ();
 	gtk_tree_view_insert_column_with_attributes (prefs->language, -1, _("Enabled"),
-						     gtk_cell_renderer_toggle_new (),
+						     cell_renderer,
 						     "active", 0,
 						     NULL);
+	g_signal_connect (cell_renderer, "toggled", G_CALLBACK (spell_language_toggled), prefs);
+	
 	gtk_tree_view_insert_column_with_attributes (prefs->language, -1, _("Language(s)"),
 						     gtk_cell_renderer_text_new (),
 						     "text", 1,
 						     NULL);
 	selection = gtk_tree_view_get_selection (prefs->language);
-	gtk_tree_selection_set_mode (selection, GTK_SELECTION_SINGLE);
-	g_signal_connect (selection, "changed", G_CALLBACK (spell_language_selection_changed), prefs);
-	
-	prefs->spell_able_button = glade_xml_get_widget (gui, "buttonSpellCheckEnable");
+	gtk_tree_selection_set_mode (selection, GTK_SELECTION_NONE);
 	info_pixmap = glade_xml_get_widget (gui, "pixmapSpellInfo");
 	gtk_image_set_from_stock (GTK_IMAGE (info_pixmap), GTK_STOCK_DIALOG_INFO, GTK_ICON_SIZE_BUTTON);
 	if (!spell_setup_check_options (prefs)) {

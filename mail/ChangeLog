@@ -1,3 +1,21 @@
+2005-01-24  JP Rosevear  <jpr@novell.com>
+
+	* searchtypes.xml: add back body contains
+
+2005-01-21  JP Rosevear  <jpr@novell.com>
+
+	Fixes #46287
+	
+	* mail-config.glade: remove enable/disable button
+
+	* em-composer-prefs.h: remove unused button
+
+	* em-composer-prefs.c (spell_language_toggled): handle the cell
+	being toggled
+	(spell_setup): enable/disable button is gone
+	(em_composer_prefs_construct): setup a listener for the toggle
+	cell
+
 2005-01-24  Radek Doulik  <rodo@ximian.com>
 
 	* em-popup.[ch]: removed EM_POPUP_SELECT_MARK_[NO]JUNK masks
@@ -13,7 +31,7 @@
 	* searchtypes.xml: changed for 69122.
 
 2005-01-21  JP Rosevear  <jpr@novell.com>
-
+	
 	Fixes #46404
 	
 	* em-folder-view.c (emfv_print_response): use the config in the
