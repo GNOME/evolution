@@ -382,9 +382,26 @@ icalproperty_add_parameter (icalproperty* prop,icalparameter* parameter)
 void
 icalproperty_remove_parameter (icalproperty* prop, icalparameter_kind kind)
 {
+    struct icalproperty_impl *p = (struct icalproperty_impl*)prop;
+    icalparameter *param;
+    pvl_elem elem;
+
     icalerror_check_arg_rv((prop!=0),"prop");
 
-    assert(0); /* This routine is not implemented */
+    /* This routine is now implemented, so disregard the following
+       assertion. */
+    /*    assert(0); */
+
+    elem = pvl_head (p->parameters);
+    while (elem != NULL) {
+        param = (icalparameter *)pvl_data (elem);
+        if (icalparameter_isa (param) == kind) {
+            pvl_remove (p->parameters, elem);
+            icalparameter_free (param);
+            break;
+        }
+        elem = pvl_next (elem);
+    }
 }
 
 
