@@ -1,3 +1,8 @@
+2001-05-09  Christopher James Lahey  <clahey@ximian.com>
+
+	* importers/evolution-mbox-importer.c (load_file_fn): Made a const
+	char * here.
+
 2001-05-08  Iain Holmes  <iain@ximian.com>
 
 	* mail-config.[ch]: Moved all references to the Bonobo stuff into the .c file

@@ -236,7 +236,8 @@ load_file_fn (EvolutionImporter *eimporter,
 	if (folderpath == NULL || *folderpath == '\0')
 		importer->folder = mail_tool_get_local_inbox (NULL);
 	else {
-		char *parent, *name;
+		char *parent;
+		const char *name;
 		BonoboListener *listener;
 
 		/* Make a new directory */
