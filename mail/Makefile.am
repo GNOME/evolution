@@ -1,4 +1,4 @@
-bin_PROGRAMS =	evolution-mail test-mail test-sources
+bin_PROGRAMS =	evolution-mail test-mail
 
 providerdir = $(libdir)/evolution/camel-providers/$(VERSION)
 
@@ -33,6 +33,8 @@ evolution_mail_SOURCES =		\
 	html-stream.h			\
 	mail-display.h			\
 	mail-display.c			\
+	mail-ops.c			\
+	mail-ops.h			\
 	main.c				\
 	message-list.c			\
 	message-list.h			\
@@ -59,12 +61,6 @@ test_mail_SOURCES = \
 test_mail_LDADD = \
 	$(BONOBO_HTML_GNOME_LIBS)
 
-
-test_sources_SOURCES = \
-	mail-sources.c
-
-test_sources_LDADD = \
-	$(BONOBO_HTML_GNOME_LIBS)
 
 gnorbadir = $(sysconfdir)/CORBA/servers
 gnorba_DATA = evolution-mail.gnorba

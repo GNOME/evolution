@@ -1,3 +1,16 @@
+2000-04-07  Dan Winship  <danw@helixcode.com>
+
+	* mail-ops.c: new file, for toolbar/menu callbacks
+	(fetch_mail): fetch mail. Doesn't do mbox locking. Many kludges.
+
+	* folder-browser-factory.c (control_activate): use new fetch_mail
+	function as the callback for the "New mail" icon. Rename check_cb
+	to random_cb.
+
+	* Makefile.am: don't build test-sources since the version in
+	CVS doesn't do much and once I've fixed it it won't be a separate
+	program. Add mail-ops.[ch].
+
 2000-04-06  Miguel de Icaza  <miguel@gnu.org>
 
 	* message-list.c: Stick pixmaps here.
