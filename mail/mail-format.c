@@ -1008,11 +1008,10 @@ handle_message_rfc822 (CamelMimePart *part, const char *mime_type,
 
 	g_return_if_fail (CAMEL_IS_MIME_MESSAGE (wrapper));
 
-	mail_html_write (mfd->html, mfd->stream, "<center>"
-			 "<table border=1 width=\"95%%\"><tr><td>");
+	mail_html_write (mfd->html, mfd->stream, "<blockquote>");
 	mail_format_mime_message (CAMEL_MIME_MESSAGE (wrapper),
 				  mfd->html, mfd->stream, mfd->root);
-	mail_html_write (mfd->html, mfd->stream, "</td></tr></table></center>");
+	mail_html_write (mfd->html, mfd->stream, "</blockquote>");
 }
 
 static void

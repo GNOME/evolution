@@ -1,3 +1,12 @@
+2000-06-01  Dan Winship  <danw@helixcode.com>
+
+	* mail-format.c (handle_message_rfc822): use <blockquote> rather
+	than <center><table border=1 width=95%> to frame the embedded
+	message. If <pre> text in the subtable won't fit in the 95% width,
+	GtkHTML will write past the border of the table (and
+	<blockquote><table border=1> causes creeping updates so it's not
+	usable for now).
+	
 2000-06-01  Christopher James Lahey  <clahey@helixcode.com>
 
 	* message-list.c (message_list_init): Turn off the grid in our
