@@ -23,6 +23,7 @@
  *
  */
 
+
 #ifdef HAVE_CONFIG_H
 #include <config.h>
 #endif
@@ -44,12 +45,6 @@
 #include "mail-ops.h"
 #include "mail.h"
 #include "mail-session.h"
-
-#include <bonobo/bonobo-exception.h>
-#include <bonobo/bonobo-control.h>
-#include <bonobo/bonobo-widget.h>
-#include <bonobo/bonobo-generic-factory.h>
-#include <bonobo/bonobo-context.h>
 
 #include <evolution-wizard.h>
 

@@ -29,11 +29,14 @@ extern "C" {
 #pragma }
 #endif
 
+#include <bonobo/bonobo-generic-factory.h>
 #include "evolution-config-control.h"
 
 #include <shell/Evolution.h>
 
 gboolean mail_config_register_factory (GNOME_Evolution_Shell shell);
+
+BonoboObject *mail_config_control_factory_cb (BonoboGenericFactory *factory, const char *component_id, void *user_data);
 
 #ifdef __cplusplus
 }

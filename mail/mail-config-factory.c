@@ -33,8 +33,6 @@
 
 #include "mail-config-factory.h"
 
-#include <bonobo/bonobo-generic-factory.h>
-
 #define CONFIG_CONTROL_FACTORY_ID "OAFIID:GNOME_Evolution_Mail_ConfigControlFactory"
 
 static BonoboGenericFactory *factory = NULL;
@@ -63,7 +61,7 @@ config_control_apply_cb (EvolutionConfigControl *config_control, void *user_data
 }
 
 BonoboObject *
-config_control_factory_cb (BonoboGenericFactory *factory, const char *component_id, void *user_data)
+mail_config_control_factory_cb (BonoboGenericFactory *factory, const char *component_id, void *user_data)
 {
 	GNOME_Evolution_Shell shell = (GNOME_Evolution_Shell) user_data;
 	EvolutionConfigControl *control;

@@ -602,17 +602,6 @@ folder_browser_ui_rm_list (FolderBrowser *fb)
 		folder_browser_ui_discard_view_menus (fb);
 }
 
-static void
-show_preview_changed (GConfClient *client, guint cnxn_id, GConfEntry *entry, gpointer user_data)
-{
-	FolderBrowser *fb = user_data;
-	gboolean show_preview;
-	
-	show_preview = gconf_client_get_bool (client, "/apps/evolution/mail/display/show_preview", NULL);
-	bonobo_ui_component_set_prop (fb->uicomp, "/commands/ViewPreview", "state", show_preview ? "1" : "0", NULL);
-	folder_browser_set_message_preview (fb, show_preview);
-}
-
 void 
 folder_browser_ui_add_global (FolderBrowser *fb)
 {
@@ -630,15 +619,6 @@ folder_browser_ui_add_global (FolderBrowser *fb)
 	gconf = gconf_client_get_default ();
 	
 	/* (Pre)view toggle */
-	
-	/* watch the show_preview setting */
-	gconf_client_add_dir (gconf, "/apps/evolution/mail/display/show_preview",
-			      GCONF_CLIENT_PRELOAD_ONELEVEL, NULL);
-	
-	/* listen for changed events to the show_preview setting */
-	gconf_client_notify_add (gconf, "/apps/evolution/mail/display/show_preview",
-				 show_preview_changed, fb, NULL, NULL);
-	
 	show_preview = gconf_client_get_bool (gconf, "/apps/evolution/mail/display/show_preview", NULL);
 	bonobo_ui_component_set_prop (uic, "/commands/ViewPreview", "state", show_preview ? "1" : "0", NULL);
 	

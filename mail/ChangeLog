@@ -1,5 +1,20 @@
 2003-01-10  Jeffrey Stedfast  <fejj@ximian.com>
 
+	* component-factory.c (factory): Updated for function rename.
+
+	* mail-config-factory.c (mail_config_control_factory_cb):
+	Namespaced the function name.
+
+	* folder-browser-ui.c (folder_browser_ui_add_global): Don't add
+	the listener for show_preview here, it was moved into
+	folder-browser.c so we could detach the listener when the
+	folder-browser is destroyed. Also prevents a listener being added
+	multiple times (which was possible? before).
+
+	* folder-browser.c (folder_browser_destroy): Remove the gconf
+	notify handler for show_preview.
+	(show_preview_changed): Moved here from folder-browser-ui.c
+
 	* component-factory.c (storage_remove_folder): Fixed a situation
 	in which we could notify the shell listener twice.
 

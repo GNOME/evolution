@@ -160,11 +160,14 @@ folder_browser_destroy (GtkObject *object)
 {
 	FolderBrowser *folder_browser;
 	CORBA_Environment ev;
+	GConfClient *gconf;
 	
 	folder_browser = FOLDER_BROWSER (object);
-
+	
+	gconf = gconf_client_get_default ();
+	
 	CORBA_exception_init (&ev);
-
+	
 	if (folder_browser->seen_id != 0) {
 		gtk_timeout_remove (folder_browser->seen_id);
 		folder_browser->seen_id = 0;
@@ -194,10 +197,15 @@ folder_browser_destroy (GtkObject *object)
 		g_object_unref (folder_browser->view_menus);
 		folder_browser->view_menus = NULL;
 	}
-
+	
 	if (folder_browser->paned_size_notify_id != 0) {
-		gconf_client_notify_remove(gconf_client_get_default (), folder_browser->paned_size_notify_id);
+		gconf_client_notify_remove (gconf, folder_browser->paned_size_notify_id);
 		folder_browser->paned_size_notify_id = 0;
+	}
+	
+	if (folder_browser->show_preview_notify_id != 0) {
+		gconf_client_notify_remove (gconf, folder_browser->show_preview_notify_id);
+		folder_browser->show_preview_notify_id = 0;
 	}
 	
 	/* wait for all outstanding async events against us */
@@ -2339,12 +2347,23 @@ paned_size_changed (GConfClient *client, guint cnxn_id, GConfEntry *entry, gpoin
 	FolderBrowser *fb = user_data;
 	int paned_size;
 	
-	g_signal_handler_block (fb->message_list, fb->resize_id);
+	g_signal_handler_block (fb->message_list, fb->paned_resize_id);
 	
 	paned_size = gconf_client_get_int (client, "/apps/evolution/mail/display/paned_size", NULL);
 	e_paned_set_position (E_PANED (fb->vpaned), paned_size);
 	
-	g_signal_handler_unblock (fb->message_list, fb->resize_id);
+	g_signal_handler_unblock (fb->message_list, fb->paned_resize_id);
+}
+
+static void
+show_preview_changed (GConfClient *client, guint cnxn_id, GConfEntry *entry, gpointer user_data)
+{
+	FolderBrowser *fb = user_data;
+	gboolean show_preview;
+	
+	show_preview = gconf_client_get_bool (client, "/apps/evolution/mail/display/show_preview", NULL);
+	bonobo_ui_component_set_prop (fb->uicomp, "/commands/ViewPreview", "state", show_preview ? "1" : "0", NULL);
+	folder_browser_set_message_preview (fb, show_preview);
 }
 
 static void
@@ -2398,12 +2417,12 @@ folder_browser_gui_init (FolderBrowser *fb)
 	e_paned_add1 (E_PANED (fb->vpaned), GTK_WIDGET (fb->message_list));
 	gtk_widget_show (GTK_WIDGET (fb->message_list));
 	
-	fb->resize_id = g_signal_connect (fb->message_list, "size_allocate",
-					  G_CALLBACK (fb_resize_cb), fb);
+	fb->paned_resize_id = g_signal_connect (fb->message_list, "size_allocate",
+						G_CALLBACK (fb_resize_cb), fb);
 	
 	gconf = gconf_client_get_default ();
 	
-	/* listen for updates */
+	/* paned size */
 	gconf_client_add_dir (gconf, "/apps/evolution/mail/display/paned_size",
 			      GCONF_CLIENT_PRELOAD_ONELEVEL, NULL);
 	
@@ -2411,6 +2430,14 @@ folder_browser_gui_init (FolderBrowser *fb)
 							    paned_size_changed, fb, NULL, NULL);
 	
 	paned_size = gconf_client_get_int (gconf, "/apps/evolution/mail/display/paned_size", NULL);
+	
+	/* show preview-pane */
+	gconf_client_add_dir (gconf, "/apps/evolution/mail/display/show_preview",
+			      GCONF_CLIENT_PRELOAD_ONELEVEL, NULL);
+	
+	/* listen for changed events to the show_preview setting */
+	fb->show_preview_notify_id = gconf_client_notify_add (gconf, "/apps/evolution/mail/display/show_preview",
+							      show_preview_changed, fb, NULL, NULL);
 	
 	e_paned_add2 (E_PANED (fb->vpaned), GTK_WIDGET (fb->mail_display));
 	e_paned_set_position (E_PANED (fb->vpaned), paned_size);

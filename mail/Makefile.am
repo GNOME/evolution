@@ -181,6 +181,9 @@ glade_DATA = mail-config.glade local-config.glade subscribe-dialog.glade message
 etspecdir = $(datadir)/evolution/etspec/
 etspec_DATA = mail-accounts.etspec message-list.etspec subscribe-dialog.etspec
 
+schemadir   = $(GCONF_SCHEMA_FILE_DIR)
+schema_DATA = evolution-mail.schemas
+
 iconsdir = $(datadir)/evolution/images
 buttonsdir = $(datadir)/evolution/images/buttons
 

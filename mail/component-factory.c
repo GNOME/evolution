@@ -20,19 +20,23 @@
  * Boston, MA 02111-1307, USA.
  */
 
+
 #ifdef HAVE_CONFIG_H
 #include <config.h>
 #endif
 
 #include <string.h>
+#include <signal.h>
 
 #include <gconf/gconf.h>
 #include <gconf/gconf-client.h>
 
-#include <bonobo/bonobo-generic-factory.h>
-#include <gal/widgets/e-gui-utils.h>
+#include <camel/camel.h>
 
-#include "camel.h"
+#include <bonobo/bonobo-generic-factory.h>
+#include <bonobo/bonobo-shlib-factory.h>
+
+#include <gal/widgets/e-gui-utils.h>
 
 #include "Evolution.h"
 #include "evolution-storage.h"
@@ -46,6 +50,8 @@
 #include "mail.h"
 #include "mail-config.h"
 #include "mail-config-factory.h"
+#include "mail-preferences.h"
+#include "mail-composer-prefs.h"
 #include "mail-tools.h"
 #include "mail-ops.h"
 #include "mail-offline-handler.h"
@@ -1593,14 +1599,6 @@ mail_storages_foreach (GHFunc func, gpointer data)
 }
 
 
-
-#include <signal.h>
-
-#include <bonobo/bonobo-shlib-factory.h>
-#include "folder-info.h"
-#include "mail-preferences.h"
-#include "mail-composer-prefs.h"
-
 #define FACTORY_ID "OAFIID:GNOME_Evolution_Mail_ControlFactory"
 
 #define MAIL_CONFIG_IID "OAFIID:GNOME_Evolution_MailConfig"
@@ -1630,7 +1628,7 @@ factory (BonoboGenericFactory *factory,
 		 || strcmp (component_id, MAIL_PREFERENCES_CONTROL_ID) == 0
 		 || strcmp (component_id, MAIL_COMPOSER_PREFS_CONTROL_ID) == 0
 		 || strcmp (component_id, MAIL_FONT_PREFS_CONTROL_ID) == 0)
-		return config_control_factory_cb(factory, component_id, evolution_shell_client_corba_objref (global_shell_client));
+		return mail_config_control_factory_cb (factory, component_id, evolution_shell_client_corba_objref (global_shell_client));
 
 	g_warning (FACTORY_ID ": Don't know what to do with %s", component_id);
 	return NULL;
