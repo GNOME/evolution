@@ -388,6 +388,7 @@ setup_defaults (EShellView *shell_view)
 	GConfClient *client;
 	GSList *icon_types_list;
 	GSList *p;
+	char *file_name;
 	int shortcut_group;
 	int width;
 	int i;
@@ -428,15 +429,12 @@ setup_defaults (EShellView *shell_view)
 		e_shortcut_bar_set_view_type (shortcut_bar, i, GPOINTER_TO_INT (p->data));
 	g_slist_free (icon_types_list);
 
-#if 0
 	/* Load the expanded state for the ShellView's StorageSetView */
-	filename = g_strdup_printf ("%s/config/storage-set-view-expanded:view_%d",
-				    e_shell_get_local_directory (priv->shell),
-				    view_num);
+	file_name = g_strdup_printf ("%s/config/storage-set-view-expanded:default",
+				     e_shell_get_local_directory (priv->shell));
 	e_tree_load_expanded_state (E_TREE (priv->storage_set_view),
-				    filename);
-	g_free (filename);
-#endif
+				    file_name);
+	g_free (file_name);
 }
 
 
@@ -2762,7 +2760,7 @@ e_shell_view_save_defaults (EShellView *shell_view)
 	EShortcutBar *shortcut_bar;
 	GSList *shortcut_view_type_list;
 	const char *uri;
-	char *filename;
+	char *file_name;
 	int num_groups;
 	int group;
 	struct stat temp;
@@ -2825,20 +2823,18 @@ e_shell_view_save_defaults (EShellView *shell_view)
 	g_slist_free (shortcut_view_type_list);
 
 	/* If ~/evolution/config/ doesn't exist yet, make it */
-	filename = g_strdup_printf ("%s/config/", e_shell_get_local_directory (priv->shell));
-	if (stat (filename, &temp) != 0)
-		mkdir (filename, S_IRWXU);
-	g_free (filename);
+	file_name = g_strdup_printf ("%s/config/", e_shell_get_local_directory (priv->shell));
+	if (stat (file_name, &temp) != 0)
+		mkdir (file_name, S_IRWXU);
+	g_free (file_name);
 
-#if 0
-	/* Save the expanded state for this ShellView's StorageSetView */
-	filename = g_strdup_printf ("%s/config/storage-set-view-expanded:view_%d",
-				    e_shell_get_local_directory (priv->shell),
-				    view_num);
+	/* Save the expanded state for the StorageSetView.  */
+
+	file_name = g_strdup_printf ("%s/config/storage-set-view-expanded:default",
+				     e_shell_get_local_directory (priv->shell));
 	e_tree_save_expanded_state (E_TREE (priv->storage_set_view),
-				    filename);
-	g_free (filename);
-#endif
+				    file_name);
+	g_free (file_name);
 
 	g_object_unref (client);
 }

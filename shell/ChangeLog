@@ -1,5 +1,11 @@
 2003-01-10  Ettore Perazzoli  <ettore@ximian.com>
 
+	* e-shell-view.c (e_shell_view_save_defaults): Save the expansion
+	state of the EStorageSetView.
+	(setup_defaults): Load the expansion state.
+
+2003-01-10  Ettore Perazzoli  <ettore@ximian.com>
+
 	* e-shell.c (e_shell_request_close_view): Make the view save its
 	settings as the default ones if it's the last one.
 
