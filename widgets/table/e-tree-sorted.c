@@ -110,6 +110,8 @@ ets_sort_idle(gpointer user_data)
 	ets->priv->sort_idle_id = 0;
 	if (ets->priv->root) {
 		resort_node (ets, ets->priv->root, FALSE, FALSE, TRUE);
+	} else {
+		e_tree_model_node_changed (E_TREE_MODEL(ets), ets->priv->root);
 	}
 	return FALSE;
 }
@@ -513,14 +515,20 @@ mark_path_needs_resort (ETreeSorted *ets, ETreeSortedPath *path, gboolean needs_
 static void
 schedule_resort (ETreeSorted *ets, ETreeSortedPath *path, gboolean needs_regen, gboolean resort_all_children)
 {
-	mark_path_needs_resort(ets, path, needs_regen, resort_all_children);
-	if (ets->priv->sort_idle_id == 0) {
-		ets->priv->sort_idle_id = g_idle_add_full(50, (GSourceFunc) ets_sort_idle, ets, NULL);
-	}
 	ets->priv->insert_count = 0;
 	if (ets->priv->insert_idle_id != 0) {
 		g_source_remove(ets->priv->insert_idle_id);
 		ets->priv->insert_idle_id = 0;
+	}
+
+	if (path == NULL)
+		return;
+	if (path->num_children == 0)
+		return;
+
+	mark_path_needs_resort(ets, path, needs_regen, resort_all_children);
+	if (ets->priv->sort_idle_id == 0) {
+		ets->priv->sort_idle_id = g_idle_add_full(50, (GSourceFunc) ets_sort_idle, ets, NULL);
 	}
 }
 
@@ -832,6 +840,32 @@ ets_get_save_id (ETreeModel *etm, ETreePath node)
 		return g_strdup_printf("%p", path->corresponding);
 }
 
+static gboolean
+ets_has_get_node_by_id (ETreeModel *etm)
+{
+	ETreeSorted *ets = E_TREE_SORTED(etm);
+	return e_tree_model_has_get_node_by_id(ets->priv->source);
+}
+
+static ETreePath
+ets_get_node_by_id (ETreeModel *etm, gchar *save_id)
+{
+	ETreeSorted *ets = E_TREE_SORTED(etm);
+	ETreePath node;
+
+	node = e_tree_model_get_node_by_id (ets->priv->source, save_id);
+
+	return find_path(ets, node);
+}
+
+static gboolean
+ets_has_change_pending (ETreeModel *etm)
+{
+	ETreeSorted *ets = E_TREE_SORTED(etm);
+
+	return ets->priv->sort_idle_id != 0;
+}
+
 
 static void *
 ets_value_at (ETreeModel *etm, ETreePath node, int col)
@@ -1101,6 +1135,11 @@ e_tree_sorted_class_init (GtkObjectClass *klass)
 
 	tree_class->has_save_id          = ets_has_save_id;
 	tree_class->get_save_id          = ets_get_save_id;
+
+	tree_class->has_get_node_by_id   = ets_has_get_node_by_id;
+	tree_class->get_node_by_id       = ets_get_node_by_id;
+
+	tree_class->has_change_pending   = ets_has_change_pending;
 
 
 

@@ -1237,7 +1237,6 @@ eti_draw (GnomeCanvasItem *item, GdkDrawable *drawable, int x, int y, int width,
 	double i2c [6];
 	ArtPoint eti_base, eti_base_item, lower_right;
 	GtkWidget *canvas = GTK_WIDGET(item->canvas);
-	GdkColor *background;
 	int height_extra = eti->horizontal_draw_grid ? 1 : 0;
 	
 	/*
@@ -1352,6 +1351,9 @@ eti_draw (GnomeCanvasItem *item, GdkDrawable *drawable, int x, int y, int width,
 			ECellView *ecell_view = eti->cell_views [col];
 			gboolean col_selected = selected;
 			ECellFlags flags;
+			gboolean free_background = FALSE;
+			GdkColor *background;
+
 			switch (eti->cursor_mode) {
 			case E_CURSOR_SIMPLE:
 			case E_CURSOR_SPREADSHEET:
@@ -1374,14 +1376,24 @@ eti_draw (GnomeCanvasItem *item, GdkDrawable *drawable, int x, int y, int width,
 #endif
 					background = &canvas->style->base [GTK_STATE_NORMAL];
 #if 0
-				else
-					background = &canvas->style->base [GTK_STATE_SELECTED];
+				else {
+					free_background = TRUE;
+					background = gdk_color_copy (&canvas->style->base [GTK_STATE_NORMAL]);
+					background->red -= 25000;
+					background->green += 25000;
+					background->blue -= 25000;
+
+					gdk_color_alloc (gtk_widget_get_colormap (GTK_WIDGET (canvas)), background);
+				}
 #endif
 			}
 
 			gdk_gc_set_foreground (eti->fill_gc, background);
 			gdk_draw_rectangle (drawable, eti->fill_gc, TRUE,
 					    xd, yd, ecol->width, height);
+
+			if (free_background)
+				gdk_color_free (background);
 
 			flags = col_selected ? E_CELL_SELECTED : 0;
 			flags |= GTK_WIDGET_HAS_FOCUS(canvas) ? E_CELL_FOCUSED : 0;
@@ -2274,10 +2286,12 @@ eti_cursor_change (ESelectionModel *selection, int row, int col, ETableItem *eti
 		return;
 	}
 
-	if (!eti->in_key_press) {
-		eti_request_region_show (eti, view_col, view_row, view_col, view_row, DOUBLE_CLICK_TIME + 10);
-	} else {
-		eti_request_region_show (eti, view_col, view_row, view_col, view_row, 0);
+	if (! e_table_model_has_change_pending (eti->table_model)) {
+		if (!eti->in_key_press) {
+			eti_request_region_show (eti, view_col, view_row, view_col, view_row, DOUBLE_CLICK_TIME + 10);
+		} else {
+			eti_request_region_show (eti, view_col, view_row, view_col, view_row, 0);
+		}
 	}
 
 	e_canvas_item_grab_focus(GNOME_CANVAS_ITEM(eti), FALSE);

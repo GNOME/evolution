@@ -53,6 +53,11 @@ struct ETreeModelClass {
 	gboolean   (*has_save_id)          (ETreeModel *etm);
 	gchar     *(*get_save_id)          (ETreeModel *etm, ETreePath node);
 
+	gboolean   (*has_get_node_by_id)   (ETreeModel *etm);
+	ETreePath  (*get_node_by_id)       (ETreeModel *etm, gchar *save_id);
+
+	gboolean   (*has_change_pending)   (ETreeModel *etm);
+
 	/*
 	 * ETable analogs
 	 */
@@ -111,6 +116,12 @@ gint        e_tree_model_column_count          (ETreeModel     *model);
 gboolean    e_tree_model_has_save_id           (ETreeModel     *model);
 gchar      *e_tree_model_get_save_id           (ETreeModel     *model,
 						ETreePath       node);
+
+gboolean    e_tree_model_has_get_node_by_id    (ETreeModel     *model);
+ETreePath   e_tree_model_get_node_by_id        (ETreeModel     *model,
+						gchar          *save_id);
+
+gboolean    e_tree_model_has_change_pending    (ETreeModel     *model);
 
 void       *e_tree_model_value_at              (ETreeModel     *etree,
 						ETreePath       node,

@@ -57,6 +57,28 @@ etmc_get_save_id (ETreeModel *etm, ETreePath node)
 		return NULL;
 }
 
+static gboolean
+etmc_has_get_node_by_id (ETreeModel *etm)
+{
+	ETreeMemoryCallbacks *etmc = E_TREE_MEMORY_CALLBACKS(etm);
+
+	if (etmc->has_get_node_by_id)
+		return etmc->has_get_node_by_id (etm, etmc->model_data);
+	else
+		return FALSE;
+}
+
+static ETreePath
+etmc_get_node_by_id (ETreeModel *etm, gchar *save_id)
+{
+	ETreeMemoryCallbacks *etmc = E_TREE_MEMORY_CALLBACKS(etm);
+
+	if (etmc->get_node_by_id)
+		return etmc->get_node_by_id (etm, save_id, etmc->model_data);
+	else
+		return NULL;
+}
+
 
 static void *
 etmc_value_at (ETreeModel *etm, ETreePath node, int col)
@@ -142,22 +164,25 @@ e_tree_memory_callbacks_class_init (GtkObjectClass *object_class)
 {
 	ETreeModelClass *model_class        = (ETreeModelClass *) object_class;
 
-	model_class->icon_at          = etmc_icon_at;
+	model_class->icon_at            = etmc_icon_at;
 
-	model_class->column_count     = etmc_column_count;
+	model_class->column_count       = etmc_column_count;
 
-	model_class->has_save_id      = etmc_has_save_id;
-	model_class->get_save_id      = etmc_get_save_id;
+	model_class->has_save_id        = etmc_has_save_id;
+	model_class->get_save_id        = etmc_get_save_id;
 
-	model_class->value_at         = etmc_value_at;
-	model_class->set_value_at     = etmc_set_value_at;
-	model_class->is_editable      = etmc_is_editable;
+	model_class->has_get_node_by_id = etmc_has_get_node_by_id;
+	model_class->get_node_by_id     = etmc_get_node_by_id;
 
-	model_class->duplicate_value  = etmc_duplicate_value;
-	model_class->free_value       = etmc_free_value;
-	model_class->initialize_value = etmc_initialize_value;
-	model_class->value_is_empty   = etmc_value_is_empty;
-	model_class->value_to_string  = etmc_value_to_string;
+	model_class->value_at           = etmc_value_at;
+	model_class->set_value_at       = etmc_set_value_at;
+	model_class->is_editable        = etmc_is_editable;
+
+	model_class->duplicate_value    = etmc_duplicate_value;
+	model_class->free_value         = etmc_free_value;
+	model_class->initialize_value   = etmc_initialize_value;
+	model_class->value_is_empty     = etmc_value_is_empty;
+	model_class->value_to_string    = etmc_value_to_string;
 }
 
 E_MAKE_TYPE(e_tree_memory_callbacks, "ETreeMemoryCallbacks", ETreeMemoryCallbacks, e_tree_memory_callbacks_class_init, NULL, PARENT_TYPE)
@@ -191,6 +216,9 @@ e_tree_memory_callbacks_new  (ETreeMemoryCallbacksIconAtFn icon_at,
 			      ETreeMemoryCallbacksHasSaveIdFn          has_save_id,
 			      ETreeMemoryCallbacksGetSaveIdFn          get_save_id,
 
+			      ETreeMemoryCallbacksHasGetNodeByIdFn     has_get_node_by_id,
+			      ETreeMemoryCallbacksGetNodeByIdFn        get_node_by_id,
+
 			      ETreeMemoryCallbacksValueAtFn            value_at,
 			      ETreeMemoryCallbacksSetValueAtFn         set_value_at,
 			      ETreeMemoryCallbacksIsEditableFn         is_editable,
@@ -207,24 +235,27 @@ e_tree_memory_callbacks_new  (ETreeMemoryCallbacksIconAtFn icon_at,
 
 	etmc = gtk_type_new (e_tree_memory_callbacks_get_type ());
 
-	etmc->icon_at          = icon_at;
+	etmc->icon_at            = icon_at;
 
-	etmc->column_count     = column_count;
+	etmc->column_count       = column_count;
 
-	etmc->has_save_id      = has_save_id;
-	etmc->get_save_id      = get_save_id;
+	etmc->has_save_id        = has_save_id;
+	etmc->get_save_id        = get_save_id;
 
-	etmc->value_at         = value_at;
-	etmc->set_value_at     = set_value_at;
-	etmc->is_editable      = is_editable;
+	etmc->has_get_node_by_id = has_get_node_by_id;
+	etmc->get_node_by_id     = get_node_by_id;
 
-	etmc->duplicate_value  = duplicate_value;
-	etmc->free_value       = free_value;
-	etmc->initialize_value = initialize_value;
-	etmc->value_is_empty   = value_is_empty;
-	etmc->value_to_string  = value_to_string;
+	etmc->value_at           = value_at;
+	etmc->set_value_at       = set_value_at;
+	etmc->is_editable        = is_editable;
 
-	etmc->model_data       = model_data;
+	etmc->duplicate_value    = duplicate_value;
+	etmc->free_value         = free_value;
+	etmc->initialize_value   = initialize_value;
+	etmc->value_is_empty     = value_is_empty;
+	etmc->value_to_string    = value_to_string;
+
+	etmc->model_data         = model_data;
 
 	return (ETreeModel*)etmc;
 }

@@ -122,6 +122,10 @@ e_tree_model_class_init (GtkObjectClass *klass)
 
 	tree_class->has_save_id          = NULL;
 	tree_class->get_save_id          = NULL;
+	tree_class->has_get_node_by_id   = NULL;
+	tree_class->get_node_by_id       = NULL;
+
+	tree_class->has_change_pending   = NULL;
 
 	tree_class->value_at             = NULL;
 	tree_class->set_value_at         = NULL;
@@ -581,6 +585,70 @@ e_tree_model_get_save_id (ETreeModel *etree, ETreePath node)
 		return ETM_CLASS(etree)->get_save_id (etree, node);
 	else
 		return NULL;
+}
+
+/**
+ * e_tree_model_has_get_node_by_id
+ * @etree: The ETreeModel.
+ *
+ * XXX docs here.
+ *
+ * return values: Whether this tree can quickly get a node from its save id.
+ */
+gboolean
+e_tree_model_has_get_node_by_id (ETreeModel *etree)
+{
+	g_return_val_if_fail (etree != NULL, FALSE);
+	g_return_val_if_fail (E_IS_TREE_MODEL (etree), FALSE);
+
+	if (ETM_CLASS(etree)->has_get_node_by_id)
+		return ETM_CLASS(etree)->has_get_node_by_id (etree);
+	else
+		return FALSE;
+}
+
+/**
+ * e_tree_model_get_node_by_id
+ * @etree: The ETreeModel.
+ * @node: The ETreePath.
+ *
+ * get_node_by_id(get_save_id(node)) should be the original node.
+ * Likewise if get_node_by_id is not NULL, then
+ * get_save_id(get_node_by_id(string)) should be a copy of the
+ * original string.
+ *
+ * return values: The path for this save id.
+ */
+ETreePath
+e_tree_model_get_node_by_id (ETreeModel *etree, gchar *save_id)
+{
+	g_return_val_if_fail (etree != NULL, NULL);
+	g_return_val_if_fail (E_IS_TREE_MODEL (etree), NULL);
+
+	if (ETM_CLASS(etree)->get_node_by_id)
+		return ETM_CLASS(etree)->get_node_by_id (etree, save_id);
+	else
+		return NULL;
+}
+
+/**
+ * e_tree_model_has_change_pending
+ * @etree: The ETreeModel.
+ *
+ * XXX docs here.
+ *
+ * return values: Whether this tree has valid save id data.
+ */
+gboolean
+e_tree_model_has_change_pending (ETreeModel *etree)
+{
+	g_return_val_if_fail (etree != NULL, FALSE);
+	g_return_val_if_fail (E_IS_TREE_MODEL (etree), FALSE);
+
+	if (ETM_CLASS(etree)->has_change_pending)
+		return ETM_CLASS(etree)->has_change_pending (etree);
+	else
+		return FALSE;
 }
 
 /**

@@ -195,6 +195,18 @@ e_table_model_has_save_id(ETableModel *e_table_model)
 		return FALSE;
 }
 
+gboolean
+e_table_model_has_change_pending(ETableModel *e_table_model)
+{
+	g_return_val_if_fail (e_table_model != NULL, FALSE);
+	g_return_val_if_fail (E_IS_TABLE_MODEL (e_table_model), FALSE);
+
+	if (ETM_CLASS (e_table_model)->has_change_pending)
+		return ETM_CLASS (e_table_model)->has_change_pending (e_table_model);
+	else
+		return FALSE;
+}
+
 void *
 e_table_model_initialize_value (ETableModel *e_table_model, int col)
 {
@@ -296,28 +308,30 @@ e_table_model_class_init (GtkObjectClass *object_class)
 
 	gtk_object_class_add_signals (object_class, e_table_model_signals, LAST_SIGNAL);
 
-	klass->column_count = NULL;     
-	klass->row_count = NULL;        
-	klass->append_row = NULL;
+	klass->column_count        = NULL;     
+	klass->row_count           = NULL;        
+	klass->append_row          = NULL;
 
-	klass->value_at = NULL;         
-	klass->set_value_at = NULL;     
-	klass->is_cell_editable = NULL; 
+	klass->value_at            = NULL;         
+	klass->set_value_at        = NULL;     
+	klass->is_cell_editable    = NULL; 
 
-	klass->get_save_id = NULL;
-	klass->has_save_id = NULL;
+	klass->get_save_id         = NULL;
+	klass->has_save_id         = NULL;
 
-	klass->duplicate_value = NULL;  
-	klass->free_value = NULL;       
-	klass->initialize_value = NULL; 
-	klass->value_is_empty = NULL;   
-	klass->value_to_string = NULL;
+	klass->has_change_pending  = NULL;
 
-	klass->model_changed = NULL;    
-	klass->model_row_changed = NULL;
-	klass->model_cell_changed = NULL;
+	klass->duplicate_value     = NULL;  
+	klass->free_value          = NULL;       
+	klass->initialize_value    = NULL; 
+	klass->value_is_empty      = NULL;   
+	klass->value_to_string     = NULL;
+
+	klass->model_changed       = NULL;    
+	klass->model_row_changed   = NULL;
+	klass->model_cell_changed  = NULL;
 	klass->model_rows_inserted = NULL;
-	klass->model_rows_deleted = NULL;
+	klass->model_rows_deleted  = NULL;
 }
 
 

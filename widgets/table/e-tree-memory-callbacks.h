@@ -23,6 +23,9 @@ typedef gint       (*ETreeMemoryCallbacksColumnCountFn)        (ETreeModel *etre
 typedef gboolean   (*ETreeMemoryCallbacksHasSaveIdFn)          (ETreeModel *etree, void *model_data);
 typedef gchar     *(*ETreeMemoryCallbacksGetSaveIdFn)          (ETreeModel *etree, ETreePath path, void *model_data);
 
+typedef gboolean   (*ETreeMemoryCallbacksHasGetNodeByIdFn)     (ETreeModel *etree, void *model_data);
+typedef ETreePath  (*ETreeMemoryCallbacksGetNodeByIdFn)        (ETreeModel *etree, gchar *save_id, void *model_data);
+
 typedef void*      (*ETreeMemoryCallbacksValueAtFn)            (ETreeModel *etree, ETreePath path, int col, void *model_data);
 typedef void       (*ETreeMemoryCallbacksSetValueAtFn)         (ETreeModel *etree, ETreePath path, int col, const void *val, void *model_data);
 typedef gboolean   (*ETreeMemoryCallbacksIsEditableFn)         (ETreeModel *etree, ETreePath path, int col, void *model_data);
@@ -42,6 +45,9 @@ typedef struct {
 
 	ETreeMemoryCallbacksHasSaveIdFn       has_save_id;
 	ETreeMemoryCallbacksGetSaveIdFn       get_save_id;
+
+	ETreeMemoryCallbacksHasGetNodeByIdFn  has_get_node_by_id;
+	ETreeMemoryCallbacksGetNodeByIdFn     get_node_by_id;
 
 	ETreeMemoryCallbacksValueAtFn         value_at;
 	ETreeMemoryCallbacksSetValueAtFn      set_value_at;
@@ -68,6 +74,9 @@ ETreeModel *e_tree_memory_callbacks_new  (ETreeMemoryCallbacksIconAtFn icon_at,
 
 					  ETreeMemoryCallbacksHasSaveIdFn          has_save_id,
 					  ETreeMemoryCallbacksGetSaveIdFn          get_save_id,
+
+					  ETreeMemoryCallbacksHasGetNodeByIdFn     has_get_node_by_id,
+					  ETreeMemoryCallbacksGetNodeByIdFn        get_node_by_id,
 
 					  ETreeMemoryCallbacksValueAtFn            value_at,
 					  ETreeMemoryCallbacksSetValueAtFn         set_value_at,

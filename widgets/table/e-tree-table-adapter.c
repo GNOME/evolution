@@ -242,7 +242,7 @@ find_row_num(ETreeTableAdapter *etta, ETreePath path)
 				return i;
 			}
 		}
-		for (i = etta->priv->last_access - 1; i <= start; i++) {
+		for (i = etta->priv->last_access - 1; i >= start; i--) {
 			if(etta->priv->map_table[i] == path) {
 				d(g_print("Found last access %d at row %d. (find_row_num)\n", etta->priv->last_access, i));
 				return i;
@@ -417,6 +417,15 @@ etta_get_save_id (ETableModel *etm, int row)
 		return e_tree_model_get_save_id (etta->priv->source, etta->priv->map_table [row + 1]);
 }
 
+static gboolean
+etta_has_change_pending (ETableModel *etm)
+{
+	ETreeTableAdapter *etta = (ETreeTableAdapter *)etm;
+
+	return e_tree_model_has_change_pending (etta->priv->source);
+}
+
+
 static int
 etta_row_count (ETableModel *etm)
 {
@@ -546,6 +555,7 @@ etta_class_init (ETreeTableAdapterClass *klass)
 	table_class->column_count       = etta_column_count;
 	table_class->has_save_id        = etta_has_save_id;
 	table_class->get_save_id        = etta_get_save_id;
+	table_class->has_change_pending = etta_has_change_pending;
 	table_class->row_count          = etta_row_count;
 	table_class->value_at           = etta_value_at;
 	table_class->set_value_at       = etta_set_value_at;
