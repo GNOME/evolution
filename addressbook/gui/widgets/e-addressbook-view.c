@@ -1638,8 +1638,18 @@ compare_subitems (const void *a, const void *b)
 {
 	const ESearchBarSubitem *subitem_a = a;
 	const ESearchBarSubitem *subitem_b = b;
+	char *collate_a, *collate_b;
+	int ret;
 
-	return strcoll (subitem_a->text, subitem_b->text);
+	collate_a = g_utf8_collate_key (subitem_a->text, -1);
+	collate_b = g_utf8_collate_key (subitem_b->text, -1);
+
+	ret =  strcmp (collate_a, collate_b);
+
+	g_free (collate_a);
+	g_free (collate_b);
+	
+	return ret;
 }
 
 static void

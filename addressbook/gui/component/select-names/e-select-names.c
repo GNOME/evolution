@@ -425,7 +425,7 @@ select_entry_changed (GtkWidget *widget, ESelectNames *e_select_names)
 									    E_CONTACT_FULL_NAME,
 									    model_row),
 						    -1);
-			if (g_utf8_collate (select_strcoll_string, row_strcoll_string) <= 0) {
+			if (strcmp (select_strcoll_string, row_strcoll_string) <= 0) {
 				g_free (row_strcoll_string);
 				break;
 			}

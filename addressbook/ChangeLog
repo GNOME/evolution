@@ -1,3 +1,17 @@
+2004-05-10  Suresh Chandrasekharan <suresh.chandrasekharan@sun.com>
+
+	Fixes bug #44196 addressbook table view uses ASCII sort
+
+	* addressbook/gui/widgets/e-addressbook-view.c (compare_subitems):
+	Uses g_utf8_collate for right UTF8 sort. Made faster using 
+	g_utf8_collate_key.
+
+	Also fixes a bug in 
+
+	* gui/component/select-names/e-select-names.c (select_entry_changed):
+	Changed g_utf8_collate for strcmp as we are already comparing keys
+	made from g_utf8_collate_key.
+
 2004-05-08  Enver ALTIN  <enver.altin@frontsite.com.tr>
 
 	* gui/component/GNOME_Evolution_Addressbook.server.in.in:
