@@ -1,3 +1,7 @@
+2001-09-18  Jeffrey Stedfast  <fejj@ximian.com>
+
+	* camel-mime-utils.c: Match mailing-list header List-Owner.
+
 2001-09-18    <NotZed@Ximian.com>
 
 	* providers/local/camel-maildir-folder.c

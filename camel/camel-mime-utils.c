@@ -3543,6 +3543,7 @@ static struct {
 	{ "X-Mailing-List", " *([^@]+)" },
 	{ "X-Loop", " *([^@]+)" },
 	{ "List-Id", " *([^<]+)" },
+	{ "List-Owner", " *<mailto:([^@]+)" },
 	{ "Mailing-List", " *list ([^@]+)" },
 	{ "Originator", " *([^@]+)" },
 };
