@@ -1,3 +1,7 @@
+2000-03-22  NotZed  <NotZed@HelixCode.com>
+
+	* filter-driver.c (main): Changed to use async search api.
+
 2000-03-04  NotZed  <NotZed@HelixCode.com>
 
 	* filter-druid.c (html_write_options): Output 'and' bits between
