@@ -32,15 +32,17 @@ extern "C" {
 #endif /* __cplusplus */
 
 typedef struct {
-	GString *protocol;
-	GString *user;
-	GString *passwd;
-	GString *host;
-	GString *port;
-	GString *path;
+	gchar *protocol;
+	gchar *user;
+	gchar *passwd;
+	gchar *host;
+	gchar *port;
+	gchar *path;
+
+	gchar *url_string;
 } Gurl;
 
-Gurl *g_url_new(GString* url_string);
+Gurl *g_url_new (gchar *url_string);
 
 #ifdef __cplusplus
 }

@@ -1,3 +1,15 @@
+1999-07-15  bertrand  <Bertrand.Guiheneuf@aful.org>
+
+	* camel/url-util.c:  
+	* camel/url-util.h: 
+	Do not use GStrings any more. 
+	Added assertion code. 
+	Cosmetic reformating
+	
+	* AUTHORS:
+	* ChangeLog:
+	Changed my email address.
+	
 1999-07-13  Miguel de Icaza  <miguel@gnu.org>
 
 	* camel/gmime-base64.c (gmime_encode_base64): Implemented base64
@@ -31,7 +43,7 @@
 	* devel-docs/query/virtual-folder-in-depth.sgml: Small
 	reformatting
 
-1999-06-28  bertrand  <Bertrand.Guiheneuf@inria.fr>
+1999-06-28  bertrand  <Bertrand.Guiheneuf@aful.org>
 
 	* tests/test2.c (main): now use 
 	CamelDataWrapper::contruct_form_stream to test 
@@ -50,12 +62,12 @@
 	(_parse_header_pair): now set content_type MimePart field
 	instead of using DataWrapper Mime typing facility.
 
-1999-06-28  bertrand  <Bertrand.Guiheneuf@inria.fr>
+1999-06-28  bertrand  <Bertrand.Guiheneuf@aful.org>
 
 	* camel/camel-data-wrapper.h: 
 	s/content_type/mime_type/
 
-1999-06-24  bertrand  <Bertrand.Guiheneuf@inria.fr>
+1999-06-24  bertrand  <Bertrand.Guiheneuf@aful.org>
 
 	* camel/camel-simple-data-wrapper.[ch]:
 	new class. Simple implementation of a data wrapper:
@@ -64,7 +76,7 @@
 	* camel/camel-mime-part.c (_parse_header_pair): added a warning. 
 	Have to think about the correct way to store content type stuff.
 
-1999-06-24  bertrand  <Bertrand.Guiheneuf@inria.fr>
+1999-06-24  bertrand  <Bertrand.Guiheneuf@aful.org>
 
 	* camel/camel-mime-message.c (_write_one_recipient_to_stream): 
 	includes gmime-utils header. 
@@ -79,7 +91,7 @@
 	patch from Ulrich Drepper <drepper at cygnus.com>
 	initialize mode field in open(). 
 
-1999-06-22  bertrand  <Bertrand.Guiheneuf@inria.fr>
+1999-06-22  bertrand  <Bertrand.Guiheneuf@aful.org>
 
 	* camel/camel-data-wrapper.c (_get_content_type): 
 	moved all the content-type stuff here.
@@ -104,7 +116,7 @@
 	(_get_content_type): 
 	new methods.
 
-1999-06-21  bertrand  <Bertrand.Guiheneuf@inria.fr>
+1999-06-21  bertrand  <Bertrand.Guiheneuf@aful.org>
 
 	* camel/gmime-utils.c (get_header_table_from_stream): 
 	replace CR/LF+'\t' with ' ' 
@@ -121,12 +133,12 @@
 	* camel/camel-mime-part.c (_add_header): 
 	added comments 
 
-1999-06-03  bertrand  <Bertrand.Guiheneuf@inria.fr>
+1999-06-03  bertrand  <Bertrand.Guiheneuf@aful.org>
 
 	* devel-docs/query/virtual-folder-in-depth.sgml: 
 	sgmlized Giao's doc about virtual folders.
 
-1999-05-31  bertrand  <Bertrand.Guiheneuf@inria.fr>
+1999-05-31  bertrand  <Bertrand.Guiheneuf@aful.org>
 
 	* tests/test2.c (main): 
 	use new stream code instead of raw file * stuff.
@@ -141,7 +153,7 @@
 	stream.
 	
 
-1999-05-30  bertrand  <Bertrand.Guiheneuf@inria.fr>
+1999-05-30  bertrand  <Bertrand.Guiheneuf@aful.org>
 
  	* camel/camel-stream.h: new class. Represents an 
 	abstract stream object.
@@ -159,7 +171,7 @@
 
 	* tests/test1.c (main): remove gtk_main call
 
-1999-05-28  bertrand  <Bertrand.Guiheneuf@inria.fr>
+1999-05-28  bertrand  <Bertrand.Guiheneuf@aful.org>
 
 	* camel/camel-mime-part.c 
 	(_parse_header_pair): 
@@ -167,7 +179,7 @@
 	More header parsing code.
 
 	
-1999-05-27  bertrand  <Bertrand.Guiheneuf@inria.fr>
+1999-05-27  bertrand  <Bertrand.Guiheneuf@aful.org>
 
 	* tests/test2.c (main): rewrite message obtained via
 	parsing into a file. Actually, it works pretty well :))
@@ -189,7 +201,7 @@
 	new func: split a gstring into a GList of
 	substring.
 
-1999-05-26  bertrand  <Bertrand.Guiheneuf@inria.fr>
+1999-05-26  bertrand  <Bertrand.Guiheneuf@aful.org>
 
 	* camel/gmime-utils.c (get_header_lines_from_file): 
 	new func. Parses message header zone and returns
@@ -200,14 +212,14 @@
 	* camel/gmime-utils.c (write_header_table_to_file): 
 	new func to write a table of headers.
 
-1999-05-20  bertrand  <Bertrand.Guiheneuf@inria.fr>
+1999-05-20  bertrand  <Bertrand.Guiheneuf@aful.org>
 
 	* camel/camel-mime-message.c (_write_to_file): 
 	recipient list printing
 	
 	* tests/test1.c (main): more tests.
 
-1999-05-19  bertrand  <Bertrand.Guiheneuf@inria.fr>
+1999-05-19  bertrand  <Bertrand.Guiheneuf@aful.org>
 
 	* camel/camel-mime-part.c (_write_to_file): test if content
 	exists before calling its write_to method.
@@ -218,7 +230,7 @@
 	new func. Creates a message with the session field set
 	up correctly.
 
-1999-05-18  bertrand  <Bertrand.Guiheneuf@inria.fr>
+1999-05-18  bertrand  <Bertrand.Guiheneuf@aful.org>
 
 	* tests/test1.c (main): tests
 
@@ -228,17 +240,17 @@
 	* camel/camel-mime-message.c (*_message_number): 
 	message number funcs.
 	
-1999-05-15  bertrand  <Bertrand.Guiheneuf@inria.fr>
+1999-05-15  bertrand  <Bertrand.Guiheneuf@aful.org>
 
 	* camel/camel-mime-message.c (*_flag): 
 	flags handling methods
 
-1999-05-14  bertrand  <Bertrand.Guiheneuf@inria.fr>
+1999-05-14  bertrand  <Bertrand.Guiheneuf@aful.org>
 
 	* camel/camel-mime-message.c (camel_mime_message_class_init): 
 	added recipient handling class funcs.
 
-1999-05-13  bertrand  <Bertrand.Guiheneuf@inria.fr>
+1999-05-13  bertrand  <Bertrand.Guiheneuf@aful.org>
         
 	* camel/camel-mime-message.c (camel_mime_message_init): 
 	create recipients hash table
@@ -258,7 +270,7 @@
 	* camel/camel-mime-message.[ch] :
 	new file. 
 
-1999-05-12  bertrand  <Bertrand.Guiheneuf@inria.fr>
+1999-05-12  bertrand  <Bertrand.Guiheneuf@aful.org>
 
 	* camel/camel-mime-part.h (struct ): 
 	disposition is now a full GMimeContentField
@@ -272,7 +284,7 @@
 	* camel/gmime-utils.c (gmime_write_header_pair_to_file): 
 	namespace change
 
-1999-05-11  bertrand  <Bertrand.Guiheneuf@inria.fr>
+1999-05-11  bertrand  <Bertrand.Guiheneuf@aful.org>
 
 	* camel/camel-mime-part.c (_write_to_file): 
 	overload wrapper class method.
@@ -292,7 +304,7 @@
 	* camel/camel-mime-part.h: implemented public interfaces
 	
 
-1999-05-10  Bertrand Guiheneuf  <Bertrand.Guiheneuf@inria.fr>
+1999-05-10  Bertrand Guiheneuf  <Bertrand.Guiheneuf@aful.org>
 
 	* camel/camel-mime-part.c (__camel_mime_part_get_header_lines): 
 	(__camel_mime_part_set_header_lines): 
@@ -310,7 +322,7 @@
 	convenience function for string list 
 	complete deallocation.
 
-1999-05-09  bertrand <Bertrand.Guiheneuf@inria.fr>
+1999-05-09  bertrand <Bertrand.Guiheneuf@aful.org>
 
 	* camel/camel-mime-part.c (__camel_mime_part_add_header): 
 	new method
@@ -318,7 +330,7 @@
 	* camel/camel-mime-part.h (struct CamelMimePart):
 	added core fields.
 
-1999-05-08  bertrand <Bertrand.Guiheneuf@inria.fr>
+1999-05-08  bertrand <Bertrand.Guiheneuf@aful.org>
 
 	* camel/camel-mime-part.[ch]: 
 	new class. models a mime mail part.
@@ -331,14 +343,14 @@
 	(camel_data_wrapper_construct_from_file): 
 	new methods.
 	
-1999-05-07  bertrand <Bertrand.Guiheneuf@inria.fr>
+1999-05-07  bertrand <Bertrand.Guiheneuf@aful.org>
 
 	* camel/camel-data-wrapper.[ch]:new class.
 	This should not be a class but rather an 
 	interface. The day Gtk support interfaces, 
 	it dataWrapper should become an interface.
 
-1999-05-04  bertrand <Bertrand.Guiheneuf@inria.fr>
+1999-05-04  bertrand <Bertrand.Guiheneuf@aful.org>
 
 	* camel/camel-service.c (camel_service_get_url): 
 	new method.
@@ -351,7 +363,7 @@
 	(camel_folder_expunge): new method.
 	(__camel_folder_close): used expunge flag
 
-1999-05-03  bertrand <Bertrand.Guiheneuf@inria.fr>
+1999-05-03  bertrand <Bertrand.Guiheneuf@aful.org>
 
 	* camel/camel-folder.c (camel_folder_get_mode): 
 	typo fix
@@ -362,7 +374,7 @@
 	* some doc stuffs
 	
 
-1999-05-01  bertrand <Bertrand.Guiheneuf@inria.fr>
+1999-05-01  bertrand <Bertrand.Guiheneuf@aful.org>
 
 	* camel/camel-folder.c 
 	(__camel_folder_get_mode): 
@@ -383,12 +395,12 @@
 	* camel/url-util.c (g_url_new): some
 	more comments 
 
-1999-04-27  bertrand <Bertrand.Guiheneuf@inria.fr>
+1999-04-27  bertrand <Bertrand.Guiheneuf@aful.org>
 
 	* camel/camel-folder.c (camel_folder_create): 
 	new public function.
 
-1999-04-25  bertrand <Bertrand.Guiheneuf@inria.fr>
+1999-04-25  bertrand <Bertrand.Guiheneuf@aful.org>
 
 	* camel/camel-session.c (camel_session_get_store_from_provider): 
 	initialize folder object.
@@ -399,7 +411,7 @@
 	* camel/camel-store.h (struct _CamelStore): 
 	new fields : session and url_name
 
-1999-04-25  bertrand <Bertrand.Guiheneuf@inria.fr>
+1999-04-25  bertrand <Bertrand.Guiheneuf@aful.org>
 
 	* camel/camel-session.c (camel_session_set_provider): 
 	new method to set the default provider for a protocol.
@@ -413,7 +425,7 @@
 	basic provider structure. Have to write the
 	code for dynamic loading.
 
-1999-04-24  bertrand <Bertrand.Guiheneuf@inria.fr>
+1999-04-24  bertrand <Bertrand.Guiheneuf@aful.org>
 	
 	* camel/url-util.[ch]: s/new_g_url/g_url_new
 
@@ -422,7 +434,7 @@
 	implemented in public functions.
 	But URL scan works pretty well :)))
 
-1999-04-24 bertrand <Bertrand.Guiheneuf@inria.fr>
+1999-04-24 bertrand <Bertrand.Guiheneuf@aful.org>
 	
 	* camel/url-util.[ch]: I needed the url 
 	functions to use GString, and I wanted a more
@@ -430,7 +442,7 @@
 	the whole thing from scratch.
 	No more code from gzilla :(
 	
-1999-04-23  bertrand <Bertrand.Guiheneuf@inria.fr>
+1999-04-23  bertrand <Bertrand.Guiheneuf@aful.org>
 
 	* camel/url-util.[ch]:
 	Utility functions to parse URLs.
@@ -448,7 +460,7 @@
 	correct declarations of structs
 
 >>>>>>> 1.36
-1999-04-22  bertrand <Bertrand.Guiheneuf@inria.fr>
+1999-04-22  bertrand <Bertrand.Guiheneuf@aful.org>
 
 	* camel/providers/MH/camel-mh-store.c:
 	more test implementation.
@@ -456,12 +468,12 @@
 	* camel/camel-store.c (camel_store_get_type): typo fix
 	
 
-1999-04-21  bertrand <Bertrand.Guiheneuf@inria.fr>
+1999-04-21  bertrand <Bertrand.Guiheneuf@aful.org>
 
 	* camel/providers/MH/camel-mh-folder.c (camel_mh_folder_get_type): 
 	start test provider.
 
-1999-04-20  bertrand <Bertrand.Guiheneuf@inria.fr>
+1999-04-20  bertrand <Bertrand.Guiheneuf@aful.org>
 	
 	* camel/camel-store.h: now CamelStore inherits from
 	CamelService.
@@ -469,11 +481,11 @@
 	* camel/camel-service.c (camel_service_class_init): 
 	basic abstract service class.
 
-1999-04-19  bertrand <Bertrand.Guiheneuf@inria.fr>
+1999-04-19  bertrand <Bertrand.Guiheneuf@aful.org>
 
 	* camel/README: added some (few) explanations.
 
-1999-04-18  bertrand <Bertrand.Guiheneuf@inria.fr>
+1999-04-18  bertrand <Bertrand.Guiheneuf@aful.org>
 
 	* camel/camel-store.[ch]: started implementation
 	* camel/camel-folder.c (camel_folder_get_type): typo
@@ -484,7 +496,7 @@
 	* camel/camel-log.h: some explanation about the 
 	log system
 
-1999-04-18   bertrand <Bertrand.Guiheneuf@inria.fr>
+1999-04-18   bertrand <Bertrand.Guiheneuf@aful.org>
 
 	* camel/camel-folder.c: 
 	(camel_folder_create): implemented (partially)
@@ -493,14 +505,14 @@
 	* camel/camel-folder.h (CamelFolder): added full_name field
 	(CamelFolderClass): added set/get_full_name methods
 
-1999-04-18  bertrand <Bertrand.Guiheneuf@inria.fr>
+1999-04-18  bertrand <Bertrand.Guiheneuf@aful.org>
 
 	* camel/camel-folder.c: some work
 	* camel/camel-log.c: log system for camel
 	* camel/gstring-util.c: some utilities for GString objects
 	
 
-1999-04-18  bertrand <Bertrand.Guiheneuf@inria.fr>
+1999-04-18  bertrand <Bertrand.Guiheneuf@aful.org>
 
 	* autogen.sh (PKG_NAME): groomf -> gnome-mailer
 
