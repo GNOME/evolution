@@ -479,7 +479,7 @@ e_summary_rebuild_page (ESummary *esummary)
 	gtk_layout_freeze (GTK_LAYOUT (priv->html));
 	e_summary_start_load (esummary);
 	
-	if (priv->header == NULL) {
+	if (priv->header == NULL || *priv->header == '\0') {
 		load_default_header (esummary);
 	} else {
 		gtk_html_write (GTK_HTML (priv->html), priv->stream,
@@ -504,7 +504,6 @@ e_summary_rebuild_page (ESummary *esummary)
 	for (i = 0; i < numrows; i++) {
 		GList *window = windows;
 		
-		g_print ("i: %d/%d\n", i, numrows);
 		/* Do the same row twice: 
 		   Once for the title, once for the contents */
 		for (j = 0; j < 2; j++) {
@@ -515,8 +514,6 @@ e_summary_rebuild_page (ESummary *esummary)
 				/* For each window on row i */
 			limit = MIN (columns, (numwindows - (i * columns)));
 			for (k = 0; k < limit; k++) {
-				
-				g_print ("%d of %d\n", k, limit);
 				if (window == NULL)
 					break;
 
@@ -553,7 +550,7 @@ e_summary_rebuild_page (ESummary *esummary)
 	}
 	gtk_html_write (GTK_HTML (priv->html), priv->stream, "</tr></table>", 13);
 	
-	if (priv->footer == NULL) {
+	if (priv->footer == NULL || *priv->footer == '\0') {
 		load_default_footer (esummary);
 	} else {
 		gtk_html_write (GTK_HTML (priv->html), priv->stream,
