@@ -22,6 +22,7 @@
     <cmd name="CutEvent" _tip="Cut the selection" accel="*Control*x"/>
     <cmd name="CopyEvent" _tip="Copy the selection" accel="*Control*c"/>
     <cmd name="PasteEvent" _tip="Paste the clipboard" accel="*Control*v"/>
+    <cmd name="DeleteEvent" _tip="Delete the appointment"/>
 
     <cmd name="PublishFreeBusy" _tip="Publish Free/Busy information for this calendar"/>
   </commands>
@@ -55,6 +56,7 @@
       <menuitem name="CutEvent" verb="" _label="C_ut" pixtype="pixbuf"/>
       <menuitem name="CopyEvent" verb="" _label="_Copy" pixtype="pixbuf"/>
       <menuitem name="PasteEvent" verb="" _label="_Paste" pixtype="pixbuf"/>
+      <menuitem name="DeleteEvent" verb="" _label="_Delete" pixtype="pixbuf"/>
     </submenu>
 
     <submenu name="View">
@@ -98,6 +100,7 @@
     <separator/>
 
     <toolitem name="Print" verb="CalendarPrint" pixtype = "pixbuf"/>
+    <toolitem name="Delete" verb="DeleteEvent" pixtype="pixbuf"/>
 
     <separator/>
 

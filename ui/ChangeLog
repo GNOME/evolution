@@ -1,5 +1,9 @@
 2001-08-20  Damon Chaplin  <damon@ximian.com>
 
+	* evolution-calendar.xml: added Delete command to menu and toolbar.
+
+2001-08-20  Damon Chaplin  <damon@ximian.com>
+
 	* evolution-tasks.xml: added Cut/Copy/Paste items to toolbar, though
 	I'm not sure they are very useful.
 
