@@ -1117,8 +1117,62 @@ table_canvas_focus_event_cb (GtkWidget *widget, GdkEventFocus *event, gpointer d
 
 	etable = E_TABLE (data);
 
-	if (!canvas->focused_item && etable->group)
-		focus_first_etable_item (etable->group);
+	if (e_table_model_row_count(etable->model) < 1 
+	    && (etable->click_to_add) 
+	    && !(E_TABLE_CLICK_TO_ADD(etable->click_to_add)->row)) {
+		gnome_canvas_item_grab_focus (etable->canvas_vbox);
+		gnome_canvas_item_grab_focus (etable->click_to_add);
+	} else if (!canvas->focused_item && etable->group) {
+        	focus_first_etable_item (etable->group);
+	}
+
+	return TRUE;
+}
+
+static gboolean
+canvas_vbox_event (ECanvasVbox *vbox, GdkEventKey *key, ETable *etable)
+{
+	GnomeCanvas *canvas;
+
+	canvas = GNOME_CANVAS (etable->table_canvas);
+	switch (key->keyval) {
+		case GDK_Tab:
+		case GDK_KP_Tab:
+		case GDK_ISO_Left_Tab:
+			if ((key->state & GDK_CONTROL_MASK) && etable->click_to_add) {
+				gnome_canvas_item_grab_focus (etable->click_to_add);
+				break;
+			}
+		default:
+			return FALSE;
+	}
+
+	return TRUE;
+}
+
+static gboolean
+click_to_add_event (ETableClickToAdd *etcta, GdkEventKey *key, ETable *etable)
+{
+	GnomeCanvas *canvas;
+
+	canvas = GNOME_CANVAS (etable->table_canvas);
+	switch (key->keyval) {
+		case GDK_Tab:
+		case GDK_KP_Tab:
+		case GDK_ISO_Left_Tab:
+			if (key->state & GDK_CONTROL_MASK) {
+				if (etable->group) {
+					if (e_table_model_row_count(etable->model) > 0)
+						focus_first_etable_item (etable->group);
+					else
+						gtk_widget_child_focus (
+							gtk_widget_get_toplevel(GTK_WIDGET(etable->table_canvas)), GTK_DIR_TAB_FORWARD);
+					break;
+				}
+			}
+		default:
+			return FALSE;
+	}
 
 	return TRUE;
 }
@@ -1190,6 +1244,10 @@ e_table_setup_table (ETable *e_table, ETableHeader *full_header, ETableHeader *h
 		"spacing", 10.0,
 		NULL);
 
+	g_signal_connect (
+		G_OBJECT (e_table->canvas_vbox), "event",
+		G_CALLBACK (canvas_vbox_event), e_table);
+
 	et_build_groups(e_table);
 
 	if (e_table->use_click_to_add) {
@@ -1211,8 +1269,11 @@ e_table_setup_table (ETable *e_table, ETableHeader *full_header, ETableHeader *h
 				e_table->click_to_add);
 
 		g_signal_connect (
-			G_OBJECT (e_table->click_to_add), "cursor_change",
-			G_CALLBACK (click_to_add_cursor_change), e_table);
+			G_OBJECT (e_table->click_to_add), "event",
+			G_CALLBACK (click_to_add_event), e_table);
+                g_signal_connect (
+                        G_OBJECT (e_table->click_to_add), "cursor_change",
+                        G_CALLBACK (click_to_add_cursor_change), e_table);
 	}
 }
 

@@ -348,6 +348,10 @@ etcta_event (GnomeCanvasItem *item, GdkEvent *e)
 	ETableClickToAdd *etcta = E_TABLE_CLICK_TO_ADD (item);
 
 	switch (e->type){
+	case GDK_FOCUS_CHANGE:
+		if (!e->focus_change.in)
+			return TRUE;
+
 	case GDK_BUTTON_PRESS:
 		if (etcta->text) {
 			gtk_object_destroy(etcta->text);

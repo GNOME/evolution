@@ -2693,6 +2693,10 @@ eti_event (GnomeCanvasItem *item, GdkEvent *e)
 		case GDK_Tab:
 		case GDK_KP_Tab:
 		case GDK_ISO_Left_Tab:
+			if ((e->key.state & GDK_CONTROL_MASK) != 0) {
+				return_val = FALSE;
+				break;
+			}
 			if (eti->cursor_mode == E_CURSOR_SPREADSHEET) {
 				if ((e->key.state & GDK_SHIFT_MASK) != 0){
 				/* shift tab */
