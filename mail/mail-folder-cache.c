@@ -26,6 +26,11 @@
 #include "config.h"
 #endif
 
+#ifdef G_LOG_DOMAIN
+#undef G_LOG_DOMAIN
+#endif
+#define G_LOG_DOMAIN "folder cache"
+
 #include <bonobo/bonobo-exception.h>
 
 #include "mail-mt.h"
@@ -33,7 +38,6 @@
 
 #define ld(x)
 #define d(x)
-#define dm(args...) /*g_message ("folder cache: " args)*/
 
 /* is args... portable at all? */
 
@@ -82,8 +86,8 @@ typedef struct _mail_folder_info {
 static GHashTable *folders = NULL;
 static GStaticMutex folders_lock = G_STATIC_MUTEX_INIT;
 
-#define LOCK_FOLDERS()   G_STMT_START { ld(dm ("Locking folders")); g_static_mutex_lock (&folders_lock); } G_STMT_END
-#define UNLOCK_FOLDERS() G_STMT_START { ld(dm ("Unocking folders")); g_static_mutex_unlock (&folders_lock); } G_STMT_END
+#define LOCK_FOLDERS()   G_STMT_START { ld(g_message ("Locking folders")); g_static_mutex_lock (&folders_lock); } G_STMT_END
+#define UNLOCK_FOLDERS() G_STMT_START { ld(g_message ("Unocking folders")); g_static_mutex_unlock (&folders_lock); } G_STMT_END
 
 static GNOME_Evolution_ShellView shell_view = CORBA_OBJECT_NIL;
 static FolderBrowser *folder_browser = NULL;
@@ -99,14 +103,14 @@ get_folder_info (const gchar *uri)
 	g_return_val_if_fail (uri, NULL);
 
 	if (folders == NULL) {
-		dm("Initializing");
+		d(g_message("Initializing"));
 		folders = g_hash_table_new (g_str_hash, g_str_equal);
 	}
 
 	mfi = g_hash_table_lookup (folders, uri);
 
 	if (!mfi) {
-		dm("New entry for uri %s", uri);
+		d(g_message("New entry for uri %s", uri));
 
 		mfi = g_new (mail_folder_info, 1);
 		mfi->uri = g_strdup (uri); /* XXX leak leak leak */
@@ -120,7 +124,7 @@ get_folder_info (const gchar *uri)
 
 		g_hash_table_insert (folders, mfi->uri, mfi);
 	} else
-		dm("Hit cache for uri %s", uri);
+		d(g_message("Hit cache for uri %s", uri));
 
 	return mfi;
 }
@@ -193,7 +197,7 @@ update_idle (gpointer user_data)
 
 	LOCK_FOLDERS ();
 
-	dm("update_idle called");
+	d(g_message("update_idle called"));
 
 	mfi->flags &= (~MAIL_FIF_UPDATE_QUEUED);
 
@@ -247,7 +251,7 @@ update_idle (gpointer user_data)
 
 	switch (mode) {
 	case MAIL_FIUM_LOCAL_STORAGE:
-		dm("Updating via LocalStorage");
+		d(g_message("Updating via LocalStorage"));
 		CORBA_exception_init (&ev);
 		GNOME_Evolution_LocalStorage_updateFolder (info.ls,
 							   path,
@@ -260,7 +264,7 @@ update_idle (gpointer user_data)
 		CORBA_exception_free (&ev);
 		break;
 	case MAIL_FIUM_EVOLUTION_STORAGE:
-		dm("Updating via EvolutionStorage");
+		d(g_message("Updating via EvolutionStorage"));
 		evolution_storage_update_folder_by_uri (info.es,
 							uri,
 							f_name,
@@ -278,7 +282,7 @@ update_idle (gpointer user_data)
 
 	if (shell_view != CORBA_OBJECT_NIL &&
 	    fb && folder_browser == fb) {
-		dm("Updating via ShellView");
+		d(g_message("Updating via ShellView"));
 		CORBA_exception_init (&ev);
 		GNOME_Evolution_ShellView_setFolderBarLabel (shell_view,
 							     f_status,
@@ -326,7 +330,7 @@ update_message_counts_main (CamelObject *object, gpointer event_data,
 	mail_folder_info *mfi = user_data;
 
 	LOCK_FOLDERS ();
-	dm("Message counts in CamelFolder changed, queuing idle");
+	d(g_message("Message counts in CamelFolder changed, queuing idle"));
 	mfi->flags &= (~MAIL_FIF_NEED_UPDATE);
 	maybe_update (mfi);
 	UNLOCK_FOLDERS ();
@@ -341,7 +345,7 @@ update_message_counts (CamelObject *object, gpointer event_data,
 	int unread;
 	int total;
 
-	dm("CamelFolder %p changed, examining message counts", object);
+	d(g_message("CamelFolder %p changed, examining message counts", object));
 
 	unread = camel_folder_get_unread_message_count (folder);
 	total = camel_folder_get_message_count (folder);
@@ -356,26 +360,26 @@ update_message_counts (CamelObject *object, gpointer event_data,
 		/* nuttzing */
 	} else if (mfi->flags & MAIL_FIF_UNREAD_VALID) {
 		if (mfi->unread != unread) {
-			dm ("-> Unread value is changed");
+			d(g_message("-> Unread value is changed"));
 			mfi->unread = unread;
 			mfi->flags |= MAIL_FIF_NEED_UPDATE;
 		} else 
-			dm ("-> Unread value is the same");
+			d(g_message("-> Unread value is the same"));
 	} else {
-		dm ("-> Unread value being initialized");
+		d(g_message("-> Unread value being initialized"));
 		mfi->flags |= (MAIL_FIF_UNREAD_VALID | MAIL_FIF_NEED_UPDATE);
 		mfi->unread = unread;
 	}
 
 	if (mfi->flags & MAIL_FIF_TOTAL_VALID) {
 		if (mfi->total != total) {
-			dm ("-> Total value is changed");
+			d(g_message("-> Total value is changed"));
 			mfi->total = total;
 			mfi->flags |= MAIL_FIF_NEED_UPDATE;
 		} else 
-			dm ("-> Total value is the same");
+			d(g_message("-> Total value is the same"));
 	} else {
-		dm ("-> Total value being initialized");
+		d(g_message("-> Total value being initialized"));
 		mfi->flags |= (MAIL_FIF_TOTAL_VALID | MAIL_FIF_NEED_UPDATE);
 		mfi->total = total;
 	}
@@ -383,17 +387,17 @@ update_message_counts (CamelObject *object, gpointer event_data,
 	/* while we're here... */
 	if (!(mfi->flags & MAIL_FIF_NAME_VALID)) {
 		mfi->name = g_strdup (camel_folder_get_name (CAMEL_FOLDER (object)));
-		dm ("-> setting name to %s as well", mfi->name);
+		d(g_message("-> setting name to %s as well", mfi->name));
 		mfi->flags |= MAIL_FIF_NAME_VALID;
 	}
 
 	if (mfi->flags & MAIL_FIF_NEED_UPDATE) {
 		UNLOCK_FOLDERS ();
-		dm ("-> Queuing change");
+		d(g_message("-> Queuing change"));
 		mail_proxy_event (update_message_counts_main, object, event_data, user_data);
 	} else {
 		UNLOCK_FOLDERS ();
-		dm ("-> No proxy event needed");
+		d(g_message("-> No proxy event needed"));
 	}
 }
 
@@ -403,7 +407,7 @@ camel_folder_finalized (CamelObject *object, gpointer event_data,
 {
 	mail_folder_info *mfi = user_data;
 
-	dm ("CamelFolder %p finalized, unsetting FOLDER_VALID", object);
+	d(g_message("CamelFolder %p finalized, unsetting FOLDER_VALID", object));
 
 	camel_object_unhook_event (object, "message_changed",
 				   update_message_counts, mfi);
@@ -421,7 +425,7 @@ message_list_built (MessageList *ml, gpointer user_data)
 {
 	mail_folder_info *mfi = user_data;
 
-	dm ("Message list %p rebuilt, checking hidden", ml);
+	d(g_message("Message list %p rebuilt, checking hidden", ml));
 
 	LOCK_FOLDERS ();
 
@@ -451,13 +455,13 @@ check_for_fb_match (gpointer key, gpointer value, gpointer user_data)
 {
 	mail_folder_info *mfi = (mail_folder_info *) value;
 
-	dm ("-> checking uri \"%s\" if it has active fb", (gchar *) key);
+	d(g_message("-> checking uri \"%s\" if it has active fb", (gchar *) key));
 	/* This should only be true for one item, but no real
 	 * way to stop the foreach...
 	 */
  
 	if (mfi->fb == folder_browser) {
-		dm ("-> -> it does!");
+		d(g_message("-> -> it does!"));
 		maybe_update (mfi);
 	}
 }
@@ -557,7 +561,7 @@ mail_folder_cache_set_update_estorage (const gchar *uri, EvolutionStorage *estor
 		return;
 	}
 
-	dm ("Uri %s updates with EVOLUTION_STORAGE", uri);
+	d(g_message("Uri %s updates with EVOLUTION_STORAGE", uri));
 	mfi->update_mode = MAIL_FIUM_EVOLUTION_STORAGE;
 	mfi->update_info.es = estorage;
 
@@ -582,7 +586,7 @@ mail_folder_cache_set_update_lstorage (const gchar *uri, GNOME_Evolution_LocalSt
 		return;
 	}
 
-	dm ("Uri %s updates with LOCAL_STORAGE", uri);
+	d(g_message("Uri %s updates with LOCAL_STORAGE", uri));
 	/* Note that we don't dup the object or anything. Too lazy. */
 	mfi->update_mode = MAIL_FIUM_LOCAL_STORAGE;
 	mfi->update_info.ls = lstorage;
@@ -612,7 +616,7 @@ mail_folder_cache_note_folder (const gchar *uri, CamelFolder *folder)
 		return;
 	}
 
-	dm ("Setting uri %s to watch folder %p", uri, folder);
+	d(g_message("Setting uri %s to watch folder %p", uri, folder));
 
 	mfi->flags |= MAIL_FIF_FOLDER_VALID;
 	mfi->folder = folder;
@@ -642,12 +646,12 @@ mail_folder_cache_note_fb (const gchar *uri, FolderBrowser *fb)
 	mfi = get_folder_info (uri);
 
 	if (!(mfi->flags & MAIL_FIF_FOLDER_VALID)) {
-		dm ("No folder specified so ignoring NOTE_FB at %s", uri);
+		d(g_message("No folder specified so ignoring NOTE_FB at %s", uri));
 		UNLOCK_FOLDERS ();
 		return;
 	}
 
-	dm ("Noting folder browser %p for %s", fb, uri);
+	d(g_message("Noting folder browser %p for %s", fb, uri));
 
 	mfi->fb = fb;
 	mfi->flags |= MAIL_FIF_FB_VALID;
@@ -657,7 +661,7 @@ mail_folder_cache_note_fb (const gchar *uri, FolderBrowser *fb)
 
 	UNLOCK_FOLDERS ();
 
-	dm ("-> faking message_list_built");
+	d(g_message("-> faking message_list_built"));
 	message_list_built (fb->message_list, mfi);
 }
 
@@ -673,7 +677,7 @@ mail_folder_cache_note_folderinfo (const gchar *uri, CamelFolderInfo *fi)
 
 	mfi = get_folder_info (uri);
 
-	dm ("Noting folderinfo %p for %s", fi, uri);
+	d(g_message("Noting folderinfo %p for %s", fi, uri));
 
 	if (fi->unread_message_count != -1) {
 		mfi->unread = fi->unread_message_count;
@@ -681,7 +685,7 @@ mail_folder_cache_note_folderinfo (const gchar *uri, CamelFolderInfo *fi)
 	}
 
 	if (!(mfi->flags & MAIL_FIF_NAME_VALID)) {
-		dm ("-> setting name %s", fi->name);
+		d(g_message("-> setting name %s", fi->name));
 		mfi->name = g_strdup (fi->name);
 		mfi->flags |= MAIL_FIF_NAME_VALID;
 	}
@@ -703,11 +707,11 @@ mail_folder_cache_note_name (const gchar *uri, const gchar *name)
 
 	mfi = get_folder_info (uri);
 
-	dm ("Noting name %s for %s", name, uri);
+	d(g_message("Noting name %s for %s", name, uri));
 
 	if (mfi->flags & MAIL_FIF_NAME_VALID) {
 		/* we could complain.. */
-		dm ("-> name already set: %s", mfi->name);
+		d(g_message("-> name already set: %s", mfi->name));
 		UNLOCK_FOLDERS ();
 		return;
 	}
@@ -769,17 +773,17 @@ mail_folder_cache_set_shell_view (GNOME_Evolution_ShellView sv)
 void
 mail_folder_cache_set_folder_browser (FolderBrowser *fb)
 {
-	dm ("Setting new folder browser: %p", fb);
+	d(g_message("Setting new folder browser: %p", fb));
 
 	if (folder_browser != NULL) {
-		dm ("Unreffing old folder browser %p", folder_browser);
+		d(g_message("Unreffing old folder browser %p", folder_browser));
 		gtk_object_unref (GTK_OBJECT (folder_browser));
 	}
 
 	folder_browser = fb;
 
 	if (fb) {
-		dm ("Reffing new browser %p", fb);
+		d(g_message("Reffing new browser %p", fb));
 		gtk_object_ref (GTK_OBJECT (fb));
 	} else if (shell_view != CORBA_OBJECT_NIL) {
 		CORBA_Environment ev;
@@ -795,7 +799,7 @@ mail_folder_cache_set_folder_browser (FolderBrowser *fb)
 	}
 
 	LOCK_FOLDERS ();
-	dm ("Checking folders for this fb");
+	d(g_message("Checking folders for this fb"));
 	g_hash_table_foreach (folders, check_for_fb_match, fb);
 	UNLOCK_FOLDERS ();
 }

@@ -1,5 +1,10 @@
 2001-07-09  Peter Williams  <peterw@ximian.com>
 
+	* mail-folder-cache.c (dm): Gave up and got rid of dm. Just replaced it
+	with d(g_message()) and set G_LOG_DOMAIN.
+
+2001-07-09  Peter Williams  <peterw@ximian.com>
+
 	* mail-folder-cache.c (mail_folder_cache_set_update_shellview): Deleted
 	(as opposed to #if 0)
 	(get_folder_info): Changed to assume it has the folder lock.
