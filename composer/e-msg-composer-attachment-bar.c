@@ -698,6 +698,9 @@ e_msg_composer_attachment_bar_new (GtkAdjustment *adj)
 	gnome_icon_list_set_icon_border (icon_list, ICON_BORDER);
 	gnome_icon_list_set_text_spacing (icon_list, ICON_TEXT_SPACING);
 	gnome_icon_list_set_selection_mode (icon_list, GTK_SELECTION_MULTIPLE);
+
+	atk_object_set_name (gtk_widget_get_accessible (GTK_WIDGET (new)), 
+			_("Attachment Bar"));
 	
 	return GTK_WIDGET (new);
 }

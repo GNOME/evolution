@@ -1,3 +1,11 @@
+2005-02-16  Harry Lu  <harry.lu@sun.com>
+
+	Add a11y name for attachment button and bars
+
+	* e-msg-composer-attachment-bar.c:
+	(e_msg_composer_attachment_bar_new):
+	* e-msg-composer.c: (create_composer):
+
 2005-02-10  Not Zed  <NotZed@Ximian.com>
 
 	** See bug #66126.

@@ -3490,6 +3490,7 @@ create_composer (int visible_mask)
 
 	composer->attachment_expander = e_expander_new ("");	
 	e_expander_set_label_widget (E_EXPANDER (composer->attachment_expander), expander_hbox);
+	atk_object_set_name (gtk_widget_get_accessible (composer->attachment_expander), _("Attachment Button: Press space key to toggle attachment bar"));
 	
 	gtk_container_add (GTK_CONTAINER (composer->attachment_expander),
 			   composer->attachment_scrolled_window);
