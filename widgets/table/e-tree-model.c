@@ -749,14 +749,24 @@ e_tree_model_has_change_pending (ETreeModel *etree)
 }
 
 /**
- * e_tree_model_icon_of_node
+ * e_tree_model_value_at:
  * @etree: The ETreeModel.
- * @path: The ETreePath to the node we're getting the icon of.
+ * @node: The ETreePath to the node we're getting the data from.
+ * @col: the column to retrieve data from
+ * 
+ * Return value: This function returns the value that is stored by the
+ * @etree in column @col and node @node.  The data returned can be a
+ * pointer or any data value that can be stored inside a pointer.
  *
- * XXX docs here.
+ * The data returned is typically used by an ECell renderer.
  *
- * return values: the GdkPixbuf associated with this node.
- */
+ * The data returned must be valid until the model sends a signal that
+ * affect that piece of data.  node_changed and node_deleted affect
+ * all data in tha t node and all nodes under that node.
+ * node_data_changed affects the data in that node.  node_col_changed
+ * affects the data in that node for that column.  node_inserted,
+ * node_removed, and no_change don't affect any data in this way.
+ **/
 void *
 e_tree_model_value_at (ETreeModel *etree, ETreePath node, int col)
 {

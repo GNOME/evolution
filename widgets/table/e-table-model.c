@@ -110,8 +110,14 @@ e_table_model_append_row (ETableModel *e_table_model, ETableModel *source, int r
  * returned can be a pointer or any data value that can be stored
  * inside a pointer.
  *
- * The data returned is typically used by an ECell renderer
- */
+ * The data returned is typically used by an ECell renderer.
+ *
+ * The data returned must be valid until the model sends a signal that
+ * affect that piece of data.  model_changed affects all data.
+ * row_changed affects the data in that row.  cell_changed affects the
+ * data in that cell.  rows_deleted affects all data in those rows.
+ * rows_inserted and no_change don't affect any data in this way.
+ **/
 void *
 e_table_model_value_at (ETableModel *e_table_model, int col, int row)
 {
