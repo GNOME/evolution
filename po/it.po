@@ -1,4 +1,4 @@
-# translation of it.po to 
+# translation of it.po to
 # Traduzione Italiana del po di Evolution.
 # Clara Tattoni <clara.tattoni@libero.it>, 2000-2002
 # Ettore Perazzoli <ettore@ximian.com>, 2001
@@ -7,13 +7,13 @@ msgid ""
 msgstr ""
 "Project-Id-Version: it\n"
 "POT-Creation-Date: 2003-06-02 15:28-0400\n"
-"PO-Revision-Date: 2003-06-03 19:00GMT\n"
-"Last-Translator: \n"
-"Language-Team:  <it@li.org>\n"
+"PO-Revision-Date: 2003-06-09 00:16GMT\n"
+"Last-Translator: Marco Ciampa <ciampix@libero.it>\n"
+"Language-Team: italiano <tp@lists.linux.it>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Generator: KBabel 1.0.1\n"
+"X-Generator: KBabel 0.9.6\n"
 
 #: addressbook/backend/ebook/GNOME_Evolution_Addressbook_LDIF_Importer.server.in.in.h:1
 msgid "Evolution LDIF importer"
@@ -4417,8 +4417,8 @@ msgid ""
 "The journal entry being deleted is published, would you like to send a "
 "cancellation notice?"
 msgstr ""
-"La voce di giornale cancellata è stata pubblicata, vuoi spedireun'avviso di "
-"cancellazione?"
+"La voce di giornale cancellata è stata pubblicata, vuoi spedire "
+"un'avviso di cancellazione?"
 
 #: calendar/gui/dialogs/cancel-comp.c:79
 msgid "Are you sure you want to cancel and delete this journal entry?"
