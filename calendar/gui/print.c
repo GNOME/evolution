@@ -22,6 +22,7 @@
 
 #include <config.h>
 #include <sys/stat.h>
+#include <sys/time.h>
 #include <math.h>
 #include <libgnome/gnome-paper.h>
 #include <libgnomeui/gnome-dialog.h>
