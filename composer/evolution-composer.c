@@ -109,6 +109,7 @@ impl_Composer_set_body_text (PortableServer_Servant servant,
 	composer = EVOLUTION_COMPOSER (bonobo_object);
 
 	e_msg_composer_set_body_text (composer->composer, text);
+	composer->composer->no_body = FALSE;
 }
 
 static void
@@ -244,13 +245,23 @@ class_init (EvolutionComposerClass *klass)
 }
 
 static void
+unset_no_body (EMsgComposer *composer, gpointer user_data)
+{
+	composer->no_body = FALSE;
+}
+
+static void
 init (EvolutionComposer *composer)
 {
 	const MailConfigAccount *account;
 
 	account            = mail_config_get_default_account ();
 	composer->composer = e_msg_composer_new ();
-	
+	composer->composer->no_body = TRUE;
+
+	gtk_signal_connect (GTK_OBJECT (composer->composer), "realize",
+			    GTK_SIGNAL_FUNC (unset_no_body), NULL);
+
 	gtk_signal_connect (GTK_OBJECT (composer->composer), "send",
 			    GTK_SIGNAL_FUNC (send_cb), NULL);
 	gtk_signal_connect (GTK_OBJECT (composer->composer), "postpone",

@@ -92,6 +92,7 @@ struct _EMsgComposer {
 	gboolean view_cc       : 1;
 	gboolean view_subject  : 1;
 	gboolean has_changed   : 1;
+	gboolean no_body       : 1;
 
 	gboolean in_signature_insert : 1;
 };

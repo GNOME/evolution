@@ -280,6 +280,21 @@ add_inlined_images (EMsgComposer *composer, CamelMultipart *multipart)
 	}
 }
 
+static void
+copy_headers (CamelMedium *dest, CamelMedium *src)
+{
+	CamelMediumHeader header;
+	GArray *headers;
+	int i;
+
+	headers = camel_medium_get_headers (src);
+	for (i = 0; i < headers->len; i++) {
+		header = g_array_index (headers, CamelMediumHeader, i);
+		camel_medium_set_header (dest, header.name, header.value);
+	}
+	camel_medium_free_headers (src, headers);
+}
+
 /* This functions builds a CamelMimeMessage for the message that the user has
  * composed in `composer'.
  */
@@ -299,7 +314,7 @@ build_message (EMsgComposer *composer)
 	CamelMultipart *body = NULL;
 	CamelMimePart *part;
 	CamelException ex;
-	int i;
+	int i, num_attachments;
 	
 	if (composer->persist_stream_interface == CORBA_OBJECT_NIL)
 		return NULL;
@@ -395,7 +410,8 @@ build_message (EMsgComposer *composer)
 	} else
 		current = plain;
 	
-	if (e_msg_composer_attachment_bar_get_num_attachments (attachment_bar)) {
+	num_attachments = e_msg_composer_attachment_bar_get_num_attachments (attachment_bar);
+	if (num_attachments) {
 		CamelMultipart *multipart = camel_multipart_new ();
 		
 		/* Generate a random boundary. */
@@ -410,8 +426,15 @@ build_message (EMsgComposer *composer)
 		camel_object_unref (CAMEL_OBJECT (part));
 		
 		e_msg_composer_attachment_bar_to_multipart (attachment_bar, multipart, composer->charset);
-		
-		current = CAMEL_DATA_WRAPPER (multipart);
+
+		if (composer->no_body && num_attachments == 1) {
+			part = camel_multipart_get_part (multipart, 1);
+			current = camel_medium_get_content_object (CAMEL_MEDIUM (part));
+			copy_headers (CAMEL_MEDIUM (new), CAMEL_MEDIUM (part));
+			camel_object_ref (CAMEL_OBJECT (current));
+			camel_object_unref (CAMEL_OBJECT (multipart));
+		} else		
+			current = CAMEL_DATA_WRAPPER (multipart);
 	}
 	
 	if (composer->pgp_sign || composer->pgp_encrypt) {

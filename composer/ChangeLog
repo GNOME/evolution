@@ -1,3 +1,15 @@
+2001-10-29  Dan Winship  <danw@ximian.com>
+
+	* evolution-composer.c (init): Set the (new) "no_body" flag on the
+	composer.
+	(impl_Composer_set_body_text): And unset it here.
+	(unset_no_body): And here (called if/when the composer is
+	realized).
+
+	* e-msg-composer.c (build_message): If the composer has the
+	"no_body" flag set, and a single attachment, promote that
+	attachment to be the message body.
+
 2001-10-30  Radek Doulik  <rodo@ximian.com>
 
 	* listener.c (reply_indent): simplified, requires new gtkhtml
