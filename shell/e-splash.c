@@ -25,9 +25,7 @@
 #include <config.h>
 #endif
 
-#include <gtk/gtkframe.h>
-#include <gtk/gtkmain.h>
-#include <gtk/gtksignal.h>
+#include <gnome.h>
 #include <gdk-pixbuf/gnome-canvas-pixbuf.h>
 #include <gal/util/e-util.h>
 
@@ -231,6 +229,8 @@ impl_destroy (GtkObject *object)
 		gtk_idle_remove (priv->layout_idle_id);
 
 	g_free (priv);
+
+	(* GTK_OBJECT_CLASS (parent_class)->destroy) (object);
 }
 
 

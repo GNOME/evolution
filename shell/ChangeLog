@@ -1,3 +1,8 @@
+2001-04-13  Ettore Perazzoli  <ettore@ximian.com>
+
+	* e-splash.c (impl_destroy): Call the parent class' ::destroy
+	method.
+
 2001-04-12  Christopher James Lahey  <clahey@ximian.com>
 
 	* e-storage-set-view.c (etree_has_get_node_by_id,
