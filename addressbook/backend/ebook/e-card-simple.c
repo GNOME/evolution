@@ -75,9 +75,26 @@ static ECardSimpleFieldData field_data[] =
 {
 	{ E_CARD_SIMPLE_FIELD_FILE_AS,            "file_as",     "File As",       "",         0,                                   E_CARD_SIMPLE_INTERNAL_TYPE_STRING },
 	{ E_CARD_SIMPLE_FIELD_FULL_NAME,          "full_name",   "Name",          "Name",     0,                                   E_CARD_SIMPLE_INTERNAL_TYPE_STRING },
-	{ E_CARD_SIMPLE_FIELD_BIRTH_DATE,         "birth_date",  "Birth Date",    "",         0,                                   E_CARD_SIMPLE_INTERNAL_TYPE_DATE },
-	{ E_CARD_SIMPLE_FIELD_URL,                "url",         "Web Site",      "Url",      0,                                   E_CARD_SIMPLE_INTERNAL_TYPE_STRING },
+	{ E_CARD_SIMPLE_FIELD_EMAIL,              "",            "Email",         "Email",    E_CARD_SIMPLE_EMAIL_ID_EMAIL,   	   E_CARD_SIMPLE_INTERNAL_TYPE_EMAIL },
+	{ E_CARD_SIMPLE_FIELD_PHONE_PRIMARY,      "",            "Primary",       "Prim",     E_CARD_SIMPLE_PHONE_ID_PRIMARY,      E_CARD_SIMPLE_INTERNAL_TYPE_PHONE },
+	{ E_CARD_SIMPLE_FIELD_PHONE_BUSINESS,     "",            "Business",      "Bus",      E_CARD_SIMPLE_PHONE_ID_BUSINESS,     E_CARD_SIMPLE_INTERNAL_TYPE_PHONE },
+	{ E_CARD_SIMPLE_FIELD_PHONE_HOME,         "",            "Home",          "Home",     E_CARD_SIMPLE_PHONE_ID_HOME,         E_CARD_SIMPLE_INTERNAL_TYPE_PHONE },
 	{ E_CARD_SIMPLE_FIELD_ORG,                "org",         "Organization",  "Org",      0,                                   E_CARD_SIMPLE_INTERNAL_TYPE_STRING },
+	{ E_CARD_SIMPLE_FIELD_ADDRESS_BUSINESS,   "",            "Business",      "Bus",      E_CARD_SIMPLE_ADDRESS_ID_HOME,       E_CARD_SIMPLE_INTERNAL_TYPE_ADDRESS },
+	{ E_CARD_SIMPLE_FIELD_ADDRESS_HOME,       "",            "Home",          "Home",     E_CARD_SIMPLE_ADDRESS_ID_BUSINESS,   E_CARD_SIMPLE_INTERNAL_TYPE_ADDRESS },
+	{ E_CARD_SIMPLE_FIELD_PHONE_MOBILE,       "",            "Mobile",        "Mobile",   E_CARD_SIMPLE_PHONE_ID_MOBILE,       E_CARD_SIMPLE_INTERNAL_TYPE_PHONE },
+	{ E_CARD_SIMPLE_FIELD_PHONE_CAR,          "",            "Car",           "Car",      E_CARD_SIMPLE_PHONE_ID_CAR,          E_CARD_SIMPLE_INTERNAL_TYPE_PHONE },
+	{ E_CARD_SIMPLE_FIELD_PHONE_BUSINESS_FAX, "",            "Business Fax",  "Bus Fax",  E_CARD_SIMPLE_PHONE_ID_BUSINESS_FAX, E_CARD_SIMPLE_INTERNAL_TYPE_PHONE },
+	{ E_CARD_SIMPLE_FIELD_PHONE_HOME_FAX,     "",            "Home Fax",      "Home Fax", E_CARD_SIMPLE_PHONE_ID_HOME_FAX,     E_CARD_SIMPLE_INTERNAL_TYPE_PHONE },
+	{ E_CARD_SIMPLE_FIELD_PHONE_BUSINESS_2,   "",            "Business 2",    "Bus 2",    E_CARD_SIMPLE_PHONE_ID_BUSINESS_2,   E_CARD_SIMPLE_INTERNAL_TYPE_PHONE },
+	{ E_CARD_SIMPLE_FIELD_PHONE_HOME_2,       "",            "Home 2",        "Home 2",   E_CARD_SIMPLE_PHONE_ID_HOME_2,       E_CARD_SIMPLE_INTERNAL_TYPE_PHONE },
+	{ E_CARD_SIMPLE_FIELD_PHONE_ISDN,         "",            "ISDN",          "ISDN",     E_CARD_SIMPLE_PHONE_ID_ISDN,         E_CARD_SIMPLE_INTERNAL_TYPE_PHONE },
+	{ E_CARD_SIMPLE_FIELD_PHONE_OTHER,        "",            "Other",         "Other",    E_CARD_SIMPLE_PHONE_ID_OTHER,        E_CARD_SIMPLE_INTERNAL_TYPE_PHONE },
+	{ E_CARD_SIMPLE_FIELD_PHONE_PAGER,        "",            "Pager",         "Pager",    E_CARD_SIMPLE_PHONE_ID_PAGER,        E_CARD_SIMPLE_INTERNAL_TYPE_PHONE },
+	{ E_CARD_SIMPLE_FIELD_ADDRESS_OTHER,      "",            "Other",         "Other",    E_CARD_SIMPLE_ADDRESS_ID_OTHER,      E_CARD_SIMPLE_INTERNAL_TYPE_ADDRESS },
+	{ E_CARD_SIMPLE_FIELD_EMAIL_2,            "",            "Email 2",       "Email 2",  E_CARD_SIMPLE_EMAIL_ID_EMAIL_2, 	   E_CARD_SIMPLE_INTERNAL_TYPE_EMAIL },
+	{ E_CARD_SIMPLE_FIELD_EMAIL_3,            "",            "Email 3",       "Email 3",  E_CARD_SIMPLE_EMAIL_ID_EMAIL_3, 	   E_CARD_SIMPLE_INTERNAL_TYPE_EMAIL },
+	{ E_CARD_SIMPLE_FIELD_URL,                "url",         "Web Site",      "Url",      0,                                   E_CARD_SIMPLE_INTERNAL_TYPE_STRING },
 	{ E_CARD_SIMPLE_FIELD_ORG_UNIT,           "org_unit",    "Department",    "Dep",      0,                                   E_CARD_SIMPLE_INTERNAL_TYPE_STRING },
 	{ E_CARD_SIMPLE_FIELD_OFFICE,             "office",      "Office",        "Off",      0,                                   E_CARD_SIMPLE_INTERNAL_TYPE_STRING },
 	{ E_CARD_SIMPLE_FIELD_TITLE,              "title",       "Title",         "Title",    0,                                   E_CARD_SIMPLE_INTERNAL_TYPE_STRING },
@@ -86,27 +103,10 @@ static ECardSimpleFieldData field_data[] =
 	{ E_CARD_SIMPLE_FIELD_ASSISTANT,          "assistant",   "Assistant",     "Ass",      0,                                   E_CARD_SIMPLE_INTERNAL_TYPE_STRING },
 	{ E_CARD_SIMPLE_FIELD_NICKNAME,           "nickname",    "Nickname",      "Nick",     0,                                   E_CARD_SIMPLE_INTERNAL_TYPE_STRING },
 	{ E_CARD_SIMPLE_FIELD_SPOUSE,             "spouse",      "Spouse",        "Spouse",   0,                                   E_CARD_SIMPLE_INTERNAL_TYPE_STRING },
-	{ E_CARD_SIMPLE_FIELD_ANNIVERSARY,        "anniversary", "Anniversary",   "Anniv",    0,                                   E_CARD_SIMPLE_INTERNAL_TYPE_DATE },
-	{ E_CARD_SIMPLE_FIELD_FBURL,              "fburl",       "Free-busy URL", "FBUrl",    0,                                   E_CARD_SIMPLE_INTERNAL_TYPE_STRING },
 	{ E_CARD_SIMPLE_FIELD_NOTE,               "note",        "Note",          "Note",     0,                                   E_CARD_SIMPLE_INTERNAL_TYPE_STRING },
-	{ E_CARD_SIMPLE_FIELD_PHONE_BUSINESS,     "",            "Business",      "Bus",      E_CARD_SIMPLE_PHONE_ID_BUSINESS,     E_CARD_SIMPLE_INTERNAL_TYPE_PHONE },
-	{ E_CARD_SIMPLE_FIELD_PHONE_BUSINESS_2,   "",            "Business 2",    "Bus 2",    E_CARD_SIMPLE_PHONE_ID_BUSINESS_2,   E_CARD_SIMPLE_INTERNAL_TYPE_PHONE },
-	{ E_CARD_SIMPLE_FIELD_PHONE_BUSINESS_FAX, "",            "Business Fax",  "Bus Fax",  E_CARD_SIMPLE_PHONE_ID_BUSINESS_FAX, E_CARD_SIMPLE_INTERNAL_TYPE_PHONE },
-	{ E_CARD_SIMPLE_FIELD_PHONE_CAR,          "",            "Car",           "Car",      E_CARD_SIMPLE_PHONE_ID_CAR,          E_CARD_SIMPLE_INTERNAL_TYPE_PHONE },
-	{ E_CARD_SIMPLE_FIELD_PHONE_HOME,         "",            "Home",          "Home",     E_CARD_SIMPLE_PHONE_ID_HOME,         E_CARD_SIMPLE_INTERNAL_TYPE_PHONE },
-	{ E_CARD_SIMPLE_FIELD_PHONE_HOME_2,       "",            "Home 2",        "Home 2",   E_CARD_SIMPLE_PHONE_ID_HOME_2,       E_CARD_SIMPLE_INTERNAL_TYPE_PHONE },
-	{ E_CARD_SIMPLE_FIELD_PHONE_HOME_FAX,     "",            "Home Fax",      "Home Fax", E_CARD_SIMPLE_PHONE_ID_HOME_FAX,     E_CARD_SIMPLE_INTERNAL_TYPE_PHONE },
-	{ E_CARD_SIMPLE_FIELD_PHONE_ISDN,         "",            "ISDN",          "ISDN",     E_CARD_SIMPLE_PHONE_ID_ISDN,         E_CARD_SIMPLE_INTERNAL_TYPE_PHONE },
-	{ E_CARD_SIMPLE_FIELD_PHONE_MOBILE,       "",            "Mobile",        "Mobile",   E_CARD_SIMPLE_PHONE_ID_MOBILE,       E_CARD_SIMPLE_INTERNAL_TYPE_PHONE },
-	{ E_CARD_SIMPLE_FIELD_PHONE_OTHER,        "",            "Other",         "Other",    E_CARD_SIMPLE_PHONE_ID_OTHER,        E_CARD_SIMPLE_INTERNAL_TYPE_PHONE },
-	{ E_CARD_SIMPLE_FIELD_PHONE_PAGER,        "",            "Pager",         "Pager",    E_CARD_SIMPLE_PHONE_ID_PAGER,        E_CARD_SIMPLE_INTERNAL_TYPE_PHONE },
-	{ E_CARD_SIMPLE_FIELD_PHONE_PRIMARY,      "",            "Primary",       "Prim",     E_CARD_SIMPLE_PHONE_ID_PRIMARY,      E_CARD_SIMPLE_INTERNAL_TYPE_PHONE },
-	{ E_CARD_SIMPLE_FIELD_ADDRESS_HOME,       "",            "Home",          "Home",     E_CARD_SIMPLE_ADDRESS_ID_BUSINESS,   E_CARD_SIMPLE_INTERNAL_TYPE_ADDRESS },
-	{ E_CARD_SIMPLE_FIELD_ADDRESS_BUSINESS,   "",            "Business",      "Bus",      E_CARD_SIMPLE_ADDRESS_ID_HOME,       E_CARD_SIMPLE_INTERNAL_TYPE_ADDRESS },
-	{ E_CARD_SIMPLE_FIELD_ADDRESS_OTHER,      "",            "Other",         "Other",    E_CARD_SIMPLE_ADDRESS_ID_OTHER,      E_CARD_SIMPLE_INTERNAL_TYPE_ADDRESS },
-	{ E_CARD_SIMPLE_FIELD_EMAIL,              "",            "Email",         "Email",    E_CARD_SIMPLE_EMAIL_ID_EMAIL,   	   E_CARD_SIMPLE_INTERNAL_TYPE_EMAIL },
-	{ E_CARD_SIMPLE_FIELD_EMAIL_2,            "",            "Email 2",       "Email 2",  E_CARD_SIMPLE_EMAIL_ID_EMAIL_2, 	   E_CARD_SIMPLE_INTERNAL_TYPE_EMAIL },
-	{ E_CARD_SIMPLE_FIELD_EMAIL_3,            "",            "Email 3",       "Email 3",  E_CARD_SIMPLE_EMAIL_ID_EMAIL_3, 	   E_CARD_SIMPLE_INTERNAL_TYPE_EMAIL },
+	{ E_CARD_SIMPLE_FIELD_FBURL,              "fburl",       "Free-busy URL", "FBUrl",    0,                                   E_CARD_SIMPLE_INTERNAL_TYPE_STRING },
+	{ E_CARD_SIMPLE_FIELD_ANNIVERSARY,        "anniversary", "Anniversary",   "Anniv",    0,                                   E_CARD_SIMPLE_INTERNAL_TYPE_DATE },
+	{ E_CARD_SIMPLE_FIELD_BIRTH_DATE,         "birth_date",  "Birth Date",    "",         0,                                   E_CARD_SIMPLE_INTERNAL_TYPE_DATE },
 };
 
 static void e_card_simple_init (ECardSimple *simple);
@@ -373,6 +373,9 @@ e_card_simple_destroy (GtkObject *object)
 
 	if (simple->card)
 		gtk_object_unref(GTK_OBJECT(simple->card));
+	g_list_foreach(simple->temp_fields, (GFunc) g_free, NULL);
+	g_list_free(simple->temp_fields);
+	simple->temp_fields = NULL;
 }
 
 
@@ -388,6 +391,9 @@ e_card_simple_set_arg (GtkObject *object, GtkArg *arg, guint arg_id)
 	case ARG_CARD:
 		if (simple->card)
 			gtk_object_unref(GTK_OBJECT(simple->card));
+		g_list_foreach(simple->temp_fields, (GFunc) g_free, NULL);
+		g_list_free(simple->temp_fields);
+		simple->temp_fields = NULL;
 		if (GTK_VALUE_OBJECT(*arg))
 			simple->card = E_CARD(GTK_VALUE_OBJECT(*arg));
 		else
@@ -614,6 +620,7 @@ e_card_simple_init (ECardSimple *simple)
 		simple->email[i] = NULL;
 	for(i = 0; i < E_CARD_SIMPLE_ADDRESS_ID_LAST; i++)
 		simple->address[i] = NULL;
+	simple->temp_fields = NULL;
 }
 
 static void
@@ -827,6 +834,15 @@ void            e_card_simple_set_address (ECardSimple          *simple,
 	if (simple->address[id])
 		e_card_address_label_free(simple->address[id]);
 	simple->address[id] = e_card_address_label_copy(address);
+}
+
+const char *e_card_simple_get_const    (ECardSimple          *simple,
+					ECardSimpleField      field)
+{
+	char *ret_val = e_card_simple_get(simple, field);
+	if (ret_val)
+		simple->temp_fields = g_list_prepend(simple->temp_fields, ret_val);
+	return ret_val;
 }
 
 char     *e_card_simple_get            (ECardSimple          *simple,

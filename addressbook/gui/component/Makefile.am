@@ -7,6 +7,7 @@ INCLUDES =						\
 	$(GNOME_INCLUDEDIR)				\
 	-I$(top_srcdir)					\
 	-I$(top_srcdir)/widgets/e-text			\
+	-I$(top_srcdir)/widgets/e-table			\
 	-I$(top_srcdir)/addressbook/gui/minicard	\
 	-I$(top_srcdir)/addressbook/contact-editor	\
 	-I$(top_srcdir)/addressbook/backend		\
@@ -23,6 +24,8 @@ bin_PROGRAMS =	\
 
 evolution_addressbook_SOURCES = 	\
 	e-ldap-server-dialog.c          \
+	e-addressbook-model.c		\
+	e-addressbook-model.h		\
 	addressbook-factory.c		\
 	addressbook.c			\
 	addressbook.h
@@ -32,6 +35,7 @@ evolution_addressbook_LDADD =						\
 	$(BONOBO_HTML_GNOME_LIBS)					\
 	$(top_builddir)/addressbook/gui/minicard/libeminicard.a		\
 	$(top_builddir)/widgets/e-text/libetext.a			\
+	$(top_builddir)/widgets/e-table/libetable.a			\
 	$(top_builddir)/e-util/libeutil.la				\
 	$(top_builddir)/addressbook/backend/ebook/libebook.la		\
 	$(top_builddir)/addressbook/ename/libename.la			\

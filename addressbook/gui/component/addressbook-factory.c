@@ -12,6 +12,7 @@
 #include <gnome.h>
 #include <bonobo.h>
 #include <glade/glade.h>
+#include <e-util/e-cursors.h>
 
 #include "addressbook.h"
 
@@ -65,6 +66,8 @@ main (int argc, char **argv)
 	init_bonobo (argc, argv);
 
 	addressbook_factory_init ();
+
+	e_cursors_init();
 
 	bonobo_main ();
 

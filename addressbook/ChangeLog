@@ -1,3 +1,21 @@
+2000-05-07  Christopher James Lahey  <clahey@helixcode.com>
+
+	* backend/ebook/e-book.c: Made a NULL callback just mean to not
+	call back.
+
+	* backend/ebook/e-card-simple.c, backend/ebook/e-card-simple.h:
+	Reordered fields.  Added a get_const function to get a constant
+	string that persists until the simple is destroyed.
+
+	* gui/component/Makefile.am: Added e-addressbook-model.c and
+	e-addressbook-model.h and all of the libraries and includes that
+	they are dependent on.
+
+	* gui/component/addressbook-factory.c: Initialize e cursors.
+
+	* gui/component/addressbook.c: Added inactive code to display an
+	ETable view of the addressbook.
+	
 2000-05-06  Christopher James Lahey  <clahey@helixcode.com>
 
 	* backend/ebook/e-card-simple.c, backend/ebook/e-card-simple.h:

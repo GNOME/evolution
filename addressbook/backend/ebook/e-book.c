@@ -118,7 +118,8 @@ e_book_do_response_create_card (EBook                 *book,
 		return;
 	}
 
-	((EBookIdCallback) op->cb) (book, resp->status, resp->id, op->closure);
+	if (op->cb)
+		((EBookIdCallback) op->cb) (book, resp->status, resp->id, op->closure);
 	g_free (resp->id);
 	g_free (op);
 }
@@ -136,7 +137,8 @@ e_book_do_response_generic (EBook                 *book,
 			   "in local op queue!\n");
 	}
 
-	((EBookCallback) op->cb) (book, resp->status, op->closure);
+	if (op->cb)
+		((EBookCallback) op->cb) (book, resp->status, op->closure);
 
 	g_free (op);
 }
@@ -159,7 +161,8 @@ e_book_do_response_get_cursor (EBook                 *book,
 
 	cursor = e_card_cursor_new(resp->cursor);
 
-	((EBookCursorCallback) op->cb) (book, resp->status, cursor, op->closure);
+	if (op->cb)
+		((EBookCursorCallback) op->cb) (book, resp->status, cursor, op->closure);
 
 	/*
 	 * Release the remote Evolution_Book in the PAS.
@@ -206,8 +209,9 @@ e_book_do_response_get_view (EBook                 *book,
 	}
 
 	book_view = e_book_view_new(resp->book_view, op->listener);
-
-	((EBookBookViewCallback) op->cb) (book, resp->status, book_view, op->closure);
+	
+	if (op->cb)
+		((EBookBookViewCallback) op->cb) (book, resp->status, book_view, op->closure);
 
 	/*
 	 * Release the remote Evolution_Book in the PAS.
@@ -257,7 +261,8 @@ e_book_do_response_open (EBook                 *book,
 		return;
 	}
 
-	((EBookCallback) op->cb) (book, resp->status, op->closure);
+	if (op->cb)
+		((EBookCallback) op->cb) (book, resp->status, op->closure);
 	g_free (op);
 }
 
@@ -576,7 +581,6 @@ e_book_remove_card (EBook         *book,
 	g_return_val_if_fail (E_IS_BOOK (book), FALSE);
 	g_return_val_if_fail (card != NULL,     FALSE);
 	g_return_val_if_fail (E_IS_CARD (card), FALSE);
-	g_return_val_if_fail (cb != NULL,       FALSE);
 
 	if (book->priv->load_state != URILoaded) {
 		g_warning ("e_book_remove_card: No URI loaded!\n");
@@ -604,7 +608,6 @@ e_book_remove_card_by_id (EBook         *book,
 	g_return_val_if_fail (book != NULL,     FALSE);
 	g_return_val_if_fail (E_IS_BOOK (book), FALSE);
 	g_return_val_if_fail (id != NULL,       FALSE);
-	g_return_val_if_fail (cb != NULL,       FALSE);
 
 	if (book->priv->load_state != URILoaded) {
 		g_warning ("e_book_remove_card_by_id: No URI loaded!\n");
@@ -649,7 +652,6 @@ e_book_add_card (EBook           *book,
 	g_return_val_if_fail (E_IS_BOOK (book), FALSE);
 	g_return_val_if_fail (card != NULL,     FALSE);
 	g_return_val_if_fail (E_IS_CARD (card), FALSE);
-	g_return_val_if_fail (cb   != NULL,     FALSE);
 
 	if (book->priv->load_state != URILoaded) {
 		g_warning ("e_book_add_card: No URI loaded!\n");
@@ -684,7 +686,6 @@ e_book_add_vcard (EBook           *book,
 	g_return_val_if_fail (book  != NULL,    FALSE);
 	g_return_val_if_fail (E_IS_BOOK (book), FALSE);
 	g_return_val_if_fail (vcard != NULL,    FALSE);
-	g_return_val_if_fail (cb    != NULL,    FALSE);
 
 	if (book->priv->load_state != URILoaded) {
 		g_warning ("e_book_add_vcard: No URI loaded!\n");
@@ -727,7 +728,6 @@ e_book_commit_card (EBook         *book,
 	g_return_val_if_fail (E_IS_BOOK (book), FALSE);
 	g_return_val_if_fail (card != NULL,     FALSE);
 	g_return_val_if_fail (E_IS_CARD (card), FALSE);
-	g_return_val_if_fail (cb    != NULL,    FALSE);
 
 	if (book->priv->load_state != URILoaded) {
 		g_warning ("e_book_commit_card: No URI loaded!\n");
@@ -763,7 +763,6 @@ e_book_commit_vcard (EBook         *book,
 	g_return_val_if_fail (book  != NULL,    FALSE);
 	g_return_val_if_fail (E_IS_BOOK (book), FALSE);
 	g_return_val_if_fail (vcard != NULL,    FALSE);
-	g_return_val_if_fail (cb    != NULL,    FALSE);
 
 	if (book->priv->load_state != URILoaded) {
 		g_warning ("e_book_commit_vcard: No URI loaded!\n");
