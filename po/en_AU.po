@@ -1,4 +1,4 @@
-# English (Commonwealth) translation
+# Australian translation
 # Copyright (C) 2000 Free Software Foundation, Inc.
 # Robert Brady <rwb197@zepler.org> 2000
 #
@@ -7,7 +7,7 @@ msgstr ""
 "Project-Id-Version: evolution 0.6\n"
 "POT-Creation-Date: 2001-10-10 11:08-0400\n"
 "PO-Revision-Date: 2000-10-22 16:19+0100\n"
-"Last-Translator: Robert Brady <rwb197@zepler.org>\n"
+"Last-Translator: Michael Zucchi <notzed@ximian.com>\n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=ISO-8859-1\n"
@@ -74,9 +74,8 @@ msgid "Company"
 msgstr ""
 
 #: addressbook/backend/ebook/e-card-simple.c:65
-#, fuzzy
 msgid "Comp"
-msgstr "Colours"
+msgstr ""
 
 #: addressbook/backend/ebook/e-card-simple.c:66
 #: addressbook/backend/ebook/e-card-simple.c:69
@@ -637,9 +636,8 @@ msgid "Evolution component for handling contacts."
 msgstr ""
 
 #: addressbook/gui/component/GNOME_Evolution_Addressbook.oaf.in.h:7
-#, fuzzy
 msgid "Factory for the Addressbook Minicard control"
-msgstr "Cannot initialise Evolution's mail component."
+msgstr ""
 
 #: addressbook/gui/component/GNOME_Evolution_Addressbook.oaf.in.h:8
 msgid "Factory for the Addressbook's address displayer"
@@ -1094,9 +1092,8 @@ msgid "No_tes:"
 msgstr ""
 
 #: addressbook/gui/contact-editor/contact-editor.glade.h:15
-#, fuzzy
 msgid "Organi_zation:"
-msgstr "Organisation:"
+msgstr "Organi_sation:"
 
 #: addressbook/gui/contact-editor/contact-editor.glade.h:16
 msgid "Phone Types"
@@ -1277,9 +1274,8 @@ msgid "Antigua And Barbuda"
 msgstr ""
 
 #: addressbook/gui/contact-editor/fulladdr.glade.h:11
-#, fuzzy
 msgid "Argentina"
-msgstr "Organisation"
+msgstr ""
 
 #: addressbook/gui/contact-editor/fulladdr.glade.h:12
 msgid "Armenia"
@@ -1418,9 +1414,8 @@ msgid "Check Address"
 msgstr ""
 
 #: addressbook/gui/contact-editor/fulladdr.glade.h:46
-#, fuzzy
 msgid "Chile"
-msgstr "Colours"
+msgstr "Chile"
 
 #: addressbook/gui/contact-editor/fulladdr.glade.h:47
 msgid "China"
@@ -1439,9 +1434,8 @@ msgid "Colombia"
 msgstr ""
 
 #: addressbook/gui/contact-editor/fulladdr.glade.h:51
-#, fuzzy
 msgid "Comoros"
-msgstr "Colours"
+msgstr "Comoros"
 
 #: addressbook/gui/contact-editor/fulladdr.glade.h:52
 msgid "Congo"
@@ -2666,9 +2660,8 @@ msgid "Options"
 msgstr ""
 
 #: addressbook/printing/e-contact-print.glade.h:24
-#, fuzzy
 msgid "Orientation"
-msgstr "Organisation"
+msgstr ""
 
 #: addressbook/printing/e-contact-print.glade.h:25
 msgid "Page"
@@ -2802,9 +2795,8 @@ msgid "A sample Bonobo control which displays an calendar."
 msgstr ""
 
 #: calendar/gui/GNOME_Evolution_Calendar.oaf.in.h:2
-#, fuzzy
 msgid "Evolution calendar executive summary component."
-msgstr "Cannot initialise Evolution's mail summary component."
+msgstr ""
 
 #: calendar/gui/GNOME_Evolution_Calendar.oaf.in.h:3
 msgid "Evolution calendar iTip/iMip viewer"
@@ -2815,29 +2807,24 @@ msgid "Evolution component for handling the calendar."
 msgstr ""
 
 #: calendar/gui/GNOME_Evolution_Calendar.oaf.in.h:5
-#, fuzzy
 msgid "Factory for the Calendar Summary component."
-msgstr "Cannot initialise Evolution's mail component."
+msgstr ""
 
 #: calendar/gui/GNOME_Evolution_Calendar.oaf.in.h:6
-#, fuzzy
 msgid "Factory for the calendar iTip view control"
-msgstr "Cannot initialise Evolution's mail component."
+msgstr ""
 
 #: calendar/gui/GNOME_Evolution_Calendar.oaf.in.h:7
-#, fuzzy
 msgid "Factory for the sample Calendar control"
-msgstr "Cannot initialise Evolution's mail component."
+msgstr ""
 
 #: calendar/gui/GNOME_Evolution_Calendar.oaf.in.h:8
-#, fuzzy
 msgid "Factory to centralize calendar component editor dialogs"
-msgstr "Cannot initialise Evolution's mail component."
+msgstr ""
 
 #: calendar/gui/GNOME_Evolution_Calendar.oaf.in.h:9
-#, fuzzy
 msgid "Factory to create a component editor factory"
-msgstr "Cannot initialise Evolution's mail component."
+msgstr ""
 
 #: calendar/gui/alarm-notify/GNOME_Evolution_Calendar_AlarmNotify.oaf.in.h:1
 msgid "Alarm notification service"
@@ -2891,9 +2878,8 @@ msgstr ""
 
 #: calendar/gui/alarm-notify/alarm-notify.glade.h:1
 #: ui/evolution-comp-editor.xml.h:1
-#, fuzzy
 msgid "C_lose"
-msgstr "Colours"
+msgstr "C_lose"
 
 #: calendar/gui/alarm-notify/alarm-notify.glade.h:2
 msgid "Snoo_ze"
@@ -2931,14 +2917,12 @@ msgid ""
 msgstr ""
 
 #: calendar/gui/alarm-notify/notify-main.c:73 calendar/gui/main.c:58
-#, fuzzy
 msgid "Could not initialize GNOME"
-msgstr "Could not initialise Bonobo"
+msgstr "Could not initialise GNOME"
 
 #: calendar/gui/alarm-notify/notify-main.c:81 calendar/gui/main.c:106
-#, fuzzy
 msgid "Could not initialize gnome-vfs"
-msgstr "Could not initialise Bonobo"
+msgstr "Could not initialise gnome-vfs"
 
 #: calendar/gui/alarm-notify/notify-main.c:90
 msgid "Could not create the alarm notify service factory"
@@ -2962,7 +2946,6 @@ msgstr ""
 
 #: calendar/gui/calendar-commands.c:462 calendar/gui/calendar-commands.c:469
 #: calendar/gui/calendar-commands.c:475 calendar/gui/calendar-commands.c:477
-#, fuzzy
 msgid "%d %B %Y"
 msgstr "%m/%d/%Y"
 
@@ -3434,7 +3417,6 @@ msgid "Color for overdue tasks"
 msgstr ""
 
 #: calendar/gui/dialogs/cal-prefs-dialog.glade.h:8
-#, fuzzy
 msgid "Color for tasks due today"
 msgstr "Colours for display"
 
@@ -3507,9 +3489,8 @@ msgid "T_ue"
 msgstr ""
 
 #: calendar/gui/dialogs/cal-prefs-dialog.glade.h:25
-#, fuzzy
 msgid "Tas_ks due today:"
-msgstr "Colours for display"
+msgstr ""
 
 #: calendar/gui/dialogs/cal-prefs-dialog.glade.h:26
 #: calendar/gui/dialogs/recurrence-page.c:955
@@ -3952,23 +3933,20 @@ msgstr ""
 
 #: calendar/gui/dialogs/meeting-page.glade.h:2
 #: calendar/gui/e-itip-control.glade.h:9
-#, fuzzy
 msgid "Organizer:"
-msgstr "Organisation:"
+msgstr "Organiser:"
 
 #: calendar/gui/dialogs/meeting-page.glade.h:3
-#, fuzzy
 msgid "_Change Organizer"
-msgstr "Organisation:"
+msgstr "_Change Organiser"
 
 #: calendar/gui/dialogs/meeting-page.glade.h:4
 msgid "_Invite Others"
 msgstr ""
 
 #: calendar/gui/dialogs/meeting-page.glade.h:5
-#, fuzzy
 msgid "_Other Organizer"
-msgstr "Organisation:"
+msgstr "_Other Organiser"
 
 #: calendar/gui/dialogs/recurrence-page.c:571
 msgid "This appointment contains recurrences that Evolution cannot edit."
@@ -4871,9 +4849,8 @@ msgid "An organizer must be set."
 msgstr ""
 
 #: calendar/gui/main.c:92
-#, fuzzy
 msgid "Could not create the component editor factory"
-msgstr "Cannot initialise Evolution's mail component."
+msgstr ""
 
 #: calendar/gui/print.c:426
 msgid "1st"
@@ -5263,9 +5240,8 @@ msgid "You must be working online to complete this operation"
 msgstr ""
 
 #: camel/camel-filter-driver.c:549 camel/camel-filter-driver.c:558
-#, fuzzy
 msgid "Syncing folders"
-msgstr "Synchronising \"%s\""
+msgstr "Synchronising folders"
 
 #: camel/camel-filter-driver.c:659
 msgid "Unable to open spool folder"
@@ -5287,12 +5263,11 @@ msgstr ""
 
 #: camel/camel-filter-driver.c:688
 msgid "Cannot open message"
-msgstr ""
+msgstr "Can not open message"
 
 #: camel/camel-filter-driver.c:714 camel/camel-filter-driver.c:829
-#, fuzzy
 msgid "Syncing folder"
-msgstr "Synchronising \"%s\""
+msgstr "Synchronising folder"
 
 #: camel/camel-filter-driver.c:786
 #, c-format
@@ -5343,7 +5318,8 @@ msgstr ""
 msgid ""
 "Cannot parse search expression: %s:\n"
 "%s"
-msgstr ""
+msgstr "Can not parse search expression: %s\n"
+"%s"
 
 #: camel/camel-folder-search.c:343
 #, c-format
@@ -5368,12 +5344,12 @@ msgstr ""
 #: camel/camel-lock-client.c:110
 #, c-format
 msgid "Cannot build locking helper pipe: %s"
-msgstr ""
+msgstr "Can not build locking helper pipe: %s"
 
 #: camel/camel-lock-client.c:123
 #, c-format
 msgid "Cannot fork locking helper: %s"
-msgstr ""
+msgstr "Can not fork locking helper: %s"
 
 #: camel/camel-lock-client.c:199 camel/camel-lock-client.c:222
 #, c-format
@@ -5472,64 +5448,64 @@ msgstr ""
 
 #: camel/camel-pgp-context.c:525
 msgid "Cannot sign this message: no plaintext to sign"
-msgstr ""
+msgstr "Can not sign this message: no plaintext to sign"
 
 #: camel/camel-pgp-context.c:532 camel/camel-pgp-context.c:706
 msgid "Cannot sign this message: no password provided"
-msgstr ""
+msgstr "Can not sign this message: no password provided"
 
 #: camel/camel-pgp-context.c:538 camel/camel-pgp-context.c:712
 #, c-format
 msgid "Cannot sign this message: couldn't create pipe to GPG/PGP: %s"
-msgstr ""
+msgstr "Can not sign this message: could not create pipe to GPGP/PGP: %s"
 
 #: camel/camel-pgp-context.c:699
 msgid "Cannot sign this message: no plaintext to clearsign"
-msgstr ""
+msgstr "Can not sign this message: no plaintext to clearsign"
 
 #: camel/camel-pgp-context.c:891
 msgid "Cannot verify this message: no plaintext to verify"
-msgstr ""
+msgstr "Can not verify this message: no plaintext to verify"
 
 #: camel/camel-pgp-context.c:897
 #, c-format
 msgid "Cannot verify this message: couldn't create pipe to GPG/PGP: %s"
-msgstr ""
+msgstr "Can not verify this message: could not create pipe to GPGP/PGP: %s"
 
 #: camel/camel-pgp-context.c:908
 #, c-format
 msgid "Cannot verify this message: couldn't create temp file: %s"
-msgstr ""
+msgstr "Can not verify this message: could not create temporary file: %s"
 
 #: camel/camel-pgp-context.c:1076
 msgid "Cannot encrypt this message: no plaintext to encrypt"
-msgstr ""
+msgstr "Can not encrypt this message: no plaintext to encrypt"
 
 #: camel/camel-pgp-context.c:1086
 msgid "Cannot encrypt this message: no password provided"
-msgstr ""
+msgstr "Can not encrypt this message: no password provided"
 
 #: camel/camel-pgp-context.c:1093
 #, c-format
 msgid "Cannot encrypt this message: couldn't create pipe to GPG/PGP: %s"
-msgstr ""
+msgstr "Can not encrypt this message: could not create pipe to GPGP/PGP: %s"
 
 #: camel/camel-pgp-context.c:1102
 msgid "Cannot encrypt this message: no recipients specified"
-msgstr ""
+msgstr "Can not encrypt this message: no recipients specified"
 
 #: camel/camel-pgp-context.c:1264
 msgid "Cannot decrypt this message: no ciphertext to decrypt"
-msgstr ""
+msgstr "Can not decrypt this message: no ciphertext to decrypt"
 
 #: camel/camel-pgp-context.c:1272
 msgid "Cannot decrypt this message: no password provided"
-msgstr ""
+msgstr "Can not decrypt this message: no password provided"
 
 #: camel/camel-pgp-context.c:1279
 #, c-format
 msgid "Cannot decrypt this message: couldn't create pipe to GPG/PGP: %s"
-msgstr ""
+msgstr "Can not decrypt this message: could not create pipe to GPGP/PGP: %s"
 
 #: camel/camel-provider.c:131
 #, c-format
@@ -5814,13 +5790,12 @@ msgid "Failed to verify certificates."
 msgstr ""
 
 #: camel/camel-store.c:218
-#, fuzzy
 msgid "Cannot get folder: Invalid operation on this store"
-msgstr "Synchronising \"%s\""
+msgstr "Can not get folder: Invalid operation on this store"
 
 #: camel/camel-store.c:279
 msgid "Cannot create folder: Invalid operation on this store"
-msgstr ""
+msgstr "Can not create folder: Invalid operation on this store"
 
 #: camel/camel-tcp-stream-openssl.c:491
 #, c-format
@@ -5851,6 +5826,13 @@ msgid ""
 "State: %s\n"
 "Country: %s"
 msgstr ""
+"EMail: %s\n"
+"Common Name: %s\n"
+"Organisational Unit: %s\n"
+"Organisation: %s\n"
+"Locality: %s\n"
+"State: %s\n"
+"Country: %s"
 
 #: camel/camel-url.c:289
 #, c-format
@@ -5868,28 +5850,24 @@ msgid "No such message: %s"
 msgstr ""
 
 #: camel/camel-vee-store.c:250
-#, fuzzy, c-format
 msgid "Cannot delete folder: %s: Invalid operation"
-msgstr "Synchronising \"%s\""
+msgstr "Can not delete folder: %s: Invalid operation"
 
 #: camel/camel-vee-store.c:285
-#, fuzzy, c-format
 msgid "Cannot delete folder: %s: No such folder"
-msgstr "Synchronising \"%s\""
+msgstr "Can not delete folder: %s: No such folder"
 
 #: camel/camel-vee-store.c:297
-#, fuzzy, c-format
 msgid "Cannot rename folder: %s: Invalid operation"
-msgstr "Synchronising \"%s\""
+msgstr "Can not rename folder: %s: Invalid operation"
 
 #: camel/camel-vee-store.c:325
-#, fuzzy, c-format
 msgid "Cannot rename folder: %s: No such folder"
-msgstr "Synchronising \"%s\""
+msgstr "Can not rename folder: %s: No such folder"
 
 #: camel/camel-vtrash-folder.c:117
 msgid "You cannot copy messages from this trash folder."
-msgstr ""
+msgstr "You can not copy messages from this rubbish bin."
 
 #: camel/providers/imap/camel-imap-command.c:329
 #, c-format
@@ -6094,7 +6072,7 @@ msgstr ""
 #: camel/providers/local/camel-local-store.c:163
 #, c-format
 msgid "Cannot get folder: %s: %s"
-msgstr ""
+msgstr "Can not get folder: %s: %s"
 
 #: camel/providers/local/camel-local-store.c:178
 msgid "Local stores do not have an inbox"
@@ -6133,7 +6111,7 @@ msgstr ""
 #: camel/providers/local/camel-maildir-folder.c:181
 #, c-format
 msgid "Cannot append message to maildir folder: %s: %s"
-msgstr ""
+msgstr "Can not append message to maildir folder: %s: %s"
 
 #: camel/providers/local/camel-maildir-folder.c:206
 #: camel/providers/local/camel-maildir-folder.c:218
@@ -6148,6 +6126,8 @@ msgid ""
 "Cannot get message: %s\n"
 "  %s"
 msgstr ""
+"Can not get message: %s\n"
+"  %s"
 
 #: camel/providers/local/camel-maildir-folder.c:206
 #: camel/providers/local/camel-mbox-folder.c:328
@@ -6209,24 +6189,24 @@ msgstr ""
 #: camel/providers/local/camel-maildir-summary.c:526
 #, c-format
 msgid "Cannot open maildir directory path: %s: %s"
-msgstr ""
+msgstr "Can not open maildir directory path: %s: %s"
 
 #: camel/providers/local/camel-mbox-folder.c:152
 #: camel/providers/local/camel-spool-folder.c:275
 #, c-format
 msgid "Cannot create folder lock on %s: %s"
-msgstr ""
+msgstr "Can not create folder lock on %s: %s"
 
 #: camel/providers/local/camel-mbox-folder.c:209
 #: camel/providers/local/camel-spool-folder.c:457
 #, c-format
 msgid "Cannot open mailbox: %s: %s\n"
-msgstr ""
+msgstr "Can not open mailbox: %s: %s\n"
 
 #: camel/providers/local/camel-mbox-folder.c:265
 #, c-format
 msgid "Cannot append message to mbox file: %s: %s"
-msgstr ""
+msgstr "Can not append message to mbox file: %s: %s"
 
 #: camel/providers/local/camel-mbox-folder.c:344
 #: camel/providers/local/camel-mbox-folder.c:376
@@ -6239,6 +6219,8 @@ msgid ""
 "Cannot get message: %s from folder %s\n"
 "  %s"
 msgstr ""
+"Can not get message: %s from folder %s\n"
+"  %s"
 
 #: camel/providers/local/camel-mbox-folder.c:377
 #: camel/providers/local/camel-spool-folder.c:629
@@ -6290,9 +6272,8 @@ msgstr ""
 #: camel/providers/local/camel-mbox-summary.c:700
 #: camel/providers/local/camel-spool-summary.c:644
 #: camel/providers/local/camel-spool-summary.c:936
-#, fuzzy
 msgid "Storing folder"
-msgstr "Synchronising \"%s\""
+msgstr "Synchronising folder"
 
 #: camel/providers/local/camel-mbox-summary.c:254
 #, c-format
@@ -6306,9 +6287,8 @@ msgid "Fatal mail parser error near position %ld in folder %s"
 msgstr ""
 
 #: camel/providers/local/camel-mbox-summary.c:371
-#, fuzzy, c-format
 msgid "Cannot check folder: %s: %s"
-msgstr "Synchronising \"%s\""
+msgstr "Synchronising folder failed: %s: %s"
 
 #: camel/providers/local/camel-mbox-summary.c:504
 #: camel/providers/local/camel-mbox-summary.c:705
@@ -6338,13 +6318,13 @@ msgstr ""
 #: camel/providers/local/camel-spool-summary.c:750
 #, c-format
 msgid "Error writing to temp mailbox: %s"
-msgstr ""
+msgstr "Error writing to temporary mailbox: %s"
 
 #: camel/providers/local/camel-mbox-summary.c:614
 #: camel/providers/local/camel-spool-summary.c:772
 #, c-format
 msgid "Writing to tmp mailbox failed: %s: %s"
-msgstr ""
+msgstr "Writing to temporary mailbox failed: %s: %s"
 
 #: camel/providers/local/camel-mbox-summary.c:632
 #: camel/providers/local/camel-mbox-summary.c:801
@@ -6356,7 +6336,7 @@ msgstr ""
 #: camel/providers/local/camel-mbox-summary.c:641
 #, c-format
 msgid "Could not close temp folder: %s"
-msgstr ""
+msgstr "Could not close temporary folder: %s"
 
 #: camel/providers/local/camel-mbox-summary.c:652
 #, c-format
@@ -6373,7 +6353,7 @@ msgstr ""
 #: camel/providers/local/camel-mh-folder.c:172
 #, c-format
 msgid "Cannot append message to mh folder: %s: %s"
-msgstr ""
+msgstr "Can not append message to mh folder: %s: %s"
 
 #: camel/providers/local/camel-mh-store.c:110
 #, c-format
@@ -6383,12 +6363,12 @@ msgstr ""
 #: camel/providers/local/camel-mh-summary.c:218
 #, c-format
 msgid "Cannot open MH directory path: %s: %s"
-msgstr ""
+msgstr "Can not open MH directory path: %s: %s"
 
 #: camel/providers/local/camel-spool-folder.c:513
 #, c-format
 msgid "Cannot append message to spool file: %s: %s"
-msgstr ""
+msgstr "Can not append message to spool file: %s: %s"
 
 #: camel/providers/local/camel-spool-store.c:116
 #, c-format
@@ -6411,14 +6391,13 @@ msgstr ""
 
 #: camel/providers/local/camel-spool-store.c:218
 msgid "Spool folders cannot be deleted"
-msgstr ""
+msgstr "Spool folders can not be deleted"
 
 #. FIXME: If there is a failure, it shouldn't clear the summary and restart,
 #. it should try and merge the summary info's.  This is a bit tricky.
 #: camel/providers/local/camel-spool-summary.c:379
-#, fuzzy
 msgid "Summarising folder"
-msgstr "Synchronising \"%s\""
+msgstr "Synchronising folder"
 
 #: camel/providers/local/camel-spool-summary.c:384
 #, c-format
@@ -7004,9 +6983,8 @@ msgstr ""
 
 #: composer/e-msg-composer-attachment.c:168
 #: composer/e-msg-composer-attachment.c:184
-#, fuzzy, c-format
 msgid "Cannot attach file %s: %s"
-msgstr "Synchronising \"%s\""
+msgstr ""
 
 #: composer/e-msg-composer-attachment.c:176
 #, c-format
@@ -7191,9 +7169,8 @@ msgid ""
 msgstr ""
 
 #: composer/evolution-composer.c:364
-#, fuzzy
 msgid "Cannot initialize Evolution's composer."
-msgstr "Cannot initialise Evolution's mail component."
+msgstr "Cannot initialise Evolution's composer."
 
 #: data/evolution.desktop.in.h:1 shell/main.c:80
 msgid "Evolution"
@@ -7258,54 +7235,46 @@ msgstr "%a %d/%m/%Y %H:%M"
 #. strptime format of a weekday, a date and a time,
 #. in 12-hour format, without minutes or seconds.
 #: e-util/e-time-utils.c:178
-#, fuzzy
 msgid "%a %m/%d/%Y %I %p"
 msgstr "%a %d/%m/%Y %I:%M %p"
 
 #. strptime format of a weekday, a date and a time,
 #. in 24-hour format, without minutes or seconds.
 #: e-util/e-time-utils.c:183
-#, fuzzy
 msgid "%a %m/%d/%Y %H"
 msgstr "%a %d/%m/%Y %H:%M"
 
 #. strptime format of a date and a time, in 12-hour format.
 #: e-util/e-time-utils.c:194
-#, fuzzy
 msgid "%m/%d/%Y %I:%M:%S %p"
 msgstr "%a %d/%m/%Y %I:%M:%S %p"
 
 #. strptime format of a date and a time, in 24-hour format.
 #: e-util/e-time-utils.c:198
-#, fuzzy
 msgid "%m/%d/%Y %H:%M:%S"
 msgstr "%a %d/%m/%Y %H:%M:%S"
 
 #. strptime format of a date and a time, in 12-hour format,
 #. without seconds.
 #: e-util/e-time-utils.c:203
-#, fuzzy
 msgid "%m/%d/%Y %I:%M %p"
 msgstr "%a %d/%m/%Y %I:%M %p"
 
 #. strptime format of a date and a time, in 24-hour format,
 #. without seconds.
 #: e-util/e-time-utils.c:208
-#, fuzzy
 msgid "%m/%d/%Y %H:%M"
 msgstr "%a %d/%m/%Y %H:%M"
 
 #. strptime format of a date and a time, in 12-hour format,
 #. without minutes or seconds.
 #: e-util/e-time-utils.c:213
-#, fuzzy
 msgid "%m/%d/%Y %I %p"
 msgstr "%a %d/%m/%Y %I:%M %p"
 
 #. strptime format of a date and a time, in 24-hour format,
 #. without minutes or seconds.
 #: e-util/e-time-utils.c:218
-#, fuzzy
 msgid "%m/%d/%Y %H"
 msgstr "%d/%m/%Y"
 
@@ -7803,9 +7772,8 @@ msgstr ""
 
 #: importers/elm-importer.c:377 importers/netscape-importer.c:801
 #: importers/pine-importer.c:506
-#, fuzzy, c-format
 msgid "Scanning %s"
-msgstr "Synchronise \"%s\""
+msgstr ""
 
 #: importers/elm-importer.c:528 importers/netscape-importer.c:974
 #: importers/pine-importer.c:669 mail/component-factory.c:96
@@ -7841,9 +7809,8 @@ msgid "Evolution is importing your old Netscape data"
 msgstr ""
 
 #: importers/netscape-importer.c:904 importers/pine-importer.c:602
-#, fuzzy
 msgid "Scanning directory"
-msgstr "Synchronising \"%s\""
+msgstr ""
 
 #: importers/netscape-importer.c:913
 msgid "Starting import"
@@ -7878,34 +7845,28 @@ msgid "Evolution component for handling mail."
 msgstr ""
 
 #: mail/GNOME_Evolution_Mail.oaf.in.h:2
-#, fuzzy
 msgid "Evolution mail composer."
-msgstr "Cannot initialise Evolution's mail component."
+msgstr ""
 
 #: mail/GNOME_Evolution_Mail.oaf.in.h:3
-#, fuzzy
 msgid "Evolution mail executive summary component."
-msgstr "Cannot initialise Evolution's mail summary component."
+msgstr ""
 
 #: mail/GNOME_Evolution_Mail.oaf.in.h:4
-#, fuzzy
 msgid "Evolution mail folder display component."
-msgstr "Cannot initialise Evolution's mail summary component."
+msgstr ""
 
 #: mail/GNOME_Evolution_Mail.oaf.in.h:5
-#, fuzzy
 msgid "Evolution mail folder factory component."
-msgstr "Cannot initialise Evolution's mail summary component."
+msgstr ""
 
 #: mail/GNOME_Evolution_Mail.oaf.in.h:6
-#, fuzzy
 msgid "Factory for the Evolution composer."
-msgstr "Cannot initialise Evolution's mail component."
+msgstr ""
 
 #: mail/GNOME_Evolution_Mail.oaf.in.h:7
-#, fuzzy
 msgid "Factory for the Mail Summary component."
-msgstr "Cannot initialise Evolution's mail component."
+msgstr ""
 
 #: mail/GNOME_Evolution_Mail.oaf.in.h:8
 msgid "Mail configuration interface"
@@ -7920,7 +7881,7 @@ msgid "Mail storage folder (internal)"
 msgstr ""
 
 #: mail/component-factory.c:98
-msgid "Virtual Trash"
+msgid "Virtual Rubbish Bin"
 msgstr ""
 
 #: mail/component-factory.c:98
@@ -7928,9 +7889,8 @@ msgid "Virtual Trash folder"
 msgstr ""
 
 #: mail/component-factory.c:125
-#, fuzzy, c-format
 msgid "Cannot connect to store: %s"
-msgstr "Synchronising \"%s\""
+msgstr ""
 
 #: mail/component-factory.c:146
 msgid "This folder cannot contain messages."
@@ -7963,14 +7923,12 @@ msgid "Cannot initialize Evolution's mail component."
 msgstr "Cannot initialise Evolution's mail component."
 
 #: mail/component-factory.c:890
-#, fuzzy
 msgid "Cannot initialize Evolution's mail config component."
-msgstr "Cannot initialise Evolution's mail component."
+msgstr "Cannot initialise Evolution's mail config component."
 
 #: mail/component-factory.c:896
-#, fuzzy
 msgid "Cannot initialize Evolution's folder info component."
-msgstr "Cannot initialise Evolution's mail component."
+msgstr "Cannot initialise Evolution's folder info component."
 
 #: mail/component-factory.c:1061
 msgid "Cannot register storage with shell"
@@ -8152,9 +8110,8 @@ msgid "Getting Folder Information"
 msgstr ""
 
 #: mail/importers/GNOME_Evolution_Mail_Mbox_Importer.oaf.in.h:1
-#, fuzzy
 msgid "Factory to import mbox into Evolution"
-msgstr "Cannot initialise Evolution's mail component."
+msgstr ""
 
 #: mail/importers/GNOME_Evolution_Mail_Mbox_Importer.oaf.in.h:2
 msgid "Imports mbox files into Evolution"
@@ -8524,7 +8481,6 @@ msgid " _Check for supported types "
 msgstr ""
 
 #: mail/mail-config.glade.h:2
-#, fuzzy
 msgid " color"
 msgstr "Colours"
 
@@ -8577,9 +8533,8 @@ msgid "Certificate ID:"
 msgstr ""
 
 #: mail/mail-config.glade.h:16
-#, fuzzy
 msgid "Composer"
-msgstr "Colours"
+msgstr ""
 
 #: mail/mail-config.glade.h:17
 msgid "Configuration"
@@ -8885,9 +8840,8 @@ msgid "_Never load images off the net"
 msgstr ""
 
 #: mail/mail-config.glade.h:109
-#, fuzzy
 msgid "_Organization:"
-msgstr "Organisation:"
+msgstr "_Organisation:"
 
 #: mail/mail-config.glade.h:110
 msgid "_PGP binary path:"
@@ -9106,9 +9060,8 @@ msgid "Malformed external-body part."
 msgstr ""
 
 #: mail/mail-local.c:582
-#, fuzzy
 msgid "Reconfiguring folder"
-msgstr "Synchronising \"%s\""
+msgstr "Synchronising folder"
 
 #: mail/mail-local.c:655
 #, c-format
@@ -9148,7 +9101,6 @@ msgid "You cannot change the format of a non-local folder."
 msgstr ""
 
 #: mail/mail-local.c:1253
-#, fuzzy, c-format
 msgid "Reconfigure /%s"
 msgstr "Synchronising \"%s\""
 
@@ -9189,9 +9141,8 @@ msgid "Working"
 msgstr ""
 
 #: mail/mail-ops.c:86
-#, fuzzy
 msgid "Filtering Folder"
-msgstr "Synchronising \"%s\""
+msgstr ""
 
 #: mail/mail-ops.c:229
 msgid "Fetching Mail"
@@ -9235,9 +9186,8 @@ msgid "Copying messages to %s"
 msgstr ""
 
 #: mail/mail-ops.c:877
-#, fuzzy, c-format
 msgid "Cannot copy a folder `%s' to itself"
-msgstr "Synchronising \"%s\""
+msgstr ""
 
 #: mail/mail-ops.c:884
 msgid "Moving"
@@ -9254,7 +9204,7 @@ msgstr ""
 
 #. Fill in the new fields
 #: mail/mail-ops.c:1047 shell/e-local-storage.c:179
-msgid "Trash"
+msgid "Rubbish Bin"
 msgstr ""
 
 #: mail/mail-ops.c:1180
@@ -9272,19 +9222,17 @@ msgid "Opening store %s"
 msgstr ""
 
 #: mail/mail-ops.c:1364
-#, fuzzy, c-format
+
 msgid "Removing folder %s"
-msgstr "Synchronising \"%s\""
+msgstr ""
 
 #: mail/mail-ops.c:1458
-#, fuzzy, c-format
 msgid "Storing folder '%s'"
 msgstr "Synchronising \"%s\""
 
 #: mail/mail-ops.c:1509
-#, fuzzy
 msgid "Refreshing folder"
-msgstr "Synchronising \"%s\""
+msgstr ""
 
 #: mail/mail-ops.c:1545
 msgid "Expunging folder"
@@ -9341,9 +9289,8 @@ msgid "Disconnecting from %s"
 msgstr ""
 
 #: mail/mail-ops.c:2078
-#, fuzzy, c-format
 msgid "Reconnecting to %s"
-msgstr "Synchronise \"%s\""
+msgstr ""
 
 #: mail/mail-search-dialogue.c:113
 msgid "_Search"
@@ -9438,14 +9385,12 @@ msgid "Forwarded Message"
 msgstr ""
 
 #: mail/mail-vfolder.c:86
-#, fuzzy, c-format
 msgid "Setting up vfolder: %s"
-msgstr "Synchronising \"%s\""
+msgstr ""
 
 #: mail/mail-vfolder.c:203
-#, fuzzy, c-format
 msgid "Updating vfolders for uri: %s"
-msgstr "Synchronising \"%s\""
+msgstr ""
 
 #: mail/mail-vfolder.c:416
 #, c-format
@@ -9461,9 +9406,8 @@ msgid "VFolders"
 msgstr ""
 
 #: mail/mail-vfolder.c:736
-#, fuzzy
 msgid "Edit VFolder"
-msgstr "Synchronising \"%s\""
+msgstr ""
 
 #: mail/mail-vfolder.c:751
 #, c-format
@@ -9593,9 +9537,8 @@ msgid " _Refresh List "
 msgstr ""
 
 #: mail/subscribe-dialog.glade.h:2
-#, fuzzy
 msgid "All folders"
-msgstr "Synchronising \"%s\""
+msgstr ""
 
 #: mail/subscribe-dialog.glade.h:3
 msgid "Display options"
@@ -9622,18 +9565,16 @@ msgid "_Unsubscribe"
 msgstr ""
 
 #: my-evolution/GNOME_Evolution_Summary.oaf.in.h:1
-#, fuzzy
 msgid "Evolution component for the executive summary."
-msgstr "Cannot initialise Evolution's mail summary component."
+msgstr ""
 
 #: my-evolution/component-factory.c:45
 msgid "Folder containing the Evolution Summary"
 msgstr ""
 
 #: my-evolution/component-factory.c:154
-#, fuzzy
 msgid "Cannot initialize Evolution's Executive Summary component."
-msgstr "Cannot initialise Evolution's mail component."
+msgstr "Can not initialise Evolution's Executive Summary component."
 
 #: my-evolution/e-summary-calendar.c:326 my-evolution/e-summary-calendar.c:344
 msgid "Appointments"
@@ -9722,7 +9663,7 @@ msgstr ""
 #. (evolution/my-evolution/Locations)
 #: my-evolution/e-summary-weather.c:630
 msgid "KBOS:EGAA:RJTT"
-msgstr ""
+msgstr "YPAD:YBBN:YSCB:YMML:YPPH:YSSY"
 
 #: my-evolution/e-summary-weather.c:691
 msgid "Regions"
@@ -9741,9 +9682,8 @@ msgid "Printing of Summary failed"
 msgstr ""
 
 #: my-evolution/main.c:67
-#, fuzzy
 msgid "Executive summary component could not initialize Bonobo.\n"
-msgstr "Could not initialise Bonobo"
+msgstr "Could not initialise Bonobo.\n"
 
 #: my-evolution/metar.c:29
 msgid "°F"
@@ -10940,9 +10880,8 @@ msgid "Al_l stations:"
 msgstr ""
 
 #: my-evolution/my-evolution.glade.h:4
-#, fuzzy
 msgid "All _folders:"
-msgstr "Synchronising \"%s\""
+msgstr ""
 
 #: my-evolution/my-evolution.glade.h:5
 msgid "All news _feeds:"
@@ -11005,9 +10944,8 @@ msgid "Weather settings"
 msgstr ""
 
 #: my-evolution/my-evolution.glade.h:22
-#, fuzzy
 msgid "_Display folders:"
-msgstr "Synchronising \"%s\""
+msgstr ""
 
 #: my-evolution/my-evolution.glade.h:23
 msgid "_Display stations:"
@@ -11046,9 +10984,8 @@ msgid "_Weather"
 msgstr ""
 
 #: shell/GNOME_Evolution_Shell.oaf.in.h:1
-#, fuzzy
 msgid "The Evolution shell."
-msgstr "Cannot initialise the Evolution shell."
+msgstr ""
 
 #: shell/e-activity-handler.c:200
 msgid "Show Details"
@@ -11146,9 +11083,8 @@ msgid "Specify a folder to copy folder \"%s\" into:"
 msgstr ""
 
 #: shell/e-shell-folder-commands.c:313
-#, fuzzy
 msgid "Copy folder"
-msgstr "Synchronising \"%s\""
+msgstr ""
 
 #: shell/e-shell-folder-commands.c:355
 #, c-format
@@ -11178,11 +11114,11 @@ msgid "Are you sure you want to remove the \"%s\" folder?"
 msgstr ""
 
 #: shell/e-shell-folder-commands.c:457
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "Cannot rename folder:\n"
 "%s"
-msgstr "Synchronising \"%s\""
+msgstr ""
 
 #: shell/e-shell-folder-commands.c:490
 #, c-format
@@ -11190,9 +11126,8 @@ msgid "Rename the \"%s\" folder to:"
 msgstr ""
 
 #: shell/e-shell-folder-commands.c:493
-#, fuzzy
 msgid "Rename folder"
-msgstr "Synchronising \"%s\""
+msgstr ""
 
 #: shell/e-shell-folder-creation-dialog.c:111
 #, c-format
@@ -11358,9 +11293,8 @@ msgid "From %s:"
 msgstr ""
 
 #: shell/e-shell-importer.c:1003
-#, fuzzy
 msgid "Select folder"
-msgstr "Synchronising \"%s\""
+msgstr ""
 
 #: shell/e-shell-importer.c:1004
 msgid "Select a destination folder for importing this data"
@@ -11382,9 +11316,8 @@ msgid ""
 msgstr ""
 
 #: shell/e-shell-startup-wizard.c:168
-#, fuzzy
 msgid "Cannot initialize the Evolution Mailer Wizard interface"
-msgstr "Cannot initialise Evolution's mail storage hash."
+msgstr "Cannot initialise Evolution's Mail Wizard interface"
 
 #: shell/e-shell-startup-wizard.c:745
 msgid ""
@@ -11401,9 +11334,8 @@ msgid "Bug buddy could not be run."
 msgstr ""
 
 #: shell/e-shell-view-menu.c:235
-#, fuzzy
 msgid "Ximian Evolution"
-msgstr "Cannot initialise the Evolution shell."
+msgstr ""
 
 #: shell/e-shell-view-menu.c:237
 msgid "Copyright 1999, 2000, 2001 Ximian, Inc."
@@ -11640,11 +11572,11 @@ msgid "Shortcuts"
 msgstr ""
 
 #: shell/e-storage-set-view.c:645
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "Cannot transfer folder:\n"
 "%s"
-msgstr "Synchronising \"%s\""
+msgstr ""
 
 #: shell/e-storage.c:182 shell/e-storage.c:188
 msgid "(No name)"
@@ -11838,14 +11770,13 @@ msgid ""
 msgstr ""
 
 #: shell/main.c:236
-#, fuzzy
 msgid "Cannot access the Ximian Evolution shell."
-msgstr "Cannot initialise the Evolution shell."
+msgstr "Can not initialise the Ximian Evolution shell."
 
 #: shell/main.c:245
-#, fuzzy, c-format
+#, c-format
 msgid "Cannot initialize the Ximian Evolution shell: %s"
-msgstr "Cannot initialise the Evolution shell."
+msgstr "Can not initialise the Ximian Evolution shell."
 
 #: shell/main.c:301
 msgid "Disable splash screen"
@@ -11857,7 +11788,7 @@ msgstr ""
 
 #: shell/main.c:344
 msgid "Cannot initialize the Bonobo component system."
-msgstr "Cannot initialise the Bonobo component system."
+msgstr "Can not initialise the Bonobo component system."
 
 #: ui/evolution-addressbook.xml.h:2 ui/evolution-mail-message.xml.h:5
 #: ui/evolution-tasks.xml.h:3
@@ -12108,14 +12039,12 @@ msgstr ""
 #: ui/evolution-mail-messagedisplay.xml.h:1
 #: ui/evolution-message-composer.xml.h:3 ui/evolution-signature-editor.xml.h:1
 #: ui/evolution.xml.h:4
-#, fuzzy
 msgid "Close"
-msgstr "Colours"
+msgstr ""
 
 #: ui/evolution-comp-editor.xml.h:3
-#, fuzzy
 msgid "Close this item"
-msgstr "Colours"
+msgstr ""
 
 #: ui/evolution-comp-editor.xml.h:5 ui/evolution-contact-editor.xml.h:3
 msgid "Delete this item"
@@ -12267,7 +12196,7 @@ msgid "Create or edit virtual folder definitions"
 msgstr ""
 
 #: ui/evolution-mail-global.xml.h:7
-msgid "Empty _Trash"
+msgid "Empty _Rubbish Bin"
 msgstr ""
 
 #: ui/evolution-mail-global.xml.h:8
@@ -12784,9 +12713,8 @@ msgstr ""
 #: ui/evolution-message-composer.xml.h:45
 #: ui/evolution-signature-editor.xml.h:5 ui/evolution-subscribe.xml.h:9
 #: ui/evolution.xml.h:33
-#, fuzzy
 msgid "_Close"
-msgstr "Colours"
+msgstr ""
 
 #: ui/evolution-mail-messagedisplay.xml.h:8
 #: ui/evolution-message-composer.xml.h:55 ui/evolution.xml.h:50
@@ -13072,9 +13000,8 @@ msgid "Change the name of this folder"
 msgstr ""
 
 #: ui/evolution.xml.h:6
-#, fuzzy
 msgid "Copy this folder"
-msgstr "Synchronising \"%s\""
+msgstr ""
 
 #: ui/evolution.xml.h:7
 msgid "Create _New Folder..."
@@ -13161,9 +13088,8 @@ msgid "View the selected folder"
 msgstr ""
 
 #: ui/evolution.xml.h:31
-#, fuzzy
 msgid "Ximian Evolution _FAQ"
-msgstr "Cannot initialise the Evolution shell."
+msgstr ""
 
 #: ui/evolution.xml.h:32
 msgid "_About Ximian Evolution..."
@@ -13361,9 +13287,8 @@ msgid "Western European"
 msgstr ""
 
 #: widgets/misc/e-charset-picker.c:85
-#, fuzzy
 msgid "Traditional"
-msgstr "Organisation"
+msgstr ""
 
 #: widgets/misc/e-charset-picker.c:86 widgets/misc/e-charset-picker.c:87
 msgid "Simplified"
@@ -13411,9 +13336,8 @@ msgid "Add to Saved Searches"
 msgstr ""
 
 #: widgets/misc/e-filter-bar.h:95
-#, fuzzy
 msgid "Clear"
-msgstr "Colours"
+msgstr ""
 
 #: widgets/misc/e-filter-bar.h:102
 msgid "Show All"
@@ -13459,50 +13383,47 @@ msgid "The Personal Calendar Server; calendar factory"
 msgstr ""
 
 #: wombat/wombat.c:176
-#, fuzzy
 msgid "setup_vfs(): could not initialize GNOME-VFS"
-msgstr "Could not initialise Bonobo"
+msgstr "Could not initialise GNOME-VFS"
 
 #: wombat/wombat.c:188
-#, fuzzy
 msgid "init_corba(): could not initialize GNOME"
-msgstr "Could not initialise Bonobo"
+msgstr "Could not initialise GNOME"
 
 #: wombat/wombat.c:201
-#, fuzzy
 msgid "init_bonobo(): could not initialize Bonobo"
 msgstr "Could not initialise Bonobo"
 
 #, fuzzy
 #~ msgid "Factory for the Evolution addressbook component."
-#~ msgstr "Cannot initialise Evolution's mail component."
+#~ msgstr ""
 
 #, fuzzy
 #~ msgid "Factory for the Evolution calendar component."
-#~ msgstr "Cannot initialise Evolution's mail component."
+#~ msgstr ""
 
 #, fuzzy
 #~ msgid "Synchronizing folder"
-#~ msgstr "Synchronising \"%s\""
+#~ msgstr "Synchronising folder"
 
 #~ msgid "%d/%m/%Y"
 #~ msgstr "%m/%d/%Y"
 
 #, fuzzy
 #~ msgid "Factory for the Evolution mail component."
-#~ msgstr "Cannot initialise Evolution's mail component."
+#~ msgstr ""
 
 #, fuzzy
 #~ msgid "Factory for the Evolution executive summary component."
-#~ msgstr "Cannot initialise Evolution's mail component."
+#~ msgstr ""
 
 #, fuzzy
 #~ msgid "Colors for Tasks"
-#~ msgstr "Colours for display"
+#~ msgstr "Colours for Tasks"
 
 #, fuzzy
 #~ msgid "I don't recognize this type of calendar component."
-#~ msgstr "Cannot initialise Evolution's mail component."
+#~ msgstr "I do not recognise this type of calendar component."
 
 #, fuzzy
 #~ msgid "Organizer: "
