@@ -619,7 +619,7 @@ folder_property_item_verb_callback    (BonoboUIComponent *component,
 {
 	FolderPropertyItemsData *data;
 	GtkWidget *toplevel_widget;
-	const char *p;
+	const char *p, *path;
 	int item_number;
 
 	data = (FolderPropertyItemsData *) user_data;
@@ -632,8 +632,10 @@ folder_property_item_verb_callback    (BonoboUIComponent *component,
 
 	toplevel_widget = gtk_widget_get_toplevel (GTK_WIDGET (data->storage_set_view));
 
-	e_corba_storage_show_folder_properties (data->corba_storage,
-						data->storage_set_view->priv->right_click_row_path,
+	path = strchr (data->storage_set_view->priv->right_click_row_path + 1, E_PATH_SEPARATOR);
+	if (path == NULL)
+		path = "/";
+	e_corba_storage_show_folder_properties (data->corba_storage, path,
 						item_number, toplevel_widget->window);
 }
 
