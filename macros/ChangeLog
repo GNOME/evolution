@@ -1,3 +1,8 @@
+1998-06-27  Christopher Blizzard  <blizzard@foo.appliedtheory.com>
+
+	* gnome-objc-checks.m4: Use egcs if it's available.  The gcc that
+	ships with RedHat 5.1 doesn't do objc, egcs does.
+
 Fri Jun 26 14:36:08 1998  Scott D. Heavner  <sdh@po.cwru.edu>
 
 	* curses.m4 (AC_CHECK_CURSES): New check. mangled out of mc's

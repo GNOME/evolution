@@ -2,7 +2,10 @@ AC_DEFUN([GNOME_CHECK_OBJC],
 [
 dnl Look for an ObjC compiler.
 dnl FIXME: extend list of possible names of ObjC compilers.
-  AC_CHECK_PROGS(OBJC, $OBJC gcc, "")
+  AC_CHECK_PROGS(OBJC, $OBJC egcs, "")
+  if test "x$OBJC" = "x" ; then
+    AC_CHECK_PROGS(OBJC, $OBJC gcc, "")
+  fi
 
   AC_REQUIRE([GNOME_PTHREAD_CHECK])
 
