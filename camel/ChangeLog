@@ -1,5 +1,10 @@
 2001-10-21  Jeffrey Stedfast  <fejj@ximian.com>
 
+	* camel-mime-part-utils.c
+	(simple_data_wrapper_construct_from_parser): Only do the rawtext
+	checks if the part is a text part, otherwise don't bother wasting
+	cpu cycles.
+
 	* camel-store.c (camel_folder_info_build): Updated comments to
 	make the code a bit more clear.
 

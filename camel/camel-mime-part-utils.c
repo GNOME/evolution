@@ -241,7 +241,7 @@ simple_data_wrapper_construct_from_parser (CamelDataWrapper *dw, CamelMimeParser
 			dw->rawtext = TRUE;
 			/* should we change the content-type header? */
 		}
-	} else {
+	} else if (header_content_type_is (ct, "text", "*")) {
 		if (charset == NULL) {
 			/* check that it's 7bit */
 			dw->rawtext = !is_7bit (buffer);
