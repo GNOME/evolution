@@ -2,6 +2,9 @@
 
 	* e-filter-bar.c (rule_editor_destroyed): When the dialog gets
 	closed, always make sure the entry widget becomes sensitive again.
+	(menubar_activated): Don't use FILTER_SOURCE_INCOMING because
+	that's not what we want, we want (I think) NULL (at least with
+	NULL, bug #4490 goes away).
 
 2001-07-16  Federico Mena Quintero  <federico@ximian.com>
 
