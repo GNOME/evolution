@@ -9,15 +9,14 @@ msgid ""
 msgstr ""
 "Project-Id-Version: evolution HEAD\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2005-01-11 10:02+0200\n"
-"PO-Revision-Date: 2005-01-11 10:04+0200\n"
+"POT-Creation-Date: 2005-01-21 09:46+0200\n"
+"PO-Revision-Date: 2005-01-21 14:41+0200\n"
 "Last-Translator: Žygimantas Beručka <uid0@akl.lt>\n"
 "Language-Team: Lithuanian <komp_lt@konferencijos.lt>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Plural-Forms: nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && (n%"
-"100<10 || n%100>=20) ? 1 : 2);\n"
+"Plural-Forms: nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && (n%100<10 || n%100>=20) ? 1 : 2);\n"
 
 #: a11y/addressbook/ea-addressbook-view.c:94
 #: a11y/addressbook/ea-addressbook-view.c:103
@@ -197,7 +196,7 @@ msgid "%d %b"
 msgstr "%b %d"
 
 #: a11y/calendar/ea-gnome-calendar.c:247 a11y/calendar/ea-gnome-calendar.c:255
-#: calendar/importers/icalendar-importer.c:734
+#: calendar/importers/icalendar-importer.c:726
 msgid "Gnome Calendar"
 msgstr "Gnome kalendorius"
 
@@ -349,11 +348,11 @@ msgstr "Kategorijų redaktorius nepasiekiamas."
 #. mail:filter-load-error secondary
 #: addressbook/addressbook-errors.xml.h:28
 #: addressbook/addressbook-errors.xml.h:36
-#: addressbook/addressbook-errors.xml.h:40 mail/mail-errors.xml.h:70
-#: mail/mail-errors.xml.h:72 mail/mail-errors.xml.h:74
-#: mail/mail-errors.xml.h:76 mail/mail-errors.xml.h:78
-#: mail/mail-errors.xml.h:80 mail/mail-errors.xml.h:84
-#: mail/mail-errors.xml.h:88
+#: addressbook/addressbook-errors.xml.h:40 mail/mail-errors.xml.h:75
+#: mail/mail-errors.xml.h:77 mail/mail-errors.xml.h:79
+#: mail/mail-errors.xml.h:81 mail/mail-errors.xml.h:83
+#: mail/mail-errors.xml.h:85 mail/mail-errors.xml.h:89
+#: mail/mail-errors.xml.h:93
 msgid "{0}"
 msgstr "{0}"
 
@@ -361,7 +360,7 @@ msgstr "{0}"
 #. mail-composer:no-attach secondary
 #. mail:no-save-path secondary
 #: addressbook/addressbook-errors.xml.h:30
-#: composer/mail-composer-errors.xml.h:4 mail/mail-errors.xml.h:92
+#: composer/mail-composer-errors.xml.h:4 mail/mail-errors.xml.h:97
 msgid "{1}"
 msgstr "{1}"
 
@@ -471,12 +470,12 @@ msgid "Accessing LDAP Server anonymously"
 msgstr "Susisiekiama su LDAP serveriu anonimiškai"
 
 #: addressbook/gui/component/addressbook.c:185
-#: plugins/groupwise-account-setup/camel-gw-listener.c:494
+#: plugins/groupwise-account-setup/camel-gw-listener.c:476
 msgid "Failed to authenticate.\n"
 msgstr "Autorizacija nepavyko.\n"
 
 #: addressbook/gui/component/addressbook.c:192
-#: plugins/groupwise-account-setup/camel-gw-listener.c:483
+#: plugins/groupwise-account-setup/camel-gw-listener.c:460
 #, c-format
 msgid "%sEnter password for %s (user %s)"
 msgstr "%sĮveskite %s slaptažodį (naudotojas %s)"
@@ -534,7 +533,7 @@ msgstr "Nukopijuoti knygos turinį į nuosavą kompiuterį darbui neprisijungus"
 #: calendar/gui/dialogs/calendar-setup.c:361
 #: calendar/gui/dialogs/calendar-setup.c:372
 #: calendar/gui/dialogs/cal-prefs-dialog.glade.h:24
-#: mail/em-folder-properties.c:213 mail/mail-config.glade.h:85
+#: mail/em-folder-properties.c:214 mail/mail-config.glade.h:85
 #: smime/gui/smime-ui.glade.h:27
 msgid "General"
 msgstr "Esmė"
@@ -596,9 +595,9 @@ msgstr "Šiame kompiuteryje"
 #. Create the default Person task list
 #. orange
 #: addressbook/gui/component/addressbook-migrate.c:501
-#: addressbook/gui/contact-editor/contact-editor.glade.h:34
+#: addressbook/gui/contact-editor/contact-editor.glade.h:20
 #: calendar/gui/migration.c:460 calendar/gui/migration.c:553
-#: filter/filter-label.c:123 mail/em-migrate.c:1013 mail/mail-config.c:78
+#: filter/filter-label.c:123 mail/em-migrate.c:1013 mail/mail-config.c:77
 #: mail/mail-config.glade.h:102
 msgid "Personal"
 msgstr "Asmeninis"
@@ -673,11 +672,15 @@ msgid "Properties..."
 msgstr "Savybės..."
 
 #. Create the contacts group
-#: addressbook/gui/component/addressbook-view.c:1118
+#: addressbook/gui/component/addressbook-view.c:1119
 #: addressbook/gui/component/GNOME_Evolution_Addressbook.server.in.in.h:5
 #: calendar/gui/migration.c:378
 msgid "Contacts"
 msgstr "Kontaktai"
+
+#: addressbook/gui/component/addressbook-view.c:1130
+msgid "Contact Source Selector"
+msgstr "Kontaktų šaltinio parinkiklis"
 
 #: addressbook/gui/component/apps_evolution_addressbook.schemas.in.in.h:1
 msgid "EFolderList XML for the list of completion URIs"
@@ -696,12 +699,12 @@ msgid "Position of the vertical pane in main view."
 msgstr "Vertikalaus skydelio padėtis pagrindiniame rodinyje."
 
 #: addressbook/gui/component/apps_evolution_addressbook.schemas.in.in.h:5
-#: mail/evolution-mail.schemas.in.in.h:71
+#: mail/evolution-mail.schemas.in.in.h:73
 msgid "Show the \"Preview\" pane"
 msgstr "Rodyti „Peržiūros“ skyrių"
 
 #: addressbook/gui/component/apps_evolution_addressbook.schemas.in.in.h:6
-#: mail/evolution-mail.schemas.in.in.h:72
+#: mail/evolution-mail.schemas.in.in.h:74
 msgid "Show the \"Preview\" pane."
 msgstr "Rodyti „Peržiūros“ skyrių."
 
@@ -1062,7 +1065,7 @@ msgstr "kortelės"
 #: calendar/gui/alarm-notify/alarm-notify.glade.h:12
 #: calendar/gui/dialogs/alarm-dialog.glade.h:27
 #: calendar/gui/dialogs/calendar-setup.glade.h:14 filter/filter.glade.h:16
-#: mail/em-account-editor.c:1816 plugins/calendar-http/calendar-http.c:263
+#: mail/em-account-editor.c:1821 plugins/calendar-http/calendar-http.c:263
 msgid "minutes"
 msgstr "minučių"
 
@@ -1109,34 +1112,6 @@ msgid "AIM"
 msgstr "AIM"
 
 #: addressbook/gui/contact-editor/contact-editor.glade.h:12
-msgid "Address:"
-msgstr "Adresas:"
-
-#: addressbook/gui/contact-editor/contact-editor.glade.h:13
-msgid "Anniversary:"
-msgstr "Jubiliejus:"
-
-#: addressbook/gui/contact-editor/contact-editor.glade.h:14
-msgid "Assistant:"
-msgstr "Asistentas:"
-
-#: addressbook/gui/contact-editor/contact-editor.glade.h:15
-msgid "Birthday:"
-msgstr "Gimtadienis:"
-
-#: addressbook/gui/contact-editor/contact-editor.glade.h:16
-msgid "Calendar:"
-msgstr "Kalendorius:"
-
-#: addressbook/gui/contact-editor/contact-editor.glade.h:17
-msgid "City:"
-msgstr "Miestas:"
-
-#: addressbook/gui/contact-editor/contact-editor.glade.h:18
-msgid "Company:"
-msgstr "Kompanija:"
-
-#: addressbook/gui/contact-editor/contact-editor.glade.h:19
 #: addressbook/gui/contact-editor/e-contact-editor.c:272
 #: addressbook/gui/contact-list-editor/e-contact-list-editor.c:168
 #: addressbook/gui/contact-list-editor/e-contact-list-editor.etspec.h:1
@@ -1144,122 +1119,163 @@ msgstr "Kompanija:"
 msgid "Contact"
 msgstr "Kontaktas"
 
-#: addressbook/gui/contact-editor/contact-editor.glade.h:20
+#: addressbook/gui/contact-editor/contact-editor.glade.h:13
 #: addressbook/gui/contact-editor/e-contact-editor.c:533
 msgid "Contact Editor"
 msgstr "Kontaktų redaktorius"
 
-#: addressbook/gui/contact-editor/contact-editor.glade.h:21
-msgid "Country:"
-msgstr "Valstybė:"
-
-#: addressbook/gui/contact-editor/contact-editor.glade.h:22
-msgid "Department:"
-msgstr "Padalinys:"
-
-#: addressbook/gui/contact-editor/contact-editor.glade.h:23
-msgid "Free/Busy:"
-msgstr "Laisvas/užsiėmęs:"
-
-#: addressbook/gui/contact-editor/contact-editor.glade.h:24
+#: addressbook/gui/contact-editor/contact-editor.glade.h:14
 msgid "Full _Name..."
 msgstr "Pil_nas vardas..."
 
-#: addressbook/gui/contact-editor/contact-editor.glade.h:25
-msgid "Home Page:"
-msgstr "Namų puslapis:"
+#: addressbook/gui/contact-editor/contact-editor.glade.h:15
+msgid "Image"
+msgstr "Paveiksliukas"
 
-#: addressbook/gui/contact-editor/contact-editor.glade.h:26
+#: addressbook/gui/contact-editor/contact-editor.glade.h:16
 #: addressbook/gui/contact-editor/e-contact-editor-im.c:66
 msgid "MSN Messenger"
 msgstr "MSN Messenger"
 
-#: addressbook/gui/contact-editor/contact-editor.glade.h:27
+#: addressbook/gui/contact-editor/contact-editor.glade.h:17
 msgid "Mailing Address"
 msgstr "El. pašto adresas"
 
-#: addressbook/gui/contact-editor/contact-editor.glade.h:28
-msgid "Manager:"
-msgstr "Vadybininkas:"
-
-#: addressbook/gui/contact-editor/contact-editor.glade.h:29
+#: addressbook/gui/contact-editor/contact-editor.glade.h:18
 msgid "Ni_ckname:"
 msgstr "_Slapyvardis:"
 
-#: addressbook/gui/contact-editor/contact-editor.glade.h:30
-msgid "Notes:"
-msgstr "Pastabos:"
-
-#: addressbook/gui/contact-editor/contact-editor.glade.h:31
+#: addressbook/gui/contact-editor/contact-editor.glade.h:19
 #: addressbook/gui/contact-editor/e-contact-editor-im.c:63
 msgid "Novell Groupwise"
 msgstr "Novell Groupwise"
 
-#: addressbook/gui/contact-editor/contact-editor.glade.h:32
-msgid "Office:"
-msgstr "Ofisas:"
-
-#: addressbook/gui/contact-editor/contact-editor.glade.h:33
-msgid "PO Box:"
-msgstr "Pašto dėžutė:"
-
-#: addressbook/gui/contact-editor/contact-editor.glade.h:35
+#: addressbook/gui/contact-editor/contact-editor.glade.h:21
 msgid "Personal Information"
 msgstr "Asmeninė informacija"
 
-#: addressbook/gui/contact-editor/contact-editor.glade.h:36
-msgid "Profession:"
-msgstr "Profesija:"
-
-#: addressbook/gui/contact-editor/contact-editor.glade.h:37
-msgid "Spouse:"
-msgstr "Sutuoktinis:"
-
-#: addressbook/gui/contact-editor/contact-editor.glade.h:38
-msgid "State/Province:"
-msgstr "Valstija/Provincija:"
-
-#: addressbook/gui/contact-editor/contact-editor.glade.h:39
-msgid "Title:"
-msgstr "Titulas:"
-
-#: addressbook/gui/contact-editor/contact-editor.glade.h:40
-msgid "Video Chat:"
-msgstr "Video pokalbis:"
-
-#: addressbook/gui/contact-editor/contact-editor.glade.h:41
-msgid "Wants to receive HTML mail"
-msgstr "Nori gauti HTML laiškus"
-
-#: addressbook/gui/contact-editor/contact-editor.glade.h:42
-msgid "Web Log:"
-msgstr "Web žurnalas:"
+#: addressbook/gui/contact-editor/contact-editor.glade.h:22
+msgid "Telephone"
+msgstr "Telefonas"
 
 #. red
-#: addressbook/gui/contact-editor/contact-editor.glade.h:43
+#: addressbook/gui/contact-editor/contact-editor.glade.h:23
 #: addressbook/gui/contact-editor/e-contact-editor.c:201
 #: addressbook/gui/contact-editor/e-contact-editor-im.c:235
-#: filter/filter-label.c:122 mail/em-migrate.c:1012 mail/mail-config.c:77
+#: filter/filter-label.c:122 mail/em-migrate.c:1012 mail/mail-config.c:76
 #: mail/mail-config.glade.h:147
 msgid "Work"
 msgstr "Darbinis"
 
-#: addressbook/gui/contact-editor/contact-editor.glade.h:44
-msgid "Zip/Postal Code:"
-msgstr "Zip/Pašto kodas:"
+#: addressbook/gui/contact-editor/contact-editor.glade.h:24
+#: addressbook/gui/contact-editor/fulladdr.glade.h:6
+msgid "_Address:"
+msgstr "_Adresas:"
 
-#: addressbook/gui/contact-editor/contact-editor.glade.h:45
+#: addressbook/gui/contact-editor/contact-editor.glade.h:25
+msgid "_Anniversary:"
+msgstr "_Jubiliejus:"
+
+#: addressbook/gui/contact-editor/contact-editor.glade.h:26
+msgid "_Assistant:"
+msgstr "_Asistentas:"
+
+#: addressbook/gui/contact-editor/contact-editor.glade.h:27
+msgid "_Birthday:"
+msgstr "_Gimtadienis:"
+
+#: addressbook/gui/contact-editor/contact-editor.glade.h:28
+#: plugins/itip-formatter/itip-view.c:1573
+msgid "_Calendar:"
+msgstr "_Kalendorius:"
+
+#: addressbook/gui/contact-editor/contact-editor.glade.h:29
 msgid "_Categories"
 msgstr "_Kategorijos"
 
-#: addressbook/gui/contact-editor/contact-editor.glade.h:46
+#: addressbook/gui/contact-editor/contact-editor.glade.h:30
+msgid "_City:"
+msgstr "_Miestas:"
+
+#: addressbook/gui/contact-editor/contact-editor.glade.h:31
+msgid "_Company:"
+msgstr "_Kompanija:"
+
+#: addressbook/gui/contact-editor/contact-editor.glade.h:32
+msgid "_Country:"
+msgstr "_Valstybė:"
+
+#: addressbook/gui/contact-editor/contact-editor.glade.h:33
+msgid "_Department:"
+msgstr "_Padalinys:"
+
+#: addressbook/gui/contact-editor/contact-editor.glade.h:34
 msgid "_File under:"
 msgstr "Į_rašyti į:"
 
+#: addressbook/gui/contact-editor/contact-editor.glade.h:35
+msgid "_Free/Busy:"
+msgstr "_Laisvas/užsiėmęs:"
+
+#: addressbook/gui/contact-editor/contact-editor.glade.h:36
+msgid "_Home Page:"
+msgstr "_Namų tinklapis:"
+
+#: addressbook/gui/contact-editor/contact-editor.glade.h:37
+msgid "_Manager:"
+msgstr "_Vadybininkas:"
+
+#: addressbook/gui/contact-editor/contact-editor.glade.h:38
+msgid "_Notes:"
+msgstr "_Pastabos:"
+
+#: addressbook/gui/contact-editor/contact-editor.glade.h:39
+msgid "_Office:"
+msgstr "_Biuras:"
+
+#: addressbook/gui/contact-editor/contact-editor.glade.h:40
+#: addressbook/gui/contact-editor/fulladdr.glade.h:7
+msgid "_PO Box:"
+msgstr "_Pašto dėžutė:"
+
+#: addressbook/gui/contact-editor/contact-editor.glade.h:41
+msgid "_Profession:"
+msgstr "_Profesija:"
+
+#: addressbook/gui/contact-editor/contact-editor.glade.h:42
+msgid "_Spouse:"
+msgstr "_Sutuoktinis:"
+
+#: addressbook/gui/contact-editor/contact-editor.glade.h:43
+#: addressbook/gui/contact-editor/fulladdr.glade.h:8
+msgid "_State/Province:"
+msgstr "_Valstija/provincija:"
+
+#: addressbook/gui/contact-editor/contact-editor.glade.h:44
+#: addressbook/gui/contact-editor/fullname.glade.h:18
+msgid "_Title:"
+msgstr "_Titulas:"
+
+#: addressbook/gui/contact-editor/contact-editor.glade.h:45
+msgid "_Video Chat:"
+msgstr "_Video pokalbis:"
+
+#: addressbook/gui/contact-editor/contact-editor.glade.h:46
+msgid "_Wants to receive HTML mail"
+msgstr "_Nori gauti HTML laiškus"
+
 #: addressbook/gui/contact-editor/contact-editor.glade.h:47
+msgid "_Web Log:"
+msgstr "_Web žurnalas:"
+
+#: addressbook/gui/contact-editor/contact-editor.glade.h:48
 #: addressbook/gui/contact-list-editor/contact-list-editor.glade.h:13
 msgid "_Where:"
 msgstr "_Kur:"
+
+#: addressbook/gui/contact-editor/contact-editor.glade.h:49
+msgid "_Zip/Postal Code:"
+msgstr "_Zip/Pašto kodas:"
 
 #: addressbook/gui/contact-editor/eab-editor.c:319
 msgid ""
@@ -2411,18 +2427,6 @@ msgstr "Valst_ybė:"
 msgid "Full Address"
 msgstr "Pilnas adresas"
 
-#: addressbook/gui/contact-editor/fulladdr.glade.h:6
-msgid "_Address:"
-msgstr "_Adresas:"
-
-#: addressbook/gui/contact-editor/fulladdr.glade.h:7
-msgid "_PO Box:"
-msgstr "_PO Box:"
-
-#: addressbook/gui/contact-editor/fulladdr.glade.h:8
-msgid "_State/Province:"
-msgstr "_Valstija/provincija:"
-
 #: addressbook/gui/contact-editor/fulladdr.glade.h:9
 msgid "_ZIP Code:"
 msgstr "_ZIP kodas:"
@@ -2492,10 +2496,6 @@ msgstr "Vi_durinis:"
 msgid "_Suffix:"
 msgstr "_Galūnė:"
 
-#: addressbook/gui/contact-editor/fullname.glade.h:18
-msgid "_Title:"
-msgstr "_Titulas:"
-
 #: addressbook/gui/contact-editor/im.glade.h:2
 msgid "Add IM Account"
 msgstr "Pridėti SŽ abonentą"
@@ -2539,16 +2539,16 @@ msgid "Remove an email address from the List"
 msgstr "Pašalinti el. pašto adresą iš sąrašo"
 
 #: addressbook/gui/contact-list-editor/contact-list-editor.glade.h:9
-msgid "Select"
-msgstr "Pasirinkti"
-
-#: addressbook/gui/contact-list-editor/contact-list-editor.glade.h:10
 msgid "_Hide addresses when sending mail to this list"
 msgstr "_Paslėpti adresus siunčiant laiškus šiam sąrašui"
 
-#: addressbook/gui/contact-list-editor/contact-list-editor.glade.h:11
+#: addressbook/gui/contact-list-editor/contact-list-editor.glade.h:10
 msgid "_List name:"
 msgstr "_Rodomas vardas:"
+
+#: addressbook/gui/contact-list-editor/contact-list-editor.glade.h:11
+msgid "_Select"
+msgstr "_Pasirinkti"
 
 #: addressbook/gui/contact-list-editor/contact-list-editor.glade.h:12
 msgid "_Type an email address or drag a contact into the list below:"
@@ -3285,23 +3285,29 @@ msgstr "Rolė"
 msgid "Spouse"
 msgstr "Sutuoktinis"
 
-#: addressbook/gui/widgets/e-addressbook-view.etspec.h:35
+#. Translators: This is a vcard standard and stands for the type of
+#. phone used by the hearing impaired. TTY stands for "teletype"
+#. (familiar from Unix device names), and TDD is "Telecommunications
+#. Device for Deaf". However, you probably want to leave this
+#. abbreviation unchanged unless you know that there is actually a
+#. different and established translation for this in your language.
+#: addressbook/gui/widgets/e-addressbook-view.etspec.h:41
 msgid "TTYTDD"
 msgstr "TTYTDD"
 
-#: addressbook/gui/widgets/e-addressbook-view.etspec.h:36
+#: addressbook/gui/widgets/e-addressbook-view.etspec.h:42
 msgid "Telex"
 msgstr "Teleksas"
 
-#: addressbook/gui/widgets/e-addressbook-view.etspec.h:37
+#: addressbook/gui/widgets/e-addressbook-view.etspec.h:43
 msgid "Title"
 msgstr "Titulas"
 
-#: addressbook/gui/widgets/e-addressbook-view.etspec.h:38
+#: addressbook/gui/widgets/e-addressbook-view.etspec.h:44
 msgid "Unit"
 msgstr "Vienetas"
 
-#: addressbook/gui/widgets/e-addressbook-view.etspec.h:39
+#: addressbook/gui/widgets/e-addressbook-view.etspec.h:45
 msgid "Web Site"
 msgstr "Tinklapis"
 
@@ -4371,8 +4377,8 @@ msgstr "Ar datos navigatoriuje rodyti savaičių numerius"
 
 #: calendar/gui/calendar-commands.c:120 calendar/gui/calendar-component.c:568
 #: calendar/gui/dialogs/calendar-setup.c:362 calendar/gui/gnome-cal.c:1925
-#: plugins/groupwise-account-setup/camel-gw-listener.c:405
-#: plugins/groupwise-account-setup/camel-gw-listener.c:435
+#: plugins/groupwise-account-setup/camel-gw-listener.c:382
+#: plugins/groupwise-account-setup/camel-gw-listener.c:412
 msgid "Calendar"
 msgstr "Kalendorius"
 
@@ -5018,12 +5024,12 @@ msgstr "Šis žurnalo įrašas buvo ištrintas."
 #, c-format
 msgid "%s  You have made changes. Forget those changes and close the editor?"
 msgstr ""
-"%s  Tu kažką pakeitei. Užmiršti tuos pakeitimus ir uždaryti redaktorių?"
+"%s  Jūs pakeitėte. Užmiršti tuos pakeitimus ir uždaryti redaktorių?"
 
 #: calendar/gui/dialogs/changed-comp.c:79
 #, c-format
 msgid "%s  You have made no changes, close the editor?"
-msgstr "%s  Tu nieko nepakeitei, uždaryti redaktorių?"
+msgstr "%s  Jūs nieko nepakeitėte, uždaryti redaktorių?"
 
 #: calendar/gui/dialogs/changed-comp.c:84
 msgid "This event has been changed."
@@ -5041,12 +5047,12 @@ msgstr "Šis žurnalo įrašas buvo pakeistas."
 #, c-format
 msgid "%s  You have made changes. Forget those changes and update the editor?"
 msgstr ""
-"%s  Tu kažką pakeitei. Užmiršti tuos pakeitimus ir atnaujinti redaktorių?"
+"%s  Jūs pakeitėte. Užmiršti tuos pakeitimus ir atnaujinti redaktorių?"
 
 #: calendar/gui/dialogs/changed-comp.c:103
 #, c-format
 msgid "%s  You have made no changes, update the editor?"
-msgstr "%s  Tu nieko nepakeitei, atnaujinti redaktorių?"
+msgstr "%s  Jūs nieko nepakeitėte, atnaujinti redaktorių?"
 
 #: calendar/gui/dialogs/comp-editor.c:279
 msgid "Could not update object"
@@ -5066,7 +5072,7 @@ msgstr "Paslėpti _priedų juosta (meskite priedus čia)"
 
 #: calendar/gui/dialogs/comp-editor.c:473
 #: calendar/gui/dialogs/comp-editor.c:517 composer/e-msg-composer.c:2347
-#: composer/e-msg-composer.c:3468
+#: composer/e-msg-composer.c:3466
 msgid "Show _Attachment Bar (drop attachments here)"
 msgstr "Rodyti _priedų juostą (meskite priedus čia)"
 
@@ -5403,14 +5409,14 @@ msgstr "_Pradžios laikas:"
 #: calendar/gui/dialogs/meeting-page.glade.h:5
 #: calendar/gui/e-cal-model-tasks.c:652 calendar/gui/e-itip-control.c:1104
 #: composer/e-msg-composer.c:2122 filter/filter-rule.c:878
-#: mail/em-account-editor.c:675 mail/em-account-editor.c:1267
-#: mail/em-account-prefs.c:431 mail/em-folder-view.c:961
-#: plugins/itip-formatter/itip-formatter.c:1362
+#: mail/em-account-editor.c:675 mail/em-account-editor.c:1269
+#: mail/em-account-prefs.c:431 mail/em-folder-view.c:972
+#: plugins/itip-formatter/itip-formatter.c:1365
 #: widgets/e-timezone-dialog/e-timezone-dialog.c:190
 #: widgets/misc/e-cell-date-edit.c:248 widgets/misc/e-dateedit.c:458
 #: widgets/misc/e-dateedit.c:1497 widgets/misc/e-dateedit.c:1651
 msgid "None"
-msgstr "Joks"
+msgstr "Nėra"
 
 #: calendar/gui/dialogs/meeting-page.c:432
 msgid "The organizer selected no longer has an account."
@@ -5819,8 +5825,8 @@ msgid "<b>Publishing _Location</b>"
 msgstr "<b>Pub_likacijų vieta</b>"
 
 #: calendar/gui/dialogs/url-editor-dialog.glade.h:6
-msgid "Free/Busy Editor"
-msgstr "Laisvas/užsiėmęs redaktorius"
+msgid "Free/Busy Publishing Settings"
+msgstr "Laisvas/užsiėmęs skelbimo nustatymai"
 
 #: calendar/gui/dialogs/url-editor-dialog.glade.h:7
 msgid "_Daily"
@@ -5930,10 +5936,10 @@ msgstr "%s tarp %s"
 msgid "%s for an unknown trigger type"
 msgstr "%s yra skirtas nežinomam daviklio tipui"
 
-#: calendar/gui/e-cal-component-preview.c:70 mail/em-folder-view.c:2467
+#: calendar/gui/e-cal-component-preview.c:70 mail/em-folder-view.c:2478
 #, c-format
 msgid "Click to open %s"
-msgstr "Paspauskite, kad atidaryti %s"
+msgstr "Norėdami atidaryti %s, paspauskite čia"
 
 #: calendar/gui/e-cal-component-preview.c:155 filter/filter-rule.c:795
 msgid "Untitled"
@@ -6041,7 +6047,7 @@ msgid "Save as..."
 msgstr "Išsaugoti kaip..."
 
 #: calendar/gui/e-calendar-table.c:1151 calendar/gui/e-calendar-view.c:1389
-#: mail/em-folder-view.c:927 ui/evolution-addressbook.xml.h:37
+#: mail/em-folder-view.c:938 ui/evolution-addressbook.xml.h:37
 msgid "_Open"
 msgstr "Ati_daryti"
 
@@ -6050,7 +6056,7 @@ msgid "Open _Web Page"
 msgstr "Atverti Tinklapį"
 
 #: calendar/gui/e-calendar-table.c:1153 calendar/gui/e-calendar-view.c:1390
-#: mail/em-folder-view.c:929 mail/em-popup.c:498
+#: mail/em-folder-view.c:940 mail/em-popup.c:498
 #: ui/evolution-mail-message.xml.h:128
 msgid "_Save As..."
 msgstr "Iš_saugoti kaip..."
@@ -6069,7 +6075,7 @@ msgid "C_ut"
 msgstr "_Iškirpti"
 
 #: calendar/gui/e-calendar-table.c:1159 calendar/gui/e-calendar-view.c:1396
-#: composer/e-msg-composer.c:2903 mail/em-folder-tree.c:1036
+#: composer/e-msg-composer.c:2901 mail/em-folder-tree.c:1036
 #: mail/message-list.c:1712 ui/evolution-addressbook.xml.h:31
 #: ui/evolution-calendar.xml.h:39 ui/evolution-composer-entries.xml.h:7
 #: ui/evolution-mail-message.xml.h:109 ui/evolution-tasks.xml.h:20
@@ -6101,7 +6107,7 @@ msgstr "_Pažymėti Pasirinktas Užduotis kaip Užbaigtas"
 
 #. FIXME: need to disable for undeletable folders
 #: calendar/gui/e-calendar-table.c:1171 calendar/gui/e-calendar-view.c:1408
-#: mail/em-folder-tree.c:2754 mail/em-folder-view.c:952
+#: mail/em-folder-tree.c:2766 mail/em-folder-view.c:963
 #: ui/evolution-addressbook.xml.h:33 ui/evolution-calendar.xml.h:40
 #: ui/evolution-mail-message.xml.h:112 ui/evolution-tasks.xml.h:21
 msgid "_Delete"
@@ -6114,7 +6120,7 @@ msgstr "_Ištrinti pažymėtas užduotis"
 #: calendar/gui/e-calendar-table.c:1323
 #: calendar/gui/e-calendar-table.etspec.h:4
 msgid "Click to add a task"
-msgstr "Norėdami pridėti užduotį spauskite čia"
+msgstr "Norėdami pridėti užduotį, spauskite čia"
 
 #: calendar/gui/e-calendar-table.etspec.h:2
 #, no-c-format
@@ -6231,7 +6237,7 @@ msgstr "Pradžios data"
 #: calendar/gui/e-meeting-list-view.c:153 calendar/gui/e-meeting-store.c:124
 #: calendar/gui/e-meeting-store.c:159 calendar/gui/e-meeting-store.c:224
 #: mail/em-utils.c:1157 plugins/itip-formatter/itip-formatter.c:249
-#: plugins/itip-formatter/itip-formatter.c:1384
+#: plugins/itip-formatter/itip-formatter.c:1387
 #: plugins/plugin-manager/plugin-manager.c:72 shell/e-component-registry.c:202
 #: shell/e-component-registry.c:206 widgets/misc/e-charset-picker.c:62
 msgid "Unknown"
@@ -6314,13 +6320,13 @@ msgstr ""
 "%s"
 
 #. String to use in 12-hour time format for times in the morning.
-#: calendar/gui/e-day-view.c:748 calendar/gui/e-week-view.c:513
+#: calendar/gui/e-day-view.c:748 calendar/gui/e-week-view.c:512
 #: calendar/gui/print.c:841
 msgid "am"
 msgstr " "
 
 #. String to use in 12-hour time format for times in the afternoon.
-#: calendar/gui/e-day-view.c:751 calendar/gui/e-week-view.c:516
+#: calendar/gui/e-day-view.c:751 calendar/gui/e-week-view.c:515
 #: calendar/gui/print.c:843
 msgid "pm"
 msgstr " "
@@ -6452,19 +6458,19 @@ msgstr ""
 
 #: calendar/gui/e-itip-control.c:1137 calendar/gui/e-meeting-list-view.c:175
 #: calendar/gui/e-meeting-store.c:188 calendar/gui/e-meeting-store.c:211
-#: calendar/gui/itip-utils.c:422 plugins/itip-formatter/itip-formatter.c:1375
+#: calendar/gui/itip-utils.c:422 plugins/itip-formatter/itip-formatter.c:1378
 msgid "Accepted"
 msgstr "Priimtas"
 
 #: calendar/gui/e-itip-control.c:1141 calendar/gui/itip-utils.c:425
-#: plugins/itip-formatter/itip-formatter.c:1378
+#: plugins/itip-formatter/itip-formatter.c:1381
 msgid "Tentatively Accepted"
 msgstr "Negalutinis sutikimas"
 
 #: calendar/gui/e-itip-control.c:1145 calendar/gui/e-meeting-list-view.c:176
 #: calendar/gui/e-meeting-store.c:190 calendar/gui/e-meeting-store.c:213
 #: calendar/gui/itip-utils.c:428 calendar/gui/itip-utils.c:454
-#: plugins/itip-formatter/itip-formatter.c:1381
+#: plugins/itip-formatter/itip-formatter.c:1384
 msgid "Declined"
 msgstr "Atmestas"
 
@@ -6976,8 +6982,8 @@ msgstr "Išvaloma"
 #: calendar/gui/print.c:1822 calendar/gui/tasks-component.c:408
 #: calendar/gui/tasks-component.c:881 calendar/gui/tasks-control.c:410
 #: calendar/importers/icalendar-importer.c:83
-#: calendar/importers/icalendar-importer.c:709
-#: plugins/groupwise-account-setup/camel-gw-listener.c:406
+#: calendar/importers/icalendar-importer.c:701
+#: plugins/groupwise-account-setup/camel-gw-listener.c:383
 msgid "Tasks"
 msgstr "Užduotys"
 
@@ -7012,12 +7018,12 @@ msgstr "Nurodyti vaizdus..."
 #: calendar/gui/gnome-cal.c:2206
 #, fuzzy, c-format
 msgid "Loading appointments at %s"
-msgstr "Įvykis -- %s"
+msgstr "Įkeliami %s įvykiai"
 
 #: calendar/gui/gnome-cal.c:2225
 #, fuzzy, c-format
 msgid "Loading tasks at %s"
-msgstr "Įkeliamos užduotys"
+msgstr "Įkeliamos %s užduotys"
 
 #: calendar/gui/gnome-cal.c:2318
 #, c-format
@@ -7178,7 +7184,7 @@ msgstr "iCalendar informacija"
 
 #: calendar/gui/itip-utils.c:673
 msgid "You must be an attendee of the event."
-msgstr "Tu turi būti įvykio dalyvis."
+msgstr "Jūs turite būti įvykio dalyvis."
 
 #: calendar/gui/migration.c:151
 msgid ""
@@ -7187,8 +7193,8 @@ msgid ""
 "\n"
 "Please be patient while Evolution migrates your folders..."
 msgstr ""
-"Evolution užduočių aplankų hierarchija ir vieta pasikeitė, lyginant su "
-"tokia, kokia ji buvo Evolution 1.x versijose.\n"
+"Pasikeitė Evolution užduočių aplankų hierarchija ir vieta, lyginant su tuo, "
+"kokia ji buvo Evolution 1.x versijose.\n"
 "\n"
 "Palaukite kol Evolution perkels Jūsų aplankus..."
 
@@ -7199,14 +7205,14 @@ msgid ""
 "\n"
 "Please be patient while Evolution migrates your folders..."
 msgstr ""
-"Evolution kalendoriaus aplankų hierarchija ir vieta pasikeitė, lyginant su "
-"tokia, kokia ji buvo Evolution 1.x versijose.\n"
+"Pasikeitė Evolution užduočių aplankų hierarchija ir vieta, lyginant su tuo, "
+"kokia ji buvo Evolution 1.x versijose.\n"
 "\n"
 "Palaukite kol Evolution perkels Jūsų aplankus..."
 
 #: calendar/gui/migration.c:381
 msgid "Birthdays & Anniversaries"
-msgstr "Gimtadieniai ir sukaktuvės"
+msgstr "Gimtadieniai ir jubiliejai"
 
 #. Create the Webcal source group
 #: calendar/gui/migration.c:479 calendar/gui/migration.c:572
@@ -7550,7 +7556,8 @@ msgstr "Kitą kartą nebeklausti."
 msgid "Print Tasks"
 msgstr "Atspausdinti užduotis"
 
-#: calendar/gui/weekday-picker.c:318
+#. The first letter of each day of the week starting with Sunday
+#: calendar/gui/weekday-picker.c:319
 msgid "SMTWTFS"
 msgstr "SPATKPŠ"
 
@@ -7578,15 +7585,15 @@ msgstr "vCalendar bylos (.vcf)"
 msgid "Appointments and Meetings"
 msgstr "Įvykiai ir susitikimai"
 
-#: calendar/importers/icalendar-importer.c:494
+#: calendar/importers/icalendar-importer.c:486
 msgid "Reminder!!"
 msgstr "Priminimas!!"
 
-#: calendar/importers/icalendar-importer.c:702
+#: calendar/importers/icalendar-importer.c:694
 msgid "Calendar Events"
 msgstr "Kalendoriaus Įvykiai"
 
-#: calendar/importers/icalendar-importer.c:727
+#: calendar/importers/icalendar-importer.c:719
 msgid ""
 "Evolution has found Gnome Calendar files.\n"
 "Would you like to import them into Evolution?"
@@ -9142,7 +9149,7 @@ msgstr "%.0fG"
 msgid "attachment"
 msgstr "priedas"
 
-#: composer/e-msg-composer-attachment-bar.c:441 mail/em-folder-tree.c:2758
+#: composer/e-msg-composer-attachment-bar.c:441 mail/em-folder-tree.c:2770
 #: ui/evolution-mail-list.xml.h:27
 msgid "_Properties"
 msgstr "_Savybės"
@@ -9224,18 +9231,18 @@ msgstr "Autogeneruotas"
 msgid "Si_gnature:"
 msgstr "Pa_rašas:"
 
-#: composer/e-msg-composer.c:2364 composer/e-msg-composer.c:3357
-#: composer/e-msg-composer.c:3358
+#: composer/e-msg-composer.c:2364 composer/e-msg-composer.c:3355
+#: composer/e-msg-composer.c:3356
 msgid "Compose a message"
 msgstr "Sukurti laišką"
 
-#: composer/e-msg-composer.c:2673
+#: composer/e-msg-composer.c:2671
 #, c-format
 msgid "Attached message - %s"
 msgstr "Prisegtas laiškas - %s"
 
 #. translators, this count will always be >1
-#: composer/e-msg-composer.c:2678 composer/e-msg-composer.c:2841
+#: composer/e-msg-composer.c:2676 composer/e-msg-composer.c:2839
 #, c-format
 msgid "Attached message"
 msgid_plural "%d attached messages"
@@ -9243,18 +9250,18 @@ msgstr[0] "Prisegtas laiškas"
 msgstr[1] "%d prisegti laiškai"
 msgstr[2] "%d prisegtų laiškų"
 
-#: composer/e-msg-composer.c:2904 mail/em-folder-tree.c:1037
-#: mail/em-folder-tree.c:2255 mail/em-folder-view.c:823
+#: composer/e-msg-composer.c:2902 mail/em-folder-tree.c:1037
+#: mail/em-folder-tree.c:2263 mail/em-folder-view.c:834
 #: mail/message-list.c:1713
 msgid "_Move"
 msgstr "_Perkelti"
 
-#: composer/e-msg-composer.c:2906 mail/em-folder-tree.c:1039
+#: composer/e-msg-composer.c:2904 mail/em-folder-tree.c:1039
 #: mail/message-list.c:1715
 msgid "Cancel _Drag"
 msgstr "Atšaukti _tempimą"
 
-#: composer/e-msg-composer.c:4538
+#: composer/e-msg-composer.c:4536
 msgid ""
 "<b>(The composer contains a non-text message body, which cannot be edited.)"
 "<b>"
@@ -9383,8 +9390,8 @@ msgstr "Nepavyko gauti žinučių prisegimui iš {0}."
 #. system:no-save-file secondary
 #. system:no-load-file secondary
 #: composer/mail-composer-errors.xml.h:14
-#: composer/mail-composer-errors.xml.h:42 mail/mail-errors.xml.h:100
-#: mail/mail-errors.xml.h:112 widgets/misc/e-system-errors.xml.h:11
+#: composer/mail-composer-errors.xml.h:42 mail/mail-errors.xml.h:105
+#: mail/mail-errors.xml.h:117 widgets/misc/e-system-errors.xml.h:11
 #: widgets/misc/e-system-errors.xml.h:15
 msgid "Because \"{1}\"."
 msgstr "Dėl „{1}“."
@@ -9859,7 +9866,7 @@ msgstr "Nepavyko sukompiliuoti reguliarios išraiškos „{1}“."
 
 #. filter:no-name primary
 #. mail:no-name-vfolder primary
-#: filter/filter-errors.xml.h:18 mail/mail-errors.xml.h:214
+#: filter/filter-errors.xml.h:18 mail/mail-errors.xml.h:219
 msgid "Missing name."
 msgstr "Trūksta vardo."
 
@@ -9896,7 +9903,7 @@ msgstr "Gaunamas"
 
 #: filter/filter.glade.h:4
 msgid "Show filters for mail:"
-msgstr "Rodyti paštui filtrus:"
+msgstr "Filtrus rodyti paštui:"
 
 #: filter/filter.glade.h:5
 msgid ""
@@ -9951,18 +9958,18 @@ msgid "years"
 msgstr "metų"
 
 #: filter/filter-label.c:121 mail/em-filter-i18n.h:26 mail/em-migrate.c:1011
-#: mail/mail-config.c:76 mail/mail-config.glade.h:91
+#: mail/mail-config.c:75 mail/mail-config.glade.h:91
 msgid "Important"
 msgstr "Svarbus"
 
 #. forest green
-#: filter/filter-label.c:124 mail/em-migrate.c:1014 mail/mail-config.c:79
+#: filter/filter-label.c:124 mail/em-migrate.c:1014 mail/mail-config.c:78
 #: mail/mail-config.glade.h:139
 msgid "To Do"
 msgstr "Darbai"
 
 #. blue
-#: filter/filter-label.c:125 mail/em-migrate.c:1015 mail/mail-config.c:80
+#: filter/filter-label.c:125 mail/em-migrate.c:1015 mail/mail-config.c:79
 #: mail/mail-config.glade.h:94
 msgid "Later"
 msgstr "Vėliau"
@@ -10046,24 +10053,24 @@ msgstr ""
 msgid "Select Folder"
 msgstr "Pasirinkite aplanką"
 
-#: mail/em-account-editor.c:1808
+#: mail/em-account-editor.c:1813
 msgid "Automatically check for _new mail every"
 msgstr "Automatiškai tinkrinti _naujo pašto kas"
 
 #. Most sections for this is auto-generated fromt the camel config
-#: mail/em-account-editor.c:2077 mail/em-account-editor.c:2155
+#: mail/em-account-editor.c:2082 mail/em-account-editor.c:2160
 msgid "Receiving Options"
 msgstr "Gavimo nustatymai"
 
-#: mail/em-account-editor.c:2078 mail/em-account-editor.c:2156
+#: mail/em-account-editor.c:2083 mail/em-account-editor.c:2161
 msgid "Checking for New Mail"
 msgstr "Tikrinama, ar yra naujų laiškų"
 
-#: mail/em-account-editor.c:2500 mail/mail-config.glade.h:34
+#: mail/em-account-editor.c:2505 mail/mail-config.glade.h:34
 msgid "Account Editor"
 msgstr "Abonementų tvarkyklė"
 
-#: mail/em-account-editor.c:2500 mail/mail-config.glade.h:80
+#: mail/em-account-editor.c:2505 mail/mail-config.glade.h:80
 msgid "Evolution Account Assistant"
 msgstr "Evolution abonementų padėjėjas"
 
@@ -10081,7 +10088,7 @@ msgid "Protocol"
 msgstr "Protokolas"
 
 #: mail/em-composer-prefs.c:306 mail/em-composer-prefs.c:425
-#: mail/mail-config.c:935
+#: mail/mail-config.c:934
 msgid "Unnamed"
 msgstr "Bevardis"
 
@@ -10097,18 +10104,18 @@ msgstr "Pridėti parašo scenarijų"
 msgid "Signature(s)"
 msgstr "Parašas(ai)"
 
-#: mail/em-composer-utils.c:897
+#: mail/em-composer-utils.c:910
 msgid "-------- Forwarded Message --------"
 msgstr "-------- Persiųstas laiškas --------"
 
-#: mail/em-composer-utils.c:1513
+#: mail/em-composer-utils.c:1526
 msgid "an unknown sender"
 msgstr "nežinomas siuntėjas"
 
 #. Note to translators: this is the attribution string used when quoting messages.
 #. * each ${Variable} gets replaced with a value. To see a full list of available
 #. * variables, see em-composer-utils.c:1514
-#: mail/em-composer-utils.c:1560
+#: mail/em-composer-utils.c:1573
 msgid ""
 "On ${AbbrevWeekdayName}, ${Year}-${Month}-${Day} at ${24Hour}:${Minute} "
 "${TimeZone}, ${Sender} wrote:"
@@ -10143,7 +10150,7 @@ msgstr "Signalas"
 
 #: mail/em-filter-i18n.h:7
 msgid "contains"
-msgstr "turi savyje"
+msgstr "susideda iš"
 
 #: mail/em-filter-i18n.h:8
 msgid "Copy to Folder"
@@ -10163,7 +10170,7 @@ msgstr "Ištrintas"
 
 #: mail/em-filter-i18n.h:13
 msgid "does not contain"
-msgstr "neturi savyje"
+msgstr "nesusideda iš"
 
 #: mail/em-filter-i18n.h:14
 msgid "does not end with"
@@ -10175,7 +10182,7 @@ msgstr "neegzistuoja"
 
 #: mail/em-filter-i18n.h:16
 msgid "does not return"
-msgstr "negražina"
+msgstr "negrąžina"
 
 #: mail/em-filter-i18n.h:17
 msgid "does not sound like"
@@ -10254,7 +10261,7 @@ msgstr "Šlamštas"
 msgid "Junk Test"
 msgstr "Šlamšto testas"
 
-#: mail/em-filter-i18n.h:37 mail/em-folder-view.c:960
+#: mail/em-filter-i18n.h:37 mail/em-folder-view.c:971
 #: widgets/misc/e-expander.c:189
 msgid "Label"
 msgstr "Užrašas"
@@ -10361,9 +10368,9 @@ msgstr "prasideda su"
 
 #: mail/em-filter-i18n.h:64
 msgid "Stop Processing"
-msgstr "Sustabdyti vykdymą"
+msgstr "Nutraukti filtravimą"
 
-#: mail/em-filter-i18n.h:65 mail/em-format.c:853 mail/em-format-html.c:1534
+#: mail/em-filter-i18n.h:65 mail/em-format.c:853 mail/em-format-html.c:1533
 #: mail/em-format-quote.c:306 mail/em-mailer-prefs.c:88
 #: mail/message-list.etspec.h:13 mail/message-tag-followup.c:330
 #: plugins/shared-folder/properties.glade.h:14 smime/lib/e-cert.c:1131
@@ -10398,22 +10405,22 @@ msgstr[0] "Neskaityta žinutė:"
 msgstr[1] "Neskaitytos žinutės:"
 msgstr[2] "Neskaitytų žinučių:"
 
-#: mail/em-folder-properties.c:269 plugins/shared-folder/properties.glade.h:9
+#: mail/em-folder-properties.c:270 plugins/shared-folder/properties.glade.h:9
 msgid "Folder Properties"
 msgstr "Aplanko savybės"
 
 #: mail/em-folder-selection-button.c:121
 msgid "<click here to select a folder>"
-msgstr "<spauskit čia, kad pasirinktumėt aplanką>"
+msgstr "<norėdami pasirinkti aplanką, spauskite čia>"
 
 #: mail/em-folder-selector.c:166
 msgid "Create New Folder"
 msgstr "Sukurti naują aplanką"
 
-#: mail/em-folder-selector.c:166 mail/em-folder-tree.c:2471
-#: mail/mail-component.c:732 plugins/shared-folder/share-folder-common.c:323
+#: mail/em-folder-selector.c:166 mail/em-folder-tree.c:2479
+#: mail/mail-component.c:732 plugins/shared-folder/share-folder-common.c:346
 msgid "Specify where to create the folder:"
-msgstr "Nurodykit, kur sukurti aplanką:"
+msgstr "Nurodykite, kur sukurti aplanką:"
 
 #: mail/em-folder-selector.c:304
 msgid "Create"
@@ -10464,65 +10471,74 @@ msgstr "_Perkelti į aplanką"
 msgid "Scanning folders in \"%s\""
 msgstr "Skanuojami aplankai, esantys „%s“"
 
-#: mail/em-folder-tree.c:2241 mail/em-folder-tree.c:2255
-#: mail/em-folder-view.c:823 mail/em-folder-view.c:838
+#: mail/em-folder-tree.c:2007
+#, c-format
+msgid "Copying `%s' to `%s'"
+msgstr "Kopijuojama „%s“ į „%s“"
+
+#: mail/em-folder-tree.c:2249 mail/em-folder-tree.c:2263
+#: mail/em-folder-view.c:834 mail/em-folder-view.c:849
 #: mail/importers/evolution-mbox-importer.c:120
 #: mail/importers/evolution-outlook-importer.c:134
 msgid "Select folder"
-msgstr "Pasirink aplanką"
+msgstr "Pasirinkite aplanką"
 
-#: mail/em-folder-tree.c:2241 mail/em-folder-view.c:838
+#: mail/em-folder-tree.c:2249 mail/em-folder-view.c:849
 msgid "C_opy"
 msgstr "K_opijuoti"
 
-#: mail/em-folder-tree.c:2282 plugins/shared-folder/share-folder-common.c:128
+#: mail/em-folder-tree.c:2290 plugins/shared-folder/share-folder-common.c:138
 #, c-format
 msgid "Creating folder `%s'"
 msgstr "Kuriamas aplankas „%s“"
 
-#: mail/em-folder-tree.c:2471 mail/mail-component.c:732
-#: plugins/shared-folder/share-folder-common.c:323
+#: mail/em-folder-tree.c:2479 mail/mail-component.c:732
+#: plugins/shared-folder/share-folder-common.c:346
 msgid "Create folder"
 msgstr "Sukurti aplanką"
 
-#: mail/em-folder-tree.c:2664
+#: mail/em-folder-tree.c:2672
 #, c-format
 msgid "Rename the \"%s\" folder to:"
 msgstr "Pervadinti aplanką „%s“ į:"
 
-#: mail/em-folder-tree.c:2666
+#: mail/em-folder-tree.c:2674
 msgid "Rename Folder"
 msgstr "Pervadinti aplanką"
 
-#: mail/em-folder-tree.c:2742 ui/evolution-addressbook.xml.h:44
+#: mail/em-folder-tree.c:2677
+msgid "Folder names cannot contain '/'"
+msgstr "Aplanko varde negali būti simbolio „/“"
+
+#: mail/em-folder-tree.c:2754 ui/evolution-addressbook.xml.h:44
 #: ui/evolution-mail-global.xml.h:18 ui/evolution-mail-messagedisplay.xml.h:8
 #: ui/evolution-message-composer.xml.h:53 ui/evolution.xml.h:49
 msgid "_View"
 msgstr "_Rodyti"
 
-#: mail/em-folder-tree.c:2743
+#: mail/em-folder-tree.c:2755
 msgid "Open in _New Window"
 msgstr "Atidaryti _naujame lange"
 
-#: mail/em-folder-tree.c:2747
+#: mail/em-folder-tree.c:2759
 msgid "_Copy..."
 msgstr "_Kopijuoti..."
 
-#: mail/em-folder-tree.c:2748
+#: mail/em-folder-tree.c:2760
 msgid "_Move..."
 msgstr "_Perkelti..."
 
 #. FIXME: need to disable for nochildren folders
-#: mail/em-folder-tree.c:2752
+#: mail/em-folder-tree.c:2764
 msgid "_New Folder..."
 msgstr "_Naujas aplankas..."
 
-#: mail/em-folder-tree.c:2755
+#: mail/em-folder-tree.c:2767
 msgid "_Rename..."
 msgstr "Pe_rvadinti..."
 
 #: mail/em-folder-tree-model.c:200 mail/em-folder-tree-model.c:202
-#: mail/mail-vfolder.c:880
+#: mail/mail-vfolder.c:891
 msgid "VFolders"
 msgstr "vAplankai"
 
@@ -10542,186 +10558,186 @@ msgstr "Gauti laiškai"
 msgid "Loading..."
 msgstr "Įkeliama..."
 
-#: mail/em-folder-view.c:426 mail/GNOME_Evolution_Mail.server.in.in.h:11
+#: mail/em-folder-view.c:437 mail/GNOME_Evolution_Mail.server.in.in.h:11
 #: mail/importers/elm-importer.c:418 mail/importers/netscape-importer.c:1902
 #: mail/importers/pine-importer.c:474 mail/mail-component.c:531
 #: mail/mail-component.c:582
 msgid "Mail"
 msgstr "Paštas"
 
-#: mail/em-folder-view.c:928 ui/evolution-mail-message.xml.h:113
+#: mail/em-folder-view.c:939 ui/evolution-mail-message.xml.h:113
 msgid "_Edit as New Message..."
 msgstr "K_eisti kaip naują laišką..."
 
-#: mail/em-folder-view.c:930
+#: mail/em-folder-view.c:941
 msgid "_Print"
 msgstr "S_pausdinti"
 
-#: mail/em-folder-view.c:933 ui/evolution-mail-message.xml.h:127
+#: mail/em-folder-view.c:944 ui/evolution-mail-message.xml.h:127
 msgid "_Reply to Sender"
 msgstr "_Atsakyti siuntėjui"
 
-#: mail/em-folder-view.c:934 mail/em-popup.c:502
+#: mail/em-folder-view.c:945 mail/em-popup.c:502
 #: ui/evolution-mail-message.xml.h:88
 msgid "Reply to _List"
 msgstr "Atsakyti į _konferenciją"
 
-#: mail/em-folder-view.c:935 mail/em-popup.c:503
+#: mail/em-folder-view.c:946 mail/em-popup.c:503
 #: ui/evolution-mail-message.xml.h:87
 msgid "Reply to _All"
 msgstr "Atsakyti _visiems"
 
-#: mail/em-folder-view.c:936 mail/em-popup.c:505
+#: mail/em-folder-view.c:947 mail/em-popup.c:505
 #: ui/evolution-mail-message.xml.h:114
 msgid "_Forward"
 msgstr "P_ersiųsti"
 
-#: mail/em-folder-view.c:939
+#: mail/em-folder-view.c:950
 msgid "Follo_w Up..."
 msgstr "_Tęsinys..."
 
-#: mail/em-folder-view.c:940
+#: mail/em-folder-view.c:951
 msgid "Fla_g Completed"
 msgstr "Pažymėti pabai_gtu"
 
-#: mail/em-folder-view.c:941
+#: mail/em-folder-view.c:952
 msgid "Cl_ear Flag"
 msgstr "Atša_ukti pažymėjimą"
 
-#: mail/em-folder-view.c:944 ui/evolution-mail-message.xml.h:50
+#: mail/em-folder-view.c:955 ui/evolution-mail-message.xml.h:50
 msgid "Mar_k as Read"
 msgstr "Pažymėti s_kaitytu"
 
-#: mail/em-folder-view.c:945
+#: mail/em-folder-view.c:956
 msgid "Mark as _Unread"
 msgstr "Pažymėti _neskaitytu"
 
-#: mail/em-folder-view.c:946
+#: mail/em-folder-view.c:957
 msgid "Mark as _Important"
 msgstr "Pažymėti svarb_iu"
 
-#: mail/em-folder-view.c:947
+#: mail/em-folder-view.c:958
 msgid "_Mark as Unimportant"
 msgstr "Pažymėti kaip nes_varbų"
 
-#: mail/em-folder-view.c:948 ui/evolution-mail-message.xml.h:54
+#: mail/em-folder-view.c:959 ui/evolution-mail-message.xml.h:54
 msgid "Mark as _Junk"
 msgstr "Pažymėti kaip š_lamštą"
 
-#: mail/em-folder-view.c:949 ui/evolution-mail-message.xml.h:55
+#: mail/em-folder-view.c:960 ui/evolution-mail-message.xml.h:55
 msgid "Mark as _Not Junk"
 msgstr "Pažymėti kaip _ne šlamštą"
 
-#: mail/em-folder-view.c:953
+#: mail/em-folder-view.c:964
 msgid "U_ndelete"
 msgstr "S_ugrąžinti"
 
-#: mail/em-folder-view.c:956
+#: mail/em-folder-view.c:967
 msgid "Mo_ve to Folder..."
 msgstr "Pe_rkelti į aplanką..."
 
-#: mail/em-folder-view.c:957 ui/evolution-addressbook.xml.h:32
+#: mail/em-folder-view.c:968 ui/evolution-addressbook.xml.h:32
 msgid "_Copy to Folder..."
 msgstr "K_opijuoti į aplanką..."
 
-#: mail/em-folder-view.c:965
+#: mail/em-folder-view.c:976
 msgid "Add Sender to Address_book"
 msgstr "Įtraukti siuntėją į adresų _knygą"
 
-#: mail/em-folder-view.c:968
+#: mail/em-folder-view.c:979
 msgid "Appl_y Filters"
 msgstr "Pritaik_yti filtrus"
 
-#: mail/em-folder-view.c:969
+#: mail/em-folder-view.c:980
 msgid "F_ilter Junk"
 msgstr "F_iltruoti šlamštą"
 
-#: mail/em-folder-view.c:972
+#: mail/em-folder-view.c:983
 msgid "Crea_te Rule From Message"
 msgstr "Sukur_ti taisyklę iš žinutės"
 
-#: mail/em-folder-view.c:973
+#: mail/em-folder-view.c:984
 msgid "VFolder on _Subject"
 msgstr "vAplankas pagal _temą"
 
-#: mail/em-folder-view.c:974
+#: mail/em-folder-view.c:985
 msgid "VFolder on Se_nder"
 msgstr "vAplankas pagal siu_ntėją"
 
-#: mail/em-folder-view.c:975
+#: mail/em-folder-view.c:986
 msgid "VFolder on _Recipients"
 msgstr "vAplankas pagal _gavėjus"
 
-#: mail/em-folder-view.c:976
+#: mail/em-folder-view.c:987
 msgid "VFolder on Mailing _List"
 msgstr "vAplankas pagal _konferenciją"
 
-#: mail/em-folder-view.c:980
+#: mail/em-folder-view.c:991
 msgid "Filter on Sub_ject"
 msgstr "Filtruoti pagal t_emą"
 
-#: mail/em-folder-view.c:981
+#: mail/em-folder-view.c:992
 msgid "Filter on Sen_der"
 msgstr "Filtruoti pagal si_untėją"
 
-#: mail/em-folder-view.c:982
+#: mail/em-folder-view.c:993
 msgid "Filter on Re_cipients"
 msgstr "Filtruoti pagal ga_vėjus"
 
-#: mail/em-folder-view.c:983
+#: mail/em-folder-view.c:994
 msgid "Filter on _Mailing List"
 msgstr "Filtruoti pagal k_onferenciją"
 
 #. default charset used in mail view
-#: mail/em-folder-view.c:1760 mail/em-folder-view.c:1803
+#: mail/em-folder-view.c:1771 mail/em-folder-view.c:1814
 msgid "Default"
 msgstr "Įprastas"
 
-#: mail/em-folder-view.c:1900
+#: mail/em-folder-view.c:1911
 msgid "Print Message"
 msgstr "Spausdinti laišką"
 
-#: mail/em-folder-view.c:2179
+#: mail/em-folder-view.c:2190
 msgid "_Copy Link Location"
 msgstr "_Kopijuoti nuorodą"
 
-#: mail/em-folder-view.c:2462
+#: mail/em-folder-view.c:2473
 #, c-format
 msgid "Click to mail %s"
-msgstr "Paspauskite, kad išsiųstumėt %s"
+msgstr "Norėdami išsiųsti %s, paspauskite čia"
 
-#: mail/em-format.c:848 mail/em-format-html.c:1425 mail/em-format-quote.c:193
+#: mail/em-format.c:848 mail/em-format-html.c:1424 mail/em-format-quote.c:193
 #: mail/em-mailer-prefs.c:83 mail/message-list.etspec.h:7
 #: mail/message-tag-followup.c:326
 msgid "From"
 msgstr "Nuo"
 
-#: mail/em-format.c:849 mail/em-format-html.c:1425 mail/em-format-quote.c:193
+#: mail/em-format.c:849 mail/em-format-html.c:1424 mail/em-format-quote.c:193
 #: mail/em-mailer-prefs.c:84
 msgid "Reply-To"
 msgstr "Atsakyti-kam"
 
-#: mail/em-format.c:850 mail/em-format-html.c:1425 mail/em-format-quote.c:193
+#: mail/em-format.c:850 mail/em-format-html.c:1424 mail/em-format-quote.c:193
 #: mail/em-mailer-prefs.c:85 mail/message-list.etspec.h:14
 msgid "To"
 msgstr "Kam"
 
-#: mail/em-format.c:851 mail/em-format-html.c:1425 mail/em-format-quote.c:193
+#: mail/em-format.c:851 mail/em-format-html.c:1424 mail/em-format-quote.c:193
 #: mail/em-mailer-prefs.c:86
 msgid "Cc"
 msgstr "Cc"
 
-#: mail/em-format.c:852 mail/em-format-html.c:1425 mail/em-format-quote.c:193
+#: mail/em-format.c:852 mail/em-format-html.c:1424 mail/em-format-quote.c:193
 #: mail/em-mailer-prefs.c:87
 msgid "Bcc"
 msgstr "Bcc"
 
-#: mail/em-format.c:854 mail/em-format-html.c:1578 mail/em-format-quote.c:322
+#: mail/em-format.c:854 mail/em-format-html.c:1577 mail/em-format-quote.c:322
 #: mail/em-mailer-prefs.c:89 mail/message-list.etspec.h:2
 msgid "Date"
 msgstr "Data"
 
-#: mail/em-format.c:855 mail/em-format-html.c:1601 mail/em-mailer-prefs.c:90
+#: mail/em-format.c:855 mail/em-format-html.c:1600 mail/em-mailer-prefs.c:90
 msgid "Newsgroups"
 msgstr "Naujienų grupės"
 
@@ -10754,99 +10770,99 @@ msgstr "Klaida tikrinant parašą"
 msgid "Unknown error verifying signature"
 msgstr "Nežinoma klaida tikrinant parašą"
 
-#: mail/em-format-html.c:473 mail/em-format-html.c:475
+#: mail/em-format-html.c:472 mail/em-format-html.c:474
 #, c-format
 msgid "Retrieving `%s'"
 msgstr "Gaunama „%s“"
 
-#: mail/em-format-html.c:580 mail/em-format-html-display.c:638
+#: mail/em-format-html.c:579 mail/em-format-html-display.c:645
 msgid "Unsigned"
 msgstr "Nepasirašytas"
 
-#: mail/em-format-html.c:581 mail/em-format-html-display.c:639
+#: mail/em-format-html.c:580 mail/em-format-html-display.c:646
 msgid "Valid signature"
 msgstr "Tvarkingas parašas"
 
-#: mail/em-format-html.c:582 mail/em-format-html-display.c:640
+#: mail/em-format-html.c:581 mail/em-format-html-display.c:647
 msgid "Invalid signature"
 msgstr "Blogas parašas"
 
-#: mail/em-format-html.c:583
+#: mail/em-format-html.c:582
 msgid "Valid signature but cannot verify sender"
 msgstr "Parašas tvarkingas, bet negalima patikrinti siuntėjo"
 
-#: mail/em-format-html.c:589 mail/em-format-html-display.c:647
+#: mail/em-format-html.c:588 mail/em-format-html-display.c:654
 msgid "Unencrypted"
 msgstr "Nekoduotas"
 
-#: mail/em-format-html.c:590 mail/em-format-html-display.c:648
+#: mail/em-format-html.c:589 mail/em-format-html-display.c:655
 msgid "Encrypted, weak"
 msgstr "Silpnai koduotas"
 
-#: mail/em-format-html.c:591 mail/em-format-html-display.c:649
+#: mail/em-format-html.c:590 mail/em-format-html-display.c:656
 msgid "Encrypted"
 msgstr "Koduotas"
 
-#: mail/em-format-html.c:592 mail/em-format-html-display.c:650
+#: mail/em-format-html.c:591 mail/em-format-html-display.c:657
 msgid "Encrypted, strong"
 msgstr "Smarkiai užkoduotas"
 
-#: mail/em-format-html.c:841
+#: mail/em-format-html.c:840
 msgid "Malformed external-body part."
 msgstr "Blogai suformuota išorinio kūno dalis."
 
-#: mail/em-format-html.c:871
+#: mail/em-format-html.c:870
 #, c-format
 msgid "Pointer to FTP site (%s)"
 msgstr "Rodyklė į FTP svetainę (%s)"
 
-#: mail/em-format-html.c:882
+#: mail/em-format-html.c:881
 #, c-format
 msgid "Pointer to local file (%s) valid at site \"%s\""
 msgstr "Rodyklė į vietinę bylą (%s), galiojanti svetainėje „%s“"
 
-#: mail/em-format-html.c:884
+#: mail/em-format-html.c:883
 #, c-format
 msgid "Pointer to local file (%s)"
 msgstr "Rodyklė į vietinę bylą (%s)"
 
-#: mail/em-format-html.c:905
+#: mail/em-format-html.c:904
 #, c-format
 msgid "Pointer to remote data (%s)"
 msgstr "Rodyklė į nutolusius duomenis (%s)"
 
-#: mail/em-format-html.c:916
+#: mail/em-format-html.c:915
 #, c-format
 msgid "Pointer to unknown external data (\"%s\" type)"
 msgstr "Rodyklė į nežinomus išorinius duomenis („%s“ tipo)"
 
-#: mail/em-format-html.c:1138
+#: mail/em-format-html.c:1137
 msgid "Formatting message"
-msgstr "Laiškas formuojamas"
+msgstr "Formuojamas laiškas"
 
 #. pseudo-header
-#: mail/em-format-html.c:1538 mail/em-format-quote.c:315
+#: mail/em-format-html.c:1537 mail/em-format-quote.c:315
 #: mail/em-mailer-prefs.c:984
 msgid "Mailer"
 msgstr "Pašto programa"
 
 #. translators: strftime format for local time equivalent in Date header display, with day
-#: mail/em-format-html.c:1565
+#: mail/em-format-html.c:1564
 msgid "<I> (%a, %R %Z)</I>"
 msgstr "<I> (%a, %R %Z)</I>"
 
 #. translators: strftime format for local time equivalent in Date header display, without day
-#: mail/em-format-html.c:1568
+#: mail/em-format-html.c:1567
 msgid "<I> (%R %Z)</I>"
 msgstr "<I> (%R %Z)</I>"
 
 #. message-search popup match count string
-#: mail/em-format-html-display.c:405
+#: mail/em-format-html-display.c:412
 #, c-format
 msgid "Matches: %d"
 msgstr "Atitinka: %d"
 
-#: mail/em-format-html-display.c:638
+#: mail/em-format-html-display.c:645
 msgid ""
 "This message is not signed. There is no guarantee that this message is "
 "authentic."
@@ -10854,7 +10870,7 @@ msgstr ""
 "Šis laiškas nepasirašytas. Nėra jokių garantijų, kad šis laiškas yra "
 "autentiškas."
 
-#: mail/em-format-html-display.c:639
+#: mail/em-format-html-display.c:646
 msgid ""
 "This message is signed and is valid meaning that it is very likely that this "
 "message is authentic."
@@ -10862,7 +10878,7 @@ msgstr ""
 "Šis laiškas yra pasirašytas ir yra geras, kas reiškia, jog šis laiškas yra "
 "autentiškas."
 
-#: mail/em-format-html-display.c:640
+#: mail/em-format-html-display.c:647
 msgid ""
 "The signature of this message cannot be verified, it may have been altered "
 "in transit."
@@ -10870,11 +10886,11 @@ msgstr ""
 "Laiško parašas negali būti patikrintas, laiškas galėjo būti pakeistas "
 "persiuntimo metu."
 
-#: mail/em-format-html-display.c:641
+#: mail/em-format-html-display.c:648
 msgid "Valid signature, cannot verify sender"
 msgstr "Parašas geras, negalima patikrinti siuntėjo"
 
-#: mail/em-format-html-display.c:641
+#: mail/em-format-html-display.c:648
 msgid ""
 "This message is signed with a valid signature, but the sender of the message "
 "cannot be verified."
@@ -10882,7 +10898,7 @@ msgstr ""
 "Laiškas pasirašytas su tvarkingu parašu, bet siuntėjas negali būti "
 "patikrintas."
 
-#: mail/em-format-html-display.c:647
+#: mail/em-format-html-display.c:654
 msgid ""
 "This message is not encrypted.  Its content may be viewed in transit across "
 "the Internet."
@@ -10890,7 +10906,7 @@ msgstr ""
 "Šis laiškas nėra šifruotas. Jo turinys gali būti perskaitytas siuntimo "
 "Internetu metu."
 
-#: mail/em-format-html-display.c:648
+#: mail/em-format-html-display.c:655
 msgid ""
 "This message is encrypted, but with a weak encryption algorithm.  It would "
 "be difficult, but not impossible for an outsider to view the content of this "
@@ -10899,7 +10915,7 @@ msgstr ""
 "Laiškas yra užkoduotas, bet naudoja silpną kriptografinį algoritmą. "
 "Įsilaužėlis gali per pakankamai trumpą laiką atkoduoti laiško turinį."
 
-#: mail/em-format-html-display.c:649
+#: mail/em-format-html-display.c:656
 msgid ""
 "This message is encrypted.  It would be difficult for an outsider to view "
 "the content of this message."
@@ -10907,7 +10923,7 @@ msgstr ""
 "Šis laiškas yra užkoduotas. Įsilaužėliui būtų sunku perskaityti laiško "
 "turinį."
 
-#: mail/em-format-html-display.c:650
+#: mail/em-format-html-display.c:657
 msgid ""
 "This message is encrypted, with a strong encryption algorithm.  It would be "
 "very difficult for an outsider to view the content of this message in a "
@@ -10917,35 +10933,35 @@ msgstr ""
 "Įsilaužėliui yra labai sunku atkoduoti tokį laišką naudojant šiuo metu "
 "prieinamas priemones."
 
-#: mail/em-format-html-display.c:751 smime/gui/smime-ui.glade.h:47
+#: mail/em-format-html-display.c:758 smime/gui/smime-ui.glade.h:47
 msgid "_View Certificate"
 msgstr "_Peržiūrėti sertifikatą"
 
-#: mail/em-format-html-display.c:766
+#: mail/em-format-html-display.c:773
 msgid "This certificate is not viewable"
 msgstr "Negalima peržiūrėti šio sertifikato"
 
-#: mail/em-format-html-display.c:995
+#: mail/em-format-html-display.c:1002
 msgid "Completed on %B %d, %Y, %l:%M %p"
 msgstr "Baigta %Y %B %d, %l:%M"
 
-#: mail/em-format-html-display.c:1003
+#: mail/em-format-html-display.c:1010
 msgid "Overdue:"
 msgstr "Pavėluotos:"
 
-#: mail/em-format-html-display.c:1006
+#: mail/em-format-html-display.c:1013
 msgid "by %B %d, %Y, %l:%M %p"
 msgstr "pagal %B %d, %Y, %l:%M %p"
 
-#: mail/em-format-html-display.c:1053
+#: mail/em-format-html-display.c:1060
 msgid "_View Inline"
 msgstr "_Žiūrėti kontekste"
 
-#: mail/em-format-html-display.c:1054
+#: mail/em-format-html-display.c:1061
 msgid "_Hide"
 msgstr "_Slėpti"
 
-#: mail/em-format-html-display.c:1298
+#: mail/em-format-html-display.c:1305
 msgid "Attachment Button"
 msgstr "Priedo mygtukas"
 
@@ -11087,7 +11103,7 @@ msgstr "Prašom pasirinkti serverį."
 
 #: mail/em-subscribe-editor.c:882
 msgid "No server has been selected"
-msgstr "Joks serveris nepasirinktas"
+msgstr "Nepasirinktas joks serveris"
 
 #: mail/em-utils.c:105
 msgid "Don't show this message again."
@@ -11133,7 +11149,7 @@ msgstr "Automatinis šypsiukų atpažinimas"
 
 #: mail/evolution-mail.schemas.in.in.h:3
 msgid "Check incoming mail being junk"
-msgstr "Tikrinti ateinančius laiškus dėl galimų šiukšlių"
+msgstr "Tikrinti gaunamus laiškus dėl galimų šiukšlių"
 
 #: mail/evolution-mail.schemas.in.in.h:4
 msgid "Citation highlight color"
@@ -11230,6 +11246,14 @@ msgstr "Laiškų sąrašo skydelio aukštis."
 
 #: mail/evolution-mail.schemas.in.in.h:27
 msgid ""
+"If a user tries to open 10 or more messages at one time, ask the user if "
+"they really want to do it."
+msgstr ""
+"Jeigu naudotojas bando tuo pačiu metu atidaryti 10 ar daugiau laiškų, "
+"paklausti jo ar jis tikrai nori tai padaryti."
+
+#: mail/evolution-mail.schemas.in.in.h:28
+msgid ""
 "If there isn't a builtin viewer for a particular mime-type inside Evolution, "
 "any mime-types appearing in this list which map to a bonobo-component viewer "
 "in GNOME's mime-type database may be used for displaying content."
@@ -11238,23 +11262,23 @@ msgstr ""
 "peržiūrėti gali būti naudojamas įprastas bonobo komponentas, susietas su "
 "atitinkamu tipu tarp GNOME mime tipų bazės."
 
-#: mail/evolution-mail.schemas.in.in.h:28
+#: mail/evolution-mail.schemas.in.in.h:29
 msgid "Last time empty trash was run"
 msgstr "Kada paskutinį kartą buvo išvalyta šiukšlinė"
 
-#: mail/evolution-mail.schemas.in.in.h:29
+#: mail/evolution-mail.schemas.in.in.h:30
 msgid "List of Labels and their associated colors"
 msgstr "Etikečių ir su jomis susijusių spalvų sąrašas"
 
-#: mail/evolution-mail.schemas.in.in.h:30
+#: mail/evolution-mail.schemas.in.in.h:31
 msgid "List of accepted licenses"
 msgstr "Priimtų licencijų sąrašas"
 
-#: mail/evolution-mail.schemas.in.in.h:31
+#: mail/evolution-mail.schemas.in.in.h:32
 msgid "List of accounts"
 msgstr "Abonementų sąrašas"
 
-#: mail/evolution-mail.schemas.in.in.h:32
+#: mail/evolution-mail.schemas.in.in.h:33
 msgid ""
 "List of accounts known to the mail component of Evolution. The list contains "
 "strings naming subdirectories relative to /apps/evolution/mail/accounts."
@@ -11262,11 +11286,11 @@ msgstr ""
 "Evolution pašto komponentui žinomų sąskaitų sąrašas. Čia išvardinamos sekus "
 "nurodančios katalogus tarp /apps/evolution/accounts registro."
 
-#: mail/evolution-mail.schemas.in.in.h:33
+#: mail/evolution-mail.schemas.in.in.h:34
 msgid "List of custom headers and whether they are enabled."
 msgstr "Specialių antraščių sąrašas bei jų įjungimo parametrai."
 
-#: mail/evolution-mail.schemas.in.in.h:34
+#: mail/evolution-mail.schemas.in.in.h:35
 msgid ""
 "List of labels known to the mail component of Evolution. The list contains "
 "strings containing name:color where color uses the HTML hex encoding."
@@ -11274,19 +11298,19 @@ msgstr ""
 "Evolution pašto komponentui žinomų žymių sąrašas. Sąraše yra eilutės, "
 "kuriose yra name:color, kur spalvai naudojama HTML šešioliktainis kodas."
 
-#: mail/evolution-mail.schemas.in.in.h:35
+#: mail/evolution-mail.schemas.in.in.h:36
 msgid "List of mime types to check for bonobo component viewers"
 msgstr "mime tipų, tikrinamų tarp bonobo komponentų žiūryklių, sąrašas"
 
-#: mail/evolution-mail.schemas.in.in.h:36
+#: mail/evolution-mail.schemas.in.in.h:37
 msgid "List of protocol names whose license has been accepted."
 msgstr "Protokolų, kurių su kurių licencijomis buvo sutikta, sąrašas."
 
-#: mail/evolution-mail.schemas.in.in.h:37
+#: mail/evolution-mail.schemas.in.in.h:38
 msgid "Load images for HTML messages over http"
 msgstr "Įkelti išorinius paveikslėlius įterptus per http į HTML laiškus"
 
-#: mail/evolution-mail.schemas.in.in.h:38
+#: mail/evolution-mail.schemas.in.in.h:39
 msgid ""
 "Load images for HTML messages over http(s). Possible values are: 0 - Never "
 "load images off the net 1 - Load images if sender is in the addressbook 2 - "
@@ -11296,90 +11320,96 @@ msgstr ""
 "reikšmės yra: 0 - Niekada neįkelti išįrinių paveikslėlių, 1 - Įkelti tik jei "
 "siuntėjas yra tarp adresų knygos, 2 - Visada įkelti išorinius paveikslėlius"
 
-#: mail/evolution-mail.schemas.in.in.h:39
+#: mail/evolution-mail.schemas.in.in.h:40
 msgid "Log filter actions"
 msgstr "Registruoti filtro veiksmus"
 
-#: mail/evolution-mail.schemas.in.in.h:40
+#: mail/evolution-mail.schemas.in.in.h:41
 msgid "Log filter actions to the specified log file."
 msgstr "Registruoti filtrų veiksmus į nurodytą žurnalo bylą."
 
-#: mail/evolution-mail.schemas.in.in.h:41
+#: mail/evolution-mail.schemas.in.in.h:42
 msgid "Logfile to log filter actions"
 msgstr "Byla registruojanti filtrų veiksmus"
 
-#: mail/evolution-mail.schemas.in.in.h:42
+#: mail/evolution-mail.schemas.in.in.h:43
 msgid "Logfile to log filter actions."
 msgstr "Byla registruojanti filtrų veiksmus."
 
-#: mail/evolution-mail.schemas.in.in.h:43
+#: mail/evolution-mail.schemas.in.in.h:44
 msgid "Mark as Seen after specified timeout"
 msgstr "Pažymėti kaip perskaityta po nurodyto laiko tarpo"
 
-#: mail/evolution-mail.schemas.in.in.h:44
+#: mail/evolution-mail.schemas.in.in.h:45
 msgid "Mark as Seen after specified timeout."
 msgstr "Pažymėti kaip Perskaityta po nurodyto laiko tarpo."
 
-#: mail/evolution-mail.schemas.in.in.h:45
+#: mail/evolution-mail.schemas.in.in.h:46
 msgid "Mark citations in the message \"Preview\""
 msgstr "Pažymėti citatas tarp laiško „Peržiūros“"
 
-#: mail/evolution-mail.schemas.in.in.h:46
+#: mail/evolution-mail.schemas.in.in.h:47
 msgid "Mark citations in the message \"Preview\"."
 msgstr "Pažymėti citatas tarp laiško „Peržiūros“."
 
-#: mail/evolution-mail.schemas.in.in.h:47
+#: mail/evolution-mail.schemas.in.in.h:48
 msgid "Message Window default height"
 msgstr "Žinutės lango įprastas aukštis"
 
-#: mail/evolution-mail.schemas.in.in.h:48
+#: mail/evolution-mail.schemas.in.in.h:49
 msgid "Message Window default width"
 msgstr "Žinutės lango įprastas plotis"
 
-#: mail/evolution-mail.schemas.in.in.h:49
+#: mail/evolution-mail.schemas.in.in.h:50
 msgid "Message-display style (normal, full headers, source)"
 msgstr "Laiško rodymo stilius (normalus, pilnos antraštės, pradinis tekstas)"
 
-#: mail/evolution-mail.schemas.in.in.h:50
+#: mail/evolution-mail.schemas.in.in.h:51
 msgid "Minimum days between emptying the trash on exit"
 msgstr "Mažiausias dienų skaičius tarp šiukšlinės išvalymo uždarant programą"
 
-#: mail/evolution-mail.schemas.in.in.h:51
+#: mail/evolution-mail.schemas.in.in.h:52
 msgid "Minimum time between emptying the trash on exit, in days."
 msgstr ""
 "Mažiausias laiko tarpas tarp šiukšlinės išvalymo uždarant programą "
 "(dienomis)."
 
-#: mail/evolution-mail.schemas.in.in.h:52
+#: mail/evolution-mail.schemas.in.in.h:53
 msgid "New Mail Notify sound file"
 msgstr "Naujo pašto perspėjimų garso byla"
 
-#: mail/evolution-mail.schemas.in.in.h:53
+#: mail/evolution-mail.schemas.in.in.h:54
 msgid "New Mail Notify type"
 msgstr "Perspėjimų apie naują paštą tipas"
 
-#: mail/evolution-mail.schemas.in.in.h:54
+#: mail/evolution-mail.schemas.in.in.h:55
 msgid "Prompt on empty subject"
 msgstr "Užklausti, kai tema nenurodyta"
 
-#: mail/evolution-mail.schemas.in.in.h:55
+#: mail/evolution-mail.schemas.in.in.h:56
 msgid "Prompt the user when he or she tries to expunge a folder."
 msgstr "Užklausti patvirtinimo, kai bandoma išvalyti aplanką."
 
-#: mail/evolution-mail.schemas.in.in.h:56
+#: mail/evolution-mail.schemas.in.in.h:57
 msgid ""
 "Prompt the user when he or she tries to send a message without a Subject."
 msgstr "Užklausti patvirtinimo, kai bandoma siųsti laišką nenurodžius temos."
 
-#: mail/evolution-mail.schemas.in.in.h:57
+#: mail/evolution-mail.schemas.in.in.h:58
 msgid "Prompt when user expunges"
 msgstr "Įspėti vartotoją išvalymo metu"
 
-#: mail/evolution-mail.schemas.in.in.h:58
-msgid "Prompt when user only fills Bcc"
-msgstr "Užklausti patvirtinimo, kai užpildomi tik bcc gavėjų laukai"
-
 #: mail/evolution-mail.schemas.in.in.h:59
+msgid "Prompt when user only fills Bcc"
+msgstr "Paklausti patvirtinimo, kai užpildomi tik bcc gavėjų laukai"
+
+#: mail/evolution-mail.schemas.in.in.h:60
+msgid "Prompt when user tries to open 10 or more messages at once"
+msgstr ""
+"Paklausti patvirtinimo, kai bandoma išsiųsti 10 ar daugiau laiškų "
+"vienu metu"
+
+#: mail/evolution-mail.schemas.in.in.h:61
 msgid ""
 "Prompt when user tries to send HTML mail to recipients that may not want to "
 "receive HTML mail."
@@ -11387,90 +11417,90 @@ msgstr ""
 "Paklausti, kai siunčiamas HTML laiškas adresatams, kurie gali nenorėti gauti "
 "HTML formato laiškų."
 
-#: mail/evolution-mail.schemas.in.in.h:60
+#: mail/evolution-mail.schemas.in.in.h:62
 msgid "Prompt when user tries to send a message with no To or Cc recipients."
 msgstr "Paklausti prieš siunčiant laiškus vien tik su _Bcc gavėjais."
 
-#: mail/evolution-mail.schemas.in.in.h:61
+#: mail/evolution-mail.schemas.in.in.h:63
 msgid "Prompt when user tries to send unwanted HTML"
 msgstr ""
 "Užklausti patvirtinimo, kai bandoma siųsti HTML laišką to nenorintiems "
 "adresatams"
 
-#: mail/evolution-mail.schemas.in.in.h:62
+#: mail/evolution-mail.schemas.in.in.h:64
 msgid "Recognize links in text and replace them."
 msgstr "Atpažinti nuorodas tekste ir jas pakeisti."
 
-#: mail/evolution-mail.schemas.in.in.h:63
+#: mail/evolution-mail.schemas.in.in.h:65
 msgid "Recognize smileys in text and replace them with images."
 msgstr "Atpažinti šypsiukus tekste ir juos pakeisti paveikslėliais."
 
-#: mail/evolution-mail.schemas.in.in.h:64
+#: mail/evolution-mail.schemas.in.in.h:66
 msgid "Run junk test on incoming mail"
 msgstr "Tikrinti gaunamą paštą dėl galimo šlamšto"
 
-#: mail/evolution-mail.schemas.in.in.h:65
+#: mail/evolution-mail.schemas.in.in.h:67
 msgid "Send HTML mail by default"
 msgstr "Įprastai siųsti laiškus HTML formatu"
 
-#: mail/evolution-mail.schemas.in.in.h:66
+#: mail/evolution-mail.schemas.in.in.h:68
 msgid "Send HTML mail by default."
 msgstr "Įprastai siųsti laiškus HTML formatu."
 
-#: mail/evolution-mail.schemas.in.in.h:67
+#: mail/evolution-mail.schemas.in.in.h:69
 msgid "Show Animations"
 msgstr "Įjungti animacijas"
 
-#: mail/evolution-mail.schemas.in.in.h:68
+#: mail/evolution-mail.schemas.in.in.h:70
 msgid "Show animated images as animations."
 msgstr "Leisti judėti prikabintiems animuotiems paveikslėliams."
 
-#: mail/evolution-mail.schemas.in.in.h:69
+#: mail/evolution-mail.schemas.in.in.h:71
 msgid "Show deleted messages (with a strike-through) in the message-list."
 msgstr "Rodyti ištrintus laiškus (su perbraukimu) tarp laiškų sąrašo."
 
-#: mail/evolution-mail.schemas.in.in.h:70
+#: mail/evolution-mail.schemas.in.in.h:72
 msgid "Show deleted messages in the message-list"
 msgstr "Rodyti ištrintus laiškus laiškų sąraše"
 
-#: mail/evolution-mail.schemas.in.in.h:73
+#: mail/evolution-mail.schemas.in.in.h:75
 msgid "Sound file to play when new mail arrives."
 msgstr "Grojama garso byla, kai gaunamas naujas paštas."
 
-#: mail/evolution-mail.schemas.in.in.h:74
+#: mail/evolution-mail.schemas.in.in.h:76
 msgid "Specifies the type of New Mail Notification the user wishes to use."
 msgstr ""
 "Nurodo, kokį perspėjimo apie naujus laiškus tipą vartotojas norėtų naudoti."
 
-#: mail/evolution-mail.schemas.in.in.h:75
+#: mail/evolution-mail.schemas.in.in.h:77
 msgid "Spell check inline"
 msgstr "Rašybą tikrinti rašymo metu"
 
-#: mail/evolution-mail.schemas.in.in.h:76
+#: mail/evolution-mail.schemas.in.in.h:78
 msgid "Subscribe dialog default height"
 msgstr "Užsisakymo dialogo įprastas aukštis"
 
-#: mail/evolution-mail.schemas.in.in.h:77
+#: mail/evolution-mail.schemas.in.in.h:79
 msgid "Subscribe dialog default width"
 msgstr "Užsisakymo dialogo įprastas plotis"
 
-#: mail/evolution-mail.schemas.in.in.h:78
+#: mail/evolution-mail.schemas.in.in.h:80
 msgid "Terminal font"
 msgstr "Terminalo šriftas"
 
-#: mail/evolution-mail.schemas.in.in.h:79
+#: mail/evolution-mail.schemas.in.in.h:81
 msgid "The last time empty trash was run, in days since the epoch."
 msgstr "Kada paskutinį kartą buvo išvalyta šiukšlinė, dienomis nuo epochos."
 
-#: mail/evolution-mail.schemas.in.in.h:80
+#: mail/evolution-mail.schemas.in.in.h:82
 msgid "The terminal font for mail display"
 msgstr "Pašto išvedime naudojamas terminalo šriftas"
 
-#: mail/evolution-mail.schemas.in.in.h:81
+#: mail/evolution-mail.schemas.in.in.h:83
 msgid "The variable width font for mail display"
 msgstr "Pašto išvedime naudojamas kintamo pločio šriftas"
 
-#: mail/evolution-mail.schemas.in.in.h:82
+#: mail/evolution-mail.schemas.in.in.h:84
 msgid ""
 "This key should contain a list of XML structures specifying custom headers, "
 "and whether they are to be displayed. The format of the XML structure is &lt;"
@@ -11481,99 +11511,99 @@ msgstr ""
 "išvedimo principus. XML struktūros formatas yra &lt;antraštė enabled&gt; - "
 "nustatykite enabled, jei antraštė turi būti išvedama peržiūrint laišką."
 
-#: mail/evolution-mail.schemas.in.in.h:83
+#: mail/evolution-mail.schemas.in.in.h:85
 msgid "Thread the message list."
 msgstr "Gijomis suskirstytas laiškų sąrašas."
 
-#: mail/evolution-mail.schemas.in.in.h:84
+#: mail/evolution-mail.schemas.in.in.h:86
 msgid "Thread the message-list"
 msgstr "Gijomis suskirstytas laiškų sąrašas"
 
-#: mail/evolution-mail.schemas.in.in.h:85
+#: mail/evolution-mail.schemas.in.in.h:87
 msgid "Thread the message-list based on Subject"
 msgstr "Kurti laiškų sąrašo gijas remiantis laiškų temomis"
 
-#: mail/evolution-mail.schemas.in.in.h:86
+#: mail/evolution-mail.schemas.in.in.h:88
 msgid "Timeout for marking message as Seen"
 msgstr "Laiko tarpas, skirtas pažymėti laiškus kaip perskaitytus"
 
-#: mail/evolution-mail.schemas.in.in.h:87
+#: mail/evolution-mail.schemas.in.in.h:89
 msgid "Timeout for marking message as Seen."
 msgstr "Laiko tarpas, skirtas pažymėti laiškus kaip perskaitytus."
 
-#: mail/evolution-mail.schemas.in.in.h:88
+#: mail/evolution-mail.schemas.in.in.h:90
 msgid "UID string of the default account."
 msgstr "Įprastos sąskaitos UID seka."
 
-#: mail/evolution-mail.schemas.in.in.h:89
+#: mail/evolution-mail.schemas.in.in.h:91
 msgid "Use Spamasssassin daemon and client"
 msgstr "Naudoti Spamassasin demoną ir klientą"
 
-#: mail/evolution-mail.schemas.in.in.h:90
+#: mail/evolution-mail.schemas.in.in.h:92
 msgid "Use Spamasssassin daemon and client (spamc/spamd)"
 msgstr "Naudoti Spamassassin demoną ir klientą (spamc/spamd)"
 
-#: mail/evolution-mail.schemas.in.in.h:91
+#: mail/evolution-mail.schemas.in.in.h:93
 msgid "Use custom fonts"
 msgstr "Naudoti savo šriftus"
 
-#: mail/evolution-mail.schemas.in.in.h:92
+#: mail/evolution-mail.schemas.in.in.h:94
 msgid "Use custom fonts for displaying mail"
 msgstr "Naudoti specialius šriftus rodant laiškus"
 
-#: mail/evolution-mail.schemas.in.in.h:93
+#: mail/evolution-mail.schemas.in.in.h:95
 msgid "Use only local spam tests."
 msgstr "Naudoti tik vietinius šlamšto testus."
 
-#: mail/evolution-mail.schemas.in.in.h:94
+#: mail/evolution-mail.schemas.in.in.h:96
 msgid "Use only the local spam tests (no DNS)."
 msgstr "Naudoti tik vietinius šlamšto testus (no DNS)."
 
-#: mail/evolution-mail.schemas.in.in.h:95
+#: mail/evolution-mail.schemas.in.in.h:97
 msgid "Variable width font"
 msgstr "Kintamo pločio šriftas"
 
-#: mail/evolution-mail.schemas.in.in.h:96
+#: mail/evolution-mail.schemas.in.in.h:98
 msgid "View/Bcc menu item is checked"
 msgstr "Rodyti/Bcc punktas yra įjungtas"
 
-#: mail/evolution-mail.schemas.in.in.h:97
+#: mail/evolution-mail.schemas.in.in.h:99
 msgid "View/Bcc menu item is checked."
 msgstr "Rodyti/Bcc meniu punktas yra įjungtas"
 
-#: mail/evolution-mail.schemas.in.in.h:98
+#: mail/evolution-mail.schemas.in.in.h:100
 msgid "View/Cc menu item is checked"
 msgstr "Rodyti/Cc meniu punktas yra įjungtas"
 
-#: mail/evolution-mail.schemas.in.in.h:99
+#: mail/evolution-mail.schemas.in.in.h:101
 msgid "View/Cc menu item is checked."
 msgstr "Rodyti/Cc meniu punktas yra įjungtas."
 
-#: mail/evolution-mail.schemas.in.in.h:100
+#: mail/evolution-mail.schemas.in.in.h:102
 msgid "View/From menu item is checked"
 msgstr "Rodyti/Nuo meniu punktas yra įjungtas"
 
-#: mail/evolution-mail.schemas.in.in.h:101
+#: mail/evolution-mail.schemas.in.in.h:103
 msgid "View/From menu item is checked."
 msgstr "Rodyti/Nuo meniu punktas yra įjungtas."
 
-#: mail/evolution-mail.schemas.in.in.h:102
+#: mail/evolution-mail.schemas.in.in.h:104
 msgid "View/PostTo menu item is checked"
 msgstr "Rodyti/SkirtasKam meniu punktas yra įjungtas"
 
-#: mail/evolution-mail.schemas.in.in.h:103
+#: mail/evolution-mail.schemas.in.in.h:105
 msgid "View/PostTo menu item is checked."
 msgstr "Rodyti/SkirtasKam meniu punktas yra įjungtas."
 
-#: mail/evolution-mail.schemas.in.in.h:104
+#: mail/evolution-mail.schemas.in.in.h:106
 msgid "View/ReplyTo menu item is checked"
 msgstr "Rodyti/AtsakytiKam meniu punktas yra įjungtas"
 
-#: mail/evolution-mail.schemas.in.in.h:105
+#: mail/evolution-mail.schemas.in.in.h:107
 msgid "View/ReplyTo menu item is checked."
 msgstr "Rodyti/AtsakytiKam meniu punktas yra įjungtas."
 
-#: mail/evolution-mail.schemas.in.in.h:106
+#: mail/evolution-mail.schemas.in.in.h:108
 msgid ""
 "Whether or not to fall back on threading by subjects when the messages do "
 "not contain In-Reply-To or References headers."
@@ -11581,11 +11611,11 @@ msgstr ""
 "Ar naudoti gijų rūšiavimą pagal antraštes, jei laiškai neturi In-Reply-To "
 "arba Reference antraščių."
 
-#: mail/evolution-mail.schemas.in.in.h:107
+#: mail/evolution-mail.schemas.in.in.h:109
 msgid "port for starting user runned spamd"
 msgstr "prievadas paleisti naudotojo paleistam spamd"
 
-#: mail/evolution-mail.schemas.in.in.h:108
+#: mail/evolution-mail.schemas.in.in.h:110
 msgid "spamd port"
 msgstr "spamd prievadas"
 
@@ -11616,7 +11646,7 @@ msgstr "Evolution paštas"
 
 #: mail/GNOME_Evolution_Mail.server.in.in.h:6
 msgid "Evolution Mail accounts configuration control"
-msgstr "Evolution pašto abonementų konfigūravimo valdyklė"
+msgstr "Evolution pašto abonementų konfigūravimo valdymas"
 
 #: mail/GNOME_Evolution_Mail.server.in.in.h:7
 msgid "Evolution Mail component"
@@ -12019,7 +12049,7 @@ msgstr "<span weight=\"bold\">Rodomos pašto a_ntraštės</span>"
 msgid "<span weight=\"bold\">Filter Options</span>"
 msgstr "<span weight=\"bold\">Filtravimo nustatymai</span>"
 
-#: mail/mail-config.glade.h:19 plugins/itip-formatter/itip-formatter.c:1634
+#: mail/mail-config.glade.h:19 plugins/itip-formatter/itip-formatter.c:1641
 msgid "<span weight=\"bold\">General</span>"
 msgstr "<span weight=\"bold\">Esminiai</span>"
 
@@ -12149,7 +12179,7 @@ msgstr "Patikrinti, kokie tipai palaikomi"
 
 #: mail/mail-config.glade.h:52
 msgid "Check _incoming mail for junk"
-msgstr "Tikrinti _ateinančius laiškus dėl galimo šlamšto"
+msgstr "Tikrinti _gaunamus laiškus dėl galimo šlamšto"
 
 #: mail/mail-config.glade.h:53
 msgid "Check spelling while I _type"
@@ -12192,7 +12222,7 @@ msgstr ""
 "\n"
 "Jūs jau galite siųsti ir gauti laiškus, naudodamiesi Evolution.\n"
 "\n"
-"Paspauskite „Baigti“, kad išsaugotumėte Jūsų nustatymus."
+"Norėdami išsaugoti Jūsų nustatymus, paspauskite „Baigti“."
 
 #: mail/mail-config.glade.h:66
 msgid "De_fault"
@@ -12224,7 +12254,7 @@ msgstr "Juodraščių _aplankas:"
 
 #: mail/mail-config.glade.h:75
 msgid "Email Accounts"
-msgstr "Pašto Sąskaitos"
+msgstr "Pašto abonementai"
 
 #: mail/mail-config.glade.h:76
 msgid "Email _Address:"
@@ -12467,8 +12497,8 @@ msgid ""
 "Type the name by which you would like to refer to this account.\n"
 "For example: \"Work\" or \"Personal\""
 msgstr ""
-"Pasirinkite pavadinimą, kuriuo norėtumėte vadinti šią sąskaitą.\n"
-"Pavyzdžiui, „Darbas“ ar „Asmeninė“."
+"Pasirinkite pavadinimą, kuriuo norėtumėte vadinti šį abonementą.\n"
+"Pavyzdžiui, „Darbas“ ar „Asmeniška“."
 
 #: mail/mail-config.glade.h:142
 msgid "User_name:"
@@ -12484,9 +12514,9 @@ msgid ""
 "\n"
 "Click \"Forward\" to begin. "
 msgstr ""
-"Sveiki patekę į Evolution pašto nustatymo meistrą.\n"
+"Sveiki paleidę Evolution pašto nustatymo pagalbininką.\n"
 "\n"
-"Spausk „Tolyn“, kad pradėtumėte. "
+"Norėdami pradėti, spauskite „Pirmyn“. "
 
 #: mail/mail-config.glade.h:148
 msgid ""
@@ -12498,7 +12528,7 @@ msgid ""
 msgstr ""
 "Jūs jau beveik baigėte konfigūruoti savo paštą. Asmenybė, gaunamo pašto "
 "serveris bei pašto siuntimo metodas bus sugrupuoti į vieną Evolution pašto "
-"sąskaitą. Prašome įvesti šios sąskaitos pavadinimą žemiau esančiame "
+"abonementą. Prašome įvesti šios sąskaitos pavadinimą žemiau esančiame "
 "laukelyje. Šis pavadinimas bus naudojamas tik vaizdavimui."
 
 #: mail/mail-config.glade.h:149
@@ -12535,7 +12565,7 @@ msgstr "Įke_lti paveikslėlius, jei siuntėjas yra adresų knygoje"
 
 #: mail/mail-config.glade.h:159
 msgid "_Make this my default account"
-msgstr "_Padaryti šią sąskaitą įprastine"
+msgstr "_Padaryti šį abonementą įprastine"
 
 #: mail/mail-config.glade.h:160
 msgid "_Mark messages as read after"
@@ -12774,6 +12804,13 @@ msgid ""
 "your message. To avoid this, you should add at least one To: or CC: "
 "recipient. "
 msgstr ""
+"Kontaktų sąrašas, kuriam Jūs siunčiate, yra sukonfigūruotas paslėpti gavėjus."
+"\n"
+"\n"
+"Dauguma el.pašto sistemų laiškams turintiems tik BCC gavėjus prideda "
+"Apparently-To antraštę. Jeigu ši antraštė bus pridėta, matysis visi Jūsų "
+"laiško gavėjai. Norėdami to išvengti, Jūs turėtumėte pridėti bent vieną Kam: "
+"arba CC: gavėją."
 
 #. mail:ask-send-only-bcc secondary
 #: mail/mail-errors.xml.h:31
@@ -12783,6 +12820,10 @@ msgid ""
 "your message anyway. To avoid this, you should add at least one To: or CC: "
 "recipient."
 msgstr ""
+"Dauguma el.pašto sistemų laiškams turintiems tik BCC gavėjus prideda "
+"Apparently-To antraštę. Jeigu ši antraštė bus pridėta, matysis visi Jūsų "
+"laiško gavėjai. Norėdami to išvengti, Jūs turėtumėte pridėti bent vieną Kam: "
+"arba CC: gavėją."
 
 #. mail:send-no-recipients primary
 #: mail/mail-errors.xml.h:34
@@ -12849,13 +12890,27 @@ msgstr ""
 msgid "_Empty Trash"
 msgstr "Išt_uštinti šiukšlinę"
 
-#. mail:exit-unsaved primary
+#. mail:ask-open-many primary
 #: mail/mail-errors.xml.h:53
+msgid "Are you sure you want to open {0} messages at once?"
+msgstr "Ar tikrai norite tuo pačiu metu atidaryti {0} laiškų?"
+
+#. mail:ask-open-many secondary
+#: mail/mail-errors.xml.h:55
+msgid "Opening too many messages at once may take a long time."
+msgstr "Didelio laiškų kiekio atidarymas tuo pačiu metu gali ilgai užtrukti."
+
+#: mail/mail-errors.xml.h:56
+msgid "_Open Messages"
+msgstr "_Atidaryti laiškus"
+
+#. mail:exit-unsaved primary
+#: mail/mail-errors.xml.h:58
 msgid "You have unsent messages, do you wish to quit anyway?"
 msgstr "Jūs turite neišsiųstų laiškų, vistiek norite išeiti?"
 
 #. mail:exit-unsaved secondary
-#: mail/mail-errors.xml.h:55
+#: mail/mail-errors.xml.h:60
 msgid ""
 "If you quit, these messages will not be sent until Evolution is started "
 "again."
@@ -12864,12 +12919,12 @@ msgstr ""
 "kartą."
 
 #. mail:camel-exception primary
-#: mail/mail-errors.xml.h:57
+#: mail/mail-errors.xml.h:62
 msgid "Your message with the subject \"{0}\" was not delivered."
 msgstr "Jūsų laiškas su tema „{0}“ buvo nepristatytas."
 
 #. mail:camel-exception secondary
-#: mail/mail-errors.xml.h:59
+#: mail/mail-errors.xml.h:64
 msgid ""
 "The message was sent via the \"sendmail\" external application.  Sendmail "
 "reports the following error: status 67: mail not sent.\n"
@@ -12882,81 +12937,81 @@ msgstr ""
 "ir siųskite iš naujo."
 
 #. mail:async-error primary
-#: mail/mail-errors.xml.h:62
+#: mail/mail-errors.xml.h:67
 msgid "Error while {0}."
 msgstr "Klaida kol {0}."
 
 #. mail:async-error secondary
-#: mail/mail-errors.xml.h:64
+#: mail/mail-errors.xml.h:69
 msgid "{1}."
 msgstr "{1}."
 
 #. mail:async-error-nodescribe primary
-#: mail/mail-errors.xml.h:66
+#: mail/mail-errors.xml.h:71
 msgid "Error while performing operation."
 msgstr "Klaida vykdant operaciją."
 
 #. mail:async-error-nodescribe secondary
-#: mail/mail-errors.xml.h:68
+#: mail/mail-errors.xml.h:73
 msgid "{0}."
 msgstr "{0}."
 
 #. mail:ask-session-password primary
-#: mail/mail-errors.xml.h:82
+#: mail/mail-errors.xml.h:87
 msgid "Enter password."
 msgstr "Įveskite slaptažodį."
 
 #. mail:filter-load-error primary
-#: mail/mail-errors.xml.h:86
+#: mail/mail-errors.xml.h:91
 msgid "Error loading filter definitions."
 msgstr "Įvyko klaida, įkeliant filtro informaciją."
 
 #. mail:no-save-path primary
-#: mail/mail-errors.xml.h:90
+#: mail/mail-errors.xml.h:95
 msgid "Cannot save to directory \"{0}\"."
 msgstr "Nepavyko išsaugoti į aplanką „{0}“."
 
 #. mail:no-create-path primary
 #. mail:no-write-path-exists primary
 #. mail:no-write-path-notfile primary
-#: mail/mail-errors.xml.h:94 mail/mail-errors.xml.h:102
-#: mail/mail-errors.xml.h:106
+#: mail/mail-errors.xml.h:99 mail/mail-errors.xml.h:107
+#: mail/mail-errors.xml.h:111
 msgid "Cannot save to file \"{0}\"."
 msgstr "Nepavyko išsaugoti į bylą „{0}“."
 
 #. mail:no-create-path secondary
-#: mail/mail-errors.xml.h:96
+#: mail/mail-errors.xml.h:101
 msgid "Cannot create the save directory, because \"{1}\""
 msgstr "Nepavyko sukurti aplanko saugojimui, nes „{1}“."
 
 #. mail:no-create-tmp-path primary
-#: mail/mail-errors.xml.h:98
+#: mail/mail-errors.xml.h:103
 msgid "Cannot create temporary save directory."
 msgstr "Nepavyko sukurti laikino saugojimo aplanko."
 
 #. mail:no-write-path-exists secondary
-#: mail/mail-errors.xml.h:104
+#: mail/mail-errors.xml.h:109
 msgid "File exists but cannot overwrite it."
 msgstr "Byla egzistuoja, bet negalima jos perrašyti."
 
 #. mail:no-write-path-notfile secondary
-#: mail/mail-errors.xml.h:108
+#: mail/mail-errors.xml.h:113
 msgid "File exists but is not a regular file."
 msgstr "Byla egzistuoja, bet nėra standartinė byla."
 
 #. mail:no-delete-folder primary
-#: mail/mail-errors.xml.h:110
+#: mail/mail-errors.xml.h:115
 msgid "Cannot delete folder \"{0}\"."
 msgstr "Negalima ištrinti aplanko „{0}“."
 
 #. mail:no-delete-special-folder primary
-#: mail/mail-errors.xml.h:114
+#: mail/mail-errors.xml.h:119
 msgid "Cannot delete system folder \"{0}\"."
 msgstr "Negalima ištrinti sisteminio aplanko „{0}“."
 
 #. mail:no-delete-special-folder secondary
 #. mail:no-rename-special-folder secondary
-#: mail/mail-errors.xml.h:116 mail/mail-errors.xml.h:120
+#: mail/mail-errors.xml.h:121 mail/mail-errors.xml.h:125
 msgid ""
 "System folders are required for Ximian Evolution to function correctly and "
 "cannot be renamed, moved, or deleted."
@@ -12965,22 +13020,22 @@ msgstr ""
 "funkcionavimui ir negali būti pervadinti, perkelti ar pašalinti."
 
 #. mail:no-rename-special-folder primary
-#: mail/mail-errors.xml.h:118
+#: mail/mail-errors.xml.h:123
 msgid "Cannot rename or move system folder \"{0}\"."
 msgstr "Negalima pervadinti ar perkelti sisteminio aplanko „{0}“."
 
 #. mail:ask-delete-folder title
-#: mail/mail-errors.xml.h:122
+#: mail/mail-errors.xml.h:127
 msgid "Delete \"{0}\"?"
 msgstr "Ištrinti „{0}“?"
 
 #. mail:ask-delete-folder primary
-#: mail/mail-errors.xml.h:124
+#: mail/mail-errors.xml.h:129
 msgid "Really delete folder \"{0}\" and all of its subfolders?"
 msgstr "Tikrai norite ištrinti aplanką „{0}“ ir visus dukterinius jo aplankus?"
 
 #. mail:ask-delete-folder secondary
-#: mail/mail-errors.xml.h:126
+#: mail/mail-errors.xml.h:131
 msgid ""
 "If you delete the folder, all of its contents and its subfolders contents "
 "will be deleted permanently."
@@ -12990,153 +13045,153 @@ msgstr ""
 
 #. mail:no-rename-folder-exists primary
 #. mail:no-rename-folder primary
-#: mail/mail-errors.xml.h:128 mail/mail-errors.xml.h:132
+#: mail/mail-errors.xml.h:133 mail/mail-errors.xml.h:137
 msgid "Cannot rename \"{0}\" to \"{1}\"."
 msgstr "Nepavyko pervadinti „{0}“ į „{0}“."
 
 #. mail:no-rename-folder-exists secondary
 #. mail:vfolder-notunique secondary
-#: mail/mail-errors.xml.h:130 mail/mail-errors.xml.h:192
+#: mail/mail-errors.xml.h:135 mail/mail-errors.xml.h:197
 msgid "A folder named \"{1}\" already exists. Please use a different name."
 msgstr "Jau yra aplankas pavadintas „{1}“. Pasirinkite kitą vardą."
 
 #. mail:no-rename-folder secondary
-#: mail/mail-errors.xml.h:134
+#: mail/mail-errors.xml.h:139
 msgid "Because \"{2}\"."
 msgstr "Nes „{2}“."
 
 #. mail:no-move-folder-nostore primary
 #. mail:no-move-folder-to-nostore primary
-#: mail/mail-errors.xml.h:136 mail/mail-errors.xml.h:140
+#: mail/mail-errors.xml.h:141 mail/mail-errors.xml.h:145
 msgid "Cannot move folder \"{0}\" to \"{1}\"."
 msgstr "Nepavyko perkelti aplanko „{0}“ į „{1}“."
 
 #. mail:no-move-folder-nostore secondary
 #. mail:no-copy-folder-nostore secondary
-#: mail/mail-errors.xml.h:138 mail/mail-errors.xml.h:146
+#: mail/mail-errors.xml.h:143 mail/mail-errors.xml.h:151
 msgid "Cannot open source \"{2}\"."
 msgstr "Nepavyko atidaryti šaltinio „{2}“."
 
 #. mail:no-move-folder-to-nostore secondary
 #. mail:no-copy-folder-to-nostore secondary
-#: mail/mail-errors.xml.h:142 mail/mail-errors.xml.h:150
+#: mail/mail-errors.xml.h:147 mail/mail-errors.xml.h:155
 msgid "Cannot open target \"{2}\"."
 msgstr "Nepavyko atidaryti tikslo „{2}“."
 
 #. mail:no-copy-folder-nostore primary
 #. mail:no-copy-folder-to-nostore primary
-#: mail/mail-errors.xml.h:144 mail/mail-errors.xml.h:148
+#: mail/mail-errors.xml.h:149 mail/mail-errors.xml.h:153
 msgid "Cannot copy folder \"{0}\" to \"{1}\"."
 msgstr "Nepavyko nukopijuoti aplanko „{0}“ į „{1}“."
 
 #. mail:no-create-folder-nostore primary
-#: mail/mail-errors.xml.h:152
+#: mail/mail-errors.xml.h:157
 msgid "Cannot create folder \"{0}\"."
 msgstr "Nepavyko sukurti aplanko „{0}“."
 
 #. mail:no-create-folder-nostore secondary
-#: mail/mail-errors.xml.h:154
+#: mail/mail-errors.xml.h:159
 msgid "Cannot open source \"{1}\""
 msgstr "Nepavyko atidaryti šaltinio „{1}“"
 
 #. mail:account-incomplete primary
 #. mail:account-notunique primary
-#: mail/mail-errors.xml.h:156 mail/mail-errors.xml.h:160
+#: mail/mail-errors.xml.h:161 mail/mail-errors.xml.h:165
 msgid "Cannot save changes to account."
 msgstr "Nepavyko išsaugoti abonemento pakeitimų."
 
 #. mail:account-incomplete secondary
-#: mail/mail-errors.xml.h:158
+#: mail/mail-errors.xml.h:163
 msgid "You have not filled in all of the required information."
 msgstr "Jūs neįvedėte visos būtinos informacijos."
 
 #. mail:account-notunique secondary
-#: mail/mail-errors.xml.h:162
+#: mail/mail-errors.xml.h:167
 msgid "You may not create two accounts with the same name."
 msgstr "Jūs negalite sukurti dviejų abonementų tuo pačiu vardu."
 
 #. mail:ask-delete-account title
-#: mail/mail-errors.xml.h:164
+#: mail/mail-errors.xml.h:169
 msgid "Delete account?"
 msgstr "Ištrinti abonementą?"
 
 #. mail:ask-delete-account primary
-#: mail/mail-errors.xml.h:166
+#: mail/mail-errors.xml.h:171
 msgid "Are you sure you want to delete this account?"
 msgstr "Ar tikrai norite ištrinti šį abonementą?"
 
 #. mail:ask-delete-account secondary
-#: mail/mail-errors.xml.h:168
+#: mail/mail-errors.xml.h:173
 msgid "If you proceed, the account information will be deleted permanently."
 msgstr "Jeigu tęsite, abonemento informacija bus visam laikui ištrinta."
 
-#: mail/mail-errors.xml.h:169
+#: mail/mail-errors.xml.h:174
 msgid "Don't delete"
 msgstr "Netrinti"
 
 #. mail:no-save-signature primary
-#: mail/mail-errors.xml.h:171
+#: mail/mail-errors.xml.h:176
 msgid "Could not save signature file."
 msgstr "Nepavyko išsaugoti parašo bylos."
 
 #. mail:no-save-signature secondary
-#: mail/mail-errors.xml.h:173
+#: mail/mail-errors.xml.h:178
 msgid "Because \"{0}\"."
 msgstr "Dėl „{0}“."
 
 #. mail:signature-notscript primary
-#: mail/mail-errors.xml.h:175
+#: mail/mail-errors.xml.h:180
 msgid "Cannot set signature script \"{0}\"."
 msgstr "Nepavyko nustatyti parašo scenarijaus „{0}“."
 
 #. mail:signature-notscript secondary
-#: mail/mail-errors.xml.h:177
+#: mail/mail-errors.xml.h:182
 msgid "The script file must exist and be executable."
 msgstr "Scenarijaus byla turi egzistuoti ir būti vykdomoji."
 
 #. mail:ask-signature-changed title
-#: mail/mail-errors.xml.h:179
+#: mail/mail-errors.xml.h:184
 msgid "Discard changed?"
 msgstr "Atsisakyti pakeitimų?"
 
 #. mail:ask-signature-changed primary
-#: mail/mail-errors.xml.h:181
+#: mail/mail-errors.xml.h:186
 msgid "Do you wish to save your changes?"
 msgstr "Ar norite išsaugoti pakeitimus?"
 
 #. mail:ask-signature-changed secondary
-#: mail/mail-errors.xml.h:183
+#: mail/mail-errors.xml.h:188
 msgid "This signature has been changed, but has not been saved."
 msgstr "Šis parašas buvo pakeistas, tačiau neišsaugotas."
 
-#: mail/mail-errors.xml.h:184
+#: mail/mail-errors.xml.h:189
 msgid "_Discard changes"
 msgstr "A_tsisakyti pakeitimų"
 
 #. mail:vfolder-notexist primary
-#: mail/mail-errors.xml.h:186
+#: mail/mail-errors.xml.h:191
 msgid "Cannot edit vFolder \"{0}\" as it does not exist."
 msgstr "Nepavyko pakeisti vAplanko „{0}“, nes nėra tokio aplanko."
 
 #. mail:vfolder-notexist secondary
-#: mail/mail-errors.xml.h:188
+#: mail/mail-errors.xml.h:193
 msgid ""
 "This folder may have been added implictly, go to the virtual folder editor "
 "to add it explictly, if required."
 msgstr ""
 
 #. mail:vfolder-notunique primary
-#: mail/mail-errors.xml.h:190
+#: mail/mail-errors.xml.h:195
 msgid "Cannot add vFolder \"{0}\"."
 msgstr "Nepavyko pridėti vAplanko „{0}“."
 
 #. mail:vfolder-updated primary
-#: mail/mail-errors.xml.h:194
+#: mail/mail-errors.xml.h:199
 msgid "vFolders automatically updated."
 msgstr "vAplankai automatiškai atnaujinami."
 
 #. mail:vfolder-updated secondary
-#: mail/mail-errors.xml.h:196
+#: mail/mail-errors.xml.h:201
 msgid ""
 "The following vFolder(s):\n"
 "{0}\n"
@@ -13151,12 +13206,12 @@ msgstr ""
 "Ir buvo atnaujinti."
 
 #. mail:filter-updated primary
-#: mail/mail-errors.xml.h:202
+#: mail/mail-errors.xml.h:207
 msgid "Mail filters automatically updated."
 msgstr "Pašto filtrai automatiškai atnaujinami."
 
 #. mail:filter-updated secondary
-#: mail/mail-errors.xml.h:204
+#: mail/mail-errors.xml.h:209
 msgid ""
 "The following filter rule(s):\n"
 "{0}\n"
@@ -13171,27 +13226,27 @@ msgstr ""
 "Ir buvo atnaujintos."
 
 #. mail:no-folder primary
-#: mail/mail-errors.xml.h:210
+#: mail/mail-errors.xml.h:215
 msgid "Missing folder."
 msgstr "Trūkstamas aplankas."
 
 #. mail:no-folder secondary
-#: mail/mail-errors.xml.h:212
+#: mail/mail-errors.xml.h:217
 msgid "You must specify a folder."
 msgstr "Jūs turite nurodyti aplanką."
 
 #. mail:no-name-vfolder secondary
-#: mail/mail-errors.xml.h:216
+#: mail/mail-errors.xml.h:221
 msgid "You must name this vFolder."
 msgstr "Jūs turite įvardinti ši vAplanką."
 
 #. mail:vfolder-no-source primary
-#: mail/mail-errors.xml.h:218
+#: mail/mail-errors.xml.h:223
 msgid "No sources selected."
 msgstr "Nepasirinkta jokių šaltinių."
 
 #. mail:vfolder-no-source secondary
-#: mail/mail-errors.xml.h:220
+#: mail/mail-errors.xml.h:225
 msgid ""
 "You must specify at least one folder as a source.\n"
 "Either by selecting the folders individually, and/or by selecting\n"
@@ -13202,12 +13257,12 @@ msgstr ""
 "visus vietinius aplankus, visus nuotolinius aplankus, arba ir tuos, ir tuos"
 
 #. mail:ask-migrate-existing primary
-#: mail/mail-errors.xml.h:224
+#: mail/mail-errors.xml.h:229
 msgid "Problem migrating old mail folder \"{0}\"."
 msgstr "Problema perkelinėjant seną pašto aplanką „{0}“."
 
 #. mail:ask-migrate-existing secondary
-#: mail/mail-errors.xml.h:226
+#: mail/mail-errors.xml.h:231
 msgid ""
 "A non-empty folder at \"{1}\" already exists.\n"
 "\n"
@@ -13218,51 +13273,54 @@ msgstr ""
 "\n"
 "Jūs galite ignoruoti šį aplanką, perrašyti, pridėti jo turinį arba išeiti.\n"
 
-#: mail/mail-errors.xml.h:230
+#: mail/mail-errors.xml.h:235
 msgid "Ignore"
 msgstr "Ignoruoti"
 
-#: mail/mail-errors.xml.h:231 widgets/misc/e-system-errors.xml.h:7
+#: mail/mail-errors.xml.h:236 widgets/misc/e-system-errors.xml.h:7
 msgid "_Overwrite"
 msgstr "_Perrašyti"
 
-#: mail/mail-errors.xml.h:232
+#: mail/mail-errors.xml.h:237
 msgid "_Append"
 msgstr "_Pridėti"
 
 #. mail:no-load-license primary
-#: mail/mail-errors.xml.h:234
+#: mail/mail-errors.xml.h:239
 msgid "Unable to read license file."
 msgstr "Nepavyko perskaityti licencijos bylos."
 
 #. mail:no-load-license secondary
-#: mail/mail-errors.xml.h:236
+#: mail/mail-errors.xml.h:241
 msgid ""
 "Cannot read the license file \"{0}\", due to an\n"
 "      installation problem.  You will not be able to use this provider "
 "until\n"
 "      you can accept its license."
 msgstr ""
+"Nepavyko perskaityti licencijos bylos „{0}“, dėl\n"
+"	instaliacijos problemų. Jūs negalėsite naudotis šiuo tiekėju kol,\n"
+"kol nesutiksite su licencijos sąlygomis."
 
 #. mail:checking-service title
-#: mail/mail-errors.xml.h:240
+#: mail/mail-errors.xml.h:245
 msgid "Querying server"
 msgstr "Užklausiamas serveris"
 
 #. mail:checking-service primary
-#: mail/mail-errors.xml.h:242
+#: mail/mail-errors.xml.h:247
 msgid "Please wait."
 msgstr "Prašome palaukti."
 
 #. mail:checking-service secondary
-#: mail/mail-errors.xml.h:244
+#: mail/mail-errors.xml.h:249
 msgid "Querying server for a list of supported authentication mechanisms."
 msgstr ""
 "Serveriui siunčiama užklausa dėl palaikomų autentifikacijos mechanizmų "
 "sąrašo."
 
 #. mail:gw-accountsetup-error primary
-#: mail/mail-errors.xml.h:246
+#: mail/mail-errors.xml.h:251
 msgid ""
 "Unable to connect to the GroupWise\n"
 "server."
@@ -13271,7 +13329,7 @@ msgstr ""
 "serverio."
 
 #. mail:gw-accountsetup-error secondary
-#: mail/mail-errors.xml.h:249
+#: mail/mail-errors.xml.h:254
 msgid ""
 "\n"
 "Please check your account settings and try again.\n"
@@ -13490,7 +13548,7 @@ msgstr "Siunčiamas ir gaunamas paštas"
 
 #: mail/mail-send-recv.c:323
 msgid "Cancel _All"
-msgstr "_Atšaukti Visus?"
+msgstr "_Atšaukti visus?"
 
 #: mail/mail-send-recv.c:410
 msgid "Updating..."
@@ -13513,15 +13571,15 @@ msgstr "Įvesk slaptažodį"
 msgid "User canceled operation."
 msgstr "Vartotojas nutraukė veiksmą."
 
-#: mail/mail-signature-editor.c:371
+#: mail/mail-signature-editor.c:372
 msgid "Edit signature"
 msgstr "Keisti parašą"
 
-#: mail/mail-signature-editor.c:411
+#: mail/mail-signature-editor.c:412
 msgid "Enter a name for this signature."
 msgstr "Įveskite šio parašo vardą."
 
-#: mail/mail-signature-editor.c:414
+#: mail/mail-signature-editor.c:415
 #: plugins/shared-folder/properties.glade.h:11
 msgid "Name:"
 msgstr "Vardas:"
@@ -13565,15 +13623,15 @@ msgstr "Atnaujinami vAplankai skirti „%s:%s“"
 msgid "Updating vFolders for '%s'"
 msgstr "Atnaujinami vAplankai skirti „%s“"
 
-#: mail/mail-vfolder.c:950
+#: mail/mail-vfolder.c:961
 msgid "vFolders"
 msgstr "vAplankai"
 
-#: mail/mail-vfolder.c:989
+#: mail/mail-vfolder.c:1000
 msgid "Edit VFolder"
 msgstr "Keisti vAplanką"
 
-#: mail/mail-vfolder.c:1073
+#: mail/mail-vfolder.c:1084
 msgid "New VFolder"
 msgstr "Naujas vAplankas"
 
@@ -13643,7 +13701,7 @@ msgstr "%Y %b %d"
 msgid "Message List"
 msgstr "Laiškų sąrašas"
 
-#: mail/message-list.c:3409
+#: mail/message-list.c:3381
 msgid "Generating message list"
 msgstr "Generuojamas laiškų sąrašas"
 
@@ -13787,26 +13845,26 @@ msgstr "Padaryti atsarginę Evolution duomenų nustatymų kopiją ir atstatyti"
 msgid "Restore Settings..."
 msgstr "Atstatyti nustatymus..."
 
-#: plugins/bbdb/bbdb.c:387
+#: plugins/bbdb/bbdb.c:388
 msgid "Automatic Contacts"
 msgstr "Automatiniai kontaktai"
 
-#: plugins/bbdb/bbdb.c:396
+#: plugins/bbdb/bbdb.c:397
 msgid "<span weight=\"bold\">Automatic Contacts</span>"
 msgstr "<span weight=\"bold\">Automatiniai kontaktai</span>"
 
 #. Enable BBDB checkbox
-#: plugins/bbdb/bbdb.c:409
+#: plugins/bbdb/bbdb.c:410
 msgid ""
 "_Automatically create entries in the addressbook when responding to mail"
 msgstr "_Atsakant į laiškus automatiškai sukurti įrašus adresų knygoje"
 
-#: plugins/bbdb/bbdb.c:427
+#: plugins/bbdb/bbdb.c:428
 msgid "<span weight=\"bold\">Instant Messaging Contacts</span>"
 msgstr "<span weight=\"bold\">Greitų žinučių kontaktai</span>"
 
 #. Enable Gaim Checkbox
-#: plugins/bbdb/bbdb.c:440
+#: plugins/bbdb/bbdb.c:441
 msgid ""
 "Periodically synchronize contact information and images from my _instant "
 "messenger"
@@ -13815,7 +13873,7 @@ msgstr ""
 "_greitų žinučių programa"
 
 #. Synchronize now button.
-#: plugins/bbdb/bbdb.c:447
+#: plugins/bbdb/bbdb.c:448
 msgid "Synchronize with _buddy list now"
 msgstr "Sinchronizuoti su _bičiulių sąrašu dabar"
 
@@ -13824,10 +13882,9 @@ msgstr "Sinchronizuoti su _bičiulių sąrašu dabar"
 msgid "Unsubscribing from folder \"%s\""
 msgstr "Atsisakoma aplanko „%s“"
 
-#: plugins/groupwise-account-setup/camel-gw-listener.c:436
-#, fuzzy
+#: plugins/groupwise-account-setup/camel-gw-listener.c:413
 msgid "Checklist"
-msgstr "sąrašas"
+msgstr ""
 
 #: plugins/itip-formatter/itip-formatter.c:697
 msgid "Unable to parse item"
@@ -13909,22 +13966,22 @@ msgstr ""
 "Norint apdoroti visus šiuos elementus, byla turėtų būti išsaugota ir "
 "kalendorius importuotas"
 
-#: plugins/itip-formatter/itip-formatter.c:1625
+#: plugins/itip-formatter/itip-formatter.c:1632
 msgid "Meetings and Tasks"
 msgstr "Susitikimai ir užduotys"
 
 #. Delete message after acting
 #. FIXME Need a schema for this
-#: plugins/itip-formatter/itip-formatter.c:1648
+#: plugins/itip-formatter/itip-formatter.c:1655
 msgid "_Delete message after acting"
 msgstr "_Po įvykio laišką ištrinti"
 
-#: plugins/itip-formatter/itip-formatter.c:1658
+#: plugins/itip-formatter/itip-formatter.c:1665
 msgid "<span weight=\"bold\">Conflict Search</span>"
 msgstr "<span weight=\"bold\">Konfliktų paieška</span>"
 
 #. Source selector
-#: plugins/itip-formatter/itip-formatter.c:1671
+#: plugins/itip-formatter/itip-formatter.c:1678
 msgid "Select the calendars to search for meeting conflicts"
 msgstr "Pasirinkite kalendorius, kuriuose ieškosite susitikimų konfliktų"
 
@@ -14198,10 +14255,6 @@ msgstr "<b>%s</b> atmetė sekančią priskirtą užduotė:"
 msgid "Comment:"
 msgstr "Komentaras:"
 
-#: plugins/itip-formatter/itip-view.c:1573
-msgid "_Calendar:"
-msgstr "_Kalendorius:"
-
 #. org.gnome.mailing-list-actions:no-header primary
 #: plugins/mailing-list-actions/org-gnome-mailing-list-actions-errors.xml.h:2
 msgid "Action not available"
@@ -14244,6 +14297,11 @@ msgid ""
 "You should receive an answer from the mailing list shortly after the message "
 "has been sent."
 msgstr ""
+"El. laiškas bus išsiųstas adresu „{0}“. Jūs galite pasirinkti ar išsiųsti "
+"laišką automatiškai, ar pirma jį pažiūrėti ir redaguoti.\n"
+"\n"
+"Jūs turėtumėte neužilgo gauti atsakymą iš konferencijos, po to kai išsiųsite "
+"laišką."
 
 #: plugins/mailing-list-actions/org-gnome-mailing-list-actions-errors.xml.h:15
 msgid "_Send message"
@@ -14251,7 +14309,7 @@ msgstr "_Siųsti laišką"
 
 #: plugins/mailing-list-actions/org-gnome-mailing-list-actions-errors.xml.h:16
 msgid "_Edit message"
-msgstr "_Keisti laišką"
+msgstr "_Redaguoti laišką"
 
 #. org.gnome.mailing-list-actions:malformed-header primary
 #: plugins/mailing-list-actions/org-gnome-mailing-list-actions-errors.xml.h:18
@@ -14265,6 +14323,9 @@ msgid ""
 "\n"
 "Header: {1}"
 msgstr ""
+"Šio laiško antraštė {0} yra apgadinta, ir todėl jos nepavyko apdoroti.\n"
+"\n"
+"Antraštė: {1}"
 
 #. org.gnome.mailing-list-actions:no-action primary
 #: plugins/mailing-list-actions/org-gnome-mailing-list-actions-errors.xml.h:24
@@ -14279,6 +14340,10 @@ msgid ""
 "\n"
 "Header: {0}"
 msgstr ""
+"Nepavyko atlikti veiksmo. Tai reiškia, kad šio veiksmo antraštėje nebuvo "
+"tokio veiksmo, kurį būtų galima apdoroti.\n"
+"\n"
+"Antraštė: {0}"
 
 #: plugins/mailing-list-actions/org-gnome-mailing-list-actions.xml.h:1
 msgid "Contact list _owner"
@@ -14339,7 +14404,7 @@ msgstr "Įjunkite ir išjunkite įskiepius"
 
 #: plugins/plugin-manager/org-gnome-plugin-manager.xml.h:2
 msgid "Manage Plugins..."
-msgstr "Tvarkyti įskiepius..."
+msgstr "Įskiepių valdymas..."
 
 #: plugins/plugin-manager/plugin-manager.c:45
 msgid "Author(s)"
@@ -14360,7 +14425,7 @@ msgstr "Aprašymas"
 #. Setup the ui
 #: plugins/plugin-manager/plugin-manager.c:188
 msgid "Plugin Manager"
-msgstr "Įskiepių valdyklė"
+msgstr "Įskiepių valdymas"
 
 #: plugins/plugin-manager/plugin-manager.c:201
 msgid "Note: Some changes will not take effect until restart"
@@ -14430,22 +14495,20 @@ msgid "Advanced options for the CSV format"
 msgstr "Išsamesni CVS formato nustatymai"
 
 #: plugins/save-calendar/csv-format.c:526
-#, fuzzy
 msgid "Prepend a header"
 msgstr "Pridurti antraštę"
 
 #: plugins/save-calendar/csv-format.c:535
-#, fuzzy
 msgid "Value delimiter:"
-msgstr "Vietinis pristatymas"
+msgstr "Reikšmių skyriklis:"
 
 #: plugins/save-calendar/csv-format.c:541
 msgid "Record delimiter:"
-msgstr ""
+msgstr "Įrašų skyriklis:"
 
 #: plugins/save-calendar/csv-format.c:547
 msgid "Encapsulate values with:"
-msgstr ""
+msgstr "Atskirti reikšmes su:"
 
 #: plugins/save-calendar/csv-format.c:569
 msgid "Comma separated value format (.csv)"
@@ -14474,7 +14537,6 @@ msgstr ""
 "pasirinktame bylos varde. Ar norite tęsti?"
 
 #: plugins/shared-folder/properties.glade.h:1
-#, fuzzy
 msgid ""
 "\n"
 "Share List"
@@ -14526,22 +14588,22 @@ msgstr "_Dalijamasi su ..."
 msgid "_Sharing"
 msgstr "_Viešinimas"
 
-#: plugins/shared-folder/share-folder-common.c:294
+#: plugins/shared-folder/share-folder-common.c:315
 msgid "Users"
 msgstr "Naudotojai"
 
-#: plugins/shared-folder/share-folder-common.c:295
+#: plugins/shared-folder/share-folder-common.c:316
 msgid "Enter the users and set permissions"
 msgstr "Įveskite naudotojus ir nurodykite teises"
 
-#: plugins/shared-folder/share-folder-common.c:374
+#: plugins/shared-folder/share-folder-common.c:402
 msgid "Sharing"
 msgstr "Viešinimas"
 
 #. Create the checkbox we will display, complete with mnemonic that is unique in the dialog
 #: plugins/subject-thread/subject-thread.c:54
 msgid "Fall back to threading messages by sub_ject"
-msgstr ""
+msgstr "Kaip atsarginį variantą naudoti laiškų rikiavimą pagal _temą"
 
 #: shell/apps_evolution_shell.schemas.in.in.h:1
 msgid "Button style"
@@ -14635,7 +14697,7 @@ msgstr "Aktyvūs prisijungimai"
 
 #: shell/e-active-connection-dialog.glade.h:3
 msgid "Click OK to close these connections and go offline"
-msgstr "Paspauskite Gerai norėdami uždaryti šiuos prisijungimusi ir atsijungti"
+msgstr "Norėdami uždaryti šiuos prisijungimusi ir atsijungti, spauskite „Gerai“"
 
 #: shell/e-shell.c:597
 msgid "Uknown system error."
@@ -14656,7 +14718,7 @@ msgstr "Blogi argumentai"
 
 #: shell/e-shell.c:1253
 msgid "Cannot register on OAF"
-msgstr "Nepavyko užsiregistruoti OAF"
+msgstr "Nepavyko prisiregistruoti OAF"
 
 #: shell/e-shell.c:1255
 msgid "Configuration Database not found"
@@ -14670,11 +14732,11 @@ msgstr "Bendroji klaida"
 msgid "(Untitled)"
 msgstr "(Bevardis)"
 
-#: shell/e-shell-importer.c:146
+#: shell/e-shell-importer.c:147
 msgid "Choose the type of importer to run:"
 msgstr "Pasirinkite paleidžiamą importavimo programą:"
 
-#: shell/e-shell-importer.c:149
+#: shell/e-shell-importer.c:150
 msgid ""
 "Choose the file that you want to import into Evolution, and select what type "
 "of file it is from the list.\n"
@@ -14682,21 +14744,21 @@ msgid ""
 "You can select \"Automatic\" if you do not know, and Evolution will attempt "
 "to work it out."
 msgstr ""
-"Pasirink bylą, kurią nori importuoti į Evolution, ir pasirink jos tipą iš "
-"sąrašo.\n"
+"Pasirinkite norimą į Evolution importuoti bylą, bei jos tipą iš duoto sąrašo."
 "\n"
-"Gali pasirinkti „Automatiškas“ jei tu nežinai, ir Evolution bandys "
+"\n"
+"Jei nežinote, galite pasirinkti „Automatiškas“, ir Evolution bandys "
 "susigaudyti pati."
 
-#: shell/e-shell-importer.c:155
+#: shell/e-shell-importer.c:156
 msgid "Choose the destination for this import"
 msgstr "Pasirinkite šio importavimo paskirties vietą"
 
-#: shell/e-shell-importer.c:158 shell/e-shell-startup-wizard.c:750
+#: shell/e-shell-importer.c:159 shell/e-shell-startup-wizard.c:750
 msgid "Please select the information that you would like to import:"
 msgstr "Pasirinkite informaciją, kurią norėtumėte importuoti:"
 
-#: shell/e-shell-importer.c:161
+#: shell/e-shell-importer.c:162
 msgid ""
 "Evolution checked for settings to import from the following\n"
 "applications: Pine, Netscape, Elm, iCalendar. No settings\n"
@@ -14706,9 +14768,9 @@ msgstr ""
 "Evolution patikrino nustatymus, kurie gali būti įkelti iš šių\n"
 "programų: Pine, Netscape, Elm, iCalendar. Nerasta jokių\n"
 "nustatymų, kurie gali būti įkelti. Jei norite pabandyti dar kartą,\n"
-"paspauskite grįžimo atgal mygtuką.\n"
+"paspauskite mygtuką „Atgal“.\n"
 
-#: shell/e-shell-importer.c:232 shell/e-shell-importer.c:266
+#: shell/e-shell-importer.c:233 shell/e-shell-importer.c:267
 #, c-format
 msgid ""
 "Importing %s\n"
@@ -14717,30 +14779,30 @@ msgstr ""
 "Importuojama %s\n"
 "Importuojamas elementas %d."
 
-#: shell/e-shell-importer.c:340
+#: shell/e-shell-importer.c:341
 msgid "Select importer"
 msgstr "Pasirinkite importavimo komponentą"
 
-#: shell/e-shell-importer.c:461 shell/e-shell-importer.c:1073
+#: shell/e-shell-importer.c:462 shell/e-shell-importer.c:1086
 #, c-format
 msgid "File %s does not exist"
 msgstr "Nėra tokios bylos %s"
 
-#: shell/e-shell-importer.c:469
+#: shell/e-shell-importer.c:470
 msgid "Importing"
 msgstr "Importuojama"
 
-#: shell/e-shell-importer.c:477
+#: shell/e-shell-importer.c:478
 #, c-format
 msgid "Importing %s.\n"
 msgstr "Importuojama %s.\n"
 
-#: shell/e-shell-importer.c:487 shell/e-shell-importer.c:488
+#: shell/e-shell-importer.c:488 shell/e-shell-importer.c:489
 #, c-format
 msgid "Error loading %s"
 msgstr "Klaida įkeliant %s"
 
-#: shell/e-shell-importer.c:506
+#: shell/e-shell-importer.c:507
 #, c-format
 msgid ""
 "Importing %s\n"
@@ -14749,31 +14811,31 @@ msgstr ""
 "Importuojama %s\n"
 "Importuojamas elementas 1."
 
-#: shell/e-shell-importer.c:582
+#: shell/e-shell-importer.c:583
 msgid "Automatic"
 msgstr "Automatiškas"
 
-#: shell/e-shell-importer.c:638
+#: shell/e-shell-importer.c:639
 msgid "F_ilename:"
 msgstr "_Bylos vardas:"
 
-#: shell/e-shell-importer.c:643
+#: shell/e-shell-importer.c:644
 msgid "Select a file"
 msgstr "Pasirinkite bylą"
 
-#: shell/e-shell-importer.c:655
+#: shell/e-shell-importer.c:656
 msgid "File _type:"
 msgstr "Bylos _tipas:"
 
-#: shell/e-shell-importer.c:694
+#: shell/e-shell-importer.c:695
 msgid "Import data and settings from _older programs"
 msgstr "Importuoti duomenis ir nustatymus iš senesnių programų"
 
-#: shell/e-shell-importer.c:697
+#: shell/e-shell-importer.c:698
 msgid "Import a _single file"
 msgstr "Įmportuoti _vieną bylą"
 
-#: shell/e-shell-importer.c:765 shell/e-shell-startup-wizard.c:571
+#: shell/e-shell-importer.c:766 shell/e-shell-startup-wizard.c:571
 msgid ""
 "Please wait...\n"
 "Scanning for existing setups"
@@ -14781,25 +14843,25 @@ msgstr ""
 "Prašome palaukti...\n"
 "Ieškoma esamų nustatymų"
 
-#: shell/e-shell-importer.c:772
+#: shell/e-shell-importer.c:773
 msgid "Starting Intelligent Importers"
 msgstr "Paleidžiami „protingi“ importuotojai"
 
-#: shell/e-shell-importer.c:898 shell/e-shell-startup-wizard.c:700
+#: shell/e-shell-importer.c:899 shell/e-shell-startup-wizard.c:700
 #, c-format
 msgid "From %s:"
 msgstr "Nuo %s:"
 
-#: shell/e-shell-importer.c:1092
+#: shell/e-shell-importer.c:1105
 #, c-format
 msgid "No importer available for file %s"
 msgstr "Bylai „%s“ nėra importavimo programos."
 
-#: shell/e-shell-importer.c:1106
+#: shell/e-shell-importer.c:1119
 msgid "Unable to execute importer"
 msgstr "Nepavyko paleisti importavimo programos"
 
-#: shell/e-shell-importer.c:1220
+#: shell/e-shell-importer.c:1235
 msgid "_Import"
 msgstr "_Importuoti"
 
@@ -14847,13 +14909,13 @@ msgstr "Aplanko varde negali būti simbolio „#“."
 
 #: shell/e-shell-utils.c:141
 msgid "'.' and '..' are reserved folder names."
-msgstr "'.' ir '..' yra rezervuoti katalogų vardai."
+msgstr "'.' ir '..' yra rezervuoti aplankų vardai."
 
 #: shell/e-shell-window.c:341
 msgid "Evolution is currently online.  Click on this button to work offline."
 msgstr ""
-"Evolution dabar yra prisijungusi. Paspausk šį mygtuką, kad dirbtum "
-"atsijungus."
+"Evolution dabar yra prisijungusi. Norėdami dirbti atsijungimo režime, "
+"paspauskite šį mygtuką."
 
 #: shell/e-shell-window.c:349
 msgid "Evolution is in the process of going offline."
@@ -14862,8 +14924,8 @@ msgstr "Evolution dabar yra atsijungimo procese."
 #: shell/e-shell-window.c:356
 msgid "Evolution is currently offline.  Click on this button to work online."
 msgstr ""
-"Evolution dabar yra atsijungusi.  Paspausk šį mygtuką, kad dirbtum "
-"prisijungus."
+"Evolution dabar yra atsijungusi. Norėdami dirbti atsijungimo režime, "
+"paspauskite šį mygtuką."
 
 #: shell/e-shell-window.c:708
 #, c-format
@@ -15324,6 +15386,8 @@ msgid ""
 "then you trust the authenticity of this certificate unless otherwise "
 "indicated here"
 msgstr ""
+"Dėl to, kad Jūs pasitikite šį sertifikatą išdavusiu sertifikatų tvirtintoju, "
+"Jūs pasitikite šio sertifikato autentiškumu, nebent čia nurodysite kitaip"
 
 #: smime/gui/cert-trust-dialog.c:149
 msgid ""
@@ -15331,6 +15395,8 @@ msgid ""
 "certificate, then you do not trust the authenticity of this certificate "
 "unless otherwise indicated here"
 msgstr ""
+"Dėl to, kad Jūs nepasitikite šį sertifikatą išdavusiu sertifikatų tvirtintoju,"
+" Jūs nepasitikite šio sertifikato autentiškumu, nebent čia nurodysite kitaip"
 
 #: smime/gui/component.c:45
 #, c-format
@@ -15371,7 +15437,7 @@ msgstr "Pasirinkite sertifikatą"
 
 #: smime/gui/smime-ui.glade.h:1
 msgid "<Not Part of Certificate>"
-msgstr "<Nėra Sertifikato Dalis>"
+msgstr "<Nėra sertifikato dalis>"
 
 #: smime/gui/smime-ui.glade.h:2
 msgid "<b>Certificate Fields</b>"
@@ -15422,8 +15488,8 @@ msgid ""
 "Before trusting this CA for any purpose, you should examine its certificate "
 "and its policy and procedures (if available)."
 msgstr ""
-"Prieš sukurdami pasitikėjimą šiuo CA, Jūs turėtumėte patikrinti sertifikatą, "
-"jo taisykles ir procedūras (jei įmanoma)."
+"Prieš sukurdami pasitikėjimą šiuo CA, jei tai įmanoma, Jūs turėtumėte "
+"patikrinti sertifikatą, jo taisykles ir procedūras."
 
 #: smime/gui/smime-ui.glade.h:14 smime/lib/e-cert.c:1076
 msgid "Certificate"
@@ -15431,7 +15497,7 @@ msgstr "Sertifikatas"
 
 #: smime/gui/smime-ui.glade.h:15
 msgid "Certificate Authority Trust"
-msgstr "Pasitikėjimas Sertifikatų Autorizatoriumi"
+msgstr "Pasitikėjimas sertifikatų autorizatoriumi"
 
 #: smime/gui/smime-ui.glade.h:16
 msgid "Certificate details"
@@ -17170,9 +17236,9 @@ msgid ""
 "zone.\n"
 "Use the right mouse button to zoom out."
 msgstr ""
-"Naudokite kairįjį pelės mygtuką, kad padidinti pasirinktą žemėlapio sritį "
-"ir\n"
-"pasirinkti laiko juostą. Naudokite dešinįjį mygtuką, kad atitraukti žemėlapį."
+"Pasirinktos žemėlapio srities padidinimui ir laiko juostos pasirinkimui "
+"naudokite kairįjį pelės mygtuką \n"
+"Žemėlapio atitraukimui - dešinįjį."
 
 #: widgets/menus/gal-view-menus.c:292
 msgid "_Current View"
@@ -17376,38 +17442,40 @@ msgid ""
 "If set, an underline in the text indicates the next character should be used "
 "for the mnemonic accelerator key"
 msgstr ""
+"Jeigu nustatyta, pabraukti simboliai tekste reiškia, kad sekantis simbolis "
+"turėtų būti naudojamas karštųjų klavišų išraiškai"
 
 #: widgets/misc/e-expander.c:205
 msgid "Spacing"
-msgstr ""
+msgstr "Laisva erdvė"
 
 #: widgets/misc/e-expander.c:206
 msgid "Space to put between the label and the child"
-msgstr ""
+msgstr "Erdvė tarp užrašo ir sūninio elemento"
 
 #: widgets/misc/e-expander.c:215
 msgid "Label widget"
-msgstr ""
+msgstr "Užrašo valdymo elementas"
 
 #: widgets/misc/e-expander.c:216
 msgid "A widget to display in place of the usual expander label"
-msgstr ""
+msgstr "Valdymo elementas rodomas vietoje įprasto plėtiklio užrašo"
 
 #: widgets/misc/e-expander.c:222
 msgid "Expander Size"
-msgstr ""
+msgstr "Plėtiklio dydis"
 
 #: widgets/misc/e-expander.c:223
 msgid "Size of the expander arrow"
-msgstr ""
+msgstr "Plėtiklio rodyklės dydis"
 
 #: widgets/misc/e-expander.c:231
 msgid "Indicator Spacing"
-msgstr ""
+msgstr "Indikatoriaus erdvė"
 
 #: widgets/misc/e-expander.c:232
 msgid "Spacing around expander arrow"
-msgstr ""
+msgstr "Erdvė aplink plėtiklio rodyklę"
 
 #: widgets/misc/e-filter-bar.c:195
 msgid "_Searches"
@@ -17428,7 +17496,7 @@ msgstr "Išsaugoti _paiešką..."
 
 #: widgets/misc/e-filter-bar.h:93 widgets/misc/e-filter-bar.h:100
 msgid "_Edit Saved Searches..."
-msgstr "K_eisti išsaugotas paieškas..."
+msgstr "_Keisti išsaugotas paieškas..."
 
 #: widgets/misc/e-filter-bar.h:94 widgets/misc/e-filter-bar.h:101
 msgid "_Advanced..."
@@ -17463,31 +17531,37 @@ msgstr "Sinchronizuoti asmeninius įrašus:"
 msgid "Sync Categories:"
 msgstr "Sinchronizuoti kategorijas:"
 
-#: widgets/misc/e-search-bar.c:540
+#. To translators: This is the accessibility name of
+#. the search bar's text entry widget
+#: widgets/misc/e-search-bar.c:343
+msgid "Search Text Entry"
+msgstr "Paieškos teksto įvedimas"
+
+#: widgets/misc/e-search-bar.c:547
 msgid "_Search"
 msgstr "_Paieška"
 
-#: widgets/misc/e-search-bar.c:546
+#: widgets/misc/e-search-bar.c:553
 msgid "_Find Now"
 msgstr "_Surasti"
 
-#: widgets/misc/e-search-bar.c:547 widgets/misc/e-search-bar.c:929
+#: widgets/misc/e-search-bar.c:554 widgets/misc/e-search-bar.c:936
 msgid "_Clear"
 msgstr "Iš_valyti"
 
-#: widgets/misc/e-search-bar.c:837
+#: widgets/misc/e-search-bar.c:844
 msgid "Item ID"
 msgstr "Elemento ID"
 
-#: widgets/misc/e-search-bar.c:844
+#: widgets/misc/e-search-bar.c:851
 msgid "Subitem ID"
 msgstr "Antrinio elemento ID"
 
-#: widgets/misc/e-search-bar.c:851
+#: widgets/misc/e-search-bar.c:858
 msgid "Text"
 msgstr "Tekstas"
 
-#: widgets/misc/e-search-bar.c:931
+#: widgets/misc/e-search-bar.c:938
 msgid "Find _Now"
 msgstr "_Surasti"
 
@@ -17521,2116 +17595,20 @@ msgstr "%s (...)"
 msgid "%s (%d%% complete)"
 msgstr "%s (%d%% užbaigta)"
 
-#~ msgid "Signing is not supported by this cipher"
-#~ msgstr "Ši kriptografija nepalaiko parašų"
+#~ msgid "Address:"
+#~ msgstr "Adresas:"
 
-#~ msgid "Signing message"
-#~ msgstr "Pasirašomas laiškas"
+#~ msgid "Calendar:"
+#~ msgstr "Kalendorius:"
 
-#~ msgid "Verifying is not supported by this cipher"
-#~ msgstr "Ši kriptografija nepalaiko tikrinimo"
+#~ msgid "PO Box:"
+#~ msgstr "Pašto dėžutė:"
 
-#~ msgid "Verifying message"
-#~ msgstr "Tikrinamas laiškas"
+#~ msgid "State/Province:"
+#~ msgstr "Valstija/Provincija:"
 
-#~ msgid "Encryption is not supported by this cipher"
-#~ msgstr "Ši kriptografija nepalaiko kodavimo"
+#~ msgid "Title:"
+#~ msgstr "Titulas:"
 
-#~ msgid "Encrypting message"
-#~ msgstr "Šifruojamas laiškas"
-
-#~ msgid "Decryption is not supported by this cipher"
-#~ msgstr "Ši kriptografija nepalaiko atkodavimo"
-
-#~ msgid "Decrypting message"
-#~ msgstr "Iššifruojamas laiškas"
-
-#~ msgid "You may not import keys with this cipher"
-#~ msgstr "Negalima įkelti šią kriptografiją naudojančių raktų"
-
-#~ msgid "You may not export keys with this cipher"
-#~ msgstr "Negalima eksportuoti šią kriptografiją naudojančių raktų"
-
-#~ msgid "Unable to create cache path"
-#~ msgstr "Nepavyko sukurti podėlio kelio"
-
-#~ msgid "Could not remove cache entry: %s: %s"
-#~ msgstr "Nepavyko pašalinti podėlio įrašo: %s: %s"
-
-#~ msgid ""
-#~ "Could not write log entry: %s\n"
-#~ "Further operations on this server will not be replayed when you\n"
-#~ "reconnect to the network."
-#~ msgstr ""
-#~ "negalėjau įrašyti logo įrašo: %s\n"
-#~ "Tolimesni veiksmai šiame serveryje nebus iš tikro įvykdyti,\n"
-#~ "tau vėl prisijungus prie tinklo."
-
-#~ msgid ""
-#~ "Could not open `%s':\n"
-#~ "%s\n"
-#~ "Changes made to this folder will not be resynchronized."
-#~ msgstr ""
-#~ "negalėjau atidaryti '%s':\n"
-#~ "%s\n"
-#~ "Pakeitimai, padaryti šiam aplankui, nebus vėl sinchronizuojami."
-
-#~ msgid "Resynchronizing with server"
-#~ msgstr "Vėl sinchronizuojama su serveriu"
-
-#~ msgid "Copy folder content locally for offline operation"
-#~ msgstr ""
-#~ "Nukopijuoti aplanko turinį į nuosavą kompiuterį darbui neprisijungus"
-
-#~ msgid "Downloading new messages for offline mode"
-#~ msgstr "Atsisiunčiami nauji laiškai darbui atsijungusiame režime"
-
-#~ msgid "Preparing folder '%s' for offline"
-#~ msgstr "Aplankas „%s“ ruošiamas atsijungusiam darbui"
-
-#~ msgid "You must be working online to complete this operation"
-#~ msgstr "Tu turi dirbti prisijungęs, kad užbaigtum šį veiksmą"
-
-#~ msgid "Failed to create pipe to '%s': %s"
-#~ msgstr "Nepavyko sukurti nukreipimo į „%s“: %s"
-
-#~ msgid "Failed to create child process '%s': %s"
-#~ msgstr "Nepavyko sukurti antrinio proceso „%s“: %s"
-
-#~ msgid "Invalid message stream received from %s: %s"
-#~ msgstr "Iš %s gautas netinkamai suformuotas laiškas: %s"
-
-#~ msgid "Syncing folders"
-#~ msgstr "Sinchronizuojami aplankai"
-
-#~ msgid "Error parsing filter: %s: %s"
-#~ msgstr "Klaida nagrinėjant filtrą: %s: %s"
-
-#~ msgid "Error executing filter: %s: %s"
-#~ msgstr "Klaida vykdant filtrą: %s: %s"
-
-#~ msgid "Unable to open spool folder"
-#~ msgstr "Negaliu atidaryti kaupo aplanko"
-
-#~ msgid "Unable to process spool folder"
-#~ msgstr "Negaliu apdoroti kaupo aplanko"
-
-#~ msgid "Getting message %d (%d%%)"
-#~ msgstr "Gaunamas laiškas %d (%d%%)"
-
-#~ msgid "Cannot open message"
-#~ msgstr "Negaliu atidaryti laiško"
-
-#~ msgid "Failed on message %d"
-#~ msgstr "Nesėkmė ties laišku %d"
-
-#~ msgid "Syncing folder"
-#~ msgstr "Sinchronizuojamas aplankas"
-
-#~ msgid "Getting message %d of %d"
-#~ msgstr "Gaunamas laiškas %d iš %d"
-
-#~ msgid "Failed at message %d of %d"
-#~ msgstr "Nesėkmė ties laišku %d iš %d"
-
-#~ msgid "Failed to retrieve message"
-#~ msgstr "Nepavyko gauti pranešimo"
-
-#~ msgid "Invalid arguments to (system-flag)"
-#~ msgstr "Netinkami argumentai pateikti tarp (system-flag)"
-
-#~ msgid "Invalid arguments to (user-tag)"
-#~ msgstr "Netinkami argumentai pateikti tarp (user-tag)"
-
-#~ msgid "Failed to create create child process '%s': %s"
-#~ msgstr "Nepavyko paleisti antrinio proceso „%s“: %s"
-
-#~ msgid "Error executing filter search: %s: %s"
-#~ msgstr "Klaida vykdant filtro paiešką: %s: %s"
-
-#~ msgid "Unsupported operation: append message: for %s"
-#~ msgstr "Nepalaikoma operacija: įterpti laišką: dėl %s"
-
-#~ msgid "Unsupported operation: search by expression: for %s"
-#~ msgstr "Nepalaikoma operacija: paieška pagal išraiška: skirta %s"
-
-#~ msgid "Unsupported operation: search by uids: for %s"
-#~ msgstr "Nepalaikoma operacija: paieška pagal uid: skirta %s"
-
-#~ msgid "Moving messages"
-#~ msgstr "Perkeliami laiškai"
-
-#~ msgid "Copying messages"
-#~ msgstr "Kopijuojami pranešimai"
-
-#~ msgid "Learning junk"
-#~ msgstr "Mokomasi atpažinti šlamštą"
-
-#~ msgid "Learning non-junk"
-#~ msgstr "Mokomasi atpažinti ne šlamštą"
-
-#~ msgid "Filtering new message(s)"
-#~ msgstr "Filtruojami nauji pranešimai"
-
-#~ msgid ""
-#~ "Cannot parse search expression: %s:\n"
-#~ "%s"
-#~ msgstr ""
-#~ "Negaliu išnagrinėti paieškos išraiškos: %s:\n"
-#~ "%s"
-
-#~ msgid ""
-#~ "Error executing search expression: %s:\n"
-#~ "%s"
-#~ msgstr ""
-#~ "Klaida vykdant paieškos išraišką „%s“:\n"
-#~ "%s"
-
-#~ msgid "(match-all) requires a single bool result"
-#~ msgstr "(match-all) reikalauja vienintelio loginio rezultato"
-
-#~ msgid "(match-threads) not allowed inside match-all"
-#~ msgstr "(match-threads) neleistinas match-all viduje"
-
-#~ msgid "(match-threads) requires a match type string"
-#~ msgstr "(match-threads) reikalauja atitikties tipo eilutės"
-
-#~ msgid "(match-threads) expects an array result"
-#~ msgstr "(match-threads) tikisi masyvinio rezultato"
-
-#~ msgid "(match-threads) requires the folder set"
-#~ msgstr "(match-threads) reikalauja aplankų rinkinio"
-
-#~ msgid "Performing query on unknown header: %s"
-#~ msgstr "Vykdoma užklausa nežinomai antraštei: %s"
-
-#~ msgid ""
-#~ "Unexpected GnuPG status message encountered:\n"
-#~ "\n"
-#~ "%s"
-#~ msgstr ""
-#~ "Sulaukta netikėto GnuPG informacinio pranešimo:\n"
-#~ "\n"
-#~ "%s"
-
-#~ msgid "Failed to parse gpg userid hint."
-#~ msgstr "Nepavyko apdoroti gpg userid patarimo."
-
-#~ msgid "Failed to parse gpg passphrase request."
-#~ msgstr "Nepavyko apdoroti gpg slaptažodžio užklausos."
-
-#~ msgid ""
-#~ "You need a passphrase to unlock the key for\n"
-#~ "user: \"%s\""
-#~ msgstr ""
-#~ "Jūs turi pateikti slaptažodį, kuris atblokuoja raktą, skirtą\n"
-#~ "vartotojui: „%s“"
-
-#~ msgid "Failed to unlock secret key: 3 bad passphrases given."
-#~ msgstr ""
-#~ "Nepavyko atblokuoti privataus rakto: tris kartus pateiktas blogas "
-#~ "slaptažodis."
-
-#~ msgid "Unexpected response from GnuPG: %s"
-#~ msgstr "Netikėtas atsakymas iš GnuPG: %s"
-
-#~ msgid "Failed to encrypt: No valid recipients specified."
-#~ msgstr "Nepavyko užkoduoti: Nenurodyti tinkamo gavėjai."
-
-#~ msgid ""
-#~ "Failed to GPG %s: %s\n"
-#~ "\n"
-#~ "%s"
-#~ msgstr ""
-#~ "GPG klaida %s: %s\n"
-#~ "\n"
-#~ "%s"
-
-#~ msgid "Failed to GPG %s: %s\n"
-#~ msgstr "GPG klaida %s: %s\n"
-
-#~ msgid "Could not generate signing data: %s"
-#~ msgstr "Nepavyko sukurti parašo duomenų: %s"
-
-#~ msgid "Failed to execute gpg: %s"
-#~ msgstr "Nepavyko paleisti gpg programos: %s"
-
-#~ msgid "Failed to execute gpg."
-#~ msgstr "Nepavyko paleisti gpg programos."
-
-#~ msgid "This is a digitally signed message part"
-#~ msgstr "Ši laiško dalis yra pasirašyta skaitmeniniu būdu"
-
-#~ msgid "Cannot verify message signature: Incorrect message format"
-#~ msgstr "Nepavyko patikrinti laiško parašo: Klaidingas laiško formatas"
-
-#~ msgid "Cannot verify message signature: could not create temp file: %s"
-#~ msgstr ""
-#~ "Nepavyko patikrinti laiško parašo: negalima sukurti laikinos bylos: %s"
-
-#~ msgid "Could not generate encrypting data: %s"
-#~ msgstr "Nepavyko sukurti užkoduojančių duomenų: %s"
-
-#~ msgid "This is a digitally encrypted message part"
-#~ msgstr "Ši laiško dalis yra užkoduota skaitmeniu būdu"
-
-#~ msgid "Failed to decrypt MIME part: protocol error"
-#~ msgstr "Nepavyko atkoduoti MIME bloko: protokolo klaida"
-
-#~ msgid "Encrypted content"
-#~ msgstr "Koduotas turinys"
-
-#~ msgid "Could not create lock file for %s: %s"
-#~ msgstr "Negalėjau sukurti %s užrakto bylos: %s"
-
-#~ msgid "Timed out trying to get lock file on %s. Try again later."
-#~ msgstr "Baigėsi laikas, belaukiant %s užrakto bylos. Bandyk vėliau."
-
-#~ msgid "Failed to get lock using fcntl(2): %s"
-#~ msgstr "Nepavyko gauti užrakto naudojant fcntl(2): %s"
-
-#~ msgid "Failed to get lock using flock(2): %s"
-#~ msgstr "Nepavyko gauti užrakto naudojant flock(2): %s"
-
-#~ msgid "Cannot build locking helper pipe: %s"
-#~ msgstr "Nepavyko sukurti rezervuoto pagalbos nukreipimo: %s"
-
-#~ msgid "Cannot fork locking helper: %s"
-#~ msgstr "Nepavyko paleisti rezervuoto pagalbos proceso: %s"
-
-#~ msgid "Could not lock '%s': protocol error with lock-helper"
-#~ msgstr "Nepavyko rezervuoti „%s“: rezervavimo pagalbininko protokolo klaida"
-
-#~ msgid "Could not lock '%s'"
-#~ msgstr "Negalėjau užrakinti '%s'"
-
-#~ msgid "Could not check mail file %s: %s"
-#~ msgstr "Negalėjau patikrinti pašto bylos %s: %s"
-
-#~ msgid "Could not open mail file %s: %s"
-#~ msgstr "Negalėjau atidaryti pašto bylos %s: %s"
-
-#~ msgid "Could not open temporary mail file %s: %s"
-#~ msgstr "Negalėjau atidaryti laikinos pašto bylos %s: %s"
-
-#~ msgid "Failed to store mail in temp file %s: %s"
-#~ msgstr "Nepavyko įrašyti laiškų į laikiną bylą %s: %s"
-
-#~ msgid "Could not create pipe: %s"
-#~ msgstr "Negalėjau sukurti pipe: %s"
-
-#~ msgid "Could not fork: %s"
-#~ msgstr "Negalima paleisti antrinio proceso: %s"
-
-#~ msgid "Movemail program failed: %s"
-#~ msgstr "Nepavyko programa Movemail: %s"
-
-#~ msgid "(Unknown error)"
-#~ msgstr "(Nežinoma klaida)"
-
-#~ msgid "Error reading mail file: %s"
-#~ msgstr "Klaida skaitant pašto bylą: %s"
-
-#~ msgid "Error writing mail temp file: %s"
-#~ msgstr "Klaida įrašant laikiną pašto bylą: %s"
-
-#~ msgid "Error copying mail temp file: %s"
-#~ msgstr "Klaida kopijuojant laikiną pašto bylą: %s"
-
-#~ msgid "parse error"
-#~ msgstr "apdorojimo klaida"
-
-#~ msgid "cannot create thread"
-#~ msgstr "negali sukurti gijos"
-
-#~ msgid "Resolving: %s"
-#~ msgstr "Atpažystamas: %s"
-
-#~ msgid "Host lookup failed"
-#~ msgstr "Hosto atpažinimo klaida"
-
-#~ msgid "Host lookup failed: %s: %s"
-#~ msgstr "Hosto atpažinimo klaida: %s: %s"
-
-#~ msgid "Resolving address"
-#~ msgstr "Atpažystamas adresas"
-
-#~ msgid "Name lookup failed"
-#~ msgstr "Vardo atpažinimo klaida"
-
-#~ msgid "Name lookup failed: %s"
-#~ msgstr "Vardo atpažinimo klaida: %s"
-
-#~ msgid "Virtual folder email provider"
-#~ msgstr "Virtualių aplankų pašto tiekėjas."
-
-#~ msgid "For reading mail as a query of another set of folders"
-#~ msgstr "Pašto skaitymui naudojant užklausą iš kitų aplankų aibės"
-
-#~ msgid "Could not load %s: Module loading not supported on this system."
-#~ msgstr "Negalėjau įkelti %s: Modulių įkėlimas šioje sistemoje nepalaikomas."
-
-#~ msgid "Could not load %s: %s"
-#~ msgstr "Negalėjau įkelti %s: %s"
-
-#~ msgid "Could not load %s: No initialization code in module."
-#~ msgstr "Negalėjau įkelti %s: Modulyje nėra inicializacijos kodo."
-
-#~ msgid "No provider available for protocol `%s'"
-#~ msgstr "Protokolui „%s“ nėra tiekėjo."
-
-#~ msgid "Anonymous"
-#~ msgstr "Anoniminis"
-
-#~ msgid "This option will connect to the server using an anonymous login."
-#~ msgstr "Su šia parinktimi prie serverio bus·jungiamasi·anonimiškai"
-
-#~ msgid "Authentication failed."
-#~ msgstr "Autentikacija nepavyko."
-
-#~ msgid ""
-#~ "Invalid email address trace information:\n"
-#~ "%s"
-#~ msgstr ""
-#~ "Klaidinga elektroninio pašto adreso sekimo informacija:\n"
-#~ "%s"
-
-#~ msgid ""
-#~ "Invalid opaque trace information:\n"
-#~ "%s"
-#~ msgstr ""
-#~ "Neleistina nepermatomumo sekimo informacija:\n"
-#~ "%s"
-
-#~ msgid ""
-#~ "Invalid trace information:\n"
-#~ "%s"
-#~ msgstr ""
-#~ "Neleistina sekimo informacija:\n"
-#~ "%s"
-
-#~ msgid "CRAM-MD5"
-#~ msgstr "CRAM-MD5"
-
-#~ msgid ""
-#~ "This option will connect to the server using a secure CRAM-MD5 password, "
-#~ "if the server supports it."
-#~ msgstr ""
-#~ "Su šia parinktimi prie serverio bus jungiamasi naudojant saugų CRAM-MD5 "
-#~ "slaptažodį, jei serveris tai palaiko."
-
-#~ msgid "DIGEST-MD5"
-#~ msgstr "DIGEST-MD5"
-
-#~ msgid ""
-#~ "This option will connect to the server using a secure DIGEST-MD5 "
-#~ "password, if the server supports it."
-#~ msgstr ""
-#~ "Su šia parinktimi prie serverio bus jungiamasi naudojant saugų DIGEST-MD5 "
-#~ "slaptažodį, jei serveris tai palaiko."
-
-#~ msgid "Server challenge too long (>2048 octets)\n"
-#~ msgstr "Serverio kreipinus per ilgas (>2048 oktetų)\n"
-
-#~ msgid "Server challenge invalid\n"
-#~ msgstr "Serverio užklausa neteisinga\n"
-
-#~ msgid "Server challenge contained invalid \"Quality of Protection\" token\n"
-#~ msgstr "Serverio kreipinys turėjo netvarkinga „Apsaugos kokybės“ požymį\n"
-
-#~ msgid "Server response did not contain authorization data\n"
-#~ msgstr "Serverio atsakyme nebuvo autorizacijos duomenų\n"
-
-#~ msgid "Server response contained incomplete authorization data\n"
-#~ msgstr "Serverio atsakyme buvo nepilni autorizacijos duomenys\n"
-
-#~ msgid "Server response does not match\n"
-#~ msgstr "Serverio atsakymas netenkina\n"
-
-#~ msgid "GSSAPI"
-#~ msgstr "GSSAPI"
-
-#~ msgid ""
-#~ "This option will connect to the server using Kerberos 5 authentication."
-#~ msgstr ""
-#~ "Šis nustatymas leidžia jungtis prie serverio naudojant Kerberos 4 "
-#~ "autentifikacija."
-
-#~ msgid ""
-#~ "The specified mechanism is not supported by the provided credential, or "
-#~ "is unrecognized by the implementation."
-#~ msgstr ""
-#~ "Pasirinktas mechanizmas nepalaiko pateikto mandato arba yra "
-#~ "neatpažįstamas naudojamoje versijoje."
-
-#~ msgid "The provided target_name parameter was ill-formed."
-#~ msgstr "Pateiktas target_name parametras yra blogai suformuotas."
-
-#~ msgid ""
-#~ "The provided target_name parameter contained an invalid or unsupported "
-#~ "type of name."
-#~ msgstr ""
-#~ "Pateiktame target_name parametre yra nurodytas klaidingo arba nepalaikomo "
-#~ "tipo vardas."
-
-#~ msgid ""
-#~ "The input_token contains different channel bindings to those specified "
-#~ "via the input_chan_bindings parameter."
-#~ msgstr ""
-#~ "Nesutampa kanalo sąsajos pateiktos tarp input_token ir "
-#~ "input_chan_bindings parametrų."
-
-#~ msgid ""
-#~ "The input_token contains an invalid signature, or a signature that could "
-#~ "not be verified."
-#~ msgstr ""
-#~ "input_token parametre yra neteisingas parašas arba tas parašas negali "
-#~ "būti patikrintas."
-
-#~ msgid ""
-#~ "The supplied credentials were not valid for context initiation, or the "
-#~ "credential handle did not reference any credentials."
-#~ msgstr ""
-#~ "Pateiktas mandatas nenaudojamas prisijungimo metu arba jis nesutampa su "
-#~ "jokia tinkama mandato nuoroda."
-
-#~ msgid "The supplied context handle did not refer to a valid context."
-#~ msgstr "Pateikta kontekstinė rodyklė neatitinka jokio tinkamo konteksto."
-
-#~ msgid "The consistency checks performed on the input_token failed."
-#~ msgstr "input_token tvarkingumo testai nepavyko."
-
-#~ msgid "The consistency checks performed on the credential failed."
-#~ msgstr "Mandato tvarkingumo testai išvedė klaidas."
-
-#~ msgid "The referenced credentials have expired."
-#~ msgstr "Pateiktas mandatas yra pasenęs."
-
-#~ msgid "Bad authentication response from server."
-#~ msgstr "Blogas autentikacijos atsakymas iš serverio."
-
-#~ msgid "Unsupported security layer."
-#~ msgstr "Nepalaikomas saugumo lygis."
-
-#~ msgid "Kerberos 4"
-#~ msgstr "Kerberos 4"
-
-#~ msgid ""
-#~ "This option will connect to the server using Kerberos 4 authentication."
-#~ msgstr ""
-#~ "Su šia parinktimi jungiantis prie serverio bus naudojama Kerberos 4 "
-#~ "autentikacija."
-
-#~ msgid ""
-#~ "Could not get Kerberos ticket:\n"
-#~ "%s"
-#~ msgstr ""
-#~ "Nepavyko gauti Kerberos leidimo:\n"
-#~ "%s"
-
-#~ msgid "Login"
-#~ msgstr "Prisijungti"
-
-#~ msgid "This option will connect to the server using a simple password."
-#~ msgstr ""
-#~ "Su šia parinktimi jungiantis prie serverio bus naudojamas paprastas "
-#~ "slaptažodis."
-
-#~ msgid "Unknown authentication state."
-#~ msgstr "Nežinoma autentikacijos būsena."
-
-#~ msgid "NTLM / SPA"
-#~ msgstr "NTLM / SPA"
-
-#~ msgid ""
-#~ "This option will connect to a Windows-based server using NTLM / Secure "
-#~ "Password Authentication."
-#~ msgstr ""
-#~ "Šis nustatymas leidžia jungtis prie serverio naudojant NTLM/Saugaus "
-#~ "Slaptažodžio autentifikacija."
-
-#~ msgid "PLAIN"
-#~ msgstr "PAPRASTAS"
-
-#~ msgid "POP before SMTP"
-#~ msgstr "POP prieš SMTP"
-
-#~ msgid "This option will authorise a POP connection before attempting SMTP"
-#~ msgstr "Su šia parinktimi bus autorizuojama POP jungtis prieš bandant SMTP"
-
-#~ msgid "POP Source URI"
-#~ msgstr "POP šaltinio URI"
-
-#~ msgid "POP Before SMTP auth using an unknown transport"
-#~ msgstr "POP prieš SMTP auth naudoja nežinoma jungtį"
-
-#~ msgid "POP Before SMTP auth using a non-pop source"
-#~ msgstr "POP prieš SMTP auth naudoja ne pop šaltinį"
-
-#~ msgid "Regular expression compilation failed: %s: %s"
-#~ msgstr "Nepavyko sukompiliuoti reguliarios išraiškos: %s: %s"
-
-#~ msgid "URL '%s' needs a username component"
-#~ msgstr "URL „%s“ turi būti su vartotojo vardu"
-
-#~ msgid "URL '%s' needs a host component"
-#~ msgstr "URL „%s“ turi būti su hostu"
-
-#~ msgid "URL '%s' needs a path component"
-#~ msgstr "URL „%s“ turi būti su nurodytu keliu"
-
-#~ msgid ""
-#~ "Could not create directory %s:\n"
-#~ "%s"
-#~ msgstr ""
-#~ "Nepavyko sukurti aplanko %s:\n"
-#~ "%s"
-
-#~ msgid "Cannot find certificate for '%s'"
-#~ msgstr "Nepavyko rasti „%s“ sertifikato"
-
-#~ msgid "Cannot create CMS message"
-#~ msgstr "Nepavyko sukurti CMS žinutės"
-
-#~ msgid "Cannot create CMS signed data"
-#~ msgstr "Nepavyko sukurti CMS pasirašytų duomenų"
-
-#~ msgid "Cannot attach CMS signed data"
-#~ msgstr "Nepavyko prisegti CMS pasirašytų duomenų"
-
-#~ msgid "Cannot attach CMS data"
-#~ msgstr "Nepavyko prisegti CMS duomenų"
-
-#~ msgid "Cannot create CMS Signer information"
-#~ msgstr "Nepavyko sukurti CMS pasirašytojo informacijos"
-
-#~ msgid "Cannot find certificate chain"
-#~ msgstr "Nepavyko rasti sertifikatų grandinės"
-
-#~ msgid "Cannot add CMS Signing time"
-#~ msgstr "Nepavyko pridėti CMS pasirašymo laiko"
-
-#~ msgid "Encryption certificate for '%s' does not exist"
-#~ msgstr "„%s“ šifravimo sertifikatas neegzistuoja"
-
-#~ msgid "Cannot add SMIMEEncKeyPrefs attribute"
-#~ msgstr "Nepavyko pridėti SMIMEEncKeyPrefs atributo"
-
-#~ msgid "Cannot add MS SMIMEEncKeyPrefs attribute"
-#~ msgstr "Nepavyko pridėti MS SMIMEEncKeyPrefs atributo"
-
-#~ msgid "Cannot add encryption certificate"
-#~ msgstr "Nepavyko pridėti šifravimo sertifikato"
-
-#~ msgid "Cannot add CMS Signer information"
-#~ msgstr "Nepavyko pridėti CMS pasirašytojo informacijos"
-
-#~ msgid "Cannot create encoder context"
-#~ msgstr "Nepavyko sukurti koduotojo konteksto"
-
-#~ msgid "Failed to add data to CMS encoder"
-#~ msgstr "Nepavyko pridėti duomenų į CMS koduotoją"
-
-#~ msgid "Failed to encode data"
-#~ msgstr "Kodavimas nepavyko"
-
-#~ msgid "Unverified"
-#~ msgstr "Nepatikrinta"
-
-#~ msgid "Good signature"
-#~ msgstr "Geras parašas"
-
-#~ msgid "Bad signature"
-#~ msgstr "Blogas parašas"
-
-#~ msgid "Content tampered with or altered in transit"
-#~ msgstr "Srautas buvo apdorotas arba pakeistas siuntimo metu"
-
-#~ msgid "Signing certificate not found"
-#~ msgstr "Nerastas parašo sertifikatas"
-
-#~ msgid "Signing certificate not trusted"
-#~ msgstr "Nepatikimas parašo sertifikatas"
-
-#~ msgid "Signature algorithm unknown"
-#~ msgstr "Nežinomas parašo algoritmas"
-
-#~ msgid "Signature algorithm unsupported"
-#~ msgstr "Parašo algoritmas nepalaikomas"
-
-#~ msgid "Malformed signature"
-#~ msgstr "Apgadintas parašas"
-
-#~ msgid "Processing error"
-#~ msgstr "Apdorojimo klaida"
-
-#~ msgid "No signed data in signature"
-#~ msgstr "Paraše nėra pasirašytų duomenų"
-
-#~ msgid "Certificate import failed"
-#~ msgstr "Sertifikato importuoti nepavyko"
-
-#~ msgid "Certificate is the only message, cannot verify certificates"
-#~ msgstr "Sertifikatas yra vienintelė žinutė, negalima patikrinti sertifikatų"
-
-#~ msgid "Certificate is the only message, certificates imported and verified"
-#~ msgstr ""
-#~ "Sertifikatas yra vienintelė žinutė, sertifikatai importuoti ir patikrinti"
-
-#~ msgid "Signer: %s <%s>: %s\n"
-#~ msgstr "Pasirašė: %s <%s>: %s\n"
-
-#~ msgid "Decoder failed"
-#~ msgstr "Iškoduoti nepavyko"
-
-#~ msgid "Cannot find certificate for `%s'"
-#~ msgstr "Nepavyko rasti „%s“ sertifikato"
-
-#~ msgid "Cannot create CMS Message"
-#~ msgstr "Nepavyko sukurti CMS žinutės"
-
-#~ msgid "Cannot create CMS Enveloped data"
-#~ msgstr "Nepavyko sukurti CMS Enveloped duomenų"
-
-#~ msgid "Cannot attach CMS Enveloped data"
-#~ msgstr "Nepavyko prisegti CMS Enveloped duomenų"
-
-#~ msgid "Cannot attach CMS data object"
-#~ msgstr "Nepavyko prisegti CMS duomenų objekto"
-
-#~ msgid "Cannot create CMS Recipient information"
-#~ msgstr "Nepavyko sukurti CMS gavėjo informacijos"
-
-#~ msgid "Cannot add CMS Recipient information"
-#~ msgstr "Nepavyko pridėti CMS gavėjo informacijos"
-
-#~ msgid "Failed to add data to encoder"
-#~ msgstr "Nepavyko pridėti duomenų į koduotoją"
-
-#~ msgid "Decoder failed, error %d"
-#~ msgstr "Dekodavimas nepavyko, klaida %d"
-
-#~ msgid "S/MIME Decrypt: No encrypted content found"
-#~ msgstr "S/MIME iššifravimas: nerasta užšifruotų duomenų"
-
-#~ msgid "import keys: unimplemented"
-#~ msgstr "importuoti raktus: dar neįgyvendinta"
-
-#~ msgid "export keys: unimplemented"
-#~ msgstr "eksportuoti raktus: dar neįgyvendinta"
-
-#~ msgid "Cannot get folder: Invalid operation on this store"
-#~ msgstr "Nepavyko pasiekti aplanko: Neleistina šios saugyklos operacija"
-
-#~ msgid "Cannot create folder `%s': folder exists"
-#~ msgstr "Nepavyko sukurti aplanko „%s“: "
-
-#~ msgid "Cannot create folder: Invalid operation on this store"
-#~ msgstr "Nepavyko sukurti aplanko: neleistina šios saugyklos operacija"
-
-#~ msgid "Cannot create folder: %s: folder exists"
-#~ msgstr "Nepavyko sukurti aplanko: %s: aplankas jau egzistuoja"
-
-#~ msgid "Cannot delete folder: %s: Invalid operation"
-#~ msgstr "Nepavyko ištrinti aplanko: %s: netinkama operacija"
-
-#~ msgid "Cannot rename folder: %s: Invalid operation"
-#~ msgstr "Nepavyko pervadinti aplanko: %s: netinkama operacija"
-
-#~ msgid "Trash"
-#~ msgstr "Šiukšlės"
-
-#~ msgid "Unable to get issuer's certificate"
-#~ msgstr "Nepavyko gauti leidėjo sertifikato"
-
-#~ msgid "Unable to get Certificate Revocation List"
-#~ msgstr "Nepavyko gauti sertifikatų atšaukimo sąrašo"
-
-#~ msgid "Unable to decrypt certificate signature"
-#~ msgstr "Nepavyko atkoduoti sertifikato parašo"
-
-#~ msgid "Unable to decrypt Certificate Revocation List signature"
-#~ msgstr "Nepavyko atkoduoti sertifikatų atšaukimo sąrašo parašo"
-
-#~ msgid "Unable to decode issuer's public key"
-#~ msgstr "Nepavyko atkoduoti leidėjo viešojo rakto"
-
-#~ msgid "Certificate signature failure"
-#~ msgstr "Sertifikato parašo klaida"
-
-#~ msgid "Certificate Revocation List signature failure"
-#~ msgstr "Sertifikatų Atšaukimo Sąrašo parašo klaida"
-
-#~ msgid "Certificate not yet valid"
-#~ msgstr "Sertifikatas dar negalioja"
-
-#~ msgid "Certificate has expired"
-#~ msgstr "Sertifikatas pasenęs"
-
-#~ msgid "CRL not yet valid"
-#~ msgstr "CRL dar negalioja"
-
-#~ msgid "CRL has expired"
-#~ msgstr "CRL paseno"
-
-#~ msgid "Error in CRL"
-#~ msgstr "Klaida tarp CRL"
-
-#~ msgid "Out of memory"
-#~ msgstr "Pritrūko atminties"
-
-#~ msgid "Zero-depth self-signed certificate"
-#~ msgstr "Nulinio gylio savaime pasirašytas sertifikatas"
-
-#~ msgid "Self-signed certificate in chain"
-#~ msgstr "Grandinėje yra savaime pasirašytas sertifikatas"
-
-#~ msgid "Unable to get issuer's certificate locally"
-#~ msgstr "Nepavyko lokaliai aptikti leidėjo sertifikato"
-
-#~ msgid "Unable to verify leaf signature"
-#~ msgstr "Nepavyko patikrinti leaf parašo"
-
-#~ msgid "Certificate chain too long"
-#~ msgstr "Sertifikatų grandis yra per ilga"
-
-#~ msgid "Certificate Revoked"
-#~ msgstr "Sertifikatas Atšauktas"
-
-#~ msgid "Invalid Certificate Authority (CA)"
-#~ msgstr "Netinkamas Sertifikatų Autorizatorius (CA)"
-
-#~ msgid "Path length exceeded"
-#~ msgstr "Viršytas kelio  ilgis"
-
-#~ msgid "Invalid purpose"
-#~ msgstr "Netinkama paskirtis"
-
-#~ msgid "Certificate untrusted"
-#~ msgstr "Sertifikatas nepatikimas"
-
-#~ msgid "Certificate rejected"
-#~ msgstr "Sertifikatas atmestas"
-
-#~ msgid "Subject/Issuer mismatch"
-#~ msgstr "Nesutampa Tema/Leidėjas"
-
-#~ msgid "AKID/SKID mismatch"
-#~ msgstr "AKID/SKID nesutampa"
-
-#~ msgid "AKID/Issuer serial mismatch"
-#~ msgstr "Nesutampa AKID/leidėjo serijos numeriai"
-
-#~ msgid "Key usage does not support certificate signing"
-#~ msgstr "Raktas nepalaiko sertifikatų pasirašymo"
-
-#~ msgid "Error in application verification"
-#~ msgstr "Klaida tikrinant programą"
-
-#~ msgid ""
-#~ "Issuer:            %s\n"
-#~ "Subject:           %s\n"
-#~ "Fingerprint:       %s\n"
-#~ "Signature:         %s"
-#~ msgstr ""
-#~ "Leidėjas:          %s\n"
-#~ "Antraštė:          %s\n"
-#~ "Požymis:           %s\n"
-#~ "Parašas:           %s"
-
-#~ msgid "GOOD"
-#~ msgstr "GERAS"
-
-#~ msgid "BAD"
-#~ msgstr "BLOGAS"
-
-#~ msgid ""
-#~ "Bad certificate from %s:\n"
-#~ "\n"
-#~ "%s\n"
-#~ "\n"
-#~ "%s\n"
-#~ "\n"
-#~ "Do you wish to accept anyway?"
-#~ msgstr ""
-#~ "Blogas sertifikatas iš %s:\n"
-#~ "\n"
-#~ "%s\n"
-#~ "\n"
-#~ "%s\n"
-#~ "\n"
-#~ "Ar vis tiek norite priimti?"
-
-#~ msgid ""
-#~ "SSL Certificate check for %s:\n"
-#~ "\n"
-#~ "%s\n"
-#~ "\n"
-#~ "Do you wish to accept?"
-#~ msgstr ""
-#~ "SSL Sertifikato testas, skirtas %s:\n"
-#~ "\n"
-#~ "%s\n"
-#~ "\n"
-#~ "Ar vis tiek norite priimti?"
-
-#~ msgid ""
-#~ "Certificate problem: %s\n"
-#~ "Issuer: %s"
-#~ msgstr ""
-#~ "Sertifikato problema: %s\n"
-#~ "Leidėjas: %s"
-
-#~ msgid ""
-#~ "Bad certificate domain: %s\n"
-#~ "Issuer: %s"
-#~ msgstr ""
-#~ "Blogas sertifikato domenas: %s\n"
-#~ "Leidėjas: %s"
-
-#~ msgid ""
-#~ "Certificate expired: %s\n"
-#~ "Issuer: %s"
-#~ msgstr ""
-#~ "Sertifikatas pasenęs: %s\n"
-#~ "Leidėjas: %s"
-
-#~ msgid ""
-#~ "Certificate revocation list expired: %s\n"
-#~ "Issuer: %s"
-#~ msgstr ""
-#~ "Paseno sertifikatų atšaukimo sąrašas: %s\n"
-#~ "Leidėjas: %s"
-
-#~ msgid "Could not parse URL `%s'"
-#~ msgstr "Nepavyko išnagrinėti URL „%s“"
-
-#~ msgid "Error storing `%s': %s"
-#~ msgstr "Klaida saugant „%s“: %s"
-
-#~ msgid "No such message %s in %s"
-#~ msgstr "Nėra tokio laiško %s aplanke %s"
-
-#~ msgid "Cannot copy or move messages into a Virtual Folder"
-#~ msgstr "Nepavyko nukopijuoti arba perkelti laiškų į virtualų aplanką"
-
-#~ msgid "Cannot delete folder: %s: No such folder"
-#~ msgstr "Nepavyko ištrinti aplanko: %s: Nėra tokio aplanko"
-
-#~ msgid "Cannot rename folder: %s: No such folder"
-#~ msgstr "Nepavyko pervadinti aplanko: %s: Nėra tokio aplanko"
-
-#~ msgid "Cannot copy messages to the Trash folder"
-#~ msgstr "Nepavyko nukopijuoti laiškų į šiukšlių aplanką"
-
-#~ msgid "Cannot copy messages to the Junk folder"
-#~ msgstr "Nepavyko nukopijuoti laiškų į šlamšto aplanką"
-
-#~ msgid "Checking for new mail"
-#~ msgstr "Tikrinama, ar yra naujų laiškų"
-
-#~ msgid "Check for new messages in all folders"
-#~ msgstr "Patikrinti, ar yra naujų laiškų visuose aplankuose"
-
-#~ msgid "Apply filters to new messages in Inbox on this server"
-#~ msgstr ""
-#~ "Pritaikyti filtrus naujiems laiškams šio serverio ieinačių laiškų aplanke"
-
-#~ msgid "Check new messages for Junk contents"
-#~ msgstr "Patikrinti naujus laiškus ar tarp jų nėra šlamšto"
-
-#~ msgid "Only check for Junk messages in the INBOX folder"
-#~ msgstr "Patikrinti, ar yra šlamšto tik įeinančių laiškų aplanke"
-
-#~ msgid "Automatically synchronize account locally"
-#~ msgstr "Automatiškai sulyginti vietinį abonementą"
-
-#~ msgid "Address Book and Calendar"
-#~ msgstr "Adresų knyga ir kalendorius"
-
-#~ msgid "Post Office Agent:"
-#~ msgstr "Pašto agentas:"
-
-#~ msgid "Post Office Agent SOAP Port:"
-#~ msgstr "Pašto agento SOAP prievadas:"
-
-#~ msgid "Use Secure Connection (SSL)"
-#~ msgstr "Naudoti saugią jungtį (SSL):"
-
-#~ msgid "Novell GroupWise"
-#~ msgstr "Novell GroupWise"
-
-#~ msgid "For accessing Novell Groupwise servers"
-#~ msgstr "Skirtas pasiekti Novel Groupwise serverius"
-
-#~ msgid "Password"
-#~ msgstr "Slaptažodis"
-
-#~ msgid ""
-#~ "This option will connect to the IMAP server using a plaintext password."
-#~ msgstr ""
-#~ "Naudojant šią parinktį jungiantis prie IMAP serverio bus naudojamas "
-#~ "paprasto teksto pavidalo slaptažodis."
-
-#~ msgid "Failed sending command to IMAP server %s: %s"
-#~ msgstr "Nepavyko išsiųsti komandos į IMAP serverį %s: %s"
-
-#~ msgid "Unexpected response from IMAP4 server %s: %s"
-#~ msgstr "Netikėtas atsakymas iš IMAP4 serverio %s: %s"
-
-#~ msgid "Unexpected greeting from IMAP server %s."
-#~ msgstr "Netikėtas pasveikinimas iš IMAP serverio: %s."
-
-#~ msgid "Cannot select folder `%s': Invalid mailbox name"
-#~ msgstr "Nepavyko pasirinkti aplanko „%s“: netinkamas paštadėžės pavadinimas"
-
-#~ msgid "Cannot select folder `%s': Bad command"
-#~ msgstr "Nepavyko pasirinkti aplanko „%s“: bloga komanda"
-
-#~ msgid "IMAP4 server %s unexpectedly disconnected: %s"
-#~ msgstr "IMAP4 serveris %s netikėtai atsijungė: %s"
-
-#~ msgid "Cannot access folder `%s': %s"
-#~ msgstr "Nepavyko pasiekti aplanko „%s“: %s"
-
-#~ msgid "Cannot sync flags to folder `%s': Unknown"
-#~ msgstr "Nepavyko sinchronizuoti žymių aplankui „%s“: Nežinoma"
-
-#~ msgid "Cannot sync flags to folder `%s': Bad command"
-#~ msgstr "Nepavyko sinchronizuoti žymių aplankui „%s“: Bloga komanda"
-
-#~ msgid "Cannot expunge folder `%s': Unknown"
-#~ msgstr "Nepavyko išbraukti aplanko „%s“: nežinomas"
-
-#~ msgid "Cannot expunge folder `%s': Bad command"
-#~ msgstr "Nepavyko išbraukti aplanko „%s“: bloga komanda"
-
-#~ msgid "User cancelled"
-#~ msgstr "Operacija nutraukta"
-
-#~ msgid "Cannot get message %s: %s"
-#~ msgstr "Nepavyko gauti laiško %s: %s"
-
-#~ msgid "This message is not available in offline mode."
-#~ msgstr "Ši žinutė neprieinama atsijungimo režime."
-
-#~ msgid "Cannot get message %s from folder `%s': No such message"
-#~ msgstr "Nepavyko gauti žinutės %s iš aplanko „%s“: nėra tokios žinutės"
-
-#~ msgid "Cannot get message %s from folder `%s': Bad command"
-#~ msgstr "Nepavyko gauti žinutės %s iš aplanko „%s“: bloga komanda"
-
-#~ msgid "Cannot append messages to IMAP folders in offline mode."
-#~ msgstr ""
-#~ "Negalima pridurti žinutės prie IMAP aplankų esant atsijungimo režime."
-
-#~ msgid "Cannot append message to folder `%s': Unknown error"
-#~ msgstr "Nepavyko pridurti žinutės prie aplanko „%s“: nežinoma klaida"
-
-#~ msgid "Cannot append message to folder `%s': Bad command"
-#~ msgstr "Nepavyko pridurti žinutės prie aplanko „%s“: bloga komanda"
-
-#~ msgid "Cannot move messages to or from IMAP folders in offline mode."
-#~ msgstr ""
-#~ "Negalima perkelti žinučių į arba iš IMAP aplankų esant atsijungimo režime."
-
-#~ msgid "Cannot copy messages to or from IMAP folders in offline mode."
-#~ msgstr ""
-#~ "Negalima kopijuoti žinučių į arba iš IMAP aplankų esant atsijungimo "
-#~ "režime."
-
-#~ msgid "Cannot move messages from folder `%s' to folder `%s': Unknown"
-#~ msgstr "Nepavyko perkelti žinučių iš aplanko „%s“ į aplanką „%s“: nežinomas"
-
-#~ msgid "Cannot copy messages from folder `%s' to folder `%s': Unknown"
-#~ msgstr ""
-#~ "Nepavyko nukopijuoti žinučių iš aplanko „%s“ į aplanką „%s“: nežinomas"
-
-#~ msgid "Cannot move messages from folder `%s' to folder `%s': Bad command"
-#~ msgstr ""
-#~ "Nepavyko perkelti žinučių iš aplanko „%s“ į aplanką „%s“: bloga komanda"
-
-#~ msgid "Cannot copy messages from folder `%s' to folder `%s': Bad command"
-#~ msgstr ""
-#~ "Nepavyko nukopijuoti žinučių iš aplanko „%s“ į aplanką „%s“: bloga komanda"
-
-#~ msgid "Folders"
-#~ msgstr "Aplankai"
-
-#~ msgid "Show only subscribed folders"
-#~ msgstr "Rodyti tik užsakytus aplankus"
-
-#~ msgid "Override server-supplied folder namespace"
-#~ msgstr "Pakeisti serverio pateiktą aplankų vardų zoną"
-
-#~ msgid "Namespace"
-#~ msgstr "Vardų zona"
-
-#~ msgid "Apply filters to new messages in INBOX on this server"
-#~ msgstr "Pritaikyti filtrus naujiems laiškams šio serverio INBOX aplanke"
-
-#~ msgid "Automatically synchronize remote mail locally"
-#~ msgstr "Automatiškai sulyginti nutolusį ir vietinį paštą"
-
-#~ msgid "IMAPv4rev1"
-#~ msgstr "IMAPv4rev1 "
-
-#~ msgid "For reading and storing mail on IMAPv4rev1 servers. EXPERIMENTAL !!"
-#~ msgstr ""
-#~ "Pašto skaitymui ir saugojimui IMAPc4rev1 serveriuose. EKSPERIMENTINIS!!"
-
-#~ msgid ""
-#~ "This option will connect to the IMAPv4rev1 server using a plaintext "
-#~ "password."
-#~ msgstr ""
-#~ "Naudojant šią parinktį prie IMAP serverio bus jungiamasi naudojant "
-#~ "paprasto teksto pavidalo slaptažodį."
-
-#~ msgid "IMAP server %s"
-#~ msgstr "IMAP serveris %s"
-
-#~ msgid "IMAP service for %s on %s"
-#~ msgstr "IMAP tarnyba, skirta %s tarp %s"
-
-#~ msgid "Could not connect to %s: %s"
-#~ msgstr "Nepavyko prisijungti prie %s: %s"
-
-#~ msgid "SSL unavailable"
-#~ msgstr "SSL nepasiekiamas"
-
-#~ msgid "Connection cancelled"
-#~ msgstr "Jungtis nutraukta"
-
-#~ msgid "Failed to connect to IMAP server %s in secure mode: %s"
-#~ msgstr "Nepavyko prisijungti prie IMAP serverio %s saugiu režimu: %s"
-
-#~ msgid "SSL negotiations failed"
-#~ msgstr "SSL komunikacijų klaida"
-
-#~ msgid ""
-#~ "Cannot authenticate to IMAP server %s using the %s authentication "
-#~ "mechanism"
-#~ msgstr ""
-#~ "Nepavyko autentikuotis prie IMAP serverio %s naudojant %s autentikacijos "
-#~ "mechanizmą."
-
-#~ msgid "%sPlease enter the IMAP password for %s on host %s"
-#~ msgstr "%sPrašom įvesti %s hoste %s IMAP slaptažodį"
-
-#~ msgid "Cannot authenticate to IMAP server %s using %s"
-#~ msgstr "Nepavyko autentikuotis į IMAP serverį %s naudojant %s"
-
-#~ msgid "Cannot create IMAP folders in offline mode."
-#~ msgstr "Negalima kurti IMAP aplankų esant atsijungimo režime."
-
-#~ msgid "Cannot get folder `%s' on IMAP server %s: Unknown"
-#~ msgstr "Nepavyko gauti aplanko „%s“ IMAP serveryje %s: nežinomas"
-
-#~ msgid ""
-#~ "The folder name \"%s\" is invalid because it contains the character \"%c\""
-#~ msgstr "Aplanko vardas „%s“ yra neleistinas, kadangi jame yra simbolis „%c“"
-
-#~ msgid "Cannot create folder `%s': Invalid mailbox name"
-#~ msgstr "Nepavyko sukurti aplanko „%s“: blogas paštadėžės pavadinimas"
-
-#~ msgid "Cannot create folder `%s': Bad command"
-#~ msgstr "Nepavyko sukurti aplanko „%s“: bloga komanda"
-
-#~ msgid "Cannot delete folder `%s': Special folder"
-#~ msgstr "Nepavyko ištrinti aplanko „%s“: specialus aplankas"
-
-#~ msgid "Cannot delete IMAP folders in offline mode."
-#~ msgstr "Negalima trinti IMAP aplankų esant atsijungimo režime."
-
-#~ msgid "Cannot delete folder `%s': Invalid mailbox name"
-#~ msgstr "Nepavyko ištrinti aplanko „%s“: blogas paštadėžės pavadinimas"
-
-#~ msgid "Cannot delete folder `%s': Bad command"
-#~ msgstr "Nepavyko ištrinti aplanko „%s“: bloga komanda"
-
-#~ msgid "Cannot rename folder `%s' to `%s': Special folder"
-#~ msgstr "Nepavyko pervadinti aplanko „%s“ į „%s“: specialus aplankas"
-
-#~ msgid "Cannot rename IMAP folders in offline mode."
-#~ msgstr "Negalima pervadinti IMAP aplankų esant atsijungimo režime."
-
-#~ msgid "Cannot rename folder `%s' to `%s': Invalid mailbox name"
-#~ msgstr ""
-#~ "Nepavyko pervadinti aplanko „%s“ į „%s“: blogas paštadėžės pavadinimas"
-
-#~ msgid "Cannot rename folder `%s' to `%s': Bad command"
-#~ msgstr "Nepavyko pervadinti aplanko „%s“ į „%s“: bloga komanda"
-
-#~ msgid "Cannot get %s information for pattern `%s' on IMAP server %s: %s"
-#~ msgstr ""
-#~ "Nepavyko gauti %s informacijos pagal šabloną „%s“, esančios IMAP "
-#~ "serveryje %s: %s"
-
-#~ msgid "Bad command"
-#~ msgstr "Bloga komanda"
-
-#~ msgid "Cannot subscribe to IMAP folders in offline mode."
-#~ msgstr "Negalima užsisakyti IMAP aplankų esant atsijungimo ekrane."
-
-#~ msgid "Cannot subscribe to folder `%s': Invalid mailbox name"
-#~ msgstr "Nepavyko užsisakyti aplanko „%s“: blogas paštadėžės pavadinimas"
-
-#~ msgid "Cannot subscribe to folder `%s': Bad command"
-#~ msgstr "Nepavyko užsisakyti aplanko „%s“: bloga komanda"
-
-#~ msgid "Cannot unsubscribe from IMAP folders in offline mode."
-#~ msgstr "Negalima atsisakyti IMAP aplankų esant atsijungimo režime."
-
-#~ msgid "Cannot unsubscribe from folder `%s': Invalid mailbox name"
-#~ msgstr "Nepavyko atsisakyti aplanko „%s“: blogas paštadėžės pavadinimas"
-
-#~ msgid "Cannot unsubscribe from folder `%s': Bad command"
-#~ msgstr "Nepavyko atsisakyti aplanko „%s“: bloga komanda"
-
-#~ msgid "Scanning for changed messages"
-#~ msgstr "Ieškoma pakeistų laiškų"
-
-#~ msgid "Fetching envelopes for new messages"
-#~ msgstr "Parsiunčiami naujų laiškų vokai"
-
-#~ msgid "Unexpected token in response from IMAP server %s: "
-#~ msgstr "Netikėtas žymė atsakyme iš IMAP serverio: %s"
-
-#~ msgid "No data"
-#~ msgstr "Nėra duomenų"
-
-#~ msgid "IMAP server %s unexpectedly disconnected: %s"
-#~ msgstr "IMAP serveris %s netikėtai atsijungė: %s"
-
-#~ msgid "Operation cancelled"
-#~ msgstr "Veiksmas nutrauktas"
-
-#~ msgid "Server unexpectedly disconnected: %s"
-#~ msgstr "Serveris netikėtai atsijungė: %s"
-
-#~ msgid ""
-#~ "Alert from IMAP server %s@%s:\n"
-#~ "%s"
-#~ msgstr ""
-#~ "Perspėjimas gautas iš IMAP serverio %s@%s:\n"
-#~ "%s"
-
-#~ msgid "Unexpected response from IMAP server: %s"
-#~ msgstr "Netikėtas atsakymas iš IMAP serverio: %s"
-
-#~ msgid "IMAP command failed: %s"
-#~ msgstr "Nepavyko IMAP komanda: %s"
-
-#~ msgid "Server response ended too soon."
-#~ msgstr "Serverio atsakymas baigėsi per anksti."
-
-#~ msgid "IMAP server response did not contain %s information"
-#~ msgstr "IMAP serverio atsakyme nebuvo %s informacijos"
-
-#~ msgid "Unexpected OK response from IMAP server: %s"
-#~ msgstr "Netikėtas atsakymas OK iš IMAP serverio: %s"
-
-#~ msgid "Could not create directory %s: %s"
-#~ msgstr "Negalėjau sukurti katalogo %s: %s"
-
-#~ msgid "Could not load summary for %s"
-#~ msgstr "Nepavyko įkelti %s santraukos"
-
-#~ msgid "Folder was destroyed and recreated on server."
-#~ msgstr "Aplankas serveryje buvo sunaikintas ir vėl sukurtas."
-
-#~ msgid "Unable to retrieve message: %s"
-#~ msgstr "Nepavyko gauti laiško: %s"
-
-#~ msgid ""
-#~ "Cannot get message: %s\n"
-#~ "  %s"
-#~ msgstr ""
-#~ "Nepavyko gauti laiško: %s\n"
-#~ "  %s"
-
-#~ msgid "No such message"
-#~ msgstr "Nėra tokio laiško"
-
-#~ msgid "This message is not currently available"
-#~ msgstr "Šis laiškas šiuo metu nepasiekiamas"
-
-#~ msgid "Fetching summary information for new messages"
-#~ msgstr "Atsiunčiama naujų laiškų santrauka"
-
-#~ msgid "Incomplete server response: no information provided for message %d"
-#~ msgstr "Nepilnas serverio atsakas: nesuteikta informacija apie žinutę %d"
-
-#~ msgid "Incomplete server response: no UID provided for message %d"
-#~ msgstr "Nepilnas serverio atsakas: nesuteiktas UID žinutei %d"
-
-#~ msgid ""
-#~ "Unexpected server response: Identical UIDs provided for messages %d and %d"
-#~ msgstr "Netikėtas serverio atsakas: žinutėms %d ir %d suteikti vienodi UID"
-
-#~ msgid "Could not find message body in FETCH response."
-#~ msgstr "Nepavyko rasti laiško teksto FETCH atsakyme"
-
-#~ msgid "Could not open cache directory: %s"
-#~ msgstr "Nepavyko atidaryti podėlio aplanko: %s"
-
-#~ msgid "Failed to cache message %s: %s"
-#~ msgstr "Nepavyko laiško %s patalpinti į podėlį: %s"
-
-#~ msgid "Failed to cache %s: %s"
-#~ msgstr "Nepavyko patalpinti į podėlį %s: %s"
-
-#~ msgid "C_heck for new messages in all folders"
-#~ msgstr "Pa_tikrinti, ar yra naujų laiškų visuose aplankuose"
-
-#~ msgid "Connection to Server"
-#~ msgstr "Jungtis į serverį"
-
-#~ msgid "_Use custom command to connect to server"
-#~ msgstr "Na_udoti kitą jungties į serverį komandą"
-
-#~ msgid "Command:"
-#~ msgstr "Komanda:"
-
-#~ msgid "_Show only subscribed folders"
-#~ msgstr "_Rodyti tik užsakytus aplankus"
-
-#~ msgid "O_verride server-supplied folder namespace"
-#~ msgstr "N_epaisyti serverio pateiktos aplankų vardų zonos"
-
-#~ msgid "_Apply filters to new messages in INBOX on this server"
-#~ msgstr "_Pritaikyti filtrus naujiems laiškams šio serverio INBOX aplanke"
-
-#~ msgid "Check new messages for _Junk contents"
-#~ msgstr "Patikrinti naujus laiškus ar tarp jų nėra šla_mšto"
-
-#~ msgid "Only check for Junk messa_ges in the INBOX folder"
-#~ msgstr "Patikrinti, ar yra šlamšto tik įeinančių _laiškų aplanke"
-
-#~ msgid "Automatically synchroni_ze remote mail locally"
-#~ msgstr "Automatiškai sinchroni_zuoti nutolusį ir vietinį paštą"
-
-#~ msgid "IMAP"
-#~ msgstr "IMAP"
-
-#~ msgid "For reading and storing mail on IMAP servers."
-#~ msgstr "Pašto skaitymui ir rašymui IMAP serveriuose."
-
-#~ msgid "STARTTLS not supported"
-#~ msgstr "STARTTLS nepalaikomas"
-
-#~ msgid "Could not connect with command \"%s\": %s"
-#~ msgstr "Nepavyko prisijungti naudojant komandą „%s“: %s"
-
-#~ msgid "IMAP server %s does not support requested authentication type %s"
-#~ msgstr "IMAP serveris %s nepalaiko prašyto autentikacijos tipo %s"
-
-#~ msgid "No support for authentication type %s"
-#~ msgstr "Nepalaikoma %s tipo autentikacija"
-
-#~ msgid "%sPlease enter the IMAP password for %s@%s"
-#~ msgstr "%sPrašom įvesti %s@%s IMAP slaptažodį"
-
-#~ msgid "You didn't enter a password."
-#~ msgstr "Jūs neįvedėte slaptažodžio."
-
-#~ msgid ""
-#~ "Unable to authenticate to IMAP server.\n"
-#~ "%s\n"
-#~ "\n"
-#~ msgstr ""
-#~ "Nepavyko autentikuotis į IMAP serverį.\n"
-#~ "%s\n"
-
-#~ msgid "No such folder %s"
-#~ msgstr "Nėra tokio aplanko %s"
-
-#~ msgid "The parent folder is not allowed to contain subfolders"
-#~ msgstr "Aukštesniąjam aplankui neleistina turėti žemesniųjų aplankų"
-
-#~ msgid "Cannot create folder `%s': folder exists."
-#~ msgstr "Nepavyko sukurti aplanko „%s“: aplankas egzistuoja."
-
-#~ msgid "Unknown parent folder: %s"
-#~ msgstr "Nežinomas aukštesnysis aplankas: %s"
-
-#~ msgid "Message storage"
-#~ msgstr "Laiškų saugojimas"
-
-#~ msgid "IMAP+"
-#~ msgstr "IMAP+"
-
-#~ msgid ""
-#~ "Experimental IMAP 4(.1) client\n"
-#~ "This is untested and unsupported code, you want to use plain imap "
-#~ "instead.\n"
-#~ "\n"
-#~ " !!! DO NOT USE THIS FOR PRODUCTION EMAIL  !!!\n"
-#~ msgstr ""
-#~ "Eksperimentinis IMAP 4(.1) klientas\n"
-#~ "Tai yra nepatikrinta ir nepalaikoma programa, jei reikia garantijų "
-#~ "naudokite įprastą imap.\n"
-#~ "\n"
-#~ " !!! NENAUDOTI DARBINIO PAŠTO APLINKOJE !!!\n"
-
-#~ msgid "Could not connect to %s (port %s): %s"
-#~ msgstr "Nepavyko prisijungti prie %s (prievadas %s): %s"
-
-#~ msgid "Could not connect to POP server on %s"
-#~ msgstr "Nepavyko prisijungti prie %s POP serverio"
-
-#~ msgid "Index message body data"
-#~ msgstr "Suindeksuoti žinutės teksto duomenis"
-
-#~ msgid "~%s (%s)"
-#~ msgstr "~%s (%s)"
-
-#~ msgid "mailbox:%s (%s)"
-#~ msgstr "dėžutė:%s (%s)"
-
-#~ msgid "%s (%s)"
-#~ msgstr "%s (%s)"
-
-#~ msgid "Use the `.folders' folder summary file (exmh)"
-#~ msgstr "Naudoti „.folders“ aplankų santraukos bylą (exmh)"
-
-#~ msgid "MH-format mail directories"
-#~ msgstr "MH formato pašto aplankai"
-
-#~ msgid "For storing local mail in MH-like mail directories."
-#~ msgstr "Vietinio pašto laikymui MH tipo pašto aplankuose."
-
-#~ msgid "Local delivery"
-#~ msgstr "Vietinis pristatymas"
-
-#~ msgid ""
-#~ "For retrieving (moving) local mail from standard mbox formated spools "
-#~ "into folders managed by Evolution."
-#~ msgstr ""
-#~ "Skirtas gauti vietinį paštą iš įprastų mbox formato konteinerių į "
-#~ "Evolution valdomus aplankus."
-
-#~ msgid "Apply filters to new messages in INBOX"
-#~ msgstr "Pritaikyti filtrus naujiems laiškams INBOX aplanke"
-
-#~ msgid "Maildir-format mail directories"
-#~ msgstr "Maildir formato pašto aplankai"
-
-#~ msgid "For storing local mail in maildir directories."
-#~ msgstr "Vietinio pašto laikymui maildir aplankuose."
-
-#~ msgid "Store status headers in Elm/Pine/Mutt format"
-#~ msgstr "Saugoti būsenos antraštes Elm/Pine/Mutt formatu"
-
-#~ msgid "Standard Unix mbox spool or directory"
-#~ msgstr "Standartinis Unix mbox konteineris arba aplankas"
-
-#~ msgid ""
-#~ "For reading and storing local mail in external standard mbox spool "
-#~ "files.\n"
-#~ "May also be used to read a tree of Elm, Pine, or Mutt style folders."
-#~ msgstr ""
-#~ "Skirtas perskaityti ir išsaugoti vietinį paštą į nutolusias įprasto mbox "
-#~ "formato konteinerių bylas.\n"
-#~ "Taip pat gali būti naudojamas skaityti Elm, Pine ar Mutt tipo aplankų "
-#~ "struktūras."
-
-#~ msgid "Store root %s is not an absolute path"
-#~ msgstr "Saugyklos šaknis %s nėra absoliutus kelias"
-
-#~ msgid "Store root %s is not a regular directory"
-#~ msgstr "Saugyklos šaknis %s nėra nėra įprastas aplankas"
-
-#~ msgid "Cannot get folder: %s: %s"
-#~ msgstr "Negalėjau gauti aplanko „%s“: %s"
-
-#~ msgid "Local stores do not have an inbox"
-#~ msgstr "Vietinėse saugyklose nėra inbox"
-
-#~ msgid "Local mail file %s"
-#~ msgstr "Vietinė pašto byla %s"
-
-#~ msgid "Could not rename folder %s to %s: %s"
-#~ msgstr "Negalėjau pervadinti aplanko „%s“ į %s: %s"
-
-#~ msgid "Could not rename '%s': %s"
-#~ msgstr "Nepavyko pervardinti „%s“: %s"
-
-#~ msgid "Could not delete folder summary file `%s': %s"
-#~ msgstr "Negalėjau ištrinti aplanko santraukos bylos „%s“: %s"
-
-#~ msgid "Could not delete folder index file `%s': %s"
-#~ msgstr "Negalėjau ištrinti aplanko indekso bylos „%s“: %s"
-
-#~ msgid "Could not delete folder meta file `%s': %s"
-#~ msgstr "Nepavyko ištrinti aplanko meta bylos „%s“: %s"
-
-#~ msgid "Could not save summary: %s: %s"
-#~ msgstr "Negalėjau išsaugoti santraukos: %s: %s"
-
-#~ msgid "Unable to add message to summary: unknown reason"
-#~ msgstr "Nepavyko pridėti laiško į santrauką: nežinoma priežastis"
-
-#~ msgid "Maildir append message cancelled"
-#~ msgstr "Laiško patalpinimas tarp maildir atšauktas"
-
-#~ msgid "Cannot append message to maildir folder: %s: %s"
-#~ msgstr "Negalėjau pridurti laiško prie maildir aplanko: %s: %s"
-
-#~ msgid ""
-#~ "Cannot get message: %s from folder %s\n"
-#~ "  %s"
-#~ msgstr ""
-#~ "Negaliu gauti laiško: %s iš aplanko %s\n"
-#~ "  %s"
-
-#~ msgid "Invalid message contents"
-#~ msgstr "Blogas laiško turinys"
-
-#~ msgid "Cannot get folder `%s': %s"
-#~ msgstr "Nepavyko gauti aplanko „%s“: %s"
-
-#~ msgid "Cannot get folder `%s': folder does not exist."
-#~ msgstr "Nepavyko gauti aplanko „%s“: aplankas neegzistuoja"
-
-#~ msgid "Cannot create folder `%s': %s"
-#~ msgstr "Nepavyko sukurti aplanko „%s“: %s"
-
-#~ msgid "Cannot get folder `%s': not a maildir directory."
-#~ msgstr "Nepavyko gauti aplanko „%s“: tai nėra maildir aplankas."
-
-#~ msgid "Could not delete folder `%s': %s"
-#~ msgstr "Nepavyko ištrinti aplanko „%s“: %s"
-
-#~ msgid "not a maildir directory"
-#~ msgstr "ne maildir katalogas"
-
-#~ msgid "Could not scan folder `%s': %s"
-#~ msgstr "Nepavyko peržiūrėti aplanko „%s“: %s"
-
-#~ msgid "Cannot open maildir directory path: %s: %s"
-#~ msgstr "Negaliu atidaryti maildir katalogo kelio: %s: %s"
-
-#~ msgid "Checking folder consistency"
-#~ msgstr "Tikrinamas aplanko vientisumas"
-
-#~ msgid "Checking for new messages"
-#~ msgstr "Tikrinama, ar yra naujų laiškų"
-
-#~ msgid "Storing folder"
-#~ msgstr "Įrašomas aplankas"
-
-#~ msgid "Cannot create folder lock on %s: %s"
-#~ msgstr "Nepavyko sukurti aplanko užrakto ant %s: %s"
-
-#~ msgid "Cannot open mailbox: %s: %s\n"
-#~ msgstr "Nepavyko atidaryti pašto dėžutės: %s: %s\n"
-
-#~ msgid "Mail append cancelled"
-#~ msgstr "Laiško įterpimas atšauktas"
-
-#~ msgid "Cannot append message to mbox file: %s: %s"
-#~ msgstr "Nepavyko pridurti laiško prie mbox bylos: %s: %s"
-
-#~ msgid "The folder appears to be irrecoverably corrupted."
-#~ msgstr "Atrodo, jog aplankas yra neatkuriamai sugadintas."
-
-#~ msgid "Message construction failed."
-#~ msgstr "Laiško kūrimas nepavyko."
-
-#~ msgid "Cannot create a folder by this name."
-#~ msgstr "Nepavyko sukurti aplanko su tokiu vardu"
-
-#~ msgid "Cannot get folder `%s': not a regular file."
-#~ msgstr "Nepavyko gauti aplanko „%s“: ne paprasta byla"
-
-#~ msgid ""
-#~ "Could not delete folder `%s':\n"
-#~ "%s"
-#~ msgstr ""
-#~ "Nepavyko ištrinti aplanko „%s“:\n"
-#~ "%s"
-
-#~ msgid "`%s' is not a regular file."
-#~ msgstr "„%s“ nėra paprasta byla."
-
-#~ msgid "Folder `%s' is not empty. Not deleted."
-#~ msgstr "Aplankas „%s“ nėra tuščias. Neištrintas."
-
-#~ msgid "Cannot create directory `%s': %s."
-#~ msgstr "Nepavyko sukurti katalogo „%s“: %s."
-
-#~ msgid "Cannot create folder: %s: %s"
-#~ msgstr "Nepavyko sukurti aplanko: %s: %s"
-
-#~ msgid "Folder already exists"
-#~ msgstr "Toks aplankas jau yra"
-
-#~ msgid "The new folder name is illegal."
-#~ msgstr "Naujasis aplanko vardas yra neleistinas."
-
-#~ msgid "Could not rename `%s': `%s': %s"
-#~ msgstr "Nepavyko pervadinti „%s“: „%s“: %s"
-
-#~ msgid "Could not rename '%s' to %s: %s"
-#~ msgstr "Nepavyko pervardinti „%s“ į %s: %s"
-
-#~ msgid "Could not open folder: %s: %s"
-#~ msgstr "Nepavyko atidaryti aplanko: %s: %s"
-
-#~ msgid "Fatal mail parser error near position %ld in folder %s"
-#~ msgstr "Kritinė pašto apdorojomo klaida ties %ld eilute aplanke %s"
-
-#~ msgid "Cannot check folder: %s: %s"
-#~ msgstr "Nepavyko patikrinti aplanko: %s: %s"
-
-#~ msgid "Could not open file: %s: %s"
-#~ msgstr "Nepavyko atidaryti bylos: %s: %s"
-
-#~ msgid "Cannot open temporary mailbox: %s"
-#~ msgstr "Negalėjau atidaryti laikinos pašto bylos: %s"
-
-#~ msgid "Could not close source folder %s: %s"
-#~ msgstr "Negalėjau uždaryti šaltinio aplanko %s: %s"
-
-#~ msgid "Could not close temp folder: %s"
-#~ msgstr "Negalėjau uždaryti laikino aplanko:  %s"
-
-#~ msgid "Could not rename folder: %s"
-#~ msgstr "Negalėjau pervadinti aplanko: %s"
-
-#~ msgid "Summary and folder mismatch, even after a sync"
-#~ msgstr "Santrauka ir aplankas nesutampa net po sinchronizavimo"
-
-#~ msgid "Unknown error: %s"
-#~ msgstr "Nežinoma klaida: %s"
-
-#~ msgid "Could not store folder: %s"
-#~ msgstr "Nepavyko išsaugoti aplanko: %s"
-
-#~ msgid "Error writing to temp mailbox: %s"
-#~ msgstr "Klaida rašant į laikiną pašto dėžutę: %s"
-
-#~ msgid "Writing to tmp mailbox failed: %s: %s"
-#~ msgstr "Nepavyko rašyti į laikiną pašto dėžutę: %s: %s"
-
-#~ msgid "MH append message cancelled"
-#~ msgstr "Laiško įterpimas į MH atšauktas"
-
-#~ msgid "Cannot append message to mh folder: %s: %s"
-#~ msgstr "Nepavyko pridurti laiško prie mh aplanko: %s: %s"
-
-#~ msgid "Could not create folder `%s': %s"
-#~ msgstr "Nepavyko sukurti aplanko: „%s“: %s"
-
-#~ msgid "Cannot get folder `%s': not a directory."
-#~ msgstr "Nepavyko gauti aplanko „%s“: tai ne aplankas"
-
-#~ msgid "Cannot open MH directory path: %s: %s"
-#~ msgstr "Nepavyko atidaryti MH aplanko kelio: %s: %s"
-
-#~ msgid "Spool `%s' cannot be opened: %s"
-#~ msgstr "Konteineris „%s“ negali būti atvertas: %s"
-
-#~ msgid "Spool `%s' is not a regular file or directory"
-#~ msgstr "Konteineris „%s“ nėra įprasta byla ar katalogas"
-
-#~ msgid "Folder `%s/%s' does not exist."
-#~ msgstr "Nėra tokio aplanko „%s/%s“."
-
-#~ msgid ""
-#~ "Could not open folder `%s':\n"
-#~ "%s"
-#~ msgstr ""
-#~ "Nepavyko atidaryti aplanko „%s“:\n"
-#~ "%s"
-
-#~ msgid "Folder `%s' does not exist."
-#~ msgstr "Nėra tokio aplanko „%s“."
-
-#~ msgid ""
-#~ "Could not create folder `%s':\n"
-#~ "%s"
-#~ msgstr ""
-#~ "Nepavyko sukurti aplanko: „%s“:\n"
-#~ "%s"
-
-#~ msgid "`%s' is not a mailbox file."
-#~ msgstr "„%s“ nėra pašto dėžės byla."
-
-#~ msgid "Store does not support an INBOX"
-#~ msgstr "Ši saugykla nepalaiko INBOX"
-
-#~ msgid "Spool mail file %s"
-#~ msgstr "Spool pašto byla %s"
-
-#~ msgid "Spool folder tree %s"
-#~ msgstr "Konteinerio aplankų medis %s"
-
-#~ msgid "Spool folders cannot be renamed"
-#~ msgstr "Spool aplankų negalima pervadinti"
-
-#~ msgid "Spool folders cannot be deleted"
-#~ msgstr "Spool aplankų negalima ištrinti"
-
-#~ msgid "Could not sync temporary folder %s: %s"
-#~ msgstr "Nepavyko sulyginti laikino aplanko %s: %s"
-
-#~ msgid "Could not sync spool folder %s: %s"
-#~ msgstr "Nepavyko sulyginti konteinerio aplanko %s: %s"
-
-#~ msgid ""
-#~ "Could not sync spool folder %s: %s\n"
-#~ "Folder may be corrupt, copy saved in `%s'"
-#~ msgstr ""
-#~ "Nepavyko sulyginti konteinerio aplanko %s: %s\n"
-#~ "Aplankas gali būti apgadintas. Kopija išsaugota tarp „%s“"
-
-#~ msgid "Please enter the NNTP password for %s@%s"
-#~ msgstr "Prašom įvesti NNTP slaptažodį vartotojui %s@%s"
-
-#~ msgid "Server rejected username"
-#~ msgstr "Serveris atmetė vartotojo vardą"
-
-#~ msgid "Failed to send username to server"
-#~ msgstr "Nepavyko serveriui nusiųsti vartotojo vardo"
-
-#~ msgid "Server rejected username/password"
-#~ msgstr "Serveris atmetė vartotojo vardą/slaptažodį"
-
-#~ msgid "Internal error: uid in invalid format: %s"
-#~ msgstr "Vidinė klaida: uid yra netinkamame formate: %s"
-
-#~ msgid "Posting failed: %s"
-#~ msgstr "Rašymas nepavyko: %s"
-
-#~ msgid "You cannot post NNTP messages while working offline!"
-#~ msgstr "Jūs negalit siųsti NNTP žinučių, kol dirbate atsijungę!"
-
-#~ msgid "You cannot copy messages from a NNTP folder!"
-#~ msgstr "Jūs negalite kopijuoti žinučių iš NNTP aplanko!"
-
-#~ msgid "Could not get group list from server."
-#~ msgstr "Nepavyko iš serverio gauti grupių sąrašo."
-
-#~ msgid "Unable to load grouplist file for %s: %s"
-#~ msgstr "Nepavyko įkelti grupių sąrašo bylos dėl %s: %s"
-
-#~ msgid "Unable to save grouplist file for %s: %s"
-#~ msgstr "Nepavyko išsaugoti grupių sąrašo bylos dėl %s: %s"
-
-#~ msgid ""
-#~ "Show folders in short notation (e.g. c.o.linux rather than comp.os.linux)"
-#~ msgstr ""
-#~ "Rodyti sutrumpintus aplankų užrašus (pvz. c.o.linux vietoje comp.os.linux)"
-
-#~ msgid "In the subscription dialog, show relative folder names"
-#~ msgstr "Užsisakymo lange rodyti santykinius aplankų pavadinimus"
-
-#~ msgid "USENET news"
-#~ msgstr "USENET naujienos"
-
-#~ msgid "This is a provider for reading from and posting toUSENET newsgroups."
-#~ msgstr ""
-#~ "Tai tiekėjas, naudojamas skaitant ir rašant į USENET naujienų grupes."
-
-#~ msgid ""
-#~ "This option will authenticate with the NNTP server using a plaintext "
-#~ "password."
-#~ msgstr ""
-#~ "Naudojant šią parinktį, autentikuotis su NNTP serveriu bus naudojamas "
-#~ "paprasto teksto pavidalo slaptažodis."
-
-#~ msgid "Could not read greeting from %s: %s"
-#~ msgstr "Nepavyko perskaityti %s pasisveikinimo: %s"
-
-#~ msgid "NNTP server %s returned error code %d: %s"
-#~ msgstr "NNTP serveris %s grąžino klaidos kodą %d: %s"
-
-#~ msgid "USENET News via %s"
-#~ msgstr "USENET naujienos per %s"
-
-#~ msgid ""
-#~ "Error retrieving newsgroups:\n"
-#~ "\n"
-#~ "%s"
-#~ msgstr ""
-#~ "Įvyko klaida gaunant naujienų grupes:\n"
-#~ "\n"
-#~ "%s"
-
-#~ msgid ""
-#~ "You cannot subscribe to this newsgroup:\n"
-#~ "\n"
-#~ "No such newsgroup. The selected item is a probably a parent folder."
-#~ msgstr ""
-#~ "Jūs negalite užsisakyti šios naujienų grupės:\n"
-#~ "\n"
-#~ "Nėra tokios naujienų grupės. Pasirinktas elementas greičiausiai yra "
-#~ "aukštesnysis aplankas."
-
-#~ msgid ""
-#~ "You cannot unsubscribe to this newsgroup:\n"
-#~ "\n"
-#~ "newsgroup does not exist!"
-#~ msgstr ""
-#~ "Jūs negalite atsisakyti šios naujienų grupės:\n"
-#~ "\n"
-#~ "naujienų grupė neegzistuoja!"
-
-#~ msgid "You cannot create a folder in a News store: subscribe instead."
-#~ msgstr ""
-#~ "Jūs negalite sukurti aplanko naujienų saugykloje - vietoj to užsisakykit."
-
-#~ msgid "You cannot rename a folder in a News store."
-#~ msgstr "Jūs negalite pervadinti aplanko naujienų saugykloje."
-
-#~ msgid "You cannot remove a folder in a News store: unsubscribe instead."
-#~ msgstr ""
-#~ "Jūs negalite pašalinti aplanko naujienų saugykloje - vietoj to "
-#~ "atsisakykite."
-
-#~ msgid "Authentication requested but no username provided"
-#~ msgstr "Reikalaujama autentikacija, bet nėra nurodyto naudojo vardo"
-
-#~ msgid "Cannot authenticate to server: %s"
-#~ msgstr "Nepavyko autentikuotis su serveriu: %s"
-
-#~ msgid "NNTP Command failed: %s"
-#~ msgstr "NNTP komandos klaida: %s"
-
-#~ msgid "Not connected."
-#~ msgstr "Neprisijungta."
-
-#~ msgid "No such folder: %s"
-#~ msgstr "Nėra tokio aplanko: %s"
-
-#~ msgid "%s: Scanning new messages"
-#~ msgstr "%s: Ieškoma naujų laiškų"
-
-#~ msgid "Unexpected server response from xover: %s"
-#~ msgstr "Netikėtas serverio atsakymas iš xover: %s"
-
-#~ msgid "Unexpected server response from head: %s"
-#~ msgstr "Netikėtas serverio atsakymas iš head: %s"
-
-#~ msgid "Use cancel"
-#~ msgstr "Naudoti atšaukimą"
-
-#~ msgid "Operation failed: %s"
-#~ msgstr "Operacijos klaida: %s"
-
-#~ msgid "Retrieving POP summary"
-#~ msgstr "Parsiunčiama POP santrauka"
-
-#~ msgid "Cannot get POP summary: %s"
-#~ msgstr "Nepavyko gauti POP santraukos: %s"
-
-#~ msgid "Expunging deleted messages"
-#~ msgstr "Sunaikinami ištrinti laiškai"
-
-#~ msgid "No message with uid %s"
-#~ msgstr "Nėra laiško su uid %s"
-
-#~ msgid "Retrieving POP message %d"
-#~ msgstr "Parsiunčiamas POP laiškas %d"
-
-#~ msgid "Leave messages on server"
-#~ msgstr "Palikti laiškus serveryje"
-
-#~ msgid "Delete after %s day(s)"
-#~ msgstr "Ištrinti po %s dienos(ų)"
-
-#~ msgid "Disable support for all POP3 extensions"
-#~ msgstr "Atjungti visų POP3 išplėtimų palaikimą"
-
-#~ msgid "POP"
-#~ msgstr "POP"
-
-#~ msgid "For connecting to and downloading mail from POP servers."
-#~ msgstr "Jungimuisi ir pašto parsiuntimui iš POP serverių."
-
-#~ msgid ""
-#~ "This option will connect to the POP server using a plaintext password. "
-#~ "This is the only option supported by many POP servers."
-#~ msgstr ""
-#~ "Su šia parinktimi jungiantis prie POP serverio bus naudojamas paprasto "
-#~ "teksto slaptažodis. Tai vienintelė parinktis, palaikoma daugelio POP "
-#~ "serverių."
-
-#~ msgid ""
-#~ "This option will connect to the POP server using an encrypted password "
-#~ "via the APOP protocol. This may not work for all users even on servers "
-#~ "that claim to support it."
-#~ msgstr ""
-#~ "Su šia parinktimi jungiantis prie POP serverio bus naudojamas užšifruotas "
-#~ "slaptažodis per APOP protokolą. Tai gali veikti ne visiems vartotojams "
-#~ "netgi serveriuose, kurie teigia, jog jį palaiko."
-
-#~ msgid "Failed to read a valid greeting from POP server %s"
-#~ msgstr "Nepavyko perskaityti teisingo pasveikinimo iš POP serverio %s"
-
-#~ msgid "Failed to connect to POP server %s in secure mode: %s"
-#~ msgstr "Nepavyko prisijungti prie POP serverio %s saugiu režimu: %s"
-
-#~ msgid "STLS not supported"
-#~ msgstr "STLS nepalaikomas"
-
-#~ msgid "Could not connect to POP server %s"
-#~ msgstr "Nepavyko prisijungti prie POP serverio %s"
-
-#~ msgid ""
-#~ "Unable to connect to POP server %s: No support for requested "
-#~ "authentication mechanism."
-#~ msgstr ""
-#~ "Nepavyko prisijungti prie POP serverio %s. Nepalaikomas reikiamas "
-#~ "autentikacijos mechanizmas."
-
-#~ msgid "SASL `%s' Login failed for POP server %s: %s"
-#~ msgstr "SASL „%s“ prisijungimas prie POP serverio %s nepavyko: %s"
-
-#~ msgid "Cannot login to POP server %s: SASL Protocol error"
-#~ msgstr "Nepavyko prisijungti prie POP serverio %s: SASL protokolo klaida"
-
-#~ msgid "Failed to authenticate on POP server %s: %s"
-#~ msgstr "Autentifikacija su POP serveriu %s nepavyko: %s"
-
-#~ msgid "%sPlease enter the POP password for %s on host %s"
-#~ msgstr "%sĮveskite %s hoste %s POP slaptažodį"
-
-#~ msgid ""
-#~ "Unable to connect to POP server %s.\n"
-#~ "Error sending password: %s"
-#~ msgstr ""
-#~ "Nepavyko prisijungti prie POP serverio %s.\n"
-#~ "Įvyko klaida siunčiant slaptažodį: %s"
-
-#~ msgid ""
-#~ "Unable to connect to POP server %s.\n"
-#~ "Error sending username: %s"
-#~ msgstr ""
-#~ "Nepavyko prisijungti prie POP serverio %s.\n"
-#~ "Įvyko klaida siunčiant naudotojo vardą: %s"
-
-#~ msgid "No such folder `%s'."
-#~ msgstr "Nėra tokio aplanko „%s“."
-
-#~ msgid "Sendmail"
-#~ msgstr "Sendmail"
-
-#~ msgid ""
-#~ "For delivering mail by passing it to the \"sendmail\" program on the "
-#~ "local system."
-#~ msgstr ""
-#~ "Pašto siuntimui, perleidžiant jį vietinės sistemos „sendmail“ programai."
-
-#~ msgid "Could not parse recipient list"
-#~ msgstr "Nepavyko apdoroti gavėjų sąrašo"
-
-#~ msgid "Could not create pipe to sendmail: %s: mail not sent"
-#~ msgstr "Nepavyko sukurti konvejerio į sendmail: %s: paštas neišsiųstas"
-
-#~ msgid "Could not fork sendmail: %s: mail not sent"
-#~ msgstr "Nepavyko paleisti atskiro sendmail proceso: %s: paštas neišsiųstas"
-
-#~ msgid "Could not send message: %s"
-#~ msgstr "Nepavyko išsiųsti laiško: %s"
-
-#~ msgid "sendmail exited with signal %s: mail not sent."
-#~ msgstr "sendmail baigė darbą signalu %s: paštas neišsiųstas."
-
-#~ msgid "Could not execute %s: mail not sent."
-#~ msgstr "Negalėjau paleisti %s: paštas neišsiųstas."
-
-#~ msgid "sendmail exited with status %d: mail not sent."
-#~ msgstr "sendmail'as baigė darbą būsena %d: paštas neišsiųstas."
-
-#~ msgid "sendmail"
-#~ msgstr "sendmail"
-
-#~ msgid "Mail delivery via the sendmail program"
-#~ msgstr "Pašto siuntimas per sendmail programą"
-
-#~ msgid "SMTP"
-#~ msgstr "SMTP"
-
-#~ msgid "For delivering mail by connecting to a remote mailhub using SMTP."
-#~ msgstr ""
-#~ "Pašto siuntimui, prisijungiant prie nutolusio pašto serverio naudojant "
-#~ "SMTP."
-
-#~ msgid "Syntax error, command unrecognized"
-#~ msgstr "Sintaksės klaida, komanda neatpažinta"
-
-#~ msgid "Syntax error in parameters or arguments"
-#~ msgstr "Sintakses klaida parametruose arba argumentuose"
-
-#~ msgid "Command not implemented"
-#~ msgstr "Komanda neįgyvendinta"
-
-#~ msgid "Command parameter not implemented"
-#~ msgstr "Komandos parametras neįgyvendintas"
-
-#~ msgid "System status, or system help reply"
-#~ msgstr "Sistemos būsena, arba sistemos pagalbos atsakymas"
-
-#~ msgid "Help message"
-#~ msgstr "Pagalbos žinutė"
-
-#~ msgid "Service ready"
-#~ msgstr "Paslauga pasiruošusi"
-
-#~ msgid "Service closing transmission channel"
-#~ msgstr "Paslauga uždaro transmisijos kanalą"
-
-#~ msgid "Service not available, closing transmission channel"
-#~ msgstr "Paslauga neprieinama, uždaromas transmisijos kanalas"
-
-#~ msgid "Requested mail action okay, completed"
-#~ msgstr "Prašytas pašto veiksmas pavyko, užbaigtas"
-
-#~ msgid "User not local; will forward to <forward-path>"
-#~ msgstr "Vartotojas ne vietinis. Bus persiųsta į <forward-path>"
-
-#~ msgid "Requested mail action not taken: mailbox unavailable"
-#~ msgstr "Prašytas pašto veiksmas neįvykdytas: pašto dėžutė neprieinama"
-
-#~ msgid "Requested action not taken: mailbox unavailable"
-#~ msgstr "Prašytas veiksmas neįvykdytas: pašto dėžutė neprieinama"
-
-#~ msgid "Requested action aborted: error in processing"
-#~ msgstr "Prašytas veiksmas nutrauktas: klaida vykdant"
-
-#~ msgid "User not local; please try <forward-path>"
-#~ msgstr "Vartotojas ne vietinis. Pabandykite <forward-path>"
-
-#~ msgid "Requested action not taken: insufficient system storage"
-#~ msgstr "Prašytas veiksmas neįvykdytas: trūksta vietos sistemoje"
-
-#~ msgid "Requested mail action aborted: exceeded storage allocation"
-#~ msgstr "Prašytas veiksmas neįvykdytas: peržengta vietos saugykloje riba"
-
-#~ msgid "Requested action not taken: mailbox name not allowed"
-#~ msgstr "Prašytas veiksmas neįvykdytas: pašto dėžutės vardas neleistinas"
-
-#~ msgid "Start mail input; end with <CRLF>.<CRLF>"
-#~ msgstr "Pradėkite laiško įvestį. Įvedimas baigiamas pateikus <CRLF>.<CRLF>"
-
-#~ msgid "Transaction failed"
-#~ msgstr "Tranzakcija nepavyko"
-
-#~ msgid "A password transition is needed"
-#~ msgstr "Būtinas slaptažodžio perkėlimas"
-
-#~ msgid "Authentication mechanism is too weak"
-#~ msgstr "Autentikacijos mechanizmas per silpnas"
-
-#~ msgid "Encryption required for requested authentication mechanism"
-#~ msgstr "Prašytam autentikacijos mechanizmui būtinas šifravimas"
-
-#~ msgid "Temporary authentication failure"
-#~ msgstr "Laikina autentikacijos nesėkmė"
-
-#~ msgid "Authentication required"
-#~ msgstr "Autentikacija būtina"
-
-#~ msgid "Welcome response error"
-#~ msgstr "Pristatomojo atsako klaida"
-
-#~ msgid "Failed to connect to SMTP server %s in secure mode: %s"
-#~ msgstr "Nepavyko prisijungti prie SMTP serverio %s saugiu režimu: %s"
-
-#~ msgid "STARTTLS command failed: %s"
-#~ msgstr "STARTTLS komanda nepavyko: %s"
-
-#~ msgid "STARTTLS command failed"
-#~ msgstr "STARTTLS komanda nepavyko"
-
-#~ msgid "SMTP server %s does not support requested authentication type %s."
-#~ msgstr "SMTP serveris %s nepalaiko prašyto autentikacijos tipo %s."
-
-#~ msgid "%sPlease enter the SMTP password for %s on host %s"
-#~ msgstr "%sPrašom įvesti %s hoste %s SMTP slaptažodį"
-
-#~ msgid ""
-#~ "Unable to authenticate to SMTP server.\n"
-#~ "%s\n"
-#~ "\n"
-#~ msgstr ""
-#~ "Nepavyko autentikuotis su SMTP serveriu.\n"
-#~ "%s\n"
-
-#~ msgid "SMTP server %s"
-#~ msgstr "SMTP serveris %s"
-
-#~ msgid "SMTP mail delivery via %s"
-#~ msgstr "SMTP pašto siuntimas per %s"
-
-#~ msgid "Cannot send message: service not connected."
-#~ msgstr "Nepavyko išsiųsti laiško: paslauga neprisijungus."
-
-#~ msgid "Cannot send message: sender address not valid."
-#~ msgstr "Nepavyko išsiųsti laiško: siuntėjo adresas neteisingas."
-
-#~ msgid "Sending message"
-#~ msgstr "Siunčiamas laiškas"
-
-#~ msgid "Cannot send message: no recipients defined."
-#~ msgstr "Nepavyko išsiųsti laiško: neapibrėžti jokie gavėjai."
-
-#~ msgid "Cannot send message: one or more invalid recipients"
-#~ msgstr "Nepavyko išsiųsti laiško: dalis adresatų yra neteisingi"
-
-#~ msgid "SMTP Greeting"
-#~ msgstr "SMTP pasveikinimas"
-
-#~ msgid "HELO command failed: %s"
-#~ msgstr "Nepavyko HELO komanda: %s"
-
-#~ msgid "HELO command failed"
-#~ msgstr "Nepavyko HELO komanda"
-
-#~ msgid "SMTP Authentication"
-#~ msgstr "SMTP autentikacija"
-
-#~ msgid "Error creating SASL authentication object."
-#~ msgstr "Klaida sukuriant SASL autentikacijos objektą."
-
-#~ msgid "AUTH command failed: %s"
-#~ msgstr "Nepavyko AUTH komanda: %s"
-
-#~ msgid "AUTH command failed"
-#~ msgstr "Nepavyko AUTH komanda"
-
-#~ msgid "Bad authentication response from server.\n"
-#~ msgstr "Blogas autentikacijos atsakymas iš serverio.\n"
-
-#~ msgid "MAIL FROM command failed: %s: mail not sent"
-#~ msgstr "Nepavyko MAIL FROM komanda: %s: paštas neišsiųstas"
-
-#~ msgid "MAIL FROM command failed"
-#~ msgstr "Nepavyko MAIL FROM komanda"
-
-#~ msgid "RCPT TO command failed: %s: mail not sent"
-#~ msgstr "Nepavyko RCPT TO komanda: %s: paštas neišsiųstas"
-
-#~ msgid "RCPT TO <%s> failed"
-#~ msgstr "RCPT TO <%s> klaida"
-
-#~ msgid "DATA command failed: %s: mail not sent"
-#~ msgstr "DATA komanda nepavyko: %s: paštas neišsiųstas"
-
-#~ msgid "DATA command failed"
-#~ msgstr "Nepavyko DATA komanda"
-
-#~ msgid "RSET command failed: %s"
-#~ msgstr "Nepavyko RSET komanda: %s"
-
-#~ msgid "RSET command failed"
-#~ msgstr "Nepavyko RSET komanda"
-
-#~ msgid "QUIT command failed: %s"
-#~ msgstr "Nepavyko QUIT komanda: %s"
-
-#~ msgid "QUIT command failed"
-#~ msgstr "Nepavyko QUIT komanda"
+#~ msgid "Free/Busy Editor"
+#~ msgstr "Laisvas/užsiėmęs redaktorius"
