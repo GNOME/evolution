@@ -188,23 +188,25 @@
       </placeholder>
     </submenu>
 
-    <submenu name="Edit">
-      <placeholder name="MailMessageEdit">
-        <menuitem name="MessageSearch" verb="" _label="S_earch Message..."/>
+    <placeholder name="EditPlaceholder">
+      <submenu name="Edit">
+        <placeholder name="MailMessageEdit">
+          <menuitem name="MessageSearch" verb="" _label="S_earch Message..."/>
 
-        <separator/>
+          <separator/>
 
-        <menuitem name="MessageDelete" verb="" _label="_Delete"/>
-        <menuitem name="MessageUndelete" verb="" _label="_Undelete"/>
+          <menuitem name="MessageDelete" verb="" _label="_Delete"/>
+          <menuitem name="MessageUndelete" verb="" _label="_Undelete"/>
 
-        <separator/>
+          <separator/>
 
-        <menuitem name="MessageMarkAsRead" verb="" _label="Mar_k as Read"/>
-        <menuitem name="MessageMarkAsUnRead" verb="" _label="Mark as U_nread"/>
-	<menuitem name="MessageMarkAsImportant" verb="" _label="Mark as I_mportant"/>
-	<menuitem name="MessageMarkAsUnimportant" verb="" _label="Mark as Unimp_ortant"/>
-      </placeholder>
-    </submenu>
+          <menuitem name="MessageMarkAsRead" verb="" _label="Mar_k as Read"/>
+          <menuitem name="MessageMarkAsUnRead" verb="" _label="Mark as U_nread"/>
+          <menuitem name="MessageMarkAsImportant" verb="" _label="Mark as I_mportant"/>
+          <menuitem name="MessageMarkAsUnimportant" verb="" _label="Mark as Unimp_ortant"/>
+        </placeholder>
+      </submenu>
+    </placeholder>
 
     <submenu name="View">
       <placeholder name="MailMessageView">

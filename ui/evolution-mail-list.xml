@@ -74,26 +74,27 @@
       </submenu>
     </submenu>
 
-    <submenu name="Edit">
-      <placeholder name="MailListEdit">
-        <menuitem name="EditSelectAll" verb="" _label="Select _All"/>
-        <menuitem name="EditSelectThread" verb="" _label="Select _Thread"/>
-        <menuitem name="EditInvertSelection" verb="" _label="_Invert Selection"/>
+    <placeholder name="EditPlaceholder">
+      <submenu name="Edit" _label="_Edit">
+        <placeholder name="MailListEdit">
+          <menuitem name="EditSelectAll" verb="" _label="Select _All"/>
+          <menuitem name="EditSelectThread" verb="" _label="Select _Thread"/>
+          <menuitem name="EditInvertSelection" verb="" _label="_Invert Selection"/>
 
-        <separator/>
+          <separator/>
 
-        <menuitem name="EditCut" verb="" _label="Cu_t"/>
-        <menuitem name="EditCopy" verb="" _label="_Copy"/>
-        <menuitem name="EditPaste" verb="" _label="_Paste"/>
+          <menuitem name="EditCut" verb="" _label="Cu_t"/>
+          <menuitem name="EditCopy" verb="" _label="_Copy"/>
+          <menuitem name="EditPaste" verb="" _label="_Paste"/>
 
-        <separator/>
-      </placeholder>
+          <separator/>
+        </placeholder>
 
-      <placeholder name="MailListEditFlags">
-        <menuitem name="MessageMarkAllAsRead" verb="" _label="Mark All as R_ead"/>
-      </placeholder>
-
-    </submenu>
+        <placeholder name="MailListEditFlags">
+          <menuitem name="MessageMarkAllAsRead" verb="" _label="Mark All as R_ead"/>
+        </placeholder>
+      </submenu>
+    </placeholder>
 
     <submenu name="View">
       <placeholder name="MailMessageView">

@@ -19,8 +19,10 @@
 
     </submenu>
 
-    <submenu name="Edit" _label="_Edit">
-    </submenu>
+    <placeholder name="EditPlaceholder">
+      <submenu name="Edit" _label="_Edit">
+      </submenu>
+    </placeholder>
 
     <submenu name="View" _label="_View">
       <placeholder name="MailMessageView"/>

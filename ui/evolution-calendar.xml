@@ -53,12 +53,14 @@
 
     </submenu>
 
-    <submenu name="Edit">
-      <menuitem name="CutEvent" verb="" _label="C_ut" pixtype="pixbuf"/>
-      <menuitem name="CopyEvent" verb="" _label="_Copy" pixtype="pixbuf"/>
-      <menuitem name="PasteEvent" verb="" _label="_Paste" pixtype="pixbuf"/>
-      <menuitem name="DeleteEvent" verb="" _label="_Delete" pixtype="pixbuf"/>
-    </submenu>
+    <placeholder name="EditPlaceholder">
+      <submenu name="Edit" _label="_Edit">
+      	<menuitem name="CutEvent" verb="" _label="C_ut" pixtype="pixbuf"/>
+      	<menuitem name="CopyEvent" verb="" _label="_Copy" pixtype="pixbuf"/>
+      	<menuitem name="PasteEvent" verb="" _label="_Paste" pixtype="pixbuf"/>
+      	<menuitem name="DeleteEvent" verb="" _label="_Delete" pixtype="pixbuf"/>
+      </submenu>
+    </placeholder>
 
     <submenu name="View">
       <placeholder name="ViewBegin">

@@ -126,8 +126,8 @@
       <menuitem name="FileExit" verb="FileExit"/>
     </submenu>
 
-    <submenu name="Edit" _label="_Edit">
-    </submenu>
+    <placeholder name="EditPlaceholder">
+    </placeholder>
 
     <submenu name="View" _label="_View">
       <placeholder name="ViewBegin"/>

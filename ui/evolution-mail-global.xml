@@ -64,10 +64,12 @@
       <placeholder name="MailListView"/>
     </submenu>
 
-    <submenu name="Edit">
-      <placeholder name="MailListEdit"/>
-      <placeholder name="MailMessageEdit"/>
-      <placeholder name="MailListEditFlags"/>
+    <submenu name="EditPlaceholder">
+      <submenu name="Edit">
+        <placeholder name="MailListEdit"/>
+        <placeholder name="MailMessageEdit"/>
+        <placeholder name="MailListEditFlags"/>
+      </submenu>
     </submenu>
 
     <placeholder name="ComponentActionsPlaceholder">

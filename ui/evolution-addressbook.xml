@@ -84,22 +84,26 @@
 
 		</submenu>
 
-		<submenu name="Edit">
-			<menuitem name="ContactsCut" verb="" _label="C_ut"
-			 pixtype="pixbuf"/>
-	
-			<menuitem name="ContactsCopy" verb="" _label="_Copy"
-			 pixtype="pixbuf"/>
-	
-			<menuitem name="ContactsPaste" verb="" _label="_Paste"
-			 pixtype="pixbuf"/>
+		<placeholder name="EditPlaceholder">
 
-		        <menuitem name="ContactDelete" verb=""
-		        _label="Delete" pixtype="pixbuf"/>
-			<separator/>
+			<submenu name="Edit" _label="_Edit">
+				<menuitem name="ContactsCut" verb="" _label="C_ut"
+				 pixtype="pixbuf"/>
+		
+				<menuitem name="ContactsCopy" verb="" _label="_Copy"
+				 pixtype="pixbuf"/>
+		
+				<menuitem name="ContactsPaste" verb="" _label="_Paste"
+				 pixtype="pixbuf"/>
 
-			<menuitem name="ContactsSelectAll" verb="" _label="_Select All"/>
-		</submenu>
+			        <menuitem name="ContactDelete" verb=""
+			        _label="Delete" pixtype="pixbuf"/>
+				<separator/>
+
+				<menuitem name="ContactsSelectAll" verb="" _label="_Select All"/>
+			</submenu>
+
+      		</placeholder>
 
 		<submenu name="View">
 		</submenu>

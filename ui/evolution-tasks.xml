@@ -32,15 +32,14 @@
       
 		</submenu>
 
-		<submenu name="Edit">
-
-			<menuitem name="Cut" verb="TasksCut" _label="C_ut" pixtype="pixbuf"/>
-			<menuitem name="Copy" verb="TasksCopy" _label="_Copy" pixtype="pixbuf"/>
-			<menuitem name="Paste" verb="TasksPaste" _label="_Paste" pixtype="pixbuf"/>
-			<menuitem name="Delete" verb="TasksDelete"
-			_label="_Delete" pixtype="pixbuf"/>
-
-		</submenu>
+		<placeholder name="EditPlaceholder">
+			<submenu name="Edit" _label="_Edit">
+				<menuitem name="Cut" verb="TasksCut" _label="C_ut" pixtype="pixbuf"/>
+				<menuitem name="Copy" verb="TasksCopy" _label="_Copy" pixtype="pixbuf"/>
+				<menuitem name="Paste" verb="TasksPaste" _label="_Paste" pixtype="pixbuf"/>
+				<menuitem name="Delete" verb="TasksDelete" _label="_Delete" pixtype="pixbuf"/>
+			</submenu>
+		</placeholder>
 
 	        <placeholder name="ComponentToolsPlaceholder">
           	        <submenu name="Tools" _label="_Tools">

@@ -1,5 +1,21 @@
 2001-09-05  Ettore Perazzoli  <ettore@ximian.com>
 
+	[Fix #5503, Edit menu is empty and should be removed.]
+
+	* evolution-addressbook.xml: Put the Edit menu in the
+	EditPlaceholder.
+	* evolution-calendar.xml: Likewise.
+	* evolution-mail-list.xml: Likewise.
+	* evolution-mail-global.xml: Likewise.
+	* evolution-mail-message.xml: Likewise.
+	* evolution-mail-messagedisplay.xml: Likewise.
+	* evolution-tasks.xml: Likewise.
+
+	* evolution.xml: Don't put an Edit menu here.  Instead, put a
+	EditPlaceholder instead.
+
+2001-09-05  Ettore Perazzoli  <ettore@ximian.com>
+
 	* evolution.xml: s/Evolution/Ximian Evolution/.
 
 2001-09-04  Ettore Perazzoli  <ettore@ximian.com>
