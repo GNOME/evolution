@@ -13,14 +13,36 @@
 
 typedef struct {
 	GtkObject base;
-	char *name;
 } GalView;
 
 typedef struct {
 	GtkObjectClass parent_class;
+
+	/*
+	 * Virtual methods
+	 */
+	void        (*edit)           (GalView *view);
+	void        (*load_from_node) (GalView *view,
+				       xmlNode *node);
+	void        (*save_to_node)   (GalView *view,
+				       xmlNode *parent);
+	const char *(*get_title)      (GalView *view);
 } GalViewClass;
 
-GtkType  gal_view_get_type  (void);
-GalView *gal_view_new       (void);
+/* Standard functions */
+GtkType     gal_view_get_type        (void);
+
+/* Open an editor dialog for this view. */
+void        gal_view_edit            (GalView *view);
+
+/* xml load and save functions */
+void        gal_view_load_from_node  (GalView *view,
+				      xmlNode *node);
+void        gal_view_save_to_node    (GalView *view,
+				      xmlNode *parent);
+
+/* Query functions */
+const char *gal_view_get_title       (GalView *view);
+
 
 #endif /* _GAL_VIEW_H_ */

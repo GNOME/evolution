@@ -39,6 +39,7 @@ static GnomeDialogClass *parent_class = NULL;
 enum {
 	ARG_0,
 	ARG_NAME,
+	ARG_FACTORY,
 };
 
 GtkType
@@ -80,36 +81,18 @@ gal_view_new_dialog_class_init (GalViewNewDialogClass *klass)
 
 	gtk_object_add_arg_type ("GalViewNewDialog::name", GTK_TYPE_STRING,
 				 GTK_ARG_READWRITE, ARG_NAME);
+	gtk_object_add_arg_type ("GalViewNewDialog::factory", GTK_TYPE_OBJECT,
+				 GTK_ARG_READABLE, ARG_FACTORY);
 }
-
-#if 0
-#define SPEC "<ETableSpecification cursor-mode=\"line\" draw-grid=\"true\">" \
-	     "<ETableColumn model_col= \"0\" _tite=\"Name\" expansion=\"1.0\" minimum_width=\"18\" resizable=\"true\" cell=\"string\" compare=\"string\"/>" \
-             "<ETableState> <column source=\"0\"/> <grouping> </grouping> </ETableState>" \
-	     "</ETableSpecification>"
-
-/* For use from libglade. */
-GtkWidget *gal_view_new_dialog_create_etable(char *name, char *string1, char *string2, int int1, int int2);
-
-GtkWidget *
-gal_view_new_dialog_create_etable(char *name, char *string1, char *string2, int int1, int int2)
-{
-	GtkWidget *table;
-	ETableModel *model;
-	model = gal_define_views_model_new();
-	table = e_table_scrolled_new(model, NULL, SPEC, NULL);
-	return table;
-}
-#endif
 
 static void
-gal_view_new_dialog_init (GalViewNewDialog *gal_view_new_dialog)
+gal_view_new_dialog_init (GalViewNewDialog *dialog)
 {
 	GladeXML *gui;
 	GtkWidget *widget;
 
 	gui = glade_xml_new (GAL_GLADEDIR "/gal-view-new-dialog.glade", NULL);
-	gal_view_new_dialog->gui = gui;
+	dialog->gui = gui;
 
 	widget = glade_xml_get_widget(gui, "table-top");
 	if (!widget) {
@@ -117,15 +100,18 @@ gal_view_new_dialog_init (GalViewNewDialog *gal_view_new_dialog)
 	}
 	gtk_widget_ref(widget);
 	gtk_widget_unparent(widget);
-	gtk_box_pack_start(GTK_BOX(GNOME_DIALOG(gal_view_new_dialog)->vbox), widget, TRUE, TRUE, 0);
+	gtk_box_pack_start(GTK_BOX(GNOME_DIALOG(dialog)->vbox), widget, TRUE, TRUE, 0);
 	gtk_widget_unref(widget);
 
-	gnome_dialog_append_buttons(GNOME_DIALOG(gal_view_new_dialog),
+	gnome_dialog_append_buttons(GNOME_DIALOG(dialog),
 				    GNOME_STOCK_BUTTON_OK,
 				    GNOME_STOCK_BUTTON_CANCEL,
 				    NULL);
-	
-	gtk_window_set_policy(GTK_WINDOW(gal_view_new_dialog), FALSE, TRUE, FALSE);
+
+	gtk_window_set_policy(GTK_WINDOW(dialog), FALSE, TRUE, FALSE);
+
+	dialog->collection = NULL;
+	dialog->selected_factory = NULL;
 }
 
 static void
@@ -136,10 +122,54 @@ gal_view_new_dialog_destroy (GtkObject *object) {
 }
 
 GtkWidget*
-gal_view_new_dialog_new (void)
+gal_view_new_dialog_new (GalViewCollection *collection)
 {
-	GtkWidget *widget = GTK_WIDGET (gtk_type_new (gal_view_new_dialog_get_type ()));
+	GtkWidget *widget =
+		gal_view_new_dialog_construct(gtk_type_new (gal_view_new_dialog_get_type ()),
+					      collection);
 	return widget;
+}
+
+
+static void
+gal_view_new_dialog_select_row_callback(GtkCList *list,
+					gint row,
+					gint column,
+					GdkEventButton *event,
+					GalViewNewDialog *dialog)
+{
+	dialog->selected_factory = gtk_clist_get_row_data(list,
+							  row);
+}
+
+GtkWidget*
+gal_view_new_dialog_construct (GalViewNewDialog  *dialog,
+			       GalViewCollection *collection)
+{
+	GtkWidget *list = glade_xml_get_widget(dialog->gui,
+					       "clist-type-list");
+	GList *iterator;
+	dialog->collection = collection;
+
+	iterator = dialog->collection->factory_list;
+
+	for ( ; iterator; iterator = g_list_next(iterator) ) {
+		GalViewFactory *factory = iterator->data;
+		char *text[1];
+		int row;
+
+		gtk_object_ref(GTK_OBJECT(factory));
+		text[0] = (char *) gal_view_factory_get_title(factory);
+		row = gtk_clist_append(GTK_CLIST(list), text);
+		gtk_clist_set_row_data(GTK_CLIST(list), row, factory);
+	}
+
+	gtk_signal_connect(GTK_OBJECT (list),
+			   "select_row",
+			   GTK_SIGNAL_FUNC(gal_view_new_dialog_select_row_callback),
+			   dialog);
+
+	return GTK_WIDGET(dialog);
 }
 
 static void
@@ -176,6 +206,9 @@ gal_view_new_dialog_get_arg (GtkObject *object, GtkArg *arg, guint arg_id)
 		if (entry && GTK_IS_EDITABLE(entry)) {
 			GTK_VALUE_STRING(*arg) = e_utf8_gtk_editable_get_text(GTK_EDITABLE(entry));
 		}
+		break;
+	case ARG_FACTORY:
+		GTK_VALUE_OBJECT(*arg) = dialog->selected_factory ? GTK_OBJECT(dialog->selected_factory) : NULL;
 		break;
 	default:
 		arg->type = GTK_TYPE_INVALID;

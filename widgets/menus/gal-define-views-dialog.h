@@ -24,6 +24,7 @@
 #include <gnome.h>
 #include <glade/glade.h>
 #include <gal/e-table/e-table-model.h>
+#include <gal/menus/gal-view-collection.h>
 
 #ifdef __cplusplus
 extern "C" {
@@ -54,6 +55,8 @@ struct _GalDefineViewsDialog
 	/* item specific fields */
 	GladeXML *gui;
 	ETableModel *model;
+
+	GalViewCollection *collection;
 };
 
 struct _GalDefineViewsDialogClass

@@ -1,97 +1,123 @@
 /* -*- Mode: C; tab-width: 8; indent-tabs-mode: t; c-basic-offset: 8 -*- */
 /*
- * gal-view-menus.c: Savable state of a table.
+ * gal-view.c: A View
  *
- * Author:
- *   Chris Lahey <clahey@helixcode.com>
+ * Authors:
+ *   Chris Lahey (clahey@helixcode.com)
  *
  * (C) 2000 Helix Code, Inc.
  */
 #include <config.h>
-#include <stdlib.h>
-#include <gtk/gtksignal.h>
 #include "gal-view.h"
-#include <gal/util/e-util.h>
 
-static void gal_view_set_arg (GtkObject *o, GtkArg *arg, guint arg_id);
-static void gal_view_get_arg (GtkObject *object, GtkArg *arg, guint arg_id);
+#define GV_CLASS(e) ((GalViewClass *)((GtkObject *)e)->klass)
 
-#define PARENT_TYPE (gtk_object_get_type())
+#define PARENT_TYPE gtk_object_get_type ()
 
-static GtkObjectClass *gv_parent_class;
+#define d(x)
 
-enum {
-	ARG_0,
-	ARG_NAME,
-};
+d(static gint depth = 0);
 
-static void
-gv_destroy (GtkObject *object)
+
+static GtkObjectClass *gal_view_parent_class;
+
+/**
+ * gal_view_edit
+ * @view: The view to edit
+ */
+void
+gal_view_edit            (GalView *view)
 {
-	GalView *gv = GAL_VIEW (object);
+	g_return_if_fail (view != NULL);
+	g_return_if_fail (GAL_IS_VIEW (view));
 
-	g_free(gv->name);
+	if (GV_CLASS (view)->edit)
+		GV_CLASS (view)->edit (view);
+}
 
-	GTK_OBJECT_CLASS (gv_parent_class)->destroy (object);
+/**
+ * gal_view_load_from_node
+ * @view: The view to load to
+ * @node: The xml data to load
+ */
+void  
+gal_view_load_from_node  (GalView *view,
+			  xmlNode *node)
+{
+	g_return_if_fail (view != NULL);
+	g_return_if_fail (GAL_IS_VIEW (view));
+
+	if (GV_CLASS (view)->load_from_node)
+		GV_CLASS (view)->load_from_node (view, node);
+}
+
+/**
+ * gal_view_save_to_node
+ * @view: The view to save
+ * @parent: Save the data as a child of this node
+ */
+void
+gal_view_save_to_node    (GalView *view,
+			  xmlNode *parent)
+{
+	g_return_if_fail (view != NULL);
+	g_return_if_fail (GAL_IS_VIEW (view));
+
+	if (GV_CLASS (view)->save_to_node)
+		GV_CLASS (view)->save_to_node (view, parent);
+}
+
+/**
+ * gal_view_get_title
+ * @view: The view to query.
+ *
+ * Returns: The title of the view.
+ */
+const char *
+gal_view_get_title       (GalView *view)
+{
+	g_return_val_if_fail (view != NULL, NULL);
+	g_return_val_if_fail (GAL_IS_VIEW (view), NULL);
+
+	if (GV_CLASS (view)->get_title)
+		return GV_CLASS (view)->get_title (view);
+	else
+		return NULL;
 }
 
 static void
-gal_view_set_arg (GtkObject *o, GtkArg *arg, guint arg_id)
+gal_view_class_init      (GtkObjectClass *object_class)
 {
-	GalView *view;
-
-	view = GAL_VIEW (o);
+	GalViewClass *klass = GAL_VIEW_CLASS(object_class);
+	gal_view_parent_class = gtk_type_class (PARENT_TYPE);
 	
-	switch (arg_id){
-	case ARG_NAME:
-		g_free(view->name);
-		view->name = g_strdup(GTK_VALUE_STRING (*arg));
-		break;
-	}
+	klass->edit           = NULL;     
+	klass->load_from_node = NULL;     
+	klass->save_to_node   = NULL;     
+	klass->get_title      = NULL;     
 }
 
-static void
-gal_view_get_arg (GtkObject *object, GtkArg *arg, guint arg_id)
+GtkType
+gal_view_get_type        (void)
 {
-	GalView *view;
-
-	view = GAL_VIEW (object);
-
-	switch (arg_id) {
-	case ARG_NAME:
-		GTK_VALUE_STRING (*arg) = g_strdup(view->name);
-		break;
-	default:
-		arg->type = GTK_TYPE_INVALID;
-		break;
-	}
-}
-
-static void
-gv_init (GalView *view)
-{
-	view->name = NULL;
-}
-
-static void
-gv_class_init (GtkObjectClass *klass)
-{
-	gv_parent_class = gtk_type_class (PARENT_TYPE);
+	static guint type = 0;
 	
-	klass->destroy = gv_destroy;
-	klass->set_arg = gal_view_set_arg;
-	klass->get_arg = gal_view_get_arg;
+	if (!type)
+	{
+		GtkTypeInfo info =
+		{
+			"GalView",
+			sizeof (GalView),
+			sizeof (GalViewClass),
+			(GtkClassInitFunc) gal_view_class_init,
+			NULL,
+			/* reserved_1 */ NULL,
+			/* reserved_2 */ NULL,
+			(GtkClassInitFunc) NULL,
+		};
+		
+		type = gtk_type_unique (PARENT_TYPE, &info);
+	}
 
-	gtk_object_add_arg_type ("GalView::name", GTK_TYPE_STRING,
-				 GTK_ARG_READWRITE, ARG_NAME);
-}
-
-E_MAKE_TYPE(gal_view, "GalView", GalView, gv_class_init, gv_init, PARENT_TYPE);
-
-GalView *
-gal_view_new (void)
-{
-	GalView *gv = gtk_type_new (GAL_VIEW_TYPE);
-
-	return (GalView *) gv;
+	return type;
 }

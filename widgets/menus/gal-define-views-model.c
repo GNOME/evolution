@@ -66,7 +66,7 @@ gdvm_value_at (ETableModel *etc, int col, int row)
 	if (col != 0 || row < 0 || row > views->data_count)
 		return NULL;
 
-	value = views->data[row]->name;
+	value = gal_view_get_title (views->data[row]);
 
 	return (void *)(value ? value : "");
 }
@@ -96,19 +96,6 @@ gdvm_is_cell_editable (ETableModel *etc, int col, int row)
 static void
 gdvm_append_row (ETableModel *etm, ETableModel *source, gint row)
 {
-	GalDefineViewsModel *views = GAL_DEFINE_VIEWS_MODEL(etm);
-	GalView *view;
-	const void *val = e_table_model_value_at(source, 0, row);
-
-	e_table_model_pre_change(etm);
-	view = gal_view_new();
-	gtk_object_set(GTK_OBJECT(view),
-		       "name", val,
-		       NULL);
-	views->data = g_renew(GalView *, views->data, views->data_count + 1);
-	views->data[views->data_count] = view;
-	views->data_count++;
-	e_table_model_row_inserted(etm, views->data_count - 1);
 }
 
 /* This function duplicates the value passed to it. */

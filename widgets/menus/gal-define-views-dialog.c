@@ -111,17 +111,19 @@ gdvd_button_new_dialog_callback(GtkWidget *widget, int button, GalDefineViewsDia
 {
 	gchar *name;
 	GalView *view;
+	GalViewFactory *factory;
 	switch (button) {
 	case 0:
 		gtk_object_get(GTK_OBJECT(widget),
 			       "name", &name,
+			       "factory", &factory,
 			       NULL);
-		view = gal_view_new();
-		gtk_object_set(GTK_OBJECT(view),
-			       "name", name,
-			       NULL);
-		gal_define_views_model_append(GAL_DEFINE_VIEWS_MODEL(dialog->model), view);
-		gtk_object_unref(GTK_OBJECT(view));
+		if (name && factory) {
+			view = gal_view_factory_new_view(factory,
+							 name);
+			gal_define_views_model_append(GAL_DEFINE_VIEWS_MODEL(dialog->model), view);
+			gtk_object_unref(GTK_OBJECT(view));
+		}
 		break;
 	}
 	gnome_dialog_close(GNOME_DIALOG(widget));
@@ -130,7 +132,7 @@ gdvd_button_new_dialog_callback(GtkWidget *widget, int button, GalDefineViewsDia
 static void
 gdvd_button_new_callback(GtkWidget *widget, GalDefineViewsDialog *dialog)
 {
-	GtkWidget *view_new_dialog = gal_view_new_dialog_new();
+	GtkWidget *view_new_dialog = gal_view_new_dialog_new(dialog->collection);
 	gtk_signal_connect(GTK_OBJECT(view_new_dialog), "clicked",
 			   GTK_SIGNAL_FUNC(gdvd_button_new_dialog_callback), dialog);
 	gtk_widget_show(GTK_WIDGET(view_new_dialog));

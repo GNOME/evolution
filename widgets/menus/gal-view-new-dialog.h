@@ -23,6 +23,7 @@
 
 #include <gnome.h>
 #include <glade/glade.h>
+#include <gal-view-collection.h>
 
 #ifdef __cplusplus
 extern "C" {
@@ -52,6 +53,9 @@ struct _GalViewNewDialog
 	
 	/* item specific fields */
 	GladeXML *gui;
+
+	GalViewCollection *collection;
+	GalViewFactory *selected_factory;
 };
 
 struct _GalViewNewDialogClass
@@ -59,8 +63,11 @@ struct _GalViewNewDialogClass
 	GnomeDialogClass parent_class;
 };
 
-GtkWidget               *gal_view_new_dialog_new          (void);
-GtkType                  gal_view_new_dialog_get_type     (void);
+GtkWidget *gal_view_new_dialog_new        (GalViewCollection *collection);
+GtkType    gal_view_new_dialog_get_type   (void);
+
+GtkWidget *gal_view_new_dialog_construct  (GalViewNewDialog  *dialog,
+					   GalViewCollection *collection);
 
 #ifdef __cplusplus
 }
