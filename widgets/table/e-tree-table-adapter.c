@@ -660,7 +660,7 @@ etta_proxy_node_inserted (ETreeModel *etm, ETreePath parent, ETreePath child, ET
 		children = e_tree_model_node_get_first_child(etta->priv->source, parent);
 
 		while (row != -1 &&
-		       row < parent_row + parent_node->num_visible_children &&
+		       row <= parent_row + parent_node->num_visible_children &&
 		       children != NULL &&
 		       children == etta->priv->map_table[row]) {
 			children = e_tree_model_node_get_next(etta->priv->source, children);
