@@ -50,6 +50,8 @@ struct _EShellFolderSelectionDialogPrivate {
 	GList *allowed_types;
 	EStorageSet *storage_set;
 	GtkWidget *storage_set_view;
+
+	gboolean allow_creation;
 };
 
 enum {
@@ -252,6 +254,7 @@ init (EShellFolderSelectionDialog *shell_folder_selection_dialog)
 	priv->storage_set      = NULL;
 	priv->storage_set_view = NULL;
 	priv->allowed_types    = NULL;
+	priv->allow_creation   = TRUE;
 
 	shell_folder_selection_dialog->priv = priv;
 }
@@ -423,6 +426,56 @@ e_shell_folder_selection_dialog_new (EShell *shell,
 						   title, caption, default_uri, allowed_types);
 
 	return GTK_WIDGET (folder_selection_dialog);
+}
+
+
+/**
+ * e_shell_folder_selection_dialog_set_allow_creation:
+ * @folder_selection_dialog: An EShellFolderSelectionDialog widget
+ * @allow_creation: Boolean specifying whether the "New..." button should be
+ * displayed
+ * 
+ * Specify whether @folder_selection_dialog should have a "New..." button to
+ * create a new folder or not.
+ **/
+void
+e_shell_folder_selection_dialog_set_allow_creation (EShellFolderSelectionDialog *folder_selection_dialog,
+						    gboolean allow_creation)
+{
+	GList *button_list_item;
+	GtkWidget *button;
+
+	g_return_if_fail (folder_selection_dialog != NULL);
+	g_return_if_fail (E_IS_SHELL_FOLDER_SELECTION_DIALOG (folder_selection_dialog));
+
+	folder_selection_dialog->priv->allow_creation = !! allow_creation;
+
+	button_list_item = g_list_nth (GNOME_DIALOG (folder_selection_dialog)->buttons, 2);
+	g_assert (button_list_item != NULL);
+
+	button = GTK_WIDGET (button_list_item->data);
+
+	if (allow_creation)
+		gtk_widget_show (button);
+	else
+		gtk_widget_hide (button);
+}
+
+/**
+ * e_shell_folder_selection_dialog_get_allow_creation:
+ * @folder_selection_dialog: An EShellFolderSelectionDialog widget
+ * 
+ * Get whether the "New..." button is displayed.
+ * 
+ * Return value: %TRUE if the "New..." button is displayed, %FALSE otherwise.
+ **/
+gboolean
+e_shell_folder_selection_dialog_get_allow_creation (EShellFolderSelectionDialog *folder_selection_dialog)
+{
+	g_return_val_if_fail (folder_selection_dialog != NULL, FALSE);
+	g_return_val_if_fail (E_IS_SHELL_FOLDER_SELECTION_DIALOG (folder_selection_dialog), FALSE);
+
+	return folder_selection_dialog->priv->allow_creation;
 }
 
 

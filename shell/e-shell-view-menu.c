@@ -422,20 +422,16 @@ command_folder_properties (BonoboUIComponent *uih,
 /* Going to a folder.  */
 
 static void
-folder_selection_dialog_cancelled_cb (EShellFolderSelectionDialog *folder_selection_dialog,
-				      void *data)
+goto_folder_dialog_cancelled_cb (EShellFolderSelectionDialog *folder_selection_dialog,
+				 void *data)
 {
-	EShellView *shell_view;
-
-	shell_view = E_SHELL_VIEW (data);
-
 	gtk_widget_destroy (GTK_WIDGET (folder_selection_dialog));
 }
 
 static void
-folder_selection_dialog_folder_selected_cb (EShellFolderSelectionDialog *folder_selection_dialog,
-					    const char *path,
-					    void *data)
+goto_folder_dialog_folder_selected_cb (EShellFolderSelectionDialog *folder_selection_dialog,
+				       const char *path,
+				       void *data)
 {
 	if (path != NULL) {
 		EShellView *shell_view;
@@ -472,10 +468,10 @@ command_goto_folder (BonoboUIComponent *uih,
 
 	gtk_window_set_transient_for (GTK_WINDOW (folder_selection_dialog), GTK_WINDOW (shell_view));
 
-	gtk_signal_connect (GTK_OBJECT (folder_selection_dialog), "folder_selected",
-			    GTK_SIGNAL_FUNC (folder_selection_dialog_folder_selected_cb), shell_view);
 	gtk_signal_connect (GTK_OBJECT (folder_selection_dialog), "cancelled",
-			    GTK_SIGNAL_FUNC (folder_selection_dialog_cancelled_cb), shell_view);
+			    GTK_SIGNAL_FUNC (goto_folder_dialog_cancelled_cb), shell_view);
+	gtk_signal_connect (GTK_OBJECT (folder_selection_dialog), "folder_selected",
+			    GTK_SIGNAL_FUNC (goto_folder_dialog_folder_selected_cb), shell_view);
 
 	gtk_widget_show (folder_selection_dialog);
 }
@@ -556,9 +552,76 @@ command_new_mail_message (BonoboUIComponent *uih,
 
 	CORBA_exception_free (&ev);
 }
-	
-DEFINE_UNIMPLEMENTED (command_new_shortcut)
 
+
+static void
+new_shortcut_dialog_cancelled_cb (EShellFolderSelectionDialog *folder_selection_dialog,
+				  void *data)
+{
+	gtk_widget_destroy (GTK_WIDGET (folder_selection_dialog));
+}
+
+static void
+new_shortcut_dialog_folder_selected_cb (EShellFolderSelectionDialog *folder_selection_dialog,
+					const char *path,
+					void *data)
+{
+	EShellView *shell_view;
+	EShell *shell;
+	EShortcuts *shortcuts;
+	EFolder *folder;
+	int group_num;
+	char *evolution_uri;
+
+	if (path == NULL)
+		return;
+
+	shell_view = E_SHELL_VIEW (data);
+	shell = e_shell_view_get_shell (shell_view);
+	shortcuts = e_shell_get_shortcuts (shell);
+
+	folder = e_storage_set_get_folder (e_shell_get_storage_set (shell), path);
+	if (folder == NULL)
+		return;
+
+	group_num = e_shell_view_get_current_shortcuts_group_num (shell_view);
+
+	evolution_uri = g_strconcat (E_SHELL_URI_PREFIX, path, NULL);
+
+	/* FIXME: I shouldn't have to set the type here.  Maybe.  */
+	e_shortcuts_add_shortcut (shortcuts, group_num, -1, evolution_uri, NULL, e_folder_get_type_string (folder));
+
+	g_free (evolution_uri);
+
+	gtk_widget_destroy (GTK_WIDGET (folder_selection_dialog));
+}
+
+static void
+command_new_shortcut (BonoboUIComponent *uih,
+		      void *data,
+		      const char *path)
+{
+	EShellView *shell_view;
+	GtkWidget *folder_selection_dialog;
+
+	shell_view = E_SHELL_VIEW (data);
+
+	folder_selection_dialog = e_shell_folder_selection_dialog_new (e_shell_view_get_shell (shell_view),
+								       _("Create a new shortcut"),
+								       _("Select the folder you want the shortcut to point to:"),
+								       e_shell_view_get_current_uri (shell_view),
+								       NULL);
+	e_shell_folder_selection_dialog_set_allow_creation (E_SHELL_FOLDER_SELECTION_DIALOG (folder_selection_dialog),
+							    FALSE);
+
+	gtk_signal_connect (GTK_OBJECT (folder_selection_dialog), "cancelled",
+			    GTK_SIGNAL_FUNC (new_shortcut_dialog_cancelled_cb), shell_view);
+	gtk_signal_connect (GTK_OBJECT (folder_selection_dialog), "folder_selected",
+			    GTK_SIGNAL_FUNC (new_shortcut_dialog_folder_selected_cb), shell_view);
+
+	gtk_widget_show (folder_selection_dialog);
+}
+	
 DEFINE_UNIMPLEMENTED (command_new_contact)
 DEFINE_UNIMPLEMENTED (command_new_task_request)
 

@@ -72,6 +72,10 @@ GtkWidget  *e_shell_folder_selection_dialog_new                (EShell          
 								const char                  *default_uri,
 								const char                  *allowed_types[]);
 
+void      e_shell_folder_selection_dialog_set_allow_creation  (EShellFolderSelectionDialog *folder_selection_dialog,
+							       gboolean                     allow_creation);
+gboolean  e_shell_folder_selection_dialog_get_allow_creation  (EShellFolderSelectionDialog *folder_selection_dialog);
+
 const char *e_shell_folder_selection_dialog_get_selected_path  (EShellFolderSelectionDialog *folder_selection_dialog);
 
 #ifdef cplusplus
