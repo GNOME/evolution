@@ -546,8 +546,37 @@ folder_selected_cb (EStorageSetView *storage_set_view,
 		    void *data)
 {
 	EShellView *shell_view;
+	EShellViewPrivate *priv;
+	EStorageSet *storage_set;
+	EFolder *folder;
 
 	shell_view = E_SHELL_VIEW (data);
+	priv = shell_view->priv;
+
+	/* Adjust sensitivity for menu options depending on whether
+           the folder selected is a stock folder */
+	storage_set = e_shell_get_storage_set (priv->shell);
+	folder = e_storage_set_get_folder (storage_set, path);
+	if (folder) {
+		BonoboUIComponent *uic;
+		char *txt;
+
+		if (e_folder_get_is_stock (folder))
+			txt = "0";
+		else
+			txt = "1";
+
+		uic = e_shell_view_get_bonobo_ui_component (shell_view);
+
+		bonobo_ui_component_set_prop (uic, "/commands/MoveFolder",
+					      "sensitive", txt, NULL);
+		bonobo_ui_component_set_prop (uic, "/commands/CopyFolder",
+					      "sensitive", txt, NULL);
+		bonobo_ui_component_set_prop (uic, "/commands/DeleteFolder",
+					      "sensitive", txt, NULL);
+		bonobo_ui_component_set_prop (uic, "/commands/RenameFolder",
+					      "sensitive", txt, NULL);
+	}
 
 	switch_on_folder_tree_click (shell_view, path);
 }

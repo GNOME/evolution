@@ -1,3 +1,12 @@
+2001-08-16  Jason Leach  <jleach@ximian.com>
+
+	* e-shell-view.c (folder_selected_cb): Desensitize the
+	move/copy/delete/rename in the menus (including right click) for
+	stock folders.
+
+	* Evolution-Icon.idl: Actually remove this file from CVS (its
+	contents are now in Evolution-common.idl).
+
 2001-08-16  Ettore Perazzoli  <ettore@ximian.com>
 
 	* e-shell-view-menu.c: Remove the Help menu verbs and add a
