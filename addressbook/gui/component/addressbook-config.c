@@ -227,27 +227,6 @@ ldap_parse_ssl (const char *ssl)
 
 
 
-static gboolean
-create_source_dir (AddressbookSourceDialog *dialog, ESource *source)
-{
-	gchar *new_dir;
-	gint   result;
-
-	new_dir = g_build_filename (e_source_group_peek_base_uri (dialog->source_group),
-				    e_source_peek_name (source), NULL);
-	g_print ("Making %s\n", new_dir);
-	result = e_mkdir_hier (new_dir + sizeof ("file://") - 1, 0700);
-	g_free (new_dir);
-
-	if (result) {
-		e_notice (NULL /* FIXME: parent */, GTK_MESSAGE_ERROR,
-			  _("Could not create a directory for the new addressbook."));
-		return FALSE;
-	}
-
-	return TRUE;
-}
-
 static void
 dialog_to_source (AddressbookSourceDialog *dialog, ESource *source, gboolean temporary)
 {
@@ -277,12 +256,8 @@ dialog_to_source (AddressbookSourceDialog *dialog, ESource *source, gboolean tem
 		const gchar *relative_uri;
 
 		relative_uri = e_source_peek_relative_uri (source);
-		if (!relative_uri || !strlen (relative_uri)) {
+		if (!relative_uri || !strlen (relative_uri))
 			e_source_set_relative_uri (source, e_source_peek_name (source));
-
-			if (!temporary && !create_source_dir (dialog, source))
-				return;
-		}
 	}
 
 	if (!temporary && !e_source_peek_group (source))

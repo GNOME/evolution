@@ -1,3 +1,9 @@
+2004-01-21  Hans Petter Jansson  <hpj@ximian.com>
+
+	* gui/component/addressbook-config.c (create_source_dir): Remove.
+	(dialog_to_source): Don't create source dir, backend takes care of
+	that now.
+
 2004-01-21  Chris Toshok  <toshok@ximian.com>
 
 	* gui/component/addressbook-component.c
