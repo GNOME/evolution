@@ -75,16 +75,17 @@ development_warning ()
 
 	warning_dialog = gnome_dialog_new (
 		"Don't do that",
-		"I know what I'm doing,\nI want to crash my mail files",
+		"I know what I'm doing,\nI want to lose mail!",
 		"I'll try it later",
 		NULL);
 
 	label = gtk_label_new (
-		_("This is a development version of Evolution.\n "
-		  "Using the mail component on your mail files\n "
-		  "is extremely hazardous.\n"
-		  "Please backup all your mails before trying\n "
-		  "this program. \n     You have been warned\n"));
+		_("This is a development version of Evolution.\n"
+		  "Using the mail component on your mail files\n"
+		  "is extremely hazardous.\n\n"
+		  "Do not run this program on your real mail\n "
+		  "and do not give it access to your real mail server.\n\n"
+		  "You have been warned\n"));
 	gtk_widget_show (label);
 
 	gtk_box_pack_start (GTK_BOX (GNOME_DIALOG (warning_dialog)->vbox), 
@@ -138,7 +139,6 @@ random_cb (GtkWidget *button, gpointer user_data)
 {
 	printf ("Yow! I am called back!\n");
 }
-
 
 static void
 control_activate (BonoboControl *control, BonoboUIHandler *uih)
@@ -244,10 +244,11 @@ folder_browser_factory (BonoboGenericFactory *factory, void *closure)
 {
 	BonoboControl *control;
 	GtkWidget *folder_browser;
-	gint warning_result;
+	gint warning_result = 0;
 
 
-	warning_result = development_warning ();
+	if (!getenv ("EVOLVE_ME_HARDER"))
+		warning_result = development_warning ();
 	
 	if (warning_result) 
 		folder_browser = gtk_label_new ("This should be the mail component");
