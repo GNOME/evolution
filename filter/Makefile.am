@@ -49,6 +49,8 @@ libfilter_la_SOURCES =				\
 	filter-rule.h				\
 	filter-score.c				\
 	filter-score.h				\
+	filter-source.h				\
+	filter-source.c				\
 	rule-context.c				\
 	rule-context.h				\
 	rule-editor.c				\

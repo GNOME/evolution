@@ -1,3 +1,10 @@
+2001-04-13  Jon Trowbridge  <trow@gnu.org>
+
+	* camel-filter-search.c (get_source): Make the (previously unused)
+	get-source command actually do the right thing, properly shrouding
+	any passed-in source and falling back to use the source attached
+	to the mime message.
+
 2001-04-13  Dan Winship  <danw@ximian.com>
 
 	* camel-object.c (camel_object_hook_event):

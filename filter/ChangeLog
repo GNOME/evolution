@@ -1,3 +1,13 @@
+2001-04-13  Jon Trowbridge  <trow@gnu.org>
+
+	* filtertypes.xml: Add XML specs for source account filtering.
+
+	* filter-element.c (filter_element_new_type_name): Recognize
+	type "source", construct a FilterSource.
+
+	* filter-source.c: Added.  A FilterElement for the account e-mail
+	comes from.
+
 2001-04-04  Kjartan Maraas  <kmaraas@gnome.org>
 
 	* filter-editor.c: Fix headers.

@@ -33,6 +33,7 @@
 #include "filter-datespec.h"
 #include "filter-score.h"
 #include "filter-folder.h"
+#include "filter-source.h"
 
 
 static gboolean validate (FilterElement *fe);
@@ -266,6 +267,8 @@ filter_element_new_type_name (const char *type)
 		return (FilterElement *)filter_score_new ();
 	} else if (!strcmp (type, "regex")) {
 		return (FilterElement *)filter_input_new_type_name (type);
+	} else if (!strcmp (type, "source")) {
+    	        return (FilterElement *)filter_source_new ();
 	} else {
 		g_warning("Unknown filter type '%s'", type);
 		return 0;

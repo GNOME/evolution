@@ -533,6 +533,25 @@
   <input type="regex" name="expression"/>
  </part>
 
+ <part name="source">
+  <title>Source Account</title>
+  <input type="optionlist" name="srcmatch-type">
+   <option value="is">
+    <title>Is</title>
+    <code>
+      (match-all (= (get-source) ${uri}))
+    </code>
+   </option>
+   <option value="is-not">
+    <title>Is Not</title>
+    <code>
+      (match-all (not (= (get-source) ${uri})))
+    </code>
+   </option>
+  </input>
+  <input type="source" name="uri"/>
+ </part>
+  
 </partset>
 
 

@@ -157,7 +157,7 @@ filter_part_xml_create (FilterPart *ff, xmlNodePtr node)
 			    && (el = filter_element_new_type_name (type)) != NULL) {
 				filter_element_xml_create (el, n);
 				xmlFree (type);
-				d(printf ("adding element part %p %s\n", el, el->name));
+				d(printf ("adding element part %p %s\n", ff, el, el->name));
 				ff->elements = g_list_append (ff->elements, el);
 			} else {
 				g_warning ("Invalid xml format, missing/unknown input type");
@@ -432,7 +432,7 @@ filter_part_expand_code (FilterPart *ff, const char *source, GString *out)
 		memcpy (name, newstart+2, len);
 		name[len] = 0;
 		fe = filter_part_find_element (ff, name);
-		d(printf("expand code: looking up variab le '%s' = %p\n", name, fe));
+		d(printf("expand code: looking up variab le '%s' = %p\n", ff, name, fe));
 		if (fe) {
 			g_string_sprintfa (out, "%.*s", newstart-start, start);
 			filter_element_format_sexp (fe, out);

@@ -35,6 +35,7 @@
 #include <ctype.h>
 
 #include "e-util/e-sexp.h"
+#include "e-util/e-url.h"
 
 #include "camel-mime-message.h"
 #include "camel-filter-search.h"
@@ -397,13 +398,20 @@ get_source (struct _ESExp *f, int argc, struct _ESExpResult **argv, FilterMessag
 	ESExpResult *r;
 	
 	r = e_sexp_result_new(f, ESEXP_RES_STRING);
-	r->value.string = g_strdup (fms->source);
+	if (fms->source) {
+		r->value.string = e_url_shroud (fms->source);
+	} else {
+		r->value.string = camel_mime_message_get_source (fms->message);
+	}
+
+	g_message ("got source: [%s]", r->value.string);
 	
 	return r;
 }
 
-gboolean camel_filter_search_match(CamelMimeMessage *message, CamelMessageInfo *info,
-				   const char *source, const char *expression, CamelException *ex)
+gboolean
+camel_filter_search_match(CamelMimeMessage *message, CamelMessageInfo *info,
+			  const char *source, const char *expression, CamelException *ex)
 {
 	FilterMessageSearch fms;
 	ESExp *sexp;
@@ -452,3 +460,6 @@ error:
 	e_sexp_unref(sexp);
 	return FALSE;
 }
+
+
+

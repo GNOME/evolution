@@ -24,7 +24,7 @@
 #include "camel-mime-utils.h"
 #include "camel-internet-address.h"
 
-#define d(x) 
+#define d(x)
 
 static int    internet_decode		(CamelAddress *, const char *raw);
 static char * internet_encode		(CamelAddress *);

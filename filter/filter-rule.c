@@ -387,7 +387,9 @@ filter_rule_build_code (FilterRule *fr, GString *out)
 	g_assert(IS_FILTER_RULE(fr));
 	g_assert(out != NULL);
 
-	return ((FilterRuleClass *) ((GtkObject *) fr)->klass)->build_code(fr, out);
+	((FilterRuleClass *) ((GtkObject *) fr)->klass)->build_code(fr, out);
+
+	g_message ("build_code: [%s](%d)", out->str, out->len);
 }
 
 static void
