@@ -1,3 +1,20 @@
+2001-08-16  Jeffrey Stedfast  <fejj@ximian.com>
+
+	* mail-callbacks.c (confirm_expunge): Respect the user's desire to
+	be prompted to confirm that he wants to expunge the blasted
+	folder. Also, don't set the usize - that's just an evil hack and
+	you may find it will cut off text once the label has been
+	translated.
+	(create_msg_composer): In order for the security options to be
+	checked when composing a new message, we must set the from account
+	explicitly even though the composer hdrs sets the default from
+	account and emits the signal because at that stage the composer
+	hasn't yet connected to the signals and thus the bonobo menu items
+	don't get set.
+
+	* mail-config.c (mail_config_set_confirm_expunge): New.
+	(mail_config_get_confirm_expunge): New.
+
 2001-08-16  Peter Williams  <peterw@ximian.com>
 
 	* subscribe-dialog.c (fe_got_children): Sort the nodes here...

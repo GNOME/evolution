@@ -288,7 +288,7 @@ struct _send_data {
 };
 
 static void
-composer_sent_cb(char *uri, CamelMimeMessage *message, gboolean sent, void *data)
+composer_sent_cb (char *uri, CamelMimeMessage *message, gboolean sent, void *data)
 {
 	struct _send_data *send = data;
 	
@@ -354,7 +354,7 @@ composer_get_message (EMsgComposer *composer)
 			return NULL;
 		}
 	}
-
+	
 	/* Check for no subject */
 	subject = camel_mime_message_get_subject (message);
 	if (subject == NULL || subject[0] == '\0') {
@@ -396,11 +396,11 @@ composer_send_cb (EMsgComposer *composer, gpointer data)
 	message = composer_get_message (composer);
 	if (!message)
 		return;
-
+	
 	transport = mail_config_get_default_transport ();
 	if (!transport)
 		return;
-
+	
 	send = g_malloc (sizeof (*send));
 	send->psd = psd;
 	send->composer = composer;
@@ -451,6 +451,7 @@ create_msg_composer (const char *url)
 	composer = url ? e_msg_composer_new_from_url (url) : e_msg_composer_new ();
 	
 	if (composer) {
+		e_msg_composer_hdrs_set_from_account (composer->hdrs, account->name);
 		e_msg_composer_set_send_html (composer, send_html);
 		e_msg_composer_show_sig_file (composer);
 	}
@@ -1673,24 +1674,35 @@ expunged_folder (CamelFolder *f, void *data)
 static gboolean
 confirm_expunge (void)
 {
-	GtkWidget *dialog, *label;
+	GtkWidget *dialog, *label, *checkbox;
 	int button;
+	
+	if (!mail_config_get_confirm_expunge ())
+		return TRUE;
 	
 	dialog = gnome_dialog_new (_("Warning"),
 				   GNOME_STOCK_BUTTON_YES,
 				   GNOME_STOCK_BUTTON_NO,
 				   NULL);
 	
-	gtk_widget_set_usize (GTK_WIDGET (dialog), 323, 180);
-	
-	label = gtk_label_new (_("This operation will permanently erase all messages marked as deleted. If you continue, you will not be able to recover these messages. \n \n Really erase these messages? "));
+	label = gtk_label_new (_("This operation will permanently erase all messages marked as deleted. If you continue, you will not be able to recover these messages.\n\nReally erase these messages?"));
 	
 	gtk_label_set_line_wrap (GTK_LABEL (label), TRUE);
 	gtk_label_set_justify (GTK_LABEL (label), GTK_JUSTIFY_LEFT);
 	gtk_widget_show (label);
 	gtk_box_pack_start (GTK_BOX (GNOME_DIALOG (dialog)->vbox), label, TRUE, TRUE, 4);
 	
+	checkbox = gtk_check_button_new_with_label (_("Do not ask me again."));
+	gtk_object_ref (GTK_OBJECT (checkbox));
+	gtk_widget_show (checkbox);
+	gtk_box_pack_start (GTK_BOX (GNOME_DIALOG (dialog)->vbox), checkbox, TRUE, TRUE, 4);
+	
 	button = gnome_dialog_run_and_close (GNOME_DIALOG (dialog));
+	
+	if (button == 0 && gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (checkbox)))
+		mail_config_set_confirm_expunge (FALSE);
+	
+	gtk_object_unref (GTK_OBJECT (checkbox));
 	
 	if (button == 0)
 		return TRUE;

@@ -148,6 +148,9 @@ void     mail_config_set_prompt_empty_subject (gboolean value);
 gboolean mail_config_get_prompt_only_bcc (void);
 void     mail_config_set_prompt_only_bcc (gboolean value);
 
+gboolean mail_config_get_confirm_expunge (void);
+void     mail_config_set_confirm_expunge (gboolean value);
+
 CamelPgpType mail_config_get_pgp_type (void);
 void         mail_config_set_pgp_type (CamelPgpType pgp_type);
 

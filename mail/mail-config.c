@@ -66,6 +66,7 @@ typedef struct {
 	guint32  citation_color;
 	gboolean prompt_empty_subject;
 	gboolean prompt_only_bcc;
+	gboolean confirm_expunge;
 	gboolean do_seen_timeout;
 	gint seen_timeout;
 	gboolean empty_trash_on_exit;
@@ -517,6 +518,10 @@ config_read (void)
 	config->prompt_only_bcc = bonobo_config_get_boolean_with_default (
 		config->db, "/Mail/Prompts/only_bcc", TRUE, NULL);
 	
+	/* Expunge */
+	config->confirm_expunge = bonobo_config_get_boolean_with_default (
+		config->db, "/Mail/Prompts/confirm_expunge", TRUE, NULL);
+	
 	/* PGP/GPG */
 	config->pgp_path = bonobo_config_get_string (config->db, 
 						     "/Mail/PGP/path", NULL);
@@ -786,11 +791,15 @@ mail_config_write_on_exit (void)
 	
 	/* Empty Subject */
 	bonobo_config_set_boolean (config->db, "/Mail/Prompts/empty_subject",
-				   config->prompt_empty_subject, NULL);	
+				   config->prompt_empty_subject, NULL);
 	
 	/* Only Bcc */
 	bonobo_config_set_boolean (config->db, "/Mail/Prompts/only_bcc",
-				   config->prompt_only_bcc, NULL);	
+				   config->prompt_only_bcc, NULL);
+	
+	/* Expunge */
+	bonobo_config_set_boolean (config->db, "/Mail/Prompts/confirm_expunge",
+				   config->confirm_expunge, NULL);
 	
 	/* PGP/GPG */
 	bonobo_config_set_string_wrapper (config->db, "/Mail/PGP/path", 
@@ -1142,6 +1151,18 @@ void
 mail_config_set_prompt_only_bcc (gboolean value)
 {
 	config->prompt_only_bcc = value;
+}
+
+gboolean
+mail_config_get_confirm_expunge (void)
+{
+	return config->confirm_expunge;
+}
+
+void
+mail_config_set_confirm_expunge (gboolean value)
+{
+	config->confirm_expunge = value;
 }
 
 
