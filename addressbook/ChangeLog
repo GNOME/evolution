@@ -1,5 +1,14 @@
 2003-12-16  Hans Petter Jansson  <hpj@ximian.com>
 
+	* gui/contact-editor/e-contact-editor.c
+	(e_contact_editor_create_source_option_menu): Implement. Creates
+	source selection option menu.
+
+	* gui/contact-editor/contact-editor.glade: Add source selection custom
+	widget.
+
+2003-12-16  Hans Petter Jansson  <hpj@ximian.com>
+
 	* gui/widgets/e-addressbook-table-adapter.c
 	(addressbook_is_cell_editable): Disable cell editing.
 

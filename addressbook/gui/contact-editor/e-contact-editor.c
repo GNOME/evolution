@@ -2661,6 +2661,30 @@ e_contact_editor_create_web(gchar *name,
 	return widget;
 }
 
+GtkWidget *
+e_contact_editor_create_source_option_menu (gchar *name,
+					    gchar *string1, gchar *string2,
+					    gint int1, gint int2);
+
+GtkWidget *
+e_contact_editor_create_source_option_menu (gchar *name,
+					    gchar *string1, gchar *string2,
+					    gint int1, gint int2)
+{
+	GtkWidget   *menu;
+	GConfClient *gconf_client;
+	ESourceList *source_list;
+
+	gconf_client = gconf_client_get_default ();
+	source_list = e_source_list_new_for_gconf (gconf_client, "/apps/evolution/addressbook/sources");
+
+	menu = e_source_option_menu_new (source_list);
+	g_object_unref (source_list);
+
+	gtk_widget_show (menu);
+	return menu;
+}
+
 static void
 enable_widget (GtkWidget *widget, gboolean enabled)
 {
