@@ -40,6 +40,10 @@ Other fixes
     - Fixed the annoying EINPROGRESS error dialogs when connecting 
       to IMAP/SMTP/POP via SSL.
 
+  * Summary
+
+    - Change the dot.kde.org url.
+
 Evolution 1.0.3, 19-03-2002
 ---------------------------
 
