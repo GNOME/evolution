@@ -1103,18 +1103,12 @@ tooltip_event (GtkWidget *window,
 	
 	switch (event->type) {
 	case GDK_LEAVE_NOTIFY:
-		if (tooltip->window) {
-			gtk_widget_destroy (tooltip->window);
-			tooltip->window = NULL;
-		}
+		e_canvas_hide_tooltip (E_CANVAS(GNOME_CANVAS_ITEM(tooltip->eti)->canvas));
 		break;
 	case GDK_BUTTON_PRESS:
 	case GDK_BUTTON_RELEASE:
 		if (event->type == GDK_BUTTON_RELEASE) {
-			if (tooltip->window) {
-				gtk_widget_destroy (tooltip->window);
-				tooltip->window = NULL;
-			}
+			e_canvas_hide_tooltip (E_CANVAS(GNOME_CANVAS_ITEM(tooltip->eti)->canvas));
 		}
 
 		event->button.x = tooltip->cx;
@@ -1123,10 +1117,7 @@ tooltip_event (GtkWidget *window,
 					 event, &ret_val);
 		break;
 	case GDK_KEY_PRESS:
-		if (tooltip->window){
-			gtk_widget_destroy (tooltip->window);
-			tooltip->window = NULL;
-		}
+		e_canvas_hide_tooltip (E_CANVAS(GNOME_CANVAS_ITEM(tooltip->eti)->canvas));
 		gtk_signal_emit_by_name (GTK_OBJECT (tooltip->eti), "event",
 					 event, &ret_val);
 		break;
@@ -1164,6 +1155,7 @@ ect_show_tooltip (ECellView *ecell_view,
 	GnomeCanvasItem *rect;
 	double text_height;
 	ECellText *ect = E_CELL_TEXT(ecell_view->ecell);
+	GtkWidget *window;
 
 	tooltip->timer = 0;
 
@@ -1201,11 +1193,11 @@ ect_show_tooltip (ECellView *ecell_view,
 	pixel_origin.x -= (int) gtk_layout_get_hadjustment (GTK_LAYOUT (text_view->canvas))->value;
 	pixel_origin.y -= (int) gtk_layout_get_vadjustment (GTK_LAYOUT (text_view->canvas))->value;
 
-	tooltip->window = gtk_window_new (GTK_WINDOW_POPUP);
-	gtk_container_set_border_width (GTK_CONTAINER (tooltip->window), 1);
+	window = gtk_window_new (GTK_WINDOW_POPUP);
+	gtk_container_set_border_width (GTK_CONTAINER (window), 1);
 
 	canvas = e_canvas_new ();
-	gtk_container_add (GTK_CONTAINER (tooltip->window), canvas);
+	gtk_container_add (GTK_CONTAINER (window), canvas);
 
 	max_width = 0.0;
 	for (lines = cell.breaks->lines, i = 0; i < cell.breaks->num_lines;
@@ -1265,18 +1257,18 @@ ect_show_tooltip (ECellView *ecell_view,
 			       "x2", (double) tooltip_width + 6,
 			       "y2", (double) tooltip->row_height + 1,
 			       NULL);
-	gtk_widget_set_usize (tooltip->window, tooltip_width + 6,
+	gtk_widget_set_usize (window, tooltip_width + 6,
 			      tooltip->row_height + 1);
 	gnome_canvas_set_scroll_region (GNOME_CANVAS (canvas), 0.0, 0.0,
 					(double) tooltip_width + 6,
 					(double) tooltip_height);
 	gtk_widget_show (canvas);
-	gtk_widget_realize (tooltip->window);
-	gtk_signal_connect (GTK_OBJECT (tooltip->window), "event",
+	gtk_widget_realize (window);
+	gtk_signal_connect (GTK_OBJECT (window), "event",
 			    GTK_SIGNAL_FUNC (tooltip_event), tooltip);
 
-	gtk_widget_popup (tooltip->window, pixel_origin.x + tooltip->x,
-			  pixel_origin.y + tooltip->y - 1);
+	e_canvas_popup_tooltip (E_CANVAS(text_view->canvas), window, pixel_origin.x + tooltip->x,
+				pixel_origin.y + tooltip->y - 1);
 
 	unref_lines (&cell);
 	unbuild_current_cell (&cell);

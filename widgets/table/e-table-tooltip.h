@@ -7,13 +7,11 @@
 BEGIN_GNOME_DECLS
 
 typedef struct {
-	GtkWidget *window;
 	gint timer;
 	int col, row;
 	int row_height;
 	int x, y;
 	int cx, cy;
-	int visibility_count;
 	GnomeCanvasItem *eti;
 } ETableTooltip;
 

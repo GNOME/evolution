@@ -32,6 +32,8 @@
 
 #define FOCUSED_BORDER 2
 
+/* #define DO_TOOLTIPS 1 */
+
 #define d(x)
 
 /* FIXME: Do an analysis of which cell functions are needed before
@@ -961,8 +963,7 @@ eti_destroy (GtkObject *object)
 	eti->height_cache = NULL;
 	eti->height_cache_idle_count = 0;
 
-	if (eti->tooltip->window)
-		gtk_widget_destroy (eti->tooltip->window);
+	e_canvas_hide_tooltip (E_CANVAS(GNOME_CANVAS_ITEM(eti)->canvas));
 	if (eti->tooltip->timer) {
 		gtk_timeout_remove (eti->tooltip->timer);
 		eti->tooltip->timer = 0;
@@ -1108,7 +1109,6 @@ eti_init (GnomeCanvasItem *item)
 
 	eti->tooltip                   = g_new0 (ETableTooltip, 1);
 	eti->tooltip->timer            = 0;
-	eti->tooltip->window           = NULL;
 	eti->tooltip->eti              = GNOME_CANVAS_ITEM (eti);
 
 	eti->grabbed_col               = -1;
@@ -1121,25 +1121,6 @@ eti_init (GnomeCanvasItem *item)
 #define gray50_height 2
 static const char gray50_bits[] = {
 	0x02, 0x01, };
-
-#ifdef DO_TOOLTIPS
-static gint
-eti_visibility_notify(GtkWidget	         *widget,
-		      GdkEventVisibility *event,
-		      ETableItem         *eti)
-{
-	if (eti->tooltip->visibility_count > 0) {
-		if (eti->tooltip->window) {
-			gtk_widget_destroy (eti->tooltip->window);
-			eti->tooltip->window = NULL;
-		}
-	}
-
-	eti->tooltip->visibility_count ++;
-
-	return FALSE;
-}
-#endif
 
 static void
 eti_realize (GnomeCanvasItem *item)
@@ -1171,12 +1152,6 @@ eti_realize (GnomeCanvasItem *item)
 	gdk_gc_set_stipple (eti->focus_gc, eti->stipple);
 	gdk_gc_set_fill (eti->focus_gc, GDK_OPAQUE_STIPPLED);
 
-#ifdef DO_TOOLTIPS
-	gtk_widget_add_events(gtk_widget_get_toplevel(GTK_WIDGET(item->canvas)), GDK_VISIBILITY_NOTIFY_MASK);
-
-	gtk_signal_connect(GTK_OBJECT(gtk_widget_get_toplevel(GTK_WIDGET(item->canvas))), "visibility_notify_event",
-			   GTK_SIGNAL_FUNC(eti_visibility_notify), eti);
-#endif
 
 	if (eti->cell_views == NULL)
 		eti_attach_cell_views (eti);
@@ -1571,10 +1546,7 @@ _do_tooltip (ETableItem *eti)
 	int i;
 	int height_extra = eti->horizontal_draw_grid ? 1 : 0;
 
-	if (eti->tooltip->window) {
-		gtk_widget_destroy (eti->tooltip->window);
-		eti->tooltip->window = NULL;
-	}
+	e_canvas_hide_tooltip (E_CANVAS(GNOME_CANVAS_ITEM(eti)->canvas));
 
 	if (eti_editing (eti))
 		return FALSE;
@@ -1590,8 +1562,6 @@ _do_tooltip (ETableItem *eti)
 	eti->tooltip->y = y;
 	eti->tooltip->row_height = ETI_ROW_HEIGHT (eti, i);
 
-	eti->tooltip->visibility_count = 0;
-	
 	e_cell_show_tooltip (ecell_view, 
 			     view_to_model_col (eti, eti->tooltip->col),
 			     eti->tooltip->col,
@@ -1724,10 +1694,7 @@ eti_event (GnomeCanvasItem *item, GdkEvent *e)
 			gtk_timeout_remove (eti->tooltip->timer);
 			eti->tooltip->timer = 0;
 		}
-		if (eti->tooltip->window) {
-			gtk_widget_destroy (eti->tooltip->window);
-			eti->tooltip->window = NULL;
-		}
+		e_canvas_hide_tooltip (E_CANVAS(GNOME_CANVAS_ITEM(eti)->canvas));
 		switch (e->button.button) {
 		case 1: /* Fall through. */
 		case 2:
@@ -1811,10 +1778,7 @@ eti_event (GnomeCanvasItem *item, GdkEvent *e)
 			       "cursor_col", &cursor_col,
 			       NULL);
 
-		if (eti->tooltip->window) {
-			gtk_widget_destroy (eti->tooltip->window);
-			eti->tooltip->window = NULL;
-		}
+		e_canvas_hide_tooltip (E_CANVAS(GNOME_CANVAS_ITEM(eti)->canvas));
 
 #ifdef DO_TOOLTIPS
 		if (eti->tooltip->timer > 0)
@@ -1850,10 +1814,7 @@ eti_event (GnomeCanvasItem *item, GdkEvent *e)
 			       "cursor_col", &cursor_col,
 			       NULL);
 
-		if (eti->tooltip->window) {
-			gtk_widget_destroy (eti->tooltip->window);
-			eti->tooltip->window = NULL;
-		}
+		e_canvas_hide_tooltip (E_CANVAS(GNOME_CANVAS_ITEM(eti)->canvas));
 
 		if (cursor_col == -1)
 			return FALSE;
