@@ -43,7 +43,6 @@ struct _CamelFolderPrivate {
 	EMutex *lock;
 	EMutex *change_lock;
 #endif
-
 	/* must require the 'change_lock' to access this */
 	int frozen;
 	struct _CamelFolderChangeInfo *changed_frozen; /* queues changed events */

@@ -1,3 +1,44 @@
+2002-06-02  Not Zed  <NotZed@Ximian.com>
+
+	* camel-sasl.c (camel_sasl_new): 
+	(camel_sasl_finalize): setup/free the mech string.
+
+	* camel-sasl.h: Added 'mech' mechanism string.
+
+2002-06-01  Not Zed  <NotZed@Ximian.com>
+
+	* providers/imap/camel-imap-folder.c (imap_getv): Implement.  Only
+	the object_description arg.
+	(camel_imap_folder_get_type): Init parent_class holder.
+
+	* providers/local/camel-local-folder.c (local_getv): Implement,
+	object_description arg.
+
+	* camel-folder.c (folder_getv): Implement, add a bunch of args you
+	can get -> camel_folder_get_unread_count etc will be going RSN i
+	hope.
+	(camel_folder_finalize): Free cached description string.
+
+	* camel-object.c (cobject_getv): Implement
+	CAMEL_OBJECT_ARG_DESCRIPTION, just return the classname of the
+	object.
+	(camel_object_getv): 
+	(camel_object_get): 
+	(camel_object_setv): 
+	(camel_object_set): Take object = void *, to simplify usage.
+	(camel_object_setv): Removed unecessary locals.
+	(camel_object_getv): Same.
+	(camel_object_free): New method, free an arg, upto implementations
+	whether args are static/const or not.
+	(cobject_free): Implement a dummy do nothing free.
+
+2002-05-31  Not Zed  <NotZed@Ximian.com>
+
+	* camel-vee-folder.c (camel_vee_folder_get_location): new function
+	to get the real location (folder) (and uid) of a vfolder object.
+	Using the folderinfo, since we already have it, maybe it should
+	use the uid.
+
 2002-05-31  Jeffrey Stedfast  <fejj@ximian.com>
 
 	* providers/imap/camel-imap-folder.c (get_content): When the part

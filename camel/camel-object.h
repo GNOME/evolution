@@ -88,6 +88,15 @@ typedef void (*CamelObjectEventHookFunc) (CamelObject *, gpointer, gpointer);
 
 #define CAMEL_INVALID_TYPE (NULL)
 
+/* camel object args */
+enum {
+	CAMEL_OBJECT_ARG_DESCRIPTION = CAMEL_ARG_FIRST,
+};
+
+enum {
+	CAMEL_OBJECT_DESCRIPTION = CAMEL_OBJECT_ARG_DESCRIPTION | CAMEL_ARG_STR,
+};
+
 enum _CamelObjectFlags {
 	CAMEL_OBJECT_DESTROY = (1<<0),
 };
@@ -147,6 +156,8 @@ struct _CamelObjectClass
 	/* get/set interface */
 	int (*setv)(struct _CamelObject *, struct _CamelException *ex, CamelArgV *args);
 	int (*getv)(struct _CamelObject *, struct _CamelException *ex, CamelArgGetV *args);
+	/* we only free 1 at a time, and only pointer types, obviously */
+	void (*free)(struct _CamelObject *, guint32 tag, void *ptr);
 };
 
 /* The type system .... it's pretty simple..... */
@@ -196,10 +207,13 @@ void camel_object_unhook_event(CamelObject *obj, const char *name, CamelObjectEv
 void camel_object_trigger_event(CamelObject *obj, const char *name, void *event_data);
 
 /* get/set methods */
-int camel_object_set(CamelObject *obj, struct _CamelException *ex, ...);
-int camel_object_setv(CamelObject *obj, struct _CamelException *ex, CamelArgV *);
-int camel_object_get(CamelObject *obj, struct _CamelException *ex, ...);
-int camel_object_getv(CamelObject *obj, struct _CamelException *ex, CamelArgGetV *);
+int camel_object_set(void *obj, struct _CamelException *ex, ...);
+int camel_object_setv(void *obj, struct _CamelException *ex, CamelArgV *);
+int camel_object_get(void *obj, struct _CamelException *ex, ...);
+int camel_object_getv(void *obj, struct _CamelException *ex, CamelArgGetV *);
+
+/* free a bunch of objects, list must be 0 terminated */
+void camel_object_free(void *vo, guint32 tag, void *value);
 
 #ifdef __cplusplus
 }

@@ -76,6 +76,8 @@
 static CamelDiscoFolderClass *disco_folder_class = NULL;
 
 static void imap_finalize (CamelObject *object);
+static int imap_getv(CamelObject *object, CamelException *ex, CamelArgGetV *args);
+
 static void imap_rescan (CamelFolder *folder, int exists, CamelException *ex);
 static void imap_refresh_info (CamelFolder *folder, CamelException *ex);
 static void imap_sync_online (CamelFolder *folder, CamelException *ex);
@@ -119,6 +121,8 @@ static void       imap_search_free          (CamelFolder *folder, GPtrArray *uid
 
 static void imap_thaw (CamelFolder *folder);
 
+static CamelObjectClass *parent_class;
+
 GData *parse_fetch_response (CamelImapFolder *imap_folder, char *msg_att);
 
 static void
@@ -130,6 +134,8 @@ camel_imap_folder_class_init (CamelImapFolderClass *camel_imap_folder_class)
 	disco_folder_class = CAMEL_DISCO_FOLDER_CLASS (camel_type_get_global_classfuncs (camel_disco_folder_get_type ()));
 
 	/* virtual method overload */
+	((CamelObjectClass *)camel_imap_folder_class)->getv = imap_getv;
+
 	camel_folder_class->get_message = imap_get_message;
 	camel_folder_class->rename = imap_rename;
 	camel_folder_class->search_by_expression = imap_search_by_expression;
@@ -180,8 +186,9 @@ camel_imap_folder_get_type (void)
 	static CamelType camel_imap_folder_type = CAMEL_INVALID_TYPE;
 	
 	if (camel_imap_folder_type == CAMEL_INVALID_TYPE) {
+		parent_class = camel_disco_folder_get_type();
 		camel_imap_folder_type =
-			camel_type_register (CAMEL_DISCO_FOLDER_TYPE, "CamelImapFolder",
+			camel_type_register (parent_class, "CamelImapFolder",
 					     sizeof (CamelImapFolder),
 					     sizeof (CamelImapFolderClass),
 					     (CamelObjectClassInitFunc) camel_imap_folder_class_init,
@@ -385,6 +392,43 @@ imap_finalize (CamelObject *object)
 	e_mutex_destroy(imap_folder->priv->cache_lock);
 #endif
 	g_free(imap_folder->priv);
+}
+
+static int
+imap_getv(CamelObject *object, CamelException *ex, CamelArgGetV *args)
+{
+	CamelFolder *folder = (CamelFolder *)object;
+	int i, count=args->argc;
+	guint32 tag;
+
+	for (i=0;i<args->argc;i++) {
+		CamelArgGet *arg = &args->argv[i];
+
+		tag = arg->tag;
+
+		switch (tag & CAMEL_ARG_TAG) {
+			/* CamelObject args */
+		case CAMEL_OBJECT_ARG_DESCRIPTION:
+			if (folder->description == NULL) {
+				CamelURL *uri = ((CamelService *)folder->parent_store)->url;
+
+				/* what if the full name doesn't incclude /'s?  does it matter? */
+				folder->description = g_strdup_printf("%s@%s:%s", uri->user, uri->host, folder->full_name);
+			}
+			*arg->ca_str = folder->description;
+			break;
+		default:
+			count--;
+			continue;
+		}
+
+		arg->tag = (tag & CAMEL_ARG_TYPE) | CAMEL_ARG_IGNORE;
+	}
+
+	if (count)
+		return ((CamelObjectClass *)parent_class)->getv(object, ex, args);
+
+	return 0;
 }
 
 static void

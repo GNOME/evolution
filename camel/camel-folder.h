@@ -42,6 +42,30 @@ extern "C" {
 
 typedef struct _CamelFolderChangeInfo CamelFolderChangeInfo;
 
+enum {
+	CAMEL_FOLDER_ARG_FIRST = CAMEL_ARG_FIRST + 0x1000,
+	CAMEL_FOLDER_ARG_NAME = CAMEL_FOLDER_ARG_FIRST,
+	CAMEL_FOLDER_ARG_FULL_NAME,
+	CAMEL_FOLDER_ARG_STORE,
+	CAMEL_FOLDER_ARG_PERMANENTFLAGS,
+	CAMEL_FOLDER_ARG_TOTAL,
+	CAMEL_FOLDER_ARG_UNREAD,
+	CAMEL_FOLDER_ARG_UID_ARRAY,
+	CAMEL_FOLDER_ARG_INFO_ARRAY,
+};
+
+enum {
+	CAMEL_FOLDER_NAME = CAMEL_FOLDER_ARG_NAME | CAMEL_ARG_STR,
+	CAMEL_FOLDER_FULL_NAME = CAMEL_FOLDER_ARG_FULL_NAME | CAMEL_ARG_STR,
+	CAMEL_FOLDER_STORE = CAMEL_FOLDER_ARG_STORE | CAMEL_ARG_OBJ,
+	CAMEL_FOLDER_PERMANENTFLAGS = CAMEL_FOLDER_ARG_PERMANENTFLAGS | CAMEL_ARG_INT,
+	CAMEL_FOLDER_TOTAL = CAMEL_FOLDER_ARG_TOTAL | CAMEL_ARG_INT,
+	CAMEL_FOLDER_UNREAD = CAMEL_FOLDER_ARG_UNREAD | CAMEL_ARG_INT,
+	/* should we only get static data?  not stuff that needs to be free'd? */
+	CAMEL_FOLDER_UID_ARRAY = CAMEL_FOLDER_ARG_UID_ARRAY | CAMEL_ARG_PTR,
+	CAMEL_FOLDER_INFO_ARRAY = CAMEL_FOLDER_ARG_INFO_ARRAY | CAMEL_ARG_PTR,
+};
+
 struct _CamelFolderChangeInfo {
 	GPtrArray *uid_added;
 	GPtrArray *uid_removed;
@@ -57,8 +81,11 @@ struct _CamelFolder
 
 	struct _CamelFolderPrivate *priv;
 
+	/* get these via the :get() method, they might not be set otherwise */
 	char *name;
 	char *full_name;
+	char *description;
+
 	CamelStore *parent_store;
 	CamelFolderSummary *summary;
 

@@ -59,6 +59,7 @@ static void
 camel_sasl_finalize (CamelSasl *sasl)
 {
 	g_free (sasl->service_name);
+	g_free(sasl->mech);
 	camel_object_unref (CAMEL_OBJECT (sasl->service));
 }
 
@@ -206,7 +207,8 @@ camel_sasl_new (const char *service_name, const char *mechanism, CamelService *s
 		sasl = (CamelSasl *)camel_object_new (CAMEL_SASL_NTLM_TYPE);
 	else
 		return NULL;
-	
+
+	sasl->mech = g_strdup(mechanism);
 	sasl->service_name = g_strdup (service_name);
 	sasl->service = service;
 	camel_object_ref (CAMEL_OBJECT (service));

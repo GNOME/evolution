@@ -42,6 +42,7 @@ typedef struct _CamelSasl {
 	CamelObject parent_object;
 	
 	char *service_name;
+	char *mech;		/* mechanism */
 	CamelService *service;
 	gboolean authenticated;
 } CamelSasl;

@@ -68,6 +68,8 @@ CamelType	      camel_vee_folder_get_type		(void);
 CamelFolder  *camel_vee_folder_new		(CamelStore *parent_store, const char *name, guint32 flags);
 void         camel_vee_folder_construct		(CamelVeeFolder *vf, CamelStore *parent_store, const char *name, guint32 flags);
 
+CamelFolder *camel_vee_folder_get_location(CamelVeeFolder *vf, const CamelVeeMessageInfo *vinfo, char **realuid);
+
 void         camel_vee_folder_add_folder        (CamelVeeFolder *vf, CamelFolder *sub);
 void         camel_vee_folder_remove_folder     (CamelVeeFolder *vf, CamelFolder *sub);
 void	     camel_vee_folder_set_folders	(CamelVeeFolder *vf, GList *folders);

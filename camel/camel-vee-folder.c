@@ -512,6 +512,38 @@ camel_vee_folder_hash_folder(CamelFolder *folder, char buffer[8])
 	}
 }
 
+/**
+ * camel_vee_folder_get_location:
+ * @vf: 
+ * @vinfo: 
+ * @realuid: if not NULL, set to the uid of the real message, must be
+ * g_free'd by caller.
+ * 
+ * Find the real folder (and uid)
+ * 
+ * Return value: 
+ **/
+CamelFolder *
+camel_vee_folder_get_location(CamelVeeFolder *vf, const CamelVeeMessageInfo *vinfo, char **realuid)
+{
+	/* locking?  yes?  no?  although the vfolderinfo is valid when obtained
+	   the folder in it might not necessarily be so ...? */
+	if (CAMEL_IS_VEE_FOLDER(vinfo->folder)) {
+		CamelFolder *folder;
+		const CamelVeeMessageInfo *vfinfo;
+
+		vfinfo = (CamelVeeMessageInfo *)camel_folder_get_message_info(vinfo->folder, camel_message_info_uid(vinfo)+8);
+		folder = camel_vee_folder_get_location((CamelVeeFolder *)vinfo->folder, vfinfo, realuid);
+		camel_folder_free_message_info(vinfo->folder, (CamelMessageInfo *)vfinfo);
+		return folder;
+	} else {
+		if (realuid)
+			*realuid = g_strdup(camel_message_info_uid(vinfo)+8);
+
+		return vinfo->folder;
+	}
+}
+
 static void vee_refresh_info(CamelFolder *folder, CamelException *ex)
 {
 	CamelVeeFolder *vf = (CamelVeeFolder *)folder;

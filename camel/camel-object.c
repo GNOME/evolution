@@ -202,6 +202,21 @@ cobject_finalise(CamelObject *o)
 static int
 cobject_getv(CamelObject *o, CamelException *ex, CamelArgGetV *args)
 {
+	int i;
+	guint32 tag;
+
+	for (i=0;i<args->argc;i++) {
+		CamelArgGet *arg = &args->argv[i];
+
+		tag = arg->tag;
+
+		switch (tag & CAMEL_ARG_TAG) {
+		case CAMEL_OBJECT_ARG_DESCRIPTION:
+			*arg->ca_str = (char *)o->klass->name;
+			break;
+		}
+	}
+
 	/* could have flags or stuff here? */
 	return 0;
 }
@@ -214,12 +229,19 @@ cobject_setv(CamelObject *o, CamelException *ex, CamelArgV *args)
 }
 
 static void
+cobject_free(CamelObject *o, guint32 tag, void *value)
+{
+	/* do nothing */
+}
+
+static void
 cobject_class_init(CamelObjectClass *klass)
 {
 	klass->magic = CAMEL_OBJECT_CLASS_MAGIC;
 
 	klass->getv = cobject_getv;
 	klass->setv = cobject_setv;
+	klass->free = cobject_free;
 
 	camel_object_class_add_event(klass, "finalize", NULL);
 }
@@ -871,9 +893,10 @@ trigger:
 }
 
 /* get/set arg methods */
-int camel_object_set(CamelObject *o, CamelException *ex, ...)
+int camel_object_set(void *vo, CamelException *ex, ...)
 {
 	CamelArgV args;
+	CamelObject *o = vo;
 	CamelObjectClass *klass = o->klass;
 	int ret = 0;
 
@@ -891,15 +914,16 @@ int camel_object_set(CamelObject *o, CamelException *ex, ...)
 	return ret;
 }
 
-int camel_object_setv(CamelObject *o, CamelException *ex, CamelArgV *args)
+int camel_object_setv(void *vo, CamelException *ex, CamelArgV *args)
 {
-	g_return_val_if_fail(CAMEL_IS_OBJECT(o), -1);
+	g_return_val_if_fail(CAMEL_IS_OBJECT(vo), -1);
 
-	return o->klass->setv(o, ex, args);
+	return ((CamelObject *)vo)->klass->setv(vo, ex, args);
 }
 
-int camel_object_get(CamelObject *o, CamelException *ex, ...)
+int camel_object_get(void *vo, CamelException *ex, ...)
 {
+	CamelObject *o = vo;
 	CamelArgGetV args;
 	CamelObjectClass *klass = o->klass;
 	int ret = 0;
@@ -918,13 +942,35 @@ int camel_object_get(CamelObject *o, CamelException *ex, ...)
 	return ret;
 }
 
-int camel_object_getv(CamelObject *o, CamelException *ex, CamelArgGetV *args)
+int camel_object_getv(void *vo, CamelException *ex, CamelArgGetV *args)
 {
-	CamelObjectClass *klass = o->klass;
+	g_return_val_if_fail(CAMEL_IS_OBJECT(vo), -1);
 
-	g_return_val_if_fail(CAMEL_IS_OBJECT(o), -1);
+	return ((CamelObject *)vo)->klass->getv(vo, ex, args);
+}
 
-	return klass->getv(o, ex, args);
+/* free an arg object, you can only free objects 1 at a time */
+void camel_object_free(void *vo, guint32 tag, void *value)
+{
+	g_return_if_fail(CAMEL_IS_OBJECT(vo));
+
+	/* We could also handle freeing of args differently
+
+	   Add a 'const' bit to the arg type field,
+	   specifying that the object should not be freed.
+	   
+	   And, add free handlers for any pointer objects which are
+	   not const.  The free handlers would be hookpairs off of the
+	   class.
+
+	   Then we handle the basic types OBJ,STR here, and pass PTR
+	   types to their appropriate handler, without having to pass
+	   through the invocation heirarchy of the free method.
+
+	   This would also let us copy and do other things with args
+	   we can't do, but i can't see a use for that yet ...  */
+
+	((CamelObject *)vo)->klass->free(vo, tag, value);
 }
 
 static void

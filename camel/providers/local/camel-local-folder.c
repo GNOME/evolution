@@ -65,6 +65,8 @@ static CamelFolderClass *parent_class = NULL;
 #define CF_CLASS(so) CAMEL_FOLDER_CLASS (CAMEL_OBJECT_GET_CLASS(so))
 #define CLOCALS_CLASS(so) CAMEL_STORE_CLASS (CAMEL_OBJECT_GET_CLASS(so))
 
+static int local_getv(CamelObject *object, CamelException *ex, CamelArgGetV *args);
+
 static int local_lock(CamelLocalFolder *lf, CamelLockType type, CamelException *ex);
 static void local_unlock(CamelLocalFolder *lf);
 
@@ -83,12 +85,15 @@ static void
 camel_local_folder_class_init(CamelLocalFolderClass * camel_local_folder_class)
 {
 	CamelFolderClass *camel_folder_class = CAMEL_FOLDER_CLASS(camel_local_folder_class);
+	CamelObjectClass *oklass = (CamelObjectClass *)camel_local_folder_class;
 
 	parent_class = CAMEL_FOLDER_CLASS(camel_type_get_global_classfuncs(camel_folder_get_type()));
 
 	/* virtual method definition */
 
 	/* virtual method overload */
+	oklass->getv = local_getv;
+
 	camel_folder_class->sync = local_sync;
 	camel_folder_class->expunge = local_expunge;
 
@@ -292,6 +297,64 @@ int camel_local_folder_unlock(CamelLocalFolder *lf)
 	lf->locked--;
 	if (lf->locked == 0)
 		CLOCALF_CLASS(lf)->unlock(lf);
+
+	return 0;
+}
+
+static int
+local_getv(CamelObject *object, CamelException *ex, CamelArgGetV *args)
+{
+	CamelFolder *folder = (CamelFolder *)object;
+	int i, count=args->argc;
+	guint32 tag;
+
+	for (i=0;i<args->argc;i++) {
+		CamelArgGet *arg = &args->argv[i];
+
+		tag = arg->tag;
+
+		switch (tag & CAMEL_ARG_TAG) {
+			/* CamelObject args */
+		case CAMEL_OBJECT_ARG_DESCRIPTION:
+			if (folder->description == NULL) {
+				char *tmp, *path;
+
+				/* check some common prefixes to shorten the name */
+				tmp = ((CamelService *)folder->parent_store)->url->path;
+				if (tmp == NULL)
+					goto skip;
+
+				path = alloca(strlen(tmp)+strlen(folder->full_name)+1);
+				sprintf(path, "%s/%s", tmp, folder->full_name);
+
+				if ((tmp = getenv("HOME")) && strncmp(tmp, path, strlen(tmp)) == 0)
+					/* $HOME relative path + protocol string */
+					folder->description = g_strdup_printf(_("~%s (%s)"), path+strlen(tmp),
+									      ((CamelService *)folder->parent_store)->url->protocol);
+				else if ((tmp = "/var/spool/mail") && strncmp(tmp, path, strlen(tmp)) == 0)
+					/* /var/spool/mail relative path + protocol */
+					folder->description = g_strdup_printf(_("mailbox:%s (%s)"), path+strlen(tmp),
+									      ((CamelService *)folder->parent_store)->url->protocol);
+				else if ((tmp = "/var/mail") && strncmp(tmp, path, strlen(tmp)) == 0)
+					folder->description = g_strdup_printf(_("mailbox:%s (%s)"), path+strlen(tmp),
+									      ((CamelService *)folder->parent_store)->url->protocol);
+				else
+					/* a full path + protocol */
+					folder->description = g_strdup_printf(_("%s (%s)"), path, 
+									      ((CamelService *)folder->parent_store)->url->protocol);
+			}
+			*arg->ca_str = folder->description;
+			break;
+		default: skip:
+			count--;
+			continue;
+		}
+
+		arg->tag = (tag & CAMEL_ARG_TYPE) | CAMEL_ARG_IGNORE;
+	}
+
+	if (count)
+		return ((CamelObjectClass *)parent_class)->getv(object, ex, args);
 
 	return 0;
 }
