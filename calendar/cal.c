@@ -128,9 +128,6 @@ cal_destroy (GtkObject *object)
 	cal = CAL (object);
 	priv = cal->priv;
 
-	if (priv->uri)
-		g_free (priv->uri);
-
 	CORBA_exception_init (&ev);
 
 	for (l = priv->listeners; l; l = l->next) {

@@ -61,6 +61,7 @@ CalBackend *cal_backend_new (void);
 GnomeVFSURI *cal_backend_get_uri (CalBackend *backend);
 
 void cal_backend_add_cal (CalBackend *backend, Cal *cal);
+void cal_backend_remove_cal (CalBackend *backend, Cal *cal);
 
 CalBackendLoadStatus cal_backend_load (CalBackend *backend, GnomeVFSURI *uri);
 

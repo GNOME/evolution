@@ -297,7 +297,40 @@ cal_backend_add_cal (CalBackend *backend, Cal *cal)
 	g_return_if_fail (cal != NULL);
 	g_return_if_fail (IS_CAL (cal));
 
+	gtk_object_ref (cal);
 	priv->clients = g_list_prepend (priv->clients, cal);
+}
+
+/**
+ * cal_backend_remove_cal:
+ * @backend: A calendar backend.
+ * @cal: A calendar client interface object.
+ * 
+ * Removes a calendar client interface object from a calendar backend.  The
+ * calendar backend must already have a loaded calendar.
+ **/
+void
+cal_backend_remove_cal (CalBackend *backend, Cal *cal)
+{
+	CalBackendPrivate *priv;
+	GList *l;
+
+	g_return_if_fail (backend != NULL);
+	g_return_if_fail (IS_CAL_BACKEND (backend));
+
+	priv = backend->priv;
+	g_return_if_fail (priv->loaded);
+
+	g_return_if_fail (cal != NULL);
+	g_return_if_fail (IS_CAL (cal));
+
+	l = g_list_find (priv->clients, cal);
+	if (!l)
+		return;
+
+	gtk_object_unref (cal);
+	priv->clients = g_list_remove_link (priv->clients, l);
+	g_list_free1 (l);
 }
 
 /**
@@ -315,6 +348,7 @@ cal_backend_load (CalBackend *backend, GnomeVFSURI *uri)
 {
 	CalBackendPrivate *priv;
 	VObject *vobject;
+	char *str_uri;
 
 	g_return_val_if_fail (backend != NULL, CAL_BACKEND_LOAD_ERROR);
 	g_return_val_if_fail (IS_CAL_BACKEND (backend), CAL_BACKEND_LOAD_ERROR);
@@ -323,7 +357,20 @@ cal_backend_load (CalBackend *backend, GnomeVFSURI *uri)
 	priv = backend->priv;
 	g_return_val_if_fail (!priv->loaded, CAL_BACKEND_LOAD_ERROR);
 
-	vobject = Parse_MIME_FromURI (uri);
+	/* FIXME: this looks rather bad; maybe we should check for local files
+	 * and fail if they are remote.
+	 */
+
+	str_uri = gnome_vfs_uri_to_string (uri,
+					   (GNOME_VFS_URI_HIDE_USER_NAME
+					    | GNOME_VFS_URI_HIDE_PASSWORD
+					    | GNOME_VFS_URI_HIDE_HOST_NAME
+					    | GNOME_VFS_URI_HIDE_HOST_PORT
+					    | GNOME_VFS_URI_HIDE_TOPLEVEL_METHOD));
+
+	vobject = Parse_MIME_FromFileName (str_uri);
+	g_free (str_uri);
+
 	if (!vobject)
 		return CAL_BACKEND_LOAD_ERROR;
 

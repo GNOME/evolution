@@ -1,4 +1,24 @@
+2000-01-24  Federico Mena Quintero  <federico@helixcode.com>
+
+	* cal-backend.c (cal_backend_remove_cal): New function to remove a
+	calendar client interface object from a backend.
+	(cal_backend_load): Convert the URI to string and use
+	Parse_MIME_FromFileName().  The conversion is not very smart,
+	though.
+
+	* cal-factory.c (load_backend): Moved most of the error handling
+	upstream to load_fn().
+	(load_fn): Handle failure in case the backend could not be loaded.
+	(cal_factory_destroy): Free the backends and the backend hash
+	table.
+	(add_calendar_client): Implemented.  We create a Cal client
+	interface object and attach it to the backend, and we notify the
+	listener.
+
 2000-01-22  Federico Mena Quintero  <federico@helixcode.com>
+
+	* cal-factory.c (lookup_backend): Renamed from lookup_calendar().
+	Also, return a backend instead of a Cal client object.
 
 	* cal-backend.c (cal_backend_load): Take in a GnomeVFSURI, not a
 	string.

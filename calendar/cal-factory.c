@@ -20,6 +20,7 @@
  */
 
 #include <config.h>
+#include "cal.h"
 #include "cal-backend.h"
 #include "cal-factory.h"
 #include "job.h"
@@ -29,7 +30,7 @@
 /* Private part of the CalFactory structure */
 typedef struct {
 	/* Hash table from GnomeVFSURI structures to CalBackend objects */
-	GHashTable *calendars;
+	GHashTable *backends;
 } CalFactoryPrivate;
 
 
@@ -108,7 +109,21 @@ cal_factory_init (CalFactory *factory)
 	priv = g_new0 (CalFactoryPrivate, 1);
 	factory->priv = priv;
 
-	priv->calendars = g_hash_table_new (gnome_vfs_uri_hash, gnome_vfs_uri_hequal);
+	priv->backends = g_hash_table_new (gnome_vfs_uri_hash, gnome_vfs_uri_hequal);
+}
+
+/* Frees a uri/backend pair from the backends hash table */
+static void
+free_backend (gpointer key, gpointer value, gpointer data)
+{
+	GnomeVFSURI *uri;
+	CalBackend *backend;
+
+	uri = key;
+	backend = value;
+
+	gnome_vfs_uri_unref (uri);
+	gtk_object_unref (GTK_OBJECT (backend));
 }
 
 /* Destroy handler for the calendar */
@@ -124,7 +139,9 @@ cal_factory_destroy (GtkObject *object)
 	factory = CAL_FACTORY (object);
 	priv = factory->priv;
 
-	/* FIXME: free the calendar hash table */
+	g_hash_table_foreach (priv->backends, free_backend, NULL);
+	g_hash_table_destroy (priv->backends);
+	priv->backends = NULL;
 
 	g_free (priv);
 
@@ -199,57 +216,94 @@ typedef struct {
 	GNOME_Calendar_Listener listener;
 } LoadCreateJobData;
 
-/* Looks up a calendar in a factory's hash table of uri->cal */
-static Cal *
-lookup_calendar (CalFactory *factory, GnomeVFSURI *uri)
+/* Looks up a calendar backend in a factory's hash table of uri->cal */
+static CalBackend *
+lookup_backend (CalFactory *factory, GnomeVFSURI *uri)
 {
 	CalFactoryPrivate *priv;
-	Cal *cal;
+	CalBackend *backend;
 
 	priv = factory->priv;
 
-	cal = g_hash_table_lookup (priv->calendars, uri);
+	backend = g_hash_table_lookup (priv->backends, uri);
 	return cal;
 }
 
-/* Loads a calendar and puts it in the factory's hash table */
-static void
-load_calendar (CalFactory *factory, GnomeVFSURI *uri, GNOME_Calendar_Listener listener)
+/* Loads a calendar backend and puts it in the factory's backend hash table */
+static CalBackend *
+load_backend (CalFactory *factory, GnomeVFSURI *uri, GNOME_Calendar_Listener listener)
 {
 	CalFactoryPrivate *priv;
 	CalBackend *backend;
 	CalBackendLoadStatus status;
+	CORBA_Environment ev;
 
 	priv = factory->priv;
 
 	backend = cal_backend_new ();
 	if (!backend) {
-		CORBA_Environment ev;
+		g_message ("load_backend(): could not create the backend");
+		return NULL;
+	}
 
-		g_message ("load_calendar(): could not create the backend");
+	status = cal_backend_load (backend, uri);
+
+	switch (status) {
+	case CAL_BACKEND_LOAD_SUCCESS:
+		gnome_vfs_uri_ref (uri);
+		g_hash_table_insert (priv->backends, uri, backend);
+
+		return backend;
+
+	case CAL_BACKEND_LOAD_ERROR:
+		gtk_object_unref (backend);
+		return NULL;
+
+	default:
+		g_assert_not_reached ();
+		return NULL;
+	}
+}
+
+/* Adds a listener to a calendar backend by creating a calendar client interface
+ * object.
+ */
+static void
+add_calendar_client (CalFactory *factory, CalBackend *backend, GNOME_Calendar_Listener listener)
+{
+	Cal *cal;
+	CORBA_Environment ev;
+
+	cal = cal_new (backend, listener);
+	if (!cal) {
+		g_message ("add_calendar_client(): could not create the calendar client interface");
 
 		CORBA_exception_init (&ev);
 		GNOME_Calendar_Listener_cal_loaded (listener,
 						    GNOME_Calendar_Listener_ERROR,
 						    CORBA_OBJECT_NIL,
 						    &ev);
-		if (ev._major != CORBA_NO_EXCEPTION) {
-			g_message ("load_calendar(): could not notify the listener");
-			CORBA_exception_free (&ev);
-			gtk_object_unref (backend);
-			return;
-		}
+		if (ev._major != CORBA_NO_EXCEPTION)
+			g_message ("add_calendar_client(): could not notify the listener");
+
 		CORBA_exception_free (&ev);
+		return;
 	}
 
-	status = cal_backend_load (backend, uri);
-}
+	cal_backend_add_cal (backend, cal);
 
-/* Adds a listener to a calendar */
-static void
-add_calendar_listener (CalFactory *factory, Cal *cal, GNOME_Calendar_Listener listener)
-{
-	/* FIXME */
+	CORBA_exception_init (&ev);
+	GNOME_Calendar_Listener_cal_loaded (listener,
+					    GNOME_Calendar_Listener_SUCESSS,
+					    gnome_object_corba_objref (GNOME_OBJECT (cal)),
+					    &ev);
+
+	if (ev._major != CORBA_NO_EXCEPTION) {
+		g_message ("add_calendar_client(): could not notify the listener");
+		cal_backend_remove_cal (backend, cal);
+	}
+
+	gtk_object_unref (GTK_OBJECT (cal));
 }
 
 /* Job handler for the load calendar command */
@@ -257,8 +311,10 @@ static void
 load_fn (gpointer data)
 {
 	LoadCreateJobData jd;
+	CalFactory *factory;
 	GnomeVFSURI *uri;
-	Cal *cal;
+	GNOME_Calendar_Listener listener;
+	CalBackend *backend;
 	CORBA_Environment ev;
 
 	jd = data;
@@ -266,27 +322,45 @@ load_fn (gpointer data)
 	/* Look up the calendar */
 
 	uri = gnome_vfs_uri_new (jd->uri);
-	cal = lookup_calendar (jd->factory, uri);
-
-	if (!cal)
-		load_calendar (factory, uri, jd->listener);
-	else
-		add_calendar_listener (factory, cal, jd->listener);
-
-	gnome_vfs_uri_unref (uri);
 	g_free (jd->uri);
 
+	factory = jd->factory;
+	listener = jd->listener;
+	g_free (jd);
+
+	backend = lookup_backend (factory, uri);
+
+	if (!backend)
+		backend = load_backend (factory, uri, listener);
+
+	gnome_vfs_uri_unref (uri);
+
+	if (!backend) {
+		g_message ("load_fn(): could not load the backend");
+		CORBA_exception_init (&ev);
+		GNOME_Calendar_Listener_cal_loaded (listener,
+						    GNOME_Calendar_Listener_ERROR,
+						    CORBA_OBJECT_NIL,
+						    &ev);
+
+		if (ev._major != CORBA_NO_EXCEPTION)
+			g_message ("load_fn(): could not notify the listener");
+
+		CORBA_exception_free (&ev);
+		goto out;
+	}
+
+	add_calendar_client (factory, backend, listener);
+
+ out:
+
 	CORBA_exception_init (&ev);
-	CORBA_Object_release (jd->listener, &ev);
+	CORBA_Object_release (listener, &ev);
 
 	if (ev._major != CORBA_NO_EXCEPTION)
 		g_message ("load_fn(): could not release the listener");
 
 	CORBA_exception_free (&ev);
-
-	/* Done */
-
-	g_free (jd);
 }
 
 
