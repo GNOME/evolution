@@ -1,5 +1,14 @@
 2001-06-06  Jason Leach  <jleach@ximian.com>
 
+	(Fix bug #3205: Component crash causes folder switch even when not
+	 needed)
+	
+	* e-shell-view.c (socket_destroy_cb): Only flip around the
+	ShellView to different folders when we're currently viewing the
+	URI that's being closed/crashed.
+
+2001-06-06  Jason Leach  <jleach@ximian.com>
+
 	(Fix bug #418: Save state of folder tree view)
 	
 	* e-shell-view.c (e_shell_view_save_settings): Changed the char *

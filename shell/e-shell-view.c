@@ -1549,6 +1549,7 @@ socket_destroy_cb (GtkWidget *socket_widget, gpointer data)
 	EFolder *folder;
 	GtkWidget *control;
 	const char *uri;
+	gboolean viewing_closed_uri;
 	char *copy_of_uri;
 
 	shell_view = E_SHELL_VIEW (data);
@@ -1557,7 +1558,7 @@ socket_destroy_cb (GtkWidget *socket_widget, gpointer data)
 	uri = (const char *) gtk_object_get_data (GTK_OBJECT (socket_widget), "e_shell_view_folder_uri");
 
 	/* Strdup here as the string will be freed when the socket is destroyed.  */
-	copy_of_uri = g_strdup (uri);
+ 	copy_of_uri = g_strdup (uri);
 
 	control = g_hash_table_lookup (priv->uri_to_control, uri);
 	if (control == NULL) {
@@ -1573,16 +1574,22 @@ socket_destroy_cb (GtkWidget *socket_widget, gpointer data)
 	folder = e_storage_set_get_folder (e_shell_get_storage_set (priv->shell),
 					   get_storage_set_path_from_uri (uri));
 
-	e_shell_view_display_uri (shell_view, NULL);
+	/* See if we were actively viewing the uri for the socket that's being closed */
+	viewing_closed_uri = !strcmp (uri, e_shell_view_get_current_uri (shell_view));
+
+	if (viewing_closed_uri)
+		e_shell_view_display_uri (shell_view, NULL);
 
 	e_shell_component_maybe_crashed (priv->shell,
 					 uri,
 					 e_folder_get_type_string (folder),
 					 shell_view);
 
-	g_free (copy_of_uri);
+	/* We were actively viewing the component that just crashed, so flip to the Inbox */
+	if (viewing_closed_uri)
+		e_shell_view_display_uri (shell_view, DEFAULT_URI);
 
-	e_shell_view_display_uri (shell_view, DEFAULT_URI);
+	g_free (copy_of_uri);
 }
 
 
