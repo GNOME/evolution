@@ -123,6 +123,7 @@ static guint n_targets = sizeof(target_table) / sizeof(target_table[0]);
 
 static void e_day_view_destroy (GtkObject *object);
 static void e_day_view_realize (GtkWidget *widget);
+static void e_day_view_set_colors(EDayView *day_view, GtkWidget *widget);
 static void e_day_view_unrealize (GtkWidget *widget);
 static void e_day_view_style_set (GtkWidget *widget,
 				  GtkStyle  *previous_style);
@@ -1151,64 +1152,9 @@ e_day_view_realize (GtkWidget *widget)
 	colormap = gtk_widget_get_colormap (widget);
 
 	/* Allocate the colors. */
-	day_view->colors[E_DAY_VIEW_COLOR_BG_WORKING].red   = 247 * 257;
-	day_view->colors[E_DAY_VIEW_COLOR_BG_WORKING].green = 247 * 257;
-	day_view->colors[E_DAY_VIEW_COLOR_BG_WORKING].blue  = 244 * 257;
-
-	day_view->colors[E_DAY_VIEW_COLOR_BG_NOT_WORKING].red   = 216 * 257;
-	day_view->colors[E_DAY_VIEW_COLOR_BG_NOT_WORKING].green = 216 * 257;
-	day_view->colors[E_DAY_VIEW_COLOR_BG_NOT_WORKING].blue  = 214 * 257;
-
-	day_view->colors[E_DAY_VIEW_COLOR_BG_SELECTED].red   = 0 * 257;
-	day_view->colors[E_DAY_VIEW_COLOR_BG_SELECTED].green = 0 * 257;
-	day_view->colors[E_DAY_VIEW_COLOR_BG_SELECTED].blue  = 156 * 257;
-
-	day_view->colors[E_DAY_VIEW_COLOR_BG_SELECTED_UNFOCUSSED].red   = 16 * 257;
-	day_view->colors[E_DAY_VIEW_COLOR_BG_SELECTED_UNFOCUSSED].green = 78 * 257;
-	day_view->colors[E_DAY_VIEW_COLOR_BG_SELECTED_UNFOCUSSED].blue  = 139 * 257;
-
-	day_view->colors[E_DAY_VIEW_COLOR_BG_GRID].red   = 0x8000;
-	day_view->colors[E_DAY_VIEW_COLOR_BG_GRID].green = 0x8000;
-	day_view->colors[E_DAY_VIEW_COLOR_BG_GRID].blue  = 0x8000;
-
-	day_view->colors[E_DAY_VIEW_COLOR_BG_TOP_CANVAS].red   = 0x8000;
-	day_view->colors[E_DAY_VIEW_COLOR_BG_TOP_CANVAS].green = 0x8000;
-	day_view->colors[E_DAY_VIEW_COLOR_BG_TOP_CANVAS].blue  = 0x8000;
-
-	day_view->colors[E_DAY_VIEW_COLOR_BG_TOP_CANVAS_SELECTED].red   = 65535;
-	day_view->colors[E_DAY_VIEW_COLOR_BG_TOP_CANVAS_SELECTED].green = 65535;
-	day_view->colors[E_DAY_VIEW_COLOR_BG_TOP_CANVAS_SELECTED].blue  = 65535;
-
-	day_view->colors[E_DAY_VIEW_COLOR_BG_TOP_CANVAS_GRID].red   = 0;
-	day_view->colors[E_DAY_VIEW_COLOR_BG_TOP_CANVAS_GRID].green = 0;
-	day_view->colors[E_DAY_VIEW_COLOR_BG_TOP_CANVAS_GRID].blue  = 0;
-
-	day_view->colors[E_DAY_VIEW_COLOR_EVENT_VBAR].red   = 0;
-	day_view->colors[E_DAY_VIEW_COLOR_EVENT_VBAR].green = 0;
-	day_view->colors[E_DAY_VIEW_COLOR_EVENT_VBAR].blue  = 65535;
-
-	day_view->colors[E_DAY_VIEW_COLOR_EVENT_BACKGROUND].red   = 65535;
-	day_view->colors[E_DAY_VIEW_COLOR_EVENT_BACKGROUND].green = 65535;
-	day_view->colors[E_DAY_VIEW_COLOR_EVENT_BACKGROUND].blue  = 65535;
-
-	day_view->colors[E_DAY_VIEW_COLOR_EVENT_BORDER].red   = 0;
-	day_view->colors[E_DAY_VIEW_COLOR_EVENT_BORDER].green = 0;
-	day_view->colors[E_DAY_VIEW_COLOR_EVENT_BORDER].blue  = 0;
-
-	day_view->colors[E_DAY_VIEW_COLOR_LONG_EVENT_BACKGROUND].red   = 213 * 257;
-	day_view->colors[E_DAY_VIEW_COLOR_LONG_EVENT_BACKGROUND].green = 213 * 257;
-	day_view->colors[E_DAY_VIEW_COLOR_LONG_EVENT_BACKGROUND].blue  = 213 * 257;
-
-	day_view->colors[E_DAY_VIEW_COLOR_LONG_EVENT_BORDER].red   = 0;
-	day_view->colors[E_DAY_VIEW_COLOR_LONG_EVENT_BORDER].green = 0;
-	day_view->colors[E_DAY_VIEW_COLOR_LONG_EVENT_BORDER].blue  = 0;
-
-	nfailed = gdk_colormap_alloc_colors (colormap, day_view->colors,
-					     E_DAY_VIEW_COLOR_LAST, FALSE,
-					     TRUE, success);
-	if (nfailed)
-		g_warning ("Failed to allocate all colors");
-
+	
+	e_day_view_set_colors(day_view, widget);
+	
 	gdk_gc_set_colormap (day_view->main_gc, colormap);
 
 	/* Create the pixmaps. */
@@ -1262,6 +1208,23 @@ e_day_view_realize (GtkWidget *widget)
 			       NULL);
 }
 
+static void
+e_day_view_set_colors(EDayView *day_view, GtkWidget *widget)
+{
+	day_view->colors[E_DAY_VIEW_COLOR_BG_WORKING] = widget->style->base[GTK_STATE_NORMAL];
+	day_view->colors[E_DAY_VIEW_COLOR_BG_NOT_WORKING] = widget->style->bg[GTK_STATE_ACTIVE];
+	day_view->colors[E_DAY_VIEW_COLOR_BG_SELECTED] = widget->style->base[GTK_STATE_SELECTED];
+	day_view->colors[E_DAY_VIEW_COLOR_BG_SELECTED_UNFOCUSSED] = widget->style->bg[GTK_STATE_SELECTED];
+	day_view->colors[E_DAY_VIEW_COLOR_BG_GRID] = widget->style->dark[GTK_STATE_NORMAL];
+	day_view->colors[E_DAY_VIEW_COLOR_BG_TOP_CANVAS] = widget->style->dark[GTK_STATE_NORMAL];
+	day_view->colors[E_DAY_VIEW_COLOR_BG_TOP_CANVAS_SELECTED] = widget->style->bg[GTK_STATE_SELECTED];
+	day_view->colors[E_DAY_VIEW_COLOR_BG_TOP_CANVAS_GRID] = widget->style->light[GTK_STATE_NORMAL];
+	day_view->colors[E_DAY_VIEW_COLOR_EVENT_VBAR] = widget->style->base[GTK_STATE_SELECTED];
+	day_view->colors[E_DAY_VIEW_COLOR_EVENT_BACKGROUND] = widget->style->base[GTK_STATE_NORMAL];
+	day_view->colors[E_DAY_VIEW_COLOR_EVENT_BORDER] = widget->style->dark[GTK_STATE_NORMAL];
+	day_view->colors[E_DAY_VIEW_COLOR_LONG_EVENT_BACKGROUND] = widget->style->bg[GTK_STATE_ACTIVE];
+	day_view->colors[E_DAY_VIEW_COLOR_LONG_EVENT_BORDER] = widget->style->dark[GTK_STATE_NORMAL];
+}
 
 static void
 e_day_view_unrealize (GtkWidget *widget)
@@ -1309,11 +1272,39 @@ e_day_view_style_set (GtkWidget *widget,
 	PangoContext *pango_context;
 	PangoFontMetrics *font_metrics;
 	PangoLayout *layout;
+	gint week_day, event_num;
+	EDayViewEvent *event;
 
 	if (GTK_WIDGET_CLASS (e_day_view_parent_class)->style_set)
 		(*GTK_WIDGET_CLASS (e_day_view_parent_class)->style_set)(widget, previous_style);
 
 	day_view = E_DAY_VIEW (widget);
+	e_day_view_set_colors(day_view, widget);
+
+	for (week_day = 0; week_day < E_DAY_VIEW_MAX_DAYS; week_day++){
+		for (event_num = 0; event_num < day_view->events[week_day]->len; event_num++) {
+			event = &g_array_index (day_view->events[week_day], EDayViewEvent, event_num);
+			if (event->canvas_item)
+				gnome_canvas_item_set (event->canvas_item,
+						"fill_color_gdk", &widget->style->text[GTK_STATE_NORMAL],
+						NULL);
+		}
+	}
+	for (event_num = 0; event_num < day_view->long_events->len; event_num++) {
+		event = &g_array_index (day_view->long_events, EDayViewEvent, event_num);
+		if (event->canvas_item)
+			gnome_canvas_item_set (event->canvas_item,
+					"fill_color_gdk", &widget->style->text[GTK_STATE_NORMAL],
+					NULL);
+	}
+	gnome_canvas_item_set (day_view->main_canvas_top_resize_bar_item,
+			"fill_color_gdk", &day_view->colors[E_DAY_VIEW_COLOR_EVENT_VBAR],
+			"outline_color_gdk", &day_view->colors[E_DAY_VIEW_COLOR_EVENT_BORDER],
+			NULL);
+	gnome_canvas_item_set (day_view->main_canvas_bottom_resize_bar_item,
+			"fill_color_gdk", &day_view->colors[E_DAY_VIEW_COLOR_EVENT_VBAR],
+			"outline_color_gdk", &day_view->colors[E_DAY_VIEW_COLOR_EVENT_BORDER],
+			NULL);
 
 	/* Set up Pango prerequisites */
 	font_desc = gtk_widget_get_style (widget)->font_desc;
@@ -4349,6 +4340,9 @@ e_day_view_reshape_long_event (EDayView *day_view,
 	}
 
 	if (!event->canvas_item) {
+		GtkWidget *widget;
+
+		widget = (GtkWidget *)day_view;
 		event->canvas_item =
 			gnome_canvas_item_new (GNOME_CANVAS_GROUP (GNOME_CANVAS (day_view->top_canvas)->root),
 					       e_text_get_type (),
@@ -4358,7 +4352,7 @@ e_day_view_reshape_long_event (EDayView *day_view,
 					       "editable", TRUE,
 					       "use_ellipsis", TRUE,
 					       "draw_background", FALSE,
-					       "fill_color_rgba", GNOME_CANVAS_COLOR (0, 0, 0),
+					       "fill_color_gdk", &widget->style->text[GTK_STATE_NORMAL],
 					       "im_context", E_CANVAS (day_view->top_canvas)->im_context,
 					       NULL);
 		g_signal_connect (event->canvas_item, "event",
@@ -4523,6 +4517,9 @@ e_day_view_reshape_day_event (EDayView *day_view,
 		}
 
 		if (!event->canvas_item) {
+			GtkWidget *widget;
+
+			widget = (GtkWidget *)day_view;
 			event->canvas_item =
 				gnome_canvas_item_new (GNOME_CANVAS_GROUP (GNOME_CANVAS (day_view->main_canvas)->root),
 						       e_text_get_type (),
@@ -4532,7 +4529,7 @@ e_day_view_reshape_day_event (EDayView *day_view,
 						       "clip", TRUE,
 						       "use_ellipsis", TRUE,
 						       "draw_background", FALSE,
-						       "fill_color_rgba", GNOME_CANVAS_COLOR(0, 0, 0),
+						       "fill_color_gdk", &widget->style->text[GTK_STATE_NORMAL],
 						       "im_context", E_CANVAS (day_view->main_canvas)->im_context,
 						       NULL);
 			g_signal_connect (event->canvas_item, "event",

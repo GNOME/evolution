@@ -96,6 +96,7 @@ typedef struct {
 
 static void e_week_view_destroy (GtkObject *object);
 static void e_week_view_realize (GtkWidget *widget);
+static void e_week_view_set_colors(EWeekView *week_view, GtkWidget *widget);
 static void e_week_view_unrealize (GtkWidget *widget);
 static void e_week_view_style_set (GtkWidget *widget,
 				   GtkStyle  *previous_style);
@@ -754,56 +755,8 @@ e_week_view_realize (GtkWidget *widget)
 	colormap = gtk_widget_get_colormap (widget);
 
 	/* Allocate the colors. */
-	week_view->colors[E_WEEK_VIEW_COLOR_EVEN_MONTHS].red   = 0xe0e0;
-	week_view->colors[E_WEEK_VIEW_COLOR_EVEN_MONTHS].green = 0xe0e0;
-	week_view->colors[E_WEEK_VIEW_COLOR_EVEN_MONTHS].blue  = 0xe0e0;
-
-	week_view->colors[E_WEEK_VIEW_COLOR_ODD_MONTHS].red   = 65535;
-	week_view->colors[E_WEEK_VIEW_COLOR_ODD_MONTHS].green = 65535;
-	week_view->colors[E_WEEK_VIEW_COLOR_ODD_MONTHS].blue  = 65535;
-
-	week_view->colors[E_WEEK_VIEW_COLOR_EVENT_BACKGROUND].red   = 213 * 257;
-	week_view->colors[E_WEEK_VIEW_COLOR_EVENT_BACKGROUND].green = 213 * 257;
-	week_view->colors[E_WEEK_VIEW_COLOR_EVENT_BACKGROUND].blue  = 213 * 257;
-
-	week_view->colors[E_WEEK_VIEW_COLOR_EVENT_BORDER].red   = 0;
-	week_view->colors[E_WEEK_VIEW_COLOR_EVENT_BORDER].green = 0;
-	week_view->colors[E_WEEK_VIEW_COLOR_EVENT_BORDER].blue  = 0;
-
-	week_view->colors[E_WEEK_VIEW_COLOR_EVENT_TEXT].red   = 0;
-	week_view->colors[E_WEEK_VIEW_COLOR_EVENT_TEXT].green = 0;
-	week_view->colors[E_WEEK_VIEW_COLOR_EVENT_TEXT].blue  = 0;
-
-	week_view->colors[E_WEEK_VIEW_COLOR_GRID].red   = 0 * 257;
-	week_view->colors[E_WEEK_VIEW_COLOR_GRID].green = 0 * 257;
-	week_view->colors[E_WEEK_VIEW_COLOR_GRID].blue  = 0 * 257;
-
-	week_view->colors[E_WEEK_VIEW_COLOR_SELECTED].red   = 0 * 257;
-	week_view->colors[E_WEEK_VIEW_COLOR_SELECTED].green = 0 * 257;
-	week_view->colors[E_WEEK_VIEW_COLOR_SELECTED].blue  = 156 * 257;
-
-	week_view->colors[E_WEEK_VIEW_COLOR_SELECTED_UNFOCUSSED].red   = 16 * 257;
-	week_view->colors[E_WEEK_VIEW_COLOR_SELECTED_UNFOCUSSED].green = 78 * 257;
-	week_view->colors[E_WEEK_VIEW_COLOR_SELECTED_UNFOCUSSED].blue  = 139 * 257;
-
-	week_view->colors[E_WEEK_VIEW_COLOR_DATES].red   = 0 * 257;
-	week_view->colors[E_WEEK_VIEW_COLOR_DATES].green = 0 * 257;
-	week_view->colors[E_WEEK_VIEW_COLOR_DATES].blue  = 0 * 257;
-
-	week_view->colors[E_WEEK_VIEW_COLOR_DATES_SELECTED].red   = 65535;
-	week_view->colors[E_WEEK_VIEW_COLOR_DATES_SELECTED].green = 65535;
-	week_view->colors[E_WEEK_VIEW_COLOR_DATES_SELECTED].blue  = 65535;
-
-	week_view->colors[E_WEEK_VIEW_COLOR_TODAY].red   = 65535;
-	week_view->colors[E_WEEK_VIEW_COLOR_TODAY].green = 0;
-	week_view->colors[E_WEEK_VIEW_COLOR_TODAY].blue  = 0;
-
-	nfailed = gdk_colormap_alloc_colors (colormap, week_view->colors,
-					     E_WEEK_VIEW_COLOR_LAST, FALSE,
-					     TRUE, success);
-	if (nfailed)
-		g_warning ("Failed to allocate all colors");
-
+	e_week_view_set_colors(week_view, widget);
+	
 	gdk_gc_set_colormap (week_view->main_gc, colormap);
 
 	/* Create the pixmaps. */
@@ -812,6 +765,21 @@ e_week_view_realize (GtkWidget *widget)
 	week_view->timezone_icon = e_icon_factory_get_icon ("stock_timezone", E_ICON_SIZE_MENU);
 }
 
+static void
+e_week_view_set_colors(EWeekView *week_view, GtkWidget *widget)
+{
+	week_view->colors[E_WEEK_VIEW_COLOR_EVEN_MONTHS] = widget->style->base[GTK_STATE_INSENSITIVE];
+	week_view->colors[E_WEEK_VIEW_COLOR_ODD_MONTHS] = widget->style->base[GTK_STATE_NORMAL];
+	week_view->colors[E_WEEK_VIEW_COLOR_EVENT_BACKGROUND] = widget->style->base[GTK_STATE_NORMAL];
+	week_view->colors[E_WEEK_VIEW_COLOR_EVENT_BORDER] = widget->style->dark[GTK_STATE_NORMAL];
+	week_view->colors[E_WEEK_VIEW_COLOR_EVENT_TEXT] = widget->style->text[GTK_STATE_NORMAL];
+	week_view->colors[E_WEEK_VIEW_COLOR_GRID] = widget->style->dark[GTK_STATE_NORMAL];
+	week_view->colors[E_WEEK_VIEW_COLOR_SELECTED] = widget->style->base[GTK_STATE_SELECTED];
+	week_view->colors[E_WEEK_VIEW_COLOR_SELECTED_UNFOCUSSED] = widget->style->bg[GTK_STATE_SELECTED];
+	week_view->colors[E_WEEK_VIEW_COLOR_DATES] = widget->style->text[GTK_STATE_NORMAL];
+	week_view->colors[E_WEEK_VIEW_COLOR_DATES_SELECTED] = widget->style->text[GTK_STATE_SELECTED];
+	week_view->colors[E_WEEK_VIEW_COLOR_TODAY] = widget->style->base[GTK_STATE_SELECTED];
+}
 
 static void
 e_week_view_unrealize (GtkWidget *widget)
@@ -880,18 +848,34 @@ e_week_view_style_set (GtkWidget *widget,
 	GtkStyle *style;
 	gint day, day_width, max_day_width, max_abbr_day_width;
 	gint month, month_width, max_month_width, max_abbr_month_width;
+	gint span_num;
 	GDate date;
 	gchar buffer[128];
 	PangoFontDescription *font_desc;
 	PangoContext *pango_context;
 	PangoFontMetrics *font_metrics;
 	PangoLayout *layout;
+	EWeekViewEventSpan *span;
 
 	if (GTK_WIDGET_CLASS (e_week_view_parent_class)->style_set)
 		(*GTK_WIDGET_CLASS (e_week_view_parent_class)->style_set)(widget, previous_style);
 
 	week_view = E_WEEK_VIEW (widget);
 	style = gtk_widget_get_style (widget);
+
+	e_week_view_set_colors(week_view, widget);
+	if (week_view->spans) {
+		for (span_num = 0; span_num < week_view->spans->len;
+				span_num++) {
+			span = &g_array_index (week_view->spans,
+					EWeekViewEventSpan, span_num);
+			if (span->text_item){
+				gnome_canvas_item_set (span->text_item,
+						"fill_color_gdk", &widget->style->text[GTK_STATE_NORMAL],
+						NULL);
+			}
+		}
+	}
 
 	/* Set up Pango prerequisites */
 	font_desc = style->font_desc;
@@ -2687,7 +2671,9 @@ e_week_view_reshape_event_span (EWeekView *week_view,
 	/* Create the text item if necessary. */
 	if (!span->text_item) {
 		ECalComponentText text;
+		GtkWidget *widget;
 
+		widget = (GtkWidget *)week_view;
 		e_cal_component_get_summary (comp, &text);
 		span->text_item =
 			gnome_canvas_item_new (GNOME_CANVAS_GROUP (GNOME_CANVAS (week_view->main_canvas)->root),
@@ -2698,7 +2684,7 @@ e_week_view_reshape_event_span (EWeekView *week_view,
 					       "editable", TRUE,
 					       "text", text.value ? text.value : "",
 					       "use_ellipsis", TRUE,
-					       "fill_color_rgba", GNOME_CANVAS_COLOR(0, 0, 0),
+					       "fill_color_gdk", &widget->style->text[GTK_STATE_NORMAL],
 					       "im_context", E_CANVAS (week_view->main_canvas)->im_context,
 					       NULL);
 

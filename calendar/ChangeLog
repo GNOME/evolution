@@ -1,3 +1,19 @@
+2004-11-04  Li Yuan  <li.yuan@sun.com>
+
+	Fixes #6767
+
+	* gui/e-day-view-main-item.c:
+	(e_day_view_main_item_draw_day_event):
+	use widget->style instead of hard code colors.
+	* gui/e-day-view.c: (e_day_view_realize), (e_day_view_set_colors),
+	(e_day_view_style_set), (e_day_view_reshape_long_event),
+	(e_day_view_reshape_day_event):
+	ditto.
+	* gui/e-week-view.c: (e_week_view_realize),
+	(e_week_view_set_colors), (e_week_view_style_set),
+	(e_week_view_reshape_event_span):
+	ditto.
+
 2004-11-02  JP Rosevear  <jpr@novell.com>
 
 	* gui/e-day-view-config.c (set_twentyfour_hour): make sure the day

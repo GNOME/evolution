@@ -500,6 +500,8 @@ e_day_view_main_item_draw_day_event (EDayViewMainItem *dvmitem,
 	   since that is used for multiple events. But then you can't see
 	   where the event in the first column finishes. */
 
+	gdk_gc_set_foreground (gc, &day_view->colors[E_DAY_VIEW_COLOR_EVENT_BACKGROUND]);
+
 	if (gdk_color_parse (e_cal_model_get_color_for_component (e_calendar_view_get_model (E_CALENDAR_VIEW (day_view)), event->comp_data),
 			     &bg_color)) {
 		GdkColormap *colormap;
@@ -524,7 +526,8 @@ e_day_view_main_item_draw_day_event (EDayViewMainItem *dvmitem,
 	gdk_gc_set_foreground (gc, &day_view->colors[E_DAY_VIEW_COLOR_EVENT_VBAR]);
 
 	/* Draw the right edge of the vertical bar. */
-	gdk_draw_line (drawable, style->black_gc,
+	gdk_gc_set_foreground (gc, &day_view->colors[E_DAY_VIEW_COLOR_EVENT_BORDER]);
+	gdk_draw_line (drawable, gc,
 		       item_x + E_DAY_VIEW_BAR_WIDTH - 1,
 		       item_y + 1,
 		       item_x + E_DAY_VIEW_BAR_WIDTH - 1,
@@ -551,6 +554,7 @@ e_day_view_main_item_draw_day_event (EDayViewMainItem *dvmitem,
 	/* Only fill it in if the event isn't TRANSPARENT. */
 	e_cal_component_get_transparency (comp, &transparency);
 	if (transparency != E_CAL_COMPONENT_TRANSP_TRANSPARENT) {
+		gdk_gc_set_foreground (gc, &day_view->colors[E_DAY_VIEW_COLOR_EVENT_VBAR]);
 		gdk_draw_rectangle (drawable, gc, TRUE,
 				    item_x + 1, bar_y1,
 				    E_DAY_VIEW_BAR_WIDTH - 2, bar_y2 - bar_y1);
@@ -559,8 +563,10 @@ e_day_view_main_item_draw_day_event (EDayViewMainItem *dvmitem,
 	/* Draw the box around the entire event. Do this after drawing
 	   the colored bar so we don't have to worry about being 1
 	   pixel out. */
-	gdk_draw_rectangle (drawable, style->black_gc, FALSE,
+	gdk_gc_set_foreground (gc, &day_view->colors[E_DAY_VIEW_COLOR_EVENT_BORDER]);
+	gdk_draw_rectangle (drawable, gc, FALSE,
 			    item_x, item_y, MAX (item_w - 1, 0), item_h - 1);
+	gdk_gc_set_foreground (gc, &day_view->colors[E_DAY_VIEW_COLOR_EVENT_VBAR]);
 
 #if 0
 	/* Draw the horizontal bars above and beneath the event if it
