@@ -236,7 +236,7 @@ stream_read (CamelStream *stream, char *buffer, size_t n)
 	
 	if (camel_operation_cancel_check (NULL)) {
 		errno = EINTR;
-		return  -1;
+		return -1;
 	}
 	
 	cancel_fd = camel_operation_cancel_fd (NULL);
@@ -419,7 +419,7 @@ socket_connect (struct hostent *h, int port)
 		tv.tv_usec = 0;
 		tv.tv_sec = 60 * 4;
 		
-		if (select (fdmax, &rdset, &wrset, 0, &tv) == 0) {
+		if (select (fdmax, &rdset, &wrset, 0, &tv) <= 0) {
 			close (fd);
 			errno = ETIMEDOUT;
 			return -1;

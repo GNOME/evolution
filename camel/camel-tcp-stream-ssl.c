@@ -183,6 +183,11 @@ stream_read (CamelStream *stream, char *buffer, size_t n)
 	ssize_t nread;
 	
 	do {
+		if (camel_operation_cancel_check (NULL)) {
+			errno = EINTR;
+			return -1;
+		}
+		
 		nread = PR_Read (tcp_stream_ssl->priv->sockfd, buffer, n);
 		if (nread == -1)
 			set_errno (PR_GetError ());
@@ -198,6 +203,11 @@ stream_write (CamelStream *stream, const char *buffer, size_t n)
 	ssize_t w, written = 0;
 	
 	do {
+		if (camel_operation_cancel_check (NULL)) {
+			errno = EINTR;
+			return -1;
+		}
+		
 		do {
 			w = PR_Write (tcp_stream_ssl->priv->sockfd, buffer + written, n - written);
 			if (w == -1)
