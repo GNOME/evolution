@@ -1089,6 +1089,8 @@ construct (MailConfigDruid *druid)
 	druid->incoming_auto_check = GTK_CHECK_BUTTON (glade_xml_get_widget (gui, "chkAutoCheck"));
 	gtk_signal_connect (GTK_OBJECT (druid->incoming_auto_check), "toggled", auto_check_toggled, druid);
 	druid->incoming_auto_check_min = GTK_SPIN_BUTTON (glade_xml_get_widget (gui, "spinAutoCheckMinutes"));
+	gtk_widget_set_sensitive (GTK_WIDGET (druid->incoming_auto_check_min),
+				  GTK_TOGGLE_BUTTON (druid->incoming_auto_check)->active);
 	druid->incoming_check_settings = GTK_CHECK_BUTTON (glade_xml_get_widget (gui, "chkIncomingCheckSettings"));
 	
 	druid->have_auth_page = TRUE;

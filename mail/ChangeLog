@@ -1,5 +1,8 @@
 2001-02-08  Jeffrey Stedfast  <fejj@ximian.com>
 
+	* mail-config-druid.c (construct): Set the sensitivity of the spin
+	button based on the state of the checkbox.
+
 	* mail-config.c (config_read): Properly do defaults here.
 	(mail_config_write): Removed some of the settings being saved
 	here.
