@@ -853,7 +853,7 @@ with quoted materials and the relevant replies interspersed-->
                   header from large (1) to tiny (6). Other styles
                   include <guilabel>preformat</guilabel>, to use the HTML
                   tag for preformatted blocks of text, and three types
-                  of <guilabel>List Item</guilabel> for the highly
+                  of bullet points for the highly
                   organized.
                 </para>
               </listitem>
