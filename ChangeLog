@@ -1,3 +1,8 @@
+2001-06-19  Kevin Breit <battery841@mediaone.net>
+	* doc/C/apx-gloss.sgml: Added definition.
+
+	* doc/C/usage-mainwindow.sgml: Routine updates.
+
 2001-06-19  Christopher James Lahey  <clahey@ximian.com>
 
 	* libversit/vcc.y (LexBuf): Changed buf to an int here.
@@ -18,10 +23,6 @@
 	* configure.in: Check the modes on $system_mail_dir and set up
 	variables for camel/Makefile to make camel-lock-helper
 	setuid/setgid.
-
-2001-06-15  Federico Mena Quintero  <federico@ximian.com>
-
-	* configure.in (AC_OUTPUT): Added views/calendar/Makefile.
 
 2001-06-11  JP Rosevear  <jpr@ximian.com>
 

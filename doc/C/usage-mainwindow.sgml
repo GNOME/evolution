@@ -26,9 +26,10 @@
      bar</interface>, and below that, the <interface>tool
      bar</interface> with buttons for different functions. The largest
      part of the <interface>main window</interface> is taken up by the
-     actual <interface>Inbox</interface>, where messages are listed
-     and displayed.  If you're running the program for the first time,
-     you'll have just one message: a welcome from Ximian.
+     content view, where your messages are displayed.  Above that is
+     the message list view, where  a summary of your email is displayed.
+     If you're running the program for the first time,
+     you'll have one message: a welcome from Ximian.
 
 
 <!-- ==============Figure=================================== -->
@@ -47,9 +48,9 @@
     <note>
       <title>The Way Evolution Looks</title>
       <para>
-	The appearance of both <application>Evolution</application>
-	and <application>GNOME</application> is very easy to
-	customize, so your screen might not look like this picture.
+	Both <application>GNOME</application> and <application>
+	Evolution</application>'s appearances can be customized,
+	so your graphics may not look the same as the screenshots.
       </para>
     </note>
   </para>
@@ -68,26 +69,8 @@
         rectangular group buttons.
     </para>
     <para>
-       The shortcut group buttons are <guibutton>Evolution
-       Shortcuts</guibutton> and <guibutton>Internet
-       Directories</guibutton>.  When you click on them, they'll slide
-       up and down to give you access to different sorts of shortcuts.
-       When you first start <application>Evolution</application>, you
-       are looking at the <guilabel>Evolution Shortcuts</guilabel>
-       category.  If you click <guilabel>Internet
-       Directories</guilabel>, it will slide up and you'll see buttons
-       for the <guilabel>Bigfoot</guilabel> and
-       <guilabel>Netcenter</guilabel> directories, as well as any
-       others you or your system administrator may have added. You can
-       add more groups by right-clicking on the background of the
-       shortcut bar and selecting <guimenuitem>Menu
-       Group</guimenuitem>.  Internet directories behave a lot like
-       the local contact manager, which is covered in <xref
-       linkend="usage-contact">.
-       </para>
-    <para>
-       Take a look at the <guilabel>Evolution Shortcuts</guilabel>
-       again.  The shortcut buttons in that category are:
+       Take a look at the <guilabel>Shortcut Bar</guilabel>
+       The shortcut buttons in that category are:
 
       <variablelist>
 
@@ -102,8 +85,6 @@
       </para>
       </listitem>
       </varlistentry>
--->
-
 
 	<varlistentry>
 	  <term> <guibutton>Executive Summary:</guibutton></term>
@@ -116,10 +97,10 @@
 	    </para>
 	  </listitem>
 	</varlistentry>
-
+-->
 
 	<varlistentry>
-	  <term> <guibutton>Inbox:</guibutton></term>
+	  <term> <guibutton>Inbox</guibutton></term>
 	  <listitem>
 	    <para>
 	      Click the <guibutton>Inbox</guibutton> button to start
@@ -131,7 +112,7 @@
 	</varlistentry>
 
 	<varlistentry>
-	  <term><guibutton>Calendar:</guibutton></term>
+	  <term><guibutton>Calendar</guibutton></term>
 	  <listitem>
 	    <para>
 	      The Calendar can store your appointments and To do lists
@@ -142,7 +123,7 @@
 	</varlistentry>
 
        <varlistentry>
-         <term><guibutton>Tasks:</guibutton></term>
+         <term><guibutton>Tasks</guibutton></term>
 	<listitem>
 	  <para>
 	     A full-size view of your calendar's task pad.
@@ -151,7 +132,7 @@
       </varlistentry>
 
 	<varlistentry>
-	  <term><guibutton>Contacts:</guibutton></term>
+	  <term><guibutton>Contacts</guibutton></term>
 	  <listitem>
 	    <para>
 	      The Contact Manager holds your addresses, phone numbers,
@@ -238,6 +219,11 @@
       <itemizedlist>
 	 <listitem>
 	    <para>
+	     <guilabel>My Evolution</guilabel>, a quick summary to help you do
+	     your tasks.
+	 </listitem>
+	 <listitem>
+	    <para>
 	     <guilabel>Calendar</guilabel>, for appointments and
 	     event listings.
 	   </para>
@@ -252,11 +238,6 @@
 	    <guilabel>Drafts</guilabel>, for messages you started and didn't finish.
 	   </para>
 	 </listitem>
-         <listitem>
-	    <para>
-	    <guilabel>Executive Summary</guilabel>, the quick guide to everything.
-	   </para>
-	 </listitem>
 	 <listitem>
 	    <para>
 	     <guilabel>Inbox</guilabel>, for incoming mail. 
@@ -264,7 +245,7 @@
 	 </listitem>
 
 	<listitem>
-	    <para>
+	   <para>
 	    <guilabel>Outbox</guilabel>, for messages you have written
 	    but not yet sent.  This will be empty unless you use
 	    <application>Evolution</application> while offline.
@@ -272,7 +253,7 @@
 	 </listitem>
 
 	<listitem>
-	    <para>
+	   <para>
 	    <guilabel>Sent</guilabel>, for sent mail.
 	   </para>
 	 </listitem>
@@ -281,11 +262,11 @@
 	    <para>
 	    <guilabel>Trash</guilabel>, a virtual folder view of all
 	    the messages you have marked for deletion but not yet
-	    expunged. Note that once you have expunged a message, it
+	    <glossterm linkend="expunge">expunged</glossterm>. Note that 
+	    once you have expunged a message, it
 	    is gone for good.
 	   </para>
 	 </listitem>
-
       </itemizedlist>
 
     </para>
@@ -306,13 +287,28 @@
        than just your Inbox.  To create a new folder, select
        <menuchoice> <guimenu>File</guimenu>
        <guisubmenu>New</guisubmenu>
-       <guimenuitem>Folder</guimenuitem></menuchoice>.  You'll be
+       <guimenuitem>Folder</guimenuitem></menuchoice>
+       <keycombo action="simul">
+         <keycap>Shift</keycap>
+	 <keycap>Ctrl</keycap>
+	 <keycap>E</keycap>
+       </keycombo>.  You'll be
        asked where you want to put it, and what kind of folder it
        should be.  You can choose from three types:
        <guilabel>Mail</guilabel>, for storing mail,
        <guilabel>Calendar</guilabel> for storing calendars, and
        <guilabel>Contacts</guilabel> for storing contacts.
     </para>
+    
+    <sect2 id="subfolders">
+    <title>Subfolders</title>
+      <para>
+        <application>Evolution</application> can also manage subfolders.
+	Subfolders are folders inside of folders.  This works well if
+	you want to try to separate your home folders from your work
+	folders. 
+      </para>
+    </sect2>
 
        <note>
 	  <title>Folders Have Limits</title>
@@ -360,7 +356,8 @@
 
     <para>
       Any time new information arrives in a folder, that folder label
-      is displayed in bold text.
+      is displayed in bold text, along with the amount of new messages in
+      that folder inside of paranthesis.
     </para>
   </sect1>
   <sect1 id="usage-mainwindow-menubar">
@@ -379,7 +376,7 @@
    <para>
       <variablelist>
         <varlistentry>
-          <term> <guimenu>File</guimenu> Menu</term>
+          <term> <guimenu>File</guimenu></term>
 
           <listitem><para> 
             Anything even related to a file or to the operations
@@ -391,7 +388,7 @@
         </varlistentry>
 
        <varlistentry>
-          <term> <guimenu>Edit</guimenu> Menu </term>
+          <term> <guimenu>Edit</guimenu></term>
           <listitem><para>
               The <guimenu>Edit</guimenu> menu holds
               useful tools that help you edit text and move it around.
@@ -399,7 +396,7 @@
         </varlistentry>
 
        <varlistentry>
-          <term> <guimenu>View</guimenu> Menu </term>
+          <term> <guimenu>View</guimenu></term>
           <listitem><para>
             This menu lets you decide how <application>Evolution</application> 
             should look. Some of the features control the appearance of 
@@ -409,19 +406,21 @@
         </varlistentry>
 
         <varlistentry>
-          <term> <guimenu>Actions</guimenu> Menu </term>
+          <term> <guimenu>Actions</guimenu></term>
           <listitem><para>
-            If you've got a direct object in mind, 
-            look for the verb here.
+	    Holds actions which maybe applied to a message.
+	    Normally, if there is only one target for the
+            action(example: reply to message), then the
+            action will be in here.
           </para></listitem>
         </varlistentry>
 
 
        <varlistentry>
-          <term> <guimenu>Tools</guimenu> Menu</term>
+          <term> <guimenu>Tools</guimenu></term>
           <listitem><para>
              Tools for configuring, changing, and
-          setting up go here.  For mail, that means things like
+          setting up preferences go here.  For mail, that means things like
           <guimenuitem>Mail Configuration</guimenuitem> and the
           <guimenuitem>Virtual Folder Editor</guimenuitem>.  For the
           <interface>Calendar</interface> and the <interface>Contact
@@ -431,7 +430,7 @@
         </varlistentry>
 
        <varlistentry>
-          <term> <guimenu>Help</guimenu> Menu</term>
+          <term> <guimenu>Help</guimenu></term>
           <listitem><para>
              Select among these items to open the 
              <application>Help Browser</application> 
@@ -448,24 +447,4 @@
     </para>
   </sect1>
 </chapter>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
