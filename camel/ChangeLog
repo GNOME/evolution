@@ -1,3 +1,11 @@
+2001-07-02  Not Zed  <NotZed@Ximian.com>
+
+	* camel-folder-summary.c (summary_build_content_info): re-enable
+	html indexing.
+
+	* camel-mime-filter-html.c: Completely re-implemented using a
+	custom parser.
+
 2001-07-02  Dan Winship  <danw@ximian.com>
 
 	* tests/misc/url.c (main): Change a camel_exception_clear to

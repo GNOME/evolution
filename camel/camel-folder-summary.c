@@ -1885,9 +1885,8 @@ summary_build_content_info(CamelFolderSummary *s, CamelMessageInfo *msginfo, Cam
 				}
 			}
 
-#if 0
-			/* this is disabled for now */
-			/* also, should this go before/instead of the charset decoding?  xml interfaces are utf8 already? */
+			/* we do charset conversions before this filter, which isn't strictly correct,
+			   but works in most cases */
 			if (header_content_type_is(ct, "text", "html")) {
 				if (p->filter_html == NULL)
 					p->filter_html = camel_mime_filter_html_new();
@@ -1895,7 +1894,6 @@ summary_build_content_info(CamelFolderSummary *s, CamelMessageInfo *msginfo, Cam
 					camel_mime_filter_reset((CamelMimeFilter *)p->filter_html);
 				html_id = camel_mime_parser_filter_add(mp, (CamelMimeFilter *)p->filter_html);
 			}
-#endif
 			
 			/* and this filter actually does the indexing */
 			idx_id = camel_mime_parser_filter_add(mp, (CamelMimeFilter *)p->filter_index);
