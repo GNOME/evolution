@@ -157,6 +157,7 @@ e_table_setup_header (ETable *e_table)
 		"ETableHeader", e_table->header,
 		"full_header", e_table->full_header,
 		"sort_info", e_table->sort_info,
+		"dnd_code", "(unset)",
 		NULL);
 
 	gtk_signal_connect (

@@ -1,5 +1,10 @@
 2000-07-09  Christopher James Lahey  <clahey@helixcode.com>
 
+	* e-table.c: Set the dnd_code to something non-null for the
+	ETableHeaderItem.
+
+2000-07-09  Christopher James Lahey  <clahey@helixcode.com>
+
 	* e-table.c: Set header canvas scroll region correctly.
 
 2000-07-09  Anders Carlsson  <andersca@gnu.org>
