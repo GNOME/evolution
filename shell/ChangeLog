@@ -1,3 +1,7 @@
+2001-07-12  Iain Holmes  <iain@ximian.com>
+
+	* importers/intelligent.c (create_gui): Remove the g_warnings as they are an annoying red herring
+
 2001-07-12  Dan Winship  <danw@ximian.com>
 
 	* e-shell.c (init): Initialize priv->db and priv->iid so that

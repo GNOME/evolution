@@ -253,7 +253,6 @@ create_gui (GList *importers)
 		data = g_new0 (IntelligentImporterData, 1);
 		data->iid = g_strdup (l->data);
 
-		g_warning ("data->iid %s", data->iid);
 		CORBA_exception_init (&ev);
 		data->object = oaf_activate_from_id ((char *) data->iid, 0, 
 						     NULL, &ev);
