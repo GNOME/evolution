@@ -1,3 +1,14 @@
+1999-05-03  bertrand <Bertrand.Guiheneuf@inria.fr>
+
+	* camel/camel-folder.c (camel_folder_get_mode): 
+	typo fix
+
+	* camel/camel-folder.c (__camel_folder_list_subfolders): 
+	new func.
+
+	* some doc stuffs
+	
+
 1999-05-01  bertrand <Bertrand.Guiheneuf@inria.fr>
 
 	* camel/camel-folder.c 

@@ -47,6 +47,7 @@ static gboolean __camel_folder_delete_messages(CamelFolder *folder);
 static CamelFolder *__camel_folder_get_parent_folder (CamelFolder *folder);
 static CamelStore *__camel_folder_get_parent_store (CamelFolder *folder);
 static CamelFolderOpenMode __camel_folder_get_mode(CamelFolder *folder);
+static GList *__camel_folder_list_subfolders(CamelFolder *folder);
 
 static void
 camel_folder_class_init (CamelFolderClass *camel_folder_class)
@@ -70,6 +71,7 @@ camel_folder_class_init (CamelFolderClass *camel_folder_class)
 	camel_folder_class->get_parent_folder = __camel_folder_get_parent_folder;
 	camel_folder_class->get_parent_store = __camel_folder_get_parent_store;
 	camel_folder_class->get_mode = __camel_folder_get_mode;
+	camel_folder_class->list_subfolders = __camel_folder_list_subfolders;
 
 	/* virtual method overload */
 }
@@ -313,6 +315,25 @@ __camel_folder_get_folder(CamelFolder *folder, GString *folder_name)
     return NULL;
 }
 
+/** 
+ * camel_folder_get_folder: return the (sub)folder object that
+ * is specified.
+ *
+ * This method returns a folder objects. This folder
+ * is necessarily a subfolder of the current folder. 
+ * It is an error to ask a folder begining with the 
+ * folder separator character.  
+ * 
+ * @folder : the folder
+ * @folderName: subfolder path. NULL if the subfolder object
+ *        could not be created
+ **/
+CamelFolder *
+camel_folder_get_folder(CamelFolder *folder, GString *folder_name)
+{
+	return (CF_CLASS(folder)->get_folder(folder,folder_name));
+}
+
 
 
 
@@ -421,9 +442,8 @@ __camel_folder_delete (CamelFolder *folder, gboolean recurse)
 
 	/* delete all messages in the folder */
 	CF_CLASS(folder)->delete_messages(folder);
-#warning implement list_subfolders
-	/* subfolders = CF_CLASS(folder)->list_subfolders(folder); */
-	
+
+	subfolders = CF_CLASS(folder)->list_subfolders(folder); 
 	if (recurse) { /* delete subfolders */
 		if (subfolders) {
 			sf = subfolders;
@@ -580,8 +600,25 @@ __camel_folder_get_mode(CamelFolder *folder)
  * 
  * Return value:  open mode of the folder
  **/
-static CamelFolderOpenMode
+CamelFolderOpenMode
 camel_folder_get_mode(CamelFolder *folder)
 {
     return CF_CLASS(folder)->get_mode(folder);
 }
+
+
+
+
+static GList *
+__camel_folder_list_subfolders(CamelFolder *folder)
+{
+	return NULL;
+}
+
+
+GList *
+camel_folder_list_subfolders(CamelFolder *folder)
+{
+    return CF_CLASS(folder)->list_subfolders(folder);
+}
+

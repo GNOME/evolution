@@ -5,6 +5,7 @@
 <FILE>camel-folder</FILE>
 CamelFolder
 <TITLE>CamelFolder</TITLE>
+camel_folder_get_folder
 camel_folder_create
 camel_folder_delete
 camel_folder_delete_messages

@@ -129,7 +129,7 @@ camel_service_connect(CamelService *service)
 static void
 __camel_service_connect_to_with_login_passwd(CamelService *service, GString *host, GString *login, GString *passwd)
 {
-  camel_service_set_connected(service, TRUE);
+  __camel_service_set_connected(service, TRUE);
 }
 
 
@@ -149,7 +149,7 @@ __camel_service_connect_to_with_login_passwd(CamelService *service, GString *hos
 static void
 __camel_service_connect_to_with_login_passwd_port(CamelService *service, GString *host, GString *login, GString *passwd, guint port)
 {
-  camel_service_set_connected(service, TRUE);
+  __camel_service_set_connected(service, TRUE);
 }
 
 
