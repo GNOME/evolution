@@ -7737,7 +7737,7 @@ msgstr "finaliza con"
 
 #: filter/libfilter-i18n.h:21
 msgid "Exist"
-msgstr "Salir"
+msgstr "Existe"
 
 #: filter/libfilter-i18n.h:22
 msgid "exists"
