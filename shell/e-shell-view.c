@@ -906,7 +906,6 @@ setup_widgets (EShellView *shell_view)
 	priv->view_hpaned = e_hpaned_new ();
 	e_paned_pack1 (E_PANED (priv->view_hpaned), priv->storage_set_view_box, FALSE, FALSE);
 	e_paned_pack2 (E_PANED (priv->view_hpaned), priv->notebook, TRUE, FALSE);
-	e_paned_set_position (E_PANED (priv->view_hpaned), DEFAULT_TREE_WIDTH);
 
 	gray_bar = e_gray_bar_new ();
 	gtk_container_add (GTK_CONTAINER (gray_bar), priv->folder_title_bar);
