@@ -1,5 +1,10 @@
 2001-07-13  Tuomas Kuosmanen  <tigert@ximian.com>
 
+	* 16_category_*.png: Some category icons for calendar/tasks, 
+	to match the different category types for events. Still many
+	to do, but I wanted to commit them so you people can start
+	hacking on the code already. More to follow shortly.
+
 	* 16_customize.png: Icon for "Customize toolbars" or whatever 
 	menu item that deals with customizing stuff (the icon is a wrench)
 
