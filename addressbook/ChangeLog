@@ -1,3 +1,7 @@
+2003-02-27  Rodney Dawes  <dobey@ximian.com>
+
+	* backend/ebook/Makefile.am: Fix for server files from Antonio Xu
+
 2003-02-26  Chris Toshok  <toshok@ximian.com>
 
 	* backend/ebook/e-book.c (e_book_load_uri): if we fail to activate

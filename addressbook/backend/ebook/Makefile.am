@@ -191,7 +191,7 @@ server_in_files = GNOME_Evolution_Addressbook_VCard_Importer.server.in.in \
 		  GNOME_Evolution_Addressbook_LDIF_Importer.server.in.in
 
 server_DATA = $(server_in_files:.server.in.in=.server)
-$(server_in_files:.server.in.in=.server.in): $(server_in_files)
+%.server.in: %.server.in.in
 	sed -e "s|\@LIBEXECDIR\@|$(privlibexecdir)|" $< > $@
 
 
