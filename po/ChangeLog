@@ -1,3 +1,7 @@
+2003-03-02  Rodney Dawes  <dobey@ximian.com>
+
+	* POTFILES.in: s/server.in$/server.in.in/
+	
 2003-02-26  Christian Rose  <menthos@menthos.com>
 
 	* sv.po: Updated Swedish translation.

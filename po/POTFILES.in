@@ -131,7 +131,7 @@ calendar/gui/print.c
 calendar/gui/tasks-control.c
 calendar/gui/tasks-migrate.c
 calendar/gui/weekday-picker.c
-calendar/importers/GNOME_Evolution_Calendar_Importer.server.in
+calendar/importers/GNOME_Evolution_Calendar_Importer.server.in.in
 calendar/importers/icalendar-importer.c
 calendar/pcs/cal-backend-file.c
 calendar/pcs/query.c
