@@ -317,6 +317,8 @@ build_dialogue (EAccountList *accounts, CamelFolder *outbox, const char *destina
 	g_object_unref (iter);
 	
 	table = (GtkTable *) gtk_table_new (num_sources, 4, FALSE);
+	gtk_container_set_border_width ((GtkContainer *) table, 6);
+	
        	gtk_box_pack_start (GTK_BOX (gd->vbox), GTK_WIDGET (table), TRUE, TRUE, 0);
 	
 	/* must bet setup after send_recv_dialogue as it may re-trigger send-recv button */
@@ -382,11 +384,11 @@ build_dialogue (EAccountList *accounts, CamelFolder *outbox, const char *destina
 		gtk_misc_set_alignment (GTK_MISC (label), 0, .5);
 		gtk_misc_set_alignment (GTK_MISC (status_label), 0, .5);
 		
-	        gtk_table_attach (table, (GtkWidget *)recv_icon, 0, 1, row, row+2, GTK_EXPAND | GTK_FILL, 0, 3, 1);
-		gtk_table_attach (table, (GtkWidget *)label, 1, 2, row, row+1, GTK_EXPAND | GTK_FILL, 0, 3, 1);
-		gtk_table_attach (table, (GtkWidget *)bar, 2, 3, row, row+2, GTK_EXPAND | GTK_FILL, 0, 3, 1);
-		gtk_table_attach (table, (GtkWidget *)stop, 3, 4, row, row+2, GTK_EXPAND | GTK_FILL, 0, 3, 1);
-		gtk_table_attach (table, (GtkWidget *)status_label, 1, 2, row+1, row+2, GTK_EXPAND | GTK_FILL, 0, 3, 1);
+	        gtk_table_attach (table, (GtkWidget *)recv_icon, 0, 1, row, row+2, GTK_EXPAND | GTK_FILL, 0, 3, 3);
+		gtk_table_attach (table, (GtkWidget *)label, 1, 2, row, row+1, GTK_EXPAND | GTK_FILL, 0, 3, 3);
+		gtk_table_attach (table, (GtkWidget *)bar, 2, 3, row, row+2, GTK_EXPAND | GTK_FILL, 0, 3, 3);
+		gtk_table_attach (table, (GtkWidget *)stop, 3, 4, row, row+2, GTK_EXPAND | GTK_FILL, 0, 3, 3);
+		gtk_table_attach (table, (GtkWidget *)status_label, 1, 2, row+1, row+2, GTK_EXPAND | GTK_FILL, 0, 3, 3);
 		
 		info->bar = bar;
 		info->status = status_label;
@@ -401,7 +403,7 @@ build_dialogue (EAccountList *accounts, CamelFolder *outbox, const char *destina
 	g_object_unref (iter);
 	
 	line = (GtkHSeparator *)gtk_hseparator_new ();
-	gtk_table_attach (table, GTK_WIDGET (line), 0, 4, row, row+1, GTK_EXPAND | GTK_FILL, GTK_EXPAND | GTK_FILL, 3, 3);
+	gtk_table_attach (table, GTK_WIDGET (line), 0, 4, row, row+1, GTK_EXPAND | GTK_FILL, GTK_EXPAND | GTK_FILL, 1, 3);
 	row++;
 	gtk_widget_show_all (GTK_WIDGET (table));
 	
@@ -436,11 +438,11 @@ build_dialogue (EAccountList *accounts, CamelFolder *outbox, const char *destina
 		gtk_misc_set_alignment (GTK_MISC (label), 0, .5);
 		gtk_misc_set_alignment (GTK_MISC (status_label), 0, .5);
 		
-		gtk_table_attach (table, GTK_WIDGET (send_icon), 0, 1, row, row+2, GTK_EXPAND | GTK_FILL, 0, 3, 1);
-		gtk_table_attach (table, GTK_WIDGET (label), 1, 2, row, row+1, GTK_EXPAND | GTK_FILL, 0, 3, 1);
-		gtk_table_attach (table, GTK_WIDGET (bar), 2, 3, row, row+2, GTK_EXPAND | GTK_FILL, 0, 3, 1);
-		gtk_table_attach (table, GTK_WIDGET (stop), 3, 4, row, row+2, GTK_EXPAND | GTK_FILL, 0, 3, 1);
-		gtk_table_attach (table, GTK_WIDGET (status_label), 1, 2, row+1, row+2, GTK_EXPAND | GTK_FILL, 0, 3, 1);
+		gtk_table_attach (table, GTK_WIDGET (send_icon), 0, 1, row, row+2, GTK_EXPAND | GTK_FILL, 0, 3, 3);
+		gtk_table_attach (table, GTK_WIDGET (label), 1, 2, row, row+1, GTK_EXPAND | GTK_FILL, 0, 3, 3);
+		gtk_table_attach (table, GTK_WIDGET (bar), 2, 3, row, row+2, GTK_EXPAND | GTK_FILL, 0, 3, 3);
+		gtk_table_attach (table, GTK_WIDGET (stop), 3, 4, row, row+2, GTK_EXPAND | GTK_FILL, 0, 3, 3);
+		gtk_table_attach (table, GTK_WIDGET (status_label), 1, 2, row+1, row+2, GTK_EXPAND | GTK_FILL, 0, 3, 3);
 		
 		info->bar = bar;
 		info->stop = stop;
