@@ -71,7 +71,7 @@ url_extract (const char **text, gboolean check)
 		end++;
 
 	/* Back up if we probably went too far. */
-	while (end > *text && strchr (",.!?;:>", *(end - 1)))
+	while (end > *text && strchr (",.!?;:>)", *(end - 1)))
 		end--;
 
 	if (check) {
