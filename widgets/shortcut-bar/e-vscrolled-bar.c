@@ -2,7 +2,7 @@
 
 /* 
  * Author : 
- *  Damon Chaplin <damon@gtk.org>
+ *  Damon Chaplin <damon@helixcode.com>
  *
  * Copyright 1999, Helix Code, Inc.
  *
@@ -149,6 +149,7 @@ e_vscrolled_bar_init (EVScrolledBar *vscrolled_bar)
 	gtk_misc_set_padding (GTK_MISC (arrow), 1, 1);
 	gtk_widget_show (arrow);
 	gtk_container_add (GTK_CONTAINER (vscrolled_bar->up_button), arrow);
+	gtk_widget_show (vscrolled_bar->up_button);
 	gtk_signal_connect_after (GTK_OBJECT (vscrolled_bar->up_button), "pressed", GTK_SIGNAL_FUNC (e_vscrolled_bar_button_pressed), vscrolled_bar);
 	gtk_signal_connect_after (GTK_OBJECT (vscrolled_bar->up_button), "released", GTK_SIGNAL_FUNC (e_vscrolled_bar_button_released), vscrolled_bar);
 	gtk_signal_connect (GTK_OBJECT (vscrolled_bar->up_button), "clicked", GTK_SIGNAL_FUNC (e_vscrolled_bar_button_clicked), vscrolled_bar);
@@ -162,6 +163,7 @@ e_vscrolled_bar_init (EVScrolledBar *vscrolled_bar)
 	gtk_misc_set_padding (GTK_MISC (arrow), 1, 1);
 	gtk_widget_show (arrow);
 	gtk_container_add (GTK_CONTAINER (vscrolled_bar->down_button), arrow);
+	gtk_widget_show (vscrolled_bar->down_button);
 	gtk_signal_connect_after (GTK_OBJECT (vscrolled_bar->down_button), "pressed", GTK_SIGNAL_FUNC (e_vscrolled_bar_button_pressed), vscrolled_bar);
 	gtk_signal_connect_after (GTK_OBJECT (vscrolled_bar->down_button), "released", GTK_SIGNAL_FUNC (e_vscrolled_bar_button_released), vscrolled_bar);
 	gtk_signal_connect (GTK_OBJECT (vscrolled_bar->down_button), "clicked", GTK_SIGNAL_FUNC (e_vscrolled_bar_button_clicked), vscrolled_bar);
@@ -233,6 +235,7 @@ static void
 e_vscrolled_bar_map (GtkWidget *widget)
 {
 	EVScrolledBar *vscrolled_bar;
+	GtkAdjustment *adjustment;
 
 	g_return_if_fail (widget != NULL);
 	g_return_if_fail (E_IS_VSCROLLED_BAR (widget));
@@ -242,12 +245,16 @@ e_vscrolled_bar_map (GtkWidget *widget)
 	/* chain parent class handler to map self and child */
 	GTK_WIDGET_CLASS (parent_class)->map (widget);
   
-	if (GTK_WIDGET_VISIBLE (vscrolled_bar->up_button) &&
-	    !GTK_WIDGET_MAPPED (vscrolled_bar->up_button))
+	adjustment = vscrolled_bar->adjustment;
+
+	if (GTK_WIDGET_VISIBLE (vscrolled_bar->up_button)
+	    && adjustment->value != adjustment->lower
+	    && !GTK_WIDGET_MAPPED (vscrolled_bar->up_button))
 		gtk_widget_map (vscrolled_bar->up_button);
   
-	if (GTK_WIDGET_VISIBLE (vscrolled_bar->down_button) &&
-	    !GTK_WIDGET_MAPPED (vscrolled_bar->down_button))
+	if (GTK_WIDGET_VISIBLE (vscrolled_bar->down_button)
+	    && adjustment->value < adjustment->upper - adjustment->page_size
+	    && !GTK_WIDGET_MAPPED (vscrolled_bar->down_button))
 		gtk_widget_map (vscrolled_bar->down_button);
 }
 
@@ -382,11 +389,11 @@ e_vscrolled_bar_draw (GtkWidget    *widget,
 	    gtk_widget_intersect (bin->child, area, &child_area))
 		gtk_widget_draw (bin->child, &child_area);
   
-	if (GTK_WIDGET_VISIBLE (vscrolled_bar->up_button) &&
+	if (GTK_WIDGET_DRAWABLE (vscrolled_bar->up_button) &&
 	    gtk_widget_intersect (vscrolled_bar->up_button, area, &child_area))
 		gtk_widget_draw (vscrolled_bar->up_button, &child_area);
   
-	if (GTK_WIDGET_VISIBLE (vscrolled_bar->down_button) &&
+	if (GTK_WIDGET_DRAWABLE (vscrolled_bar->down_button) &&
 	    gtk_widget_intersect (vscrolled_bar->down_button, area, &child_area))
 		gtk_widget_draw (vscrolled_bar->down_button, &child_area);
 }
@@ -546,21 +553,30 @@ e_vscrolled_bar_adjustment_changed (GtkAdjustment *adjustment,
 
 	g_return_if_fail (adjustment != NULL);
 	g_return_if_fail (data != NULL);
-
+#if 0
+	g_print ("Adjustment changed to: %g\n", adjustment->value);
+#endif
 	vscrolled_bar = E_VSCROLLED_BAR (data);
 
+	if (!GTK_WIDGET_MAPPED (vscrolled_bar))
+		return;
+
 	/* If the adjustment value is not 0, show the up button. */
-	if (adjustment->value != 0)
-		gtk_widget_show (vscrolled_bar->up_button);
-	else
-		gtk_widget_hide (vscrolled_bar->up_button);
+	if (adjustment->value != adjustment->lower) {
+		gtk_widget_map (vscrolled_bar->up_button);
+		gdk_window_raise (vscrolled_bar->up_button->window);
+	} else {
+		gtk_widget_unmap (vscrolled_bar->up_button);
+	}
 
 	/* If the adjustment value is less than the maximum value, show the
 	   down button. */
-	if (adjustment->value < adjustment->upper - adjustment->page_size)
-		gtk_widget_show (vscrolled_bar->down_button);
-	else
-		gtk_widget_hide (vscrolled_bar->down_button);
+	if (adjustment->value < adjustment->upper - adjustment->page_size) {
+		gtk_widget_map (vscrolled_bar->down_button);
+		gdk_window_raise (vscrolled_bar->down_button->window);
+	} else {
+		gtk_widget_unmap (vscrolled_bar->down_button);
+	}
 }
 
 

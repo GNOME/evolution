@@ -2,7 +2,7 @@
 
 /* 
  * Author : 
- *  Damon Chaplin <damon@gtk.org>
+ *  Damon Chaplin <damon@helixcode.com>
  *
  * Copyright 1999, Helix Code, Inc.
  *

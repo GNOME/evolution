@@ -1,3 +1,23 @@
+2000-02-20  Damon Chaplin  <damon@helixcode.com>
+
+	* widgets/shortcut-bar/Makefile.am: added libetext.a and libeutil.a
+	to test_shortcut_bar_LDADD, and got rid of e-icon-bar-text-item.[hc].
+	I'll delete these soon.
+
+	* widgets/shortcut-bar/e-icon-bar.c: changed to be a subclass of
+	ECanvas and to use EText instead of EIconBarTextItem. Also set
+	"width_set" & "height_set" of the GnomeCanvasPixbuf items so they
+	work in the "Small Icon" view.
+
+	* widgets/shortcut-bar/e-vscrolled-bar.c: use map/unmap instead of
+	show/hide for the up & down buttons to avoid queueing resizes.
+	Otherwise the scrolling starts off a bit jerky.
+
+	* widgets/shortcut-bar/test-shortcut-bar.c: output a message when the
+	main label is resized, just for info.
+
+	* widgets/shortcut-bar/*.[hc]: updated my email address.
+
 2000-02-20  Iain Holmes  <ih@csd.abdn.ac.uk>
 
 	* widgets/e-text/e-text.[ch] (_do_tooltip): Show the text of the item,

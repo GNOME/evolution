@@ -13,8 +13,6 @@ libshortcut_bar_a_SOURCES = 	\
 	e-group-bar.h		\
 	e-icon-bar-bg-item.c	\
 	e-icon-bar-bg-item.h	\
-	e-icon-bar-text-item.c	\
-	e-icon-bar-text-item.h	\
 	e-icon-bar.c		\
 	e-icon-bar.h		\
 	e-shortcut-bar.c	\
@@ -27,6 +25,8 @@ test_shortcut_bar_SOURCES = 	\
 
 test_shortcut_bar_LDADD = 	\
 	./libshortcut-bar.a	\
+	../e-text/libetext.a	\
+	../../e-util/libeutil.a	\
 	$(EXTRA_GNOME_LIBS)
 
 test_shortcut_bar_LDFLAGS =	\

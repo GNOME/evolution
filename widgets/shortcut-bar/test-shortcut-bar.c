@@ -2,7 +2,7 @@
 
 /* 
  * Author : 
- *  Damon Chaplin <damon@gtk.org>
+ *  Damon Chaplin <damon@helixcode.com>
  *
  * Copyright 1999, Helix Code, Inc.
  *
@@ -37,6 +37,9 @@ gchar *shortcut_types[] = {
 
 GtkWidget *main_label;
 
+static void on_main_label_size_allocate (GtkWidget *widget,
+					 GtkAllocation *allocation,
+					 gpointer data);
 static void quit (GtkWidget *window, GdkEvent *event, gpointer data);
 static void add_test_groups (EShortcutBar *shortcut_bar);
 static void add_test_group (EShortcutBar *shortcut_bar, gint i,
@@ -102,6 +105,9 @@ main (int argc, char *argv[])
 	main_label = gtk_label_new ("Main Application Window Goes Here");
 	gtk_paned_pack2 (GTK_PANED (hpaned), main_label, TRUE, TRUE);
 	gtk_widget_show (main_label);
+	gtk_signal_connect (GTK_OBJECT (main_label), "size_allocate",
+			    GTK_SIGNAL_FUNC (on_main_label_size_allocate),
+			    NULL);
 
 
 	gtk_widget_pop_visual ();
@@ -118,6 +124,14 @@ main (int argc, char *argv[])
 	return 0;
 }
 
+
+static void
+on_main_label_size_allocate (GtkWidget *widget,
+			     GtkAllocation *allocation,
+			     gpointer data)
+{
+	g_print ("In on_main_label_size_allocate\n");
+}
 
 static void
 quit (GtkWidget *window, GdkEvent *event, gpointer data)

@@ -2,7 +2,7 @@
 
 /* 
  * Author : 
- *  Damon Chaplin <damon@gtk.org>
+ *  Damon Chaplin <damon@helixcode.com>
  *
  * Copyright 1999, Helix Code, Inc.
  *
@@ -25,8 +25,8 @@
 #define _E_ICON_BAR_H_
 
 #include <gdk_imlib.h>
-#include <libgnomeui/gnome-canvas.h>
 #include <gdk-pixbuf/gdk-pixbuf.h>
+#include "../../e-util/e-canvas.h"
 
 #ifdef __cplusplus
 extern "C" {
@@ -70,6 +70,18 @@ typedef enum
 } EIconBarViewType;
 
 
+/* These index our colors array. */
+typedef enum
+{
+	E_ICON_BAR_COLOR_TEXT,
+	E_ICON_BAR_COLOR_EDITING_TEXT,
+	E_ICON_BAR_COLOR_EDITING_RECT,
+	E_ICON_BAR_COLOR_EDITING_RECT_OUTLINE,
+	
+	E_ICON_BAR_COLOR_LAST
+} EIconBarColors;
+
+
 #define E_ICON_BAR(obj)          GTK_CHECK_CAST (obj, e_icon_bar_get_type (), EIconBar)
 #define E_ICON_BAR_CLASS(klass)  GTK_CHECK_CLASS_CAST (klass, e_icon_bar_get_type (), EIconBarClass)
 #define E_IS_ICON_BAR(obj)       GTK_CHECK_TYPE (obj, e_icon_bar_get_type ())
@@ -80,7 +92,7 @@ typedef struct _EIconBarClass  EIconBarClass;
 
 struct _EIconBar
 {
-	GnomeCanvas canvas;
+	ECanvas canvas;
 
 	/* This specifies if we are using large icons or small icons. */
 	EIconBarViewType view_type;
@@ -105,6 +117,9 @@ struct _EIconBar
 	/* This is the item that we are currently editing, or -1. */
 	gint editing_item_num;
 
+	/* This is a GnomeCanvasRect which is placed around the edited item. */
+	GnomeCanvasItem *edit_rect_item;
+
 	/* This is the index of the item which is being dragged, or -1.
 	   If the drag results in a move it will be deleted. */
 	gint dragged_item_num;
@@ -126,11 +141,14 @@ struct _EIconBar
 	gint auto_scroll_timeout_id;
 	gint auto_scroll_delay;
 	gboolean scrolling_up;
+
+	/* Colors for drawing. */
+	GdkColor colors[E_ICON_BAR_COLOR_LAST];
 };
 
 struct _EIconBarClass
 {
-	GnomeCanvasClass parent_class;
+	ECanvasClass parent_class;
 
 	void   (*selected_item)        (EIconBar       *icon_bar,
 					GdkEvent       *event,

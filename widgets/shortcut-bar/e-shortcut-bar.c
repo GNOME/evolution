@@ -2,7 +2,7 @@
 
 /* 
  * Author : 
- *  Damon Chaplin <damon@gtk.org>
+ *  Damon Chaplin <damon@helixcode.com>
  *
  * Copyright 1999, Helix Code, Inc.
  *
@@ -388,9 +388,9 @@ e_shortcut_bar_item_dragged (EIconBar *icon_bar,
 	group_num = e_group_bar_get_group_num (E_GROUP_BAR (shortcut_bar),
 					       GTK_WIDGET (icon_bar)->parent);
 
-	/* FIXME: free somewhere - drag_end? */
+	/* FIXME: free both somewhere - drag_end? */
 	shortcut_bar->dragged_url = g_strdup (e_icon_bar_get_item_data (icon_bar, item_num));
-	shortcut_bar->dragged_name = g_strdup (e_icon_bar_get_item_text (icon_bar, item_num));
+	shortcut_bar->dragged_name = e_icon_bar_get_item_text (icon_bar, item_num);
 
 	target_list = gtk_target_list_new (target_table, n_targets);
 	gtk_drag_begin (GTK_WIDGET (icon_bar), target_list,

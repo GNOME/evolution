@@ -2,7 +2,7 @@
 
 /* 
  * Author : 
- *  Damon Chaplin <damon@gtk.org>
+ *  Damon Chaplin <damon@helixcode.com>
  *
  * Copyright 1999, Helix Code, Inc.
  *
@@ -23,7 +23,7 @@
  */
 
 /*
- * EIconBar is a subclass of GnomeCanvas for displaying a vertical column of
+ * EIconBar is a subclass of ECanvas for displaying a vertical column of
  * icons and descriptions. It provides 2 views - large icons and small icons.
  */
 
@@ -32,7 +32,7 @@
 #include <gdk-pixbuf/gnome-canvas-pixbuf.h>
 #include "e-icon-bar.h"
 #include "e-icon-bar-bg-item.h"
-#include "e-icon-bar-text-item.h"
+#include "../e-text/e-text.h"
 
 /* These are the offsets of the icons & text in both views. Note that the
    shadow around icons is drawn in the space between items (as is the
@@ -47,7 +47,7 @@
 #define E_ICON_BAR_SMALL_ICON_WIDTH	24
 #define E_ICON_BAR_SMALL_ICON_HEIGHT	24
 #define E_ICON_BAR_SMALL_ICON_X		4
-#define E_ICON_BAR_SMALL_ICON_TEXT_X	(E_ICON_BAR_SMALL_ICON_WIDTH + 4)
+#define E_ICON_BAR_SMALL_ICON_TEXT_X	(E_ICON_BAR_SMALL_ICON_WIDTH + 6)
 
 /* The space we leave at the top or bottom of the bar when position an item
    while it is being edited. This is used since the EIconBar may be in a
@@ -80,8 +80,6 @@ static gint e_icon_bar_focus_in (GtkWidget     *widget,
 				 GdkEventFocus *event);
 static gint e_icon_bar_focus_out (GtkWidget     *widget,
 				  GdkEventFocus *event);
-static gint e_icon_bar_key_event (GtkWidget *widget, GdkEventKey *event);
-
 static gint e_icon_bar_drag_motion (GtkWidget      *widget,
 				    GdkDragContext *context,
 				    gint            x,
@@ -96,8 +94,8 @@ static gboolean e_icon_bar_timeout_handler (gpointer data);
 
 static void e_icon_bar_recalc_common_positions (EIconBar *icon_bar);
 static gint e_icon_bar_recalc_item_positions (EIconBar *icon_bar);
-static void e_icon_bar_on_text_height_changed (GnomeCanvasItem *text_item,
-					       EIconBar *icon_bar);
+static void e_icon_bar_on_text_resized (GnomeCanvasItem *text_item,
+					EIconBar *icon_bar);
 static gint e_icon_bar_find_item (EIconBar *icon_bar,
 				  GnomeCanvasItem *text_item);
 static gboolean e_icon_bar_on_item_event (GnomeCanvasItem *item,
@@ -120,10 +118,10 @@ static gboolean e_icon_bar_small_icons_is_before (EIconBar *icon_bar,
 						  EIconBarItem *item,
 						  gint x,
 						  gint y);
-static void e_icon_bar_on_text_item_editing_started (EIconBarTextItem *text_item,
-						     EIconBar *icon_bar);
-static void e_icon_bar_on_text_item_editing_stopped (EIconBarTextItem *text_item,
-						     EIconBar *icon_bar);
+static void e_icon_bar_on_editing_started (EIconBar *icon_bar,
+					   GnomeCanvasItem *item);
+static void e_icon_bar_on_editing_stopped (EIconBar *icon_bar,
+					   GnomeCanvasItem *item);
 static void e_icon_bar_ensure_edited_item_visible (EIconBar *icon_bar);
 static void e_icon_bar_update_highlight (EIconBar *icon_bar);
 
@@ -136,7 +134,7 @@ enum
 
 static guint e_icon_bar_signals[LAST_SIGNAL] = {0};
 
-static GnomeCanvasClass *parent_class;
+static ECanvasClass *parent_class;
 
 
 GtkType
@@ -156,8 +154,8 @@ e_icon_bar_get_type (void)
 			(GtkClassInitFunc) NULL
 		};
 
-		parent_class = gtk_type_class (gnome_canvas_get_type ());
-		e_icon_bar_type = gtk_type_unique (gnome_canvas_get_type (),
+		parent_class = gtk_type_class (e_canvas_get_type ());
+		e_icon_bar_type = gtk_type_unique (e_canvas_get_type (),
 						   &e_icon_bar_info);
 	}
 
@@ -203,8 +201,6 @@ e_icon_bar_class_init (EIconBarClass *class)
  	widget_class->leave_notify_event = e_icon_bar_leave_notify_event;
 	widget_class->focus_in_event	 = e_icon_bar_focus_in;
 	widget_class->focus_out_event	 = e_icon_bar_focus_out;
-	widget_class->key_press_event	 = e_icon_bar_key_event;
-	widget_class->key_release_event  = e_icon_bar_key_event;
 	widget_class->drag_motion	 = e_icon_bar_drag_motion;
 	widget_class->drag_leave	 = e_icon_bar_drag_leave;
 
@@ -215,11 +211,16 @@ e_icon_bar_class_init (EIconBarClass *class)
 static void
 e_icon_bar_init (EIconBar *icon_bar)
 {
+	GdkColormap *colormap;
+	gboolean success[E_ICON_BAR_COLOR_LAST];
+	gint nfailed;
+
 	icon_bar->view_type = E_ICON_BAR_LARGE_ICONS;
 	icon_bar->items = g_array_new (FALSE, FALSE, sizeof (EIconBarItem));
 	icon_bar->pressed_item_num = -1;
 	icon_bar->mouse_over_item_num = -1;
 	icon_bar->editing_item_num = -1;
+	icon_bar->edit_rect_item = NULL;
 	icon_bar->in_drag = FALSE;
 	icon_bar->dragging_before_item_num = -1;
 	icon_bar->icon_x = 0;
@@ -235,6 +236,30 @@ e_icon_bar_init (EIconBar *icon_bar)
 			       e_icon_bar_bg_item_get_type (),
 			       "EIconBarBgItem::icon_bar", icon_bar,
 			       NULL);
+
+	colormap = gtk_widget_get_colormap (GTK_WIDGET (icon_bar));
+
+	icon_bar->colors[E_ICON_BAR_COLOR_TEXT].red   = 65535;
+	icon_bar->colors[E_ICON_BAR_COLOR_TEXT].green = 65535;
+	icon_bar->colors[E_ICON_BAR_COLOR_TEXT].blue  = 65535;
+
+	icon_bar->colors[E_ICON_BAR_COLOR_EDITING_TEXT].red   = 0;
+	icon_bar->colors[E_ICON_BAR_COLOR_EDITING_TEXT].green = 0;
+	icon_bar->colors[E_ICON_BAR_COLOR_EDITING_TEXT].blue  = 0;
+
+	icon_bar->colors[E_ICON_BAR_COLOR_EDITING_RECT].red   = 65535;
+	icon_bar->colors[E_ICON_BAR_COLOR_EDITING_RECT].green = 65535;
+	icon_bar->colors[E_ICON_BAR_COLOR_EDITING_RECT].blue  = 65535;
+
+	icon_bar->colors[E_ICON_BAR_COLOR_EDITING_RECT_OUTLINE].red   = 0;
+	icon_bar->colors[E_ICON_BAR_COLOR_EDITING_RECT_OUTLINE].green = 0;
+	icon_bar->colors[E_ICON_BAR_COLOR_EDITING_RECT_OUTLINE].blue  = 0;
+
+	nfailed = gdk_colormap_alloc_colors (colormap, icon_bar->colors,
+					     E_ICON_BAR_COLOR_LAST, FALSE,
+					     TRUE, success);
+	if (nfailed)
+		g_warning ("Failed to allocate all colors");
 }
 
 
@@ -250,7 +275,9 @@ e_icon_bar_new (void)
 	GtkWidget *icon_bar;
 
 	icon_bar = GTK_WIDGET (gtk_type_new (e_icon_bar_get_type ()));
+#if 0
  	GNOME_CANVAS(icon_bar)->aa = 1;	
+#endif
 	return icon_bar;
 }
 
@@ -278,7 +305,9 @@ e_icon_bar_size_allocate (GtkWidget *widget, GtkAllocation *allocation)
 {
 	EIconBar *icon_bar;
 	gint canvas_width, canvas_height, height;
-
+#if 0
+	g_print ("In e_icon_bar_size_allocate\n");
+#endif
 	icon_bar = E_ICON_BAR (widget);
 
 	GTK_WIDGET_CLASS (parent_class)->size_allocate (widget, allocation);
@@ -341,19 +370,28 @@ static gint
 e_icon_bar_recalc_item_positions (EIconBar *icon_bar)
 {
 	EIconBarItem *item;
-	gint y, item_num;
-	gdouble x1, y1, x2, y2, xalign;
+	gint y, item_num, text_h;
+	gdouble x1, y1, x2, y2, text_x;
 	GtkJustification justify;
+	GtkAnchorType anchor;
 	gint max_lines;
+	GdkFont *font;
+	gboolean line_wrap;
 
 	if (icon_bar->view_type == E_ICON_BAR_LARGE_ICONS) {
-		xalign = 0.5;
 		justify = GTK_JUSTIFY_CENTER;
+		anchor = GTK_ANCHOR_N;
 		max_lines = 2;
+		text_x = icon_bar->text_x + (icon_bar->text_w / 2);
+		line_wrap = TRUE;
 	} else {
-		xalign = 0.0;
 		justify = GTK_JUSTIFY_LEFT;
+		anchor = GTK_ANCHOR_NW;
 		max_lines = 1;
+		text_x = icon_bar->text_x;
+		font = GTK_WIDGET (icon_bar)->style->font;
+		text_h = font->ascent + font->descent;
+		line_wrap = FALSE;
 	}
 
 	/* Now step through the items, setting the y positions. */
@@ -362,42 +400,42 @@ e_icon_bar_recalc_item_positions (EIconBar *icon_bar)
 		item = &g_array_index (icon_bar->items,
 				       EIconBarItem, item_num);
 
-		e_icon_bar_text_item_set_width (E_ICON_BAR_TEXT_ITEM (item->text),
-						icon_bar->text_w);
-
-		/* Get the text item's height. */
-		gnome_canvas_item_get_bounds (item->text, &x1, &y1, &x2, &y2);
-		item->text_width = x2 - x1;
-		item->text_height = y2 - y1;
-
 		if (icon_bar->view_type == E_ICON_BAR_LARGE_ICONS) {
 			item->icon_y = y;
 			item->text_y = y + E_ICON_BAR_LARGE_ICON_TEXT_Y;
-
-			item->item_height = E_ICON_BAR_LARGE_ICON_TEXT_Y
-				+ item->text_height;
 		} else {
-			item->item_height = MAX (item->text_height, E_ICON_BAR_SMALL_ICON_HEIGHT);
+			item->text_height = text_h;
+			item->item_height = MAX (text_h, E_ICON_BAR_SMALL_ICON_HEIGHT);
 			item->icon_y = y + (item->item_height - E_ICON_BAR_SMALL_ICON_HEIGHT) / 2;
 			item->text_y = y + (item->item_height - item->text_height) / 2;
 		}
 
-		e_icon_bar_text_item_setxy (E_ICON_BAR_TEXT_ITEM (item->text),
-					    icon_bar->text_x, item->text_y);
+		gnome_canvas_item_set (item->text,
+				       "clip_width", (gdouble) (icon_bar->text_w),
+				       "justification", justify,
+				       "anchor", anchor,
+				       "max_lines", max_lines,
+				       "line_wrap", line_wrap,
+				       "x", text_x,
+				       "y", (gdouble) item->text_y,
+				       NULL);
 
-		/* We need to get the bounds again, in case it has moved. */
+		/* Get the text item's height. */
 		gnome_canvas_item_get_bounds (item->text, &x1, &y1, &x2, &y2);
 		item->text_x = x1;
+		item->text_width = x2 - x1;
+		item->text_height = y2 - y1;
 
-		gnome_canvas_item_set (item->text,
-				       "EIconBarTextItem::xalign", xalign,
-				       "EIconBarTextItem::justify", justify,
-				       "EIconBarTextItem::max_lines", max_lines,
-				       NULL);
+		if (icon_bar->view_type == E_ICON_BAR_LARGE_ICONS) {
+			item->item_height = E_ICON_BAR_LARGE_ICON_TEXT_Y
+				+ item->text_height;
+		}
 
 		gnome_canvas_item_set (item->image,
 				       "GnomeCanvasPixbuf::x", (gdouble)icon_bar->icon_x,
 				       "GnomeCanvasPixbuf::y", (gdouble)item->icon_y,
+				       "GnomeCanvasPixbuf::width_set", TRUE,
+				       "GnomeCanvasPixbuf::height_set", TRUE,
 				       "GnomeCanvasPixbuf::width", (gdouble)icon_bar->icon_w,
 				       "GnomeCanvasPixbuf::height", (gdouble)icon_bar->icon_h,
 				       NULL);
@@ -453,39 +491,6 @@ e_icon_bar_focus_out (GtkWidget     *widget,
 }
 
 
-/* Key event handler for the canvas.
-   FIXME: GnomeCanvas bug workaround - I needed to override this to stop the
-   canvas ignoring key events from other windows. */
-static gint
-e_icon_bar_key_event (GtkWidget *widget, GdkEventKey *event)
-{
-	GnomeCanvas *canvas;
-
-	g_return_val_if_fail (widget != NULL, FALSE);
-	g_return_val_if_fail (E_IS_ICON_BAR (widget), FALSE);
-	g_return_val_if_fail (event != NULL, FALSE);
-
-	canvas = GNOME_CANVAS (widget);
-
-	if (event->window != canvas->layout.bin_window) {
-		/* We change the window in the event struct so the canvas
-		   doesn't ignore the event. Note that windows are ref-counted
-		   in the event struct. */
-		if (event->window)
-			gdk_window_unref (event->window);
-		event->window = canvas->layout.bin_window;
-		gdk_window_ref (event->window);
-	}
-
-	/* These both call the same function at present, but we'll do it
-	   properly just in case that changes. */
-	if (event->type == GDK_KEY_PRESS)
-		return (*GTK_WIDGET_CLASS (parent_class)->key_press_event)(widget, event);
-	else
-		return (*GTK_WIDGET_CLASS (parent_class)->key_release_event)(widget, event);
-}
-
-
 /**
  * e_icon_bar_set_view_type:
  * @icon_bar: An #EIconBar.
@@ -527,9 +532,12 @@ e_icon_bar_add_item (EIconBar	    *icon_bar,
 		     gint	     position)
 {
 	EIconBarItem item;
-	gfloat xalign;
 	GtkJustification justify;
+	GtkAnchorType anchor;
 	gint max_lines, retval;
+	GtkStyle *style;
+	GdkFont *font;
+	gdouble text_x, clip_height;
 
 	g_return_val_if_fail (E_IS_ICON_BAR (icon_bar), -1);
 	g_return_val_if_fail (text != NULL, -1);
@@ -537,35 +545,44 @@ e_icon_bar_add_item (EIconBar	    *icon_bar,
 	g_return_val_if_fail (position <= (gint)icon_bar->items->len, -1);
 
 	if (icon_bar->view_type == E_ICON_BAR_LARGE_ICONS) {
-		xalign = 0.5;
 		justify = GTK_JUSTIFY_CENTER;
+		anchor = GTK_ANCHOR_N;
 		max_lines = 2;
+		text_x = icon_bar->text_x + (icon_bar->text_w / 2);
 	} else {
-		xalign = 0.0;
 		justify = GTK_JUSTIFY_LEFT;
+		anchor = GTK_ANCHOR_NW;
 		max_lines = 1;
+		text_x = icon_bar->text_x;
 	}
 
+	gtk_widget_ensure_style (GTK_WIDGET (icon_bar));
+	style = GTK_WIDGET (icon_bar)->style;
+	font = style->font;
+	clip_height = max_lines * (font->ascent + font->descent);
 	item.text = gnome_canvas_item_new (GNOME_CANVAS_GROUP (GNOME_CANVAS (icon_bar)->root),
-					   e_icon_bar_text_item_get_type (),
-					   "EIconBarTextItem::xalign", xalign,
-					   "EIconBarTextItem::justify", justify,
-					   "EIconBarTextItem::max_lines", max_lines,
+					   e_text_get_type (),
+					   "font_gdk", font,
+					   "fill_color_gdk", &icon_bar->colors[E_ICON_BAR_COLOR_TEXT],
+					   "use_ellipsis", TRUE,
+					   "anchor", anchor,
+					   "editable", TRUE,
+					   "justification", justify,
+					   "line_wrap", TRUE,
+					   "max_lines", max_lines,
+					   "x", text_x,
+					   "y", (gdouble) 0,
+					   "clip", TRUE,
+					   "clip_width", (gdouble) (icon_bar->text_w),
+					   "clip_height", clip_height,
+					   "text", text,
 					   NULL);
-	e_icon_bar_text_item_configure (E_ICON_BAR_TEXT_ITEM (item.text),
-					icon_bar->text_x, 0,
-					icon_bar->text_w, NULL,
-					text, FALSE);
-	gtk_signal_connect (GTK_OBJECT (item.text), "height_changed",
-			    GTK_SIGNAL_FUNC (e_icon_bar_on_text_height_changed), icon_bar);
+
+	gtk_signal_connect (GTK_OBJECT (item.text), "resize",
+			    GTK_SIGNAL_FUNC (e_icon_bar_on_text_resized),
+			    icon_bar);
 	gtk_signal_connect (GTK_OBJECT (item.text), "event",
 			    GTK_SIGNAL_FUNC (e_icon_bar_on_item_event),
-			    icon_bar);
-	gtk_signal_connect (GTK_OBJECT (item.text), "editing_started",
-			    GTK_SIGNAL_FUNC (e_icon_bar_on_text_item_editing_started),
-			    icon_bar);
-	gtk_signal_connect (GTK_OBJECT (item.text), "editing_stopped",
-			    GTK_SIGNAL_FUNC (e_icon_bar_on_text_item_editing_stopped),
 			    icon_bar);
 
 	item.image = gnome_canvas_item_new (GNOME_CANVAS_GROUP (GNOME_CANVAS (icon_bar)->root),
@@ -686,7 +703,7 @@ e_icon_bar_get_item_image	(EIconBar	  *icon_bar,
 
 	item = &g_array_index (icon_bar->items, EIconBarItem, item_num);
 	gtk_object_get (GTK_OBJECT (item->image),
-			"GnomeCanvasPixbuf::pixbuf", image,
+			"GnomeCanvasPixbuf::pixbuf", &image,
 			NULL);
 	return image;
 }
@@ -724,20 +741,26 @@ e_icon_bar_set_item_image	(EIconBar	  *icon_bar,
  * @item_num: The index of the item.
  * @Returns: The text of the given item.
  *
- * Returns the text of the given item.
+ * Returns the text of the given item. This should be freed when no longer
+ * needed.
  **/
 gchar*
 e_icon_bar_get_item_text	(EIconBar	  *icon_bar,
 				 gint		   item_num)
 {
 	EIconBarItem *item;
+	gchar *text;
 
 	g_return_val_if_fail (E_IS_ICON_BAR (icon_bar), NULL);
 	g_return_val_if_fail (item_num >= 0, NULL);
 	g_return_val_if_fail (item_num < icon_bar->items->len, NULL);
 
 	item = &g_array_index (icon_bar->items, EIconBarItem, item_num);
-	return e_icon_bar_text_item_get_text (E_ICON_BAR_TEXT_ITEM (item->text));
+	gtk_object_get (GTK_OBJECT (item->text),
+			"EText::text", &text,
+			NULL);
+
+	return text;
 }
 
 
@@ -761,8 +784,9 @@ e_icon_bar_set_item_text	(EIconBar	  *icon_bar,
 	g_return_if_fail (item_num < icon_bar->items->len);
 
 	item = &g_array_index (icon_bar->items, EIconBarItem, item_num);
-	e_icon_bar_text_item_set_text (E_ICON_BAR_TEXT_ITEM (item->text),
-				       text, FALSE);
+	gnome_canvas_item_set (item->text,
+			       "EText::text", text,
+			       NULL);
 }
 
 
@@ -839,9 +863,12 @@ e_icon_bar_set_item_data_full	(EIconBar	  *icon_bar,
 
 
 static void
-e_icon_bar_on_text_height_changed (GnomeCanvasItem *text_item,
-				   EIconBar *icon_bar)
+e_icon_bar_on_text_resized (GnomeCanvasItem *text_item,
+			    EIconBar *icon_bar)
 {
+#if 0
+	g_print ("In e_icon_bar_on_text_resized\n");
+#endif
 	gtk_widget_queue_resize (GTK_WIDGET (icon_bar));
 }
 
@@ -882,15 +909,31 @@ e_icon_bar_on_item_event (GnomeCanvasItem *item,
 							     event->button.x,
 							     event->button.y,
 							     NULL);
-		e_icon_bar_item_pressed (icon_bar, item_num, event);
-		return TRUE;
+		/* If the item is not being edited, we handle the event and
+		   stop the signal so the text editing isn't started. */
+		if (icon_bar->editing_item_num == -1
+		    || icon_bar->editing_item_num != item_num) {
+			e_icon_bar_item_pressed (icon_bar, item_num, event);
+			gtk_signal_emit_stop_by_name (GTK_OBJECT (item),
+						      "event");
+			return TRUE;
+		}
+		break;
 	case GDK_BUTTON_RELEASE:
 		item_num = e_icon_bar_find_item_at_position (icon_bar,
 							     event->button.x,
 							     event->button.y,
 							     NULL);
-		e_icon_bar_item_released (icon_bar, item_num, event);
-		return TRUE;
+		/* If the item is not being edited, we handle the event and
+		   stop the signal so the text editing isn't started. */
+		if (icon_bar->editing_item_num == -1
+		    || icon_bar->editing_item_num != item_num) {
+			e_icon_bar_item_released (icon_bar, item_num, event);
+			gtk_signal_emit_stop_by_name (GTK_OBJECT (item),
+						      "event");
+			return TRUE;
+		}
+		break;
 	case GDK_MOTION_NOTIFY:
 		item_num = e_icon_bar_find_item_at_position (icon_bar,
 							     event->motion.x,
@@ -898,6 +941,13 @@ e_icon_bar_on_item_event (GnomeCanvasItem *item,
 							     NULL);
 		e_icon_bar_item_motion (icon_bar, item_num, event);
 		return TRUE;
+	case GDK_FOCUS_CHANGE:
+		if (event->focus_change.in)
+			e_icon_bar_on_editing_started (icon_bar, item);
+		else
+			e_icon_bar_on_editing_stopped (icon_bar, item);
+
+		return FALSE;
 	default:
 		break;
 	}
@@ -911,23 +961,15 @@ e_icon_bar_item_pressed (EIconBar *icon_bar,
 			 gint item_num,
 			 GdkEvent *event)
 {
-	EIconBarItem *item;
 	gint button;
 
 	/* If we are editing an item, and a different item (or anywhere outside
 	   an item) is clicked, stop the edit. If the item being edited is
 	   clicked we just return, since the user may be selecting text. */
 	if (icon_bar->editing_item_num != -1) {
-		if (icon_bar->editing_item_num == item_num) {
-			item = &g_array_index (icon_bar->items, EIconBarItem,
-					       icon_bar->editing_item_num);
-			if (!GTK_WIDGET_HAS_FOCUS (item->text->canvas)
-			    || item->text->canvas->focused_item != item->text)
-				gnome_canvas_item_grab_focus (item->text);
-		} else {
+		if (icon_bar->editing_item_num != item_num) {
 			e_icon_bar_stop_editing_item (icon_bar, TRUE);
 		}
-
 		return;
 	}
 
@@ -1203,8 +1245,7 @@ e_icon_bar_start_editing_item (EIconBar *icon_bar,
 
 	item = &g_array_index (icon_bar->items,
 			       EIconBarItem, item_num);
-
-	e_icon_bar_text_item_start_editing (E_ICON_BAR_TEXT_ITEM (item->text));
+	e_canvas_item_grab_focus (item->text);
 }
 
 
@@ -1221,25 +1262,29 @@ e_icon_bar_stop_editing_item (EIconBar *icon_bar,
 			      gboolean  accept)
 {
 	EIconBarItem *item;
+	GtkWidget *toplevel;
 
 	g_return_if_fail (E_IS_ICON_BAR (icon_bar));
 
 	if (icon_bar->editing_item_num != -1) {
 		item = &g_array_index (icon_bar->items, EIconBarItem,
 				       icon_bar->editing_item_num);
-		e_icon_bar_text_item_stop_editing (E_ICON_BAR_TEXT_ITEM (item->text), accept);
+
+		toplevel = gtk_widget_get_toplevel (GTK_WIDGET (icon_bar));
+		if (toplevel && GTK_IS_WINDOW (toplevel))
+			gtk_window_set_focus (GTK_WINDOW (toplevel), NULL);
 	}
 }
 
 
 static void
-e_icon_bar_on_text_item_editing_started (EIconBarTextItem *text_item,
-					 EIconBar *icon_bar)
+e_icon_bar_on_editing_started (EIconBar *icon_bar,
+			       GnomeCanvasItem *item)
 {
 	gint item_num;
+	gdouble x1, y1, x2, y2;
 
-	item_num = e_icon_bar_find_item (icon_bar,
-					 GNOME_CANVAS_ITEM (text_item));
+	item_num = e_icon_bar_find_item (icon_bar, item);
 	g_return_if_fail (item_num != -1);
 
 	/* Turn off any highlighted item. */
@@ -1248,24 +1293,57 @@ e_icon_bar_on_text_item_editing_started (EIconBarTextItem *text_item,
 	icon_bar->editing_item_num = item_num;
 
 	e_icon_bar_ensure_edited_item_visible (icon_bar);
+
+	/* Set the fg & bg colors. */
+	gnome_canvas_item_set (item,
+			       "fill_color_gdk", &icon_bar->colors[E_ICON_BAR_COLOR_EDITING_TEXT],
+			       NULL);
+
+	/* Create the edit rect if necessary. */
+	if (!icon_bar->edit_rect_item) {
+		icon_bar->edit_rect_item =
+			gnome_canvas_item_new (GNOME_CANVAS_GROUP (GNOME_CANVAS (icon_bar)->root),
+					       gnome_canvas_rect_get_type(),
+					       "fill_color_gdk", &icon_bar->colors[E_ICON_BAR_COLOR_EDITING_RECT],
+					       "outline_color_gdk", &icon_bar->colors[E_ICON_BAR_COLOR_EDITING_RECT_OUTLINE],
+					       NULL);
+	}
+
+	gnome_canvas_item_get_bounds (item, &x1, &y1, &x2, &y2);
+	gnome_canvas_item_set (icon_bar->edit_rect_item,
+			       "x1", x1 - 1,
+			       "y1", y1 - 1,
+			       "x2", x2 + 1,
+			       "y2", y2 + 1,
+			       NULL);
+	gnome_canvas_item_show (icon_bar->edit_rect_item);
+
+	/* Make sure the text item is on top. */
+	gnome_canvas_item_raise_to_top (item);
 }
 
 
 static void
-e_icon_bar_on_text_item_editing_stopped (EIconBarTextItem *text_item,
-					 EIconBar *icon_bar)
+e_icon_bar_on_editing_stopped (EIconBar *icon_bar,
+			       GnomeCanvasItem *item)
 {
 	gint item_num;
 
-	item_num = e_icon_bar_find_item (icon_bar,
-					 GNOME_CANVAS_ITEM (text_item));
+	item_num = e_icon_bar_find_item (icon_bar, item);
 	g_return_if_fail (item_num != -1);
-
-	e_icon_bar_text_item_select (text_item, FALSE);
 
 	icon_bar->editing_item_num = -1;
 
 	e_icon_bar_update_highlight (icon_bar);
+
+	/* Reset the fg & bg colors. */
+	gnome_canvas_item_set (item,
+			       "fill_color_gdk", &icon_bar->colors[E_ICON_BAR_COLOR_TEXT],
+			       NULL);
+
+	if (icon_bar->edit_rect_item) {
+		gnome_canvas_item_hide (icon_bar->edit_rect_item);
+	}
 }
 
 
