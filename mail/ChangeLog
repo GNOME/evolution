@@ -1,3 +1,8 @@
+2001-07-11  JP Rosevear  <jpr@ximian.com>
+
+	* mail-display.c (get_embedded_for_component): no longer need to
+	set a my address property
+
 2001-07-10  Federico Mena Quintero  <federico@ximian.com>
 
 	* mail-display.c (link_copy_location): Set the CLIPBOARD
