@@ -256,7 +256,8 @@ task_editor_edit_comp (CompEditor *editor, CalComponent *comp)
 			EMeetingAttendee *ia;
 
 			ia = E_MEETING_ATTENDEE (e_meeting_attendee_new_from_cal_component_attendee (ca));
- 			if (!comp_editor_get_user_org (editor))
+			/* If we aren't the organizer or the attendee is just delegating, don't allow editing */
+			if (!comp_editor_get_user_org (editor) || e_meeting_attendee_is_set_delto (ia))
  				e_meeting_attendee_set_edit_level (ia,  E_MEETING_ATTENDEE_EDIT_NONE);
   			e_meeting_model_add_attendee (priv->model, ia);			
 
@@ -349,11 +350,7 @@ task_editor_finalize (GObject *object)
 	g_object_unref((priv->task_details_page));
 	g_object_unref((priv->meet_page));
 	
-#if 0
-	/* FIXME we don't unref here because we "sink" in 
-	   e-meeting-model.c:init */
 	g_object_unref (priv->model);
-#endif
 	
 	if (G_OBJECT_CLASS (parent_class)->finalize)
 		(* G_OBJECT_CLASS (parent_class)->finalize) (object);

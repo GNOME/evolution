@@ -683,8 +683,10 @@ popup_delete_cb (GtkWidget *widget, gpointer data)
 		EMeetingAttendee *ib;
 		
 		ib = e_meeting_model_find_attendee (priv->model, e_meeting_attendee_get_delfrom (ia), &pos);
-		if (ib != NULL)
+		if (ib != NULL) {
 			e_meeting_attendee_set_delto (ib, NULL);
+			e_meeting_attendee_set_edit_level (ib,  E_MEETING_ATTENDEE_EDIT_FULL);
+		}		
 	}
 	
 	/* Handle deleting all attendees in the delegation chain */	

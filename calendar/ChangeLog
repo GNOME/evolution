@@ -1,3 +1,29 @@
+2003-05-01  JP Rosevear  <jpr@ximian.com>
+
+	* gui/dialogs/task-editor.c (task_editor_finalize): unref the
+	model again
+	(task_editor_edit_comp): don't allow editing if the assignee has
+	delegated
+
+	* gui/dialogs/meeting-page.c (popup_delete_cb): set the new
+	non-delegator to be editable
+
+	* gui/dialogs/event-editor.c (event_editor_edit_comp): don't allow
+	editing if the attendee has delegated
+	(event_editor_finalize): unref the model again
+
+	* gui/e-meeting-model.c: remove e-table-without related functions
+	(finalize): don't create without table
+	(e_meeting_model_etable_from_model): build the table with this as
+	model
+	(e_meeting_model_etable_model_to_view_row): directly use the
+	model_to_view call
+	(e_meeting_model_etable_view_to_model_row): as above
+	(attendee_changed_cb): make sure pre change is alwasy called
+
+	* gui/e-meeting-model.h: use DECLS, remove protos for long dead
+	functions, don't include config.h
+
 2003-04-30  Rodrigo Moya <rodrigo@ximian.com>
 
 	* gui/alarm-notify/alarm-notify.c (alarm_notify_add_calendar): removed

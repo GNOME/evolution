@@ -20,12 +20,8 @@
  * Author: JP Rosevear
  */
 
-#ifndef _E_MODEL_H_
-#define _E_MODEL_H_
-
-#ifdef HAVE_CONFIG_H
-#include <config.h>
-#endif
+#ifndef _E_MEETING_MODEL_H_
+#define _E_MEETING_MODEL_H_
 
 #include <gtk/gtk.h>
 #include <gal/e-table/e-table-scrolled.h>
@@ -33,10 +29,7 @@
 #include <cal-client/cal-client.h>
 #include "e-meeting-attendee.h"
 
-#ifdef __cplusplus
-extern "C" {
-#pragma }
-#endif /* __cplusplus */
+G_BEGIN_DECLS
 
 #define E_TYPE_MEETING_MODEL			(e_meeting_model_get_type ())
 #define E_MEETING_MODEL(obj)			(GTK_CHECK_CAST ((obj), E_TYPE_MEETING_MODEL, EMeetingModel))
@@ -97,10 +90,6 @@ EMeetingAttendee *e_meeting_model_find_attendee_at_row (EMeetingModel *im, gint 
 gint e_meeting_model_count_actual_attendees (EMeetingModel *im);
 const GPtrArray *e_meeting_model_get_attendees (EMeetingModel *im);
 
-void e_meeting_model_restricted_add (EMeetingModel *im, int row);
-void e_meeting_model_restricted_remove (EMeetingModel *im, int row);
-void e_meeting_model_restricted_clear (EMeetingModel *im);
-
 void e_meeting_model_refresh_all_busy_periods (EMeetingModel *im,
 					       EMeetingTime *start,
 					       EMeetingTime *end,
@@ -122,8 +111,6 @@ int e_meeting_model_etable_view_to_model_row (ETable *et, EMeetingModel *im, int
 
 void e_meeting_model_invite_others_dialog (EMeetingModel *im);
 
-#ifdef __cplusplus
-}
-#endif /* __cplusplus */
+G_END_DECLS
 
-#endif /* _E_MEETING_MODEL_H_ */
+#endif

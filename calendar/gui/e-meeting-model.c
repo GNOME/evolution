@@ -56,9 +56,7 @@
 struct _EMeetingModelPrivate 
 {
 	GPtrArray *attendees;
-	GList *edit_rows;
 
-	ETableWithout *without;
 	GList *tables;
 	
 	CalClient *client;
@@ -576,41 +574,6 @@ value_to_string (ETableModel *etm, int col, const void *val)
 	return g_strdup (val);
 }
 
-static void *
-get_key (ETableModel *source, int row, gpointer data) 
-{
-	EMeetingModel *im;
-	EMeetingModelPrivate *priv;
-	char *str;
-	
-	im = E_MEETING_MODEL (source);
-	priv = im->priv;
-
-	str = value_at (source, E_MEETING_MODEL_DELTO_COL, row);
-	if (str && *str)
-		return g_strdup ("delegator");
-
-	return g_strdup ("none");
-}
-
-static void *
-duplicate_key (const void *key, gpointer data) 
-{
-	return g_strdup (key);
-}
-
-static void
-free_gotten_key (void *key, gpointer data)
-{
-	g_free (key);
-}
-
-static void
-free_duplicated_key (void *key, gpointer data)
-{
-	g_free (key);
-}
-
 static void
 class_init (EMeetingModelClass *klass)
 {
@@ -648,20 +611,6 @@ init (EMeetingModel *im)
 	im->priv = priv;
 
 	priv->attendees = g_ptr_array_new ();
-	
-	priv->without = E_TABLE_WITHOUT (e_table_without_new (E_TABLE_MODEL (im),
-							      g_str_hash,
-							      g_str_equal,
-							      get_key,
-							      duplicate_key,
-							      free_gotten_key,
-							      free_duplicated_key,
-							      NULL));
-	e_table_without_hide (priv->without, "delegator");
-
-	/* FIXME We basically sink a ref otherwise the without table
-	 * will own a ref to us and we will never get finalized */
-	g_object_unref (im);
 	
 	priv->tables = NULL;
 
@@ -881,7 +830,7 @@ e_meeting_model_add_attendee (EMeetingModel *im, EMeetingAttendee *ia)
 
 	g_object_ref (ia);
 	g_ptr_array_add (priv->attendees, ia);
-	
+
 	g_signal_connect (ia, "changed", G_CALLBACK (attendee_changed_cb), im);
 
 	e_table_model_row_inserted (E_TABLE_MODEL (im), row_count (E_TABLE_MODEL (im)) - 1);
@@ -930,13 +879,13 @@ e_meeting_model_remove_attendee (EMeetingModel *im, EMeetingAttendee *ia)
 	gint i, row = -1;
 	
 	priv = im->priv;
-	
+
 	for (i = 0; i < priv->attendees->len; i++) {
 		if (ia == g_ptr_array_index (priv->attendees, i)) {
 			row = i;
 			break;
 		}
-	}
+	}	
 	
 	if (row != -1) {
 		e_table_model_pre_change (E_TABLE_MODEL (im));
@@ -964,8 +913,8 @@ e_meeting_model_remove_all_attendees (EMeetingModel *im)
 		EMeetingAttendee *ia = g_ptr_array_index (priv->attendees, i);
 		g_object_unref (ia);
 	}
-
 	g_ptr_array_set_size (priv->attendees, 0);
+
 	e_table_model_rows_deleted (E_TABLE_MODEL (im), 0, len);
 }
 
@@ -1020,7 +969,7 @@ e_meeting_model_count_actual_attendees (EMeetingModel *im)
 	
 	priv = im->priv;
 
-	return e_table_model_row_count (E_TABLE_MODEL (priv->without));	
+	return e_table_model_row_count (E_TABLE_MODEL (im));	
 }
 
 const GPtrArray *
@@ -1543,7 +1492,7 @@ e_meeting_model_etable_from_model (EMeetingModel *im, const gchar *spec_file, co
 
 	priv = im->priv;
 	
-	ets = build_etable (E_TABLE_MODEL (priv->without), spec_file, state_file);
+	ets = build_etable (E_TABLE_MODEL (im), spec_file, state_file);
 
 	priv->tables = g_list_prepend (priv->tables, ets);
 
@@ -1578,36 +1527,26 @@ int
 e_meeting_model_etable_model_to_view_row (ETable *et, EMeetingModel *im, int model_row)
 {
 	EMeetingModelPrivate *priv;
-	int row;
 	
 	g_return_val_if_fail (im != NULL, -1);
 	g_return_val_if_fail (E_IS_MEETING_MODEL (im), -1);
 	
 	priv = im->priv;
 	
-	row = e_table_model_to_view_row (et, model_row);
-	if (row == -1)
-		return -1;
-	
-	return e_table_subset_model_to_view_row (E_TABLE_SUBSET (priv->without), row);
+	return e_table_model_to_view_row (et, model_row);
 }
 
 int
 e_meeting_model_etable_view_to_model_row (ETable *et, EMeetingModel *im, int view_row)
 {
 	EMeetingModelPrivate *priv;
-	int row;
 	
 	g_return_val_if_fail (im != NULL, -1);
 	g_return_val_if_fail (E_IS_MEETING_MODEL (im), -1);
 	
 	priv = im->priv;
 	
-	row = e_table_view_to_model_row (et, view_row);
-	if (row == -1)
-		return -1;
-	
-	return e_table_subset_view_to_model_row (E_TABLE_SUBSET (priv->without), row);
+	return e_table_view_to_model_row (et, view_row);
 }
 
 
@@ -1804,6 +1743,10 @@ attendee_changed_cb (EMeetingAttendee *ia, gpointer data)
 	
 	priv = im->priv;
 
+	/* FIXME: Ideally I think you are supposed to call pre_change() before
+	   the data structures are changed. */
+	e_table_model_pre_change (E_TABLE_MODEL (im));
+
 	for (i = 0; i < priv->attendees->len; i++) {
 		if (ia == g_ptr_array_index (priv->attendees, i)) {
 			row = i;
@@ -1812,12 +1755,9 @@ attendee_changed_cb (EMeetingAttendee *ia, gpointer data)
 	}
 	
 	if (row == -1)
-		return;
-	
-	/* FIXME: Ideally I think you are supposed to call pre_change() before
-	   the data structures are changed. */
-	e_table_model_pre_change (E_TABLE_MODEL (im));
-	e_table_model_row_changed (E_TABLE_MODEL (im), row);
+		e_table_model_no_change (E_TABLE_MODEL (im));
+	else
+		e_table_model_row_changed (E_TABLE_MODEL (im), row);
 }
 
 static void
