@@ -29,6 +29,7 @@ typedef struct {
 	int              header_structure_change_id;
 	int              table_model_change_id;
 	int              table_model_row_change_id;
+	int              table_model_cell_change_id;
 	
 	GdkGC           *fill_gc;
 	GdkGC           *grid_gc;
@@ -48,6 +49,8 @@ typedef struct {
 	 */
 	ECellView      **cell_views;
 	int              n_cells;
+
+	int             *height_cache;
 
 	/*
 	 * Lengh Threshold: above this, we stop computing correctly

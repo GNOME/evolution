@@ -1,3 +1,7 @@
+2000-04-14  Christopher James Lahey  <clahey@helixcode.com>
+
+	* e-table-item.c, e-table-item.h: Added a row height cache.
+
 2000-04-15  Ettore Perazzoli  <ettore@helixcode.com>
 
 	* e-table.c (e_table_construct): Use `strlen (copy)' instead of

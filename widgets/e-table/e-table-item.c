@@ -225,10 +225,13 @@ eti_remove_table_model (ETableItem *eti)
 			       eti->table_model_change_id);
 	gtk_signal_disconnect (GTK_OBJECT (eti->table_model),
 			       eti->table_model_row_change_id);
+	gtk_signal_disconnect (GTK_OBJECT (eti->table_model),
+			       eti->table_model_cell_change_id);
 	gtk_object_unref (GTK_OBJECT (eti->table_model));
 
 	eti->table_model_change_id = 0;
 	eti->table_model_row_change_id = 0;
+	eti->table_model_cell_change_id = 0;
 	eti->table_model = NULL;
 }
 
@@ -261,13 +264,13 @@ eti_remove_header_model (ETableItem *eti)
 }
 
 /*
- * eti_row_height:
+ * eti_row_height_real:
  *
  * Returns the height used by row @row.  This does not include the one-pixel
  * used as a separator between rows
  */
 static int
-eti_row_height (ETableItem *eti, int row)
+eti_row_height_real (ETableItem *eti, int row)
 {
 	const int cols = e_table_header_count (eti->header);
 	int col;
@@ -286,6 +289,41 @@ eti_row_height (ETableItem *eti, int row)
 			max_h = h;
 	}
 	return max_h;
+}
+
+static void
+free_height_cache (ETableItem *eti)
+{
+	if (eti->height_cache)
+		g_free (eti->height_cache);
+	eti->height_cache = NULL;
+}
+
+static void
+calculate_height_cache (ETableItem *eti)
+{
+	int i;
+	free_height_cache(eti);
+	eti->height_cache = g_new(int, eti->rows);
+	for (i = 0; i < eti->rows; i++) {
+		eti->height_cache[i] = eti_row_height_real(eti, i);
+	}
+}
+
+
+/*
+ * eti_row_height:
+ *
+ * Returns the height used by row @row.  This does not include the one-pixel
+ * used as a separator between rows
+ */
+static int
+eti_row_height (ETableItem *eti, int row)
+{
+	if (!eti->height_cache) {
+		calculate_height_cache (eti);
+	}
+	return eti->height_cache[row];
 }
 
 /*
@@ -356,6 +394,8 @@ eti_table_model_changed (ETableModel *table_model, ETableItem *eti)
 	
 	if (eti->focused_row > eti->rows - 1)
 		eti->focused_row = eti->rows - 1;
+
+	free_height_cache(eti);
 
 	eti->needs_compute_height = 1;
 	e_canvas_item_request_reflow (GNOME_CANVAS_ITEM (eti));
@@ -428,7 +468,18 @@ eti_table_model_row_changed (ETableModel *table_model, int row, ETableItem *eti)
 		eti_table_model_changed (table_model, eti);
 		return;
 	}
+	
+	eti_request_region_redraw (eti, 0, row, eti->cols, row, 0);
+}
 
+static void
+eti_table_model_cell_changed (ETableModel *table_model, int col, int row, ETableItem *eti)
+{
+	if (eti->renderers_can_change_size) {
+		eti_table_model_changed (table_model, eti);
+		return;
+	}
+	
 	eti_request_region_redraw (eti, 0, row, eti->cols, row, 0);
 }
 
@@ -468,6 +519,10 @@ eti_add_table_model (ETableItem *eti, ETableModel *table_model)
 	eti->table_model_row_change_id = gtk_signal_connect (
 		GTK_OBJECT (table_model), "model_row_changed",
 		GTK_SIGNAL_FUNC (eti_table_model_row_changed), eti);
+
+	eti->table_model_cell_change_id = gtk_signal_connect (
+		GTK_OBJECT (table_model), "model_cell_changed",
+		GTK_SIGNAL_FUNC (eti_table_model_cell_changed), eti);
 
 	if (eti->header) {
 		eti_detach_cell_views (eti);
@@ -617,6 +672,8 @@ eti_init (GnomeCanvasItem *item)
 	eti->editing_col = -1;
 	eti->editing_row = -1;
 	eti->height = 0;
+
+	eti->height_cache = NULL;
 	
 	eti->length_threshold = -1;
 	eti->renderers_can_change_size = 1;
