@@ -1185,6 +1185,8 @@ folder_browser_set_message_preview (FolderBrowser *folder_browser, gboolean show
 		do_message_selected (folder_browser);
 		set_cursor_pos (folder_browser, y);
 	} else {
+		g_free(folder_browser->loaded_uid);
+		folder_browser->loaded_uid = NULL;
 		gtk_widget_hide (GTK_WIDGET (folder_browser->mail_display));
 		mail_display_set_message (folder_browser->mail_display, NULL, NULL, NULL);
 		folder_browser_ui_message_loaded (folder_browser);

@@ -1,3 +1,8 @@
+2003-09-09  Not Zed  <NotZed@Ximian.com>
+
+	* folder-browser.c (folder_browser_set_message_preview): clear the
+	'loaded uid' when we hide, so when we re-show it reloads.
+
 2003-09-02  Jeffrey Stedfast  <fejj@ximian.com>
 
 	* mail-format.c (handle_text_plain): Scan for uuencoded parts and
