@@ -1,3 +1,12 @@
+2002-01-14  JP Rosevear  <jpr@ximian.com>
+
+	* gui/e-week-view-main-item.c (e_week_view_main_item_draw_day):
+	figure out when today is and highlight if it is not selected
+
+	* gui/e-week-view.h: enum the "today" color
+
+	* gui/e-week-view.c (e_week_view_realize): init the "today" color
+
 2002-01-13  JP Rosevear  <jpr@ximian.com>
 
 	* gui/alarm-notify/save.h: add protos

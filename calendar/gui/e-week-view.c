@@ -593,6 +593,10 @@ e_week_view_realize (GtkWidget *widget)
 	week_view->colors[E_WEEK_VIEW_COLOR_DATES_SELECTED].green = 65535;
 	week_view->colors[E_WEEK_VIEW_COLOR_DATES_SELECTED].blue  = 65535;
 
+	week_view->colors[E_WEEK_VIEW_COLOR_TODAY].red   = 65535;
+	week_view->colors[E_WEEK_VIEW_COLOR_TODAY].green = 0;
+	week_view->colors[E_WEEK_VIEW_COLOR_TODAY].blue  = 0;
+
 	nfailed = gdk_colormap_alloc_colors (colormap, week_view->colors,
 					     E_WEEK_VIEW_COLOR_LAST, FALSE,
 					     TRUE, success);

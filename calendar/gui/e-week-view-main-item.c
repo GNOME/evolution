@@ -295,7 +295,7 @@ e_week_view_main_item_draw_day (EWeekViewMainItem *wvmitem,
 					    width - 5, line_y - y);
 		}
 	}
-
+	
 	/* Display the date in the top of the cell.
 	   In the week view, display the long format "10 January" in all cells,
 	   or abbreviate it to "10 Jan" or "10" if that doesn't fit.
@@ -353,10 +353,23 @@ e_week_view_main_item_draw_day (EWeekViewMainItem *wvmitem,
 	date_x = x + width - date_width - E_WEEK_VIEW_DATE_R_PAD;
 	date_x = MAX (date_x, x + 1);
 
-	if (selected)
+	if (selected) {
 		gdk_gc_set_foreground (gc, &week_view->colors[E_WEEK_VIEW_COLOR_DATES_SELECTED]);
-	else
+	} else if (week_view->multi_week_view) {
+		struct icaltimetype tt;
+
+		/* Check if we are drawing today */		
+		tt = icaltime_from_timet_with_zone (time (NULL), FALSE, week_view->zone);
+		if (g_date_year (date) == tt.year 
+		    && g_date_month (date) == tt.month
+		    && g_date_day (date) == tt.day)
+			gdk_gc_set_foreground (gc, &week_view->colors[E_WEEK_VIEW_COLOR_TODAY]);
+		else
+			gdk_gc_set_foreground (gc, &week_view->colors[E_WEEK_VIEW_COLOR_DATES]);
+	} else {
 		gdk_gc_set_foreground (gc, &week_view->colors[E_WEEK_VIEW_COLOR_DATES]);
+	}
+	
 	gdk_draw_string (drawable, font, gc,
 			 date_x, y + E_WEEK_VIEW_DATE_T_PAD + font->ascent,
 			 buffer);
