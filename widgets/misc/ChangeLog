@@ -1,5 +1,11 @@
 2004-06-24  Rodney Dawes  <dobey@novell.com>
 
+	* e-error.c (e_error_newv): Fix alignment of the icon to be 0x0
+
+	Fixes #60493
+
+2004-06-24  Rodney Dawes  <dobey@novell.com>
+
 	* e-source-selector.[ch]: Add new "select_new" property to
 	private structure of the ESourceSelector
 	(rebuild_cb): Add code to select the new source, and cause the

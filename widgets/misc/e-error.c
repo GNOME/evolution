@@ -461,6 +461,7 @@ e_error_newv(GtkWindow *parent, const char *tag, const char *arg0, va_list ap)
 	gtk_container_set_border_width((GtkContainer *)hbox, 12);
 
 	w = gtk_image_new_from_stock(type_map[e->type].icon, GTK_ICON_SIZE_DIALOG);
+	gtk_misc_set_alignment((GtkMisc *)w, 0.0, 0.0);
 	gtk_box_pack_start((GtkBox *)hbox, w, TRUE, TRUE, 12);
 
 	args = g_ptr_array_new();
