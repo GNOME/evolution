@@ -1,3 +1,12 @@
+2002-02-25  Dan Winship  <danw@ximian.com>
+
+	* gui/itip-utils.c (itip_send_comp): use
+	GNOME_Evolution_Composer_setBody rather than _setMultipartType and
+	_attachData now, to send a message containing just a text/calendar
+	part. Fixes 14705. Mostly.
+	(comp_content_type): Include the filename here since we can't add
+	a Content-Disposition now.
+
 2002-02-24  Chris Toshok  <toshok@ximian.com>
 
 	* gui/cal-search-bar.c (cal_search_bar_class_init): change
