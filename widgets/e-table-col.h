@@ -1,8 +1,9 @@
 #ifndef _E_TABLE_COL_H_
 #define _E_TABLE_COL_H_
 
+#include "e-cell.h"
+
 typedef struct _ETableCol ETableCol;
-typedef struct _ECell     ECell;
 
 /*
  * Information about a single column

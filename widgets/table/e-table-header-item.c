@@ -157,7 +157,6 @@ ethi_realize (GnomeCanvasItem *item)
 	ETableHeaderItem *ethi = E_TABLE_HEADER_ITEM (item);
 	GdkWindow *window;
 	GdkColor c;
-	int i;
 	
 	if (GNOME_CANVAS_ITEM_CLASS (ethi_parent_class)-> realize)
 		(*GNOME_CANVAS_ITEM_CLASS (ethi_parent_class)->realize)(item);
@@ -172,26 +171,12 @@ ethi_realize (GnomeCanvasItem *item)
 
 	if (!ethi->font)
 		ethi_font_load (ethi, "fixed");
-
-	/*
-	 * Now realize the various ECells
-	 */
-	ethi->n_cells = e_table_header_count (ethi->eth);
-	ethi->cell_views = g_new (ECellView *, ethi->n_cells);
-
-	for (i = 0; i < ethi->n_cells; i++){
-		ETableCol *col = e_table_header_get_column (ethi->eth, i);
-		
-		ethi->cell_views [i] = e_cell_realize (col->ecell, item->canvas);
-	}
-			 
 }
 
 static void
 ethi_unrealize (GnomeCanvasItem *item)
 {
 	ETableHeaderItem *ethi = E_TABLE_HEADER_ITEM (item);
-	int i;
 	
 	gdk_gc_unref (ethi->gc);
 	ethi->gc = NULL;
@@ -202,14 +187,6 @@ ethi_unrealize (GnomeCanvasItem *item)
 	gdk_cursor_destroy (ethi->normal_cursor);
 	ethi->normal_cursor = NULL;
 
-	for (i = 0; i < ethi->n_cells; i++){
-		ETableCol *col = e_table_header_get_column (ethi->eth, i);
-		
-		e_cell_unrealize (col->ecell, ethi->cell_views [i]);
-		ethi->cell_views = NULL;
-	}
-	g_free (ethi->cell_views);
-	
 	if (GNOME_CANVAS_ITEM_CLASS (ethi_parent_class)->unrealize)
 		(*GNOME_CANVAS_ITEM_CLASS (ethi_parent_class)->unrealize)(item);
 }

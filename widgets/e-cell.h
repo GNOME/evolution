@@ -15,7 +15,6 @@ typedef struct _ECellView ECellView;
 
 struct _ECell {
 	GtkObject       object;
-
 	ETableModel    *table_model;
 };
 

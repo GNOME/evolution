@@ -8,6 +8,7 @@
  */
 #include <config.h>
 #include "e-table-item.h"
+#include "e-cell.h"
 
 #define PARENT_OBJECT_TYPE gnome_canvas_item_get_type ()
 
@@ -20,6 +21,41 @@ enum {
 	ARG_TABLE_X,
 	ARG_TABLE_Y,
 };
+
+static void
+eti_realize_cell_views (ETableItem *eti)
+{
+	GnomeCanvasItem *item = GNOME_CANVAS_ITEM (eti);
+	int i;
+	
+	/*
+	 * Now realize the various ECells
+	 */
+	eti->n_cells = e_table_header_count (eti->header);
+	eti->cell_views = g_new (ECellView *, eti->n_cells);
+
+	for (i = 0; i < eti->n_cells; i++){
+		ETableCol *col = e_table_header_get_column (eti->header, i);
+		
+		eti->cell_views [i] = e_cell_realize (col->ecell, item->canvas);
+	}
+}
+
+static void
+eti_unrealize_cell_views (ETableItem *eti)
+{
+	int i;
+
+	for (i = 0; i < eti->n_cells; i++){
+		ETableCol *col = e_table_header_get_column (eti->header, i);
+		
+		e_cell_unrealize (eti->cell_views [i]);
+		eti->cell_views [i] = NULL;
+	}
+	g_free (eti->cell_views);
+	eti->n_cells = 0;
+
+}
 
 static void
 eti_update (GnomeCanvasItem *item, double *affine, ArtSVP *clip_path, int flags)
@@ -124,6 +160,8 @@ eti_header_structure_changed (ETableHeader *eth, ETableItem *eti)
 	eti_request_redraw (eti);
 
 	eti->width = e_table_header_total_width (eti->header);
+	eti_unrealize_cell_views (eti);
+	eti_realize_cell_views (eti);
 	eti_update (GNOME_CANVAS_ITEM (eti), NULL, NULL, 0);
 
 	eti_request_redraw (eti);
@@ -210,7 +248,7 @@ eti_realize (GnomeCanvasItem *item)
 	ETableItem *eti = E_TABLE_ITEM (item);
 	GtkWidget *canvas_widget = GTK_WIDGET (item->canvas);
 	GdkWindow *window;
-
+	
 	if (GNOME_CANVAS_ITEM_CLASS (eti_parent_class)->realize)
                 (*GNOME_CANVAS_ITEM_CLASS (eti_parent_class)->realize)(item);
 
@@ -221,17 +259,20 @@ eti_realize (GnomeCanvasItem *item)
 	eti->grid_gc = gdk_gc_new (window);
 	gdk_gc_set_foreground (eti->grid_gc, &canvas_widget->style->fg [GTK_STATE_NORMAL]);
 
+	eti_realize_cell_views (eti);
 }
 
 static void
 eti_unrealize (GnomeCanvasItem *item)
 {
 	ETableItem *eti = E_TABLE_ITEM (item);
-
+	
 	gdk_gc_unref (eti->fill_gc);
 	eti->fill_gc = NULL;
 	gdk_gc_unref (eti->grid_gc);
 	eti->grid_gc = NULL;
+
+	eti_unrealize_cell_views (eti);
 	
 	if (GNOME_CANVAS_ITEM_CLASS (eti_parent_class)->unrealize)
                 (*GNOME_CANVAS_ITEM_CLASS (eti_parent_class)->unrealize)(item);
@@ -242,16 +283,23 @@ draw_cell (ETableItem *eti, GdkDrawable *drawable, int col, int row,
 	   int x1, int y1, int x2, int y2)
 {
 	GnomeCanvas *canvas = GNOME_CANVAS_ITEM (eti)->canvas;
+	ECellView *ecell_view;
 	GdkFont *font;
 	char  text [40];
 		
 	font = GTK_WIDGET (canvas)->style->font;
-	
-	sprintf (text, "%d:%d\n", col, row);
+
+	ecell_view = eti->cell_views [col];
+
+	e_cell_draw (ecell_view, drawable, col, row, x1, y1, x2, y2);
+
 	gdk_draw_line (drawable, eti->grid_gc, x1, y1, x2, y2);
 	gdk_draw_line (drawable, eti->grid_gc, x1, y2, x2, y1);
 
+#if 0
+	sprintf (text, "%d:%d\n", col, row);
 	gdk_draw_text (drawable, font, eti->grid_gc, x1, y2, text, strlen (text));
+#endif
 }
 
 static void
@@ -344,7 +392,7 @@ static int
 eti_event (GnomeCanvasItem *item, GdkEvent *e)
 {
 	ETableItem *eti = E_TABLE_ITEM (item);
-	ETableCol *etc;
+	ECellView *ecell_view;
 	
 	switch (e->type){
 	case GDK_BUTTON_PRESS:
@@ -356,9 +404,9 @@ eti_event (GnomeCanvasItem *item, GdkEvent *e)
 		if (eti->focused_col == -1)
 			return FALSE;
 
-		etc = e_table_header_get_column (eti->header, eti->focused_col);
+		ecell_view = eti->cell_views [eti->focused_col];
 
-		e_cell_event (etc->ecell, e, eti->focused_col, eti->focused_row);
+		e_cell_event (ecell_view, e, eti->focused_col, eti->focused_row);
 		break;
 		
 	}

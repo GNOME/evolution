@@ -145,7 +145,7 @@ value_at (ETableModel *etc, int col, int row, void *data)
 	g_assert (col < cols);
 	g_assert (row < lines);
 
-	return (void *) &table_data [row][col];
+	return (void *) table_data [row][col];
 }
 
 static void
@@ -203,7 +203,7 @@ main (int argc, char *argv [])
 	 * Header
 	 */
 	e_table_header = e_table_header_new ();
-	cell_left_just = e_cell_text_new ("fixed", GTK_JUSTIFY_LEFT);
+	cell_left_just = e_cell_text_new (e_table_model, "fixed", GTK_JUSTIFY_LEFT);
 	
 	for (i = 0; i < cols; i++){
 		ETableCol *ecol = e_table_col_new (

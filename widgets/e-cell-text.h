@@ -13,12 +13,8 @@
 typedef struct {
 	ECell parent;
 
-	GdkGC            *gc;
-	GdkFont          *font;
 	GtkJustification  justify;
-
 	char             *font_name;
-	GnomeCanvas      *canvas;
 } ECellText;
 
 typedef struct {
@@ -26,6 +22,7 @@ typedef struct {
 } ECellTextClass;
 
 GtkType    e_cell_text_get_type (void);
-ECell     *e_cell_text_new      (const char *fontname, GtkJustification justify);
+ECell     *e_cell_text_new      (ETableModel *model, const char *fontname, GtkJustification justify);
 
 #endif /* _E_CELL_TEXT_H_ */
+

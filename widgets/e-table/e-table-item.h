@@ -35,6 +35,12 @@ typedef struct {
 	unsigned int     draw_grid:1;
 
 	int              focused_col, focused_row;
+
+	/*
+	 * Realized views, per column
+	 */
+	ECellView      **cell_views;
+	int              n_cells;
 } ETableItem;
 
 typedef struct {

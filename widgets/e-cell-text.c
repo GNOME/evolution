@@ -54,6 +54,7 @@ static void
 ect_draw (ECellView *ecell_view, GdkDrawable *drawable, int col, int row, int x1, int y1, int x2, int y2)
 {
 	ECellText *ect = E_CELL_TEXT (ecell_view->ecell);
+	ECellTextView *text_view = (ECellTextView *) ecell_view;
 	GdkRectangle rect;
 	const char *str = e_table_model_value_at (ecell_view->ecell->table_model, col, row);
 	int selected = e_table_model_get_selected_row (ecell_view->ecell->table_model) == row;
@@ -64,20 +65,22 @@ ect_draw (ECellView *ecell_view, GdkDrawable *drawable, int col, int row, int x1
 	rect.width = x2 - x1;
 	rect.height = y2 - y1;
 	
-	gdk_gc_set_clip_rectangle (ect->gc, &rect);
+	gdk_gc_set_clip_rectangle (text_view->gc, &rect);
 
+	printf ("String is: [%s]\n", str);
+	
 	switch (ect->justify){
 	case GTK_JUSTIFY_LEFT:
 		xoff = 1;
 		break;
 		
 	case GTK_JUSTIFY_RIGHT:
-		w = 1 + gdk_text_width (ect->font, str, strlen (str));
+		w = 1 + gdk_text_width (text_view->font, str, strlen (str));
 		xoff = (x2 - x1) - w;
 		break;
 		
 	case GTK_JUSTIFY_CENTER:
-		xoff = ((x2 - x1) - gdk_text_width (ect->font, str, strlen (str))) / 2;
+		xoff = ((x2 - x1) - gdk_text_width (text_view->font, str, strlen (str))) / 2;
 		break;
 	default:
 		g_warning ("Can not handle GTK_JUSTIFY_FILL");
@@ -86,7 +89,7 @@ ect_draw (ECellView *ecell_view, GdkDrawable *drawable, int col, int row, int x1
 
 	/* Draw now */
 	{
-		GtkWidget *w = GTK_WIDGET (ect->canvas);
+		GtkWidget *w = GTK_WIDGET (text_view->canvas);
 		GdkColor *background;
 		int idx;
 		
@@ -95,10 +98,12 @@ ect_draw (ECellView *ecell_view, GdkDrawable *drawable, int col, int row, int x1
 		else
 			idx = GTK_STATE_NORMAL;
 		
-		gdk_gc_set_foreground (ect->gc, &w->style->bg [idx]);
-		gdk_draw_rectangle (drawable, ect->gc, TRUE, rect.x, rect.y, rect.width, rect.height);
-		gdk_gc_set_foreground (ect->gc, &w->style->fg [idx]);
-		gdk_draw_string (drawable, ect->font, ect->gc, x1 + xoff, y2 + ect->font->descent, str);
+		gdk_gc_set_foreground (text_view->gc, &w->style->bg [idx]);
+		gdk_draw_rectangle (drawable, text_view->gc, TRUE,
+				    rect.x, rect.y, rect.width, rect.height);
+		gdk_gc_set_foreground (text_view->gc, &w->style->fg [idx]);
+		gdk_draw_string (drawable, text_view->font, text_view->gc,
+				 x1 + xoff, y2 - text_view->font->descent, str);
 	}
 }
 
@@ -152,12 +157,13 @@ e_cell_text_class_init (GtkObjectClass *object_class)
 E_MAKE_TYPE(e_cell_text, "ECellText", ECellText, e_cell_text_class_init, NULL, PARENT_TYPE);
 
 ECell *
-e_cell_text_new (const char *fontname, GtkJustification justify)
+e_cell_text_new (ETableModel *etm, const char *fontname, GtkJustification justify)
 {
 	ECellText *ect = gtk_type_new (e_cell_text_get_type ());
 
 	ect->font_name = g_strdup (fontname);
 	ect->justify = justify;
-
+	E_CELL (ect)->table_model = etm;
+      
 	return (ECell *) ect;
 }
