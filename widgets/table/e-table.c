@@ -1124,6 +1124,10 @@ table_canvas_focus_event_cb (GtkWidget *widget, GdkEventFocus *event, gpointer d
 		gnome_canvas_item_grab_focus (etable->click_to_add);
 	} else if (!canvas->focused_item && etable->group) {
         	focus_first_etable_item (etable->group);
+	} else if (canvas->focused_item) {
+		ESelectionModel *selection = (ESelectionModel *)etable->selection;
+		if (e_selection_model_cursor_row (selection) == -1)
+			focus_first_etable_item (etable->group);
 	}
 
 	return TRUE;
