@@ -1,3 +1,13 @@
+2001-04-18  Ettore Perazzoli  <ettore@ximian.com>
+
+	* src/libical/Makefile.am (COMBINEDHEADERS): Shouldn't prepend
+	`$(top_builddir)/src/libical' to `icalderivedvalue.h',
+	`icalderivedparameter.h', `icalderivedproperty.h' here, that
+	confuses the dependencies for make.
+
+	* src/libical/Makefile.am (ical.h): Depend on
+	`$(COMBINEDHEADERS)', not `$(BUILT_SOURCES)'.
+
 2001-04-01  Eric Busboom  <eric@softwarestudio.org>
 
 	* icalcomponent.h Changed meaning of

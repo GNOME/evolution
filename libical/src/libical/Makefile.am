@@ -2,7 +2,7 @@
 #  FILE: Makefile.am
 #  CREATOR: eric 
 #  
-#  $Id: Makefile.am,v 1.27 2001/04/17 17:54:44 jpr Exp $
+#  $Id: Makefile.am,v 1.28 2001/04/18 15:00:51 ettore Exp $
 #
 #
 # (C) COPYRIGHT 2000, Eric Busboom, http://www.softwarestudio.org
@@ -110,11 +110,11 @@ COMBINEDHEADERS =					\
 	$(top_srcdir)/src/libical/icalenums.h		\
 	$(top_srcdir)/src/libical/icaltypes.h		\
 	$(top_srcdir)/src/libical/icalrecur.h		\
-	$(top_builddir)/src/libical/icalderivedvalue.h	\
-	$(top_builddir)/src/libical/icalderivedparameter.h\
+	icalderivedvalue.h				\
+	icalderivedparameter.h				\
 	$(top_srcdir)/src/libical/icalvalue.h		\
 	$(top_srcdir)/src/libical/icalparameter.h	\
-	$(top_builddir)/src/libical/icalderivedproperty.h\
+	icalderivedproperty.h				\
 	$(top_srcdir)/src/libical/icalproperty.h	\
 	$(top_srcdir)/src/libical/icalattendee.h	\
 	$(top_srcdir)/src/libical/pvl.h			\
@@ -137,7 +137,7 @@ BUILT_SOURCES =			\
 	icalderivedvalue.c	\
 	icalderivedvalue.h
 
-ical.h: $(BUILT_SOURCES)
+ical.h: $(COMBINEDHEADERS)
 	cat $(COMBINEDHEADERS)				\
 	| egrep -v "#include.*\"ical"			\
 	| egrep -v "#include.*\"pvl\.h\"" > ical.h
@@ -195,7 +195,7 @@ icalrestriction.c: $(RESTRICTIONDEPS)
 VALUEDEPS =					\
 	$(ICALSCRIPTS)/mkderivedvalues.pl  	\
 	$(DESIGNDATA)/value-types.csv		\
-	icalderivedvalue.c.in				\
+	icalderivedvalue.c.in			\
 	icalderivedvalue.h.in
 
 icalderivedvalue.h: $(VALUEDEPS)
