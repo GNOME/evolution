@@ -7,6 +7,8 @@ Bugzilla bugs fixed (see http://bugzilla.ximian.com/show_bug.cgi):
 
     #37351 - Contact List drag-n-drop broken from sorted list view. (Toshok)
     #40954 - Wombat crashes when opening an appointment. (Toshok)
+    #41843 - Don't use localized field names in the csv exporter. (Gilbert Fang)
+    #41779 - Fix crash when adding emails to existing contacts. (Toshok)
 
   * Mail
 
