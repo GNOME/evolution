@@ -156,8 +156,9 @@ enum _GpgCtxMode {
 };
 
 enum _GpgTrustMetric {
-	GPG_TRUST_UNKNOWN,
+	GPG_TRUST_NONE,
 	GPG_TRUST_NEVER,
+	GPG_TRUST_UNDEFINED,
 	GPG_TRUST_MARGINAL,
 	GPG_TRUST_FULLY,
 	GPG_TRUST_ULTIMATE
@@ -260,7 +261,7 @@ gpg_ctx_new (CamelSession *session)
 	gpg->passwd = NULL;
 	
 	gpg->validsig = FALSE;
-	gpg->trust = GPG_TRUST_UNKNOWN;
+	gpg->trust = GPG_TRUST_NONE;
 	
 	gpg->istream = NULL;
 	gpg->ostream = NULL;
@@ -832,6 +833,8 @@ gpg_ctx_parse_status (struct _GpgCtx *gpg, CamelException *ex)
 					gpg->trust = GPG_TRUST_FULLY;
 				} else if (!strncmp (status, "ULTIMATE", 8)) {
 					gpg->trust = GPG_TRUST_ULTIMATE;
+				} else if (!strncmp (status, "UNDEFINED", 9)) {
+					gpg->trust = GPG_TRUST_UNDEFINED;
 				}
 			} else if (!strncmp (status, "VALIDSIG", 8)) {
 				gpg->validsig = TRUE;
@@ -1440,6 +1443,7 @@ gpg_verify (CamelCipherContext *context, CamelMimePart *ipart, CamelException *e
 	diagnostics = gpg_ctx_get_diagnostics (gpg);
 	camel_cipher_validity_set_valid (validity, valid);
 	camel_cipher_validity_set_description (validity, diagnostics);
+	validity->sign.trust = gpg->trust;
 	gpg_ctx_free (gpg);
 	
 	if (sigfile) {

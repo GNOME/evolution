@@ -1,3 +1,9 @@
+2004-02-17  Jeffrey Stedfast  <fejj@ximian.com>
+
+	* camel-gpg-context.c (gpg_verify): Set the trust.
+
+	* camel-cipher-context.h: Add a trust metric to signatures.
+
 2004-02-17  Not Zed  <NotZed@Ximian.com>
 
 	* camel-vee-store.c (vee_sync): implment, make sync a noop on vee
