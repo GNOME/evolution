@@ -198,7 +198,7 @@ is_citation (const unsigned char *c, gboolean saw_citation)
 char *
 e_text_to_html_full (const char *input, unsigned int flags, guint32 color)
 {
-	const unsigned char *cur, *linestart;
+	const unsigned char *cur, *next, *linestart;
 	char *buffer = NULL;
 	char *out = NULL;
 	int buffer_size = 0, col;
@@ -214,7 +214,7 @@ e_text_to_html_full (const char *input, unsigned int flags, guint32 color)
 
 	col = 0;
 
-	for (cur = linestart = input; cur && *cur; cur = g_utf8_next_char (cur)) {
+	for (cur = linestart = input; cur && *cur; cur = next) {
 		gunichar u;
 
 		if (flags & E_TEXT_TO_HTML_MARK_CITATION && col == 0) {
@@ -309,7 +309,9 @@ e_text_to_html_full (const char *input, unsigned int flags, guint32 color)
 			 * Assume it's iso-8859-1.
 			 */
 			u = *cur;
-		}
+			next = cur + 1;
+		} else
+			next = g_utf8_next_char (cur);
 
 		out = check_size (&buffer, &buffer_size, out, 10);
 
