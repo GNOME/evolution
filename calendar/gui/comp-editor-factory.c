@@ -347,33 +347,53 @@ edit_existing (OpenClient *oc, const char *uid)
  * type.
  */
 static CalComponent *
-get_default_component (CalComponentVType vtype)
+get_default_event (gboolean all_day) 
 {
 	CalComponent *comp;
+	struct icaltimetype itt;
+	CalComponentDateTime dt;
+	char *location;
+	icaltimezone *zone;
 
-	if (vtype == CAL_COMPONENT_EVENT) {
-		struct icaltimetype itt;
-		CalComponentDateTime dt;
-		char *location;
-		icaltimezone *zone;
+	comp = cal_comp_event_new_with_defaults ();
 
-		comp = cal_comp_event_new_with_defaults ();
+	location = calendar_config_get_timezone ();
+	zone = icaltimezone_get_builtin_timezone (location);
 
+	if (all_day) {
 		itt = icaltime_today ();
 
 		dt.value = &itt;
-		location = calendar_config_get_timezone ();
-		zone = icaltimezone_get_builtin_timezone (location);
 		dt.tzid = icaltimezone_get_tzid (zone);
-
+		
 		cal_component_set_dtstart (comp, &dt);
-		cal_component_set_dtend (comp, &dt);
-
-		cal_component_commit_sequence (comp);
+		cal_component_set_dtend (comp, &dt);		
 	} else {
-		comp = cal_component_new ();
-		cal_component_set_new_vtype (comp, vtype);
+		itt = icaltime_current_time_with_zone (zone);
+		itt.hour++;
+		itt.minute = 0;
+		itt.second = 0;
+		
+		dt.value = &itt;
+		dt.tzid = icaltimezone_get_tzid (zone);
+		
+		cal_component_set_dtstart (comp, &dt);
+		itt.hour++;
+		cal_component_set_dtend (comp, &dt);
 	}
+
+	cal_component_commit_sequence (comp);
+
+	return comp;
+}
+
+static CalComponent *
+get_default_task (void)
+{
+	CalComponent *comp;
+	
+	comp = cal_component_new ();
+	cal_component_set_new_vtype (comp, CAL_COMPONENT_TODO);
 
 	return comp;
 }
@@ -385,24 +405,25 @@ edit_new (OpenClient *oc, const GNOME_Evolution_Calendar_CompEditorFactory_CompE
 	CalComponent *comp;
 	Component *c;
 	CompEditor *editor;
-	CalComponentVType vtype;
 	
 	switch (type) {
 	case GNOME_Evolution_Calendar_CompEditorFactory_EDITOR_MODE_EVENT:
 	case GNOME_Evolution_Calendar_CompEditorFactory_EDITOR_MODE_MEETING:
 		editor = COMP_EDITOR (event_editor_new ());
-		vtype = CAL_COMPONENT_EVENT;
+		comp = get_default_event (FALSE);
+		break;
+	case GNOME_Evolution_Calendar_CompEditorFactory_EDITOR_MODE_ALLDAY_EVENT:
+		editor = COMP_EDITOR (event_editor_new ());
+		comp = get_default_event (TRUE);
 		break;
 	case GNOME_Evolution_Calendar_CompEditorFactory_EDITOR_MODE_TODO:
 		editor = COMP_EDITOR (task_editor_new ());
-		vtype = CAL_COMPONENT_TODO;
+		comp = get_default_task ();
 		break;
 	default:
 		g_assert_not_reached ();
 		return;
 	}
-
-	comp = get_default_component (vtype);
 
 	c = g_new (Component, 1);
 	c->parent = oc;

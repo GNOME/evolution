@@ -1,3 +1,18 @@
+2002-03-14  JP Rosevear  <jpr@ximian.com>
+
+	* idl/evolution-calendar.idl: add all day event editor mode
+
+	* gui/component-factory.c: clean up exception handling
+	(sc_user_create_new_item_cb): support the all day event id
+	(create_object): add a user creatable all day appointment item
+
+	* gui/comp-editor-factory.c (get_default_event): get a default
+	event either all day or starting at the top of the hour
+	(get_default_task): get a default task
+	(edit_new): support the all day event mode
+
+	* gui/calendar-commands.c: remove unused functions/verbs
+
 2002-03-13  Ettore Perazzoli  <ettore@ximian.com>
 
 	* gui/GNOME_Evolution_Calendar.oaf.in: Add an

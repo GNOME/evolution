@@ -32,6 +32,7 @@
 
 #include <bonobo/bonobo-generic-factory.h>
 #include <bonobo/bonobo-context.h>
+#include <bonobo/bonobo-exception.h>
 #include "evolution-shell-component.h"
 #include "calendar-offline-handler.h"
 #include "component-factory.h"
@@ -53,6 +54,7 @@
 
 /* IDs for user creatable items */
 #define CREATE_EVENT_ID "event"
+#define CREATE_ALLDAY_EVENT_ID "allday-event"
 #define CREATE_MEETING_ID "meeting"
 #define CREATE_TASK_ID "task"
 
@@ -157,7 +159,7 @@ stop_alarms (GnomeVFSURI *uri)
 	CORBA_exception_init (&ev);
 	an = oaf_activate_from_id ("OAFIID:GNOME_Evolution_Calendar_AlarmNotify", 0, NULL, &ev);
 
-	if (ev._major != CORBA_NO_EXCEPTION) {
+	if (BONOBO_EX (&ev)) {
 		g_message ("stop_alarms(): Could not activate the alarm notification service");
 		CORBA_exception_free (&ev);
 		return;
@@ -173,28 +175,22 @@ stop_alarms (GnomeVFSURI *uri)
 	GNOME_Evolution_Calendar_AlarmNotify_removeCalendar (an, str_uri, &ev);
 	g_free (str_uri);
 
-	if (ev._major == CORBA_USER_EXCEPTION) {
-		char *ex_id;
-
-		ex_id = CORBA_exception_id (&ev);
-		if (strcmp (ex_id, ex_GNOME_Evolution_Calendar_AlarmNotify_InvalidURI) == 0)
-			g_message ("stop_alarms(): Invalid URI reported from the "
-				   "alarm notification service");
-		else if (strcmp (ex_id, ex_GNOME_Evolution_Calendar_AlarmNotify_NotFound) == 0) {
-			/* This is OK; the service may not have loaded that calendar */
-		}
-	} else if (ev._major != CORBA_NO_EXCEPTION)
+	if (BONOBO_USER_EX (&ev, ex_GNOME_Evolution_Calendar_AlarmNotify_InvalidURI)) {
+		g_message ("stop_alarms(): Invalid URI reported from the alarm notification service");
+	} else if (BONOBO_USER_EX (&ev, ex_GNOME_Evolution_Calendar_AlarmNotify_NotFound)) {
+		/* This is OK; the service may not have loaded that calendar */
+	} else if (BONOBO_EX (&ev)) {
 		g_message ("stop_alarms(): Could not issue the removeCalendar request");
-
+	}
+	
 	CORBA_exception_free (&ev);
 
 	/* Get rid of the service */
 
 	CORBA_exception_init (&ev);
 	bonobo_object_release_unref (an, &ev);
-	if (ev._major != CORBA_NO_EXCEPTION)
+	if (BONOBO_EX (&ev))
 		g_message ("stop_alarms(): Could not unref the alarm notification service");
-
 	CORBA_exception_free (&ev);
 }
 
@@ -218,7 +214,7 @@ remove_folder (EvolutionShellComponent *shell_component,
 			GNOME_Evolution_ShellComponentListener_UNSUPPORTED_TYPE,
 			&ev);
 
-		if (ev._major != CORBA_NO_EXCEPTION)
+		if (BONOBO_EX (&ev))
 			g_message ("remove_folder(): Could not notify the listener of "
 				   "an unsupported folder type");
 
@@ -264,7 +260,7 @@ remove_folder (EvolutionShellComponent *shell_component,
 			GNOME_Evolution_ShellComponentListener_INVALID_URI,
 			&ev);
 
-		if (ev._major != CORBA_NO_EXCEPTION)
+		if (BONOBO_EX (&ev))
 			g_message ("remove_folder(): Could not notify the listener "
 				   "of an invalid URI");
 
@@ -292,7 +288,7 @@ remove_folder (EvolutionShellComponent *shell_component,
 			GNOME_Evolution_ShellComponentListener_OK,
 			&ev);
 
-		if (ev._major != CORBA_NO_EXCEPTION)
+		if (BONOBO_EX (&ev))
 			g_message ("remove_folder(): Could not notify the listener about success");
 
 		CORBA_exception_free (&ev);
@@ -305,7 +301,7 @@ remove_folder (EvolutionShellComponent *shell_component,
 			GNOME_Evolution_ShellComponentListener_PERMISSION_DENIED,
 			&ev);
 
-		if (ev._major != CORBA_NO_EXCEPTION)
+		if (BONOBO_EX (&ev))
 			g_message ("remove_folder(): Could not notify the listener about failure");
 
 		CORBA_exception_free (&ev);
@@ -540,6 +536,7 @@ create_component (const char *uri, GNOME_Evolution_Calendar_CompEditorFactory_Co
 
 	switch (type) {
 	case GNOME_Evolution_Calendar_CompEditorFactory_EDITOR_MODE_EVENT:
+	case GNOME_Evolution_Calendar_CompEditorFactory_EDITOR_MODE_ALLDAY_EVENT:
 	case GNOME_Evolution_Calendar_CompEditorFactory_EDITOR_MODE_MEETING:
 		vtype = CAL_COMPONENT_EVENT;
 		break;
@@ -559,7 +556,7 @@ create_component (const char *uri, GNOME_Evolution_Calendar_CompEditorFactory_Co
 	factory = oaf_activate_from_id ("OAFIID:GNOME_Evolution_Calendar_CompEditorFactory",
 					0, NULL, &ev);
 
-	if (ev._major != CORBA_NO_EXCEPTION) {
+	if (BONOBO_EX (&ev)) {
 		g_message ("create_component(): Could not activate the component editor factory");
 		CORBA_exception_free (&ev);
 		g_free (real_uri);
@@ -572,7 +569,7 @@ create_component (const char *uri, GNOME_Evolution_Calendar_CompEditorFactory_Co
 	CORBA_exception_init (&ev);
 	GNOME_Evolution_Calendar_CompEditorFactory_editNew (factory, real_uri, type, &ev);
 
-	if (ev._major != CORBA_NO_EXCEPTION)
+	if (BONOBO_EX (&ev))
 		g_message ("create_component(): Exception while creating the component");
 
 	CORBA_exception_free (&ev);
@@ -582,7 +579,7 @@ create_component (const char *uri, GNOME_Evolution_Calendar_CompEditorFactory_Co
 
 	CORBA_exception_init (&ev);
 	bonobo_object_release_unref (factory, &ev);
-	if (ev._major != CORBA_NO_EXCEPTION)
+	if (BONOBO_EX (&ev))
 		g_message ("create_component(): Could not unref the calendar component factory");
 
 	CORBA_exception_free (&ev);
@@ -602,6 +599,13 @@ sc_user_create_new_item_cb (EvolutionShellComponent *shell_component,
 		else
 			create_component (NULL,
 					  GNOME_Evolution_Calendar_CompEditorFactory_EDITOR_MODE_EVENT);
+ 	} else if (strcmp (id, CREATE_ALLDAY_EVENT_ID) == 0) {
+		if (strcmp (parent_folder_type, FOLDER_CALENDAR) == 0)
+			create_component (parent_folder_physical_uri, 
+					  GNOME_Evolution_Calendar_CompEditorFactory_EDITOR_MODE_ALLDAY_EVENT);
+		else
+			create_component (NULL,
+					  GNOME_Evolution_Calendar_CompEditorFactory_EDITOR_MODE_ALLDAY_EVENT);
 	} else if (strcmp (id, CREATE_MEETING_ID) == 0) {
 		if (strcmp (parent_folder_type, FOLDER_CALENDAR) == 0)
 			create_component (parent_folder_physical_uri,
@@ -689,6 +693,10 @@ create_object (void)
 	add_creatable_item (shell_component, CREATE_TASK_ID,
 			    _("New task"), _("_Task"),
 			    't', "new_task-16.png");
+
+	add_creatable_item (shell_component, CREATE_ALLDAY_EVENT_ID,
+			    _("New All Day Appointment"), _("All _Day Appointment"),
+			    'd', "new_all_day_event.png");
 
 	add_creatable_item (shell_component, CREATE_EVENT_ID,
 			    _("New appointment"), _("_Appointment"),
