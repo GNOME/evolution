@@ -1,3 +1,11 @@
+2001-08-14  Dan Winship  <danw@ximian.com>
+
+	* evolution-storage.c (evolution_storage_new_folder): Use the
+	passed-in unread_count.
+
+	* e-corba-storage.c (impl_StorageListener_notifyFolderCreated):
+	Pass the passed-in unread_count to e_storage_new_folder.
+
 2001-08-13  Ettore Perazzoli  <ettore@ximian.com>
 
 	* e-gray-bar.c (impl_style_set): Chain to the parent class.

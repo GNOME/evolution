@@ -826,7 +826,7 @@ evolution_storage_new_folder (EvolutionStorage *evolution_storage,
 	corba_folder->description  = CORBA_string_dup (description);
 	corba_folder->type         = CORBA_string_dup (type);
 	corba_folder->physical_uri = CORBA_string_dup (physical_uri);
-	corba_folder->unread_count = 0;
+	corba_folder->unread_count = unread_count;
 
 	if (! e_folder_tree_add (priv->folder_tree, path, corba_folder)) {
 		CORBA_free (corba_folder);
