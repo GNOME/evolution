@@ -1,3 +1,15 @@
+2000-12-28  Chris Toshok  <toshok@helixcode.com>
+
+	* gui/component/Makefile.am (evolution_addressbook_SOURCES): add
+	addressbook-config.[ch].
+
+	* gui/component/addressbook-config.c,
+	gui/component/addressbook-config.h: new files, containing at the
+	moment a beautiful "new/edit source dialog" inspired by the
+	mail-config-gui code.  It'll be ready for prime time after rev'ing
+	the .xml file the addressbook uses to store it's "other sources"
+	to include files, and the addition of the ldap auth stuff.
+
 2000-12-25  Miguel de Icaza  <miguel@helixcode.com>
 
 	* gui/widgets/e-minicard.c (e_minicard_realize): Set draw

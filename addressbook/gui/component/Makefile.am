@@ -28,6 +28,8 @@ bin_PROGRAMS =	\
 evolution_addressbook_SOURCES = 	\
 	addressbook-component.c		\
 	addressbook-component.h		\
+	addressbook-config.c		\
+	addressbook-config.h		\
 	addressbook-factory.c		\
 	addressbook.c			\
 	addressbook.h			\
