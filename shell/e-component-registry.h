@@ -1,7 +1,7 @@
 /* -*- Mode: C; indent-tabs-mode: t; c-basic-offset: 8; tab-width: 8 -*- */
 /* e-component-registry.h
  *
- * Copyright (C) 2000  Ximian, Inc.
+ * Copyright (C) 2000, 2003  Ximian, Inc.
  *
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of version 2 of the GNU General Public
@@ -23,26 +23,29 @@
 #ifndef __E_COMPONENT_REGISTRY_H__
 #define __E_COMPONENT_REGISTRY_H__
 
-#include <gtk/gtkobject.h>
+
+#include "Evolution.h"
+
+#include <glib-object.h>
+#include <gdk-pixbuf/gdk-pixbuf.h>
+
 
 #ifdef __cplusplus
 extern "C" {
 #pragma }
 #endif /* __cplusplus */
 
-#define E_TYPE_COMPONENT_REGISTRY             (e_component_registry_get_type ())
-#define E_COMPONENT_REGISTRY(obj)             (GTK_CHECK_CAST ((obj), E_TYPE_COMPONENT_REGISTRY, EComponentRegistry))
-#define E_COMPONENT_REGISTRY_CLASS(klass)     (GTK_CHECK_CLASS_CAST ((klass), E_TYPE_COMPONENT_REGISTRY, EComponentRegistryClass))
-#define E_IS_COMPONENT_REGISTRY(obj)          (GTK_CHECK_TYPE ((obj), E_TYPE_COMPONENT_REGISTRY))
-#define E_IS_COMPONENT_REGISTRY_CLASS(klass)  (GTK_CHECK_CLASS_TYPE ((obj), E_TYPE_COMPONENT_REGISTRY))
 
-
+#define E_TYPE_COMPONENT_REGISTRY		(e_component_registry_get_type ())
+#define E_COMPONENT_REGISTRY(obj)		(G_TYPE_CHECK_INSTANCE_CAST ((obj), E_TYPE_COMPONENT_REGISTRY, EComponentRegistry))
+#define E_COMPONENT_REGISTRY_CLASS(klass)	(G_TYPE_CHECK_CLASS_CAST ((klass), E_TYPE_COMPONENT_REGISTRY, EComponentRegistryClass))
+#define E_IS_COMPONENT_REGISTRY(obj)		(G_TYPE_CHECK_INSTANCE_TYPE ((obj), E_TYPE_COMPONENT_REGISTRY))
+#define E_IS_COMPONENT_REGISTRY_CLASS(klass)	(G_TYPE_CHECK_CLASS_TYPE ((obj), E_TYPE_COMPONENT_REGISTRY))
+
+
 typedef struct _EComponentRegistry        EComponentRegistry;
 typedef struct _EComponentRegistryPrivate EComponentRegistryPrivate;
 typedef struct _EComponentRegistryClass   EComponentRegistryClass;
-
-#include "e-shell.h"
-#include "evolution-shell-component-client.h"
 
 struct _EComponentRegistry {
 	GObject parent;
@@ -54,24 +57,31 @@ struct _EComponentRegistryClass {
 	GObjectClass parent_class;
 };
 
-
-GtkType                        e_component_registry_get_type             (void);
-void                           e_component_registry_construct            (EComponentRegistry *component_registry,
-									  EShell             *shell);
-EComponentRegistry            *e_component_registry_new                  (EShell             *shell);
 
-gboolean                       e_component_registry_register_component   (EComponentRegistry *component_registry,
-									  const char         *id,
-									  CORBA_Environment  *ev);
+struct _EComponentInfo {
+	char *id;
 
-GList                         *e_component_registry_get_id_list          (EComponentRegistry *component_registry);
+	/* NULL if not activated.  */
+	GNOME_Evolution_Component iface;
 
-EvolutionShellComponentClient *e_component_registry_get_component_by_id  (EComponentRegistry *component_registry,
-									  const char         *id);
+	char *button_label;
+	GdkPixbuf *button_icon;
 
-EvolutionShellComponentClient *e_component_registry_restart_component  (EComponentRegistry *component_registry,
-									const char         *id,
-									CORBA_Environment  *ev);
+	int sort_order;
+};
+typedef struct _EComponentInfo EComponentInfo;
+
+
+GType               e_component_registry_get_type  (void);
+EComponentRegistry *e_component_registry_new       (void);
+
+GSList                    *e_component_registry_peek_list  (EComponentRegistry *registry);
+EComponentInfo            *e_component_registry_peek_info  (EComponentRegistry *registry,
+							    const char         *id);
+GNOME_Evolution_Component  e_component_registry_activate   (EComponentRegistry *registry,
+							    const char         *id,
+							    CORBA_Environment  *ev);
+
 
 #ifdef __cplusplus
 }

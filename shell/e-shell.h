@@ -37,9 +37,10 @@ typedef struct _EShellClass   EShellClass;
 
 #include "Evolution.h"
 
+#include "e-component-registry.h"
 #include "e-shell-user-creatable-items-handler.h"
-#include "e-uri-schema-registry.h"
 #include "e-shell-window.h"
+#include "e-uri-schema-registry.h"
 
 
 #define E_TYPE_SHELL			(e_shell_get_type ())
@@ -106,13 +107,11 @@ gboolean      e_shell_request_close_window  (EShell       *shell,
 					     EShellWindow *window);
 
 
-EUriSchemaRegistry  *e_shell_get_uri_schema_registry   (EShell          *shell);
+EUriSchemaRegistry *e_shell_peek_uri_schema_registry  (EShell *shell);
+EComponentRegistry *e_shell_peek_component_registry   (EShell *shell);
 
-gboolean             e_shell_save_settings             (EShell          *shell);
-
-void                 e_shell_close_all_windows         (EShell          *shell);
-
-void                 e_shell_unregister_all            (EShell          *shell);
+gboolean            e_shell_save_settings            (EShell *shell);
+void                e_shell_close_all_windows        (EShell *shell);
 
 EShellLineStatus  e_shell_get_line_status  (EShell       *shell);
 void              e_shell_go_offline       (EShell       *shell,
@@ -120,22 +119,16 @@ void              e_shell_go_offline       (EShell       *shell,
 void              e_shell_go_online        (EShell       *shell,
 					    EShellWindow *action_window);
 
-void e_shell_show_settings (EShell     *shell,
-			    const char *type,
-			    EShellWindow *shell_window);
+void  e_shell_show_settings  (EShell       *shell,
+			      const char   *type,
+			      EShellWindow *shell_window);
 
 EShellUserCreatableItemsHandler *e_shell_get_user_creatable_items_handler  (EShell *shell);
 
 gboolean e_shell_prepare_for_quit (EShell *shell);
 
-
 const char *e_shell_construct_result_to_string (EShellConstructResult result);
 
-
-gboolean  e_shell_parse_uri  (EShell      *shell,
-			      const char  *uri,
-			      char       **path_return,
-			      char       **extra_return);
 
 #ifdef __cplusplus
 }

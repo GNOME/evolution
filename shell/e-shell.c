@@ -56,6 +56,7 @@
 #include <gdk/gdkprivate.h>
 #include <X11/Xlib.h>
 
+#include <bonobo-activation/bonobo-activation.h>
 #include <bonobo/bonobo-exception.h>
 #include <bonobo/bonobo-moniker-util.h>
 
@@ -78,6 +79,7 @@ struct _EShellPrivate {
 	GList *windows;
 
 	EUriSchemaRegistry *uri_schema_registry;
+	EComponentRegistry *component_registry;
 
 	/* Names for the types of the folders that have maybe crashed.  */
 	/* FIXME TODO */
@@ -284,78 +286,6 @@ impl_Shell_setLineStatus (PortableServer_Servant servant,
 }
 
 
-/* Initialization of the components.  */
-
-static void
-setup_components (EShell *shell)
-{
-	EShellPrivate *priv;
-	char *const selection_order[] = { "0-evolution:shell_component_launch_order", NULL };
-	Bonobo_ServerInfoList *info_list;
-	CORBA_Environment ev;
-	int i;
-
-	CORBA_exception_init (&ev);
-
-	priv = shell->priv;
-
-#if 0				/* FIXME */
-	info_list = bonobo_activation_query ("repo_ids.has ('IDL:GNOME/Evolution/ShellComponent:1.0')", selection_order, &ev);
-
-	if (ev._major != CORBA_NO_EXCEPTION)
-		g_error ("Eeek!  Cannot perform OAF query for Evolution components.");
-
-	if (info_list->_length == 0)
-		g_warning ("No Evolution components installed.");
-
-	for (i = 0; i < info_list->_length; i++) {
-		const Bonobo_ServerInfo *info;
-		GdkPixbuf *icon_pixbuf;
-		char *icon_path;
-
-		info = info_list->_buffer + i;
-
-		icon_path = get_icon_path_for_component_info (info);
-
-		icon_pixbuf = gdk_pixbuf_new_from_file (icon_path, NULL);
-
-		if (splash != NULL)
-			e_splash_add_icon (splash, icon_pixbuf);
-
-		g_object_unref (icon_pixbuf);
-
-		g_free (icon_path);
-	}
-
-	while (gtk_events_pending ())
-		gtk_main_iteration ();
-
-	for (i = 0; i < info_list->_length; i++) {
-		const Bonobo_ServerInfo *info;
-		CORBA_Environment ev;
-
-		info = info_list->_buffer + i;
-
-		CORBA_exception_init (&ev);
-
-		if (! e_component_registry_register_component (priv->component_registry, info->iid, &ev))
-			pop_up_activation_error_dialog (splash, info->iid, &ev);
-
-		CORBA_exception_free (&ev);
-
-		if (splash != NULL)
-			e_splash_set_icon_highlight (splash, i, TRUE);
-
-		while (gtk_events_pending ())
-			gtk_main_iteration ();
-	}
-	CORBA_free (info_list);
-#endif
-
-	CORBA_exception_free (&ev);
-}
-
-
 /* EShellWindow handling and bookkeeping.  */
 
 static int
@@ -553,18 +483,9 @@ e_shell_init (EShell *shell)
 {
 	EShellPrivate *priv;
 
-	priv = g_new (EShellPrivate, 1);
-
-	priv->windows = NULL;
-
-	priv->iid                          = NULL;
-	priv->uri_schema_registry          = NULL;
-	priv->crash_type_names             = NULL;
-	priv->line_status                  = E_SHELL_LINE_STATUS_OFFLINE;
-	priv->settings_dialog              = NULL;
-	priv->is_initialized               = FALSE;
-	priv->is_interactive               = FALSE;
-	priv->preparing_to_quit            = FALSE;
+	priv = g_new0 (EShellPrivate, 1);
+	priv->line_status = E_SHELL_LINE_STATUS_OFFLINE;
+	priv->component_registry = e_component_registry_new ();
 
 	shell->priv = priv;
 }
@@ -611,15 +532,11 @@ e_shell_construct (EShell *shell,
 	while (gtk_events_pending ())
 		gtk_main_iteration ();
 	
-	setup_components (shell);
-	
 	if (splash)
 		gtk_widget_destroy (splash);
 	
 	if (e_shell_startup_wizard_create () == FALSE) {
-		e_shell_unregister_all (shell);
 		bonobo_object_unref (BONOBO_OBJECT (shell));
-
 		exit (0);
 	}
 
@@ -743,7 +660,7 @@ e_shell_request_close_window (EShell *shell,
 
 
 /**
- * e_shell_get_uri_schema_registry:
+ * e_shell_peek_uri_schema_registry:
  * @shell: An EShell object.
  * 
  * Get the schema registry associated to @shell.
@@ -751,12 +668,27 @@ e_shell_request_close_window (EShell *shell,
  * Return value: A pointer to the EUriSchemaRegistry associated to @shell.
  **/
 EUriSchemaRegistry  *
-e_shell_get_uri_schema_registry (EShell *shell)
+e_shell_peek_uri_schema_registry (EShell *shell)
 {
-	g_return_val_if_fail (shell != NULL, NULL);
 	g_return_val_if_fail (E_IS_SHELL (shell), NULL);
 
 	return shell->priv->uri_schema_registry;
+}
+
+/**
+ * e_shell_peek_component_registry:
+ * @shell: 
+ * 
+ * Get the component registry associated to @shell.
+ * 
+ * Return value: 
+ **/
+EComponentRegistry *
+e_shell_peek_component_registry (EShell *shell)
+{
+	g_return_val_if_fail (E_IS_SHELL (shell), NULL);
+
+	return shell->priv->component_registry;
 }
 
 
@@ -964,22 +896,6 @@ e_shell_get_user_creatable_items_handler (EShell *shell)
 }
 
 
-/* FIXME: These are ugly hacks, they really should not be needed.  */
-
-void
-e_shell_unregister_all (EShell *shell)
-{
-	EShellPrivate *priv;
-
-	g_return_if_fail (E_IS_SHELL (shell));
-
-	/* FIXME: This really really sucks.  */
-
-	priv = shell->priv;
-	priv->is_initialized = FALSE;
-}
-
-
 const char *
 e_shell_construct_result_to_string (EShellConstructResult result)
 {
@@ -1057,115 +973,6 @@ e_shell_prepare_for_quit (EShell *shell)
 	e_free_string_list (component_ids);
 	return retval;
 #endif
-}
-
-
-/* URI parsing.   */
-
-static gboolean
-parse_default_uri (EShell *shell,
-		   const char *uri,
-		   char **path_return,
-		   char **extra_return)
-{
-	GConfClient *client;
-	const char *component_start;
-	char *component;
-	const char *p;
-	char *config_path;
-	char *path;
-
-	component_start = uri + E_SHELL_DEFAULTURI_PREFIX_LEN;
-	p = strchr (uri, '#');
-
-	if (p == NULL)
-		component = g_strdup (component_start);
-	else
-		component = g_strndup (component_start, p - component_start);
-
-	if (strchr (component, '/') != NULL) {
-		g_free (component);
-		return FALSE;
-	}
-
-	client = gconf_client_get_default ();
-
-	config_path = g_strdup_printf ("/apps/evolution/shell/default_folders/%s_path", component);
-	path = gconf_client_get_string (client, config_path, NULL);
-	g_object_unref (client);
-	g_free (component);
-	g_free (config_path);
-
-	/* We expect an evolution: URI here, if we don't get it then something
-	   is messed up.  */
-	if (path == NULL || strncmp (path, E_SHELL_URI_PREFIX, E_SHELL_URI_PREFIX_LEN) != 0) {
-		g_free (path);
-		if (path_return != NULL)
-			*path_return = NULL;
-		if (extra_return != NULL)
-			*extra_return = NULL;
-		return FALSE;
-	}
-
-	if (path_return != NULL)
-		*path_return = g_strdup (path + E_SHELL_URI_PREFIX_LEN);
-
-	if (extra_return != NULL) {
-		if (p == NULL)
-			*extra_return = NULL;
-		else
-			*extra_return = g_strdup (p + 1);
-	}
-
-	g_free (path);
-	return TRUE;
-}
-
-static gboolean
-parse_evolution_uri (EShell *shell,
-		     const char *uri,
-		     char **path_return,
-		     char **extra_return)
-{
-	const char *path_start;
-	const char *p;
-
-	path_start = uri + E_SHELL_URI_PREFIX_LEN;
-	p = strchr (path_start, '#');
-
-	if (p != NULL && path_return != NULL)
-		*path_return = g_strndup (path_start, p - path_start);
-	else
-		*path_return = g_strdup (path_start);
-
-	if (extra_return != NULL) {
-		if (p == NULL)
-			*extra_return = NULL;
-		else
-			*extra_return = g_strdup (p + 1);
-	}
-
-	return TRUE;
-}
-
-gboolean
-e_shell_parse_uri (EShell *shell,
-		   const char *uri,
-		   char **path_return,
-		   char **extra_return)
-{
-	g_return_val_if_fail (uri != NULL, FALSE);
-
-	if (strncmp (uri, E_SHELL_DEFAULTURI_PREFIX, E_SHELL_DEFAULTURI_PREFIX_LEN) == 0)
-		return parse_default_uri (shell, uri, path_return, extra_return);
-
-	if (strncmp (uri, E_SHELL_URI_PREFIX, E_SHELL_URI_PREFIX_LEN) == 0)
-		return parse_evolution_uri (shell, uri, path_return, extra_return);
-
-	*path_return = NULL;
-	if (extra_return != NULL)
-		*extra_return =  NULL;
-	return FALSE;
 }
 
 

@@ -25,6 +25,8 @@
 #include "e-shell-window.h"
 
 #include "Evolution.h"
+
+#include "e-component-registry.h"
 #include "e-shell-window-commands.h"
 #include "e-sidebar.h"
 
@@ -56,8 +58,6 @@ static GtkWindowClass *parent_class = NULL;
 struct _ComponentView {
 	int button_id;
 	char *component_id;
-
-	GNOME_Evolution_Component component_iface;
 
 	GtkWidget *sidebar_widget;
 	GtkWidget *view_widget;
@@ -106,7 +106,6 @@ static void
 component_view_free (ComponentView *view)
 {
 	g_free (view->component_id);
-	bonobo_object_release_unref (view->component_iface, NULL);
 	g_free (view);
 }
 
@@ -150,6 +149,8 @@ init_view (EShellWindow *window,
 	   ComponentView *view)
 {
 	EShellWindowPrivate *priv = window->priv;
+	EComponentRegistry *registry = e_shell_peek_component_registry (window->priv->shell);
+	GNOME_Evolution_Component component_iface;
 	Bonobo_UIContainer container;
 	Bonobo_Control sidebar_control;
 	Bonobo_Control view_control;
@@ -157,7 +158,6 @@ init_view (EShellWindow *window,
 	int sidebar_notebook_page_num;
 	int view_notebook_page_num;
 
-	g_assert (view->component_iface == CORBA_OBJECT_NIL);
 	g_assert (view->view_widget == NULL);
 	g_assert (view->sidebar_widget == NULL);
 	g_assert (view->notebook_page_num == -1);
@@ -166,20 +166,18 @@ init_view (EShellWindow *window,
 
 	/* 1. Activate component.  (FIXME: Shouldn't do this here.)  */
 
-	view->component_iface = bonobo_activation_activate_from_id (view->component_id, 0, NULL, &ev);
-	if (BONOBO_EX (&ev) || view->component_iface == CORBA_OBJECT_NIL) {
+	component_iface = e_component_registry_activate (registry, view->component_id, &ev);
+	if (BONOBO_EX (&ev) || component_iface == CORBA_OBJECT_NIL) {
 		char *ex_text = bonobo_exception_get_text (&ev);
 		g_warning ("Cannot activate component  %s: %s", view->component_id, ex_text);
 		g_free (ex_text);
-
-		view->component_iface = CORBA_OBJECT_NIL;
 		CORBA_exception_free (&ev);
 		return;
 	}
 
 	/* 2. Set up view.  */
 
-	GNOME_Evolution_Component_createControls (view->component_iface, &sidebar_control, &view_control, &ev);
+	GNOME_Evolution_Component_createControls (component_iface, &sidebar_control, &view_control, &ev);
 	if (BONOBO_EX (&ev)) {
 		g_warning ("Cannot create view for %s", view->component_id);
 
@@ -187,9 +185,7 @@ init_view (EShellWindow *window,
 		   controls; if this fails something is really wrong in the component
 		   (e.g. methods not implemented)...  So handle it as if there was no
 		   component at all.  */
-		bonobo_object_release_unref (view->component_iface, NULL);
-		view->component_iface = CORBA_OBJECT_NIL;
-
+		bonobo_object_release_unref (component_iface, NULL);
 		CORBA_exception_free (&ev);
 		return;
 	}
@@ -226,6 +222,8 @@ init_view (EShellWindow *window,
 		component_view_deactivate (priv->current_view);
 	priv->current_view = view;
 	component_view_activate (view);
+
+	bonobo_object_release_unref (component_iface, NULL);
 }
 
 
@@ -272,12 +270,10 @@ static void
 setup_widgets (EShellWindow *window)
 {
 	EShellWindowPrivate *priv = window->priv;
-	GSList *language_list;
-	Bonobo_ServerInfoList *info_list;
-	CORBA_Environment ev;
+	EComponentRegistry *registry = e_shell_peek_component_registry (priv->shell);
 	GtkWidget *paned;
-	GtkWidget *button_box;
-	int i;
+	GSList *p;
+	int button_id;
 
 	paned = gtk_hpaned_new ();
 	bonobo_window_set_contents (BONOBO_WINDOW (window), paned);
@@ -299,41 +295,18 @@ setup_widgets (EShellWindow *window)
 
 	gtk_paned_set_position (GTK_PANED (paned), 200);
 
-	button_box = gtk_hbox_new (FALSE, 6);
+	button_id = 0;
+	for (p = e_component_registry_peek_list (registry); p != NULL; p = p->next) {
+		EComponentInfo *info = p->data;
+		ComponentView *view = component_view_new (info->id, button_id);
 
-	CORBA_exception_init (&ev);
+		window->priv->component_views = g_slist_prepend (window->priv->component_views, view);
+		e_sidebar_add_button (E_SIDEBAR (priv->sidebar), info->button_label, info->button_icon, button_id);
 
-	/* FIXME: Shouldn't be doing this here.  */
-
-	info_list = bonobo_activation_query ("repo_ids.has ('IDL:GNOME/Evolution/Component:1.0')", NULL, &ev);
-	if (BONOBO_EX (&ev)) {
-		char *ex_text = bonobo_exception_get_text (&ev);
-		g_warning ("Cannot query for components: %s\n", ex_text);
-		g_free (ex_text);
-		CORBA_exception_free (&ev);
-		return;
+		button_id ++;
 	}
-
-	language_list = e_get_language_list ();
-
-	for (i = 0; i < info_list->_length; i++) {
-		ComponentView *component_view = component_view_new (info_list->_buffer[i].iid, i);
-		const char *label = bonobo_server_info_prop_lookup (& info_list->_buffer[i],
-								    "evolution:button_label",
-								    language_list);
-
-		g_print ("component %s\n", info_list->_buffer[i].iid);
-		priv->component_views = g_slist_prepend (priv->component_views, component_view);
-
-		e_sidebar_add_button (E_SIDEBAR (priv->sidebar), label, NULL, component_view->button_id);
-	}
-
-	CORBA_free (info_list);
-	CORBA_exception_free (&ev);
 
 	gtk_widget_show_all (paned);
-
-	e_free_language_list (language_list);
 }
 
 

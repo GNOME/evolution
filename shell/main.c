@@ -145,12 +145,6 @@ no_windows_left_cb (EShell *shell, gpointer data)
 	quit_box = quit_box_new ();
 	g_object_add_weak_pointer (G_OBJECT (quit_box), (void **) &quit_box);
 
-	/* FIXME: This is wrong.  We should exit only when the shell is
-	   destroyed.  But refcounting is broken at present, so this is a
-	   reasonable workaround for now.  */
-
-	e_shell_unregister_all (shell);
-
 	bonobo_object_unref (BONOBO_OBJECT (shell));
 
 	if (quit_box != NULL)

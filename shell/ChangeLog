@@ -1,3 +1,27 @@
+2003-10-22  Ettore Perazzoli  <ettore@ximian.com>
+
+	* e-shell.c (struct _EShellPrivate): New member
+	"component_registry".
+	(e_shell_construct): Don't call e_shell_unregister_all().
+	(e_shell_unregister_all): Removed.
+	(e_shell_init): Use g_new0(), removed a bunch of NULL/FALSE
+	assignments.
+	(e_shell_init): Initialize the component_registry.
+	(e_shell_peek_uri_schema_registry): Rename from
+	e_shell_get_uri_schema_registry.
+	(e_shell_peek_component_registry): New.
+	(setup_components): Remove.
+	(e_shell_construct): Don't call.
+
+	* main.c (no_windows_left_cb): Don't call e_shell_unregister_all().
+
+	* e-shell.c (parse_default_uri): Removed.
+	(parse_evolution_uri): Removed.
+	(e_shell_parse_uri): Removed.
+
+	* e-component-info.c: Remove.
+	* e-component-info.h: Remove.
+
 2003-10-22  Jeffrey Stedfast  <fejj@ximian.com>
 
 	* e-storage-set-view.c (impl_tree_drag_data_received): Emit the
