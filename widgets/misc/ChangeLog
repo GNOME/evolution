@@ -1,3 +1,9 @@
+2001-08-09  Anna Marie Dirks <anna@ximian.com> 
+	* e-filter-bar.h : changed the E_FILTERBAR_RESET label from
+	"Show All" to "Clear" to alleviate confusion about whether
+	"Show All" means that hidden messages are also shown or not.
+	(See ximian bug #6743) 	
+
 2001-08-09  Federico Mena Quintero  <federico@ximian.com>
 
 	* e-calendar-item.c (e_calendar_item_destroy): Chain to the
