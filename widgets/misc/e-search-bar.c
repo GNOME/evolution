@@ -426,7 +426,7 @@ update_bonobo_menus (ESearchBar *esb)
 
 	xml = g_string_new ("<placeholder name=\"SearchBar\">");
 
-	append_xml_menu_item (xml, "FindNow", _("Find Now"), "ESearchBar:FindNow", "*Control*b");
+	append_xml_menu_item (xml, "FindNow", _("Find Now"), "ESearchBar:FindNow", NULL);
 	append_xml_menu_item (xml, "Clear", _("Clear"), "ESearchBar:Clear", "*Control**Shift*b");
 
 	for (p = esb->menu_items; p != NULL; p = p->next) {
@@ -593,7 +593,7 @@ add_button (ESearchBar *esb,
 	
 	gtk_signal_connect (GTK_OBJECT (button), "clicked", callback, esb);
 	
-	gtk_box_pack_start (GTK_BOX (esb), holder, FALSE, FALSE, 0);
+	gtk_box_pack_start (GTK_BOX (esb), holder, FALSE, FALSE, 1);
 
 	return button;
 }
