@@ -204,8 +204,8 @@ gal_view_instance_save_as_dialog_init (GalViewInstanceSaveAsDialog *dialog)
 	gtk_widget_unref(widget);
 
 	gtk_dialog_add_buttons (GTK_DIALOG (dialog),
-				GTK_STOCK_OK, GTK_RESPONSE_OK,
 				GTK_STOCK_CANCEL, GTK_RESPONSE_CANCEL,
+				GTK_STOCK_OK, GTK_RESPONSE_OK,
 				NULL);
 
 	gvisad_connect_signal(dialog, "radiobutton-replace", "toggled", G_CALLBACK(gvisad_radio_toggled));

@@ -99,8 +99,8 @@ gal_view_new_dialog_init (GalViewNewDialog *dialog)
 	gtk_widget_unref(widget);
 
 	gtk_dialog_add_buttons (GTK_DIALOG (dialog),
-				GTK_STOCK_OK, GTK_RESPONSE_OK,
 				GTK_STOCK_CANCEL, GTK_RESPONSE_CANCEL,
+				GTK_STOCK_OK, GTK_RESPONSE_OK,
 				NULL);
 
 	gtk_window_set_policy(GTK_WINDOW(dialog), FALSE, TRUE, FALSE);
