@@ -9,8 +9,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: evolution\n"
-"POT-Creation-Date: 2001-10-24 19:21+0200\n"
-"PO-Revision-Date: 2001-10-24 19:39+0200\n"
+"POT-Creation-Date: 2001-10-25 21:45+0200\n"
+"PO-Revision-Date: 2001-10-25 21:49+0200\n"
 "Last-Translator: GNOME PL Team <translators@gnome.pl>\n"
 "Language-Team: Polish <pl@li.org>\n"
 "MIME-Version: 1.0\n"
@@ -903,6 +903,11 @@ msgstr "P_ort:"
 #: addressbook/gui/component/addressbook-config.glade.h:1
 msgid "_Server name:"
 msgstr "_Nazwa serwera:"
+
+#: addressbook/gui/component/addressbook-factory.c:1
+#: calendar/gui/alarm-notify/notify-main.c:1 calendar/gui/main.c:1
+msgid "Could not initialize gnome-vfs"
+msgstr "Nie mo¿na zainicjowaæ gnome-vfs"
 
 #: addressbook/gui/component/addressbook-storage.c:1
 msgid "Other Contacts"
@@ -2931,6 +2936,10 @@ msgid "Could not read pilot's ToDo application block"
 msgstr "Nie mo¿na odczytaæ bloku aplikacji \"do zrobienia\" pilota"
 
 #: calendar/gui/GNOME_Evolution_Calendar.oaf.in.h:1
+msgid "A Bonobo control which displays a task list."
+msgstr "Komponent Bonobo wy¶wietlaj±cy listê zadañ."
+
+#: calendar/gui/GNOME_Evolution_Calendar.oaf.in.h:1
 msgid "A sample Bonobo control which displays an calendar."
 msgstr "Komponent Bonobo wy¶wietlaj±cy kalendarz."
 
@@ -2948,7 +2957,11 @@ msgstr "Komponent Bonobo obs³uguj±cy kalendarz."
 
 #: calendar/gui/GNOME_Evolution_Calendar.oaf.in.h:1
 msgid "Factory for the Calendar Summary component."
-msgstr "Generator komponentu zestawienia kalendarza"
+msgstr "Generator komponentu zestawienia kalendarza."
+
+#: calendar/gui/GNOME_Evolution_Calendar.oaf.in.h:1
+msgid "Factory for the Evolution Tasks control"
+msgstr "Generator formantu zadañ Evolution"
 
 #: calendar/gui/GNOME_Evolution_Calendar.oaf.in.h:1
 msgid "Factory for the calendar iTip view control"
@@ -2983,12 +2996,17 @@ msgid "Ending:"
 msgstr "Koniec:"
 
 #: calendar/gui/alarm-notify/alarm-notify-dialog.c:1
+msgid "invalid time"
+msgstr "niepoprawny czas"
+
+#: calendar/gui/alarm-notify/alarm-notify-dialog.c:1
 msgid "Evolution Alarm"
 msgstr "Alarm Evolution"
 
 #: calendar/gui/alarm-notify/alarm-notify-dialog.c:1
-msgid "Alarm on %A %b %d %Y %H:%M"
-msgstr "Alarm o %A %d %b %Y %H:%M"
+#, c-format
+msgid "Alarm on %s"
+msgstr "Alarm o %s"
 
 #: calendar/gui/alarm-notify/alarm-notify.glade.h:1
 #: ui/evolution-comp-editor.xml.h:1
@@ -3043,10 +3061,6 @@ msgstr ""
 #: calendar/gui/alarm-notify/notify-main.c:1 calendar/gui/main.c:1
 msgid "Could not initialize GNOME"
 msgstr "Nie mo¿na zainicjowaæ GNOME"
-
-#: calendar/gui/alarm-notify/notify-main.c:1 calendar/gui/main.c:1
-msgid "Could not initialize gnome-vfs"
-msgstr "Nie mo¿na zainicjowaæ gnome-vfs"
 
 #: calendar/gui/alarm-notify/notify-main.c:1
 msgid "Could not create the alarm notify service"
@@ -3437,11 +3451,6 @@ msgstr "%s na koñcu terminu"
 
 #: calendar/gui/dialogs/alarm-page.c:1
 #, c-format
-msgid "%s at an unknown time"
-msgstr "%s o nieznanym czasie"
-
-#: calendar/gui/dialogs/alarm-page.c:1
-#, c-format
 msgid "%s at %s"
 msgstr "%s o %s"
 
@@ -3784,6 +3793,10 @@ msgstr " (Nale¿ne "
 #: calendar/gui/dialogs/comp-editor-util.c:1 calendar/gui/print.c:1
 msgid "Due "
 msgstr "Nale¿ne "
+
+#: calendar/gui/dialogs/comp-editor.c:1
+msgid "Could not update object!"
+msgstr "Nie mo¿na uaktualniæ obiektu!"
 
 #: calendar/gui/dialogs/comp-editor.c:1
 msgid "Edit Appointment"
@@ -11830,14 +11843,18 @@ msgstr "Import"
 msgid "Closing connections..."
 msgstr "Zamykanie po³±czeñ..."
 
-#: shell/e-shell-startup-wizard.c:1 shell/e-shell-startup-wizard.c:1
+#: shell/e-shell-startup-wizard.c:1
 #, c-format
 msgid ""
-"(%s:%d)Could not start the Evolution Mailer Assistant interface\n"
-"%s"
+"Could not start the Evolution Mailer Assistant interface\n"
+"(%s)"
 msgstr ""
-"(%s:%d)Nie mo¿na uruchomiæ interfejsu druida pocztowego Evolution\n"
-"%s"
+"Nie mo¿na uruchomiæ interfejsu druida pocztowego Evolution\n"
+"(%s)"
+
+#: shell/e-shell-startup-wizard.c:1
+msgid "Could not start the Evolution Mailer Assistant interface\n"
+msgstr "Nie mo¿na uruchomiæ interfejsu druida pocztowego Evolution\n"
 
 #: shell/e-shell-startup-wizard.c:1
 msgid ""
