@@ -1,5 +1,11 @@
 2000-08-26  JP Rosevear  <jpr@helixcode.com>
 
+	* gui/minicard/Makefile.am: Remove gnorba stuff
+
+	* gui/minicard/e-minicard-control.gnorba: Kill
+	
+2000-08-26  JP Rosevear  <jpr@helixcode.com>
+
 	* gui/component/addressbook.gnorba: Kill
 
 	* gui/component/Makefile.am:  Remove gnorba stuff

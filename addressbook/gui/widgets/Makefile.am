@@ -41,7 +41,6 @@ minicard_label_test_SOURCES = 	\
 
 minicard_label_test_LDADD =				\
 	$(EXTRA_GNOME_LIBS)				\
-	$(GNOMEGNORBA_LIBS)				\
 	libeminicard.a					\
 	$(BONOBO_GNOME_LIBS)				\
 	$(top_builddir)/widgets/e-text/libetext.a	\
@@ -52,7 +51,6 @@ minicard_test_SOURCES = 	\
 
 minicard_test_LDADD =							\
 	$(EXTRA_GNOME_LIBS)						\
-	$(GNOMEGNORBA_LIBS)						\
 	libeminicard.a							\
 	$(BONOBO_GNOME_LIBS)						\
 	$(top_builddir)/addressbook/backend/ebook/libebook.la		\
@@ -71,7 +69,6 @@ reflow_test_SOURCES = 	\
 
 reflow_test_LDADD =							\
 	$(EXTRA_GNOME_LIBS)						\
-	$(GNOMEGNORBA_LIBS)						\
 	$(BONOBO_GNOME_LIBS)						\
 	libeminicard.a							\
 	$(top_builddir)/addressbook/backend/ebook/libebook.la		\
@@ -90,7 +87,6 @@ minicard_view_test_SOURCES = 	\
 
 minicard_view_test_LDADD =						\
 	$(EXTRA_GNOME_LIBS)						\
-	$(GNOMEGNORBA_LIBS)						\
 	$(BONOBO_GNOME_LIBS)						\
 	libeminicard.a							\
 	$(top_builddir)/addressbook/backend/ebook/libebook.la		\
@@ -109,7 +105,6 @@ minicard_widget_test_SOURCES = 	\
 
 minicard_widget_test_LDADD =				\
 	$(EXTRA_GNOME_LIBS)						\
-	$(GNOMEGNORBA_LIBS)						\
 	$(BONOBO_GNOME_LIBS)						\
 	libeminicard.a							\
 	$(top_builddir)/addressbook/backend/ebook/libebook.la		\
