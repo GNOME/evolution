@@ -811,12 +811,16 @@ get_folder (CamelFilterDriver *d, const char *uri, void *data, CamelException *e
 static void
 session_play_sound (CamelFilterDriver *driver, const char *filename, gpointer user_data)
 {
-	printf ("playing sound file: %s\n", filename);
-	
 	if (!filename || !*filename)
 		gdk_beep ();
 	else
 		gnome_sound_play (filename);
+}
+
+static void
+session_system_beep (CamelFilterDriver *driver, gpointer user_data)
+{
+	gdk_beep ();
 }
 
 static CamelFilterDriver *
@@ -853,6 +857,7 @@ main_get_filter_driver (CamelSession *session, const char *type, CamelException 
 	
 	camel_filter_driver_set_shell_exec_func (driver, mail_execute_shell_command, NULL);
 	camel_filter_driver_set_play_sound_func (driver, session_play_sound, NULL);
+	camel_filter_driver_set_play_sound_func (driver, session_system_beep, NULL);
 	
 	fsearch = g_string_new ("");
 	faction = g_string_new ("");

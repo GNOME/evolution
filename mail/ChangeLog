@@ -1,5 +1,7 @@
 2002-01-24  Jeffrey Stedfast  <fejj@ximian.com>
 
+	* mail-session.c (session_system_beep): This wrapper for gdk_beep().
+
 	* mail-account-gui.c (is_email): Don't bother trying to see if the
 	domain looks like a FQDN.
 
