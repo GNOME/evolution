@@ -2961,6 +2961,8 @@ pas_backend_ldap_search (PASBackendLDAP  	*bl,
 		GTimeVal search_start;
 		int search_msgid;
 		
+		printf ("searching server using filter: %s\n", ldap_query);
+
 		do {
 			book_view_notify_status (view->book_view, _("Searching..."));
 
