@@ -640,15 +640,15 @@ main_get_filter_driver (CamelSession *session, const char *type, CamelException 
 		camel_filter_driver_add_rule (driver, "Junk check", "(junk-test)", "(begin (set-system-flag \"junk\"))");
 	}
 
-	if (strcmp (type, FILTER_SOURCE_JUNKTEST)) {
+	if (strcmp (type, FILTER_SOURCE_JUNKTEST) != 0) {
 		GString *fsearch, *faction;
-
+		
 		fsearch = g_string_new ("");
 		faction = g_string_new ("");
-
+		
 		if (!strcmp (type, FILTER_SOURCE_DEMAND))
 			type = FILTER_SOURCE_INCOMING;
-
+		
 		/* add the user-defined rules next */
 		while ((rule = rule_context_next_rule (fc, rule, type))) {
 			g_string_truncate (fsearch, 0);
@@ -658,7 +658,7 @@ main_get_filter_driver (CamelSession *session, const char *type, CamelException 
 			filter_filter_build_action ((FilterFilter *) rule, faction);
 			camel_filter_driver_add_rule (driver, rule->name, fsearch->str, faction->str);
 		}
-
+		
 		g_string_free (fsearch, TRUE);
 		g_string_free (faction, TRUE);
 	}

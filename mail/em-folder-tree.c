@@ -566,8 +566,7 @@ tree_drag_data_received (GtkWidget *widget, GdkDragContext *context, int x, int 
 			 guint info, guint time, EMFolderTree *emft)
 {
 	struct _EMFolderTreePrivate *priv = emft->priv;
-	GtkTreeViewColumn *column;
-	int cell_x, cell_y;
+	GtkTreeViewDropPosition pos;
 	GtkTreePath *path;
 	gboolean success;
 	gboolean moved;
@@ -575,7 +574,7 @@ tree_drag_data_received (GtkWidget *widget, GdkDragContext *context, int x, int 
 	
 	printf ("::drag-data-received called\n");
 	
-	if (!gtk_tree_view_get_path_at_pos (priv->treeview, x, y, &path, &column, &cell_x, &cell_y))
+	if (!gtk_tree_view_get_dest_row_at_pos (priv->treeview, x, y, &path, &pos))
 		return;
 	
 	move = context->action == GDK_ACTION_MOVE;

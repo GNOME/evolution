@@ -1,5 +1,11 @@
 2004-01-27  Jeffrey Stedfast  <fejj@ximian.com>
 
+	* em-folder-tree.c (tree_drag_data_received): Use
+	gtk_tree_view_get_dest_row_at_pos() instead of
+	gtk_tree_view_get_path_at_pos() since this is what Nautilus
+	uses. Unfortunately, it still gives us back the wrong GtkTreePath
+	so it looks to me like Gtk+ is borked.
+
 	* em-migrate.c (em_migrate_imap_caches_1_4): Copy the imap cache
 	into the right place. Duh.
 
