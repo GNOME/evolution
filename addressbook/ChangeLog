@@ -1,5 +1,16 @@
-2003-06-13  Larry Ewing  <lewing@ximian.com>
+2003-06-14  Larry Ewing  <lewing@ximian.com>
 
+        * gui/backend/ebook/e-card-simple.c:
+	* gui/backend/ebook/e-card.c:
+	* gui/backend/ebook/evolution-ldif-importer.c:
+	* gui/backend/ebook/load-pine-addressbook.c:
+	* gui/backend/ebook/test-card.c:
+	* gui/backend/pas/pas-backend-card-sexp.c:
+	* gui/backend/pas/pas-backend-ldap.c: Fix lots of leaks, update
+	for correct use of g_object_get. Some cleanups.
+
+2003-06-13  Larry Ewing  <lewing@ximian.com>
+	
 	* gui/component/addressbook.c:
         * gui/component/e-cardlist-model.c:
 	* gui/component/select-names/e-select-names-text-model.c:

@@ -152,6 +152,7 @@ main (int argc, char **argv)
 	    printf("Email : %s\n", (char *) e_iterator_get(iterator));
 	  }
 	  g_object_unref(iterator);
+	  g_object_unref(email);
 	}
 	if ( phone ) {
 	  iterator = e_list_get_iterator(address);
@@ -160,6 +161,7 @@ main (int argc, char **argv)
 	    printf("Phone ; %d : %s\n", e_card_phone->flags, e_card_phone->number);
 	  }
 	  g_object_unref(iterator);
+	  g_object_unref(phone);
 	}
 	if ( address ) {
 	  iterator = e_list_get_iterator(address);
@@ -182,6 +184,7 @@ main (int argc, char **argv)
 	      printf("  Country : %s\n", del_address->country);
 	  }
 	  g_object_unref(iterator);
+	  g_object_unref(address);
 	}
 	printf("%s", e_card_get_vcard_assume_utf8(card));
 	g_object_unref (card);

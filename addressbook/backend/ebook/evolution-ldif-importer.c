@@ -275,6 +275,7 @@ parseLine( ECardSimple *simple, ECardDeliveryAddress *address, char **buf )
 					      "email", &email,
 					      NULL);
 				e_list_append (email, ldif_value->str);
+				g_object_unref (email);
 			}
 		}
 
@@ -383,10 +384,12 @@ resolve_list_card (LDIFImporter *gci, ECard *card)
 
 	/* set file_as to full_name so we don't later try and figure
            out a first/last name for the list. */
-	if (full_name)
+	if (full_name) {
 		g_object_set (card,
 			      "file_as", full_name,
 			      NULL);
+		g_free (full_name);
+	}
 
 	email_iter = e_list_get_iterator (email);
 	while (e_iterator_is_valid (email_iter)) {
@@ -413,6 +416,7 @@ resolve_list_card (LDIFImporter *gci, ECard *card)
 			e_iterator_delete (email_iter);
 		}
 	}
+	g_object_unref(email);
 }
 
 static void

@@ -556,6 +556,11 @@ fill_in_info(ECardSimple *simple)
 			}
 		}
 		g_object_unref(iterator);
+
+		g_object_unref(phone_list);
+		g_object_unref(email_list);
+		g_object_unref(address_list);
+		g_object_unref(delivery_list);
 		e_card_free_empty_lists (card);
 	}
 }
@@ -719,6 +724,11 @@ e_card_simple_sync_card(ECardSimple *simple)
 			}
 		}
 		fill_in_info(simple);
+
+		g_object_unref(phone_list);
+		g_object_unref(email_list);
+		g_object_unref(address_list);
+		g_object_unref(delivery_list);
 		e_card_free_empty_lists (card);
 	}
 
@@ -803,7 +813,7 @@ char     *e_card_simple_get            (ECardSimple          *simple,
 	ECardSimpleInternalType type = field_data[field].type;
 	const ECardAddrLabel *addr;
 	const ECardPhone *phone;
-	const char *string;
+	char *string;
 	ECardDate *date;
 	ECardName *name;
 	switch(type) {
@@ -812,7 +822,7 @@ char     *e_card_simple_get            (ECardSimple          *simple,
 			g_object_get(simple->card,
 				     field_data[field].ecard_field, &string,
 				     NULL);
-			return g_strdup(string);
+			return string;
 		} else
 			return NULL;
 	case E_CARD_SIMPLE_INTERNAL_TYPE_DATE:
@@ -877,17 +887,26 @@ char     *e_card_simple_get            (ECardSimple          *simple,
 					     "file_as", &string,
 					     NULL);
 				if (string && *string)
-					return g_strdup(string);
+					return string
+;				else 
+					g_free (string);
+
 				g_object_get(simple->card,
 					     "full_name", &string,
 					     NULL);
 				if (string && *string)
 					return g_strdup(string);
+				else 
+					g_free (string);
+
 				g_object_get(simple->card,
 					     "org", &string,
 					     NULL);
 				if (string && *string)
 					return g_strdup(string);
+				else 
+					g_free (string);
+
 				is_list = e_card_evolution_list (simple->card);
 				if (is_list)
 					string = _("Unnamed List");
@@ -1199,6 +1218,8 @@ void                  e_card_simple_arbitrary_foreach (ECardSimple              
 			if (callback)
 				(*callback) (arbitrary, closure);
 		}
+		
+		g_object_unref (list);
 		e_card_free_empty_lists (simple->card);
 	}
 }
@@ -1217,6 +1238,8 @@ const ECardArbitrary *e_card_simple_get_arbitrary     (ECardSimple          *sim
 			if (!strcasecmp(arbitrary->key, key))
 				return arbitrary;
 		}
+
+		g_object_unref (list);
 		e_card_free_empty_lists (simple->card);
 	}
 	return NULL;
@@ -1254,6 +1277,7 @@ void                  e_card_simple_set_arbitrary     (ECardSimple          *sim
 		new_arb->type = g_strdup(type);
 		new_arb->value = g_strdup(value);
 		e_list_append(list, new_arb);
+		g_object_unref(list);
 		e_card_arbitrary_unref(new_arb);
 	}
 }

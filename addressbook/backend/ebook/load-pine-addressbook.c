@@ -42,6 +42,7 @@ parse_line (EBook *book, char *line)
 			     NULL);
 		e_list_append(list, strings[2]);
 		e_book_add_card(book, card, add_card_cb, card);
+		g_object_unref(list);
 	}
 	g_strfreev(strings);
 }

@@ -839,6 +839,7 @@ parse_email(ECard *card, VObject *vobj, char *default_charset)
 		     NULL);
 	e_list_append(list, next_email);
 	g_free (next_email);
+	g_object_unref(list);
 }
 
 /* Deal with charset */
@@ -869,6 +870,7 @@ parse_phone(ECard *card, VObject *vobj, char *default_charset)
 		     NULL);
 	e_list_append(list, next_phone);
 	e_card_phone_unref (next_phone);
+	g_object_unref(list);
 }
 
 static void
@@ -891,6 +893,7 @@ parse_address(ECard *card, VObject *vobj, char *default_charset)
 		     NULL);
 	e_list_append(list, next_addr);
 	e_card_delivery_address_unref (next_addr);
+	g_object_unref(list);
 }
 
 static void
@@ -907,6 +910,7 @@ parse_address_label(ECard *card, VObject *vobj, char *default_charset)
 		     NULL);
 	e_list_append(list, next_addr);
 	e_card_address_label_unref (next_addr);
+	g_object_unref(list);
 }
 
 static void
@@ -1097,6 +1101,7 @@ do_parse_categories(ECard *card, char *str)
 	}
 	copy[j] = 0;
 	add_list_unique(card, list, copy);
+	g_object_unref(list);
 	g_free(copy);
 }
 
@@ -1203,6 +1208,7 @@ parse_arbitrary(ECard *card, VObject *vobj, char *default_charset)
 		     NULL);
 	e_list_append(list, arbitrary);
 	e_card_arbitrary_unref(arbitrary);
+	g_object_unref(list);
 }
 
 static void
@@ -1218,8 +1224,7 @@ parse_last_use(ECard *card, VObject *vobj, char *default_charset)
 {
 	if ( vObjectValueType (vobj) ) {
 		char *str = fakeCString (vObjectUStringZValue (vobj));
-		if ( card->last_use )
-			g_free(card->last_use);
+		g_free(card->last_use);
 		card->last_use = g_new(ECardDate, 1);
 		*(card->last_use) = e_card_date_from_string(str);
 		free(str);
@@ -2044,6 +2049,7 @@ e_card_dispose (GObject *object)
 	FREE_IF(card->caluri);
 	FREE_IF(card->fburl);
 	FREE_IF(card->icscalendar);
+	FREE_IF(card->last_use);
 	FREE_IF(card->note);
 	FREE_IF(card->related_contacts);
 
@@ -2310,7 +2316,7 @@ e_card_get_property (GObject *object,
 				strs[i] = (char *)e_iterator_get(iterator);
 			}
 			strs[i] = 0;
-			g_value_set_string(value, g_strjoinv(", ", strs));
+			g_value_set_string_take_ownership(value, g_strjoinv(", ", strs));
 			g_free(strs);
 		}
 		break;

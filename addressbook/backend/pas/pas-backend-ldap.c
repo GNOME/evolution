@@ -2308,6 +2308,7 @@ category_populate (ECardSimple *card, char **values)
 	g_object_unref (categories);
 
 	e_card_simple_sync_card (card);
+	g_object_unref (ecard);
 }
 
 struct berval**
@@ -2342,6 +2343,8 @@ category_ber (ECardSimple *card)
 		g_object_unref (iterator);
 	}
 
+	g_object_unref (categories);
+	g_object_unref (ecard);
 	return result;
 }
 

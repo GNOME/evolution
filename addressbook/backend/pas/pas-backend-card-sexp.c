@@ -122,6 +122,8 @@ compare_category (ECardSimple *card, const char *str,
 
 	g_object_unref (iterator);
 	e_card_free_empty_lists (ecard);
+	g_object_unref (categories);
+	g_object_unref (ecard);
 	return ret_val;
 }
 
@@ -152,6 +154,8 @@ compare_arbitrary (ECardSimple *card, const char *str,
 
 	g_object_unref (iterator);
 	e_card_free_empty_lists (ecard);
+	g_object_unref (list);
+	g_object_unref (ecard);
 	return ret_val;
 }
 
