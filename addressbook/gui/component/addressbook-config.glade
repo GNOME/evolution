@@ -2,6 +2,8 @@
 <GTK-Interface>
 
 <project>
+  <name>addressbook-config-mockup</name>
+  <program_name>addressbook-config-mockup</program_name>
   <directory></directory>
   <source_directory>src</source_directory>
   <pixmaps_directory>pixmaps</pixmaps_directory>
@@ -94,7 +96,7 @@
 	<name>vbox1</name>
 	<border_width>3</border_width>
 	<homogeneous>False</homogeneous>
-	<spacing>6</spacing>
+	<spacing>3</spacing>
 
 	<widget>
 	  <class>GtkLabel</class>
@@ -117,7 +119,7 @@
 	  <class>GtkTable</class>
 	  <name>table1</name>
 	  <border_width>3</border_width>
-	  <rows>3</rows>
+	  <rows>2</rows>
 	  <columns>2</columns>
 	  <homogeneous>False</homogeneous>
 	  <row_spacing>3</row_spacing>
@@ -229,36 +231,15 @@
 	      <yfill>False</yfill>
 	    </child>
 	  </widget>
-
-	  <widget>
-	    <class>GtkCheckButton</class>
-	    <name>auth-checkbutton</name>
-	    <can_focus>True</can_focus>
-	    <label>_My server requires authentication</label>
-	    <active>False</active>
-	    <draw_indicator>True</draw_indicator>
-	    <child>
-	      <left_attach>0</left_attach>
-	      <right_attach>2</right_attach>
-	      <top_attach>2</top_attach>
-	      <bottom_attach>3</bottom_attach>
-	      <xpad>0</xpad>
-	      <ypad>0</ypad>
-	      <xexpand>False</xexpand>
-	      <yexpand>False</yexpand>
-	      <xshrink>False</xshrink>
-	      <yshrink>False</yshrink>
-	      <xfill>True</xfill>
-	      <yfill>False</yfill>
-	    </child>
-	  </widget>
 	</widget>
 
 	<widget>
-	  <class>GtkHBox</class>
-	  <name>hbox4</name>
-	  <homogeneous>False</homogeneous>
-	  <spacing>0</spacing>
+	  <class>GtkAlignment</class>
+	  <name>alignment2</name>
+	  <xalign>0</xalign>
+	  <yalign>0.5</yalign>
+	  <xscale>1</xscale>
+	  <yscale>1</yscale>
 	  <child>
 	    <padding>0</padding>
 	    <expand>False</expand>
@@ -266,35 +247,187 @@
 	  </child>
 
 	  <widget>
-	    <class>GtkLabel</class>
-	    <name>email-address-label</name>
-	    <label>Email Address:</label>
-	    <justify>GTK_JUSTIFY_CENTER</justify>
-	    <wrap>False</wrap>
-	    <xalign>0.5</xalign>
-	    <yalign>0.5</yalign>
-	    <xpad>0</xpad>
-	    <ypad>0</ypad>
-	    <child>
-	      <padding>0</padding>
-	      <expand>False</expand>
-	      <fill>False</fill>
-	    </child>
-	  </widget>
+	    <class>GtkVBox</class>
+	    <name>auth-vbox</name>
+	    <homogeneous>False</homogeneous>
+	    <spacing>3</spacing>
 
-	  <widget>
-	    <class>GtkEntry</class>
-	    <name>email-address-entry</name>
-	    <can_focus>True</can_focus>
-	    <editable>True</editable>
-	    <text_visible>True</text_visible>
-	    <text_max_length>0</text_max_length>
-	    <text></text>
-	    <child>
-	      <padding>0</padding>
-	      <expand>True</expand>
-	      <fill>True</fill>
-	    </child>
+	    <widget>
+	      <class>GtkHBox</class>
+	      <name>hbox9</name>
+	      <homogeneous>False</homogeneous>
+	      <spacing>0</spacing>
+	      <child>
+		<padding>0</padding>
+		<expand>False</expand>
+		<fill>False</fill>
+	      </child>
+
+	      <widget>
+		<class>GtkCheckButton</class>
+		<name>auth-checkbutton</name>
+		<can_focus>True</can_focus>
+		<label>A_uthenticate with server using:</label>
+		<active>False</active>
+		<draw_indicator>True</draw_indicator>
+		<child>
+		  <padding>0</padding>
+		  <expand>False</expand>
+		  <fill>False</fill>
+		</child>
+	      </widget>
+
+	      <widget>
+		<class>GtkHBox</class>
+		<name>hbox10</name>
+		<homogeneous>False</homogeneous>
+		<spacing>3</spacing>
+		<child>
+		  <padding>0</padding>
+		  <expand>True</expand>
+		  <fill>True</fill>
+		</child>
+
+		<widget>
+		  <class>GtkOptionMenu</class>
+		  <name>auth-optionmenu</name>
+		  <can_focus>True</can_focus>
+		  <items>Email address
+Distinguished name (DN)
+</items>
+		  <initial_choice>0</initial_choice>
+		  <child>
+		    <padding>0</padding>
+		    <expand>False</expand>
+		    <fill>False</fill>
+		  </child>
+		</widget>
+	      </widget>
+	    </widget>
+
+	    <widget>
+	      <class>GtkNotebook</class>
+	      <name>auth-notebook</name>
+	      <show_tabs>False</show_tabs>
+	      <show_border>False</show_border>
+	      <tab_pos>GTK_POS_TOP</tab_pos>
+	      <scrollable>False</scrollable>
+	      <tab_hborder>2</tab_hborder>
+	      <tab_vborder>2</tab_vborder>
+	      <popup_enable>False</popup_enable>
+	      <child>
+		<padding>0</padding>
+		<expand>True</expand>
+		<fill>True</fill>
+	      </child>
+
+	      <widget>
+		<class>GtkHBox</class>
+		<name>hbox5</name>
+		<border_width>3</border_width>
+		<homogeneous>False</homogeneous>
+		<spacing>3</spacing>
+
+		<widget>
+		  <class>GtkLabel</class>
+		  <name>email-label</name>
+		  <label>_Email address:</label>
+		  <justify>GTK_JUSTIFY_CENTER</justify>
+		  <wrap>False</wrap>
+		  <xalign>0.5</xalign>
+		  <yalign>0.5</yalign>
+		  <xpad>0</xpad>
+		  <ypad>0</ypad>
+		  <default_focus_target>email-entry</default_focus_target>
+		  <child>
+		    <padding>0</padding>
+		    <expand>False</expand>
+		    <fill>False</fill>
+		  </child>
+		</widget>
+
+		<widget>
+		  <class>GtkEntry</class>
+		  <name>email-entry</name>
+		  <can_focus>True</can_focus>
+		  <editable>True</editable>
+		  <text_visible>True</text_visible>
+		  <text_max_length>0</text_max_length>
+		  <text></text>
+		  <child>
+		    <padding>0</padding>
+		    <expand>True</expand>
+		    <fill>True</fill>
+		  </child>
+		</widget>
+	      </widget>
+
+	      <widget>
+		<class>GtkLabel</class>
+		<child_name>Notebook:tab</child_name>
+		<name>label52</name>
+		<label>label52</label>
+		<justify>GTK_JUSTIFY_CENTER</justify>
+		<wrap>False</wrap>
+		<xalign>0.5</xalign>
+		<yalign>0.5</yalign>
+		<xpad>0</xpad>
+		<ypad>0</ypad>
+	      </widget>
+
+	      <widget>
+		<class>GtkHBox</class>
+		<name>hbox6</name>
+		<homogeneous>False</homogeneous>
+		<spacing>3</spacing>
+
+		<widget>
+		  <class>GtkLabel</class>
+		  <name>dn-label</name>
+		  <label>_Distinguished Name:</label>
+		  <justify>GTK_JUSTIFY_CENTER</justify>
+		  <wrap>False</wrap>
+		  <xalign>0.5</xalign>
+		  <yalign>0.5</yalign>
+		  <xpad>0</xpad>
+		  <ypad>0</ypad>
+		  <default_focus_target>dn-entry</default_focus_target>
+		  <child>
+		    <padding>0</padding>
+		    <expand>False</expand>
+		    <fill>False</fill>
+		  </child>
+		</widget>
+
+		<widget>
+		  <class>GtkEntry</class>
+		  <name>dn-entry</name>
+		  <can_focus>True</can_focus>
+		  <editable>True</editable>
+		  <text_visible>True</text_visible>
+		  <text_max_length>0</text_max_length>
+		  <text></text>
+		  <child>
+		    <padding>0</padding>
+		    <expand>True</expand>
+		    <fill>True</fill>
+		  </child>
+		</widget>
+	      </widget>
+
+	      <widget>
+		<class>GtkLabel</class>
+		<child_name>Notebook:tab</child_name>
+		<name>label53</name>
+		<label>label53</label>
+		<justify>GTK_JUSTIFY_CENTER</justify>
+		<wrap>False</wrap>
+		<xalign>0.5</xalign>
+		<yalign>0.5</yalign>
+		<xpad>0</xpad>
+		<ypad>0</ypad>
+	      </widget>
+	    </widget>
 	  </widget>
 	</widget>
 
@@ -366,6 +499,56 @@
 
 	  <widget>
 	    <class>GtkLabel</class>
+	    <name>label57</name>
+	    <label>Check this if the server requires you to authenticate.</label>
+	    <justify>GTK_JUSTIFY_CENTER</justify>
+	    <wrap>True</wrap>
+	    <xalign>0.5</xalign>
+	    <yalign>0.5</yalign>
+	    <xpad>0</xpad>
+	    <ypad>0</ypad>
+	  </widget>
+
+	  <widget>
+	    <class>GtkLabel</class>
+	    <child_name>Notebook:tab</child_name>
+	    <name>label56</name>
+	    <label>label56</label>
+	    <justify>GTK_JUSTIFY_CENTER</justify>
+	    <wrap>False</wrap>
+	    <xalign>0.5</xalign>
+	    <yalign>0.5</yalign>
+	    <xpad>0</xpad>
+	    <ypad>0</ypad>
+	  </widget>
+
+	  <widget>
+	    <class>GtkLabel</class>
+	    <name>label61</name>
+	    <label>This is the method evolution will use to authenticate you.  Note that setting this to &quot;Email Address&quot; requires anonymous access to your ldap server.</label>
+	    <justify>GTK_JUSTIFY_CENTER</justify>
+	    <wrap>True</wrap>
+	    <xalign>0.5</xalign>
+	    <yalign>0.5</yalign>
+	    <xpad>0</xpad>
+	    <ypad>0</ypad>
+	  </widget>
+
+	  <widget>
+	    <class>GtkLabel</class>
+	    <child_name>Notebook:tab</child_name>
+	    <name>label60</name>
+	    <label>label60</label>
+	    <justify>GTK_JUSTIFY_CENTER</justify>
+	    <wrap>False</wrap>
+	    <xalign>0.5</xalign>
+	    <yalign>0.5</yalign>
+	    <xpad>0</xpad>
+	    <ypad>0</ypad>
+	  </widget>
+
+	  <widget>
+	    <class>GtkLabel</class>
 	    <name>label48</name>
 	    <label>Evolution will use this email address to authenticate you with the server</label>
 	    <justify>GTK_JUSTIFY_CENTER</justify>
@@ -381,6 +564,31 @@
 	    <child_name>Notebook:tab</child_name>
 	    <name>label47</name>
 	    <label>label47</label>
+	    <justify>GTK_JUSTIFY_CENTER</justify>
+	    <wrap>False</wrap>
+	    <xalign>0.5</xalign>
+	    <yalign>0.5</yalign>
+	    <xpad>0</xpad>
+	    <ypad>0</ypad>
+	  </widget>
+
+	  <widget>
+	    <class>GtkLabel</class>
+	    <name>label59</name>
+	    <label>Evolution will use this Distinquished Name (DN) to authenticate you with the server</label>
+	    <justify>GTK_JUSTIFY_CENTER</justify>
+	    <wrap>True</wrap>
+	    <xalign>0.5</xalign>
+	    <yalign>0.5</yalign>
+	    <xpad>0</xpad>
+	    <ypad>0</ypad>
+	  </widget>
+
+	  <widget>
+	    <class>GtkLabel</class>
+	    <child_name>Notebook:tab</child_name>
+	    <name>label58</name>
+	    <label>label58</label>
 	    <justify>GTK_JUSTIFY_CENTER</justify>
 	    <wrap>False</wrap>
 	    <xalign>0.5</xalign>

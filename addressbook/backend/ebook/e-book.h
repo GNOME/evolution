@@ -74,6 +74,7 @@ guint     e_book_get_supported_fields     (EBook                 *book,
 void      e_book_authenticate_user        (EBook                 *book,
 					   const char            *user,
 					   const char            *passwd,
+					   const char            *auth_method,
 					   EBookCallback         cb,
 					   gpointer              closure);
 
