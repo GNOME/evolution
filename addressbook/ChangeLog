@@ -1,5 +1,15 @@
 2004-03-30  Chris Toshok  <toshok@ximian.com>
 
+	[ fixes bug #53094 ]
+	
+	* gui/component/ldap-config.glade: nuke
+	addressbook-sources-window.
+
+	* gui/component/addressbook-config.c (main): nuke, we don't need
+	this test case anymore, and it doesn't really work anyway anymore.
+
+2004-03-30  Chris Toshok  <toshok@ximian.com>
+
 	[ fixes bug #53634 ]
 	
 	* gui/widgets/e-addressbook-view.c (eab_view_new): call

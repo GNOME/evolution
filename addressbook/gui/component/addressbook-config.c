@@ -1399,36 +1399,3 @@ addressbook_config_create_new_source (GtkWidget *parent)
 
 	dialog = addressbook_add_server_druid ();
 }
-
-#if 0
-#ifdef STANDALONE
-int
-main(int argc, char **argv)
-{
-	AddressbookDialog *dialog;
-
-	gnome_init_with_popt_table ("evolution-addressbook", "0.0",
-				    argc, argv, oaf_popt_options, 0, NULL);
-
-	glade_init ();
-
-	bindtextdomain (GETTEXT_PACKAGE, EVOLUTION_LOCALEDIR);
-	textdomain (GETTEXT_PACKAGE);
-
-#if 0
-	g_log_set_always_fatal (G_LOG_LEVEL_CRITICAL | G_LOG_LEVEL_WARNING);
-#endif
-
-	gtk_widget_push_colormap (gdk_rgb_get_cmap ());
-
-	dialog = ldap_dialog_new (NULL);
-
-	gtk_widget_show (glade_xml_get_widget (dialog->gui, "addressbook-sources-window"));
-
-	gtk_main();
-
-	return 0;
-}
-#endif
-
-#endif
