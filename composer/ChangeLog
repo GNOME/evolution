@@ -1,3 +1,16 @@
+2001-01-18  Jeffrey Stedfast  <fejj@ximian.com>
+
+	* e-msg-composer.c (build_message): Updated to reflect changes to
+	e_msg_composer_hdrs_get_from().
+
+	* e-msg-composer-hdrs.c (set_recipients): Don't do anymore utf8
+	conversions, the widget already does this (or should unless there
+	is brokenness).
+	(e_msg_composer_hdrs_get_from): Return a CamelInternetAddress like
+	we should.
+	(e_msg_composer_hdrs_to_message): Update to reflect changes made
+	the the above function.
+
 2001-01-12  Miguel de Icaza  <miguel@gnu.org>
 
 	* Makefile.am: Make the composer a standard library, not a libtool

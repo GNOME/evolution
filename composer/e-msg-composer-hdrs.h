@@ -80,7 +80,7 @@ void        e_msg_composer_hdrs_set_bcc            (EMsgComposerHdrs *hdrs,
 void        e_msg_composer_hdrs_set_subject        (EMsgComposerHdrs *hdrs,
 						    const char       *subject);
 
-char       *e_msg_composer_hdrs_get_from           (EMsgComposerHdrs *hdrs);
+CamelInternetAddress *e_msg_composer_hdrs_get_from (EMsgComposerHdrs *hdrs);
 GList      *e_msg_composer_hdrs_get_to             (EMsgComposerHdrs *hdrs);
 GList      *e_msg_composer_hdrs_get_cc             (EMsgComposerHdrs *hdrs);
 GList      *e_msg_composer_hdrs_get_bcc            (EMsgComposerHdrs *hdrs);

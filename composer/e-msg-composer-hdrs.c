@@ -496,25 +496,21 @@ e_msg_composer_hdrs_new (void)
 static void
 set_recipients (CamelMimeMessage *msg, GtkWidget *entry_widget, const gchar *type)
 {
-	char *s, *u;
 	CamelInternetAddress *addr;
-
-	bonobo_widget_get_property (BONOBO_WIDGET (entry_widget), "text", &s, NULL);
-
-	/* FIXME: This is just a temporary workaround, the widget should grok it */
-        u = e_utf8_from_gtk_string(entry_widget, s);
-
-	addr = camel_internet_address_new();
-	camel_address_unformat((CamelAddress *)addr, u);
-
+	char *string;
+	
+	bonobo_widget_get_property (BONOBO_WIDGET (entry_widget), "text", &string, NULL);
+	
+	addr = camel_internet_address_new ();
+	camel_address_unformat (CAMEL_ADDRESS (addr), string);
+	
 	/* TODO: In here, we could cross-reference the names with an alias book
 	   or address book, it should be sufficient for unformat to do the parsing too */
-
-	camel_mime_message_set_recipients(msg, type, addr);
-
-	camel_object_unref((CamelObject *)addr);
-	g_free(s);
-	g_free(u);
+	
+	camel_mime_message_set_recipients (msg, type, addr);
+	
+	camel_object_unref (CAMEL_OBJECT (addr));
+	g_free (string);
 }
 
 void
@@ -522,7 +518,6 @@ e_msg_composer_hdrs_to_message (EMsgComposerHdrs *hdrs,
 				CamelMimeMessage *msg)
 {
 	gchar *subject;
-	char *fromstr;
 	CamelInternetAddress *from;
 	
 	g_return_if_fail (hdrs != NULL);
@@ -533,14 +528,10 @@ e_msg_composer_hdrs_to_message (EMsgComposerHdrs *hdrs,
 	subject = e_msg_composer_hdrs_get_subject (hdrs);
 	camel_mime_message_set_subject (msg, subject);
 	g_free (subject);
-
-	/* get_from() should probably return a CamelInternetAddress anyway */
-	fromstr = e_msg_composer_hdrs_get_from (hdrs);
-	from = camel_internet_address_new();
-	camel_address_unformat((CamelAddress *)from, fromstr);
+	
+	from = e_msg_composer_hdrs_get_from (hdrs);
 	camel_mime_message_set_from (msg, from);
-	camel_object_unref((CamelObject *)from);
-	g_free(fromstr);
+	camel_object_unref (CAMEL_OBJECT (from));
 	
 	set_recipients (msg, hdrs->priv->to_entry, CAMEL_RECIPIENT_TYPE_TO);
 	set_recipients (msg, hdrs->priv->cc_entry, CAMEL_RECIPIENT_TYPE_CC);
@@ -645,11 +636,11 @@ e_msg_composer_hdrs_set_subject (EMsgComposerHdrs *hdrs,
 }
 
 
-/* FIXME: This should probably return a CamelInternetAddress */
-char *
+CamelInternetAddress *
 e_msg_composer_hdrs_get_from (EMsgComposerHdrs *hdrs)
 {
 	const MailConfigAccount *account;
+	CamelInternetAddress *addr;
 	
 	g_return_val_if_fail (hdrs != NULL, NULL);
 	g_return_val_if_fail (E_IS_MSG_COMPOSER_HDRS (hdrs), NULL);
@@ -660,7 +651,10 @@ e_msg_composer_hdrs_get_from (EMsgComposerHdrs *hdrs)
 		return NULL;
 	}
 	
-	return camel_internet_address_format_address (account->id->name, account->id->address);
+	addr = camel_internet_address_new ();
+	camel_internet_address_add (addr, account->id->name, account->id->address);
+	
+	return addr;
 }
 
 /* FIXME this is currently unused and broken.  */

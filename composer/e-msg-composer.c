@@ -240,10 +240,10 @@ build_message (EMsgComposer *composer)
 	EMsgComposerAttachmentBar *attachment_bar =
 		E_MSG_COMPOSER_ATTACHMENT_BAR (composer->attachment_bar);
 	MsgFormat type = MSG_FORMAT_ALTERNATIVE;
+	CamelInternetAddress *from;
 	CamelMimeMessage *new;
 	CamelMultipart *body = NULL;
 	CamelMimePart *part;
-	gchar *from = NULL;
 	gboolean plain_e8bit = FALSE, html_e8bit = FALSE;
 	char *html = NULL, *plain = NULL;
 	char *content_type = NULL;
@@ -271,7 +271,7 @@ build_message (EMsgComposer *composer)
 		
 		e_msg_composer_hdrs_set_from_account (E_MSG_COMPOSER_HDRS (composer->hdrs), account->name);
 	}
-	g_free (from);
+	camel_object_unref (CAMEL_OBJECT (from));
 	
 	new = camel_mime_message_new ();
 	
