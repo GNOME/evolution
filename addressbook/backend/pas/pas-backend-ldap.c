@@ -22,7 +22,7 @@
 
 #define LDAP_MAX_SEARCH_RESPONSES 500
 
-static gchar *map_e_card_prop_to_ldap(gchar *e_card_prop);
+static gchar *query_prop_to_ldap(gchar *query_prop);
 
 static PASBackendClass *pas_backend_ldap_parent_class;
 typedef struct _PASBackendLDAPCursorPrivate PASBackendLDAPCursorPrivate;
@@ -151,15 +151,14 @@ pas_backend_ldap_ensure_connected (PASBackendLDAP *bl)
 					   NULL /*binddn*/, NULL /*passwd*/);
 			bl->priv->connected = TRUE;
 		}
-		else
+		else {
 			g_warning ("pas_backend_ldap_ensure_connected failed for "
-				   "'ldap://%s:%d/%s' (error %s)\n",
+				   "'ldap://%s:%d/%s'\n",
 				   bl->priv->ldap_host,
 				   bl->priv->ldap_port,
-				   bl->priv->ldap_rootdn ? bl->priv->ldap_rootdn : "",
-				   
-				   ldap_err2string(ldap->ld_errno));
-
+				   bl->priv->ldap_rootdn ? bl->priv->ldap_rootdn : "");
+			bl->priv->connected = FALSE;
+		}
 	}
 }
 
@@ -403,7 +402,7 @@ func_contains(struct _ESExp *f, int argc, struct _ESExpResult **argv, void *data
 	    && argv[1]->type == ESEXP_RES_STRING) {
 		char *propname = argv[0]->value.string;
 		char *str = argv[1]->value.string;
-		char *ldap_attr = map_e_card_prop_to_ldap(propname);
+		char *ldap_attr = query_prop_to_ldap(propname);
 		gboolean one_star = FALSE;
 
 		if (strlen(str) == 0)
@@ -434,7 +433,7 @@ func_is(struct _ESExp *f, int argc, struct _ESExpResult **argv, void *data)
 	    && argv[1]->type == ESEXP_RES_STRING) {
 		char *propname = argv[0]->value.string;
 		char *str = argv[1]->value.string;
-		char *ldap_attr = map_e_card_prop_to_ldap(propname);
+		char *ldap_attr = query_prop_to_ldap(propname);
 
 		if (ldap_attr)
 			*list = g_list_prepend(*list,
@@ -459,7 +458,7 @@ func_beginswith(struct _ESExp *f, int argc, struct _ESExpResult **argv, void *da
 	    && argv[1]->type == ESEXP_RES_STRING) {
 		char *propname = argv[0]->value.string;
 		char *str = argv[1]->value.string;
-		char *ldap_attr = map_e_card_prop_to_ldap(propname);
+		char *ldap_attr = query_prop_to_ldap(propname);
 		gboolean one_star = FALSE;
 
 		if (strlen(str) == 0)
@@ -489,7 +488,7 @@ func_endswith(struct _ESExp *f, int argc, struct _ESExpResult **argv, void *data
 	    && argv[1]->type == ESEXP_RES_STRING) {
 		char *propname = argv[0]->value.string;
 		char *str = argv[1]->value.string;
-		char *ldap_attr = map_e_card_prop_to_ldap(propname);
+		char *ldap_attr = query_prop_to_ldap(propname);
 		gboolean one_star = FALSE;
 
 		if (strlen(str) == 0)
@@ -586,23 +585,23 @@ struct prop_info {
 	int prop_type;
 	void (*construct_list_func)(ECardSimple *card, const char *prop, char **values);
 } prop_info_table[] = {
-	/* field_id,                     query prop,   ldap attr,         type,           list construct function */
-	{ E_CARD_SIMPLE_FIELD_FULL_NAME, "full_name",  "cn",              PROP_TYPE_NORMAL,  NULL },
-	{ E_CARD_SIMPLE_FIELD_TITLE,     "title",      "title",           PROP_TYPE_NORMAL,  NULL },
-	{ E_CARD_SIMPLE_FIELD_ORG_UNIT,  "org",        "o",               PROP_TYPE_NORMAL,  NULL },
-	{ E_CARD_SIMPLE_FIELD_PHONE_PRIMARY, "phone",  "telephonenumber", PROP_TYPE_NORMAL,    NULL },
-	{ 0 /* unused */,                "email",      "mail",            PROP_TYPE_LIST,    construct_email_list },
+	/* field_id,                         query prop,   ldap attr,        type,             list construct function */
+	{ E_CARD_SIMPLE_FIELD_FULL_NAME,     "full_name", "cn",              PROP_TYPE_NORMAL, NULL },
+	{ E_CARD_SIMPLE_FIELD_TITLE,         "title",     "title",           PROP_TYPE_NORMAL, NULL },
+	{ E_CARD_SIMPLE_FIELD_ORG,           "org",       "o",               PROP_TYPE_NORMAL, NULL },
+	{ E_CARD_SIMPLE_FIELD_PHONE_PRIMARY, "phone",     "telephonenumber", PROP_TYPE_NORMAL, NULL },
+	{ 0 /* unused */,                    "email",     "mail",            PROP_TYPE_LIST,   construct_email_list },
 };
 
 static int num_prop_infos = sizeof(prop_info_table) / sizeof(prop_info_table[0]);
 
 static gchar *
-map_e_card_prop_to_ldap(gchar *e_card_prop)
+query_prop_to_ldap(gchar *query_prop)
 {
 	int i;
 
 	for (i = 0; i < num_prop_infos; i ++)
-		if (!strcmp (e_card_prop, prop_info_table[i].query_prop))
+		if (!strcmp (query_prop, prop_info_table[i].query_prop))
 			return prop_info_table[i].ldap_attr;
 
 	return NULL;
@@ -615,8 +614,6 @@ poll_ldap (PASBackendLDAPBookView *view)
 	int            rc;
 	LDAPMessage    *res, *e;
 	GList   *cards = NULL;
-
-	printf ("polling ldap server\n");
 
 	ldap = view->blpriv->ldap;
 		
