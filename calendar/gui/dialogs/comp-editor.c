@@ -248,6 +248,8 @@ comp_editor_destroy (GtkObject *object)
 	editor = COMP_EDITOR (object);
 	priv = editor->priv;
 
+	gtk_signal_disconnect_by_data (GTK_OBJECT (priv->client), editor);
+
 	if (priv->window) {
 		gtk_widget_destroy (priv->window);
 		priv->window = NULL;
@@ -258,8 +260,6 @@ comp_editor_destroy (GtkObject *object)
 		priv->comp = NULL;
 	}
 
-	gtk_signal_disconnect_by_data (GTK_OBJECT (priv->client), editor);
-	
 	g_free (priv);
 	editor->priv = NULL;
 	
