@@ -851,7 +851,7 @@ config_read (void)
 	
 	p = getenv ("USER");
 	config->thread_subject = bonobo_config_get_boolean_with_default (
-                config->db, "/Mail/Display/thread_subject", p && (!strcmp (p, "fejj") || !strcmp (p, "notzed")) ? TRUE : FALSE, NULL);
+                config->db, "/Mail/Display/thread_subject", FALSE, NULL);
 	
 	config->show_preview = bonobo_config_get_boolean_with_default (
 		config->db, "/Mail/Display/preview_pane", TRUE, NULL);
