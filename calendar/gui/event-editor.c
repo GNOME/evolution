@@ -28,6 +28,7 @@
 #include <widgets/misc/e-dateedit.h>
 #include <gal/widgets/e-unicode.h>
 #include <cal-util/timeutil.h>
+#include "calendar-config.h"
 #include "event-editor.h"
 #include "e-meeting-edit.h"
 #include "tag-calendar.h"
@@ -331,6 +332,16 @@ make_title_from_comp (CalComponent *comp)
 	}
 }
 
+/* Callback used when the recurrence weekday picker changes */
+static void
+recur_weekday_picker_changed_cb (WeekdayPicker *wp, gpointer data)
+{
+	EventEditor *ee;
+
+	ee = EVENT_EDITOR (data);
+	preview_recur (ee);
+}
+
 /* Creates the special contents for weekly recurrences */
 static void
 make_recur_weekly_special (EventEditor *ee)
@@ -364,6 +375,9 @@ make_recur_weekly_special (EventEditor *ee)
 
 	weekday_picker_set_week_starts_on_monday (wp, week_starts_on_monday);
 	weekday_picker_set_days (wp, priv->recurrence_weekday_day_mask);
+
+	gtk_signal_connect (GTK_OBJECT (wp), "changed",
+			    GTK_SIGNAL_FUNC (recur_weekday_picker_changed_cb), ee);
 }
 
 /* Creates the option menu for the monthly recurrence days */
@@ -462,6 +476,17 @@ month_day_menu_selection_done_cb (GtkMenuShell *menu_shell, gpointer data)
 
 	ee = EVENT_EDITOR (data);
 	adjust_day_index_spin (ee);
+	preview_recur (ee);
+}
+
+/* Callback used when the month index value changes. */
+static void
+recur_month_index_value_changed_cb (GtkAdjustment *adj, gpointer data)
+{
+	EventEditor *ee;
+
+	ee = EVENT_EDITOR (data);
+	preview_recur (ee);
 }
 
 /* Creates the special contents for monthly recurrences */
@@ -496,11 +521,6 @@ make_recur_monthly_special (EventEditor *ee)
 	gtk_box_pack_start (GTK_BOX (hbox), label, FALSE, FALSE, 0);
 
 	priv->recurrence_month_day_menu = make_recur_month_menu ();
-
-	menu = gtk_option_menu_get_menu (GTK_OPTION_MENU (priv->recurrence_month_day_menu));
-	gtk_signal_connect (GTK_OBJECT (menu), "selection_done",
-			    GTK_SIGNAL_FUNC (month_day_menu_selection_done_cb), ee);
-
 	gtk_box_pack_start (GTK_BOX (hbox), priv->recurrence_month_day_menu, FALSE, FALSE, 0);
 
 	gtk_widget_show_all (hbox);
@@ -512,6 +532,13 @@ make_recur_monthly_special (EventEditor *ee)
 				  priv->recurrence_month_day,
 				  month_day_options_map);
 	adjust_day_index_spin (ee);
+
+	gtk_signal_connect (GTK_OBJECT (adj), "value_changed",
+			    GTK_SIGNAL_FUNC (recur_month_index_value_changed_cb), ee);
+
+	menu = gtk_option_menu_get_menu (GTK_OPTION_MENU (priv->recurrence_month_day_menu));
+	gtk_signal_connect (GTK_OBJECT (menu), "selection_done",
+			    GTK_SIGNAL_FUNC (month_day_menu_selection_done_cb), ee);
 }
 
 static const int recur_freq_map[] = {
@@ -571,6 +598,16 @@ make_recurrence_special (EventEditor *ee)
 	}
 }
 
+/* Callback used when the ending-until date editor changes */
+static void
+recur_ending_until_changed_cb (EDateEdit *de, gpointer data)
+{
+	EventEditor *ee;
+
+	ee = EVENT_EDITOR (data);
+	preview_recur (ee);
+}
+
 /* Creates the special contents for "ending until" (end date) recurrences */
 static void
 make_recur_ending_until_special (EventEditor *ee)
@@ -596,6 +633,19 @@ make_recur_ending_until_special (EventEditor *ee)
 	/* Set the value */
 
 	e_date_edit_set_time (de, priv->recurrence_ending_date);
+
+	gtk_signal_connect (GTK_OBJECT (de), "changed",
+			    GTK_SIGNAL_FUNC (recur_ending_until_changed_cb), ee);
+}
+
+/* Callback used when the ending-count value changes */
+static void
+recur_ending_count_value_changed_cb (GtkAdjustment *adj, gpointer data)
+{
+	EventEditor *ee;
+
+	ee = EVENT_EDITOR (data);
+	preview_recur (ee);
 }
 
 /* Creates the special contents for the ocurrence count case */
@@ -630,6 +680,9 @@ make_recur_ending_count_special (EventEditor *ee)
 
 	e_dialog_spin_set (priv->recurrence_ending_count_spin,
 			   priv->recurrence_ending_count);
+
+	gtk_signal_connect (GTK_OBJECT (adj), "value_changed",
+			    GTK_SIGNAL_FUNC (recur_ending_count_value_changed_cb), ee);
 }
 
 enum ending_type {
@@ -940,6 +993,18 @@ start_date_changed_cb (EDateEdit *de, gpointer data)
 	sync_date_edits (de, E_DATE_EDIT (data));
 }
 
+/* Callback used when the displayed date range in the recurrence preview
+ * calendar changes.
+ */
+static void
+recur_preview_date_range_changed_cb (ECalendarItem *item, gpointer data)
+{
+	EventEditor *ee;
+
+	ee = EVENT_EDITOR (data);
+	preview_recur (ee);
+}
+
 /* Hooks the widget signals */
 static void
 init_widgets (EventEditor *ee)
@@ -947,6 +1012,8 @@ init_widgets (EventEditor *ee)
 	EventEditorPrivate *priv;
 	GtkWidget *menu;
 	GtkAdjustment *adj;
+	ECalendar *ecal;
+	int week_start_day;
 
 	priv = ee->priv;
 
@@ -985,6 +1052,22 @@ init_widgets (EventEditor *ee)
 	gtk_signal_connect (GTK_OBJECT (priv->alarm_mail), "toggled",
 			    GTK_SIGNAL_FUNC (alarm_toggle), ee);
 
+	/* Recurrence preview */
+
+	week_start_day = calendar_config_get_week_start_day ();
+
+	priv->recurrence_preview_calendar = e_calendar_new ();
+	ecal = E_CALENDAR (priv->recurrence_preview_calendar);
+	gtk_signal_connect (GTK_OBJECT (ecal->calitem), "date_range_changed",
+			    GTK_SIGNAL_FUNC (recur_preview_date_range_changed_cb), ee);
+	gnome_canvas_item_set (GNOME_CANVAS_ITEM (ecal->calitem),
+			       "maximum_days_selected", 0,
+			       "week_start_day", (week_start_day + 6) % 7,
+			       NULL);
+	gtk_container_add (GTK_CONTAINER (priv->recurrence_preview_bin),
+			   priv->recurrence_preview_calendar);
+	gtk_widget_show (priv->recurrence_preview_calendar);
+
 	/* Recurrence types */
 
 	gtk_signal_connect (GTK_OBJECT (priv->recurrence_none), "toggled",
@@ -1020,13 +1103,6 @@ init_widgets (EventEditor *ee)
 			    GTK_SIGNAL_FUNC (recurrence_exception_modify_cb), ee);
 	gtk_signal_connect (GTK_OBJECT (priv->recurrence_exception_delete), "clicked",
 			    GTK_SIGNAL_FUNC (recurrence_exception_delete_cb), ee);
-
-	/* Recurrence preview */
-
-	priv->recurrence_preview_calendar = e_calendar_new ();
-	gtk_container_add (GTK_CONTAINER (priv->recurrence_preview_bin),
-			   priv->recurrence_preview_calendar);
-	gtk_widget_show (priv->recurrence_preview_calendar);
 }
 
 static const int classification_map[] = {
@@ -1153,7 +1229,7 @@ clear_widgets (EventEditor *ee)
 	gtk_signal_handler_block_by_data (GTK_OBJECT (menu), ee);
 	e_dialog_option_menu_set (priv->recurrence_ending_menu, ENDING_FOREVER,
 				  ending_types_map);
-	gtk_signal_handler_block_by_data (GTK_OBJECT (menu), ee);
+	gtk_signal_handler_unblock_by_data (GTK_OBJECT (menu), ee);
 
 	/* Exceptions list */
 

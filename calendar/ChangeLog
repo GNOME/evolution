@@ -1,5 +1,28 @@
 2000-11-12  Federico Mena Quintero  <federico@helixcode.com>
 
+	* gui/event-editor.c (recur_preview_date_range_changed_cb): New
+	function; re-tag the calendar when its date range changes.
+	(init_widgets): Connect to "date_range_changed" on the recurrence
+	preview calendar.
+	(make_recur_weekly_special): Connect to "changed" on the weekday
+	picker.
+	(recur_weekday_picker_changed_cb): New function; re-tag the calendar.
+	(month_day_menu_selection_done_cb): Re-tag the calendar.
+	(recur_month_index_value_changed_cb): Likewise.
+	(recur_ending_until_changed_cb): Likewise.
+	(recur_ending_count_value_changed_cb): Likewise.
+	(make_recur_monthly_special): Connect to "value_changed" on the
+	adjustment of the month index.
+	(make_recur_ending_until_special): Connect to "changed" on the
+	ending-until date picker.
+	(make_recur_ending_count_special): Connect to "value_changed" on
+	the ending-count adjustment.
+	(init_widgets): Set to zero the maximum number of selectable days
+	in the recurrence preview calendar.  Set the week_start_day from
+	the calendar's configuration.
+
+2000-11-12  Federico Mena Quintero  <federico@helixcode.com>
+
 	* gui/event-editor.c (clear_widgets): Block the signals as appropriate.
 	(fill_ending_date): Ditto.
 	(fill_recurrence_widgets): Ditto.
