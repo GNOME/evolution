@@ -163,7 +163,7 @@
     </submenu>
   </menu>
 
-  <dockitem name="Toolbar" relief="none" behavior="exclusive"
+  <dockitem name="Toolbar" relief="none" behavior="exclusive" config="0"
 	    _tip="Main toolbar" hlook="text" vlook="icon"/>
 
   <popups>
