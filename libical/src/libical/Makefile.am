@@ -3,6 +3,10 @@ ICALSCRIPTS = $(top_srcdir)/scripts
 
 lib_LTLIBRARIES = libical.la
 
+noinst_LTLIBRARIES = libical-static.la
+libical_static_la_SOURCES = $(libical_la_SOURCES)
+libical_static_la_LDFLAGS = --all-static
+
 YFLAGS = -d -v -t -pical_yy
 LFLAGS = -Pical_yy
 LEX_OUTPUT_ROOT = lex.ical_yy
