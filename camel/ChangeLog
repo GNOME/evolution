@@ -11,6 +11,7 @@
 	* providers/mbox/camel-mbox-folder.c (mbox_sync): leftover fixes
 	from the close->sync change: don't destroy the ibex, summary, and
 	search when syncing.
+	(append_message): emit "folder_changed" on a successful append.
 
 2000-07-02  Jeffrey Stedfast  <fejj@helixcode.com>
 
