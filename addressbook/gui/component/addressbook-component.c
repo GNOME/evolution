@@ -37,11 +37,13 @@
 
 #include "ebook/e-book.h"
 #include "ebook/e-card.h"
+#include "ebook/e-book-util.h"
 
 #include "addressbook-storage.h"
 #include "addressbook-component.h"
 #include "addressbook.h"
 #include "addressbook/gui/merging/e-card-merging.h"
+#include "addressbook/gui/widgets/e-addressbook-util.h"
 
 
 
@@ -270,6 +272,35 @@ owner_unset_cb (EvolutionShellComponent *shell_component,
 		gtk_main_quit();
 }
 
+/* FIXME We should perhaps take the time to figure out if the book is editable. */
+static void
+local_addressbook_cb (EBook *book, gpointer closure)
+{
+	gboolean is_list = GPOINTER_TO_INT (closure);
+	if (is_list)
+		e_addressbook_show_contact_list_editor (book, e_card_new(""), TRUE, TRUE);
+	else
+		e_addressbook_show_contact_editor (book, e_card_new(""), TRUE, TRUE);
+}
+
+static void
+user_create_new_item_cb (EvolutionShellComponent *shell_component,
+			 const char *id,
+			 const char *parent_folder_physical_uri,
+			 const char *parent_folder_type,
+			 gpointer data)
+{
+	if (!strcmp (id, "contact")) {
+		e_book_use_local_address_book (local_addressbook_cb, GINT_TO_POINTER (0));
+		return;
+	} else if (!strcmp (id, "contact_list")) {
+		e_book_use_local_address_book (local_addressbook_cb, GINT_TO_POINTER (1));
+		return;
+	} 
+
+	g_warning ("Don't know how to create item of type \"%s\"", id);
+}
+
 
 /* Destination side DnD */
 
@@ -351,11 +382,15 @@ factory_fn (BonoboGenericFactory *factory,
 	bonobo_object_add_interface (BONOBO_OBJECT (shell_component),
 				     BONOBO_OBJECT (destination_interface));
 
+	evolution_shell_component_add_user_creatable_item (shell_component, "contact", _("New Contact"), _("New _Contact"), 'c');
+	evolution_shell_component_add_user_creatable_item (shell_component, "contact_list", _("New Contact List"), _("New Contact _List"), 'l');
+
 	gtk_signal_connect (GTK_OBJECT (shell_component), "owner_set",
 			    GTK_SIGNAL_FUNC (owner_set_cb), NULL);
-
 	gtk_signal_connect (GTK_OBJECT (shell_component), "owner_unset",
 			    GTK_SIGNAL_FUNC (owner_unset_cb), NULL);
+	gtk_signal_connect (GTK_OBJECT (shell_component), "user_create_new_item",
+			    GTK_SIGNAL_FUNC (user_create_new_item_cb), NULL);
 
 	return BONOBO_OBJECT (shell_component);
 }
