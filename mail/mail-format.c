@@ -2245,11 +2245,10 @@ char *
 mail_get_message_body (CamelDataWrapper *data, gboolean want_plain, gboolean cite)
 {
 	CamelContentType *mime_type;
-	CamelMultipart *mp;
+	char *subtext, *old, *div, *text = NULL;
+	GByteArray *bytes = NULL;
 	CamelMimePart *subpart;
-	char *subtext, *old, *div;
-	char *text = NULL;
-	GByteArray *bytes;
+	CamelMultipart *mp;
 	int i, nparts;
 	
 	mime_type = camel_data_wrapper_get_mime_type_field (data);
@@ -2270,12 +2269,12 @@ mail_get_message_body (CamelDataWrapper *data, gboolean want_plain, gboolean cit
 	if (header_content_type_is (mime_type, "text", "*") ||
 	    header_content_type_is (mime_type, "message", "*")) {
 		bytes = mail_format_get_data_wrapper_text (data, NULL);
-		if (bytes && !header_content_type_is (mime_type, "text", "html")) {
+		g_byte_array_append (bytes, "", 1);
+		text = bytes->data;
+		g_byte_array_free (bytes, FALSE);
+		
+		if (text && !header_content_type_is (mime_type, "text", "html")) {
 			char *html;
-			
-			g_byte_array_append (bytes, "", 1);
-			text = bytes->data;
-			g_byte_array_free (bytes, FALSE);
 			
 			html = e_text_to_html (text, E_TEXT_TO_HTML_PRE | (cite ? E_TEXT_TO_HTML_CITE : 0));
 			g_free (text);
@@ -2311,7 +2310,7 @@ mail_get_message_body (CamelDataWrapper *data, gboolean want_plain, gboolean cit
 			div = "<br>\n----<br>\n<br>\n";
 	} else
 		div = "<br><hr><br>";
-
+	
 	nparts = camel_multipart_get_number (mp);
 	for (i = 0; i < nparts; i++) {
 		subpart = camel_multipart_get_part (mp, i);

@@ -1,3 +1,8 @@
+2001-10-24  Jeffrey Stedfast  <fejj@ximian.com>
+
+	* mail-format.c (mail_get_message_body): Fix to not always return
+	NULL for html parts, doh!.
+
 2001-10-24    <NotZed@Ximian.com>
 
 	* folder-browser-ui.c (ui_add): 

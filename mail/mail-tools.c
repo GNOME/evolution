@@ -368,6 +368,7 @@ mail_tool_quote_message (CamelMimeMessage *message, const char *fmt, ...)
 	return NULL;
 }
 
+
 /**
  * mail_tool_forward_message:
  * @message: mime message to forward
