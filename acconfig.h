@@ -23,6 +23,7 @@
 #undef USE_FCNTL
 #undef USE_FLOCK
 #undef ENABLE_NNTP
+#undef HAVE_BROKEN_SPOOL
 
 /* db3 version */
 #undef EVOLUTION_DB_VERSION_MAJOR
@@ -37,6 +38,3 @@
 
 /* Define if gethostbyname_r takes five arguments */
 #undef GETHOSTBYNAME_R_FIVE_ARGS
-
-/* Define if using Solaris mbox format spool */
-#undef HAVE_BROKEN_SPOOL
