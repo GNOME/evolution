@@ -1,5 +1,7 @@
 2001-06-25  Ettore Perazzoli  <ettore@ximian.com>
 
+	* main.c (no_views_left_cb): Unref the shell here.
+
 	* e-storage-set.c (destroy): Use
 	`name_to_named_storage_foreach_destroy()' as the function argument
 	to `g_hash_table_foreach()', not `named_storage_destroy()', which
