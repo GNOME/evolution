@@ -1,6 +1,0 @@
-Makefile.in
-Makefile
-.deps
-.pure
-e-contact-list-editor-marshal.c
-e-contact-list-editor-marshal.h
