@@ -1,4 +1,4 @@
-/* -*- Mode: C; tab-width: 8; indent-tabs-mode: t; c-basic-offset: 8; fill-column: 160 -*- */
+/* -*- Mode: C; tab-width: 8; indent-tabs-mode: t; c-basic-offset: 8; -*- */
 /* camel-data-wrapper.c : Abstract class for a data_wrapper */
 
 /*
@@ -66,6 +66,7 @@ camel_data_wrapper_init (gpointer object, gpointer klass)
 	CamelDataWrapper *camel_data_wrapper = CAMEL_DATA_WRAPPER (object);
 
 	camel_data_wrapper->mime_type = header_content_type_new ("application", "octet-stream");
+	camel_data_wrapper->offline = FALSE;
 }
 
 static void
@@ -271,4 +272,19 @@ camel_data_wrapper_set_mime_type_field (CamelDataWrapper *data_wrapper,
 					CamelContentType *mime_type)
 {
 	CDW_CLASS (data_wrapper)->set_mime_type_field (data_wrapper, mime_type);
+}
+
+
+/**
+ * camel_data_wrapper_is_offline:
+ * @data_wrapper: a data wrapper
+ *
+ * Return value: whether @data_wrapper is "offline" (data stored
+ * remotely) or not. Some optional code paths may choose to not
+ * operate on offline data.
+ **/
+gboolean
+camel_data_wrapper_is_offline (CamelDataWrapper *data_wrapper)
+{
+	return data_wrapper->offline;
 }

@@ -1,5 +1,51 @@
 2001-01-16  Dan Winship  <danw@ximian.com>
 
+	Delayed loading of IMAP message parts.
+
+	* camel-types.h: typedef CamelMessageInfo and
+	CamelMessageContentInfo here
+
+	* camel-folder-summary.h: Add a "size" field to
+	CamelMessageContentInfo.
+
+	* camel-folder-summary.c (camel_folder_summary_content_info_new,
+	camel_folder_summary_content_info_free): Renamed and made
+	non-static for providers that construct their own content info.
+	(content_info_load, content_info_save): load/save size
+
+	* camel-data-wrapper.c (camel_data_wrapper_is_offline): New
+	function to return if a data wrapper's contents are "offline". (So
+	that, for example, we don't make thumbnails of images that haven't
+	been loaded off the IMAP server yet.) Defaults to FALSE.
+
+	* providers/imap/camel-imap-folder.c (camel_imap_folder_selected):
+	Fix a bug in re-selecting a folder when messages have been
+	expunged from it by another client in the meantime.
+	(imap_get_message): Rewrite. If the message is larger than a
+	certain size, just create a skeleton message containing
+	CamelImapWrappers that will read parts as needed. This way, large
+	attachments only need to be downloaded if the user looks at them,
+	and multipart/alternative alternatives that aren't used will never
+	be downloaded at all.
+	(imap_update_summary): Rewrite this a bunch too to make the
+	parsing more robust.
+
+	* providers/imap/camel-imap-summary.c
+	(CAMEL_IMAP_SUMMARY_VERSION): bump.
+	(camel_imap_summary_new): Set build_content to TRUE.
+	(content_info_load, content_info_save): Only save/load the content
+	for messages that have it. (The content info gets created as a
+	side effect of imap_get_message.)
+
+	* providers/imap/camel-imap-utils.c (imap_parse_body): New routine
+	(and helpers) to parse an IMAP 'body' FETCH response and fill in a
+	CamelMessageContentInfo from it.
+
+	* providers/imap/Makefile.am (libcamelimap_la_SOURCES,
+	libcamelimap_la_HEADERS): add camel-imap-wrapper.
+
+2001-01-16  Dan Winship  <danw@ximian.com>
+
 	* camel-tcp-stream-raw.c (stream_getsockopt, stream_setsockopt):
 	* camel-stream-fs.c (stream_read, stream_write): 
 	* camel-remote-store.c (socket_connect): fcntl(fd, F_GETFL)

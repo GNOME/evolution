@@ -807,8 +807,15 @@ CamelMessageInfo *camel_folder_summary_info_new_from_message(CamelFolderSummary 
 	return info;
 }
 
-static void
-perform_content_info_free(CamelFolderSummary *s, CamelMessageContentInfo *ci)
+/**
+ * camel_folder_summary_content_info_free:
+ * @s: 
+ * @ci: 
+ * 
+ * Free the content info @ci, and all associated memory.
+ **/
+void
+camel_folder_summary_content_info_free(CamelFolderSummary *s, CamelMessageContentInfo *ci)
 {
 	CamelMessageContentInfo *pw, *pn;
 
@@ -816,7 +823,7 @@ perform_content_info_free(CamelFolderSummary *s, CamelMessageContentInfo *ci)
 	((CamelFolderSummaryClass *)(CAMEL_OBJECT_GET_CLASS(s)))->content_info_free(s, ci);
 	while (pw) {
 		pn = pw->next;
-		perform_content_info_free(s, pw);
+		camel_folder_summary_content_info_free(s, pw);
 		pw = pn;
 	}
 }
@@ -851,7 +858,7 @@ void camel_folder_summary_info_free(CamelFolderSummary *s, CamelMessageInfo *mi)
 
 	((CamelFolderSummaryClass *)(CAMEL_OBJECT_GET_CLASS(s)))->message_info_free(s, mi);		
 	if (s->build_content && ci) {
-		perform_content_info_free(s, ci);
+		camel_folder_summary_content_info_free(s, ci);
 	}
 }
 
@@ -1596,8 +1603,17 @@ camel_folder_summary_info_new(CamelFolderSummary *s)
 	return mi;
 }
 
-static CamelMessageContentInfo *
-content_info_alloc(CamelFolderSummary *s)
+/**
+ * camel_folder_summary_content_info_new:
+ * @s: 
+ * 
+ * Allocate a new camel message content info, suitable for adding
+ * to this summary.
+ * 
+ * Return value: 
+ **/
+CamelMessageContentInfo *
+camel_folder_summary_content_info_new(CamelFolderSummary *s)
 {
 	CamelMessageContentInfo *ci;
 
@@ -1831,7 +1847,7 @@ content_info_new(CamelFolderSummary *s, struct _header_raw *h)
 {
 	CamelMessageContentInfo *ci;
 
-	ci = content_info_alloc(s);
+	ci = camel_folder_summary_content_info_new(s);
 
 	ci->id = header_msgid_decode(header_raw_find(&h, "content-id", NULL));
 	ci->description = header_decode_string(header_raw_find(&h, "content-description", NULL));
@@ -1850,7 +1866,7 @@ content_info_load(CamelFolderSummary *s, FILE *in)
 
 	io(printf("Loading content info\n"));
 
-	ci = content_info_alloc(s);
+	ci = camel_folder_summary_content_info_new(s);
 	
 	camel_folder_summary_decode_token(in, &type);
 	camel_folder_summary_decode_token(in, &subtype);
@@ -1872,6 +1888,8 @@ content_info_load(CamelFolderSummary *s, FILE *in)
 	camel_folder_summary_decode_token(in, &ci->id);
 	camel_folder_summary_decode_token(in, &ci->description);
 	camel_folder_summary_decode_token(in, &ci->encoding);
+
+	camel_folder_summary_decode_uint32(in, &ci->size);
 
 	ci->childs = NULL;
 	return ci;
@@ -1903,7 +1921,8 @@ content_info_save(CamelFolderSummary *s, FILE *out, CamelMessageContentInfo *ci)
 	}
 	camel_folder_summary_encode_token(out, ci->id);
 	camel_folder_summary_encode_token(out, ci->description);
-	return camel_folder_summary_encode_token(out, ci->encoding);
+	camel_folder_summary_encode_token(out, ci->encoding);
+	return camel_folder_summary_encode_uint32(out, ci->size);
 }
 
 static void
@@ -2563,10 +2582,10 @@ content_info_dump(CamelMessageContentInfo *ci, int depth)
 		return;
 	}
 
-	printf("%sconent-type: %s/%s\n", p, ci->type->type, ci->type->subtype);
-	printf("%sontent-transfer-encoding: %s\n", p, ci->encoding);
+	printf("%scontent-type: %s/%s\n", p, ci->type->type, ci->type->subtype);
+	printf("%scontent-transfer-encoding: %s\n", p, ci->encoding);
 	printf("%scontent-description: %s\n", p, ci->description);
-	printf("%sbytes: %d %d %d\n", p, (int)ci->pos, (int)ci->bodypos, (int)ci->endpos);
+	printf("%ssize: %lu\n", p, (unsigned long)ci->size);
 	ci = ci->childs;
 	while (ci) {
 		content_info_dump(ci, depth+1);
@@ -2574,7 +2593,7 @@ content_info_dump(CamelMessageContentInfo *ci, int depth)
 	}
 }
 
-static void
+void
 message_info_dump(CamelMessageInfo *mi)
 {
 	if (mi == NULL) {
@@ -2583,10 +2602,10 @@ message_info_dump(CamelMessageInfo *mi)
 	}
 
 	printf("Subject: %s\n", camel_message_info_subject(mi));
-	printf("To: %s\n", camel_message_info_to(to));
-	printf("Cc: %s\n", camel_message_info_cc(cc));
-	printf("From: %s\n", camel_message_info_from(from));
-	printf("UID: %s\n", camel_message_info_uid(uid));
+	printf("To: %s\n", camel_message_info_to(mi));
+	printf("Cc: %s\n", camel_message_info_cc(mi));
+	printf("From: %s\n", camel_message_info_from(mi));
+	printf("UID: %s\n", camel_message_info_uid(mi));
 	printf("Flags: %04x\n", mi->flags & 0xffff);
 	content_info_dump(mi->content, 0);
 }

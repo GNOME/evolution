@@ -25,11 +25,9 @@
 #include <string.h>
 #include <time.h>
 
-#include <gtk/gtk.h>
 #include "camel-imap-utils.h"
-#include "string-utils.h"
-#include <e-sexp.h>
-#include "camel/camel-folder-summary.h"
+#include "camel-imap-summary.h"
+#include "camel-folder.h"
 
 #define d(x) x
 
@@ -288,6 +286,250 @@ imap_parse_string_generic (char **str_p, int *len, int type)
 		*str_p = NULL;
 		return NULL;
 	}
+}
+
+static inline void
+skip_char (char **str_p, char ch)
+{
+	if (*str_p && **str_p == ch)
+		*str_p = *str_p + 1;
+	else
+		*str_p = NULL;
+}
+
+/* Skip atom, string, or number */
+static void
+skip_asn (char **str_p)
+{
+	char *str = *str_p;
+
+	if (!str)
+		return;
+	else if (*str == '"') {
+		while (*++str && *str != '"') {
+			if (*str == '\\') {
+				str++;
+				if (!*str)
+					break;
+			}
+		}
+		if (*str == '"')
+			*str_p = str + 1;
+		else
+			*str_p = NULL;
+	} else if (*str == '{') {
+		unsigned long len;
+
+		len = strtoul (str + 1, &str, 10);
+		if (*str != '}' || *(str + 1) != '\n' ||
+		    strlen (str + 2) < len) {
+			*str_p = NULL;
+			return;
+		}
+		*str_p = str + 2 + len;
+	} else {
+		/* We assume the string is well-formed and don't
+		 * bother making sure it's a valid atom.
+		 */
+		while (*str && *str != ')' && *str != ' ')
+			str++;
+		*str_p = str;
+	}
+}
+
+static void
+skip_list (char **str_p)
+{
+	skip_char (str_p, '(');
+	while (*str_p && **str_p != ')') {
+		if (**str_p == '(')
+			skip_list (str_p);
+		else
+			skip_asn (str_p);
+		if (*str_p && **str_p == ' ')
+			skip_char (str_p, ' ');
+	}
+	skip_char (str_p, ')');
+}
+
+static void
+parse_params (char **parms_p, CamelContentType *type)
+{
+	char *parms = *parms_p, *name, *value;
+	int len;
+
+	if (!g_strncasecmp (parms, "nil", 3)) {
+		*parms_p += 3;
+		return;
+	}
+
+	if (*parms++ != '(') {
+		*parms_p = NULL;
+		return;
+	}
+
+	while (parms && *parms != ')') {
+		name = imap_parse_nstring (&parms, &len);
+		skip_char (&parms, ' ');
+		value = imap_parse_nstring (&parms, &len);
+
+		if (name && value)
+			header_content_type_set_param (type, name, value);
+		g_free (name);
+		g_free (value);
+
+		if (parms && *parms == ' ')
+			parms++;
+	}
+
+	if (!parms || *parms++ != ')') {
+		*parms_p = NULL;
+		return;
+	}
+	*parms_p = parms;
+}
+
+/**
+ * imap_parse_body:
+ * @body_p: pointer to the start of an IMAP "body"
+ * @folder: an imap folder
+ * @ci: a CamelMessageContentInfo to fill in
+ *
+ * This filles in @ci with data from *@body_p. On success *@body_p
+ * will point to the character after the body. On failure, it will be
+ * set to %NULL and @ci will be unchanged.
+ **/
+void
+imap_parse_body (char **body_p, CamelFolder *folder,
+		 CamelMessageContentInfo *ci)
+{
+	char *body = *body_p;
+	CamelMessageContentInfo *child;
+	CamelContentType *type;
+	int len;
+
+	if (*body++ != '(') {
+		*body_p = NULL;
+		return;
+	}
+
+	if (*body == '(') {
+		/* multipart */
+		GPtrArray *children;
+		char *subtype;
+		int i;
+
+		/* Parse the child body parts */
+		children = g_ptr_array_new ();
+		i = 0;
+		while (body && *body == '(') {
+			child = camel_folder_summary_content_info_new (folder->summary);
+			g_ptr_array_add (children, child);
+			imap_parse_body (&body, folder, child);
+			if (!body)
+				break;
+			child->parent = ci;
+		}
+		skip_char (&body, ' ');
+
+		/* Parse the multipart subtype */
+		subtype = imap_parse_string (&body, &len);
+
+		/* If there is a parse error, abort. */
+		if (!body) {
+			for (i = 0; i < children->len; i++) {
+				child = children->pdata[i];
+				camel_folder_summary_content_info_free (folder->summary, child);
+			}
+			g_ptr_array_free (children, TRUE);
+			*body_p = NULL;
+			return;
+		}
+
+		g_strdown (subtype);
+		ci->type = header_content_type_new ("multipart", subtype);
+		g_free (subtype);
+
+		/* Chain the children. */
+		ci->childs = children->pdata[0];
+		ci->size = 0;
+		for (i = 0; i < children->len - 1; i++) {
+			child = children->pdata[i];
+			child->next = children->pdata[i + 1];
+			ci->size += child->size;
+		}
+		g_ptr_array_free (children, TRUE);
+	} else {
+		/* single part */
+		char *main_type, *subtype;
+		char *id, *description, *encoding;
+		guint32 size;
+
+		main_type = imap_parse_string (&body, &len);
+		skip_char (&body, ' ');
+		subtype = imap_parse_string (&body, &len);
+		skip_char (&body, ' ');
+		if (!body) {
+			g_free (main_type);
+			g_free (subtype);
+			*body_p = NULL;
+			return;
+		}
+		g_strdown (main_type);
+		g_strdown (subtype);
+		type = header_content_type_new (main_type, subtype);
+		g_free (main_type);
+		g_free (subtype);
+		parse_params (&body, type);
+		skip_char (&body, ' ');
+
+		id = imap_parse_nstring (&body, &len);
+		skip_char (&body, ' ');
+		description = imap_parse_nstring (&body, &len);
+		skip_char (&body, ' ');
+		encoding = imap_parse_string (&body, &len);
+		skip_char (&body, ' ');
+		if (body)
+			size = strtoul (body, &body, 10);
+
+		child = NULL;
+		if (header_content_type_is (type, "message", "rfc822")) {
+			skip_char (&body, ' ');
+			skip_list (&body); /* envelope */
+			skip_char (&body, ' ');
+			child = camel_folder_summary_content_info_new (folder->summary);
+			imap_parse_body (&body, folder, child);
+			if (!body)
+				camel_folder_summary_content_info_free (folder->summary, child);
+			skip_char (&body, ' ');
+			if (body)
+				strtoul (body, &body, 10);
+		} else if (header_content_type_is (type, "text", "*")) {
+			if (body)
+				strtoul (body, &body, 10);
+		}
+
+		if (body) {
+			ci->type = type;
+			ci->id = id;
+			ci->description = description;
+			ci->encoding = encoding;
+			ci->size = size;
+			ci->childs = child;
+		} else {
+			header_content_type_unref (type);
+			g_free (id);
+			g_free (description);
+			g_free (encoding);
+		}
+	}
+
+	if (!body || *body++ != ')') {
+		*body_p = NULL;
+		return;
+	}
+
+	*body_p = body;
 }
 
 /**

@@ -47,16 +47,13 @@ struct _CamelDataWrapper
 
 	CamelContentType *mime_type;
 	CamelStream *stream;
+	gboolean offline;
 };
 
 typedef struct {
 	CamelObjectClass parent_class;
 
 	/* Virtual methods */
-	void                (*set_output_stream)      (CamelDataWrapper *data_wrapper,
-						       CamelStream *stream);
-	CamelStream *       (*get_output_stream)      (CamelDataWrapper *data_wrapper);
-
 	void                (*set_mime_type)          (CamelDataWrapper *data_wrapper,
 						       const gchar * mime_type);
 	gchar *             (*get_mime_type)          (CamelDataWrapper *data_wrapper);
@@ -86,6 +83,8 @@ void                camel_data_wrapper_set_mime_type_field      (CamelDataWrappe
 								 CamelContentType *mime_type);
 
 int                 camel_data_wrapper_construct_from_stream    (CamelDataWrapper *data_wrapper, CamelStream *stream);
+
+gboolean            camel_data_wrapper_is_offline               (CamelDataWrapper *data_wrapper);
 
 #ifdef __cplusplus
 }

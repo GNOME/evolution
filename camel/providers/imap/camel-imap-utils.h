@@ -50,6 +50,9 @@ char *imap_parse_string_generic (char **str_p, int *len, int type);
 #define imap_parse_astring(str_p, len_p) \
 	imap_parse_string_generic (str_p, len_p, IMAP_ASTRING)
 
+void imap_parse_body (char **body_p, CamelFolder *folder,
+		      CamelMessageContentInfo *ci);
+
 char *imap_quote_string (const char *str);
 
 #ifdef __cplusplus

@@ -37,7 +37,7 @@ typedef struct _CamelFolderSummaryClass CamelFolderSummaryClass;
 
 /* A tree of message content info structures
    describe the content structure of the message (if it has any) */
-typedef struct _CamelMessageContentInfo {
+struct _CamelMessageContentInfo {
 	struct _CamelMessageContentInfo *next;
 
 	struct _CamelMessageContentInfo *childs;
@@ -47,7 +47,8 @@ typedef struct _CamelMessageContentInfo {
 	char *id;
 	char *description;
 	char *encoding;
-} CamelMessageContentInfo;
+	guint32 size;
+};
 
 /* system flag bits */
 enum _CamelMessageFlags {
@@ -107,7 +108,7 @@ enum {
 #endif
 
 /* information about a given object */
-typedef struct {
+struct _CamelMessageInfo {
 	/* public fields */
 #ifdef DOESTRV
 	struct _EStrv *strings;		/* all strings packed into a single compact array */
@@ -134,7 +135,7 @@ typedef struct {
 
 	/* tree of content description - NULL if it is not available */
 	CamelMessageContentInfo *content;
-} CamelMessageInfo;
+};
 
 enum _CamelFolderSummaryFlags {
 	CAMEL_SUMMARY_DIRTY = 1<<0,
@@ -231,6 +232,9 @@ CamelMessageInfo *camel_folder_summary_info_new_from_message(CamelFolderSummary 
 
 void camel_folder_summary_info_ref(CamelFolderSummary *, CamelMessageInfo *);
 void camel_folder_summary_info_free(CamelFolderSummary *, CamelMessageInfo *);
+
+CamelMessageContentInfo *camel_folder_summary_content_info_new(CamelFolderSummary *s);
+void camel_folder_summary_content_info_free(CamelFolderSummary *s, CamelMessageContentInfo *ci);
 
 /* removes a summary item, doesn't fix content offsets */
 void camel_folder_summary_remove(CamelFolderSummary *s, CamelMessageInfo *info);

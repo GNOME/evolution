@@ -32,14 +32,17 @@
 #include <string.h>
 #include <stdlib.h>
 
-#define CAMEL_IMAP_SUMMARY_VERSION (0x2000)
+#define CAMEL_IMAP_SUMMARY_VERSION (0x300)
 
 static int summary_header_load (CamelFolderSummary *, FILE *);
 static int summary_header_save (CamelFolderSummary *, FILE *);
 
 static CamelMessageInfo *message_info_load (CamelFolderSummary *s, FILE *in);
-static int               message_info_save (CamelFolderSummary *s, FILE *out,
-					    CamelMessageInfo *info);
+static int message_info_save (CamelFolderSummary *s, FILE *out,
+			      CamelMessageInfo *info);
+static CamelMessageContentInfo *content_info_load (CamelFolderSummary *s, FILE *in);
+static int content_info_save (CamelFolderSummary *s, FILE *out,
+			      CamelMessageContentInfo *info);
 
 static void camel_imap_summary_class_init (CamelImapSummaryClass *klass);
 static void camel_imap_summary_init       (CamelImapSummary *obj);
@@ -76,6 +79,8 @@ camel_imap_summary_class_init (CamelImapSummaryClass *klass)
 	cfs_class->summary_header_save = summary_header_save;
 	cfs_class->message_info_load = message_info_load;
 	cfs_class->message_info_save = message_info_save;
+	cfs_class->content_info_load = content_info_load;
+	cfs_class->content_info_save = content_info_save;
 }
 
 static void
@@ -109,7 +114,7 @@ camel_imap_summary_new (const char *filename, guint32 validity)
 		camel_object_new (camel_imap_summary_get_type ()));
 	CamelImapSummary *imap_summary = (CamelImapSummary *)summary;
 
-	camel_folder_summary_set_build_content (summary, FALSE);
+	camel_folder_summary_set_build_content (summary, TRUE);
 	camel_folder_summary_set_filename (summary, filename);
 
 	if (camel_folder_summary_load (summary) == -1) {
@@ -185,4 +190,25 @@ message_info_save (CamelFolderSummary *s, FILE *out, CamelMessageInfo *info)
 		return -1;
 
 	return camel_folder_summary_encode_uint32 (out, iinfo->server_flags);
+}
+
+
+static CamelMessageContentInfo *
+content_info_load (CamelFolderSummary *s, FILE *in)
+{
+	if (fgetc (in))
+		return camel_imap_summary_parent->content_info_load (s, in);
+	else
+		return camel_folder_summary_content_info_new (s);
+}
+
+static int
+content_info_save (CamelFolderSummary *s, FILE *out,
+		   CamelMessageContentInfo *info)
+{
+	if (info->type) {
+		fputc (1, out);
+		return camel_imap_summary_parent->content_info_save (s, out, info);
+	} else
+		return fputc (0, out);
 }
