@@ -177,7 +177,7 @@ save_metainfo(struct _local_meta *meta)
 
 typedef struct {
 	CamelStore parent_object;	
-
+	
 	EvolutionStorage *storage;
 	GNOME_Evolution_Storage corba_storage;
 	EvolutionStorageListener *local_storage_listener;

@@ -1,3 +1,9 @@
+2001-08-21  Jeffrey Stedfast  <fejj@ximian.com>
+
+	* mail-session.c (mail_session_forget_password): zero-ize the
+	password before freeing.
+	(forget_password): Same.
+
 2001-08-21  Peter Williams  <peterw@ximian.com>
 
 	* message-list.c (message_list_set_folder): Don't sink the extras since

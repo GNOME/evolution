@@ -200,6 +200,7 @@ forget_password (CamelSession *session, CamelService *service,
 		return;
 	
 	g_hash_table_remove (mail_session->passwords, key);
+	memset (old_data, 0, strlen (old_data));
 	g_free (old_data);
 	g_free (old_key);
 }
@@ -239,7 +240,7 @@ struct _timeout_data {
 
 struct _timeout_msg {
 	struct _mail_msg msg;
-
+	
 	CamelTimeoutCallback cb;
 	gpointer camel_data;
 };
@@ -458,6 +459,7 @@ mail_session_forget_password (const char *key)
 	
 	if (g_hash_table_lookup_extended (passwords, key, &okey, &value)) {
 		g_hash_table_remove (passwords, key);
+		memset (value, 0, strlen (value));
 		g_free (okey);
 		g_free (value);
 	}
