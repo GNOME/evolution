@@ -271,7 +271,7 @@ eti_get_cell_background_color (ETableItem *eti, int row, int col, gboolean selec
 				background = gdk_color_copy (background);
 				allocated = TRUE;
 			}
-			e_hsv_tweak (background, 0.0f, 0.0f, -0.05f);
+			e_hsv_tweak (background, 0.0f, 0.0f, -0.07f);
 			gdk_color_alloc (gtk_widget_get_colormap (GTK_WIDGET (canvas)), background);
 		}
 	}

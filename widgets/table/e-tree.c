@@ -480,7 +480,7 @@ et_search_search (ETableSearch *search, char *string, ETableSearchFlags flags, E
 
 	cursor = e_tree_get_cursor (et);
 
-	if (flags & E_TABLE_SEARCH_FLAGS_CHECK_CURSOR_FIRST) {
+	if (cursor && (flags & E_TABLE_SEARCH_FLAGS_CHECK_CURSOR_FIRST)) {
 		const void *value;
 
 		value = e_tree_model_value_at (et->priv->model, cursor, col->col_idx);
@@ -504,7 +504,7 @@ et_search_search (ETableSearch *search, char *string, ETableSearchFlags flags, E
 
 		e_selection_model_select_as_key_press(E_SELECTION_MODEL (et->priv->selection), model_row, col->col_idx, GDK_CONTROL_MASK);
 		return TRUE;
-	} else if (!(flags & E_TABLE_SEARCH_FLAGS_CHECK_CURSOR_FIRST)) {
+	} else if (cursor && !(flags & E_TABLE_SEARCH_FLAGS_CHECK_CURSOR_FIRST)) {
 		const void *value;
 
 		value = e_tree_model_value_at (et->priv->model, cursor, col->col_idx);
