@@ -60,12 +60,13 @@ struct _EMultiConfigDialogPrivate {
 
 static char *list_e_table_spec =
 	"<ETableSpecification cursor-mode=\"line\""
-	"		      selection-mode=\"single\">"
+	"		      selection-mode=\"browse\""
+	"                     no-headers=\"true\">"
 	"  <ETableColumn model_col=\"0\""
 	"	         expansion=\"1.0\""
+	"                cell=\"string\""
  	"                minimum_width=\"32\""
 	"                resizable=\"true\""
-	"                cell=\"string\""
 	"	         _title=\"blah\""
 	"                compare=\"string\"/>"
 	"  <ETableState>"

@@ -1,3 +1,8 @@
+2002-03-07  Ettore Perazzoli  <ettore@ximian.com>
+
+	* e-multi-config-dialog.c: Don't display a header in the table on
+	the left.
+
 2002-03-05  Ettore Perazzoli  <ettore@ximian.com>
 
 	* test-multi-config-dialog.c: New.
