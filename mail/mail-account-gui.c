@@ -218,8 +218,8 @@ service_authtype_changed (GtkWidget *widget, gpointer user_data)
 }
 
 static void
-build_auth_menu (MailAccountGuiService *service,
-		 GList *all_authtypes, GList *supported_authtypes)
+build_auth_menu (MailAccountGuiService *service, GList *all_authtypes,
+		 GList *supported_authtypes, gboolean check_supported)
 {
 	GtkWidget *menu, *item, *first = NULL;
 	CamelServiceAuthType *authtype, *sauthtype;
@@ -236,7 +236,7 @@ build_auth_menu (MailAccountGuiService *service,
 			if (!strcmp (authtype->name, sauthtype->name))
 				break;
 		}
-		if (supported_authtypes && !s)
+		if (check_supported && !s)
 			gtk_widget_set_sensitive (item, FALSE);
 		else if (!first)
 			first = item;
@@ -345,7 +345,7 @@ source_type_changed (GtkWidget *widget, gpointer user_data)
 		/* auth */
 		frame = glade_xml_get_widget (gui->xml, "source_auth_frame");
 		if (provider && CAMEL_PROVIDER_ALLOWS (provider, CAMEL_URL_PART_AUTH)) {
-			build_auth_menu (&gui->source, provider->authtypes, NULL);
+			build_auth_menu (&gui->source, provider->authtypes, NULL, FALSE);
 			gtk_widget_show (frame);
 		} else
 			gtk_widget_hide (frame);
@@ -437,7 +437,7 @@ transport_type_changed (GtkWidget *widget, gpointer user_data)
 			gtk_widget_hide (label);
 		}
 		
-		build_auth_menu (&gui->transport, provider->authtypes, NULL);
+		build_auth_menu (&gui->transport, provider->authtypes, NULL, FALSE);
 		transport_needs_auth_toggled (gui->transport_needs_auth, gui);
 	} else
 		gtk_widget_hide (frame);
@@ -465,7 +465,12 @@ service_check_supported (GtkButton *button, gpointer user_data)
 	save_service (gsvc, NULL, service);
 	
 	if (mail_config_check_service (service->url, gsvc->provider_type, &authtypes)) {
-		build_auth_menu (gsvc, gsvc->provider->authtypes, authtypes);
+		build_auth_menu (gsvc, gsvc->provider->authtypes, authtypes, TRUE);
+		if (!authtypes) {
+			/* the provider doesn't support any authtypes so we can disable these */
+			gtk_widget_set_sensitive (GTK_WIDGET (gsvc->check_supported), FALSE);
+			gtk_widget_set_sensitive (GTK_WIDGET (gsvc->authtype), FALSE);
+		}
 		g_list_free (authtypes);
 	}
 	
@@ -1485,7 +1490,7 @@ save_service (MailAccountGuiService *gsvc, GHashTable *extra_config,
 		CamelServiceAuthType *authtype;
 		
 		authtype = gtk_object_get_data (GTK_OBJECT (gsvc->authitem), "authtype");
-		if (authtype->authproto && *authtype->authproto)
+		if (authtype && authtype->authproto && *authtype->authproto)
 			url->authmech = g_strdup (authtype->authproto);
 		
 		service->save_passwd = gtk_toggle_button_get_active (gsvc->remember);
@@ -1515,7 +1520,7 @@ save_service (MailAccountGuiService *gsvc, GHashTable *extra_config,
 		if (gtk_toggle_button_get_active (gsvc->use_ssl))
 			camel_url_set_param (url, "use_ssl", "");
 	}
-
+	
 	if (extra_config)
 		extract_values (gsvc, extra_config, url);
 	

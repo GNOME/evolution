@@ -273,6 +273,7 @@ mail_tool_uri_to_folder (const char *uri, CamelException *ex)
 		return folder;
 	}
 	
+	/* This hack is still needed for file:/ since it's its own EvolutionStorage type */
 	if (!strncmp (uri, "vtrash:", 7))
 		offset = 7;
 	
@@ -286,7 +287,7 @@ mail_tool_uri_to_folder (const char *uri, CamelException *ex)
 	} else {
 		store = camel_session_get_store (session, uri + offset, ex);
 		if (store) {
-			char *name;
+			const char *name;
 			
 			/* if we have a fragment, then the path is actually used by the store,
 			   so the fragment is the path to the folder instead */

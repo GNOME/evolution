@@ -1,5 +1,15 @@
 2001-07-25  Jeffrey Stedfast  <fejj@ximian.com>
 
+	* mail-account-gui.c (build_auth_menu): Now takes a
+	check_supported gboolean argument saying whether or not to disable
+	non-supported authtypes.
+	(source_type_changed): Update for build_auth_menu.
+	(transport_type_changed): Same.
+	(service_check_supported): Pass in TRUE for the disable
+	non-supported authtypes to build_auth_menu and also disable
+	check-supported button and the authtype menu if we get a NULL
+	supported auth list.
+
 	* mail-callbacks.c (mail_generate_reply): Initialize `me' to NULL.
 	(forward_attached): If we are only forwarding a single message,
 	pass the message along as the callback data, else pass NULL.
