@@ -48,6 +48,7 @@ typedef enum {
 	E_CHARSET_GREEK,
 	E_CHARSET_JAPANESE,
 	E_CHARSET_KOREAN,
+	E_CHARSET_HEBREW,
 	E_CHARSET_TURKISH,
 	E_CHARSET_UNICODE,
 	E_CHARSET_WESTERN_EUROPEAN
@@ -62,6 +63,7 @@ static const char *classnames[] = {
 	N_("Greek"),
 	N_("Japanese"),
 	N_("Korean"),
+	N_("Hebrew"),
 	N_("Turkish"),
 	N_("Unicode"),
 	N_("Western European"),
@@ -94,6 +96,7 @@ static ECharset charsets[] = {
 	{ "EUC-JP", E_CHARSET_JAPANESE, NULL },
 	{ "Shift_JIS", E_CHARSET_JAPANESE, NULL },
 	{ "EUC-KR", E_CHARSET_KOREAN, NULL },
+	{ "ISO-8859-8", E_CHARSET_HEBREW, N_("Visual") },
 	{ "ISO-8859-9", E_CHARSET_TURKISH, NULL },
 	{ "UTF-8", E_CHARSET_UNICODE, NULL },
 	{ "UTF-7", E_CHARSET_UNICODE, NULL },

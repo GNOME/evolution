@@ -1,3 +1,8 @@
+2002-01-04  Jeffrey Stedfast  <fejj@ximian.com>
+
+	* e-charset-picker.c: Added iso-8859-8 (Hebrew; Visual) to the
+	list of charsets in the menu. Fixes bug #15655.
+
 2001-12-20  Ettore Perazzoli  <ettore@ximian.com>
 
 	* e-combo-button.c: New.
