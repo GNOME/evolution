@@ -1,3 +1,9 @@
+2003-02-11  Not Zed  <NotZed@Ximian.com>
+
+	* e-trie.c (trie_utf8_getc): Instead of simply ignoring bad chars,
+	return the sentinal invalid char 0xfffe, so that we properly track
+	the start of sequences.
+
 2003-02-10  Ettore Perazzoli  <ettore@ximian.com>
 
 	* Makefile.am (libeutil_static_la_DEPENDENCIES): Make

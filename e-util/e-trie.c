@@ -82,10 +82,8 @@ loop:
 				return 0;
 			
 			c = *inptr++;
-			if ((c & 0xc0) != 0x80) {
-				r = c;
-				goto loop;
-			}
+			if ((c & 0xc0) != 0x80)
+				goto error;
 			
 			u = (u << 6) | (c & 0x3f);
 			r <<= 1;
@@ -96,7 +94,9 @@ loop:
 		
 		u &= ~m;
 	} else {
-		goto again;
+	error:
+		*in = (*in)+1;
+		u = 0xfffe;
 	}
 	
 	return u;
