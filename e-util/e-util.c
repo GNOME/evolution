@@ -946,6 +946,7 @@ e_strstrcase (const gchar *haystack, const gchar *needle)
 	return NULL;
 }
 
+/* This only makes a filename safe for usage as a filename.  It still may have shell meta-characters in it. */
 void
 e_filename_make_safe (gchar *string)
 {

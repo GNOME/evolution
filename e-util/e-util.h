@@ -149,6 +149,7 @@ gchar   **e_strsplit                                                	   (const g
 								    	    gint              max_tokens);
 gchar    *e_strstrcase                                                     (const gchar       *haystack,
 									    const gchar       *needle);
+/* This only makes a filename safe for usage as a filename.  It still may have shell meta-characters in it. */
 void      e_filename_make_safe                                             (gchar             *string);
 gchar    *e_format_number                                                  (gint               number);
 gchar    *e_format_number_float                                            (gfloat             number);
