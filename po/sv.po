@@ -7,8 +7,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: Evolution\n"
-"POT-Creation-Date: 2000-11-05 15:19+0100\n"
-"PO-Revision-Date: 2000-11-05 15:19+0100\n"
+"POT-Creation-Date: 2000-11-06 11:15+0100\n"
+"PO-Revision-Date: 2000-11-06 11:20+0100\n"
 "Last-Translator: Christian Rose <menthos@menthos.com>\n"
 "Language-Team: Swedish <sv@li.org>\n"
 "MIME-Version: 1.0\n"
@@ -473,96 +473,96 @@ msgstr "Element(en) tillhör dessa kategorier:"
 msgid "Available Categories:"
 msgstr "Tillgängliga kategorier:"
 
-#: addressbook/contact-editor/e-contact-editor.c:1218
+#: addressbook/contact-editor/e-contact-editor.c:1234
 msgid "Assistant"
 msgstr "Assistent"
 
-#: addressbook/contact-editor/e-contact-editor.c:1219
-#: addressbook/contact-editor/e-contact-editor.c:1323
+#: addressbook/contact-editor/e-contact-editor.c:1235
+#: addressbook/contact-editor/e-contact-editor.c:1339
 msgid "Business"
 msgstr "Företag"
 
-#: addressbook/contact-editor/e-contact-editor.c:1220
+#: addressbook/contact-editor/e-contact-editor.c:1236
 msgid "Business 2"
 msgstr "Företag 2"
 
-#: addressbook/contact-editor/e-contact-editor.c:1221
+#: addressbook/contact-editor/e-contact-editor.c:1237
 msgid "Business Fax"
 msgstr "Företagsfax"
 
-#: addressbook/contact-editor/e-contact-editor.c:1222
+#: addressbook/contact-editor/e-contact-editor.c:1238
 msgid "Callback"
 msgstr "Tillbakaringning"
 
-#: addressbook/contact-editor/e-contact-editor.c:1223
+#: addressbook/contact-editor/e-contact-editor.c:1239
 msgid "Car"
 msgstr "Bil"
 
-#: addressbook/contact-editor/e-contact-editor.c:1224
+#: addressbook/contact-editor/e-contact-editor.c:1240
 msgid "Company"
 msgstr "Företag"
 
-#: addressbook/contact-editor/e-contact-editor.c:1225
-#: addressbook/contact-editor/e-contact-editor.c:1324
+#: addressbook/contact-editor/e-contact-editor.c:1241
+#: addressbook/contact-editor/e-contact-editor.c:1340
 msgid "Home"
 msgstr "Hem"
 
-#: addressbook/contact-editor/e-contact-editor.c:1226
+#: addressbook/contact-editor/e-contact-editor.c:1242
 msgid "Home 2"
 msgstr "Hem 2"
 
-#: addressbook/contact-editor/e-contact-editor.c:1227
+#: addressbook/contact-editor/e-contact-editor.c:1243
 msgid "Home Fax"
 msgstr "Fax hem"
 
-#: addressbook/contact-editor/e-contact-editor.c:1228
+#: addressbook/contact-editor/e-contact-editor.c:1244
 msgid "ISDN"
 msgstr "ISDN"
 
-#: addressbook/contact-editor/e-contact-editor.c:1229
+#: addressbook/contact-editor/e-contact-editor.c:1245
 msgid "Mobile"
 msgstr "Mobil"
 
-#: addressbook/contact-editor/e-contact-editor.c:1230
-#: addressbook/contact-editor/e-contact-editor.c:1325
+#: addressbook/contact-editor/e-contact-editor.c:1246
+#: addressbook/contact-editor/e-contact-editor.c:1341
 #: mail/mail-config.glade.h:28 mail/mail-config.glade.h:40
 msgid "Other"
 msgstr "Annat"
 
-#: addressbook/contact-editor/e-contact-editor.c:1231
+#: addressbook/contact-editor/e-contact-editor.c:1247
 msgid "Other Fax"
 msgstr "Annan fax"
 
-#: addressbook/contact-editor/e-contact-editor.c:1232
+#: addressbook/contact-editor/e-contact-editor.c:1248
 msgid "Pager"
 msgstr "Personsökare"
 
-#: addressbook/contact-editor/e-contact-editor.c:1233
+#: addressbook/contact-editor/e-contact-editor.c:1249
 msgid "Primary"
 msgstr "Primär"
 
-#: addressbook/contact-editor/e-contact-editor.c:1234
+#: addressbook/contact-editor/e-contact-editor.c:1250
 msgid "Radio"
 msgstr "Radio"
 
-#: addressbook/contact-editor/e-contact-editor.c:1235
+#: addressbook/contact-editor/e-contact-editor.c:1251
 msgid "Telex"
 msgstr "Telex"
 
-#: addressbook/contact-editor/e-contact-editor.c:1236
+#: addressbook/contact-editor/e-contact-editor.c:1252
 msgid "TTY/TDD"
 msgstr "TTY/TDD"
 
 #: addressbook/contact-editor/e-contact-editor-strings.h:22
-#: addressbook/contact-editor/e-contact-editor.c:1280
+#: addressbook/contact-editor/e-contact-editor.c:1296
 msgid "Primary Email"
 msgstr "Primär e-post"
 
-#: addressbook/contact-editor/e-contact-editor.c:1281
+#: addressbook/contact-editor/e-contact-editor.c:1297
 msgid "Email 2"
 msgstr "E-post 2"
 
-#: addressbook/contact-editor/e-contact-editor.c:1282
+#: addressbook/contact-editor/e-contact-editor.c:1298
 msgid "Email 3"
 msgstr "E-post 3"
 
@@ -890,7 +890,7 @@ msgstr ""
 "vill kunna använda LDAP måste du hämta och installera\n"
 "OpenLDAP och kompilera om och installera Evolution.\n"
 
-#: addressbook/gui/component/addressbook.c:574
+#: addressbook/gui/component/addressbook.c:595
 msgid "The URI that the Folder Browser will display"
 msgstr "URI:n som mappbläddraren kommer att visa"
 
@@ -1076,8 +1076,8 @@ msgstr "y"
 msgid "z"
 msgstr "z"
 
-#: addressbook/gui/widgets/e-addressbook-view.c:414
-#: addressbook/gui/widgets/e-minicard.c:337
+#: addressbook/gui/widgets/e-addressbook-view.c:415
+#: addressbook/gui/widgets/e-minicard.c:338
 msgid "Save as VCard"
 msgstr "Spara som VCard"
 
@@ -1100,7 +1100,7 @@ msgstr ""
 "Dubbelklicka här för att skapa en ny kontakt."
 
 #: addressbook/gui/search/e-addressbook-search-dialog.c:151
-#: mail/folder-browser.c:643 mail/mail-search-dialogue.c:101
+#: mail/folder-browser.c:663 mail/mail-search-dialogue.c:101
 msgid "Search"
 msgstr "Sök"
 
@@ -2028,10 +2028,10 @@ msgstr "Markera uppgiften som färdig"
 #: calendar/gui/event-editor-dialog.glade.h:73
 #: calendar/gui/event-editor-dialog.glade.h:84 filter/filter.glade.h:14
 #: filter/filter.glade.h:19 filter/filter.glade.h:27 filter/libfilter-i18n.h:8
-#: mail/mail-config-druid.glade.h:35 mail/mail-config.glade.h:13
-#: mail/mail-config.glade.h:18 mail/mail-config.glade.h:24
-#: mail/mail-config.glade.h:31 mail/mail-view.c:165
-#: ui/evolution-addressbook.xml.h:9 ui/evolution-contact-editor.xml.h:8
+#: mail/folder-browser.c:495 mail/mail-config-druid.glade.h:35
+#: mail/mail-config.glade.h:13 mail/mail-config.glade.h:18
+#: mail/mail-config.glade.h:24 mail/mail-config.glade.h:31
+#: mail/mail-view.c:165 ui/evolution-addressbook.xml.h:9
 #: ui/evolution-event-editor.xml.h:20 ui/evolution-mail.xml.h:11
 msgid "Delete"
 msgstr "Ta bort"
@@ -2837,7 +2837,7 @@ msgstr "Aktuellt år (%Y)"
 msgid "Print Calendar"
 msgstr "Skriv ut kalender"
 
-#: calendar/gui/print.c:1309 mail/mail-callbacks.c:834
+#: calendar/gui/print.c:1309 mail/mail-callbacks.c:868
 msgid "Print Preview"
 msgstr "Förhandsgranska"
 
@@ -4052,9 +4052,9 @@ msgid "Filter Rules"
 msgstr "Filterregler"
 
 #: filter/filter.glade.h:13 filter/filter.glade.h:18 filter/filter.glade.h:28
-#: mail/mail-config-druid.glade.h:38 mail/mail-config.glade.h:12
-#: mail/mail-config.glade.h:17 mail/mail-config.glade.h:23
-#: mail/mail-config.glade.h:32
+#: mail/folder-browser.c:482 mail/mail-config-druid.glade.h:38
+#: mail/mail-config.glade.h:12 mail/mail-config.glade.h:17
+#: mail/mail-config.glade.h:23 mail/mail-config.glade.h:32
 msgid "Edit"
 msgstr "Redigera"
 
@@ -4315,92 +4315,92 @@ msgstr "Anpassad sökning"
 msgid "Custom"
 msgstr "Anpassad"
 
-#: mail/folder-browser.c:478
-msgid "Open in New Window"
-msgstr "Öppna i nytt fönster"
+#: mail/folder-browser.c:481
+msgid "Open"
+msgstr "Öppna"
 
-#: mail/folder-browser.c:479
-msgid "Edit Message"
-msgstr "Redigera meddelande"
+#: mail/folder-browser.c:483 mail/mail-view.c:163
+#: ui/evolution-addressbook.xml.h:14 ui/evolution-calendar.xml.h:24
+#: ui/evolution-mail.xml.h:27
+msgid "Print"
+msgstr "Skriv ut"
 
-#: mail/folder-browser.c:480 mail/mail-callbacks.c:794
-msgid "Print Message"
-msgstr "Skriv ut meddelande"
-
-#: mail/folder-browser.c:482
+#: mail/folder-browser.c:485
 msgid "Reply to Sender"
 msgstr "Svara till avsändaren"
 
-#: mail/folder-browser.c:483 mail/mail-view.c:156 ui/evolution-mail.xml.h:33
+#: mail/folder-browser.c:486 mail/mail-view.c:156 ui/evolution-mail.xml.h:33
 msgid "Reply to All"
 msgstr "Svara till alla"
 
-#: mail/folder-browser.c:484
-msgid "Forward Message"
-msgstr "Vidarebefordra meddelande"
+#: mail/folder-browser.c:487 mail/mail-view.c:159 ui/evolution-mail.xml.h:17
+msgid "Forward"
+msgstr "Vidarebefordra"
 
-#: mail/folder-browser.c:486
+#: mail/folder-browser.c:490
 msgid "Mark as Read"
 msgstr "Markera som läst"
 
-#: mail/folder-browser.c:487
+#: mail/folder-browser.c:491
 msgid "Mark as Unread"
 msgstr "Markera som oläst"
 
-#: mail/folder-browser.c:488
-msgid "Delete Message"
-msgstr "Ta bort meddelande"
+#: mail/folder-browser.c:493
+msgid "Move to Folder..."
+msgstr "Flytta till mapp..."
 
-#: mail/folder-browser.c:489
-msgid "Move Message"
-msgstr "Flytta meddelande"
+#: mail/folder-browser.c:494
+msgid "Copy to Folder..."
+msgstr "Kopiera till mapp..."
 
-#: mail/folder-browser.c:490
-msgid "Copy Message"
-msgstr "Kopiera meddelande"
+#: mail/folder-browser.c:496
+msgid "Undelete"
+msgstr "Ångra borttagning"
 
-#: mail/folder-browser.c:491
+#. { _("Add Sender to Address Book"), NULL, GTK_SIGNAL_FUNC (addrbook_sender),   0 },
+#. { "",                              NULL, GTK_SIGNAL_FUNC (NULL),              0 },
+#: mail/folder-browser.c:500
 msgid "Apply Filters"
 msgstr "Tillämpa filter"
 
-#: mail/folder-browser.c:493
+#: mail/folder-browser.c:502
 msgid "VFolder on Subject"
 msgstr "Virtuell mapp på ämnesrad"
 
-#: mail/folder-browser.c:494
+#: mail/folder-browser.c:503
 msgid "VFolder on Sender"
 msgstr "Virtuell mapp på avsändare"
 
-#: mail/folder-browser.c:495
+#: mail/folder-browser.c:504
 msgid "VFolder on Recipients"
 msgstr "Virtuell mapp på mottagare"
 
-#: mail/folder-browser.c:497
+#: mail/folder-browser.c:506
 msgid "Filter on Subject"
 msgstr "Filtrera på ämnesrad"
 
-#: mail/folder-browser.c:498
+#: mail/folder-browser.c:507
 msgid "Filter on Sender"
 msgstr "Filtrera på avsändare"
 
-#: mail/folder-browser.c:499
+#: mail/folder-browser.c:508
 msgid "Filter on Recipients"
 msgstr "Filtrera på mottagare"
 
-#: mail/folder-browser.c:500 mail/folder-browser.c:523
+#: mail/folder-browser.c:509 mail/folder-browser.c:543
 msgid "Filter on Mailing List"
 msgstr "Filtrera på sändlista"
 
-#: mail/folder-browser.c:525
+#: mail/folder-browser.c:545
 #, c-format
 msgid "Filter on Mailing List (%s)"
 msgstr "Filtrera på sändlista (%s)"
 
-#: mail/folder-browser.c:641
+#: mail/folder-browser.c:661
 msgid "Full Search"
 msgstr "Fullständig sökning"
 
-#: mail/folder-browser.c:646 ui/evolution-event-editor.xml.h:91
+#: mail/folder-browser.c:666 ui/evolution-event-editor.xml.h:91
 msgid "Save"
 msgstr "Spara"
 
@@ -4492,7 +4492,7 @@ msgstr ""
 "Du kan bara redigera meddelanden\n"
 "som du sparat i mappen Drafts."
 
-#: mail/mail-callbacks.c:749
+#: mail/mail-callbacks.c:783
 #, c-format
 msgid ""
 "Error loading filter information:\n"
@@ -4501,7 +4501,11 @@ msgstr ""
 "Fel vid läsning av filterinformation:\n"
 "%s"
 
-#: mail/mail-callbacks.c:841
+#: mail/mail-callbacks.c:828
+msgid "Print Message"
+msgstr "Skriv ut meddelande"
+
+#: mail/mail-callbacks.c:875
 msgid "Printing of message failed"
 msgstr "Utskrift av meddelande misslyckades"
 
@@ -5496,18 +5500,9 @@ msgstr "Svara till avsändaren av det här meddelandet"
 msgid "Reply to all recipients of this message"
 msgstr "Svara till alla mottagare av det här meddelandet"
 
-#: mail/mail-view.c:159 ui/evolution-mail.xml.h:17
-msgid "Forward"
-msgstr "Vidarebefordra"
-
 #: mail/mail-view.c:159 ui/evolution-mail.xml.h:18
 msgid "Forward this message"
 msgstr "Vidarebefordra detta meddelande"
-
-#: mail/mail-view.c:163 ui/evolution-addressbook.xml.h:14
-#: ui/evolution-calendar.xml.h:24 ui/evolution-mail.xml.h:27
-msgid "Print"
-msgstr "Skriv ut"
 
 #: mail/mail-view.c:163 ui/evolution-mail.xml.h:31
 msgid "Print the selected message"
@@ -6119,48 +6114,56 @@ msgstr "Skriv _ut denna kalender"
 msgid "_Save Calendar As"
 msgstr "_Spara kalendern som"
 
-#: ui/evolution-contact-editor.xml.h:9
+#: ui/evolution-contact-editor.xml.h:8
 msgid "Delete this item"
 msgstr "Ta bort detta objekt"
+
+#: ui/evolution-contact-editor.xml.h:9
+msgid "Delete..."
+msgstr "Ta bort..."
 
 #: ui/evolution-contact-editor.xml.h:10
 msgid "Help"
 msgstr "Hjälp"
 
-#: ui/evolution-contact-editor.xml.h:11 ui/evolution-event-editor.xml.h:84
+#: ui/evolution-contact-editor.xml.h:11
+msgid "Print En_velope..."
+msgstr "Skriv ut ku_vert..."
+
+#: ui/evolution-contact-editor.xml.h:12 ui/evolution-event-editor.xml.h:84
 msgid "Print this item"
 msgstr "Skriv ut detta objekt"
 
-#: ui/evolution-contact-editor.xml.h:12 ui/evolution-event-editor.xml.h:85
+#: ui/evolution-contact-editor.xml.h:13 ui/evolution-event-editor.xml.h:85
 msgid "Print..."
 msgstr "Skriv ut..."
 
-#: ui/evolution-contact-editor.xml.h:13
-msgid "Save _As"
-msgstr "Spara so_m"
+#: ui/evolution-contact-editor.xml.h:14 ui/evolution-event-editor.xml.h:92
+msgid "Save _As..."
+msgstr "Spara so_m..."
 
-#: ui/evolution-contact-editor.xml.h:14 ui/evolution-event-editor.xml.h:93
+#: ui/evolution-contact-editor.xml.h:15 ui/evolution-event-editor.xml.h:93
 msgid "Save and Close"
 msgstr "Spara och stäng"
 
-#: ui/evolution-contact-editor.xml.h:15
+#: ui/evolution-contact-editor.xml.h:16
 msgid "Save the contact and close the dialog box"
 msgstr "Spara kontakten och stäng dialogrutan"
 
-#: ui/evolution-contact-editor.xml.h:16 ui/evolution-event-editor.xml.h:99
+#: ui/evolution-contact-editor.xml.h:17 ui/evolution-event-editor.xml.h:99
 msgid "See online help"
 msgstr "Se online-hjälpen"
 
-#: ui/evolution-contact-editor.xml.h:17 ui/evolution-event-editor.xml.h:111
+#: ui/evolution-contact-editor.xml.h:18 ui/evolution-event-editor.xml.h:111
 #: ui/evolution-subscribe.xml.h:17 ui/evolution.xml.h:27
 msgid "_File"
 msgstr "_Arkiv"
 
-#: ui/evolution-contact-editor.xml.h:18 ui/evolution-event-editor.xml.h:118
-msgid "_Print"
-msgstr "Skriv _ut"
+#: ui/evolution-contact-editor.xml.h:19
+msgid "_Print..."
+msgstr "Skriv _ut..."
 
-#: ui/evolution-contact-editor.xml.h:19 ui/evolution-event-editor.xml.h:122
+#: ui/evolution-contact-editor.xml.h:20 ui/evolution-event-editor.xml.h:122
 msgid "_Save"
 msgstr "_Spara"
 
@@ -6477,10 +6480,6 @@ msgstr "Ersätt"
 msgid "Replace a string"
 msgstr "Ersätt en sträng"
 
-#: ui/evolution-event-editor.xml.h:92
-msgid "Save _As..."
-msgstr "Spara so_m..."
-
 #: ui/evolution-event-editor.xml.h:94
 msgid "Save the appointment and close the dialog box"
 msgstr "Spara mötet och stäng dialogrutan"
@@ -6565,6 +6564,10 @@ msgstr "_Objekt"
 #: ui/evolution-event-editor.xml.h:117
 msgid "_Paste"
 msgstr "Klistra _in"
+
+#: ui/evolution-event-editor.xml.h:118
+msgid "_Print"
+msgstr "Skriv _ut"
 
 #: ui/evolution-event-editor.xml.h:119
 msgid "_Properties..."
@@ -7007,6 +7010,27 @@ msgstr "Nu"
 #, c-format
 msgid "Group %i"
 msgstr "Grupp %i"
+
+#~ msgid "Open in New Window"
+#~ msgstr "Öppna i nytt fönster"
+
+#~ msgid "Edit Message"
+#~ msgstr "Redigera meddelande"
+
+#~ msgid "Forward Message"
+#~ msgstr "Vidarebefordra meddelande"
+
+#~ msgid "Delete Message"
+#~ msgstr "Ta bort meddelande"
+
+#~ msgid "Move Message"
+#~ msgstr "Flytta meddelande"
+
+#~ msgid "Copy Message"
+#~ msgstr "Kopiera meddelande"
+
+#~ msgid "Save _As"
+#~ msgstr "Spara so_m"
 
 #~ msgid "Quick Search"
 #~ msgstr "Snabbsökning"
