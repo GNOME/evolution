@@ -297,7 +297,6 @@ evolution_storage_new_folder (EvolutionStorage *evolution_storage,
 	Evolution_Folder corba_folder;
 	CORBA_Environment ev;
 	const char *path_basename;
-	char *parent_path;
 
 	g_return_val_if_fail (evolution_storage != NULL,
 			      EVOLUTION_STORAGE_ERROR_INVALIDPARAMETER);

@@ -465,7 +465,7 @@ impl_async_create_folder (EStorage *storage,
 
 	callback_data = g_new (AsyncCreateFolderCallbackData, 1);
 	callback_data->storage       = storage;
-	callback_data->path          = path;
+	callback_data->path          = g_strdup (path);
 	callback_data->display_name  = g_strdup (folder_name);
 	callback_data->type          = g_strdup (type);
 	callback_data->description   = g_strdup (description);
