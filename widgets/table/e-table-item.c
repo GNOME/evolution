@@ -116,9 +116,10 @@ view_to_model_row(ETableItem *eti, int row)
 {
 	if (eti->uses_source_model) {
 		ETableSubset *etss = E_TABLE_SUBSET(eti->table_model);
-		if (row >= 0 && row < etss->n_map)
+		if (row >= 0 && row < etss->n_map) {
+			eti->row_guess = row;
 			return etss->map_table[row];
-		else
+		} else
 			return -1;
 	} else
 		return row;
@@ -1155,6 +1156,8 @@ eti_init (GnomeCanvasItem *item)
 	eti->width                     = 0;
 	eti->minimum_width             = 0;
 
+	eti->click_count               = 0;
+
 	eti->height_cache              = NULL;
 	eti->height_cache_idle_id      = 0;
 	eti->height_cache_idle_count   = 0;
@@ -1505,7 +1508,7 @@ eti_point (GnomeCanvasItem *item, double x, double y, int cx, int cy,
 }
 
 static gboolean
-find_cell (ETableItem *eti, double x, double y, int *col_res, int *row_res, double *x1_res, double *y1_res)
+find_cell (ETableItem *eti, double x, double y, int *view_col_res, int *view_row_res, double *x1_res, double *y1_res)
 {
 	const int cols = eti->cols;
 	const int rows = eti->rows;
@@ -1517,8 +1520,8 @@ find_cell (ETableItem *eti, double x, double y, int *col_res, int *row_res, doub
 	/* FIXME: this routine is inneficient, fix later */
 
 	if (eti->grabbed_col >= 0 && eti->grabbed_row >= 0) {
-		*col_res = eti->grabbed_col;
-		*row_res = eti->grabbed_row;
+		*view_col_res = eti->grabbed_col;
+		*view_row_res = eti->grabbed_row;
 		*x1_res = x - eti->x1 - e_table_header_col_diff (eti->header, 0, eti->grabbed_col);
 		*y1_res = y - eti->y1 - e_table_item_row_diff (eti, 0, eti->grabbed_row);
 		return TRUE;
@@ -1553,10 +1556,10 @@ find_cell (ETableItem *eti, double x, double y, int *col_res, int *row_res, doub
 		if (y <= y2)
 			break;
 	}
-	*col_res = col;
+	*view_col_res = col;
 	if (x1_res)
 		*x1_res = x - x1;
-	*row_res = row;
+	*view_row_res = row;
 	if (y1_res)
 		*y1_res = y - y1;
 	return TRUE;
@@ -1735,6 +1738,15 @@ eti_event (GnomeCanvasItem *item, GdkEvent *e)
 			if (return_val)
 				return TRUE;
 
+			gtk_object_get(GTK_OBJECT(eti->selection),
+				       "cursor_row", &cursor_row,
+				       "cursor_col", &cursor_col,
+				       NULL);
+
+			if (cursor_row != view_to_model_row(eti, row) || cursor_col != view_to_model_col(eti, col)) {
+				eti->click_count = 0;
+			}
+
 			e_selection_model_do_something(E_SELECTION_MODEL (eti->selection), view_to_model_row(eti, row), view_to_model_col(eti, col), button.state);
 
 			gtk_object_get(GTK_OBJECT(eti->selection),
@@ -1743,6 +1755,9 @@ eti_event (GnomeCanvasItem *item, GdkEvent *e)
 				       NULL);
 
 			if (cursor_row == view_to_model_row(eti, row) && cursor_col == view_to_model_col(eti, col)){
+
+				eti->click_count ++;
+				eti->row_guess = row;
 
 				if ((!eti_editing(eti)) && e_table_model_is_cell_editable(eti->table_model, col, row)) {
 					e_table_item_enter_edit (eti, col, row);
@@ -1828,34 +1843,48 @@ eti_event (GnomeCanvasItem *item, GdkEvent *e)
 
 	case GDK_2BUTTON_PRESS: {
 		int col, row;
+#if 0
+		double x1, y1;
+#endif
 		GdkEventButton button;
 
 		if (e->button.button == 5 ||
 		    e->button.button == 4)
 			return FALSE;
 
-		gnome_canvas_item_w2i (item, &e->button.x, &e->button.y);
+		/*
+		 * click_count is so that if you click on two
+		 * different rows we don't send a double click signal.
+		 */
+
+		if (eti->click_count >= 2) {
+
+			gnome_canvas_item_w2i (item, &e->button.x, &e->button.y);
 
 #if 0
-		if (!find_cell (eti, e->button.x, e->button.y, &col, &row, &x1, &y1))
-			return TRUE;
+			if (!find_cell (eti, e->button.x, e->button.y, &current_col, &current_row, &x1, &y1))
+				return TRUE;
 #endif
 
-		gtk_object_get(GTK_OBJECT(eti->selection),
-			       "cursor_row", &row,
-			       "cursor_col", &col,
-			       NULL);
+			gtk_object_get(GTK_OBJECT(eti->selection),
+				       "cursor_row", &row,
+				       "cursor_col", &col,
+				       NULL);
+
+			button.x -= e_table_header_col_diff (eti->header, 0, model_to_view_col (eti, col));
+			button.y -= e_table_item_row_diff (eti, 0, model_to_view_row (eti, row));
 
 #if 0
-		button = *(GdkEventButton *)e;
-		button.x = x1;
-		button.y = y1;
+			button = *(GdkEventButton *)e;
+			button.x = x1;
+			button.y = y1;
 #endif
 
-		if (row != -1 && col != -1) {
-			gtk_signal_emit (GTK_OBJECT (eti), eti_signals [DOUBLE_CLICK],
-					 row, col, &button);
-			d(g_print("Double click\n"));
+			if (row != -1 && col != -1) {
+				gtk_signal_emit (GTK_OBJECT (eti), eti_signals [DOUBLE_CLICK],
+						 row, col, &button);
+				d(g_print("Double click\n"));
+			}
 		}
 		break;
 	}

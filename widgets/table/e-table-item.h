@@ -30,6 +30,8 @@ typedef struct {
 	int              minimum_width, width, height;
 
 	int              cols, rows;
+
+	int              click_count;
 	
 	/*
 	 * Ids for the signals we connect to
