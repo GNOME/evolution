@@ -10,7 +10,7 @@
 	</commands>
 	<menu>
 		<submenu name="File" _label="_File">
-			<submenu name="New" _label="_New">                  >
+			<submenu name="New" _label="_New">
 				<menuitem name="View" verb="NewView" _label="_View"
 				accel="*Control**Shift*v"
 				pixtype="stock" pixname="New"/>

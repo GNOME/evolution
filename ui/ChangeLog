@@ -1,3 +1,7 @@
+2000-12-21  Michael Meeks  <michael@helixcode.com>
+
+	* evolution.xml: remove wierd extraneous '>'
+
 2000-12-14  Michael Meeks  <michael@helixcode.com>
 
 	* evolution-executive-summary.xml: stop executive summary
