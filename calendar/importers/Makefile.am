@@ -16,6 +16,7 @@ INCLUDES = 						\
 	$(GNOME_INCLUDEDIR)
 
 evolution_calendar_importer_SOURCES = 	\
+	evolution-calendar-importer.h	\
 	icalendar-importer.c		\
 	main.c
 
