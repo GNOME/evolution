@@ -1,5 +1,7 @@
 2001-09-17  Aaron Weber  <aaron@ximian.com>
 
+	* C/usage-mail.sgml: threaded mailview figure and img. added.
+
 	* C/usage-sync.sgml: Note about PalmOS 4 and Password Protection.
 
 	* C/figures/* (well, almost): New img.

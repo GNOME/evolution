@@ -89,6 +89,16 @@
 	message with the original, so you can follow the thread of a
 	conversation from one message to the next.
       </para>
+
+<figure>
+        <title>Threaded Mail View</title>
+<screenshot>
+<screeninfo>Threaded Mail View</screeninfo>
+<graphic  format="png" fileref="mail-threaded" srccredit="Aaron Weber">
+</graphic>
+</screenshot>
+</figure>
+
     </sect2>
     
     <sect2 id="usage-mail-getnsend-delete">
