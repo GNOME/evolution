@@ -1,3 +1,10 @@
+2001-10-30  Jon Trowbridge  <trow@ximian.com>
+
+	* gui/component/select-names/e-select-names-bonobo.c
+	(impl_destroy): Force the select names dialog to be destroyed.
+	This is a hack to fix bug #14002 -- I'll clean up the refcounting
+	issues post-freeze.  At least now it won't crash.
+
 2001-10-30  JP Rosevear  <jpr@ximian.com>
 
 	* conduit/address-conduit.c (ecard_from_remote_record): make sure
