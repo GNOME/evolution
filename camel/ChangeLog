@@ -1,3 +1,8 @@
+2001-04-11  Dan Winship  <danw@ximian.com>
+
+	* providers/imap/camel-imap-utils.c (imap_parse_string_generic):
+	Simplify peterw's imap_is_atom_char fix.
+
 2001-04-11  Jeffrey Stedfast  <fejj@ximian.com>
 
 	* tests/smime/Makefile.am: Added pgp-mime.c to the tests.
