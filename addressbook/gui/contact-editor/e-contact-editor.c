@@ -1955,6 +1955,10 @@ e_contact_editor_init (EContactEditor *e_contact_editor)
 	setup_tab_order(gui);
 
 	e_contact_editor->app = glade_xml_get_widget (gui, "contact editor");
+	widget = e_contact_editor->app;
+
+	gtk_container_set_border_width (GTK_CONTAINER (GTK_DIALOG (widget)->vbox), 0);
+	gtk_container_set_border_width (GTK_CONTAINER (GTK_DIALOG (widget)->action_area), 12);
 
 	set_entry_changed_signals  (e_contact_editor);
 	set_entry_activate_signals (e_contact_editor);
