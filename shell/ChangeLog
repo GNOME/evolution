@@ -1,5 +1,10 @@
 2000-07-22  Ettore Perazzoli  <ettore@helixcode.com>
 
+	* e-shell.c (e_shell_construct): Don't unref NULL shortcuts, you
+	idiot.
+
+2000-07-22  Ettore Perazzoli  <ettore@helixcode.com>
+
 	* e-shell-view.c (e_shell_view_set_folder_bar_mode): Make the
 	title bar non-clickable when the folder tree is visible.
 

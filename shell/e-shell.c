@@ -517,12 +517,8 @@ e_shell_construct (EShell *shell,
 					   priv->folder_type_registry,
 					   shortcut_path);
 
-	if (priv->shortcuts == NULL) {
-		gtk_object_unref (GTK_OBJECT (priv->shortcuts));
-		priv->shortcuts = NULL;
-
+	if (priv->shortcuts == NULL)
 		g_warning ("Cannot load shortcuts -- %s", shortcut_path);
-	}
 
 	g_free (shortcut_path);
 }
