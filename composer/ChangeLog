@@ -2,6 +2,7 @@
 
 	* e-msg-composer.c (get_editor_text, set_editor_text): Update for
 	PersistStream changes
+	(build_message): Update for CamelMultipart changes.
 
 2000-05-25  Not Zed  <NotZed@HelixCode.com>
 

@@ -165,6 +165,9 @@ build_message (EMsgComposer *composer)
 		CamelMultipart *multipart = camel_multipart_new ();
 		CamelMimePart *part;
 
+		/* Generate a random boundary. */
+		camel_multipart_set_boundary (multipart, NULL);
+
 		part = camel_mime_part_new ();
 		camel_mime_part_set_content (part, text,
 					     strlen (text), "text/html");
