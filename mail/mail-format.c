@@ -697,11 +697,8 @@ format_mime_part (CamelMimePart *part, MailDisplay *md,
 	
 	if (CAMEL_IS_MULTIPART (wrapper) &&
 	    camel_multipart_get_number (CAMEL_MULTIPART (wrapper)) == 0) {
-		char *mesg;
 		
-		mesg = e_utf8_from_locale_string (_("Could not parse MIME message. Displaying as source."));
-		mail_error_printf (html, stream, "\n%s\n", mesg);
-		g_free (mesg);
+		mail_error_printf (html, stream, "\n%s\n", U_("Could not parse MIME message. Displaying as source."));
 		if (mail_content_loaded (wrapper, md, TRUE, NULL, html, NULL))
 			handle_text_plain (part, "text/plain", md, html, stream);
 		return TRUE;
@@ -1729,7 +1726,13 @@ handle_multipart_mixed (CamelMimePart *part, const char *mime_type,
 	int i, nparts;
 	gboolean output = FALSE;
 	
-	g_return_val_if_fail (CAMEL_IS_MULTIPART (wrapper), FALSE);
+	if (!CAMEL_IS_MULTIPART (wrapper)) {
+		mail_error_printf (html, stream, "\n%s\n", U_("Could not parse MIME message. Displaying as source."));
+		if (mail_content_loaded (wrapper, md, TRUE, NULL, html, NULL))
+			handle_text_plain (part, "text/plain", md, html, stream);
+		return TRUE;
+	}
+
 	mp = CAMEL_MULTIPART (wrapper);
 
 	nparts = camel_multipart_get_number (mp);	

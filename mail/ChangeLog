@@ -1,3 +1,8 @@
+2002-10-28  Larry Ewing  <lewing@ximian.com>
+
+	* mail-format.c (handle_multipart_mixed): instead of bailing with
+	an assertion dump the body.
+
 2002-10-27  Larry Ewing  <lewing@ximian.com>
 
 	* mail-display.c (fetch_next): don't queue the action until we've
