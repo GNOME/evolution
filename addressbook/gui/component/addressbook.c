@@ -549,7 +549,7 @@ book_open_cb (EBook *book, EBookStatus status, gpointer closure)
 		gtk_widget_show (label);
 
 #ifndef HAVE_LDAP
-		if (source && source->type == ADDRESSBOOK_SOURCE_LDAP) {
+		if (source) {
 			GtkWidget *href;
 			href = gnome_href_new ("http://www.openldap.org/", "OpenLDAP at http://www.openldap.org/");
 			gtk_box_pack_start (GTK_BOX (GNOME_DIALOG (warning_dialog)->vbox), 

@@ -1,5 +1,10 @@
 2002-04-18  Chris Toshok  <toshok@ximian.com>
 
+	* gui/component/addressbook.c (book_open_cb): no more
+	source->type.
+
+2002-04-18  Chris Toshok  <toshok@ximian.com>
+
 	* gui/component/ldap-config.c (addressbook_dialog_get_source):
 	fill in source->ssl.
 	(addressbook_source_dialog_set_source): set up auth/scope/ssl
