@@ -1,5 +1,9 @@
 2002-06-10  Jeffrey Stedfast  <fejj@ximian.com>
 
+	* mail-accounts.c (account_able_clicked): Comment out the code to
+	add/remove the store to the folder-tree when it gets
+	enabled/disabled.
+
 	* mail-callbacks.c (mail_generate_reply): If we are doing
 	Reply-to-All, do not include any of the user's email accounts in
 	the To: field. If, after this, the To: field is empty - then

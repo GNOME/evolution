@@ -1246,7 +1246,7 @@ storage_connect (EvolutionStorage *storage,
 		 const char *path,
 		 CamelStore *store)
 {
-	mail_note_store (CAMEL_STORE(store), storage, CORBA_OBJECT_NIL,
+	mail_note_store (CAMEL_STORE (store), storage, CORBA_OBJECT_NIL,
 			 storage_connected, storage);
 }
 
@@ -1324,7 +1324,7 @@ mail_load_storage_by_uri (GNOME_Evolution_Shell shell, const char *uri, const ch
 	 * see if this belongs in the shell's folder list. If so, add
 	 * it.
 	 */
-
+	
 	prov = camel_session_get_provider (session, uri, &ex);
 	if (prov == NULL) {
 		/* FIXME: real error dialog */
@@ -1333,11 +1333,11 @@ mail_load_storage_by_uri (GNOME_Evolution_Shell shell, const char *uri, const ch
 		camel_exception_clear (&ex);
 		return;
 	}
-
+	
 	if (!(prov->flags & CAMEL_PROVIDER_IS_STORAGE) ||
 	    (prov->flags & CAMEL_PROVIDER_IS_EXTERNAL))
 		return;
-
+	
 	store = camel_session_get_service (session, uri, CAMEL_PROVIDER_STORE, &ex);
 	if (store == NULL) {
 		/* FIXME: real error dialog */
