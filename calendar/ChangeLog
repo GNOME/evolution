@@ -1,3 +1,30 @@
+2003-04-24  Rodrigo Moya <rodrigo@ximian.com>
+
+	Fixes #41661
+
+	* idl/evolution-calendar.idl: added discardAlarm method to
+	GNOME:Evolution:Calendar:Cal interface.
+
+	* pcs/cal.c (cal_class_init): set new epv's method.
+	(impl_Cal_discardAlarm): implementation of new CORBA method.
+
+	* pcs/cal-backend.[ch]: added 'discard_alarm' virtual method, and
+	CAL_BACKEND_RESULT_NOT_IMPLEMENTED to CalBackendResult enum.
+	(cal_backend_class_init): initialize new class method.
+	(cal_backend_discard_alarm): new method.
+	(cal_backend_update_objects, cal_backend_remove_object): return
+	proper CalBackendResult values.
+
+	* pcs/cal-backend-file.c (cal_backend_file_class_init): initialize
+	new class method.
+	(cal_backend_file_discard_alarm): implementation of new method.
+	
+	* pcs/cal-client.[ch] (cal_client_discard_alarm): new function.
+
+	* gui/alarm-notify/alarm-queue.c (remove_qeueud_alarm): don't remove
+	the alarm directly from the component, call cal_client_discard_alarm
+	and let the backend deal with it.
+
 2003-04-24  JP Rosevear  <jpr@ximian.com>
  
  	* gui/apps_evolution_calendar.schemas: set the hpane default to

@@ -2486,6 +2486,47 @@ cal_client_get_alarms_for_object (CalClient *client, const char *uid,
 	return retval;
 }
 
+/**
+ * cal_client_discard_alarm
+ * @client: A calendar client.
+ * @comp: The component to discard the alarm from.
+ * @auid: Unique identifier of the alarm to be discarded.
+ *
+ * Tells the calendar backend to get rid of the alarm identified by the
+ * @auid argument in @comp. Some backends might remove the alarm or
+ * update internal information about the alarm be discarded, or, like
+ * the file backend does, ignore the operation.
+ *
+ * Return value: a #CalClientResult value indicating the result of the
+ * operation.
+ */
+CalClientResult
+cal_client_discard_alarm (CalClient *client, CalComponent *comp, const char *auid)
+{
+	CalClientPrivate *priv;
+	CalClientResult retval;
+	CORBA_Environment ev;
+	const char *uid;
+
+	g_return_val_if_fail (IS_CAL_CLIENT (client), CAL_CLIENT_RESULT_NOT_FOUND);
+	g_return_val_if_fail (IS_CAL_COMPONENT (comp), CAL_CLIENT_RESULT_NOT_FOUND);
+	g_return_val_if_fail (auid != NULL, CAL_CLIENT_RESULT_NOT_FOUND);
+
+	cal_component_get_uid (comp, &uid);
+
+	CORBA_exception_init (&ev);
+	GNOME_Evolution_Calendar_Cal_discardAlarm (priv->cal, uid, auid, &ev);
+	if (BONOBO_USER_EX (&ev, ex_GNOME_Evolution_Calendar_Cal_NotFound))
+		retval = CAL_CLIENT_RESULT_NOT_FOUND;
+	else if (BONOBO_EX (&ev))
+		retval = CAL_CLIENT_RESULT_CORBA_ERROR;
+	else
+		retval = CAL_CLIENT_RESULT_SUCCESS;
+
+	CORBA_exception_free (&ev);
+	return retval;
+}
+
 typedef struct _ForeachTZIDCallbackData ForeachTZIDCallbackData;
 struct _ForeachTZIDCallbackData {
 	CalClient *client;

@@ -214,6 +214,10 @@ module Calendar {
 			raises (NotFound, InvalidRange);
 
 
+		/* Discards an alarm from a given component */
+		void discardAlarm (in CalObjUID uid, in CalAlarmUID auid)
+			raises (NotFound);
+
 		/* Adds or updates one or more VEVENT/VTODO/VTIMEZONE
 		 * components. The calobj should be a string representation of
 		 * a complete VCALENDAR object (we also support single

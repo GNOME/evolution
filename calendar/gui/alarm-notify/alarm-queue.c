@@ -219,12 +219,10 @@ remove_queued_alarm (CompQueuedAlarms *cqa, gpointer alarm_id,
 	cqa->queued_alarms = g_slist_remove_link (cqa->queued_alarms, l);
 	g_slist_free_1 (l);
 
-	if (remove_alarm &&
-	    cal_client_get_static_capability (cqa->parent_client->client,
-					      CAL_STATIC_CAPABILITY_REMOVE_ALARMS)) {
-		cal_component_remove_alarm (cqa->alarms->comp, qa->instance->auid);
+	if (remove_alarm) {
 		cqa->expecting_update = TRUE;
-		cal_client_update_object (cqa->parent_client->client, cqa->alarms->comp);
+		cal_client_discard_alarm (cqa->parent_client->client, cqa->alarms->comp,
+					  qa->instance->auid);
 		cqa->expecting_update = FALSE;
 	}
 

@@ -47,7 +47,7 @@ typedef enum {
 	CAL_BACKEND_OPEN_SUCCESS,	/* Loading OK */
 	CAL_BACKEND_OPEN_ERROR,		/* We need better error reporting in libversit */
 	CAL_BACKEND_OPEN_NOT_FOUND,
-	CAL_BACKEND_OPEN_PERMISSION_DENIED
+	CAL_BACKEND_OPEN_PERMISSION_DENIED,
 } CalBackendOpenStatus;
 
 /* Update and Remove result values */
@@ -137,6 +137,7 @@ struct _CalBackendClass {
 	GNOME_Evolution_Calendar_CalComponentAlarms *(* get_alarms_for_object) (
 		CalBackend *backend, const char *uid,
 		time_t start, time_t end, gboolean *object_found);
+	CalBackendResult (* discard_alarm) (CalBackend *backend, const char *uid, const char *auid);
 
 	/* Object manipulation virtual methods */
 	CalBackendResult (* update_objects) (CalBackend *backend, const char *calobj, CalObjModType mod);
@@ -209,6 +210,8 @@ GNOME_Evolution_Calendar_CalComponentAlarms *cal_backend_get_alarms_for_object (
 	CalBackend *backend, const char *uid,
 	time_t start, time_t end,
 	CalBackendGetAlarmsForObjectResult *result);
+
+CalBackendResult cal_backend_discard_alarm (CalBackend *backend, const char *uid, const char *auid);
 
 
 CalBackendResult cal_backend_update_objects (CalBackend *backend, const char *calobj, CalObjModType mod);

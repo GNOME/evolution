@@ -112,6 +112,10 @@ static GNOME_Evolution_Calendar_CalComponentAlarms *cal_backend_file_get_alarms_
 	CalBackend *backend, const char *uid,
 	time_t start, time_t end, gboolean *object_found);
 
+static CalBackendResult cal_backend_file_discard_alarm (CalBackend *backend,
+							const char *uid,
+							const char *auid);
+
 static CalBackendResult cal_backend_file_update_objects (CalBackend *backend,
 							 const char *calobj,
 							 CalObjModType mod);
@@ -199,6 +203,7 @@ cal_backend_file_class_init (CalBackendFileClass *class)
 	backend_class->get_changes = cal_backend_file_get_changes;
 	backend_class->get_alarms_in_range = cal_backend_file_get_alarms_in_range;
 	backend_class->get_alarms_for_object = cal_backend_file_get_alarms_for_object;
+	backend_class->discard_alarm = cal_backend_file_discard_alarm;
 	backend_class->update_objects = cal_backend_file_update_objects;
 	backend_class->remove_object = cal_backend_file_remove_object;
 	backend_class->send_object = cal_backend_file_send_object;
@@ -1518,6 +1523,14 @@ cal_backend_file_get_alarms_for_object (CalBackend *backend, const char *uid,
 		cal_backend_util_fill_alarm_instances_seq (&corba_alarms->alarms, NULL);
 
 	return corba_alarms;
+}
+
+/* Discard_alarm handler for the file backend */
+static CalBackendResult
+cal_backend_file_discard_alarm (CalBackend *backend, const char *uid, const char *auid)
+{
+	/* we just do nothing with the alarm */
+	return CAL_BACKEND_RESULT_SUCCESS;
 }
 
 /* Creates a CalComponent for the given icalcomponent and adds it to our

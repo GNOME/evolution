@@ -193,6 +193,7 @@ cal_backend_class_init (CalBackendClass *class)
 	class->get_changes = NULL;
 	class->get_alarms_in_range = NULL;
 	class->get_alarms_for_object = NULL;
+	class->discard_alarm = NULL;
 	class->update_objects = NULL;
 	class->remove_object = NULL;
 	class->send_object = NULL;
@@ -825,6 +826,30 @@ cal_backend_get_alarms_for_object (CalBackend *backend, const char *uid,
 }
 
 /**
+ * cal_backend_discard_alarm
+ * @backend: A calendar backend.
+ * @uid: UID of the component to discard the alarm from.
+ * @auid: Alarm ID.
+ *
+ * Discards an alarm from the given component. This allows the specific backend
+ * to do whatever is needed to really discard the alarm.
+ *
+ * Return value: a #CalBackendResult value, which indicates the
+ * result of the operation.
+ **/
+CalBackendResult
+cal_backend_discard_alarm (CalBackend *backend, const char *uid, const char *auid)
+{
+	g_return_val_if_fail (backend != NULL, CAL_BACKEND_RESULT_NOT_FOUND);
+	g_return_val_if_fail (IS_CAL_BACKEND (backend), CAL_BACKEND_RESULT_NOT_FOUND);
+	g_return_val_if_fail (uid != NULL, CAL_BACKEND_RESULT_NOT_FOUND);
+	g_return_val_if_fail (auid != NULL, CAL_BACKEND_RESULT_NOT_FOUND);
+	g_return_val_if_fail (CLASS (backend)->discard_alarm != NULL, CAL_BACKEND_RESULT_NOT_FOUND);
+
+	return (* CLASS (backend)->discard_alarm) (backend, uid, auid);
+}
+
+/**
  * cal_backend_update_objects:
  * @backend: A calendar backend.
  * @calobj: String representation of the new calendar object(s).
@@ -839,9 +864,9 @@ cal_backend_get_alarms_for_object (CalBackend *backend, const char *uid,
 CalBackendResult
 cal_backend_update_objects (CalBackend *backend, const char *calobj, CalObjModType mod)
 {
-	g_return_val_if_fail (backend != NULL, FALSE);
-	g_return_val_if_fail (IS_CAL_BACKEND (backend), FALSE);
-	g_return_val_if_fail (calobj != NULL, FALSE);
+	g_return_val_if_fail (backend != NULL, CAL_BACKEND_RESULT_NOT_FOUND);
+	g_return_val_if_fail (IS_CAL_BACKEND (backend), CAL_BACKEND_RESULT_NOT_FOUND);
+	g_return_val_if_fail (calobj != NULL, CAL_BACKEND_RESULT_NOT_FOUND);
 
 	g_assert (CLASS (backend)->update_objects != NULL);
 	return (* CLASS (backend)->update_objects) (backend, calobj, mod);
@@ -861,9 +886,9 @@ cal_backend_update_objects (CalBackend *backend, const char *calobj, CalObjModTy
 CalBackendResult
 cal_backend_remove_object (CalBackend *backend, const char *uid, CalObjModType mod)
 {
-	g_return_val_if_fail (backend != NULL, FALSE);
-	g_return_val_if_fail (IS_CAL_BACKEND (backend), FALSE);
-	g_return_val_if_fail (uid != NULL, FALSE);
+	g_return_val_if_fail (backend != NULL, CAL_BACKEND_RESULT_NOT_FOUND);
+	g_return_val_if_fail (IS_CAL_BACKEND (backend), CAL_BACKEND_RESULT_NOT_FOUND);
+	g_return_val_if_fail (uid != NULL, CAL_BACKEND_RESULT_NOT_FOUND);
 
 	g_assert (CLASS (backend)->remove_object != NULL);
 	return (* CLASS (backend)->remove_object) (backend, uid, mod);

@@ -513,6 +513,25 @@ impl_Cal_getAlarmsForObject (PortableServer_Servant servant,
 	}
 }
 
+/* Cal::discardAlarm method */
+static void
+impl_Cal_discardAlarm (PortableServer_Servant servant,
+		       const CORBA_char *uid,
+		       const CORBA_char *auid,
+		       CORBA_Environment *ev)
+{
+	Cal *cal;
+	CalPrivate *priv;
+	CalBackendResult result;
+
+	cal = CAL (bonobo_object_from_servant (servant));
+	priv = cal->priv;
+
+	result = cal_backend_discard_alarm (priv->backend, uid, auid);
+	if (result == CAL_BACKEND_RESULT_NOT_FOUND)
+		bonobo_exception_set (ev, ex_GNOME_Evolution_Calendar_Cal_NotFound);
+}
+
 /* Cal::updateObjects method */
 static void
 impl_Cal_updateObjects (PortableServer_Servant servant,
@@ -855,6 +874,7 @@ cal_class_init (CalClass *klass)
 	epv->getFreeBusy = impl_Cal_getFreeBusy;
 	epv->getAlarmsInRange = impl_Cal_getAlarmsInRange;
 	epv->getAlarmsForObject = impl_Cal_getAlarmsForObject;
+	epv->discardAlarm = impl_Cal_discardAlarm;
 	epv->updateObjects = impl_Cal_updateObjects;
 	epv->removeObject = impl_Cal_removeObject;
 	epv->sendObject = impl_Cal_sendObject;
