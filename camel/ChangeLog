@@ -1,5 +1,8 @@
 2000-10-25  Dan Winship  <danw@helixcode.com>
 
+	* providers/imap/camel-imap-store.c (get_folder_info): Fix folder
+	listing code infinite loop.
+
 	* camel-store.h: Add a "parent" field to CamelFolderInfo.
 
 	* camel-store.c (camel_folder_info_build): Deal with "parent"

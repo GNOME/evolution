@@ -675,7 +675,7 @@ get_folder_info (CamelStore *store, const char *top, gboolean fast,
 		topfi = topfi->child;
 		fi->child = NULL;
 		camel_folder_info_free (fi);
-		for (fi = topfi; fi; fi->sibling)
+		for (fi = topfi; fi; fi = fi->sibling)
 			fi->parent = NULL;
 	}
 
