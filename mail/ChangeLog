@@ -1,3 +1,10 @@
+2003-07-02  Jeffrey Stedfast  <fejj@ximian.com>
+
+	* folder-browser.c (message_list_drag_data_get): Apply a
+	From-filter when dragging as a test/uri-list and
+	message/rfc822. Fixes bug #45617. Also free the uids ptrarray for
+	the text/uri-list case.
+
 2003-06-27  Jeffrey Stedfast  <fejj@ximian.com>
 
 	* message-list.c (filter_date): Use the newer utf8 versions of the
