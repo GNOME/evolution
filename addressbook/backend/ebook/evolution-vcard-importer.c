@@ -20,7 +20,6 @@
 
 typedef struct {
 	char *filename;
-	char *folderpath;
 	GList *cardlist;
 	GList *iterator;
 	EBook *book;
@@ -44,13 +43,8 @@ book_open_cb (EBook *book, EBookStatus status, gpointer closure)
 }
 
 static void
-ebook_create (VCardImporter *gci)
+ebook_open (VCardImporter *gci, const char *uri)
 {
-#if 0
-	gchar *path, *uri;
-	gchar *epath;
-#endif
-	
 	gci->book = e_book_new ();
 
 	if (!gci->book) {
@@ -60,21 +54,7 @@ ebook_create (VCardImporter *gci)
 		return;
 	}
 
-#if 0
-	path = g_concat_dir_and_file (g_get_home_dir (), "evolution/local");
-	uri = g_strdup_printf ("file://%s", path);
-	g_free (path);
-
-	epath = e_path_to_physical (uri, gci->folderpath);
-	g_free (uri);
-	uri = g_strdup_printf ("%s/addressbook.db", epath);
-	g_free (epath);
-
-	e_book_load_uri (gci->book, uri, book_open_cb, gci);
-	g_free(uri);
-#endif
-
-	e_book_load_default_book (gci->book, book_open_cb, gci);
+	e_book_load_address_book_by_uri (gci->book, uri, book_open_cb, gci);
 }
 
 /* EvolutionImporter methods */
@@ -188,7 +168,7 @@ importer_destroy_cb (gpointer data,
 static gboolean
 load_file_fn (EvolutionImporter *importer,
 	      const char *filename,
-	      const char *folderpath,
+	      const char *uri,
 	      void *closure)
 {
 	VCardImporter *gci;
@@ -199,11 +179,10 @@ load_file_fn (EvolutionImporter *importer,
 
 	gci = (VCardImporter *) closure;
 	gci->filename = g_strdup (filename);
-	gci->folderpath = g_strdup (folderpath);
 	gci->cardlist = NULL;
 	gci->iterator = NULL;
 	gci->ready = FALSE;
-	ebook_create (gci);
+	ebook_open (gci, uri);
 
 	return TRUE;
 }

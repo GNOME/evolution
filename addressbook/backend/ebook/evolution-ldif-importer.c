@@ -450,12 +450,8 @@ book_open_cb (EBook *book, EBookStatus status, gpointer closure)
 }
 
 static void
-ebook_create (LDIFImporter *gci)
+ebook_open (LDIFImporter *gci, const char *uri)
 {
-#if 0
-	gchar *path, *uri;
-#endif
-
 	gci->book = e_book_new ();
 
 	if (!gci->book) {
@@ -464,17 +460,8 @@ ebook_create (LDIFImporter *gci)
 			G_GNUC_FUNCTION);
 		return;
 	}
-#if 0
-	path = g_concat_dir_and_file (g_get_home_dir (),
-				      "evolution/local/Contacts/addressbook.db");
-	uri = g_strdup_printf ("file://%s", path);
-	g_free (path);
 
-	e_book_load_uri (gci->book, uri, book_open_cb, gci);
-	g_free(uri);
-#endif
-
-	e_book_load_default_book (gci->book, book_open_cb, gci);
+	e_book_load_address_book_by_uri (gci->book, uri, book_open_cb, gci);
 }
 
 /* EvolutionImporter methods */
@@ -558,7 +545,7 @@ importer_destroy_cb (gpointer data,
 static gboolean
 load_file_fn (EvolutionImporter *importer,
 	      const char *filename,
-	      const char *folderpath,
+	      const char *uri,
 	      void *closure)
 {
 	LDIFImporter *gci;
@@ -568,7 +555,7 @@ load_file_fn (EvolutionImporter *importer,
 	gci->cardlist = NULL;
 	gci->iterator = NULL;
 	gci->ready = FALSE;
-	ebook_create (gci);
+	ebook_open (gci, uri);
 
 	return TRUE;
 }

@@ -1,5 +1,16 @@
 2003-03-26  Chris Toshok  <toshok@ximian.com>
 
+	[ fixes bug #19178 ]
+	* backend/ebook/evolution-ldif-importer.c (ebook_open): use
+	e_book_load_address_book_by_uri on the passed in uri.
+	(load_file_fn): pass the uri.
+
+	* backend/ebook/evolution-vcard-importer.c (ebook_open): use
+	e_book_load_address_book_by_uri on the passed in uri.
+	(load_file_fn): pass the uri.
+
+2003-03-26  Chris Toshok  <toshok@ximian.com>
+
 	[ fixes bug #34651 ]
 	* gui/component/select-names/e-select-names.c
 	(select_entry_changed): strcmp -> g_utf8_collate.
