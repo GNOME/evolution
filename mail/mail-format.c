@@ -336,6 +336,10 @@ setup_mime_tables (void)
 			     handle_text_plain);
 	g_hash_table_insert (mime_function_table, "multipart/*",
 			     handle_multipart_mixed);
+	
+	/* MIME types that other clients (Outlook & Hotmail) have pulled out of their collective arses. */
+	g_hash_table_insert (mime_function_table, "image/pjpeg",
+			     handle_image);
 }
 
 static gboolean

@@ -1,3 +1,9 @@
+2003-10-16  Jeffrey Stedfast  <fejj@ximian.com>
+
+	* mail-format.c (setup_mime_tables): Add a handler for image/pjpeg
+	(which is not a registered MIME-type, but one that retarded
+	mailers such as Hotmail and Outlook seem to send out).
+
 2003-10-14  Suresh Chandrasekharan <suresh.chandrasekharan@sun.com>
 
 	* mail-search.c: Enabled forward/backward search toggle
