@@ -1,3 +1,8 @@
+1999-05-09  Jacob Berkman  <jberk+@cmu.edu>
+
+	* gnome-bonobo-check.m4: made test program return 0,
+	changed BONOBO_CHECK to not return "failure" on success
+
 1999-04-16  Raja R Harinath  <harinath@cs.umn.edu>
 
 	* gnome-print-check.m4 (GNOME_PRINT_CHECK): Fix invocation of

@@ -89,6 +89,7 @@ int main ()
 
   system ("touch conf.bonobotest");
   gnome_object_get_type ();
+  return 0;
 }
 
 ],, no_bonobo=yes,[echo $ac_n "cross compiling; assumed OK... $ac_c"])
@@ -144,6 +145,6 @@ int main ()
 ])
 
 AC_DEFUN([BONOBO_CHECK], [
-	AM_PATH_BONOBO(0.1.0,failure)
+	AM_PATH_BONOBO(0.1.0,,[AC_MSG_ERROR(BONOBO not found)])
 ])
 
