@@ -1,5 +1,7 @@
-<!DOCTYPE Chapter PUBLIC "-//GNOME//DTD DocBook PNG Variant V1.1//EN">
-<!-- uncomment this during validation and debugging -->
+
+<!-- <!DOCTYPE Chapter PUBLIC "-//GNOME//DTD DocBook PNG Variant V1.1//EN">
+ uncomment this during validation and debugging -->
+
 <chapter id="usage-contact">
   <title>The Evolution Contact Manager</title>
   <abstract>

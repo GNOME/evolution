@@ -377,7 +377,7 @@ with quoted materials and the relevant replies interspersed-->
 	    unless you explicitly ask for HTML.  To send HTML mail,
 	    you will need to select <guilabel>Send Messages as
 	    HTML</guilabel> in the mail settings dialog box.  See
-	    <xref linkend="config-mail"> for more information.
+	    <xref linkend="config-prefs-mail-other"> for more information.
           </para>
 	  <para>
             If you format a message with HTML, but do not have

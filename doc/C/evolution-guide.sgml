@@ -4,6 +4,7 @@
 <!ENTITY USAGE-MAIL SYSTEM "usage-mail.sgml">
 <!ENTITY USAGE-CONTACT SYSTEM "usage-contact.sgml">
 <!ENTITY USAGE-CALENDAR SYSTEM "usage-calendar.sgml">
+<!ENTITY USAGE-NOTES SYSTEM "usage-notes.sgml">
 <!ENTITY USAGE-SYNC SYSTEM "usage-sync.sgml">
 <!ENTITY CONFIG-SETUPASSIST SYSTEM "config-setupassist.sgml">
 <!ENTITY CONFIG-PREFS SYSTEM "config-prefs.sgml">
@@ -73,6 +74,7 @@ standardize on second person, not 1st pers. plural.
     &USAGE-MAIL;
     &USAGE-CONTACT;
     &USAGE-CALENDAR;
+    &USAGE-NOTES;
     &USAGE-SYNC;
 
   </part>

@@ -1,4 +1,7 @@
 
+<!-- UNCOMMENT FOR VALIDATION ONLY:
+ <!DOCTYPE Chapter PUBLIC "-//GNOME//DTD DocBook PNG Variant V1.1//EN">
+-->
 
 <chapter id="usage-calendar">
   <title>The Evolution Calendar: Time-Tamer Extraordinaire</title>
@@ -27,13 +30,10 @@
     <title>Ways of Looking at your Calendar</title>
     <para>
        You can view your calendar by the day, by the week, by the
-       month, or by the year.  To do so, use the calendar-shaped
-       buttons on the right side of the toolbar.
+       month, or by the year; press the calendar-shaped buttons on the
+       right side of the toolbar to switch between views.
     </para>
-    <para>
-       Describe the less-obvious differences among the views of time
-       here.
-    </para>
+
 
 <!-- ############### FIXME FIXME FIXME ############
 Feature not yet implemented, and may not be implemented due to
@@ -45,11 +45,8 @@ lack of time, resources, and interest.
        <guimenuitem>GUIMENUITEM</guimenuitem> from the
        <guimenu>GUIMENU</guimenu>.
     </para>
--->
-    <para>
-       Describe the ways that different calendars can work here, and
-       how the different calendars work together.
-    </para>
+################  END FIXME AREA   ##################   -->
+
   </sect1>
   <sect1 id="usage-calendar-apts">
     <title>Scheduling With the Evolution Calendar</title>
@@ -168,7 +165,7 @@ lack of time, resources, and interest.
       <para>
 	In addition, you can use
 	<application>Evolution</application> to mark a meeting
-	request on another person's calendar.  To do so, first
+	request on another person's calendar.  To do it, first
 	select <guimenuitem>New Appointment</guimenuitem> from the
 	<guimenu>MENU</guimenu>, or press <keysym>KEYSYM</keysym>
 	to bring up the <interface>new event</interface> window.
@@ -204,6 +201,58 @@ lack of time, resources, and interest.
 	at all.
       </para>
     </sect2>
+  </sect1>
+
+  <sect1 id="usage-calendar-todo">
+   <title>The To-Do List</title>
+    <para>
+       The to-do list, located in the lower right corner of the
+       calendar, lets you keep a list of tasks seperate from your
+       calendar events.  Tasks are colored by priority and due-date
+       (see <xref linkend="config-prefs">), and are included with
+       calendar data during synchronization with a hand-held device.
+    </para>
+    <para>
+       To record a new task, click the <guibutton>Add</guibutton>
+       button below the list.  <application>Evolution</application>
+       will pop up a small window with five items in it:
+       <itemizedlist>
+         <listitem>
+	  <para>
+            <guilabel>Summary:</guilabel>The description you enter
+            here will appear in the To Do list itself.
+          </para>
+	 </listitem>
+
+        <listitem>
+	  <para>
+            <guilabel>Due Date:</guilabel> Decide when this item is
+            due.  You can either type in a date and time, or select one from
+            the <guibutton>Calendar</guibutton> and time drop-down menus.
+          </para>
+	</listitem>
+ 
+	<listitem>
+	  <para>
+            <guilabel>Priority:</guilabel>Select a level of importance from 1 to 9.
+          </para>
+	</listitem> 
+	<listitem>
+	  <para>
+            <guilabel>Item Comments:</guilabel>If you wish, you can
+            keep a more detailed description of the item here.
+          </para>
+	</listitem> 
+      </itemizedlist>
+    </para>
+    <para>
+       Once you've added a task to your to-do list, its summary
+       appears in the <guilabel>Summary</guilabel> section of the
+       calendar window.  To edit an item, double-click on it, or
+       select it and click <guibutton>Edit</guibutton>.  You can
+       delete items by selecting them and clicking on the
+       <guibutton>Delete</guibutton> button.
+    </para>
   </sect1>
 
   <sect1 id="usage-calendar-organize">

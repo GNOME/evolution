@@ -1,4 +1,8 @@
-<!DOCTYPE Chapter PUBLIC "-//GNOME//DTD DocBook PNG Variant V1.1//EN">
+
+<!-- UNComment the following during debugging:
+ <!DOCTYPE Chapter PUBLIC "-//GNOME//DTD DocBook PNG Variant V1.1//EN"> -->
+
+
 <chapter id="usage-mainwindow">
 
   <title>The Main Window: Evolution Basics</title>
@@ -133,15 +137,16 @@ Can these things be labelled with little arrows & stuff?
 	     daily events.
 	  </para>
 	</listitem>
-
+-->
 	<listitem>
 	  <para> <guibutton>Notes</guibutton> is your catch-all
 	    notepad: write <glossterm>haiku</glossterm>, take down
-	    messages from phone conversations, or keep small
-	    things organized.
+	    messages from phone conversations, or keep small things
+	    organized. This feature is not yet implemented, but will
+	    be soon. See <xref linkend="usage-notes"> for more information.
 	  </para>
 	</listitem>
--->
+
 
       </itemizedlist>
 

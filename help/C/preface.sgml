@@ -130,8 +130,8 @@
 	    <member><application>Applications</application></member>
 	    <member><command>Commands</command> typed at the command line</member>
 	    <member><guilabel>Labels</guilabel> for menu items and buttons</member>
-	    <member>Other text treatments</member>
-	    <member>Other text treatments</member>
+	    <member><userinput>Anything you type in</userinput></member>
+	    <member><computeroutput>Text output from a computer</computeroutput></member>
 	  </simplelist>
         </para>
       </formalpara>
