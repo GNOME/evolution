@@ -83,7 +83,7 @@ static PASBackendFileBookView *
 pas_backend_file_book_view_copy(const PASBackendFileBookView *book_view, void *closure)
 {
 	PASBackendFileBookView *new_book_view;
-	new_book_view = g_new0 (PASBackendFileBookView, 1);
+	new_book_view = g_new (PASBackendFileBookView, 1);
 	new_book_view->book_view = book_view->book_view;
 
 	new_book_view->search = g_strdup(book_view->search);
@@ -93,7 +93,8 @@ pas_backend_file_book_view_copy(const PASBackendFileBookView *book_view, void *c
 	if (book_view->search_context) {		
 		new_book_view->search_context = g_new(PASBackendFileSearchContext, 1);
 		new_book_view->search_context->card = book_view->search_context->card;
-	}
+	} else
+		new_book_view->search_context = NULL;
 	
 	new_book_view->change_id = g_strdup(book_view->change_id);
 	if (book_view->change_context) {
@@ -105,7 +106,8 @@ pas_backend_file_book_view_copy(const PASBackendFileBookView *book_view, void *c
 		new_book_view->change_context->mod_ids = book_view->change_context->mod_ids;
 		new_book_view->change_context->del_cards = book_view->change_context->del_cards;
 		new_book_view->change_context->del_ids = book_view->change_context->del_ids;
-	}
+	} else
+		new_book_view->change_context = NULL;
 	
 	return new_book_view;
 }
@@ -992,6 +994,7 @@ pas_backend_file_process_get_book_view (PASBackend *backend,
 	view.search = req->search;
 	view.search_sexp = NULL;
 	view.search_context = &ctx;
+	view.change_context = NULL;
 	ctx.card = NULL;
 
 	e_list_append(bf->priv->book_views, &view);

@@ -1,3 +1,11 @@
+2000-11-22  Christopher James Lahey  <clahey@helixcode.com>
+
+	* backend/pas/pas-backend-file.c: Set view.change_context to NULL
+	in pas_backend_file_process_get_book_view.  Changed
+	pas_backend_file_book_view_copy a bit.
+
+	* backend/pas/pas-backend-ldap.c: Got rid of a warning.
+
 2000-11-18  Matt Bissiri  <matt@bissiri.org>
 
 	* gui/component/Makefile.am:
