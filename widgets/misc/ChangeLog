@@ -1,3 +1,31 @@
+2004-01-19  JP Rosevear <jpr@ximian.com>
+
+	* e-source-selector.c (create_rebuild_data): create the data
+	structure for rebuilding the model
+	(free_rebuild_data): free it
+	(rebuild_existing_cb): check for the sources that are still
+	existing or deleted
+	(rebuild_model): do incremental updates
+	(selection_func): if the last thing we did was toggle, we don't
+	actually want to highlight and if the source is not checked, check
+	it
+	(cell_toggled_callback): indicate that a toggle just occurred
+	(init): initial toggled last to false	
+	(e_source_selector_set_primary_selection): set some preconditions
+
+	Fixes #51787
+	
+2004-01-19  JP Rosevear <jpr@ximian.com>
+
+	* e-source-selector.c 	(cell_toggled_callback): indicate that a toggle just occurred
+
+2004-01-19  JP Rosevear <jpr@ximian.com>
+
+	* e-source-selector.c 
+
+	(selector_button_press_event): when right clicking, make sure the
+	calendar is highlighted and that groups can't be right clicked on
+
 2004-01-14  Rodney Dawes  <dobey@ximian.com>
 
 	* e-expander.[ch]: Fix remaining usages of GTK_*EXPANDER* defines
