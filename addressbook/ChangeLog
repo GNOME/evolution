@@ -1,3 +1,30 @@
+2002-06-14  Chris Toshok  <toshok@ximian.com>
+
+	* backend/pas/pas-backend-ldap.c (check_schema_support): free
+	values and resp.
+	(pas_backend_ldap_connect): use ldap_unbind_ext - ldap_unbind is
+	deprecated.
+	(search_for_dn_with_objectclasses): don't leak the dn.
+	(create_card_handler): don't leak the vcard string.
+	(remove_card_handler): same.
+	(modify_card_handler): same.
+	(pas_backend_ldap_process_modify_card): same.
+	(build_card_from_entry): don't leak the dn, and make sure to free
+	attr.
+	(pas_backend_ldap_process_authenticate_user): don't leak the dn,
+	and i love the fact that ldap memory is allocated differently than
+	glib memory.  yay.  also make sure we don't leak the
+	user/passwd/auth_method from the request.
+	(pas_backend_ldap_destroy): we need to unbind the ldap connection
+	here, and free our private data -- can't believe we weren't doing
+	this before.
+
+	* backend/pas/pas-backend-file.c (pas_backend_file_search): up the
+	max threshold to 3000 cards from 1000 cards.. seems to improve
+	performance a bit.  also remove the g_list_reverse since it
+	doesn't matter what order the cards arrive to the gui.
+	(pas_backend_file_changes): plug memory leaks.
+
 2002-06-11  Chris Toshok  <toshok@ximian.com>
 
 	[ fixes bug #17332 ]
