@@ -1293,17 +1293,16 @@ get_folder_info_online (CamelStore *store, const char *top,
 		    && (g_strcasecmp (fi->name, "INBOX") != 0))
 			continue;
 
-		/* UW will give cached data for the currently selected
-		 * folder. Grr. Well, I guess this also potentially
-		 * saves us one IMAP command.
+		/* For the current folder, poke it to check for new
+		 * messages and then report that number, rather than
+		 * doing a STATUS command.
 		 */
 		if (imap_store->current_folder &&
 		    !strcmp (imap_store->current_folder->full_name, fi->full_name)) {
+			camel_folder_refresh_info (imap_store->current_folder, NULL);
 			fi->unread_message_count = camel_folder_get_unread_message_count (imap_store->current_folder);
-			continue;
-		}
-
-		fi->unread_message_count = get_folder_status (imap_store, fi->full_name, "UNSEEN");
+		} else
+			fi->unread_message_count = get_folder_status (imap_store, fi->full_name, "UNSEEN");
 	}
 
 	g_ptr_array_free (folders, TRUE);

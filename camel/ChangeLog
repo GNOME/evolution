@@ -1,3 +1,9 @@
+2001-08-06  Dan Winship  <danw@ximian.com>
+
+	* providers/imap/camel-imap-store.c (get_folder_info_online): Do a
+	refresh_info on the selected folder before looking at its unread
+	count. Should fix bug #4944.
+
 2001-08-06  Peter Williams  <peterw@ximian.com>
 
 	Completely hide the namespace from everything external to the IMAP
