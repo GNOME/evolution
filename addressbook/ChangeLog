@@ -1,5 +1,12 @@
 2004-06-24  Hans Petter Jansson  <hpj@ximian.com>
 
+	* gui/contact-editor/e-contact-editor.c (address_labels): Add table.
+	(append_to_address_label): Implement.
+	(set_address_label): Implement.
+	(extract_address_record): Set the address label fields.
+
+2004-06-24  Hans Petter Jansson  <hpj@ximian.com>
+
 	* util/eab-book-util.c (eab_contact_list_from_string): Don't accept
 	input that doesn't have at least a "BEGIN:VCARD" in it.
 

@@ -163,6 +163,12 @@ static EContactField addresses [] = {
 	E_CONTACT_ADDRESS_OTHER
 };
 
+static EContactField address_labels [] = {
+	E_CONTACT_ADDRESS_LABEL_WORK,
+	E_CONTACT_ADDRESS_LABEL_HOME,
+	E_CONTACT_ADDRESS_LABEL_OTHER
+};
+
 static gchar *address_name [] = {
 	"work",
 	"home",
@@ -1736,6 +1742,42 @@ extract_address_field (EContactEditor *editor, gint record, const gchar *widget_
 	return g_strdup (gtk_entry_get_text (GTK_ENTRY (entry)));
 }
 
+static gchar *
+append_to_address_label (gchar *address_label, const gchar *part, gboolean newline)
+{
+	gchar *new_address_label;
+
+	if (STRING_IS_EMPTY (part))
+		return address_label;
+
+	if (address_label)
+		new_address_label = g_strjoin (newline ? "\n" : ", ", address_label, part, NULL);
+	else
+		new_address_label = g_strdup (part);
+
+	g_free (address_label);
+	return new_address_label;
+}
+
+static void
+set_address_label (EContact *contact, EContactField field, EContactAddress *address)
+{
+	gchar *address_label = NULL;
+
+	if (address) {
+		address_label = append_to_address_label (address_label, address->street, TRUE);
+		address_label = append_to_address_label (address_label, address->ext, TRUE);
+		address_label = append_to_address_label (address_label, address->locality, TRUE);
+		address_label = append_to_address_label (address_label, address->region, FALSE);
+		address_label = append_to_address_label (address_label, address->code, TRUE);
+		address_label = append_to_address_label (address_label, address->po, TRUE);
+		address_label = append_to_address_label (address_label, address->country, TRUE);
+	}
+
+	e_contact_set (contact, field, address_label);
+	g_free (address_label);
+}
+
 static void
 extract_address_record (EContactEditor *editor, gint record)
 {
@@ -1756,10 +1798,14 @@ extract_address_record (EContactEditor *editor, gint record)
 	    !STRING_IS_EMPTY (address->region)   ||
 	    !STRING_IS_EMPTY (address->code)     ||
 	    !STRING_IS_EMPTY (address->po)       ||
-	    !STRING_IS_EMPTY (address->country))
+	    !STRING_IS_EMPTY (address->country)) {
 		e_contact_set (editor->contact, addresses [record], address);
-	else
+		set_address_label (editor->contact, address_labels [record], address);
+	}
+	else {
 		e_contact_set (editor->contact, addresses [record], NULL);
+		set_address_label (editor->contact, address_labels [record], NULL);
+	}
 
 	g_boxed_free (e_contact_address_get_type (), address);
 }
