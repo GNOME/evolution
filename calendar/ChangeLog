@@ -1,3 +1,8 @@
+2001-07-21  Damon Chaplin  <damon@ximian.com>
+
+	* gui/e-week-view-event-item.c (e_week_view_event_item_draw): fixed
+	the test to see whether we should draw the icons.
+
 2001-07-22  Ettore Perazzoli  <ettore@ximian.com>
 
 	* gui/component-factory.c (get_local_file_name_for_folder_type):
