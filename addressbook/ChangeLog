@@ -1,5 +1,20 @@
 2003-12-01  Ettore Perazzoli  <ettore@ximian.com>
 
+	* gui/component/addressbook.c (struct AddressbookView): Replace
+	activity_client with activity_id.
+	(set_status_message): Use the EActivityHandler from the
+	AddressbookComponent.
+
+	* gui/component/addressbook-component.c (struct
+	_AddressbookComponentPrivate): New member activity_handler.
+	(addressbook_component_init): Init.
+	(impl_dispose): Unref.
+	(addressbook_component_peek_activity_handler): New.
+	(impl_createControls): Return an ETaskBar as the statusbar control
+	and attach it to the activity handler.
+
+2003-12-01  Ettore Perazzoli  <ettore@ximian.com>
+
 	* gui/component/addressbook-component.c (impl_createControls):
 	Pass a label for the status bar control for now.
 

@@ -33,6 +33,8 @@
 #include "widgets/misc/e-source-selector.h"
 #include "addressbook/gui/widgets/eab-gui-util.h"
 
+#include "e-task-bar.h"
+
 #include <string.h>
 #include <bonobo/bonobo-i18n.h>
 #include <gtk/gtkscrolledwindow.h>
@@ -53,6 +55,8 @@ struct _AddressbookComponentPrivate {
 	GConfClient *gconf_client;
 	ESourceList *source_list;
 	GtkWidget *source_selector;
+
+	EActivityHandler *activity_handler;
 };
 
 
@@ -156,8 +160,10 @@ impl_createControls (PortableServer_Servant servant,
 	AddressbookComponent *addressbook_component = ADDRESSBOOK_COMPONENT (bonobo_object_from_servant (servant));
 	GtkWidget *selector;
 	GtkWidget *selector_scrolled_window;
+	GtkWidget *statusbar_widget;
 	BonoboControl *sidebar_control;
 	BonoboControl *view_control;
+	BonoboControl *statusbar_control;
 
 	selector = e_source_selector_new (addressbook_component->priv->source_list);
 	e_source_selector_show_selection (E_SOURCE_SELECTOR (selector), FALSE);
@@ -183,18 +189,16 @@ impl_createControls (PortableServer_Servant servant,
 				 G_OBJECT (addressbook_component), 0);
 	load_uri_for_selection (E_SOURCE_SELECTOR (selector), view_control);
 
+	statusbar_widget = e_task_bar_new ();
+	gtk_widget_show (statusbar_widget);
+	statusbar_control = bonobo_control_new (statusbar_widget);
+
+	e_activity_handler_attach_task_bar (addressbook_component->priv->activity_handler,
+					    E_TASK_BAR (statusbar_widget));
+
 	*corba_sidebar_control = CORBA_Object_duplicate (BONOBO_OBJREF (sidebar_control), ev);
 	*corba_view_control = CORBA_Object_duplicate (BONOBO_OBJREF (view_control), ev);
-
-	/* FIXME temporary for testing.  */
-	{
-		GtkWidget *label = gtk_label_new ("Hey hey this is the addressbook");
-		BonoboControl *control;
-
-		gtk_widget_show (label);
-		control = bonobo_control_new (label);
-		*corba_statusbar_control = CORBA_Object_duplicate (BONOBO_OBJREF (control), ev);
-	}
+	*corba_statusbar_control = CORBA_Object_duplicate (BONOBO_OBJREF (statusbar_control), ev);
 }
 
 static GNOME_Evolution_CreatableItemTypeList *
@@ -300,6 +304,11 @@ impl_dispose (GObject *object)
 		priv->gconf_client = NULL;
 	}
 
+	if (priv->activity_handler != NULL) {
+		g_object_unref (priv->activity_handler);
+		priv->activity_handler = NULL;
+	}
+
 	(* G_OBJECT_CLASS (parent_class)->dispose) (object);
 }
 
@@ -346,6 +355,8 @@ addressbook_component_init (AddressbookComponent *component)
 
 	priv->source_list = e_source_list_new_for_gconf (priv->gconf_client,
 							 "/apps/evolution/addressbook/sources");
+
+	priv->activity_handler = e_activity_handler_new ();
 
 	/* Create default addressbooks if there are no groups */
 	groups = e_source_list_peek_groups (priv->source_list);
@@ -406,5 +417,15 @@ addressbook_component_peek (void)
 
 	return component;
 }
+
+
+EActivityHandler *
+addressbook_component_peek_activity_handler (AddressbookComponent *component)
+{
+	g_return_val_if_fail (ADDRESSBOOK_IS_COMPONENT (component), NULL);
+
+	return component->priv->activity_handler;
+}
+
 
 BONOBO_TYPE_FUNC_FULL (AddressbookComponent, GNOME_Evolution_Component, PARENT_TYPE, addressbook_component)

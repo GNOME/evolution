@@ -42,7 +42,7 @@
 #include "e-util/e-passwords.h"
 
 #include "evolution-shell-component-utils.h"
-#include "evolution-activity-client.h"
+#include "e-activity-handler.h"
 #include "e-contact-editor.h"
 #include "addressbook-config.h"
 #include "addressbook.h"
@@ -59,7 +59,7 @@
 
 /* This is used for the addressbook status bar */
 #define EVOLUTION_CONTACTS_PROGRESS_IMAGE "evolution-contacts-mini.png"
-static GdkPixbuf *progress_icon[2] = { NULL, NULL };
+static GdkPixbuf *progress_icon = NULL;
 
 #define d(x)
 
@@ -74,7 +74,7 @@ typedef struct {
 	gint        ecml_changed_id;
 	GtkWidget *vbox;
 	EBook *book;
-	EvolutionActivityClient *activity;
+	guint activity_id;
 	BonoboControl *control;
 	BonoboPropertyBag *properties;
 	GConfClient *gconf_client;
@@ -913,29 +913,23 @@ retrieve_shell_view_interface_from_control (BonoboControl *control)
 static void
 set_status_message (EABView *eav, const char *message, AddressbookView *view)
 {
+	EActivityHandler *activity_handler = addressbook_component_peek_activity_handler (addressbook_component_peek ());
 
 	if (!message || !*message) {
-		if (view->activity) {
-			g_object_unref (view->activity);
-			view->activity = NULL;
-		}
-	}
-#if 0				/* EPFIXME */
-	else if (!view->activity) {
-		int display;
+		if (view->activity_id != 0)
+			view->activity_id = 0;
+	} else if (view->activity_id == 0) {
 		char *clientid = g_strdup_printf ("%p", view);
 
-		if (progress_icon[0] == NULL)
-			progress_icon[0] = gdk_pixbuf_new_from_file (EVOLUTION_IMAGESDIR "/" EVOLUTION_CONTACTS_PROGRESS_IMAGE, NULL);
+		if (progress_icon == NULL)
+			progress_icon = gdk_pixbuf_new_from_file (EVOLUTION_IMAGESDIR "/" EVOLUTION_CONTACTS_PROGRESS_IMAGE, NULL);
 
-		view->activity = evolution_activity_client_new (addressbook_component_get_shell_client(), clientid,
-								progress_icon, message, TRUE, &display);
+		view->activity_id = e_activity_handler_operation_started (activity_handler, clientid,
+									  progress_icon, message, TRUE);
 
 		g_free (clientid);
-	}
-#endif
-	else {
-		evolution_activity_client_update (view->activity, message, -1.0);
+	} else {
+		e_activity_handler_operation_progressing (activity_handler, view->activity_id, message, -1.0);
 	}
 
 }
