@@ -262,6 +262,8 @@ const char *e_iconv_charset_name(const char *charset)
 	if (ret != NULL) {
 		UNLOCK();
 		return ret;
+
+
 	}
 
 	/* Unknown, try canonicalise some basic charset types to something that should work */
@@ -278,13 +280,13 @@ const char *e_iconv_charset_name(const char *charset)
 	} else if (strncmp(name, "windows-", 8) == 0) {
 		/* Convert windows-nnnnn or windows-cpnnnnn to cpnnnn */
 		tmp = name+8;
-		if (strncmp(tmp, "cp", 2))
+		if (!strncmp(tmp, "cp", 2))
 			tmp+=2;
 		ret = g_strdup_printf("CP%s", tmp);
 	} else if (strncmp(name, "microsoft-", 10) == 0) {
 		/* Convert microsoft-nnnnn or microsoft-cpnnnnn to cpnnnn */
 		tmp = name+10;
-		if (strncmp(tmp, "cp", 2))
+		if (!strncmp(tmp, "cp", 2))
 			tmp+=2;
 		ret = g_strdup_printf("CP%s", tmp);	
 	} else {
