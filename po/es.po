@@ -16,12 +16,13 @@ msgstr ""
 "Project-Id-Version: evolution.evolution-1-4-branch\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2003-08-30 11:35+0200\n"
-"PO-Revision-Date: 2003-09-04 17:23+0200\n"
+"PO-Revision-Date: 2003-09-08 13:06+0200\n"
 "Last-Translator: Francisco Javier F. Serrador <serrador@arrakis.es>\n"
 "Language-Team: Spanish <traductores@es.gnome.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
-"Content-Transfer-Encoding: 8bit"
+"Content-Transfer-Encoding: 8bit\n"
+"X-Generator: KBabel 1.0.2\n"
 
 #: addressbook/backend/ebook/GNOME_Evolution_Addressbook_LDIF_Importer.server.in.in.h:1
 msgid "Evolution LDIF importer"
@@ -3610,7 +3611,7 @@ msgstr "Sin definir"
 
 #: calendar/conduits/calendar/calendar-conduit.c:206
 msgid "Split Multi-Day Events:"
-msgstr "Dividir eventos de días múltiples:"
+msgstr "Dividir acontecimientos de días múltiples:"
 
 #: calendar/conduits/calendar/calendar-conduit.c:1289
 #: calendar/conduits/todo/todo-conduit.c:830
@@ -3819,7 +3820,7 @@ msgstr "Agenda"
 
 #: calendar/gui/calendar-component.c:71
 msgid "Folder containing appointments and events"
-msgstr "Carpeta conteniendo citas y eventos"
+msgstr "Carpeta conteniendo citas y acontecimientos"
 
 #: calendar/gui/calendar-component.c:75
 msgid "Public Calendar"
@@ -3827,7 +3828,7 @@ msgstr "Agenda pública:"
 
 #: calendar/gui/calendar-component.c:76
 msgid "Public folder containing appointments and events"
-msgstr "Carpeta pública conteniendo citas y eventos"
+msgstr "Carpeta pública conteniendo citas y acontecimientos"
 
 #: calendar/gui/calendar-component.c:80 calendar/gui/e-tasks.c:738
 #: calendar/gui/print.c:1789 calendar/gui/tasks-control.c:487
@@ -4398,7 +4399,7 @@ msgid ""
 "The event being deleted is a meeting, would you like to send a cancellation "
 "notice?"
 msgstr ""
-"El evento que está borrando es una reunión, ¿quiere que envíe un aviso de "
+"El acontecimiento que está borrando es una reunión, ¿quiere que envíe un aviso de "
 "cancelación?"
 
 #: calendar/gui/dialogs/cancel-comp.c:61
@@ -4431,7 +4432,7 @@ msgstr "¿Seguro que quiere cancelar y borrar esta entrada del diario?"
 
 #: calendar/gui/dialogs/changed-comp.c:59
 msgid "This event has been deleted."
-msgstr "Este evento ha sido borrado."
+msgstr "Este acontecimiento ha sido borrado."
 
 #: calendar/gui/dialogs/changed-comp.c:63
 msgid "This task has been deleted."
@@ -4453,7 +4454,7 @@ msgstr "%s  No ha hecho cambios, ¿cerrar el editor?"
 
 #: calendar/gui/dialogs/changed-comp.c:83
 msgid "This event has been changed."
-msgstr "Este evento ha cambiado."
+msgstr "Este acontecimiento ha cambiado."
 
 #: calendar/gui/dialogs/changed-comp.c:87
 msgid "This task has been changed."
@@ -4604,7 +4605,7 @@ msgstr "¿Seguro que quiere borrar %d entradas del diario?"
 
 #: calendar/gui/dialogs/delete-error.c:50
 msgid "The event could not be deleted due to a corba error"
-msgstr "El evento no pudo ser borrado debido a un error de CORBA"
+msgstr "El acontecimiento no pudo ser borrado debido a un error de CORBA"
 
 #: calendar/gui/dialogs/delete-error.c:53
 msgid "The task could not be deleted due to a corba error"
@@ -4620,7 +4621,7 @@ msgstr "El elemento no pudo ser borrado debido a un error de CORBA"
 
 #: calendar/gui/dialogs/delete-error.c:66
 msgid "The event could not be deleted because permission was denied"
-msgstr "El evento no pudo ser borrado porque el permiso fue denegado"
+msgstr "El acontecimiento no pudo ser borrado porque el permiso fue denegado"
 
 #: calendar/gui/dialogs/delete-error.c:69
 msgid "The task could not be deleted because permission was denied"
@@ -4636,7 +4637,7 @@ msgstr "El elemento no pudo ser borrado porque el permiso fue denegado"
 
 #: calendar/gui/dialogs/delete-error.c:82
 msgid "The event could not be deleted because it was invalid"
-msgstr "El evento no pudo ser borrado  a causa de un estado inválido"
+msgstr "El acontecimiento no pudo ser borrado  a causa de un estado inválido"
 
 #: calendar/gui/dialogs/delete-error.c:85
 msgid "The task could not be deleted because it was invalid"
@@ -4704,7 +4705,7 @@ msgstr "La  hora de finalización  está equivocada"
 
 #: calendar/gui/dialogs/event-page.glade.h:2
 msgid "A_ll day event"
-msgstr "Evento para todo e_l día"
+msgstr "Acontecimiento para _todo el día"
 
 #: calendar/gui/dialogs/event-page.glade.h:3
 msgid "B_usy"
@@ -4850,7 +4851,7 @@ msgstr "_Invitar a otros..."
 
 #: calendar/gui/dialogs/recur-comp.c:50
 msgid "You are modifying a recurring event, what would you like to modify?"
-msgstr "Está modificando un evento que se repite, ¿qué quiere modificar?"
+msgstr "Está modificando un acontecimiento que se repite, ¿qué quiere modificar?"
 
 #: calendar/gui/dialogs/recur-comp.c:54
 msgid "You are modifying a recurring task, what would you like to modify?"
@@ -4990,7 +4991,7 @@ msgid ""
 "\n"
 "Do you wish to save your changes?"
 msgstr ""
-"Este evento ha sido modificado, pero no se ha guardado.\n"
+"Este acontecimiento ha sido modificado, pero no se ha guardado.\n"
 "\n"
 "¿Quiere guardar los cambios?"
 
@@ -5000,7 +5001,7 @@ msgstr "_Descartar cambios"
 
 #: calendar/gui/dialogs/save-comp.c:63
 msgid "Save Event"
-msgstr "Guardar evento"
+msgstr "Guardar acontecimiento"
 
 #: calendar/gui/dialogs/send-comp.c:58
 msgid "The meeting information has been created. Send it?"
@@ -5401,7 +5402,7 @@ msgstr "Cit_a nueva"
 
 #: calendar/gui/e-day-view.c:3696 calendar/gui/e-week-view.c:3692
 msgid "New All Day _Event"
-msgstr "_Evento nuevo para todo el día"
+msgstr "Acont_ecimiento nuevo para todo el día"
 
 #: calendar/gui/e-day-view.c:3698 calendar/gui/e-week-view.c:3693
 msgid "New Meeting"
@@ -6258,7 +6259,7 @@ msgstr "Es necesario por lo menos un asistente"
 
 #: calendar/gui/itip-utils.c:391 calendar/gui/itip-utils.c:500
 msgid "Event information"
-msgstr "Información del evento"
+msgstr "Información del acontecimiento"
 
 #: calendar/gui/itip-utils.c:393 calendar/gui/itip-utils.c:502
 msgid "Task information"
@@ -6299,7 +6300,7 @@ msgstr "Información de iCalendar"
 
 #: calendar/gui/itip-utils.c:672
 msgid "You must be an attendee of the event."
-msgstr "Debe ser un asistente del evento."
+msgstr "Debe ser un asistente del acontecimiento."
 
 #: calendar/gui/print.c:547
 msgid "Su"
@@ -6463,7 +6464,7 @@ msgstr "¡¡Recuerde!!"
 
 #: calendar/importers/icalendar-importer.c:637
 msgid "Calendar Events"
-msgstr "Eventos de agenda"
+msgstr "Acontecimientos de agenda"
 
 #: calendar/importers/icalendar-importer.c:662
 msgid ""
@@ -27065,7 +27066,7 @@ msgstr "Restablecer el texto a su tamaño original"
 
 #: ui/evolution-mail-message.xml.h:77
 msgid "S_earch in Message..."
-msgstr "Bu_scar mensaje..."
+msgstr "Bu_scar en el mensaje..."
 
 #: ui/evolution-mail-message.xml.h:78
 msgid "S_maller"
