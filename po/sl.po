@@ -3471,7 +3471,6 @@ msgid "SMTWTFS"
 msgstr "PTSÈPSN"
 
 #: camel/camel-filter-search.c:420 camel/camel-filter-search.c:426
-#, fuzzy, c-format
 msgid "Error executing filter search: %s: %s"
 msgstr "Napaka ob izvajanju iskanja s filtrom: %s: %s"
 
