@@ -753,16 +753,21 @@ _construct_from_stream (CamelDataWrapper *data_wrapper, CamelStream *stream)
 	CAMEL_LOG_FULL_DEBUG ("CamelMimePart::construct_from_stream parsing content\n");
 	content_type = camel_mime_part_get_content_type (mime_part);
 	mime_type = gmime_content_field_get_mime_type (content_type);
-	if (mime_type) {
-		content_object_type = data_wrapper_get_data_wrapper_type (mime_type);
+	if (!mime_type) {
+		CAMEL_LOG_FULL_DEBUG ("CamelMimePart::construct_from_stream content type field not found " 
+				      "using default \"text/plain\"\n");
+		mime_type = g_strdup ("text/plain");
+		camel_mime_part_set_content_type (mime_part, mime_type);
+	}
+		content_object_type = data_wrapper_repository_get_data_wrapper_type (mime_type);
 		CAMEL_LOG_FULL_DEBUG ("CamelMimePart::construct_from_stream content type object type used: %s\n", gtk_type_name (content_object_type));
 		g_free (mime_type);
 		content_object = CAMEL_DATA_WRAPPER (gtk_type_new (content_object_type));
 		camel_mime_part_set_content_object (mime_part, content_object);
 		camel_data_wrapper_construct_from_stream (content_object, stream);
 		
-	} else 
-		CAMEL_LOG_FULL_DEBUG ("CamelMimePart::construct_from_stream content type field not found\n");
+	
+		
 	CAMEL_LOG_FULL_DEBUG ("CamelMimePart::construct_from_stream content parsed\n");
 
 	

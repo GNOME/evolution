@@ -42,8 +42,8 @@ typedef struct {
 
 
 gint data_wrapper_repository_init ();
-void data_wrapper_set_data_wrapper_type (const gchar *mime_type, GtkType object_type);
-GtkType data_wrapper_get_data_wrapper_type (const gchar *mime_type);
+void data_wrapper_repository_set_data_wrapper_type (const gchar *mime_type, GtkType object_type);
+GtkType data_wrapper_repository_get_data_wrapper_type (const gchar *mime_type);
 
 
 #ifdef __cplusplus

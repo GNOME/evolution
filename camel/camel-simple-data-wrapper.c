@@ -122,28 +122,36 @@ static void
 _construct_from_stream (CamelDataWrapper *data_wrapper, CamelStream *stream)
 {
 	CamelSimpleDataWrapper *simple_data_wrapper = CAMEL_SIMPLE_DATA_WRAPPER (data_wrapper);
-	guint current_index;
-	guint nb_bytes_read;
-	guint nb_bytes_left;
+	gint nb_bytes_read;
 	static gchar *tmp_buf;
 	GByteArray *array;
+
 	CAMEL_LOG_FULL_DEBUG ("CamelSimpleDataWrapper:: Entering _construct_from_stream\n");
 
 	g_assert (data_wrapper);
 	g_assert (stream);
 	
-	if (!tmp_buf) tmp_buf = g_new (gchar, _CMSDW_TMP_BUF_SIZE);
-
+	if (!tmp_buf) {
+		CAMEL_LOG_FULL_DEBUG ("CamelSimpleDataWrapper::construct_from_stream allocating new temp buffer "
+				      "with %d bytes\n",  _CMSDW_TMP_BUF_SIZE);
+		tmp_buf = g_new (gchar, _CMSDW_TMP_BUF_SIZE);
+	}
+	
 	array = simple_data_wrapper->byte_array;
-	if (array)
+	if (array) {
+		CAMEL_LOG_FULL_DEBUG ("CamelSimpleDataWrapper::construct_from_stream freeing old byte array\n");
 		g_byte_array_free (array, FALSE);
+	}
 	
 	array = g_byte_array_new();
+	CAMEL_LOG_FULL_DEBUG ("CamelSimpleDataWrapper::construct_from_stream new byte array address:%p\n", array);
 	simple_data_wrapper->byte_array = array;
-	do {
+	nb_bytes_read = camel_stream_read (stream, tmp_buf, _CMSDW_TMP_BUF_SIZE);
+	while (nb_bytes_read>0) {
+		CAMEL_LOG_FULL_DEBUG ("CamelSimpleDataWrapper::construct_from_stream read %d bytes from stream\n", nb_bytes_read);
+		if (nb_bytes_read>0) g_byte_array_append (array, tmp_buf, nb_bytes_read);		
 		nb_bytes_read = camel_stream_read (stream, tmp_buf, _CMSDW_TMP_BUF_SIZE);
-		if (nb_bytes_read) g_byte_array_append (array, tmp_buf,	nb_bytes_read);		
-	} while (nb_bytes_read);
+	};
 
 	CAMEL_LOG_FULL_DEBUG ("CamelSimpleDataWrapper:: Leaving _construct_from_stream\n");	
 }

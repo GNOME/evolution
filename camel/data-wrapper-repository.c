@@ -47,21 +47,21 @@ data_wrapper_repository_init ()
 {
 	if (_initialized != -1) return -1;
 	_repository.mime_links = g_hash_table_new (g_str_hash, g_str_equal);
-	data_wrapper_set_data_wrapper_type ("multipart", camel_multipart_get_type());
+	data_wrapper_repository_set_data_wrapper_type ("multipart", camel_multipart_get_type());
 	_content_field = gmime_content_field_new (NULL, NULL);
 	_initialized = 1;
 	return 1;
 }
 
 /**
- * data_wrapper_set_data_wrapper_type: associate a data wrapper object type to a mime type
+ * data_wrapper_repository_set_data_wrapper_type: associate a data wrapper object type to a mime type
  * @mime_type: mime type
  * @object_type: object type
  * 
  * Associate an object type to a mime type. 
  **/
 void
-data_wrapper_set_data_wrapper_type (const gchar *mime_type, GtkType object_type)
+data_wrapper_repository_set_data_wrapper_type (const gchar *mime_type, GtkType object_type)
 {
 	gboolean already_exists;
 	gchar *old_mime_type;
@@ -78,7 +78,7 @@ data_wrapper_set_data_wrapper_type (const gchar *mime_type, GtkType object_type)
 
 
 /**
- * data_wrapper_get_data_wrapper_type: get the gtk type object associated to a mime type
+ * data_wrapper_repository_get_data_wrapper_type: get the gtk type object associated to a mime type
  * @mime_type: mime type
  * 
  * returns the GtkType of the data wrapper object associated to 
@@ -94,7 +94,7 @@ data_wrapper_set_data_wrapper_type (const gchar *mime_type, GtkType object_type)
  * Return value: the associated data wrapper object type.
  **/
 GtkType 
-data_wrapper_get_data_wrapper_type (const gchar *mime_type)
+data_wrapper_repository_get_data_wrapper_type (const gchar *mime_type)
 {
 	gboolean exists;
 	gchar *old_mime_type;

@@ -379,11 +379,13 @@ _read_part (CamelStream *new_part_stream, CamelStream *stream, gchar *normal_bou
 	gchar *new_line;
 	gboolean end_of_part = FALSE;
 	gboolean last_part = FALSE;
+	gboolean first_line = TRUE;
 
+	/* Note for future enhancements */
 	/* RFC 2046 precises that when parsing the content of a multipart 
-	 * element, the program should not think it will find the last bounndary,
+	 * element, the program should not think it will find the last boundary,
 	 * and in particular, the message could have been damaged during
-	 * transport, the parsing should be OK */
+	 * transport, the parsing should still be OK */
 	CAMEL_LOG_FULL_DEBUG ("CamelMultipart:: Entering _read_part\n");
 
 	new_line = gmime_read_line_from_stream (stream);
@@ -392,13 +394,17 @@ _read_part (CamelStream *new_part_stream, CamelStream *stream, gchar *normal_bou
 		printf ("++ new line = \"%s\"\n", new_line);
 		end_of_part = (strcmp (new_line, normal_boundary) == 0);
 		last_part   = (strcmp (new_line, end_boundary) == 0);
-		if (!end_of_part && !last_part) 
-			/* new_part = g_string_append (new_part, new_line); */
-			camel_stream_write_string (new_part_stream, new_line);
-		new_line = gmime_read_line_from_stream (stream);
+		if (!end_of_part && !last_part) {
+			if (first_line) {
+				camel_stream_write_string (new_part_stream, "\n");
+				first_line = FALSE;
+			}
+			camel_stream_write_strings (new_part_stream, "\n", new_line, NULL);
+			new_line = gmime_read_line_from_stream (stream);
+		}
 	}
 	CAMEL_LOG_FULL_DEBUG ("CamelMultipart:: Leaving _read_part\n");
-	return (last_part && !new_line);
+	return (last_part || (new_line == NULL));
 }
 
 static void
@@ -423,7 +429,9 @@ _construct_from_stream (CamelDataWrapper *data_wrapper, CamelStream *stream)
 	
 	
 	/* read the prefix if any */
-	//end_of_multipart = _read_part (new_part, stream, real_boundary_line, end_boundary_line);
+	new_part_stream = camel_stream_mem_new (CAMEL_STREAM_MEM_RW);
+	end_of_multipart = _read_part (new_part_stream, stream, real_boundary_line, end_boundary_line);
+	gtk_object_destroy (GTK_OBJECT (new_part_stream));
 	if (multipart->preface) g_free (multipart->preface);
 	//if ( (new_part->str)[0] != '\0') multipart->preface = g_strdup (new_part->str);
 	

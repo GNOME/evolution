@@ -1,3 +1,24 @@
+1999-08-03  bertrand  <Bertrand.Guiheneuf@aful.org>
+
+	* camel/camel-simple-data-wrapper.c (_construct_from_stream): 
+	more debugging output +  nb_bytes_read is now a signed int 
+	to avoid bug when eos is encountered.
+
+	* camel/camel-mime-part.c (_construct_from_stream): 
+	sync to data_wrapper_repository function name changes. 
+	Use default "text/plain" type when conten-type field
+	is not found. (following RFC 2046 spec).
+
+	* camel/data-wrapper-repository.c (data_wrapper_repository_set_data_wrapper_type): 
+	(data_wrapper_repository_get_data_wrapper_type): 
+	change function name prefix (s/data_wrapper/data_wrapper_repository/)
+
+	* camel/camel-multipart.c (_read_part): 
+	add `\n` at eol but not before boundary.
+
+	* camel/gmime-utils.c (get_header_table_from_stream): 
+	correct implementation of end of stream detection.
+
 1999-08-01  bertrand  <Bertrand.Guiheneuf@aful.org>
 
 	* camel/camel-multipart.c (_read_part): 
@@ -28,7 +49,7 @@
 	do not return NULL when line is empty. 
 
 	* camel/camel-multipart.c (_read_part): return true when end
-	of multipart is found, not the contrary
+	of multipart is found, not the opposite
 
 1999-07-31  bertrand  <Bertrand.Guiheneuf@aful.org>
 

@@ -127,8 +127,10 @@ _store_header_pair_from_string (GHashTable *header_table, gchar *header_line)
 						   STRING_DICHOTOMY_NONE);
 		if (dich_result != 'o')
 			CAMEL_LOG_WARNING (
-				  "store_header_pair_from_string : dichotomy result is %c"
-				  "header line is :\n--\n%s\n--\n");	
+					   "** WARNING **\n"
+					   "store_header_pair_from_string : dichotomy result is '%c'\n"
+					   "header line is :\n--\n%s\n--\n"
+					   "** \n", dich_result, header_line);	
 		else {
 			string_trim (header_value, " \t",
 				     STRING_TRIM_STRIP_LEADING | STRING_TRIM_STRIP_TRAILING);
@@ -160,7 +162,6 @@ get_header_table_from_stream (CamelStream *stream)
 	GHashTable *header_table;
 	gint nb_char_read;
 
-#warning Correct a bug here. Should use return value of camel_stream_read instead of looking for next_char!=-1
 	CAMEL_LOG_FULL_DEBUG ( "gmime-utils:: Entering get_header_table_from_stream\n");
 	header_table = g_hash_table_new (g_str_hash, g_str_equal);
 	nb_char_read = camel_stream_read (stream, &next_char, 1);

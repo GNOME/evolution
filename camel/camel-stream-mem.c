@@ -125,10 +125,11 @@ _read (CamelStream *stream, gchar *buffer, gint n)
 
 	g_assert (stream);
 	nb_bytes_to_read = MIN (n, (camel_stream_mem->buffer)->len - camel_stream_mem->position);
-	if (nb_bytes_to_read) {
+	if (nb_bytes_to_read>0) {
 		memcpy (buffer, (camel_stream_mem->buffer)->data + camel_stream_mem->position, nb_bytes_to_read);
 		camel_stream_mem->position += nb_bytes_to_read;
-	}
+	} else nb_bytes_to_read = -1;
+
 	return nb_bytes_to_read;
 }
 
@@ -150,6 +151,7 @@ _write (CamelStream *stream, const gchar *buffer, gint n)
 	CamelStreamMem *camel_stream_mem = CAMEL_STREAM_MEM (stream);
 
 	g_assert (stream);
+	g_return_val_if_fail (camel_stream_mem->position>=0, -1);
 	camel_stream_mem->buffer = g_byte_array_append (camel_stream_mem->buffer, (const guint8 *)buffer, n);
 	camel_stream_mem->position += n;
 

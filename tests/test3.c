@@ -12,15 +12,15 @@ main (int argc, char**argv)
 	printf ("Test 3 : data wrapper repository\n");
 
 	printf ("\nMime type : \"multipart\"\n");
-	type = data_wrapper_get_data_wrapper_type ("multipart");
+	type = data_wrapper_repository_get_data_wrapper_type ("multipart");
 	printf ("Type found %s\n", gtk_type_name (type) );
 	
 	printf ("\nMime type : \"multipart/alternative\"\n");
-	type = data_wrapper_get_data_wrapper_type ("multipart/alternative");
+	type = data_wrapper_repository_get_data_wrapper_type ("multipart/alternative");
 	printf ("Type found %s\n", gtk_type_name (type) );
 	
 	printf ("\nMime type : \"toto/titi\"\n");
-	type = data_wrapper_get_data_wrapper_type ("toto/titi");
+	type = data_wrapper_repository_get_data_wrapper_type ("toto/titi");
 	printf ("Type found %s\n", gtk_type_name (type) );
 	
 	printf ("Test3 finished\n");
