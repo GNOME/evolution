@@ -1,5 +1,10 @@
 2001-03-02  Chris Toshok  <toshok@ximian.com>
 
+	* backend/pas/pas-backend-ldap.c: doh, track renaming of
+	objectclass from evolvePerson to evolutionPerson.
+
+2001-03-02  Chris Toshok  <toshok@ximian.com>
+
 	* backend/pas/evolutionperson.schema: rename evolveperson.schema
 	to this, and add remaining attributes.
 

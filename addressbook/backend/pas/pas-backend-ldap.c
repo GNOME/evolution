@@ -53,7 +53,7 @@
 #define PERSON               "person"
 #define ORGANIZATIONALPERSON "organizationalPerson"
 #define INETORGPERSON        "inetOrgPerson"
-#define EVOLVEPERSON         "evolvePerson"
+#define EVOLUTIONPERSON      "evolutionPerson"
 
 static gchar *query_prop_to_ldap(gchar *query_prop);
 
@@ -78,8 +78,8 @@ struct _PASBackendLDAPPrivate {
 
 	/* whether or not there's support for the objectclass we need
            to store all our additional fields */
-	gboolean evolvePersonSupported;
-	gboolean evolvePersonChecked;
+	gboolean evolutionPersonSupported;
+	gboolean evolutionPersonChecked;
 
 	/* whether or not there's a request in process on our LDAP* */
 	LDAPOp *current_op;
@@ -333,7 +333,7 @@ check_schema_support (PASBackendLDAP *bl)
 	LDAPMessage *resp;
 	LDAP *ldap = bl->priv->ldap;
 
-	bl->priv->evolvePersonChecked = TRUE;
+	bl->priv->evolutionPersonChecked = TRUE;
 
 	bl->priv->supported_fields = e_list_new ((EListCopyFunc)g_strdup, (EListFreeFunc)g_free, NULL);
 
@@ -359,9 +359,9 @@ check_schema_support (PASBackendLDAP *bl)
 					continue;
 
 				for (j = 0; oc->oc_names[j]; j++)
-					if (!g_strcasecmp (oc->oc_names[j], EVOLVEPERSON)) {
-						g_print ("support found on ldap server for objectclass evolvePerson\n");
-						bl->priv->evolvePersonSupported = TRUE;
+					if (!g_strcasecmp (oc->oc_names[j], EVOLUTIONPERSON)) {
+						g_print ("support found on ldap server for objectclass evolutionPerson\n");
+						bl->priv->evolutionPersonSupported = TRUE;
 
 						add_oc_attributes_to_supported_fields (bl, oc);
 					}
@@ -408,7 +408,7 @@ pas_backend_ldap_connect (PASBackendLDAP *bl)
 		blpriv->connected = FALSE;
 	}
 
-	/* check to see if evolvePerson is supported, if we can (me
+	/* check to see if evolutionPerson is supported, if we can (me
            might not be able to if we can't authenticate.  if we
            can't, try again in auth_user.) */
 	check_schema_support (bl);
@@ -601,9 +601,9 @@ build_mods_from_ecards (PASBackendLDAP *bl, ECardSimple *current, ECardSimple *n
 		char *new_prop = NULL;
 		char *current_prop = NULL;
 
-		/* XXX if it's an evolvePerson prop and the ldap
+		/* XXX if it's an evolutionPerson prop and the ldap
                    server doesn't support that objectclass, skip it. */
-		if (prop_info[i].prop_type & PROP_EVOLVE && !bl->priv->evolvePersonSupported)
+		if (prop_info[i].prop_type & PROP_EVOLVE && !bl->priv->evolutionPersonSupported)
 			continue;
 
 		/* get the value for the new card, and compare it to
@@ -715,13 +715,13 @@ add_objectclass_mod (PASBackendLDAP *bl, GPtrArray *mod_array)
 	objectclass_mod = g_new (LDAPMod, 1);
 	objectclass_mod->mod_op = LDAP_MOD_ADD;
 	objectclass_mod->mod_type = g_strdup ("objectClass");
-	objectclass_mod->mod_values = g_new (char*, bl->priv->evolvePersonSupported ? 6 : 5);
+	objectclass_mod->mod_values = g_new (char*, bl->priv->evolutionPersonSupported ? 6 : 5);
 	objectclass_mod->mod_values[0] = g_strdup (TOP);
 	objectclass_mod->mod_values[1] = g_strdup (PERSON);
 	objectclass_mod->mod_values[2] = g_strdup (ORGANIZATIONALPERSON);
 	objectclass_mod->mod_values[3] = g_strdup (INETORGPERSON);
-	if (bl->priv->evolvePersonSupported) {
-		objectclass_mod->mod_values[4] = g_strdup (EVOLVEPERSON);
+	if (bl->priv->evolutionPersonSupported) {
+		objectclass_mod->mod_values[4] = g_strdup (EVOLUTIONPERSON);
 		objectclass_mod->mod_values[5] = NULL;
 	}
 	else {
@@ -2035,7 +2035,7 @@ pas_backend_ldap_process_authenticate_user (PASBackend *backend,
 	pas_book_respond_authenticate_user (book,
 				    ldap_error_to_response (ldap_error));
 
-	if (!bl->priv->evolvePersonChecked)
+	if (!bl->priv->evolutionPersonChecked)
 		check_schema_support (bl);
 }
 
