@@ -1,3 +1,9 @@
+2000-04-23  Iain Holmes  <ih@csd.abdn.ac.uk>
+
+	* e-table-item.c (eti_bounds): Calculate the width of the table from the
+	width of all the columns, and update the eti->width field as appropiate.
+	(eti_update): Update the bbox.
+
 2000-04-17  Chris Toshok  <toshok@helixcode.com>
 
 	* Makefile.am (noinst_PROGRAMS): add table-size-test

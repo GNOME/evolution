@@ -139,12 +139,20 @@ eti_bounds (GnomeCanvasItem *item, double *x1, double *y1, double *x2, double *y
 {
 	double   i2c [6];
 	ArtPoint c1, c2, i1, i2;
+	int col, width = 0;
 	ETableItem *eti = E_TABLE_ITEM (item);
 
 	/* Wrong BBox's are the source of redraw nightmares */
 
-	gnome_canvas_item_i2c_affine (GNOME_CANVAS_ITEM (eti), i2c);
+	for (col = 0; col < eti->cols; col++, x1 = x2){
+		ETableCol *ecol = e_table_header_get_column (eti->header, col);
+		
+		width += ecol->width;
+	}
+	eti->width = width;
 
+	gnome_canvas_item_i2c_affine (GNOME_CANVAS_ITEM (eti), i2c);
+	
 	i1.x = eti->x1;
 	i1.y = eti->y1;
 	i2.x = eti->x1 + eti->width;
@@ -188,7 +196,6 @@ eti_update (GnomeCanvasItem *item, double *affine, ArtSVP *clip_path, int flags)
 	if (GNOME_CANVAS_ITEM_CLASS (eti_parent_class)->update)
 		(*GNOME_CANVAS_ITEM_CLASS (eti_parent_class)->update)(item, affine, clip_path, flags);
 
-
 	o1.x = item->x1;
 	o1.y = item->y1;
 	o2.x = item->x2;
@@ -208,6 +215,8 @@ eti_update (GnomeCanvasItem *item, double *affine, ArtSVP *clip_path, int flags)
 					     item->x2, item->y2);
 		eti->needs_redraw = 0;
 	}
+	gnome_canvas_update_bbox (item, item->x1, item->y1, 
+				  item->x2, item->y2);
 }
 
 /*
