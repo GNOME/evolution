@@ -523,7 +523,7 @@ config_read (void)
 	g_free (str);
 	
 	/* Default charset */
-	str = g_strdup_printf ("=%s/config/Mail=/Format/charset", evolution_dir);
+	str = g_strdup_printf ("=%s/config/Mail=/Format/default_charset", evolution_dir);
 	config->default_charset = gnome_config_get_string (str);
 	g_free (str);
 	if (!config->default_charset) {

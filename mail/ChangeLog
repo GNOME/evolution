@@ -1,3 +1,9 @@
+2001-06-22  Jeffrey Stedfast  <fejj@ximian.com>
+
+	* mail-config.c (config_read): Duh, we saved the charset as
+	"default_charset", not "charset" - no wonder the correct charset
+	menu item was never being set.
+
 2001-06-21  Jeffrey Stedfast  <fejj@ximian.com>
 
 	* mail-ops.c (mail_send_message): Temporarily remove the Bcc
