@@ -235,42 +235,23 @@ update (EMsgComposerAttachmentBar *bar)
 		
 		if (image && attachment->pixbuf_cache == NULL) {
 			CamelDataWrapper *wrapper;
-			CamelStream *mstream;
+			CamelStreamMem *mstream;
 			GdkPixbufLoader *loader;
 			gboolean error = TRUE;
-			char tmp[4096];
-			int t;
 			
 			wrapper = camel_medium_get_content_object (CAMEL_MEDIUM (attachment->body));
-			mstream = camel_stream_mem_new ();
+			mstream = (CamelStreamMem *) camel_stream_mem_new ();
 			
-			camel_data_wrapper_write_to_stream (wrapper, mstream);
-			
-			camel_stream_reset (mstream);
+			camel_data_wrapper_decode_to_stream (wrapper, (CamelStream *) mstream);
 			
 			/* Stream image into pixbuf loader */
 			loader = gdk_pixbuf_loader_new ();
-			do {
-				t = camel_stream_read (mstream, tmp, 4096);
-				if (t > 0) {
-					error = !gdk_pixbuf_loader_write (loader, tmp, t, NULL);
-					if (error) {
-						break;
-					}
-				} else {
-					if (camel_stream_eos (mstream))
-						break;
-					error = TRUE;
-					break;
-				}
-				
-			} while (!camel_stream_eos (mstream));
+			error = !gdk_pixbuf_loader_write (loader, mstream->buffer->data, mstream->buffer->len, NULL);
+			gdk_pixbuf_loader_close (loader, NULL);
 			
 			if (!error) {
 				int ratio, width, height;
-
-				gdk_pixbuf_loader_close (loader, NULL);
-
+				
 				/* Shrink pixbuf */
 				pixbuf = gdk_pixbuf_loader_get_pixbuf (loader);
 				width = gdk_pixbuf_get_width (pixbuf);
@@ -300,9 +281,8 @@ update (EMsgComposerAttachmentBar *bar)
 			}
 			
 			/* Destroy everything */
-			gdk_pixbuf_loader_close (loader, NULL);
 			g_object_unref (loader);
-			camel_stream_close (mstream);
+			camel_object_unref (mstream);
 		}
 		
 		desc = camel_mime_part_get_description (attachment->body);
@@ -531,7 +511,7 @@ destroy (GtkObject *object)
 
 
 static void
-popup_menu_placement_callback (GtkMenu *menu, gint *x, gint *y, gboolean *push_in, gpointer user_data)
+popup_menu_placement_callback (GtkMenu *menu, int *x, int *y, gboolean *push_in, gpointer user_data)
 {
 	EMsgComposerAttachmentBar *bar;
 	GnomeIconList *icon_list;
@@ -576,7 +556,7 @@ popup_menu_event (GtkWidget *widget)
 }
 
 
-static gint
+static int
 button_press_event (GtkWidget *widget,
 		    GdkEventButton *event)
 {
@@ -761,7 +741,7 @@ attach_to_multipart (CamelMultipart *multipart,
 			camel_stream_filter_add (filter_stream, CAMEL_MIME_FILTER (bestenc));
 			camel_object_unref (stream);
 			
-			camel_data_wrapper_write_to_stream (content, CAMEL_STREAM (filter_stream));
+			camel_data_wrapper_decode_to_stream (content, CAMEL_STREAM (filter_stream));
 			camel_object_unref (filter_stream);
 			
 			encoding = camel_mime_filter_bestenc_get_best_encoding (bestenc, CAMEL_BESTENC_8BIT);

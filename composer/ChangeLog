@@ -1,3 +1,17 @@
+2003-08-13  Jeffrey Stedfast  <fejj@ximian.com>
+
+	* e-msg-composer-attachment-bar.c (update): This needs to use
+	camel_data_wrapper_decode_to_stream() rather than
+	write_to_stream(). Also simplify a bit - no sense looping to load
+	the pixbuf data into the gdk-pixbuf loader 4K at a time when we
+	have the whole thing in a memory buffer already. Once done, unref
+	the stream instead of closing it so we don't leak.
+	(attach_to_multipart): Use decode_to_stream().
+
+	* e-msg-composer-attachment.c (e_msg_composer_attachment_new):
+	Avoid constructing thwe data-wrapper from the stream twice for
+	message/rfc822 parts.
+
 2003-07-16  Jeffrey Stedfast  <fejj@ximian.com>
 
 	* e-msg-composer-attachment-bar.c (attach_to_multipart): don't set
