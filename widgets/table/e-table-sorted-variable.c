@@ -55,6 +55,9 @@ etsv_destroy (GtkObject *object)
 	if (etsv->sort_idle_id) {
 		g_source_remove(etsv->sort_idle_id);
 	}
+	if (etsv->insert_idle_id) {
+		g_source_remove(etsv->insert_idle_id);
+	}
 
 	etsv->table_model_changed_id = 0;
 	etsv->table_model_row_changed_id = 0;
