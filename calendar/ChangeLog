@@ -1,5 +1,9 @@
 2001-10-31  Federico Mena Quintero  <federico@ximian.com>
 
+	* gui/dialogs/alarm-options.c: #include <string.h>
+
+2001-10-31  Federico Mena Quintero  <federico@ximian.com>
+
 	* gui/gnome-cal.c (dn_query_obj_updated_cb): If a query is not in
 	progress, just retag the whole thing.  An event may change dates
 	and tag_calendar_by_comp() would not know how to untag the old
