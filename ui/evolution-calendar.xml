@@ -6,19 +6,18 @@
 			<submenu name="New" _label="_New">
 
 				<menuitem name="CalendarNew" verb=""
-				_label="New Ca_lendar" _tip="Create a new calendar"
-                                 accel="*Control**Shift*c"/>
+				_label="Ca_lendar" _tip="Create a new calendar"
+                                 accel="*Control**Shift*l"/>
 
 			</submenu>
 
 			<placeholder name="FileOps">
-				<submenu name="Open" _label="_Open">
-
-					<menuitem name="CalendarOpen" verb=""
+				
+				<menuitem name="CalendarOpen" verb=""
 					_label="_Open Calendar" _tip="Open a calendar"
                                         accel="*Control*o"/>
 
-				</submenu>
+	
 
 				<menuitem name="CalendarSaveAs" verb=""
 				_label="_Save Calendar As"
@@ -40,9 +39,6 @@
 
 		<submenu name="Edit">
 
-			<menuitem name="Appointment" _label="_New appointment..."
-			verb="EditNewAppointment" _tip="Create a new appointment"
-                        accel="*Shift**Control*a"/>
 
 		</submenu>
 
@@ -50,7 +46,7 @@
 
 			<menuitem name="Preferences" _label="Calendar Preferences..."
 			verb="CalendarPreferences" _tip="Alter preferences"
-                        accel="*Control*r"/>
+                        />
 
 		</submenu>
 	</menu>

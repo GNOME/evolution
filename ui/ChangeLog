@@ -1,3 +1,11 @@
+2000-12-01  Anna Marie Dirks  <anna@helixcode.com>
+	* evolution.xml: Redid all the keyboard shortcuts to comply with GNOME
+	standards. Removed unnecessary shortcuts from less commonly used menu 
+	items, changed all references to "alt", etc. 
+	* evolution-addressbook.xml: see above
+	* evolution-mail.xml: see above
+	* evolution-calendar.xml: Same as above, but I also reorganized menus slightly by moving "new appointment" from the edit menu to the file menu.   
+
 2000-11-28  Jeffrey Stedfast  <fejj@helixcode.com>
 
 	* evolution-mail.xml: Added Save As...

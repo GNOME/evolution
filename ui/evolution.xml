@@ -48,11 +48,7 @@
 
 			<menuitem name="FileGoToFolder" verb=""
 			_label="_Go to Folder..."
-			_tip="Display a different folder" accel="*Control*o"/>
-
-			<menuitem name="FileCreateFolder" verb=""
-			_label="_Create New Folder..."
-			_tip="Create a new folder" accel="*Control*n"/>
+			_tip="Display a different folder" accel="*Control*g"/>
 
 			<placeholder name="Print" delimit="top"/>
 
@@ -87,26 +83,25 @@
 
 			<menuitem name="HelpGetStarted" verb=""
 			_label="Getting _Started"
-			 accel="*Control*F1"/>
+			 />
 
 			<menuitem name="HelpUsingMail" verb=""
 			_label="Using the _Mailer"
-			 accel="*Control*F2"/>
+			 />
 
 			<menuitem name="HelpUsingCalendar" verb=""
 			_label="Using the _Calendar"
-			 accel="*Control*F3"/>
+			 />
 
 			<menuitem name="HelpUsingContact" verb=""
 			_label="Using the C_ontact Manager"
-			 accel="*Control*F4"/>
+			 />
 
 			<menuitem/>
 
 			<menuitem name="HelpSubmitBug" verb=""
 			_label="Submit _Bug Report"
-			_tip="Submit bug report using Bug Buddy"
-			 accel="*Control*B"/>
+			_tip="Submit bug report using Bug Buddy."/>
 
 			<menuitem/>
 
@@ -114,7 +109,7 @@
 			_label="_About Evolution..."
 			_tip="Show information about Evolution"
 			pixtype="stock" pixname="About" 
-                        accel="*Control*e"/>
+                        />
 
 		</submenu>
 	</menu>
@@ -126,5 +121,15 @@
 		<control name="Progress"/>
 	</status>
 </Root>
+
+
+
+
+
+
+
+
+
+
 
 

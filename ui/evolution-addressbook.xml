@@ -17,10 +17,8 @@
 		<submenu name="View">
 
 			<menuitem name="AsTable" _label="As _Table"
-			verb="ViewAsTable" accel="*Control*l"/>
+		        />
 
-			<menuitem name="ViewNewContact" verb=""
-			_label="_New Contact" accel="*Control*c"/>
 
 		</submenu>
 
@@ -30,7 +28,7 @@
 
 				<menuitem name="Search" verb="ToolSearch"
 				_label="_Search for contacts"
-				pixtype="stock" pixname="Search" accel="*Control*r"/>
+				pixtype="stock" pixname="Search" />
 
 			</submenu>
 
@@ -69,3 +67,9 @@
 	</dockitem>
 
 </Root>
+
+
+
+
+
+
