@@ -30,7 +30,7 @@
 
 	* mail-vfolder.c (vfolder_edit): Use vfolder_editor_new intead.
 
-2001-03-14  Jeffrey Stedfast  <fejj@ximian.com>X
+2001-03-14  Jeffrey Stedfast  <fejj@ximian.com>
 
 	* session.c (mail_session_init): Tell camel to init NSS.
 	(mail_session_accept_dialog): Doh! NULL terminate the list of
