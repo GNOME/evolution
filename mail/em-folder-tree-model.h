@@ -29,6 +29,8 @@
 
 #include <camel/camel-store.h>
 
+#include <e-util/e-account-list.h>
+
 #ifdef __cplusplus
 extern "C" {
 #pragma }
@@ -65,6 +67,7 @@ struct _EMFolderTreeModelStoreInfo {
 	CamelStore *store;
 	GtkTreeRowReference *row;
 	GHashTable *path_hash;  /* maps CamelFolderInfo::path's to GtkTreeRowReferences */
+	EAccount *account;
 	
 	char *display_name;
 	
@@ -80,9 +83,14 @@ struct _EMFolderTreeModel {
 	
 	char *filename;          /* state filename */
 	
-	GHashTable *store_hash;  /* maps CamelStore's to store-info's */
-	GHashTable *uri_hash;    /* maps URI's to GtkTreeRowReferences */
-	GHashTable *expanded;    /* saved expanded state from previous session */
+	GHashTable *store_hash;    /* maps CamelStore's to store-info's */
+	GHashTable *uri_hash;      /* maps URI's to GtkTreeRowReferences */
+	GHashTable *expanded;      /* saved expanded state from previous session */
+	
+	EAccountList *accounts;
+	GHashTable *account_hash;  /* maps accounts to store-info's */
+	gulong account_changed_id;
+	gulong account_removed_id;
 };
 
 struct _EMFolderTreeModelClass {

@@ -2046,15 +2046,6 @@ mail_account_gui_save (MailAccountGui *gui)
 	if (!mail_config_find_account (account)) {
 		/* this is a new account so add it to our account-list */
 		is_new = TRUE;
-	} else if (account->source->url) {
-		/* this means the account was edited - if the old and
-                   new source urls are not identical, replace the old
-                   store with the new store */
-#define sources_equal(old,new) (new->url && !strcmp (old->url, new->url))
-		if (!sources_equal (account->source, new->source)) {
-			/* Remove the old store from the folder-tree */
-			mail_component_remove_store_by_uri (mail_component_peek (), account->source->url);
-		}
 	}
 	
 	/* update the old account with the new settings */
@@ -2063,16 +2054,16 @@ mail_account_gui_save (MailAccountGui *gui)
 	
 	if (is_new) {
 		mail_config_add_account (account);
+		
+		/* if the account provider is something we can stick
+		   in the folder-tree and not added by some other
+		   component, then get the CamelStore and add it to
+		   the folder-tree */
+		if (is_storage && account->enabled)
+			mail_get_store (account->source->url, NULL, add_new_store, account);
 	} else {
 		e_account_list_change (mail_config_get_accounts (), account);
 	}
-	
-	/* if the account provider is something we can stick
-	   in the folder-tree and not added by some other
-	   component, then get the CamelStore and add it to
-	   the folder-tree */
-	if (is_storage && account->enabled)
-		mail_get_store (account->source->url, NULL, add_new_store, account);
 	
 	if (gtk_toggle_button_get_active (gui->default_account))
 		mail_config_set_default_account (account);

@@ -100,6 +100,8 @@ static void em_folder_tree_model_finalize (GObject *obj);
 static void tree_model_iface_init (GtkTreeModelIface *iface);
 static void tree_sortable_iface_init (GtkTreeSortableIface *iface);
 
+static void account_changed (EAccountList *accounts, EAccount *account, gpointer user_data);
+static void account_removed (EAccountList *accounts, EAccount *account, gpointer user_data);
 
 enum {
 	LOADING_ROW,
@@ -261,6 +263,11 @@ em_folder_tree_model_init (EMFolderTreeModel *model)
 	model->expanded = g_hash_table_new (g_str_hash, g_str_equal);
 	
 	gtk_tree_sortable_set_default_sort_func ((GtkTreeSortable *) model, sort_cb, NULL, NULL);
+	
+	model->accounts = mail_config_get_accounts ();
+	model->account_hash = g_hash_table_new (g_direct_hash, g_direct_equal);
+	model->account_changed_id = g_signal_connect (model->accounts, "account-changed", G_CALLBACK (account_changed), model);
+	model->account_removed_id = g_signal_connect (model->accounts, "account-removed", G_CALLBACK (account_removed), model);
 }
 
 static void
@@ -322,6 +329,10 @@ em_folder_tree_model_finalize (GObject *obj)
 	g_hash_table_foreach (model->expanded, (GHFunc) expanded_free, NULL);
 	g_hash_table_destroy (model->expanded);
 	
+	g_hash_table_destroy (model->account_hash);
+	g_signal_handler_disconnect (model->accounts, model->account_changed_id);
+	g_signal_handler_disconnect (model->accounts, model->account_removed_id);
+	
 	g_free (model->filename);
 	
 	G_OBJECT_CLASS (parent_class)->finalize (obj);
@@ -376,6 +387,56 @@ em_folder_tree_model_new (const char *evolution_dir)
 	model->filename = filename;
 	
 	return model;
+}
+
+
+static void
+account_changed (EAccountList *accounts, EAccount *account, gpointer user_data)
+{
+	EMFolderTreeModel *model = user_data;
+	struct _EMFolderTreeModelStoreInfo *si;
+	CamelProvider *provider;
+	CamelStore *store;
+	CamelException ex;
+	char *uri;
+	
+	if (!(si = g_hash_table_lookup (model->account_hash, account)))
+		return;
+	
+	em_folder_tree_model_remove_store (model, si->store);
+	
+	if (!(uri = account->source->url))
+		return;
+	
+	camel_exception_init (&ex);
+	if (!(provider = camel_session_get_provider (session, uri, &ex))) {
+		camel_exception_clear (&ex);
+		return;
+	}
+	
+	/* make sure the new store belongs in the tree */
+	if (!(provider->flags & CAMEL_PROVIDER_IS_STORAGE))
+		return;
+	
+	if (!(store = (CamelStore *) camel_session_get_service (session, uri, CAMEL_PROVIDER_STORE, &ex))) {
+		camel_exception_clear (&ex);
+		return;
+	}
+	
+	em_folder_tree_model_add_store (model, store, account->name);
+	camel_object_unref (store);
+}
+
+static void
+account_removed (EAccountList *accounts, EAccount *account, gpointer user_data)
+{
+	EMFolderTreeModel *model = user_data;
+	struct _EMFolderTreeModelStoreInfo *si;
+	
+	if (!(si = g_hash_table_lookup (model->account_hash, account)))
+		return;
+	
+	em_folder_tree_model_remove_store (model, si->store);
 }
 
 
@@ -665,6 +726,7 @@ em_folder_tree_model_add_store (EMFolderTreeModel *model, CamelStore *store, con
 	GtkTreeRowReference *row;
 	GtkTreeIter root, iter;
 	GtkTreePath *path;
+	EAccount *account;
 	char *uri;
 	
 	g_return_if_fail (EM_IS_FOLDER_TREE_MODEL (model));
@@ -675,6 +737,8 @@ em_folder_tree_model_add_store (EMFolderTreeModel *model, CamelStore *store, con
 		em_folder_tree_model_remove_store (model, store);
 	
 	uri = camel_url_to_string (((CamelService *) store)->url, CAMEL_URL_HIDE_ALL);
+	
+	account = mail_config_get_account_by_source_url (uri);
 	
 	/* add the store to the tree */
 	gtk_tree_store_append ((GtkTreeStore *) model, &iter, NULL);
@@ -694,9 +758,11 @@ em_folder_tree_model_add_store (EMFolderTreeModel *model, CamelStore *store, con
 	si->display_name = g_strdup (display_name);
 	camel_object_ref (store);
 	si->store = store;
+	si->account = account;
 	si->row = row;
 	si->path_hash = g_hash_table_new (g_str_hash, g_str_equal);
 	g_hash_table_insert (model->store_hash, store, si);
+	g_hash_table_insert (model->account_hash, account, si);
 	
 	/* each store has folders... but we don't load them until the user demands them */
 	root = iter;
@@ -750,6 +816,7 @@ em_folder_tree_model_remove_store_info (EMFolderTreeModel *model, CamelStore *st
 		return;
 	
 	g_hash_table_remove (model->store_hash, si->store);
+	g_hash_table_remove (model->account_hash, si->account);
 	store_info_free (si);
 }
 
@@ -1417,4 +1484,3 @@ em_folder_tree_model_set_drag_drop_types (EMFolderTreeModel *model, GtkWidget *w
 	gtk_drag_dest_set (widget, GTK_DEST_DEFAULT_ALL, drop_types,
 			   NUM_DROP_TYPES, GDK_ACTION_COPY | GDK_ACTION_MOVE);
 }
-

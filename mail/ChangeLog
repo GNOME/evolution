@@ -1,5 +1,23 @@
 2004-01-30  Jeffrey Stedfast  <fejj@ximian.com>
 
+	Fixes for bug #53348
+
+	* mail-account-gui.c (mail_account_gui_save): Only add the new
+	store to the mail-component if the mail-component doesn't already
+	know about it (ie. only if we are adding a new account).
+
+	* em-folder-tree-model.c (em_folder_tree_model_add_store): Hash
+	our store-info based on account here.
+	(em_folder_tree_model_init): Listen for
+	account_changed/account_removed signals.
+	(em_folder_tree_model_finalize): Disconnect above handlers.
+	(account_changed): Tear down the account store node and replace it
+	with the new store (assuming it belongs in the tree after the
+	changes).
+	(account_removed): Remove the account store from the tree.
+
+2004-01-30  Jeffrey Stedfast  <fejj@ximian.com>
+
 	* em-folder-tree.c (emft_tree_row_expanded): Get recursive folder
 	listing (needed or folders that have as-of-yet-unloaded-subfolders
 	that contain unread mail will not be bolded). Fixes bug #51045.
