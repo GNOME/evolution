@@ -1814,6 +1814,11 @@ mail_display_render (MailDisplay *md, GtkHTML *html, gboolean reset_scroll)
 	g_return_if_fail (IS_MAIL_DISPLAY (md));
 	g_return_if_fail (GTK_IS_HTML (html));
 	
+	if (!md->html) {
+		/* we've been destroyed */
+		return;
+	}
+	
 	html_stream = gtk_html_begin (html);
 	if (!reset_scroll) {
 		/* This is a hack until there's a clean way to do this. */

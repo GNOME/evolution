@@ -1,3 +1,9 @@
+2003-05-07  Jeffrey Stedfast  <fejj@ximian.com>
+
+	* mail-display.c (mail_display_render): Make sure that we haven't
+	been destroyed before we start writing to the html engine. Fixes
+	bug #42333.
+
 2003-05-07  Not Zed  <NotZed@Ximian.com>
 
 	** See bug #42456
