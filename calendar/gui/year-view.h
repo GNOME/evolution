@@ -63,6 +63,9 @@ void year_view_set (YearView *yv, time_t year);
 /* Notifies the year view that the time format has changed */
 void year_view_time_format_changed (YearView *yv);
 
+/* Notifies the year view that colors have changed */
+void year_view_colors_changed (YearView *yv);
+
 
 END_GNOME_DECLS
 

@@ -1,3 +1,43 @@
+1998-09-03  Federico Mena Quintero  <federico@nuclecu.unam.mx>
+
+	* prop.c (create_colors_page): We can now configure the colors of
+	the monthly calendars!  Wheeeeee!  There are still some nits to be
+	fixed, which are listed in the TODO file.
+	(build_color_spec): New function to build color specifications.
+	(parse_color_spec): New function to parse color specifications.
+
+	* mark.c: Modified all functions to use the configured colors.
+	* goto.c: Likewise.
+
+	* main.c (colors_changed): New function that notifies all
+	calendars that colors have changed.
+
+	* gnome-cal.c (gnome_calendar_colors_changed): New function that
+	notifies all the views that the colors have changed.
+
+	* month-view.c (month_view_colors_changed): New function that
+	notifies the month view that colors have changed.
+
+	* year-view.c (year_view_colors_changed): New function that
+	notifies the year view that colors have changed.
+
+	* gnome-month-item.h (struct _GnomeMonthItem): Added fields for
+	outline and day box colors.
+
+	* gnome-month-item.c (gnome_month_item_set_arg): Added
+	outline_color, outline_color_gdk, day_box_color, and
+	day_box_color_gdk arguments to month items.  These are convenient
+	to quickly set the colors of the month item.
+	(gnome_month_item_get_arg): Likewise.
+
+	* main.[ch]: Added a global array of structures for color preferences.
+
+1998-08-31  Federico Mena Quintero  <federico@nuclecu.unam.mx>
+
+	* goto.c: Small code cleanup.
+	(day_event): Upon receiving a LeaveNotify event, Reset the day's
+	background to the correct color.
+
 1998-08-29  Federico Mena Quintero  <federico@nuclecu.unam.mx>
 
 	* mark.[ch]: New files with utility functions to mark calendars

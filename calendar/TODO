@@ -1,26 +1,19 @@
 BUGS:
 
-- Goto dialog: fix recoloring of marked days when a LeaveNotify event
-  is gotten for an item.
-
 - Recurrence end date is wrong.  An event that repeats daily will not
   be included in the ending date of the recurrence (off-by-one error?).
 
-Month view:
+General:
 
-- Display little boxes for the appointments of each day.
+- Color properties, highlight some days and such.
 
-- Double click on a day takes you to the day view.
+- Mark the current day in BOLD as well as different color (color blind users will need it).
 
-- DnD of appointments to move them around.
+- Write online help.  Nice help.  Lots of help.
 
 Year view:
 
-- Use a generic mark_month() function to mark a GnomeMonthItem with
-  all the events that touch it.  Pass a function to mark_month() that
-  actually does the marking (the year view and goto dialog just change
-  the color of the days with events; the month view does more
-  sophisticated layout).
+- Prelight days on mouse enter/leave.  Share that code with goto.c.
 
 - Double click on a day takes you to the day view.
 
@@ -32,6 +25,14 @@ Year view:
 	Go to this month
 
 - See why it is so fucking slow.
+
+Month view:
+
+- Display little boxes for the appointments of each day.
+
+- Double click on a day takes you to the day view.
+
+- DnD of appointments to move them around.
 
 Week view:
 
@@ -55,7 +56,3 @@ Event editor dialog:
 Gnome date selection widget:
 
 - Make the displayed date be localized properly -- use strftime().
-
-General:
-
-- Write online help.  Nice help.  Lots of help.

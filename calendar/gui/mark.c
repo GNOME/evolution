@@ -6,6 +6,8 @@
  */
 
 #include <config.h>
+#include "gnome-cal.h"
+#include "main.h"
 #include "mark.h"
 #include "timeutil.h"
 
@@ -34,14 +36,7 @@ mark_event_in_month (GnomeMonthItem *mitem, time_t start, time_t end)
 
 		item = gnome_month_item_num2child (mitem, GNOME_MONTH_ITEM_DAY_BOX + day_index);
 		gnome_canvas_item_set (item,
-				       "fill_color", "tan",
-				       NULL);
-
-		/* Mark the day label */
-
-		item = gnome_month_item_num2child (mitem, GNOME_MONTH_ITEM_DAY_LABEL + day_index);
-		gnome_canvas_item_set (item,
-				       "fill_color", "black",
+				       "fill_color", color_spec_from_prop (COLOR_PROP_MARK_DAY_BG),
 				       NULL);
 
 		/* Next day */
@@ -65,7 +60,7 @@ mark_current_day (GnomeMonthItem *mitem)
 		day_index = gnome_month_item_day2index (mitem, tm->tm_mday);
 		item = gnome_month_item_num2child (mitem, GNOME_MONTH_ITEM_DAY_LABEL + day_index);
 		gnome_canvas_item_set (item,
-				       "fill_color", "blue",
+				       "fill_color", color_spec_from_prop (COLOR_PROP_CURRENT_DAY_FG),
 				       NULL);
 	}
 }
@@ -98,25 +93,26 @@ mark_month_item (GnomeMonthItem *mitem, Calendar *cal)
 void
 unmark_month_item (GnomeMonthItem *mitem)
 {
-	int i;
-	GnomeCanvasItem *item;
-
 	g_return_if_fail (mitem != NULL);
 	g_return_if_fail (GNOME_IS_MONTH_ITEM (mitem));
 
-	for (i = 0; i < 42; i++) {
-		/* Box */
+	/* We have to do this in several calls to gnome_canvas_item_set(), as color_spec_from_prop()
+	 * returns a pointer to a static string -- and we need several values.
+	 */
 
-		item = gnome_month_item_num2child (GNOME_MONTH_ITEM (mitem), GNOME_MONTH_ITEM_DAY_BOX + i);
-		gnome_canvas_item_set (item,
-				       "fill_color", "#d6d6d6d6d6d6",
-				       NULL);
+	gnome_canvas_item_set (GNOME_CANVAS_ITEM (mitem),
+			       "heading_color", color_spec_from_prop (COLOR_PROP_HEADING_COLOR),
+			       NULL);
 
-		/* Label */
+	gnome_canvas_item_set (GNOME_CANVAS_ITEM (mitem),
+			       "outline_color", color_spec_from_prop (COLOR_PROP_OUTLINE_COLOR),
+			       NULL);
 
-		item = gnome_month_item_num2child (GNOME_MONTH_ITEM (mitem), GNOME_MONTH_ITEM_DAY_LABEL + i);
-		gnome_canvas_item_set (item,
-				       "fill_color", "black",
-				       NULL);
-	}
+	gnome_canvas_item_set (GNOME_CANVAS_ITEM (mitem),
+			       "day_box_color", color_spec_from_prop (COLOR_PROP_EMPTY_DAY_BG),
+			       NULL);
+
+	gnome_canvas_item_set (GNOME_CANVAS_ITEM (mitem),
+			       "day_color", color_spec_from_prop (COLOR_PROP_DAY_FG),
+			       NULL);
 }

@@ -440,3 +440,15 @@ gnome_calendar_time_format_changed (GnomeCalendar *gcal)
 	month_view_time_format_changed (MONTH_VIEW (gcal->month_view));
 	year_view_time_format_changed (YEAR_VIEW (gcal->year_view));
 }
+
+void
+gnome_calendar_colors_changed (GnomeCalendar *gcal)
+{
+	g_return_if_fail (gcal != NULL);
+	g_return_if_fail (GNOME_IS_CALENDAR (gcal));
+
+	/* FIXME: add day and week view when they are done */
+
+	month_view_colors_changed (MONTH_VIEW (gcal->month_view));
+	year_view_colors_changed (YEAR_VIEW (gcal->year_view));
+}

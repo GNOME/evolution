@@ -62,6 +62,10 @@ enum {
 	ARG_DAY_FONT_GDK,
 	ARG_HEAD_COLOR,
 	ARG_HEAD_COLOR_GDK,
+	ARG_OUTLINE_COLOR,
+	ARG_OUTLINE_COLOR_GDK,
+	ARG_DAY_BOX_COLOR,
+	ARG_DAY_BOX_COLOR_GDK,
 	ARG_DAY_COLOR,
 	ARG_DAY_COLOR_GDK
 };
@@ -136,6 +140,10 @@ gnome_month_item_class_init (GnomeMonthItemClass *class)
 	gtk_object_add_arg_type ("GnomeMonthItem::day_font_gdk", GTK_TYPE_GDK_FONT, GTK_ARG_READWRITE, ARG_DAY_FONT_GDK);
 	gtk_object_add_arg_type ("GnomeMonthItem::heading_color", GTK_TYPE_STRING, GTK_ARG_WRITABLE, ARG_HEAD_COLOR);
 	gtk_object_add_arg_type ("GnomeMonthItem::heading_color_gdk", GTK_TYPE_GDK_COLOR, GTK_ARG_READWRITE, ARG_HEAD_COLOR_GDK);
+	gtk_object_add_arg_type ("GnomeMonthItem::outline_color", GTK_TYPE_STRING, GTK_ARG_WRITABLE, ARG_OUTLINE_COLOR);
+	gtk_object_add_arg_type ("GnomeMonthItem::outline_color_gdk", GTK_TYPE_GDK_COLOR, GTK_ARG_READWRITE, ARG_OUTLINE_COLOR_GDK);
+	gtk_object_add_arg_type ("GnomeMonthItem::day_box_color", GTK_TYPE_STRING, GTK_ARG_WRITABLE, ARG_DAY_BOX_COLOR);
+	gtk_object_add_arg_type ("GnomeMonthItem::day_box_color_gdk", GTK_TYPE_GDK_COLOR, GTK_ARG_READWRITE, ARG_DAY_BOX_COLOR_GDK);
 	gtk_object_add_arg_type ("GnomeMonthItem::day_color", GTK_TYPE_STRING, GTK_ARG_WRITABLE, ARG_DAY_COLOR);
 	gtk_object_add_arg_type ("GnomeMonthItem::day_color_gdk", GTK_TYPE_GDK_COLOR, GTK_ARG_READWRITE, ARG_DAY_COLOR_GDK);
 
@@ -302,19 +310,26 @@ set_head_font (GnomeMonthItem *mitem)
 				       NULL);
 }
 
-/* Sets the color for all the day headings */
+/* Sets the color for all the headings */
 static void
 set_head_color (GnomeMonthItem *mitem)
 {
 	int i;
-	GdkColor color;
+	GdkColor outline;
+	GdkColor head;
 
-	color.pixel = mitem->head_pixel;
+	outline.pixel = mitem->outline_pixel;
+	head.pixel = mitem->head_pixel;
 
-	for (i = 0; i < 7; i++)
-		gnome_canvas_item_set (mitem->items[GNOME_MONTH_ITEM_HEAD_LABEL + i],
-				       "fill_color_gdk", &color,
+	for (i = 0; i < 7; i++) {
+		gnome_canvas_item_set (mitem->items[GNOME_MONTH_ITEM_HEAD_BOX + i],
+				       "fill_color_gdk", &outline,
 				       NULL);
+
+		gnome_canvas_item_set (mitem->items[GNOME_MONTH_ITEM_HEAD_LABEL + i],
+				       "fill_color_gdk", &head,
+				       NULL);
+	}
 }
 
 /* Creates the items for the day name headings */
@@ -336,7 +351,6 @@ create_headings (GnomeMonthItem *mitem)
 		mitem->items[GNOME_MONTH_ITEM_HEAD_BOX + i] =
 			gnome_canvas_item_new (GNOME_CANVAS_GROUP (mitem->items[GNOME_MONTH_ITEM_HEAD_GROUP + i]),
 					       gnome_canvas_rect_get_type (),
-					       "fill_color", "black",
 					       NULL);
 
 		/* Label */
@@ -491,19 +505,29 @@ set_day_font (GnomeMonthItem *mitem)
 				       NULL);
 }
 
-/* Sets the color for all the day numbers */
+/* Sets the color for all the day items */
 static void
 set_day_color (GnomeMonthItem *mitem)
 {
 	int i;
-	GdkColor color;
+	GdkColor outline;
+	GdkColor day_box;
+	GdkColor day;
 
-	color.pixel = mitem->day_pixel;
+	outline.pixel = mitem->outline_pixel;
+	day_box.pixel = mitem->day_box_pixel;
+	day.pixel = mitem->day_pixel;
 
-	for (i = 0; i < 42; i++)
-		gnome_canvas_item_set (mitem->items[GNOME_MONTH_ITEM_DAY_LABEL + i],
-				       "fill_color_gdk", &color,
+	for (i = 0; i < 42; i++) {
+		gnome_canvas_item_set (mitem->items[GNOME_MONTH_ITEM_DAY_BOX + i],
+				       "outline_color_gdk", &outline,
+				       "fill_color_gdk", &day_box,
 				       NULL);
+
+		gnome_canvas_item_set (mitem->items[GNOME_MONTH_ITEM_DAY_LABEL + i],
+				       "fill_color_gdk", &day,
+				       NULL);
+	}
 }
 
 /* Creates the items for the days */
@@ -525,8 +549,6 @@ create_days (GnomeMonthItem *mitem)
 		mitem->items[GNOME_MONTH_ITEM_DAY_BOX + i] =
 			gnome_canvas_item_new (GNOME_CANVAS_GROUP (mitem->items[GNOME_MONTH_ITEM_DAY_GROUP + i]),
 					       gnome_canvas_rect_get_type (),
-					       "outline_color", "black",
-					       "fill_color", "#d6d6d6d6d6d6",
 					       NULL);
 
 		/* Label */
@@ -643,8 +665,10 @@ gnome_month_item_construct (GnomeMonthItem *mitem)
 
 	gnome_canvas_get_color (GNOME_CANVAS_ITEM (mitem)->canvas, "#d6d6d6d6d6d6", &color);
 	mitem->head_pixel = color.pixel;
+	mitem->day_box_pixel = color.pixel;
 
 	gnome_canvas_get_color (GNOME_CANVAS_ITEM (mitem)->canvas, "black", &color);
+	mitem->outline_pixel = color.pixel;
 	mitem->day_pixel = color.pixel;
 
 	create_items (mitem);
@@ -733,13 +757,36 @@ reanchor (GnomeMonthItem *mitem)
 			       NULL);
 }
 
+/* Sets the color of the specified pixel value to that of the specified argument, which must be in
+ * GdkColor format if format is TRUE, otherwise it must be in string format.
+ */
+static void
+set_color_arg (GnomeMonthItem *mitem, gulong *pixel, GtkArg *arg, int gdk_format, int set_head, int set_day)
+{
+	GdkColor color;
+
+	if (gdk_format)
+		*pixel = ((GdkColor *) GTK_VALUE_BOXED (*arg))->pixel;
+	else {
+		if (gnome_canvas_get_color (GNOME_CANVAS_ITEM (mitem)->canvas, GTK_VALUE_STRING (*arg), &color))
+			*pixel = color.pixel;
+		else
+			*pixel = 0;
+	}
+
+	if (set_head)
+		set_head_color (mitem);
+
+	if (set_day)
+		set_day_color (mitem);
+}
+
 static void
 gnome_month_item_set_arg (GtkObject *object, GtkArg *arg, guint arg_id)
 {
 	GnomeMonthItem *mitem;
 	char **day_names;
 	int i;
-	GdkColor color;
 
 	mitem = GNOME_MONTH_ITEM (object);
 
@@ -873,31 +920,35 @@ gnome_month_item_set_arg (GtkObject *object, GtkArg *arg, guint arg_id)
 		break;
 
 	case ARG_HEAD_COLOR:
-		if (gnome_canvas_get_color (GNOME_CANVAS_ITEM (mitem)->canvas, GTK_VALUE_STRING (*arg), &color))
-			mitem->head_pixel = color.pixel;
-		else
-			mitem->head_pixel = 0;
-
-		set_head_color (mitem);
+		set_color_arg (mitem, &mitem->head_pixel, arg, FALSE, TRUE, FALSE);
 		break;
 
 	case ARG_HEAD_COLOR_GDK:
-		mitem->head_pixel = ((GdkColor *) GTK_VALUE_BOXED (*arg))->pixel;
-		set_head_color (mitem);
+		set_color_arg (mitem, &mitem->head_pixel, arg, TRUE, TRUE, FALSE);
+		break;
+
+	case ARG_OUTLINE_COLOR:
+		set_color_arg (mitem, &mitem->outline_pixel, arg, FALSE, TRUE, TRUE);
+		break;
+
+	case ARG_OUTLINE_COLOR_GDK:
+		set_color_arg (mitem, &mitem->outline_pixel, arg, TRUE, TRUE, TRUE);
+		break;
+
+	case ARG_DAY_BOX_COLOR:
+		set_color_arg (mitem, &mitem->day_box_pixel, arg, FALSE, FALSE, TRUE);
+		break;
+
+	case ARG_DAY_BOX_COLOR_GDK:
+		set_color_arg (mitem, &mitem->day_box_pixel, arg, TRUE, FALSE, TRUE);
 		break;
 
 	case ARG_DAY_COLOR:
-		if (gnome_canvas_get_color (GNOME_CANVAS_ITEM (mitem)->canvas, GTK_VALUE_STRING (*arg), &color))
-			mitem->day_pixel = color.pixel;
-		else
-			mitem->day_pixel = 0;
-
-		set_day_color (mitem);
+		set_color_arg (mitem, &mitem->day_pixel, arg, FALSE, FALSE, TRUE);
 		break;
 
 	case ARG_DAY_COLOR_GDK:
-		mitem->day_pixel = ((GdkColor *) GTK_VALUE_BOXED (*arg))->pixel;
-		set_day_color (mitem);
+		set_color_arg (mitem, &mitem->day_pixel, arg, TRUE, FALSE, TRUE);
 		break;
 
 	default:
@@ -905,11 +956,24 @@ gnome_month_item_set_arg (GtkObject *object, GtkArg *arg, guint arg_id)
 	}
 }
 
+/* Allocates a GdkColor structure filled with the specified pixel, and puts it into the specified
+ * arg for returning it in the get_arg method.
+ */
+static void
+get_color_arg (GnomeMonthItem *mitem, gulong pixel, GtkArg *arg)
+{
+	GdkColor *color;
+
+	color = g_new (GdkColor, 1);
+	color->pixel = pixel;
+	gdk_color_context_query_color (GNOME_CANVAS_ITEM (mitem)->canvas->cc, color);
+	GTK_VALUE_BOXED (*arg) = color;
+}
+
 static void
 gnome_month_item_get_arg (GtkObject *object, GtkArg *arg, guint arg_id)
 {
 	GnomeMonthItem *mitem;
-	GdkColor *color;
 
 	mitem = GNOME_MONTH_ITEM (object);
 
@@ -975,17 +1039,19 @@ gnome_month_item_get_arg (GtkObject *object, GtkArg *arg, guint arg_id)
 		break;
 
 	case ARG_HEAD_COLOR_GDK:
-		color = g_new (GdkColor, 1);
-		color->pixel = mitem->head_pixel;
-		gdk_color_context_query_color (GNOME_CANVAS_ITEM (mitem)->canvas->cc, color);
-		GTK_VALUE_BOXED (*arg) = color;
+		get_color_arg (mitem, mitem->head_pixel, arg);
+		break;
+
+	case ARG_OUTLINE_COLOR_GDK:
+		get_color_arg (mitem, mitem->outline_pixel, arg);
+		break;
+
+	case ARG_DAY_BOX_COLOR_GDK:
+		get_color_arg (mitem, mitem->day_box_pixel, arg);
 		break;
 
 	case ARG_DAY_COLOR_GDK:
-		color = g_new (GdkColor, 1);
-		color->pixel = mitem->day_pixel;
-		gdk_color_context_query_color (GNOME_CANVAS_ITEM (mitem)->canvas->cc, color);
-		GTK_VALUE_BOXED (*arg) = color;
+		get_color_arg (mitem, mitem->day_pixel, arg);
 		break;
 
 	default:

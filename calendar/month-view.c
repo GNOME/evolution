@@ -66,7 +66,7 @@ month_view_init (MonthView *mv)
 {
 	/* Title */
 
-	mv->title = gnome_canvas_item_new (GNOME_CANVAS_GROUP (mv->canvas.root),
+	mv->title = gnome_canvas_item_new (gnome_canvas_root (GNOME_CANVAS (mv)),
 					   gnome_canvas_text_get_type (),
 					   "anchor", GTK_ANCHOR_N,
 					   "font", "-*-helvetica-bold-r-normal--18-*-*-*-p-*-iso8859-1",
@@ -75,7 +75,7 @@ month_view_init (MonthView *mv)
 
 	/* Month item */
 
-	mv->mitem = gnome_month_item_new (GNOME_CANVAS_GROUP (mv->canvas.root));
+	mv->mitem = gnome_month_item_new (gnome_canvas_root (GNOME_CANVAS (mv)));
 	gnome_canvas_item_set (mv->mitem,
 			       "x", 0.0,
 			       "anchor", GTK_ANCHOR_NW,
@@ -204,4 +204,14 @@ month_view_time_format_changed (MonthView *mv)
 			       NULL);
 
 	/* FIXME: update events */
+}
+
+void
+month_view_colors_changed (MonthView *mv)
+{
+	g_return_if_fail (mv != NULL);
+	g_return_if_fail (IS_MONTH_VIEW (mv));
+
+	unmark_month_item (mv->mitem);
+	/* FIXME */
 }

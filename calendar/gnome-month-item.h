@@ -72,6 +72,10 @@ typedef enum {
  * day_font_gdk		GdkFont *	RW		Pointer to GdkFont for the day numbers
  * heading_color	string		W		X color specification for heading labels
  * heading_color_gdk	GdkColor *	RW		Pointer to an allocated GdkColor for heading labels
+ * outline_color	string		W		X color specification for outline (lines and fill of heading boxes)
+ * outline_color_gdk	GdkColor *	RW		Pointer to an allocated GdkColor for outline
+ * day_box_color	string		W		X color specification for day boxes
+ * day_box_color_gdk	GdkColor *	RW		Pointer to an allocated GdkColor for day boxes
  * day_color		string		W		X color specification for day number labels
  * day_color_gdk	GdkColor *	RW		Pointer to an allocated GdkColor for day number labels
  */
@@ -112,6 +116,8 @@ struct _GnomeMonthItem {
 	GdkFont *day_font;		/* Font for the day numbers */
 
 	gulong head_pixel;		/* Color for heading labels */
+	gulong outline_pixel;		/* Color for the outline (lines and heading boxes) */
+	gulong day_box_pixel;		/* Color for the day boxes */
 	gulong day_pixel;		/* Color for day number labels */
 
 	int start_on_monday : 1;	/* Start the week on Monday?  If false, then start from Sunday */

@@ -42,7 +42,20 @@ int day_begin, day_end;
 /* Whether weeks starts on Sunday or Monday */
 int week_starts_on_monday;
 
-/* Number of calendars active */
+/* The array of color properties -- keep in sync with the enumeration defined in main.h.  The color
+ * values specified here are the defaults for the program.
+ */
+struct color_prop color_props[] = {
+	{ 0x0000, 0x0000, 0x0000, "Outline:",              "/calendar/Colors/outline" },
+	{ 0xffff, 0xffff, 0xffff, "Headings:",             "/calendar/Colors/headings" },
+	{ 0xd6d6, 0xd6d6, 0xd6d6, "Empty days:",           "/calendar/Colors/empty_bg" },
+	{ 0xd2d2, 0xb4b4, 0x8c8c, "Appointment days:",     "/calendar/Colors/mark_bg" },
+	{ 0xea60, 0xea60, 0xea60, "Highlighted day:",      "/calendar/Colors/prelight_bg" },
+	{ 0x0000, 0x0000, 0x0000, "Day numbers:",          "/calendar/Colors/day_fg" },
+	{ 0x0000, 0x0000, 0xffff, "Current day's number:", "/calendar/Colors/current_fg" }
+};
+
+/* Number of active calendars */
 int active_calendars = 0;
 
 /* A list of all of the calendars started */
@@ -105,10 +118,17 @@ range_check_hour (int hour)
 static void
 init_calendar (void)
 {
+	int i;
+	char *cspec, *color;
+	char *str;
+
 	init_username ();
 	user_calendar_file = g_concat_dir_and_file (gnome_util_user_home (), ".gnome/user-cal.vcf");
 
 	gnome_config_push_prefix (calendar_settings);
+
+	/* Read calendar settings */
+
 	day_begin  = range_check_hour (gnome_config_get_int  ("/calendar/Calendar/Day start=8"));
 	day_end    = range_check_hour (gnome_config_get_int  ("/calendar/Calendar/Day end=17"));
 	am_pm_flag = gnome_config_get_bool ("/calendar/Calendar/AM PM flag=0");
@@ -118,6 +138,21 @@ init_calendar (void)
 		day_begin = 8;
 		day_end   = 17;
 	}
+
+	/* Read color settings */
+
+	for (i = 0; i < COLOR_PROP_LAST; i++) {
+		cspec = build_color_spec (color_props[i].r, color_props[i].g, color_props[i].b);
+		str = g_copy_strings (color_props[i].key, "=", cspec, NULL);
+
+		color = gnome_config_get_string (str);
+		parse_color_spec (color, &color_props[i].r, &color_props[i].g, &color_props[i].b);
+
+		g_free (str);
+		g_free (color);
+	}
+
+	/* Done */
 
 	gnome_config_pop_prefix ();
 }
@@ -195,6 +230,15 @@ time_format_changed (void)
 
 	for (l = all_calendars; l; l = l->next)
 		gnome_calendar_time_format_changed (GNOME_CALENDAR (l->data));
+}
+
+void
+colors_changed (void)
+{
+	GList *l;
+
+	for (l = all_calendars; l; l = l->next)
+		gnome_calendar_colors_changed (GNOME_CALENDAR (l->data));
 }
 
 static void

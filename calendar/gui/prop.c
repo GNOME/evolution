@@ -10,8 +10,18 @@
 #include <gnome.h>
 #include "gnome-cal.h"
 #include "main.h"
+#include "gnome-month-item.h"
+
+/* These specify the page numbers in the preferences notebook */
+enum {
+	PROP_TIME_DISPLAY,
+	PROP_COLORS
+};
 
 static GtkWidget *prop_win;		/* The preferences dialog */
+
+/* Widgets for the time display page */
+
 static GtkWidget *time_format_12;	/* Radio button for 12-hour format */
 static GtkWidget *time_format_24;	/* Radio button for 24-hour format */
 static GtkWidget *start_on_sunday;	/* Check button for weeks starting on Sunday */
@@ -20,6 +30,12 @@ static GtkWidget *start_omenu;		/* Option menu for start of day */
 static GtkWidget *end_omenu;		/* Option menu for end of day */
 static GtkWidget *start_items[24];	/* Menu items for start of day menu */
 static GtkWidget *end_items[24];	/* Menu items for end of day menu */
+
+/* Widgets for the colors page */
+
+static GtkWidget *color_pickers[COLOR_PROP_LAST];
+static GnomeCanvasItem *month_item;
+
 
 /* Callback used when the property box is closed -- just sets the prop_win variable to null. */
 static int
@@ -39,13 +55,10 @@ get_active_index (GtkWidget *menu)
 	return GPOINTER_TO_INT (gtk_object_get_user_data (GTK_OBJECT (active)));
 }
 
-/* Callback used when the Apply button is clicked. */
+/* Applies the settings in the time display page */
 static void
-prop_apply (GtkWidget *w, int page)
+prop_apply_time_display (void)
 {
-	if (page != -1)
-		return;
-
 	/* Day begin/end */
 
 	day_begin = get_active_index (gtk_option_menu_get_menu (GTK_OPTION_MENU (start_omenu)));
@@ -67,16 +80,57 @@ prop_apply (GtkWidget *w, int page)
 	time_format_changed ();
 }
 
+/* Applies the settings in the colors page */
+static void
+prop_apply_colors (void)
+{
+	int i;
+	char *cspec;
+
+	for (i = 0; i < COLOR_PROP_LAST; i++) {
+		gnome_color_picker_get_i16 (GNOME_COLOR_PICKER (color_pickers[i]),
+					    &color_props[i].r, &color_props[i].g, &color_props[i].b, NULL);
+
+		cspec = build_color_spec (color_props[i].r, color_props[i].g, color_props[i].b);
+		gnome_config_set_string (color_props[i].key, cspec);
+	}
+
+	gnome_config_sync ();
+	colors_changed ();
+}
+
+/* Callback used when the Apply button is clicked. */
+static void
+prop_apply (GtkWidget *w, int page)
+{
+	switch (page) {
+	case PROP_TIME_DISPLAY:
+		prop_apply_time_display ();
+		break;
+
+	case PROP_COLORS:
+		prop_apply_colors ();
+		break;
+
+	case -1:
+		break;
+
+	default:
+		g_warning ("We have a loose penguin!");
+		g_assert_not_reached ();
+	}
+}
+
 /* Notifies the property box that the data has changed */
 static void
-toggled (GtkWidget *widget, gpointer data)
+prop_changed (void)
 {
 	gnome_property_box_changed (GNOME_PROPERTY_BOX (prop_win));
 }
 
 /* Builds and returns a two-element radio button group surrounded by a frame.  The radio buttons are
  * stored in the specified variables, and the first radio button's state is set according to the
- * specified flag value.  The buttons are connected to the toggled() function to update the property
+ * specified flag value.  The buttons are connected to the prop_changed() function to update the property
  * box's dirty state.
  */
 static GtkWidget *
@@ -90,7 +144,7 @@ build_two_radio_group (char *title,
 
 	frame = gtk_frame_new (title);
 
-	vbox = gtk_vbox_new (TRUE, 0);
+	vbox = gtk_vbox_new (FALSE, 0);
 	gtk_container_add (GTK_CONTAINER (frame), vbox);
 
 	*radio_1_widget = gtk_radio_button_new_with_label (NULL, radio_1_title);
@@ -104,7 +158,7 @@ build_two_radio_group (char *title,
 	gtk_toggle_button_set_state (GTK_TOGGLE_BUTTON (*radio_2_widget), !radio_1_value);
 
 	gtk_signal_connect (GTK_OBJECT (*radio_1_widget), "toggled",
-			    (GtkSignalFunc) toggled,
+			    (GtkSignalFunc) prop_changed,
 			    NULL);
 
 	return frame;
@@ -174,40 +228,35 @@ build_hours_menu (GtkWidget **items, int active)
 	return omenu;
 }
 
-/* Creates and displays the preferences dialog for the whole application */
-void
-properties (void)
+/* Creates the time display page in the preferences dialog */
+static void
+create_time_display_page (void)
 {
-	GtkWidget *hbox;
+	GtkWidget *table;
 	GtkWidget *vbox;
 	GtkWidget *frame;
 	GtkWidget *hbox2;
 	GtkWidget *hbox3;
 	GtkWidget *w;
 
-	if (prop_win)
-		return;
-
-	/* Main window and hbox for property page */
-	
-	prop_win = gnome_property_box_new ();
-	gtk_window_set_title (GTK_WINDOW (prop_win), _("Preferences"));
-
-	hbox = gtk_hbox_new (FALSE, GNOME_PAD_SMALL);
-	gtk_container_border_width (GTK_CONTAINER (hbox), GNOME_PAD_SMALL);
-	gnome_property_box_append_page (GNOME_PROPERTY_BOX (prop_win), hbox,
+	table = gtk_table_new (2, 2, FALSE);
+	gtk_container_border_width (GTK_CONTAINER (table), GNOME_PAD_SMALL);
+	gtk_table_set_row_spacings (GTK_TABLE (table), GNOME_PAD_SMALL);
+	gtk_table_set_col_spacings (GTK_TABLE (table), GNOME_PAD_SMALL);
+	gnome_property_box_append_page (GNOME_PROPERTY_BOX (prop_win), table,
 					gtk_label_new (_("Time display")));
 
 	/* Time format */
-
-	vbox = gtk_vbox_new (FALSE, GNOME_PAD_SMALL);
-	gtk_box_pack_start (GTK_BOX (hbox), vbox, FALSE, FALSE, 0);
 
 	w = build_two_radio_group (_("Time format"),
 				   _("12-hour (AM/PM)"), &time_format_12,
 				   _("24-hour"), &time_format_24,
 				   am_pm_flag);
-	gtk_box_pack_start (GTK_BOX (vbox), w, FALSE, FALSE, 0);
+	gtk_table_attach (GTK_TABLE (table), w,
+			  0, 1, 0, 1,
+			  GTK_EXPAND | GTK_FILL,
+			  GTK_EXPAND | GTK_FILL,
+			  0, 0);
 
 	/* Weeks start on */
 
@@ -215,12 +264,20 @@ properties (void)
 				   _("Sunday"), &start_on_sunday,
 				   _("Monday"), &start_on_monday,
 				   !week_starts_on_monday);
-	gtk_box_pack_start (GTK_BOX (vbox), w, FALSE, FALSE, 0);
+	gtk_table_attach (GTK_TABLE (table), w,
+			  0, 1, 1, 2,
+			  GTK_EXPAND | GTK_FILL,
+			  GTK_EXPAND | GTK_FILL,
+			  0, 0);
 
 	/* Day range */
 
 	frame = gtk_frame_new (_("Day range"));
-	gtk_box_pack_start (GTK_BOX (hbox), frame, TRUE, TRUE, 0);
+	gtk_table_attach (GTK_TABLE (table), frame,
+			  1, 2, 0, 2,
+			  GTK_EXPAND | GTK_FILL,
+			  GTK_EXPAND | GTK_FILL,
+			  0, 0);
 
 	vbox = gtk_vbox_new (FALSE, GNOME_PAD_SMALL);
 	gtk_container_border_width (GTK_CONTAINER (vbox), GNOME_PAD_SMALL);
@@ -258,9 +315,152 @@ properties (void)
 
 	end_omenu = build_hours_menu (end_items, day_end);
 	gtk_box_pack_start (GTK_BOX (hbox3), end_omenu, FALSE, FALSE, 0);
+}
 
-	/* Done! */
+/* Called when the canvas for the month item is size allocated.  We use this to change the canvas'
+ * scrolling region and the month item's size.
+ */
+static void
+canvas_size_allocate (GtkWidget *widget, GtkAllocation *allocation, gpointer data)
+{
+	gnome_canvas_item_set (month_item,
+			       "width", (double) (allocation->width - 1),
+			       "height", (double) (allocation->height - 1),
+			       NULL);
+
+	gnome_canvas_set_scroll_region (GNOME_CANVAS (widget),
+					0, 0,
+					allocation->width, allocation->height);
+}
+
+/* Returns a color spec based on the color pickers */
+static char *
+color_spec_from_picker (int num)
+{
+	int r, g, b;
+
+	gnome_color_picker_get_i16 (GNOME_COLOR_PICKER (color_pickers[num]), &r, &g, &b, NULL);
+
+	return build_color_spec (r, g, b);
+}
+
+/* Sets the colors of the month item to the current prerences */
+static void
+reconfigure_month (void)
+{
+	/* We have to do this in two calls to gnome_canvas_item_set(), as color_spec_from_picker()
+	 * returns a pointer to a static string -- and we need two values.
+	 */
+
+	gnome_canvas_item_set (month_item,
+			       "heading_color", color_spec_from_picker (COLOR_PROP_HEADING_COLOR),
+			       NULL);
+
+	gnome_canvas_item_set (month_item,
+			       "outline_color", color_spec_from_picker (COLOR_PROP_OUTLINE_COLOR),
+			       NULL);
+
+	/* FIXME: set the rest of the colors -- simulate marking of the month item, set the
+	 * current day, etc.  The following is incorrect.
+	 */
+
+	gnome_canvas_item_set (month_item,
+			       "day_box_color", color_spec_from_picker (COLOR_PROP_EMPTY_DAY_BG),
+			       NULL);
+
+	gnome_canvas_item_set (month_item,
+			       "day_color", color_spec_from_picker (COLOR_PROP_DAY_FG),
+			       NULL);
+}
+
+/* Callback used when a color is changed */
+static void
+color_set (void)
+{
+	reconfigure_month ();
+	prop_changed ();
+}
+
+/* Creates the colors page in the preferences dialog */
+static void
+create_colors_page (void)
+{
+	GtkWidget *frame;
+	GtkWidget *hbox;
+	GtkWidget *table;
+	GtkWidget *w;
+	int i;
+
+	frame = gtk_frame_new (_("Colors for months"));
+	gtk_container_border_width (GTK_CONTAINER (frame), GNOME_PAD_SMALL);
+	gnome_property_box_append_page (GNOME_PROPERTY_BOX (prop_win), frame,
+					gtk_label_new (_("Colors")));
+
+	hbox = gtk_hbox_new (FALSE, GNOME_PAD);
+	gtk_container_border_width (GTK_CONTAINER (hbox), GNOME_PAD_SMALL);
+	gtk_container_add (GTK_CONTAINER (frame), hbox);
+
+	table = gtk_table_new (COLOR_PROP_LAST, 2, FALSE);
+	gtk_table_set_col_spacings (GTK_TABLE (table), GNOME_PAD_SMALL);
+	gtk_box_pack_start (GTK_BOX (hbox), table, FALSE, FALSE, 0);
+
+	/* Create the color pickers */
+
+	for (i = 0; i < COLOR_PROP_LAST; i++) {
+		/* Label */
+
+		w = gtk_label_new (_(color_props[i].label));
+		gtk_misc_set_alignment (GTK_MISC (w), 0.0, 0.5);
+		gtk_table_attach (GTK_TABLE (table), w,
+				  0, 1, i, i + 1,
+				  GTK_FILL, 0,
+				  0, 0);
+
+		/* Color picker */
+
+		color_pickers[i] = gnome_color_picker_new ();
+		gnome_color_picker_set_title (GNOME_COLOR_PICKER (color_pickers[i]), _(color_props[i].label));
+		gnome_color_picker_set_i16 (GNOME_COLOR_PICKER (color_pickers[i]),
+					    color_props[i].r, color_props[i].g, color_props[i].b, 0);
+		gtk_table_attach (GTK_TABLE (table), color_pickers[i],
+				  1, 2, i, i + 1,
+				  0, 0,
+				  0, 0);
+		gtk_signal_connect (GTK_OBJECT (color_pickers[i]), "color_set",
+				    (GtkSignalFunc) color_set,
+				    NULL);
+	}
+
+	/* Create the sample calendar */
+
+	w = gnome_canvas_new ();
+	gtk_box_pack_start (GTK_BOX (hbox), w, TRUE, TRUE, 0);
+
+	month_item = gnome_month_item_new (gnome_canvas_root (GNOME_CANVAS (w)));
+	gnome_canvas_item_set (month_item,
+			       "start_on_monday", week_starts_on_monday,
+			       NULL);
+	reconfigure_month ();
 	
+	gtk_signal_connect (GTK_OBJECT (w), "size_allocate",
+			    canvas_size_allocate,
+			    NULL);
+
+}
+
+/* Creates and displays the preferences dialog for the whole application */
+void
+properties (void)
+{
+	if (prop_win)
+		return;
+
+	prop_win = gnome_property_box_new ();
+	gtk_window_set_title (GTK_WINDOW (prop_win), _("Preferences"));
+
+	create_time_display_page ();
+	create_colors_page ();
+
 	gtk_signal_connect (GTK_OBJECT (prop_win), "destroy",
 			    (GtkSignalFunc) prop_cancel, NULL);
 
@@ -271,4 +471,34 @@ properties (void)
 			    (GtkSignalFunc) prop_apply, NULL);
 
 	gtk_widget_show_all (prop_win);
+}
+
+char *
+build_color_spec (int r, int g, int b)
+{
+	static char spec[100];
+
+	sprintf (spec, "#%04x%04x%04x", r, g, b);
+	return spec;
+}
+
+void
+parse_color_spec (char *spec, int *r, int *g, int *b)
+{
+	g_return_if_fail (spec != NULL);
+	g_return_if_fail (r != NULL);
+	g_return_if_fail (r != NULL);
+	g_return_if_fail (r != NULL);
+
+	if (sscanf (spec, "#%04x%04x%04x", r, g, b) != 3) {
+		g_warning ("Invalid color specification %s, returning black", spec);
+
+		*r = *g = *b = 0;
+	}
+}
+
+char *
+color_spec_from_prop (int propnum)
+{
+	return build_color_spec (color_props[propnum].r, color_props[propnum].g, color_props[propnum].b);
 }

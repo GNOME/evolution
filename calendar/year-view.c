@@ -165,7 +165,7 @@ year_view_init (YearView *yv)
 
 	/* Heading */
 
-	yv->heading = gnome_canvas_item_new (GNOME_CANVAS_GROUP (yv->canvas.root),
+	yv->heading = gnome_canvas_item_new (gnome_canvas_root (GNOME_CANVAS (yv)),
 					     gnome_canvas_text_get_type (),
 					     "anchor", GTK_ANCHOR_N,
 					     "font", "-*-helvetica-bold-r-normal--14-*-*-*-*-*-iso8859-1",
@@ -180,7 +180,7 @@ year_view_init (YearView *yv)
 		strftime (buf, 100, "%B", &tm);
 		tm.tm_mon++;
 
-		yv->titles[i] = gnome_canvas_item_new (GNOME_CANVAS_GROUP (yv->canvas.root),
+		yv->titles[i] = gnome_canvas_item_new (gnome_canvas_root (GNOME_CANVAS (yv)),
 						       gnome_canvas_text_get_type (),
 						       "text", buf,
 						       "anchor", GTK_ANCHOR_N,
@@ -190,11 +190,10 @@ year_view_init (YearView *yv)
 
 		/* Month item */
 
-		yv->mitems[i] = gnome_month_item_new (GNOME_CANVAS_GROUP (yv->canvas.root));
+		yv->mitems[i] = gnome_month_item_new (gnome_canvas_root (GNOME_CANVAS (yv)));
 		gnome_canvas_item_set (yv->mitems[i],
 				       "anchor", GTK_ANCHOR_NW,
 				       "start_on_monday", week_starts_on_monday,
-				       "heading_color", "white",
 				       NULL);
 	}
 
@@ -338,4 +337,18 @@ year_view_time_format_changed (YearView *yv)
 				       NULL);
 
 	year_view_set (yv, time_year_begin (time_from_day (yv->year, 0, 1)));
+}
+
+void
+year_view_colors_changed (YearView *yv)
+{
+	int i;
+
+	g_return_if_fail (yv != NULL);
+	g_return_if_fail (IS_YEAR_VIEW (yv));
+
+	for (i = 0; i < 12; i++) {
+		unmark_month_item (GNOME_MONTH_ITEM (yv->mitems[i]));
+		mark_month_item (GNOME_MONTH_ITEM (yv->mitems[i]), yv->calendar->cal);
+	}
 }

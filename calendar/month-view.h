@@ -55,6 +55,9 @@ void month_view_set (MonthView *mv, time_t month);
 /* Notifies the month view that the time format has changed */
 void month_view_time_format_changed (MonthView *mv);
 
+/* Notifies the month view that the colors have changed */
+void month_view_colors_changed (MonthView *mv);
+
 
 END_GNOME_DECLS
 
