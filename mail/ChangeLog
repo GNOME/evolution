@@ -2,6 +2,13 @@
 
 	Security vulnerability fixes.
 
+	* mail-display.c (do_external_viewer): Make sure that we don't
+	launch a bonobo control to view a mime-type that we handle
+	internally, otherwise maliciously formed HTML mail using <object>
+	tags could potentially launch a bonobo vontrol to view the mime
+	part bypassing any checks that Evolution might do on the data
+	normally.
+
 	* mail-format.c (handle_text_html, attachment_header)
 	(handle_image, handle_via_bonobo): Encode the result from
 	get_cid() so that malicious Content-Id strings cannot bypass the
