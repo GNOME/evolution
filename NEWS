@@ -1,3 +1,44 @@
+Version 0.5.1, "Salamended", 2000-09-15
+---------------------------------------
+
+General:
+
+  - Fixed a font-handling problem that would cause Evolution to crash
+    at startup with certain Gtk themes. (Chris)
+
+  - Fixed some build problems. (Chris)
+
+  - We no longer ship an out-of-date Red Hat-only RPM spec file.
+
+Shell:
+
+  - The shell now installs the `Sent' folder at startup if it doesn't
+    exist yet.  (Ettore)
+
+  - If a component crashes unexpectedly, the shell displays a dialog
+    box informing the user of that.  (Ettore)
+
+  - Fixed a bug in the folder selector dialog that would result in
+    crashes while trying to move messages in the mailer. (Dan)
+
+Addressbook:
+
+  - Fixed a bug that would cause the addressbook to crash when
+    embedded in the composer. (Dan)
+
+Mail:
+
+  - Fixed a display problem caused by expunging an IMAP folder. (Dan)
+
+  - Fixed POP mail so that "keep on server" is obeyed correctly. (Dan,
+    Jeff)
+
+  - Fixed replies so that replying to a message twice doesn't turn off
+    the "replied" flag. (Dan)
+
+  - Fixed a bug that prevented "Send later" from working. (Dan)
+
+
 Version 0.5, "Salamander", 2000-09-13
 -------------------------------------
 
