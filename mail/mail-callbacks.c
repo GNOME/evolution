@@ -1534,9 +1534,13 @@ select_all (BonoboUIComponent *uih, void *user_data, const char *path)
 	if (FOLDER_BROWSER_IS_DESTROYED (fb))
 		return;
 	
-	etsm = e_tree_get_selection_model (fb->message_list->tree);
-	
-	e_selection_model_select_all (etsm);
+	if (GTK_WIDGET_HAS_FOCUS (fb->mail_display->html)) {
+		gtk_html_select_all (fb->mail_display->html);
+	} else {
+		etsm = e_tree_get_selection_model (fb->message_list->tree);
+		
+		e_selection_model_select_all (etsm);
+	}
 }
 
 /* Thread selection */
