@@ -7,7 +7,8 @@
 
 				<menuitem name="Print" verb="ContactsPrint"
 				_label="_Print Contacts..."
-				pixtype="stock" pixname="Print"/>
+				pixtype="stock" pixname="Print" 
+                                accel="*Control*p"/>
 				
 			</placeholder>
 
@@ -16,10 +17,10 @@
 		<submenu name="View">
 
 			<menuitem name="AsTable" _label="As _Table"
-			verb="ViewAsTable"/>
+			verb="ViewAsTable" accel="*Control*l"/>
 
 			<menuitem name="ViewNewContact" verb=""
-			_label="_New Contact"/>
+			_label="_New Contact" accel="*Control*c"/>
 
 		</submenu>
 
@@ -29,7 +30,7 @@
 
 				<menuitem name="Search" verb="ToolSearch"
 				_label="_Search for contacts"
-				pixtype="stock" pixname="Search"/>
+				pixtype="stock" pixname="Search" accel="*Control*r"/>
 
 			</submenu>
 

@@ -6,7 +6,8 @@
 			<submenu name="New" _label="_New">
 
 				<menuitem name="CalendarNew" verb=""
-				_label="New Ca_lendar" _tip="Create a new calendar"/>
+				_label="New Ca_lendar" _tip="Create a new calendar"
+                                 accel="*Control**Shift*c"/>
 
 			</submenu>
 
@@ -14,13 +15,15 @@
 				<submenu name="Open" _label="_Open">
 
 					<menuitem name="CalendarOpen" verb=""
-					_label="_Open Calendar" _tip="Open a calendar"/>
+					_label="_Open Calendar" _tip="Open a calendar"
+                                        accel="*Control*o"/>
 
 				</submenu>
 
 				<menuitem name="CalendarSaveAs" verb=""
 				_label="_Save Calendar As"
-				_tip="Save calendar As something else"/>
+				_tip="Save calendar as something else"
+                                accel="*Control*a"/>
 
 			</placeholder>
 
@@ -38,14 +41,16 @@
 		<submenu name="Edit">
 
 			<menuitem name="Appointment" _label="_New appointment..."
-			verb="EditNewAppointment" _tip="Create a new appointment"/>
+			verb="EditNewAppointment" _tip="Create a new appointment"
+                        accel="*Shift**Control*a"/>
 
 		</submenu>
 
 		<submenu name="Settings">
 
 			<menuitem name="Preferences" _label="Calendar Preferences..."
-			verb="CalendarPreferences" _tip="Alter preferences"/>
+			verb="CalendarPreferences" _tip="Alter preferences"
+                        accel="*Control*r"/>
 
 		</submenu>
 	</menu>
@@ -102,3 +107,20 @@
 	</dockitem>
 
 </Root>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

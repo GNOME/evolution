@@ -1,3 +1,7 @@
+2000-11-09  Anna Marie Dirks <anna@helixcode.com>
+	* evolution-calendar.xml: Added (and cleaned up) keyboard shortcuts.
+	* evolution-addressbook.xml: Added keyboard shortcuts.  
+
 2000-11-08  Anna Marie Dirks <anna@helixcode.com>
 	* evolution.xml: Added keyboard shortcuts to all shell menus.
 	* evolution-mail.xml: Added keyboard shortcuts to all shell menus.
