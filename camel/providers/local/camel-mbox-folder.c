@@ -397,6 +397,8 @@ retry:
 		return NULL;
 	}
 
+	camel_medium_remove_header((CamelMedium *)message, "X-Evolution");
+
 	/* and unlock now we're finished with it */
 	camel_local_folder_unlock(lf);
 

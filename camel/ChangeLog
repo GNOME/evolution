@@ -1,5 +1,10 @@
 2001-10-30    <NotZed@Ximian.com>
 
+	* providers/local/camel-mbox-folder.c (mbox_get_message): Remove
+	the X-Evolution header before anyone else gets to see this private
+	thing.  Shoudl fix 11676 since we were inheriting flags from
+	X-Evolution headers we didn't want to.
+
 	* camel-folder-search.c (match_message): If we can't retrieve the
 	message, ignore it, it can't match.
 
