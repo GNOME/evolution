@@ -1,3 +1,10 @@
+2001-04-23  Kjartan Maraas  <kmaraas@gnome.org>
+
+	* gui/event-editor.c: Pull up a fix for i18n from HEAD. 
+	Don't use e_utf8-variants of functions on non-UTF8 strings.
+	* gui/dialogs/delete-comp.c: Pull up another fix for i18n from
+	HEAD here.
+	
 2001-04-18  Gediminas Paulauskas <menesis@delfi.lt>
 
 	* gui/calendar-commands.c: use new pixmap cache. Added some menu icons
