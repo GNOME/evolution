@@ -1,3 +1,10 @@
+2001-08-04  Ettore Perazzoli  <ettore@ximian.com>
+
+	* e-title-bar.c: Make the close icon as large as the pin icon so
+	the bar doesn't change size when it switches between them.
+	(e_title_bar_construct): Add some horizontal padding to the label
+	to make it look nicer.
+
 2001-08-03  Federico Mena Quintero  <federico@ximian.com>
 
 	* e-calendar-item.c (e_calendar_item_mark_day): Request an update.

@@ -50,21 +50,25 @@ static guint signals[LAST_SIGNAL] = { 0 };
 /* The pixmaps.  */
 
 static char *close_xpm[] = {
-	"12 12 2 1",
+	"16 16 2 1",
 	" 	c none",
 	".	c #000000000000",
-	"            ",
-	" ..      .. ",
-	" ...    ... ",
-	"  ...  ...  ",
-	"   ......   ",
-	"    ....    ",
-	"    ....    ",
-	"   ......   ",
-	"  ...  ...  ",
-	" ...    ... ",
-	" ..      .. ",
-	"            "
+        "                ",
+        "                ",
+        "                ",
+        "   ..      ..   ",
+        "   ...    ...   ",
+        "    ...  ...    ",
+        "     ......     ",
+        "      ....      ",
+        "      ....      ",
+        "     ......     ",
+        "    ...  ...    ",
+        "   ...    ...   ",
+        "   ..      ..   ",
+        "                ",
+        "                ",
+        "                "
 };
 
 static char *pin_xpm[] = {
@@ -306,6 +310,7 @@ e_title_bar_construct (ETitleBar *title_bar,
 
 	priv->label = e_clipped_label_new (title);
 	gtk_misc_set_alignment (GTK_MISC (priv->label), 0.0, 0.5);
+	gtk_misc_set_padding (GTK_MISC (priv->label), 2, 0);
 	gtk_widget_show (priv->label);
 
 	priv->button = gtk_button_new ();
