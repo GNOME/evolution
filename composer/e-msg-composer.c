@@ -2426,13 +2426,10 @@ static void
 message_rfc822_dnd (EMsgComposer *composer, CamelStream *stream)
 {
 	CamelMimeParser *mp;
-	CamelException *ex;
 	
 	mp = camel_mime_parser_new ();
 	camel_mime_parser_scan_from (mp, TRUE);
 	camel_mime_parser_init_with_stream (mp, stream);
-	
-	ex = camel_exception_new ();
 	
 	while (camel_mime_parser_step (mp, 0, 0) == HSCAN_FROM) {
 		CamelMimeMessage *message;
@@ -2453,14 +2450,12 @@ message_rfc822_dnd (EMsgComposer *composer, CamelStream *stream)
 								part);
 		camel_object_unref (message);
 		camel_object_unref (part);
-		camel_exception_clear (ex);
 		
 		/* skip over the FROM_END state */
 		camel_mime_parser_step (mp, 0, 0);
 	}
 	
 	camel_object_unref (mp);
-	camel_exception_free (ex);
 }
 
 static void

@@ -1,3 +1,8 @@
+2002-12-03  Jeffrey Stedfast  <fejj@ximian.com>
+
+	* e-msg-composer.c (message_rfc822_dnd): Get rid of the unused
+	exception variable.
+
 2002-11-27  Not Zed  <NotZed@Ximian.com>
 
 	* e-msg-composer.c (save): removed warning about e_notice.  its
