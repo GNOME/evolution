@@ -54,6 +54,7 @@
  */
 
 #include <config.h>
+#include <string.h> /* strcmp() */
 #include <gdk/gdkkeysyms.h>
 #include "gal/util/e-util.h"
 #include "e-table-item.h"

@@ -25,6 +25,7 @@
 #include <config.h>
 #endif
 
+#include <string.h> /* strlen() */
 #include <glib.h>
 #include "e-table-defines.h"
 #include "e-table-header-utils.h"
