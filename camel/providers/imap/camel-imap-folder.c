@@ -439,7 +439,7 @@ imap_expunge (CamelFolder *folder, CamelException *ex)
 	
 	g_free (result);
 	
-	camel_imap_folder_changed (folder, recent, ex);
+	camel_imap_folder_changed (folder, recent, NULL, ex);
 }
 
 static gint
@@ -620,7 +620,7 @@ imap_append_message (CamelFolder *folder, CamelMimeMessage *message, const Camel
 	g_free (cmdid);
 	g_free (result);
 	
-	camel_imap_folder_changed (folder, 1, ex);
+	camel_imap_folder_changed (folder, 1, NULL, ex);
 }
 
 static void
@@ -656,7 +656,7 @@ imap_copy_message_to (CamelFolder *source, const char *uid, CamelFolder *destina
 	g_free (result);
 	g_free (folder_path);
 	
-	camel_imap_folder_changed (destination, 1, ex);
+	camel_imap_folder_changed (destination, 1, NULL, ex);
 }
 
 /* FIXME: Duplication of code! */
@@ -705,7 +705,7 @@ imap_move_message_to (CamelFolder *source, const char *uid, CamelFolder *destina
 	
 	imap_set_message_flags (source, uid, CAMEL_MESSAGE_DELETED, ~(info->flags));
 	
-	camel_imap_folder_changed (destination, 1, ex);
+	camel_imap_folder_changed (destination, 1, NULL, ex);
 }
 
 static GPtrArray *
@@ -1544,11 +1544,42 @@ imap_set_message_user_flag (CamelFolder *folder, const char *uid, const char *na
 }
 
 void
-camel_imap_folder_changed (CamelFolder *folder, gint recent, CamelException *ex)
+camel_imap_folder_changed (CamelFolder *folder, gint recent, GPtrArray *expunged, CamelException *ex)
 {
-	d(fprintf (stderr, "camel_imap_folder_changed: recent = %d\n", recent));
+	CamelImapFolder *imap_folder = CAMEL_IMAP_FOLDER (folder);
 	
-	g_return_if_fail (recent);
+	if (expunged) {
+		gint i, id;
+		
+		for (i = 0; i < expunged->len; i++) {
+			id = atoi (expunged->pdata[i]);
+			d(fprintf (stderr, "Expunging message %d from the summary (i = %d)\n", id + i, i));
+			
+			if (id <= imap_folder->summary->len) {
+				CamelMessageInfo *info;
+				
+				info = (CamelMessageInfo *) imap_folder->summary->pdata[id - 1];
+				
+				/* remove from the lookup table and summary */
+				g_hash_table_remove (imap_folder->summary_hash, info->uid);
+				g_ptr_array_remove_index (imap_folder->summary, id - 1);
+				
+				/* free the info data */
+				g_free (info->subject);
+				g_free (info->from);
+				g_free (info->to);
+				g_free (info->cc);
+				g_free (info->uid);
+				g_free (info->message_id);
+				header_references_list_clear (&info->references);
+				g_free (info);
+				info = NULL;
+			} else {
+				/* Hopefully this should never happen */
+				d(fprintf (stderr, "imap expunge-error: message %d is out of range\n", id));
+			}
+		}
+	}
 	
 	if (recent > 0) {
 		CamelImapFolder *imap_folder = CAMEL_IMAP_FOLDER (folder);

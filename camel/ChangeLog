@@ -1,3 +1,19 @@
+2000-08-29  Jeffrey Stedfast  <fejj@helixcode.com>
+
+	* providers/imap/camel-imap-store.c (camel_imap_command_extended):
+	Updated to check for EXPUNGE notifications
+
+	* providers/imap/camel-imap-folder.c (camel_imap_folder_changed):
+	Updated to account for messages which have been expunged (now
+	takes a new arg, a GPtrArray of message id's that have been
+	expunged)
+	(imap_expunge): Updated (we may want to just use the code in
+	folder_changed now instead of doing our own summary
+	expunging...but that can be fixed later)
+	(imap_append_message): Updated.
+	(imap_copy_message_to): Updated.
+	(imap_move_message_to): Updated.
+
 2000-08-28  Jeffrey Stedfast  <fejj@helixcode.com>
 
 	* providers/imap/camel-imap-folder.c (imap_get_message): Fixed the

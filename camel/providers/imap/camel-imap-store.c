@@ -824,7 +824,7 @@ camel_imap_command_extended (CamelImapStore *store, CamelFolder *folder, char **
 	CamelURL *url = service->url;
 	gint len = 0, recent = 0, status = CAMEL_IMAP_OK;
 	gchar *cmdid, *cmdbuf, *respbuf;
-	GPtrArray *data;
+	GPtrArray *data, *expunged = NULL;
 	va_list app;
 	int i;
 	
@@ -893,6 +893,7 @@ camel_imap_command_extended (CamelImapStore *store, CamelFolder *folder, char **
 	g_free (cmdbuf);
 	
 	data = g_ptr_array_new ();
+	expunged = g_ptr_array_new ();
 	
 	while (1) {
 		CamelStreamBuffer *stream = CAMEL_STREAM_BUFFER (store->istream);
@@ -925,14 +926,27 @@ camel_imap_command_extended (CamelImapStore *store, CamelFolder *folder, char **
 		if (recent && *respbuf != '*')
 			recent = 0;
 		
-		if (*respbuf == '*' && (ptr = strstr (respbuf, "RECENT"))) {
-			char *rcnt;
-			
-			d(fprintf (stderr, "*** We may have found a 'RECENT' flag: %s\n", respbuf));
-			/* Make sure it's in the form: "* %d RECENT" */
-			rcnt = imap_next_word (respbuf);
-			if (*rcnt >= '0' && *rcnt <= '9' && !strncmp ("RECENT", imap_next_word (rcnt), 6))
-				recent = atoi (rcnt);
+		if (*respbuf == '*') {
+			if ((ptr = strstr (respbuf, "RECENT"))) {
+				char *rcnt;
+				
+				d(fprintf (stderr, "*** We may have found a 'RECENT' flag: %s\n", respbuf));
+				/* Make sure it's in the form: "* %d RECENT" */
+				rcnt = imap_next_word (respbuf);
+				if (*rcnt >= '0' && *rcnt <= '9' && !strncmp ("RECENT", imap_next_word (rcnt), 6))
+					recent = atoi (rcnt);
+			} else if ((ptr = strstr (respbuf, "EXPUNGE"))) {
+				char *id_str;
+				int id;
+				
+				d(fprintf (stderr, "*** We may have found an 'EXPUNGE' flag: %s\n", respbuf));
+				/* Make sure it's in the form: "* %d EXPUNGE" */
+				id_str = imap_next_word (respbuf);
+				if (*id_str >= '0' && *id_str <= '9' && !strncmp ("EXPUNGE", imap_next_word (id_str), 7)) {
+					id = atoi (id_str);
+					g_ptr_array_add (expunged, g_strdup_printf ("%d", id));
+				}
+			}
 		}
 	}
 	
@@ -965,7 +979,7 @@ camel_imap_command_extended (CamelImapStore *store, CamelFolder *folder, char **
 	} else {
 		if (status != CAMEL_IMAP_FAIL && respbuf) {
 			char *word;
-
+			
 			word = imap_next_word (respbuf); /* word should now point to NO or BAD */
 			
 			*ret = g_strdup (imap_next_word (word));
@@ -982,7 +996,12 @@ camel_imap_command_extended (CamelImapStore *store, CamelFolder *folder, char **
 		CamelException *ex;
 		
 		ex = camel_exception_new ();
-		camel_imap_folder_changed (folder, recent, ex);
+		camel_imap_folder_changed (folder, recent, expunged, ex);
+		
+		for (i = 0; i < expunged->len; i++)
+			g_free (expunged->pdata[i]);
+		g_ptr_array_free (expunged, TRUE);
+		
 		camel_exception_free (ex);
 	}
 	

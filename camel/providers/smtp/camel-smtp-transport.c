@@ -207,11 +207,11 @@ smtp_connect (CamelService *service, CamelException *ex)
 		/* not really supported yet, but we can at least show what auth types are supported */
 		d(fprintf (stderr, "camel-smtp-transport::connect(): %s requires AUTH\n", service->url->host));
 		num = g_list_length (transport->esmtp_supported_authtypes);
-
+		
 		for (i = 0; i < num; i++)
 			d(fprintf (stderr, "\nSupported AUTH: %s\n\n", 
 				(gchar *) g_list_nth_data (transport->esmtp_supported_authtypes, i)));
-
+		
 		g_list_free (transport->esmtp_supported_authtypes);
 		transport->esmtp_supported_authtypes = NULL;
 	} else {
