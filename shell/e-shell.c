@@ -346,6 +346,11 @@ impl_dispose (GObject *object)
 	}
 #endif
 
+	if (priv->component_registry != NULL) {
+		g_object_unref (priv->component_registry);
+		priv->component_registry = NULL;
+	}
+
 	if (priv->offline_handler != NULL) {
 		g_object_unref (priv->offline_handler);
 		priv->offline_handler = NULL;

@@ -17,7 +17,8 @@
 	types from folder types)
 
 	* e-shell.c: Remove all creatable_items_handler references
-
+	(impl_dispose): unref the component registry (unrelated bug)
+	
 	* e-shell-window.c (e_shell_window_new): Remove
 	creatable_items_handler reference
 
