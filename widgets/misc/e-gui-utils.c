@@ -50,9 +50,8 @@ e_notice (GtkWindow *parent, GtkMessageType type, const char *format, ...)
 	va_end (args);
 	g_free (str);
 	
-	g_signal_connect_swapped (dialog, "response", G_CALLBACK (gtk_widget_destroy), dialog);
-
 	gtk_dialog_run (GTK_DIALOG (dialog));
+	gtk_widget_destroy (dialog);
 }
 
 static void
