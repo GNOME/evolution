@@ -1,3 +1,13 @@
+2002-08-12  Jeffrey Stedfast  <fejj@ximian.com>
+
+	* e-msg-composer-attachment.c (e_msg_composer_attachment_new):
+	Don't call new_from_mime_part() since that function now does some
+	copying of the mime part rather than simply reffing it.
+	(e_msg_composer_attachment_new_from_mime_part): Make a copy of the
+	MIME part so that if the message that this part belongs to gets
+	deleted from the the remote store, the composer will still have a
+	copy of it. Fixes bug #20308.
+
 2002-07-31  Jeffrey Stedfast  <fejj@ximian.com>
 
 	* e-msg-composer.c (e_msg_composer_new_with_message): Parse the

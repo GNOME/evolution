@@ -216,9 +216,9 @@ e_msg_composer_attachment_new (const char *file_name,
 	g_free (content_id);
 #endif
 	
-	new = e_msg_composer_attachment_new_from_mime_part (part);
-	camel_object_unref (CAMEL_OBJECT (part));
-	
+	new = gtk_type_new (e_msg_composer_attachment_get_type ());
+	new->editor_gui = NULL;
+	new->body = part;
 	new->size = statbuf.st_size;
 	new->guessed_type = TRUE;
 	
@@ -236,17 +236,34 @@ EMsgComposerAttachment *
 e_msg_composer_attachment_new_from_mime_part (CamelMimePart *part)
 {
 	EMsgComposerAttachment *new;
-
+	CamelMimePart *mime_part;
+	CamelStream *stream;
+	
 	g_return_val_if_fail (CAMEL_IS_MIME_PART (part), NULL);
-
+	
+	stream = camel_stream_mem_new ();
+	if (camel_data_wrapper_write_to_stream (CAMEL_DATA_WRAPPER (part), stream) == -1) {
+		camel_object_unref (stream);
+		return NULL;
+	}
+	
+	camel_stream_reset (stream);
+	mime_part = camel_mime_part_new ();
+	
+	if (camel_data_wrapper_construct_from_stream (CAMEL_DATA_WRAPPER (mime_part), stream) == -1) {
+		camel_object_unref (mime_part);
+		camel_object_unref (stream);
+		return NULL;
+	}
+	
+	camel_object_unref (stream);
+	
 	new = gtk_type_new (e_msg_composer_attachment_get_type ());
-
 	new->editor_gui = NULL;
-	new->body = part;
-	camel_object_ref (CAMEL_OBJECT (part));
+	new->body = mime_part;
 	new->guessed_type = FALSE;
 	new->size = 0;
-
+	
 	return new;
 }
 
