@@ -41,7 +41,10 @@
 #include <cert.h>
 #include <certdb.h>
 #include <pk11func.h>
-#include <sechash.h>
+
+/* this is commented because otherwise we get an error about the
+   redefinition of MD5Context...yay */
+/*#include <e-util/md5-utils.h>*/
 
 #include "camel-tcp-stream-ssl.h"
 #include "camel-session.h"
@@ -403,10 +406,10 @@ static SECStatus
 ssl_bad_cert (void *data, PRFileDesc *sockfd)
 {
 	unsigned char md5sum[16], fingerprint[40], *f;
-	CERTCertificate *cert, *issuer;
 	gboolean accept, valid_cert;
 	char *prompt, *cert_str;
 	CamelTcpStreamSSL *ssl;
+	CERTCertificate *cert;
 	CamelService *service;
 	int i;
 	
@@ -423,13 +426,14 @@ ssl_bad_cert (void *data, PRFileDesc *sockfd)
 	cert = SSL_PeerCertificate (sockfd);
 	
 	/* calculate the MD5 hash of the raw certificate */
-	/*md5_get_digest (cert->derCert.data, cert->derCert.len, md5sum);*/
-	HASH_HashBuf (HASH_AlgMD5, md5sum, cert->derCert.data, cert->derCert.len);
+	md5_get_digest (cert->derCert.data, cert->derCert.len, md5sum);
+	/*HASH_HashBuf (HASH_AlgMD5, md5sum, cert->derCert.data, cert->derCert.len);*/
 	for (i = 0, f = fingerprint; i < 16; i++, f += 3)
 		sprintf (f, "%.2x%c", md5sum[i], i != 15 ? ':' : '\0');
 	
-	issuer = CERT_FindCertByName (CERT_GetDefaultCertDB (), &cert->derIssuer);
-	valid_cert = issuer && CERT_VerifySignedData (&cert->signatureWrap, issuer, PR_Now (), NULL);
+	valid_cert = CERT_VerifyCertNow (CERT_GetDefaultCertDB (), cert, TRUE, certUsageSSLClient, NULL);
+	/*issuer = CERT_FindCertByName (CERT_GetDefaultCertDB (), &cert->derIssuer);
+	  valid_cert = issuer && CERT_VerifySignedData (&cert->signatureWrap, issuer, PR_Now (), NULL);*/
 	
 	cert_str = g_strdup_printf (_("Issuer:            %s\n"
 				      "Subject:           %s\n"
