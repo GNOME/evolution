@@ -90,6 +90,7 @@ struct _CamelTransportPrivate {
 struct _CamelServicePrivate {
 #ifdef ENABLE_THREADS
 	EMutex *connect_lock;	/* for locking connection operations */
+	EMutex *connect_op_lock;/* for locking the connection_op */
 #endif
 };
 

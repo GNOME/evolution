@@ -39,6 +39,7 @@ static void disco_construct (CamelService *service, CamelSession *session,
 			     CamelProvider *provider, CamelURL *url,
 			     CamelException *ex);
 static gboolean disco_connect (CamelService *service, CamelException *ex);
+static void disco_cancel_connect (CamelService *service);
 static gboolean disco_disconnect (CamelService *service, gboolean clean, CamelException *ex);
 static CamelFolder *disco_get_folder (CamelStore *store, const char *name,
 				      guint32 flags, CamelException *ex);
@@ -68,6 +69,7 @@ camel_disco_store_class_init (CamelDiscoStoreClass *camel_disco_store_class)
 	camel_service_class->construct = disco_construct;
 	camel_service_class->connect = disco_connect;
 	camel_service_class->disconnect = disco_disconnect;
+	camel_service_class->cancel_connect = disco_cancel_connect;
 
 	camel_store_class->get_folder = disco_get_folder;
 	camel_store_class->get_folder_info = disco_get_folder_info;
@@ -111,11 +113,19 @@ static gboolean
 disco_connect (CamelService *service, CamelException *ex)
 {
 	CamelDiscoStore *store = CAMEL_DISCO_STORE (service);
+	CamelDiscoStoreStatus status;
 
-	if (!CAMEL_SERVICE_CLASS (remote_store_class)->connect (service, ex))
-		return FALSE;
+	status = camel_disco_store_status (store);
+	if (status != CAMEL_DISCO_STORE_OFFLINE) {
+		if (!CAMEL_SERVICE_CLASS (remote_store_class)->connect (service, ex)) {
+			status = camel_disco_store_status (store);
+			if (status != CAMEL_DISCO_STORE_OFFLINE)
+				return FALSE;
+			camel_exception_clear (ex);
+		}
+	}
 
-	switch (camel_disco_store_status (store)) {
+	switch (status) {
 	case CAMEL_DISCO_STORE_ONLINE:
 	case CAMEL_DISCO_STORE_RESYNCING:
 		if (!CDS_CLASS (service)->connect_online (service, ex))
@@ -140,6 +150,17 @@ disco_connect (CamelService *service, CamelException *ex)
 
 	g_assert_not_reached ();
 	return FALSE;
+}
+
+static void
+disco_cancel_connect (CamelService *service)
+{
+	CamelDiscoStore *store = CAMEL_DISCO_STORE (service);
+
+	/* Fall back */
+	store->status = CAMEL_DISCO_STORE_OFFLINE;
+
+	CAMEL_SERVICE_CLASS (remote_store_class)->cancel_connect (service);
 }
 
 static gboolean
@@ -190,7 +211,17 @@ disco_get_folder_info (CamelStore *store, const char *top,
 		       guint32 flags, CamelException *ex)
 {
 	CamelDiscoStore *disco_store = CAMEL_DISCO_STORE (store);
-	
+
+	/* Do this first so if we get forced offline, we'll switch to
+	 * the correct branch below. (FIXME: This only works because
+	 * we know that get_folder_info is the first call that the
+	 * mailer makes on a store.)
+	 */
+	if (CAMEL_SERVICE (store)->status == CAMEL_SERVICE_DISCONNECTED) {
+		if (!camel_service_connect (CAMEL_SERVICE (store), ex))
+			return NULL;
+	}
+
 	switch (camel_disco_store_status (disco_store)) {
 	case CAMEL_DISCO_STORE_ONLINE:
 		return CDS_CLASS (store)->get_folder_info_online (store, top, flags, ex);

@@ -129,7 +129,7 @@ camel_remote_store_finalise (CamelObject *object)
 	CamelRemoteStore *remote_store = CAMEL_REMOTE_STORE (object);
 	CamelService *service = CAMEL_SERVICE (object);
 	
-	if (service->connected) {
+	if (service->status == CAMEL_SERVICE_CONNECTED) {
 		CamelException ex;
 		
 		camel_exception_init (&ex);
@@ -276,9 +276,6 @@ remote_connect (CamelService *service, CamelException *ex)
 	
 	store->ostream = tcp_stream;
 	store->istream = camel_stream_buffer_new (tcp_stream, CAMEL_STREAM_BUFFER_READ);
-	
-	/* Okay, good enough for us */
-	CAMEL_SERVICE (store)->connected = TRUE;
 	
 	/* Add a timeout so that we can hopefully prevent getting disconnected */
 	/* (Only if the implementation supports it) */

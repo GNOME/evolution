@@ -59,7 +59,7 @@ static void construct (CamelService *service, CamelSession *session,
 static gboolean service_connect(CamelService *service, CamelException *ex);
 static gboolean service_disconnect(CamelService *service, gboolean clean,
 				   CamelException *ex);
-/*static gboolean is_connected (CamelService *service);*/
+static void cancel_connect (CamelService *service);
 static GList *  query_auth_types (CamelService *service, CamelException *ex);
 static char *   get_name (CamelService *service, gboolean brief);
 static char *   get_path (CamelService *service);
@@ -74,6 +74,7 @@ camel_service_class_init (CamelServiceClass *camel_service_class)
 	camel_service_class->construct = construct;
 	camel_service_class->connect = service_connect;
 	camel_service_class->disconnect = service_disconnect;
+	camel_service_class->cancel_connect = cancel_connect;
 	camel_service_class->query_auth_types = query_auth_types;
 	camel_service_class->get_name = get_name;
 	camel_service_class->get_path = get_path;
@@ -87,6 +88,7 @@ camel_service_init (void *o, void *k)
 	service->priv = g_malloc0(sizeof(*service->priv));
 #ifdef ENABLE_THREADS
 	service->priv->connect_lock = e_mutex_new(E_MUTEX_REC);
+	service->priv->connect_op_lock = e_mutex_new(E_MUTEX_SIMPLE);
 #endif
 }
 
@@ -95,7 +97,7 @@ camel_service_finalize (CamelObject *object)
 {
 	CamelService *service = CAMEL_SERVICE (object);
 	
-	if (service->connected) {
+	if (service->status == CAMEL_SERVICE_CONNECTED) {
 		CamelException ex;
 		
 		camel_exception_init (&ex);
@@ -114,6 +116,7 @@ camel_service_finalize (CamelObject *object)
 	
 #ifdef ENABLE_THREADS
 	e_mutex_destroy (service->priv->connect_lock);
+	e_mutex_destroy (service->priv->connect_op_lock);
 #endif
 	g_free (service->priv);
 }
@@ -178,7 +181,7 @@ construct (CamelService *service, CamelSession *session,
 	service->session = session;
 	camel_object_ref (CAMEL_OBJECT (session));
 	
-	service->connected = FALSE;
+	service->status = CAMEL_SERVICE_DISCONNECTED;
 }
 
 /**
@@ -234,17 +237,30 @@ camel_service_connect (CamelService *service, CamelException *ex)
 	
 	CAMEL_SERVICE_LOCK (service, connect_lock);
 	
-	if (service->connected) {
-		/* But we're still connected, so no exception
-		 * and return true.
-		 */
-		g_warning ("camel_service_connect: trying to connect to an already connected service");
-		ret = TRUE;
-	} else if (CSERV_CLASS (service)->connect (service, ex)) {
-		service->connected = TRUE;
-		ret = TRUE;
+	if (service->status == CAMEL_SERVICE_CONNECTED) {
+		CAMEL_SERVICE_UNLOCK (service, connect_lock);
+		return TRUE;
 	}
-	
+
+	/* Register a separate operation for connecting, so that
+	 * the offline code can cancel it.
+	 */
+	CAMEL_SERVICE_LOCK (service, connect_op_lock);
+	service->connect_op = camel_operation_registered ();
+	if (!service->connect_op)
+		service->connect_op = camel_operation_new (NULL, NULL);
+	camel_operation_register (service->connect_op);
+	CAMEL_SERVICE_UNLOCK (service, connect_op_lock);
+
+	service->status = CAMEL_SERVICE_CONNECTING;
+	ret = CSERV_CLASS (service)->connect (service, ex);
+	service->status = ret ? CAMEL_SERVICE_CONNECTED : CAMEL_SERVICE_DISCONNECTED;
+
+	CAMEL_SERVICE_LOCK (service, connect_op_lock);
+	camel_operation_unref (service->connect_op);
+	service->connect_op = NULL;
+	CAMEL_SERVICE_UNLOCK (service, connect_op_lock);
+
 	CAMEL_SERVICE_UNLOCK (service, connect_lock);
 	
 	return ret;
@@ -282,14 +298,50 @@ camel_service_disconnect (CamelService *service, gboolean clean,
 	
 	CAMEL_SERVICE_LOCK (service, connect_lock);
 	
-	if (service->connected) {
+	if (service->status == CAMEL_SERVICE_CONNECTED) {
+		CAMEL_SERVICE_LOCK (service, connect_op_lock);
+		service->connect_op = camel_operation_registered ();
+		if (!service->connect_op)
+			service->connect_op = camel_operation_new (NULL, NULL);
+		camel_operation_register (service->connect_op);
+		CAMEL_SERVICE_UNLOCK (service, connect_op_lock);
+
+		service->status = CAMEL_SERVICE_DISCONNECTING;
 		res = CSERV_CLASS (service)->disconnect (service, clean, ex);
-		service->connected = FALSE;
+		service->status = CAMEL_SERVICE_DISCONNECTED;
+
+		CAMEL_SERVICE_LOCK (service, connect_op_lock);
+		camel_operation_unref (service->connect_op);
+		service->connect_op = NULL;
+		CAMEL_SERVICE_UNLOCK (service, connect_op_lock);
 	}
 	
 	CAMEL_SERVICE_UNLOCK (service, connect_lock);
 	
 	return res;
+}
+
+static void
+cancel_connect (CamelService *service)
+{
+	camel_operation_cancel (service->connect_op);
+}
+
+/**
+ * camel_service_cancel_connect:
+ * @service: a service
+ *
+ * If @service is currently attempting to connect to or disconnect
+ * from a server, this causes it to stop and fail. Otherwise it is a
+ * no-op.
+ **/
+void
+camel_service_cancel_connect (CamelService *service)
+{
+	CAMEL_SERVICE_LOCK (service, connect_op_lock);
+	if (service->connect_op)
+		CSERV_CLASS (service)->cancel_connect (service);
+	CAMEL_SERVICE_UNLOCK (service, connect_op_lock);
 }
 
 /**

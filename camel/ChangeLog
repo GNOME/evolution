@@ -1,3 +1,39 @@
+2001-09-27  Dan Winship  <danw@ximian.com>
+
+	* camel-service.c: Change "gboolean connected" to
+	"CamelServiceConnectionStatus status", which can be disconnected,
+	connecting, connected, or disconnecting.
+	(camel_service_init, camel_service_finalize): create/destroy the
+	connect_op_lock. Refer to service->status rather than
+	service->connected.
+	(camel_service_connect): When connecting, note the current
+	operation (and create a new one if there's none registered) and
+	mark the connection "connecting" until we succeed or fail.
+	(camel_service_disconnect): Likewise in reverse.
+	(camel_service_cancel_connect): New function to cancel a
+	connection attempt.
+	(cancel_connect): Default implementation: Call
+	camel_operation_cancel on the connect_op.
+
+	* camel-disco-store.c (disco_connect): Only call
+	CamelRemoteStore's connect func if we're online.
+	(disco_cancel_connect): Fall back to offline if a connection gets
+	cancelled.
+	(disco_get_folder_info): Kludge: call connect explicitly before
+	deciding whether to do the online or offline version, so if the
+	connect fails, we fall back correctly.
+
+	* camel-session.c (camel_session_get_service_connected):
+	s/svc->connected/svc->status/
+
+	* camel-remote-store.c (camel_remote_store_finalise):
+	Change service->connected check to service->status check.
+	(remote_connect): Don't set service->connected here:
+	camel_service_connect() itself does that.
+
+	* camel-operation.c (camel_operation_registered): Deal with the
+	possibility that there's no registered op.
+
 2001-09-26    <NotZed@Ximian.com>
 
 	* camel-filter-driver.c (camel_filter_driver_filter_message): If

@@ -38,6 +38,7 @@ extern "C" {
 #include <camel/camel-object.h>
 #include <camel/camel-url.h>
 #include <camel/camel-provider.h>
+#include <camel/camel-operation.h>
 
 #define CAMEL_SERVICE_TYPE     (camel_service_get_type ())
 #define CAMEL_SERVICE(obj)     (CAMEL_CHECK_CAST((obj), CAMEL_SERVICE_TYPE, CamelService))
@@ -45,13 +46,21 @@ extern "C" {
 #define CAMEL_IS_SERVICE(o)    (CAMEL_CHECK_TYPE((o), CAMEL_SERVICE_TYPE))
 
 
+typedef enum {
+	CAMEL_SERVICE_DISCONNECTED,
+	CAMEL_SERVICE_CONNECTING,
+	CAMEL_SERVICE_CONNECTED,
+	CAMEL_SERVICE_DISCONNECTING
+} CamelServiceConnectionStatus;
+
 struct _CamelService {
 	CamelObject parent_object;
 	struct _CamelServicePrivate *priv;
 
 	CamelSession *session;
 	CamelProvider *provider;
-	gboolean connected;
+	CamelServiceConnectionStatus status;
+	CamelOperation *connect_op;
 	CamelURL *url;
 };
 
@@ -70,6 +79,7 @@ typedef struct {
 	gboolean  (*disconnect)        (CamelService *service,
 					gboolean clean,
 					CamelException *ex);
+	void      (*cancel_connect)    (CamelService *service);
 
 	GList *   (*query_auth_types)  (CamelService *service,
 					CamelException *ex);
@@ -102,6 +112,7 @@ gboolean            camel_service_connect            (CamelService *service,
 gboolean            camel_service_disconnect         (CamelService *service,
 						      gboolean clean,
 						      CamelException *ex);
+void                camel_service_cancel_connect     (CamelService *service);
 char *              camel_service_get_url            (CamelService *service);
 char *              camel_service_get_name           (CamelService *service,
 						      gboolean brief);
