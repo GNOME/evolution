@@ -3591,6 +3591,8 @@ selection_received (GtkWidget *invisible,
 	icalcomponent_kind kind;
 	CalComponent *comp;
 	char *uid;
+	time_t tt_start, tt_end;
+	struct icaldurationtype ic_dur;
 
 	g_return_if_fail (E_IS_WEEK_VIEW (week_view));
 
@@ -3629,9 +3631,14 @@ selection_received (GtkWidget *invisible,
 			    child_kind == ICAL_VJOURNAL_COMPONENT) {
 				CalComponent *tmp_comp;
 
+				tt_start = icaltime_as_timet (icalcomponent_get_dtstart (subcomp));
+				tt_end = icaltime_as_timet (icalcomponent_get_dtend (subcomp));
+				ic_dur = icaldurationtype_from_int (tt_end - tt_start);
 				itime = icaltime_from_timet_with_zone (dtstart, FALSE, week_view->zone);
 				/* FIXME: Need to set TZID. */
 				icalcomponent_set_dtstart (icalcomp, itime);
+				itime = icaltime_add (itime, ic_dur);
+				icalcomponent_set_dtend (icalcomp, itime);
 
 				uid = cal_component_gen_uid ();
 				tmp_comp = cal_component_new ();
@@ -3658,9 +3665,14 @@ selection_received (GtkWidget *invisible,
 		}
 	}
 	else {
+		tt_start = icaltime_as_timet (icalcomponent_get_dtstart (icalcomp));
+		tt_end = icaltime_as_timet (icalcomponent_get_dtend (icalcomp));
+		ic_dur = icaldurationtype_from_int (tt_end - tt_start);
 		itime = icaltime_from_timet_with_zone (dtstart, FALSE, week_view->zone);
 		/* FIXME: need to set TZID */
 		icalcomponent_set_dtstart (icalcomp, itime);
+		itime = icaltime_add (itime, ic_dur);
+		icalcomponent_set_dtend (icalcomp, itime);
 
 		comp = cal_component_new ();
 		cal_component_set_icalcomponent (comp, icalcomp);

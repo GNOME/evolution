@@ -1,5 +1,12 @@
 2001-07-31  Rodrigo Moya <rodrigo@ximian.com>
 
+        * gui/e-day-view.c (selection_received):
+        * gui/e-week-view.c (selection_received): yes, set the end date, but
+	correctly calculated, not by using the component's duration, which
+	may not exist. Now really fixes #5836
+
+2001-07-31  Rodrigo Moya <rodrigo@ximian.com>
+
 	* gui/e-day-view.c (selection_received):
 	* gui/e-week-view.c (selection_received): don't set the end date
 	for the pasted components, since it will be recalculated when the start
