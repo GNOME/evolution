@@ -203,6 +203,8 @@ int main (void)
 #include "camel-charset-map.h"
 #include "camel-charset-map-private.h"
 
+#include <gal/util/e-iconv.h>
+
 #include <glib.h>
 #include <locale.h>
 #include <ctype.h>

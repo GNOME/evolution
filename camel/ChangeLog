@@ -1,3 +1,7 @@
+2004-08-04  Rodney Dawes  <dobey@novell.com>
+
+	* camel-charset-map.c: #include <gal/util/e-iconv.h>
+
 2004-08-03  Jeffrey Stedfast  <fejj@novell.com>
 
 	* providers/imap4/camel-imap4-store.c (imap4_construct): Pass a
