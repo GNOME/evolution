@@ -1,3 +1,10 @@
+2002-07-30  Jeffrey Stedfast  <fejj@ximian.com>
+
+	* e-host-utils.c (e_gethostbyname_r): If the user has enabled IPv6
+	support, use getaddrinfo to resolve hostnames and then manually
+	fit the result into a struct hostent.
+	(e_gethostbyaddr_r): Same.
+
 2002-07-25  Not Zed  <NotZed@Ximian.com>
 
 	* e-msgport.c (e_dlist_length): Return the actual count, rather

@@ -17,16 +17,26 @@
  * Free Software Foundation, Inc., 59 Temple Place - Suite 330,
  * Boston, MA 02111-1307, USA.
  *
- * Author: Chris Toshok
+ * Author: Chris Toshok, Jeffrey Stedfast
  */
 
+
+#ifdef HAVE_CONFIG_H
 #include <config.h>
+#endif
+
 #include <glib.h>
-#include "e-host-utils.h"
-#include <string.h>
-#include <stdlib.h>
+
 #include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
+#include <sys/types.h>
+#include <sys/socket.h>
+#include <arpa/inet.h>
 #include <errno.h>
+
+#include "e-host-utils.h"
+
 
 #if !defined (HAVE_GETHOSTBYNAME_R) || !defined (HAVE_GETHOSTBYADDR_R)
 G_LOCK_DEFINE_STATIC (gethost_mutex);
@@ -107,6 +117,44 @@ G_LOCK_DEFINE_STATIC (gethost_mutex);
 	}                                                              \
 } G_STMT_END
 
+
+#ifdef ENABLE_IPv6
+/* some helpful utils for IPv6 lookups */
+#define IPv6_BUFLEN_MIN  (sizeof (char *) * 3)
+
+static int
+ai_to_herr (int error)
+{
+	switch (error) {
+	case EAI_NONAME:
+	case EAI_FAIL:
+		return HOST_NOT_FOUND;
+		break;
+	case EAI_SERVICE:
+		return NO_DATA;
+		break;
+	case EAI_ADDRFAMILY:
+		return NO_ADDRESS;
+		break;
+	case EAI_NODATA:
+		return NO_DATA;
+		break;
+	case EAI_MEMORY:
+		return ENOMEM;
+		break;
+	case EAI_AGAIN:
+		return TRY_AGAIN;
+		break;
+	case EAI_SYSTEM:
+		return errno;
+		break;
+	default:
+		return NO_RECOVERY;
+		break;
+	}
+}
+#endif /* ENABLE_IPv6 */
+
 /**
  * e_gethostbyname_r:
  * @name: the host to resolve
@@ -125,6 +173,61 @@ int
 e_gethostbyname_r (const char *name, struct hostent *host,
 		   char *buf, size_t buflen, int *herr)
 {
+#ifdef ENABLE_IPv6
+	struct addrinfo hints, *res;
+	int retval, len;
+	char *addr;
+	
+	memset (&hints, 0, sizeof (struct addrinfo));
+	hints.ai_flags = AI_CANONNAME;
+	hints.ai_family = PF_UNSPEC;
+	hints.ai_socktype = 0;
+	hints.ai_protocol = 0;
+	
+	if ((retval = getaddrinfo (name, NULL, &hints, &res)) != 0) {
+		*herr = ai_to_herr (retval);
+		return -1;
+	}
+	
+	len = strlen (res->ai_canonname);
+	if (buflen < IPv6_BUFLEN_MIN + len + 1 + res->ai_addrlen)
+		return ERANGE;
+	
+	/* h_name */
+	strcpy (buf, res->ai_canonname);
+	host->h_name = buf;
+	buf += len;
+	
+	/* h_aliases */
+	((char **) buf)[0] = NULL;
+	host->h_aliases = (char **) buf;
+	buf += sizeof (char *);
+	
+	/* h_addrtype and h_length */
+	host->h_length = res->ai_addrlen;
+	if (res->ai_family == PF_INET6) {
+		host->h_addrtype = AF_INET6;
+		
+		addr = (char *) &((struct sockaddr_in6 *) res->ai_addr)->sin6_addr;
+	} else {
+		host->h_addrtype = AF_INET;
+		
+		addr = (char *) &((struct sockaddr_in *) res->ai_addr)->sin_addr;
+	}
+	
+	memcpy (buf, addr, host->h_length);
+	addr = buf;
+	buf += host->h_length;
+	
+	/* h_addr_list */
+	((char **) buf)[0] = addr;
+	((char **) buf)[1] = NULL;
+	host->h_addr_list = (char **) buf;
+	
+	freeaddrinfo (res);
+	
+	return 0;
+#else /* No support for IPv6 addresses */
 #ifdef HAVE_GETHOSTBYNAME_R
 #ifdef GETHOSTBYNAME_R_FIVE_ARGS
 	if (gethostbyname_r (name, host, buf, buflen, herr))
@@ -140,7 +243,7 @@ e_gethostbyname_r (const char *name, struct hostent *host,
 		*herr = 0;
 	return retval;
 #endif
-#else
+#else /* No support for gethostbyname_r */
 	struct hostent *h;
 	
 	G_LOCK (gethost_mutex);
@@ -153,12 +256,13 @@ e_gethostbyname_r (const char *name, struct hostent *host,
 		return -1;
 	}
 	
-	GETHOST_PROCESS (h, host,buf, buflen, herr);
+	GETHOST_PROCESS (h, host, buf, buflen, herr);
 	
 	G_UNLOCK (gethost_mutex);
 	
 	return 0;
-#endif
+#endif /* HAVE_GETHOSTBYNAME_R */
+#endif /* ENABLE_IPv6 */
 }
 
 
@@ -182,6 +286,68 @@ int
 e_gethostbyaddr_r (const char *addr, int len, int type, struct hostent *host,
 		   char *buf, size_t buflen, int *herr)
 {
+#ifdef ENABLE_IPv6
+	struct addrinfo hints, *res;
+	const char *name;
+	int retval, len;
+	
+	if ((name = inet_ntop (type, addr, buf, buflen)) == NULL) {
+		if (errno == ENOSPC)
+			return ERANGE;
+		
+		return -1;
+	}
+	
+	memset (&hints, 0, sizeof (struct addrinfo));
+	hints.ai_flags = AI_CANONNAME;
+	hints.ai_family = type == AF_INET6 ? PF_INET6 : PF_INET;
+	hints.ai_socktype = 0;
+	hints.ai_protocol = 0;
+	
+	if ((retval = getaddrinfo (name, NULL, &hints, &res)) != 0) {
+		*herr = ai_to_herr (retval);
+		return -1;
+	}
+	
+	len = strlen (res->ai_canonname);
+	if (buflen < IPv6_BUFLEN_MIN + len + 1 + res->ai_addrlen)
+		return ERANGE;
+	
+	/* h_name */
+	strcpy (buf, res->ai_canonname);
+	host->h_name = buf;
+	buf += len;
+	
+	/* h_aliases */
+	((char **) buf)[0] = NULL;
+	host->h_aliases = (char **) buf;
+	buf += sizeof (char *);
+	
+	/* h_addrtype and h_length */
+	host->h_length = res->ai_addrlen;
+	if (res->ai_family == PF_INET6) {
+		host->h_addrtype = AF_INET6;
+		
+		addr = (char *) &((struct sockaddr_in6 *) res->ai_addr)->sin6_addr;
+	} else {
+		host->h_addrtype = AF_INET;
+		
+		addr = (char *) &((struct sockaddr_in *) res->ai_addr)->sin_addr;
+	}
+	
+	memcpy (buf, addr, host->h_length);
+	addr = buf;
+	buf += host->h_length;
+	
+	/* h_addr_list */
+	((char **) buf)[0] = addr;
+	((char **) buf)[1] = NULL;
+	host->h_addr_list = (char **) buf;
+	
+	freeaddrinfo (res);
+	
+	return 0;
+#else /* No support for IPv6 addresses */
 #ifdef HAVE_GETHOSTBYADDR_R
 #ifdef GETHOSTBYADDR_R_SEVEN_ARGS
 	if (gethostbyaddr_r (addr, len, type, host, buf, buflen, herr))
@@ -197,7 +363,7 @@ e_gethostbyaddr_r (const char *addr, int len, int type, struct hostent *host,
 		*herr = 0;
 	return retval;
 #endif
-#else
+#else /* No support for gethostbyaddr_r */
 	struct hostent *h;
 	
 	G_LOCK (gethost_mutex);
@@ -215,5 +381,6 @@ e_gethostbyaddr_r (const char *addr, int len, int type, struct hostent *host,
 	G_UNLOCK (gethost_mutex);
 	
 	return 0;
-#endif
+#endif /* HAVE_GETHOSTBYADDR_R */
+#endif /* ENABLE_IPv6 */
 }
