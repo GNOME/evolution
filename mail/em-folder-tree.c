@@ -994,6 +994,7 @@ tree_drag_data_received(GtkWidget *widget, GdkDragContext *context, int x, int y
 			   COL_STRING_FULL_NAME, &full_name, -1);
 	
 	/* make sure user isn't try to drop on a placeholder row */
+	/* FIXME: must allow drop of folders onto a store */
 	if (full_name == NULL) {
 		gtk_drag_finish (context, FALSE, FALSE, GDK_CURRENT_TIME);
 		return;
@@ -2632,25 +2633,29 @@ emft_tree_button_press (GtkTreeView *treeview, GdkEventButton *event, EMFolderTr
 	gtk_tree_model_get (model, &iter, COL_POINTER_CAMEL_STORE, &store,
 			    COL_STRING_URI, &uri, COL_STRING_FULL_NAME, &full_name,
 			    COL_BOOL_IS_STORE, &isstore, -1);
-	
-	if (full_name == NULL)
+
+	/* Stores have full_name == NULL, otherwise its just a placeholder */
+	/* NB: This is kind of messy */
+	if (!isstore && full_name == NULL)
 		return FALSE;
 	
-	if (isstore)
+	/* TODO: em_popup_target_folder_new? */
+	if (isstore) {
 		flags |= EM_POPUP_FOLDER_STORE;
-	else
+	} else {
 		flags |= EM_POPUP_FOLDER_FOLDER;
+
+		local = mail_component_peek_local_store (NULL);
 	
-	local = mail_component_peek_local_store (NULL);
+		/* don't allow deletion of special local folders */
+		if (!(store == local && is_special_local_folder (full_name)))
+			flags |= EM_POPUP_FOLDER_DELETE;
 	
-	/* don't allow deletion of special local folders */
-	if (!(store == local && is_special_local_folder (full_name)))
-		flags |= EM_POPUP_FOLDER_DELETE;
-	
-	/* hack for vTrash/vJunk */
-	if (!strcmp (full_name, CAMEL_VTRASH_NAME) || !strcmp (full_name, CAMEL_VJUNK_NAME))
-		info_flags |= CAMEL_FOLDER_VIRTUAL | CAMEL_FOLDER_NOINFERIORS;
-	
+		/* hack for vTrash/vJunk */
+		if (!strcmp (full_name, CAMEL_VTRASH_NAME) || !strcmp (full_name, CAMEL_VJUNK_NAME))
+			info_flags |= CAMEL_FOLDER_VIRTUAL | CAMEL_FOLDER_NOINFERIORS;
+	}
+
 	/* handle right-click by opening a context menu */
 	emp = em_popup_new ("com.ximian.mail.storageset.popup.select");
 	

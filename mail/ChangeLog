@@ -1,5 +1,15 @@
 2004-06-11  Not Zed  <NotZed@Ximian.com>
 
+	* em-folder-tree.c (emft_tree_button_press): rearrange the setting
+	up of the target flags, stores can have a null path.
+
+	* em-folder-selector.c (emfs_create_name_changed): use
+	get_selected_uri rather than path.  a valid uri may have a null
+	path now.
+	(emfs_create_name_activate): and here too.
+	(em_folder_selector_get_selected_path): check the uri is null for
+	a selected path, and then handle a null path.
+
 	* em-folder-tree-model.c (em_folder_tree_model_add_store): revert
 	previous change.  Stupid emftm.
 

@@ -195,7 +195,7 @@ emfs_create_name_changed (GtkEntry *entry, EMFolderSelector *emfs)
 	if (emfs->name_entry->text_length > 0)
 		text = gtk_entry_get_text (emfs->name_entry);
 	
-	path = em_folder_tree_get_selected_path (emfs->emft);
+	path = em_folder_tree_get_selected_uri(emfs->emft);
 
 	active = text && path && !strchr (text, '/');
 	
@@ -279,7 +279,7 @@ emfs_create_name_activate (GtkEntry *entry, EMFolderSelector *emfs)
 		const char *path, *text;
 		
 		text = gtk_entry_get_text (emfs->name_entry);
-		path = em_folder_tree_get_selected_path (emfs->emft);
+		path = em_folder_tree_get_selected_uri(emfs->emft);
 		
 		if (text && path && !strchr (text, '/'))
 			g_signal_emit_by_name (emfs, "response", GTK_RESPONSE_OK);
@@ -403,13 +403,15 @@ em_folder_selector_get_selected_path (EMFolderSelector *emfs)
 		/* already did the work in a previous call */
 		return emfs->selected_path;
 	}
-	
-	if (!(path = em_folder_tree_get_selected_path (emfs->emft))) {
+
+	if (!em_folder_tree_get_selected_uri(emfs->emft)) {
 		d(printf ("no selected folder?\n"));
 		return NULL;
 	}
-	
-	if (path && emfs->name_entry) {
+
+	path = em_folder_tree_get_selected_path(emfs->emft);
+	path = path?path:"";
+	if (emfs->name_entry) {
 		const char *name;
 		char *newpath;
 		
