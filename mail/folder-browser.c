@@ -2320,16 +2320,25 @@ fb_resize_cb (GtkWidget *w, GdkEventButton *e, FolderBrowser *fb)
 	return FALSE;
 }
 
+/* hack to get around the fact setting the paned size doesn't work */
+static void
+paned_realised(GtkWidget *w, FolderBrowser *fb)
+{
+	int size;
+
+	size = gconf_client_get_int (gconf_client_get_default (), "/apps/evolution/mail/display/paned_size", NULL);
+	gtk_paned_set_position (GTK_PANED (fb->vpaned), size);
+}
+
 static void
 folder_browser_gui_init (FolderBrowser *fb)
 {
 	extern RuleContext *search_context;
 	ESelectionModel *esm;
-	GConfClient *gconf;
-	int paned_size;
 	
 	/* The panned container */
 	fb->vpaned = gtk_vpaned_new ();
+	g_signal_connect(fb->vpaned, "realize", G_CALLBACK(paned_realised), fb);
 	gtk_widget_show (fb->vpaned);
 	
 	gtk_table_attach (GTK_TABLE (fb), fb->vpaned,
@@ -2367,17 +2376,14 @@ folder_browser_gui_init (FolderBrowser *fb)
 	g_signal_connect (esm, "selection_changed", G_CALLBACK (on_selection_changed), fb);
 	g_signal_connect (esm, "cursor_activated", G_CALLBACK (on_cursor_activated), fb);
 	fb->selection_state = FB_SELSTATE_NONE; /* default to none */
-	
+
 	gtk_paned_add1 (GTK_PANED (fb->vpaned), GTK_WIDGET (fb->message_list));
 	gtk_widget_show (GTK_WIDGET (fb->message_list));
 	
 	fb->paned_resize_id = g_signal_connect (fb->vpaned, "button_release_event",
 						G_CALLBACK (fb_resize_cb), fb);
 
-	gconf = gconf_client_get_default ();
-	paned_size = gconf_client_get_int (gconf, "/apps/evolution/mail/display/paned_size", NULL);
 	gtk_paned_add2 (GTK_PANED (fb->vpaned), GTK_WIDGET (fb->mail_display));
-	gtk_paned_set_position (GTK_PANED (fb->vpaned), paned_size);
 	gtk_widget_show (GTK_WIDGET (fb->mail_display));
 	gtk_widget_show (GTK_WIDGET (fb));
 }

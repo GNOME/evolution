@@ -1,3 +1,10 @@
+2003-03-27  Not Zed  <NotZed@Ximian.com>
+
+	* folder-browser.c (folder_browser_gui_init): dont set the paned
+	initial size here, but hook onto the realize signal.
+	(paned_realised): set the paned size once we're realised.  Fixes
+	#37084, its a bit of a hack, but it seems to work.
+
 2003-03-26  Jeffrey Stedfast  <fejj@ximian.com>
 
 	Fixes bug #40074.
