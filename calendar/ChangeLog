@@ -1,3 +1,8 @@
+2001-10-03  Christopher James Lahey  <clahey@ximian.com>
+
+	* gui/e-calendar-table.etspec: Added priorities to a bunch of
+	these columns.  Fixes Ximian bug #7158.
+
 2001-10-03  Damon Chaplin  <damon@ximian.com>
 
 	* gui/comp-util.c (cal_comp_util_add_exdate): save the EXDATE as a
