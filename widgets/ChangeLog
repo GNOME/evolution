@@ -1,3 +1,8 @@
+2001-09-19  JP Rosevear  <jpr@ximian.com>
+
+	* Makefile.am: the meeting-time-sel dir is dead, relevant pieces
+	moved to calendar/gui
+
 2001-08-26  Zbigniew Chyla  <cyba@gnome.pl>
 
 	Fixes #2465
