@@ -2157,7 +2157,8 @@ e_text_event (GnomeCanvasItem *item, GdkEvent *event)
 
 			/* Simulate a GdkEventButton here, so that we can call e_text_do_popup directly */
 
-			GdkEventButton *button = gdk_event_new (GDK_BUTTON_PRESS);
+			GdkEventButton *button = g_new0 (GdkEventButton, 1);
+			button->type = GDK_BUTTON_PRESS;
 			button->time = event->key.time;
 			button->button = 0;
 			e_text_do_popup (text, button, 0);
@@ -2628,7 +2629,7 @@ popup_targets_received (GtkClipboard     *clipboard,
       	      gtk_menu_popup (GTK_MENU (popup_menu), NULL, NULL,
 			      popup_menu_placement_cb, (gpointer)text,
 			      button->button, GDK_CURRENT_TIME);
-	      gdk_event_free (button);
+	      g_free (button);
       } else {
 	      gtk_menu_popup (GTK_MENU (popup_menu), NULL, NULL,
 			      NULL, NULL,
