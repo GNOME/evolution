@@ -1998,7 +1998,7 @@ providers_config_new (void)
 	/* Set the data in the transports page */
 	interior_notebook = gtk_object_get_data (GTK_OBJECT (transport_page_vbox), "notebook");
 	page = gtk_notebook_get_current_page (GTK_NOTEBOOK (interior_notebook));
-	if (!strncasecmp(transport, "Sendmail", 8))
+	if (transport != NULL && !strncasecmp(transport, "Sendmail", 8))
 		page = 1;
 	else
 		page = 0;

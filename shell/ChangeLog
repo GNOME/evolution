@@ -1,3 +1,8 @@
+2000-06-29  Peter Williams  <peter@helixcode.com>
+
+	* e-shell.c (e_shell_construct): Ref the various E-things that
+	we create to go with our unrefs in the destructor.
+
 2000-06-29  Ettore Perazzoli  <ettore@helixcode.com>
 
 	* e-shell-view.c (e_shell_view_construct): Don't ref the shell.

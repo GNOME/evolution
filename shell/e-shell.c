@@ -281,6 +281,7 @@ setup_components (EShell *shell)
 	priv = shell->priv;
 
 	priv->component_registry = e_component_registry_new (shell);
+	gtk_object_ref (GTK_OBJECT (priv->component_registry));
 
 	/* FIXME: Hardcoded for now.  */
 
@@ -451,8 +452,9 @@ e_shell_construct (EShell *shell,
 
 	priv->local_directory      = g_strdup (local_directory);
 	priv->folder_type_registry = e_folder_type_registry_new ();
+	gtk_object_ref (GTK_OBJECT (priv->folder_type_registry ));
 	priv->storage_set          = e_storage_set_new (shell->priv->folder_type_registry);
-
+	gtk_object_ref (GTK_OBJECT (priv->storage_set ));
 	gtk_object_ref (GTK_OBJECT (gconf_client));
 	priv->gconf_client         = gconf_client;
 
