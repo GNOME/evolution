@@ -959,7 +959,7 @@ create_transport_page (GtkWidget *vbox, GList *transports, char **urlp)
 
 	optionmenu = gtk_object_get_data (GTK_OBJECT (vbox), "stype_optionmenu");
 
-	if (!strncasecmp(*urlp, "sendmail", 8)) {
+	if (*urlp && !strncasecmp(*urlp, "sendmail", 8)) {
 		menuitem = gtk_object_get_data (GTK_OBJECT (vbox), "Sendmail");
 		gtk_option_menu_set_history (GTK_OPTION_MENU (optionmenu), 1);
 	} else {

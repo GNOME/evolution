@@ -1,5 +1,8 @@
 2000-06-21  Dan Winship  <danw@helixcode.com>
 
+	* mail-config.c (create_transport_page): Make this not crash if
+	you don't have a transport configured.
+	
 	* message-list.c: Update received date to work like sent date.
 
 2000-06-21  Peter Williams  <peterw@helixcode.com>
