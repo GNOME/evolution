@@ -30,7 +30,6 @@
 #include <libgnomevfs/gnome-vfs-ops.h>
 #include <libgnomevfs/gnome-vfs-directory.h>
 #include <libgnomevfs/gnome-vfs-file-info.h>
-#include <libgnomevfs/gnome-vfs-private-utils.h>
 
 #include <bonobo/bonobo-generic-factory.h>
 #include <bonobo/bonobo-context.h>
@@ -124,7 +123,7 @@ create_folder (EvolutionShellComponent *shell_component,
 		return;
 	}
 
-	uri = gnome_vfs_uri_new_private (physical_uri, TRUE, TRUE, TRUE);
+	uri = gnome_vfs_uri_new (physical_uri);
 	if (uri) {
 		/* we don't need to do anything */
 		GNOME_Evolution_ShellComponentListener_notifyResult (
@@ -171,7 +170,7 @@ remove_folder (EvolutionShellComponent *shell_component,
 	}
 
 	/* check URI */
-	dir_uri = gnome_vfs_uri_new_private (physical_uri, TRUE, TRUE, TRUE);
+	dir_uri = gnome_vfs_uri_new (physical_uri);
 	if (!dir_uri) {
 		CORBA_Environment ev;
 
@@ -292,8 +291,8 @@ xfer_folder (EvolutionShellComponent *shell_component,
 	}
 
 	/* check URIs */
-	src_uri = gnome_vfs_uri_new_private (source_physical_uri, TRUE, TRUE, TRUE);
-	dest_uri = gnome_vfs_uri_new_private (destination_physical_uri, TRUE, TRUE, TRUE);
+	src_uri = gnome_vfs_uri_new (source_physical_uri);
+	dest_uri = gnome_vfs_uri_new (destination_physical_uri);
 	if (!src_uri || ! dest_uri) {
 		GNOME_Evolution_ShellComponentListener_notifyResult (
 			listener,
@@ -331,7 +330,7 @@ xfer_folder (EvolutionShellComponent *shell_component,
                         continue;
 
                 /* open source and destination files */
-                src_uri = gnome_vfs_uri_new_private (source_physical_uri, TRUE, TRUE, TRUE);
+                src_uri = gnome_vfs_uri_new (source_physical_uri);
                 src_uri = gnome_vfs_uri_append_file_name (src_uri, file_info->name);
 
                 result = gnome_vfs_open_uri (&hin, src_uri, GNOME_VFS_OPEN_READ);
@@ -345,7 +344,7 @@ xfer_folder (EvolutionShellComponent *shell_component,
 			break;
                 }
 
-                dest_uri = gnome_vfs_uri_new_private (destination_physical_uri, TRUE, TRUE, TRUE);
+                dest_uri = gnome_vfs_uri_new (destination_physical_uri);
                 dest_uri = gnome_vfs_uri_append_file_name (dest_uri, file_info->name);
 
                 result = gnome_vfs_create_uri (&hout, dest_uri, GNOME_VFS_OPEN_WRITE, FALSE, 0);

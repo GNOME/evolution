@@ -1,3 +1,8 @@
+2001-09-20  Rodrigo Moya <rodrigo@ximian.com>
+
+	* gui/component-factory.c: don't use gnome_vfs_uri_new_private
+	(fixes Ximian #10544)
+
 2001-09-20  Federico Mena Quintero  <federico@ximian.com>
 
 	* gui/component-factory.c: #include a few files we were missing
