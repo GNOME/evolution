@@ -683,6 +683,8 @@ e_storage_removed_folder (EStorage *storage,
 			  const char *path)
 {
 	EStoragePrivate *priv;
+	EFolder *folder;
+	const char *p;
 
 	g_return_val_if_fail (storage != NULL, FALSE);
 	g_return_val_if_fail (E_IS_STORAGE (storage), FALSE);
@@ -691,8 +693,23 @@ e_storage_removed_folder (EStorage *storage,
 
 	priv = storage->priv;
 
-	if (e_folder_tree_get_folder (priv->folder_tree, path) == NULL)
+	folder = e_folder_tree_get_folder (priv->folder_tree, path);
+	if (folder == NULL)
 		return FALSE;
+
+	p = strrchr (path, '/');
+	if (p != NULL && p != path) {
+		EFolder *parent_folder;
+		char *parent_path;
+
+		parent_path = g_strndup (path, p - path);
+		parent_folder = e_folder_tree_get_folder (priv->folder_tree, parent_path);
+
+		if (e_folder_get_highlighted (folder))
+			e_folder_set_child_highlight (parent_folder, FALSE);
+
+		g_free (parent_path);
+	}
 
 	gtk_signal_emit (GTK_OBJECT (storage), signals[REMOVED_FOLDER], path);
 

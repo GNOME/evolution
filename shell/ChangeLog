@@ -1,3 +1,9 @@
+2002-09-17  Ettore Perazzoli  <ettore@ximian.com>
+
+	* e-storage.c (e_storage_removed_folder): When a highlighted
+	folder gets removed, update the parent to not have a highlight.
+	[#24062]
+
 2002-09-16  Ettore Perazzoli  <ettore@ximian.com>
 
 	* evolution-nognome.in: New script to run Evolution under a
