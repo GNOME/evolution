@@ -16,7 +16,6 @@ gchar *s = N_("Full Name:");
 gchar *s = N_("Optional");
 gchar *s = N_("Organization:");
 gchar *s = N_("Signature file:");
-gchar *s = N_("Reply-to:");
 gchar *s = N_("Receiving Email");
 gchar *s = N_("Server Type: ");
 gchar *s = N_("Server Configuration");
@@ -63,12 +62,12 @@ gchar *s = N_("Plain Text\n"
               "CRAM-MD5\n"
               "DIGEST-MD5\n"
               "");
-gchar *s = N_("Type:");
-gchar *s = N_("Hostname:");
+gchar *s = N_("This server requires a secure connection (SSL)");
 gchar *s = N_("Username:");
 gchar *s = N_("Password:");
 gchar *s = N_("Authentication:");
-gchar *s = N_("This server requires a secure connection (SSL)");
+gchar *s = N_("Hostname:");
+gchar *s = N_("Type:");
 gchar *s = N_("Outgoing Mail Server");
 gchar *s = N_("None\n"
               "CRAM-MD5\n"
@@ -76,10 +75,10 @@ gchar *s = N_("None\n"
 gchar *s = N_("Sendmail\n"
               "SMTP\n"
               "");
+gchar *s = N_("This server requires a secure connection (SSL)");
 gchar *s = N_("Type:");
 gchar *s = N_("Hostname:");
 gchar *s = N_("Authentication:");
-gchar *s = N_("This server requires a secure connection (SSL)");
 gchar *s = N_("Servers");
 gchar *s = N_("Miscellaneous");
 gchar *s = N_("Keep mail on server");
