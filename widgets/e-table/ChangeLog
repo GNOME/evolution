@@ -1,3 +1,35 @@
+2000-03-05  Christopher James Lahey  <clahey@helixcode.com>
+
+	* e-table.c, e-table.h: Added support for the sorting info.  The
+	Etable creates a sort_info object, and then connects to the
+	signals to rearrange the rows when the sort_info changes.  It also
+	passes the info object to the ETableHeaderItem.
+
+	* e-table-model.c: Fixed a typo where ETableModel was written as
+	ETableModle.
+
+	* e-table-header.c, e-table-header.h: Added some code for sorting
+	here, but it's not used.  I don't think we want this code, but I
+	wanted to check it in at least once so that it's not lost.
+
+	* e-table-header-item.c, e-table-header-item.h: Added a
+	"sort_info" argument to ETableHeaderItem.  Added display of
+	current sort settings.  Added support for clicking to change the
+	sort settings.
+
+	* e-table-col.h: E_TABLE_COL_ARROW_NONE is marked as being = 0
+	since this is required in other places.  (I think C defines this
+	as being the case, but it's good to have the = 0 there so that
+	it's obvious that it has to be first.)
+
+	* TODO: Mark sorting as done.
+
+	* e-table-sort-info.c, e-table-sort-info.h: New files for
+	containing the xml grouping/sorting information and for sending
+	signals on that information.
+	
+	* Makefile.am: Added e-table-sort-info.c and e-table-sort-info.h.
+
 2000-03-04  Christopher James Lahey  <clahey@helixcode.com>
 
 	* e-table.c: Added saving of frozen_columns count.  Added a

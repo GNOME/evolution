@@ -156,7 +156,7 @@ e_table_model_get_type (void)
     {
       GtkTypeInfo info =
       {
-	"ETableModle",
+	"ETableModel",
 	sizeof (ETableModel),
 	sizeof (ETableModelClass),
 	(GtkClassInitFunc) e_table_model_class_init,

@@ -16,6 +16,7 @@
 #include <libgnomeui/gnome-canvas-rect-ellipse.h>
 #include <gdk-pixbuf/gdk-pixbuf.h>
 #include "e-util/e-cursors.h"
+#include "e-util/e-xml-utils.h"
 #include "e-table-header.h"
 #include "e-table-header-item.h"
 #include "e-table-col-dnd.h"
@@ -55,7 +56,8 @@ enum {
 	ARG_TABLE_HEADER,
 	ARG_TABLE_X,
 	ARG_TABLE_Y,
-	ARG_TABLE_FONTSET
+	ARG_TABLE_FONTSET,
+	ARG_SORT_INFO
 };
 
 static GtkTargetEntry  ethi_drag_types [] = {
@@ -71,6 +73,8 @@ ethi_destroy (GtkObject *object){
 	ETableHeaderItem *ethi = E_TABLE_HEADER_ITEM (object);
 	
 	ethi_drop_table_header (ethi);
+	if ( ethi->sort_info )
+		gtk_object_unref(GTK_OBJECT(ethi->sort_info));
 	
 	if (GTK_OBJECT_CLASS (ethi_parent_class)->destroy)
 		(*GTK_OBJECT_CLASS (ethi_parent_class)->destroy) (object);
@@ -180,6 +184,11 @@ ethi_set_arg (GtkObject *o, GtkArg *arg, guint arg_id)
 
 	case ARG_TABLE_FONTSET:
 		ethi_font_load (ethi, GTK_VALUE_STRING (*arg));
+		break;
+
+	case ARG_SORT_INFO:
+		ethi->sort_info = GTK_VALUE_POINTER (*arg);
+		gtk_object_ref(GTK_OBJECT(ethi->sort_info));
 		break;
 		
 	}
@@ -482,7 +491,7 @@ ethi_unrealize (GnomeCanvasItem *item)
 static void
 draw_button (ETableHeaderItem *ethi, ETableCol *col,
 	     GdkDrawable *drawable, GdkGC *gc, GtkStyle *style,
-	     int x, int y, int width, int height)
+	     int x, int y, int width, int height, ETableColArrow arrow)
 {
 	GdkRectangle clip;
 	int xtra;
@@ -532,7 +541,7 @@ draw_button (ETableHeaderItem *ethi, ETableCol *col,
 			       col->text, strlen (col->text));
 	}
 
-	switch ( e_table_col_get_arrow(col) ) {
+	switch ( arrow ) {
 	case E_TABLE_COL_ARROW_NONE:
 		break;
 	case E_TABLE_COL_ARROW_UP:
@@ -544,7 +553,7 @@ draw_button (ETableHeaderItem *ethi, ETableCol *col,
 				   &clip,
 				   GTK_WIDGET(GNOME_CANVAS_ITEM(ethi)->canvas),
 				   "header",
-				   e_table_col_get_arrow(col) == E_TABLE_COL_ARROW_UP ? GTK_ARROW_UP : GTK_ARROW_DOWN,
+				   (arrow == E_TABLE_COL_ARROW_UP) ? GTK_ARROW_UP : GTK_ARROW_DOWN,
 				   TRUE,
 				   x + PADDING / 2 + clip.width - MIN_ARROW_SIZE - 2,
 				   y + (ethi->height - MIN_ARROW_SIZE) / 2,
@@ -563,11 +572,34 @@ ethi_draw (GnomeCanvasItem *item, GdkDrawable *drawable, int x, int y, int width
 	const int cols = e_table_header_count (ethi->eth);
 	int x1, x2;
 	int col;
+	GHashTable *arrows = g_hash_table_new(NULL, NULL);
+	xmlNode *node;
 
 #if 0
 	printf ("My coords are: %g %g %g %g\n",
 		item->x1, item->y1, item->x2, item->y2);
 #endif
+
+	if (ethi->sort_info) {
+		xmlNode *grouping;
+		gtk_object_get(GTK_OBJECT(ethi->sort_info),
+			       "grouping", &grouping,
+			       NULL);
+		for (node = grouping->childs; node && strcmp(node->name, "leaf"); node = node->childs) {
+			g_hash_table_insert(arrows, 
+					    (gpointer) e_xml_get_integer_prop_by_name(node, "column"), 
+					    (gpointer) (e_xml_get_integer_prop_by_name(node, "ascending") ?
+							E_TABLE_COL_ARROW_DOWN : 
+							E_TABLE_COL_ARROW_UP));
+		}
+		if ( node )
+			g_hash_table_insert(arrows, 
+					    (gpointer) e_xml_get_integer_prop_by_name(node, "column"), 
+					    (gpointer) (e_xml_get_integer_prop_by_name(node, "ascending") ?
+							E_TABLE_COL_ARROW_DOWN : 
+							E_TABLE_COL_ARROW_UP));
+	}
+
 	x1 = x2 = ethi->x1;
 	for (col = 0; col < cols; col++, x1 = x2){
 		ETableCol *ecol = e_table_header_get_column (ethi->eth, col);
@@ -590,8 +622,10 @@ ethi_draw (GnomeCanvasItem *item, GdkDrawable *drawable, int x, int y, int width
 
 		draw_button (ethi, ecol, drawable, gc,
 			     GTK_WIDGET (canvas)->style,
-			     x1 - x, ethi->y1 - y, col_width, ethi->height);
+			     x1 - x, ethi->y1 - y, col_width, ethi->height, 
+			     (ETableColArrow) g_hash_table_lookup(arrows, (gpointer) ecol->col_idx) );
 	}
+	g_hash_table_destroy(arrows);
 }
 
 static double
@@ -698,6 +732,8 @@ ethi_start_drag (ETableHeaderItem *ethi, GdkEvent *event)
 	int col_width;
 	GdkPixmap *pixmap;
 	GdkGC *gc;
+	GHashTable *arrows = g_hash_table_new(NULL, NULL);
+	xmlNode *node;
 
 	ethi->drag_col = ethi_find_col_by_x (ethi, event->motion.x);
 	if ( ethi->drag_col < ethi->eth->frozen_count && ethi->drag_col >= 0 ) {
@@ -706,6 +742,27 @@ ethi_start_drag (ETableHeaderItem *ethi, GdkEvent *event)
 	}
 	if (ethi->drag_col == -1)
 		return;
+
+
+	if (ethi->sort_info) {
+		xmlNode *grouping;
+		gtk_object_get(GTK_OBJECT(ethi->sort_info),
+			       "grouping", &grouping,
+			       NULL);
+		for (node = grouping->childs; node && strcmp(node->name, "leaf"); node = node->childs) {
+			g_hash_table_insert(arrows, 
+					    (gpointer) e_xml_get_integer_prop_by_name(node, "column"), 
+					    (gpointer) (e_xml_get_integer_prop_by_name(node, "ascending") ?
+							E_TABLE_COL_ARROW_DOWN : 
+							E_TABLE_COL_ARROW_UP));
+		}
+		if ( node )
+			g_hash_table_insert(arrows, 
+					    (gpointer) e_xml_get_integer_prop_by_name(node, "column"), 
+					    (gpointer) (e_xml_get_integer_prop_by_name(node, "ascending") ?
+							E_TABLE_COL_ARROW_DOWN : 
+							E_TABLE_COL_ARROW_UP));
+	}
 
 	list = gtk_target_list_new (ethi_drag_types, ELEMENTS (ethi_drag_types));
 	context = gtk_drag_begin (widget, list, GDK_ACTION_MOVE, 1, event);
@@ -719,7 +776,8 @@ ethi_start_drag (ETableHeaderItem *ethi, GdkEvent *event)
 	gc = widget->style->bg_gc [GTK_STATE_ACTIVE];
 	draw_button (ethi, ecol, pixmap, gc,
 		     widget->style,
-		     0, 0, col_width, ethi->height);
+		     0, 0, col_width, ethi->height, 
+		     (ETableColArrow) g_hash_table_lookup(arrows, (gpointer) ecol->col_idx) );
 	gtk_drag_set_icon_pixmap        (context,
 					 gdk_window_get_colormap(widget->window),
 					 pixmap,
@@ -729,6 +787,7 @@ ethi_start_drag (ETableHeaderItem *ethi, GdkEvent *event)
 	gdk_pixmap_unref(pixmap);
 
 	ethi->maybe_drag = FALSE;
+	g_hash_table_destroy(arrows);
 }
 
 /*
@@ -830,6 +889,40 @@ ethi_event (GnomeCanvasItem *item, GdkEvent *e)
 		if (ethi->resize_col != -1){
 			needs_ungrab = (ethi->resize_guide != NULL);
 			ethi_end_resize (ethi, ethi->resize_width);
+		} else if (ethi->maybe_drag && ethi->sort_info) {
+			ETableCol *col;
+			int model_col;
+			xmlNode *node;
+			xmlNode *grouping;
+
+			gtk_object_get(GTK_OBJECT(ethi->sort_info),
+				       "grouping", &grouping,
+				       NULL);
+
+			col = e_table_header_get_column(ethi->eth, ethi_find_col_by_x (ethi, e->button.x));
+			model_col = col->col_idx;
+			for (node = grouping->childs; node->childs && strcmp(node->name, "leaf"); node = node->childs) {
+				if ( model_col == e_xml_get_integer_prop_by_name(node, "column") ) {
+					int ascending = e_xml_get_integer_prop_by_name(node, "ascending");
+					ascending = ! ascending;
+					e_xml_set_integer_prop_by_name(node, "ascending", ascending);
+					break;
+				}
+			}
+			if ( !node ) {
+			}
+			if ( node && !strcmp(node->name, "leaf") ) {
+				if ( model_col == e_xml_get_integer_prop_by_name(node, "column") ) {
+					int ascending = e_xml_get_integer_prop_by_name(node, "ascending");
+					ascending = ! ascending;
+					e_xml_set_integer_prop_by_name(node, "ascending", ascending);
+				} else {
+					e_xml_set_integer_prop_by_name(node, "ascending", 1);
+					e_xml_set_integer_prop_by_name(node, "column", model_col);
+				}
+			}
+			e_table_sort_info_changed(ethi->sort_info);
+			ethi_request_redraw (ethi);
 		}
 		if (needs_ungrab)
 			gnome_canvas_item_ungrab (item, e->button.time);
@@ -869,6 +962,8 @@ ethi_class_init (GtkObjectClass *object_class)
 				 GTK_ARG_WRITABLE, ARG_TABLE_Y);
 	gtk_object_add_arg_type ("ETableHeaderItem::fontset", GTK_TYPE_STRING,
 				 GTK_ARG_WRITABLE, ARG_TABLE_FONTSET);
+	gtk_object_add_arg_type ("ETableHeaderItem::sort_info", GTK_TYPE_POINTER,
+				 GTK_ARG_WRITABLE, ARG_SORT_INFO);
 
 	/*
 	 * Create our pixmaps for DnD
@@ -897,6 +992,8 @@ ethi_init (GnomeCanvasItem *item)
 
 	ethi->drag_col = -1;
 	ethi->drag_mark = -1;
+	
+	ethi->sort_info = NULL;
 }
 
 GtkType

@@ -1,8 +1,11 @@
+/* -*- Mode: C; tab-width: 8; indent-tabs-mode: t; c-basic-offset: 8 -*- */
 #ifndef _E_TABLE_HEADER_ITEM_H_
 #define _E_TABLE_HEADER_ITEM_H_
 
 #include <libgnomeui/gnome-canvas.h>
+#include <gnome-xml/tree.h>
 #include "e-table-header.h"
+#include "e-table-sort-info.h"
 
 #define E_TABLE_HEADER_ITEM_TYPE        (e_table_header_item_get_type ())
 #define E_TABLE_HEADER_ITEM(o)          (GTK_CHECK_CAST ((o), E_TABLE_HEADER_ITEM_TYPE, ETableHeaderItem))
@@ -45,6 +48,11 @@ typedef struct {
         guint            drag_motion_id, drag_end_id, drag_leave_id, drag_drop_id;
 	GnomeCanvasItem *drag_mark_item, *remove_item;
 	GdkBitmap       *stipple;
+
+	/*
+	 * For column sorting info
+	 */
+	ETableSortInfo  *sort_info;
 } ETableHeaderItem;
 
 typedef struct {

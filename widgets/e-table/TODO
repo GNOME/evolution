@@ -30,12 +30,11 @@ mouse grabbing for scrolling
 + 	* Add frozen_columns output.
 	* Add input and output of column widths and minimum column widths.
 
-* Add GUI sort
++ * Add GUI sort
 
-	* Add a method to the ETableGroup class to change the sorting information.
-	* Add a way to get sorting information out of the ETableHeader.
-	* Add display of proper arrows to the ETableHeaderItem.
-	* Add switching of sorting on clicks.
++	* Create an ETableSortInfo class.
++	* Add display of proper arrows to the ETableHeaderItem.
++	* Add switching of sorting on clicks.
 	* Add depressed button state to ETableHeaderItem?
 
 * Add GUI grouping
@@ -70,5 +69,9 @@ mouse grabbing for scrolling
 	* Add "Allocate" to the ETableModel
 	* Implement ETableDataEntry (a subclass of ETableModel).
 	* Build GUI for the data entry model.  This should be fairly simple.
+
+* Draw little arrows for new column position instead of little triangles.
+* Make new column position be closest to position instead of rounding to the left.
+* Copy gtk_dnd as e_dnd.
 
 * Fix known bug about navigating out of the bottom of the table.

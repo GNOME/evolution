@@ -8,6 +8,7 @@
 #include "e-table-model.h"
 #include "e-table-header.h"
 #include "e-table-group.h"
+#include "e-table-sort-info.h"
 
 BEGIN_GNOME_DECLS
 
@@ -26,9 +27,13 @@ typedef struct {
 
 	ETableGroup  *group;
 
+	ETableSortInfo *sort_info;
+
 	int table_model_change_id;
 	int table_row_change_id;
 	int table_cell_change_id;
+
+	int sort_info_change_id;
 
 	GnomeCanvas *header_canvas, *table_canvas;
 

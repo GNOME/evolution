@@ -16,7 +16,7 @@ typedef struct _ETableColClass ETableColClass;
 typedef enum _ETableColArrow ETableColArrow;
 
 enum _ETableColArrow {
-	E_TABLE_COL_ARROW_NONE,
+	E_TABLE_COL_ARROW_NONE = 0,
 	E_TABLE_COL_ARROW_UP,
 	E_TABLE_COL_ARROW_DOWN
 };

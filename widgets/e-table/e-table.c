@@ -35,6 +35,7 @@
 static GtkObjectClass *e_table_parent_class;
 
 static void e_table_fill_table (ETable *e_table, ETableModel *model);
+static gboolean changed_idle (gpointer data);
 
 static void
 et_destroy (GtkObject *object)
@@ -44,6 +45,7 @@ et_destroy (GtkObject *object)
 	gtk_object_unref (GTK_OBJECT (et->model));
 	gtk_object_unref (GTK_OBJECT (et->full_header));
 	gtk_object_unref (GTK_OBJECT (et->header));
+	gtk_object_unref (GTK_OBJECT (et->sort_info));
 	gtk_widget_destroy (GTK_WIDGET (et->header_canvas));
 	gtk_widget_destroy (GTK_WIDGET (et->table_canvas));
 
@@ -53,6 +55,9 @@ et_destroy (GtkObject *object)
 			       et->table_row_change_id);
 	gtk_signal_disconnect (GTK_OBJECT (et->model),
 			       et->table_cell_change_id);
+	if (et->sort_info_change_id)
+		gtk_signal_disconnect (GTK_OBJECT (et->model),
+				       et->sort_info_change_id);
 
 	if (et->rebuild_idle_id) {
 		g_source_remove(et->rebuild_idle_id);
@@ -68,6 +73,9 @@ static void
 e_table_init (GtkObject *object)
 {
 	ETable *e_table = E_TABLE (object);
+	
+	e_table->sort_info = NULL;
+	e_table->sort_info_change_id = 0;
 
 	e_table->draw_grid = 1;
 	e_table->draw_focus = 1;
@@ -110,11 +118,38 @@ header_canvas_size_alocate (GtkWidget *widget, GtkAllocation *alloc, ETable *e_t
 }
 
 static void
+sort_info_changed (ETableSortInfo *info, ETable *et)
+{
+	et->need_rebuild = TRUE;
+	if ( !et->rebuild_idle_id ) {
+		et->rebuild_idle_id = g_idle_add(changed_idle, et);
+	}
+}
+
+static void
 e_table_setup_header (ETable *e_table)
 {
+	xmlNode *root;
+	xmlNode *grouping;
 	e_table->header_canvas = GNOME_CANVAS (gnome_canvas_new ());
-
+	
 	gtk_widget_show (GTK_WIDGET (e_table->header_canvas));
+
+	root = xmlDocGetRootElement(e_table->specification);
+	grouping = e_xml_get_child_by_name(root, "grouping");
+
+	e_table->sort_info = e_table_sort_info_new();
+	
+	gtk_object_ref(GTK_OBJECT(e_table->sort_info));
+	gtk_object_sink(GTK_OBJECT(e_table->sort_info));
+
+	gtk_object_set(GTK_OBJECT(e_table->sort_info),
+		       "grouping", grouping,
+		       NULL);
+
+	e_table->sort_info_change_id = 
+		gtk_signal_connect (GTK_OBJECT(e_table->sort_info), "sort_info_changed", 
+				    GTK_SIGNAL_FUNC (sort_info_changed), e_table);
 
 	e_table->header_item = gnome_canvas_item_new (
 		gnome_canvas_root (e_table->header_canvas),
@@ -122,6 +157,7 @@ e_table_setup_header (ETable *e_table)
 		"ETableHeader", e_table->header,
 		"x", 0,
 		"y", 0,
+		"sort_info", e_table->sort_info,
 		NULL);
 
 	gtk_signal_connect (
@@ -705,7 +741,7 @@ et_real_construct (ETable *e_table, ETableHeader *full_header, ETableModel *etm,
 	gtk_widget_show (vscrollbar);
 	gtk_table_attach (
 		GTK_TABLE (e_table), vscrollbar,
-		1, 2, 1, 2, 0, GTK_FILL | GTK_EXPAND, 0, 0);
+		1, 2, 0, 2, 0, GTK_FILL | GTK_EXPAND, 0, 0);
 
 	gtk_widget_pop_colormap ();
 	gtk_widget_pop_visual ();
