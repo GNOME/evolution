@@ -602,4 +602,51 @@ e_storage_set_get_path_for_physical_uri (EStorageSet *storage_set,
 }
 
 
+/**
+ * e_storage_set_async_copy_folder:
+ * @storage_set: 
+ * @source_path: 
+ * @destination_path: 
+ * @callback: 
+ * @data: 
+ * 
+ * Copy a folder from @source_path to @destination_path.
+ **/
+void
+e_storage_set_async_copy_folder    (EStorageSet            *storage_set,
+				    const char             *source_path,
+				    const char             *destination_path,
+				    EStorageResultCallback  callback,
+				    void                   *data)
+{
+	g_return_if_fail (storage_set != NULL);
+	g_return_if_fail (E_IS_STORAGE_SET (storage_set));
+	g_return_if_fail (source_path != NULL);
+	g_return_if_fail (destination_path != NULL);
+}
+
+/**
+ * e_storage_set_async_move_folder:
+ * @storage_set: 
+ * @source_path: 
+ * @destination_path: 
+ * @callback: 
+ * @data: 
+ * 
+ * Move a folder from @source_path to @destination_path.
+ **/
+void
+e_storage_set_async_move_folder    (EStorageSet            *storage_set,
+				    const char             *source_path,
+				    const char             *destination_path,
+				    EStorageResultCallback  callback,
+				    void                   *data)
+{
+	g_return_if_fail (storage_set != NULL);
+	g_return_if_fail (E_IS_STORAGE_SET (storage_set));
+	g_return_if_fail (source_path != NULL);
+	g_return_if_fail (destination_path != NULL);
+}
+
+
 E_MAKE_TYPE (e_storage_set, "EStorageSet", EStorageSet, class_init, init, PARENT_TYPE)

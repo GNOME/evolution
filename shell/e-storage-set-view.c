@@ -60,6 +60,18 @@ static char *list [] = {
 </ETableSpecification>"
 
 
+/* This is used on the source side to define the two basic types that we always
+   export.  */
+enum _DndTargetTypeIdx {
+	EVOLUTION_PATH_TARGET_TYPE_IDX = 0,
+	E_SHORTCUT_TARGET_TYPE_IDX = 1
+};
+typedef enum _DndTargetTypeIdx DndTargetTypeIdx;
+
+#define EVOLUTION_PATH_TARGET_TYPE "_EVOLUTION_PRIVATE_PATH"
+#define E_SHORTCUT_TARGET_TYPE     "E-SHORTCUT"
+
+
 #define PARENT_TYPE E_TREE_TYPE
 static ETreeClass *parent_class = NULL;
 
@@ -133,15 +145,25 @@ static const int num_destination_drag_types = sizeof (destination_drag_types) / 
 static GtkTargetList *target_list;
 
 
+/* Sorting callbacks.  */
+
 static int
-storage_sort_callback (ETreeMemory *etmm, ETreePath node1, ETreePath node2, gpointer closure)
+storage_sort_callback (ETreeMemory *etmm,
+		       ETreePath node1,
+		       ETreePath node2,
+		       void *closure)
 {
-	char *folder_path1 = e_tree_memory_node_get_data(etmm, node1);
-	char *folder_path2 = e_tree_memory_node_get_data(etmm, node1);
+	char *folder_path1;
+	char *folder_path2;
 	gboolean path1_local;
 	gboolean path2_local;
-	path1_local = !strcmp(folder_path1, G_DIR_SEPARATOR_S E_LOCAL_STORAGE_NAME);
-	path2_local = !strcmp(folder_path2, G_DIR_SEPARATOR_S E_LOCAL_STORAGE_NAME);
+
+	folder_path1 = e_tree_memory_node_get_data(etmm, node1);
+	folder_path2 = e_tree_memory_node_get_data(etmm, node2);
+	
+	path1_local = ! strcmp (folder_path1, G_DIR_SEPARATOR_S E_LOCAL_STORAGE_NAME);
+	path2_local = ! strcmp (folder_path2, G_DIR_SEPARATOR_S E_LOCAL_STORAGE_NAME);
+
 	if (path1_local && path2_local)
 		return 0;
 	if (path1_local)
@@ -149,17 +171,20 @@ storage_sort_callback (ETreeMemory *etmm, ETreePath node1, ETreePath node2, gpoi
 	if (path2_local)
 		return 1;
 	
-	return strcmp(e_tree_model_value_at(E_TREE_MODEL(etmm), node1, 0), e_tree_model_value_at(E_TREE_MODEL(etmm), node2, 0));
+	return strcmp (e_tree_model_value_at (E_TREE_MODEL (etmm), node1, 0),
+		       e_tree_model_value_at (E_TREE_MODEL (etmm), node2, 0));
 }
 
 static int
 folder_sort_callback (ETreeMemory *etmm, ETreePath path1, ETreePath path2, gpointer closure)
 {
-	return strcmp(e_tree_model_value_at(E_TREE_MODEL(etmm), path1, 0), e_tree_model_value_at(E_TREE_MODEL(etmm), path2, 0));
+	return strcmp (e_tree_model_value_at (E_TREE_MODEL (etmm), path1, 0),
+		       e_tree_model_value_at (E_TREE_MODEL (etmm), path2, 0));
 }
 
-/* Helper functions.  */
 
+
+/* Helper functions.  */
 
 static gboolean
 add_node_to_hash (EStorageSetView *storage_set_view,
@@ -281,7 +306,6 @@ get_folder_at_node (EStorageSetView *storage_set_view,
 {
 	EStorageSetViewPrivate *priv;
 	const char *folder_path;
-	EFolder *folder;
 
 	priv = storage_set_view->priv;
 
@@ -291,10 +315,7 @@ get_folder_at_node (EStorageSetView *storage_set_view,
 	folder_path = e_tree_memory_node_get_data (E_TREE_MEMORY(priv->etree_model), path);
 	g_assert (folder_path != NULL);
 
-	folder = e_storage_set_get_folder (priv->storage_set, folder_path);
-	g_assert (folder != NULL);
-
-	return folder;
+	return e_storage_set_get_folder (priv->storage_set, folder_path);
 }
 
 static EvolutionShellComponentClient *
@@ -359,6 +380,9 @@ convert_corba_drag_action_to_gdk (GNOME_Evolution_ShellComponentDnd_ActionSet ac
 	return retval;
 }
 
+/* This will look for the targets in @drag_context, choose one that matches
+   with the allowed types at @path, and return its name.  The EVOLUTION_PATH
+   type always matches.  */
 static const char *
 find_matching_target_for_drag_context (EStorageSetView *storage_set_view,
 				       ETreePath path,
@@ -389,6 +413,10 @@ find_matching_target_for_drag_context (EStorageSetView *storage_set_view,
 		char *possible_type;
 
 		possible_type = gdk_atom_name ((GdkAtom) p->data);
+		if (strcmp (possible_type, EVOLUTION_PATH_TARGET_TYPE) == 0) {
+			g_free (possible_type);
+			return EVOLUTION_PATH_TARGET_TYPE;
+		}
 
 		for (q = accepted_types; q != NULL; q = q->next) {
 			const char *accepted_type;
@@ -451,18 +479,27 @@ create_target_entries_from_dnd_type_list (GList *dnd_types,
 	else
 		num_entries = g_list_length (dnd_types);
 
-	/* We always add an entry for an Evolution URI type.  This will let us
-	   do drag & drop within Evolution at least.  */
-	num_entries ++;
+	/* We always add two entries, one for an Evolution URI type, and one
+	   for e-shortcuts.  This will let us do drag & drop within Evolution
+	   at least.  */
+	num_entries += 2;
 
 	entries = g_new (GtkTargetEntry, num_entries);
 
 	i = 0;
 
 	/* The Evolution URI will always come first.  */
-	entries[i].target = E_SHORTCUT_TYPE;
+	entries[i].target = EVOLUTION_PATH_TARGET_TYPE;
 	entries[i].flags = 0;
-	entries[i].info = 0;
+	entries[i].info = i;
+	g_assert (i == EVOLUTION_PATH_TARGET_TYPE_IDX);
+	i ++;
+
+	/* ...Then the shortcut type.  */
+	entries[i].target = E_SHORTCUT_TARGET_TYPE;
+	entries[i].flags = 0;
+	entries[i].info = i;
+	g_assert (i == E_SHORTCUT_TARGET_TYPE_IDX);
 	i ++;
 
 	for (p = dnd_types; p != NULL; p = p->next, i++) {
@@ -524,24 +561,6 @@ create_target_list_for_node (EStorageSetView *storage_set_view,
 	return target_list;
 }
 
-#if 0
-static void
-set_uri_list_selection (EStorageSetView *storage_set_view,
-			GtkSelectionData *selection_data)
-{
-	EStorageSetViewPrivate *priv;
-	char *uri_list;
-
-	priv = storage_set_view->priv;
-
-	/* FIXME: Get `evolution:' from somewhere instead of hardcoding it here.  */
-	uri_list = g_strconcat ("evolution:", priv->selected_row_path, "\n", NULL);
-	gtk_selection_data_set (selection_data, selection_data->target,
-				8, (guchar *) uri_list, strlen (uri_list));
-	g_free (uri_list);
-}
-#endif
-
 static void
 set_e_shortcut_selection (EStorageSetView *storage_set_view,
 			  GtkSelectionData *selection_data)
@@ -553,6 +572,7 @@ set_e_shortcut_selection (EStorageSetView *storage_set_view,
 	const char *name;
 
 	g_assert (storage_set_view != NULL);
+	g_assert (selection_data != NULL);
 
 	priv = storage_set_view->priv;
 
@@ -586,6 +606,22 @@ set_e_shortcut_selection (EStorageSetView *storage_set_view,
 				8, (guchar *) shortcut, shortcut_len);
 
 	g_free (shortcut);
+}
+
+static void
+set_evolution_path_selection (EStorageSetView *storage_set_view,
+			      GtkSelectionData *selection_data)
+{
+	EStorageSetViewPrivate *priv;
+	const char *evolution_path;
+
+	g_assert (storage_set_view != NULL);
+	g_assert (selection_data != NULL);
+
+	priv = storage_set_view->priv;
+
+	gtk_selection_data_set (selection_data, selection_data->target,
+				8, (guchar *) priv->selected_row_path, strlen (priv->selected_row_path) + 1);
 }
 
 
@@ -944,8 +980,12 @@ tree_drag_data_get (ETree *etree,
 	storage_set_view = E_STORAGE_SET_VIEW (etree);
 	priv = storage_set_view->priv;
 
-	if (info == 0) {
+	switch (info) {
+	case E_SHORTCUT_TARGET_TYPE_IDX:
 		set_e_shortcut_selection (storage_set_view, selection_data);
+		return;
+	case EVOLUTION_PATH_TARGET_TYPE_IDX:
+		set_evolution_path_selection (storage_set_view, selection_data);
 		return;
 	}
 
@@ -1008,6 +1048,27 @@ tree_drag_data_delete (ETree *tree,
 /* -- Destination-side DnD.  */
 
 static gboolean
+handle_evolution_path_drag_motion (EStorageSetView *storage_set_view,
+				   ETreePath path,
+				   GdkDragContext *context,
+				   unsigned int time)
+{
+	GdkModifierType modifiers;
+	GdkDragAction action;
+
+	gdk_window_get_pointer (NULL, NULL, NULL, &modifiers);
+
+	if ((modifiers & GDK_CONTROL_MASK) != 0)
+		action = GDK_ACTION_COPY;
+	else
+		action = GDK_ACTION_MOVE;
+
+	gdk_drag_status (context, action, time);
+
+	return TRUE;
+}
+
+static gboolean
 tree_drag_motion (ETree *tree,
 		  int row,
 		  ETreePath path,
@@ -1034,12 +1095,17 @@ tree_drag_motion (ETree *tree,
 	if (component_client == NULL)
 		return FALSE;
 
-	destination_folder_interface = evolution_shell_component_client_get_dnd_source_interface (component_client);
-	if (destination_folder_interface == NULL)
-		return FALSE;
-
 	dnd_type = find_matching_target_for_drag_context (storage_set_view, path, context);
 	if (dnd_type == NULL)
+		return FALSE;
+
+	g_print ("drag_motion %s\n", dnd_type);
+
+	if (strcmp (dnd_type, EVOLUTION_PATH_TARGET_TYPE) == 0)
+		return handle_evolution_path_drag_motion (storage_set_view, path, context, time);
+
+	destination_folder_interface = evolution_shell_component_client_get_dnd_source_interface (component_client);
+	if (destination_folder_interface == NULL)
 		return FALSE;
 
 	CORBA_exception_init (&ev);
@@ -1099,11 +1165,43 @@ tree_drag_data_received (ETree *etree,
 	EStorageSetView *storage_set_view;
 	EStorageSetViewPrivate *priv;
 	const char *target_path;
+	char *target_type;
 
 	storage_set_view = E_STORAGE_SET_VIEW (etree);
 	priv = storage_set_view->priv;
 
+	target_type = gdk_atom_name (selection_data->target);
+
+	if (strcmp (target_type, EVOLUTION_PATH_TARGET_TYPE) == 0) {
+		const char *source_path;
+		const char *destination_path;
+
+		source_path = (const char *) selection_data->data;
+		/* (Basic sanity checks.)  */
+		if (source_path == NULL || source_path[0] != G_DIR_SEPARATOR || source_path[1] == '\0')
+			return;
+
+		destination_path = e_tree_memory_node_get_data (E_TREE_MEMORY (priv->etree_model), path);
+		if (destination_path == NULL)
+			return;
+
+		switch (context->action) {
+		case GDK_ACTION_MOVE:
+			g_print ("EStorageSetView: Moving from `%s' to `%s'\n", source_path, destination_path);
+			e_storage_set_async_move_folder (priv->storage_set, source_path, destination_path, NULL, NULL);
+			break;
+		case GDK_ACTION_COPY:
+			g_print ("EStorageSetView: Copying from `%s' to `%s'\n", source_path, destination_path);
+			e_storage_set_async_copy_folder (priv->storage_set, source_path, destination_path, NULL, NULL);
+			break;
+		default:
+			g_warning ("EStorageSetView: Don't know action %d\n", context->action);
+		}
+	}
+
 	target_path = e_tree_memory_node_get_data (E_TREE_MEMORY(priv->etree_model), path);
+
+	g_free (target_type);
 }
 
 static gboolean
@@ -1484,11 +1582,6 @@ class_init (EStorageSetViewClass *klass)
 				  GTK_TYPE_STRING);
 
 	gtk_object_class_add_signals (object_class, signals, LAST_SIGNAL);
-
-	/* Set up DND.  */
-
-	target_list = gtk_target_list_new (source_drag_types, num_source_drag_types);
-	g_assert (target_list != NULL);
 }
 
 static void
@@ -1702,18 +1795,10 @@ e_storage_set_view_construct (EStorageSetView *storage_set_view,
 
 	gtk_object_unref (GTK_OBJECT (extras));
 
-#if 0
-	e_tree_drag_source_set (E_TREE (storage_set_view), GDK_BUTTON1_MASK,
-				 source_drag_types, num_source_drag_types,
-				 GDK_ACTION_MOVE | GDK_ACTION_COPY);
-
-	e_tree_drag_dest_set (E_TREE (storage_set_view), GTK_DEST_DEFAULT_ALL,
-			       source_drag_types, num_source_drag_types,
-			       GDK_ACTION_MOVE | GDK_ACTION_COPY);
-#endif
-
 	gtk_object_ref (GTK_OBJECT (storage_set));
 	priv->storage_set = storage_set;
+
+	e_tree_drag_dest_set (E_TREE (storage_set_view), 0, NULL, 0, GDK_ACTION_MOVE | GDK_ACTION_COPY);
 
 	gtk_signal_connect_while_alive (GTK_OBJECT (storage_set), "new_storage",
 					GTK_SIGNAL_FUNC (new_storage_cb), storage_set_view,

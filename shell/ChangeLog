@@ -1,3 +1,32 @@
+2001-03-22  Ettore Perazzoli  <ettore@ximian.com>
+
+	* e-storage-set-view.c: Removed `source_drag_types',
+	`num_source_drag_types', `destination_drag_types',
+	`num_destination_drag_types', `target_list'.
+	(E_SHORTCUT_TARGET_TYPE): Renamed from "E_SHORTCUT_TYPE".
+	(EVOLUTION_PATH_TARGET_TYPE): Define to "_EVOLUTION_PRIVATE_PATH".
+	(find_matching_target_for_drag_context): If any of the targets
+	matches it, return it.
+	(handle_evolution_path_drag_motion): New.
+	(tree_drag_motion): Use it if we are matching an
+	`EVOLUTION_PATH_TARGET_TYPE' target.
+	(e_storage_set_view_construct): Call `e_tree_drag_dest_set()' on
+	the view so that we become a possible DnD target.
+	(get_folder_at_node): Don't die if you don't find a folder there.
+	(create_target_entries_from_dnd_type_list): Make the first entry
+	an `EVOLUTION_PATH_TARGET_TYPE', the second one an
+	`E_SHORTCUT_TYPE', and the following ones the ones defined by the
+	folder.
+	(set_evolution_path_selection): New function to set the private
+	Evolution path selection.
+	(set_e_shortcut_selection): Assert @selection_data to be not NULL.
+	(class_init): Don't set up the `target_list' anymore.
+	(storage_sort_callback): Actually compare the two nodes, not the
+	first node with itself.
+
+	* e-storage-set.c (e_storage_set_async_copy_folder): New.
+	(e_storage_set_async_move_folder): New.
+
 2001-03-22  Christopher James Lahey  <clahey@ximian.com>
 
 	* e-storage-set-view.c (etree_get_save_id): Changed get_save_id to

@@ -69,19 +69,16 @@ GtkType      e_storage_set_get_type             (void);
 void         e_storage_set_construct            (EStorageSet            *storage_set,
 						 EFolderTypeRegistry    *folder_type_registry);
 EStorageSet *e_storage_set_new                  (EFolderTypeRegistry    *folder_type_registry);
-
 gboolean     e_storage_set_add_storage          (EStorageSet            *storage_set,
 						 EStorage               *storage);
 gboolean     e_storage_set_remove_storage       (EStorageSet            *storage_set,
 						 EStorage               *storage);
 void         e_storage_set_remove_all_storages  (EStorageSet            *storage_set);
-
 GList       *e_storage_set_get_storage_list     (EStorageSet            *storage_set);
 EStorage    *e_storage_set_get_storage          (EStorageSet            *storage_set,
 						 const char             *storage_name);
 EFolder     *e_storage_set_get_folder           (EStorageSet            *storage_set,
 						 const char             *path);
-
 GtkWidget   *e_storage_set_new_view             (EStorageSet            *storage_set);
 
 void         e_storage_set_async_create_folder  (EStorageSet            *storage_set,
@@ -92,6 +89,17 @@ void         e_storage_set_async_create_folder  (EStorageSet            *storage
 						 void                   *data);
 void         e_storage_set_async_remove_folder  (EStorageSet            *storage_set,
 						 const char             *path,
+						 EStorageResultCallback  callback,
+						 void                   *data);
+
+void         e_storage_set_async_copy_folder    (EStorageSet            *storage_set,
+						 const char             *source_path,
+						 const char             *destination_path,
+						 EStorageResultCallback  callback,
+						 void                   *data);
+void         e_storage_set_async_move_folder    (EStorageSet            *storage_set,
+						 const char             *source_path,
+						 const char             *destination_path,
 						 EStorageResultCallback  callback,
 						 void                   *data);
 
