@@ -1,8 +1,10 @@
 2000-04-26  Dan Winship  <danw@helixcode.com>
 
 	* e-msg-composer-attachment-bar.c (attach_to_multipart): add a
-	s/SIMPLE_// that notzed missed
-	* e-msg-composer.c (build_message): remove a now-unused variable
+	s/SIMPLE_// that notzed missed. Update to use
+	camel_mime_part_set_content.
+	* e-msg-composer.c (build_message): remove a now-unused variable.
+	Update for camel_mime_part_set_content.
 
 2000-04-26  NotZed  <NotZed@HelixCode.com>
 

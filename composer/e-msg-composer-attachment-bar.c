@@ -605,30 +605,32 @@ attach_to_multipart (CamelMultipart *multipart,
 		     EMsgComposerAttachment *attachment)
 {
 	CamelMimeBodyPart *part;
-	CamelDataWrapper *content;
-	CamelStream *stream;
-	char *filename;
+	struct stat st;
+	int fd;
 
 	part = camel_mime_body_part_new ();
+	fd = open (attachment->file_name, O_RDONLY);
+	if (fd != -1 && fstat (fd, &st) != -1) {
+		char *data;
+
+		data = g_malloc (st.st_size);
+		read (fd, data, st.st_size);
+		close (fd);
+
+		camel_mime_part_set_content (CAMEL_MIME_PART (part), data,
+					     st.st_size,
+					     attachment->mime_type);
+	} else {
+		g_warning ("couldn't open %s", attachment->file_name);
+		gtk_object_sink (GTK_OBJECT (part));
+		return;
+	}
+
 	camel_mime_part_set_disposition (CAMEL_MIME_PART (part), "attachment");
-	filename = g_basename (attachment->file_name);
-	camel_mime_part_set_filename (CAMEL_MIME_PART (part), filename);
-	g_free (filename);
+	camel_mime_part_set_filename (CAMEL_MIME_PART (part),
+				      g_basename (attachment->file_name));
 	camel_mime_part_set_description (CAMEL_MIME_PART (part),
 					 attachment->description);
-	camel_mime_part_set_content_type (CAMEL_MIME_PART (part),
-					  attachment->mime_type);
-
-	content = CAMEL_DATA_WRAPPER (gtk_object_new (CAMEL_DATA_WRAPPER_TYPE,
-						      NULL));
-	camel_data_wrapper_set_mime_type (content, attachment->mime_type);
-	stream = camel_stream_fs_new_with_name (attachment->file_name, O_RDONLY, 0);
-	camel_data_wrapper_construct_from_stream (content, stream);
-	camel_stream_close (stream);
-	camel_medium_set_content_object (CAMEL_MEDIUM (part), content);
-
-	/* TODO: could possibly select an appropriate encoder based on the content */
-	camel_mime_part_set_encoding((CamelMimePart *)part, CAMEL_MIME_PART_ENCODING_BASE64);
 
 	camel_multipart_add_part (multipart, part);
 }

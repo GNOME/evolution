@@ -154,10 +154,8 @@ build_message (EMsgComposer *composer)
 	body_part = camel_mime_body_part_new ();
 
 	text = get_editor_text (BONOBO_WIDGET (composer->editor));
-	/* set text sets text/plain */
-	camel_mime_part_set_text((CamelMimePart *)body_part, text);
-	camel_data_wrapper_set_mime_type (CAMEL_DATA_WRAPPER (camel_medium_get_content_object((CamelMedium *)body_part)),
-					  "text/html");
+	camel_mime_part_set_content (CAMEL_MIME_PART (body_part), text,
+				     strlen (text), "text/html");
 	g_free (text);
 
 	camel_multipart_add_part (multipart, body_part);
