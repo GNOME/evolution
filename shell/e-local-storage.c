@@ -182,6 +182,7 @@ setup_stock_folders (ELocalStorage *local_storage)
 	setup_folder_as_stock (local_storage, "/Sent", _("Sent"), NULL);
 	setup_folder_as_stock (local_storage, "/Tasks", _("Tasks"), NULL);
 	setup_folder_as_stock (local_storage, "/Trash", _("Trash"), NULL);
+	setup_folder_as_stock (local_storage, "/Spam", _("Spam"), NULL);
 }
 
 static gboolean

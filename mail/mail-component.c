@@ -269,6 +269,12 @@ type_is_vtrash (const char *type)
 	return !strcmp (type, "vtrash");
 }
 
+static inline gboolean
+type_is_vjunk (const char *type)
+{
+	return !strcmp (type, "vjunk");
+}
+
 static void
 storage_go_online (gpointer key, gpointer value, gpointer data)
 {
@@ -408,6 +414,11 @@ create_view_callback (EStorageBrowser *browser,
 	} else if (type_is_vtrash (folder_type)) {
 		if (!strncasecmp (physical_uri, "file:", 5))
 			control = folder_browser_factory_new_control ("vtrash:file:/");
+		else
+			control = folder_browser_factory_new_control (physical_uri);
+	} else if (type_is_vjunk (folder_type)) {
+		if (!strncasecmp (physical_uri, "file:", 5))
+			control = folder_browser_factory_new_control ("vjunk:file:/");
 		else
 			control = folder_browser_factory_new_control (physical_uri);
 	} else

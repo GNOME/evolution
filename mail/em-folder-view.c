@@ -524,6 +524,18 @@ emfv_popup_mark_unimportant(GtkWidget *w, EMFolderView *emfv)
 }
 
 static void
+emfv_popup_mark_junk (GtkWidget *w, EMFolderView *emfv)
+{
+	mail_mark_junk (emfv->folder, emfv->list, TRUE);
+}
+
+static void
+emfv_popup_mark_nojunk (GtkWidget *w, EMFolderView *emfv)
+{
+	mail_mark_junk (emfv->folder, emfv->list, FALSE);
+}
+
+static void
 emfv_popup_delete(GtkWidget *w, EMFolderView *emfv)
 {
 	GPtrArray *uids;
@@ -676,6 +688,8 @@ static EMPopupItem emfv_popup_menu[] = {
 	{ EM_POPUP_ITEM,  "30.emfv.01", N_("Mark as _Unread"), G_CALLBACK(emfv_popup_mark_unread), NULL, "mail-new.xpm", EM_POPUP_SELECT_MARK_UNREAD },
 	{ EM_POPUP_ITEM, "30.emfv.02", N_("Mark as _Important"), G_CALLBACK(emfv_popup_mark_important), NULL, "priority-high.xpm", EM_POPUP_SELECT_MARK_IMPORTANT },
 	{ EM_POPUP_ITEM, "30.emfv.03", N_("_Mark as Unimportant"), G_CALLBACK(emfv_popup_mark_unimportant), NULL, NULL, EM_POPUP_SELECT_MARK_UNIMPORTANT },
+	{ EM_POPUP_ITEM, "30.emfv.04", N_("Mark as _Junk"), G_CALLBACK(emfv_popup_mark_junk), NULL, NULL, EM_POPUP_SELECT_MARK_JUNK },
+	{ EM_POPUP_ITEM, "30.emfv.05", N_("Mark as _Not Junk"), G_CALLBACK(emfv_popup_mark_nojunk), NULL, NULL, EM_POPUP_SELECT_MARK_NOJUNK },
 	
 	{ EM_POPUP_BAR, "40.emfv" },
 	{ EM_POPUP_ITEM, "40.emfv.00", N_("_Delete"), G_CALLBACK(emfv_popup_delete), NULL, "evolution-trash-mini.png", EM_POPUP_SELECT_DELETE },
@@ -821,6 +835,8 @@ EMFV_MAP_CALLBACK(emfv_message_mark_read, emfv_popup_mark_read)
 EMFV_MAP_CALLBACK(emfv_message_mark_unread, emfv_popup_mark_unread)
 EMFV_MAP_CALLBACK(emfv_message_mark_important, emfv_popup_mark_important)
 EMFV_MAP_CALLBACK(emfv_message_mark_unimportant, emfv_popup_mark_unimportant)
+EMFV_MAP_CALLBACK(emfv_message_mark_junk, emfv_popup_mark_junk)
+EMFV_MAP_CALLBACK(emfv_message_mark_nojunk, emfv_popup_mark_nojunk)
 EMFV_MAP_CALLBACK(emfv_message_delete, emfv_popup_delete)
 EMFV_MAP_CALLBACK(emfv_message_undelete, emfv_popup_undelete)
 EMFV_MAP_CALLBACK(emfv_message_followup_flag, emfv_popup_flag_followup)
@@ -1246,6 +1262,8 @@ static BonoboUIVerb emfv_message_verbs[] = {
 	BONOBO_UI_UNSAFE_VERB ("MessageMarkAsUnRead", emfv_message_mark_unread),
 	BONOBO_UI_UNSAFE_VERB ("MessageMarkAsImportant", emfv_message_mark_important),
 	BONOBO_UI_UNSAFE_VERB ("MessageMarkAsUnimportant", emfv_message_mark_unimportant),
+	BONOBO_UI_UNSAFE_VERB ("MessageMarkAsJunk", emfv_message_mark_junk),
+	BONOBO_UI_UNSAFE_VERB ("MessageMarkAsNojunk", emfv_message_mark_nojunk),
 	BONOBO_UI_UNSAFE_VERB ("MessageFollowUpFlag", emfv_message_followup_flag),
 	BONOBO_UI_UNSAFE_VERB ("MessageMove", emfv_message_move),
 	BONOBO_UI_UNSAFE_VERB ("MessageOpen", emfv_message_open),
@@ -1348,6 +1366,8 @@ static const EMFolderViewEnable emfv_enable_map[] = {
 	{ "MessageMarkAsUnRead",      EM_POPUP_SELECT_MANY|EM_POPUP_SELECT_MARK_UNREAD },
 	{ "MessageMarkAsImportant",   EM_POPUP_SELECT_MANY|EM_POPUP_SELECT_MARK_IMPORTANT },
 	{ "MessageMarkAsUnimportant", EM_POPUP_SELECT_MANY|EM_POPUP_SELECT_MARK_UNIMPORTANT },
+	{ "MessageMarkAsJunk",        EM_POPUP_SELECT_MANY|EM_POPUP_SELECT_MARK_JUNK },
+	{ "MessageMarkAsNojunk",      EM_POPUP_SELECT_MANY|EM_POPUP_SELECT_MARK_NOJUNK },
 	{ "MessageFollowUpFlag",      EM_POPUP_SELECT_MANY },
 	{ "MessageMove",              EM_POPUP_SELECT_MANY },
 	{ "MessageOpen",              EM_POPUP_SELECT_MANY },

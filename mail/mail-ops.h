@@ -36,6 +36,8 @@ extern "C" {
 #include "camel/camel-mime-message.h"
 #include "camel/camel-operation.h"
 
+#include "message-list.h"
+
 #include "evolution-storage.h"	/*EvolutionStorage */
 #include "e-util/e-msgport.h"
 #include "e-util/e-account.h"
@@ -163,6 +165,8 @@ int mail_store_set_offline(CamelStore *store, gboolean offline,
 
 /* filter driver execute shell command async callback */
 void mail_execute_shell_command (CamelFilterDriver *driver, int argc, char **argv, void *data);
+
+void mail_mark_junk (CamelFolder *folder, MessageList *list, gboolean junk);
 
 #ifdef __cplusplus
 }

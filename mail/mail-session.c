@@ -48,6 +48,7 @@
 #include "mail-ops.h"
 #include "e-util/e-passwords.h"
 #include "e-util/e-msgport.h"
+#include "em-junk-filter.h"
 
 #define d(x)
 
@@ -626,6 +627,9 @@ main_get_filter_driver (CamelSession *session, const char *type, CamelException 
 	
 	fsearch = g_string_new ("");
 	faction = g_string_new ("");
+
+	/* implicit junk check as 1st rule */
+	camel_filter_driver_add_rule (driver, "Junk check", "(junk-test)", "(begin (set-system-flag \"junk\"))");
 	
 	/* add the user-defined rules next */
 	while ((rule = rule_context_next_rule (fc, rule, type))) {
@@ -634,7 +638,6 @@ main_get_filter_driver (CamelSession *session, const char *type, CamelException 
 		
 		filter_rule_build_code (rule, fsearch);
 		filter_filter_build_action ((FilterFilter *) rule, faction);
-		
 		camel_filter_driver_add_rule (driver, rule->name, fsearch->str, faction->str);
 	}
 	
@@ -755,6 +758,8 @@ mail_session_init (const char *base_directory)
 	
 	camel_dir = g_strdup_printf ("%s/mail", base_directory);
 	camel_session_construct (session, camel_dir);
+
+	session->junk_plugin = CAMEL_JUNK_PLUGIN (em_junk_filter_get_plugin ());
 	
 	/* The shell will tell us to go online. */
 	camel_session_set_online ((CamelSession *) session, FALSE);

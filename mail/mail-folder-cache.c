@@ -240,9 +240,17 @@ real_flush_updates(void *o, void *event_data, void *data)
 					g_warning ("No folder at %s ?!", up->path);
 				}
 			} else if (storage != NULL) {
-				char *type = (strncmp(up->uri, "vtrash:", 7)==0)?"vtrash":"mail";
-				EFolder *new_folder = e_folder_new (up->name, type, NULL);
+				char *type;
+				EFolder *new_folder;
 
+				if (strncmp(up->uri, "vtrash:", 7)==0) {
+					type = "vtrash";
+				} else if (strncmp(up->uri, "vjunk:", 6)==0) {
+					type = "vjunk";
+				} else
+					type = "mail";
+
+				new_folder = e_folder_new (up->name, type, NULL);
 				d(printf("Adding new folder: %s\n", up->path));
 
 				e_folder_set_physical_uri (new_folder, up->uri);
@@ -461,7 +469,7 @@ folder_changed (CamelObject *o, gpointer event_data, gpointer user_data)
 	if (mfi->folder != folder)
 		return;
 	
-	if (!CAMEL_IS_VTRASH_FOLDER (folder) && folder != outbox_folder && folder != sent_folder && changes && changes->uid_added)
+	if (!CAMEL_IS_VTRASH_FOLDER (folder) && !CAMEL_IS_VJUNK_FOLDER (folder) && folder != outbox_folder && folder != sent_folder && changes && changes->uid_added)
 		new = changes->uid_added->len;
 	
 	LOCK(info_lock);

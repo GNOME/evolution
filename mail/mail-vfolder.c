@@ -345,7 +345,7 @@ mail_vfolder_add_uri(CamelStore *store, const char *uri, int remove)
 	GCompareFunc uri_cmp = CAMEL_STORE_CLASS(CAMEL_OBJECT_GET_CLASS(store))->compare_folder_name;
 	int is_ignore;
 
-	if (CAMEL_IS_VEE_STORE(store) || !strncmp(uri, "vtrash:", 7) || context == NULL)
+	if (CAMEL_IS_VEE_STORE(store) || !strncmp(uri, "vtrash:", 7) || !strncmp(uri, "vjunk:", 6) || context == NULL)
 		return;
 
 	g_assert(pthread_self() == mail_gui_thread);
@@ -426,7 +426,7 @@ mail_vfolder_delete_uri(CamelStore *store, const char *uri)
 	CamelVeeFolder *vf;
 	GString *changed;
 
-	if (context == NULL || !strncmp(uri, "vtrash:", 7))
+	if (context == NULL || !strncmp(uri, "vtrash:", 7) || !strncmp(uri, "vjunk:", 6))
 		return;
 	
 	d(printf ("Deleting uri to check: %s\n", uri));
@@ -492,7 +492,7 @@ mail_vfolder_rename_uri(CamelStore *store, const char *from, const char *to)
 
 	d(printf("vfolder rename uri: %s to %s\n", from, to));
 
-	if (context == NULL || !strncmp(from, "vtrash:", 7) || !strncmp(to, "vtrash:", 7))
+	if (context == NULL || !strncmp(from, "vtrash:", 7) || !strncmp(to, "vtrash:", 7) || !strncmp(from, "vjunk:", 6) || !strncmp(to, "vjunk:", 6))
 		return;
 
 	g_assert(pthread_self() == mail_gui_thread);

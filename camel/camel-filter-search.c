@@ -91,6 +91,7 @@ static ESExpResult *get_current_date (struct _ESExp *f, int argc, struct _ESExpR
 static ESExpResult *header_source (struct _ESExp *f, int argc, struct _ESExpResult **argv, FilterMessageSearch *fms);
 static ESExpResult *get_size (struct _ESExp *f, int argc, struct _ESExpResult **argv, FilterMessageSearch *fms);
 static ESExpResult *pipe_message (struct _ESExp *f, int argc, struct _ESExpResult **argv, FilterMessageSearch *fms);
+static ESExpResult *junk_test (struct _ESExp *f, int argc, struct _ESExpResult **argv, FilterMessageSearch *fms);
 
 /* builtin functions */
 static struct {
@@ -119,6 +120,7 @@ static struct {
 	{ "header-source",      (ESExpFunc *) header_source,      0 },
 	{ "get-size",           (ESExpFunc *) get_size,           0 },
 	{ "pipe-message",       (ESExpFunc *) pipe_message,       0 },
+	{ "junk-test",          (ESExpFunc *) junk_test,          0 },
 };
 
 
@@ -606,6 +608,23 @@ pipe_message (struct _ESExp *f, int argc, struct _ESExpResult **argv, FilterMess
 	r = e_sexp_result_new (f, ESEXP_RES_INT);
 	r->value.number = retval;
 	
+	return r;
+}
+
+static ESExpResult *
+junk_test (struct _ESExp *f, int argc, struct _ESExpResult **argv, FilterMessageSearch *fms)
+{
+	ESExpResult *r;
+	gboolean retval = FALSE;
+	
+	if (fms->session->junk_plugin != NULL) {
+		retval = camel_junk_plugin_check_junk (fms->session->junk_plugin, camel_filter_search_get_message (fms, f));
+	
+		fprintf (stderr, "junk filter => %s\n", retval ? "*JUNK*" : "clean");
+	}
+	r = e_sexp_result_new (f, ESEXP_RES_BOOL);
+	r->value.number = retval;
+
 	return r;
 }
 

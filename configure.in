@@ -1094,7 +1094,7 @@ AC_DEFUN(EVO_SET_COMPILE_FLAGS, [
 dnl --- Required version numbers
 
 GAL_REQUIRED=2.1.0
-GTKHTML_REQUIRED=3.1.1
+GTKHTML_REQUIRED=3.1.0
 
 AC_SUBST(GAL_REQUIRED)
 AC_SUBST(GTKHTML_REQUIRED)
@@ -1423,6 +1423,7 @@ default_user/local/Calendar/Makefile
 default_user/local/Contacts/Makefile
 default_user/local/Drafts/Makefile
 default_user/local/Inbox/Makefile
+default_user/local/Junk/Makefile
 default_user/local/Outbox/Makefile
 default_user/local/Sent/Makefile
 default_user/local/Tasks/Makefile

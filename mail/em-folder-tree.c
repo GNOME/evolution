@@ -144,7 +144,8 @@ enum {
 	FOLDER_ICON_NORMAL,
 	FOLDER_ICON_INBOX,
 	FOLDER_ICON_OUTBOX,
-	FOLDER_ICON_TRASH
+	FOLDER_ICON_TRASH,
+	FOLDER_ICON_JUNK
 };
 
 static GdkPixbuf *folder_icons[4];
@@ -163,6 +164,7 @@ render_pixbuf (GtkTreeViewColumn *column, GtkCellRenderer *renderer,
 		folder_icons[1] = gdk_pixbuf_load_from_file (EVOLUTION_ICONSDIR "/inbox-mini.png");
 		folder_icons[2] = gdk_pixbuf_load_from_file (EVOLUTION_ICONSDIR "/outbox-mini.png");
 		folder_icons[3] = gdk_pixbuf_load_from_file (EVOLUTION_ICONSDIR "/evolution-trash-mini.png");
+		folder_icons[4] = gdk_pixbuf_load_from_file (EVOLUTION_ICONSDIR "/evolution-junk-mini.png");
 		initialised = TRUE;
 	}
 	
@@ -176,6 +178,8 @@ render_pixbuf (GtkTreeViewColumn *column, GtkCellRenderer *renderer,
 			pixbuf = folder_icons[FOLDER_ICON_OUTBOX];
 		else if (!strcasecmp (name, "/Trash"))
 			pixbuf = folder_icons[FOLDER_ICON_TRASH];
+		else if (!strcasecmp (name, "/Junk"))
+			pixbuf = folder_icons[FOLDER_ICON_JUNK];
 		else
 			pixbuf = folder_icons[FOLDER_ICON_NORMAL];
 	}

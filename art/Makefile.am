@@ -45,6 +45,8 @@ images_DATA = \
 	evolution-today.png 		\
 	evolution-trash-mini.png 	\
 	evolution-trash.png 		\
+	evolution-junk.png		\
+	evolution-junk-mini.png		\
 	executive-summary-bg.png	\
 	executive-summary-curve.png	\
 	info-bulb.png			\

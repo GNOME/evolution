@@ -109,6 +109,10 @@ libevolution_mail_la_SOURCES =			\
 	em-sync-stream.h			\
 	em-icon-stream.c			\
 	em-icon-stream.h			\
+	em-junk-filter.c			\
+	em-junk-filter.h			\
+	em-junk-plugin.c			\
+	em-junk-plugin.h			\
 	em-html-stream.c			\
 	em-html-stream.h			\
 	folder-browser-factory.c		\

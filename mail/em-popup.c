@@ -459,6 +459,11 @@ em_popup_target_new_select(struct _CamelFolder *folder, const char *folder_uri, 
 			mask &= ~EM_POPUP_SELECT_MARK_UNIMPORTANT;
 		else
 			mask &= ~EM_POPUP_SELECT_MARK_IMPORTANT;
+
+		if (info->flags & CAMEL_MESSAGE_JUNK)
+			mask &= ~EM_POPUP_SELECT_MARK_NOJUNK;
+		else
+			mask &= ~EM_POPUP_SELECT_MARK_JUNK;
 			
 		tmp = camel_tag_get (&info->user_tags, "follow-up");
 		if (tmp && *tmp) {

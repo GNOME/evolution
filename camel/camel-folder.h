@@ -103,6 +103,7 @@ struct _CamelFolder
 #define CAMEL_FOLDER_FILTER_RECENT          (1<<2)
 #define CAMEL_FOLDER_HAS_BEEN_DELETED       (1<<3)
 #define CAMEL_FOLDER_IS_TRASH               (1<<4)
+#define CAMEL_FOLDER_IS_JUNK                (1<<5)
 
 typedef struct {
 	CamelObjectClass parent_class;

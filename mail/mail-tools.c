@@ -312,6 +312,8 @@ mail_tool_uri_to_folder (const char *uri, guint32 flags, CamelException *ex)
 	/* This hack is still needed for file:/ since it's its own EvolutionStorage type */
 	if (!strncmp (uri, "vtrash:", 7))
 		offset = 7;
+	else if (!strncmp (uri, "vjunk:", 6))
+		offset = 6;
 	
 	url = camel_url_new (uri + offset, ex);
 	if (!url) {
@@ -333,9 +335,14 @@ mail_tool_uri_to_folder (const char *uri, guint32 flags, CamelException *ex)
 				name = "";
 		}
 		
-		if (offset)
-			folder = camel_store_get_trash (store, ex);
-		else
+		if (offset) {
+			if (offset == 7)
+				folder = camel_store_get_trash (store, ex);
+			else if (offset == 6)
+				folder = camel_store_get_junk (store, ex);
+			else
+				g_assert (FALSE);
+		} else
 			folder = camel_store_get_folder (store, name, flags, ex);
 		camel_object_unref (store);
 	}

@@ -809,7 +809,6 @@ pipe_message (struct _ESExp *f, int argc, struct _ESExpResult **argv, CamelFilte
 	return NULL;
 }
 
-
 static ESExpResult *
 do_shell (struct _ESExp *f, int argc, struct _ESExpResult **argv, CamelFilterDriver *driver)
 {
