@@ -1,4 +1,14 @@
-2022-10-24  Jeffrey Stedfast  <fejj@helixcode.com>
+2000-10-24  Jeffrey Stedfast  <fejj@helixcode.com>
+
+	* filter-element.c (filter_element_new_type_name): Remove
+	filter-url code.
+
+	* filter-url.[c,h]: What was I smoking? There's no good reason to
+	filter on source urls as there are other ways to get the same
+	effect. Thanks to both Zucchi and Miguel for helping me see this
+	:-)
+
+2000-10-24  Jeffrey Stedfast  <fejj@helixcode.com>
 
 	* filter-driver.c: Fixed NULL in fprintf.
 
