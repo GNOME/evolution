@@ -381,6 +381,9 @@ message_list_select (MessageList *message_list, int base_row,
 	int vrow, last;
 	ETree *et = message_list->tree;
 
+	if (!GTK_WIDGET_HAS_FOCUS (message_list))
+		gtk_widget_grab_focus (GTK_WIDGET (message_list));
+
 	switch (direction) {
 	case MESSAGE_LIST_SELECT_PREVIOUS:
 		last = -1;

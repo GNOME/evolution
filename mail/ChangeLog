@@ -1,3 +1,15 @@
+2001-05-07  Dan Winship  <danw@ximian.com>
+
+	* folder-browser.c (my_folder_browser_init): Connect to
+	key_press_event on the GtkHTML widget.
+	(etree_key): Only handle space/backspace here, pass the rest off
+	to on_key_press.
+	(on_key_press): Handle Delete/N/P/Menu in either MessageList or
+	MailDisplay.
+
+	* message-list.c (message_list_select): Grab focus if we don't
+	have it.
+
 2001-05-03  Dan Winship  <danw@ximian.com>
 
 	* message-list.c: #include <camel/camel-file-utils.h>

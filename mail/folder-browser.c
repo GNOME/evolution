@@ -15,11 +15,12 @@
 #include <ctype.h>
 
 #include <gdk/gdkkeysyms.h>
-#include <gal/util/e-util.h>
-#include <gal/widgets/e-unicode.h>
 #include <gal/e-paned/e-vpaned.h>
-#include <gal/widgets/e-popup-menu.h>
+#include <gal/e-table/e-table.h>
+#include <gal/util/e-util.h>
 #include <gal/widgets/e-gui-utils.h>
+#include <gal/widgets/e-popup-menu.h>
+#include <gal/widgets/e-unicode.h>
 
 #include "filter/vfolder-rule.h"
 #include "filter/vfolder-context.h"
@@ -821,38 +822,20 @@ display_menu:
 	return TRUE;
 }
 
-static int
-etree_key (ETree *tree, int row, ETreePath path, int col, GdkEvent *ev, FolderBrowser *fb)
+static gint
+on_key_press (GtkWidget *widget, GdkEventKey *key, gpointer data)
 {
-	if ((ev->key.state & GDK_CONTROL_MASK) != 0)
+	FolderBrowser *fb = data;
+	ETreePath *path;
+	int row;
+
+	if (key->state & GDK_CONTROL_MASK)
 		return FALSE;
 
-	switch (ev->key.keyval) {
-	case GDK_space:
-	case GDK_BackSpace:
-	{
-		GtkAdjustment *vadj;
-		gfloat page_size;
+	path = e_tree_get_cursor (fb->message_list->tree);
+	row = e_tree_row_of_node (fb->message_list->tree, path);
 
-		vadj = e_scroll_frame_get_vadjustment (fb->mail_display->scroll);
-		page_size = vadj->page_size - vadj->step_increment;
-
-		if (ev->key.keyval == GDK_BackSpace) {
-			if (vadj->value > vadj->lower + page_size)
-				vadj->value -= page_size;
-			else
-				vadj->value = vadj->lower;
-		} else {
-			if (vadj->value < vadj->upper - vadj->page_size - page_size)
-				vadj->value += page_size;
-			else
-				vadj->value = vadj->upper - vadj->page_size;
-		}
-
-		gtk_adjustment_value_changed (vadj);
-		return TRUE;
-	}
-	
+	switch (key->keyval) {
 	case GDK_Delete:
 	case GDK_KP_Delete:
 		delete_msg (NULL, fb);
@@ -876,14 +859,42 @@ etree_key (ETree *tree, int row, ETreePath path, int col, GdkEvent *ev, FolderBr
 		return TRUE;
 
 	case GDK_Menu:
-		on_right_click (tree, row, path, col, ev, fb);
+		on_right_click (fb->message_list->tree, row, path, 2,
+				(GdkEvent *)key, fb);
 		return TRUE;
-
-	default:
-		return FALSE;
 	}
 
 	return FALSE;
+}
+
+static int
+etree_key (ETree *tree, int row, ETreePath path, int col, GdkEvent *ev, FolderBrowser *fb)
+{
+	GtkAdjustment *vadj;
+	gfloat page_size;
+
+	if ((ev->key.state & GDK_CONTROL_MASK) != 0)
+		return FALSE;
+	if (ev->key.keyval != GDK_space && ev->key.keyval != GDK_BackSpace)
+		return on_key_press ((GtkWidget *)tree, (GdkEventKey *)ev, fb);
+
+	vadj = e_scroll_frame_get_vadjustment (fb->mail_display->scroll);
+	page_size = vadj->page_size - vadj->step_increment;
+
+	if (ev->key.keyval == GDK_BackSpace) {
+		if (vadj->value > vadj->lower + page_size)
+			vadj->value -= page_size;
+		else
+			vadj->value = vadj->lower;
+	} else {
+		if (vadj->value < vadj->upper - vadj->page_size - page_size)
+			vadj->value += page_size;
+		else
+			vadj->value = vadj->upper - vadj->page_size;
+	}
+
+	gtk_adjustment_value_changed (vadj);
+	return TRUE;
 }
 
 static void
@@ -1085,6 +1096,9 @@ my_folder_browser_init (GtkObject *object)
 				  GTK_POLICY_NEVER,
 				  GTK_POLICY_ALWAYS);
 	
+	gtk_signal_connect (GTK_OBJECT (fb->mail_display->html),
+			    "key_press_event", GTK_SIGNAL_FUNC (on_key_press), fb);
+
 	gtk_signal_connect (GTK_OBJECT (fb->message_list->tree),
 			    "key_press", GTK_SIGNAL_FUNC (etree_key), fb);
 
