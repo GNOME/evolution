@@ -17,6 +17,9 @@ Calendar:
 
   - Plenty of internal refactoring (JP, Damon, Federico).
 
+  - Pilot working, mostly on pcs infrastructure and some todo work (JP)
+    <EXPERIMENTAL>
+
 Addressbook:
 
   - New advanced search dialog. (Michael Zucchi, Chris Lahey)
