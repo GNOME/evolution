@@ -1756,10 +1756,8 @@ handle_multipart_signed (CamelMimePart *part, const char *mime_type,
 {
 	CamelMimePart *subpart;
 	CamelDataWrapper *wrapper;
-	/*CamelMultipart *mp;*/
 	CamelMultipartSigned *mps;
 	gboolean output = FALSE;
-	int nparts, i;
 	
 	wrapper = camel_medium_get_content_object (CAMEL_MEDIUM (part));
 	

@@ -366,44 +366,51 @@ composer_sent_cb (char *uri, CamelMimeMessage *message, gboolean sent, void *dat
 static CamelMimeMessage *
 composer_get_message (EMsgComposer *composer)
 {
-	static char *recipient_type[] = {
-		CAMEL_RECIPIENT_TYPE_TO,
-		CAMEL_RECIPIENT_TYPE_CC,
-		CAMEL_RECIPIENT_TYPE_BCC
-	};
-	const CamelInternetAddress *iaddr;
 	const MailConfigAccount *account;
-	CamelMimeMessage *message;
-	EDestination **recipients;
-	const char *subject;
-	int num_addrs, i;
-	
-	message = e_msg_composer_get_message (composer);
-	if (message == NULL)
-		return NULL;
-	
-	/* Add info about the sending account */
-	account = e_msg_composer_get_preferred_account (composer);
-	
-	if (account) {
-		camel_medium_set_header (CAMEL_MEDIUM (message), "X-Evolution-Account", account->name);
-		camel_medium_set_header (CAMEL_MEDIUM (message), "X-Evolution-Transport", account->transport->url);
-		camel_medium_set_header (CAMEL_MEDIUM (message), "X-Evolution-Fcc", account->sent_folder_uri);
-		if (account->id->organization)
-			camel_medium_set_header (CAMEL_MEDIUM (message), "Organization", account->id->organization);
-	}
-	
+	CamelMimeMessage *message = NULL;
+	EDestination **recipients, **recipients_bcc;
+	char *subject;
+	int i;
+	int hidden = 0, shown = 0;
+	int num = 0, num_bcc = 0;
+
+	/* We should do all of the validity checks based on the composer, and not on
+	   the created message, as extra interaction may occur when we get the message
+	   (e.g. to get a passphrase to sign a message) */
+
 	/* get the message recipients */
-	recipients = e_msg_composer_get_recipients (composer);
-	
-	/* Check for recipients */
-	for (num_addrs = 0, i = 0; i < 3; i++) {
-		iaddr = camel_mime_message_get_recipients (message, recipient_type[i]);
-		num_addrs += iaddr ? camel_address_length (CAMEL_ADDRESS (iaddr)) : 0;
+	recipients = e_msg_composer_get_recipients(composer);
+
+	/* see which ones are visible/present, etc */
+	if (recipients) {
+		for (i=0; recipients[i] != NULL;i++) {
+			const char *addr = e_destination_get_address(recipients[i]);
+			
+			if (addr && addr[0]) {
+				num++;
+				if (e_destination_is_evolution_list(recipients[i])
+				    && !e_destination_list_show_addresses(recipients[i])) {
+					hidden++;
+				} else {
+					shown++;
+				}
+			}
+		}
 	}
-	
+
+	recipients_bcc = e_msg_composer_get_bcc(composer);
+	if (recipients_bcc) {
+		for (i=0; recipients_bcc[i] != NULL;i++) {
+			const char *addr = e_destination_get_address(recipients_bcc[i]);
+			
+			if (addr && addr[0])
+				num_bcc++;
+		}
+		e_destination_freev (recipients_bcc);
+	}
+
 	/* I'm sensing a lack of love, er, I mean recipients. */
-	if (num_addrs == 0) {
+	if (num == 0) {
 		GtkWidget *message_box;
 		
 		message_box = gnome_message_box_new (_("You must specify recipients in order to "
@@ -413,33 +420,13 @@ composer_get_message (EMsgComposer *composer)
 						     NULL);
 		
 		gnome_dialog_run_and_close (GNOME_DIALOG (message_box));
-		
-		camel_object_unref (CAMEL_OBJECT (message));
-		message = NULL;
 		goto finished;
 	}
 	
-	if (iaddr && num_addrs == camel_address_length (CAMEL_ADDRESS (iaddr))) {
-		/* this means that the only recipients are Bcc's */
-		
-		/* OK, this is an abusive hack.  If someone sends a mail with a
-		   hidden contact list on the To: line and no other recipients,
-		   they will unknowingly create a message with only bcc: recipients.
-		   We try to detect this and pass a flag to ask_confirm_for_only_bcc,
-		   so that it can present the user with a dialog whose text has been
-		   modified to reflect this situation. */
-		
-		const char *to_header = camel_medium_get_header (CAMEL_MEDIUM (message), CAMEL_RECIPIENT_TYPE_TO);
-		gboolean hidden_list_case = FALSE;
-		
-		if (to_header && !strcmp (to_header, "Undisclosed-Recipient:;"))
-			hidden_list_case = TRUE;
-		
-		if (!ask_confirm_for_only_bcc (composer, hidden_list_case)) {
-			camel_object_unref (CAMEL_OBJECT (message));
-			message = NULL;
+	if (num == num_bcc || shown == 0) {
+		/* this means that the only recipients are Bcc's */		
+		if (!ask_confirm_for_only_bcc (composer, shown == 0))
 			goto finished;
-		}
 	}
 	
 	/* Only show this warning if our default is to send html.  If it isn't, we've
@@ -456,22 +443,35 @@ composer_get_message (EMsgComposer *composer)
 		
 		if (html_problem) {
 			html_problem = !ask_confirm_for_unwanted_html_mail (composer, recipients);
-			if (html_problem) {
-				camel_object_unref (CAMEL_OBJECT (message));
-				message = NULL;
+			if (html_problem)
 				goto finished;
-			}
 		}
 	}
 	
 	/* Check for no subject */
-	subject = camel_mime_message_get_subject (message);
+	subject = e_msg_composer_get_subject(composer);
 	if (subject == NULL || subject[0] == '\0') {
 		if (!ask_confirm_for_empty_subject (composer)) {
-			camel_object_unref (CAMEL_OBJECT (message));
-			message = NULL;
+			g_free(subject);
 			goto finished;
 		}
+	}
+	g_free(subject);
+
+	/* actually get the message now, this will sign/encrypt etc */
+	message = e_msg_composer_get_message (composer);
+	if (message == NULL)
+		goto finished;
+	
+	/* Add info about the sending account */
+	account = e_msg_composer_get_preferred_account (composer);
+	
+	if (account) {
+		camel_medium_set_header (CAMEL_MEDIUM (message), "X-Evolution-Account", account->name);
+		camel_medium_set_header (CAMEL_MEDIUM (message), "X-Evolution-Transport", account->transport->url);
+		camel_medium_set_header (CAMEL_MEDIUM (message), "X-Evolution-Fcc", account->sent_folder_uri);
+		if (account->id->organization)
+			camel_medium_set_header (CAMEL_MEDIUM (message), "Organization", account->id->organization);
 	}
 	
 	/* Get the message recipients and 'touch' them, boosting their use scores */
