@@ -59,7 +59,6 @@
 
 #include <libsoup/soup-message.h>
 
-#include "e-util/e-html-utils.h"
 #include "e-util/e-mktemp.h"
 #include "addressbook/backend/ebook/e-book-util.h"
 
@@ -1667,6 +1666,31 @@ void
 mail_text_write (MailDisplayStream *stream, MailDisplay *md, CamelMimePart *part,
 		 int idx, gboolean printing, const char *text)
 {
+	CamelStreamFilter *filtered_stream;
+	CamelMimeFilter *html_filter;
+	guint32 flags;
+	
+	flags = CAMEL_MIME_FILTER_TOHTML_CONVERT_NL | CAMEL_MIME_FILTER_TOHTML_CONVERT_SPACES;
+	
+	if (!printing)
+		flags |= CAMEL_MIME_FILTER_TOHTML_CONVERT_URLS | CAMEL_MIME_FILTER_TOHTML_CONVERT_ADDRESSES;
+	
+	if (!printing && mail_config_get_citation_highlight ())
+		flags |= CAMEL_MIME_FILTER_TOHTML_MARK_CITATION;
+	
+	html_filter = camel_mime_filter_tohtml_new (flags, mail_config_get_citation_color ());
+	filtered_stream = camel_stream_filter_new_with_stream ((CamelStream *) stream);
+	camel_stream_filter_add (filtered_stream, html_filter);
+	camel_object_unref (html_filter);
+	
+	camel_stream_write ((CamelStream *) stream, "<tt>\n", 5);
+	camel_stream_write ((CamelStream *) filtered_stream, text, strlen (text));
+	camel_stream_flush ((CamelStream *) filtered_stream);
+	camel_stream_write ((CamelStream *) stream, "</tt>\n", 6);
+	camel_object_unref (filtered_stream);
+	
+#if 0
+	/* this was the old way of doing it, I don't understand why we need iframes... */
 	GByteArray *ba;
 	char *xed, *iframe;
 	char *btt = "<tt>\n";
@@ -1674,15 +1698,15 @@ mail_text_write (MailDisplayStream *stream, MailDisplay *md, CamelMimePart *part
 	char *htmltext;
 	guint32 flags;
 	
-	flags = E_TEXT_TO_HTML_CONVERT_NL | E_TEXT_TO_HTML_CONVERT_SPACES;
+	flags = CAMEL_MIME_FILTER_TOHTML_CONVERT_NL | CAMEL_MIME_FILTER_TOHTML_CONVERT_SPACES;
 	
 	if (!printing)
-		flags |= E_TEXT_TO_HTML_CONVERT_URLS | E_TEXT_TO_HTML_CONVERT_ADDRESSES;
+		flags |= CAMEL_MIME_FILTER_TOHTML_CONVERT_URLS | CAMEL_MIME_FILTER_TOHTML_CONVERT_ADDRESSES;
 	
 	if (!printing && mail_config_get_citation_highlight ())
-		flags |= E_TEXT_TO_HTML_MARK_CITATION;
+		flags |= CAMEL_MIME_FILTER_TOHTML_MARK_CITATION;
 	
-	htmltext = e_text_to_html_full (text, flags, mail_config_get_citation_color ());
+	htmltext = camel_text_to_html (text, flags, mail_config_get_citation_color ());
 	
 	ba = g_byte_array_new ();
 	g_byte_array_append (ba, (const guint8 *) btt, strlen (btt) + 1);
@@ -1695,11 +1719,13 @@ mail_text_write (MailDisplayStream *stream, MailDisplay *md, CamelMimePart *part
 	mail_display_add_url (md, "data_urls", xed, ba);
 	camel_stream_write ((CamelStream *) stream, iframe, strlen (iframe));
 	g_free (iframe);
+#endif
 }
 
 void
 mail_error_printf (MailDisplayStream *stream, const char *format, ...)
 {
+	/* FIXME: it'd be nice if camel-stream had a vprintf method... */
 	char *buf, *htmltext;
 	va_list ap;
 	
@@ -1707,7 +1733,8 @@ mail_error_printf (MailDisplayStream *stream, const char *format, ...)
 	buf = g_strdup_vprintf (format, ap);
 	va_end (ap);
 	
-	htmltext = e_text_to_html (buf, E_TEXT_TO_HTML_CONVERT_NL | E_TEXT_TO_HTML_CONVERT_URLS);
+	htmltext = camel_text_to_html (buf, CAMEL_MIME_FILTER_TOHTML_CONVERT_NL |
+				       CAMEL_MIME_FILTER_TOHTML_CONVERT_URLS, 0);
 	g_free (buf);
 	
 	camel_stream_printf ((CamelStream *) stream, "<em><font color=red>");

@@ -1,5 +1,19 @@
 2002-12-16  Jeffrey Stedfast  <fejj@ximian.com>
 
+	* mail-display.c (mail_error_printf): Use camel_text_to_html()
+	instead of e_text_to_html().
+	(mail_text_write): Write the content directly to gtkhtml through
+	an html stream filter.
+
+	* mail-format.c (attachment_header): Use camel_text_to_html()
+	instead of e_text_to_html().
+	(write_text_header): Same.
+	(write_address): Here too.
+	(mail_get_message_rfc822): And here.
+	(mail_get_message_body): And finally here.
+
+2002-12-16  Jeffrey Stedfast  <fejj@ximian.com>
+
 	* mail-format.c (handle_text_plain): Re-implemented to use
 	streams. Also no need to check for html since
 	camel-mime-part-utils.c now does this for us and will re-tag the

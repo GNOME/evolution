@@ -45,7 +45,6 @@
 #include "mail-session.h"
 #include "composer/e-msg-composer.h"
 #include "folder-browser.h"
-#include "e-util/e-html-utils.h"
 
 #include "filter/filter-filter.h"
 

@@ -44,7 +44,6 @@
 #include "mail-local.h"
 #include "mail-mt.h"
 #include "mail-folder-cache.h"
-#include "e-util/e-html-utils.h"
 
 /* **************************************** */
 

@@ -49,7 +49,6 @@
 
 #include <gal/util/e-util.h>
 #include <gal/widgets/e-gui-utils.h>
-#include <e-util/e-html-utils.h>
 #include <e-util/e-url.h>
 #include <e-util/e-passwords.h>
 #include "mail.h"

@@ -44,7 +44,6 @@
 #include <camel/camel-mime-filter-tohtml.h>
 
 #include <e-util/e-trie.h>
-#include <e-util/e-html-utils.h>
 
 #include "mail.h"
 #include "mail-tools.h"
@@ -630,14 +629,14 @@ attachment_header (CamelMimePart *part, const char *mime_type, MailDisplay *md,
 	
 	/* Write the MIME type */
 	info = gnome_vfs_mime_get_description (mime_type);
-	htmlinfo = e_text_to_html (info ? info : mime_type, 0);
+	htmlinfo = camel_text_to_html (info ? info : mime_type, 0, 0);
 	camel_stream_printf ((CamelStream *) stream, _("%s attachment"), htmlinfo);
 	g_free (htmlinfo);
 	
 	/* Write the name, if we have it. */
 	info = camel_mime_part_get_filename (part);
 	if (info) {
-		htmlinfo = e_text_to_html (info, 0);
+		htmlinfo = camel_text_to_html (info, 0, 0);
 		camel_stream_printf ((CamelStream *) stream, " (%s)", htmlinfo);
 		g_free (htmlinfo);
 	}
@@ -645,7 +644,7 @@ attachment_header (CamelMimePart *part, const char *mime_type, MailDisplay *md,
 	/* Write a description, if we have one. */
 	info = camel_mime_part_get_description (part);
 	if (info) {
-		htmlinfo = e_text_to_html (info, md->printing ? 0 : E_TEXT_TO_HTML_CONVERT_URLS);
+		htmlinfo = camel_text_to_html (info, md->printing ? 0 : CAMEL_MIME_FILTER_TOHTML_CONVERT_URLS, 0);
 		camel_stream_printf ((CamelStream *) stream, ", \"%s\"", htmlinfo);
 		g_free (htmlinfo);
 	}
@@ -762,7 +761,7 @@ write_text_header (MailDisplayStream *stream, const char *name, const char *valu
 	char *encoded;
 	
 	if (value && *value)
-		encoded = e_text_to_html (value, E_TEXT_TO_HTML_CONVERT_NL | E_TEXT_TO_HTML_CONVERT_URLS);
+		encoded = camel_text_to_html (value, CAMEL_MIME_FILTER_TOHTML_CONVERT_NL | CAMEL_MIME_FILTER_TOHTML_CONVERT_URLS, 0);
 	else
 		encoded = "";
 	
@@ -802,11 +801,11 @@ write_address (MailDisplay *md, MailDisplayStream *stream,
 		camel_object_unref (subaddr);
 		
 		if (have_name) {
-			name_disp = e_text_to_html (name, 0);
+			name_disp = camel_text_to_html (name, 0, 0);
 		}
 		
 		if (have_email) {
-			email_disp = e_text_to_html (email, 0);
+			email_disp = camel_text_to_html (email, 0, 0);
 		}
 		
 		if (i)
@@ -1873,7 +1872,7 @@ mail_get_message_rfc822 (CamelMimeMessage *message, gboolean want_plain, gboolea
 	cia = camel_mime_message_get_from (message);
 	buf = camel_address_format (CAMEL_ADDRESS (cia));
 	if (buf) {
-		html = e_text_to_html (buf, E_TEXT_TO_HTML_CONVERT_NL);
+		html = camel_text_to_html (buf, CAMEL_MIME_FILTER_TOHTML_CONVERT_NL, 0);
 		g_string_sprintfa (retval, "%s<b>From:</b> %s<br>",
 				   citation, html);
 		g_free (html);
@@ -1883,7 +1882,7 @@ mail_get_message_rfc822 (CamelMimeMessage *message, gboolean want_plain, gboolea
 	cia = camel_mime_message_get_recipients (message, CAMEL_RECIPIENT_TYPE_TO);
 	buf = camel_address_format (CAMEL_ADDRESS (cia));
 	if (buf) {
-		html = e_text_to_html (buf, E_TEXT_TO_HTML_CONVERT_NL);
+		html = camel_text_to_html (buf, CAMEL_MIME_FILTER_TOHTML_CONVERT_NL, 0);
 		g_string_sprintfa (retval, "%s<b>To:</b> %s<br>",
 				   citation, html);
 		g_free (html);
@@ -1893,7 +1892,7 @@ mail_get_message_rfc822 (CamelMimeMessage *message, gboolean want_plain, gboolea
 	cia = camel_mime_message_get_recipients (message, CAMEL_RECIPIENT_TYPE_CC);
 	buf = camel_address_format (CAMEL_ADDRESS (cia));
 	if (buf) {
-		html = e_text_to_html (buf, E_TEXT_TO_HTML_CONVERT_NL);
+		html = camel_text_to_html (buf, CAMEL_MIME_FILTER_TOHTML_CONVERT_NL, 0);
 		g_string_sprintfa (retval, "%s<b>Cc:</b> %s<br>",
 				   citation, html);
 		g_free (html);
@@ -1902,7 +1901,8 @@ mail_get_message_rfc822 (CamelMimeMessage *message, gboolean want_plain, gboolea
 	
 	buf = (char *) camel_mime_message_get_subject (message);
 	if (buf) {
-		html = e_text_to_html (buf, E_TEXT_TO_HTML_CONVERT_NL | E_TEXT_TO_HTML_CONVERT_URLS);
+		html = camel_text_to_html (buf, CAMEL_MIME_FILTER_TOHTML_CONVERT_NL |
+					   CAMEL_MIME_FILTER_TOHTML_CONVERT_URLS, 0);
 		g_string_sprintfa (retval, "%s<b>Subject:</b> %s<br>",
 				   citation, html);
 		g_free (html);
@@ -1910,7 +1910,7 @@ mail_get_message_rfc822 (CamelMimeMessage *message, gboolean want_plain, gboolea
 	
 	date_val = camel_mime_message_get_date (message, &offset);
 	buf = header_format_date (date_val, offset);
-	html = e_text_to_html (buf, E_TEXT_TO_HTML_CONVERT_NL);
+	html = camel_text_to_html (buf, CAMEL_MIME_FILTER_TOHTML_CONVERT_NL, 0);
 	g_string_sprintfa (retval, "%s<b>Date:</b> %s<br>", citation, html);
 	g_free (html);
 	g_free (buf);
@@ -1982,8 +1982,9 @@ mail_get_message_body (CamelDataWrapper *data, gboolean want_plain, gboolean cit
 		if (text && !header_content_type_is (mime_type, "text", "html")) {
 			char *html;
 			
-			html = e_text_to_html (text, E_TEXT_TO_HTML_PRE | E_TEXT_TO_HTML_CONVERT_URLS |
-					       (cite ? E_TEXT_TO_HTML_CITE : 0));
+			html = camel_text_to_html (text, CAMEL_MIME_FILTER_TOHTML_PRE |
+						   CAMEL_MIME_FILTER_TOHTML_CONVERT_URLS |
+						   (cite ? CAMEL_MIME_FILTER_TOHTML_CITE : 0), 0);
 			g_free (text);
 			text = html;
 		}
