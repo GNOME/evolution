@@ -1,3 +1,8 @@
+2002-05-20  Jeffrey Stedfast  <fejj@ximian.com>
+
+	* mail-display.c (mail_display_render): Fixed the "Overdue:"
+	string to not contain any HTML tags.
+
 2002-05-20  Ettore Perazzoli  <ettore@ximian.com>
 
 	* subscribe-dialog.c (recursive_add_folder): Pass TRUE for

@@ -557,14 +557,15 @@ struct _save_draft_info {
 };
 
 static void
-save_draft_done (CamelFolder *folder, CamelMimeMessage *msg, CamelMessageInfo *info, int ok, char *appended_uid, void *data)
+save_draft_done (CamelFolder *folder, CamelMimeMessage *msg, CamelMessageInfo *info, int ok,
+		 char *appended_uid, void *data)
 {
 	struct _save_draft_info *sdi = data;
 	char *old_uid;
-
+	
 	if (!ok)
 		goto done;
-
+	
 	old_uid = gtk_object_get_data (GTK_OBJECT (sdi->composer), "draft_uid");
 	if (old_uid) {
 		/* delete the original draft message */
@@ -572,11 +573,11 @@ save_draft_done (CamelFolder *folder, CamelMimeMessage *msg, CamelMessageInfo *i
 						CAMEL_MESSAGE_DELETED,
 						CAMEL_MESSAGE_DELETED);
 	}
-
+	
 	if (appended_uid) {
 		gtk_object_set_data_full (GTK_OBJECT (sdi->composer),
 					  "draft_uid", appended_uid,
-					  (GtkDestroyNotify)g_free);
+					  (GtkDestroyNotify) g_free);
 	} else {
 		gtk_object_set_data (GTK_OBJECT (sdi->composer),
 				     "draft_uid", NULL);
@@ -584,7 +585,7 @@ save_draft_done (CamelFolder *folder, CamelMimeMessage *msg, CamelMessageInfo *i
 	
 	if (sdi->quit)
 		gtk_widget_destroy (GTK_WIDGET (sdi->composer));
-
+	
  done:
 	gtk_object_unref (GTK_OBJECT (sdi->composer));
 	g_free (info);

@@ -1550,7 +1550,7 @@ mail_display_render (MailDisplay *md, GtkHTML *html, gboolean reset_scroll)
 		
 		now = time (NULL);
 		if (now >= md->followup->target_date)
-			overdue = U_("<b>Overdue:</b>&nbsp;");
+			overdue = U_("Overdue:");
 		else
 			overdue = "";
 		
@@ -1564,9 +1564,10 @@ mail_display_render (MailDisplay *md, GtkHTML *html, gboolean reset_scroll)
 					"<table cellspacing=1 cellpadding=1 bgcolor=\"#000000\"><tr><td>"
 					"<table cellspacing=0 bgcolor=\"#%s\" cellpadding=2 cellspacing=2>"
 					"<tr><td align=\"left\" width=20><img src=\"%s\" align=\"middle\"></td>"
-					"<td>%s%s by %s</td></table></td></tr></table></font>", fontcolor, bgcolor,
+					"<td>%s%s%s%s by %s</td></table></td></tr></table></font>", fontcolor, bgcolor,
 					mail_display_get_url_for_icon (md, EVOLUTION_IMAGES "/flag-for-followup-16.png"),
-					overdue, message_tag_followup_i18n_name (md->followup->type), due_date);
+					overdue ? "<b>" : "", overdue, overdue ? "</b>&nbsp;" : "",
+					message_tag_followup_i18n_name (md->followup->type), due_date);
 	}
 	
 	if (md->current_message) {
