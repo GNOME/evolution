@@ -1,8 +1,10 @@
 [Desktop Entry]
 _Name=Ximian Evolution
 _Comment=The Evolution groupware suite
-Exec=evolution
+Exec=evolution-1.3
 Icon=evolution.png
 Terminal=0
 Type=Application
-Categories=Application;Calendar;Office
+Categories=GNOME;Application;Office;
+StartupNotify=true
+

@@ -1,4 +1,4 @@
-desktopdir = $(datadir)/gnome/apps/Applications
+desktopdir = $(datadir)/applications
 desktop_in_file = evolution.desktop.in
 desktop_file = $(desktop_in_file:.desktop.in=.desktop)
 @INTLTOOL_DESKTOP_RULE@

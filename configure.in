@@ -656,7 +656,7 @@ if test "x${with_krb4}" != "xno"; then
 			KRB4_CFLAGS="-I$with_krb4/include"
 		fi
 		if test -d "$with_krb4/include/kerberosIV"; then
-			KRB4_CFLAGS="-I$with_krb4/include/kerberosIV"
+			KRB4_CFLAGS="$KRB4_CFLAGS -I$with_krb4/include/kerberosIV"
 		fi
 		KRB4_LDFLAGS="-L$with_krb4/lib $ac_cv_lib_kerberos4"
 		
