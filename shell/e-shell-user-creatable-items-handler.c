@@ -50,6 +50,8 @@ static GtkObjectClass *parent_class = NULL;
 
 #define VERB_PREFIX "ShellUserCreatableItemVerb"
 
+#define EVOLUTION_MAIL_OAFIID "OAFIID:GNOME_Evolution_Mail_ShellComponent"
+
 #define SHELL_VIEW_KEY          "EShellUserCreatableItemsHandler:shell_view"
 #define COMBO_BUTTON_WIDGET_KEY "EShellUserCreatableItemsHandler:combo_button"
 
@@ -60,6 +62,7 @@ struct _Component {
 };
 typedef struct _Component Component;
 
+/* Representation of a single menu item.  */
 struct _MenuItem {
 	const char *label;
 	char shortcut;
@@ -68,10 +71,20 @@ struct _MenuItem {
 };
 typedef struct _MenuItem MenuItem;
 
-struct _EShellUserCreatableItemsHandlerPrivate { 
+struct _EShellUserCreatableItemsHandlerPrivate {
+	/* The components that register user creatable items.  */
 	GSList *components;	/* Component */
 
+	/* The "New ..." menu items.  */
 	GSList *menu_items;     /* MenuItem */
+
+	/* The default item (the mailer's "message" item).  To be used when the
+	   component in the view we are in doesn't provide a default user
+	   creatable type.  This pointer always points to one of the menu items
+	   in ->menu_items.  */
+	const MenuItem *default_menu_item;
+
+	/* XML to describe the menu.  */
 	char *menu_xml;
 };
 
@@ -179,6 +192,7 @@ ensure_menu_items (EShellUserCreatableItemsHandler *handler)
 	GSList *menu_items;
 	GSList *p;
 	int component_num;
+	const char *default_verb;
 
 	priv = handler->priv;
 	if (priv->menu_items != NULL)
@@ -186,6 +200,7 @@ ensure_menu_items (EShellUserCreatableItemsHandler *handler)
 
 	menu_items = NULL;
 	component_num = 0;
+	default_verb = NULL;
 	for (p = priv->components; p != NULL; p = p->next) {
 		const Component *component;
 		int i;
@@ -203,6 +218,11 @@ ensure_menu_items (EShellUserCreatableItemsHandler *handler)
 				item->shortcut = type->menuShortcut;
 				item->verb     = create_verb_from_component_number_and_type_id (component_num, type->id);
 
+				if (strcmp (evolution_shell_component_client_get_id (component->component_client),
+					    EVOLUTION_MAIL_OAFIID) == 0
+				    && strcmp (type->id, "message") == 0)
+					default_verb = item->verb;
+
 				if (type->icon.width == 0 || type->icon.height == 0)
 					item->icon = NULL;
 				else
@@ -219,6 +239,17 @@ ensure_menu_items (EShellUserCreatableItemsHandler *handler)
 		priv->menu_items = NULL;
 	else
 		priv->menu_items = g_slist_sort (menu_items, item_types_sort_func);
+
+	priv->default_menu_item = NULL;
+	if (default_verb != NULL) {
+		for (p = priv->menu_items; p != NULL; p = p->next) {
+			const MenuItem *item;
+
+			item = (const MenuItem *) p->data;
+			if (strcmp (item->verb, default_verb) == 0)
+				priv->default_menu_item = item;
+		}
+	}
 }
 
 static void
@@ -307,7 +338,7 @@ get_default_action_for_view (EShellUserCreatableItemsHandler *handler,
 		}
 	}
 
-	return NULL;
+	return priv->default_menu_item;
 }
 
 
@@ -600,9 +631,10 @@ init (EShellUserCreatableItemsHandler *shell_user_creatable_items_handler)
 	EShellUserCreatableItemsHandlerPrivate *priv;
 
 	priv = g_new (EShellUserCreatableItemsHandlerPrivate, 1);
-	priv->components = NULL;
-	priv->menu_xml   = NULL;
-	priv->menu_items = NULL;
+	priv->components 	= NULL;
+	priv->menu_xml   	= NULL;
+	priv->menu_items 	= NULL;
+	priv->default_menu_item = NULL;
 
 	shell_user_creatable_items_handler->priv = priv;
 }

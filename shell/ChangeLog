@@ -1,5 +1,13 @@
 2002-05-22  Ettore Perazzoli  <ettore@ximian.com>
 
+	* e-shell-user-creatable-items-handler.c: New member
+	default_menu_item in EShellUserCreatableItemsHandlerPrivate.
+	(ensure_menu_items): Set ->default_menu_item.
+	(get_default_action_for_view): When no default item is specified,
+	just return ->default_menu_item.
+
+2002-05-22  Ettore Perazzoli  <ettore@ximian.com>
+
 	* e-shell.c (e_shell_prepare_for_quit): Only refuse quitting if
 	the result is CANCEL.  This way we allow quitting if one of the
 	components has crashed or something else otherwise goes wrong.
