@@ -1,3 +1,10 @@
+2002-11-22  Chris Toshok  <toshok@ximian.com>
+
+	[ fixes #34254, contributed by Sean.Gao@sun.com ]
+	* backend/ebook/evolution-vcard-importer.c (check_file_is_vcard):
+	use g_strncasecmp instead of strncmp here.
+	(support_format_fn): use g_strcasecmp instead of strcmp here.
+
 2002-11-21  Chris Toshok  <toshok@ximian.com>
 
 	* gui/component/addressbook-storage.h: reorder the enum to match
