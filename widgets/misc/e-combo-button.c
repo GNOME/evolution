@@ -316,7 +316,6 @@ impl_button_press_event (GtkWidget *widget,
 		} else {
 			/* User clicked on the left side: just behave like a
 			   normal button (i.e. not a toggle).  */
-			gtk_grab_add (widget);
 			gtk_button_pressed (GTK_BUTTON (widget));
 		}
 	}

@@ -1,3 +1,9 @@
+2002-11-26  Not Zed  <NotZed@Ximian.com>
+
+	* e-combo-button.c (impl_button_press_event): Dont grab_add
+	anymore on the button, gtk_button is changed in gtk2 not to do
+	this anymore.
+
 2002-11-15  Chris Toshok  <toshok@ximian.com>
 
 	* e-clipped-label.c (build_layout): new function, build pango
