@@ -69,7 +69,7 @@ struct _EMinicard
 	GnomeCanvasItem *header_rect;
 	GnomeCanvasItem *header_text;
 
-	GList *fields; /* Of type GnomeCanvasItem. */
+	GList *fields; /* Of type EMinicardField */
 	guint needs_remodeling : 1;
 	
 	gboolean has_focus;

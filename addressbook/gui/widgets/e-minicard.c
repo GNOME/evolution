@@ -47,6 +47,22 @@ static void remodel( EMinicard *e_minicard );
 
 static GnomeCanvasGroupClass *parent_class = NULL;
 
+typedef struct _EMinicardField EMinicardField;
+
+struct _EMinicardField {
+	ECardSimpleField field;
+	GnomeCanvasItem *label;
+};
+
+#define E_MINICARD_FIELD(field) ((EMinicardField *)(field))
+
+static void
+e_minicard_field_destroy(EMinicardField *field)
+{
+	gtk_object_destroy(GTK_OBJECT(field->label));
+	g_free(field);
+}
+
 /* The arguments we take */
 enum {
 	ARG_0,
@@ -149,11 +165,11 @@ e_minicard_set_arg (GtkObject *o, GtkArg *arg, guint arg_id)
 		if (e_minicard->fields) {
 			if ( GTK_VALUE_ENUM(*arg) == E_FOCUS_START ||
 			     GTK_VALUE_ENUM(*arg) == E_FOCUS_CURRENT) {
-				gnome_canvas_item_set(GNOME_CANVAS_ITEM(e_minicard->fields->data),
+				gnome_canvas_item_set(E_MINICARD_FIELD(e_minicard->fields->data)->label,
 						      "has_focus", GTK_VALUE_ENUM(*arg),
 						      NULL);
 			} else if ( GTK_VALUE_ENUM(*arg) == E_FOCUS_END ) {
-				gnome_canvas_item_set(GNOME_CANVAS_ITEM(g_list_last(e_minicard->fields)->data),
+				gnome_canvas_item_set(E_MINICARD_FIELD(g_list_last(e_minicard->fields)->data)->label,
 						      "has_focus", GTK_VALUE_ENUM(*arg),
 						      NULL);
 			}
@@ -212,6 +228,9 @@ e_minicard_destroy (GtkObject *object)
 	g_return_if_fail (E_IS_MINICARD (object));
 
 	e_minicard = E_MINICARD (object);
+	
+	g_list_foreach(e_minicard->fields, (GFunc) e_minicard_field_destroy, NULL);
+	g_list_free(e_minicard->fields);
 
 	if (e_minicard->card)
 		gtk_object_unref (GTK_OBJECT(e_minicard->card));
@@ -318,6 +337,20 @@ e_minicard_event (GnomeCanvasItem *item, GdkEvent *event)
 						       NULL );
 				e_minicard->has_focus = TRUE;
 			} else {
+				EBook *book;
+				
+				e_card_simple_sync_card(e_minicard->simple);
+				
+				gtk_object_get(GTK_OBJECT(GNOME_CANVAS_ITEM(e_minicard)->parent),
+					       "book", &book,
+					       NULL);
+				
+				/* Add the card in the contact editor to our ebook */
+				e_book_commit_card (book,
+						    e_minicard->card,
+						    card_changed_cb,
+						    NULL);
+
 				gnome_canvas_item_set( e_minicard->rect, 
 						       "outline_color", NULL, 
 						       NULL );
@@ -384,7 +417,8 @@ e_minicard_event (GnomeCanvasItem *item, GdkEvent *event)
 		    event->key.keyval == GDK_ISO_Left_Tab) {
 			GList *list;
 			for (list = e_minicard->fields; list; list = list->next) {
-				GnomeCanvasItem *item = GNOME_CANVAS_ITEM (list->data);
+				EMinicardField *field = E_MINICARD_FIELD(list->data);
+				GnomeCanvasItem *item = field->label;
 				EFocus has_focus;
 				gtk_object_get(GTK_OBJECT(item),
 					       "has_focus", &has_focus,
@@ -395,7 +429,8 @@ e_minicard_event (GnomeCanvasItem *item, GdkEvent *event)
 					else
 						list = list->next;
 					if (list) {
-						item = GNOME_CANVAS_ITEM (list->data);
+						EMinicardField *field = E_MINICARD_FIELD(list->data);
+						GnomeCanvasItem *item = field->label;
 						gnome_canvas_item_set(item,
 								      "has_focus", (event->key.state & GDK_SHIFT_MASK) ? E_FOCUS_END : E_FOCUS_START,
 								      NULL);
@@ -426,7 +461,7 @@ e_minicard_resize_children( EMinicard *e_minicard )
 				       "width", (double) e_minicard->width - 12,
 				       NULL );
 		for ( list = e_minicard->fields; list; list = g_list_next( list ) ) {
-			gnome_canvas_item_set( GNOME_CANVAS_ITEM( list->data ),
+			gnome_canvas_item_set( E_MINICARD_FIELD( list->data )->label,
 					       "width", (double) e_minicard->width - 4.0,
 					       NULL );
 		}
@@ -452,52 +487,12 @@ field_changed (EText *text, EMinicard *e_minicard)
 }
 
 static void
-field_activated (EText *text, EMinicard *e_minicard)
-{
-	EBook *book;
-
-	e_card_simple_sync_card(e_minicard->simple);
-
-	gtk_object_get(GTK_OBJECT(GNOME_CANVAS_ITEM(e_minicard)->parent),
-		       "book", &book,
-		       NULL);
-	
-	/* Add the card in the contact editor to our ebook */
-	e_book_commit_card (book,
-			    e_minicard->card,
-			    card_changed_cb,
-			    NULL);
-}
-
-static void
-field_event (EText *text, GdkEvent *event, EMinicard *e_minicard)
-{
-	switch (event->type) {
-		case GDK_FOCUS_CHANGE:
-			if (!((GdkEventFocus *)event)->in) {
-				EBook *book;
-				
-				e_card_simple_sync_card(e_minicard->simple);
-				
-				gtk_object_get(GTK_OBJECT(GNOME_CANVAS_ITEM(e_minicard)->parent),
-					       "book", &book,
-					       NULL);
-				
-				/* Add the card in the contact editor to our ebook */
-				e_book_commit_card (book,
-						    e_minicard->card,
-						    card_changed_cb,
-						    NULL);
-			}
-	}
-}
-
-static void
 add_field (EMinicard *e_minicard, ECardSimpleField field)
 {
 	GnomeCanvasItem *new_item;
 	GnomeCanvasGroup *group;
 	ECardSimpleType type;
+	EMinicardField *minicard_field;
 	char *name;
 	char *string;
 
@@ -515,19 +510,19 @@ add_field (EMinicard *e_minicard, ECardSimpleField field)
 			       NULL );
 	gtk_signal_connect(GTK_OBJECT(E_MINICARD_LABEL(new_item)->field),
 			   "changed", GTK_SIGNAL_FUNC(field_changed), e_minicard);
-	gtk_signal_connect(GTK_OBJECT(E_MINICARD_LABEL(new_item)->field),
-			   "activate", GTK_SIGNAL_FUNC(field_activated), e_minicard);
-	gtk_signal_connect(GTK_OBJECT(E_MINICARD_LABEL(new_item)->field),
-			   "event", GTK_SIGNAL_FUNC(field_event), e_minicard);
 	gtk_object_set_data(GTK_OBJECT(E_MINICARD_LABEL(new_item)->field),
 			    "EMinicard:field",
 			    GINT_TO_POINTER(field));
-	e_minicard->fields = g_list_append( e_minicard->fields, new_item);
+
+	minicard_field = g_new(EMinicardField, 1);
+	minicard_field->field = field;
+	minicard_field->label = new_item;
+
+	e_minicard->fields = g_list_append( e_minicard->fields, minicard_field);
 	e_canvas_item_move_absolute(new_item, 2, e_minicard->height);
 	g_free(name);
 	g_free(string);
 }
-
 
 static void
 remodel( EMinicard *e_minicard )
@@ -535,25 +530,52 @@ remodel( EMinicard *e_minicard )
 	int count = 0;
 	if (e_minicard->simple) {
 		ECardSimpleField field;
+		GList *list;
 		char *file_as;
+
 		file_as = e_card_simple_get(e_minicard->simple, E_CARD_SIMPLE_FIELD_FILE_AS);
 		gnome_canvas_item_set( e_minicard->header_text,
 				       "text", file_as ? file_as : "",
 				       NULL );
 		g_free(file_as);
-
-		g_list_foreach(e_minicard->fields, (GFunc) gtk_object_destroy, NULL);
-		g_list_free(e_minicard->fields);
+		
+		list = e_minicard->fields;
 		e_minicard->fields = NULL;
 
 		for(field = E_CARD_SIMPLE_FIELD_FULL_NAME; field != E_CARD_SIMPLE_FIELD_LAST && count < 5; field++) {
-			char *value = e_card_simple_get(e_minicard->simple, field);
-			if (value) { 
-				add_field(e_minicard, field);
-				count++;
-				g_free (value);
+			EMinicardField *minicard_field = NULL;
+			if (list)
+				minicard_field = list->data;
+			if (minicard_field && minicard_field->field == field) {
+				GList *this_list = list;
+				char *string;
+				
+				string = e_card_simple_get(e_minicard->simple, field);
+				if (string && *string) {
+					e_minicard->fields = g_list_append(e_minicard->fields, minicard_field);
+					gtk_object_set(GTK_OBJECT(minicard_field->label),
+						       "field", string,
+						       NULL);
+					count ++;
+				} else {
+					e_minicard_field_destroy(minicard_field);
+				}
+				list = g_list_remove_link(list, this_list);
+				g_list_free_1(this_list);
+				g_free(string);
+			} else {
+				char *string;
+				string = e_card_simple_get(e_minicard->simple, field);
+				if (string && *string) {
+					add_field(e_minicard, field);
+					count++;
+				}
+				g_free(string);
 			}
 		}
+		
+		g_list_foreach(list, (GFunc) e_minicard_field_destroy, NULL);
+		g_list_free(list);
 	}
 }
 
@@ -579,10 +601,12 @@ e_minicard_reflow( GnomeCanvasItem *item, int flags )
 				       NULL );
 		
 		for(list = e_minicard->fields; list; list = g_list_next(list)) {
-			gtk_object_get (GTK_OBJECT(list->data),
+			EMinicardField *field = E_MINICARD_FIELD(list->data);
+			GnomeCanvasItem *item = field->label;
+			gtk_object_get (GTK_OBJECT(item),
 					"height", &text_height,
 					NULL);
-			e_canvas_item_move_absolute(GNOME_CANVAS_ITEM(list->data), 2, e_minicard->height);
+			e_canvas_item_move_absolute(item, 2, e_minicard->height);
 			e_minicard->height += text_height;
 		}
 		e_minicard->height += 2;

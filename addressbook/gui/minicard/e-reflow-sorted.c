@@ -136,8 +136,8 @@ e_reflow_sorted_get_arg (GtkObject *object, GtkArg *arg, guint arg_id)
 	}
 }
 
-void
-e_reflow_sorted_remove_item(EReflowSorted *e_reflow_sorted, const gchar *id)
+static GList *
+e_reflow_sorted_get_list(EReflowSorted *e_reflow_sorted, const gchar *id)
 {
 	if (e_reflow_sorted->string_func) {
 		EReflow *reflow = E_REFLOW(e_reflow_sorted);
@@ -146,14 +146,30 @@ e_reflow_sorted_remove_item(EReflowSorted *e_reflow_sorted, const gchar *id)
 			GnomeCanvasItem *item = list->data;
 			char *string = e_reflow_sorted->string_func (item);
 			if (string && !strcmp(string, id)) {
-				reflow->items = g_list_remove_link(reflow->items, list);
-				g_list_free_1(list);
-				gtk_object_destroy(GTK_OBJECT(item));
-				if ( GTK_OBJECT_FLAGS( e_reflow_sorted ) & GNOME_CANVAS_ITEM_REALIZED ) {
-					e_canvas_item_request_reflow(item);
-				}
-				return;
+				return list;
 			}
+		}
+	}
+	return NULL;
+}
+
+void
+e_reflow_sorted_remove_item(EReflowSorted *e_reflow_sorted, const gchar *id)
+{
+	GList *list;
+	GnomeCanvasItem *item = NULL;
+
+	list = e_reflow_sorted_get_list(e_reflow_sorted, id);
+	if (list)
+		item = list->data;
+
+	if (item) {
+		EReflow *reflow = E_REFLOW(e_reflow_sorted);
+		reflow->items = g_list_remove_link(reflow->items, list);
+		g_list_free_1(list);
+		gtk_object_destroy(GTK_OBJECT(item));
+		if ( GTK_OBJECT_FLAGS( e_reflow_sorted ) & GNOME_CANVAS_ITEM_REALIZED ) {
+			e_canvas_item_request_reflow(item);
 		}
 	}
 }
@@ -168,6 +184,33 @@ e_reflow_sorted_replace_item(EReflowSorted *e_reflow_sorted, GnomeCanvasItem *it
 	}
 }
 
+GnomeCanvasItem *
+e_reflow_sorted_get_item(EReflowSorted *e_reflow_sorted, const gchar *id)
+{
+	GList *list;
+	list = e_reflow_sorted_get_list(e_reflow_sorted, id);
+	if (list)
+		return list->data;
+	else
+		return NULL;
+}
+
+void
+e_reflow_sorted_reorder_item(EReflowSorted *e_reflow_sorted, const gchar *id)
+{
+	GList *list;
+	GnomeCanvasItem *item = NULL;
+
+	list = e_reflow_sorted_get_list(e_reflow_sorted, id);
+	if (list)
+		item = list->data;
+	if (item) {
+		EReflow *reflow = E_REFLOW(e_reflow_sorted);
+		reflow->items = g_list_remove_link(reflow->items, list);
+		g_list_free_1(list);
+		e_reflow_sorted_add_item(reflow, item);
+	}
+}
 
 static void
 e_reflow_sorted_add_item(EReflow *reflow, GnomeCanvasItem *item)

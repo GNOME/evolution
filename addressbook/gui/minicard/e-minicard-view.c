@@ -123,11 +123,13 @@ static void
 modify_card(EBookView *book_view, const GList *cards, EMinicardView *view)
 {
 	for (; cards; cards = g_list_next(cards)) {
-		GnomeCanvasItem *item = gnome_canvas_item_new(GNOME_CANVAS_GROUP(view),
-							      e_minicard_get_type(),
-							      "card", cards->data,
-							      NULL);
-		e_reflow_sorted_replace_item(E_REFLOW_SORTED(view), item);
+		ECard *card = cards->data;
+		gchar *id = e_card_get_id(card);
+		GnomeCanvasItem *item = e_reflow_sorted_get_item(E_REFLOW_SORTED(view), id);
+		gnome_canvas_item_set(item,
+				      "card", card,
+				      NULL);
+		e_reflow_sorted_reorder_item(E_REFLOW_SORTED(view), id);
 	}
 }
 

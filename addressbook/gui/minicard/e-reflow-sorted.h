@@ -76,9 +76,11 @@ struct _EReflowSortedClass
  * should also do an ECanvas parent reflow request if its size
  * changes.
  */
-void       e_reflow_sorted_remove_item  (EReflowSorted *sorted, const char *id);
-void       e_reflow_sorted_replace_item (EReflowSorted *sorted, GnomeCanvasItem *item);
-GtkType    e_reflow_sorted_get_type     (void);
+void         	 e_reflow_sorted_remove_item  (EReflowSorted *sorted, const char *id);
+void         	 e_reflow_sorted_replace_item (EReflowSorted *sorted, GnomeCanvasItem *item);
+void         	 e_reflow_sorted_reorder_item (EReflowSorted *e_reflow_sorted, const gchar *id);
+GnomeCanvasItem *e_reflow_sorted_get_item     (EReflowSorted *e_reflow_sorted, const gchar *id);
+GtkType          e_reflow_sorted_get_type     (void);
 
 #ifdef __cplusplus
 }
