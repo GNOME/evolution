@@ -1440,7 +1440,7 @@ e_card_set_arg (GtkObject *object, GtkArg *arg, guint arg_id)
 	case ARG_NAME:
 		if ( card->name )
 			e_card_name_free(card->name);
-		card->name = GTK_VALUE_POINTER(*arg);
+		card->name = e_card_name_copy(GTK_VALUE_POINTER(*arg));
 		break;
 	case ARG_CATEGORIES:
 		if (card->categories)
