@@ -337,13 +337,13 @@
     </code>
    </option>
    <option value="before">
-    <title>was before</title>
+    <title>is before</title>
     <code>
        (match-all (&lt; (get-sent-date) ${versus}))
     </code>
    </option>
    <option value="after">
-    <title>was after</title>
+    <title>is after</title>
     <code>
        (match-all (&gt; (get-sent-date) ${versus}))
     </code>
@@ -368,13 +368,13 @@
     </code>
    </option>
    <option value="before">
-    <title>was before</title>
+    <title>is before</title>
     <code>
        (match-all (&lt; (get-received-date) ${versus}))
     </code>
    </option>
    <option value="after">
-    <title>was after</title>
+    <title>is after</title>
     <code>
        (match-all (&gt; (get-received-date) ${versus}))
     </code>

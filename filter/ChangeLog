@@ -1,3 +1,8 @@
+2002-01-02  Jeffrey Stedfast  <fejj@ximian.com>
+
+	* vfoldertypes.xml: Make the date comparisons read the same as the
+	ones in filtertypes.xml
+
 2001-12-17  Jeffrey Stedfast  <fejj@ximian.com>
 
 	* filtertypes.xml: Add new action to execute a shell command.
