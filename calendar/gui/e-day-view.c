@@ -2039,7 +2039,7 @@ e_day_view_set_days_shown	(EDayView	*day_view,
 	g_return_if_fail (days_shown >= 1);
 	g_return_if_fail (days_shown <= E_DAY_VIEW_MAX_DAYS);
 
-	if (day_view->days_shown = days_shown)
+	if (day_view->days_shown == days_shown)
 		return;
 
 	day_view->days_shown = days_shown;

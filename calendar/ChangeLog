@@ -1,5 +1,9 @@
 2000-11-26  Damon Chaplin  <damon@helixcode.com>
 
+	* gui/e-day-view.c (e_day_view_set_days_shown): == instead of =.
+
+2000-11-26  Damon Chaplin  <damon@helixcode.com>
+
 	* gui/gnome-cal.c: added more support for config settings.
 
 	* gui/e-week-view.[hc]: 
