@@ -182,7 +182,7 @@ e_select_names_init (ESelectNames *e_select_names)
 
 	e_select_names->currently_selected = -1;
 
-	gtk_signal_connect(GTK_OBJECT(e_select_names->table), "cursor_change",
+	gtk_signal_connect(GTK_OBJECT(e_table_scrolled_get_table(e_select_names->table)), "cursor_change",
 			   GTK_SIGNAL_FUNC(set_current_selection), e_select_names);
 }
 
@@ -274,7 +274,7 @@ button_clicked(GtkWidget *button, ESelectNamesChild *child)
 }
 
 static void
-remove_address(ETableScrolled *table, int row, ESelectNamesChild *child)
+remove_address(ETableScrolled *table, int row, int col, GdkEvent *event, ESelectNamesChild *child)
 {
 	EIterator *iterator = e_list_get_iterator(e_select_names_model_get_data(child->source));
 	e_iterator_reset(iterator);
@@ -327,7 +327,7 @@ e_select_names_add_section(ESelectNames *e_select_names, char *name, char *id, E
 	model = e_select_names_table_model_new(source);
 	etable = e_table_scrolled_new (model, NULL, SPEC2, NULL);
 	
-	gtk_signal_connect(GTK_OBJECT(etable), "double_click",
+	gtk_signal_connect(GTK_OBJECT(e_table_scrolled_get_table(E_TABLE_SCROLLED(etable))), "double_click",
 			   GTK_SIGNAL_FUNC(remove_address), child);
 
 	child->model = model;

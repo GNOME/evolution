@@ -1,5 +1,15 @@
 2000-12-09  Christopher James Lahey  <clahey@helixcode.com>
 
+	* gui/component/select-names/e-select-names.c
+	(e_select_names_init): Connect to the "cursor_change" signal on
+	the ETable here instead of the ETableScrolled.
+	(remove_address): Added the col and event parameters to this
+	callback to match the added parameters to the double click signal.
+	(e_select_names_add_section): Connect to the "double_click" signal
+	on the ETable here instead of the ETableScrolled.
+
+2000-12-09  Christopher James Lahey  <clahey@helixcode.com>
+
 	* backend/ebook/e-card.c (e_card_set_arg): When setting the "name"
 	argument, copy the incoming name.  This fixes a crash.
 
