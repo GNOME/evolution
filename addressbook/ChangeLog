@@ -1,3 +1,20 @@
+2001-06-29  Chris Toshok  <toshok@ximian.com>
+
+	* gui/widgets/Makefile.am (INCLUDES): add EVOLUTION_IMAGESDIR
+	define.
+
+	* gui/widgets/e-minicard.h (struct _EMinicard): add our pixbuf and
+	pixbuf size.
+
+	* gui/widgets/e-minicard.c (e_minicard_init): init the icon pixbuf
+	and its size.
+	(e_minicard_destroy): unref the list_icon_pixbuf.
+	(e_minicard_realize): create the list_icon GnomeCanvasPixbuf.
+	(e_minicard_resize_children): clip the header_text by the
+	list_icon, and place the list_icon in the right spot.
+	(remodel): show the list_icon if we're a list, and hide it
+	otherwise.
+
 2001-06-28  Chris Toshok  <toshok@ximian.com>
 
 	* gui/widgets/e-addressbook-view.c (table_double_click): pop up

@@ -22,6 +22,7 @@
 #define __E_MINICARD_H__
 
 #include <libgnomeui/gnome-canvas.h>
+#include <gdk-pixbuf/gdk-pixbuf.h>
 #include "addressbook/gui/contact-editor/e-contact-editor.h"
 #include "addressbook/backend/ebook/e-card.h"
 #include "addressbook/backend/ebook/e-card-simple.h"
@@ -69,6 +70,10 @@ struct _EMinicard
 	GnomeCanvasItem *rect;
 	GnomeCanvasItem *header_rect;
 	GnomeCanvasItem *header_text;
+	GnomeCanvasItem *list_icon;
+
+	GdkPixbuf *list_icon_pixbuf;
+	double list_icon_size;
 
 	GtkObject *editor;
 

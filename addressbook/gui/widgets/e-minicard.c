@@ -27,6 +27,7 @@
 #include <libgnome/gnome-defs.h>
 #include <libgnome/gnome-i18n.h>
 #include <libgnomeui/gnome-canvas-rect-ellipse.h>
+#include <gdk-pixbuf/gnome-canvas-pixbuf.h>
 #include <gal/e-text/e-text.h>
 #include <gal/util/e-util.h>
 #include <gal/widgets/e-canvas-utils.h>
@@ -63,6 +64,8 @@ struct _EMinicardField {
 	ECardSimpleField field;
 	GnomeCanvasItem *label;
 };
+
+#define LIST_ICON_FILENAME "contact-is-a-list.png"
 
 #define E_MINICARD_FIELD(field) ((EMinicardField *)(field))
 
@@ -186,6 +189,9 @@ e_minicard_init (EMinicard *minicard)
 
 	minicard->card = NULL;
 	minicard->simple = e_card_simple_new(NULL);
+
+	minicard->list_icon_pixbuf = gdk_pixbuf_new_from_file (EVOLUTION_IMAGESDIR "/" LIST_ICON_FILENAME);
+	minicard->list_icon_size = gdk_pixbuf_get_height (minicard->list_icon_pixbuf);
 
 	minicard->editor = NULL;
 
@@ -331,6 +337,8 @@ e_minicard_destroy (GtkObject *object)
 	g_list_foreach(e_minicard->fields, (GFunc) e_minicard_field_destroy, NULL);
 	g_list_free(e_minicard->fields);
 
+	gdk_pixbuf_unref (e_minicard->list_icon_pixbuf);
+
 	if (GTK_OBJECT_CLASS (parent_class)->destroy)
 		(* GTK_OBJECT_CLASS (parent_class)->destroy) (object);
 }
@@ -404,7 +412,14 @@ e_minicard_realize (GnomeCanvasItem *item)
 				 "text", "",
 				 "draw_background", FALSE,
 				 NULL );
+
 	e_canvas_item_move_absolute(e_minicard->header_text, 6, 6);
+
+	e_minicard->list_icon = 
+		gnome_canvas_item_new ( group,
+					gnome_canvas_pixbuf_get_type(),
+					"pixbuf", e_minicard->list_icon_pixbuf,
+					NULL);
 
 	remodel(e_minicard);
 	e_canvas_item_request_reflow(item);
@@ -608,8 +623,14 @@ e_minicard_resize_children( EMinicard *e_minicard )
 	
 	if (e_minicard->header_text) {
 		gnome_canvas_item_set( e_minicard->header_text,
-				       "width", (double) e_minicard->width - 12,
+				       "width", ((double) e_minicard->width - 12 
+						 - (e_card_evolution_list (e_minicard->card) ? e_minicard->list_icon_size : 0.0)),
 				       NULL );
+	}
+	if (e_minicard->list_icon) {
+		e_canvas_item_move_absolute(e_minicard->list_icon,
+					    e_minicard->width - e_minicard->list_icon_size - 3,
+					    3);
 	}
 	for ( list = e_minicard->fields; list; list = g_list_next( list ) ) {
 		gnome_canvas_item_set( E_MINICARD_FIELD( list->data )->label,
@@ -716,6 +737,13 @@ remodel( EMinicard *e_minicard )
 					       "text", file_as ? file_as : "",
 					       NULL );
 			g_free(file_as);
+		}
+
+		if ( e_card_evolution_list (e_minicard->card) ) {
+			gnome_canvas_item_show (e_minicard->list_icon);
+		}
+		else {
+			gnome_canvas_item_hide (e_minicard->list_icon);
 		}
 
 		list = e_minicard->fields;
