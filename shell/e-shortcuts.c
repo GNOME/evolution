@@ -1237,4 +1237,39 @@ e_shortcuts_get_group_uses_small_icons  (EShortcuts *shortcuts,
 }
 
 
+void
+e_shortcuts_update_shortcuts_for_changed_uri (EShortcuts *shortcuts,
+					      const char *old_uri,
+					      const char *new_uri)
+{
+	EShortcutsPrivate *priv;
+	GSList *p;
+
+	g_return_if_fail (E_IS_SHORTCUTS (shortcuts));
+	g_return_if_fail (old_uri != NULL);
+	g_return_if_fail (new_uri != NULL);
+
+	priv = shortcuts->priv;
+
+	for (p = priv->groups; p != NULL; p = p->next) {
+		ShortcutGroup *group;
+		GSList *q;
+
+		group = (ShortcutGroup *) p->data;
+		for (q = group->shortcuts; q != NULL; q = q->next) {
+			EShortcutItem *item;
+
+			item = (EShortcutItem *) q->data;
+
+			if (strcmp (item->uri, old_uri) == 0) {
+				g_free (item->uri);
+				item->uri = g_strdup (new_uri);
+
+				make_dirty (shortcuts);
+			}
+		}
+	}
+}
+
+
 E_MAKE_TYPE (e_shortcuts, "EShortcuts", EShortcuts, class_init, init, PARENT_TYPE)

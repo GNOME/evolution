@@ -149,6 +149,21 @@ xfer_result_callback (EStorageSet *storage_set,
 		g_free (msg);
 	}
 
+	if (folder_command_data->command == FOLDER_COMMAND_MOVE) {
+		char *source_uri;
+		char *destination_uri;
+
+		source_uri = g_strconcat (E_SHELL_URI_PREFIX, folder_command_data->source_path, NULL);
+		destination_uri = g_strconcat (E_SHELL_URI_PREFIX, folder_command_data->destination_path, NULL);
+
+		e_shortcuts_update_shortcuts_for_changed_uri
+			(e_shell_get_shortcuts (folder_command_data->shell),
+			 source_uri, destination_uri);
+
+		g_free (source_uri);
+		g_free (destination_uri);
+	}
+
 	folder_command_data_free (folder_command_data);
 }
 

@@ -1,3 +1,17 @@
+2002-09-24  Ettore Perazzoli  <ettore@ximian.com>
+
+	[Fix #11645 for menu-based folder move operations.  Still requires
+	fixage for the DnD case.]
+
+	* e-shell-view-menu.c (launch_pilot_settings): Placate compiler.
+
+	* e-shell-folder-commands.c (xfer_result_callback): When
+	FOLDER_COMMAND_MOVE, update the shortcuts by using
+	e_shortcuts_update_shortcuts_for_changed_uri().
+
+	* e-shortcuts.c (e_shortcuts_update_shortcuts_for_changed_uri):
+	New.
+
 2002-09-24  Dan Winship  <danw@ximian.com>
 
 	* e-shell.c (folder_selection_dialog_folder_selected_cb): Don't

@@ -156,6 +156,10 @@ void      e_shortcuts_set_group_uses_small_icons  (EShortcuts *shortcuts,
 gboolean  e_shortcuts_get_group_uses_small_icons  (EShortcuts *shortcuts,
 						   int         group_num);
 
+void  e_shortcuts_update_shortcuts_for_changed_uri  (EShortcuts *shortcuts,
+						     const char *old_uri_,
+						     const char *new_uri);
+
 #ifdef __cplusplus
 }
 #endif /* __cplusplus */

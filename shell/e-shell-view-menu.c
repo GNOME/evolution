@@ -83,7 +83,7 @@ launch_pilot_settings (const char *extra_arg)
 {
         char *args[] = {
                 "gpilotd-control-applet",
-		extra_arg,
+		(char *) extra_arg,
 		NULL
         };
         int pid;
