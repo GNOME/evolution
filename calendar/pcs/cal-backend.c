@@ -637,36 +637,10 @@ cal_backend_log_sax_end_element (CalBackendParseState *state, const CHAR *name)
 	}
 }
 
-static xmlSAXHandler logSAXParser = {
-    0, /* internalSubset */
-    0, /* isStandalone */
-    0, /* hasInternalSubset */
-    0, /* hasExternalSubset */
-    0, /* resolveEntity */
-    0, /* getEntity */
-    0, /* entityDecl */
-    0, /* notationDecl */
-    0, /* attributeDecl */
-    0, /* elementDecl */
-    0, /* unparsedEntityDecl */
-    0, /* setDocumentLocator */
-    0, /* startDocument */
-    0, /* endDocument */
-    (startElementSAXFunc)cal_backend_log_sax_start_element, /* startElement */
-    (endElementSAXFunc)cal_backend_log_sax_end_element, /* endElement */
-    0, /* reference */
-    0, /* characters */
-    0, /* ignorableWhitespace */
-    0, /* processingInstruction */
-    0, /* comment */
-    0, /* warning */
-    0, /* error */
-    0, /* fatalError */
-};
-
 static GHashTable *
 cal_backend_get_log_entries (CalBackend *backend, CalObjType type, time_t since)
 {
+	xmlSAXHandler handler;
 	CalBackendParseState state;
 	GHashTable *hash;
 	char *filename;
@@ -678,7 +652,9 @@ cal_backend_get_log_entries (CalBackend *backend, CalObjType type, time_t since)
 	if (!cal_backend_log_sync (backend))
 		return NULL;
 
-	filename = cal_backend_log_name (backend->uri);	
+	memset (&handler, 0, sizeof (xmlSAXHandler));
+	handler.startElement = (startElementSAXFunc)cal_backend_log_sax_start_element;
+	handler.endElement = (endElementSAXFunc)cal_backend_log_sax_end_element;
 
 	hash = g_hash_table_new (g_str_hash, g_str_equal);
 	
@@ -687,6 +663,7 @@ cal_backend_get_log_entries (CalBackend *backend, CalObjType type, time_t since)
 	state.in_valid_timestamp = FALSE;
 	state.hash = hash;
 
+	filename = cal_backend_log_name (backend->uri);	
 	if (xmlSAXUserParseFile (&logSAXParser, &state, filename) < 0)
 		return NULL;
 	

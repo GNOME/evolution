@@ -1,5 +1,13 @@
 2000-09-20  JP Rosevear  <jpr@helixcode.com>
 
+	* pcs/cal-backend.c (cal_backend_get_log_entries): Use a local
+	sax handler.
+
+	* conduits/todo/todo-conduit.c (pre_sync): Use xmlSAXParseFile
+	(map_sax_parse): Delete
+
+2000-09-20  JP Rosevear  <jpr@helixcode.com>
+
 	* pcs/cal-backend.c (cal_backend_log_sax_start_element): Properly
 	assign the CalObjChange type.
 	(cal_backend_log_sax_parse): Delete

@@ -186,36 +186,6 @@ map_sax_start_element (void *data, const xmlChar *name,
 	}
 }
 
-static int
-map_sax_parse (xmlSAXHandler *handler, EToDoConduitContext *ctxt, const char *filename)
-{
-	int ret = 0;
-	xmlParserCtxtPtr xc;
-	
-	if (!g_file_exists (filename))
-		return 0;
-	
-	xc = xmlCreateFileParserCtxt (filename);
-	if (xc == NULL) 
-		return -1;
-
-	xc->sax = handler;
-	xc->userData = (void *)ctxt;
-	
-	xmlParseDocument (xc);
-	
-	if (xc->wellFormed)
-		ret = 0;
-	else
-		ret = -1;
-
-	if (handler != NULL)
-		xc->sax = NULL;
-	xmlFreeParserCtxt(xc);
-     
-	return ret;
-}
-
 static void
 map_write_foreach (gpointer key, gpointer value, gpointer data)
 {
@@ -615,9 +585,8 @@ pre_sync (GnomePilotConduit *conduit,
 	handler.startElement = map_sax_start_element;
 
 	filename = map_name (ctxt);
-	ret = map_sax_parse (&handler, ctxt, filename);
-	if (ret < 0)
-		return ret;
+	if (xmlSAXUserParseFile (&logSAXParser, ctxt, filename) < 0)
+		return -1;
 	
 	g_free (filename);
 
