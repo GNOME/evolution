@@ -1212,6 +1212,16 @@ get_row_from_y (GncalFullDay *fullday, int y, int round)
 	return y;
 }
 
+static void
+button_1 (GncalFullDay *fullday, GdkEventButton *event)
+{
+}
+
+static void
+button_3 (GncalFullDay *fullday, GdkEventButton *event)
+{
+}
+
 static gint
 gncal_full_day_button_press (GtkWidget *widget, GdkEventButton *event)
 {
@@ -1229,6 +1239,19 @@ gncal_full_day_button_press (GtkWidget *widget, GdkEventButton *event)
 	g_return_val_if_fail (event != NULL, FALSE);
 
 	fullday = GNCAL_FULL_DAY (widget);
+
+	switch (event->button) {
+	case 1:
+		button_1 (fullday, event);
+		break;
+
+	case 3:
+		button_3 (fullday, event);
+		break;
+
+	default:
+		break;
+	}
 
 	if (event->window == widget->window) {
 		/* Clicked on main window */
