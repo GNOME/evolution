@@ -537,6 +537,8 @@ delete_event (GtkWidget *widget,
 
 	shell = e_shell_view_get_shell (shell_view);
 	e_shell_quit (shell);
+	/* FIXME: Is this right, or should it be FALSE? */
+	return TRUE;
 }
 
 

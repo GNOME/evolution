@@ -1,3 +1,7 @@
+2000-08-19  Christopher James Lahey  <clahey@helixcode.com>
+
+	* e-shell-view.c: Fixed a warning.
+
 2000-08-18  Larry Ewing  <lewing@helixcode.com>
 
 	* e-shell-folder-title-bar.c (style_set_cb): update the pixmap
