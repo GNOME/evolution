@@ -1,3 +1,9 @@
+2004-08-25  Frederic Crozat  <fcrozat@mandrakesoft.com>
+
+	* gui/dialogs/recur-comp.c: (recur_component_dialog):
+	Don't call gtk_dialog_set_has_separator on Gtk Message Dialog
+        with GTK+ >= 2.4.0.
+
 2004-08-25  Chenthill Palanisamy  <pchenthill@novell.com>
 
 	* gui/e-tasks.c

@@ -67,7 +67,9 @@ recur_component_dialog (ECal *client,
 
 	dialog = gtk_message_dialog_new (parent, 0, GTK_MESSAGE_QUESTION, GTK_BUTTONS_OK_CANCEL, "%s", str);
 	g_free (str);
+#if !GTK_CHECK_VERSION (2,4,0)
 	gtk_dialog_set_has_separator (GTK_DIALOG (dialog), FALSE);
+#endif
 	gtk_window_set_resizable (GTK_WINDOW (dialog), TRUE);
 
 	hbox = gtk_hbox_new (FALSE, 12);
