@@ -109,7 +109,8 @@ cal_comp_util_compare_event_timezones (CalComponent *comp,
 	/* If either the DTSTART or the DTEND is a DATE value, we return TRUE.
 	   Maybe if one was a DATE-TIME we should check that, but that should
 	   not happen often. */
-	if (start_datetime.value->is_date || end_datetime.value->is_date) {
+	if ((start_datetime.value && start_datetime.value->is_date)
+	    || (end_datetime.value && end_datetime.value->is_date)) {
 		retval = TRUE;
 		goto out;
 	}
@@ -117,7 +118,8 @@ cal_comp_util_compare_event_timezones (CalComponent *comp,
 	/* If the event uses UTC for DTSTART & DTEND, return TRUE. Outlook
 	   will send single events as UTC, so we don't want to mark all of
 	   these. */
-	if (start_datetime.value->is_utc && end_datetime.value->is_utc) {
+	if ((!start_datetime.value || start_datetime.value->is_utc)
+	    && (!end_datetime.value || end_datetime.value->is_utc)) {
 		retval = TRUE;
 		goto out;
 	}
@@ -146,28 +148,35 @@ cal_comp_util_compare_event_timezones (CalComponent *comp,
 		if (status != CAL_CLIENT_GET_SUCCESS)
 			goto out;
 
-		offset1 = icaltimezone_get_utc_offset (start_zone,
-						       start_datetime.value,
-						       NULL);
-		offset2 = icaltimezone_get_utc_offset (zone,
-						       start_datetime.value,
-						       NULL);
-		if (offset1 == offset2) {
-			status = cal_client_get_timezone (client,
-							  end_datetime.tzid,
-							  &end_zone);
-			if (status != CAL_CLIENT_GET_SUCCESS)
+		if (start_datetime.value) {
+			offset1 = icaltimezone_get_utc_offset (start_zone,
+							       start_datetime.value,
+							       NULL);
+			offset2 = icaltimezone_get_utc_offset (zone,
+							       start_datetime.value,
+							       NULL);
+			if (offset1 != offset2)
 				goto out;
+		}
 
+		status = cal_client_get_timezone (client,
+						  end_datetime.tzid,
+						  &end_zone);
+		if (status != CAL_CLIENT_GET_SUCCESS)
+			goto out;
+
+		if (end_datetime.value) {
 			offset1 = icaltimezone_get_utc_offset (end_zone,
 							       end_datetime.value,
 							       NULL);
 			offset2 = icaltimezone_get_utc_offset (zone,
 							       end_datetime.value,
 							       NULL);
-			if (offset1 == offset2)
-				retval = TRUE;
+			if (offset1 != offset2)
+				goto out;
 		}
+
+		retval = TRUE;
 	}
 
  out:

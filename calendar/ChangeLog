@@ -1,5 +1,9 @@
 2002-02-08  Damon Chaplin  <damon@ximian.com>
 
+	* gui/comp-util.c (cal_comp_util_compare_event_timezones): check if
+	the CalComponentDateTime values are set before trying to use them.
+	Possibly fixes bug #18529.
+
 	* importers/icalendar-importer.c: added vCalendar importer and
 	intelligent GnomeCalendar importer code here, as it shares a lot of
 	code with the iCalendar importer.
