@@ -1,3 +1,9 @@
+2003-07-09  Anna Marie Dirks  <anna@ximian.com>
+
+	* evolution-mail-list.xml: Changed the accelerator for "Mark All 
+	as Read" to "_r". Fixes the problem of duplicate accelerators in the
+	Edit menu.
+
 2003-07-01  Rodrigo Moya <rodrigo@ximian.com>
 
 	Fixes #45524

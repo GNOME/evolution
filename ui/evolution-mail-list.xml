@@ -91,7 +91,7 @@
         </placeholder>
 
         <placeholder name="MailListEditFlags">
-          <menuitem name="MessageMarkAllAsRead" verb="" _label="Mark All as R_ead"/>
+          <menuitem name="MessageMarkAllAsRead" verb="" _label="Mark All as _Read"/>
         </placeholder>
       </submenu>
     </placeholder>
