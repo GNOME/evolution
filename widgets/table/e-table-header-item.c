@@ -315,6 +315,10 @@ ethi_drag_motion (GtkObject *canvas, GdkDragContext *context,
 		  gint x, gint y, guint time,
 		  ETableHeaderItem *ethi)
 {
+	/* Check if it's the correct ethi */
+	if (ethi->drag_col == -1)
+		return;
+
 	gdk_drag_status (context, 0, time);
 	if (GTK_WIDGET(canvas) == gtk_drag_get_source_widget(context)) {
 		if ((x >= ethi->x1) && (x <= (ethi->x1 + ethi->width)) &&
@@ -343,6 +347,9 @@ ethi_drag_motion (GtkObject *canvas, GdkDragContext *context,
 static void
 ethi_drag_end (GtkWidget *canvas, GdkDragContext *context, ETableHeaderItem *ethi)
 {
+	if (ethi->drag_col == -1)
+		return;
+
 	if (canvas == gtk_drag_get_source_widget(context)) {
 		if (context->action == 0) {
 			ethi_request_redraw (ethi);
@@ -363,6 +370,10 @@ ethi_drag_drop (GtkWidget *canvas,
 		ETableHeaderItem *ethi)
 {
 	gboolean successful = FALSE;
+
+	if (ethi->drag_col == -1)
+		return;
+
 	if (GTK_WIDGET(canvas) == gtk_drag_get_source_widget(context)) {
 		if ((x >= ethi->x1) && (x <= (ethi->x1 + ethi->width)) &&
 		    (y >= ethi->y1) && (y <= (ethi->y1 + ethi->height))){
@@ -387,6 +398,9 @@ ethi_drag_drop (GtkWidget *canvas,
 static void
 ethi_drag_leave (GtkWidget *widget, GdkDragContext *context, guint time, ETableHeaderItem *ethi)
 {
+	if (ethi->drag_col == -1)
+		return;
+
 	if (widget == gtk_drag_get_source_widget(context)) {
 		ethi_remove_drop_marker (ethi);
 		ethi_add_destroy_marker (ethi);
