@@ -1,3 +1,14 @@
+2001-12-17  Jeffrey Stedfast  <fejj@ximian.com>
+
+	* camel-charset-map.c (camel_charset_iso_to_windows): New function
+	to map ISO charsets to the Windows charsets.
+
+	* camel-mime-part-utils.c (broken_windows_charset): Detect Windows
+	charsets.
+	(simple_data_wrapper_construct_from_parser): Simplify a tad and
+	also check for iso-8859-* charsets that are really Windows
+	charsets. Fixes bug #12631.
+
 2001-12-17  Dan Winship  <danw@ximian.com>
 
 	* Makefile.am (INCLUDES): define CAMEL_PROVIDERDIR to be the
@@ -7,11 +18,16 @@
 
 	* providers/imap/Makefile.am (camel_provider_LTLIBRARIES,
 	camel_provider_DATA): renamed from provider_LTLIBRARIES,
-	provider_DATA.
-	* providers/local/Makefile.am: Likewise
-	* providers/nntp/Makefile.am: Likewise
-	* providers/pop3/Makefile.am: Likewise
-	* providers/sendmail/Makefile.am: Likewise
+	provider_DATA.  
+
+	* providers/local/Makefile.am: Likewise 
+
+	* providers/nntp/Makefile.am: Likewise 
+
+	* providers/pop3/Makefile.am: Likewise 
+
+	* providers/sendmail/Makefile.am: Likewise 
+
 	* providers/smtp/Makefile.am: Likewise
 
 2001-12-16  Jeffrey Stedfast  <fejj@ximian.com>

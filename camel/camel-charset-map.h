@@ -37,4 +37,6 @@ const char *camel_charset_best_name(CamelCharset *);
 /* helper function */
 const char *camel_charset_best(const char *in, int len);
 
+const char *camel_charset_iso_to_windows (const char *isocharset);
+
 #endif /* ! _CAMEL_CHARSET_MAP_H */
