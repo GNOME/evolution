@@ -68,8 +68,11 @@ control_activate (BonoboControl *control, BonoboUIHandler *uih,
 						 threaded_view);
 	bonobo_ui_handler_menu_set_callback (uih, "/View/Threaded",
 					     message_list_toggle_threads,
-					     FOLDER_BROWSER (folder_browser)->message_list,
-					     NULL);
+					     FOLDER_BROWSER (folder_browser)->message_list
+#ifdef BONOBO_POST_0_15
+					     , NULL
+#endif
+		);
 
 	bonobo_ui_handler_menu_new_item (uih, "/Actions/Expunge", N_("_Expunge"),
 					 NULL, -1,
