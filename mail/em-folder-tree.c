@@ -1238,7 +1238,7 @@ tree_drag_motion (GtkWidget *widget, GdkDragContext *context, int x, int y, guin
 					action = context->suggested_action;
 					if (context->actions & GDK_ACTION_MOVE)
 						action = GDK_ACTION_MOVE;
-					gtk_tree_view_set_drag_dest_row(priv->treeview, path, GTK_TREE_VIEW_DROP_AFTER);
+					gtk_tree_view_set_drag_dest_row(priv->treeview, path, GTK_TREE_VIEW_DROP_INTO_OR_AFTER);
 					break;
 				case DND_DROP_TYPE_UID_LIST:
 					action = context->suggested_action;
