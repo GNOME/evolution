@@ -18,7 +18,7 @@
  * Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA 02111-1307, USA.
  */
 
-#ifdef HAVE_CONFIG_H
+#ifdef HAVE_CONFIOH
 #include <config.h>
 #endif
 
@@ -49,7 +49,7 @@ locale_supports_12_hour_format (void)
 static void
 do_cleanup (void)
 {
-	g_object_unref (G_OBJECT (config));
+	g_object_unref (config);
 	config = NULL;
 	inited = FALSE;
 }

@@ -174,7 +174,7 @@ task_page_finalize (GObject *object)
 		gtk_widget_unref (priv->main);
 
 	if (priv->xml) {
-		g_object_unref((priv->xml));
+		g_object_unref (priv->xml);
 		priv->xml = NULL;
 	}
 
@@ -906,7 +906,7 @@ task_page_new (void)
 
 	tpage = gtk_type_new (TYPE_TASK_PAGE);
 	if (!task_page_construct (tpage)) {
-		g_object_unref((tpage));
+		g_object_unref (tpage);
 		return NULL;
 	}
 

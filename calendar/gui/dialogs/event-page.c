@@ -184,7 +184,7 @@ event_page_finalize (GObject *object)
 		gtk_widget_unref (priv->main);
 
 	if (priv->xml) {
-		g_object_unref((priv->xml));
+		g_object_unref (priv->xml);
 		priv->xml = NULL;
 	}
 
@@ -1344,7 +1344,7 @@ event_page_new (void)
 
 	epage = g_object_new (TYPE_EVENT_PAGE, NULL);
 	if (!event_page_construct (epage)) {
-		g_object_unref ((epage));
+		g_object_unref (epage);
 		return NULL;
 	}
 

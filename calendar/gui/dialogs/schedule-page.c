@@ -160,7 +160,7 @@ schedule_page_finalize (GObject *object)
 		gtk_widget_unref (priv->main);
 
 	if (priv->xml) {
-		g_object_unref((priv->xml));
+		g_object_unref (priv->xml);
 		priv->xml = NULL;
 	}
 
@@ -460,7 +460,7 @@ schedule_page_new (EMeetingStore *ems)
 
 	spage = g_object_new (TYPE_SCHEDULE_PAGE, NULL);
 	if (!schedule_page_construct (spage, ems)) {
-		g_object_unref((spage));
+		g_object_unref (spage);
 		return NULL;
 	}
 

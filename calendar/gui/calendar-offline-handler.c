@@ -166,7 +166,7 @@ static void
 backend_cal_opened_online (ECal *client, ECalendarStatus status, gpointer data)
 {
 	if (status != E_CALENDAR_STATUS_OK) {
-		g_object_unref (G_OBJECT (client));
+		g_object_unref (client);
 		return;
 	}
 
@@ -210,7 +210,7 @@ backend_go_online (gpointer data, gpointer user_data)
 	success = e_cal_open (client, TRUE, &error);
 	if (!success) {
 		g_warning (_("backend_go_online(): %s"), error->message);
-		g_object_unref (G_OBJECT (client));
+		g_object_unref (client);
 		g_error_free (error);
 		return;		
 	}	

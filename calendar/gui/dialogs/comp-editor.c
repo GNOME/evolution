@@ -273,10 +273,10 @@ comp_editor_finalize (GObject *object)
 	   since they have lots of signal handlers connected to the widgets
 	   with the pages as the data. */
 	for (l = priv->pages; l != NULL; l = l->next)
-		g_object_unref((l->data));
+		g_object_unref (l->data);
 
 	if (priv->comp) {
-		g_object_unref((priv->comp));
+		g_object_unref (priv->comp);
 		priv->comp = NULL;
 	}
 
@@ -306,7 +306,7 @@ save_comp (CompEditor *editor)
 	clone = e_cal_component_clone (priv->comp);
 	for (l = priv->pages; l != NULL; l = l->next) {
 		if (!comp_editor_page_fill_component (l->data, clone)) {
-			g_object_unref((clone));
+			g_object_unref (clone);
 			comp_editor_show_page (editor, COMP_EDITOR_PAGE (l->data));
 			return FALSE;
 		}
@@ -318,7 +318,7 @@ save_comp (CompEditor *editor)
 	else
 		e_cal_component_abort_sequence (clone);
 
-	g_object_unref((priv->comp));
+	g_object_unref (priv->comp);
 	priv->comp = clone;
 
 	priv->updating = TRUE;
@@ -627,7 +627,7 @@ comp_editor_append_page (CompEditor *editor,
 
 	priv = editor->priv;
 
-	g_object_ref((page));
+	g_object_ref (page);
 
 	/* If we are editing something, fill the widgets with current info */
 	if (priv->comp != NULL) {
@@ -635,7 +635,7 @@ comp_editor_append_page (CompEditor *editor,
 
 		comp = comp_editor_get_current_comp (editor);
 		comp_editor_page_fill_widgets (page, comp);
-		g_object_unref((comp));
+		g_object_unref (comp);
 	}
 
 	page_widget = comp_editor_page_get_widget (page);
@@ -703,7 +703,7 @@ comp_editor_remove_page (CompEditor *editor, CompEditorPage *page)
 	gtk_notebook_remove_page (priv->notebook, page_num);
 
 	priv->pages = g_list_remove (priv->pages, page);
-	g_object_unref((page));
+	g_object_unref (page);
 }
 
 /**
@@ -935,13 +935,13 @@ real_set_e_cal (CompEditor *editor, ECal *client)
 		g_return_if_fail (E_IS_CAL (client));
 		g_return_if_fail (e_cal_get_load_state (client) ==
 				  E_CAL_LOAD_LOADED);
-		g_object_ref((client));
+		g_object_ref (client);
 	}
 
 	if (priv->client) {
 		gtk_signal_disconnect_by_data (GTK_OBJECT (priv->client),
 					       editor);
-		g_object_unref((priv->client));
+		g_object_unref (priv->client);
 	}
 
 	priv->client = client;
@@ -968,7 +968,7 @@ real_edit_comp (CompEditor *editor, ECalComponent *comp)
 	priv = editor->priv;
 
 	if (priv->comp) {
-		g_object_unref((priv->comp));
+		g_object_unref (priv->comp);
 		priv->comp = NULL;
 	}
 
@@ -998,9 +998,9 @@ real_send_comp (CompEditor *editor, ECalComponentItipMethod method)
 
 	if (itip_send_comp (method, priv->comp, priv->client, NULL)) {
 		tmp_comp = priv->comp;
-		g_object_ref((tmp_comp));
+		g_object_ref (tmp_comp);
 		comp_editor_edit_comp (editor, tmp_comp);
-		g_object_unref((tmp_comp));
+		g_object_unref (tmp_comp);
 		
 		comp_editor_set_changed (editor, TRUE);
 		save_comp (editor);
@@ -1325,7 +1325,7 @@ print_cmd (GtkWidget *widget, gpointer data)
 
 	comp = comp_editor_get_current_comp (editor);
 	print_comp (comp, editor->priv->client, FALSE);
-	g_object_unref((comp));
+	g_object_unref (comp);
 }
 
 static void
@@ -1338,7 +1338,7 @@ print_preview_cmd (GtkWidget *widget, gpointer data)
 
 	comp = comp_editor_get_current_comp (editor);
 	print_comp (comp, editor->priv->client, TRUE);
-	g_object_unref((comp));
+	g_object_unref (comp);
 }
 
 static void
@@ -1458,7 +1458,7 @@ obj_updated_cb (ECal *client, const char *uid, gpointer data)
 					icalcomponent_free (icalcomp);
 				}
 
-				g_object_unref((comp));
+				g_object_unref (comp);
 			} else {
 				GtkWidget *dlg;
 

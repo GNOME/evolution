@@ -368,7 +368,7 @@ event_editor_send_comp (CompEditor *editor, ECalComponentItipMethod method)
 		
 		client = e_meeting_store_get_e_cal (priv->model);
 		result = itip_send_comp (E_CAL_COMPONENT_METHOD_CANCEL, comp, client, NULL);
-		g_object_unref((comp));
+		g_object_unref (comp);
 
 		if (!result)
 			return FALSE;
@@ -394,11 +394,11 @@ event_editor_finalize (GObject *object)
 	ee = EVENT_EDITOR (object);
 	priv = ee->priv;
 
-	g_object_unref((priv->event_page));
-	g_object_unref((priv->alarm_page));
-	g_object_unref((priv->recur_page));
-	g_object_unref((priv->meet_page));
-	g_object_unref((priv->sched_page));
+	g_object_unref (priv->event_page);
+	g_object_unref (priv->alarm_page);
+	g_object_unref (priv->recur_page);
+	g_object_unref (priv->meet_page);
+	g_object_unref (priv->sched_page);
 
 	g_object_unref (priv->model);
 

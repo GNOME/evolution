@@ -1142,7 +1142,7 @@ gnome_calendar_destroy (GtkObject *object)
 			for (l = priv->dn_queries; l != NULL; l = l->next) {
 				g_signal_handlers_disconnect_matched ((ECalView *) l->data, G_SIGNAL_MATCH_DATA,
 								      0, 0, NULL, NULL, gcal);
-				g_object_unref ((ECalView *) l->data);
+				g_object_unref (l->data);
 			}
 
 			g_list_free (priv->dn_queries);

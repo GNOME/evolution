@@ -177,7 +177,7 @@ task_details_page_finalize (GObject *object)
 		gtk_widget_unref (priv->main);
 
 	if (priv->xml) {
-		g_object_unref((priv->xml));
+		g_object_unref (priv->xml);
 		priv->xml = NULL;
 	}
 
@@ -760,7 +760,7 @@ task_details_page_new (void)
 
 	tdpage = g_object_new (TYPE_TASK_DETAILS_PAGE, NULL);
 	if (!task_details_page_construct (tdpage)) {
-		g_object_unref ((tdpage));
+		g_object_unref (tdpage);
 		return NULL;
 	}
 

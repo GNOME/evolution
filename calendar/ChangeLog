@@ -1,3 +1,7 @@
+2003-11-17  JP Rosevear <jpr@ximian.com>
+
+	* Cleanup some ref/unref calls 
+
 2003-11-17  Rodrigo Moya <rodrigo@ximian.com>
 
 	* gui/calendar-component.c (delete_calendar_cb, rename_calendar_cb):

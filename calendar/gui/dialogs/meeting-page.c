@@ -225,7 +225,7 @@ cleanup_attendees (GPtrArray *attendees)
 	int i;
 	
 	for (i = 0; i < attendees->len; i++)
-		g_object_unref((g_ptr_array_index (attendees, i)));
+		g_object_unref (g_ptr_array_index (attendees, i));
 }
 
 /* Destroy handler for the task page */
@@ -242,7 +242,7 @@ meeting_page_finalize (GObject *object)
 	priv = mpage->priv;
 
 	if (priv->comp != NULL)
-		g_object_unref((priv->comp));
+		g_object_unref (priv->comp);
 	
 	cleanup_attendees (priv->deleted_attendees);
 	g_ptr_array_free (priv->deleted_attendees, TRUE);
@@ -250,13 +250,13 @@ meeting_page_finalize (GObject *object)
 	if (priv->ia != NULL)
 		g_object_unref (priv->ia);
 	
-	g_object_unref((priv->model));
+	g_object_unref (priv->model);
 	
 	if (priv->main)
 		gtk_widget_unref (priv->main);
 
 	if (priv->xml) {
-		g_object_unref((priv->xml));
+		g_object_unref (priv->xml);
 		priv->xml = NULL;
 	}
 
@@ -332,7 +332,7 @@ meeting_page_fill_widgets (CompEditorPage *page, ECalComponent *comp)
 	
 	/* Clean out old data */
 	if (priv->comp != NULL)
-		g_object_unref((priv->comp));
+		g_object_unref (priv->comp);
 	priv->comp = NULL;
 	
 	cleanup_attendees (priv->deleted_attendees);
@@ -611,7 +611,7 @@ popup_delete_cb (GtkWidget *widget, gpointer data)
 	while (ia != NULL) {
 		EMeetingAttendee *ib = NULL;
 
-		g_object_ref((ia));
+		g_object_ref (ia);
 		g_ptr_array_add (priv->deleted_attendees, ia);
 		e_meeting_store_remove_attendee (priv->model, ia);
 
@@ -759,7 +759,7 @@ meeting_page_construct (MeetingPage *mpage, EMeetingStore *ems,
 	g_list_free (address_strings);
 	
 	/* The etable displaying attendees and their status */
-	g_object_ref((ems));
+	g_object_ref (ems);
 	priv->model = ems;
 
 	btn = gtk_button_new_with_label ("Add Attendee");
@@ -803,7 +803,7 @@ meeting_page_new (EMeetingStore *ems, ECal *client)
 
 	mpage = g_object_new (TYPE_MEETING_PAGE, NULL);
 	if (!meeting_page_construct (mpage, ems, client)) {
-		g_object_unref((mpage));
+		g_object_unref (mpage);
 		return NULL;
 	}
 

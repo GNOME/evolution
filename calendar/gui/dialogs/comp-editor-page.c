@@ -273,11 +273,11 @@ comp_editor_page_set_e_cal (CompEditorPage *page, ECal *client)
         g_return_if_fail (IS_COMP_EDITOR_PAGE (page));
 
 	if (page->client)
-		g_object_unref((client));
+		g_object_unref (client);
 
 	page->client = client;
 	if (page->client)
-		g_object_ref((client));
+		g_object_ref (client);
 }
 
 /**

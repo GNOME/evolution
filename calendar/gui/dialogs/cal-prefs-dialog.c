@@ -323,7 +323,7 @@ config_control_destroy_callback (GtkObject *object,
 
 	dialog_data = (DialogData *) data;
 
-	g_object_unref((dialog_data->xml));
+	g_object_unref (dialog_data->xml);
 	
 	g_free (dialog_data);
 }

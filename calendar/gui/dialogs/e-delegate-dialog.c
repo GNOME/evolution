@@ -187,7 +187,7 @@ e_delegate_dialog_construct (EDelegateDialog *edd, const char *name, const char 
 	str = eab_destination_exportv(destv);
 	bonobo_widget_set_property (BONOBO_WIDGET (priv->entry), "destinations", TC_CORBA_string, str, NULL);
 	g_free(str);
-	g_object_unref((dest));
+	g_object_unref (dest);
 		
 	g_signal_connect((priv->addressbook), "clicked",
 			    G_CALLBACK (addressbook_clicked_cb), edd);
@@ -196,7 +196,7 @@ e_delegate_dialog_construct (EDelegateDialog *edd, const char *name, const char 
 
  error:
 
-	g_object_unref((edd));
+	g_object_unref (edd);
 	return NULL;
 }
 

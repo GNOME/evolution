@@ -861,7 +861,7 @@ alarm_page_new (void)
 
 	apage = g_object_new (TYPE_ALARM_PAGE, NULL);
 	if (!alarm_page_construct (apage)) {
-		g_object_unref ((apage));
+		g_object_unref (apage);
 		return NULL;
 	}
 

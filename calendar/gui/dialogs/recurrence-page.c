@@ -309,12 +309,12 @@ recurrence_page_finalize (GObject *object)
 		gtk_widget_unref (priv->main);
 
 	if (priv->xml) {
-		g_object_unref((priv->xml));
+		g_object_unref (priv->xml);
 		priv->xml = NULL;
 	}
 
 	if (priv->comp) {
-		g_object_unref((priv->comp));
+		g_object_unref (priv->comp);
 		priv->comp = NULL;
 	}
 
@@ -1518,7 +1518,7 @@ recurrence_page_fill_widgets (CompEditorPage *page, ECalComponent *comp)
 	 */
 
 	if (priv->comp)
-		g_object_unref((priv->comp));
+		g_object_unref (priv->comp);
 
 	priv->comp = e_cal_component_clone (comp);
 
@@ -2393,7 +2393,7 @@ recurrence_page_new (void)
 
 	rpage = g_object_new (TYPE_RECURRENCE_PAGE, NULL);
 	if (!recurrence_page_construct (rpage)) {
-		g_object_unref((rpage));
+		g_object_unref (rpage);
 		return NULL;
 	}
 
