@@ -346,8 +346,8 @@ update_folders(char *uri, struct _folder_info *info, void *data)
 	/* we back off slowly as we progress */
 	if (now > info->update+10+info->count*5) {
 		printf("upating a folder: %s\n", info->uri);
-		camel_folder_thaw(info->folder);
-		camel_folder_freeze(info->folder);
+		/*camel_folder_thaw(info->folder);
+		  camel_folder_freeze(info->folder);*/
 		info->update = now;
 		info->count++;
 	}
@@ -417,8 +417,8 @@ receive_status (CamelFilterDriver *driver, enum camel_filter_status_t status, in
 	if (info->data->inbox && now > info->data->inbox_update+20) {
 		printf("updating inbox too\n");
 		/* this doesn't seem to work right :( */
-		camel_folder_thaw(info->data->inbox);
-		camel_folder_freeze(info->data->inbox);
+		/*camel_folder_thaw(info->data->inbox);
+		  camel_folder_freeze(info->data->inbox);*/
 		info->data->inbox_update = now;
 	}
 

@@ -125,6 +125,26 @@ vfolder_refresh(void)
 		g_free(info->query);
 		l = g_list_next(l);
 	}
+
+	/* setup the virtual unmatched folder */
+	info = vfolder_find("UNMATCHED");
+	if (info == NULL) {
+		char *uri, *path;
+
+		info = g_malloc(sizeof(*info));
+		info->name = g_strdup("UNMATCHED");
+		info->query = g_strdup("UNMATCHED");
+		d(printf("Adding new vfolder: %s %s\n", info->name, info->query));
+		
+		uri = g_strdup_printf("vfolder:%s", info->name);
+		path = g_strdup_printf("/%s", info->name);
+		evolution_storage_new_folder(vfolder_storage, path, g_basename(path),
+					     "mail", uri, info->name, FALSE);
+		g_free(uri);
+		g_free(path);
+	}
+	head = g_list_append(head, info);
+
 	g_list_free(available_vfolders);
 	available_vfolders = head;
 	g_string_free(expr, TRUE);
@@ -203,34 +223,32 @@ vfolder_uri_to_folder(const char *uri, CamelException *ex)
 	bonobo_object_ref (BONOBO_OBJECT (vfolder_storage));
 	mail_hash_storage ((CamelService *)folder->parent_store, vfolder_storage);
 
-	sourceuri = NULL;
-	sources = 0;
-	while ( (sourceuri = vfolder_rule_next_source(rule, sourceuri)) ) {
-		d(printf("adding vfolder source: %s\n", sourceuri));
-		sourcefolder = mail_tool_uri_to_folder (sourceuri, ex);
-		printf("source folder = %p\n", sourcefolder);
-		if (sourcefolder) {
-			sources++;
-			mail_tool_camel_lock_up ();
-			camel_vee_folder_add_folder(folder, sourcefolder);
-			mail_tool_camel_lock_down ();
-		} else {
-			/* we'll just silently ignore now-missing sources */
-			camel_exception_clear(ex);
+	if (strcmp(uri+8, "UNMATCHED") != 0) {
+		sourceuri = NULL;
+		sources = 0;
+		while ( (sourceuri = vfolder_rule_next_source(rule, sourceuri)) ) {
+			d(printf("adding vfolder source: %s\n", sourceuri));
+			sourcefolder = mail_tool_uri_to_folder (sourceuri, ex);
+			printf("source folder = %p\n", sourcefolder);
+			if (sourcefolder) {
+				sources++;
+				camel_vee_folder_add_folder(folder, sourcefolder);
+			} else {
+				/* we'll just silently ignore now-missing sources */
+				camel_exception_clear(ex);
+			}
 		}
-	}
-	/* if we didn't have any sources, just use Inbox as the default */
-	if (sources == 0) {
-		char *defaulturi;
-
-		defaulturi = g_strdup_printf("file://%s/local/Inbox", evolution_dir);
-		d(printf("No sources configured/found, using default: %s\n", defaulturi));
-		sourcefolder = mail_tool_uri_to_folder (defaulturi, ex);
-		g_free(defaulturi);
-		if (sourcefolder) {
-			mail_tool_camel_lock_up ();
-			camel_vee_folder_add_folder(folder, sourcefolder);
-			mail_tool_camel_lock_down ();
+		/* if we didn't have any sources, just use Inbox as the default */
+		if (sources == 0) {
+			char *defaulturi;
+			
+			defaulturi = g_strdup_printf("file://%s/local/Inbox", evolution_dir);
+			d(printf("No sources configured/found, using default: %s\n", defaulturi));
+			sourcefolder = mail_tool_uri_to_folder (defaulturi, ex);
+			g_free(defaulturi);
+			if (sourcefolder) {
+				camel_vee_folder_add_folder(folder, sourcefolder);
+			}
 		}
 	}
 

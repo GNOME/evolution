@@ -1,3 +1,13 @@
+2001-02-16  Not Zed  <NotZed@Ximian.com>
+
+	* mail-send-recv.c (receive_status): Dont do the thaw/freeze set here.
+	(update_folders): "
+
+	* mail-vfolder.c (vfolder_refresh): Setup the virtual
+	'unmatched' folder by default.
+	(vfolder_uri_to_folder): HAndle UNMATCHED folder specially, it has
+	no explicit sources.
+
 2001-02-16  Jeffrey Stedfast  <fejj@ximian.com>
 
 	* mail-send-recv.c (receive_get_folder): Not sure it makes any
