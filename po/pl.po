@@ -12,7 +12,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: evolution\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2004-08-14 21:19+0200\n"
+"POT-Creation-Date: 2004-08-17 08:39+0200\n"
 "PO-Revision-Date: 2004-01-28 14:18+0100\n"
 "Last-Translator: GNOME PL Team <translators@gnome.pl>\n"
 "Language-Team: Polish <translation-team-pl@lists.sourceforge.net>\n"
@@ -189,8 +189,6 @@ msgid ""
 msgstr "W obecnym kontakcie dokonano zmian. Czy chcesz je zapisać?"
 
 #: addressbook/addressbook-errors.xml.h:43
-#: addressbook/gui/contact-editor/e-contact-editor.c:2803
-#: addressbook/gui/contact-editor/e-contact-editor.c:2827
 msgid "_Discard"
 msgstr "_Porzuć"
 
@@ -2158,22 +2156,6 @@ msgstr ""
 msgid "Invalid contact."
 msgstr "Nieprawidłowy kontakt."
 
-#: addressbook/gui/contact-editor/e-contact-editor.c:2799
-msgid ""
-"The contact cannot be saved to the selected address book. Do you want to "
-"discard changes?"
-msgstr ""
-"Nie można zapisać kontaktu do wybranej książki adresowej. Czy porzucić "
-"zmiany?"
-
-#: addressbook/gui/contact-editor/e-contact-editor.c:2822
-msgid ""
-"You are moving the contact from one address book to another, but it cannot "
-"be removed from the source. Do you want to save a copy instead?"
-msgstr ""
-"Kontakt jest przenoszony z jednej książki adresowej do drugiej, ale nie "
-"można go usunąć ze źródła. Czy zamiast przenoszenia zapisać kopię?"
-
 #: addressbook/gui/contact-editor/e-contact-quick-add.c:280
 msgid "Contact Quick-Add"
 msgstr "Szybkie dodanie kontaktu"
@@ -3060,7 +3042,7 @@ msgid "Error adding list"
 msgstr "Błąd przy dodawaniu listy"
 
 #: addressbook/gui/widgets/eab-gui-util.c:170
-#: addressbook/gui/widgets/eab-gui-util.c:640
+#: addressbook/gui/widgets/eab-gui-util.c:643
 msgid "Error adding contact"
 msgstr "Błąd przy dodawaniu kontaktu"
 
@@ -3077,20 +3059,29 @@ msgid "Error removing list"
 msgstr "Błąd przy usuwaniu listy"
 
 #: addressbook/gui/widgets/eab-gui-util.c:193
-#: addressbook/gui/widgets/eab-gui-util.c:598
+#: addressbook/gui/widgets/eab-gui-util.c:601
 msgid "Error removing contact"
 msgstr "Błąd przy usuwaniu kontaktu"
 
 #: addressbook/gui/widgets/eab-gui-util.c:275
 #, c-format
 msgid ""
+"Opening %d contact will open %d new window as well.\n"
+"Do you really want to display this contact?"
+msgid_plural ""
 "Opening %d contacts will open %d new windows as well.\n"
 "Do you really want to display all of these contacts?"
-msgstr ""
-"Otwarcie %d kontakwó spowoduje jednoczesne otwarcie %d nowych okien.\n"
+msgstr[0] ""
+"Otwarcie %d kontaktu spowoduje jednoczesne otwarcie %d nowego okna.\n"
+"Czy na pewno chcesz wyświetlić ten kontakt?"
+msgstr[1] ""
+"Otwarcie %d kontaktów spowoduje jednoczesne otwarcie %d nowych okien.\n"
+"Czy na pewno chcesz wyświetlić te wszystkie kontakty?"
+msgstr[2] ""
+"Otwarcie %d kontaktów spowoduje jednoczesne otwarcie %d nowych okien.\n"
 "Czy na pewno chcesz wyświetlić te wszystkie kontakty?"
 
-#: addressbook/gui/widgets/eab-gui-util.c:301
+#: addressbook/gui/widgets/eab-gui-util.c:304
 #, c-format
 msgid ""
 "%s already exists\n"
@@ -3099,45 +3090,45 @@ msgstr ""
 "%s istnieje.\n"
 "Czy chcesz go nadpisać?"
 
-#: addressbook/gui/widgets/eab-gui-util.c:305
+#: addressbook/gui/widgets/eab-gui-util.c:308
 msgid "Overwrite"
 msgstr "Nadpisz"
 
 #. This is a filename. Translators take note.
-#: addressbook/gui/widgets/eab-gui-util.c:383
+#: addressbook/gui/widgets/eab-gui-util.c:386
 msgid "card.vcf"
 msgstr "karta.vcf"
 
-#: addressbook/gui/widgets/eab-gui-util.c:545
+#: addressbook/gui/widgets/eab-gui-util.c:548
 msgid "list"
 msgstr "lista"
 
-#: addressbook/gui/widgets/eab-gui-util.c:694
+#: addressbook/gui/widgets/eab-gui-util.c:697
 msgid "Move contact to"
 msgstr "Przeniesienie kontaktu do"
 
-#: addressbook/gui/widgets/eab-gui-util.c:696
+#: addressbook/gui/widgets/eab-gui-util.c:699
 msgid "Copy contact to"
 msgstr "Skopiowanie kontaktu do"
 
-#: addressbook/gui/widgets/eab-gui-util.c:699
+#: addressbook/gui/widgets/eab-gui-util.c:702
 msgid "Move contacts to"
 msgstr "Przeniesienie kontaktów do"
 
-#: addressbook/gui/widgets/eab-gui-util.c:701
+#: addressbook/gui/widgets/eab-gui-util.c:704
 msgid "Copy contacts to"
 msgstr "Skopiowanie kontaktów do"
 
 # FIXME - albo wybierz 
-#: addressbook/gui/widgets/eab-gui-util.c:704
+#: addressbook/gui/widgets/eab-gui-util.c:707
 msgid "Select target addressbook."
 msgstr "Wybór docelowej książki adresowej."
 
-#: addressbook/gui/widgets/eab-gui-util.c:927
+#: addressbook/gui/widgets/eab-gui-util.c:930
 msgid "Multiple VCards"
 msgstr "Plik VCard z wieloma pozycjami"
 
-#: addressbook/gui/widgets/eab-gui-util.c:930
+#: addressbook/gui/widgets/eab-gui-util.c:933
 #, c-format
 msgid "VCard for %s"
 msgstr "Plik VCard z pozycją %s"
@@ -19748,6 +19739,20 @@ msgstr "%s (...)"
 #, c-format
 msgid "%s (%d%% complete)"
 msgstr "%s (zakończono %d%%)"
+
+#~ msgid ""
+#~ "The contact cannot be saved to the selected address book. Do you want to "
+#~ "discard changes?"
+#~ msgstr ""
+#~ "Nie można zapisać kontaktu do wybranej książki adresowej. Czy porzucić "
+#~ "zmiany?"
+
+#~ msgid ""
+#~ "You are moving the contact from one address book to another, but it "
+#~ "cannot be removed from the source. Do you want to save a copy instead?"
+#~ msgstr ""
+#~ "Kontakt jest przenoszony z jednej książki adresowej do drugiej, ale nie "
+#~ "można go usunąć ze źródła. Czy zamiast przenoszenia zapisać kopię?"
 
 #~ msgid "_Add Group"
 #~ msgstr "_Dodaj grupę"
