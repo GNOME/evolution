@@ -374,12 +374,12 @@ do_copy (struct _ESExp *f, int argc, struct _ESExpResult **argv, CamelFilterDriv
 				uids = g_ptr_array_new ();
 				g_ptr_array_add (uids, (char *) p->uid);
 				camel_folder_copy_messages_to (p->source, uids, outbox, p->ex);
-				if (!camel_exception_is_set (p->ex))
-					p->copied = TRUE;
-				
 				g_ptr_array_free (uids, TRUE);
 			} else
 				camel_folder_append_message (outbox, p->message, p->info, p->ex);
+			
+			if (!camel_exception_is_set (p->ex))
+				p->copied = TRUE;
 			
 			camel_filter_driver_log (driver, FILTER_LOG_ACTION, "Copy to folder %s",
 						 folder);
@@ -413,14 +413,15 @@ do_move (struct _ESExp *f, int argc, struct _ESExpResult **argv, CamelFilterDriv
 				uids = g_ptr_array_new ();
 				g_ptr_array_add (uids, (char *) p->uid);
 				camel_folder_copy_messages_to (p->source, uids, outbox, p->ex);
-				if (!camel_exception_is_set (p->ex)) {
-					/* a 'move' is a copy & delete */
-					p->copied = TRUE;
-					p->deleted = TRUE;
-				}
 				g_ptr_array_free (uids, TRUE);
 			} else
 				camel_folder_append_message (outbox, p->message, p->info, p->ex);
+			
+			if (!camel_exception_is_set (p->ex)) {
+				/* a 'move' is a copy & delete */
+				p->copied = TRUE;
+				p->deleted = TRUE;
+			}
 			
 			camel_filter_driver_log (driver, FILTER_LOG_ACTION, "Move to folder %s",
 						 folder);

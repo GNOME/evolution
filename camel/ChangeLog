@@ -4,6 +4,9 @@
 	Okay, I've decided that that user is just on crack. We don't want
 	to allow filtering of deleted messages or we could get some
 	unexpected behavior.
+	(do_move): Oops. My last fix needs to be after the if-statement,
+	not inside it.
+	(do_copy): And here too.
 
 2001-07-12  Jeffrey Stedfast  <fejj@ximian.com>
 
