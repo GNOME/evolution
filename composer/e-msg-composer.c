@@ -1335,7 +1335,10 @@ autosave_load_draft (const char *filename)
 		autosave_save_draft (composer);
 		
 		g_signal_connect (GTK_OBJECT (composer), "send",
-				    G_CALLBACK (composer_send_cb), NULL);
+				  G_CALLBACK (composer_send_cb), NULL);
+		
+		g_signal_connect (GTK_OBJECT (composer), "save-draft",
+				  G_CALLBACK (composer_save_draft_cb), NULL);
 		
 		gtk_widget_show (GTK_WIDGET (composer));
 	}
