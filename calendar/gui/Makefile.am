@@ -213,7 +213,6 @@ libevolution_calendar_la_SOURCES =		\
 	weekday-picker.h
 
 libevolution_calendar_la_LIBADD =					\
-	$(DB3_LDADD)							\
 	$(top_builddir)/widgets/menus/libmenus.la			\
 	$(top_builddir)/shell/libeshell.la				\
 	$(top_builddir)/calendar/gui/dialogs/libcal-dialogs.la		\

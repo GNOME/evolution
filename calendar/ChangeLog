@@ -1,3 +1,7 @@
+2003-11-18  JP Rosevear <jpr@ximian.com>
+
+	* gui/Makefile.am: remove db3 include
+
 2003-11-18  Rodrigo Moya <rodrigo@ximian.com>
 
 	* gui/calendar-commands.c
