@@ -1,3 +1,10 @@
+2002-06-11  Jeffrey Stedfast  <fejj@ximian.com>
+
+	* message-list.c (regen_list_regen): Move m->complete = TRUE; to
+	within the cancel-check block, this way complete only ever gets
+	set to TRUE if we weren't cancelled. I assume this is how it was
+	supposed to work.
+
 2002-06-11  Not Zed  <NotZed@Ximian.com>
 
 	* folder-info.c (do_get_info): If we dont get a folder, dont try

@@ -2565,6 +2565,8 @@ regen_list_regen (struct _mail_msg *mm)
 					g_ptr_array_add(m->summary, info);
 			}
 		}
+		
+		m->complete = TRUE;
 	}
 
 	if (uidnew)
@@ -2574,8 +2576,6 @@ regen_list_regen (struct _mail_msg *mm)
 		camel_folder_search_free (m->folder, searchuids);
 	else
 		camel_folder_free_uids (m->folder, uids);
-
-	m->complete = TRUE;
 }
 
 static void
