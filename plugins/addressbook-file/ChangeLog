@@ -1,3 +1,10 @@
+2005-02-28  Sivaiah Nallagatla <snallagatla@novell.com>
+
+	* addressbook-file.c (e_book_file_dummy) :
+	don't set the relative uri if already present.
+	Also change the typo in the prototype s/calendar/book
+	part of fix for #73152
+
 2005-02-24  Björn Torkelsson  <torkel@acc.umu.se>
 
 	* org-gnome-addressbook-file.eplug.in: Added author and description.
