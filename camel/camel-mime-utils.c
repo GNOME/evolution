@@ -1867,6 +1867,9 @@ header_decode_rfc2184_param (const char **in, char **paramp, int *part, gboolean
 	const char *inptr = *in;
 	char *param;
 	
+	*value_is_encoded = FALSE;
+	*part = -1;
+	
 	param = decode_param_token (&inptr);
 	header_decode_lwsp (&inptr);
 	
@@ -1929,8 +1932,10 @@ header_decode_param(const char **in, char **paramp, char **valuep, int *is_rfc21
 				char *val;
 				
 				val = rfc2184_decode (value, strlen (value));
-				g_free (value);
-				value = val;
+				if (val) {
+					g_free (value);
+					value = val;
+				}
 			} else {
 				/* Since we are expecting to find the rest of
 				 * this paramter value later, let our caller know.
@@ -2634,15 +2639,15 @@ header_decode_param_list(const char **in)
 	header_decode_lwsp (&inptr);
 	
 	while (*inptr == ';') {
-		char *param, *value;
-		struct _header_param *p;
+		struct _header_param *param;
+		char *name, *value;
 		
 		inptr++;
 		/* invalid format? */
-		if (header_decode_param (&inptr, &param, &value, &is_rfc2184) != 0)
+		if (header_decode_param (&inptr, &name, &value, &is_rfc2184) != 0)
 			break;
 		
-		if (is_rfc2184 && tail && !g_strcasecmp (param, tail->name)) {
+		if (is_rfc2184 && tail && !g_strcasecmp (name, tail->name)) {
 			/* rfc2184 allows a parameter to be broken into multiple parts
 			 * and it looks like we've found one. Append this value to the
 			 * last value.
@@ -2653,6 +2658,7 @@ header_decode_param_list(const char **in)
 			g_string_append (gvalue, value);
 			g_free (tail->value);
 			g_free (value);
+			g_free (name);
 			
 			tail->value = gvalue->str;
 			g_string_free (gvalue, FALSE);
@@ -2664,19 +2670,21 @@ header_decode_param_list(const char **in)
 				char *val;
 				
 				val = rfc2184_decode (tail->value, strlen (tail->value));
-				g_free (tail->value);
-				tail->value = val;
+				if (val) {
+					g_free (tail->value);
+					tail->value = val;
+				}
 			}
 			
-			p = g_malloc (sizeof (struct _header_param));
-			p->name = param;
-			p->value = value;
-			p->next = NULL;
+			param = g_malloc (sizeof (struct _header_param));
+			param->name = name;
+			param->value = value;
+			param->next = NULL;
 			if (head == NULL)
-				head = p;
+				head = param;
 			if (tail)
-				tail->next = p;
-			tail = p;
+				tail->next = param;
+			tail = param;
 		}
 		
 		last_was_rfc2184 = is_rfc2184;
@@ -2691,11 +2699,14 @@ header_decode_param_list(const char **in)
 		char *val;
 		
 		val = rfc2184_decode (tail->value, strlen (tail->value));
-		g_free (tail->value);
-		tail->value = val;
+		if (val) {
+			g_free (tail->value);
+			tail->value = val;
+		}
 	}
 	
 	*in = inptr;
+	
 	return head;
 }
 
@@ -2786,38 +2797,96 @@ header_encode_param (const unsigned char *in, gboolean *encoded)
 void
 header_param_list_format_append(GString *out, struct _header_param *p)
 {
-	int len = out->len;
+	int used = out->len;
 	
 	while (p) {
 		gboolean encoded = FALSE;
-		char *value, *ch = NULL;
+		gboolean quote = FALSE;
 		int here = out->len;
+		int nlen, vlen;
+		char *value;
+		
+		if (!p->value) {
+			p = p->next;
+			continue;
+		}
 		
 		value = header_encode_param (p->value, &encoded);
 		
 		if (!encoded) {
+			char *ch;
+			
 			for (ch = value; *ch; ch++) {
 				if (is_tspecial (*ch) || is_lwsp (*ch))
 					break;
 			}
+			
+			quote = ch && *ch;
 		}
 		
-		if (len + strlen (p->name) + strlen (value) > 60) {
+		nlen = strlen (p->name);
+		vlen = strlen (value);
+		
+		if (used + nlen + vlen > CAMEL_FOLD_SIZE - 8) {
 			out = g_string_append (out, ";\n\t");
-			len = 0;
+			here = out->len;
+			used = 0;
 		} else
 			out = g_string_append (out, "; ");
 		
-		g_string_sprintfa (out, "%s%s=", p->name, encoded ? "*" : "");
-		
-		if (!ch || !*ch)
-			g_string_append (out, value);
-		else
-			quote_word (out, TRUE, value, strlen (value));
+		if (nlen + vlen > CAMEL_FOLD_SIZE - 8) {
+			/* we need to do special rfc2184 parameter wrapping */
+			int maxlen = CAMEL_FOLD_SIZE - (nlen + 8);
+			char *inptr, *inend;
+			int i = 0;
+			
+			inptr = value;
+			inend = value + vlen;
+			
+			while (inptr < inend) {
+				char *ptr = inptr + MIN (inend - inptr, maxlen);
+				
+				if (encoded && ptr < inend) {
+					/* be careful not to break an encoded char (ie %20) */
+					char *q = ptr;
+					int j = 2;
+					
+					for ( ; j > 0 && q > inptr && *q != '%'; j--, q--);
+					if (*q == '%')
+						ptr = q;
+				}
+				
+				if (i != 0) {
+					g_string_append (out, ";\n\t");
+					here = out->len;
+					used = 0;
+				}
+				
+				g_string_sprintfa (out, "%s*%d%s=", p->name, i++, encoded ? "*" : "");
+				if (encoded || !quote)
+					g_string_append_len (out, inptr, ptr - inptr);
+				else
+					quote_word (out, TRUE, inptr, ptr - inptr);
+				
+				printf ("wrote: %s\n", out->str + here);
+				
+				used += (out->len - here);
+				
+				inptr = ptr;
+			}
+		} else {
+			g_string_sprintfa (out, "%s%s=", p->name, encoded ? "*" : "");
+			
+			if (encoded || !quote)
+				g_string_append (out, value);
+			else
+				quote_word (out, TRUE, value, vlen);
+			
+			used += (out->len - here);
+		}
 		
 		g_free (value);
 		
-		len += (out->len - here);
 		p = p->next;
 	}
 }
@@ -2934,7 +3003,8 @@ header_content_encoding_decode(const char *in)
 	return NULL;
 }
 
-CamelMimeDisposition *header_disposition_decode(const char *in)
+CamelMimeDisposition *
+header_disposition_decode(const char *in)
 {
 	CamelMimeDisposition *d = NULL;
 	const char *inptr = in;
@@ -2951,12 +3021,15 @@ CamelMimeDisposition *header_disposition_decode(const char *in)
 	return d;
 }
 
-void header_disposition_ref(CamelMimeDisposition *d)
+void
+header_disposition_ref(CamelMimeDisposition *d)
 {
 	if (d)
 		d->refcount++;
 }
-void header_disposition_unref(CamelMimeDisposition *d)
+
+void
+header_disposition_unref(CamelMimeDisposition *d)
 {
 	if (d) {
 		if (d->refcount<=1) {
@@ -2969,7 +3042,8 @@ void header_disposition_unref(CamelMimeDisposition *d)
 	}
 }
 
-char *header_disposition_format(CamelMimeDisposition *d)
+char *
+header_disposition_format(CamelMimeDisposition *d)
 {
 	GString *out;
 	char *ret;

@@ -1,3 +1,11 @@
+2001-06-28  Jeffrey Stedfast  <fejj@ximian.com>
+
+	* camel-mime-utils.c (header_decode_param_list): Fix a memory
+	leak. Also if the decoded value is NULL, that means it wasn't
+	encoded so we don't want to toss the old value.
+	(header_param_list_format_append): Correctly wrap long parameter
+	values according to rfc2184.
+
 2001-06-28  Dan Winship  <danw@ximian.com>
 
 	* providers/imap/camel-imap-folder.c (imap_refresh_info): If the
