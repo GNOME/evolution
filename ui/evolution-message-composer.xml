@@ -23,7 +23,7 @@
                 accel="*Ctrl**Alt*f"
 		_tip="Insert a file as text into the message"/>
 		
-		<cmd name="FileSend" _label="Send" _tip="Send this message now"
+		<cmd name="FileSend" _label="Send" _tip="Send this message"
 		accel="*Ctrl*Return"
                 pixtype="pixbuf"/>
 		
