@@ -1,3 +1,7 @@
+Sat Feb 14 17:41:28 KST 1998  Changwoo Ryu  <cwryu@adam.kaist.ac.kr>
+
+	* autogen.sh: multilple aclocal -I directories.
+
 Sat Feb 14 01:09:37 1998  Tom Tromey  <tromey@cygnus.com>
 
 	* Makefile.am (macros.dep): Removed extra `$' from rule.

@@ -65,13 +65,19 @@ fi
 for j in `find $srcdir -name configure.in -print`
 do 
     i=`dirname $j`
-    macros=`sed -n -e 's,AM_ACLOCAL_INCLUDE(\(.*\)),\1,gp' < $j`
+    macrodirs=`sed -n -e 's,AM_ACLOCAL_INCLUDE(\(.*\)),\1,gp' < $j`
+    echo "hahaha $macrodirs"
     echo processing $i
     ## debug
-    test -n "$macros" && echo \`aclocal\' will also look in \`$macros\'
+    test -n "$macrodirs" && echo \`aclocal\' will also look in \`$macrodirs\'
     (cd $i; \
+    aclocalinclude=""; \
+    for k in $macrodirs; do \
+        if test -d $k; then aclocalinclude="$aclocalinclude -I $k"; \
+        else echo "**Warning**: No such directory \`$k'.  Ignored."; fi \
+    done; \
     libtoolize --copy --force; \
-    if test -n "$macros"; then aclocal -I $macros; else aclocal; fi; \
+    aclocal $aclocalinclude; \
     autoheader; automake --add-missing --gnu; autoheader; autoconf)
 done
 
