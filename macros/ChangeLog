@@ -1,3 +1,7 @@
+1998-10-05  Karl Eichwalder <ke@suse.de>
+
+	* gnome-xml-check.m4: Fix typo while signaling the error.
+
 1998-10-05  Raja R Harinath  <harinath@cs.umn.edu>
 
 	* compiler-flags.m4 (warnCFLAGS): Remove `-W'.
