@@ -925,6 +925,9 @@ open_file (ETreeTableAdapter *etta, const char *filename)
 	int vers;
 	gboolean model_default, saved_default;
 
+	if (!g_file_test (filename, G_FILE_TEST_EXISTS))
+		return NULL;
+
 	doc = xmlParseFile (filename);
 	if (!doc)
 		return NULL;
