@@ -1,7 +1,5 @@
 2000-04-24  Matt Loper  <matt@helixcode.com>
 
-	* widgets/Makefile.am: Added e-paned directory.
-
 	* default_user/Makefile.am: new file.
 
 	* default_user/Main_Shortcuts.xml: New file; is used to fill the
