@@ -5,8 +5,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: evolution 0.10.99\n"
-"POT-Creation-Date: 2001-12-07 16:58+0100\n"
-"PO-Revision-Date: 2001-12-07 17:05+0100\n"
+"POT-Creation-Date: 2001-12-14 15:50+0100\n"
+"PO-Revision-Date: 2001-12-14 16:09+0100\n"
 "Last-Translator: Andras Timar <timar@gnome.hu>\n"
 "Language-Team: Hungarian <hu@gnome.hu>\n"
 "MIME-Version: 1.0\n"
@@ -617,9 +617,9 @@ msgstr "%s VKártyája"
 #: addressbook/backend/ebook/load-pine-addressbook.c:22
 #: addressbook/backend/ebook/test-client-list.c:23
 #: addressbook/backend/ebook/test-client.c:33
-#: addressbook/conduit/address-conduit.c:1533
+#: addressbook/conduit/address-conduit.c:1538
 #: addressbook/gui/component/addressbook-factory.c:50
-#: calendar/conduits/calendar/calendar-conduit.c:1449
+#: calendar/conduits/calendar/calendar-conduit.c:1546
 #: calendar/conduits/todo/todo-conduit.c:1130
 #: calendar/gui/alarm-notify/notify-main.c:171 calendar/gui/main.c:62
 #: tools/evolution-addressbook-export.c:60
@@ -681,20 +681,20 @@ msgstr "A kurzort nem lehet betölteni\n"
 msgid "EBook not loaded\n"
 msgstr "Az EBook nincs betöltve\n"
 
-#: addressbook/conduit/address-conduit.c:1089
-#: calendar/conduits/calendar/calendar-conduit.c:981
+#: addressbook/conduit/address-conduit.c:1094
+#: calendar/conduits/calendar/calendar-conduit.c:1078
 #: calendar/conduits/todo/todo-conduit.c:694
 msgid "Could not start wombat server"
 msgstr "Nem sikerült elindítani a wombat kiszolgálót"
 
-#: addressbook/conduit/address-conduit.c:1090
-#: calendar/conduits/calendar/calendar-conduit.c:982
+#: addressbook/conduit/address-conduit.c:1095
+#: calendar/conduits/calendar/calendar-conduit.c:1079
 #: calendar/conduits/todo/todo-conduit.c:695
 msgid "Could not start wombat"
 msgstr "Nem sikerült a wombatot elindítani"
 
-#: addressbook/conduit/address-conduit.c:1120
-#: addressbook/conduit/address-conduit.c:1123
+#: addressbook/conduit/address-conduit.c:1125
+#: addressbook/conduit/address-conduit.c:1128
 msgid "Could not read pilot's Address application block"
 msgstr "Nem sikerült a pilot Address application blokkját olvasni"
 
@@ -1065,7 +1065,7 @@ msgstr "Factory a címjegyzék névkiválasztó felületéhez"
 
 #: addressbook/gui/component/select-names/e-select-names-popup.c:163
 #: addressbook/gui/component/select-names/e-select-names.c:777
-#: composer/e-msg-composer-attachment-bar.c:499 filter/filter-filter.c:436
+#: composer/e-msg-composer-attachment-bar.c:501 filter/filter-filter.c:436
 #: filter/filter-rule.c:637 shell/e-shortcuts-view.c:180
 msgid "Remove"
 msgstr "Törlés"
@@ -2475,7 +2475,7 @@ msgstr ""
 "címjegyzékben. Mindenképpen hozzáadod?"
 
 #: addressbook/gui/search/e-addressbook-search-dialog.c:145
-#: widgets/misc/e-filter-bar.c:237
+#: widgets/misc/e-filter-bar.c:238
 msgid "Advanced Search"
 msgstr "Haladó keresés"
 
@@ -2586,7 +2586,7 @@ msgstr "A protokoll nem támogatott"
 #: calendar/gui/calendar-model.c:763 calendar/gui/calendar-model.c:1197
 #: calendar/gui/dialogs/task-details-page.glade.h:3
 #: calendar/gui/e-calendar-table.c:481 calendar/gui/print.c:2255
-#: camel/camel-service.c:607 camel/camel-service.c:643
+#: camel/camel-service.c:610 camel/camel-service.c:646
 msgid "Cancelled"
 msgstr "Megszakítva"
 
@@ -2912,6 +2912,1594 @@ msgstr "Névjegy nyomtatása"
 msgid "Print envelope"
 msgstr "Boríték nyomtatása"
 
+#.
+#. * These are the timezone names from the Olson timezone data.
+#. * We only place them here so gettext picks them up for translation.
+#. * Don't include in any C files.
+#.
+#: calendar/zones.h:7
+msgid "Africa/Abidjan"
+msgstr "Afrika/Abidjan"
+
+#: calendar/zones.h:8
+msgid "Africa/Accra"
+msgstr "Afrika/Accra"
+
+#: calendar/zones.h:9
+msgid "Africa/Addis_Ababa"
+msgstr "Afrika/Addis_Ababa"
+
+#: calendar/zones.h:10
+msgid "Africa/Algiers"
+msgstr "Afrika/Algír"
+
+#: calendar/zones.h:11
+msgid "Africa/Asmera"
+msgstr "Afrika/Asmera"
+
+#: calendar/zones.h:12
+msgid "Africa/Bamako"
+msgstr "Afrika/Bamako"
+
+#: calendar/zones.h:13
+msgid "Africa/Bangui"
+msgstr "Afrika/Bangui"
+
+#: calendar/zones.h:14
+msgid "Africa/Banjul"
+msgstr "Afrika/Banjul"
+
+#: calendar/zones.h:15
+msgid "Africa/Bissau"
+msgstr "Afrika/Bissau"
+
+#: calendar/zones.h:16
+msgid "Africa/Blantyre"
+msgstr "Afrika/Blantyre"
+
+#: calendar/zones.h:17
+msgid "Africa/Brazzaville"
+msgstr "Afrika/Brazzaville"
+
+#: calendar/zones.h:18
+msgid "Africa/Bujumbura"
+msgstr "Afrika/Bujumbura"
+
+#: calendar/zones.h:19
+msgid "Africa/Cairo"
+msgstr "Afrika/Kairó"
+
+#: calendar/zones.h:20
+msgid "Africa/Casablanca"
+msgstr "Afrika/Casablanca"
+
+#: calendar/zones.h:21
+msgid "Africa/Ceuta"
+msgstr "Afrika/Ceuta"
+
+#: calendar/zones.h:22
+msgid "Africa/Conakry"
+msgstr "Afrika/Conakry"
+
+#: calendar/zones.h:23
+msgid "Africa/Dakar"
+msgstr "Afrika/Dakar"
+
+#: calendar/zones.h:24
+msgid "Africa/Dar_es_Salaam"
+msgstr "Afrika/Dar_es_Salaam"
+
+#: calendar/zones.h:25
+msgid "Africa/Djibouti"
+msgstr "Afrika/Dzsibuti"
+
+#: calendar/zones.h:26
+msgid "Africa/Douala"
+msgstr "Afrika/Douala"
+
+#: calendar/zones.h:27
+msgid "Africa/El_Aaiun"
+msgstr "Afrika/El_Aaiun"
+
+#: calendar/zones.h:28
+msgid "Africa/Freetown"
+msgstr "Afrika/Freetown"
+
+#: calendar/zones.h:29
+msgid "Africa/Gaborone"
+msgstr "Afrika/Gaborone"
+
+#: calendar/zones.h:30
+msgid "Africa/Harare"
+msgstr "Afrika/Harare"
+
+#: calendar/zones.h:31
+msgid "Africa/Johannesburg"
+msgstr "Afrika/Johannesburg"
+
+#: calendar/zones.h:32
+msgid "Africa/Kampala"
+msgstr "Afrika/Kampala"
+
+#: calendar/zones.h:33
+msgid "Africa/Khartoum"
+msgstr "Afrika/Khartoum"
+
+#: calendar/zones.h:34
+msgid "Africa/Kigali"
+msgstr "Afrika/Kigali"
+
+#: calendar/zones.h:35
+msgid "Africa/Kinshasa"
+msgstr "Afrika/Kinshasa"
+
+#: calendar/zones.h:36
+msgid "Africa/Lagos"
+msgstr "Afrika/Lagos"
+
+#: calendar/zones.h:37
+msgid "Africa/Libreville"
+msgstr "Afrika/Libreville"
+
+#: calendar/zones.h:38
+msgid "Africa/Lome"
+msgstr "Afrika/Lome"
+
+#: calendar/zones.h:39
+msgid "Africa/Luanda"
+msgstr "Afrika/Luanda"
+
+#: calendar/zones.h:40
+msgid "Africa/Lubumbashi"
+msgstr "Afrika/Lubumbashi"
+
+#: calendar/zones.h:41
+msgid "Africa/Lusaka"
+msgstr "Afrika/Lusaka"
+
+#: calendar/zones.h:42
+msgid "Africa/Malabo"
+msgstr "Afrika/Malabo"
+
+#: calendar/zones.h:43
+msgid "Africa/Maputo"
+msgstr "Afrika/Maputo"
+
+#: calendar/zones.h:44
+msgid "Africa/Maseru"
+msgstr "Afrika/Maseru"
+
+#: calendar/zones.h:45
+msgid "Africa/Mbabane"
+msgstr "Afrika/Mbabane"
+
+#: calendar/zones.h:46
+msgid "Africa/Mogadishu"
+msgstr "Afrika/Mogadishu"
+
+#: calendar/zones.h:47
+msgid "Africa/Monrovia"
+msgstr "Afrika/Monrovia"
+
+#: calendar/zones.h:48
+msgid "Africa/Nairobi"
+msgstr "Afrika/Nairobi"
+
+#: calendar/zones.h:49
+msgid "Africa/Ndjamena"
+msgstr "Afrika/Ndjamena"
+
+#: calendar/zones.h:50
+msgid "Africa/Niamey"
+msgstr "Afrika/Niamey"
+
+#: calendar/zones.h:51
+msgid "Africa/Nouakchott"
+msgstr "Afrika/Nouakchott"
+
+#: calendar/zones.h:52
+msgid "Africa/Ouagadougou"
+msgstr "Afrika/Ouagadougou"
+
+#: calendar/zones.h:53
+msgid "Africa/Porto-Novo"
+msgstr "Afrika/Porto-Novo"
+
+#: calendar/zones.h:54
+msgid "Africa/Sao_Tome"
+msgstr "Afrika/Sao_Tome"
+
+#: calendar/zones.h:55
+msgid "Africa/Timbuktu"
+msgstr "Afrika/Timbuktu"
+
+#: calendar/zones.h:56
+msgid "Africa/Tripoli"
+msgstr "Afrika/Tripoli"
+
+#: calendar/zones.h:57
+msgid "Africa/Tunis"
+msgstr "Afrika/Tunis"
+
+#: calendar/zones.h:58
+msgid "Africa/Windhoek"
+msgstr "Afrika/Windhoek"
+
+#: calendar/zones.h:59
+msgid "America/Adak"
+msgstr "Amerika/Adak"
+
+#: calendar/zones.h:60
+msgid "America/Anchorage"
+msgstr "Amerika/Anchorage"
+
+#: calendar/zones.h:61
+msgid "America/Anguilla"
+msgstr "Amerika/Anguilla"
+
+#: calendar/zones.h:62
+msgid "America/Antigua"
+msgstr "Amerika/Antigua"
+
+#: calendar/zones.h:63
+msgid "America/Araguaina"
+msgstr "Amerika/Araguaina"
+
+#: calendar/zones.h:64
+msgid "America/Aruba"
+msgstr "Amerika/Aruba"
+
+#: calendar/zones.h:65
+msgid "America/Asuncion"
+msgstr "Amerika/Asuncion"
+
+#: calendar/zones.h:66
+msgid "America/Barbados"
+msgstr "Amerika/Barbados"
+
+#: calendar/zones.h:67
+msgid "America/Belem"
+msgstr "Amerika/Belem"
+
+#: calendar/zones.h:68
+msgid "America/Belize"
+msgstr "Amerika/Belize"
+
+#: calendar/zones.h:69
+msgid "America/Boa_Vista"
+msgstr "Amerika/Boa_Vista"
+
+#: calendar/zones.h:70
+msgid "America/Bogota"
+msgstr "Amerika/Bogota"
+
+#: calendar/zones.h:71
+msgid "America/Boise"
+msgstr "Amerika/Boise"
+
+#: calendar/zones.h:72
+msgid "America/Buenos_Aires"
+msgstr "Amerika/Buenos_Aires"
+
+#: calendar/zones.h:73
+msgid "America/Cambridge_Bay"
+msgstr "Amerika/Cambridge_Bay"
+
+#: calendar/zones.h:74
+msgid "America/Cancun"
+msgstr "Amerika/Cancun"
+
+#: calendar/zones.h:75
+msgid "America/Caracas"
+msgstr "Amerika/Caracas"
+
+#: calendar/zones.h:76
+msgid "America/Catamarca"
+msgstr "Amerika/Catamarca"
+
+#: calendar/zones.h:77
+msgid "America/Cayenne"
+msgstr "Amerika/Cayenne"
+
+#: calendar/zones.h:78
+msgid "America/Cayman"
+msgstr "Amerika/Cayman"
+
+#: calendar/zones.h:79
+msgid "America/Chicago"
+msgstr "Amerika/Chicago"
+
+#: calendar/zones.h:80
+msgid "America/Chihuahua"
+msgstr "Amerika/Chihuahua"
+
+#: calendar/zones.h:81
+msgid "America/Cordoba"
+msgstr "Amerika/Cordoba"
+
+#: calendar/zones.h:82
+msgid "America/Costa_Rica"
+msgstr "Amerika/Costa_Rica"
+
+#: calendar/zones.h:83
+msgid "America/Cuiaba"
+msgstr "Amerika/Cuiaba"
+
+#: calendar/zones.h:84
+msgid "America/Curacao"
+msgstr "Amerika/Curacao"
+
+#: calendar/zones.h:85
+msgid "America/Danmarkshavn"
+msgstr "Amerika/Danmarkshavn"
+
+#: calendar/zones.h:86
+msgid "America/Dawson"
+msgstr "Amerika/Dawson"
+
+#: calendar/zones.h:87
+msgid "America/Dawson_Creek"
+msgstr "Amerika/Dawson_Creek"
+
+#: calendar/zones.h:88
+msgid "America/Denver"
+msgstr "Amerika/Denver"
+
+#: calendar/zones.h:89
+msgid "America/Detroit"
+msgstr "Amerika/Detroit"
+
+#: calendar/zones.h:90
+msgid "America/Dominica"
+msgstr "Amerika/Dominica"
+
+#: calendar/zones.h:91
+msgid "America/Edmonton"
+msgstr "Amerika/Edmonton"
+
+#: calendar/zones.h:92
+msgid "America/Eirunepe"
+msgstr "Amerika/Eirunepe"
+
+#: calendar/zones.h:93
+msgid "America/El_Salvador"
+msgstr "Amerika/El_Salvador"
+
+#: calendar/zones.h:94
+msgid "America/Fortaleza"
+msgstr "Amerika/Fortaleza"
+
+#: calendar/zones.h:95
+msgid "America/Glace_Bay"
+msgstr "Amerika/Glace_Bay"
+
+#: calendar/zones.h:96
+msgid "America/Godthab"
+msgstr "Amerika/Godthab"
+
+#: calendar/zones.h:97
+msgid "America/Goose_Bay"
+msgstr "Amerika/Goose_Bay"
+
+#: calendar/zones.h:98
+msgid "America/Grand_Turk"
+msgstr "Amerika/Grand_Turk"
+
+#: calendar/zones.h:99
+msgid "America/Grenada"
+msgstr "Amerika/Grenada"
+
+#: calendar/zones.h:100
+msgid "America/Guadeloupe"
+msgstr "Amerika/Guadeloupe"
+
+#: calendar/zones.h:101
+msgid "America/Guatemala"
+msgstr "Amerika/Guatemala"
+
+#: calendar/zones.h:102
+msgid "America/Guayaquil"
+msgstr "Amerika/Guayaquil"
+
+#: calendar/zones.h:103
+msgid "America/Guyana"
+msgstr "Amerika/Guyana"
+
+#: calendar/zones.h:104
+#, fuzzy
+msgid "America/Halifax"
+msgstr "Amerikai Szamoa"
+
+#: calendar/zones.h:105
+#, fuzzy
+msgid "America/Havana"
+msgstr "Amerikai Szamoa"
+
+#: calendar/zones.h:106
+msgid "America/Hermosillo"
+msgstr ""
+
+#: calendar/zones.h:107
+msgid "America/Indiana/Indianapolis"
+msgstr ""
+
+#: calendar/zones.h:108
+msgid "America/Indiana/Knox"
+msgstr ""
+
+#: calendar/zones.h:109
+msgid "America/Indiana/Marengo"
+msgstr ""
+
+#: calendar/zones.h:110
+msgid "America/Indiana/Vevay"
+msgstr ""
+
+#: calendar/zones.h:111
+msgid "America/Indianapolis"
+msgstr ""
+
+#: calendar/zones.h:112
+msgid "America/Inuvik"
+msgstr ""
+
+#: calendar/zones.h:113
+msgid "America/Iqaluit"
+msgstr ""
+
+#: calendar/zones.h:114
+#, fuzzy
+msgid "America/Jamaica"
+msgstr "Amerikai Szamoa"
+
+#: calendar/zones.h:115
+msgid "America/Jujuy"
+msgstr ""
+
+#: calendar/zones.h:116
+#, fuzzy
+msgid "America/Juneau"
+msgstr "Amerikai Szamoa"
+
+#: calendar/zones.h:117
+msgid "America/Kentucky/Louisville"
+msgstr ""
+
+#: calendar/zones.h:118
+msgid "America/Kentucky/Monticello"
+msgstr ""
+
+#: calendar/zones.h:119
+#, fuzzy
+msgid "America/La_Paz"
+msgstr "Amerikai Szamoa"
+
+#: calendar/zones.h:120
+#, fuzzy
+msgid "America/Lima"
+msgstr "Amerikai Szamoa"
+
+#: calendar/zones.h:121
+msgid "America/Los_Angeles"
+msgstr ""
+
+#: calendar/zones.h:122
+msgid "America/Louisville"
+msgstr ""
+
+#: calendar/zones.h:123
+#, fuzzy
+msgid "America/Maceio"
+msgstr "Amerikai Szamoa"
+
+#: calendar/zones.h:124
+#, fuzzy
+msgid "America/Managua"
+msgstr "Amerikai Szamoa"
+
+#: calendar/zones.h:125
+#, fuzzy
+msgid "America/Manaus"
+msgstr "Amerikai Szamoa"
+
+#: calendar/zones.h:126
+#, fuzzy
+msgid "America/Martinique"
+msgstr "Martinique"
+
+#: calendar/zones.h:127
+#, fuzzy
+msgid "America/Mazatlan"
+msgstr "Amerikai Szamoa"
+
+#: calendar/zones.h:128
+#, fuzzy
+msgid "America/Mendoza"
+msgstr "Amerikai Szamoa"
+
+#: calendar/zones.h:129
+msgid "America/Menominee"
+msgstr ""
+
+#: calendar/zones.h:130
+msgid "America/Merida"
+msgstr ""
+
+#: calendar/zones.h:131
+msgid "America/Mexico_City"
+msgstr ""
+
+#: calendar/zones.h:132
+msgid "America/Miquelon"
+msgstr ""
+
+#: calendar/zones.h:133
+msgid "America/Monterrey"
+msgstr ""
+
+#: calendar/zones.h:134
+msgid "America/Montevideo"
+msgstr ""
+
+#: calendar/zones.h:135
+#, fuzzy
+msgid "America/Montreal"
+msgstr "Amerikai Szamoa"
+
+#: calendar/zones.h:136
+#, fuzzy
+msgid "America/Montserrat"
+msgstr "Montserrat"
+
+#: calendar/zones.h:137
+#, fuzzy
+msgid "America/Nassau"
+msgstr "Amerikai Szamoa"
+
+#: calendar/zones.h:138
+msgid "America/New_York"
+msgstr ""
+
+#: calendar/zones.h:139
+msgid "America/Nipigon"
+msgstr ""
+
+#: calendar/zones.h:140
+#, fuzzy
+msgid "America/Nome"
+msgstr "Amerikai Szamoa"
+
+#: calendar/zones.h:141
+#, fuzzy
+msgid "America/Noronha"
+msgstr "Amerikai Szamoa"
+
+#: calendar/zones.h:142
+msgid "America/North_Dakota/Center"
+msgstr ""
+
+#: calendar/zones.h:143
+#, fuzzy
+msgid "America/Panama"
+msgstr "Amerikai Szamoa"
+
+#: calendar/zones.h:144
+msgid "America/Pangnirtung"
+msgstr ""
+
+#: calendar/zones.h:145
+#, fuzzy
+msgid "America/Paramaribo"
+msgstr "Amerikai Szamoa"
+
+#: calendar/zones.h:146
+msgid "America/Phoenix"
+msgstr ""
+
+#: calendar/zones.h:147
+msgid "America/Port-au-Prince"
+msgstr ""
+
+#: calendar/zones.h:148
+msgid "America/Port_of_Spain"
+msgstr ""
+
+#: calendar/zones.h:149
+msgid "America/Porto_Velho"
+msgstr ""
+
+#: calendar/zones.h:150
+#, fuzzy
+msgid "America/Puerto_Rico"
+msgstr "Puerto Rico"
+
+#: calendar/zones.h:151
+msgid "America/Rainy_River"
+msgstr ""
+
+#: calendar/zones.h:152
+msgid "America/Rankin_Inlet"
+msgstr ""
+
+#: calendar/zones.h:153
+msgid "America/Recife"
+msgstr ""
+
+#: calendar/zones.h:154
+#, fuzzy
+msgid "America/Regina"
+msgstr "Amerikai Szamoa"
+
+#: calendar/zones.h:155
+msgid "America/Rio_Branco"
+msgstr ""
+
+#: calendar/zones.h:156
+#, fuzzy
+msgid "America/Rosario"
+msgstr "Amerikai Szamoa"
+
+#: calendar/zones.h:157
+#, fuzzy
+msgid "America/Santiago"
+msgstr "Amerikai Szamoa"
+
+#: calendar/zones.h:158
+#, fuzzy
+msgid "America/Santo_Domingo"
+msgstr "Amerikai Szamoa"
+
+#: calendar/zones.h:159
+#, fuzzy
+msgid "America/Sao_Paulo"
+msgstr "Amerikai Szamoa"
+
+#: calendar/zones.h:160
+msgid "America/Scoresbysund"
+msgstr ""
+
+#: calendar/zones.h:161
+#, fuzzy
+msgid "America/Shiprock"
+msgstr "Amerikai Szamoa"
+
+#: calendar/zones.h:162
+#, fuzzy
+msgid "America/St_Johns"
+msgstr "Amerikai Szamoa"
+
+#: calendar/zones.h:163
+msgid "America/St_Kitts"
+msgstr ""
+
+#: calendar/zones.h:164
+#, fuzzy
+msgid "America/St_Lucia"
+msgstr "Amerikai Szamoa"
+
+#: calendar/zones.h:165
+#, fuzzy
+msgid "America/St_Thomas"
+msgstr "Amerikai Szamoa"
+
+#: calendar/zones.h:166
+msgid "America/St_Vincent"
+msgstr ""
+
+#: calendar/zones.h:167
+msgid "America/Swift_Current"
+msgstr ""
+
+#: calendar/zones.h:168
+msgid "America/Tegucigalpa"
+msgstr ""
+
+#: calendar/zones.h:169
+msgid "America/Thule"
+msgstr ""
+
+#: calendar/zones.h:170
+msgid "America/Thunder_Bay"
+msgstr ""
+
+#: calendar/zones.h:171
+#, fuzzy
+msgid "America/Tijuana"
+msgstr "Azerbajdzsán"
+
+#: calendar/zones.h:172
+#, fuzzy
+msgid "America/Tortola"
+msgstr "Amerikai Szamoa"
+
+#: calendar/zones.h:173
+msgid "America/Vancouver"
+msgstr ""
+
+#: calendar/zones.h:174
+msgid "America/Whitehorse"
+msgstr ""
+
+#: calendar/zones.h:175
+msgid "America/Winnipeg"
+msgstr ""
+
+#: calendar/zones.h:176
+#, fuzzy
+msgid "America/Yakutat"
+msgstr "Amerikai Szamoa"
+
+#: calendar/zones.h:177
+msgid "America/Yellowknife"
+msgstr ""
+
+#: calendar/zones.h:178
+#, fuzzy
+msgid "Antarctica/Casey"
+msgstr "Antarktisz"
+
+#: calendar/zones.h:179
+#, fuzzy
+msgid "Antarctica/Davis"
+msgstr "Antarktisz"
+
+#: calendar/zones.h:180
+msgid "Antarctica/DumontDUrville"
+msgstr ""
+
+#: calendar/zones.h:181
+#, fuzzy
+msgid "Antarctica/Mawson"
+msgstr "Antarktisz"
+
+#: calendar/zones.h:182
+#, fuzzy
+msgid "Antarctica/McMurdo"
+msgstr "Antarktisz"
+
+#: calendar/zones.h:183
+#, fuzzy
+msgid "Antarctica/Palmer"
+msgstr "Antarktisz"
+
+#: calendar/zones.h:184
+#, fuzzy
+msgid "Antarctica/South_Pole"
+msgstr "Antarktisz"
+
+#: calendar/zones.h:185
+#, fuzzy
+msgid "Antarctica/Syowa"
+msgstr "Antarktisz"
+
+#: calendar/zones.h:186
+#, fuzzy
+msgid "Antarctica/Vostok"
+msgstr "Antarktisz"
+
+#: calendar/zones.h:187
+msgid "Arctic/Longyearbyen"
+msgstr ""
+
+#: calendar/zones.h:188
+msgid "Asia/Aden"
+msgstr ""
+
+#: calendar/zones.h:189
+msgid "Asia/Almaty"
+msgstr ""
+
+#: calendar/zones.h:190
+msgid "Asia/Amman"
+msgstr ""
+
+#: calendar/zones.h:191
+msgid "Asia/Anadyr"
+msgstr ""
+
+#: calendar/zones.h:192
+msgid "Asia/Aqtau"
+msgstr ""
+
+#: calendar/zones.h:193
+msgid "Asia/Aqtobe"
+msgstr ""
+
+#: calendar/zones.h:194
+msgid "Asia/Ashgabat"
+msgstr ""
+
+#: calendar/zones.h:195
+msgid "Asia/Baghdad"
+msgstr ""
+
+#: calendar/zones.h:196
+#, fuzzy
+msgid "Asia/Bahrain"
+msgstr "Bahrain"
+
+#: calendar/zones.h:197
+msgid "Asia/Baku"
+msgstr ""
+
+#: calendar/zones.h:198
+msgid "Asia/Bangkok"
+msgstr ""
+
+#: calendar/zones.h:199
+msgid "Asia/Beirut"
+msgstr ""
+
+#: calendar/zones.h:200
+msgid "Asia/Bishkek"
+msgstr ""
+
+#: calendar/zones.h:201
+msgid "Asia/Brunei"
+msgstr ""
+
+#: calendar/zones.h:202
+msgid "Asia/Calcutta"
+msgstr ""
+
+#: calendar/zones.h:203
+msgid "Asia/Choibalsan"
+msgstr ""
+
+#: calendar/zones.h:204
+msgid "Asia/Chongqing"
+msgstr ""
+
+#: calendar/zones.h:205
+#, fuzzy
+msgid "Asia/Colombo"
+msgstr "Kolumbia"
+
+#: calendar/zones.h:206
+msgid "Asia/Damascus"
+msgstr ""
+
+#: calendar/zones.h:207
+msgid "Asia/Dhaka"
+msgstr ""
+
+#: calendar/zones.h:208
+msgid "Asia/Dili"
+msgstr ""
+
+#: calendar/zones.h:209
+msgid "Asia/Dubai"
+msgstr ""
+
+#: calendar/zones.h:210
+msgid "Asia/Dushanbe"
+msgstr ""
+
+#: calendar/zones.h:211
+msgid "Asia/Gaza"
+msgstr ""
+
+#: calendar/zones.h:212
+msgid "Asia/Harbin"
+msgstr ""
+
+#: calendar/zones.h:213
+#, fuzzy
+msgid "Asia/Hong_Kong"
+msgstr "Hong Kong"
+
+#: calendar/zones.h:214
+msgid "Asia/Hovd"
+msgstr ""
+
+#: calendar/zones.h:215
+msgid "Asia/Irkutsk"
+msgstr ""
+
+#: calendar/zones.h:216
+#, fuzzy
+msgid "Asia/Istanbul"
+msgstr "Asszisztens"
+
+#: calendar/zones.h:217
+msgid "Asia/Jakarta"
+msgstr ""
+
+#: calendar/zones.h:218
+msgid "Asia/Jayapura"
+msgstr ""
+
+#: calendar/zones.h:219
+msgid "Asia/Jerusalem"
+msgstr ""
+
+#: calendar/zones.h:220
+msgid "Asia/Kabul"
+msgstr ""
+
+#: calendar/zones.h:221
+msgid "Asia/Kamchatka"
+msgstr ""
+
+#: calendar/zones.h:222
+msgid "Asia/Karachi"
+msgstr ""
+
+#: calendar/zones.h:223
+msgid "Asia/Kashgar"
+msgstr ""
+
+#: calendar/zones.h:224
+msgid "Asia/Katmandu"
+msgstr ""
+
+#: calendar/zones.h:225
+msgid "Asia/Krasnoyarsk"
+msgstr ""
+
+#: calendar/zones.h:226
+msgid "Asia/Kuala_Lumpur"
+msgstr ""
+
+#: calendar/zones.h:227
+msgid "Asia/Kuching"
+msgstr ""
+
+#: calendar/zones.h:228
+#, fuzzy
+msgid "Asia/Kuwait"
+msgstr "Kuwait"
+
+#: calendar/zones.h:229
+msgid "Asia/Macao"
+msgstr ""
+
+#: calendar/zones.h:230
+msgid "Asia/Magadan"
+msgstr ""
+
+#: calendar/zones.h:231
+msgid "Asia/Manila"
+msgstr ""
+
+#: calendar/zones.h:232
+#, fuzzy
+msgid "Asia/Muscat"
+msgstr "Asszisztens"
+
+#: calendar/zones.h:233
+msgid "Asia/Nicosia"
+msgstr ""
+
+#: calendar/zones.h:234
+msgid "Asia/Novosibirsk"
+msgstr ""
+
+#: calendar/zones.h:235
+#, fuzzy
+msgid "Asia/Omsk"
+msgstr "Feladat kiosztása"
+
+#: calendar/zones.h:236
+msgid "Asia/Phnom_Penh"
+msgstr ""
+
+#: calendar/zones.h:237
+msgid "Asia/Pontianak"
+msgstr ""
+
+#: calendar/zones.h:238
+msgid "Asia/Pyongyang"
+msgstr ""
+
+#: calendar/zones.h:239
+#, fuzzy
+msgid "Asia/Qatar"
+msgstr "Katar"
+
+#: calendar/zones.h:240
+msgid "Asia/Rangoon"
+msgstr ""
+
+#: calendar/zones.h:241
+msgid "Asia/Riyadh"
+msgstr ""
+
+#: calendar/zones.h:242
+msgid "Asia/Saigon"
+msgstr ""
+
+#: calendar/zones.h:243
+msgid "Asia/Sakhalin"
+msgstr ""
+
+#: calendar/zones.h:244
+msgid "Asia/Samarkand"
+msgstr ""
+
+#: calendar/zones.h:245
+msgid "Asia/Seoul"
+msgstr ""
+
+#: calendar/zones.h:246
+msgid "Asia/Shanghai"
+msgstr ""
+
+#: calendar/zones.h:247
+#, fuzzy
+msgid "Asia/Singapore"
+msgstr "Szingapúr"
+
+#: calendar/zones.h:248
+msgid "Asia/Taipei"
+msgstr ""
+
+#: calendar/zones.h:249
+msgid "Asia/Tashkent"
+msgstr ""
+
+#: calendar/zones.h:250
+msgid "Asia/Tbilisi"
+msgstr ""
+
+#: calendar/zones.h:251
+msgid "Asia/Tehran"
+msgstr ""
+
+#: calendar/zones.h:252
+msgid "Asia/Thimphu"
+msgstr ""
+
+#: calendar/zones.h:253
+msgid "Asia/Tokyo"
+msgstr ""
+
+#: calendar/zones.h:254
+msgid "Asia/Ujung_Pandang"
+msgstr ""
+
+#: calendar/zones.h:255
+msgid "Asia/Ulaanbaatar"
+msgstr ""
+
+#: calendar/zones.h:256
+msgid "Asia/Urumqi"
+msgstr ""
+
+#: calendar/zones.h:257
+msgid "Asia/Vientiane"
+msgstr ""
+
+#: calendar/zones.h:258
+msgid "Asia/Vladivostok"
+msgstr ""
+
+#: calendar/zones.h:259
+msgid "Asia/Yakutsk"
+msgstr ""
+
+#: calendar/zones.h:260
+msgid "Asia/Yekaterinburg"
+msgstr ""
+
+#: calendar/zones.h:261
+msgid "Asia/Yerevan"
+msgstr ""
+
+#: calendar/zones.h:262
+msgid "Atlantic/Azores"
+msgstr ""
+
+#: calendar/zones.h:263
+#, fuzzy
+msgid "Atlantic/Bermuda"
+msgstr "Bermuda"
+
+#: calendar/zones.h:264
+msgid "Atlantic/Canary"
+msgstr ""
+
+#: calendar/zones.h:265
+#, fuzzy
+msgid "Atlantic/Cape_Verde"
+msgstr "Zöldfoki-szigetek"
+
+#: calendar/zones.h:266
+msgid "Atlantic/Faeroe"
+msgstr ""
+
+#: calendar/zones.h:267
+msgid "Atlantic/Jan_Mayen"
+msgstr ""
+
+#: calendar/zones.h:268
+msgid "Atlantic/Madeira"
+msgstr ""
+
+#: calendar/zones.h:269
+msgid "Atlantic/Reykjavik"
+msgstr ""
+
+#: calendar/zones.h:270
+msgid "Atlantic/South_Georgia"
+msgstr ""
+
+#: calendar/zones.h:271
+msgid "Atlantic/St_Helena"
+msgstr ""
+
+#: calendar/zones.h:272
+msgid "Atlantic/Stanley"
+msgstr ""
+
+#: calendar/zones.h:273
+#, fuzzy
+msgid "Australia/Adelaide"
+msgstr "Ausztrália"
+
+#: calendar/zones.h:274
+#, fuzzy
+msgid "Australia/Brisbane"
+msgstr "Ausztrália"
+
+#: calendar/zones.h:275
+#, fuzzy
+msgid "Australia/Broken_Hill"
+msgstr "Ausztrália"
+
+#: calendar/zones.h:276
+#, fuzzy
+msgid "Australia/Darwin"
+msgstr "Ausztrália"
+
+#: calendar/zones.h:277
+#, fuzzy
+msgid "Australia/Hobart"
+msgstr "Ausztrália"
+
+#: calendar/zones.h:278
+#, fuzzy
+msgid "Australia/Lindeman"
+msgstr "Ausztrália"
+
+#: calendar/zones.h:279
+#, fuzzy
+msgid "Australia/Lord_Howe"
+msgstr "Ausztrália"
+
+#: calendar/zones.h:280
+#, fuzzy
+msgid "Australia/Melbourne"
+msgstr "Ausztrália"
+
+#: calendar/zones.h:281
+#, fuzzy
+msgid "Australia/Perth"
+msgstr "Ausztrália"
+
+#: calendar/zones.h:282
+#, fuzzy
+msgid "Australia/Sydney"
+msgstr "Ausztrália"
+
+#: calendar/zones.h:283
+msgid "Europe/Amsterdam"
+msgstr ""
+
+#: calendar/zones.h:284
+#, fuzzy
+msgid "Europe/Andorra"
+msgstr "Andorra"
+
+#: calendar/zones.h:285
+#, fuzzy
+msgid "Europe/Athens"
+msgstr "Tulajdonságok"
+
+#: calendar/zones.h:286
+msgid "Europe/Belfast"
+msgstr ""
+
+#: calendar/zones.h:287
+msgid "Europe/Belgrade"
+msgstr ""
+
+#: calendar/zones.h:288
+msgid "Europe/Berlin"
+msgstr ""
+
+#: calendar/zones.h:289
+msgid "Europe/Bratislava"
+msgstr ""
+
+#: calendar/zones.h:290
+msgid "Europe/Brussels"
+msgstr ""
+
+#: calendar/zones.h:291
+msgid "Europe/Bucharest"
+msgstr ""
+
+#: calendar/zones.h:292
+msgid "Europe/Budapest"
+msgstr ""
+
+#: calendar/zones.h:293
+msgid "Europe/Chisinau"
+msgstr ""
+
+#: calendar/zones.h:294
+msgid "Europe/Copenhagen"
+msgstr ""
+
+#: calendar/zones.h:295
+msgid "Europe/Dublin"
+msgstr ""
+
+#: calendar/zones.h:296
+#, fuzzy
+msgid "Europe/Gibraltar"
+msgstr "Gibraltár"
+
+#: calendar/zones.h:297
+msgid "Europe/Helsinki"
+msgstr ""
+
+#: calendar/zones.h:298
+msgid "Europe/Istanbul"
+msgstr ""
+
+#: calendar/zones.h:299
+msgid "Europe/Kaliningrad"
+msgstr ""
+
+#: calendar/zones.h:300
+msgid "Europe/Kiev"
+msgstr ""
+
+#: calendar/zones.h:301
+msgid "Europe/Lisbon"
+msgstr ""
+
+#: calendar/zones.h:302
+msgid "Europe/Ljubljana"
+msgstr ""
+
+#: calendar/zones.h:303
+msgid "Europe/London"
+msgstr ""
+
+#: calendar/zones.h:304
+#, fuzzy
+msgid "Europe/Luxembourg"
+msgstr "Luxembourg"
+
+#: calendar/zones.h:305
+msgid "Europe/Madrid"
+msgstr ""
+
+#: calendar/zones.h:306
+msgid "Europe/Malta"
+msgstr ""
+
+#: calendar/zones.h:307
+msgid "Europe/Minsk"
+msgstr ""
+
+#: calendar/zones.h:308
+#, fuzzy
+msgid "Europe/Monaco"
+msgstr "Monaco"
+
+#: calendar/zones.h:309
+msgid "Europe/Moscow"
+msgstr ""
+
+#: calendar/zones.h:310
+msgid "Europe/Nicosia"
+msgstr ""
+
+#: calendar/zones.h:311
+msgid "Europe/Oslo"
+msgstr ""
+
+#: calendar/zones.h:312
+#, fuzzy
+msgid "Europe/Paris"
+msgstr "Tulajdonságok"
+
+#: calendar/zones.h:313
+msgid "Europe/Prague"
+msgstr ""
+
+#: calendar/zones.h:314
+msgid "Europe/Riga"
+msgstr ""
+
+#: calendar/zones.h:315
+msgid "Europe/Rome"
+msgstr ""
+
+#: calendar/zones.h:316
+msgid "Europe/Samara"
+msgstr ""
+
+#: calendar/zones.h:317
+#, fuzzy
+msgid "Europe/San_Marino"
+msgstr "San Marino"
+
+#: calendar/zones.h:318
+msgid "Europe/Sarajevo"
+msgstr ""
+
+#: calendar/zones.h:319
+msgid "Europe/Simferopol"
+msgstr ""
+
+#: calendar/zones.h:320
+msgid "Europe/Skopje"
+msgstr ""
+
+#: calendar/zones.h:321
+msgid "Europe/Sofia"
+msgstr ""
+
+#: calendar/zones.h:322
+msgid "Europe/Stockholm"
+msgstr ""
+
+#: calendar/zones.h:323
+msgid "Europe/Tallinn"
+msgstr ""
+
+#: calendar/zones.h:324
+msgid "Europe/Tirane"
+msgstr ""
+
+#: calendar/zones.h:325
+msgid "Europe/Uzhgorod"
+msgstr ""
+
+#: calendar/zones.h:326
+msgid "Europe/Vaduz"
+msgstr ""
+
+#: calendar/zones.h:327
+msgid "Europe/Vatican"
+msgstr ""
+
+#: calendar/zones.h:328
+msgid "Europe/Vienna"
+msgstr ""
+
+#: calendar/zones.h:329
+msgid "Europe/Vilnius"
+msgstr ""
+
+#: calendar/zones.h:330
+msgid "Europe/Warsaw"
+msgstr ""
+
+#: calendar/zones.h:331
+msgid "Europe/Zagreb"
+msgstr ""
+
+#: calendar/zones.h:332
+msgid "Europe/Zaporozhye"
+msgstr ""
+
+#: calendar/zones.h:333
+msgid "Europe/Zurich"
+msgstr ""
+
+#: calendar/zones.h:334
+msgid "Indian/Antananarivo"
+msgstr ""
+
+#: calendar/zones.h:335
+msgid "Indian/Chagos"
+msgstr ""
+
+#: calendar/zones.h:336
+msgid "Indian/Christmas"
+msgstr ""
+
+#: calendar/zones.h:337
+msgid "Indian/Cocos"
+msgstr ""
+
+#: calendar/zones.h:338
+#, fuzzy
+msgid "Indian/Comoro"
+msgstr "Comoros"
+
+#: calendar/zones.h:339
+msgid "Indian/Kerguelen"
+msgstr ""
+
+#: calendar/zones.h:340
+#, fuzzy
+msgid "Indian/Mahe"
+msgstr "India"
+
+#: calendar/zones.h:341
+#, fuzzy
+msgid "Indian/Maldives"
+msgstr "Maldives"
+
+#: calendar/zones.h:342
+#, fuzzy
+msgid "Indian/Mauritius"
+msgstr "Mauritius"
+
+#: calendar/zones.h:343
+#, fuzzy
+msgid "Indian/Mayotte"
+msgstr "Mayotte"
+
+#: calendar/zones.h:344
+#, fuzzy
+msgid "Indian/Reunion"
+msgstr "Reunion"
+
+#: calendar/zones.h:345
+msgid "Pacific/Apia"
+msgstr ""
+
+#: calendar/zones.h:346
+msgid "Pacific/Auckland"
+msgstr ""
+
+#: calendar/zones.h:347
+msgid "Pacific/Chatham"
+msgstr ""
+
+#: calendar/zones.h:348
+msgid "Pacific/Easter"
+msgstr ""
+
+#: calendar/zones.h:349
+msgid "Pacific/Efate"
+msgstr ""
+
+#: calendar/zones.h:350
+msgid "Pacific/Enderbury"
+msgstr ""
+
+#: calendar/zones.h:351
+msgid "Pacific/Fakaofo"
+msgstr ""
+
+#: calendar/zones.h:352
+msgid "Pacific/Fiji"
+msgstr ""
+
+#: calendar/zones.h:353
+msgid "Pacific/Funafuti"
+msgstr ""
+
+#: calendar/zones.h:354
+msgid "Pacific/Galapagos"
+msgstr ""
+
+#: calendar/zones.h:355
+msgid "Pacific/Gambier"
+msgstr ""
+
+#: calendar/zones.h:356
+msgid "Pacific/Guadalcanal"
+msgstr ""
+
+#: calendar/zones.h:357
+msgid "Pacific/Guam"
+msgstr ""
+
+#: calendar/zones.h:358
+msgid "Pacific/Honolulu"
+msgstr ""
+
+#: calendar/zones.h:359
+msgid "Pacific/Johnston"
+msgstr ""
+
+#: calendar/zones.h:360
+msgid "Pacific/Kiritimati"
+msgstr ""
+
+#: calendar/zones.h:361
+msgid "Pacific/Kosrae"
+msgstr ""
+
+#: calendar/zones.h:362
+msgid "Pacific/Kwajalein"
+msgstr ""
+
+#: calendar/zones.h:363
+msgid "Pacific/Majuro"
+msgstr ""
+
+#: calendar/zones.h:364
+msgid "Pacific/Marquesas"
+msgstr ""
+
+#: calendar/zones.h:365
+msgid "Pacific/Midway"
+msgstr ""
+
+#: calendar/zones.h:366
+msgid "Pacific/Nauru"
+msgstr ""
+
+#: calendar/zones.h:367
+msgid "Pacific/Niue"
+msgstr ""
+
+#: calendar/zones.h:368
+msgid "Pacific/Norfolk"
+msgstr ""
+
+#: calendar/zones.h:369
+msgid "Pacific/Noumea"
+msgstr ""
+
+#: calendar/zones.h:370
+msgid "Pacific/Pago_Pago"
+msgstr ""
+
+#: calendar/zones.h:371
+msgid "Pacific/Palau"
+msgstr ""
+
+#: calendar/zones.h:372
+#, fuzzy
+msgid "Pacific/Pitcairn"
+msgstr "Pitcairn"
+
+#: calendar/zones.h:373
+msgid "Pacific/Ponape"
+msgstr ""
+
+#: calendar/zones.h:374
+msgid "Pacific/Port_Moresby"
+msgstr ""
+
+#: calendar/zones.h:375
+msgid "Pacific/Rarotonga"
+msgstr ""
+
+#: calendar/zones.h:376
+msgid "Pacific/Saipan"
+msgstr ""
+
+#: calendar/zones.h:377
+msgid "Pacific/Tahiti"
+msgstr ""
+
+#: calendar/zones.h:378
+msgid "Pacific/Tarawa"
+msgstr ""
+
+#: calendar/zones.h:379
+msgid "Pacific/Tongatapu"
+msgstr ""
+
+#: calendar/zones.h:380
+msgid "Pacific/Truk"
+msgstr ""
+
+#: calendar/zones.h:381
+msgid "Pacific/Wake"
+msgstr ""
+
+#: calendar/zones.h:382
+msgid "Pacific/Wallis"
+msgstr ""
+
+#: calendar/zones.h:383
+msgid "Pacific/Yap"
+msgstr ""
+
 #: calendar/cal-util/cal-component.c:1202
 msgid "Untitled appointment"
 msgstr "Névtelen találkozó"
@@ -2942,13 +4530,13 @@ msgstr "Alacsony"
 msgid "Undefined"
 msgstr "Nem megadott"
 
-#: calendar/conduits/calendar/calendar-conduit.c:937
+#: calendar/conduits/calendar/calendar-conduit.c:1034
 #: calendar/conduits/todo/todo-conduit.c:649
 msgid "Error while communicating with calendar server"
 msgstr "Hibás kommunikáció a naptár kiszolgálóval"
 
-#: calendar/conduits/calendar/calendar-conduit.c:1075
-#: calendar/conduits/calendar/calendar-conduit.c:1078
+#: calendar/conduits/calendar/calendar-conduit.c:1172
+#: calendar/conduits/calendar/calendar-conduit.c:1175
 msgid "Could not read pilot's Calendar application block"
 msgstr "Nem sikerült a pilot Calendar application blokkját olvasni"
 
@@ -3099,7 +4687,7 @@ msgstr "%Y %B %d, %A"
 #. strftime format %a = abbreviated weekday name, %d = day of month,
 #. %b = abbreviated month name. Don't use any other specifiers.
 #: calendar/gui/calendar-commands.c:449 calendar/gui/e-day-view-top-item.c:288
-#: calendar/gui/e-day-view.c:1401 calendar/gui/e-week-view-main-item.c:333
+#: calendar/gui/e-day-view.c:1403 calendar/gui/e-week-view-main-item.c:333
 msgid "%a %d %b"
 msgstr "%b %d, %a"
 
@@ -3121,7 +4709,7 @@ msgstr "%Y %B %d"
 msgid "%d %B"
 msgstr "%B %d"
 
-#: calendar/gui/calendar-commands.c:805
+#: calendar/gui/calendar-commands.c:820
 msgid ""
 "Could not create the calendar view.  Please check your ORBit and OAF setup."
 msgstr ""
@@ -3164,7 +4752,7 @@ msgid "Free"
 msgstr "Szabad"
 
 #: calendar/gui/calendar-model.c:605 calendar/gui/e-calendar-table.c:458
-#: calendar/gui/e-meeting-time-sel.c:429
+#: calendar/gui/e-meeting-time-sel.c:432
 #: shell/evolution-shell-component.c:1029
 msgid "Busy"
 msgstr "Foglalt"
@@ -3229,8 +4817,8 @@ msgid "No"
 msgstr "Nem"
 
 #. No time range is set, so don't start a query
-#: calendar/gui/calendar-model.c:1984 calendar/gui/e-day-view.c:1675
-#: calendar/gui/e-week-view.c:1182
+#: calendar/gui/calendar-model.c:1984 calendar/gui/e-day-view.c:1677
+#: calendar/gui/e-week-view.c:1184
 msgid "Searching"
 msgstr "Keresés"
 
@@ -3290,7 +4878,7 @@ msgstr "Teendõket tartalmazó mappa"
 msgid "Create a new appointment"
 msgstr "Új találkozó létrehozása"
 
-#: calendar/gui/component-factory.c:643 calendar/gui/e-day-view.c:3523
+#: calendar/gui/component-factory.c:643 calendar/gui/e-day-view.c:3525
 msgid "New _Appointment"
 msgstr "Új _találkozó"
 
@@ -4097,7 +5685,7 @@ msgid "_Change Organizer"
 msgstr "_Szervezõ megváltoztatása"
 
 #: calendar/gui/dialogs/meeting-page.glade.h:4
-#: calendar/gui/e-meeting-time-sel.c:447
+#: calendar/gui/e-meeting-time-sel.c:450
 msgid "_Invite Others..."
 msgstr "_Mások meghívása..."
 
@@ -4305,33 +5893,33 @@ msgstr "90%"
 msgid "100%"
 msgstr "100%"
 
-#: calendar/gui/e-calendar-table.c:722 calendar/gui/e-day-view.c:2724
-#: calendar/gui/e-week-view.c:1822
+#: calendar/gui/e-calendar-table.c:722 calendar/gui/e-day-view.c:2726
+#: calendar/gui/e-week-view.c:1824
 msgid "Deleting selected objects"
 msgstr "Kijelölt objektumok törlése"
 
-#: calendar/gui/e-calendar-table.c:941 calendar/gui/e-day-view.c:3544
-#: calendar/gui/e-week-view.c:3422 mail/folder-browser.c:1447
+#: calendar/gui/e-calendar-table.c:941 calendar/gui/e-day-view.c:3546
+#: calendar/gui/e-week-view.c:3428 mail/folder-browser.c:1447
 #: shell/e-shortcuts-view.c:384
 msgid "_Open"
 msgstr "_Megnyitás"
 
-#: calendar/gui/e-calendar-table.c:945 calendar/gui/e-day-view.c:3553
-#: calendar/gui/e-week-view.c:3431 ui/evolution-addressbook.xml.h:1
+#: calendar/gui/e-calendar-table.c:945 calendar/gui/e-day-view.c:3555
+#: calendar/gui/e-week-view.c:3437 ui/evolution-addressbook.xml.h:1
 #: ui/evolution-calendar.xml.h:1 ui/evolution-tasks.xml.h:1
 msgid "C_ut"
 msgstr "K_ivágás"
 
-#: calendar/gui/e-calendar-table.c:947 calendar/gui/e-day-view.c:3555
-#: calendar/gui/e-week-view.c:3433 ui/evolution-addressbook.xml.h:33
+#: calendar/gui/e-calendar-table.c:947 calendar/gui/e-day-view.c:3557
+#: calendar/gui/e-week-view.c:3439 ui/evolution-addressbook.xml.h:33
 #: ui/evolution-calendar.xml.h:37 ui/evolution-mail-list.xml.h:24
 #: ui/evolution-tasks.xml.h:14
 msgid "_Copy"
 msgstr "_Másolás"
 
-#: calendar/gui/e-calendar-table.c:949 calendar/gui/e-day-view.c:3530
-#: calendar/gui/e-day-view.c:3557 calendar/gui/e-week-view.c:3409
-#: calendar/gui/e-week-view.c:3435 ui/evolution-addressbook.xml.h:36
+#: calendar/gui/e-calendar-table.c:949 calendar/gui/e-day-view.c:3532
+#: calendar/gui/e-day-view.c:3559 calendar/gui/e-week-view.c:3415
+#: calendar/gui/e-week-view.c:3441 ui/evolution-addressbook.xml.h:36
 #: ui/evolution-calendar.xml.h:40 ui/evolution-mail-list.xml.h:29
 #: ui/evolution-tasks.xml.h:17
 msgid "_Paste"
@@ -4353,8 +5941,8 @@ msgstr "_Feladatok megjelölése készként"
 msgid "_Delete Selected Tasks"
 msgstr "_Kijelölt feladatok törlése"
 
-#: calendar/gui/e-calendar-table.c:1145 calendar/gui/e-day-view.c:7115
-#: calendar/gui/e-week-view.c:3918
+#: calendar/gui/e-calendar-table.c:1145 calendar/gui/e-day-view.c:7137
+#: calendar/gui/e-week-view.c:3924
 msgid "Updating objects"
 msgstr "Objektumok frissítése"
 
@@ -4442,56 +6030,56 @@ msgstr "%02i perces osztás"
 
 #. strftime format %A = full weekday name, %d = day of month,
 #. %B = full month name. Don't use any other specifiers.
-#: calendar/gui/e-day-view-top-item.c:284 calendar/gui/e-day-view.c:1387
+#: calendar/gui/e-day-view-top-item.c:284 calendar/gui/e-day-view.c:1389
 #: calendar/gui/e-week-view-main-item.c:324 calendar/gui/print.c:1461
 msgid "%A %d %B"
 msgstr "%B %d, %A"
 
 #. strftime format %d = day of month, %b = abbreviated month name.
 #. Don't use any other specifiers.
-#: calendar/gui/e-day-view-top-item.c:292 calendar/gui/e-day-view.c:1414
+#: calendar/gui/e-day-view-top-item.c:292 calendar/gui/e-day-view.c:1416
 #: calendar/gui/e-week-view-main-item.c:347
 msgid "%d %b"
 msgstr "%b %d"
 
 #. String to use in 12-hour time format for times in the morning.
-#: calendar/gui/e-day-view.c:612 calendar/gui/e-week-view.c:348
+#: calendar/gui/e-day-view.c:614 calendar/gui/e-week-view.c:350
 #: calendar/gui/print.c:768
 msgid "am"
 msgstr "de"
 
 #. String to use in 12-hour time format for times in the afternoon.
-#: calendar/gui/e-day-view.c:615 calendar/gui/e-week-view.c:351
+#: calendar/gui/e-day-view.c:617 calendar/gui/e-week-view.c:353
 #: calendar/gui/print.c:770
 msgid "pm"
 msgstr "du"
 
-#: calendar/gui/e-day-view.c:3525 calendar/gui/e-week-view.c:3404
+#: calendar/gui/e-day-view.c:3527 calendar/gui/e-week-view.c:3410
 msgid "New All Day _Event"
 msgstr "Ú_j egész napos esemény"
 
-#: calendar/gui/e-day-view.c:3535 calendar/gui/e-week-view.c:3414
+#: calendar/gui/e-day-view.c:3537 calendar/gui/e-week-view.c:3420
 #: ui/evolution-calendar.xml.h:17
 msgid "Go to _Today"
 msgstr "Ugrás a _mai napra"
 
-#: calendar/gui/e-day-view.c:3537 calendar/gui/e-week-view.c:3416
+#: calendar/gui/e-day-view.c:3539 calendar/gui/e-week-view.c:3422
 msgid "_Go to Date..."
 msgstr "_Ugrás dátumra..."
 
-#: calendar/gui/e-day-view.c:3546 calendar/gui/e-week-view.c:3424
+#: calendar/gui/e-day-view.c:3548 calendar/gui/e-week-view.c:3430
 msgid "_Delete this Appointment"
 msgstr "A _találkozó törlése"
 
-#: calendar/gui/e-day-view.c:3565 calendar/gui/e-week-view.c:3449
+#: calendar/gui/e-day-view.c:3567 calendar/gui/e-week-view.c:3455
 msgid "Make this Occurrence _Movable"
 msgstr "Az elõfordulás _mozgathatóvá tétele"
 
-#: calendar/gui/e-day-view.c:3567 calendar/gui/e-week-view.c:3451
+#: calendar/gui/e-day-view.c:3569 calendar/gui/e-week-view.c:3457
 msgid "Delete this _Occurrence"
 msgstr "Az _elõfordulás törlése"
 
-#: calendar/gui/e-day-view.c:3569 calendar/gui/e-week-view.c:3453
+#: calendar/gui/e-day-view.c:3571 calendar/gui/e-week-view.c:3459
 msgid "Delete _All Occurrences"
 msgstr "Az ö_sszes elõfordulás törlése"
 
@@ -4533,12 +6121,12 @@ msgstr "A feladat határideje: <b>"
 
 #: calendar/gui/e-itip-control.c:626 calendar/gui/e-itip-control.c:675
 msgid "iCalendar Information"
-msgstr "iNaptár információ"
+msgstr "iCalendar információ"
 
 #. Title
 #: calendar/gui/e-itip-control.c:641
 msgid "iCalendar Error"
-msgstr "iNaptár hiba"
+msgstr "iCalendar hiba"
 
 #: calendar/gui/e-itip-control.c:706 calendar/gui/e-itip-control.c:722
 msgid "An unknown person"
@@ -4853,7 +6441,7 @@ msgstr "date-start"
 msgid "Chair Persons"
 msgstr "Elnök"
 
-#: calendar/gui/e-meeting-model.c:96 calendar/gui/e-meeting-model.c:1550
+#: calendar/gui/e-meeting-model.c:96 calendar/gui/e-meeting-model.c:1568
 msgid "Required Participants"
 msgstr "Szükséges résztvevõk"
 
@@ -4930,7 +6518,7 @@ msgid "Declined"
 msgstr "Elutasítva"
 
 #: calendar/gui/e-meeting-model.c:325 calendar/gui/e-meeting-model.c:348
-#: calendar/gui/e-meeting-model.c:826 calendar/gui/e-meeting-time-sel.c:428
+#: calendar/gui/e-meeting-model.c:826 calendar/gui/e-meeting-time-sel.c:431
 msgid "Tentative"
 msgstr "Kísérleti"
 
@@ -4946,14 +6534,14 @@ msgstr "Folyamatban"
 #. This is a strftime() format string %A = full weekday name,
 #. %B = full month name, %d = month day, %Y = full year.
 #: calendar/gui/e-meeting-time-sel-item.c:471
-#: calendar/gui/e-meeting-time-sel.c:2088
+#: calendar/gui/e-meeting-time-sel.c:2102
 msgid "%A, %B %d, %Y"
 msgstr "%Y %B %d, %A"
 
 #. This is a strftime() format string %a = abbreviated weekday
 #. name, %m = month number, %d = month day, %Y = full year.
 #: calendar/gui/e-meeting-time-sel-item.c:475
-#: calendar/gui/e-meeting-time-sel.c:2118 e-util/e-time-utils.c:186
+#: calendar/gui/e-meeting-time-sel.c:2132 e-util/e-time-utils.c:186
 #: e-util/e-time-utils.c:276 e-util/e-time-utils.c:348
 msgid "%a %m/%d/%Y"
 msgstr "%a %m/%d/%Y"
@@ -4965,63 +6553,63 @@ msgstr "%a %m/%d/%Y"
 msgid "%m/%d/%Y"
 msgstr "%Y/%m/%d"
 
-#: calendar/gui/e-meeting-time-sel.c:430
+#: calendar/gui/e-meeting-time-sel.c:433
 msgid "Out of Office"
 msgstr "Nincs bent"
 
-#: calendar/gui/e-meeting-time-sel.c:431
+#: calendar/gui/e-meeting-time-sel.c:434
 msgid "No Information"
 msgstr "Nincs információ"
 
-#: calendar/gui/e-meeting-time-sel.c:467
+#: calendar/gui/e-meeting-time-sel.c:470
 msgid "_Options"
 msgstr "_Beállítások"
 
-#: calendar/gui/e-meeting-time-sel.c:484
+#: calendar/gui/e-meeting-time-sel.c:487
 msgid "Show _Only Working Hours"
 msgstr "Csak a _munkaórák mutatása"
 
-#: calendar/gui/e-meeting-time-sel.c:497
+#: calendar/gui/e-meeting-time-sel.c:500
 msgid "Show _Zoomed Out"
 msgstr "_Nagyított mutatása"
 
-#: calendar/gui/e-meeting-time-sel.c:515
+#: calendar/gui/e-meeting-time-sel.c:518
 msgid "_Update Free/Busy"
 msgstr "_Szabad/foglalt frissítése"
 
-#: calendar/gui/e-meeting-time-sel.c:533
+#: calendar/gui/e-meeting-time-sel.c:536
 msgid "_<<"
 msgstr "_<<"
 
-#: calendar/gui/e-meeting-time-sel.c:550
+#: calendar/gui/e-meeting-time-sel.c:553
 msgid "_Autopick"
 msgstr "_Automatikus kiszedés"
 
-#: calendar/gui/e-meeting-time-sel.c:564
+#: calendar/gui/e-meeting-time-sel.c:567
 msgid ">_>"
 msgstr ">_>"
 
-#: calendar/gui/e-meeting-time-sel.c:581
+#: calendar/gui/e-meeting-time-sel.c:584
 msgid "_All People and Resources"
 msgstr "_Minden ember és erõforrás"
 
-#: calendar/gui/e-meeting-time-sel.c:594
+#: calendar/gui/e-meeting-time-sel.c:597
 msgid "All _People and One Resource"
 msgstr "Minden _ember és egy erõforrás"
 
-#: calendar/gui/e-meeting-time-sel.c:607
+#: calendar/gui/e-meeting-time-sel.c:610
 msgid "_Required People"
 msgstr "_A kért emberek"
 
-#: calendar/gui/e-meeting-time-sel.c:620
+#: calendar/gui/e-meeting-time-sel.c:623
 msgid "Required People and _One Resource"
 msgstr "A kért emberek és egy e_rõforrás"
 
-#: calendar/gui/e-meeting-time-sel.c:643
+#: calendar/gui/e-meeting-time-sel.c:646
 msgid "Meeting _start time:"
 msgstr "Megbeszélés _kezdõdik:"
 
-#: calendar/gui/e-meeting-time-sel.c:662
+#: calendar/gui/e-meeting-time-sel.c:665
 msgid "Meeting _end time:"
 msgstr "Megbeszélés _vége:"
 
@@ -5040,7 +6628,7 @@ msgstr "Nem sikerült betölteni a feladatot %s-be."
 msgid "The method required to load `%s' is not supported"
 msgstr "'%s' betöltéséhez szükséges eljárás nem támogatott"
 
-#: calendar/gui/e-week-view.c:3402 calendar/gui/e-week-view.c:3440
+#: calendar/gui/e-week-view.c:3408 calendar/gui/e-week-view.c:3446
 msgid "New _Appointment..."
 msgstr "Új _találkozó..."
 
@@ -5150,7 +6738,7 @@ msgstr "Szabad/foglalt információ (%s - %s)"
 
 #: calendar/gui/itip-utils.c:382
 msgid "iCalendar information"
-msgstr "iNaptár információ"
+msgstr "iCalendar információ"
 
 #: calendar/gui/itip-utils.c:573
 msgid "You must be an attendee of the event."
@@ -5449,81 +7037,81 @@ msgstr ""
 msgid "SMTWTFS"
 msgstr "VHKSCPS"
 
-#: calendar/pcs/query.c:234
+#: calendar/pcs/query.c:246
 msgid "time-now expects 0 arguments"
 msgstr "a time-now 0 argumentumot vár"
 
-#: calendar/pcs/query.c:258
+#: calendar/pcs/query.c:270
 msgid "make-time expects 1 argument"
 msgstr "a make-time 1 argumentumot vár"
 
-#: calendar/pcs/query.c:263
+#: calendar/pcs/query.c:275
 msgid "make-time expects argument 1 to be a string"
 msgstr "a make-time elsõ argumentumaként karakterláncot vár"
 
-#: calendar/pcs/query.c:271
+#: calendar/pcs/query.c:283
 msgid "make-time argument 1 must be an ISO 8601 date/time string"
 msgstr ""
 "a make-time elsõ argumentumának ISO 8601 dátum/idõ karakterláncnak kell "
 "lennie"
 
-#: calendar/pcs/query.c:300
+#: calendar/pcs/query.c:312
 msgid "time-add-day expects 2 arguments"
 msgstr "a time-add-day 2 argumentumot vár"
 
-#: calendar/pcs/query.c:305
+#: calendar/pcs/query.c:317
 msgid "time-add-day expects argument 1 to be a time_t"
 msgstr "a time-day-add elsõ argumentumaként time_t-t vár"
 
-#: calendar/pcs/query.c:312
+#: calendar/pcs/query.c:324
 msgid "time-add-day expects argument 2 to be an integer"
 msgstr "a time-add-day második argumentumaként egész számot vár"
 
-#: calendar/pcs/query.c:339
+#: calendar/pcs/query.c:351
 msgid "time-day-begin expects 1 argument"
 msgstr "a time-day-begin 1 argumentumot vár"
 
-#: calendar/pcs/query.c:344
+#: calendar/pcs/query.c:356
 msgid "time-day-begin expects argument 1 to be a time_t"
 msgstr "a time-day-begin elsõ argumentumaként time_t-t vár"
 
-#: calendar/pcs/query.c:371
+#: calendar/pcs/query.c:383
 msgid "time-day-end expects 1 argument"
 msgstr "a time-day-end 1 argumentumot vár"
 
-#: calendar/pcs/query.c:376
+#: calendar/pcs/query.c:388
 msgid "time-day-end expects argument 1 to be a time_t"
 msgstr "a time-day-end elsõ argumentumaként time_t-t vár"
 
-#: calendar/pcs/query.c:412
+#: calendar/pcs/query.c:424
 msgid "get-vtype expects 0 arguments"
 msgstr "a get-vtype 0 argumentumot vár"
 
-#: calendar/pcs/query.c:508
+#: calendar/pcs/query.c:520
 msgid "occur-in-time-range? expects 2 arguments"
 msgstr "az occur-in-time-range? 2 argumentumot vár"
 
-#: calendar/pcs/query.c:513
+#: calendar/pcs/query.c:525
 msgid "occur-in-time-range? expects argument 1 to be a time_t"
 msgstr "az occur-in-time-range? elsõ argumentumaként time_t-t vár"
 
-#: calendar/pcs/query.c:520
+#: calendar/pcs/query.c:532
 msgid "occur-in-time-range? expects argument 2 to be a time_t"
 msgstr "az occur-in-time-range? második argumentumaként time_t-t vár"
 
-#: calendar/pcs/query.c:650
+#: calendar/pcs/query.c:662
 msgid "contains? expects 2 arguments"
 msgstr "a contains? 2 argumentumot vár"
 
-#: calendar/pcs/query.c:655
+#: calendar/pcs/query.c:667
 msgid "contains? expects argument 1 to be a string"
 msgstr "a contains? elsõ argumentumaként karakterláncot vár"
 
-#: calendar/pcs/query.c:662
+#: calendar/pcs/query.c:674
 msgid "contains? expects argument 2 to be a string"
 msgstr "a contains? második argumentumaként karakterláncot vár"
 
-#: calendar/pcs/query.c:679
+#: calendar/pcs/query.c:691
 msgid ""
 "contains? expects argument 1 to be one of \"any\", \"summary\", \"description"
 "\""
@@ -5531,11 +7119,11 @@ msgstr ""
 "a contains? elsõ argumentumaként a következõk egyikét várja: \"any\", "
 "\"summary\", \"description\""
 
-#: calendar/pcs/query.c:721
+#: calendar/pcs/query.c:733
 msgid "has-categories? expects at least 1 argument"
 msgstr "a has-categories? legalább egy argumentumot vár"
 
-#: calendar/pcs/query.c:733
+#: calendar/pcs/query.c:745
 msgid ""
 "has-categories? expects all arguments to be strings or one and only one "
 "argument to be a boolean false (#f)"
@@ -5543,39 +7131,39 @@ msgstr ""
 "a has-categories? minden argumentumaként karakterláncot vár, vagy csak "
 "egyetlen logikai hamis (#f) értéket"
 
-#: calendar/pcs/query.c:821
+#: calendar/pcs/query.c:833
 msgid "is-completed? expects 0 arguments"
 msgstr "az is-completed? 0 argumentumot vár"
 
-#: calendar/pcs/query.c:866
+#: calendar/pcs/query.c:878
 msgid "completed-before? expects 1 argument"
 msgstr "a completed-before? 1 argumentumot vár"
 
-#: calendar/pcs/query.c:871
+#: calendar/pcs/query.c:883
 msgid "completed-before? expects argument 1 to be a time_t"
 msgstr "a completed-before? elsõ argumentumaként time_t-t vár"
 
-#: calendar/pcs/query.c:1159
+#: calendar/pcs/query.c:1160
 msgid "Evaluation of the search expression did not yield a boolean value"
 msgstr "A keresési kifejezés kiértékelése nem logikai értékre vezetett"
 
-#: camel/camel-cipher-context.c:171
+#: camel/camel-cipher-context.c:169
 msgid "Signing is not supported by this cipher"
 msgstr "Ez a titkosító nem támogatja az aláírást"
 
-#: camel/camel-cipher-context.c:211
+#: camel/camel-cipher-context.c:209
 msgid "Clearsigning is not supported by this cipher"
 msgstr "Ez a titkosító nem támogatja a nem kódolt üzenetek aláírását"
 
-#: camel/camel-cipher-context.c:251
+#: camel/camel-cipher-context.c:249
 msgid "Verifying is not supported by this cipher"
 msgstr "Ez a titkosító nem támogatja az ellenõrzést"
 
-#: camel/camel-cipher-context.c:294
+#: camel/camel-cipher-context.c:292
 msgid "Encryption is not supported by this cipher"
 msgstr "Ez a titkosító nem támogatja a titkosítást"
 
-#: camel/camel-cipher-context.c:336
+#: camel/camel-cipher-context.c:334
 msgid "Decryption is not supported by this cipher"
 msgstr "Ez a titkosító nem támogatja a visszafejtést"
 
@@ -6120,22 +7708,22 @@ msgstr "'%s' URL-ben kell lennie gépnév összetevõnek"
 msgid "URL '%s' needs a path component"
 msgstr "'%s' URL-ben kell lennie útvonal összetevõnek"
 
-#: camel/camel-service.c:611
+#: camel/camel-service.c:614
 #, c-format
 msgid "Resolving: %s"
 msgstr "'%s' feloldása"
 
-#: camel/camel-service.c:638
+#: camel/camel-service.c:641
 #, c-format
 msgid "Failure in name lookup: %s"
 msgstr "Sikertelen névkikeresés: %s"
 
-#: camel/camel-service.c:663
+#: camel/camel-service.c:666
 #, c-format
 msgid "Host lookup failed: %s: host not found"
 msgstr "Sikertelen gépkikeresés: %s: a gép nem található"
 
-#: camel/camel-service.c:665
+#: camel/camel-service.c:668
 #, c-format
 msgid "Host lookup failed: %s: unknown reason"
 msgstr "Sikertelen gépkikeresés: %s: ismeretlen ok"
@@ -6419,7 +8007,7 @@ msgid "%sPlease enter the IMAP password for %s@%s"
 msgstr "%sAdd meg %s@%s IMAP jelszavát!"
 
 #: camel/providers/imap/camel-imap-store.c:567
-#: camel/providers/smtp/camel-smtp-transport.c:433
+#: camel/providers/smtp/camel-smtp-transport.c:430
 msgid "You didn't enter a password."
 msgstr "Nem adtál meg jelszót."
 
@@ -7041,7 +8629,7 @@ msgstr "Nem sikerült a POP kiszolgálóhoz kapcsolódni a %s gépen."
 msgid "%sPlease enter the POP3 password for %s@%s"
 msgstr "%sAdd meg %s@%s POP3 jelszavát!"
 
-#: camel/providers/pop3/camel-pop3-store.c:378
+#: camel/providers/pop3/camel-pop3-store.c:377
 #, c-format
 msgid ""
 "Unable to connect to POP server.\n"
@@ -7050,12 +8638,12 @@ msgstr ""
 "Nem sikerült kapcsolódni a POP kiszolgálóhoz.\n"
 "Hiba a felhasználónév küldése közben: %s"
 
-#: camel/providers/pop3/camel-pop3-store.c:381
-#: camel/providers/pop3/camel-pop3-store.c:418
+#: camel/providers/pop3/camel-pop3-store.c:380
+#: camel/providers/pop3/camel-pop3-store.c:417
 msgid "(Unknown)"
 msgstr "(Ismeretlen)"
 
-#: camel/providers/pop3/camel-pop3-store.c:408
+#: camel/providers/pop3/camel-pop3-store.c:407
 msgid ""
 "Unable to connect to POP server.\n"
 "No support for requested authentication mechanism."
@@ -7063,7 +8651,7 @@ msgstr ""
 "Nem sikerült kapcsolódni a POP kiszolgálóhoz.\n"
 "A kért hitelesítési mechanizmus nem támogatott."
 
-#: camel/providers/pop3/camel-pop3-store.c:416
+#: camel/providers/pop3/camel-pop3-store.c:415
 #, c-format
 msgid ""
 "Unable to connect to POP server.\n"
@@ -7072,12 +8660,12 @@ msgstr ""
 "Nem sikerült kapcsolódni a POP kiszolgálóhoz.\n"
 "Hiba a jelszó küldése közben: %s"
 
-#: camel/providers/pop3/camel-pop3-store.c:483
+#: camel/providers/pop3/camel-pop3-store.c:480
 #, c-format
 msgid "No such folder `%s'."
 msgstr "Nincs '%s' mappa."
 
-#: camel/providers/pop3/camel-pop3-store.c:566
+#: camel/providers/pop3/camel-pop3-store.c:563
 #, c-format
 msgid "Unexpected response from POP server: %s"
 msgstr "Váratlan válasz a POP kiszolgálótól: %s"
@@ -7256,12 +8844,12 @@ msgstr "Üdvüzlõ válasz hiba: %s: talán nem végzetes"
 msgid "SMTP server %s does not support requested authentication type %s"
 msgstr "%s SMTP kiszolgáló nem támogatja a kért %s hitelesítési típust"
 
-#: camel/providers/smtp/camel-smtp-transport.c:418
+#: camel/providers/smtp/camel-smtp-transport.c:417
 #, c-format
 msgid "%sPlease enter the SMTP password for %s@%s"
 msgstr "%sAdd meg %s@%s SMTP jelszavát"
 
-#: camel/providers/smtp/camel-smtp-transport.c:441
+#: camel/providers/smtp/camel-smtp-transport.c:438
 #, c-format
 msgid ""
 "Unable to authenticate to SMTP server.\n"
@@ -7272,126 +8860,126 @@ msgstr ""
 "%s\n"
 "\n"
 
-#: camel/providers/smtp/camel-smtp-transport.c:557
+#: camel/providers/smtp/camel-smtp-transport.c:554
 #, c-format
 msgid "SMTP server %s"
 msgstr "%s SMTP kiszolgáló"
 
-#: camel/providers/smtp/camel-smtp-transport.c:559
+#: camel/providers/smtp/camel-smtp-transport.c:556
 #, c-format
 msgid "SMTP mail delivery via %s"
 msgstr "SMTP levélküldés %s kiszolgálón át"
 
-#: camel/providers/smtp/camel-smtp-transport.c:584
+#: camel/providers/smtp/camel-smtp-transport.c:581
 msgid "Cannot send message: sender address not defined."
 msgstr "Nem lehet elküldeni a levelet: a feladó címe nincs megadva."
 
-#: camel/providers/smtp/camel-smtp-transport.c:591
+#: camel/providers/smtp/camel-smtp-transport.c:588
 msgid "Cannot send message: sender address not valid."
 msgstr "Nem lehet elküldeni a levelet: a feladó címe érvénytelen."
 
-#: camel/providers/smtp/camel-smtp-transport.c:596 mail/mail-ops.c:558
+#: camel/providers/smtp/camel-smtp-transport.c:593 mail/mail-ops.c:558
 msgid "Sending message"
 msgstr "Levél küldése"
 
-#: camel/providers/smtp/camel-smtp-transport.c:607
+#: camel/providers/smtp/camel-smtp-transport.c:604
 msgid "Cannot send message: no recipients defined."
 msgstr "Nem lehet elküldeni a levelet: nincs címzett."
 
-#: camel/providers/smtp/camel-smtp-transport.c:687
+#: camel/providers/smtp/camel-smtp-transport.c:684
 msgid "SMTP Greeting"
 msgstr "SMTP üdvözlet"
 
-#: camel/providers/smtp/camel-smtp-transport.c:709
+#: camel/providers/smtp/camel-smtp-transport.c:706
 #, c-format
 msgid "HELO request timed out: %s: non-fatal"
 msgstr "Idõtúllépés a HELO kérésnél: %s: nem végzetes"
 
-#: camel/providers/smtp/camel-smtp-transport.c:729
+#: camel/providers/smtp/camel-smtp-transport.c:726
 #, c-format
 msgid "HELO response error: %s: non-fatal"
 msgstr "HELO válasz hiba: %s: nem végzetes"
 
-#: camel/providers/smtp/camel-smtp-transport.c:761
+#: camel/providers/smtp/camel-smtp-transport.c:758
 msgid "SMTP Authentication"
 msgstr "SMTP hitelesítés"
 
-#: camel/providers/smtp/camel-smtp-transport.c:767
+#: camel/providers/smtp/camel-smtp-transport.c:764
 msgid "Error creating SASL authentication object."
 msgstr "Hiba a SASL hitelesítési objektum létrehozásakor."
 
-#: camel/providers/smtp/camel-smtp-transport.c:782
-#: camel/providers/smtp/camel-smtp-transport.c:794
+#: camel/providers/smtp/camel-smtp-transport.c:779
+#: camel/providers/smtp/camel-smtp-transport.c:791
 #, c-format
 msgid "AUTH request timed out: %s"
 msgstr "Idõtúllépés az AUTH kérésnél: %s"
 
-#: camel/providers/smtp/camel-smtp-transport.c:803
+#: camel/providers/smtp/camel-smtp-transport.c:800
 msgid "AUTH request failed."
 msgstr "AUTH kérés sikertelen."
 
-#: camel/providers/smtp/camel-smtp-transport.c:851
+#: camel/providers/smtp/camel-smtp-transport.c:848
 msgid "Bad authentication response from server.\n"
 msgstr "Rossz hitelesítési válasz a kiszolgálótól.\n"
 
-#: camel/providers/smtp/camel-smtp-transport.c:877
+#: camel/providers/smtp/camel-smtp-transport.c:874
 #, c-format
 msgid "MAIL FROM request timed out: %s: mail not sent"
 msgstr "Idõtúllépés a MAIL FROM kérésnél: %s: a levél nem ment el"
 
-#: camel/providers/smtp/camel-smtp-transport.c:896
+#: camel/providers/smtp/camel-smtp-transport.c:893
 #, c-format
 msgid "MAIL FROM response error: %s: mail not sent"
 msgstr "Hibás MAIL FROM válasz: %s: a levél nem ment el"
 
-#: camel/providers/smtp/camel-smtp-transport.c:921
+#: camel/providers/smtp/camel-smtp-transport.c:918
 #, c-format
 msgid "RCPT TO request timed out: %s: mail not sent"
 msgstr "Idõtúllépés az RCPT TO kérésnél: %s: a levél nem ment el"
 
-#: camel/providers/smtp/camel-smtp-transport.c:940
+#: camel/providers/smtp/camel-smtp-transport.c:937
 #, c-format
 msgid "RCPT TO response error: %s: mail not sent"
 msgstr "Hibás RCPT TO válasz: %s: a levél nem ment el"
 
-#: camel/providers/smtp/camel-smtp-transport.c:974
+#: camel/providers/smtp/camel-smtp-transport.c:971
 #, c-format
 msgid "DATA request timed out: %s: mail not sent"
 msgstr "Idõtúllépés a DATA kérésnél: %s: a levél nem ment el"
 
-#: camel/providers/smtp/camel-smtp-transport.c:993
+#: camel/providers/smtp/camel-smtp-transport.c:990
 #, c-format
 msgid "DATA response error: %s: mail not sent"
 msgstr "Hibás DATA válasz: %s: a levél nem ment el"
 
-#: camel/providers/smtp/camel-smtp-transport.c:1033
-#: camel/providers/smtp/camel-smtp-transport.c:1051
+#: camel/providers/smtp/camel-smtp-transport.c:1030
+#: camel/providers/smtp/camel-smtp-transport.c:1048
 #, c-format
 msgid "DATA send timed out: message termination: %s: mail not sent"
 msgstr ""
 "Idõtúllépés a DATA küldésénél: a levél véget ért: %s: a levél nem ment el"
 
-#: camel/providers/smtp/camel-smtp-transport.c:1070
+#: camel/providers/smtp/camel-smtp-transport.c:1067
 #, c-format
 msgid "DATA response error: message termination: %s: mail not sent"
 msgstr "Hibás DATA válasz: a levél véget ért: %s: a levél nem ment el"
 
-#: camel/providers/smtp/camel-smtp-transport.c:1094
+#: camel/providers/smtp/camel-smtp-transport.c:1091
 #, c-format
 msgid "RSET request timed out: %s"
 msgstr "Idõtúllépés az RSET kérésnél: %s"
 
-#: camel/providers/smtp/camel-smtp-transport.c:1113
+#: camel/providers/smtp/camel-smtp-transport.c:1110
 #, c-format
 msgid "RSET response error: %s"
 msgstr "Hibás RSET válasz: %s"
 
-#: camel/providers/smtp/camel-smtp-transport.c:1136
+#: camel/providers/smtp/camel-smtp-transport.c:1133
 #, c-format
 msgid "QUIT request timed out: %s: non-fatal"
 msgstr "Idõtúllépés a QUIT kérésnél: %s: nem végzetes"
 
-#: camel/providers/smtp/camel-smtp-transport.c:1155
+#: camel/providers/smtp/camel-smtp-transport.c:1152
 #, c-format
 msgid "QUIT response error: %s: non-fatal"
 msgstr "Hibás QUIT válasz: %s: nem végzetes"
@@ -7421,19 +9009,19 @@ msgid "%.1fG"
 msgstr "%.1fG"
 
 #. This is a filename. Translators take note.
-#: composer/e-msg-composer-attachment-bar.c:359 mail/mail-display.c:136
+#: composer/e-msg-composer-attachment-bar.c:361 mail/mail-display.c:136
 msgid "attachment"
 msgstr "melléklet"
 
-#: composer/e-msg-composer-attachment-bar.c:500
+#: composer/e-msg-composer-attachment-bar.c:502
 msgid "Remove selected items from the attachment list"
 msgstr "Törli a kiválasztott elemeket a mellékletlistáról"
 
-#: composer/e-msg-composer-attachment-bar.c:531
+#: composer/e-msg-composer-attachment-bar.c:533
 msgid "Add attachment..."
 msgstr "Csatolás..."
 
-#: composer/e-msg-composer-attachment-bar.c:532
+#: composer/e-msg-composer-attachment-bar.c:534
 msgid "Attach a file to the message"
 msgstr "Fájl csatolása a levélhez"
 
@@ -7629,11 +9217,11 @@ msgstr "Fájl megnyitás"
 msgid "Insert File"
 msgstr "Fájl beillesztése"
 
-#: composer/e-msg-composer.c:1923 composer/e-msg-composer.c:2364
+#: composer/e-msg-composer.c:1923 composer/e-msg-composer.c:2366
 msgid "Compose a message"
 msgstr "Levél írása"
 
-#: composer/e-msg-composer.c:2381
+#: composer/e-msg-composer.c:2383
 msgid ""
 "Could not create composer window:\n"
 "Unable to activate address selector control."
@@ -7641,7 +9229,7 @@ msgstr ""
 "Nem sikerült létrehozni a szerkesztõablakot:\n"
 "Nem lehetett aktiválni a címkiválasztó kontrollt."
 
-#: composer/e-msg-composer.c:2404 composer/e-msg-composer.c:2459
+#: composer/e-msg-composer.c:2406 composer/e-msg-composer.c:2461
 msgid ""
 "Could not create composer window:\n"
 "Unable to activate HTML editor component."
@@ -8763,7 +10351,7 @@ msgid "Are you sure you want to delete this news account?"
 msgstr "Tényleg törölni akarod ezt a news-hozzáférést?"
 
 #. give our dialog an Close button and title
-#: mail/mail-accounts.c:783 mail/mail-config.glade.h:42
+#: mail/mail-accounts.c:798 mail/mail-config.glade.h:42
 msgid "Mail Settings"
 msgstr "Levelezõ beállításai"
 
@@ -8772,22 +10360,22 @@ msgstr "Levelezõ beállításai"
 msgid "Mail to %s"
 msgstr "Levél %s-nek"
 
-#: mail/mail-autofilter.c:215
+#: mail/mail-autofilter.c:217
 #, c-format
 msgid "Subject is %s"
 msgstr "A téma %s"
 
-#: mail/mail-autofilter.c:231
+#: mail/mail-autofilter.c:233
 #, c-format
 msgid "Mail from %s"
 msgstr "Levél %s-tól"
 
-#: mail/mail-autofilter.c:287
+#: mail/mail-autofilter.c:289
 #, c-format
 msgid "%s mailing list"
 msgstr "%s levelezõlista"
 
-#: mail/mail-autofilter.c:336 mail/mail-autofilter.c:356
+#: mail/mail-autofilter.c:338 mail/mail-autofilter.c:358
 msgid "Add Filter Rule"
 msgstr "Szûrõszabály hozzáadása"
 
@@ -8968,6 +10556,10 @@ msgstr "Szûrõk..."
 #: mail/mail-callbacks.c:2325
 msgid "Print Message"
 msgstr "Levél nyomtatása"
+
+#: mail/mail-callbacks.c:2352
+msgid "US-Letter"
+msgstr "US-Letter"
 
 #: mail/mail-callbacks.c:2371
 msgid "Printing of message failed"
@@ -9562,23 +11154,23 @@ msgstr "Rejtés"
 msgid "External Viewer"
 msgstr "Külsõ nézõke"
 
-#: mail/mail-display.c:1133
+#: mail/mail-display.c:1136
 msgid "Loading message content"
 msgstr "Üzenet tartalmának betöltése"
 
-#: mail/mail-display.c:1596
+#: mail/mail-display.c:1605
 msgid "Open Link in Browser"
 msgstr "Hivatkozás megnyitása böngészõben"
 
-#: mail/mail-display.c:1598
+#: mail/mail-display.c:1607
 msgid "Copy Link Location"
 msgstr "Hivatkozás helyének másolása"
 
-#: mail/mail-display.c:1601
+#: mail/mail-display.c:1610
 msgid "Save Link as (FIXME)"
 msgstr "Hivatkozás mentése másként (FIXME)"
 
-#: mail/mail-display.c:1604
+#: mail/mail-display.c:1613
 msgid "Save Image as..."
 msgstr "Kép mentése másként..."
 
@@ -9622,7 +11214,9 @@ msgstr "Titkos másolat"
 #: mail/mail-format.c:1813
 msgid ""
 "This message is digitally signed. Click the lock icon for more information."
-msgstr "Az üzenetet digitálisan aláírták. További információért kattints a lakat ikonra."
+msgstr ""
+"Az üzenetet digitálisan aláírták. További információért kattints a lakat "
+"ikonra."
 
 #: mail/mail-format.c:1836
 msgid "Evolution does not recognize this type of signed message."
@@ -9764,7 +11358,7 @@ msgstr "%d / %d üzenet küldése"
 msgid "Failed on message %d of %d"
 msgstr "Hiba a %d / %d üzenetnél"
 
-#: mail/mail-ops.c:695 mail/mail-send-recv.c:537
+#: mail/mail-ops.c:695 mail/mail-send-recv.c:545
 msgid "Complete."
 msgstr "Kész."
 
@@ -9929,42 +11523,42 @@ msgstr "Keresés:"
 msgid "Matches:"
 msgstr "Találatok:"
 
-#: mail/mail-send-recv.c:141
+#: mail/mail-send-recv.c:143
 msgid "Cancelling..."
 msgstr "Megszakítás..."
 
-#: mail/mail-send-recv.c:245
+#: mail/mail-send-recv.c:251
 #, c-format
 msgid "Server: %s, Type: %s"
 msgstr "Kiszolgáló: %s,  Típus: %s "
 
-#: mail/mail-send-recv.c:247
+#: mail/mail-send-recv.c:253
 #, c-format
 msgid "Path: %s, Type: %s"
 msgstr "Útvonal: %s, Típus: %s"
 
-#: mail/mail-send-recv.c:249
+#: mail/mail-send-recv.c:255
 #, c-format
 msgid "Type: %s"
 msgstr "Típus: %s"
 
-#: mail/mail-send-recv.c:286
+#: mail/mail-send-recv.c:292
 msgid "Send & Receive Mail"
 msgstr "Levelek küldése és fogadása"
 
-#: mail/mail-send-recv.c:288
+#: mail/mail-send-recv.c:294
 msgid "Cancel All"
 msgstr "Mindent megszakít"
 
-#: mail/mail-send-recv.c:348
+#: mail/mail-send-recv.c:354
 msgid "Updating..."
 msgstr "Frissítés folyamatban..."
 
-#: mail/mail-send-recv.c:349 mail/mail-send-recv.c:402
+#: mail/mail-send-recv.c:355 mail/mail-send-recv.c:408
 msgid "Waiting..."
 msgstr "Várakozás..."
 
-#: mail/mail-send-recv.c:533
+#: mail/mail-send-recv.c:541
 msgid "Cancelled."
 msgstr "Megszakítva"
 
@@ -10021,16 +11615,21 @@ msgstr ""
 msgid "VFolders"
 msgstr "VMappák"
 
-#: mail/mail-vfolder.c:824
+#: mail/mail-vfolder.c:785
+#, fuzzy
+msgid "vFolders"
+msgstr "Mappák"
+
+#: mail/mail-vfolder.c:825
 msgid "Edit VFolder"
 msgstr "VMappa szerkesztése"
 
-#: mail/mail-vfolder.c:840
+#: mail/mail-vfolder.c:841
 #, c-format
 msgid "Trying to edit a vfolder '%s' which doesn't exist."
 msgstr "A nem lézetõ '%s' vmappát próbálod szerkeszteni."
 
-#: mail/mail-vfolder.c:894
+#: mail/mail-vfolder.c:895
 msgid "New VFolder"
 msgstr "Új VMappa"
 
@@ -10200,13 +11799,18 @@ msgstr "Találkozók"
 msgid "No appointments"
 msgstr "Nincsenek találkozók"
 
-#: my-evolution/e-summary-calendar.c:377
+#: my-evolution/e-summary-calendar.c:375
 msgid "%k:%M %d %B"
 msgstr "%k:%M %d %B"
 
-#: my-evolution/e-summary-calendar.c:379
+#: my-evolution/e-summary-calendar.c:377
 msgid "%l:%M %d %B"
 msgstr "%l:%M %d %B"
+
+#: my-evolution/e-summary-calendar.c:395
+#, fuzzy
+msgid "No description"
+msgstr "leírás"
 
 #: my-evolution/e-summary-mail.c:129
 msgid "Mail summary"
@@ -10217,12 +11821,12 @@ msgstr "Összefoglaló a levelekrõl"
 #. stations and their codes in Evolution sources.
 #. (evolution/my-evolution/Locations)
 #. Codes are seperated with : eg. "KBOS:EGAA"
-#: my-evolution/e-summary-preferences.c:80
+#: my-evolution/e-summary-preferences.c:81
 #: my-evolution/e-summary-weather.c:661
 msgid "KBOS"
 msgstr "LHBP:LHSY"
 
-#: my-evolution/e-summary-preferences.c:444
+#: my-evolution/e-summary-preferences.c:445
 msgid "Dictionary.com Word of the Day"
 msgstr "Dictionary.com -- A nap mondása"
 
@@ -11656,7 +13260,33 @@ msgstr ""
 "Hiba történt a fájlok másolása közben ide: \n"
 "`%s'."
 
-#: shell/e-setup.c:281
+#: shell/e-setup.c:280
+#, fuzzy, c-format
+msgid ""
+"Evolution could not create directory\n"
+"%s:\n"
+"%s"
+msgstr ""
+"Nem sikerült létrehozni %s könyvtárat:\n"
+"%s"
+
+#: shell/e-setup.c:298
+#, c-format
+msgid ""
+"Directory %s\n"
+"does not have the right permissions. Please make it\n"
+"readable and executable and restart Evolution."
+msgstr ""
+
+#: shell/e-setup.c:304
+#, c-format
+msgid ""
+"File %s\n"
+"should be removed to allow Evolution to work correctly.\n"
+"Please remove this file and restart Evolution."
+msgstr ""
+
+#: shell/e-setup.c:327
 #, c-format
 msgid ""
 "The file `%s' is not a directory.\n"
@@ -11667,7 +13297,7 @@ msgstr ""
 "Kérlek mozgasd el a fájlt, hogy az Evolution\n"
 "települni tudjon."
 
-#: shell/e-setup.c:295
+#: shell/e-setup.c:341
 msgid ""
 "Evolution has detected an old\n"
 "Executive-Summary directory.\n"
@@ -11681,7 +13311,7 @@ msgstr ""
 "távolítani, mielõtt a program futhatna.\n"
 "Szeretnéd eltávolítani ezt a könyvtárat?"
 
-#: shell/e-setup.c:320
+#: shell/e-setup.c:366
 #, c-format
 msgid ""
 "The directory `%s' exists but is not the\n"
@@ -11851,16 +13481,22 @@ msgstr ""
 "%s importálása\n"
 "%d. elem importálása."
 
-#: shell/e-shell-importer.c:397
+#: shell/e-shell-importer.c:409
 #, c-format
 msgid "File %s does not exist"
 msgstr "`%s' fájl nem létezik."
 
-#: shell/e-shell-importer.c:409
+#: shell/e-shell-importer.c:410 shell/e-shell-importer.c:420
+#: shell/e-shell-importer.c:436 shell/e-shell-importer.c:486
+#, fuzzy
+msgid "Evolution Error"
+msgstr "Evolution "
+
+#: shell/e-shell-importer.c:420
 msgid "You may only import to local folders"
 msgstr "Csak helyi mappákba tudsz importálni"
 
-#: shell/e-shell-importer.c:424
+#: shell/e-shell-importer.c:435
 #, c-format
 msgid ""
 "There is no importer that is able to handle\n"
@@ -11869,11 +13505,11 @@ msgstr ""
 "Nincs olyan importáló, amely képes lenne kezelni\n"
 "%s-t"
 
-#: shell/e-shell-importer.c:434
+#: shell/e-shell-importer.c:445
 msgid "Importing"
 msgstr "Importálás folyamatban"
 
-#: shell/e-shell-importer.c:442
+#: shell/e-shell-importer.c:453
 #, c-format
 msgid ""
 "Importing %s.\n"
@@ -11882,17 +13518,17 @@ msgstr ""
 "%s importálása.\n"
 "%s indítása"
 
-#: shell/e-shell-importer.c:455
+#: shell/e-shell-importer.c:466
 #, c-format
 msgid "Error starting %s"
 msgstr "Hiba %s indításakor"
 
-#: shell/e-shell-importer.c:474
+#: shell/e-shell-importer.c:485
 #, c-format
 msgid "Error loading %s"
 msgstr "Hiba %s betöltésekor"
 
-#: shell/e-shell-importer.c:491
+#: shell/e-shell-importer.c:502
 #, c-format
 msgid ""
 "Importing %s\n"
@@ -11901,31 +13537,31 @@ msgstr ""
 "%s importálása\n"
 "1. elem importálása."
 
-#: shell/e-shell-importer.c:561
+#: shell/e-shell-importer.c:572
 msgid "Automatic"
 msgstr "Automatikus"
 
-#: shell/e-shell-importer.c:612
+#: shell/e-shell-importer.c:623
 msgid "Filename:"
 msgstr "Fájlnév:"
 
-#: shell/e-shell-importer.c:617
+#: shell/e-shell-importer.c:628
 msgid "Select a file"
 msgstr "Válassz egy fájlt"
 
-#: shell/e-shell-importer.c:627
+#: shell/e-shell-importer.c:638
 msgid "File type:"
 msgstr "Fájltípus:"
 
-#: shell/e-shell-importer.c:652
+#: shell/e-shell-importer.c:663
 msgid "Import data and settings from older programs"
 msgstr "Adatok és beállítások importálása korábbi programokból"
 
-#: shell/e-shell-importer.c:656
+#: shell/e-shell-importer.c:667
 msgid "Import a single file"
 msgstr "Egyetlen fájl importálása"
 
-#: shell/e-shell-importer.c:721 shell/e-shell-startup-wizard.c:628
+#: shell/e-shell-importer.c:732 shell/e-shell-startup-wizard.c:628
 msgid ""
 "Please wait...\n"
 "Scanning for existing setups"
@@ -11933,24 +13569,24 @@ msgstr ""
 "Várj...\n"
 "Meglévõ beállítások keresése"
 
-#: shell/e-shell-importer.c:724 shell/e-shell-startup-wizard.c:631
+#: shell/e-shell-importer.c:735 shell/e-shell-startup-wizard.c:631
 msgid "Starting Intelligent Importers"
 msgstr "Az okos importálók indítása"
 
-#: shell/e-shell-importer.c:848 shell/e-shell-startup-wizard.c:754
+#: shell/e-shell-importer.c:859 shell/e-shell-startup-wizard.c:754
 #, c-format
 msgid "From %s:"
 msgstr "Feladó %s:"
 
-#: shell/e-shell-importer.c:1014
+#: shell/e-shell-importer.c:1027
 msgid "Select folder"
 msgstr "Válassz mappát"
 
-#: shell/e-shell-importer.c:1015
+#: shell/e-shell-importer.c:1028
 msgid "Select a destination folder for importing this data"
 msgstr "Válaszd ki az importálálandó adatok célkönyvtárát"
 
-#: shell/e-shell-importer.c:1127 shell/importer/intelligent.c:193
+#: shell/e-shell-importer.c:1140 shell/importer/intelligent.c:193
 msgid "Import"
 msgstr "Importálás"
 
@@ -12841,7 +14477,7 @@ msgid "Print..."
 msgstr "Nyomtatás..."
 
 #: ui/evolution-comp-editor.xml.h:12 ui/evolution-message-composer.xml.h:19
-#: ui/evolution-signature-editor.xml.h:3 widgets/misc/e-filter-bar.c:239
+#: ui/evolution-signature-editor.xml.h:3 widgets/misc/e-filter-bar.c:240
 msgid "Save"
 msgstr "Mentés"
 
@@ -14129,11 +15765,11 @@ msgstr "Karakterkódolás"
 msgid "..."
 msgstr "..."
 
-#: widgets/misc/e-filter-bar.c:152
+#: widgets/misc/e-filter-bar.c:153
 msgid "Search Editor"
 msgstr "Keresésszerkesztõ"
 
-#: widgets/misc/e-filter-bar.c:168
+#: widgets/misc/e-filter-bar.c:169
 msgid "Save Search"
 msgstr "Keresés mentése"
 
