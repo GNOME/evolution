@@ -31,12 +31,56 @@ static CamelDataWrapperClass *parent_class=NULL;
 /* Returns the class for a CamelMimePart */
 #define CMP_CLASS(so) CAMEL_MIME_PART_CLASS (GTK_OBJECT(so)->klass)
 
+static void __camel_mime_part_add_header (CamelMimePart *mime_part, GString *header_name, GString *header_value);
+static void __camel_mime_part_remove_header (CamelMimePart *mime_part, GString *header_name);
+static GString *__camel_mime_part_get_header (CamelMimePart *mime_part, GString *header_name);
+static void __camel_mime_part_set_description (CamelMimePart *mime_part, GString *description);
+static GString *__camel_mime_part_get_description (CamelMimePart *mime_part);
+static void __camel_mime_part_set_disposition (CamelMimePart *mime_part, GString *disposition);
+static GString *__camel_mime_part_get_disposition (CamelMimePart *mime_part);
+static void __camel_mime_part_set_filename (CamelMimePart *mime_part, GString *filename);
+static GString *__camel_mime_part_get_filename (CamelMimePart *mime_part);
+static void __camel_mime_part_set_content_id (CamelMimePart *mime_part, GString *content_id);
+static GString *__camel_mime_part_get_content_id (CamelMimePart *mime_part);
+static void __camel_mime_part_set_content_MD5 (CamelMimePart *mime_part, GString *content_MD5);
+static GString *__camel_mime_part_get_content_MD5 (CamelMimePart *mime_part);
+static void __camel_mime_part_set_encoding (CamelMimePart *mime_part, GString *encoding);
+static GString *__camel_mime_part_get_encoding (CamelMimePart *mime_part);
+static void __camel_mime_part_set_content_languages (CamelMimePart *mime_part, GList *content_languages);
+static GList *__camel_mime_part_get_content_languages (CamelMimePart *mime_part);
+static void __camel_mime_part_set_header_lines (CamelMimePart *mime_part, GList *header_lines);
+static GList *__camel_mime_part_get_header_lines (CamelMimePart *mime_part);
+
+
+
+
+
 static void
 camel_mime_part_class_init (CamelMimePartClass *camel_mime_part_class)
 {
 	parent_class = gtk_type_class (camel_data_wrapper_get_type ());
 	
 	/* virtual method definition */
+	camel_mime_part_class->add_header=__camel_mime_part_add_header;
+	camel_mime_part_class->remove_header=__camel_mime_part_remove_header;
+	camel_mime_part_class->get_header=__camel_mime_part_get_header;
+	camel_mime_part_class->set_description=__camel_mime_part_set_description;
+	camel_mime_part_class->get_description=__camel_mime_part_get_description;
+	camel_mime_part_class->set_disposition=__camel_mime_part_set_disposition;
+	camel_mime_part_class->get_disposition=__camel_mime_part_get_disposition;
+	camel_mime_part_class->set_filename=__camel_mime_part_set_filename;
+	camel_mime_part_class->get_filename=__camel_mime_part_get_filename;
+	camel_mime_part_class->set_content_id=__camel_mime_part_set_content_id;
+	camel_mime_part_class->get_content_id=__camel_mime_part_get_content_id;
+	camel_mime_part_class->set_content_MD5=__camel_mime_part_set_content_MD5;
+	camel_mime_part_class->get_content_MD5=__camel_mime_part_get_content_MD5;
+	camel_mime_part_class->set_encoding=__camel_mime_part_set_encoding;
+	camel_mime_part_class->get_encoding=__camel_mime_part_get_encoding;
+	camel_mime_part_class->set_content_languages=__camel_mime_part_set_content_languages;
+	camel_mime_part_class->get_content_languages=__camel_mime_part_get_content_languages;
+	camel_mime_part_class->set_header_lines=__camel_mime_part_set_header_lines;
+	camel_mime_part_class->get_header_lines=__camel_mime_part_get_header_lines;
+
 
 	/* virtual method overload */
 }
@@ -93,7 +137,11 @@ __camel_mime_part_add_header (CamelMimePart *mime_part, GString *header_name, GS
 }
 
 
-
+void
+camel_mime_part_add_header (CamelMimePart *mime_part, GString *header_name, GString *header_value)
+{
+	CMP_CLASS(mime_part)->add_header(mime_part, header_name, header_value);
+}
 
 
 
@@ -117,6 +165,13 @@ __camel_mime_part_remove_header (CamelMimePart *mime_part, GString *header_name)
 	
 }
 
+void
+camel_mime_part_remove_header (CamelMimePart *mime_part, GString *header_name)
+{
+	CMP_CLASS(mime_part)->remove_header(mime_part, header_name);
+}
+
+
 
 static GString *
 __camel_mime_part_get_header (CamelMimePart *mime_part, GString *header_name)
@@ -130,6 +185,13 @@ __camel_mime_part_get_header (CamelMimePart *mime_part, GString *header_name)
 	return header_value;
 }
 
+GString *
+camel_mime_part_get_header (CamelMimePart *mime_part, GString *header_name)
+{
+	return CMP_CLASS(mime_part)->get_header (mime_part, header_name);
+}
+
+
 
 static void
 __camel_mime_part_set_description (CamelMimePart *mime_part, GString *description)
@@ -138,11 +200,25 @@ __camel_mime_part_set_description (CamelMimePart *mime_part, GString *descriptio
 	mime_part->description = description;
 }
 
+void
+camel_mime_part_set_description (CamelMimePart *mime_part, GString *description)
+{
+	CMP_CLASS(mime_part)->set_description (mime_part, description);
+}
+
+
+
 
 static GString *
 __camel_mime_part_get_description (CamelMimePart *mime_part)
 {
 	return mime_part->description;
+}
+
+GString *
+camel_mime_part_get_description (CamelMimePart *mime_part)
+{
+	return CMP_CLASS(mime_part)->get_description (mime_part);
 }
 
 
@@ -155,10 +231,25 @@ __camel_mime_part_set_disposition (CamelMimePart *mime_part, GString *dispositio
 }
 
 
+void
+camel_mime_part_set_disposition (CamelMimePart *mime_part, GString *disposition)
+{
+	CMP_CLASS(mime_part)->set_disposition (mime_part, disposition);
+}
+
+
+
 static GString *
 __camel_mime_part_get_disposition (CamelMimePart *mime_part)
 {
 	return mime_part->disposition;
+}
+
+
+GString *
+camel_mime_part_get_disposition (CamelMimePart *mime_part)
+{
+	return CMP_CLASS(mime_part)->get_disposition (mime_part);
 }
 
 
@@ -171,12 +262,26 @@ __camel_mime_part_set_filename (CamelMimePart *mime_part, GString *filename)
 }
 
 
+void
+camel_mime_part_set_filename (CamelMimePart *mime_part, GString *filename)
+{
+	CMP_CLASS(mime_part)->set_filename (mime_part, filename);
+}
+
+
+
 static GString *
 __camel_mime_part_get_filename (CamelMimePart *mime_part)
 {
 	return mime_part->filename;
 }
 
+
+GString *
+camel_mime_part_get_filename (CamelMimePart *mime_part)
+{
+	return CMP_CLASS(mime_part)->get_filename (mime_part);
+}
 
 
 /* this routine must not be public */
@@ -195,6 +300,12 @@ __camel_mime_part_get_content_id (CamelMimePart *mime_part)
 }
 
 
+GString *
+camel_mime_part_get_content_id (CamelMimePart *mime_part)
+{
+	return CMP_CLASS(mime_part)->get_content_id (mime_part);
+}
+
 
 /* this routine must not be public */
 static void
@@ -211,6 +322,11 @@ __camel_mime_part_get_content_MD5 (CamelMimePart *mime_part)
 	return mime_part->content_MD5;
 }
 
+GString *
+camel_mime_part_get_content_MD5 (CamelMimePart *mime_part)
+{
+	return CMP_CLASS(mime_part)->get_content_MD5 (mime_part);
+}
 
 
 
@@ -221,11 +337,24 @@ __camel_mime_part_set_encoding (CamelMimePart *mime_part, GString *encoding)
 	mime_part->encoding = encoding;
 }
 
+void
+camel_mime_part_set_encoding (CamelMimePart *mime_part, GString *encoding)
+{
+	CMP_CLASS(mime_part)->set_encoding (mime_part, encoding);
+}
+
+
 
 static GString *
 __camel_mime_part_get_encoding (CamelMimePart *mime_part)
 {
 	return mime_part->encoding;
+}
+
+GString *
+camel_mime_part_get_encoding (CamelMimePart *mime_part)
+{
+	return CMP_CLASS(mime_part)->get_encoding (mime_part);
 }
 
 
@@ -238,6 +367,13 @@ __camel_mime_part_set_content_languages (CamelMimePart *mime_part, GList *conten
 	mime_part->content_languages = content_languages;
 }
 
+void
+camel_mime_part_set_content_languages (CamelMimePart *mime_part, GList *content_languages)
+{
+	CMP_CLASS(mime_part)->set_content_languages (mime_part, content_languages);
+}
+
+
 
 static GList *
 __camel_mime_part_get_content_languages (CamelMimePart *mime_part)
@@ -246,6 +382,11 @@ __camel_mime_part_get_content_languages (CamelMimePart *mime_part)
 }
 
 
+GList *
+camel_mime_part_get_content_languages (CamelMimePart *mime_part)
+{
+	return CMP_CLASS(mime_part)->get_content_languages (mime_part);
+}
 
 
 
@@ -256,6 +397,13 @@ __camel_mime_part_set_header_lines (CamelMimePart *mime_part, GList *header_line
 	mime_part->header_lines = header_lines;
 }
 
+void
+camel_mime_part_set_header_lines (CamelMimePart *mime_part, GList *header_lines)
+{
+	CMP_CLASS(mime_part)->set_header_lines (mime_part, header_lines);
+}
+
+
 
 static GList *
 __camel_mime_part_get_header_lines (CamelMimePart *mime_part)
@@ -264,6 +412,12 @@ __camel_mime_part_get_header_lines (CamelMimePart *mime_part)
 }
 
 
+
+GList *
+camel_mime_part_get_header_lines (CamelMimePart *mime_part)
+{
+	return CMP_CLASS(mime_part)->get_header_lines (mime_part);
+}
 
 
 

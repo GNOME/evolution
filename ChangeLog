@@ -1,3 +1,8 @@
+1999-05-11  Bertrand Guiheneuf  <Bertrand.Guiheneuf@inria.fr>
+
+	* camel/camel-mime-part.h: implemented public interfaces
+	
+
 1999-05-10  Bertrand Guiheneuf  <Bertrand.Guiheneuf@inria.fr>
 
 	* camel/camel-mime-part.c (__camel_mime_part_get_header_lines): 
