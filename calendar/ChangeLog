@@ -1,5 +1,13 @@
 2001-06-14  Damon Chaplin  <damon@ximian.com>
 
+	* gui/e-timezone-entry.[hc]: new widget to enter a timezone.
+
+	* gui/Makefile.am (evolution_calendar_SOURCES): added the above.
+	* gui/Makefile.am (evolution_calendar_LDADD): had to move
+	libcal-dialogs.a above libmiscwidgets.a to get it to compile.
+
+2001-06-14  Damon Chaplin  <damon@ximian.com>
+
 	* gui/dialogs/e-timezone-dialog.[hc]: 
 	* gui/dialogs/e-timezone-dialog.glade: new dialog for setting the
 	time zone.

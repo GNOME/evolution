@@ -87,6 +87,8 @@ evolution_calendar_SOURCES =			\
 	e-week-view.h				\
 	e-tasks.c				\
 	e-tasks.h				\
+	e-timezone-entry.c			\
+	e-timezone-entry.h			\
 	gnome-cal.c				\
 	gnome-cal.h				\
 	goto.c					\
@@ -118,9 +120,9 @@ evolution_calendar_LDADD =								\
 	$(top_builddir)/libversit/libversit.la						\
 	$(top_builddir)/libical/src/libical/libical.la					\
 	$(top_builddir)/widgets/meeting-time-sel/libevolutionmtsel.a			\
-	$(top_builddir)/widgets/misc/libemiscwidgets.a					\
-	$(EXTRA_GNOME_LIBS)				\
 	dialogs/libcal-dialogs.a							\
+	$(top_builddir)/widgets/misc/libemiscwidgets.a					\
+	$(EXTRA_GNOME_LIBS)							\
 	$(BONOBO_HTML_GNOME_LIBS)							\
 	$(GNOME_VFS_LIBS)								\
 	$(GAL_LIBS)									\
