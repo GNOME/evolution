@@ -1,3 +1,7 @@
+2001-03-01  Dan Winship  <danw@ximian.com>
+
+	* POTFILES.in: remove camel-imap-auth.c, add sasl stuff
+
 2001-02-27  JP Rosevear  <jpr@ximian.com>
 
 	* da.po: Correct a couple errors

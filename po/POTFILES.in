@@ -75,11 +75,14 @@ camel/camel-lock.c
 camel/camel-movemail.c
 camel/camel-provider.c
 camel/camel-remote-store.c
+camel/camel-sasl-anonymous.c
+camel/camel-sasl-cram-md5.c
+camel/camel-sasl-kerberos4.c
+camel/camel-sasl-plain.c
 camel/camel-search-private.c
 camel/camel-service.c
 camel/camel-session.c
 camel/camel-url.c
-camel/providers/imap/camel-imap-auth.c
 camel/providers/imap/camel-imap-command.c
 camel/providers/imap/camel-imap-folder.c
 camel/providers/imap/camel-imap-provider.c
