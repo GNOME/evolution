@@ -1,3 +1,8 @@
+2001-04-10  Jeffrey Stedfast  <fejj@ximian.com>
+
+	* configure.in (EVOLUTION_DIR): create the makefile in
+	camel/tests/smime
+
 2001-04-08  Chris Toshok  <toshok@ximian.com>
 
 	* tools/killev (sysname): add some more 16 character versions for

@@ -697,6 +697,7 @@ camel/tests/lib/Makefile
 camel/tests/message/Makefile
 camel/tests/misc/Makefile
 camel/tests/folder/Makefile
+camel/tests/smime/Makefile
 camel/tests/stream/Makefile
 composer/Makefile
 widgets/Makefile
