@@ -536,7 +536,7 @@ flatten_alpha (GdkPixbuf *image, guint rgb)
 		GDK_INTERP_NEAREST,
 		255,
 		32,
-		rgb, ~rgb);
+		rgb, rgb);
 }
 
 /*
@@ -575,6 +575,7 @@ e_icon_bar_add_item (EIconBar	    *icon_bar,
 	GtkStyle *style;
 	GdkFont *font;
 	gdouble text_x, clip_height;
+	GdkPixbuf *flattened = NULL;
 
 	g_return_val_if_fail (E_IS_ICON_BAR (icon_bar), -1);
 	g_return_val_if_fail (text != NULL, -1);
@@ -619,16 +620,21 @@ e_icon_bar_add_item (EIconBar	    *icon_bar,
 			    GTK_SIGNAL_FUNC (e_icon_bar_on_item_event),
 			    icon_bar);
 
-	item.flatened_alpha = flatten_alpha (
-		image,
-		rgb_from_gdk_color (&style->bg [GTK_STATE_NORMAL]));
-		
+	flattened = flatten_alpha (image,
+				   rgb_from_gdk_color (&style->bg [GTK_STATE_NORMAL]));
+	
 	item.image = gnome_canvas_item_new (GNOME_CANVAS_GROUP (GNOME_CANVAS (icon_bar)->root),
 					    gnome_canvas_pixbuf_get_type (),
-					    "GnomeCanvasPixbuf::pixbuf", item.flatened_alpha?item. flatened_alpha:image,
+					    "GnomeCanvasPixbuf::pixbuf", flattened ? flattened : image,
 					    "GnomeCanvasPixbuf::width", (gdouble) icon_bar->icon_w,
 					    "GnomeCanvasPixbuf::height", (gdouble) icon_bar->icon_h,
 					     NULL);
+
+
+	if (flattened)
+		/* the canvas item holds the reference now */
+		gdk_pixbuf_unref (flattened);
+
 	gtk_signal_connect (GTK_OBJECT (item.image), "event",
 			    GTK_SIGNAL_FUNC (e_icon_bar_on_item_event),
 			    icon_bar);
@@ -713,8 +719,7 @@ e_icon_bar_remove_item		(EIconBar	  *icon_bar,
 
 	gtk_object_destroy (GTK_OBJECT (item->text));
 	gtk_object_destroy (GTK_OBJECT (item->image));
-	gdk_pixbuf_unref (item->flatened_alpha);
-	
+
 	g_array_remove_index (icon_bar->items, item_num);
 
 	gtk_widget_queue_resize (GTK_WIDGET (icon_bar));

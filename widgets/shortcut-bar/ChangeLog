@@ -1,3 +1,22 @@
+2000-05-07  Larry Ewing  <lewing@helixcode.com>
+
+	* e-icon-bar.h (struct _EIconBarItem): remove the no longer needed
+	flatened_alpha member.
+
+	* e-icon-bar.c (flatten_alpha): using ~rgb can cause visual
+	artifacts.
+	(e_icon_bar_add_item): fixup refcounting of the flattend pixbuf,
+	the canvas item should hold the reference not us. Stop using
+	item.flattened_alpha since it no longer exists.
+	(e_icon_bar_remove_item): remove the unref since destroying the
+	item will take care of that for us.
+
+	* e-shortcut-bar.c (e_shortcut_bar_add_item): make sure to unref
+	the image we get back, the icon bar will hold any references it
+	needs.
+	(e_shortcut_bar_get_image_from_url): ref the default image each
+	time we return it so that references are counted correctly.
+
 2000-05-04  Ettore Perazzoli  <ettore@helixcode.com>
 
 	* e-shortcut-bar.h (E_TYPE_SHORTCUT_BAR): New #define.

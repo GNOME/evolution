@@ -298,6 +298,7 @@ e_shortcut_bar_add_item (EShortcutBar *shortcut_bar, gint group_num,
 
 	item_num = e_icon_bar_add_item (E_ICON_BAR (group->icon_bar),
 					image, item_name, -1);
+	gdk_pixbuf_unref (image);
 	e_icon_bar_set_item_data_full (E_ICON_BAR (group->icon_bar), item_num,
 				       g_strdup (item_url), g_free);
 	return item_num;
@@ -561,6 +562,8 @@ e_shortcut_bar_get_image_from_url (EShortcutBar *shortcut_bar,
 			e_shortcut_bar_default_icon = e_shortcut_bar_load_image (e_shortcut_bar_default_icon_filename);
 		}
 		icon = e_shortcut_bar_default_icon;
+		/* ref the default icon each time we return it */
+		gdk_pixbuf_ref (icon);
 	}
 
 	return icon;
