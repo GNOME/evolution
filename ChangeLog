@@ -1,5 +1,12 @@
 1999-09-05  bertrand  <Bertrand.Guiheneuf@aful.org>
 
+	* camel/camel-folder.c (camel_folder_has_uid_capability): 
+	(camel_folder_get_message_uid): 
+	(camel_folder_get_message_uid_by_number): 
+	(camel_folder_get_message_by_uid): 
+	(camel_folder_get_uid_list): 
+	Basic UID framework.
+	
 	* devel-docs/misc/ref_and_id_proposition.txt:
 	New revision. Some fixes.
 

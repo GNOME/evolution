@@ -56,8 +56,14 @@ static gint _append_message (CamelFolder *folder, CamelMimeMessage *message);
 static const GList *_list_permanent_flags (CamelFolder *folder);
 static void _copy_message_to (CamelFolder *folder, CamelMimeMessage *message, CamelFolder *dest_folder);
 
+static gchar *_get_message_uid (CamelFolder *folder, CamelMimeMessage *message);
+static gchar *_get_message_uid_by_number (CamelFolder *folder, gint message_number);
+static CamelMimeMessage *_get_message_by_uid (CamelFolder *folder, gchar *uid);
+static GList *_get_uid_list  (CamelFolder *folder);
+
 
 static void _finalize (GtkObject *object);
+
 
 static void
 camel_folder_class_init (CamelFolderClass *camel_folder_class)
@@ -90,6 +96,10 @@ camel_folder_class_init (CamelFolderClass *camel_folder_class)
 	camel_folder_class->append_message = _append_message;
 	camel_folder_class->list_permanent_flags = _list_permanent_flags;
 	camel_folder_class->copy_message_to;
+	camel_folder_class->get_message_uid = _get_message_uid;
+	camel_folder_class->get_message_uid_by_number = _get_message_uid_by_number;
+	camel_folder_class->get_message_by_uid = _get_message_by_uid;
+	camel_folder_class->get_uid_list = _get_uid_list;
 
 	/* virtual method overload */
 	gtk_object_class->finalize = _finalize;
@@ -992,3 +1002,73 @@ camel_folder_get_summary (CamelFolder *folder)
 {
 	return folder->summary;
 }
+
+
+
+
+/* UIDs stuff */
+
+gboolean
+camel_folder_has_uid_capability (CamelFolder *folder)
+{
+	return folder->has_uid_capability;
+}
+
+
+static gchar *
+_get_message_uid (CamelFolder *folder, CamelMimeMessage *message)
+{
+	return NULL;
+}
+
+gchar * 
+camel_folder_get_message_uid (CamelFolder *folder, CamelMimeMessage *message)
+{
+	if (!folder->has_uid_capability) return NULL;
+	return CF_CLASS (folder)->get_message_uid (folder, message);
+}
+
+
+static gchar *
+_get_message_uid_by_number (CamelFolder *folder, gint message_number)
+{
+	return NULL;
+}
+
+gchar * 
+camel_folder_get_message_uid_by_number (CamelFolder *folder, gint message_number)
+{
+	if (!folder->has_uid_capability) return NULL;
+	return CF_CLASS (folder)->get_message_uid_by_number (folder, message_number);
+}
+
+
+static CamelMimeMessage *
+_get_message_by_uid (CamelFolder *folder, gchar *uid)
+{
+	return NULL;
+}
+
+
+CamelMimeMessage *
+camel_folder_get_message_by_uid  (CamelFolder *folder, gchar *uid)
+{
+	if (!folder->has_uid_capability) return NULL;
+	return CF_CLASS (folder)->get_message_by_uid (folder, uid);
+}
+
+static GList *
+_get_uid_list  (CamelFolder *folder)
+{
+	return NULL;
+}
+
+GList *
+camel_folder_get_uid_list  (CamelFolder *folder)
+{
+	if (!folder->has_uid_capability) return NULL;
+	return CF_CLASS (folder)->get_uid_list (folder);
+}
+
+
+/* **** */

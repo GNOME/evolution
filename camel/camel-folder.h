@@ -77,7 +77,6 @@ struct _CamelFolder
 
 	gboolean has_uid_capability;
 
-
 	GList *message_list;
 
 };
@@ -114,6 +113,11 @@ typedef struct {
 	const GList * (*list_permanent_flags) (CamelFolder *folder);
 	void   (*copy_message_to) (CamelFolder *folder, CamelMimeMessage *message, CamelFolder *dest_folder);
 	
+	gchar * (*get_message_uid) (CamelFolder *folder, CamelMimeMessage *message);
+	gchar * (*get_message_uid_by_number) (CamelFolder *folder, gint message_number);
+	CamelMimeMessage * (*get_message_by_uid) (CamelFolder *folder, gchar *uid);
+	GList * (*get_uid_list) (CamelFolder *folder);
+
 } CamelFolderClass;
 
 
@@ -148,6 +152,12 @@ void camel_folder_copy_message_to (CamelFolder *folder, CamelMimeMessage *messag
 gboolean camel_folder_has_summary_capability (CamelFolder *folder);
 CamelFolderSummary *camel_folder_get_summary (CamelFolder *folder);
 
+
+gboolean camel_folder_has_uid_capability (CamelFolder *folder);
+gchar * camel_folder_get_message_uid (CamelFolder *folder, CamelMimeMessage *message);
+gchar * camel_folder_get_message_uid_by_number (CamelFolder *folder, gint message_number);
+CamelMimeMessage *camel_folder_get_message_by_uid  (CamelFolder *folder, gchar *uid);
+GList *camel_folder_get_uid_list  (CamelFolder *folder);
 
 #ifdef __cplusplus
 }
