@@ -1,3 +1,7 @@
+2004-05-20  Rodney Dawes  <dobey@ximian.com>
+
+	* Makefile.am (EXTRA_DIST): Add README and jump.xpm
+
 2004-05-19  Jeffrey Stedfast  <fejj@novell.com>
 
 	* README: New file explaining how to add icons to the build, etc.

@@ -17,8 +17,10 @@ endif
 EXTRA_DIST = 				\
 	ChangeLog			\
 	ChangeLog.pre-1-4		\
+	README				\
 	broken-image-16.xpm		\
 	broken-image-24.xpm		\
 	empty.xpm			\
 	evolution.png			\
+	jump.xpm			\
 	$(images_DATA)
