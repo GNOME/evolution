@@ -1,3 +1,7 @@
+1999-07-30  Jonathan Blandford  <jrb@redhat.com>
+
+	* Makefile.am (libcalendar_conduit_la_LIBADD): More autoconf-stuff
+
 1999-07-29  Jonathan Blandford  <jrb@redhat.com>
 
 	* gnome-cal.c (setup_widgets): Add scrolling to the yearview.

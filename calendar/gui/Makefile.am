@@ -13,9 +13,10 @@ CFLAGS += -Wall -Wunused -Wpointer-arith -Wmissing-declarations
 INCLUDES = 			\
 	-I$(includedir)					\
 	$(GNOME_INCLUDEDIR)				\
+	$(CONDUIT_INCLUDEDIR)				\
         -DGNOMELOCALEDIR=\""$(datadir)/locale"\"
 
-bin_PROGRAMS = gnomecal calendar-pilot-sync
+bin_PROGRAMS = gnomecal calendar-pilot-sync 
 
 GNOMECAL_CORBA_GENERATED =	\
 	GnomeCal.h		\
@@ -92,6 +93,8 @@ calendar_pilot_sync_SOURCES =	\
 	timeutil.c		\
 	timeutil.h
 
+
+
 LINK_FLAGS = \
 	$(GNOME_LIBDIR) \
 	$(GNOMEGNORBA_LIBS) \
@@ -102,6 +105,25 @@ PILOT_LIBS = -lpisock
 calendar_pilot_sync_LDADD =	\
 	$(PILOT_LIBS)		\
 	$(LINK_FLAGS)
+
+
+#calendar_conduit
+calendar_conduitsdir=$(libdir)/gnome-pilot/conduits
+
+calendar_conduits_LTLIBRARIES = \
+	libcalendar_conduit.la
+
+libcalendar_conduit_la_LIBADD = \
+	$(CONDUIT_LIBDIR) \
+	$(CONDUIT_LIBS) \
+	$(GNOME_LIBDIR) \
+	$(GNOME_LIBS)
+
+libcalendar_conduit_la_SOURCES = \
+	calendar-conduit.c
+
+#libcalendar_conduit_la_OBJECTS = \
+#	calendar-conduit.o
 
 #gncal_LDADD = $(LINK_FLAGS)
 
