@@ -66,10 +66,23 @@ get_cursor_cb (EBook *book, EBookStatus status, ECardCursor *cursor, gpointer cl
 }
 
 static void
-add_card_cb (EBook *book, EBookStatus status, const gchar *id, gpointer closure)
+get_card_cb (EBook *book, EBookStatus status, ECard *card, gpointer closure)
 {
 	char *vcard;
-	ECard *card;
+
+	vcard = e_card_get_vcard(card);
+	printf ("Card added: [%s]\n", vcard);
+	g_free(vcard);
+	gtk_object_unref(GTK_OBJECT(card));
+
+	printf ("Getting cards..\n");
+	e_book_get_cursor(book, "", get_cursor_cb, NULL);
+	printf ("Done getting all cards.\n");	
+}
+
+static void
+add_card_cb (EBook *book, EBookStatus status, const gchar *id, gpointer closure)
+{
 	GTimer *timer;
 
 	printf ("Status: %d\n", status);
@@ -78,18 +91,9 @@ add_card_cb (EBook *book, EBookStatus status, const gchar *id, gpointer closure)
 
 	timer = g_timer_new ();
 	g_timer_start (timer);
-	card = e_book_get_card (book, id);
+	e_book_get_card (book, id, get_card_cb, closure);
 	g_timer_stop (timer);
-
-	vcard = e_card_get_vcard(card);
 	printf ("%g\n", g_timer_elapsed (timer, NULL));
-	printf ("Card added: [%s]\n", vcard);
-	g_free(vcard);
-	gtk_object_unref(GTK_OBJECT(card));
-
-	printf ("Getting cards..\n");
-	e_book_get_cursor(book, "", get_cursor_cb, NULL);
-	printf ("Done getting all cards.\n");	
 }
 
 static void

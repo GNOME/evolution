@@ -28,6 +28,7 @@ typedef enum {
 	CreateCard,
 	RemoveCard,
 	ModifyCard,
+	GetVCard,
 	GetCursor,
 	GetBookView,
 	GetChanges,
@@ -60,15 +61,11 @@ typedef struct {
 	void (*requests_queued) (void);
 } PASBookClass;
 
-typedef char *   (*PASBookGetVCardFn)     (PASBook *book, const char *id);
 typedef gboolean (*PASBookCanWriteFn)     (PASBook *book);
 typedef gboolean (*PASBookCanWriteCardFn) (PASBook *book, const char *id);
 
 PASBook                *pas_book_new                    (PASBackend                        *backend,
-							 GNOME_Evolution_Addressbook_BookListener             listener,
-							 PASBookGetVCardFn                  get_vcard,
-							 PASBookCanWriteFn                  can_write,
-							 PASBookCanWriteCardFn              can_write_card);
+							 GNOME_Evolution_Addressbook_BookListener             listener);
 PASBackend             *pas_book_get_backend            (PASBook                           *book);
 GNOME_Evolution_Addressbook_BookListener  pas_book_get_listener           (PASBook                           *book);
 int                     pas_book_check_pending          (PASBook                           *book);
@@ -94,6 +91,9 @@ void                    pas_book_respond_get_cursor     (PASBook                
 void                    pas_book_respond_get_book_view  (PASBook                           *book,
 							 GNOME_Evolution_Addressbook_BookListener_CallStatus  status,
 							 PASBookView                       *book_view);
+void                    pas_book_respond_get_vcard      (PASBook                           *book,
+							 GNOME_Evolution_Addressbook_BookListener_CallStatus  status,
+							 char                              *vcard);
 void                    pas_book_respond_get_changes    (PASBook                           *book,
 							 GNOME_Evolution_Addressbook_BookListener_CallStatus  status,
 							 PASBookView                       *book_view);
@@ -103,9 +103,6 @@ void                    pas_book_report_connection      (PASBook                
 void                    pas_book_report_writable        (PASBook                           *book,
 							 gboolean                           writable);
 
-gboolean                pas_book_can_write              (PASBook                           *book);
-gboolean                pas_book_can_write_card         (PASBook                           *book,
-							 const char                        *id);
 GtkType                 pas_book_get_type               (void);
 
 #define PAS_BOOK_TYPE        (pas_book_get_type ())

@@ -45,19 +45,7 @@ module Addressbook {
 		/*
 		 * Fetching cards in the addresbook.
 		 */
-		VCard getVCard (in CardId id);
-
-		/*
-		 * Permissions.  the first form is general write
-		 * permission (whether or not the user can add or
-		 * remove or modify any entry in the addressbook.)
-		 *
-		 * if can_write returns TRUE, can_write_card can still
-		 * return FALSE if the user doesn't have permission to
-		 * modify/remove that specific card.
-		 */
-		boolean isWriteable     ();
-		boolean isCardWriteable (in CardId Id);
+		void getVCard (in CardId id);
 
 		void authenticateUser (in string user, in string passwd);
 
@@ -123,6 +111,8 @@ module Addressbook {
 
 		void notifyBookOpened       (in CallStatus status, in Book book);
 
+		void notifyCardRequested    (in CallStatus status, in VCard card);
+
 		void notifyCursorRequested  (in CallStatus status, in CardCursor cursor);
 
 		void notifyViewRequested    (in CallStatus status, in BookView view);
@@ -168,4 +158,3 @@ module Addressbook {
 };
 };
 };
-

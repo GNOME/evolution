@@ -23,9 +23,6 @@ static guint pas_book_signals [LAST_SIGNAL];
 struct _PASBookPrivate {
 	PASBackend             *backend;
 	GNOME_Evolution_Addressbook_BookListener  listener;
-	PASBookGetVCardFn       get_vcard;
-	PASBookCanWriteFn       can_write;
-	PASBookCanWriteCardFn   can_write_card;
 
 	GList                  *request_queue;
 	gint                    idle_id;
@@ -102,6 +99,18 @@ pas_book_queue_get_cursor (PASBook *book, const char *search)
 	req         = g_new0 (PASRequest, 1);
 	req->op     = GetCursor;
 	req->search = g_strdup(search);
+
+	pas_book_queue_request (book, req);
+}
+
+static void
+pas_book_queue_get_vcard (PASBook *book, const char *id)
+{
+	PASRequest *req;
+
+	req     = g_new0 (PASRequest, 1);
+	req->op = GetVCard;
+	req->id = g_strdup(id);
 
 	pas_book_queue_request (book, req);
 }
@@ -191,45 +200,14 @@ pas_book_queue_check_connection (PASBook *book)
 	pas_book_queue_request (book, req);
 }
 
-static CORBA_char *
+static void
 impl_GNOME_Evolution_Addressbook_Book_getVCard (PortableServer_Servant servant,
 						const GNOME_Evolution_Addressbook_CardId id,
 						CORBA_Environment *ev)
 {
-	PASBook    *book = PAS_BOOK (bonobo_object_from_servant (servant));
-	char       *vcard;
-	CORBA_char *retval;
+	PASBook *book = PAS_BOOK (bonobo_object_from_servant (servant));
 
-	vcard = (book->priv->get_vcard) (book, (const char *) id);
-	retval = CORBA_string_dup (vcard);
-	g_free (vcard);
-
-	return retval;
-}
-
-static CORBA_boolean
-impl_GNOME_Evolution_Addressbook_Book_isWriteable (PortableServer_Servant servant,
-			       CORBA_Environment *ev)
-{
-	PASBook    *book = PAS_BOOK (bonobo_object_from_servant (servant));
-	CORBA_boolean retval;
-
-	retval = (book->priv->can_write) (book);
-
-	return retval;
-}
-
-static CORBA_boolean
-impl_GNOME_Evolution_Addressbook_Book_isCardWriteable (PortableServer_Servant servant,
-						       const GNOME_Evolution_Addressbook_CardId id,
-						       CORBA_Environment *ev)
-{
-	PASBook    *book = PAS_BOOK (bonobo_object_from_servant (servant));
-	CORBA_boolean retval;
-
-	retval = (book->priv->can_write_card) (book, (const char *) id);
-
-	return retval;
+	pas_book_queue_get_vcard (book, id);
 }
 
 static void
@@ -681,10 +659,7 @@ pas_book_report_writable (PASBook                           *book,
 static gboolean
 pas_book_construct (PASBook                *book,
 		    PASBackend             *backend,
-		    GNOME_Evolution_Addressbook_BookListener  listener,
-		    PASBookGetVCardFn       get_vcard,
-		    PASBookCanWriteFn       can_write,
-		    PASBookCanWriteCardFn   can_write_card)
+		    GNOME_Evolution_Addressbook_BookListener  listener)
 {
 	POA_GNOME_Evolution_Addressbook_Book *servant;
 	CORBA_Environment   ev;
@@ -693,9 +668,6 @@ pas_book_construct (PASBook                *book,
 	g_assert (book      != NULL);
 	g_assert (PAS_IS_BOOK (book));
 	g_assert (listener  != CORBA_OBJECT_NIL);
-	g_assert (get_vcard != NULL);
-	g_assert (can_write != NULL);
-	g_assert (can_write_card != NULL);
 
 	servant = (POA_GNOME_Evolution_Addressbook_Book *) g_new0 (BonoboObjectServant, 1);
 	servant->vepv = &pas_book_vepv;
@@ -730,9 +702,6 @@ pas_book_construct (PASBook                *book,
 	CORBA_exception_free (&ev);
 
 	book->priv->listener  = listener;
-	book->priv->get_vcard = get_vcard;
-	book->priv->can_write = can_write;
-	book->priv->can_write_card = can_write_card;
 	book->priv->backend   = backend;
 
 	return TRUE;
@@ -743,20 +712,15 @@ pas_book_construct (PASBook                *book,
  */
 PASBook *
 pas_book_new (PASBackend             *backend,
-	      GNOME_Evolution_Addressbook_BookListener  listener,
-	      PASBookGetVCardFn       get_vcard,
-	      PASBookCanWriteFn       can_write,
-	      PASBookCanWriteCardFn   can_write_card)
+	      GNOME_Evolution_Addressbook_BookListener  listener)
 {
 	PASBook *book;
 
 	g_return_val_if_fail (listener  != CORBA_OBJECT_NIL, NULL);
-	g_return_val_if_fail (get_vcard != NULL,             NULL);
 
 	book = gtk_type_new (pas_book_get_type ());
 
-	if (! pas_book_construct (book, backend, listener,
-				  get_vcard, can_write, can_write_card)) {
+	if (! pas_book_construct (book, backend, listener)) {
 		gtk_object_unref (GTK_OBJECT (book));
 
 		return NULL;
@@ -802,8 +766,6 @@ pas_book_get_epv (void)
 	epv = g_new0 (POA_GNOME_Evolution_Addressbook_Book__epv, 1);
 
 	epv->getVCard              = impl_GNOME_Evolution_Addressbook_Book_getVCard;
-	epv->isWriteable           = impl_GNOME_Evolution_Addressbook_Book_isWriteable;
-	epv->isCardWriteable       = impl_GNOME_Evolution_Addressbook_Book_isCardWriteable;
 	epv->authenticateUser      = impl_GNOME_Evolution_Addressbook_Book_authenticateUser;
 	epv->addCard               = impl_GNOME_Evolution_Addressbook_Book_addCard;
 	epv->removeCard            = impl_GNOME_Evolution_Addressbook_Book_removeCard;

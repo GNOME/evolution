@@ -149,6 +149,25 @@ e_book_listener_queue_create_card_response (EBookListener *listener,
 }
 
 static void
+e_book_listener_queue_get_vcard_response (EBookListener        *listener,
+					  EBookStatus           status,
+					  const char           *vcard)
+{
+	EBookListenerResponse *resp;
+	
+	if (listener->priv->stopped)
+		return;
+
+	resp         = g_new0 (EBookListenerResponse, 1);
+
+	resp->op     = GetCardResponse;
+	resp->status = status;
+	resp->vcard  = g_strdup (vcard);
+
+	e_book_listener_queue_response (listener, resp);
+}
+
+static void
 e_book_listener_queue_get_cursor_response (EBookListener        *listener,
 					   EBookStatus           status,
 					   GNOME_Evolution_Addressbook_CardCursor  cursor)
@@ -316,6 +335,20 @@ impl_BookListener_respond_modify_card (PortableServer_Servant servant,
 	e_book_listener_queue_generic_response (
 		listener, ModifyCardResponse,
 		e_book_listener_convert_status (status));
+}
+
+static void
+impl_BookListener_respond_get_vcard (PortableServer_Servant servant,
+				     const GNOME_Evolution_Addressbook_BookListener_CallStatus status,
+				     const GNOME_Evolution_Addressbook_VCard card,
+				     CORBA_Environment *ev)
+{
+	EBookListener        *listener = E_BOOK_LISTENER (bonobo_object_from_servant (servant));
+
+	e_book_listener_queue_get_vcard_response (
+		listener,
+		e_book_listener_convert_status (status),
+		g_strdup (card));
 }
 
 static void
@@ -692,24 +725,25 @@ e_book_listener_get_epv (void)
 {
 	POA_GNOME_Evolution_Addressbook_BookListener__epv *epv;
 
-	epv = g_new0 (POA_GNOME_Evolution_Addressbook_BookListener__epv, 1);
+	epv                             = g_new0 (POA_GNOME_Evolution_Addressbook_BookListener__epv, 1);
 
-	epv->notifyOpenBookProgress = impl_BookListener_report_open_book_progress;
-	epv->notifyBookOpened       = impl_BookListener_respond_open_book;
+	epv->notifyOpenBookProgress     = impl_BookListener_report_open_book_progress;
+	epv->notifyBookOpened           = impl_BookListener_respond_open_book;
 
-	epv->notifyCardCreated  = impl_BookListener_respond_create_card;
-	epv->notifyCardRemoved  = impl_BookListener_respond_remove_card;
-	epv->notifyCardModified = impl_BookListener_respond_modify_card;
+	epv->notifyCardCreated          = impl_BookListener_respond_create_card;
+	epv->notifyCardRemoved          = impl_BookListener_respond_remove_card;
+	epv->notifyCardModified         = impl_BookListener_respond_modify_card;
 
 	epv->notifyAuthenticationResult = impl_BookListener_respond_authentication_result;
-	epv->notifySupportedFields = impl_BookListener_response_get_supported_fields;
+	epv->notifySupportedFields      = impl_BookListener_response_get_supported_fields;
 
-	epv->notifyCursorRequested  = impl_BookListener_respond_get_cursor;
-	epv->notifyViewRequested    = impl_BookListener_respond_get_view;
-	epv->notifyChangesRequested = impl_BookListener_respond_get_changes;
+	epv->notifyCardRequested        = impl_BookListener_respond_get_vcard;
+	epv->notifyCursorRequested      = impl_BookListener_respond_get_cursor;
+	epv->notifyViewRequested        = impl_BookListener_respond_get_view;
+	epv->notifyChangesRequested     = impl_BookListener_respond_get_changes;
 
-	epv->notifyConnectionStatus = impl_BookListener_report_connection_status;
-	epv->notifyWritable         = impl_BookListener_report_writable;
+	epv->notifyConnectionStatus     = impl_BookListener_report_connection_status;
+	epv->notifyWritable             = impl_BookListener_report_writable;
 
 	return epv;
 }

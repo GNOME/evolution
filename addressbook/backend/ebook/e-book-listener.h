@@ -44,6 +44,7 @@ typedef enum {
 	CreateCardResponse,
 	RemoveCardResponse,
 	ModifyCardResponse,
+	GetCardResponse,
 	GetCursorResponse,
 	GetBookViewResponse,
 	GetChangesResponse,
@@ -86,6 +87,7 @@ typedef struct {
 
 	/* For Card[Added|Removed|Modified]Event */
 	char                   *id;
+	char                   *vcard;
 } EBookListenerResponse;
 
 EBookListener         *e_book_listener_new            (void);

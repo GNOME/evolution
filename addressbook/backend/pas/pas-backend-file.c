@@ -600,13 +600,13 @@ pas_backend_file_search (PASBackendFile  	      *bf,
 				if (card_count >= card_threshold) {
 					cards = g_list_reverse (cards);
 					pas_book_view_notify_add (view->book_view, cards);
-				/* Clean up the handed-off data. */
+					/* Clean up the handed-off data. */
 					g_list_foreach (cards, (GFunc)g_free, NULL);
 					g_list_free (cards);
 					cards = NULL;
 					card_count = 0;
 
-				/* Yeah, this scheme is over-complicated.  But I like it. */
+					/* Yeah, this scheme is overly complicated.  But I like it. */
 					if (card_threshold < card_threshold_max) {
 						card_threshold = MIN (2*card_threshold, card_threshold_max);
 					}
@@ -1024,6 +1024,39 @@ pas_backend_file_build_all_cards_list(PASBackend *backend,
 }
 
 static void
+pas_backend_file_process_get_vcard (PASBackend *backend,
+				    PASBook    *book,
+				    PASRequest *req)
+{
+	PASBackendFile *bf;
+	DB             *db;
+	DBT             id_dbt, vcard_dbt;
+	int             db_error = 0;
+	char           *card;
+	GNOME_Evolution_Addressbook_BookListener_CallStatus status;	
+
+	bf = PAS_BACKEND_FILE (pas_book_get_backend (book));
+	db = bf->priv->file_db;
+
+	string_to_dbt (req->id, &id_dbt);
+	memset (&vcard_dbt, 0, sizeof (vcard_dbt));
+
+	db_error = db->get (db, NULL, &id_dbt, &vcard_dbt, 0);
+
+	if (db_error == 0) {
+		card = vcard_dbt.data;
+		status = GNOME_Evolution_Addressbook_BookListener_Success;
+	} else {
+		card = NULL;
+		status = GNOME_Evolution_Addressbook_BookListener_CardNotFound;
+	}
+
+	pas_book_respond_get_vcard (book,
+				    status,
+				    card);
+}
+
+static void
 pas_backend_file_process_get_cursor (PASBackend *backend,
 				     PASBook    *book,
 				     PASRequest *req)
@@ -1242,37 +1275,6 @@ pas_backend_file_process_get_supported_fields (PASBackend *backend,
 					       fields);
 }
 
-static gboolean
-can_write (PASBackend *backend)
-{
-	PASBackendFile *bf = PAS_BACKEND_FILE (backend);
-	char *path = pas_backend_file_extract_path_from_uri (bf->priv->uri);
-	gboolean retval;
-
-	retval = (access (path, W_OK) != -1);
-
-	g_free (path);
-
-	return retval;
-}
-
-static gboolean
-pas_backend_file_can_write (PASBook *book)
-{
-	PASBackend* backend = pas_book_get_backend (book);
-
-	return can_write(backend);
-}
-
-static gboolean
-pas_backend_file_can_write_card (PASBook *book,
-				 const char *id)
-{
-	PASBackend* backend = pas_book_get_backend (book);
-
-	return can_write(backend);
-}
-
 static void
 pas_backend_file_process_client_requests (PASBook *book)
 {
@@ -1300,6 +1302,10 @@ pas_backend_file_process_client_requests (PASBook *book)
 
 	case CheckConnection:
 		pas_backend_file_process_check_connection (backend, book, req);
+		break;
+
+	case GetVCard:
+		pas_backend_file_process_get_vcard (backend, book, req);
 		break;
 		
 	case GetCursor:
@@ -1334,35 +1340,6 @@ pas_backend_file_book_destroy_cb (PASBook *book, gpointer data)
 	backend = PAS_BACKEND_FILE (data);
 
 	pas_backend_remove_client (PAS_BACKEND (backend), book);
-}
-
-static char *
-pas_backend_file_get_vcard (PASBook *book, const char *id)
-{
-	PASBackendFile *bf;
-	DBT            id_dbt, vcard_dbt;
-	DB             *db;
-	int            db_error;
-
-	bf = PAS_BACKEND_FILE (pas_book_get_backend (book));
-	db = bf->priv->file_db;
-
-	string_to_dbt (id, &id_dbt);
-	memset (&vcard_dbt, 0, sizeof (vcard_dbt));
-
-	db_error = db->get (db, NULL, &id_dbt, &vcard_dbt, 0);
-	if (db_error == 0) {
-		/* success */
-		return g_strdup (vcard_dbt.data);
-	}
-	else if (db_error == 1) {
-		/* key was not in file */
-		return g_strdup (""); /* XXX */
-	}
-	else /* if (db_error < 0)*/ {
-		/* error */
-		return g_strdup (""); /* XXX */
-	}
 }
 
 static gboolean
@@ -1565,11 +1542,7 @@ pas_backend_file_add_client (PASBackend             *backend,
 
 	bf = PAS_BACKEND_FILE (backend);
 
-	book = pas_book_new (
-		backend, listener,
-		pas_backend_file_get_vcard,
-		pas_backend_file_can_write,
-		pas_backend_file_can_write_card);
+	book = pas_book_new (backend, listener);
 
 	if (!book) {
 		if (!bf->priv->clients)

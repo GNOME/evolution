@@ -46,10 +46,11 @@ typedef void (*EBookOpenProgressCallback)     (EBook          *book,
 					       const char     *status_message,
 					       short           percent,
 					       gpointer        closure);
-typedef void (*EBookIdCallback) (EBook *book, EBookStatus status, const char *id, gpointer closure);
-typedef void (*EBookCursorCallback) (EBook *book, EBookStatus status, ECardCursor *cursor, gpointer closure);
+typedef void (*EBookIdCallback)       (EBook *book, EBookStatus status, const char *id, gpointer closure);
+typedef void (*EBookCardCallback)     (EBook *book, EBookStatus status, ECard *card, gpointer closure);
+typedef void (*EBookCursorCallback)   (EBook *book, EBookStatus status, ECardCursor *cursor, gpointer closure);
 typedef void (*EBookBookViewCallback) (EBook *book, EBookStatus status, EBookView *book_view, gpointer closure);
-typedef void (*EBookFieldsCallback) (EBook *book, EBookStatus status, EList *fields, gpointer closure);
+typedef void (*EBookFieldsCallback)   (EBook *book, EBookStatus status, EList *fields, gpointer closure);
 
 /* Creating a new addressbook. */
 EBook    *e_book_new                      (void);
@@ -77,10 +78,10 @@ void      e_book_authenticate_user        (EBook                 *book,
 					   gpointer              closure);
 
 /* Fetching cards. */
-ECard    *e_book_get_card                 (EBook                 *book,
-					   const char            *id);
-char     *e_book_get_vcard                (EBook                 *book,
-					   const char            *id);
+guint     e_book_get_card                 (EBook                 *book,
+					   const char            *id,
+					   EBookCardCallback      cb,
+					   gpointer               closure);
 
 /* Deleting cards. */
 gboolean  e_book_remove_card              (EBook                 *book,

@@ -203,6 +203,44 @@ e_book_do_response_generic (EBook                 *book,
 }
 
 static void
+e_book_do_response_get_vcard (EBook                 *book,
+			      EBookListenerResponse *resp)
+{
+	EBookOp *op;
+	ECard *card;
+
+	op = e_book_pop_op (book);
+
+	if (op == NULL) {
+		g_warning ("e_book_do_response_get_vcard: Cannot find operation "
+			   "in local op queue!\n");
+		return;
+	}
+	if (resp->vcard != NULL) {
+
+		card = e_card_new(resp->vcard);
+
+		if (card != NULL) {
+			if (op->cb) {
+				if (op->active)
+					((EBookCardCallback) op->cb) (book, resp->status, card, op->closure);
+				else
+					((EBookCardCallback) op->cb) (book, E_BOOK_STATUS_CANCELLED, NULL, op->closure);
+			}
+
+			gtk_object_unref(GTK_OBJECT(card));
+		} else {
+			((EBookCursorCallback) op->cb) (book, resp->status, NULL, op->closure);
+		}
+	} else {
+		((EBookCardCallback) op->cb) (book, resp->status, NULL, op->closure);
+	}
+
+	g_free (resp->vcard);
+	e_book_op_free (op);
+}
+
+static void
 e_book_do_response_get_cursor (EBook                 *book,
 			       EBookListenerResponse *resp)
 {
@@ -450,6 +488,9 @@ e_book_check_listener_queue (EBookListener *listener, EBook *book)
 	case ModifyCardResponse:
 	case AuthenticationResponse:
 		e_book_do_response_generic (book, resp);
+		break;
+	case GetCardResponse:
+		e_book_do_response_get_vcard (book, resp);
 		break;
 	case GetCursorResponse:
 		e_book_do_response_get_cursor (book, resp);
@@ -744,80 +785,40 @@ e_book_authenticate_user (EBook         *book,
 /**
  * e_book_get_card:
  */
-ECard *
-e_book_get_card (EBook       *book,
-		 const char  *id)
+guint
+e_book_get_card (EBook             *book,
+		 const char        *id,
+		 EBookCardCallback  cb,
+		 gpointer           closure)
 {
-	char  *vcard;
-	ECard *card;
+	CORBA_Environment ev;
+	guint tag;
 
-	g_return_val_if_fail (book != NULL,     NULL);
-	g_return_val_if_fail (E_IS_BOOK (book), NULL);
+	g_return_val_if_fail (book != NULL,     0);
+	g_return_val_if_fail (E_IS_BOOK (book), 0);
 
 	if (book->priv->load_state != URILoaded) {
 		g_warning ("e_book_get_card: No URI loaded!\n");
-		return NULL;
-	}
-
-	vcard = e_book_get_vcard (book, id);
-
-	if (vcard == NULL) {
-		g_warning ("e_book_get_card: Got bogus VCard from PAS!\n");
-		return NULL;
-	}
-
-	card = e_card_new (vcard);
-	g_free(vcard);
-	
-	e_card_set_id(card, id);
-	card->book = book;
-	gtk_object_ref (GTK_OBJECT (card->book));
-
-	return card;
-}
-
-/**
- * e_book_get_vcard:
- */
-char *
-e_book_get_vcard (EBook       *book,
-		  const char  *id)
-{
-	CORBA_Environment  ev;
-	char              *retval;
-	char              *vcard;
-
-	g_return_val_if_fail (book != NULL,     NULL);
-	g_return_val_if_fail (E_IS_BOOK (book), NULL);
-
-	if (book->priv->load_state != URILoaded) {
-		g_warning ("e_book_get_vcard: No URI loaded!\n");
-		return NULL;
+		return 0;
 	}
 
 	CORBA_exception_init (&ev);
 
-	vcard = GNOME_Evolution_Addressbook_Book_getVCard (book->priv->corba_book,
-					  (GNOME_Evolution_Addressbook_CardId) id,
-					  &ev);
+	tag = e_book_queue_op (book, cb, closure, NULL);
+
+	GNOME_Evolution_Addressbook_Book_getVCard (book->priv->corba_book, (const GNOME_Evolution_Addressbook_VCard) id, &ev);
 
 	if (ev._major != CORBA_NO_EXCEPTION) {
-		g_warning ("e_book_get_vcard: Exception getting VCard from PAS!\n");
+		g_warning ("e_book_get_card: Exception "
+			   "getting card!\n");
 		CORBA_exception_free (&ev);
-		return NULL;
+		e_book_unqueue_op (book);
+		return 0;
 	}
 
 	CORBA_exception_free (&ev);
 
-	if (vcard == NULL || strlen (vcard) == 0) {
-		g_warning ("e_book_get_vcard: Got NULL VCard from PAS!\n");
-		return NULL;
-	}
-
-	retval = g_strdup (vcard);
-	CORBA_free (vcard);
-
-	return retval;
+	return tag;
 }
 
 /* Deleting cards. */

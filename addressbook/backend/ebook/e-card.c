@@ -4171,19 +4171,24 @@ struct _CardLoadData {
 };
 
 static void
-card_load_cb (EBook *book, EBookStatus status, gpointer closure)
+card_get_cb (EBook *book, EBookStatus status, ECard *card, gpointer closure)
 {
 	CardLoadData *data = (CardLoadData *) closure;
-	ECard *card = NULL;
-
-	if (status == E_BOOK_STATUS_SUCCESS)
-		card = e_book_get_card (book, data->card_id);
 
 	if (data->cb != NULL)
 		data->cb (card, data->closure);
 
 	g_free (data->card_id);
 	g_free (data);
+}
+
+static void
+card_load_cb (EBook *book, EBookStatus status, gpointer closure)
+{
+	CardLoadData *data = (CardLoadData *) closure;
+
+	if (status == E_BOOK_STATUS_SUCCESS)
+		e_book_get_card (book, data->card_id, card_get_cb, closure);
 }
 
 void
