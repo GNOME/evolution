@@ -19,10 +19,6 @@
 static AtkObjectClass *parent_class;
 #define PARENT_TYPE (gal_a11y_e_cell_get_type ())
 
-/* XXX: these functions are undefined */
-#define e_cell_text_get_selection(a,b,c,d,e) NULL
-#define e_cell_text_set_selection(a,b,c,d,e) FALSE
-
 /* Static functions */
 static G_CONST_RETURN gchar*
 ect_get_name (AtkObject * a11y)
@@ -39,9 +35,8 @@ ect_get_text (AtkText *text,
 {
 	GalA11yECell *gaec = GAL_A11Y_E_CELL (text);
 	ECellText *ect = E_CELL_TEXT (gaec->cell_view->ecell);
-	char *ret_val;
-	char *full_text =
-		e_cell_text_get_text (ect, gaec->item->table_model, gaec->model_col, gaec->row);
+	gchar *ret_val;
+	gchar *full_text = e_cell_text_get_text (ect, gaec->item->table_model, gaec->model_col, gaec->row);
 
 	if (end_offset == -1)
 		end_offset = strlen (full_text);
@@ -86,10 +81,8 @@ ect_get_character_at_offset (AtkText *text,
 	GalA11yECell *gaec = GAL_A11Y_E_CELL (text);
 	ECellText *ect = E_CELL_TEXT (gaec->cell_view->ecell);
 	gunichar ret_val;
-	char *full_text;
-	char *at_offset;
-
-	full_text = e_cell_text_get_text (ect, gaec->item->table_model, gaec->model_col, gaec->row);
+	gchar *at_offset;
+	gchar *full_text = e_cell_text_get_text (ect, gaec->item->table_model, gaec->model_col, gaec->row);
 	at_offset = g_utf8_offset_to_pointer (full_text, offset);
 	ret_val = g_utf8_get_char_validated (at_offset, -1);
 	e_cell_text_free_text (ect, full_text);
@@ -114,25 +107,21 @@ static gint
 ect_get_caret_offset (AtkText *text)
 {
 	GalA11yECell *gaec = GAL_A11Y_E_CELL (text);
-	int start, end;
+	ECellText *ect = E_CELL_TEXT (gaec->cell_view->ecell);
+	gint start, end;
+
 	if (e_cell_text_get_selection (gaec->cell_view,
 				       gaec->view_col, gaec->row,
-				       &start, &end)
-	    && start == end) {
-		char *full_text;
-		int ret_val;
-		ECellText *ect = E_CELL_TEXT (gaec->cell_view->ecell);
-
-		full_text = e_cell_text_get_text (ect, gaec->item->table_model, gaec->model_col, gaec->row);
-		ret_val = g_utf8_pointer_to_offset (full_text, full_text + start);
+				       &start, &end)) {
+		gchar *full_text = e_cell_text_get_text (ect, gaec->item->table_model, gaec->model_col, gaec->row);
+		end = g_utf8_pointer_to_offset (full_text, full_text + end);
 		e_cell_text_free_text (ect, full_text);
-
-		return ret_val;
-	} else {
-		return -1;
+		
+		return end;
 	}
+	else
+		return -1;
 }
-
 
 static AtkAttributeSet*
 ect_get_run_attributes (AtkText *text,
@@ -171,9 +160,9 @@ ect_get_character_count (AtkText *text)
 {
 	GalA11yECell *gaec = GAL_A11Y_E_CELL (text);
 	ECellText *ect = E_CELL_TEXT (gaec->cell_view->ecell);
-	int ret_val;
+	gint ret_val;
 
-	char *full_text = e_cell_text_get_text (ect, gaec->item->table_model, gaec->model_col, gaec->row);
+	gchar *full_text = e_cell_text_get_text (ect, gaec->item->table_model, gaec->model_col, gaec->row);
 
 	ret_val = g_utf8_strlen (full_text, -1);
 	e_cell_text_free_text (ect, full_text);
@@ -196,12 +185,12 @@ static gint
 ect_get_n_selections (AtkText *text)
 {
 	GalA11yECell *gaec = GAL_A11Y_E_CELL (text);
-	int selection_start, selection_end;
+	gint selection_start, selection_end;
 	if (e_cell_text_get_selection (gaec->cell_view,
 				       gaec->view_col, gaec->row,
 				       &selection_start,
-				       &selection_end) &&
-	    selection_start != selection_end)
+				       &selection_end)
+	    && selection_start != selection_end)
 		return 1;
 	return 0;
 }
@@ -215,29 +204,42 @@ ect_get_selection (AtkText *text,
 {
 	GalA11yECell *gaec = GAL_A11Y_E_CELL (text);
 	ECellText *ect = E_CELL_TEXT (gaec->cell_view->ecell);
-	int selection_start, selection_end;
-	if (selection_num == 0 &&
-	    e_cell_text_get_selection (gaec->cell_view,
-				       gaec->view_col, gaec->row,
-				       &selection_start,
-				       &selection_end) &&
-	    selection_start != selection_end) {
-		char *ret_val;
-		char *full_text =
-			e_cell_text_get_text (ect, gaec->item->table_model, gaec->model_col, gaec->row);
+	gchar *ret_val;
+	gint selection_start, selection_end;
 
-		ret_val = g_strndup (full_text + selection_start, selection_end - selection_start);
+	if (selection_num == 0
+	    && e_cell_text_get_selection (gaec->cell_view,
+					  gaec->view_col, gaec->row,
+					  &selection_start,
+					  &selection_end)
+	    && selection_start != selection_end) {
+		gint real_start, real_end, len;
+		gchar *full_text = e_cell_text_get_text (ect, gaec->item->table_model, gaec->model_col, gaec->row);
+		len = strlen (full_text);
+		real_start = MIN (selection_start, selection_end);
+		real_end   = MAX (selection_start, selection_end);
+		real_start = MIN (MAX (0, real_start), len);
+		real_end   = MIN (MAX (0, real_end), len);
+
+		ret_val = g_strndup (full_text + real_start, real_end - real_start);
+
+		real_start = g_utf8_pointer_to_offset (full_text, full_text + real_start);
+		real_end   = g_utf8_pointer_to_offset (full_text, full_text + real_end);
 
 		if (start_offset)
-			*start_offset = g_utf8_pointer_to_offset (full_text, full_text + selection_start);
+			*start_offset = real_start;
 		if (end_offset)
-			*end_offset = g_utf8_pointer_to_offset (full_text, full_text + selection_end);
-
+			*end_offset = real_end;
 		e_cell_text_free_text (ect, full_text);
-
-		return ret_val;
+	} else {
+		if (start_offset)
+			*start_offset = 0;
+		if (end_offset)
+			*end_offset = 0;
+		ret_val = NULL;
 	}
-	return NULL;
+
+	return ret_val;
 }
 
 
@@ -248,24 +250,34 @@ ect_add_selection (AtkText *text,
 {
 	GalA11yECell *gaec = GAL_A11Y_E_CELL (text);
 	ECellText *ect = E_CELL_TEXT (gaec->cell_view->ecell);
-	int selection_start, selection_end;
-	if (e_cell_text_get_selection (gaec->cell_view,
-				       gaec->view_col, gaec->row,
-				       &selection_start,
-				       &selection_end) &&
-	    selection_start == selection_end &&
-	    start_offset != end_offset) {
-		char *full_text;
 
-		full_text = e_cell_text_get_text (ect, gaec->item->table_model, gaec->model_col, gaec->row);
-		start_offset = g_utf8_offset_to_pointer (full_text, start_offset) - full_text;
-		end_offset = g_utf8_offset_to_pointer (full_text, end_offset) - full_text;
+	if (start_offset != end_offset) {
+		gint real_start, real_end, len;
+		gchar *full_text =
+			e_cell_text_get_text (ect, gaec->item->table_model, gaec->model_col, gaec->row);
+
+		len = g_utf8_strlen (full_text, -1);
+		if (end_offset == -1)
+			end_offset = len;
+
+		real_start = MIN (start_offset, end_offset);
+		real_end   = MAX (start_offset, end_offset);
+		
+		real_start = MIN (MAX (0, real_start), len);
+		real_end   = MIN (MAX (0, real_end), len);
+
+		real_start = g_utf8_offset_to_pointer (full_text, real_start) - full_text;
+		real_end   = g_utf8_offset_to_pointer (full_text, real_end) - full_text;
 		e_cell_text_free_text (ect, full_text);
 
-		return e_cell_text_set_selection (gaec->cell_view,
-						  gaec->view_col, gaec->row,
-						  start_offset, end_offset);
+		if (e_cell_text_set_selection (gaec->cell_view,
+					       gaec->view_col, gaec->row,
+					       real_start, real_end)) {
+			g_signal_emit_by_name (ATK_OBJECT(text), "text_selection_changed");
+			return TRUE;
+		}
 	}
+
 	return FALSE;
 }
 
@@ -274,8 +286,24 @@ static gboolean
 ect_remove_selection (AtkText *text,
 		      gint selection_num)
 {
-	/* Unimplemented */
-	return FALSE;
+	GalA11yECell *gaec = GAL_A11Y_E_CELL (text);
+	ECellText *ect = E_CELL_TEXT (gaec->cell_view->ecell);
+	gint selection_start, selection_end;
+
+	if (selection_num == 0
+	    && e_cell_text_get_selection (gaec->cell_view,
+					  gaec->view_col, gaec->row,
+					  &selection_start,
+					  &selection_end)
+	    && selection_start != selection_end 
+	    && e_cell_text_set_selection (gaec->cell_view,
+					  gaec->view_col, gaec->row,
+					  selection_end, selection_end)) {
+		g_signal_emit_by_name (ATK_OBJECT(text), "text_selection_changed");
+		return TRUE;
+	}
+	else
+		return FALSE;
 }
 
 
@@ -285,8 +313,12 @@ ect_set_selection (AtkText *text,
 		   gint start_offset,
 		   gint end_offset)
 {
-	/* Unimplemented */
-	return FALSE;
+	if (selection_num == 0) {
+		atk_text_add_selection (text, start_offset, end_offset);
+		return TRUE;
+	}
+	else
+		return FALSE;
 }
 
 
@@ -296,10 +328,19 @@ ect_set_caret_offset (AtkText *text,
 {
 	GalA11yECell *gaec = GAL_A11Y_E_CELL (text);
 	ECellText *ect = E_CELL_TEXT (gaec->cell_view->ecell);
-	char *full_text;
+	gchar *full_text;
+	gint len;
 
 	full_text = e_cell_text_get_text (ect, gaec->item->table_model, gaec->model_col, gaec->row);
+
+	len = g_utf8_strlen (full_text, -1);
+	if (offset == -1)
+		offset = len;
+	else
+		offset = MIN (MAX (0, offset), len);
+	
 	offset = g_utf8_offset_to_pointer (full_text, offset) - full_text;
+
 	e_cell_text_free_text (ect, full_text);
 
 	return e_cell_text_set_selection (gaec->cell_view,
@@ -325,6 +366,7 @@ ect_set_text_contents (AtkEditableText *text,
 	ECellText *ect = E_CELL_TEXT (gaec->cell_view->ecell);
 
 	e_cell_text_set_value (ect, gaec->item->table_model, gaec->model_col, gaec->row, string);
+	e_table_item_enter_edit (gaec->item, gaec->view_col, gaec->row);
 }
 
 static void
@@ -337,8 +379,8 @@ ect_insert_text (AtkEditableText *text,
 	GalA11yECell *gaec = GAL_A11Y_E_CELL (text);
 	ECellText *ect = E_CELL_TEXT (gaec->cell_view->ecell);
 
-	char *full_text = e_cell_text_get_text (ect, gaec->item->table_model, gaec->model_col, gaec->row);
-	char *result = g_strdup_printf ("%.*s%.*s%s", *position, full_text, length, string, full_text + *position);
+	gchar *full_text = e_cell_text_get_text (ect, gaec->item->table_model, gaec->model_col, gaec->row);
+	gchar *result = g_strdup_printf ("%.*s%.*s%s", *position, full_text, length, string, full_text + *position);
 
 	e_cell_text_set_value (ect, gaec->item->table_model, gaec->model_col, gaec->row, result);
 
@@ -353,15 +395,11 @@ ect_copy_text (AtkEditableText *text,
 	       gint start_pos,
 	       gint end_pos)
 {
-	/* Unimplemented */
-}
-
-static void
-ect_cut_text (AtkEditableText *text,
-	      gint start_pos,
-	      gint end_pos)
-{
-	/* Unimplemented */
+	GalA11yECell *gaec = GAL_A11Y_E_CELL (text);
+	if (start_pos != end_pos
+	    && atk_text_set_selection (text, 0, start_pos, end_pos))
+		e_cell_text_copy_clipboard (gaec->cell_view,
+					    gaec->view_col, gaec->row);
 }
 
 static void
@@ -369,16 +407,34 @@ ect_delete_text (AtkEditableText *text,
 		 gint start_pos,
 		 gint end_pos)
 {
-	/* Unimplemented */
+	GalA11yECell *gaec = GAL_A11Y_E_CELL (text);
+	if (start_pos != end_pos
+	    && atk_text_set_selection (text, 0, start_pos, end_pos))
+		e_cell_text_delete_selection (gaec->cell_view,
+					      gaec->view_col, gaec->row);
+}
+
+static void
+ect_cut_text (AtkEditableText *text,
+	      gint start_pos,
+	      gint end_pos)
+{
+	ect_copy_text (text, start_pos, end_pos);
+	ect_delete_text (text, start_pos, end_pos);
 }
 
 static void
 ect_paste_text (AtkEditableText *text,
 		gint position)
 {
-	/* Unimplemented */
-}
+	GalA11yECell *gaec = GAL_A11Y_E_CELL (text);
 
+	e_table_item_enter_edit (gaec->item, gaec->view_col, gaec->row);
+
+	if (atk_text_set_caret_offset (text, position))
+		e_cell_text_paste_clipboard (gaec->cell_view,
+					     gaec->view_col, gaec->row);
+}
 
 static void
 ect_do_action_edit (AtkAction *action)
@@ -424,7 +480,7 @@ ect_atk_editable_text_iface_init (AtkEditableTextIface *iface)
 static void
 ect_class_init (GalA11yECellTextClass *klass)
 {
-	AtkObjectClass *a11y      = ATK_OBJECT_CLASS (klass);
+	AtkObjectClass *a11y      = ATK_OBJECT_CLASS (klass);   
 	parent_class              = g_type_class_ref (PARENT_TYPE);
 	a11y->get_name            = ect_get_name;
 }
@@ -487,6 +543,7 @@ gal_a11y_e_cell_text_get_type (void)
 
 	return type;
 }
+
 AtkObject *
 gal_a11y_e_cell_text_new (ETableItem *item,
 			  ECellView  *cell_view,

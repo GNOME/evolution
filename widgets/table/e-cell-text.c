@@ -2574,3 +2574,183 @@ e_cell_text_get_color (ECellTextView *cell_view, gchar *color_spec)
 	return color;
 }
 
+/**
+ * e_cell_text_set_selection:
+ * @cell_view: the given cell view
+ * @col: column of the given cell in the view
+ * @row: row of the given cell in the view
+ * @start: start offset of the selection
+ * @end: end offset of the selection
+ *
+ * Sets the selection of given text cell.
+ * If the current editing cell is not the given cell, this function
+ * will return FALSE;
+ *
+ * If success, the [start, end) part of the text will be selected.
+ *
+ * This API is most likely to be used by a11y implementations.
+ * 
+ * Returns: whether the action is successful.
+ */
+gboolean
+e_cell_text_set_selection (ECellView *cell_view,
+			   gint col,
+			   gint row,
+			   gint start,
+			   gint end)
+{
+	ECellTextView *ectv;
+	CellEdit *edit;
+	ETextEventProcessorCommand command1, command2;
+
+	ectv = (ECellTextView *)cell_view;
+	edit = ectv->edit;
+	if (!edit)
+		return FALSE;
+
+	if (edit->view_col != col || edit->row != row)
+		return FALSE;
+
+	command1.action = E_TEP_MOVE;
+	command1.position = E_TEP_VALUE;
+	command1.value = start;
+	e_cell_text_view_command (edit->tep, &command1, edit);
+
+	command2.action = E_TEP_SELECT;
+	command2.position = E_TEP_VALUE;
+	command2.value = end;
+	e_cell_text_view_command (edit->tep, &command2, edit);
+
+	return TRUE;
+}
+
+/**
+ * e_cell_text_get_selection:
+ * @cell_view: the given cell view
+ * @col: column of the given cell in the view
+ * @row: row of the given cell in the view
+ * @start: a pointer to an int value indicates the start offset of the selection
+ * @end: a pointer to an int value indicates the end offset of the selection
+ *
+ * Gets the selection of given text cell.
+ * If the current editing cell is not the given cell, this function
+ * will return FALSE;
+ *
+ * This API is most likely to be used by a11y implementations.
+ * 
+ * Returns: whether the action is successful.
+ */
+gboolean
+e_cell_text_get_selection (ECellView *cell_view,
+			   gint col,
+			   gint row,
+			   gint *start,
+			   gint *end)
+{
+	ECellTextView *ectv;
+	CellEdit *edit;
+
+	ectv = (ECellTextView *)cell_view;
+	edit = ectv->edit;
+	if (!edit)
+		return FALSE;
+
+	if (edit->view_col != col || edit->row != row)
+		return FALSE;
+
+	if (start)
+		*start = edit->selection_start;
+	if (end)
+		*end = edit->selection_end;
+	return TRUE;
+}
+
+/**
+ * e_cell_text_copy_clipboard:
+ * @cell_view: the given cell view
+ * @col: column of the given cell in the view
+ * @row: row of the given cell in the view
+ *
+ * Copys the selected text to clipboard.
+ *
+ * This API is most likely to be used by a11y implementations.
+ */
+void
+e_cell_text_copy_clipboard (ECellView *cell_view, gint col, gint row)
+{
+	ECellTextView *ectv;
+	CellEdit *edit;
+	ETextEventProcessorCommand command;
+
+	ectv = (ECellTextView *)cell_view;
+	edit = ectv->edit;
+	if (!edit)
+		return;
+
+	if (edit->view_col != col || edit->row != row)
+		return;
+
+	command.action = E_TEP_COPY;
+	command.time = GDK_CURRENT_TIME;
+	e_cell_text_view_command (edit->tep, &command, edit);
+}
+
+/**
+ * e_cell_text_paste_clipboard:
+ * @cell_view: the given cell view
+ * @col: column of the given cell in the view
+ * @row: row of the given cell in the view
+ *
+ * Pastes the text from the clipboardt.
+ *
+ * This API is most likely to be used by a11y implementations.
+ */
+void
+e_cell_text_paste_clipboard (ECellView *cell_view, gint col, gint row)
+{
+	ECellTextView *ectv;
+	CellEdit *edit;
+	ETextEventProcessorCommand command;
+
+	ectv = (ECellTextView *)cell_view;
+	edit = ectv->edit;
+	if (!edit)
+		return;
+
+	if (edit->view_col != col || edit->row != row)
+		return;
+
+	command.action = E_TEP_PASTE;
+	command.time = GDK_CURRENT_TIME;
+	e_cell_text_view_command (edit->tep, &command, edit);
+}
+
+/**
+ * e_cell_text_delete_selection:
+ * @cell_view: the given cell view
+ * @col: column of the given cell in the view
+ * @row: row of the given cell in the view
+ *
+ * Deletes the selected text of the cell.
+ *
+ * This API is most likely to be used by a11y implementations.
+ */
+void
+e_cell_text_delete_selection (ECellView *cell_view, gint col, gint row)
+{
+	ECellTextView *ectv;
+	CellEdit *edit;
+	ETextEventProcessorCommand command;
+
+	ectv = (ECellTextView *)cell_view;
+	edit = ectv->edit;
+	if (!edit)
+		return;
+
+	if (edit->view_col != col || edit->row != row)
+		return;
+
+	command.action = E_TEP_DELETE;
+	command.position = E_TEP_SELECTION;
+	e_cell_text_view_command (edit->tep, &command, edit);
+}
