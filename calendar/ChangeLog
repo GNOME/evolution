@@ -1,3 +1,9 @@
+1998-04-17  Federico Mena Quintero  <federico@nuclecu.unam.mx>
+
+	* eventedit.c (ee_init_recurrence_page): New function that creates
+	the recurrence page in the toplevel notebook.
+	(ee_store_recur_values_to_ical): Now we can also store the recurrences.
+
 1998-04-17  Miguel de Icaza  <miguel@nuclecu.unam.mx>
 
 	* calobj.c (ical_object_generate_events): Implement

@@ -176,7 +176,10 @@ void        ical_object_destroy             (iCalObject *ico);
 iCalObject *ical_object_create_from_vobject (VObject *obj, const char *object_name);
 VObject    *ical_object_to_vobject          (iCalObject *ical);
 void        ical_foreach                    (GList *events, calendarfn fn, void *closure);
-void        ical_object_generate_events (iCalObject *ico, time_t start, time_t end, calendarfn cb, void *closure);
+void        ical_object_generate_events     (iCalObject *ico, time_t start, time_t end, calendarfn cb, void *closure);
+
+/* Computes the enddate field of the recurrence based on the duration */
+void        ical_object_compute_end         (iCalObject *ico);
 
 END_GNOME_DECLS
 

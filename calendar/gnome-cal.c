@@ -130,7 +130,7 @@ gnome_calendar_goto (GnomeCalendar *gcal, time_t new_time)
 					   time_start_of_day (new_time),
 					   time_end_of_day (new_time));
 	} else if (current == gcal->year_view)
-		printf ("updating year view\n");
+		gncal_year_view_set (GNCAL_YEAR_VIEW (gcal->year_view), new_time);
 	else
 		printf ("My penguin is gone!\n");
 	gcal->current_display = new_time;

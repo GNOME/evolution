@@ -340,6 +340,7 @@ static void
 new_appointment (GtkWidget *widget, gpointer data)
 {
 	GncalFullDay *fullday;
+	GtkWidget *ee;
 
 	fullday = GNCAL_FULL_DAY (data);
 
@@ -349,17 +350,20 @@ new_appointment (GtkWidget *widget, gpointer data)
 	 * at which the button was clicked on when popping up the menu.
 	 */
 
-	event_editor_new (fullday->calendar, NULL);
+	ee = event_editor_new (fullday->calendar, NULL);
+	gtk_widget_show (ee);
 }
 
 static void
 edit_appointment (GtkWidget *widget, gpointer data)
 {
 	Child *child;
+	GtkWidget *ee;
 
 	child = data;
 
-	event_editor_new (GNCAL_FULL_DAY (child->widget->parent)->calendar, child->ico);
+	ee = event_editor_new (GNCAL_FULL_DAY (child->widget->parent)->calendar, child->ico);
+	gtk_widget_show (ee);
 }
 
 static void

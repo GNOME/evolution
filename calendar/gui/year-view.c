@@ -9,9 +9,21 @@
  */
 
 #include "gncal-year-view.h"
+#include "calendar.h"
 #include "timeutil.h"
 
 static void gncal_year_view_init (GncalYearView *yview);
+
+static void
+double_click(GtkWidget *widget, gpointer data)
+{
+	printf("Recieved double click.\n");
+}
+	
+static void
+do_nothing(GtkCalendarClass *c)
+{
+}
 
 static void
 select_day(GtkWidget *widget, gpointer data)
@@ -68,6 +80,7 @@ gncal_year_view_init (GncalYearView *yview)
 		yview->handler [i] = 0;
 	}
 	
+	yview->gcal = NULL;
 	yview->year_label = NULL;
 	yview->year = 0;
 }
@@ -102,16 +115,19 @@ gncal_year_view_new (GnomeCalendar *calendar, time_t date)
 		  i = y * 3 + x;
 		  
 		  yview->calendar[i] = gtk_calendar_new();
-		  gtk_calendar_display_options(GTK_CALENDAR(yview->calendar[i]), GTK_CALENDAR_SHOW_DAY_NAMES);
+		  gtk_calendar_display_options(GTK_CALENDAR(yview->calendar[i]), 
+					       GTK_CALENDAR_SHOW_DAY_NAMES |
+					       GTK_CALENDAR_NO_MONTH_CHANGE);
 		  frame = gtk_frame_new(NULL);
 		  vbox = gtk_vbox_new(0,0);
 		
 		  yview->handler[i] = 
-		    gtk_signal_connect(GTK_OBJECT(yview->calendar[i]),
-				       "day_selected", 
-				       GTK_SIGNAL_FUNC(select_day),
-				       (gpointer *) yview);
+		    gtk_signal_connect(GTK_OBJECT(yview->calendar[i]), "day_selected", 
+				       GTK_SIGNAL_FUNC(select_day), (gpointer *) yview);
 		  
+		  gtk_signal_connect(GTK_OBJECT(yview->calendar[i]), "day_selected_double_click",
+				     GTK_SIGNAL_FUNC(double_click), (gpointer *) yview);
+
 		  my_tm.tm_mon = i;
 		  strftime(monthbuff, 40, "%B", &my_tm);
 		  label = gtk_label_new(monthbuff);

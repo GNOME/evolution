@@ -12,6 +12,8 @@ Event editor dialog:
 
 - Resize the window and fix whatever is resized in an ugly fashion.
 
+- Don't allow deleting exceptions when there are none in the list.
+
 Full day view widget:
 
 - Display alarm/whatever flags somewhere.

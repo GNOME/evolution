@@ -23,6 +23,11 @@ static char *class_names [] = { "PUBLIC", "PRIVATE", "CONFIDENTIAL" };
 
 static GtkWindowClass *parent_class;
 
+struct numbered_item {
+	char *text;
+	int num;
+};
+
 
 guint
 event_editor_get_type (void)
@@ -61,6 +66,19 @@ adjust (GtkWidget *w, gfloat x, gfloat y, gfloat xs, gfloat ys)
 	
 	gtk_container_add (GTK_CONTAINER (a), w);
 	return a;
+}
+
+static GtkWidget *
+make_spin_button (int val, int low, int high)
+{
+	GtkAdjustment *adj;
+	GtkWidget *spin;
+
+	adj = GTK_ADJUSTMENT (gtk_adjustment_new (val, low, high, 1, 10, 10));
+	spin = gtk_spin_button_new (adj, 0.5, 0);
+	gtk_widget_set_usize (spin, 60, 0);
+
+	return spin;
 }
 
 /*
@@ -191,6 +209,13 @@ set_all_day (GtkToggleButton *toggle, EventEditor *ee)
 	gnome_date_edit_set_time (GNOME_DATE_EDIT (ee->end_time), mktime (tm));
 }
 
+static void
+recur_check_toggled (GtkToggleButton *toggle, EventEditor *ee)
+{
+	gtk_widget_set_sensitive (ee->recur_page_label, toggle->active);
+	gtk_widget_set_sensitive (ee->recur_table, toggle->active);
+}
+
 static GtkWidget *
 event_editor_setup_time_frame (EventEditor *ee)
 {
@@ -206,7 +231,7 @@ event_editor_setup_time_frame (EventEditor *ee)
 	gtk_container_add (GTK_CONTAINER (frame), ee->general_time_table);
 
 	/* 1. Start time */
-	ee->start_time = start_time = gnome_date_edit_new (ee->ical->dtstart);
+	ee->start_time = start_time = gnome_date_edit_new (ee->ical->dtstart, TRUE);
 	gnome_date_edit_set_popup_range ((GnomeDateEdit *) start_time, day_begin, day_end);
 	gtk_signal_connect (GTK_OBJECT (start_time), "date_changed",
 			    GTK_SIGNAL_FUNC (check_dates), ee);
@@ -222,7 +247,7 @@ event_editor_setup_time_frame (EventEditor *ee)
 			  0, 0);
 
 	/* 2. End time */
-	ee->end_time   = end_time   = gnome_date_edit_new (ee->ical->dtend);
+	ee->end_time   = end_time   = gnome_date_edit_new (ee->ical->dtend, TRUE);
 	gnome_date_edit_set_popup_range ((GnomeDateEdit *) end_time,   day_begin, day_end);
 	gtk_signal_connect (GTK_OBJECT (end_time), "date_changed",
 			    GTK_SIGNAL_FUNC (check_dates), ee);
@@ -304,8 +329,6 @@ alarm_toggle (GtkToggleButton *toggle, CalendarAlarm *alarm)
 static void
 ee_create_ae (GtkTable *table, char *str, CalendarAlarm *alarm, enum AlarmType type, int y)
 {
-	char buffer [40];
-
 	alarm->w_enabled = gtk_check_button_new_with_label (str);
 	gtk_signal_connect (GTK_OBJECT (alarm->w_enabled), "toggled",
 			    GTK_SIGNAL_FUNC (alarm_toggle), alarm);
@@ -313,11 +336,8 @@ ee_create_ae (GtkTable *table, char *str, CalendarAlarm *alarm, enum AlarmType t
 
 	gtk_toggle_button_set_state (GTK_TOGGLE_BUTTON (alarm->w_enabled), alarm->enabled);
 	
-	alarm->w_count = gtk_entry_new ();
-	gtk_widget_set_usize (alarm->w_count, 40, 0);
+	alarm->w_count = make_spin_button (alarm->count, 0, 10000);
 	gtk_table_attach (table, alarm->w_count, 1, 2, y, y+1, FS, FS, 0, 0);
-	sprintf (buffer, "%d", alarm->count);
-	gtk_entry_set_text (GTK_ENTRY (alarm->w_count), buffer);
 	
 	alarm->w_timesel = timesel_new ();
 	gtk_option_menu_set_history (GTK_OPTION_MENU (alarm->w_timesel), alarm->units);
@@ -438,15 +458,11 @@ ee_store_alarm (CalendarAlarm *alarm, enum AlarmType type)
 		idx++;
 	
 	alarm->units = idx;
-	alarm->count = atoi (gtk_entry_get_text (GTK_ENTRY (alarm->w_count)));
+	alarm->count = gtk_spin_button_get_value_as_int (GTK_SPIN_BUTTON (alarm->w_count));
 }
 
-/*
- * Retrieves all of the information from the different widgets and updates
- * the iCalObject accordingly.
- */
 static void
-ee_store_dlg_values_to_ical (EventEditor *ee)
+ee_store_general_values_to_ical (EventEditor *ee)
 {
 	GtkRadioButton *radio = GTK_RADIO_BUTTON (ee->general_radios);
 	iCalObject *ical = ee->ical;
@@ -475,12 +491,204 @@ ee_store_dlg_values_to_ical (EventEditor *ee)
 	}
 	g_free (ical->class);
 	ical->class = g_strdup (class_names [idx]);
+}
+
+static int
+option_menu_active_number (GtkWidget *omenu)
+{
+	GtkWidget *menu;
+	GtkWidget *item;
+	struct numbered_item *ni;
+
+	menu = gtk_option_menu_get_menu (GTK_OPTION_MENU (omenu));
+	item = gtk_menu_get_active (GTK_MENU (menu));
+
+	ni = gtk_object_get_user_data (GTK_OBJECT (item));
+
+	return ni->num;
+}
+
+static void
+ee_store_recur_rule_to_ical (EventEditor *ee)
+{
+	iCalObject *ical;
+	int i, j;
+	GSList *list;
+
+	ical = ee->ical;
+
+	for (i = 0, list = ee->recur_rr_group; list; i++, list = list->next)
+		if (GTK_TOGGLE_BUTTON (list->data)->active)
+			break;
+
+	i = g_slist_length (ee->recur_rr_group) - i - 1; /* buttons are stored in reverse order of insertion */
+
+	switch (i) {
+	case 0:
+		/* Daily */
+		ical->recur->type = RECUR_DAILY;
+		ical->recur->interval = gtk_spin_button_get_value_as_int (GTK_SPIN_BUTTON (ee->recur_rr_day_period));
+		break;
+
+	case 1:
+		/* Weekly */
+		ical->recur->type = RECUR_WEEKLY;
+		ical->recur->interval = gtk_spin_button_get_value_as_int (GTK_SPIN_BUTTON (ee->recur_rr_week_period));
+		ical->recur->weekday = 0;
+
+		for (j = 0; j < 7; j++)
+			if (GTK_TOGGLE_BUTTON (ee->recur_rr_week_days[j])->active) {
+				if (j == 6)
+					ical->recur->weekday |= 1 << 0; /* sunday is at bit 0 */
+				else
+					ical->recur->weekday |= 1 << (j + 1);
+			}
+
+		break;
+
+	case 2:
+		/* Monthly */
+
+		if (GTK_WIDGET_SENSITIVE (ee->recur_rr_month_date)) {
+			/* by day */
+
+			ical->recur->type = RECUR_MONTHLY_BY_DAY;
+			ical->recur->u.month_day =
+				gtk_spin_button_get_value_as_int (GTK_SPIN_BUTTON (ee->recur_rr_month_date));
+		} else {
+			/* by position */
+
+			ical->recur->type = RECUR_MONTHLY_BY_POS;
+
+			ical->recur->u.month_pos = option_menu_active_number (ee->recur_rr_month_day);
+			ical->recur->u.month_day = option_menu_active_number (ee->recur_rr_month_weekday);
+		}
+
+		ical->recur->interval = gtk_spin_button_get_value_as_int (GTK_SPIN_BUTTON (ee->recur_rr_month_period));
+
+		break;
+
+	case 3:
+		/* Yearly */
+		ical->recur->type = RECUR_YEARLY_BY_DAY;
+		/* FIXME: need to specify anything else?  I am assuming the code will look at the dtstart
+		 * to figure out when to recur. - Federico
+		 */
+		break;
+
+	default:
+		g_assert_not_reached ();
+	}
+}
+
+static void
+ee_store_recur_end_to_ical (EventEditor *ee)
+{
+	iCalObject *ical;
+	GSList *list;
+	int i;
+
+	/* Ending date of recurrence */
+
+	ical = ee->ical;
+
+	for (i = 0, list = ee->recur_ed_group; list; i++, list = list->next)
+		if (GTK_TOGGLE_BUTTON (list->data)->active)
+			break;
+
+	i = g_slist_length (ee->recur_ed_group) - i - 1; /* the list is stored in reverse order of insertion */
+
+	switch (i) {
+	case 0:
+		/* repeat forever */
+		ical->recur->_enddate = 0;
+		ical->recur->enddate = 0;
+		ical->recur->duration = 0;
+		break;
+
+	case 1:
+		/* end date */
+		ical->recur->_enddate = gnome_date_edit_get_date (GNOME_DATE_EDIT (ee->recur_ed_end_on));
+		ical->recur->enddate = ical->recur->enddate;
+		ical->recur->duration = 0;
+		break;
+
+	case 2:
+		/* end after n occurrences */
+		ical->recur->duration = gtk_spin_button_get_value_as_int (GTK_SPIN_BUTTON (ee->recur_ed_end_after));
+		ical_object_compute_end (ical);
+		break;
+
+	default:
+		g_assert_not_reached ();
+		break;
+	}
+}
+
+static void
+free_exdate (iCalObject *ical)
+{
+	GList *list;
+
+	if (!ical->exdate)
+		return;
+
+	for (list = ical->exdate; list; list = list->next)
+		g_free (list->data);
+
+	g_list_free (ical->exdate);
+	ical->exdate = NULL;
+}
+
+static void
+ee_store_recur_exceptions_to_ical (EventEditor *ee)
+{
+	iCalObject *ical;
+	GtkCList *clist;
+	int i;
+	time_t *t;
+
+	ical = ee->ical;
+	clist = GTK_CLIST (ee->recur_ex_clist);
+
+	free_exdate (ical);
+
+	for (i = 0; i < clist->rows; i++) {
+		t = gtk_clist_get_row_data (clist, i);
+		ical->exdate = g_list_prepend (ical->exdate, t);
+	}
+}
+
+static void
+ee_store_recur_values_to_ical (EventEditor *ee)
+{
+	if (!ee->ical->recur)
+		ee->ical->recur = g_new0 (Recurrence, 1);
+
+	ee_store_recur_rule_to_ical (ee);
+	ee_store_recur_end_to_ical (ee);
+	ee_store_recur_exceptions_to_ical (ee);
+}
+
+/*
+ * Retrieves all of the information from the different widgets and updates
+ * the iCalObject accordingly.
+ */
+static void
+ee_store_dlg_values_to_ical (EventEditor *ee)
+{
+	time_t now;
+
+	ee_store_general_values_to_ical (ee);
+	ee_store_recur_values_to_ical (ee);
+
+	now = time (NULL);
 
 	/* FIXME: This is not entirely correct; we should check if the values actually changed */
-	ical->last_mod = now;
+	ee->ical->last_mod = now;
 
 	if (ee->ical->new)
-		ical->created = now;
+		ee->ical->created = now;
 }
 
 static void
@@ -554,13 +762,15 @@ ee_init_general_page (EventEditor *ee)
 	GtkWidget *l;
 	GtkWidget *hbox;
 
-	ee->general_table = (GtkTable *) gtk_table_new (1, 1, 0);
+	ee->general_table = gtk_table_new (1, 1, FALSE);
 	gtk_container_border_width (GTK_CONTAINER (ee->general_table), 4);
+	gtk_table_set_row_spacings (GTK_TABLE (ee->general_table), 4);
+	gtk_table_set_col_spacings (GTK_TABLE (ee->general_table), 4);
 	gtk_notebook_append_page (GTK_NOTEBOOK (ee->notebook), GTK_WIDGET (ee->general_table),
 				  gtk_label_new (_("General")));
 
 	hbox = gtk_hbox_new (FALSE, 0);
-	gtk_table_attach (ee->general_table, hbox,
+	gtk_table_attach (GTK_TABLE (ee->general_table), hbox,
 			  0, 1, OWNER_LINE, OWNER_LINE + 1,
 			  GTK_EXPAND | GTK_FILL | GTK_SHRINK,
 			  GTK_FILL | GTK_SHRINK,
@@ -575,7 +785,7 @@ ee_init_general_page (EventEditor *ee)
 
 	l = gtk_label_new (_("Description:"));
 	gtk_misc_set_alignment (GTK_MISC (l), 0.0, 0.5);
-	gtk_table_attach (ee->general_table, l,
+	gtk_table_attach (GTK_TABLE (ee->general_table), l,
 			  0, 1, DESC_LINE, DESC_LINE + 1,
 			  GTK_EXPAND | GTK_FILL | GTK_SHRINK,
 			  GTK_FILL | GTK_SHRINK,
@@ -587,28 +797,28 @@ ee_init_general_page (EventEditor *ee)
 			    GTK_SIGNAL_FUNC (ee_fill_summary), ee);
 	gtk_widget_set_usize (ee->general_summary, 0, 60);
 	gtk_text_set_editable (GTK_TEXT (ee->general_summary), 1);
-	gtk_table_attach (ee->general_table, ee->general_summary,
+	gtk_table_attach (GTK_TABLE (ee->general_table), ee->general_summary,
 			  0, 1, SUMMARY_LINE, SUMMARY_LINE+1,
 			  GTK_EXPAND | GTK_FILL | GTK_SHRINK,
 			  GTK_FILL | GTK_SHRINK,
 			  0, 0);
 
 	l = ee_alarm_widgets (ee);
-	gtk_table_attach (ee->general_table, l,
+	gtk_table_attach (GTK_TABLE (ee->general_table), l,
 			  0, 1, ALARM_LINE, ALARM_LINE + 1,
 			  GTK_EXPAND | GTK_FILL | GTK_SHRINK,
 			  GTK_FILL | GTK_SHRINK,
 			  0, 0);
 
 	l = event_editor_setup_time_frame (ee);
-	gtk_table_attach (ee->general_table, l,
+	gtk_table_attach (GTK_TABLE (ee->general_table), l,
 			  0, 1, TIME_LINE, TIME_LINE + 1,
 			  GTK_EXPAND | GTK_FILL | GTK_SHRINK,
 			  GTK_FILL | GTK_SHRINK,
 			  0, 0);
 
 	l = ee_classification_widgets (ee);
-	gtk_table_attach (ee->general_table, l,
+	gtk_table_attach (GTK_TABLE (ee->general_table), l,
 			  0, 1, CLASS_LINE, CLASS_LINE + 1,
 			  GTK_EXPAND | GTK_SHRINK,
 			  GTK_FILL | GTK_SHRINK,
@@ -633,106 +843,72 @@ struct {
 static void
 recurrence_toggled (GtkRadioButton *radio, EventEditor *ee)
 {
-	GSList *list = ee->recur_group;
+	GSList *list = ee->recur_rr_group;
 	int which;
-	
+
 	if (!GTK_TOGGLE_BUTTON (radio)->active)
 		return;
-	
-	for (which = 0; list; list = list->next, which++){
-		if (list->data == radio){
-			gtk_notebook_set_page (GTK_NOTEBOOK (ee->recur_content), 3-which);
+
+	for (which = 0; list; list = list->next, which++) {
+		if (list->data == radio) {
+			gtk_notebook_set_page (GTK_NOTEBOOK (ee->recur_rr_notebook), 3 - which);
 			return;
 		}
 	}
 }
 
-static GtkWidget *
-small_entry (int v)
-{
-	GtkWidget *entry = gtk_entry_new ();
-	char buffer [40];
-
-	sprintf (buffer, "%d", v);
-	gtk_widget_set_usize (GTK_WIDGET (entry), gdk_string_width (entry->style->font, "WWW"), 0);
-	gtk_entry_set_text (GTK_ENTRY (entry), buffer);
-	gtk_editable_select_region (GTK_EDITABLE (entry), 0, -1);
-	return entry;
-}
-
-static char *numeral_day_names [] = {
-	N_("1st"),
-	N_("2nd"),
-	N_("3rd"),
-	N_("4th"),
-	N_("5th"),
-	N_("6th"),
-	N_("7th"),
-	N_("8th"),
-	N_("9th"),
-	N_("10th"),
-	N_("11th"),
-	N_("12th"),
-	N_("13th"),
-	N_("14th"),
-	N_("15th"),
-	N_("16th"),
-	N_("17th"),
-	N_("18th"),
-	N_("19th"),
-	N_("20th"),
-	N_("21th"),
-	N_("22th"),
-	N_("23th"),
-	N_("24th"),
-	N_("25th"),
-	N_("26th"),
-	N_("27th"),
-	N_("28th"),
-	N_("29th"),
-	N_("30th"),
-	N_("31th"),
-	NULL
+static struct numbered_item weekday_positions[] = {
+	{ N_("1st"), 1 },
+	{ N_("2nd"), 2 },
+	{ N_("3rd"), 3 },
+	{ N_("4th"), 4 },
+	{ N_("5th"), 5 },
+	{ 0 }
 };
 
-static char *weekday_names [] = {
-	N_("Monday"),
-	N_("Tuesday"),
-	N_("Wednesday"),
-	N_("Thursday"),
-	N_("Friday"),
-	N_("Saturday"),
-	N_("Sunday"),
-	NULL
+static struct numbered_item weekday_names[] = {
+	{ N_("Monday"),    1 },
+	{ N_("Tuesday"),   2 },
+	{ N_("Wednesday"), 3 },
+	{ N_("Thursday"),  4 },
+	{ N_("Friday"),    5 },
+	{ N_("Saturday"),  6 },
+	{ N_("Sunday"),    0 }, /* on the spec, Sunday is zero */
+	{ 0 }
 };
 
 static GtkWidget *
-make_day_list_widget (char **array, int sel)
+make_numbered_menu (struct numbered_item *items, int sel)
 {
 	GtkWidget *option_menu, *menu;
 	int i;
 
 	option_menu = gtk_option_menu_new ();
 	menu = gtk_menu_new ();
-	for (i = 0; array [i]; i++){
+
+	for (i = 0; items[i].text; i++) {
 		GtkWidget *item;
 
-		item = gtk_menu_item_new_with_label (_(array [i]));
+		item = gtk_menu_item_new_with_label (_(items[i].text));
+		gtk_object_set_user_data (GTK_OBJECT (item), &items[i]);
 		gtk_menu_append (GTK_MENU (menu), item);
 		gtk_widget_show (item);
 	}
+
 	gtk_option_menu_set_menu (GTK_OPTION_MENU (option_menu), menu);
 	gtk_option_menu_set_history (GTK_OPTION_MENU (option_menu), sel);
+
 	return option_menu;
 }
 
 static void
 month_sensitize (EventEditor *ee, int state)
 {
-	gtk_widget_set_sensitive (ee->recur_month_date, state);
+	gtk_widget_set_sensitive (ee->recur_rr_month_date, state);
+	gtk_widget_set_sensitive (ee->recur_rr_month_date_label, state);
 	
-	gtk_widget_set_sensitive (ee->recur_month_day,  !state);
-	gtk_widget_set_sensitive (ee->recur_month_weekday,  !state);
+	gtk_widget_set_sensitive (ee->recur_rr_month_day,  !state);
+	gtk_widget_set_sensitive (ee->recur_rr_month_weekday,  !state);
 }
 
 static void
@@ -742,31 +918,35 @@ recur_month_enable_date (GtkToggleButton *button, EventEditor *ee)
 }
 
 static void
-ee_rp_init_frequency (EventEditor *ee)
+ee_rp_init_rule (EventEditor *ee)
 {
-	char *day_names [] = { "Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun" };
-	GtkWidget *r, *re, *r1, *f, *vbox, *hbox, *week_hbox, *week_day, *w;
-	GtkWidget *daily, *weekly, *monthly, *yearly;
+	static char *day_names [] = { N_("Mon"), N_("Tue"), N_("Wed"), N_("Thu"), N_("Fri"), N_("Sat"), N_("Sun") };
+	GtkWidget   *r, *re, *r1, *f, *vbox, *hbox, *b, *week_hbox, *week_day, *w;
+	GtkWidget   *daily, *weekly, *monthly, *yearly;
 	GtkNotebook *notebook;
-	GSList    *group;
-	int       i, page, day_period, week_period, month_period, year_period;
-	int       week_vector, default_day, def_pos, def_off;
-	time_t    now;
-	struct tm *tm;
-	
+	GSList      *group;
+	int          i, page, day_period, week_period, month_period, year_period;
+	int          week_vector, default_day, def_pos, def_off;
+	time_t       now;
+	struct tm   *tm;
+
 	now = time (NULL);
 	tm = localtime (&now);
-	
-	f    = gtk_frame_new (_("Frequency"));
-	vbox = gtk_vbox_new (0, 0);
-	hbox = gtk_hbox_new (0, 0);
-	ee->recur_content = gtk_notebook_new ();
-	notebook = (GtkNotebook *) ee->recur_content;
-	
+
+	f = gtk_frame_new (_("Recurrence rule"));
+
+	hbox = gtk_hbox_new (FALSE, 4);
+	gtk_container_border_width (GTK_CONTAINER (hbox), 4);
 	gtk_container_add (GTK_CONTAINER (f), hbox);
-	gtk_box_pack_start (GTK_BOX (hbox), vbox, 0, 0, 0);
-	gtk_box_pack_start (GTK_BOX (hbox), gtk_vseparator_new (), 0, 0, 0);
-	gtk_box_pack_start (GTK_BOX (hbox), ee->recur_content, TRUE, TRUE, 10);
+
+	vbox = gtk_vbox_new (FALSE, 4);
+	gtk_box_pack_start (GTK_BOX (hbox), vbox, FALSE, FALSE, 0);
+
+	gtk_box_pack_start (GTK_BOX (hbox), gtk_vseparator_new (), FALSE, FALSE, 0);
+
+	ee->recur_rr_notebook = gtk_notebook_new ();
+	notebook = GTK_NOTEBOOK (ee->recur_rr_notebook);
+	gtk_box_pack_start (GTK_BOX (hbox), ee->recur_rr_notebook, TRUE, TRUE, 0);
 
 	day_period   = 1;
 	week_period  = 1;
@@ -774,123 +954,143 @@ ee_rp_init_frequency (EventEditor *ee)
 	year_period  = 1;
 
 	/* Default to today */
+
 	week_vector = 1 << tm->tm_wday;
 	default_day = tm->tm_mday - 1;
 	def_pos = 0;
 	def_off = 0;
 
 	/* Determine which should be the default selection */
-	if (ee->ical->recur){
+
+	if (ee->ical->recur) {
 		enum RecurType type = ee->ical->recur->type;
 		int interval = ee->ical->recur->interval;
 
-		switch (type){
+		switch (type) {
 		case RECUR_DAILY:
 			page = 0;
 			day_period = interval;
 			break;
-			
+
 		case RECUR_WEEKLY:
 			page = 1;
 			week_period = interval;
 			week_vector = ee->ical->recur->weekday;
 			break;
-			
+
 		case RECUR_MONTHLY_BY_POS:
 			page = 2;
 			month_period = interval;
 			def_pos = ee->ical->recur->u.month_pos;
 			break;
-			
+
 		case RECUR_MONTHLY_BY_DAY:
 			page = 2;
 			month_period = interval;
 			default_day = ee->ical->recur->u.month_day;
 			break;
-			
+
 		case RECUR_YEARLY_BY_MONTH:
 			page = 3;
 			year_period  = interval;
 			break;
-			
+
 		case RECUR_YEARLY_BY_DAY:
 			page = 4;
 			year_period  = interval;
 			break;
 		}
-	} else {
-		page         = 0;
-	}
-	
-	/* The recureency selector */
-	for (i = 0, group = NULL; recurrence_types [i].name; i++){
+	} else
+		page = 0;
+
+	/* The recurrency selector */
+
+	for (i = 0, group = NULL; recurrence_types [i].name; i++) {
 		r = gtk_radio_button_new_with_label (group, _(recurrence_types [i].name));
 		group = gtk_radio_button_group (GTK_RADIO_BUTTON (r));
-		
+
 		gtk_toggle_button_set_state (GTK_TOGGLE_BUTTON (r), i == page);
 		gtk_signal_connect (GTK_OBJECT (r), "toggled", GTK_SIGNAL_FUNC (recurrence_toggled), ee);
-		gtk_box_pack_start_defaults (GTK_BOX (vbox), r);
+		gtk_box_pack_start (GTK_BOX (vbox), r, FALSE, FALSE, 0);
 	}
-	ee->recur_group = group;
+
+	ee->recur_rr_group = group;
 
 	/* 1. The daily recurrence */
-	daily = gtk_hbox_new (0, 0);
-	ee->recur_day_period = small_entry (day_period);
-	gtk_box_pack_start (GTK_BOX (daily), gtk_label_new (_("Every")), 0, 0, 0);
-	gtk_box_pack_start (GTK_BOX (daily), ee->recur_day_period, 0, 0, 5);
-	gtk_box_pack_start (GTK_BOX (daily), gtk_label_new (_("day(s)")), 0, 0, 0);
+
+	daily = gtk_vbox_new (FALSE, 0);
+
+	b = gtk_hbox_new (FALSE, 4);
+	gtk_box_pack_start (GTK_BOX (daily), b, FALSE, FALSE, 0);
+
+	ee->recur_rr_day_period = make_spin_button (day_period, 1, 10000);
+	gtk_box_pack_start (GTK_BOX (b), gtk_label_new (_("Every")), FALSE, FALSE, 0);
+	gtk_box_pack_start (GTK_BOX (b), ee->recur_rr_day_period, FALSE, FALSE, 0);
+	gtk_box_pack_start (GTK_BOX (b), gtk_label_new (_("day(s)")), FALSE, FALSE, 0);
 
 	/* 2. The weekly recurrence */
-	weekly = gtk_vbox_new (0, 0);
-	week_hbox = gtk_hbox_new (0, 0);
+
+	weekly = gtk_vbox_new (FALSE, 4);
+
+	week_hbox = gtk_hbox_new (FALSE, 4);
+	gtk_box_pack_start (GTK_BOX (weekly), week_hbox, FALSE, FALSE, 0);
 
 	/* 2.1 The week period selector */
-	ee->recur_week_period = small_entry (week_period);
-	gtk_box_pack_start (GTK_BOX (week_hbox), gtk_label_new _("Every"), 0, 0, 0);
-	gtk_box_pack_start (GTK_BOX (week_hbox), ee->recur_week_period, 0, 0, 5);
-	gtk_box_pack_start (GTK_BOX (week_hbox), gtk_label_new (_("week(s)")), 0, 0, 0);
-	gtk_box_pack_start (GTK_BOX (weekly), week_hbox, 1, 1, 0);
+
+	ee->recur_rr_week_period = make_spin_button (week_period, 1, 10000);
+	gtk_box_pack_start (GTK_BOX (week_hbox), gtk_label_new _("Every"), FALSE, FALSE, 0);
+	gtk_box_pack_start (GTK_BOX (week_hbox), ee->recur_rr_week_period, FALSE, FALSE, 0);
+	gtk_box_pack_start (GTK_BOX (week_hbox), gtk_label_new (_("week(s)")), FALSE, FALSE, 0);
 
 	/* 2.2 The week day selector */
-	week_day = gtk_hbox_new (0, 0);
-	for (i = 0; i < 7; i++){
-		ee->recur_week_days [i] = gtk_check_button_new_with_label (_(day_names [i]));
-		gtk_box_pack_start (GTK_BOX (week_day), ee->recur_week_days [i], 1, 1, 5);
-		if (week_vector & (1 << i))
-			gtk_toggle_button_toggled (GTK_TOGGLE_BUTTON (ee->recur_week_days [i]));
-	}
-	gtk_box_pack_start (GTK_BOX (weekly), week_day, 1, 1, 0);
 
-	
+	week_day = gtk_hbox_new (FALSE, 4);
+	gtk_box_pack_start (GTK_BOX (weekly), week_day, FALSE, FALSE, 0);
+
+	for (i = 0; i < 7; i++) {
+		ee->recur_rr_week_days [i] = gtk_check_button_new_with_label (_(day_names [i]));
+		gtk_box_pack_start (GTK_BOX (week_day), ee->recur_rr_week_days [i], FALSE, FALSE, 0);
+
+		if (week_vector & (1 << i))
+			gtk_toggle_button_set_state (GTK_TOGGLE_BUTTON (ee->recur_rr_week_days [i]), TRUE);
+	}
+
 	/* 3. The monthly recurrence */
+
 	monthly = gtk_table_new (0, 0, 0);
+	gtk_table_set_row_spacings (GTK_TABLE (monthly), 4);
+	gtk_table_set_col_spacings (GTK_TABLE (monthly), 4);
+
 	re = gtk_radio_button_new_with_label (NULL, _("Recur on the"));
-	ee->recur_month_date = make_day_list_widget (numeral_day_names, default_day);
-	w = gtk_label_new (_("day"));
+	ee->recur_rr_month_date = make_spin_button (1, 1, 31); /* FIXME: set the day */
+	ee->recur_rr_month_date_label = w = gtk_label_new (_("th day of the month"));
+	gtk_misc_set_alignment (GTK_MISC (w), 0.0, 0.5);
 	gtk_table_attach (GTK_TABLE (monthly), re,
-			  0, 1, 0, 1, 0, 0, 0, 0);
-	gtk_table_attach (GTK_TABLE (monthly), ee->recur_month_date,
-			  1, 2, 0, 1, 0, 0, 5, 0);
+			  0, 1, 0, 1, FS, FS, 0, 0);
+	gtk_table_attach (GTK_TABLE (monthly), ee->recur_rr_month_date,
+			  1, 2, 0, 1, FS, FS, 0, 0);
 	gtk_table_attach (GTK_TABLE (monthly), w, 
-			  2, 3, 0, 1, 0, 0, 0, 0);
+			  2, 3, 0, 1, FS, FS, 0, 0);
 	gtk_signal_connect (GTK_OBJECT (re), "toggled", GTK_SIGNAL_FUNC (recur_month_enable_date), ee);
-			    
+
 	r1 = gtk_radio_button_new_with_label (gtk_radio_button_group (GTK_RADIO_BUTTON (re)), _("Recur on the"));
-	ee->recur_month_day = make_day_list_widget (numeral_day_names, 0);
-	ee->recur_month_weekday = make_day_list_widget (weekday_names, def_pos);
+	ee->recur_rr_month_day = make_numbered_menu (weekday_positions, 0);
+	ee->recur_rr_month_weekday = make_numbered_menu (weekday_names, def_pos);
 	gtk_table_attach (GTK_TABLE (monthly), r1,
-			  0, 1, 1, 2, 0, 0, 0, 0);
-	gtk_table_attach (GTK_TABLE (monthly), ee->recur_month_day,
-			  1, 2, 1, 2, 0, 0, 5, 0);
-	gtk_table_attach (GTK_TABLE (monthly), ee->recur_month_weekday,
-			  2, 3, 1, 2, 0, 0, 5, 0);
+			  0, 1, 1, 2, FS, FS, 0, 0);
+	gtk_table_attach (GTK_TABLE (monthly), ee->recur_rr_month_day,
+			  1, 2, 1, 2, FS, FS, 0, 0);
+	gtk_table_attach (GTK_TABLE (monthly), ee->recur_rr_month_weekday,
+			  2, 3, 1, 2, FS, FS, 0, 0);
+
 	gtk_table_attach (GTK_TABLE (monthly), gtk_label_new (_("Every")),
-			  3, 4, 0, 2, 0, 0, 0, 0);
-	ee->recur_month_period = small_entry (month_period);
-	gtk_table_attach (GTK_TABLE (monthly), ee->recur_month_period,
-			  4, 5, 0, 2, 0, 0, 5, 0);
+			  3, 4, 0, 2, FS, FS, 0, 0);
+	ee->recur_rr_month_period = make_spin_button (month_period, 1, 10000);
+	gtk_table_attach (GTK_TABLE (monthly), ee->recur_rr_month_period,
+			  4, 5, 0, 2, FS, FS, 0, 0);
 	gtk_table_attach (GTK_TABLE (monthly), gtk_label_new (_("month(s)")),
-			  5, 6, 0, 2, 0, 0, 0, 0);
+			  5, 6, 0, 2, FS, FS, 0, 0);
+
 	if (ee->ical->recur) {
 		if (ee->ical->recur->type == RECUR_MONTHLY_BY_POS)
 			gtk_toggle_button_set_state (GTK_TOGGLE_BUTTON (r1), 1);
@@ -898,13 +1098,19 @@ ee_rp_init_frequency (EventEditor *ee)
 		recur_month_enable_date (GTK_TOGGLE_BUTTON (re), ee);
 
 	/* 4. The yearly recurrence */
-	yearly = gtk_hbox_new (0, 0);
-	ee->recur_year_period = small_entry (year_period);
-	gtk_box_pack_start (GTK_BOX (yearly), gtk_label_new (_("Every")), 0, 0, 0);
-	gtk_box_pack_start (GTK_BOX (yearly), ee->recur_year_period, 0, 0, 5);
-	gtk_box_pack_start (GTK_BOX (yearly), gtk_label_new (_("year(s)")), 0, 0, 0);
-	
+
+	yearly = gtk_vbox_new (FALSE, 0);
+
+	b = gtk_hbox_new (FALSE, 4);
+	gtk_box_pack_start (GTK_BOX (yearly), b, FALSE, FALSE, 0);
+
+	ee->recur_rr_year_period = make_spin_button (year_period, 1, 10000);
+	gtk_box_pack_start (GTK_BOX (b), gtk_label_new (_("Every")), FALSE, FALSE, 0);
+	gtk_box_pack_start (GTK_BOX (b), ee->recur_rr_year_period, FALSE, FALSE, 0);
+	gtk_box_pack_start (GTK_BOX (b), gtk_label_new (_("year(s)")), FALSE, FALSE, 0);
+
 	/* Finish setting this up */
+
 	gtk_notebook_append_page (notebook, daily, gtk_label_new (""));
 	gtk_notebook_append_page (notebook, weekly, gtk_label_new (""));
 	gtk_notebook_append_page (notebook, monthly, gtk_label_new (""));
@@ -913,18 +1119,292 @@ ee_rp_init_frequency (EventEditor *ee)
 	gtk_notebook_set_show_border (notebook, FALSE);
 
 	gtk_notebook_set_page (notebook, page);
-	
+
 	/* Attach to the main table */
-	gtk_box_pack_start (GTK_BOX (ee->recur_table), f, 1, 0, 0);
-};
+
+	gtk_table_attach (GTK_TABLE (ee->recur_table), f,
+			  0, 2, 0, 1,
+			  GTK_FILL | GTK_SHRINK,
+			  GTK_FILL | GTK_SHRINK,
+			  0, 0);
+}
 
 static void
-ee_init_recurrent_page (EventEditor *ee)
+sensitize_by_toggle (GtkToggleButton *toggle, gpointer data)
 {
-	ee->recur_table = gtk_vbox_new (0, 0);
-	gtk_notebook_append_page (GTK_NOTEBOOK (ee->notebook), GTK_WIDGET (ee->recur_table),
-				  gtk_label_new (_("Repeating")));
-	ee_rp_init_frequency (ee);
+	gtk_widget_set_sensitive (GTK_WIDGET (data), toggle->active);
+}
+
+static void
+ee_rp_init_ending_date (EventEditor *ee)
+{
+	GtkWidget *frame;
+	GtkWidget *vbox;
+	GSList    *group;
+	GtkWidget *radio0, *radio1, *radio2;
+	GtkWidget *hbox;
+	GtkWidget *ihbox;
+	GtkWidget *widget;
+	time_t     enddate;
+
+	frame = gtk_frame_new (_("Ending date"));
+
+	vbox = gtk_vbox_new (TRUE, 4);
+	gtk_container_border_width (GTK_CONTAINER (vbox), 4);
+	gtk_container_add (GTK_CONTAINER (frame), vbox);
+
+	group = NULL;
+
+	/* repeat forever */
+
+	hbox = gtk_hbox_new (FALSE, 0);
+	gtk_box_pack_start (GTK_BOX (vbox), hbox, FALSE, FALSE, 0);
+
+	radio0 = gtk_radio_button_new_with_label (group, _("Repeat forever"));
+	group = gtk_radio_button_group (GTK_RADIO_BUTTON (radio0));
+	gtk_box_pack_start (GTK_BOX (hbox), radio0, FALSE, FALSE, 0);
+
+	/* end on date */
+
+	hbox = gtk_hbox_new (FALSE, 0);
+	gtk_box_pack_start (GTK_BOX (vbox), hbox, FALSE, FALSE, 0);
+
+	radio1 = gtk_radio_button_new_with_label (group, _("End on"));
+	group = gtk_radio_button_group (GTK_RADIO_BUTTON (radio1));
+	gtk_box_pack_start (GTK_BOX (hbox), radio1, FALSE, FALSE, 0);
+
+	ihbox = gtk_hbox_new (FALSE, 4);
+	gtk_box_pack_start (GTK_BOX (hbox), ihbox, FALSE, FALSE, 0);
+
+	if (ee->ical->recur)
+		enddate = ee->ical->recur->enddate;
+	else
+		enddate = ee->ical->dtend;
+
+	ee->recur_ed_end_on = widget = gnome_date_edit_new (enddate, FALSE);
+	gtk_box_pack_start (GTK_BOX (ihbox), widget, FALSE, FALSE, 0);
+
+	gtk_signal_connect (GTK_OBJECT (radio1), "toggled",
+			    (GtkSignalFunc) sensitize_by_toggle,
+			    ihbox);
+
+	gtk_widget_set_sensitive (ihbox, FALSE);
+
+	/* end after n occurrences */
+
+	hbox = gtk_hbox_new (FALSE, 0);
+	gtk_box_pack_start (GTK_BOX (vbox), hbox, FALSE, FALSE, 0);
+
+	radio2 = gtk_radio_button_new_with_label (group, _("End after"));
+	group = gtk_radio_button_group (GTK_RADIO_BUTTON (radio2));
+	gtk_box_pack_start (GTK_BOX (hbox), radio2, FALSE, FALSE, 0);
+
+	ihbox = gtk_hbox_new (FALSE, 4);
+	gtk_box_pack_start (GTK_BOX (hbox), ihbox, FALSE, FALSE, 0);
+
+	ee->recur_ed_end_after = widget = make_spin_button (2, 1, 10000);
+	gtk_box_pack_start (GTK_BOX (ihbox), widget, FALSE, FALSE, 0);
+
+	widget = gtk_label_new (_("occurrence(s)"));
+	gtk_box_pack_start (GTK_BOX (ihbox), widget, FALSE, FALSE, 0);
+
+	gtk_signal_connect (GTK_OBJECT (radio2), "toggled",
+			    (GtkSignalFunc) sensitize_by_toggle,
+			    ihbox);
+
+	gtk_widget_set_sensitive (ihbox, FALSE);
+
+	/* Activate appropriate item */
+
+	if (ee->ical->recur) {
+		if (ee->ical->recur->_enddate == 0) {
+			if (ee->ical->recur->duration == 0)
+				gtk_toggle_button_set_state (GTK_TOGGLE_BUTTON (radio0), TRUE);
+			else {
+				gtk_spin_button_set_value (GTK_SPIN_BUTTON (ee->recur_ed_end_after),
+							   ee->ical->recur->duration);
+				gtk_toggle_button_set_state (GTK_TOGGLE_BUTTON (radio2), TRUE);
+			}
+		} else {
+			gnome_date_edit_set_time (GNOME_DATE_EDIT (ee->recur_ed_end_on), ee->ical->recur->enddate);
+			gtk_toggle_button_set_state (GTK_TOGGLE_BUTTON (radio1), TRUE);
+		}
+	}
+
+	/* Done, add to main table */
+
+	ee->recur_ed_group = group;
+
+	gtk_table_attach (GTK_TABLE (ee->recur_table), frame,
+			  0, 1, 1, 2,
+			  GTK_FILL | GTK_SHRINK,
+			  GTK_FILL | GTK_SHRINK,
+			  0, 0);
+}
+
+static char *
+get_exception_string (time_t t)
+{
+	static char buf[256];
+
+	strftime (buf, 256, "%a %b %d %Y", localtime (&t)); /* FIXME: how to i18n this? */
+	return buf;
+}
+
+static void
+append_exception (EventEditor *ee, time_t t)
+{
+	time_t *tt;
+	char   *c[1];
+	int     i;
+
+	c[0] = get_exception_string (t);
+
+	tt = g_new (time_t, 1);
+	*tt = t;
+
+	i = gtk_clist_append (GTK_CLIST (ee->recur_ex_clist), c);
+	gtk_clist_set_row_data (GTK_CLIST (ee->recur_ex_clist), i, tt);
+
+	gtk_widget_set_sensitive (ee->recur_ex_vbox, TRUE);
+}
+
+static void
+fill_exception_clist (EventEditor *ee)
+{
+	GList  *list;
+
+	for (list = ee->ical->exdate; list; list = list->next)
+		append_exception (ee, *((time_t *) list->data));
+}
+
+static void
+add_exception (GtkWidget *widget, EventEditor *ee)
+{
+	time_t t;
+
+	t = gnome_date_edit_get_date (GNOME_DATE_EDIT (ee->recur_ex_date));
+	append_exception (ee, t);
+}
+
+static void
+change_exception (GtkWidget *widget, EventEditor *ee)
+{
+	GtkCList *clist;
+	time_t *t;
+	int sel;
+
+	clist = GTK_CLIST (ee->recur_ex_clist);
+	sel = (gint) clist->selection->data;
+
+	t = gtk_clist_get_row_data (clist, sel);
+	*t = gnome_date_edit_get_date (GNOME_DATE_EDIT (ee->recur_ex_date));
+
+	gtk_clist_set_text (clist, sel, 0, get_exception_string (*t));
+}
+
+static void
+delete_exception (GtkWidget *widget, EventEditor *ee)
+{
+	GtkCList *clist;
+	int sel;
+
+	clist = GTK_CLIST (ee->recur_ex_clist);
+	sel = (gint) clist->selection->data;
+
+	g_free (gtk_clist_get_row_data (clist, sel)); /* free the time_t stored there */
+
+	gtk_clist_remove (clist, sel);
+
+	if (clist->rows == 0)
+		gtk_widget_set_sensitive (ee->recur_ex_vbox, FALSE);
+}
+
+static void
+ee_rp_init_exceptions (EventEditor *ee)
+{
+	GtkWidget *frame;
+	GtkWidget *hbox;
+	GtkWidget *vbox;
+	GtkWidget *ivbox;
+	GtkWidget *widget;
+
+	frame = gtk_frame_new (_("Exceptions"));
+
+	hbox = gtk_hbox_new (FALSE, 4);
+	gtk_container_border_width (GTK_CONTAINER (hbox), 4);
+	gtk_container_add (GTK_CONTAINER (frame), hbox);
+
+	vbox = gtk_vbox_new (FALSE, 4);
+	gtk_box_pack_start (GTK_BOX (hbox), vbox, FALSE, FALSE, 0);
+
+	ee->recur_ex_date = widget = gnome_date_edit_new (time (NULL), FALSE);
+	gtk_box_pack_start (GTK_BOX (vbox), widget, FALSE, FALSE, 0);
+
+	widget = gtk_button_new_with_label (_("Add exception"));
+	gtk_signal_connect (GTK_OBJECT (widget), "clicked",
+			    (GtkSignalFunc) add_exception,
+			    ee);
+	gtk_box_pack_start (GTK_BOX (vbox), widget, FALSE, FALSE, 0);
+
+	ee->recur_ex_vbox = ivbox = gtk_vbox_new (FALSE, 4);
+	gtk_widget_set_sensitive (ivbox, FALSE); /* at first there are no items to change or delete */
+	gtk_box_pack_start (GTK_BOX (vbox), ivbox, FALSE, FALSE, 0);
+	
+	widget = gtk_button_new_with_label (_("Change selected"));
+	gtk_signal_connect (GTK_OBJECT (widget), "clicked",
+			    (GtkSignalFunc) change_exception,
+			    ee);
+	gtk_box_pack_start (GTK_BOX (ivbox), widget, FALSE, FALSE, 0);
+
+	widget = gtk_button_new_with_label (_("Delete selected"));
+	gtk_signal_connect (GTK_OBJECT (widget), "clicked",
+			    (GtkSignalFunc) delete_exception,
+			    ee);
+	gtk_box_pack_start (GTK_BOX (ivbox), widget, FALSE, FALSE, 0);
+
+	ee->recur_ex_clist = widget = gtk_clist_new (1);
+	gtk_clist_set_selection_mode (GTK_CLIST (widget), GTK_SELECTION_BROWSE);
+	gtk_clist_set_policy (GTK_CLIST (widget), GTK_POLICY_AUTOMATIC, GTK_POLICY_AUTOMATIC);
+	fill_exception_clist (ee);
+	gtk_box_pack_start (GTK_BOX (hbox), widget, TRUE, TRUE, 0);
+
+	/* Done, add to main table */
+
+	gtk_table_attach (GTK_TABLE (ee->recur_table), frame,
+			  1, 2, 1, 2,
+			  GTK_EXPAND | GTK_FILL | GTK_SHRINK,
+			  GTK_FILL | GTK_SHRINK,
+			  0, 0);
+}
+
+static void
+ee_init_recurrence_page (EventEditor *ee)
+{
+	ee->recur_table = gtk_table_new (2, 2, FALSE);
+	gtk_container_border_width (GTK_CONTAINER (ee->recur_table), 4);
+	gtk_table_set_row_spacings (GTK_TABLE (ee->recur_table), 4);
+	gtk_table_set_col_spacings (GTK_TABLE (ee->recur_table), 4);
+
+	ee->recur_page_label = gtk_label_new (_("Recurrence"));
+
+	gtk_notebook_append_page (GTK_NOTEBOOK (ee->notebook), ee->recur_table,
+				  ee->recur_page_label);
+
+	ee_rp_init_rule (ee);
+	ee_rp_init_ending_date (ee);
+	ee_rp_init_exceptions (ee);
+
+	/* Make the recurrence button sensitize the recurrence page */
+
+	recur_check_toggled (GTK_TOGGLE_BUTTON (ee->general_recur), ee);
+
+	gtk_signal_connect (GTK_OBJECT (ee->general_recur), "toggled",
+			    (GtkSignalFunc) recur_check_toggled,
+			    ee);
+
+	gtk_toggle_button_set_state (GTK_TOGGLE_BUTTON (ee->general_recur),
+				     (ee->ical->recur != NULL));
 }
 
 static void
@@ -940,7 +1420,7 @@ event_editor_init_widgets (EventEditor *ee)
 	/* Init the various configuration pages */
 	ee_init_general_page (ee);
 	ee_init_summary_page (ee);
-	ee_init_recurrent_page (ee);
+	ee_init_recurrence_page (ee);
 	
 	/* Separator */
 	gtk_box_pack_start (GTK_BOX (ee->vbox), gtk_hseparator_new (), 0, 0, 0);
@@ -949,9 +1429,7 @@ event_editor_init_widgets (EventEditor *ee)
 	gtk_box_pack_start (GTK_BOX (ee->vbox), ee_create_buttons (ee), 0, 0, 5);
 	
 	/* We show all of the contained widgets */
-	gtk_widget_show_all (GTK_WIDGET (ee));
-	/* And we hide the toplevel, to be consistent with the rest of Gtk */
-	gtk_widget_hide (GTK_WIDGET (ee));
+	gtk_widget_show_all (GTK_BIN (ee)->child);
 }
 
 static void
@@ -971,7 +1449,7 @@ event_editor_destroy (GtkObject *object)
 	ee = EVENT_EDITOR (object);
 
 	if (ee->ical)
-		ee->ical->user_data = NULL;/* we are no longer editing it */
+		ee->ical->user_data = NULL; /* we are no longer editing it */
 }
 
 GtkWidget *
@@ -991,7 +1469,7 @@ event_editor_new (GnomeCalendar *gcal, iCalObject *ical)
 		ical->new = 1;
 	}
 
-	ical->user_data = ee;	/* so that the world can know we are editing it */
+	ical->user_data = ee; /* so that the world can know we are editing it */
 
 	ee->ical = ical;
 	ee->gnome_cal = gcal;
@@ -999,8 +1477,3 @@ event_editor_new (GnomeCalendar *gcal, iCalObject *ical)
 	
 	return retval;
 }
-
-/*
- * New event:  Create iCal, edit, check result: Ok: insert;  Cancel: destroy iCal
- * Edit event: fetch  iCal, edit, check result: Ok: remove from calendar, add to calendar; Cancel: nothing
- */

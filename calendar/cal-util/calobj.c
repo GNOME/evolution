@@ -12,8 +12,6 @@
 #include "timeutil.h"
 #include "versit/vcc.h"
 
-static void ical_object_compute_end (iCalObject *ico);
-
 iCalObject *
 ical_object_new (void)
 {
@@ -1004,7 +1002,7 @@ duration_callback (iCalObject *ico, time_t start, time_t end, void *closure)
 	int *count = closure;
 
 	(*count)++;
-	if (ico->recur->duration == *count){
+	if (ico->recur->duration == *count) {
 		ico->recur->enddate = end;
 		return 0;
 	}
@@ -1019,7 +1017,6 @@ ical_object_compute_end (iCalObject *ico)
 
 	g_return_if_fail (ico->recur != NULL);
 
+	ico->recur->_enddate = 0;
 	ical_object_generate_events (ico, ico->dtstart, 0, duration_callback, &count);
 }
-
-

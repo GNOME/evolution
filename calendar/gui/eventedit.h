@@ -24,7 +24,7 @@ typedef struct {
 	GtkWidget  *vbox;
 
         GtkWidget  *general;
-        GtkTable   *general_table;
+        GtkWidget  *general_table;
         GtkWidget  *general_time_table;
 	GtkWidget  *general_allday;
 	GtkWidget  *general_recur;
@@ -33,21 +33,28 @@ typedef struct {
 	GtkWidget  *start_time, *end_time;
 	GtkWidget  *general_radios;
 
+	GtkWidget  *recur_page_label;
 	GtkWidget  *recur_table;
-	GSList     *recur_group;
-	GtkWidget  *recur_content;
 
-	GtkWidget  *recur_day_period; /* GtkEntry */
+	GSList     *recur_rr_group;
+	GtkWidget  *recur_rr_notebook;
+	GtkWidget  *recur_rr_day_period;
+	GtkWidget  *recur_rr_week_period;
+	GtkWidget  *recur_rr_week_days [7];
+	GtkWidget  *recur_rr_month_date;
+	GtkWidget  *recur_rr_month_date_label;
+	GtkWidget  *recur_rr_month_day;
+	GtkWidget  *recur_rr_month_weekday;
+	GtkWidget  *recur_rr_month_period;
+	GtkWidget  *recur_rr_year_period;
 
-	GtkWidget  *recur_week_period; /* GtkEntry */
-	GtkWidget  *recur_week_days [7];
+	GSList     *recur_ed_group;
+	GtkWidget  *recur_ed_end_on;
+	GtkWidget  *recur_ed_end_after;
 
-	GtkWidget  *recur_month_date;
-	GtkWidget  *recur_month_day;
-	GtkWidget  *recur_month_weekday;
-	GtkWidget  *recur_month_period;	/* GtkEntry */
-	
-	GtkWidget  *recur_year_period; /* GtkEntry */
+	GtkWidget  *recur_ex_date;
+	GtkWidget  *recur_ex_vbox;
+	GtkWidget  *recur_ex_clist;
 	
 	/* The associated ical object */
 	iCalObject *ical;

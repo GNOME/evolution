@@ -114,7 +114,10 @@ about_calendar_cmd (GtkWidget *widget, void *data)
 void
 display_objedit (GtkWidget *widget, GnomeCalendar *gcal)
 {
-	event_editor_new (gcal, NULL);
+	GtkWidget *ee;
+
+	ee = event_editor_new (gcal, NULL);
+	gtk_widget_show (ee);
 }
 
 void
