@@ -1,3 +1,10 @@
+2001-10-30  Larry Ewing  <lewing@ximian.com>
+
+	* mail-account-gui.c (delete_event_cb): add delete_event_handler.
+	(menu_file_save_close_cb): add save and close command.
+	(launch_signature_editor): initial the editor as having changed
+	and attach the delete event handler.
+
 2001-10-30    <NotZed@Ximian.com>
 
 	* message-browser.c (d): Turn it off.

@@ -1052,6 +1052,12 @@ do_exit (ESignatureEditor *editor)
 		destroy_editor (editor);
 }
 
+static int
+delete_event_cb (GtkWidget *w, GdkEvent *event, ESignatureEditor *editor)
+{
+	do_exit (editor);
+}
+
 static void
 menu_file_close_cb (BonoboUIComponent *uic, gpointer data, const gchar *path)
 {
@@ -1061,11 +1067,23 @@ menu_file_close_cb (BonoboUIComponent *uic, gpointer data, const gchar *path)
 	do_exit (editor);
 }
 
+static void
+menu_file_save_close_cb (BonoboUIComponent *uic, gpointer data, const gchar *path)
+{
+	ESignatureEditor *editor;
+	
+	editor = E_SIGNATURE_EDITOR (data);
+
+	menu_file_save_cb (uic, editor, path);
+	destroy_editor (editor);
+}
+
 static BonoboUIVerb verbs [] = {
 
-	BONOBO_UI_VERB ("FileSave",   menu_file_save_cb),
-	BONOBO_UI_VERB ("FileClose",  menu_file_close_cb),
-	
+	BONOBO_UI_VERB ("FileSave",       menu_file_save_cb),
+	BONOBO_UI_VERB ("FileClose",      menu_file_close_cb),
+	BONOBO_UI_VERB ("FileSaveClose",  menu_file_save_close_cb),
+
 	BONOBO_UI_VERB_END
 };
 
@@ -1133,7 +1151,8 @@ launch_signature_editor (MailAccountGui *gui, const gchar *filename, gboolean ht
 	
 	editor->html     = html;
 	editor->filename = g_strdup (filename);
-	
+	editor->has_changed = TRUE;
+
 	title       = g_strdup_printf ("Edit %ssignature (%s)", html ? "HTML " : "", filename);
 	editor->win = bonobo_window_new ("e-sig-editor", title);
 	editor->gui = gui;
@@ -1161,7 +1180,10 @@ launch_signature_editor (MailAccountGui *gui, const gchar *filename, gboolean ht
 	}
 	
 	load_signature (editor);
-	
+
+	gtk_signal_connect (GTK_OBJECT (editor->win), "delete_event",
+			    GTK_SIGNAL_FUNC (delete_event_cb), editor);
+
 	bonobo_window_set_contents (BONOBO_WINDOW (editor->win), editor->control);
 	bonobo_widget_set_property (BONOBO_WIDGET (editor->control), "FormatHTML", html, NULL);
 	gtk_widget_show (GTK_WIDGET (editor->win));
