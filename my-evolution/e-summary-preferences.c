@@ -469,6 +469,11 @@ find_name_for_url (PropertyData *pd,
 
 	for (p = pd->rdf->known; p; p = p->next) {
 		struct _RDFInfo *info = p->data;
+		
+		if (info == NULL || info->url == NULL) {
+			continue;
+		}
+
 		if (strcmp (url, info->url) == 0) {
 			return info->name;
 		}
@@ -565,6 +570,8 @@ fill_rdf_all_clist (GtkCList *clist,
 					     (GtkDestroyNotify) free_rdf_info);
 		g_strfreev (tokens);
 	}
+
+	fclose (handle);
 }
 
 static void
