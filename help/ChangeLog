@@ -283,12 +283,10 @@
 
 	* C/preface.sgml: Spelling fixes, etc.
 
-=======
 2000-09-19  Federico Mena Quintero  <federico@helixcode.com>
 
 	* C/Makefile.am: Fixed to install the stylesheet-images as well.
 
->>>>>>> 1.26
 2000-09-07  Aaron Weber  <aaron@helixcode.com>
 
 	* C/fig/ New files: contact-editor.png, mail-composer.png,
