@@ -168,6 +168,7 @@ typedef struct {
 	gint        (*key_press)          (ETable *et, int row, int col, GdkEvent *event);
 	gint        (*start_drag)         (ETable *et, int row, int col, GdkEvent *event);
 	void        (*state_change)       (ETable *et);
+	gint        (*white_space_event)  (ETable *et, GdkEvent *event);
 
 	void  (*set_scroll_adjustments)   (ETable	 *table,
 					   GtkAdjustment *hadjustment,

@@ -40,6 +40,7 @@
 #include "gal/util/e-xml-utils.h"
 #include "gal/widgets/e-canvas.h"
 #include "gal/widgets/e-popup-menu.h"
+#include "gal/widgets/e-gui-utils.h"
 #include "e-table-header.h"
 #include "e-table-header-utils.h"
 #include "e-table-col-dnd.h"
@@ -1439,6 +1440,12 @@ ethi_popup_customize_view(GtkWidget *widget, EthiHeaderInfo *info)
 	}
 }
 
+static void
+free_popup_info (GtkWidget *w, EthiHeaderInfo *info)
+{
+	g_free (info);
+}
+
 /* Bit 1 is always disabled. */
 /* Bit 2 is disabled if not "sortable". */
 /* Bit 4 is disabled if we don't have a pointer to our table object. */
@@ -1466,16 +1473,21 @@ ethi_header_context_menu (ETableHeaderItem *ethi, GdkEventButton *event)
 {
 	EthiHeaderInfo *info = g_new(EthiHeaderInfo, 1);
 	ETableCol *col;
+	GtkMenu *popup;
 	info->ethi = ethi;
 	info->col = ethi_find_col_by_x (ethi, event->x);
 	col = e_table_header_get_column (ethi->eth, info->col);
-	e_popup_menu_run (ethi_context_menu, (GdkEvent *) event,
-			  1 +
-			  (col->sortable ? 0 : 2) +
-			  ((ethi->table || ethi->tree) ? 0 : 4) + 
-			  ((e_table_header_count (ethi->eth) > 1) ? 0 : 8),
-			  ((e_table_sort_info_get_can_group (ethi->sort_info)) ? 0 : 16) +
-			  128, info);
+
+	popup = e_popup_menu_create (ethi_context_menu,
+				     1 +
+				     (col->sortable ? 0 : 2) +
+				     ((ethi->table || ethi->tree) ? 0 : 4) + 
+				     ((e_table_header_count (ethi->eth) > 1) ? 0 : 8),
+				     ((e_table_sort_info_get_can_group (ethi->sort_info)) ? 0 : 16) +
+				     128, info);
+	gtk_signal_connect (GTK_OBJECT (popup), "selection-done",
+			    GTK_SIGNAL_FUNC (free_popup_info), info);
+	e_popup_menu (popup, (GdkEvent *) event);
 }
 
 static void

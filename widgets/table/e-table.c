@@ -75,6 +75,7 @@ enum {
 	KEY_PRESS,
 	START_DRAG,
 	STATE_CHANGE,
+	WHITE_SPACE_EVENT,
 
 	TABLE_DRAG_BEGIN,
 	TABLE_DRAG_END,
@@ -956,6 +957,16 @@ et_canvas_realize (GtkWidget *canvas, ETable *e_table)
 	set_header_width (e_table);
 }
 
+static gint
+white_item_event (GnomeCanvasItem *white_item, GdkEvent *event, ETable *e_table)
+{
+	int return_val = 0;
+	gtk_signal_emit (GTK_OBJECT (e_table),
+			 et_signals [WHITE_SPACE_EVENT],
+			 event, &return_val);
+	return return_val;
+}
+
 static void
 et_eti_leave_edit (ETable *et)
 {
@@ -1090,12 +1101,15 @@ e_table_setup_table (ETable *e_table, ETableHeader *full_header, ETableHeader *h
 		"fill_color_gdk", &GTK_WIDGET(e_table->table_canvas)->style->base[GTK_STATE_NORMAL],
 		NULL);
 
-	gtk_signal_connect (
-		GTK_OBJECT(e_table->table_canvas), "realize",
-		GTK_SIGNAL_FUNC(et_canvas_realize), e_table);
-	gtk_signal_connect (
-		GTK_OBJECT(gnome_canvas_root (e_table->table_canvas)), "event",
-		GTK_SIGNAL_FUNC(et_canvas_root_event), e_table);
+	gtk_signal_connect (GTK_OBJECT (e_table->white_item), "event",
+			    GTK_SIGNAL_FUNC (white_item_event), e_table);
+
+	gtk_signal_connect (GTK_OBJECT(e_table->table_canvas), "realize",
+			    GTK_SIGNAL_FUNC(et_canvas_realize), e_table);
+
+	gtk_signal_connect (GTK_OBJECT(gnome_canvas_root (e_table->table_canvas)), "event",
+			    GTK_SIGNAL_FUNC(et_canvas_root_event), e_table);
+
 	e_table->canvas_vbox = gnome_canvas_item_new(
 		gnome_canvas_root(e_table->table_canvas),
 		e_canvas_vbox_get_type(),
@@ -2921,6 +2935,7 @@ e_table_class_init (ETableClass *class)
 	class->key_press                = NULL;
 	class->start_drag               = et_real_start_drag;
 	class->state_change             = NULL;
+	class->white_space_event        = NULL;
 
 	class->table_drag_begin         = NULL;
 	class->table_drag_end           = NULL;
@@ -3003,6 +3018,14 @@ e_table_class_init (ETableClass *class)
 				GTK_SIGNAL_OFFSET (ETableClass, state_change),
 				gtk_marshal_NONE__NONE,
 				GTK_TYPE_NONE, 0);
+
+	et_signals [WHITE_SPACE_EVENT] =
+		gtk_signal_new ("white_space_event",
+				GTK_RUN_LAST,
+				E_OBJECT_CLASS_TYPE (object_class),
+				GTK_SIGNAL_OFFSET (ETableClass, white_space_event),
+				gtk_marshal_INT__POINTER,
+				GTK_TYPE_INT, 1, GTK_TYPE_GDK_EVENT);
 
 	et_signals[TABLE_DRAG_BEGIN] =
 		gtk_signal_new ("table_drag_begin",
