@@ -1,3 +1,6 @@
+TITLE: An in-depth look at the virtual folder mechanism
+AUTHOR: Giao Nguyen <grail@cafebabe.org>
+
 * introduction
 
 This document describes a different way of approaching mail
