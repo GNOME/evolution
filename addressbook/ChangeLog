@@ -1,3 +1,12 @@
+2001-03-25  Jon Trowbridge  <trow@ximian.com>
+
+	* gui/component/select-names/e-select-names-completion.c
+	(e_select_names_completion_seq_complete_cb): Rather than starting
+	the pending query by directly calling
+	e_select_names_completion_do_query, call
+	e_completion_begin_search.  Circumventing the ECompletion API was
+	causing it to get confused in some cases.
+
 2001-03-23  Jon Trowbridge  <trow@ximian.com>
 
 	* gui/widgets/e-minicard-widget.c (e_minicard_widget_set_card):

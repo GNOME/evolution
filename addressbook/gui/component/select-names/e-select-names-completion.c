@@ -46,6 +46,7 @@ struct _ESelectNamesCompletionPrivate {
 	EBookView *book_view;
 
 	gchar *waiting_query;
+	gint waiting_pos, waiting_limit;
 	gchar *query_text;
 
 	gchar *cached_query_text;
@@ -62,7 +63,7 @@ static void e_select_names_completion_got_book_view_cb (EBook *book, EBookStatus
 static void e_select_names_completion_card_added_cb    (EBookView *, const GList *cards, gpointer user_data);
 static void e_select_names_completion_seq_complete_cb  (EBookView *, gpointer user_data);
 
-static void e_select_names_completion_do_query (ESelectNamesCompletion *, const gchar *query_text);
+static void e_select_names_completion_do_query (ESelectNamesCompletion *, const gchar *query_text, gint pos, gint limit);
 
 static void e_select_names_completion_begin  (ECompletion *, const gchar *txt, gint pos, gint limit);
 static void e_select_names_completion_end    (ECompletion *);
@@ -189,6 +190,28 @@ enum {
 	MATCHED_FAMILY_NAME   = 1<<2
 };
 
+/*
+  Match text against every substring in fragment that follows whitespace.
+  This allows the fragment "de Icaza" to match against txt "ica".
+*/
+static gboolean
+match_name_fragment (const gchar *fragment, const gchar *txt)
+{
+	gint len = strlen (txt);
+
+	while (*fragment) {
+		if (!g_strncasecmp (fragment, txt, len))
+			return TRUE;
+
+		while (*fragment && !isspace ((gint) *fragment))
+			++fragment;
+		while (*fragment && isspace ((gint) *fragment))
+			++fragment;
+	}
+
+	return FALSE;
+}
+
 static gchar *
 match_name (ESelectNamesCompletion *comp, EDestination *dest, double *score)
 {
@@ -213,20 +236,20 @@ match_name (ESelectNamesCompletion *comp, EDestination *dest, double *score)
 
 		if (card->name->given
 		    && !(match & MATCHED_GIVEN_NAME)
-		    && !g_strncasecmp (card->name->given, strv[i], len)) {
+		    && match_name_fragment (card->name->given, strv[i])) {
 
 			this_match = MATCHED_GIVEN_NAME;
 
 		}
 		else if (card->name->additional
-			   && !(match & MATCHED_ADDITIONAL_NAME)
-			   && !g_strncasecmp (card->name->additional, strv[i], len)) {
+			 && !(match & MATCHED_ADDITIONAL_NAME)
+			 && match_name_fragment (card->name->additional, strv[i])) {
 
 			this_match = MATCHED_ADDITIONAL_NAME;
 
 		} else if (card->name->family
 			   && !(match & MATCHED_FAMILY_NAME)
-			   && !g_strncasecmp (card->name->family, strv[i], len)) {
+			   && match_name_fragment (card->name->family, strv[i])) {
 			
 			this_match = MATCHED_FAMILY_NAME;
 		}
@@ -695,7 +718,7 @@ e_select_names_completion_seq_complete_cb (EBookView *book_view, gpointer user_d
 	if (comp->priv->waiting_query) {
 		gchar *s = comp->priv->waiting_query;
 		comp->priv->waiting_query = NULL;
-		e_select_names_completion_do_query (comp, s);
+		e_completion_begin_search (E_COMPLETION (comp), s, comp->priv->waiting_pos, comp->priv->waiting_limit);
 		g_free (s);
 	}
 }
@@ -779,7 +802,7 @@ e_select_names_completion_start_query (ESelectNamesCompletion *comp, const gchar
 }
 
 static void
-e_select_names_completion_do_query (ESelectNamesCompletion *comp, const gchar *query_text)
+e_select_names_completion_do_query (ESelectNamesCompletion *comp, const gchar *query_text, gint pos, gint limit)
 {
 	gchar *clean;
 	gboolean query_is_still_running, can_reuse_cached_cards;
@@ -811,6 +834,8 @@ e_select_names_completion_do_query (ESelectNamesCompletion *comp, const gchar *q
 		if (query_is_still_running) {
 			g_free (comp->priv->waiting_query);
 			comp->priv->waiting_query = clean;
+			comp->priv->waiting_pos = pos;
+			comp->priv->waiting_limit = limit;
 			if (out)
 				fprintf (out, "waiting for running query to complete: %s\n", comp->priv->waiting_query);
 			return;
@@ -907,7 +932,7 @@ e_select_names_completion_begin (ECompletion *comp, const gchar *text, gint pos,
 		}
 	}
 
-	e_select_names_completion_do_query (selcomp, str);
+	e_select_names_completion_do_query (selcomp, str, pos, limit);
 }
 
 static void
