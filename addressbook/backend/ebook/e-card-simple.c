@@ -773,19 +773,23 @@ char     *e_card_simple_get            (ECardSimple          *simple,
 			return NULL;
 	case E_CARD_SIMPLE_INTERNAL_TYPE_DATE:
 		if (simple->card) {
-			char buf[26];
-			struct tm then;
 			gtk_object_get(GTK_OBJECT(simple->card),
 				       field_data[field].ecard_field, &date,
 				       NULL);
-			then.tm_year = date->year;
-			then.tm_mon  = date->month - 1;
-			then.tm_mday = date->day;
-			then.tm_hour = 12;
-			then.tm_min  = 0;
-			then.tm_sec  = 0;
-			e_strftime_fix_am_pm (buf, 26, _("%x"), &then);
-			return g_strdup (buf);
+			if (date != NULL) {
+				char buf[26];
+				struct tm then;
+				then.tm_year = date->year;
+				then.tm_mon  = date->month - 1;
+				then.tm_mday = date->day;
+				then.tm_hour = 12;
+				then.tm_min  = 0;
+				then.tm_sec  = 0;
+				e_strftime_fix_am_pm (buf, 26, _("%x"), &then);
+				return g_strdup (buf);
+			} else {
+				return NULL;
+			}
 		} else
 			return NULL;
 	case E_CARD_SIMPLE_INTERNAL_TYPE_ADDRESS:

@@ -1,3 +1,9 @@
+2001-11-02  Christopher James Lahey  <clahey@ximian.com>
+
+	* backend/ebook/e-card-simple.c (e_card_simple_get): Check for
+	NULL dates before converting them to strings.  Fixes Ximian bug
+	#14394.
+
 2001-11-02  Jon Trowbridge  <trow@ximian.com>
 
 	* gui/component/select-names/e-select-names-bonobo.c
