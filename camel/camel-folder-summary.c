@@ -844,6 +844,7 @@ CamelMessageInfo *camel_folder_summary_info_new_from_parser(CamelFolderSummary *
 				p->filter_index = camel_mime_filter_index_new_ibex(p->index);
 			camel_mime_filter_index_set_name(p->filter_index, (char *)camel_message_info_uid(info));
 			ibex_unindex(p->index, (char *)camel_message_info_uid(info));
+			ibex_index_buffer(p->index, (char *)camel_message_info_uid(info), "ibexindexed", strlen("ibexindexed"), NULL);
 		}
 
 		/* always scan the content info, even if we dont save it */
@@ -876,8 +877,10 @@ CamelMessageInfo *camel_folder_summary_info_new_from_message(CamelFolderSummary 
 	 * know if we are going to store this in the summary, but no matter */
 	summary_assign_uid(s, info);
 
-	if (p->index)
+	if (p->index) {
 		ibex_unindex(p->index, (char *)camel_message_info_uid(info));
+		ibex_index_buffer(p->index, (char *)camel_message_info_uid(info), "ibexindexed", strlen("ibexindexed"), NULL);
+	}
 
 	info->content = summary_build_content_info_message(s, info, (CamelMimePart *)msg);
 	/* FIXME: calculate the size as part of build_content_info_message */

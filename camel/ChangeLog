@@ -1,3 +1,22 @@
+2001-07-05  Not Zed  <NotZed@Ximian.com>
+
+	* camel-folder-summary.c
+	(camel_folder_summary_info_new_from_message): When indexing a new
+	record, create a pseudo word 'ibexindexed' so we can always tell
+	that a message has already been idnexed, even if it contains no
+	words of its own.  Things like maildir use this check to see if
+	its already been processed, and it matters if it is incorrect in
+	this case (not just wasted cycles).
+
+	(camel_folder_summary_info_new_from_parser): And same here.
+
+	* providers/local/camel-maildir-summary.c (maildir_summary_sync):
+	Changed the logicfor epoolv code to be different, we dont need to
+	update hash references or any tricky stuff.
+	(maildir_summary_check): Samehere.
+
+	* camel-folder-summary.h: Removed include of e-memory.h.
+
 2001-07-03  Joe Shaw  <joe@ximian.com>
 
 	* providers/nntp/camel-nntp-resp-codes.h: Added NNTP_NO_PERMISSION

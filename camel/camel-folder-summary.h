@@ -97,7 +97,6 @@ typedef struct _CamelSummaryReferences {
 #define DOEPOOLV
 
 #if defined (DOEPOOLV) || defined (DOESTRV)
-#include "../e-util/e-memory.h"
 
 /* string array indices */
 enum {
@@ -115,7 +114,7 @@ enum {
 struct _CamelMessageInfo {
 	/* public fields */
 #ifdef DOEPOOLV
-	EPoolv *strings;
+	struct _EPoolv *strings;
 #elif defined (DOESTRV)
 	struct _EStrv *strings;		/* all strings packed into a single compact array */
 #else
