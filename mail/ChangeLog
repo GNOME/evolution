@@ -1,5 +1,8 @@
 2001-01-10  Jeffrey Stedfast  <fejj@helixcode.com>
 
+	* mail-account-editor.c (source_auth_type_changed): Set the
+	sensitivity of the Password label too.
+
 	* mail-config-druid.c (transport_back): New callback to handle
 	when the user hits the "back" button when on the transport
 	page. This is needed to handle the case where we don't want to

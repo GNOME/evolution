@@ -250,6 +250,7 @@ source_auth_type_changed (GtkWidget *widget, gpointer user_data)
 	MailAccountEditor *editor = user_data;
 	CamelServiceAuthType *authtype;
 	gboolean sensitive;
+	GtkWidget *label;
 	
 	authtype = gtk_object_get_data (GTK_OBJECT (widget), "authtype");
 	
@@ -260,6 +261,8 @@ source_auth_type_changed (GtkWidget *widget, gpointer user_data)
 	else
 		sensitive = FALSE;
 	
+	label = glade_xml_get_widget (editor->gui, "lblSourcePasswd");
+	gtk_widget_set_sensitive (label, sensitive);
 	gtk_widget_set_sensitive (GTK_WIDGET (editor->source_passwd), sensitive);
 	gtk_widget_set_sensitive (GTK_WIDGET (editor->save_passwd), sensitive);
 }
