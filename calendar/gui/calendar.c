@@ -40,6 +40,10 @@ calendar_new (char *title,CalendarNewOptions options)
 	cal = g_new0 (Calendar, 1);
 
 	cal->title = g_strdup (title);
+	if (options & CALENDAR_USE_ICAL)
+	  cal->format = CAL_ICAL;
+	else
+	  cal->format = CAL_VCAL;
 
 	if ((calendar_day_begin == 0) || (calendar_day_end == 0))
 		calendar_set_day ();
@@ -315,18 +319,31 @@ calendar_load (Calendar *cal, char *fname)
 	}
 
 	cal->filename = g_strdup (fname);
-	vcal = Parse_MIME_FromFileName (fname);
-	if (!vcal)
-		return "Could not load the calendar";
 
 	stat (fname, &s);
 	cal->file_time = s.st_mtime;
 
 	calendar_set_day ();
-		
-	calendar_load_from_vobject (cal, vcal);
-	cleanVObject (vcal);
-	cleanStrTbl ();
+
+	switch (cal->format) {
+	case CAL_VCAL:
+		vcal = Parse_MIME_FromFileName (fname);
+		if (!vcal)
+			return "Could not load the calendar";
+		calendar_load_from_vobject (cal, vcal);
+		cleanVObject (vcal);
+		cleanStrTbl ();
+		break;
+#ifdef HAVE_LIBICAL
+		hi;
+	case CAL_ICAL:
+		icalendar_calendar_load (cal, fname);
+		break;
+#endif
+	default:
+		return "Unknown calendar format";
+	}
+
 	return NULL;
 }
 

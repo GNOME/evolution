@@ -228,7 +228,7 @@ gnome_calendar_new (char *title)
 	gtk_window_set_title(GTK_WINDOW(retval), title);
 
 	gcal->current_display = time_day_begin (time (NULL));
-	gcal->cal = calendar_new (title,CALENDAR_INIT_ALARMS);
+	gcal->cal = calendar_new (title, CALENDAR_INIT_ALARMS);
 	setup_widgets (gcal);
 	gnome_calendar_create_corba_server (gcal);
 
@@ -450,6 +450,7 @@ calendar_notify (time_t activation_time, CalendarAlarm *which, void *data)
 		gtk_object_set_data (GTK_OBJECT (w), "beep_tag",
 				     GINT_TO_POINTER (beep_tag));
 		gtk_widget_ref (w);
+		gtk_window_set_modal (GTK_WINDOW (w), FALSE);
 		ret = gnome_dialog_run (GNOME_DIALOG (w));
 		switch (ret) {
 		case 1:
@@ -493,6 +494,7 @@ calendar_notify (time_t activation_time, CalendarAlarm *which, void *data)
 					ico->summary, "'", NULL);
 		w = gnome_message_box_new (msg, GNOME_MESSAGE_BOX_INFO, 
 					   _("Ok"), snooze_button, NULL);
+		gtk_window_set_modal (GTK_WINDOW (w), FALSE);
 		ret = gnome_dialog_run (GNOME_DIALOG (w));
 		switch (ret) {
 		case 1:

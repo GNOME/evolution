@@ -31,7 +31,14 @@ typedef struct {
 	int            enabled;
 	int            count;
 	enum AlarmUnit units;
-	char           *data;
+	char           *data;	/* not used for iCalendar alarms */
+
+	/* the following pointers are used for iCalendar alarms */
+
+	char           *attach;	           /* AUDIO, EMAIL, PROC */
+	char           *desc;	           /* DISPLAY, EMAIL, PROC */
+	char           *summary;           /* EMAIL */
+	char           *attendee;          /* EMAIL */
 
 	/* Does not get saved, internally used */
 	time_t         offset;
@@ -82,6 +89,11 @@ typedef enum {
 	ICAL_TRANSPARENT
 } iCalTransp;
 
+typedef struct {
+	char   *uid;
+	char   *reltype;
+} iCalRelation;
+
 typedef char NotYet;
 
 enum RecurType {
@@ -119,6 +131,28 @@ typedef struct {
 	int            __count;
 } Recurrence;
 
+/* 
+   NOTE: iCalPerson is used for various property values which specify
+   people (e.g. ATTENDEE, ORGANIZER, etc.  Not all fields are valid
+   under RFC 2445 for all property values, but iCalPerson can store
+   them anyway.  Enforcing the RFC is a job for the parser.
+*/
+
+typedef struct {
+	char          *addr;
+	char          *name;
+	char          *role;
+	char          *partstat;
+	gboolean      rsvp;
+	char          *cutype;	/* calendar user type */
+	GList         *member;	/* group memberships */
+	GList         *deleg_to;
+	GList         *deleg_from;
+	char          *sent_by;
+	char          *directory;
+	GList         *altrep;	/* list of char* URI's */
+} iCalPerson;
+
 #define IS_INFINITE(r) (r->duration == 0)
 
 /* Flags to indicate what has changed in an object */
@@ -137,7 +171,7 @@ typedef struct {
 	iCalType      type;
 
 	GList         *attach;		/* type: one or more URIs or binary data */
-	GList         *attendee; 	/* type: CAL-ADDRESS */
+        GList         *attendee; 	/* type: CAL-ADDRESS (list of iCalPerson) */
 	GList         *categories; 	/* type: one or more TEXT */
 	char          *class;
 
@@ -145,15 +179,18 @@ typedef struct {
 	time_t        completed;
 	time_t        created;
 	GList         *contact;		/* type: one or more TEXT */
+	char          *desc;
 	time_t        dtstamp;
 	time_t        dtstart;
-	time_t        dtend;
+	time_t        dtend;            /* also duedate for todo's */
+        gboolean      date_only;        /* set if the start/end times were
+   specified using dates, not times (internal use, not stored to disk) */
 	GList         *exdate;		/* type: one or more time_t's */
 	GList         *exrule;		/* type: one or more RECUR */
 	iCalGeo       geo;
 	time_t        last_mod;
 	char          *location;
-	char          *organizer;
+	iCalPerson    *organizer;
 	int           percent;
 	int           priority;
 	char          *rstatus;	        /* request status for freebusy */
@@ -173,6 +210,8 @@ typedef struct {
 	CalendarAlarm aalarm;
 	CalendarAlarm palarm;
 	CalendarAlarm malarm;
+
+	GList         *alarms;
 
 	Recurrence    *recur;
 	

@@ -13,7 +13,7 @@
 #include "main.h"
 #include "eventedit.h"
 #include "popup-menu.h"
-
+#include "quick-view.h"
 
 #define TEXT_BORDER 2
 #define MIN_INFO_WIDTH 50
@@ -151,6 +151,21 @@ gncal_day_view_button_press (GtkWidget *widget, GdkEventButton *event)
 
 	if (event->button == 1 && event->type == GDK_2BUTTON_PRESS)
 		gnome_calendar_dayjump (dayview->calendar, dayview->lower);
+
+#if 0
+	else if (event->button == 1 && event->type == GDK_BUTTON_PRESS) {
+		time_t day_begin_time, day_end_time;
+		GList *list;
+		GtkWidget *qv;
+		char date_str [256];
+		
+		strftime (date_str, sizeof (date_str), _("%a %b %d %Y"), 
+			  localtime (&dayview->lower));
+		qv = quick_view_new (dayview->calendar, date_str, dayview->events);
+		quick_view_do_popup (QUICK_VIEW (qv), event);
+		gtk_widget_destroy (qv);
+	}
+#endif
 
 	return TRUE;
 }

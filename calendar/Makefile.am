@@ -20,11 +20,19 @@ endif
 
 bin_PROGRAMS = gnomecal tlacuache $(extra_pilot_bins)
 
+#if HAVE_LIBICAL
+ICAL_INCLUDEDIR = -I../libical/src/libical
+ICAL_SOURCES = icalendar.c
+ICAL_LINK_FLAGS = ../libical/src/libical/libical.a
+#endif
+
+
 INCLUDES = 						\
 	-I$(includedir)					\
 	$(GNOME_INCLUDEDIR)				\
 	$(GNOME_CONDUIT_INCLUDEDIR)			\
 	$(PISOCK_INCLUDEDIR)                  		\
+	$(ICAL_INCLUDEDIR)                              \
         -DGNOMELOCALEDIR=\""$(datadir)/locale"\"
 
 GNOMECAL_CORBA_GENERATED =	\
@@ -110,7 +118,8 @@ gnomecal_SOURCES =				\
 	view-utils.h				\
 	view-utils.c				\
 	year-view.c				\
-	year-view.h
+	year-view.h				\
+	$(ICAL_SOURCES)
 
 calendar_pilot_sync_SOURCES =	\
 	GnomeCal-common.c	\
@@ -148,7 +157,8 @@ tlacuache_SOURCES =				\
 LINK_FLAGS = \
 	$(BONOBO_VFS_GNOME_LIBS) \
 	$(INTLLIBS) \
-	../libversit/libversit.la
+	../libversit/libversit.la \
+	$(ICAL_LINK_FLAGS)
 
 tlacuache_INCLUDES =			\
 	$(INCLUDES)			\

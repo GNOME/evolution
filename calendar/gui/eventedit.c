@@ -826,7 +826,8 @@ ee_init_general_page (EventEditor *ee)
 	l = gtk_label_new (_("Owner:"));
 	gtk_box_pack_start (GTK_BOX (hbox), l, FALSE, FALSE, 0);
 
-	ee->general_owner = gtk_label_new (ee->ical->organizer ? ee->ical->organizer : _("?"));
+	ee->general_owner = gtk_label_new (ee->ical->organizer->addr ? 
+					   ee->ical->organizer->addr : _("?"));
 	gtk_misc_set_alignment (GTK_MISC (ee->general_owner), 0.0, 0.5);
 	gtk_box_pack_start (GTK_BOX (hbox), ee->general_owner, TRUE, TRUE, 4);
 

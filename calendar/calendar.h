@@ -5,17 +5,24 @@
 
 BEGIN_GNOME_DECLS
 
+typedef enum {
+	CAL_VCAL,
+	CAL_ICAL
+} CalendarFormat;
+
 typedef struct {
 	/* This calendar's title */
 	char    *title;
 
 	/* backing store for this calendar object */
 	char    *filename;
+	CalendarFormat format;
 
 	/* The list of events;  todo's and journal entries */
 	GList  	*events;
 	GList  	*todo;
 	GList  	*journal;
+	GList   *timezones;	/* required for iCalendar */
 
 	GHashTable *event_hash;
 	
@@ -43,7 +50,8 @@ typedef struct {
 
 typedef enum {
 	CALENDAR_INIT_NIL    = 0,
-	CALENDAR_INIT_ALARMS = 1 << 0
+	CALENDAR_INIT_ALARMS = 1 << 0,
+	CALENDAR_USE_ICAL    = 1 << 1
 } CalendarNewOptions;
 
 Calendar *calendar_new                  (char *title,CalendarNewOptions options);

@@ -829,7 +829,7 @@ dump_todo (void)
 		if (object->type != ICAL_TODO)
 			continue;
 
-		printf ("[%s]: %s\n", object->organizer, object->summary);
+		printf ("[%s]: %s\n",object->organizer->addr, object->summary);
 	}
 	calendar_destroy (cal);
 	exit (0);

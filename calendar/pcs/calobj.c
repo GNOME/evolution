@@ -82,7 +82,8 @@ ical_new (char *comment, char *organizer, char *summary)
 	ico = ical_object_new ();
 
 	ico->comment   = g_strdup (comment);
-	ico->organizer = g_strdup (organizer);
+	ico->organizer = g_new0 (iCalPerson, 1);
+	ico->organizer->addr = g_strdup (organizer);
 	ico->summary   = g_strdup (summary);
 	ico->class     = g_strdup ("PUBLIC");
 	ico->status    = g_strdup ("NEEDS ACTION");
@@ -705,13 +706,23 @@ ical_object_create_from_vobject (VObject *o, const char *object_name)
 
 	/* Organizer */
 	if (has (o, VCOrgNameProp)){
-		ical->organizer = g_strdup (str_val (vo));
+		ical->organizer = g_new0 (iCalPerson, 1);
+		ical->organizer->addr = g_strdup (str_val (vo));
 		free (the_str);
 	}
 
 	/* related */
 	if (has (o, VCRelatedToProp)){
-		ical->related = set_list (str_val (vo));
+		char *str;
+		char *s;
+		iCalRelation *rel;
+		str = str_val (vo);
+		for (s = strtok (str, ";"); s; s = strtok (NULL, ";")) {
+			rel = g_new0 (iCalRelation, 1);
+			rel->uid = g_strdup (s);
+			rel->reltype = g_strdup ("PARENT");
+			ical->related = g_list_prepend (ical->related, rel);
+		}
 		free (the_str);
 	}
 
@@ -840,6 +851,36 @@ store_list (VObject *o, char *prop, GList *values)
 		int len = strlen (l->data);
 
 		strcpy (p, l->data);
+
+		if (l->next) {
+			p [len] = ';';
+			p += len+1;
+		} else
+			p += len;
+	}
+
+	*p = 0;
+
+	addPropValue (o, prop, result);
+	g_free (result);
+}
+
+static void
+store_rel_list (VObject *o, char *prop, GList *values)
+{
+	GList *l;
+	int len;
+	char *result, *p;
+	
+	for (len = 0, l = values; l; l = l->next)
+		len += strlen (((iCalRelation*)(l->data))->uid) + 1;
+
+	result = g_malloc (len);
+
+	for (p = result, l = values; l; l = l->next) {
+		int len = strlen (((iCalRelation*)(l->data))->uid);
+		
+		strcpy (p, ((iCalRelation*)(l->data))->uid);
 
 		if (l->next) {
 			p [len] = ';';
@@ -1001,13 +1042,13 @@ ical_object_to_vobject (iCalObject *ical)
 	/* transparency */
 	addPropValue (o, VCTranspProp, to_str (ical->transp));
 
-	/* Owenr/organizer */
-	if (ical->organizer)
-		addPropValue (o, VCOrgNameProp, ical->organizer);
+	/* Owner/organizer */
+	if (ical->organizer && ical->organizer->addr)
+		addPropValue (o, VCOrgNameProp, ical->organizer->addr);
 
 	/* related */
 	if (ical->related)
-		store_list (o, VCRelatedToProp, ical->related);
+		store_rel_list (o, VCRelatedToProp, ical->related);
 
 	/* attach */
 	for (l = ical->attach; l; l = l->next)
