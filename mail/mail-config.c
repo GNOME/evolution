@@ -382,10 +382,10 @@ static MailConfigSignature *
 config_read_signature (gint i)
 {
 	MailConfigSignature *sig;
-	gchar *path, *val;
-
+	char *path, *val;
+	
 	sig = g_new0 (MailConfigSignature, 1);
-
+	
 	sig->id = i;
 	
 	path = g_strdup_printf ("/Mail/Signatures/name_%d", i);
@@ -395,7 +395,7 @@ config_read_signature (gint i)
 		sig->name = val;
 	else
 		g_free (val);
-
+	
 	path = g_strdup_printf ("/Mail/Signatures/filename_%d", i);
 	val = bonobo_config_get_string (config->db, path, NULL);
 	g_free (path);
@@ -403,7 +403,7 @@ config_read_signature (gint i)
 		sig->filename = val;
 	else
 		g_free (val);
-
+	
 	path = g_strdup_printf ("/Mail/Signatures/script_%d", i);
 	val = bonobo_config_get_string (config->db, path, NULL);
 	g_free (path);
@@ -411,13 +411,15 @@ config_read_signature (gint i)
 		sig->script = val;
 	else
 		g_free (val);
-
+	
 	path = g_strdup_printf ("/Mail/Signatures/random_%d", i);
 	sig->random = bonobo_config_get_boolean_with_default (config->db, path, FALSE, NULL);
-
+	g_free (path);
+	
 	path = g_strdup_printf ("/Mail/Signatures/html_%d", i);
 	sig->html = bonobo_config_get_boolean_with_default (config->db, path, FALSE, NULL);
-
+	g_free (path);
+	
 	return sig;
 }
 

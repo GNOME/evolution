@@ -1,5 +1,8 @@
 2002-04-19  Jeffrey Stedfast  <fejj@ximian.com>
 
+	* mail-config.c (config_read_signature): Free some temporary path
+	buffers.
+
 	* mail-display.c (stream_write_or_redisplay_when_loaded): Ref the
 	html object here, this is an async handler so it's possible for
 	our caller (or someone else) to unref the html object before we
