@@ -30,11 +30,10 @@
 #ifndef _E_CELL_VBOX_H_
 #define _E_CELL_VBOX_H_
 
-#include <libgnomeui/gnome-canvas.h>
+#include <libgnomecanvas/gnome-canvas.h>
 #include <gal/e-table/e-cell.h>
-#include <libgnome/gnome-defs.h>
 
-BEGIN_GNOME_DECLS
+G_BEGIN_DECLS
 
 #define E_CELL_VBOX_TYPE        (e_cell_vbox_get_type ())
 #define E_CELL_VBOX(o)          (GTK_CHECK_CAST ((o), E_CELL_VBOX_TYPE, ECellVbox))
@@ -61,8 +60,6 @@ void     e_cell_vbox_append    (ECellVbox *vbox,
 				int model_col);
 
 
-END_GNOME_DECLS
+G_END_DECLS
 
 #endif /* _E_CELL_VBOX_H_ */
-
-

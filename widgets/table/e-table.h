@@ -41,7 +41,6 @@
 #include <gal/e-table/e-table-state.h>
 #include <gal/e-table/e-table-sorter.h>
 #include <gal/e-table/e-table-search.h>
-#include <libgnome/gnome-defs.h>
 
 G_BEGIN_DECLS
 

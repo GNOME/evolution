@@ -26,9 +26,8 @@
 #define _E_TABLE_SIMPLE_H_
 
 #include <gal/e-table/e-table-model.h>
-#include <libgnome/gnome-defs.h>
 
-BEGIN_GNOME_DECLS
+G_BEGIN_DECLS
 
 #define E_TABLE_SIMPLE_TYPE        (e_table_simple_get_type ())
 #define E_TABLE_SIMPLE(o)          (GTK_CHECK_CAST ((o), E_TABLE_SIMPLE_TYPE, ETableSimple))
@@ -117,7 +116,6 @@ char        *e_table_simple_string_value_to_string   (ETableModel               
 						      const void                    *val,
 						      void                          *data);
 
-END_GNOME_DECLS
+G_END_DECLS
 
 #endif /* _E_TABLE_SIMPLE_H_ */
-

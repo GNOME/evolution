@@ -28,7 +28,6 @@
 #include <gtk/gtkwindow.h>
 
 #include <libgnomeui/gnome-messagebox.h>
-#include <libgnome/gnome-defs.h>
 #include <glade/glade-xml.h>
 
 G_BEGIN_DECLS

@@ -37,7 +37,6 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <time.h>
-#include <libgnome/gnome-defs.h>
 #include <libgnome/gnome-util.h>
 #include <math.h>
 

@@ -26,9 +26,8 @@
 
 #include <gal/e-table/e-table-memory.h>
 #include <gal/e-table/e-table-memory-callbacks.h>
-#include <libgnome/gnome-defs.h>
 
-BEGIN_GNOME_DECLS
+G_BEGIN_DECLS
 
 #define E_TABLE_MEMORY_STORE_TYPE        (e_table_memory_store_get_type ())
 #define E_TABLE_MEMORY_STORE(o)          (GTK_CHECK_CAST ((o), E_TABLE_MEMORY_STORE_TYPE, ETableMemoryStore))
@@ -117,6 +116,6 @@ void         e_table_memory_store_remove              (ETableMemoryStore        
 						       int                           row);
 void         e_table_memory_store_clear               (ETableMemoryStore            *etms);
 
-END_GNOME_DECLS
+G_END_DECLS
 
 #endif /* _E_TABLE_MEMORY_STORE_H_ */
