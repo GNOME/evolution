@@ -1,3 +1,9 @@
+2003-01-11  Jeffrey Stedfast  <fejj@ximian.com>
+
+	* mail-format.c (mail_format_data_wrapper_write_to_stream):
+	g_strdup the md->charset otherwise we'll get memory corruption
+	later. This may be why non-usascii text is displaying incorrectly.
+
 2003-01-10  Jeffrey Stedfast  <fejj@ximian.com>
 
 	* folder-browser-ui.c (folder_browser_ui_add_list): We also need

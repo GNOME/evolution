@@ -1129,7 +1129,7 @@ mail_format_data_wrapper_write_to_stream (CamelDataWrapper *wrapper, MailDisplay
 		
 		/* find out the charset the user wants to override to */
 		if (mail_display && mail_display->charset)
-			charset = mail_display->charset;
+			charset = g_strdup (mail_display->charset);
 		else
 			charset = gconf_client_get_string (gconf, "/apps/evolution/mail/format/charset", NULL);
 		
