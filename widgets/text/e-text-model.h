@@ -37,7 +37,6 @@ struct _ETextModel {
 	GtkObject item;
 
 	char *text;			/* Text to display */
-	int length;
 };
 
 struct _ETextModelClass {
@@ -47,11 +46,14 @@ struct _ETextModelClass {
 	void  (* changed)   (ETextModel *model);
 
 	/* Virtual methods */
-	char *(* get_text)    	(ETextModel *model);
-	void  (* set_text)    	(ETextModel *model, gchar *text);
-	void  (* insert)      	(ETextModel *model, gint position, gchar *text);
-	void  (* insert_length) (ETextModel *model, gint position, gchar *text, gint length);
-	void  (* delete)        (ETextModel *model, gint position, gint length);
+	char *(* get_text)           (ETextModel *model);
+	void  (* set_text)           (ETextModel *model, gchar *text);
+	void  (* insert)             (ETextModel *model, gint position, gchar *text);
+	void  (* insert_length)      (ETextModel *model, gint position, gchar *text, gint length);
+	void  (* delete)             (ETextModel *model, gint position, gint length);
+	gint  (* obj_count)          (ETextModel *model);
+	const gchar *(* get_nth_obj) (ETextModel *model, gint n);
+	void  (* activate_nth_obj)   (ETextModel *model, gint n);
 };
 
 
@@ -66,6 +68,11 @@ void e_text_model_insert(ETextModel *model, gint position, gchar *text);
 void e_text_model_insert_length(ETextModel *model, gint position, gchar *text, gint length);
 void e_text_model_delete(ETextModel *model, gint position, gint length);
 
+gint e_text_model_object_count(ETextModel *model);
+const gchar *e_text_model_get_nth_object(ETextModel *model, gint n);
+void e_text_model_activate_nth_object(ETextModel *model, gint n);
+
+gchar *e_text_model_strdup_expanded_text(ETextModel *model);
 
 END_GNOME_DECLS
 

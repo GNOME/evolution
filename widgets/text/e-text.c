@@ -50,6 +50,7 @@ struct line {
 	int length;	/* Line's length IN BYTES */
 	int width;	/* Line's width in pixels */
 	int ellipsis_length;  /* Length before adding ellipsis */
+	gint first_obj; /* First embedded object number */
 };
 
 /* Object argument IDs */
@@ -150,6 +151,10 @@ static void e_suck_font_free (ETextSuckFont *suckfont);
 #endif
 
 static void e_text_free_lines(EText *text);
+
+static gint text_width_with_objects (ETextModel *model, gint first_object,
+				     EFont *font, EFontStyle style,
+				     gchar *text, gint bytelen);
 
 static void calc_height (EText *text);
 static void calc_line_widths (EText *text);
@@ -732,8 +737,9 @@ calc_line_widths (EText *text)
 	for (i = 0; i < text->num_lines; i++) {
 		if (lines->length != 0) {
 			if (text->font) {
-				lines->width = e_font_utf8_text_width (text->font, E_FONT_PLAIN,
-								       lines->text, lines->length);
+				lines->width = text_width_with_objects (text->model, lines->first_obj,
+									text->font, E_FONT_PLAIN,
+									lines->text, lines->length);
 				lines->ellipsis_length = 0;
 			} else {
 				lines->width = 0;
@@ -747,8 +753,10 @@ calc_line_widths (EText *text)
 				if (text->font) {
 					lines->ellipsis_length = 0;
 					for (p = lines->text; p && *p && (p - lines->text) < lines->length; p = unicode_next_utf8 (p)) {
-						if (e_font_utf8_text_width (text->font, E_FONT_PLAIN, lines->text, p - lines->text) +
-						    text->ellipsis_width <= clip_width)
+						gint text_width = text_width_with_objects (text->model, lines->first_obj,
+											   text->font, E_FONT_PLAIN,
+											   lines->text, p - lines->text);
+						if (clip_width >= text_width + text->ellipsis_width)
 							lines->ellipsis_length = p - lines->text;
 						else
 							break;
@@ -756,7 +764,9 @@ calc_line_widths (EText *text)
 				}
 				else
 					lines->ellipsis_length = 0;
-				lines->width = e_font_utf8_text_width (text->font, E_FONT_PLAIN, lines->text, lines->ellipsis_length) +
+				lines->width = text_width_with_objects (text->model, lines->first_obj,
+									text->font, E_FONT_PLAIN,
+									lines->text, lines->ellipsis_length) + 
 					text->ellipsis_width;
 			}
 			else
@@ -780,6 +790,121 @@ e_text_free_lines(EText *text)
 	text->num_lines = 0;
 }
 
+static gint
+text_width_with_objects (ETextModel *model, gint object_num,
+			 EFont *font, EFontStyle style,
+			 gchar *text, gint numbytes)
+{
+	gchar *c;
+	gint width = 0;
+
+	while (*text && numbytes > 0) {
+
+		c = text;
+
+		while (*c && *c != '\1' && numbytes > 0) {
+			++c;
+			--numbytes;
+		}
+
+		width += e_font_utf8_text_width (font, style, text, c-text);
+
+		if (*c == '\1' && numbytes > 0) {
+			const gchar *obj_str;
+			g_assert (object_num < e_text_model_object_count (model));
+			obj_str = e_text_model_get_nth_object (model, object_num);
+			width += e_font_utf8_text_width (font, E_FONT_BOLD, obj_str, strlen (obj_str));
+			++object_num;
+			++c;
+			--numbytes;
+		}
+
+		text = c;
+	}
+
+	return width;
+}
+
+static gint
+unicode_strlen_with_objects(ETextModel *model, gint object_num, gchar *s)
+{
+	gint unival;
+	gint len=0;
+	gchar *p;
+
+	for (p = unicode_get_utf8 (s, &unival); (unival && p); p = unicode_get_utf8 (p, &unival)) {
+		if (unival == '\1') {
+			const gchar *obj_str = e_text_model_get_nth_object (model, object_num);
+			len += unicode_strlen (obj_str, -1);
+			++object_num;
+		} else {
+			++len;
+		}
+	}
+
+	return len;
+}
+
+static void
+text_draw_with_objects (ETextModel *model, gint object_num,
+			GdkDrawable *drawable,
+			EFont *font, EFontStyle style,
+			GdkGC *gc,
+			gint x, gint y,
+			gchar *text, gint numbytes)
+{
+	gchar *c;
+	
+	while (*text && numbytes > 0) {
+		
+		c = text;
+
+		while (*c && *c != '\1' && numbytes > 0) {
+			++c;
+			--numbytes;
+		}
+
+		e_font_draw_utf8_text (drawable, font, style, gc, x, y, text, c-text);
+		x += e_font_utf8_text_width (font, style, text, c-text);
+
+		if (*c == '\1' && numbytes > 0) {
+			const gchar *obj_str;
+			gint start_x = x;
+			gint len;
+			g_assert (object_num < e_text_model_object_count (model));
+
+			obj_str = e_text_model_get_nth_object (model, object_num);
+
+			len = strlen (obj_str);
+			e_font_draw_utf8_text (drawable, font, style, gc, x, y, obj_str, len);
+			x += e_font_utf8_text_width (font, style, obj_str, len);
+
+			/* We underline our objects. */
+			gdk_draw_line (drawable, gc, start_x, y+1, x, y+1);
+
+			++object_num;
+			++c;
+			--numbytes;
+		}
+		
+		text = c;
+	}
+}
+
+static gint
+object_number_advance (gint object_num, gchar *start, gint numbytes) 
+{
+	while (*start && numbytes > 0) {
+		if (*start == '\1')
+			++object_num;
+		++start;
+		--numbytes;
+	}
+	
+	return object_num;
+}
+
+
 #define IS_BREAKCHAR(text,c) ((text)->break_characters && unicode_strchr ((text)->break_characters, (c)))
 /* Splits the text of the text item into lines */
 static void
@@ -794,6 +919,7 @@ split_into_lines (EText *text)
 	char *linestart;
 	double clip_width;
 	unicode_char_t unival;
+	int object_num;
 
 	/* Free old array of lines */
 	e_text_free_lines(text);
@@ -815,13 +941,18 @@ split_into_lines (EText *text)
 	}
 
 	cp = text->text;
+	object_num = 0;
 
 	for (p = unicode_get_utf8 (cp, &unival); (unival && p); cp = p, p = unicode_get_utf8 (p, &unival)) {
 		if (text->line_wrap && (unicode_isspace (unival) || unival == '\n')) {
 			if (laststart != lastend
-			    && e_font_utf8_text_width(text->font, E_FONT_PLAIN, linestart, cp - linestart)
-			    > clip_width ) {
+			    && clip_width < text_width_with_objects (text->model, object_num,
+								     text->font, E_FONT_PLAIN,
+								     linestart, cp - linestart)) {
 				text->num_lines ++;
+
+				object_num = object_number_advance (object_num, linestart, lastend-linestart);
+
 				linestart = laststart;
 				laststart = p;
 				lastend = cp;
@@ -829,12 +960,17 @@ split_into_lines (EText *text)
 				laststart = p;
 				lastend = cp;
 			}
-		} else if (text->line_wrap && (IS_BREAKCHAR(text, unival))) {
-			if (laststart != lastend
-			    && unicode_index_to_offset (linestart, cp - linestart) != 1
-			    && e_font_utf8_text_width(text->font, E_FONT_PLAIN, linestart, p - linestart)
-			     > clip_width ) {
+		} else if (text->line_wrap && (IS_BREAKCHAR(text, unival) || unival == '\1')) {
+
+			if ((unival == '\1' || laststart != lastend)
+			    && (unival == '\1' || unicode_index_to_offset (linestart, cp - linestart) != 1)
+			    && clip_width < text_width_with_objects (text->model, object_num,
+								     text->font, E_FONT_PLAIN,
+								     linestart, p - linestart)) {
 				text->num_lines ++;
+
+				object_num = object_number_advance (object_num, linestart, lastend-linestart);
+
 				linestart = laststart;
 				laststart = p;
 				lastend = p;
@@ -842,24 +978,27 @@ split_into_lines (EText *text)
 				laststart = p;
 				lastend = p;
 			}
-		} 
+		}
 		if (unival == '\n') {
 			text->num_lines ++;
+
+			object_num = object_number_advance (object_num, linestart, lastend-linestart);
+
 			lastend = p;
 			laststart = p;
 			linestart = p;
 		} 
 	}
 
-	/* fixme: */
-	if (text->line_wrap) {
-		if ( p
-		     && laststart != lastend
-		     && e_font_utf8_text_width(text->font, E_FONT_PLAIN, linestart, cp - linestart)
-		     > clip_width ) {
-			text->num_lines ++;
-		}
-	} 
+	if ( text->line_wrap
+	     && p
+	     && laststart != lastend
+	     && clip_width < text_width_with_objects (text->model, object_num,
+						      text->font, E_FONT_PLAIN, 
+						      linestart, cp - linestart)) {
+		text->num_lines ++;
+		object_num = object_number_advance (object_num, linestart, lastend-linestart);
+	}
 
 	text->num_lines++;
 
@@ -876,15 +1015,23 @@ split_into_lines (EText *text)
 	laststart = text->text;
 
 	cp = text->text;
+	object_num = 0;
+
 	for (p = unicode_get_utf8 (cp, &unival); p && unival && line_num < text->num_lines; cp = p, p = unicode_get_utf8 (p, &unival)) {
 		gboolean handled = FALSE;
+
 		if (len == 0)
 			lines->text = cp;
 		if (text->line_wrap && (unicode_isspace (unival) || unival == '\n')) {
-			if (e_font_utf8_text_width (text->font, E_FONT_PLAIN, lines->text, cp - lines->text)
-			    > clip_width 
+			if (clip_width < text_width_with_objects (text->model, object_num,
+								  text->font, E_FONT_PLAIN,
+								  lines->text, cp - lines->text)
 			    && laststart != lastend) {
+
 				lines->length = lastend - lines->text;
+				lines->first_obj = object_num;
+				object_num = object_number_advance (object_num, lines->text, lines->length);
+
 				lines++;
 				line_num++;
 				len = cp - laststart;
@@ -897,12 +1044,17 @@ split_into_lines (EText *text)
 				len ++;
 			}
 			handled = TRUE;
-		} else if (text->line_wrap && (IS_BREAKCHAR(text, unival))) {
-			if (laststart != lastend
-			    && unicode_index_to_offset (lines->text, cp - lines->text) != 1
-			    && e_font_utf8_text_width (text->font, E_FONT_PLAIN, lines->text, p - lines->text)
-			    > clip_width ) {
+		} else if (text->line_wrap && (IS_BREAKCHAR(text, unival) || unival == '\1')) {
+			if ((unival == '\1' || laststart != lastend)
+			    && (unival == '\1' || unicode_index_to_offset (lines->text, cp - lines->text) != 1)
+			    && clip_width < text_width_with_objects (text->model, object_num,
+								     text->font, E_FONT_PLAIN,
+								     lines->text, p - lines->text)) {
+
 				lines->length = lastend - lines->text;
+				lines->first_obj = object_num;
+				object_num = object_number_advance (object_num, lines->text, lines->length);
+
 				lines++;
 				line_num++;
 				len = p - laststart;
@@ -918,7 +1070,11 @@ split_into_lines (EText *text)
 		if (line_num >= text->num_lines)
 			break;
 		if (unival == '\n') {
+
 			lines->length = cp - lines->text;
+			lines->first_obj = object_num;
+			object_num = object_number_advance (object_num, lines->text, lines->length);
+			
 			lines++;
 			line_num++;
 			len = 0;
@@ -931,10 +1087,15 @@ split_into_lines (EText *text)
 	}
 
 	if ( line_num < text->num_lines && text->line_wrap ) {
-		if (e_font_utf8_text_width(text->font, E_FONT_PLAIN, lines->text, cp - lines->text)
-		    > clip_width 
+		if (clip_width < text_width_with_objects (text->model, object_num,
+							  text->font, E_FONT_PLAIN,
+							  lines->text, cp - lines->text)
 		    && laststart != lastend ) {
+
 			lines->length = lastend - lines->text;
+			lines->first_obj = object_num;
+			object_num = object_number_advance (object_num, lines->text, lines->length);
+
 			lines++;
 			line_num++;
 			len = cp - laststart;
@@ -947,6 +1108,7 @@ split_into_lines (EText *text)
 	if (len == 0)
 		lines->text = cp;
 	lines->length = strlen (lines->text);
+	lines->first_obj = object_num;
 }
 
 /* Convenience function to set the text's GC's foreground color */
@@ -1516,9 +1678,10 @@ e_text_reflow (GnomeCanvasItem *item, int flags)
 		}
 		lines --;
 		i--;
-		x = e_font_utf8_text_width(text->font, E_FONT_PLAIN,
-					   lines->text,
-					   text->selection_end - (lines->text - text->text));
+		x = text_width_with_objects (text->model, lines->first_obj,
+					     text->font, E_FONT_PLAIN,
+					     lines->text,
+					     text->selection_end - (lines->text - text->text));
 		
 
 		if (x < text->xofs_edit) {
@@ -1863,6 +2026,7 @@ e_text_draw (GnomeCanvasItem *item, GdkDrawable *drawable,
 		gnome_canvas_set_stipple_origin (item->canvas, text->gc);
 
 	for (i = 0; i < text->num_lines; i++) {
+
 		xpos = get_line_xpos (text, lines);
 		if (text->editing) {
 			xpos -= text->xofs_edit;
@@ -1880,13 +2044,15 @@ e_text_draw (GnomeCanvasItem *item, GdkDrawable *drawable,
 			if ( sel_end > end_char )
 				sel_end = end_char;
 			if ( sel_start < sel_end ) {
-				sel_rect.x = xpos - x + e_font_utf8_text_width (text->font, E_FONT_PLAIN,
-										lines->text,
-										sel_start - start_char);
+				sel_rect.x = xpos - x + text_width_with_objects (text->model, lines->first_obj,
+										 text->font, E_FONT_PLAIN,
+										 lines->text,
+										 sel_start - start_char);
 				sel_rect.y = ypos - y - e_font_ascent (text->font);
-				sel_rect.width = e_font_utf8_text_width (text->font, E_FONT_PLAIN,
-									 lines->text + sel_start - start_char,
-									 sel_end - sel_start);
+				sel_rect.width = text_width_with_objects (text->model, lines->first_obj,
+									  text->font, E_FONT_PLAIN,
+									  lines->text + sel_start - start_char,
+									  sel_end - sel_start);
 				sel_rect.height = e_font_height (text->font);
 				gtk_paint_flat_box(GTK_WIDGET(item->canvas)->style,
 						   drawable,
@@ -1901,39 +2067,45 @@ e_text_draw (GnomeCanvasItem *item, GdkDrawable *drawable,
 						   sel_rect.y,
 						   sel_rect.width,
 						   sel_rect.height);
-				e_font_draw_utf8_text (drawable,
-						       text->font, E_FONT_PLAIN,
-						       text->gc,
-						       xpos - x,
-						       ypos - y,
-						       lines->text,
-						       sel_start - start_char);
-				e_font_draw_utf8_text (drawable,
-						       text->font, E_FONT_PLAIN,
-						       fg_gc,
-						       xpos - x + e_font_utf8_text_width (text->font, E_FONT_PLAIN,
-											  lines->text,
-											  sel_start - start_char),
-						       ypos - y,
-						       lines->text + sel_start - start_char,
-						       sel_end - sel_start);
-				e_font_draw_utf8_text (drawable,
-						       text->font, E_FONT_PLAIN,
-						       text->gc,
-						       xpos - x + e_font_utf8_text_width (text->font, E_FONT_PLAIN,
-											  lines->text,
-											  sel_end - start_char),
-						       ypos - y,
-						       lines->text + sel_end - start_char,
-						       end_char - sel_end);
+				text_draw_with_objects (text->model, lines->first_obj,
+							drawable,
+							text->font, E_FONT_PLAIN,
+							text->gc,
+							xpos - x,
+							ypos - y,
+							lines->text,
+							sel_start - start_char);
+				text_draw_with_objects (text->model, lines->first_obj,
+							drawable,
+							text->font, E_FONT_PLAIN,
+							fg_gc,
+							xpos - x + text_width_with_objects (text->model, lines->first_obj,
+											    text->font, E_FONT_PLAIN,
+											    lines->text,
+											    sel_start - start_char),
+							ypos - y,
+							lines->text + sel_start - start_char,
+							sel_end - sel_start);
+				text_draw_with_objects (text->model, lines->first_obj,
+							drawable,
+							text->font, E_FONT_PLAIN,
+							text->gc,
+							xpos - x + text_width_with_objects (text->model, lines->first_obj,
+											    text->font, E_FONT_PLAIN,
+											    lines->text,
+											    sel_end - start_char),
+							ypos - y,
+							lines->text + sel_end - start_char,
+							end_char - sel_end);
 			} else {
-				e_font_draw_utf8_text (drawable,
-						       text->font, E_FONT_PLAIN,
-						       text->gc,
-						       xpos - x,
-						       ypos - y,
-						       lines->text,
-						       lines->length);
+				text_draw_with_objects (text->model, lines->first_obj,
+							drawable,
+							text->font, E_FONT_PLAIN,
+							text->gc,
+							xpos - x,
+							ypos - y,
+							lines->text,
+							lines->length);
 			}
 			if (text->selection_start == text->selection_end &&
 			    text->selection_start >= start_char &&
@@ -1942,22 +2114,24 @@ e_text_draw (GnomeCanvasItem *item, GdkDrawable *drawable,
 				gdk_draw_rectangle (drawable,
 						    text->gc,
 						    TRUE,
-						    xpos - x + e_font_utf8_text_width (text->font, E_FONT_PLAIN,
-										       lines->text,
-										       sel_start - start_char),
+						    xpos - x + text_width_with_objects (text->model, lines->first_obj,
+											text->font, E_FONT_PLAIN,
+											lines->text,
+											sel_start - start_char),
 						    ypos - y - e_font_ascent (text->font),
 						    1,
 						    e_font_height (text->font));
 			}
 		} else {
 			if (text->clip && text->use_ellipsis && lines->ellipsis_length < lines->length) {
-				e_font_draw_utf8_text (drawable,
-						       text->font, E_FONT_PLAIN,
-						       text->gc,
-						       xpos - x,
-						       ypos - y,
-						       lines->text,
-						       lines->ellipsis_length);
+				text_draw_with_objects (text->model, lines->first_obj,
+							drawable,
+							text->font, E_FONT_PLAIN,
+							text->gc,
+							xpos - x,
+							ypos - y,
+							lines->text,
+							lines->ellipsis_length);
 				e_font_draw_utf8_text (drawable,
 						       text->font, E_FONT_PLAIN,
 						       text->gc,
@@ -1966,13 +2140,14 @@ e_text_draw (GnomeCanvasItem *item, GdkDrawable *drawable,
 						       text->ellipsis ? text->ellipsis : "...",
 						       text->ellipsis ? strlen (text->ellipsis) : 3);
 			} else
-				e_font_draw_utf8_text (drawable,
-						       text->font, E_FONT_PLAIN,
-						       text->gc,
-						       xpos - x,
-						       ypos - y,
-						       lines->text,
-						       lines->length);
+				text_draw_with_objects (text->model, lines->first_obj,
+							drawable,
+							text->font, E_FONT_PLAIN,
+							text->gc,
+							xpos - x,
+							ypos - y,
+							lines->text,
+							lines->length);
 		}
 
 		ypos += e_font_height (text->font);
@@ -2269,9 +2444,10 @@ _get_xy_from_position (EText *text, gint position, gint *xp, gint *yp)
 		lines --;
 		y -= e_font_descent (text->font);
 		
-		x += e_font_utf8_text_width (text->font, E_FONT_PLAIN,
-					     lines->text,
-					     position - (lines->text - text->text));
+		x += text_width_with_objects (text->model, lines->first_obj,
+					      text->font, E_FONT_PLAIN,
+					      lines->text,
+					      position - (lines->text - text->text));
 		x -= text->xofs_edit;
 
 		xd = x;  yd = y;
@@ -2294,7 +2470,8 @@ _get_position_from_xy (EText *text, gint x, gint y)
 	double xd, yd;
 	char *p;
 	unicode_char_t unival;
-	
+	gint object_num;
+	gint font_ht, adjust=0;
 	struct line *lines;
 
 	xd = x;  yd = y;
@@ -2303,13 +2480,29 @@ _get_position_from_xy (EText *text, gint x, gint y)
 	x = xd;  y = yd;
 
 	y += text->yofs_edit;
+	font_ht = e_font_height (text->font);
 
 	if (text->draw_borders)
 		ypos += BORDER_INDENT;
 
+	switch (text->anchor) {
+	case GTK_ANCHOR_WEST:
+	case GTK_ANCHOR_CENTER:
+	case GTK_ANCHOR_EAST:
+		y += (text->num_lines * font_ht)/2;
+		break;
+	case GTK_ANCHOR_SOUTH:
+	case GTK_ANCHOR_SOUTH_EAST:
+	case GTK_ANCHOR_SOUTH_WEST:
+		y += text->num_lines * font_ht;
+	default:
+		/* Do nothing */
+	}
+		
+
 	j = 0;
 	while (y > ypos) {
-		ypos += e_font_height (text->font);
+		ypos += font_ht;
 		j ++;
 	}
 	j--;
@@ -2327,21 +2520,38 @@ _get_position_from_xy (EText *text, gint x, gint y)
 	x += text->xofs_edit;
 	xpos = get_line_xpos_item_relative (text, lines);
 
+	object_num = lines->first_obj;
 	for (i = 0, p = lines->text; p && i < lines->length; i++, p = unicode_get_utf8 (p, &unival)) {
 		int charwidth;
+		int step1, step2;
 
-		charwidth = e_font_utf8_char_width (text->font, E_FONT_PLAIN, p);
+		if (unival == '\1') {
+			const gchar *obj_str = e_text_model_get_nth_object (text->model, object_num);
+			charwidth = e_font_utf8_text_width (text->font, E_FONT_PLAIN, obj_str, strlen (obj_str));
+			++object_num;
 
-		xpos += charwidth / 2;
+			step1 = charwidth;
+			step2 = 0;
+			adjust = -1;
+
+		} else {
+			charwidth = e_font_utf8_char_width (text->font, E_FONT_PLAIN, p);
+			
+			step1 = charwidth / 2;
+			step2 = (charwidth + 1) / 2;
+			adjust = 0;
+		}
+
+		xpos += step1;
 		if (xpos > x) {
 			break;
 		}
-		xpos += (charwidth + 1) / 2;
+		xpos += step2;
 	}
 
 	if (!p) return 0;
-
-	return p - text->text;
+	
+	return MAX (p - text->text + adjust, 0);
 }
 
 #define SCROLL_WAIT_TIME 30000
@@ -2518,7 +2728,8 @@ _do_tooltip (gpointer data)
 	for (lines = text->lines, i = 0; i < text->num_lines; lines++, i++) {
 		gdouble line_width;
 
-		line_width = e_font_utf8_text_width (text->font, E_FONT_PLAIN, lines->text, lines->length);
+		line_width = text_width_with_objects (text->model, lines->first_obj,
+						      text->font, E_FONT_PLAIN, lines->text, lines->length);
 		max_width = MAX (max_width, line_width);
 	}
 
@@ -2913,7 +3124,7 @@ _get_position(EText *text, ETextEventProcessorCommand *command)
 	case E_TEP_START_OF_BUFFER:
 		return 0;
 	case E_TEP_END_OF_BUFFER:
-		return unicode_strlen (text->text, -1);
+		return unicode_strlen_with_objects (text->model, 0, text->text);
 
 	case E_TEP_START_OF_LINE:
 
@@ -2930,7 +3141,7 @@ _get_position(EText *text, ETextEventProcessorCommand *command)
 		return 0;
 
 	case E_TEP_END_OF_LINE:
-		length = strlen(text->text);
+		length = strlen (text->text);
 		if (text->selection_end >= length) return length;
 
 		p = unicode_next_utf8 (text->text + text->selection_end);
@@ -2998,6 +3209,35 @@ _get_position(EText *text, ETextEventProcessorCommand *command)
 
 	case E_TEP_SELECT_WORD:
 
+		{
+			/* This is a silly hack to cause double-clicking on an object
+			   to activate that object.
+			   (Normally, double click == select word, which is why this is here.) */
+			
+			gchar c = text->text[text->selection_start];
+			gint i;
+			gint obj_num=0;
+			
+			if (c == '\0'
+			    && text->selection_start > 0
+			    && text->text[text->selection_start-1] == '\1') {
+				c = '\1';
+				--text->selection_start;
+			}
+
+			if (c == '\1') {
+
+				for (i=0; i<text->selection_start; ++i)
+					if (text->text[i] == '\1')
+						++obj_num;
+
+				e_text_model_activate_nth_object (text->model, obj_num);
+				
+				return text->selection_start;
+			}
+		}
+
+
 		if (text->selection_end < 1) return 0;
 		p = unicode_previous_utf8 (text->text, text->text + text->selection_end);
 		if (p == text->text) return 0;
@@ -3019,6 +3259,7 @@ _get_position(EText *text, ETextEventProcessorCommand *command)
 
 		length = strlen (text->text);
 		if (text->selection_end >= length) return length;
+
 
 		p = unicode_next_utf8 (text->text + text->selection_end);
 
@@ -3169,9 +3410,10 @@ e_text_command(ETextEventProcessor *tep, ETextEventProcessorCommand *command, gp
 		}
 		lines --;
 		i --;
-		x = e_font_utf8_text_width(text->font, E_FONT_PLAIN,
-					   lines->text, 
-					   text->selection_end - (lines->text - text->text));
+		x = text_width_with_objects (text->model, lines->first_obj,
+					     text->font, E_FONT_PLAIN,
+					     lines->text, 
+					     text->selection_end - (lines->text - text->text));
 		
 
 		if (x < text->xofs_edit) {
