@@ -11,10 +11,11 @@
 #include <gtk/gtksignal.h>
 #include <gnome-xml/tree.h>
 #include "e-table-sort-info.h"
+#include "e-util/e-util.h"
 
 #define ETM_CLASS(e) ((ETableSortInfoClass *)((GtkObject *)e)->klass)
 
-#define PARENT_TYPE gtk_object_get_type ();
+#define PARENT_TYPE gtk_object_get_type ()
 					  
 
 static GtkObjectClass *e_table_sort_info_parent_class;
@@ -81,31 +82,8 @@ e_table_sort_info_class_init (GtkObjectClass *object_class)
 				 GTK_ARG_READWRITE, ARG_GROUPING);
 }
 
-
-guint
-e_table_sort_info_get_type (void)
-{
-  static guint type = 0;
-
-  if (!type)
-    {
-      GtkTypeInfo info =
-      {
-	"ETableSortInfo",
-	sizeof (ETableSortInfo),
-	sizeof (ETableSortInfoClass),
-	(GtkClassInitFunc) e_table_sort_info_class_init,
-	NULL,
-	/* reserved_1 */ NULL,
-        /* reserved_2 */ NULL,
-        (GtkClassInitFunc) NULL,
-      };
-
-      type = gtk_type_unique (gtk_object_get_type (), &info);
-    }
-
-  return type;
-}
+E_MAKE_TYPE(e_table_sort_info, "ETableSortInfo", ETableSortInfo,
+	    e_table_sort_info_class_init, NULL, PARENT_TYPE);
 
 void
 e_table_sort_info_changed (ETableSortInfo *e_table_sort_info)

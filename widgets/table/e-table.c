@@ -104,6 +104,7 @@ e_table_make_header (ETable *e_table, ETableHeader *full_header, xmlNode *xmlCol
 	const int max_cols = e_table_header_count (full_header);
 	
 	nh = e_table_header_new ();
+
 	for (column = xmlColumns->childs; column; column = column->next) {
 		int col = atoi (column->childs->content);
 
@@ -881,6 +882,7 @@ e_table_get_specification (ETable *e_table)
 	xmlDoc *doc = et_build_tree (e_table);
 	xmlChar *buffer;
 	gint size;
+
 	xmlDocDumpMemory (doc,
 			 &buffer,
 			 &size);
@@ -892,6 +894,7 @@ void
 e_table_save_specification (ETable *e_table, gchar *filename)
 {
 	xmlDoc *doc = et_build_tree (e_table);
+
 	xmlSaveFile (filename, doc);
 	xmlFreeDoc (doc);
 }
