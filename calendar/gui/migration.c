@@ -382,9 +382,13 @@ create_calendar_sources (CalendarComponent *component,
 {
 	GSList *groups;
 	ESourceGroup *group;
-	ESource *source = NULL;
 	char *base_uri, *base_uri_proto;
-	
+
+	*on_this_computer = NULL;
+	*on_the_web = NULL;
+	*contacts = NULL;
+	*personal_source = NULL;
+
 	base_uri = g_build_filename (calendar_component_peek_base_directory (component),
 				     "/calendar/local/",
 				     NULL);
@@ -429,9 +433,9 @@ create_calendar_sources (CalendarComponent *component,
 		*on_this_computer = group;
 	}
 
-	if (!source) {
-		/* Create the default Person addressbook */
-		source = e_source_new (_("Personal"), PERSONAL_RELATIVE_URI);
+	if (!*personal_source) {
+		/* Create the default Person calendar */
+		ESource *source = e_source_new (_("Personal"), PERSONAL_RELATIVE_URI);
 		e_source_group_add_source (*on_this_computer, source, -1);
 
 		*personal_source = source;
@@ -463,8 +467,10 @@ create_task_sources (TasksComponent *component,
 {
 	GSList *groups;
 	ESourceGroup *group;
-	ESource *source = NULL;
 	char *base_uri, *base_uri_proto;
+
+	*on_this_computer = NULL;
+	*personal_source = NULL;
 	
 	base_uri = g_build_filename (tasks_component_peek_base_directory (component),
 				     "/tasks/local/",
@@ -506,9 +512,9 @@ create_task_sources (TasksComponent *component,
 		*on_this_computer = group;
 	}
 
-	if (!source) {
-		/* Create the default Person addressbook */
-		source = e_source_new (_("Personal"), PERSONAL_RELATIVE_URI);
+	if (!*personal_source) {
+		/* Create the default Person task list */
+		ESource *source = e_source_new (_("Personal"), PERSONAL_RELATIVE_URI);
 		e_source_group_add_source (*on_this_computer, source, -1);
 
 		*personal_source = source;
