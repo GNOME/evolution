@@ -29,10 +29,14 @@ extern "C" {
 #endif /* __cplusplus */
 
 #include <stdio.h>
+#include <sys/types.h>
+#include <sys/stat.h>
+#include <unistd.h>
+#include <fcntl.h>
 #include <time.h>
+
 #include <camel/camel-mime-parser.h>
 #include <camel/camel-object.h>
-#include <libibex/ibex.h>
 
 #define CAMEL_STORE_SUMMARY(obj)         CAMEL_CHECK_CAST (obj, camel_store_summary_get_type (), CamelStoreSummary)
 #define CAMEL_STORE_SUMMARY_CLASS(klass) CAMEL_CHECK_CLASS_CAST (klass, camel_store_summary_get_type (), CamelStoreSummaryClass)

@@ -1,5 +1,8 @@
 2002-04-26  Jeffrey Stedfast  <fejj@ximian.com>
 
+	* camel-store-summary.h: No longer want to #include
+	<libibex/ibex.h>
+
 	* camel-provider.c (camel_provider_auto_detect): New function to
 	auto-detect configuration settings.
 
