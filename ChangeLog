@@ -1,5 +1,9 @@
 2000-08-05  Dan Winship  <danw@helixcode.com>
 
+	* tools/verify-evolution-install.sh: Look for oafinfo files in
+	oaf's prefix, not gnome-libs's. Allow binaries to be installed
+	anywhere in $PATH.
+
 	* configure.in, README: Update the README and the text of the
 	Bonobo configure check to match reality. Remove the 0.15 vs
 	0.15-and-a-half check since we require post-0.16 now.

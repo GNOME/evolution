@@ -118,7 +118,7 @@ check_oafinfo() {
     #othername=$2
 
     base=$1.oafinfo
-    search="${gl_datadir}/oaf:$OAF_INFO_PATH"
+    search="${oaf_prefix}/share/oaf:$OAF_INFO_PATH"
     IFSback="$IFS"
     IFS=":"
     ok=no
@@ -174,8 +174,21 @@ check_bin() {
     #name=$1
     #othername=$2
 
-    if test ! -f ${gl_bindir}/$1 ; then
-	problem="The binary $1 isn't installed into Gnome's prefix"
+    IFSbak="$IFS"
+    search="$PATH"
+    IFS=":"
+    passed=no
+
+    for ping in $search; do
+	if test -x $ping/$1 ; then
+	    passed=yes;
+	fi
+    done
+
+    IFS="$IFSbak"
+
+    if test x"$passed" = xno ; then
+	problem="The binary $1 isn't in your PATH"
 	rpmsolution="This problem shouldn't happen with RPM installations. Verify your installation of Helix Gnome."
 	debsolution="This problem shouldn't happen with DEB installations. Verify your installation of Helix Gnome."
 	srcsolution="Re-run 'configure' in $2's source directory with the flag '--bindir=$gl_bindir'."
@@ -418,6 +431,7 @@ environment variable OAF_CLIENT pointing to it"
     problem
 fi
 
+oaf_prefix=`$OAF_CONFIG --prefix`
 check_oafinfo oafd oaf
 
 #gconf
