@@ -1,5 +1,8 @@
 2001-08-10  Jeffrey Stedfast  <fejj@ximian.com>
 
+	* providers/imap/camel-imap-command.c (imap_command_start): Return
+	FALSE here, not NULL.
+
 	* providers/imap/camel-imap-folder.c (imap_rescan): Don't
 	g_strdup() the uid into the trigger_event call.
 

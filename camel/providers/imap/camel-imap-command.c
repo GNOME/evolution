@@ -177,7 +177,7 @@ imap_command_start (CamelImapStore *store, CamelFolder *folder,
 		
 		response = camel_imap_command (store, folder, ex, NULL);
 		if (!response)
-			return NULL;
+			return FALSE;
 		camel_exception_init (&internal_ex);
 		camel_imap_folder_selected (folder, response, &internal_ex);
 		camel_imap_response_free (store, response);
