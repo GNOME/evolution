@@ -17,5 +17,5 @@ include_HEADERS =\
 	icalstore.h
 
 
-INCLUDES = -I../libical/
+INCLUDES = -I $(srcdir)/../libical/
 

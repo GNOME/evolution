@@ -1,3 +1,7 @@
+2000-04-25  Ettore Perazzoli  <ettore@helixcode.com>
+
+	* src/libicalss/Makefile.am (INCLUDES): Use `$(srcdir)' properly.
+
 2000-04-24  Seth Alves  <alves@hungry.com>
 
 	* src/libical/icaltypes.c (icaldurationtype_from_timet): convert
