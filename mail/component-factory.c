@@ -925,6 +925,7 @@ owner_unset_cb (EvolutionShellComponent *shell_component, gpointer user_data)
 		empty_trash (NULL, NULL, NULL);
 	
 	unref_standard_folders ();
+	mail_local_storage_shutdown ();
 	mail_importer_uninit ();
 	
 	global_shell_client = NULL;

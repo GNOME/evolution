@@ -199,8 +199,11 @@ folder_browser_destroy (GtkObject *object)
 	}
 	
 	/* wait for all outstanding async events against us */
-	mail_async_event_destroy (folder_browser->async_event);
-
+	if (folder_browser->async_event) {
+		mail_async_event_destroy (folder_browser->async_event);
+		folder_browser->async_event = NULL;
+	}
+	
 	if (folder_browser->search_full) {
 		g_object_unref (folder_browser->search_full);
 		folder_browser->search_full = NULL;

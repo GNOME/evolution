@@ -44,6 +44,7 @@
 #include <libgnomevfs/gnome-vfs-mime-handlers.h>
 #include <libgnomevfs/gnome-vfs.h>
 #include <libgnome/gnome-url.h>
+#include <bonobo/bonobo-exception.h>
 #include <bonobo/bonobo-control-frame.h>
 #include <bonobo/bonobo-stream-memory.h>
 #include <bonobo/bonobo-widget.h>
@@ -2570,14 +2571,11 @@ retrieve_shell_view_interface_from_control (BonoboControl *control)
 	shell_view_interface = Bonobo_Unknown_queryInterface (control_frame,
 							      "IDL:GNOME/Evolution/ShellView:1.0",
 							      &ev);
-	CORBA_exception_free (&ev);
+
+	if (BONOBO_EX (&ev))
+		shell_view_interface = CORBA_OBJECT_NIL;
 	
-	if (shell_view_interface != CORBA_OBJECT_NIL)
-		g_object_set_data ((GObject *) control,
-				   "mail_threads_shell_view_interface",
-				   shell_view_interface);
-	else
-		g_warning ("Control frame doesn't have Evolution/ShellView.");
+	CORBA_exception_free (&ev);
 	
 	return shell_view_interface;
 }
@@ -2596,10 +2594,7 @@ set_status_message (const char *message, int busy)
 		
 		control = BONOBO_CONTROL (e_iterator_get (it));
 		
-		shell_view_interface = g_object_get_data ((GObject *) control, "mail_threads_shell_view_interface");
-		
-		if (shell_view_interface == CORBA_OBJECT_NIL)
-			shell_view_interface = retrieve_shell_view_interface_from_control (control);
+		shell_view_interface = retrieve_shell_view_interface_from_control (control);
 		
 		CORBA_exception_init (&ev);
 		
@@ -2612,6 +2607,8 @@ set_status_message (const char *message, int busy)
 		}
 		
 		CORBA_exception_free (&ev);
+
+		bonobo_object_release_unref (shell_view_interface, NULL);
 		
 		/* yeah we only set the first one.  Why?  Because it seems to leave
 		   random ones lying around otherwise.  Shrug. */

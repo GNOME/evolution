@@ -1143,18 +1143,6 @@ mail_local_provider_init (void)
 /* ** Local Storage Listener ****************************************************** */
 
 static void
-local_storage_destroyed_cb (EvolutionStorageListener *storage_listener,
-			    void *data)
-{
-	CORBA_Environment ev;
-
-	CORBA_exception_init (&ev);
-	bonobo_object_release_unref (data, &ev);
-	CORBA_exception_free (&ev);
-}
-
-
-static void
 local_storage_new_folder_cb (EvolutionStorageListener *storage_listener,
 			     const char *path,
 			     const GNOME_Evolution_Folder *folder,
@@ -1232,11 +1220,6 @@ storage_listener_startup (EvolutionShellClient *shellclient)
 	corba_local_storage_listener = evolution_storage_listener_corba_objref (
 		local_storage_listener);
 
-	/* FIXME: is this supposed to be destroy? */
-	g_signal_connect(local_storage_listener,
-			 "destroyed",
-			 G_CALLBACK (local_storage_destroyed_cb),
-			 corba_storage);
 	g_signal_connect(local_storage_listener,
 			 "new_folder",
 			 G_CALLBACK (local_storage_new_folder_cb),
@@ -1272,6 +1255,13 @@ mail_local_storage_startup (EvolutionShellClient *shellclient, const char *evolu
 	}
 
 	storage_listener_startup (shellclient);
+}
+
+void
+mail_local_storage_shutdown (void)
+{
+	bonobo_object_release_unref (local_corba_storage, NULL);
+	local_corba_storage = CORBA_OBJECT_NIL;
 }
 
 

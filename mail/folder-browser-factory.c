@@ -91,6 +91,7 @@ control_activate (BonoboControl     *control,
 {
 	GtkWidget *folder_browser;
 	Bonobo_UIContainer container;
+	GNOME_Evolution_ShellView svi;
 
 	container = bonobo_control_get_remote_ui_container (control, NULL);
 	bonobo_ui_component_set_container (uic, container, NULL);
@@ -110,7 +111,9 @@ control_activate (BonoboControl     *control,
 	
 	/*bonobo_ui_component_thaw (uic, NULL);*/
 	
-	folder_browser_set_shell_view (fb, fb_get_svi (control));
+	svi = fb_get_svi (control);
+	folder_browser_set_shell_view (fb, svi);
+	bonobo_object_release_unref (svi, NULL);
 	
 	folder_browser_reload (fb);
 	
@@ -158,32 +161,9 @@ control_activate_cb (BonoboControl *control,
 }
 
 static void
-control_destroy_cb (GtkObject *fb, GObject *deadbeef)
+control_destroy_cb (GtkObject *fb, GObject *control)
 {
-	gtk_object_destroy (fb);
-}
-
-static void
-browser_destroy_cb (BonoboControl *control, GObject *deadbeef)
-{
-	EIterator *it;
-	
-	/* We do this from browser_destroy_cb rather than
-	 * control_destroy_cb because currently, the controls
-	 * don't seem to all get destroyed properly at quit
-	 * time (but the widgets get destroyed by X). FIXME.
-	 */
-	
-	it = e_list_get_iterator (control_list);
-	while (e_iterator_is_valid (it)) {
-		if (e_iterator_get (it) == control) {
-			e_iterator_delete (it);
-			break;
-		}
-		e_iterator_next (it);
-	}
-	
-	g_object_unref (it);
+	e_list_remove (control_list, control);
 }
 
 BonoboControl *
@@ -210,7 +190,6 @@ folder_browser_factory_new_control (const char *uri,
 	g_signal_connect (control, "activate", G_CALLBACK (control_activate_cb), fb);
 	
 	g_object_weak_ref (G_OBJECT(control), (GWeakNotify) control_destroy_cb, fb);
-	g_object_weak_ref (G_OBJECT(fb), (GWeakNotify) browser_destroy_cb, control);
 	
 	if (!control_list)
 		control_list = e_list_new (NULL, NULL, NULL);

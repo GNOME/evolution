@@ -30,6 +30,7 @@
 #include <camel/camel-folder.h>
 
 void mail_local_storage_startup (EvolutionShellClient *shellclient, const char *evolution_path);
+void mail_local_storage_shutdown (void);
 
 void mail_local_reconfigure_folder(const char *uri, void (*done)(const char *uri, CamelFolder *folder, void *data), void *done_data);
 

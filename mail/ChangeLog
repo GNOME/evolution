@@ -1,3 +1,26 @@
+2003-05-14  JP Rosevear  <jpr@ximian.com>
+
+	* mail-local.h: add proto
+
+	* mail-local.c (storage_listener_startup): don't listen for
+	destruction, because we have a ref and it'll never happen
+	(mail_local_storage_shutdown): release and unref the local storage
+
+	* mail-display.c (retrieve_shell_view_interface_from_control):
+	return a new copy every time
+	(set_status_message): release and unref the shell view
+
+	* folder-browser.c (folder_browser_destroy): guard for multiple
+	destroys
+
+	* folder-browser-factory.c (control_activate): release and unref
+	the shell view
+	(control_destroy_cb): just remove the control from the list
+	(folder_browser_factory_new_control): don't weak ref the folder
+	browser
+
+	* component-factory.c (owner_unset_cb): shutdown local storage
+
 2003-05-13  Ettore Perazzoli  <ettore@ximian.com>
 
 	* component-factory.c (segv_redirect): Removed.
