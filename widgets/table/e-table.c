@@ -547,7 +547,7 @@ e_table_setup_table (ETable *e_table, ETableHeader *full_header, ETableHeader *h
 						    "y1", (double) 0,
 						    "x2", (double) 100,
 						    "y2", (double) 100,
-						    "fill_color", "white",
+						    "fill_color_gdk", &GTK_WIDGET(e_table->table_canvas)->style->base[GTK_STATE_NORMAL],
 						    NULL);
 	e_table->canvas_vbox = gnome_canvas_item_new(gnome_canvas_root(e_table->table_canvas),
 						     e_canvas_vbox_get_type(),
