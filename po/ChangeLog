@@ -1,3 +1,7 @@
+2004-07-23  Åsmund Skjæveland  <aasmunds@fys.uio.no>
+
+	* nn.po: Updated Norwegian Nynorsk translation.
+
 2004-07-23  Changwoo Ryu  <cwryu@debian.org>
 
 	* ko.po: Updated Korean translation.
@@ -714,7 +718,6 @@
 
 	* POTFILES.in: s/eab-destination/e-destination/
 
->>>>>>> 1.1414
 2004-04-08  Priit Laes  <plaes@cvs.gnome.org>
 
 	* et.po: Translation updated.
