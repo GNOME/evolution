@@ -1,3 +1,4 @@
+<!DOCTYPE Chapter PUBLIC "-//GNOME//DTD DocBook PNG Variant V1.1//EN">
   <chapter id="usage-exchange">
     <title>The Ximian Connector for Microsoft Exchange</title>
     <para>
@@ -311,20 +312,39 @@ There are, however, some features which are not available:
 	  <guimenu>Tools</guimenu>
 	  <guimenuitem>Mail Settings</guimenuitem>
 	</menuchoice>
-	from any mail view.  If you have an existing account, and want
-	to convert it to use for Exchange, do the following:
-	<orderedlist>
+	from any mail view. 
+     </para>
+      <para>
+	If you would like to create a new account for your Exchange
+	server, click the <guibutton>Add</guibutton> button in the
+	accounts list. The account creation assistant will guide you
+	through the process, which is described in <xref
+	linkend="usage-mainwindow-starting">.
+      </para>
+
+      <para>
+        If you have an existing email account, and want to convert it
+	to use for Exchange, select the account you want to convert
+	and click the <guibutton>Edit</guibutton> button. You'll want
+	to change settings in the following tabs of the account
+	dialog:
+      </para>
+      <variablelist>
+	<varlistentry>
+	  <term>Identity</term>
 	  <listitem>
-	    <para>
-	      Select the account you want to convert and click the
-	      <guibutton>Edit</guibutton> button.
-	    </para>
+	  <para>
+             If your email address will change because you are moving
+             to a new server, then change it in this tab. Otherwise,
+             move to the next tab.
+          </para>
 	  </listitem>
-	  
+	</varlistentry>
+	<varlistentry>
+	  <term>Receiving Mail</term>
 	  <listitem>
 	    <para>
-	      Under the <guilabel>Receiving Mail</guilabel> tab,
-	      select <guilabel>Microsoft Exchange</guilabel> as your
+	      Select <guilabel>Microsoft Exchange</guilabel> as your
 	      server type. Enter your name of your server next to
 	      <guilabel>Host</guilabel>, and the user name for your
 	      account next to <guilabel>Username</guilabel>. If your
@@ -333,71 +353,81 @@ There are, however, some features which are not available:
 	      take advantage of more secure data transfers.
 	    </para>
 	  </listitem>
-
- 
-	    <listitem>
+	</varlistentry>
+	<varlistentry>
+	  <term>Receiving Options</term>
+	  <listitem>
 	      <para>
-	        If you would like to create and use the Global Address
-	        List (GAL) maintained on your Exchange server, click
-	        the tab labelled <guilabel>Receiving
-	        Options</guilabel> and check the box labelled
-	        <guilabel>Create a Global Address List
-	        folder</guilabel>.  The GAL is maintained by your
-	        system administrator and you cannot add, change, or
-	        remove items from it using Ximian Evolution. However,
-	        you can use it to invite people to meetings and to
-	        look up addresses and other information. In many
-	        organizations, the GAL is stored on a different server
-	        from email.  If this is the case, you should also
-	        specify the directory server name here. Ask your
-	        system administrator about your Active Directory
-	        Server if you are not sure.
-	    </para>
+	        Here, tab, you'll find some additional settings:
+                <variablelist>
+                 <varlistentry>
+                  <term>Checking for New Mail</term>
+                   <listitem>
+                     <para>
+                        Select whether you would like to check for
+                        mail automatically, and if so, how often.
+                     </para>
+                   </listitem>
+		</varlistentry>
+		<varlistentry>
+		  <term>Exchange Server</term>
+                   <listitem>
+                     <para>
+                       If your Exchange server requires you to use a
+                       different mailbox name from the name you use to
+                       log in, select the second check-box and enter
+                       the mailbox name.  Check with your system
+                       administrator to be sure.
+                     </para>
+                   </listitem>
+		</varlistentry>
+		<varlistentry>
+		  <term>Active Directory</term>
+                   <listitem>
+                     <para>
+                       If you would like to use the Global Address
+	               List (GAL) maintained on your Exchange server,
+	               click the tab labelled <guilabel>Receiving
+	               Options</guilabel> and check the box labelled
+	               <guilabel>Create a Global Address List
+	               folder</guilabel>.  The GAL is maintained by
+	               your system administrator and you cannot add,
+	               change, or remove items from it using Ximian
+	               Evolution. However, you can use it to invite
+	               people to meetings and to look up addresses and
+	               other information. In many organizations, the
+	               GAL is stored on a different server from email.
+	               If this is the case, you should also specify
+	               the directory server name here.
+                     </para>
+                   </listitem>
+		</varlistentry>
+	      </variablelist>
 	  </listitem>
-	  
+	</varlistentry>
+	<varlistentry>
+	  <term>Sending Mail</term>
 	  <listitem>
 	    <para>
-	      Under the <guilabel>Sending Mail</guilabel> tab, select
-	      <guilabel>Microsoft Exchange</guilabel> as your server
-	      type, and enter the server name as the
-	      <guilabel>Host</guilabel>. You do not need to use the
-	      <application>Exchange</application>server to send mail
-	      if you prefer to use another server or server type.
+	      If you will use your Exchange server to send as well as
+	      receive mail, select <guilabel>Microsoft
+	      Exchange</guilabel> as your server type, and enter the
+	      server name as the <guilabel>Host</guilabel>. 
 	    </para>
 	  </listitem>
-	  
-	  <listitem>
-	    <para>
-	      Click the <guibutton>OK</guibutton> button.
-	    </para>
-	  </listitem>
-	  
-	  <listitem>
-	    <para>
-	      Make sure the account is active. It should have a check
-	      mark in the <guilabel>Enabled</guilabel> column of your
-	      accounts list. If it doesn't, select the account and
-	      click the <guibutton>Enable</guibutton> button.
-	    </para>
-	  </listitem>
-	</orderedlist>
+	</varlistentry>
+      </variablelist>
+      <para>
+        Once you have made those changes, click the
+        <guibutton>OK</guibutton> button.
       </para>
-
 	<para>
-          Once you have made these changes, quit
-          <application>Evolution</application>, then start it up
-          again. Changes to the Ximian Connector accounts
+          Then, quit <application>Evolution</application> and start it
+          up again. Changes to the Ximian Connector accounts
           configuration are not active until you have restarted the
           application.
        </para>
       
-      <para>
-	If you would like to create a new account for your Exchange
-	server, click the <guibutton>Add</guibutton> button in the
-	accounts list. The account creation assistant will guide you
-	through the process, which is described in <xref
-	linkend="usage-mainwindow-starting">.
-      </para>
     </sect2>
   </sect1>
   
@@ -458,6 +488,17 @@ There are, however, some features which are not available:
         <application>Exchange</application>server, you can check when
         other local Exchange users are busy according to their
         <application>Exchange</application>calendars. To do so:
+     </para>
+      <figure>
+        <title>Scheduling With Free/Busy Information</title>
+	<screenshot>
+	  <screeninfo>Using the Free/Busy Feature</screeninfo>
+	  <mediaobject><imageobject>
+	      <imagedata  format="png" fileref="figures/schedule" srccredit="Aaron Weber">
+	    </imageobject></mediaobject>
+	</screenshot>
+      </figure>
+
       <orderedlist numeration="arabic">
 	<listitem>
 	  <para>
@@ -505,8 +546,5 @@ There are, however, some features which are not available:
       </tip>
     </sect1>
 </chapter>
-
-
-
 
 
