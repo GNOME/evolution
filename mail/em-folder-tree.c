@@ -2028,11 +2028,11 @@ emft_popup_copy_folder_selected (const char *uri, void *data)
 	
 	priv = cfd->emft->priv;
 	
-	d(printf ("%sing folder '%s' to '%s'\n", cfd->delete ? "move" : "copy", priv->selected_path, uri));
+	printf ("%sing folder '%s' to '%s'\n", cfd->delete ? "move" : "copy", priv->selected_path, uri);
 	
 	camel_exception_init (&ex);
-	frombase = priv->selected_path + 1;
-
+	frombase = priv->selected_path;
+	
 	if (!(fromstore = camel_session_get_store (session, priv->selected_uri, &ex))) {
 		e_error_run((GtkWindow *)gtk_widget_get_toplevel((GtkWidget *) cfd->emft),
 			    cfd->delete?"mail:no-move-folder-notexist":"mail:no-copy-folder-notexist", frombase, uri, ex.desc, NULL);
@@ -2644,7 +2644,7 @@ emft_tree_button_press (GtkTreeView *treeview, GdkEventButton *event, EMFolderTr
 		flags |= EM_POPUP_FOLDER_FOLDER;
 
 		local = mail_component_peek_local_store (NULL);
-	
+		
 		/* don't allow deletion of special local folders */
 		if (!(store == local && is_special_local_folder (full_name)))
 			flags |= EM_POPUP_FOLDER_DELETE;

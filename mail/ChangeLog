@@ -1,5 +1,9 @@
 2004-06-15  Jeffrey Stedfast  <fejj@novell.com>
 
+	* em-folder-tree.c (emft_popup_copy_folder_selected): frombase is
+	simply the select_path, since selected_path is now just the
+	full_name rather than the path. Fixes bug #60075.
+
 	* em-composer-utils.c (attribution_format): New function to format
 	an attribution string (won't crash if translators were sloppy with
 	their strftime/printf-style formatters). Also nice/extendable for
