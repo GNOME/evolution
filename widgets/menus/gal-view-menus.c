@@ -356,7 +356,7 @@ build_menus(GalViewMenus *menus)
 
 			menuitem = bonobo_ui_node_new_child(submenu, "menuitem");
 			bonobo_ui_node_set_attr(menuitem, "name", "SaveCurrentView");
-			bonobo_ui_node_set_attr(menuitem, "_label", N_("Save Custom View"));
+			bonobo_ui_node_set_attr(menuitem, "_label", N_("Save Custom View..."));
 			bonobo_ui_node_set_attr(menuitem, "verb", "");
 
 			command = bonobo_ui_node_new_child(commands, "cmd");
@@ -369,7 +369,7 @@ build_menus(GalViewMenus *menus)
 
 		menuitem = bonobo_ui_node_new_child(submenu, "menuitem");
 		bonobo_ui_node_set_attr(menuitem, "name", "DefineViews");
-		bonobo_ui_node_set_attr(menuitem, "_label", N_("Define Views"));
+		bonobo_ui_node_set_attr(menuitem, "_label", N_("Define Views..."));
 		bonobo_ui_node_set_attr(menuitem, "verb", "");
 
 		command = bonobo_ui_node_new_child(commands, "cmd");
