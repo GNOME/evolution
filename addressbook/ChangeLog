@@ -1,7 +1,7 @@
 2002-05-21  Ettore Perazzoli  <ettore@ximian.com>
 
 	* gui/component/addressbook.c (load_uri_cb): Don't try to invoke
-	e_book_get_uri() on NULL.  Fixes #20069.
+	e_book_get_uri() on NULL.  Fixes #25069.
 
 2002-05-17  Chris Toshok  <toshok@ximian.com>
 
