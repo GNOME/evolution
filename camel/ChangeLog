@@ -1,3 +1,10 @@
+2000-01-03  Jeffrey Stedfast  <fejj@helixcode.com>
+
+	* camel-folder-search.c (search_header_matches): Implemented.
+	(search_header_exists): Implemented.
+	(search_header_starts_with): Implemented.
+	(search_header_ends_with): Implemented.
+
 2001-01-03  Christopher James Lahey  <clahey@helixcode.com>
 
 	* providers/imap/camel-imap-folder.c (camel_imap_folder_new):

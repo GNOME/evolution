@@ -72,7 +72,19 @@ struct _CamelFolderSearchClass {
 
 	/* (header-contains "headername" "string1" ...) List of matches, or true if in single-message mode */
 	ESExpResult * (*header_contains)(struct _ESExp *f, int argc, struct _ESExpResult **argv, CamelFolderSearch *s);
-
+	
+	/* (header-matches "headername" "string") */
+	ESExpResult * (*header_matches)(struct _ESExp *f, int argc, struct _ESExpResult **argv, CamelFolderSearch *s);
+	
+	/* (header-starts-with "headername" "string") */
+	ESExpResult * (*header_starts_with)(struct _ESExp *f, int argc, struct _ESExpResult **argv, CamelFolderSearch *s);
+	
+	/* (header-ends-with "headername" "string") */
+	ESExpResult * (*header_ends_with)(struct _ESExp *f, int argc, struct _ESExpResult **argv, CamelFolderSearch *s);
+	
+	/* (header-exists "headername") */
+	ESExpResult * (*header_exists)(struct _ESExp *f, int argc, struct _ESExpResult **argv, CamelFolderSearch *s);
+	
 	/* (user-flag "flagname" "flagname" ...) If one of user-flag set */
 	ESExpResult * (*user_flag)(struct _ESExp *f, int argc, struct _ESExpResult **argv, CamelFolderSearch *s);
 
