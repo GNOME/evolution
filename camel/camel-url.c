@@ -425,6 +425,12 @@ camel_url_set_param (CamelURL *url, const char *name, const char *value)
 	g_datalist_set_data (&url->params, name, value ? g_strdup (value) : NULL);
 }
 
+const char *
+camel_url_get_param (CamelURL *url, const char *name)
+{
+	return g_datalist_get_data (&url->params, name);
+}
+
 
 /**
  * camel_url_encode:
