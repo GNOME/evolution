@@ -1,3 +1,8 @@
+2000-12-07  Radek Doulik  <rodo@helixcode.com>
+
+	* configure.in (GTKHTML_LIBS): renamed HTMLEditor.idl to
+	Editor.idl
+
 2000-12-06  Kjartan Maraas  <kmaraas@gnome.org>
 
 	* data/evolution.keys: Added some Norwegian translations.
