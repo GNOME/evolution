@@ -307,6 +307,7 @@ camel_pgp_mime_part_sign (CamelPgpContext *context, CamelMimePart **mime_part, c
 	camel_mime_part_set_content (signed_part, CAMEL_STREAM_MEM (sigstream)->buffer->data,
 				     CAMEL_STREAM_MEM (sigstream)->buffer->len,
 				     "application/pgp-signature; name=signature.asc");
+	camel_mime_part_set_description (signed_part, _("This is a digitally signed message part"));
 	camel_object_unref (CAMEL_OBJECT (sigstream));
 	
 	/* construct the container multipart/signed */
