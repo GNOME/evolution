@@ -224,6 +224,7 @@ e_addressbook_view_init (EAddressbookView *eav)
 
 	eav->view_collection = NULL;
 	eav->view_menus = NULL;
+	eav->current_alphabet_widget = NULL;
 
 	eav->invisible = gtk_invisible_new ();
 
@@ -338,6 +339,12 @@ e_addressbook_view_set_arg (GtkObject *object, GtkArg *arg, guint arg_id)
 		gtk_object_set(GTK_OBJECT(eav->model),
 			       "query", eav->query,
 			       NULL);
+		if (eav->current_alphabet_widget != NULL) {
+			GtkWidget *current = eav->current_alphabet_widget;
+
+			eav->current_alphabet_widget = NULL;
+			gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (current), FALSE);
+		}
 		break;
 	case ARG_TYPE:
 		change_view_type(eav, GTK_VALUE_ENUM(*arg));
@@ -384,6 +391,8 @@ const char *button_letters = N_(",0,a,b,c,d,e,f,g,h,i,j,k,l,m,n,o,p,q,r,s,t,u,v,
 
 typedef struct {
 	EAddressbookView *view;
+	GtkWidget *button;
+	GtkWidget *vbox;
 	gunichar letter;
 } LetterClosure;
 
@@ -430,11 +439,11 @@ e_utf8_split (const char *utf8_str, gunichar delim)
 }
 
 static void
-jump_to_letter(GtkWidget *button, LetterClosure *closure)
+jump_to_letter(EAddressbookView *view, gunichar letter)
 {
 	char *query;
 
-	if (g_unichar_isdigit (closure->letter)) {
+	if (g_unichar_isdigit (letter)) {
 		const char *letters = U_(button_letters);
 		char **letter_v;
 		GString *gstr;
@@ -458,22 +467,50 @@ jump_to_letter(GtkWidget *button, LetterClosure *closure)
 	} else {
 		char s1[6 + 1], s2[6 + 1];
 
-		s1 [g_unichar_to_utf8 (closure->letter, s1)] = '\0';
-		s2 [g_unichar_to_utf8 (g_unichar_toupper (closure->letter), s2)] = '\0';
+		s1 [g_unichar_to_utf8 (letter, s1)] = '\0';
+		s2 [g_unichar_to_utf8 (g_unichar_toupper (letter), s2)] = '\0';
 		query = g_strdup_printf ("(or "
 		                         "(beginswith \"file_as\" \"%s\")"
 		                         "(beginswith \"file_as\" \"%s\")"
 		                         ")", s1, s2);
 	}
-	gtk_object_set (GTK_OBJECT (closure->view),
+	gtk_object_set (GTK_OBJECT (view),
 			"query", query,
 			NULL);
 	g_free (query);
 }
 
 static void
+button_toggled(GtkWidget *button, LetterClosure *closure)
+{
+	EAddressbookView *view = closure->view;
+
+	if (gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (button))) {
+		GtkWidget *current = view->current_alphabet_widget;
+
+		view->current_alphabet_widget = NULL;
+		if (current && current != button)
+			gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (current), FALSE);
+		jump_to_letter (view, closure->letter);
+		view->current_alphabet_widget = button;
+	} else {
+		if (view->current_alphabet_widget != NULL &&
+		    view->current_alphabet_widget == button) {
+			view->current_alphabet_widget = NULL;
+			gtk_object_set (GTK_OBJECT (view),
+					"query", "(contains \"x-evolution-any-field\" \"\")",
+					NULL);
+		}
+	}
+}
+
+static void
 free_closure(GtkWidget *button, LetterClosure *closure)
 {
+	if (button != NULL &&
+	    button == closure->view->current_alphabet_widget) {
+		closure->view->current_alphabet_widget = NULL;
+	}
 	g_free(closure);
 }
 
@@ -512,15 +549,17 @@ create_alphabet (EAddressbookView *view)
 		char *label;
 
 		label = e_utf8_to_locale_string (*pl);
-		button = gtk_button_new_with_label (label);
+		button = gtk_toggle_button_new_with_label (label);
 		g_free (label);
 		gtk_box_pack_start (GTK_BOX (vbox), button, FALSE, FALSE, 0);
 
 		closure = g_new (LetterClosure, 1);
 		closure->view = view;
 		closure->letter = g_utf8_get_char (*pc);
-		gtk_signal_connect(GTK_OBJECT(button), "clicked",
-		                   GTK_SIGNAL_FUNC (jump_to_letter), closure);
+		closure->button = button;
+		closure->vbox = vbox;
+		gtk_signal_connect(GTK_OBJECT(button), "toggled",
+		                   GTK_SIGNAL_FUNC (button_toggled), closure);
 		gtk_signal_connect(GTK_OBJECT(button), "destroy",
 		                   GTK_SIGNAL_FUNC (free_closure), closure);
 

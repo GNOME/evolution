@@ -74,6 +74,7 @@ struct _EAddressbookView
 
 	GtkObject *object;
 	GtkWidget *widget;
+	GtkWidget *current_alphabet_widget;
 
 	GtkWidget *vbox;
 
