@@ -1,3 +1,9 @@
+2001-05-22  Chris Toshok  <toshok@ximian.com>
+
+	* evolution-addressbook.xml: make the name of menuitem/toolitem's
+	the same as the verb to save us from having to specify both, and
+	move some more accels into the <commands>.
+
 2001-05-21  Chris Toshok  <toshok@ximian.com>
 
 	* evolution-addressbook.xml: remove ViewAsTable menu item.
