@@ -1,3 +1,8 @@
+2000-02-08  Iain Holmes  <ih@csd.abdn.ac.uk>
+
+	* shell/Makefile.am: Changed the order of the compilation, so the CORBA
+	stuff was generated before it was needed.
+
 2000-02-07  Christopher James Lahey  <clahey@helixcode.com>
 
 	* widgets/e-text.h, widgets/e-text.c: Added line wrap and a max

@@ -16,6 +16,7 @@ EVOLUTION_CORBA_GENERATED = 	\
 	Evolution-stubs.c
 
 evolution_SOURCES =		\
+	$(EVOLUTION_CORBA_GENERATED)	\
 	main.c			\
 	e-folder.c		\
 	e-folder.h		\
@@ -30,8 +31,7 @@ evolution_SOURCES =		\
 	e-shell-view-menu.c	\
 	e-shell-view-menu.h	\
 	e-shortcut.c		\
-	e-shortcut.h		\
-	$(EVOLUTION_CORBA_GENERATED)
+	e-shortcut.h
 
 Evolution-impl.o: Evolution.h
 
