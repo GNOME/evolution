@@ -48,8 +48,10 @@ extern "C" {
 struct _CamelService {
 	GtkObject parent_object;
 
+	CamelSession *session;
 	gboolean connected;
 	Gurl *url;
+	int url_flags;
 
 };
 
@@ -69,13 +71,24 @@ typedef struct {
 
 
 
+/* flags for url_flags. (others can be added if needed) */
+#define CAMEL_SERVICE_URL_NEED_USER	(1 << 1)
+#define CAMEL_SERVICE_URL_NEED_HOST	(1 << 4)
+#define CAMEL_SERVICE_URL_NEED_PATH	(1 << 6)
+
+
 
 /* public methods */
+CamelService *camel_service_new (GtkType type, CamelSession *session,
+				 Gurl *url, CamelException *ex);
+
 gboolean camel_service_connect (CamelService *service, CamelException *ex);
-gboolean camel_service_connect_with_url (CamelService *service, gchar *url,
+gboolean camel_service_connect_with_url (CamelService *service, char *url,
 					 CamelException *ex);
+gboolean camel_service_disconnect (CamelService *service, CamelException *ex);
 gboolean camel_service_is_connected (CamelService *service);
-gchar *camel_service_get_url (CamelService *service);
+char *camel_service_get_url (CamelService *service);
+CamelSession *camel_service_get_session (CamelService *service);
 
 /* Standard Gtk function */
 GtkType camel_service_get_type (void);

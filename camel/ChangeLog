@@ -1,5 +1,23 @@
 2000-02-21  Dan Winship  <danw@helixcode.com>
 
+	* camel-session.h:
+	* camel-session.c: add CamelExceptions to several functions. Use
+	camel_session_new to initialize the session and URL fields of
+	created CamelStores as appropriate.
+
+	* camel-store.h:
+	* camel-store.c
+	* camel-service.h:
+	* camel-service.c: Move the session and url (and associated
+	functions) from CamelStore to CamelService. Add url_flags to
+	CamelService so subclasses can specify which URL components
+	are mandatory for them.	Add camel_session_new for
+	camel_session_get_store* to use.
+
+	* providers/mbox/camel-mbox-folder.c:
+	* providers/mbox/camel-mbox-store.c:
+	* providers/mbox/camel-mbox-store.h: Update for above changes.
+
 	* camel-exception-list.def: Once camel is being used for real,
 	exceptions won't be renumberable. So renumber them now to make
 	more room to add exceptions to the various categories later, and

@@ -36,29 +36,21 @@ static CamelServiceClass *parent_class = NULL;
 static void _set_separator(CamelStore *store, gchar sep, CamelException *ex);
 static CamelFolder *_get_root_folder(CamelStore *store, CamelException *ex);
 static CamelFolder *_get_default_folder(CamelStore *store, CamelException *ex);
-static void _init(CamelStore *store, CamelSession *session, const gchar *url_name, CamelException *ex);
 static CamelFolder *_get_folder (CamelStore *store, const gchar *folder_name, CamelException *ex);
 static gchar _get_separator (CamelStore *store, CamelException *ex);
-
-static void _finalize (GtkObject *object);
 
 static void
 camel_store_class_init (CamelStoreClass *camel_store_class)
 {
-	GtkObjectClass *gtk_object_class = GTK_OBJECT_CLASS (camel_store_class);
 
 	parent_class = gtk_type_class (camel_service_get_type ());
 	
 	/* virtual method definition */
-	camel_store_class->init = _init;
 	camel_store_class->set_separator = _set_separator;
 	camel_store_class->get_separator = _get_separator;
 	camel_store_class->get_folder = _get_folder;
 	camel_store_class->get_root_folder = _get_root_folder;
 	camel_store_class->get_default_folder = _get_default_folder;
-
-	/* virtual method overload */
-	gtk_object_class->finalize = _finalize;
 }
 
 
@@ -91,65 +83,6 @@ camel_store_get_type (void)
 	return camel_store_type;
 }
 
-
-
-
-
-/**
- * camel_store_init: call store's init method
- * @store: the store to initialize
- * @session: session which instantiates the store
- * @url_name: URL defining the store
- *
- * This routine is called by the session object from which this 
- * store is created. It must not be called directly.
- * 
- **/
-void 
-camel_store_init (CamelStore *store, CamelSession *session, const gchar *url_name, CamelException *ex)
-{
-	g_assert(store);
-	CS_CLASS(store)->init (store, session, url_name, ex);
-}
-
-
-/**
- * init: method called by a session object to  initialize a store object
- * @store: the store to initialize
- * @session: session which instantiates the store
- * @url_name: URL defining the store
- * 
- * This routine is called by the session object from which this 
- * store is created. Be careful, @url_name is used as a private field
- * of the store object. 
- * 
- **/
-static void 
-_init (CamelStore *store, CamelSession *session, const gchar *url_name, CamelException *ex)
-{
-	
-#warning re-enable assertion here.
-	g_assert(session);
-	g_assert(url_name);
-
-	store->session = session;
-	gtk_object_ref (GTK_OBJECT (session));
-	/*store->url_name = url_name;*/
-}
-
-
-static void           
-_finalize (GtkObject *object)
-{
-	CamelStore *camel_store = CAMEL_STORE (object);
-	CAMEL_LOG_FULL_DEBUG ("Entering CamelStore::finalize\n");
-
-	/*  if (camel_store->url_name) g_free (camel_store->url_name); */
-	if (camel_store->session) gtk_object_unref (GTK_OBJECT (camel_store->session));
-	
-	GTK_OBJECT_CLASS (parent_class)->finalize (object);
-	CAMEL_LOG_FULL_DEBUG ("Leaving CamelStore::finalize\n");
-}
 
 
 
@@ -259,18 +192,3 @@ _get_default_folder (CamelStore *store, CamelException *ex)
 {
     return NULL;
 }
-
-
-CamelSession *
-camel_store_get_session (CamelStore *store, CamelException *ex) 
-{
-	if (!store) {
-		camel_exception_set (ex,
-				     CAMEL_EXCEPTION_STORE_NULL,
-				     "Store is NULL");
-		return NULL;
-	}
-	
-	return store->session;	
-}
-

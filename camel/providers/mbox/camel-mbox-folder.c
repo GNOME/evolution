@@ -362,7 +362,7 @@ _set_name (CamelFolder *folder, const gchar *name, CamelException *ex)
 	g_free (mbox_folder->index_file_path);
 
 	separator = camel_store_get_separator (folder->parent_store, ex);
-	root_dir_path = camel_mbox_store_get_toplevel_dir (CAMEL_MBOX_STORE(folder->parent_store), ex);
+	root_dir_path = camel_mbox_store_get_toplevel_dir (CAMEL_MBOX_STORE(folder->parent_store));
 
 	CAMEL_LOG_FULL_DEBUG ("CamelMboxFolder::set_name full_name is %s\n", folder->full_name);
 	CAMEL_LOG_FULL_DEBUG ("CamelMboxFolder::set_name root_dir_path is %s\n", root_dir_path);
@@ -1112,7 +1112,7 @@ _get_message_by_uid (CamelFolder *folder, const gchar *uid, CamelException *ex)
 	}
 
 	
-	message = camel_mime_message_new_with_session (camel_store_get_session (parent_store, ex));
+	message = camel_mime_message_new_with_session (camel_service_get_session (CAMEL_SERVICE (parent_store)));
 	camel_data_wrapper_construct_from_stream (CAMEL_DATA_WRAPPER (message), message_stream);
 	
 	

@@ -43,14 +43,12 @@ extern "C" {
 typedef struct {
 	CamelStore parent_object;	
 	
-	gchar *toplevel_dir;	
 } CamelMboxStore;
 
 
 
 typedef struct {
 	CamelStoreClass parent_class;
-
 
 } CamelMboxStoreClass;
 
@@ -60,8 +58,7 @@ typedef struct {
 /* Standard Gtk function */
 GtkType camel_mbox_store_get_type (void);
 
-void camel_mbox_store_set_toplevel_dir (CamelMboxStore *store, const gchar *toplevel, CamelException *ex);
-const gchar *camel_mbox_store_get_toplevel_dir (CamelMboxStore *store, CamelException *ex);
+const gchar *camel_mbox_store_get_toplevel_dir (CamelMboxStore *store);
 
 #ifdef __cplusplus
 }

@@ -73,8 +73,12 @@ GtkType camel_session_get_type (void);
 
 CamelSession *camel_session_new (void);
 void camel_session_set_provider (CamelSession *session, CamelProvider *provider);
-CamelStore *camel_session_get_store_for_protocol (CamelSession *session, const gchar *protocol);
-CamelStore *camel_session_get_store (CamelSession *session, const gchar *url_string);
+CamelStore *camel_session_get_store_for_protocol (CamelSession *session,
+						  const gchar *protocol,
+						  CamelException *ex);
+CamelStore *camel_session_get_store (CamelSession *session,
+				     const char *url_string,
+				     CamelException *ex);
 
 
 #ifdef __cplusplus

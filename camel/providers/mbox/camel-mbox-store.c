@@ -23,16 +23,14 @@
 
 #include "camel-mbox-store.h"
 #include "camel-mbox-folder.h"
+#include "camel-exception.h"
 #include "url-util.h"
-
-static CamelStoreClass *parent_class=NULL;
 
 /* Returns the class for a CamelMboxStore */
 #define CMBOXS_CLASS(so) CAMEL_MBOX_STORE_CLASS (GTK_OBJECT(so)->klass)
 #define CF_CLASS(so) CAMEL_FOLDER_CLASS (GTK_OBJECT(so)->klass)
 #define CMBOXF_CLASS(so) CAMEL_MBOX_FOLDER_CLASS (GTK_OBJECT(so)->klass)
 
-static void _init (CamelStore *store, CamelSession *session, const gchar *url_name, CamelException *ex);
 static CamelFolder *_get_folder (CamelStore *store, const gchar *folder_name, CamelException *ex);
 
 
@@ -40,12 +38,8 @@ static void
 camel_mbox_store_class_init (CamelMboxStoreClass *camel_mbox_store_class)
 {
 	CamelStoreClass *camel_store_class = CAMEL_STORE_CLASS (camel_mbox_store_class);
-
-	parent_class = gtk_type_class (camel_store_get_type ());
 	
-	/* virtual method definition */
 	/* virtual method overload */
-	camel_store_class->init = _init;
 	camel_store_class->get_folder = _get_folder;
 }
 
@@ -55,8 +49,10 @@ static void
 camel_mbox_store_init (gpointer object, gpointer klass)
 {
 	CamelStore *store = CAMEL_STORE (object);
-	
+	CamelService *service = CAMEL_SERVICE (object);
+
 	store->separator = '/';
+	service->url_flags = CAMEL_SERVICE_URL_NEED_PATH;
 }
 
 
@@ -87,48 +83,15 @@ camel_mbox_store_get_type (void)
 }
 
 
-
-
-/* These evil public functions are here for test only */
-void 
-camel_mbox_store_set_toplevel_dir (CamelMboxStore *store, const gchar *toplevel, CamelException *ex)
-{
-	store->toplevel_dir = g_strdup (toplevel);
-	CAMEL_STORE(store)->separator = '/';
-}
-
-
 const gchar *
-camel_mbox_store_get_toplevel_dir (CamelMboxStore *store, CamelException *ex)
+camel_mbox_store_get_toplevel_dir (CamelMboxStore *store)
 {
-	return store->toplevel_dir;
+	Gurl *url = CAMEL_SERVICE (store)->url;
+
+	g_assert(url != NULL);
+	return url->path;
 }
 
-
-
-static void 
-_init (CamelStore *store, CamelSession *session, const gchar *url_name, CamelException *ex)
-{
-	CamelMboxStore *mbox_store = CAMEL_MBOX_STORE (store);
-	Gurl *store_url;
-	
-	g_assert (url_name);
-	/* call parent implementation */
-	parent_class->init (store, session, url_name, ex);
-	
-	
-	/* find the path in the URL*/
-	store_url = g_url_new (url_name);
-
-	g_return_if_fail (store_url);
-	g_return_if_fail (store_url->path); 
-	
-	mbox_store->toplevel_dir = g_strdup (store_url->path); 
-	g_url_free (store_url);
-
-	
-	
-}
 
 
 static CamelFolder *
