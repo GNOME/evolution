@@ -1,7 +1,18 @@
+2003-02-05  Dan Winship  <danw@ximian.com>
+
+	* configure.in: define and AC_SUBST privlibexecdir.
+
+	* evolution-shell.pc.in: Add privlibexecdir, componentdir,
+	evolutionuidir, and iconsdir.
+
 2003-02-04  Dan Winship  <danw@ximian.com>
 
 	* configure.in: Update AC_DEFINEs to use the new syntax to make
-	acconfig.h unnecessary.
+	acconfig.h unnecessary. (Remove unneeded HAVE_KDE_APPLNK define).
+	Call GNOME_COMPILE_WARNINGS and add $WARN_CFLAGS to CFLAGS to get
+	back to the evo 1.2 behavior of defaulting to -Wall everywhere.
+	Fix up privlibdir definition to avoid undefined variables in
+	evolution-shell.pc.
 
 	* acinclude.m4: Update AC_DEFINE
 

@@ -1135,12 +1135,19 @@ dnl *******************
 dnl Special directories
 dnl *******************
 
+dnl --- If you add something here, you almost certainly need to add it
+dnl --- to evolution-shell.pc.in (or camel.pc.in) as well, for use by
+dnl --- connector and other external plugins.
+
 BASE_VERSION=`echo $VERSION | awk -F. '{print $1 "." $2;}'`
 AC_SUBST(BASE_VERSION)
 AC_DEFINE_UNQUOTED(BASE_VERSION, "$BASE_VERSION", [Base version (Major.Minor)])
 
 privlibdir='${libdir}'/evolution/${BASE_VERSION}
 AC_SUBST(privlibdir)
+
+privlibexecdir='${libexecdir}'/evolution/${BASE_VERSION}
+AC_SUBST(privlibexecdir)
 
 camel_providerdir="$privlibdir/camel-providers"
 AC_SUBST(camel_providerdir)

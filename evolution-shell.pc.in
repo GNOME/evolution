@@ -1,12 +1,17 @@
 prefix=@prefix@
 exec_prefix=@exec_prefix@
 libdir=@libdir@
+libexecdir=@libexecdir@
 includedir=@includedir@
 
-idldir=@idldir@
-IDL_INCLUDES=-I ${idldir} @IDL_INCLUDES@
-
 privlibdir=@privlibdir@
+privlibexecdir=@privlibexecdir@
+idldir=@idldir@
+componentdir=@componentdir@
+evolutionuidir=@evolutionuidir@
+iconsdir=@iconsdir@
+
+IDL_INCLUDES=-I ${idldir} @IDL_INCLUDES@
 
 Name: evolution-shell
 Description: libraries needed for Evolution shell components
