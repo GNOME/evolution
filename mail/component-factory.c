@@ -333,8 +333,9 @@ mail_load_storages (GNOME_Evolution_Shell corba_shell, GSList *sources)
 					   camel_exception_get_description (&ex));
 				camel_exception_clear (&ex);
 			}
-			camel_object_unref (CAMEL_OBJECT (store));
 		}
+
+		camel_object_unref (CAMEL_OBJECT (store));
 	}
 }
 
