@@ -323,7 +323,8 @@
 	  <listitem>
 	    <para>
               If you wish, you can keep a more detailed description of
-              the item here.
+              the item here. For example, you can note that a task is
+              in progress, and display how close it is to completion.
             </para>
 	  </listitem>
 	</varlistentry>
@@ -337,6 +338,14 @@
        <guibutton>Edit</guibutton>.  You can delete items by selecting
        them and clicking on the <guibutton>Delete</guibutton> button.
     </para>
+    <para>
+      The list of tasks is sorted in a similar way to the list of
+      email messages in <application>Ximian Evolution
+      Mail</application>.  Click once on the message headers to change
+      the direction and type of sorting, or right-click to add or
+      remove columns from the display.
+    </para>
+
   </sect1>
 
   <sect1 id="usage-calendar-multiple">
