@@ -1,3 +1,12 @@
+2003-02-26  Hans Petter Jansson  <hpj@ximian.com>
+
+	Fixes Ximian #38306.
+
+	* gui/e-itip-control.c (clean_up): Do nothing if the private structure
+	has been freed. Don't call non-g_free() freers with NULL pointers.
+	(destroy): Do nothing if the private structure has been freed. Clear
+	pointers to freed blocks.
+
 2003-02-25  Hans Petter Jansson  <hpj@ximian.com>
 
 	* gui/print.c (print_calendar): Use fixed margins of 5% of page

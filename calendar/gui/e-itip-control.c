@@ -330,18 +330,26 @@ clean_up (EItipControl *itip)
 	EItipControlPrivate *priv;
 
 	priv = itip->priv;
+	if (!priv)
+		return;
 
 	g_free (priv->vcalendar);
 	priv->vcalendar = NULL;
 
-	if (priv->comp)
+	if (priv->comp) {
 		g_object_unref (priv->comp);
-	priv->comp = NULL;
+		priv->comp = NULL;
+	}
 
-	icalcomponent_free (priv->top_level);
-	priv->top_level = NULL;
-	icalcomponent_free (priv->main_comp);
-	priv->main_comp = NULL;
+	if (priv->top_level) {
+		icalcomponent_free (priv->top_level);
+		priv->top_level = NULL;
+	}
+
+	if (priv->main_comp) {
+		icalcomponent_free (priv->main_comp);
+		priv->main_comp = NULL;
+	}
 	priv->ical_comp = NULL;
 
 	priv->current = 0;
@@ -369,22 +377,30 @@ destroy (GtkObject *obj)
 	
 	priv = itip->priv;
 
-	clean_up (itip);
+	if (priv) {
+		clean_up (itip);
 
-	priv->accounts = NULL;
+		priv->accounts = NULL;
 
-	if (priv->event_clients) {
-		for (i = 0; i < priv->event_clients->len; i++) 
-			g_object_unref (g_ptr_array_index (priv->event_clients, i));
-		g_ptr_array_free (priv->event_clients, TRUE);
+		if (priv->event_clients) {
+			for (i = 0; i < priv->event_clients->len; i++) 
+				g_object_unref (g_ptr_array_index (priv->event_clients, i));
+			g_ptr_array_free (priv->event_clients, TRUE);
+			priv->event_client = NULL;
+			priv->event_clients = NULL;
+		}
+
+		if (priv->task_clients) {
+			for (i = 0; i < priv->task_clients->len; i++) 
+				g_object_unref (g_ptr_array_index (priv->task_clients, i));
+			g_ptr_array_free (priv->task_clients, TRUE);
+			priv->task_client = NULL;
+			priv->task_clients = NULL;
+		}
+
+		g_free (priv);
+		itip->priv = NULL;
 	}
-	if (priv->task_clients) {
-		for (i = 0; i < priv->task_clients->len; i++) 
-			g_object_unref (g_ptr_array_index (priv->task_clients, i));
-		g_ptr_array_free (priv->task_clients, TRUE);
-	}
-
-	g_free (priv);
 
 	if (GTK_OBJECT_CLASS (parent_class)->destroy)
 		(* GTK_OBJECT_CLASS (parent_class)->destroy) (obj);
