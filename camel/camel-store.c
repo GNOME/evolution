@@ -333,9 +333,11 @@ camel_store_delete_folder (CamelStore *store, const char *folder_name, CamelExce
 		if (g_hash_table_lookup_extended(store->folders, folder_name, (void **)&key, (void **)&folder)) {
 			g_hash_table_remove(store->folders, key);
 			g_free(key);
+			camel_object_ref (CAMEL_OBJECT (folder));
 			CAMEL_STORE_UNLOCK(store, cache_lock);
 			if (store->vtrash)
 				camel_vee_folder_remove_folder((CamelVeeFolder *)store->vtrash, folder);
+			camel_object_unref (CAMEL_OBJECT (folder));
 		} else {
 			CAMEL_STORE_UNLOCK(store, cache_lock);
 		}
@@ -373,14 +375,23 @@ camel_store_rename_folder (CamelStore *store, const char *old_name, const char *
 
 	CAMEL_STORE_LOCK(store, folder_lock);
 	CS_CLASS (store)->rename_folder (store, old_name, new_name, ex);
-
+	
 	/* remove the old name from the cache if it is there */
 	CAMEL_STORE_LOCK(store, cache_lock);
 	if (g_hash_table_lookup_extended(store->folders, old_name, (void **)&key, (void **)&folder)) {
 		g_hash_table_remove(store->folders, key);
 		g_free(key);
+		
+		camel_object_ref (CAMEL_OBJECT (folder));
+		
+		CAMEL_STORE_UNLOCK(store, cache_lock);
+		
+		if (store->vtrash)
+			camel_vee_folder_remove_folder (CAMEL_VEE_FOLDER (store->vtrash), folder);
+		camel_object_unref (CAMEL_OBJECT (folder));
+	} else {
+		CAMEL_STORE_UNLOCK(store, cache_lock);
 	}
-	CAMEL_STORE_UNLOCK(store, cache_lock);
 
 	CAMEL_STORE_UNLOCK(store, folder_lock);
 }

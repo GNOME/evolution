@@ -31,10 +31,13 @@
 #include "camel-mime-filter-crlf.h"
 #include "camel-stream-filter.h"
 #include "camel-stream-mem.h"
+#include "camel-stream-fs.h"
 
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+
+#define PGPMIME_DEBUG
 
 #define d(x) x
 
@@ -495,6 +498,8 @@ camel_pgp_mime_part_decrypt (CamelPgpContext *context, CamelMimePart *mime_part,
 	CamelMimePart *encrypted_part, *part;
 	CamelContentType *mime_type;
 	CamelStream *stream, *ciphertext;
+	CamelStreamFilter *filtered_stream;
+	CamelMimeFilter *crlf_filter;
 	
 	g_return_val_if_fail (mime_part != NULL, NULL);
 	g_return_val_if_fail (CAMEL_IS_MIME_PART (mime_part), NULL);
@@ -530,8 +535,17 @@ camel_pgp_mime_part_decrypt (CamelPgpContext *context, CamelMimePart *mime_part,
 	
 	/* construct the new decrypted mime part from the stream */
 	part = camel_mime_part_new ();
-	camel_data_wrapper_construct_from_stream (CAMEL_DATA_WRAPPER (part), stream);
+	
+	crlf_filter = camel_mime_filter_crlf_new (CAMEL_MIME_FILTER_CRLF_DECODE,
+						  CAMEL_MIME_FILTER_CRLF_MODE_CRLF_ONLY);
+	filtered_stream = camel_stream_filter_new_with_stream (stream);
 	camel_object_unref (CAMEL_OBJECT (stream));
+	camel_stream_filter_add (filtered_stream, CAMEL_MIME_FILTER (crlf_filter));
+	camel_object_unref (CAMEL_OBJECT (crlf_filter));
+	
+	camel_data_wrapper_construct_from_stream (CAMEL_DATA_WRAPPER (part), CAMEL_STREAM (filtered_stream));
+	
+	camel_object_unref (CAMEL_OBJECT (filtered_stream));
 	
 	return part;
 }

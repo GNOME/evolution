@@ -1,3 +1,10 @@
+2001-09-27  Jeffrey Stedfast  <fejj@ximian.com>
+
+	* camel-pgp-mime.c (camel_pgp_mime_part_decrypt): CRLF decode the
+	stream before parsing it into a MIME part. This fixes bug #10521.
+
+	* camel-store.c: Remove the old folder from the vTrash folder.
+
 2001-09-27  Dan Winship  <danw@ximian.com>
 
 	* camel-service.c: Change "gboolean connected" to
