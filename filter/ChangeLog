@@ -1,5 +1,8 @@
 2001-07-05  Jeffrey Stedfast  <fejj@ximian.com>
 
+	* rule-editor.c (rule_delete): Select the most appropriate filter
+	rule.
+
 	* filtertypes.xml: Fix bug #4043: s/colour/color
 
 2001-07-03  Peter Williams  <peterw@ximian.com>

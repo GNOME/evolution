@@ -1,6 +1,6 @@
 /* Automatically generated. Do not edit. */
 char *s = N_("after");
-char *s = N_("Assign Colour");
+char *s = N_("Assign Color");
 char *s = N_("Assign Score");
 char *s = N_("Attachments");
 char *s = N_("before");

@@ -320,15 +320,22 @@ rule_delete (GtkWidget *widget, RuleEditor *re)
 	d(printf ("delete rule\n"));
 	pos = rule_context_get_rank_rule (re->context, re->current, re->source);
 	if (pos != -1) {
+		gint len;
+		
 		rule_context_remove_rule (re->context, re->current);
 		
-		item = g_list_nth_data (((GtkList *)re->list)->children, pos);
+		item = g_list_nth_data (GTK_LIST (re->list)->children, pos);
 		l = g_list_append (NULL, item);
 		gtk_list_remove_items (re->list, l);
 		g_list_free (l);
 		
 		gtk_object_unref (GTK_OBJECT (re->current));
 		re->current = NULL;
+		
+		/* now select the next rule */
+		len = g_list_length (GTK_LIST (re->list)->children);
+		pos = pos >= len ? len - 1 : pos;
+		gtk_list_select_item (GTK_LIST (re->list), pos);
 	}
 	
 	rule_editor_set_sensitive (re);
