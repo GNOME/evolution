@@ -251,6 +251,13 @@ fi
 
 
 dnl **************************************************
+dnl * Accessibility support
+dnl **************************************************
+PKG_CHECK_MODULES(A11Y, atk)
+AC_SUBST(A11Y_CFLAGS)
+AC_SUBST(A11Y_LIBS)
+
+dnl **************************************************
 dnl * IPv6 support
 dnl **************************************************
 AC_ARG_ENABLE(ipv6, [  --enable-ipv6=[no/yes]      Enable support for resolving IPv6 addresses.],,enable_ipv6=no)
@@ -1310,6 +1317,8 @@ AC_SUBST(EVOLUTION_DIR)
 
 AC_OUTPUT([ po/Makefile.in
 Makefile
+a11y/Makefile
+a11y/calendar/Makefile
 addressbook/Makefile
 addressbook/gui/Makefile
 addressbook/gui/component/Makefile

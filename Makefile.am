@@ -34,6 +34,7 @@ SUBDIRS = 			\
 	camel			\
 	filter			\
 	addressbook		\
+	a11y			\
 	calendar		\
 	my-evolution		\
         art                     \
