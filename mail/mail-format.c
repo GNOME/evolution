@@ -627,7 +627,7 @@ static void
 write_address(MailDisplay *md, const CamelInternetAddress *addr, const char *field_name, int flags)
 {
 	const char *name, *email;
-	gboolean name_set = FALSE, mail_set = FALSE;
+	gboolean name_set, mail_set;
 	gint i;
 
 	if (addr == NULL || !camel_internet_address_get (addr, 0, NULL, NULL))
@@ -644,6 +644,7 @@ write_address(MailDisplay *md, const CamelInternetAddress *addr, const char *fie
 			mail_html_write (md->html, md->stream, i ? ",<B> </B> " : "<td>");
 			mail_html_write (md->html, md->stream, " ");
 
+			name_set = mail_set = FALSE;
 			if (name && *name) {
 				mail_html_write (md->html, md->stream,
 						 "<!--+GtkHTML:<DATA class=\"Text\" key=\"name\" value=\"%s\">-->",
@@ -665,17 +666,16 @@ write_address(MailDisplay *md, const CamelInternetAddress *addr, const char *fie
 						 name && *name ? "&lt;" : "",
 						 email,
 						 name && *name ? "&gt;" : "");
+			if (name_set)
+				mail_html_write (md->html, md->stream,
+						 "<!--+GtkHTML:<DATA class=\"Text\" clear=\"name\">-->");
+			if (mail_set)
+				mail_html_write (md->html, md->stream,
+						 "<!--+GtkHTML:<DATA class=\"Text\" clear=\"email\">-->");
 		}
 		
 		++i;
 	}
-	if (name_set)
-		mail_html_write (md->html, md->stream,
-				 "<!--+GtkHTML:<DATA class=\"Text\" clear=\"name\">-->");
-	if (mail_set)
-		mail_html_write (md->html, md->stream,
-				 "<!--+GtkHTML:<DATA class=\"Text\" clear=\"email\">-->");
-
 	mail_html_write (md->html, md->stream, "</td></tr>"); /* Finish up the table row */
 }
 
