@@ -84,8 +84,6 @@ calendar/gui/comp-editor-factory.c
 calendar/gui/control-factory.c
 calendar/gui/dialogs/alarm-options.c
 calendar/gui/dialogs/alarm-options.glade
-calendar/gui/dialogs/alarm-page.c
-calendar/gui/dialogs/alarm-page.glade
 calendar/gui/dialogs/calendar-setup.c
 calendar/gui/dialogs/calendar-setup.glade
 calendar/gui/dialogs/cal-prefs-dialog.c
