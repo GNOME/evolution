@@ -1,3 +1,8 @@
+1998-11-04  Raja R Harinath  <harinath@cs.umn.edu>
+
+	* gnome-support.m4 (need_gnome_support): Set this unconditionally
+	to `yes'.  We'll soon be losing this variable.
+
 1998-10-20  Andrew Veliath  <andrewtv@usa.net>
 
 	* gnome-orbit-check.m4 (GNOME_ORBIT_HOOK): Add ORBIT_IDL
