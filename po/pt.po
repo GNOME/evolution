@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: 2.2\n"
 "POT-Creation-Date: 2003-03-13 01:54+0000\n"
-"PO-Revision-Date: 2003-03-18 02:10+0000\n"
+"PO-Revision-Date: 2003-03-27 03:43+0000\n"
 "Last-Translator: Duarte Loreto <happyguy_pt@hotmail.com>\n"
 "Language-Team: Portuguese <gnome_pt@yahoogroups.com>\n"
 "MIME-Version: 1.0\n"
@@ -9520,103 +9520,103 @@ msgstr ""
 
 #: camel/providers/local/camel-local-provider.c:77
 #: camel/providers/local/camel-local-provider.c:94
-#, fuzzy VOU AQUI
 msgid "Apply filters to new messages in INBOX"
-msgstr "Imprimir a mensagem seleccionada"
+msgstr "Aplicar filtros às mensagens na CAIXA DE ENTRADA"
 
 #: camel/providers/local/camel-local-provider.c:83
 msgid "Maildir-format mail directories"
-msgstr ""
+msgstr "Directórios de correio em formato Maildir"
 
 #: camel/providers/local/camel-local-provider.c:84
 msgid "For storing local mail in maildir directories."
-msgstr ""
+msgstr "Para armazenar correio local em directórios maildir."
 
 #: camel/providers/local/camel-local-provider.c:95
 msgid "Store status headers in Elm/Pine/Mutt format"
-msgstr ""
+msgstr "Armazenar cabeçalhos de estado em formato Elm/Pine/Mutt"
 
 #: camel/providers/local/camel-local-provider.c:101
 msgid "Standard Unix mbox spool or directory"
-msgstr ""
+msgstr "Directório ou spool mbox padrão UNIX"
 
 #: camel/providers/local/camel-local-provider.c:102
 msgid ""
 "For reading and storing local mail in external standard mbox spool files.\n"
 "May also be used to read a tree of Elm, Pine, or Mutt style folders."
 msgstr ""
+"Para ler e armazenar correio local em ficheiros spool padrão mbox externos.\n"
+"Também pode ser utilizado para ler uma árvore de pastas estilo Elm, Pine ou Mutt."
 
 #: camel/providers/local/camel-local-store.c:139
 #: camel/providers/local/camel-local-store.c:228
 #: camel/providers/local/camel-spool-store.c:116
 #, c-format
 msgid "Store root %s is not an absolute path"
-msgstr ""
+msgstr "Armazenamento raiz %s não é um caminho absoluto"
 
 #: camel/providers/local/camel-local-store.c:146
 #, c-format
 msgid "Store root %s is not a regular directory"
-msgstr ""
+msgstr "Armazenamento raiz %s não é um directório"
 
 #: camel/providers/local/camel-local-store.c:155
 #: camel/providers/local/camel-local-store.c:171
 #: camel/providers/local/camel-local-store.c:239
 #, c-format
 msgid "Cannot get folder: %s: %s"
-msgstr ""
+msgstr "Incapaz de obter pasta: %s: %s"
 
 #: camel/providers/local/camel-local-store.c:187
 msgid "Local stores do not have an inbox"
-msgstr ""
+msgstr "Armazenamentos locais não têm uma caixa de entrada"
 
 #: camel/providers/local/camel-local-store.c:199
 #, c-format
 msgid "Local mail file %s"
-msgstr ""
+msgstr "Ficheiro local de correio %s"
 
 #: camel/providers/local/camel-local-store.c:308 mail/mail-local.c:905
 #, c-format
 msgid "Could not rename folder %s to %s: %s"
-msgstr ""
+msgstr "Incapaz de renomear pasta %s para %s: %s"
 
 #: camel/providers/local/camel-local-store.c:365
-#, fuzzy, c-format
+#, c-format
 msgid "Could not rename '%s': %s"
-msgstr "Criar um novo calendário"
+msgstr "Incapaz de renomear '%s': %s"
 
 #: camel/providers/local/camel-local-store.c:388
 #, c-format
 msgid "Could not delete folder summary file `%s': %s"
-msgstr ""
+msgstr "Incapaz de apagar ficheiro de resumo de pasta `%s': %s"
 
 #: camel/providers/local/camel-local-store.c:398
 #, c-format
 msgid "Could not delete folder index file `%s': %s"
-msgstr ""
+msgstr "Incapaz de apagar ficheiro de índice de pasta `%s': %s"
 
 #: camel/providers/local/camel-local-summary.c:398
-#, fuzzy, c-format
+#, c-format
 msgid "Could not save summary: %s: %s"
-msgstr "Criar um novo calendário"
+msgstr "Incapaz de gravar resumo: %s: %s"
 
 #: camel/providers/local/camel-local-summary.c:457
 msgid "Unable to add message to summary: unknown reason"
-msgstr ""
+msgstr "Incapaz de adicionar mensagem ao resumo: razão desconhecida"
 
 #: camel/providers/local/camel-maildir-folder.c:184
-#, fuzzy
 msgid "Maildir append message cancelled"
-msgstr "Enviar esta mensagem"
+msgstr "Adição de mensagem ao maildir cancelada"
 
 #: camel/providers/local/camel-maildir-folder.c:187
 #, c-format
 msgid "Cannot append message to maildir folder: %s: %s"
-msgstr ""
+msgstr "Incapaz de adicionar mensagem à pasta maildir: %s: %s"
 
 #: camel/providers/local/camel-maildir-folder.c:235
 #: camel/providers/local/camel-mh-folder.c:221
 msgid "Invalid message contents"
-msgstr ""
+msgstr "Conteudo de mensagem inválido"
 
 #: camel/providers/local/camel-maildir-store.c:106
 #: camel/providers/local/camel-mh-store.c:202
@@ -9626,6 +9626,8 @@ msgid ""
 "Could not open folder `%s':\n"
 "%s"
 msgstr ""
+"Incapaz de abrir pasta `%s':\n"
+"%s"
 
 #: camel/providers/local/camel-maildir-store.c:110
 #: camel/providers/local/camel-mbox-store.c:101
@@ -9633,7 +9635,7 @@ msgstr ""
 #: camel/providers/local/camel-spool-store.c:168
 #, c-format
 msgid "Folder `%s' does not exist."
-msgstr ""
+msgstr "Pasta `%s' não existe."
 
 #: camel/providers/local/camel-maildir-store.c:117
 #: camel/providers/local/camel-mh-store.c:216
@@ -9643,75 +9645,73 @@ msgid ""
 "Could not create folder `%s':\n"
 "%s"
 msgstr ""
+"Incapaz de criar pasta `%s':\n"
+"%s"
 
 #: camel/providers/local/camel-maildir-store.c:132
 #, c-format
 msgid "`%s' is not a maildir directory."
-msgstr ""
+msgstr "`%s' não é um directório maildir."
 
 #: camel/providers/local/camel-maildir-store.c:167
 #: camel/providers/local/camel-maildir-store.c:205
 #: camel/providers/local/camel-mh-store.c:252
 #, c-format
 msgid "Could not delete folder `%s': %s"
-msgstr ""
+msgstr "Incapaz de apagar pasta `%s': %s"
 
 #: camel/providers/local/camel-maildir-store.c:169
 msgid "not a maildir directory"
-msgstr ""
+msgstr "não é um directório maildir"
 
 #: camel/providers/local/camel-maildir-store.c:335
 #: camel/providers/local/camel-spool-store.c:287
 #: camel/providers/local/camel-spool-store.c:317
-#, fuzzy, c-format
+#, c-format
 msgid "Could not scan folder `%s': %s"
-msgstr "Criar um novo calendário"
+msgstr "Incapaz de procurar na pasta `%s': %s"
 
 #: camel/providers/local/camel-maildir-summary.c:417
 #: camel/providers/local/camel-maildir-summary.c:548
-#, fuzzy, c-format
+#, c-format
 msgid "Cannot open maildir directory path: %s: %s"
-msgstr "Não consigo abrir a localização: %s"
+msgstr "Incapaz de abrir caminho de directório maildir: %s: %s"
 
 #: camel/providers/local/camel-maildir-summary.c:541
-#, fuzzy
 msgid "Checking folder consistency"
-msgstr "Verificar novo correio"
+msgstr "A verificar consistência de pasta"
 
 #: camel/providers/local/camel-maildir-summary.c:644
-#, fuzzy
 msgid "Checking for new messages"
-msgstr "Encontrar mensagens"
+msgstr "A verificar por novas mensagens"
 
 #: camel/providers/local/camel-maildir-summary.c:733
 #: camel/providers/local/camel-mbox-summary.c:337
 #: camel/providers/local/camel-mbox-summary.c:580
 #: camel/providers/local/camel-mbox-summary.c:671
 #: camel/providers/local/camel-spool-summary.c:137
-#, fuzzy
 msgid "Storing folder"
-msgstr "Sincronizar"
+msgstr "A armazenar pasta"
 
 #: camel/providers/local/camel-mbox-folder.c:159
 #: camel/providers/local/camel-spool-folder.c:149
-#, fuzzy, c-format
+#, c-format
 msgid "Cannot create folder lock on %s: %s"
-msgstr "Não consigo abrir a localização: %s"
+msgstr "Incapaz de criar tranca de pasta em %s: %s"
 
 #: camel/providers/local/camel-mbox-folder.c:218
-#, fuzzy, c-format
+#, c-format
 msgid "Cannot open mailbox: %s: %s\n"
-msgstr "Não consigo abrir a localização: %s"
+msgstr "Incapaz de abrir caixa de correio: %s: %s\n"
 
 #: camel/providers/local/camel-mbox-folder.c:278
-#, fuzzy
 msgid "Mail append cancelled"
-msgstr "Abrir calendário"
+msgstr "Adição correio cancelada"
 
 #: camel/providers/local/camel-mbox-folder.c:281
 #, c-format
 msgid "Cannot append message to mbox file: %s: %s"
-msgstr ""
+msgstr "Incapaz de adicionar mensagem ao ficheiro mbox: %s: %s"
 
 #: camel/providers/local/camel-mbox-folder.c:369
 #: camel/providers/local/camel-mbox-folder.c:400
@@ -9721,14 +9721,16 @@ msgid ""
 "Cannot get message: %s from folder %s\n"
 "  %s"
 msgstr ""
+"Incapaz de obter mensagem: %s da pasta %s\n"
+"  %s"
 
 #: camel/providers/local/camel-mbox-folder.c:401
 msgid "The folder appears to be irrecoverably corrupted."
-msgstr ""
+msgstr "A pasta parece estar irreversivelmente corrompida."
 
 #: camel/providers/local/camel-mbox-folder.c:409
 msgid "Message construction failed: Corrupt mailbox?"
-msgstr ""
+msgstr "Falha na construção de mensagem: Caixa de correio corrompida?"
 
 #: camel/providers/local/camel-mbox-store.c:94
 #, c-format
@@ -9736,6 +9738,8 @@ msgid ""
 "Could not open file `%s':\n"
 "%s"
 msgstr ""
+"Incapaz de abrir ficheiro `%s':\n"
+"%s"
 
 #: camel/providers/local/camel-mbox-store.c:110
 #, c-format
@@ -9743,12 +9747,14 @@ msgid ""
 "Could not create file `%s':\n"
 "%s"
 msgstr ""
+"Incapaz de criar ficheiro `%s':\n"
+"%s"
 
 #: camel/providers/local/camel-mbox-store.c:119
 #: camel/providers/local/camel-mbox-store.c:146
 #, c-format
 msgid "`%s' is not a regular file."
-msgstr ""
+msgstr "`%s' não é um ficheiro normal."
 
 #: camel/providers/local/camel-mbox-store.c:138
 #: camel/providers/local/camel-mbox-store.c:161
@@ -9757,158 +9763,159 @@ msgid ""
 "Could not delete folder `%s':\n"
 "%s"
 msgstr ""
+"Incapaz de apagar pasta `%s':\n"
+"%s"
 
 #: camel/providers/local/camel-mbox-store.c:153
 #, c-format
 msgid "Folder `%s' is not empty. Not deleted."
-msgstr ""
+msgstr "Pasta `%s' não está vazia. Não foi apagada."
 
 #: camel/providers/local/camel-mbox-summary.c:343
-#, fuzzy, c-format
+#, c-format
 msgid "Could not open folder: %s: %s"
-msgstr "Criar um novo calendário"
+msgstr "Incapaz de abrir pasta: %s: %s"
 
 #: camel/providers/local/camel-mbox-summary.c:391
 #, c-format
 msgid "Fatal mail parser error near position %ld in folder %s"
-msgstr ""
+msgstr "Erro fatal de parseamento de correio perto da posição %ld na pasta %s"
 
 #: camel/providers/local/camel-mbox-summary.c:447
-#, fuzzy, c-format
+#, c-format
 msgid "Cannot check folder: %s: %s"
-msgstr "Não consigo abrir a localização: %s"
+msgstr "Incapaz de verificar pasta: %s: %s"
 
 #: camel/providers/local/camel-mbox-summary.c:585
 #: camel/providers/local/camel-mbox-summary.c:676
 #: camel/providers/local/camel-spool-summary.c:142
-#, fuzzy, c-format
+#, c-format
 msgid "Could not open file: %s: %s"
-msgstr "Criar um novo calendário"
+msgstr "Incapaz de abrir ficheiro: %s: %s"
 
 #: camel/providers/local/camel-mbox-summary.c:597
 #: camel/providers/local/camel-spool-summary.c:162
-#, fuzzy, c-format
+#, c-format
 msgid "Cannot open temporary mailbox: %s"
-msgstr "Não consigo abrir a localização: %s"
+msgstr "Incapaz de abrir caixa correio temporária: %s"
 
 #: camel/providers/local/camel-mbox-summary.c:610
 #: camel/providers/local/camel-mbox-summary.c:772
 #, c-format
 msgid "Could not close source folder %s: %s"
-msgstr ""
+msgstr "Incapaz de fechar pasta origem %s: %s"
 
 #: camel/providers/local/camel-mbox-summary.c:619
 #, c-format
 msgid "Could not close temp folder: %s"
-msgstr ""
+msgstr "Incapaz de fechar pasta temporária: %s"
 
 #: camel/providers/local/camel-mbox-summary.c:630
 #, c-format
 msgid "Could not rename folder: %s"
-msgstr ""
+msgstr "Incapaz de renomear pasta: %s"
 
 #: camel/providers/local/camel-mbox-summary.c:714
 #: camel/providers/local/camel-mbox-summary.c:722
 #: camel/providers/local/camel-mbox-summary.c:913
 #: camel/providers/local/camel-mbox-summary.c:921
 msgid "Summary and folder mismatch, even after a sync"
-msgstr ""
+msgstr "Resumo e pasta não coincidem, mesmo depois de uma sincronização"
 
 #: camel/providers/local/camel-mbox-summary.c:847
 #: camel/providers/local/camel-spool-summary.c:334
 #, c-format
 msgid "Unknown error: %s"
-msgstr ""
+msgstr "Erro desconhecido: %s"
 
 #: camel/providers/local/camel-mbox-summary.c:882
-#, fuzzy, c-format
+#, c-format
 msgid "Could not store folder: %s"
-msgstr "Criar um novo calendário"
+msgstr "Incapaz de armazenar pasta: %s"
 
 #: camel/providers/local/camel-mbox-summary.c:976
 #: camel/providers/local/camel-mbox-summary.c:1002
 #, c-format
 msgid "Error writing to temp mailbox: %s"
-msgstr ""
+msgstr "Erro ao gravar na caixa de correio temporária: %s"
 
 #: camel/providers/local/camel-mbox-summary.c:993
 #, c-format
 msgid "Writing to tmp mailbox failed: %s: %s"
-msgstr ""
+msgstr "Falha ao gravar para caixa correio temporária: %s: %s"
 
 #: camel/providers/local/camel-mh-folder.c:175
-#, fuzzy
 msgid "MH append message cancelled"
-msgstr "Enviar mensagem em formato HTML"
+msgstr "Adição de mensagem MH cancelada"
 
 #: camel/providers/local/camel-mh-folder.c:178
 #, c-format
 msgid "Cannot append message to mh folder: %s: %s"
-msgstr ""
+msgstr "Incapaz de adicionar mensagem a pasta mh: %s: %s"
 
 #: camel/providers/local/camel-mh-store.c:229
 #, c-format
 msgid "`%s' is not a directory."
-msgstr ""
+msgstr "`%s' não é um directório."
 
 #: camel/providers/local/camel-mh-summary.c:244
-#, fuzzy, c-format
+#, c-format
 msgid "Cannot open MH directory path: %s: %s"
-msgstr "Não consigo abrir a localização: %s"
+msgstr "Incapaz de abrir caminho de directório MH: %s: %s"
 
 #: camel/providers/local/camel-spool-store.c:122
 #, c-format
 msgid "Spool `%s' cannot be opened: %s"
-msgstr ""
+msgstr "Spool `%s' não pode ser aberto: %s"
 
 #: camel/providers/local/camel-spool-store.c:134
 #, c-format
 msgid "Spool `%s' is not a regular file or directory"
-msgstr ""
+msgstr "Spool `%s' não é um ficheiro ou directório comum"
 
 #: camel/providers/local/camel-spool-store.c:154
 #, c-format
 msgid "Folder `%s/%s' does not exist."
-msgstr ""
+msgstr "Pasta `%s/%s' não existe."
 
 #: camel/providers/local/camel-spool-store.c:181
 #, c-format
 msgid "`%s' is not a mailbox file."
-msgstr ""
+msgstr "`%s' não é um ficheiro caixa correio."
 
 #: camel/providers/local/camel-spool-store.c:198
 msgid "Store does not support an INBOX"
-msgstr ""
+msgstr "Armazenamento não suporta uma CAIXA ENTRADA"
 
 #: camel/providers/local/camel-spool-store.c:210
-#, fuzzy, c-format
+#, c-format
 msgid "Spool mail file %s"
-msgstr "Erro a gravar os atalhos."
+msgstr "Ficheiro spool de correio %s"
 
 #: camel/providers/local/camel-spool-store.c:210
-#, fuzzy, c-format
+#, c-format
 msgid "Spool folder tree %s"
-msgstr "Erro a gravar os atalhos."
+msgstr "Pasta árvore spool %s"
 
 #: camel/providers/local/camel-spool-store.c:218
 msgid "Spool folders cannot be renamed"
-msgstr ""
+msgstr "Pastas spool não podem ser renomeadas"
 
 #: camel/providers/local/camel-spool-store.c:226
 msgid "Spool folders cannot be deleted"
-msgstr ""
+msgstr "Pastas spool não podem ser apagadas"
 
 #: camel/providers/local/camel-spool-summary.c:175
 #: camel/providers/local/camel-spool-summary.c:185
 #: camel/providers/local/camel-spool-summary.c:195
-#, fuzzy, c-format
+#, c-format
 msgid "Could not sync temporary folder %s: %s"
-msgstr "Criar um novo calendário"
+msgstr "Incapaz de sincronizar pasta temporária %s: %s"
 
 #: camel/providers/local/camel-spool-summary.c:211
-#, fuzzy, c-format
+#, c-format
 msgid "Could not sync spool folder %s: %s"
-msgstr "Criar um novo calendário"
+msgstr "Incapaz de sincronizar pasta spool %s: %s"
 
 #: camel/providers/local/camel-spool-summary.c:242
 #: camel/providers/local/camel-spool-summary.c:261
@@ -9918,147 +9925,147 @@ msgid ""
 "Could not sync spool folder %s: %s\n"
 "Folder may be corrupt, copy saved in `%s'"
 msgstr ""
+"Incapaz de sincronizar pasta spool %s: %s\n"
+"Pasta pode estar corrompida, cópia gravada em `%s'"
 
 #: camel/providers/nntp/camel-nntp-provider.c:41
 msgid "USENET news"
-msgstr ""
+msgstr "Notícias USENET"
 
 #: camel/providers/nntp/camel-nntp-provider.c:43
 msgid "This is a provider for reading from and posting toUSENET newsgroups."
-msgstr ""
+msgstr "Este é um fornecedor para ler e afixar em grupos de notícias USENET."
 
 #: camel/providers/nntp/camel-nntp-store.c:151
-#, fuzzy, c-format
+#, c-format
 msgid "Could not read greeting from %s: %s"
-msgstr "Criar um novo calendário"
+msgstr "Incapaz de ler boas vindas de %s: %s"
 
 #: camel/providers/nntp/camel-nntp-store.c:163
 #, c-format
 msgid "NNTP server %s returned error code %d: %s"
-msgstr ""
+msgstr "Servidor NNTP %s devolveu código de erro %d: %s"
 
 #: camel/providers/nntp/camel-nntp-store.c:262
 #, c-format
 msgid "USENET News via %s"
-msgstr ""
+msgstr "Notícias USENET via %s"
 
 #: camel/providers/nntp/camel-nntp-store.c:269
 msgid ""
 "This option will authenticate with the NNTP server using a plaintext "
 "password."
 msgstr ""
+"Esta opção irá autentica-lo perante o servidor NNTP utilizando uma senha "
+"em texto simples."
 
 #: camel/providers/nntp/camel-nntp-summary.c:234
-#, fuzzy, c-format
+#, c-format
 msgid "No such folder: %s"
-msgstr "Enviar a mensagem"
+msgstr "Pasta inexistente: %s"
 
 #: camel/providers/nntp/camel-nntp-summary.c:238
-#, fuzzy, c-format
+#, c-format
 msgid "Could not get group: %s"
-msgstr "Criar uma nova mensagem"
+msgstr "Incapaz de obter grupo: %s"
 
 #: camel/providers/nntp/camel-nntp-summary.c:344
 #, c-format
 msgid "NNTP Command failed: %s"
-msgstr ""
+msgstr "Falha no comando NNTP: %s"
 
 #: camel/providers/nntp/camel-nntp-summary.c:404
 #: camel/providers/nntp/camel-nntp-summary.c:505
-#, fuzzy, c-format
+#, c-format
 msgid "%s: Scanning new messages"
-msgstr "Encontrar mensagens"
+msgstr "%s: A procurar novas mensagens"
 
 #: camel/providers/nntp/camel-nntp-summary.c:520
 #, c-format
 msgid "Unknown server response: %s"
-msgstr ""
+msgstr "Resposta de servidor desconhecida: %s"
 
 #: camel/providers/nntp/camel-nntp-summary.c:566
 msgid "Use cancel"
-msgstr ""
+msgstr "Utilizar cancelar"
 
 #: camel/providers/nntp/camel-nntp-summary.c:568
-#, fuzzy, c-format
+#, c-format
 msgid "Operation failed: %s"
-msgstr "Abrir calendário"
+msgstr "Operação falhou: %s"
 
 #: camel/providers/pop3/camel-pop3-folder.c:246
-#, fuzzy
 msgid "Retrieving POP summary"
-msgstr "Encontrar mensagens"
+msgstr "A obter resumo POP"
 
 #: camel/providers/pop3/camel-pop3-folder.c:262
 #: camel/providers/pop3/camel-pop3-folder.c:429
 #: camel/providers/pop3/camel-pop3-folder.c:490
 #: camel/providers/pop3/camel-pop3-folder.c:508
-#, fuzzy
 msgid "User cancelled"
-msgstr "Abrir calendário"
+msgstr "Cancelado pelo utilizador"
 
 #: camel/providers/pop3/camel-pop3-folder.c:265
-#, fuzzy, c-format
+#, c-format
 msgid "Cannot get POP summary: %s"
-msgstr "Criar um novo calendário"
+msgstr "Incapaz de obter resumo POP: %s"
 
 #: camel/providers/pop3/camel-pop3-folder.c:308
-#, fuzzy
 msgid "Expunging deleted messages"
-msgstr "Imprimir a mensagem seleccionada"
+msgstr "A expurgar mensagens apagadas"
 
 #: camel/providers/pop3/camel-pop3-folder.c:403
 #, c-format
 msgid "No message with uid %s"
-msgstr ""
+msgstr "Nenhuma mensagem com o uid %s"
 
 #. Sigh, most of the crap in this function is so that the cancel button
 #. returns the proper exception code.  Sigh.
 #: camel/providers/pop3/camel-pop3-folder.c:410
-#, fuzzy, c-format
+#, c-format
 msgid "Retrieving POP message %d"
-msgstr "Enviar esta mensagem"
+msgstr "A obter mensagem POP %d"
 
 #: camel/providers/pop3/camel-pop3-folder.c:432
 #: camel/providers/pop3/camel-pop3-folder.c:493
 #: camel/providers/pop3/camel-pop3-folder.c:500
 #: camel/providers/pop3/camel-pop3-folder.c:511
-#, fuzzy, c-format
+#, c-format
 msgid "Cannot get message %s: %s"
-msgstr "Criar uma nova mensagem"
+msgstr "Incapaz de obter mensagem %s: %s"
 
 #: camel/providers/pop3/camel-pop3-folder.c:500
-#, fuzzy
 msgid "Unknown reason"
-msgstr "Impossível abrir o livro de endereços"
+msgstr "Razão desconhecida"
 
 #: camel/providers/pop3/camel-pop3-provider.c:38
-#, fuzzy
 msgid "Message storage"
-msgstr "Situação das mensagens"
+msgstr "Armazenamento mensagens"
 
 #: camel/providers/pop3/camel-pop3-provider.c:40
-#, fuzzy
 msgid "Leave messages on server"
-msgstr "Gravar a mensagem na pasta especificada"
+msgstr "Deixar mensagens no servidor"
 
 #: camel/providers/pop3/camel-pop3-provider.c:43
-#, fuzzy, c-format
+#, c-format
 msgid "Delete after %s day(s)"
-msgstr "Apagar este item"
+msgstr "Apagar após %s dia(s)"
 
 #: camel/providers/pop3/camel-pop3-provider.c:52 mail/mail-config.glade.h:85
 msgid "POP"
-msgstr ""
+msgstr "POP"
 
 #: camel/providers/pop3/camel-pop3-provider.c:54
 msgid "For connecting to and downloading mail from POP servers."
-msgstr ""
+msgstr "Para se ligar e descarregar correio de servidores POP."
 
 #: camel/providers/pop3/camel-pop3-provider.c:71
 msgid ""
 "This option will connect to the POP server using a plaintext password. This "
 "is the only option supported by many POP servers."
 msgstr ""
+"Esta opção irá ligar a um servidor POP utilizando uma senha em texto simples. "
+"Esta é a única opção suportada pela maioria dos servidores POP."
 
 #: camel/providers/pop3/camel-pop3-provider.c:81
 msgid ""
@@ -10066,23 +10073,26 @@ msgid ""
 "the APOP protocol. This may not work for all users even on servers that "
 "claim to support it."
 msgstr ""
+"Esta opção irá ligar a um servidor POP utilizando uma senha encriptada através "
+"do protocolo APOP. Poderá não funcionar com todos os servidores, mesmo naqueles "
+"que digam suportar esta opção."
 
 #: camel/providers/pop3/camel-pop3-store.c:186
-#, fuzzy, c-format
+#, c-format
 msgid "Could not connect to POP server %s (port %d): %s"
-msgstr "Criar um novo calendário"
+msgstr "Incapaz de se ligar ao servidor POP %s (porto %d): %s"
 
 #: camel/providers/pop3/camel-pop3-store.c:215
 #: camel/providers/pop3/camel-pop3-store.c:244
 #: camel/providers/pop3/camel-pop3-store.c:256
-#, fuzzy, c-format
+#, c-format
 msgid "Failed to connect to POP server %s in secure mode: %s"
-msgstr "Criar um novo calendário"
+msgstr "Falha ao se ligar ao servidor POP %s em modo seguro: %s"
 
 #: camel/providers/pop3/camel-pop3-store.c:354
-#, fuzzy, c-format
+#, c-format
 msgid "Could not connect to POP server %s"
-msgstr "Criar um novo calendário"
+msgstr "Incapaz de se ligar a servidor POP %s"
 
 #: camel/providers/pop3/camel-pop3-store.c:395
 #: camel/providers/pop3/camel-pop3-store.c:505
@@ -10091,239 +10101,240 @@ msgid ""
 "Unable to connect to POP server %s: No support for requested authentication "
 "mechanism."
 msgstr ""
+"Incapaz de se ligar a servidor POP %s: Suporte inexistente para mecanismo de "
+"autenticação requerido."
 
 #: camel/providers/pop3/camel-pop3-store.c:411
 #, c-format
 msgid "SASL `%s' Login failed for POP server %s: %s"
-msgstr ""
+msgstr "SASL `%s' Falha ao iníciar sessão em servidor POP %s: %s"
 
 #: camel/providers/pop3/camel-pop3-store.c:423
 #, c-format
 msgid "Cannot login to POP server %s: SASL Protocol error"
-msgstr ""
+msgstr "Incapaz de se ligar a servidor POP %s: Erro de protocolo SASL"
 
 #: camel/providers/pop3/camel-pop3-store.c:442
-#, fuzzy, c-format
+#, c-format
 msgid "Failed to authenticate on POP server %s: %s"
-msgstr "Anexar um ficheiro à mensagem"
+msgstr "Falha ao autenticar-se no servidor POP %s: %s"
 
 #: camel/providers/pop3/camel-pop3-store.c:464
 #, c-format
 msgid "%sPlease enter the POP password for %s@%s"
-msgstr ""
+msgstr "%sIntroduza a senha POP para %s@%s"
 
 #: camel/providers/pop3/camel-pop3-store.c:519
 #: camel/providers/pop3/camel-pop3-store.c:526
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "Unable to connect to POP server %s.\n"
 "Error sending password: %s"
-msgstr "Incapaz de estabelecer ligação com servidor LDAP."
+msgstr ""
+"Incapaz de se ligar ao servidor POP %s.\n"
+"Erro ao enviar senha: %s"
 
 #: camel/providers/pop3/camel-pop3-store.c:623
 #, c-format
 msgid "No such folder `%s'."
-msgstr ""
+msgstr "Pasta `%s' inexistente."
 
 #: camel/providers/sendmail/camel-sendmail-provider.c:36
 #: mail/mail-config.glade.h:110
-#, fuzzy
 msgid "Sendmail"
-msgstr "Enviar"
+msgstr "Sendmail"
 
 #: camel/providers/sendmail/camel-sendmail-provider.c:38
 msgid ""
 "For delivering mail by passing it to the \"sendmail\" program on the local "
 "system."
 msgstr ""
+"Para enviar correio passando-o para a aplicação \"sendmail\" no sistema local."
 
 #: camel/providers/sendmail/camel-sendmail-transport.c:113
-#, fuzzy
 msgid "Could not parse recipient list"
-msgstr "Criar um novo calendário"
+msgstr "Incapaz de parsear lista de destinatários"
 
 #: camel/providers/sendmail/camel-sendmail-transport.c:144
 #, c-format
 msgid "Could not create pipe to sendmail: %s: mail not sent"
-msgstr ""
+msgstr "Incapaz de criar canal para sendmail: %s: mensagem não foi enviada"
 
 #: camel/providers/sendmail/camel-sendmail-transport.c:165
 #, c-format
 msgid "Could not fork sendmail: %s: mail not sent"
-msgstr ""
+msgstr "Incapaz de efectuar fork do sendmail: %s: mensagem não foi enviada"
 
 #: camel/providers/sendmail/camel-sendmail-transport.c:205
-#, fuzzy, c-format
+#, c-format
 msgid "Could not send message: %s"
-msgstr "Criar uma nova mensagem"
+msgstr "Incapaz de enviar mensagem: %s"
 
 #: camel/providers/sendmail/camel-sendmail-transport.c:233
 #, c-format
 msgid "sendmail exited with signal %s: mail not sent."
-msgstr ""
+msgstr "sendmail terminou com sinal %s: mensagem não foi enviada."
 
 #: camel/providers/sendmail/camel-sendmail-transport.c:240
 #, c-format
 msgid "Could not execute %s: mail not sent."
-msgstr ""
+msgstr "Incapaz de executar %s: mensagem não foi enviada."
 
 #: camel/providers/sendmail/camel-sendmail-transport.c:245
 #, c-format
 msgid "sendmail exited with status %d: mail not sent."
-msgstr ""
+msgstr "sendmail terminou com estado %d: mensagem não foi enviada."
 
 #: camel/providers/sendmail/camel-sendmail-transport.c:259
 msgid "sendmail"
-msgstr ""
+msgstr "sendmail"
 
 #: camel/providers/sendmail/camel-sendmail-transport.c:261
 msgid "Mail delivery via the sendmail program"
-msgstr ""
+msgstr "Entrega de correio através da aplicação sendmail"
 
 #: camel/providers/smtp/camel-smtp-provider.c:37 mail/mail-config.glade.h:102
 msgid "SMTP"
-msgstr ""
+msgstr "SMTP"
 
 #: camel/providers/smtp/camel-smtp-provider.c:39
 msgid "For delivering mail by connecting to a remote mailhub using SMTP.\n"
 msgstr ""
+"Para enviar mensagens através de uma ligação com um servidor de correio "
+"remoto utilizando SMTP.\n"
 
 #: camel/providers/smtp/camel-smtp-transport.c:174
 msgid "Syntax error, command unrecognized"
-msgstr ""
+msgstr "Erro de sintaxe, comando desconhecido"
 
 #: camel/providers/smtp/camel-smtp-transport.c:176
 msgid "Syntax error in parameters or arguments"
-msgstr ""
+msgstr "Erro de sintaxe nos parâmetros ou argumentos"
 
 #: camel/providers/smtp/camel-smtp-transport.c:178
 msgid "Command not implemented"
-msgstr ""
+msgstr "Comando não implementado"
 
 #: camel/providers/smtp/camel-smtp-transport.c:180
 msgid "Command parameter not implemented"
-msgstr ""
+msgstr "Parâmetro de comando não implementado"
 
 #: camel/providers/smtp/camel-smtp-transport.c:182
 msgid "System status, or system help reply"
-msgstr ""
+msgstr "Resposta de estado de sistema ou ajuda de sistema"
 
 #: camel/providers/smtp/camel-smtp-transport.c:184
-#, fuzzy
 msgid "Help message"
-msgstr "Encontrar mensagens"
+msgstr "Mensagem ajuda"
 
 #: camel/providers/smtp/camel-smtp-transport.c:186
-#, fuzzy
 msgid "Service ready"
-msgstr "Servidor:"
+msgstr "Serviço iniciado"
 
 #: camel/providers/smtp/camel-smtp-transport.c:188
 msgid "Service closing transmission channel"
-msgstr ""
+msgstr "Serviço a fechar o canal de transmissão"
 
 #: camel/providers/smtp/camel-smtp-transport.c:190
 msgid "Service not available, closing transmission channel"
-msgstr ""
+msgstr "Serviço indisponível, a fechar o canal de transmissão"
 
 #: camel/providers/smtp/camel-smtp-transport.c:192
 msgid "Requested mail action okay, completed"
-msgstr ""
+msgstr "Acção de correio pedida aprovada, terminada"
 
 #: camel/providers/smtp/camel-smtp-transport.c:194
 msgid "User not local; will forward to <forward-path>"
-msgstr ""
+msgstr "Utilizador não é local; a reencaminhar para <caminho-reencaminhar>"
 
 #: camel/providers/smtp/camel-smtp-transport.c:196
 msgid "Requested mail action not taken: mailbox unavailable"
-msgstr ""
+msgstr "Acção de correio pedida não efectuada: caixa de correio indisponível"
 
 #: camel/providers/smtp/camel-smtp-transport.c:198
 msgid "Requested action not taken: mailbox unavailable"
-msgstr ""
+msgstr "Acção pedida não efectuada: caixa de correio indisponível"
 
 #: camel/providers/smtp/camel-smtp-transport.c:200
 msgid "Requested action aborted: error in processing"
-msgstr ""
+msgstr "Acção pedida abortada: erro no processamento"
 
 #: camel/providers/smtp/camel-smtp-transport.c:202
 msgid "User not local; please try <forward-path>"
-msgstr ""
+msgstr "Utilizador não é local; tente <caminho-reencaminhamento>"
 
 #: camel/providers/smtp/camel-smtp-transport.c:204
 msgid "Requested action not taken: insufficient system storage"
-msgstr ""
+msgstr "Acção pedida não efectuada: armazenamento de sistema insuficiente"
 
 #: camel/providers/smtp/camel-smtp-transport.c:206
 msgid "Requested mail action aborted: exceeded storage allocation"
-msgstr ""
+msgstr "Acção de correio pedida abortada: alocação de armazenamento excedida"
 
 #: camel/providers/smtp/camel-smtp-transport.c:208
 msgid "Requested action not taken: mailbox name not allowed"
-msgstr ""
+msgstr "Acção pedida não efectuada: nome de caixa de correio não permitido"
 
 #: camel/providers/smtp/camel-smtp-transport.c:210
 msgid "Start mail input; end with <CRLF>.<CRLF>"
-msgstr ""
+msgstr "Início de entrada de correio; termine com <CRLF>.<CRLF>"
 
 #: camel/providers/smtp/camel-smtp-transport.c:212
 msgid "Transaction failed"
-msgstr ""
+msgstr "Transacção falhou"
 
 #: camel/providers/smtp/camel-smtp-transport.c:216
 msgid "A password transition is needed"
-msgstr ""
+msgstr "É necessária uma transição de senha"
 
 #: camel/providers/smtp/camel-smtp-transport.c:218
 msgid "Authentication mechanism is too weak"
-msgstr ""
+msgstr "Mecanismo de autenticação é demasiado fraco"
 
 #: camel/providers/smtp/camel-smtp-transport.c:220
 msgid "Encryption required for requested authentication mechanism"
-msgstr ""
+msgstr "Requerida encriptação para o mecanismo de autenticação pedido"
 
 #: camel/providers/smtp/camel-smtp-transport.c:222
-#, fuzzy
 msgid "Temporary authentication failure"
-msgstr "Autenticação"
+msgstr "Falha temporária de autenticação"
 
 #: camel/providers/smtp/camel-smtp-transport.c:224
-#, fuzzy
 msgid "Authentication required"
-msgstr "Autenticação"
+msgstr "Autenticação requerida"
 
 #: camel/providers/smtp/camel-smtp-transport.c:298
 msgid "Welcome response error"
-msgstr ""
+msgstr "Erro de resposta de boas vindas"
 
 #: camel/providers/smtp/camel-smtp-transport.c:342
 #: camel/providers/smtp/camel-smtp-transport.c:381
-#, fuzzy, c-format
+#, c-format
 msgid "Failed to connect to SMTP server %s in secure mode: %s"
-msgstr "Criar um novo calendário"
+msgstr "Falha ao ligar-se a servidor SMTP %s em modo seguro: %s"
 
 #: camel/providers/smtp/camel-smtp-transport.c:343
 msgid "server does not appear to support SSL"
-msgstr ""
+msgstr "servidor aparenta não suportar SSL"
 
 #: camel/providers/smtp/camel-smtp-transport.c:357
 #, c-format
 msgid "STARTTLS request timed out: %s"
-msgstr ""
+msgstr "Expirou o tempo de pedido STARTTLS: %s"
 
 #: camel/providers/smtp/camel-smtp-transport.c:372
 msgid "STARTTLS response error"
-msgstr ""
+msgstr "Erro de resposta STARTTLS"
 
 #: camel/providers/smtp/camel-smtp-transport.c:475
-#, fuzzy, c-format
+#, c-format
 msgid "SMTP server %s does not support requested authentication type %s."
-msgstr "Autenticação"
+msgstr "Servidor SMTP %s não suporta tipo de autenticação %s pedida."
 
 #: camel/providers/smtp/camel-smtp-transport.c:513
 #, c-format
 msgid "%sPlease enter the SMTP password for %s@%s"
-msgstr ""
+msgstr "%sIntroduza a senha SMTP para %s@%s"
 
 #: camel/providers/smtp/camel-smtp-transport.c:532
 #, c-format
@@ -10332,149 +10343,149 @@ msgid ""
 "%s\n"
 "\n"
 msgstr ""
+"Incapaz de se autenticar no servidor SMTP.\n"
+"%s\n"
+"\n"
 
 #: camel/providers/smtp/camel-smtp-transport.c:665
 #, c-format
 msgid "SMTP server %s"
-msgstr ""
+msgstr "Servidor SMTP %s"
 
 #: camel/providers/smtp/camel-smtp-transport.c:667
 #, c-format
 msgid "SMTP mail delivery via %s"
-msgstr ""
+msgstr "Entrega de correio SMTP via %s"
 
 #: camel/providers/smtp/camel-smtp-transport.c:685
 msgid "Cannot send message: sender address not valid."
-msgstr ""
+msgstr "Incapaz de enviar mensagem: endereço de remetente inválido."
 
 #: camel/providers/smtp/camel-smtp-transport.c:690 mail/mail-ops.c:613
-#, fuzzy
 msgid "Sending message"
-msgstr "Mensagens enviadas"
+msgstr "A enviar mensagem"
 
 #: camel/providers/smtp/camel-smtp-transport.c:705
 msgid "Cannot send message: no recipients defined."
-msgstr ""
+msgstr "Incapaz de enviar mensagem: nenhum destinatário definido."
 
 #: camel/providers/smtp/camel-smtp-transport.c:714
 msgid "Cannot send message: one or more invalid recipients"
-msgstr ""
+msgstr "Incapaz de enviar mensagem: um ou mais destinatários inválidos"
 
 #: camel/providers/smtp/camel-smtp-transport.c:882
 msgid "SMTP Greeting"
-msgstr ""
+msgstr "Boas vindas SMTP"
 
 #: camel/providers/smtp/camel-smtp-transport.c:928
 #, c-format
 msgid "HELO request timed out: %s"
-msgstr ""
+msgstr "Expirou tempo de pedido HELO: %s"
 
 #: camel/providers/smtp/camel-smtp-transport.c:950
 msgid "HELO response error"
-msgstr ""
+msgstr "Erro de resposta HELO"
 
 #: camel/providers/smtp/camel-smtp-transport.c:1016
-#, fuzzy
 msgid "SMTP Authentication"
-msgstr "Autenticação"
+msgstr "Autenticação SMTP"
 
 #: camel/providers/smtp/camel-smtp-transport.c:1022
 msgid "Error creating SASL authentication object."
-msgstr ""
+msgstr "Erro ao criar objecto de autenticação SASL."
 
 #: camel/providers/smtp/camel-smtp-transport.c:1039
 #: camel/providers/smtp/camel-smtp-transport.c:1051
 #, c-format
 msgid "AUTH request timed out: %s"
-msgstr ""
+msgstr "Expirou tempo de pedido AUTH: %s"
 
 #: camel/providers/smtp/camel-smtp-transport.c:1060
 msgid "AUTH request failed."
-msgstr ""
+msgstr "Falha de pedido AUTH."
 
 #: camel/providers/smtp/camel-smtp-transport.c:1121
 msgid "Bad authentication response from server.\n"
-msgstr ""
+msgstr "Resposta de autenticação do servidor inválida.\n"
 
 #: camel/providers/smtp/camel-smtp-transport.c:1146
 #, c-format
 msgid "MAIL FROM request timed out: %s: mail not sent"
-msgstr ""
+msgstr "Expirou tempo de pedido MAIL FROM: %s: correio não enviado"
 
 #: camel/providers/smtp/camel-smtp-transport.c:1166
 msgid "MAIL FROM response error"
-msgstr ""
+msgstr "Erro de resposta MAIL FROM"
 
 #: camel/providers/smtp/camel-smtp-transport.c:1190
 #, c-format
 msgid "RCPT TO request timed out: %s: mail not sent"
-msgstr ""
+msgstr "Expirou tempo de pedido RCPT TO: %s: correio não enviado"
 
 #: camel/providers/smtp/camel-smtp-transport.c:1212
 #, c-format
 msgid "RCPT TO <%s> failed"
-msgstr ""
+msgstr "Falhou RCPT TO <%s>"
 
 #: camel/providers/smtp/camel-smtp-transport.c:1253
 #, c-format
 msgid "DATA request timed out: %s: mail not sent"
-msgstr ""
+msgstr "Expirou tempo de pedido DATA: %s: correio não enviado"
 
 #. we should have gotten instructions on how to use the DATA command:
 #. * 354 Enter mail, end with "." on a line by itself
 #.
 #: camel/providers/smtp/camel-smtp-transport.c:1273
 msgid "DATA response error"
-msgstr ""
+msgstr "Erro de resposta DATA"
 
 #: camel/providers/smtp/camel-smtp-transport.c:1314
 #: camel/providers/smtp/camel-smtp-transport.c:1337
 #, c-format
 msgid "DATA send timed out: message termination: %s: mail not sent"
-msgstr ""
+msgstr "Expirou tempo de envio DATA: fim de mensagem: %s: correio não enviado"
 
 #: camel/providers/smtp/camel-smtp-transport.c:1357
 msgid "DATA termination response error"
-msgstr ""
+msgstr "Erro de resposta de término DATA"
 
 #: camel/providers/smtp/camel-smtp-transport.c:1380
 #, c-format
 msgid "RSET request timed out: %s"
-msgstr ""
+msgstr "Expirou tempo de pedido RSET: %s"
 
 #: camel/providers/smtp/camel-smtp-transport.c:1400
 msgid "RSET response error"
-msgstr ""
+msgstr "Erro de resposta RSET"
 
 #: camel/providers/smtp/camel-smtp-transport.c:1423
 #, c-format
 msgid "QUIT request timed out: %s"
-msgstr ""
+msgstr "Expirou tempo de pedido QUIT: %s"
 
 #: camel/providers/smtp/camel-smtp-transport.c:1443
 msgid "QUIT response error"
-msgstr ""
+msgstr "Erro de resposta QUIT"
 
 #: composer/e-msg-composer-attachment-bar.c:102
-#, fuzzy, c-format
+#, c-format
 msgid "%.0fK"
-msgstr "%.1fK"
+msgstr "%.0fK"
 
 #: composer/e-msg-composer-attachment-bar.c:105
-#, fuzzy, c-format
+#, c-format
 msgid "%.0fM"
-msgstr "%.1fM"
+msgstr "%.0fM"
 
 #: composer/e-msg-composer-attachment-bar.c:108
-#, fuzzy, c-format
+#, c-format
 msgid "%.0fG"
-msgstr "%.1fG"
+msgstr "%.0fG"
 
 #. This is a filename. Translators take note.
 #: composer/e-msg-composer-attachment-bar.c:365 mail/mail-display.c:223
-#, fuzzy
 msgid "attachment"
-msgstr "Anexo"
+msgstr "anexo"
 
 #: composer/e-msg-composer-attachment-bar.c:503
 msgid "Remove selected items from the attachment list"
@@ -10490,41 +10501,39 @@ msgstr "Anexar um ficheiro à mensagem"
 
 #: composer/e-msg-composer-attachment.c:168
 #: composer/e-msg-composer-attachment.c:184
-#, fuzzy, c-format
+#, c-format
 msgid "Cannot attach file %s: %s"
-msgstr "Não consigo abrir a localização: %s"
+msgstr "Incapaz de anexar ficheiro %s: %s"
 
 #: composer/e-msg-composer-attachment.c:176
 #, c-format
 msgid "Cannot attach file %s: not a regular file"
-msgstr ""
+msgstr "Incapaz de anexar ficheiro %s: não é um ficheiro normal"
 
 #: composer/e-msg-composer-attachment.glade.h:1
-#, fuzzy
 msgid "Attachment properties"
-msgstr "Propriedades do alarme"
+msgstr "Propriedades do anexo"
 
 #: composer/e-msg-composer-attachment.glade.h:3
-#, fuzzy
 msgid "File name:"
-msgstr "Nome completo:"
+msgstr "Nome ficheiro:"
 
 #: composer/e-msg-composer-attachment.glade.h:4
 msgid "MIME type:"
-msgstr ""
+msgstr "Tipo MIME:"
 
 #: composer/e-msg-composer-attachment.glade.h:5
 #: composer/e-msg-composer-select-file.c:66
 msgid "Suggest automatic display of attachment"
-msgstr ""
+msgstr "Sugerir apresentação automática do anexo"
 
 #: composer/e-msg-composer-hdrs.c:289
 msgid "Hey you, dunce. You need an account to send mail doncha know."
-msgstr ""
+msgstr "Necessita de uma conta para poder enviar mensagens."
 
 #: composer/e-msg-composer-hdrs.c:479
 msgid "Click here for the address book"
-msgstr "Pressione aqui para o livro de endereços"
+msgstr "Clique aqui para o livro de endereços"
 
 #.
 #. * Reply-To:
@@ -10534,17 +10543,15 @@ msgstr "Pressione aqui para o livro de endereços"
 #. * expects the reply_to fields to be initialized.
 #.
 #: composer/e-msg-composer-hdrs.c:511
-#, fuzzy
 msgid "Reply-To:"
-msgstr "Responder"
+msgstr "Responder-A:"
 
 #.
 #. * From
 #.
 #: composer/e-msg-composer-hdrs.c:522
-#, fuzzy
 msgid "From:"
-msgstr "De"
+msgstr "De:"
 
 #.
 #. * Subject
@@ -10559,7 +10566,7 @@ msgstr "Para:"
 
 #: composer/e-msg-composer-hdrs.c:543
 msgid "Enter the recipients of the message"
-msgstr "Introduza os receptores da mensagem"
+msgstr "Introduza os destinatários da mensagem"
 
 #: composer/e-msg-composer-hdrs.c:546
 msgid "Cc:"
@@ -10567,7 +10574,7 @@ msgstr "Cc:"
 
 #: composer/e-msg-composer-hdrs.c:547
 msgid "Enter the addresses that will receive a carbon copy of the message"
-msgstr "Entre os endereços que irão receber uma cópia da mensagem"
+msgstr "Introduza os endereços que irão receber uma cópia da mensagem"
 
 #: composer/e-msg-composer-hdrs.c:550
 msgid "Bcc:"
@@ -10578,62 +10585,60 @@ msgid ""
 "Enter the addresses that will receive a carbon copy of the message without "
 "appearing in the recipient list of the message."
 msgstr ""
-"Entre os endereços que irão receber uma cópia da mensagem sem conhecimento "
-"do receptor"
+"Introduza os endereços que irão receber uma cópia da mensagem sem que surjam "
+"na lista de destinatários da mensagem."
 
 #.
 #. * Post-To
 #.
 #: composer/e-msg-composer-hdrs.c:558
-#, fuzzy
 msgid "Post To:"
-msgstr "Prioridade:"
+msgstr "Afixar Em:"
 
 #: composer/e-msg-composer-hdrs.c:560
-#, fuzzy
 msgid "Posting destination"
-msgstr "Nenhuma descrição"
+msgstr "Destino afixagem"
 
 #: composer/e-msg-composer-select-file.c:102
 #: composer/e-msg-composer-select-file.c:119
-#, fuzzy
 msgid "Attach file(s)"
-msgstr "Anexar um ficheiro"
+msgstr "Anexar ficheiro(s)"
 
 #: composer/e-msg-composer.c:530
-#, fuzzy
 msgid "Could not create a PGP signature context"
-msgstr "Não se consegui inicializar Bonobo"
+msgstr "Incapaz de criar um contexto de assinatura PGP"
 
 #: composer/e-msg-composer.c:809
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "Error while reading file %s:\n"
 "%s"
-msgstr "Erro a gravar os atalhos."
+msgstr ""
+"Erro ao ler ficheiro %s:\n"
+"%s"
 
 #: composer/e-msg-composer.c:1172
 msgid "File exists, overwrite?"
-msgstr ""
+msgstr "Ficheiro existe, sobrepor?"
 
 #: composer/e-msg-composer.c:1190
-#, fuzzy, c-format
+#, c-format
 msgid "Error saving file: %s"
-msgstr "Erro a gravar os atalhos."
+msgstr "Erro ao gravar ficheiro: %s"
 
 #: composer/e-msg-composer.c:1213
 #, c-format
 msgid "Error loading file: %s"
-msgstr ""
+msgstr "Erro ao ler ficheiro: %s"
 
 #: composer/e-msg-composer.c:1248
-#, fuzzy, c-format
+#, c-format
 msgid "Error accessing file: %s"
-msgstr "Erro a gravar os atalhos."
+msgstr "Erro ao aceder a ficheiro: %s"
 
 #: composer/e-msg-composer.c:1256
 msgid "Unable to retrieve message from editor"
-msgstr ""
+msgstr "Incapaz de recuperar mensagem do editor"
 
 #: composer/e-msg-composer.c:1263
 #, c-format
@@ -10641,6 +10646,8 @@ msgid ""
 "Unable to seek on file: %s\n"
 "%s"
 msgstr ""
+"Incapaz de procurar no ficheiro: %s\n"
+"%s"
 
 #: composer/e-msg-composer.c:1270
 #, c-format
@@ -10648,6 +10655,8 @@ msgid ""
 "Unable to truncate file: %s\n"
 "%s"
 msgstr ""
+"Incapaz de truncar ficheiro: %s\n"
+"%s"
 
 #: composer/e-msg-composer.c:1279
 #, c-format
@@ -10655,19 +10664,25 @@ msgid ""
 "Unable to copy file descriptor: %s\n"
 "%s"
 msgstr ""
+"Incapaz de copiar descritor de ficheiro: %s\n"
+"%s"
 
 #: composer/e-msg-composer.c:1288
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "Error autosaving message: %s\n"
 " %s"
-msgstr "Erro a gravar os atalhos."
+msgstr ""
+"Erro ao gravar mensagem automaticamente: %s\n"
+" %s"
 
 #: composer/e-msg-composer.c:1382
 msgid ""
 "Ximian Evolution has found unsaved files from a previous session.\n"
 "Would you like to try to recover them?"
 msgstr ""
+"Ximian Evolution encontrou ficheiros por gravar de uma sessão anterior.\n"
+"Deseja tentar recupera-los?"
 
 #: composer/e-msg-composer.c:1544
 #, c-format
@@ -10676,38 +10691,41 @@ msgid ""
 "\n"
 "Do you wish to save your changes?"
 msgstr ""
+"A mensagem \"%s\" não foi enviada.\n"
+"\n"
+"Deseja gravar as suas alterações?"
 
 #: composer/e-msg-composer.c:1549
 msgid "_Discard Changes"
-msgstr ""
+msgstr "_Descartar Alterações"
 
 #: composer/e-msg-composer.c:1553
-#, fuzzy
 msgid "Warning: Modified Message"
-msgstr "Enviar esta mensagem"
+msgstr "Aviso: Mensagem Modificada"
 
 #: composer/e-msg-composer.c:1585
 msgid "Open file"
 msgstr "Abrir ficheiro"
 
 #: composer/e-msg-composer.c:1943
-#, fuzzy
 msgid "Signature:"
-msgstr "Ficheiro com assinatura:"
+msgstr "Assinatura:"
 
 #: composer/e-msg-composer.c:1983 mail/mail-account-gui.c:1255
 msgid "Autogenerated"
-msgstr ""
+msgstr "Auto-gerada"
 
 #: composer/e-msg-composer.c:2162 composer/e-msg-composer.c:2761
 msgid "Compose a message"
-msgstr "Criar uma nova mensagem"
+msgstr "Escrever uma mensagem"
 
 #: composer/e-msg-composer.c:2792
 msgid ""
 "Could not create composer window:\n"
 "Unable to activate address selector control."
 msgstr ""
+"Incapaz de criar janela de composição:\n"
+"Incapaz de activar controlo de selecção de endereços."
 
 #: composer/e-msg-composer.c:2818
 msgid ""
@@ -10716,78 +10734,74 @@ msgid ""
 "Please make sure you have the correct version\n"
 "of gtkhtml and libgtkhtml installed.\n"
 msgstr ""
+"Incapaz de criar janela de composição:\n"
+"Incapaz de activar componente de editor HTML.\n"
+"Certifique-se de que possui instaladas as versões\n"
+"correctas do gtkhtml e libgtkhtml.\n"
 
 #: composer/e-msg-composer.c:2878
 msgid ""
 "Could not create composer window:\n"
 "Unable to activate HTML editor component."
 msgstr ""
+"Incapaz de criar janela de composição:\n"
+"Incapaz de activar componente de editor HTML."
 
 #: composer/e-msg-composer.c:3894
 msgid ""
 "<b>(The composer contains a non-text message body, which cannot be edited.)"
 "<b>"
 msgstr ""
+"<b>(O compositor contém um corpo de mensagem que não é texto, pelo que não "
+"pode ser editado.)<b>"
 
 #: data/evolution.desktop.in.h:1
-#, fuzzy
 msgid "The Evolution groupware suite"
-msgstr "Atalho para _barra do Evolution"
+msgstr "O pacote de colaboração Evolution"
 
 #: data/evolution.desktop.in.h:2
-#, fuzzy
 msgid "Ximian Evolution"
-msgstr "Evolution"
+msgstr "Ximian Evolution"
 
 #: data/evolution.keys.in.h:1
-#, fuzzy
 msgid "address card"
-msgstr "Endereço"
+msgstr "cartão visita"
 
 #: data/evolution.keys.in.h:2
-#, fuzzy
 msgid "calendar information"
-msgstr "Nenhuma Informação"
+msgstr "informação calendário"
 
 #: default_user/searches.xml.h:1
-#, fuzzy
 msgid "Body contains"
-msgstr "_Acções"
+msgstr "Corpo contém"
 
 #: default_user/searches.xml.h:2
-#, fuzzy
 msgid "Body does not contain"
-msgstr "Ficheiro não encontrado"
+msgstr "Corpo não contém"
 
 #: default_user/searches.xml.h:3
-#, fuzzy
 msgid "Body or subject contains"
-msgstr "Assunto"
+msgstr "Corpo ou assunto contém"
 
 #: default_user/searches.xml.h:4
-#, fuzzy
 msgid "Message contains"
-msgstr "Situação das mensagens"
+msgstr "Mensagem contém"
 
 #: default_user/searches.xml.h:5
-#, fuzzy
 msgid "Recipients contain"
-msgstr "Assunto"
+msgstr "Destinatários contém"
 
 #: default_user/searches.xml.h:6
-#, fuzzy
 msgid "Sender contains"
-msgstr "Assunto"
+msgstr "Remetente contém"
 
 #: default_user/searches.xml.h:7
-#, fuzzy
 msgid "Subject contains"
-msgstr "Assunto"
+msgstr "Assunto contém"
 
 #: default_user/searches.xml.h:8
-#, fuzzy
 msgid "Subject does not contain"
-msgstr "Assunto"
+msgstr "Assunto não contém"
 
 #: designs/OOA/ooa.glade.h:1
 msgid ""
@@ -10795,16 +10809,17 @@ msgid ""
 "\n"
 "Would you like to change your status to \"In the Office\"? "
 msgstr ""
+"<b>De momento, o seu estado é \"Ausente do Escritório\". </b>\n"
+"\n"
+"Deseja alterar o seu estado para \"No Escritório\"? "
 
 #: designs/OOA/ooa.glade.h:4
-#, fuzzy
 msgid "<b>Out of Office Message:</b>"
-msgstr "Fora do escritório"
+msgstr "<b>Mensagem Ausente do Escritório:</b>"
 
 #: designs/OOA/ooa.glade.h:5
-#, fuzzy
 msgid "<b>Status:</b>"
-msgstr "Sáb"
+msgstr "<b>Estado:</b>"
 
 #: designs/OOA/ooa.glade.h:6
 msgid ""
@@ -10812,40 +10827,41 @@ msgid ""
 "who sends\n"
 "mail to you while you are out of the office.</small>"
 msgstr ""
+"<small>A mensagem abaixo especificada será automaticamente enviada para cada "
+"pessoa que\n"
+"lhe envie correio enquanto você estiver ausente do escritório.</small>"
 
 #: designs/OOA/ooa.glade.h:8
 msgid "I am currently in the office"
-msgstr ""
+msgstr "De momento encontro-me no escritório"
 
 #: designs/OOA/ooa.glade.h:9
 msgid "I am currently out of the office"
-msgstr ""
+msgstr "De momento estou ausente do escritório"
 
 #: designs/OOA/ooa.glade.h:10
 msgid "No, Don't Change Status"
-msgstr ""
+msgstr "Não, Não Alterar Estado"
 
 #: designs/OOA/ooa.glade.h:12
-#, fuzzy
 msgid "Out of Office Assistant"
-msgstr "Fora do escritório"
+msgstr "Assistente Ausente do Escritório"
 
 #: designs/OOA/ooa.glade.h:13
 msgid "Yes, Change Status"
-msgstr ""
+msgstr "Sim, Alterar Estado"
 
 #: designs/read_receipts/read.glade.h:1
 msgid "      "
-msgstr ""
+msgstr "      "
 
 #: designs/read_receipts/read.glade.h:2
 msgid "<b>Receiving Email</b>"
-msgstr ""
+msgstr "<b>A Receber Email</b>"
 
 #: designs/read_receipts/read.glade.h:3
-#, fuzzy
 msgid "<b>Sending Email:</b>"
-msgstr "Enviar"
+msgstr "<b>A Enviar Email:</b>"
 
 #: designs/read_receipts/read.glade.h:4
 msgid ""
@@ -10854,261 +10870,253 @@ msgid ""
 "sent is read, and to specify what Evolution should do when someone requests "
 "a receipt from you.</small>"
 msgstr ""
+"<small>Esta página permite-lhe definir se deseja ser notificado através de um "
+"recibo de leitura quando uma\n"
+"mensagem enviada por si é lida, e especificar o que o Evolution deverá fazer "
+"quando alguém lhe pedir um recibo.</small>"
 
 #: designs/read_receipts/read.glade.h:6
 msgid "Always send back a read reciept"
-msgstr ""
+msgstr "Enviar sempre um recibo de leitura"
 
 #: designs/read_receipts/read.glade.h:7
 msgid "Ask me if I want to send back a read receipt"
-msgstr ""
+msgstr "Perguntar se desejo enviar um recibo de leitura"
 
 #: designs/read_receipts/read.glade.h:8
 msgid "Never send back a read receipt"
-msgstr ""
+msgstr "Nunca enviar um recibo de leitura"
 
 #: designs/read_receipts/read.glade.h:9
-#, fuzzy
 msgid "Read Receipts"
-msgstr "Situação das mensagens"
+msgstr "Recibos Leitura"
 
 #: designs/read_receipts/read.glade.h:10
 msgid "Request a read receipt for all messages I send"
-msgstr ""
+msgstr "Pedir um recibo de leitura para todas as mensagens enviadas"
 
 #: designs/read_receipts/read.glade.h:11
 msgid "Unless the message is sent to a mailing list, and not to me personally"
-msgstr ""
+msgstr "Excepto se a mensagem for enviada para uma lista de correio, e não apenas para mim"
 
 #: designs/read_receipts/read.glade.h:12
 msgid ""
 "When you receive an email with a read receipt request, what should Evolution "
 "do?"
 msgstr ""
+"Quando receber uma mensagem com um pedido de recibo de leitura, o que deverá "
+"o Evolution fazer?"
 
 #: e-util/e-component-listener.c:128
 msgid ""
 "ping_timeout_callback: could not determine if the CORBA object is nil or not"
 msgstr ""
+"ping_timeout_callback: incapaz de determinar se objecto CORBA é nil ou não"
 
 #: e-util/e-dialog-utils.c:230
 msgid ""
 "A file by that name already exists.\n"
 "Overwrite it?"
 msgstr ""
+"Já existe um ficheiro com esse nome.\n"
+"Sobrepo-lo?"
 
 #: e-util/e-passwords.c:345
 msgid "Remember this password"
-msgstr ""
+msgstr "Recordar esta senha"
 
 #: e-util/e-passwords.c:347
 msgid "Remember this password for the remainder of this session"
-msgstr ""
+msgstr "Recordar esta senha durante o resto desta sessão"
 
 #: e-util/e-pilot-settings.c:93
 msgid "Sync Private Records:"
-msgstr ""
+msgstr "Sincr. Registos Privados:"
 
 #: e-util/e-pilot-settings.c:102
-#, fuzzy
 msgid "Sync Categories:"
-msgstr "Categorias"
+msgstr "Categorias Sincr.:"
 
 #. strptime format of a weekday, a date and a time,
 #. in 12-hour format, without seconds.
 #: e-util/e-time-utils.c:171 e-util/e-time-utils.c:384
 msgid "%a %m/%d/%Y %I:%M %p"
-msgstr ""
+msgstr "%a %d/%m/%Y %I:%M %p"
 
 #. strptime format of a weekday, a date and a time,
 #. in 24-hour format, without seconds.
 #: e-util/e-time-utils.c:176 e-util/e-time-utils.c:375
 msgid "%a %m/%d/%Y %H:%M"
-msgstr ""
+msgstr "%a %d/%m/%Y %H:%M"
 
 #. strptime format of a weekday, a date and a time,
 #. in 12-hour format, without minutes or seconds.
 #: e-util/e-time-utils.c:181
 msgid "%a %m/%d/%Y %I %p"
-msgstr ""
+msgstr "%a %d/%m/%Y %I %p"
 
 #. strptime format of a weekday, a date and a time,
 #. in 24-hour format, without minutes or seconds.
 #: e-util/e-time-utils.c:186
 msgid "%a %m/%d/%Y %H"
-msgstr ""
+msgstr "%a %d/%m/%Y %H"
 
 #. strptime format of a date and a time, in 12-hour format.
 #: e-util/e-time-utils.c:197
 msgid "%m/%d/%Y %I:%M:%S %p"
-msgstr ""
+msgstr "%d/%m/%Y %I:%M:%S %p"
 
 #. strptime format of a date and a time, in 24-hour format.
 #: e-util/e-time-utils.c:201
 msgid "%m/%d/%Y %H:%M:%S"
-msgstr ""
+msgstr "%d/%m/%Y %H:%M:%S"
 
 #. strptime format of a date and a time, in 12-hour format,
 #. without seconds.
 #: e-util/e-time-utils.c:206
 msgid "%m/%d/%Y %I:%M %p"
-msgstr ""
+msgstr "%d/%m/%Y %I:%M %p"
 
 #. strptime format of a date and a time, in 24-hour format,
 #. without seconds.
 #: e-util/e-time-utils.c:211
 msgid "%m/%d/%Y %H:%M"
-msgstr ""
+msgstr "%d/%m/%Y %H:%M"
 
 #. strptime format of a date and a time, in 12-hour format,
 #. without minutes or seconds.
 #: e-util/e-time-utils.c:216
 msgid "%m/%d/%Y %I %p"
-msgstr ""
+msgstr "%d/%m/%Y %I %p"
 
 #. strptime format of a date and a time, in 24-hour format,
 #. without minutes or seconds.
 #: e-util/e-time-utils.c:221
 msgid "%m/%d/%Y %H"
-msgstr ""
+msgstr "%d/%m/%Y %H"
 
 #. strptime format for a time of day, in 12-hour format.
 #: e-util/e-time-utils.c:325 e-util/e-time-utils.c:424
 msgid "%I:%M:%S %p"
-msgstr ""
+msgstr "%I:%M:%S %p"
 
 #. strptime format for a time of day, in 24-hour format.
 #: e-util/e-time-utils.c:329 e-util/e-time-utils.c:416
 msgid "%H:%M:%S"
-msgstr ""
+msgstr "%H:%M:%S"
 
 #. strptime format for time of day, without seconds,
 #. in 12-hour format.
 #: e-util/e-time-utils.c:334 e-util/e-time-utils.c:421
 #: widgets/misc/e-dateedit.c:1430 widgets/misc/e-dateedit.c:1643
 msgid "%I:%M %p"
-msgstr ""
+msgstr "%I:%M %p"
 
 #. strptime format for time of day, without seconds 24-hour format.
 #: e-util/e-time-utils.c:338 e-util/e-time-utils.c:413
 #: widgets/misc/e-dateedit.c:1427 widgets/misc/e-dateedit.c:1640
 msgid "%H:%M"
-msgstr ""
+msgstr "%H:%M"
 
 #. strptime format for hour and AM/PM, 12-hour format.
 #: e-util/e-time-utils.c:342
 msgid "%I %p"
-msgstr ""
+msgstr "%I %p"
 
 #: filter/filter-datespec.c:65 filter/filter.glade.h:24
 #: mail/mail-config.glade.h:181
-#, fuzzy
 msgid "seconds"
-msgstr " segundos"
+msgstr "segundos"
 
 #: filter/filter-datespec.c:66
-#, fuzzy
 msgid "minute"
-msgstr "Minuto"
+msgstr "minuto"
 
 #: filter/filter-datespec.c:67
-#, fuzzy
 msgid "hour"
-msgstr "Hora"
+msgstr "hora"
 
 #: filter/filter-datespec.c:69
-#, fuzzy
 msgid "week"
-msgstr "Semana"
+msgstr "semana"
 
 #: filter/filter-datespec.c:69 filter/filter.glade.h:29
-#, fuzzy
 msgid "weeks"
-msgstr "Semanas"
+msgstr "semanas"
 
 #: filter/filter-datespec.c:70
-#, fuzzy
 msgid "month"
-msgstr "Mês"
+msgstr "mês"
 
 #: filter/filter-datespec.c:70 filter/filter.glade.h:23
-#, fuzzy
 msgid "months"
-msgstr "Mês"
+msgstr "meses"
 
 #: filter/filter-datespec.c:71
-#, fuzzy
 msgid "year"
-msgstr "Ano"
+msgstr "ano"
 
 #: filter/filter-datespec.c:71 filter/filter.glade.h:33
-#, fuzzy
 msgid "years"
-msgstr "Ano"
+msgstr "anos"
 
 #: filter/filter-datespec.c:176
-#, fuzzy
 msgid "You must choose a date."
-msgstr "Apagar este item"
+msgstr "Tem de seleccionar uma data."
 
 #: filter/filter-datespec.c:275
 msgid "<click here to select a date>"
-msgstr ""
+msgstr "<clique aqui para seleccionar uma data>"
 
 #: filter/filter-datespec.c:278 filter/filter-datespec.c:289
 msgid "now"
-msgstr ""
+msgstr "agora"
 
 #. strftime for date filter display, only needs to show a day date (i.e. no time)
 #: filter/filter-datespec.c:285
 msgid "%d-%b-%Y"
-msgstr ""
+msgstr "%d-%b-%Y"
 
 #. 1 (minute|day|...) ago (singular time ago)
 #: filter/filter-datespec.c:298 filter/filter-datespec.c:301
 #, c-format
 msgid "%d %s ago"
-msgstr ""
+msgstr "%d %s atrás"
 
 #: filter/filter-datespec.c:417
-#, fuzzy
 msgid "Select a time to compare against"
-msgstr "_Items seleccionados"
+msgstr "Seleccione uma data com que comparar"
 
 #: filter/filter-editor.c:114 filter/filter.glade.h:4
 msgid "Filter Rules"
-msgstr ""
+msgstr "Regras Filtro"
 
 #: filter/filter-file.c:166
 msgid "You must specify a file name."
-msgstr ""
+msgstr "Tem de especificar um nome de ficheiro."
 
 #: filter/filter-file.c:184
 #, c-format
 msgid "File '%s' does not exist or is not a regular file."
-msgstr ""
+msgstr "Ficheiro '%s' não existe ou não é um ficheiro normal."
 
 #: filter/filter-file.c:293
-#, fuzzy
 msgid "Choose a file"
-msgstr "Abrir ficheiro"
+msgstr "Seleccione um ficheiro"
 
 #. and now for the action area
 #: filter/filter-filter.c:491
-#, fuzzy
 msgid "Then"
-msgstr "Qi"
+msgstr "Então"
 
 #: filter/filter-folder.c:155
-#, fuzzy
 msgid "You must specify a folder."
-msgstr "Apagar este item"
+msgstr "Tem de especificar uma pasta."
 
 #: filter/filter-folder.c:243 filter/vfolder-rule.c:408
 #: mail/mail-account-gui.c:1504 mail/mail-account-gui.c:1518
-#, fuzzy
 msgid "Select Folder"
-msgstr "_Nova pasta"
+msgstr "Seleccionar Pasta"
 
 #: filter/filter-input.c:191
 #, c-format
@@ -11116,316 +11124,293 @@ msgid ""
 "Error in regular expression '%s':\n"
 "%s"
 msgstr ""
+"Erro na expressão regular '%s':\n"
+"%s"
 
 #: filter/filter-label.c:121 filter/libfilter-i18n.h:17 mail/mail-config.c:68
 #: mail/mail-config.glade.h:64
 msgid "Important"
-msgstr ""
+msgstr "Importante"
 
 #. red
 #: filter/filter-label.c:122 mail/mail-config.c:69
 #: mail/mail-config.glade.h:133
-#, fuzzy
 msgid "Work"
-msgstr "Seg"
+msgstr "Trabalho"
 
 #. orange
 #: filter/filter-label.c:123 mail/mail-config.c:70 mail/mail-config.glade.h:87
-#, fuzzy
 msgid "Personal"
-msgstr "Enviar"
+msgstr "Pessoal"
 
 #. forest green
 #: filter/filter-label.c:124 mail/mail-config.c:71
 #: mail/mail-config.glade.h:124
-#, fuzzy
 msgid "To Do"
-msgstr "Para:"
+msgstr "A Fazer"
 
 #. blue
 #: filter/filter-label.c:125 mail/mail-config.c:72 mail/mail-config.glade.h:68
-#, fuzzy
 msgid "Later"
-msgstr "Data"
+msgstr "Mais Tarde"
 
 #: filter/filter-part.c:531 shell/evolution-test-component.c:63
 msgid "Test"
-msgstr ""
+msgstr "Teste"
 
 #: filter/filter-rule.c:219
 msgid "You must name this filter."
-msgstr ""
+msgstr "Tem de dar um nome a este filtro."
 
 #: filter/filter-rule.c:751
-#, fuzzy
 msgid "Rule name: "
-msgstr "Nome completo:"
+msgstr "Nome regra: "
 
 #: filter/filter-rule.c:755
-#, fuzzy
 msgid "Untitled"
-msgstr "(Sem título)"
+msgstr "Sem título"
 
 #: filter/filter-rule.c:772
 msgid "If"
-msgstr ""
+msgstr "Se"
 
 #: filter/filter-rule.c:790
 msgid "Execute actions"
-msgstr ""
+msgstr "Executar acções"
 
 #: filter/filter-rule.c:794
 msgid "if all criteria are met"
-msgstr ""
+msgstr "se todos os critérios se verificarem"
 
 #: filter/filter-rule.c:799
 msgid "if any criteria are met"
-msgstr ""
+msgstr "se qualquer um dos critérios se verificar"
 
 #: filter/filter-rule.c:894
 msgid "incoming"
-msgstr ""
+msgstr "recebidas"
 
 #: filter/filter-rule.c:894
 msgid "outgoing"
-msgstr ""
+msgstr "enviadas"
 
 #: filter/filter.glade.h:1
 msgid "Compare against"
-msgstr ""
+msgstr "Comparar com"
 
 #: filter/filter.glade.h:2
 msgid "Edit Filters"
-msgstr ""
+msgstr "Editar Filtros"
 
 #: filter/filter.glade.h:3
-#, fuzzy
 msgid "Edit VFolders"
-msgstr "_Pastas"
+msgstr "Editar VPastas"
 
 #: filter/filter.glade.h:5
 msgid "Incoming"
-msgstr ""
+msgstr "Recebidas"
 
 #: filter/filter.glade.h:6
 msgid "Outgoing"
-msgstr ""
+msgstr "Enviadas"
 
 #: filter/filter.glade.h:7
 msgid ""
 "The message's date will be compared against\n"
 "12:00am of the date specified."
 msgstr ""
+"A data da mensagem será comparada com as\n"
+"12:00am da data especificada."
 
 #: filter/filter.glade.h:9
 msgid ""
 "The message's date will be compared against\n"
 "a time relative to when filtering occurs."
 msgstr ""
+"A data da mensagem será comparada com uma\n"
+"data relativa a quando a filtragem ocorre."
 
 #: filter/filter.glade.h:11
 msgid ""
 "The message's date will be compared against\n"
 "the current time when filtering occurs."
 msgstr ""
+"A data da mensagem será comparada com a data\n"
+"do momento em que a filtragem ocorrer."
 
 #: filter/filter.glade.h:13 filter/vfolder-editor.c:114
-#, fuzzy
 msgid "Virtual Folders"
-msgstr "_Pastas"
+msgstr "Pastas Virtuais"
 
 #: filter/filter.glade.h:18
 msgid "a time relative to the current time"
-msgstr ""
+msgstr "uma data relativa à data actual"
 
 #: filter/filter.glade.h:19
 msgid "ago"
-msgstr ""
+msgstr "atrás"
 
 #: filter/filter.glade.h:25
 msgid "specific folders only"
-msgstr ""
+msgstr "apenas pastas específicas"
 
 #: filter/filter.glade.h:26
 msgid "the current time"
-msgstr ""
+msgstr "a data actual"
 
 #: filter/filter.glade.h:27
 msgid "the time you specify"
-msgstr ""
+msgstr "a data especificada"
 
 #: filter/filter.glade.h:28
-#, fuzzy
 msgid "vFolder Sources"
-msgstr "Adicionar Fonte"
+msgstr "Origem das vPastas"
 
 #: filter/filter.glade.h:30
 msgid "with all active remote folders"
-msgstr ""
+msgstr "com todas as pastas remotas activas"
 
 #: filter/filter.glade.h:31
 msgid "with all local and active remote folders"
-msgstr ""
+msgstr "com todas as pastas locais e as remotas activas"
 
 #: filter/filter.glade.h:32
 msgid "with all local folders"
-msgstr ""
+msgstr "com todas as pastas locais"
 
 #. Automatically generated. Do not edit.
 #: filter/libfilter-i18n.h:2
 msgid "Adjust Score"
-msgstr ""
+msgstr "Ajustar Pontuação"
 
 #: filter/libfilter-i18n.h:3
 msgid "Assign Color"
-msgstr ""
+msgstr "Atribuir Cor"
 
 #: filter/libfilter-i18n.h:4
 msgid "Assign Score"
-msgstr ""
+msgstr "Atribuir Pontuação"
 
 #: filter/libfilter-i18n.h:5
-#, fuzzy
 msgid "Attachments"
-msgstr "Anexo"
+msgstr "Anexos"
 
 #: filter/libfilter-i18n.h:6
-#, fuzzy
 msgid "Beep"
-msgstr "Tamanho"
+msgstr "Beep"
 
 #: filter/libfilter-i18n.h:7
-#, fuzzy
 msgid "Copy to Folder"
-msgstr "Ir para a _pasta..."
+msgstr "Copiar para Pasta"
 
 #: filter/libfilter-i18n.h:8
-#, fuzzy
 msgid "Date received"
-msgstr "Receber"
+msgstr "Data recepção"
 
 #: filter/libfilter-i18n.h:9
-#, fuzzy
 msgid "Date sent"
-msgstr "Data"
+msgstr "Data envio"
 
 #: filter/libfilter-i18n.h:11
-#, fuzzy
 msgid "Deleted"
-msgstr "Apagar"
+msgstr "Apagada"
 
 #: filter/libfilter-i18n.h:12
 msgid "Do Not Exist"
-msgstr ""
+msgstr "Não Existe"
 
 #: filter/libfilter-i18n.h:13
-#, fuzzy
 msgid "Draft"
-msgstr "Data"
+msgstr "Rascunho"
 
 #: filter/libfilter-i18n.h:14
-#, fuzzy
 msgid "Exist"
-msgstr "Pró_ximo"
+msgstr "Existe"
 
 #: filter/libfilter-i18n.h:15
 msgid "Expression"
-msgstr ""
+msgstr "Expressão"
 
 #: filter/libfilter-i18n.h:16
 msgid "Follow Up"
-msgstr ""
+msgstr "Seguimento"
 
 #: filter/libfilter-i18n.h:18 mail/folder-browser.c:1778
-#, fuzzy
 msgid "Label"
-msgstr "Bip"
+msgstr "Etiqueta"
 
 #: filter/libfilter-i18n.h:19
 msgid "Mailing list"
-msgstr ""
+msgstr "Lista distribuição"
 
 #: filter/libfilter-i18n.h:20
-#, fuzzy
 msgid "Message Body"
-msgstr "Situação das mensagens"
+msgstr "Corpo Mensagem"
 
 #: filter/libfilter-i18n.h:21
-#, fuzzy
 msgid "Message Header"
-msgstr "Situação das mensagens"
+msgstr "Cabeçalho Mensagem"
 
 #: filter/libfilter-i18n.h:22
-#, fuzzy
 msgid "Move to Folder"
-msgstr "Ir para a _pasta..."
+msgstr "Mover para Pasta"
 
 #: filter/libfilter-i18n.h:23
-#, fuzzy
 msgid "Pipe Message to Shell Command"
-msgstr "Enviar mensagem em formato HTML"
+msgstr "Canalizar Mensagem para Comando Consola"
 
 #: filter/libfilter-i18n.h:24
-#, fuzzy
 msgid "Play Sound"
-msgstr "Esquecer _Senhas"
+msgstr "Reproduzir Som"
 
 #: filter/libfilter-i18n.h:25 mail/message-tag-followup.c:68
-#, fuzzy
 msgid "Read"
-msgstr "Remover"
+msgstr "Ler"
 
 #: filter/libfilter-i18n.h:26
 msgid "Recipients"
-msgstr ""
+msgstr "Destinatários"
 
 #: filter/libfilter-i18n.h:27
 msgid "Regex Match"
-msgstr ""
+msgstr "Coincidir Expr Reg"
 
 #: filter/libfilter-i18n.h:28
-#, fuzzy
 msgid "Replied to"
-msgstr "Reponder para todos"
+msgstr "Repondido para"
 
 #: filter/libfilter-i18n.h:29 filter/score-rule.c:184 filter/score-rule.c:186
 #: mail/message-list.etspec.h:10
-#, fuzzy
 msgid "Score"
-msgstr "Fontes"
+msgstr "Pontuação"
 
 #: filter/libfilter-i18n.h:30 mail/mail-callbacks.c:1823
-#, fuzzy
 msgid "Sender"
-msgstr "Enviar"
+msgstr "Remetente"
 
 #: filter/libfilter-i18n.h:31
-#, fuzzy
 msgid "Set Status"
-msgstr "Situação online"
+msgstr "Definir Estado"
 
 #: filter/libfilter-i18n.h:32
-#, fuzzy
 msgid "Shell Command"
-msgstr "Segundos"
+msgstr "Comando Consola"
 
 #: filter/libfilter-i18n.h:33
-#, fuzzy
 msgid "Size (kB)"
-msgstr "Tamanho"
+msgstr "Tamanho (kB)"
 
 #: filter/libfilter-i18n.h:34
-#, fuzzy
 msgid "Source Account"
-msgstr "Ícone_s pequenos"
+msgstr "Conta de Origem"
 
 #: filter/libfilter-i18n.h:35
 msgid "Specific header"
-msgstr ""
+msgstr "Cabeçalho específico"
 
 #: filter/libfilter-i18n.h:37
 msgid "Stop Processing"
-msgstr ""
+msgstr "Parar Processamento"
 
 #: filter/libfilter-i18n.h:38 mail/mail-format.c:905
 #: mail/message-list.etspec.h:13 mail/message-tag-followup.c:305
@@ -11434,206 +11419,196 @@ msgid "Subject"
 msgstr "Assunto"
 
 #: filter/libfilter-i18n.h:39
-#, fuzzy
 msgid "Unset Status"
-msgstr "Situação online"
+msgstr "Retirar Estado"
 
 #: filter/libfilter-i18n.h:40
-#, fuzzy
 msgid "contains"
-msgstr "_Acções"
+msgstr "contém"
 
 #: filter/libfilter-i18n.h:41
 msgid "does not contain"
-msgstr ""
+msgstr "não contém"
 
 #: filter/libfilter-i18n.h:42
 msgid "does not end with"
-msgstr ""
+msgstr "não termina em"
 
 #: filter/libfilter-i18n.h:43
 msgid "does not exist"
-msgstr ""
+msgstr "não existe"
 
 #: filter/libfilter-i18n.h:44
-#, fuzzy
 msgid "does not return"
-msgstr "Ficheiro não encontrado"
+msgstr "não devolve"
 
 #: filter/libfilter-i18n.h:45
-#, fuzzy
 msgid "does not sound like"
-msgstr "Ficheiro não encontrado"
+msgstr "não se assemelha a"
 
 #: filter/libfilter-i18n.h:46
 msgid "does not start with"
-msgstr ""
+msgstr "não começa por"
 
 #: filter/libfilter-i18n.h:47
 msgid "ends with"
-msgstr ""
+msgstr "termina em"
 
 #: filter/libfilter-i18n.h:48
 msgid "exists"
-msgstr ""
+msgstr "existe"
 
 #: filter/libfilter-i18n.h:49
 msgid "is Flagged"
-msgstr ""
+msgstr "está Marcada"
 
 #: filter/libfilter-i18n.h:50
-#, fuzzy
 msgid "is after"
-msgstr "Data"
+msgstr "é posterior"
 
 #: filter/libfilter-i18n.h:51
 msgid "is before"
-msgstr ""
+msgstr "é anterior"
 
 #: filter/libfilter-i18n.h:52
 msgid "is greater than"
-msgstr ""
+msgstr "é maior do que"
 
 #: filter/libfilter-i18n.h:53
 msgid "is less than"
-msgstr ""
+msgstr "é menor do que"
 
 #: filter/libfilter-i18n.h:54
 msgid "is not Flagged"
-msgstr ""
+msgstr "não está Marcada"
 
 #: filter/libfilter-i18n.h:55
 msgid "is not"
-msgstr ""
+msgstr "não é"
 
 #: filter/libfilter-i18n.h:56
 msgid "is"
-msgstr ""
+msgstr "é"
 
 #: filter/libfilter-i18n.h:57
 msgid "returns greater than"
-msgstr ""
+msgstr "devolve maior do que"
 
 #: filter/libfilter-i18n.h:58
 msgid "returns less than"
-msgstr ""
+msgstr "devolve menor do que"
 
 #: filter/libfilter-i18n.h:59
-#, fuzzy
 msgid "returns"
-msgstr "Ocupado"
+msgstr "devolve"
 
 #: filter/libfilter-i18n.h:60
 msgid "sounds like"
-msgstr ""
+msgstr "assemelha-se a"
 
 #: filter/libfilter-i18n.h:61
 msgid "starts with"
-msgstr ""
+msgstr "começa por"
 
 #: filter/rule-editor.c:170
-#, fuzzy
 msgid "Rules"
-msgstr "Adicionar Fonte"
+msgstr "Regras"
 
 #: filter/rule-editor.c:241 filter/rule-editor.c:325
 #, c-format
 msgid "Rule name '%s' is not unique, choose another."
-msgstr ""
+msgstr "Nome regra '%s' não é único, seleccione outro."
 
 #: filter/rule-editor.c:291
-#, fuzzy
 msgid "Add Rule"
-msgstr "Adicionar Fonte"
+msgstr "Adicionar Regra"
 
 #: filter/rule-editor.c:372
-#, fuzzy
 msgid "Edit Rule"
-msgstr "Adicionar Fonte"
+msgstr "Editar Regra"
 
 #: filter/rule-editor.c:689
-#, fuzzy
 msgid "Rule name"
-msgstr "Nome completo:"
+msgstr "Nome regra"
 
 #: filter/score-editor.c:114
-#, fuzzy
 msgid "Score Rules"
-msgstr "Fontes"
+msgstr "Regras Pontuação"
 
 #: filter/vfolder-rule.c:208
-#, fuzzy
 msgid "You must name this vfolder."
-msgstr "Apagar este item"
+msgstr "Tem de indicar um nome para esta vpasta."
 
 #: filter/vfolder-rule.c:222
 msgid "You need to to specify at least one folder as a source."
-msgstr ""
+msgstr "Tem de especificar pelo menos uma pasta como origem."
 
 #: filter/vfolder-rule.c:492
 #, fuzzy
 msgid "VFolder source"
-msgstr "Adicionar Fonte"
+msgstr "Origem vPasta"
 
 #: importers/elm-importer.c:95 mail/importers/elm-importer.c:103
 msgid "Evolution is importing your old Elm mail"
-msgstr ""
+msgstr "Evolution está a importar o seu correio Elm antigo"
 
 #: importers/elm-importer.c:96 importers/netscape-importer.c:1228
 #: importers/pine-importer.c:101 mail/importers/elm-importer.c:104
 #: mail/importers/netscape-importer.c:1237 mail/importers/pine-importer.c:114
-#, fuzzy
 msgid "Importing..."
-msgstr "Seg"
+msgstr "A Importar..."
 
 #: importers/elm-importer.c:98 importers/netscape-importer.c:1230
 #: importers/pine-importer.c:103 mail/importers/elm-importer.c:106
 #: mail/importers/netscape-importer.c:1239 mail/importers/pine-importer.c:116
 msgid "Please wait"
-msgstr ""
+msgstr "Aguarde por favor"
 
 #: importers/elm-importer.c:169 importers/netscape-importer.c:1808
 #: importers/pine-importer.c:365 mail/importers/elm-importer.c:183
 #: mail/importers/netscape-importer.c:1794 mail/importers/pine-importer.c:330
-#, fuzzy, c-format
+#, c-format
 msgid "Importing %s as %s"
-msgstr "Seg"
+msgstr "A importar %s como %s"
 
 #: importers/elm-importer.c:375 importers/netscape-importer.c:1917
 #: importers/pine-importer.c:471 mail/importers/elm-importer.c:389
 #: mail/importers/netscape-importer.c:1906 mail/importers/pine-importer.c:439
-#, fuzzy, c-format
+#, c-format
 msgid "Scanning %s"
-msgstr "Sincronizar"
+msgstr "A analizar %s"
 
 #: importers/elm-importer.c:525 importers/netscape-importer.c:2128
 #: importers/pine-importer.c:637 mail/component-factory.c:114
 #: mail/folder-browser-ui.c:357 mail/importers/elm-importer.c:523
 #: mail/importers/netscape-importer.c:2104 mail/importers/pine-importer.c:586
-#, fuzzy
 msgid "Mail"
-msgstr "_Correio"
+msgstr "Correio"
 
 #: importers/elm-importer.c:545 mail/importers/elm-importer.c:544
 msgid ""
 "Evolution has found Elm mail files\n"
 "Would you like to import them into Evolution?"
 msgstr ""
+"Evolution encontrou ficheiros de correio Elm\n"
+"Deseja importa-los para o Evolution?"
 
 #: importers/elm-importer.c:574 mail/importers/elm-importer.c:565
 msgid "Elm"
-msgstr ""
+msgstr "Elm"
 
 #: importers/evolution-gnomecard-importer.c:246
 msgid ""
 "Evolution has found GnomeCard files.\n"
 "Would you like them to be imported into Evolution?"
 msgstr ""
+"Evolution encontrou ficheiros GnomeCard\n"
+"Deseja importa-los para o Evolution?"
 
 #: importers/netscape-importer.c:70 mail/importers/netscape-importer.c:74
-#, fuzzy, c-format
+#, c-format
 msgid "Priority Filter \"%s\""
-msgstr "Prioridade:"
+msgstr "Filtro Prioridade \"%s\""
 
 #: importers/netscape-importer.c:653 mail/importers/netscape-importer.c:662
 msgid ""
@@ -11649,6 +11624,17 @@ msgid ""
 "of priorities. Check the imported filters to make sure\n"
 "everything still works as intended."
 msgstr ""
+"Alguns dos seus filtros de correio Netscape são baseados\n"
+"prioridades de correio, que não são utilizadas no Evolution.\n"
+"Em vez disso, o Evolution disponibiliza pontuações no intrevalo\n"
+"de -3 a 3 que podem ser atribuidas a mensagens e filtradas de\n"
+"acordo com tal.\n"
+"\n"
+"Como solução de compromisso, um conjunto de filtros chamados \"Filtro\n"
+"de Prioridade\" foi adicionado e converte as prioridades Netscape em\n"
+"pontuações Evolution, e os filtros afectados utilizam pontuações em\n"
+"vez de prioridades. Verifique os filtros importados para se certificar\n"
+"de que tudo continua a funcionar como deseja."
 
 #: importers/netscape-importer.c:677 mail/importers/netscape-importer.c:686
 msgid ""
@@ -11657,6 +11643,10 @@ msgid ""
 "feature, which is not supported in Evolution.\n"
 "These filters will be dropped."
 msgstr ""
+"Alguns dos seus filtros de mensagens Netscape utilizam\n"
+"a funcionalidade \"Ignorar Árvore\" ou \"Acompanhar\n"
+"Árvore\", Que não é suportada pelo Evolution.\n"
+"Estes filtros serão descartados."
 
 #: importers/netscape-importer.c:694 mail/importers/netscape-importer.c:703
 msgid ""
@@ -11666,485 +11656,438 @@ msgid ""
 "were modified to test whether that string is or is not\n"
 "contained in the message body."
 msgstr ""
+"Alguns dos seus filtros Netscape testam o corpo das\n"
+"mensagens procurando equivalências/diferenças com uma\n"
+"expressão específica, o que não é suportado no Evolution.\n"
+"Esses filtros foram modificados para testar se essa expresão\n"
+"está ou não contida no corpo da mensagem."
 
 #: importers/netscape-importer.c:1227 mail/importers/netscape-importer.c:1236
 msgid "Evolution is importing your old Netscape data"
-msgstr ""
+msgstr "Evolution está a importar os seus antigos dados Netscape"
 
 #. Fill in the new fields
 #: importers/netscape-importer.c:1872 mail/importers/netscape-importer.c:1861
 #: mail/mail-ops.c:1092 shell/e-local-storage.c:184
-#, fuzzy
 msgid "Trash"
-msgstr "_Tarefa"
+msgstr "Lixo"
 
 #: importers/netscape-importer.c:2028 mail/importers/netscape-importer.c:2014
-#, fuzzy
 msgid "Scanning mail filters"
-msgstr "Sincronizar"
+msgstr "A analisar filtros de correio"
 
 #: importers/netscape-importer.c:2038 importers/pine-importer.c:570
 #: mail/importers/netscape-importer.c:2025 mail/importers/pine-importer.c:534
 msgid "Scanning directory"
-msgstr ""
+msgstr "A analisar directório"
 
 #: importers/netscape-importer.c:2047 mail/importers/netscape-importer.c:2034
 #: shell/e-shell-startup-wizard.c:541
 msgid "Starting import"
-msgstr ""
+msgstr "A iniciar importação"
 
 #: importers/netscape-importer.c:2133 mail/importers/netscape-importer.c:2109
-#, fuzzy
 msgid "Settings"
-msgstr "Segundos"
+msgstr "Definições"
 
 #: importers/netscape-importer.c:2138 mail/importers/netscape-importer.c:2114
-#, fuzzy
 msgid "Mail Filters"
-msgstr "_Pasta"
+msgstr "Filtros Correio"
 
 #: importers/netscape-importer.c:2161 mail/importers/netscape-importer.c:2138
 msgid ""
 "Evolution has found Netscape mail files.\n"
 "Would you like them to be imported into Evolution?"
 msgstr ""
+"Evolution encontrou ficheiros de correio Netscape.\n"
+"Deseja que estes sejam importados para o Evolution?"
 
 #: importers/pine-importer.c:100 mail/importers/pine-importer.c:113
 msgid "Evolution is importing your old Pine data"
-msgstr ""
+msgstr "Evolution está a importar os seus antigos dados Pine"
 
 #: importers/pine-importer.c:663 mail/importers/pine-importer.c:613
 msgid ""
 "Evolution has found Pine mail files.\n"
 "Would you like to import them into Evolution?"
 msgstr ""
+"Evolution encontrou ficheiros de correio Pine.\n"
+"Deseja que estes sejam importados para o Evolution?"
 
 #: importers/pine-importer.c:691 mail/importers/pine-importer.c:632
-#, fuzzy
 msgid "Pine"
-msgstr "Imprimir"
+msgstr "Pine"
 
 #: mail/GNOME_Evolution_Mail.server.in.in.h:1
-#, fuzzy
 msgid "Composer Preferences"
-msgstr "Preferências"
+msgstr "Preferências Compositor"
 
 #: mail/GNOME_Evolution_Mail.server.in.in.h:2
-#, fuzzy
 msgid "Configuration control for the Evolution Display Fonts."
-msgstr "Não consigo inicializar o componente de mail do Evolution."
+msgstr "Controlo de configuração das Fontes de Apresentação Evolution."
 
 #: mail/GNOME_Evolution_Mail.server.in.in.h:3
-#, fuzzy
 msgid "Configuration control for the Evolution Mail Accounts."
-msgstr "Não consigo inicializar o componente de mail do Evolution."
+msgstr "Controlo de configuração das Contas de Correio Evolution."
 
 #: mail/GNOME_Evolution_Mail.server.in.in.h:4
-#, fuzzy
 msgid "Configuration control for the Evolution Mailer."
-msgstr "Não consigo inicializar o componente de mail do Evolution."
+msgstr "Controlo de configuração do Correio Evolution."
 
 #: mail/GNOME_Evolution_Mail.server.in.in.h:5
-#, fuzzy
 msgid "Configuration control for the Evolution Message Composer."
-msgstr "Não consigo inicializar o componente de mail do Evolution."
+msgstr "Controlo de configuração do Compositor de Mensagens Evolution."
 
 #: mail/GNOME_Evolution_Mail.server.in.in.h:6
 msgid ""
 "Configure mail preferences, including security and message display, here"
 msgstr ""
+"Configure aqui as suas preferências de correio, incluindo segurança e apresentação de mensagens"
 
 #: mail/GNOME_Evolution_Mail.server.in.in.h:7
 msgid "Configure spell-checking, signatures, and the message composer here"
-msgstr ""
+msgstr "Configure aqui correcção ortográfica, assinaturas e o compositor de mensagens"
 
 #: mail/GNOME_Evolution_Mail.server.in.in.h:8
 msgid "Configure the fonts used by Evolution here"
-msgstr ""
+msgstr "Configure aqui as fontes utilizadas pelo Evolution"
 
 #: mail/GNOME_Evolution_Mail.server.in.in.h:9
 msgid "Configure your email accounts here"
-msgstr ""
+msgstr "Configure aqui as suas contas de correio"
 
 #: mail/GNOME_Evolution_Mail.server.in.in.h:10
 msgid "Evolution component for handling mail."
-msgstr ""
+msgstr "Componente Evolution para gerir correio."
 
 #: mail/GNOME_Evolution_Mail.server.in.in.h:11
-#, fuzzy
 msgid "Evolution mail composer."
-msgstr "Não consigo inicializar o componente de mail do Evolution."
+msgstr "Compositor de correio Evolution."
 
 #: mail/GNOME_Evolution_Mail.server.in.in.h:12
-#, fuzzy
 msgid "Evolution mail executive summary component."
-msgstr "Não consigo inicializar o componente de mail do Evolution."
+msgstr "Componente de resumo de correio Evolution."
 
 #: mail/GNOME_Evolution_Mail.server.in.in.h:13
-#, fuzzy
 msgid "Evolution mail folder display component."
-msgstr "Não consigo inicializar o componente de mail do Evolution."
+msgstr "Componente de apresentação de pasta de correio Evolution."
 
 #: mail/GNOME_Evolution_Mail.server.in.in.h:14
-#, fuzzy
 msgid "Factory for the controls exported by the Evolution Mailer"
-msgstr "Não consigo inicializar o componente de mail do Evolution."
+msgstr "Fábrica para controlos exportados pelo Correio Evolution"
 
 #: mail/GNOME_Evolution_Mail.server.in.in.h:15
-#, fuzzy
 msgid "Font Preferences"
-msgstr "Preferências"
+msgstr "Preferências Fontes"
 
 #: mail/GNOME_Evolution_Mail.server.in.in.h:16
-#, fuzzy
 msgid "Mail Accounts"
-msgstr "Ícone_s pequenos"
+msgstr "Contas Correio"
 
 #: mail/GNOME_Evolution_Mail.server.in.in.h:17 mail/mail-config.glade.h:71
-#, fuzzy
 msgid "Mail Preferences"
-msgstr "Preferências"
+msgstr "Preferências Correio"
 
 #: mail/GNOME_Evolution_Mail.server.in.in.h:18
-#, fuzzy
 msgid "Mail configuration interface"
-msgstr "Configuração do correio"
+msgstr "Interface configuração correio"
 
 #: mail/component-factory.c:114
-#, fuzzy
 msgid "Folder containing mail"
-msgstr "Uma pasta contendo items de correio"
+msgstr "Pasta que contém correio"
 
 #: mail/component-factory.c:115
 msgid "Public Mail"
-msgstr ""
+msgstr "Correio Público"
 
 #: mail/component-factory.c:115
-#, fuzzy
 msgid "Public folder containing mail"
-msgstr "Uma pasta contendo items de correio"
+msgstr "Pasta pública que contém correio"
 
 #: mail/component-factory.c:116
-#, fuzzy
 msgid "Virtual Trash"
-msgstr "_Pastas"
+msgstr "Lixo Virtual"
 
 #: mail/component-factory.c:116
-#, fuzzy
 msgid "Virtual Trash folder"
-msgstr "_Pastas"
+msgstr "Pasta Virtual de Lixo"
 
 #: mail/component-factory.c:144
-#, fuzzy
 msgid "This folder cannot contain messages."
-msgstr "Uma pasta contendo items de correio"
+msgstr "Esta pasta não pode conter mensagens."
 
 #: mail/component-factory.c:438
-#, fuzzy
 msgid "Properties..."
-msgstr "Propriedades do alarme"
+msgstr "Propriedades..."
 
 #: mail/component-factory.c:438
-#, fuzzy
 msgid "Change this folder's properties"
-msgstr "Propriedades"
+msgstr "Alterar as propriedades desta pasta"
 
 #: mail/component-factory.c:822
 msgid ""
 "Some of your mail settings seem corrupt, please check that everything is in "
 "order."
 msgstr ""
+"Algumas das suas configurações de correio parecem corrompidas, verifique que "
+"está tudo em ordem."
 
 #: mail/component-factory.c:997
 msgid "You have not set a mail transport method"
-msgstr ""
+msgstr "Não definiu um modo de transporte de correio"
 
 #: mail/component-factory.c:1021
 msgid "You have unsent messages, do you wish to quit anyway?"
-msgstr ""
+msgstr "Tem mensagens por enviar, deseja mesmo sair?"
 
 #: mail/component-factory.c:1061
-#, fuzzy
 msgid "New Mail Message"
-msgstr "Mensagem de _correio"
+msgstr "Nova Mensagem Correio"
 
 #: mail/component-factory.c:1061
-#, fuzzy
 msgid "_Mail Message"
-msgstr "Mensagem de _correio"
+msgstr "_Mensagem Correio"
 
 #: mail/component-factory.c:1062
-#, fuzzy
 msgid "Compose a new mail message"
-msgstr "Criar uma nova mensagem"
+msgstr "Compor uma nova mensagem correio"
 
 #: mail/component-factory.c:1070
-#, fuzzy
 msgid "New Message Post"
-msgstr "Mensagem de _correio"
+msgstr "Afixar Nova Mensagem"
 
 #: mail/component-factory.c:1070
-#, fuzzy
 msgid "_Post Message"
-msgstr "Encontrar mensagens"
+msgstr "_Afixar Mensagem"
 
 #: mail/component-factory.c:1071
-#, fuzzy
 msgid "Post a new mail message"
-msgstr "Criar uma nova mensagem"
+msgstr "Afixar uma nova mensagem de correio"
 
 #: mail/component-factory.c:1328 mail/component-factory.c:1358
-#, fuzzy
 msgid "Connecting..."
-msgstr "_Contacto"
+msgstr "A Ligar-se..."
 
 #: mail/component-factory.c:1369
 msgid "Cannot register storage with shell"
-msgstr ""
+msgstr "Incapaz de registar armazenamento na consola"
 
 #: mail/folder-browser-ui.c:483
-#, fuzzy, c-format
+#, c-format
 msgid "Properties for \"%s\""
-msgstr "Propriedades do alarme"
+msgstr "Propriedades de \"%s\""
 
 #: mail/folder-browser-ui.c:485
-#, fuzzy
 msgid "Properties"
-msgstr "Propriedades do alarme"
+msgstr "Propriedades"
 
 #: mail/folder-browser.c:327 mail/mail-display.c:391 mail/mail-display.c:920
 #, c-format
 msgid "Could not create temporary directory: %s"
-msgstr ""
+msgstr "Incapaz de criar directório temporário: %s"
 
 #: mail/folder-browser.c:782
 #, c-format
 msgid "%d new"
-msgstr ""
+msgstr "%d novo"
 
 #: mail/folder-browser.c:785 mail/folder-browser.c:793
 #: mail/folder-browser.c:796
 msgid ", "
-msgstr ""
+msgstr ", "
 
 #: mail/folder-browser.c:787
 #, c-format
 msgid "%d hidden"
-msgstr ""
+msgstr "%d escondida"
 
 #: mail/folder-browser.c:789
 #, c-format
 msgid "%d visible"
-msgstr ""
+msgstr "%d visível"
 
 #: mail/folder-browser.c:794
-#, fuzzy, c-format
+#, c-format
 msgid "%d selected"
-msgstr "Apagar"
+msgstr "%d seleccionada"
 
 #: mail/folder-browser.c:799
 #, c-format
 msgid "%d unsent"
-msgstr ""
+msgstr "%d por enviar"
 
 #: mail/folder-browser.c:801
-#, fuzzy, c-format
+#, c-format
 msgid "%d sent"
-msgstr " segundos"
+msgstr "%d enviada"
 
 #: mail/folder-browser.c:803
 #, c-format
 msgid "%d total"
-msgstr ""
+msgstr "%d total"
 
 #: mail/folder-browser.c:1167
-#, fuzzy
 msgid "Create _Virtual Folder From Search..."
-msgstr "Mensagens de correio em rascunho"
+msgstr "Criar Pasta _Virtual a Partir Procura..."
 
 #: mail/folder-browser.c:1714
-#, fuzzy
 msgid "VFolder on _Subject"
-msgstr "Assunto"
+msgstr "VPasta no A_ssunto"
 
 #: mail/folder-browser.c:1715
-#, fuzzy
 msgid "VFolder on Se_nder"
-msgstr "Ficheiro não encontrado"
+msgstr "VPasta no Remete_nte"
 
 #: mail/folder-browser.c:1716
-#, fuzzy
 msgid "VFolder on _Recipients"
-msgstr "Situação das mensagens"
+msgstr "VPasta nos Destinatá_rios"
 
 #: mail/folder-browser.c:1717
 msgid "VFolder on Mailing _List"
-msgstr ""
+msgstr "VPasta na _Lista Distribuição"
 
 #: mail/folder-browser.c:1721
-#, fuzzy
 msgid "Filter on Sub_ject"
-msgstr "Ficheiro não encontrado"
+msgstr "Filtrar no Ass_unto"
 
 #: mail/folder-browser.c:1722
-#, fuzzy
 msgid "Filter on Sen_der"
-msgstr "Ficheiro não encontrado"
+msgstr "Filtrar no _Remetente"
 
 #: mail/folder-browser.c:1723
-#, fuzzy
 msgid "Filter on Re_cipients"
-msgstr "Ficheiro não encontrado"
+msgstr "Filtrar no _Destinatário"
 
 #: mail/folder-browser.c:1724 mail/folder-browser.c:2048
 msgid "Filter on _Mailing List"
-msgstr ""
+msgstr "Filtrar na _Lista Distribuição"
 
 #: mail/folder-browser.c:1742
-#, fuzzy
 msgid "_Edit as New Message..."
-msgstr "Encontrar mensagens"
+msgstr "_Editar como Nova Mensagem..."
 
 #: mail/folder-browser.c:1744
-#, fuzzy
 msgid "_Print"
-msgstr "Imprimir"
+msgstr "_Imprimir"
 
 #: mail/folder-browser.c:1748 ui/evolution-mail-message.xml.h:110
-#, fuzzy
 msgid "_Reply to Sender"
-msgstr "Reponder para todos"
+msgstr "_Reponder ao Remetente"
 
 #: mail/folder-browser.c:1749 ui/evolution-mail-message.xml.h:75
-#, fuzzy
 msgid "Reply to _List"
-msgstr "Reponder para todos"
+msgstr "Reponder para _Lista"
 
 #: mail/folder-browser.c:1750 ui/evolution-mail-message.xml.h:74
-#, fuzzy
 msgid "Reply to _All"
-msgstr "Reponder para todos"
+msgstr "Reponder _a Todos"
 
 #: mail/folder-browser.c:1751
 msgid "_Forward"
-msgstr ""
+msgstr "R_eencaminhar"
 
 #: mail/folder-browser.c:1755
 msgid "Follo_w Up..."
-msgstr ""
+msgstr "Dar Se_guimento..."
 
 #: mail/folder-browser.c:1756
-#, fuzzy
 msgid "Fla_g Completed"
-msgstr "Cores"
+msgstr "Marcar _Terminada"
 
 #: mail/folder-browser.c:1757
-#, fuzzy
 msgid "Cl_ear Flag"
-msgstr "Carro"
+msgstr "L_impar Marca"
 
 #. separator here?
 #: mail/folder-browser.c:1761 ui/evolution-mail-message.xml.h:43
 msgid "Mar_k as Read"
-msgstr ""
+msgstr "_Marcar como Lida"
 
 #: mail/folder-browser.c:1762
 msgid "Mark as _Unread"
-msgstr ""
+msgstr "Marcar _por Ler"
 
 #: mail/folder-browser.c:1763
 msgid "Mark as _Important"
-msgstr ""
+msgstr "Marcar como _Importante"
 
 #: mail/folder-browser.c:1764
 msgid "_Mark as Unimportant"
-msgstr ""
+msgstr "_Marcar como Irrele_vante"
 
 #: mail/folder-browser.c:1769
-#, fuzzy
 msgid "U_ndelete"
-msgstr "Apagar"
+msgstr "R_ecuperar"
 
 #: mail/folder-browser.c:1773
-#, fuzzy
 msgid "Mo_ve to Folder..."
-msgstr "Ir para a _pasta..."
+msgstr "Mo_ver para Pasta..."
 
 #: mail/folder-browser.c:1774 ui/evolution-addressbook.xml.h:31
-#, fuzzy
 msgid "_Copy to Folder..."
-msgstr "Ir para a _pasta..."
+msgstr "_Copiar para Pasta..."
 
 #: mail/folder-browser.c:1782
-#, fuzzy
 msgid "Add Sender to Address_book"
-msgstr "Impossível abrir o livro de endereços"
+msgstr "Adicionar Remetente ao Li_vro Endereços"
 
 #: mail/folder-browser.c:1786
-#, fuzzy
 msgid "Appl_y Filters"
-msgstr "Druída dos _filtros"
+msgstr "Aplicar _Filtros"
 
 #: mail/folder-browser.c:1790
-#, fuzzy
 msgid "Crea_te Rule From Message"
-msgstr "Mensagens de correio em rascunho"
+msgstr "Criar Regra a Par_tir Mensagem"
 
 #: mail/folder-browser.c:2049
-#, fuzzy
 msgid "VFolder on M_ailing List"
-msgstr "Uma pasta contendo items de correio"
+msgstr "VPasta n_a Lista Distribuição"
 
 #: mail/folder-browser.c:2051
-#, fuzzy, c-format
+#, c-format
 msgid "Filter on _Mailing List (%s)"
-msgstr "Uma pasta contendo items de correio"
+msgstr "Filtro na Lista _Distribuição (%s)"
 
 #: mail/folder-browser.c:2052
-#, fuzzy, c-format
+#, c-format
 msgid "VFolder on M_ailing List (%s)"
-msgstr "Uma pasta contendo items de correio"
+msgstr "VPasta n_a Lista Distribuição (%s)"
 
 #: mail/folder-browser.h:26 mail/mail-config.glade.h:40
-#, fuzzy
 msgid "Default"
-msgstr "Apagar"
+msgstr "Por Omissão"
 
 #: mail/folder-info.c:70
-#, fuzzy
 msgid "Getting Folder Information"
-msgstr "Nenhuma Informação"
+msgstr "A Obter Informação Pasta"
 
 #: mail/importers/GNOME_Evolution_Mail_Mbox_Importer.server.in.in.h:1
 msgid "Factory to import mbox into Evolution"
-msgstr ""
+msgstr "Fábrica para importar mbox para o Evolution"
 
 #: mail/importers/GNOME_Evolution_Mail_Mbox_Importer.server.in.in.h:2
 msgid "Imports mbox files into Evolution"
-msgstr ""
+msgstr "Importa ficheiros mbox para o Evolution"
 
 #: mail/importers/GNOME_Evolution_Mail_Outlook_Importer.server.in.in.h:1
 msgid "Factory to import Outlook Express 4 mails into Evolution"
-msgstr ""
+msgstr "Fábrica para importar correio Outlook Express 4 para o Evolution"
 
 #: mail/importers/GNOME_Evolution_Mail_Outlook_Importer.server.in.in.h:2
 msgid "Imports Outlook Express 4 files into Evolution"
-msgstr ""
+msgstr "Importa ficheiros Outlook Express 4 para o Evolution"
 
 #: mail/local-config.glade.h:1
-#, fuzzy
 msgid "Current store format:"
-msgstr "Não se consegui inicializar Bonobo"
+msgstr "Formato actual armazenamento:"
 
 #: mail/local-config.glade.h:2
-#, fuzzy
 msgid "Index body contents"
-msgstr "_Acções"
+msgstr "Conteudo índice corpos"
 
 #: mail/local-config.glade.h:3
-#, fuzzy
 msgid "New store format:"
-msgstr "Não se consegui inicializar Bonobo"
+msgstr "Novo formato armazenamento:"
 
 #: mail/local-config.glade.h:4
 msgid ""
@@ -12152,119 +12095,110 @@ msgid ""
 "(such as lack of disk space) may not be automatically\n"
 "recoverable.  Please use this feature with care."
 msgstr ""
+"Nota: Ao converter entre formados de caixa de correio, uma falha\n"
+"(tal como falta de espaço em disco) poderá não ser automaticamente\n"
+"recuperável. Utilize esta funcionalidade cautelosamente."
 
 #: mail/local-config.glade.h:7
-#, fuzzy
 msgid "maildir"
-msgstr "Correio electrónico 2"
+msgstr "dircorreio"
 
 #: mail/local-config.glade.h:8
-#, fuzzy
 msgid "mbox"
-msgstr "Correio novo"
+msgstr "mbox"
 
 #: mail/local-config.glade.h:9
-#, fuzzy
 msgid "mh"
-msgstr "h"
+msgstr "mh"
 
 #: mail/mail-account-editor.c:102
 msgid "You have not filled in all of the required information."
-msgstr ""
+msgstr "Não preencheu toda a informação necessária."
 
 #. give our dialog an OK button and title
 #: mail/mail-account-editor.c:146
-#, fuzzy
 msgid "Evolution Account Editor"
-msgstr "Atalho para _barra do Evolution"
+msgstr "Editor Conta Evolution"
 
 #: mail/mail-account-gui.c:752 mail/mail-config.glade.h:157
-#, fuzzy
 msgid "_Host:"
-msgstr "Horas"
+msgstr "_Servidor:"
 
 #: mail/mail-account-gui.c:756 mail/mail-config.glade.h:127
-#, fuzzy
 msgid "User_name:"
-msgstr "Utilizador:"
+msgstr "_Nome utilizador:"
 
 #: mail/mail-account-gui.c:760 mail/mail-config.glade.h:164
-#, fuzzy
 msgid "_Path:"
-msgstr "Caminho"
+msgstr "_Caminho"
 
 #: mail/mail-account-gui.c:1881
 msgid "You may not create two accounts with the same name."
-msgstr ""
+msgstr "Não pode criar duas contas com o mesmo nome."
 
 #: mail/mail-accounts.c:231
 msgid "Are you sure you want to delete this account?"
-msgstr ""
+msgstr "Tem a certeza que quer apagar esta conta?"
 
 #: mail/mail-accounts.c:239
-#, fuzzy
 msgid "Don't delete"
-msgstr "Apagar"
+msgstr "Não apagar"
 
 #: mail/mail-accounts.c:312 mail/mail-accounts.c:351 mail/mail-accounts.c:391
 #: mail/mail-composer-prefs.c:648 mail/mail-composer-prefs.c:666
-#, fuzzy
 msgid "Disable"
-msgstr "Como _Tabela"
+msgstr "Desactivar"
 
 #: mail/mail-accounts.c:312 mail/mail-accounts.c:351 mail/mail-accounts.c:393
 #: mail/mail-composer-prefs.c:648 mail/mail-composer-prefs.c:666
 msgid "Enable"
-msgstr ""
+msgstr "Activar"
 
 #. translators: default account indicator
 #: mail/mail-accounts.c:433
-#, fuzzy
 msgid "[Default]"
-msgstr "Apagar"
+msgstr "[Por Omissão]"
 
 #: mail/mail-accounts.c:481 mail/mail-accounts.etspec.h:2
 #: mail/mail-composer-prefs.c:809
 msgid "Enabled"
-msgstr ""
+msgstr "Activo"
 
 #: mail/mail-accounts.c:487 mail/mail-accounts.etspec.h:1
-#, fuzzy
 msgid "Account name"
-msgstr "Ícone_s pequenos"
+msgstr "Nome conta"
 
 #: mail/mail-accounts.c:489 mail/mail-accounts.etspec.h:3
-#, fuzzy
 msgid "Protocol"
-msgstr "Prioridade"
+msgstr "Protocolo"
 
 #: mail/mail-autofilter.c:74
-#, fuzzy, c-format
+#, c-format
 msgid "Mail to %s"
-msgstr "Fontes de correio"
+msgstr "Correio para %s"
 
 #: mail/mail-autofilter.c:238
-#, fuzzy, c-format
+#, c-format
 msgid "Subject is %s"
-msgstr "Assunto"
+msgstr "Assunto é %s"
 
 #: mail/mail-autofilter.c:254
 #, c-format
 msgid "Mail from %s"
-msgstr ""
+msgstr "Correio de %s"
 
 #: mail/mail-autofilter.c:271
 #, c-format
 msgid "%s mailing list"
-msgstr ""
+msgstr "lista distribuição %s"
 
 #: mail/mail-autofilter.c:323
 msgid "Add Filter Rule"
-msgstr ""
+msgstr "Adicionar Regra Filtro"
 
 #: mail/mail-autofilter.c:372
 msgid "The following filter rule(s):\n"
-msgstr ""
+msgstr "A(s) seguinte(s) regra(s) de filtro:\n"
 
 #: mail/mail-autofilter.c:378
 #, c-format
@@ -12273,12 +12207,14 @@ msgid ""
 "    '%s'\n"
 "And have been updated."
 msgstr ""
+"Utilizou a pasta removida:\n"
+"    '%s'\n"
+"E foi actualizado."
 
 #. Add the "Don't show this message again." checkbox
 #: mail/mail-callbacks.c:102 widgets/misc/e-messagebox.c:226
-#, fuzzy
 msgid "Don't show this message again."
-msgstr "Enviar esta mensagem"
+msgstr "Não mostrar esta mensagem novamente."
 
 #: mail/mail-callbacks.c:191
 msgid ""
@@ -12287,24 +12223,34 @@ msgid ""
 "receive or compose mail.\n"
 "Would you like to configure it now?"
 msgstr ""
+"Não configurou o cliente de correio.\n"
+"Tem de o fazer antes de poder enviar,\n"
+"receber ou compor correio.\n"
+"Deseja configura-lo agora?"
 
 #: mail/mail-callbacks.c:213
 msgid ""
 "You need to configure an account\n"
 "before you can compose mail."
 msgstr ""
+"Tem de configurar uma conta\n"
+"antes de poder compor correio."
 
 #: mail/mail-callbacks.c:227
 msgid ""
 "You need to configure an identity\n"
 "before you can compose mail."
 msgstr ""
+"Tem de configurar uma identidade\n"
+"antes de poder compor correio."
 
 #: mail/mail-callbacks.c:234
 msgid ""
 "You need to configure a mail transport\n"
 "before you can compose mail."
 msgstr ""
+"Tem de configurar um transporte de correio\n"
+"antes de poder compor correio."
 
 #. FIXME: this wording sucks
 #: mail/mail-callbacks.c:256
@@ -12312,29 +12258,35 @@ msgid ""
 "You are sending an HTML-formatted message. Please make sure that\n"
 "the following recipients are willing and able to receive HTML mail:\n"
 msgstr ""
+"Está prestes a enviar uma mensagem formatada em HTML. Certifique-se de que\n"
+"os seguintes destinatários estão dispostos e podem receber correio em HTML:\n"
 
 #: mail/mail-callbacks.c:268
-#, fuzzy
 msgid "Send anyway?"
-msgstr "Enviar"
+msgstr "Ainda assim enviar?"
 
 #: mail/mail-callbacks.c:289
 msgid ""
 "This message has no subject.\n"
 "Really send?"
 msgstr ""
+"Esta mensagem não tem assunto.\n"
+"Enviar mesmo assim?"
 
 #: mail/mail-callbacks.c:315
 msgid ""
 "Since the contact list you are sending to is configured to hide the list's "
 "addresses, this message will contain only Bcc recipients."
 msgstr ""
+"Visto que a lista de contactos para a qual está a enviar está configurada para "
+"esconder os endereços da lista, esta mensagem apenas conterá destinatários em Bcc."
 
 #: mail/mail-callbacks.c:319
 msgid "This message contains only Bcc recipients."
-msgstr ""
+msgstr "Esta mensagem apenas contém destinatários em Bcc."
 
 #: mail/mail-callbacks.c:324
+# fuzzy VOU AQUI
 msgid ""
 "It is possible that the mail server may reveal the recipients by adding an "
 "Apparently-To header.\n"
@@ -14100,2095 +14052,1936 @@ msgid "Summary Preferences"
 msgstr "Preferências"
 
 #: my-evolution/Locations.h:1
-#, fuzzy
 msgid "Aarhus"
-msgstr "Alarmes"
+msgstr "Aarhus"
 
 #: my-evolution/Locations.h:2
 msgid "Abakan"
-msgstr ""
+msgstr "Abakan"
 
 #: my-evolution/Locations.h:3
 msgid "Abbotsford"
-msgstr ""
+msgstr "Abbotsford"
 
 #: my-evolution/Locations.h:4
 msgid "Aberdeen"
-msgstr ""
+msgstr "Aberdeen"
 
 #: my-evolution/Locations.h:5
 msgid "Abha"
-msgstr ""
+msgstr "Abha"
 
 #: my-evolution/Locations.h:6
-#, fuzzy
 msgid "Abilene"
-msgstr "Telemóvel"
+msgstr "Abilene"
 
 #: my-evolution/Locations.h:7
 msgid "Abingdon"
-msgstr ""
+msgstr "Abingdon"
 
 #: my-evolution/Locations.h:8
 msgid "Abu Dhabi"
-msgstr ""
+msgstr "Abu Dhabi"
 
 #: my-evolution/Locations.h:9
 msgid "Abu Dhabi - Bateen"
-msgstr ""
+msgstr "Abu Dhabi - Bateen"
 
 #: my-evolution/Locations.h:10
 msgid "Acajutla"
-msgstr ""
+msgstr "Acajutla"
 
 #: my-evolution/Locations.h:11
 msgid "Acapulco"
-msgstr ""
+msgstr "Acapulco"
 
 #: my-evolution/Locations.h:12
 msgid "Acarigua"
-msgstr ""
+msgstr "Acarigua"
 
 #: my-evolution/Locations.h:13
 msgid "Adak"
-msgstr ""
+msgstr "Adak"
 
 #: my-evolution/Locations.h:14
-#, fuzzy
 msgid "Adana"
-msgstr "Adicionar..."
+msgstr "Adana"
 
 #: my-evolution/Locations.h:15
 msgid "Adana/Incirlik"
-msgstr ""
+msgstr "Adana/Incirlik"
 
 #: my-evolution/Locations.h:16
 msgid "Adelaide"
-msgstr ""
+msgstr "Adelaide"
 
 #: my-evolution/Locations.h:17
-#, fuzzy
 msgid "Aden"
-msgstr "Enviar"
+msgstr "Aden"
 
 #: my-evolution/Locations.h:18
 msgid "Adrar"
-msgstr ""
+msgstr "Adrar"
 
 #: my-evolution/Locations.h:19
 msgid "Aeroparque"
-msgstr ""
+msgstr "Aeroparque"
 
 #: my-evolution/Locations.h:20
 msgid "Aeropuerto del Norte"
-msgstr ""
+msgstr "Aeropuerto del Norte"
 
 #: my-evolution/Locations.h:21
 msgid "Afonsos"
-msgstr ""
+msgstr "Afonsos"
 
 #: my-evolution/Locations.h:22
-#, fuzzy
 msgid "Africa"
-msgstr "Primário"
+msgstr "África"
 
 #: my-evolution/Locations.h:23
 msgid "Afyon"
-msgstr ""
+msgstr "Afyon"
 
 #: my-evolution/Locations.h:24
-#, fuzzy
 msgid "Agen"
-msgstr "Organização"
+msgstr "Agen"
 
 #: my-evolution/Locations.h:25
 msgid "Aguascaliantes"
-msgstr ""
+msgstr "Aguascaliantes"
 
 #: my-evolution/Locations.h:26
 msgid "Ahmadabad"
-msgstr ""
+msgstr "Ahmadabad"
 
 #: my-evolution/Locations.h:27
 msgid "Ahwaz"
-msgstr ""
+msgstr "Ahwaz"
 
 #: my-evolution/Locations.h:28
 msgid "Ainsworth"
-msgstr ""
+msgstr "Ainsworth"
 
 #: my-evolution/Locations.h:29
-#, fuzzy
 msgid "Air Force"
-msgstr "Adicionar Fonte"
+msgstr "Força Aérea"
 
 #: my-evolution/Locations.h:30
 msgid "Ajaccio/Campo dell'Oro"
-msgstr ""
+msgstr "Ajaccio/Campo dell'Oro"
 
 #: my-evolution/Locations.h:31
 msgid "Akeno Ab"
-msgstr ""
+msgstr "Akeno Ab"
 
 #: my-evolution/Locations.h:32
 msgid "Akita Airport"
-msgstr ""
+msgstr "Aeroporto Akita"
 
 #: my-evolution/Locations.h:33
 msgid "Akron"
-msgstr ""
+msgstr "Akron"
 
 #: my-evolution/Locations.h:34
 msgid "Akrotiri"
-msgstr ""
+msgstr "Akrotiri"
 
 #: my-evolution/Locations.h:35
-#, fuzzy
 msgid "Alabama"
-msgstr "Novo Ca_lendário"
+msgstr "Alabama"
 
 #: my-evolution/Locations.h:36
 msgid "Al Ahsa"
-msgstr ""
+msgstr "Al Ahsa"
 
 #: my-evolution/Locations.h:37
 msgid "Al Ain"
-msgstr ""
+msgstr "Al Ain"
 
 #: my-evolution/Locations.h:38
 msgid "Alamogordo"
-msgstr ""
+msgstr "Alamogordo"
 
 #: my-evolution/Locations.h:39
-#, fuzzy
 msgid "Alamosa"
-msgstr "Alarmes"
+msgstr "Alamosa"
 
 #: my-evolution/Locations.h:40
-#, fuzzy
 msgid "Alaska"
-msgstr "Alarmes"
+msgstr "Alasca"
 
 #: my-evolution/Locations.h:41
 msgid "Al Baha"
-msgstr ""
+msgstr "Al Baha"
 
 #: my-evolution/Locations.h:43
 msgid "Albany"
-msgstr ""
+msgstr "Albânia"
 
 #: my-evolution/Locations.h:44
 msgid "Albenga"
-msgstr ""
+msgstr "Albenga"
 
 #: my-evolution/Locations.h:45
 msgid "Alberta"
-msgstr ""
+msgstr "Alberta"
 
 #: my-evolution/Locations.h:46
 msgid "Alborg"
-msgstr ""
+msgstr "Alborg"
 
 #: my-evolution/Locations.h:47
 msgid "Albuquerque"
-msgstr ""
+msgstr "Albuquerque"
 
 #: my-evolution/Locations.h:48
-#, fuzzy
 msgid "Alderney"
-msgstr "Nome completo:"
+msgstr "Alderney"
 
 #: my-evolution/Locations.h:49
-#, fuzzy
 msgid "Alesund"
-msgstr " segundos"
+msgstr "Alesund"
 
 #: my-evolution/Locations.h:50
 msgid "Alexandria"
-msgstr ""
+msgstr "Alexandria"
 
 #: my-evolution/Locations.h:51
 msgid "Alexandria-Esler"
-msgstr ""
+msgstr "Alexandria-Esler"
 
 #: my-evolution/Locations.h:52
 msgid "Alexandria/Nouzha"
-msgstr ""
+msgstr "Alexandria/Nouzha"
 
 #: my-evolution/Locations.h:53
 msgid "Alexandroupolis"
-msgstr ""
+msgstr "Alexandroupolis"
 
 #: my-evolution/Locations.h:55
-#, fuzzy
 msgid "Alghero"
-msgstr "Cabeçalhos:"
+msgstr "Alghero"
 
 #: my-evolution/Locations.h:56
 msgid "Algona"
-msgstr ""
+msgstr "Algona"
 
 #: my-evolution/Locations.h:57
-#, fuzzy
 msgid "Alicante"
-msgstr "Activar"
+msgstr "Alicante"
 
 #: my-evolution/Locations.h:58
 msgid "Alice"
-msgstr ""
+msgstr "Alice"
 
 #: my-evolution/Locations.h:59
 msgid "Alice Springs"
-msgstr ""
+msgstr "Alice Springs"
 
 #: my-evolution/Locations.h:60
 msgid "Al-Jouf"
-msgstr ""
+msgstr "Al-Jouf"
 
 #: my-evolution/Locations.h:61
 msgid "Allentown"
-msgstr ""
+msgstr "Allentown"
 
 #: my-evolution/Locations.h:62
-#, fuzzy
 msgid "Alliance"
-msgstr "Adicionar..."
+msgstr "Alliance"
 
 #: my-evolution/Locations.h:63
-#, fuzzy
 msgid "Alma"
-msgstr "Alarmes"
+msgstr "Alma"
 
 #: my-evolution/Locations.h:64
-#, fuzzy
 msgid "Almeria"
-msgstr "_Correio"
+msgstr "Almeria"
 
 #: my-evolution/Locations.h:65
-#, fuzzy
 msgid "Alpena"
-msgstr "_Abrir"
+msgstr "Alpena"
 
 #: my-evolution/Locations.h:66
 msgid "Al Qaysumah"
-msgstr ""
+msgstr "Al Qaysumah"
 
 #: my-evolution/Locations.h:67
-#, fuzzy
 msgid "Alta"
-msgstr "_Correio"
+msgstr "Alta"
 
 #: my-evolution/Locations.h:68
 msgid "Altamira"
-msgstr ""
+msgstr "Altamira"
 
 #: my-evolution/Locations.h:69
-#, fuzzy
 msgid "Alton"
-msgstr "_Acções"
+msgstr "Alton"
 
 #: my-evolution/Locations.h:70
 msgid "Altoona"
-msgstr ""
+msgstr "Altoona"
 
 #: my-evolution/Locations.h:71
-#, fuzzy
 msgid "Alturas"
-msgstr "Outro"
+msgstr "Alturas"
 
 #: my-evolution/Locations.h:72
-#, fuzzy
 msgid "Altus"
-msgstr "Outro"
+msgstr "Altus"
 
 #: my-evolution/Locations.h:73
 msgid "Amami Airport"
-msgstr ""
+msgstr "Aeroporto Amami"
 
 #: my-evolution/Locations.h:74
 msgid "Amapala"
-msgstr ""
+msgstr "Amapala"
 
 #: my-evolution/Locations.h:75
-#, fuzzy
 msgid "Amarillo"
-msgstr "Correio electrónico 2"
+msgstr "Amarillo"
 
 #: my-evolution/Locations.h:76
 msgid "Amasya"
-msgstr ""
+msgstr "Amasya"
 
 #: my-evolution/Locations.h:77
 msgid "Ambler"
-msgstr ""
+msgstr "Ambler"
 
 #: my-evolution/Locations.h:78
-#, fuzzy
 msgid "Amelia"
-msgstr "F_ormato"
+msgstr "Amelia"
 
 #: my-evolution/Locations.h:79
 msgid "Amendola"
-msgstr ""
+msgstr "Amendola"
 
 #: my-evolution/Locations.h:80
-#, fuzzy
 msgid "Ames"
-msgstr "_Pasta"
+msgstr "Ames"
 
 #: my-evolution/Locations.h:81
 msgid "Amritsar"
-msgstr ""
+msgstr "Amritsar"
 
 #: my-evolution/Locations.h:82
 msgid "Amsterdam"
-msgstr ""
+msgstr "Amsterdão"
 
 #: my-evolution/Locations.h:83
 msgid "Anadyr"
-msgstr ""
+msgstr "Anadyr"
 
 #: my-evolution/Locations.h:84
 msgid "Anaktuvuk"
-msgstr ""
+msgstr "Anaktuvuk"
 
 #: my-evolution/Locations.h:85
 msgid "Anapa"
-msgstr ""
+msgstr "Anapa"
 
 #: my-evolution/Locations.h:86
 msgid "Anchorage"
-msgstr ""
+msgstr "Anchorage"
 
 #: my-evolution/Locations.h:87
 msgid "Anchorage - Elmendorf AFB"
-msgstr ""
+msgstr "Anchorage - Elmendorf AFB"
 
 #: my-evolution/Locations.h:88
-#, fuzzy
 msgid "Ancona"
-msgstr "Ícone_s pequenos"
+msgstr "Ancona"
 
 #: my-evolution/Locations.h:89
 msgid "Andahuayla"
-msgstr ""
+msgstr "Andahuayla"
 
 #: my-evolution/Locations.h:90
 msgid "Anderson"
-msgstr ""
+msgstr "Anderson"
 
 #: my-evolution/Locations.h:91
-#, fuzzy
 msgid "Andoya"
-msgstr "Anular"
+msgstr "Andoya"
 
 #: my-evolution/Locations.h:92
 msgid "Andravida"
-msgstr ""
+msgstr "Andravida"
 
 #: my-evolution/Locations.h:93
 msgid "Andrews AFB"
-msgstr ""
+msgstr "Andrews AFB"
 
 #: my-evolution/Locations.h:94
 msgid "Angleton"
-msgstr ""
+msgstr "Angleton"
 
 #: my-evolution/Locations.h:95
 msgid "Aniak"
-msgstr ""
+msgstr "Aniak"
 
 #: my-evolution/Locations.h:96
 msgid "Ankara/Esenboga"
-msgstr ""
+msgstr "Ankara/Esenboga"
 
 #: my-evolution/Locations.h:97
 msgid "Ankara/Etimesgut"
-msgstr ""
+msgstr "Ankara/Etimesgut"
 
 #: my-evolution/Locations.h:98
 msgid "Annaba"
-msgstr ""
+msgstr "Annaba"
 
 #: my-evolution/Locations.h:99
 msgid "Ann Arbor"
-msgstr ""
+msgstr "Porto Ann"
 
 #: my-evolution/Locations.h:100
 msgid "Annette"
-msgstr ""
+msgstr "Annette"
 
 #: my-evolution/Locations.h:101
 msgid "Anniston"
-msgstr ""
+msgstr "Anniston"
 
 #: my-evolution/Locations.h:102
-#, fuzzy
 msgid "Antalya"
-msgstr "Hoje"
+msgstr "Antalya"
 
 #: my-evolution/Locations.h:103
 msgid "Antartica"
-msgstr ""
+msgstr "Antártica"
 
 #: my-evolution/Locations.h:104
-#, fuzzy
 msgid "Antigo"
-msgstr "_Acções"
+msgstr "Antigo"
 
 #: my-evolution/Locations.h:105
-#, fuzzy
 msgid "Antigua"
-msgstr "Organização"
+msgstr "Antigua"
 
 #: my-evolution/Locations.h:106
 msgid "Antigua and Barbuda"
-msgstr ""
+msgstr "Antigua and Barbuda"
 
 #: my-evolution/Locations.h:107
 msgid "Antofagasta"
-msgstr ""
+msgstr "Antofagasta"
 
 #: my-evolution/Locations.h:108
 msgid "Antwerpen/Deurne"
-msgstr ""
+msgstr "Antuérpia/Deurne"
 
 #: my-evolution/Locations.h:109
 msgid "Aomori Airport"
-msgstr ""
+msgstr "Aeroporto Aomori"
 
 #: my-evolution/Locations.h:110
 msgid "Apalachicola"
-msgstr ""
+msgstr "Apalachicola"
 
 #: my-evolution/Locations.h:111
 msgid "Appleton"
-msgstr ""
+msgstr "Appleton"
 
 #: my-evolution/Locations.h:112
 msgid "Aquadilla"
-msgstr ""
+msgstr "Aquadilla"
 
 #: my-evolution/Locations.h:113
-#, fuzzy
 msgid "Aracaju"
-msgstr "Ano"
+msgstr "Aracaju"
 
 #: my-evolution/Locations.h:114
 msgid "Arad"
-msgstr ""
+msgstr "Arad"
 
 #: my-evolution/Locations.h:115
-#, fuzzy
 msgid "Arar"
-msgstr "Alarmes"
+msgstr "Arar"
 
 #: my-evolution/Locations.h:116
 msgid "Araxos"
-msgstr ""
+msgstr "Araxos"
 
 #: my-evolution/Locations.h:117
 msgid "Arcata"
-msgstr ""
+msgstr "Arcata"
 
 #: my-evolution/Locations.h:118
 msgid "Ardmore"
-msgstr ""
+msgstr "Ardmore"
 
 #: my-evolution/Locations.h:119
 msgid "Arequipa"
-msgstr ""
+msgstr "Arequipa"
 
 #: my-evolution/Locations.h:121
-#, fuzzy
 msgid "Arica"
-msgstr "_Correio"
+msgstr "Arica"
 
 #: my-evolution/Locations.h:122
-#, fuzzy
 msgid "Arizona"
-msgstr "Organização"
+msgstr "Arizona"
 
 #: my-evolution/Locations.h:123
 msgid "Arkansas"
-msgstr ""
+msgstr "Arkansas"
 
 #: my-evolution/Locations.h:124
 msgid "Arkhangelsk"
-msgstr ""
+msgstr "Arkhangelsk"
 
 #: my-evolution/Locations.h:125
-#, fuzzy
 msgid "Arlington"
-msgstr "Organização"
+msgstr "Arlington"
 
 #: my-evolution/Locations.h:126
-#, fuzzy
 msgid "Artigas"
-msgstr "Organização"
+msgstr "Artigas"
 
 #: my-evolution/Locations.h:127
 msgid "Asahikawa Ab"
-msgstr ""
+msgstr "Asahikawa Ab"
 
 #: my-evolution/Locations.h:128
 msgid "Asahikawa Airport"
-msgstr ""
+msgstr "Aeroporto Asahikawa"
 
 #: my-evolution/Locations.h:129
 msgid "Ashburnam"
-msgstr ""
+msgstr "Ashburnam"
 
 #: my-evolution/Locations.h:130
 msgid "Asheville"
-msgstr ""
+msgstr "Asheville"
 
 #: my-evolution/Locations.h:131
 msgid "Ashfield"
-msgstr ""
+msgstr "Ashfield"
 
 #: my-evolution/Locations.h:132
 msgid "Ashiya Ab"
-msgstr ""
+msgstr "Ashiya Ab"
 
 #: my-evolution/Locations.h:133
-#, fuzzy
 msgid "Ashland"
-msgstr "Encontrar"
+msgstr "Ashland"
 
 #: my-evolution/Locations.h:134
 msgid "Asia"
-msgstr ""
+msgstr "Ásia"
 
 #: my-evolution/Locations.h:135
-#, fuzzy
 msgid "Aspen"
-msgstr "_Abrir"
+msgstr "Aspen"
 
 #: my-evolution/Locations.h:136
 msgid "Asswan"
-msgstr ""
+msgstr "Asswan"
 
 #: my-evolution/Locations.h:137
 msgid "Astoria"
-msgstr ""
+msgstr "Astória"
 
 #: my-evolution/Locations.h:138
 msgid "Astrakhan"
-msgstr ""
+msgstr "Astrakhan"
 
 #: my-evolution/Locations.h:139
-#, fuzzy
 msgid "Asturias"
-msgstr "Outro"
+msgstr "Astúrias"
 
 #: my-evolution/Locations.h:140
-#, fuzzy
 msgid "Asuncion"
-msgstr "_Acções"
+msgstr "Asuncion"
 
 #: my-evolution/Locations.h:141
-#, fuzzy
 msgid "Athens"
-msgstr "Anexo"
+msgstr "Atenas"
 
 #: my-evolution/Locations.h:142
-#, fuzzy
 msgid "Athinai"
-msgstr "Carro"
+msgstr "Athinai"
 
 #: my-evolution/Locations.h:143
-#, fuzzy
 msgid "Atlanta"
-msgstr "Anexar"
+msgstr "Atlanta"
 
 #: my-evolution/Locations.h:144
 msgid "Atlantic"
-msgstr ""
+msgstr "Atlântico"
 
 #: my-evolution/Locations.h:145
 msgid "Atlantic City"
-msgstr ""
+msgstr "Atlantic City"
 
 #: my-evolution/Locations.h:146
 msgid "Atsugi US NAS"
-msgstr ""
+msgstr "Atsugi US NAS"
 
 #: my-evolution/Locations.h:147
 msgid "Auburn"
-msgstr ""
+msgstr "Auburn"
 
 #: my-evolution/Locations.h:148
 msgid "Auckland"
-msgstr ""
+msgstr "Auckland"
 
 #: my-evolution/Locations.h:149
 msgid "Augsburg"
-msgstr ""
+msgstr "Augsburg"
 
 #: my-evolution/Locations.h:150
 msgid "Augusta"
-msgstr ""
+msgstr "Augusta"
 
 #: my-evolution/Locations.h:151
 msgid "Aurora"
-msgstr ""
+msgstr "Aurora"
 
 #: my-evolution/Locations.h:152
-#, fuzzy
 msgid "Austin"
-msgstr "Nenhuma descrição"
+msgstr "Austin"
 
 #: my-evolution/Locations.h:153
 msgid "Australasia"
-msgstr ""
+msgstr "Australásia"
 
 #: my-evolution/Locations.h:156
 msgid "Avalon"
-msgstr ""
+msgstr "Avalon"
 
 #: my-evolution/Locations.h:157
 msgid "Aviano"
-msgstr ""
+msgstr "Aviano"
 
 #: my-evolution/Locations.h:158
 msgid "Ayacucho"
-msgstr ""
+msgstr "Ayacucho"
 
 #: my-evolution/Locations.h:159
-#, fuzzy
 msgid "Bage"
-msgstr "Colar"
+msgstr "Bage"
 
 #: my-evolution/Locations.h:160
 msgid "Bagotville"
-msgstr ""
+msgstr "Bagotville"
 
 #: my-evolution/Locations.h:162
 msgid "Bahia Blanca"
-msgstr ""
+msgstr "Bahia Blanca"
 
 #: my-evolution/Locations.h:163
 msgid "Bahias de Huatulco"
-msgstr ""
+msgstr "Bahias de Huatulco"
 
 #: my-evolution/Locations.h:165
 msgid "Baker City"
-msgstr ""
+msgstr "Baker City"
 
 #: my-evolution/Locations.h:166
 msgid "Bakersfield"
-msgstr ""
+msgstr "Bakersfield"
 
 #: my-evolution/Locations.h:167
 msgid "Bale-Mulhouse"
-msgstr ""
+msgstr "Bale-Mulhouse"
 
 #: my-evolution/Locations.h:168
 msgid "Balikesir"
-msgstr ""
+msgstr "Balikesir"
 
 #: my-evolution/Locations.h:169
 msgid "Balikesir/Bandirma"
-msgstr ""
+msgstr "Balikesir/Bandirma"
 
 #: my-evolution/Locations.h:170
-#, fuzzy
 msgid "Ball Mountain"
-msgstr "Ícone_s pequenos"
+msgstr "Montanha Ball"
 
 #: my-evolution/Locations.h:171
 msgid "Baltimore"
-msgstr ""
+msgstr "Baltimore"
 
 #: my-evolution/Locations.h:172
 msgid "Baltimore-Glen Burnie"
-msgstr ""
+msgstr "Baltimore-Glen Burnie"
 
 #: my-evolution/Locations.h:173
 msgid "Banak"
-msgstr ""
+msgstr "Banak"
 
 #: my-evolution/Locations.h:174
 msgid "Bandarabbass"
-msgstr ""
+msgstr "Bandarabbass"
 
 #: my-evolution/Locations.h:175
-#, fuzzy
 msgid "Bangor"
-msgstr "Bip"
+msgstr "Bangor"
 
 #: my-evolution/Locations.h:176
 msgid "Baracoa"
-msgstr ""
+msgstr "Baracoa"
 
 #: my-evolution/Locations.h:177
 msgid "Barbers Point"
-msgstr ""
+msgstr "Barbers Point"
 
 #: my-evolution/Locations.h:178
 msgid "Barcelona"
-msgstr ""
+msgstr "Barcelona"
 
 #: my-evolution/Locations.h:179
-#, fuzzy
 msgid "Bardufoss"
-msgstr "Ano"
+msgstr "Bardufoss"
 
 #: my-evolution/Locations.h:180
 msgid "Bar Harbor"
-msgstr ""
+msgstr "Porto Bar"
 
 #: my-evolution/Locations.h:181
-#, fuzzy
 msgid "Bari"
-msgstr "Colar"
+msgstr "Bari"
 
 #: my-evolution/Locations.h:182
 msgid "Bariloche"
-msgstr ""
+msgstr "Bariloche"
 
 #: my-evolution/Locations.h:183
-#, fuzzy
 msgid "Barinas"
-msgstr "Ícones _grandes"
+msgstr "Barinas"
 
 #: my-evolution/Locations.h:184
 msgid "Barking Sand"
-msgstr ""
+msgstr "Barking Sand"
 
 #: my-evolution/Locations.h:185
-#, fuzzy
 msgid "Barksdale"
-msgstr "Colar"
+msgstr "Barksdale"
 
 #: my-evolution/Locations.h:186
-#, fuzzy
 msgid "Barnaul"
-msgstr "_Correio"
+msgstr "Barnaul"
 
 #: my-evolution/Locations.h:187
 msgid "Barquisimeto"
-msgstr ""
+msgstr "Barquisimeto"
 
 #: my-evolution/Locations.h:188
 msgid "Barranquilla/Ernestocortissoz"
-msgstr ""
+msgstr "Barranquilla/Ernestocortissoz"
 
 #: my-evolution/Locations.h:189
 msgid "Barrow"
-msgstr ""
+msgstr "Barrow"
 
 #: my-evolution/Locations.h:190
 msgid "Barter Island"
-msgstr ""
+msgstr "Ilha Barter"
 
 #: my-evolution/Locations.h:191
 msgid "Bartlesville"
-msgstr ""
+msgstr "Bartlesville"
 
 #: my-evolution/Locations.h:192
 msgid "Bartow"
-msgstr ""
+msgstr "Bartow"
 
 #: my-evolution/Locations.h:193
-#, fuzzy
 msgid "Bastia"
-msgstr "Colar"
+msgstr "Bastilha"
 
 #: my-evolution/Locations.h:194
 msgid "Batesville"
-msgstr ""
+msgstr "Batesville"
 
 #: my-evolution/Locations.h:195
 msgid "Batman"
-msgstr ""
+msgstr "Batman"
 
 #: my-evolution/Locations.h:196
 msgid "Baton Rouge"
-msgstr ""
+msgstr "Baton Rouge"
 
 #: my-evolution/Locations.h:197
 msgid "Battle Creek"
-msgstr ""
+msgstr "Battle Creek"
 
 #: my-evolution/Locations.h:198
-#, fuzzy
 msgid "Battle Mountain"
-msgstr "Ícone_s pequenos"
+msgstr "Montanhas Battle"
 
 #: my-evolution/Locations.h:199
-#, fuzzy
 msgid "Bauru"
-msgstr "Ano"
+msgstr "Bauru"
 
 #: my-evolution/Locations.h:200
 msgid "Bayamo"
-msgstr ""
+msgstr "Bayamo"
 
 #: my-evolution/Locations.h:201
 msgid "Bayreuth"
-msgstr ""
+msgstr "Bayreuth"
 
 #: my-evolution/Locations.h:202
-#, fuzzy
 msgid "Beatrice"
-msgstr "Colar"
+msgstr "Beatrice"
 
 #: my-evolution/Locations.h:203
 msgid "Beaufort"
-msgstr ""
+msgstr "Beaufort"
 
 #: my-evolution/Locations.h:204
-#, fuzzy
 msgid "Beaumont"
-msgstr "Mês"
+msgstr "Beaumont"
 
 #: my-evolution/Locations.h:205
 msgid "Beaumont-Port Arthur"
-msgstr ""
+msgstr "Beaumont-Port Arthur"
 
 #: my-evolution/Locations.h:206
 msgid "Beauvais-Tille"
-msgstr ""
+msgstr "Beauvais-Tille"
 
 #: my-evolution/Locations.h:207
-#, fuzzy
 msgid "Beauvechain"
-msgstr "Ano"
+msgstr "Beauvechain"
 
 #: my-evolution/Locations.h:208
-#, fuzzy
 msgid "Beckley"
-msgstr "Tamanho"
+msgstr "Beckley"
 
 #: my-evolution/Locations.h:209
-#, fuzzy
 msgid "Bedford"
-msgstr "Hora"
+msgstr "Bedford"
 
 #: my-evolution/Locations.h:210
-#, fuzzy
 msgid "Beijing"
-msgstr "Enviar"
+msgstr "Beijing"
 
 #: my-evolution/Locations.h:211
-#, fuzzy
 msgid "Beirut"
-msgstr "Ano"
+msgstr "Beirute"
 
 #: my-evolution/Locations.h:212
 msgid "Beja"
-msgstr ""
+msgstr "Beja"
 
 #: my-evolution/Locations.h:213
-#, fuzzy
 msgid "Belem"
-msgstr "Tamanho"
+msgstr "Belém"
 
 #: my-evolution/Locations.h:214
 msgid "Belfast/Aldergrove"
-msgstr ""
+msgstr "Belfast/Aldergrove"
 
 #: my-evolution/Locations.h:215
 msgid "Belfast/Harbour"
-msgstr ""
+msgstr "Belfast/Harbour"
 
 #: my-evolution/Locations.h:217
 msgid "Belgorod"
-msgstr ""
+msgstr "Belgorod"
 
 #: my-evolution/Locations.h:219
-#, fuzzy
 msgid "Belleville"
-msgstr "Tamanho"
+msgstr "Belleville"
 
 #: my-evolution/Locations.h:220
 msgid "Bellingham"
-msgstr ""
+msgstr "Bellingham"
 
 #: my-evolution/Locations.h:221
 msgid "Belmar-Farmingdale"
-msgstr ""
+msgstr "Belmar-Farmingdale"
 
 #: my-evolution/Locations.h:222
-#, fuzzy
 msgid "Belo Horizonte"
-msgstr "Tamanho"
+msgstr "Belo Horizonte"
 
 #: my-evolution/Locations.h:223
 msgid "Belo Horizonte Apt"
-msgstr ""
+msgstr "Belo Horizonte Apt"
 
 #: my-evolution/Locations.h:224
 msgid "Bemidji"
-msgstr ""
+msgstr "Bemidji"
 
 #: my-evolution/Locations.h:225
 msgid "Benbecula"
-msgstr ""
+msgstr "Benbecula"
 
 #: my-evolution/Locations.h:226
-#, fuzzy
 msgid "Benina"
-msgstr "Enviar"
+msgstr "Benina"
 
 #: my-evolution/Locations.h:227
 msgid "Benton Harbor"
-msgstr ""
+msgstr "Porto Benton"
 
 #: my-evolution/Locations.h:228
 msgid "Bentonville"
-msgstr ""
+msgstr "Bentonville"
 
 #: my-evolution/Locations.h:229
-#, fuzzy
 msgid "Beograd"
-msgstr "Remover"
+msgstr "Beograd"
 
 #: my-evolution/Locations.h:230
 msgid "Bergamo"
-msgstr ""
+msgstr "Bergamo"
 
 #: my-evolution/Locations.h:231
-#, fuzzy
 msgid "Bergen"
-msgstr "Enviar"
+msgstr "Bergen"
 
 #: my-evolution/Locations.h:232
 msgid "Bergstrom AFB"
-msgstr ""
+msgstr "Bergstrom AFB"
 
 #: my-evolution/Locations.h:233
 msgid "Berlevag"
-msgstr ""
+msgstr "Berlevag"
 
 #: my-evolution/Locations.h:234
-#, fuzzy
 msgid "Berlin"
-msgstr "Enviar"
+msgstr "Berlim"
 
 #: my-evolution/Locations.h:235
 msgid "Berlin-Tegel"
-msgstr ""
+msgstr "Berlim-Tegel"
 
 #: my-evolution/Locations.h:236
 msgid "Berlin-Tempelhof"
-msgstr ""
+msgstr "Berlim-Tempelhof"
 
 #: my-evolution/Locations.h:237
-#, fuzzy
 msgid "Bern"
-msgstr "Enviar"
+msgstr "Berna"
 
 #: my-evolution/Locations.h:238
-#, fuzzy
 msgid "Bethel"
-msgstr "Outro"
+msgstr "Bethel"
 
 #: my-evolution/Locations.h:239
 msgid "Bethlehem Airport"
-msgstr ""
+msgstr "Aeroporto Belém"
 
 #: my-evolution/Locations.h:240
-#, fuzzy
 msgid "Bettles"
-msgstr "Tamanho"
+msgstr "Bettles"
 
 #: my-evolution/Locations.h:241
-#, fuzzy
 msgid "Beverly"
-msgstr "Remover"
+msgstr "Beverly"
 
 #: my-evolution/Locations.h:242
 msgid "Biarritz-Bayonne"
-msgstr ""
+msgstr "Biarritz-Bayonne"
 
 #: my-evolution/Locations.h:243
 msgid "Bicycle Lake"
-msgstr ""
+msgstr "Bicycle Lake"
 
 #: my-evolution/Locations.h:244
 msgid "Biggin Hill"
-msgstr ""
+msgstr "Biggin Hill"
 
 #: my-evolution/Locations.h:245
-#, fuzzy
 msgid "Big Piney"
-msgstr "Imprimir"
+msgstr "Big Piney"
 
 #: my-evolution/Locations.h:246
 msgid "Big River Lake"
-msgstr ""
+msgstr "Big River Lake"
 
 #: my-evolution/Locations.h:247
 msgid "Bilbao"
-msgstr ""
+msgstr "Bilbao"
 
 #: my-evolution/Locations.h:248
 msgid "Billings"
-msgstr ""
+msgstr "Billings"
 
 #: my-evolution/Locations.h:249
 msgid "Billund"
-msgstr ""
+msgstr "Billund"
 
 #: my-evolution/Locations.h:250
 msgid "Binghamton"
-msgstr ""
+msgstr "Binghamton"
 
 #: my-evolution/Locations.h:251
 msgid "Birmingham"
-msgstr ""
+msgstr "Birmingham"
 
 #: my-evolution/Locations.h:252
 msgid "Bisha"
-msgstr ""
+msgstr "Bisha"
 
 #: my-evolution/Locations.h:253
 msgid "Bishop"
-msgstr ""
+msgstr "Bishop"
 
 #: my-evolution/Locations.h:254
 msgid "Bismark"
-msgstr ""
+msgstr "Bismark"
 
 #: my-evolution/Locations.h:255
 msgid "Blackpool"
-msgstr ""
+msgstr "Blackpool"
 
 #: my-evolution/Locations.h:256
 msgid "Blagoveschensk"
-msgstr ""
+msgstr "Blagoveschensk"
 
 #: my-evolution/Locations.h:257
-#, fuzzy
 msgid "Blanding"
-msgstr "Seg"
+msgstr "Blanding"
 
 #: my-evolution/Locations.h:258
 msgid "Block Island"
-msgstr ""
+msgstr "Ilha Block"
 
 #: my-evolution/Locations.h:259
 msgid "Bloemfontein J. B. M. Hertzog "
-msgstr ""
+msgstr "Bloemfontein J. B. M. Hertzog"
 
 #: my-evolution/Locations.h:260
 msgid "Bloomington"
-msgstr ""
+msgstr "Bloomington"
 
 #: my-evolution/Locations.h:261
 msgid "Blue Canyon"
-msgstr ""
+msgstr "Blue Canyon"
 
 #: my-evolution/Locations.h:262
 msgid "Bluefield"
-msgstr ""
+msgstr "Bluefield"
 
 #: my-evolution/Locations.h:263
 msgid "Bluefields"
-msgstr ""
+msgstr "Bluefields"
 
 #: my-evolution/Locations.h:264
 msgid "Blythe"
-msgstr ""
+msgstr "Blythe"
 
 #: my-evolution/Locations.h:265
 msgid "Boa Vista"
-msgstr ""
+msgstr "Boa Vista"
 
 #: my-evolution/Locations.h:266
 msgid "Bocas del Toro"
-msgstr ""
+msgstr "Bocas del Toro"
 
 #: my-evolution/Locations.h:267
-#, fuzzy
 msgid "Bodo"
-msgstr "Hoje"
+msgstr "Bodo"
 
 #: my-evolution/Locations.h:268
 msgid "Bogota/Eldorado"
-msgstr ""
+msgstr "Bogota/Eldorado"
 
 #: my-evolution/Locations.h:269
-#, fuzzy
 msgid "Boise"
-msgstr "Colar"
+msgstr "Boise"
 
 #: my-evolution/Locations.h:271
 msgid "Bologna"
-msgstr ""
+msgstr "Bolonha"
 
 #: my-evolution/Locations.h:272
-#, fuzzy
 msgid "Bolzano"
-msgstr "Encontrar"
+msgstr "Bolzano"
 
 #: my-evolution/Locations.h:273
 msgid "Bombay/Santacruz"
-msgstr ""
+msgstr "Bombaim/Santacruz"
 
 #: my-evolution/Locations.h:274
-#, fuzzy
 msgid "Boone"
-msgstr "Nenhuma"
+msgstr "Boone"
 
 #: my-evolution/Locations.h:275
 msgid "Bordeaux"
-msgstr ""
+msgstr "Bordeaux"
 
 #: my-evolution/Locations.h:276
-#, fuzzy
 msgid "Borger"
-msgstr "Bip"
+msgstr "Borger"
 
 #: my-evolution/Locations.h:277
 msgid "Bornholm"
-msgstr ""
+msgstr "Bornholm"
 
 #: my-evolution/Locations.h:278
 msgid "Boscombe Down"
-msgstr ""
+msgstr "Boscombe Down"
 
 #: my-evolution/Locations.h:279
 msgid "Bosnia-Herzegovina"
-msgstr ""
+msgstr "Bósnia-Herzegovina"
 
 #: my-evolution/Locations.h:280
-#, fuzzy
 msgid "Boston"
-msgstr "Horas"
+msgstr "Boston"
 
 #: my-evolution/Locations.h:281
-#, fuzzy
 msgid "Boulmer"
-msgstr "_Pastas"
+msgstr "Boulmer"
 
 #: my-evolution/Locations.h:282
-#, fuzzy
 msgid "Bourges"
-msgstr "Fontes"
+msgstr "Bourges"
 
 #: my-evolution/Locations.h:283
 msgid "Bournemouth"
-msgstr ""
+msgstr "Bournemouth"
 
 #: my-evolution/Locations.h:284
 msgid "Bowling Green"
-msgstr ""
+msgstr "Bowling Green"
 
 #: my-evolution/Locations.h:285
 msgid "Bozeman"
-msgstr ""
+msgstr "Bozeman"
 
 #: my-evolution/Locations.h:286
 msgid "Bradford"
-msgstr ""
+msgstr "Bradford"
 
 #: my-evolution/Locations.h:287
 msgid "Bradshaw Field"
-msgstr ""
+msgstr "Bradshaw Field"
 
 #: my-evolution/Locations.h:288
 msgid "Brainerd"
-msgstr ""
+msgstr "Brainerd"
 
 #: my-evolution/Locations.h:289
-#, fuzzy
 msgid "Brasilia"
-msgstr "_Correio"
+msgstr "Brasília"
 
 #: my-evolution/Locations.h:290
 msgid "Brasschaat"
-msgstr ""
+msgstr "Brasschaat"
 
 #: my-evolution/Locations.h:291
-#, fuzzy
 msgid "Bratislava"
-msgstr "_Correio"
+msgstr "Bratislava"
 
 #: my-evolution/Locations.h:292
-#, fuzzy
 msgid "Bratsk"
-msgstr "Data"
+msgstr "Bratsk"
 
 #: my-evolution/Locations.h:293
 msgid "Braunschweig"
-msgstr ""
+msgstr "Braunschweig"
 
 #: my-evolution/Locations.h:295
-#, fuzzy
 msgid "Bremen"
-msgstr "Enviar"
+msgstr "Bremen"
 
 #: my-evolution/Locations.h:296
 msgid "Bremerton"
-msgstr ""
+msgstr "Bremerton"
 
 #: my-evolution/Locations.h:297
-#, fuzzy
 msgid "Brest"
-msgstr "Qa"
+msgstr "Brest"
 
 #: my-evolution/Locations.h:298
 msgid "Bridgeport"
-msgstr ""
+msgstr "Bridgeport"
 
 #: my-evolution/Locations.h:299
 msgid "Brindisi"
-msgstr ""
+msgstr "Brindisi"
 
 #: my-evolution/Locations.h:300
 msgid "Brisbane"
-msgstr ""
+msgstr "Brisbane"
 
 #: my-evolution/Locations.h:301
-#, fuzzy
 msgid "Bristol"
-msgstr "_Correio"
+msgstr "Bristol"
 
 #: my-evolution/Locations.h:302
 msgid "British Columbia"
-msgstr ""
+msgstr "British Columbia"
 
 #: my-evolution/Locations.h:303
 msgid "Brno"
-msgstr ""
+msgstr "Brno"
 
 #: my-evolution/Locations.h:304
-#, fuzzy
 msgid "Broadus"
-msgstr "Ocupado"
+msgstr "Broadus"
 
 #: my-evolution/Locations.h:305
 msgid "Broken Bow"
-msgstr ""
+msgstr "Broken Bow"
 
 #: my-evolution/Locations.h:306
 msgid "Bronnoysund"
-msgstr ""
+msgstr "Bronnoysund"
 
 #: my-evolution/Locations.h:307
-#, fuzzy
 msgid "Brookings"
-msgstr "Seg"
+msgstr "Brookings"
 
 #: my-evolution/Locations.h:308
 msgid "Brooksville"
-msgstr ""
+msgstr "Brooksville"
 
 #: my-evolution/Locations.h:309
-#, fuzzy
 msgid "Broome"
-msgstr "De"
+msgstr "Broome"
 
 #: my-evolution/Locations.h:310
 msgid "Brownsville"
-msgstr ""
+msgstr "Brownsville"
 
 #: my-evolution/Locations.h:311
 msgid "Brunswick"
-msgstr ""
+msgstr "Brunswick"
 
 #: my-evolution/Locations.h:312
 msgid "Brussels-National Airport"
-msgstr ""
+msgstr "Aeroporto Nacional Bruxelas"
 
 #: my-evolution/Locations.h:313
 msgid "Bryansk"
-msgstr ""
+msgstr "Bryansk"
 
 #: my-evolution/Locations.h:314
-#, fuzzy
 msgid "Bryce Canyon"
-msgstr "Empresa"
+msgstr "Bryce Canyon"
 
 #: my-evolution/Locations.h:315
 msgid "Bucaramanga/Palonegro"
-msgstr ""
+msgstr "Bucaramanga/Palonegro"
 
 #: my-evolution/Locations.h:316
 msgid "Bucuresti"
-msgstr ""
+msgstr "Bucareste"
 
 #: my-evolution/Locations.h:317
 msgid "Bucuresti-Otopeni"
-msgstr ""
+msgstr "Bucareste-Otopeni"
 
 #: my-evolution/Locations.h:318
 msgid "Budapest"
-msgstr ""
+msgstr "Budapeste"
 
 #: my-evolution/Locations.h:319
 msgid "Buffalo"
-msgstr ""
+msgstr "Buffalo"
 
 #: my-evolution/Locations.h:321
 msgid "Bullfrog"
-msgstr ""
+msgstr "Bullfrog"
 
 #: my-evolution/Locations.h:322
 msgid "Burbank"
-msgstr ""
+msgstr "Burbank"
 
 #: my-evolution/Locations.h:323
-#, fuzzy
 msgid "Burgas"
-msgstr "Ocupado"
+msgstr "Burgas"
 
 #: my-evolution/Locations.h:324
-#, fuzzy
 msgid "Burley"
-msgstr "Ter"
+msgstr "Burley"
 
 #: my-evolution/Locations.h:325
 msgid "Burlington"
-msgstr ""
+msgstr "Burlington"
 
 #: my-evolution/Locations.h:326
-#, fuzzy
 msgid "Burnet"
-msgstr "Pró_ximo"
+msgstr "Burnet"
 
 #: my-evolution/Locations.h:327
-#, fuzzy
 msgid "Burns"
-msgstr "Ocupado"
+msgstr "Burns"
 
 #: my-evolution/Locations.h:328
-#, fuzzy
 msgid "Bursa"
-msgstr "Ocupado"
+msgstr "Bursa"
 
 #: my-evolution/Locations.h:329
 msgid "Burwell"
-msgstr ""
+msgstr "Burwell"
 
 #: my-evolution/Locations.h:330
 msgid "Butte"
-msgstr ""
+msgstr "Butte"
 
 #: my-evolution/Locations.h:331
 msgid "Caen-Carpiquet"
-msgstr ""
+msgstr "Caen-Carpiquet"
 
 #: my-evolution/Locations.h:332
-#, fuzzy
 msgid "Cagliari"
-msgstr "Novo Ca_lendário"
+msgstr "Cagliari"
 
 #: my-evolution/Locations.h:333
-#, fuzzy
 msgid "Cairns"
-msgstr "Carro"
+msgstr "Cairns"
 
 #: my-evolution/Locations.h:334
-#, fuzzy
 msgid "Cairo"
-msgstr "Carro"
+msgstr "Cairo"
 
 #: my-evolution/Locations.h:335
 msgid "Calabozo"
-msgstr ""
+msgstr "Calabozo"
 
 #: my-evolution/Locations.h:336
 msgid "Calcutta/Dum Dum"
-msgstr ""
+msgstr "Calcutta/Dum Dum"
 
 #: my-evolution/Locations.h:337
 msgid "Caldwell"
-msgstr ""
+msgstr "Caldwell"
 
 #: my-evolution/Locations.h:338
-#, fuzzy
 msgid "Calgary"
-msgstr "Carro"
+msgstr "Calgary"
 
 #: my-evolution/Locations.h:339
 msgid "Cali/Alfonso Bonillaaragon"
-msgstr ""
+msgstr "Cali/Alfonso Bonillaaragon"
 
 #: my-evolution/Locations.h:340
-#, fuzzy
 msgid "Caliente"
-msgstr "Novo Ca_lendário"
+msgstr "Caliente"
 
 #: my-evolution/Locations.h:341
-#, fuzzy
 msgid "California"
-msgstr "_Contacto"
+msgstr "Califórnia"
 
 #: my-evolution/Locations.h:342
 msgid "Calvi-Ste-Catherine"
-msgstr ""
+msgstr "Calvi-Ste-Catherine"
 
 #: my-evolution/Locations.h:343
 msgid "Camaguey"
-msgstr ""
+msgstr "Camaguey"
 
 #: my-evolution/Locations.h:344
 msgid "Camarillo"
-msgstr ""
+msgstr "Camarillo"
 
 #: my-evolution/Locations.h:345
 msgid "Cambridge"
-msgstr ""
+msgstr "Cambridge"
 
 #: my-evolution/Locations.h:346
-#, fuzzy
 msgid "Cameron"
-msgstr "Carro"
+msgstr "Camarões"
 
 #: my-evolution/Locations.h:347
-#, fuzzy
 msgid "Camiri"
-msgstr "Carro"
+msgstr "Camiri"
 
 #: my-evolution/Locations.h:348
-#, fuzzy
 msgid "Campeche"
-msgstr "Cores"
+msgstr "Campeche"
 
 #: my-evolution/Locations.h:349
-#, fuzzy
 msgid "Campinas"
-msgstr "Carro"
+msgstr "Campinas"
 
 #: my-evolution/Locations.h:350
-#, fuzzy
 msgid "Campo"
-msgstr "Copiar"
+msgstr "Campo"
 
 #: my-evolution/Locations.h:351
 msgid "Campo Grande"
-msgstr ""
+msgstr "Campo Grande"
 
 #: my-evolution/Locations.h:352
 msgid "Camp Stanley/H-207"
-msgstr ""
+msgstr "Camp Stanley/H-207"
 
 #: my-evolution/Locations.h:353
-#, fuzzy
 msgid "Canaan"
-msgstr "Novo Ca_lendário"
+msgstr "Canaan"
 
 #: my-evolution/Locations.h:355
 msgid "Canarias/Fuerteventura"
-msgstr ""
+msgstr "Canárias/Fuerteventura"
 
 #: my-evolution/Locations.h:356
 msgid "Canarias/Gran Canaria"
-msgstr ""
+msgstr "Canárias/Gran Canaria"
 
 #: my-evolution/Locations.h:357
 msgid "Canarias/Hierro"
-msgstr ""
+msgstr "Canárias/Hierro"
 
 #: my-evolution/Locations.h:358
 msgid "Canarias/Lanzarote"
-msgstr ""
+msgstr "Canárias/Lanzarote"
 
 #: my-evolution/Locations.h:359
 msgid "Canarias/La Palma"
-msgstr ""
+msgstr "Canárias/La Palma"
 
 #: my-evolution/Locations.h:360
 msgid "Canarias/Tenerife Norte"
-msgstr ""
+msgstr "Canárias/Tenerife Norte"
 
 #: my-evolution/Locations.h:361
 msgid "Canarias/Tenerife Sur"
-msgstr ""
+msgstr "Canárias/Tenerife Sul"
 
 #: my-evolution/Locations.h:362
 msgid "Canberra"
-msgstr ""
+msgstr "Canberra"
 
 #: my-evolution/Locations.h:363
 msgid "Cancun"
-msgstr ""
+msgstr "Cancun"
 
 #: my-evolution/Locations.h:364
 msgid "Cannes-Mandelieu"
-msgstr ""
+msgstr "Cannes-Mandelieu"
 
 #: my-evolution/Locations.h:365
-#, fuzzy
 msgid "Cantwell"
-msgstr "Novo Ca_lendário"
+msgstr "Cantwell"
 
 #: my-evolution/Locations.h:366
 msgid "Cape Girardeau"
-msgstr ""
+msgstr "Cabo Girardeau"
 
 #: my-evolution/Locations.h:367
 msgid "Cape Hatteras"
-msgstr ""
+msgstr "Cabo Hatteras"
 
 #: my-evolution/Locations.h:368
-#, fuzzy
 msgid "Cape Lisburne"
-msgstr "Fontes de correio"
+msgstr "Cabo Lisburne"
 
 #: my-evolution/Locations.h:369
 msgid "Cape Newenham"
-msgstr ""
+msgstr "Cabo Newenham"
 
 #: my-evolution/Locations.h:370
 msgid "Cape Romanzoff"
-msgstr ""
+msgstr "Cabo Romanzoff"
 
 #: my-evolution/Locations.h:371
 msgid "Cape Town D. F. Malan "
-msgstr ""
+msgstr "Cape Town D. F. Malan"
 
 #: my-evolution/Locations.h:372
 msgid "Capitan Corbeta"
-msgstr ""
+msgstr "Capitan Corbeta"
 
 #: my-evolution/Locations.h:373
 msgid "Capo Mele"
-msgstr ""
+msgstr "Capo Mele"
 
 #: my-evolution/Locations.h:374
 msgid "Caracas La Carlota"
-msgstr ""
+msgstr "Caracas La Carlota"
 
 #: my-evolution/Locations.h:375
 msgid "Caracas Maiquetia"
-msgstr ""
+msgstr "Caracas Maiquetia"
 
 #: my-evolution/Locations.h:376
 msgid "Caravelas"
-msgstr ""
+msgstr "Caravelas"
 
 #: my-evolution/Locations.h:377
-#, fuzzy
 msgid "Carbondale"
-msgstr "Novo Ca_lendário"
+msgstr "Carbondale"
 
 #: my-evolution/Locations.h:378
-#, fuzzy
 msgid "Cardiff"
-msgstr "Carro"
+msgstr "Cardiff"
 
 #: my-evolution/Locations.h:379
-#, fuzzy
 msgid "Caribou"
-msgstr "Carro"
+msgstr "Caribou"
 
 #: my-evolution/Locations.h:380
-#, fuzzy
 msgid "Carlisle"
-msgstr "_Pasta"
+msgstr "Carlisle"
 
 #: my-evolution/Locations.h:381
 msgid "Carlsbad"
-msgstr ""
+msgstr "Carlsbad"
 
 #: my-evolution/Locations.h:382
-#, fuzzy
 msgid "Carroll"
-msgstr "Carro"
+msgstr "Carroll"
 
 #: my-evolution/Locations.h:383
 msgid "Cartagena/Rafael Nunez"
-msgstr ""
+msgstr "Cartagena/Rafael Nunez"
 
 #: my-evolution/Locations.h:384
 msgid "Casa Granda"
-msgstr ""
+msgstr "Casa Granda"
 
 #: my-evolution/Locations.h:385
-#, fuzzy
 msgid "Cascade"
-msgstr "Novo Ca_lendário"
+msgstr "Cascade"
 
 #: my-evolution/Locations.h:386
-#, fuzzy
 msgid "Casper"
-msgstr "Bip"
+msgstr "Casper"
 
 #: my-evolution/Locations.h:387
 msgid "Catacamas"
-msgstr ""
+msgstr "Catacamas"
 
 #: my-evolution/Locations.h:388
-#, fuzzy
 msgid "Catania"
-msgstr "Novo Ca_lendário"
+msgstr "Catania"
 
 #: my-evolution/Locations.h:390
 msgid "Cayo Largo del Sur"
-msgstr ""
+msgstr "Cayo Largo del Sur"
 
 #: my-evolution/Locations.h:391
 msgid "Cazaux"
-msgstr ""
+msgstr "Cazaux"
 
 #: my-evolution/Locations.h:392
 msgid "Cecil NAS"
-msgstr ""
+msgstr "Cecil NAS"
 
 #: my-evolution/Locations.h:393
-#, fuzzy
 msgid "Cedar City"
-msgstr "Carro"
+msgstr "Cedar City"
 
 #: my-evolution/Locations.h:394
 msgid "Cedar Rapids"
-msgstr ""
+msgstr "Cedar Rapids"
 
 #: my-evolution/Locations.h:395
 msgid "Central and South America"
-msgstr ""
+msgstr "América Central e do Sul"
 
 #: my-evolution/Locations.h:396
-#, fuzzy
 msgid "Cervia"
-msgstr "_Correio"
+msgstr "Cervia"
 
 #: my-evolution/Locations.h:397
 msgid "Chacarita"
-msgstr ""
+msgstr "Chacarita"
 
 #: my-evolution/Locations.h:398
-#, fuzzy
 msgid "Chadron"
-msgstr "Carro"
+msgstr "Chadron"
 
 #: my-evolution/Locations.h:399
-#, fuzzy
 msgid "Challis"
-msgstr "Carro"
+msgstr "Challis"
 
 #: my-evolution/Locations.h:400
 msgid "Chamberlain"
-msgstr ""
+msgstr "Chamberlain"
 
 #: my-evolution/Locations.h:401
-#, fuzzy
 msgid "Chambery"
-msgstr "Carro"
+msgstr "Chambery"
 
 #: my-evolution/Locations.h:402
-#, fuzzy
 msgid "Champaign"
-msgstr "Empresa"
+msgstr "Champaign"
 
 #: my-evolution/Locations.h:403
-#, fuzzy
 msgid "Chandalar Lake"
-msgstr "Novo Ca_lendário"
+msgstr "Chandalar Lake"
 
 #: my-evolution/Locations.h:404
-#, fuzzy
 msgid "Chandler"
-msgstr "Carro"
+msgstr "Chandler"
 
 #: my-evolution/Locations.h:405
-#, fuzzy
 msgid "Chania"
-msgstr "Carro"
+msgstr "Chania"
 
 #: my-evolution/Locations.h:406
-#, fuzzy
 msgid "Chanute"
-msgstr "Minuto"
+msgstr "Chanute"
 
 #: my-evolution/Locations.h:407
-#, fuzzy
 msgid "Chariton"
-msgstr "Carro"
+msgstr "Chariton"
 
 #: my-evolution/Locations.h:408
 msgid "Charleroi-Brussels South"
-msgstr ""
+msgstr "Charleroi-Brussels South"
 
 #: my-evolution/Locations.h:409
 msgid "Charles City"
-msgstr ""
+msgstr "Charles City"
 
 #: my-evolution/Locations.h:410
 msgid "Charleston"
-msgstr ""
+msgstr "Charleston"
 
 #: my-evolution/Locations.h:411
-#, fuzzy
 msgid "Charlotte"
-msgstr "Segunda-feira"
+msgstr "Charlotte"
 
 #: my-evolution/Locations.h:412
 msgid "Charlottesville"
-msgstr ""
+msgstr "Charlottesville"
 
 #: my-evolution/Locations.h:413
 msgid "Chatham"
-msgstr ""
+msgstr "Chatham"
 
 #: my-evolution/Locations.h:414
 msgid "Chattanooga"
-msgstr ""
+msgstr "Chattanooga"
 
 #: my-evolution/Locations.h:415
 msgid "Cheboksary"
-msgstr ""
+msgstr "Cheboksary"
 
 #: my-evolution/Locations.h:416
-#, fuzzy
 msgid "Cheju"
-msgstr "_Pasta"
+msgstr "Cheju"
 
 #: my-evolution/Locations.h:417
 msgid "Chelyabinsk"
-msgstr ""
+msgstr "Chelyabinsk"
 
 #: my-evolution/Locations.h:418
 msgid "Chengdu"
-msgstr ""
+msgstr "Chengdu"
 
 #: my-evolution/Locations.h:419
-#, fuzzy
 msgid "Cherbourg"
-msgstr "Hora"
+msgstr "Cherbourg"
 
 #: my-evolution/Locations.h:420
-#, fuzzy
 msgid "Cherry Point"
-msgstr "_Novo Contacto"
+msgstr "Cherry Point"
 
 #: my-evolution/Locations.h:421
 msgid "Chetumal"
-msgstr ""
+msgstr "Chetumal"
 
 #: my-evolution/Locations.h:422
 msgid "Cheyenne"
-msgstr ""
+msgstr "Cheyenne"
 
 #: my-evolution/Locations.h:423
 msgid "Chiang Kai Shek"
-msgstr ""
+msgstr "Chiang Kai Shek"
 
 #: my-evolution/Locations.h:424
 msgid "Chia Tung"
-msgstr ""
+msgstr "Chia Tung"
 
 #: my-evolution/Locations.h:425
-#, fuzzy
 msgid "Chiayi"
-msgstr "Carro"
+msgstr "Chiayi"
 
 #: my-evolution/Locations.h:426
 msgid "Chicago-DuPage"
-msgstr ""
+msgstr "Chicago-DuPage"
 
 #: my-evolution/Locations.h:427
 msgid "Chicago-Lakefront"
-msgstr ""
+msgstr "Chicago-Lakefront"
 
 #: my-evolution/Locations.h:428
 msgid "Chicago-Midway"
-msgstr ""
+msgstr "Chicago-Midway"
 
 #: my-evolution/Locations.h:429
 msgid "Chicago-O'Hare"
-msgstr ""
+msgstr "Chicago-O'Hare"
 
 #: my-evolution/Locations.h:430
 msgid "Chichijima"
-msgstr ""
+msgstr "Chichijima"
 
 #: my-evolution/Locations.h:431
-#, fuzzy
 msgid "Chiclayo"
-msgstr "_Pasta"
+msgstr "Chiclayo"
 
 #: my-evolution/Locations.h:432
-#, fuzzy
 msgid "Chico"
-msgstr "Carro"
+msgstr "Chico"
 
 #: my-evolution/Locations.h:433
 msgid "Chicopee Falls"
-msgstr ""
+msgstr "Chicopee Falls"
 
 #: my-evolution/Locations.h:434
-#, fuzzy
 msgid "Chievres"
-msgstr "_Pasta"
+msgstr "Chievres"
 
 #: my-evolution/Locations.h:435
-#, fuzzy
 msgid "Chihhang"
-msgstr "Carro"
+msgstr "Chihhang"
 
 #: my-evolution/Locations.h:436
 msgid "Chihuahua"
-msgstr ""
+msgstr "Chihuahua"
 
 #: my-evolution/Locations.h:437
-#, fuzzy
 msgid "Childress"
-msgstr "_Pasta"
+msgstr "Childress"
 
 #: my-evolution/Locations.h:439
-#, fuzzy
 msgid "China Lake"
-msgstr "Carro"
+msgstr "China Lake"
 
 #: my-evolution/Locations.h:440
-#, fuzzy
 msgid "Chinandega"
-msgstr "Carro"
+msgstr "Chinandega"
 
 #: my-evolution/Locations.h:441
 msgid "Chinmem/Shatou"
-msgstr ""
+msgstr "Chinmem/Shatou"
 
 #: my-evolution/Locations.h:442
-#, fuzzy
 msgid "Chino"
-msgstr "Carro"
+msgstr "Chino"
 
 #: my-evolution/Locations.h:443
 msgid "Chippewa County"
-msgstr ""
+msgstr "Chippewa County"
 
 #: my-evolution/Locations.h:444
-#, fuzzy
 msgid "Chita"
-msgstr "Carro"
+msgstr "Chita"
 
 #: my-evolution/Locations.h:445
 msgid "Chitose Ab"
-msgstr ""
+msgstr "Chitose Ab"
 
 #: my-evolution/Locations.h:446
 msgid "Chitose ASDF"
-msgstr ""
+msgstr "Chitose ASDF"
 
 #: my-evolution/Locations.h:447
 msgid "Chofu Airport"
-msgstr ""
+msgstr "Aeroporto Chofu"
 
 #: my-evolution/Locations.h:448
 msgid "Choluteca"
-msgstr ""
+msgstr "Choluteca"
 
 #: my-evolution/Locations.h:449
 msgid "Chongju Ab"
-msgstr ""
+msgstr "Chongju Ab"
 
 #: my-evolution/Locations.h:450
 msgid "Christchurch"
-msgstr ""
+msgstr "Christchurch"
 
 #: my-evolution/Locations.h:452
-#, fuzzy
 msgid "Chulitna"
-msgstr "Carro"
+msgstr "Chulitna"
 
 #: my-evolution/Locations.h:453
 msgid "Churchill"
-msgstr ""
+msgstr "Churchill"
 
 #: my-evolution/Locations.h:454
 msgid "Churchill Falls"
-msgstr ""
+msgstr "Churchill Falls"
 
 #: my-evolution/Locations.h:455
 msgid "Cincinnati"
-msgstr ""
+msgstr "Cincinnati"
 
 #: my-evolution/Locations.h:456
 msgid "Circle City"
-msgstr ""
+msgstr "Circle City"
 
 #: my-evolution/Locations.h:457
 msgid "Ciudad Bolivar"
-msgstr ""
+msgstr "Ciudad Bolivar"
 
 #: my-evolution/Locations.h:458
 msgid "Ciudad del Carmen"
-msgstr ""
+msgstr "Ciudad del Carmen"
 
 #: my-evolution/Locations.h:459
 msgid "Ciudad Juarez"
-msgstr ""
+msgstr "Ciudad Juarez"
 
 #: my-evolution/Locations.h:460
 msgid "Ciudad Obregon"
-msgstr ""
+msgstr "Ciudad Obregon"
 
 #: my-evolution/Locations.h:461
 msgid "Ciudad Victoria"
-msgstr ""
+msgstr "Ciudad Victoria"
 
 #: my-evolution/Locations.h:462
-#, fuzzy
 msgid "Clarinda"
-msgstr "Novo Ca_lendário"
+msgstr "Clarinda"
 
 #: my-evolution/Locations.h:463
-#, fuzzy
 msgid "Clarion"
-msgstr "Carro"
+msgstr "Clarion"
 
 #: my-evolution/Locations.h:464
 msgid "Clarksburg"
-msgstr ""
+msgstr "Clarksburg"
 
 #: my-evolution/Locations.h:465
 msgid "Clayton"
-msgstr ""
+msgstr "Clayton"
 
 #: my-evolution/Locations.h:466
 msgid "Clayton Lake"
-msgstr ""
+msgstr "Clayton Lake"
 
 #: my-evolution/Locations.h:467
 msgid "Clermont-Ferrand"
-msgstr ""
+msgstr "Clermont-Ferrand"
 
 #: my-evolution/Locations.h:468
-#, fuzzy
 msgid "Cleveland"
-msgstr "Encontrar"
+msgstr "Cleveland"
 
 #: my-evolution/Locations.h:469
 msgid "Cleveland/Cuyahoga"
-msgstr ""
+msgstr "Cleveland/Cuyahoga"
 
 #: my-evolution/Locations.h:470
 msgid "Cleveland-Lakefront"
-msgstr ""
+msgstr "Cleveland-Lakefront"
 
 #: my-evolution/Locations.h:471
 msgid "Clinton"
-msgstr ""
+msgstr "Clinton"
 
 #: my-evolution/Locations.h:472
 msgid "Clovis-Cannon AFB"
-msgstr ""
+msgstr "Clovis-Cannon AFB"
 
 #: my-evolution/Locations.h:473
 msgid "Cobija"
-msgstr ""
+msgstr "Cobija"
 
 #: my-evolution/Locations.h:474
 msgid "Cochabamba"
-msgstr ""
+msgstr "Cochabamba"
 
 #: my-evolution/Locations.h:475
 msgid "Cocoa Beach"
-msgstr ""
+msgstr "Cocoa Beach"
 
 #: my-evolution/Locations.h:476
 msgid "Cocos Island"
-msgstr ""
+msgstr "Ilha Cocos"
 
 #: my-evolution/Locations.h:477
-#, fuzzy
 msgid "Cody"
-msgstr "Hoje"
+msgstr "Cody"
 
 #: my-evolution/Locations.h:478
 msgid "Coeur d'Alene"
-msgstr ""
+msgstr "Coeur d'Alene"
 
 #: my-evolution/Locations.h:479
-#, fuzzy
 msgid "Cold Bay"
-msgstr "_Pasta"
+msgstr "Cold Bay"
 
 #: my-evolution/Locations.h:480
-#, fuzzy
 msgid "Colima"
-msgstr "Empresa"
+msgstr "Colima"
 
 #: my-evolution/Locations.h:481
-#, fuzzy
 msgid "College Station"
-msgstr "_Acções"
+msgstr "College Station"
 
 #: my-evolution/Locations.h:482
 msgid "Colmar-Meyenheim"
-msgstr ""
+msgstr "Colmar-Meyenheim"
 
 #: my-evolution/Locations.h:484
-#, fuzzy
 msgid "Colonia"
-msgstr "_Contacto"
+msgstr "Colónia"
 
 #: my-evolution/Locations.h:485
-#, fuzzy
 msgid "Colorado"
-msgstr "Cores"
+msgstr "Colorado"
 
 #: my-evolution/Locations.h:486
 msgid "Colorado Springs"
-msgstr ""
+msgstr "Colorado Springs"
 
 #: my-evolution/Locations.h:487
 msgid "Columbia"
-msgstr ""
+msgstr "Colúmbia"
 
 #: my-evolution/Locations.h:488
 msgid "Columbia-McEntire"
-msgstr ""
+msgstr "Colúmbia-McEntire"
 
 #: my-evolution/Locations.h:489
 msgid "Columbus"
-msgstr ""
+msgstr "Columbus"
 
 #: my-evolution/Locations.h:490
 msgid "Columbus-Fort Benning"
-msgstr ""
+msgstr "Columbus-Fort Benning"
 
 #: my-evolution/Locations.h:491
 msgid "Columbus-Gahanna"
-msgstr ""
+msgstr "Columbus-Gahanna"
 
 #: my-evolution/Locations.h:492
 msgid "Columbus-OSU"
-msgstr ""
+msgstr "Columbus-OSU"
 
 #: my-evolution/Locations.h:493
 msgid "Columbus-W Point-Starkville"
-msgstr ""
+msgstr "Columbus-W Point-Starkville"
 
 #: my-evolution/Locations.h:494
-#, fuzzy
 msgid "Colville"
-msgstr "_Pasta"
+msgstr "Colville"
 
 #: my-evolution/Locations.h:495
 msgid "Comodoro Rivadavia"
-msgstr ""
+msgstr "Comodoro Rivadavia"
 
 #: my-evolution/Locations.h:496
-#, fuzzy
 msgid "Comox"
-msgstr "Correio novo"
+msgstr "Comox"
 
 #: my-evolution/Locations.h:497
 msgid "Conceicao Do Araguaia"
-msgstr ""
+msgstr "Conceicao Do Araguaia"
 
 #: my-evolution/Locations.h:498
-#, fuzzy
 msgid "Concepcion"
-msgstr "_Acções"
+msgstr "Concepcion"
 
 #: my-evolution/Locations.h:499
-#, fuzzy
 msgid "Concord"
-msgstr "Copiar"
+msgstr "Concord"
 
 #: my-evolution/Locations.h:500
 msgid "Concordia"
-msgstr ""
+msgstr "Concórdia"
 
 #: my-evolution/Locations.h:501
 msgid "Connaught"
@@ -28464,26 +28257,24 @@ msgid "Toggles whether the Reply-To field is displayed"
 msgstr ""
 
 #: ui/evolution-message-composer.xml.h:36
-#, fuzzy
 msgid "_Attachment..."
-msgstr "Adicionar anexo..."
+msgstr "_Anexo..."
 
 #: ui/evolution-message-composer.xml.h:37
 msgid "_Bcc Field"
-msgstr ""
+msgstr "Campo _Bcc"
 
 #: ui/evolution-message-composer.xml.h:38
 msgid "_Cc Field"
-msgstr ""
+msgstr "Campo _Cc"
 
 #: ui/evolution-message-composer.xml.h:40
-#, fuzzy
 msgid "_Delete all"
-msgstr "Apagar"
+msgstr "_Apagar tudo"
 
 #: ui/evolution-message-composer.xml.h:43
 msgid "_From Field"
-msgstr ""
+msgstr "Campo _De"
 
 #: ui/evolution-message-composer.xml.h:44
 #: ui/evolution-signature-editor.xml.h:14
@@ -28491,480 +28282,409 @@ msgid "_Insert"
 msgstr "_Inserir"
 
 #: ui/evolution-message-composer.xml.h:45
-#, fuzzy
 msgid "_Open..."
-msgstr "_Abrir"
+msgstr "_Abrir..."
 
 #: ui/evolution-message-composer.xml.h:46
-#, fuzzy
 msgid "_Reply-To Field"
-msgstr "Responder"
+msgstr "Campo _Responder-A"
 
 #: ui/evolution-message-composer.xml.h:48
 msgid "_Security"
-msgstr ""
+msgstr "_Segurança"
 
 #: ui/evolution-signature-editor.xml.h:4
 msgid "H_TML"
-msgstr ""
+msgstr "H_TML"
 
 #: ui/evolution-signature-editor.xml.h:8
-#, fuzzy
 msgid "Save the current file and close the window"
-msgstr "Ficheiro com assinatura:"
+msgstr "Gravar o ficheiro actual e fechar a janela"
 
 #: ui/evolution-signature-editor.xml.h:13 ui/evolution.xml.h:54
-#, fuzzy
 msgid "_Help"
-msgstr "Casa"
+msgstr "_Ajuda"
 
 #: ui/evolution-signature-editor.xml.h:16
-#, fuzzy
 msgid "_Signature editor"
-msgstr "Ficheiro com assinatura:"
+msgstr "Editor a_ssinaturas"
 
 #: ui/evolution-subscribe.xml.h:1
 msgid "Add folder to your list of subscribed folders"
-msgstr ""
+msgstr "Adicionar pasta à sua lista de pastas subscritas"
 
 #: ui/evolution-subscribe.xml.h:2
-#, fuzzy
 msgid "F_older"
-msgstr "_Pastas"
+msgstr "P_asta"
 
 #: ui/evolution-subscribe.xml.h:4
 msgid "Refresh List of Folders"
-msgstr ""
+msgstr "Actualizar Lista de Pastas"
 
 #: ui/evolution-subscribe.xml.h:5
 msgid "Remove folder from your list of subscribed folders"
-msgstr ""
+msgstr "Remover pasta da sua lista de pastas subscritas"
 
 #: ui/evolution-subscribe.xml.h:7
-#, fuzzy
 msgid "Subscribe"
-msgstr "Fontes"
+msgstr "Subscrever"
 
 #: ui/evolution-subscribe.xml.h:8
 msgid "Unsubscribe"
-msgstr ""
+msgstr "Dessubscrever"
 
 #: ui/evolution-task-editor.xml.h:1
 msgid "Assign Task"
-msgstr ""
+msgstr "Atribuir Tarefa"
 
 #: ui/evolution-task-editor.xml.h:2
 msgid "Assign this task to others"
-msgstr ""
+msgstr "Atribuir esta tarefa a outros"
 
 #: ui/evolution-task-editor.xml.h:3
 msgid "Cancel Task"
-msgstr ""
+msgstr "Cancelar Tarefa"
 
 #: ui/evolution-task-editor.xml.h:4
-#, fuzzy
 msgid "Cancel this task"
-msgstr "Apagar este item"
+msgstr "Cancelar esta tarefa"
 
 #: ui/evolution-task-editor.xml.h:7
 msgid "Obtain the latest task information"
-msgstr ""
+msgstr "Obter a mais recente informação de tarefa"
 
 #: ui/evolution-task-editor.xml.h:8
 msgid "Re_fresh Task"
-msgstr ""
+msgstr "Actuali_zar Tarefa"
 
 #: ui/evolution-tasks.xml.h:3
-#, fuzzy
 msgid "Copy selected task"
-msgstr "Copiar item seleccionada para a área de transferência"
+msgstr "Copiar tarefa seleccionada"
 
 #: ui/evolution-tasks.xml.h:5
-#, fuzzy
 msgid "Cut selected task"
-msgstr "Apagar este item"
+msgstr "Cortar tarefa seleccionada"
 
 #: ui/evolution-tasks.xml.h:6
-#, fuzzy
 msgid "Delete completed tasks"
-msgstr "Apagar este item"
+msgstr "Apagar tarefas terminadas"
 
 #: ui/evolution-tasks.xml.h:7
-#, fuzzy
 msgid "Delete selected tasks"
-msgstr "Apagar este item"
+msgstr "Apagar tarefa seleccionada"
 
 #: ui/evolution-tasks.xml.h:8
-#, fuzzy
 msgid "Mar_k as Complete"
-msgstr "Cores"
+msgstr "Marcar como _Terminado"
 
 #: ui/evolution-tasks.xml.h:10
-#, fuzzy
 msgid "Paste task from the clipboard"
-msgstr "Colar item da área de transferência"
+msgstr "Colar tarefa da área de transferência"
 
 #: ui/evolution-tasks.xml.h:11
-#, fuzzy
 msgid "Previews the list of tasks to be printed"
-msgstr "Enviar a mensagem"
+msgstr "Antever a lista de tarefas a ser impressa"
 
 #: ui/evolution-tasks.xml.h:13
-#, fuzzy
 msgid "Print the list of tasks"
-msgstr "Encontrar mensagens"
+msgstr "Imprimir a lista de tarefas"
 
 #: ui/evolution.xml.h:1
-#, fuzzy
 msgid "About Ximian Evolution..."
-msgstr "Evolution"
+msgstr "Sobe Ximian Evolution..."
 
 #: ui/evolution.xml.h:2
-#, fuzzy
 msgid "Add to _Shortcut Bar"
-msgstr "Mostrar a barra de atalhos"
+msgstr "Adicionar à _Barra Atalhos"
 
 #: ui/evolution.xml.h:3
-#, fuzzy
 msgid "Change Evolution's settings"
-msgstr "Evolution - %s"
+msgstr "Alterar configurações Evolution"
 
 #: ui/evolution.xml.h:4
 msgid "Change the name of this folder"
-msgstr ""
+msgstr "Alterar o nome desta pasta"
 
 #: ui/evolution.xml.h:7
-#, fuzzy
 msgid "Copy this folder"
-msgstr "Ir para a _pasta..."
+msgstr "Copiar esta pasta"
 
 #: ui/evolution.xml.h:8
-#, fuzzy
 msgid "Create _New Folder..."
-msgstr "Criar um novo calendário"
+msgstr "Criar _Nova Pasta..."
 
 #: ui/evolution.xml.h:9
-#, fuzzy
 msgid "Create a link to this folder in the shortcut bar"
-msgstr "Remover este atalho da barra de atalhos"
+msgstr "Criar um atalho para esta pasta na barra de atalhos"
 
 #: ui/evolution.xml.h:10
-#, fuzzy
 msgid "Create a new folder"
-msgstr "Criar um novo calendário"
+msgstr "Criar uma nova pasta"
 
 #: ui/evolution.xml.h:11
-#, fuzzy
 msgid "Create a new shortcut"
-msgstr "Criar um novo contacto"
+msgstr "Criar um novo atalho"
 
 #: ui/evolution.xml.h:12
-#, fuzzy
 msgid "Create a new window displaying this folder"
-msgstr "Criar um novo calendário"
+msgstr "Criar uma nova janela que mostre esta pasta"
 
 #: ui/evolution.xml.h:13
-#, fuzzy
 msgid "Delete this folder"
-msgstr "Apagar este item"
+msgstr "Apagar esta pasta"
 
 #: ui/evolution.xml.h:14
 msgid "Display a different folder"
 msgstr "Mostrar uma pasta diferente"
 
 #: ui/evolution.xml.h:15
-#, fuzzy
 msgid "E_xit"
-msgstr "Pró_ximo"
+msgstr "_Sair"
 
 #: ui/evolution.xml.h:16
-#, fuzzy
 msgid "Evolution _Window"
-msgstr "Evolution"
+msgstr "_Janela Evolution"
 
 #: ui/evolution.xml.h:17
 msgid "Exit the program"
-msgstr ""
+msgstr "Sair da aplicação"
 
 #: ui/evolution.xml.h:18
 msgid "Import data from other programs"
-msgstr ""
+msgstr "Importar dados de outras aplicações"
 
 #: ui/evolution.xml.h:20
-#, fuzzy
 msgid "Move this folder to another place"
-msgstr "Ir para a _pasta..."
+msgstr "Mover esta pasta para outro local"
 
 #: ui/evolution.xml.h:21
-#, fuzzy
 msgid "Open Other _User's Folder..."
-msgstr "Criar um novo calendário"
+msgstr "Abrir Pasta Outro _Utilizador..."
 
 #: ui/evolution.xml.h:22
 msgid "Open a folder belonging to some other user on the server"
-msgstr ""
+msgstr "Abrir uma pasta pertencente a outro utilizador neste servidor"
 
 #: ui/evolution.xml.h:23
-#, fuzzy
 msgid "Open in New Window"
-msgstr "Åbrir em nova janela"
+msgstr "Åbrir em Nova Janela"
 
 #: ui/evolution.xml.h:25
 msgid "Open this folder in an other window"
-msgstr ""
+msgstr "Abrir esta pasta noutra janela"
 
 #: ui/evolution.xml.h:26
-#, fuzzy
 msgid "Pi_lot Settings..."
-msgstr "Configuração do co_rreio..."
+msgstr "Configuração Pi_lot..."
 
 #: ui/evolution.xml.h:27
-#, fuzzy
 msgid "Pilot Con_duit Settings..."
-msgstr "Configuração do co_rreio..."
+msgstr "Configurações Con_duta Pilot..."
 
 #: ui/evolution.xml.h:28
 msgid "Remove a folder added with \"Open Other User's Folder\""
-msgstr ""
+msgstr "Remover uma pasta adicionada por \"Abrir Pasta Outro Utilizador\""
 
 #: ui/evolution.xml.h:29
-#, fuzzy
 msgid "Send / Receive"
-msgstr "Receber"
+msgstr "Enviar / Receber"
 
 #: ui/evolution.xml.h:30
 msgid "Send queued items and retrieve new items"
-msgstr ""
+msgstr "Enviar itens em fila e obter novos"
 
 #: ui/evolution.xml.h:31
 msgid "Set up Pilot conduit configuration"
-msgstr ""
+msgstr "Definir configuração conduta Pilot"
 
 #: ui/evolution.xml.h:32
-#, fuzzy
 msgid "Set up Pilot configuration"
-msgstr "Configuração do correio"
+msgstr "Definir configuração Pilot"
 
 #: ui/evolution.xml.h:33
 msgid "Show information about Ximian Evolution"
-msgstr ""
+msgstr "Mostrar informação sobre o Ximian Evolution"
 
 #: ui/evolution.xml.h:34
 msgid "Submit Bug Report"
-msgstr ""
+msgstr "Enviar Relatório Erro"
 
 #: ui/evolution.xml.h:35
 msgid "Submit _Bug Report"
-msgstr ""
+msgstr "Enviar Relatório _Erro"
 
 #: ui/evolution.xml.h:36
 msgid "Submit a bug report using Bug Buddy"
-msgstr ""
+msgstr "Enviar um relatório de erro (bug) utilizando o Bug Buddy"
 
 #: ui/evolution.xml.h:37
 msgid "Toggle"
-msgstr ""
+msgstr "Alternar"
 
 #: ui/evolution.xml.h:38
-#, fuzzy
 msgid "Toggle whether to show the folder bar"
-msgstr "Mostrar a barra de pastas"
+msgstr "Alternar se mostrar ou não barra de pastas"
 
 #: ui/evolution.xml.h:39
-#, fuzzy
 msgid "Toggle whether to show the shortcut bar"
-msgstr "Mostrar a barra de atalhos"
+msgstr "Alternar se mostrar ou não barra de atalhos"
 
 #: ui/evolution.xml.h:40
 msgid "Toggle whether we are working offline."
-msgstr ""
+msgstr "Alternar se estamos a trabalhar online ou não."
 
 #: ui/evolution.xml.h:41
-#, fuzzy
 msgid "View the selected folder"
-msgstr "Imprimir a mensagem seleccionada"
+msgstr "Ver a pasta seleccionada"
 
 #: ui/evolution.xml.h:43
-#, fuzzy
 msgid "Ximian Evolution _FAQ"
-msgstr "Evolution"
+msgstr "Perg Freq. _Ximian Evolution"
 
 #: ui/evolution.xml.h:44
-#, fuzzy
 msgid "_About Ximian Evolution..."
-msgstr "Evolution"
+msgstr "_Sobre o Ximian Evolution..."
 
 #: ui/evolution.xml.h:47
-#, fuzzy
 msgid "_Copy..."
-msgstr "Copiar"
+msgstr "_Copiar..."
 
 #: ui/evolution.xml.h:51
-#, fuzzy
 msgid "_Folder Bar"
-msgstr "_Pasta"
+msgstr "Barra _Pastas"
 
 #: ui/evolution.xml.h:52
-#, fuzzy
 msgid "_Folder..."
-msgstr "_Pasta"
+msgstr "_Pasta..."
 
 #: ui/evolution.xml.h:53
-#, fuzzy
 msgid "_Go to Folder..."
-msgstr "Ir para a _pasta..."
+msgstr "_Ir para Pasta..."
 
 #: ui/evolution.xml.h:55
-#, fuzzy
 msgid "_Import..."
-msgstr "Seg"
+msgstr "_Importar..."
 
 #: ui/evolution.xml.h:56
-#, fuzzy
 msgid "_Move..."
-msgstr "Sg"
+msgstr "_Mover..."
 
 #: ui/evolution.xml.h:57
 msgid "_New"
 msgstr "_Novo"
 
 #: ui/evolution.xml.h:58
-#, fuzzy
 msgid "_New Folder"
-msgstr "_Nova pasta"
+msgstr "_Nova Pasta"
 
 #: ui/evolution.xml.h:59
-#, fuzzy
 msgid "_Remove Other User's Folder"
-msgstr "Ir para a _pasta..."
+msgstr "_Remover Pasta Outro Utilizador"
 
 #: ui/evolution.xml.h:60
-#, fuzzy
 msgid "_Rename..."
-msgstr "_Abrir"
+msgstr "_Renomear..."
 
 #: ui/evolution.xml.h:61
-#, fuzzy
 msgid "_Send / Receive"
-msgstr "Receber"
+msgstr "_Enviar / Receber"
 
 #: ui/evolution.xml.h:63
-#, fuzzy
 msgid "_Shortcut Bar"
-msgstr "Mostrar a barra de atalhos"
+msgstr "Barra _Atalhos"
 
 #: ui/evolution.xml.h:64
-#, fuzzy
 msgid "_Shortcut..."
-msgstr "Mudar nome de atalho"
+msgstr "_Atalho..."
 
 #: ui/my-evolution.xml.h:3
-#, fuzzy
 msgid "Print summary"
-msgstr "Nenhum sumário"
+msgstr "Imprimir resumo"
 
 #: ui/my-evolution.xml.h:4
-#, fuzzy
 msgid "Reload"
-msgstr "Remover"
+msgstr "Actualizar"
 
 #: ui/my-evolution.xml.h:5
-#, fuzzy
 msgid "Reload the view"
-msgstr "Encontrar mensagens"
+msgstr "Actualizar a vista"
 
 #: views/addressbook/galview.xml.h:1
-#, fuzzy
 msgid "By _Company"
-msgstr "Empresa"
+msgstr "Por _Empresa"
 
 #: views/addressbook/galview.xml.h:2
-#, fuzzy
 msgid "_Address Cards"
-msgstr "Endereço"
+msgstr "Cartões _Visita"
 
 #: views/addressbook/galview.xml.h:3
-#, fuzzy
 msgid "_Phone List"
-msgstr "_Contacto"
+msgstr "Lista Tele_fónica"
 
 #: views/calendar/galview.xml.h:1
-#, fuzzy
 msgid "W_eek View"
-msgstr "Semana"
+msgstr "Vista S_emana"
 
 #: views/calendar/galview.xml.h:2
-#, fuzzy
 msgid "_Day View"
-msgstr "_Novo"
+msgstr "Vista _Dia"
 
 #: views/calendar/galview.xml.h:3
-#, fuzzy
 msgid "_Month View"
-msgstr "Mês"
+msgstr "Vista _Mês"
 
 #: views/calendar/galview.xml.h:4
-#, fuzzy
 msgid "_Work Week View"
-msgstr "Semana"
+msgstr "Vista Semana Trabal_ho"
 
 #: views/mail/galview.xml.h:1
-#, fuzzy
 msgid "As Sent Folder"
-msgstr "_Nova pasta"
+msgstr "Como Pasta Enviados"
 
 #: views/mail/galview.xml.h:2
 msgid "By Follow Up Flag"
-msgstr ""
+msgstr "Por Marca de Dar Seguimento"
 
 #: views/mail/galview.xml.h:3
-#, fuzzy
 msgid "By Sender"
-msgstr "Enviar"
+msgstr "Por Remetente"
 
 #: views/mail/galview.xml.h:4
-#, fuzzy
 msgid "By Status"
-msgstr "Sáb"
+msgstr "Por Estado"
 
 #: views/mail/galview.xml.h:5
-#, fuzzy
 msgid "By Subject"
-msgstr "Assunto"
+msgstr "Por Assunto"
 
 #: views/mail/galview.xml.h:6
-#, fuzzy
 msgid "Messages"
-msgstr "Mensagem de _correio"
+msgstr "Mensagens"
 
 #: views/tasks/galview.xml.h:1
-#, fuzzy
 msgid "With _Category"
-msgstr "Ícone_s pequenos"
+msgstr "Com _Categoria"
 
 #: views/tasks/galview.xml.h:2
-#, fuzzy
 msgid "_Tasks"
-msgstr "_Tarefa"
+msgstr "_Tarefas"
 
 #: widgets/e-timezone-dialog/e-timezone-dialog.c:199
 #: widgets/e-timezone-dialog/e-timezone-dialog.c:645
 msgid "UTC"
-msgstr ""
+msgstr "UTC"
 
 #: widgets/e-timezone-dialog/e-timezone-dialog.glade.h:1
-#, fuzzy
 msgid "Select a Time Zone"
-msgstr "_Items seleccionados"
+msgstr "Seleccione um Fuso Horário"
 
 #: widgets/e-timezone-dialog/e-timezone-dialog.glade.h:2
-#, fuzzy
 msgid "Selection:"
-msgstr "Segundos"
+msgstr "Selecção:"
 
 #: widgets/e-timezone-dialog/e-timezone-dialog.glade.h:3
 msgid "Time Zones"
-msgstr ""
+msgstr "Fusos Horários"
 
 #: widgets/e-timezone-dialog/e-timezone-dialog.glade.h:4
 msgid ""
@@ -28972,41 +28692,41 @@ msgid ""
 "zone.\n"
 " Use the right mouse button to zoom out."
 msgstr ""
+"Utilize o botão esquerdo do rato para ampliar a área do mapa e seleccionar um "
+"fuso horário.\n"
+"Utilize o botão direito do rato para afastar."
 
 #: widgets/menus/gal-view-menus.c:288
-#, fuzzy
 msgid "_Current View"
-msgstr "Ano corrente (%Y)"
+msgstr "Vista A_ctual"
 
 #. bonobo displays this string so it must be in locale
 #: widgets/menus/gal-view-menus.c:350
-#, fuzzy
 msgid "Custom View"
-msgstr "Ano corrente (%Y)"
+msgstr "Vista Customizada"
 
 #: widgets/menus/gal-view-menus.c:359
 msgid "Save Custom View"
-msgstr ""
+msgstr "Gravar Vista Customizada"
 
 #: widgets/menus/gal-view-menus.c:372
 msgid "Define Views"
-msgstr ""
+msgstr "Definir Vistas"
 
 #. Translators: These are the first characters of each day of the
 #. week, 'M' for 'Monday', 'T' for Tuesday etc.
 #: widgets/misc/e-calendar-item.c:434
 msgid "MTWTFSS"
-msgstr ""
+msgstr "STQQSSD"
 
 #. This is a strftime() format. %B = Month name, %Y = Year.
 #: widgets/misc/e-calendar-item.c:1107
 msgid "%B %Y"
-msgstr ""
+msgstr "%B %Y"
 
 #: widgets/misc/e-cell-date-edit.c:241 widgets/misc/e-dateedit.c:436
-#, fuzzy
 msgid "Now"
-msgstr "Novo"
+msgstr "Agora"
 
 #: widgets/misc/e-cell-date-edit.c:249 widgets/misc/e-dateedit.c:442
 msgid "Today"
@@ -29015,1557 +28735,163 @@ msgstr "Hoje"
 #: widgets/misc/e-cell-date-edit.c:805
 #, c-format
 msgid "The time must be in the format: %s"
-msgstr ""
+msgstr "A hora tem de ser no formato: %s"
 
 #: widgets/misc/e-cell-percent.c:77
 msgid "The percent value must be between 0 and 100, inclusive"
-msgstr ""
+msgstr "O valor de percentagem tem de ser entre 0 e 100, inclusivé"
 
 #: widgets/misc/e-charset-picker.c:61
 msgid "Baltic"
-msgstr ""
+msgstr "Báltico"
 
 #: widgets/misc/e-charset-picker.c:62
 msgid "Central European"
-msgstr ""
+msgstr "Europeu Central"
 
 #: widgets/misc/e-charset-picker.c:63
 msgid "Chinese"
-msgstr ""
+msgstr "Chinês"
 
 #: widgets/misc/e-charset-picker.c:64
 msgid "Cyrillic"
-msgstr ""
+msgstr "Cirílico"
 
 #: widgets/misc/e-charset-picker.c:65
-#, fuzzy
 msgid "Greek"
-msgstr "Semana"
+msgstr "Grego"
 
 #: widgets/misc/e-charset-picker.c:66
 msgid "Hebrew"
-msgstr ""
+msgstr "Hebreu"
 
 #: widgets/misc/e-charset-picker.c:67
 msgid "Japanese"
-msgstr ""
+msgstr "Japonês"
 
 #: widgets/misc/e-charset-picker.c:68
 msgid "Korean"
-msgstr ""
+msgstr "Coreano"
 
 #: widgets/misc/e-charset-picker.c:69
 msgid "Turkish"
-msgstr ""
+msgstr "Turco"
 
 #: widgets/misc/e-charset-picker.c:70
 msgid "Unicode"
-msgstr ""
+msgstr "Unicode"
 
 #: widgets/misc/e-charset-picker.c:71
 msgid "Western European"
-msgstr ""
+msgstr "Europeu Ocidental"
 
 #: widgets/misc/e-charset-picker.c:88
-#, fuzzy
 msgid "Traditional"
-msgstr "_Opções"
+msgstr "Tradicional"
 
 #: widgets/misc/e-charset-picker.c:89 widgets/misc/e-charset-picker.c:90
 msgid "Simplified"
-msgstr ""
+msgstr "Simplificado"
 
 #: widgets/misc/e-charset-picker.c:94
 msgid "Ukrainian"
-msgstr ""
+msgstr "Ucraniano"
 
 #: widgets/misc/e-charset-picker.c:97
-#, fuzzy
 msgid "Visual"
-msgstr "Alarmes"
+msgstr "Visual"
 
 #: widgets/misc/e-charset-picker.c:185
 #, c-format
 msgid "Unknown character set: %s"
-msgstr ""
+msgstr "Conjunto de caracteres desconhecido: %s"
 
 #: widgets/misc/e-charset-picker.c:228
 msgid "Enter the character set to use"
-msgstr ""
+msgstr "Introduza o conjunto de caracteres a utilizar"
 
 #: widgets/misc/e-charset-picker.c:303
-#, fuzzy
 msgid "Other..."
-msgstr "Outro"
+msgstr "Outro..."
 
 #: widgets/misc/e-charset-picker.c:423
 msgid "Character Encoding"
-msgstr ""
+msgstr "Codificação Caracteres"
 
 #: widgets/misc/e-clipped-label.c:111
 msgid "..."
 msgstr "..."
 
 #: widgets/misc/e-filter-bar.c:190
-#, fuzzy
 msgid "Search Editor"
-msgstr "_Contacto"
+msgstr "Editor Procura"
 
 #: widgets/misc/e-filter-bar.c:212
-#, fuzzy
 msgid "Save Search"
-msgstr "Ano"
+msgstr "Gravar Procura"
 
 #: widgets/misc/e-filter-bar.h:91 widgets/misc/e-filter-bar.h:98
-#, fuzzy
 msgid "_Save Search..."
-msgstr "Ano"
+msgstr "_Gravar Procura..."
 
 #: widgets/misc/e-filter-bar.h:92 widgets/misc/e-filter-bar.h:99
-#, fuzzy
 msgid "_Edit Saved Searches..."
-msgstr "Ano"
+msgstr "_Editar Procuras Gravadas..."
 
 #: widgets/misc/e-filter-bar.h:93 widgets/misc/e-filter-bar.h:100
-#, fuzzy
 msgid "_Advanced..."
-msgstr "Adicionar..."
+msgstr "_Avançado..."
 
 #: widgets/misc/e-messagebox.c:154
-#, fuzzy
 msgid "Information"
-msgstr "Nenhuma Informação"
+msgstr "Informação"
 
 #: widgets/misc/e-messagebox.c:168
 msgid "Error"
-msgstr ""
+msgstr "Erro"
 
 #: widgets/misc/e-messagebox.c:175
-#, fuzzy
 msgid "Question"
-msgstr "Nenhuma descrição"
+msgstr "Pergunta"
 
 #: widgets/misc/e-messagebox.c:182
-#, fuzzy
 msgid "Message"
-msgstr "Mensagem de _correio"
+msgstr "Mensagem"
 
 #: widgets/misc/e-search-bar.c:524
-#, fuzzy
 msgid "_Find Now"
-msgstr "Encontrar"
+msgstr "_Procurar Agora"
 
 #: widgets/misc/e-search-bar.c:525
-#, fuzzy
 msgid "_Clear"
-msgstr "Carro"
+msgstr "_Limpar"
 
 #: widgets/misc/e-search-bar.c:826
 msgid "Item ID"
-msgstr ""
+msgstr "ID Item"
 
 #: widgets/misc/e-search-bar.c:833
 msgid "Subitem ID"
-msgstr ""
+msgstr "ID Subitem"
 
 #: widgets/misc/e-search-bar.c:840
-#, fuzzy
 msgid "Text"
-msgstr "Pró_ximo"
+msgstr "Texto"
 
 #: widgets/misc/e-search-bar.c:918
-#, fuzzy
 msgid "Clear"
-msgstr "Carro"
+msgstr "Limpar"
 
 #: widgets/misc/e-search-bar.c:920
-#, fuzzy
 msgid "Find Now"
-msgstr "Encontrar"
+msgstr "Procurar Agora"
 
 #: wombat/GNOME_Evolution_WombatLDAP.server.in.in.h:1
 #: wombat/GNOME_Evolution_WombatNOLDAP.server.in.in.h:1
-#, fuzzy
 msgid "The Personal Addressbook Server"
-msgstr "Adicionar Fonte"
+msgstr "O Servidor de Livro de Endereços Pessoal"
 
 #: wombat/GNOME_Evolution_WombatLDAP.server.in.in.h:2
 #: wombat/GNOME_Evolution_WombatNOLDAP.server.in.in.h:2
 msgid "The Personal Calendar Server; calendar factory"
-msgstr ""
-
-#~ msgid "Card: "
-#~ msgstr "Cartão: "
-
-#~ msgid ""
-#~ "\n"
-#~ "Name: "
-#~ msgstr ""
-#~ "\n"
-#~ "Nome: "
-
-#~ msgid ""
-#~ "\n"
-#~ "  Prefix:     "
-#~ msgstr ""
-#~ "\n"
-#~ "  Prefixo:    "
-
-#~ msgid ""
-#~ "\n"
-#~ "  Given:      "
-#~ msgstr ""
-#~ "\n"
-#~ "  Próprio:    "
-
-#~ msgid ""
-#~ "\n"
-#~ "  Additional: "
-#~ msgstr ""
-#~ "\n"
-#~ "  Adicional:  "
-
-#~ msgid ""
-#~ "\n"
-#~ "  Family:     "
-#~ msgstr ""
-#~ "\n"
-#~ "  Sobrenome:  "
-
-#~ msgid ""
-#~ "\n"
-#~ "  Suffix:     "
-#~ msgstr ""
-#~ "\n"
-#~ "  Sufixo:     "
-
-#~ msgid ""
-#~ "\n"
-#~ "Birth Date: "
-#~ msgstr ""
-#~ "\n"
-#~ "Data Nascimento: "
-
-#~ msgid ""
-#~ "\n"
-#~ "  Postal Box:  "
-#~ msgstr ""
-#~ "\n"
-#~ "  Caixa Postal: "
-
-#~ msgid ""
-#~ "\n"
-#~ "  Ext:         "
-#~ msgstr ""
-#~ "\n"
-#~ "  Ext:         "
-
-#~ msgid ""
-#~ "\n"
-#~ "  Street:      "
-#~ msgstr ""
-#~ "\n"
-#~ "  Morada:      "
-
-#~ msgid ""
-#~ "\n"
-#~ "  City:        "
-#~ msgstr ""
-#~ "\n"
-#~ "  Cidade:      "
-
-#~ msgid ""
-#~ "\n"
-#~ "  Region:      "
-#~ msgstr ""
-#~ "\n"
-#~ "  Região:      "
-
-#~ msgid ""
-#~ "\n"
-#~ "  Postal Code: "
-#~ msgstr ""
-#~ "\n"
-#~ "  Código Postal: "
-
-#~ msgid ""
-#~ "\n"
-#~ "  Country:     "
-#~ msgstr ""
-#~ "\n"
-#~ "  País:        "
-
-#~ msgid ""
-#~ "\n"
-#~ "Delivery Label: "
-#~ msgstr ""
-#~ "\n"
-#~ "Morada Entrega: "
-
-#~ msgid ""
-#~ "\n"
-#~ "Telephones:\n"
-#~ msgstr ""
-#~ "\n"
-#~ "Telefones: \n"
-
-#~ msgid ""
-#~ "\n"
-#~ "Telephone:"
-#~ msgstr ""
-#~ "\n"
-#~ "Telefone:"
-
-#~ msgid ""
-#~ "\n"
-#~ "E-mail:\n"
-#~ msgstr ""
-#~ "\n"
-#~ "E-mail:\n"
-
-#~ msgid ""
-#~ "\n"
-#~ "E-mail:"
-#~ msgstr ""
-#~ "\n"
-#~ "E-mail:"
-
-#~ msgid ""
-#~ "\n"
-#~ "Time Zone: "
-#~ msgstr ""
-#~ "\n"
-#~ "Fuso Horário: "
-
-#~ msgid ""
-#~ "\n"
-#~ "Geo Location: "
-#~ msgstr ""
-#~ "\n"
-#~ "Localização Geográfica: "
-
-#~ msgid ""
-#~ "\n"
-#~ "Business Role: "
-#~ msgstr ""
-#~ "\n"
-#~ "Cargo:         "
-
-#~ msgid ""
-#~ "\n"
-#~ "Org: "
-#~ msgstr ""
-#~ "\n"
-#~ "Emp: "
-
-#~ msgid ""
-#~ "\n"
-#~ "  Name:  "
-#~ msgstr ""
-#~ "\n"
-#~ "  Nome:  "
-
-#~ msgid ""
-#~ "\n"
-#~ "  Unit:  "
-#~ msgstr ""
-#~ "\n"
-#~ "  Unidade: "
-
-#~ msgid ""
-#~ "\n"
-#~ "  Unit2: "
-#~ msgstr ""
-#~ "\n"
-#~ "  Unidade2: "
-
-#~ msgid ""
-#~ "\n"
-#~ "  Unit3: "
-#~ msgstr ""
-#~ "\n"
-#~ "  Unidade3: "
-
-#~ msgid ""
-#~ "\n"
-#~ "  Unit4: "
-#~ msgstr ""
-#~ "\n"
-#~ "  Unidade4: "
-
-#~ msgid ""
-#~ "\n"
-#~ "Categories: "
-#~ msgstr ""
-#~ "\n"
-#~ "Categorias: "
-
-#~ msgid ""
-#~ "\n"
-#~ "Comment: "
-#~ msgstr ""
-#~ "\n"
-#~ "Comentário: "
-
-#~ msgid ""
-#~ "\n"
-#~ "Unique String: "
-#~ msgstr ""
-#~ "\n"
-#~ "Expressão Única: "
-
-#~ msgid ""
-#~ "\n"
-#~ "Public Key: "
-#~ msgstr ""
-#~ "\n"
-#~ "Chave Pública: "
-
-#~ msgid "Error in search expression."
-#~ msgstr "Erro na expressão de procura."
-
-#~ msgid "Waiting for connection to LDAP server..."
-#~ msgstr "A aguardar ligação ao servidor LDAP..."
-
-#~ msgid "Restarting search."
-#~ msgstr "A reiniciar procura."
-
-#~ msgid "Factory for the Addressbook Minicard control"
-#~ msgstr "Fábrica para o controlo de Minicartões de Agenda"
-
-#~ msgid "Factory for the Addressbook's address displayer"
-#~ msgstr "Fábrica para a visualização de endereços da Agenda"
-
-#~ msgid "Factory for the Addressbook's address popup"
-#~ msgstr "Fábrica para o menu de contexto de morada da Agenda"
-
-#, fuzzy
-#~ msgid "Factory for the sample Addressbook control"
-#~ msgstr "Pressione aqui para o livro de endereços"
-
-#, fuzzy
-#~ msgid "New _Contact"
-#~ msgstr "_Contacto"
-
-#, fuzzy
-#~ msgid "New Contact _List"
-#~ msgstr "_Contacto"
-
-#, fuzzy
-#~ msgid "Edit Addressbook"
-#~ msgstr "Impossível abrir o livro de endereços"
-
-#, fuzzy
-#~ msgid "A_uthenticate with server using:"
-#~ msgstr "Autenticação"
-
-#, fuzzy
-#~ msgid "Add Addressbook"
-#~ msgstr "Impossível abrir o livro de endereços"
-
-#, fuzzy
-#~ msgid "Advanced"
-#~ msgstr "Adicionar..."
-
-#, fuzzy
-#~ msgid "Base"
-#~ msgstr "Colar"
-
-#, fuzzy
-#~ msgid "Check this if the server requires you to authenticate."
-#~ msgstr "Autenticação"
-
-#, fuzzy
-#~ msgid "C_ontaining:"
-#~ msgstr "_Acções"
-
-#, fuzzy
-#~ msgid "C_ontacts..."
-#~ msgstr "_Contacto"
-
-#, fuzzy
-#~ msgid "Evolution calendar executive summary component."
-#~ msgstr "Não consigo inicializar o componente de mail do Evolution."
-
-#, fuzzy
-#~ msgid "Factory for the Calendar Summary component."
-#~ msgstr "Não consigo inicializar o componente de mail do Evolution."
-
-#, fuzzy
-#~ msgid "Factory for the Evolution Tasks control"
-#~ msgstr "Não consigo inicializar o componente de mail do Evolution."
-
-#, fuzzy
-#~ msgid "Factory for the calendar iTip view control"
-#~ msgstr "Não consigo inicializar o componente de mail do Evolution."
-
-#, fuzzy
-#~ msgid "Factory for the sample Calendar control"
-#~ msgstr "Não consigo inicializar o componente de mail do Evolution."
-
-#, fuzzy
-#~ msgid "Factory to create a component editor factory"
-#~ msgstr "Não consigo inicializar o componente de mail do Evolution."
-
-#, fuzzy
-#~ msgid "Could not initialize GNOME"
-#~ msgstr "Não se consegui inicializar Bonobo"
-
-#, fuzzy
-#~ msgid "Could not create the alarm notify service"
-#~ msgstr "Criar um novo calendário"
-
-#, fuzzy
-#~ msgid "New _Task"
-#~ msgstr "_Tarefa"
-
-#, fuzzy
-#~ msgid "Create new appointments with a default _reminder"
-#~ msgstr "Criar um novo compromisso para hoje"
-
-#, fuzzy
-#~ msgid "Sta_rt of day:"
-#~ msgstr "Hora de ín_icio de encontro"
-
-#, fuzzy
-#~ msgid "_End of day:"
-#~ msgstr "Hora de ín_icio de encontro"
-
-#, fuzzy
-#~ msgid "_Other"
-#~ msgstr "Outro"
-
-#, fuzzy
-#~ msgid "before the start of the appointment"
-#~ msgstr "Novo compromisso"
-
-#, fuzzy
-#~ msgid "th"
-#~ msgstr "h"
-
-#, fuzzy
-#~ msgid "_Delete this Task"
-#~ msgstr "Apagar este item"
-
-#, fuzzy
-#~ msgid "_Delete this Appointment"
-#~ msgstr "Novo compromisso"
-
-#, fuzzy
-#~ msgid "Free/Busy info begins: <b>"
-#~ msgstr "Nenhuma Informação"
-
-#, fuzzy
-#~ msgid "Meeting ends: <b>"
-#~ msgstr "Hora de _fim de _encontro"
-
-#, fuzzy
-#~ msgid "Free/Busy info ends: <b>"
-#~ msgstr "Nenhuma Informação"
-
-#, fuzzy
-#~ msgid "Could not create the component editor factory"
-#~ msgstr "Criar um novo calendário"
-
-#~ msgid "Print Calendar"
-#~ msgstr "Imprimir calendário"
-
-#, fuzzy
-#~ msgid "This is an encrypted message part"
-#~ msgstr "Enviar a mensagem"
-
-#, fuzzy
-#~ msgid "No such message: %s"
-#~ msgstr "Enviar a mensagem"
-
-#, fuzzy
-#~ msgid "Cannot append message to spool file: %s: %s"
-#~ msgstr "Não consigo abrir a localização: %s"
-
-#, fuzzy
-#~ msgid "Could not file: %s: %s"
-#~ msgstr "Criar um novo calendário"
-
-#, fuzzy
-#~ msgid "Message %s not found."
-#~ msgstr "Ficheiro não encontrado"
-
-#, fuzzy
-#~ msgid "Could not check POP server for new messages: %s"
-#~ msgstr "Criar uma nova mensagem"
-
-#, fuzzy
-#~ msgid "Could not find 'From' address in message"
-#~ msgstr "Criar uma nova mensagem"
-
-#~ msgid "1 byte"
-#~ msgstr "1 byte"
-
-#~ msgid "%u bytes"
-#~ msgstr "%u bytes"
-
-#, fuzzy
-#~ msgid "Warning!"
-#~ msgstr "Seg"
-
-#, fuzzy
-#~ msgid "Insert File"
-#~ msgstr "_Inserir"
-
-#, fuzzy
-#~ msgid "Cannot initialize Evolution's composer."
-#~ msgstr "Não consigo inicializar o componente de mail do Evolution."
-
-#, fuzzy
-#~ msgid "Message was sent"
-#~ msgstr "Situação das mensagens"
-
-#, fuzzy
-#~ msgid "Evolution mail folder factory component."
-#~ msgstr "Não consigo inicializar o componente de mail do Evolution."
-
-#, fuzzy
-#~ msgid "Factory for the Mail Summary component."
-#~ msgstr "Não consigo inicializar o componente de mail do Evolution."
-
-#, fuzzy
-#~ msgid "New _Mail Message"
-#~ msgstr "Mensagem de _correio"
-
-#~ msgid "Cannot initialize Evolution's mail component."
-#~ msgstr "Não consigo inicializar o componente de mail do Evolution."
-
-#, fuzzy
-#~ msgid "Cannot initialize Evolution's mail config component."
-#~ msgstr "Não consigo inicializar o componente de mail do Evolution."
-
-#, fuzzy
-#~ msgid "Cannot initialize Evolution's folder info component."
-#~ msgstr "Não consigo inicializar o componente de mail do Evolution."
-
-#, fuzzy
-#~ msgid "Create vFolder from Search"
-#~ msgstr "Mensagens de correio em rascunho"
-
-#, fuzzy
-#~ msgid "Indexing:"
-#~ msgstr "Índ_ice de ajuda"
-
-#, fuzzy
-#~ msgid "Mailbox Format"
-#~ msgstr "F_ormato"
-
-#, fuzzy
-#~ msgid "Evolution News Editor"
-#~ msgstr "Atalho para _barra do Evolution"
-
-#, fuzzy
-#~ msgid " (default)"
-#~ msgstr "Apagar"
-
-#, fuzzy
-#~ msgid "%s: Inbox"
-#~ msgstr "Correio novo"
-
-#, fuzzy
-#~ msgid "Composer"
-#~ msgstr "Cores"
-
-#, fuzzy
-#~ msgid "Display"
-#~ msgstr "Dia"
-
-#, fuzzy
-#~ msgid "Edit..."
-#~ msgstr "Imprimir..."
-
-#, fuzzy
-#~ msgid "HTML signature file:"
-#~ msgstr "Ficheiro com assinatura:"
-
-#, fuzzy
-#~ msgid "NNTP Server:"
-#~ msgstr "Servidor:"
-
-#, fuzzy
-#~ msgid "News"
-#~ msgstr "Novo"
-
-#, fuzzy
-#~ msgid "Select Filter Log file..."
-#~ msgstr "Ficheiro com assinatura:"
-
-#~ msgid "Sources"
-#~ msgstr "Fontes"
-
-#, fuzzy
-#~ msgid "_Email Address:"
-#~ msgstr "Endereço de correio:"
-
-#, fuzzy
-#~ msgid "_Full Name:"
-#~ msgstr "Nome completo:"
-
-#, fuzzy
-#~ msgid "_Organization:"
-#~ msgstr "Organização:"
-
-#, fuzzy
-#~ msgid "_Send mail in HTML format by default."
-#~ msgstr "Enviar mensagem em formato HTML"
-
-#, fuzzy
-#~ msgid "_Server Type: "
-#~ msgstr "Servidor:"
-
-#, fuzzy
-#~ msgid "seconds."
-#~ msgstr " segundos"
-
-#, fuzzy
-#~ msgid "Could not create a PGP encryption context."
-#~ msgstr "Não se consegui inicializar Bonobo"
-
-#, fuzzy
-#~ msgid "Could not create a PGP decryption context."
-#~ msgstr "Não se consegui inicializar Bonobo"
-
-#, fuzzy
-#~ msgid "Moving"
-#~ msgstr "Seg"
-
-#, fuzzy
-#~ msgid "Copying"
-#~ msgstr "Copiar"
-
-#, fuzzy
-#~ msgid "Show _folders from server: "
-#~ msgstr "Motrar barra de _pastas"
-
-#, fuzzy
-#~ msgid "Cannot initialize Evolution's Summary component."
-#~ msgstr "Não consigo inicializar o componente de mail do Evolution."
-
-#, fuzzy
-#~ msgid "Summary Settings"
-#~ msgstr "Segundos"
-
-#, fuzzy
-#~ msgid "Regions"
-#~ msgstr "Segundos"
-
-#, fuzzy
-#~ msgid "Executive summary component could not initialize Bonobo.\n"
-#~ msgstr "Component de correio: Não consegui inicializar Bonobo"
-
-#, fuzzy
-#~ msgid "Al_l stations:"
-#~ msgstr "_Acções"
-
-#, fuzzy
-#~ msgid "All _folders:"
-#~ msgstr "_Pastas"
-
-#, fuzzy
-#~ msgid "_Display folders:"
-#~ msgstr "Mostrar uma pasta diferente"
-
-#, fuzzy
-#~ msgid "_Displayed feeds:"
-#~ msgstr "Dia"
-
-#, fuzzy
-#~ msgid "Marquette"
-#~ msgstr "Segunda-feira"
-
-#, fuzzy
-#~ msgid "Riga"
-#~ msgstr "Cabeçalhos:"
-
-#~ msgid "Evolution installation"
-#~ msgstr "Instalação do Evolution"
-
-#, fuzzy
-#~ msgid "Please click \"OK\" to install the files, or \"Cancel\" to exit."
-#~ msgstr ""
-#~ "Carregue em \\\"OK\\\" para instalar os ficheiros de utilizador do "
-#~ "Evolution em"
-
-#, fuzzy
-#~ msgid "Evolution "
-#~ msgstr "Evolution"
-
-#, fuzzy
-#~ msgid "Copyright 1999, 2000, 2001 Ximian, Inc."
-#~ msgstr "Copyright 1999, 2000 Helix Code, Inc."
-
-#, fuzzy
-#~ msgid "Evolution - Create new folder"
-#~ msgstr "O Evolution não consegue criar as suas pastas locais"
-
-#, fuzzy
-#~ msgid "New..."
-#~ msgstr "Novo"
-
-#, fuzzy
-#~ msgid ""
-#~ "Could not start the Evolution Mailer Assistant interface\n"
-#~ "(%s)"
-#~ msgstr "Não consigo inicializar o componente de mail do Evolution."
-
-#, fuzzy
-#~ msgid "Could not start the Evolution Mailer Assistant interface\n"
-#~ msgstr "Não consigo inicializar o componente de mail do Evolution."
-
-#~ msgid "Bug buddy was not found in your $PATH."
-#~ msgstr "O Bug buddy não foi encontrado no seu $PATH."
-
-#, fuzzy
-#~ msgid "(No name)"
-#~ msgstr "Nome"
-
-#, fuzzy
-#~ msgid "Active connections"
-#~ msgstr "Uma pasta contendo tarefas"
-
-#, fuzzy
-#~ msgid "Host"
-#~ msgstr "Horas"
-
-#, fuzzy
-#~ msgid "Evolution Importer Assistant"
-#~ msgstr "Atalho para _barra do Evolution"
-
-#~ msgid "Cannot initialize the Bonobo component system."
-#~ msgstr "Falhou a inicialização do sistema de componentes Bonobo."
-
-#, fuzzy
-#~ msgid "Create a New All Day _Event"
-#~ msgstr "Criar um novo contacto"
-
-#, fuzzy
-#~ msgid "Create a New _Task"
-#~ msgstr "Criar um novo contacto"
-
-#, fuzzy
-#~ msgid "Create a _New Appointment"
-#~ msgstr "Criar um novo compromisso para hoje"
-
-#, fuzzy
-#~ msgid "Create an event for the whole day"
-#~ msgstr "Criar um novo compromisso para hoje"
-
-#, fuzzy
-#~ msgid "_Appointment..."
-#~ msgstr "_Novo compromisso..."
-
-#, fuzzy
-#~ msgid "_Calendar Settings..."
-#~ msgstr "Preferências"
-
-#, fuzzy
-#~ msgid "_Task..."
-#~ msgstr "_Tarefa"
-
-#, fuzzy
-#~ msgid "Copy selected messages"
-#~ msgstr "Imprimir a mensagem seleccionada"
-
-#, fuzzy
-#~ msgid "Cut selected messages"
-#~ msgstr "Imprimir a mensagem seleccionada"
-
-#, fuzzy
-#~ msgid "Forward _Quoted"
-#~ msgstr "Enviar esta mensagem"
-
-#, fuzzy
-#~ msgid "Insert a file as text into the message"
-#~ msgstr "Anexar um ficheiro à mensagem"
-
-#, fuzzy
-#~ msgid "Send _Later"
-#~ msgstr "Enviar"
-
-#, fuzzy
-#~ msgid "Send _later"
-#~ msgstr "Enviar"
-
-#, fuzzy
-#~ msgid "Send the message later"
-#~ msgstr "Enviar a mensagem"
-
-#, fuzzy
-#~ msgid "Tasks Settings..."
-#~ msgstr "Segundos"
-
-#, fuzzy
-#~ msgid "_Summary Settings..."
-#~ msgstr "Configuração do co_rreio..."
-
-#, fuzzy
-#~ msgid "setup_vfs(): could not initialize GNOME-VFS"
-#~ msgstr "Não se consegui inicializar Bonobo"
-
-#, fuzzy
-#~ msgid "init_corba(): could not initialize GNOME"
-#~ msgstr "Não se consegui inicializar Bonobo"
-
-#, fuzzy
-#~ msgid "init_bonobo(): could not initialize Bonobo"
-#~ msgstr "Não se consegui inicializar Bonobo"
-
-#, fuzzy
-#~ msgid "_Home"
-#~ msgstr "Casa"
-
-#, fuzzy
-#~ msgid "_Mobile"
-#~ msgstr "Telemóvel"
-
-#, fuzzy
-#~ msgid ""
-#~ "Issuer: %s\n"
-#~ "Subject: %s"
-#~ msgstr "Assunto"
-
-#, fuzzy
-#~ msgid "Importing Data"
-#~ msgstr "Seg"
-
-#, fuzzy
-#~ msgid "Your configuration is complete."
-#~ msgstr "Configuração do correio"
-
-#, fuzzy
-#~ msgid "Summarising folder"
-#~ msgstr "Sincronizar"
-
-#, fuzzy
-#~ msgid "Could not open folder: %s: summarising from position %ld: %s"
-#~ msgstr "Criar um novo calendário"
-
-#, fuzzy
-#~ msgid "GnomeCard:"
-#~ msgstr "Calendário do Gnome"
-
-#, fuzzy
-#~ msgid "Cannot copy a folder `%s' to itself"
-#~ msgstr "Criar um novo calendário"
-
-#, fuzzy
-#~ msgid "Cannot initialize Evolution's Executive Summary component."
-#~ msgstr "Não consigo inicializar o componente de mail do Evolution."
-
-#, fuzzy
-#~ msgid "Folder cannot contain the directory separator."
-#~ msgstr "Criar um novo calendário"
-
-#, fuzzy
-#~ msgid "%s - Ximian Evolution %s [%s]"
-#~ msgstr "Evolution - %s"
-
-#~ msgid "F_ormat"
-#~ msgstr "F_ormato"
-
-#, fuzzy
-#~ msgid "LDAP Authentication"
-#~ msgstr "Autenticação"
-
-#, fuzzy
-#~ msgid "Password:"
-#~ msgstr "Esquecer _Senhas"
-
-#, fuzzy
-#~ msgid "before start of appointment"
-#~ msgstr "Novo compromisso"
-
-#, fuzzy
-#~ msgid "after start of appointment"
-#~ msgstr "Novo compromisso"
-
-#, fuzzy
-#~ msgid "Each account must have a different name."
-#~ msgstr "Ficheiro com assinatura:"
-
-#, fuzzy
-#~ msgid "_Import File..."
-#~ msgstr "Propriedades do alarme"
-
-#, fuzzy
-#~ msgid "a"
-#~ msgstr "am"
-
-#, fuzzy
-#~ msgid "b"
-#~ msgstr "%b"
-
-#, fuzzy
-#~ msgid "c"
-#~ msgstr "Cc"
-
-#, fuzzy
-#~ msgid "e"
-#~ msgstr "Qa"
-
-#~ msgid "h"
-#~ msgstr "h"
-
-#, fuzzy
-#~ msgid "k"
-#~ msgstr "Ok"
-
-#, fuzzy
-#~ msgid "m"
-#~ msgstr "am"
-
-#, fuzzy
-#~ msgid "n"
-#~ msgstr "Seg"
-
-#, fuzzy
-#~ msgid "o"
-#~ msgstr "Para"
-
-#, fuzzy
-#~ msgid "p"
-#~ msgstr "pm"
-
-#, fuzzy
-#~ msgid "r"
-#~ msgstr "Sx"
-
-#, fuzzy
-#~ msgid "t"
-#~ msgstr "h"
-
-#, fuzzy
-#~ msgid "u"
-#~ msgstr "Do"
-
-#, fuzzy
-#~ msgid "Done."
-#~ msgstr "Nenhuma"
-
-#, fuzzy
-#~ msgid "Snooze"
-#~ msgstr "Tamanho"
-
-#, fuzzy
-#~ msgid "Elm mail"
-#~ msgstr "Correio electrónico 2"
-
-#, fuzzy
-#~ msgid "Forwarded message:\n"
-#~ msgstr "Enviar esta mensagem"
-
-#, fuzzy
-#~ msgid "No such folder /%s"
-#~ msgstr "Enviar a mensagem"
-
-#, fuzzy
-#~ msgid "Registering '%s'"
-#~ msgstr "Abrir ficheiro"
-
-#, fuzzy
-#~ msgid "Factory for the Evolution executive summary component."
-#~ msgstr "Não consigo inicializar o componente de mail do Evolution."
-
-#, fuzzy
-#~ msgid "This seems to be the first time you are running Evolution."
-#~ msgstr "Esta parece ser a primeira vez que está a correr o Evolution."
-
-#~ msgid "Please click \"OK\" to install the Evolution user files under"
-#~ msgstr ""
-#~ "Carregue em \\\"OK\\\" para instalar os ficheiros de utilizador do "
-#~ "Evolution em"
-
-#, fuzzy
-#~ msgid "RDF Summary"
-#~ msgstr "Sumário"
-
-#~ msgid "Authentication:"
-#~ msgstr "Autenticação"
-
-#, fuzzy
-#~ msgid "Advanced LDAP Options"
-#~ msgstr "Encontrar avançado"
-
-#, fuzzy
-#~ msgid "Select name from _folder:"
-#~ msgstr "_Items seleccionados"
-
-#, fuzzy
-#~ msgid "Remind me of all appointments"
-#~ msgstr "Compromisso - %s"
-
-#, fuzzy
-#~ msgid "Delegated From:"
-#~ msgstr "_Items seleccionados"
-
-#, fuzzy
-#~ msgid "Transparency"
-#~ msgstr "Transportes"
-
-#, fuzzy
-#~ msgid "The message is not understandable."
-#~ msgstr "Ficheiro não encontrado"
-
-#, fuzzy
-#~ msgid "This is a task request."
-#~ msgstr "_Pedido de tarefa"
-
-#, fuzzy
-#~ msgid "Print My Evolution"
-#~ msgstr "Evolution"
-
-#, fuzzy
-#~ msgid "My Evolution"
-#~ msgstr "Evolution"
-
-#, fuzzy
-#~ msgid "New contact"
-#~ msgstr "Encontrar um contacto"
-
-#, fuzzy
-#~ msgid "_Contact Group"
-#~ msgstr "_Contacto"
-
-#, fuzzy
-#~ msgid "Go to present time"
-#~ msgstr "Ir para o próximo item"
-
-#, fuzzy
-#~ msgid "Print this Calendar"
-#~ msgstr "Imprimir este calendário"
-
-#, fuzzy
-#~ msgid "W_ork Week"
-#~ msgstr "Semana"
-
-#, fuzzy
-#~ msgid "Close this appointment"
-#~ msgstr "Novo compromisso"
-
-#, fuzzy
-#~ msgid "Print S_etup"
-#~ msgstr "Imprimir..."
-
-#, fuzzy
-#~ msgid "Show _All"
-#~ msgstr "Novas mensagens de correio"
-
-#, fuzzy
-#~ msgid "Print Preview..."
-#~ msgstr "Prever impressão"
-
-#, fuzzy
-#~ msgid "_Re-send Message"
-#~ msgstr "Mensagem de _correio"
-
-#, fuzzy
-#~ msgid "Delegate Task"
-#~ msgstr "Apagar este item"
-
-#~ msgid "Getting _Started"
-#~ msgstr "_Começando"
-
-#, fuzzy
-#~ msgid "Using the C_ontact Manager"
-#~ msgstr "Usando o programa de C_orreio"
-
-#~ msgid "Using the _Calendar"
-#~ msgstr "Usando o _Calendário"
-
-#~ msgid "Using the _Mailer"
-#~ msgstr "Usando o programa de C_orreio"
-
-#, fuzzy
-#~ msgid "_Appointment (FIXME)"
-#~ msgstr "_Compromisso"
-
-#, fuzzy
-#~ msgid "_Contact (FIXME)"
-#~ msgstr "_Contacto"
-
-#, fuzzy
-#~ msgid "_Mail message"
-#~ msgstr "Mensagem de _correio"
-
-#, fuzzy
-#~ msgid "_Task (FIXME)"
-#~ msgstr "_Contacto"
-
-#, fuzzy
-#~ msgid "Set task view preferences"
-#~ msgstr "Preferências"
-
-#, fuzzy
-#~ msgid "TasksPreferences"
-#~ msgstr "Preferências"
-
-#, fuzzy
-#~ msgid "Copyright (C) 2000, Helix Code, Inc."
-#~ msgstr "Copyright 1999, 2000 Helix Code, Inc."
-
-#, fuzzy
-#~ msgid "Close %s"
-#~ msgstr "Cores"
-
-#, fuzzy
-#~ msgid "Move %s into the previous row"
-#~ msgstr "Ir para o item anterior"
-
-#, fuzzy
-#~ msgid "Move %s into the next row"
-#~ msgstr "Ir para o próximo item"
-
-#, fuzzy
-#~ msgid ""
-#~ "Cannot open the HTML file:\n"
-#~ "%s"
-#~ msgstr "Não consigo abrir a localização: %s"
-
-#~ msgid "Synchronize"
-#~ msgstr "Sincronizar"
-
-#, fuzzy
-#~ msgid "(C) 1998-2000 the Free Software Foundation and Helix Code"
-#~ msgstr "(C) 1998 Free Software Foundation"
-
-#~ msgid "gnome-unknown.xpm"
-#~ msgstr "gnome-unknown.xpm"
-
-#, fuzzy
-#~ msgid ""
-#~ "An error occured when trying to fetch\n"
-#~ "pilot list from the gnome-pilot daemon"
-#~ msgstr ""
-#~ "Um excepção ocorreu enquanto se tentava carregar dados no componente com "
-#~ "PersistStream"
-
-#, fuzzy
-#~ msgid "_Company:"
-#~ msgstr "Empresa"
-
-#, fuzzy
-#~ msgid "Evolution Calendar Conduit"
-#~ msgstr "Atalho para _barra do Evolution"
-
-#, fuzzy
-#~ msgid "Open..."
-#~ msgstr "_Abrir"
-
-#, fuzzy
-#~ msgid "Enter the identity you wish to send this message from"
-#~ msgstr "Introduza os receptores da mensagem"
-
-#~ msgid "Enter the subject of the mail"
-#~ msgstr "Introduza o assunto da carta"
-
-#, fuzzy
-#~ msgid "Save changes to message..."
-#~ msgstr "Enviar uma nova mensagem"
-
-#, fuzzy
-#~ msgid "Remove criterion"
-#~ msgstr "Remover grupo"
-
-#, fuzzy
-#~ msgid "Closing current folder"
-#~ msgstr "Fechar o calendário corrente"
-
-#, fuzzy
-#~ msgid "[%s] (forwarded message)"
-#~ msgstr "Enviar esta mensagem"
-
-#, fuzzy
-#~ msgid "Forwarded message (no subject)"
-#~ msgstr "Enviar esta mensagem"
-
-#~ msgid "Evolution files successfully installed."
-#~ msgstr "Ficheiros do Evolution instalados com sucesso"
-
-#~ msgid "Activate this shortcut"
-#~ msgstr "Activar este atalho"
-
-#, fuzzy
-#~ msgid "FIXME: _Appointment"
-#~ msgstr "_Compromisso"
-
-#, fuzzy
-#~ msgid "FIXME: _Contact"
-#~ msgstr "_Contacto"
-
-#, fuzzy
-#~ msgid "FIXME: _Journal Entry"
-#~ msgstr "_Entrada diária?"
-
-#, fuzzy
-#~ msgid "FIXME: Define Print _Styles..."
-#~ msgstr "Pedido de _encontro"
-
-#, fuzzy
-#~ msgid "FIXME: Save Attac_hments..."
-#~ msgstr "Adicionar anexo..."
-
-#, fuzzy
-#~ msgid "FIXME: __Formatting"
-#~ msgstr "_Contacto"
-
-#~ msgid "_Toolbars"
-#~ msgstr "_Ferramentas"
-
-#, fuzzy
-#~ msgid "FIXME: New _Letter to Contact"
-#~ msgstr "_Contacto"
-
-#, fuzzy
-#~ msgid "FIXME: New Meetin_g with Contact"
-#~ msgstr "_Contacto"
-
-#, fuzzy
-#~ msgid "FIXME: _Plan a Meeting..."
-#~ msgstr "_Contacto"
-
-#, fuzzy
-#~ msgid "FIXME: New _Task for Contact"
-#~ msgstr "_Contacto"
-
-#, fuzzy
-#~ msgid "FIXME: New _Journal Entry for Contact"
-#~ msgstr "_Entrada diária?"
-
-#, fuzzy
-#~ msgid "FIXME: _Display Map of Address"
-#~ msgstr "Mensagem de _correio"
-
-#, fuzzy
-#~ msgid "FIXME: _Open Web Page"
-#~ msgstr "Mensagem de _correio"
-
-#~ msgid "Actio_ns"
-#~ msgstr "_Acções"
-
-#, fuzzy
-#~ msgid "FIXME: Previous"
-#~ msgstr "An_terior"
-
-#~ msgid "Go to the previous item"
-#~ msgstr "Ir para o item anterior"
-
-#, fuzzy
-#~ msgid "FIXME: Next"
-#~ msgstr "_Contacto"
-
-#, fuzzy
-#~ msgid "Find..."
-#~ msgstr "Encontrar"
-
-#, fuzzy
-#~ msgid "Appointment Basics"
-#~ msgstr "Compromissos:"
-
-#, fuzzy
-#~ msgid "Hide from Sender"
-#~ msgstr "Ficheiro não encontrado"
-
-#, fuzzy
-#~ msgid "Evolution Mail Configuration"
-#~ msgstr "Configuração do correio"
-
-#, fuzzy
-#~ msgid "Reply-to:"
-#~ msgstr "Responder"
-
-#, fuzzy
-#~ msgid "Required"
-#~ msgstr "Pessoas _Necessãrias"
-
-#, fuzzy
-#~ msgid "Save password"
-#~ msgstr "Gravar como VCard"
-
-#, fuzzy
-#~ msgid "Mail source type:"
-#~ msgstr "Fontes de correio"
-
-#, fuzzy
-#~ msgid "Mail Sources"
-#~ msgstr "atalhos principais"
-
-#, fuzzy
-#~ msgid "News Sources"
-#~ msgstr "Fontes"
-
-#, fuzzy
-#~ msgid "_Addressbook Configuration..."
-#~ msgstr "Configuração do co_rreio..."
-
-#, fuzzy
-#~ msgid "_Print Contacts..."
-#~ msgstr "Imprimir contactos"
-
-#, fuzzy
-#~ msgid "Ca_lendar"
-#~ msgstr "Novo Ca_lendário"
-
-#~ msgid "Create a new calendar"
-#~ msgstr "Criar um novo calendário"
-
-#~ msgid "Open a calendar"
-#~ msgstr "Abrir um calendário"
-
-#, fuzzy
-#~ msgid "_Open Calendar"
-#~ msgstr "Abrir Ca_lendário"
-
-#, fuzzy
-#~ msgid "FIXME: _New Appointment"
-#~ msgstr "_Compromisso"
-
-#, fuzzy
-#~ msgid "_Find..."
-#~ msgstr "Encontrar"
-
-#, fuzzy
-#~ msgid "_Undo"
-#~ msgstr "Anular"
-
-#, fuzzy
-#~ msgid "Print Preview of message..."
-#~ msgstr "Prever impressão"
-
-#, fuzzy
-#~ msgid "Reply to _Sender"
-#~ msgstr "Reponder para todos"
-
-#, fuzzy
-#~ msgid "_Source"
-#~ msgstr "Fontes"
-
-#, fuzzy
-#~ msgid "Show the _Folder Bar"
-#~ msgstr "Mostrar a barra de pastas"
-
-#, fuzzy
-#~ msgid "sunday"
-#~ msgstr "Domingo"
-
-#, fuzzy
-#~ msgid "tuesday"
-#~ msgstr "Domingo"
-
-#~ msgid "Year:"
-#~ msgstr "Ano:"
-
-#, fuzzy
-#~ msgid "Forward message \"%s\""
-#~ msgstr "Enviar esta mensagem"
-
-#, fuzzy
-#~ msgid "_Save Calendar As"
-#~ msgstr "Guardar Calendário como"
-
-#, fuzzy
-#~ msgid "_Mail Configuration"
-#~ msgstr "Configuração do correio"
-
-#~ msgid "Insert a file as an attachment"
-#~ msgstr "Inserir ficheiro como anexo"
-
-#~ msgid "Show 1 year"
-#~ msgstr "Mostrar 1 ano"
-
-#~ msgid "New appointment for _today..."
-#~ msgstr "Novo compromisso para _hoje..."
-
-#, fuzzy
-#~ msgid "'s calendar"
-#~ msgstr "O seu calendário"
-
-#~ msgid "Syncing with the pilot..."
-#~ msgstr "Sincronizando com o pilot..."
-
-#~ msgid "Edit this item..."
-#~ msgstr "Editar este item..."
-
-#, fuzzy
-#~ msgid "To-do list"
-#~ msgstr "_Ferramentas"
-
-#~ msgid "Second"
-#~ msgstr "Segundo"
-
-#~ msgid "Cut selected item into clipboard"
-#~ msgstr "Cortar item seleccionado para a área de transferência"
-
-#~ msgid "Select recipients' addresses"
-#~ msgstr "Seleccionar o endereço dos receptores"
-
-#~ msgid "Paste selected region into the clipboard"
-#~ msgstr "Colar a região seleccionada para a área de transferência"
-
-#~ msgid "_Journal Entry"
-#~ msgstr "_Entrada diária?"
-
-#~ msgid "Clos_e All Items"
-#~ msgstr "_Fechar todos os items"
-
-#~ msgid "Closes all the open items"
-#~ msgstr "Fecha todos os items abertos"
-
-#~ msgid ""
-#~ "Evolution detected that the file `%s' is a not a directory.\n"
-#~ "\n"
-#~ "Evolution can rename the file, delete the file or shutdown and\n"
-#~ "let you fix the problem."
-#~ msgstr ""
-#~ "O Evolution detectou que o ficheiro '%s' não é um directório.\n"
-#~ "\n"
-#~ "O Evolution pode mudar o nome ou apagar o ficheiro ou então desligue\n"
-#~ "e resolva o problema."
-
-#~ msgid ""
-#~ "This is a development version of Evolution.\n"
-#~ " Using the mail component on your mail files\n"
-#~ " is extremely hazardous.\n"
-#~ "Please backup all your mails before trying\n"
-#~ " this program. \n"
-#~ "     You have been warned\n"
-#~ msgstr ""
-#~ "Esta verão do Evolution é de desenvolvimento.\n"
-#~ " Usar o componente de correio nos seus ficheiros\n"
-#~ " é extremamente perigoso.\n"
-#~ "Por favor faça uma cópia de segurança antes de usar\n"
-#~ " o programa.\n"
-#~ "     Foi avisado\n"
-
-#~ msgid "We are sorry, Evolution's Folder Browser can not be initialized."
-#~ msgstr ""
-#~ "Pedimos desculpa. O navegador de pastas do Evolution não pode ser "
-#~ "inicializado."
-
-#~ msgid "The %s component doesn't support PersistStream!\n"
-#~ msgstr "O componente %s não suporta PersistStream!\n"
-
-#~ msgid "A service containing mail items"
-#~ msgstr "Um serviço contendo items de correio"
-
-#~ msgid "A service containing contacts"
-#~ msgstr "Um serviço contendo contactos"
-
-#~ msgid "A service containing calendar entries"
-#~ msgstr "Um serviço contendo entradas de calendário"
-
-#~ msgid "A service containing tasks"
-#~ msgstr "Um serviço contendo tarefas"
-
-#~ msgid "Rename Group"
-#~ msgstr "Mudar nome de grupo"
-
-#~ msgid "Enables some debugging functions"
-#~ msgstr "Liga algumas funções de deupração"
-
-#~ msgid "LEVEL"
-#~ msgstr "NÍVEL"
+msgstr "O Servidor de Calendário Pessoal; fábrica de calendário"
