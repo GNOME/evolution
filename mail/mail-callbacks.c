@@ -2056,7 +2056,7 @@ mark_as_unseen (BonoboUIComponent *uih, void *user_data, const char *path)
 	
 	/* Remove the automatic mark-as-read timer first */
 	if (fb->seen_id) {
-		gtk_timeout_remove (fb->seen_id);
+		g_source_remove (fb->seen_id);
 		fb->seen_id = 0;
 	}
 	
@@ -2714,7 +2714,7 @@ expunge_folder (BonoboUIComponent *uih, void *user_data, const char *path)
 		/* disable the message list so user can't click on them while we expunge */
 
 		/* nasty hack to find out if some widget inside the message list is focussed ... */
-		top = gtk_widget_get_toplevel((GtkWidget *)fb->message_list);
+		top = GTK_WINDOW (gtk_widget_get_toplevel((GtkWidget *)fb->message_list));
 		focus = top?top->focus_widget:NULL;
 		while (focus && focus != (GtkWidget *)fb->message_list)
 			focus = focus->parent;
@@ -2891,7 +2891,7 @@ do_mail_print (FolderBrowser *fb, gboolean preview)
 	if (!preview) {
 		dialog = (GtkDialog *) gnome_print_dialog_new (NULL, _("Print Message"), GNOME_PRINT_DIALOG_COPIES);
 		gtk_dialog_set_default_response (dialog, GNOME_PRINT_DIALOG_RESPONSE_PRINT);
-		gtk_window_set_transient_for ((GtkWindow *) dialog, (GtkWindow *) fb);
+		gtk_window_set_transient_for ((GtkWindow *) dialog, (GtkWindow *) gtk_widget_get_toplevel ((GtkWidget *) fb));
 		
 		switch (gtk_dialog_run (dialog)) {
 		case GNOME_PRINT_DIALOG_RESPONSE_PRINT:
@@ -2948,16 +2948,18 @@ do_mail_print (FolderBrowser *fb, gboolean preview)
 		gtk_widget_destroy (w);
 	
 	if (preview){
-		GtkWidget *preview;
+		GtkWidget *pw;
 		
-		preview = gnome_print_job_preview_new (print_master, _("Print Preview"));
-		gtk_widget_show (preview);
+		pw = gnome_print_job_preview_new (print_master, _("Print Preview"));
+		gtk_widget_show (pw);
 	} else {
 		int result = gnome_print_job_print (print_master);
 		
 		if (result == -1)
 			e_notice (FB_WINDOW (fb), GTK_MESSAGE_ERROR, _("Printing of message failed"));
 	}
+
+        g_object_unref (print_master);
 }
 
 /* This is pretty evil.  FolderBrowser's API should be extended to allow these sorts of

@@ -1,3 +1,10 @@
+2003-03-18  Larry Ewing  <lewing@ximian.com>
+
+	* mail-callbacks.c (do_mail_print): fix leak, cleanup variable
+	name, and call gtk_window_set_transient_for with a parent that is
+	actually a GtkWindow.
+	(mark_as_unseen): use g_source_remove.
+
 2003-03-18  Jeffrey Stedfast  <fejj@ximian.com>
 
 	* mail-config-druid.c (mail_config_druid_new): Set the type hint
