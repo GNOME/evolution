@@ -188,16 +188,11 @@ phone_entry_changed (GtkWidget *widget, EContactEditor *editor)
 	} else
 		return;
 	string = gtk_entry_get_text(entry);
-	phone = e_card_simple_get_phone(editor->simple, editor->phone_choice[which - 1]);
-	if (phone) {
-		g_free(phone->number);
-	} else {
-		phone = e_card_phone_new();
-		e_card_simple_set_phone(editor->simple, editor->phone_choice[which - 1], phone);
-		e_card_phone_free(phone);
-		phone = e_card_simple_get_phone(editor->simple, editor->phone_choice[which - 1]);
-	}
-	phone->number = g_strdup(string);
+	phone = e_card_phone_new();
+	phone->number = string;
+	e_card_simple_set_phone(editor->simple, editor->phone_choice[which - 1], phone);
+	phone->number = NULL;
+	e_card_phone_free(phone);
 	set_fields(editor);
 }
 
@@ -215,24 +210,16 @@ email_entry_changed (GtkWidget *widget, EContactEditor *editor)
 static void
 address_text_changed (GtkWidget *widget, EContactEditor *editor)
 {
-	gchar *string;
 	GtkEditable *editable = GTK_EDITABLE(widget);
 	ECardAddrLabel *address;
 
 	if (editor->address_choice == -1)
 		return;
-	address = e_card_simple_get_address(editor->simple, editor->address_choice);
-	if (address) {
-		g_free(address->data);
-	} else {
-		address = e_card_address_label_new();
-		e_card_simple_set_address(editor->simple, editor->address_choice, address);
-		e_card_address_label_free(address);
-		address = e_card_simple_get_address(editor->simple, editor->address_choice);
-	}
 
-	string = gtk_editable_get_chars(editable, 0, -1);
-	address->data = string;
+	address = e_card_address_label_new();
+	address->data = gtk_editable_get_chars(editable, 0, -1);
+	e_card_simple_set_address(editor->simple, editor->address_choice, address);
+	e_card_address_label_free(address);
 }
 
 /* This function tells you whether name_to_style will make sense.  */
@@ -944,7 +931,7 @@ set_address_field(EContactEditor *editor, int result)
 {
 	GtkEditable *editable;
 	int position;
-	ECardAddrLabel *address;
+	const ECardAddrLabel *address;
 	if (result == -1)
 		result = editor->address_choice;
 	editor->address_choice = -1;

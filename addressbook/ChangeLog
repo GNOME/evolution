@@ -1,4 +1,20 @@
+2000-05-06  Christopher James Lahey  <clahey@helixcode.com>
+
+	* backend/ebook/e-card-simple.c, backend/ebook/e-card-simple.h:
+	Mostly finished ECardSimple.
+
+	* contact-editor/e-contact-editor.c: Changed this to match with
+	some of the changes to ECardSimple.
+
+	* gui/component/addressbook.c: Changed this to look for
+	"addressbook.db" in the given directory if it doesn't find the
+	file "uri".
+
+	* gui/minicard/e-minicard.c, gui/minicard/e-minicard.h: Changed
+	this to use ECardSimple.
+
 2000-05-06  Chris Toshok  <toshok@helixcode.com>
+	
 	* gui/component/.cvsignore: ignore evolution-addressbook.pure
 
 	* gui/component/Makefile.am: add support for generating 

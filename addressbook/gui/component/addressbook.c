@@ -442,7 +442,6 @@ set_prop (BonoboPropertyBag *bag,
 	EBook *book;
 	char *uri_file;
 	char *uri_data;
-	char *uri;
 	
 	switch (arg_id) {
 
@@ -461,12 +460,11 @@ set_prop (BonoboPropertyBag *bag,
 		uri_file = g_concat_dir_and_file(view->uri + 7, "uri");
 
 		uri_data = e_read_file(uri_file);
-		if (uri_data)
-			uri = uri_data;
-		else
-			uri = view->uri;
+
+		if (!uri_data)
+			uri_data = g_concat_dir_and_file(view->uri + 7, "addressbook.db");
 		
-		if (! e_book_load_uri (book, uri, book_open_cb, view))
+		if (! e_book_load_uri (book, uri_data, book_open_cb, view))
 			{
 				printf ("error calling load_uri!\n");
 			}

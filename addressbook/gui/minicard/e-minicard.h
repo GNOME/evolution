@@ -23,6 +23,7 @@
 
 #include <gnome.h>
 #include <ebook/e-card.h>
+#include <ebook/e-card-simple.h>
 
 #ifdef __cplusplus
 extern "C" {
@@ -61,14 +62,14 @@ struct _EMinicard
 	GnomeCanvasGroup parent;
 	
 	/* item specific fields */
-	/*  ECard *card; */
+	ECard *card;
+	ECardSimple *simple;
 	
 	GnomeCanvasItem *rect;
 	GnomeCanvasItem *header_rect;
 	GnomeCanvasItem *header_text;
-	GList *fields; /* Of type GnomeCanvasItem. */
 
-	ECard *card;
+	GList *fields; /* Of type GnomeCanvasItem. */
 	guint needs_remodeling : 1;
 	
 	gboolean has_focus;

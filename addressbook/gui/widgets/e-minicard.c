@@ -122,6 +122,7 @@ e_minicard_init (EMinicard *minicard)
   minicard->has_focus = FALSE;
   
   minicard->card = NULL;
+  minicard->simple = e_card_simple_new(NULL);
 
   e_canvas_item_set_reflow_callback(GNOME_CANVAS_ITEM(minicard), e_minicard_reflow);
 }
@@ -166,6 +167,9 @@ e_minicard_set_arg (GtkObject *o, GtkArg *arg, guint arg_id)
 		e_minicard->card = E_CARD(GTK_VALUE_OBJECT (*arg));
 		if (e_minicard->card)
 			gtk_object_ref (GTK_OBJECT(e_minicard->card));
+		gtk_object_set(GTK_OBJECT(e_minicard->simple),
+			       "card", e_minicard->card,
+			       NULL);
 		remodel(e_minicard);
 		e_canvas_item_request_reflow(item);
 		break;
@@ -190,6 +194,7 @@ e_minicard_get_arg (GtkObject *object, GtkArg *arg, guint arg_id)
 		GTK_VALUE_ENUM (*arg) = e_minicard->has_focus ? E_FOCUS_CURRENT : E_FOCUS_NONE;
 		break;
 	case ARG_CARD:
+		e_card_simple_sync_card(e_minicard->simple);
 		GTK_VALUE_OBJECT (*arg) = GTK_OBJECT(e_minicard->card);
 		break;
 	default:
@@ -210,6 +215,8 @@ e_minicard_destroy (GtkObject *object)
 
 	if (e_minicard->card)
 		gtk_object_unref (GTK_OBJECT(e_minicard->card));
+	if (e_minicard->simple)
+		gtk_object_unref (GTK_OBJECT(e_minicard->simple));
 
 	if (GTK_OBJECT_CLASS (parent_class)->destroy)
 		(* GTK_OBJECT_CLASS (parent_class)->destroy) (object);
@@ -427,117 +434,79 @@ e_minicard_resize_children( EMinicard *e_minicard )
 }
 
 static void
-add_field (EMinicard *e_minicard, char *fieldname, char* field)
+field_changed (EText *text, EMinicard *e_minicard)
+{
+	ECardSimpleType type;
+	char *string;
+
+	type = GPOINTER_TO_INT
+		(gtk_object_get_data(GTK_OBJECT(text),
+				     "EMinicard:field"));
+	gtk_object_get(GTK_OBJECT(text),
+		       "text", &string,
+		       NULL);
+	e_card_simple_set(e_minicard->simple,
+			  type,
+			  string);
+	g_free(string);
+}
+
+static void
+add_field (EMinicard *e_minicard, ECardSimpleField field)
 {
 	GnomeCanvasItem *new_item;
 	GnomeCanvasGroup *group;
+	ECardSimpleType type;
+	char *name;
+	char *string;
 
 	group = GNOME_CANVAS_GROUP( e_minicard );
+	
+	type = e_card_simple_type(e_minicard->simple, field);
+	name = g_strdup_printf("%s:", e_card_simple_get_name(e_minicard->simple, field));
+	string = e_card_simple_get(e_minicard->simple, field);
 
 	new_item = e_minicard_label_new(group);
 	gnome_canvas_item_set( new_item,
 			       "width", e_minicard->width - 4.0,
-			       "fieldname", fieldname,
-			       "field", field,
+			       "fieldname", name,
+			       "field", string,
 			       NULL );
+	gtk_signal_connect(GTK_OBJECT(E_MINICARD_LABEL(new_item)->field),
+			   "changed", GTK_SIGNAL_FUNC(field_changed), e_minicard);
+	gtk_object_set_data(GTK_OBJECT(E_MINICARD_LABEL(new_item)->field),
+			    "EMinicard:field",
+			    GINT_TO_POINTER(field));
 	e_minicard->fields = g_list_append( e_minicard->fields, new_item);
 	e_canvas_item_move_absolute(new_item, 2, e_minicard->height);
+	g_free(name);
+	g_free(string);
 }
-		
+
 
 static void
 remodel( EMinicard *e_minicard )
 {
-	if (e_minicard->card) {
-		char *fname;
+	int count = 0;
+	if (e_minicard->simple) {
+		ECardSimpleField field;
 		char *file_as;
-		char *url;
-		char *org;
-		char *title;
-		char *role;
-		ECardList *address_list;
-		ECardList *phone_list;
-		ECardList *email_list;
+		file_as = e_card_simple_get(e_minicard->simple, E_CARD_SIMPLE_FIELD_FILE_AS);
+		gnome_canvas_item_set( e_minicard->header_text,
+				       "text", file_as ? file_as : "",
+				       NULL );
+		g_free(file_as);
 
-		ECardIterator *iterator;
-
-		GList *list;
-
-		for ( list = e_minicard->fields; list; list = g_list_next( list ) ) {
-			gtk_object_destroy( GTK_OBJECT( list->data ) );
-		}
+		g_list_foreach(e_minicard->fields, (GFunc) gtk_object_destroy, NULL);
 		g_list_free(e_minicard->fields);
 		e_minicard->fields = NULL;
 
-		gtk_object_get(GTK_OBJECT(e_minicard->card),
-			       "full_name",  &fname,
-			       "file_as",    &file_as,
-			       "address",    &address_list,
-			       "phone",      &phone_list,
-			       "email",      &email_list,
-			       "url",        &url,
-			       "org",        &org,
-			       "title",      &title,
-			       "role",       &role,
-			       NULL);
-
-		if (e_minicard->header_text) {
-			if (file_as)
-				gnome_canvas_item_set(e_minicard->header_text,
-						      "text", file_as,
-						      NULL);
-			else
-				gnome_canvas_item_set(e_minicard->header_text,
-						      "text", "",
-						      NULL);
-		}
-
-		if (fname)
-			add_field(e_minicard, "Name:", fname);
-
-		if (org)
-			add_field(e_minicard, "Company:", org);
-
-		if (title)
-			add_field(e_minicard, "Title:", title);
-
-		if (role)
-			add_field(e_minicard, "Profession:", role);
-
-		if (address_list) {
-			for (iterator = e_card_list_get_iterator(address_list); e_card_iterator_is_valid(iterator); e_card_iterator_next(iterator)) {
-				const ECardDeliveryAddress *address = e_card_iterator_get(iterator);
-				if (address->flags & E_CARD_ADDR_WORK) {
-					add_field(e_minicard, "Work Address:", address->city);
-				} else if (address->flags & E_CARD_ADDR_HOME) {
-					add_field(e_minicard, "Home Address:", address->city);
-				} else {
-					add_field(e_minicard, "Address:", address->city);
-				}
+		for(field = E_CARD_SIMPLE_FIELD_FULL_NAME; field != E_CARD_SIMPLE_FIELD_LAST && count < 5; field++) {
+			if (e_card_simple_get(e_minicard->simple, field)) {
+				add_field(e_minicard, field);
+				count++;
 			}
 		}
-		if (phone_list) {
-			for (iterator = e_card_list_get_iterator(phone_list); e_card_iterator_is_valid(iterator); e_card_iterator_next(iterator)) {
-				const ECardPhone *phone = e_card_iterator_get(iterator);
-				if (phone->flags & E_CARD_PHONE_WORK) {
-					add_field(e_minicard, "Work Phone:", phone->number);
-				} else if (phone->flags & E_CARD_PHONE_HOME) {
-					add_field(e_minicard, "Home Phone:", phone->number);
-				} else if (phone->flags & E_CARD_PHONE_CELL) {
-					add_field(e_minicard, "Mobile Phone:", phone->number);
-				} else {
-					add_field(e_minicard, "Phone:", phone->number);
-				}
-			}
-		}
-		if (email_list) {
-			for (iterator = e_card_list_get_iterator(email_list); e_card_iterator_is_valid(iterator); e_card_iterator_next(iterator)) {
-				add_field(e_minicard, "Email:", (char *) e_card_iterator_get(iterator));
-			}
-		}
-
-		if (url)
-			add_field(e_minicard, "Web page:", url);
 	}
 }
 
