@@ -1,3 +1,9 @@
+2003-05-13  Ettore Perazzoli  <ettore@ximian.com>
+
+	[#42628]
+	* e-search-bar.c (search_now_verb_cb): Call
+	emit_search_activated() instead of emit_query_changed().
+
 2003-05-11  Chris Toshok  <toshok@ximian.com>
 
 	[ fixes bug #42177 ]

@@ -202,7 +202,7 @@ search_now_verb_cb (BonoboUIComponent *ui_component,
 	ESearchBar *esb;
 
 	esb = E_SEARCH_BAR (data);
-	emit_query_changed (esb);
+	emit_search_activated (esb);
 }
 
 static void
