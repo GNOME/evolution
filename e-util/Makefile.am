@@ -49,6 +49,7 @@ eutilinclude_HEADERS = 				\
 	e-time-utils.h				\
 	e-trie.h				\
 	e-url.h					\
+	e-xml-hash-utils.h			\
 	md5-utils.h
 
 libeutil_la_SOURCES =				\
@@ -82,6 +83,7 @@ libeutil_la_SOURCES =				\
 	e-trie.c				\
 	e-url.c					\
 	e-util-marshal.c			\
+	e-xml-hash-utils.c			\
 	md5-utils.c
 
 # GLib marshalling cruft
