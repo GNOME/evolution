@@ -796,7 +796,6 @@ camel_mime_part_set_text (CamelMimePart *camel_mime_part, gchar *text)
 	}
 	if (text) {
 		simple_data_wrapper = camel_simple_data_wrapper_new ();
-		//camel_mime_part->content = CAMEL_DATA_WRAPPER (simple_data_wrapper);
 		CAMEL_LOG_FULL_DEBUG ("CamelMimePart::set_text calling CamelSimpleDataWrapper:set_text with %d chars\n", strlen (text));
 		camel_data_wrapper_set_mime_type (CAMEL_DATA_WRAPPER (simple_data_wrapper), "text/plain");
 		camel_simple_data_wrapper_set_text ( simple_data_wrapper, text);

@@ -385,30 +385,7 @@ _read_part (CamelStream *new_part_stream, CamelStream *stream, gchar *normal_bou
 	 * and in particular, the message could have been damaged during
 	 * transport, the parsing should be OK */
 	CAMEL_LOG_FULL_DEBUG ("CamelMultipart:: Entering _read_part\n");
-#if 0
-	do {
-		new_line = gmime_read_line_from_stream (stream);
-		printf ("++ new line = \"%s\"\n", new_line);
-		if (new_line) {
-			end_of_part = (strcmp (new_line, normal_boundary) == 0);
-			last_part   = (strcmp (new_line, end_boundary) == 0);
-			if (!end_of_part && !last_part) {
-				if (pending_crlf) {
-					new_part = g_string_append_c (new_part, '\n');
-					pending_crlf = FALSE;
-				}
-				line_length = strlen (new_line);
-				if (new_line[line_length-1]='\n') {
-					pending_crlf = TRUE;
-					new_line[line_length-1]='\0';
-				}
-				//new_part = g_string_append (new_part, new_line);
-				
-			}
-		}
 
-	} ;
-#endif
 	new_line = gmime_read_line_from_stream (stream);
 	printf ("== new line = \"%s\"\n", new_line);
 	while (new_line && !end_of_part && !last_part) {

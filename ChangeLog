@@ -1,9 +1,28 @@
-1999-08-02  root  <guiheneu@linoleum.inria.fr>
+1999-08-01  bertrand  <Bertrand.Guiheneuf@aful.org>
+
+	* camel/camel-multipart.c (_read_part): 
+	use a stream to store the part instead of GString. 
+	
+	* camel/camel-mime-part.c (camel_mime_part_set_text): 
+	set data wrapper content type to "text/plain".
+
+	* camel/camel-stream-mem.c:
+	* camel/camel-stream-mem.h:
+	new memory buffer based stream.
+
+	* camel/camel-stream-fs.c (_seek): 
+	implementation for file system based stream.
+
+	* camel/camel-stream.c (camel_stream_seek): 
+	new method.
+
+	* camel/camel-stream-fs.c (camel_stream_fs_class_init): 
+	pass CamelStreamFsClass instead of CamelStreamClass.
+
+1999-08-01 bertrand  <Bertrand.Guiheneuf@aful.org>
 
 	* camel/gmime-utils.c (gmime_write_header_pair_to_stream): 
 	corrected a bug with memory not allocated for '\0' in strtmp
-
-1999-08-01 bertrand  <Bertrand.Guiheneuf@aful.org>
 
 	* camel/gmime-utils.c (gmime_read_line_from_stream): 
 	do not return NULL when line is empty. 
