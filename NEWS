@@ -39,6 +39,14 @@ Addressbook:
   - Fixed the incredibly annoying bug which caused completed (underlined)
     contacts to spontaneously revert when edited.  (Trow)
 
+  - Better event handling in minicard view.  (Chris Lahey)
+
+  - Fixed Bold font in select names dialog.  (Chris Lahey)
+
+  - Show error dialog if saving a contact to a file fails.  (Chris Lahey)
+
+  - Handle carriage returns in any contact field properly.  (Chris Lahey)
+
 
 Calendar:
 
