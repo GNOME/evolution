@@ -5,8 +5,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: evolution 1.0\n"
-"POT-Creation-Date: 2002-05-20 21:25+0200\n"
-"PO-Revision-Date: 2002-05-20 21:53+0200\n"
+"POT-Creation-Date: 2002-05-20 22:14+0200\n"
+"PO-Revision-Date: 2002-05-20 22:20+0200\n"
 "Last-Translator: Kjartan Maraas <kmaraas@gnome.org>\n"
 "Language-Team: Norwegian <no@li.org>\n"
 "MIME-Version: 1.0\n"
@@ -1021,7 +1021,8 @@ msgid ""
 "be \n"
 "too large will slow down your addressbook."
 msgstr ""
-"Dette er maksimalt antall oppføringer som skal lastes ned. Hvis du setter dette tallet \n"
+"Dette er maksimalt antall oppføringer som skal lastes ned. Hvis du setter "
+"dette tallet \n"
 "for høyt vil adresseboken bli treg."
 
 #: addressbook/gui/component/ldap-config.glade.h:90
@@ -7767,6 +7768,11 @@ msgstr ""
 msgid "Resynchronizing with server"
 msgstr "Re-synkroniserer med tjener"
 
+#: camel/camel-disco-folder.c:278
+#, c-format
+msgid "Preparing folder '%s' for offline"
+msgstr "Forbereder mappe «%s» på frakobling"
+
 #: camel/camel-disco-store.c:365
 msgid "You must be working online to complete this operation"
 msgstr "Du må arbeide tilknyttet for å fullføre denne operasjonen"
@@ -7831,9 +7837,9 @@ msgid "Failed to create pipe to '%s': %s"
 msgstr "Klarte ikke å opprette rør til «%s»: %s"
 
 #: camel/camel-filter-search.c:577
-#, fuzzy, c-format
+#, c-format
 msgid "Failed to create create child process '%s': %s"
-msgstr "Feil under mellomlagring av melding %s: %s"
+msgstr "Feil under oppretting av underprosess «%s»: %s"
 
 #: camel/camel-filter-search.c:679 camel/camel-filter-search.c:687
 #, c-format
@@ -10207,6 +10213,19 @@ msgstr "<klikk her for å velge en dato>"
 msgid "Filter Rules"
 msgstr "Filterregler"
 
+#: filter/filter-file.c:176
+msgid "You must specify a file name"
+msgstr "Du må spesifisere et filnavn"
+
+#: filter/filter-file.c:186
+#, c-format
+msgid "File '%s' does not exist or is not a regular file."
+msgstr "Fil «%s» eksisterer ikke eller er ikke en vanlig fil"
+
+#: filter/filter-file.c:286
+msgid "Choose a file"
+msgstr "Velg en fil"
+
 #. and now for the action area
 #: filter/filter-filter.c:488
 msgid "Then"
@@ -10237,6 +10256,10 @@ msgid ""
 msgstr ""
 "Feil i regulært uttrykk «%s»:\n"
 "%s"
+
+#: filter/filter-label.c:158
+msgid "You must specify a label name"
+msgstr "Du må spesifisere et navn på etiketten"
 
 #: filter/filter-part.c:518 shell/evolution-test-component.c:49
 msgid "Test"
@@ -11125,6 +11148,7 @@ msgid "Random"
 msgstr "Tilfeldig"
 
 #: mail/mail-account-gui.c:1286 mail/mail-account-gui.c:1301
+#: mail/mail-composer-prefs.c:239
 msgid ""
 "Please specify signature filename\n"
 "in Andvanced section of signature settings."
@@ -11414,6 +11438,20 @@ msgstr "Feil under utskrift av melding"
 #, c-format
 msgid "Are you sure you want to open all %d messages in separate windows?"
 msgstr "Er du sikker på at du vil åpne alle %d meldingene i separate vinduer?"
+
+#: mail/mail-composer-prefs.c:253 mail/mail-composer-prefs.c:354
+#: mail/mail-composer-prefs.c:387
+msgid "yes"
+msgstr "ja"
+
+#: mail/mail-composer-prefs.c:253 mail/mail-composer-prefs.c:354
+#: mail/mail-composer-prefs.c:387
+msgid "no"
+msgstr "nei"
+
+#: mail/mail-composer-prefs.c:610
+msgid "en"
+msgstr ""
 
 #: mail/mail-config-druid.c:146
 msgid ""
@@ -24131,6 +24169,23 @@ msgstr "Vis detaljer"
 msgid "Cancel Operation"
 msgstr "Avlys operasjon"
 
+#: shell/e-folder-dnd-bridge.c:52
+#, c-format
+msgid ""
+"Cannot transfer folder:\n"
+"%s"
+msgstr ""
+"Kan ikke overføre mappe:\n"
+"%s"
+
+#: shell/e-folder-list.c:245
+msgid "Add a Folder"
+msgstr "Legg til en mappe"
+
+#: shell/e-folder-list.c:303
+msgid "Edit this Folder"
+msgstr "Rediger denne mappen"
+
 #: shell/e-local-storage.c:174
 msgid "Drafts"
 msgstr "Skisser"
@@ -24261,6 +24316,10 @@ msgstr ""
 #: shell/e-shell-about-box.c:43
 msgid "Brought to you by"
 msgstr "Etter mange timers slit av"
+
+#: shell/e-shell-config-default-folders.c:134
+msgid "Select Default Folder"
+msgstr "Velg forvalgt mappe"
 
 #: shell/e-shell-folder-commands.c:140
 #, c-format
@@ -24530,6 +24589,47 @@ msgstr "Importer"
 #: shell/e-shell-offline-handler.c:580
 msgid "Closing connections..."
 msgstr "Lukker forbindelser..."
+
+#: shell/e-shell-offline-sync.c:161
+#, c-format
+msgid ""
+"Error synchronizing \"%s\":\n"
+"%s"
+msgstr ""
+"Feil under synkronisering av «%s»:\n"
+"%s"
+
+#: shell/e-shell-offline-sync.c:239
+msgid "Syncing Folder"
+msgstr "Synkroniserer mappe"
+
+#. Prepare the dialog.
+#: shell/e-shell-offline-sync.c:317
+#, c-format
+msgid "Synchronizing \"%s\" (%d of %d) ..."
+msgstr "Synkroniserer «%s» (%d av %d) ..."
+
+#: shell/e-shell-settings-dialog.c:290
+msgid "Evolution Settings"
+msgstr "Innstillingerc Evolution"
+
+#: shell/e-shell-shared-folder-picker-dialog.c:330
+msgid "Opening Folder"
+msgstr "Åpner mappe"
+
+#: shell/e-shell-shared-folder-picker-dialog.c:337
+#, c-format
+msgid "Opening Folder \"%s\""
+msgstr "Åpner mappe «%s»"
+
+#: shell/e-shell-shared-folder-picker-dialog.c:342
+#, c-format
+msgid "in \"%s\" ..."
+msgstr "i «%s» ..."
+
+#: shell/e-shell-shared-folder-picker-dialog.c:501
+msgid "Cannot find open the specified shared folder."
+msgstr "Kan ikke finne spesifisert delt mappe."
 
 #: shell/e-shell-startup-wizard.c:159
 #, c-format
@@ -27303,13 +27403,6 @@ msgstr "init_bonobo(): kunne ikke initiere Bonobo"
 #~ msgid "Factory for the Notes control"
 #~ msgstr "Factory for notat-kontroll"
 
-#~ msgid ""
-#~ "Cannot transfer folder:\n"
-#~ "%s"
-#~ msgstr ""
-#~ "Kan ikke overføre mappe:\n"
-#~ "%s"
-
 #~ msgid "Dump"
 #~ msgstr "Dump"
 
@@ -28264,9 +28357,6 @@ msgstr "init_bonobo(): kunne ikke initiere Bonobo"
 #~ msgid "m"
 #~ msgstr "m"
 
-#~ msgid "n"
-#~ msgstr "n"
-
 #~ msgid "o"
 #~ msgstr "o"
 
@@ -28398,9 +28488,6 @@ msgstr "init_bonobo(): kunne ikke initiere Bonobo"
 
 #~ msgid "Updating message list"
 #~ msgstr "Oppdaterer meldingsliste"
-
-#~ msgid "My Evolution Settings"
-#~ msgstr "Innstillinger for Min Evolution"
 
 #~ msgid "%A, %d %B %Y"
 #~ msgstr "%A, %d %B %Y"
@@ -30111,9 +30198,6 @@ msgstr "init_bonobo(): kunne ikke initiere Bonobo"
 
 #~ msgid "Edit Filter Rule"
 #~ msgstr "Rediger filterregel"
-
-#~ msgid "Add VFolder Rule"
-#~ msgstr "Legg til regel for VFolder"
 
 #~ msgid "Edit VFolder Rule"
 #~ msgstr "Rediger VFolder regel"
