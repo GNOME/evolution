@@ -14,7 +14,7 @@
 typedef struct {
 	GtkObject base;
 	int model_col;
-	char *title_;
+	char *title;
 	char *pixbuf;
 
 	double expansion;

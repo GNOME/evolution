@@ -10,9 +10,17 @@
   <language>C</language>
   <gnome_support>True</gnome_support>
   <gettext_support>True</gettext_support>
+  <use_widget_names>False</use_widget_names>
   <output_main_file>False</output_main_file>
   <output_support_files>False</output_support_files>
   <output_build_files>False</output_build_files>
+  <backup_source_files>True</backup_source_files>
+  <main_source_file>interface.c</main_source_file>
+  <main_header_file>interface.h</main_header_file>
+  <handler_source_file>callbacks.c</handler_source_file>
+  <handler_header_file>callbacks.h</handler_header_file>
+  <support_source_file>support.c</support_source_file>
+  <support_header_file>support.h</support_header_file>
   <output_translatable_strings>True</output_translatable_strings>
   <translatable_strings_file>e-table-config.glade.h</translatable_strings_file>
 </project>
@@ -42,40 +50,6 @@
       <expand>True</expand>
       <fill>True</fill>
     </child>
-
-    <widget>
-      <class>GtkHButtonBox</class>
-      <child_name>GnomeDialog:action_area</child_name>
-      <name>dialog-action_area3</name>
-      <layout_style>GTK_BUTTONBOX_END</layout_style>
-      <spacing>8</spacing>
-      <child_min_width>85</child_min_width>
-      <child_min_height>27</child_min_height>
-      <child_ipad_x>7</child_ipad_x>
-      <child_ipad_y>0</child_ipad_y>
-      <child>
-	<padding>0</padding>
-	<expand>False</expand>
-	<fill>True</fill>
-	<pack>GTK_PACK_END</pack>
-      </child>
-
-      <widget>
-	<class>GtkButton</class>
-	<name>button20</name>
-	<can_default>True</can_default>
-	<can_focus>True</can_focus>
-	<stock_button>GNOME_STOCK_BUTTON_OK</stock_button>
-      </widget>
-
-      <widget>
-	<class>GtkButton</class>
-	<name>button22</name>
-	<can_default>True</can_default>
-	<can_focus>True</can_focus>
-	<stock_button>GNOME_STOCK_BUTTON_CANCEL</stock_button>
-      </widget>
-    </widget>
 
     <widget>
       <class>GtkVBox</class>
@@ -214,7 +188,6 @@
 		<name>table-1</name>
 		<can_focus>True</can_focus>
 		<label>Table HERE</label>
-		<relief>GTK_RELIEF_NORMAL</relief>
 	      </widget>
 	    </widget>
 	  </widget>
@@ -263,7 +236,6 @@
 		<name>table-2</name>
 		<can_focus>True</can_focus>
 		<label>Table HERE</label>
-		<relief>GTK_RELIEF_NORMAL</relief>
 	      </widget>
 	    </widget>
 	  </widget>
@@ -284,7 +256,6 @@
 	      <name>button-up</name>
 	      <can_focus>True</can_focus>
 	      <label>Move _Up</label>
-	      <relief>GTK_RELIEF_NORMAL</relief>
 	      <child>
 		<padding>0</padding>
 		<expand>False</expand>
@@ -297,7 +268,6 @@
 	      <name>button-down</name>
 	      <can_focus>True</can_focus>
 	      <label>Move _Down</label>
-	      <relief>GTK_RELIEF_NORMAL</relief>
 	      <child>
 		<padding>0</padding>
 		<expand>False</expand>
@@ -332,7 +302,6 @@
 	    <name>button-add</name>
 	    <can_focus>True</can_focus>
 	    <label>_Add -&gt;</label>
-	    <relief>GTK_RELIEF_NORMAL</relief>
 	    <child>
 	      <padding>0</padding>
 	      <expand>False</expand>
@@ -345,7 +314,6 @@
 	    <name>button-remove</name>
 	    <can_focus>True</can_focus>
 	    <label>&lt;- _Remove</label>
-	    <relief>GTK_RELIEF_NORMAL</relief>
 	    <child>
 	      <padding>0</padding>
 	      <expand>False</expand>
@@ -357,6 +325,40 @@
 	    <class>Placeholder</class>
 	  </widget>
 	</widget>
+      </widget>
+    </widget>
+
+    <widget>
+      <class>GtkHButtonBox</class>
+      <child_name>GnomeDialog:action_area</child_name>
+      <name>dialog-action_area3</name>
+      <layout_style>GTK_BUTTONBOX_END</layout_style>
+      <spacing>8</spacing>
+      <child_min_width>85</child_min_width>
+      <child_min_height>27</child_min_height>
+      <child_ipad_x>7</child_ipad_x>
+      <child_ipad_y>0</child_ipad_y>
+      <child>
+	<padding>0</padding>
+	<expand>False</expand>
+	<fill>True</fill>
+	<pack>GTK_PACK_END</pack>
+      </child>
+
+      <widget>
+	<class>GtkButton</class>
+	<name>button20</name>
+	<can_default>True</can_default>
+	<can_focus>True</can_focus>
+	<stock_button>GNOME_STOCK_BUTTON_OK</stock_button>
+      </widget>
+
+      <widget>
+	<class>GtkButton</class>
+	<name>button22</name>
+	<can_default>True</can_default>
+	<can_focus>True</can_focus>
+	<stock_button>GNOME_STOCK_BUTTON_CANCEL</stock_button>
       </widget>
     </widget>
   </widget>
@@ -387,48 +389,6 @@
       <expand>True</expand>
       <fill>True</fill>
     </child>
-
-    <widget>
-      <class>GtkHButtonBox</class>
-      <child_name>GnomeDialog:action_area</child_name>
-      <name>dialog-action_area4</name>
-      <layout_style>GTK_BUTTONBOX_END</layout_style>
-      <spacing>8</spacing>
-      <child_min_width>85</child_min_width>
-      <child_min_height>27</child_min_height>
-      <child_ipad_x>7</child_ipad_x>
-      <child_ipad_y>0</child_ipad_y>
-      <child>
-	<padding>0</padding>
-	<expand>False</expand>
-	<fill>True</fill>
-	<pack>GTK_PACK_END</pack>
-      </child>
-
-      <widget>
-	<class>GtkButton</class>
-	<name>button39</name>
-	<can_default>True</can_default>
-	<can_focus>True</can_focus>
-	<label>_Clear All</label>
-      </widget>
-
-      <widget>
-	<class>GtkButton</class>
-	<name>button41</name>
-	<can_default>True</can_default>
-	<can_focus>True</can_focus>
-	<stock_button>GNOME_STOCK_BUTTON_OK</stock_button>
-      </widget>
-
-      <widget>
-	<class>GtkButton</class>
-	<name>button42</name>
-	<can_default>True</can_default>
-	<can_focus>True</can_focus>
-	<stock_button>GNOME_STOCK_BUTTON_CANCEL</stock_button>
-      </widget>
-    </widget>
 
     <widget>
       <class>GtkVBox</class>
@@ -1153,39 +1113,11 @@
 	</widget>
       </widget>
     </widget>
-  </widget>
-</widget>
-
-<widget>
-  <class>GnomeDialog</class>
-  <name>dialog-sort</name>
-  <visible>False</visible>
-  <title>Sort</title>
-  <type>GTK_WINDOW_TOPLEVEL</type>
-  <position>GTK_WIN_POS_NONE</position>
-  <modal>False</modal>
-  <allow_shrink>False</allow_shrink>
-  <allow_grow>True</allow_grow>
-  <auto_shrink>False</auto_shrink>
-  <auto_close>False</auto_close>
-  <hide_on_close>False</hide_on_close>
-
-  <widget>
-    <class>GtkVBox</class>
-    <child_name>GnomeDialog:vbox</child_name>
-    <name>vbox15</name>
-    <homogeneous>False</homogeneous>
-    <spacing>8</spacing>
-    <child>
-      <padding>4</padding>
-      <expand>True</expand>
-      <fill>True</fill>
-    </child>
 
     <widget>
       <class>GtkHButtonBox</class>
       <child_name>GnomeDialog:action_area</child_name>
-      <name>hbuttonbox1</name>
+      <name>dialog-action_area4</name>
       <layout_style>GTK_BUTTONBOX_END</layout_style>
       <spacing>8</spacing>
       <child_min_width>85</child_min_width>
@@ -1201,7 +1133,7 @@
 
       <widget>
 	<class>GtkButton</class>
-	<name>button43</name>
+	<name>button39</name>
 	<can_default>True</can_default>
 	<can_focus>True</can_focus>
 	<label>_Clear All</label>
@@ -1209,7 +1141,7 @@
 
       <widget>
 	<class>GtkButton</class>
-	<name>button44</name>
+	<name>button41</name>
 	<can_default>True</can_default>
 	<can_focus>True</can_focus>
 	<stock_button>GNOME_STOCK_BUTTON_OK</stock_button>
@@ -1217,12 +1149,40 @@
 
       <widget>
 	<class>GtkButton</class>
-	<name>button45</name>
+	<name>button42</name>
 	<can_default>True</can_default>
 	<can_focus>True</can_focus>
 	<stock_button>GNOME_STOCK_BUTTON_CANCEL</stock_button>
       </widget>
     </widget>
+  </widget>
+</widget>
+
+<widget>
+  <class>GnomeDialog</class>
+  <name>dialog-sort</name>
+  <visible>False</visible>
+  <title>Sort</title>
+  <type>GTK_WINDOW_TOPLEVEL</type>
+  <position>GTK_WIN_POS_NONE</position>
+  <modal>False</modal>
+  <allow_shrink>False</allow_shrink>
+  <allow_grow>True</allow_grow>
+  <auto_shrink>False</auto_shrink>
+  <auto_close>False</auto_close>
+  <hide_on_close>True</hide_on_close>
+
+  <widget>
+    <class>GtkVBox</class>
+    <child_name>GnomeDialog:vbox</child_name>
+    <name>vbox15</name>
+    <homogeneous>False</homogeneous>
+    <spacing>8</spacing>
+    <child>
+      <padding>4</padding>
+      <expand>True</expand>
+      <fill>True</fill>
+    </child>
 
     <widget>
       <class>GtkTable</class>
@@ -1269,7 +1229,7 @@
 	    <class>GtkAlignment</class>
 	    <name>alignment1</name>
 	    <xalign>0.5</xalign>
-	    <yalign>7.45058e-09</yalign>
+	    <yalign>0.5</yalign>
 	    <xscale>1</xscale>
 	    <yscale>0</yscale>
 	    <child>
@@ -1279,25 +1239,12 @@
 	    </child>
 
 	    <widget>
-	      <class>GtkCombo</class>
-	      <name>combo-sort-4</name>
-	      <value_in_list>False</value_in_list>
-	      <ok_if_empty>True</ok_if_empty>
-	      <case_sensitive>False</case_sensitive>
-	      <use_arrows>True</use_arrows>
-	      <use_arrows_always>False</use_arrows_always>
-	      <items></items>
-
-	      <widget>
-		<class>GtkEntry</class>
-		<child_name>GtkCombo:entry</child_name>
-		<name>entry-sort-4</name>
-		<can_focus>True</can_focus>
-		<editable>True</editable>
-		<text_visible>True</text_visible>
-		<text_max_length>0</text_max_length>
-		<text></text>
-	      </widget>
+	      <class>Custom</class>
+	      <name>sort-combo-4</name>
+	      <creation_function>e_table_proxy_gtk_combo_text_new</creation_function>
+	      <int1>0</int1>
+	      <int2>0</int2>
+	      <last_modification_time>Tue, 16 Jan 2001 08:33:52 GMT</last_modification_time>
 	    </widget>
 	  </widget>
 
@@ -1376,7 +1323,7 @@
 	    <class>GtkAlignment</class>
 	    <name>alignment2</name>
 	    <xalign>0.5</xalign>
-	    <yalign>7.45058e-09</yalign>
+	    <yalign>0.5</yalign>
 	    <xscale>1</xscale>
 	    <yscale>0</yscale>
 	    <child>
@@ -1386,25 +1333,12 @@
 	    </child>
 
 	    <widget>
-	      <class>GtkCombo</class>
-	      <name>combo-sort-3</name>
-	      <value_in_list>False</value_in_list>
-	      <ok_if_empty>True</ok_if_empty>
-	      <case_sensitive>False</case_sensitive>
-	      <use_arrows>True</use_arrows>
-	      <use_arrows_always>False</use_arrows_always>
-	      <items></items>
-
-	      <widget>
-		<class>GtkEntry</class>
-		<child_name>GtkCombo:entry</child_name>
-		<name>entry-sort-3</name>
-		<can_focus>True</can_focus>
-		<editable>True</editable>
-		<text_visible>True</text_visible>
-		<text_max_length>0</text_max_length>
-		<text></text>
-	      </widget>
+	      <class>Custom</class>
+	      <name>sort-combo-3</name>
+	      <creation_function>e_table_proxy_gtk_combo_text_new</creation_function>
+	      <int1>0</int1>
+	      <int2>0</int2>
+	      <last_modification_time>Tue, 16 Jan 2001 05:22:22 GMT</last_modification_time>
 	    </widget>
 	  </widget>
 
@@ -1483,7 +1417,7 @@
 	    <class>GtkAlignment</class>
 	    <name>alignment3</name>
 	    <xalign>0.5</xalign>
-	    <yalign>0</yalign>
+	    <yalign>0.5</yalign>
 	    <xscale>1</xscale>
 	    <yscale>0</yscale>
 	    <child>
@@ -1493,25 +1427,12 @@
 	    </child>
 
 	    <widget>
-	      <class>GtkCombo</class>
-	      <name>combo-sort-2</name>
-	      <value_in_list>False</value_in_list>
-	      <ok_if_empty>True</ok_if_empty>
-	      <case_sensitive>False</case_sensitive>
-	      <use_arrows>True</use_arrows>
-	      <use_arrows_always>False</use_arrows_always>
-	      <items></items>
-
-	      <widget>
-		<class>GtkEntry</class>
-		<child_name>GtkCombo:entry</child_name>
-		<name>entry-sort-2</name>
-		<can_focus>True</can_focus>
-		<editable>True</editable>
-		<text_visible>True</text_visible>
-		<text_max_length>0</text_max_length>
-		<text></text>
-	      </widget>
+	      <class>Custom</class>
+	      <name>sort-combo-2</name>
+	      <creation_function>e_table_proxy_gtk_combo_text_new</creation_function>
+	      <int1>0</int1>
+	      <int2>0</int2>
+	      <last_modification_time>Tue, 16 Jan 2001 05:22:15 GMT</last_modification_time>
 	    </widget>
 	  </widget>
 
@@ -1590,7 +1511,7 @@
 	    <class>GtkAlignment</class>
 	    <name>alignment4</name>
 	    <xalign>0.5</xalign>
-	    <yalign>0</yalign>
+	    <yalign>0.5</yalign>
 	    <xscale>1</xscale>
 	    <yscale>0</yscale>
 	    <child>
@@ -1600,25 +1521,12 @@
 	    </child>
 
 	    <widget>
-	      <class>GtkCombo</class>
-	      <name>combo-sort-1</name>
-	      <value_in_list>False</value_in_list>
-	      <ok_if_empty>True</ok_if_empty>
-	      <case_sensitive>False</case_sensitive>
-	      <use_arrows>True</use_arrows>
-	      <use_arrows_always>False</use_arrows_always>
-	      <items></items>
-
-	      <widget>
-		<class>GtkEntry</class>
-		<child_name>GtkCombo:entry</child_name>
-		<name>entry-sort-1</name>
-		<can_focus>True</can_focus>
-		<editable>True</editable>
-		<text_visible>True</text_visible>
-		<text_max_length>0</text_max_length>
-		<text>File By</text>
-	      </widget>
+	      <class>Custom</class>
+	      <name>sort-combo-1</name>
+	      <creation_function>e_table_proxy_gtk_combo_text_new</creation_function>
+	      <int1>0</int1>
+	      <int2>0</int2>
+	      <last_modification_time>Tue, 16 Jan 2001 05:22:00 GMT</last_modification_time>
 	    </widget>
 	  </widget>
 
@@ -1666,17 +1574,54 @@
 	</widget>
       </widget>
     </widget>
+
+    <widget>
+      <class>GtkHButtonBox</class>
+      <child_name>GnomeDialog:action_area</child_name>
+      <name>hbuttonbox1</name>
+      <layout_style>GTK_BUTTONBOX_END</layout_style>
+      <spacing>8</spacing>
+      <child_min_width>85</child_min_width>
+      <child_min_height>27</child_min_height>
+      <child_ipad_x>7</child_ipad_x>
+      <child_ipad_y>0</child_ipad_y>
+      <child>
+	<padding>0</padding>
+	<expand>False</expand>
+	<fill>True</fill>
+	<pack>GTK_PACK_END</pack>
+      </child>
+
+      <widget>
+	<class>GtkButton</class>
+	<name>button43</name>
+	<can_default>True</can_default>
+	<can_focus>True</can_focus>
+	<label>_Clear All</label>
+      </widget>
+
+      <widget>
+	<class>GtkButton</class>
+	<name>button44</name>
+	<can_default>True</can_default>
+	<can_focus>True</can_focus>
+	<stock_button>GNOME_STOCK_BUTTON_OK</stock_button>
+      </widget>
+
+      <widget>
+	<class>GtkButton</class>
+	<name>button45</name>
+	<can_default>True</can_default>
+	<can_focus>True</can_focus>
+	<stock_button>GNOME_STOCK_BUTTON_CANCEL</stock_button>
+      </widget>
+    </widget>
   </widget>
 </widget>
 
 <widget>
   <class>GnomePropertyBox</class>
   <name>e-table-config</name>
-  <position>GTK_WIN_POS_NONE</position>
-  <modal>False</modal>
-  <allow_shrink>False</allow_shrink>
-  <allow_grow>False</allow_grow>
-  <auto_shrink>False</auto_shrink>
 
   <widget>
     <class>GtkNotebook</class>
@@ -1802,7 +1747,6 @@
 	    <last_modification_time>Tue, 03 Oct 2000 22:11:12 GMT</last_modification_time>
 	  </signal>
 	  <label>_Fields...</label>
-	  <relief>GTK_RELIEF_NORMAL</relief>
 	  <child>
 	    <left_attach>0</left_attach>
 	    <right_attach>1</right_attach>
@@ -1830,7 +1774,6 @@
 	    <last_modification_time>Tue, 03 Oct 2000 22:10:58 GMT</last_modification_time>
 	  </signal>
 	  <label>_Sort...</label>
-	  <relief>GTK_RELIEF_NORMAL</relief>
 	  <child>
 	    <left_attach>0</left_attach>
 	    <right_attach>1</right_attach>
@@ -1858,7 +1801,6 @@
 	    <last_modification_time>Tue, 03 Oct 2000 22:10:50 GMT</last_modification_time>
 	  </signal>
 	  <label>_Group By...</label>
-	  <relief>GTK_RELIEF_NORMAL</relief>
 	  <child>
 	    <left_attach>0</left_attach>
 	    <right_attach>1</right_attach>

@@ -647,7 +647,9 @@ e_table_fill_table (ETable *e_table, ETableModel *model)
 }
 
 static ETableCol *
-et_col_spec_to_col (ETable *e_table, ETableColumnSpecification *col_spec, ETableExtras *ete)
+et_col_spec_to_col (ETable                    *e_table,
+		    ETableColumnSpecification *col_spec,
+		    ETableExtras              *ete)
 {
 	ETableCol *col = NULL;
 	ECell *cell;
@@ -660,24 +662,30 @@ et_col_spec_to_col (ETable *e_table, ETableColumnSpecification *col_spec, ETable
 		if (col_spec->pixbuf && *col_spec->pixbuf) {
 			GdkPixbuf *pixbuf;
 			
-			pixbuf = e_table_extras_get_pixbuf(ete, col_spec->pixbuf);
+			pixbuf = e_table_extras_get_pixbuf(
+				ete, col_spec->pixbuf);
 			if (pixbuf) {
-				col = e_table_col_new_with_pixbuf (col_spec->model_col, col_spec->title_, pixbuf,
-								   col_spec->expansion, col_spec->minimum_width,
-								   cell, compare, col_spec->resizable);
+				col = e_table_col_new_with_pixbuf (
+					col_spec->model_col, _(col_spec->title),
+					pixbuf, col_spec->expansion,
+					col_spec->minimum_width,
+					cell, compare, col_spec->resizable);
 			}
 		} 
-		if (col == NULL && col_spec->title_ && *col_spec->title_) {
-			col = e_table_col_new (col_spec->model_col, col_spec->title_,
-					       col_spec->expansion, col_spec->minimum_width,
-					       cell, compare, col_spec->resizable);
+		if (col == NULL && col_spec->title && *col_spec->title) {
+			col = e_table_col_new (
+				col_spec->model_col, _(col_spec->title),
+				col_spec->expansion, col_spec->minimum_width,
+				cell, compare, col_spec->resizable);
 		}
 	}
 	return col;
 }
 
 static ETableHeader *
-et_spec_to_full_header (ETable *e_table, ETableSpecification *spec, ETableExtras *ete)
+et_spec_to_full_header (ETable              *e_table,
+			ETableSpecification *spec,
+			ETableExtras        *ete)
 {
 	ETableHeader *nh;
 	int column;
@@ -689,7 +697,8 @@ et_spec_to_full_header (ETable *e_table, ETableSpecification *spec, ETableExtras
 	nh = e_table_header_new ();
 
 	for (column = 0; spec->columns[column]; column++) {
-		ETableCol *col = et_col_spec_to_col(e_table, spec->columns[column], ete);
+		ETableCol *col = et_col_spec_to_col (
+			e_table, spec->columns[column], ete);
 
 		if (col)
 			e_table_header_add_column (nh, col, -1);

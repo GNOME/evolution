@@ -5,6 +5,7 @@
 #include <gnome.h>
 #include <gal/e-table/e-table-sort-info.h>
 #include <gal/e-table/e-table-specification.h>
+#include <gal/widgets/gtk-combo-text.h>
 
 #define E_TABLE_CONFIG_TYPE        (e_table_config_get_type ())
 #define E_TABLE_CONFIG(o)          (GTK_CHECK_CAST ((o), E_TABLE_CONFIG_TYPE, ETableConfig))
@@ -26,18 +27,15 @@ typedef struct {
 	/*
 	 * The state we manipulate
 	 */
-	ETableSpecification *spec;
-	ETableState         *state;
+	ETableSpecification *source_spec,  *spec;
+	ETableState         *source_state, *state;
 
 	GtkWidget *sort_label;
 	GtkWidget *group_label;
 	GtkWidget *fields_label;
 	
-	GtkWidget *sort_dialog;
-	GtkWidget *group_dialog;
-
-	int sorting_changed_id;
-	int grouping_changed_id;
+	GtkComboText *sort_combos [4];
+	GtkWidget    *frames [4];
 } ETableConfig;
 
 typedef struct {

@@ -228,6 +228,10 @@ e_table_specification_save_to_file (ETableSpecification *specification,
 {
 	xmlDoc *doc;
 
+	g_return_val_if_fail (specification != NULL, -1);
+	g_return_val_if_fail (filename != NULL, -1);
+	g_return_val_if_fail (E_IS_TABLE_SPECIFICATION (specification), -1);
+	
 	doc = xmlNewDoc ("1.0");
 	xmlDocSetRootElement (doc, e_table_specification_save_to_node (specification, doc));
 	return xmlSaveFile (filename, doc);
@@ -251,6 +255,9 @@ e_table_specification_save_to_string (ETableSpecification *specification)
 	int length;
 	xmlDoc *doc;
 
+	g_return_val_if_fail (specification != NULL, NULL);
+	g_return_val_if_fail (E_IS_TABLE_SPECIFICATION (specification), NULL);
+	
 	doc = xmlNewDoc ("1.0");
 	xmlDocSetRootElement (doc, e_table_specification_save_to_node (specification, doc));
 	xmlDocDumpMemory (doc, &string, &length);
@@ -275,9 +282,14 @@ xmlNode *
 e_table_specification_save_to_node (ETableSpecification *specification,
 				    xmlDoc              *doc)
 {
-	xmlNode *node = xmlDocGetRootElement (doc);
+	xmlNode *node;
 	char *s;
-	
+
+	g_return_val_if_fail (doc != NULL, NULL);
+	g_return_val_if_fail (specification != NULL, NULL);
+	g_return_val_if_fail (E_IS_TABLE_SPECIFICATION (specification), NULL);
+
+	node = xmlNewNode (NULL, "ETableSpecification");
 	e_xml_set_bool_prop_by_name (node, "no-headers", specification->no_headers);
 	e_xml_set_bool_prop_by_name (node, "click-to-add", specification->click_to_add);
 	e_xml_set_bool_prop_by_name (node, "draw-grid", specification->draw_grid);
@@ -328,11 +340,17 @@ e_table_specification_save_to_node (ETableSpecification *specification,
 ETableSpecification *
 e_table_specification_duplicate (ETableSpecification *spec)
 {
-	ETableSpecification *new_spec = e_table_specification_new ();
-	char *spec_str = e_table_specification_save_to_string (spec);
+	ETableSpecification *new_spec;
+	char *spec_str;
 
+	g_return_val_if_fail (spec != NULL, NULL);
+	g_return_val_if_fail (E_IS_TABLE_SPECIFICATION (spec), NULL);
+	
+	new_spec = e_table_specification_new ();
+	spec_str = e_table_specification_save_to_string (spec);
 	printf ("This is the spec: \n%s\n", spec_str);
 	e_table_specification_load_from_string (new_spec, spec_str);
+	g_free (spec_str);
 	
 	return new_spec;
 }

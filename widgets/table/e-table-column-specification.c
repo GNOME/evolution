@@ -23,7 +23,7 @@ static GtkObjectClass *etcs_parent_class;
 static void
 free_strings (ETableColumnSpecification *etcs)
 {
-	g_free(etcs->title_);
+	g_free(etcs->title);
 	g_free(etcs->pixbuf);
 	g_free(etcs->cell);
 	g_free(etcs->compare);
@@ -51,7 +51,7 @@ static void
 etcs_init (ETableColumnSpecification *specification)
 {
 	specification->model_col     = 0;
-	specification->title_        = g_strdup("");
+	specification->title        = g_strdup("");
 	specification->pixbuf        = NULL;
 	
 	specification->expansion     = 0;
@@ -73,13 +73,13 @@ e_table_column_specification_new (void)
 }
 
 void
-e_table_column_specification_load_from_node    (ETableColumnSpecification *etcs,
-						const xmlNode       *node)
+e_table_column_specification_load_from_node (ETableColumnSpecification *etcs,
+					     const xmlNode       *node)
 {
 	free_strings(etcs);
 
 	etcs->model_col     = e_xml_get_integer_prop_by_name(node, "model_col");
-	etcs->title_        = e_xml_get_translated_string_prop_by_name(node, "_title");
+	etcs->title         = e_xml_get_string_prop_by_name(node, "_title");
 	etcs->pixbuf        = e_xml_get_string_prop_by_name(node, "pixbuf");
 
 	etcs->expansion     = e_xml_get_double_prop_by_name(node, "expansion");
@@ -89,13 +89,13 @@ e_table_column_specification_load_from_node    (ETableColumnSpecification *etcs,
 	etcs->cell          = e_xml_get_string_prop_by_name(node, "cell");
 	etcs->compare       = e_xml_get_string_prop_by_name(node, "compare");
 
-	if (etcs->title_ == NULL)
-		etcs->title_ = g_strdup("");
+	if (etcs->title == NULL)
+		etcs->title = g_strdup("");
 }
 
 xmlNode *
-e_table_column_specification_save_to_node      (ETableColumnSpecification *specification,
-						xmlNode                   *parent)
+e_table_column_specification_save_to_node (ETableColumnSpecification *specification,
+					   xmlNode                   *parent)
 {
 	xmlNode *node;
 	if (parent)
@@ -104,7 +104,7 @@ e_table_column_specification_save_to_node      (ETableColumnSpecification *speci
 		node = xmlNewNode(NULL, "ETableColumn");
 
 	e_xml_set_integer_prop_by_name(node, "model_col", specification->model_col);
-	e_xml_set_string_prop_by_name(node, "_title", specification->title_);
+	e_xml_set_string_prop_by_name(node, "_title", specification->title);
 	e_xml_set_string_prop_by_name(node, "pixbuf", specification->pixbuf);
 
 	e_xml_set_double_prop_by_name(node, "expansion", specification->expansion);
