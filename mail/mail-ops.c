@@ -565,6 +565,7 @@ mail_send_message(CamelMimeMessage *message, const char *destination, CamelFilte
 	
 	if (folder) {
 		camel_folder_append_message (folder, message, info, ex);
+		camel_folder_sync (folder, FALSE, NULL);
 		camel_object_unref (CAMEL_OBJECT (folder));
 	}
 	
@@ -744,7 +745,7 @@ send_queue_send(struct _mail_msg *mm)
 		camel_folder_expunge (m->queue, &mm->ex);
 	
 	if (sent_folder)
-		camel_folder_sync (sent_folder, FALSE, &mm->ex);
+		camel_folder_sync (sent_folder, FALSE, NULL);
 	
 	if (m->cancel)
 		camel_operation_unregister (m->cancel);
@@ -929,6 +930,7 @@ static void transfer_messages_transfer(struct _mail_msg *mm)
 	
 	camel_folder_thaw(m->source);
 	camel_folder_thaw(dest);
+	camel_folder_sync(dest, FALSE, NULL);
 	camel_object_unref((CamelObject *)dest);
 }
 
@@ -1636,6 +1638,42 @@ mail_sync_folder(CamelFolder *folder, void (*done) (CamelFolder *folder, void *d
 
 /* ******************************************************************************** */
 
+static char *refresh_folder_desc(struct _mail_msg *mm, int done)
+{
+	return g_strdup(_("Refreshing folder"));
+}
+
+static void refresh_folder_refresh(struct _mail_msg *mm)
+{
+	struct _sync_folder_msg *m = (struct _sync_folder_msg *)mm;
+
+	camel_folder_refresh_info(m->folder, &mm->ex);
+}
+
+/* we just use the sync stuff where we can, since it would be the same */
+static struct _mail_msg_op refresh_folder_op = {
+	refresh_folder_desc,
+	refresh_folder_refresh,
+	sync_folder_synced,
+	sync_folder_free,
+};
+
+void
+mail_refresh_folder(CamelFolder *folder, void (*done) (CamelFolder *folder, void *data), void *data)
+{
+	struct _sync_folder_msg *m;
+
+	m = mail_msg_new(&refresh_folder_op, NULL, sizeof(*m));
+	m->folder = folder;
+	camel_object_ref((CamelObject *)folder);
+	m->data = data;
+	m->done = done;
+
+	e_thread_put(mail_thread_new, (EMsg *)m);
+}
+
+/* ******************************************************************************** */
+
 static char *expunge_folder_desc(struct _mail_msg *mm, int done)
 {
 	return g_strdup(_("Expunging folder"));
@@ -2149,6 +2187,7 @@ static void set_offline_do(struct _mail_msg *mm)
 					CAMEL_DISCO_FOLDER (inbox),
 					"(match-all (not (system-flag \"Seen\")))",
 					&mm->ex);
+				camel_folder_sync (inbox, FALSE, NULL);
 				camel_object_unref (CAMEL_OBJECT (inbox));
 				if (camel_exception_is_set (&mm->ex))
 					return;

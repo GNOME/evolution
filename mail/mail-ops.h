@@ -81,6 +81,10 @@ void mail_sync_folder (CamelFolder *folder,
 		       void (*done) (CamelFolder *folder, void *data),
 		       void *data);
 
+void mail_refresh_folder (CamelFolder *folder,
+			  void (*done) (CamelFolder *folder, void *data),
+			  void *data);
+
 void mail_expunge_folder (CamelFolder *folder,
 			  void (*done) (CamelFolder *folder, void *data),
 			  void *data);

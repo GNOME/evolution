@@ -278,7 +278,7 @@ control_activate (BonoboControl     *control,
 	bonobo_ui_component_thaw (uic, NULL);
 
 	if (fb->folder)
-		mail_sync_folder (fb->folder, NULL, NULL);
+		mail_refresh_folder (fb->folder, NULL, NULL);
 }
 
 static void

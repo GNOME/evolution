@@ -1,3 +1,17 @@
+2001-05-26  Dan Winship  <danw@ximian.com>
+
+	* mail-ops.c (mail_send_message, transfer_messages_transfer,
+	set_offline_do): When unreffing a folder we got ourselves (as
+	opposed to one passed in by the caller), sync before unreffing,
+	since we might be holding the only reference to it.
+	(mail_refresh_folder): New op, like mail_sync_folder, but does a
+	camel_folder_refresh_info instead.
+
+	* folder-browser-factory.c (control_activate): Call
+	mail_refresh_folder, not mail_sync_folder. (The goal is to see new
+	messages: sync used to work with imap because imap_sync was
+	broken, but it doesn't work for that any more.)
+
 2001-05-25  Peter Williams  <peterw@ximian.com>
 
 	* Makefile.am: Reference libeshell.la instead of libeshell.a.
