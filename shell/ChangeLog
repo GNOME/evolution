@@ -1,5 +1,16 @@
 2002-09-03  Ettore Perazzoli  <ettore@ximian.com>
 
+	* e-storage-set-view.c (popup_folder_menu): Create an Items
+	placeholder under ComponentPlaceholder, and then
+	bonobo_ui_component_rm() it after we are done with the menu.  This
+	-should- fix #29782, but it doesn't.  I am not sure why.
+
+	* evolution-shell-component.h
+	(EVOLUTION_SHELL_COMPONENT_POPUP_PLACEHOLDER): Append a "/Items"
+	part.
+
+2002-09-03  Ettore Perazzoli  <ettore@ximian.com>
+
 	* e-shell-importer.c (show_import_wizard): Make the WM close
 	button in the dialog hide instead of destroying, using
 	gnome_dialog_close_hides().  [#15572]

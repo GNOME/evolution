@@ -43,7 +43,7 @@ extern "C" {
 #define EVOLUTION_IS_SHELL_COMPONENT(obj)         (GTK_CHECK_TYPE ((obj), EVOLUTION_TYPE_SHELL_COMPONENT))
 #define EVOLUTION_IS_SHELL_COMPONENT_CLASS(klass) (GTK_CHECK_CLASS_TYPE ((obj), EVOLUTION_TYPE_SHELL_COMPONENT))
 
-#define EVOLUTION_SHELL_COMPONENT_POPUP_PLACEHOLDER "/popups/FolderPopup/ComponentPlaceholder"
+#define EVOLUTION_SHELL_COMPONENT_POPUP_PLACEHOLDER "/popups/FolderPopup/ComponentPlaceholder/Items"
 
 
 typedef struct _EvolutionShellComponent        EvolutionShellComponent;

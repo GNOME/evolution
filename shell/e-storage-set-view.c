@@ -785,6 +785,10 @@ popup_folder_menu (EStorageSetView *storage_set_view,
 	bonobo_window_add_popup (bonobo_ui_container_get_win (priv->ui_container),
 				 GTK_MENU (menu), "/popups/FolderPopup");
 
+	bonobo_ui_component_set (priv->ui_component,
+				 "/popups/FolderPopup/ComponentPlaceholder",
+				 "<placeholder name=\"Items\"/>", NULL);
+
 	if (handler != NULL)
 		evolution_shell_component_client_populate_folder_context_menu (handler,
 									       priv->ui_container,
@@ -799,6 +803,8 @@ popup_folder_menu (EStorageSetView *storage_set_view,
 
 	if (folder_property_items_data != NULL)
 		remove_property_items (storage_set_view, folder_property_items_data);
+
+	bonobo_ui_component_rm (priv->ui_component, EVOLUTION_SHELL_COMPONENT_POPUP_PLACEHOLDER "/ChangeFolderPropertiesPopUp", NULL);
 
 	gtk_widget_destroy (GTK_WIDGET (menu));
 
