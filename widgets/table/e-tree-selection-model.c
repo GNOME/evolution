@@ -123,6 +123,9 @@ etsm_node_at_row(ETreeSelectionModel *etsm, int row)
 {
 	ETreePath path;
 
+	if (!(row >= 0 && row < e_table_model_row_count(E_TABLE_MODEL(etsm->priv->etta))))
+		return NULL;
+
 	path = e_tree_table_adapter_node_at_row(etsm->priv->etta, row);
 
 	if (path)
@@ -673,6 +676,10 @@ etsm_is_row_selected (ESelectionModel *selection,
 
 	gboolean ret_val;
 
+	g_return_val_if_fail(row < e_table_model_row_count(E_TABLE_MODEL(etsm->priv->etta)), FALSE);
+	g_return_val_if_fail(row >= 0, FALSE);
+	g_return_val_if_fail(selection != NULL, FALSE);
+
 	path = e_tree_table_adapter_node_at_row(etsm->priv->etta, row);
 
 	selection_node = etsm_recurse_is_path_selected (selection, path, &ret_val);
@@ -856,7 +863,13 @@ etsm_change_one_row(ESelectionModel *selection, int row, gboolean grow)
 {
 	ETreeSelectionModel *etsm = E_TREE_SELECTION_MODEL(selection);
 	ETreeSelectionModelNode *node;
-	ETreePath path = e_tree_table_adapter_node_at_row(etsm->priv->etta, row);
+	ETreePath path;
+
+	g_return_if_fail(row < e_table_model_row_count(E_TABLE_MODEL(etsm->priv->etta)));
+	g_return_if_fail(row >= 0);
+	g_return_if_fail(selection != NULL);
+
+	path = e_tree_table_adapter_node_at_row(etsm->priv->etta, row);
 
 	if (!path)
 		return;
