@@ -866,7 +866,19 @@ transfer_messages_transfer (struct _mail_msg *mm)
 	void (*func) (CamelFolder *, GPtrArray *, 
 		      CamelFolder *, 
 		      CamelException *);
-	
+
+	dest = mail_tool_uri_to_folder (m->dest_uri, m->dest_flags, &mm->ex);
+	if (camel_exception_is_set (&mm->ex))
+		return;
+
+	if (dest == m->source) {
+		camel_object_unref((CamelObject *)dest);
+		camel_exception_setv(&mm->ex, CAMEL_EXCEPTION_FOLDER_INVALID,
+				     _("Cannot copy a folder `%s' to itself"),
+				     m->dest_uri);
+		return;
+	}
+
 	if (m->delete) {
 		func = camel_folder_move_messages_to;
 		desc = _("Moving");
@@ -874,10 +886,6 @@ transfer_messages_transfer (struct _mail_msg *mm)
 		func = camel_folder_copy_messages_to;
 		desc = _("Copying");
 	}
-	
-	dest = mail_tool_uri_to_folder (m->dest_uri, m->dest_flags, &mm->ex);
-	if (camel_exception_is_set (&mm->ex))
-		return;
 	
 	camel_folder_freeze (m->source);
 	camel_folder_freeze (dest);

@@ -1,3 +1,11 @@
+2001-10-10    <NotZed@Ximian.com>
+
+	* mail-ops.c (transfer_messages_transfer): IF the source and
+	destination folders are the same, do nothing.  Oh, and return an
+	error, otherwise the shell goes and removes it anyway.  Fixes a
+	rather serious bug with dnd of folders onto their current
+	location.
+
 2001-10-09  Larry Ewing  <lewing@ximian.com>
 
 	* mail-display.c (save_part): ref the part.
@@ -8,6 +16,12 @@
 	filenames and ref counting with minimal fuss.
 
 2001-10-09    <NotZed@Ximian.com>
+
+	* component-factory.c (owner_unset_cb): Disconnect from all the
+	signals we were listening to, so we dont try and do shit twice on
+	exit (one on unset_cb, one on destroy).
+	(create_component): Setup the signal handlers using a table, so
+	they're easier to disconnect on finish.
 
 	* mail-folder-cache.c (folder_changed): Ref folder so it hangs
 	around till we're done with it.

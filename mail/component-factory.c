@@ -734,39 +734,6 @@ free_storage (gpointer service, gpointer storage, gpointer data)
 	bonobo_object_unref (BONOBO_OBJECT (storage));
 }
 
-static gboolean
-idle_quit (gpointer user_data)
-{
-	mail_msg_wait_all();
-
-	if (e_list_length (folder_browser_factory_get_control_list ()))
-		return TRUE;
-
-	g_hash_table_foreach (storages_hash, free_storage, NULL);
-	g_hash_table_destroy (storages_hash);
-
-	gtk_main_quit ();
-
-	return FALSE;
-}	
-
-static void
-owner_unset_cb (EvolutionShellComponent *shell_component, gpointer user_data)
-{
-	global_shell_client = NULL;
-
-	if (mail_config_get_empty_trash_on_exit ())
-		empty_trash (NULL, NULL, NULL);
-
-	mail_msg_wait_all();
-	
-	unref_standard_folders ();
-	mail_importer_uninit ();
-	
-	mail_session_enable_interaction (FALSE);
-	g_idle_add_full (G_PRIORITY_LOW, idle_quit, NULL, NULL);
-}
-
 static void
 debug_cb (EvolutionShellComponent *shell_component, gpointer user_data)
 {
@@ -807,12 +774,67 @@ user_create_new_item_cb (EvolutionShellComponent *shell_component,
 	g_warning ("Don't know how to create item of type \"%s\"", id);
 }
 
+static gboolean
+idle_quit (gpointer user_data)
+{
+	mail_msg_wait_all();
+
+	if (e_list_length (folder_browser_factory_get_control_list ()))
+		return TRUE;
+
+	g_hash_table_foreach (storages_hash, free_storage, NULL);
+	g_hash_table_destroy (storages_hash);
+
+	gtk_main_quit ();
+
+	return FALSE;
+}	
+
+static void owner_unset_cb (EvolutionShellComponent *shell_component, gpointer user_data);
+
+/* Table for signal handler setup/cleanup */
+static struct {
+	char *sig;
+	GtkSignalFunc func;
+	int hand;
+} shell_component_handlers[] = {
+	{ "owner_set", owner_set_cb, },
+	{ "owner_unset", owner_unset_cb, },
+	{ "debug", debug_cb, },
+	{ "destroy", owner_unset_cb, },
+	{ "handle_external_uri", handle_external_uri_cb, },
+	{ "user_create_new_item", user_create_new_item_cb }
+};
+
+static void
+owner_unset_cb (EvolutionShellComponent *shell_component, gpointer user_data)
+{
+	int i;
+
+	for (i=0;i<sizeof(shell_component_handlers)/sizeof(shell_component_handlers[0]);i++)
+		gtk_signal_disconnect((GtkObject *)shell_component, shell_component_handlers[i].hand);
+
+	if (mail_config_get_empty_trash_on_exit ())
+		empty_trash (NULL, NULL, NULL);
+
+	mail_msg_wait_all();
+	
+	unref_standard_folders ();
+	mail_importer_uninit ();
+
+	global_shell_client = NULL;
+	
+	mail_session_enable_interaction (FALSE);
+	g_idle_add_full (G_PRIORITY_LOW, idle_quit, NULL, NULL);
+}
+
 static BonoboObject *
 create_component (void)
 {
 	EvolutionShellComponentDndDestinationFolder *destination_interface;
 	MailOfflineHandler *offline_handler;
-	
+	int i;
+
 	shell_component = evolution_shell_component_new (folder_types,
 							 schema_types,
 							 create_view,
@@ -834,19 +856,12 @@ create_component (void)
 
 	evolution_shell_component_add_user_creatable_item (shell_component, "message", _("New Mail Message"), _("New _Mail Message"), 'm');
 
-	gtk_signal_connect (GTK_OBJECT (shell_component), "owner_set",
-			    GTK_SIGNAL_FUNC (owner_set_cb), NULL);
-	gtk_signal_connect (GTK_OBJECT (shell_component), "owner_unset",
-			    GTK_SIGNAL_FUNC (owner_unset_cb), NULL);
-	gtk_signal_connect (GTK_OBJECT (shell_component), "debug",
-			    GTK_SIGNAL_FUNC (debug_cb), NULL);
-	gtk_signal_connect (GTK_OBJECT (shell_component), "destroy",
-			    GTK_SIGNAL_FUNC (owner_unset_cb), NULL);
-	gtk_signal_connect (GTK_OBJECT (shell_component), "handle_external_uri",
-			    GTK_SIGNAL_FUNC (handle_external_uri_cb), NULL);
-	gtk_signal_connect (GTK_OBJECT (shell_component), "user_create_new_item",
-			    GTK_SIGNAL_FUNC (user_create_new_item_cb), NULL);
-	
+	for (i=0;i<sizeof(shell_component_handlers)/sizeof(shell_component_handlers[0]);i++) {
+		shell_component_handlers[i].hand = gtk_signal_connect(GTK_OBJECT(shell_component),
+								      shell_component_handlers[i].sig,
+								      shell_component_handlers[i].func, NULL);
+	}
+
 	offline_handler = mail_offline_handler_new ();
 	bonobo_object_add_interface (BONOBO_OBJECT (shell_component), BONOBO_OBJECT (offline_handler));
 	
