@@ -1,3 +1,9 @@
+2003-04-24  Dan Winship  <danw@ximian.com>
+
+	* evolution-shell-component.c (impl_setOwner): Comment out the
+	pinging code again since it's only being used by Connector, where
+	it's triggering an unrelated bug.
+
 2003-04-25  Ettore Perazzoli  <ettore@ximian.com>
 
 	[#41059]
