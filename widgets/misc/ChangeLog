@@ -1,8 +1,9 @@
 2001-04-24  Kjartan Maraas  <kmaraas@gnome.org>
 
 	* e-calendar-item.c, e-calendar.c, e-cell-date-edit.c,
-	e-clipped-label.c: Added #include <glib.h> and moved
-	corresponding local headers to the top.
+	e-clipped-label.c, e-dateedit.c, e-dropdown-button: 
+	Added #include <glib.h> and moved corresponding local headers 
+	to the top.
 	
 2001-04-15  Federico Mena Quintero  <federico@ximian.com>
 
