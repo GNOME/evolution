@@ -1,3 +1,8 @@
+2000-05-06  Christopher James Lahey  <clahey@helixcode.com>
+
+	* widgets/e-text/e-text.c, widgets/e-text/e-text.h: Added a
+	"changed" signal that gets sent whenever the text changes.
+
 2000-05-05  Ettore Perazzoli  <ettore@helixcode.com>
 
 	* Added `--enable-purify' flag.

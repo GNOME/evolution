@@ -31,7 +31,7 @@
 #include "e-text-event-processor-emacs-like.h"
 
 enum {
-	E_TEXT_CHANGE,
+	E_TEXT_CHANGED,
 	E_TEXT_LAST_SIGNAL
 };
 
@@ -194,11 +194,11 @@ e_text_class_init (ETextClass *klass)
 
 	parent_class = gtk_type_class (gnome_canvas_item_get_type ());
 
-	e_text_signals[E_TEXT_CHANGE] =
-		gtk_signal_new ("change",
+	e_text_signals[E_TEXT_CHANGED] =
+		gtk_signal_new ("changed",
 				GTK_RUN_LAST,
 				object_class->type,
-				GTK_SIGNAL_OFFSET (ETextClass, change),
+				GTK_SIGNAL_OFFSET (ETextClass, changed),
 				gtk_marshal_NONE__NONE,
 				GTK_TYPE_NONE, 0);
 
@@ -269,7 +269,7 @@ e_text_class_init (ETextClass *klass)
 
 
 
-	klass->change = NULL;
+	klass->changed = NULL;
 
 	object_class->destroy = e_text_destroy;
 	object_class->set_arg = e_text_set_arg;
@@ -418,6 +418,7 @@ e_text_text_model_changed (ETextModel *model, EText *text)
 {
 	text->text = e_text_model_get_text(model);
 	e_text_free_lines(text);
+	gtk_signal_emit (GTK_OBJECT (text), e_text_signals[E_TEXT_CHANGED]);
 	text->needs_split_into_lines = 1;
 	e_canvas_item_request_reflow (GNOME_CANVAS_ITEM(text));
 }
