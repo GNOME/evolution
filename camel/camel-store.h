@@ -107,8 +107,11 @@ struct _CamelStore
 
 /* open mode for folder */
 #define CAMEL_STORE_FOLDER_CREATE (1<<0)
-#define CAMEL_STORE_FOLDER_BODY_INDEX (1<<1)
-#define CAMEL_STORE_FOLDER_PRIVATE (1<<2) /* a private folder, that shouldn't show up in unmatched/folder info's, etc */
+#define CAMEL_STORE_FOLDER_EXCL (1<<1)
+#define CAMEL_STORE_FOLDER_BODY_INDEX (1<<2)
+#define CAMEL_STORE_FOLDER_PRIVATE (1<<3) /* a private folder, that shouldn't show up in unmatched/folder info's, etc */
+
+#define CAMEL_STORE_FOLDER_CREATE_EXCL (CAMEL_STORE_FOLDER_CREATE | CAMEL_STORE_FOLDER_EXCL)
 
 #define CAMEL_STORE_FOLDER_INFO_FAST       (1 << 0)
 #define CAMEL_STORE_FOLDER_INFO_RECURSIVE  (1 << 1)

@@ -1762,6 +1762,16 @@ get_folder_online (CamelStore *store, const char *folder_name,
 			CAMEL_SERVICE_UNLOCK (imap_store, connect_lock);
 			return NULL;
 		}
+	} else if (flags & CAMEL_STORE_FOLDER_EXCL) {
+		camel_exception_setv (ex, CAMEL_EXCEPTION_SYSTEM,
+				      _("Cannot create folder `%s': folder exists."),
+				      folder_name);
+		
+		camel_imap_response_free_without_processing (imap_store, response);
+		
+		CAMEL_SERVICE_UNLOCK (imap_store, connect_lock);
+		
+		return NULL;
 	}
 
 	storage_path = g_strdup_printf("%s/folders", imap_store->storage_path);

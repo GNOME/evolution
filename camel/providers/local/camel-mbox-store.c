@@ -150,15 +150,15 @@ get_folder(CamelStore *store, const char *folder_name, guint32 flags, CamelExcep
 		
 		if (errno != ENOENT) {
 			camel_exception_setv(ex, CAMEL_EXCEPTION_SYSTEM,
-					     _("Could not open file `%s':\n%s"),
-					     name, g_strerror(errno));
+					     _("Cannot get folder `%s': %s"),
+					     folder_name, g_strerror (errno));
 			g_free(name);
 			return NULL;
 		}
 		
 		if ((flags & CAMEL_STORE_FOLDER_CREATE) == 0) {
 			camel_exception_setv(ex, CAMEL_EXCEPTION_STORE_NO_FOLDER,
-					     _("Folder `%s' does not exist."),
+					     _("Cannot get folder `%s': folder does not exist."),
 					     folder_name);
 			g_free(name);
 			return NULL;
@@ -166,9 +166,9 @@ get_folder(CamelStore *store, const char *folder_name, guint32 flags, CamelExcep
 		
 		dirname = g_path_get_dirname(name);
 		if (camel_mkdir(dirname, 0777) == -1 && errno != EEXIST) {
-			camel_exception_setv(ex, CAMEL_EXCEPTION_STORE_NO_FOLDER,
-					     _("Could not create directory `%s':\n%s"),
-					     dirname, g_strerror(errno));
+			camel_exception_setv(ex, CAMEL_EXCEPTION_SYSTEM,
+					     _("Cannot create folder `%s': %s"),
+					     folder_name, g_strerror (errno));
 			g_free(dirname);
 			g_free(name);
 			return NULL;
@@ -179,8 +179,8 @@ get_folder(CamelStore *store, const char *folder_name, guint32 flags, CamelExcep
 		fd = open(name, O_WRONLY | O_CREAT | O_APPEND, 0666);
 		if (fd == -1) {
 			camel_exception_setv(ex, CAMEL_EXCEPTION_SYSTEM,
-					     _("Could not create file `%s':\n%s"),
-					     name, g_strerror(errno));
+					     _("Cannot create folder `%s': %s"),
+					     folder_name, g_strerror (errno));
 			g_free(name);
 			return NULL;
 		}
@@ -188,10 +188,16 @@ get_folder(CamelStore *store, const char *folder_name, guint32 flags, CamelExcep
 		g_free(name);
 		close(fd);
 	} else if (!S_ISREG(st.st_mode)) {
-		camel_exception_setv(ex, CAMEL_EXCEPTION_STORE_NO_FOLDER,
-				     _("`%s' is not a regular file."),
-				     name);
+		camel_exception_setv(ex, CAMEL_EXCEPTION_SYSTEM,
+				     _("Cannot get folder `%s': not a regular file."),
+				     folder_name);
 		g_free(name);
+		return NULL;
+	} else if (flags & CAMEL_STORE_FOLDER_EXCL) {
+		camel_exception_setv (ex, CAMEL_EXCEPTION_SYSTEM,
+				      _("Cannot create folder `%s': folder exists."),
+				      folder_name);
+		g_free (name);
 		return NULL;
 	} else
 		g_free(name);

@@ -199,21 +199,22 @@ get_folder(CamelStore * store, const char *folder_name, guint32 flags, CamelExce
 	if (stat(name, &st) == -1) {
 		if (errno != ENOENT) {
 			camel_exception_setv(ex, CAMEL_EXCEPTION_SYSTEM,
-					     _("Could not open folder `%s':\n%s"),
+					     _("Cannot get folder `%s': %s"),
 					     folder_name, g_strerror (errno));
 			g_free (name);
 			return NULL;
 		}
 		if ((flags & CAMEL_STORE_FOLDER_CREATE) == 0) {
 			camel_exception_setv(ex, CAMEL_EXCEPTION_STORE_NO_FOLDER,
-					     _("Folder `%s' does not exist."), folder_name);
+					     _("Cannot get folder `%s': folder does not exist."),
+					     folder_name);
 			g_free (name);
 			return NULL;
 		}
 
-		if (mkdir(name, 0700) != 0) {
+		if (mkdir(name, 0777) != 0) {
 			camel_exception_setv(ex, CAMEL_EXCEPTION_SYSTEM,
-					     _("Could not create folder `%s':\n%s"),
+					     _("Could not create folder `%s': %s"),
 					     folder_name, g_strerror (errno));
 			g_free (name);
 			return NULL;
@@ -223,13 +224,18 @@ get_folder(CamelStore * store, const char *folder_name, guint32 flags, CamelExce
 		/* FIXME: throw exception on error */
 		if (((CamelMhStore *)store)->flags & CAMEL_MH_DOTFOLDERS)
 			folders_update(((CamelLocalStore *)store)->toplevel_dir, folder_name, UPDATE_ADD);
-
 	} else if (!S_ISDIR(st.st_mode)) {
 		camel_exception_setv(ex, CAMEL_EXCEPTION_STORE_NO_FOLDER,
-				     _("`%s' is not a directory."), name);
+				     _("Cannot get folder `%s': not a directory."), folder_name);
+		g_free (name);
+		return NULL;
+	} else if (flags & CAMEL_STORE_FOLDER_EXCL) {
+		camel_exception_setv (ex, CAMEL_EXCEPTION_SYSTEM,
+				      _("Cannot create folder `%s': folder exists."), folder_name);
 		g_free (name);
 		return NULL;
 	}
+	
 	g_free(name);
 
 	return camel_mh_folder_new(store, folder_name, flags, ex);

@@ -103,18 +103,19 @@ get_folder(CamelStore * store, const char *folder_name, guint32 flags, CamelExce
 	if (stat(name, &st) == -1) {
 		if (errno != ENOENT) {
 			camel_exception_setv (ex, CAMEL_EXCEPTION_SYSTEM,
-					      _("Could not open folder `%s':\n%s"),
+					      _("Cannot get folder `%s': %s"),
 					      folder_name, g_strerror (errno));
 		} else if ((flags & CAMEL_STORE_FOLDER_CREATE) == 0) {
 			camel_exception_setv (ex, CAMEL_EXCEPTION_STORE_NO_FOLDER,
-					      _("Folder `%s' does not exist."), folder_name);
+					      _("Cannot get folder `%s': folder does not exist."),
+					      folder_name);
 		} else {
 			if (mkdir(name, 0700) != 0
 			    || mkdir(tmp, 0700) != 0
 			    || mkdir(cur, 0700) != 0
 			    || mkdir(new, 0700) != 0) {
 				camel_exception_setv (ex, CAMEL_EXCEPTION_SYSTEM,
-						      _("Could not create folder `%s':\n%s"),
+						      _("Cannot create folder `%s': %s"),
 						      folder_name, g_strerror (errno));
 				rmdir(tmp);
 				rmdir(cur);
@@ -128,8 +129,12 @@ get_folder(CamelStore * store, const char *folder_name, guint32 flags, CamelExce
 		   || stat(tmp, &st) != 0 || !S_ISDIR(st.st_mode)
 		   || stat(cur, &st) != 0 || !S_ISDIR(st.st_mode)
 		   || stat(new, &st) != 0 || !S_ISDIR(st.st_mode)) {
-		camel_exception_setv(ex, CAMEL_EXCEPTION_STORE_NO_FOLDER,
-				     _("`%s' is not a maildir directory."), name);
+		camel_exception_setv(ex, CAMEL_EXCEPTION_SYSTEM,
+				     _("Cannot get folder `%s': not a maildir directory."), name);
+	} else if (flags & CAMEL_STORE_FOLDER_EXCL) {
+		camel_exception_setv (ex, CAMEL_EXCEPTION_SYSTEM,
+				      _("Cannot create folder `%s': folder exists."),
+				      folder_name);
 	} else {
 		folder = camel_maildir_folder_new(store, folder_name, flags, ex);
 	}

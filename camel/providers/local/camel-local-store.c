@@ -39,6 +39,7 @@
 
 #include "camel-local-folder.h"
 #include <camel/camel-text-index.h>
+#include <camel/camel-file-utils.h>
 
 #define d(x) 
 
@@ -129,10 +130,9 @@ camel_local_store_get_toplevel_dir (CamelLocalStore *store)
 static CamelFolder *
 get_folder(CamelStore * store, const char *folder_name, guint32 flags, CamelException * ex)
 {
-	struct stat st;
 	char *path = ((CamelLocalStore *)store)->toplevel_dir;
-	char *sub, *slash;
-
+	struct stat st;
+	
 	if (path[0] != '/') {
 		camel_exception_setv(ex, CAMEL_EXCEPTION_STORE_NO_FOLDER,
 				     _("Store root %s is not an absolute path"), path);
@@ -155,27 +155,15 @@ get_folder(CamelStore * store, const char *folder_name, guint32 flags, CamelExce
 				      path, g_strerror (errno));
 		return NULL;
 	}
-
+	
 	/* need to create the dir heirarchy */
-	sub = g_alloca (strlen (path) + 1);
-	strcpy (sub, path);
-	slash = sub;
-	do {
-		slash = strchr (slash + 1, '/');
-		if (slash)
-			*slash = 0;
-		if (stat (sub, &st) == -1) {
-			if (errno != ENOENT || mkdir (sub, 0700) == -1) {
-				camel_exception_setv (ex, CAMEL_EXCEPTION_STORE_NO_FOLDER,
-						      _("Cannot get folder: %s: %s"),
-						      path, g_strerror (errno));
-				return NULL;
-			}
-		}
-		if (slash)
-			*slash = '/';
-	} while (slash);
-
+	if (camel_mkdir (path, 0777) == -1 && errno != EEXIST) {
+		camel_exception_setv (ex, CAMEL_EXCEPTION_STORE_NO_FOLDER,
+				      _("Cannot get folder: %s: %s"),
+				      path, g_strerror (errno));
+		return NULL;
+	}
+	
 	return (CamelFolder *) 0xdeadbeef;
 }
 

@@ -1,3 +1,27 @@
+2004-02-13  Jeffrey Stedfast  <fejj@ximian.com>
+
+	* providers/imap/camel-imap-store.c (get_folder_online): Same.
+
+	* providers/local/camel-mh-store.c (get_folder): Same as maildir
+	changes.
+
+	* providers/local/camel-maildir-store.c (get_folder): Make
+	exceptions strings consistanmt with the mbox exception strings
+	(and vise versa). Also handle the CAMEL_STORE_FOLDER_EXCL flag.
+
+	* providers/local/camel-mbox-store.c (get_folder): Check
+	CAMEL_STORE_FOLDER_EXCL flag.
+
+	* providers/local/camel-local-store.c (get_folder): Simplified by
+	using camel_mkdir instead of doing it manually.
+
+	* camel-store.c (camel_store_get_folder): If the folder exists in
+	the cache and the O_EXCL flag was passed, return NULL and set an
+	exception.
+
+	* camel-store.h: Added a new CAMEL_STORE_FOLDER_EXCL flag for use
+	with get_folder().
+
 2004-02-12  Jeffrey Stedfast  <fejj@ximian.com>
 
 	* camel-file-utils.c (camel_file_util_encode_string): Since

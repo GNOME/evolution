@@ -230,22 +230,35 @@ camel_store_get_folder (CamelStore *store, const char *folder_name, guint32 flag
 	
 	g_return_val_if_fail (folder_name != NULL, NULL);
 	
+	/* O_EXCL doesn't make sense if we aren't requesting to also create the folder if it doesn't exist */
+	if (!(flags & CAMEL_STORE_FOLDER_CREATE))
+		flags &= ~CAMEL_STORE_FOLDER_EXCL;
+	
 	CAMEL_STORE_LOCK(store, folder_lock);
 	
-	if (store->folders)
+	if (store->folders) {
 		/* Try cache first. */
 		folder = camel_object_bag_reserve(store->folders, folder_name);
+		if (folder && (flags & CAMEL_STORE_FOLDER_EXCL)) {
+			camel_exception_setv (ex, CAMEL_EXCEPTION_SYSTEM,
+					      _("Cannot create folder `%s': folder exists"),
+					      folder_name);
+			
+			camel_object_unref (folder);
+			return NULL;
+		}
+	}
 	
 	if (!folder) {
-		if ((store->flags & CAMEL_STORE_VTRASH) && strcmp(folder_name, CAMEL_VTRASH_NAME) == 0)
+		if ((store->flags & CAMEL_STORE_VTRASH) && strcmp(folder_name, CAMEL_VTRASH_NAME) == 0) {
 			folder = CS_CLASS(store)->get_trash(store, ex);
-		else if ((store->flags & CAMEL_STORE_VJUNK) && strcmp(folder_name, CAMEL_VJUNK_NAME) == 0)
+		} else if ((store->flags & CAMEL_STORE_VJUNK) && strcmp(folder_name, CAMEL_VJUNK_NAME) == 0) {
 			folder = CS_CLASS(store)->get_junk(store, ex);
-		else {
+		} else {
 			folder = CS_CLASS (store)->get_folder(store, folder_name, flags, ex);
 			if (folder) {
 				CamelVeeFolder *vfolder;
-
+				
 				if ((store->flags & CAMEL_STORE_VTRASH)
 				    && (vfolder = camel_object_bag_get(store->folders, CAMEL_VTRASH_NAME))) {
 					camel_vee_folder_add_folder(vfolder, folder);
