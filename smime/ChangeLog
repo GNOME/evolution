@@ -1,3 +1,12 @@
+2004-07-16  Chris Toshok  <toshok@ximian.com>
+
+	[ fixes #61490 ]
+	
+	* lib/e-cert-db.c (e_cert_db_import_pkcs12_file): un-ifdef this,
+	as it's working..
+	(e_cert_db_export_pkcs12_file): and ifdef this one, since it's the
+	function i meant to ifdef in the first place.
+
 2004-06-17  JP Rosevear  <jpr@novell.com>
 
 	Fixes #56458
