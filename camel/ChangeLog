@@ -1,5 +1,8 @@
 2000-07-07  Dan Winship  <danw@helixcode.com>
 
+	* camel-mime-utils.c (header_references_decode): Work around
+	In-Reply-To's with unquoted punctuation. So many broken mailers.
+
 	* camel-folder.c (camel_folder_search_by_expression): Make this
 	return a GPtrArray rather than a GList.
 

@@ -1714,7 +1714,7 @@ header_references_decode(const char *in)
 			if (word)
 				g_free (word);
 			else
-				break;
+				inptr++; /* Stupid mailer tricks */
 		}
 	}
 
