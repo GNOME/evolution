@@ -59,9 +59,6 @@ typedef struct {
 
 	gboolean  (*connect)           (CamelService *service, 
 					CamelException *ex);
-	gboolean  (*connect_with_url)  (CamelService *service, 
-					CamelURL *url,
-					CamelException *ex);
 	gboolean  (*disconnect)        (CamelService *service, 
 					CamelException *ex);
 
@@ -97,9 +94,6 @@ CamelService *      camel_service_new                (GtkType type,
 						      CamelException *ex);
 
 gboolean            camel_service_connect            (CamelService *service, 
-						      CamelException *ex);
-gboolean            camel_service_connect_with_url   (CamelService *service, 
-						      char *url,
 						      CamelException *ex);
 gboolean            camel_service_disconnect         (CamelService *service, 
                                                       CamelException *ex);
