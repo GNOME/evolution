@@ -1,3 +1,18 @@
+2004-07-22  Not Zed  <NotZed@Ximian.com>
+
+	* em-utils.c (em_utils_part_to_html, em_utils_message_to_html):
+	set the session on the formatter.  See #61767.
+
+2004-07-22  Not Zed  <NotZed@Ximian.com>
+
+	** See bug #61747.
+
+	* message-list.c (search_func): don't emit a message_selected here
+	(god knows why we did?).  Don't update cursor_uid either, just
+	clear it.
+	(message_list_select): select the path if we find it here, causing
+	the cascade of selection action.
+
 2004-07-19  Jeffrey Stedfast  <fejj@novell.com>
 
 	* em-migrate.c (em_migrate_folder): Free uri and name

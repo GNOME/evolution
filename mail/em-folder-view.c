@@ -1632,7 +1632,6 @@ emfv_enable_menus(EMFolderView *emfv)
 		disable_mask = ~0;
 	}
 
-
 	name = g_string_new("");
 	for (l = emfv->enable_map; l; l = l->next) {
 		EMFolderViewEnable *map = l->data;

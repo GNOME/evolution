@@ -465,6 +465,7 @@ struct search_func_data {
 	MessageList *message_list;
 	guint32 flags;
 	guint32 mask;
+	ETreePath path;
 };
 
 static gboolean
@@ -478,12 +479,9 @@ search_func (ETreeModel *model, ETreePath path, struct search_func_data *data)
 	info = get_message_info (data->message_list, path);
 	
 	if (info && (info->flags & data->mask) == data->flags) {
-		if (data->message_list->cursor_uid) {
-			g_free (data->message_list->cursor_uid);
-			data->message_list->cursor_uid = g_strdup (camel_message_info_uid (info));
-		}
-		g_signal_emit (GTK_OBJECT (data->message_list), message_list_signals[MESSAGE_SELECTED], 0,
-			       camel_message_info_uid (info));
+		g_free(data->message_list->cursor_uid);
+		data->message_list->cursor_uid = NULL;
+		data->path = path;
 		return TRUE;
 	}
 	return FALSE;
@@ -538,7 +536,8 @@ message_list_select (MessageList               *message_list,
 	data.message_list = message_list;
 	data.flags = flags;
 	data.mask = mask;
-	
+	data.path = NULL;
+
 	if (direction == MESSAGE_LIST_SELECT_NEXT)
 		params |= E_TREE_FIND_NEXT_FORWARD;
 	else
@@ -547,7 +546,13 @@ message_list_select (MessageList               *message_list,
 	if (wraparound)
 		params |= E_TREE_FIND_NEXT_WRAP;
 	
-	return e_tree_find_next (message_list->tree, params, (ETreePathFunc) search_func, &data);
+	if (e_tree_find_next (message_list->tree, params, (ETreePathFunc) search_func, &data)) {
+		ETreeSelectionModel *etsm = (ETreeSelectionModel *)e_tree_get_selection_model (message_list->tree);
+
+		e_tree_selection_model_select_single_path(etsm, data.path);
+		return TRUE;
+	} else
+		return FALSE;
 }
 
 
@@ -2956,7 +2961,7 @@ ml_getselected_cb(ETreePath path, void *user_data)
 
 	if (e_tree_model_node_is_root (data->ml->model, path))
 		return;
-	
+
 	uid = get_message_uid(data->ml, path);
 	g_assert(uid != NULL);
 	g_ptr_array_add(data->uids, g_strdup(uid));

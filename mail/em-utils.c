@@ -66,6 +66,8 @@
 
 static void emu_save_part_done (CamelMimePart *part, char *name, int done, void *data);
 
+extern struct _CamelSession *session;
+
 #define d(x)
 
 /**
@@ -1375,6 +1377,7 @@ em_utils_part_to_html(CamelMimePart *part)
 	camel_stream_mem_set_byte_array (mem, buf);
 	
 	emfq = em_format_quote_new(NULL, (CamelStream *)mem, 0);
+	em_format_set_session((EMFormat *)emfq, session);
 	em_format_part((EMFormat *) emfq, (CamelStream *) mem, part);
 	g_object_unref (emfq);
 	
@@ -1411,6 +1414,7 @@ em_utils_message_to_html(CamelMimeMessage *message, const char *credits, guint32
 	camel_stream_mem_set_byte_array (mem, buf);
 	
 	emfq = em_format_quote_new(credits, (CamelStream *)mem, flags);
+	em_format_set_session((EMFormat *)emfq, session);
 	em_format_format((EMFormat *)emfq, NULL, NULL, message);
 	g_object_unref (emfq);
 	
@@ -1519,8 +1523,6 @@ em_utils_folder_name_from_uri (const char *uri)
 	
 	return folder_name;
 }
-
-extern struct _CamelSession *session;
 
 /* email: uri's are based on the account, with special cases for local
  * stores, vfolder and local mail.
