@@ -1381,6 +1381,7 @@ e_summary_configure (GtkWidget *widget,
 	pd->xml = glade_xml_new (EVOLUTION_GLADEDIR "/my-evolution.glade", NULL);
 	g_assert (pd->xml != NULL); /* Fixme: Nice GUI to explain what happened */
 	pd->box = GNOME_PROPERTY_BOX (glade_xml_get_widget (pd->xml, "dialog1"));
+	gtk_window_set_title (GTK_WINDOW (pd->box), _("My Evolution Settings"));
 	if (make_property_dialog (pd) == FALSE) {
 		g_warning ("Missing some part of XML file");
 		free_property_dialog (pd);
