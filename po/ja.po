@@ -7,7 +7,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: evolution CVS-20010612\n"
-"POT-Creation-Date: 2003-06-25 13:24-0400\n"
+"POT-Creation-Date: 2003-06-30 14:22-0400\n"
 "PO-Revision-Date: 2003-05-01 15:33+0900\n"
 "Last-Translator: Takuo KITAME <kitame@debian.org>\n"
 "Language-Team: Japanese <translation@gnome.gr.jp>\n"
@@ -1435,7 +1435,7 @@ msgstr "カテゴリ(_T)..."
 
 #: addressbook/gui/contact-editor/contact-editor.glade.h:28
 #: calendar/gui/dialogs/meeting-page.c:717 calendar/gui/e-calendar-table.c:977
-#: calendar/gui/e-day-view.c:3755 calendar/gui/e-week-view.c:3631
+#: calendar/gui/e-day-view.c:3755 calendar/gui/e-week-view.c:3636
 #: mail/folder-browser.c:1790 ui/evolution-addressbook.xml.h:32
 #: ui/evolution-calendar.xml.h:30 ui/evolution-mail-message.xml.h:97
 #: ui/evolution-tasks.xml.h:16 ui/evolution.xml.h:45
@@ -3098,7 +3098,7 @@ msgid "Delete"
 msgstr "削除"
 
 #: addressbook/gui/widgets/e-addressbook-view.c:915
-#: calendar/gui/e-day-view.c:3715 calendar/gui/e-week-view.c:3596
+#: calendar/gui/e-day-view.c:3715 calendar/gui/e-week-view.c:3601
 msgid "Current View"
 msgstr "現在のビュー"
 
@@ -4003,7 +4003,7 @@ msgstr ""
 
 #. An empty string is the same as 'None'.
 #: calendar/gui/calendar-model.c:1176 calendar/gui/dialogs/meeting-page.c:330
-#: calendar/gui/dialogs/meeting-page.glade.h:2 composer/e-msg-composer.c:2056
+#: calendar/gui/dialogs/meeting-page.glade.h:2 composer/e-msg-composer.c:2061
 #: mail/folder-browser.c:1752 mail/mail-account-gui.c:1260
 #: mail/mail-account-gui.c:1692 mail/mail-accounts.c:442
 #: mail/mail-config.glade.h:76
@@ -4463,46 +4463,46 @@ msgstr ""
 msgid "Are you sure you want to cancel and delete this journal entry?"
 msgstr "本当にこの仕訳記入をキャンセルし削除してもよろしいですか?"
 
-#: calendar/gui/dialogs/changed-comp.c:58
+#: calendar/gui/dialogs/changed-comp.c:59
 msgid "This event has been deleted."
 msgstr "このイベントは削除されました"
 
-#: calendar/gui/dialogs/changed-comp.c:62
+#: calendar/gui/dialogs/changed-comp.c:63
 msgid "This task has been deleted."
 msgstr "このタスクは削除されました"
 
-#: calendar/gui/dialogs/changed-comp.c:66
+#: calendar/gui/dialogs/changed-comp.c:67
 msgid "This journal entry has been deleted."
 msgstr "この仕訳記入は削除されました"
 
-#: calendar/gui/dialogs/changed-comp.c:75
+#: calendar/gui/dialogs/changed-comp.c:76
 #, c-format
 msgid "%s  You have made changes. Forget those changes and close the editor?"
 msgstr "%s は変更しました。これらの変更を破棄してエディタを閉じますか?"
 
-#: calendar/gui/dialogs/changed-comp.c:77
+#: calendar/gui/dialogs/changed-comp.c:78
 #, c-format
 msgid "%s  You have made no changes, close the editor?"
 msgstr "%s は変更されてません。エディタを閉じますか?"
 
-#: calendar/gui/dialogs/changed-comp.c:82
+#: calendar/gui/dialogs/changed-comp.c:83
 msgid "This event has been changed."
 msgstr "このイベントは変更されました"
 
-#: calendar/gui/dialogs/changed-comp.c:86
+#: calendar/gui/dialogs/changed-comp.c:87
 msgid "This task has been changed."
 msgstr "このタスクは変更されました"
 
-#: calendar/gui/dialogs/changed-comp.c:90
+#: calendar/gui/dialogs/changed-comp.c:91
 msgid "This journal entry has been changed."
 msgstr "この仕訳記入は変更されました"
 
-#: calendar/gui/dialogs/changed-comp.c:99
+#: calendar/gui/dialogs/changed-comp.c:100
 #, c-format
 msgid "%s  You have made changes. Forget those changes and update the editor?"
 msgstr ""
 
-#: calendar/gui/dialogs/changed-comp.c:101
+#: calendar/gui/dialogs/changed-comp.c:102
 #, c-format
 msgid "%s  You have made no changes, update the editor?"
 msgstr ""
@@ -4578,17 +4578,17 @@ msgstr "サマリはありません"
 
 #: calendar/gui/dialogs/comp-editor.c:1281
 #: calendar/gui/e-calendar-table.c:1068 calendar/gui/e-day-view.c:3993
-#: calendar/gui/e-week-view.c:3840 composer/e-msg-composer.c:1164
+#: calendar/gui/e-week-view.c:3845 composer/e-msg-composer.c:1169
 msgid "Save as..."
 msgstr "別名で保存..."
 
-#: calendar/gui/dialogs/comp-editor.c:1382
-#: calendar/gui/dialogs/comp-editor.c:1406
-#: calendar/gui/dialogs/comp-editor.c:1432
+#: calendar/gui/dialogs/comp-editor.c:1383
+#: calendar/gui/dialogs/comp-editor.c:1407
+#: calendar/gui/dialogs/comp-editor.c:1433
 msgid "Changes made to this item may be discarded if an update arrives"
 msgstr ""
 
-#: calendar/gui/dialogs/comp-editor.c:1459
+#: calendar/gui/dialogs/comp-editor.c:1460
 msgid "Unable to obtain current version!"
 msgstr ""
 
@@ -5037,7 +5037,7 @@ msgstr ""
 "\n"
 "変更を保存しますか?"
 
-#: calendar/gui/dialogs/save-comp.c:58 composer/e-msg-composer.c:1557
+#: calendar/gui/dialogs/save-comp.c:58 composer/e-msg-composer.c:1562
 msgid "_Discard Changes"
 msgstr ""
 
@@ -5267,7 +5267,7 @@ msgid "Deleting selected objects"
 msgstr "選択した連絡先を削除します"
 
 #: calendar/gui/e-calendar-table.c:958 calendar/gui/e-day-view.c:3737
-#: calendar/gui/e-week-view.c:3613 mail/folder-browser.c:1763
+#: calendar/gui/e-week-view.c:3618 mail/folder-browser.c:1763
 #: shell/e-shortcuts-view.c:422 ui/evolution-addressbook.xml.h:36
 msgid "_Open"
 msgstr "開く(_O)"
@@ -5278,7 +5278,7 @@ msgid "_Save as..."
 msgstr "別名で保存..."
 
 #: calendar/gui/e-calendar-table.c:960 calendar/gui/e-day-view.c:3739
-#: calendar/gui/e-week-view.c:3588 calendar/gui/e-week-view.c:3615
+#: calendar/gui/e-week-view.c:3593 calendar/gui/e-week-view.c:3620
 #: ui/evolution-addressbook.xml.h:38 ui/evolution-calendar.xml.h:33
 #: ui/evolution-contact-editor.xml.h:14 ui/evolution-mail-message.xml.h:108
 #: ui/evolution-tasks.xml.h:20 ui/my-evolution.xml.h:6
@@ -5286,21 +5286,21 @@ msgid "_Print..."
 msgstr "印刷(_P)..."
 
 #: calendar/gui/e-calendar-table.c:964 calendar/gui/e-day-view.c:3744
-#: calendar/gui/e-week-view.c:3620 ui/evolution-addressbook.xml.h:1
+#: calendar/gui/e-week-view.c:3625 ui/evolution-addressbook.xml.h:1
 #: ui/evolution-calendar.xml.h:1 ui/evolution-tasks.xml.h:1
 msgid "C_ut"
 msgstr "切取り(_U)"
 
 #: calendar/gui/e-calendar-table.c:965 calendar/gui/e-day-view.c:3745
-#: calendar/gui/e-week-view.c:3621 ui/evolution-addressbook.xml.h:30
+#: calendar/gui/e-week-view.c:3626 ui/evolution-addressbook.xml.h:30
 #: ui/evolution-calendar.xml.h:29 ui/evolution-composer-entries.xml.h:7
 #: ui/evolution-mail-list.xml.h:24 ui/evolution-tasks.xml.h:15
 msgid "_Copy"
 msgstr "コピー(_C)"
 
 #: calendar/gui/e-calendar-table.c:966 calendar/gui/e-day-view.c:3710
-#: calendar/gui/e-day-view.c:3746 calendar/gui/e-week-view.c:3592
-#: calendar/gui/e-week-view.c:3622 ui/evolution-addressbook.xml.h:37
+#: calendar/gui/e-day-view.c:3746 calendar/gui/e-week-view.c:3597
+#: calendar/gui/e-week-view.c:3627 ui/evolution-addressbook.xml.h:37
 #: ui/evolution-calendar.xml.h:32 ui/evolution-composer-entries.xml.h:9
 #: ui/evolution-mail-list.xml.h:29 ui/evolution-tasks.xml.h:19
 msgid "_Paste"
@@ -5326,8 +5326,8 @@ msgstr "選択されたタスクを完了としてマーク(_M)"
 msgid "_Delete Selected Tasks"
 msgstr "選択したタスクを削除(_D)"
 
-#: calendar/gui/e-calendar-table.c:1265 calendar/gui/e-day-view.c:7929
-#: calendar/gui/e-week-view.c:4335
+#: calendar/gui/e-calendar-table.c:1265 calendar/gui/e-day-view.c:7949
+#: calendar/gui/e-week-view.c:4342
 msgid "Updating objects"
 msgstr ""
 
@@ -5437,16 +5437,16 @@ msgstr "午後"
 msgid "New _Appointment"
 msgstr "新規アポイント(_A)"
 
-#: calendar/gui/e-day-view.c:3696 calendar/gui/e-week-view.c:3582
+#: calendar/gui/e-day-view.c:3696 calendar/gui/e-week-view.c:3587
 msgid "New All Day _Event"
 msgstr "新規全日イベント"
 
-#: calendar/gui/e-day-view.c:3698 calendar/gui/e-week-view.c:3583
+#: calendar/gui/e-day-view.c:3698 calendar/gui/e-week-view.c:3588
 #, fuzzy
 msgid "New Meeting"
 msgstr "会議"
 
-#: calendar/gui/e-day-view.c:3700 calendar/gui/e-week-view.c:3584
+#: calendar/gui/e-day-view.c:3700 calendar/gui/e-week-view.c:3589
 msgid "New Task"
 msgstr "新規タスク"
 
@@ -5454,47 +5454,47 @@ msgstr "新規タスク"
 msgid "Print..."
 msgstr "印刷..."
 
-#: calendar/gui/e-day-view.c:3717 calendar/gui/e-week-view.c:3598
+#: calendar/gui/e-day-view.c:3717 calendar/gui/e-week-view.c:3603
 #: ui/evolution-calendar.xml.h:13
 msgid "Go to _Today"
 msgstr "今日へ移動(_T)"
 
-#: calendar/gui/e-day-view.c:3719 calendar/gui/e-week-view.c:3599
+#: calendar/gui/e-day-view.c:3719 calendar/gui/e-week-view.c:3604
 msgid "_Go to Date..."
 msgstr "指定日へ移動(_G)..."
 
-#: calendar/gui/e-day-view.c:3724 calendar/gui/e-week-view.c:3603
+#: calendar/gui/e-day-view.c:3724 calendar/gui/e-week-view.c:3608
 #: ui/evolution-calendar.xml.h:34
 msgid "_Publish Free/Busy Information"
 msgstr "空き/多忙 情報の公開(_P)"
 
-#: calendar/gui/e-day-view.c:3729 calendar/gui/e-week-view.c:3607
+#: calendar/gui/e-day-view.c:3729 calendar/gui/e-week-view.c:3612
 #: ui/evolution.xml.h:60
 msgid "_Settings..."
 msgstr "設定(_S)..."
 
-#: calendar/gui/e-day-view.c:3738 calendar/gui/e-week-view.c:3614
+#: calendar/gui/e-day-view.c:3738 calendar/gui/e-week-view.c:3619
 #: mail/folder-browser.c:1765 ui/evolution-mail-message.xml.h:112
 msgid "_Save As..."
 msgstr "別名で保存(_S)..."
 
-#: calendar/gui/e-day-view.c:3750 calendar/gui/e-week-view.c:3626
+#: calendar/gui/e-day-view.c:3750 calendar/gui/e-week-view.c:3631
 msgid "_Schedule Meeting..."
 msgstr "ミーティングのスケジュール(_S)..."
 
-#: calendar/gui/e-day-view.c:3751 calendar/gui/e-week-view.c:3627
+#: calendar/gui/e-day-view.c:3751 calendar/gui/e-week-view.c:3632
 msgid "_Forward as iCalendar..."
 msgstr "iCalenderとして転送(_F)..."
 
-#: calendar/gui/e-day-view.c:3756 calendar/gui/e-week-view.c:3632
+#: calendar/gui/e-day-view.c:3756 calendar/gui/e-week-view.c:3637
 msgid "Make this Occurrence _Movable"
 msgstr "この出来事を可動にする(_M)"
 
-#: calendar/gui/e-day-view.c:3757 calendar/gui/e-week-view.c:3633
+#: calendar/gui/e-day-view.c:3757 calendar/gui/e-week-view.c:3638
 msgid "Delete this _Occurrence"
 msgstr "この出来事を削除(_O)"
 
-#: calendar/gui/e-day-view.c:3758 calendar/gui/e-week-view.c:3634
+#: calendar/gui/e-day-view.c:3758 calendar/gui/e-week-view.c:3639
 msgid "Delete _All Occurrences"
 msgstr "すべての出来事を削除(_A)"
 
@@ -6200,7 +6200,7 @@ msgstr "選択した連絡先を削除します"
 msgid "Expunging"
 msgstr "フォルダを削除中"
 
-#: calendar/gui/e-week-view.c:3581
+#: calendar/gui/e-week-view.c:3586
 msgid "New _Appointment..."
 msgstr "新規アポイント(_A)..."
 
@@ -10717,12 +10717,12 @@ msgstr "投稿先"
 msgid "Attach file(s)"
 msgstr "ファイルを添付します"
 
-#: composer/e-msg-composer.c:535
+#: composer/e-msg-composer.c:540
 #, fuzzy
 msgid "Could not create a PGP signature context"
 msgstr "PGP 署名コンテキストを作成出来ませんでした"
 
-#: composer/e-msg-composer.c:814
+#: composer/e-msg-composer.c:819
 #, c-format
 msgid ""
 "Error while reading file %s:\n"
@@ -10731,30 +10731,30 @@ msgstr ""
 "ファイルの読み込み中にエラー: %s\n"
 "%s"
 
-#: composer/e-msg-composer.c:1177
+#: composer/e-msg-composer.c:1182
 msgid "File exists, overwrite?"
 msgstr "ファイルは存在します。上書きしますか?"
 
-#: composer/e-msg-composer.c:1195
+#: composer/e-msg-composer.c:1200
 #, c-format
 msgid "Error saving file: %s"
 msgstr "ファイルの保存中にエラー: %s"
 
-#: composer/e-msg-composer.c:1218
+#: composer/e-msg-composer.c:1223
 #, c-format
 msgid "Error loading file: %s"
 msgstr "ファイルのロード中にエラー: %s"
 
-#: composer/e-msg-composer.c:1256
+#: composer/e-msg-composer.c:1261
 #, c-format
 msgid "Error accessing file: %s"
 msgstr "ファイルのアクセス中にエラー: %s"
 
-#: composer/e-msg-composer.c:1264
+#: composer/e-msg-composer.c:1269
 msgid "Unable to retrieve message from editor"
 msgstr "エディタからメッセージを取得出来ませんでした"
 
-#: composer/e-msg-composer.c:1271
+#: composer/e-msg-composer.c:1276
 #, c-format
 msgid ""
 "Unable to seek on file: %s\n"
@@ -10763,7 +10763,7 @@ msgstr ""
 "ファイルを走査できません: %s\n"
 "%s"
 
-#: composer/e-msg-composer.c:1278
+#: composer/e-msg-composer.c:1283
 #, c-format
 msgid ""
 "Unable to truncate file: %s\n"
@@ -10772,7 +10772,7 @@ msgstr ""
 "ファイルを切り詰めることが出来ません: %s\n"
 "%s"
 
-#: composer/e-msg-composer.c:1287
+#: composer/e-msg-composer.c:1292
 #, fuzzy, c-format
 msgid ""
 "Unable to copy file descriptor: %s\n"
@@ -10781,7 +10781,7 @@ msgstr ""
 "ファイルを走査できません: %s\n"
 "%s"
 
-#: composer/e-msg-composer.c:1296
+#: composer/e-msg-composer.c:1301
 #, c-format
 msgid ""
 "Error autosaving message: %s\n"
@@ -10790,7 +10790,7 @@ msgstr ""
 "メッセージの自動保存中にエラー: %s\n"
 " %s"
 
-#: composer/e-msg-composer.c:1390
+#: composer/e-msg-composer.c:1395
 msgid ""
 "Ximian Evolution has found unsaved files from a previous session.\n"
 "Would you like to try to recover them?"
@@ -10798,7 +10798,7 @@ msgstr ""
 "Evolution は 前回のセッションで保存されていないファイルを発見しました。\n"
 "これらをリカバリしてみますか?"
 
-#: composer/e-msg-composer.c:1552
+#: composer/e-msg-composer.c:1557
 #, fuzzy, c-format
 msgid ""
 "The message \"%s\" has not been sent.\n"
@@ -10809,34 +10809,34 @@ msgstr ""
 "\n"
 "変更を保存しますか?"
 
-#: composer/e-msg-composer.c:1561
+#: composer/e-msg-composer.c:1566
 msgid "Warning: Modified Message"
 msgstr "警告: 変更されたメッセージ"
 
-#: composer/e-msg-composer.c:1593
+#: composer/e-msg-composer.c:1598
 msgid "Open file"
 msgstr "ファイルを開く"
 
-#: composer/e-msg-composer.c:2017
+#: composer/e-msg-composer.c:2022
 msgid "Signature:"
 msgstr "署名:"
 
-#: composer/e-msg-composer.c:2057 mail/mail-account-gui.c:1261
+#: composer/e-msg-composer.c:2062 mail/mail-account-gui.c:1261
 msgid "Autogenerated"
 msgstr "自動生成"
 
-#: composer/e-msg-composer.c:2233 composer/e-msg-composer.c:2902
-#: composer/e-msg-composer.c:2903
+#: composer/e-msg-composer.c:2238 composer/e-msg-composer.c:2907
+#: composer/e-msg-composer.c:2908
 msgid "Compose a message"
 msgstr "メッセージを作成します"
 
-#: composer/e-msg-composer.c:2934
+#: composer/e-msg-composer.c:2939
 msgid ""
 "Could not create composer window:\n"
 "Unable to activate address selector control."
 msgstr ""
 
-#: composer/e-msg-composer.c:2962
+#: composer/e-msg-composer.c:2967
 #, fuzzy
 msgid ""
 "Could not create composer window:\n"
@@ -10847,7 +10847,7 @@ msgstr ""
 "メールコンポーネントにまだ構成されていないため\n"
 "メッセージ作成ウィンドウを作成することが出来ませんでした"
 
-#: composer/e-msg-composer.c:3029
+#: composer/e-msg-composer.c:3034
 #, fuzzy
 msgid ""
 "Could not create composer window:\n"
@@ -10856,7 +10856,7 @@ msgstr ""
 "メールコンポーネントにまだ構成されていないため\n"
 "メッセージ作成ウィンドウを作成することが出来ませんでした"
 
-#: composer/e-msg-composer.c:4045
+#: composer/e-msg-composer.c:4050
 msgid ""
 "<b>(The composer contains a non-text message body, which cannot be edited.)"
 "<b>"

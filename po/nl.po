@@ -15,7 +15,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: Evolution\n"
-"POT-Creation-Date: 2003-06-25 13:24-0400\n"
+"POT-Creation-Date: 2003-06-30 14:22-0400\n"
 "PO-Revision-Date: 2003-06-15 14:37+0100\n"
 "Last-Translator: Vincent van Adrighem <V.vanAdrighem@dirck.mine.nu>\n"
 "Language-Team: Dutch <nl@li.org>\n"
@@ -1452,7 +1452,7 @@ msgstr "_Categorieën..."
 
 #: addressbook/gui/contact-editor/contact-editor.glade.h:28
 #: calendar/gui/dialogs/meeting-page.c:717 calendar/gui/e-calendar-table.c:977
-#: calendar/gui/e-day-view.c:3755 calendar/gui/e-week-view.c:3631
+#: calendar/gui/e-day-view.c:3755 calendar/gui/e-week-view.c:3636
 #: mail/folder-browser.c:1790 ui/evolution-addressbook.xml.h:32
 #: ui/evolution-calendar.xml.h:30 ui/evolution-mail-message.xml.h:97
 #: ui/evolution-tasks.xml.h:16 ui/evolution.xml.h:45
@@ -3081,7 +3081,7 @@ msgid "Delete"
 msgstr "Verwijderen"
 
 #: addressbook/gui/widgets/e-addressbook-view.c:915
-#: calendar/gui/e-day-view.c:3715 calendar/gui/e-week-view.c:3596
+#: calendar/gui/e-day-view.c:3715 calendar/gui/e-week-view.c:3601
 msgid "Current View"
 msgstr "Huidige weergave"
 
@@ -3963,7 +3963,7 @@ msgstr ""
 
 #. An empty string is the same as 'None'.
 #: calendar/gui/calendar-model.c:1176 calendar/gui/dialogs/meeting-page.c:330
-#: calendar/gui/dialogs/meeting-page.glade.h:2 composer/e-msg-composer.c:2056
+#: calendar/gui/dialogs/meeting-page.glade.h:2 composer/e-msg-composer.c:2061
 #: mail/folder-browser.c:1752 mail/mail-account-gui.c:1260
 #: mail/mail-account-gui.c:1692 mail/mail-accounts.c:442
 #: mail/mail-config.glade.h:76
@@ -4422,49 +4422,49 @@ msgstr ""
 msgid "Are you sure you want to cancel and delete this journal entry?"
 msgstr "Weet u zeker dat u dit dagboek item wilt annuleren en verwijderen?"
 
-#: calendar/gui/dialogs/changed-comp.c:58
+#: calendar/gui/dialogs/changed-comp.c:59
 msgid "This event has been deleted."
 msgstr "Deze gebeurtenis is verwijderd."
 
-#: calendar/gui/dialogs/changed-comp.c:62
+#: calendar/gui/dialogs/changed-comp.c:63
 msgid "This task has been deleted."
 msgstr "Deze taak is verwijderd."
 
-#: calendar/gui/dialogs/changed-comp.c:66
+#: calendar/gui/dialogs/changed-comp.c:67
 msgid "This journal entry has been deleted."
 msgstr "Dit dagboekitem is verwijderd."
 
-#: calendar/gui/dialogs/changed-comp.c:75
+#: calendar/gui/dialogs/changed-comp.c:76
 #, c-format
 msgid "%s  You have made changes. Forget those changes and close the editor?"
 msgstr ""
 "%s U heeft veranderingen gemaakt. Deze veranderingen negeren en de editor "
 "sluiten?"
 
-#: calendar/gui/dialogs/changed-comp.c:77
+#: calendar/gui/dialogs/changed-comp.c:78
 #, c-format
 msgid "%s  You have made no changes, close the editor?"
 msgstr "%s U heeft niets veranderd. Editor sluiten?"
 
-#: calendar/gui/dialogs/changed-comp.c:82
+#: calendar/gui/dialogs/changed-comp.c:83
 msgid "This event has been changed."
 msgstr "Deze gebeurtenis is veranderd."
 
-#: calendar/gui/dialogs/changed-comp.c:86
+#: calendar/gui/dialogs/changed-comp.c:87
 msgid "This task has been changed."
 msgstr "Deze taak is veranderd"
 
-#: calendar/gui/dialogs/changed-comp.c:90
+#: calendar/gui/dialogs/changed-comp.c:91
 msgid "This journal entry has been changed."
 msgstr "Dit dagboekitem is veranderd"
 
-#: calendar/gui/dialogs/changed-comp.c:99
+#: calendar/gui/dialogs/changed-comp.c:100
 #, c-format
 msgid "%s  You have made changes. Forget those changes and update the editor?"
 msgstr ""
 "%s U heeft iets veranderd. Deze veranderingen vergeten en de editor sluiten?"
 
-#: calendar/gui/dialogs/changed-comp.c:101
+#: calendar/gui/dialogs/changed-comp.c:102
 #, c-format
 msgid "%s  You have made no changes, update the editor?"
 msgstr "%s U heeft niet veranderd, de editor verversen?"
@@ -4540,19 +4540,19 @@ msgstr "Geen samenvatting"
 
 #: calendar/gui/dialogs/comp-editor.c:1281
 #: calendar/gui/e-calendar-table.c:1068 calendar/gui/e-day-view.c:3993
-#: calendar/gui/e-week-view.c:3840 composer/e-msg-composer.c:1164
+#: calendar/gui/e-week-view.c:3845 composer/e-msg-composer.c:1169
 msgid "Save as..."
 msgstr "Opslaan als..."
 
-#: calendar/gui/dialogs/comp-editor.c:1382
-#: calendar/gui/dialogs/comp-editor.c:1406
-#: calendar/gui/dialogs/comp-editor.c:1432
+#: calendar/gui/dialogs/comp-editor.c:1383
+#: calendar/gui/dialogs/comp-editor.c:1407
+#: calendar/gui/dialogs/comp-editor.c:1433
 msgid "Changes made to this item may be discarded if an update arrives"
 msgstr ""
 "De gemaakte veranderingen aan dit item worden verworpen indien een "
 "bijwerking via e-mail arriveerd"
 
-#: calendar/gui/dialogs/comp-editor.c:1459
+#: calendar/gui/dialogs/comp-editor.c:1460
 msgid "Unable to obtain current version!"
 msgstr "Ophalen huidige versie mislukt!"
 
@@ -5000,7 +5000,7 @@ msgstr ""
 "\n"
 "Wilt u de wijzingen opslaan?"
 
-#: calendar/gui/dialogs/save-comp.c:58 composer/e-msg-composer.c:1557
+#: calendar/gui/dialogs/save-comp.c:58 composer/e-msg-composer.c:1562
 msgid "_Discard Changes"
 msgstr "Veranderingen verwerpen"
 
@@ -5225,7 +5225,7 @@ msgid "Deleting selected objects"
 msgstr "Geselecteerde objecten verwijderen"
 
 #: calendar/gui/e-calendar-table.c:958 calendar/gui/e-day-view.c:3737
-#: calendar/gui/e-week-view.c:3613 mail/folder-browser.c:1763
+#: calendar/gui/e-week-view.c:3618 mail/folder-browser.c:1763
 #: shell/e-shortcuts-view.c:422 ui/evolution-addressbook.xml.h:36
 msgid "_Open"
 msgstr "_Openen"
@@ -5235,7 +5235,7 @@ msgid "_Save as..."
 msgstr "Op_slaan als..."
 
 #: calendar/gui/e-calendar-table.c:960 calendar/gui/e-day-view.c:3739
-#: calendar/gui/e-week-view.c:3588 calendar/gui/e-week-view.c:3615
+#: calendar/gui/e-week-view.c:3593 calendar/gui/e-week-view.c:3620
 #: ui/evolution-addressbook.xml.h:38 ui/evolution-calendar.xml.h:33
 #: ui/evolution-contact-editor.xml.h:14 ui/evolution-mail-message.xml.h:108
 #: ui/evolution-tasks.xml.h:20 ui/my-evolution.xml.h:6
@@ -5243,21 +5243,21 @@ msgid "_Print..."
 msgstr "Af_drukken..."
 
 #: calendar/gui/e-calendar-table.c:964 calendar/gui/e-day-view.c:3744
-#: calendar/gui/e-week-view.c:3620 ui/evolution-addressbook.xml.h:1
+#: calendar/gui/e-week-view.c:3625 ui/evolution-addressbook.xml.h:1
 #: ui/evolution-calendar.xml.h:1 ui/evolution-tasks.xml.h:1
 msgid "C_ut"
 msgstr "K_nippen"
 
 #: calendar/gui/e-calendar-table.c:965 calendar/gui/e-day-view.c:3745
-#: calendar/gui/e-week-view.c:3621 ui/evolution-addressbook.xml.h:30
+#: calendar/gui/e-week-view.c:3626 ui/evolution-addressbook.xml.h:30
 #: ui/evolution-calendar.xml.h:29 ui/evolution-composer-entries.xml.h:7
 #: ui/evolution-mail-list.xml.h:24 ui/evolution-tasks.xml.h:15
 msgid "_Copy"
 msgstr "_Kopiëren"
 
 #: calendar/gui/e-calendar-table.c:966 calendar/gui/e-day-view.c:3710
-#: calendar/gui/e-day-view.c:3746 calendar/gui/e-week-view.c:3592
-#: calendar/gui/e-week-view.c:3622 ui/evolution-addressbook.xml.h:37
+#: calendar/gui/e-day-view.c:3746 calendar/gui/e-week-view.c:3597
+#: calendar/gui/e-week-view.c:3627 ui/evolution-addressbook.xml.h:37
 #: ui/evolution-calendar.xml.h:32 ui/evolution-composer-entries.xml.h:9
 #: ui/evolution-mail-list.xml.h:29 ui/evolution-tasks.xml.h:19
 msgid "_Paste"
@@ -5283,8 +5283,8 @@ msgstr "Geselecteerde taken als voltooid markeren"
 msgid "_Delete Selected Tasks"
 msgstr "_Verwijder de Geselecteerde Taken"
 
-#: calendar/gui/e-calendar-table.c:1265 calendar/gui/e-day-view.c:7929
-#: calendar/gui/e-week-view.c:4335
+#: calendar/gui/e-calendar-table.c:1265 calendar/gui/e-day-view.c:7949
+#: calendar/gui/e-week-view.c:4342
 msgid "Updating objects"
 msgstr "Objecten worden ververst"
 
@@ -5394,15 +5394,15 @@ msgstr "pm"
 msgid "New _Appointment"
 msgstr "Nieuwe _Afspraak"
 
-#: calendar/gui/e-day-view.c:3696 calendar/gui/e-week-view.c:3582
+#: calendar/gui/e-day-view.c:3696 calendar/gui/e-week-view.c:3587
 msgid "New All Day _Event"
 msgstr "Gebeurtenis voor de hele dag"
 
-#: calendar/gui/e-day-view.c:3698 calendar/gui/e-week-view.c:3583
+#: calendar/gui/e-day-view.c:3698 calendar/gui/e-week-view.c:3588
 msgid "New Meeting"
 msgstr "Nieuwe bijeenkomst"
 
-#: calendar/gui/e-day-view.c:3700 calendar/gui/e-week-view.c:3584
+#: calendar/gui/e-day-view.c:3700 calendar/gui/e-week-view.c:3589
 msgid "New Task"
 msgstr "Nieuwe taak"
 
@@ -5410,47 +5410,47 @@ msgstr "Nieuwe taak"
 msgid "Print..."
 msgstr "Afdrukken..."
 
-#: calendar/gui/e-day-view.c:3717 calendar/gui/e-week-view.c:3598
+#: calendar/gui/e-day-view.c:3717 calendar/gui/e-week-view.c:3603
 #: ui/evolution-calendar.xml.h:13
 msgid "Go to _Today"
 msgstr "Ga Naar _Vandaag"
 
-#: calendar/gui/e-day-view.c:3719 calendar/gui/e-week-view.c:3599
+#: calendar/gui/e-day-view.c:3719 calendar/gui/e-week-view.c:3604
 msgid "_Go to Date..."
 msgstr "_Ga Naar Datum..."
 
-#: calendar/gui/e-day-view.c:3724 calendar/gui/e-week-view.c:3603
+#: calendar/gui/e-day-view.c:3724 calendar/gui/e-week-view.c:3608
 #: ui/evolution-calendar.xml.h:34
 msgid "_Publish Free/Busy Information"
 msgstr "_Publiceer Beschikbaarheidsinformatie"
 
-#: calendar/gui/e-day-view.c:3729 calendar/gui/e-week-view.c:3607
+#: calendar/gui/e-day-view.c:3729 calendar/gui/e-week-view.c:3612
 #: ui/evolution.xml.h:60
 msgid "_Settings..."
 msgstr "_Instellingen..."
 
-#: calendar/gui/e-day-view.c:3738 calendar/gui/e-week-view.c:3614
+#: calendar/gui/e-day-view.c:3738 calendar/gui/e-week-view.c:3619
 #: mail/folder-browser.c:1765 ui/evolution-mail-message.xml.h:112
 msgid "_Save As..."
 msgstr "_Opslaan als..."
 
-#: calendar/gui/e-day-view.c:3750 calendar/gui/e-week-view.c:3626
+#: calendar/gui/e-day-view.c:3750 calendar/gui/e-week-view.c:3631
 msgid "_Schedule Meeting..."
 msgstr "_Bijeenkomst Plannen..."
 
-#: calendar/gui/e-day-view.c:3751 calendar/gui/e-week-view.c:3627
+#: calendar/gui/e-day-view.c:3751 calendar/gui/e-week-view.c:3632
 msgid "_Forward as iCalendar..."
 msgstr "_Doorsturen als iKalender"
 
-#: calendar/gui/e-day-view.c:3756 calendar/gui/e-week-view.c:3632
+#: calendar/gui/e-day-view.c:3756 calendar/gui/e-week-view.c:3637
 msgid "Make this Occurrence _Movable"
 msgstr "Maak deze Gebeurtenis Verplaatsbaar"
 
-#: calendar/gui/e-day-view.c:3757 calendar/gui/e-week-view.c:3633
+#: calendar/gui/e-day-view.c:3757 calendar/gui/e-week-view.c:3638
 msgid "Delete this _Occurrence"
 msgstr "Verwijder deze Gebeurtenis"
 
-#: calendar/gui/e-day-view.c:3758 calendar/gui/e-week-view.c:3634
+#: calendar/gui/e-day-view.c:3758 calendar/gui/e-week-view.c:3639
 msgid "Delete _All Occurrences"
 msgstr "Verwijder alle Gebeurtenissen"
 
@@ -6138,7 +6138,7 @@ msgstr "Geselecteerde objecten worden verwijderd..."
 msgid "Expunging"
 msgstr "Bezig met schrappen"
 
-#: calendar/gui/e-week-view.c:3581
+#: calendar/gui/e-week-view.c:3586
 msgid "New _Appointment..."
 msgstr "Nieuwe _Afspraak..."
 
@@ -10560,11 +10560,11 @@ msgstr "Doel van bericht"
 msgid "Attach file(s)"
 msgstr "Bestand(en) bijvoegen"
 
-#: composer/e-msg-composer.c:535
+#: composer/e-msg-composer.c:540
 msgid "Could not create a PGP signature context"
 msgstr "Kon geen PGP handtekening-context maken"
 
-#: composer/e-msg-composer.c:814
+#: composer/e-msg-composer.c:819
 #, c-format
 msgid ""
 "Error while reading file %s:\n"
@@ -10573,30 +10573,30 @@ msgstr ""
 "Fout bij lezen bestand %s:\n"
 "%s"
 
-#: composer/e-msg-composer.c:1177
+#: composer/e-msg-composer.c:1182
 msgid "File exists, overwrite?"
 msgstr "Bestand bestaat reeds, overschrijven?"
 
-#: composer/e-msg-composer.c:1195
+#: composer/e-msg-composer.c:1200
 #, c-format
 msgid "Error saving file: %s"
 msgstr "Fout bij opslaan bestand: %s"
 
-#: composer/e-msg-composer.c:1218
+#: composer/e-msg-composer.c:1223
 #, c-format
 msgid "Error loading file: %s"
 msgstr "Fout bij openen bestand: %s"
 
-#: composer/e-msg-composer.c:1256
+#: composer/e-msg-composer.c:1261
 #, c-format
 msgid "Error accessing file: %s"
 msgstr "Fout bij benaderen bestand: %s"
 
-#: composer/e-msg-composer.c:1264
+#: composer/e-msg-composer.c:1269
 msgid "Unable to retrieve message from editor"
 msgstr "Kon bericht niet van editor halen"
 
-#: composer/e-msg-composer.c:1271
+#: composer/e-msg-composer.c:1276
 #, c-format
 msgid ""
 "Unable to seek on file: %s\n"
@@ -10605,7 +10605,7 @@ msgstr ""
 "Niet in staat te zoeken op bestand: %s\n"
 "%s"
 
-#: composer/e-msg-composer.c:1278
+#: composer/e-msg-composer.c:1283
 #, c-format
 msgid ""
 "Unable to truncate file: %s\n"
@@ -10614,7 +10614,7 @@ msgstr ""
 "Niet in staat om bestand: %s af te kappen\n"
 "%s"
 
-#: composer/e-msg-composer.c:1287
+#: composer/e-msg-composer.c:1292
 #, c-format
 msgid ""
 "Unable to copy file descriptor: %s\n"
@@ -10623,7 +10623,7 @@ msgstr ""
 "Kan bestandsbeschrijving niet kopëren: %s\n"
 "%s"
 
-#: composer/e-msg-composer.c:1296
+#: composer/e-msg-composer.c:1301
 #, c-format
 msgid ""
 "Error autosaving message: %s\n"
@@ -10632,7 +10632,7 @@ msgstr ""
 "Fout bij automatisch opslaan bericht: %s\n"
 " %s"
 
-#: composer/e-msg-composer.c:1390
+#: composer/e-msg-composer.c:1395
 msgid ""
 "Ximian Evolution has found unsaved files from a previous session.\n"
 "Would you like to try to recover them?"
@@ -10641,7 +10641,7 @@ msgstr ""
 "gevonden.\n"
 "Wilt u dat deze hersteld worden?"
 
-#: composer/e-msg-composer.c:1552
+#: composer/e-msg-composer.c:1557
 #, c-format
 msgid ""
 "The message \"%s\" has not been sent.\n"
@@ -10652,28 +10652,28 @@ msgstr ""
 "\n"
 "Wilt u de wijzingen opslaan?"
 
-#: composer/e-msg-composer.c:1561
+#: composer/e-msg-composer.c:1566
 msgid "Warning: Modified Message"
 msgstr "Waarschuwing: Veranderd Bericht"
 
-#: composer/e-msg-composer.c:1593
+#: composer/e-msg-composer.c:1598
 msgid "Open file"
 msgstr "Bestand openen"
 
-#: composer/e-msg-composer.c:2017
+#: composer/e-msg-composer.c:2022
 msgid "Signature:"
 msgstr "Handtekening:"
 
-#: composer/e-msg-composer.c:2057 mail/mail-account-gui.c:1261
+#: composer/e-msg-composer.c:2062 mail/mail-account-gui.c:1261
 msgid "Autogenerated"
 msgstr "Automatisch gegenereerd"
 
-#: composer/e-msg-composer.c:2233 composer/e-msg-composer.c:2902
-#: composer/e-msg-composer.c:2903
+#: composer/e-msg-composer.c:2238 composer/e-msg-composer.c:2907
+#: composer/e-msg-composer.c:2908
 msgid "Compose a message"
 msgstr "Stel een nieuw bericht op"
 
-#: composer/e-msg-composer.c:2934
+#: composer/e-msg-composer.c:2939
 msgid ""
 "Could not create composer window:\n"
 "Unable to activate address selector control."
@@ -10681,7 +10681,7 @@ msgstr ""
 "Kon het venster Opstellen niet aanmaken:\n"
 "Kan adresselectie niet activeren."
 
-#: composer/e-msg-composer.c:2962
+#: composer/e-msg-composer.c:2967
 msgid ""
 "Could not create composer window:\n"
 "Unable to activate HTML editor component.\n"
@@ -10693,7 +10693,7 @@ msgstr ""
 "Controleer alstublieft de geïnstalleerde versie  van\n"
 "gtkhtml en libgtkhtml.\n"
 
-#: composer/e-msg-composer.c:3029
+#: composer/e-msg-composer.c:3034
 msgid ""
 "Could not create composer window:\n"
 "Unable to activate HTML editor component."
@@ -10702,7 +10702,7 @@ msgstr ""
 "Niet in staat de HTML editor component te activeren."
 
 # # Het origineel heeft <b> in plaats van </b>
-#: composer/e-msg-composer.c:4045
+#: composer/e-msg-composer.c:4050
 msgid ""
 "<b>(The composer contains a non-text message body, which cannot be edited.)"
 "<b>"
