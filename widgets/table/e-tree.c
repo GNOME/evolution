@@ -1787,6 +1787,11 @@ e_tree_get_cell_at (ETree *tree,
 	/* FIXME it would be nice if it could handle a NULL row_return or
 	 * col_return gracefully.  */
 
+	if (row_return)
+		*row_return = -1;
+	if (col_return)
+		*col_return = -1;
+
 	x += GTK_LAYOUT(tree->priv->table_canvas)->hadjustment->value;
 	y += GTK_LAYOUT(tree->priv->table_canvas)->vadjustment->value;
 	e_table_item_compute_location(E_TABLE_ITEM(tree->priv->item), &x, &y, row_return, col_return);
