@@ -467,21 +467,25 @@ e_folder_list_init (EFolderList *efl)
 EFolderListItem *
 e_folder_list_parse_xml (const char *xml)
 {
-	xmlDoc *doc;
+	xmlDoc *doc = NULL;
 	xmlNode *root;
 	xmlNode *node;
 	int i;
 	EFolderListItem *items;
 
-	if (xml == NULL || *xml == 0) {
+	if (xml && *xml) {
+		doc = xmlParseMemory (xml, strlen (xml));
+		if (!doc)
+			g_warning ("malformed EFolderList xml");
+	}
+
+	if (!doc) {
 		items = g_new (EFolderListItem, 1);
 		items[0].uri = NULL;
 		items[0].physical_uri = NULL;
 		items[0].display_name = NULL;
 		return items;
 	}
-
-	doc = xmlParseMemory (xml, strlen (xml));
 
 	root = xmlDocGetRootElement (doc);
 
