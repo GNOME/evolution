@@ -1,3 +1,14 @@
+2005-02-25   Sivaiah Nallagatla <snallagatla@novell.com>
+
+	* gui/conact-editor/eab-editor.c 
+	(eab_editor_prompt_to_save_changes) : Just close 
+	the editor when user presees cancel or closes the editor
+	when there are no changes. Seems to be broken 
+	by earlier Change for #70371
+
+	Fixes #73005
+	 
+
 2005-02-24  Sushma Rai  <rsushma@novell.com>
 
 	* gui/component/addressbook-config.c (addressbook_config_edit_source):

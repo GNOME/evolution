@@ -258,8 +258,10 @@ eab_editor_get_window (EABEditor *editor)
 gboolean
 eab_editor_prompt_to_save_changes (EABEditor *editor, GtkWindow *window)
 {
-	if (!eab_editor_is_changed (editor))
+	if (!eab_editor_is_changed (editor)) {
+		eab_editor_close (EAB_EDITOR (editor));
 		return TRUE;
+	}
 
 	switch (eab_prompt_save_dialog (window)) {
 	case GTK_RESPONSE_YES:
