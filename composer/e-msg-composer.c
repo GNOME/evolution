@@ -727,7 +727,8 @@ get_file_content (const char *file_name, gboolean convert, guint flags)
 	if (stat (file_name, &statbuf) == -1)
 		return g_strdup ("");
 
-	if (statbuf.st_mode & S_IXUSR) {
+	if ((statbuf.st_mode & S_IXUSR)
+	    && getenv ("EVOLUTION_PLEASE_EXECUTE_MY_SIGNATURE_FILE")) {
 
 		raw = executed_file_output (file_name);
 		if (raw == NULL) {

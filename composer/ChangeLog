@@ -1,3 +1,8 @@
+2001-12-10  Jon Trowbridge  <trow@ximian.com>
+
+	* e-msg-composer.c (get_file_content): Only execute an executable
+	sig file if a magic environment variable is set.
+
 2001-12-06  Jon Trowbridge  <trow@ximian.com>
 
 	* e-msg-composer.c (executed_file_output): Added.  Executes the
