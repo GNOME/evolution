@@ -81,6 +81,8 @@
 #include "e-msg-composer-hdrs.h"
 #include "e-msg-composer-select-file.h"
 
+#include "evolution-shell-component-utils.h"
+
 #include "Editor.h"
 #include "listener.h"
 
@@ -1450,7 +1452,13 @@ static BonoboUIVerb verbs [] = {
 	BONOBO_UI_VERB ("DeleteAll",  menu_edit_delete_all_cb),
 
 	BONOBO_UI_VERB_END
-};	
+};
+
+static EPixmap pixcache [] = {
+	E_PIXMAP ("/Toolbar/FileAttach", "buttons/add-attachment.png"),
+	
+	E_PIXMAP_END
+};
 
 static void
 setup_ui (EMsgComposer *composer)
@@ -1468,9 +1476,13 @@ setup_ui (EMsgComposer *composer)
 	bonobo_ui_component_add_verb_list_with_data (
 		composer->uic, verbs, composer);
 	
+	bonobo_ui_component_freeze (composer->uic, NULL);
+	
 	bonobo_ui_util_set_ui (composer->uic, EVOLUTION_DATADIR,
 			       "evolution-message-composer.xml",
 			       "evolution-message-composer");
+	
+	e_pixmaps_update (composer->uic, pixcache);
 	
 	if (!camel_session_is_online (session)) {
 		/* Move the accelerator from Send to Send Later */
@@ -1574,6 +1586,8 @@ setup_ui (EMsgComposer *composer)
 	bonobo_ui_component_add_listener (
 		composer->uic, "ViewAttach",
 		menu_view_attachments_activate_cb, composer);
+	
+	bonobo_ui_component_thaw (composer->uic, NULL);
 }
 
 
