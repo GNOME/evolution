@@ -134,9 +134,9 @@ real_fetch_mail (gpointer user_data)
 	rfm_t *info;
 	FolderBrowser *fb = NULL;
 	CamelException *ex;
-	CamelStore*store = NULL, *dest_store = NULL;
-	CamelFolder *folder = NULL, *dest_folder;
-	char *url = NULL;
+	CamelStore *store = NULL, *dest_store = NULL;
+	CamelFolder *folder = NULL, *dest_folder = NULL;
+	char *url = NULL, *dest_url, *dest_mbox;
 	FilterDriver *filter = NULL;
 	char *userrules, *systemrules;
 	char *tmp_mbox = NULL, *source;
@@ -144,12 +144,27 @@ real_fetch_mail (gpointer user_data)
 
 	info = (rfm_t *) user_data;
 	fb = info->fb;
-	dest_store = fb->folder->parent_store;  /* default destination store */
-	dest_folder = fb->folder;  /* default destination folder */
 	url = info->source_url;
-
+	
 	ex = camel_exception_new ();
 
+	dest_url = g_strdup_printf ("mbox://%s/local/Inbox", evolution_dir);
+	dest_store = camel_session_get_store (session, dest_url, ex);
+	g_free (dest_url);
+	if (!dest_store) {
+		async_mail_exception_dialog ("Unable to get new mail", ex, fb);
+		goto cleanup;
+	}
+	
+	dest_mbox = g_strdup_printf ("%s/local/Inbox/mbox", evolution_dir);
+	dest_folder = camel_store_get_folder (dest_store,
+					      strrchr (dest_mbox, '/') + 1,
+					      FALSE, ex);
+	if (!dest_folder) {
+		async_mail_exception_dialog ("Unable to get new mail", ex, fb);
+		goto cleanup;
+	}
+	
 	tmp_mbox = g_strdup_printf ("%s/local/Inbox/movemail", evolution_dir);
 
 	/* If using IMAP, don't do anything... */
@@ -198,33 +213,7 @@ real_fetch_mail (gpointer user_data)
 		}
 	} else {
 		CamelFolder *sourcefolder;
-		char *dest_mbox, *dest_url;
 
-		dest_url = g_strdup_printf ("mbox://%s/local/Inbox", evolution_dir);
-		dest_store = camel_session_get_store (session, dest_url, ex);
-		g_free (dest_url);
-		if (!dest_store) {
-			async_mail_exception_dialog ("Unable to get new mail", ex, fb);
-			goto cleanup;
-		}
-		
-		dest_mbox = g_strdup_printf ("%s/local/Inbox/mbox", evolution_dir);
-		dest_folder = camel_store_get_folder (dest_store,
-						      strrchr (dest_mbox, '/') + 1,
-						      FALSE, ex);
-		if (!dest_folder) {
-			camel_service_disconnect (CAMEL_SERVICE (dest_store), ex);
-			gtk_object_unref (GTK_OBJECT (dest_store));
-			async_mail_exception_dialog ("Unable to get new mail", ex, fb);
-			goto cleanup;
-		}
-
-		store = camel_session_get_store (session, url, ex);
-		if (!store) {
-			gtk_object_unref (GTK_OBJECT (dest_folder));
-			async_mail_exception_dialog ("Unable to get new mail", ex, fb);
-			goto cleanup;
-		}
 		camel_service_connect (CAMEL_SERVICE (store), ex);
 		if (camel_exception_get_id (ex) != CAMEL_EXCEPTION_NONE) {
 			gtk_object_unref (GTK_OBJECT (dest_folder));
@@ -252,7 +241,6 @@ real_fetch_mail (gpointer user_data)
 							 strrchr (tmp_mbox, '/') + 1,
 							 TRUE, ex);
 			if (camel_exception_get_id (ex) != CAMEL_EXCEPTION_NONE) {
-				gtk_object_unref (GTK_OBJECT (dest_folder));
 				async_mail_exception_dialog ("Unable to move mail", ex, fb);
 				goto cleanup;
 			}
@@ -268,7 +256,6 @@ real_fetch_mail (gpointer user_data)
 					async_mail_exception_dialog ("Unable to read message", ex, fb);
 					gtk_object_unref (GTK_OBJECT (msg));
 					gtk_object_unref (GTK_OBJECT (sourcefolder));
-					gtk_object_unref (GTK_OBJECT (dest_folder));
 
 					goto cleanup;
 				}
@@ -278,7 +265,6 @@ real_fetch_mail (gpointer user_data)
 					async_mail_exception_dialog ("Unable to write message", ex, fb);
 					gtk_object_unref (GTK_OBJECT (msg));
 					gtk_object_unref (GTK_OBJECT (sourcefolder));
-					gtk_object_unref (GTK_OBJECT (dest_folder));
 		   
 					goto cleanup;
 				}
@@ -330,17 +316,19 @@ real_fetch_mail (gpointer user_data)
 		gtk_signal_disconnect (GTK_OBJECT (dest_folder), handler_id);
 
  cleanup:
-	g_free(tmp_mbox);
+	g_free (tmp_mbox);
 
 	if (filter)
 		gtk_object_unref (GTK_OBJECT (filter));
 	if (url)
 		g_free (url);
+	if (dest_url)
+		g_free (dest_url);
 	if (folder) {
 		camel_folder_sync (folder, TRUE, ex);
 		gtk_object_unref (GTK_OBJECT (folder));
 	}
-	if (dest_folder != fb->folder) {
+	if (dest_folder) {
 		camel_folder_sync (dest_folder, TRUE, ex);
 		gtk_object_unref (GTK_OBJECT (dest_folder));
 	}
@@ -348,7 +336,7 @@ real_fetch_mail (gpointer user_data)
 		camel_service_disconnect (CAMEL_SERVICE (store), ex);
 		gtk_object_unref (GTK_OBJECT (store));
 	}
-	if (dest_store != fb->folder->parent_store) {
+	if (dest_store && dest_store != fb->folder->parent_store) {
 		camel_service_disconnect (CAMEL_SERVICE (dest_store), ex);
 		gtk_object_unref (GTK_OBJECT (dest_store));
 	}
