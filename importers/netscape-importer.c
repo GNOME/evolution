@@ -962,7 +962,7 @@ create_checkboxes_control (NetscapeImporter *importer)
 	GtkWidget *hbox;
 	BonoboControl *control;
 
-	hbox = gtk_vbox_new (FALSE, 2);
+	hbox = gtk_hbox_new (FALSE, 2);
 
 	importer->mail = gtk_check_button_new_with_label (_("Mail"));
 	gtk_signal_connect (GTK_OBJECT (importer->mail), "toggled",

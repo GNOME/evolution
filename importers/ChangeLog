@@ -1,5 +1,10 @@
 2001-09-10  Iain Holmes  <iain@ximian.com>
 
+	* netscape-importer.c (create_checkboxes_control): Use an HBox instead
+	of a VBox.
+
+2001-09-10  Iain Holmes  <iain@ximian.com>
+
 	* netscape-importer.c (netscape_import_accounts): Handle Movemail case.
 
 2001-09-07  Iain Holmes  <iain@ximian.com>
