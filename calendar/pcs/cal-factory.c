@@ -1,4 +1,4 @@
-/* GNOME calendar factory
+/* Evolution calendar factory
  *
  * Copyright (C) 2000 Helix Code, Inc.
  *
@@ -39,7 +39,7 @@ static void cal_factory_class_init (CalFactoryClass *class);
 static void cal_factory_init (CalFactory *factory);
 static void cal_factory_destroy (GtkObject *object);
 
-static POA_GNOME_Calendar_CalFactory__vepv cal_factory_vepv;
+static POA_Evolution_Calendar_CalFactory__vepv cal_factory_vepv;
 
 static BonoboObjectClass *parent_class;
 
@@ -82,7 +82,7 @@ static void
 init_cal_factory_corba_class (void)
 {
 	cal_factory_vepv.Bonobo_Unknown_epv = bonobo_object_get_epv ();
-	cal_factory_vepv.GNOME_Calendar_CalFactory_epv = cal_factory_get_epv ();
+	cal_factory_vepv.Evolution_Calendar_CalFactory_epv = cal_factory_get_epv ();
 }
 
 /* Class initialization function for the calendar factory */
@@ -156,8 +156,8 @@ cal_factory_destroy (GtkObject *object)
 /* CalFactory::load method */
 static void
 CalFactory_load (PortableServer_Servant servant,
-		 const CORBA_char *uri,
-		 GNOME_Calendar_Listener listener,
+		 CORBA_char *uri,
+		 Evolution_Calendar_Listener listener,
 		 CORBA_Environment *ev)
 {
 	CalFactory *factory;
@@ -173,7 +173,7 @@ CalFactory_load (PortableServer_Servant servant,
 
 	if (ev2._major != CORBA_NO_EXCEPTION || result) {
 		CORBA_exception_set (ev, CORBA_USER_EXCEPTION,
-				     ex_GNOME_Calendar_CalFactory_NilListener,
+				     ex_Evolution_Calendar_CalFactory_NilListener,
 				     NULL);
 
 		CORBA_exception_free (&ev2);
@@ -187,8 +187,8 @@ CalFactory_load (PortableServer_Servant servant,
 /* CalFactory::create method */
 static void
 CalFactory_create (PortableServer_Servant servant,
-		   const CORBA_char *uri,
-		   GNOME_Calendar_Listener listener,
+		   CORBA_char *uri,
+		   Evolution_Calendar_Listener listener,
 		   CORBA_Environment *ev)
 {
 	CalFactory *factory;
@@ -208,12 +208,12 @@ CalFactory_create (PortableServer_Servant servant,
  *
  * Return value: A newly-allocated EPV.
  **/
-POA_GNOME_Calendar_CalFactory__epv *
+POA_Evolution_Calendar_CalFactory__epv *
 cal_factory_get_epv (void)
 {
-	POA_GNOME_Calendar_CalFactory__epv *epv;
+	POA_Evolution_Calendar_CalFactory__epv *epv;
 
-	epv = g_new0 (POA_GNOME_Calendar_CalFactory__epv, 1);
+	epv = g_new0 (POA_Evolution_Calendar_CalFactory__epv, 1);
 	epv->load = CalFactory_load;
 	epv->create = CalFactory_create;
 
@@ -228,7 +228,7 @@ cal_factory_get_epv (void)
 typedef struct {
 	CalFactory *factory;
 	char *uri;
-	GNOME_Calendar_Listener listener;
+	Evolution_Calendar_Listener listener;
 } LoadCreateJobData;
 
 /* Looks up a calendar backend in a factory's hash table of uri->cal */
@@ -246,7 +246,7 @@ lookup_backend (CalFactory *factory, GnomeVFSURI *uri)
 
 /* Loads a calendar backend and puts it in the factory's backend hash table */
 static CalBackend *
-load_backend (CalFactory *factory, GnomeVFSURI *uri, GNOME_Calendar_Listener listener)
+load_backend (CalFactory *factory, GnomeVFSURI *uri, Evolution_Calendar_Listener listener)
 {
 	CalFactoryPrivate *priv;
 	CalBackend *backend;
@@ -283,7 +283,7 @@ load_backend (CalFactory *factory, GnomeVFSURI *uri, GNOME_Calendar_Listener lis
  * object.
  */
 static void
-add_calendar_client (CalFactory *factory, CalBackend *backend, GNOME_Calendar_Listener listener)
+add_calendar_client (CalFactory *factory, CalBackend *backend, Evolution_Calendar_Listener listener)
 {
 	Cal *cal;
 	CORBA_Environment ev;
@@ -293,10 +293,10 @@ add_calendar_client (CalFactory *factory, CalBackend *backend, GNOME_Calendar_Li
 		g_message ("add_calendar_client(): could not create the calendar client interface");
 
 		CORBA_exception_init (&ev);
-		GNOME_Calendar_Listener_cal_loaded (listener,
-						    GNOME_Calendar_Listener_ERROR,
-						    CORBA_OBJECT_NIL,
-						    &ev);
+		Evolution_Calendar_Listener_cal_loaded (listener,
+							Evolution_Calendar_Listener_ERROR,
+							CORBA_OBJECT_NIL,
+							&ev);
 		if (ev._major != CORBA_NO_EXCEPTION)
 			g_message ("add_calendar_client(): could not notify the listener");
 
@@ -307,10 +307,10 @@ add_calendar_client (CalFactory *factory, CalBackend *backend, GNOME_Calendar_Li
 	cal_backend_add_cal (backend, cal);
 
 	CORBA_exception_init (&ev);
-	GNOME_Calendar_Listener_cal_loaded (listener,
-					    GNOME_Calendar_Listener_SUCESSS,
-					    bonobo_object_corba_objref (BONOBO_OBJECT (cal)),
-					    &ev);
+	Evolution_Calendar_Listener_cal_loaded (listener,
+						Evolution_Calendar_Listener_SUCCESS,
+						bonobo_object_corba_objref (BONOBO_OBJECT (cal)),
+						&ev);
 
 	if (ev._major != CORBA_NO_EXCEPTION) {
 		g_message ("add_calendar_client(): could not notify the listener");
@@ -327,7 +327,7 @@ load_fn (gpointer data)
 	LoadCreateJobData *jd;
 	CalFactory *factory;
 	GnomeVFSURI *uri;
-	GNOME_Calendar_Listener listener;
+	Evolution_Calendar_Listener listener;
 	CalBackend *backend;
 	CORBA_Environment ev;
 
@@ -352,10 +352,10 @@ load_fn (gpointer data)
 	if (!backend) {
 		g_message ("load_fn(): could not load the backend");
 		CORBA_exception_init (&ev);
-		GNOME_Calendar_Listener_cal_loaded (listener,
-						    GNOME_Calendar_Listener_ERROR,
-						    CORBA_OBJECT_NIL,
-						    &ev);
+		Evolution_Calendar_Listener_cal_loaded (listener,
+							Evolution_Calendar_Listener_ERROR,
+							CORBA_OBJECT_NIL,
+							&ev);
 
 		if (ev._major != CORBA_NO_EXCEPTION)
 			g_message ("load_fn(): could not notify the listener");
@@ -390,7 +390,7 @@ load_fn (gpointer data)
  * Return value: The same object as the @factory argument.
  **/
 CalFactory *
-cal_factory_construct (CalFactory *factory, GNOME_Calendar_CalFactory corba_factory)
+cal_factory_construct (CalFactory *factory, Evolution_Calendar_CalFactory corba_factory)
 {
 	g_return_val_if_fail (factory != NULL, NULL);
 	g_return_val_if_fail (IS_CAL_FACTORY (factory), NULL);
@@ -409,20 +409,20 @@ cal_factory_construct (CalFactory *factory, GNOME_Calendar_CalFactory corba_fact
  * Return value: An activated object reference or #CORBA_OBJECT_NIL in case of
  * failure.
  **/
-GNOME_Calendar_CalFactory
+Evolution_Calendar_CalFactory
 cal_factory_corba_object_create (BonoboObject *object)
 {
-	POA_GNOME_Calendar_CalFactory *servant;
+	POA_Evolution_Calendar_CalFactory *servant;
 	CORBA_Environment ev;
 
 	g_return_val_if_fail (object != NULL, CORBA_OBJECT_NIL);
 	g_return_val_if_fail (IS_CAL_FACTORY (object), CORBA_OBJECT_NIL);
 
-	servant = (POA_GNOME_Calendar_CalFactory *) g_new0 (BonoboObjectServant, 1);
+	servant = (POA_Evolution_Calendar_CalFactory *) g_new0 (BonoboObjectServant, 1);
 	servant->vepv = &cal_factory_vepv;
 
 	CORBA_exception_init (&ev);
-	POA_GNOME_Calendar_CalFactory__init ((PortableServer_Servant) servant, &ev);
+	POA_Evolution_Calendar_CalFactory__init ((PortableServer_Servant) servant, &ev);
 
 	if (ev._major != CORBA_NO_EXCEPTION) {
 		g_message ("cal_factory_corba_object_create(): could not init the servant");
@@ -432,7 +432,7 @@ cal_factory_corba_object_create (BonoboObject *object)
 	}
 
 	CORBA_exception_free (&ev);
-	return (GNOME_Calendar_CalFactory) bonobo_object_activate_servant (object, servant);
+	return (Evolution_Calendar_CalFactory) bonobo_object_activate_servant (object, servant);
 }
 
 /**
@@ -449,7 +449,7 @@ cal_factory_new (void)
 {
 	CalFactory *factory;
 	CORBA_Environment ev;
-	GNOME_Calendar_CalFactory corba_factory;
+	Evolution_Calendar_CalFactory corba_factory;
 	gboolean retval;
 
 	factory = gtk_type_new (CAL_FACTORY_TYPE);
@@ -471,11 +471,11 @@ cal_factory_new (void)
 }
 
 void
-cal_factory_load (CalFactory *factory, const char *uri, GNOME_Calendar_Listener listener)
+cal_factory_load (CalFactory *factory, const char *uri, Evolution_Calendar_Listener listener)
 {
 	LoadCreateJobData *jd;
 	CORBA_Environment ev;
-	GNOME_Calendar_Listener listener_copy;
+	Evolution_Calendar_Listener listener_copy;
 	gboolean result;
 
 	CORBA_exception_init (&ev);
@@ -511,7 +511,7 @@ cal_factory_load (CalFactory *factory, const char *uri, GNOME_Calendar_Listener 
 }
 
 void
-cal_factory_create (CalFactory *factory, const char *uri, GNOME_Calendar_Listener listener)
+cal_factory_create (CalFactory *factory, const char *uri, Evolution_Calendar_Listener listener)
 {
 	/* FIXME */
 }

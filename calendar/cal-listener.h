@@ -1,4 +1,4 @@
-/* GNOME calendar listener
+/* Evolution calendar listener
  *
  * Copyright (C) 2000 Helix Code, Inc.
  *
@@ -24,7 +24,7 @@
 
 #include <libgnome/gnome-defs.h>
 #include <bonobo/bonobo-object.h>
-#include "gnome-calendar.h"
+#include "evolution-calendar.h"
 
 BEGIN_GNOME_DECLS
 
@@ -58,22 +58,24 @@ struct _CalListenerClass {
 
 	void (* cal_loaded) (CalListener *listener,
 			     CalListenerLoadStatus status,
-			     GNOME_Calendar_Cal cal);
-	void (* obj_added) (CalListener *listener, GNOME_Calendar_CalObj calobj);
-	void (* obj_removed) (CalListener *listener, GNOME_Calendar_CalObjUID uid);
-	void (* obj_changed) (CalListener *listener, GNOME_Calendar_CalObj calobj);
+			     Evolution_Calendar_Cal cal);
+	void (* obj_added) (CalListener *listener, Evolution_Calendar_CalObj calobj);
+	void (* obj_removed) (CalListener *listener, Evolution_Calendar_CalObjUID uid);
+	void (* obj_changed) (CalListener *listener, Evolution_Calendar_CalObj calobj);
 };
 
 GtkType cal_listener_get_type (void);
 
-CalListener *cal_listener_construct (CalListener *listener, GNOME_Calendar_Listener corba_listener);
-GNOME_Calendar_Listener cal_listener_corba_object_create (BonoboObject *object);
+CalListener *cal_listener_construct (CalListener *listener,
+				     Evolution_Calendar_Listener corba_listener);
+
+Evolution_Calendar_Listener cal_listener_corba_object_create (BonoboObject *object);
 
 CalListener *cal_listener_new (void);
 
-GNOME_Calendar_Cal cal_listener_get_calendar (CalListener *listener);
+Evolution_Calendar_Cal cal_listener_get_calendar (CalListener *listener);
 
-POA_GNOME_Calendar_Listener__epv *cal_listener_get_epv (void);
+POA_Evolution_Calendar_Listener__epv *cal_listener_get_epv (void);
 
 
 

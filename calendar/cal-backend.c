@@ -1,4 +1,4 @@
-/* GNOME calendar backend
+/* Evolution calendar backend
  *
  * Copyright (C) 2000 Helix Code, Inc.
  *

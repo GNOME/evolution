@@ -1,4 +1,4 @@
-/* GNOME calendar client interface object
+/* Evolution calendar client interface object
  *
  * Copyright (C) 2000 Helix Code, Inc.
  *
@@ -24,7 +24,7 @@
 
 #include <libgnome/gnome-defs.h>
 #include <bonobo/bonobo-object.h>
-#include "gnome-calendar.h"
+#include "evolution-calendar.h"
 #include "cal-common.h"
 
 BEGIN_GNOME_DECLS
@@ -51,14 +51,14 @@ struct _CalClass {
 GtkType cal_get_type (void);
 
 Cal *cal_construct (Cal *cal,
-		    GNOME_Calendar_Cal corba_cal,
+		    Evolution_Calendar_Cal corba_cal,
 		    CalBackend *backend,
-		    GNOME_Calendar_Listener listener);
-GNOME_Calendar_Cal cal_corba_object_create (BonoboObject *object);
+		    Evolution_Calendar_Listener listener);
+Evolution_Calendar_Cal cal_corba_object_create (BonoboObject *object);
 
-Cal *cal_new (CalBackend *backend, GNOME_Calendar_Listener listener);
+Cal *cal_new (CalBackend *backend, Evolution_Calendar_Listener listener);
 
-POA_GNOME_Calendar_Cal__epv *cal_get_epv (void);
+POA_Evolution_Calendar_Cal__epv *cal_get_epv (void);
 
 
 

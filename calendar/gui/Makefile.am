@@ -3,7 +3,7 @@ SUBDIRS = doc
 idldir = $(datadir)/idl
 idl_DATA = 			\
 	GnomeCal.idl		\
-	gnome-calendar.idl
+	evolution-calendar.idl
 
 gnorbadir = $(sysconfdir)/CORBA/servers
 gnorba_DATA =			\
@@ -109,14 +109,14 @@ calendar_pilot_sync_SOURCES =	\
 	timeutil.c		\
 	timeutil.h
 
-GNOME_CALENDAR_CORBA_GENERATED =	\
-	gnome-calendar.h		\
-	gnome-calendar-common.c		\
-	gnome-calendar-skels.c		\
-	gnome-calendar-stubs.c
+GNOME_CALENDAR_CORBA_GENERATED =		\
+	evolution-calendar.h			\
+	evolution-calendar-common.c		\
+	evolution-calendar-skels.c		\
+	evolution-calendar-stubs.c
 
-$(GNOME_CALENDAR_CORBA_GENERATED): gnome-calendar.idl
-	orbit-idl -I`$(GNOME_CONFIG) --datadir`/idl $(srcdir)/gnome-calendar.idl
+$(GNOME_CALENDAR_CORBA_GENERATED): evolution-calendar.idl
+	orbit-idl -I`$(GNOME_CONFIG) --datadir`/idl $(srcdir)/evolution-calendar.idl
 
 tlacuache_SOURCES =				\
 	$(GNOME_CALENDAR_CORBA_GENERATED)	\

@@ -1,4 +1,4 @@
-/* GNOME calendar client
+/* Evolution calendar client
  *
  * Copyright (C) 2000 Helix Code, Inc.
  *

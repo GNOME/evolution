@@ -1,4 +1,4 @@
-/* GNOME calendar client
+/* Evolution calendar client
  *
  * Copyright (C) 2000 Helix Code, Inc.
  *
@@ -38,7 +38,7 @@ typedef struct {
 	LoadState load_state;
 
 	/* The calendar factory we are contacting */
-	GNOME_Calendar_CalFactory factory;
+	Evolution_Calendar_CalFactory factory;
 
 	/* Our calendar listener */
 	CalListener *listener;
@@ -168,7 +168,7 @@ CalClient *
 cal_client_construct (CalClient *client)
 {
 	CalClientPrivate *priv;
-	GNOME_Calendar_CalFactory factory, factory_copy;
+	Evolution_Calendar_CalFactory factory, factory_copy;
 	CORBA_Environment ev;
 	int result;
 
@@ -177,7 +177,7 @@ cal_client_construct (CalClient *client)
 
 	priv = client->priv;
 
-	factory = (GNOME_Calendar_CalFactory) goad_server_activate_with_id (
+	factory = (Evolution_Calendar_CalFactory) goad_server_activate_with_id (
 		NULL,
 		"calendar:cal-factory",
 		GOAD_ACTIVATE_REMOTE,
@@ -253,7 +253,7 @@ gboolean
 cal_client_load_calendar (CalClient *client, const char *str_uri)
 {
 	CalClientPrivate *priv;
-	GNOME_Calendar_Listener corba_listener;
+	Evolution_Calendar_Listener corba_listener;
 	CORBA_Environment ev;
 
 	g_return_val_if_fail (client != NULL, FALSE);
@@ -270,12 +270,12 @@ cal_client_load_calendar (CalClient *client, const char *str_uri)
 		return FALSE;
 	}
 
-	corba_listener = (GNOME_Calendar_Listener) bonobo_object_corba_objref (priv->listener);
+	corba_listener = (Evolution_Calendar_Listener) bonobo_object_corba_objref (priv->listener);
 
 	CORBA_exception_init (&ev);
 
 	priv->load_state = LOAD_STATE_LOADING;
-	GNOME_Calendar_CalFactory_load (priv->factory, str_uri, corba_listener, &ev);
+	Evolution_Calendar_CalFactory_load (priv->factory, str_uri, corba_listener, &ev);
 
 	if (ev._major != CORBA_NO_EXCEPTION) {
 		g_message ("cal_client_load_calendar(): load request failed");

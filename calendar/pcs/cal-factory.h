@@ -1,4 +1,4 @@
-/* GNOME calendar factory
+/* Evolution calendar factory
  *
  * Copyright (C) 2000 Helix Code, Inc.
  *
@@ -24,7 +24,7 @@
 
 #include <libgnome/gnome-defs.h>
 #include <bonobo/bonobo-object.h>
-#include "gnome-calendar.h"
+#include "evolution-calendar.h"
 
 BEGIN_GNOME_DECLS
 
@@ -53,15 +53,15 @@ struct _CalFactoryClass {
 
 GtkType cal_factory_get_type (void);
 
-CalFactory *cal_factory_construct (CalFactory *factory, GNOME_Calendar_CalFactory corba_factory);
-GNOME_Calendar_CalFactory cal_factory_corba_object_create (BonoboObject *object);
+CalFactory *cal_factory_construct (CalFactory *factory, Evolution_Calendar_CalFactory corba_factory);
+Evolution_Calendar_CalFactory cal_factory_corba_object_create (BonoboObject *object);
 
 CalFactory *cal_factory_new (void);
 
-void cal_factory_load (CalFactory *factory, const char *uri, GNOME_Calendar_Listener listener);
-void cal_factory_create (CalFactory *factory, const char *uri, GNOME_Calendar_Listener listener);
+void cal_factory_load (CalFactory *factory, const char *uri, Evolution_Calendar_Listener listener);
+void cal_factory_create (CalFactory *factory, const char *uri, Evolution_Calendar_Listener listener);
 
-POA_GNOME_Calendar_CalFactory__epv *cal_factory_get_epv (void);
+POA_Evolution_Calendar_CalFactory__epv *cal_factory_get_epv (void);
 
 
 

@@ -1,4 +1,4 @@
-/* GNOME calendar server - common declarations
+/* Evolution calendar server - common declarations
  *
  * Copyright (C) 2000 Helix Code, Inc.
  *

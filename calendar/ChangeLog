@@ -1,3 +1,16 @@
+2000-01-30  Federico Mena Quintero  <federico@helixcode.com>
+
+	* evolution-calendar.idl: Changed the namespace from
+	GNOME::Calendar to Evolution::Calendar.
+	(Listener::LoadStatus): Fixed SUCESSS -> SUCCESS typo.  And I
+	never noticed it in the implementation.  Ain't M-/ grand?
+
+	* Makefile.am: Changed ocurrences of gnome-calendar.idl to
+	evolution-calendar.idl.
+
+	* *.[ch]: Changed GNOME_Calendar_foo identifiers to
+	Evolution_Calendar_foo.
+
 2000-01-25  Federico Mena Quintero  <federico@helixcode.com>
 
 	* cal-client.c cal-client.h: New files with the calendar client

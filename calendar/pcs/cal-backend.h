@@ -1,4 +1,4 @@
-/* GNOME calendar backend
+/* Evolution calendar backend
  *
  * Copyright (C) 2000 Helix Code, Inc.
  *
@@ -24,7 +24,7 @@
 
 #include <libgnome/gnome-defs.h>
 #include <libgnomevfs/gnome-vfs.h>
-#include "gnome-calendar.h"
+#include "evolution-calendar.h"
 #include "cal-common.h"
 #include "cal.h"
 
