@@ -1,5 +1,11 @@
 2001-04-26  Jeffrey Stedfast  <fejj@ximian.com>
 
+	* camel.c (camel_init): Automagically call camel_shutdown()
+	atexit() ;-)
+	(camel_init): Also initialize NSS databases as read/write for
+	S/MIME and if NSS fails to init, try initializing with volatile
+	databases.
+
 	* camel-file-utils.h: #include <sys/types.h> for off_t.
 
 2001-04-26  Dan Winship  <danw@ximian.com>

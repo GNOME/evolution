@@ -77,8 +77,6 @@ extern "C" {
 
 gint camel_init (const char *certdb_dir, gboolean nss_init);
 
-void camel_shutdown (void);
-
 #ifdef __cplusplus
 }
 #endif /* __cplusplus */

@@ -38,8 +38,18 @@
 
 gboolean camel_verbose_debug = FALSE;
 
+static void
+camel_shutdown (void)
+{
+#ifdef HAVE_NSS
+	NSS_Shutdown ();
+	
+	PR_Cleanup ();
+#endif /* HAVE_NSS */
+}
+
 gint
-camel_init (const char *certdb_dir, gboolean nss_init)
+camel_init (const char *configdir, gboolean nss_init)
 {
 #ifdef ENABLE_THREADS
 #ifdef G_THREADS_ENABLED	
@@ -56,12 +66,17 @@ camel_init (const char *certdb_dir, gboolean nss_init)
 	if (nss_init) {
 		PR_Init (PR_SYSTEM_THREAD, PR_PRIORITY_NORMAL, 10);
 		
-		if (NSS_Init (certdb_dir) == SECFailure) {
-			g_warning ("Failed to initialize NSS");
-			return -1;
+		if (NSS_InitReadWrite (configdir) == SECFailure) {
+			/* fall back on using volatile dbs? */
+			if (NSS_NoDB_Init (configdir) == SECFailure) {
+				g_warning ("Failed to initialize NSS");
+				return -1;
+			}
 		}
 		
 		NSS_SetDomesticPolicy ();
+		
+		g_atexit (camel_shutdown);
 	}
 	
 	SSL_OptionSetDefault (SSL_ENABLE_SSL2, PR_TRUE);
@@ -71,14 +86,4 @@ camel_init (const char *certdb_dir, gboolean nss_init)
 #endif /* HAVE_NSS */
 	
 	return 0;
-}
-
-void
-camel_shutdown (void)
-{
-#ifdef HAVE_NSS
-	NSS_Shutdown ();
-	
-	PR_Cleanup ();
-#endif /* HAVE_NSS */
 }
