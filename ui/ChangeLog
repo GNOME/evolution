@@ -1,3 +1,8 @@
+2004-02-11  Rodney Dawes  <dobey@ximian.com>
+
+	* evolution-mail-message.xml: Add sender to Address Book, not
+	Addressbook
+
 2004-01-26  David Trowbridge <trowbrds@cs.colorado.edu>
  
  	* evolution.xml: added "Quick Reference" menu item

@@ -3,7 +3,7 @@
   <commands>   <!-- Alphabetical by name, yo -->
 
     <cmd name="AddSenderToAddressbook"
-     _tip="Add Sender to Addressbook"/>
+     _tip="Add Sender to Address Book"/>
 
     <cmd name="CaretMode"
     _tip="Show a blinking cursor in the body of displayed messages"
@@ -338,7 +338,7 @@
 
 	  <separator f="" name="emaillist4"/>
 
-          <menuitem name="AddSenderToAddressbook" verb="" _label="A_dd Sender to Addressbook"/>
+          <menuitem name="AddSenderToAddressbook" verb="" _label="A_dd Sender to Address Book"/>
 
 	  <separator f="" name="emaillist5"/>
 
