@@ -1,6 +1,19 @@
 2003-06-13  Larry Ewing  <lewing@ximian.com>
 
-	* printing/e-contact-print.c: update for correct used of
+	* gui/component/addressbook.c:
+        * gui/component/e-cardlist-model.c:
+	* gui/component/select-names/e-select-names-text-model.c:
+	* gui/contact-editor/e-contact-editor.c:
+	* gui/contact-editor/e-contact-save-as.c:
+	* gui/contact-list-editor/e-contact-list-editor.c:
+	* gui/widgets/e-addressbook-table-adapter.c:
+	* gui/widgets/e-addressbook-util.c:
+	* gui/widgets/e-addressbook-view.c:
+	* gui/widgets/e-minicard-view.c:
+	* gui/widgets/e-minicard.c:  Fix lots of leaks, update for correct
+	use of g_object_get.  Some misc cleanups.
+
+	* printing/e-contact-print.c: update for correct use of
 	g_object_get.
 
 2003-06-05  Not Zed  <NotZed@Ximian.com>

@@ -648,6 +648,8 @@ has_email_address_1(gint model_row,
 
 	if (e_list_length (email) > 0)
 		*has_email = TRUE;
+
+	g_object_unref (email);
 }
 
 static gboolean
@@ -784,6 +786,7 @@ delete (GtkWidget *widget, CardAndBook *card_and_book)
 			}
 		}
 		e_free_object_list(list);
+		g_object_unref(book);
 	}
 }
 
@@ -809,22 +812,30 @@ static void
 new_card (GtkWidget *widget, CardAndBook *card_and_book)
 {
 	EBook *book;
+	ECard *card;
 
 	g_object_get(card_and_book->view->model,
 		     "book", &book,
 		     NULL);
-	e_addressbook_show_contact_editor (book, e_card_new(""), TRUE, TRUE);
+
+	e_addressbook_show_contact_editor (book, card = e_card_new(""), TRUE, TRUE);
+	g_object_unref(book);
+	g_object_unref(card);
 }
 
 static void
 new_list (GtkWidget *widget, CardAndBook *card_and_book)
 {
 	EBook *book;
+	ECard *card;
 
 	g_object_get(card_and_book->view->model,
 		     "book", &book,
 		     NULL);
-	e_addressbook_show_contact_list_editor (book, e_card_new(""), TRUE, TRUE);
+
+	e_addressbook_show_contact_list_editor (book, card = e_card_new(""), TRUE, TRUE);
+	g_object_unref(book);
+	g_object_unref(card);
 }
 
 #if 0
@@ -1220,6 +1231,9 @@ table_double_click(ETableScrolled *table, gint row, gint col, GdkEvent *event, E
 			e_addressbook_show_contact_list_editor (book, card, FALSE, view->editable);
 		else
 			e_addressbook_show_contact_editor (book, card, FALSE, view->editable);
+
+		g_object_unref (book);
+		g_object_unref (card);
 	}
 }
 
@@ -1407,6 +1421,9 @@ treeview_row_activated(GtkTreeView *treeview,
 		e_addressbook_show_contact_list_editor (book, card, FALSE, view->editable);
 	else
 		e_addressbook_show_contact_editor (book, card, FALSE, view->editable);
+
+	g_object_unref (book);
+	g_object_unref (card);
 }
 
 static void
@@ -1652,6 +1669,8 @@ e_addressbook_view_print(EAddressbookView *view)
 			      "book", &book,
 			      NULL);
 		print = e_contact_print_dialog_new(book, query);
+
+		g_object_unref(book);
 		g_free(query);
 		gtk_widget_show_all(print);
 	}
@@ -1667,7 +1686,7 @@ e_addressbook_view_print(EAddressbookView *view)
 
 		g_object_get(view->widget, "table", &etable, NULL);
 		printable = e_table_get_printable(etable);
-
+		g_object_unref(etable);
 		g_object_ref (view->widget);
 
 		g_object_set_data (G_OBJECT (dialog), "table", view->widget);
@@ -1704,6 +1723,7 @@ e_addressbook_view_print_preview(EAddressbookView *view)
 			      "book", &book,
 			      NULL);
 		e_contact_print_preview(book, query);
+		g_object_unref(book);
 		g_free(query);
 	}
 	else if (view->view_type == E_ADDRESSBOOK_VIEW_TABLE) {
@@ -1716,6 +1736,7 @@ e_addressbook_view_print_preview(EAddressbookView *view)
 
 		g_object_get(view->widget, "table", &etable, NULL);
 		printable = e_table_get_printable(etable);
+		g_object_unref(etable);
 
 		master = gnome_print_job_new(NULL);
 		config = gnome_print_job_get_config (master);
@@ -1947,6 +1968,7 @@ view_transfer_cards (EAddressbookView *view, gboolean delete_from_source)
 	parent_window = GTK_WINDOW (gtk_widget_get_toplevel (GTK_WIDGET (view)));
 
 	e_addressbook_transfer_cards (book, cards, delete_from_source, parent_window);
+	g_object_unref(book);
 }
 
 void

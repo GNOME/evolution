@@ -135,7 +135,7 @@ e_contact_list_editor_class_init (EContactListEditorClass *klass)
 
 	object_class->set_property = e_contact_list_editor_set_property;
 	object_class->get_property = e_contact_list_editor_get_property;
-	object_class->dispose = e_contact_list_editor_dispose;
+	/* object_class->dispose = e_contact_list_editor_dispose;*/
 
 	g_object_class_install_property (object_class, PROP_BOOK, 
 					 g_param_spec_object ("book",
@@ -968,6 +968,7 @@ extract_info(EContactListEditor *editor)
 			}
 			g_free (dest_xml);
 		}
+		g_object_unref (email_list);
 	}
 }
 
@@ -992,6 +993,7 @@ fill_in_info(EContactListEditor *editor)
 		if (file_as) {
 			int position = 0;
 			gtk_editable_insert_text (GTK_EDITABLE (editor->list_name_entry), file_as, strlen (file_as), &position);
+			g_free (file_as);
 		}
 
 		gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON(editor->visible_addrs_checkbutton), !show_addresses);
@@ -1013,6 +1015,7 @@ fill_in_info(EContactListEditor *editor)
 
 			e_iterator_next (email_iter);
 		}
+		g_object_unref (email_list);
 	}
 }
 

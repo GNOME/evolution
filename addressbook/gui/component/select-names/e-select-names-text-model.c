@@ -334,14 +334,17 @@ e_select_names_text_model_insert_length (ETextModel *model, gint pos, const gcha
 	ESelectNamesTextModel *text_model = E_SELECT_NAMES_TEXT_MODEL (model);
 	ESelectNamesModel *source = text_model->source;
 	const char *t;
+	gchar *tmp;
 
 	if (out) {
-		gchar *tmp = g_strndup (text, length);
+		tmp = g_strndup (text, length);
 		fprintf (out, ">> insert  \"%s\" (len=%d) at %d\n", tmp, length, pos);
 		g_free (tmp);
 	}
 
-	pos = CLAMP (pos, 0, g_utf8_strlen (e_select_names_model_get_textification (source, text_model->sep), -1));
+	tmp = e_select_names_model_get_textification (source, text_model->sep);
+	pos = CLAMP (pos, 0, g_utf8_strlen (tmp, -1));
+	g_free (tmp);
 
 	/* We want to control all cursor motions ourselves, rather than taking hints
 	   from the ESelectNamesModel. */

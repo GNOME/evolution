@@ -582,6 +582,7 @@ e_minicard_event (GnomeCanvasItem *item, GdkEvent *event)
 										 e_minicard->card,
 										 card_modified_cb,
 										 NULL);
+						g_object_unref(book);
 					} else {
 						remodel(e_minicard);
 						e_canvas_item_request_reflow(GNOME_CANVAS_ITEM(e_minicard));
@@ -678,6 +679,7 @@ e_minicard_event (GnomeCanvasItem *item, GdkEvent *event)
 					g_signal_connect (e_minicard->editor, "editor_closed",
 							  G_CALLBACK (editor_closed_cb), e_minicard);
 
+					g_object_unref (book);
 				}
 			}
 			return TRUE;
@@ -1021,6 +1023,8 @@ e_minicard_get_card_id (EMinicard *minicard)
 int
 e_minicard_compare (EMinicard *minicard1, EMinicard *minicard2)
 {
+	int cmp = 0;
+	
 	g_return_val_if_fail(minicard1 != NULL, 0);
 	g_return_val_if_fail(E_IS_MINICARD(minicard1), 0);
 	g_return_val_if_fail(minicard2 != NULL, 0);
@@ -1028,22 +1032,28 @@ e_minicard_compare (EMinicard *minicard1, EMinicard *minicard2)
 
 	if (minicard1->card && minicard2->card) {
 		char *file_as1, *file_as2;
+
 		g_object_get(minicard1->card,
 			     "file_as", &file_as1,
 			     NULL);
 		g_object_get(minicard2->card,
 			     "file_as", &file_as2,
 			     NULL);
-		if (file_as1 && file_as2)
-			return g_utf8_collate(file_as1, file_as2);
-		if (file_as1)
-			return -1;
-		if (file_as2)
-			return 1;
-		return strcmp(e_minicard_get_card_id(minicard1), e_minicard_get_card_id(minicard2));
-	} else {
-		return 0;
+
+		if (file_as1 && file_as2) 
+			cmp = g_utf8_collate(file_as1, file_as2);
+		else if (file_as1)
+			cmp = -1;
+		else if (file_as2)
+			cmp = 1;
+		else 
+			cmp = strcmp(e_minicard_get_card_id(minicard1), e_minicard_get_card_id(minicard2));
+
+		g_free (file_as1);
+		g_free (file_as2);
 	}
+
+	return cmp;
 }
 
 int

@@ -132,6 +132,7 @@ e_contact_save_as(char *title, ECard *card, GtkWindow *parent_window)
 	file = make_safe_filename (g_get_home_dir(), name);
 	gtk_file_selection_set_filename (filesel, file);
 	g_free (file);
+	g_free (name);
 
 	info->filesel = filesel;
 	info->vcard = e_card_get_vcard(card);
@@ -168,6 +169,7 @@ e_contact_list_save_as(char *title, GList *list, GtkWindow *parent_window)
 		file = make_safe_filename (g_get_home_dir(), name);
 		gtk_file_selection_set_filename (filesel, file);
 		g_free (file);
+		g_free (name);
 	} else {
 		char *file;
 		file = make_safe_filename (g_get_home_dir(), _("list"));

@@ -63,16 +63,13 @@ static void
 e_cardlist_model_set_value_at (ETableModel *etc, int col, int row, const void *val)
 {
 	ECardlistModel *e_cardlist_model = E_CARDLIST_MODEL(etc);
-	ECard *card;
+
 	if ( col >= E_CARD_SIMPLE_FIELD_LAST - 1|| row >= e_cardlist_model->data_count )
 		return;
 	e_table_model_pre_change(etc);
 	e_card_simple_set(e_cardlist_model->data[row],
 			  col + 1,
 			  val);
-	g_object_get(e_cardlist_model->data[row],
-		     "card", &card,
-		     NULL);
 
 	e_table_model_cell_changed(etc, col, row);
 }
@@ -192,7 +189,6 @@ e_cardlist_model_get(ECardlistModel *model,
 		g_object_get(model->data[row],
 			     "card", &card,
 			     NULL);
-		g_object_ref(card);
 		return card;
 	}
 	return NULL;

@@ -183,6 +183,7 @@ e_minicard_view_set_property (GObject *object,
 					      NULL);
 				if (model) {
 					g_signal_handler_disconnect (model, view->writable_status_id);
+					g_object_unref (model);
 				}
 			}
 
@@ -282,6 +283,7 @@ e_minicard_view_dispose (GObject *object)
 				      NULL);
 			if (model) {
 				g_signal_handler_disconnect (model, view->writable_status_id);
+				g_object_unref (model);
 			}
 		}
 
@@ -321,8 +323,10 @@ e_minicard_view_event (GnomeCanvasItem *item, GdkEvent *event)
 				EBook *book;
 				g_object_get(view, "book", &book, NULL);
  
-				if (book && E_IS_BOOK (book))
+				if (book && E_IS_BOOK (book)) {
 					e_addressbook_show_contact_editor (book, e_card_new(""), TRUE, editable);
+					g_object_unref (book);
+				}
 			}
 			return TRUE;
 		}
@@ -402,6 +406,7 @@ do_remove (int i, gpointer user_data)
 	e_book_remove_card(book, card, cb, closure);
 
 	g_object_unref (card);
+	g_object_unref (book);
 }
 
 #if 0
@@ -420,13 +425,13 @@ compare_to_utf_str (EMinicard *card, const char *utf_str)
 		g_object_get(card->card,
 			     "file_as", &file_as,
 			     NULL);
-		if (file_as)
-			return g_utf8_strcasecmp (file_as, utf_str);
-		else
-			return 0;
-	} else {
-		return 0;
+		if (file_as) {
+			int cmp = g_utf8_strcasecmp (file_as, utf_str);
+			g_free (file_as);
+			return cmp;
+		}
 	}
+	return 0;
 }
 #endif
 

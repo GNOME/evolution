@@ -1433,6 +1433,11 @@ e_contact_editor_dispose (GObject *object) {
 		g_object_unref(e_contact_editor->simple);
 		e_contact_editor->simple = NULL;
 	}
+	
+	if (e_contact_editor->card) {
+		g_object_unref(e_contact_editor->card);
+		e_contact_editor->card = NULL;
+	}
 
 	if (e_contact_editor->book) {
 		g_object_unref(e_contact_editor->book);
@@ -2160,6 +2165,7 @@ fill_in_card_field(EContactEditor *editor, ECard *card, char *id, char *key)
 		       key, &string,
 		       NULL);
 	fill_in_field(editor, id, string);
+	g_free (string);
 }
 
 static void
@@ -2432,7 +2438,6 @@ fill_in_info(EContactEditor *editor)
 	ECard *card = editor->card;
 	if (card) {
 		char *file_as;
-		char *related_contacts;
 		ECardName *name;
 		const ECardDate *anniversary;
 		const ECardDate *bday;
@@ -2443,7 +2448,6 @@ fill_in_info(EContactEditor *editor)
 
 		g_object_get (card,
 			       "file_as",          &file_as,
-			       "related_contacts", &related_contacts,
 			       "name",             &name,
 			       "anniversary",      &anniversary,
 			       "birth_date",       &bday,
@@ -2472,7 +2476,8 @@ fill_in_info(EContactEditor *editor)
 
 		/* File as has to come after company and name or else it'll get messed up when setting them. */
 		fill_in_field(editor, "entry-file-as", file_as);
-		
+		g_free (file_as);
+
 		e_card_name_unref(editor->name);
 		editor->name = e_card_name_ref(name);
 

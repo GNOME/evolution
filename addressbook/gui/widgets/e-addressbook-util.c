@@ -525,6 +525,7 @@ e_addressbook_send_card_list (GList *cards, EAddressbookDisposition disposition)
 			tempstr = g_strdup_printf (_("VCard for %s"), file_as);
 			description = CORBA_string_dup (tempstr);
 			g_free (tempstr);
+			g_free (file_as);
 		}
 
 		show_inline = FALSE;
@@ -571,15 +572,17 @@ e_addressbook_send_card_list (GList *cards, EAddressbookDisposition disposition)
 			g_object_get(card,
 				     "file_as", &tempstr2,
 				     NULL);
-			if (!tempstr2 || !*tempstr2)
+			if (!tempstr2 || !*tempstr2) {
+				g_free (tempstr2);
 				g_object_get(card,
 					     "full_name", &tempstr2,
 					     NULL);
-			if (!tempstr2 || !*tempstr2)
+			} if (!tempstr2 || !*tempstr2) {
+				g_free (tempstr2);
 				g_object_get(card,
 					     "org", &tempstr2,
 					     NULL);
-			if (!tempstr2 || !*tempstr2) {
+			} if (!tempstr2 || !*tempstr2) {
 				EList *list;
 				EIterator *iterator;
 				g_object_get(card,
@@ -590,6 +593,7 @@ e_addressbook_send_card_list (GList *cards, EAddressbookDisposition disposition)
 					tempstr2 = e_iterator_get (iterator);
 				}
 				g_object_unref (iterator);
+				g_object_unref (list);
 			}
 
 			if (!tempstr2 || !*tempstr2)
@@ -597,6 +601,7 @@ e_addressbook_send_card_list (GList *cards, EAddressbookDisposition disposition)
 			else
 				tempstr = g_strdup_printf ("Contact information for %s", tempstr2);
 			subject = CORBA_string_dup (tempstr);
+			g_free (tempstr2);
 			g_free (tempstr);
 		}
 		

@@ -166,6 +166,7 @@ addressbook_set_value_at (ETableModel *etc, int col, int row, const void *val)
 
 		e_card_merging_book_commit_card(e_addressbook_model_get_ebook(priv->model),
 						card, card_modified_cb, NULL);
+		g_object_unref (card);
 
 		/* XXX do we need this?  shouldn't the commit_card generate a changed signal? */
 		e_table_model_cell_changed(etc, col, row);

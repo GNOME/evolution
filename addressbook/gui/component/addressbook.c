@@ -1047,7 +1047,7 @@ compare_subitems (const void *a, const void *b)
 static void
 make_suboptions (AddressbookView *view)
 {
-	ESearchBarSubitem *subitems;
+	ESearchBarSubitem *subitems, *s;
 	ECategoriesMasterList *master_list;
 	gint i, N;
 
@@ -1072,6 +1072,12 @@ make_suboptions (AddressbookView *view)
 	qsort (subitems + 1, N, sizeof (subitems[0]), compare_subitems);
 
 	e_search_bar_set_suboption (view->search, ESB_CATEGORY, subitems);
+
+	for (s = subitems; s->id != -1; s++) {
+		if (s->text)
+			g_free (s->text);
+	}
+	g_free (subitems);
 }
 
 static void
