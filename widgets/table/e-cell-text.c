@@ -186,6 +186,7 @@ static void _selection_received (GtkInvisible *invisible,
 				 GtkSelectionData *selection_data,
 				 guint time,
 				 CellEdit *edit);
+static int number_of_lines (char *text);
 static void split_into_lines (CurrentCell *cell);
 static void unref_lines (CurrentCell *cell);
 static void calc_line_widths (CurrentCell *cell);
@@ -950,17 +951,8 @@ static int
 ect_height (ECellView *ecell_view, int model_col, int view_col, int row) 
 {
 	ECellTextView *text_view = (ECellTextView *) ecell_view;
-	CurrentCell cell;
-	int return_val;
 
-	build_current_cell (&cell, text_view, model_col, view_col, row);
-	split_into_lines (&cell);
-	
-	return_val = (text_view->font->ascent + text_view->font->descent) * cell.breaks->num_lines + TEXT_PAD;
-	
-	unref_lines (&cell);
-	
-	return return_val;
+	return (text_view->font->ascent + text_view->font->descent) * number_of_lines(e_table_model_value_at (ecell_view->e_table_model, model_col, row)) + TEXT_PAD;
 }
 
 /*
@@ -1736,6 +1728,21 @@ _get_tep (CellEdit *edit)
 	}
 }
 
+static int
+number_of_lines (char *text)
+{
+	int num_lines = 0;
+	char *p;
+	if (!text)
+		return 0;
+	for (p = text; *p; p++)
+		if (*p == '\n')
+			num_lines++;
+	
+	num_lines++;
+	return num_lines;
+}
+
 /* Splits the text of the text item into lines */
 static void
 split_into_lines (CurrentCell *cell)
@@ -1765,12 +1772,8 @@ split_into_lines (CurrentCell *cell)
 		return;
 	
 	/* First, count the number of lines */
-	
-	for (p = text; *p; p++)
-		if (*p == '\n')
-			linebreaks->num_lines++;
-	
-	linebreaks->num_lines++;
+
+	linebreaks->num_lines = number_of_lines(cell->text);
 	
 	/* Allocate array of lines and calculate split positions */
 	
