@@ -1,3 +1,9 @@
+2003-07-22  Dan Winship  <danw@ximian.com>
+
+	* backend/ebook/e-card.c: (e_card_new,
+	e_card_new_with_default_charset): Make the "vcard" arg const.
+	...: add lots and lots of other consts as a side effect
+
 2003-06-30  Dan Winship  <danw@ximian.com>
 
 	* gui/widgets/e-addressbook-view.c (e_addressbook_view_dispose):

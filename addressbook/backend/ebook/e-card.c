@@ -81,7 +81,7 @@ enum {
 
 static GObjectClass *parent_class;
 
-static void parse(ECard *card, VObject *vobj, char *default_charset);
+static void parse(ECard *card, VObject *vobj, const char *default_charset);
 static void e_card_init (ECard *card);
 static void e_card_class_init (ECardClass *klass);
 
@@ -89,49 +89,49 @@ static void e_card_dispose (GObject *object);
 static void e_card_set_property (GObject *object, guint prop_id, const GValue *value, GParamSpec *pspec);
 static void e_card_get_property (GObject *object, guint prop_id, GValue *value, GParamSpec *pspec);
 
-static void assign_string(VObject *vobj, char *default_charset, char **string);
+static void assign_string(VObject *vobj, const char *default_charset, char **string);
 
-char *e_v_object_get_child_value(VObject *vobj, char *name, char *default_charset);
+char *e_v_object_get_child_value(VObject *vobj, char *name, const char *default_charset);
 
-static void parse_bday(ECard *card, VObject *object, char *default_charset);
-static void parse_full_name(ECard *card, VObject *object, char *default_charset);
-static void parse_file_as(ECard *card, VObject *object, char *default_charset);
-static void parse_name(ECard *card, VObject *object, char *default_charset);
-static void parse_email(ECard *card, VObject *object, char *default_charset);
-static void parse_phone(ECard *card, VObject *object, char *default_charset);
-static void parse_address(ECard *card, VObject *object, char *default_charset);
-static void parse_address_label(ECard *card, VObject *object, char *default_charset);
-static void parse_url(ECard *card, VObject *object, char *default_charset);
-static void parse_org(ECard *card, VObject *object, char *default_charset);
-static void parse_office(ECard *card, VObject *object, char *default_charset);
-static void parse_title(ECard *card, VObject *object, char *default_charset);
-static void parse_role(ECard *card, VObject *object, char *default_charset);
-static void parse_manager(ECard *card, VObject *object, char *default_charset);
-static void parse_assistant(ECard *card, VObject *object, char *default_charset);
-static void parse_nickname(ECard *card, VObject *object, char *default_charset);
-static void parse_spouse(ECard *card, VObject *object, char *default_charset);
-static void parse_anniversary(ECard *card, VObject *object, char *default_charset);
-static void parse_mailer(ECard *card, VObject *object, char *default_charset);
-static void parse_caluri(ECard *card, VObject *object, char *default_charset);
-static void parse_fburl(ECard *card, VObject *object, char *default_charset);
-static void parse_icscalendar(ECard *card, VObject *object, char *default_charset);
-static void parse_note(ECard *card, VObject *object, char *default_charset);
-static void parse_related_contacts(ECard *card, VObject *object, char *default_charset);
-static void parse_categories(ECard *card, VObject *object, char *default_charset);
-static void parse_wants_html(ECard *card, VObject *object, char *default_charset);
-static void parse_list(ECard *card, VObject *object, char *default_charset);
-static void parse_list_show_addresses(ECard *card, VObject *object, char *default_charset);
-static void parse_arbitrary(ECard *card, VObject *object, char *default_charset);
-static void parse_id(ECard *card, VObject *object, char *default_charset);
-static void parse_last_use(ECard *card, VObject *object, char *default_charset);
-static void parse_use_score(ECard *card, VObject *object, char *default_charset);
+static void parse_bday(ECard *card, VObject *object, const char *default_charset);
+static void parse_full_name(ECard *card, VObject *object, const char *default_charset);
+static void parse_file_as(ECard *card, VObject *object, const char *default_charset);
+static void parse_name(ECard *card, VObject *object, const char *default_charset);
+static void parse_email(ECard *card, VObject *object, const char *default_charset);
+static void parse_phone(ECard *card, VObject *object, const char *default_charset);
+static void parse_address(ECard *card, VObject *object, const char *default_charset);
+static void parse_address_label(ECard *card, VObject *object, const char *default_charset);
+static void parse_url(ECard *card, VObject *object, const char *default_charset);
+static void parse_org(ECard *card, VObject *object, const char *default_charset);
+static void parse_office(ECard *card, VObject *object, const char *default_charset);
+static void parse_title(ECard *card, VObject *object, const char *default_charset);
+static void parse_role(ECard *card, VObject *object, const char *default_charset);
+static void parse_manager(ECard *card, VObject *object, const char *default_charset);
+static void parse_assistant(ECard *card, VObject *object, const char *default_charset);
+static void parse_nickname(ECard *card, VObject *object, const char *default_charset);
+static void parse_spouse(ECard *card, VObject *object, const char *default_charset);
+static void parse_anniversary(ECard *card, VObject *object, const char *default_charset);
+static void parse_mailer(ECard *card, VObject *object, const char *default_charset);
+static void parse_caluri(ECard *card, VObject *object, const char *default_charset);
+static void parse_fburl(ECard *card, VObject *object, const char *default_charset);
+static void parse_icscalendar(ECard *card, VObject *object, const char *default_charset);
+static void parse_note(ECard *card, VObject *object, const char *default_charset);
+static void parse_related_contacts(ECard *card, VObject *object, const char *default_charset);
+static void parse_categories(ECard *card, VObject *object, const char *default_charset);
+static void parse_wants_html(ECard *card, VObject *object, const char *default_charset);
+static void parse_list(ECard *card, VObject *object, const char *default_charset);
+static void parse_list_show_addresses(ECard *card, VObject *object, const char *default_charset);
+static void parse_arbitrary(ECard *card, VObject *object, const char *default_charset);
+static void parse_id(ECard *card, VObject *object, const char *default_charset);
+static void parse_last_use(ECard *card, VObject *object, const char *default_charset);
+static void parse_use_score(ECard *card, VObject *object, const char *default_charset);
 
 static ECardPhoneFlags get_phone_flags (VObject *vobj);
 static void set_phone_flags (VObject *vobj, ECardPhoneFlags flags);
 static ECardAddressFlags get_address_flags (VObject *vobj);
 static void set_address_flags (VObject *vobj, ECardAddressFlags flags);
 
-typedef void (* ParsePropertyFunc) (ECard *card, VObject *object, char *default_charset);
+typedef void (* ParsePropertyFunc) (ECard *card, VObject *object, const char *default_charset);
 
 struct {
 	char *key;
@@ -207,7 +207,7 @@ e_card_get_type (void)
 }
 
 ECard *
-e_card_new_with_default_charset (char *vcard, char *default_charset)
+e_card_new_with_default_charset (const char *vcard, const char *default_charset)
 {
 	ECard *card = g_object_new (E_TYPE_CARD, NULL);
 	VObject *vobj = Parse_MIME(vcard, strlen(vcard));
@@ -234,7 +234,7 @@ e_card_new_with_default_charset (char *vcard, char *default_charset)
  * Returns: a new #ECard that wraps the @vcard.
  */
 ECard *
-e_card_new (char *vcard)
+e_card_new (const char *vcard)
 {
 	return e_card_new_with_default_charset (vcard, "UTF-8");
 }
@@ -798,7 +798,7 @@ e_card_list_get_vcard (const GList *list)
 }
 
 static void
-parse_file_as(ECard *card, VObject *vobj, char *default_charset)
+parse_file_as(ECard *card, VObject *vobj, const char *default_charset)
 {
 	if ( card->file_as )
 		g_free(card->file_as);
@@ -806,7 +806,7 @@ parse_file_as(ECard *card, VObject *vobj, char *default_charset)
 }
 
 static void
-parse_name(ECard *card, VObject *vobj, char *default_charset)
+parse_name(ECard *card, VObject *vobj, const char *default_charset)
 {
 	e_card_name_unref(card->name);
 
@@ -820,7 +820,7 @@ parse_name(ECard *card, VObject *vobj, char *default_charset)
 }
 
 static void
-parse_full_name(ECard *card, VObject *vobj, char *default_charset)
+parse_full_name(ECard *card, VObject *vobj, const char *default_charset)
 {
 	if ( card->fname )
 		g_free(card->fname);
@@ -828,7 +828,7 @@ parse_full_name(ECard *card, VObject *vobj, char *default_charset)
 }
 
 static void
-parse_email(ECard *card, VObject *vobj, char *default_charset)
+parse_email(ECard *card, VObject *vobj, const char *default_charset)
 {
 	char *next_email;
 	EList *list;
@@ -844,7 +844,7 @@ parse_email(ECard *card, VObject *vobj, char *default_charset)
 
 /* Deal with charset */
 static void
-parse_bday(ECard *card, VObject *vobj, char *default_charset)
+parse_bday(ECard *card, VObject *vobj, const char *default_charset)
 {
 	if ( vObjectValueType (vobj) ) {
 		char *str = fakeCString (vObjectUStringZValue (vobj));
@@ -857,7 +857,7 @@ parse_bday(ECard *card, VObject *vobj, char *default_charset)
 }
 
 static void
-parse_phone(ECard *card, VObject *vobj, char *default_charset)
+parse_phone(ECard *card, VObject *vobj, const char *default_charset)
 {
 	ECardPhone *next_phone = e_card_phone_new ();
 	EList *list;
@@ -874,7 +874,7 @@ parse_phone(ECard *card, VObject *vobj, char *default_charset)
 }
 
 static void
-parse_address(ECard *card, VObject *vobj, char *default_charset)
+parse_address(ECard *card, VObject *vobj, const char *default_charset)
 {
 	ECardDeliveryAddress *next_addr = e_card_delivery_address_new ();
 	EList *list;
@@ -897,7 +897,7 @@ parse_address(ECard *card, VObject *vobj, char *default_charset)
 }
 
 static void
-parse_address_label(ECard *card, VObject *vobj, char *default_charset)
+parse_address_label(ECard *card, VObject *vobj, const char *default_charset)
 {
 	ECardAddrLabel *next_addr = e_card_address_label_new ();
 	EList *list;
@@ -914,7 +914,7 @@ parse_address_label(ECard *card, VObject *vobj, char *default_charset)
 }
 
 static void
-parse_url(ECard *card, VObject *vobj, char *default_charset)
+parse_url(ECard *card, VObject *vobj, const char *default_charset)
 {
 	if (card->url)
 		g_free(card->url);
@@ -922,7 +922,7 @@ parse_url(ECard *card, VObject *vobj, char *default_charset)
 }
 
 static void
-parse_org(ECard *card, VObject *vobj, char *default_charset)
+parse_org(ECard *card, VObject *vobj, const char *default_charset)
 {
 	char *temp;
 	
@@ -936,7 +936,7 @@ parse_org(ECard *card, VObject *vobj, char *default_charset)
 }
 
 static void
-parse_office(ECard *card, VObject *vobj, char *default_charset)
+parse_office(ECard *card, VObject *vobj, const char *default_charset)
 {
 	if ( card->office )
 		g_free(card->office);
@@ -944,7 +944,7 @@ parse_office(ECard *card, VObject *vobj, char *default_charset)
 }
 
 static void
-parse_title(ECard *card, VObject *vobj, char *default_charset)
+parse_title(ECard *card, VObject *vobj, const char *default_charset)
 {
 	if ( card->title )
 		g_free(card->title);
@@ -952,7 +952,7 @@ parse_title(ECard *card, VObject *vobj, char *default_charset)
 }
 
 static void
-parse_role(ECard *card, VObject *vobj, char *default_charset)
+parse_role(ECard *card, VObject *vobj, const char *default_charset)
 {
 	if (card->role)
 		g_free(card->role);
@@ -960,7 +960,7 @@ parse_role(ECard *card, VObject *vobj, char *default_charset)
 }
 
 static void
-parse_manager(ECard *card, VObject *vobj, char *default_charset)
+parse_manager(ECard *card, VObject *vobj, const char *default_charset)
 {
 	if ( card->manager )
 		g_free(card->manager);
@@ -968,7 +968,7 @@ parse_manager(ECard *card, VObject *vobj, char *default_charset)
 }
 
 static void
-parse_assistant(ECard *card, VObject *vobj, char *default_charset)
+parse_assistant(ECard *card, VObject *vobj, const char *default_charset)
 {
 	if ( card->assistant )
 		g_free(card->assistant);
@@ -976,7 +976,7 @@ parse_assistant(ECard *card, VObject *vobj, char *default_charset)
 }
 
 static void
-parse_nickname(ECard *card, VObject *vobj, char *default_charset)
+parse_nickname(ECard *card, VObject *vobj, const char *default_charset)
 {
 	if (card->nickname)
 		g_free(card->nickname);
@@ -984,7 +984,7 @@ parse_nickname(ECard *card, VObject *vobj, char *default_charset)
 }
 
 static void
-parse_spouse(ECard *card, VObject *vobj, char *default_charset)
+parse_spouse(ECard *card, VObject *vobj, const char *default_charset)
 {
 	if ( card->spouse )
 		g_free(card->spouse);
@@ -993,7 +993,7 @@ parse_spouse(ECard *card, VObject *vobj, char *default_charset)
 
 /* Deal with charset */
 static void
-parse_anniversary(ECard *card, VObject *vobj, char *default_charset)
+parse_anniversary(ECard *card, VObject *vobj, const char *default_charset)
 {
 	if ( vObjectValueType (vobj) ) {
 		char *str = fakeCString (vObjectUStringZValue (vobj));
@@ -1006,7 +1006,7 @@ parse_anniversary(ECard *card, VObject *vobj, char *default_charset)
 }
 
 static void
-parse_mailer(ECard *card, VObject *vobj, char *default_charset)
+parse_mailer(ECard *card, VObject *vobj, const char *default_charset)
 {
 	if ( card->mailer )
 		g_free(card->mailer);
@@ -1014,35 +1014,35 @@ parse_mailer(ECard *card, VObject *vobj, char *default_charset)
 }
 
 static void
-parse_caluri(ECard *card, VObject *vobj, char *default_charset)
+parse_caluri(ECard *card, VObject *vobj, const char *default_charset)
 {
  	g_free(card->caluri);
  	assign_string(vobj, default_charset, &(card->caluri));
 }
 
 static void
-parse_fburl(ECard *card, VObject *vobj, char *default_charset)
+parse_fburl(ECard *card, VObject *vobj, const char *default_charset)
 {
 	g_free(card->fburl);
 	assign_string(vobj, default_charset, &(card->fburl));
 }
 
 static void
-parse_icscalendar(ECard *card, VObject *vobj, char *default_charset)
+parse_icscalendar(ECard *card, VObject *vobj, const char *default_charset)
 {
 	g_free(card->icscalendar);
 	assign_string(vobj, default_charset, &(card->icscalendar));
 }
 
 static void
-parse_note(ECard *card, VObject *vobj, char *default_charset)
+parse_note(ECard *card, VObject *vobj, const char *default_charset)
 {
 	g_free(card->note);
 	assign_string(vobj, default_charset, &(card->note));
 }
 
 static void
-parse_related_contacts(ECard *card, VObject *vobj, char *default_charset)
+parse_related_contacts(ECard *card, VObject *vobj, const char *default_charset)
 {
 	g_free(card->related_contacts);
 	assign_string(vobj, default_charset, &(card->related_contacts));
@@ -1107,7 +1107,7 @@ do_parse_categories(ECard *card, char *str)
 
 /* Deal with charset */
 static void
-parse_categories(ECard *card, VObject *vobj, char *default_charset)
+parse_categories(ECard *card, VObject *vobj, const char *default_charset)
 {
 	if ( vObjectValueType (vobj) ) {
 		char *str = fakeCString (vObjectUStringZValue (vobj));
@@ -1118,7 +1118,7 @@ parse_categories(ECard *card, VObject *vobj, char *default_charset)
 
 /* Deal with charset */
 static void
-parse_wants_html(ECard *card, VObject *vobj, char *default_charset)
+parse_wants_html(ECard *card, VObject *vobj, const char *default_charset)
 {
 	if ( vObjectValueType (vobj) ) {
 		char *str = fakeCString (vObjectUStringZValue (vobj));
@@ -1136,7 +1136,7 @@ parse_wants_html(ECard *card, VObject *vobj, char *default_charset)
 
 /* Deal with charset */
 static void
-parse_list(ECard *card, VObject *vobj, char *default_charset)
+parse_list(ECard *card, VObject *vobj, const char *default_charset)
 {
 	if ( vObjectValueType (vobj) ) {
 		char *str = fakeCString (vObjectUStringZValue (vobj));
@@ -1152,7 +1152,7 @@ parse_list(ECard *card, VObject *vobj, char *default_charset)
 
 /* Deal with charset */
 static void
-parse_list_show_addresses(ECard *card, VObject *vobj, char *default_charset)
+parse_list_show_addresses(ECard *card, VObject *vobj, const char *default_charset)
 {
 	if ( vObjectValueType (vobj) ) {
 		char *str = fakeCString (vObjectUStringZValue (vobj));
@@ -1184,7 +1184,7 @@ struct VObject {
 };
 
 static void
-parse_arbitrary(ECard *card, VObject *vobj, char *default_charset)
+parse_arbitrary(ECard *card, VObject *vobj, const char *default_charset)
 {
 	ECardArbitrary *arbitrary = e_card_arbitrary_new();
 	VObjectIterator iterator;
@@ -1212,7 +1212,7 @@ parse_arbitrary(ECard *card, VObject *vobj, char *default_charset)
 }
 
 static void
-parse_id(ECard *card, VObject *vobj, char *default_charset)
+parse_id(ECard *card, VObject *vobj, const char *default_charset)
 {
 	g_free(card->id);
 	assign_string(vobj, default_charset, &(card->id));
@@ -1220,7 +1220,7 @@ parse_id(ECard *card, VObject *vobj, char *default_charset)
 
 /* Deal with charset */
 static void
-parse_last_use(ECard *card, VObject *vobj, char *default_charset)
+parse_last_use(ECard *card, VObject *vobj, const char *default_charset)
 {
 	if ( vObjectValueType (vobj) ) {
 		char *str = fakeCString (vObjectUStringZValue (vobj));
@@ -1233,7 +1233,7 @@ parse_last_use(ECard *card, VObject *vobj, char *default_charset)
 
 /* Deal with charset */
 static void
-parse_use_score(ECard *card, VObject *vobj, char *default_charset)
+parse_use_score(ECard *card, VObject *vobj, const char *default_charset)
 {
 	card->raw_use_score = 0;
 	
@@ -1245,7 +1245,7 @@ parse_use_score(ECard *card, VObject *vobj, char *default_charset)
 }
 
 static void
-parse_attribute(ECard *card, VObject *vobj, char *default_charset)
+parse_attribute(ECard *card, VObject *vobj, const char *default_charset)
 {
 	ParsePropertyFunc function = g_hash_table_lookup(E_CARD_GET_CLASS(card)->attribute_jump_table, vObjectName(vobj));
 	if ( function )
@@ -1253,7 +1253,7 @@ parse_attribute(ECard *card, VObject *vobj, char *default_charset)
 }
 
 static void
-parse(ECard *card, VObject *vobj, char *default_charset)
+parse(ECard *card, VObject *vobj, const char *default_charset)
 {
 	VObjectIterator iterator;
 	initPropIterator(&iterator, vobj);
@@ -2461,7 +2461,7 @@ e_card_init (ECard *card)
 }
 
 GList *
-e_card_load_cards_from_file_with_default_charset(const char *filename, char *default_charset)
+e_card_load_cards_from_file_with_default_charset(const char *filename, const char *default_charset)
 {
 	VObject *vobj = Parse_MIME_FromFileName((char *) filename);
 	GList *list = NULL;
@@ -2485,7 +2485,7 @@ e_card_load_cards_from_file(const char *filename)
 }
 
 GList *
-e_card_load_cards_from_string_with_default_charset(const char *str, char *default_charset)
+e_card_load_cards_from_string_with_default_charset(const char *str, const char *default_charset)
 {
 	VObject *vobj = Parse_MIME(str, strlen (str));
 	GList *list = NULL;
@@ -2543,22 +2543,22 @@ e_card_free_empty_lists (ECard *card)
 }
 
 static void
-assign_string(VObject *vobj, char *default_charset, char **string)
+assign_string(VObject *vobj, const char *default_charset, char **string)
 {
 	int type = vObjectValueType(vobj);
 	char *str;
-	char *charset = default_charset;
-	gboolean free_charset = FALSE;
+	const char *charset = default_charset;
+	char *charset_buf = NULL;
 	VObject *charset_obj;
 
 	if ((charset_obj = isAPropertyOf (vobj, "CHARSET"))) {
 		switch (vObjectValueType (charset_obj)) {
 		case VCVT_STRINGZ:
-			charset = (char *) vObjectStringZValue(charset_obj);
+			charset = vObjectStringZValue(charset_obj);
 			break;
 		case VCVT_USTRINGZ:
-			charset = fakeCString (vObjectUStringZValue (charset_obj));
-			free_charset = TRUE;
+			charset_buf = fakeCString (vObjectUStringZValue (charset_obj));
+			charset = charset_buf;
 			break;
 		}
 	}
@@ -2583,8 +2583,8 @@ assign_string(VObject *vobj, char *default_charset, char **string)
 		break;
 	}
 
-	if (free_charset) {
-		free (charset);
+	if (charset_buf) {
+		free (charset_buf);
 	}
 }
 
@@ -2615,21 +2615,21 @@ e_card_date_from_string (const char *str)
 }
 
 char *
-e_v_object_get_child_value(VObject *vobj, char *name, char *default_charset)
+e_v_object_get_child_value(VObject *vobj, char *name, const char *default_charset)
 {
 	char *ret_val;
 	VObjectIterator iterator;
-	gboolean free_charset = FALSE;
+	char *charset_buf = NULL;
 	VObject *charset_obj;
 
 	if ((charset_obj = isAPropertyOf (vobj, "CHARSET"))) {
 		switch (vObjectValueType (charset_obj)) {
 		case VCVT_STRINGZ:
-			default_charset = (char *) vObjectStringZValue(charset_obj);
+			default_charset = vObjectStringZValue(charset_obj);
 			break;
 		case VCVT_USTRINGZ:
-			default_charset = fakeCString (vObjectUStringZValue (charset_obj));
-			free_charset = TRUE;
+			charset_buf = fakeCString (vObjectUStringZValue (charset_obj));
+			default_charset = charset_buf;
 			break;
 		}
 	}
@@ -2643,8 +2643,8 @@ e_v_object_get_child_value(VObject *vobj, char *name, char *default_charset)
 			return ret_val;
 		}
 	}
-	if (free_charset)
-		free (default_charset);
+	if (charset_buf)
+		free (charset_buf);
 
 	return NULL;
 }

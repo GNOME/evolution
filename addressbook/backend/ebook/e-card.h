@@ -119,9 +119,9 @@ struct _ECardClass {
 
 
 /* Simple functions */
-ECard                *e_card_new                                          (char                       *vcard); /* Assumes utf8 */
-ECard                *e_card_new_with_default_charset                     (char                       *vcard,
-									   char                       *default_charset);
+ECard                *e_card_new                                          (const char                 *vcard); /* Assumes utf8 */
+ECard                *e_card_new_with_default_charset                     (const char                 *vcard,
+									   const char                 *default_charset);
 const char           *e_card_get_id                                       (ECard                      *card);
 void                  e_card_set_id                                       (ECard                      *card,
 									   const char                 *character);
@@ -190,10 +190,10 @@ gint                  e_card_email_find_number                            (const
 /* Specialized functionality */
 GList                *e_card_load_cards_from_file                         (const char                 *filename);
 GList                *e_card_load_cards_from_file_with_default_charset    (const char                 *filename,
-									   char                       *default_charset);
+									   const char                 *default_charset);
 GList                *e_card_load_cards_from_string                       (const char                 *str);
 GList                *e_card_load_cards_from_string_with_default_charset  (const char                 *str,
-									   char                       *default_charset);
+									   const char                 *default_charset);
 void                  e_card_free_empty_lists                             (ECard                      *card);
 
 /* Getting ECards via their URIs */
