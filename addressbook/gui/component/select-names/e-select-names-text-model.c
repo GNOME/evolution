@@ -47,7 +47,7 @@ static const gchar *e_select_names_text_model_get_nth_obj (ETextModel *model, gi
 static void         e_select_names_text_model_activate_obj (ETextModel *model, gint n);
 
 
-ETextModelClass *parent_class;
+static ETextModelClass *parent_class;
 #define PARENT_TYPE e_text_model_get_type()
 
 /**
