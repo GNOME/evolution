@@ -37,8 +37,8 @@
 #include <gdk-pixbuf/gdk-pixbuf.h>
 
 
-#define PARENT_TYPE gnome_dialog_get_type ()
-static GnomeDialogClass *parent_class = NULL;
+#define PARENT_TYPE gtk_dialog_get_type ()
+static GtkDialogClass *parent_class = NULL;
 
 #define SWITCH_PAGE_INTERVAL 250
 
@@ -93,11 +93,11 @@ update_buttons (EMultiConfigDialog *dialog)
 	priv = dialog->priv;
 
 	if (priv->num_unapplied > 0) {
-		gnome_dialog_set_sensitive (GNOME_DIALOG (dialog), 0, TRUE); /* OK */
-		gnome_dialog_set_sensitive (GNOME_DIALOG (dialog), 1, TRUE); /* Apply */
+		gtk_dialog_set_response_sensitive (GTK_DIALOG (dialog), GTK_RESPONSE_OK, TRUE);
+		gtk_dialog_set_response_sensitive (GTK_DIALOG (dialog), GTK_RESPONSE_APPLY, TRUE);
 	} else {
-		gnome_dialog_set_sensitive (GNOME_DIALOG (dialog), 0, FALSE); /* OK */
-		gnome_dialog_set_sensitive (GNOME_DIALOG (dialog), 1, FALSE); /* Apply */
+		gtk_dialog_set_response_sensitive (GTK_DIALOG (dialog), GTK_RESPONSE_OK, FALSE);
+		gtk_dialog_set_response_sensitive (GTK_DIALOG (dialog), GTK_RESPONSE_APPLY, FALSE);
 	}
 }
 
@@ -175,7 +175,7 @@ set_page_timeout_callback (void *data)
 static void
 do_close (EMultiConfigDialog *dialog)
 {
-	gnome_dialog_close (GNOME_DIALOG (dialog));
+	gtk_widget_destroy (GTK_WIDGET (dialog));
 }
 
 static void
@@ -231,10 +231,10 @@ table_cursor_change_callback (ETable *etable,
 }
 
 
-/* GtkObject methods.  */
+/* GObject methods.  */
 
 static void
-impl_destroy (GtkObject *object)
+impl_finalize (GObject *object)
 {
 	EMultiConfigDialog *dialog;
 	EMultiConfigDialogPrivate *priv;
@@ -249,15 +249,15 @@ impl_destroy (GtkObject *object)
 
 	g_free (priv);
 
-	(* GTK_OBJECT_CLASS (parent_class)->destroy) (object);
+	(* G_OBJECT_CLASS (parent_class)->finalize) (object);
 }
 
 
-/* GnomeDialog methods.  */
+/* GtkDialog methods.  */
 
 static void
-impl_clicked (GnomeDialog *dialog,
-	      int button_number)
+impl_response (GtkDialog *dialog,
+	       int response_id)
 {
 	EMultiConfigDialog *multi_config_dialog;
 	EMultiConfigDialogPrivate *priv;
@@ -265,14 +265,14 @@ impl_clicked (GnomeDialog *dialog,
 	multi_config_dialog = E_MULTI_CONFIG_DIALOG (dialog);
 	priv = multi_config_dialog->priv;
 
-	switch (button_number) {
-	case 0:			/* OK */
+	switch (response_id) {
+	case GTK_RESPONSE_OK:
 		do_ok (multi_config_dialog);
 		break;
-	case 1:			/* Apply */
+	case GTK_RESPONSE_APPLY:
 		do_apply (multi_config_dialog);
 		break;
-	case 2:			/* Close */
+	case GTK_RESPONSE_CLOSE:
 		do_close (multi_config_dialog);
 		break;
 	default:
@@ -281,19 +281,19 @@ impl_clicked (GnomeDialog *dialog,
 }
 
 
-/* GTK+ ctors.  */
+/* GObject ctors.  */
 
 static void
 class_init (EMultiConfigDialogClass *class)
 {
-	GnomeDialogClass *dialog_class;
-	GtkObjectClass *object_class;
+	GObjectClass *object_class;
+	GtkDialogClass *dialog_class;
 
-	object_class = GTK_OBJECT_CLASS (class);
-	object_class->destroy = impl_destroy;
+	object_class = G_OBJECT_CLASS (class);
+	object_class->finalize = impl_finalize;
 
-	dialog_class = GNOME_DIALOG_CLASS (class);
-	dialog_class->clicked = impl_clicked;
+	dialog_class = GTK_DIALOG_CLASS (class);
+	dialog_class->response = impl_response;
 
 	parent_class = gtk_type_class (PARENT_TYPE);
 }
@@ -358,7 +358,7 @@ init (EMultiConfigDialog *multi_config_dialog)
 {
 	EMultiConfigDialogPrivate *priv;
 	ETableModel *list_e_table_model;
-	GtkWidget *gnome_dialog_vbox;
+	GtkWidget *dialog_vbox;
 	GtkWidget *hbox;
 	GtkWidget *notebook;
 	GtkWidget *list_e_table;
@@ -368,8 +368,8 @@ init (EMultiConfigDialog *multi_config_dialog)
 	ECell *vbox;
 
 	hbox = gtk_hbox_new (FALSE, 2);
-	gnome_dialog_vbox = GNOME_DIALOG (multi_config_dialog)->vbox;
-	gtk_container_add (GTK_CONTAINER (gnome_dialog_vbox), hbox);
+	dialog_vbox = GTK_DIALOG (multi_config_dialog)->vbox;
+	gtk_container_add (GTK_CONTAINER (dialog_vbox), hbox);
 
 	list_e_table_model = e_table_memory_store_new (columns);
 
@@ -414,12 +414,13 @@ init (EMultiConfigDialog *multi_config_dialog)
 	gtk_widget_show (notebook);
 	gtk_widget_show (list_e_table);
 
-	gnome_dialog_append_buttons (GNOME_DIALOG (multi_config_dialog),
-				     GNOME_STOCK_BUTTON_OK,
-				     GNOME_STOCK_BUTTON_APPLY,
-				     GNOME_STOCK_BUTTON_CLOSE,
-				     NULL);
-	gnome_dialog_set_default (GNOME_DIALOG (multi_config_dialog), 0);
+	gtk_dialog_add_buttons (GTK_DIALOG (multi_config_dialog),
+				GTK_STOCK_OK, GTK_RESPONSE_OK,
+				GTK_STOCK_APPLY, GTK_RESPONSE_APPLY,
+				GTK_STOCK_CLOSE, GTK_RESPONSE_CLOSE,
+				NULL);
+	gtk_dialog_set_default_response (GTK_DIALOG (multi_config_dialog), GTK_RESPONSE_OK);
+	
 
 	gtk_window_set_policy (GTK_WINDOW (multi_config_dialog),
 			       FALSE /* allow_shrink */,

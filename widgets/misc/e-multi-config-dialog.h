@@ -29,8 +29,7 @@
 
 #include "e-config-page.h"
 
-#include <gtk/gtkwindow.h>
-
+#include <gtk/gtkdialog.h>
 #include <gdk-pixbuf/gdk-pixbuf.h>
 
 #ifdef __cplusplus
@@ -50,13 +49,13 @@ typedef struct _EMultiConfigDialogPrivate EMultiConfigDialogPrivate;
 typedef struct _EMultiConfigDialogClass   EMultiConfigDialogClass;
 
 struct _EMultiConfigDialog {
-	GnomeDialog parent;
+	GtkDialog parent;
 
 	EMultiConfigDialogPrivate *priv;
 };
 
 struct _EMultiConfigDialogClass {
-	GnomeDialogClass parent_class;
+	GtkDialogClass parent_class;
 };
 
 
