@@ -671,9 +671,7 @@ ecm_is_cell_editable (ETableModel *etm, int col, int row)
 	priv = model->priv;
 
 	g_return_val_if_fail (col >= 0 && col <= E_CAL_MODEL_FIELD_LAST, FALSE);
-
-	/* FIXME: We can't check this as 'click-to-add' passes row 0. */
-	/*g_return_val_if_fail (row >= 0 && row < priv->objects->len, FALSE);*/
+	g_return_val_if_fail (row >= -1 && row < priv->objects->len, FALSE);
 
 	switch (col) {
 	case E_CAL_MODEL_FIELD_CATEGORIES :

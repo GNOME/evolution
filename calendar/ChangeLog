@@ -1,3 +1,11 @@
+2004-05-07  JP Rosevear  <jpr@ximian.com>
+
+	* gui/e-cal-model.c (ecm_is_cell_editable): fix comment and check
+
+	* gui/e-cal-model-tasks.c (ecmt_set_value_at): set a parent field
+	properly
+	(ecmt_is_cell_editable): fix comment and check
+
 2004-05-06  Larry Ewing  <lewing@ximian.com>
 
 	* gui/dialogs/calendar-setup.c (source_to_dialog): use random

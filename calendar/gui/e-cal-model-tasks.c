@@ -758,6 +758,11 @@ ecmt_set_value_at (ETableModel *etm, int col, int row, const void *value)
 	g_return_if_fail (col >= 0 && col < E_CAL_MODEL_TASKS_FIELD_LAST);
 	g_return_if_fail (row >= 0 && row < e_table_model_row_count (etm));
 
+	if (col < E_CAL_MODEL_FIELD_LAST) {
+		E_TABLE_MODEL_CLASS (parent_class)->set_value_at (etm, col, row, value);
+		return;
+	}
+
 	comp_data = e_cal_model_get_component_at (E_CAL_MODEL (model), row);
 	if (!comp_data)
 		return;
@@ -808,9 +813,7 @@ ecmt_is_cell_editable (ETableModel *etm, int col, int row)
 	priv = model->priv;
 
 	g_return_val_if_fail (col >= 0 && col < E_CAL_MODEL_TASKS_FIELD_LAST, FALSE);
-
-	/* FIXME: We can't check this as 'click-to-add' passes row 0. */
-	/* g_return_val_if_fail (row >= 0 && row < e_table_model_get_row_count (etm), FALSE); */
+ 	g_return_val_if_fail (row >= -1 && row < e_table_model_get_row_count (etm), FALSE);
 
 	if (col < E_CAL_MODEL_FIELD_LAST)
 		return E_TABLE_MODEL_CLASS (parent_class)->is_cell_editable (etm, col, row);
