@@ -21,6 +21,7 @@ AC_DEFUN([AM_GNOME_WITH_NLS],
     AC_MSG_RESULT($USE_NLS)
     AC_SUBST(USE_NLS)
 
+    BUILD_INCLUDED_LIBINTL=no
     USE_INCLUDED_LIBINTL=no
 
     dnl If we use NLS figure out what method
@@ -197,6 +198,7 @@ AC_DEFUN([AM_GNOME_WITH_NLS],
     done
 
     dnl Make all variables we use known to autoconf.
+    AC_SUBST(BUILD_INCLUDED_LIBINTL)
     AC_SUBST(USE_INCLUDED_LIBINTL)
     AC_SUBST(CATALOGS)
     AC_SUBST(CATOBJEXT)
