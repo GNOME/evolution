@@ -59,6 +59,7 @@ struct _EItipControlPrivate {
 	CalComponent *comp;
 	icalcomponent *main_comp;
 	icalcomponent *ical_comp;
+	icalcomponent *top_level;
 	icalcompiter iter;
 	icalproperty_method method;
 
@@ -338,6 +339,38 @@ init (EItipControl *itip)
 }
 
 static void
+clean_up (EItipControl *itip) 
+{
+	EItipControlPrivate *priv;
+
+	priv = itip->priv;
+
+	g_free (priv->vcalendar);
+	priv->vcalendar = NULL;
+
+	gtk_object_unref (GTK_OBJECT (priv->comp));
+	priv->comp = NULL;
+	
+	icalcomponent_free (priv->top_level);
+	priv->top_level = NULL;
+	icalcomponent_free (priv->main_comp);
+	priv->main_comp = NULL;
+	priv->ical_comp = NULL;
+
+	priv->map = NULL;
+	
+	priv->current = 0;
+	priv->total = 0;
+
+	itip_addresses_free (priv->addresses);
+	priv->addresses = NULL;
+
+	priv->my_address = NULL;
+	g_free (priv->from_address);
+	priv->from_address = NULL;
+}
+
+static void
 destroy (GtkObject *obj)
 {
 	EItipControl *itip = E_ITIP_CONTROL (obj);
@@ -345,7 +378,10 @@ destroy (GtkObject *obj)
 
 	priv = itip->priv;
 
-	itip_addresses_free (priv->addresses);
+	clean_up (itip);
+	
+	gtk_object_unref (GTK_OBJECT (priv->event_client));
+	gtk_object_unref (GTK_OBJECT (priv->task_client));
 	
 	g_free (priv);
 }
@@ -817,11 +853,16 @@ e_itip_control_set_data (EItipControl *itip, const gchar *text)
 	EItipControlPrivate *priv;
 	icalproperty *prop;
 	icalcomponent_kind kind = ICAL_NO_COMPONENT;
-
+	icalcomponent *tz_comp;
+	icalcompiter tz_iter;
+	
 	priv = itip->priv;
+
+	clean_up (itip);
 	
 	priv->vcalendar = g_strdup (text);
-	
+	priv->top_level = cal_util_new_top_level ();
+
 	priv->main_comp = icalparser_parse_string (priv->vcalendar);
 	if (priv->main_comp == NULL) {
 		set_message (itip, _("The information contained in this attachment was not valid"), TRUE);
@@ -834,6 +875,16 @@ e_itip_control_set_data (EItipControl *itip, const gchar *text)
 
 	prop = icalcomponent_get_first_property (priv->main_comp, ICAL_METHOD_PROPERTY);
 	priv->method = icalproperty_get_method (prop);
+
+	tz_iter = icalcomponent_begin_component (priv->main_comp, ICAL_VTIMEZONE_COMPONENT);
+	while ((tz_comp = icalcompiter_deref (&tz_iter)) != NULL) {
+		icalcomponent *clone;
+		
+		clone = icalcomponent_new_clone (tz_comp);
+		icalcomponent_add_component (priv->top_level, clone);
+
+		icalcompiter_next (&tz_iter);
+	}
 
 	priv->iter = icalcomponent_begin_component (priv->main_comp, ICAL_ANY_COMPONENT);
 	priv->ical_comp = icalcompiter_deref (&priv->iter);
@@ -906,6 +957,7 @@ static void
 update_item (EItipControl *itip) 
 {
 	EItipControlPrivate *priv;
+	icalcomponent *clone;
 	CalClient *client;
 	CalComponentVType type;
 	
@@ -916,13 +968,17 @@ update_item (EItipControl *itip)
 		client = priv->task_client;
 	else 
 		client = priv->event_client;
+
+	clone = icalcomponent_new_clone (priv->ical_comp);
+	icalcomponent_add_component (priv->top_level, clone);
 	
-	if (!cal_client_update_object (client, priv->comp)) {
+	if (!cal_client_update_objects (client, priv->top_level)) {
 		GtkWidget *dialog;
 		
 		dialog = gnome_warning_dialog(_("I couldn't update your calendar file!\n"));
 		gnome_dialog_run (GNOME_DIALOG(dialog));
 	}
+	icalcomponent_remove_component (priv->top_level, clone);
 }
 
 static void

@@ -1,3 +1,13 @@
+2001-07-19  JP Rosevear  <jpr@ximian.com>
+
+	* gui/e-itip-control.c (clean_up): free various data related
+	settings
+	(destroy): use cleanup and unref the clients
+	(e_itip_control_set_data): clean up before setting the data and
+	store the timezones in a top level component
+	(update_item): use cal_client_update_objects and our top level
+	(including the timezones)
+
 2001-07-19  Damon Chaplin  <damon@ximian.com>
 
 	* gui/dialogs/comp-editor.c (pixmaps): 
@@ -79,7 +89,6 @@
 	* gui/dialogs/comp-editor-util.c (comp_editor_dates): 
 	* gui/print.c (print_date_label): only free icaltimetype if not NULL.
 
->>>>>>> 1.974
 2001-07-12  Taylor Hayward  <taylorhayward@yahoo.com>
 
 	* gui/goto-dialog.glade:
