@@ -1,3 +1,11 @@
+2001-07-11  Jason Leach  <jleach@ximian.com>
+
+	* vfoldertypes.xml: Copied the "Attachments" rule part over from
+	filtertypes.xml, would be a powerful feature for vfolders (see all
+	the patches across all folders, or all the attachments you've sent,
+	without having to duplicate potentially big files, blah blah, bug
+	#1155).
+
 2001-07-10  Peter Williams  <peterw@ximian.com>
 
 	* vfoldertypes.xml: Put a match-all around the not-body-contains
