@@ -644,6 +644,7 @@ static BonoboUIVerb help_verbs [] = {
 static EPixmap pixmaps [] = {
 	E_PIXMAP ("/commands/SendReceive", "stock_mail-send-receive", E_ICON_SIZE_MENU),
 	E_PIXMAP ("/Toolbar/SendReceive", "stock_mail-send-receive", E_ICON_SIZE_LARGE_TOOLBAR),
+	E_PIXMAP ("/menu/File/OpenNewWindow", "stock_new-window", E_ICON_SIZE_MENU),
 	E_PIXMAP ("/menu/File/FileImporter", "stock_mail-import", E_ICON_SIZE_MENU),
 	E_PIXMAP ("/menu/File/ToggleOffline", "stock_disconnect", E_ICON_SIZE_MENU),
 	E_PIXMAP ("/menu/Tools/Settings", "gnome-settings", E_ICON_SIZE_MENU),
