@@ -1777,18 +1777,36 @@ header_decode_atom(const char **in)
 }
 
 static char *
-header_decode_word(const char **in)
+header_decode_word(const char **in, const char *charset)
 {
-	const char *inptr = *in;
+	char *out;
 
-	header_decode_lwsp(&inptr);
-	if (*inptr == '"') {
-		*in = inptr;
-		return header_decode_quoted_string(in);
-	} else {
-		*in = inptr;
-		return header_decode_atom(in);
+	header_decode_lwsp(in);
+	if (**in == '"')
+		out = header_decode_quoted_string(in);
+	else
+		out = header_decode_atom(in);
+
+	/* FIXME: temporary workaround for non-ascii-data problem, see bug #42710 */
+	if (out) {
+		char *p;
+
+		for (p=out;*p;p++) {
+			if ((*p) & 0x80) {
+				GString *newstr = g_string_new("");
+
+				if (charset == NULL || !append_8bit(newstr, out, strlen(out), charset))
+					append_latin1(newstr, out, strlen(out));
+
+				g_free(out);
+				out = newstr->str;
+				g_string_free(newstr, FALSE);
+				break;
+			}
+		}
 	}
+
+	return out;
 }
 
 static char *
@@ -2282,7 +2300,7 @@ header_decode_addrspec(const char **in)
 	header_decode_lwsp(&inptr);
 
 	/* addr-spec */
-	word = header_decode_word(&inptr);
+	word = header_decode_word(&inptr, NULL);
 	if (word) {
 		addr = g_string_append(addr, word);
 		header_decode_lwsp(&inptr);
@@ -2290,7 +2308,7 @@ header_decode_addrspec(const char **in)
 		while (*inptr == '.' && word) {
 			inptr++;
 			addr = g_string_append_c(addr, '.');
-			word = header_decode_word(&inptr);
+			word = header_decode_word(&inptr, NULL);
 			if (word) {
 				addr = g_string_append(addr, word);
 				header_decode_lwsp(&inptr);
@@ -2351,7 +2369,7 @@ header_decode_mailbox(const char **in, const char *charset)
 	addr = g_string_new("");
 
 	/* for each address */
-	pre = header_decode_word(&inptr);
+	pre = header_decode_word(&inptr, charset);
 	header_decode_lwsp(&inptr);
 	if (!(*inptr == '.' || *inptr == '@' || *inptr==',' || *inptr=='\0')) {
 		/* ',' and '\0' required incase it is a simple address, no @ domain part (buggy writer) */
@@ -2365,7 +2383,7 @@ header_decode_mailbox(const char **in, const char *charset)
 			last = pre;
 			g_free(text);
 
-			pre = header_decode_word(&inptr);
+			pre = header_decode_word(&inptr, charset);
 			if (pre) {
 				size_t l = strlen (last);
 				size_t p = strlen (pre);
@@ -2383,7 +2401,7 @@ header_decode_mailbox(const char **in, const char *charset)
 				while (!pre && *inptr && *inptr != '<') {
 					w(g_warning("Working around stupid mailer bug #5: unescaped characters in names"));
 					name = g_string_append_c(name, *inptr++);
-					pre = header_decode_word(&inptr);
+					pre = header_decode_word(&inptr, charset);
 				}
 			}
 			g_free(last);
@@ -2410,7 +2428,7 @@ header_decode_mailbox(const char **in, const char *charset)
 					w(g_warning("broken route-address, missing ':': %s", *in));
 				}
 			}
-			pre = header_decode_word(&inptr);
+			pre = header_decode_word(&inptr, charset);
 			header_decode_lwsp(&inptr);
 		} else {
 			w(g_warning("broken address? %s", *in));
@@ -2427,7 +2445,7 @@ header_decode_mailbox(const char **in, const char *charset)
 	while (*inptr == '.' && pre) {
 		inptr++;
 		g_free(pre);
-		pre = header_decode_word(&inptr);
+		pre = header_decode_word(&inptr, charset);
 		addr = g_string_append_c(addr, '.');
 		if (pre)
 			addr = g_string_append(addr, pre);
@@ -2550,7 +2568,7 @@ header_decode_address(const char **in, const char *charset)
 
 	/* pre-scan, trying to work out format, discard results */
 	header_decode_lwsp(&inptr);
-	while ( (pre = header_decode_word(&inptr)) ) {
+	while ( (pre = header_decode_word(&inptr, charset)) ) {
 		group = g_string_append(group, pre);
 		group = g_string_append(group, " ");
 		g_free(pre);
@@ -2665,7 +2683,7 @@ header_contentid_decode (const char *in)
 	}
 	
 	/* Eudora has been known to use <.@> as a content-id */
-	if (!(buf = header_decode_word (&inptr)) && !strchr (".@", *inptr))
+	if (!(buf = header_decode_word (&inptr, NULL)) && !strchr (".@", *inptr))
 		return NULL;
 	
 	addr = g_string_new ("");
@@ -2680,10 +2698,10 @@ header_contentid_decode (const char *in)
 		if (!at) {
 			if (*inptr == '.') {
 				g_string_append_c (addr, *inptr++);
-				buf = header_decode_word (&inptr);
+				buf = header_decode_word (&inptr, NULL);
 			} else if (*inptr == '@') {
 				g_string_append_c (addr, *inptr++);
-				buf = header_decode_word (&inptr);
+				buf = header_decode_word (&inptr, NULL);
 				at = TRUE;
 			}
 		} else if (strchr (".[]", *inptr)) {
@@ -2756,7 +2774,7 @@ header_references_decode_single (const char **in, struct _header_references **he
 				break;
 			}
 		} else {
-			word = header_decode_word (&inptr);
+			word = header_decode_word (&inptr, NULL);
 			if (word)
 				g_free (word);
 			else if (*inptr != '\0')

@@ -1,3 +1,11 @@
+2003-05-15  Not Zed  <NotZed@Ximian.com>
+
+	* camel-mime-utils.c (header_decode_word): Simplistic quick-fix
+	for #42710.  Add a charset argument.  If the data is 8 bit, try to
+	decode into the passed in charset (i.e. the message header?), at
+	worst, fall back to latin1, similarly to header_decode_text.
+	Fixed all callers to pass in a charset if available, or NULL.
+
 2003-05-14  Not Zed  <NotZed@Ximian.com>
 
 	** See bug #42540
