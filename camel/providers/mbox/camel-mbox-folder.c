@@ -171,6 +171,7 @@ mbox_init (CamelFolder *folder, CamelStore *parent_store,
 {
 	CamelMboxFolder *mbox_folder = (CamelMboxFolder *)folder;
 	const gchar *root_dir_path;
+	gchar *real_name;
 	int forceindex;
 	struct stat st;
 
@@ -205,10 +206,11 @@ mbox_init (CamelFolder *folder, CamelStore *parent_store,
 
 	root_dir_path = camel_mbox_store_get_toplevel_dir (CAMEL_MBOX_STORE(folder->parent_store));
 
-	mbox_folder->folder_file_path = g_strdup_printf ("%s/%s", root_dir_path, folder->full_name);
-	mbox_folder->summary_file_path = g_strdup_printf ("%s/%s-ev-summary", root_dir_path, folder->full_name);
-	mbox_folder->folder_dir_path = g_strdup_printf ("%s/%s.sdb", root_dir_path, folder->full_name);
-	mbox_folder->index_file_path = g_strdup_printf ("%s/%s.ibex", root_dir_path, folder->full_name);
+	real_name = g_basename (folder->full_name);
+	mbox_folder->folder_file_path = g_strdup_printf ("%s/%s", root_dir_path, real_name);
+	mbox_folder->summary_file_path = g_strdup_printf ("%s/%s-ev-summary", root_dir_path, real_name);
+	mbox_folder->folder_dir_path = g_strdup_printf ("%s/%s.sdb", root_dir_path, real_name);
+	mbox_folder->index_file_path = g_strdup_printf ("%s/%s.ibex", root_dir_path, real_name);
 
 	/* if we have no index file, force it */
 	forceindex = stat(mbox_folder->index_file_path, &st) == -1;

@@ -1,3 +1,8 @@
+2000-06-21  Peter Williams  <peterw@curious-george.helixcode.com>
+
+	* providers/mbox/camel-mbox-folder.c (mbox_init): Use the basename
+	of the mailbox so we don't get pathnames like ~/evolution/inbox///movemail.ibex
+
 2000-06-21  Dan Winship  <danw@helixcode.com>
 
 	* camel-folder-summary.c (message_info_new): Set date_received
