@@ -1117,7 +1117,7 @@ get_folderinfo_get (struct _mail_msg *mm)
 		flags |= CAMEL_STORE_FOLDER_INFO_SUBSCRIBED;
 	
 	m->info = camel_store_get_folder_info (m->store, NULL, flags, &mm->ex);
-	if (m->info && m->info->url)
+	if (m->info && m->info->url && (m->store->flags & CAMEL_STORE_VTRASH))
 		add_vtrash_info (m->store, m->info);
 }
 

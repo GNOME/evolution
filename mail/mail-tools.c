@@ -333,32 +333,30 @@ mail_tool_uri_to_folder (const char *uri, CamelException *ex)
 	if (!url) {
 		return NULL;
 	}
-	
-	if (!strcmp (url->protocol, "vfolder")) {
-		folder = vfolder_uri_to_folder (uri, ex);
-	} else {
-		store = camel_session_get_store (session, uri + offset, ex);
-		if (store) {
-			const char *name;
-			
-			/* if we have a fragment, then the path is actually used by the store,
-			   so the fragment is the path to the folder instead */
-			if (url->fragment) {
-				name = url->fragment;
-			} else {
-				if (url->path && *url->path)
-					name = url->path + 1;
-				else
-					name = "";
-			}
-			
-			if (offset)
-				folder = camel_store_get_trash (store, ex);
+
+	store = camel_session_get_store (session, uri + offset, ex);
+	if (store) {
+		const char *name;
+		
+		/* if we have a fragment, then the path is actually used by the store,
+		   so the fragment is the path to the folder instead */
+		if (url->fragment) {
+			name = url->fragment;
+		} else {
+			if (url->path && *url->path)
+				name = url->path + 1;
 			else
-				folder = camel_store_get_folder (store, name,
-								 CAMEL_STORE_FOLDER_CREATE, ex);
-			camel_object_unref (CAMEL_OBJECT (store));
+				name = "";
 		}
+		
+		printf("opening folder '%s' on store (%p) '%s'\n", name, store, uri);
+		
+		if (offset)
+			folder = camel_store_get_trash (store, ex);
+		else
+			folder = camel_store_get_folder (store, name,
+							 CAMEL_STORE_FOLDER_CREATE, ex);
+		camel_object_unref (CAMEL_OBJECT (store));
 	}
 	
 	if (camel_exception_is_set (ex)) {

@@ -1,3 +1,32 @@
+2001-09-15    <NotZed@Ximian.com>
+
+	* mail-vfolder.c: Major rewrite of most of the guts, handle
+	changes based on signals and events, etc.  Use the main storage
+	handling code that imap uses, etc.
+
+	* mail-tools.c (mail_tool_uri_to_folder): Dont special case
+	vfolder: anymore.
+
+	* component-factory.c (owner_set_cb): use vfolder_load_storage(),
+	new function to setup vfolder storage, after interaction has been
+	enabled only.  This might need some tweaking ...
+	(storage_remove_folder): Removed all the folder lookup stuff.
+	Just delete the folder based on the path passed in.  There should
+	be no reason this wouldn't work, right?
+
+2001-09-14    <NotZed@Ximian.com>
+
+	* mail-ops.c (get_folderinfo_get): Only add vtrash folder info, if
+	store supports vtrash.
+
+	* component-factory.c (mail_load_storage_by_uri): Let 'vfolder'
+	stores show up too.
+
+2001-09-13    <NotZed@Ximian.com>
+
+	* mail-vfolder.c (vfolder_uri_to_folder): Open a vfolder then set
+	its expression, since name?query open method is removed.
+
 2001-09-14  Jeffrey Stedfast  <fejj@ximian.com>
 
 	* subscribe-dialog.c (fe_root_value_at): Return the cached value
@@ -56,6 +85,8 @@
 
 	* mail-vfolder.c (vfolder_remove_cb): Fixed the remove callback
 	prototype, and return the result properly using the listener.
+	(vfolder_uri_to_folder): Always use the same store uri, so we dont
+	create a new store for each folder.
 
 2001-09-12  Jeffrey Stedfast  <fejj@ximian.com>
 

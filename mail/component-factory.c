@@ -647,7 +647,7 @@ owner_set_cb (EvolutionShellComponent *shell_component,
 
 	storages_hash = g_hash_table_new (NULL, NULL);
 	
-	vfolder_create_storage (shell_component);
+	/*vfolder_create_storage (shell_component);*/
 	
 	corba_shell = bonobo_object_corba_objref (BONOBO_OBJECT (shell_client));
 	
@@ -668,6 +668,8 @@ owner_set_cb (EvolutionShellComponent *shell_component,
 	}
 	
 	mail_session_enable_interaction (TRUE);
+
+	vfolder_load_storage(corba_shell);
 	
 	mail_autoreceive_setup ();
 }
@@ -900,9 +902,13 @@ storage_remove_folder (EvolutionStorage *storage,
 		       gpointer user_data)
 {
 	CamelStore *store = user_data;
+#if 0
 	CamelURL *url = NULL;
 	CamelFolderInfo *fi;
+#endif
 	CamelException ex;
+
+	/* FIXME: Jeff does this look right? */
 	
 	g_warning ("storage_remove_folder: path=\"%s\"; uri=\"%s\"", path, physical_uri);
 	
@@ -911,12 +917,14 @@ storage_remove_folder (EvolutionStorage *storage,
 			notify_listener (listener, GNOME_Evolution_Storage_INVALID_URI);
 			return;
 		}
-		
+
+#if 0		
 		url = camel_url_new (physical_uri, NULL);
 		if (!url) {
 			notify_listener (listener, GNOME_Evolution_Storage_INVALID_URI);
 			return;
 		}
+#endif
 	} else {
 		if (!*path) {
 			notify_listener (listener, GNOME_Evolution_Storage_INVALID_URI);
@@ -925,32 +933,37 @@ storage_remove_folder (EvolutionStorage *storage,
 	}
 	
 	camel_exception_init (&ex);
+#if 0
 	fi = camel_store_get_folder_info (store, url ? url->path + 1 : path + 1,
 					  CAMEL_STORE_FOLDER_INFO_FAST, &ex);
 	if (url)
 		camel_url_free (url);
 	if (camel_exception_is_set (&ex))
 		goto exception;
-	
+
 	camel_store_delete_folder (store, fi->full_name, &ex);
+#endif	
+	camel_store_delete_folder (store, path+1, &ex);
 	if (camel_exception_is_set (&ex))
 		goto exception;
 	
 	if (camel_store_supports_subscriptions (store))
-		camel_store_unsubscribe_folder (store, fi->full_name, NULL);
+		/*camel_store_unsubscribe_folder (store, fi->full_name, NULL);*/
+		camel_store_unsubscribe_folder (store, path+1, NULL);
 	
 	evolution_storage_removed_folder (storage, path);
 	
-	camel_store_free_folder_info (store, fi);
+	/*camel_store_free_folder_info (store, fi);*/
 	
 	notify_listener (listener, GNOME_Evolution_Storage_OK);
 	return;
 	
  exception:
 	/* FIXME: do better than this... */
-	
+#if 0
 	if (fi)
 		camel_store_free_folder_info (store, fi);
+#endif
 	
 	notify_listener (listener, GNOME_Evolution_Storage_INVALID_URI);
 }
@@ -1016,11 +1029,13 @@ mail_load_storage_by_uri (GNOME_Evolution_Shell shell, const char *uri, const ch
 	 * That issue can't be resolved on the provider level
 	 * -- it's a per-URL problem.
 	 *  MPZ Added a hack to let spool protocol through temporarily ...
+	 *      And vfolder, and maildir ...
 	 */
 	if ((!(prov->flags & CAMEL_PROVIDER_IS_STORAGE) ||
 	     !(prov->flags & CAMEL_PROVIDER_IS_REMOTE))
 	    && !((strcmp (prov->protocol, "spool") == 0)
-		 || strcmp (prov->protocol, "maildir") == 0))
+		 || (strcmp (prov->protocol, "maildir") == 0)
+		 || (strcmp (prov->protocol, "vfolder") == 0)))
 		return;
 	
 	store = camel_session_get_service (session, uri, CAMEL_PROVIDER_STORE, &ex);
