@@ -517,10 +517,8 @@ e_summary_init (ESummary *summary)
 	g_free (def);
 	g_free (default_utf);
 
-	gtk_signal_connect (GTK_OBJECT (priv->html), "url-requested",
-			    GTK_SIGNAL_FUNC (e_summary_url_requested), summary);
-	gtk_signal_connect (GTK_OBJECT (priv->html), "link-clicked",
-			    GTK_SIGNAL_FUNC (e_summary_url_clicked), summary);
+	g_signal_connect (priv->html, "url-requested", G_CALLBACK (e_summary_url_requested), summary);
+	g_signal_connect (priv->html, "link-clicked", G_CALLBACK (e_summary_url_clicked), summary);
 
 	gtk_container_add (GTK_CONTAINER (priv->html_scroller), priv->html);
 	gtk_widget_show_all (priv->html_scroller);

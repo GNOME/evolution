@@ -790,10 +790,8 @@ rdf_new_url_clicked_cb (GtkButton *button,
 	add_dialog = gnome_dialog_new (_("Add a news feed"),
 				       GNOME_STOCK_BUTTON_OK,
 				       GNOME_STOCK_BUTTON_CANCEL, NULL);
-	gtk_signal_connect (GTK_OBJECT (add_dialog), "clicked",
-			    GTK_SIGNAL_FUNC (add_dialog_clicked_cb), pd);
-	gtk_signal_connect (GTK_OBJECT (add_dialog), "destroy",
-			    GTK_SIGNAL_FUNC (gtk_widget_destroyed), &add_dialog);
+	g_signal_connect (add_dialog, "clicked", G_CALLBACK (add_dialog_clicked_cb), pd);
+	g_signal_connect (add_dialog, "destroy", G_CALLBACK (gtk_widget_destroyed), &add_dialog);
 
 	label = gtk_label_new (_("Enter the URL of the news feed you wish to add"));
 	gtk_box_pack_start (GTK_BOX (GNOME_DIALOG (add_dialog)->vbox), label,
@@ -1039,50 +1037,44 @@ make_property_dialog (PropertyData *pd)
 	g_return_val_if_fail (mail->storage_set_view != NULL, FALSE);
 
 	listener = g_object_get_data (G_OBJECT (mail->storage_set_view), "listener");
-	gtk_signal_connect (GTK_OBJECT (listener), "folder-toggled",
-			    GTK_SIGNAL_FUNC (storage_set_changed), pd);
+	g_signal_connect (listener, "folder-toggled", G_CALLBACK (storage_set_changed), pd);
 
 	mail->fullpath = glade_xml_get_widget (pd->xml, "checkbutton1");
 	g_return_val_if_fail (mail->fullpath != NULL, FALSE);
 	gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (mail->fullpath),
 				      global_preferences->show_full_path);
-	gtk_signal_connect (GTK_OBJECT (mail->fullpath), "toggled",
-			    GTK_SIGNAL_FUNC (mail_show_full_path_toggled_cb), pd);
+	g_signal_connect (mail->fullpath, "toggled", G_CALLBACK (mail_show_full_path_toggled_cb), pd);
 	
 	/* RDF */
 	rdf = pd->rdf = g_new0 (struct _RDFPage, 1);
 	rdf->etable = glade_xml_get_widget (pd->xml, "rdf-custom");
 	g_return_val_if_fail (rdf->etable != NULL, FALSE);
 
-	gtk_signal_connect (GTK_OBJECT (rdf->etable), "item-changed",
-			    GTK_SIGNAL_FUNC (rdf_etable_item_changed_cb), pd);
-	gtk_signal_connect (GTK_OBJECT (rdf->etable), "selection-changed",
-			    GTK_SIGNAL_FUNC (rdf_etable_selection_cb), pd);
+	g_signal_connect (rdf->etable, "item-changed", G_CALLBACK (rdf_etable_item_changed_cb), pd);
+	g_signal_connect (rdf->etable, "selection-changed", G_CALLBACK (rdf_etable_selection_cb), pd);
 	
 	fill_rdf_etable (rdf->etable, pd);
 	rdf->refresh = glade_xml_get_widget (pd->xml, "spinbutton1");
 	g_return_val_if_fail (rdf->refresh != NULL, FALSE);
 	gtk_spin_button_set_value (GTK_SPIN_BUTTON (rdf->refresh),
 				   (float) global_preferences->rdf_refresh_time);
-	gtk_signal_connect (GTK_OBJECT (GTK_SPIN_BUTTON (rdf->refresh)->adjustment), "value_changed",
-			    GTK_SIGNAL_FUNC (rdf_refresh_value_changed_cb), pd);
+	g_signal_connect (GTK_SPIN_BUTTON (rdf->refresh)->adjustment, "value_changed",
+			  G_CALLBACK (rdf_refresh_value_changed_cb), pd);
 
 	rdf->limit = glade_xml_get_widget (pd->xml, "spinbutton4");
 	g_return_val_if_fail (rdf->limit != NULL, FALSE);
 	gtk_spin_button_set_value (GTK_SPIN_BUTTON (rdf->limit), 
 				   (float) global_preferences->limit);
-	gtk_signal_connect (GTK_OBJECT (GTK_SPIN_BUTTON (rdf->limit)->adjustment), "value_changed",
-			    GTK_SIGNAL_FUNC (rdf_limit_value_changed_cb), pd);
+	g_signal_connect (GTK_SPIN_BUTTON (rdf->limit)->adjustment, "value_changed",
+			  G_CALLBACK (rdf_limit_value_changed_cb), pd);
 
 	rdf->new_button = glade_xml_get_widget (pd->xml, "button11");
 	g_return_val_if_fail (rdf->limit != NULL, FALSE);
-	gtk_signal_connect (GTK_OBJECT (rdf->new_button), "clicked",
-			    GTK_SIGNAL_FUNC (rdf_new_url_clicked_cb), pd);
+	g_signal_connect (rdf->new_button, "clicked", G_CALLBACK (rdf_new_url_clicked_cb), pd);
 
 	rdf->delete_url = glade_xml_get_widget (pd->xml, "delete-button");
 	g_return_val_if_fail (rdf->delete_url != NULL, FALSE);
-	gtk_signal_connect (GTK_OBJECT (rdf->delete_url), "clicked",
-			    GTK_SIGNAL_FUNC (rdf_delete_url_cb), pd);
+	g_signal_connect (rdf->delete_url, "clicked", G_CALLBACK (rdf_delete_url_cb), pd);
 	
 	/* Weather */
 	weather = pd->weather = g_new (struct _WeatherPage, 1);
@@ -1091,9 +1083,7 @@ make_property_dialog (PropertyData *pd)
 	weather->etable = glade_xml_get_widget (pd->xml, "weather-custom");
 	g_return_val_if_fail (weather->etable != NULL, FALSE);
 
-	gtk_signal_connect (GTK_OBJECT (weather->etable), "item-changed",
-			    GTK_SIGNAL_FUNC (weather_etable_item_changed_cb),
-			    pd);
+	g_signal_connect (weather->etable, "item-changed", G_CALLBACK (weather_etable_item_changed_cb), pd);
 
 	fill_weather_etable (E_SUMMARY_SHOWN (weather->etable), pd);
 
@@ -1101,24 +1091,20 @@ make_property_dialog (PropertyData *pd)
 	g_return_val_if_fail (weather->refresh != NULL, FALSE);
 	gtk_spin_button_set_value (GTK_SPIN_BUTTON (weather->refresh),
 				   (float) global_preferences->weather_refresh_time);
-	gtk_signal_connect (GTK_OBJECT (GTK_SPIN_BUTTON (weather->refresh)->adjustment),
-					"value-changed",
-					GTK_SIGNAL_FUNC (weather_refresh_value_changed_cb),
-					pd);
+	g_signal_connect (GTK_SPIN_BUTTON (weather->refresh)->adjustment, "value-changed",
+			  G_CALLBACK (weather_refresh_value_changed_cb), pd);
 
 	weather->metric = glade_xml_get_widget (pd->xml, "radiobutton7");
 	g_return_val_if_fail (weather->metric != NULL, FALSE);
 	gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (weather->metric),
 				      (global_preferences->units == UNITS_METRIC));
-	gtk_signal_connect (GTK_OBJECT (weather->metric), "toggled",
-			    GTK_SIGNAL_FUNC (weather_metric_toggled_cb), pd);
+	g_signal_connect (weather->metric, "toggled", G_CALLBACK (weather_metric_toggled_cb), pd);
 
 	weather->imperial = glade_xml_get_widget (pd->xml, "radiobutton8");
 	g_return_val_if_fail (weather->imperial != NULL, FALSE);
 	gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (weather->imperial),
 				      (global_preferences->units == UNITS_IMPERIAL));
-	gtk_signal_connect (GTK_OBJECT (weather->imperial), "toggled",
-			    GTK_SIGNAL_FUNC (weather_imperial_toggled_cb), pd);
+	g_signal_connect (weather->imperial, "toggled", G_CALLBACK (weather_imperial_toggled_cb), pd);
 
 	/* Calendar */
 	calendar = pd->calendar = g_new (struct _CalendarPage, 1);
@@ -1126,43 +1112,37 @@ make_property_dialog (PropertyData *pd)
 	g_return_val_if_fail (calendar->one != NULL, FALSE);
 	gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (calendar->one),
 				      (global_preferences->days == E_SUMMARY_CALENDAR_ONE_DAY));
-	gtk_signal_connect (GTK_OBJECT (calendar->one), "toggled",
-			    GTK_SIGNAL_FUNC (calendar_one_toggled_cb), pd);
+	g_signal_connect (calendar->one, "toggled", G_CALLBACK (calendar_one_toggled_cb), pd);
 
 	calendar->five = glade_xml_get_widget (pd->xml, "radiobutton4");
 	g_return_val_if_fail (calendar->five != NULL, FALSE);
 	gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (calendar->five),
 				      (global_preferences->days == E_SUMMARY_CALENDAR_FIVE_DAYS));
-	gtk_signal_connect (GTK_OBJECT (calendar->five), "toggled",
-			    GTK_SIGNAL_FUNC (calendar_five_toggled_cb), pd);
+	g_signal_connect (calendar->five, "toggled", G_CALLBACK (calendar_five_toggled_cb), pd);
 
 	calendar->week = glade_xml_get_widget (pd->xml, "radiobutton5");
 	g_return_val_if_fail (calendar->week != NULL, FALSE);
 	gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (calendar->week),
 				      (global_preferences->days == E_SUMMARY_CALENDAR_ONE_WEEK));
-	gtk_signal_connect (GTK_OBJECT (calendar->week), "toggled",
-			    GTK_SIGNAL_FUNC (calendar_week_toggled_cb), pd);
+	g_signal_connect (calendar->week, "toggled", G_CALLBACK (calendar_week_toggled_cb), pd);
 
 	calendar->month = glade_xml_get_widget (pd->xml, "radiobutton6");
 	g_return_val_if_fail (calendar->month != NULL, FALSE);
 	gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (calendar->month),
 				      (global_preferences->days == E_SUMMARY_CALENDAR_ONE_MONTH));
-	gtk_signal_connect (GTK_OBJECT (calendar->month), "toggled",
-			    GTK_SIGNAL_FUNC (calendar_month_toggled_cb), pd);
+	g_signal_connect (calendar->month, "toggled", G_CALLBACK (calendar_month_toggled_cb), pd);
 
 	calendar->all = glade_xml_get_widget (pd->xml, "radiobutton1");
 	g_return_val_if_fail (calendar->all != NULL, FALSE);
 	gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (calendar->all),
 				      (global_preferences->show_tasks == E_SUMMARY_CALENDAR_ALL_TASKS));
-	gtk_signal_connect (GTK_OBJECT (calendar->all), "toggled",
-			    GTK_SIGNAL_FUNC (calendar_all_toggled_cb), pd);
+	g_signal_connect (calendar->all, "toggled", G_CALLBACK (calendar_all_toggled_cb), pd);
 
 	calendar->today = glade_xml_get_widget (pd->xml, "radiobutton2");
 	g_return_val_if_fail (calendar->today != NULL, FALSE);
 	gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (calendar->today),
 				      (global_preferences->show_tasks == E_SUMMARY_CALENDAR_TODAYS_TASKS));
-	gtk_signal_connect (GTK_OBJECT(calendar->today), "toggled",
-			    GTK_SIGNAL_FUNC (calendar_today_toggled_cb), pd);
+	g_signal_connect (calendar->today, "toggled", G_CALLBACK (calendar_today_toggled_cb), pd);
 
 	return TRUE;
 }
@@ -1456,10 +1436,8 @@ factory_fn (BonoboGenericFactory *generic_factory,
 
 	gtk_widget_unref (widget);
 
-	gtk_signal_connect (GTK_OBJECT (pd->config_control), "apply",
-			    GTK_SIGNAL_FUNC (config_control_apply_cb), pd);
-	gtk_signal_connect (GTK_OBJECT (pd->config_control), "destroy",
-			    GTK_SIGNAL_FUNC (config_control_destroy_cb), pd);
+	g_signal_connect (pd->config_control, "apply", G_CALLBACK (config_control_apply_cb), pd);
+	g_signal_connect (pd->config_control, "destroy", G_CALLBACK (config_control_destroy_cb), pd);
 
 	return BONOBO_OBJECT (pd->config_control);
 }

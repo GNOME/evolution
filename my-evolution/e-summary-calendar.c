@@ -555,12 +555,9 @@ setup_calendar (ESummary *summary)
 
 	calendar->client = cal_client_new ();
 
-	gtk_signal_connect (GTK_OBJECT (calendar->client), "cal-opened",
-			    GTK_SIGNAL_FUNC (cal_opened_cb), summary);
-	gtk_signal_connect (GTK_OBJECT (calendar->client), "obj-updated",
-			    GTK_SIGNAL_FUNC (obj_changed_cb), summary);
-	gtk_signal_connect (GTK_OBJECT (calendar->client), "obj-removed",
-			    GTK_SIGNAL_FUNC (obj_changed_cb), summary);
+	g_signal_connect (calendar->client, "cal-opened", G_CALLBACK (cal_opened_cb), summary);
+	g_signal_connect (calendar->client, "obj-updated", G_CALLBACK (obj_changed_cb), summary);
+	g_signal_connect (calendar->client, "obj-removed", G_CALLBACK (obj_changed_cb), summary);
 
 	if (! cal_client_open_default_calendar (calendar->client, FALSE))
 		g_message ("Open calendar failed");
@@ -592,8 +589,7 @@ setup_config_listener (ESummary *summary)
 
 	calendar->config_listener = e_config_listener_new ();
 
-	gtk_signal_connect (GTK_OBJECT (calendar->config_listener), "key_changed",
-			    GTK_SIGNAL_FUNC (config_listener_key_changed_cb), summary);
+	g_signal_connect (calendar->config_listener, "key_changed", G_CALLBACK (config_listener_key_changed_cb), summary);
 
 	setup_calendar (summary);
 }

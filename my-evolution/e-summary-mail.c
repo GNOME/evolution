@@ -372,12 +372,9 @@ e_summary_folder_register_storage (const char *name,
 
 	folder_store->storage_list = g_slist_prepend (folder_store->storage_list, si);
 	
-	gtk_signal_connect (GTK_OBJECT (si->listener), "new-folder",
-			    GTK_SIGNAL_FUNC (new_folder_cb), si);
-	gtk_signal_connect (GTK_OBJECT (si->listener), "removed-folder",
-			    GTK_SIGNAL_FUNC (remove_folder_cb), si);
-	gtk_signal_connect (GTK_OBJECT (si->listener), "update_folder",
-			    GTK_SIGNAL_FUNC (update_folder_cb), si);
+	g_signal_connect (si->listener, "new-folder", G_CALLBACK (new_folder_cb), si);
+	g_signal_connect (si->listener, "removed-folder", G_CALLBACK (remove_folder_cb), si);
+	g_signal_connect (si->listener, "update_folder", G_CALLBACK (update_folder_cb), si);
 	
 	corba_listener = evolution_storage_listener_corba_objref (si->listener);
 
@@ -482,8 +479,7 @@ e_summary_folder_register_storages (GNOME_Evolution_Shell corba_shell)
 	}
 
 	listener = bonobo_listener_new (NULL, NULL);
-	gtk_signal_connect (GTK_OBJECT (listener), "event-notify",
-			    GTK_SIGNAL_FUNC (storage_notify), NULL);
+	g_signal_connect (listener, "event-notify", G_CALLBACK (storage_notify), NULL);
 	corba_listener = bonobo_object_corba_objref (BONOBO_OBJECT (listener));
 
 	/* Storages will be added whenever the listener gets an event. */
@@ -798,12 +794,9 @@ e_summary_mail_free (ESummary *summary)
 	g_free (mail->html);
 
 #if 0
-	gtk_signal_disconnect_by_func (GTK_OBJECT (mail->storage_listener),
-				       GTK_SIGNAL_FUNC (new_folder_cb), summary);
-	gtk_signal_disconnect_by_func (GTK_OBJECT (mail->storage_listener),
-				       GTK_SIGNAL_FUNC (remove_folder_cb), summary);
-	gtk_signal_disconnect_by_func (GTK_OBJECT (mail->storage_listener),
-				       GTK_SIGNAL_FUNC (update_folder_cb), summary);
+	g_signal_handlers_disconnect_by_func (mail->storage_listener, G_CALLBACK (new_folder_cb), summary);
+	g_signal_handlers_disconnect_by_func (mail->storage_listener, G_CALLBACK (remove_folder_cb), summary);
+	g_signal_handlers_disconnect_by_func (mail->storage_listener, G_CALLBACK (update_folder_cb), summary);
 #endif
 	
 	g_free (mail);
@@ -863,8 +856,7 @@ lazy_register_storages (void)
 
 	/* Connect a listener to it */
 	listener = bonobo_listener_new (NULL, NULL);
-	gtk_signal_connect (GTK_OBJECT (listener), "event-notify",
-			    GTK_SIGNAL_FUNC (folder_info_pb_changed), NULL);
+	g_signal_connect (listener, "event-notify", G_CALLBACK (folder_info_pb_changed), NULL);
 	
 	corba_listener = bonobo_object_corba_objref (BONOBO_OBJECT (listener));
 	Bonobo_EventSource_addListener (event, corba_listener, &ev);
@@ -902,8 +894,7 @@ e_summary_folder_init_folder_store (GNOME_Evolution_Shell shell)
 	CORBA_exception_free (&ev);
 
 	listener = bonobo_listener_new (NULL, NULL);
-	gtk_signal_connect (GTK_OBJECT (listener), "event-notify",
-			    GTK_SIGNAL_FUNC (mail_change_notify), NULL);
+	g_signal_connect (listener, "event-notify", G_CALLBACK (mail_change_notify), NULL);
 	folder_store->corba_listener = bonobo_object_corba_objref (BONOBO_OBJECT (listener));
 	
 	/* Create a hash table for the folders */

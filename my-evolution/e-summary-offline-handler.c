@@ -280,8 +280,7 @@ e_summary_offline_handler_add_summary (ESummaryOfflineHandler *handler,
 	handler->priv->summaries = g_slist_prepend (handler->priv->summaries,
 						    summary);
 
-	gtk_signal_connect (GTK_OBJECT (summary), "destroy",
-			    GTK_SIGNAL_FUNC (summary_destroy_callback), handler);
+	g_signal_connect (summary, "destroy", G_CALLBACK (summary_destroy_callback), handler);
 }
 
 BONOBO_X_TYPE_FUNC_FULL (ESummaryOfflineHandler, GNOME_Evolution_Offline, PARENT_TYPE, e_summary_offline_handler);

@@ -1,3 +1,14 @@
+2002-11-14  Ettore Perazzoli  <ettore@ximian.com>
+
+	* e-summary-calendar.c: Replaced all gtk_signal_connect() calls
+	with g_signal_connect() ones.
+	* e-summary-mail.c: Likewise.
+	* e-summary-offline-handler.c: Likewise.
+	* e-summary-preferences.c: Likewise.
+	* e-summary-shown.c: Likewise.
+	* e-summary-tasks.c: Likewise.
+	* e-summary.c: Likewise.
+
 2002-11-11  Ettore Perazzoli  <ettore@ximian.com>
 
 	* e-summary-factory.c (control_destroy_cb): gtk_widget_destroy()

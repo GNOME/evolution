@@ -475,8 +475,7 @@ make_table (GHashTable *data_model,
 
 	tree = e_tree_scrolled_get_tree (E_TREE_SCROLLED (td->etable));
 	e_tree_root_node_set_visible (tree, FALSE);
-	gtk_signal_connect (GTK_OBJECT (tree), "selection-change",
-			    callback, closure);
+	g_signal_connect (tree, "selection-change", callback, closure);
 
 	td->contents = NULL;
 	return td;
@@ -519,7 +518,7 @@ e_summary_shown_init (ESummaryShown *shown)
 	priv = g_new (ESummaryShownPrivate, 1);
 	shown->priv = priv;
 
-	priv->all = make_table (shown->all_model, _("All"), GTK_SIGNAL_FUNC (all_selection_changed), shown);
+	priv->all = make_table (shown->all_model, _("All"), G_CALLBACK (all_selection_changed), shown);
 	
 	gtk_box_pack_start (GTK_BOX (shown), priv->all->etable, TRUE, TRUE, 2);
 	gtk_widget_show (priv->all->etable);
@@ -534,19 +533,17 @@ e_summary_shown_init (ESummaryShown *shown)
 	priv->add = construct_pixmap_button (_("Add"), GNOME_STOCK_BUTTON_NEXT);
 	gtk_widget_set_sensitive (priv->add, FALSE);
 	gtk_box_pack_start (GTK_BOX (vbox), priv->add, TRUE, FALSE, 0);
-	gtk_signal_connect (GTK_OBJECT (priv->add), "clicked",
-			    GTK_SIGNAL_FUNC (add_clicked), shown);
+	g_signal_connect (priv->add, "clicked", G_CALLBACK (add_clicked), shown);
 
 	/* Fixme: Ditto */
 	priv->remove = construct_pixmap_button (_("Remove"), GNOME_STOCK_BUTTON_PREV);
 	gtk_widget_set_sensitive (priv->remove, FALSE);
 	gtk_box_pack_start (GTK_BOX (vbox), priv->remove, TRUE, FALSE, 0);
-	gtk_signal_connect (GTK_OBJECT (priv->remove), "clicked",
-			    GTK_SIGNAL_FUNC (remove_clicked), shown);
+	g_signal_connect (priv->remove, "clicked", G_CALLBACK (remove_clicked), shown);
 
 	gtk_widget_show_all (align);
 
-	priv->shown = make_table (shown->shown_model, _("Shown"), GTK_SIGNAL_FUNC (shown_selection_changed), shown);
+	priv->shown = make_table (shown->shown_model, _("Shown"), G_CALLBACK (shown_selection_changed), shown);
 
 	gtk_box_pack_start (GTK_BOX (shown), priv->shown->etable, TRUE, TRUE, 2);
 	gtk_widget_show (priv->shown->etable);
