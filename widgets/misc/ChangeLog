@@ -1,3 +1,13 @@
+2002-11-06  Chris Toshok  <toshok@ximian.com>
+
+	* .cvsignore: ignore the generated marshal source.
+	
+	* Makefile.am: add marshal stuff.
+
+	* e-util-marshal.list: marshaller list.
+
+	* e-search-bar.[ch]: gobjectify this.
+	
 2002-11-04  Ettore Perazzoli  <ettore@ximian.com>
 
 	* e-combo-button.c (impl_expose_event): Use

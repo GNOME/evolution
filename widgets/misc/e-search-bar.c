@@ -44,6 +44,7 @@
 #include <string.h>
 
 #include "e-search-bar.h"
+#include "e-util-marshal.h"
 
 
 enum {
@@ -60,10 +61,10 @@ static GtkHBoxClass *parent_class = NULL;
 
 /* The arguments we take */
 enum {
-	ARG_0,
-	ARG_ITEM_ID,
-	ARG_SUBITEM_ID,
-	ARG_TEXT,
+	PROP_0,
+	PROP_ITEM_ID,
+	PROP_SUBITEM_ID,
+	PROP_TEXT,
 };
 
 
@@ -150,19 +151,18 @@ free_menu_items (ESearchBar *esb)
 static void
 emit_query_changed (ESearchBar *esb)
 {
-	gtk_signal_emit (GTK_OBJECT (esb),
-			 esb_signals [QUERY_CHANGED]);
+	g_signal_emit (esb, esb_signals [QUERY_CHANGED], 0);
 }
 
 static void
 emit_search_activated (ESearchBar *esb)
 {
 	if (esb->pending_activate) {
-		gtk_idle_remove (esb->pending_activate);
+		g_source_remove (esb->pending_activate);
 		esb->pending_activate = 0;
 	}
 
-	gtk_signal_emit (GTK_OBJECT (esb), esb_signals [SEARCH_ACTIVATED]);
+	g_signal_emit (esb, esb_signals [SEARCH_ACTIVATED], 0);
 
 	set_find_now_sensitive (esb, FALSE);
 }
@@ -170,9 +170,9 @@ emit_search_activated (ESearchBar *esb)
 static void
 emit_menu_activated (ESearchBar *esb, int item)
 {
-	gtk_signal_emit (GTK_OBJECT (esb),
-			 esb_signals [MENU_ACTIVATED],
-			 item);
+	g_signal_emit (esb,
+		       esb_signals [MENU_ACTIVATED], 0,
+		       item);
 }
 
 
@@ -258,8 +258,8 @@ subitem_activated_cb (GtkWidget *widget, ESearchBar *esb)
 {
 	gint id, subid;
 
-	id = GPOINTER_TO_INT (gtk_object_get_data (GTK_OBJECT (widget), "EsbItemId"));
-	subid = GPOINTER_TO_INT (gtk_object_get_data (GTK_OBJECT (widget), "EsbSubitemId"));
+	id = GPOINTER_TO_INT (g_object_get_data (G_OBJECT (widget), "EsbItemId"));
+	subid = GPOINTER_TO_INT (g_object_get_data (G_OBJECT (widget), "EsbSubitemId"));
 
 	esb->item_id = id;
 	esb->subitem_id = subid;
@@ -311,11 +311,11 @@ activate_by_subitems (ESearchBar *esb, gint item_id, ESearchBarSubitem *subitems
 		if (esb->entry == NULL) {
 			esb->entry = gtk_entry_new();
 			gtk_widget_set_usize (esb->entry, 4, -1);
-			gtk_object_ref (GTK_OBJECT (esb->entry));
-			gtk_signal_connect (GTK_OBJECT (esb->entry), "changed",
-					    GTK_SIGNAL_FUNC (entry_changed_cb), esb);
-			gtk_signal_connect (GTK_OBJECT (esb->entry), "activate",
-					    GTK_SIGNAL_FUNC (entry_activated_cb), esb);
+			g_object_ref (esb->entry);
+			g_signal_connect (esb->entry, "changed",
+					  G_CALLBACK (entry_changed_cb), esb);
+			g_signal_connect (esb->entry, "activate",
+					  G_CALLBACK (entry_activated_cb), esb);
 			gtk_container_add (GTK_CONTAINER (esb->entry_box), esb->entry);
 			gtk_widget_show(esb->entry);
 
@@ -349,7 +349,7 @@ activate_by_subitems (ESearchBar *esb, gint item_id, ESearchBarSubitem *subitems
 
 		if (esb->suboption == NULL) {
 			esb->suboption = gtk_option_menu_new ();
-			gtk_object_ref (GTK_OBJECT (esb->suboption));
+			g_object_ref (esb->suboption);
 			gtk_container_add (GTK_CONTAINER (esb->entry_box), esb->suboption);
 			gtk_widget_show (esb->suboption);
 
@@ -384,15 +384,15 @@ activate_by_subitems (ESearchBar *esb, gint item_id, ESearchBarSubitem *subitems
 				gtk_widget_set_sensitive (menu_item, FALSE);
 			}
 
-			gtk_object_set_data (GTK_OBJECT (menu_item), "EsbItemId",
-					     GINT_TO_POINTER (item_id));
-			gtk_object_set_data (GTK_OBJECT (menu_item), "EsbSubitemId",
-					     GINT_TO_POINTER (subitems[i].id));
+			g_object_set_data (G_OBJECT (menu_item), "EsbItemId",
+					   GINT_TO_POINTER (item_id));
+			g_object_set_data (G_OBJECT (menu_item), "EsbSubitemId",
+					   GINT_TO_POINTER (subitems[i].id));
 
-			gtk_signal_connect (GTK_OBJECT (menu_item),
-					    "activate",
-					    GTK_SIGNAL_FUNC (subitem_activated_cb),
-					    esb);
+			g_signal_connect (menu_item,
+					  "activate",
+					  G_CALLBACK (subitem_activated_cb),
+					  esb);
 
 			gtk_widget_show (menu_item);
 			gtk_menu_append (GTK_MENU (menu), menu_item);
@@ -412,9 +412,9 @@ option_activated_cb (GtkWidget *widget,
 {
 	int id;
 
-	id = GPOINTER_TO_INT (gtk_object_get_data (GTK_OBJECT (widget), "EsbChoiceId"));
+	id = GPOINTER_TO_INT (g_object_get_data (G_OBJECT (widget), "EsbChoiceId"));
 
-	activate_by_subitems (esb, id, gtk_object_get_data (GTK_OBJECT (widget), "EsbChoiceSubitems"));
+	activate_by_subitems (esb, id, g_object_get_data (G_OBJECT (widget), "EsbChoiceSubitems"));
 
 	esb->item_id = id;
 	emit_query_changed (esb);
@@ -597,7 +597,7 @@ option_item_destroy_cb (GtkObject *object, gpointer data)
 
 	g_assert (subitems != NULL);
 	free_subitems (subitems);
-	gtk_object_set_data (object, "EsbChoiceSubitems", NULL);
+	g_object_set_data (G_OBJECT (object), "EsbChoiceSubitems", NULL);
 }
 
 static void
@@ -638,21 +638,21 @@ set_option (ESearchBar *esb, ESearchBarItem *items)
 
 		gtk_menu_append (GTK_MENU (menu), item);
 
-		gtk_object_set_data (GTK_OBJECT (item), "EsbChoiceId", GINT_TO_POINTER(items[i].id));
+		g_object_set_data (G_OBJECT (item), "EsbChoiceId", GINT_TO_POINTER(items[i].id));
 
 		if (items[i].subitems != NULL) {
 			subitems = copy_subitems (items[i].subitems);
-			gtk_object_set_data (GTK_OBJECT (item), "EsbChoiceSubitems", subitems);
-			gtk_signal_connect (GTK_OBJECT (item), "destroy",
-					    GTK_SIGNAL_FUNC (option_item_destroy_cb), subitems);
+			g_object_set_data (G_OBJECT (item), "EsbChoiceSubitems", subitems);
+			g_signal_connect (item, "destroy",
+					  G_CALLBACK (option_item_destroy_cb), subitems);
 		}
 
 		if (i == 0)
 			activate_by_subitems (esb, items[i].id, subitems);
 
-		gtk_signal_connect (GTK_OBJECT (item), "activate",
-				    GTK_SIGNAL_FUNC (option_activated_cb),
-				    esb);
+		g_signal_connect (item, "activate",
+				  G_CALLBACK (option_activated_cb),
+				  esb);
 	}
 
 	gtk_widget_show_all (menu);
@@ -666,7 +666,7 @@ set_option (ESearchBar *esb, ESearchBarItem *items)
 static GtkWidget *
 add_button (ESearchBar *esb,
 	    const char *text,
-	    GtkSignalFunc callback)
+	    GCallback callback)
 {
 	GtkWidget *label;
 	GtkWidget *holder;
@@ -686,7 +686,7 @@ add_button (ESearchBar *esb,
 	holder = put_in_spacer_widget (button);
 	gtk_widget_show (holder);
 	
-	gtk_signal_connect (GTK_OBJECT (button), "clicked", callback, esb);
+	g_signal_connect (G_OBJECT (button), "clicked", callback, esb);
 	
 	gtk_box_pack_end (GTK_BOX (esb), holder, FALSE, FALSE, 1);
 
@@ -702,7 +702,7 @@ find_id (GtkWidget *menu, int idin, const char *type, GtkWidget **widget)
 	if (widget)
 		*widget = NULL;
 	while (l) {
-		id = GPOINTER_TO_INT (gtk_object_get_data (l->data, type));
+		id = GPOINTER_TO_INT (g_object_get_data (l->data, type));
 		if (id == idin) {
 			row = i;
 			if (widget)
@@ -719,54 +719,55 @@ find_id (GtkWidget *menu, int idin, const char *type, GtkWidget **widget)
 /* GtkObject methods.  */
 
 static void
-impl_get_arg (GtkObject *object, GtkArg *arg, guint arg_id)
+impl_get_property (GObject *object, guint prop_id, GValue *value, GParamSpec *pspec)
 {
 	ESearchBar *esb = E_SEARCH_BAR (object);
 
-	switch (arg_id) {
-	case ARG_ITEM_ID:
-		GTK_VALUE_ENUM (*arg) = e_search_bar_get_item_id (esb);
+	switch (prop_id) {
+	case PROP_ITEM_ID:
+		g_value_set_int (value, e_search_bar_get_item_id (esb));
 		break;
 
-	case ARG_SUBITEM_ID:
-		GTK_VALUE_ENUM (*arg) = e_search_bar_get_subitem_id (esb);
+	case PROP_SUBITEM_ID:
+		g_value_set_int (value, e_search_bar_get_subitem_id (esb));
 		break;
 
-	case ARG_TEXT:
-		GTK_VALUE_STRING (*arg) = e_search_bar_get_text (esb);
+	case PROP_TEXT:
+		g_value_set_string (value, e_search_bar_get_text (esb));
 		break;
 
 	default:
-		arg->type = GTK_TYPE_INVALID;
+		G_OBJECT_WARN_INVALID_PROPERTY_ID (object, prop_id, pspec);
 		break;
 	}
 }
 
 static void
-impl_set_arg (GtkObject *object, GtkArg *arg, guint arg_id)
+impl_set_property (GObject *object, guint prop_id, const GValue *value, GParamSpec *pspec)
 {
 	ESearchBar *esb = E_SEARCH_BAR(object);
 	
-	switch (arg_id) {
-	case ARG_ITEM_ID:
-		e_search_bar_set_item_id (esb, GTK_VALUE_ENUM (*arg));
+	switch (prop_id) {
+	case PROP_ITEM_ID:
+		e_search_bar_set_item_id (esb, g_value_get_int (value));
 		break;
 
-	case ARG_SUBITEM_ID:
-		e_search_bar_set_subitem_id (esb, GTK_VALUE_ENUM (*arg));
+	case PROP_SUBITEM_ID:
+		e_search_bar_set_subitem_id (esb, g_value_get_int (value));
 		break;
 		
-	case ARG_TEXT:
-		e_search_bar_set_text (esb, GTK_VALUE_STRING (*arg));
+	case PROP_TEXT:
+		e_search_bar_set_text (esb, g_value_get_string (value));
 		break;
 		
 	default:
+		G_OBJECT_WARN_INVALID_PROPERTY_ID (object, prop_id, pspec);
 		break;
 	}
 }
 
 static void
-impl_destroy (GtkObject *object)
+impl_dispose (GObject *object)
 {
 	ESearchBar *esb = E_SEARCH_BAR (object);
 	
@@ -781,68 +782,85 @@ impl_destroy (GtkObject *object)
 		esb->ui_component = NULL;
 	}
 	if (esb->entry)
-		gtk_object_unref (GTK_OBJECT (esb->entry));
+		g_object_unref (esb->entry);
 	if (esb->suboption)
-		gtk_object_unref (GTK_OBJECT (esb->suboption));
+		g_object_unref (esb->suboption);
 	
 	if (esb->pending_activate) {
-		gtk_idle_remove (esb->pending_activate);
+		g_source_remove (esb->pending_activate);
 		esb->pending_activate = 0;
 	}
 
 	free_menu_items (esb);
 	
-	if (GTK_OBJECT_CLASS (parent_class)->destroy)
-		GTK_OBJECT_CLASS (parent_class)->destroy (object);
+	if (G_OBJECT_CLASS (parent_class)->dispose)
+		G_OBJECT_CLASS (parent_class)->dispose (object);
 }
 
 
 static void
 class_init (ESearchBarClass *klass)
 {
-	GtkObjectClass *object_class;
+	GObjectClass *object_class;
 	
-	object_class = GTK_OBJECT_CLASS (klass);
+	object_class = G_OBJECT_CLASS (klass);
 	
-	parent_class = gtk_type_class (gtk_hbox_get_type ());
+	parent_class = g_type_class_ref (gtk_hbox_get_type ());
 	
-	object_class->set_arg = impl_set_arg;
-	object_class->get_arg = impl_get_arg;
-	object_class->destroy = impl_destroy;
+	object_class->set_property = impl_set_property;
+	object_class->get_property = impl_get_property;
+	object_class->dispose = impl_dispose;
 	
 	klass->set_menu = set_menu;
 	klass->set_option = set_option;
-	
-	gtk_object_add_arg_type ("ESearchBar::item_id", GTK_TYPE_ENUM,
-				 GTK_ARG_READWRITE, ARG_ITEM_ID);
-	gtk_object_add_arg_type ("ESearchBar::subitem_id", GTK_TYPE_ENUM,
-				 GTK_ARG_READWRITE, ARG_SUBITEM_ID);
-	gtk_object_add_arg_type ("ESearchBar::text", GTK_TYPE_STRING,
-				 GTK_ARG_READWRITE, ARG_TEXT);
+
+	g_object_class_install_property (object_class, PROP_ITEM_ID,
+					 g_param_spec_int ("item_id",
+							   _("Item ID"),
+							   /*_( */"XXX blurb" /*)*/,
+							   0, 0, 0,
+							   G_PARAM_READWRITE | G_PARAM_LAX_VALIDATION));
+
+	g_object_class_install_property (object_class, PROP_SUBITEM_ID,
+					 g_param_spec_int ("subitem_id",
+							   _("Subitem ID"),
+							   /*_( */"XXX blurb" /*)*/,
+							   0, 0, 0,
+							   G_PARAM_READWRITE | G_PARAM_LAX_VALIDATION));
+
+	g_object_class_install_property (object_class, PROP_TEXT, 
+					 g_param_spec_string ("text",
+							      _("Text"),
+							      /*_( */"XXX blurb" /*)*/,
+							      NULL,
+							      G_PARAM_READWRITE));
 	
 	esb_signals [QUERY_CHANGED] =
-		gtk_signal_new ("query_changed",
-				GTK_RUN_LAST,
-				GTK_CLASS_TYPE (object_class),
-				GTK_SIGNAL_OFFSET (ESearchBarClass, query_changed),
-				gtk_marshal_NONE__NONE,
-				GTK_TYPE_NONE, 0);
+		g_signal_new ("query_changed",
+			      G_OBJECT_CLASS_TYPE (object_class),
+			      G_SIGNAL_RUN_LAST,
+			      G_STRUCT_OFFSET (ESearchBarClass, query_changed),
+			      NULL, NULL,
+			      e_util_marshal_NONE__NONE,
+			      G_TYPE_NONE, 0);
 	
 	esb_signals [MENU_ACTIVATED] =
-		gtk_signal_new ("menu_activated",
-				GTK_RUN_LAST,
-				GTK_CLASS_TYPE (object_class),
-				GTK_SIGNAL_OFFSET (ESearchBarClass, menu_activated),
-				gtk_marshal_NONE__INT,
-				GTK_TYPE_NONE, 1, GTK_TYPE_INT);
+		g_signal_new ("menu_activated",
+			      G_OBJECT_CLASS_TYPE (object_class),
+			      G_SIGNAL_RUN_LAST,
+			      G_STRUCT_OFFSET (ESearchBarClass, menu_activated),
+			      NULL, NULL,
+			      e_util_marshal_NONE__INT,
+			      G_TYPE_NONE, 1, G_TYPE_INT);
 
 	esb_signals [SEARCH_ACTIVATED] =
-		gtk_signal_new ("search_activated",
-				GTK_RUN_LAST,
-				GTK_CLASS_TYPE (object_class),
-				GTK_SIGNAL_OFFSET (ESearchBarClass, search_activated),
-				gtk_marshal_NONE__NONE,
-				GTK_TYPE_NONE, 0);
+		g_signal_new ("search_activated",
+			      G_OBJECT_CLASS_TYPE (object_class),
+			      G_SIGNAL_RUN_LAST,
+			      G_STRUCT_OFFSET (ESearchBarClass, search_activated),
+			      NULL, NULL,
+			      e_util_marshal_NONE__NONE,
+			      G_TYPE_NONE, 0);
 }
 
 static void
@@ -891,9 +909,9 @@ e_search_bar_construct (ESearchBar *search_bar,
 	gtk_box_set_spacing (GTK_BOX (search_bar), 1);
 
 	search_bar->clear_button    = add_button (search_bar, _("Clear"),
-						  GTK_SIGNAL_FUNC (clear_button_clicked_cb));
+						  G_CALLBACK (clear_button_clicked_cb));
 	search_bar->activate_button = add_button (search_bar, _("Find Now"),
-						  GTK_SIGNAL_FUNC (activate_button_clicked_cb));
+						  G_CALLBACK (activate_button_clicked_cb));
 
 	e_search_bar_set_menu (search_bar, menu_items);
 
@@ -914,7 +932,7 @@ e_search_bar_construct (ESearchBar *search_bar,
 	if (search_bar->subitem_id >= 0) {
 		gtk_widget_set_sensitive (search_bar->activate_button, FALSE);
 
-		search_bar->pending_activate = gtk_idle_add (idle_activate_hack, search_bar);
+		search_bar->pending_activate = g_idle_add (idle_activate_hack, search_bar);
 	}
 }
 
@@ -969,19 +987,22 @@ e_search_bar_set_suboption (ESearchBar *search_bar, int option_id, ESearchBarSub
 	g_return_if_fail (row != -1);
 	g_assert (item != NULL);
 
-	old_subitems = gtk_object_get_data (GTK_OBJECT (item), "EsbChoiceSubitems");
+	old_subitems = g_object_get_data (G_OBJECT (item), "EsbChoiceSubitems");
 	if (old_subitems) {
 		/* This was connected in set_option() */
-		gtk_signal_disconnect_by_data (GTK_OBJECT (item), old_subitems);
+		g_signal_handlers_disconnect_matched (item,
+						      G_SIGNAL_MATCH_DATA,
+						      0, 0, NULL, NULL,
+						      old_subitems);
 		free_subitems (old_subitems);
-		gtk_object_set_data (GTK_OBJECT (item), "EsbChoiceSubitems", NULL);
+		g_object_set_data (G_OBJECT (item), "EsbChoiceSubitems", NULL);
 	}
 
 	if (subitems) {
 		new_subitems = copy_subitems (subitems);
-		gtk_object_set_data (GTK_OBJECT (item), "EsbChoiceSubitems", new_subitems);
-		gtk_signal_connect (GTK_OBJECT (item), "destroy",
-				    GTK_SIGNAL_FUNC (option_item_destroy_cb), new_subitems);
+		g_object_set_data (G_OBJECT (item), "EsbChoiceSubitems", new_subitems);
+		g_signal_connect (item, "destroy",
+				  G_CALLBACK (option_item_destroy_cb), new_subitems);
 	} else
 		new_subitems = NULL;
 
@@ -1040,26 +1061,27 @@ e_search_bar_set_menu_sensitive (ESearchBar *search_bar, int id, gboolean state)
 	g_free (path);
 }
 
-GtkType
+GType
 e_search_bar_get_type (void)
 {
-	static GtkType type = 0;
-	
+	static GType type = 0;
+
 	if (!type) {
-		static const GtkTypeInfo info = {
-			"ESearchBar",
-			sizeof (ESearchBar),
+		static const GTypeInfo info =  {
 			sizeof (ESearchBarClass),
-			(GtkClassInitFunc) class_init,
-			(GtkObjectInitFunc) init,
-			/* reserved_1 */ NULL,
-		       	/* reserved_2 */ NULL,
-			(GtkClassInitFunc) NULL,
+			NULL,           /* base_init */
+			NULL,           /* base_finalize */
+			(GClassInitFunc) class_init,
+			NULL,           /* class_finalize */
+			NULL,           /* class_data */
+			sizeof (ESearchBar),
+			0,             /* n_preallocs */
+			(GInstanceInitFunc) init,
 		};
-		
-		type = gtk_type_unique (gtk_hbox_get_type (), &info);
+
+		type = g_type_register_static (gtk_hbox_get_type (), "ESearchBar", &info, 0);
 	}
-	
+
 	return type;
 }
 
@@ -1159,7 +1181,7 @@ e_search_bar_set_ids (ESearchBar *search_bar, int item_id, int subitem_id)
 	g_return_if_fail (item_row != -1);
 	g_assert (item_widget != NULL);
 
-	subitems = gtk_object_get_data (GTK_OBJECT (item_widget), "EsbChoiceSubitems");
+	subitems = g_object_get_data (G_OBJECT (item_widget), "EsbChoiceSubitems");
 	g_return_if_fail (subitems != NULL);
 
 	search_bar->item_id = item_id;

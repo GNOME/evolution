@@ -24,10 +24,7 @@
 
 #include <bonobo/bonobo-ui-component.h>
 
-#ifdef __cplusplus
-extern "C" {
-#pragma }
-#endif /* __cplusplus */
+G_BEGIN_DECLS
 
 /* ESearchBar - A card displaying information about a contact.
  *
@@ -41,10 +38,10 @@ extern "C" {
  */
 
 #define E_SEARCH_BAR_TYPE		(e_search_bar_get_type ())
-#define E_SEARCH_BAR(obj)		(GTK_CHECK_CAST ((obj), E_SEARCH_BAR_TYPE, ESearchBar))
-#define E_SEARCH_BAR_CLASS(klass)	(GTK_CHECK_CLASS_CAST ((klass), E_SEARCH_BAR_TYPE, ESearchBarClass))
-#define E_IS_SEARCH_BAR(obj)		(GTK_CHECK_TYPE ((obj), E_SEARCH_BAR_TYPE))
-#define E_IS_SEARCH_BAR_CLASS(klass)	(GTK_CHECK_CLASS_TYPE ((obj), E_SEARCH_BAR_TYPE))
+#define E_SEARCH_BAR(obj)		(G_TYPE_CHECK_INSTANCE_CAST ((obj), E_SEARCH_BAR_TYPE, ESearchBar))
+#define E_SEARCH_BAR_CLASS(klass)	(G_TYPE_CHECK_CLASS_CAST ((klass), E_SEARCH_BAR_TYPE, ESearchBarClass))
+#define E_IS_SEARCH_BAR(obj)		(G_TYPE_CHECK_INSTANCE_TYPE ((obj), E_SEARCH_BAR_TYPE))
+#define E_IS_SEARCH_BAR_CLASS(klass)	(G_TYPE_CHECK_CLASS_TYPE ((obj), E_SEARCH_BAR_TYPE))
 
 typedef struct {
 	char *text;
@@ -107,7 +104,7 @@ enum {
 };
 
 
-GtkType    e_search_bar_get_type   (void);
+GType      e_search_bar_get_type   (void);
 void       e_search_bar_construct  (ESearchBar        *search_bar,
 				    ESearchBarItem    *menu_items,
 				    ESearchBarItem    *option_items);
@@ -148,9 +145,7 @@ void  e_search_bar_set_text  (ESearchBar *search_bar,
 			      const char *text);
 char *e_search_bar_get_text  (ESearchBar *search_bar);
 
-#ifdef __cplusplus
-}
-#endif /* __cplusplus */
+G_END_DECLS
 
 
 #endif /* __E_SEARCH_BAR_H__ */

@@ -49,7 +49,22 @@ libemiscwidgets_a_SOURCES = 	\
 	e-multi-config-dialog.c \
 	e-search-bar.c		\
 	e-title-bar.c		\
-	e-url-entry.c
+	e-url-entry.c		\
+	e-util-marshal.c
+
+# GLib marshalling cruft
+
+e-util-marshal.h: e-util-marshal.list
+	( @GLIB_GENMARSHAL@ --prefix=e_util_marshal e-util-marshal.list --header > e-util-marshal.tmp \
+	&& mv e-util-marshal.tmp e-util-marshal.h ) \
+	|| ( rm -f e-util-marshal.tmp && exit 1 )
+
+e-util-marshal.c: e-util-marshal.h
+	( @GLIB_GENMARSHAL@ --prefix=e_util_marshal e-util-marshal.list --body > e-util-marshal.tmp \
+	&& mv e-util-marshal.tmp e-util-marshal.c ) \
+	|| ( rm -f e-util-marshal.tmp && exit 1 )
+
+MARSHAL_GENERATED = e-util-marshal.c e-util-marshal.h
 
 libemiscwidgets_a_LIBADD = $(top_builddir)/e-util/libeutil.la
 
@@ -114,3 +129,7 @@ test_title_bar_LDADD = 		\
 	$(GNOME_FULL_LIBS)
 
 
+BUILT_SOURCES = $(MARSHAL_GENERATED)
+CLEANFILES    = $(BUILT_SOURCES)
+
+EXTRA_DIST = e-book-marshal.list

@@ -5,6 +5,8 @@ Makefile
 Makefile.in
 *.lo
 *.la
+e-util-marshal.c
+e-util-marshal.h
 test-title-bar
 test-calendar
 test-dateedit
