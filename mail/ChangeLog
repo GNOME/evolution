@@ -1,3 +1,11 @@
+2000-09-25  Dan Winship  <danw@helixcode.com>
+
+	* mail-ops.c: CamelException is not for compile-time errors.
+	Replace lots of argument checks in setup_ functions with
+	g_return_if_fails in the public functions. Also remove some
+	prototypes that weren't needed because they were for static
+	functions that are defined before they're used.
+
 2000-09-23  Michael Meeks  <michael@helixcode.com>
 
 	* folder-browser-factory.c (set_pixmap): upd.
