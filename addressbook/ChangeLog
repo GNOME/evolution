@@ -1,3 +1,9 @@
+2002-12-05  Jeffrey Stedfast  <fejj@ximian.com>
+
+	* gui/component/select-names/e-select-names.etspec: Use collate
+	for sorting rather than the normal string sort. This fixes bug
+	#26335 without causing bug #33933 :-)
+
 2002-11-30  Chris Toshok  <toshok@ximian.com>
 
 	* backend/pas/pas-backend-ldap.c (pas_backend_ldap_connect): only
