@@ -65,10 +65,6 @@ CamelFolder *mail_tool_uri_to_folder (const char *uri, guint32 flags, CamelExcep
 
 GHashTable *mail_lookup_url_table (CamelMimeMessage *mime_message);
 
-gchar *mail_tool_quote_message (CamelMimeMessage *message, const char *fmt, ...);
-
-gchar *mail_tool_forward_message (CamelMimeMessage *message, gboolean quoted);
-
 CamelFolder *mail_tools_x_evolution_message_parse (char *in, unsigned int inlen, GPtrArray **uids);
 
 char *mail_tools_folder_to_url (CamelFolder *folder);

@@ -26,10 +26,8 @@
 #include <shell/evolution-storage.h>
 #include "mail-accounts.h"
 #include "mail-account-editor.h"
-#include "mail-callbacks.h"
 #include "mail-config.h"
 #include "mail-config-druid.h"
-#include "mail-display-stream.h"
 #include "mail-session.h"
 #include "mail-types.h"
 

@@ -48,11 +48,11 @@
 #include "mail.h" /*session*/
 #include "mail-config.h"
 #include "mail-vfolder.h"
-#include "mail-format.h"
 #include "mail-tools.h"
 #include "mail-local.h"
 #include "mail-mt.h"
 #include "mail-folder-cache.h"
+
 
 /* **************************************** */
 
@@ -343,135 +343,6 @@ mail_tool_uri_to_folder (const char *uri, guint32 flags, CamelException *ex)
 	camel_url_free (url);
 	
 	return folder;
-}
-
-/**
- * mail_tool_quote_message:
- * @message: mime message to quote
- * @fmt: credits format - example: "On %s, %s wrote:\n"
- * @Varargs: arguments
- *
- * Returns an allocated buffer containing the quoted message.
- */
-gchar *
-mail_tool_quote_message (CamelMimeMessage *message, const char *fmt, ...)
-{
-	CamelDataWrapper *contents;
-	gboolean want_plain;
-	char *text, *colour;
-	GConfClient *gconf;
-	
-	gconf = mail_config_get_gconf_client ();
-	
-	contents = camel_medium_get_content_object (CAMEL_MEDIUM (message));
-	/* We pass "want_plain" for "cite", since if it's HTML, we'll
-	 * do the citing ourself below.
-	 */
-	/* FIXME the citing logic has changed and we basically never want_plain
-	 * to be true now, but I don't want to remove all that logic until I
-	 * am sure --Larry
-	 */
-	want_plain = FALSE;
-	text = mail_get_message_body (contents, want_plain, FALSE);
-	
-	/* Set the quoted reply text. */
-	if (text) {
-		char *sig, *p, *ret_text, *credits = NULL;
-		
-		/* look for the signature and strip it off */
-		sig = text;
-	        while ((p = strstr (sig, "\n-- \n")))
-			sig = p + 1;
-		
-		if (sig != text)
-			*sig = '\0';
-		
-		/* create credits */
-		if (fmt) {
-			va_list ap;
-			
-			va_start (ap, fmt);
-			credits = g_strdup_vprintf (fmt, ap);
-			va_end (ap);
-		}
-		
-		colour = gconf_client_get_string (gconf, "/apps/evolution/mail/display/citation_colour", NULL);
-		
-		ret_text = g_strdup_printf ("%s<!--+GtkHTML:<DATA class=\"ClueFlow\" key=\"orig\" value=\"1\">-->"
-					    "<font color=\"%s\">\n%s%s%s</font>"
-					    "<!--+GtkHTML:<DATA class=\"ClueFlow\" clear=\"orig\">-->",
-					    credits ? credits : "",
-					    colour ? colour : "#737373",
-					    want_plain ? "" : "<blockquote type=cite><i>",
-					    text,
-					    want_plain ? "" : "</i></blockquote>");
-		
-		g_free (text);
-		g_free (colour);
-		g_free (credits);
-		
-		return ret_text;
-	}
-	
-	return NULL;
-}
-
-
-/**
- * mail_tool_forward_message:
- * @message: mime message to forward
- * @quoted: whether to forwarded it quoted (%TRUE) or inline (%FALSE)
- *
- * Returns an allocated buffer containing the forwarded message.
- */
-gchar *
-mail_tool_forward_message (CamelMimeMessage *message, gboolean quoted)
-{
-	GConfClient *gconf;
-	char *text;
-	
-	gconf = mail_config_get_gconf_client ();
-	
-	text = mail_get_message_body (CAMEL_DATA_WRAPPER (message), FALSE, FALSE);
-	
-	if (text != NULL) {
-		char *sig, *p, *ret_text;
-		
-		/* FIXME: this code should be merged with the quote_message() code above somehow... */
-		
-		/* look for the signature and strip it off */
-		sig = text;
-	        while ((p = strstr (sig, "\n-- \n")))
-			sig = p + 1;
-		
-		if (sig != text)
-			*sig = '\0';
-		
-		if (quoted) {
-			char *colour;
-			
-			colour = gconf_client_get_string (gconf, "/apps/evolution/mail/display/citation_colour", NULL);
-			
-			ret_text = g_strdup_printf ("-----%s-----<br>"
-						    "<!--+GtkHTML:<DATA class=\"ClueFlow\" key=\"orig\" value=\"1\">-->"
-						    "<font color=\"%s\">\n%s%s%s</font>"
-						    "<!--+GtkHTML:<DATA class=\"ClueFlow\" clear=\"orig\">-->",
-						    _("Forwarded Message"),
-						    colour ? colour : "#737373",
-						    "<blockquote type=cite><i>", text,
-						    "</i></blockquote>");
-			
-			g_free (colour);
-		} else {
-			ret_text = g_strdup_printf ("-----%s-----<br>%s", _("Forwarded Message"), text ? text : "");
-		}
-		
-		g_free (text);
-		
-		return ret_text;
-	}
-	
-	return NULL;
 }
 
 

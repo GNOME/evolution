@@ -70,12 +70,44 @@ libevolution_mail_la_SOURCES =		\
 	component-factory.h		\
 	e-searching-tokenizer.c		\
 	e-searching-tokenizer.h		\
-	folder-browser.c		\
-	folder-browser.h		\
+	em-inline-filter.c		\
+	em-inline-filter.h		\
+	em-folder-view.c		\
+	em-folder-view.h		\
+	em-folder-browser.c		\
+	em-folder-browser.h		\
+	em-format.c			\
+	em-format.h			\
+	em-format-html.c		\
+	em-format-html.h		\
+	em-format-html-display.c	\
+	em-format-html-display.h	\
+	em-format-html-print.c		\
+	em-format-html-print.h		\
+	em-format-html-quote.c		\
+	em-format-html-quote.h		\
+	em-format-quote.c		\
+	em-format-quote.h		\
+	em-marshal.c			\
+	em-marshal.h			\
+	em-message-browser.c		\
+	em-message-browser.h		\
+	em-composer-utils.c		\
+	em-composer-utils.h		\
+	em-popup.c			\
+	em-popup.h			\
+	em-utils.c			\
+	em-utils.h			\
+	em-subscribe-editor.c		\
+	em-subscribe-editor.h		\
+	em-sync-stream.c		\
+	em-sync-stream.h		\
+	em-icon-stream.c		\
+	em-icon-stream.h		\
+	em-html-stream.c		\
+	em-html-stream.h		\
 	folder-browser-factory.c	\
 	folder-browser-factory.h	\
-	folder-browser-ui.c		\
-	folder-browser-ui.h		\
 	folder-info.c			\
 	folder-info.h			\
 	mail-account-editor.c		\
@@ -86,8 +118,6 @@ libevolution_mail_la_SOURCES =		\
 	mail-accounts.h			\
 	mail-autofilter.c		\
 	mail-autofilter.h		\
-	mail-callbacks.c		\
-	mail-callbacks.h		\
 	mail-composer-prefs.c		\
 	mail-composer-prefs.h		\
 	mail-config.c			\
@@ -100,15 +130,8 @@ libevolution_mail_la_SOURCES =		\
 	mail-config-factory.h		\
 	mail-preferences.c		\
 	mail-preferences.h		\
-	mail-display.c			\
-	mail-display.h			\
-	mail-display-stream.c		\
-	mail-display-stream.h		\
 	mail-folder-cache.c		\
 	mail-folder-cache.h		\
-	mail-format.h			\
-	mail-format.c			\
-	mail-identify.c			\
 	mail-importer.c			\
 	mail-importer.h			\
 	mail-local.c			\
@@ -119,8 +142,6 @@ libevolution_mail_la_SOURCES =		\
 	mail-offline-handler.h		\
 	mail-ops.c			\
 	mail-ops.h			\
-	mail-search.c			\
-	mail-search.h			\
 	mail-send-recv.c		\
 	mail-send-recv.h		\
 	mail-session.c			\
@@ -132,21 +153,13 @@ libevolution_mail_la_SOURCES =		\
 	mail-types.h			\
 	mail-vfolder.c			\
 	mail-vfolder.h			\
-	message-browser.c		\
-	message-browser.h		\
 	message-list.c			\
 	message-list.h			\
 	message-tag-editor.c		\
 	message-tag-editor.h		\
 	message-tag-followup.c		\
 	message-tag-followup.h		\
-	subscribe-dialog.c		\
-	subscribe-dialog.h		\
 	mail.h
-
-# needs gtkhtml prop manager ported
-#	mail-font-prefs.c		\
-#	mail-font-prefs.h
 
 libevolution_mail_la_LIBADD =					\
 	$(top_builddir)/shell/importer/libevolution-importer.la	\
@@ -177,7 +190,10 @@ server_DATA = $(server_in_files:.server.in.in=.server)
 	sed -e "s|\@COMPONENTDIR\@|$(componentdir)|" $< > $@
 @INTLTOOL_SERVER_RULE@
 
-glade_DATA = mail-config.glade local-config.glade subscribe-dialog.glade message-tags.glade
+MARSHAL_GENERATED = em-marshal.c em-marshal.h
+@EVO_MARSHAL_RULE@
+
+glade_DATA = mail-config.glade local-config.glade subscribe-dialog.glade message-tags.glade mail-search.glade
 
 etspec_DATA = mail-accounts.etspec message-list.etspec subscribe-dialog.etspec
 

@@ -558,13 +558,50 @@ mlf_getv(CamelObject *object, CamelException *ex, CamelArgGetV *args)
 	return 0;
 }
 
+static gboolean
+mlf_meta_set(CamelObject *obj, const char *name, const char *value)
+{
+	MailLocalFolder *mlf = MAIL_LOCAL_FOLDER(obj);
+	CamelFolder *f;
+	gboolean res;
+
+	LOCAL_FOLDER_LOCK(mlf);
+	f = mlf->real_folder;
+	camel_object_ref(f);
+	LOCAL_FOLDER_UNLOCK(mlf);
+
+	/* We must write this ourselves, since MailLocalFolder is not persistent itself */
+	if ((res = camel_object_meta_set(f, name, value)))
+		camel_object_state_write(f);
+	camel_object_unref(f);
+
+	return res;
+}
+
+static char *
+mlf_meta_get(CamelObject *obj, const char *name)
+{
+	MailLocalFolder *mlf = MAIL_LOCAL_FOLDER(obj);
+	CamelFolder *f;
+	char * res;
+
+	LOCAL_FOLDER_LOCK(mlf);
+	f = mlf->real_folder;
+	camel_object_ref(f);
+	LOCAL_FOLDER_UNLOCK(mlf);
+
+	res = camel_object_meta_get(f, name);
+	camel_object_unref(f);
+
+	return res;
+}
+
 static void 
 mlf_class_init (CamelObjectClass *camel_object_class)
 {
 	CamelFolderClass *camel_folder_class = CAMEL_FOLDER_CLASS (camel_object_class);
 
 	/* override all the functions subclassed in providers/local/ */
-
 	camel_folder_class->refresh_info = mlf_refresh_info;
 	camel_folder_class->sync = mlf_sync;
 	camel_folder_class->expunge = mlf_expunge;
@@ -581,6 +618,9 @@ mlf_class_init (CamelObjectClass *camel_object_class)
 	camel_folder_class->rename = mlf_rename;
 
 	camel_object_class->getv = mlf_getv;
+
+	camel_object_class->meta_get = mlf_meta_get;
+	camel_object_class->meta_set = mlf_meta_set;
 }
 
 static void

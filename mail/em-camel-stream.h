@@ -20,43 +20,52 @@
  *
  */
 
-
-#ifndef MAIL_DISPLAY_STREAM_H
-#define MAIL_DISPLAY_STREAM_H
+#ifndef EM_CAMEL_STREAM_H
+#define EM_CAMEL_STREAM_H
 
 #ifdef __cplusplus
 extern "C" {
 #pragma }
 #endif /* __cplusplus */
 
+#define EM_CAMEL_STREAM_TYPE     (em_camel_stream_get_type ())
+#define EM_CAMEL_STREAM(obj)     (CAMEL_CHECK_CAST((obj), EM_CAMEL_STREAM_TYPE, EMCamelStream))
+#define EM_CAMEL_STREAM_CLASS(k) (CAMEL_CHECK_CLASS_CAST ((k), EM_CAMEL_STREAM_TYPE, EMCamelStreamClass))
+#define MAIL_IS_DISPLAY_STREAM(o)    (CAMEL_CHECK_TYPE((o), EM_CAMEL_STREAM_TYPE))
+
+struct _GtkHTML;
+struct _GtkHTMLStream;
+
 #include <camel/camel-stream.h>
-#include <gtkhtml/gtkhtml.h>
+#include "e-util/e-msgport.h"
 
-#define MAIL_DISPLAY_STREAM_TYPE     (mail_display_stream_get_type ())
-#define MAIL_DISPLAY_STREAM(obj)     (CAMEL_CHECK_CAST((obj), MAIL_DISPLAY_STREAM_TYPE, MailDisplayStream))
-#define MAIL_DISPLAY_STREAM_CLASS(k) (CAMEL_CHECK_CLASS_CAST ((k), MAIL_DISPLAY_STREAM_TYPE, MailDisplayStreamClass))
-#define MAIL_IS_DISPLAY_STREAM(o)    (CAMEL_CHECK_TYPE((o), MAIL_DISPLAY_STREAM_TYPE))
-
-typedef struct _MailDisplayStream {
+typedef struct _EMCamelStream {
 	CamelStream parent_stream;
-	
-	GtkHTML *html;
-	GtkHTMLStream *html_stream;
-} MailDisplayStream;
+
+	struct _GtkHTML *html;
+	struct _GtkHTMLStream *html_stream;
+
+	struct _EMsgPort *data_port, *reply_port;
+	struct _GIOChannel *gui_channel;
+	guint gui_watch;
+	char *buffer;
+	int used;
+	void *save;
+} EMCamelStream;
 
 typedef struct {
 	CamelStreamClass parent_class;
 	
-} MailDisplayStreamClass;
+} EMCamelStreamClass;
 
 
-CamelType    mail_display_stream_get_type (void);
+CamelType    em_camel_stream_get_type (void);
 
-/* Note: stream does not ref these objects! */
-CamelStream *mail_display_stream_new (GtkHTML *html, GtkHTMLStream *html_stream);
+/* the html_stream is closed when we are finalised (with an error), or closed (ok) */
+CamelStream *em_camel_stream_new(struct _GtkHTML *html, struct _GtkHTMLStream *html_stream);
 
 #ifdef __cplusplus
 }
 #endif /* __cplusplus */
 
-#endif /* MAIL_DISPLAY_STREAM_H */
+#endif /* EM_CAMEL_STREAM_H */

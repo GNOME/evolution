@@ -49,7 +49,6 @@
 #include "folder-browser-factory.h"
 #include "evolution-shell-component.h"
 #include "evolution-shell-component-dnd.h"
-#include "folder-browser.h"
 #include "folder-info.h"
 #include "mail.h"
 #include "mail-config.h"
@@ -64,7 +63,7 @@
 #include "mail-mt.h"
 #include "mail-importer.h"
 #include "mail-folder-cache.h"
-
+#include "em-utils.h"
 #include "component-factory.h"
 
 #include "mail-send-recv.h"
@@ -417,17 +416,21 @@ static void
 configure_folder_popup(BonoboUIComponent *component, void *user_data, const char *cname)
 {
 	char *uri = user_data;
+
+	/* FIXME: re-implement */
 	
 	if (strncmp(uri, "vfolder:", 8) == 0)
 		vfolder_edit_rule(uri);
+#if 0
 	else {
-		FolderBrowser *fb = folder_browser_factory_get_browser(uri);
+		struct _EMFolderBrowser *fb = folder_browser_factory_get_browser(uri);
 		
 		if (fb)
 			configure_folder(component, fb, cname);
 		else
 			mail_local_reconfigure_folder(uri, NULL, NULL);
 	}
+#endif
 }
 
 static void
@@ -801,7 +804,7 @@ owner_set_cb (EvolutionShellComponent *shell_component,
 	{
 		/* setup the global quick-search context */
 		char *user = g_strdup_printf ("%s/searches.xml", evolution_dir);
-		char *system = g_strdup (EVOLUTION_PRIVDATADIR "/vfoldertypes.xml");
+		char *system = g_strdup (EVOLUTION_PRIVDATADIR "/searchtypes.xml");
 		
 		search_context = rule_context_new ();
 		g_object_set_data_full(G_OBJECT(search_context), "user", user, g_free);
@@ -876,7 +879,7 @@ handle_external_uri_cb (EvolutionShellComponent *shell_component,
 	
 	/* FIXME: Sigh.  This shouldn't be here.  But the code is messy, so
 	   I'll just put it here anyway.  */
-	send_to_url (uri, NULL);
+	em_utils_compose_new_message_with_mailto(NULL, uri);
 }
 
 static void
@@ -887,10 +890,11 @@ user_create_new_item_cb (EvolutionShellComponent *shell_component,
 			 gpointer data)
 {
 	if (!strcmp (id, "message")) {
-		send_to_url (NULL, parent_folder_physical_uri);
+		em_utils_compose_new_message_with_mailto(NULL, NULL);
+		/*send_to_url (NULL, parent_folder_physical_uri);*/
 		return;
 	} else if (!strcmp (id, "post")) {
-		post_to_url (parent_folder_physical_uri);
+		em_utils_post_to_url (NULL, parent_folder_physical_uri);
 		return;
 	}
 	
@@ -928,7 +932,7 @@ owner_unset_cb (EvolutionShellComponent *shell_component, gpointer user_data)
 		g_signal_handler_disconnect((GtkObject *)shell_component, shell_component_handlers[i].hand);
 	
 	if (gconf_client_get_bool (gconf, "/apps/evolution/mail/trash/empty_on_exit", NULL))
-		empty_trash (NULL, NULL, NULL);
+		em_utils_empty_trash(NULL);
 	
 	unref_standard_folders ();
 	mail_local_storage_shutdown ();
@@ -1617,7 +1621,7 @@ factory (BonoboGenericFactory *factory,
 		 || strcmp (component_id, MAIL_COMPOSER_PREFS_CONTROL_ID) == 0)
 		return mail_config_control_factory_cb (factory, component_id, evolution_shell_client_corba_objref (global_shell_client));
 	else if (strcmp(component_id, COMPOSER_IID) == 0)
-		return (BonoboObject *)evolution_composer_new(composer_send_cb, composer_save_draft_cb);
+		return (BonoboObject *)evolution_composer_new(em_utils_composer_send_cb, em_utils_composer_save_draft_cb);
 
 	g_warning (FACTORY_ID ": Don't know what to do with %s", component_id);
 	return NULL;

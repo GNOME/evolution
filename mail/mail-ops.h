@@ -30,6 +30,7 @@ extern "C" {
 #pragma }
 #endif /* __cplusplus */
 
+#include "camel/camel-store.h"
 #include "camel/camel-folder.h"
 #include "camel/camel-filter-driver.h"
 #include "camel/camel-mime-message.h"

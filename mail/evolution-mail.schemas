@@ -177,21 +177,7 @@
       <key>/schemas/apps/evolution/mail/display/caret_mode</key>
       <applyto>/apps/evolution/mail/display/caret_mode</applyto>
       <owner>evolution-mail</owner>
-      <type>boolean</type>
-      <default>false</default>
-      <locale name="C">
-         <short>Enable/disable caret mode</short>
-         <long>
-	  Enable caret mode, so that you can see a cursor when reading mail.
-         </long>
-      </locale>
-    </schema>
-
-    <schema>
-      <key>/schemas/apps/evolution/mail/display/caret_mode</key>
-      <applyto>/apps/evolution/mail/display/caret_mode</applyto>
-      <owner>evolution-mail</owner>
-      <type>boolean</type>
+      <type>bool</type>
       <default>false</default>
       <locale name="C">
          <short>Enable/disable caret mode</short>

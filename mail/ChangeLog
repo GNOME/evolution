@@ -1,3 +1,24 @@
+2003-09-17  Not Zed  <NotZed@Ximian.com>
+
+	 * folder-browser.c, folder-browser.h, folder-browser-ui.c
+	 folder-browser-ui.h, mail-callbacks.c, mail-callbacks.h
+	 mail-display.c, mail-display.h, mail-display-stream.c
+	 mail-display-stream.h, mail-format.c, mail-format.h
+	 mail-identify.c, mail-search.c, mail-search.h
+	 message-browser.c, message-browser.h, subscribe-dialog.c
+	 subscribe-dialog.h, mail-font-prefs.c, mail-font-prefs.h: cvs
+	 removed.
+	
+	* Makefile.am: Removed mail-font-prefs.[ch], hasn't been built for
+	ages.
+
+	* em-*.c: killed a bunch of printfs.
+
+	* em-format-html-display.c (efhd_html_button_press_event): update
+	for html object api chagnes.
+
+	** Merge in mail-refactor-2 branch.
+
 2003-09-17  Jeffrey Stedfast  <fejj@ximian.com>
 
 	* evolution-mbox-upgrade.c: New source file to migrate from the
@@ -167,6 +188,847 @@
 	* mail-ops.c (mail_get_store, mail_get_folderinfo): Add a
 	CamelOperation argument, for overriding the status handler.  Fixed
 	most calles to pass NULL to use the default.
+
+2003-09-15  Not Zed  <NotZed@Ximian.com>
+
+	* em-folder-browser.c (emfb_activate): remove warning about folder
+	not being loaded yet - it basically never is.
+
+	* em-popup.c (emp_standard_menu_factory): dont setup any global
+	select menu's yet.  they're all handled by folderview atm.
+
+2003-09-11  Not Zed  <NotZed@Ximian.com>
+
+	* em-format-html.c (efh_finalise, efh_format_timeout): Use a
+	proper hash free func, otherwise it dont work.
+
+2003-09-11  Not Zed  <NotZed@Ximian.com>
+
+	* em-inline-filter.[ch]: A new class which implements an inline
+	snooper via a mime filter, so it is fully streamable.  contents
+	merely passes through the filter.
+
+	* em-format-html.c (efh_finalise): free text substitute parts
+	table.
+	(efh_text_plain): transform a text part into a multipart, scanning
+	for inline data.  Keep the multipart around for redraws.
+	(efh_format_timeout): clear the text substitute parts table.
+
+2003-09-10  Not Zed  <NotZed@Ximian.com>
+
+	* em-format-html-display.c (efhd_init): hook onto realise so we
+	get the real theme-applied style.
+	(efhd_gtkhtml_realise): get the theme data for colour defaults.
+	Tweak the colour selection to make it work better with dark
+	themes.
+
+	* em-format-quote.c (emfq_format_source): we need to implement
+	this.
+	(emfq_format_error): we need not to call parent, it doesn't
+	implement it.
+
+	* message-list.c (message_list_select_uid): don't emit
+	changedhere, let it go through the table cursor change.
+
+	* em-folder-browser.c (em_folder_browser_show_preview): use
+	folderview.preview_active for this state.
+	(em_folder_browser_show_preview): clear the current message when
+	we turn off the message view, and load the current one when turn it on.
+
+	* em-folder-view.c (emfv_destroy): zero out preview + list.
+	(emfv_list_message_selected): check preview_active before doing
+	anything.
+	(emfv_edit_cut):
+	(emfv_edit_copy): only run if preview active.
+
+	* em-format-html.c (efh_format_do): output the proper html
+	headers, etc.
+
+2003-09-10  Jeffrey Stedfast  <fejj@ximian.com>
+
+	* mail-account-gui.c (mail_account_gui_save): Allow the user to
+	select any fodler for his/her Drafts and Sent folders. Fixes bug
+	#45412.
+
+2003-09-09  Not Zed  <NotZed@Ximian.com>
+
+	* em-utils.c (forward_non_attached): implement forward quoted.
+
+	* em-format-quote.[ch]: New class, em-format-html-quote wont cut
+	it.  Sigh.
+
+	* em-format-html-quote.c (efhq_base_init): move type init stuff
+	here.
+	(efhq_complete): remove, this is a signal.
+	(efhq_multipart_related): we need to override the base class, we
+	don't want to output any attachment html.
+
+	* em-format-html-print.c (efhp_base_init): move builtin type init
+	to here.
+
+	* em-format-html.c (efh_init): get xmailer mask from gconf (sigh).
+	(efh_format_header): inmplement most of xmailer mask thing.
+	rupert icon not done yet, probably needs to be done as part of
+	em-format-html-display, sigh.
+	(type_builtin_table[]): add image/svg to supported image formats.
+	(efhd_base_init): move type init to here.
+	(efh_text_enriched): write to the filtered_stream, not stream.
+
+	* em-format.c (em_format_format_text): oops, actually use any
+	supplied charset.
+	(emf_base_init): move hashtable init into base_init, so we get a
+	new copy for each derived class too.
+
+	* mail-send-recv.c (build_dialogue): use an eclippedlabel for
+	status.  Fixed all uses.
+
+2003-09-08  Not Zed  <NotZed@Ximian.com>
+
+	* em-format-html.h (EMFormatHTML): added a simple_headers option,
+	only output headers in basic format.  Added hide_headers option,
+	to disable all header output.
+
+	* em-format-html-quote.c (efhq_format_message): blockquote the
+	contnet, thats how you cite it!
+	(efhq_init): turn on simple headers for html output.
+	(efhq_format_message): output headers and part directly, bypassing
+	parent format_message.
+	(efhq_format_message): implement hide_headers.
+
+	* em-format-html.c (efh_busy): implement busy.
+	(efh_format_message): implement simple_headers option.
+	(efh_format_text_header): implement simple_headers option.
+	(efh_format_message): move the header formatting stuff into
+	exported em_format_html_format_headers.
+	(efh_format_message): only output headers if not hidden.
+
+	* em-format.c (emf_busy): base implementation of a new virtual
+	method, returns TRUE if the object is still busy
+	rendering/downloading stuff.
+
+	* em-utils.c (em_utils_message_to_html): renamed from
+	em_utils_quote_message.  Also make sure the html conversion is
+	complete before getting the data.
+	(em_utils_part_to_html): similar, but for parts.
+	(composer_set_body): put in David Woodhouse's timezone in
+	attribution patch.
+	(composer_set_body): we want to quote the part (content), we don't
+	want message headers.
+	(em_utils_message_to_html): add a 'show headers' argument.
+
+	* folder-browser-factory.c (control_activate): removed.
+	(control_deactivate): removed.
+
+	* mail-identify.c: 
+	* folder-browser.[ch], folder-browser-ui.[ch]: 
+	* mail-callbacks.[ch], mail-search.[ch]:
+	* mail-display.[ch], mail-format.[ch], mail-display-stream.[ch]:
+	* message-browser.[ch]: Removed, fixed all users.
+
+	* component-factory.c (factory): change callbacks to em_utils
+	ones.
+	(configure_folder_popup): comment out some of the reconfigure
+	stuff.  Wont have it in 1.6?
+	(handle_external_uri_cb): use em_utils stuff.
+	(user_create_new_item_cb): "
+	(owner_unset_cb): "
+
+	* em-composer-utils.c (composer_send_cb): rename to
+	em_utils_composer_send_cb, and export, sigh, needed for factory.
+	(composer_save_draft_cb): Same.
+
+2003-09-05  Not Zed  <NotZed@Ximian.com>
+
+	* em-format.c (type_builtin_table[]): Add a fallback multipart/*
+	for other types (e.g. multipart/report)
+	(em_format_fallback_handler): fix some bad logic.
+
+	* em-folder-browser.c: track the pane size if the user changes it.
+	(emfb_set_folder): Added a bit of a mess that will select the
+	first unread message the first time you visit a folder.
+	(emfb_destroy): impelment.  clear up outstanding signal handlers.
+	(emfb_list_built): Select the first unread message.  this isn't
+	entirely reliable as yet, and not configurable at all.
+
+	* em-format-html-display.c (em_format_html_display_set_animate)
+	(em_format_html_display_set_caret_mode): guess? :)
+	(efhd_attachment_button): dont desensitise the button, just dont
+	hook onto it, otherwise it looks fugly.
+
+	* em-folder-view.c (emfv_list_done_message_selected): dont lookup
+	gconf values every time.  use g_timeout_add rather than
+	gtk_timeout, remove fixme's.
+	(emfv_setting_notify): listner for gconf changes, reflect
+	internally.
+	(emfv_setting_setup): setup listner for gconf, and read initial
+	settings.
+	(emfv_activate): use local copy of settings rather than snooping
+	gconf.
+	(emfv_caret_mode): propagate caret-mode to display
+
+	* em-format-html-quote.c (efhq_format_message): remove gconf
+	stuff, our parent already has citation colour.
+
+	* em-format-html.c (efh_format_timeout): remove gconf stuff.
+	(em_format_html_set_load_http, em_format_html_set_mark_citations):
+	set options on formatter, re-renders if required.
+	(type_builtin_table[]): text/* should go to text/plain, not
+	text/enriched.
+
+2003-09-04  Not Zed  <NotZed@Ximian.com>
+
+	* em-utils.c (confirm_expunge): rename it to emu_confirm_expunge
+	and remove leading whitespace before function.
+	(em_utils_expunge_folder): we want to expunge the folder, not
+	empty the trash.  Jeff didn't even run this once ...
+
+	* em-popup.c: Lots of new features, 'global' popup menu's on a
+	per-selection type, via factories, popup selections (targets), a
+	standard factory for many menu items.
+	(emp_apps_open_in): duh, fix uri using logic
+	(emp_standard_menu_factory): only add apps to app list if
+	!requires_terminal.
+
+	* em-format-html-display.c (efhd_open_in, efhd_popup_free_items):
+	moved to em-popup.c
+	(efhd_popup_save_attachment, efhd_popup_save_message) 
+	(efhd_popup_reply_sender, efhd_popup_reply_list) 
+	(efhd_popup_reply_all, efhd_popup_forward): (re)moved to em-popup.c
+	(efhd_attachment_popup): use enew popu stuff.
+	(efhd_attachment_button): Scale the icons for mime-type icons.
+
+	* em-folder-view.c (em_folder_view_disable_mask): removed
+	... moved to em-popup.
+	(em_folder_view_get_popup_target): new method, get the selection
+	target for the folder view.
+	(emfv_html_popup_saveas, emfv_html_popup_link_open)
+	(emfv_html_popup_link_copy, emfv_html_popup_address_send)
+	(emfv_html_popup_address_add, emfv_format_popup_free_items): moved
+	to em-popup.c
+	(emfv_format_popup_event): use new popup stuff.
+	(emfv_popup): use new popup stuff, but still just use all local
+	menu's.
+
+2003-09-03  Not Zed  <NotZed@Ximian.com>
+
+	* em-folder-view.c (emfv_format_popup_event): implement, a popup
+	menu for right-clicking on links and images.
+	(emfv_html_popup_link_copy): implement.
+	(emfv_init): setup an invisible for selection stuff.
+	(emfv_destroy): free invisible
+
+	* em-utils.c (em_utils_get_proxy_uri): utility to get the current
+	system proxy setting.
+	(emu_set_proxy): implementation.
+
+	* em-camel-stream.[ch]: removed.
+
+	* em-format-html.c (efh_url_requested, efh_format_timeout): use
+	em_html_stream rather than em_camel_stream.
+	(emfh_gethttp): set the system proxy on the new stream.
+	(emfh_multipart_related_check): use puri rather than purin inside
+	the loop - duh.
+	(emfh_multipart_related_check): removed 'unrelated part' warning,
+	they can be (and normally are) added by the callbacks.
+
+	* em-format-html.h (EMFormatHTMLJob): s/estream/stream/
+
+	* em-html-stream.[ch]: New subclass of emsyncstream, replacement
+	for em-camel-stream.
+
+2003-09-04  Jeffrey Stedfast  <fejj@ximian.com>
+
+	* em-folder-browser.c (emfb_folder_expunge): Call
+	em_utils_expunge_folder instead.
+
+	* em-utils.c (em_utils_expunge_folder): New function.
+	(confirm_expunge): Make private.
+
+2003-09-04  Jeffrey Stedfast  <fejj@ximian.com>
+
+	* em-folder-browser.c (emfb_folder_expunge): Confirm hat the user
+	wants to expunge.
+	(emfb_empty_trash): Implemented.
+
+	* em-utils.c (em_utils_prompt_user): Make public (used to be
+	e_question).
+	(em_utils_confirm_expunge): New function to confirm that the user
+	wants to expunge.
+	(em_utils_empty_trash): New function to empty all Trash folders.
+
+	* em-composer-utils.c: Get rid of e_question and use em-utils'
+	em_utils_prompt_user() function instead.
+
+	* em-format-html-quote.[c,h]: New formatter for quoting
+	replies/forwards/etc.
+
+	* em-utils.c (em_utils_quote_message): New function.
+	(composer_set_body): Use the new em_utils_quote_message()
+	function.
+	(em_utils_temp_save_part): Only g_free mfilename if it was
+	malloc'd.
+
+	* mail-tools.c (mail_tool_quote_message): Removed.
+	(mail_tool_forward_message): Removed.
+
+2003-09-03  Jeffrey Stedfast  <fejj@ximian.com>
+
+	* em-format.c (em_format_class_remove_handler): New function to
+	remove a mime-type handler from a class.
+
+	* em-format-html.c (efh_init): Set the CITATION bit for the
+	default html flags.
+
+	* em-format-html-display.c: Fixed some compiler warnings by adding
+	appropriate includes.
+	(efhd_multipart_signed): Don't write "inlined signature...".
+
+2003-09-03  Not Zed  <NotZed@Ximian.com>
+
+	* em-icon-stream.[ch]: New subclass of emsyncstream, write camel
+	stream one side, creates an icon on the other.
+
+	* em-sync-stream.[ch]: New file, an abstract class for creating
+	write-any-thread-act-gui-thread stuff.  'em-camel-stream' will
+	subclass this.
+
+	* em-format-html-display.c (efhd_attachment_button): setup a job
+	to write out an icon if the type is an image type, otherwise try
+	and get the icon directly.  no caching yet.  the system icons
+	aren't scaled properly either.
+	(efhd_write_icon_job): async job to write out image content.
+
+2003-09-02  Not Zed  <NotZed@Ximian.com>
+
+	* em-format-html.c (emfh_new_job): renamed to
+	em_format_html_job_new and made public.
+	(emfh_queue_job): renamed to em_format_html_job_queue, and made
+	public.
+
+	* em-format-html.h: Made EMFormatHTMLJob a public structure.
+
+2003-09-02  Not Zed  <NotZed@Ximian.com>
+
+	* em-folder-view.h (struct _EMFolderView): track the uicomponent
+	while we're activated.
+
+	* em-message-browser.c (em_message_browser_window_new): kill
+	warning.
+	(emmb_init, emmb_finalise): kill printf
+
+	* em-format-html.c (efh_format_header): Converted code from head
+	from David Woodhouse <dwmw2@infradead.org>'s timezone display
+	patch.
+	(efh_format_text_header): support new flag, HEADER_HTML - header
+	alredy in html format.
+
+	* em-format-html-print.c (em_format_html_print_print): only ref
+	print_config if != NULL.
+
+	* em-folder-browser.c (emfb_tree_key_press): handle
+	space/backspace in messagelist to scroll the message view.
+	(emfb_create_view_menus): setup view menu's, this should probably
+	live in message-list.
+	(emfb_init): setup the folderbrowser enable map into the list.
+	(emfb_enable_map): folder browser enable map
+
+	* em-utils.c (em_utils_adjustment_page): new helper to scroll an
+	adjustment up/down 1 page.
+
+	* em-folder-view.c (emfv_list_double_click): implement, open
+	window.
+	(emfv_list_key_press): implement keybinding overrides.  Enhance
+	delete key to undelete if everything is already deleted.
+	(emfv_build_enable_mask): separate out enable mask creation.
+	(emfv_popup): use above to get mask.
+	(emfv_enable_menus): enable/sensitize menus, use the same disable
+	mask system as used for the popups.
+	(emfv_destroy): change to use g_source_remove on seen_id.
+	(emfv_finalise): free up folders, clean up async event thing.
+	(emfv_init): setup an async event handler
+	(emfv_set_folder): handle hook/unhook of folder_changed events.
+	(emfv_folder_changed): proxy folder changed to main thread, ignore
+	the details of what changed.
+	(emfv_gui_folder_changed): update the menu's to reflect any folder
+	changes.
+	(emfv_build_disable_mask): added CAN_THREADED.
+	(em_folder_view_disable_mask): make public (rename from
+	emfv_build_disable_mask).
+	(emfv_enable_menus): changed to work on a list of arrays of
+	enablers, so they can be subclassed.
+	(emfv_init): add our enable map to the ui.
+	(em_folder_view_disable_mask): added support for can hidden (there
+	are hidden messages).
+
+2003-09-01  Not Zed  <NotZed@Ximian.com>
+
+	* em-popup.c: New, simple menu-merging popup menu implementation.
+	NOTE: should be temporary, but needs something that has similar
+	merging facilities.
+
+	* em-folder-view.c (emfv_popup*): added popup callbacks, implement
+	a popup menu, using em_popup.
+	(emfv_message_*): replaced a whole bunch of one-line, or simple
+	functions with macro's to map to the popup implementation.
+	(emfv_tools_vfolder*, emfv_tools_filter*): map to popup
+	equivalents.
+	(emfv_init): drop printf
+
+	* em-format-html-display.c (efhd_attachment_popup): use the
+	em_popup stuff to build a dynamic menu.
+
+	* em-utils.c (em_utils_temp_save_part): change assignment order ot
+	kill warning.
+	(emu_get_save_filesel): handle null/empty name by appending / to
+	the filename.
+
+2003-08-30  Not Zed  <NotZed@Ximian.com>
+
+	* mail-search.glade: forgot to add this yesterday.
+
+	* em-utils.h: don't include stuff we dont need to.
+
+	* em-folder-view.c (emfv_message_forward): just call
+	em_utils_forward_messages.
+	
+	* em-format-html-display.c (em_format_html_display_search):
+	removed unused.
+	(efhd_drag_data_get): cleanup, use em_utils_temp_save_part.
+	(efhd_attachment_popup): quick hack, setup a bunch more menu
+	items, for forwarding inline messages, hook up saving parts, and
+	messages, and hook up the 'open in' menu.
+	(efhd_open_in): implement.
+
+	* em-utils.c (em_utils_save_message): Renamed to
+	em_utils_save_part.
+	(em_utils_filesel_prompt): removed, it just makes things more
+	complex than having a single response handler.
+	(em_utils_save_part): move dialog stuff here, it also creates a
+	name based on the type of part its given.
+	(emu_get_save_filesel): new method to create a fileselector with
+	standard options.
+	(emu_save_part_response): handle file selector response for save
+	part.
+	(can_save): renamed to emu_can_save
+	(em_utils_save_messages): use get_save_filesel
+	(emu_can_save): handle the path="" case
+	(em_utils_save_part): Add a prompt argument.
+	(filesel_ok_cb): removed.
+	(emu_update_save_path): update the gconf save_dir setting.
+	(em_utils_forward_messages): helper to forward using default
+	style.
+	(forward_non_attached): remove uids argument.
+	(em_utils_forward_message): helper to forward a message using the
+	default forward style.
+	(forward_non_attached): removed folder argument.
+	(em_utils_temp_save_part): helper to save a part to a temporary
+	file, e.g. for dnd, app launch, etc.
+
+2003-08-29  Not Zed  <NotZed@Ximian.com>
+
+	* em-folder-view.c: set 'outgoing' properly.
+
+	* em-folder-browser.c (emfb_tools_subscriptions): enforce a single
+	instance of the subscribe editor.
+	(emfb_subscribe_editor_destroy): clear subscribe editor handle.
+
+2003-08-29  Not Zed  <NotZed@Ximian.com>
+
+	* em-camel-stream.c (em_camel_stream_new): Added some optional
+	logging code.
+	(stream_close): and here.
+	(stream_write): and here.
+
+	* em-folder-browser.c (emfb_init): remove fixme about search bar,
+	its there now.  also fixme's about dnd/selection, they are handled
+	in lower-level widgets.
+	(em_folder_browser_show_preview): dont exit if show preview set,
+	but only if it hasn't changed.
+	(emfb_view_hide_selected, emfb_view_show_all) 
+	(emfb_view_hide_read): removed some spurious printfs.
+
+	* Makefile.am (glade_DATA): Added mail-search.glade.  FIXME:
+	should all glade files be merged into 1?
+
+	* em-format-html-display.c (efhd_format_clone): remove search
+	match count code from here - wont be finished rendering at this
+	point anyway.
+	(em_format_html_display_search): new api for running an
+	interactive search popup.
+	(efhd_update_matches, efhd_update_search)
+	(efhd_search_entry_activate, efhd_search_case_toggled)
+	(efhd_search_response): helpers/callbacks for search popup.
+	(efhd_class_init): hook into complete signal on EMFormat.
+	(efhd_complete): complete rendering handler, update match count.
+
+	* em-folder-view.c: removed fixme about api's - yes, do need two
+	set_folder api's.
+	(emfv_edit_cut, emfv_edit_copy): removed printfs
+	(emfv_edit_paste): removed commented call to html_paste, we never
+	want to do that.
+
+2003-08-29  Jeffrey Stedfast  <fejj@ximian.com>
+
+	* em-folder-view.c (emfv_message_mark_unread): If there is a
+	mark-as-read timeout handler registered, unregister it here.
+	(emfv_tools_filter_mlist): Implemented.
+	(emfv_tools_filter_recipient): Implemented.
+	(emfv_tools_filter_sender): Implemented.
+	(emfv_tools_filter_subject): Implemented.
+	(emfv_tools_vfolder_mlist): Implemented.
+	(emfv_tools_vfolder_recipient): Implemented.
+	(emfv_tools_vfolder_sender): Implemented.
+	(emfv_tools_vfolder_subject): Implemented.
+
+2003-08-28  Not Zed  <NotZed@Ximian.com>
+
+	* em-folder-browser.c (emfb_search_menu_activated)
+	(emfb_search_config_search, emfb_search_search_activated)
+	(emfb_search__query_changed): Implement search-bar callbacks.
+	(emfb_init): setup search bar.
+
+2003-08-28  Not Zed  <NotZed@Ximian.com>
+
+	* em-folder-view.c (emfv_message_reply): common reply code entry
+	point, also implement simple reply-to-highlighted text (currently
+	disabled).
+	(emfv_activate): disable resend message on non-sent folders.
+	(emfv_message_reply_all, emfv_message_reply_list)
+	(emfv_message_reply_sender): use message_reply for common code.
+	(em_folder_view_open_selected): in drafts or outbox, edit the
+	message instead.
+	(emfv_activate): force a sync on deactivate.
+
+	* em-utils.c (em_utils_selection_get_mailbox): get mailbox
+	(message/rfc822?) selection data.
+	(em_utils_read_messages_from_stream): helper to move stuff from a
+	mbox stream to a folder.
+	(em_utils_folder_is_drafts, em_utils_folder_is_sent)
+	(em_utils_folder_is_outbox): from folder browser helpers for
+	customising the user experience.
+
+	* message-list.c (message_list_construct): hook onto dnd stufd.
+	(ml_tree_drag_data_get): implement drag sending.
+	(ml_tree_drag_data_received): implement drag recieving.
+
+	* em-format-html-display.c (efhd_drag_data_get): implemented.
+	(efhd_drag_data_delete): implemented.
+	(efhd_attachment_button): setup dnd callbacks.
+
+2003-08-28  Jeffrey Stedfast  <fejj@ximian.com>
+
+	* em-folder-view.c (emfv_destroy): override the destroy method for
+	GtkObject - unregister the mark-as-seen timeout if one is
+	currently registered.
+	(emfv_list_done_message_selected): Add the mark-as-seen timeout
+	functionality here.
+	(emfv_format_link_clicked): Implemented.
+
+2003-08-27  Jeffrey Stedfast  <fejj@ximian.com>
+
+	* em-utils.c (get_reply_list): Implemented.
+
+2003-08-27  Not Zed  <NotZed@Ximian.com>
+
+	* em-message-browser.c (emmb_activate): disable Edit->Paste menu
+	always.
+
+	* em-folder-browser.c (emfb_edit_paste): do a message-list paste,
+	not a html one.
+	(emfb_edit_cut, emfb_edit_copy, emfb_edit_paste): Moved to folder-view.
+
+	* message-list.c (message_list_paste): trigger a paste action.
+	(message_list_set_folder): added a uri argument, and save it
+	internally, fixed all callers.
+	(message_list_finalise): free the folder uri.
+
+	* em-utils.c (em_utils_selection_set_mailbox): New helper to set
+	the current selection as text in a berkely mailbox format.
+	(em_utils_write_messages): helper to write stuff to a stream in
+	mbox format.
+
+2003-08-27  Not Zed  <NotZed@Ximian.com>
+
+	* message-list.c (on_selection_changed_cmd): own/deown the primary
+	selection when it changes.
+	(message_list_init): init private data and invisible for
+	selection.
+	(message_list_destroy): free invisible.
+	(message_list_finalise): free private data.
+	(get_selected_cb): removed.
+	(message_list_copy): new method to do copy and cut.  cut/copy to
+	the clipboard.
+	(ml_selection_clear_event): clear the right selection when
+	requested.
+	(message_list_has_primary_selection): helper to find out if the
+	message-list has the selection.  is there a gtk way for this?
+
+2003-08-26  Not Zed  <NotZed@Ximian.com>
+
+	* mail-local.c (mlf_meta_set, mlf_meta_get): proxy meta-data stuff
+	to subservient folder.
+
+2003-08-23  Not Zed  <NotZed@Ximian.com>
+
+	* em-folder-view.c (emfv_init): init preview here always.
+
+2003-08-25  Jeffrey Stedfast  <fejj@ximian.com>
+
+	* em-folder-view.c (em_folder_view_print): Use
+	e_dialog_set_transient_for().
+	(emfv_message_delete): Fixed a FIXME.
+
+	* em-folder-browser.c (emfb_edit_cut): Implemented.
+	(emfb_edit_copy): Implemented.
+	(emfb_edit_paste): Implemented.
+
+	* em-format-html-display.c (em_format_html_display_cut): New function.
+	(em_format_html_display_copy): New.
+	(em_format_html_display_paste): New.
+
+2003-08-25  Jeffrey Stedfast  <fejj@ximian.com>
+
+	* em-utils.c (em_utils_flag_for_followup): Use
+	e_dialog_set_transient_for().
+	(em_utils_filesel_prompt): Same.
+	(post_reply_to_message): Here too.
+	(em_utils_edit_filters): Same.
+	(create_new_composer): And here.
+	(em_utils_compose_new_message_with_mailto): Here too.
+	(em_utils_post_to_url): "
+	(redirect_get_composer): Same.
+	(reply_get_composer): Again...
+
+	* em-folder-browser.c (emfb_tools_filters): Implemented.
+
+	* em-utils.c (em_utils_edit_filters): New function to open the
+	filter editor dialog.
+
+2003-08-22  Jeffrey Stedfast  <fejj@ximian.com>
+
+	* em-utils.c (em_utils_flag_for_followup): Implemented.
+	(em_utils_flag_for_followup_clear): Implemented.
+	(em_utils_flag_for_followup_completed): Implemented.
+
+	* em-folder-view.c (emfv_message_followup_flag): Implemented.
+	(emfv_message_followup_clear): Implemented.
+	(emfv_message_followup_completed): Implemented.
+
+2003-08-22  Not Zed  <NotZed@Ximian.com>
+
+	* em-camel-stream.c (em_camel_stream_new): now take the gtkhtml
+	too, and hook onto it's destroy so we don't try writing anymore
+	after its gone.
+	(stream_write, stream_flush, stream_close, emcs_gui_received):
+	NOOP if the gtkhtml has been destroyed.
+	(emcs_gtkhtml_destroy): null out the stream when the gtkhtml gets
+	destroyed, it is no longer valid.
+	(emcs_gui_received): dont try to soak all outstanding events, it
+	always runs synchronous anyway, just get one and exit.
+
+	* em-format-html.c (efh_gtkhtml_destroy): if the gtkhtml gets
+	destroyed, abort any pending timeouts/processing.
+	(efh_format_source): fixed implementation to write out all
+	headers.
+	(efh_multipart_related, emfh_multipart_related_check): separate
+	checking for unused parts into a separate job, which is run after
+	previous ones are executed.  keep track of visibility tree level
+	in job, etc.
+
+2003-08-22  Jeffrey Stedfast  <fejj@ximian.com>
+
+	* em-folder-browser.c (emfb_mail_compose): Implemented.
+	(emfb_mail_post): Implemented.
+
+	* em-utils.c (em_utils_compose_new_message): New function.
+	(em_utils_compose_new_message_with_mailto): New.
+	(em_utils_post_to_url): New.
+
+2003-08-21  Not Zed  <NotZed@Ximian.com>
+
+	* subscribe-dialog.glade: removed the text in the progress thing.
+	It never showed up anyway and caused weird resizing stuff when the
+	progress bar was active.
+
+	* em-subscribe-editor.c: Found the correct version of the new
+	subscribe code (on branch, duh!), and integrated it.
+	(sub_selection_changed): Sensitise buttons based on selection.
+
+	* em-format-html.c (efh_text_plain, efh_text_enriched)
+	(efh_write_text_html): Use format_text for text output.
+	(efh_write_image): use explicit image writer.
+	(emfh_gethttp): added some progress stuff.
+	(efh_format_do): maintain the accessible uri tree during jobs.
+	(efh_url_requested): store the current uri accessibility tree node
+	in the job, so it can be properly set for sub-jobs.
+	(emh_multipart_related): moved here, can't use super-class version
+	as it doesn't know about async jobs.
+	(type_buildin_table[]): Added image/jpg and image/jpeg for the
+	brokenmailers out there and to reduce the whinge.
+
+	* em-format.c (em_format_format_content): For text parts, perform
+	default charset/charset snooping/decoding.  No longer closes the
+	stream once complete.
+	(emf_write_related): close stream ourselves.
+
+2003-08-21  Jeffrey Stedfast  <fejj@ximian.com>
+
+	* em-folder-view.c (emfv_message_forward): Implemented.
+	(emfv_message_forward_attached): Implemented.
+	(emfv_message_forward_inline): Implemented.
+	(emfv_message_forward_quoted): Implemented.
+	(emfv_message_redirect): Implemented.
+	(emfv_message_post_reply): Implemented.
+	(emfv_message_reply_all): Implemented.
+	(emfv_message_reply_list): Implemented.
+	(emfv_message_reply_sender): Implemented.
+	(emfv_message_resend): Implemented.
+	(emfv_message_saveas): Implemented.
+
+	* em-composer-utils.c: New source file containing all the composer
+	send/draft callback mess.
+
+	* em-utils.c (em_utils_uids_copy): New convenience function to
+	copy a list of uids.
+	(em_utils_uids_free): New convenience function to free a list of
+	uids.
+	(em_utils_save_message): New function to save a CamelMimeMessage
+	(prompts the user for a location to save).
+	(em_utils_save_messages): New function to save a list of messages
+	(given a folder and list of uids).
+	(em_utils_configure_account): Configure a new account...
+	(em_utils_check_user_can_send_mail): Make sure the user has a
+	transport setup.
+	(em_utils_edit_message): New function to edit a message object.
+	(em_utils_edit_messages): New function to open a composer to edit
+	each message.
+	(em_utils_forward_attached): New function to forward messages as
+	an attachment,
+	(em_utils_forward_inline): Forward a bunch of messages inline.
+	(em_utils_forward_quoted): Forward a bunch of messages quoted.
+	(em_utils_redirect_message): Redirect a message object.
+	(em_utils_redirect_message_by_uid): Redirect a message given a
+	folder and uid.
+	(em_utils_reply_to_message): Reply to a message object.
+	(em_utils_reply_to_message_by_uid): Reply to a message given a
+	folder and uid.
+	(em_utils_post_reply_to_message_by_uid): Post a reply to a message
+	given a folder and uid.
+
+	* mail-ops.c (filter_folder_free): Use em_utils_uids_free().
+	(transfer_messages_free): Same.
+	(get_messages_free): Here too.
+	(save_messages_free): Same.
+
+2003-08-20  Not Zed  <NotZed@Ximian.com>
+
+	* em-subscribe-editor.[ch]: new widget, a dialog for editing
+	subscriptions.
+
+	* em-format-html.c (efh_format_done): emit a complete when done.
+
+	* em-format.c (emf_class_init): Added a 'complete' signal, so that
+	printing knows when to print.
+
+	* em-format-html-print.c (em_format_html_print_print): Changed to
+	take the message and source formatter too.  Runs an async render
+	then prints.
+
+2003-08-19  Not Zed  <NotZed@Ximian.com>
+
+	* em-*.c: stacks more changes, added some bonobo menu setup, and
+	implemented the trivial functions.
+
+	* em-message-browser.[ch]: New message browser, inherits from
+	em-folder-view.  Basically works.
+	
+	* message-list.c (message_list_select_uid): if we're selecting
+	while still loading, setup a pending select.
+	(regen_list_free): Check for a pending select, and select the
+	message if we're now idle.
+
+	* em-folder-view.c (em_folder_view_set_message,
+	em_folder_view_set_folder): Make virtual macro's.
+	(emfv_control_activate): added hook to enable bonobo state when setup.
+
+	* em-format.c (emf_format_clone): base implementation, just clears
+	state data.
+
+	* em-format.h: change ::format to ::format_clone.  Make
+	em_format_format_clone a macro/virtual method.
+
+	* mail-mt.c (em_channel_setup): new function to setup i/o
+	channels, so we can control the recursive flag.  leave off for
+	now.
+	(mail_msg_init): setup MsgPort channels using above.
+
+	* em-format-html.c (efh_format): serialise/de-recursify formatting
+	via a timeout function.
+	(efh_format_timeout): keep polling to find out if cancellation is
+	complete, then kick off a new render.
+
+2003-08-18  Not Zed  <NotZed@Ximian.com>
+
+	* em-*.c: more updates, incl threaded formatting queue.
+
+2003-08-18  Jeffrey Stedfast  <fejj@ximian.com>
+
+	* em-format-html-display.c (em_format_html_display_zoom_in): New
+	method to zoom-in on the gtkhtml contents.
+	(em_format_html_display_zoom_out): Same but for zoom-out
+	(em_format_html_display_zoom_reset): You get the idea.
+
+2003-08-12  Jeffrey Stedfast  <fejj@ximian.com>
+
+	* mail-callbacks.c (invert_selection): Use
+	message_list_invert_selection().
+	(select_thread): Use message_list_select_thread().
+	(select_all): Use message_list_select_all().
+
+	* message-list.c (message_list_select_all): New function.
+	(message_list_select_thread): New function.
+	(message_list_invert_selection): New function.
+
+2003-08-12  Jeffrey Stedfast  <fejj@ximian.com>
+
+	* mail-session.c: Synced up with HEAD.
+
+	* component-factory.c:
+
+	* mail-folder-cache.[c,h]:
+
+	* mail-tools.h:
+
+	* mail-ops.[c,h]:
+
+	* mail-send-recv.c:
+
+	* mail-format.[c,h]:
+
+	* mail-display.c:
+
+	* mail-account-gui.c:
+
+	* mail-local.c:
+
+	* mail-offline-handler.c:
+
+	* subscribe-dialog.c:
+
+2003-08-12  Jeffrey Stedfast  <fejj@ximian.com>
+
+	* em-format-html-display.c: Fixed some compiler warnings.
+
+	* em-format.c: Updated for new mime-parser changes made to HEAD.
+
+	* em-folder-view.c: Fixed some compiler warnings.
+
+	* em-format-html.c: Fixed some compiler warnings.
+
+2003-08-06  Not Zed  <NotZed@Ximian.com>
+
+	* em-format-html-display.c (efhd_format_attachment): Added bonobo
+	embeddables.
 
 2003-08-01 Harry Lu  <harry.lu@sun.com>
 

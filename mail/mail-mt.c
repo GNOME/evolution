@@ -529,21 +529,28 @@ void mail_msg_cleanup(void)
 	e_msgport_destroy(mail_gui_reply_port);
 }
 
+static guint
+em_channel_setup(EMsgPort **port, GIOChannel **channel, GIOFunc func)
+{
+	GSource *source;
+	guint id;
+
+	*port = e_msgport_new();
+	*channel = g_io_channel_unix_new(e_msgport_fd(*port));
+	source = g_io_create_watch(*channel, G_IO_IN);
+	g_source_set_callback(source, (GSourceFunc)func, *port, NULL);
+	g_source_set_can_recurse(source, FALSE);
+	id = g_source_attach(source, NULL);
+	g_source_unref(source);
+
+	return id;
+}
+
 void mail_msg_init(void)
 {
-	mail_gui_reply_port = e_msgport_new();
-	mail_gui_reply_channel = g_io_channel_unix_new(e_msgport_fd(mail_gui_reply_port));
-	g_io_add_watch(mail_gui_reply_channel, G_IO_IN, mail_msgport_replied, mail_gui_reply_port);
-
-	mail_gui_port = e_msgport_new();
-	mail_gui_channel = g_io_channel_unix_new(e_msgport_fd(mail_gui_port));
-	mail_gui_watch = g_io_add_watch(mail_gui_channel, G_IO_IN, mail_msgport_received, mail_gui_port);
-
-	/* experimental temporary */
-	mail_gui_port2 = e_msgport_new();
-	mail_gui_channel2 = g_io_channel_unix_new(e_msgport_fd(mail_gui_port2));
-	mail_gui_watch2 = g_io_add_watch(mail_gui_channel2, G_IO_IN, mail_msgport_received2, mail_gui_port2);
-
+	em_channel_setup(&mail_gui_reply_port, &mail_gui_reply_channel, mail_msgport_replied);
+	mail_gui_watch = em_channel_setup(&mail_gui_port, &mail_gui_channel, mail_msgport_received);
+	mail_gui_watch2 = em_channel_setup(&mail_gui_port2, &mail_gui_channel2, mail_msgport_received2);
 
 	mail_thread_queued = e_thread_new(E_THREAD_QUEUE);
 	e_thread_set_msg_destroy(mail_thread_queued, mail_msg_destroy, 0);

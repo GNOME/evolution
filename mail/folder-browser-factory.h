@@ -14,12 +14,11 @@
 #include <bonobo/bonobo-control.h>
 #include "Evolution.h"
 #include "e-util/e-list.h"
-#include "folder-browser.h"
 
 BonoboControl *folder_browser_factory_new_control       (const char            *uri,
 							 const GNOME_Evolution_Shell  shell);
 EList         *folder_browser_factory_get_control_list  (void);
 
-FolderBrowser *folder_browser_factory_get_browser(const char *uri);
+struct _EMFolderBrowser *folder_browser_factory_get_browser(const char *uri);
 
 #endif /* _FOLDER_BROWSER_FACTORY_H */
