@@ -269,7 +269,7 @@ e_timezone_dialog_construct (ETimezoneDialog *etd)
         g_signal_connect (map, "visibility-notify-event", G_CALLBACK (on_map_visibility_changed), etd);
 	g_signal_connect (map, "button-press-event", G_CALLBACK (on_map_button_pressed), etd);
 
-	g_signal_connect (GTK_COMBO (priv->timezone_combo)->entry, "changed", G_CALLBACK (on_combo_changed), etd);
+	g_signal_connect (GTK_COMBO (priv->timezone_combo)->entry, "activate", G_CALLBACK (on_combo_changed), etd);
 
 	return etd;
 
@@ -366,6 +366,7 @@ on_map_motion (GtkWidget *widget, GdkEventMotion *event, gpointer data)
 	ETimezoneDialog *etd;
 	ETimezoneDialogPrivate *priv;
 	double longitude, latitude;
+	icaltimezone *new_zone;
 
 	etd = E_TIMEZONE_DIALOG (data);
 	priv = etd->priv;
@@ -383,6 +384,11 @@ on_map_motion (GtkWidget *widget, GdkEventMotion *event, gpointer data)
 	if (priv->point_hover != priv->point_selected)
 	        e_map_point_set_color_rgba (priv->map, priv->point_hover,
 					    E_TIMEZONE_DIALOG_MAP_POINT_HOVER_RGBA);
+
+	new_zone = get_zone_from_point (etd, priv->point_hover);
+
+	gtk_entry_set_text (GTK_ENTRY (GTK_COMBO (priv->timezone_combo)->entry),
+			    zone_display_name (new_zone));
 
 	return TRUE;
 }
@@ -406,6 +412,9 @@ on_map_leave (GtkWidget *widget, GdkEventCrossing *event, gpointer data)
 	if (priv->point_hover && priv->point_hover != priv->point_selected)
 	        e_map_point_set_color_rgba (priv->map, priv->point_hover,
 					    E_TIMEZONE_DIALOG_MAP_POINT_NORMAL_RGBA);
+
+	gtk_entry_set_text (GTK_ENTRY (GTK_COMBO (priv->timezone_combo)->entry),
+			    zone_display_name (priv->zone));
 
 	priv->point_hover = NULL;
 
