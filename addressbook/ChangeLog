@@ -1,3 +1,10 @@
+2002-11-26  Chris Toshok  <toshok@ximian.com>
+
+	[ Fixes addressbook bug #28945 ]
+	* backend/ebook/e-card.c (e_card_get_vobject): if the email
+	property is xml, get the real address from the e-destination.
+	Fixes saving contact lists.
+
 2002-11-23  Chris Toshok  <toshok@ximian.com>
 
 	[ fixes #25540, part of #29630, as well as other selection issues
