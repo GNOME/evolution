@@ -783,10 +783,8 @@ set_defaults (MailConfigDruid *druid)
 	
 	/* set the default Name field */
 	realname = g_get_real_name ();
-	if (realname) {
+	if (realname)
 		e_utf8_gtk_entry_set_text (druid->full_name, realname);
-		g_free (realname);
-	}
 	
 	/* set the default E-Mail Address field */
 	user = getenv ("USER");

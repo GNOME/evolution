@@ -1,5 +1,11 @@
 2001-01-28  Jeffrey Stedfast  <fejj@ximian.com>
 
+	* mail-config-druid.c (set_defaults): Turns out that I was wrong
+	about the g_get_real_name mem leak, god damn glib for not
+	following the const char* standard.
+
+2001-01-28  Jeffrey Stedfast  <fejj@ximian.com>
+
 	* mail-config-druid.c (management_prepare): Use UTF-8.
 	(set_defaults): Use UTF-8 and also fixed a memory leak by freeing
 	the string returned by g_get_real_name().
