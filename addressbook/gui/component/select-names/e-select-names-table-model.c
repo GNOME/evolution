@@ -121,7 +121,7 @@ fill_in_info (ESelectNamesTableModel *model)
 			EContact *contact = dest ? eab_destination_get_contact (dest) : NULL;
 
 			if (contact) {
-				model->data[i].name =  e_contact_get(contact, E_CONTACT_FULL_NAME);
+				model->data[i].name =  e_contact_get(contact, E_CONTACT_FILE_AS);
 				if (model->data[i].name == 0)
 					model->data[i].name = g_strdup("");
 				model->data[i].email = e_contact_get(contact, E_CONTACT_EMAIL_1);

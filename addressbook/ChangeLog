@@ -1,3 +1,11 @@
+2004-01-28  Hans Petter Jansson  <hpj@ximian.com>
+
+	* gui/component/select-names/e-select-names-table-model.c
+	(fill_in_info): Get file_as instead of full_name.
+
+	* gui/compoent/select-names/e-select-names.etspec: Show the file_as
+	column instead of full_name.
+
 2004-01-27  Hans Petter Jansson  <hpj@ximian.com>
 
 	* gui/contact-editor/e-contact-editor-fullname.c
