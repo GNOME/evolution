@@ -2,6 +2,7 @@
 
 	* gnome-x-checks.m4 : Require at least gtk+ 1.2 (pointless getting
 	bug reports with an old glib/gtk/gdk set..)
+
 1999-02-25  Martin Baulig  <martin@home-of-linux.org>
 
 	* gnome-libgtop-checks.m4: Require LibGTop >= 1.0.0.
@@ -94,7 +95,6 @@ Tue Feb 16 19:35:42 1999  Owen Taylor  <otaylor@redhat.com>
 
 	* need-declaration.m4, gnome-support.m4: Fixed the scandir detection.
 
->>>>>>> 1.149
 1998-12-22  Jeff Garzik  <jgarzik@pobox.com>
 
 	* gnome.m4:  Added and exported GNOME_APPLET_LIBS.
