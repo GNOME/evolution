@@ -48,17 +48,10 @@ camel_session_init (CamelSession *session)
 }
 
 static void
-hash_unref_service(void *key, void *value, void *data)
-{
-	gtk_object_unref((GtkObject *)value);
-}
-
-static void
 camel_session_finalise(GtkObject *o)
 {
 	CamelSession *session = (CamelSession *)o;
 
-	g_hash_table_foreach(session->service_cache, hash_unref_service, 0);
 	g_hash_table_destroy(session->service_cache);
 	g_hash_table_destroy(session->providers);
 
@@ -192,7 +185,6 @@ camel_session_list_providers (CamelSession *session, gboolean load)
 static void
 service_cache_remove(CamelService *service, CamelSession *session)
 {
-	gtk_object_unref(GTK_OBJECT(service));
 	g_hash_table_remove(session->service_cache, service->url);
 }
 
@@ -249,7 +241,6 @@ camel_session_get_service (CamelSession *session, const char *url_string,
 	service = camel_service_new (provider->object_types[type], session, url, ex);
 	if (service) {
 		g_hash_table_insert(session->service_cache, url, service);
-		gtk_object_ref(GTK_OBJECT(service));
 		gtk_signal_connect((GtkObject *)service, "destroy", service_cache_remove, session);
 	}
 	return service;
