@@ -215,7 +215,6 @@
     <submenu name="File">
       <placeholder name="FileOps">
         <menuitem name="MessageOpen" verb="" _label="_Open Message"/>
-        <menuitem name="MessageResend" verb="" _label="_Resend..."/>
         <menuitem name="MessageSaveAs" verb="" _label="_Save As..."/>
       </placeholder>
 
@@ -300,6 +299,8 @@
             <separator f="" name="forwardlist1"/>
             <menuitem verb="MessageRedirect" _label="Re_direct"/>
           </submenu>
+
+          <menuitem name="MessageResend" verb="" _label="_Resend..."/>
 
 	  <separator f="" name="emaillist3"/>
 
