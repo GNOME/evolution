@@ -1,3 +1,10 @@
+2004-11-30  Not Zed  <NotZed@Ximian.com>
+
+	* providers/nntp/camel-nntp-stream.c (CAMEL_NNTP_STREAM_LINE):
+	rename to STREAM_LINE_SIZE so it doesn't override the STREAM_LINE
+	enum.  Sigh.
+	(camel_nntp_stream_init): fix for above change.
+
 2004-11-28	S.Çağlar Onur <caglar@uludag.org.tr>
 
 	** See bug #69446.
