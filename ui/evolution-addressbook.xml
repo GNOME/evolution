@@ -39,7 +39,7 @@
 
     <cmd name="ContactsSaveAsVCard" _label="Save as VCard"
 	 _tip="Save selected contacts as a VCard."
-	 accel="*Control*v"/>
+	 accel="*Control**Alt*s"/>
 
     <cmd name="ContactsSendContactToOther" _label="Forward Contact"
 	 _tip="Send selected contacts to another person."/>

@@ -1,3 +1,9 @@
+2003-04-07  Chris Toshok  <toshok@ximian.com>
+
+	[ fixes bug #40841 ]
+	* evolution-addressbook.xml: change the Save As VCard keybinding
+	to C-A-s, to match the mailer's Save As keybinding.
+
 2003-03-26  Chris Toshok  <toshok@ximian.com>
 
 	[ fixes #40212 ]
