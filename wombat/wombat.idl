@@ -1,0 +1,12 @@
+/*
+ * The Evolution Personal Organization Server.
+ *
+ * Copyright 2000, Helix Code, Inc.
+ */
+
+module Evolution {
+
+	interface Config {
+
+	};
+};
