@@ -1311,6 +1311,11 @@ e_tree_sorted_node_num_children   (ETreeSorted    *ets,
 				   ETreePath       path)
 {
 	ETreeSortedPath *sorted_path = path;
+
+	if (sorted_path->num_children == -1) {
+		generate_children(ets, sorted_path);
+	}
+
 	return sorted_path->num_children;
 }
 
