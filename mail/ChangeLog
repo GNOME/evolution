@@ -1,3 +1,9 @@
+2004-01-29  Nicel KM  <mnicel@novell.com>
+
+	* mail-component.c: removed CAMEL_PROVIDER_IS_EXTERNAL check
+	* mail-account-gui.c: likewise
+	* mail-offline-handler.c: likewise	
+
 2004-01-29  Not Zed  <NotZed@Ximian.com>
 
 	* em-format-html-display.c (efhd_attachment_button): check the

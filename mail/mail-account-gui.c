@@ -2041,8 +2041,7 @@ mail_account_gui_save (MailAccountGui *gui)
 	new->smime_encrypt_to_self = gtk_toggle_button_get_active (gui->smime_encrypt_to_self);
 #endif /* HAVE_NSS */
 	
-	is_storage = provider && (provider->flags & CAMEL_PROVIDER_IS_STORAGE) &&
-		!(provider->flags & CAMEL_PROVIDER_IS_EXTERNAL);
+	is_storage = provider && (provider->flags & CAMEL_PROVIDER_IS_STORAGE);
 	
 	if (!mail_config_find_account (account)) {
 		/* this is a new account so add it to our account-list */

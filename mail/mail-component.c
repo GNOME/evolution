@@ -679,8 +679,7 @@ mail_component_load_store_by_uri (MailComponent *component, const char *uri, con
 		return NULL;
 	}
 	
-	if (!(prov->flags & CAMEL_PROVIDER_IS_STORAGE)
-	    || (prov->flags & CAMEL_PROVIDER_IS_EXTERNAL))
+	if (!(prov->flags & CAMEL_PROVIDER_IS_STORAGE))
 		return NULL;
 	
 	store = (CamelStore *) camel_session_get_service (session, uri, CAMEL_PROVIDER_STORE, &ex);
@@ -747,8 +746,7 @@ mail_component_remove_store_by_uri (MailComponent *component, const char *uri)
 	if (!(prov = camel_session_get_provider (session, uri, NULL)))
 		return;
 	
-	if (!(prov->flags & CAMEL_PROVIDER_IS_STORAGE) ||
-	    (prov->flags & CAMEL_PROVIDER_IS_EXTERNAL))
+	if (!(prov->flags & CAMEL_PROVIDER_IS_STORAGE))
 		return;
 	
 	store = (CamelStore *) camel_session_get_service (session, uri, CAMEL_PROVIDER_STORE, NULL);

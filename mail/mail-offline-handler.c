@@ -50,8 +50,7 @@ struct _MailOfflineHandlerPrivate {
 static gboolean
 service_is_relevant (CamelService *service, gboolean going_offline)
 {
-	if (!(service->provider->flags & CAMEL_PROVIDER_IS_REMOTE) ||
-	    (service->provider->flags & CAMEL_PROVIDER_IS_EXTERNAL))
+	if (!(service->provider->flags & CAMEL_PROVIDER_IS_REMOTE))
 		return FALSE;
 
 	if (CAMEL_IS_DISCO_STORE (service) &&
