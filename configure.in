@@ -59,6 +59,24 @@ AC_DEFUN(EVO_CHECK_LIB, [
 	fi
 ])
 
+SCROLLKEEPER_REQUIRED=0.1.4
+AC_SUBST(SCROLLKEEPER_REQUIRED)
+
+dnl Check for scrollkeeper
+AC_PATH_PROG(SCROLLKEEPER_CONFIG, scrollkeeper-config,no)
+if test x$SCROLLKEEPER_CONFIG = xno; then
+  AC_MSG_ERROR(Couldn't find scrollkeeper-config, please install the scrollkeeper package)
+fi
+
+dnl  Test whether jw is installed
+AC_PATH_PROG(JW,jw,no)
+if test x$JW = xno; then
+  HAVE_JW="no"
+else
+  HAVE_JW="yes"
+fi
+AM_CONDITIONAL(HAVE_JW, test "x$HAVE_JW" = "xyes")
+AC_SUBST(HAVE_JW)
 
 dnl Initialize maintainer mode
 AM_MAINTAINER_MODE
@@ -1128,11 +1146,13 @@ views/calendar/Makefile
 tools/Makefile
 doc/Makefile
 doc/C/Makefile
+doc/no/Makefile
 doc/devel/Makefile
 doc/devel/calendar/Makefile
 doc/devel/calendar/cal-client/Makefile
 doc/devel/calendar/cal-util/Makefile
 doc/devel/executive-summary/Makefile
+omf-install/Makefile
 ])
 
 if test "x$with_sub_version" != "x"; then

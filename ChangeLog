@@ -1,5 +1,7 @@
 2001-08-15  Kjartan Maraas  <kmaraas@gnome.org>
 
+	* configure.in: Addded missing dirs to the build. Add checks for
+	scrollkeeper and jw to get the docs building on later Red Hat's.
 	* omf-install/*: Added this for integration with scrollkeeper.
 	
 2001-08-14  Dan Winship  <danw@ximian.com>
