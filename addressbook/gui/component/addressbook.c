@@ -374,10 +374,7 @@ static EPixmap pixmaps [] = {
 	E_PIXMAP ("/menu/EditPlaceholder/Edit/ContactDelete", "evolution-trash-mini.png"),
 
 	E_PIXMAP ("/menu/Tools/ComponentPlaceholder/ToolSearch", "search-16.png"),
-	E_PIXMAP ("/menu/Tools/ComponentPlaceholder/AddressbookConfig", "configure_16_addressbook.xpm"),
 
-	E_PIXMAP ("/Toolbar/ContactNew", "new_contact.xpm"),
-	E_PIXMAP ("/Toolbar/ContactNewList", "all_contacts.xpm"),
 	E_PIXMAP ("/Toolbar/ContactsPrint", "buttons/print.png"),
 	E_PIXMAP ("/Toolbar/ContactDelete", "buttons/delete-message.png"),
 
