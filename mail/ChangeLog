@@ -1,3 +1,8 @@
+2002-07-18  Not Zed  <NotZed@Ximian.com>
+
+	* main.c (main): Put the mcheck stuff back in, which was removed
+	without a changelog entry.
+
 2002-07-08  Peter Williams  <peterw@ximian.com>
 
 	* Makefile.am: Reference the new libefilterbar.a.

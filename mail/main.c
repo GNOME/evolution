@@ -88,8 +88,12 @@ main (int argc, char *argv [])
 	CORBA_ORB orb;
 	struct sigaction sa, osa;
 
-	free (malloc (10));
-
+        /* used to make elfence work */                                         
+	free(malloc (10));
+#ifdef DO_MCHECK                                                                
+        /*mtrace();*/                                                           
+        mcheck(blowup);                                                         
+#endif                                                                          
 	bindtextdomain (PACKAGE, EVOLUTION_LOCALEDIR);
 	textdomain (PACKAGE);
 
