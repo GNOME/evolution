@@ -26,8 +26,8 @@
 	    <term><guilabel>Accounts</guilabel></term>
 	    <listitem>
 	      <para>
-		This allows you to create and alter one or more identities for your
-		email.
+		This allows you to create and alter one or more
+		identities for your email.
 	      </para>
 	    </listitem>
 	  </varlistentry>
@@ -125,13 +125,14 @@
 	    <para>
              Here, select the way you will be getting mail: you may
              download mail from a server (<glossterm
-             linkend="pop">POP</glossterm> or <glossterm
-             linkend="imap">IMAP</glossterm>) or access it from files
-             on your local system.  If you use a server, it may permit
-             or require you to use a Secure Socket Layer (SSL)
-             connection.  To turn SSL connections on, just click the
-             <guibutton>Use Secure Connection (SSL)</guibutton>
-             button.
+             linkend="pop">POP</glossterm>), read and keep it on the
+             server (Microsoft Exchange or <glossterm
+             linkend="imap">IMAP</glossterm>), or read it from files
+             that already exist on your desktop computer.  If you use
+             a server, it may permit or require you to use a Secure
+             Socket Layer (SSL) connection.  To turn SSL connections
+             on, just click the <guibutton>Use Secure Connection
+             (SSL)</guibutton> button.
 
 <note id="config-arbitrary-port">
 <title>Specifying Port Numbers</title>
@@ -155,10 +156,71 @@ smtp.omniport.com:143
            <listitem>
 	    <para>
               Here, decide whether you'd like to check for mail
-              automatically, and set other options related to the
-              behavior of your server.  If you use POP mail, you can
-              decide whether to leave mail on the server, and if you
-              use IMAP, you can set folder subscription options here.
+              automatically and how often.  You can also set other
+              options related to the behavior of your server.  If you
+              use POP mail, you can choose to leave mail on the server
+              if you wish. For IMAP, there are more extensife options:
+              <variablelist>
+                <varlistentry>
+                   <term>Check for new messages in all folders</term>
+                   <listitem>
+                     <para>
+                       If you turn this feature on, then at startup
+                       and when you click Send/Recieve,
+                       <application>Ximian Evolution</application>
+                       will check all folders on your IMAP server to
+                       see if they have new messages in them. If you
+                       leave it turned off, it will only check the
+                       INBOX folder.  Checking only one folder is
+                       faster than checking them all at once.
+                     </para>
+                   </listitem>
+                  </varlistentry> 
+
+                <varlistentry>
+                   <term>Show only subscribed folders</term>
+                   <listitem>
+                     <para>
+                       Some IMAP servers provide you with a very large
+                       number of folders above and beyond your mail
+                       folders, and expect you to indicate which ones
+                       you want to work with.  If you turn this off,
+                       Evolution will show all of your folders. To
+                       subscribe to folders, select
+                       <menuchoice><guimenu>Tools</guimenu>
+                       <guimenuitem>Subscribe to
+                       Folders</guimenuitem></menuchoice>.  You can
+                       learn about subscriptions in <xref
+                       linkend="usage-mail-subscriptions">.
+                     </para>
+                   </listitem>
+                  </varlistentry> 
+
+                <varlistentry>
+                   <term>Override server-supplied namespace</term>
+                   <listitem>
+                     <para>
+                       This is not needed for most IMAP servers. If
+                       you see system files or other non-email files
+                       appearing in the folder tree after configuring
+                       your IMAP server, check this box and specify
+                       the name of the directory that contains your
+                       mail folders.
+                     </para>
+                   </listitem>
+                  </varlistentry> 
+
+                <varlistentry>
+                   <term>Apply filters to new messages in INBOX on
+                   this server</term>
+                   <listitem>
+                     <para>
+                        If you want to use filters on the mail you
+                        store in your IMAP folders, check this box.
+                     </para>
+                   </listitem>
+                  </varlistentry> 
+                  </variablelist>  
             </para>
 	  </listitem>
 	  </varlistentry>
@@ -168,7 +230,9 @@ smtp.omniport.com:143
 	    <para>
               In this section, you will choose and configure a method
               for sending mail.  You may choose <glossterm
-              linkend="smtp">SMTP</glossterm> or <glossterm
+              linkend="smtp">SMTP</glossterm>, Microsoft Exchange (if
+              you have purchased the Ximian Connector for Microsoft
+              Exchange) or <glossterm
               linkend="sendmail">sendmail</glossterm>.
              </para>
 	  </listitem>

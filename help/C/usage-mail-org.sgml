@@ -814,8 +814,15 @@
 	Folders.  That's why <application>Ximian
 	Evolution</application> includes an Unmatched vFolder.  The
 	Unmatched vFolder displays messages that are not matched by
-	other rules. If you have no vFolders, the Unmatched folder
-	will contain all of your mail.
+	other rules.
+      </para>
+      <para>
+        If you use remote email storage like IMAP or Microsoft
+        Exchange, and have created vFolders to search through them,
+        the Unmatched vFolder will follow your lead, and search the
+        remote folders as well. If you do not create any vFolders that
+        search in remote mail stores, the Unmatched vFolder will not
+        search in them either.
       </para>
     </note>
 

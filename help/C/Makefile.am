@@ -39,6 +39,7 @@ sgml_ents =	\
 	usage-exec-summary.sgml	\
 	usage-mail-org.sgml	\
 	usage-mail.sgml		\
+	usage-exchange.sgml	\
 	usage-mainwindow.sgml	\
 	usage-print.sgml	\
 	usage-sync.sgml

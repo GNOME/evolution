@@ -150,10 +150,22 @@
 		    permanent storage.
 		  </para>
 		</listitem>
+
+		<listitem>
+		  <para>
+		    Microsoft Exchange: Available only if you have
+		    purchased the Ximian Connector for Microsoft
+		    Exchange, this will allow you to connect to a
+		    Microsoft Exchange 2000 server, which stores
+		    email, calendar, and contact information on the
+		    server.
+		  </para>
+		</listitem>
+
 		<listitem>
 		  <para>
 		    IMAP: Keeps the email on your server so you
-		    can access your email from multiple systems. 
+		    can access your email from multiple systems.
 		  </para>
 		</listitem>
 		<listitem>
@@ -189,8 +201,8 @@
             <title>What's an IMAP Namespace?</title>
                 <para>
                     For IMAP mail servers, your sysadmin may provide
-		    you with a specific namespace, the path on the
-		    IMAP server where you check for mail.  If you
+		    you with a specific namespace, the directory on
+		    where your server stores mail for you. If you
 		    check your IMAP mail and your folder list includes
 		    files that don't look like mail folders, you
 		    probably need to change your mail
@@ -230,15 +242,29 @@
 	</itemizedlist>
       </para>
       <tip id="exchange-info">
-	<title>Can Ximian Evolution Talk to Exchange?</title>
+	<title>Can Ximian Evolution Talk to Microsoft Exchange?</title>
 	<para>
-	  <application>Ximian Evolution</application> can work with the
-	   <application>Microsoft Exchange</application> server over
-	   standard protocols such as POP or IMAP. Check with your
-	   system administrator to see if you can get POP or IMAP
-	   access to your email server.
+           If you have purchased the Ximian Connector for Microsoft
+	   Exchange, you can access Microsoft Exchange 2000 servers
+	   natively.  If you do not have the Connector, or if you use
+	   an older version of Microsoft Exchange, talk to your system
+	   administrator about access to standard protocol services
+	   like POP and IMAP.
 	</para>
       </tip> 
+
+<note id="recieving-options">
+<title>More Options</title>
+<para>
+There are more extensive options for mail preferences, especially if
+you've chosen IMAP as your incoming mail server type.  Once you've
+created an account, you can fine-tune it by selecting
+<menuchoice><guimenu>Tools</guimenu> <guimenuitem>Mail
+Settings</guimenuitem></menuchoice>, selecting the account you want to
+change, and clicking the <guibutton>Edit</guibutton> button. See <xref
+linkend="config-prefs-mail"> for details.
+</para>
+</note>
     </sect2>
     <sect2 id="third-step">
       <title>Sending Email</title>
@@ -254,13 +280,28 @@
 	      <itemizedlist>
 		<listitem>
 		  <para>
-		    SMTP: Downloads mail into your mailbox file.
+		    SMTP: Sends mail directly from your system.
 		  </para>
 		</listitem>
+
 		<listitem>
 		  <para>
-		    Sendmail: Uses another program to download your mail
-		    to your mailbox files.
+		    Microsoft Exchange: Sends mail through a Microsoft
+		    Exchange server using the Microsoft Exchange 2000
+		    protocol. Available only if you have purchased the
+		    Ximian Connector for Microsoft Exchange from
+		    <ulink
+		    url="http://store.ximian.com">store.ximian.com</ulink>.
+		  </para>
+		</listitem>
+
+		<listitem>
+		  <para>
+		    Sendmail: Uses the Sendmail program to send mail
+		    from your system. Sendmail is more flexible, but
+		    is not as easy to configure, so you should only
+		    select this option if you know how to set up a
+		    sendmail service.
 		  </para>
 		</listitem>
 	      </itemizedlist>
@@ -268,8 +309,9 @@
 	  </listitem>
 	  <listitem>
 	    <para>
-	      Host: If you chose SMTP, enter the server's name
-	      or IP address here.
+	      Host: If you chose <guilabel>SMTP</guilabel> or
+	      <guilabel>Microsoft Exchange</guilabel>, enter the
+	      server's name or IP address here.
 	    </para>
 	  </listitem>
 	  <listitem>

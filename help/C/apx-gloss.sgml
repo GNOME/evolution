@@ -115,8 +115,8 @@
      and denoted by <filename>/</filename>.
      The rest of the "branches" spread downwards from the root.  Don't
      confuse the root directory with the root
-     account, or root's home directory,
-     <filename>/home/root</filename>.b
+     account, or root's home directory, normally
+     <filename>/root</filename>.
    </para>
   </glossdef>
  </glossentry>
