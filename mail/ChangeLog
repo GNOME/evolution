@@ -1,3 +1,8 @@
+2004-02-13  Radek Doulik  <rodo@ximian.com>
+
+	* evolution-mail.schemas.in.in: added defaults for composer
+	width/height
+
 2004-02-13  Sarfraaz Ahmed <asarfraaz@novell.com>
         
 	* em-folder-view.c (emfv_popup_delete): added the code to get

@@ -143,6 +143,30 @@
       </locale>
     </schema>
 
+    <schema>
+      <key>/schemas/apps/evolution/mail/composer/width</key>
+      <applyto>/apps/evolution/mail/composer/width</applyto>
+      <owner>evolution-mail</owner>
+      <type>int</type>
+      <default>600</default>
+      <locale name="C">
+         <short>Composer Window default width</short>
+         <long>Default width of the Composer Window</long>
+      </locale>
+    </schema>
+
+    <schema>
+      <key>/schemas/apps/evolution/mail/composer/height</key>
+      <applyto>/apps/evolution/mail/composer/height</applyto>
+      <owner>evolution-mail</owner>
+      <type>int</type>
+      <default>500</default>
+      <locale name="C">
+         <short>Composer Window default height</short>
+         <long>Default height of the Composer Window</long>
+      </locale>
+    </schema>
+
     <!-- Display Settings -->
 
     <schema>
