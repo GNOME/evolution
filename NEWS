@@ -7,6 +7,10 @@ Bugzilla bugs fixed (see http://bugzilla.ximian.com/show_bug.cgi):
 
     #45274 - Tab through events in week view (Bolian Yin)
     #45524 - Doen't use stock icons (Rodrigo)
+    #45328 - Alt+PageUp/PageDown, go to the first/last day in current month
+             in dayview (Bolian Yin)
+    #45329 - Alt+PageUp/PageDown, go to the first/last day in current month
+             in weekview (Bolian Yin)
 
 Evolution 1.4.2, 2003-06-30
 ---------------------------
