@@ -260,13 +260,6 @@ camel_folder_summary_uid(CamelFolderSummary *s, const char *uid)
 	return g_hash_table_lookup(s->messages_uid, uid);
 }
 
-void
-camel_folder_summary_set_uid(CamelFolderSummary *s, guint32 base)
-{
-	if (s->nextuid <= base)
-		s->nextuid = base+1;
-}
-
 guint32 camel_folder_summary_next_uid(CamelFolderSummary *s)
 {
 	guint32 uid = s->nextuid++;

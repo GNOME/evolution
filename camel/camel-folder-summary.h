@@ -160,7 +160,6 @@ CamelFolderSummary      *camel_folder_summary_new	(void);
 
 void camel_folder_summary_set_filename(CamelFolderSummary *, const char *);
 void camel_folder_summary_set_index(CamelFolderSummary *, ibex *);
-void camel_folder_summary_set_uid(CamelFolderSummary *, guint32);
 void camel_folder_summary_set_build_content(CamelFolderSummary *, gboolean state);
 
 guint32 camel_folder_summary_next_uid(CamelFolderSummary *s);
