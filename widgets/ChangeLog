@@ -1,3 +1,8 @@
+2002-02-27  Larry Ewing  <lewing@ximian.com>
+
+	* misc/e-combo-button.c (impl_button_press_event): make a right
+	click bring up the popup menu.
+
 2002-02-07  Christopher James Lahey  <clahey@ximian.com>
 
 	* menus/gal-view-menus.c, menus/gal-view-menus.h

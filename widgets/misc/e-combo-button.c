@@ -244,10 +244,12 @@ impl_button_press_event (GtkWidget *widget,
 	combo_button = E_COMBO_BUTTON (widget);
 	priv = combo_button->priv;
 
-	if (event->type == GDK_BUTTON_PRESS && event->button == 1) {
+	if (event->type == GDK_BUTTON_PRESS && 
+	    (event->button == 1 || event->button == 3)) {
 		GTK_BUTTON (widget)->button_down = TRUE;
 
-		if (event->x >= priv->arrow_pixmap->allocation.x) {
+		if (event->button == 3 || 
+		    event->x >= priv->arrow_pixmap->allocation.x) {
 			/* User clicked on the right side: pop up the menu.  */
 			gtk_button_pressed (GTK_BUTTON (widget));
 
