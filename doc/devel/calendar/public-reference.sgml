@@ -1,10 +1,10 @@
-  <reference>
+  <reference id="calendar-public-reference">
     <title>Calendar Public API Reference</title>
 
     <partintro>
       <para>
 	This part presents the class and function reference for the
-	public APIs of the different components of the Evolution
+	public APIs of the different components of the &Evolution;
 	Calendar.
       </para>
     </partintro>

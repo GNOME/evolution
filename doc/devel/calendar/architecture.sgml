@@ -2,10 +2,10 @@
     <title>Architecture of the Calendar</title>
 
     <para>
-      This chapter gives an overview of the Evolution Calendar
+      This chapter gives an overview of the &Evolution; Calendar
       architecture.  It describes the model/view split of the calendar
-      into a personal calendar server, or PCS, and the GUI clients
-      that appear inside the Evolution shell.
+      into a personal calendar server, or &PCS;, and the GUI clients
+      that appear inside the &Evolution; Shell.
     </para>
 
     <!-- Model/View Separation -->
@@ -14,7 +14,7 @@
       <title>Model/View Separation</title>
 
       <para>
-	Like other base components in Evolution, the calendar
+	Like other base components in &Evolution;, the calendar
 	separates the data model from the views or clients.  This is
 	done so that multiple clients can access the same calendar
 	data in an orderly fashion and without clashes.  For example,
@@ -30,7 +30,7 @@
       </para>
 
       <para>
-	Evolution puts the calendar storage in a daemon called the
+	&Evolution; puts the calendar storage in a daemon called the
 	Wombat and completely separates it from clients who wants to
 	access calendar data.  This part of the Wombat is called the
 	personal calendar server, or &PCS;.  Clients must contact the

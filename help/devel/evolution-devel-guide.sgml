@@ -1,19 +1,27 @@
-<!doctype book PUBLIC "-//Davenport//DTD DocBook V3.0//EN" [
-<!entity evolution-calendar SYSTEM "calendar/evolution-calendar.sgml">
-<!entity calendar-architecture SYSTEM "calendar/architecture.sgml">
-<!entity calendar-reference SYSTEM "calendar/reference.sgml">
-<!entity CalClient SYSTEM "calendar/cal-client/sgml/cal-client.sgml">
-<!entity CalComponent SYSTEM "calendar/cal-util/sgml/cal-component.sgml">
-<!entity cal-util SYSTEM "calendar/cal-util/sgml/cal-util.sgml">
-<!entity cal-recur SYSTEM "calendar/cal-util/sgml/cal-recur.sgml">
-<!entity timeutil SYSTEM "calendar/cal-util/sgml/timeutil.sgml">
-<!entity PCS "<acronym>PCS</acronym>">
-<!entity libical "<application>libical</application>">
+<!DOCTYPE book PUBLIC "-//Davenport//DTD DocBook V3.0//EN"[
+<!ENTITY preface SYSTEM "preface.sgml">
+<!ENTITY evolution-reference SYSTEM "reference.sgml">
+<!ENTITY FDL SYSTEM "fdl.sgml">
+
+<!ENTITY evolution-calendar SYSTEM "calendar/evolution-calendar.sgml">
+<!ENTITY calendar-architecture SYSTEM "calendar/architecture.sgml">
+<!ENTITY calendar-public-reference SYSTEM "calendar/public-reference.sgml">
+<!ENTITY CalClient SYSTEM "calendar/cal-client/sgml/cal-client.sgml">
+<!ENTITY CalComponent SYSTEM "calendar/cal-util/sgml/cal-component.sgml">
+<!ENTITY cal-recur SYSTEM "calendar/cal-util/sgml/cal-recur.sgml">
+<!ENTITY cal-util SYSTEM "calendar/cal-util/sgml/cal-util.sgml">
+<!ENTITY timeutil SYSTEM "calendar/cal-util/sgml/timeutil.sgml">
+
+<!ENTITY Evolution "<application>Evolution</application>">
+<!ENTITY Wombat "<application>Wombat</application>">
+<!ENTITY Camel "<application>Camel</application>">
+<!ENTITY PCS "<acronym>PCS</acronym>">
+<!ENTITY libical "<application>libical</application>">
 ]>
 
 <book id="index">
   <bookinfo>
-    <title>Evolution Developer's Guide</title>
+    <title>&Evolution; Developer's Guide</title>
 
     <authorgroup>
       <corpauthor>
@@ -25,7 +33,35 @@
       <year>2000</year>
       <holder>Helix Code, Inc.</holder>
     </copyright>
+
+    <legalnotice id="legalnotice">
+      <para>
+	Permission is granted to copy, distribute and/or modify this
+	document under the terms of the <ulink type="help"
+	url="gnome-help:fdl"><citetitle>GNU Free Documentation
+	License</citetitle></ulink>, Version 1.1 or any later version
+	published by the Free Software Foundation with no Invariant
+	Sections, no Front-Cover Texts, and no Back-Cover Texts. You
+	may obtain a copy of the <citetitle>GNU Free Documentation
+	License</citetitle> from the Free Software Foundation by
+	visiting <ulink type="http" url="http://www.fsf.org">their Web
+	site</ulink> or by writing to: Free Software Foundation, Inc.,
+	59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.
+      </para>
+
+      <para>
+	Many of the names used by companies to distinguish their
+	products and services are claimed as trademarks. Where those
+	names appear in any GNOME documentation, and those trademarks
+	are made aware to the members of the GNOME Documentation
+	Project, the names have been printed in caps or initial caps.
+       </para>
+    </legalnotice>
   </bookinfo>
+
+  <!-- Introduction -->
+
+  &preface;
 
   <!-- DocBook parts for each individual component -->
 
@@ -33,18 +69,9 @@
 
   <!-- API Reference part -->
 
-  <part>
-    <title>Evolution Public API Reference</title>
+  &evolution-reference;
 
-    <partintro>
-      <para>
-	This part presents the class and function reference for the
-	different libraries and interfaces that Evolution provides.
-	Classes are described together with their methods; individual
-	functions are grouped by functional group.
-      </para>
-    </partintro>
+  <!-- Appendices -->
 
-    &calendar-reference;
-  </part>
+  &FDL;
 </book>

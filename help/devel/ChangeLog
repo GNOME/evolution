@@ -1,3 +1,35 @@
+2000-11-29  Federico Mena Quintero  <federico@helixcode.com>
+
+	* evolution-devel-guide.sgml: Added an id for the API reference <part>.
+	Added the FDL <legalnotice>.
+	Added the preface and toplevel reference entities.
+	Added entities for Evolution, Wombat, and Camel.
+	Added an appendix for the GNU FDL.
+	
+	* preface.sgml: New file with the introduction to the Evolution
+	Developer's Guide.
+
+	* reference.sgml: Split the toplevel reference part into its own
+	file.
+
+	* fdl.sgml: Added the GNU Free Documentation License.
+
+	* calendar/evolution-calendar.sgml: Added an id for the <part>.
+
+	* calendar/public-reference.sgml: Added an id for the <reference>.
+	Moved this file over from calendar/reference.sgml.
+
+	* Makefile.am (local_entities): Added a list of the SGML files
+	that define entities for inclusion in the toplevel document.  This
+	way we can track documentation file dependencies down to all
+	levels.
+	(html/index.html): Made the toplevel document depend on
+	$(local_entities).  Also, removed the "html" target and put its
+	contents directly here; this way we avoid having .PHONY targets.
+	(EXTRA_DIST): Removed the evolution_devel_guideDATA; it made no
+	sense.
+	(content_files): Added preface.sgml and reference.sgml.
+
 2000-09-15  Federico Mena Quintero  <federico@helixcode.com>
 
 	* evolution-devel-guide.sgml: Made the toplevel <book> id be

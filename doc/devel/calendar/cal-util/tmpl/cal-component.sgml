@@ -95,7 +95,7 @@ RFC 2445 iCalendar component object.
 <!-- ##### ENUM CalComponentField ##### -->
   <para>
     These values are used as identifiers for #ETable columns.  These
-    are used by the calendar GUI code in Evolution.
+    are used by the calendar GUI code in &Evolution;.
   </para>
 
 @CAL_COMPONENT_FIELD_CATEGORIES: Component's list of categories.

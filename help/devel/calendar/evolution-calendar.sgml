@@ -1,4 +1,4 @@
-  <part>
+  <part id="evolution-calendar">
     <docinfo>
       <authorgroup>
 	<author>
@@ -13,30 +13,30 @@
       </authorgroup>
     </docinfo>
 
-    <title>Developing Applications for the Evolution Calendar</title>
+    <title>Developing Applications with the &Evolution; Calendar</title>
 
     <partintro>
       <para>
-	This part of the Evolution Developer's Guide describes how to
-	write applications for the Evolution Calendar by using its
-	public interfaces.  The Evolution Calendar exports its
+	This part of the &Evolution; Developer's Guide describes how
+	to write applications for the &Evolution; Calendar by using
+	its public interfaces.  The &Evolution; Calendar exports its
 	functionality through a number of interfaces, including CORBA,
 	GTK+ wrappers for Bonobo objects, and other utility libraries.
-      </para>
-
-      <para>
-	You should read this part of the Evolution Developer's guide
-	if you intend to write client applications that use the
-	functionality of the Evolution Calendar.
-      </para>
-
-      <para>
-	This part does not describe the internal interfaces of the
-	Evolution Calendar; for that you should read the Evolution
-	Internals Guide.  You should only need to read that guide if
-	you are interested in the way the calendar works internally or
-	if you want to make changes directly to the Evolution Calendar
+	This part also describes the internals of the calendar so that
+	it will be easy for you to make changes to &Evolution;'s core
 	code.
+      </para>
+
+      <para>
+	You should read this part of the &Evolution; Developer's guide
+	if you intend to write client applications that use the
+	functionality of the &Evolution; Calendar, such as its storage
+	interfaces and generic recurrence engine.  If you intend to
+	make changes to the calendar's core code, it will be useful to
+	read the sections on the calendar internals as well.  Even if
+	you do not intend to modify the core code of the calendar, it
+	may be useful to know a few things about the way it works so
+	that you can make better use of the public interfaces.
       </para>
     </partintro>
 

@@ -10,28 +10,42 @@ HTML_DIR=$(datadir)/gnome/html
 
 TARGET_DIR=$(HTML_DIR)/$(DOC_MODULE)
 
-evolution_devel_guidedir = $(HTML_DIR)
-evolution_devel_guide_DATA =			\
-	evolution-devel-guide.html
+# Add your toplevel files here
 
-content_files =					\
-	evolution-devel-guide.sgml
+content_files =				\
+	evolution-devel-guide.sgml	\
+	fdl.sgml			\
+	preface.sgml			\
+	reference.sgml
 
-EXTRA_DIST = 					\
-	$(evolution_devel_guide_DATA)		\
+# Add your module's hand-written and auto-generated files here; these
+# are used for dependency tracking.
+
+local_entities =					\
+	calendar/architecture.sgml			\
+	calendar/evolution-calendar.sgml		\
+	calendar/public-reference.sgml			\
+							\
+	calendar/cal-client/sgml/cal-client.sgml	\
+							\
+	calendar/cal-util/sgml/cal-component.sgml	\
+	calendar/cal-util/sgml/cal-recur.sgml		\
+	calendar/cal-util/sgml/cal-util.sgml		\
+	calendar/cal-util/sgml/timeutil.sgml
+
+EXTRA_DIST =			\
 	$(content_files)
 
+all: evolution-devel-guide.html
+
 if ENABLE_GTK_DOC
-evolution-devel-guide.html: html/book1.html
-	-cd $(srcdir) && cp html/book1.html evolution-devel-guide.html
+evolution-devel-guide.html: html/index.html
+	-cd $(srcdir) && cp html/index.html evolution-devel-guide.html
 else
 evolution-devel-guide.html:
 endif
 
-html/book1.html: $(content-files)
-	$(MAKE) html
-
-html:
+html/index.html: $(content_files) $(local_entities)
 	test -d $(srcdir)/html || mkdir $(srcdir)/html
 	-cd $(srcdir)/html && gtkdoc-mkhtml $(DOC_MODULE) ../$(DOC_MAIN_SGML_FILE)
 
@@ -60,5 +74,3 @@ install-data-local:
 dist-hook:
 	mkdir $(distdir)/html
 	-cp $(srcdir)/html/*.html $(srcdir)/html/*.css $(distdir)/html
-
-.PHONY: html
