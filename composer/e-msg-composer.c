@@ -136,7 +136,6 @@ build_message (EMsgComposer *composer)
 {
 	CamelMimeMessage *new;
 	CamelMimeBodyPart *body_part;
-	CamelSimpleDataWrapper *sdr;
 	CamelMultipart *multipart;
 	char *text;
 	int i;

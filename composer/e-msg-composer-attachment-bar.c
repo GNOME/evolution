@@ -619,7 +619,7 @@ attach_to_multipart (CamelMultipart *multipart,
 	camel_mime_part_set_content_type (CAMEL_MIME_PART (part),
 					  attachment->mime_type);
 
-	content = CAMEL_DATA_WRAPPER (gtk_object_new (CAMEL_SIMPLE_DATA_WRAPPER_TYPE,
+	content = CAMEL_DATA_WRAPPER (gtk_object_new (CAMEL_DATA_WRAPPER_TYPE,
 						      NULL));
 	camel_data_wrapper_set_mime_type (content, attachment->mime_type);
 	stream = camel_stream_fs_new_with_name (attachment->file_name, O_RDONLY, 0);
