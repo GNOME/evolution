@@ -1,5 +1,9 @@
 2001-02-13  JP Rosevear  <jpr@ximian.com>
 
+	* gui/e-tasks.c (e_tasks_new_task): call task_editor_focus
+	
+2001-02-13  JP Rosevear  <jpr@ximian.com>
+
 	* gui/calendar-commands.c (update_pixmaps): Set toolbar new
 	appointment icon
 	(set_pixmap): load files rather than create from xpm file
