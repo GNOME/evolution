@@ -99,15 +99,12 @@ mail_load_evolution_rule_context ()
 }
 
 static void
-mail_op_report_status (FilterDriver *driver, enum filter_status_t status, const char *desc,
-		       CamelMimeMessage *msg, void *data)
+mail_op_report_status (FilterDriver *driver, enum filter_status_t status, const char *desc, void *data)
 {
-	/*printf("reporting status: %s\n", desc);*/
-
 	/* FIXME: make it work */
-	switch(status) {
+	switch (status) {
 	case FILTER_STATUS_START:
-		mail_op_set_message (_("Retrieving messages : %s"), desc);
+		mail_op_set_message (desc);
 		break;
 	case FILTER_STATUS_END:
 		break;
@@ -116,10 +113,6 @@ mail_op_report_status (FilterDriver *driver, enum filter_status_t status, const 
 	default:
 		break;
 	}
-
-	/* use the 'standard' logging function, data is already the fd */
-	if (data)
-		filter_driver_status_log (driver, status, desc, msg, data);
 }
 
 static void
@@ -163,7 +156,9 @@ do_fetch_mail (gpointer in_data, gpointer op_data, CamelException *ex)
 		logfile = fopen (filename, "a+");
 		g_free (filename);
 	}
-	filter_driver_set_status_func (filter, mail_op_report_status, logfile);
+	
+	filter_driver_set_logfile (filter, logfile);
+	filter_driver_set_status_func (filter, mail_op_report_status, NULL);
 	
 	/* why on earth we 'up' a lock to get it, ... */
 	mail_tool_camel_lock_up ();
@@ -359,7 +354,8 @@ do_filter_ondemand (gpointer in_data, gpointer op_data, CamelException *ex)
 		g_free (filename);
 	}
 	
-	filter_driver_set_status_func (driver, mail_op_report_status, logfile);
+	filter_driver_set_logfile (driver, logfile);
+	filter_driver_set_status_func (driver, mail_op_report_status, NULL);
 	
 	for (i = 0; i < input->uids->len; i++) {
 		CamelMimeMessage *message;
