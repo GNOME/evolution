@@ -1,3 +1,14 @@
+2001-10-27  Jon Trowbridge  <trow@gnu.org>
+
+	* backend/pas/pas-book.c (pas_book_check_queue): That should be a
+	bonobo_object_unref, not a gtk_object_unref.
+	(pas_book_queue_request): Likewise, we need to bonobo_object_ref
+	here.
+	(pas_book_destroy): If our pas_book_check_queue timeout is still
+	active, disable it.  This should never happen, but it never hurts
+	to be careful.
+	(pas_book_destroy): Set book->priv to NULL after we free it.
+
 2001-10-27  JP Rosevear  <jpr@ximian.com>
 
 	* conduit/address-conduit.c (local_record_from_ecard): copy phone
@@ -13,6 +24,7 @@
 	(card_removed): don't touch on lookup
 	(match): touch on lookup
 
+>>>>>>> 1.878
 2001-10-27  Jon Trowbridge  <trow@ximian.com>
 
 	* backend/pas/pas-book.c (pas_book_check_queue): Added paranoid
