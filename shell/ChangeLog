@@ -1,3 +1,8 @@
+2003-10-22  Jeffrey Stedfast  <fejj@ximian.com>
+
+	* e-shell-window.c (e_shell_window_new): Change to "evolution-1.5"
+	- although, ideally, this should be a config.h macro or something.
+
 2003-10-22  Dan Winship  <danw@ximian.com>
 
 	* main.c: Remove e_proxy_init call. (e-proxy is gone now)

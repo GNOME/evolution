@@ -437,7 +437,7 @@ e_shell_window_new (EShell *shell)
 	bonobo_ui_util_set_ui (priv->ui_component,
 			       PREFIX,
 			       EVOLUTION_UIDIR "/evolution.xml",
-			       "evolution-1.4", NULL);
+			       "evolution-1.5", NULL);
 
 	e_shell_window_commands_setup (window);
 
