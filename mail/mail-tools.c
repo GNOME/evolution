@@ -270,6 +270,7 @@ update_unread_count_main (CamelObject *object, gpointer event_data,
 						fci->unread != 0);
 	g_free (name);
 	gtk_object_unref (GTK_OBJECT (storage));
+	camel_object_unref (object);
 }
 
 static void
@@ -284,6 +285,7 @@ update_unread_count (CamelObject *object, gpointer event_data,
 	if (unread == fci->unread)
 		return;
 	fci->unread = unread;
+	camel_object_ref (object);
 	mail_proxy_event (update_unread_count_main, object, event_data, user_data);
 }
 
@@ -344,13 +346,15 @@ mail_tool_uri_to_folder (const char *uri, CamelException *ex)
 		struct folder_cache_info *fci;
 
 		fci = g_hash_table_lookup (folders, uri);
+		g_static_mutex_unlock (&folders_lock);
 		if (fci) {
 			camel_object_ref (CAMEL_OBJECT (fci->folder));
-			g_static_mutex_unlock (&folders_lock);
 			return fci->folder;
 		}
-	} else
+	} else {
 		folders = g_hash_table_new (g_str_hash, g_str_equal);
+		g_static_mutex_unlock (&folders_lock);
+	}
 
 	if (!strncmp (uri, "vtrash:", 7))
 		offset = 7;
@@ -396,7 +400,9 @@ mail_tool_uri_to_folder (const char *uri, CamelException *ex)
 	}
 	camel_url_free (url);
 
-	cache_folder (folder, uri);
+	g_static_mutex_lock (&folders_lock);
+	if (!g_hash_table_lookup (folders, uri))
+		cache_folder (folder, uri);
 	g_static_mutex_unlock (&folders_lock);
 
 	return folder;

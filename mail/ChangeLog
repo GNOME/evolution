@@ -1,3 +1,17 @@
+2001-07-01  Dan Winship  <danw@ximian.com>
+
+	* mail-tools.c (update_unread_count): Ref the folder before
+	proxying the event, in case there's only one reference to it and
+	it gets unreffed before the other end of the event handler runs.
+	(update_unread_count_main): And unref it when we're done.
+	(mail_tool_uri_to_folder): Only hold the lock around the hash
+	table operations, not the entire function. Holding the lock the
+	whole time can cause deadlock when resolving vfolders, and the
+	CamelSession and CamelStore locks ensure that multiple threads
+	calling this function will end up with the same CamelFolder object
+	at the end anyway, so we just need to lock and re-check the cache
+	at the end before adding the folder to the cache.
+
 2001-06-30  Ettore Perazzoli  <ettore@ximian.com>
 
 	* folder-browser-ui.c: Get MailNext/MailPrevious to use
