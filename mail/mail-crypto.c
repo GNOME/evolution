@@ -177,7 +177,8 @@ pgp_mime_part_sign (CamelMimePart **mime_part, const gchar *userid, PgpHashType 
 	
 	/* get the cleartext */
 	array = g_byte_array_new ();
-	stream = camel_stream_mem_new_with_byte_array (array);
+	stream = camel_stream_mem_new ();
+	camel_stream_mem_set_byte_array (CAMEL_STREAM_MEM (stream), array);
 	crlf_filter = camel_mime_filter_crlf_new (CAMEL_MIME_FILTER_CRLF_ENCODE,
 						  CAMEL_MIME_FILTER_CRLF_MODE_CRLF_ONLY);
 	from_filter = CAMEL_MIME_FILTER (camel_mime_filter_from_new ());
@@ -205,7 +206,6 @@ pgp_mime_part_sign (CamelMimePart **mime_part, const gchar *userid, PgpHashType 
 	camel_mime_part_set_content (signed_part, signature, strlen (signature),
 				     "application/pgp-signature");
 	g_free (signature);
-	camel_mime_part_set_encoding (signed_part, CAMEL_MIME_PART_ENCODING_DEFAULT);
 	
 	/* construct the container multipart/signed */
 	multipart = camel_multipart_new ();
@@ -234,7 +234,6 @@ pgp_mime_part_sign (CamelMimePart **mime_part, const gchar *userid, PgpHashType 
 	camel_object_unref (CAMEL_OBJECT (signed_part));
 	
 	/* replace the input part with the output part */
-	camel_object_unref (CAMEL_OBJECT (*mime_part));
 	*mime_part = camel_mime_part_new ();
 	camel_medium_set_content_object (CAMEL_MEDIUM (*mime_part),
 					 CAMEL_DATA_WRAPPER (multipart));
@@ -277,7 +276,8 @@ pgp_mime_part_verify (CamelMimePart *mime_part, CamelException *ex)
 	/* get the plain part */
 	part = camel_multipart_get_part (multipart, 0);
 	content = g_byte_array_new ();
-	stream = camel_stream_mem_new_with_byte_array (content);
+	stream = camel_stream_mem_new ();
+	camel_stream_mem_set_byte_array (CAMEL_STREAM_MEM (stream), content);
 	crlf_filter = camel_mime_filter_crlf_new (CAMEL_MIME_FILTER_CRLF_ENCODE,
 						  CAMEL_MIME_FILTER_CRLF_MODE_CRLF_ONLY);
 	filtered_stream = camel_stream_filter_new_with_stream (stream);
@@ -334,7 +334,8 @@ pgp_mime_part_encrypt (CamelMimePart **mime_part, const GPtrArray *recipients, C
 	
 	/* get the contents */
         contents = g_byte_array_new ();
-	stream = camel_stream_mem_new_with_byte_array (contents);
+	stream = camel_stream_mem_new ();
+	camel_stream_mem_set_byte_array (CAMEL_STREAM_MEM (stream), contents);
 	crlf_filter = camel_mime_filter_crlf_new (CAMEL_MIME_FILTER_CRLF_ENCODE,
 						  CAMEL_MIME_FILTER_CRLF_MODE_CRLF_ONLY);
 	filtered_stream = camel_stream_filter_new_with_stream (stream);
@@ -424,7 +425,8 @@ pgp_mime_part_decrypt (CamelMimePart *mime_part, CamelException *ex)
 	
 	/* get the ciphertext */
 	content = g_byte_array_new ();
-	stream = camel_stream_mem_new_with_byte_array (content);
+	stream = camel_stream_mem_new ();
+	camel_stream_mem_set_byte_array (CAMEL_STREAM_MEM (stream), content);
 	camel_data_wrapper_write_to_stream (CAMEL_DATA_WRAPPER (encrypted_part), stream);
 	camel_object_unref (CAMEL_OBJECT (stream));
 	ciphertext = content->data;

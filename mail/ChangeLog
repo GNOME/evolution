@@ -5,6 +5,10 @@
 	little things.
 	(pgp_mime_part_encrypt): Do some canonical CRLF action before
 	encrypting.
+	(pgp_mime_part_sign): Make sure we are the owners of the byte array.
+	(pgp_mime_part_verify): Same.
+	(pgp_mime_part_encrypt): Same.
+	(pgp_mime_part_decrypt): Same.
 
 2001-01-21  Christopher James Lahey  <clahey@helixcode.com>
 
