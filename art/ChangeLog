@@ -1,3 +1,8 @@
+2001-07-20  Rodrigo Moya <rodrigo@ximian.com>
+
+	* Makefile.am: install 2 new category icons (16_category_suppliers.png
+	and 16_category_time-and-expenses.png)
+
 2001-07-20    <tigert@ximian.com>
 
 	* 16_category_time-and-expenses.png: Icon for "Time & Expenses"
