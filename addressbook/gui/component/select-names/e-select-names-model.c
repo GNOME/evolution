@@ -23,6 +23,8 @@
 #define SEPARATOR ", "
 #define SEPLEN    (strlen(SEPARATOR))
 
+#define MAX_LENGTH 2047
+
 
 enum {
 	E_SELECT_NAMES_MODEL_CHANGED,
@@ -287,6 +289,11 @@ e_select_names_model_get_textification (ESelectNamesModel *model)
 			}
 
 			model->priv->text = g_strjoinv (SEPARATOR, strv);
+
+			if (strlen(model->priv->text) > MAX_LENGTH) {
+				model->priv->text[MAX_LENGTH] = 0;
+				g_realloc (model->priv->text, MAX_LENGTH + 1);
+			}
 			
 			g_free (strv);
 		}

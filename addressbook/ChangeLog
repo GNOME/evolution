@@ -1,3 +1,9 @@
+2001-10-02  Christopher James Lahey  <clahey@ximian.com>
+
+	* gui/component/select-names/e-select-names-model.c
+	(e_select_names_model_get_textification): Made the max length of
+	the textification be 2047 characters.  Fixes Ximian bug #3021.
+
 2001-10-01  JP Rosevear  <jpr@ximian.com>
 
 	* conduit/address-conduit.c (ecard_from_remote_record): if there
