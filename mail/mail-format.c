@@ -1839,19 +1839,20 @@ handle_multipart_signed (CamelMimePart *part, const char *mime_type,
 		CamelException ex;
 		const char *message = NULL;
 		gboolean good = FALSE;
-		CamelPgpContext *context;
+		CamelCipherContext *cipher;
 		
 		/* Write out the verification results */
 		/* TODO: use the right context for the right message ... */
 		camel_exception_init (&ex);
-		context = camel_pgp_context_new(session, mail_config_get_pgp_type(), mail_config_get_pgp_path());
-		if (context) {
-			valid = camel_multipart_signed_verify(mps, (CamelCipherContext *)context, &ex);
+		cipher = camel_gpg_context_new (session, mail_config_get_pgp_path ());
+		if (cipher) {
+			valid = camel_multipart_signed_verify (mps, cipher, &ex);
+			camel_object_unref (CAMEL_OBJECT (cipher));
 			if (valid) {
-				good = camel_cipher_validity_get_valid(valid);
-				message = camel_cipher_validity_get_description(valid);
+				good = camel_cipher_validity_get_valid (valid);
+				message = camel_cipher_validity_get_description (valid);
 			} else {
-				message = camel_exception_get_description(&ex);
+				message = camel_exception_get_description (&ex);
 			}
 		} else {
 			message = U_("Could not create a PGP verfication context");

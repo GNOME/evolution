@@ -1,3 +1,14 @@
+2002-06-21  Jeffrey Stedfast  <fejj@ximian.com>
+
+	* mail-crypto.c (mail_crypto_pgp_mime_part_verify): If the pgp
+	type is gpg, then use the gpg context.
+	(mail_crypto_pgp_mime_part_sign): Same.
+	(mail_crypto_pgp_mime_part_encrypt): Same.
+	(mail_crypto_pgp_mime_part_decrypt): Same.
+
+	* mail-format.c (handle_multipart_signed): Use the new gpg cipher
+	context.
+
 2002-06-18  Jeffrey Stedfast  <fejj@ximian.com>
 
 	* message-list.c (message_list_change_first_visible_parent): New

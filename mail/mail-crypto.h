@@ -31,7 +31,7 @@
 #ifdef __cplusplus
 extern "C" {
 #pragma }
-#endif /* __cplusplus } */
+#endif /* __cplusplus  */
 
 /* PGP/MIME convenience wrappers */
 void mail_crypto_pgp_mime_part_sign (CamelMimePart **mime_part,

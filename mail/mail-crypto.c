@@ -46,14 +46,25 @@
 void
 mail_crypto_pgp_mime_part_sign (CamelMimePart **mime_part, const char *userid, CamelCipherHash hash, CamelException *ex)
 {
-	CamelPgpContext *context;
+	CamelCipherContext *cipher;
 	
-	context = camel_pgp_context_new (session, mail_config_get_pgp_type (),
-					 mail_config_get_pgp_path ());
+	switch (mail_config_get_pgp_type ()) {
+	case CAMEL_PGP_TYPE_GPG:
+		cipher = camel_gpg_context_new (session, mail_config_get_pgp_path ());
+		break;
+	case CAMEL_PGP_TYPE_PGP5:
+	case CAMEL_PGP_TYPE_PGP6:
+		cipher = camel_pgp_context_new (session, mail_config_get_pgp_type (),
+						mail_config_get_pgp_path ());
+		break;
+	default:
+		cipher = NULL;
+		break;
+	}
 	
-	if (context) {
-		camel_pgp_mime_part_sign (context, mime_part, userid, hash, ex);
-		camel_object_unref (CAMEL_OBJECT (context));
+	if (cipher) {
+		camel_pgp_mime_part_sign (cipher, mime_part, userid, hash, ex);
+		camel_object_unref (CAMEL_OBJECT (cipher));
 	} else
 		camel_exception_setv (ex, CAMEL_EXCEPTION_SYSTEM,
 				      _("Could not create a PGP signature context."));
@@ -71,14 +82,25 @@ CamelCipherValidity *
 mail_crypto_pgp_mime_part_verify (CamelMimePart *mime_part, CamelException *ex)
 {
 	CamelCipherValidity *valid = NULL;
-	CamelPgpContext *context;
+	CamelCipherContext *cipher;
 	
-	context = camel_pgp_context_new (session, mail_config_get_pgp_type (),
-					 mail_config_get_pgp_path ());
+	switch (mail_config_get_pgp_type ()) {
+	case CAMEL_PGP_TYPE_GPG:
+		cipher = camel_gpg_context_new (session, mail_config_get_pgp_path ());
+		break;
+	case CAMEL_PGP_TYPE_PGP5:
+	case CAMEL_PGP_TYPE_PGP6:
+		cipher = camel_pgp_context_new (session, mail_config_get_pgp_type (),
+						mail_config_get_pgp_path ());
+		break;
+	default:
+		cipher = NULL;
+		break;
+	}
 	
-	if (context) {
-		valid = camel_pgp_mime_part_verify (context, mime_part, ex);
-		camel_object_unref (CAMEL_OBJECT (context));
+	if (cipher) {
+		valid = camel_pgp_mime_part_verify (cipher, mime_part, ex);
+		camel_object_unref (CAMEL_OBJECT (cipher));
 	} else
 		camel_exception_setv (ex, CAMEL_EXCEPTION_SYSTEM,
 				      _("Could not create a PGP verification context."));
@@ -100,14 +122,25 @@ mail_crypto_pgp_mime_part_verify (CamelMimePart *mime_part, CamelException *ex)
 void
 mail_crypto_pgp_mime_part_encrypt (CamelMimePart **mime_part, GPtrArray *recipients, CamelException *ex)
 {
-	CamelPgpContext *context;
+	CamelCipherContext *cipher;
 	
-	context = camel_pgp_context_new (session, mail_config_get_pgp_type (),
-					 mail_config_get_pgp_path ());
+	switch (mail_config_get_pgp_type ()) {
+	case CAMEL_PGP_TYPE_GPG:
+		cipher = camel_gpg_context_new (session, mail_config_get_pgp_path ());
+		break;
+	case CAMEL_PGP_TYPE_PGP5:
+	case CAMEL_PGP_TYPE_PGP6:
+		cipher = camel_pgp_context_new (session, mail_config_get_pgp_type (),
+						mail_config_get_pgp_path ());
+		break;
+	default:
+		cipher = NULL;
+		break;
+	}
 	
-	if (context) {
-		camel_pgp_mime_part_encrypt (context, mime_part, recipients, ex);
-		camel_object_unref (CAMEL_OBJECT (context));
+	if (cipher) {
+		camel_pgp_mime_part_encrypt (cipher, mime_part, recipients, ex);
+		camel_object_unref (CAMEL_OBJECT (cipher));
 	} else
 		camel_exception_setv (ex, CAMEL_EXCEPTION_SYSTEM,
 				      _("Could not create a PGP encryption context."));
@@ -124,15 +157,26 @@ mail_crypto_pgp_mime_part_encrypt (CamelMimePart **mime_part, GPtrArray *recipie
 CamelMimePart *
 mail_crypto_pgp_mime_part_decrypt (CamelMimePart *mime_part, CamelException *ex)
 {
-	CamelPgpContext *context;
+	CamelCipherContext *cipher;
 	CamelMimePart *part = NULL;
 	
-	context = camel_pgp_context_new (session, mail_config_get_pgp_type (),
-					 mail_config_get_pgp_path ());
+	switch (mail_config_get_pgp_type ()) {
+	case CAMEL_PGP_TYPE_GPG:
+		cipher = camel_gpg_context_new (session, mail_config_get_pgp_path ());
+		break;
+	case CAMEL_PGP_TYPE_PGP5:
+	case CAMEL_PGP_TYPE_PGP6:
+		cipher = camel_pgp_context_new (session, mail_config_get_pgp_type (),
+						mail_config_get_pgp_path ());
+		break;
+	default:
+		cipher = NULL;
+		break;
+	}
 	
-	if (context) {
-		part = camel_pgp_mime_part_decrypt (context, mime_part, ex);
-		camel_object_unref (CAMEL_OBJECT (context));
+	if (cipher) {
+		part = camel_pgp_mime_part_decrypt (cipher, mime_part, ex);
+		camel_object_unref (CAMEL_OBJECT (cipher));
 	} else
 		camel_exception_setv (ex, CAMEL_EXCEPTION_SYSTEM,
 				      _("Could not create a PGP decryption context."));
