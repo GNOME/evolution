@@ -1,3 +1,9 @@
+2002-10-28  Larry Ewing  <lewing@ximian.com>
+
+	* backend/ebook/e-card.c (addPropValueUTF8): never set the charset
+	on an item without also encoding it.  Mime messages don't like
+	parts with multiple charsets. 	
+
 2002-10-25  Dan Winship  <danw@ximian.com>
 
 	* gui/widgets/e-addressbook-model.c (addressbook_destroy):

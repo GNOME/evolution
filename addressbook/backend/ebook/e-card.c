@@ -382,12 +382,8 @@ addPropValueUTF8(VObject *o, const char *p, const char *v)
 	for (; *v; v++) {
 		if ((*v) & 0x80) {
 			addPropValue (prop, "CHARSET", "UTF-8");
-			for (; *v; v++) {
-				if (*v == '\n') {
-					addProp(prop, VCQuotedPrintableProp);
-					return prop;
-				}
-			}
+			addProp(prop, VCQuotedPrintableProp);
+
 			return prop;
 		}
 		if (*v == '\n') {
