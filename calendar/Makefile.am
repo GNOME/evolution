@@ -1,3 +1,5 @@
+SUBDIRS = doc
+
 help_base = $(datadir)/gnome/help/cal
 
 CFLAGS += -Wall
@@ -67,8 +69,6 @@ gnomecal_LDADD = $(LINK_FLAGS)
 
 EXTRA_DIST = \
 	gncal.desktop	\
-	topic.dat	\
-	gnome-cal.html	\
 	bell.xpm	\
 	recur.xpm
 

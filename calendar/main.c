@@ -489,7 +489,7 @@ static GnomeUIInfo gnome_cal_edit_menu [] = {
 };
 
 static GnomeUIInfo gnome_cal_help_menu [] = {
-	GNOMEUIINFO_HELP ("cal"),
+	GNOMEUIINFO_HELP ("gnomecal"),
 
 	GNOMEUIINFO_MENU_ABOUT_ITEM(about_calendar_cmd, NULL),
 

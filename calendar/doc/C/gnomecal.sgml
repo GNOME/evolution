@@ -1,0 +1,156 @@
+<!DOCTYPE book PUBLIC "-//Davenport//DTD DocBook V3.0//EN" [
+]>
+
+<book id="gnomecal">
+  <bookinfo>
+    <title>GNOME calendar user's manual</title>
+    <authorgroup>
+      <author>
+	<firstname>Miguel</firstname> <surname>de Icaza
+	  Amozurrutia</surname>
+	<affiliation>
+	  <address>
+	    <email>miguel@gnu.org</email>
+	  </address>
+	</affiliation>
+      </author>
+    </authorgroup>
+    <copyright>
+      <year>1998, 1999</year> <holder>Miguel de Icaza</holder>
+    </copyright>
+    <legalnotice>
+      <para>This documentation is free software; you can redistribute
+	it and/or modify it under the terms of the GNU General Public
+	License as published by the Free Software Foundation; either
+	version 2 of the License, or (at your option) any later
+	version.</para>
+      
+      <para>This program is distributed in the hope that it will be
+	useful, but WITHOUT ANY WARRANTY; without even the implied
+	warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
+	See the GNU General Public License for more details.</para>
+      
+      <para>You should have received a copy of the GNU General Public
+	License along with this program; if not, write to the Free
+	Software Foundation, Inc., 59 Temple Place, Suite 330, Boston,
+	MA 02111-1307 USA</para>
+      
+      <para>For more details see the file COPYING in the source
+	distribution of GNOME.</para>
+    </legalnotice>
+  </bookinfo>
+
+  <toc></toc>
+
+  <chapter id="cmdline">
+    <title>Command line options</title>
+
+    <para>
+      The following command line options are recognized by the
+      <filename>gnomecal</filename> program.  You can use these
+      options to alter the behaviour of the program or to quickly
+      query the program for appointments, and to do items from the
+      command line without requiring an X display.  These are usefu
+      for example to include in scripts.
+    </para>
+
+    <para>
+      <itemizedlist>
+
+        <listitem>
+          <para>
+            <emphasis>--events</emphasis>.  Displays the events for the
+	    date specified (or today, if no date is specified).
+	  </para>
+        </listitem>
+
+        <listitem>
+          <para>
+            <emphasis>--from DATE</emphasis>.  Define the beginning of
+	    the range for the event display, or the startup day on the
+	    calenday views.  By default, the event will span the whole
+	    day specified in DATE.
+          </para>
+        </listitem>
+
+	<listitem>
+          <para>
+            <emphasis>--to DATE</emphasis>.  Define the range end for
+	    the event display.  If this is not specified, it will
+	    default to the end of the day specified by the
+	    <emphasis>--from</emphasis> option.
+          </para>
+        </listitem>
+
+	<listitem>
+          <para>
+            <emphasis>--file FILE</emphasis>.  Set the calendar to the
+	    <emphasis>FILE</emphasis> specified on the command line.
+          </para>
+        </listitem>
+
+	<listitem>
+          <para>
+            <emphasis>--todo</emphasis>.  Dumps the to-do values to
+	    standard output.
+          </para>
+        </listitem>
+
+        <listitem>
+          <para>
+            <emphasis>--userfile</emphasis>.  Use this if you want to
+            force the file to be loaded to be the default user's
+            calendar (this is the default, only used to override the
+            --file if you have some sort of macro.
+          </para>
+        </listitem>
+
+        <listitem>
+          <para>
+            <emphasis>--geometry</emphasis>.  Used to specity the
+            startup geometry of the application (location and size).
+          </para>
+        </listitem>
+        
+        <listitem>
+          <para>
+            <emphasis>--view VIEWMODE</emphasis>.  Use this to specify
+            the startup view that should be used.
+            <emphasis>VIEWMODE</emphasis> is one of: dayview,
+            weekview, monthview, yearview.
+          </para>
+        </listitem>
+     
+      </itemizedlist>
+    </para>
+
+    <para>
+      <emphasis>DATE</emphasis> is interpreted as being in the local
+      time-zone, unless a specific timezone is specified.  Examples
+      of valid date specifications include: "1 month ago", "2 hours
+      ago", "400000 seconds ago", "last year", "last Monday",
+      "yesterday", "a fortnight ago", "3/31/92 10:00:07 PST", "January
+      23, 1987 10:05pm", "22:00 GMT".  
+    </para>
+  </chapter>
+
+  <chapter id="tech.html">
+    <title>Technical information about the GNOME calendar</title>
+
+    <para>
+      Currently, the GNOME calendar uses the vCal file format standard 
+      for storing and loading its appointment and todo database.  This
+      standard is widely used in various other calendar applications,
+      so it provides a good mechanism for exchanging appointments.
+    </para>
+    <para>
+      In the future the GNOME calendar will support the upcoming
+      iCalendar specification as well.
+    </para>
+    <para>
+      If you want to know more about the vCal specification, you can
+      check the <ulink url="http://www.imc.org" type=http>Internet
+      Mail Consortium (http://www.imc.org)</ulink> for the details.
+    </para>
+  </chapter>
+</book>
