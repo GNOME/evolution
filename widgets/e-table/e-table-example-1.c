@@ -169,8 +169,8 @@ create_table (void)
 	ETableModel *e_table_model = NULL;
 
 	/* First we fill in the simple data. */
-	for ( i = 0; i < ROWS; i++ ) {
-		for ( j = 0; j < COLS; j++ )
+	for (i = 0; i < ROWS; i++){
+		for (j = 0; j < COLS; j++)
 			table_data [i] [j] = g_strdup ("");
 	}
 	/* Next we create our model.  This uses the functions we defined
@@ -242,7 +242,7 @@ main (int argc, char *argv [])
 	gtk_widget_push_visual (gdk_rgb_get_visual ());
 	gtk_widget_push_colormap (gdk_rgb_get_cmap ());
 
-	create_table();
+	create_table ();
 	
 	gtk_main ();
 

@@ -13,7 +13,7 @@
 
 #define ETM_CLASS(e) ((ETableModelClass *)((GtkObject *)e)->klass)
 
-#define PARENT_TYPE gtk_object_get_type();
+#define PARENT_TYPE gtk_object_get_type ();
 					  
 
 static GtkObjectClass *e_table_model_parent_class;
@@ -166,7 +166,7 @@ e_table_model_get_type (void)
         (GtkClassInitFunc) NULL,
       };
 
-      type = gtk_type_unique (gtk_object_get_type(), &info);
+      type = gtk_type_unique (gtk_object_get_type (), &info);
     }
 
   return type;

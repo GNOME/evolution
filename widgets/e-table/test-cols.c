@@ -86,7 +86,7 @@ duplicate_value (ETableModel *etc, int col, const void *value, void *data)
   if (col == 0){
     return (void *)value;
   } else {
-    return g_strdup(value);
+    return g_strdup (value);
   }
 }
 
@@ -94,7 +94,7 @@ static void
 free_value (ETableModel *etc, int col, void *value, void *data)
 {
   if (col != 0){
-    g_free(value);
+    g_free (value);
   }
 }
 
@@ -107,7 +107,7 @@ set_canvas_size (GnomeCanvas *canvas, GtkAllocation *alloc)
 static void
 thaw (ETableModel *etc, void *data)
 {
-	e_table_model_changed(etc);
+	e_table_model_changed (etc);
 }
 
 void
@@ -196,7 +196,7 @@ multi_cols_test (void)
 		"spreadsheet", TRUE,
 		NULL);
 
-	e_canvas_item_move_absolute(item, 0, 30);
+	e_canvas_item_move_absolute (item, 0, 30);
 	
 	gnome_canvas_item_new (
 		gnome_canvas_root (GNOME_CANVAS (canvas)),
@@ -214,7 +214,7 @@ multi_cols_test (void)
 		"drawfocus", TRUE,
 		"spreadsheet", TRUE,
 		NULL);
-	e_canvas_item_move_absolute(item, 300, 30);
+	e_canvas_item_move_absolute (item, 300, 30);
 }
 
 

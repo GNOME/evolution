@@ -3,7 +3,7 @@
  * E-Table-Group.c: Implements the grouping objects for elements on a table
  *
  * Author:
- *   Miguel de Icaza (miguel@gnu.org()
+ *   Miguel de Icaza (miguel@gnu.org ()
  *
  * Copyright 1999, Helix Code, Inc.
  */
@@ -38,11 +38,11 @@ static void
 etgl_destroy (GtkObject *object)
 {
 	ETableGroupLeaf *etgl = E_TABLE_GROUP_LEAF(object);
-	if ( etgl->subset )
-		gtk_object_unref(GTK_OBJECT(etgl->subset));
-	if ( etgl->item )
-		gtk_object_destroy(GTK_OBJECT(etgl->item));
-	if ( GTK_OBJECT_CLASS (etgl_parent_class)->destroy )
+	if (etgl->subset)
+		gtk_object_unref (GTK_OBJECT(etgl->subset));
+	if (etgl->item)
+		gtk_object_destroy (GTK_OBJECT(etgl->item));
+	if (GTK_OBJECT_CLASS (etgl_parent_class)->destroy)
 		GTK_OBJECT_CLASS (etgl_parent_class)->destroy (object);
 }
 
@@ -54,7 +54,7 @@ e_table_group_leaf_construct (GnomeCanvasGroup *parent, ETableGroupLeaf *etgl,
 			      int          col,
 			      int          ascending)
 {
-	etgl->subset = E_TABLE_SUBSET_VARIABLE(e_table_sorted_variable_new(model, col, ascending, e_table_header_get_column(full_header, col)->compare));
+	etgl->subset = E_TABLE_SUBSET_VARIABLE(e_table_sorted_variable_new (model, col, ascending, e_table_header_get_column(full_header, col)->compare));
 	e_table_group_construct (parent, E_TABLE_GROUP (etgl), full_header, header, model);
 }
 
@@ -79,14 +79,14 @@ e_table_group_leaf_new       (GnomeCanvasGroup *parent, ETableHeader *full_heade
 static void
 etgl_row_selection (GtkObject *object, gint row, gboolean selected, ETableGroupLeaf *etgl)
 {
-	if ( row < E_TABLE_SUBSET(etgl->subset)->n_map )
+	if (row < E_TABLE_SUBSET(etgl->subset)->n_map)
 		e_table_group_row_selection (E_TABLE_GROUP(etgl), E_TABLE_SUBSET(etgl->subset)->map_table[row], selected);
 }
 
 static void
 etgl_reflow (GnomeCanvasItem *item, gint flags)
 {
-	e_canvas_item_request_parent_reflow(item);
+	e_canvas_item_request_parent_reflow (item);
 }
 
 static void
@@ -94,10 +94,10 @@ etgl_realize (GnomeCanvasItem *item)
 {
 	ETableGroupLeaf *etgl = E_TABLE_GROUP_LEAF(item);
 
-	if ( GNOME_CANVAS_ITEM_CLASS (etgl_parent_class)->realize )
+	if (GNOME_CANVAS_ITEM_CLASS (etgl_parent_class)->realize)
 		GNOME_CANVAS_ITEM_CLASS (etgl_parent_class)->realize (item);
 
-	etgl->item = E_TABLE_ITEM(gnome_canvas_item_new(GNOME_CANVAS_GROUP(etgl),
+	etgl->item = E_TABLE_ITEM(gnome_canvas_item_new (GNOME_CANVAS_GROUP(etgl),
 							e_table_item_get_type (),
 							"ETableHeader", E_TABLE_GROUP(etgl)->header,
 							"ETableModel", etgl->subset,
@@ -107,9 +107,9 @@ etgl_realize (GnomeCanvasItem *item)
 							"width", etgl->width,
 							NULL));
 
-	gtk_signal_connect(GTK_OBJECT(etgl->item), "row_selection",
+	gtk_signal_connect (GTK_OBJECT(etgl->item), "row_selection",
 			   GTK_SIGNAL_FUNC(etgl_row_selection), etgl);
-	e_canvas_item_request_parent_reflow(item);
+	e_canvas_item_request_parent_reflow (item);
 }
 
 static int
@@ -122,9 +122,9 @@ etgl_event (GnomeCanvasItem *item, GdkEvent *event)
 	default:
 		return_val = FALSE;
 	}
-	if ( return_val == FALSE ) {
-		if ( GNOME_CANVAS_ITEM_CLASS(etgl_parent_class)->event )
-			return GNOME_CANVAS_ITEM_CLASS(etgl_parent_class)->event(item, event);
+	if (return_val == FALSE){
+		if (GNOME_CANVAS_ITEM_CLASS(etgl_parent_class)->event)
+			return GNOME_CANVAS_ITEM_CLASS(etgl_parent_class)->event (item, event);
 	}
 	return return_val;
 
@@ -134,21 +134,21 @@ static void
 etgl_add (ETableGroup *etg, gint row)
 {
 	ETableGroupLeaf *etgl = E_TABLE_GROUP_LEAF (etg);
-	e_table_subset_variable_add(etgl->subset, row);
+	e_table_subset_variable_add (etgl->subset, row);
 }
 
 static gboolean
 etgl_remove (ETableGroup *etg, gint row)
 {
 	ETableGroupLeaf *etgl = E_TABLE_GROUP_LEAF (etg);
-	return e_table_subset_variable_remove(etgl->subset, row);
+	return e_table_subset_variable_remove (etgl->subset, row);
 }
 
 static void
 etgl_increment (ETableGroup *etg, gint position, gint amount)
 {
 	ETableGroupLeaf *etgl = E_TABLE_GROUP_LEAF (etg);
-	e_table_subset_variable_increment(etgl->subset, position, amount);
+	e_table_subset_variable_increment (etgl->subset, position, amount);
 }
 
 static void
@@ -156,9 +156,9 @@ etgl_set_focus (ETableGroup *etg, EFocus direction, gint view_col)
 {
 	ETableGroupLeaf *etgl = E_TABLE_GROUP_LEAF (etg);
 	if (direction == E_FOCUS_END) {
-		e_table_item_focus(etgl->item, view_col, e_table_model_row_count(E_TABLE_MODEL(etgl->subset)) - 1);
+		e_table_item_focus (etgl->item, view_col, e_table_model_row_count(E_TABLE_MODEL(etgl->subset)) - 1);
 	} else {
-		e_table_item_focus(etgl->item, view_col, 0);
+		e_table_item_focus (etgl->item, view_col, 0);
 	}
 }
 
@@ -166,7 +166,7 @@ static gint
 etgl_get_focus_column (ETableGroup *etg)
 {
 	ETableGroupLeaf *etgl = E_TABLE_GROUP_LEAF (etg);
-	return e_table_item_get_focused_column(etgl->item);
+	return e_table_item_get_focused_column (etgl->item);
 }
 
 static void
@@ -175,8 +175,8 @@ etgl_set_width (ETableGroup *etg, gdouble width)
 	ETableGroupLeaf *etgl = E_TABLE_GROUP_LEAF (etg);
 	etgl->width = width;
 #if 0
-	if ( etgl->item ) {
-		gnome_canvas_item_set(GNOME_CANVAS_ITEM(etgl->item),
+	if (etgl->item){
+		gnome_canvas_item_set (GNOME_CANVAS_ITEM(etgl->item),
 				      "width", width,
 				      NULL);
 	}		
@@ -187,7 +187,7 @@ static gdouble
 etgl_get_width (ETableGroup *etg)
 {
 	ETableGroupLeaf *etgl = E_TABLE_GROUP_LEAF (etg);
-	gtk_object_get(GTK_OBJECT(etgl->item),
+	gtk_object_get (GTK_OBJECT(etgl->item),
 		       "width", &etgl->width,
 		       NULL);
 	return etgl->width;
@@ -198,8 +198,8 @@ etgl_get_height (ETableGroup *etg)
 {
 	ETableGroupLeaf *etgl = E_TABLE_GROUP_LEAF (etg);
 	gdouble height;
-	if ( etgl->item )
-		gtk_object_get(GTK_OBJECT(etgl->item),
+	if (etgl->item)
+		gtk_object_get (GTK_OBJECT(etgl->item),
 			       "height", &height,
 			       NULL);
 	else
@@ -214,15 +214,15 @@ etgl_set_arg (GtkObject *object, GtkArg *arg, guint arg_id)
 
 	switch (arg_id) {
 	case ARG_FROZEN:
-		if ( GTK_VALUE_BOOL (*arg) )
+		if (GTK_VALUE_BOOL (*arg))
 			etg->frozen = TRUE;
 		else {
 			etg->frozen = FALSE;
 		}
 		break;
 	case ARG_WIDTH:
-		if ( E_TABLE_GROUP_CLASS(GTK_OBJECT(etg)->klass)->set_width )
-			E_TABLE_GROUP_CLASS(GTK_OBJECT(etg)->klass)->set_width(etg, GTK_VALUE_DOUBLE (*arg));
+		if (E_TABLE_GROUP_CLASS(GTK_OBJECT(etg)->klass)->set_width)
+			E_TABLE_GROUP_CLASS(GTK_OBJECT(etg)->klass)->set_width (etg, GTK_VALUE_DOUBLE (*arg));
 		break;
 	default:
 		break;
@@ -239,14 +239,14 @@ etgl_get_arg (GtkObject *object, GtkArg *arg, guint arg_id)
 		GTK_VALUE_BOOL (*arg) = etg->frozen;
 		break;
 	case ARG_HEIGHT:
-		if ( E_TABLE_GROUP_CLASS(GTK_OBJECT(etg)->klass)->get_height )
-			GTK_VALUE_DOUBLE (*arg) = E_TABLE_GROUP_CLASS(GTK_OBJECT(etg)->klass)->get_height(etg);
+		if (E_TABLE_GROUP_CLASS(GTK_OBJECT(etg)->klass)->get_height)
+			GTK_VALUE_DOUBLE (*arg) = E_TABLE_GROUP_CLASS(GTK_OBJECT(etg)->klass)->get_height (etg);
 		else
 			arg->type = GTK_TYPE_INVALID;
 		break;
 	case ARG_WIDTH:	
-		if ( E_TABLE_GROUP_CLASS(GTK_OBJECT(etg)->klass)->get_width )
-			GTK_VALUE_DOUBLE (*arg) = E_TABLE_GROUP_CLASS(GTK_OBJECT(etg)->klass)->get_width(etg);
+		if (E_TABLE_GROUP_CLASS(GTK_OBJECT(etg)->klass)->get_width)
+			GTK_VALUE_DOUBLE (*arg) = E_TABLE_GROUP_CLASS(GTK_OBJECT(etg)->klass)->get_width (etg);
 		else
 			arg->type = GTK_TYPE_INVALID;
 		break;
@@ -260,7 +260,7 @@ static void
 etgl_class_init (GtkObjectClass *object_class)
 {
 	GnomeCanvasItemClass *item_class = (GnomeCanvasItemClass *) object_class;
-	ETableGroupClass *e_group_class = E_TABLE_GROUP_CLASS( object_class );
+	ETableGroupClass *e_group_class = E_TABLE_GROUP_CLASS(object_class);
 
 	object_class->destroy = etgl_destroy;
 	object_class->set_arg = etgl_set_arg;
@@ -298,7 +298,7 @@ etgl_init (GtkObject *object)
 	etgl->subset = NULL;
 	etgl->item = NULL;
 	
-	e_canvas_item_set_reflow_callback(GNOME_CANVAS_ITEM(object), etgl_reflow);
+	e_canvas_item_set_reflow_callback (GNOME_CANVAS_ITEM(object), etgl_reflow);
 }
 
 E_MAKE_TYPE (e_table_group_leaf, "ETableGroupLeaf", ETableGroupLeaf, etgl_class_init, etgl_init, PARENT_TYPE);

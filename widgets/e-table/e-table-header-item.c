@@ -76,10 +76,10 @@ ethi_destroy (GtkObject *object){
 	
 	ethi_drop_table_header (ethi);
 
-	if ( ethi->sort_info ) {
-		if ( ethi->sort_info_changed_id )
-			gtk_signal_disconnect(GTK_OBJECT(ethi->sort_info), ethi->sort_info_changed_id);
-		gtk_object_unref(GTK_OBJECT(ethi->sort_info));
+	if (ethi->sort_info){
+		if (ethi->sort_info_changed_id)
+			gtk_signal_disconnect (GTK_OBJECT(ethi->sort_info), ethi->sort_info_changed_id);
+		gtk_object_unref (GTK_OBJECT(ethi->sort_info));
 	}
 	
 	if (GTK_OBJECT_CLASS (ethi_parent_class)->destroy)
@@ -94,12 +94,12 @@ ethi_update (GnomeCanvasItem *item, double *affine, ArtSVP *clip_path, int flags
 	if (GNOME_CANVAS_ITEM_CLASS (ethi_parent_class)->update)
 		(*GNOME_CANVAS_ITEM_CLASS (ethi_parent_class)->update)(item, affine, clip_path, flags);
 
-	if ( item->x1 != ethi->x1 ||
+	if (item->x1 != ethi->x1 ||
 	     item->y1 != ethi->y1 ||
 	     item->x2 != ethi->x1 + ethi->width ||
-	     item->y2 != ethi->y1 + ethi->height )
+	     item->y2 != ethi->y1 + ethi->height)
 		{
-			gnome_canvas_request_redraw(item->canvas, item->x1, item->y1, item->x2, item->y2);
+			gnome_canvas_request_redraw (item->canvas, item->x1, item->y1, item->x2, item->y2);
 			item->x1 = ethi->x1;
 			item->y1 = ethi->y1;
 			item->x2 = ethi->x1 + ethi->width;
@@ -107,7 +107,7 @@ ethi_update (GnomeCanvasItem *item, double *affine, ArtSVP *clip_path, int flags
 
 			gnome_canvas_group_child_bounds (GNOME_CANVAS_GROUP (item->parent), item);
 		}
-	gnome_canvas_request_redraw(item->canvas, item->x1, item->y1, item->x2, item->y2);
+	gnome_canvas_request_redraw (item->canvas, item->x1, item->y1, item->x2, item->y2);
 }
 
 static void
@@ -121,7 +121,7 @@ ethi_font_load (ETableHeaderItem *ethi, char *font)
 		ethi->font = gdk_font_load ("-adobe-helvetica-medium-r-normal--*-120-*-*-*-*-iso8859-1");
 	
 	ethi->height = ethi->font->ascent + ethi->font->descent + PADDING;
-	if ( ethi->height < MIN_ARROW_SIZE + 4 + PADDING )
+	if (ethi->height < MIN_ARROW_SIZE + 4 + PADDING)
 		ethi->height = MIN_ARROW_SIZE + 4 + PADDING;
 }
 
@@ -207,14 +207,14 @@ ethi_set_arg (GtkObject *o, GtkArg *arg, guint arg_id)
 		break;
 
 	case ARG_SORT_INFO:
-		if ( ethi->sort_info ) {
-			if ( ethi->sort_info_changed_id )
-				gtk_signal_disconnect(GTK_OBJECT(ethi->sort_info), ethi->sort_info_changed_id);
-			gtk_object_unref(GTK_OBJECT(ethi->sort_info));
+		if (ethi->sort_info){
+			if (ethi->sort_info_changed_id)
+				gtk_signal_disconnect (GTK_OBJECT(ethi->sort_info), ethi->sort_info_changed_id);
+			gtk_object_unref (GTK_OBJECT(ethi->sort_info));
 		}
 		ethi->sort_info = GTK_VALUE_POINTER (*arg);
-		gtk_object_ref(GTK_OBJECT(ethi->sort_info));
-		ethi->sort_info_changed_id = gtk_signal_connect(GTK_OBJECT(ethi->sort_info), "sort_info_changed",
+		gtk_object_ref (GTK_OBJECT(ethi->sort_info));
+		ethi->sort_info_changed_id = gtk_signal_connect (GTK_OBJECT(ethi->sort_info), "sort_info_changed",
 								GTK_SIGNAL_FUNC(ethi_sort_info_changed), ethi);
 		break;
 		
@@ -281,7 +281,7 @@ ethi_add_drop_marker (ETableHeaderItem *ethi, int col)
 
 	x = e_table_header_col_diff (ethi->eth, 0, col);
 	
-	if ( col > 0 )
+	if (col > 0)
 		x += ethi->group_indent_width;
 	
 	points->coords [0] = ethi->x1 + x - 5;
@@ -362,13 +362,13 @@ ethi_drag_motion (GtkObject *canvas, GdkDragContext *context,
 		return FALSE;
 
 	gdk_drag_status (context, 0, time);
-	if (GTK_WIDGET(canvas) == gtk_drag_get_source_widget(context)) {
+	if (GTK_WIDGET(canvas) == gtk_drag_get_source_widget (context)) {
 		if ((x >= ethi->x1) && (x <= (ethi->x1 + ethi->width)) &&
 		    (y >= ethi->y1) && (y <= (ethi->y1 + ethi->height))){
 			int col;
 			
 			col = ethi_find_col_by_x (ethi, x);
-			if ( col < ethi->eth->frozen_count )
+			if (col < ethi->eth->frozen_count)
 				col = ethi->eth->frozen_count;
 			
 			if (col != -1){
@@ -394,10 +394,10 @@ ethi_drag_end (GtkWidget *canvas, GdkDragContext *context, ETableHeaderItem *eth
 	if (ethi->drag_col == -1)
 		return;
 
-	if (canvas == gtk_drag_get_source_widget(context)) {
+	if (canvas == gtk_drag_get_source_widget (context)) {
 		if (context->action == 0) {
 			ethi_request_redraw (ethi);
-			e_table_header_remove(ethi->eth, ethi->drag_col);
+			e_table_header_remove (ethi->eth, ethi->drag_col);
 		}
 		ethi_remove_drop_marker (ethi);
 		ethi_remove_destroy_marker (ethi);
@@ -418,26 +418,26 @@ ethi_drag_drop (GtkWidget *canvas,
 	if (ethi->drag_col == -1)
 		return FALSE;
 
-	if (GTK_WIDGET(canvas) == gtk_drag_get_source_widget(context)) {
+	if (GTK_WIDGET(canvas) == gtk_drag_get_source_widget (context)) {
 		if ((x >= ethi->x1) && (x <= (ethi->x1 + ethi->width)) &&
 		    (y >= ethi->y1) && (y <= (ethi->y1 + ethi->height))){
 			int col;
 			
 			col = ethi_find_col_by_x (ethi, x);
-			if ( col < ethi->eth->frozen_count )
+			if (col < ethi->eth->frozen_count)
 				col = ethi->eth->frozen_count;
-			ethi_add_drop_marker(ethi, col);
+			ethi_add_drop_marker (ethi, col);
 			
 			if (col != -1) {
 				if (col != ethi->drag_col) {
 					ethi_request_redraw (ethi);
-					e_table_header_move(ethi->eth, ethi->drag_col, col);
+					e_table_header_move (ethi->eth, ethi->drag_col, col);
 				}
 				successful = TRUE;
 			}
 		}
 	}
-	gtk_drag_finish(context, successful, successful, time);
+	gtk_drag_finish (context, successful, successful, time);
 	return successful;
 }
 
@@ -447,7 +447,7 @@ ethi_drag_leave (GtkWidget *widget, GdkDragContext *context, guint time, ETableH
 	if (ethi->drag_col == -1)
 		return;
 
-	if (widget == gtk_drag_get_source_widget(context)) {
+	if (widget == gtk_drag_get_source_widget (context)) {
 		ethi_remove_drop_marker (ethi);
 		ethi_add_destroy_marker (ethi);
 	}
@@ -542,16 +542,16 @@ draw_button (ETableHeaderItem *ethi, ETableCol *col,
 	
 	gdk_gc_set_clip_rectangle (ethi->gc, &clip);
 
-	if ( col->is_pixbuf ) {
-		xtra = (clip.width - gdk_pixbuf_get_width(col->pixbuf))/2;
+	if (col->is_pixbuf){
+		xtra = (clip.width - gdk_pixbuf_get_width (col->pixbuf))/2;
 		
 		xtra += PADDING / 2;
 
-		gdk_pixbuf_render_to_drawable_alpha(col->pixbuf, 
+		gdk_pixbuf_render_to_drawable_alpha (col->pixbuf, 
 						    drawable,
 						    0, 0, 
-						    x + xtra, y + (clip.height - gdk_pixbuf_get_height(col->pixbuf)) / 2,
-						    gdk_pixbuf_get_width(col->pixbuf), gdk_pixbuf_get_height(col->pixbuf),
+						    x + xtra, y + (clip.height - gdk_pixbuf_get_height (col->pixbuf)) / 2,
+						    gdk_pixbuf_get_width (col->pixbuf), gdk_pixbuf_get_height(col->pixbuf),
 						    GDK_PIXBUF_ALPHA_FULL, 128,
 						    GDK_RGB_DITHER_NORMAL,
 						    0, 0);
@@ -571,12 +571,12 @@ draw_button (ETableHeaderItem *ethi, ETableCol *col,
 			       col->text, strlen (col->text));
 	}
 
-	switch ( arrow ) {
+	switch (arrow){
 	case E_TABLE_COL_ARROW_NONE:
 		break;
 	case E_TABLE_COL_ARROW_UP:
 	case E_TABLE_COL_ARROW_DOWN:
-		gtk_paint_arrow   (gtk_widget_get_style(GTK_WIDGET(GNOME_CANVAS_ITEM(ethi)->canvas)),
+		gtk_paint_arrow   (gtk_widget_get_style (GTK_WIDGET(GNOME_CANVAS_ITEM(ethi)->canvas)),
 				   drawable,
 				   GTK_STATE_NORMAL,
 				   GTK_SHADOW_IN,
@@ -602,7 +602,7 @@ ethi_draw (GnomeCanvasItem *item, GdkDrawable *drawable, int x, int y, int width
 	const int cols = e_table_header_count (ethi->eth);
 	int x1, x2;
 	int col;
-	GHashTable *arrows = g_hash_table_new(NULL, NULL);
+	GHashTable *arrows = g_hash_table_new (NULL, NULL);
 	xmlNode *node;
 	gint group_indent = 0;
 
@@ -613,21 +613,21 @@ ethi_draw (GnomeCanvasItem *item, GdkDrawable *drawable, int x, int y, int width
 
 	if (ethi->sort_info) {
 		xmlNode *grouping;
-		gtk_object_get(GTK_OBJECT(ethi->sort_info),
+		gtk_object_get (GTK_OBJECT(ethi->sort_info),
 			       "grouping", &grouping,
 			       NULL);
-		for (node = grouping->childs; node && strcmp(node->name, "leaf"); node = node->childs) {
+		for (node = grouping->childs; node && strcmp (node->name, "leaf"); node = node->childs) {
 			group_indent ++;
-			g_hash_table_insert(arrows, 
-					    (gpointer) e_xml_get_integer_prop_by_name(node, "column"), 
-					    (gpointer) (e_xml_get_integer_prop_by_name(node, "ascending") ?
+			g_hash_table_insert (arrows, 
+					    (gpointer) e_xml_get_integer_prop_by_name (node, "column"), 
+					    (gpointer) (e_xml_get_integer_prop_by_name (node, "ascending") ?
 							E_TABLE_COL_ARROW_DOWN : 
 							E_TABLE_COL_ARROW_UP));
 		}
-		if ( node )
-			g_hash_table_insert(arrows, 
-					    (gpointer) e_xml_get_integer_prop_by_name(node, "column"), 
-					    (gpointer) (e_xml_get_integer_prop_by_name(node, "ascending") ?
+		if (node)
+			g_hash_table_insert (arrows, 
+					    (gpointer) e_xml_get_integer_prop_by_name (node, "column"), 
+					    (gpointer) (e_xml_get_integer_prop_by_name (node, "ascending") ?
 							E_TABLE_COL_ARROW_DOWN : 
 							E_TABLE_COL_ARROW_UP));
 	}
@@ -658,9 +658,9 @@ ethi_draw (GnomeCanvasItem *item, GdkDrawable *drawable, int x, int y, int width
 		draw_button (ethi, ecol, drawable, gc,
 			     GTK_WIDGET (canvas)->style,
 			     x1 - x, ethi->y1 - y, x2 - x1, ethi->height, 
-			     (ETableColArrow) g_hash_table_lookup(arrows, (gpointer) ecol->col_idx) );
+			     (ETableColArrow) g_hash_table_lookup (arrows, (gpointer) ecol->col_idx));
 	}
-	g_hash_table_destroy(arrows);
+	g_hash_table_destroy (arrows);
 }
 
 static double
@@ -690,7 +690,7 @@ is_pointer_on_division (ETableHeaderItem *ethi, int pos, int *the_total, int *re
 
 		total += ecol->width;
 
-		if ((total - TOLERANCE < pos ) && (pos < total + TOLERANCE)){
+		if ((total - TOLERANCE < pos)&& (pos < total + TOLERANCE)){
 			if (return_col)
 				*return_col = col;
 			if (the_total)
@@ -706,7 +706,7 @@ is_pointer_on_division (ETableHeaderItem *ethi, int pos, int *the_total, int *re
 	return FALSE;
 }
 
-#define convert(c,sx,sy,x,y) gnome_canvas_w2c (c,sx,sy,x,y)
+#define convert (c,sx,sy,x,y) gnome_canvas_w2c (c,sx,sy,x,y)
 
 static void
 set_cursor (ETableHeaderItem *ethi, int pos)
@@ -767,11 +767,11 @@ ethi_start_drag (ETableHeaderItem *ethi, GdkEvent *event)
 	int col_width;
 	GdkPixmap *pixmap;
 	GdkGC *gc;
-	GHashTable *arrows = g_hash_table_new(NULL, NULL);
+	GHashTable *arrows = g_hash_table_new (NULL, NULL);
 	xmlNode *node;
 
 	ethi->drag_col = ethi_find_col_by_x (ethi, event->motion.x);
-	if ( ethi->drag_col < ethi->eth->frozen_count && ethi->drag_col >= 0 ) {
+	if (ethi->drag_col < ethi->eth->frozen_count && ethi->drag_col >= 0){
 		ethi->maybe_drag = FALSE;
 		ethi->drag_col = -1;
 	}
@@ -781,20 +781,20 @@ ethi_start_drag (ETableHeaderItem *ethi, GdkEvent *event)
 
 	if (ethi->sort_info) {
 		xmlNode *grouping;
-		gtk_object_get(GTK_OBJECT(ethi->sort_info),
+		gtk_object_get (GTK_OBJECT(ethi->sort_info),
 			       "grouping", &grouping,
 			       NULL);
-		for (node = grouping->childs; node && strcmp(node->name, "leaf"); node = node->childs) {
-			g_hash_table_insert(arrows, 
-					    (gpointer) e_xml_get_integer_prop_by_name(node, "column"), 
-					    (gpointer) (e_xml_get_integer_prop_by_name(node, "ascending") ?
+		for (node = grouping->childs; node && strcmp (node->name, "leaf"); node = node->childs) {
+			g_hash_table_insert (arrows, 
+					    (gpointer) e_xml_get_integer_prop_by_name (node, "column"), 
+					    (gpointer) (e_xml_get_integer_prop_by_name (node, "ascending") ?
 							E_TABLE_COL_ARROW_DOWN : 
 							E_TABLE_COL_ARROW_UP));
 		}
-		if ( node )
-			g_hash_table_insert(arrows, 
-					    (gpointer) e_xml_get_integer_prop_by_name(node, "column"), 
-					    (gpointer) (e_xml_get_integer_prop_by_name(node, "ascending") ?
+		if (node)
+			g_hash_table_insert (arrows, 
+					    (gpointer) e_xml_get_integer_prop_by_name (node, "column"), 
+					    (gpointer) (e_xml_get_integer_prop_by_name (node, "ascending") ?
 							E_TABLE_COL_ARROW_DOWN : 
 							E_TABLE_COL_ARROW_UP));
 	}
@@ -807,22 +807,22 @@ ethi_start_drag (ETableHeaderItem *ethi, GdkEvent *event)
 	  col_width = ethi->resize_width;
 	else
 	  col_width = ecol->width;
-	pixmap = gdk_pixmap_new(widget->window, col_width, ethi->height, -1);
+	pixmap = gdk_pixmap_new (widget->window, col_width, ethi->height, -1);
 	gc = widget->style->bg_gc [GTK_STATE_ACTIVE];
 	draw_button (ethi, ecol, pixmap, gc,
 		     widget->style,
 		     0, 0, col_width, ethi->height, 
-		     (ETableColArrow) g_hash_table_lookup(arrows, (gpointer) ecol->col_idx) );
+		     (ETableColArrow) g_hash_table_lookup (arrows, (gpointer) ecol->col_idx));
 	gtk_drag_set_icon_pixmap        (context,
-					 gdk_window_get_colormap(widget->window),
+					 gdk_window_get_colormap (widget->window),
 					 pixmap,
 					 NULL,
 					 col_width / 2,
 					 ethi->height / 2);
-	gdk_pixmap_unref(pixmap);
+	gdk_pixmap_unref (pixmap);
 
 	ethi->maybe_drag = FALSE;
-	g_hash_table_destroy(arrows);
+	g_hash_table_destroy (arrows);
 }
 
 /*
@@ -930,33 +930,33 @@ ethi_event (GnomeCanvasItem *item, GdkEvent *e)
 			xmlNode *node;
 			xmlNode *grouping;
 
-			gtk_object_get(GTK_OBJECT(ethi->sort_info),
+			gtk_object_get (GTK_OBJECT(ethi->sort_info),
 				       "grouping", &grouping,
 				       NULL);
 
-			col = e_table_header_get_column(ethi->eth, ethi_find_col_by_x (ethi, e->button.x));
+			col = e_table_header_get_column (ethi->eth, ethi_find_col_by_x (ethi, e->button.x));
 			model_col = col->col_idx;
-			for (node = grouping->childs; node->childs && strcmp(node->name, "leaf"); node = node->childs) {
-				if ( model_col == e_xml_get_integer_prop_by_name(node, "column") ) {
-					int ascending = e_xml_get_integer_prop_by_name(node, "ascending");
+			for (node = grouping->childs; node->childs && strcmp (node->name, "leaf"); node = node->childs) {
+				if (model_col == e_xml_get_integer_prop_by_name (node, "column")){
+					int ascending = e_xml_get_integer_prop_by_name (node, "ascending");
 					ascending = ! ascending;
-					e_xml_set_integer_prop_by_name(node, "ascending", ascending);
+					e_xml_set_integer_prop_by_name (node, "ascending", ascending);
 					break;
 				}
 			}
-			if ( !node ) {
+			if (!node){
 			}
-			if ( node && !strcmp(node->name, "leaf") ) {
-				if ( model_col == e_xml_get_integer_prop_by_name(node, "column") ) {
-					int ascending = e_xml_get_integer_prop_by_name(node, "ascending");
+			if (node && !strcmp (node->name, "leaf")){
+				if (model_col == e_xml_get_integer_prop_by_name (node, "column")){
+					int ascending = e_xml_get_integer_prop_by_name (node, "ascending");
 					ascending = ! ascending;
-					e_xml_set_integer_prop_by_name(node, "ascending", ascending);
+					e_xml_set_integer_prop_by_name (node, "ascending", ascending);
 				} else {
-					e_xml_set_integer_prop_by_name(node, "ascending", 1);
-					e_xml_set_integer_prop_by_name(node, "column", model_col);
+					e_xml_set_integer_prop_by_name (node, "ascending", 1);
+					e_xml_set_integer_prop_by_name (node, "column", model_col);
 				}
 			}
-			e_table_sort_info_changed(ethi->sort_info);
+			e_table_sort_info_changed (ethi->sort_info);
 		}
 		if (needs_ungrab)
 			gnome_canvas_item_ungrab (item, e->button.time);

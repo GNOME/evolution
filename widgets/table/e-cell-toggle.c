@@ -17,7 +17,7 @@
 #include "e-util/e-util.h"
 #include "e-table-item.h"
 
-#define PARENT_TYPE e_cell_get_type()
+#define PARENT_TYPE e_cell_get_type ()
 
 typedef struct {
 	ECellView    cell_view;

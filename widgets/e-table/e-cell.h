@@ -71,7 +71,7 @@ void       e_cell_focus     (ECellView *ecell_view, int model_col, int view_col,
 void       e_cell_unfocus   (ECellView *ecell_view);
 int        e_cell_height    (ECellView *ecell_view, int model_col, int view_col, int row);
 
-void      *e_cell_enter_edit(ECellView *ecell_view, int model_col, int view_col, int row);
-void       e_cell_leave_edit(ECellView *ecell_view, int model_col, int view_col, int row, void *edit_context);
+void      *e_cell_enter_edit (ECellView *ecell_view, int model_col, int view_col, int row);
+void       e_cell_leave_edit (ECellView *ecell_view, int model_col, int view_col, int row, void *edit_context);
 
 #endif /* _E_CELL_H_ */

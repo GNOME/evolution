@@ -3,7 +3,7 @@
  * E-Table-Group.c: Implements the grouping objects for elements on a table
  *
  * Author:
- *   Miguel de Icaza (miguel@gnu.org()
+ *   Miguel de Icaza (miguel@gnu.org ()
  *
  * Copyright 1999, Helix Code, Inc.
  */
@@ -69,13 +69,13 @@ static void
 etg_destroy (GtkObject *object)
 {
 	ETableGroup *etg = E_TABLE_GROUP(object);
-	if ( etg->header )
-		gtk_object_unref(GTK_OBJECT(etg->header));
-	if ( etg->full_header )
-		gtk_object_unref(GTK_OBJECT(etg->full_header));
-	if ( etg->model )
-		gtk_object_unref(GTK_OBJECT(etg->model));
-	if ( GTK_OBJECT_CLASS (etg_parent_class)->destroy )
+	if (etg->header)
+		gtk_object_unref (GTK_OBJECT(etg->header));
+	if (etg->full_header)
+		gtk_object_unref (GTK_OBJECT(etg->full_header));
+	if (etg->model)
+		gtk_object_unref (GTK_OBJECT(etg->model));
+	if (GTK_OBJECT_CLASS (etg_parent_class)->destroy)
 		GTK_OBJECT_CLASS (etg_parent_class)->destroy (object);
 }
 
@@ -91,17 +91,17 @@ e_table_group_new (GnomeCanvasGroup *parent,
 
 	g_return_val_if_fail (model != NULL, NULL);
 
-	column = e_xml_get_integer_prop_by_name(rules, "column");
-	ascending = e_xml_get_integer_prop_by_name(rules, "ascending");
+	column = e_xml_get_integer_prop_by_name (rules, "column");
+	ascending = e_xml_get_integer_prop_by_name (rules, "ascending");
 
-	if(rules && !xmlStrcmp(rules->name, "group")) {
+	if (rules && !xmlStrcmp(rules->name, "group")) {
 		ETableCol *col;
-		if ( column > e_table_header_count(full_header) )
-			return e_table_group_leaf_new(parent, full_header, header, model, column, ascending);
-		col = e_table_header_get_columns(full_header)[column];
-		return e_table_group_container_new(parent, full_header, header, model, col, ascending, rules->childs);
+		if (column > e_table_header_count (full_header))
+			return e_table_group_leaf_new (parent, full_header, header, model, column, ascending);
+		col = e_table_header_get_columns (full_header)[column];
+		return e_table_group_container_new (parent, full_header, header, model, col, ascending, rules->childs);
 	} else {
-		return e_table_group_leaf_new(parent, full_header, header, model, column, ascending);
+		return e_table_group_leaf_new (parent, full_header, header, model, column, ascending);
 	}
 	return NULL;
 }
@@ -114,11 +114,11 @@ e_table_group_construct (GnomeCanvasGroup *parent,
 			 ETableModel      *model)
 {
 	etg->full_header = full_header;
-	gtk_object_ref(GTK_OBJECT(etg->full_header));
+	gtk_object_ref (GTK_OBJECT(etg->full_header));
 	etg->header = header;
-	gtk_object_ref(GTK_OBJECT(etg->header));
+	gtk_object_ref (GTK_OBJECT(etg->header));
 	etg->model = model;
-	gtk_object_ref(GTK_OBJECT(etg->model));
+	gtk_object_ref (GTK_OBJECT(etg->model));
 	gnome_canvas_item_constructv (GNOME_CANVAS_ITEM (etg), parent, 0, NULL);
 }
 
@@ -129,7 +129,7 @@ e_table_group_add (ETableGroup *etg,
 	g_return_if_fail (etg != NULL);
 	g_return_if_fail (E_IS_TABLE_GROUP (etg));
 
-	if ( ETG_CLASS (etg)->add )
+	if (ETG_CLASS (etg)->add)
 		ETG_CLASS (etg)->add (etg, row);
 }
 
@@ -140,7 +140,7 @@ e_table_group_remove (ETableGroup *etg,
 	g_return_val_if_fail (etg != NULL, FALSE);
 	g_return_val_if_fail (E_IS_TABLE_GROUP (etg), FALSE);
 
-	if ( ETG_CLASS (etg)->remove )
+	if (ETG_CLASS (etg)->remove)
 		return ETG_CLASS (etg)->remove (etg, row);
 	else
 		return FALSE;
@@ -152,7 +152,7 @@ e_table_group_get_count (ETableGroup *etg)
 	g_return_val_if_fail (etg != NULL, 0);
 	g_return_val_if_fail (E_IS_TABLE_GROUP (etg), 0);
 
-	if ( ETG_CLASS (etg)->get_count )
+	if (ETG_CLASS (etg)->get_count)
 		return ETG_CLASS (etg)->get_count (etg);
 	else
 		return 0;
@@ -166,7 +166,7 @@ e_table_group_increment (ETableGroup *etg,
 	g_return_if_fail (etg != NULL);
 	g_return_if_fail (E_IS_TABLE_GROUP (etg));
 
-	if ( ETG_CLASS (etg)->increment )
+	if (ETG_CLASS (etg)->increment)
 		ETG_CLASS (etg)->increment (etg, position, amount);
 }
 
@@ -178,7 +178,7 @@ e_table_group_set_focus (ETableGroup *etg,
 	g_return_if_fail (etg != NULL);
 	g_return_if_fail (E_IS_TABLE_GROUP (etg));
 
-	if ( ETG_CLASS (etg)->set_focus )
+	if (ETG_CLASS (etg)->set_focus)
 		ETG_CLASS (etg)->set_focus (etg, direction, row);
 }
 
@@ -188,7 +188,7 @@ e_table_group_get_focus (ETableGroup *etg)
 	g_return_val_if_fail (etg != NULL, FALSE);
 	g_return_val_if_fail (E_IS_TABLE_GROUP (etg), FALSE);
 
-	if ( ETG_CLASS (etg)->get_focus )
+	if (ETG_CLASS (etg)->get_focus)
 		return ETG_CLASS (etg)->get_focus (etg);
 	else
 		return FALSE;
@@ -200,7 +200,7 @@ e_table_group_get_focus_column (ETableGroup *etg)
 	g_return_val_if_fail (etg != NULL, FALSE);
 	g_return_val_if_fail (E_IS_TABLE_GROUP (etg), FALSE);
 
-	if ( ETG_CLASS (etg)->get_focus_column )
+	if (ETG_CLASS (etg)->get_focus_column)
 		return ETG_CLASS (etg)->get_focus_column (etg);
 	else
 		return FALSE;
@@ -212,7 +212,7 @@ e_table_group_get_ecol (ETableGroup *etg)
 	g_return_val_if_fail (etg != NULL, NULL);
 	g_return_val_if_fail (E_IS_TABLE_GROUP (etg), NULL);
 
-	if ( ETG_CLASS (etg)->get_ecol )
+	if (ETG_CLASS (etg)->get_ecol)
 		return ETG_CLASS (etg)->get_ecol (etg);
 	else
 		return NULL;
@@ -253,21 +253,21 @@ etg_event (GnomeCanvasItem *item, GdkEvent *event)
 	default:
 		return_val = FALSE;
 	}
-	if ( return_val == FALSE ) {
-		if ( GNOME_CANVAS_ITEM_CLASS(etg_parent_class)->event )
-			return GNOME_CANVAS_ITEM_CLASS(etg_parent_class)->event(item, event);
+	if (return_val == FALSE){
+		if (GNOME_CANVAS_ITEM_CLASS(etg_parent_class)->event)
+			return GNOME_CANVAS_ITEM_CLASS(etg_parent_class)->event (item, event);
 	}
 	return return_val;
 
 }
 
 static void
-etg_thaw(ETableGroup *etg)
+etg_thaw (ETableGroup *etg)
 {
 	g_return_if_fail (etg != NULL);
 	g_return_if_fail (E_IS_TABLE_GROUP (etg));
 
-	if ( ETG_CLASS (etg)->thaw )
+	if (ETG_CLASS (etg)->thaw)
 		ETG_CLASS (etg)->thaw (etg);
 }
 
@@ -278,16 +278,16 @@ etg_set_arg (GtkObject *object, GtkArg *arg, guint arg_id)
 
 	switch (arg_id) {
 	case ARG_FROZEN:
-		if ( GTK_VALUE_BOOL (*arg) )
+		if (GTK_VALUE_BOOL (*arg))
 			etg->frozen = TRUE;
 		else {
 			etg->frozen = FALSE;
-			etg_thaw(etg);
+			etg_thaw (etg);
 		}
 		break;
 	case ARG_WIDTH:
-		if ( ETG_CLASS(etg)->set_width )
-			ETG_CLASS(etg)->set_width(etg, GTK_VALUE_DOUBLE (*arg));
+		if (ETG_CLASS(etg)->set_width)
+			ETG_CLASS(etg)->set_width (etg, GTK_VALUE_DOUBLE (*arg));
 		break;
 	default:
 		break;
@@ -304,14 +304,14 @@ etg_get_arg (GtkObject *object, GtkArg *arg, guint arg_id)
 		GTK_VALUE_BOOL (*arg) = etg->frozen;
 		break;
 	case ARG_HEIGHT:
-		if ( ETG_CLASS(etg)->get_height )
-			GTK_VALUE_DOUBLE (*arg) = ETG_CLASS(etg)->get_height(etg);
+		if (ETG_CLASS(etg)->get_height)
+			GTK_VALUE_DOUBLE (*arg) = ETG_CLASS(etg)->get_height (etg);
 		else
 			arg->type = GTK_TYPE_INVALID;
 		break;
 	case ARG_WIDTH:
-		if ( ETG_CLASS(etg)->get_width )
-			GTK_VALUE_DOUBLE (*arg) = ETG_CLASS(etg)->get_width(etg);
+		if (ETG_CLASS(etg)->get_width)
+			GTK_VALUE_DOUBLE (*arg) = ETG_CLASS(etg)->get_width (etg);
 		else
 			arg->type = GTK_TYPE_INVALID;
 		break;

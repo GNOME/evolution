@@ -24,11 +24,11 @@ static void e_table_text_model_class_init (ETableTextModelClass *class);
 static void e_table_text_model_init (ETableTextModel *model);
 static void e_table_text_model_destroy (GtkObject *object);
 
-static gchar *e_table_text_model_get_text(ETextModel *model);
-static void e_table_text_model_set_text(ETextModel *model, gchar *text);
-static void e_table_text_model_insert(ETextModel *model, gint postion, gchar *text);
-static void e_table_text_model_insert_length(ETextModel *model, gint postion, gchar *text, gint length);
-static void e_table_text_model_delete(ETextModel *model, gint postion, gint length);
+static gchar *e_table_text_model_get_text (ETextModel *model);
+static void e_table_text_model_set_text (ETextModel *model, gchar *text);
+static void e_table_text_model_insert (ETextModel *model, gint postion, gchar *text);
+static void e_table_text_model_insert_length (ETextModel *model, gint postion, gchar *text, gint length);
+static void e_table_text_model_delete (ETextModel *model, gint postion, gint length);
 
 static GtkObject *parent_class;
 
@@ -112,102 +112,102 @@ e_table_text_model_destroy (GtkObject *object)
 	g_assert (!model->model || GTK_IS_OBJECT (model->model));
 	
 	if (model->cell_changed_signal_id)
-		gtk_signal_disconnect(GTK_OBJECT(model->model), 
+		gtk_signal_disconnect (GTK_OBJECT(model->model), 
 				      model->cell_changed_signal_id);
 
 	if (model->row_changed_signal_id)
-		gtk_signal_disconnect(GTK_OBJECT(model->model), 
+		gtk_signal_disconnect (GTK_OBJECT(model->model), 
 				      model->row_changed_signal_id);
 
 	if (model->model)
-		gtk_object_unref(GTK_OBJECT(model->model));
+		gtk_object_unref (GTK_OBJECT(model->model));
 
 	if (GTK_OBJECT_CLASS (parent_class)->destroy)
 		(* GTK_OBJECT_CLASS (parent_class)->destroy) (object);
 }
 static gchar *
-e_table_text_model_get_text(ETextModel *text_model)
+e_table_text_model_get_text (ETextModel *text_model)
 {
 	ETableTextModel *model = E_TABLE_TEXT_MODEL(text_model);
-	if ( model->model )
-		return (gchar *)e_table_model_value_at(model->model, model->model_col, model->row);
+	if (model->model)
+		return (gchar *)e_table_model_value_at (model->model, model->model_col, model->row);
 	else
 		return "";
 }
 
 static void
-e_table_text_model_set_text(ETextModel *text_model, gchar *text)
+e_table_text_model_set_text (ETextModel *text_model, gchar *text)
 {
 	ETableTextModel *model = E_TABLE_TEXT_MODEL(text_model);
-	if ( model->model )
-		e_table_model_set_value_at(model->model, model->model_col, model->row, (void *) text);
+	if (model->model)
+		e_table_model_set_value_at (model->model, model->model_col, model->row, (void *) text);
 }
 
 static void
-e_table_text_model_insert(ETextModel *text_model, gint position, gchar *text)
+e_table_text_model_insert (ETextModel *text_model, gint position, gchar *text)
 {
 	ETableTextModel *model = E_TABLE_TEXT_MODEL(text_model);
-	if ( model->model ) {
-		gchar *temp = (gchar *)e_table_model_value_at(model->model, model->model_col, model->row);
-		temp = g_strdup_printf("%.*s%s%s", position, temp, text, temp + position);
-		e_table_model_set_value_at(model->model, model->model_col, model->row, temp);
-		g_free(temp);
+	if (model->model){
+		gchar *temp = (gchar *)e_table_model_value_at (model->model, model->model_col, model->row);
+		temp = g_strdup_printf ("%.*s%s%s", position, temp, text, temp + position);
+		e_table_model_set_value_at (model->model, model->model_col, model->row, temp);
+		g_free (temp);
 	}
 }
 
 static void
-e_table_text_model_insert_length(ETextModel *text_model, gint position, gchar *text, gint length)
+e_table_text_model_insert_length (ETextModel *text_model, gint position, gchar *text, gint length)
 {
 	ETableTextModel *model = E_TABLE_TEXT_MODEL(text_model);
-	if ( model->model ) {
-		gchar *temp = (gchar *)e_table_model_value_at(model->model, model->model_col, model->row);
-		temp = g_strdup_printf("%.*s%.*s%s", position, temp, length, text, temp + position);
-		e_table_model_set_value_at(model->model, model->model_col, model->row, temp);
-		g_free(temp);
+	if (model->model){
+		gchar *temp = (gchar *)e_table_model_value_at (model->model, model->model_col, model->row);
+		temp = g_strdup_printf ("%.*s%.*s%s", position, temp, length, text, temp + position);
+		e_table_model_set_value_at (model->model, model->model_col, model->row, temp);
+		g_free (temp);
 	}
 }
 
 static void
-e_table_text_model_delete(ETextModel *text_model, gint position, gint length)
+e_table_text_model_delete (ETextModel *text_model, gint position, gint length)
 {
 	ETableTextModel *model = E_TABLE_TEXT_MODEL(text_model);
-	if ( model->model ) {
-		gchar *temp = (gchar *)e_table_model_value_at(model->model, model->model_col, model->row);
-		temp = g_strdup_printf("%.*s%s", position, temp, temp + position + length);
-		e_table_model_set_value_at(model->model, model->model_col, model->row, temp);
-		g_free(temp);
+	if (model->model){
+		gchar *temp = (gchar *)e_table_model_value_at (model->model, model->model_col, model->row);
+		temp = g_strdup_printf ("%.*s%s", position, temp, temp + position + length);
+		e_table_model_set_value_at (model->model, model->model_col, model->row, temp);
+		g_free (temp);
 	}
 }
 
 static void
-cell_changed(ETableModel *table_model, int model_col, int row, ETableTextModel *model)
+cell_changed (ETableModel *table_model, int model_col, int row, ETableTextModel *model)
 {
 	if (model->model_col == model_col &&
 	    model->row == row)
-		e_text_model_changed(E_TEXT_MODEL(model));
+		e_text_model_changed (E_TEXT_MODEL(model));
 }
 
 static void
-row_changed(ETableModel *table_model, int row, ETableTextModel *model)
+row_changed (ETableModel *table_model, int row, ETableTextModel *model)
 {
 	if (model->row == row)
-		e_text_model_changed(E_TEXT_MODEL(model));
+		e_text_model_changed (E_TEXT_MODEL(model));
 }
 
 ETableTextModel *
-e_table_text_model_new(ETableModel *table_model, int row, int model_col)
+e_table_text_model_new (ETableModel *table_model, int row, int model_col)
 {
 	ETableTextModel *model = gtk_type_new (e_table_text_model_get_type ());
 	model->model = table_model;
-	if ( model->model ) {
-		gtk_object_ref(GTK_OBJECT(model->model));
+	if (model->model){
+		gtk_object_ref (GTK_OBJECT(model->model));
 		model->cell_changed_signal_id = 
-			gtk_signal_connect(GTK_OBJECT(model->model),
+			gtk_signal_connect (GTK_OBJECT(model->model),
 					   "model_cell_changed",
 					   GTK_SIGNAL_FUNC(cell_changed),
 					   model);
 		model->row_changed_signal_id = 
-			gtk_signal_connect(GTK_OBJECT(model->model),
+			gtk_signal_connect (GTK_OBJECT(model->model),
 					   "model_row_changed",
 					   GTK_SIGNAL_FUNC(row_changed),
 					   model);

@@ -54,7 +54,7 @@ struct _ETableTextModelClass {
 
 /* Standard Gtk function */
 GtkType e_table_text_model_get_type (void);
-ETableTextModel *e_table_text_model_new(ETableModel *table_model, int row, int model_col);
+ETableTextModel *e_table_text_model_new (ETableModel *table_model, int row, int model_col);
 
 END_GNOME_DECLS
 

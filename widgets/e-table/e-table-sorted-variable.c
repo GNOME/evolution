@@ -71,27 +71,27 @@ etsv_add       (ETableSubsetVariable *etssv,
 	GCompareFunc comp = etsv->compare;
 	gint ascending = etsv->ascending;
 
-	void *val = e_table_model_value_at(etss->source, col, row);
+	void *val = e_table_model_value_at (etss->source, col, row);
 	
 	/* FIXME: binary search anyone? */
-	for ( i = 0; i < etss->n_map; i++ ) {
-		int comp_val = (*comp)(val, e_table_model_value_at(etss->source, col, etss->map_table[i]));
-		if ( (ascending && comp_val < 0) || ((!ascending) && comp_val > 0) )
+	for (i = 0; i < etss->n_map; i++){
+		int comp_val = (*comp)(val, e_table_model_value_at (etss->source, col, etss->map_table[i]));
+		if ((ascending && comp_val < 0) || ((!ascending) && comp_val > 0))
 			break;
-		if ( comp_val == 0 )
-			if ( (ascending && row < etss->map_table[i]) || ((!ascending) && row > etss->map_table[i]) )
+		if (comp_val == 0)
+			if ((ascending && row < etss->map_table[i]) || ((!ascending) && row > etss->map_table[i]))
 				break;
 	}
-	if ( etss->n_map + 1 > etssv->n_vals_allocated ) {
-		etss->map_table = g_realloc(etss->map_table, (etssv->n_vals_allocated + INCREMENT_AMOUNT) * sizeof(int));
+	if (etss->n_map + 1 > etssv->n_vals_allocated){
+		etss->map_table = g_realloc (etss->map_table, (etssv->n_vals_allocated + INCREMENT_AMOUNT) * sizeof(int));
 		etssv->n_vals_allocated += INCREMENT_AMOUNT;
 	}
-	if ( i < etss->n_map )
-		memmove(etss->map_table + i + 1, etss->map_table + i, (etss->n_map - i) * sizeof(int));
+	if (i < etss->n_map)
+		memmove (etss->map_table + i + 1, etss->map_table + i, (etss->n_map - i) * sizeof(int));
 	etss->map_table[i] = row;
 	etss->n_map++;
-	if ( !etm->frozen )
-		e_table_model_changed(etm);
+	if (!etm->frozen)
+		e_table_model_changed (etm);
 }
 
 ETableModel *
@@ -122,8 +122,8 @@ e_table_sorted_variable_new (ETableModel *source, int col, int ascending, GCompa
 static void
 etsv_proxy_model_changed (ETableModel *etm, ETableSortedVariable *etsv)
 {
-	if ( !E_TABLE_MODEL(etsv)->frozen ) {
-		/*		FIXME: do_resort(); */
+	if (!E_TABLE_MODEL(etsv)->frozen){
+		/*		FIXME: do_resort (); */
 	}
 }
 
@@ -131,9 +131,9 @@ static void
 etsv_proxy_model_row_changed (ETableModel *etm, int row, ETableSortedVariable *etsv)
 {
 	ETableSubsetVariable *etssv = E_TABLE_SUBSET_VARIABLE(etsv);
-	if ( !E_TABLE_MODEL(etsv)->frozen ) {
-		if(e_table_subset_variable_remove(etssv, row))
-			e_table_subset_variable_add(etssv, row);
+	if (!E_TABLE_MODEL(etsv)->frozen){
+		if (e_table_subset_variable_remove(etssv, row))
+			e_table_subset_variable_add (etssv, row);
 	}
 }
 
@@ -141,10 +141,10 @@ static void
 etsv_proxy_model_cell_changed (ETableModel *etm, int col, int row, ETableSortedVariable *etsv)
 {
 	ETableSubsetVariable *etssv = E_TABLE_SUBSET_VARIABLE(etsv);
-	if ( !E_TABLE_MODEL(etsv)->frozen ) {
-		if ( col == etsv->sort_col ) {
-			if(e_table_subset_variable_remove(etssv, row))
-				e_table_subset_variable_add(etssv, row);
+	if (!E_TABLE_MODEL(etsv)->frozen){
+		if (col == etsv->sort_col){
+			if (e_table_subset_variable_remove(etssv, row))
+				e_table_subset_variable_add (etssv, row);
 		}
 	}
 }

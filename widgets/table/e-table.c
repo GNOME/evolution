@@ -69,7 +69,7 @@ et_destroy (GtkObject *object)
 	gtk_widget_destroy (GTK_WIDGET (et->table_canvas));
 
 	if (et->rebuild_idle_id) {
-		g_source_remove(et->rebuild_idle_id);
+		g_source_remove (et->rebuild_idle_id);
 		et->rebuild_idle_id = 0;
 	}
 	
@@ -113,7 +113,7 @@ e_table_make_header (ETable *e_table, ETableHeader *full_header, xmlNode *xmlCol
 		e_table_header_add_column (nh, e_table_header_get_column (full_header, col), -1);
 	}
 
-	e_table_header_set_frozen_columns( nh, e_xml_get_integer_prop_by_name(xmlColumns, "frozen_columns") );
+	e_table_header_set_frozen_columns (nh, e_xml_get_integer_prop_by_name(xmlColumns, "frozen_columns"));
 	
 	return nh;
 }
@@ -399,7 +399,7 @@ e_table_create_nodes (ETable *e_table, ETableModel *model, ETableHeader *header,
 	tables = e_table_make_subtables (e_table->model, groups);
 	e_table_destroy_groups (groups);
 	group_item = gnome_canvas_item_new (root,
-					    e_table_group_get_type(),
+					    e_table_group_get_type (),
 					    "columns", ecol, TRUE, parent == NULL);
 	group = node_new (group_item, model, parent);
 	
@@ -493,7 +493,7 @@ e_table_canvas_realize (GtkWidget *widget)
 	GnomeCanvasItem *group_item;
 	
 	group_item = gnome_canvas_item_new (root,
-					    e_table_group_get_type(),
+					    e_table_group_get_type (),
 					    "header", E_TABLE, TRUE, parent == NULL);
 	
 
@@ -674,8 +674,8 @@ et_table_row_changed (ETableModel *table_model, int row, ETable *et)
 		}
 	}
 
-	if ( !et->rebuild_idle_id )
-		et->rebuild_idle_id = g_idle_add(changed_idle, et);
+	if (!et->rebuild_idle_id)
+		et->rebuild_idle_id = g_idle_add (changed_idle, et);
 }
 
 static void
@@ -703,7 +703,7 @@ e_table_setup_table (ETable *e_table, ETableHeader *full_header, ETableHeader *h
 					    header,
 					    model,
 					    xml_grouping->childs);
-	gtk_signal_connect(GTK_OBJECT(e_table->group), "row_selection",
+	gtk_signal_connect (GTK_OBJECT(e_table->group), "row_selection",
 			   GTK_SIGNAL_FUNC(group_row_selection), e_table);
 	
 	e_table->table_model_change_id = gtk_signal_connect (
@@ -727,7 +727,7 @@ e_table_fill_table (ETable *e_table, ETableModel *model)
 	count = e_table_model_row_count (model);
 	gtk_object_set (GTK_OBJECT (e_table->group),
 			"frozen", TRUE, NULL);
-	for ( i = 0; i < count; i++ )
+	for (i = 0; i < count; i++)
 		e_table_group_add (e_table->group, i);
 
 	gtk_object_set (GTK_OBJECT (e_table->group),
@@ -752,9 +752,9 @@ et_real_construct (ETable *e_table, ETableHeader *full_header, ETableModel *etm,
 	gtk_object_ref (GTK_OBJECT (etm));
 
 	e_table->specification = xmlSpec;
-	xmlRoot = xmlDocGetRootElement(xmlSpec);
-	xmlColumns = e_xml_get_child_by_name(xmlRoot, "columns-shown");
-	xmlGrouping = e_xml_get_child_by_name(xmlRoot, "grouping");
+	xmlRoot = xmlDocGetRootElement (xmlSpec);
+	xmlColumns = e_xml_get_child_by_name (xmlRoot, "columns-shown");
+	xmlGrouping = e_xml_get_child_by_name (xmlRoot, "grouping");
 	
 	gtk_widget_push_visual (gdk_rgb_get_visual ());
 	gtk_widget_push_colormap (gdk_rgb_get_cmap ());
@@ -767,8 +767,8 @@ et_real_construct (ETable *e_table, ETableHeader *full_header, ETableModel *etm,
 	
 	vbox = gtk_vbox_new (FALSE, 0);
 
-	gtk_box_pack_start (GTK_BOX (vbox), GTK_WIDGET (e_table->header_canvas), FALSE, FALSE, 0 );
-	gtk_box_pack_start (GTK_BOX (vbox), GTK_WIDGET (e_table->table_canvas), TRUE, TRUE, 0 );
+	gtk_box_pack_start (GTK_BOX (vbox), GTK_WIDGET (e_table->header_canvas), FALSE, FALSE, 0);
+	gtk_box_pack_start (GTK_BOX (vbox), GTK_WIDGET (e_table->table_canvas), TRUE, TRUE, 0);
 
 	gtk_widget_show (vbox);
 
@@ -776,7 +776,7 @@ et_real_construct (ETable *e_table, ETableHeader *full_header, ETableModel *etm,
 
 	vscrollbar = gtk_vscrollbar_new (gtk_layout_get_vadjustment (GTK_LAYOUT (e_table->table_canvas)));
 	gtk_widget_show (vscrollbar);
-	gtk_box_pack_start (GTK_BOX (e_table), vscrollbar, FALSE, FALSE, 0 );
+	gtk_box_pack_start (GTK_BOX (e_table), vscrollbar, FALSE, FALSE, 0);
 
 	gtk_widget_pop_colormap ();
 	gtk_widget_pop_visual ();
@@ -788,11 +788,11 @@ e_table_construct (ETable *e_table, ETableHeader *full_header, ETableModel *etm,
 {
 	xmlDoc *xmlSpec;
 	char *copy;
-	copy = g_strdup(spec);
+	copy = g_strdup (spec);
 
-	xmlSpec = xmlParseMemory(copy, strlen(copy) + 1);
-	et_real_construct(e_table, full_header, etm, xmlSpec);
-	g_free(copy);
+	xmlSpec = xmlParseMemory (copy, strlen(copy) + 1);
+	et_real_construct (e_table, full_header, etm, xmlSpec);
+	g_free (copy);
 }
 
 void
@@ -801,8 +801,8 @@ e_table_construct_from_spec_file (ETable *e_table, ETableHeader *full_header, ET
 {
 	xmlDoc *xmlSpec;
 
-	xmlSpec = xmlParseFile(filename);
-	et_real_construct(e_table, full_header, etm, xmlSpec);
+	xmlSpec = xmlParseFile (filename);
+	et_real_construct (e_table, full_header, etm, xmlSpec);
 }
 
 GtkWidget *
@@ -830,33 +830,33 @@ e_table_new_from_spec_file (ETableHeader *full_header, ETableModel *etm, const c
 }
 
 static xmlNode *
-et_build_column_spec(ETable *e_table)
+et_build_column_spec (ETable *e_table)
 {
 	xmlNode *columns_shown;
 	gint i;
 	gint col_count;
 
-	columns_shown = xmlNewNode(NULL, "columns-shown");
+	columns_shown = xmlNewNode (NULL, "columns-shown");
 
-	col_count = e_table_header_count(e_table->header);
-	for ( i = 0; i < col_count; i++ ) {
-		gchar *text = g_strdup_printf("%d", e_table_header_index(e_table->header, i));
-		xmlNewChild(columns_shown, NULL, "column", text);
-		g_free(text);
+	col_count = e_table_header_count (e_table->header);
+	for (i = 0; i < col_count; i++){
+		gchar *text = g_strdup_printf ("%d", e_table_header_index(e_table->header, i));
+		xmlNewChild (columns_shown, NULL, "column", text);
+		g_free (text);
 	}
-	if ( e_table->header->frozen_count != 0 )
-		e_xml_set_integer_prop_by_name(columns_shown, "frozen_columns", e_table->header->frozen_count);
+	if (e_table->header->frozen_count != 0)
+		e_xml_set_integer_prop_by_name (columns_shown, "frozen_columns", e_table->header->frozen_count);
 	return columns_shown;
 }
 
 static xmlNode *
-et_build_grouping_spec(ETable *e_table)
+et_build_grouping_spec (ETable *e_table)
 {
 	xmlNode *grouping;
 	xmlNode *root;
 
-	root = xmlDocGetRootElement(e_table->specification);
-	grouping = xmlCopyNode(e_xml_get_child_by_name(root, "grouping"), TRUE);
+	root = xmlDocGetRootElement (e_table->specification);
+	grouping = xmlCopyNode (e_xml_get_child_by_name(root, "grouping"), TRUE);
 	return grouping;
 }
 
@@ -865,13 +865,13 @@ et_build_tree (ETable *e_table)
 {
 	xmlDoc *doc;
 	xmlNode *root;
-	doc = xmlNewDoc( "1.0" );
-	if ( doc == NULL )
+	doc = xmlNewDoc ("1.0");
+	if (doc == NULL)
 		return NULL;
-	root = xmlNewDocNode(doc, NULL, "ETableSpecification", NULL);
-	xmlDocSetRootElement(doc, root);
-	xmlAddChild(root, et_build_column_spec(e_table));
-	xmlAddChild(root, et_build_grouping_spec(e_table));
+	root = xmlNewDocNode (doc, NULL, "ETableSpecification", NULL);
+	xmlDocSetRootElement (doc, root);
+	xmlAddChild (root, et_build_column_spec(e_table));
+	xmlAddChild (root, et_build_grouping_spec(e_table));
 	return doc;
 }
 
@@ -881,10 +881,10 @@ e_table_get_specification (ETable *e_table)
 	xmlDoc *doc = et_build_tree (e_table);
 	xmlChar *buffer;
 	gint size;
-	xmlDocDumpMemory(doc,
+	xmlDocDumpMemory (doc,
 			 &buffer,
 			 &size);
-	xmlFreeDoc(doc);
+	xmlFreeDoc (doc);
 	return buffer;
 }
 
@@ -892,8 +892,8 @@ void
 e_table_save_specification (ETable *e_table, gchar *filename)
 {
 	xmlDoc *doc = et_build_tree (e_table);
-	xmlSaveFile(filename, doc);
-	xmlFreeDoc(doc);
+	xmlSaveFile (filename, doc);
+	xmlFreeDoc (doc);
 }
 
 

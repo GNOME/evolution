@@ -85,7 +85,7 @@ static GdkAtom clipboard_atom = GDK_NONE;
 
 
 
-#define PARENT_TYPE e_cell_get_type()
+#define PARENT_TYPE e_cell_get_type ()
 
 #define TEXT_PAD 4
 
@@ -173,12 +173,12 @@ struct _CellEdit {
 	guint default_cursor_shown : 1;
 };
 
-static void e_cell_text_view_command(ETextEventProcessor *tep, ETextEventProcessorCommand *command, gpointer data);
+static void e_cell_text_view_command (ETextEventProcessor *tep, ETextEventProcessorCommand *command, gpointer data);
 
-static void e_cell_text_view_get_selection(CellEdit *edit, GdkAtom selection, guint32 time);
+static void e_cell_text_view_get_selection (CellEdit *edit, GdkAtom selection, guint32 time);
 static void e_cell_text_view_supply_selection (CellEdit *edit, guint time, GdkAtom selection, guchar *data, gint length);
 
-static GtkWidget *e_cell_text_view_get_invisible(CellEdit *edit);
+static GtkWidget *e_cell_text_view_get_invisible (CellEdit *edit);
 static void _selection_clear_event (GtkInvisible *invisible,
 				    GdkEventSelection *event,
 				    CellEdit *edit);
@@ -192,11 +192,11 @@ static void _selection_received (GtkInvisible *invisible,
 				 guint time,
 				 CellEdit *edit);
 static void split_into_lines (CurrentCell *cell);
-static void unref_lines(CurrentCell *cell);
+static void unref_lines (CurrentCell *cell);
 static void calc_line_widths (CurrentCell *cell);
 static int get_line_ypos (CurrentCell *cell, struct line *line);
 static int get_line_xpos (CurrentCell *cell, struct line *line);
-static void _get_tep(CellEdit *edit);
+static void _get_tep (CellEdit *edit);
 
 static gint _get_position_from_xy (CurrentCell *cell, gint x, gint y);
 static void _get_xy_from_position (CurrentCell *cell, gint position, gint *xp, gint *yp);
@@ -235,7 +235,7 @@ ect_stop_editing (ECellTextView *text_view)
 	CellEdit *edit = text_view->edit;
 	int row, view_col;
 
-	if ( !edit )
+	if (!edit)
 		return;
 
 	row = edit->cell.row;
@@ -250,20 +250,20 @@ ect_stop_editing (ECellTextView *text_view)
 	if (edit->tep)
 		gtk_object_unref (GTK_OBJECT(edit->tep));
 	if (edit->primary_selection)
-		g_free(edit->primary_selection);
+		g_free (edit->primary_selection);
 	if (edit->clipboard_selection)
-		g_free(edit->clipboard_selection);
-	if ( ! edit->default_cursor_shown ) {
-		gdk_window_set_cursor(GTK_WIDGET(text_view->canvas)->window, NULL);
+		g_free (edit->clipboard_selection);
+	if (! edit->default_cursor_shown){
+		gdk_window_set_cursor (GTK_WIDGET(text_view->canvas)->window, NULL);
 		edit->default_cursor_shown = TRUE;
 	}
 	if (edit->timeout_id) {
-		g_source_remove(edit->timeout_id);
+		g_source_remove (edit->timeout_id);
 		edit->timeout_id = 0;
 	}
 	if (edit->timer) {
-		g_timer_stop(edit->timer);
-		g_timer_destroy(edit->timer);
+		g_timer_stop (edit->timer);
+		g_timer_destroy (edit->timer);
 		edit->timer = NULL;
 	}
 
@@ -324,7 +324,7 @@ ect_kill_view (ECellView *ecv)
 {
 	ECellTextView *text_view = (ECellTextView *) ecv;
 
-	g_free(text_view);
+	g_free (text_view);
 }
 
 /*
@@ -356,7 +356,7 @@ ect_unrealize (ECellView *ecv)
 	gdk_gc_unref (text_view->gc);
 	text_view->gc = NULL;
 
-	if ( text_view->edit ) {
+	if (text_view->edit){
 		ect_cancel_edit (text_view);
 	}
 
@@ -450,13 +450,13 @@ ect_draw (ECellView *ecell_view, GdkDrawable *drawable,
 	gdk_gc_set_clip_rectangle (fg_gc, &rect);
 	clip_rect = &rect;
 
-	if ( edit_display ) {
+	if (edit_display){
 		CellEdit *edit = text_view->edit;
 		CurrentCell *cell = CURRENT_CELL(edit);
 
 		cell->width = x2 - x1;
 		
-		split_into_lines(cell);
+		split_into_lines (cell);
 
 		linebreaks = cell->breaks;
 		
@@ -472,16 +472,16 @@ ect_draw (ECellView *ecell_view, GdkDrawable *drawable,
 			end_char = start_char + lines->length;
 			sel_start = edit->selection_start;
 			sel_end = edit->selection_end;
-			if (sel_start > sel_end ) {
+			if (sel_start > sel_end){
 				sel_start ^= sel_end;
 				sel_end ^= sel_start;
 				sel_start ^= sel_end;
 			}
-			if ( sel_start < start_char )
+			if (sel_start < start_char)
 				sel_start = start_char;
-			if ( sel_end > end_char )
+			if (sel_end > end_char)
 				sel_end = end_char;
-			if ( sel_start < sel_end ) {
+			if (sel_start < sel_end){
 				sel_rect.x = xpos + x1 + gdk_text_width (font,
 									lines->text,
 									sel_start - start_char);
@@ -490,7 +490,7 @@ ect_draw (ECellView *ecell_view, GdkDrawable *drawable,
 								 lines->text + sel_start - start_char,
 								 sel_end - sel_start);
 				sel_rect.height = height;
-				gtk_paint_flat_box(canvas->style,
+				gtk_paint_flat_box (canvas->style,
 						   drawable,
 						   edit->has_selection ?
 						   GTK_STATE_SELECTED :
@@ -552,26 +552,26 @@ ect_draw (ECellView *ecell_view, GdkDrawable *drawable,
 						    height);
 			}
 		}
-		unref_lines(cell);
+		unref_lines (cell);
 	} else {
 		
 		ECellTextLineBreaks *linebreaks;
 		CurrentCell cell;
-		build_current_cell ( &cell, text_view, model_col, view_col, row );
+		build_current_cell (&cell, text_view, model_col, view_col, row);
 		
 		cell.width = x2 - x1;
 		
-		split_into_lines(&cell);
+		split_into_lines (&cell);
 		
 		linebreaks = cell.breaks;
 		lines = linebreaks->lines;
-		ypos = get_line_ypos(&cell, lines);
+		ypos = get_line_ypos (&cell, lines);
 		ypos += font->ascent;
 		
 		
 		for (i = 0; i < linebreaks->num_lines; i++) {
 			xpos = get_line_xpos (&cell, lines);
-			if ( ect->use_ellipsis && lines->ellipsis_length < lines->length) {
+			if (ect->use_ellipsis && lines->ellipsis_length < lines->length) {
 				gdk_draw_text (drawable,
 					       font,
 					       text_view->gc,
@@ -600,7 +600,7 @@ ect_draw (ECellView *ecell_view, GdkDrawable *drawable,
 		
 		ypos += height;
 		lines++;
-		unref_lines(&cell);
+		unref_lines (&cell);
 	}
 
 	gdk_gc_set_clip_rectangle (text_view->gc, NULL);
@@ -743,7 +743,7 @@ ect_edit_select_all (ECellTextView *text_view)
 	g_assert (text_view->edit);
 	
 	text_view->edit->selection_start = 0;
-	text_view->edit->selection_end = strlen(text_view->edit->cell.text);
+	text_view->edit->selection_end = strlen (text_view->edit->cell.text);
 }
 
 /*
@@ -761,7 +761,7 @@ ect_event (ECellView *ecell_view, GdkEvent *event, int model_col, int view_col, 
 	gint return_val = 0;
 
 	CurrentCell cell, *cellptr;
-	build_current_cell ( &cell, text_view, model_col, view_col, row );
+	build_current_cell (&cell, text_view, model_col, view_col, row);
 	
 
 	if (edit){
@@ -795,7 +795,7 @@ ect_event (ECellView *ecell_view, GdkEvent *event, int model_col, int view_col, 
 		}		
 		if (edit_display) {
 			GdkEventKey key = event->key;
-			if ( key.keyval == GDK_KP_Enter || key.keyval == GDK_Return ) {
+			if (key.keyval == GDK_KP_Enter || key.keyval == GDK_Return){
 				e_table_item_leave_edit (text_view->cell_view.e_table_item_view);
 			} else {
 				e_tep_event.key.time = key.time;
@@ -803,7 +803,7 @@ ect_event (ECellView *ecell_view, GdkEvent *event, int model_col, int view_col, 
 				e_tep_event.key.keyval = key.keyval;
 				e_tep_event.key.length = key.length;
 				e_tep_event.key.string = key.string;
-				_get_tep(edit);
+				_get_tep (edit);
 				return e_text_event_processor_handle_event (edit->tep,
 									    &e_tep_event);
 			}
@@ -831,8 +831,8 @@ ect_event (ECellView *ecell_view, GdkEvent *event, int model_col, int view_col, 
 			e_tep_event.button.time = button.time;
 			e_tep_event.button.state = button.state;
 			e_tep_event.button.button = button.button;
-			e_tep_event.button.position = _get_position_from_xy(cellptr, button.x, button.y);
-			_get_tep(edit);
+			e_tep_event.button.position = _get_position_from_xy (cellptr, button.x, button.y);
+			_get_tep (edit);
 			return_val = e_text_event_processor_handle_event (edit->tep,
 									  &e_tep_event);
 			if (event->button.button == 1) {
@@ -852,8 +852,8 @@ ect_event (ECellView *ecell_view, GdkEvent *event, int model_col, int view_col, 
 			e_tep_event.button.time = button.time;
 			e_tep_event.button.state = button.state;
 			e_tep_event.button.button = button.button;
-			e_tep_event.button.position = _get_position_from_xy(cellptr, button.x, button.y);
-			_get_tep(edit);
+			e_tep_event.button.position = _get_position_from_xy (cellptr, button.x, button.y);
+			_get_tep (edit);
 			return_val = e_text_event_processor_handle_event (edit->tep,
 									  &e_tep_event);
 			if (event->button.button == 1) {
@@ -874,8 +874,8 @@ ect_event (ECellView *ecell_view, GdkEvent *event, int model_col, int view_col, 
 			GdkEventMotion motion = event->motion;
 			e_tep_event.motion.time = motion.time;
 			e_tep_event.motion.state = motion.state;
-			e_tep_event.motion.position = _get_position_from_xy(cellptr, motion.x, motion.y);
-			_get_tep(edit);
+			e_tep_event.motion.position = _get_position_from_xy (cellptr, motion.x, motion.y);
+			_get_tep (edit);
 			return_val = e_text_event_processor_handle_event (edit->tep,
 									  &e_tep_event);
 			edit->lastx = motion.x;
@@ -888,8 +888,8 @@ ect_event (ECellView *ecell_view, GdkEvent *event, int model_col, int view_col, 
 		edit->pointer_in = TRUE;
 #endif
 		if (edit_display) {
-			if ( edit->default_cursor_shown ) {
-				gdk_window_set_cursor(canvas->window, text_view->i_cursor);
+			if (edit->default_cursor_shown){
+				gdk_window_set_cursor (canvas->window, text_view->i_cursor);
 				edit->default_cursor_shown = FALSE;
 			}
 		}
@@ -899,8 +899,8 @@ ect_event (ECellView *ecell_view, GdkEvent *event, int model_col, int view_col, 
 		text_view->pointer_in = FALSE;
 #endif
 		if (edit_display) {
-			if ( ! edit->default_cursor_shown ) {
-				gdk_window_set_cursor(canvas->window, NULL);
+			if (! edit->default_cursor_shown){
+				gdk_window_set_cursor (canvas->window, NULL);
 				edit->default_cursor_shown = TRUE;
 			}
 		}
@@ -912,7 +912,7 @@ ect_event (ECellView *ecell_view, GdkEvent *event, int model_col, int view_col, 
 		return return_val;
 #if 0
 	if (GNOME_CANVAS_ITEM_CLASS(parent_class)->event)
-		return GNOME_CANVAS_ITEM_CLASS(parent_class)->event(item, event);
+		return GNOME_CANVAS_ITEM_CLASS(parent_class)->event (item, event);
 #endif
 	else
 		return 0;
@@ -959,12 +959,12 @@ ect_height (ECellView *ecell_view, int model_col, int view_col, int row)
 	CurrentCell cell;
 	int return_val;
 
-	build_current_cell ( &cell, text_view, model_col, view_col, row );
-	split_into_lines( &cell );
+	build_current_cell (&cell, text_view, model_col, view_col, row);
+	split_into_lines (&cell);
 	
 	return_val = (text_view->font->ascent + text_view->font->descent) * cell.breaks->num_lines + TEXT_PAD;
 	
-	unref_lines( &cell );
+	unref_lines (&cell);
 	
 	return return_val;
 }
@@ -982,7 +982,7 @@ ect_enter_edit (ECellView *ecell_view, int model_col, int view_col, int row)
 	edit = g_new (CellEdit, 1);
 	text_view->edit = edit;
 
-	build_current_cell ( CURRENT_CELL(edit), text_view, model_col, view_col, row );
+	build_current_cell (CURRENT_CELL(edit), text_view, model_col, view_col, row);
 
 	edit->xofs_edit = 0.0;
 	edit->yofs_edit = 0.0;
@@ -991,10 +991,10 @@ ect_enter_edit (ECellView *ecell_view, int model_col, int view_col, int row)
 	edit->selection_end = 0;
 	edit->select_by_word = FALSE;
 
-	edit->timeout_id = g_timeout_add(10, _blink_scroll_timeout, text_view);
-	edit->timer = g_timer_new();
-	g_timer_elapsed(edit->timer, &(edit->scroll_start));
-	g_timer_start(edit->timer);
+	edit->timeout_id = g_timeout_add (10, _blink_scroll_timeout, text_view);
+	edit->timer = g_timer_new ();
+	g_timer_elapsed (edit->timer, &(edit->scroll_start));
+	g_timer_start (edit->timer);
 
 	edit->lastx = 0;
 	edit->lasty = 0;
@@ -1021,9 +1021,9 @@ ect_enter_edit (ECellView *ecell_view, int model_col, int view_col, int row)
 	edit->cell.text = g_strdup (str);
 
 #if 0
-	if ( edit->pointer_in ) {
-		if ( edit->default_cursor_shown ) {
-			gdk_window_set_cursor(GTK_WIDGET(item->canvas)->window, text_view->i_cursor);
+	if (edit->pointer_in){
+		if (edit->default_cursor_shown){
+			gdk_window_set_cursor (GTK_WIDGET(item->canvas)->window, text_view->i_cursor);
 			edit->default_cursor_shown = FALSE;
 		}
 	}
@@ -1166,7 +1166,7 @@ _get_xy_from_position (CurrentCell *cell, gint position, gint *xp, gint *yp)
 		GdkFont *font = text_view->font;
 		ECellTextLineBreaks *linebreaks;
 		
-		split_into_lines(cell);
+		split_into_lines (cell);
 		
 		linebreaks = cell->breaks;
 		lines = linebreaks->lines;
@@ -1184,7 +1184,7 @@ _get_xy_from_position (CurrentCell *cell, gint position, gint *xp, gint *yp)
 		x += gdk_text_width (font,
 				     lines->text,
 				     position - (lines->text - cell->text));
-		if ( (CellEdit *) cell == cell->text_view->edit ) {
+		if ((CellEdit *) cell == cell->text_view->edit){
 			x -= ((CellEdit *)cell)->xofs_edit;
 			y -= ((CellEdit *)cell)->yofs_edit;
 		}
@@ -1192,7 +1192,7 @@ _get_xy_from_position (CurrentCell *cell, gint position, gint *xp, gint *yp)
 			*xp = x;
 		if (yp)
 			*yp = y;
-		unref_lines(cell);
+		unref_lines (cell);
 	}
 }
 
@@ -1208,13 +1208,13 @@ _get_position_from_xy (CurrentCell *cell, gint x, gint y)
 	GdkFont *font = text_view->font;
 	ECellTextLineBreaks *linebreaks;
 
-	split_into_lines(cell);
+	split_into_lines (cell);
 	
 	linebreaks = cell->breaks;
 
 	lines = linebreaks->lines;
 
-	if ( (CellEdit *) cell == cell->text_view->edit ) {
+	if ((CellEdit *) cell == cell->text_view->edit){
 		x += ((CellEdit *)cell)->xofs_edit;
 		y += ((CellEdit *)cell)->yofs_edit;
 	}
@@ -1234,8 +1234,8 @@ _get_position_from_xy (CurrentCell *cell, gint x, gint y)
 
 	lines += j;
 	xpos = get_line_xpos (cell, lines);
-	for(i = 0; i < lines->length; i++) {
-		int charwidth = gdk_text_width(font,
+	for (i = 0; i < lines->length; i++) {
+		int charwidth = gdk_text_width (font,
 					       lines->text + i,
 					       1);
 		xpos += charwidth / 2;
@@ -1247,7 +1247,7 @@ _get_position_from_xy (CurrentCell *cell, gint x, gint y)
 	
 	return_val = lines->text + i - cell->text;
 
-	unref_lines(cell);
+	unref_lines (cell);
 
 	return return_val;
 }
@@ -1267,7 +1267,7 @@ _blink_scroll_timeout (gpointer data)
 	gboolean scroll = FALSE;
 	gboolean redraw = FALSE;
 	
-	g_timer_elapsed(edit->timer, &current_time);
+	g_timer_elapsed (edit->timer, &current_time);
 
 	if (edit->scroll_start + SCROLL_WAIT_TIME > 1000000) {
 		if (current_time > edit->scroll_start - (1000000 - SCROLL_WAIT_TIME) &&
@@ -1299,8 +1299,8 @@ _blink_scroll_timeout (gpointer data)
 			e_tep_event.type = GDK_MOTION_NOTIFY;
 			e_tep_event.motion.state = edit->last_state;
 			e_tep_event.motion.time = 0;
-			e_tep_event.motion.position = _get_position_from_xy(cell, edit->lastx, edit->lasty);
-			_get_tep(edit);
+			e_tep_event.motion.position = _get_position_from_xy (cell, edit->lastx, edit->lasty);
+			_get_tep (edit);
 			e_text_event_processor_handle_event (edit->tep,
 							     &e_tep_event);
 			edit->scroll_start = current_time;
@@ -1316,14 +1316,14 @@ _blink_scroll_timeout (gpointer data)
 			redraw = TRUE;
 		edit->show_cursor = FALSE;
 	}
-	if ( redraw ) {
+	if (redraw){
 		ect_queue_redraw (text_view, edit->cell.view_col, edit->cell.row);
 	}
 	return TRUE;
 }
 
 static int
-_get_position(ECellTextView *text_view, ETextEventProcessorCommand *command)
+_get_position (ECellTextView *text_view, ETextEventProcessorCommand *command)
 {
 	int i;
 	int length;
@@ -1342,7 +1342,7 @@ _get_position(ECellTextView *text_view, ETextEventProcessorCommand *command)
 	case E_TEP_START_OF_BUFFER:
 		return 0;
 	case E_TEP_END_OF_BUFFER:
-		return strlen(cell->text);
+		return strlen (cell->text);
 
 	case E_TEP_START_OF_LINE:
 		for (i = edit->selection_end - 2; i > 0; i--)
@@ -1352,7 +1352,7 @@ _get_position(ECellTextView *text_view, ETextEventProcessorCommand *command)
 			}
 		return i;
 	case E_TEP_END_OF_LINE:
-		length = strlen(cell->text);
+		length = strlen (cell->text);
 		for (i = edit->selection_end + 1; i < length; i++)
 			if (cell->text[i] == '\n') {
 				break;
@@ -1362,7 +1362,7 @@ _get_position(ECellTextView *text_view, ETextEventProcessorCommand *command)
 		return i;
 
 	case E_TEP_FORWARD_CHARACTER:
-		length = strlen(cell->text);
+		length = strlen (cell->text);
 		i = edit->selection_end + 1;
 		if (i > length)
 			i = length;
@@ -1374,9 +1374,9 @@ _get_position(ECellTextView *text_view, ETextEventProcessorCommand *command)
 		return i;
 
 	case E_TEP_FORWARD_WORD:
-		length = strlen(cell->text);
+		length = strlen (cell->text);
 		for (i = edit->selection_end + 1; i < length; i++)
-			if (isspace(cell->text[i])) {
+			if (isspace (cell->text[i])) {
 				break;
 			}
 		if (i > length)
@@ -1384,7 +1384,7 @@ _get_position(ECellTextView *text_view, ETextEventProcessorCommand *command)
 		return i;
 	case E_TEP_BACKWARD_WORD:
 		for (i = edit->selection_end - 2; i > 0; i--)
-			if (isspace(cell->text[i])) {
+			if (isspace (cell->text[i])) {
 				i++;
 				break;
 			}
@@ -1393,13 +1393,13 @@ _get_position(ECellTextView *text_view, ETextEventProcessorCommand *command)
 		return i;
 
 	case E_TEP_FORWARD_LINE:
-		_get_xy_from_position(cell, edit->selection_end, &x, &y);
+		_get_xy_from_position (cell, edit->selection_end, &x, &y);
 		y += text_view->font->ascent + text_view->font->descent;
-		return _get_position_from_xy(cell, x, y);
+		return _get_position_from_xy (cell, x, y);
 	case E_TEP_BACKWARD_LINE:
-		_get_xy_from_position(cell, edit->selection_end, &x, &y);
+		_get_xy_from_position (cell, edit->selection_end, &x, &y);
 		y -= text_view->font->ascent + text_view->font->descent;
-		return _get_position_from_xy(cell, x, y);
+		return _get_position_from_xy (cell, x, y);
 
 	case E_TEP_FORWARD_PARAGRAPH:
 	case E_TEP_BACKWARD_PARAGRAPH:
@@ -1413,11 +1413,11 @@ _get_position(ECellTextView *text_view, ETextEventProcessorCommand *command)
 }
 
 static void
-_delete_selection(ECellTextView *text_view)
+_delete_selection (ECellTextView *text_view)
 {
 	CellEdit *edit = text_view->edit;
 	CurrentCell *cell = CURRENT_CELL(edit);
-	gint length = strlen(cell->text);
+	gint length = strlen (cell->text);
 	if (edit->selection_end == edit->selection_start)
 		return;
 	if (edit->selection_end < edit->selection_start) {
@@ -1425,26 +1425,26 @@ _delete_selection(ECellTextView *text_view)
 		edit->selection_start ^= edit->selection_end;
 		edit->selection_end ^= edit->selection_start;
 	}
-	memmove( cell->text + edit->selection_start,
+	memmove (cell->text + edit->selection_start,
 		 cell->text + edit->selection_end,
-		 length - edit->selection_end + 1 );
+		 length - edit->selection_end + 1);
 	length -= edit->selection_end - edit->selection_start;
 	edit->selection_end = edit->selection_start;
 }
 
 static void
-_insert(ECellTextView *text_view, char *string, int value)
+_insert (ECellTextView *text_view, char *string, int value)
 {
 	if (value > 0) {
 		char *temp;
 		CellEdit *edit = text_view->edit;
 		CurrentCell *cell = CURRENT_CELL(edit);
-		gint length = strlen(cell->text);
-		temp = g_new(gchar, length + value + 1);
-		strncpy(temp, cell->text, edit->selection_start);
-		strncpy(temp + edit->selection_start, string, value);
-		strcpy(temp + edit->selection_start + value, cell->text + edit->selection_start);
-		g_free(cell->text);
+		gint length = strlen (cell->text);
+		temp = g_new (gchar, length + value + 1);
+		strncpy (temp, cell->text, edit->selection_start);
+		strncpy (temp + edit->selection_start, string, value);
+		strcpy (temp + edit->selection_start + value, cell->text + edit->selection_start);
+		g_free (cell->text);
 		cell->text = temp;
 		edit->selection_start += value;
 		edit->selection_end = edit->selection_start;
@@ -1452,7 +1452,7 @@ _insert(ECellTextView *text_view, char *string, int value)
 }
 
 static void
-e_cell_text_view_command(ETextEventProcessor *tep, ETextEventProcessorCommand *command, gpointer data)
+e_cell_text_view_command (ETextEventProcessor *tep, ETextEventProcessorCommand *command, gpointer data)
 {
 	CellEdit *edit = (CellEdit *) data;
 	CurrentCell *cell = CURRENT_CELL(edit);
@@ -1464,31 +1464,31 @@ e_cell_text_view_command(ETextEventProcessor *tep, ETextEventProcessorCommand *c
 	int sel_start, sel_end;
 	switch (command->action) {
 	case E_TEP_MOVE:
-		edit->selection_start = _get_position(text_view, command);
+		edit->selection_start = _get_position (text_view, command);
 		edit->selection_end = edit->selection_start;
 		if (edit->timer) {
-			g_timer_reset(edit->timer);
+			g_timer_reset (edit->timer);
 		}
 		redraw = TRUE;
 		break;
 	case E_TEP_SELECT:
-		edit->selection_end = _get_position(text_view, command);
+		edit->selection_end = _get_position (text_view, command);
 		sel_start = MIN(edit->selection_start, edit->selection_end);
 		sel_end = MAX(edit->selection_start, edit->selection_end);
 		if (sel_start != sel_end) {
 			e_cell_text_view_supply_selection (edit, command->time, GDK_SELECTION_PRIMARY, cell->text + sel_start, sel_end - sel_start);
 		} else if (edit->timer) {
-			g_timer_reset(edit->timer);
+			g_timer_reset (edit->timer);
 		}
 		redraw = TRUE;
 		break;
 	case E_TEP_DELETE:
 		if (edit->selection_end == edit->selection_start) {
-			edit->selection_end = _get_position(text_view, command);
+			edit->selection_end = _get_position (text_view, command);
 		}
-		_delete_selection(text_view);
+		_delete_selection (text_view);
 		if (edit->timer) {
-			g_timer_reset(edit->timer);
+			g_timer_reset (edit->timer);
 		}
 		redraw = TRUE;
 		change = TRUE;
@@ -1496,11 +1496,11 @@ e_cell_text_view_command(ETextEventProcessor *tep, ETextEventProcessorCommand *c
 
 	case E_TEP_INSERT:
 		if (edit->selection_end != edit->selection_start) {
-			_delete_selection(text_view);
+			_delete_selection (text_view);
 		}
-		_insert(text_view, command->string, command->value);
+		_insert (text_view, command->string, command->value);
 		if (edit->timer) {
-			g_timer_reset(edit->timer);
+			g_timer_reset (edit->timer);
 		}
 		redraw = TRUE;
 		change = TRUE;
@@ -1512,13 +1512,13 @@ e_cell_text_view_command(ETextEventProcessor *tep, ETextEventProcessorCommand *c
 			e_cell_text_view_supply_selection (edit, command->time, clipboard_atom, cell->text + sel_start, sel_end - sel_start);
 		}
 		if (edit->timer) {
-			g_timer_reset(edit->timer);
+			g_timer_reset (edit->timer);
 		}
 		break;
 	case E_TEP_PASTE:
 		e_cell_text_view_get_selection (edit, clipboard_atom, command->time);
 		if (edit->timer) {
-			g_timer_reset(edit->timer);
+			g_timer_reset (edit->timer);
 		}
 		redraw = TRUE;
 		change = TRUE;
@@ -1554,7 +1554,7 @@ e_cell_text_view_command(ETextEventProcessor *tep, ETextEventProcessorCommand *c
 		struct line *lines;
 		ECellTextLineBreaks *linebreaks;
 		
-		split_into_lines(cell);
+		split_into_lines (cell);
 		
 		linebreaks = cell->breaks;
 	
@@ -1564,7 +1564,7 @@ e_cell_text_view_command(ETextEventProcessor *tep, ETextEventProcessorCommand *c
 			}
 		}
 		lines --;
-		x = gdk_text_width(text_view->font,
+		x = gdk_text_width (text_view->font,
 				   lines->text,
 				   edit->selection_end - (lines->text - cell->text));
 		
@@ -1578,10 +1578,10 @@ e_cell_text_view_command(ETextEventProcessor *tep, ETextEventProcessorCommand *c
 			edit->xofs_edit = 2 + x - cell->width;
 			redraw = TRUE;
 		}
-		unref_lines(cell);
+		unref_lines (cell);
 	}
 
-	if ( redraw ) {
+	if (redraw){
 		ect_queue_redraw (text_view, edit->cell.view_col, edit->cell.row);
 	}
 #if 0
@@ -1595,13 +1595,13 @@ static void _invisible_destroy (GtkInvisible *invisible,
 	edit->invisible = NULL;
 }
 
-static GtkWidget *e_cell_text_view_get_invisible(CellEdit *edit)
+static GtkWidget *e_cell_text_view_get_invisible (CellEdit *edit)
 {	
 	GtkWidget *invisible;
 	if (edit->invisible) {
 		invisible = edit->invisible;
 	} else {
-		invisible = gtk_invisible_new();
+		invisible = gtk_invisible_new ();
 		edit->invisible = invisible;
 		
 		gtk_selection_add_target (invisible,
@@ -1686,7 +1686,7 @@ _selection_received (GtkInvisible *invisible,
 		command.string = selection_data->data;
 		command.value = selection_data->length;
 		command.time = time;
-		e_cell_text_view_command(edit->tep, &command, edit);
+		e_cell_text_view_command (edit->tep, &command, edit);
 	}
 }
 
@@ -1695,19 +1695,19 @@ static void e_cell_text_view_supply_selection (CellEdit *edit, guint time, GdkAt
 	gboolean successful;
 	GtkWidget *invisible;
 
-	invisible = e_cell_text_view_get_invisible(edit);
+	invisible = e_cell_text_view_get_invisible (edit);
 
-	if (selection == GDK_SELECTION_PRIMARY ) {
+	if (selection == GDK_SELECTION_PRIMARY){
 		if (edit->primary_selection) {
 			g_free (edit->primary_selection);
 		}
-		edit->primary_selection = g_strndup(data, length);
+		edit->primary_selection = g_strndup (data, length);
 		edit->primary_length = length;
 	} else if (selection == clipboard_atom) {
 		if (edit->clipboard_selection) {
 			g_free (edit->clipboard_selection);
 		}
-		edit->clipboard_selection = g_strndup(data, length);
+		edit->clipboard_selection = g_strndup (data, length);
 		edit->clipboard_length = length;
 	}
 
@@ -1720,24 +1720,24 @@ static void e_cell_text_view_supply_selection (CellEdit *edit, guint time, GdkAt
 }
 
 static void
-e_cell_text_view_get_selection(CellEdit *edit, GdkAtom selection, guint32 time)
+e_cell_text_view_get_selection (CellEdit *edit, GdkAtom selection, guint32 time)
 {
 	GtkWidget *invisible;
-	invisible = e_cell_text_view_get_invisible(edit);
-	gtk_selection_convert(invisible,
+	invisible = e_cell_text_view_get_invisible (edit);
+	gtk_selection_convert (invisible,
 			      selection,
 			      GDK_SELECTION_TYPE_STRING,
 			      time);
 }
 
 static void
-_get_tep(CellEdit *edit)
+_get_tep (CellEdit *edit)
 {
 	if (!edit->tep) {
-		edit->tep = e_text_event_processor_emacs_like_new();
+		edit->tep = e_text_event_processor_emacs_like_new ();
 		gtk_object_ref (GTK_OBJECT (edit->tep));
 		gtk_object_sink (GTK_OBJECT (edit->tep));
-		gtk_signal_connect(GTK_OBJECT(edit->tep),
+		gtk_signal_connect (GTK_OBJECT(edit->tep),
 				   "command",
 				   GTK_SIGNAL_FUNC(e_cell_text_view_command),
 				   (gpointer) edit);
@@ -1756,7 +1756,7 @@ split_into_lines (CurrentCell *cell)
 	ECellTextLineBreaks *linebreaks = cell->breaks;
 
 	if (! cell->breaks) {
-		cell->breaks = g_new(ECellTextLineBreaks, 1);
+		cell->breaks = g_new (ECellTextLineBreaks, 1);
 		cell->breaks->ref_count = 1;
 	} else {
 		cell->breaks->ref_count ++;
@@ -1805,13 +1805,13 @@ split_into_lines (CurrentCell *cell)
 
 /* Free lines structure. */
 static void
-unref_lines(CurrentCell *cell)
+unref_lines (CurrentCell *cell)
 {
-	if ( cell->breaks ) {
+	if (cell->breaks){
 		cell->breaks->ref_count --;
-		if ( cell->breaks->ref_count <= 0 ) {
-			g_free(cell->breaks->lines);
-			g_free(cell->breaks);
+		if (cell->breaks->ref_count <= 0){
+			g_free (cell->breaks->lines);
+			g_free (cell->breaks);
 			cell->breaks = NULL;
 		}
 	}
@@ -1865,7 +1865,7 @@ calc_line_widths (CurrentCell *cell)
 			    lines->width > cell->width) {
 				if (font) {
 					lines->ellipsis_length = 0;
-					for (j = 0; j < lines->length; j++ ) {
+					for (j = 0; j < lines->length; j++){
 						if (gdk_text_width (font, lines->text, j) + text_view->ellipsis_width <= cell->width)
 							lines->ellipsis_length = j;
 						else
@@ -1901,5 +1901,5 @@ build_current_cell (CurrentCell *cell, ECellTextView *text_view, int model_col, 
 	cell->row = row;
 	cell->breaks = NULL;
 	cell->text = e_table_model_value_at (ecell_view->e_table_model, model_col, row);
-	cell->width = e_table_header_get_column(((ETableItem *)ecell_view->e_table_item_view)->header, view_col)->width - 8;
+	cell->width = e_table_header_get_column (((ETableItem *)ecell_view->e_table_item_view)->header, view_col)->width - 8;
 }

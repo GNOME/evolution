@@ -10,7 +10,7 @@
 #include "e-cell.h"
 #include "e-util/e-util.h"
 
-#define PARENT_TYPE gtk_object_get_type()
+#define PARENT_TYPE gtk_object_get_type ()
 
 static ECellView *
 ec_new_view (ECell *ecell, ETableModel *table_model, void *e_table_item_view)

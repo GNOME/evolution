@@ -87,7 +87,7 @@ void        e_table_header_set_frozen_columns (ETableHeader *eth, int idx);
 int         e_table_header_col_diff      (ETableHeader *eth,
 					  int start_col, int end_col);
 
-GList      *e_table_header_get_selected_indexes(ETableHeader *eth);
+GList      *e_table_header_get_selected_indexes (ETableHeader *eth);
 
 
 #endif /* _E_TABLE_HEADER_H_ */

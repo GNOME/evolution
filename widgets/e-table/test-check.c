@@ -86,7 +86,7 @@ duplicate_value (ETableModel *etc, int col, const void *value, void *data)
   if (col == 0){
     return (void *) value;
   } else {
-    return g_strdup(value);
+    return g_strdup (value);
   }
 }
 
@@ -94,14 +94,14 @@ static void
 free_value (ETableModel *etc, int col, void *value, void *data)
 {
   if (col != 0){
-    g_free(value);
+    g_free (value);
   }
 }
 
 static void
 thaw (ETableModel *etc, void *data)
 {
-	e_table_model_changed(etc);
+	e_table_model_changed (etc);
 }
 
 static void
@@ -137,14 +137,14 @@ check_test (void)
 	cell_left_just = e_cell_text_new (e_table_model, NULL, GTK_JUSTIFY_LEFT, TRUE);
 
 	cell_image_check = e_cell_checkbox_new ();
-	pixbuf = gdk_pixbuf_new_from_file("clip.png");
+	pixbuf = gdk_pixbuf_new_from_file ("clip.png");
 	col_0 = e_table_col_new_with_pixbuf (0, pixbuf, 18, 18, cell_image_check, g_int_compare, TRUE);
-	gdk_pixbuf_unref(pixbuf);
+	gdk_pixbuf_unref (pixbuf);
 	e_table_header_add_column (e_table_header, col_0, 0);
 	
 	col_1 = e_table_col_new (1, "Item Name", 180, 20, cell_left_just, g_str_compare, TRUE);
 	e_table_header_add_column (e_table_header, col_1, 1);
-	e_table_col_set_arrow ( col_1, E_TABLE_COL_ARROW_DOWN );
+	e_table_col_set_arrow (col_1, E_TABLE_COL_ARROW_DOWN);
 
 	/*
 	 * GUI
@@ -174,6 +174,6 @@ check_test (void)
 		"drawfocus", TRUE,
 		"spreadsheet", TRUE,
 		NULL);
-	e_canvas_item_move_absolute(item, 0, 30);
+	e_canvas_item_move_absolute (item, 0, 30);
 }
 

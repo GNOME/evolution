@@ -128,14 +128,14 @@ E_MAKE_TYPE(e_table_subset, "ETableSubset", ETableSubset, etss_class_init, NULL,
 static void
 etss_proxy_model_changed (ETableModel *etm, ETableSubset *etss)
 {
-	if ( !E_TABLE_MODEL(etss)->frozen )
+	if (!E_TABLE_MODEL(etss)->frozen)
 		e_table_model_changed (E_TABLE_MODEL (etss));
 }
 
 static void
 etss_proxy_model_row_changed (ETableModel *etm, int row, ETableSubset *etss)
 {
-	if ( !E_TABLE_MODEL(etss)->frozen ) {
+	if (!E_TABLE_MODEL(etss)->frozen){
 		const int n = etss->n_map;
 		const int * const map_table = etss->map_table;
 		int i;
@@ -152,7 +152,7 @@ etss_proxy_model_row_changed (ETableModel *etm, int row, ETableSubset *etss)
 static void
 etss_proxy_model_cell_changed (ETableModel *etm, int col, int row, ETableSubset *etss)
 {
-	if ( !E_TABLE_MODEL(etss)->frozen ) {
+	if (!E_TABLE_MODEL(etss)->frozen){
 		const int n = etss->n_map;
 		const int * const map_table = etss->map_table;
 		int i;

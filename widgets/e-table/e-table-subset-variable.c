@@ -29,13 +29,13 @@ etssv_add       (ETableSubsetVariable *etssv,
 	ETableModel *etm = E_TABLE_MODEL(etssv);
 	ETableSubset *etss = E_TABLE_SUBSET(etssv);
 	
-	if ( etss->n_map + 1 > etssv->n_vals_allocated ) {
-		etss->map_table = g_realloc(etss->map_table, (etssv->n_vals_allocated + INCREMENT_AMOUNT) * sizeof(int));
+	if (etss->n_map + 1 > etssv->n_vals_allocated){
+		etss->map_table = g_realloc (etss->map_table, (etssv->n_vals_allocated + INCREMENT_AMOUNT) * sizeof(int));
 		etssv->n_vals_allocated += INCREMENT_AMOUNT;
 	}
 	etss->map_table[etss->n_map++] = row;
-	if ( !etm->frozen )
-		e_table_model_changed(etm);
+	if (!etm->frozen)
+		e_table_model_changed (etm);
 }
 
 static gboolean
@@ -46,12 +46,12 @@ etssv_remove    (ETableSubsetVariable *etssv,
 	ETableSubset *etss = E_TABLE_SUBSET(etssv);
 	int i;
 	
-	for ( i = 0; i < etss->n_map; i++ ) {
+	for (i = 0; i < etss->n_map; i++){
 		if (etss->map_table[i] == row) {
-			memmove(etss->map_table + i, etss->map_table + i + 1, (etss->n_map - i - 1) * sizeof(int));
+			memmove (etss->map_table + i, etss->map_table + i + 1, (etss->n_map - i - 1) * sizeof(int));
 			etss->n_map --;
-			if ( !etm->frozen )
-				e_table_model_changed(etm);
+			if (!etm->frozen)
+				e_table_model_changed (etm);
 			return TRUE;
 		}
 	}
@@ -74,7 +74,7 @@ ETableModel *
 e_table_subset_variable_construct (ETableSubsetVariable *etssv,
 				   ETableModel          *source)
 {
-	if ( e_table_subset_construct(E_TABLE_SUBSET(etssv), source, 1) == NULL )
+	if (e_table_subset_construct (E_TABLE_SUBSET(etssv), source, 1) == NULL)
 		return NULL;
 	E_TABLE_SUBSET(etssv)->n_map = 0;
 
@@ -125,8 +125,8 @@ e_table_subset_variable_increment (ETableSubsetVariable *etssv,
 {
 	int i;
 	ETableSubset *etss = E_TABLE_SUBSET(etssv);
-	for ( i = 0; i < etss->n_map; i++ ) {
-		if ( etss->map_table[i] > position )
+	for (i = 0; i < etss->n_map; i++){
+		if (etss->map_table[i] > position)
 			etss->map_table[i] += amount;
 	}
 }
@@ -136,9 +136,9 @@ e_table_subset_variable_set_allocation (ETableSubsetVariable *etssv,
 					gint total)
 {
 	ETableSubset *etss = E_TABLE_SUBSET(etssv);
-	if ( total <= 0 )
+	if (total <= 0)
 		total = 1;
-	if ( total > etss->n_map ) {
-		etss->map_table = g_realloc(etss->map_table, total * sizeof(int));
+	if (total > etss->n_map){
+		etss->map_table = g_realloc (etss->map_table, total * sizeof(int));
 	}
 }

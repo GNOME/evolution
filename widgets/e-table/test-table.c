@@ -56,8 +56,8 @@ parse_headers ()
 	p = buffer;
 	for (i = 0; (s = strtok (p, " \t")) != NULL; i++){
 		column_labels [i] = g_strdup (s);
-		if ( strchr(column_labels [i], '\n') )
-			*strchr(column_labels [i], '\n') = 0;
+		if (strchr (column_labels [i], '\n'))
+			*strchr (column_labels [i], '\n') = 0;
 		p = NULL;
 	}
 
@@ -179,19 +179,19 @@ is_cell_editable (ETableModel *etc, int col, int row, void *data)
 static void *
 duplicate_value (ETableModel *etc, int col, const void *value, void *data)
 {
-	return g_strdup(value);
+	return g_strdup (value);
 }
 
 static void
 free_value (ETableModel *etc, int col, void *value, void *data)
 {
-	g_free(value);
+	g_free (value);
 }
 
 static void
 thaw (ETableModel *etc, void *data)
 {
-	e_table_model_changed(etc);
+	e_table_model_changed (etc);
 }
 
 static void
@@ -275,13 +275,13 @@ table_browser_test (void)
 static void
 save_spec (GtkWidget *button, ETable *e_table)
 {
-	e_table_save_specification(e_table, "e-table-test.xml");
+	e_table_save_specification (e_table, "e-table-test.xml");
 }
 
 static void
 row_selection_test (ETable *table, int row, gboolean selected)
 {
-	if ( selected )
+	if (selected)
 		g_print ("Row %d selected\n", row);
 	else
 		g_print ("Row %d unselected\n", row);
@@ -300,7 +300,7 @@ do_e_table_demo (const char *spec)
 	 */
 	static ETableModel *e_table_model = NULL;
 
-	if ( e_table_model == NULL )
+	if (e_table_model == NULL)
 		e_table_model = 
 			e_table_simple_new (col_count, row_count, value_at,
 					    set_value_at, is_cell_editable,
@@ -323,14 +323,14 @@ do_e_table_demo (const char *spec)
 	window = gtk_window_new (GTK_WINDOW_TOPLEVEL);
 	frame = gtk_frame_new (NULL);
 	e_table = e_table_new (full_header, e_table_model, spec);
-	gtk_signal_connect(GTK_OBJECT(e_table), "row_selection",
+	gtk_signal_connect (GTK_OBJECT(e_table), "row_selection",
 			   GTK_SIGNAL_FUNC(row_selection_test), NULL);
 
-	button = gtk_button_new_with_label("Save spec");
+	button = gtk_button_new_with_label ("Save spec");
 	gtk_signal_connect (GTK_OBJECT (button), "clicked",
 			    GTK_SIGNAL_FUNC (save_spec), e_table);
 
-	vbox = gtk_vbox_new(FALSE, 0);
+	vbox = gtk_vbox_new (FALSE, 0);
 	
 	gtk_box_pack_start (GTK_BOX (vbox), e_table, TRUE, TRUE, 0);
 	gtk_box_pack_start (GTK_BOX (vbox), button, FALSE, FALSE, 0);

@@ -20,7 +20,7 @@
 #include "check-empty.xpm"
 #include "check-filled.xpm"
 
-#define PARENT_TYPE e_cell_toggle_get_type()
+#define PARENT_TYPE e_cell_toggle_get_type ()
 
 static GdkPixbuf *checks [2];
 

@@ -13,7 +13,7 @@
 #include <config.h>
 #include "e-table-simple.h"
 
-#define PARENT_TYPE e_table_model_get_type()
+#define PARENT_TYPE e_table_model_get_type ()
 
 static int
 simple_column_count (ETableModel *etm)

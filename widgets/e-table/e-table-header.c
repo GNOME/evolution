@@ -330,9 +330,9 @@ e_table_header_col_diff (ETableHeader *eth, int start_col, int end_col)
 	g_return_val_if_fail (E_IS_TABLE_HEADER (eth), 0);
 
 	{
-		if ( start_col < 0 )
+		if (start_col < 0)
 			start_col = 0;
-		if ( end_col > eth->col_count )
+		if (end_col > eth->col_count)
 			end_col = eth->col_count - 1;
 		
 		total = 0;
@@ -354,22 +354,22 @@ e_table_header_set_frozen_columns (ETableHeader *eth, int idx)
 /* Forget model-view here.  Really, this information belongs in the view anyway. */
 #if 0
 static void
-set_arrows(ETableHeader *eth, ETableHeaderSortInfo info)
+set_arrows (ETableHeader *eth, ETableHeaderSortInfo info)
 {
 	ETableCol *col;
 	for (col = eth->columns, i = 0; i < eth->col_count; i++, col++) {
-		if ( col->col_idx == info.model_col )
-			e_table_column_set_arrow(col, info.ascending ? E_TABLE_COL_ARROW_DOWN : E_TABLE_COL_ARROW_UP);
+		if (col->col_idx == info.model_col)
+			e_table_column_set_arrow (col, info.ascending ? E_TABLE_COL_ARROW_DOWN : E_TABLE_COL_ARROW_UP);
 	}
 }
 
 static void
-unset_arrows(ETableHeader *eth, ETableHeaderSortInfo info)
+unset_arrows (ETableHeader *eth, ETableHeaderSortInfo info)
 {
 	ETableCol *col;
 	for (col = eth->columns, i = 0; i < eth->col_count; i++, col++) {
-		if ( col->col_idx == info.model_col )
-			e_table_column_set_arrow(col, E_TABLE_COL_ARROW_NONE);
+		if (col->col_idx == info.model_col)
+			e_table_column_set_arrow (col, E_TABLE_COL_ARROW_NONE);
 	}
 }
 
@@ -389,9 +389,9 @@ e_table_header_set_sort_info (ETableHeader *eth, ETableHeaderSortInfo info)
 	g_return_if_fail (eth != NULL);
 	g_return_if_fail (E_IS_TABLE_HEADER (eth));
 
-	unset_arrows(eth, eth->sort_info);
+	unset_arrows (eth, eth->sort_info);
 	eth->sort_info = info;
-	set_arrows(eth, eth->sort_info);
+	set_arrows (eth, eth->sort_info);
 	
 	gtk_signal_emit (GTK_OBJECT (eth), eth_signals [STRUCTURE_CHANGE]);
 }
@@ -436,8 +436,8 @@ e_table_header_grouping_insert (ETableHeader *eth, gint index, ETableHeaderSortI
 	g_return_if_fail (eth != NULL);
 	g_return_if_fail (E_IS_TABLE_HEADER (eth));
 	
-	eth->grouping = g_realloc(eth->grouping, sizeof(ETableHeaderSortInfo) * (eth->grouping_count + 1));
-	memmove(eth->grouping + index + 1, eth->grouping + index, sizeof(ETableHeaderSortInfo) * (eth->grouping_count - index));
+	eth->grouping = g_realloc (eth->grouping, sizeof(ETableHeaderSortInfo) * (eth->grouping_count + 1));
+	memmove (eth->grouping + index + 1, eth->grouping + index, sizeof(ETableHeaderSortInfo) * (eth->grouping_count - index));
 	eth->grouping[index] = info;
 
 	eth->grouping_count ++;
@@ -451,8 +451,8 @@ e_table_header_grouping_delete (ETableHeader *eth, gint index)
 	g_return_if_fail (eth != NULL);
 	g_return_if_fail (E_IS_TABLE_HEADER (eth));
 
-	memmove(eth->grouping + index, eth->grouping + index + 1, sizeof(ETableHeaderSortInfo) * (eth->grouping_count - index));
-	eth->grouping = g_realloc(eth->grouping, sizeof(ETableHeaderSortInfo) * (eth->grouping_count - 1));
+	memmove (eth->grouping + index, eth->grouping + index + 1, sizeof(ETableHeaderSortInfo) * (eth->grouping_count - index));
+	eth->grouping = g_realloc (eth->grouping, sizeof(ETableHeaderSortInfo) * (eth->grouping_count - 1));
 
 	eth->grouping_count --;
 
@@ -467,14 +467,14 @@ e_table_header_grouping_move (ETableHeader *eth, gint old_idx, gint new_idx)
 	g_return_if_fail (eth != NULL);
 	g_return_if_fail (E_IS_TABLE_HEADER (eth));
 	
-	if ( old_idx == new_idx )
+	if (old_idx == new_idx)
 		return;
 
 	info = eth->grouping[old_idx];
-	if ( old_idx < new_idx ) {
-		memmove(eth->grouping + old_idx, eth->grouping + old_idx + 1, sizeof(ETableHeaderSortInfo)  * (new_idx - old_idx));
+	if (old_idx < new_idx){
+		memmove (eth->grouping + old_idx, eth->grouping + old_idx + 1, sizeof(ETableHeaderSortInfo)  * (new_idx - old_idx));
 	} else {
-		memmove(eth->grouping + new_idx + 1, eth->grouping + new_idx, sizeof(ETableHeaderSortInfo)  * (old_idx - new_idx));
+		memmove (eth->grouping + new_idx + 1, eth->grouping + new_idx, sizeof(ETableHeaderSortInfo)  * (old_idx - new_idx));
 	}
 	eth->grouping[new_idx] = info;
 

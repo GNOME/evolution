@@ -127,13 +127,13 @@ my_row_count (ETableModel *etc, void *data)
 static void *
 my_value_at (ETableModel *etc, int col, int row, void *data)
 {
-  if ( col == COLOR_COLUMN ) {
-    if ( importance_data[row] ) {
+  if (col == COLOR_COLUMN){
+    if (importance_data[row]){
       return color1;
     } else {
       return color2;
     }
-  } else if ( col == IMPORTANCE_COLUMN ) {
+  } else if (col == IMPORTANCE_COLUMN){
     return (gpointer) importance_data[row];
   } else {
 	return (void *) table_data [row][col];
@@ -143,8 +143,8 @@ my_value_at (ETableModel *etc, int col, int row, void *data)
 static void
 my_set_value_at (ETableModel *etc, int col, int row, const void *val, void *data)
 {
-  if ( col == COLOR_COLUMN ) { 
-  } else if ( col == IMPORTANCE_COLUMN ) {
+  if (col == COLOR_COLUMN){ 
+  } else if (col == IMPORTANCE_COLUMN){
     importance_data[row] = (gboolean) val;
   } else {
 	g_free (table_data [row][col]);
@@ -155,7 +155,7 @@ my_set_value_at (ETableModel *etc, int col, int row, const void *val, void *data
 static gboolean
 my_is_cell_editable (ETableModel *etc, int col, int row, void *data)
 {
-  if ( col == IMPORTANCE_COLUMN )
+  if (col == IMPORTANCE_COLUMN)
     return FALSE;
   else
     return TRUE;
@@ -164,22 +164,22 @@ my_is_cell_editable (ETableModel *etc, int col, int row, void *data)
 static void *
 my_duplicate_value (ETableModel *etc, int col, const void *value, void *data)
 {
-  if ( col == COLOR_COLUMN ) {
+  if (col == COLOR_COLUMN){
     return (void *) value;
-  } else if ( col == IMPORTANCE_COLUMN ) {
+  } else if (col == IMPORTANCE_COLUMN){
     return (void *) value;
   } else {
-    return g_strdup(value);
+    return g_strdup (value);
   }
 }
 
 static void
 my_free_value (ETableModel *etc, int col, void *value, void *data)
 {
-  if ( col == COLOR_COLUMN ) {
-  } else if ( col == IMPORTANCE_COLUMN ) {
+  if (col == COLOR_COLUMN){
+  } else if (col == IMPORTANCE_COLUMN){
   } else {
-    g_free(value);
+    g_free (value);
   }
 }
 
@@ -190,7 +190,7 @@ my_thaw (ETableModel *etc, void *data)
 
 /* We create a window containing our new table. */
 static void
-create_table()
+create_table ()
 {
 	GtkWidget *e_table, *window, *frame;
 	ECell *cell_left_just;
@@ -202,9 +202,9 @@ create_table()
 	GdkPixbuf *pixbuf;
 
 	/* First we fill in the simple data. */
-	for ( i = 0; i < ROWS; i++ ) {
-		for ( j = 0; j < VIEW_COLS; j++ ) {
-			table_data[i][j] = g_strdup("");
+	for (i = 0; i < ROWS; i++){
+		for (j = 0; j < VIEW_COLS; j++){
+			table_data[i][j] = g_strdup ("");
 		}
 		importance_data[i] = FALSE;
 	}
@@ -248,7 +248,7 @@ create_table()
 	/* Next we add a special column for the check box. */
 
 	cell_checkbox = e_cell_checkbox_new ();
-	pixbuf = gdk_pixbuf_new_from_file("clip.png");
+	pixbuf = gdk_pixbuf_new_from_file ("clip.png");
 	ecol = e_table_col_new_with_pixbuf (i, pixbuf, 18, 18, cell_checkbox, g_int_compare, TRUE);
 	e_table_header_add_column (e_table_header, ecol, i);
 
@@ -287,7 +287,7 @@ main (int argc, char *argv [])
 	gtk_widget_push_visual (gdk_rgb_get_visual ());
 	gtk_widget_push_colormap (gdk_rgb_get_cmap ());
 
-	create_table();
+	create_table ();
 	
 	gtk_main ();
 

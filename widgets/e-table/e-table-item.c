@@ -581,7 +581,7 @@ eti_set_arg (GtkObject *o, GtkArg *arg, guint arg_id)
 		break;
 	}
 	eti->needs_redraw = 1;
-	gnome_canvas_item_request_update(GNOME_CANVAS_ITEM(eti));
+	gnome_canvas_item_request_update (GNOME_CANVAS_ITEM(eti));
 }
 
 static void
@@ -934,25 +934,25 @@ eti_cursor_move (ETableItem *eti, gint row, gint column)
 static void
 eti_cursor_move_left (ETableItem *eti)
 {
-	eti_cursor_move(eti, eti->focused_row, eti->focused_col - 1);
+	eti_cursor_move (eti, eti->focused_row, eti->focused_col - 1);
 }
 
 static void
 eti_cursor_move_right (ETableItem *eti)
 {
-	eti_cursor_move(eti, eti->focused_row, eti->focused_col + 1);
+	eti_cursor_move (eti, eti->focused_row, eti->focused_col + 1);
 }
 
 static void
 eti_cursor_move_up (ETableItem *eti)
 {
-	eti_cursor_move(eti, eti->focused_row - 1, eti->focused_col);
+	eti_cursor_move (eti, eti->focused_row - 1, eti->focused_col);
 }
 
 static void
 eti_cursor_move_down (ETableItem *eti)
 {
-	eti_cursor_move(eti, eti->focused_row + 1, eti->focused_col);
+	eti_cursor_move (eti, eti->focused_row + 1, eti->focused_col);
 }
 
 static int
@@ -1065,14 +1065,14 @@ eti_event (GnomeCanvasItem *item, GdkEvent *e)
 				if (eti->focused_col > 0)
 					eti_cursor_move_left (eti);
 				else if (eti->focused_row > 0)
-					eti_cursor_move(eti, eti->focused_row - 1, eti->cols - 1);
+					eti_cursor_move (eti, eti->focused_row - 1, eti->cols - 1);
 				else
 					return_val = FALSE;
 			} else {
 				if (eti->focused_col < eti->cols - 1)
 					eti_cursor_move_right (eti);
 				else if (eti->focused_row < eti->rows - 1)
-					eti_cursor_move(eti, eti->focused_row + 1, 0);
+					eti_cursor_move (eti, eti->focused_row + 1, 0);
 				else 
 					return_val = FALSE;
 			}
@@ -1240,7 +1240,7 @@ e_table_item_unfocus (ETableItem *eti)
 		const int row = eti->focused_row;
 		
 		eti_request_region_redraw (eti, col, row, col, row, FOCUSED_BORDER);
-		while ( eti->selection ) {
+		while (eti->selection){
 			e_table_item_unselect_row (eti, GPOINTER_TO_INT(eti->selection->data));
 		}
 	}
