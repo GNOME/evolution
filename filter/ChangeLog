@@ -1,33 +1,3 @@
-2002-11-02  Jeffrey Stedfast  <fejj@ximian.com>
-
-	* filter-context.c: Ported this too.
-
-	* rule-context.c: Ported to glib2/GObject.
-
-2002-11-01  Jeffrey Stedfast  <fejj@ximian.com>
-
-	* filter-element.c: Ported to GObject.
-
-	* filter-input.c: Same.
-
-	* filter-code.c: This too.
-
-	* filter-colour.c: And this.
-
-	* filter-datespec.c: You guessed it.
-
-	* filter-file.c: And again...
-
-	* filter-folder.c: Wheee! This is fun...
-
-	* filter-int.c: Gee, I wonder...
-
-	* filter-label.c: Also ported.
-
-	* filter-option.c: Yep, this too.
-
-	* filter-source.c: And finally this one.
-
 2002-10-30  Dan Winship  <danw@ximian.com>
 
 	* rule-editor.c (rule_add): Adjust default rule editor size to
