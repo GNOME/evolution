@@ -193,11 +193,17 @@ e_msg_composer_attachment_new (const gchar *file_name,
 	
 	camel_mime_part_set_filename (part, filename);
 	g_free (filename);
-	
+
+#if 0
+	/* Note: Outlook 2002 is broken with respect to Content-Ids on
+           non-multipart/related parts, so as an interoperability
+           workwaround, don't set a Content-Id on these parts. Fixes
+           bug #10032 */
 	/* set the Content-Id */
 	content_id = header_msgid_generate ();
 	camel_mime_part_set_content_id (part, content_id);
 	g_free (content_id);
+#endif
 	
 	new = e_msg_composer_attachment_new_from_mime_part (part);
 	
