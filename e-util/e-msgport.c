@@ -171,6 +171,14 @@ void e_msgport_put(EMsgPort *mp, EMsg *msg)
 	m(printf("put: done\n"));
 }
 
+static void
+msgport_cleanlock(void *data)
+{
+	EMsgPort *mp = data;
+
+	g_mutex_unlock(mp->lock);
+}
+
 EMsg *e_msgport_wait(EMsgPort *mp)
 {
 	EMsg *msg;
@@ -181,7 +189,10 @@ EMsg *e_msgport_wait(EMsgPort *mp)
 		if (mp->pipe.fd.read == -1) {
 			m(printf("wait: waiting on condition\n"));
 			mp->condwait++;
+			/* if we are cancelled in the cond-wait, then we need to unlock our lock when we cleanup */
+			pthread_cleanup_push(msgport_cleanlock, mp);
 			g_cond_wait(mp->cond, mp->lock);
+			pthread_cleanup_pop(0);
 			m(printf("wait: got condition\n"));
 			mp->condwait--;
 		} else {
@@ -349,7 +360,7 @@ void e_thread_destroy(EThread *e)
 				printf("cleaning up pool thread %d\n", info->id);
 				pthread_mutex_unlock(&e->mutex);
 				if (pthread_cancel(info->id) == 0)
-					/*pthread_join(info->id, 0);*/
+					pthread_join(info->id, 0);
 				pthread_mutex_lock(&e->mutex);
 				printf("cleaned up ok\n");
 				g_free(info);

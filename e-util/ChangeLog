@@ -1,3 +1,9 @@
+2001-01-30  Not Zed  <NotZed@Ximian.com>
+
+	* e-msgport.c (e_thread_destroy): Turn on joining of cancelled threads.
+	(e_msgport_wait): Put a cleanup handler to clear the mp lock if it
+	happens in cond_wait, since it will be locked again.
+
 2001-01-29  Not Zed  <NotZed@Ximian.com>
 
 	* e-msgport.c (e_thread_put): If we have waiting threads, then
