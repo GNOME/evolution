@@ -1,5 +1,9 @@
 2003-03-26  Rodrigo Moya <rodrigo@ximian.com>
 
+	* importers/icalendar-importer.c (gnome_calendar_import_data_fn): use
+	g_object_unref for CalClient's.
+	(create_checkboxes_control): use g_signal_connect.
+
 	* cal-client/cal-client.c (cal_client_get_load_state): return correct
 	values in g_return_val_if_fail.
 

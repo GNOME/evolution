@@ -563,9 +563,9 @@ gnome_calendar_import_data_fn (EvolutionIntelligentImporter *ii,
 	if (icalcomp)
 		icalcomponent_free (icalcomp);
 	if (calendar_client)
-		gtk_object_unref (GTK_OBJECT (calendar_client));
+		g_object_unref (calendar_client);
 	if (tasks_client)
-		gtk_object_unref (GTK_OBJECT (tasks_client));
+		g_object_unref (tasks_client);
 }
 
 
@@ -586,16 +586,16 @@ create_checkboxes_control (ICalIntelligentImporter *ici)
 	hbox = gtk_hbox_new (FALSE, 2);
 
 	calendar_checkbox = gtk_check_button_new_with_label (_("Calendar Events"));
-	gtk_signal_connect (GTK_OBJECT (calendar_checkbox), "toggled",
-			    GTK_SIGNAL_FUNC (checkbox_toggle_cb),
-			    &ici->do_calendar);
+	g_signal_connect (G_OBJECT (calendar_checkbox), "toggled",
+			  G_CALLBACK (checkbox_toggle_cb),
+			  &ici->do_calendar);
 	gtk_box_pack_start (GTK_BOX (hbox), calendar_checkbox,
 			    FALSE, FALSE, 0);
 
 	tasks_checkbox = gtk_check_button_new_with_label (_("Tasks"));
-	gtk_signal_connect (GTK_OBJECT (tasks_checkbox), "toggled",
-			    GTK_SIGNAL_FUNC (checkbox_toggle_cb),
-			    &ici->do_tasks);
+	g_signal_connect (G_OBJECT (tasks_checkbox), "toggled",
+			  G_CALLBACK (checkbox_toggle_cb),
+			  &ici->do_tasks);
 	gtk_box_pack_start (GTK_BOX (hbox), tasks_checkbox,
 			    FALSE, FALSE, 0);
 
