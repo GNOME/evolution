@@ -1,5 +1,7 @@
 2001-10-30    <NotZed@Ximian.com>
 
+	* message-browser.c (d): Turn it off.
+
 	* mail-mt.c: Added exception strings to some of the op logging.
 	
 	* mail-format.c (elide_quotes): Remove, uh, what was this for, its

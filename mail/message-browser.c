@@ -48,7 +48,7 @@
 
 #include "folder-browser-ui.h"
 
-#define d(x) x
+#define d(x) 
 
 #define MINIMUM_WIDTH  600
 #define MINIMUM_HEIGHT 400
