@@ -1,5 +1,12 @@
 2005-01-11  Not Zed  <NotZed@Ximian.com>
 
+	* org-gnome-exchange-account-setup.eplug.in: Removed page check plugin
+
+	* exchange-ask-password.c: Added a button to prompt for password
+	instead of listening on page next signal
+
+2005-01-11  Not Zed  <NotZed@Ximian.com>
+
 	* Makefile.am: fix LDFLAGS variable name.
 
 2005-01-10  Sushma Rai <rsushma@novell.com>

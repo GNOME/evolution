@@ -39,13 +39,13 @@
 
 int e_plugin_lib_enable (EPluginLib *ep, int enable);
 
-gboolean org_gnome_exchange_ask_password (EPlugin *epl, EConfigHookPageCheckData *data);
+//gboolean org_gnome_exchange_ask_password (EPlugin *epl, EConfigHookPageCheckData *data);
 GtkWidget *org_gnome_exchange_read_url(EPlugin *epl, EConfigHookItemFactoryData *data);
 
 char *owa_entry_text = NULL; 
 
 static gboolean
-validate_exchange_user (EConfig *ec, const char *pageid, void *data)
+validate_exchange_user (void *data)
 {
 	EMConfigTargetAccount *target_account = data;
 	CamelURL *url=NULL;
@@ -75,26 +75,49 @@ validate_exchange_user (EConfig *ec, const char *pageid, void *data)
 }
 
 static void
+ok_button_clicked (GtkWidget *button, void *data)
+{
+	validate_exchange_user (data); // FIXME: return value
+}
+
+static void
 owa_entry_changed (GtkWidget *entry, void *data) 
 {
+	GtkWidget *button = data;
+
 	/* FIXME: return owa_entry_text instead of making it global */
 	owa_entry_text = gtk_entry_get_text (GTK_ENTRY (entry));
+	if (owa_entry_text)
+		gtk_widget_set_sensitive (button, TRUE);
 }
 
 static GtkWidget *
-add_owa_entry (GtkWidget *parent)
+add_owa_entry (GtkWidget *parent, EConfig *config, EMConfigTargetAccount *target_account)
 {
 	GtkWidget *section, *owa_entry;
+	GtkWidget *hbox, *button, *label;
 
 	section =  gtk_vbox_new (FALSE, 0);
 	gtk_widget_show (section);
 	gtk_box_pack_start (GTK_BOX (parent), section, FALSE, FALSE, 0);
 
+	hbox = gtk_hbox_new (FALSE, 6);
+	gtk_widget_show(hbox);
+	gtk_box_pack_start (GTK_BOX (section), hbox, FALSE, FALSE, 0);
+	label = gtk_label_new_with_mnemonic(_("_Url:"));
+	gtk_widget_show (label);
 	owa_entry = gtk_entry_new ();
 	gtk_widget_show (owa_entry);
-	gtk_box_pack_start (GTK_BOX (section), owa_entry, FALSE, FALSE, 0);
+	button = gtk_button_new_from_stock (GTK_STOCK_OK);
+	gtk_widget_set_sensitive (button, FALSE);
+	gtk_widget_show (button);
 
-	g_signal_connect (owa_entry, "changed", G_CALLBACK(owa_entry_changed), NULL);
+	gtk_box_pack_start (GTK_BOX (hbox), label, TRUE, TRUE, 0);
+	gtk_box_pack_start (GTK_BOX (hbox), owa_entry, TRUE, TRUE, 0);
+	gtk_box_pack_start (GTK_BOX (hbox), button, TRUE, TRUE, 0);
+
+	g_signal_connect (owa_entry, "changed", G_CALLBACK(owa_entry_changed), button);
+	g_signal_connect (button, "clicked", G_CALLBACK(ok_button_clicked), target_account);
 	
 	return section;	/* FIXME: return entry */
 }
@@ -111,6 +134,7 @@ GtkWidget *
 org_gnome_exchange_read_url(EPlugin *epl, EConfigHookItemFactoryData *data)
 {
 	EMConfigTargetAccount *target_account;
+	EConfig *config;
 	char *account_url = NULL, *exchange_url = NULL, *temp_url;
 	GtkWidget *owa_entry, *parent;
 	CamelURL *url=NULL;
@@ -118,6 +142,7 @@ org_gnome_exchange_read_url(EPlugin *epl, EConfigHookItemFactoryData *data)
 	target_account = (EMConfigTargetAccount *)data->config->target;
 	account_url = g_strdup (target_account->account->source->url);
 	exchange_url = g_strrstr (account_url, "exchange");
+	config = data->config;
 
 	if (exchange_url) {
 		printf ("org_gnome_exchange_read_url \n");
@@ -136,43 +161,12 @@ org_gnome_exchange_read_url(EPlugin *epl, EConfigHookItemFactoryData *data)
 		}
 
 		parent = data->parent;
-		owa_entry = add_owa_entry(parent);
+		owa_entry = add_owa_entry(parent, config, target_account);
 		g_free (account_url);
 		return owa_entry;
 	}
 	else {
 		g_free (account_url);
 		return NULL;
-	}
-}
-
-gboolean
-org_gnome_exchange_ask_password(EPlugin *epl, EConfigHookPageCheckData *data)
-{
-	EMConfigTargetAccount *target_account;
-	EConfig *config;
-	char *account_url = NULL, *exchange_url = NULL;
-	GtkWidget *page;
-
-	if (strcmp (data->pageid, "10.receive"))
-		return TRUE;
-
-	config = data->config;	
-	target_account = (EMConfigTargetAccount *)data->config->target;
-	account_url = g_strdup (target_account->account->source->url);
-	exchange_url = g_strrstr (account_url, "exchange");
-
-	/* On page next signal, authenticate user and allow 
-	 * to go to receive options page only if user is a valid user */
-
-	if (exchange_url) { 
-		page = e_config_get_druid_page (config);
-		g_signal_connect (page, "next", G_CALLBACK(validate_exchange_user), target_account);
-		g_free (account_url);
-		return TRUE;
-	}
-	else {
-		g_free (account_url);
-		return TRUE;
 	}
 }
