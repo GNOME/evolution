@@ -77,7 +77,7 @@ The headers will be hard coded, as will be the example data.
 	<grouping> <leaf column=\"1\" ascending=\"1\"/> </grouping>    \
 </ETableSpecification>"
 
-char *headers[COLS] = {
+char *headers [COLS] = {
   "Email",
   "Full Name",
   "Address",
@@ -91,7 +91,7 @@ char *headers[COLS] = {
    3   Phone
 */
 
-char *table_data[ROWS][COLS];
+char *table_data [ROWS] [COLS];
 
 /*
  * ETableSimple callbacks
@@ -119,15 +119,15 @@ my_row_count (ETableModel *etc, void *data)
 static void *
 my_value_at (ETableModel *etc, int col, int row, void *data)
 {
-	return (void *) table_data [row][col];
+	return (void *) table_data [row] [col];
 }
 
 /* This function sets the value at a particular point in our ETableModel. */
 static void
 my_set_value_at (ETableModel *etc, int col, int row, const void *val, void *data)
 {
-	g_free (table_data [row][col]);
-	table_data [row][col] = g_strdup (val);
+	g_free (table_data [row] [col]);
+	table_data [row] [col] = g_strdup (val);
 }
 
 /* This function returns whether a particular cell is editable. */
@@ -141,14 +141,14 @@ my_is_cell_editable (ETableModel *etc, int col, int row, void *data)
 static void *
 my_duplicate_value (ETableModel *etc, int col, const void *value, void *data)
 {
-	return g_strdup(value);
+	return g_strdup (value);
 }
 
 /* This function frees the value passed to it. */
 static void
 my_free_value (ETableModel *etc, int col, void *value, void *data)
 {
-	g_free(value);
+	g_free (value);
 }
 
 /* This function is for when the model is unfrozen.  This can mostly
@@ -160,7 +160,7 @@ my_thaw (ETableModel *etc, void *data)
 
 /* We create a window containing our new table. */
 static void
-create_table()
+create_table (void)
 {
 	GtkWidget *e_table, *window, *frame;
 	ECell *cell_left_just;
@@ -170,9 +170,8 @@ create_table()
 
 	/* First we fill in the simple data. */
 	for ( i = 0; i < ROWS; i++ ) {
-		for ( j = 0; j < COLS; j++ ) {
-			table_data[i][j] = g_strdup("");
-		}
+		for ( j = 0; j < COLS; j++ )
+			table_data [i] [j] = g_strdup ("");
 	}
 	/* Next we create our model.  This uses the functions we defined
 	   earlier. */
@@ -201,7 +200,7 @@ create_table()
 	/* Next we create a column object for each view column and add
 	   them to the header.  We don't create a column object for
 	   the importance column since it will not be shown. */
-	for (i = 0; i < COLS; i++){
+	for (i = 0; i < COLS; i++) {
 		/* Create the column. */
 		ETableCol *ecol = e_table_col_new (
 						   i, headers [i],

@@ -73,4 +73,4 @@ void       e_table_save_specification (ETable *e_table, gchar *filename);
 
 END_GNOME_DECLS
 
- #endif /* _E_TABLE_H_ */
+#endif /* _E_TABLE_H_ */

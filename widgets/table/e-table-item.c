@@ -97,9 +97,9 @@ eti_attach_cell_views (ETableItem *eti)
 	}
 
 	eti->needs_compute_height = 1;
-	e_canvas_item_request_reflow(GNOME_CANVAS_ITEM(eti));
+	e_canvas_item_request_reflow (GNOME_CANVAS_ITEM (eti));
 	eti->needs_redraw = 1;
-	gnome_canvas_item_request_update(GNOME_CANVAS_ITEM(eti));
+	gnome_canvas_item_request_update (GNOME_CANVAS_ITEM (eti));
 }
 
 /*
@@ -137,17 +137,40 @@ eti_detach_cell_views (ETableItem *eti)
 static void
 eti_bounds (GnomeCanvasItem *item, double *x1, double *y1, double *x2, double *y2)
 {
+	double   i2c [6];
+	ArtPoint c1, c2, i1, i2;
+	ETableItem *eti = E_TABLE_ITEM (item);
+
+	/* Wrong BBox's are the source of redraw nightmares */
+
+	gnome_canvas_item_i2c_affine (GNOME_CANVAS_ITEM (eti), i2c);
+
+	i1.x = eti->x1;
+	i1.y = eti->y1;
+	i2.x = eti->x1 + eti->width;
+	i2.y = eti->y1 + eti->height;
+	art_affine_point (&c1, &i1, i2c);
+	art_affine_point (&c2, &i2, i2c);
+	
+	*x1 = c1.x;
+	*y1 = c1.y;
+	*x2 = c2.x + 1;
+	*y2 = c2.y + 1;
 }
 
 static void
 eti_reflow (GnomeCanvasItem *item, gint flags)
 {
 	ETableItem *eti = E_TABLE_ITEM (item);
-	if ( eti->needs_compute_height ) {
+
+	if (eti->needs_compute_height) {
 		int new_height = eti_get_height (eti);
-		if ( new_height != eti->height ) {
+
+		if (new_height != eti->height) {
 			eti->height = new_height;
-			e_canvas_item_request_parent_reflow(GNOME_CANVAS_ITEM(eti));
+			e_canvas_item_request_parent_reflow (GNOME_CANVAS_ITEM (eti));
+			eti->needs_redraw = 1;
+			gnome_canvas_item_request_update (GNOME_CANVAS_ITEM (eti));
 		}
 		eti->needs_compute_height = 0;
 	}
@@ -159,37 +182,28 @@ eti_reflow (GnomeCanvasItem *item, gint flags)
 static void
 eti_update (GnomeCanvasItem *item, double *affine, ArtSVP *clip_path, int flags)
 {
-	double i2c [6];
-	ArtPoint c1, c2, i1, i2;
+	ArtPoint o1, o2;
 	ETableItem *eti = E_TABLE_ITEM (item);
 
 	if (GNOME_CANVAS_ITEM_CLASS (eti_parent_class)->update)
 		(*GNOME_CANVAS_ITEM_CLASS (eti_parent_class)->update)(item, affine, clip_path, flags);
-	
-	gnome_canvas_item_i2c_affine (item, i2c);
 
-	i1.x = eti->x1;
-	i1.y = eti->y1;
-	i2.x = eti->x1 + eti->width;
-	i2.y = eti->y1 + eti->height;
-	art_affine_point (&c1, &i1, i2c);
-	art_affine_point (&c2, &i2, i2c);
+
+	o1.x = item->x1;
+	o1.y = item->y1;
+	o2.x = item->x2;
+	o2.y = item->y2;
 
 	eti_bounds (item, &item->x1, &item->y1, &item->x2, &item->y2);
-	if ( item->x1 != c1.x ||
-	     item->y1 != c1.y ||
-	     item->x2 != c2.x + 1 ||
-	     item->y2 != c2.y + 1 )
-		{
-			gnome_canvas_request_redraw(item->canvas, item->x1, item->y1, item->x2, item->y2);
-			item->x1 = c1.x;
-			item->y1 = c1.y;
-			item->x2 = c2.x + 1;
-			item->y2 = c2.y + 1;
-			eti->needs_redraw = 1;
-		}
-	if ( eti->needs_redraw ) {
-		gnome_canvas_request_redraw(item->canvas, item->x1, item->y1, item->x2, item->y2);
+	if (item->x1 != o1.x ||
+	    item->y1 != o1.y ||
+	    item->x2 != o2.x ||
+	    item->y2 != o2.y)
+		eti->needs_redraw = 1;
+
+	if (eti->needs_redraw) {
+		gnome_canvas_request_redraw (item->canvas, item->x1, item->y1,
+					     item->x2, item->y2);
 		eti->needs_redraw = 0;
 	}
 }
@@ -338,14 +352,13 @@ eti_table_model_changed (ETableModel *table_model, ETableItem *eti)
 {
 	eti->rows = e_table_model_row_count (eti->table_model);
 	
-	if (eti->focused_row > eti->rows - 1) {
+	if (eti->focused_row > eti->rows - 1)
 		eti->focused_row = eti->rows - 1;
-	}
 
 	eti->needs_compute_height = 1;
-	e_canvas_item_request_reflow(GNOME_CANVAS_ITEM(eti));
+	e_canvas_item_request_reflow (GNOME_CANVAS_ITEM (eti));
 	eti->needs_redraw = 1;
-	gnome_canvas_item_request_update(GNOME_CANVAS_ITEM(eti));
+	gnome_canvas_item_request_update (GNOME_CANVAS_ITEM (eti));
 }
 
 /* Unused. */
@@ -409,7 +422,7 @@ eti_request_region_redraw (ETableItem *eti,
 static void
 eti_table_model_row_changed (ETableModel *table_model, int row, ETableItem *eti)
 {
-	if (eti->renderers_can_change_size){
+	if (eti->renderers_can_change_size) {
 		eti_table_model_changed (table_model, eti);
 		return;
 	}
@@ -454,7 +467,7 @@ eti_add_table_model (ETableItem *eti, ETableModel *table_model)
 		GTK_OBJECT (table_model), "model_row_changed",
 		GTK_SIGNAL_FUNC (eti_table_model_row_changed), eti);
 
-	if (eti->header){
+	if (eti->header) {
 		eti_detach_cell_views (eti);
 		eti_attach_cell_views (eti);
 	}
@@ -466,7 +479,7 @@ static void
 eti_header_dim_changed (ETableHeader *eth, int col, ETableItem *eti)
 {
 	eti->needs_redraw = 1;
-	gnome_canvas_item_request_update(GNOME_CANVAS_ITEM(eti));
+	gnome_canvas_item_request_update (GNOME_CANVAS_ITEM (eti));
 }
 
 static void
@@ -486,13 +499,13 @@ eti_header_structure_changed (ETableHeader *eth, ETableItem *eti)
 		eti_attach_cell_views (eti);
 		eti_realize_cell_views (eti);
 	} else {
-		if (eti->table_model){
+		if (eti->table_model) {
 			eti_detach_cell_views (eti);
 			eti_attach_cell_views (eti);
 		}
 	}
 	eti->needs_redraw = 1;
-	gnome_canvas_item_request_update(GNOME_CANVAS_ITEM(eti));
+	gnome_canvas_item_request_update (GNOME_CANVAS_ITEM (eti));
 }
 
 static void
@@ -611,7 +624,7 @@ eti_init (GnomeCanvasItem *item)
 	eti->needs_redraw = 0;
 	eti->needs_compute_height = 0;
 
-	e_canvas_item_set_reflow_callback(GNOME_CANVAS_ITEM(eti), eti_reflow);
+	e_canvas_item_set_reflow_callback (GNOME_CANVAS_ITEM (eti), eti_reflow);
 }
 
 #define gray50_width 2
@@ -658,9 +671,9 @@ eti_realize (GnomeCanvasItem *item)
 	eti_realize_cell_views (eti);
 
 	eti->needs_compute_height = 1;
-	e_canvas_item_request_reflow (GNOME_CANVAS_ITEM(eti));
+	e_canvas_item_request_reflow (GNOME_CANVAS_ITEM (eti));
 	eti->needs_redraw = 1;
-	gnome_canvas_item_request_update(GNOME_CANVAS_ITEM(eti));
+	gnome_canvas_item_request_update (GNOME_CANVAS_ITEM (eti));
 }
 
 static void

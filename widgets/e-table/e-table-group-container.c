@@ -5,7 +5,7 @@
  * Author:
  *   Miguel de Icaza (miguel@gnu.org()
  *
- * Copyright 1999, Helix Code, Inc.
+ * Copyright 1999, 2000 Helix Code, Inc.
  */
 
 #include <config.h>
@@ -36,20 +36,6 @@ enum {
 	ARG_FROZEN
 };
 
-static void etgc_set_arg (GtkObject *object, GtkArg *arg, guint arg_id);
-static void etgc_get_arg (GtkObject *object, GtkArg *arg, guint arg_id);
-
-static int etgc_event (GnomeCanvasItem *item, GdkEvent *event);
-static void etgc_realize (GnomeCanvasItem *item);
-static void etgc_unrealize (GnomeCanvasItem *item);
-
-static void etgc_add (ETableGroup *etg, gint row);
-static gboolean etgc_remove (ETableGroup *etg, gint row);
-static void etgc_increment (ETableGroup *etg, gint position, gint amount);
-static void etgc_set_focus (ETableGroup *etg, EFocus direction, gint view_col);
-
-static void etgc_reflow (GnomeCanvasItem *item, gint flags);
-
 typedef struct {
 	ETableGroup *child;
 	void *key;
@@ -59,14 +45,17 @@ typedef struct {
 } ETableGroupContainerChildNode;
 
 static void
-e_table_group_container_child_node_free(ETableGroupContainer *etgc, ETableGroupContainerChildNode *child_node)
+e_table_group_container_child_node_free(ETableGroupContainer          *etgc,
+					ETableGroupContainerChildNode *child_node)
 {
-	ETableGroup *etg = E_TABLE_GROUP(etgc);
+	ETableGroup *etg = E_TABLE_GROUP (etgc);
 	ETableGroup *child = child_node->child;
-	gtk_object_destroy(GTK_OBJECT(child));
-	e_table_model_free_value(etg->model, etgc->ecol->col_idx, child_node->key);
-	gtk_object_destroy(GTK_OBJECT(child_node->text));
-	gtk_object_destroy(GTK_OBJECT(child_node->rect));
+
+	gtk_object_destroy (GTK_OBJECT (child));
+	e_table_model_free_value (etg->model, etgc->ecol->col_idx,
+				  child_node->key);
+	gtk_object_destroy (GTK_OBJECT (child_node->text));
+	gtk_object_destroy (GTK_OBJECT (child_node->rect));
 }
 
 static void
@@ -74,13 +63,16 @@ e_table_group_container_list_free(ETableGroupContainer *etgc)
 {
 	ETableGroupContainerChildNode *child_node;
 	GList *list;
-	if ( etgc->idle )
-		g_source_remove( etgc->idle );
-	for ( list = etgc->children; list; list = g_list_next(list) ) {
+
+	if (etgc->idle)
+		g_source_remove (etgc->idle);
+
+	for (list = etgc->children; list; list = g_list_next (list)) {
 		child_node = (ETableGroupContainerChildNode *) list->data;
-		e_table_group_container_child_node_free(etgc, child_node);
+		e_table_group_container_child_node_free (etgc, child_node);
 	}
-	g_list_free(etgc->children);
+
+	g_list_free (etgc->children);
 }
 
 static void
@@ -213,7 +205,7 @@ e_table_group_container_construct (GnomeCanvasGroup *parent, ETableGroupContaine
 	
 	etgc->font = gdk_font_load ("lucidasans-10");
 	if (!etgc->font){
-		etgc->font = GTK_WIDGET(GNOME_CANVAS_ITEM(etgc)->canvas)->style->font;
+		etgc->font = GTK_WIDGET (GNOME_CANVAS_ITEM (etgc)->canvas)->style->font;
 		
 		gdk_font_ref (etgc->font);
 	}
@@ -257,9 +249,10 @@ e_table_group_container_construct (GnomeCanvasGroup *parent, ETableGroupContaine
 }
 
 ETableGroup *
-e_table_group_container_new       (GnomeCanvasGroup *parent, ETableHeader *full_header,
-				   ETableHeader     *header,
-				   ETableModel *model, ETableCol *ecol, int ascending, xmlNode *child_rules)
+e_table_group_container_new (GnomeCanvasGroup *parent, ETableHeader *full_header,
+			     ETableHeader     *header,
+			     ETableModel *model, ETableCol *ecol,
+			     int ascending, xmlNode *child_rules)
 {
 	ETableGroupContainer *etgc;
 
@@ -378,9 +371,9 @@ etgc_update (GnomeCanvasItem *item, double *affine, ArtSVP *clip_path, int flags
 
 	GNOME_CANVAS_ITEM_CLASS (etgc_parent_class)->update (item, affine, clip_path, flags);
 
-	if ( etgc->need_resize ) {
+	if (etgc->need_resize) {
 		
-		if (!etgc->transparent){
+		if (!etgc->transparent) {
 			int current_width, current_height;
 
 			etgc_dim (etgc, &current_width, &current_height);
@@ -420,48 +413,52 @@ etgc_event (GnomeCanvasItem *item, GdkEvent *event)
 		    event->key.keyval == GDK_KP_Tab || 
 		    event->key.keyval == GDK_ISO_Left_Tab) {
 			change_focus = TRUE;
-			use_col = TRUE;
-			start_col = (event->key.state & GDK_SHIFT_MASK) ? -1 : 0;
-			direction = (event->key.state & GDK_SHIFT_MASK) ? E_FOCUS_END : E_FOCUS_START;
+			use_col      = TRUE;
+			start_col    = (event->key.state & GDK_SHIFT_MASK) ? -1 : 0;
+			direction    = (event->key.state & GDK_SHIFT_MASK) ? E_FOCUS_END : E_FOCUS_START;
 		} else if (event->key.keyval == GDK_Left ||
 			   event->key.keyval == GDK_KP_Left) {
 			change_focus = TRUE;
-			use_col = TRUE;
-			start_col = -1;
-			direction = E_FOCUS_END;
+			use_col      = TRUE;
+			start_col    = -1;
+			direction    = E_FOCUS_END;
 		} else if (event->key.keyval == GDK_Right ||
 			   event->key.keyval == GDK_KP_Right) {
 			change_focus = TRUE;
-			use_col = TRUE;
+			use_col   = TRUE;
 			start_col = 0;
 			direction = E_FOCUS_START;
 		} else if (event->key.keyval == GDK_Down ||
 			   event->key.keyval == GDK_KP_Down) {
 			change_focus = TRUE;
-			use_col = FALSE;
-			direction = E_FOCUS_START;
+			use_col      = FALSE;
+			direction    = E_FOCUS_START;
 		} else if (event->key.keyval == GDK_Up ||
 			   event->key.keyval == GDK_KP_Up) {
 			change_focus = TRUE;
-			use_col = FALSE;
-			direction = E_FOCUS_END;
+			use_col      = FALSE;
+			direction    = E_FOCUS_END;
 		} else if (event->key.keyval == GDK_Return ||
 			   event->key.keyval == GDK_KP_Enter) {
 			change_focus = TRUE;
-			use_col = FALSE;
-			direction = E_FOCUS_START;
+			use_col      = FALSE;
+			direction    = E_FOCUS_START;
 		}
 		if ( change_focus ) {		
 			GList *list;
 			for (list = etgc->children; list; list = list->next) {
-				ETableGroupContainerChildNode *child_node = (ETableGroupContainerChildNode *)list->data;
-				ETableGroup *child = child_node->child;
-				if (e_table_group_get_focus(child)) {
-					old_col = e_table_group_get_focus_column(child);
-					if ( old_col == -1 )
+				ETableGroupContainerChildNode *child_node;
+				ETableGroup                   *child;
+
+				child_node = (ETableGroupContainerChildNode *)list->data;
+				child      = child_node->child;
+
+				if (e_table_group_get_focus (child)) {
+					old_col = e_table_group_get_focus_column (child);
+					if (old_col == -1)
 						old_col = 0;
-					if ( start_col == -1 )
-						start_col = e_table_header_count(e_table_group_get_header(child)) - 1;
+					if (start_col == -1)
+						start_col = e_table_header_count (e_table_group_get_header(child)) - 1;
 
 					if (direction == E_FOCUS_END)
 						list = list->prev;
@@ -472,10 +469,9 @@ etgc_event (GnomeCanvasItem *item, GdkEvent *event)
 						child_node = (ETableGroupContainerChildNode *)list->data;
 						child = child_node->child;
 						if (use_col)
-							e_table_group_set_focus(child, direction, start_col);
-						else {
-							e_table_group_set_focus(child, direction, old_col);
-						}
+							e_table_group_set_focus (child, direction, start_col);
+						else
+							e_table_group_set_focus (child, direction, old_col);
 						return 1;
 					} else {
 						return 0;
@@ -487,9 +483,9 @@ etgc_event (GnomeCanvasItem *item, GdkEvent *event)
 	default:
 		return_val = FALSE;
 	}
-	if ( return_val == FALSE ) {
-		if ( GNOME_CANVAS_ITEM_CLASS(etgc_parent_class)->event )
-			return GNOME_CANVAS_ITEM_CLASS(etgc_parent_class)->event(item, event);
+	if (return_val == FALSE) {
+		if (GNOME_CANVAS_ITEM_CLASS(etgc_parent_class)->event)
+			return GNOME_CANVAS_ITEM_CLASS (etgc_parent_class)->event (item, event);
 	}
 	return return_val;
 	
@@ -501,12 +497,12 @@ etgc_realize (GnomeCanvasItem *item)
 {
 	ETableGroupContainer *etgc;
 
-	if (GNOME_CANVAS_ITEM_CLASS(etgc_parent_class)->realize)
-		(* GNOME_CANVAS_ITEM_CLASS(etgc_parent_class)->realize) (item);
+	if (GNOME_CANVAS_ITEM_CLASS (etgc_parent_class)->realize)
+		(* GNOME_CANVAS_ITEM_CLASS (etgc_parent_class)->realize) (item);
 
 	etgc = E_TABLE_GROUP_CONTAINER (item);
 
-	e_canvas_item_request_reflow(GNOME_CANVAS_ITEM(etgc));
+	e_canvas_item_request_reflow (GNOME_CANVAS_ITEM (etgc));
 }
 
 /* Unrealize handler for the etgc item */
@@ -517,28 +513,34 @@ etgc_unrealize (GnomeCanvasItem *item)
 
 	etgc = E_TABLE_GROUP_CONTAINER (item);
 	
-	if (GNOME_CANVAS_ITEM_CLASS(etgc_parent_class)->unrealize)
-		(* GNOME_CANVAS_ITEM_CLASS(etgc_parent_class)->unrealize) (item);
+	if (GNOME_CANVAS_ITEM_CLASS (etgc_parent_class)->unrealize)
+		(* GNOME_CANVAS_ITEM_CLASS (etgc_parent_class)->unrealize) (item);
 }
 
 static void
 compute_text (ETableGroupContainer *etgc, ETableGroupContainerChildNode *child_node)
 {
 	/* FIXME : What a hack, eh? */
-	gchar *text = g_strdup_printf("%s : %s (%d item%s)", etgc->ecol->text, (gchar *)child_node->key, (gint) child_node->count, child_node->count == 1 ? "" : "s" );
-	gnome_canvas_item_set(child_node->text, 
-			      "text", text,
-			      NULL);
-	g_free(text);
+	gchar *text = g_strdup_printf ("%s : %s (%d item%s)",
+				       etgc->ecol->text,
+				       (gchar *)child_node->key,
+				       (gint) child_node->count,
+				       child_node->count == 1 ? "" : "s" );
+	gnome_canvas_item_set (child_node->text, 
+			       "text", text,
+			       NULL);
+	g_free (text);
 }
 
 static void
-child_row_selection (ETableGroup *etg, int row, gboolean selected, ETableGroupContainer *etgc)
+child_row_selection (ETableGroup *etg, int row, gboolean selected,
+		     ETableGroupContainer *etgc)
 {
-	e_table_group_row_selection(E_TABLE_GROUP(etgc), row, selected);
+	e_table_group_row_selection (E_TABLE_GROUP (etgc), row, selected);
 }
 
-static void etgc_add (ETableGroup *etg, gint row)
+static void
+etgc_add (ETableGroup *etg, gint row)
 {
 	ETableGroupContainer *etgc = E_TABLE_GROUP_CONTAINER(etg);
 	void *val = e_table_model_value_at (etg->model, etgc->ecol->col_idx, row);
@@ -551,88 +553,98 @@ static void etgc_add (ETableGroup *etg, gint row)
 		int comp_val;
 		child_node = (ETableGroupContainerChildNode *)(list->data);
 		comp_val = (*comp)(child_node->key, val);
-		if ( comp_val == 0 ) {
+		if (comp_val == 0) {
 			child = child_node->child;
 			child_node->count ++;
-			e_table_group_add(child, row);
-			compute_text(etgc, child_node);
+			e_table_group_add (child, row);
+			compute_text (etgc, child_node);
 			return;
 		}
-		if ( (comp_val > 0 && etgc->ascending) ||
-		     (comp_val < 0 && (!etgc->ascending)) )
+		if ((comp_val > 0 && etgc->ascending) ||
+		    (comp_val < 0 && (!etgc->ascending)))
 			break;
 	}
-	child_node = g_new(ETableGroupContainerChildNode, 1);
-	child_node->rect = gnome_canvas_item_new(GNOME_CANVAS_GROUP(etgc),
-						 gnome_canvas_rect_get_type (),
-						 "fill_color", "grey70",
-						 "outline_color", "grey50",
-						 NULL);
-	child_node->text = gnome_canvas_item_new(GNOME_CANVAS_GROUP(etgc),
-						 e_text_get_type(),
-						 "font_gdk", etgc->font,
-						 "anchor", GTK_ANCHOR_SW,
-						 "x", (double) 0,
-						 "y", (double) 0,
-						 "fill_color", "black",
-						 NULL);
-	child = e_table_group_new(GNOME_CANVAS_GROUP(etgc), etg->full_header, etg->header, etg->model, etgc->child_rules);
-	gtk_signal_connect(GTK_OBJECT(child), "row_selection",
-			   GTK_SIGNAL_FUNC(child_row_selection), etgc);
+	child_node = g_new (ETableGroupContainerChildNode, 1);
+	child_node->rect = gnome_canvas_item_new (GNOME_CANVAS_GROUP (etgc),
+						  gnome_canvas_rect_get_type (),
+						  "fill_color", "grey70",
+						  "outline_color", "grey50",
+						  NULL);
+	child_node->text = gnome_canvas_item_new (GNOME_CANVAS_GROUP (etgc),
+						  e_text_get_type (),
+						  "font_gdk", etgc->font,
+						  "anchor", GTK_ANCHOR_SW,
+						  "x", (double) 0,
+						  "y", (double) 0,
+						  "fill_color", "black",
+						  NULL);
+	child = e_table_group_new (GNOME_CANVAS_GROUP (etgc), etg->full_header,
+				   etg->header, etg->model, etgc->child_rules);
+	gtk_signal_connect (GTK_OBJECT (child), "row_selection",
+			    GTK_SIGNAL_FUNC (child_row_selection), etgc);
 	child_node->child = child;
-	child_node->key = e_table_model_duplicate_value(etg->model, etgc->ecol->col_idx, val);
+	child_node->key = e_table_model_duplicate_value (etg->model, etgc->ecol->col_idx, val);
 	child_node->count = 1;
-	e_table_group_add(child, row);
-	if ( list ) {
-		etgc->children = g_list_insert(etgc->children, child_node, i);
-	}
+	e_table_group_add (child, row);
+
+	if (list)
+		etgc->children = g_list_insert (etgc->children, child_node, i);
 	else
-		etgc->children = g_list_append(etgc->children, child_node);
-	compute_text(etgc, child_node);
-	e_canvas_item_request_reflow(GNOME_CANVAS_ITEM(etgc));
+		etgc->children = g_list_append (etgc->children, child_node);
+
+	compute_text (etgc, child_node);
+	e_canvas_item_request_reflow (GNOME_CANVAS_ITEM (etgc));
 }
 
-static gboolean etgc_remove (ETableGroup *etg, gint row)
+static gboolean
+etgc_remove (ETableGroup *etg, gint row)
 {
 	ETableGroupContainer *etgc = E_TABLE_GROUP_CONTAINER(etg);
-	GList *list = etgc->children;
-	for ( ; list; list = g_list_next(list) ) {
-		ETableGroupContainerChildNode *child_node = (ETableGroupContainerChildNode *) list->data;
-		ETableGroup *child = child_node->child;
-		if ( e_table_group_remove(child, row) ) {
+	GList *list;
+
+	for (list = etgc->children ; list; list = g_list_next (list)) {
+		ETableGroupContainerChildNode *child_node = list->data;
+		ETableGroup                   *child = child_node->child;
+
+		if (e_table_group_remove (child, row)) {
 			child_node->count --;
-			if ( child_node->count == 0 ) {
-				e_table_group_container_child_node_free(etgc, child_node);
-				etgc->children = g_list_remove(etgc->children, child_node);
-				g_free(child_node);
-			} else {
-				compute_text(etgc, child_node);
-			}
-			e_canvas_item_request_reflow(GNOME_CANVAS_ITEM(etgc));
+			if (child_node->count == 0) {
+				e_table_group_container_child_node_free (etgc, child_node);
+				etgc->children = g_list_remove (etgc->children, child_node);
+				g_free (child_node);
+			} else
+				compute_text (etgc, child_node);
+
+			e_canvas_item_request_reflow (GNOME_CANVAS_ITEM (etgc));
+
 			return TRUE;
 		}
 	}
 	return FALSE;
 }
 
-static void etgc_increment (ETableGroup *etg, gint position, gint amount)
+static void
+etgc_increment (ETableGroup *etg, gint position, gint amount)
 {
 	ETableGroupContainer *etgc = E_TABLE_GROUP_CONTAINER(etg);
 	GList *list = etgc->children;
-	for ( ; list; list = g_list_next(list) ) {
-		e_table_group_increment(((ETableGroupContainerChildNode *)list->data)->child, position, amount);
-	}
+
+	for (list = etgc->children ; list; list = g_list_next (list))
+		e_table_group_increment (((ETableGroupContainerChildNode *)list->data)->child,
+					 position, amount);
 }
 
-static void etgc_set_focus (ETableGroup *etg, EFocus direction, gint view_col)
+static void
+etgc_set_focus (ETableGroup *etg, EFocus direction, gint view_col)
 {
 	ETableGroupContainer *etgc = E_TABLE_GROUP_CONTAINER(etg);
 	if (etgc->children) {
-		if (direction == E_FOCUS_END) {
-			e_table_group_set_focus(((ETableGroupContainerChildNode *)g_list_last(etgc->children)->data)->child, direction, view_col);
-		} else {
-			e_table_group_set_focus(((ETableGroupContainerChildNode *)etgc->children->data)->child, direction, view_col);
-		}
+		if (direction == E_FOCUS_END)
+			e_table_group_set_focus (((ETableGroupContainerChildNode *)g_list_last (etgc->children)->data)->child,
+						 direction, view_col);
+		else
+			e_table_group_set_focus (((ETableGroupContainerChildNode *)etgc->children->data)->child,
+						 direction, view_col);
 	}
 }
 
@@ -776,15 +788,6 @@ etgc_class_init (GtkObjectClass *object_class)
 }
 
 static void
-etgc_init (GtkObject *object)
-{
-	ETableGroupContainer *container = E_TABLE_GROUP_CONTAINER(object);
-	container->children = FALSE;
-	
-	e_canvas_item_set_reflow_callback(GNOME_CANVAS_ITEM(object), etgc_reflow);
-}
-
-static void
 etgc_reflow (GnomeCanvasItem *item, gint flags)
 {
 	ETableGroupContainer *etgc = E_TABLE_GROUP_CONTAINER(item);
@@ -850,4 +853,17 @@ etgc_reflow (GnomeCanvasItem *item, gint flags)
 	etgc->idle = 0;
 }
 
+static void
+etgc_init (GtkObject *object)
+{
+	ETableGroupContainer *container = E_TABLE_GROUP_CONTAINER(object);
+	container->children = FALSE;
+	
+	e_canvas_item_set_reflow_callback(GNOME_CANVAS_ITEM(object), etgc_reflow);
+}
+
 E_MAKE_TYPE (e_table_group_container, "ETableGroupContainer", ETableGroupContainer, etgc_class_init, etgc_init, PARENT_TYPE);
+
+
+
+

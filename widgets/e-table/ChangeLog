@@ -1,3 +1,11 @@
+2000-03-27  Michael Meeks  <michael@helixcode.com>
+
+	* e-table-item.c (eti_update): try and fix the convoluted logic.
+	(eti_bounds): Implement; should fix the re-draw bugs.
+
+	* e-table-group-container.c: kill many redundant prototypes,
+	stylistic cleans.
+
 2000-03-26  Matias Mutchinick <matias@seul.org>
 
 	* e-cell-toggle.c (etog_draw): Removed extra code that computed
