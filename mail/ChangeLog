@@ -1,3 +1,12 @@
+2005-02-21  Not Zed  <NotZed@Ximian.com>
+
+	** See bug #70718
+
+	* em-folder-view.c (emfv_list_built): handle list_built events -
+	whenever the list changes.
+	(emfv_gui_folder_changed, emfv_folder_changed): removed, we want
+	to run off the viewed list, not the physical folder.
+
 2005-02-22  Rodney Dawes  <dobey@novell.com>
 
 	* em-account-editor.c (emae_security_page): The GladeXML object is

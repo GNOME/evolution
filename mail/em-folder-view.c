@@ -99,9 +99,8 @@
 
 #include "evolution-shell-component-utils.h" /* Pixmap stuff, sigh */
 
-static void emfv_folder_changed(CamelFolder *folder, CamelFolderChangeInfo *changes, EMFolderView *emfv);
-
 static void emfv_list_message_selected(MessageList *ml, const char *uid, EMFolderView *emfv);
+static void emfv_list_built(MessageList *ml, EMFolderView *emfv);
 static int emfv_list_right_click(ETree *tree, gint row, ETreePath path, gint col, GdkEvent *event, EMFolderView *emfv);
 static void emfv_list_double_click(ETree *tree, gint row, ETreePath path, gint col, GdkEvent *event, EMFolderView *emfv);
 static int emfv_list_key_press(ETree *tree, int row, ETreePath path, int col, GdkEvent *ev, EMFolderView *emfv);
@@ -135,8 +134,6 @@ struct _EMFolderViewPrivate {
 	guint setting_notify_id;
 	int nomarkseen:1;
 	int destroyed:1;
-
-	CamelObjectHookID folder_changed_id;
 
 	GtkWidget *invisible;
 	char *selection_uri;
@@ -180,6 +177,7 @@ emfv_init(GObject *o)
 
 	emfv->list = (MessageList *)message_list_new();
 	g_signal_connect(emfv->list, "message_selected", G_CALLBACK(emfv_list_message_selected), emfv);
+	g_signal_connect(emfv->list, "message_list_built", G_CALLBACK(emfv_list_built), emfv);
 
 	/* FIXME: should this hang off message-list instead? */
 	g_signal_connect(emfv->list->tree, "right_click", G_CALLBACK(emfv_list_right_click), emfv);
@@ -241,8 +239,6 @@ emfv_destroy (GtkObject *o)
 	}
 
 	if (emfv->folder) {
-		if (p->folder_changed_id)
-			camel_object_remove_event(emfv->folder, p->folder_changed_id);
 		camel_object_unref(emfv->folder);
 		g_free(emfv->folder_uri);
 		emfv->folder = NULL;
@@ -571,14 +567,11 @@ emfv_set_folder(EMFolderView *emfv, CamelFolder *folder, const char *uri)
 	if (emfv->folder) {
 		emfv->hide_deleted = emfv->list->hidedeleted; /* <- a bit nasty but makes it track the display better */
 		mail_sync_folder (emfv->folder, NULL, NULL);
-		camel_object_remove_event(emfv->folder, emfv->priv->folder_changed_id);
 		camel_object_unref(emfv->folder);
 	}
 
 	emfv->folder = folder;
 	if (folder) {
-		emfv->priv->folder_changed_id = camel_object_hook_event(folder, "folder_changed",
-									(CamelObjectEventHookFunc)emfv_folder_changed, emfv);
 		camel_object_ref(folder);
 		mail_refresh_folder(folder, NULL, NULL);
 		/* We need to set this up to get the right view options for the message-list, even if we're not showing it */
@@ -2170,6 +2163,15 @@ emfv_list_message_selected(MessageList *ml, const char *uid, EMFolderView *emfv)
 }
 
 static void
+emfv_list_built(MessageList *ml, EMFolderView *emfv)
+{
+	if (!emfv->priv->destroyed) {
+		emfv_enable_menus(emfv);
+		g_signal_emit(emfv, signals[EMFV_LOADED], 0);
+	}
+}
+
+static void
 emfv_list_double_click(ETree *tree, gint row, ETreePath path, gint col, GdkEvent *event, EMFolderView *emfv)
 {
 	/* Ignore double-clicks on columns that handle thier own state */
@@ -2376,23 +2378,6 @@ emfv_format_popup_event(EMFormatHTMLDisplay *efhd, GdkEventButton *event, const 
 		gtk_menu_popup(menu, NULL, NULL, NULL, NULL, event->button, event->time);
 
 	return TRUE;
-}
-
-static void
-emfv_gui_folder_changed(CamelFolder *folder, void *dummy, EMFolderView *emfv)
-{
-	if (!emfv->priv->destroyed) {
-		emfv_enable_menus(emfv);
-		g_signal_emit(emfv, signals[EMFV_LOADED], 0);
-	}
-	g_object_unref(emfv);
-}
-
-static void
-emfv_folder_changed(CamelFolder *folder, CamelFolderChangeInfo *changes, EMFolderView *emfv)
-{
-	g_object_ref(emfv);
-	mail_async_event_emit(emfv->async, MAIL_ASYNC_GUI, (MailAsyncFunc)emfv_gui_folder_changed, folder, NULL, emfv);
 }
 
 /* keep these two tables in sync */
