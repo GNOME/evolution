@@ -1,3 +1,7 @@
+2000-11-21  Dan Winship  <danw@helixcode.com>
+
+	* Makefile.am: add GPGME_CFLAGS and GPGME_LIBS
+
 2000-11-21  Jeffrey Stedfast  <fejj@helixcode.com>
 
 	* mail-config.c (mail_config_view_source): New function to return

@@ -21,6 +21,8 @@ INCLUDES = \
 	$(GNOME_VFS_CFLAGS)				\
 	$(UNICODE_CFLAGS)				\
 	$(GTKHTML_CFLAGS)				\
+	$(THREADS_CFLAGS)				\
+	$(GPGME_CFLAGS)					\
 	-DEVOLUTION_VERSION=\""$(VERSION)"\"		\
 	-DEVOLUTION_DATADIR=\""$(datadir)"\"		\
 	-DEVOLUTION_GLADEDIR=\""$(gladedir)"\"		\
@@ -28,8 +30,7 @@ INCLUDES = \
 	-DEVOLUTION_LOCALEDIR=\""$(localedir)"\"	\
 	-DEVOLUTION_DATADIR=\""$(datadir)"\"            \
 	-DCAMEL_PROVIDERDIR=\""$(providerdir)"\"	\
-	-DG_LOG_DOMAIN=\"evolution-mail\"		\
-	$(THREADS_CFLAGS)
+	-DG_LOG_DOMAIN=\"evolution-mail\"
 
 EVOLUTION_MAIL_CORBA_GENERATED = \
 	Mail.h			\
@@ -105,7 +106,8 @@ evolution_mail_LDADD = 					\
 	$(EXTRA_GNOME_LIBS)				\
 	$(GTKHTML_LIBS)					\
 	$(THREADS_LIBS)					\
-	$(UNICODE_LIBS)
+	$(UNICODE_LIBS)					\
+	$(GPGME_LIBS)
 
 test_mail_SOURCES = \
 	test-mail.c
