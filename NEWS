@@ -26,6 +26,56 @@ Calendar:
 
   - vEvent iTip mail attachments can now be added to your calendar (Jesse)
 
+Mail:
+
+  - Numerous i18n encoding, decoding, and display fixes. Non-ASCII
+    text should be displayed correctly in most context in the mailer
+    now. The composer no longer sends undeclared 8bit data. (Jeff)
+
+  - The IMAP provider now caches summary info between sessions, so
+    startup should be much faster for large folders. (Dan)
+
+  - Subscribe/unsubscribe UI for newsgroups. (IMAP subscriptions will
+    be supported in a later release.) NNTP authentication support.
+    Various other NNTP fixes. (Chris Toshok)
+
+  - New "full search" button to do more complicated searches. (NotZed)
+
+  - Composer attachment bar improvements. You can now drag files to
+    the composer window to attach them to the message. (Iain)
+
+  - Message list state (columns selected, sorting, etc) is now saved
+    between sessions. (NotZed)
+
+  - "Get Mail" now works for IMAP. IMAP mail no longer arrives
+    asynchronously (although if you delete mail from another client,
+    it will be deleted asynchronously). (Dan)
+
+  - Image attachments now use thumbnail images rather than a generic
+    image icon. (Iain)
+
+  - Various IMAP provider bugs (Dan, Jeff)
+
+  - Filter code cleanup/improvements. (NotZed) Filtering can read and
+    write message scores. (Jeff) On-demand filters no longer expunge
+    the source folder, and don't filter deleted messages. (Jeff)
+    Filters now log their actions. (Jeff)
+
+  - Drafts, Outbox, and Sent folders now default to showing "To"
+    instead of "From" in the header list. Messages output to the Sent
+    folder are marked as "Seen". "Send later" on a reply will mark the
+    message as having been replied to. (Jeff)
+
+  - Message list "attachment" column is now functional. The
+    read/unread state of a fake thread header now matches the state of
+    the thread. (NotZed) Message list sorting is more clever (Jeff)
+
+  - The "Print" toolbar button now opens a Print dialog rather than a
+    Print Preview window. (Miguel)
+
+  - New "Select All" command. "Mark all messages as seen" became "Mark
+    (selected) messages seen". (Jeff)
+
 
 Version 0.5.1, "Salamended", 2000-09-15
 ---------------------------------------
