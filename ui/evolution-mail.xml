@@ -8,6 +8,9 @@
     <cmd name="ViewSource"
       _label="S_ource" _tip="View Raw Message Source" type="toggle" />
 
+    <cmd name="HideDeleted"
+      _label="Hide _Deleted Messages" _tip="Hide Deleted Messages" type="toggle" />
+
     <cmd name="MailStop"
       pixtype="stock" pixname="Stop"/>
 
@@ -123,6 +126,7 @@
          _label="Full _Headers"
 	 _tip="Display all of the message headers"/>
 	<menuitem name="Source" verb="ViewSource" accel=""/>
+	<menuitem name="Deleted" verb="HideDeleted" accel=""/>
       	<separator/>
       
       	<menuitem name="MessageHideClear" verb="" _label="Show _All" pixtype="pixbuf"/>
@@ -130,8 +134,6 @@
 	 _label="Hide S_elected Messages" pixtype="pixbuf"/>
       	<menuitem name="MessageHideRead" verb=""
 	  _label="Hide _Read messages" pixtype="pixbuf"/>
-      	<menuitem name="MessageHideDeleted" verb=""
-	_label="Hide _Deleted Messages" pixtype="pixbuf"/>
     </submenu>
 
     <submenu name="Actions">
