@@ -5,7 +5,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: evolution VERSION\n"
-"POT-Creation-Date: 2000-07-21 11:50+0200\n"
+"POT-Creation-Date: 2000-07-23 23:29+0200\n"
 "PO-Revision-Date: 2000-05-19 19:06+0100\n"
 "Last-Translator: Szabolcs BAN <shooby@gnome.hu>\n"
 "Language-Team: Hungarian <hu@li.org>\n"
@@ -287,7 +287,7 @@ msgstr "FIXME: Új napló bejegyzés a névjegyhez"
 
 #: addressbook/contact-editor/e-contact-editor.c:788
 msgid "FIXME: _Flag for Follow Up..."
-msgstr ""
+msgstr "FIXME: _Zászló folytatáshoz..."
 
 #: addressbook/contact-editor/e-contact-editor.c:789
 msgid "FIXME: _Display Map of Address"
@@ -1830,147 +1830,149 @@ msgid ""
 "When you click on a day, you will be taken\n"
 "to that date."
 msgstr ""
-""
+"Kérlek válassz egy dátumot amire lépni akarsz.\n"
+"Ha egy napra kattintassz, arra a dátumra leszel\n"
+"téve."
 
 #: calendar/gui/goto.c:312
 msgid "Go to today"
-msgstr ""
+msgstr "Ugorj mára"
 
 #: calendar/gui/print.c:265
 msgid "1st"
-msgstr ""
+msgstr "1."
 
 #: calendar/gui/print.c:265
 msgid "2nd"
-msgstr ""
+msgstr "2."
 
 #: calendar/gui/print.c:265
 msgid "3rd"
-msgstr ""
+msgstr "3."
 
 #: calendar/gui/print.c:265
 msgid "4th"
-msgstr ""
+msgstr "4."
 
 #: calendar/gui/print.c:265
 msgid "5th"
-msgstr ""
+msgstr "5."
 
 #: calendar/gui/print.c:266
 msgid "6th"
-msgstr ""
+msgstr "6."
 
 #: calendar/gui/print.c:266
 msgid "7th"
-msgstr ""
+msgstr "7."
 
 #: calendar/gui/print.c:266
 msgid "8th"
-msgstr ""
+msgstr "8."
 
 #: calendar/gui/print.c:266
 msgid "9th"
-msgstr ""
+msgstr "9."
 
 #: calendar/gui/print.c:266
 msgid "10th"
-msgstr ""
+msgstr "10."
 
 #: calendar/gui/print.c:267
 msgid "11th"
-msgstr ""
+msgstr "11."
 
 #: calendar/gui/print.c:267
 msgid "12th"
-msgstr ""
+msgstr "12."
 
 #: calendar/gui/print.c:267
 msgid "13th"
-msgstr ""
+msgstr "13."
 
 #: calendar/gui/print.c:267
 msgid "14th"
-msgstr ""
+msgstr "14."
 
 #: calendar/gui/print.c:267
 msgid "15th"
-msgstr ""
+msgstr "15."
 
 #: calendar/gui/print.c:268
 msgid "16th"
-msgstr ""
+msgstr "16."
 
 #: calendar/gui/print.c:268
 msgid "17th"
-msgstr ""
+msgstr "17."
 
 #: calendar/gui/print.c:268
 msgid "18th"
-msgstr ""
+msgstr "18."
 
 #: calendar/gui/print.c:268
 msgid "19th"
-msgstr ""
+msgstr "19."
 
 #: calendar/gui/print.c:268
 msgid "20th"
-msgstr ""
+msgstr "20."
 
 #: calendar/gui/print.c:269
 msgid "21st"
-msgstr ""
+msgstr "21."
 
 #: calendar/gui/print.c:269
 msgid "22nd"
-msgstr ""
+msgstr "22."
 
 #: calendar/gui/print.c:269
 msgid "23rd"
-msgstr ""
+msgstr "23."
 
 #: calendar/gui/print.c:269
 msgid "24th"
-msgstr ""
+msgstr "24."
 
 #: calendar/gui/print.c:269
 msgid "25th"
-msgstr ""
+msgstr "25."
 
 #: calendar/gui/print.c:270
 msgid "26th"
-msgstr ""
+msgstr "26."
 
 #: calendar/gui/print.c:270
 msgid "27th"
-msgstr ""
+msgstr "27."
 
 #: calendar/gui/print.c:270
 msgid "28th"
-msgstr ""
+msgstr "28."
 
 #: calendar/gui/print.c:270
 msgid "29th"
-msgstr ""
+msgstr "29."
 
 #: calendar/gui/print.c:270
 msgid "30th"
-msgstr ""
+msgstr "30."
 
 #: calendar/gui/print.c:271
 msgid "31st"
-msgstr ""
+msgstr "31."
 
 #: calendar/gui/print.c:326
 msgid "Su"
-msgstr "Va"
+msgstr "V"
 
 #: calendar/gui/print.c:326
 msgid "Mo"
-msgstr "Hé"
+msgstr "H"
 
 #: calendar/gui/print.c:326
 msgid "Tu"
-msgstr "Ke"
+msgstr "K"
 
 #: calendar/gui/print.c:326
 msgid "We"
@@ -1982,7 +1984,7 @@ msgstr "Cs"
 
 #: calendar/gui/print.c:326
 msgid "Fr"
-msgstr "Pé"
+msgstr "P"
 
 #: calendar/gui/print.c:326
 msgid "Sa"
@@ -1990,7 +1992,7 @@ msgstr "Szo"
 
 #: calendar/gui/print.c:868
 msgid "TODO Items"
-msgstr ""
+msgstr "Tennivaló elemek"
 
 #. Day
 #: calendar/gui/print.c:980
@@ -2042,7 +2044,7 @@ msgstr "Nyomtatási elõnézet"
 
 #: calendar/gui/prop.c:330
 msgid "Time display"
-msgstr ""
+msgstr "Idõ mutatása"
 
 #. Time format
 #: calendar/gui/prop.c:334
@@ -2073,7 +2075,7 @@ msgstr "Hétfõ"
 #. Day range
 #: calendar/gui/prop.c:358
 msgid "Day range"
-msgstr ""
+msgstr "Nap tartomány"
 
 #: calendar/gui/prop.c:369
 msgid ""
@@ -2082,84 +2084,88 @@ msgid ""
 "Times outside this range will not be displayed\n"
 "by default."
 msgstr ""
+"Kérlek add meg, hogy mikor kezdõdjön és mikor\n"
+"fejezõdjön be a nap és a hét.\n"
+"Az ezen kívülesõ idõpontok nem lesznek\n"
+"megjelenítve."
 
 #: calendar/gui/prop.c:385
 msgid "Day start:"
-msgstr ""
+msgstr "Nap kezdete:"
 
 #: calendar/gui/prop.c:396
 msgid "Day end:"
-msgstr ""
+msgstr "Nap vége:"
 
 #: calendar/gui/prop.c:519
 msgid "Colors for display"
-msgstr ""
+msgstr "Megjelenítés színei"
 
 #: calendar/gui/prop.c:522
 msgid "Colors"
-msgstr ""
+msgstr "Színek"
 
 #: calendar/gui/prop.c:599
 msgid "Show on TODO List:"
-msgstr ""
+msgstr "Tennivaló lista mutatása:"
 
 #: calendar/gui/prop.c:606
 msgid "Time Until Due"
-msgstr ""
+msgstr "Lejáratig hátralévõ idõ"
 
 #: calendar/gui/prop.c:637
 msgid "To Do List style options:"
-msgstr ""
+msgstr "Tennivaló lista stílus beállításai:"
 
 #: calendar/gui/prop.c:642
 msgid "Highlight overdue items"
-msgstr ""
+msgstr "Lejárt elemek kivilágítása"
 
 #: calendar/gui/prop.c:645
 msgid "Highlight not yet due items"
-msgstr ""
+msgstr "Világísd ki a még nem lejárt elemeket"
 
 #: calendar/gui/prop.c:648
 msgid "Highlight items due today"
-msgstr ""
+msgstr "A ma lejáró elemek kivilágítása"
 
 #: calendar/gui/prop.c:678
 msgid "To Do List Properties"
-msgstr ""
+msgstr "Tennivaló lista beállításai"
 
 #: calendar/gui/prop.c:681
 msgid "To Do List"
-msgstr ""
+msgstr "Tennivaló lista"
 
 #: calendar/gui/prop.c:780
 msgid "Alarms"
-msgstr ""
+msgstr "Ébresztõk"
 
 #. build miscellaneous box
 #: calendar/gui/prop.c:783
 msgid "Alarm Properties"
-msgstr ""
+msgstr "Ébresztõ beállítások"
 
 #: calendar/gui/prop.c:793
 msgid "Beep on display alarms"
-msgstr ""
+msgstr "Ébresztõ kiírásánál csipogj"
 
 #: calendar/gui/prop.c:803
 msgid "Audio alarms timeout after"
-msgstr ""
+msgstr "Hang ébreszés idõzítése"
 
 #: calendar/gui/prop.c:814 calendar/gui/prop.c:831
 msgid " seconds"
-msgstr ""
+msgstr " másodperc után"
 
 #: calendar/gui/prop.c:820
 msgid "Enable snoozing for "
-msgstr ""
+msgstr "Szundi engedése"
 
 #. populate default frame/box
 #: calendar/gui/prop.c:836
 msgid "Defaults"
-msgstr ""
+msgstr "Alapértelmezett"
 
 #: composer/e-msg-composer-address-dialog.c:183 composer/e-msg-composer.c:945
 msgid "Cut"
@@ -2348,46 +2354,48 @@ msgstr "Ment mint..."
 #: composer/e-msg-composer.c:474
 #, c-format
 msgid "Error saving file: %s"
-msgstr ""
+msgstr "Fájl mentési hiba: %s"
 
 #: composer/e-msg-composer.c:494
 #, c-format
 msgid "Error loading file: %s"
-msgstr ""
+msgstr "Fájl betöltési hiba: %s"
 
 #: composer/e-msg-composer.c:513
 msgid "Discard this message?"
-msgstr ""
+msgstr "Az üzenet figyelmen kívül hagyása?"
 
 #: composer/e-msg-composer.c:561
 msgid "Open file"
-msgstr ""
+msgstr "Fájl megnyitás"
 
 #: composer/e-msg-composer.c:676
 msgid "That file does not exist."
-msgstr ""
+msgstr "A fájl nem létezik."
 
 #: composer/e-msg-composer.c:686
 msgid "That is not a regular file."
-msgstr ""
+msgstr "Nem sima fájl."
 
 #: composer/e-msg-composer.c:696
 msgid "That file exists but is not readable."
-msgstr ""
+msgstr "Az a fájl létezik, de nem olvasható."
 
 #: composer/e-msg-composer.c:707
 msgid "That file appeared accesible but open(2) failed."
-msgstr ""
+msgstr "A fájl elérhetõnek látszik, de open(2) hiba történt."
 
 #: composer/e-msg-composer.c:729
 msgid ""
 "The file is very large (more than 100K).\n"
 "Are you sure you wish to insert it?"
 msgstr ""
+"A fájl túl nagy (100K fölötti).\n"
+"Tényleg be szeretnéd szúrni?"
 
 #: composer/e-msg-composer.c:748
 msgid "An error occurred while reading the file."
-msgstr ""
+msgstr "Hiba történt megnyitás közben."
 
 #: composer/e-msg-composer.c:888
 msgid "Save in _folder..."
@@ -2455,37 +2463,39 @@ msgstr "Fájl csatolása"
 
 #: composer/e-msg-composer.c:1127
 msgid "Compose a message"
-msgstr ""
+msgstr "Levél írása"
 
 #: filter/filter-editor.c:198
 msgid "Edit Filter"
-msgstr ""
+msgstr "Szûrõ szerkesztése"
 
 #: filter/filter-editor.c:198
 msgid "Create filter"
-msgstr ""
+msgstr "Szûrõ készítése"
 
 #: filter/filter-editor.c:209
 msgid "Back"
-msgstr ""
+msgstr "Vissza"
 
 #: filter/filter-editor.c:211
 msgid "Finish"
-msgstr ""
+msgstr "Kész"
 
 #: filter/filter-editor.c:212
 msgid "Cancel"
-msgstr ""
+msgstr "Mégsem"
 
 #: filter/filter-editor.c:216
 msgid "Apply"
-msgstr ""
+msgstr "Alkalmaz"
 
 #: filter/filter-editor.c:233
 msgid ""
 "<h2>Create Filtering Rule</h2><p>Select one of the base rules above, then "
 "continue forwards to customise it.</p>"
 msgstr ""
+"<h2>Szûrõ szabály készítése</h2><p>Válassz egyet az alapszabályok közül, "
+"majd folytasd a további beállításokhoz.</p>"
 
 #: mail/component-factory.c:197
 msgid "Cannot initialize Evolution's mail component."
@@ -2501,7 +2511,7 @@ msgstr "Új levél jött-e?"
 
 #: mail/folder-browser-factory.c:30
 msgid "Compose"
-msgstr ""
+msgstr "Szerkesztés"
 
 #: mail/folder-browser-factory.c:30
 msgid "Compose a new message"
@@ -2537,7 +2547,7 @@ msgstr ""
 
 #: mail/folder-browser-factory.c:41
 msgid "Move message to a new folder"
-msgstr ""
+msgstr "Levél mozgatása más mappába"
 
 #: mail/folder-browser-factory.c:43
 msgid "Print the selected message"
@@ -2549,7 +2559,7 @@ msgstr "A levél törlése"
 
 #: mail/folder-browser-factory.c:65
 msgid "_Threaded Message List"
-msgstr ""
+msgstr "_Témaszerinti levéllista"
 
 #: mail/folder-browser-factory.c:77
 msgid "_Expunge"
@@ -2557,19 +2567,19 @@ msgstr "_Tisztít"
 
 #: mail/folder-browser-factory.c:83
 msgid "_Filter Druid ..."
-msgstr ""
+msgstr "_Szûrõ mágus ..."
 
 #: mail/folder-browser-factory.c:89
 msgid "_Virtual Folder Druid ..."
-msgstr ""
+msgstr "_Virtuális mappa mágus ..."
 
 #: mail/folder-browser-factory.c:95
 msgid "_Mail Configuration ..."
-msgstr ""
+msgstr "_Levelezési beállítások ... "
 
 #: mail/folder-browser-factory.c:101
 msgid "Forget _Passwords"
-msgstr ""
+msgstr "_Jelszó elfelejtése"
 
 #: mail/mail-config.c:262
 msgid ""
@@ -2577,6 +2587,9 @@ msgid ""
 "optionally, enter the name of your organization, and the name of a file to "
 "read your signature from."
 msgstr ""
+"Írd be a neved és az e-mail címedet amit a kimenõ levelek írásához "
+"használsz. Mellesleg beírhatod a céged nevét is, valamint az aláírásfájlod "
+"is megadhatod."
 
 #: mail/mail-config.c:277
 msgid "Full name:"
@@ -2630,14 +2643,19 @@ msgid ""
 "If the server requires authentication, you can click the \"Detect supported "
 "types...\" button after entering the other information."
 msgstr ""
+"Válaszd ki a levelezõszervered típusát, majd add meg a vele "
+"kapcsolatosinformációkat.\n"
+"\n"
+"Ha a szerver authentikációt igényel, a 'Támogatott típusok keresése...' "
+"gombra kattints az információk megadása után."
 
 #: mail/mail-config.c:978
 msgid "Select the method you would like to use to deliver your mail."
-msgstr ""
+msgstr "Válassz egy módot, hogy szeretnéd a leveled kézbesítését."
 
 #: mail/mail-config.c:1163 mail/mail-config.c:1242
 msgid "Mail Configuration"
-msgstr ""
+msgstr "Levelezés beállítása"
 
 #. Identity page
 #: mail/mail-config.c:1180
@@ -2676,25 +2694,27 @@ msgstr ""
 #. "the other information."
 #: mail/mail-config.c:1600
 msgid "Enter the hostname of the News Server you have."
-msgstr ""
+msgstr "Írd be a hírcsoport szervered nevét."
 
 #: mail/mail-config.c:1656
 msgid "Edit News Server"
-msgstr ""
+msgstr "Hírcsoport-szerver szerkeszése"
 
 #: mail/mail-config.c:1658
 msgid "Add News Server"
-msgstr ""
+msgstr "Hírcsoport-szerver hozzáadása"
 
 #: mail/mail-ops.c:374
 msgid "Fetching mail"
-msgstr ""
+msgstr "Levelek letöltése"
 
 #: mail/mail-ops.c:386
 msgid ""
 "This message has no subject.\n"
 "Really send?"
 msgstr ""
+"Nincs tárgya a levélnek.\n"
+"Tényleg elküldjem?"
 
 #: mail/mail-ops.c:743
 msgid "Refile message(s) to"
@@ -2702,11 +2722,11 @@ msgstr ""
 
 #: mail/mail-threads.c:483
 msgid "Currently pending operations:"
-msgstr ""
+msgstr "Függõben lévõ mûveletek:"
 
 #: mail/mail-threads.c:621
 msgid "Incomplete message written on pipe!"
-msgstr ""
+msgstr "Nem teljes üzenet lett a csõbe írva!"
 
 #: mail/mail-threads.c:623
 msgid "Error reading commands from dispatching thread."
@@ -2718,11 +2738,11 @@ msgstr ""
 
 #: mail/mail-threads.c:814
 msgid "Could not create dialog box."
-msgstr ""
+msgstr "Nem tudom a dialógust elkészíteni."
 
 #: mail/mail-threads.c:849
 msgid "User cancelled query."
-msgstr ""
+msgstr "A lekérdezést megszakítottad."
 
 #: mail/main.c:62
 msgid "Mail Component: I could not initialize Bonobo"
@@ -2746,7 +2766,7 @@ msgstr "Dátum"
 
 #: mail/message-list.c:509
 msgid "Received"
-msgstr ""
+msgstr "Kézbesítve"
 
 #: mail/message-list.c:516
 msgid "To"
@@ -2777,6 +2797,9 @@ msgid ""
 "%s\n"
 "Error: %s"
 msgstr ""
+"Nem tudom létrehozni a könyvtárat\n"
+"%s\n"
+"Hiba: %s"
 
 #: shell/e-setup.c:84
 #, c-format
@@ -2784,6 +2807,8 @@ msgid ""
 "Cannot copy files into\n"
 "`%s'."
 msgstr ""
+"Nem tudom másolni a fájlokat\n"
+"'%s'-be."
 
 #: shell/e-setup.c:88
 msgid "Evolution files successfully installed."
@@ -2806,10 +2831,12 @@ msgid ""
 "Cannot create the specified folder:\n"
 "%s"
 msgstr ""
+"Nem tudom elkészíteni a megadott mappát:\n"
+"%s"
 
 #: shell/e-shell-folder-creation-dialog.c:133
 msgid "The specified folder name is not valid."
-msgstr ""
+msgstr "A megadott mappa név nem jó."
 
 #: shell/e-shell-folder-creation-dialog.c:223
 msgid "Evolution - Create new folder"
@@ -2820,14 +2847,16 @@ msgid ""
 "The type of the selected folder is not valid for\n"
 "the requested operation."
 msgstr ""
+"A kiválasztott mappa típusa nem jó a megadott\n"
+"mûvelethez."
 
 #: shell/e-shell-folder-selection-dialog.c:236
 msgid "New..."
 msgstr "Új..."
 
-#: shell/e-shell-folder-title-bar.c:355
+#: shell/e-shell-folder-title-bar.c:459 shell/e-shell-folder-title-bar.c:460
 msgid "(Untitled)"
-msgstr ""
+msgstr "(Névtelen)"
 
 #. you might have to call gnome_dialog_run() on the
 #. * dialog returned here, I don't remember...
@@ -2893,7 +2922,7 @@ msgstr "_Címjegyzék (FIXME)"
 
 #: shell/e-shell-view-menu.c:404
 msgid "_Task (FIXME)"
-msgstr ""
+msgstr "_Munka (FIXME)"
 
 #: shell/e-shell-view-menu.c:407
 msgid "Task _Request (FIXME)"
@@ -2913,51 +2942,51 @@ msgstr "Menj a ...  _mappába"
 
 #: shell/e-shell-view-menu.c:422
 msgid "Display a different folder"
-msgstr ""
+msgstr "Egy másik mappa mutatása"
 
 #: shell/e-shell-view-menu.c:424
 msgid "_Create new folder..."
-msgstr ""
+msgstr "Új m_appa készítése..."
 
 #: shell/e-shell-view-menu.c:424
 msgid "Create a new folder"
-msgstr ""
+msgstr "Új mappa készítése"
 
 #: shell/e-shell-view-menu.c:439
 msgid "Show _shortcut bar"
-msgstr ""
+msgstr "Oldal_sáv mutatása"
 
 #: shell/e-shell-view-menu.c:440
 msgid "Show the shortcut bar"
-msgstr ""
+msgstr "Az oldalsáv mutatása"
 
 #: shell/e-shell-view-menu.c:442
 msgid "Show _folder bar"
-msgstr ""
+msgstr "Mapp_asáv mutatása"
 
 #: shell/e-shell-view-menu.c:443
 msgid "Show the folder bar"
-msgstr ""
+msgstr "A mappákat tartalmazó sáv mutatása"
 
 #: shell/e-shell-view-menu.c:460
 msgid "Help _Index"
-msgstr ""
+msgstr "Súgó _tartalomjegyzék"
 
 #: shell/e-shell-view-menu.c:463
 msgid "Getting _Started"
-msgstr ""
+msgstr "_Induláshoz"
 
 #: shell/e-shell-view-menu.c:466
 msgid "Using the _Mailer"
-msgstr ""
+msgstr "A _levelezõ használata"
 
 #: shell/e-shell-view-menu.c:469
 msgid "Using the _Calendar"
-msgstr ""
+msgstr "A _naptár használata"
 
 #: shell/e-shell-view-menu.c:472
 msgid "Using the Cont_act Manager"
-msgstr ""
+msgstr "A _címjegyzék használata"
 
 #: shell/e-shell-view-menu.c:477
 msgid "_Submit bug report"
@@ -2971,19 +3000,19 @@ msgstr "Hibajelentés feladása bug-buddy-val"
 msgid "_Actions"
 msgstr "_Mûveletek"
 
-#: shell/e-shell-view.c:113
+#: shell/e-shell-view.c:114
 msgid "(No folder displayed)"
-msgstr ""
+msgstr "(Nincs mappa mutatva)"
 
-#: shell/e-shell-view.c:208
+#: shell/e-shell-view.c:339
 msgid "Folders"
 msgstr "Mappák"
 
-#: shell/e-shell-view.c:596
+#: shell/e-shell-view.c:731
 msgid "None"
 msgstr "Semmi"
 
-#: shell/e-shell-view.c:600
+#: shell/e-shell-view.c:735
 #, c-format
 msgid "Evolution - %s"
 msgstr "Evolúció - %s"
@@ -2995,11 +3024,11 @@ msgstr "Nem tudom beállítani a helyi tárterületet -- %s"
 
 #: shell/e-shortcuts-view.c:235
 msgid "_Small icons"
-msgstr ""
+msgstr "_Kis ikonok"
 
 #: shell/e-shortcuts-view.c:236
 msgid "Show the shortcuts as small icons"
-msgstr ""
+msgstr "Kis ikonok mutatása az elemeken"
 
 #: shell/e-shortcuts-view.c:238
 msgid "_Large icons"
@@ -3007,7 +3036,7 @@ msgstr "_Nagy ikonok"
 
 #: shell/e-shortcuts-view.c:239
 msgid "Show the shortcuts as large icons"
-msgstr ""
+msgstr "Nagy ikonok mutatása az elemeken"
 
 #: shell/e-shortcuts-view.c:330
 msgid "Activate"
@@ -3015,15 +3044,15 @@ msgstr "Aktivál"
 
 #: shell/e-shortcuts-view.c:330
 msgid "Activate this shortcut"
-msgstr ""
+msgstr "Az elem aktiválása"
 
 #: shell/e-shortcuts-view.c:333
 msgid "Remove this shortcut from the shortcut bar"
-msgstr ""
+msgstr "Vedd le ezt az elemet az indítósávról"
 
 #: shell/e-shortcuts.c:358
 msgid "Error saving shortcuts."
-msgstr ""
+msgstr "Nem sikerül elmenteni az elemeket."
 
 #: shell/e-storage.c:217
 msgid "(No name)"
@@ -3035,47 +3064,47 @@ msgstr "Nincs hiba"
 
 #: shell/e-storage.c:414
 msgid "Generic error"
-msgstr ""
+msgstr "Alapvetõ hiba"
 
 #: shell/e-storage.c:416
 msgid "A folder with the same name already exists"
-msgstr ""
+msgstr "A megadott néven már létezik mappa"
 
 #: shell/e-storage.c:418
 msgid "The specified folder type is not valid"
-msgstr ""
+msgstr "A megadott mappatípus nem jó"
 
 #: shell/e-storage.c:420
 msgid "I/O error"
-msgstr ""
+msgstr "I/O hiba"
 
 #: shell/e-storage.c:422
 msgid "Not enough space to create the folder"
-msgstr ""
+msgstr "Nincs elég hely a mappa elkészítéséhez"
 
 #: shell/e-storage.c:424
 msgid "The specified folder was not found"
-msgstr ""
+msgstr "A megadott mappát nem találom"
 
 #: shell/e-storage.c:426
 msgid "Function not implemented in this storage"
-msgstr ""
+msgstr "A funkció nincs még ebben a tárolóban megírva"
 
 #: shell/e-storage.c:428
 msgid "Permission denied"
-msgstr ""
+msgstr "Jogosultsági hiba"
 
 #: shell/e-storage.c:430
 msgid "Operation not supported"
-msgstr ""
+msgstr "A mûvelet nem támogatott"
 
 #: shell/e-storage.c:432
 msgid "The specified type is not supported in this storage"
-msgstr ""
+msgstr "A megadott típus nem támogatott ebben a tárolóban."
 
 #: shell/e-storage.c:434
 msgid "Unknown error"
-msgstr ""
+msgstr "Nem ismert hiba"
 
 #: shell/main.c:100
 msgid ""
@@ -3132,7 +3161,7 @@ msgstr "Nem tudom elindítani az Evolúció shell-t."
 
 #: shell/main.c:195
 msgid "Cannot initialize the configuration system."
-msgstr ""
+msgstr "Nem tudom a konfigurációs rendszert elindítani."
 
 #: shell/main.c:201
 msgid "Cannot initialize the Bonobo component system."
@@ -3166,13 +3195,15 @@ msgstr "Szûrõ"
 #.
 #: widgets/e-table/e-table-field-chooser.glade.h:7
 msgid "Field Chooser"
-msgstr ""
+msgstr "Elemválasztó"
 
 #: widgets/e-table/e-table-field-chooser.glade.h:8
 msgid ""
 "To add a column to your table, drag it into\n"
 "the location in which you want it to appear."
 msgstr ""
+"Oszlop hozzáadását a táblázathoz legegyszerûbben\n"
+"a megfelelõ helyre húzással teheted meg."
 
 #.
 #. * Translatable strings file generated by Glade.
@@ -3213,39 +3244,39 @@ msgstr ""
 
 #: widgets/meeting-time-sel/e-meeting-time-sel.c:387
 msgid "Busy"
-msgstr ""
+msgstr "Foglalt"
 
 #: widgets/meeting-time-sel/e-meeting-time-sel.c:388
 msgid "Out of Office"
-msgstr ""
+msgstr "Üzemen kívül"
 
 #: widgets/meeting-time-sel/e-meeting-time-sel.c:389
 msgid "No Information"
-msgstr ""
+msgstr "Nincs információ"
 
 #: widgets/meeting-time-sel/e-meeting-time-sel.c:405
 msgid "_Invite Others..."
-msgstr ""
+msgstr "_Mások meghívása..."
 
 #: widgets/meeting-time-sel/e-meeting-time-sel.c:425
 msgid "_Options"
-msgstr ""
+msgstr "_Beállítások"
 
 #: widgets/meeting-time-sel/e-meeting-time-sel.c:442
 msgid "Show _Only Working Hours"
-msgstr ""
+msgstr "Csak a _munkaórák mutatása"
 
 #: widgets/meeting-time-sel/e-meeting-time-sel.c:455
 msgid "Show _Zoomed Out"
-msgstr ""
+msgstr "_Nagyított mutatása"
 
 #: widgets/meeting-time-sel/e-meeting-time-sel.c:473
 msgid "_Update Free/Busy"
-msgstr ""
+msgstr "_Szabad/foglalt frissítése"
 
 #: widgets/meeting-time-sel/e-meeting-time-sel.c:491
 msgid "_<<"
-msgstr ""
+msgstr "_<<"
 
 #: widgets/meeting-time-sel/e-meeting-time-sel.c:508
 msgid "_Autopick"
@@ -3253,39 +3284,39 @@ msgstr ""
 
 #: widgets/meeting-time-sel/e-meeting-time-sel.c:522
 msgid ">_>"
-msgstr ""
+msgstr ">_>"
 
 #: widgets/meeting-time-sel/e-meeting-time-sel.c:539
 msgid "_All People and Resources"
-msgstr ""
+msgstr "_Minden ember és erõforrás"
 
 #: widgets/meeting-time-sel/e-meeting-time-sel.c:552
 msgid "All _People and One Resource"
-msgstr ""
+msgstr "Minden _ember és egy erõforrás"
 
 #: widgets/meeting-time-sel/e-meeting-time-sel.c:565
 msgid "_Required People"
-msgstr ""
+msgstr "_A kért emberek"
 
 #: widgets/meeting-time-sel/e-meeting-time-sel.c:578
 msgid "Required People and _One Resource"
-msgstr ""
+msgstr "A kért emberek és egy e_rõforrás"
 
 #: widgets/meeting-time-sel/e-meeting-time-sel.c:601
 msgid "Meeting _start time:"
-msgstr ""
+msgstr "Megbeszélés _kezdõdik:"
 
 #: widgets/meeting-time-sel/e-meeting-time-sel.c:625
 msgid "Meeting _end time:"
-msgstr ""
+msgstr "Megbeszélés _vége:"
 
 #: widgets/meeting-time-sel/e-meeting-time-sel.c:738
 msgid "All Attendees"
-msgstr ""
+msgstr "Minden meghívott"
 
 #: widgets/misc/e-clipped-label.c:106
 msgid "..."
-msgstr ""
+msgstr "..."
 
 #: widgets/shortcut-bar/e-group-bar.c:632
 #, c-format
