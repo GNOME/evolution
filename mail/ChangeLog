@@ -1,5 +1,8 @@
 2000-07-08  Dan Winship  <danw@helixcode.com>
 
+	* folder-browser.c (etable_key): Fix up the pageup/pagedown
+	increment a bit.
+
 	* folder-browser-factory.c (control_activate): Add a "Threaded
 	Message List" item to the "View" menu.
 

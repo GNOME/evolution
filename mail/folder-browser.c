@@ -322,16 +322,19 @@ etable_key (ETable *table, int row, int col, GdkEvent *ev, FolderBrowser *fb)
 
 	if (ev->key.keyval == GDK_space || ev->key.keyval == GDK_BackSpace) {
 		GtkAdjustment *vadj;
+		gfloat page_size;
 
 		vadj = e_scroll_frame_get_vadjustment (fb->mail_display->scroll);
+		page_size = vadj->page_size - vadj->step_increment;
+
 		if (ev->key.keyval == GDK_BackSpace) {
-			if (vadj->value > vadj->lower + vadj->page_size)
-				vadj->value -= vadj->page_size;
+			if (vadj->value > vadj->lower + page_size)
+				vadj->value -= page_size;
 			else
 				vadj->value = vadj->lower;
 		} else {
-			if (vadj->value < vadj->upper - 2 * vadj->page_size)
-				vadj->value += vadj->page_size;
+			if (vadj->value < vadj->upper - vadj->page_size - page_size)
+				vadj->value += page_size;
 			else
 				vadj->value = vadj->upper - vadj->page_size;
 		}
