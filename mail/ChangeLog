@@ -1,5 +1,11 @@
 2001-09-14  Jeffrey Stedfast  <fejj@ximian.com>
 
+	* subscribe-dialog.c (fe_root_value_at): Return the cached value
+	of camel_service_get_name so that we don't leak memory.
+	(fe_real_value_at): Don't strdup the node's name.
+	(folder_etree_construct): Set the service_name.
+	(fe_destroy): Free the service_name.
+
 	* mail-ops.c (add_vtrash_info): Free the temporary path variable
 	here.
 

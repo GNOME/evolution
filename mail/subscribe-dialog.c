@@ -133,6 +133,7 @@ struct _FolderETree {
 
 	CamelStore *store;
 	EvolutionStorage *e_storage;
+	char *service_name;
 	char *search;
 };
 
@@ -476,12 +477,13 @@ typedef struct _ftree_node ftree_node;
 
 struct _ftree_node {
 	guint8    flags;
-	int       uri_offset;
-	int       full_name_offset;
+	char *cache;
+	int uri_offset;
+	int full_name_offset;
 
 	/* format: {name}{\0}{uri}{\0}{full_name}{\0}
 	 * (No braces). */
-	char   data[1];
+	char data[1];
 };
 
 #define FTREE_NODE_GOT_CHILDREN (1 << 0)
@@ -500,13 +502,13 @@ ftree_node_new_root (const char *prefix)
 
 	size = sizeof (ftree_node) + strlen (prefix) + 1;
 
-	node                   = g_malloc (size);
-	node->flags            = FTREE_NODE_ROOT;
-	node->uri_offset       = 0;
+	node = g_malloc (size);
+	node->flags = FTREE_NODE_ROOT;
+	node->uri_offset = 0;
 	node->full_name_offset = 1;
-	node->data[0]          = '\0';
+	node->data[0] = '\0';
 	strcpy (node->data + 1, prefix);
-
+	
 	return node;
 }
 
@@ -525,6 +527,8 @@ ftree_node_new (CamelStore *store, CamelFolderInfo *fi)
 	/* - 1 for sizeof(node.data) but +1 for terminating \0 */
 	node = g_malloc (sizeof (*node) + size);
 
+	node->cache = NULL;
+	
 	/* Noselect? */
 
 	url = camel_url_new (fi->url, NULL);
@@ -544,8 +548,8 @@ ftree_node_new (CamelStore *store, CamelFolderInfo *fi)
 	node->uri_offset       = uri_offset;
 	node->full_name_offset = full_name_offset;
 
-	strcpy (node->data,                    fi->name);
-	strcpy (node->data + uri_offset,       fi->url);
+	strcpy (node->data, fi->name);
+	strcpy (node->data + uri_offset, fi->url);
 	strcpy (node->data + full_name_offset, fi->full_name);
 
 	/* Done */
@@ -622,7 +626,7 @@ fe_root_value_at (FolderETree *ftree, int col)
 {
 	switch (col) {
 	case FOLDER_COL_NAME:
-		return camel_service_get_name (CAMEL_SERVICE (ftree->store), TRUE);
+		return ftree->service_name;
 	case FOLDER_COL_SUBSCRIBED:
 		return GINT_TO_POINTER (0);
 	default:
@@ -637,7 +641,7 @@ fe_real_value_at (FolderETree *ftree, int col, gpointer data)
 {
 	switch (col) {
 	case FOLDER_COL_NAME:
-		return g_strdup (ftree_node_get_name (data));
+		return ftree_node_get_name (data);
 	case FOLDER_COL_SUBSCRIBED:
 		if (ftree_node_subscribed (data))
 			return GINT_TO_POINTER (1);
@@ -894,6 +898,7 @@ fe_destroy (GtkObject *obj)
 	bonobo_object_unref (BONOBO_OBJECT (ftree->e_storage));
 
 	g_free (ftree->search);
+	g_free (ftree->service_name);
 }
 
 typedef gboolean (*bool_func_1) (ETreeModel *, ETreePath, int);
@@ -930,10 +935,10 @@ folder_etree_init (GtkObject *object)
 
 	e_tree_memory_set_node_destroy_func (E_TREE_MEMORY (ftree), (GFunc) g_free, ftree);
 
-	ftree->scan_ops      = g_hash_table_new (g_direct_hash, g_direct_equal);
+	ftree->scan_ops = g_hash_table_new (g_direct_hash, g_direct_equal);
 	ftree->subscribe_ops = g_hash_table_new (g_direct_hash, g_direct_equal);
 
-	ftree->search        = g_strdup ("");
+	ftree->search = g_strdup ("");
 }
 
 static FolderETree *
@@ -941,9 +946,12 @@ folder_etree_construct (FolderETree *ftree,
 			CamelStore  *store)
 {
 	e_tree_memory_construct (E_TREE_MEMORY (ftree));
-
-	ftree->store     = store;
+	
+	ftree->store = store;
 	camel_object_ref (CAMEL_OBJECT (store));
+	
+	ftree->service_name = camel_service_get_name (CAMEL_SERVICE (store), FALSE);
+	
 	ftree->e_storage = mail_lookup_storage (store); /* this gives us a ref */
 
 	fe_create_root_node (ftree);
