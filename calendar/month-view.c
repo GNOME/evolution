@@ -7,6 +7,7 @@
 
 #include <config.h>
 #include <libgnomeui/gnome-canvas-text.h>
+#include "layout.h"
 #include "month-view.h"
 #include "main.h"
 #include "mark.h"
@@ -22,6 +23,8 @@
 struct child {
 	iCalObject *ico;	/* The calendar object this child refers to */
 	time_t start, end;	/* Start and end times for the instance of the event */
+	int slot_start;		/* The first slot this child uses */
+	int slots_used;		/* The number of slots occupied by this child */
 	GList *segments;	/* The list of segments needed to display this child */
 };
 
@@ -45,13 +48,6 @@ static void month_view_size_allocate (GtkWidget      *widget,
 
 static GnomeCanvasClass *parent_class;
 
-
-/* Adjusts the child events of the month view to the appropriate size and position */
-static void
-adjust_children (MonthView *mv)
-{
-	
-}
 
 GtkType
 month_view_get_type (void)
@@ -147,6 +143,89 @@ month_view_size_request (GtkWidget *widget, GtkRequisition *requisition)
 	requisition->height = 150;
 }
 
+/* Adjusts a single segment from a child */
+static void
+adjust_segment (MonthView *mv, struct child *child, struct segment *seg)
+{
+	struct tm start, end;
+	GnomeCanvasItem *start_item, *end_item;
+	GnomeCanvasItem *item;
+	int start_day_index, end_day_index;
+	double ix1, iy1, ix2, iy2;
+	double ly2;
+	double width, height;
+	time_t day_begin, day_end;
+	double start_factor, end_factor;
+	double slot_height;
+
+	/* Find the days that the segment intersects and get their bounds */
+
+	start = *localtime (&seg->start);
+	end = *localtime (&seg->end);
+
+	start_day_index = gnome_month_item_day2index (GNOME_MONTH_ITEM (mv->mitem), start.tm_mday);
+	g_assert (start_day_index != -1);
+
+	end_day_index = gnome_month_item_day2index (GNOME_MONTH_ITEM (mv->mitem), end.tm_mday);
+	g_assert (end_day_index != -1);
+
+	start_item = gnome_month_item_num2child (GNOME_MONTH_ITEM (mv->mitem),
+						 start_day_index + GNOME_MONTH_ITEM_DAY_GROUP);
+	end_item = gnome_month_item_num2child (GNOME_MONTH_ITEM (mv->mitem),
+					       end_day_index + GNOME_MONTH_ITEM_DAY_GROUP);
+
+	gnome_canvas_item_get_bounds (start_item, &ix1, &iy1, NULL, &iy2);
+	gnome_canvas_item_get_bounds (end_item, NULL, NULL, &ix2, NULL);
+
+	/* Get the lower edge of the day label */
+
+	item = gnome_month_item_num2child (GNOME_MONTH_ITEM (mv->mitem), start_day_index + GNOME_MONTH_ITEM_DAY_LABEL);
+	gnome_canvas_item_get_bounds (item, NULL, NULL, NULL, &ly2);
+
+	/* Calculate usable space */
+
+	iy1 += ly2;
+	width = ix2 - ix1;
+	height = iy2 - iy1;
+
+	/* Set the segment's item coordinates */
+
+	day_begin = time_day_begin (seg->start);
+	day_end = time_day_end (seg->end);
+
+	start_factor = (double) (seg->start - day_begin) / (day_end - day_begin);
+	end_factor = (double) (seg->end - day_begin) / (day_end - day_begin);
+
+	slot_height = height / mv->num_slots;
+
+	gnome_canvas_item_set (seg->item,
+			       "x1", ix1 + width * start_factor,
+			       "y1", iy1 + slot_height * child->slot_start,
+			       "x2", ix1 + width * end_factor,
+			       "y2", iy1 + slot_height * (child->slot_start + child->slots_used),
+			       NULL);
+}
+
+/* Adjusts the child events of the month view to the appropriate size and position */
+static void
+adjust_children (MonthView *mv)
+{
+	GList *children;
+	struct child *child;
+	GList *segments;
+	struct segment *seg;
+
+	for (children = mv->children; children; children = children->next) {
+		child = children->data;
+
+		for (segments = child->segments; segments; segments = segments->next) {
+			seg = segments->data;
+
+			adjust_segment (mv, child, seg);
+		}
+	}
+}
+
 static void
 month_view_size_allocate (GtkWidget *widget, GtkAllocation *allocation)
 {
@@ -193,7 +272,19 @@ month_view_size_allocate (GtkWidget *widget, GtkAllocation *allocation)
 static void
 child_destroy (MonthView *mv, struct child *child)
 {
-	/* FIXME: destroy the list of segments */
+	GList *list;
+	struct segment *seg;
+
+	/* Destroy the segments */
+
+	for (list = child->segments; list; list = list->next) {
+		seg = list->data;
+
+		gtk_object_destroy (GTK_OBJECT (seg->item));
+		g_free (seg);
+	}
+
+	g_list_free (child->segments);
 
 	/* Destroy the child */
 
@@ -208,7 +299,61 @@ child_destroy (MonthView *mv, struct child *child)
 static void
 child_create_segments (MonthView *mv, struct child *child)
 {
-	/* FIXME */
+	time_t t;
+	time_t month_begin, month_end;
+	time_t week_begin, week_end;
+	time_t left, right;
+	struct segment *seg;
+
+	/* Get the month's extents */
+
+	t = time_from_day (mv->year, mv->month, 1);
+	month_begin = time_month_begin (t);
+	month_end = time_month_end (t);
+
+	/* Get the first week of the event */
+
+	t = MAX (child->start, month_begin);
+	week_begin = time_week_begin (t);
+
+	if (week_starts_on_monday)
+		time_add_day (week_begin, 1);
+
+	week_end = time_add_week (week_begin, 1);
+
+	/* Loop until the event ends or the month ends -- the segments list is created in reverse
+	 * order.
+	 */
+
+	do {
+		seg = g_new (struct segment, 1);
+
+		/* Clip the child to this week */
+
+		left = MAX (week_begin, month_begin);
+		right = MIN (week_end, month_end);
+
+		seg->start = MAX (child->start, left);
+		seg->end = MIN (child->end, right);
+
+		seg->item = gnome_canvas_item_new (GNOME_CANVAS_GROUP (mv->mitem),
+						   gnome_canvas_rect_get_type (),
+						   "fill_color", color_spec_from_prop (COLOR_PROP_MARK_DAY_BG),
+						   "outline_color", "black",
+						   "width_pixels", 0,
+						   NULL);
+
+		child->segments = g_list_prepend (child->segments, seg);
+
+		/* Next week */
+
+		week_begin = time_add_week (week_begin, 1);
+		week_end = time_add_week (week_end, 1);
+	} while ((child->end > week_begin) && (week_begin < month_end));
+
+	/* Reverse the list to put it in increasing order */
+
+	child->segments = g_list_reverse (child->segments);
 }
 
 /* Comparison function used to create the sorted list of children.  Sorts first by increasing start
@@ -253,6 +398,45 @@ add_event (iCalObject *ico, time_t start, time_t end, void *data)
 	/* Add it to the list of children */
 
 	mv->children = g_list_insert_sorted (mv->children, child, child_compare);
+
+	return TRUE; /* means "we are not yet finished" */
+}
+
+/* Time query function for the layout engine */
+static void
+child_query_func (GList *list, time_t *start, time_t *end)
+{
+	struct child *child;
+
+	child = list->data;
+
+	*start = child->start;
+	*end = child->end;
+}
+
+/* Uses the generic event layout engine to set the children's layout information */
+static void
+layout_children (MonthView *mv)
+{
+	GList *list;
+	struct child *child;
+	int *allocations;
+	int *slots;
+	int i;
+
+	layout_events (mv->children, child_query_func, &mv->num_slots, &allocations, &slots);
+
+	if (mv->num_slots == 0)
+		return;
+
+	for (list = mv->children, i = 0; list; list = list->next, i++) {
+		child = list->data;
+		child->slot_start = allocations[i];
+		child->slots_used = slots[i];
+	}
+
+	g_free (allocations);
+	g_free (slots);
 }
 
 void
@@ -280,6 +464,7 @@ month_view_update (MonthView *mv, iCalObject *object, int flags)
 	month_end = time_month_end (t);
 
 	calendar_iterate (mv->calendar->cal, month_begin, month_end, add_event, mv);
+	layout_children (mv);
 	adjust_children (mv);
 }
 
@@ -351,8 +536,9 @@ month_view_set (MonthView *mv, time_t month)
 			       "month", mv->month,
 			       NULL);
 
-	/* FIXME: update events */
+	/* Update events */
 
+	month_view_update (mv, NULL, 0);
 	mark_current_day (mv);
 }
 
@@ -377,4 +563,6 @@ month_view_colors_changed (MonthView *mv)
 
 	colorify_month_item (GNOME_MONTH_ITEM (mv->mitem), default_color_func, NULL);
 	mark_current_day (mv);
+
+	/* FIXME: set children to the marked color */
 }

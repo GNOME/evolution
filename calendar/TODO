@@ -47,3 +47,5 @@ General:
 
 - If you leave the calendar running overnight, the "current day"
   marker in the GnomeMonthItems does not get updated.
+
+- Add categories support.  Color-coded categories.

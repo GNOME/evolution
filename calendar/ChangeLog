@@ -1,3 +1,12 @@
+1998-10-09  Federico Mena Quintero  <federico@nuclecu.unam.mx>
+
+	* month-view.c (month_view_update): Create a list of children and
+	lay them out nicely.  Lots of functions added for this purpose.
+	(adjust_segment): Main event segment adjustment routine.
+	(adjust_children): Adjusts all the children in the month view.
+	(child_create_segments): Creates the segments for a particular event.
+	(layout_children): Uses the generic layout engine to organize the children.
+
 1998-10-08  Federico Mena Quintero  <federico@nuclecu.unam.mx>
 
 	* gncal-todo.c (clist_row_selected): Set the sensitivity of the
