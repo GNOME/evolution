@@ -1,3 +1,11 @@
+2004-05-10  Jeffrey Stedfast  <fejj@novell.com>
+
+	* camel-mime-filter-gzip.[c,h]: New class for zipping/unzipping
+	gzip streams.
+
+	* camel-mime-filter-yenc.[c,h]: New class for encoding/decoding
+	the crack known as YEncode.
+
 2004-05-07  Not Zed  <NotZed@Ximian.com>
 
 	* camel-folder-thread.c (thread_summary): properly set the parent

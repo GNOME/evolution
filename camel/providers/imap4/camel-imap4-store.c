@@ -999,6 +999,11 @@ imap4_get_folder_info (CamelStore *store, const char *top, guint32 flags, CamelE
 	char *pattern;
 	int id, i;
 	
+	if (engine == NULL) {
+		if (!camel_service_connect ((CamelService *) store, ex))
+			return NULL;
+	}
+	
 	if (flags & CAMEL_STORE_FOLDER_INFO_SUBSCRIBED)
 		cmd = "LSUB";
 	else
