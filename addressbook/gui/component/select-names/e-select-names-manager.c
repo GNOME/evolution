@@ -13,7 +13,6 @@
 #include <gtk/gtk.h>
 
 #include "e-select-names-manager.h"
-#include "e-select-names-entry.h"
 #include "e-select-names-model.h"
 #include "e-select-names-text-model.h"
 #include "widgets/e-text/e-entry.h"

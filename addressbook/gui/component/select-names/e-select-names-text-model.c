@@ -114,7 +114,9 @@ e_select_names_text_model_class_init (ESelectNamesTextModelClass *klass)
 static void
 e_select_names_text_model_set_text    	(ETextModel *model, gchar *text)
 {
+#if 0
 	e_select_names_model_clear(model);
+#endif
 }
 
 static void

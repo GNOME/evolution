@@ -1,5 +1,12 @@
 2000-07-03  Christopher James Lahey  <clahey@helixcode.com>
 
+	* gui/component/select-names/e-select-names-manager.c,
+	gui/component/select-names/e-select-names-text-model.c,
+	gui/component/select-names/e-select-names.c: Fixed more compile
+	errors.
+
+2000-07-03  Christopher James Lahey  <clahey@helixcode.com>
+
 	* gui/component/select-names/Makefile.am: Fixed compile error.
 
 2000-07-03  Christopher James Lahey  <clahey@helixcode.com>

@@ -25,8 +25,8 @@
 #include <e-table-simple.h>
 #include <e-table.h>
 #include <e-cell-text.h>
-#include <addressbook/gui/component/model/e-addressbook-model.h>
-#include <addressbook/gui/component/model/e-cardlist-model.h>
+#include <addressbook/gui/component/e-addressbook-model.h>
+#include <addressbook/gui/component/e-cardlist-model.h>
 #include <addressbook/backend/ebook/e-book.h>
 
 static void e_select_names_init		(ESelectNames		 *card);
