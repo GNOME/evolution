@@ -259,7 +259,6 @@ gssapi_challenge (CamelSasl *sasl, GByteArray *token, CamelException *ex)
 			break;
 		default:
 			gssapi_set_exception (major, minor, ex);
-			gss_release_buffer (&minor, &outbuf);
 			return NULL;
 		}
 		
@@ -280,7 +279,6 @@ gssapi_challenge (CamelSasl *sasl, GByteArray *token, CamelException *ex)
 		major = gss_unwrap (&minor, priv->ctx, &inbuf, &outbuf, &conf_state, &qop);
 		if (major != GSS_S_COMPLETE) {
 			gssapi_set_exception (major, minor, ex);
-			gss_release_buffer (&minor, &outbuf);
 			return NULL;
 		}
 		
@@ -307,13 +305,13 @@ gssapi_challenge (CamelSasl *sasl, GByteArray *token, CamelException *ex)
 		gss_release_buffer (&minor, &outbuf);
 		
 		major = gss_wrap (&minor, priv->ctx, FALSE, qop, &inbuf, &conf_state, &outbuf);
-		if (major != 0) {
+		if (major != GSS_S_COMPLETE) {
 			gssapi_set_exception (major, minor, ex);
-			gss_release_buffer (&minor, &outbuf);
 			g_free (str);
 			return NULL;
 		}
 		
+		g_free (str);
 		challenge = g_byte_array_new ();
 		g_byte_array_append (challenge, outbuf.value, outbuf.length);
 		gss_release_buffer (&minor, &outbuf);
