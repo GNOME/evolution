@@ -122,7 +122,7 @@ calendar/gui/e-cal-list-view.etspec
 calendar/gui/e-cal-model-calendar.c
 calendar/gui/e-cal-model-tasks.c
 calendar/gui/e-cal-model.c
-calendar/gui/e-cal-view.c
+calendar/gui/e-calendar-view.c
 calendar/gui/e-calendar-table.c
 calendar/gui/e-calendar-table.etspec
 calendar/gui/e-cell-date-edit-text.c
