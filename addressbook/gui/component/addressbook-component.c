@@ -206,6 +206,9 @@ delete_addressbook_cb (GtkWidget *widget, AddressbookComponent *comp)
 	ESource *selected_source;
 	AddressbookComponentPrivate *priv;
 	GtkWidget *dialog;
+	EBook  *book;
+	gboolean removed = FALSE;
+	GError *error;
 
 	priv = comp->priv;
 	
@@ -222,7 +225,19 @@ delete_addressbook_cb (GtkWidget *widget, AddressbookComponent *comp)
 		_("Address book '%s' will be removed. Are you sure you want to continue?"),
 		e_source_peek_name (selected_source));
 	gtk_dialog_set_has_separator (GTK_DIALOG (dialog), FALSE);
-	if (gtk_dialog_run (GTK_DIALOG (dialog)) == GTK_RESPONSE_YES) {
+
+	if (gtk_dialog_run (GTK_DIALOG (dialog)) != GTK_RESPONSE_YES) {
+		gtk_widget_destroy (dialog);
+		return;
+	}
+
+	/* Remove local data */
+	book = e_book_new ();
+	if (e_book_load_source (book, selected_source, TRUE, &error))
+		removed = e_book_remove (book, &error);
+
+	if (removed) {
+		/* Remove source */
 		if (e_source_selector_source_is_selected (E_SOURCE_SELECTOR (priv->source_selector),
 							  selected_source))
 			e_source_selector_unselect_source (E_SOURCE_SELECTOR (priv->source_selector),
@@ -231,10 +246,22 @@ delete_addressbook_cb (GtkWidget *widget, AddressbookComponent *comp)
 		e_source_group_remove_source (e_source_peek_group (selected_source), selected_source);
 
 		e_source_list_sync (priv->source_list, NULL);
+	} else {
+		GtkWidget *error_dialog;
 
-		/* FIXME: Remove local data */
+		error_dialog = gtk_message_dialog_new (GTK_WINDOW (gtk_widget_get_toplevel (widget)),
+						       GTK_DIALOG_MODAL,
+						       GTK_MESSAGE_ERROR,
+						       GTK_BUTTONS_CLOSE,
+						       "Error removing address book: %s",
+						       error->message);
+		gtk_dialog_run (GTK_DIALOG (error_dialog));
+		gtk_widget_destroy (error_dialog);
+
+		g_error_free (error);
 	}
 
+	g_object_unref (book);
 	gtk_widget_destroy (dialog);
 }
 
