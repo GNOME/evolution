@@ -41,6 +41,9 @@ static void allocate_callback(GtkWidget *canvas, GtkAllocation *allocation, gpoi
   gnome_canvas_item_set( reflow,
 			 "height", (double) allocation->height,
 			 NULL );
+  gnome_canvas_item_set( reflow,
+			 "minimum_width", (double) allocation->width,
+			 NULL );
   gtk_object_get(GTK_OBJECT(reflow),
 		 "width", &width,
 		 NULL);
@@ -114,6 +117,7 @@ int main( int argc, char *argv[] )
 				  "x", (double) 0,
 				  "y", (double) 0,
 				  "height", (double) 100,
+				  "minimum_width", (double) 100,
 				  NULL );
   gtk_signal_connect( GTK_OBJECT( reflow ), "resize",
 		      GTK_SIGNAL_FUNC( resize ),

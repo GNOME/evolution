@@ -34,6 +34,7 @@ extern "C" {
  *
  * name		type		read/write	description
  * --------------------------------------------------------------------------------
+ * minimum_width double         RW              minimum width of the reflow.  width >= minimum_width
  * width        double          R               width of the reflow
  * height       double          RW              height of the reflow
  */
@@ -59,6 +60,7 @@ struct _EReflow
 	GList *columns; /* Of type GList pointing to type GnomeCanvasItem (points into items) */
 	gint column_count; /* Number of columnns */
 	
+	double minimum_width;
 	double width;
 	double height;
        

@@ -1,3 +1,12 @@
+2000-01-28  Christopher James Lahey  <clahey@helixcode.com>
+
+	* widgets/test-reflow.c: Set the minimum_width.
+
+	* widgets/e-reflow.h, widgets/e-reflow.c: Added one more column
+	line so that the right edge of the reflow will have a line.  Also
+	added a minimum_width so that even if the reflow is thinner than
+	the window, when you resize it larger all the lines are drawn.
+
 2000-01-27  Christopher James Lahey  <clahey@helixcode.com>
 
 	* widgets/e-reflow.h, widgets/e-reflow.c: Added an arrow cursor
