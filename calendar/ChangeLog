@@ -1,4 +1,10 @@
- 2004-01-12 Gary Ekker <gekker@novell.com>
+2004-01-13  Rodrigo Moya <rodrigo@ximian.com>
+
+	* gui/calendar-component.c (impl_upgradeFromVersion): free 'base_uri'
+	at the end of the function, or it will leak, and removed duplicated
+	code to create the birthdays backend.
+
+2004-01-12 Gary Ekker <gekker@novell.com>
  
  	* gui/Makefile.am: add e-pub-utils.[ch]
  	for Free/Busy publishing
@@ -60,7 +66,7 @@
  	(init_calendar_publishing_cb): ditto
  	(conf_changed_callback): ditto
  	(impl_createControls): ditto
-	
+
 2004-01-12  Rodrigo Moya <rodrigo@ximian.com>
 
 	* gui/calendar-component.c (impl_upgradeFromVersion): sync the source

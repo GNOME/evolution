@@ -567,8 +567,6 @@ impl_upgradeFromVersion (PortableServer_Servant servant,
 			g_free (new_dir);
 		}
 
-		g_free (base_uri);
-
 		/* create the remote source group */
 		group = e_source_group_new (_("On The Web"), "webcal://");
 		e_source_list_add_group (priv->source_list, group, -1);
@@ -588,17 +586,7 @@ impl_upgradeFromVersion (PortableServer_Servant servant,
  		e_source_list_sync (priv->source_list, NULL);
 	}
 
- 	/* create calendar for birthdays & anniversaries */
- 	if ((major < 0) ||
- 	    ((major == 1) && (minor < 5)) ||
-	    ((major == 1) && (minor == 5) && (revision < 2))) { 		
- 		group = e_source_group_new (_("Birthdays"), "contacts://");
- 		source = e_source_new (_("Birthdays & Anniversaries"), "/");
- 		e_source_group_add_source (group, source, -1);
- 		e_source_group_set_readonly (group, TRUE);
- 		e_source_list_add_group (priv->source_list, group, -1);
- 		e_source_list_sync (priv->source_list, NULL);
-  	}
+	g_free (base_uri);
 
 	return CORBA_TRUE;
 }
