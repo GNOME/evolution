@@ -21,19 +21,13 @@
 #include <glib.h>
 
 #include "ibex.h"
+#include "block.h"
+#include "wordindex.h"
 
-#define IBEX_VERSION "ibex1"
+#define IBEX_VERSION "ibex3"
 
 struct ibex {
 	char *path;
-	GTree *files;
-	GHashTable *words;
-	GPtrArray *oldfiles;
-	gboolean dirty;
+	struct _memcache *blocks;
+	struct _IBEXWord *words;
 };
-
-struct ibex_file {
-	char *name;
-	long index;
-};
-typedef struct ibex_file ibex_file;

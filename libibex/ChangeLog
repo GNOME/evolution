@@ -1,3 +1,60 @@
+2000-09-19  Not Zed  <NotZed@HelixCode.com>
+
+	** Merged from IBEX_DISK branch to head.
+	
+	* file.c:
+	* find.c:
+	* words.c:
+	* index.c: Removed unused files.
+
+	* block.h: Changed block to use only 24 bits for next and 8 for
+	used, and fixed all relevant code.  Some cleanup.
+	
+	* disktail.c (tail_get): If we use an empty tail node, then make
+	sure we make it dirty.
+
+2000-09-15  Not Zed  <NotZed@HelixCode.com>
+
+	* wordindex.c (word_close): Free hashtable on exit too.
+
+	* disktail.c: Implemented tail-node storage for the end of long
+	lists, or for short lists.  Should save significant disk space
+	(5x?).
+	Implemented special case for 1-item lists, where the tailnode
+	pointer is used to store the index entry.
+
+2000-09-14  Not Zed  <NotZed@HelixCode.com>
+
+	* wordindex.c (add_index_key): Keys also handle tails.
+
+	* hash.c (hash_set_data_block): Added new parameter to keys - a
+	tail block (a full 32 bit block pointer).
+	(hash_get_data_block): And same here.
+
+2000-09-12  Not Zed  <NotZed@HelixCode.com>
+
+	* wordindex.c (word_close): Dont close namestore twice.
+
+2000-09-11  Not Zed  <NotZed@HelixCode.com>
+
+	** Redid almost everything, on-disk hash table to store an index
+	to index records, mroe on the way to modularisation (more to go),
+	now stores reverse indexes for deleting.
+
+2000-08-31  Not Zed  <NotZed@HelixCode.com>
+
+	* block.c (add_key_mem): Initialise a memory based array for newly
+	added index entries.
+	(add_record): Changed to cache updates in memory until we hit a
+	limit, and then flush them to disk.
+	(get_record): Merge in-memory records with disk records.
+	(remove_record): Remove from memory first, and if that fails, goto
+	disk.
+	(find_record): Check memory first, then disk if that fails.
+	(add_datum_list): oops, copy size * sizeof(blockid_t)
+	(add_indexed): Make sure we link in the head node when we create a
+	new one.
+
 2000-08-09  Christopher James Lahey  <clahey@helixcode.com>
 
 	* file.c, find.c: Fixed some warnings.

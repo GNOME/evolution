@@ -1,32 +1,15 @@
-/* -*- Mode: C; tab-width: 8; indent-tabs-mode: t; c-basic-offset: 8 -*- */
-/*
- * Copyright (C) 2000 Helix Code, Inc.
- *
- * This program is free software; you can redistribute it and/or
- * modify it under the terms of the GNU Library General Public License
- * as published by the Free Software Foundation; either version 2 of
- * the License, or (at your option) any later version.
- * 
- * This library is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
- * Library General Public License for more details.
- *
- * You should have received a copy of the GNU Library General Public
- * License along with the Gnome Library; see the file COPYING.LIB.  If not,
- * write to the Free Software Foundation, Inc., 59 Temple Place - Suite 330,
- * Boston, MA 02111-1307, USA.
- */
 
-/* words.c: low-level indexing ops */
+#include <glib.h>
 
+#include <db.h>
+#include <stdio.h>
+#include <unicode.h>
 #include <ctype.h>
-#include <errno.h>
 #include <string.h>
 
-#include <unicode.h>
-
 #include "ibex_internal.h"
+
+#define d(x)
 
 static signed char utf8_trans[] = {
 	'A', 'A', 'A', 'A', 'A', 'A', -1, 'C', 'E', 'E', 'E', 'E', 'I', 'I',
@@ -60,7 +43,7 @@ static char *utf8_long_trans[] = {
  * It is not safe to call this routine with bad UTF-8.
  */
 static void
-normalize_word (char *start, char *end, char *buf)
+ibex_normalise_word(char *start, char *end, char *buf)
 {
 	unsigned char *s, *d;
 	unicode_char_t uc;
@@ -151,39 +134,6 @@ utf8_category (char *sp, char **snp, char *send)
 	}
 }
 
-static ibex_file *
-get_ibex_file (ibex *ib, char *name)
-{
-	ibex_file *ibf;
-
-	ibf = g_tree_lookup (ib->files, name);
-	if (!ibf) {
-		ibf = g_malloc (sizeof (ibex_file));
-		ibf->name = g_strdup (name);
-		ibf->index = 0;
-		g_tree_insert (ib->files, ibf->name, ibf);
-		ib->dirty = TRUE;
-	}
-	return ibf;
-}
-
-static void
-ref_word (ibex *ib, ibex_file *ibf, char *word)
-{
-	GPtrArray *refs;
-
-	refs = g_hash_table_lookup (ib->words, word);
-	if (!refs) {
-		refs = g_ptr_array_new ();
-		g_hash_table_insert (ib->words, g_strdup (word), refs);
-		g_ptr_array_add (refs, ibf);
-		ib->dirty = TRUE;
-	} else if (g_ptr_array_index (refs, refs->len - 1) != ibf) {
-		g_ptr_array_add (refs, ibf);
-		ib->dirty = TRUE;
-	}
-}
-
 /**
  * ibex_index_buffer: the lowest-level ibex indexing interface
  * @ib: an ibex
@@ -206,12 +156,13 @@ ref_word (ibex *ib, ibex_file *ibf, char *word)
  * Return value: 0 on success, -1 on failure.
  **/
 int
-ibex_index_buffer (ibex *ib, char *name, char *buffer,
-		   size_t len, size_t *unread)
+ibex_index_buffer (ibex *ib, char *name, char *buffer, size_t len, size_t *unread)
 {
 	char *p, *q, *nq, *end, *word;
-	ibex_file *ibf = get_ibex_file (ib, name);
 	int wordsiz, cat;
+	GHashTable *words = g_hash_table_new(g_str_hash, g_str_equal);
+	GPtrArray *wordlist = g_ptr_array_new();
+	int i, ret=-1;
 
 	if (unread)
 		*unread = 0;
@@ -229,12 +180,9 @@ ibex_index_buffer (ibex *ib, char *name, char *buffer,
 			p = q;
 		}
 		if (p == end) {
-			g_free (word);
-			return 0;
+			goto done;
 		} else if (cat == IBEX_INVALID) {
-			errno = EINVAL;
-			g_free (word);
-			return -1;
+			goto error;
 		} else if (cat == IBEX_INCOMPLETE)
 			q = end;
 
@@ -246,24 +194,107 @@ ibex_index_buffer (ibex *ib, char *name, char *buffer,
 		}
 		if (cat == IBEX_INVALID ||
 		    (cat == IBEX_INCOMPLETE && !unread)) {
-			errno = EINVAL;
-			g_free (word);
-			return -1;
+			goto error;
 		} else if (cat == IBEX_INCOMPLETE || (q == end && unread)) {
 			*unread = end - p;
-			g_free (word);
-			return 0;
+			goto done;
 		}
 
 		if (wordsiz < q - p + 1) {
 			wordsiz = q - p + 1;
 			word = g_realloc (word, wordsiz);
 		}
-		normalize_word (p, q, word);
-		ref_word (ib, ibf, word);
+		ibex_normalise_word (p, q, word);
+		if (word[0]) {
+			if (g_hash_table_lookup(words, word) == 0) {
+				char *newword = g_strdup(word);
+				g_ptr_array_add(wordlist, newword);
+				g_hash_table_insert(words, newword, name);
+			}
+		}
 		p = q;
 	}
-
+done:
+	d(printf("name %s count %d size %d\n", name, wordlist->len, len));
+	ib->words->klass->add_list(ib->words, name, wordlist);
+	ret = 0;
+error:
+	for (i=0;i<wordlist->len;i++)
+		g_free(wordlist->pdata[i]);
+	g_ptr_array_free(wordlist, TRUE);
+	g_hash_table_destroy(words);
 	g_free (word);
+	return ret;
+}
+
+
+ibex *ibex_open (char *file, int flags, int mode)
+{
+	ibex *ib;
+
+	ib = g_malloc0(sizeof(*ib));
+	ib->blocks = ibex_block_cache_open(file, flags, mode);
+	if (ib->blocks == 0) {
+		g_warning("create: Error occured?: %s\n", strerror(errno));
+		g_free(ib);
+		return NULL;
+	}
+	/* FIXME: the blockcache or the wordindex needs to manage the other one */
+	ib->words = ib->blocks->words;
+
+	return ib;
+}
+
+int ibex_save (ibex *ib)
+{
+	printf("syncing database\n");
+	ib->words->klass->sync(ib->words);
+	/* FIXME: some return */
+	ibex_block_cache_sync(ib->blocks);
 	return 0;
+}
+
+int ibex_close (ibex *ib)
+{
+	int ret = 0;
+
+	printf("closing database\n");
+
+	ib->words->klass->close(ib->words);
+	ibex_block_cache_close(ib->blocks);
+	g_free(ib);
+	return ret;
+}
+
+void ibex_unindex (ibex *ib, char *name)
+{
+	d(printf("trying to unindex '%s'\n", name));
+	ib->words->klass->unindex_name(ib->words, name);
+}
+
+GPtrArray *ibex_find (ibex *ib, char *word)
+{
+	char *normal;
+	int len;
+
+	len = strlen(word);
+	normal = alloca(len+1);
+	ibex_normalise_word(word, word+len, normal);
+	return ib->words->klass->find(ib->words, normal);
+}
+
+gboolean ibex_find_name (ibex *ib, char *name, char *word)
+{
+	char *normal;
+	int len;
+
+	len = strlen(word);
+	normal = alloca(len+1);
+	ibex_normalise_word(word, word+len, normal);
+	return ib->words->klass->find_name(ib->words, name, normal);
+}
+
+gboolean ibex_contains_name(ibex *ib, char *name)
+{
+	return ib->words->klass->contains_name(ib->words, name);
 }
