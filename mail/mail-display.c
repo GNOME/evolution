@@ -434,24 +434,28 @@ inline_cb (GtkWidget *widget, gpointer user_data)
 	mail_display_queue_redisplay (md);
 }
 
-static gboolean
-button_press (GtkWidget *widget, GdkEvent *event, CamelMimePart *part)
+static void
+inline_toggle(MailDisplay *md, CamelMimePart *part)
 {
-	MailDisplay *md;
+	g_return_if_fail(md != NULL);
 
-	if (event->type == GDK_BUTTON_PRESS)
-		g_signal_stop_emission_by_name (widget, "button_press_event");
-	else if (event->type == GDK_KEY_PRESS && event->key.keyval != GDK_Return)
-		return FALSE;
-
-	md = g_object_get_data ((GObject *) widget, "MailDisplay");
-	if (md == NULL) {
-		g_warning ("No MailDisplay on button!");
-		return TRUE;
-	}
-	
 	mail_part_toggle_displayed (part, md);
 	mail_display_queue_redisplay (md);
+}
+
+static void
+inline_button_clicked(GtkWidget *widget, CamelMimePart *part)
+{
+	inline_toggle((MailDisplay *)g_object_get_data((GObject *)widget, "MailDisplay"), part);
+}
+
+static gboolean
+inline_button_press(GtkWidget *widget, GdkEventKey *event, CamelMimePart *part)
+{
+	if (event->keyval != GDK_Return)
+		return FALSE;
+
+	inline_toggle((MailDisplay *)g_object_get_data((GObject *)widget, "MailDisplay"), part);
 
 	return TRUE;
 }
@@ -1018,8 +1022,8 @@ do_attachment_header (GtkHTML *html, GtkHTMLEmbedded *eb,
 	
 	handler = mail_lookup_handler (eb->type);
 	if (handler && handler->builtin) {
-		g_signal_connect (button, "button_press_event", G_CALLBACK (button_press), part);
-		g_signal_connect (button, "key_press_event", G_CALLBACK (button_press), part);
+		g_signal_connect (button, "clicked", G_CALLBACK (inline_button_clicked), part);
+		g_signal_connect (button, "key_press_event", G_CALLBACK (inline_button_press), part);
 	} else {
 		gtk_widget_set_sensitive (button, FALSE);
 		GTK_WIDGET_UNSET_FLAGS (button, GTK_CAN_FOCUS);
@@ -1156,8 +1160,8 @@ do_signature (GtkHTML *html, GtkHTMLEmbedded *eb,
 	
 	button = gtk_button_new ();
 	g_object_set_data ((GObject *) button, "MailDisplay", md);
-	g_signal_connect (button, "button_press_event", G_CALLBACK (button_press), part);
-	g_signal_connect (button, "key_press_event", G_CALLBACK (button_press), part);
+	g_signal_connect (button, "clicked", G_CALLBACK (inline_button_clicked), part);
+	g_signal_connect (button, "key_press_event", G_CALLBACK (inline_button_press), part);
 
 	gtk_container_add (GTK_CONTAINER (button), pbl->pixmap);
 	gtk_widget_show_all (button);
