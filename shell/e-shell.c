@@ -567,8 +567,7 @@ impl_Shell_selectUserFolder (PortableServer_Servant servant,
 								       title,
 								       NULL,
 								       default_folder,
-								       allowed_type_names,
-								       default_type);
+								       allowed_type_names);
 
 
 	listener_duplicate = CORBA_Object_duplicate (listener, ev);

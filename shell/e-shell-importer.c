@@ -1027,7 +1027,7 @@ import_druid_finish (GnomeDruidPage *page,
 							      _("Select folder"),
 							      _("Select a destination folder for importing this data"),
 							      e_shell_view_get_current_uri (data->view),
-							      NULL, NULL);
+							      NULL);
 		
 		gtk_signal_connect (GTK_OBJECT (folder), "folder_selected",
 				    GTK_SIGNAL_FUNC (folder_selected), data);

@@ -94,8 +94,7 @@ module Evolution {
 				       in FolderSelectionListener listener,
 				       in string title,
 				       in string default_folder,
-				       in FolderTypeNameList possible_types,
-				       in string default_type)
+				       in FolderTypeNameList possible_types)
 			raises (NotReady, Busy);
 
 		/**

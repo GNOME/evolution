@@ -64,14 +64,12 @@ void        e_shell_folder_selection_dialog_construct          (EShellFolderSele
 								const char                  *title,
 								const char                  *caption,
 								const char                  *default_uri,
-								const char                  *allowed_types[],
-								const char                  *default_type);
+								const char                  *allowed_types[]);
 GtkWidget  *e_shell_folder_selection_dialog_new                (EShell                      *shell,
 								const char                  *title,
 								const char                  *caption,
 								const char                  *default_uri,
-								const char                  *allowed_types[],
-								const char                  *default_type);
+								const char                  *allowed_types[]);
 
 void      e_shell_folder_selection_dialog_set_allow_creation  (EShellFolderSelectionDialog *folder_selection_dialog,
 							       gboolean                     allow_creation);

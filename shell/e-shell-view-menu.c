@@ -471,7 +471,7 @@ command_goto_folder (BonoboUIComponent *uih,
 								       _("Go to folder..."),
 								       _("Select the folder that you want to open"),
 								       current_uri,
-								       NULL, NULL);
+								       NULL);
 
 	gtk_window_set_transient_for (GTK_WINDOW (folder_selection_dialog), GTK_WINDOW (shell_view));
 
@@ -592,7 +592,7 @@ command_new_shortcut (BonoboUIComponent *uih,
 								       _("Create a new shortcut"),
 								       _("Select the folder you want the shortcut to point to:"),
 								       e_shell_view_get_current_uri (shell_view),
-								       NULL, NULL);
+								       NULL);
 	e_shell_folder_selection_dialog_set_allow_creation (E_SHELL_FOLDER_SELECTION_DIALOG (folder_selection_dialog),
 							    FALSE);
 

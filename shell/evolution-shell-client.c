@@ -234,9 +234,12 @@ user_select_folder (EvolutionShellClient *shell_client,
 
 	parent_xid = (CORBA_long_long) GDK_WINDOW_XWINDOW (GTK_WIDGET (parent)->window);
 
-	GNOME_Evolution_Shell_selectUserFolder (corba_shell, parent_xid, listener_interface,
-						title, default_folder, &corba_type_name_list,
-						"", &ev);
+	GNOME_Evolution_Shell_selectUserFolder (corba_shell, parent_xid,
+						listener_interface,
+						title,
+						default_folder,
+						&corba_type_name_list,
+						&ev);
 
 	if (ev._major != CORBA_NO_EXCEPTION) {
 		CORBA_exception_free (&ev);

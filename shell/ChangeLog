@@ -1,5 +1,34 @@
 2002-05-22  Ettore Perazzoli  <ettore@ximian.com>
 
+	* e-shell.c (impl_Shell_selectUserFolder): No more @default_type
+	arg to e_shell_folder_selection_dialog_new().
+
+	* e-shell-view-menu.c (command_goto_folder): No more @default_type
+	arg to e_shell_folder_selection_dialog_new().
+	(command_new_shortcut): Likewise.
+
+	* e-shell-importer.c (import_druid_finish): No more @default_type
+	arg to e_shell_folder_selection_dialog_new().
+
+	* e-shell-folder-commands.c (e_shell_command_move_folder): No more
+	@default_type arg to e_shell_folder_selection_dialog_new().
+	(e_shell_command_copy_folder): Likewise.
+
+	* e-shell-folder-selection-dialog.c: Removed default_type member
+	in EShellFolderSelectionDialogPrivate.
+	(e_shell_folder_selection_dialog_new): Removed @default_type arg.
+	(e_shell_folder_selection_dialog_construct): Likewise.
+	(impl_clicked): Just pass the first of the allowed types to
+	e_shell_show_folder_creation_dialog() for the default type.
+
+	* evolution-shell-client.c (user_select_folder): No more
+	@default_type arg to the ::userSelectFolder CORBA method.
+
+	* Evolution-Shell.idl (selectUserFolder): Remove arg
+	@default_type.
+
+2002-05-22  Ettore Perazzoli  <ettore@ximian.com>
+
 	* main.c (view_map_callback): New callback for when the first
 	created view in the shell gets mapped.
 	(new_view_created_callback): New callback for when the first view
