@@ -419,11 +419,14 @@ icalvalue_new_from_string_with_error(icalvalue_kind kind,const char* str,icalpro
 	    struct icaltimetype tt;
             struct icalperiodtype p;
             tt = icaltime_from_string(str);
-            p = icalperiodtype_from_string(str);
 
             if(!icaltime_is_null_time(tt)){
-                value = icalvalue_new_datetime(tt);
-            } else if (!icalperiodtype_is_null_period(p)){
+                value = icalvalue_new_datetime(tt);		
+		break;
+            }  
+	    
+            p = icalperiodtype_from_string(str);	    
+	    if (!icalperiodtype_is_null_period(p)){
                 value = icalvalue_new_period(p);
             }            
 

@@ -1,3 +1,8 @@
+2001-09-19  Larry Ewing  <lewing@ximian.com>
+
+	* src/libical/icalperiod.c (icalperiodtype_from_string): free the
+	temp dup'd string.
+
 2001-09-11  Federico Mena Quintero  <federico@ximian.com>
 
 	* src/libical/icalvalue.c (icalvalue_new_from_string_with_error):
