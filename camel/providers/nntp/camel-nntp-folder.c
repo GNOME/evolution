@@ -287,7 +287,7 @@ static GPtrArray*
 nntp_folder_search_by_expression (CamelFolder *folder, const char *expression, CamelException *ex)
 {
 	CamelNNTPFolder *nntp_folder = CAMEL_NNTP_FOLDER (folder);
-	GPtrArray *matches, *summary;
+	GPtrArray *matches;
 	
 	CAMEL_NNTP_FOLDER_LOCK(nntp_folder, search_lock);
 	
@@ -295,14 +295,9 @@ nntp_folder_search_by_expression (CamelFolder *folder, const char *expression, C
 		nntp_folder->search = camel_folder_search_new ();
 	
 	camel_folder_search_set_folder (nntp_folder->search, folder);
-	summary = camel_folder_get_summary (folder);
-	camel_folder_search_set_summary (nntp_folder->search, summary);
-	
-	matches = camel_folder_search_execute_expression (nntp_folder->search, expression, ex);
+	matches = camel_folder_search_search(nntp_folder->search, expression, NULL, ex);
 	
 	CAMEL_NNTP_FOLDER_UNLOCK(nntp_folder, search_lock);
-	
-	camel_folder_free_summary (folder, summary);
 	
 	return matches;
 }
@@ -311,22 +306,10 @@ static GPtrArray *
 nntp_folder_search_by_uids (CamelFolder *folder, const char *expression, GPtrArray *uids, CamelException *ex)
 {
 	CamelNNTPFolder *nntp_folder = (CamelNNTPFolder *) folder;
-	GPtrArray *summary, *matches;
-	int i;
-	
-	/* NOTE: could get away without the search lock by creating a new
-	   search object each time */
-	
-	summary = g_ptr_array_new ();
-	for (i = 0; i < uids->len; i++) {
-		CamelMessageInfo *info;
-		
-		if ((info = camel_folder_get_message_info (folder, uids->pdata[i])))
-			g_ptr_array_add (summary, info);
-	}
-	
-	if (summary->len == 0)
-		return summary;
+	GPtrArray *matches;
+
+	if (uids->len == 0)
+		return g_ptr_array_new();
 	
 	CAMEL_NNTP_FOLDER_LOCK(folder, search_lock);
 	
@@ -334,16 +317,9 @@ nntp_folder_search_by_uids (CamelFolder *folder, const char *expression, GPtrArr
 		nntp_folder->search = camel_folder_search_new ();
 	
 	camel_folder_search_set_folder (nntp_folder->search, folder);
-	camel_folder_search_set_summary (nntp_folder->search, summary);
-	
-	matches = camel_folder_search_execute_expression (nntp_folder->search, expression, ex);
+	matches = camel_folder_search_search(nntp_folder->search, expression, uids, ex);
 	
 	CAMEL_NNTP_FOLDER_UNLOCK(folder, search_lock);
-	
-	for (i = 0; i < summary->len; i++)
-		camel_folder_free_message_info (folder, summary->pdata[i]);
-	
-	g_ptr_array_free (summary, TRUE);
 	
 	return matches;
 }

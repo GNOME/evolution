@@ -575,10 +575,7 @@ static GPtrArray *
 local_search_by_expression(CamelFolder *folder, const char *expression, CamelException *ex)
 {
 	CamelLocalFolder *local_folder = CAMEL_LOCAL_FOLDER(folder);
-	GPtrArray *summary, *matches;
-
-	/* NOTE: could get away without the search lock by creating a new
-	   search object each time */
+	GPtrArray *matches;
 
 	CAMEL_LOCAL_FOLDER_LOCK(folder, search_lock);
 
@@ -587,14 +584,9 @@ local_search_by_expression(CamelFolder *folder, const char *expression, CamelExc
 
 	camel_folder_search_set_folder(local_folder->search, folder);
 	camel_folder_search_set_body_index(local_folder->search, local_folder->index);
-	summary = camel_folder_get_summary(folder);
-	camel_folder_search_set_summary(local_folder->search, summary);
-
-	matches = camel_folder_search_execute_expression(local_folder->search, expression, ex);
+	matches = camel_folder_search_search(local_folder->search, expression, NULL, ex);
 
 	CAMEL_LOCAL_FOLDER_UNLOCK(folder, search_lock);
-
-	camel_folder_free_summary(folder, summary);
 
 	return matches;
 }
@@ -603,23 +595,10 @@ static GPtrArray *
 local_search_by_uids(CamelFolder *folder, const char *expression, GPtrArray *uids, CamelException *ex)
 {
 	CamelLocalFolder *local_folder = CAMEL_LOCAL_FOLDER(folder);
-	GPtrArray *summary, *matches;
-	int i;
+	GPtrArray *matches;
 
-	/* NOTE: could get away without the search lock by creating a new
-	   search object each time */
-
-	summary = g_ptr_array_new();
-	for (i=0;i<uids->len;i++) {
-		CamelMessageInfo *info;
-
-		info = camel_folder_get_message_info(folder, uids->pdata[i]);
-		if (info)
-			g_ptr_array_add(summary, info);
-	}
-
-	if (summary->len == 0)
-		return summary;
+	if (uids->len == 0)
+		return g_ptr_array_new();
 
 	CAMEL_LOCAL_FOLDER_LOCK(folder, search_lock);
 
@@ -628,15 +607,9 @@ local_search_by_uids(CamelFolder *folder, const char *expression, GPtrArray *uid
 
 	camel_folder_search_set_folder(local_folder->search, folder);
 	camel_folder_search_set_body_index(local_folder->search, local_folder->index);
-	camel_folder_search_set_summary(local_folder->search, summary);
-
-	matches = camel_folder_search_execute_expression(local_folder->search, expression, ex);
+	matches = camel_folder_search_search(local_folder->search, expression, uids, ex);
 
 	CAMEL_LOCAL_FOLDER_UNLOCK(folder, search_lock);
-
-	for (i=0;i<summary->len;i++)
-		camel_folder_free_message_info(folder, summary->pdata[i]);
-	g_ptr_array_free(summary, TRUE);
 
 	return matches;
 }

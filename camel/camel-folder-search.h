@@ -50,6 +50,7 @@ struct _CamelFolderSearch {
 	/* these are only valid during the search, and are reset afterwards */
 	CamelFolder *folder;	/* folder for current search */
 	GPtrArray *summary;	/* summary array for current search */
+	GPtrArray *summary_set;	/* subset of summary to actually include in search */
 	GHashTable *summary_hash; /* hashtable of summary items */
 	CamelMessageInfo *current; /* current message info, when searching one by one */
 	CamelMimeMessage *current_message; /* cache of current message, if required */
@@ -70,6 +71,9 @@ struct _CamelFolderSearchClass {
 	/* search options */
 	/* (match-all [boolean expression]) Apply match to all messages */
 	ESExpResult * (*match_all)(struct _ESExp *f, int argc, struct _ESExpTerm **argv, CamelFolderSearch *s);
+
+	/* (match-threads "type" [array expression]) add all related threads */
+	ESExpResult * (*match_threads)(struct _ESExp *f, int argc, struct _ESExpTerm **argv, CamelFolderSearch *s);
 
 	/* (body-contains "string1" "string2" ...) Returns a list of matches, or true if in single-message mode */
 	ESExpResult * (*body_contains)(struct _ESExp *f, int argc, struct _ESExpResult **argv, CamelFolderSearch *s);
@@ -118,12 +122,14 @@ CamelType		camel_folder_search_get_type	(void);
 CamelFolderSearch      *camel_folder_search_new	(void);
 void camel_folder_search_construct (CamelFolderSearch *search);
 
+/* This stuff currently gets cleared when you run a search ... what on earth was i thinking ... */
 void camel_folder_search_set_folder(CamelFolderSearch *search, CamelFolder *folder);
 void camel_folder_search_set_summary(CamelFolderSearch *search, GPtrArray *summary);
 void camel_folder_search_set_body_index(CamelFolderSearch *search, CamelIndex *index);
+/* this interface is deprecated */
 GPtrArray *camel_folder_search_execute_expression(CamelFolderSearch *search, const char *expr, CamelException *ex);
-gboolean camel_folder_search_match_expression(CamelFolderSearch *search, const char *expr,
-					      const CamelMessageInfo *info, CamelException *ex);
+
+GPtrArray *camel_folder_search_search(CamelFolderSearch *search, const char *expr, GPtrArray *uids, CamelException *ex);
 void camel_folder_search_free_result(CamelFolderSearch *search, GPtrArray *);
 
 #ifdef __cplusplus
