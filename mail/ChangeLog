@@ -1,9 +1,22 @@
+2001-07-04  Jeffrey Stedfast  <fejj@ximian.com>
+
+	* mail-config.c (mail_config_set_show_preview): Revert Sam's changes.
+
+	Note: Uhm, g_hash_table_lookup_extended gives us a pointer to the
+	original value which we can just change to update the hash table
+	without the need to re-insert - it's already there!! Also, you
+	don't want to g_hash_table_insert the new value with the same key
+	without at least first removing the existing bucket. And, you
+	certainly don't want to g_free() the key after you insert it -
+	eek!!
+
 2001-07-03  Sam Creasey <sammy@oh.verio.com>
+
 	* mail-config.c (mail_config_set_show_preview): Replace value in
 	config->preview_hash when it already exists.  Old code never
 	re-inserted into the hash, just assigned to val -- it's an int
 	here, not a real pointer.
-	
+
 2001-07-03  Joe Shaw  <joe@ximian.com>
 
 	* mail-callbacks.c (expunge_folder): Unset the message being displayed
