@@ -40,7 +40,7 @@ camel_tcp_stream_class_init (CamelTcpStreamClass *camel_tcp_stream_class)
 	CamelStreamClass *camel_stream_class =
 		CAMEL_STREAM_CLASS (camel_tcp_stream_class);
 	
-	parent_class = CAMEL_STREAM_CLASS( camel_type_get_global_classfuncs( CAMEL_STREAM_TYPE ) );
+	parent_class = CAMEL_STREAM_CLASS (camel_type_get_global_classfuncs (CAMEL_STREAM_TYPE));
 	
 	/* tcp stream methods */
 	camel_tcp_stream_class->connect    = tcp_connect;

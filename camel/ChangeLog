@@ -1,5 +1,25 @@
 2001-03-14  Jeffrey Stedfast  <fejj@ximian.com>
 
+	* camel-tcp-stream-ssl.c: Numerous fixes to get it to build
+	correctly with NSS enabled.
+
+	* camel-remote-store.c (remote_connect): Pass in the session and
+	expected host args, oops.
+
+	* camel-provider.h (CAMEL_URL_ALLOW_SSL): Defined.
+
+	* providers/imap/camel-imap-store.c (camel_imap_store_init): Check
+	to see if we are supposed to use SSL and set the options
+	accordingly.
+	(imap_connect): Return FALSE here instead of NULL.
+
+	* providers/imap/camel-imap-provider.c: Add CAMEL_URL_ALLOW_SSL.
+
+	* providers/imap/libcamelimap.urls: Add "imaps" which is the
+	protocol for Secure IMAP.
+
+2001-03-14  Jeffrey Stedfast  <fejj@ximian.com>
+
 	* camel-tcp-stream-openssl.[c,h]: Added
 
 	* Makefile.am: Added camel-tcp-stream-openssl.[c,h] to the build.

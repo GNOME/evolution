@@ -78,6 +78,8 @@ extern char *camel_provider_type_name[CAMEL_NUM_PROVIDER_TYPES];
 
 #define CAMEL_URL_PATH_IS_ABSOLUTE (1 << 12)
 
+#define CAMEL_URL_ALLOW_SSL      (1 << 13)
+
 typedef struct {
 	/* Provider name used in CamelURLs. */
 	char *protocol;

@@ -31,7 +31,10 @@
 #include <fcntl.h>
 #include <errno.h>
 #include <string.h>
-#include <mozilla/nspr.h>
+#include <nspr.h>
+#include <prio.h>
+#include <prerror.h>
+#include <prerr.h>
 #include <nss.h>
 #include <ssl.h>
 
@@ -194,13 +197,13 @@ stream_write (CamelStream *stream, const char *buffer, size_t n)
 static int
 stream_flush (CamelStream *stream)
 {
-	return PR_Fsync (((CamelTcpStreamSSL *)stream)->sockfd);
+	return PR_Sync (((CamelTcpStreamSSL *)stream)->sockfd);
 }
 
 static int
 stream_close (CamelStream *stream)
 {
-	if (PR_Close (((CamelTcpStreamSSL *)stream)->sockfd) == PR_Failure)
+	if (PR_Close (((CamelTcpStreamSSL *)stream)->sockfd) == PR_FAILURE)
 		return -1;
 	
 	((CamelTcpStreamSSL *)stream)->sockfd = NULL;
@@ -229,7 +232,7 @@ ssl_bad_cert (void *data, PRFileDesc *fd)
 	session = CAMEL_SESSION (data);
 	
 	/* FIXME: International issues here?? */
-	len = PR_GetErrorTextLen (PR_GetError ());
+	len = PR_GetErrorTextLength ();
 	string = g_malloc0 (len + 1);
 	PR_GetErrorText (string);
 	
@@ -246,7 +249,7 @@ static int
 stream_connect (CamelTcpStream *stream, struct hostent *host, int port)
 {
 	CamelTcpStreamSSL *ssl = CAMEL_TCP_STREAM_SSL (stream);
-	PRIntervalTime timeout;
+	PRIntervalTime timeout = PR_INTERVAL_MIN;
 	PRNetAddr netaddr;
 	PRFileDesc *fd, *ssl_fd;
 	
@@ -255,13 +258,13 @@ stream_connect (CamelTcpStream *stream, struct hostent *host, int port)
 	memset ((void *) &netaddr, 0, sizeof (PRNetAddr));
 	memcpy (&netaddr.inet.ip, host->h_addr, sizeof (netaddr.inet.ip));
 	
-	if (PR_InitializeNetAddr (PR_IpAddrNull, port, &netaddr) == PR_FAILUE)
+	if (PR_InitializeNetAddr (PR_IpAddrNull, port, &netaddr) == PR_FAILURE)
 		return -1;
 	
 	fd = PR_OpenTCPSocket (host->h_addrtype);
 	ssl_fd = SSL_ImportFD (NULL, fd);
 	
-	SSL_SetUrl (ssl_fd, ssl->expected_host);
+	SSL_SetURL (ssl_fd, ssl->expected_host);
 	
 	if (ssl_fd == NULL || PR_Connect (ssl_fd, &netaddr, timeout) == PR_FAILURE) {
 		if (ssl_fd != NULL)
@@ -303,7 +306,7 @@ stream_setsockopt (CamelTcpStream *stream, const CamelSockOptData *data)
 	memset ((void *) &sodata, 0, sizeof (sodata));
 	memcpy ((void *) &sodata, (void *) data, sizeof (CamelSockOptData));
 	
-	if (PR_SetSocketOption (((CamelTcpStreamRaw *)stream)->sockfd, &sodata) == PR_FAILURE)
+	if (PR_SetSocketOption (((CamelTcpStreamSSL *)stream)->sockfd, &sodata) == PR_FAILURE)
 		return -1;
 	
 	return 0;

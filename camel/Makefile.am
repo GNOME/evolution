@@ -14,6 +14,8 @@ INCLUDES = -I.. -I$(srcdir)/.. -I$(includedir)	 \
 	$(GNOME_XML_CFLAGS)			 \
 	$(UNICODE_CFLAGS)			 \
 	$(KRB4_CFLAGS)				 \
+	$(NSPR_CFLAGS)				 \
+	$(NSS_CFLAGS)				 \
 	-DCAMEL_PROVIDERDIR=\""$(providerdir)"\" \
 	-DG_LOG_DOMAIN=\"camel\"
 
@@ -158,7 +160,9 @@ libcamel_la_LDFLAGS = -version-info 0:0:0 -rpath $(libdir)
 
 libcamel_la_LIBADD = $(top_builddir)/e-util/libeutil.la \
 	$(UNICODE_LIBS)				\
-	$(KRB4_LDFLAGS)
+	$(KRB4_LDFLAGS)				\
+	$(NSPR_LDFLAGS)				\
+	$(NSS_LDFLAGS)
 
 
 noinst_HEADERS =				\

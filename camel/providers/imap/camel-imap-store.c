@@ -144,9 +144,18 @@ camel_imap_store_init (gpointer object, gpointer klass)
 	CamelRemoteStore *remote_store = CAMEL_REMOTE_STORE (object);
 	CamelImapStore *imap_store = CAMEL_IMAP_STORE (object);
 	CamelStore *store = CAMEL_STORE (object);
+	CamelURL *url;
 	
-	remote_store->default_port = 143;
-
+	url = CAMEL_SERVICE (store)->url;
+	
+	if (!g_strcasecmp (url->protocol, "imaps")) {
+		remote_store->default_port = 993;
+		remote_store->use_ssl = TRUE;
+	} else {
+		remote_store->default_port = 143;
+		remote_store->use_ssl = FALSE;
+	}
+	
 	imap_store->dir_sep = '\0';
 	imap_store->current_folder = NULL;
 
@@ -155,7 +164,7 @@ camel_imap_store_init (gpointer object, gpointer klass)
 	imap_store->connected = FALSE;
 	imap_store->subscribed_folders = NULL;
 
-	imap_store->priv = g_malloc0(sizeof(*imap_store->priv));
+	imap_store->priv = g_malloc0 (sizeof (*imap_store->priv));
 #ifdef ENABLE_THREADS
 	imap_store->priv->command_lock = e_mutex_new(E_MUTEX_REC);
 #endif
@@ -469,7 +478,7 @@ imap_connect (CamelService *service, CamelException *ex)
 			 * a bad password. So reconnect here.
 			 */
 			if (!connect_to_server (service, ex))
-				return NULL;
+				return FALSE;
 		}
 
 		if (authtype)
