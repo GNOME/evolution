@@ -43,9 +43,13 @@ check (ETableWithout *etw, int model_row)
 	void *key;
 	ETableSubset *etss = E_TABLE_SUBSET (etw);
 
-	key = etw->priv->get_key_func (etss->source, model_row, etw->priv->closure);
+	if (etw->priv->get_key_func)
+		key = etw->priv->get_key_func (etss->source, model_row, etw->priv->closure);
+	else
+		key = GINT_TO_POINTER (model_row);
 	ret_val = (g_hash_table_lookup (etw->priv->hash, key) != NULL);
-	etw->priv->free_gotten_key_func (key, etw->priv->closure);
+	if (etw->priv->free_gotten_key_func)
+		etw->priv->free_gotten_key_func (key, etw->priv->closure);
 	return ret_val;
 }
 
@@ -56,9 +60,16 @@ check_with_key (ETableWithout *etw, void *key, int model_row)
 	void *key2;
 	ETableSubset *etss = E_TABLE_SUBSET (etw);
 
-	key2 = etw->priv->get_key_func (etss->source, model_row, etw->priv->closure);
-	ret_val = (etw->priv->compare_func (key, key2));
-	etw->priv->free_gotten_key_func (key, etw->priv->closure);
+	if (etw->priv->get_key_func)
+		key2 = etw->priv->get_key_func (etss->source, model_row, etw->priv->closure);
+	else
+		key2 = GINT_TO_POINTER (model_row);
+	if (etw->priv->compare_func)
+		ret_val = (etw->priv->compare_func (key, key2));
+	else
+		ret_val = (key == key2);
+	if (etw->priv->free_gotten_key_func)
+		etw->priv->free_gotten_key_func (key, etw->priv->closure);
 	return ret_val;
 }
 
@@ -97,7 +108,8 @@ delete_hash_element (gpointer key,
 		     gpointer closure)
 {
 	ETableWithout *etw = closure;
-	etw->priv->free_duplicated_key_func (key, etw->priv->closure);
+	if (etw->priv->free_duplicated_key_func)
+		etw->priv->free_duplicated_key_func (key, etw->priv->closure);
 }
 
 static void
@@ -269,7 +281,8 @@ void         e_table_without_add        (ETableWithout *etw,
 	int i; /* View row */
 	ETableSubset *etss = E_TABLE_SUBSET (etw);
 
-	key = etw->priv->duplicate_key_func (key, etw->priv->closure);
+	if (etw->priv->duplicate_key_func)
+		key = etw->priv->duplicate_key_func (key, etw->priv->closure);
 
 	g_hash_table_insert (etw->priv->hash, key, key);
 	for (i = 0; i < etss->n_map; i++) {
@@ -312,7 +325,8 @@ void         e_table_without_remove     (ETableWithout *etw,
 		}
 	}
 	if (g_hash_table_lookup_extended (etw->priv->hash, key, &old_key, NULL)) {
-		etw->priv->free_duplicated_key_func (key, etw->priv->closure);
+		if (etw->priv->free_duplicated_key_func)
+			etw->priv->free_duplicated_key_func (key, etw->priv->closure);
 		g_hash_table_remove (etw->priv->hash, key);
 	}
 }
