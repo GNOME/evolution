@@ -51,7 +51,7 @@ typedef struct _CamelMimeFilterToHTML CamelMimeFilterToHTML;
 struct _CamelMimeFilterToHTML {
 	CamelMimeFilter parent;
 	
-	struct _UrlRegexPattern *patterns;
+	struct _CamelUrlScanner *scanner;
 	
 	guint32 flags;
 	guint32 colour;

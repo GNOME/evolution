@@ -1,3 +1,8 @@
+2002-12-10  Jeffrey Stedfast  <fejj@ximian.com>
+
+	* camel-mime-filter-tohtml.c (html_convert): Use camel-url-scanner
+	instead of regex.
+
 2002-12-09  Jeffrey Stedfast  <fejj@ximian.com>
 
 	* camel-url-scanner.c (camel_url_addrspec_end): Fixed to not be
