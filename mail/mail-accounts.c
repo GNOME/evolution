@@ -61,6 +61,9 @@ static GdkPixbuf *enabled_pixbuf = NULL;
 static GtkVBoxClass *parent_class = NULL;
 
 
+#define PREFS_WINDOW(prefs) GTK_WINDOW (gtk_widget_get_ancestor (GTK_WIDGET (prefs), GTK_TYPE_WINDOW))
+
+
 GtkType
 mail_accounts_tab_get_type (void)
 {
@@ -217,7 +220,7 @@ account_delete_clicked (GtkButton *button, gpointer user_data)
 	gtk_window_set_policy (GTK_WINDOW (confirm), TRUE, TRUE, TRUE);
 	gtk_window_set_modal (GTK_WINDOW (confirm), TRUE);
 	gtk_window_set_title (GTK_WINDOW (confirm), _("Really delete account?"));
-	gnome_dialog_set_parent (confirm, GTK_WINDOW (prefs));
+	gnome_dialog_set_parent (confirm, PREFS_WINDOW (prefs));
 	ans = gnome_dialog_run_and_close (confirm);
 	
 	if (ans == 0) {
