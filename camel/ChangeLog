@@ -1,3 +1,10 @@
+2000-08-17  Not Zed  <NotZed@HelixCode.com>
+
+	* providers/mh/camel-mh-folder.c (mh_finalize): And here too.
+
+	* providers/mbox/camel-mbox-folder.c (mbox_finalize): Close index
+	on exit.
+
 2000-08-23  Dan Winship  <danw@helixcode.com>
 
 	* camel-mime-utils.c (header_address_list_format_append): put

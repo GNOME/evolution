@@ -132,6 +132,9 @@ mbox_finalize(CamelObject * object)
 {
 	CamelMboxFolder *mbox_folder = CAMEL_MBOX_FOLDER(object);
 
+	if (mbox_folder->index)
+		ibex_close(mbox_folder->index);
+
 	g_free(mbox_folder->folder_file_path);
 	g_free(mbox_folder->summary_file_path);
 	g_free(mbox_folder->folder_dir_path);

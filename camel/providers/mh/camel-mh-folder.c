@@ -123,6 +123,9 @@ static void mh_finalize(CamelObject * object)
 {
 	CamelMhFolder *mh_folder = CAMEL_MH_FOLDER(object);
 
+	if (mh_folder->index)
+		ibex_close(mh_folder->index);
+
 	g_free(mh_folder->folder_file_path);
 	g_free(mh_folder->summary_file_path);
 	g_free(mh_folder->folder_dir_path);
