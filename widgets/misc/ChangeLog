@@ -1,3 +1,11 @@
+2003-04-06  Chris Toshok  <toshok@ximian.com>
+
+	* e-cell-percent.h: e_cell_percent_get_type returns GType, not
+	GtkType.
+	
+	* e-cell-percent.c (e_cell_percent_new): use g_object_new, not
+	gtk_object_new.
+
 2003-04-02  Hans Petter Jansson  <hpj@ximian.com>
 
 	* e-calendar-item.c (e_calendar_item_set_selection): For example;

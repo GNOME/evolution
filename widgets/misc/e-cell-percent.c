@@ -147,7 +147,7 @@ e_cell_percent_init (GtkObject *object)
 ECell *
 e_cell_percent_new (const char *fontname, GtkJustification justify)
 {
-	ECellPercent *ecn = gtk_type_new (e_cell_percent_get_type ());
+	ECellPercent *ecn = g_object_new (E_CELL_PERCENT_TYPE, NULL);
 
 	e_cell_text_construct (E_CELL_TEXT(ecn), fontname, justify);
       

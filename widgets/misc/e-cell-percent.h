@@ -45,7 +45,7 @@ typedef struct {
 	ECellTextClass parent_class;
 } ECellPercentClass;
 
-GtkType    e_cell_percent_get_type (void);
+GType      e_cell_percent_get_type (void);
 ECell     *e_cell_percent_new      (const char *fontname, GtkJustification justify);
 
 #endif /* _E_CELL_PERCENT_H_ */
