@@ -1,4 +1,9 @@
-2003-07-17  Michel DÃƒÂ¤nzer  <michel@daenzer.net>
+2003-07-25  Larry Ewing  <lewing@ximian.com>
+
+	* e-msg-composer.c (GNOME_GTKHTML_EDITOR_CONTROL_ID): require the
+	new composer control version.
+
+2003-07-17  Michel DŽÃƒŽÂŽ¤nzer  <michel@daenzer.net>
 
 	* e-msg-composer.c (autosave_manager_query_load_orphans): Set
 	default answer of dialog to 'yes' to try and prevent autosaved
