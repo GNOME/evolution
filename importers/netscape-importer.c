@@ -40,6 +40,7 @@
 #include <bonobo/bonobo-object.h>
 #include <bonobo/bonobo-generic-factory.h>
 #include <bonobo/bonobo-control.h>
+#include <bonobo/bonobo-context.h>
 
 #include <importer/evolution-intelligent-importer.h>
 #include <importer/GNOME_Evolution_Importer.h>
@@ -292,8 +293,8 @@ netscape_init_prefs (void)
 static void
 netscape_import_accounts (NetscapeImporter *importer)
 {
-	char *nstr;
-	char *imap;
+	const char *nstr;
+	const char *imap;
 	GNOME_Evolution_MailConfig_Account account;
 	GNOME_Evolution_MailConfig_Service source, transport;
 	GNOME_Evolution_MailConfig_Identity id;
@@ -332,7 +333,8 @@ netscape_import_accounts (NetscapeImporter *importer)
 	/* Create transport */
 	nstr = netscape_get_string ("network.hosts.smtp_server");
 	if (nstr != NULL) {
-		char *url, *nstr2;
+		char *url;
+		const char *nstr2;
 
 		nstr2 = netscape_get_string ("mail.smtp_name");
 		if (nstr2) {
@@ -365,7 +367,8 @@ netscape_import_accounts (NetscapeImporter *importer)
 	/* Create POP3 source */
 	nstr = netscape_get_string ("network.hosts.pop_server");
 	if (nstr != NULL && *nstr != 0) {
-		char *url, *nstr2;
+		char *url;
+		const char *nstr2;
 
 		nstr2 = netscape_get_string ("mail.pop_name");
 		if (nstr2) {
@@ -390,7 +393,8 @@ netscape_import_accounts (NetscapeImporter *importer)
 			servers = g_strsplit (imap, ",", 1024);
 			for (i = 0; servers[i] != NULL; i++) {
 				GNOME_Evolution_MailConfig_Service imapsource;
-				char *serverstr, *name, *url, *username;
+				char *serverstr, *name, *url;
+				const char *username;
 
 				g_warning ("i: %d", i);
 				/* Create a server for each of these */
@@ -520,7 +524,7 @@ importer_cb (EvolutionImporterListener *listener,
 		objref = bonobo_object_corba_objref (BONOBO_OBJECT (importer->listener));
 		GNOME_Evolution_Importer_processItem (importer->importer,
 						      objref, &ev);
-		if (ev._major != CORBA_OBJECT_NIL) {
+		if (ev._major != CORBA_NO_EXCEPTION) {
 			g_warning ("Exception: %s", CORBA_exception_id (&ev));
 			CORBA_exception_free (&ev);
 			return;
@@ -701,14 +705,13 @@ netscape_create_structure (EvolutionIntelligentImporter *ii,
 			   void *closure)
 {
 	NetscapeImporter *importer = closure;
-	NetscapeCreateDirectoryData *data;
 	char *key, *evolution_dir;
 
 	g_return_if_fail (nsmail_dir != NULL);
 
 	/* Reference our object so when the shell release_unrefs us
 	   we will still exist and not go byebye */
-	bonobo_object_ref (ii);
+	bonobo_object_ref (BONOBO_OBJECT (ii));
 
 	netscape_store_settings (importer);
 	evolution_dir = gnome_util_prepend_user_home ("evolution");
@@ -743,7 +746,7 @@ netscape_create_structure (EvolutionIntelligentImporter *ii,
 		/* Destroy it here if we weren't importing mail
 		   otherwise the mail importer destroys itself
 		   once the mail in imported */
-		bonobo_object_unref (ii);
+		bonobo_object_unref (BONOBO_OBJECT (ii));
 	}
 }
 
@@ -876,7 +879,7 @@ factory_fn (BonoboGenericFactory *_factory,
 static void
 importer_init (void)
 {
-	BonoboObject *factory;
+	BonoboGenericFactory *factory;
 
 	g_print ("Hi");
 	factory = bonobo_generic_factory_new (FACTORY_IID, factory_fn, NULL);

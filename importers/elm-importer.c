@@ -38,6 +38,7 @@
 
 #include <bonobo/bonobo-object.h>
 #include <bonobo/bonobo-control.h>
+#include <bonobo/bonobo-context.h>
 #include <bonobo/bonobo-generic-factory.h>
 #include <bonobo/bonobo-main.h>
 

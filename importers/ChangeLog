@@ -1,3 +1,25 @@
+2001-05-09  Christopher James Lahey  <clahey@ximian.com>
+
+	* elm-importer.c, netscape-importer.c, pine-importer.c: Include
+	bonobo-context.h.
+
+	* netscape-importer.c (netscape_import_accounts): Made a bunch of
+	const char *s here.
+	(importer_cb): Replaced CORBA_OBJECT_NIL with CORBA_NO_EXCEPTION
+	in a error check here.
+	(netscape_create_structure): Removed unused data variable here.
+	Added BONOBO_OBJECT casts.
+	(importer_init): Changed factory to be a BonoboGenericFactory *
+	instead of a BonoboObject *.
+
+	* pine-importer.c (import_addressfile): Changed signature to match
+	EBookCallback signature.  Added char *email variable.  Removed
+	EList since we only need to deal with one email for now.  Changed
+	this to not set the file as to the fullname.
+	(pine_can_import): Removed unused settings and addressbook
+	variables.
+	(pine_create_structure): Added BONOBO_OBJECT casts.
+
 2001-05-08  Iain Holmes  <iain@ximian.com>
 
 	* *: Added everything to CVS.

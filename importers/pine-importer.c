@@ -38,6 +38,7 @@
 #include <bonobo/bonobo-object.h>
 #include <bonobo/bonobo-generic-factory.h>
 #include <bonobo/bonobo-control.h>
+#include <bonobo/bonobo-context.h>
 #include <bonobo/bonobo-main.h>
 
 #include <importer/evolution-intelligent-importer.h>
@@ -218,11 +219,13 @@ parse_address (const char *address)
 static void
 import_addressfile (EBook *book,
 		    EBookStatus status,
-		    PineImporter *importer)
+		    gpointer user_data)
 {
 	char *addressbook;
 	FILE *handle;
 	char line[4096];
+
+	PineImporter *importer = user_data;
 
 	addressbook = gnome_util_prepend_user_home (".addressbook");
 	handle = fopen (addressbook, "r");
@@ -234,9 +237,8 @@ import_addressfile (EBook *book,
 	}
 
 	while (fgets (line, 4096, handle) != NULL) {
-		char *nick, *fullname, *address, *comment, *fcc;
+		char *nick, *fullname, *address, *comment, *fcc, *email = NULL;
 		char *start;
-		EList *emaillist = e_list_new (NULL, g_free, NULL);
 		gboolean distrib = FALSE;
 
 		start = line;
@@ -285,10 +287,9 @@ import_addressfile (EBook *book,
 				}
 			}
 		} else {
-			char *real = parse_address (address);
+			email = parse_address (address);
 
-			g_print ("Real address: %s", real);
-			e_list_append (emaillist, real);
+			g_print ("Real address: %s", email);
 		}
 
 		fcc = get_field (&start, handle);
@@ -304,12 +305,15 @@ import_addressfile (EBook *book,
 			ECard *card = e_card_new ("");
 			ECardSimple *simple = e_card_simple_new (card);
 
-			e_card_simple_set (simple, E_CARD_SIMPLE_FIELD_FILE_AS,
-					   fullname ? fullname : nick);
-			e_card_simple_set (simple, E_CARD_SIMPLE_FIELD_FULL_NAME,
-					   fullname);
+			if (fullname != NULL)
+				e_card_simple_set (simple, E_CARD_SIMPLE_FIELD_FULL_NAME,
+						   fullname);
+			else
+				e_card_simple_set (simple, E_CARD_SIMPLE_FIELD_FILE_AS,
+						   nick);
+
 			e_card_simple_set (simple, E_CARD_SIMPLE_FIELD_EMAIL,
-					   emaillist);
+					   email);
 			e_card_simple_set (simple, E_CARD_SIMPLE_FIELD_NOTE,
 					   comment);
 			e_card_simple_set (simple, E_CARD_SIMPLE_FIELD_NICKNAME,
@@ -418,7 +422,7 @@ pine_can_import (EvolutionIntelligentImporter *ii,
 {
 	PineImporter *importer = closure;
 	char *key, *maildir, *evolution_dir, *addrfile;
-	gboolean mail, settings, addressbook;
+	gboolean mail;
 	gboolean md_exists, addr_exists;
 
 	/* Already imported */
@@ -570,7 +574,7 @@ pine_create_structure (EvolutionIntelligentImporter *ii,
 	PineImporter *importer = closure;
 	char *maildir, *key, *evolution_dir;
 
-	bonobo_object_ref (ii);
+	bonobo_object_ref (BONOBO_OBJECT (ii));
 	pine_store_settings (importer);
 
 	evolution_dir = gnome_util_prepend_user_home ("evolution");
@@ -608,7 +612,7 @@ pine_create_structure (EvolutionIntelligentImporter *ii,
 		   once the mail is imported */
 
 		/* Hmmm, this needs fixed badly */
-		bonobo_object_unref (ii);
+		bonobo_object_unref (BONOBO_OBJECT (ii));
 	}
 }
 
