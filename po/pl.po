@@ -12,7 +12,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: evolution\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2004-01-30 08:10+0100\n"
+"POT-Creation-Date: 2004-01-31 18:06+0100\n"
 "PO-Revision-Date: 2004-01-28 14:18+0100\n"
 "Last-Translator: GNOME PL Team <translators@gnome.pl>\n"
 "Language-Team: Polish <translation-team-pl@lists.sourceforge.net>\n"
@@ -52,7 +52,6 @@ msgstr "Konfiguracja automatycznego uzupełniania"
 #. can not get name, should be a bug of e-book.Anyway, should set a default name.
 #.
 #. name = e_book_get_name (book);
-#. Create the contacts group
 #: addressbook/gui/component/GNOME_Evolution_Addressbook.server.in.in.h:4
 #: addressbook/tools/evolution-addressbook-export-list-folders.c:51
 #: calendar/gui/migration.c:362 mail/importers/netscape-importer.c:1844
@@ -205,7 +204,6 @@ msgid "On This Computer"
 msgstr "Na tym komputerze"
 
 #. Create the default Person addressbook
-#. orange
 #: addressbook/gui/component/addressbook-migrate.c:414
 #: calendar/gui/migration.c:433 calendar/gui/migration.c:510
 #: filter/filter-label.c:123 mail/em-migrate.c:925 mail/mail-config.c:65
@@ -902,7 +900,7 @@ msgstr "Współpraca"
 
 #. Construct the app
 #: addressbook/gui/contact-editor/contact-editor.glade.h:11
-#: addressbook/gui/contact-editor/e-contact-editor.c:2013
+#: addressbook/gui/contact-editor/e-contact-editor.c:2020
 msgid "Contact Editor"
 msgstr "Edytor kontaktów"
 
@@ -1053,8 +1051,8 @@ msgstr "Adres"
 #: addressbook/gui/contact-editor/e-contact-editor-address.c:103
 #: addressbook/gui/contact-editor/e-contact-editor-fullname.c:95
 #: addressbook/gui/contact-editor/e-contact-editor-im.c:139
-#: addressbook/gui/contact-editor/e-contact-editor.c:242
-#: addressbook/gui/contact-list-editor/e-contact-list-editor.c:183
+#: addressbook/gui/contact-editor/e-contact-editor.c:243
+#: addressbook/gui/contact-list-editor/e-contact-list-editor.c:168
 #: addressbook/gui/widgets/e-addressbook-model.c:312
 #: addressbook/gui/widgets/e-addressbook-reflow-adapter.c:392
 #: addressbook/gui/widgets/e-minicard-label.c:164
@@ -2037,7 +2035,7 @@ msgid "AOL Instant Messenger"
 msgstr "Komunikator internetowy AOL"
 
 #: addressbook/gui/contact-editor/e-contact-editor-im.c:63
-#: addressbook/gui/contact-editor/e-contact-editor.c:2837
+#: addressbook/gui/contact-editor/e-contact-editor.c:2844
 msgid "Jabber"
 msgstr "Jabber"
 
@@ -2050,12 +2048,12 @@ msgid "MSN Messenger"
 msgstr "Komunikator MSN"
 
 #: addressbook/gui/contact-editor/e-contact-editor-im.c:66
-#: addressbook/gui/contact-editor/e-contact-editor.c:2840
+#: addressbook/gui/contact-editor/e-contact-editor.c:2847
 msgid "ICQ"
 msgstr "ICQ"
 
 #: addressbook/gui/contact-editor/e-contact-editor-im.c:116
-#: addressbook/gui/contact-editor/e-contact-editor.c:710
+#: addressbook/gui/contact-editor/e-contact-editor.c:711
 msgid "Service"
 msgstr "Usługa"
 
@@ -2069,7 +2067,7 @@ msgid "Username"
 msgstr "Nazwa użytkownika"
 
 #: addressbook/gui/contact-editor/e-contact-editor-im.c:245
-#: addressbook/gui/contact-editor/e-contact-editor.c:2527
+#: addressbook/gui/contact-editor/e-contact-editor.c:2534
 msgid "Home"
 msgstr "Dom"
 
@@ -2081,55 +2079,55 @@ msgid "Work"
 msgstr "Praca"
 
 #: addressbook/gui/contact-editor/e-contact-editor-im.c:253
-#: addressbook/gui/contact-editor/e-contact-editor.c:2528
+#: addressbook/gui/contact-editor/e-contact-editor.c:2535
 msgid "Other"
 msgstr "Inne"
 
-#: addressbook/gui/contact-editor/e-contact-editor.c:207
+#: addressbook/gui/contact-editor/e-contact-editor.c:208
 msgid "Source Book"
 msgstr "Książka źródłowa"
 
-#: addressbook/gui/contact-editor/e-contact-editor.c:214
+#: addressbook/gui/contact-editor/e-contact-editor.c:215
 msgid "Target Book"
 msgstr "Książka docelowa"
 
-#: addressbook/gui/contact-editor/e-contact-editor.c:221
-#: addressbook/gui/contact-list-editor/e-contact-list-editor.c:169
+#: addressbook/gui/contact-editor/e-contact-editor.c:222
+#: addressbook/gui/contact-list-editor/e-contact-list-editor.c:154
 #: addressbook/gui/contact-list-editor/e-contact-list-editor.etspec.h:1
 #: addressbook/gui/widgets/e-minicard.c:189
 msgid "Contact"
 msgstr "Kontakt"
 
 # FIXME - trzeba zobaczyć czy jest dobrze
-#: addressbook/gui/contact-editor/e-contact-editor.c:228
+#: addressbook/gui/contact-editor/e-contact-editor.c:229
 msgid "Is New Contact"
 msgstr "Jest nowym kontaktem"
 
-#: addressbook/gui/contact-editor/e-contact-editor.c:235
+#: addressbook/gui/contact-editor/e-contact-editor.c:236
 msgid "Writable Fields"
 msgstr "Pola do zapisu"
 
-#: addressbook/gui/contact-editor/e-contact-editor.c:249
+#: addressbook/gui/contact-editor/e-contact-editor.c:250
 msgid "Changed"
 msgstr "Zmienione"
 
-#: addressbook/gui/contact-editor/e-contact-editor.c:724
+#: addressbook/gui/contact-editor/e-contact-editor.c:725
 msgid "Account Name"
 msgstr "Nazwa konta"
 
-#: addressbook/gui/contact-editor/e-contact-editor.c:1447
+#: addressbook/gui/contact-editor/e-contact-editor.c:1454
 msgid "Category editor not available."
 msgstr "Edytor kategorii nie jest dostępny."
 
-#: addressbook/gui/contact-editor/e-contact-editor.c:1455
+#: addressbook/gui/contact-editor/e-contact-editor.c:1462
 msgid "This contact belongs to these categories:"
 msgstr "Ten kontakt przynależy do następujących kategorii:"
 
-#: addressbook/gui/contact-editor/e-contact-editor.c:1678
+#: addressbook/gui/contact-editor/e-contact-editor.c:1685
 msgid "Save Contact as VCard"
 msgstr "Zapis kontaktu w formacie VCard"
 
-#: addressbook/gui/contact-editor/e-contact-editor.c:1718
+#: addressbook/gui/contact-editor/e-contact-editor.c:1725
 msgid ""
 "Are you sure you want\n"
 "to delete these contacts?"
@@ -2137,7 +2135,7 @@ msgstr ""
 "Czy na pewno chcesz\n"
 "usunąć te kontakty?"
 
-#: addressbook/gui/contact-editor/e-contact-editor.c:1721
+#: addressbook/gui/contact-editor/e-contact-editor.c:1728
 msgid ""
 "Are you sure you want\n"
 "to delete this contact?"
@@ -2145,23 +2143,23 @@ msgstr ""
 "Czy na pewno chcesz\n"
 "usunąć ten kontakt?"
 
-#: addressbook/gui/contact-editor/e-contact-editor.c:2526
+#: addressbook/gui/contact-editor/e-contact-editor.c:2533
 msgid "Business"
 msgstr "Praca"
 
-#: addressbook/gui/contact-editor/e-contact-editor.c:2836
+#: addressbook/gui/contact-editor/e-contact-editor.c:2843
 msgid "AIM"
 msgstr "AIM"
 
-#: addressbook/gui/contact-editor/e-contact-editor.c:2838
+#: addressbook/gui/contact-editor/e-contact-editor.c:2845
 msgid "Yahoo"
 msgstr "Yahoo"
 
-#: addressbook/gui/contact-editor/e-contact-editor.c:2839
+#: addressbook/gui/contact-editor/e-contact-editor.c:2846
 msgid "MSN"
 msgstr "MSN"
 
-#: addressbook/gui/contact-editor/e-contact-editor.c:3127
+#: addressbook/gui/contact-editor/e-contact-editor.c:3134
 #, c-format
 msgid "Could not find widget for a field: `%s'"
 msgstr "Nie można odnaleźć widgetu związanego z polem: \"%s\""
@@ -2321,7 +2319,7 @@ msgstr "_Wprowadź adres e-mail lub przeciągnij kontakt do poniższej listy:"
 msgid "contact-list-editor"
 msgstr "Edytor listy kontaktów"
 
-#: addressbook/gui/contact-list-editor/e-contact-list-editor.c:162
+#: addressbook/gui/contact-list-editor/e-contact-list-editor.c:147
 #: addressbook/gui/widgets/e-addressbook-model.c:298
 #: addressbook/gui/widgets/e-addressbook-reflow-adapter.c:378
 #: addressbook/gui/widgets/e-addressbook-view.c:206
@@ -2330,16 +2328,16 @@ msgstr "Edytor listy kontaktów"
 msgid "Book"
 msgstr "Książka"
 
-#: addressbook/gui/contact-list-editor/e-contact-list-editor.c:176
+#: addressbook/gui/contact-list-editor/e-contact-list-editor.c:161
 msgid "Is New List"
 msgstr "Jest nową listą"
 
 #. Construct the app
-#: addressbook/gui/contact-list-editor/e-contact-list-editor.c:272
+#: addressbook/gui/contact-list-editor/e-contact-list-editor.c:247
 msgid "Contact List Editor"
 msgstr "Edytor listy kontaktów"
 
-#: addressbook/gui/contact-list-editor/e-contact-list-editor.c:502
+#: addressbook/gui/contact-list-editor/e-contact-list-editor.c:465
 msgid "Save List as VCard"
 msgstr "Zapisz listę w formacie VCard"
 
@@ -2831,11 +2829,11 @@ msgstr "Witryna domowa"
 msgid "Blog"
 msgstr "Blog"
 
-#: addressbook/gui/widgets/eab-gui-util.c:45
+#: addressbook/gui/widgets/eab-gui-util.c:46
 msgid "Success"
 msgstr "Sukces"
 
-#: addressbook/gui/widgets/eab-gui-util.c:46
+#: addressbook/gui/widgets/eab-gui-util.c:47
 #: camel/providers/imap/camel-imap-command.c:306
 #: camel/providers/imap/camel-imap-command.c:403
 #: camel/providers/pop3/camel-pop3-store.c:540
@@ -2843,27 +2841,27 @@ msgstr "Sukces"
 msgid "Unknown error"
 msgstr "Nieznany błąd"
 
-#: addressbook/gui/widgets/eab-gui-util.c:47
+#: addressbook/gui/widgets/eab-gui-util.c:48
 msgid "Repository offline"
 msgstr "Repozytorium rozłączone"
 
-#: addressbook/gui/widgets/eab-gui-util.c:48
+#: addressbook/gui/widgets/eab-gui-util.c:49
 msgid "Permission denied"
 msgstr "Brak uprawnień"
 
-#: addressbook/gui/widgets/eab-gui-util.c:49
+#: addressbook/gui/widgets/eab-gui-util.c:50
 msgid "Contact not found"
 msgstr "Nie odnaleziono kontaktu"
 
-#: addressbook/gui/widgets/eab-gui-util.c:50
+#: addressbook/gui/widgets/eab-gui-util.c:51
 msgid "Contact ID already exists"
 msgstr "Kontakt z tym ID już istnieje"
 
-#: addressbook/gui/widgets/eab-gui-util.c:51
+#: addressbook/gui/widgets/eab-gui-util.c:52
 msgid "Protocol not supported"
 msgstr "Protokół nie jest obsługiwany"
 
-#: addressbook/gui/widgets/eab-gui-util.c:52
+#: addressbook/gui/widgets/eab-gui-util.c:53
 #: calendar/gui/dialogs/task-details-page.glade.h:3
 #: calendar/gui/e-cal-model-tasks.c:325 calendar/gui/e-cal-model-tasks.c:599
 #: calendar/gui/e-calendar-table.c:467 calendar/gui/e-tasks.c:213
@@ -2874,61 +2872,61 @@ msgstr "Protokół nie jest obsługiwany"
 msgid "Cancelled"
 msgstr "Anulowano"
 
-#: addressbook/gui/widgets/eab-gui-util.c:53
+#: addressbook/gui/widgets/eab-gui-util.c:54
 msgid "Authentication Failed"
 msgstr "Uwierzytelnienie nie powiodło się"
 
-#: addressbook/gui/widgets/eab-gui-util.c:54
+#: addressbook/gui/widgets/eab-gui-util.c:55
 msgid "Authentication Required"
 msgstr "Wymagane uwierzytelnienie"
 
-#: addressbook/gui/widgets/eab-gui-util.c:55
+#: addressbook/gui/widgets/eab-gui-util.c:56
 msgid "TLS not Available"
 msgstr "TLS nie jest dostępny"
 
-#: addressbook/gui/widgets/eab-gui-util.c:56
+#: addressbook/gui/widgets/eab-gui-util.c:57
 msgid "Addressbook does not exist"
 msgstr "Książka adresowa nie istnieje"
 
-#: addressbook/gui/widgets/eab-gui-util.c:57
+#: addressbook/gui/widgets/eab-gui-util.c:58
 msgid "Other error"
 msgstr "Inny błąd"
 
-#: addressbook/gui/widgets/eab-gui-util.c:84
+#: addressbook/gui/widgets/eab-gui-util.c:85
 msgid "Do you want to save changes?"
 msgstr "Czy chcesz zapisać zmiany?"
 
-#: addressbook/gui/widgets/eab-gui-util.c:86
+#: addressbook/gui/widgets/eab-gui-util.c:87
 msgid "_Discard"
 msgstr "_Porzuć"
 
-#: addressbook/gui/widgets/eab-gui-util.c:105
+#: addressbook/gui/widgets/eab-gui-util.c:106
 msgid "Error adding list"
 msgstr "Błąd przy dodawaniu listy"
 
-#: addressbook/gui/widgets/eab-gui-util.c:105
-#: addressbook/gui/widgets/eab-gui-util.c:523
+#: addressbook/gui/widgets/eab-gui-util.c:106
+#: addressbook/gui/widgets/eab-gui-util.c:524
 msgid "Error adding contact"
 msgstr "Błąd przy dodawaniu kontaktu"
 
-#: addressbook/gui/widgets/eab-gui-util.c:114
+#: addressbook/gui/widgets/eab-gui-util.c:115
 msgid "Error modifying list"
 msgstr "Błąd przy modyfikacji listy"
 
-#: addressbook/gui/widgets/eab-gui-util.c:114
+#: addressbook/gui/widgets/eab-gui-util.c:115
 msgid "Error modifying contact"
 msgstr "Błąd przy modyfikacji kontaktu"
 
-#: addressbook/gui/widgets/eab-gui-util.c:124
+#: addressbook/gui/widgets/eab-gui-util.c:125
 msgid "Error removing list"
 msgstr "Błąd przy usuwaniu listy"
 
-#: addressbook/gui/widgets/eab-gui-util.c:124
-#: addressbook/gui/widgets/eab-gui-util.c:481
+#: addressbook/gui/widgets/eab-gui-util.c:125
+#: addressbook/gui/widgets/eab-gui-util.c:482
 msgid "Error removing contact"
 msgstr "Błąd przy usuwaniu kontaktu"
 
-#: addressbook/gui/widgets/eab-gui-util.c:206
+#: addressbook/gui/widgets/eab-gui-util.c:207
 #, c-format
 msgid ""
 "Opening %d contacts will open %d new windows as well.\n"
@@ -2937,7 +2935,7 @@ msgstr ""
 "Otwarcie %d kontakwó spowoduje jednoczesne otwarcie %d nowych okien.\n"
 "Czy na pewno chcesz wyświetlić te wszystkie kontakty?"
 
-#: addressbook/gui/widgets/eab-gui-util.c:232
+#: addressbook/gui/widgets/eab-gui-util.c:233
 #, c-format
 msgid ""
 "%s already exists\n"
@@ -2946,50 +2944,50 @@ msgstr ""
 "%s istnieje.\n"
 "Czy chcesz go nadpisać?"
 
-#: addressbook/gui/widgets/eab-gui-util.c:236
+#: addressbook/gui/widgets/eab-gui-util.c:237
 msgid "Overwrite"
 msgstr "Nadpisz"
 
-#: addressbook/gui/widgets/eab-gui-util.c:272
+#: addressbook/gui/widgets/eab-gui-util.c:273
 #, c-format
 msgid "Error saving %s: %s"
 msgstr "Błąd przy zapisie %s: %s"
 
 #. This is a filename. Translators take note.
-#: addressbook/gui/widgets/eab-gui-util.c:309
+#: addressbook/gui/widgets/eab-gui-util.c:310
 msgid "card.vcf"
 msgstr "karta.vcf"
 
-#: addressbook/gui/widgets/eab-gui-util.c:442
+#: addressbook/gui/widgets/eab-gui-util.c:443
 msgid "list"
 msgstr "lista"
 
-#: addressbook/gui/widgets/eab-gui-util.c:577
+#: addressbook/gui/widgets/eab-gui-util.c:578
 msgid "Move contact to"
 msgstr "Przeniesienie kontaktu do"
 
-#: addressbook/gui/widgets/eab-gui-util.c:579
+#: addressbook/gui/widgets/eab-gui-util.c:580
 msgid "Copy contact to"
 msgstr "Skopiowanie kontaktu do"
 
-#: addressbook/gui/widgets/eab-gui-util.c:582
+#: addressbook/gui/widgets/eab-gui-util.c:583
 msgid "Move contacts to"
 msgstr "Przeniesienie kontaktów do"
 
-#: addressbook/gui/widgets/eab-gui-util.c:584
+#: addressbook/gui/widgets/eab-gui-util.c:585
 msgid "Copy contacts to"
 msgstr "Skopiowanie kontaktów do"
 
 # FIXME - albo wybierz 
-#: addressbook/gui/widgets/eab-gui-util.c:587
+#: addressbook/gui/widgets/eab-gui-util.c:588
 msgid "Select target addressbook."
 msgstr "Wybór docelowej książki adresowej."
 
-#: addressbook/gui/widgets/eab-gui-util.c:766
+#: addressbook/gui/widgets/eab-gui-util.c:767
 msgid "Multiple VCards"
 msgstr "Plik VCard z wieloma pozycjami"
 
-#: addressbook/gui/widgets/eab-gui-util.c:769
+#: addressbook/gui/widgets/eab-gui-util.c:770
 #, c-format
 msgid "VCard for %s"
 msgstr "Plik VCard z pozycją %s"
@@ -3063,17 +3061,17 @@ msgstr "Widok karty"
 msgid "GTK Tree View"
 msgstr "Widok drzewiasty GTK"
 
-#: addressbook/gui/widgets/test-reflow.c:119
+#: addressbook/gui/widgets/test-reflow.c:106
 msgid "Reflow Test"
 msgstr "Test przeformatowania"
 
-#: addressbook/gui/widgets/test-reflow.c:120
+#: addressbook/gui/widgets/test-reflow.c:107
 #: addressbook/printing/test-contact-print-style-editor.c:54
 #: addressbook/printing/test-print.c:53
 msgid "Copyright (C) 2000, Ximian, Inc."
 msgstr "Copyright (C) 2000, Ximian, Inc."
 
-#: addressbook/gui/widgets/test-reflow.c:122
+#: addressbook/gui/widgets/test-reflow.c:109
 msgid "This should test the reflow canvas item"
 msgstr "Powinno to przetestować element przeformatowania"
 
@@ -3747,10 +3745,6 @@ msgstr "%A %d %B %Y"
 
 #. strftime format %a = abbreviated weekday name, %d = day of month,
 #. %b = abbreviated month name. Don't use any other specifiers.
-#. strftime format %a = abbreviated weekday name,
-#. %d = day of month, %b = abbreviated month name.
-#. You can change the order but don't change the
-#. specifiers or add anything.
 #: calendar/gui/calendar-commands.c:434 calendar/gui/e-day-view-top-item.c:692
 #: calendar/gui/e-day-view.c:1365 calendar/gui/e-week-view-main-item.c:329
 msgid "%a %d %b"
@@ -4835,11 +4829,6 @@ msgid "_Start time:"
 msgstr "Cza_s rozpoczęcia:"
 
 #. an empty string is the same as 'None'
-#. add a "None" option to the stores menu
-#. Put the "None" and "UTC" entries at the top of the combo's list.
-#. When "None" is selected we want the field to be cleared.
-#. Note that we don't show this here, since by default a 'None' date
-#. is not permitted.
 #: calendar/gui/dialogs/meeting-page.c:311
 #: calendar/gui/dialogs/meeting-page.glade.h:3
 #: calendar/gui/e-cal-model-tasks.c:591 composer/e-msg-composer.c:2084
@@ -5165,8 +5154,7 @@ msgstr "% _ukończone"
 
 #: calendar/gui/dialogs/task-details-page.glade.h:4
 #: calendar/gui/e-cal-model-tasks.c:323 calendar/gui/e-cal-model-tasks.c:597
-#: calendar/gui/e-calendar-table.c:466 calendar/gui/e-meeting-model.c:289
-#: calendar/gui/e-meeting-model.c:312 calendar/gui/e-meeting-store.c:187
+#: calendar/gui/e-calendar-table.c:466 calendar/gui/e-meeting-store.c:187
 #: calendar/gui/e-meeting-store.c:210 calendar/gui/e-tasks.c:210
 #: calendar/gui/print.c:2346
 msgid "Completed"
@@ -5490,16 +5478,13 @@ msgstr ""
 "45.436845,125.862501"
 
 #: calendar/gui/e-cal-model-tasks.c:932 calendar/gui/e-cal-model.c:841
-#: calendar/gui/e-meeting-list-view.c:168 calendar/gui/e-meeting-model.c:261
-#: calendar/gui/e-meeting-model.c:271 calendar/gui/e-meeting-model.c:529
-#: calendar/gui/e-meeting-model.c:782 calendar/gui/e-meeting-store.c:159
+#: calendar/gui/e-meeting-list-view.c:168 calendar/gui/e-meeting-store.c:159
 #: calendar/gui/e-meeting-store.c:169 calendar/gui/e-meeting-store.c:765
 msgid "Yes"
 msgstr "Tak"
 
 #: calendar/gui/e-cal-model-tasks.c:932 calendar/gui/e-cal-model.c:841
-#: calendar/gui/e-meeting-list-view.c:169 calendar/gui/e-meeting-model.c:273
-#: calendar/gui/e-meeting-model.c:783 calendar/gui/e-meeting-store.c:171
+#: calendar/gui/e-meeting-list-view.c:169 calendar/gui/e-meeting-store.c:171
 msgid "No"
 msgstr "Nie"
 
@@ -5507,12 +5492,10 @@ msgstr "Nie"
 #: calendar/gui/e-cal-model.c:296 calendar/gui/e-cal-model.c:299
 #: calendar/gui/e-itip-control.c:979 calendar/gui/e-itip-control.c:1181
 #: calendar/gui/e-meeting-list-view.c:144
-#: calendar/gui/e-meeting-list-view.c:158 calendar/gui/e-meeting-model.c:217
-#: calendar/gui/e-meeting-model.c:252 calendar/gui/e-meeting-model.c:317
-#: calendar/gui/e-meeting-model.c:754 calendar/gui/e-meeting-model.c:770
-#: calendar/gui/e-meeting-store.c:115 calendar/gui/e-meeting-store.c:150
-#: calendar/gui/e-meeting-store.c:215 camel/camel-gpg-context.c:1664
-#: camel/camel-gpg-context.c:1715 camel/camel-tcp-stream-openssl.c:631
+#: calendar/gui/e-meeting-list-view.c:158 calendar/gui/e-meeting-store.c:115
+#: calendar/gui/e-meeting-store.c:150 calendar/gui/e-meeting-store.c:215
+#: camel/camel-gpg-context.c:1664 camel/camel-gpg-context.c:1715
+#: camel/camel-tcp-stream-openssl.c:631
 #: camel/providers/smtp/camel-smtp-transport.c:172
 #: camel/providers/smtp/camel-smtp-transport.c:227 mail/em-utils.c:2096
 #: shell/e-component-registry.c:164 widgets/misc/e-charset-picker.c:60
@@ -5735,20 +5718,12 @@ msgid "URL"
 msgstr "URL"
 
 #. strftime format of a weekday, a date and a time, 24-hour.
-#. strptime format of a weekday, a date and a time,
-#. in 24-hour format.
-#. strftime format of a weekday, a date and a
-#. time, in 24-hour format.
 #: calendar/gui/e-cell-date-edit-text.c:117 e-util/e-time-utils.c:180
 #: e-util/e-time-utils.c:393
 msgid "%a %m/%d/%Y %H:%M:%S"
 msgstr "%a %d/%m/%Y %H:%M:%S"
 
 #. strftime format of a weekday, a date and a time, 12-hour.
-#. strptime format of a weekday, a date and a time,
-#. in 12-hour format.
-#. strftime format of a weekday, a date and a
-#. time, in 12-hour format.
 #: calendar/gui/e-cell-date-edit-text.c:120 e-util/e-time-utils.c:175
 #: e-util/e-time-utils.c:402
 msgid "%a %m/%d/%Y %I:%M:%S %p"
@@ -5772,10 +5747,6 @@ msgstr "%02i-minutowe przedziały czasu"
 
 #. strftime format %A = full weekday name, %d = day of month,
 #. %B = full month name. Don't use any other specifiers.
-#. strftime format %A = full weekday name, %d = day of
-#. month, %B = full month name. You can change the
-#. order but don't change the specifiers or add
-#. anything.
 #: calendar/gui/e-day-view-top-item.c:688 calendar/gui/e-day-view.c:1348
 #: calendar/gui/e-week-view-main-item.c:320 calendar/gui/print.c:1519
 msgid "%A %d %B"
@@ -5783,9 +5754,6 @@ msgstr "%A %d %B"
 
 #. strftime format %d = day of month, %b = abbreviated month name.
 #. Don't use any other specifiers.
-#. strftime format %d = day of month, %b = abbreviated
-#. month name. You can change the order but don't
-#. change the specifiers or add anything.
 #: calendar/gui/e-day-view-top-item.c:696 calendar/gui/e-day-view.c:1381
 #: calendar/gui/e-week-view-main-item.c:343
 msgid "%d %b"
@@ -5905,6 +5873,7 @@ msgstr "Błąd iKalendarza"
 msgid "An unknown person"
 msgstr "Nieznana osoba"
 
+#. Describe what the user can do
 #: calendar/gui/e-itip-control.c:922
 msgid ""
 "<br> Please review the following information, and then select an action from "
@@ -5923,9 +5892,8 @@ msgid "Status:"
 msgstr "Stan:"
 
 #: calendar/gui/e-itip-control.c:967 calendar/gui/e-meeting-list-view.c:180
-#: calendar/gui/e-meeting-model.c:281 calendar/gui/e-meeting-model.c:304
-#: calendar/gui/e-meeting-model.c:796 calendar/gui/e-meeting-store.c:179
-#: calendar/gui/e-meeting-store.c:202 calendar/gui/itip-utils.c:422
+#: calendar/gui/e-meeting-store.c:179 calendar/gui/e-meeting-store.c:202
+#: calendar/gui/itip-utils.c:422
 msgid "Accepted"
 msgstr "Zaakceptowane"
 
@@ -5934,10 +5902,8 @@ msgid "Tentatively Accepted"
 msgstr "Próbna akceptacja"
 
 #: calendar/gui/e-itip-control.c:975 calendar/gui/e-meeting-list-view.c:181
-#: calendar/gui/e-meeting-model.c:283 calendar/gui/e-meeting-model.c:306
-#: calendar/gui/e-meeting-model.c:797 calendar/gui/e-meeting-store.c:181
-#: calendar/gui/e-meeting-store.c:204 calendar/gui/itip-utils.c:428
-#: calendar/gui/itip-utils.c:454
+#: calendar/gui/e-meeting-store.c:181 calendar/gui/e-meeting-store.c:204
+#: calendar/gui/itip-utils.c:428 calendar/gui/itip-utils.c:454
 msgid "Declined"
 msgstr "Odrzucone"
 
@@ -6264,95 +6230,78 @@ msgstr "data-początkowa"
 msgid "date-start"
 msgstr "data-końcowa"
 
-#: calendar/gui/e-meeting-list-view.c:62 calendar/gui/e-meeting-model.c:77
+#: calendar/gui/e-meeting-list-view.c:62
 msgid "Chair Persons"
 msgstr "Osoby przewodniczące"
 
 #: calendar/gui/e-meeting-list-view.c:63
-#: calendar/gui/e-meeting-list-view.c:479 calendar/gui/e-meeting-model.c:78
-#: calendar/gui/e-meeting-model.c:1635
+#: calendar/gui/e-meeting-list-view.c:479
 msgid "Required Participants"
 msgstr "Wymagani uczestnicy"
 
-#: calendar/gui/e-meeting-list-view.c:64 calendar/gui/e-meeting-model.c:79
+#: calendar/gui/e-meeting-list-view.c:64
 msgid "Optional Participants"
 msgstr "Opcjonalni uczestnicy"
 
-#: calendar/gui/e-meeting-list-view.c:65 calendar/gui/e-meeting-model.c:80
+#: calendar/gui/e-meeting-list-view.c:65
 msgid "Resources"
 msgstr "Zasoby"
 
-#: calendar/gui/e-meeting-list-view.c:140 calendar/gui/e-meeting-model.c:192
-#: calendar/gui/e-meeting-model.c:209 calendar/gui/e-meeting-model.c:525
-#: calendar/gui/e-meeting-model.c:750 calendar/gui/e-meeting-store.c:90
+#: calendar/gui/e-meeting-list-view.c:140 calendar/gui/e-meeting-store.c:90
 #: calendar/gui/e-meeting-store.c:107 calendar/gui/e-meeting-store.c:759
 msgid "Individual"
 msgstr "Osoba"
 
-#: calendar/gui/e-meeting-list-view.c:141 calendar/gui/e-meeting-model.c:194
-#: calendar/gui/e-meeting-model.c:211 calendar/gui/e-meeting-model.c:751
-#: calendar/gui/e-meeting-store.c:92 calendar/gui/e-meeting-store.c:109
+#: calendar/gui/e-meeting-list-view.c:141 calendar/gui/e-meeting-store.c:92
+#: calendar/gui/e-meeting-store.c:109
 msgid "Group"
 msgstr "Grupa"
 
-#: calendar/gui/e-meeting-list-view.c:142 calendar/gui/e-meeting-model.c:196
-#: calendar/gui/e-meeting-model.c:213 calendar/gui/e-meeting-model.c:752
-#: calendar/gui/e-meeting-store.c:94 calendar/gui/e-meeting-store.c:111
+#: calendar/gui/e-meeting-list-view.c:142 calendar/gui/e-meeting-store.c:94
+#: calendar/gui/e-meeting-store.c:111
 msgid "Resource"
 msgstr "Zasób"
 
-#: calendar/gui/e-meeting-list-view.c:143 calendar/gui/e-meeting-model.c:198
-#: calendar/gui/e-meeting-model.c:215 calendar/gui/e-meeting-model.c:753
-#: calendar/gui/e-meeting-store.c:96 calendar/gui/e-meeting-store.c:113
+#: calendar/gui/e-meeting-list-view.c:143 calendar/gui/e-meeting-store.c:96
+#: calendar/gui/e-meeting-store.c:113
 msgid "Room"
 msgstr "Pomieszczenie"
 
-#: calendar/gui/e-meeting-list-view.c:154 calendar/gui/e-meeting-model.c:227
-#: calendar/gui/e-meeting-model.c:244 calendar/gui/e-meeting-model.c:766
-#: calendar/gui/e-meeting-store.c:125 calendar/gui/e-meeting-store.c:142
+#: calendar/gui/e-meeting-list-view.c:154 calendar/gui/e-meeting-store.c:125
+#: calendar/gui/e-meeting-store.c:142
 msgid "Chair"
 msgstr "Przewodniczenie"
 
-#: calendar/gui/e-meeting-list-view.c:155 calendar/gui/e-meeting-model.c:229
-#: calendar/gui/e-meeting-model.c:246 calendar/gui/e-meeting-model.c:527
-#: calendar/gui/e-meeting-model.c:767 calendar/gui/e-meeting-store.c:127
+#: calendar/gui/e-meeting-list-view.c:155 calendar/gui/e-meeting-store.c:127
 #: calendar/gui/e-meeting-store.c:144 calendar/gui/e-meeting-store.c:762
 msgid "Required Participant"
 msgstr "Wymagany uczestnik"
 
-#: calendar/gui/e-meeting-list-view.c:156 calendar/gui/e-meeting-model.c:231
-#: calendar/gui/e-meeting-model.c:248 calendar/gui/e-meeting-model.c:768
-#: calendar/gui/e-meeting-store.c:129 calendar/gui/e-meeting-store.c:146
+#: calendar/gui/e-meeting-list-view.c:156 calendar/gui/e-meeting-store.c:129
+#: calendar/gui/e-meeting-store.c:146
 msgid "Optional Participant"
 msgstr "Opcjonalny uczestnik"
 
-#: calendar/gui/e-meeting-list-view.c:157 calendar/gui/e-meeting-model.c:233
-#: calendar/gui/e-meeting-model.c:250 calendar/gui/e-meeting-model.c:769
-#: calendar/gui/e-meeting-store.c:131 calendar/gui/e-meeting-store.c:148
+#: calendar/gui/e-meeting-list-view.c:157 calendar/gui/e-meeting-store.c:131
+#: calendar/gui/e-meeting-store.c:148
 msgid "Non-Participant"
 msgstr "Nie uczestnik"
 
-#: calendar/gui/e-meeting-list-view.c:179 calendar/gui/e-meeting-model.c:279
-#: calendar/gui/e-meeting-model.c:302 calendar/gui/e-meeting-model.c:535
-#: calendar/gui/e-meeting-model.c:795 calendar/gui/e-meeting-store.c:177
+#: calendar/gui/e-meeting-list-view.c:179 calendar/gui/e-meeting-store.c:177
 #: calendar/gui/e-meeting-store.c:200 calendar/gui/e-meeting-store.c:772
 msgid "Needs Action"
 msgstr "Wymaga działania"
 
-#: calendar/gui/e-meeting-list-view.c:182 calendar/gui/e-meeting-model.c:285
-#: calendar/gui/e-meeting-model.c:308 calendar/gui/e-meeting-model.c:798
-#: calendar/gui/e-meeting-store.c:183 calendar/gui/e-meeting-store.c:206
-#: calendar/gui/e-meeting-time-sel.c:398
+#: calendar/gui/e-meeting-list-view.c:182 calendar/gui/e-meeting-store.c:183
+#: calendar/gui/e-meeting-store.c:206 calendar/gui/e-meeting-time-sel.c:398
 msgid "Tentative"
 msgstr "Próbne"
 
-#: calendar/gui/e-meeting-list-view.c:183 calendar/gui/e-meeting-model.c:287
-#: calendar/gui/e-meeting-model.c:310 calendar/gui/e-meeting-model.c:799
-#: calendar/gui/e-meeting-store.c:185 calendar/gui/e-meeting-store.c:208
+#: calendar/gui/e-meeting-list-view.c:183 calendar/gui/e-meeting-store.c:185
+#: calendar/gui/e-meeting-store.c:208
 msgid "Delegated"
 msgstr "Oddelegowane"
 
-#: calendar/gui/e-meeting-model.c:291 calendar/gui/e-meeting-model.c:314
 #: calendar/gui/e-meeting-store.c:189 calendar/gui/e-meeting-store.c:212
 msgid "In Process"
 msgstr "W toku"
@@ -6366,10 +6315,6 @@ msgstr "%A, %d %B, %Y"
 
 #. This is a strftime() format string %a = abbreviated weekday
 #. name, %m = month number, %d = month day, %Y = full year.
-#. This is a strftime() format string %a = abbreviated weekday name,
-#. %m = month number, %d = month day, %Y = full year.
-#. strptime format of a weekday and a date.
-#. strftime format of a weekday and a date.
 #: calendar/gui/e-meeting-time-sel-item.c:456
 #: calendar/gui/e-meeting-time-sel.c:2093 e-util/e-time-utils.c:203
 #: e-util/e-time-utils.c:296 e-util/e-time-utils.c:384
@@ -6378,10 +6323,6 @@ msgstr "%a %d/%m/%Y"
 
 #. This is a strftime() format string %m = month number,
 #. %d = month day, %Y = full year.
-#. strptime format of a weekday and a date.
-#. This is the preferred date format for the locale.
-#. This is a strftime() format for a short date. %m = month,
-#. %d = day of month, %Y = year (all digits).
 #: calendar/gui/e-meeting-time-sel-item.c:460 e-util/e-time-utils.c:238
 #: e-util/e-time-utils.c:299 widgets/misc/e-dateedit.c:1606
 msgid "%m/%d/%Y"
@@ -9713,7 +9654,7 @@ msgid "Novell GroupWise"
 msgstr "Novell GroupWise"
 
 #: camel/providers/groupwise/camel-groupwise-provider.c:85
-msgid "For accesing Novell Groupwise servers"
+msgid "For accessing Novell Groupwise servers"
 msgstr "Dla dostępu do serwerów Novell GroupWise"
 
 #: camel/providers/groupwise/camel-groupwise-provider.c:100
@@ -11737,16 +11678,12 @@ msgstr "Kategorie synchronizacji:"
 
 #. strptime format of a weekday, a date and a time,
 #. in 12-hour format, without seconds.
-#. strftime format of a weekday, a date and a
-#. time, in 12-hour format, without seconds.
 #: e-util/e-time-utils.c:185 e-util/e-time-utils.c:398
 msgid "%a %m/%d/%Y %I:%M %p"
 msgstr "%a %d/%m/%Y %I:%M %p"
 
 #. strptime format of a weekday, a date and a time,
 #. in 24-hour format, without seconds.
-#. strftime format of a weekday, a date and a
-#. time, in 24-hour format, without seconds.
 #: e-util/e-time-utils.c:190 e-util/e-time-utils.c:389
 msgid "%a %m/%d/%Y %H:%M"
 msgstr "%a %d/%m/%Y %H:%M"
@@ -11798,31 +11735,23 @@ msgid "%m/%d/%Y %H"
 msgstr "%d/%m/%Y %H"
 
 #. strptime format for a time of day, in 12-hour format.
-#. strftime format of a time in 12-hour format.
 #: e-util/e-time-utils.c:339 e-util/e-time-utils.c:438
 msgid "%I:%M:%S %p"
 msgstr "%I:%M:%S %p"
 
 #. strptime format for a time of day, in 24-hour format.
-#. strftime format of a time in 24-hour format.
 #: e-util/e-time-utils.c:343 e-util/e-time-utils.c:430
 msgid "%H:%M:%S"
 msgstr "%H:%M:%S"
 
 #. strptime format for time of day, without seconds,
 #. in 12-hour format.
-#. strftime format of a time in 12-hour format,
-#. without seconds.
-#. This is a strftime() format. %I = hour (1-12), %M = minute, %p = am/pm string.
 #: e-util/e-time-utils.c:348 e-util/e-time-utils.c:435
 #: widgets/misc/e-dateedit.c:1416 widgets/misc/e-dateedit.c:1641
 msgid "%I:%M %p"
 msgstr "%I:%M %p"
 
 #. strptime format for time of day, without seconds 24-hour format.
-#. strftime format of a time in 24-hour format,
-#. without seconds.
-#. This is a strftime() format. %H = hour (0-23), %M = minute.
 #: e-util/e-time-utils.c:352 e-util/e-time-utils.c:427
 #: widgets/misc/e-dateedit.c:1413 widgets/misc/e-dateedit.c:1638
 msgid "%H:%M"
@@ -12476,7 +12405,7 @@ msgstr "Przeglądarka folderu pocztowego Evolution"
 msgid "Evolution Mail preferences control"
 msgstr "Kontrola preferencji poczty Evolution"
 
-#: mail/GNOME_Evolution_Mail.server.in.in.h:12 mail/em-folder-browser.c:805
+#: mail/GNOME_Evolution_Mail.server.in.in.h:12 mail/em-folder-browser.c:811
 #: mail/importers/elm-importer.c:526 mail/importers/netscape-importer.c:2085
 #: mail/importers/pine-importer.c:572
 msgid "Mail"
@@ -12614,46 +12543,46 @@ msgid "Folder _name:"
 msgstr "_Nazwa folderu:"
 
 #. On This Computer is always first and VFolders is always last
-#: mail/em-folder-tree-model.c:199 mail/em-folder-tree-model.c:201
+#: mail/em-folder-tree-model.c:201 mail/em-folder-tree-model.c:203
 #: mail/mail-component.c:164
 msgid "On this Computer"
 msgstr "Na tym komputerze"
 
-#: mail/em-folder-tree-model.c:203 mail/em-folder-tree-model.c:205
+#: mail/em-folder-tree-model.c:205 mail/em-folder-tree-model.c:207
 #: mail/mail-vfolder.c:826
 msgid "VFolders"
 msgstr "VFoldery"
 
-#: mail/em-folder-tree-model.c:213 mail/em-folder-tree-model.c:215
+#: mail/em-folder-tree-model.c:215 mail/em-folder-tree-model.c:217
 msgid "UNMATCHED"
 msgstr "NIEPASUJĄCE"
 
 #. Inbox is always first
-#: mail/em-folder-tree-model.c:241 mail/em-folder-tree-model.c:243
+#: mail/em-folder-tree-model.c:243 mail/em-folder-tree-model.c:245
 #: shell/e-shortcuts.c:1085
 msgid "Inbox"
 msgstr "Nadchodzące"
 
-#: mail/em-folder-tree-model.c:427 mail/em-folder-tree-model.c:705
+#: mail/em-folder-tree-model.c:488 mail/em-folder-tree-model.c:771
 msgid "Loading..."
 msgstr "Wczytywanie..."
 
-#: mail/em-folder-tree-model.c:1272 mail/em-utils.c:2087
+#: mail/em-folder-tree-model.c:1339 mail/em-utils.c:2087
 #, c-format
 msgid "Could not create temporary directory: %s"
 msgstr "Nie można utworzyć katalogu tymczasowego: %s"
 
-#: mail/em-folder-tree-model.c:1281
+#: mail/em-folder-tree-model.c:1348
 #, c-format
 msgid "Could not create temporary mbox store: %s"
 msgstr "Nie można utworzyć tymczasowego magazynu mbox: %s"
 
-#: mail/em-folder-tree-model.c:1290
+#: mail/em-folder-tree-model.c:1357
 #, c-format
 msgid "Could not create temporary mbox folder: %s"
 msgstr "Nie można utworzyć tymczasowego folderu mbox: %s"
 
-#: mail/em-folder-tree-model.c:1305
+#: mail/em-folder-tree-model.c:1372
 #, c-format
 msgid "Could not copy messages to temporary mbox folder: %s"
 msgstr "Nie można skopiować wiadomości do tymczasowego folderu mbox: %s"
@@ -16184,8 +16113,9 @@ msgstr "Evolution"
 msgid "Evolution is now exiting ..."
 msgstr "Evolution kończy pracę..."
 
+#. Preview/Alpha/Beta version warning message
 #: shell/main.c:275
-#, c-format
+#, no-c-format
 msgid ""
 "Hi.  Thanks for taking the time to download this preview release\n"
 "of the Ximian Evolution groupware suite.\n"
