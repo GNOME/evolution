@@ -14,6 +14,7 @@
 #include "gal/e-table/e-cell-text.h"
 #include "gal/e-table/e-cell-checkbox.h"
 #include "gal/e-table/e-cell-date.h"
+#include "gal/e-table/e-cell-number.h"
 #include "gal/e-table/e-cell-size.h"
 #include "gal/e-table/e-cell-tree.h"
 #include "e-table-extras.h"
@@ -82,7 +83,8 @@ ete_init (ETableExtras *extras)
 
 	e_table_extras_add_cell(extras, "checkbox", e_cell_checkbox_new());
 	e_table_extras_add_cell(extras, "date", e_cell_date_new (NULL, GTK_JUSTIFY_LEFT));
-	e_table_extras_add_cell(extras, "size", e_cell_size_new (NULL, GTK_JUSTIFY_LEFT));
+	e_table_extras_add_cell(extras, "number", e_cell_number_new (NULL, GTK_JUSTIFY_RIGHT));
+	e_table_extras_add_cell(extras, "size", e_cell_size_new (NULL, GTK_JUSTIFY_RIGHT));
 	e_table_extras_add_cell(extras, "string", e_cell_text_new (NULL, GTK_JUSTIFY_LEFT));
 	e_table_extras_add_cell(extras, "tree-string", e_cell_tree_new (NULL, NULL, TRUE, e_cell_text_new (NULL, GTK_JUSTIFY_LEFT)));
 }
