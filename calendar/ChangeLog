@@ -1,5 +1,7 @@
 2001-10-25  Federico Mena Quintero  <federico@ximian.com>
 
+	* gui/control-factory.c: Ifdef-ed out the PersistFile bits.
+
 	* gui/GNOME_Evolution_Calendar.oaf.in: The tasks folder does not
 	support the PersistFile interface; removed it.  Removed it as well
 	from the calendar folder since it is aggregated but not actually
