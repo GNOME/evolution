@@ -5,14 +5,14 @@ INCLUDES =									\
 	$(EVOLUTION_CFLAGS)							\
 	$(EVOLUTION_CALENDAR_CFLAGS)						\
 	$(SOURCE_SEL_CFLAGS)							\
-	-DWEATHER_DATADIR=\""$(datadir)/evolution-$(BASE_VERSION)/weather"\"	\
+	-DWEATHER_DATADIR=\""$(weatherdir)"\"	\
 	-DWEATHER_EDS_DATADIR=\""$(eds_datadir)/weather"\"
 
 @EVO_PLUGIN_RULE@
 
 # These will actually install into the e-d-s share directory, but
 # if the plugin is disabled, we aren't going to be needing them.
-weatherdatadir = $(datadir)/evolution-$(BASE_VERSION)/weather
+weatherdatadir = $(datadir)/evolution/$(BASE_VERSION)/weather
 weatherdata_DATA = \
 	category_weather_cloudy_16.png		\
 	category_weather_fog_16.png		\

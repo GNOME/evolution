@@ -1,3 +1,9 @@
+2005-02-02  Rodney Dawes  <dobey@novell.com>
+
+	* Makefile.am (INCLUDES): Use $(weatherdir) instead of duplicating the
+	define for it below
+	(weatherdir): Fix to use the correct versioned directory
+
 2005-01-26  David Trowbridge <trowbrds@cs.colorado.edu>
 
 	* org-gnome-calendar-weather.eplug.in: fix typo
