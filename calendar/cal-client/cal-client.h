@@ -149,6 +149,7 @@ gboolean cal_client_is_read_only (CalClient *client);
 
 const char *cal_client_get_cal_address (CalClient *client);
 const char *cal_client_get_alarm_email_address (CalClient *client);
+const char *cal_client_get_ldap_attribute (CalClient *client);
 
 gboolean cal_client_get_one_alarm_only (CalClient *client);
 gboolean cal_client_get_organizer_must_attend (CalClient *client);

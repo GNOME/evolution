@@ -94,6 +94,7 @@ static const char *cal_backend_file_get_uri (CalBackend *backend);
 static gboolean cal_backend_file_is_read_only (CalBackend *backend);
 static const char *cal_backend_file_get_cal_address (CalBackend *backend);
 static const char *cal_backend_file_get_alarm_email_address (CalBackend *backend);
+static const char *cal_backend_file_get_ldap_attribute (CalBackend *backend);
 static const char *cal_backend_file_get_static_capabilities (CalBackend *backend);
 static CalBackendOpenStatus cal_backend_file_open (CalBackend *backend,
 						   const char *uristr,
@@ -197,6 +198,7 @@ cal_backend_file_class_init (CalBackendFileClass *class)
 	backend_class->is_read_only = cal_backend_file_is_read_only;
 	backend_class->get_cal_address = cal_backend_file_get_cal_address;
 	backend_class->get_alarm_email_address = cal_backend_file_get_alarm_email_address;
+	backend_class->get_ldap_attribute = cal_backend_file_get_ldap_attribute;
 	backend_class->get_static_capabilities = cal_backend_file_get_static_capabilities;
 	backend_class->open = cal_backend_file_open;
 	backend_class->is_loaded = cal_backend_file_is_loaded;
@@ -496,6 +498,12 @@ cal_backend_file_get_alarm_email_address (CalBackend *backend)
 	/* A file backend has no particular email address associated
 	 * with it (although that would be a useful feature some day).
 	 */
+	return NULL;
+}
+
+static const char *
+cal_backend_file_get_ldap_attribute (CalBackend *backend)
+{
 	return NULL;
 }
 

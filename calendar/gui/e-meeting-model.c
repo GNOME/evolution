@@ -43,7 +43,6 @@
 #include <ebook/e-card-cursor.h>
 #include <ebook/e-card.h>
 #include <ebook/e-card-simple.h>
-#include <ebook/e-destination.h>
 #include <cal-util/cal-component.h>
 #include <cal-util/cal-util.h>
 #include <cal-util/timeutil.h>
@@ -1724,24 +1723,57 @@ e_meeting_model_invite_others_dialog (EMeetingModel *im)
 }
 
 static void
-process_section (EMeetingModel *im, EDestination **destv, icalparameter_role role)
+process_section (EMeetingModel *im, GNOME_Evolution_Addressbook_SimpleCardList *cards, icalparameter_role role)
 {
+	EMeetingModelPrivate *priv;
 	int i;
-	
-	for (i = 0; destv[i] != NULL; i++) {
+
+	priv = im->priv;
+	for (i = 0; i < cards->_length; i++) {
 		EMeetingAttendee *ia;
-		const char *name, *address;
+		const char *name, *attendee = NULL, *attr;
+		GNOME_Evolution_Addressbook_SimpleCard card;
+		CORBA_Environment ev;
+
+		card = cards->_buffer[i];
+
+		CORBA_exception_init (&ev);
+
+		/* Get the CN */
+		name = GNOME_Evolution_Addressbook_SimpleCard_get (card, GNOME_Evolution_Addressbook_SimpleCard_FullName, &ev);
+		if (BONOBO_EX (&ev)) {
+			CORBA_exception_free (&ev);
+			continue;
+		}
+
+		/* Get the field as attendee from the backend */
+		attr = cal_client_get_ldap_attribute (priv->client);
+		if (attr) {
+			/* FIXME this should be more general */
+			if (!strcmp (attr, "icscalendar"))
+				attendee = GNOME_Evolution_Addressbook_SimpleCard_get (card, GNOME_Evolution_Addressbook_SimpleCard_Icscalendar, &ev);
+		}
+
+		CORBA_exception_init (&ev);
+
+		/* If we couldn't get the attendee prior, get the email address as the default */
+		if (attendee == NULL) {
+			attendee = GNOME_Evolution_Addressbook_SimpleCard_get (card, GNOME_Evolution_Addressbook_SimpleCard_Email, &ev);
+			if (BONOBO_EX (&ev)) {
+				CORBA_exception_free (&ev);
+				continue;
+			}
+		}
 		
-		name = e_destination_get_name (destv[i]);		
-		address = e_destination_get_email (destv[i]);
-		
-		if (address == NULL || *address == '\0')
+		CORBA_exception_free (&ev);
+
+		if (attendee == NULL || *attendee == '\0')
 			continue;
 		
-		if (e_meeting_model_find_attendee (im, address, NULL) == NULL) {
+		if (e_meeting_model_find_attendee (im, attendee, NULL) == NULL) {
 			ia = e_meeting_model_add_attendee_with_defaults (im);
 
-			e_meeting_attendee_set_address (ia, g_strdup_printf ("MAILTO:%s", address));
+			e_meeting_attendee_set_address (ia, g_strdup_printf ("MAILTO:%s", attendee));
 			e_meeting_attendee_set_role (ia, role);
 			if (role == ICAL_ROLE_NONPARTICIPANT)
 				e_meeting_attendee_set_cutype (ia, ICAL_CUTYPE_RESOURCE);
@@ -1761,8 +1793,10 @@ select_names_ok_cb (BonoboListener    *listener,
 	EMeetingModelPrivate *priv;
 	Bonobo_Control corba_control;
 	GtkWidget *control_widget;
-	EDestination **destv;
-	char *string = NULL;
+	BonoboControlFrame *control_frame;
+	Bonobo_PropertyBag pb;
+	BonoboArg *card_arg;
+	GNOME_Evolution_Addressbook_SimpleCardList cards;
 	int i;
 	
 	priv = im->priv;
@@ -1772,15 +1806,15 @@ select_names_ok_cb (BonoboListener    *listener,
 			(priv->corba_select_names, sections[i], ev);
 		control_widget = bonobo_widget_new_control_from_objref
 			(corba_control, CORBA_OBJECT_NIL);
-		
-		bonobo_widget_get_property (BONOBO_WIDGET (control_widget), "destinations", &string, NULL);
-		destv = e_destination_importv (string);
-		if (destv != NULL) {
-			process_section (im, destv, roles[i]);
-			e_destination_freev (destv);
-		}		
 
-		g_free (string);
+		control_frame = bonobo_widget_get_control_frame (BONOBO_WIDGET (control_widget));
+		pb = bonobo_control_frame_get_control_property_bag (control_frame, NULL);
+		card_arg = bonobo_property_bag_client_get_value_any (pb, "simple_card_list", NULL);
+		if (card_arg != NULL) {
+			cards = BONOBO_ARG_GET_GENERAL (card_arg, TC_GNOME_Evolution_Addressbook_SimpleCardList, GNOME_Evolution_Addressbook_SimpleCardList, NULL);
+			process_section (im, &cards, roles[i]);
+			bonobo_arg_release (card_arg);
+		}		
 	}
 }
 

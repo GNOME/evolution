@@ -216,6 +216,16 @@ cal_backend_get_alarm_email_address (CalBackend *backend)
 }
 
 const char *
+cal_backend_get_ldap_attribute (CalBackend *backend)
+{
+	g_return_val_if_fail (backend != NULL, NULL);
+	g_return_val_if_fail (IS_CAL_BACKEND (backend), NULL);
+
+	g_assert (CLASS (backend)->get_ldap_attribute != NULL);
+	return (* CLASS (backend)->get_ldap_attribute) (backend);
+}
+
+const char *
 cal_backend_get_static_capabilities (CalBackend *backend)
 {
 	g_return_val_if_fail (backend != NULL, NULL);
