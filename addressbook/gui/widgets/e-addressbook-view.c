@@ -498,11 +498,11 @@ table_right_click(ETableScrolled *table, gint row, gint col, GdkEvent *event, EA
   <ETableColumn model_col=\"30\" _title=\"Note\"          expansion=\"1.0\" minimum_width=\"20\" resizable=\"true\" cell=\"string\"       compare=\"string\"/> \
   <ETableColumn model_col=\"31\" _title=\"Free-busy URL\" expansion=\"1.0\" minimum_width=\"20\" resizable=\"true\" cell=\"string\"       compare=\"string\"/> \
   <ETableState>                            \
-    <column>0</column>                     \
-    <column>1</column>                     \
-    <column>5</column>                     \
-    <column>3</column>                     \
-    <column>4</column>                     \
+    <column source=\"0\"/>                 \
+    <column source=\"1\"/>                 \
+    <column source=\"5\"/>                 \
+    <column source=\"3\"/>                 \
+    <column source=\"4\"/>                 \
     <grouping>                             \
       <leaf column=\"0\" ascending=\"1\"/> \
     </grouping>                            \

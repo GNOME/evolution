@@ -1,5 +1,14 @@
 2000-10-11  Christopher James Lahey  <clahey@helixcode.com>
 
+	* contact-editor/e-contact-editor-categories.c: Fixed the column
+	elements, the no-headers attribute and added a cursor-mode=line
+	attribute.
+
+	* gui/component/select-names/e-select-names.c,
+	gui/widgets/e-addressbook-view.c: Fixed the column elements here.
+
+2000-10-11  Christopher James Lahey  <clahey@helixcode.com>
+
 	* contact-editor/e-contact-editor-categories.c,
 	gui/component/select-names/e-select-names.c,
 	gui/widgets/e-addressbook-view.c: Updated these to the new style

@@ -221,13 +221,13 @@ e_contact_editor_categories_entry_change (GtkWidget *entry,
 	do_parse_categories(categories);
 }
 
-#define INITIAL_SPEC "<ETableSpecification no-header=\"1\" draw-grid=\"true\">\
+#define INITIAL_SPEC "<ETableSpecification no-headers=\"true\" draw-grid=\"true\" cursor-mode=\"line\">\
   <ETableColumn model_col=\"0\" _title=\" \" expansion=\"0.0\" minimum_width=\"20\" resizable=\"false\" cell=\"checkbox\"       compare=\"integer\"/> \
   <ETableColumn model_col=\"1\" _title=\"Category\" expansion=\"1.0\" minimum_width=\"20\" resizable=\"true\" cell=\"string\" compare=\"string\"/> \
         <ETableState> \
-		<column> 0 </column>     			       \
-		<column> 1 </column>     			       \
-        	<grouping> <leaf column=\"1\" ascending=\"1\"/> </grouping>    \
+		<column source=\"0\"/>						\
+		<column source=\"1\"/>						\
+        	<grouping> <leaf column=\"1\" ascending=\"1\"/> </grouping>	\
         </ETableState> \
 </ETableSpecification>"
 

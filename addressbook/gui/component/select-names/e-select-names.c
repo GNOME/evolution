@@ -90,7 +90,7 @@ e_select_names_class_init (ESelectNamesClass *klass)
 #define SPEC "<ETableSpecification no-headers=\"true\">    	       \
   <ETableColumn model_col= \"34\" _title=\"Name\"          expansion=\"1.0\" minimum_width=\"20\" resizable=\"true\" cell=\"string\"       compare=\"string\"/> \
 	<ETableState>                   			       \
-		<column> 0 </column>     			       \
+		<column source=\"0\"/>     			       \
 	        <grouping> <leaf column=\"1\" ascending=\"1\"/> </grouping> \
 	</ETableState>                  			       \
 </ETableSpecification>"
@@ -98,7 +98,7 @@ e_select_names_class_init (ESelectNamesClass *klass)
 #define SPEC2 "<ETableSpecification no-headers=\"true\">    	       \
   <ETableColumn model_col= \"0\" _title=\"Name\"          expansion=\"1.0\" minimum_width=\"20\" resizable=\"true\" cell=\"string\"       compare=\"string\"/> \
 	<ETableState>                   			       \
-                <column> 0 </column>                                   \
+		<column source=\"0\"/>     			       \
         	<grouping> </grouping>                                 \
 	</ETableState>                  			       \
 </ETableSpecification>"
