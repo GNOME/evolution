@@ -195,9 +195,10 @@ impl_event (PortableServer_Servant _servant,
 			g_free (url);
 		}
 	} else if (!strcmp (name, "delete")) {
-		CORBA_char *orig;
-		
 		if (GNOME_GtkHTML_Editor_Engine_isParagraphEmpty (l->composer->editor_engine, ev)) {
+			CORBA_char *orig;
+			CORBA_char *signature;
+		
 			orig = GNOME_GtkHTML_Editor_Engine_getParagraphData (l->composer->editor_engine, "orig", ev);
 			if (ev->_major == CORBA_NO_EXCEPTION) {
 				if (orig && *orig == '1') {
@@ -211,6 +212,12 @@ impl_event (PortableServer_Servant _servant,
 					GNOME_GtkHTML_Editor_Engine_runCommand (l->composer->editor_engine, "delete-back", ev);
 				}
 				CORBA_free (orig);
+			}
+			signature = GNOME_GtkHTML_Editor_Engine_getParagraphData (l->composer->editor_engine, "signature", ev);
+			if (ev->_major == CORBA_NO_EXCEPTION) {
+				if (signature && *signature == '1')
+					GNOME_GtkHTML_Editor_Engine_setParagraphData (l->composer->editor_engine, "signature", "0", ev);
+				CORBA_free (signature);
 			}
 		}
 	} else if (!strcmp (name, "url_requested")) {

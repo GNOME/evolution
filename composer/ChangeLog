@@ -1,3 +1,10 @@
+2004-03-18  Radek Doulik  <rodo@ximian.com>
+
+	* listener.c (impl_event): delete event: if empty paragraph has
+	signature == 1 then set it to 0
+
+	Fixes #55735 (be sure to update gtkhtml as well)
+
 2004-03-17  Bill Zhu  <bill.zhu@sun.com>
 
 	* e-msg_composer-attachment-bar.c: If we select multi-attachments, the
