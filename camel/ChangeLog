@@ -1,3 +1,11 @@
+2000-04-18  Dan Winship  <danw@helixcode.com>
+
+	* camel-data-wrapper.[ch]:
+	* camel-simple-data-wrapper.[ch]:
+	* camel-medium.[ch]: Clean, polish, document. Most of the gtk-doc
+	comments added to camel-data-wrapper.c note serious problems that
+	need to be fixed.
+
 2000-04-17  Dan Winship  <danw@helixcode.com>
 
 	* camel-mime-message.[ch]: Remove the "session" field from

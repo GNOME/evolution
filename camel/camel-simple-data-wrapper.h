@@ -2,15 +2,15 @@
 /* camel-simple-data-wrapper.c : simple implementation of a data wrapper */
 /* store the data in a glib byte array                                   */
 
-/* 
+/*
  *
- * Author : 
+ * Author :
  *  Bertrand Guiheneuf <bertrand@helixcode.com>
  *
  * Copyright 1999, 2000 Helix Code, Inc. (http://www.helixcode.com)
  *
- * This program is free software; you can redistribute it and/or 
- * modify it under the terms of the GNU General Public License as 
+ * This program is free software; you can redistribute it and/or
+ * modify it under the terms of the GNU General Public License as
  * published by the Free Software Foundation; either version 2 of the
  * License, or (at your option) any later version.
  *
@@ -57,7 +57,6 @@ struct _CamelSimpleDataWrapper
 
 typedef struct {
 	CamelDataWrapperClass parent_class;
-	
 
 } CamelSimpleDataWrapperClass;
 

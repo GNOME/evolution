@@ -1,16 +1,15 @@
 /* -*- Mode: C; tab-width: 8; indent-tabs-mode: t; c-basic-offset: 8 -*- */
 /* camelMedium.c : Abstract class for a medium */
 
-
-/* 
+/*
  *
- * Author : 
+ * Author :
  *  Bertrand Guiheneuf <bertrand@helixcode.com>
  *
  * Copyright 1999, 2000 Helix Code, Inc. (http://www.helixcode.com)
  *
- * This program is free software; you can redistribute it and/or 
- * modify it under the terms of the GNU General Public License as 
+ * This program is free software; you can redistribute it and/or
+ * modify it under the terms of the GNU General Public License as
  * published by the Free Software Foundation; either version 2 of the
  * License, or (at your option) any later version.
  *
@@ -29,70 +28,64 @@
 #include <stdio.h>
 #include "gmime-content-field.h"
 #include "string-utils.h"
-#include "camel-log.h"
 #include "gmime-utils.h"
 #include "camel-simple-data-wrapper.h"
 
 
-
-
-
-static CamelDataWrapperClass *parent_class=NULL;
+static CamelDataWrapperClass *parent_class = NULL;
 
 /* Returns the class for a CamelMedium */
-#define CM_CLASS(so) CAMEL_MEDIUM_CLASS (GTK_OBJECT(so)->klass)
+#define CM_CLASS(so) CAMEL_MEDIUM_CLASS (GTK_OBJECT (so)->klass)
 
-static void _add_header (CamelMedium *medium, gchar *header_name, gchar *header_value);
-static void _remove_header (CamelMedium *medium, const gchar *header_name);
-static const gchar *_get_header (CamelMedium *medium, const gchar *header_name);
+static void add_header (CamelMedium *medium, gchar *header_name,
+			gchar *header_value);
+static void remove_header (CamelMedium *medium, const gchar *header_name);
+static const gchar *get_header (CamelMedium *medium, const gchar *header_name);
 
-static CamelDataWrapper *_get_content_object(CamelMedium *medium);
-static void _set_content_object(CamelMedium *medium, CamelDataWrapper *content);
+static CamelDataWrapper *get_content_object (CamelMedium *medium);
+static void set_content_object (CamelMedium *medium,
+				CamelDataWrapper *content);
 
-static void _finalize (GtkObject *object);
+static void finalize (GtkObject *object);
 
 static void
 camel_medium_class_init (CamelMediumClass *camel_medium_class)
 {
-	CamelDataWrapperClass *camel_data_wrapper_class = CAMEL_DATA_WRAPPER_CLASS (camel_medium_class);
-	GtkObjectClass *gtk_object_class = GTK_OBJECT_CLASS (camel_data_wrapper_class);
+	CamelDataWrapperClass *camel_data_wrapper_class =
+		CAMEL_DATA_WRAPPER_CLASS (camel_medium_class);
+	GtkObjectClass *gtk_object_class =
+		GTK_OBJECT_CLASS (camel_data_wrapper_class);
 
 	parent_class = gtk_type_class (camel_data_wrapper_get_type ());
-	
-	/* virtual method definition */
-	camel_medium_class->add_header = _add_header;
-	camel_medium_class->remove_header = _remove_header;
-	camel_medium_class->get_header = _get_header;
-	
-	camel_medium_class->set_content_object = _set_content_object;
-	camel_medium_class->get_content_object = _get_content_object;
-	
-	/* virtual method overload */
-	/* camel_data_wrapper_class->write_to_stream = _write_to_stream; */
-	/* camel_data_wrapper_class->construct_from_stream = _construct_from_stream; */
 
-	gtk_object_class->finalize = _finalize;
+	/* virtual method definition */
+	camel_medium_class->add_header = add_header;
+	camel_medium_class->remove_header = remove_header;
+	camel_medium_class->get_header = get_header;
+
+	camel_medium_class->set_content_object = set_content_object;
+	camel_medium_class->get_content_object = get_content_object;
+
+	gtk_object_class->finalize = finalize;
 }
 
 static void
-camel_medium_init (gpointer   object,  gpointer   klass)
+camel_medium_init (gpointer object, gpointer klass)
 {
 	CamelMedium *camel_medium = CAMEL_MEDIUM (object);
-	
-	camel_medium->headers =  g_hash_table_new (g_str_hash, g_str_equal);
-	camel_medium->content =  NULL;
+
+	camel_medium->headers = g_hash_table_new (g_str_hash, g_str_equal);
+	camel_medium->content = NULL;
 }
-
-
 
 
 GtkType
 camel_medium_get_type (void)
 {
 	static GtkType camel_medium_type = 0;
-	
-	if (!camel_medium_type)	{
-		GtkTypeInfo camel_medium_info =	
+
+	if (!camel_medium_type) {
+		GtkTypeInfo camel_medium_info =
 		{
 			"CamelMedium",
 			sizeof (CamelMedium),
@@ -103,31 +96,28 @@ camel_medium_get_type (void)
 				/* reserved_2 */ NULL,
 			(GtkClassInitFunc) NULL,
 		};
-		
+
 		camel_medium_type = gtk_type_unique (camel_data_wrapper_get_type (), &camel_medium_info);
 	}
-	
+
 	return camel_medium_type;
 }
 
 
 static void
-_free_header (gpointer key, gpointer value, gpointer data)
+free_header (gpointer key, gpointer value, gpointer data)
 {
 	g_free (key);
 	g_free (value);
 }
 
-static void           
-_finalize (GtkObject *object)
+static void
+finalize (GtkObject *object)
 {
 	CamelMedium *medium = CAMEL_MEDIUM (object);
 
-
-	CAMEL_LOG_FULL_DEBUG ("Entering CamelMedium::finalize\n");
-
 	if (medium->headers) {
-		g_hash_table_foreach (medium->headers, _free_header, NULL);
+		g_hash_table_foreach (medium->headers, free_header, NULL);
 		g_hash_table_destroy (medium->headers);
 	}
 
@@ -135,134 +125,164 @@ _finalize (GtkObject *object)
 		gtk_object_unref (GTK_OBJECT (medium->content));
 
 	GTK_OBJECT_CLASS (parent_class)->finalize (object);
-	CAMEL_LOG_FULL_DEBUG ("Leaving CamelMedium::finalize\n");
 }
 
 
 
-/* **** */
-
 static void
-_add_header (CamelMedium *medium, gchar *header_name, gchar *header_value)
+add_header (CamelMedium *medium, gchar *header_name, gchar *header_value)
 {
-	gboolean header_exists;
-	gchar *old_header_name;
-	gchar *old_header_value;
-	
+	gpointer old_name;
+	gpointer old_value;
 
-	header_exists = g_hash_table_lookup_extended (medium->headers, header_name, 
-						      (gpointer *) &old_header_name,
-						      (gpointer *) &old_header_value);
-	/* ghashtables actually dont duplicate key pointers on existing fields,
-	   just remove the old one first always (avoiding this assumption) */
-	if (header_exists) {
+	/* FIXME: This only allows each header to occur once. */
+	if (g_hash_table_lookup_extended (medium->headers, header_name,
+					  &old_name, &old_value)) {
 		g_hash_table_remove (medium->headers, old_header_name);
-#if 1
-		g_free (old_header_name);
-		g_free (old_header_value);
-#endif
+		g_free (old_name);
+		g_free (old_value);
 	}
 	g_hash_table_insert (medium->headers, g_strdup (header_name),
 			     g_strdup (header_value));
 }
 
-
+/**
+ * camel_medium_add_header:
+ * @medium: a CamelMedium
+ * @header_name: name of the header
+ * @header_value: value of the header
+ *
+ * Adds a header to a medium.
+ *
+ * FIXME: Where does it add it? We need to be able to prepend and
+ * append headers, and also be able to insert them relative to other
+ * headers.
+ **/
 void
-camel_medium_add_header (CamelMedium *medium, gchar *header_name, gchar *header_value)
+camel_medium_add_header (CamelMedium *medium, gchar *header_name,
+			 gchar *header_value)
 {
-	CM_CLASS(medium)->add_header(medium, header_name, header_value);
+	g_return_if_fail (CAMEL_IS_MEDIUM (medium));
+	g_return_if_fail (header_name != NULL);
+	g_return_if_fail (header_value != NULL);
+
+	CM_CLASS (medium)->add_header (medium, header_name, header_value);
 }
-
-
-/* **** */
 
 
 static void
-_remove_header (CamelMedium *medium, const gchar *header_name)
+remove_header (CamelMedium *medium, const gchar *header_name)
 {
-	
-	gboolean header_exists;
-	gchar *old_header_name;
-	gchar *old_header_value;
-	
-	header_exists = g_hash_table_lookup_extended (medium->headers, header_name, 
-						      (gpointer *) &old_header_name,
-						      (gpointer *) &old_header_value);
-	if (header_exists) {
-		g_hash_table_remove (medium->headers, header_name);
+	gpointer old_name;
+	gpointer old_value;
 
-		g_free (old_header_name);
-		g_free (old_header_value);
+	/* FIXME: This only allows each header to occur once. */
+	if (g_hash_table_lookup_extended (medium->headers, header_name,
+					  &old_name, &old_value)) {
+		g_hash_table_remove (medium->headers, header_name);
+		g_free (old_name);
+		g_free (old_value);
 	}
 }
 
+/**
+ * camel_medium_remove_header:
+ * @medium: a medium
+ * @header_name: the name of the header
+ *
+ * Removes the named header from the medium.
+ *
+ * FIXME: If there are multiple occurrences of the header, which
+ * gets/get removed?
+ **/
 void
 camel_medium_remove_header (CamelMedium *medium, const gchar *header_name)
 {
-	CM_CLASS(medium)->remove_header(medium, header_name);
+	g_return_if_fail (CAMEL_IS_MEDIUM (medium));
+	g_return_if_fail (header_name != NULL);
+
+	CM_CLASS (medium)->remove_header (medium, header_name);
 }
-
-
-/* **** */
 
 
 static const gchar *
-_get_header (CamelMedium *medium, const gchar *header_name)
+get_header (CamelMedium *medium, const gchar *header_name)
 {
-	
 	gchar *header_value;
-	
-	header_value = (gchar *)g_hash_table_lookup (medium->headers, header_name);
+
+	header_value = (gchar *)g_hash_table_lookup (medium->headers,
+						     header_name);
 	return header_value;
 }
 
+/**
+ * camel_medium_get_header:
+ * @medium: a medium
+ * @header_name: the name of the header
+ *
+ * Returns the value of the named header in the medium, or %NULL if
+ * it is unset. The caller should not modify or free the data.
+ *
+ * FIXME: What if the header occurs more than once?
+ *
+ * Return value: the value of the named header, or %NULL
+ **/
 const gchar *
 camel_medium_get_header (CamelMedium *medium, const gchar *header_name)
 {
-	return CM_CLASS(medium)->get_header (medium, header_name);
+	g_return_val_if_fail (CAMEL_IS_MEDIUM (medium), NULL);
+	g_return_val_if_fail (header_name != NULL, NULL);
+
+	return CM_CLASS (medium)->get_header (medium, header_name);
 }
-
-
-/* **** */
 
 
 static CamelDataWrapper *
-_get_content_object (CamelMedium *medium)
+get_content_object (CamelMedium *medium)
 {
 	return medium->content;
-	
 }
 
-
+/**
+ * camel_medium_get_content_object:
+ * @medium: a medium
+ *
+ * Returns a data wrapper that represents the content of the medium,
+ * without its headers.
+ *
+ * Return value: the medium's content object.
+ **/
 CamelDataWrapper *
 camel_medium_get_content_object (CamelMedium *medium)
 {
-	return CM_CLASS(medium)->get_content_object (medium);
+	g_return_val_if_fail (CAMEL_IS_MEDIUM (medium), NULL);
+
+	return CM_CLASS (medium)->get_content_object (medium);
 }
-
-
-/* **** */
 
 
 static void
-_set_content_object (CamelMedium *medium, CamelDataWrapper *content)
+set_content_object (CamelMedium *medium, CamelDataWrapper *content)
 {
-
-	CAMEL_LOG_FULL_DEBUG ("Entering CamelMedium::set_content_object\n");
-	if (medium->content) {
-		CAMEL_LOG_FULL_DEBUG ("CamelMedium::set_content_object unreferencing old content object\n");
+	if (medium->content)
 		gtk_object_unref (GTK_OBJECT (medium->content));
-	}
 	gtk_object_ref (GTK_OBJECT (content));
 	medium->content = content;
-	
 }
 
-void 
-camel_medium_set_content_object (CamelMedium *medium, CamelDataWrapper *content)
+/**
+ * camel_medium_set_content_object:
+ * @medium: a medium
+ * @content: a data wrapper representing the medium's content
+ *
+ * Sets the content of @medium to be @content.
+ **/
+void
+camel_medium_set_content_object (CamelMedium *medium,
+				 CamelDataWrapper *content)
 {
-	CM_CLASS(medium)->set_content_object (medium, content);
+	g_return_if_fail (CAMEL_IS_MEDIUM (medium));
+	g_return_if_fail (CAMEL_IS_DATA_WRAPPER (content));
+
+	CM_CLASS (medium)->set_content_object (medium, content);
 }
-
-
-/* **** */
