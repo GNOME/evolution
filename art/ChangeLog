@@ -1,6 +1,8 @@
 2001-08-15  Jakub Steiner <jimmac@ximian.com>
 
 	* add-attachment.png: get rid of the yellow
+	* compose-message.png: the old one seemed too dark to me. This
+     one shares the same document base as the new stuff.
 
 2001-08-15  Jakub Steiner <jimmac@ximian.com>
 
