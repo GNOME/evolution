@@ -1,3 +1,7 @@
+2004-06-20  Arafat Medini <lumina@silverpen.de>
+
+	* configure.in: Added arabic locale ar to ALL_LINGUAS.
+
 2004-06-17  Fernando Herrera  <fherrera@onirica.com>
 
 	* data/evolution.desktop.in.in: Use "Evolution" for 
