@@ -8,7 +8,7 @@ INCLUDES =								\
 	-DMAP_DIR=\""$(imagesdir)"\"					\
 	-DG_LOG_DOMAIN=__FILE__						\
 	-DG_DISABLE_DEPRECATED						\
-	$(GNOME_FULL_CFLAGS)
+	$(SOURCE_SEL_CFLAGS)
 
 privlib_LTLIBRARIES =	\
 	libemiscwidgets.la
@@ -61,7 +61,8 @@ MARSHAL_GENERATED = e-util-marshal.c e-util-marshal.h
 @EVO_MARSHAL_RULE@
 
 libemiscwidgets_la_LIBADD = $(top_builddir)/e-util/libeutil.la		\
-	$(top_builddir)/a11y/widgets/libevolution-widgets-a11y.la
+	$(top_builddir)/a11y/widgets/libevolution-widgets-a11y.la	\
+	$(SOURCE_SEL_LIBS)
 
 noinst_LTLIBRARIES = libefilterbar.la
 
@@ -133,7 +134,7 @@ test_source_selector_SOURCES =			\
 test_source_selector_LDADD =			\
 	../../e-util/libeutil.la		\
 	./libemiscwidgets.la			\
-	$(GNOME_FULL_LIBS)
+	$(SOURCE_SEL_LIBS)
 
 
 BUILT_SOURCES = $(MARSHAL_GENERATED)

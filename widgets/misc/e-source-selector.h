@@ -24,11 +24,9 @@
 #ifndef _E_SOURCE_SELECTOR_H_
 #define _E_SOURCE_SELECTOR_H_
 
-#include "e-util/e-source-list.h"
-
 #include <gtk/gtkmenu.h>
 #include <gtk/gtktreeview.h>
-
+#include <libedataserver/e-source-list.h>
 
 #define E_TYPE_SOURCE_SELECTOR		(e_source_selector_get_type ())
 #define E_SOURCE_SELECTOR(obj)		(G_TYPE_CHECK_INSTANCE_CAST ((obj), E_TYPE_SOURCE_SELECTOR, ESourceSelector))

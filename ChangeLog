@@ -1,5 +1,9 @@
 2003-11-14  JP Rosevear <jpr@ximian.com>
 
+	* configure.in: make source selector flags/libs
+
+2003-11-14  JP Rosevear <jpr@ximian.com>
+
 	* MAINTAINERS: Update
 
 2003-11-11  Chris Toshok  <toshok@ximian.com>

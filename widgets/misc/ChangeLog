@@ -1,3 +1,9 @@
+2003-11-14  JP Rosevear <jpr@ximian.com>
+
+	* e-source-selector.h: include e-source stuff from e-d-s
+
+	* Makefile.am: use new cflags/libs to build
+	
 2003-11-13  Bolian Yin <bolian.yin@sun.com>
 
 	* e-calendar-item.c: remove a declaration of a deleted func.
