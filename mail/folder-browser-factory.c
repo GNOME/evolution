@@ -44,6 +44,8 @@ folder_browser_set_shell (EvolutionServiceRepository *sr,
 
 	/* test the component->shell registration */
 	Evolution_Shell_register_service (shell, Evolution_Shell_MAIL_STORE, "a_service", &ev);
+
+	CORBA_exception_free (&ev);
 }
 
 static void 
@@ -71,16 +73,18 @@ development_warning ()
 	gint result;
 	GtkWidget *label, *warning_dialog;
 
-	warning_dialog = gnome_dialog_new ("Don't do that",
-				   "I know what I'm doing,\nI want to crash my mail files",
-				   "I'll try it later",
-				   NULL);
+	warning_dialog = gnome_dialog_new (
+		"Don't do that",
+		"I know what I'm doing,\nI want to crash my mail files",
+		"I'll try it later",
+		NULL);
 
-	label = gtk_label_new ("This is a development version of Evolution.\n "
-			       "Using the mail component on your mail files\n "
-			       "is extremely hazardous.\n"
-			       "Please backup all your mails before trying\n "
-			       "this program. \n     You have been warned\n");
+	label = gtk_label_new (
+		_("This is a development version of Evolution.\n "
+		  "Using the mail component on your mail files\n "
+		  "is extremely hazardous.\n"
+		  "Please backup all your mails before trying\n "
+		  "this program. \n     You have been warned\n"));
 	gtk_widget_show (label);
 
 	gtk_box_pack_start (GTK_BOX (GNOME_DIALOG (warning_dialog)->vbox), 

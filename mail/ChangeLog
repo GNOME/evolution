@@ -1,3 +1,8 @@
+2000-03-26  Miguel de Icaza  <miguel@gnu.org>
+
+	* folder-browser-factory.c (folder_browser_set_shell): Memory leak
+	fix. 
+
 2000-03-25  Dan Winship  <danw@helixcode.com>
 
 	* message-list.c (select_msg, ml_value_at): update for summary
