@@ -1330,8 +1330,6 @@ page_summary_changed_cb (GtkObject *obj, const char *summary, gpointer data)
 		if (obj != l->data)
 			comp_editor_page_set_summary (l->data, summary);
 
-	priv->changed = TRUE;
-
 	if (!priv->warned && priv->existing_org && !priv->user_org) {
 		e_notice (editor, GTK_MESSAGE_INFO,
 			  _("Changes made to this item may be discarded if an update arrives"));
@@ -1355,8 +1353,6 @@ page_dates_changed_cb (GtkObject *obj,
 	for (l = priv->pages; l != NULL; l = l->next)
 		if (obj != l->data)
 			comp_editor_page_set_dates (l->data, dates);
-
-	priv->changed = TRUE;
 
 	if (!priv->warned && priv->existing_org && !priv->user_org) {
 		e_notice (editor, GTK_MESSAGE_INFO,

@@ -406,11 +406,9 @@ init_widgets (SchedulePage *spage)
 
 	priv = spage->priv;
 
-	g_signal_connect((priv->sel), 
-			    "changed", G_CALLBACK (times_changed_cb), spage);
+	g_signal_connect (priv->sel, "changed", G_CALLBACK (times_changed_cb), spage);
 
 	return TRUE;
-	
 }
 
 
@@ -544,6 +542,6 @@ times_changed_cb (GtkWidget *widget, gpointer data)
 	dates.due = NULL;
 	dates.complete = NULL;
 
-	comp_editor_page_notify_dates_changed (COMP_EDITOR_PAGE (spage),
-					       &dates);
+	comp_editor_page_notify_dates_changed (COMP_EDITOR_PAGE (spage), &dates);
+	comp_editor_page_notify_changed (COMP_EDITOR_PAGE (spage));
 }
