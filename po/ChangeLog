@@ -1,11 +1,41 @@
+2002-04-17  gettextize  <bug-gnu-utils@gnu.org>
+
+	* Makefile.in.in: Upgrade to gettext-0.10.40.
+
+<<<<<<< ChangeLog
+<<<<<<< ChangeLog
+2002-04-12  gettextize  <bug-gnu-utils@gnu.org>
+
+	* Makefile.in.in: Upgrade to gettext-0.10.40.
+
+2002-04-11  gettextize  <bug-gnu-utils@gnu.org>
+
+	* Makefile.in.in: Upgrade to gettext-0.10.40.
+
+<<<<<<< ChangeLog
+2002-04-10  gettextize  <bug-gnu-utils@gnu.org>
+
+	* Makefile.in.in: Upgrade to gettext-0.10.40.
+
+2002-04-10  gettextize  <bug-gnu-utils@gnu.org>
+
+	* Makefile.in.in: Upgrade to gettext-0.10.40.
+	* cat-id-tbl.c: Remove file.
+	* stamp-cat-id: Remove file.
+
+=======
+=======
+=======
 2002-04-16  Christophe Merlet  <redfox@eikonex.org>
 
 	* fr.po: Updated French translation.
 
+>>>>>>> 1.865
 2002-04-13  Christophe Merlet  <redfox@eikonex.org>
 
 	* fr.po: Updated French translation.
 
+>>>>>>> 1.864
 2002-04-08  Christophe Merlet  <redfox@eikonex.org>
 
 	* fr.po: Updated French translation from work of
@@ -43,6 +73,7 @@
 	* it.po: Updated Italian translation from Clara Tattoni
 	<clara.tattoni@libero.it>.
 
+>>>>>>> 1.863
 2002-04-01  Kjartan Maraas  <kmaraas@gnome.org>
 
 	* no.po: Updated Norwegian (bokmål) translation.
