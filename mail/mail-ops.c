@@ -1987,7 +1987,8 @@ static char *save_part_desc(struct _mail_msg *mm, int done)
 	return g_strdup(_("Saving attachment"));
 }
 
-static void save_part_save(struct _mail_msg *mm)
+static void
+save_part_save (struct _mail_msg *mm)
 {
 	struct _save_part_msg *m = (struct _save_part_msg *)mm;
 	CamelMimeFilterCharset *charsetfilter;
@@ -1996,57 +1997,60 @@ static void save_part_save(struct _mail_msg *mm)
 	CamelStream *stream_fs;
 	CamelDataWrapper *data;
 	const char *charset;
-
-	stream_fs = camel_stream_fs_new_with_name(m->path, O_WRONLY|O_CREAT, 0600);
+	
+	stream_fs = camel_stream_fs_new_with_name (m->path, O_WRONLY | O_CREAT | O_TRUNC, 0600);
 	if (stream_fs == NULL) {
-		camel_exception_setv(&mm->ex, 1, _("Cannot create output file: %s:\n %s"), m->path, strerror(errno));
+		camel_exception_setv (&mm->ex, 1, _("Cannot create output file: %s:\n %s"), m->path,
+				      g_strerror (errno));
 		return;
 	}
-
+	
 	/* we only convert text/ parts, and we only convert if we have to
 	   null charset param == us-ascii == utf8 always, and utf8 == utf8 obviously */
 	/* this will also let "us-ascii that isn't really" parts pass out in
 	   proper format, without us trying to treat it as what it isn't, which is
 	   the same algorithm camel uses */
 	
-	data = camel_medium_get_content_object((CamelMedium *)m->part);
-	content_type = camel_mime_part_get_content_type(m->part);
-	if (header_content_type_is(content_type, "text", "*")
-	    && (charset = header_content_type_param(content_type, "charset"))
-	    && strcasecmp(charset, "utf-8") != 0) {
-		charsetfilter = camel_mime_filter_charset_new_convert("utf-8", charset);
-		filtered_stream = camel_stream_filter_new_with_stream(stream_fs);
-		camel_stream_filter_add(filtered_stream, CAMEL_MIME_FILTER(charsetfilter));
-		camel_object_unref(CAMEL_OBJECT(charsetfilter));
+	data = camel_medium_get_content_object (CAMEL_MEDIUM (m->part));
+	content_type = camel_mime_part_get_content_type (m->part);
+	if (header_content_type_is (content_type, "text", "*")
+	    && (charset = header_content_type_param (content_type, "charset"))
+	    && g_strcasecmp (charset, "utf-8") != 0) {
+		charsetfilter = camel_mime_filter_charset_new_convert ("utf-8", charset);
+		filtered_stream = camel_stream_filter_new_with_stream (stream_fs);
+		camel_stream_filter_add (filtered_stream, CAMEL_MIME_FILTER (charsetfilter));
+		camel_object_unref (CAMEL_OBJECT (charsetfilter));
 	} else {
 		/* no we can't use a CAMEL_BLAH() cast here, since its not true, HOWEVER
 		   we only treat it as a normal stream from here on, so it is OK */
 		filtered_stream = (CamelStreamFilter *)stream_fs;
-		camel_object_ref(CAMEL_OBJECT(stream_fs));
+		camel_object_ref (CAMEL_OBJECT (stream_fs));
 	}
 	
-	if (camel_data_wrapper_write_to_stream(data, CAMEL_STREAM(filtered_stream)) == -1
-	    || camel_stream_flush (CAMEL_STREAM(filtered_stream)) == -1)
-		camel_exception_setv(&mm->ex, 1, _("Could not write data: %s"), strerror(errno));
-
+	if (camel_data_wrapper_write_to_stream (data, CAMEL_STREAM (filtered_stream)) == -1
+	    || camel_stream_flush (CAMEL_STREAM (filtered_stream)) == -1)
+		camel_exception_setv (&mm->ex, 1, _("Could not write data: %s"), g_strerror (errno));
+	
 	camel_object_unref (CAMEL_OBJECT (filtered_stream));
 	camel_object_unref (CAMEL_OBJECT (stream_fs));
 }
 
-static void save_part_saved(struct _mail_msg *mm)
+static void
+save_part_saved (struct _mail_msg *mm)
 {
 	struct _save_part_msg *m = (struct _save_part_msg *)mm;
-
+	
 	if (m->done)
-		m->done(m->part, m->path, !camel_exception_is_set(&mm->ex), m->data);
+		m->done (m->part, m->path, !camel_exception_is_set (&mm->ex), m->data);
 }
 
-static void save_part_free(struct _mail_msg *mm)
+static void
+save_part_free (struct _mail_msg *mm)
 {
 	struct _save_part_msg *m = (struct _save_part_msg *)mm;
 
-	camel_object_unref((CamelObject *)m->part);
-	g_free(m->path);
+	camel_object_unref (CAMEL_OBJECT (m->part));
+	g_free (m->path);
 }
 
 static struct _mail_msg_op save_part_op = {
@@ -2057,22 +2061,22 @@ static struct _mail_msg_op save_part_op = {
 };
 
 int
-mail_save_part(CamelMimePart *part, const char *path,
-	       void (*done)(CamelMimePart *part, char *path, int saved, void *data), void *data)
+mail_save_part (CamelMimePart *part, const char *path,
+		void (*done)(CamelMimePart *part, char *path, int saved, void *data), void *data)
 {
 	struct _save_part_msg *m;
 	int id;
-
-	m = mail_msg_new(&save_part_op, NULL, sizeof(*m));
+	
+	m = mail_msg_new (&save_part_op, NULL, sizeof (*m));
 	m->part = part;
-	camel_object_ref((CamelObject *)part);
-	m->path = g_strdup(path);
+	camel_object_ref (CAMEL_OBJECT (part));
+	m->path = g_strdup (path);
 	m->data = data;
 	m->done = done;
-
+	
 	id = m->msg.seq;
-	e_thread_put(mail_thread_queued, (EMsg *)m);
-
+	e_thread_put (mail_thread_queued, (EMsg *)m);
+	
 	return id;
 }
 

@@ -1,5 +1,9 @@
 2001-07-24  Jeffrey Stedfast  <fejj@ximian.com>
 
+	* mail-ops.c (save_part_save): Pass the O_TRUNC flag to open so
+	that we don't leave trailing garbage at the end of the file if the
+	new file content is shorter than the old file content.
+
 	* component-factory.c (create_view): Fix for bug #5174.
 
 2001-07-24  Jason Leach  <jleach@ximian.com>
