@@ -1,3 +1,8 @@
+2003-06-13  Larry Ewing  <lewing@ximian.com>
+
+	* printing/e-contact-print.c: update for correct used of
+	g_object_get.
+
 2003-06-05  Not Zed  <NotZed@Ximian.com>
 
 	** For #42691.

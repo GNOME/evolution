@@ -421,6 +421,8 @@ e_contact_get_card_size(ECardSimple *simple, EContactPrintContext *ctxt)
 		     "file_as", &file_as,
 		     NULL);
 	height += e_contact_text_height(ctxt->pc, ctxt->style->headings_font, column_width - 4, file_as);
+	g_free (file_as);
+
 	height += gnome_font_get_size (ctxt->style->headings_font) * .2;
 
 	height += gnome_font_get_size (ctxt->style->headings_font) * .2;
@@ -459,7 +461,6 @@ e_contact_print_card (ECardSimple *simple, EContactPrintContext *ctxt)
 	gnome_print_gsave(ctxt->pc);
 
 	ctxt->y -= gnome_font_get_size (ctxt->style->headings_font) * .2;
-
 	ctxt->y -= gnome_font_get_size (ctxt->style->headings_font) * .2;
 
 	g_object_get(simple->card,
@@ -469,8 +470,9 @@ e_contact_print_card (ECardSimple *simple, EContactPrintContext *ctxt)
 		e_contact_rectangle(ctxt->pc, ctxt->x, ctxt->y + gnome_font_get_size (ctxt->style->headings_font) * .3, ctxt->x + column_width, ctxt->y - e_contact_text_height(ctxt->pc, ctxt->style->headings_font, column_width - 4, file_as) - gnome_font_get_size (ctxt->style->headings_font) * .3, .85, .85, .85);
 	e_contact_output(ctxt->pc, ctxt->style->headings_font, ctxt->x + 2, ctxt->y, column_width - 4, file_as);
 	ctxt->y -= e_contact_text_height(ctxt->pc, ctxt->style->headings_font, column_width - 4, file_as);
-	ctxt->y -= gnome_font_get_size (ctxt->style->headings_font) * .2;
+	g_free (file_as);
 
+	ctxt->y -= gnome_font_get_size (ctxt->style->headings_font) * .2;
 	ctxt->y -= gnome_font_get_size (ctxt->style->headings_font) * .2;
 	
 	for(field = E_CARD_SIMPLE_FIELD_FULL_NAME; field != E_CARD_SIMPLE_FIELD_LAST_SIMPLE_STRING; field++) {
@@ -610,8 +612,11 @@ complete_sequence(EBookView *book_view, EBookViewStatus status, EContactPrintCon
 
 static int
 card_compare (ECard *card1, ECard *card2) {
+	int cmp = 0;
+
 	if (card1 && card2) {
 		char *file_as1, *file_as2;
+
 		g_object_get(card1,
 			     "file_as", &file_as1,
 			     NULL);
@@ -619,15 +624,19 @@ card_compare (ECard *card1, ECard *card2) {
 			     "file_as", &file_as2,
 			     NULL);
 		if (file_as1 && file_as2)
-			return g_utf8_collate(file_as1, file_as2);
-		if (file_as1)
-			return -1;
-		if (file_as2)
-			return 1;
-		return strcmp(e_card_get_id(card1), e_card_get_id(card2));
-	} else {
-		return 0;
+			cmp = g_utf8_collate(file_as1, file_as2);
+		else if (file_as1)
+			cmp = -1;
+		else if (file_as2)
+			cmp = 1;
+		else 
+			cmp = strcmp(e_card_get_id(card1), e_card_get_id(card2));
+
+		g_free (file_as2);
+		g_free (file_as1);
+
 	}
+	return cmp;
 }
 
 static void
@@ -707,7 +716,6 @@ e_contact_print_phone_list (ECard *card, EContactPrintContext *ctxt)
 	gnome_print_gsave(ctxt->pc);
 
 	ctxt->y -= gnome_font_get_size (ctxt->style->headings_font) * .2;
-
 	ctxt->y -= gnome_font_get_size (ctxt->style->headings_font) * .2;
 
 	e_contact_output(ctxt->pc, ctxt->style->body_font, ctxt->x, ctxt->y, -1, e_card_get_string_fileas(card));
@@ -787,6 +795,7 @@ e_contact_do_print_phone_list (EBook *book, char *query, EContactPrintContext *c
 			ctxt->first_char_on_page = ctxt->last_char_on_page;
 		e_contact_print_phone_list(card, ctxt, shown_fields);
 		first_contact = FALSE;
+		g_free (file_as);
 	}
 	ctxt->last_char_on_page = 'Z';
 	if ( ctxt->style->letter_tabs )
