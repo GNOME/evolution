@@ -1,3 +1,10 @@
+2000-09-08  JP Rosevear  <jpr@helixcode.com>
+
+	* src/libical/icaltime.c (icaltime_compare_date_only): New
+	function that compares only the dates, not the times as well
+
+	* src/libical/icaltime.h: Add prototype
+
 2000-09-01  JP Rosevear  <jpr@helixcode.com>
 
 	* configure.in: We don't need AC_PROG_RANLIB and

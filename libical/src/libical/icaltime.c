@@ -180,3 +180,20 @@ int icaltime_compare(struct icaltimetype a,struct icaltimetype b)
     }
 
 }
+
+int icaltime_compare_date_only(struct icaltimetype a, struct icaltimetype b)
+{
+    time_t t1 = icaltime_as_timet(a);
+    time_t t2 = icaltime_as_timet(b);
+
+    if (a.year == b.year && a.month == b.month && a.day == b.day) {
+        return 0;
+    }
+
+    if (t1 > t2) { 
+	return 1; 
+    } else if (t1 < t2) { 
+	return -1;
+    }
+}
+

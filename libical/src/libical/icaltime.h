@@ -65,6 +65,7 @@ short icaltime_week_number(short day_of_month, short month, short year);
 struct icaltimetype icaltime_from_week_number(short week_number, short year);
 
 int icaltime_compare(struct icaltimetype a,struct icaltimetype b);
+int icaltime_compare_date_only(struct icaltimetype a, struct icaltimetype b);
 
 short icaltime_days_in_month(short month,short year);
 
