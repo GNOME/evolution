@@ -1,5 +1,36 @@
 2001-01-27  Ettore Perazzoli  <ettore@ximian.com>
 
+	* e-search-bar.c (add_dropdown): Make the dropdown button
+	non-focusable.
+
+2001-01-27  Ettore Perazzoli  <ettore@ximian.com>
+
+	* e-search-bar.c (e_search_bar_init): Don't create the widgets
+	here.
+	(e_search_bar_construct): New.  Do it here instead.
+	(e_search_bar_new): Call it.  Added preconditions.
+	(esb_pack_menubar): Removed.
+	(add_dropdown): New.
+	(add_option): New.
+	(add_entry): New.
+	(e_search_bar_construct): Use `add_dropdown()', `add_option()',
+	`add_entry()'.
+	(class_init): Renamed from `e_seearch_bar_class_init'.
+	(init): Renamed from `e_search_bar_init'.
+	(impl_destroy): Renamed from `e_search_bar_destroy'.
+	(emit_menu_activated): Renamed from `esb_menu_activated'.
+	(emit_query_changed): Renamed from `esb_query_changed'.
+	(menubar_activated_cb): Renamed from `esb_menubar_activated'.
+	(option_activated_cb): Renamed from `esb_option_activated'.
+	(esb_entry_activated): Renamed from `esb_entry_activated'.
+	(impl_set_arg): Renamed from `e_search_bar_set_arg'.
+	(impl_get_arg): Renamed from `e_search_bar_get_arg'.
+
+	* e-search-bar.h (struct _ESearchBar): Removed member `menubar';
+	replaced it with `dropdown'.
+
+2001-01-27  Ettore Perazzoli  <ettore@ximian.com>
+
 	* e-dropdown-button.c (e_dropdown_button_construct): Removed
 	@ui_info and @data args.  Obviously I am not very smart at this
 	time of the night.

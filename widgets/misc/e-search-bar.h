@@ -57,7 +57,7 @@ struct _ESearchBar
 	GtkHBox parent;
 	
 	/* item specific fields */
-	GtkWidget *menubar;
+	GtkWidget *dropdown;
 	GtkWidget *option;
 	GtkWidget *entry;
 	int        option_choice;
@@ -71,9 +71,13 @@ struct _ESearchBarClass
 	void (*menu_activated) (ESearchBar *search, int item);
 };
 
+
+GtkType    e_search_bar_get_type   (void);
+void       e_search_bar_construct  (ESearchBar     *search_bar,
+				    ESearchBarItem *menu_items,
+				    ESearchBarItem *option_items);
 GtkWidget *e_search_bar_new        (ESearchBarItem *menu_items,
 				    ESearchBarItem *option_items);
-GtkType    e_search_bar_get_type   (void);
 
 #ifdef __cplusplus
 }
