@@ -109,55 +109,12 @@ camel_imap_wrapper_get_type (void)
 static void
 imap_wrapper_hydrate (CamelImapWrapper *imap_wrapper, CamelStream *stream)
 {
-	CamelDataWrapper *data_wrapper = CAMEL_DATA_WRAPPER (imap_wrapper);
-	CamelStreamFilter *filterstream;
-	CamelMimeFilter *filter;
-	CamelContentType *ct;
+	CamelDataWrapper *data_wrapper = (CamelDataWrapper *) imap_wrapper;
 	
-	filterstream = camel_stream_filter_new_with_stream (stream);
-	
-	/* FIXME: lame. We already have code to do all this shit in camel-mime-part-utils.c */
-	switch (camel_mime_part_get_encoding (imap_wrapper->part)) {
-	case CAMEL_MIME_PART_ENCODING_BASE64:
-		filter = (CamelMimeFilter *)camel_mime_filter_basic_new_type (CAMEL_MIME_FILTER_BASIC_BASE64_DEC);
-		camel_stream_filter_add (filterstream, filter);
-		break;
-	case CAMEL_MIME_PART_ENCODING_QUOTEDPRINTABLE:
-		filter = (CamelMimeFilter *)camel_mime_filter_basic_new_type (CAMEL_MIME_FILTER_BASIC_QP_DEC);
-		camel_stream_filter_add (filterstream, filter);
-		break;
-	case CAMEL_MIME_PART_ENCODING_UUENCODE:
-		filter = (CamelMimeFilter *)camel_mime_filter_basic_new_type (CAMEL_MIME_FILTER_BASIC_UU_DEC);
-		camel_stream_filter_add (filterstream, filter);
-		break;
-	default:
-		filter = NULL;
-	}
-	
-	ct = camel_mime_part_get_content_type (imap_wrapper->part);
-	if (header_content_type_is (ct, "text", "*")) {
-		const char *charset;
-		
-		/* If we just did B64/QP/UU, need to also do CRLF->LF */
-		if (filter) {
-			filter = camel_mime_filter_crlf_new (CAMEL_MIME_FILTER_CRLF_DECODE,
-							     CAMEL_MIME_FILTER_CRLF_MODE_CRLF_ONLY);
-			camel_stream_filter_add (filterstream, filter);
-		}
-		
-		charset = header_content_type_param (ct, "charset");
-		if (charset && !(strcasecmp (charset, "us-ascii") == 0
-				 || strcasecmp (charset, "utf-8") == 0)) {
-			filter = (CamelMimeFilter *)camel_mime_filter_charset_new_convert (charset, "UTF-8");
-			if (filter)
-				camel_stream_filter_add (filterstream, filter);
-		}
-	}
-	
-	data_wrapper->stream = CAMEL_STREAM (filterstream);
+	data_wrapper->stream = stream;
 	data_wrapper->offline = FALSE;
 	
-	camel_object_unref (CAMEL_OBJECT (imap_wrapper->folder));
+	camel_object_unref (imap_wrapper->folder);
 	imap_wrapper->folder = NULL;
 	g_free (imap_wrapper->uid);
 	imap_wrapper->uid = NULL;
@@ -207,7 +164,7 @@ camel_imap_wrapper_new (CamelImapFolder *imap_folder, CamelContentType *type,
 	((CamelDataWrapper *)imap_wrapper)->offline = TRUE;
 
 	imap_wrapper->folder = imap_folder;
-	camel_object_ref (CAMEL_OBJECT (imap_folder));
+	camel_object_ref (imap_folder);
 	imap_wrapper->uid = g_strdup (uid);
 	imap_wrapper->part_spec = g_strdup (part_spec);
 
@@ -219,7 +176,7 @@ camel_imap_wrapper_new (CamelImapFolder *imap_folder, CamelContentType *type,
 					       TRUE, NULL);
 	if (stream) {
 		imap_wrapper_hydrate (imap_wrapper, stream);
-		camel_object_unref (CAMEL_OBJECT (stream));
+		camel_object_unref (stream);
 	}
 
 	return (CamelDataWrapper *)imap_wrapper;
