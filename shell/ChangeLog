@@ -1,5 +1,12 @@
 2001-10-23  Ettore Perazzoli  <ettore@ximian.com>
 
+	* e-shell-folder-commands.c (rename_callback_data_new): New.
+	(rename_callback_data_free): New.
+	(rename_cb): Rename the folder here.
+	(e_shell_command_rename_folder): Don't rename the EFolder here.
+
+2001-10-23  Ettore Perazzoli  <ettore@ximian.com>
+
 	* e-local-storage.c (async_xfer_folder_callback): Handle the
 	return codes properly, and invoke the result callback too.
 

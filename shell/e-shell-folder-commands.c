@@ -445,15 +445,58 @@ e_shell_command_delete_folder (EShell *shell,
 }
 
 
+struct _RenameCallbackData {
+	EShellView *shell_view;
+	EFolder *folder;
+	char *new_name;
+};
+typedef struct _RenameCallbackData RenameCallbackData;
+
+static RenameCallbackData *
+rename_callback_data_new (EShellView *shell_view,
+			  EFolder *folder,
+			  const char *new_name)
+{
+	RenameCallbackData *callback_data;
+
+	callback_data = g_new (RenameCallbackData, 1);
+
+	gtk_object_ref (GTK_OBJECT (shell_view));
+	callback_data->shell_view = shell_view;
+
+	gtk_object_ref (GTK_OBJECT (folder));
+	callback_data->folder = folder;
+
+	callback_data->new_name = g_strdup (new_name);
+
+	return callback_data;
+}
+
+static void
+rename_callback_data_free (RenameCallbackData *callback_data)
+{
+	gtk_object_unref (GTK_OBJECT (callback_data->shell_view));
+	gtk_object_unref (GTK_OBJECT (callback_data->folder));
+	g_free (callback_data->new_name);
+
+	g_free (callback_data);
+}
+
 static void
 rename_cb (EStorageSet *storage_set, EStorageResult result, void *data)
 {
-	EShellView *shell_view;
+	RenameCallbackData *callback_data;
 
-	shell_view = E_SHELL_VIEW (data);
-	if (result != E_STORAGE_OK)
-		e_notice (GTK_WINDOW (shell_view), GNOME_MESSAGE_BOX_ERROR,
+	callback_data = (RenameCallbackData *) data;
+
+	if (result == E_STORAGE_OK) {
+		e_folder_set_name (callback_data->folder, callback_data->new_name);
+	} else {
+		e_notice (GTK_WINDOW (callback_data->shell_view), GNOME_MESSAGE_BOX_ERROR,
 			  _("Cannot rename folder:\n%s"), e_storage_result_to_string (result));
+	}
+
+	rename_callback_data_free (callback_data);
 }
 
 void
@@ -463,6 +506,7 @@ e_shell_command_rename_folder (EShell *shell,
 {
 	EStorageSet *storage_set;
 	EFolder *folder;
+	RenameCallbackData *callback_data;
 	const char *old_name;
 	char *prompt;
 	char *new_name;
@@ -501,12 +545,11 @@ e_shell_command_rename_folder (EShell *shell,
 		return;
 	}
 
-	e_folder_set_name (folder, new_name);
-
 	old_base_path = g_strndup (folder_path, old_name - folder_path);
 	new_path = g_strconcat (old_base_path, new_name, NULL);
 
-	e_storage_set_async_xfer_folder (storage_set, folder_path, new_path, TRUE, rename_cb, shell_view);
+	callback_data = rename_callback_data_new (shell_view, folder, new_name);
+	e_storage_set_async_xfer_folder (storage_set, folder_path, new_path, TRUE, rename_cb, callback_data);
 
 	g_free (old_base_path);
 	g_free (new_path);
