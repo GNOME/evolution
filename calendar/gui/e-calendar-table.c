@@ -137,6 +137,23 @@ e_calendar_table_class_init (ECalendarTableClass *class)
 #endif
 }
 
+#ifdef JUST_FOR_TRANSLATORS
+static char *list [] = {
+	N_("Categories"),
+	N_("Classification"),
+	N_("Completion Date"),
+	N_("End Date"),
+	N_("Start Date"),
+	N_("Due Date"),
+	N_("Geographical Position"),
+	N_("Precent complete"),
+	N_("Priority"),
+	N_("Summary"),
+	N_("Transparency"),
+	N_("URL"),
+	N_("Alarms")
+};
+#endif
 
 #define E_CALENDAR_TABLE_SPEC							\
 	"<ETableSpecification click-to-add=\"true\" "				\

@@ -1,3 +1,7 @@
+2001-01-12  Miguel de Icaza  <miguel@ximian.com>
+
+	* gui/e-calendar-table.c: Add translation strings.
+
 2001-01-08  Iain Holmes  <iain@helixcode.com>
 
 	* gui/calendar-summary.c (create_summary_view): Add a PropertyControl
