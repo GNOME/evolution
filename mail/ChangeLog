@@ -1,3 +1,43 @@
+2001-08-09  Peter Williams  <peterw@ximian.com>
+
+	Fix bug #215... desensitize menu items based on the number of
+	selected messages (and whether there's a message in the pane)
+
+	* folder-browser-ui.c (folder_browser_ui_add_message): Sensitize
+	the menu items appropriately based on the old state.
+	(fbui_sensitize_items): New function. Set the sensitivity of a
+	list of commands.
+	(folder_browser_ui_set_selection_state): New function. Move the FB
+	to a new state of selected-ness, and sensitize menu items
+	appropriately.
+	(folder_browser_ui_message_loaded): New function. When notified
+	that a message has been loaded, sensitize some menu items.
+
+	* folder-browser-ui.h: Prototype new functions.
+
+	* folder-browser.h: New enumeration, 
+	FolderBrowserSelectionState, that records the previous state
+	of the selection (_NONE, _SINGLE, _MULTIPLE).
+
+	* folder-browser.c (got_folder): If the component is set,
+	set our selection state to _NONE, because that's the default
+	state of the ETree.
+	(on_selection_changed): When the number of selected messages
+	is updated, notify the FBUI code of our new state.
+	(folder_browser_gui_init): Hook up to the selection_changed
+	signal and default to the _NONE selection state.
+	(done_message_selected): Notify when a message is loaded.
+
+2001-08-08  Peter Williams  <peterw@ximian.com>
+
+	* mail-folder-cache.c: Display how many messages are selected,
+	too.
+	(make_folder_status): If multiple messages are selected, add that
+	to the string (the 0 and 1 cases are boring)
+	(selection_changed): New function, update the selected count.
+	(mail_folder_cache_note_fb): Connect to the selection_changed
+	signal.
+
 2001-08-14  Dan Winship  <danw@ximian.com>
 
 	* folder-browser.c (message_list_drag_data_get): Fix the fix for

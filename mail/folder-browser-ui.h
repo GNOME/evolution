@@ -20,4 +20,8 @@ void folder_browser_ui_add_global (FolderBrowser *fb);
 void folder_browser_ui_rm_list (FolderBrowser *fb);
 void folder_browser_ui_rm_all (FolderBrowser *fb);
 
+/* these affect the sensitivity of UI elements */
+void folder_browser_ui_set_selection_state (FolderBrowser *fb, FolderBrowserSelectionState state);
+void folder_browser_ui_message_loaded (FolderBrowser *fb);
+
 #endif /* _FOLDER_BROWSER_UI_H */

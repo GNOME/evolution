@@ -278,7 +278,8 @@ folder_browser_ui_add_message (FolderBrowser *fb)
 {
 	int state;
 	BonoboUIComponent *uic = fb->uicomp;
-
+	FolderBrowserSelectionState prev_state;
+		
 	ui_add (fb, "message", message_verbs, message_pixcache);
 
 	/* Display Style */
@@ -296,7 +297,13 @@ folder_browser_ui_add_message (FolderBrowser *fb)
 	/* Resend Message */
 
 	if (fb->folder && !folder_browser_is_sent (fb)) 
-		bonobo_ui_component_set_prop (uic, "/commands/MessageResend", "sensitive", "0", NULL);	
+		bonobo_ui_component_set_prop (uic, "/commands/MessageResend", "sensitive", "0", NULL);
+
+	/* sensitivity of message-specific commands */
+
+	prev_state = fb->selection_state;
+	fb->selection_state = FB_SELSTATE_UNDEFINED;
+	folder_browser_ui_set_selection_state (fb, prev_state);
 }
 
 /*
@@ -387,3 +394,123 @@ folder_browser_ui_rm_all (FolderBrowser *fb)
  	bonobo_ui_component_unset_container (uic);
 }
 
+static void
+fbui_sensitize_items (BonoboUIComponent *uic, const char **items, gboolean enable)
+{
+	int i;
+	char name_buf[256]; /* this should really be large enough */
+	char *value;
+
+	if (enable)
+		value = "1";
+	else
+		value = "0";
+
+	for (i = 0; items[i]; i++) {
+		sprintf (name_buf, "/commands/%s", items[i]);
+		bonobo_ui_component_set_prop (uic, name_buf, "sensitive", value, NULL);
+	}
+}
+
+static const char *message_pane_enables[] = {
+	/* these only work if there's a message in the message pane
+	 * (preview pane). This state is independent of how many are
+	 * selected. */
+	"PrintMessage", "PrintPreviewMessage",
+	"ViewFullHeaders", "ViewLoadImages", "ViewNormal", "ViewSource",
+	
+	NULL
+};
+
+void 
+folder_browser_ui_set_selection_state (FolderBrowser *fb, FolderBrowserSelectionState state)
+{
+	BonoboUIComponent *uic = fb->uicomp;
+
+	/* We'd like to keep the number of changes to be minimal cause
+	 * this is a lot of corba traffic. So we break these sets of commands into bits:
+	 *
+	 * Also remember that everything defaults to sensitized
+	 *
+	 * Disable:
+	 *      NONE = none_disables + multiple_disables
+	 *    SINGLE = [nothing disabled]
+	 *  MULTIPLE = multiple_disables
+	 * UNDEFINED = [nothing disabled]
+	 */
+
+	static const char *none_disables[] = {
+		/* actions that work on > 0 messages */
+		"MessageApplyFilters", 
+		"MessageCopy", "MessageMove", 
+		"MessageDelete", "MessageUndelete",
+		"MessageMarkAsRead", "MessageMarkAsUnRead",
+		"MessageMarkAsImportant", "MessageMarkAsUnimportant",
+		"MessageOpen", "MessageSaveAs", 
+		"MessageForward", "MessageForwardAttached",
+
+		"EditCut", "EditCopy", "EditPaste", "ViewHideSelected",
+
+		NULL
+	};
+
+	static const char *multiple_disables[] = {
+		/* actions that work on exactly 1 message */
+		"MessageReplyAll", "MessageReplyList", "MessageReplySender", "MessageResend", 
+		"MessageForwardInline", "MessageForwardQuoted", 
+
+		"ToolsFilterMailingList", "ToolsFilterRecipient", "ToolsFilterSender",
+		"ToolsFilterSubject", "ToolsVFolderMailingList", "ToolsVFolderRecipient", 
+		"ToolsVFolderSender", "ToolsVFolderSubject",
+
+		/* moving around -- if we have more than one message selected, it
+		 * doesn't behave very. If people complain, it isn't a problem
+		 * to put these commands in none_disables tho. */
+		"MailNext", "MailNextFlagged", "MailNextUnread", "MailNextThread",
+		"MailPrevious", "MailPreviousFlagged", "MailPreviousUnread",
+
+		NULL
+	};
+
+	/* assumes that all the appropriate XML's have been loaded */
+
+	if (state == fb->selection_state)
+		return;
+
+	switch (state) {
+	case FB_SELSTATE_NONE:
+		fbui_sensitize_items (uic, none_disables, FALSE);
+		if (fb->selection_state != FB_SELSTATE_MULTIPLE)
+			fbui_sensitize_items (uic, multiple_disables, FALSE);
+		break;
+	case FB_SELSTATE_SINGLE:
+		if (fb->selection_state != FB_SELSTATE_UNDEFINED)
+			fbui_sensitize_items (uic, multiple_disables, TRUE);
+		if (fb->selection_state == FB_SELSTATE_NONE)
+			fbui_sensitize_items (uic, none_disables, TRUE);
+		break;
+	case FB_SELSTATE_MULTIPLE:
+		if (fb->selection_state == FB_SELSTATE_NONE)
+			fbui_sensitize_items (uic, none_disables, TRUE);
+		else
+			fbui_sensitize_items (uic, multiple_disables, FALSE);
+		break;
+	case FB_SELSTATE_UNDEFINED:
+		printf ("changing to undefined selection state? hah!\n");
+		return;
+	}
+
+	if (fb->loaded_uid == NULL)
+		fbui_sensitize_items (uic, message_pane_enables, FALSE);
+
+	fb->selection_state = state;
+}
+
+void
+folder_browser_ui_message_loaded (FolderBrowser *fb)
+{
+	BonoboUIComponent *uic = fb->uicomp;
+
+	if (fb->loaded_uid == NULL)
+		fbui_sensitize_items (uic, message_pane_enables, TRUE);
+}

@@ -47,6 +47,7 @@
 #include "mail-autofilter.h"
 #include "mail-mt.h"
 #include "mail-folder-cache.h"
+#include "folder-browser-ui.h"
 
 #include "mail-local.h"
 #include "mail-config.h"
@@ -711,6 +712,11 @@ got_folder(char *uri, CamelFolder *folder, void *data)
 
 	mail_folder_cache_note_folder (fb->uri, folder);
 	mail_folder_cache_note_fb (fb->uri, fb);
+
+	/* when loading a new folder, nothing is selected initially */
+
+	if (fb->uicomp)
+		folder_browser_ui_set_selection_state (fb, FB_SELSTATE_NONE);
 
  done:
 	gtk_object_unref (GTK_OBJECT (fb));
@@ -1597,6 +1603,33 @@ on_double_click (ETree *tree, gint row, ETreePath path, gint col, GdkEvent *even
 }
 
 static void
+on_selection_changed (GtkObject *obj, gpointer user_data)
+{
+	FolderBrowser *fb = FOLDER_BROWSER (user_data);
+	FolderBrowserSelectionState state;
+
+	/* we can get this signal at strange times...
+	 * if no uicomp, don't even bother */
+
+	if (fb->uicomp == NULL)
+		return;
+
+	switch (e_selection_model_selected_count (E_SELECTION_MODEL (obj))) {
+	case 0:
+		state = FB_SELSTATE_NONE;
+		break;
+	case 1:
+		state = FB_SELSTATE_SINGLE;
+		break;
+	default:
+		state = FB_SELSTATE_MULTIPLE;
+		break;
+	}
+
+	folder_browser_ui_set_selection_state (fb, state);
+}
+
+static void
 fb_resize_cb (GtkWidget *w, GtkAllocation *a, FolderBrowser *fb)
 {	
 	if (fb->preview_shown)
@@ -1606,6 +1639,8 @@ fb_resize_cb (GtkWidget *w, GtkAllocation *a, FolderBrowser *fb)
 static void
 folder_browser_gui_init (FolderBrowser *fb)
 {
+	ESelectionModel *esm;
+
 	/* The panned container */
 	fb->vpaned = e_vpaned_new ();
 	gtk_widget_show (fb->vpaned);
@@ -1643,12 +1678,17 @@ folder_browser_gui_init (FolderBrowser *fb)
 	gtk_signal_connect (GTK_OBJECT (fb->search), "menu_activated",
 			    GTK_SIGNAL_FUNC (folder_browser_search_menu_activated), fb);
 	
+	
 	gtk_table_attach (GTK_TABLE (fb), GTK_WIDGET (fb->search),
 			  0, 1, 0, 1,
 			  GTK_FILL | GTK_EXPAND,
 			  0,
 			  0, 0);
-	
+
+	esm = e_tree_get_selection_model (E_TREE (fb->message_list->tree));
+	gtk_signal_connect (GTK_OBJECT (esm), "selection_changed", on_selection_changed, fb);
+	fb->selection_state = FB_SELSTATE_NONE; /* default to none */
+
 	e_paned_add1 (E_PANED (fb->vpaned), GTK_WIDGET (fb->message_list));
 	gtk_widget_show (GTK_WIDGET (fb->message_list));
 	
@@ -1687,6 +1727,8 @@ done_message_selected (CamelFolder *folder, char *uid, CamelMimeMessage *msg, vo
 		return;
 	
 	mail_display_set_message (fb->mail_display, (CamelMedium *)msg);
+	folder_browser_ui_message_loaded (fb);
+
 	/* FIXME: should this signal be emitted here?? */
 	gtk_signal_emit (GTK_OBJECT (fb), folder_browser_signals [MESSAGE_LOADED], uid);
 	

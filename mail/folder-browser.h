@@ -24,6 +24,13 @@
 #define IS_FOLDER_BROWSER(o)       (GTK_CHECK_TYPE ((o), FOLDER_BROWSER_TYPE))
 #define IS_FOLDER_BROWSER_CLASS(k) (GTK_CHECK_CLASS_TYPE ((k), FOLDER_BROWSER_TYPE))
 
+typedef enum _FolderBrowserSelectionState {
+	FB_SELSTATE_NONE,
+	FB_SELSTATE_SINGLE,
+	FB_SELSTATE_MULTIPLE,
+	FB_SELSTATE_UNDEFINED
+} FolderBrowserSelectionState;
+
 struct  _FolderBrowser {
 	GtkTable parent;
 	
@@ -62,6 +69,8 @@ struct  _FolderBrowser {
 	gboolean     preview_shown;
 	gboolean     threaded;
 	gboolean     pref_master;
+
+	FolderBrowserSelectionState selection_state;
 
 	/* View collection and the menu handler object */
 	GalViewCollection *view_collection;

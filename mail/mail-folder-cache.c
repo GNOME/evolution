@@ -50,7 +50,8 @@ typedef enum mail_folder_info_flags {
 	MAIL_FIF_PATH_VALID = (1 << 5),
 	MAIL_FIF_NAME_VALID = (1 << 6),
 	MAIL_FIF_UPDATE_QUEUED = (1 << 7),
-	MAIL_FIF_FB_VALID = (1 << 8)
+	MAIL_FIF_FB_VALID = (1 << 8),
+	MAIL_FIF_SELECTED_VALID = (1 << 9)
 } mfif;
 
 typedef enum mail_folder_info_update_mode {
@@ -73,7 +74,7 @@ typedef struct _mail_folder_info {
 	gchar *name;
 
 	guint flags;
-	guint unread, total, hidden;
+	guint unread, total, hidden, selected;
 
 	FolderBrowser *fb;
 
@@ -151,6 +152,13 @@ make_folder_status (mail_folder_info *mfi)
 		if (set_one)
 			work = g_string_append (work, _(", "));
 		g_string_sprintfa (work, _("%d hidden"), mfi->hidden);
+		set_one = TRUE;
+	}
+		
+	if (mfi->flags & MAIL_FIF_SELECTED_VALID && mfi->selected > 1) {
+		if (set_one)
+			work = g_string_append (work, _(", "));
+		g_string_sprintfa (work, _("%d selected"), mfi->selected);
 		set_one = TRUE;
 	}
 		
@@ -424,6 +432,23 @@ message_list_built (MessageList *ml, gpointer user_data)
 }
 
 static void
+selection_changed (ESelectionModel *esm, gpointer user_data)
+{
+	mail_folder_info *mfi = user_data;
+	
+	d(g_message ("Selection model %p changed, checking selected", esm));
+
+	LOCK_FOLDERS ();
+
+	mfi->selected = e_selection_model_selected_count (esm);
+	mfi->flags |= MAIL_FIF_SELECTED_VALID;
+
+	UNLOCK_FOLDERS ();
+
+	maybe_update (mfi);
+}
+
+static void
 check_for_fb_match (gpointer key, gpointer value, gpointer user_data)
 {
 	mail_folder_info *mfi = (mail_folder_info *) value;
@@ -652,6 +677,8 @@ mail_folder_cache_note_fb (const gchar *uri, FolderBrowser *fb)
 
 	gtk_signal_connect (GTK_OBJECT (fb->message_list), "message_list_built",
 			    message_list_built, mfi);
+	gtk_signal_connect (GTK_OBJECT (e_tree_get_selection_model (fb->message_list->tree)),
+			    "selection_changed", selection_changed, mfi);
 
 	UNLOCK_FOLDERS ();
 
