@@ -233,9 +233,9 @@ stream_seek (CamelSeekableStream *stream, off_t offset,
 		break;
 	}
 
-	if (stream->bound_end == CAMEL_STREAM_UNBOUND)
+	if (stream->bound_end != CAMEL_STREAM_UNBOUND)
 		position = MIN (position, stream->bound_end);
-	if (stream->bound_start == CAMEL_STREAM_UNBOUND)
+	if (stream->bound_start != CAMEL_STREAM_UNBOUND)
 		position = MAX (position, 0);
 	else
 		position = MAX (position, stream->bound_start);

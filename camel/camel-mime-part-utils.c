@@ -33,6 +33,7 @@
 #include "camel-stream-mem.h"
 #include "camel-mime-filter-basic.h"
 #include "camel-mime-filter-charset.h"
+#include "camel-mime-filter-crlf.h"
 
 #define d(x)
 
@@ -44,9 +45,9 @@ simple_data_wrapper_construct_from_parser(CamelDataWrapper *dw, CamelMimeParser 
 	char *buf;
 	int len;
 	off_t start, end;	/* ignore the start may be used unitialised warning */
-	CamelMimeFilter *fdec = NULL, *fch = NULL;
+	CamelMimeFilter *fdec = NULL, *fcrlf = NULL, *fch = NULL;
 	struct _header_content_type *ct;
-	int decid=-1, chrid=-1, cache=TRUE;
+	int decid=-1, crlfid=-1, chrid=-1, cache=TRUE;
 	CamelStream *source;
 	CamelSeekableStream *seekable_source; /* and ignore the warning about this one too. */
 	char *encoding;
@@ -82,10 +83,18 @@ simple_data_wrapper_construct_from_parser(CamelDataWrapper *dw, CamelMimeParser 
 		g_free(encoding);
 	}
 
-	/* if we're doing text, then see if we have to convert it to UTF8 as well */
+	/* If we're doing text, we also need to do CRLF->LF and may have to convert it to UTF8 as well. */
 	ct = camel_mime_parser_content_type(mp);
 	if (header_content_type_is(ct, "text", "*")) {
 		const char *charset = header_content_type_param(ct, "charset");
+
+		if (fdec) {
+			d(printf("Adding CRLF conversion filter\n"));
+			fcrlf = (CamelMimeFilter *)camel_mime_filter_crlf_new(CAMEL_MIME_FILTER_CRLF_DECODE,
+									      CAMEL_MIME_FILTER_CRLF_MODE_CRLF_ONLY);
+			crlfid = camel_mime_parser_filter_add(mp, fcrlf);
+		}
+
 		if (charset!=NULL
 		    && !(strcasecmp(charset, "us-ascii")==0
 			 || strcasecmp(charset, "iso-8859-1")==0)) {
@@ -141,6 +150,10 @@ simple_data_wrapper_construct_from_parser(CamelDataWrapper *dw, CamelMimeParser 
 				camel_mime_filter_reset(fdec);
 				camel_stream_filter_add(filter, fdec);
 			}
+			if (fcrlf) {
+				camel_mime_filter_reset(fcrlf);
+				camel_stream_filter_add(filter, fcrlf);
+			}
 			if (fch) {
 				camel_mime_filter_reset(fch);
 				camel_stream_filter_add(filter, fch);
@@ -154,10 +167,13 @@ simple_data_wrapper_construct_from_parser(CamelDataWrapper *dw, CamelMimeParser 
 	}
 
 	camel_mime_parser_filter_remove(mp, decid);
+	camel_mime_parser_filter_remove(mp, crlfid);
 	camel_mime_parser_filter_remove(mp, chrid);
 
 	if (fdec)
 		gtk_object_unref((GtkObject *)fdec);
+	if (fcrlf)
+		gtk_object_unref((GtkObject *)fcrlf);
 	if (fch)
 		gtk_object_unref((GtkObject *)fch);
 	if (source)

@@ -642,8 +642,8 @@ camel_pop3_command_get_additional_data (CamelPop3Store *store,
 {
 	CamelStreamBuffer *stream = CAMEL_STREAM_BUFFER (store->istream);
 	GPtrArray *data;
-	char *buf;
-	int i, status = CAMEL_POP3_OK;
+	char *buf, *p;
+	int i, len = 0, status = CAMEL_POP3_OK;
 
 	data = g_ptr_array_new ();
 	while (1) {
@@ -655,24 +655,26 @@ camel_pop3_command_get_additional_data (CamelPop3Store *store,
 
 		if (!strcmp (buf, "."))
 			break;
-		if (*buf == '.')
-			memmove (buf, buf + 1, strlen (buf));
-		g_ptr_array_add (data, buf);
+		p = (*buf == '.') ? buf + 1 : buf;
+		g_ptr_array_add (data, p);
+		len += strlen (p) + 1;
 	}
 	g_free (buf);
 
 	if (status == CAMEL_POP3_OK) {
-		/* Append an empty string to the end of the array
-		 * so when we g_strjoinv it, we get a "\n" after
-		 * the last real line.
-		 */
-		g_ptr_array_add (data, "");
-		g_ptr_array_add (data, NULL);
-		buf = g_strjoinv ("\n", (char **)data->pdata);
+		buf = g_malloc (len + 1);
+
+		for (i = 0, p = buf; i < data->len; i++) {
+			len = strlen (data->pdata[i]);
+			memcpy (p, data->pdata[i], len);
+			p += len;
+			*p++ = '\n';
+		}
+		*p = '\0';
 	} else
 		buf = NULL;
 
-	for (i = 0; i < data->len - 2; i++)
+	for (i = 0; i < data->len; i++)
 		g_free (data->pdata[i]);
 	g_ptr_array_free (data, TRUE);
 

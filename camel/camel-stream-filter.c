@@ -120,7 +120,7 @@ camel_stream_filter_class_init (CamelStreamFilterClass *klass)
 	camel_stream_class->read = do_read;
 	camel_stream_class->write = do_write;
 	camel_stream_class->flush = do_flush;
-	camel_stream_class->flush = do_close;
+	camel_stream_class->close = do_close;
 	camel_stream_class->eos = do_eos; 
 	camel_stream_class->reset = do_reset;
 

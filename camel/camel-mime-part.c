@@ -542,8 +542,10 @@ write_to_stream (CamelDataWrapper *data_wrapper, CamelStream *stream)
 
 #endif
 		count = camel_data_wrapper_write_to_stream (content, stream);
-		if (filter_stream)
+		if (filter_stream) {
+			camel_stream_flush((CamelStream *)filter_stream);
 			gtk_object_unref((GtkObject *)filter_stream);
+		}
 		if (count == -1)
 			return -1;
 		total += count;
