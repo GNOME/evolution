@@ -870,7 +870,7 @@ e_contact_editor_init (EContactEditor *e_contact_editor)
 
 
 	/* Construct the app */
-	bonobo_win = bonobo_win_new ("contact-editor-dialog", "Contact Editor");
+	bonobo_win = bonobo_window_new ("contact-editor-dialog", "Contact Editor");
 
 	/* FIXME: The sucking bit */
 	{
@@ -884,7 +884,7 @@ e_contact_editor_init (EContactEditor *e_contact_editor)
 		}
 		gtk_widget_ref (contents);
 		gtk_container_remove (GTK_CONTAINER (contents->parent), contents);
-		bonobo_win_set_contents (BONOBO_WIN (bonobo_win), contents);
+		bonobo_window_set_contents (BONOBO_WINDOW (bonobo_win), contents);
 		gtk_widget_destroy (e_contact_editor->app);
 		e_contact_editor->app = bonobo_win;
 	}
@@ -892,7 +892,7 @@ e_contact_editor_init (EContactEditor *e_contact_editor)
 	/* Build the menu and toolbar */
 
 	container = bonobo_ui_container_new ();
-	bonobo_ui_container_set_win (container, BONOBO_WIN (e_contact_editor->app));
+	bonobo_ui_container_set_win (container, BONOBO_WINDOW (e_contact_editor->app));
 
 	e_contact_editor->uic = bonobo_ui_component_new_default ();
 	if (!e_contact_editor->uic) {

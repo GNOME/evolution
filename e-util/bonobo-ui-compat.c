@@ -19,8 +19,8 @@
 #include <bonobo/bonobo-ui-xml.h>
 #include <bonobo/bonobo-ui-util.h>
 #include <bonobo/bonobo-ui-container.h>
-#include <e-util/bonobo-ui-compat.h>
 #include <bonobo/bonobo-ui-node.h>
+#include "bonobo-ui-compat.h"
 
 #include <gnome-xml/tree.h>
 #include <gnome-xml/parser.h>
@@ -56,7 +56,7 @@ static int no_sideffect_event_inhibit = 0;
 
 typedef struct {
 	BonoboUIComponent *component;
-	BonoboWin         *application;
+	BonoboWindow      *application;
 } BonoboUIHandlerPrivate;
 
 #define MAGIC_UI_HANDLER_KEY "Bonobo::CompatUIPrivKey"
@@ -1246,7 +1246,7 @@ bonobo_ui_handler_toolbar_item_set_pixmap (BonoboUIHandler *uih, const char *pat
 }
 
 void
-bonobo_ui_handler_set_app (BonoboUIHandler *uih, BonoboWin *win)
+bonobo_ui_handler_set_app (BonoboUIHandler *uih, BonoboWindow *win)
 {
 	BonoboUIHandlerPrivate *priv;
 	BonoboUIContainer *container;
@@ -1262,7 +1262,7 @@ bonobo_ui_handler_set_app (BonoboUIHandler *uih, BonoboWin *win)
 		uih, bonobo_object_corba_objref (BONOBO_OBJECT (container)));
 }
 
-BonoboWin *
+BonoboWindow *
 bonobo_ui_handler_get_app (BonoboUIHandler *uih)
 {
 	BonoboUIHandlerPrivate *priv;

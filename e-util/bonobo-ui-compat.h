@@ -110,7 +110,7 @@ BonoboUIHandler		*bonobo_ui_handler_new				(void);
 BonoboUIHandler		*bonobo_ui_handler_new_from_component           (BonoboUIComponent *component);
 
 BonoboUIComponent       *bonobo_ui_compat_get_component                 (BonoboUIHandler *uih);
-BonoboWin               *bonobo_ui_compat_get_app                       (BonoboUIHandler *uih);
+BonoboWindow            *bonobo_ui_compat_get_app                       (BonoboUIHandler *uih);
 Bonobo_UIContainer       bonobo_ui_compat_get_container                 (BonoboUIHandler *uih);
 
 /*
@@ -125,8 +125,8 @@ char			*bonobo_ui_handler_build_path			(const char *base, ...);
 char			*bonobo_ui_handler_build_path_v			(const char *base, va_list path_components);
 
 /* Toplevel menu routines. */
-void			 bonobo_ui_handler_set_app			(BonoboUIHandler *uih, BonoboWin *app);
-BonoboWin               *bonobo_ui_handler_get_app                      (BonoboUIHandler *uih);
+void			 bonobo_ui_handler_set_app			(BonoboUIHandler *uih, BonoboWindow *app);
+BonoboWindow    *bonobo_ui_handler_get_app                      (BonoboUIHandler *uih);
 
 void			 bonobo_ui_handler_set_toolbar			(BonoboUIHandler *uih, const char *name,
 									 GtkWidget *toolbar);

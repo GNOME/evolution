@@ -56,7 +56,7 @@
 #include <gal/e-paned/e-hpaned.h>
 
 
-static BonoboWinClass *parent_class = NULL;
+static BonoboWindowClass *parent_class = NULL;
 
 struct _EShellViewPrivate {
 	/* The shell.  */
@@ -508,7 +508,7 @@ setup_widgets (EShellView *shell_view)
 	e_paned_add2 (E_PANED (priv->hpaned), priv->view_vbox);
 	e_paned_set_position (E_PANED (priv->hpaned), DEFAULT_SHORTCUT_BAR_WIDTH);
 
-	bonobo_win_set_contents (BONOBO_WIN (shell_view), priv->hpaned);
+	bonobo_window_set_contents (BONOBO_WINDOW (shell_view), priv->hpaned);
 
 	/* Show stuff.  */
 
@@ -618,7 +618,7 @@ class_init (EShellViewClass *klass)
 
 	object_class->destroy = destroy;
 
-	parent_class = gtk_type_class (BONOBO_TYPE_WIN);
+	parent_class = gtk_type_class (BONOBO_TYPE_WINDOW);
 
 	signals[SHORTCUT_BAR_MODE_CHANGED]
 		= gtk_signal_new ("shortcut_bar_mode_changed",
@@ -814,7 +814,7 @@ e_shell_view_construct (EShellView *shell_view,
 
 	priv = shell_view->priv;
 
-	view = E_SHELL_VIEW (bonobo_win_construct (BONOBO_WIN (shell_view), "evolution", "Evolution"));
+	view = E_SHELL_VIEW (bonobo_window_construct (BONOBO_WINDOW (shell_view), "evolution", "Evolution"));
 
 	if (!view) {
 		gtk_object_unref (GTK_OBJECT (shell_view));
@@ -831,7 +831,7 @@ e_shell_view_construct (EShellView *shell_view,
 	priv->shell = shell;
 
 	container = bonobo_ui_container_new ();
-	bonobo_ui_container_set_win (container, BONOBO_WIN (shell_view));
+	bonobo_ui_container_set_win (container, BONOBO_WINDOW (shell_view));
 
 	priv->ui_component = bonobo_ui_component_new ("evolution");
 	bonobo_ui_component_set_container (priv->ui_component,
@@ -1303,7 +1303,7 @@ e_shell_view_display_uri (EShellView *shell_view,
 
 	priv = shell_view->priv;
 
-	bonobo_win_freeze (BONOBO_WIN (shell_view));
+	bonobo_window_freeze (BONOBO_WINDOW (shell_view));
 
 	if (uri == NULL) {
 		gtk_notebook_remove_page (GTK_NOTEBOOK (priv->notebook), 0);
@@ -1346,7 +1346,7 @@ e_shell_view_display_uri (EShellView *shell_view,
  end:
 	update_for_current_uri (shell_view);
 
-	bonobo_win_thaw (BONOBO_WIN (shell_view));
+	bonobo_window_thaw (BONOBO_WINDOW (shell_view));
 
 	return retval;
 }
@@ -1585,4 +1585,4 @@ e_shell_view_load_settings (EShellView *shell_view,
 }
 
 
-E_MAKE_TYPE (e_shell_view, "EShellView", EShellView, class_init, init, BONOBO_TYPE_WIN)
+E_MAKE_TYPE (e_shell_view, "EShellView", EShellView, class_init, init, BONOBO_TYPE_WINDOW)

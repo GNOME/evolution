@@ -1473,7 +1473,7 @@ event_editor_construct (EventEditor *ee)
 	init_widgets (ee);
 
 	/* Construct the app */
-	bonobo_win = bonobo_win_new ("event-editor-dialog", "Event Editor");
+	bonobo_win = bonobo_window_new ("event-editor-dialog", "Event Editor");
 
 	/* FIXME: The sucking bit */
 	{
@@ -1487,7 +1487,7 @@ event_editor_construct (EventEditor *ee)
 		}
 		gtk_widget_ref (contents);
 		gtk_container_remove (GTK_CONTAINER (contents->parent), contents);
-		bonobo_win_set_contents (BONOBO_WIN (bonobo_win), contents);
+		bonobo_window_set_contents (BONOBO_WINDOW (bonobo_win), contents);
 		gtk_widget_destroy (priv->app);
 		priv->app = bonobo_win;
 	}
@@ -1498,7 +1498,7 @@ event_editor_construct (EventEditor *ee)
 		goto error;
 	}
 
-	bonobo_ui_handler_set_app (priv->uih, BONOBO_WIN (priv->app));
+	bonobo_ui_handler_set_app (priv->uih, BONOBO_WINDOW (priv->app));
 
 	create_menu (ee);
 	create_toolbar (ee);

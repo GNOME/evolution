@@ -583,7 +583,7 @@ addressbook_factory_new_control (void)
 		view->properties, PROPERTY_FOLDER_URI, PROPERTY_FOLDER_URI_IDX,
 		BONOBO_ARG_STRING, NULL, _("The URI that the Folder Browser will display"), 0);
 
-	bonobo_control_set_property_bag (view->control,
+	bonobo_control_set_properties (view->control,
 					 view->properties);
 
 	view->uri = NULL;

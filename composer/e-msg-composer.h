@@ -48,7 +48,7 @@ typedef struct _EMsgComposer       EMsgComposer;
 typedef struct _EMsgComposerClass  EMsgComposerClass;
 
 struct _EMsgComposer {
-	BonoboWin parent;
+	BonoboWindow parent;
 	
 	BonoboUIHandler *uih;
 	
@@ -72,7 +72,7 @@ struct _EMsgComposer {
 };
 
 struct _EMsgComposerClass {
-	BonoboWinClass parent_class;
+	BonoboWindowClass parent_class;
 	
 	void (* send) (EMsgComposer *composer);
 	void (* postpone) (EMsgComposer *composer);

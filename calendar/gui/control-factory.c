@@ -126,7 +126,7 @@ calendar_properties_init (GnomeCalendar *gcal, BonoboControl *control)
 				 _("The URI that the calendar will display"),
 				 0);
 
-	bonobo_control_set_property_bag (control, pbag);
+	bonobo_control_set_properties (control, pbag);
 }
 
 /* Callback factory function for calendar controls */

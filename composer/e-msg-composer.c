@@ -595,7 +595,7 @@ menu_file_save_cb (BonoboUIHandler *uih,
 
 	CORBA_exception_init (&ev);
 
-	file_name = Bonobo_PersistFile_get_current_file (composer->persist_file_interface, &ev);
+	file_name = Bonobo_PersistFile_getCurrentFile (composer->persist_file_interface, &ev);
 
 	if (ev._major != CORBA_NO_EXCEPTION) {
 		save (composer, NULL);
@@ -1164,7 +1164,7 @@ class_init (EMsgComposerClass *klass)
 	
 	widget_class->delete_event = delete_event;
 	
-	parent_class = gtk_type_class (bonobo_win_get_type ());
+	parent_class = gtk_type_class (bonobo_window_get_type ());
 	
 	signals[SEND] =
 		gtk_signal_new ("send",
@@ -1226,7 +1226,7 @@ e_msg_composer_get_type (void)
 			(GtkClassInitFunc) NULL,
 		};
 		
-		type = gtk_type_unique (bonobo_win_get_type (), &info);
+		type = gtk_type_unique (bonobo_window_get_type (), &info);
 	}
 	
 	return type;
@@ -1253,7 +1253,7 @@ e_msg_composer_construct (EMsgComposer *composer)
 	gtk_window_set_default_size (GTK_WINDOW (composer),
 				     DEFAULT_WIDTH, DEFAULT_HEIGHT);
 	
-	bonobo_win_construct (BONOBO_WIN (composer), "e-msg-composer",
+	bonobo_window_construct (BONOBO_WINDOW (composer), "e-msg-composer",
 			     _("Compose a message"));
 	
 	/* DND support */
@@ -1263,7 +1263,7 @@ e_msg_composer_construct (EMsgComposer *composer)
 			    GTK_SIGNAL_FUNC (drag_data_received), NULL);
 	
 	composer->uih = bonobo_ui_handler_new ();
-	bonobo_ui_handler_set_app (composer->uih, BONOBO_WIN (composer));
+	bonobo_ui_handler_set_app (composer->uih, BONOBO_WINDOW (composer));
 	
 	vbox = gtk_vbox_new (FALSE, 0);
 	
@@ -1312,7 +1312,7 @@ e_msg_composer_construct (EMsgComposer *composer)
 	gtk_signal_connect (GTK_OBJECT (composer->attachment_bar), "changed",
 			    GTK_SIGNAL_FUNC (attachment_bar_changed_cb), composer);
 
-	bonobo_win_set_contents (BONOBO_WIN (composer), vbox);
+	bonobo_window_set_contents (BONOBO_WINDOW (composer), vbox);
 	gtk_widget_show (vbox);
 
 	e_msg_composer_show_attachments (composer, FALSE);

@@ -259,7 +259,7 @@ task_editor_construct (TaskEditor *tedit)
 		goto error;
 	}
 
-	bonobo_win = bonobo_win_new ("event-editor-dialog", "Event Editor");
+	bonobo_win = bonobo_window_new ("event-editor-dialog", "Event Editor");
 
 	/* FIXME: The sucking bit */
 	{
@@ -273,12 +273,12 @@ task_editor_construct (TaskEditor *tedit)
 		}
 		gtk_widget_ref (contents);
 		gtk_container_remove (GTK_CONTAINER (contents->parent), contents);
-		bonobo_win_set_contents (BONOBO_WIN (bonobo_win), contents);
+		bonobo_window_set_contents (BONOBO_WINDOW (bonobo_win), contents);
 		gtk_widget_destroy (priv->app);
 		priv->app = GTK_WIDGET (bonobo_win);
 	}
 
-	bonobo_ui_handler_set_app (priv->uih, BONOBO_WIN (priv->app));
+	bonobo_ui_handler_set_app (priv->uih, BONOBO_WINDOW (priv->app));
 
 	create_menu (tedit);
 	create_toolbar (tedit);
@@ -680,7 +680,7 @@ create_toolbar (TaskEditor *tedit)
 #if 0
 	/* Fetch the toolbar.  What a pain in the ass. */
 
-	dock_item = bonobo_win_get_dock_item_by_name (BONOBO_WIN (priv->app), BONOBO_WIN_TOOLBAR_NAME);
+	dock_item = bonobo_win_get_dock_item_by_name (BONOBO_WINDOW (priv->app), BONOBO_WIN_TOOLBAR_NAME);
 	g_assert (dock_item != NULL);
 
 	toolbar_child = gnome_dock_item_get_child (dock_item);
