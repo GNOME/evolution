@@ -1,5 +1,11 @@
 2001-07-18  Jason Leach  <jleach@ximian.com>
 
+	* mail-tools.h (mail_tool_get_local_inbox_url): Remove this
+	prototype for a function that was removed long ago.
+	(mail_tool_get_local_movemail_url): Ditto.
+
+2001-07-18  Jason Leach  <jleach@ximian.com>
+
 	[Simplifying how default account is stored and used internally,
 	fixes possabilities of having multiple default accounts and things
 	like deleting the current default account]
