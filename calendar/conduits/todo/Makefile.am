@@ -41,7 +41,7 @@ libetodo_conduit_la_LIBADD = 						\
 	$(top_builddir)/libical/src/libical/libical-static.la		\
 	$(top_builddir)/e-util/libeconduit-static.la	 		\
 	$(BONOBO_GNOME_LIBS)						\
-	$(PISOCK_LIBDIR) $(PISOCK_LIBS) 				\
+	$(PISOCK_LIBS) 							\
 	$(UNICODE_LIBS)							\
 	$(GNOME_LIBDIR) 						\
 	$(GNOME_LIBS)

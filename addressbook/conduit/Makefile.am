@@ -41,7 +41,7 @@ libeaddress_conduit_la_LIBADD = 					\
 	$(top_builddir)/libversit/libversit.la				\
 	$(top_builddir)/e-util/libeconduit-static.la	 		\
 	$(GNOME_PILOT_LIBS) 						\
-	$(PISOCK_LIBDIR) $(PISOCK_LIBS) 				\
+	$(PISOCK_LIBS) 							\
 	$(BONOBO_GNOME_LIBS)						\
 	$(EXTRA_GNOME_LIBS)						\
 	$(GNOME_LIBDIR) 						\
