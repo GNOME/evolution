@@ -51,9 +51,11 @@ struct _CamelVeeFolderClass {
 };
 
 guint		camel_vee_folder_get_type	(void);
-CamelFolder    *camel_vee_folder_new		(CamelStore *parent_store, const char *name, guint32 flags, CamelException *ex);
+CamelFolder    *camel_vee_folder_new		(CamelStore *parent_store, const char *name,
+						 guint32 flags, CamelException *ex);
 
-void camel_vee_folder_add_folder(CamelVeeFolder *vf, CamelFolder *sub);
-void camel_vee_folder_remove_folder(CamelVeeFolder *vf, CamelFolder *sub);
+void         camel_vee_folder_add_folder         (CamelVeeFolder *vf, CamelFolder *sub);
+void         camel_vee_folder_remove_folder      (CamelVeeFolder *vf, CamelFolder *sub);
+CamelFolder *camel_vee_folder_get_message_folder (CamelVeeFolder *vf, const char *uid);
 
 #endif /* ! _CAMEL_VEE_FOLDER_H */

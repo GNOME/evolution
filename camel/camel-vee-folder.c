@@ -703,6 +703,14 @@ message_changed(CamelFolder *f, const char *uid, CamelVeeFolder *vf)
 	g_free(vuid);
 }
 
+
+/**
+ * camel_vee_folder_remove_folder:
+ * @vf: Virtual Folder object
+ * @sub: source CamelFolder to remove from @vf
+ *
+ * Removed the source folder, @sub, from the virtual folder, @vf.
+ **/
 void
 camel_vee_folder_remove_folder(CamelVeeFolder *vf, CamelFolder *sub)
 {
@@ -737,6 +745,14 @@ camel_vee_folder_remove_folder(CamelVeeFolder *vf, CamelFolder *sub)
 	CAMEL_VEE_FOLDER_UNLOCK(vf, summary_lock);
 }
 
+
+/**
+ * camel_vee_folder_add_folder:
+ * @vf: Virtual Folder object
+ * @sub: source CamelFolder to add to @vf
+ *
+ * Adds @sub as a source folder to @vf.
+ **/
 void
 camel_vee_folder_add_folder(CamelVeeFolder *vf, CamelFolder *sub)
 {
@@ -772,6 +788,36 @@ camel_vee_folder_add_folder(CamelVeeFolder *vf, CamelFolder *sub)
 #endif
 
 	CAMEL_VEE_FOLDER_UNLOCK(vf, summary_lock);
+}
+
+
+/**
+ * camel_vee_folder_get_message_folder:
+ * @vf: Virtual Folder object
+ * @uid: message uid
+ *
+ * Returns the parent folder of @uid if it exists, otherwise NULL.
+ * Note: You must unref the folder when finished with it.
+ **/
+CamelFolder *
+camel_vee_folder_get_message_folder (CamelVeeFolder *vf, const gchar *uid)
+{
+	CamelVeeMessageInfo *mi;
+	CamelFolder *folder;
+	
+	CAMEL_VEE_FOLDER_LOCK(vf, summary_lock);
+	
+	mi = (CamelVeeMessageInfo *)camel_folder_summary_uid (CAMEL_FOLDER (vf)->summary, uid);
+	if (mi) {
+		camel_object_ref (CAMEL_OBJECT (mi->folder));
+		folder = mi->folder;
+	} else {
+		folder = NULL;
+	}
+	
+	CAMEL_VEE_FOLDER_UNLOCK(vf, summary_lock);
+	
+	return folder;
 }
 
 static void

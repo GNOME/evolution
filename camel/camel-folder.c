@@ -28,11 +28,14 @@
 #include "camel-folder.h"
 #include "camel-exception.h"
 #include "camel-store.h"
+#include "camel-vee-folder.h"
 #include "camel-mime-message.h"
 #include "string-utils.h"
 #include "e-util/e-memory.h"
 
 #include "camel-private.h"
+
+#define d(x) x
 
 static CamelObjectClass *parent_class = NULL;
 
@@ -1062,21 +1065,44 @@ copy_message_to (CamelFolder *source, const char *uid, CamelFolder *dest, CamelE
 	/* Default implementation. */
 	
 	/* we alredy have the lock, dont deadlock */
-	msg = CF_CLASS(source)->get_message(source, uid, ex);
+	msg = CF_CLASS (source)->get_message (source, uid, ex);
 	if (!msg)
 		return;
+	
 	if (source->has_summary_capability)
-		info = CF_CLASS(source)->get_message_info (source, uid);
+		info = CF_CLASS (source)->get_message_info (source, uid);
 	else
-		info = camel_message_info_new_from_header(((CamelMimePart *)msg)->headers);
+		info = camel_message_info_new_from_header (((CamelMimePart *)msg)->headers);
+	
+	/* we don't want to retain the deleted flag */
+	if (info && info->flags & CAMEL_MESSAGE_DELETED)
+		info->flags = info->flags & ~CAMEL_MESSAGE_DELETED;
+	
 	camel_folder_append_message (dest, msg, info, ex);
 	camel_object_unref (CAMEL_OBJECT (msg));
 	if (info) {
 		if (source->has_summary_capability)
-			CF_CLASS(source)->free_message_info(source, info);
+			CF_CLASS (source)->free_message_info (source, info);
 		else
-			camel_message_info_free(info);
+			camel_message_info_free (info);
 	}
+}
+
+/* Note: this gets used by camel_folder_copy_message_to and camel_folder_move_message_to */
+static CamelFolder *
+get_the_vtrash (CamelFolder *source, CamelFolder *dest)
+{
+	/* Find the vtrash folder given the source and destination folders.
+	   We don't want to return the 'vtrash'->parent_store->vtrash
+           because it won't exist */
+	if (source->parent_store->vtrash)
+		return source->parent_store->vtrash;
+	else if (dest->parent_store->vtrash)
+		return dest->parent_store->vtrash;
+	
+	/* either this store doesn't implement vtrash or src
+	   and dest are both vtrash folders */
+	return NULL;
 }
 
 /**
@@ -1089,8 +1115,6 @@ copy_message_to (CamelFolder *source, const char *uid, CamelFolder *dest, CamelE
  * This copies a message from one folder to another. If the @source and
  * @dest folders have the same parent_store, this may be more efficient
  * than a camel_folder_append_message().
- *
- * This function is still depcreated, it is not the same as move_message_to.
  **/
 void
 camel_folder_copy_message_to (CamelFolder *source, const char *uid,
@@ -1099,14 +1123,25 @@ camel_folder_copy_message_to (CamelFolder *source, const char *uid,
 	g_return_if_fail (CAMEL_IS_FOLDER (source));
 	g_return_if_fail (CAMEL_IS_FOLDER (dest));
 	g_return_if_fail (uid != NULL);
-
+	
 	CAMEL_FOLDER_LOCK(source, lock);
-
-	if (source->parent_store == dest->parent_store)
-		CF_CLASS (source)->copy_message_to (source, uid, dest, ex);
-	else
+	
+	if (source->parent_store == dest->parent_store) {
+		CamelFolder *vtrash;
+		
+		vtrash = get_the_vtrash (source, dest);
+		
+		if (source == vtrash || dest == vtrash) {
+			/* don't allow the user to copy to or from the vtrash folder */
+			camel_exception_setv (ex, CAMEL_EXCEPTION_SYSTEM,
+					      _("You cannot copy a message to or from "
+						"this trash folder."));
+		} else {
+			CF_CLASS (source)->copy_message_to (source, uid, dest, ex);
+		}
+	} else
 		copy_message_to (source, uid, dest, ex);
-
+	
 	CAMEL_FOLDER_UNLOCK(source, lock);
 }
 
@@ -1117,25 +1152,33 @@ move_message_to (CamelFolder *source, const char *uid,
 {
 	CamelMimeMessage *msg;
 	CamelMessageInfo *info = NULL;
-
+	
 	/* Default implementation. */
 	
-	msg = CF_CLASS(source)->get_message (source, uid, ex);
+	msg = CF_CLASS (source)->get_message (source, uid, ex);
 	if (!msg)
 		return;
+	
 	if (source->has_summary_capability)
-		info = CF_CLASS(source)->get_message_info (source, uid);
+		info = CF_CLASS (source)->get_message_info (source, uid);
 	else
-		info = camel_message_info_new_from_header(((CamelMimePart *)msg)->headers);
+		info = camel_message_info_new_from_header (((CamelMimePart *)msg)->headers);
+	
+	/* we don't want to retain the deleted flag */
+	if (info && info->flags & CAMEL_MESSAGE_DELETED)
+		info->flags = info->flags & ~CAMEL_MESSAGE_DELETED;
+	
 	camel_folder_append_message (dest, msg, info, ex);
 	camel_object_unref (CAMEL_OBJECT (msg));
-	if (!camel_exception_is_set(ex))
-		CF_CLASS(source)->set_message_flags(source, uid, CAMEL_MESSAGE_DELETED, CAMEL_MESSAGE_DELETED);
+	if (!camel_exception_is_set (ex))
+		CF_CLASS (source)->set_message_flags (source, uid, CAMEL_MESSAGE_DELETED,
+						      CAMEL_MESSAGE_DELETED);
+	
 	if (info) {
 		if (source->has_summary_capability)
-			CF_CLASS(source)->free_message_info(source, info);
+			CF_CLASS (source)->free_message_info (source, info);
 		else
-			camel_message_info_free(info);
+			camel_message_info_free (info);
 	}
 }
 
@@ -1158,14 +1201,52 @@ camel_folder_move_message_to (CamelFolder *source, const char *uid,
 	g_return_if_fail (CAMEL_IS_FOLDER (source));
 	g_return_if_fail (CAMEL_IS_FOLDER (dest));
 	g_return_if_fail (uid != NULL);
-
+	
+	if (source == dest) {
+		/* source and destination folders are the same, nothing to do. */
+		return;
+	}
+	
 	CAMEL_FOLDER_LOCK(source, lock);
-
-	if (source->parent_store == dest->parent_store)
-		CF_CLASS (source)->move_message_to (source, uid, dest, ex);
-	else
+	
+	if (source->parent_store == dest->parent_store) {
+		CamelFolder *vtrash;
+		
+		vtrash = get_the_vtrash (source, dest);
+		
+		if (source == vtrash || dest == vtrash) {
+			/* Note: We know that it isn't possible that both the source
+			   AND dest folders are the vtrash because otherwise we would
+			   have kicked out above. */
+			CamelFolder *real;
+			
+			real = camel_vee_folder_get_message_folder (CAMEL_VEE_FOLDER (vtrash), uid);
+			
+			if (source == vtrash && dest == real) {
+				/* Just undelete the original message */
+				CF_CLASS (dest)->set_message_flags (dest, uid, CAMEL_MESSAGE_DELETED, 0);
+			} else if (dest == vtrash) {
+				/* Just delete the original message */
+				CF_CLASS (source)->set_message_flags (source, uid, CAMEL_MESSAGE_DELETED,
+								      CAMEL_MESSAGE_DELETED);
+			} else if (real) {
+				/* This means that the user is trying to move the message
+				   from the vTrash to a folder other than the original. */
+				CF_CLASS (real)->move_message_to (real, uid, dest, ex);
+			} else {
+				g_assert_not_reached ();
+			}
+			
+			if (real)
+				camel_object_unref (CAMEL_OBJECT (real));
+		} else {
+			/* don't have to worry about vtrash folders, yay */
+			CF_CLASS (source)->move_message_to (source, uid, dest, ex);
+		}
+	} else {
 		move_message_to (source, uid, dest, ex);
-
+	}
+	
 	CAMEL_FOLDER_UNLOCK(source, lock);
 }
 
@@ -1176,7 +1257,7 @@ freeze (CamelFolder *folder)
 
 	folder->priv->frozen++;
 
-	printf("freeze(%p) = %d\n", folder, folder->priv->frozen);
+	d(printf ("freeze(%p) = %d\n", folder, folder->priv->frozen));
 	CAMEL_FOLDER_UNLOCK(folder, change_lock);
 }
 
@@ -1207,7 +1288,7 @@ thaw (CamelFolder * folder)
 
 	folder->priv->frozen--;
 
-	printf("thaw(%p) = %d\n", folder, folder->priv->frozen);
+	d(printf ("thaw(%p) = %d\n", folder, folder->priv->frozen));
 
 	if (folder->priv->frozen == 0) {
 		/* If we have more or less messages, do a folder changed, otherwise just
@@ -1252,7 +1333,7 @@ folder_changed (CamelObject *obj, gpointer event_data)
 	CamelFolderChangeInfo *changed = event_data;
 	gboolean ret = TRUE;
 
-	printf("folder_changed(%p, %p), frozen=%d\n", obj, event_data, folder->priv->frozen);
+	d(printf ("folder_changed(%p, %p), frozen=%d\n", obj, event_data, folder->priv->frozen));
 
 	if (folder->priv->frozen) {
 		CAMEL_FOLDER_LOCK(folder, change_lock);
@@ -1276,7 +1357,7 @@ message_changed (CamelObject *obj, /*const char *uid*/gpointer event_data)
 	CamelFolder *folder = CAMEL_FOLDER (obj);
 	gboolean ret = TRUE;
 
-	printf("message_changed(%p, %p), frozen=%d\n", folder, event_data, folder->priv->frozen);
+	d(printf ("message_changed(%p, %p), frozen=%d\n", folder, event_data, folder->priv->frozen));
 
 	if (folder->priv->frozen) {
 		CAMEL_FOLDER_LOCK(folder, change_lock);
