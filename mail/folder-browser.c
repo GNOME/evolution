@@ -1788,10 +1788,6 @@ my_folder_browser_init (GtkObject *object)
 	
 	fb->preview_shown = TRUE;
 	
-	e_scroll_frame_set_policy(E_SCROLL_FRAME(fb->message_list),
-				  GTK_POLICY_NEVER,
-				  GTK_POLICY_ALWAYS);
-	
 	gtk_signal_connect (GTK_OBJECT (fb->mail_display->html),
 			    "key_press_event", GTK_SIGNAL_FUNC (on_key_press), fb);
 	

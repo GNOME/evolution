@@ -1077,7 +1077,8 @@ message_list_init (GtkObject *object)
 	MessageList *message_list = MESSAGE_LIST (object);
 
 	e_scroll_frame_set_policy (E_SCROLL_FRAME (message_list),
-				   GTK_POLICY_AUTOMATIC, GTK_POLICY_ALWAYS);
+				   GTK_POLICY_NEVER,
+				   GTK_POLICY_AUTOMATIC);
 
 	message_list->hidden = NULL;
 	message_list->hidden_pool = NULL;

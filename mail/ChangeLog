@@ -1,3 +1,17 @@
+2001-07-19  Jason Leach  <jleach@ximian.com>
+
+	* mail-display.c (mail_display_new): Set the vertical scrolling
+	policy for the mail display to AUTOMATIC, only get a scrollbar if
+	the e-mail is longer than one frame.
+	
+	* folder-browser.c (my_folder_browser_init): We were setting the
+	policy twice (and to two different things).  Removed this one.
+
+	* message-list.c (message_list_init): Set the policy for the
+	message list scroll frame to be horizontal=NEVER,
+	vertical=AUTOMATIC (scrollbar only if you have >1 page of
+	messages).
+
 2001-07-19  Peter Williams  <peterw@ximian.com>
 
 	Track the NoSelect changes in Camel.
