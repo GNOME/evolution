@@ -12,7 +12,7 @@ mimedir = $(datadir)/mime-info
 mime_DATA = evolution.mime
 
 if HAVE_KDE_APPLNK
-kdedesktopdir = $(DESTDIR)/$(KDE_APPLNK_DIR)/Applications
+kdedesktopdir = $(KDE_APPLNK_DIR)/Applications
 kdedesktop_DATA = $(desktop_in_files:.desktop.in=.desktop)
 endif
 
