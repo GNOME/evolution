@@ -1601,39 +1601,17 @@ delete_msg (GtkWidget *button, gpointer user_data)
 	
 	/* Select the next message if we are only deleting one message */
 	if (deleted) {
-		MessageListSelectDirection direction = MESSAGE_LIST_SELECT_NEXT;
-		ETableState *state;
-
-		state = e_tree_get_state_object (fb->message_list->tree);
-		if (e_table_sort_info_grouping_get_count(state->sort_info) == 0 &&
-		    e_table_sort_info_sorting_get_count(state->sort_info) == 1) {
-			ETableSortColumn column;
-
-			column = e_table_sort_info_sorting_get_nth (state->sort_info, 0);
-			if ((column.column == COL_SENT ||
-			     column.column == COL_RECEIVED) &&
-			    column.ascending == FALSE) {
-				direction = MESSAGE_LIST_SELECT_PREVIOUS;
-			}
-		}
-		gtk_object_unref (GTK_OBJECT (state));
-		
 		row = e_tree_row_of_node (fb->message_list->tree,
 					  e_tree_get_cursor (fb->message_list->tree));
-
+		
 		/* If this is the last message and deleted messages
                    are hidden, select the previous */
-		if (((direction == MESSAGE_LIST_SELECT_NEXT && (row+1 == e_tree_row_count (fb->message_list->tree))) ||
-		     (direction == MESSAGE_LIST_SELECT_PREVIOUS && (row == 0)))
-		    && mail_config_get_hide_deleted ()) {
-			if (direction == MESSAGE_LIST_SELECT_NEXT)
-				direction = MESSAGE_LIST_SELECT_PREVIOUS;
-			else
-				direction = MESSAGE_LIST_SELECT_NEXT;
-			message_list_select (fb->message_list, row, direction,
+		if ((row+1 == e_tree_row_count (fb->message_list->tree))
+		    && mail_config_get_hide_deleted ())
+			message_list_select (fb->message_list, row, MESSAGE_LIST_SELECT_PREVIOUS,
 					     0, CAMEL_MESSAGE_DELETED, FALSE);
-		} else
-			message_list_select (fb->message_list, row, direction,
+		else
+			message_list_select (fb->message_list, row, MESSAGE_LIST_SELECT_NEXT,
 					     0, 0, FALSE);
 	}
 }

@@ -1,3 +1,7 @@
+2001-08-21  Christopher James Lahey  <clahey@ximian.com>
+
+	* Revert fix for Ximian bug #6995.
+
 2001-08-23  Peter Williams  <peterw@ximian.com>
 
 	* mail-folder-cache.c (maybe_update): Record the timeout_id so we
@@ -196,7 +200,7 @@
 
 	* mail-callbacks.c (delete_msg): Made delete make the cursor go
 	backwards if the user is sorting by descending date.  Fixes Ximian
-	bug #6995.
+	bug #6995.  (Reverted.)
 
 2001-08-19  Jeffrey Stedfast  <fejj@ximian.com>
 
