@@ -29,6 +29,8 @@ SUBDIRS =			\
 	libversit		\
         widgets                 \
         shell                   \
+	camel			\
+	filter			\
 	libwombat		\
 	calendar		\
         art                     \
