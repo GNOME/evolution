@@ -1,3 +1,8 @@
+2004-04-01  Rodrigo Moya <rodrigo@ximian.com>
+
+	* gui/dialogs/recur-comp.c (recur_component_dialog): return correct
+	values (boolean).
+
 2004-03-31  JP Rosevear <jpr@ximian.com>
 
 	* gui/migration.c (migrate_calendars): make sure we unset the

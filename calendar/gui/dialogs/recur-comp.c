@@ -41,7 +41,7 @@ recur_component_dialog (ECal *client,
 	ECalComponentVType vtype;
 	gboolean ret;
 	
-	g_return_val_if_fail (E_IS_CAL_COMPONENT (comp), CALOBJ_MOD_THIS);
+	g_return_val_if_fail (E_IS_CAL_COMPONENT (comp), FALSE);
 
 	vtype = e_cal_component_get_vtype (comp);
 	
@@ -60,7 +60,7 @@ recur_component_dialog (ECal *client,
 
 	default:
 		g_message ("recur_component_dialog(): Cannot handle object of type %d", vtype);
-		return CALOBJ_MOD_THIS;
+		return FALSE;
 	}
 
 
