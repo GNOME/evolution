@@ -611,7 +611,7 @@ camel_spool_summary_build_from(struct _header_raw *header)
 	/*memcpy(&tm, gmtime(&thetime), sizeof(tm));*/
 	gmtime_r(&thetime, &tm);
 
-	g_string_sprintfa(out, " %s %s %d %02d:%02d:%02d %4d\n",
+	g_string_sprintfa(out, " %s %s %2d %02d:%02d:%02d %4d\n",
 			  tz_days[tm.tm_wday],
 			  tz_months[tm.tm_mon], tm.tm_mday, tm.tm_hour, tm.tm_min, tm.tm_sec, tm.tm_year + 1900);
 
@@ -779,6 +779,13 @@ spool_summary_sync_full(CamelSpoolSummary *cls, gboolean expunge, CamelFolderCha
 			camel_folder_summary_info_free(s, (CamelMessageInfo *)info);
 			info = NULL;
 		}
+	}
+
+	/* if the last message was deleted, and we had any messages left,
+	   make sure we close out with a closing \n - since we removed the
+	   one part of the From line following it */
+	if (lastdel && count > 0) {
+		write(fdout, "\n", 1);
 	}
 
 	/* sync out content */

@@ -1,3 +1,13 @@
+2002-04-16  Not Zed  <NotZed@Ximian.com>
+
+	* providers/local/camel-spool-summary.c (spool_summary_sync_full):
+	Backport from head.  If the last message(s) were deleted, and we
+	had any messages output, account for the lost \n of the following
+	From line by adding an extra \n. fix for #8214.
+	(camel_spool_summary_build_from): Backport from head.  The day
+	number has to be 2 chars wide, space filled to work properly with
+	pine, etc.
+
 2002-04-09  Jeffrey Stedfast  <fejj@ximian.com>
 
 	* camel-store.c (camel_store_init): Make the folder_lock
