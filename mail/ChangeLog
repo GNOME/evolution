@@ -1,3 +1,10 @@
+2001-01-11  Miguel de Icaza  <miguel@gnu.org>
+
+	* mail-display.c (on_object_requested): Unref the property bag
+	when we are done with it.
+	(get_embedded_for_component): Moved the code to request the
+	embeddable/control to a separate function.
+
 2001-01-12  Jeffrey Stedfast  <fejj@ximian.com>
 
 	* mail-config.c (mail_config_get_account_by_name): New convenience

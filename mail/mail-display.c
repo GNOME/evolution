@@ -551,6 +551,72 @@ embeddable_destroy_cb (GtkObject *embeddable,
 	g_free (pbl);
 };
 
+static GtkWidget *
+get_embedded_for_component (const char *iid, MailDisplay *md)
+{
+	GtkWidget *embedded;
+	BonoboControlFrame *control_frame;
+	Bonobo_PropertyBag prop_bag;
+	
+	embedded = bonobo_widget_new_subdoc (iid, NULL);
+	if (embedded) {
+		/* FIXME: as of bonobo 0.18, there's an extra
+		 * client_site dereference in the BonoboWidget
+		 * destruction path that we have to balance out to
+		 * prevent problems.
+		 */
+		bonobo_object_ref (BONOBO_OBJECT(bonobo_widget_get_client_site (
+			BONOBO_WIDGET (embedded))));
+
+		return embedded;
+	} 
+
+	/*
+	 * Try a control now
+	 */
+	embedded = bonobo_widget_new_control (iid, NULL);
+	if (!embedded)
+		return NULL;
+
+	control_frame = bonobo_widget_get_control_frame (BONOBO_WIDGET (embedded));
+		
+	prop_bag = bonobo_control_frame_get_control_property_bag ( control_frame, NULL );
+		
+	if (prop_bag != CORBA_OBJECT_NIL){
+		CORBA_Environment ev;
+		/*
+		 * Now we can take care of business. Currently, the only control
+		 * that needs something passed to it through a property bag is
+		 * the iTip control, and it needs only the From email address,
+		 * but perhaps in the future we can generalize this section of code
+		 * to pass a bunch of useful things to all embedded controls.
+		 */
+		const CamelInternetAddress *from;
+		const MailConfigIdentity *id;
+		
+		id = mail_config_get_default_identity ();
+		CORBA_exception_init (&ev);
+		if (id){
+			char *from_address;
+			
+			
+			from = camel_mime_message_get_from (md->current_message);
+			from_address = camel_address_encode((CamelAddress *)from);
+			bonobo_property_bag_client_set_value_string (
+				prop_bag, "from_address", 
+				from_address, &ev);
+			bonobo_property_bag_client_set_value_string (
+				prop_bag, "my_address", 
+				id ? id->address : "", &ev);
+			g_free(from_address);
+		} 
+		Bonobo_Unknown_unref (prop_bag, &ev);
+		CORBA_exception_free (&ev);
+	}
+
+	return embedded;
+}
+
 static gboolean
 on_object_requested (GtkHTML *html, GtkHTMLEmbedded *eb, gpointer data)
 {
@@ -566,8 +632,6 @@ on_object_requested (GtkHTML *html, GtkHTMLEmbedded *eb, gpointer data)
 	GByteArray *ba;
 	CamelStream *cstream;
 	BonoboStream *bstream;
-	BonoboControlFrame *control_frame;
-	Bonobo_PropertyBag prop_bag;
 	char *cid;
 
 	cid = eb->classid;
@@ -632,53 +696,7 @@ on_object_requested (GtkHTML *html, GtkHTMLEmbedded *eb, gpointer data)
 	if (!component)
 		return FALSE;
 
-	embedded = bonobo_widget_new_subdoc (component->iid, NULL);
-	if (embedded) {
-		/* FIXME: as of bonobo 0.18, there's an extra
-		 * client_site dereference in the BonoboWidget
-		 * destruction path that we have to balance out to
-		 * prevent problems.
-		 */
-		bonobo_object_ref (BONOBO_OBJECT(bonobo_widget_get_client_site (
-			BONOBO_WIDGET (embedded))));
-	} else {
-		embedded = bonobo_widget_new_control (component->iid, NULL);
-		if (!embedded) {
-			CORBA_free (component);
-			return FALSE;
-		}
-
-		control_frame = bonobo_widget_get_control_frame (BONOBO_WIDGET (embedded));
-		if (control_frame) {
-			prop_bag = bonobo_control_frame_get_control_property_bag ( control_frame, NULL );
-			
-			if (prop_bag != CORBA_OBJECT_NIL) {
-				/* Now we can take care of business. Currently, the only control
-				   that needs something passed to it through a property bag is
-				   the iTip control, and it needs only the From email address,
-				   but perhaps in the future we can generalize this section of code
-				   to pass a bunch of useful things to all embedded controls. */
-				const CamelInternetAddress *from;
-				char *from_address;
-				const MailConfigIdentity *id;
-
-				id = mail_config_get_default_identity ();
-				if (!id)
-					g_warning ("No identity configured!");
-
-				CORBA_exception_init (&ev);
-
-				from = camel_mime_message_get_from (md->current_message);
-				from_address = camel_address_encode((CamelAddress *)from);
-				bonobo_property_bag_client_set_value_string (prop_bag, "from_address", 
-									     from_address, &ev);
-				bonobo_property_bag_client_set_value_string (prop_bag, "my_address", 
-									     id ? id->address : "", &ev);
-				g_free(from_address);
-				CORBA_exception_free (&ev);
-			}
-		}
-	}  /* end else (we're going to use a control) */
+	embedded = get_embedded_for_component (component->iid, md);
 	CORBA_free (component);
 	if (!embedded)
 		return FALSE;
