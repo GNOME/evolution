@@ -198,11 +198,12 @@ static char *display_posttext[] = {
 void
 html_write_options(GtkHTML *html, struct filter_option *option, char *def)
 {
-	GtkHTMLStreamHandle *stream;
+	GtkHTMLStream *stream;
 	GList *optionrulel;
 	int i;
 	
-	stream = gtk_html_begin(html, "");
+	stream = gtk_html_begin(html);
+
 	gtk_html_write(html, stream, "<body bgcolor=white alink=blue>", strlen("<body bgcolor=white alink=blue>"));
 	if (option) {
 		char *t;

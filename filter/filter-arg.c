@@ -83,7 +83,7 @@ clone_default(FilterArg *a)
 }
 
 static void
-write_html_nothing(FilterArg *arg, GtkHTML *html, GtkHTMLStreamHandle *stream)
+write_html_nothing(FilterArg *arg, GtkHTML *html, GtkHTMLStream *stream)
 {
 	/* empty */
 }
@@ -209,7 +209,7 @@ filter_arg_remove(FilterArg *arg, void *v)
 
 
 void
-filter_arg_write_html(FilterArg *arg, GtkHTML *html, GtkHTMLStreamHandle *stream)
+filter_arg_write_html(FilterArg *arg, GtkHTML *html, GtkHTMLStream *stream)
 {
 	((FilterArgClass *)(arg->object.klass))->write_html(arg, html, stream);
 }

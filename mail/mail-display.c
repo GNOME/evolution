@@ -128,7 +128,7 @@ on_link_clicked (GtkHTML *html, const char *url, gpointer user_data)
 }
 
 static void
-on_url_requested (GtkHTML *html, const char *url, GtkHTMLStreamHandle handle,
+on_url_requested (GtkHTML *html, const char *url, GtkHTMLStream *handle,
 		  gpointer user_data)
 {
 	CamelMimeMessage *message = CAMEL_MIME_MESSAGE (user_data);
@@ -182,7 +182,7 @@ html_size_req (GtkWidget *widget, GtkRequisition *requisition)
 }
 
 void
-mail_html_new (GtkHTML **html, GtkHTMLStreamHandle **stream,
+mail_html_new (GtkHTML **html, GtkHTMLStream **stream,
 	       CamelMimeMessage *root, gboolean init)
 {
 	*html = GTK_HTML (gtk_html_new ());
@@ -194,7 +194,7 @@ mail_html_new (GtkHTML **html, GtkHTMLStreamHandle **stream,
 	gtk_signal_connect (GTK_OBJECT (*html), "link_clicked",
 			    GTK_SIGNAL_FUNC (on_link_clicked), root);
 
-	*stream = gtk_html_begin (*html, "");
+	*stream = gtk_html_begin (*html);
 	if (init) {
 		mail_html_write (*html, *stream, HTML_HEADER
 				 "<BODY TEXT=\"#000000\" "
@@ -203,7 +203,7 @@ mail_html_new (GtkHTML **html, GtkHTMLStreamHandle **stream,
 }
 
 void
-mail_html_write (GtkHTML *html, GtkHTMLStreamHandle *stream,
+mail_html_write (GtkHTML *html, GtkHTMLStream *stream,
 		 const char *format, ...)
 {
 	char *buf;
@@ -217,8 +217,7 @@ mail_html_write (GtkHTML *html, GtkHTMLStreamHandle *stream,
 }
 
 void
-mail_html_end (GtkHTML *html, GtkHTMLStreamHandle *stream,
-	       gboolean finish, GtkBox *box)
+mail_html_end (GtkHTML *html, GtkHTMLStream *stream, gboolean finish, GtkBox *box)
 {
 	GtkWidget *scroll;
 

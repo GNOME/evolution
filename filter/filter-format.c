@@ -57,7 +57,7 @@ struct description_decode_lambda {
 	GString *str;
 	GList *args;
 	GtkHTML *html;
-	GtkHTMLStreamHandle *stream;
+	GtkHTMLStream *stream;
 };
 
 static char *
@@ -129,7 +129,7 @@ filter_description_text(GList *description, GList *args)
 }
 
 static void
-html_write(GtkHTML *html, GtkHTMLStreamHandle *stream, char *s)
+html_write(GtkHTML *html, GtkHTMLStream *stream, char *s)
 {
 	d(printf("appending html '%s'\n", s));
 	gtk_html_write(html, stream, s, strlen(s));
@@ -187,7 +187,7 @@ description_decode_html(struct filter_desc *d, struct description_decode_lambda 
 }
 
 void
-filter_description_html_write(GList *description, GList *args, GtkHTML *html, GtkHTMLStreamHandle *stream)
+filter_description_html_write(GList *description, GList *args, GtkHTML *html, GtkHTMLStream *stream)
 {
 	char *txt;
 	struct description_decode_lambda l;

@@ -50,7 +50,7 @@ struct _FilterArgClass {
 	struct _FilterArg * (*clone)(FilterArg *arg);
 
 	/* virtual methods */
-	void (*write_html)(FilterArg *arg, GtkHTML *html, GtkHTMLStreamHandle *stream);
+	void (*write_html)(FilterArg *arg, GtkHTML *html, GtkHTMLStream *stream);
 	void (*write_text)(FilterArg *arg, GString *string);
 	void (*free_value)(FilterArg *arg, void *v);
 

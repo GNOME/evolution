@@ -302,7 +302,7 @@ call_handler_function (CamelMimePart *part, CamelMimeMessage *root,
 static void
 write_field_to_stream (const char *description, const char *value,
 		       gboolean bold, GtkHTML *html,
-		       GtkHTMLStreamHandle *stream)
+		       GtkHTMLStream *stream)
 {
 	char *encoded_value;
 
@@ -331,7 +331,7 @@ static void
 write_recipients_to_stream (const gchar *recipient_type,
 			    const CamelInternetAddress *recipients,
 			    gboolean optional, gboolean bold,
-			    GtkHTML *html, GtkHTMLStreamHandle *stream)
+			    GtkHTML *html, GtkHTMLStream *stream)
 {
 	int i;
 	char *recipients_string = NULL;
@@ -363,7 +363,7 @@ write_headers (CamelMimeMessage *mime_message, GtkBox *box)
 {
 	const CamelInternetAddress *recipients;
 	GtkHTML *html;
-	GtkHTMLStreamHandle *stream;
+	GtkHTMLStream *stream;
 
 	mail_html_new (&html, &stream, mime_message, FALSE);
 	mail_html_write (html, stream, "%s%s", HTML_HEADER,
@@ -435,7 +435,7 @@ static void
 handle_text_plain (CamelMimePart *part, CamelMimeMessage *root, GtkBox *box)
 {
 	GtkHTML *html;
-	GtkHTMLStreamHandle *stream;
+	GtkHTMLStream *stream;
 	CamelDataWrapper *wrapper =
 		camel_medium_get_content_object (CAMEL_MEDIUM (part));
 	char *text, *htmltext;
@@ -471,7 +471,7 @@ handle_text_plain_flowed (CamelMimePart *part, CamelMimeMessage *root,
 			  GtkBox *box)
 {
 	GtkHTML *html;
-	GtkHTMLStreamHandle *stream;
+	GtkHTMLStream *stream;
 	CamelDataWrapper *wrapper =
 		camel_medium_get_content_object (CAMEL_MEDIUM (part));
 	char *buf, *text, *line, *eol, *p;
@@ -540,7 +540,7 @@ handle_text_enriched (CamelMimePart *part, CamelMimeMessage *root, GtkBox *box)
 {
 	static GHashTable *translations = NULL;
 	GtkHTML *html;
-	GtkHTMLStreamHandle *stream;
+	GtkHTMLStream *stream;
 	CamelDataWrapper *wrapper =
 		camel_medium_get_content_object (CAMEL_MEDIUM (part));
 	CamelStream *memstream;
@@ -669,7 +669,7 @@ static void
 handle_text_html (CamelMimePart *part, CamelMimeMessage *root, GtkBox *box)
 {
 	GtkHTML *html;
-	GtkHTMLStreamHandle *stream;
+	GtkHTMLStream *stream;
 	CamelDataWrapper *wrapper =
 		camel_medium_get_content_object (CAMEL_MEDIUM (part));
 	char *text;
@@ -688,7 +688,7 @@ static void
 handle_image (CamelMimePart *part, CamelMimeMessage *root, GtkBox *box)
 {
 	GtkHTML *html;
-	GtkHTMLStreamHandle *stream;
+	GtkHTMLStream *stream;
 	char *cid;
 
 	cid = get_cid (part, root);
@@ -849,7 +849,7 @@ handle_mystery (CamelMimePart *part, CamelMimeMessage *root, GtkBox *box,
 		char *icon_name, char *id, char *action)
 {
 	GtkHTML *html;
-	GtkHTMLStreamHandle *stream;
+	GtkHTMLStream *stream;
 	const char *info;
 	char *htmlinfo;
 	GMimeContentField *content_type;

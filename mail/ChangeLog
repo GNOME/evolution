@@ -1,3 +1,22 @@
+2000-05-21  Ettore Perazzoli  <ettore@helixcode.com>
+
+	* message-list.c (get_message_info): Made static.
+	(ml_initialize_value): Return NULL to placate compiler.
+
+	* folder-browser.c (folder_browser_gui_init): Add cast.
+
+	* mail-display.c (mail_html_new): Don't pass an empty URL to
+	`gtk_html_begin()' anymore.
+
+	* mail-config.c (put_html): Don't pass an empty URL to
+	`gtk_html_begin()' anymore.
+
+	* mail-display.h: Updated for the new GtkHTML API that uses
+	`GtkHTMLStream *' instead of `GtkHTMLStreamHandle'.
+	* mail-display.c: Likewise.
+	* mail-config.c: Likewise.
+	* mail-format.c: Likewise.
+
 2000-05-19  NotZed  <NotZed@HelixCode.com>
 
 	* mail-format.c: Fixes for stream stuff.

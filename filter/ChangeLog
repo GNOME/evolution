@@ -1,3 +1,17 @@
+2000-05-21  Ettore Perazzoli  <ettore@helixcode.com>
+
+	* filter-druid.c: Don't pass an empty URL to `gtk_html_begin()'
+	anymore.
+
+	* filter-arg-types.c: Updated for the new GtkHTML API which uses
+	`GtkHTMLStream *' instead of `GtkHTMLStreamHandle'.
+	* filter-arg.c: Likewise.
+	* filter-arg.h: Likewise.
+	* filter-druid.c: Likewise.
+
+	* filter-format.c: Likewise.
+	* filter-format.h: Likewise.
+
 2000-05-18  Dan Winship  <danw@helixcode.com>
 
 	* filter-driver.c (filter_driver_run): update for

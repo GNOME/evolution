@@ -96,10 +96,10 @@ html_new (gboolean white)
 static void
 put_html (GtkHTML *html, char *text)
 {
-	GtkHTMLStreamHandle *handle;
+	GtkHTMLStream *handle;
 
 	text = e_text_to_html (text, E_TEXT_TO_HTML_CONVERT_NL);
-	handle = gtk_html_begin (html, "");
+	handle = gtk_html_begin (html);
 	gtk_html_write (html, handle, "<HTML><BODY>", 12);
 	gtk_html_write (html, handle, text, strlen (text));
 	gtk_html_write (html, handle, "</BODY></HTML>", 14);

@@ -40,14 +40,14 @@ void           mail_display_set_message (MailDisplay *mail_display,
 #define HTML_HEADER "<!DOCTYPE HTML PUBLIC \"-//W3C//DTD HTML 4.0 TRANSITIONAL//EN\">\n<HTML>\n<HEAD>\n<META NAME=\"GENERATOR\" CONTENT=\"Evolution Mail Component\">\n</HEAD>\n"
 
 void           mail_html_new            (GtkHTML **html,
-					 GtkHTMLStreamHandle **stream,
+					 GtkHTMLStream **stream,
 					 CamelMimeMessage *root,
 					 gboolean init);
 void           mail_html_write          (GtkHTML *html,
-					 GtkHTMLStreamHandle *stream,
+					 GtkHTMLStream *stream,
 					 const char *format, ...);
 void           mail_html_end            (GtkHTML *html,
-					 GtkHTMLStreamHandle *stream,
+					 GtkHTMLStream *stream,
 					 gboolean finish,
 					 GtkBox *box);
 

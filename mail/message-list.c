@@ -55,7 +55,7 @@ on_row_selection_cmd (ETable *table,
 		      gpointer user_data);
 
 
-CamelMessageInfo *get_message_info(MessageList *message_list, gint row)
+static CamelMessageInfo *get_message_info(MessageList *message_list, gint row)
 {
 	CamelMessageInfo *info = NULL;
 
@@ -322,6 +322,8 @@ ml_initialize_value (ETableModel *etm, int col, void *data)
 	default:
 		g_assert_not_reached ();
 	}
+
+	return NULL;
 }
 
 static gboolean

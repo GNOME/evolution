@@ -59,7 +59,7 @@ filter_arg_string_get_type (void)
 }
 
 static void
-arg_string_write_html(FilterArg *argin, GtkHTML *html, GtkHTMLStreamHandle *stream)
+arg_string_write_html(FilterArg *argin, GtkHTML *html, GtkHTMLStream *stream)
 {
 	FilterArgString *arg = (FilterArgString *)argin;
 	/* empty */
@@ -280,7 +280,7 @@ filter_arg_address_get_type (void)
 }
 
 static void
-arg_address_write_html(FilterArg *argin, GtkHTML *html, GtkHTMLStreamHandle *stream)
+arg_address_write_html(FilterArg *argin, GtkHTML *html, GtkHTMLStream *stream)
 {
 	FilterArgAddress *arg = (FilterArgAddress *)argin;
 	/* empty */
@@ -531,7 +531,7 @@ filter_arg_folder_get_type (void)
 }
 
 static void
-arg_folder_write_html(FilterArg *argin, GtkHTML *html, GtkHTMLStreamHandle *stream)
+arg_folder_write_html(FilterArg *argin, GtkHTML *html, GtkHTMLStream *stream)
 {
 	FilterArgFolder *arg = (FilterArgFolder *)argin;
 	/* empty */
