@@ -1,3 +1,18 @@
+2002-09-19  Rodrigo Moya <rodrigo@ximian.com>
+
+	More fixes for #24210
+
+	* pcs/query.c: added list of cached queries and changed the Query
+	class to work with several listeners, not only one.
+	(query_init): initialize new members.
+	(query_destroy): free new members.
+	(add_component, remove_component, parse_sexp, match_component,
+	 process_components_cb): notify all listeners.
+	(notify_uid_cb, start_cached_query_cb): implemented integration of
+	cached queries.
+	(query_new): search the query in the cache before creating a new
+	one. And if we create a new one, store it in the cache.
+
 2002-09-19  JP Rosevear  <jpr@ximian.com>
 
 	* gui/dialogs/recurrence-page.c (simple_recur_to_comp): bump the

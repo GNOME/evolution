@@ -39,6 +39,12 @@
 
 
 
+typedef struct {
+	Query *query;
+	GNOME_Evolution_Calendar_QueryListener ql;
+	guint tid;
+} StartCachedQueryInfo;
+
 /* States of a query */
 typedef enum {
 	QUERY_WAIT_FOR_BACKEND, /* the query is not populated and the backend is not loaded */
@@ -59,8 +65,8 @@ struct _QueryPrivate {
 	/* The default timezone for the calendar. */
 	icaltimezone *default_zone;
 
-	/* Listener to which we report changes in the live query */
-	GNOME_Evolution_Calendar_QueryListener ql;
+	/* Listeners to which we report changes in the live query */
+	GList *listeners;
 
 	/* Sexp that defines the query */
 	char *sexp;
@@ -69,6 +75,8 @@ struct _QueryPrivate {
 	/* Timeout handler ID for asynchronous queries and current state of the query */
 	guint timeout_id;
 	QueryState state;
+
+	GList *cached_timeouts;
 
 	/* List of UIDs that we still have to process */
 	GList *pending_uids;
@@ -91,6 +99,7 @@ static void query_init (Query *query);
 static void query_destroy (GtkObject *object);
 
 static BonoboXObjectClass *parent_class;
+static GList *cached_queries = NULL;
 
 
 
@@ -128,11 +137,13 @@ query_init (Query *query)
 	priv->backend = NULL;
 	priv->qb = NULL;
 	priv->default_zone = NULL;
-	priv->ql = CORBA_OBJECT_NIL;
+	priv->listeners = NULL;
 	priv->sexp = NULL;
 
 	priv->timeout_id = 0;
 	priv->state = QUERY_WAIT_FOR_BACKEND;
+
+	priv->cached_timeouts = NULL;
 
 	priv->pending_uids = NULL;
 	priv->uids = g_hash_table_new (g_str_hash, g_str_equal);
@@ -182,18 +193,22 @@ query_destroy (GtkObject *object)
 
 	priv->qb = NULL;
 
-	if (priv->ql != CORBA_OBJECT_NIL) {
+	if (priv->listeners != NULL) {
 		CORBA_Environment ev;
+		GList *l;
 
 		CORBA_exception_init (&ev);
-		bonobo_object_release_unref (priv->ql, &ev);
+		for (l = priv->listeners; l != NULL; l = l->next) {
+			bonobo_object_release_unref (l->data, &ev);
 
-		if (BONOBO_EX (&ev))
-			g_message ("query_destroy(): Could not unref the listener\n");
+			if (BONOBO_EX (&ev))
+				g_message ("query_destroy(): Could not unref the listener\n");
+		}
 
 		CORBA_exception_free (&ev);
 
-		priv->ql = CORBA_OBJECT_NIL;
+		g_list_free (priv->listeners);
+		priv->listeners = NULL;
 	}
 
 	if (priv->sexp) {
@@ -209,6 +224,16 @@ query_destroy (GtkObject *object)
 	if (priv->timeout_id) {
 		g_source_remove (priv->timeout_id);
 		priv->timeout_id = 0;
+	}
+
+	if (priv->cached_timeouts) {
+		GList *l;
+
+		for (l = priv->cached_timeouts; l != NULL; l = l->next)
+			g_source_remove (GPOINTER_TO_INT (l->data));
+
+		g_list_free (priv->cached_timeouts);
+		priv->cached_timeouts = NULL;
 	}
 
 	if (priv->pending_uids) {
@@ -933,6 +958,7 @@ add_component (Query *query, const char *uid, gboolean query_in_progress, int n_
 	QueryPrivate *priv;
 	char *old_uid;
 	CORBA_Environment ev;
+	GList *l;
 
 	if (query_in_progress)
 		g_assert (n_scanned > 0 || n_scanned <= total);
@@ -947,17 +973,19 @@ add_component (Query *query, const char *uid, gboolean query_in_progress, int n_
 	g_hash_table_insert (priv->uids, g_strdup (uid), NULL);
 
 	CORBA_exception_init (&ev);
-	GNOME_Evolution_Calendar_QueryListener_notifyObjUpdated (
-		priv->ql,
-		(char *) uid,
-		query_in_progress,
-		n_scanned,
-		total,
-		&ev);
+	for (l = priv->listeners; l != NULL; l = l->next) {
+		GNOME_Evolution_Calendar_QueryListener_notifyObjUpdated (
+			l->data,
+			(char *) uid,
+			query_in_progress,
+			n_scanned,
+			total,
+			&ev);
 
-	if (BONOBO_EX (&ev))
-		g_message ("add_component(): Could not notify the listener of an "
-			   "updated component");
+		if (BONOBO_EX (&ev))
+			g_message ("add_component(): Could not notify the listener of an "
+				   "updated component");
+	}
 
 	CORBA_exception_free (&ev);
 }
@@ -969,6 +997,7 @@ remove_component (Query *query, const char *uid)
 	QueryPrivate *priv;
 	char *old_uid;
 	CORBA_Environment ev;
+	GList *l;
 
 	priv = query->priv;
 
@@ -983,14 +1012,16 @@ remove_component (Query *query, const char *uid)
 	g_free (old_uid);
 
 	CORBA_exception_init (&ev);
-	GNOME_Evolution_Calendar_QueryListener_notifyObjRemoved (
-		priv->ql,
-		(char *) uid,
-		&ev);
+	for (l = priv->listeners; l != NULL; l = l->next) {
+		GNOME_Evolution_Calendar_QueryListener_notifyObjRemoved (
+			l->data,
+			(char *) uid,
+			&ev);
 
-	if (BONOBO_EX (&ev))
-		g_message ("remove_component(): Could not notify the listener of a "
-			   "removed component");
+		if (BONOBO_EX (&ev))
+			g_message ("remove_component(): Could not notify the listener of a "
+				   "removed component");
+	}
 
 	CORBA_exception_free (&ev);
 }
@@ -1081,24 +1112,27 @@ parse_sexp (Query *query)
 	if (e_sexp_parse (priv->esexp) == -1) {
 		const char *error_str;
 		CORBA_Environment ev;
+		GList *l;
 
 		priv->state = QUERY_PARSE_ERROR;
 
-		/* Report the error to the listener */
+		/* Report the error to the listeners */
 
 		error_str = e_sexp_error (priv->esexp);
 		g_assert (error_str != NULL);
 
 		CORBA_exception_init (&ev);
-		GNOME_Evolution_Calendar_QueryListener_notifyQueryDone (
-			priv->ql,
-			GNOME_Evolution_Calendar_QueryListener_PARSE_ERROR,
-			error_str,
-			&ev);
+		for (l = priv->listeners; l != NULL; l = l->next) {
+			GNOME_Evolution_Calendar_QueryListener_notifyQueryDone (
+				l->data,
+				GNOME_Evolution_Calendar_QueryListener_PARSE_ERROR,
+				error_str,
+				&ev);
 
-		if (BONOBO_EX (&ev))
-			g_message ("parse_sexp(): Could not notify the listener of "
-				   "a parse error");
+			if (BONOBO_EX (&ev))
+				g_message ("parse_sexp(): Could not notify the listener of "
+					   "a parse error");
+		}
 
 		CORBA_exception_free (&ev);
 
@@ -1142,35 +1176,41 @@ match_component (Query *query, const char *uid,
 	if (!result) {
 		const char *error_str;
 		CORBA_Environment ev;
+		GList *l;
 
 		error_str = e_sexp_error (priv->esexp);
 		g_assert (error_str != NULL);
 
 		CORBA_exception_init (&ev);
-		GNOME_Evolution_Calendar_QueryListener_notifyEvalError (
-			priv->ql,
-			error_str,
-			&ev);
+		for (l = priv->listeners; l != NULL; l = l->next) {
+			GNOME_Evolution_Calendar_QueryListener_notifyEvalError (
+				l->data,
+				error_str,
+				&ev);
 
-		if (BONOBO_EX (&ev))
-			g_message ("match_component(): Could not notify the listener of "
-				   "an evaluation error");
+			if (BONOBO_EX (&ev))
+				g_message ("match_component(): Could not notify the listener of "
+					   "an evaluation error");
+		}
 
 		CORBA_exception_free (&ev);
 		return;
 	} else if (result->type != ESEXP_RES_BOOL) {
 		CORBA_Environment ev;
+		GList *l;
 
 		CORBA_exception_init (&ev);
-		GNOME_Evolution_Calendar_QueryListener_notifyEvalError (
-			priv->ql,
-			_("Evaluation of the search expression did not yield a boolean value"),
-			&ev);
+		for (l = priv->listeners; l != NULL; l = l->next) {
+			GNOME_Evolution_Calendar_QueryListener_notifyEvalError (
+				l->data,
+				_("Evaluation of the search expression did not yield a boolean value"),
+				&ev);
 
-		if (BONOBO_EX (&ev))
-			g_message ("match_component(): Could not notify the listener of "
-				   "an unexpected result value type when evaluating the "
-				   "search expression");
+			if (BONOBO_EX (&ev))
+				g_message ("match_component(): Could not notify the listener of "
+					   "an unexpected result value type when evaluating the "
+					   "search expression");
+		}
 
 		CORBA_exception_free (&ev);
 	} else {
@@ -1233,22 +1273,24 @@ process_components_cb (gpointer data)
 	}
 
 	bonobo_object_unref (BONOBO_OBJECT (query));
-	if (!priv || !priv->ql)
+	if (!priv || !priv->listeners)
 		return FALSE;
 
-	/* notify listener that the query ended */
+	/* notify listeners that the query ended */
 	priv->state = QUERY_DONE;
 
 	CORBA_exception_init (&ev);
-	GNOME_Evolution_Calendar_QueryListener_notifyQueryDone (
-		priv->ql,
-		GNOME_Evolution_Calendar_QueryListener_SUCCESS,
-		"",
-		&ev);
+	for (l = priv->listeners; l != NULL; l = l->next) {
+		GNOME_Evolution_Calendar_QueryListener_notifyQueryDone (
+			l->data,
+			GNOME_Evolution_Calendar_QueryListener_SUCCESS,
+			"",
+			&ev);
 
-	if (BONOBO_EX (&ev))
-		g_message ("start_query(): Could not notify the listener of "
-			   "a finished query");
+		if (BONOBO_EX (&ev))
+			g_message ("start_query(): Could not notify the listener of "
+				   "a finished query");
+	}
 
 	CORBA_exception_free (&ev);
 
@@ -1344,6 +1386,79 @@ start_query_cb (gpointer data)
 	return FALSE;
 }
 
+static void
+notify_uid_cb (gpointer key, gpointer value, gpointer data)
+{
+	CORBA_Environment ev;
+	char *uid = (char *) key;
+	StartCachedQueryInfo *info = (StartCachedQueryInfo *) data;
+
+	CORBA_exception_init (&ev);
+	GNOME_Evolution_Calendar_QueryListener_notifyObjUpdated (
+		info->ql,
+		uid,
+		FALSE,
+		g_hash_table_size (info->query->priv->uids),
+		g_hash_table_size (info->query->priv->uids),
+		&ev);
+
+	if (BONOBO_EX (&ev))
+		g_message ("notify_uid_cb(): Could not notify the listener of an "
+			   "updated component");
+
+	CORBA_exception_free (&ev);
+}
+
+/* Idle handler for starting a cached query */
+static gboolean
+start_cached_query_cb (gpointer data)
+{
+	CORBA_Environment ev;
+	QueryPrivate *priv;
+	StartCachedQueryInfo *info = (StartCachedQueryInfo *) data;
+
+	priv = info->query->priv;
+
+	/* if the query hasn't started yet, we add the listener */
+	if (priv->state == QUERY_START_PENDING ||
+	    priv->state == QUERY_WAIT_FOR_BACKEND) {
+		priv->listeners = g_list_append (priv->listeners, info->ql);
+
+		g_free (info);
+		priv->cached_timeouts = g_list_remove (priv->cached_timeouts,
+						       GPOINTER_TO_INT (info->tid));
+
+		return FALSE;
+	} else if (priv->state == QUERY_IN_PROGRESS) {
+		/* if it's in progress, we just wait */
+		return TRUE;
+	}
+
+	/* if the query is done, then we just notify the listener */
+	g_source_remove (info->tid);
+	priv->cached_timeouts = g_list_remove (priv->cached_timeouts,
+					       GPOINTER_TO_INT (info->tid));
+	
+	g_hash_table_foreach (priv->uids, (GHFunc) notify_uid_cb, info);
+
+	priv->listeners = g_list_append (priv->listeners, info->ql);
+
+	CORBA_exception_init (&ev);
+	GNOME_Evolution_Calendar_QueryListener_notifyQueryDone (
+		info->ql,
+		GNOME_Evolution_Calendar_QueryListener_SUCCESS,
+		"",
+		&ev);
+	if (BONOBO_EX (&ev))
+		g_message ("start_cached_query_cb(): Could not notify the listener of "
+			   "a finished query");
+
+	CORBA_exception_free (&ev);
+	g_free (info);
+
+	return FALSE;
+}
+
 /* Callback used when the backend gets loaded; we just queue the query to be
  * started later.
  */
@@ -1366,6 +1481,18 @@ backend_opened_cb (CalBackend *backend, CalBackendOpenStatus status, gpointer da
 
 		priv->timeout_id = g_timeout_add (100, (GSourceFunc) start_query_cb, query);
 	}
+}
+
+/* Callback used when the backend for a cached query is destroyed */
+static void
+backend_destroyed_cb (GtkObject *object, gpointer data)
+{
+	Query *query;
+
+	query = QUERY (data);
+
+	cached_queries = g_list_remove (cached_queries, query);
+	bonobo_object_unref (query);
 }
 
 /**
@@ -1401,10 +1528,10 @@ query_construct (Query *query,
 	priv = query->priv;
 
 	CORBA_exception_init (&ev);
-	priv->ql = CORBA_Object_duplicate (ql, &ev);
+	priv->listeners = g_list_append (NULL, CORBA_Object_duplicate (ql, &ev));
 	if (BONOBO_EX (&ev)) {
 		g_message ("query_construct(): Could not duplicate the listener");
-		priv->ql = CORBA_OBJECT_NIL;
+		priv->listeners = NULL;
 		CORBA_exception_free (&ev);
 		return NULL;
 	}
@@ -1448,12 +1575,54 @@ query_new (CalBackend *backend,
 	   const char *sexp)
 {
 	Query *query;
+	GList *l;
 
+	/* first, see if we've got this query in our cache */
+	for (l = cached_queries; l != NULL; l = l->next) {
+		query = QUERY (l->data);
+
+		g_assert (query != NULL);
+
+		if (query->priv->backend == backend &&
+		    !strcmp (query->priv->sexp, sexp)) {
+			StartCachedQueryInfo *info;
+			CORBA_Environment ev;
+
+			info = g_new0 (StartCachedQueryInfo, 1);
+			info->query = query;
+
+			CORBA_exception_init (&ev);
+			info->ql = CORBA_Object_duplicate (ql, &ev);
+			if (BONOBO_EX (&ev)) {
+				g_message ("query_new(): Could not duplicate listener object");
+				g_free (info);
+
+				return NULL;
+			}
+			CORBA_exception_free (&ev);
+
+			info->tid = g_timeout_add (100, (GSourceFunc) start_cached_query_cb, info);
+			query->priv->cached_timeouts = g_list_append (query->priv->cached_timeouts,
+								      GINT_TO_POINTER (info->tid));
+
+			bonobo_object_ref (BONOBO_OBJECT (query));
+			return query;
+		}
+	}
+
+	/* not found, so create a new one */
 	query = QUERY (gtk_type_new (QUERY_TYPE));
 	if (!query_construct (query, backend, ql, sexp)) {
 		bonobo_object_unref (BONOBO_OBJECT (query));
 		return NULL;
 	}
+
+	/* add the new query to our cache */
+	gtk_signal_connect (GTK_OBJECT (query->priv->backend), "destroy",
+			    GTK_SIGNAL_FUNC (backend_destroyed_cb), query);
+
+	bonobo_object_ref (BONOBO_OBJECT (query));
+	cached_queries = g_list_append (cached_queries, query);
 
 	return query;
 }
