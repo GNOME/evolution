@@ -1,4 +1,10 @@
 2003-03-04  JP Rosevear  <jpr@ximian.com>
+  
+ 	Fixes #37883
+ 	
+ 	* idl/evolution-calendar.idl: getLdapAttribute can raise NotFound
+ 
+2003-03-04  JP Rosevear  <jpr@ximian.com>
  
  	Fixes #37806, #37697
  	
