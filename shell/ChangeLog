@@ -15,6 +15,8 @@
 
 	* e-corba-storage.c: Fix warnings
 
+	* glade/evolution-startup-wizard.glade: Fix colors again
+
 2003-03-25  Dan Winship  <danw@ximian.com>
 
 	* Evolution-ShellComponent.idl (interactive): add a "new_view_xid"
