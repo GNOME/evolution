@@ -74,6 +74,7 @@ typedef struct
 	GtkWidget    *uri_hbox;
 	GtkWidget    *refresh_label;
 	GtkWidget    *refresh_hbox;
+	GtkWidget    *refresh_optionmenu;
 	GtkWidget    *add_button;
 }
 SourceDialog;
@@ -396,6 +397,62 @@ colorpicker_get_color (GnomeColorPicker *color)
 	return rgb;
 }					    
 
+static char *
+get_refresh_minutes (SourceDialog *source_dialog)
+{
+	int setting = gtk_spin_button_get_value_as_int (GTK_SPIN_BUTTON (source_dialog->refresh_spin));
+
+	if (source_dialog->refresh_optionmenu)		
+		switch (gtk_option_menu_get_history (GTK_OPTION_MENU (source_dialog->refresh_optionmenu))){
+		case 0: /* minutes */
+			break;
+		case 1: /* hours */
+			setting *= 60;
+			break;
+		case 2: /* days */
+			setting *= 1440;
+			break;
+		case 3: /* weeks wtf? why so long */
+			setting *= 10080;
+			break;
+		default:
+			g_warning ("Time unit out of range");
+			break;
+		}
+
+	return g_strdup_printf ("%d", setting);
+}
+
+static void
+set_refresh_time (SourceDialog *source_dialog) {
+        int time;
+	int item_num = 0;
+	
+	const char *refresh_str = e_source_get_property (source_dialog->source, "refresh");
+	time = refresh_str ? atoi (refresh_str) : 30;
+
+	if (source_dialog->refresh_optionmenu) {
+		if (time && time % 10080) {
+			/* weeks */
+			item_num = 3;
+			time /= 10080;
+		} else if (time && time % 1440) {
+			/* days */
+			item_num = 2;
+			time /= 1440;
+		} else if (time && time % 60) {
+			/* days */
+			item_num = 1;
+			time /= 60;
+		}
+
+		gtk_option_menu_set_history (GTK_OPTION_MENU (source_dialog->refresh_optionmenu), item_num);
+	}
+
+	gtk_spin_button_set_value (GTK_SPIN_BUTTON (source_dialog->refresh_spin), time);
+	return;
+}
+
 static void
 source_to_dialog (SourceDialog *source_dialog)
 {
@@ -417,7 +474,6 @@ source_to_dialog (SourceDialog *source_dialog)
 	
 	if (source && source_is_remote (source)) {
 		gchar       *uri_str;
-		const gchar *refresh_str;
 
 		remote = TRUE;
 
@@ -425,9 +481,7 @@ source_to_dialog (SourceDialog *source_dialog)
 		gtk_entry_set_text (GTK_ENTRY (source_dialog->uri_entry), uri_str);
 		g_free (uri_str);
 
-		refresh_str = e_source_get_property (source, "refresh");
-		gtk_spin_button_set_value (GTK_SPIN_BUTTON (source_dialog->refresh_spin),
-					   refresh_str ? atoi (refresh_str) : 30);
+		set_refresh_time (source_dialog);
 	} else {
 		if (source_dialog->uri_entry)
 			gtk_entry_set_text (GTK_ENTRY (source_dialog->uri_entry), "");
@@ -482,9 +536,7 @@ dialog_to_source (SourceDialog *source_dialog)
 		g_free (relative_uri);
 		e_uri_free (uri);
 
-		refresh_str = g_strdup_printf ("%d",
-			gtk_spin_button_get_value_as_int (GTK_SPIN_BUTTON (source_dialog->refresh_spin)));
-
+		refresh_str = get_refresh_minutes (source_dialog);
 		e_source_set_property (source, "refresh", refresh_str);
 		g_free (refresh_str);
 	}
@@ -624,6 +676,7 @@ calendar_setup_new_calendar (GtkWindow *parent)
 				  G_CALLBACK (general_entry_modified), source_dialog);
 
 	source_dialog->refresh_spin = glade_xml_get_widget (source_dialog->gui_xml, "refresh-spin");
+	source_dialog->refresh_optionmenu = glade_xml_get_widget (source_dialog->gui_xml, "refresh-optionmenu");
 	source_dialog->refresh_label = glade_xml_get_widget (source_dialog->gui_xml, "refresh-label");
 	source_dialog->refresh_hbox = glade_xml_get_widget (source_dialog->gui_xml, "refresh-hbox");
 
@@ -786,6 +839,7 @@ calendar_setup_new_task_list (GtkWindow *parent)
 				  G_CALLBACK (general_entry_modified), source_dialog);
 
 	source_dialog->refresh_spin = glade_xml_get_widget (source_dialog->gui_xml, "refresh-spin");
+	source_dialog->refresh_optionmenu = glade_xml_get_widget (source_dialog->gui_xml, "refresh-optionmenu");
 	source_dialog->refresh_label = glade_xml_get_widget (source_dialog->gui_xml, "refresh-label");
 	source_dialog->refresh_hbox = glade_xml_get_widget (source_dialog->gui_xml, "refresh-hbox");
 

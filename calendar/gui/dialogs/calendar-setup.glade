@@ -131,7 +131,7 @@
 		  </child>
 
 		  <child>
-		    <widget class="GtkOptionMenu" id="optionmenu3">
+		    <widget class="GtkOptionMenu" id="refresh-optionmenu">
 		      <property name="visible">True</property>
 		      <property name="can_focus">True</property>
 		      <property name="history">0</property>
@@ -1485,7 +1485,7 @@
 		  </child>
 
 		  <child>
-		    <widget class="GtkOptionMenu" id="optionmenu6">
+		    <widget class="GtkOptionMenu" id="refresh-optionmenu">
 		      <property name="visible">True</property>
 		      <property name="can_focus">True</property>
 		      <property name="history">0</property>
