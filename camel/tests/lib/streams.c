@@ -5,6 +5,8 @@
 		then reads and checks for 0's in the space?
 */
 
+#include <string.h>
+
 #include "camel/camel-stream.h"
 #include "camel/camel-seekable-stream.h"
 #include "camel/camel-seekable-substream.h"

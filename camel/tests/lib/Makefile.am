@@ -1,5 +1,5 @@
 
-INCLUDES = -I$(top_srcdir)
+INCLUDES = -I$(includedir)
 
 check_LIBRARIES = libcameltest.a
 
@@ -10,3 +10,4 @@ libcameltest_a_SOURCES = \
 	folders.c folders.h \
 	streams.c streams.h \
 	address-data.h
+

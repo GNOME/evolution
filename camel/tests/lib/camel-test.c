@@ -2,6 +2,7 @@
 #include "camel-test.h"
 
 #include <stdio.h>
+#include <string.h>
 #include <signal.h>
 
 #ifdef ENABLE_THREADS

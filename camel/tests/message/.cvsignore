@@ -5,4 +5,7 @@ Makefile.in
 .deps
 *.lo
 *.la
-temp-test
+test1
+test2
+test3
+*.msg

@@ -5,6 +5,8 @@
 /* for stat */
 #include <sys/stat.h>
 #include <unistd.h>
+#include <string.h>
+#include <stdio.h>
 
 #include <unicode.h>
 

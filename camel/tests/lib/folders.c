@@ -1,3 +1,4 @@
+#include <string.h>
 
 #include "camel-test.h"
 #include "folders.h"

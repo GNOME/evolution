@@ -1,4 +1,4 @@
-
+#include <string.h>
 
 #include "messages.h"
 #include "camel-test.h"
