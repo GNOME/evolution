@@ -2,7 +2,7 @@
 #  FILE: Makefile.am
 #  CREATOR: eric 
 #  
-#  $Id: Makefile.am,v 1.34 2003/02/06 18:13:56 danw Exp $
+#  $Id: Makefile.am,v 1.35 2003/02/10 15:53:20 ettore Exp $
 #
 #
 # (C) COPYRIGHT 2000, Eric Busboom, http://www.softwarestudio.org
@@ -31,6 +31,10 @@ privlib_LTLIBRARIES = libical-evolution.la
 noinst_LTLIBRARIES = libical-static.la
 libical_static_la_SOURCES = $(libical_evolution_la_SOURCES)
 libical_static_la_LDFLAGS = --all-static
+
+# Make sure libical-evolution.la and libical-static.la are not built in
+# parallel when using a parallel make; libtool can't handle that.
+libical_static_la_DEPENDENCIES = libical-evolution.la
 
 YFLAGS = -d -v -t -pical_yy
 LFLAGS = -Pical_yy

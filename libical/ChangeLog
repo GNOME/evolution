@@ -1,3 +1,10 @@
+2003-02-10  Ettore Perazzoli  <ettore@ximian.com>
+
+	* src/libical/Makefile.am (libical_static_la_DEPENDENCIES): Make
+	libical-static.la depend on libical-evolution.la so they they are
+	not built in parallel by a parallel make, since that would break
+	libtool.
+
 2003-02-07  Christian Neumair  <chris@gnome-de.org>
 
 	* .cvsignore: Added missing files.
