@@ -969,12 +969,11 @@ mail_load_storage_by_uri (GNOME_Evolution_Shell shell, const char *uri, const ch
 	 */
 	if ((!(prov->flags & CAMEL_PROVIDER_IS_STORAGE) ||
 	     !(prov->flags & CAMEL_PROVIDER_IS_REMOTE))
-	    && !((strcmp(prov->protocol, "spool") == 0)
-		 || strcmp(prov->protocol, "maildir") == 0))
+	    && !((strcmp (prov->protocol, "spool") == 0)
+		 || strcmp (prov->protocol, "maildir") == 0))
 		return;
-		
-	store = camel_session_get_service (session, uri,
-					   CAMEL_PROVIDER_STORE, &ex);
+	
+	store = camel_session_get_service (session, uri, CAMEL_PROVIDER_STORE, &ex);
 	if (store == NULL) {
 		/* FIXME: real error dialog */
 		g_warning ("couldn't get service %s: %s\n", uri,
@@ -982,23 +981,23 @@ mail_load_storage_by_uri (GNOME_Evolution_Shell shell, const char *uri, const ch
 		camel_exception_clear (&ex);
 		return;
 	}
-
+	
 	if (name == NULL) {
 		char *service_name;
-
+		
 		service_name = camel_service_get_name (store, TRUE);
 		add_storage (service_name, uri, store, shell, &ex);
 		g_free (service_name);
 	} else
 		add_storage (name, uri, store, shell, &ex);
-
+	
 	if (camel_exception_is_set (&ex)) {
 		/* FIXME: real error dialog */
 		g_warning ("Cannot load storage: %s",
 			   camel_exception_get_description (&ex));
 		camel_exception_clear (&ex);
 	}
-		
+	
 	camel_object_unref (CAMEL_OBJECT (store));
 }
 

@@ -1,5 +1,8 @@
 2001-08-26  Jeffrey Stedfast  <fejj@ximian.com>
 
+	* mail-send-recv.c (receive_update_got_store): If the store is not
+	connected, scan it's subfolders first.
+
 	* mail-ops.c (report_status): Call va_end() so LinuxPPC doesn't
 	have a caniption.
 

@@ -1156,7 +1156,7 @@ do_scan_subfolders (CamelStore *store, CamelFolderInfo *info, void *data)
 	EvolutionStorage *storage = data;
 
 	if (info) {
-		gtk_object_set_data((GtkObject *)storage, "connected", (void *)1);
+		gtk_object_set_data (GTK_OBJECT (storage), "connected", GINT_TO_POINTER (TRUE));
 		mail_storage_create_folder (storage, store, info);
 	}
 }
