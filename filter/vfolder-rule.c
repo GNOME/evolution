@@ -138,6 +138,8 @@ vfolder_rule_add_source (VfolderRule *vr, const char *uri)
 	g_assert(IS_VFOLDER_RULE(vr));
 
 	vr->sources = g_list_append(vr->sources, g_strdup(uri));
+
+	filter_rule_emit_changed((FilterRule *)vr);
 }
 
 const char *
@@ -169,6 +171,7 @@ vfolder_rule_remove_source (VfolderRule *vr, const char *uri)
 	if (found) {
 		vr->sources = g_list_remove(vr->sources, found);
 		g_free(found);
+		filter_rule_emit_changed((FilterRule *)vr);
 	}
 }
 

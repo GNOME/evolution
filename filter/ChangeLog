@@ -1,3 +1,9 @@
+2001-09-28    <NotZed@Ximian.com>
+
+	* vfolder-rule.c (vfolder_rule_add_source): Emit changed events
+	when we change it.
+	(vfolder_rule_remove_source): "
+
 2001-09-28  Jeffrey Stedfast  <fejj@ximian.com>
 
 	* rule-editor.c (edit_editor_clicked): Set the item label to the
