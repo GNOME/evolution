@@ -393,15 +393,24 @@ addressbook_ldap_init (GtkWidget *window, ESource *source)
 	LDAP  *ldap;
 	gchar *host;
 	gint   port;
+	int ldap_error;
+	int protocol_version = LDAP_VERSION3;
 
 	if (!source_to_uri_parts (source, &host, NULL, NULL, &port))
 		return NULL;
 
-	if (!(ldap = ldap_init (host, port)))
+	if (!(ldap = ldap_init (host, port))) {
 		e_error_run ((GtkWindow *) window, "addressbook:ldap-init", NULL);
+		goto done;
+	}
+
+	ldap_error = ldap_set_option (ldap, LDAP_OPT_PROTOCOL_VERSION, &protocol_version);
+	if (LDAP_OPT_SUCCESS != ldap_error)
+		g_warning ("failed to set protocol version to LDAPv3");
 
 	/* XXX do TLS if it's configured in */
 
+ done:
 	g_free (host);
 	return ldap;
 }
@@ -420,7 +429,7 @@ addressbook_ldap_auth (GtkWidget *window, LDAP *ldap)
 }
 
 static int
-addressbook_root_dse_query (AddressbookSourceDialog *dialog, GtkWindow *window, LDAP *ldap,
+addressbook_root_dse_query (AddressbookSourceDialog *dialog, LDAP *ldap,
 			    char **attrs, LDAPMessage **resp)
 {
 	int ldap_error;
@@ -434,7 +443,7 @@ addressbook_root_dse_query (AddressbookSourceDialog *dialog, GtkWindow *window, 
 					"(objectclass=*)",
 					attrs, 0, NULL, NULL, &timeout, LDAP_NO_LIMIT, resp);
 	if (LDAP_SUCCESS != ldap_error)
-		e_error_run ((GtkWindow *) window, "addressbook:ldap-search-base", NULL);
+		e_error_run (GTK_WINDOW (dialog->window), "addressbook:ldap-search-base", NULL);
 	
 	return ldap_error;
 }
@@ -635,7 +644,7 @@ supported_bases_create_table (char *name, char *string1, char *string2, int num1
 }
 
 static gboolean
-do_ldap_root_dse_query (AddressbookSourceDialog *sdialog, GtkWidget *dialog, ETableModel *model, ESource *source, char ***rvalues)
+do_ldap_root_dse_query (AddressbookSourceDialog *sdialog, ETableModel *model, ESource *source, char ***rvalues)
 {
 	LDAP *ldap;
 	char *attrs[2];
@@ -644,24 +653,24 @@ do_ldap_root_dse_query (AddressbookSourceDialog *sdialog, GtkWidget *dialog, ETa
 	LDAPMessage *resp;
 	int i;
 
-	ldap = addressbook_ldap_init (dialog, source);
+	ldap = addressbook_ldap_init (sdialog->window, source);
 	if (!ldap)
 		return FALSE;
 
-	if (LDAP_SUCCESS != addressbook_ldap_auth (dialog, ldap))
+	if (LDAP_SUCCESS != addressbook_ldap_auth (sdialog->window, ldap))
 		goto fail;
 
 	attrs[0] = "namingContexts";
 	attrs[1] = NULL;
 
-	ldap_error = addressbook_root_dse_query (sdialog, GTK_WINDOW (dialog), ldap, attrs, &resp);
+	ldap_error = addressbook_root_dse_query (sdialog, ldap, attrs, &resp);
 
 	if (ldap_error != LDAP_SUCCESS)
 		goto fail;
 
 	values = ldap_get_values (ldap, resp, "namingContexts");
 	if (!values || values[0] == NULL) {
-		e_error_run ((GtkWindow *) dialog, "addressbook:ldap-search-base", NULL);
+		e_error_run (GTK_WINDOW (sdialog->window), "addressbook:ldap-search-base", NULL);
 		goto fail;
 	}
 
@@ -704,6 +713,9 @@ query_for_supported_bases (GtkWidget *button, AddressbookSourceDialog *sdialog)
 	gui = glade_xml_new (EVOLUTION_GLADEDIR "/" GLADE_FILE_NAME, "supported-bases-dialog", NULL);
 	dialog = glade_xml_get_widget (gui, "supported-bases-dialog");
 
+	gtk_window_set_transient_for (GTK_WINDOW (dialog), GTK_WINDOW (sdialog->window));
+	gtk_window_set_modal (GTK_WINDOW (dialog), TRUE);
+
 	gtk_widget_realize (dialog);
 	gtk_container_set_border_width (GTK_CONTAINER (GTK_DIALOG (dialog)->vbox), 0);
 	gtk_container_set_border_width (GTK_CONTAINER (GTK_DIALOG (dialog)->action_area), 12);
@@ -718,7 +730,9 @@ query_for_supported_bases (GtkWidget *button, AddressbookSourceDialog *sdialog)
 
 	search_base_selection_model_changed (selection_model, dialog);
 
-	if (do_ldap_root_dse_query (sdialog, dialog, model, source, &values)) {
+	if (do_ldap_root_dse_query (sdialog, model, source, &values)) {
+		gtk_widget_show (dialog);
+
 		id = gtk_dialog_run (GTK_DIALOG (dialog));
 
 		gtk_widget_hide (dialog);
@@ -740,6 +754,8 @@ query_for_supported_bases (GtkWidget *button, AddressbookSourceDialog *sdialog)
 
 		e_table_memory_store_clear (E_TABLE_MEMORY_STORE (model));
 	}
+
+	gtk_widget_destroy (dialog);
 
 	g_object_unref (source);
 }
@@ -974,7 +990,6 @@ addressbook_add_server_dialog (void)
 	source_to_dialog (sdialog);
 
 	gtk_window_set_type_hint (GTK_WINDOW (sdialog->window), GDK_WINDOW_TYPE_HINT_DIALOG);
-	gtk_window_set_modal (GTK_WINDOW (sdialog->window), TRUE);
 	
 	add_folder_modify (sdialog->window, sdialog);
 
@@ -1181,7 +1196,7 @@ edit_dialog_ok_clicked (GtkWidget *item, AddressbookSourceDialog *sdialog)
 	}
 }
 
-void
+GtkWidget*
 addressbook_config_edit_source (GtkWidget *parent, ESource *source)
 {
 	AddressbookSourceDialog *sdialog = g_new0 (AddressbookSourceDialog, 1);
@@ -1249,15 +1264,17 @@ addressbook_config_edit_source (GtkWidget *parent, ESource *source)
 
 	gtk_widget_set_sensitive (sdialog->ok_button, FALSE);
 
-	gtk_window_set_modal (GTK_WINDOW (sdialog->window), TRUE);
-
 	gtk_widget_show (sdialog->window);
+
+	return sdialog->window;
 }
 
-void
+GtkWidget*
 addressbook_config_create_new_source (GtkWidget *parent)
 {
 	AddressbookSourceDialog *dialog;
 
 	dialog = addressbook_add_server_dialog ();
+
+	return dialog->window;
 }

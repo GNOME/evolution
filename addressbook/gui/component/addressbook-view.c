@@ -84,6 +84,8 @@ struct _AddressbookViewPrivate {
 	GConfClient *gconf_client;
 
 	GHashTable *uid_to_view;
+	GHashTable *uid_to_editor;
+
 	EBook *book;
 	guint activity_id;
 	ESourceList *source_list;
@@ -111,6 +113,22 @@ static void activate_source (AddressbookView *view, ESource *source);
 static void addressbook_view_init	(AddressbookView      *view);
 static void addressbook_view_class_init	(AddressbookViewClass *klass);
 static void addressbook_view_dispose    (GObject *object);
+
+typedef struct {
+	GtkWidget *editor;
+	char *uid;
+	AddressbookView *view;
+} EditorUidClosure;
+
+static void
+editor_weak_notify (gpointer data, GObject *o)
+{
+	EditorUidClosure *closure = data;
+	AddressbookViewPrivate *priv = closure->view->priv;
+
+	g_hash_table_remove (priv->uid_to_editor,
+			     closure->uid);
+}
 
 static EABView *
 get_current_view (AddressbookView *view)
@@ -469,15 +487,14 @@ source_list_changed_cb (ESourceList *source_list, AddressbookView *view)
 
 	uids = NULL;
 	g_hash_table_foreach (priv->uid_to_view, (GHFunc)gather_uids_foreach, &uids);
-
 	for (l = uids; l; l = l->next) {
 		char *uid = l->data;
 		if (e_source_list_peek_source_by_uid (source_list, uid)) {
 			/* the source still exists, do nothing */
 		}
 		else {
-			/* the source no longer exists, remove the
-			   view and remove it from our hash table. */
+			/* the source no longer exists, remove its
+			   view remove it from our hash table. */
 			v = g_hash_table_lookup (priv->uid_to_view,
 						 uid);
 			g_hash_table_remove (priv->uid_to_view, uid);
@@ -487,6 +504,27 @@ source_list_changed_cb (ESourceList *source_list, AddressbookView *view)
 			g_object_unref (v);
 		}
 	}
+	g_list_free (uids);
+
+	uids = NULL;
+	g_hash_table_foreach (priv->uid_to_editor, (GHFunc)gather_uids_foreach, &uids);
+	for (l = uids; l; l = l->next) {
+		char *uid = l->data;
+		if (e_source_list_peek_source_by_uid (source_list, uid)) {
+			/* the source still exists, do nothing */
+		}
+		else {
+			/* the source no longer exists, remove its
+			   editor remove it from our hash table. */
+			EditorUidClosure *closure = g_hash_table_lookup (priv->uid_to_editor,
+									 uid);
+			g_object_weak_unref (G_OBJECT (closure->editor),
+					     editor_weak_notify, closure);
+			gtk_widget_destroy (closure->editor);
+			g_hash_table_remove (priv->uid_to_editor, uid);
+		}
+	}
+	g_list_free (uids);
 
 	/* make sure we've got the current view selected and updated
 	   properly */
@@ -676,13 +714,34 @@ edit_addressbook_cb (GtkWidget *widget, AddressbookView *view)
 {
 	AddressbookViewPrivate *priv = view->priv;
 	ESource *selected_source;
+	const char *uid;;
+	EditorUidClosure *closure;
 
 	selected_source =
 		e_source_selector_peek_primary_selection (E_SOURCE_SELECTOR (priv->selector));
 	if (!selected_source)
 		return;
 
-	addressbook_config_edit_source (gtk_widget_get_toplevel (widget), selected_source);
+	uid = e_source_peek_uid (selected_source);
+
+	closure = g_hash_table_lookup (priv->uid_to_editor, uid);
+	if (!closure) {
+		char *uid_copy = g_strdup (uid);
+
+		closure = g_new (EditorUidClosure, 1);
+		closure->editor = addressbook_config_edit_source (gtk_widget_get_toplevel (widget), selected_source);
+		closure->uid = uid_copy;
+		closure->view = view;
+
+		g_hash_table_insert (priv->uid_to_editor,
+				     uid_copy,
+				     closure);
+
+		g_object_weak_ref (G_OBJECT (closure->editor),
+				   editor_weak_notify, closure);
+	}
+
+	gtk_window_present (GTK_WINDOW (closure->editor));
 }
 
 /* Callbacks.  */
@@ -1010,6 +1069,7 @@ addressbook_view_init (AddressbookView *view)
 	priv->gconf_client = addressbook_component_peek_gconf_client (addressbook_component_peek ());
 
 	priv->uid_to_view = g_hash_table_new_full (g_str_hash, g_str_equal, (GDestroyNotify)g_free, NULL);
+	priv->uid_to_editor = g_hash_table_new_full (g_str_hash, g_str_equal, (GDestroyNotify)g_free, (GDestroyNotify)g_free);
 
 	priv->notebook = gtk_notebook_new ();
 	gtk_notebook_set_show_tabs (GTK_NOTEBOOK (priv->notebook), FALSE);
@@ -1079,6 +1139,19 @@ addressbook_view_init (AddressbookView *view)
 }
 
 static void
+destroy_editor (char *key,
+		gpointer value,
+		gpointer nada)
+{
+	EditorUidClosure *closure = value;
+
+	g_object_weak_unref (G_OBJECT (closure->editor),
+			     editor_weak_notify, closure);
+
+	gtk_widget_destroy (GTK_WIDGET (closure->editor));
+}
+
+static void
 addressbook_view_dispose (GObject *object)
 {
 	AddressbookView *view = ADDRESSBOOK_VIEW (object);
@@ -1095,6 +1168,11 @@ addressbook_view_dispose (GObject *object)
 
 		if (priv->uid_to_view)
 			g_hash_table_destroy (priv->uid_to_view);
+
+		if (priv->uid_to_editor) {
+			g_hash_table_foreach (priv->uid_to_editor, (GHFunc)destroy_editor, NULL);
+			g_hash_table_destroy (priv->uid_to_editor);
+		}
 
 		if (priv->creatable_items_handler)
 			g_object_unref (priv->creatable_items_handler);

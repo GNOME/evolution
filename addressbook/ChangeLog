@@ -1,3 +1,39 @@
+2004-07-30  Chris Toshok  <toshok@ximian.com>
+
+	[ fixes #61365 and other misc issues with the addressbook source
+	editors ]
+	
+	* gui/component/ldap-config.glade: change the
+	supported-bases-dialog to be initially hidden.
+
+	* gui/component/addressbook-view.c (editor_weak_notify): new
+	function, remove the editor from our hash.
+	(source_list_changed_cb): destroy the editors for given sources if
+	they're up when the source disappears.
+	(edit_addressbook_cb): add the editor (and some other misc info we
+	need) to our uid_to_editor hash so we can look it up later.  only
+	create the editor if one doesn't exist for the given source.
+	(destroy_editor): GHFunc that destroys the widgets.
+	(addressbook_view_dispose): destroy uid_to_editor.
+	(addressbook_view_init): init uid_to_editor.
+
+	* gui/component/addressbook-config.h: change return values for
+	_edit_source and _new_source - they both return GtkWidget*s now.
+
+	* gui/component/addressbook-config.c (addressbook_ldap_init):
+	attempt set the protocol version to LDAPv3.  This makes the
+	ldap_auth stuff work if the server requires v3.
+	(addressbook_root_dse_query): we don't need the separate window
+	arg, since all of this now happens *before* the supported bases
+	dialog is shown.  we just use the source dialog's window for the
+	various error dialogs.
+	(do_ldap_root_dse_query): same.
+	(query_for_supported_bases): same, and set the supported bases
+	dialog as transient-for the source dialog, and make it modal.
+	Lastly, don't make the editor modal.
+	(addressbook_config_edit_source): return the editor's window.
+	(addressbook_config_create_new_source): same.
+
 2004-07-26  JP Rosevear  <jpr@novell.com>
  
  	* gui/component/ldap-config.glade: change contacts group to

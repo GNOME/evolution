@@ -2578,7 +2578,6 @@
 </widget>
 
 <widget class="GtkDialog" id="supported-bases-dialog">
-  <property name="visible">True</property>
   <property name="title" translatable="yes">Supported Search Bases</property>
   <property name="type">GTK_WINDOW_TOPLEVEL</property>
   <property name="window_position">GTK_WIN_POS_CENTER</property>
