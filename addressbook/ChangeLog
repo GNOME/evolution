@@ -1,3 +1,8 @@
+2003-12-16  Hans Petter Jansson  <hpj@ximian.com>
+
+	* gui/widgets/e-addressbook-table-adapter.c
+	(addressbook_is_cell_editable): Disable cell editing.
+
 2003-12-15  Hans Petter Jansson  <hpj@ximian.com>
 
 	* gui/contact-editor/e-contact-editor.c (address_to_text): Implement.

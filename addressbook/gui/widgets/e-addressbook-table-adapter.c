@@ -147,6 +147,7 @@ addressbook_set_value_at (ETableModel *etc, int col, int row, const void *val)
 static gboolean
 addressbook_is_cell_editable (ETableModel *etc, int col, int row)
 {
+#if 0
 	EAddressbookTableAdapter *adapter = EAB_TABLE_ADAPTER(etc);
 	EAddressbookTableAdapterPrivate *priv = adapter->priv;
 	const EContact *contact;
@@ -164,6 +165,7 @@ addressbook_is_cell_editable (ETableModel *etc, int col, int row)
 		return col == E_CONTACT_FULL_NAME || col == E_CONTACT_FILE_AS; 
 	else
 		return col < E_CONTACT_LAST_SIMPLE_STRING;
+#endif
 
 	return FALSE;
 }
