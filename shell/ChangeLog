@@ -1,5 +1,18 @@
 2001-09-05  Ettore Perazzoli  <ettore@ximian.com>
 
+	[Fix #958, ShellComponents should not be created by factories, for
+	the test component.]
+
+	* GNOME_Evolution_TestComponent.oaf: Remove the factory.
+
+	* evolution-test-component.c (COMPONENT_FACTORY_ID): Removed.
+	(component_factory_init): Removed.
+	(register_component): Rename from `component_fn'.  No args, no
+	return value.  Register the thing on OAF by yourself instead of
+	using a factory.
+
+2001-09-05  Ettore Perazzoli  <ettore@ximian.com>
+
 	* e-shortcuts-view.c (get_shortcut_info): New.
 	(get_efolder_from_shortcut): Removed.
 	(impl_shortcut_dropped): Use `get_shortcut_info()' instead.

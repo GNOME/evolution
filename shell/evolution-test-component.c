@@ -36,8 +36,7 @@
 #include <gdk-pixbuf/gdk-pixbuf.h>
 
 
-#define COMPONENT_FACTORY_ID "OAFIID:GNOME_Evolution_TestComponent_ShellComponentFactory"
-#define COMPONENT_ID         "OAFIID:GNOME_Evolution_TestComponent_ShellComponent"
+#define COMPONENT_ID "OAFIID:GNOME_Evolution_TestComponent_ShellComponent"
 
 static const EvolutionShellComponentFolderType folder_types[] = {
 	{ "test", "/usr/share/pixmaps/gnome-money.png", N_("Test"), N_("Test type"), FALSE, NULL, NULL },
@@ -279,11 +278,11 @@ user_create_new_item_callback (EvolutionShellComponent *shell_component,
 }
 
 
-static BonoboObject *
-factory_fn (BonoboGenericFactory *factory,
-	    void *closure)
+static void
+register_component (void)
 {
 	EvolutionShellComponent *shell_component;
+	int result;
 
 	shell_component = evolution_shell_component_new (folder_types,
 							 NULL,
@@ -301,18 +300,11 @@ factory_fn (BonoboGenericFactory *factory,
 	gtk_signal_connect (GTK_OBJECT (shell_component), "user_create_new_item",
 			    GTK_SIGNAL_FUNC (user_create_new_item_callback), NULL);
 
-	return BONOBO_OBJECT (shell_component);
-}
+	result = oaf_active_server_register (COMPONENT_ID,
+					     bonobo_object_corba_objref (BONOBO_OBJECT (shell_component)));
 
-static void
-component_factory_init (void)
-{
-	BonoboGenericFactory *factory;
-
-	factory = bonobo_generic_factory_new (COMPONENT_FACTORY_ID, factory_fn, NULL);
-
-	if (factory == NULL)
-		g_error ("Cannot initialize test component.");
+	if (result == OAF_REG_ERROR)
+		g_error ("Cannot register active server into OAF");
 }
 
 
@@ -332,7 +324,7 @@ main (int argc, char **argv)
 	if (bonobo_init (orb, CORBA_OBJECT_NIL, CORBA_OBJECT_NIL) == FALSE)
 		g_error ("Cannot initialize the test component.");
 
-	component_factory_init ();
+	register_component ();
 
 	bonobo_main ();
 
