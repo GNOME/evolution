@@ -2093,7 +2093,7 @@ emfv_format_popup_event(EMFormatHTMLDisplay *efhd, GdkEventButton *event, const 
 
 		message_list_free_uids(emfv->list, uids);
 		if (doit)
-			emfv_popup(emfv, event);
+			emfv_popup(emfv, (GdkEvent *)event);
 		return doit;
 	}
 

@@ -1,5 +1,22 @@
 2004-05-13  Not Zed  <NotZed@Ximian.com>
 
+	* em-migrate.c (em_migrate_folder): move ignore case outside of
+	block.  Stupid c language.
+
+	* em-folder-view.c (emfv_format_popup_event): fix warning with
+	cast.
+
+	** See bug #58304.
+
+	* em-junk-filter.c (em_junk_sa_setting_notify): listen to sa
+	settings changes, update some globals.
+	(em_junk_filter_get_plugin): setup the gconf client here and
+	listen to changes.
+	(em_junk_sa_get_local_only, em_junk_sa_get_use_daemon) 
+	(em_junk_sa_get_daemon_port): removed, use globals instead.
+
+2004-05-13  Not Zed  <NotZed@Ximian.com>
+
 	* em-folder-view.c (emfv_message_reply): re-enabled the reply to
 	selection stuff.  I worked out how to make it work; I think.
 

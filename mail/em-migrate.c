@@ -1532,8 +1532,8 @@ em_migrate_folder(EMMigrateSession *session, const char *dirname, const char *fu
 					     _("Unable to copy folder `%s' to `%s': %s"),
 					     src->str, dest->str, g_strerror(errno));
 			goto fatal;
-		ignore:
 		}
+	ignore:
 		
 		/* create a .cmeta file specifying to index and/or thread the folder */
 		g_string_truncate (dest, dlen);
