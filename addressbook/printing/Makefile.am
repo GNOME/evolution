@@ -43,6 +43,7 @@ contact_print_test_SOURCES = 	\
 
 contact_print_test_LDADD =	\
 	$(top_builddir)/addressbook/backend/ebook/libebook.la	\
+	$(top_builddir)/camel/libcamel.la			\
 	$(top_builddir)/e-util/libeutil.la			\
 	$(top_builddir)/libversit/libversit.a			\
 	$(top_builddir)/e-util/ename/libename.la		\
@@ -54,15 +55,13 @@ contact_print_style_editor_test_SOURCES = 	\
 
 contact_print_style_editor_test_LDADD =	\
 	$(top_builddir)/addressbook/backend/ebook/libebook.la	\
+	$(top_builddir)/camel/libcamel.la			\
 	$(top_builddir)/e-util/libeutil.la			\
 	$(top_builddir)/libversit/libversit.a			\
 	$(top_builddir)/e-util/ename/libename.la		\
 	libecontactprint.a					\
 	$(EVOLUTION_ADDRESSBOOK_LIBS)
 
-# PENDING_PORT_WORK
-# from above two LDADD's
-# 	$(top_builddir)/camel/libcamel.la			\
 
 
 EXTRA_DIST = 		\
