@@ -1,3 +1,8 @@
+2001-01-29  Jeffrey Stedfast  <fejj@helixcode.com>
+
+	* mail-importer.c (mail_importer_add_line): Cast the
+	camel_stream_mem_new() to a CamelStreamMem.
+
 2001-01-29  JP Rosevear  <jpr@ximian.com>
 
 	* main.c: Return efence ifdefs to 0 for solaris build

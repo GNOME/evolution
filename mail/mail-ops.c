@@ -1242,7 +1242,7 @@ mail_get_store(const char *uri, void (*done) (char *uri, CamelStore *store, void
 {
 	struct _get_store_msg *m;
 	int id;
-
+	
 	m = mail_msg_new(&get_store_op, NULL, sizeof(*m));
 	m->uri = g_strdup(uri);
 	m->data = data;

@@ -59,7 +59,7 @@ mail_importer_add_line (MailImporter *importer,
 	CamelException *ex;
 	
 	if (importer->mstream == NULL) {
-		importer->mstream = camel_stream_mem_new ();
+		importer->mstream = CAMEL_STREAM_MEM (camel_stream_mem_new ());
 	}
 
 	camel_stream_write (CAMEL_STREAM (importer->mstream), str, 
