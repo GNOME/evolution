@@ -9,8 +9,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: evolution\n"
-"POT-Creation-Date: 2001-08-26 01:10+0200\n"
-"PO-Revision-Date: 2001-08-31 23:30+0200\n"
+"POT-Creation-Date: 2001-09-01 11:02+0200\n"
+"PO-Revision-Date: 2001-09-01 11:09+0200\n"
 "Last-Translator: GNOME PL Team <translators@gnome.pl>\n"
 "Language-Team: Polish <pl@li.org>\n"
 "MIME-Version: 1.0\n"
@@ -3153,7 +3153,7 @@ msgstr "%a %d/%m/%Y %H:%M:%S"
 #. strftime format of a weekday, a date and a time, 12-hour.
 #: calendar/gui/calendar-model.c:1 e-util/e-time-utils.c:1
 msgid "%a %m/%d/%Y %I:%M:%S %p"
-msgstr "%a %d/%m/%Y %I:%M:%S %p"
+msgstr "%a %d/%m/%Y %H:%M:%S"
 
 #: calendar/gui/calendar-model.c:1
 #, c-format
@@ -4518,6 +4518,8 @@ msgid ""
 "<br> Please review the following information, and then select an action from "
 "the menu below."
 msgstr ""
+"<br> Przejrzyj wy¶wietlone informacje, a nastêpnie wybierz czynno¶æ z "
+"poni¿szego menu."
 
 #: calendar/gui/e-itip-control.c:1
 #, c-format
@@ -4526,7 +4528,7 @@ msgstr "<b>Zestawienie:</b> %s<br><br>"
 
 #: calendar/gui/e-itip-control.c:1
 msgid "<i>None</i>"
-msgstr "<i>None</i>"
+msgstr "<i>Brak</i>"
 
 #: calendar/gui/e-itip-control.c:1
 #, c-format
@@ -5492,7 +5494,7 @@ msgstr "Nie mo¿na wczytaæ %s: Brak kodu inicjuj±cego w module."
 #: camel/camel-remote-store.c:1
 #, c-format
 msgid "%s server %s"
-msgstr "%s serwer %s"
+msgstr "serwer %s %s"
 
 #: camel/camel-remote-store.c:1
 #, c-format
@@ -5921,8 +5923,8 @@ msgstr ""
 "Zastosowywanie filtrów w odniesieniu do nowych listów w INBOX na tym serwerze"
 
 #: camel/providers/imap/camel-imap-provider.c:1
-msgid "IMAPv4"
-msgstr "IMAPv4"
+msgid "IMAP"
+msgstr "IMAP"
 
 #: camel/providers/imap/camel-imap-provider.c:1
 msgid "For reading and storing mail on IMAP servers."
@@ -5980,33 +5982,35 @@ msgid "MH-format mail directories"
 msgstr "Katalogi z listami formacie MH"
 
 #: camel/providers/local/camel-local-provider.c:1
-msgid "For storing local mail in MH-like mail directories"
-msgstr "Do przechowywania lokalnej poczty w katalogach o formacie MH"
+msgid "For storing local mail in MH-like mail directories."
+msgstr "Do przechowywania lokalnej poczty w katalogach podobnych do MH."
 
 #: camel/providers/local/camel-local-provider.c:1
-msgid "Standard Unix mailbox file"
-msgstr "Standardowy uniksowy plik mailbox"
+msgid "Local delivery"
+msgstr "Dostarczanie lokalne"
 
 #: camel/providers/local/camel-local-provider.c:1
-msgid "For storing local mail in standard mbox format"
-msgstr "Do przechowywania lokalnej poczty w standardowym formacie mbox"
+msgid "For retrieving local mail from standard mbox formated spools."
+msgstr ""
+"Do pobierania lokalnej poczty ze standardowych kolejek w formacie mbox."
 
 #: camel/providers/local/camel-local-provider.c:1
 msgid "Qmail maildir-format mail files"
 msgstr "Pliki z listami w formacie maildir Qmaila"
 
 #: camel/providers/local/camel-local-provider.c:1
-msgid "For storing local mail in qmail maildir directories"
-msgstr "Do przechowywania lokalnej poczty w katalogach maildir qmaila"
+msgid "For storing local mail in qmail maildir directories."
+msgstr "Do przechowywania lokalnej poczty w katalogach maildir qmaila."
 
 #: camel/providers/local/camel-local-provider.c:1
-msgid "Unix mbox spool-format mail files"
-msgstr "Uniksowe pliki mbox w postaci kolejki pocztowej"
+msgid "Standard Unix mbox spools"
+msgstr "Standardowe uniksowe kolejki mbox"
 
 #: camel/providers/local/camel-local-provider.c:1
-msgid "For storing local mail in standard Unix spool directories"
+msgid "For reading and storing local mail in standard mbox spool files."
 msgstr ""
-"Do przechowywania lokalnej poczty w uniksowych katalogach kolejkuj±cych"
+"Do odczytu i przechowywania lokalnej poczty w standardowych plikach kolejek "
+"w formacie mbox."
 
 #: camel/providers/local/camel-local-store.c:1
 #: camel/providers/local/camel-spool-store.c:1
@@ -6227,12 +6231,14 @@ msgstr "Folder \"%s\" nie jest pusty. Nie zosta³ usuniêty."
 #. FIXME: If there is a failure, it shouldn't clear the summary and restart,
 #. it should try and merge the summary info's.  This is a bit tricky.
 #: camel/providers/local/camel-mbox-summary.c:1
-msgid "Summarizing folder"
+#: camel/providers/local/camel-spool-summary.c:1
+msgid "Summarising folder"
 msgstr "Tworzenie zestawienia folderu"
 
 #: camel/providers/local/camel-mbox-summary.c:1
+#: camel/providers/local/camel-spool-summary.c:1
 #, c-format
-msgid "Could not open folder: %s: summarizing from position %ld: %s"
+msgid "Could not open folder: %s: summarising from position %ld: %s"
 msgstr ""
 "Nie mo¿na otworzyæ folderu: %s: tworzenie zestawienia od pozycji %ld: %s"
 
@@ -6247,6 +6253,7 @@ msgstr "Powa¿ny b³±d sk³adniowy na pozycji %ld w folderze %s"
 msgid "Cannot summarize folder: %s: %s"
 msgstr "Nie mo¿na stworzyæ zestawienia folderu: %s: %s"
 
+#: camel/providers/local/camel-mbox-summary.c:1
 #: camel/providers/local/camel-mbox-summary.c:1
 #: camel/providers/local/camel-spool-summary.c:1
 #: camel/providers/local/camel-spool-summary.c:1
@@ -6306,10 +6313,6 @@ msgid "Could not rename folder: %s"
 msgstr "Nie mo¿na zmieniæ nazwy folderu: %s"
 
 #: camel/providers/local/camel-mbox-summary.c:1
-msgid "Synchronizing folder"
-msgstr "Synchronizowanie folderu"
-
-#: camel/providers/local/camel-mbox-summary.c:1
 #: camel/providers/local/camel-spool-summary.c:1
 #: camel/providers/local/camel-spool-summary.c:1
 #, c-format
@@ -6347,10 +6350,6 @@ msgid "Folder `%s/%s' does not exist."
 msgstr "Folder \"%s/%s\" nie istnieje."
 
 #: camel/providers/local/camel-spool-store.c:1
-msgid "Spool stores do not have an inbox"
-msgstr "Miejsca przechowywania kolejek nie maj± skrzynki nadchodz±cej"
-
-#: camel/providers/local/camel-spool-store.c:1
 #, c-format
 msgid "Spool mail file %s"
 msgstr "Plik %s z kolejk± listów"
@@ -6362,18 +6361,6 @@ msgstr "Nie mo¿na zmieniaæ nazw folderów kolejek"
 #: camel/providers/local/camel-spool-store.c:1
 msgid "Spool folders cannot be deleted"
 msgstr "Nie mo¿na usuwaæ folderów kolejek"
-
-#. FIXME: If there is a failure, it shouldn't clear the summary and restart,
-#. it should try and merge the summary info's.  This is a bit tricky.
-#: camel/providers/local/camel-spool-summary.c:1
-msgid "Summarising folder"
-msgstr "Tworzenie zestawienia folderu"
-
-#: camel/providers/local/camel-spool-summary.c:1
-#, c-format
-msgid "Could not open folder: %s: summarising from position %ld: %s"
-msgstr ""
-"Nie mo¿na otworzyæ folderu: %s: tworzenie zestawienia od pozycji %ld: %s"
 
 #: camel/providers/local/camel-spool-summary.c:1
 #, c-format
@@ -6493,6 +6480,10 @@ msgid "Could not open folder: message listing was incomplete."
 msgstr "Nie mo¿na otworzyæ folderu: spis listów by³ niekompletny."
 
 #: camel/providers/pop3/camel-pop3-folder.c:1
+msgid "Expunging deleted messages"
+msgstr "Oczyszczanie z usuniêtych listów"
+
+#: camel/providers/pop3/camel-pop3-folder.c:1
 #, c-format
 msgid "Could not fetch message: %s"
 msgstr "Nie mo¿na pobraæ listu: %s"
@@ -6530,13 +6521,8 @@ msgid "POP"
 msgstr "POP"
 
 #: camel/providers/pop3/camel-pop3-provider.c:1
-msgid ""
-"For connecting to POP servers. The POP protocol can also be used to retrieve "
-"mail from certain web mail providers and proprietary email systems."
-msgstr ""
-"Do ³±czenia z serwerami POP. Protokó³ POP mo¿e byæ równie¿ wykorzystywany do "
-"pobierania poczty z pewnych zamkniêtych systemów pocztowych i od dostawców "
-"poczty obs³ugiwanej poprzez www."
+msgid "For connecting to and downloading mail from POP servers."
+msgstr "Do ³±czenia siê i pobierania poczty z serwerów POP."
 
 #: camel/providers/pop3/camel-pop3-provider.c:1
 msgid ""
@@ -7243,7 +7229,7 @@ msgstr "%d/%m/%Y"
 #: e-util/e-time-utils.c:1 e-util/e-time-utils.c:1
 #: e-util/e-time-utils.c:1
 msgid "%I:%M:%S %p"
-msgstr "%I:%M:%S %p"
+msgstr "%H:%M:%S"
 
 #. strptime format for a time of day, in 24-hour format.
 #: e-util/e-time-utils.c:1 e-util/e-time-utils.c:1
@@ -7256,7 +7242,7 @@ msgstr "%H:%M:%S"
 #: e-util/e-time-utils.c:1 widgets/misc/e-dateedit.c:1
 #: widgets/misc/e-dateedit.c:1
 msgid "%I:%M %p"
-msgstr "%I:%M %p"
+msgstr "%H:%M"
 
 #. strptime format for time of day, without seconds 24-hour format.
 #: e-util/e-time-utils.c:1 e-util/e-time-utils.c:1
@@ -7301,7 +7287,7 @@ msgstr "%a %d/%m/%Y %H:%M"
 #. time, in 12-hour format, without seconds.
 #: e-util/e-time-utils.c:1
 msgid "%a %m/%d/%Y %I:%M %p"
-msgstr "%a %d/%m/%Y %I:%M %p"
+msgstr "%a %d/%m/%Y %H:%M"
 
 #: filter/filter-datespec.c:1
 msgid "year"
@@ -7410,7 +7396,7 @@ msgstr "temu"
 
 #: filter/filter-datespec.c:1 mail/message-list.c:1
 msgid "%b %d %l:%M %p"
-msgstr "%d %b %l:%M %p"
+msgstr "%d %b %k:%M"
 
 #: filter/filter-datespec.c:1
 msgid "<click here to select a date>"
@@ -7754,6 +7740,32 @@ msgstr "Regu³y punktacji"
 msgid "Oops.  You need to to specify at least one folder as a source."
 msgstr "Nale¿y podaæ jako ¼ród³o przynajmniej jeden folder."
 
+#: importers/elm-importer.c:1
+msgid "Evolution is importing your old Elm mail"
+msgstr "Evolution importuje star± pocztê Elma"
+
+#: importers/elm-importer.c:1 importers/netscape-importer.c:1
+#: importers/pine-importer.c:1
+msgid "Importing..."
+msgstr "Importowanie..."
+
+#: importers/elm-importer.c:1 importers/netscape-importer.c:1
+#: importers/pine-importer.c:1
+msgid "Please wait"
+msgstr "Poczekaj chwilê"
+
+#: importers/elm-importer.c:1 importers/netscape-importer.c:1
+#: importers/pine-importer.c:1
+#, c-format
+msgid "Importing %s as %s"
+msgstr "Importowanie %s jako %s"
+
+#: importers/elm-importer.c:1 importers/netscape-importer.c:1
+#: importers/pine-importer.c:1
+#, c-format
+msgid "Scanning %s"
+msgstr "Analizowanie %s"
+
 #: importers/elm-importer.c:1 importers/evolution-gnomecard-importer.c:1
 #: importers/netscape-importer.c:1 importers/pine-importer.c:1
 #: shell/e-shell-importer.c:1 shell/importer/intelligent.c:1
@@ -7790,6 +7802,18 @@ msgstr ""
 "Czy chcesz zaimportowaæ je do Evolution?"
 
 #: importers/netscape-importer.c:1
+msgid "Evolution is importing your old Netscape data"
+msgstr "Evolution importuje stare dane Netscape'a"
+
+#: importers/netscape-importer.c:1 importers/pine-importer.c:1
+msgid "Scanning directory"
+msgstr "Analizowanie katalogu"
+
+#: importers/netscape-importer.c:1
+msgid "Starting import"
+msgstr "Rozpoczynanie importowania"
+
+#: importers/netscape-importer.c:1
 msgid "Settings"
 msgstr "Ustawienia"
 
@@ -7800,6 +7824,10 @@ msgid ""
 msgstr ""
 "Odnaleziono pliki pocztowe programu Netscape.\n"
 "Czy chcesz zaimportowaæ je do Evolution?"
+
+#: importers/pine-importer.c:1
+msgid "Evolution is importer your old Pine data"
+msgstr "Evolution importuje stare dane Pine'a"
 
 #: importers/pine-importer.c:1
 msgid ""
@@ -8246,6 +8274,10 @@ msgid "You must configure an account before you can send this email."
 msgstr "Przed wys³aniem listu nale¿y skonfigurowaæ konto."
 
 #: mail/mail-callbacks.c:1
+msgid "an unknown sender"
+msgstr "nieznany nadawca"
+
+#: mail/mail-callbacks.c:1
 msgid "On %a, %Y-%m-%d at %H:%M, %%s wrote:"
 msgstr "W li¶cie z %a, %d-%m-%Y, godz. %H:%M, %%s pisze: "
 
@@ -8438,7 +8470,7 @@ msgstr "Konto"
 msgid "Account Information"
 msgstr "Informacje o koncie"
 
-#: mail/mail-config.glade.h:1
+#: mail/mail-config.glade.h:1 shell/glade/evolution-startup-wizard.glade.h:1
 msgid "Account Management"
 msgstr "Zarz±dzanie kontami"
 
@@ -8513,7 +8545,7 @@ msgstr "Identyfikatory cyfrowe..."
 msgid "Display"
 msgstr "Wy¶wietl"
 
-#: mail/mail-config.glade.h:1
+#: mail/mail-config.glade.h:1 shell/glade/evolution-startup-wizard.glade.h:1
 msgid "Done"
 msgstr "Gotowe"
 
@@ -8554,7 +8586,7 @@ msgstr "Plik z podpisem w HTML-u:"
 msgid "IMAPv4 "
 msgstr "IMAPv4"
 
-#: mail/mail-config.glade.h:1
+#: mail/mail-config.glade.h:1 shell/glade/evolution-startup-wizard.glade.h:1
 msgid "Identity"
 msgstr "To¿samo¶æ"
 
@@ -8630,7 +8662,7 @@ msgstr "Katalog maildir Qmaila"
 msgid "Quoted"
 msgstr "Jako cytat"
 
-#: mail/mail-config.glade.h:1
+#: mail/mail-config.glade.h:1 shell/glade/evolution-startup-wizard.glade.h:1
 msgid "Receiving Email"
 msgstr "Odbieranie poczty"
 
@@ -8662,7 +8694,7 @@ msgstr "Wybór pliku dziennika komunikatów o filtrowaniu..."
 msgid "Select PGP binary"
 msgstr "Wybór pliku programu PGP"
 
-#: mail/mail-config.glade.h:1
+#: mail/mail-config.glade.h:1 shell/glade/evolution-startup-wizard.glade.h:1
 msgid "Sending Email"
 msgstr "Wysy³anie listów"
 
@@ -8820,6 +8852,10 @@ msgstr "Plik z p_odpisem:"
 #: mail/mail-config.glade.h:1
 msgid "_Username:"
 msgstr "Nazwa _u¿ytkownika:"
+
+#: mail/mail-config.glade.h:1
+msgid "description"
+msgstr "opis"
 
 #: mail/mail-config.glade.h:1
 msgid "newswindow1"
@@ -9394,15 +9430,15 @@ msgstr "?"
 
 #: mail/message-list.c:1
 msgid "Today %l:%M %p"
-msgstr "Dzi¶ %l:%M %p"
+msgstr "Dzi¶ %k:%M"
 
 #: mail/message-list.c:1
 msgid "Yesterday %l:%M %p"
-msgstr "Wczoraj %l:%M %p"
+msgstr "Wczoraj %k:%M"
 
 #: mail/message-list.c:1
 msgid "%a %l:%M %p"
-msgstr "%a %l:%M %p"
+msgstr "%a %k:%M"
 
 #: mail/message-list.c:1
 msgid "%b %d %Y"
@@ -9515,11 +9551,11 @@ msgstr "Brak terminów"
 
 #: my-evolution/e-summary-calendar.c:1
 msgid "%l:%M%p"
-msgstr "%l:%M%p"
+msgstr "%k:%M"
 
 #: my-evolution/e-summary-calendar.c:1
 msgid "%a %l:%M%p"
-msgstr "%a %l:%M%p"
+msgstr "%a %k:%M"
 
 #: my-evolution/e-summary-mail.c:1
 msgid "Mail summary"
@@ -10929,7 +10965,7 @@ msgstr "Wychodz±ce"
 msgid "Local Folders"
 msgstr "Lokalne foldery"
 
-#: shell/e-setup.c:1 shell/e-setup.c:1
+#: shell/e-setup.c:1
 msgid "Evolution installation"
 msgstr "Instalacja Evolution"
 
@@ -10948,14 +10984,6 @@ msgstr "Kliknij \"OK\" aby zainstalowaæ pliki lub \"Anuluj\" aby zakoñczyæ."
 #: shell/e-setup.c:1
 msgid "Could not update files correctly"
 msgstr "Nie mo¿na poprawnie uaktualniæ plików"
-
-#: shell/e-setup.c:1
-msgid "This seems to be the first time you are running Evolution."
-msgstr "Wygl±da na to, ¿e Evolution zosta³o uruchomione po raz pierwszy."
-
-#: shell/e-setup.c:1
-msgid "Please click \"OK\" to install the Evolution user files under"
-msgstr "Kliknij \"OK\", aby zainstalowaæ pliki u¿ytkownika Evolution w"
 
 #: shell/e-setup.c:1
 #, c-format
