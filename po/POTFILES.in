@@ -277,7 +277,6 @@ mail/em-format.c
 mail/em-popup.c
 mail/em-subscribe-editor.c
 mail/em-utils.c
-mail/folder-browser-ui.c
 mail/folder-info.c
 mail/GNOME_Evolution_Mail.server.in.in
 mail/importers/elm-importer.c
