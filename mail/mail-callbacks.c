@@ -373,14 +373,18 @@ composer_postpone_cb (EMsgComposer *composer, gpointer data)
 {
 	extern CamelFolder *outbox_folder;
 	CamelMimeMessage *message;
+	CamelMessageInfo *info;
 	struct post_send_data *psd = data;
 	
 	message = composer_get_message (composer);
 	if (message == NULL)
 		return;
+	info = camel_message_info_new ();
+	info->flags = CAMEL_MESSAGE_SEEN;
 	
-	mail_append_mail (outbox_folder, message, NULL, NULL, NULL);
+	mail_append_mail (outbox_folder, message, info, NULL, NULL);
 	camel_object_unref (CAMEL_OBJECT (message));
+	camel_message_info_free (info);
 	
 	if (psd) {
 		camel_folder_set_message_flags (psd->folder, psd->uid, psd->flags, psd->flags);

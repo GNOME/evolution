@@ -1,3 +1,8 @@
+2001-05-17  Dan Winship  <danw@ximian.com>
+
+	* mail-callbacks.c (composer_postpone_cb): mark Outbox messages as
+	read.
+
 2001-05-17  Jeffrey Stedfast  <fejj@ximian.com>
 
 	* mail-format.c (mail_write_authenticity): New convenience
