@@ -1,22 +1,6 @@
-2001-10-02  gettextize  <bug-gnu-utils@gnu.org>
+2001-10-03  Carlos Perelló Marín <carlos@gnome-db.org>
 
-	* Makefile.in.in: Upgrade to gettext-0.10.39.
-
-2001-10-02  gettextize  <bug-gnu-utils@gnu.org>
-
-	* Makefile.in.in: Upgrade to gettext-0.10.39.
-
-2001-10-01  gettextize  <bug-gnu-utils@gnu.org>
-
-	* Makefile.in.in: Upgrade to gettext-0.10.39.
-
-2001-10-01  gettextize  <bug-gnu-utils@gnu.org>
-
-	* Makefile.in.in: Upgrade to gettext-0.10.39.
-
-2001-10-01  gettextize  <bug-gnu-utils@gnu.org>
-
-	* Makefile.in.in: Upgrade to gettext-0.10.39.
+	* es.po: Updated from HEAD.
 
 2001-10-02  Valek Filippov  <frob@df.ru>
 
