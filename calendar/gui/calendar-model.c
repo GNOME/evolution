@@ -1517,7 +1517,6 @@ obj_updated_cb (CalClient *client, const char *uid, gpointer data)
 	const char *new_comp_uid;
 	int *new_idx;
 	CalClientGetStatus status;
-	gboolean added;
 
 	model = CALENDAR_MODEL (data);
 	priv = model->priv;
@@ -1525,8 +1524,6 @@ obj_updated_cb (CalClient *client, const char *uid, gpointer data)
 	orig_idx = remove_object (model, uid);
 
 	status = cal_client_get_object (priv->client, uid, &new_comp);
-
-	added = FALSE;
 
 	switch (status) {
 	case CAL_CLIENT_GET_SUCCESS:
