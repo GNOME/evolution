@@ -419,6 +419,11 @@ e_text_destroy (GtkObject *object)
 		text->timer = NULL;
 	}
 				
+	if ( text->tooltip_timeout ) {
+		gtk_timeout_remove (text->tooltip_timeout);
+		text->tooltip_timeout = 0;
+	}
+
 	if (GTK_OBJECT_CLASS (parent_class)->destroy)
 		(* GTK_OBJECT_CLASS (parent_class)->destroy) (object);
 }
