@@ -672,10 +672,6 @@ format_mime_part (CamelMimePart *part, MailDisplay *md)
 	get_location (part, md);
 	
 	wrapper = camel_medium_get_content_object (CAMEL_MEDIUM (part));
-	if (wrapper == NULL) {
-		g_warning ("mime part does not contain any data");
-		return TRUE;
-	}
 	
 	if (CAMEL_IS_MULTIPART (wrapper) &&
 	    camel_multipart_get_number (CAMEL_MULTIPART (wrapper)) == 0) {
@@ -692,7 +688,7 @@ format_mime_part (CamelMimePart *part, MailDisplay *md)
 	mime_type = camel_data_wrapper_get_mime_type (wrapper);
 	g_strdown (mime_type);
 	
-	handler = mime_type ? mail_lookup_handler (mime_type) : NULL;
+	handler = mail_lookup_handler (mime_type);
 	if (!handler) {
 		char *id_type;
 		
@@ -701,7 +697,7 @@ format_mime_part (CamelMimePart *part, MailDisplay *md)
 		 * evil infinite recursion.
 		 */
 		
-		if (mime_type && !strcmp (mime_type, "application/mac-binhex40")) {
+		if (!strcmp (mime_type, "application/mac-binhex40")) {
 			handler = NULL;
 		} else {
 			id_type = mail_identify_mime_part (part, md);

@@ -1,3 +1,9 @@
+2001-11-27  Jeffrey Stedfast  <fejj@ximian.com>
+
+	* mail-format.c (format_mime_part): Reverted the non-NULL
+	mime-type patch from a little while back, didn't mean to commit
+	this.
+
 2001-11-25  Not Zed  <NotZed@Ximian.com>
 
 	* mail-config.c (config_read): Enable news accounts that exist
