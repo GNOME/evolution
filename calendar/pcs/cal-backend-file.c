@@ -440,7 +440,7 @@ check_dup_uid (CalBackendFile *cbfile, CalComponent *comp)
  * that we don't lose them.
  */
 static void
-add_component (CalBackendFile *cbfile, CalComponent *comp)
+add_component (CalBackendFile *cbfile, CalComponent *comp, gboolean add_to_toplevel)
 {
 	CalBackendFilePrivate *priv;
 	GList **list;
@@ -474,19 +474,41 @@ add_component (CalBackendFile *cbfile, CalComponent *comp)
 
 	g_hash_table_insert (priv->comp_uid_hash, (char *) uid, comp);
 	*list = g_list_prepend (*list, comp);
+
+	/* Put the object in the toplevel component if required */
+
+	if (add_to_toplevel) {
+		icalcomponent *icalcomp;
+
+		icalcomp = cal_component_get_icalcomponent (comp);
+		g_assert (icalcomp != NULL);
+
+		icalcomponent_add_component (priv->icalcomp, icalcomp);
+	}
 }
 
 /* Removes a component from the backend's hash and lists.  Does not perform
- * notification on the clients.
+ * notification on the clients.  Also removes the component from the toplevel
+ * icalcomponent.
  */
 static void
 remove_component (CalBackendFile *cbfile, CalComponent *comp)
 {
 	CalBackendFilePrivate *priv;
+	icalcomponent *icalcomp;
 	const char *uid;
 	GList **list, *l;
 
 	priv = cbfile->priv;
+
+	/* Remove the icalcomp from the toplevel */
+
+	icalcomp = cal_component_get_icalcomponent (comp);
+	g_assert (icalcomp != NULL);
+
+	icalcomponent_remove_component (priv->icalcomp, icalcomp);
+
+	/* Remove it from our mapping */
 
 	cal_component_get_uid (comp, &uid);
 	g_hash_table_remove (priv->comp_uid_hash, uid);
@@ -548,7 +570,7 @@ scan_vcalendar (CalBackendFile *cbfile)
 		if (!cal_component_set_icalcomponent (comp, icalcomp))
 			continue;
 
-		add_component (cbfile, comp);
+		add_component (cbfile, comp, FALSE);
 	}
 }
 
@@ -950,7 +972,7 @@ cal_backend_file_update_object (CalBackend *backend, const char *uid, const char
 {
 	CalBackendFile *cbfile;
 	CalBackendFilePrivate *priv;
-	icalcomponent *icalcomp, *icalcomp2;
+	icalcomponent *icalcomp;
 	icalcomponent_kind kind;
 	CalComponent *old_comp;
 	CalComponent *comp;
@@ -1001,19 +1023,10 @@ cal_backend_file_update_object (CalBackend *backend, const char *uid, const char
 
 	old_comp = lookup_component (cbfile, uid);
 
-	if (old_comp) {	
-		/* Remove it from our calendar component */
-		icalcomp2 = cal_component_get_icalcomponent (old_comp);
-		icalcomponent_remove_component (priv->icalcomp, icalcomp2);
-
+	if (old_comp)
 		remove_component (cbfile, old_comp);
-	}
-	
-	/* Add it to our calendar component */
-	icalcomp2 = cal_component_get_icalcomponent (comp);
-	icalcomponent_add_component (priv->icalcomp, icalcomp2);
 
-	add_component (cbfile, comp);
+	add_component (cbfile, comp, TRUE);
 #if 0
 	/* FIXME */
 	new_ico->pilot_status = ICAL_PILOT_SYNC_MOD;
@@ -1034,7 +1047,6 @@ cal_backend_file_remove_object (CalBackend *backend, const char *uid)
 	CalBackendFile *cbfile;
 	CalBackendFilePrivate *priv;
 	CalComponent *comp;
-	icalcomponent *icalcomp;
 
 	cbfile = CAL_BACKEND_FILE (backend);
 	priv = cbfile->priv;
@@ -1047,12 +1059,7 @@ cal_backend_file_remove_object (CalBackend *backend, const char *uid)
 	if (!comp)
 		return FALSE;
 
-	/* Remove it from our calendar component */
-	icalcomp = cal_component_get_icalcomponent (comp);
-	icalcomponent_remove_component (priv->icalcomp, icalcomp);
-
 	remove_component (cbfile, comp);
-
 	mark_dirty (cbfile);
 
 	/* FIXME: do the notification asynchronously */
