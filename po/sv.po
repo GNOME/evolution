@@ -6,13 +6,13 @@
 # Martin Norbäck <d95mback@dtek.chalmers.se>, 2001.
 # Johan Dahlin <zilch.am@home.se>, 2001.
 #
-# $Id: sv.po,v 1.183.2.7 2003/08/14 08:52:18 menthos Exp $
+# $Id: sv.po,v 1.183.2.8 2003/08/20 01:01:30 menthos Exp $
 #
 msgid ""
 msgstr ""
 "Project-Id-Version: evolution\n"
-"POT-Creation-Date: 2003-08-14 10:50+0200\n"
-"PO-Revision-Date: 2003-08-14 10:51+0200\n"
+"POT-Creation-Date: 2003-08-20 02:58+0200\n"
+"PO-Revision-Date: 2003-08-20 03:00+0200\n"
 "Last-Translator: Christian Rose <menthos@menthos.com>\n"
 "Language-Team: Swedish <sv@li.org>\n"
 "MIME-Version: 1.0\n"
@@ -10711,7 +10711,7 @@ msgstr ""
 "Kunde inte skapa redigerarfönstret:\n"
 "Kan inte aktivera HTML-redigerarkomponenten."
 
-#: composer/e-msg-composer.c:4064
+#: composer/e-msg-composer.c:4073
 msgid ""
 "<b>(The composer contains a non-text message body, which cannot be edited.)"
 "<b>"
@@ -13180,8 +13180,8 @@ msgid "Overdue:"
 msgstr "Skulle ha utförts:"
 
 #: mail/mail-display.c:1875
-msgid "by %B %d, %Y, %l:%M %P"
-msgstr "den %d %B %Y %H.%M"
+msgid "by %B %d, %Y, %l:%M %p"
+msgstr "den %d %B %Y %k.%M"
 
 #: mail/mail-display.c:2239
 msgid "Open Link in Browser"
@@ -23737,8 +23737,8 @@ msgid "%k:%M %d %B"
 msgstr "%k.%M %d %B"
 
 #: my-evolution/e-summary-calendar.c:408
-msgid "%l:%M%P %d %B"
-msgstr "%l.%M %d %B"
+msgid "%l:%M%p %d %B"
+msgstr "%k.%M %d %B"
 
 #: my-evolution/e-summary-calendar.c:426
 msgid "No description"
@@ -28003,6 +28003,12 @@ msgstr "Evolutions kalenderbakände för lokal fil"
 #: wombat/GNOME_Evolution_WombatNOLDAP.server.in.in.h:1
 msgid "Evolution Addressbook local file backend"
 msgstr "Evolutions adressboksbakände för lokal fil"
+
+#~ msgid "by %B %d, %Y, %I:%M %p"
+#~ msgstr "den %d %B %Y %H.%M"
+
+#~ msgid "%l:%M %p %d %B"
+#~ msgstr "%k.%M %d %B"
 
 #~ msgid "Hey you, dunce. You need an account to send mail doncha know."
 #~ msgstr ""
