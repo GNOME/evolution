@@ -1009,7 +1009,7 @@ msgstr "MSN Messenger"
 # e-mail adres
 #: addressbook/gui/contact-editor/contact-editor.glade.h:27
 msgid "Mailing Address"
-msgstr "E-mailadres"
+msgstr "Postadres"
 
 # beheerder
 #: addressbook/gui/contact-editor/contact-editor.glade.h:28
