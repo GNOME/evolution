@@ -323,7 +323,6 @@ composer_send_cb (EMsgComposer *composer, gpointer data)
 	}
 
 	message = e_msg_composer_get_message (composer);
-	gtk_object_destroy (GTK_OBJECT (composer));
 
 	camel_mime_message_set_from (message, from);
 	camel_medium_add_header (CAMEL_MEDIUM (message), "X-Mailer",
@@ -337,11 +336,15 @@ composer_send_cb (EMsgComposer *composer, gpointer data)
 		camel_service_disconnect (CAMEL_SERVICE (transport), ex);
 	if (camel_exception_is_set (ex))
 		mail_exception_dialog ("Could not send message", ex, composer);
-	else if (psd) {
-		guint32 set;
+	else {
+		gtk_object_destroy (GTK_OBJECT (composer));
+		if (psd) {
+			guint32 set;
 
-		set = camel_mime_message_get_flags (psd->message);
-		camel_mime_message_set_flags (psd->message, psd->flags, ~set);
+			set = camel_mime_message_get_flags (psd->message);
+			camel_mime_message_set_flags (psd->message,
+						      psd->flags, ~set);
+		}
 	}
 
 	camel_exception_free (ex);
