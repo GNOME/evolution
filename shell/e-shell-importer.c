@@ -724,6 +724,7 @@ prepare_intelligent_page (GnomeDruid *druid,
 
 	gtk_window_set_title (GTK_WINDOW (dialog), _("Starting Intelligent Importers"));
 	gtk_widget_show_all (dialog);
+	gtk_widget_show_now (dialog);
 
 	gtk_widget_queue_draw (dialog);
 	gdk_flush ();

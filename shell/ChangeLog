@@ -1,5 +1,11 @@
 2001-10-26  Ettore Perazzoli  <ettore@ximian.com>
 
+	* e-shell-importer.c (prepare_intelligent_page):
+	gtk_widget_show_now() the dialog.
+	* e-shell-startup-wizard.c (prepare_importer_page): Likewise.
+
+2001-10-26  Ettore Perazzoli  <ettore@ximian.com>
+
 	* main.c (quit_box_new): Use gtk_widget_show_now() so the stupid
 	dialog hopefully displays all the time.
 
