@@ -3422,6 +3422,10 @@ static char *tz_months [] = {
 	"Jul", "Aug", "Sep", "Oct", "Nov", "Dec"
 };
 
+static char *tz_days [] = {
+	"Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"
+};
+
 char *
 header_format_date(time_t time, int offset)
 {
@@ -3437,7 +3441,8 @@ header_format_date(time_t time, int offset)
 
 	memcpy(&tm, gmtime(&time), sizeof(tm));
 
-	return g_strdup_printf("%02d %s %04d %02d:%02d:%02d %+05d",
+	return g_strdup_printf("%s, %02d %s %04d %02d:%02d:%02d %+05d",
+			       tz_days[tm.tm_wday],
 			       tm.tm_mday, tz_months[tm.tm_mon],
 			       tm.tm_year + 1900,
 			       tm.tm_hour, tm.tm_min, tm.tm_sec,
