@@ -25,7 +25,7 @@ module Calendar {
 
 	interface Listener;
 
-	/* A calendar handle */
+	/* Calendar client interface */
 	interface Cal : Unknown {
 		/* A calendar is identified by its URI */
 		readonly attribute string uri;

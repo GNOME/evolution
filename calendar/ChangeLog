@@ -1,5 +1,20 @@
 2000-01-18  Federico Mena Quintero  <federico@helixcode.com>
 
+	* cal-backend.c cal-backend.h: Moved the calendar backend here.
+	This is the actual calendar-handling object.
+	(load_from_vobject): Moved over from calendar.c.  Modified to use
+	a CalBackend instead of the old Calendar structure.
+	(add_object): Likewise.
+
+	* cal.c: Now the Cal object is just a calendar client interface
+	object; we use it as a "viewport" onto a CalBackend.  This also
+	lets us do correct resource management.
+
+	* cal-common.h: New file with common forward declarations; we
+	can't have circular dependencies between headers.
+
+2000-01-18  Federico Mena Quintero  <federico@helixcode.com>
+
 	* cal-factory.c (cal_factory_load): Queue a load job.
 	(load_fn): Load job handler.  Lookup the calendar by URI, load it
 	if it is not loaded, or just report it to the new listener if it is.
@@ -12,6 +27,16 @@
 
 	* cal-listener.c (Listener_cal_loaded): Ref the calendar GNOME
 	object.  We unref it when the listener is destroyed.
+
+2000-01-17  Federico Mena Quintero  <federico@helixcode.com>
+
+	The files from the gncal directory of the gnome-pim module on CVS
+	were moved here, to evolution/calendar, in preparation for the
+	Evolution work.  The calendar is being split into a model/view
+	architecture.  The model is a personal calendar server (PAS):  it
+	provides storage, notification, and event generation; the
+	views/controllers are the calendar user agents and things like
+	Pilot synchronizers.
 
 2000-01-11  Federico Mena Quintero  <federico@helixcode.com>
 

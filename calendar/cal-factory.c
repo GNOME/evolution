@@ -187,20 +187,6 @@ cal_factory_get_epv (void)
 	return epv;
 }
 
-/* Returns whether a CORBA object is nil */
-static gboolean
-corba_object_is_nil (CORBA_Object object)
-{
-	CORBA_Environment ev;
-	gboolean retval;
-
-	CORBA_exception_init (&ev);
-	retval = CORBA_Object_is_nil (object, &ev);
-	CORBA_exception_free (&ev);
-
-	return retval;
-}
-
 
 
 /* Loading and creating calendars */
@@ -288,7 +274,6 @@ cal_factory_construct (CalFactory *factory, GNOME_Calendar_CalFactory corba_fact
 {
 	g_return_val_if_fail (factory != NULL, NULL);
 	g_return_val_if_fail (IS_CAL_FACTORY (factory), NULL);
-	g_return_val_if_fail (!corba_object_is_nil (corba_factory), NULL);
 
 	gnome_object_construct (GNOME_OBJECT (factory), corba_factory);
 	return factory;
@@ -319,6 +304,7 @@ cal_factory_corba_object_create (GnomeObject *object)
 	CORBA_exception_init (&ev);
 	POA_GNOME_Calendar_CalFactory__init ((PortableServer_Servant) servant, &ev);
 	if (ev._major != CORBA_NO_EXCEPTION) {
+		g_message ("cal_factory_corba_object_create(): could not init the servant");
 		g_free (servant);
 		CORBA_exception_free (&ev);
 		return CORBA_OBJECT_NIL;
@@ -341,14 +327,24 @@ CalFactory *
 cal_factory_new (void)
 {
 	CalFactory *factory;
+	CORBA_Environment ev;
 	GNOME_Calendar_CalFactory corba_factory;
+	gboolean retval;
 
 	factory = gtk_type_new (CAL_FACTORY_TYPE);
+
 	corba_factory = cal_factory_corba_object_create (GNOME_OBJECT (factory));
-	if (corba_object_is_nil (corba_factory)) {
-		gtk_object_destroy (factory);
+	CORBA_exception_init (&ev);
+	retval = CORBA_Object_is_nil (corba_factory, &ev);
+
+	if (ev._major != CORBA_NO_EXCEPTION || retval) {
+		g_message ("cal_factory_new(): could not create the CORBA object");
+		gtk_object_unref (factory);
+		CORBA_exception_free (&ev);
 		return NULL;
 	}
+
+	CORBA_exception_free (&ev);
 
 	return cal_factory_construct (factory, corba_factory);
 }
@@ -358,18 +354,25 @@ cal_factory_load (CalFactory *factory, const char *uri, GNOME_Calendar_Listener 
 {
 	LoadCreateJobData *jd;
 	CORBA_Environment ev;
+	GNOME_Calendar_Listener listener_copy;
 
 	CORBA_exception_init (&ev);
+
+	listener_copy = CORBA_Object_duplicate (listener, &ev);
+	if (ev._major != CORBA_NO_EXCEPTION) {
+		g_message ("cal_factory_load(): could not duplicate the listener");
+		CORBA_exception_free (&ev);
+		return;
+	}
+
+	CORBA_exception_free (&ev);
 
 	jd = g_new (LoadCreateJobData, 1);
 	jd->factory = factory;
 	jd->uri = g_strdup (uri);
-	jd->listener = CORBA_Object_duplicate (listener, &ev);
-	GNOME_Unknown_ref (jd->listener);
+	jd->listener = listener_copy;
 
 	job_add (load_fn, jd);
-
-	CORBA_exception_free (&ev);
 }
 
 void

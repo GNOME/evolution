@@ -1,4 +1,4 @@
-/* GNOME calendar object
+/* GNOME calendar client interface object
  *
  * Copyright (C) 2000 Helix Code, Inc.
  *
@@ -21,16 +21,17 @@
 
 #include <config.h>
 #include "cal.h"
+#include "cal-backend.h"
 
 
 
 /* Private part of the Cal structure */
 typedef struct {
-	/* The URI where this calendar is stored */
-	char *uri;
+	/* Our backend */
+	CalBackend *backend;
 
-	/* List of listeners for this calendar */
-	GList *listeners;
+	/* Listener on the client we notify */
+	GNOME_Calendar_listener listener;
 } CalPrivate;
 
 
@@ -71,7 +72,7 @@ cal_get_type (void)
 			(GtkClassInitFunc) NULL
 		};
 
-		cal_type = gtk_type_unique (gnome_object_get_type (), &cal_info);
+		cal_type = gtk_type_unique (GNOME_OBJECT_TYPE, &cal_info);
 	}
 
 	return cal_type;
@@ -93,7 +94,7 @@ cal_class_init (CalClass *class)
 
 	object_class = (GtkObjectClass *) class;
 
-	parent_class = gtk_type_class (gnome_object_get_type ());
+	parent_class = gtk_type_class (GNOME_OBJECT_TYPE);
 
 	object_class->destroy = cal_destroy;
 
@@ -108,6 +109,8 @@ cal_init (Cal *cal)
 
 	priv = g_new0 (CalPrivate, 1);
 	cal->priv = priv;
+
+	priv->listener = CORBA_OBJECT_NIL;
 }
 
 /* Destroy handler for the calendar */
@@ -183,35 +186,47 @@ cal_get_epv (void)
 
 
 
-/* Returns whether a CORBA object is nil */
-static gboolean
-corba_object_is_nil (CORBA_Object object)
-{
-	CORBA_Environment ev;
-	gboolean retval;
-
-	CORBA_exception_init (&ev);
-	retval = CORBA_Object_is_nil (object, &ev);
-	CORBA_exception_free (&ev);
-
-	return retval;
-}
-
 /**
  * cal_construct:
- * @cal: A calendar.
+ * @cal: A calendar client interface.
  * @corba_cal: CORBA object for the calendar.
+ * @backend: Calendar backend that this @cal presents an interface to.
+ * @listener: Calendar listener for notification.
  *
- * Constructs a calendar by binding the corresponding CORBA object to it.
+ * Constructs a calendar client interface object by binding the corresponding
+ * CORBA object to it.  The calendar interface is bound to the specified
+ * @backend, and will notify the @listener about changes to the calendar.
  *
  * Return value: The same object as the @cal argument.
  **/
 Cal *
-cal_construct (Cal *cal, GNOME_Calendar_Cal corba_cal)
+cal_construct (Cal *cal,
+	       GNOME_Calendar_Cal corba_cal,
+	       CalBackend *backend,
+	       GNOME_Calendar_Listener listener)
 {
+	CalPrivate *priv;
+	CORBA_Environment ev;
+
 	g_return_val_if_fail (cal != NULL, NULL);
 	g_return_val_if_fail (IS_CAL (cal), NULL);
-	g_return_val_if_fail (!corba_object_is_nil (corba_cal), NULL);
+	g_return_val_if_fail (backend != NULL);
+	g_return_val_if_fail (IS_CAL_BACKEND (backend));
+
+	priv = cal->priv;
+
+	CORBA_exception_init (&ev);
+	priv->listener = CORBA_Object_duplicate (listener, &ev);
+	if (ev._major != CORBA_NO_EXCEPTION) {
+		g_message ("cal_construct: could not duplicate the listener");
+		priv->listener = CORBA_OBJECT_NIL;
+		CORBA_exception_free (&ev);
+		return NULL;
+	}
+
+	CORBA_exception_free (&ev);
+
+	priv->backend = backend;
 
 	gnome_object_construct (GNOME_OBJECT (cal), corba_cal);
 	return cal;
@@ -222,7 +237,7 @@ cal_construct (Cal *cal, GNOME_Calendar_Cal corba_cal)
  * @object: #GnomeObject that will wrap the CORBA object.
  *
  * Creates and activates the CORBA object that is wrapped by the specified
- * calendar @object.
+ * calendar client interface @object.
  *
  * Return value: An activated object reference or #CORBA_OBJECT_NIL in case of
  * failure.
@@ -242,6 +257,7 @@ cal_corba_object_create (GnomeObject *object)
 	CORBA_exception_init (&ev);
 	POA_GNOME_Calendar_Cal__init ((PortableServer_Servant) servant, &ev);
 	if (ev._major != CORBA_NO_EXCEPTION) {
+		g_message ("cal_corba_object_create(): could not init the servant");
 		g_free (servant);
 		CORBA_exception_free (&ev);
 		return CORBA_OBJECT_NIL;
@@ -252,69 +268,47 @@ cal_corba_object_create (GnomeObject *object)
 }
 
 /**
- * cal_add_listener:
- * @cal: A calendar.
- * @listener: A listener.
+ * cal_new:
+ * @backend: A calendar backend.
+ * @listener: A calendar listener.
  *
- * Adds a listener for changes to a calendar.  The specified listener object
- * will be used for notification when objects are added, removed, or changed in
- * the calendar.
+ * Creates a new calendar client interface object and binds it to the specified
+ * @backend and @listener objects.
+ *
+ * Return value: A newly-created #Cal calendar client interface object, or NULL
+ * if its corresponding CORBA object could not be created.
  **/
-void
-cal_add_listener (Cal *cal, GNOME_Calendar_Listener listener)
+Cal *
+cal_new (CalBackend *backend, GNOME_Calendar_Listener listener)
 {
-	CalPrivate *priv;
+	Cal *cal, *retval;
+	GNOME_Calendar_Cal corba_cal;
 	CORBA_Environment ev;
+	gboolean ret;
 
-	g_return_if_fail (cal != NULL);
-	g_return_if_fail (IS_CAL (cal));
-	g_return_if_fail (!corba_object_is_nil (listener));
+	g_return_val_if_fail (backend != NULL);
+	g_return_val_if_fail (IS_CAL_BACKEND (backend));
 
-	priv = cal->priv;
+	cal = CAL (gtk_type_new (CAL_TYPE));
+	corba_cal = cal_corba_object_create (GNOME_OBJECT (cal));
 
 	CORBA_exception_init (&ev);
-
-	GNOME_Unknown_ref (listener, &ev);
-	priv->listeners = g_list_prepend (priv->listeners, CORBA_Object_duplicate (listener, &ev));
-
-	CORBA_exception_free (&ev);
-}
-
-/**
- * cal_remove_listener:
- * @cal: A calendar.
- * @listener: A listener.
- *
- * Removes a listener from a calendar so that no more notification events will
- * be sent to the listener.
- **/
-void
-cal_remove_listener (Cal *cal, GNOME_Calendar_Listener listener)
-{
-	CalPrivate *priv;
-	CORBA_Environment ev;
-	GList *l;
-
-	g_return_if_fail (cal != NULL);
-	g_return_if_fail (IS_CAL (cal));
-
-	priv = cal->priv;
-
-	CORBA_exception_init (&ev);
-
-	/* FIXME: CORBA_Object_is_equivalent() is not what one thinks.  This
-	 * code could fail in situtations subtle enough that I don't understand
-	 * them.  Someone has to figure out the standard CORBA idiom for
-	 * listeners or notification.
-	 */
-	for (l = priv->listeners; l; l = l->next)
-		if (CORBA_Object_is_equivalent (listener, l->data)) {
-			GNOME_Unknown_unref (listener, &ev);
-			CORBA_Object_release (listener, &ev);
-			priv->listeners = g_list_remove_link (priv->listeners, l);
-			g_list_free_1 (l);
-			break;
-		}
+	ret = CORBA_object_is_nil (corba_cal, &ev);
+	if (ev._major != CORBA_NO_EXCEPTION || ret) {
+		g_message ("cal_new(): could not create the CORBA object");
+		gtk_object_unref (GTK_OBJECT (cal));
+		CORBA_exception_free (&ev);
+		return NULL;
+	}
 
 	CORBA_exception_free (&ev);
+
+	retval = cal_construct (cal, corba_cal, backend, listener);
+	if (!retval) {
+		g_message ("cal_new(): could not construct the calendar client interface");
+		gtk_object_unref (cal);
+		return NULL;
+	}
+
+	return retval;
 }

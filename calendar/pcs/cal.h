@@ -1,4 +1,4 @@
-/* GNOME calendar object
+/* GNOME calendar client interface object
  *
  * Copyright (C) 2000 Helix Code, Inc.
  *
@@ -25,6 +25,7 @@
 #include <libgnome/gnome-defs.h>
 #include <bonobo/gnome-object.h>
 #include "gnome-calendar.h"
+#include "cal-common.h"
 
 BEGIN_GNOME_DECLS
 
@@ -35,9 +36,6 @@ BEGIN_GNOME_DECLS
 #define CAL_CLASS(klass)    (GTK_CHECK_CLASS_CAST ((klass), CAL_TYPE, CalClass))
 #define IS_CAL(obj)         (GTK_CHECK_TYPE ((obj), CAL_TYPE))
 #define IS_CAL_CLASS(klass) (GTK_CHECK_CLASS_TYPE ((klass), CAL_TYPE))
-
-typedef struct _Cal Cal;
-typedef struct _CalClass CalClass;
 
 struct _Cal {
 	GnomeObject object;
@@ -52,14 +50,13 @@ struct _CalClass {
 
 GtkType cal_get_type (void);
 
-Cal *cal_construct (Cal *cal, GNOME_Calendar_Cal corba_cal);
+Cal *cal_construct (Cal *cal,
+		    GNOME_Calendar_Cal corba_cal,
+		    CalBackend *backend,
+		    GNOME_Calendar_Listener listener);
 GNOME_Calendar_Cal cal_corba_object_create (GnomeObject *object);
 
-Cal *cal_new (char *uri);
-Cal *cal_new_from_file (char *uri);
-
-void cal_add_listener (Cal *cal, GNOME_Calendar_Listener listener);
-void cal_remove_listener (Cal *cal, GNOME_Calendar_Listener listener);
+Cal *cal_new (CalBackend *backend, GNOME_Calendar_Listener listener);
 
 POA_GNOME_Calendar_Cal__epv *cal_get_epv (void);
 
