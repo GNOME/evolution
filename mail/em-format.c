@@ -515,9 +515,12 @@ em_format_part(EMFormat *emf, CamelStream *stream, CamelMimePart *part)
 
 	dw = camel_medium_get_content_object((CamelMedium *)part);
 	mime_type = camel_data_wrapper_get_mime_type(dw);
-	camel_strdown(mime_type);
-	em_format_part_as(emf, stream, part, mime_type);
-	g_free(mime_type);
+	if (mime_type) {
+		camel_strdown(mime_type);
+		em_format_part_as(emf, stream, part, mime_type);
+		g_free(mime_type);
+	} else
+		em_format_part_as(emf, stream, part, "text/plain");
 }
 
 static void

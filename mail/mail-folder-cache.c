@@ -433,7 +433,7 @@ folder_changed (CamelObject *o, gpointer event_data, gpointer user_data)
 
 	d(printf("folder '%s' changed\n", folder->full_name));
 
-	if (!CAMEL_IS_VTRASH_FOLDER(folder)
+	if (!CAMEL_IS_VEE_FOLDER(folder)
 	    && folder != mail_component_get_folder(NULL, MAIL_COMPONENT_FOLDER_OUTBOX)
 	    && folder != mail_component_get_folder(NULL, MAIL_COMPONENT_FOLDER_SENT)
 	    && changes && changes->uid_added)

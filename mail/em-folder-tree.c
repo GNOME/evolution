@@ -2053,7 +2053,7 @@ emft_popup_copy (GtkWidget *item, EMFolderTree *emft)
 	cfd->emft = emft;
 	cfd->delete = FALSE;
 	
-	em_select_folder (NULL, _("Select folder"),
+	em_select_folder (NULL, _("Select folder"), _("C_opy"),
 			  NULL, emft_popup_copy_folder_selected, cfd);
 }
 
@@ -2066,7 +2066,7 @@ emft_popup_move (GtkWidget *item, EMFolderTree *emft)
 	cfd->emft = emft;
 	cfd->delete = TRUE;
 	
-	em_select_folder (NULL, _("Select folder"),
+	em_select_folder (NULL, _("Select folder"), _("_Move"),
 			  NULL, emft_popup_copy_folder_selected, cfd);
 }
 

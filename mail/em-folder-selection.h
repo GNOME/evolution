@@ -31,7 +31,7 @@ extern "C" {
 
 struct _GtkWindow;
 
-void em_select_folder (struct _GtkWindow *parent_window, const char *title, const char *default_uri,
+void em_select_folder (struct _GtkWindow *parent_window, const char *title, const char *oklabel, const char *default_uri,
 		       void (*done)(const char *uri, void *data),
 		       void *data);
 

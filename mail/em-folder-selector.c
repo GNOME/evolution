@@ -218,7 +218,7 @@ folder_activated_cb (EMFolderTree *emft, const char *path, const char *uri, EMFo
 }
 
 void
-em_folder_selector_construct (EMFolderSelector *emfs, EMFolderTree *emft, guint32 flags, const char *title, const char *text)
+em_folder_selector_construct (EMFolderSelector *emfs, EMFolderTree *emft, guint32 flags, const char *title, const char *text, const char *oklabel)
 {
 	GtkWidget *label;
 	
@@ -236,7 +236,7 @@ em_folder_selector_construct (EMFolderSelector *emfs, EMFolderTree *emft, guint3
 	}
 	
 	gtk_dialog_add_buttons (GTK_DIALOG (emfs), GTK_STOCK_CANCEL, GTK_RESPONSE_CANCEL,
-				GTK_STOCK_OK, GTK_RESPONSE_OK, NULL);
+				oklabel?oklabel:GTK_STOCK_OK, GTK_RESPONSE_OK, NULL);
 	
 	gtk_dialog_set_response_sensitive (GTK_DIALOG (emfs), GTK_RESPONSE_OK, FALSE);
 	gtk_dialog_set_default_response (GTK_DIALOG (emfs), GTK_RESPONSE_OK);
@@ -260,12 +260,12 @@ em_folder_selector_construct (EMFolderSelector *emfs, EMFolderTree *emft, guint3
 }
 
 GtkWidget *
-em_folder_selector_new (EMFolderTree *emft, guint32 flags, const char *title, const char *text)
+em_folder_selector_new (EMFolderTree *emft, guint32 flags, const char *title, const char *text, const char *oklabel)
 {
 	EMFolderSelector *emfs;
 	
 	emfs = g_object_new (em_folder_selector_get_type (), NULL);
-	em_folder_selector_construct (emfs, emft, flags, title, text);
+	em_folder_selector_construct (emfs, emft, flags, title, text, oklabel);
 	
 	return (GtkWidget *) emfs;
 }
@@ -296,7 +296,7 @@ em_folder_selector_create_new (EMFolderTree *emft, guint32 flags, const char *ti
 	flags &= ~EM_FOLDER_SELECTOR_CAN_CREATE;
 	
 	emfs = g_object_new (em_folder_selector_get_type (), NULL);
-	em_folder_selector_construct (emfs, emft, flags, title, text);
+	em_folder_selector_construct (emfs, emft, flags, title, text, _("Create"));
 	em_folder_tree_set_excluded(emft, EMFT_EXCLUDE_NOINFERIORS);
 	
 	hbox = gtk_hbox_new (FALSE, 0);

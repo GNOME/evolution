@@ -793,7 +793,7 @@ emfv_popup_move(GtkWidget *w, EMFolderView *emfv)
 	d->uids = message_list_get_selected(emfv->list);
 	d->delete = TRUE;
 	
-	em_select_folder ((GtkWindow *) emfv, _("Select folder"), default_xfer_messages_uri, emfv_popup_move_cb, d);
+	em_select_folder ((GtkWindow *) emfv, _("Select folder"), _("_Move"), default_xfer_messages_uri, emfv_popup_move_cb, d);
 }
 
 static void
@@ -807,7 +807,7 @@ emfv_popup_copy(GtkWidget *w, EMFolderView *emfv)
 	d->uids = message_list_get_selected(emfv->list);
 	d->delete = FALSE;
 	
-	em_select_folder ((GtkWindow *) emfv, _("Select folder"), default_xfer_messages_uri, emfv_popup_move_cb, d);
+	em_select_folder ((GtkWindow *) emfv, _("Select folder"), _("C_opy"), default_xfer_messages_uri, emfv_popup_move_cb, d);
 }
 
 static void
@@ -1905,6 +1905,7 @@ emfv_list_done_message_selected(CamelFolder *folder, const char *uid, CamelMimeM
 	if (emfv->preview == NULL) {
 		emfv->priv->nomarkseen = FALSE;
 		g_object_unref (emfv);
+		emfv_enable_menus(emfv);
 		return;
 	}
 	
@@ -1930,6 +1931,8 @@ emfv_list_done_message_selected(CamelFolder *folder, const char *uid, CamelMimeM
 	
 	g_object_unref (emfv);
 	emfv->priv->nomarkseen = FALSE;
+
+	emfv_enable_menus(emfv);
 }
 
 static void

@@ -69,10 +69,10 @@ enum {
 
 GType em_folder_selector_get_type (void);
 
-void em_folder_selector_construct (EMFolderSelector *emfs, struct _EMFolderTree *emft, guint32 flags, const char *title, const char *text);
+void em_folder_selector_construct (EMFolderSelector *emfs, struct _EMFolderTree *emft, guint32 flags, const char *title, const char *text, const char *oklabel);
 
 /* for selecting folders */
-GtkWidget *em_folder_selector_new (struct _EMFolderTree *emft, guint32 flags, const char *title, const char *text);
+GtkWidget *em_folder_selector_new (struct _EMFolderTree *emft, guint32 flags, const char *title, const char *text, const char *oklabel);
 
 /* for creating folders */
 GtkWidget *em_folder_selector_create_new (struct _EMFolderTree *emft, guint32 flags, const char *title, const char *text);

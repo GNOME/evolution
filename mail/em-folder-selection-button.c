@@ -221,7 +221,7 @@ em_folder_selection_button_clicked (GtkButton *button)
 	emft = (EMFolderTree *) em_folder_tree_new_with_model (model);
 	em_folder_tree_set_multiselect (emft, priv->multiple_select);
 	em_folder_tree_set_excluded(emft, EMFT_EXCLUDE_NOSELECT|EMFT_EXCLUDE_VIRTUAL|EMFT_EXCLUDE_VTRASH);
-	dialog = em_folder_selector_new (emft, EM_FOLDER_SELECTOR_CAN_CREATE, priv->title, priv->caption);
+	dialog = em_folder_selector_new (emft, EM_FOLDER_SELECTOR_CAN_CREATE, priv->title, priv->caption, NULL);
 	if (priv->multiple_select)
 		em_folder_selector_set_selected_list ((EMFolderSelector *) dialog, priv->uris);
 	else

@@ -54,7 +54,7 @@ emfs_selector_response(EMFolderSelector *emfs, int response, struct _select_fold
 }
 
 void
-em_select_folder (GtkWindow *parent_window, const char *title, const char *default_uri,
+em_select_folder (GtkWindow *parent_window, const char *title, const char *oklabel, const char *default_uri,
 		  void (*done) (const char *uri, void *user_data), void *user_data)
 {
 	struct _select_folder_data *d;
@@ -66,7 +66,7 @@ em_select_folder (GtkWindow *parent_window, const char *title, const char *defau
 	emft = (EMFolderTree *) em_folder_tree_new_with_model (model);
 	em_folder_tree_set_excluded (emft, EMFT_EXCLUDE_NOSELECT|EMFT_EXCLUDE_VIRTUAL|EMFT_EXCLUDE_VTRASH);
 	
-	dialog = em_folder_selector_new(emft, EM_FOLDER_SELECTOR_CAN_CREATE, title, NULL);
+	dialog = em_folder_selector_new(emft, EM_FOLDER_SELECTOR_CAN_CREATE, title, NULL, oklabel);
 	
 	d = g_malloc0(sizeof(*d));
 	d->data = user_data;

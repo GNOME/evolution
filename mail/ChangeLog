@@ -1,3 +1,30 @@
+2004-05-18  Not Zed  <NotZed@Ximian.com>
+
+	* mail-folder-cache.c (folder_changed): don't emit new mail if its
+	any vfolder, not just vtrash folder.  #56350.
+
+	* em-folder-view.c (emfv_list_done_message_selected): run
+	enable_menu's to make sure we're up to date.  #58352.
+
+	** crappy hacks for #58385.
+
+	* em-folder-selection-button.c
+	(em_folder_selection_button_clicked): leave Ok button for this
+	selection.
+
+	* em-folder-selection.c (em_select_folder): added oklabel here too.
+
+	* em-folder-selector.c (em_folder_selector_new)
+	(em_folder_selector_construct, em_folder_selector_create_new):
+	Added oklabel- text for ok label.
+	(em_folder_selector_create_new): Set the ok label to Create.
+
+	* em-message-browser.c (emmb_set_message): don't mark message seen
+	if user has disabled auto-mark seen feature.  #58629.
+
+	* em-format.c (em_format_part): if we have no content-type header,
+	then we get no mime-type set, so assume text/plain.  #58470.
+
 2004-05-17  Jeffrey Stedfast  <fejj@ximian.com>
 
 	* em-mailer-prefs.c: #include <gtk/gtkliststore.h>. Fixes bug
