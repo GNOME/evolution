@@ -26,6 +26,9 @@
 
 #include <config.h>
 #include <ctype.h>
+#undef _XOPEN_SOURCE
+#include <sys/time.h>
+#define _XOPEN_SOURCE
 #include <time.h>
 #include <gtk/gtksignal.h>
 #include <libgnomeui/gnome-messagebox.h>

@@ -1,3 +1,8 @@
+2000-07-26  Peter Williams  <peterw@helixcode.com>
+
+	* gui/calendar-model.c: compile fix for Solaris
+	(works under Linux, too; don't know about others)
+
 2000-07-26  Federico Mena Quintero  <federico@helixcode.com>
 
 	OK, it seems that we have all the interesting properties for
