@@ -22,6 +22,8 @@ etc_destroy (GtkObject *object)
 {
 	ETableCol *etc = E_TABLE_COL (object);
 
+	gtk_object_unref( GTK_OBJECT(etc->ecell) );
+
 	if ( etc->is_pixbuf )
 	  gdk_pixbuf_unref( etc->pixbuf );
 	else
@@ -66,6 +68,8 @@ e_table_col_new (int col_idx, const char *text, int width, int min_width,
 
 	etc->selected = 0;
 	etc->resizeable = resizable;
+
+	gtk_object_ref(GTK_OBJECT(etc->ecell));
 
 	return etc;
 }

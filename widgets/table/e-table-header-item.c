@@ -428,8 +428,6 @@ ethi_realize (GnomeCanvasItem *item)
 	gnome_canvas_get_color (item->canvas, "black", &c);
 	gdk_gc_set_foreground (ethi->gc, &c);
 
-	ethi->normal_cursor = gdk_cursor_new (GDK_ARROW);
-
 	if (!ethi->font){
 		g_warning ("Font had not been set for this ETableHeader");
 		ethi_font_load (ethi, "fixed");
@@ -466,9 +464,6 @@ ethi_unrealize (GnomeCanvasItem *item)
 
 	gdk_gc_unref (ethi->gc);
 	ethi->gc = NULL;
-
-	gdk_cursor_destroy (ethi->normal_cursor);
-	ethi->normal_cursor = NULL;
 
 	gtk_signal_disconnect (GTK_OBJECT (item->canvas), ethi->drag_motion_id);
 	gtk_signal_disconnect (GTK_OBJECT (item->canvas), ethi->drag_end_id);

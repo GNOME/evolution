@@ -1,3 +1,12 @@
+2000-03-03  Christopher James Lahey  <clahey@helixcode.com>
+
+	* e-table.c: Removed some unused code.
+
+	* e-table-header-item.c, e-table-header-item.h: Removed the unused
+	normal_cursor variable and object.
+
+	* e-table-col.c: Maintain a reference count in the contained ECell.
+
 2000-03-01  Ettore Perazzoli  <ettore@helixcode.com>
 
 	* Makefile.am: Use `libeutil.la', not `libeutil.a'.

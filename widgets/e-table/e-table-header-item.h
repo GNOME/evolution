@@ -15,7 +15,7 @@ typedef struct {
 	ETableHeader    *eth;
 
 	GdkGC           *gc;
-	GdkCursor       *change_cursor, *normal_cursor;
+	GdkCursor       *change_cursor;
 
 	short            x1, y1, height, width;
 	GdkFont         *font;

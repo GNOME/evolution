@@ -223,7 +223,7 @@ e_table_make_subtables (ETableModel *model, GArray *groups)
 		
 	return (ETableModel **) tables;
 }
-#endif
+
 typedef struct _Node Node;
 
 struct _Node {
@@ -234,7 +234,7 @@ struct _Node {
 
 	guint is_leaf:1;
 };
-#if 0
+
 static Node *
 leaf_new (GnomeCanvasItem *table_item, ETableModel *table_model, Node *parent)
 {
