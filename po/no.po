@@ -5,15 +5,15 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: evolution 0.1\n"
-"POT-Creation-Date: 2000-04-25 20:35+0200\n"
-"PO-Revision-Date: 2000-04-25 20:37+02:00\n"
+"POT-Creation-Date: 2000-04-27 00:16+0200\n"
+"PO-Revision-Date: 2000-04-27 00:19+02:00\n"
 "Last-Translator: Kjartan Maraas <kmaraas@online.no>\n"
 "Language-Team: Norwegian <no@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=iso-8859-1\n"
 "Content-Transfer-Encoding: 8-bit\n"
 
-#: composer/e-msg-composer-address-dialog.c:183 composer/e-msg-composer.c:446
+#: composer/e-msg-composer-address-dialog.c:183 composer/e-msg-composer.c:441
 msgid "Cut"
 msgstr "Klipp ut"
 
@@ -21,7 +21,7 @@ msgstr "Klipp ut"
 msgid "Cut selected item into clipboard"
 msgstr "Klipp ut valgt oppføring til utklippstavlen"
 
-#: composer/e-msg-composer-address-dialog.c:187 composer/e-msg-composer.c:447
+#: composer/e-msg-composer-address-dialog.c:187 composer/e-msg-composer.c:442
 msgid "Copy"
 msgstr "Kopiér"
 
@@ -30,7 +30,7 @@ msgid "Copy selected item into clipboard"
 msgstr "Kopiér valgt oppføring til utklippstavlen"
 
 #: composer/e-msg-composer-address-dialog.c:191
-#: composer/e-msg-composer-address-dialog.c:199 composer/e-msg-composer.c:448
+#: composer/e-msg-composer-address-dialog.c:199 composer/e-msg-composer.c:443
 msgid "Paste"
 msgstr "Lim inn"
 
@@ -43,47 +43,47 @@ msgstr "Lim inn fra utklippstavlen"
 msgid "Select recipients' addresses"
 msgstr "Velg mottakerenes adresser"
 
-#: composer/e-msg-composer-attachment-bar.c:75
+#: composer/e-msg-composer-attachment-bar.c:76
 msgid "1 byte"
 msgstr "1 byte"
 
-#: composer/e-msg-composer-attachment-bar.c:77
+#: composer/e-msg-composer-attachment-bar.c:78
 #, c-format
 msgid "%u bytes"
 msgstr "%u bytes"
 
-#: composer/e-msg-composer-attachment-bar.c:84
+#: composer/e-msg-composer-attachment-bar.c:85
 #, c-format
 msgid "%.1fK"
 msgstr "%.1fK"
 
-#: composer/e-msg-composer-attachment-bar.c:88
+#: composer/e-msg-composer-attachment-bar.c:89
 #, c-format
 msgid "%.1fM"
 msgstr "%.1fM"
 
-#: composer/e-msg-composer-attachment-bar.c:92
+#: composer/e-msg-composer-attachment-bar.c:93
 #, c-format
 msgid "%.1fG"
 msgstr "%.1fG"
 
-#: composer/e-msg-composer-attachment-bar.c:306
+#: composer/e-msg-composer-attachment-bar.c:307
 msgid "Add attachment"
 msgstr "Legg til vedlegg"
 
-#: composer/e-msg-composer-attachment-bar.c:363
+#: composer/e-msg-composer-attachment-bar.c:364
 msgid "Remove"
 msgstr "Fjern"
 
-#: composer/e-msg-composer-attachment-bar.c:364
+#: composer/e-msg-composer-attachment-bar.c:365
 msgid "Remove selected items from the attachment list"
 msgstr "Fjern valgte oppføringer fra vedleggslisten"
 
-#: composer/e-msg-composer-attachment-bar.c:395
+#: composer/e-msg-composer-attachment-bar.c:396
 msgid "Add attachment..."
 msgstr "Legg til vedlegg..."
 
-#: composer/e-msg-composer-attachment-bar.c:396
+#: composer/e-msg-composer-attachment-bar.c:397
 msgid "Attach a file to the message"
 msgstr "Legg en fil ved meldingen"
 
@@ -131,60 +131,60 @@ msgstr "Emne:"
 msgid "Enter the subject of the mail"
 msgstr "Skriv inn emnet for meldingen"
 
-#: composer/e-msg-composer.c:404
+#: composer/e-msg-composer.c:399
 msgid "Save in _folder..."
 msgstr "Lagre i _mappe..."
 
-#: composer/e-msg-composer.c:404
+#: composer/e-msg-composer.c:399
 msgid "Save the message in a specified folder"
 msgstr "Lagre meldingen i en spesifisert mappe"
 
-#: composer/e-msg-composer.c:407 composer/e-msg-composer.c:444
+#: composer/e-msg-composer.c:402 composer/e-msg-composer.c:439
 #: mail/folder-browser-factory.c:110
 msgid "Send"
 msgstr "Send"
 
-#: composer/e-msg-composer.c:407
+#: composer/e-msg-composer.c:402
 msgid "Send the message"
 msgstr "Send meldingen"
 
-#: composer/e-msg-composer.c:415
+#: composer/e-msg-composer.c:410
 msgid "View _attachments"
 msgstr "Vis _vedlegg"
 
-#: composer/e-msg-composer.c:415
+#: composer/e-msg-composer.c:410
 msgid "View/hide attachments"
 msgstr "Vis/skjul vedlegg"
 
-#: composer/e-msg-composer.c:444
+#: composer/e-msg-composer.c:439
 msgid "Send this message"
 msgstr "Send denne meldingen"
 
-#: composer/e-msg-composer.c:446
+#: composer/e-msg-composer.c:441
 msgid "Cut selected region into the clipboard"
 msgstr "Klipp ut valgt område til utklippstavlen"
 
-#: composer/e-msg-composer.c:447
+#: composer/e-msg-composer.c:442
 msgid "Copy selected region into the clipboard"
 msgstr "Kopiér valgt område til utklippstavlen"
 
-#: composer/e-msg-composer.c:448
+#: composer/e-msg-composer.c:443
 msgid "Paste selected region into the clipboard"
 msgstr "Lim inn valgt område til utklippstavlen"
 
-#: composer/e-msg-composer.c:449
+#: composer/e-msg-composer.c:444
 msgid "Undo"
 msgstr "Angre"
 
-#: composer/e-msg-composer.c:449
+#: composer/e-msg-composer.c:444
 msgid "Undo last operation"
 msgstr "Angre siste operasjon"
 
-#: composer/e-msg-composer.c:451
+#: composer/e-msg-composer.c:446
 msgid "Attach"
 msgstr "Legg ved"
 
-#: composer/e-msg-composer.c:451
+#: composer/e-msg-composer.c:446
 msgid "Attach a file"
 msgstr "Legg ved en fil"
 
@@ -287,19 +287,6 @@ msgstr "Om forhåndsvisning av meldinger skal brukes"
 #: mail/mail-component.c:30 mail/main.c:36
 msgid "Mail Component: I could not initialize Bonobo"
 msgstr "E-post komponent: Kunne ikke initialisere Bonobo"
-
-#: mail/mail-display.c:56
-msgid ""
-"An exception occured while trying to load data into the component with "
-"PersistStream"
-msgstr ""
-"Et unntak oppstod under forsøk på å laste data inn i komponenten med "
-"PersistStream"
-
-#: mail/mail-display.c:196
-#, c-format
-msgid "The %s component doesn't support PersistStream!\n"
-msgstr "%s komponenten støtter ikke PersistStream!\n"
 
 #: mail/message-list.c:404
 msgid "Priority"
