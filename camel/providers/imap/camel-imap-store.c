@@ -448,7 +448,7 @@ get_folder (CamelStore *store, const char *folder_name, gboolean create, CamelEx
 
 	summary_file = g_strdup_printf ("%s/%s/#summary",
 					imap_store->storage_path,
-					folder_path);
+					folder_name);
 	p = strrchr (summary_file, '/');
 	*p = '\0';
 	if (e_mkdir_hier (summary_file, S_IRWXU) == 0) {

@@ -286,11 +286,9 @@ imap_refresh_info (CamelFolder *folder, CamelException *ex)
 		}
 	}
 
-	/* Theoretically, the UIDs could get arbitrarily reordered,
-	 * but that won't normally happen. We assume that if we find a
-	 * UID in the summary that doesn't correspond to the UID in
-	 * the folder, that it means the message was deleted on the
-	 * server, so we remove it from the summary.
+	/* If we find a UID in the summary that doesn't correspond to
+	 * the UID in the folder, that it means the message was
+	 * deleted on the server, so we remove it from the summary.
 	 */
 	summary_len = camel_folder_summary_count (imap_folder->summary);
 	for (i = 0; i < summary_len && i < imap_folder->exists; i++) {
@@ -314,13 +312,20 @@ imap_refresh_info (CamelFolder *folder, CamelException *ex)
 		g_free (new[i].uid);
 	}
 
+	/* Remove any leftover cached summary messages. */
+	while (summary_len > i + 1) {
+		camel_folder_summary_remove_index (imap_folder->summary,
+						   --summary_len);
+	}
+
+	/* Add any new folder messages. */
 	if (i < imap_folder->exists) {
 		/* Fetch full summary for the remaining messages. */
 		imap_update_summary (folder, i + 1, imap_folder->exists, ex);
-	}
 
-	for (; i < imap_folder->exists; i++)
-		g_free (new[i].uid);
+		while (i < imap_folder->exists)
+			g_free (new[i++].uid);
+	}
 	g_free (new);
 }
 
