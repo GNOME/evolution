@@ -415,7 +415,11 @@ check_schema_support (PASBackendLDAP *bl)
 
 				ldap_objectclass_free (oc);
 			}
+
+			ldap_value_free (values);
 		}
+
+		ldap_msgfree (resp);
 	}
 }
 
@@ -447,6 +451,8 @@ get_ldap_library_info ()
 		for (i = 0; info.ldapai_extensions[i]; i++) {
 			char *extension = info.ldapai_extensions[i];
 			g_message (extension);
+			/* yuck.  we have to free this? */
+			ldap_memfree (extension);
 		}
 	}
 
@@ -520,9 +526,11 @@ query_ldap_root_dse (PASBackendLDAP *bl)
 	}
 
 	values = ldap_get_values (ldap, resp, "subschemaSubentry");
-	if (!values || !values[0])
+	if (!values || !values[0]) {
+		if (values) ldap_value_free (values);
 		values = ldap_get_values (ldap, resp, "schemaNamingContext");
-	if (values || values[0]) {
+	}
+	if (values && values[0]) {
 		bl->priv->schema_dn = g_strdup (values[0]);
 	}
 	else {
@@ -531,6 +539,7 @@ query_ldap_root_dse (PASBackendLDAP *bl)
 	if (values)
 		ldap_value_free (values);
 
+	ldap_msgfree (resp);
 }
 
 static GNOME_Evolution_Addressbook_BookListener_CallStatus
@@ -2497,12 +2506,13 @@ build_card_from_entry (LDAP *ldap, LDAPMessage *e, GList **existing_objectclasse
 {
 	ECard *ecard = E_CARD(gtk_type_new(e_card_get_type()));
 	ECardSimple *card = e_card_simple_new (ecard);
-	char *dn = ldap_get_dn(ldap, e);
+	char *dn;
 	char *attr;
 	BerElement *ber = NULL;
 
-	//	g_print ("build_card_from_entry, dn = %s\n", dn);
+	dn = ldap_get_dn(ldap, e);
 	e_card_simple_set_id (card, dn);
+	ldap_memfree (dn);
 
 	for (attr = ldap_first_attribute (ldap, e, &ber); attr;
 	     attr = ldap_next_attribute (ldap, e, ber)) {
@@ -2542,15 +2552,17 @@ build_card_from_entry (LDAP *ldap, LDAPMessage *e, GList **existing_objectclasse
 				}
 			}
 		}
+
+		ldap_memfree (attr);
 	}
 
-#ifndef OPENLDAP2
-	/* if ldap->ld_errno == LDAP_DECODING_ERROR there was an
-	   error decoding an attribute, and we shouldn't free ber,
-	   since the ldap library already did it. */
-	if (ldap->ld_errno != LDAP_DECODING_ERROR && ber)
+	/* XXX the openldap man page for
+	   ldap_first_attribute/ldap_next_attribute says that the ber
+	   is freed if there are no more attributes
+	   (ldap_next_attribute returns NULL), but this seems to not
+	   be the case (as of openldap-2.0.23), so free it here. */
+	if (ber)
 		ber_free (ber, 0);
-#endif
 
 	e_card_simple_sync_card (card);
 
@@ -2721,7 +2733,6 @@ pas_backend_ldap_search (PASBackendLDAP  	*bl,
 			 PASBook         	*book,
 			 PASBackendLDAPBookView *view)
 {
-	LDAPSearchOp *search_op = g_new0 (LDAPSearchOp, 1);
 	char *ldap_query;
 
 	pas_book_view_notify_status_message (view->book_view, _("Searching..."));
@@ -2774,7 +2785,7 @@ pas_backend_ldap_search (PASBackendLDAP  	*bl,
 		return;
 	}
 	else {
-		g_warning ("LDAP problem converting search query %s\n", search_op->view->search);
+		g_warning ("LDAP problem converting search query %s\n", view->search);
 		pas_book_view_notify_status_message (view->book_view, _("Could not parse query string"));
 		return;
 	}

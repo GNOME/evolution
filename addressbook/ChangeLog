@@ -1,3 +1,20 @@
+2002-03-27  Chris Toshok  <toshok@ximian.com>
+
+	* backend/pas/pas-backend-ldap.c (check_schema_support): make sure
+	to call ldap_value_free (values);, and ldap_msgfree (resp).
+	(get_ldap_library_info): don't ask me why, but it appears we have
+	to free each extension char*.
+	(query_ldap_root_dse): make sure to free values in the
+	subschemaSubentry code before overwriting it, and call
+	ldap_msgfree(resp) when we're all done.
+	(build_card_from_entry): don't leak the DN, ldap attributes, or
+	the berval the ldap_*_attribute calls use to step through the
+	attributes.  the docs say this berval is freed when
+	ldap_next_attribute returns NULL, but if we don't free it it leaks
+	a substantial amount of memory.
+	(pas_backend_ldap_search): make sure to only allocate *op once,
+	and fix the g_warning since op isn't valid in its scope anymore.
+
 2002-03-19  Dan Winship  <danw@ximian.com>
 
 	* backend/ebook/Makefile.am: Update for libversit change: Use .a
