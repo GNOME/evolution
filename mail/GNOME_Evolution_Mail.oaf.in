@@ -212,7 +212,7 @@
 		   _value="Mail Accounts"/>
 
     <oaf_attribute name="evolution:config_item:description" type="string"
-		   _value="This page can be used to configure E-Mail Accounts"/>
+		   _value="Configure your email accounts here"/>
 
     <oaf_attribute name="evolution:config_item:icon_name" type="string"
 		   value="mail-accounts-settings.png"/>
@@ -241,7 +241,7 @@
 		   _value="Mail Preferences"/>
 
     <oaf_attribute name="evolution:config_item:description" type="string"
-		   _value="This page can be used to configure Mailer preferences"/>
+		   _value="Configure mail preferences, including security and message display, here"/>
 
     <oaf_attribute name="evolution:config_item:icon_name" type="string"
 		   value="mail-config-druid.png"/>
@@ -266,7 +266,7 @@
 		   _value="Font Preferences"/>
 
     <oaf_attribute name="evolution:config_item:description" type="string"
-		   _value="This Page can be used to configure the Fonts"/>
+		   _value="Configure the fonts used by Evolution here"/>
 
     <oaf_attribute name="evolution:config_item:icon_name" type="string"
 		   value="font.png"/>
@@ -291,7 +291,7 @@
 		   _value="Composer Preferences"/>
 
     <oaf_attribute name="evolution:config_item:description" type="string"
-		   _value="This page can be used to configure the Composer"/>
+		   _value="Configure spell-checking, signatures, and the message composer here"/>
 
     <oaf_attribute name="evolution:config_item:icon_name" type="string"
 		   value="composer-settings.png"/>
@@ -304,3 +304,6 @@
   </oaf_server>
 
 </oaf_info>
+
+
+
