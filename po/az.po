@@ -1,13 +1,13 @@
-# translation of evolution.HEAD.az.po to Azerbaijani
+# translation of evolution.HEAD.po to Azerbaijani
 # Copyright (C) 2000,2003, 2004 Free Software Foundation, Inc.
 # Vasif Ismailoglu MD <azerb_linux@hotmail.com>, 2001.
 # Mətin Əmirov <metin@karegen.com>, 2003, 2004.
 #
 msgid ""
 msgstr ""
-"Project-Id-Version: evolution.HEAD.az\n"
+"Project-Id-Version: evolution.HEAD\n"
 "POT-Creation-Date: 2004-05-19 14:00-0400\n"
-"PO-Revision-Date: 2004-06-13 15:16+0300\n"
+"PO-Revision-Date: 2004-06-17 12:41+0300\n"
 "Last-Translator: Mətin Əmirov <metin@karegen.com>\n"
 "Language-Team: Azerbaijani <translation-team-az@lists.sourceforge.net>\n"
 "MIME-Version: 1.0\n"
@@ -29,7 +29,7 @@ msgstr "əlaqənin başlığı: "
 
 #: a11y/addressbook/ea-minicard.c:166
 msgid "evolution minicard"
-msgstr "evolution minikart"
+msgstr "evolution mini kart"
 
 #: a11y/addressbook/ea-minicard-view.c:101
 msgid "current addressbook folder "
@@ -53,7 +53,7 @@ msgstr " kart"
 
 #: addressbook/conduit/address-conduit.c:272
 msgid "Default Sync Address:"
-msgstr "Ön Qurğulu Sync Ünvanı:"
+msgstr "Ön Qurğulu Sinxronlaşdırma Ünvanı:"
 
 #: addressbook/conduit/address-conduit.c:1150
 #: addressbook/conduit/address-conduit.c:1151
@@ -63,7 +63,7 @@ msgstr "Ünvan kitabçası yüklənə bilmədi"
 #: addressbook/conduit/address-conduit.c:1219
 #: addressbook/conduit/address-conduit.c:1222
 msgid "Could not read pilot's Address application block"
-msgstr "Pilot-un Ünvan tə'minatı bloku oxuna bilmədi"
+msgstr "Pilot-un Ünvan təminatı bloku oxuna bilmədi"
 
 #: addressbook/gui/component/addressbook.c:89
 msgid "Accessing LDAP Server anonymously"
@@ -138,15 +138,15 @@ msgstr "Bu verici dəstəklənməyən axtarış bazaları ilə cavab verdi"
 
 #: addressbook/gui/component/addressbook-config.c:1245
 msgid "This server does not support LDAPv3 schema information"
-msgstr "Bu verici LDAPv3 sxem mə'lumatını dəstəkləmir"
+msgstr "Bu verici LDAPv3 sxem məlumatını dəstəkləmir"
 
 #: addressbook/gui/component/addressbook-config.c:1266
 msgid "Error retrieving schema information"
-msgstr "Sxem mə'lumatını alma xətası"
+msgstr "Sxem məlumatını alma xətası"
 
 #: addressbook/gui/component/addressbook-config.c:1274
 msgid "Server did not respond with valid schema information"
-msgstr "Verici hökmlü sxem mə'lumatı ilə cavab vermədi"
+msgstr "Verici hökmlü sxem məlumatı ilə cavab vermədi"
 
 #: addressbook/gui/component/addressbook-migrate.c:68
 #: calendar/gui/migration.c:137 mail/em-migrate.c:1064
@@ -411,7 +411,7 @@ msgstr "<b>Axtarış</b>"
 
 #: addressbook/gui/component/ldap-config.glade.h:14
 msgid "<b>Server Information</b>"
-msgstr "<b>Verici Mə'lumatı</b>"
+msgstr "<b>Verici Məlumatı</b>"
 
 #: addressbook/gui/component/ldap-config.glade.h:15
 msgid "<b>Type:</b>"
@@ -666,7 +666,7 @@ msgstr "_Ad:"
 
 #: addressbook/gui/component/ldap-config.glade.h:79
 msgid "_Port number:"
-msgstr "_Qapı nömrəsi:"
+msgstr "_Port nömrəsi:"
 
 #: addressbook/gui/component/ldap-config.glade.h:80
 msgid "_Port:"
@@ -702,7 +702,7 @@ msgstr "bağlanma-səkməsi"
 
 #: addressbook/gui/component/ldap-config.glade.h:88
 msgid "general-tab"
-msgstr "ümumi-səkməsi"
+msgstr "ümumi-səkmə"
 
 #: addressbook/gui/component/ldap-config.glade.h:89
 #: calendar/gui/dialogs/alarm-options.glade.h:14
@@ -718,7 +718,7 @@ msgstr "axtarış-səkməsi"
 #: addressbook/gui/component/select-names/e-select-names.c:497
 #: addressbook/gui/component/select-names/select-names.glade.h:6
 msgid "Select Contacts from Address Book"
-msgstr "Əlaqələri Ünvan Kitabçasından Seç"
+msgstr "Ünvan Kitabçasından Əlaqələri Seç"
 
 #: addressbook/gui/component/select-names/e-select-names.c:696
 #: addressbook/gui/component/select-names/e-select-names-popup.c:215
@@ -742,7 +742,7 @@ msgstr "Əlaqə Siyahısını Göstər"
 
 #: addressbook/gui/component/select-names/e-select-names-popup.c:222
 msgid "View Contact Info"
-msgstr "Əlaqə Mə'lumatını Göstər"
+msgstr "Əlaqə Məlumatını Göstər"
 
 #: addressbook/gui/component/select-names/e-select-names-popup.c:229
 #: addressbook/gui/component/select-names/e-select-names-popup.c:330
@@ -946,7 +946,7 @@ msgstr "PO Qutusu:"
 
 #: addressbook/gui/contact-editor/contact-editor.glade.h:38
 msgid "Personal Information"
-msgstr "Şəxsi Mə'lumatlar"
+msgstr "Şəxsi Məlumatlar"
 
 #: addressbook/gui/contact-editor/contact-editor.glade.h:39
 msgid "Profession:"
@@ -2715,7 +2715,7 @@ msgstr "Ünvan Kitabçası Sorğulanır..."
 
 #: addressbook/gui/widgets/eab-popup-control.c:953
 msgid "Edit Contact Info"
-msgstr "Əlaqə Mə'lumatını Düzəlt"
+msgstr "Əlaqə Məlumatını Düzəlt"
 
 #: addressbook/gui/widgets/eab-popup-control.c:1008
 msgid "Merge E-Mail Address"
@@ -4342,7 +4342,7 @@ msgstr "URL Ə_lavə Et"
 
 #: calendar/gui/dialogs/cal-prefs-dialog.glade.h:41
 msgid "_Ask for confirmation when deleting items"
-msgstr "Üzvləri silərkən təstiq _istə"
+msgstr "Üzvləri silərkən təsdiq _istə"
 
 #: calendar/gui/dialogs/cal-prefs-dialog.glade.h:42
 msgid "_Compress weekends in month view"
@@ -4972,7 +4972,7 @@ msgstr "Bu görüş Evolution-un düzəldə bilməyəcəyi təkrarlara malikdir.
 
 #: calendar/gui/dialogs/recurrence-page.c:816
 msgid "Recurrence date is invalid"
-msgstr "Təkrar tarixi hökmsüzdür"
+msgstr "Təkrar tarixi səhvdir"
 
 #: calendar/gui/dialogs/recurrence-page.c:927
 msgid "on"
@@ -5395,9 +5395,8 @@ msgid "Priority:"
 msgstr "Vaciblik:"
 
 #: calendar/gui/e-cal-component-preview.c:300
-#, fuzzy
 msgid "Web Page:"
-msgstr "_Veb Səhifəsi:"
+msgstr "Veb Səhifəsi:"
 
 #: calendar/gui/e-calendar-table.c:352 calendar/gui/e-cal-list-view.c:257
 #: calendar/gui/e-cal-model.c:321 calendar/gui/e-cal-model.c:328
@@ -5561,23 +5560,20 @@ msgid "Complete"
 msgstr "Bitdi"
 
 #: calendar/gui/e-calendar-table.etspec.h:5
-#, fuzzy
 msgid "Completion date"
-msgstr "Bitiş Tarixi"
+msgstr "Bitiş tarixi"
 
 #: calendar/gui/e-calendar-table.etspec.h:6
-#, fuzzy
 msgid "Due date"
-msgstr "Bitiş Tarixi"
+msgstr "Vaxt"
 
 #: calendar/gui/e-calendar-table.etspec.h:7
 msgid "Priority"
 msgstr "Üstünlük"
 
 #: calendar/gui/e-calendar-table.etspec.h:8
-#, fuzzy
 msgid "Start date"
-msgstr "Başlama Tarixi"
+msgstr "Başlama tarixi"
 
 #: calendar/gui/e-calendar-table.etspec.h:10
 #: calendar/gui/e-cal-list-view.etspec.h:4 mail/mail-security.glade.h:5
@@ -5605,28 +5601,24 @@ msgid "New Task"
 msgstr "Yeni Vəzifə"
 
 #: calendar/gui/e-calendar-view.c:1279 ui/evolution-calendar.xml.h:26
-#, fuzzy
 msgid "Select _Today"
-msgstr "İl_gəyi Seç"
+msgstr "_Bugünü Seç"
 
 #: calendar/gui/e-calendar-view.c:1280
-#, fuzzy
 msgid "_Select Date..."
-msgstr "Sil..."
+msgstr "Tarixi _Seç..."
 
 #: calendar/gui/e-calendar-view.c:1284 ui/evolution-calendar.xml.h:45
 msgid "_Publish Free/Busy Information"
-msgstr "Sərbəst/Məşğul Mə'lumatını _Dərc Et"
+msgstr "Sərbəst/Məşğul Mə'lumatını _Nəşr Et"
 
 #: calendar/gui/e-calendar-view.c:1303
-#, fuzzy
 msgid "Cop_y to Calendar..."
-msgstr "Qovluğa _Köçür..."
+msgstr "Təqvimə _Köçür..."
 
 #: calendar/gui/e-calendar-view.c:1304
-#, fuzzy
 msgid "Mo_ve to Calendar..."
-msgstr "Qovluğa _Daşı..."
+msgstr "Təqvimə _Daşı..."
 
 #: calendar/gui/e-calendar-view.c:1305
 msgid "_Schedule Meeting..."
@@ -5657,9 +5649,8 @@ msgid "_Settings..."
 msgstr "_Qurğular..."
 
 #: calendar/gui/e-cal-list-view.etspec.h:1
-#, fuzzy
 msgid "End Date"
-msgstr "Tarix"
+msgstr "Bitiş Tarixi"
 
 #: calendar/gui/e-cal-list-view.etspec.h:3
 msgid "Start Date"
@@ -5790,25 +5781,25 @@ msgid "Yes. (Complex Recurrence)"
 msgstr "Bəli."
 
 #: calendar/gui/e-itip-control.c:603
-#, fuzzy, c-format
+#, c-format
 msgid "Every day"
 msgid_plural "Every %d days"
 msgstr[0] "Hər gün"
-msgstr[1] "Hər gün"
+msgstr[1] "Hər %d gündə"
 
 #: calendar/gui/e-itip-control.c:608
-#, fuzzy, c-format
+#, c-format
 msgid "Every week"
 msgid_plural "Every %d weeks"
 msgstr[0] "Hər həftə"
-msgstr[1] "Hər həftə"
+msgstr[1] "Hər %d həftədə"
 
 #: calendar/gui/e-itip-control.c:610
-#, fuzzy, c-format
+#, c-format
 msgid "Every week on "
 msgid_plural "Every %d weeks on "
 msgstr[0] "Həftənin hər müəyyən günündə"
-msgstr[1] "Həftənin hər müəyyən günündə"
+msgstr[1] "Hər %d həftənin hər müəyyən günündə"
 
 #: calendar/gui/e-itip-control.c:618
 msgid " and "
@@ -5825,29 +5816,29 @@ msgid "The %s %s of "
 msgstr "%s %s günü"
 
 #: calendar/gui/e-itip-control.c:645
-#, fuzzy, c-format
+#, c-format
 msgid "every month"
 msgid_plural "every %d months"
 msgstr[0] "hər ay"
-msgstr[1] "hər ay"
+msgstr[1] "hər %d ay"
 
 #: calendar/gui/e-itip-control.c:649
-#, fuzzy, c-format
+#, c-format
 msgid "Every year"
 msgid_plural "Every %d years"
 msgstr[0] "Hər il"
-msgstr[1] "Hər il"
+msgstr[1] "Hər %d il"
 
 #: calendar/gui/e-itip-control.c:660
-#, fuzzy, c-format
+#, c-format
 msgid "a total of %d time"
 msgid_plural " a total of %d times"
-msgstr[0] " toplam %d dəfə"
-msgstr[1] " toplam %d dəfə"
+msgstr[0] "toplam %d dəfə"
+msgstr[1] "toplam %d dəfə"
 
 #: calendar/gui/e-itip-control.c:669
 msgid ", ending on "
-msgstr ", bitiş tarixi olaraq  "
+msgstr ", bitiş tarixi olaraq "
 
 #: calendar/gui/e-itip-control.c:693
 msgid "<b>Starts:</b> "
@@ -5863,7 +5854,7 @@ msgstr "<b>Başa Çatdı:</b> "
 
 #: calendar/gui/e-itip-control.c:733
 msgid "<b>Due:</b> "
-msgstr "<b>Qalıb:</b> "
+msgstr "<b>Vaxt:</b> "
 
 #: calendar/gui/e-itip-control.c:771 calendar/gui/e-itip-control.c:827
 msgid "iCalendar Information"
@@ -6120,11 +6111,11 @@ msgstr "Pis Sərbəst/Məşğul İsmarışı"
 
 #: calendar/gui/e-itip-control.c:1413
 msgid "The message does not appear to be properly formed"
-msgstr "Bu ismarış düzgün formlanmayıbdır"
+msgstr "Bu məktub düzgün formlanmayıbdır"
 
 #: calendar/gui/e-itip-control.c:1472
 msgid "The message contains only unsupported requests."
-msgstr "İsmarış ancaq dəstəklənməyən istəkləri daxil edir."
+msgstr "Məktub ancaq dəstəklənməyən istəkləri daxil edir."
 
 #: calendar/gui/e-itip-control.c:1503
 msgid "The attachment does not contain a valid calendar message"
@@ -6144,7 +6135,7 @@ msgstr "İştirakçı vəziyyəti üzvün artıq mövcud olmadığından ötrü 
 
 #: calendar/gui/e-itip-control.c:1815 calendar/gui/e-itip-control.c:1853
 msgid "Object is invalid and cannot be updated\n"
-msgstr "Cism hökmsüzdür və yenilənə bilməz\n"
+msgstr "Cism səhvdir və yenilənə bilməz\n"
 
 #: calendar/gui/e-itip-control.c:1825
 msgid "This response is not from a current attendee.  Add as an attendee?"
@@ -6396,12 +6387,9 @@ msgstr ""
 " %s"
 
 #: calendar/gui/e-tasks.c:612 calendar/gui/gnome-cal.c:2057
-#, fuzzy, c-format
+#, c-format
 msgid "The task backend for '%s' has crashed."
 msgstr ""
-"%s\n"
-"vəzifə arxa ara üzü\n"
-" iflas etdi."
 
 #. FIXME Loading should be async
 #. FIXME With no event handling here the status message never actually changes
@@ -6445,27 +6433,24 @@ msgid "Tasks"
 msgstr "Vəzifələr"
 
 #: calendar/gui/gnome-cal.c:1876
-#, fuzzy, c-format
+#, c-format
 msgid "Loading appointments at %s"
-msgstr "Görüş - %s"
+msgstr ""
 
 #: calendar/gui/gnome-cal.c:1895
-#, fuzzy, c-format
+#, c-format
 msgid "Loading tasks at %s"
-msgstr "Vəzifələrin yüklənməsi"
+msgstr ""
 
 #: calendar/gui/gnome-cal.c:1918
 #, c-format
 msgid "Opening %s"
-msgstr "%s açılması"
+msgstr "%s açılır"
 
 #: calendar/gui/gnome-cal.c:2048
-#, fuzzy, c-format
+#, c-format
 msgid "The calendar backend for '%s' has crashed."
 msgstr ""
-"%s\n"
-"təqvim arxa ara üzü\n"
-" iflas etdi."
 
 #: calendar/gui/gnome-cal.c:2894
 msgid "Purging"
@@ -6473,11 +6458,11 @@ msgstr "Silmə"
 
 #: calendar/gui/GNOME_Evolution_Calendar.server.in.in.h:1
 msgid "*Control*F3"
-msgstr ""
+msgstr "*Control*F3"
 
 #: calendar/gui/GNOME_Evolution_Calendar.server.in.in.h:2
 msgid "*Control*F4"
-msgstr ""
+msgstr "*Control*F4"
 
 #: calendar/gui/GNOME_Evolution_Calendar.server.in.in.h:3
 msgid "Calendar and Tasks"
@@ -6512,9 +6497,8 @@ msgid "Evolution's Tasks component"
 msgstr "Evolution Vəzifələr tərkib hissəsi"
 
 #: calendar/gui/GNOME_Evolution_Calendar.server.in.in.h:13
-#, fuzzy
 msgid "_Calendars"
-msgstr "Təqvimlər"
+msgstr "_Təqvimlər"
 
 #: calendar/gui/GNOME_Evolution_Calendar.server.in.in.h:14
 #: views/tasks/galview.xml.h:3
@@ -6566,18 +6550,16 @@ msgid "October"
 msgstr "Oktyabr"
 
 #: calendar/gui/goto-dialog.glade.h:12
-#, fuzzy
 msgid "Select Date"
-msgstr "Tarixi seç"
+msgstr "Tarixi Seç"
 
 #: calendar/gui/goto-dialog.glade.h:13
 msgid "September"
 msgstr "Sentyabr"
 
 #: calendar/gui/goto-dialog.glade.h:14
-#, fuzzy
 msgid "_Select Today"
-msgstr "Qovluq seçin"
+msgstr "_Bugünü Seç"
 
 #: calendar/gui/itip-utils.c:271 calendar/gui/itip-utils.c:319
 #: calendar/gui/itip-utils.c:351
@@ -6640,7 +6622,7 @@ msgid ""
 "\n"
 "Please be patient while Evolution migrates your folders..."
 msgstr ""
-"Evolution vəzifə qolvuqlarının iyerarxik quruluşu 1.x buraxılışlarından "
+"Evolution vəzifə qovluqlarının iyerarxik quruluşu 1.x buraxılışlarından "
 "sonra dəyişdirilibdir.\n"
 "\n"
 "Xahiş edirik Evolution qovluqlarınızı daşırkən gözləyin..."
@@ -6652,7 +6634,7 @@ msgid ""
 "\n"
 "Please be patient while Evolution migrates your folders..."
 msgstr ""
-"Evolution təqvim qolvuqlarının iyerarxik quruluşu 1.x buraxılışlarından "
+"Evolution təqvim qovluqlarının iyerarxik quruluşu 1.x buraxılışlarından "
 "sonra dəyişdirilibdir.\n"
 "\n"
 "Xahiş edirik Evolution qovluqlarınızı daşırkən gözləyin..."
@@ -6673,15 +6655,15 @@ msgstr ""
 
 #. FIXME: domain/code
 #: calendar/gui/migration.c:737
-#, fuzzy, c-format
+#, c-format
 msgid "Unable to migrate calendar `%s'"
-msgstr "'%s' təqvimi açıla bilmədi."
+msgstr "'%s' təqvimi daşına bilmədi."
 
 #. FIXME: domain/code
 #: calendar/gui/migration.c:869
-#, fuzzy, c-format
+#, c-format
 msgid "Unable to migrate tasks `%s'"
-msgstr "Ünvan kitabçası açıla bilmədi"
+msgstr "'%s' vəzifələri daşına bilmədi."
 
 #: calendar/gui/print.c:489
 msgid "1st"
@@ -6924,23 +6906,22 @@ msgid "New Task List"
 msgstr "Yeni Vəzifə Siyahısı"
 
 #: calendar/gui/tasks-component.c:398
-#, fuzzy, c-format
+#, c-format
 msgid "%d task"
 msgid_plural "%d tasks"
-msgstr[0] "%d əlaqə"
-msgstr[1] "%d əlaqə"
+msgstr[0] "%d vəzifə"
+msgstr[1] "%d vəzifə"
 
 #: calendar/gui/tasks-component.c:400 mail/mail-component.c:500
-#, fuzzy, c-format
+#, c-format
 msgid ", %d selected"
 msgid_plural ", %d selected"
-msgstr[0] "Silinən"
-msgstr[1] "Silinən"
+msgstr[0] ", %d seçilidir"
+msgstr[1] ", %d seçilidir"
 
 #: calendar/gui/tasks-component.c:447
-#, fuzzy
 msgid "Failed upgrading tasks."
-msgstr "Vəzifələrin yüklənməsi"
+msgstr "Vəzifələrin yenilənməsi bacarılmadı."
 
 #: calendar/gui/tasks-component.c:526
 #, c-format
@@ -6970,19 +6951,16 @@ msgid "Create a new task"
 msgstr "Yeni vəzifə yarat"
 
 #: calendar/gui/tasks-component.c:812
-#, fuzzy
 msgid "New tasks group"
-msgstr "Yeni vəzifə"
+msgstr "Yeni vəzifə qrupu"
 
 #: calendar/gui/tasks-component.c:813
-#, fuzzy
 msgid "_Tasks Group"
-msgstr "Vəzifə Siyahısı Qrupu"
+msgstr "_Vəzifə Qrupu"
 
 #: calendar/gui/tasks-component.c:814
-#, fuzzy
 msgid "Create a new tasks group"
-msgstr "Yeni vəzifə yarat"
+msgstr "Yeni vəzifə qrupu yarat"
 
 #: calendar/gui/tasks-control.c:367
 msgid ""
@@ -7029,9 +7007,8 @@ msgid "vCalendar files (.vcf)"
 msgstr "vCalendar faylları (.vcf)"
 
 #: calendar/importers/icalendar-importer.c:78
-#, fuzzy
 msgid "Appointments and Meetings"
-msgstr "Görüş və hadisələri daxil edən ictimai qovluq"
+msgstr "Görüşlər"
 
 #: calendar/importers/icalendar-importer.c:490
 msgid "Reminder!!"
@@ -8588,7 +8565,7 @@ msgstr "Bu şifrləmə ilə imza dəstəklənmir"
 
 #: camel/camel-cipher-context.c:140
 msgid "Verifying is not supported by this cipher"
-msgstr "Bu şifrləmə ilə təstiqləmə dəstəklənmir"
+msgstr "Bu şifrləmə ilə təsdiqləmə dəstəklənmir"
 
 #: camel/camel-cipher-context.c:180
 msgid "Encryption is not supported by this cipher"
@@ -8647,7 +8624,7 @@ msgstr ""
 
 #: camel/camel-disco-folder.c:103
 msgid "Downloading new messages for offline mode"
-msgstr ""
+msgstr "Xətd xarici modu üçün yeni məktublar endirilir"
 
 #: camel/camel-disco-folder.c:466
 #, c-format
@@ -8673,7 +8650,7 @@ msgstr "'%s' törəmə gedişatı yaradıla bilmədi:'%s'"
 #: camel/camel-filter-driver.c:754
 #, c-format
 msgid "Invalid message stream received from %s: %s"
-msgstr "'%s'-dan hökmsüz ismarış axımı alındı:'%s'"
+msgstr "'%s'-dan səhv ismarış axımı alındı:'%s'"
 
 #: camel/camel-filter-driver.c:934 camel/camel-filter-driver.c:943
 msgid "Syncing folders"
@@ -8731,11 +8708,11 @@ msgstr "İsmarış alına bilmədi"
 
 #: camel/camel-filter-search.c:386
 msgid "Invalid arguments to (system-flag)"
-msgstr "Sistem bayrağına hökmsüz arqumentlər"
+msgstr "Sistem bayrağına səhv arqumentlər"
 
 #: camel/camel-filter-search.c:401
 msgid "Invalid arguments to (user-tag)"
-msgstr "İstifadəçi bayrağına hökmsüz arqumentlər"
+msgstr "İstifadəçi bayrağına səhv arqumentlər"
 
 #: camel/camel-filter-search.c:670 camel/camel-filter-search.c:678
 #, c-format
@@ -8767,11 +8744,11 @@ msgstr "İsmarışlar köçürülür"
 
 #: camel/camel-folder.c:1666
 msgid "Learning junk and/or non junk message(s)"
-msgstr ""
+msgstr "Spam və Spam Olmayan məktubların öyrənilməsi"
 
 #: camel/camel-folder.c:1695
 msgid "Filtering new message(s)"
-msgstr "Yeni ismarış(lar) süzülür"
+msgstr "Yeni məktub(lar) süzülür"
 
 #: camel/camel-folder-search.c:355 camel/camel-folder-search.c:476
 #, c-format
@@ -8905,34 +8882,30 @@ msgstr "Bu, dijital olaraq imzalanmış ismarış hissəsidir"
 #: camel/camel-gpg-context.c:1397 camel/camel-gpg-context.c:1406
 #: camel/camel-smime-context.c:721 camel/camel-smime-context.c:732
 #: camel/camel-smime-context.c:739
-#, fuzzy
 msgid "Cannot verify message signature: Incorrect message format"
-msgstr "İsmarış imzası təstiqlənə bilmədi: müvəqqəti fayl yaradıla bilmir: %s"
+msgstr "İsmarış imzası təsdiqlənə bilmədi: səhv ismarış formatı"
 
 #: camel/camel-gpg-context.c:1413
 #, c-format
 msgid "Cannot verify message signature: could not create temp file: %s"
-msgstr "İsmarış imzası təstiqlənə bilmədi: müvəqqəti fayl yaradıla bilmir: %s"
+msgstr "İsmarış imzası təsdiqlənə bilmədi: müvəqqəti fayl yaradıla bilmir: %s"
 
 #: camel/camel-gpg-context.c:1506
-#, fuzzy, c-format
+#, c-format
 msgid "Could not generate encrypting data: %s"
-msgstr "Mə'lumat yazıla bilmədi: %s"
+msgstr "Şifrələmə məlumatı yarana bilmədi: %s"
 
 #: camel/camel-gpg-context.c:1564
-#, fuzzy
 msgid "This is a digitally encrypted message part"
-msgstr "Bu, dijital olaraq imzalanmış ismarış hissəsidir"
+msgstr "Bu, digital olaraq imzalanmış ismarış hissəsidir"
 
 #: camel/camel-gpg-context.c:1661 camel/camel-smime-context.c:994
-#, fuzzy
 msgid "Encrypted content"
-msgstr "Məktub məzmununu indekslə"
+msgstr "Şifrələnmiş məzmun"
 
 #: camel/camel-gpg-context.c:1680
-#, fuzzy
 msgid "Unable to parse message content"
-msgstr "Editordan ismarış alına bilmir"
+msgstr "İsmarış məzmunu oxuna bilmədi"
 
 #: camel/camel-lock.c:92 camel/camel-lock.c:113
 #, c-format
@@ -9036,7 +9009,7 @@ msgstr "MIME hissəsinin şifrəsi açıla bilmədi: protokol xətası"
 
 #: camel/camel-multipart-encrypted.c:257
 msgid "Failed to decrypt MIME part: invalid structure"
-msgstr "MIME hissəsinin şifrəsi açıla bilmədi: hökmsüz qurğu"
+msgstr "MIME hissəsinin şifrəsi açıla bilmədi: səhv qurğu"
 
 #: camel/camel-multipart-signed.c:673 camel/camel-multipart-signed.c:724
 msgid "parse error"
@@ -9139,7 +9112,7 @@ msgstr "Verici çox uzun dəvət verir (>2048 oktet)\n"
 
 #: camel/camel-sasl-digest-md5.c:822
 msgid "Server challenge invalid\n"
-msgstr "Verici dəvəti hökmsüzdür\n"
+msgstr "Verici dəvəti səhvdir\n"
 
 #: camel/camel-sasl-digest-md5.c:828
 msgid "Server challenge contained invalid \"Quality of Protection\" token\n"
@@ -9361,37 +9334,34 @@ msgstr ""
 "%s"
 
 #: camel/camel-smime-context.c:104
-#, fuzzy, c-format
+#, c-format
 msgid "Enter security pass-phrase for `%s'"
-msgstr "%s üçün şifrəni bildirin"
+msgstr "`%s' üçün təhlükəsizlik şifrəsini daxil edin"
 
 #: camel/camel-smime-context.c:261
-#, fuzzy, c-format
+#, c-format
 msgid "Cannot find certificate for '%s'"
-msgstr "Qovluq alına bilmir: %s: %s"
+msgstr "'%s' üçün vəsiqə tapıla bilmir"
 
 #: camel/camel-smime-context.c:267
-#, fuzzy
 msgid "Cannot create CMS message"
-msgstr "İsmarış açıla bilmir"
+msgstr "CMS ismarışı yaradıla bilmir"
 
 #: camel/camel-smime-context.c:272
 msgid "Cannot create CMS signedData"
-msgstr ""
+msgstr "CMS ilə imzalanmış məlumat yaradıla bilmir"
 
 #: camel/camel-smime-context.c:278
-#, fuzzy
 msgid "Cannot attach CMS signedData"
-msgstr "Fayl ilişdirilə bilmir: %s: %s"
+msgstr "CMS ilə imzalanmış məlumat ilişdirilə bilmir"
 
 #: camel/camel-smime-context.c:285
-#, fuzzy
 msgid "Cannot attach CMS data"
-msgstr "Fayl ilişdirilə bilmir: %s: %s"
+msgstr "CMS məlumatı ilişdirilə bilmir"
 
 #: camel/camel-smime-context.c:291
 msgid "Cannot create CMS SignerInfo"
-msgstr ""
+msgstr "CMS imzalayan məlumatı yaradıla bilmir"
 
 #: camel/camel-smime-context.c:297
 msgid "Cannot find cert chain"
@@ -9402,140 +9372,123 @@ msgid "Cannot add CMS SigningTime"
 msgstr ""
 
 #: camel/camel-smime-context.c:325 camel/camel-smime-context.c:337
-#, fuzzy, c-format
+#, c-format
 msgid "Encryption cert for '%s' does not exist"
-msgstr "`%s' qovluğu mövcud deyil."
+msgstr "'%s' üçün şifrələmə vəsiqəsi mövcud deyil"
 
 #: camel/camel-smime-context.c:344
 msgid "Cannot add SMIMEEncKeyPrefs attribute"
-msgstr ""
+msgstr "SMIMEEncKeyPrefs atributu əlavə edilə bilmir"
 
 #: camel/camel-smime-context.c:349
 msgid "Cannot add MS SMIMEEncKeyPrefs attribute"
-msgstr ""
+msgstr "MS SMIMEEncKeyPrefs atributu əlavə edilə bilmir"
 
 #: camel/camel-smime-context.c:354
-#, fuzzy
 msgid "Cannot add encryption certificate"
-msgstr "_Sertifikat ID-si:"
+msgstr "Şifrələmə vəsiqəsi əlavə edilə bilmir"
 
 #: camel/camel-smime-context.c:360
 msgid "Cannot add CMS SignerInfo"
-msgstr ""
+msgstr "CMS imzalayan məlumatı əlavə edilə bilmir"
 
 #: camel/camel-smime-context.c:430
-#, fuzzy
 msgid "Cannot create encoder context"
-msgstr "%s üstündə qovluq qıfılı yaradıla bilməir: %s"
+msgstr "Kodlama məzmunu yaradıla bilmir"
 
 #: camel/camel-smime-context.c:436
-#, fuzzy
 msgid "Failed to add data to CMS encoder"
-msgstr "LDAP vericisinə bağlanma xətası"
+msgstr "CMS şifrələyicisinə məlumat əlavə edilə bilmədi"
 
 #: camel/camel-smime-context.c:441 camel/camel-smime-context.c:894
-#, fuzzy
 msgid "Failed to encode data"
-msgstr "Tanıdılma bacarılmadı.\n"
+msgstr "Məlumat şifrələnə bilmədi"
 
 #: camel/camel-smime-context.c:514
-#, fuzzy
 msgid "Unverified"
-msgstr "Təsvirsiz"
+msgstr "Təsdiqlənməmiş"
 
 #: camel/camel-smime-context.c:516
-#, fuzzy
 msgid "Good signature"
-msgstr "İmzanı dəyişdir"
+msgstr "Düzgün imza"
 
 #: camel/camel-smime-context.c:518
-#, fuzzy
 msgid "Bad signature"
-msgstr "İmzanı dəyişdir"
+msgstr "Səhv imza"
 
 #: camel/camel-smime-context.c:520
 msgid "Content tampered with or altered in transit"
 msgstr ""
 
 #: camel/camel-smime-context.c:522
-#, fuzzy
 msgid "Signing certificate not found"
-msgstr "Zincirdə öz-özünə imzalı sertifikat"
+msgstr "İmzalama vəsiqəsi tapılmadı"
 
 #: camel/camel-smime-context.c:524
-#, fuzzy
 msgid "Signing certificate not trusted"
-msgstr "Sertifikat e'tibarlı deyil"
+msgstr "İmzalama vəsiqəsinə etibar edilmir"
 
 #: camel/camel-smime-context.c:526
 msgid "Signature algorithm unknown"
-msgstr ""
+msgstr "İmza alqoritmi naməlumdur"
 
 #: camel/camel-smime-context.c:528
 msgid "Signature algorithm unsupported"
-msgstr ""
+msgstr "İmza alqoritmi dəstəklənmir"
 
 #: camel/camel-smime-context.c:530
-#, fuzzy
 msgid "Malformed signature"
-msgstr "İmzanı qeyd et"
+msgstr "Pozumuş imza"
 
 #: camel/camel-smime-context.c:532
-#, fuzzy
 msgid "Processing error"
-msgstr "Oxuma xətası"
+msgstr "Prosesləmə xətası"
 
 #: camel/camel-smime-context.c:569
-#, fuzzy
 msgid "No signedData in signature"
-msgstr "Skript imzası əlavə et"
+msgstr "İmzada signedData mövcud deyil"
 
 #: camel/camel-smime-context.c:576
 msgid "Digests missing from enveloped data"
-msgstr ""
+msgstr "Məlumatdan daycest əksikdir"
 
 #: camel/camel-smime-context.c:589 camel/camel-smime-context.c:599
-#, fuzzy
 msgid "Cannot calculate digests"
-msgstr "Qovluq alına bilmir: %s: %s"
+msgstr "Daycestlər hesablana bilmir"
 
 #: camel/camel-smime-context.c:604
-#, fuzzy
 msgid "Cannot set message digests"
-msgstr "%s ismarışı alına bilmir: %s"
+msgstr "İsmarış daycestləri seçilə bilmir"
 
 #: camel/camel-smime-context.c:614 camel/camel-smime-context.c:619
-#, fuzzy
 msgid "Certificate import failed"
-msgstr "Sertifikat imzası xətası"
+msgstr "Vəsiqə idxalı bacarılmadı"
 
 #: camel/camel-smime-context.c:628
 msgid "Certificate only message, cannot verify certificates"
-msgstr ""
+msgstr "Təkcə vəsiqəli ismarışdır, vəsiqələr yoxlana bilmədi"
 
 #: camel/camel-smime-context.c:631
 msgid "Certificate only message, certificates imported and verified"
-msgstr ""
+msgstr "Təkcə vəsiqəli ismarışdır, vəsiqələr idxal edildi və yoxlandı"
 
 #: camel/camel-smime-context.c:635
-#, fuzzy
 msgid "Can't find signature digests"
-msgstr "İmzanı dəyişdir"
+msgstr "İmza daycestləri tapıla bilmir"
 
 #: camel/camel-smime-context.c:651
-#, fuzzy, c-format
+#, c-format
 msgid "Signer: %s <%s>: %s\n"
-msgstr "Verici: %s, Növ: %s"
+msgstr "İmzalayan: %s <%s>: %s\n"
 
 #: camel/camel-smime-context.c:752
-#, fuzzy
 msgid "Decoder failed"
-msgstr "IMAP əmri iflas etdi: %s"
+msgstr "Decoder iflas etdi"
 
 #: camel/camel-smime-context.c:804
-#, fuzzy, c-format
+#, c-format
 msgid "Can't find certificate for `%s'"
-msgstr "Qovluq alına bilmir: %s: %s"
+msgstr "`%s' üçün vəsiqə tapıla bilmir"
 
 #: camel/camel-smime-context.c:811
 msgid "Can't find common bulk encryption algorithm"
@@ -9547,75 +9500,71 @@ msgid "Can't allocate slot for encryption bulk key"
 msgstr ""
 
 #: camel/camel-smime-context.c:831
-#, fuzzy
 msgid "Can't create CMS Message"
-msgstr "İsmarışdan Qayda _Yarat"
+msgstr "CMS ismarışı yaradıla bilmədi"
 
 #: camel/camel-smime-context.c:837
 msgid "Can't create CMS EnvelopedData"
-msgstr ""
+msgstr "CMS EnvelopedData yaradıla bilmədi"
 
 #: camel/camel-smime-context.c:843
 msgid "Can't attach CMS EnvelopedData"
-msgstr ""
+msgstr "CMS EnvelopedData ilişdirilə bilmədi"
 
 #: camel/camel-smime-context.c:849
 msgid "Can't attach CMS data object"
-msgstr ""
+msgstr "CMS data üzvü ilişdirilə bilmədi"
 
 #: camel/camel-smime-context.c:858
 msgid "Can't create CMS RecipientInfo"
-msgstr ""
+msgstr "CMS RecipientInfo yaradıla bilmədi"
 
 #: camel/camel-smime-context.c:863
 msgid "Can't add CMS RecipientInfo"
-msgstr ""
+msgstr "CMS RecipientInfo əlavə edilə bilmədi"
 
 #: camel/camel-smime-context.c:877
-#, fuzzy
 msgid "Can't create encoder context"
-msgstr "%s üstündə qovluq qıfılı yaradıla bilməir: %s"
+msgstr "Şifrələyənin məzmunu yaradıla bilmir"
 
 #: camel/camel-smime-context.c:888
-#, fuzzy
 msgid "Failed to add data to encoder"
-msgstr "LDAP vericisinə bağlanma xətası"
+msgstr "Şifrələyiciyə məlumat əlavə edilə bilmədi"
 
 #: camel/camel-smime-context.c:974
 #, c-format
 msgid "Decoder failed, error %d"
-msgstr ""
+msgstr "Şifrələyici iflas etdi, xət: %d"
 
 #: camel/camel-smime-context.c:981
 msgid "S/MIME Decrypt: No encrypted content found"
-msgstr ""
+msgstr "S/MIME Decrypt: Şifrələnmiş məzmun mövcud deyil"
 
 #: camel/camel-smime-context.c:1008
-#, fuzzy
 msgid "import keys: unimplemented"
-msgstr "Əmr yerinə yetirilməyib"
+msgstr "düymələri idxal et: hazır deyil"
 
 #: camel/camel-smime-context.c:1016
 msgid "export keys: unimplemented"
-msgstr ""
+msgstr "düymələri ixrac et: hazır deyil"
 
 #: camel/camel-store.c:214
 msgid "Cannot get folder: Invalid operation on this store"
-msgstr "Qovluq alına bilmir: Mənbədə hökmsüz əməliyyat"
+msgstr "Qovluq alına bilmir: Mənbədə səhv əməliyyat"
 
 #: camel/camel-store.c:244
-#, fuzzy, c-format
+#, c-format
 msgid "Cannot create folder `%s': folder exists"
-msgstr "Qovluq alına bilmir: %s: %s"
+msgstr "`%s' qovluğu yaradıla bilmir: onsuz da mövcuddur"
 
 #: camel/camel-store.c:295
 msgid "Cannot create folder: Invalid operation on this store"
-msgstr "Qovluq yaradıla bilmir: Mənbədə hökmsüz əməliyyat"
+msgstr "Qovluq yaradıla bilmir: Mənbədə səhv əməliyyat"
 
 #: camel/camel-store.c:323
-#, fuzzy, c-format
+#, c-format
 msgid "Cannot create folder: %s: folder exists"
-msgstr "Qovluq alına bilmir: %s: %s"
+msgstr "Qovluq yaradıla bilmir: %s: qovluq mövcuddur"
 
 #: camel/camel-store.c:387 camel/camel-vee-store.c:354
 #, c-format
@@ -9633,25 +9582,24 @@ msgstr "Zibil"
 
 #: camel/camel-store.c:813 filter/libfilter-i18n.h:35
 #: mail/mail-config.glade.h:92 ui/evolution-mail-message.xml.h:48
-#, fuzzy
 msgid "Junk"
-msgstr "İyun"
+msgstr "Spam"
 
 #: camel/camel-tcp-stream-openssl.c:568
 msgid "Unable to get issuer's certificate"
-msgstr "Nəşriyyatçının sertifikatı alına bilmədi"
+msgstr "Nəşriyyatçının vəsiqəsi alına bilmədi"
 
 #: camel/camel-tcp-stream-openssl.c:570
 msgid "Unable to get Certificate Revocation List"
-msgstr "Sertifikat Ləğvi siyahısı alına bilmədi"
+msgstr "Vəsiqə Ləğvi siyahısı alına bilmədi"
 
 #: camel/camel-tcp-stream-openssl.c:572
 msgid "Unable to decrypt certificate signature"
-msgstr "Sertifikat imzasının şifrəsi açıla bilmədi"
+msgstr "Vəsiqə imzasının şifrəsi açıla bilmədi"
 
 #: camel/camel-tcp-stream-openssl.c:574
 msgid "Unable to decrypt Certificate Revocation List signature"
-msgstr "Sertifikat Ləğvi siyahısının imzasının şifrəsi açıla bilmədi"
+msgstr "Vəsiqə Ləğvi siyahısının imzasının şifrəsi açıla bilmədi"
 
 #: camel/camel-tcp-stream-openssl.c:576
 msgid "Unable to decode issuer's public key"
@@ -9659,15 +9607,15 @@ msgstr "Nəşriyyatçının ictimai açarının şifrəsi açıla bilmədi"
 
 #: camel/camel-tcp-stream-openssl.c:578
 msgid "Certificate signature failure"
-msgstr "Sertifikat imzası xətası"
+msgstr "Vəsiqə imzası xətası"
 
 #: camel/camel-tcp-stream-openssl.c:580
 msgid "Certificate Revocation List signature failure"
-msgstr "Sertifikat Ləğvi siyahısı imzası xətası"
+msgstr "Vəsiqə Ləğvi siyahısı imzası xətası"
 
 #: camel/camel-tcp-stream-openssl.c:582
 msgid "Certificate not yet valid"
-msgstr "Sertifikat hələ hökmlü deyil"
+msgstr "Vəsiqə hələ hökmlü deyil"
 
 #: camel/camel-tcp-stream-openssl.c:584
 msgid "Certificate has expired"
@@ -9703,7 +9651,7 @@ msgstr "Nəşriyyatçının sertifikatı yerli olaraq alına bilmədi"
 
 #: camel/camel-tcp-stream-openssl.c:603
 msgid "Unable to verify leaf signature"
-msgstr "Yarpaq sertifikatı təstiqlənə bilmədi"
+msgstr "Yarpaq sertifikatı təsdiqlənə bilmədi"
 
 #: camel/camel-tcp-stream-openssl.c:605
 msgid "Certificate chain too long"
@@ -9711,11 +9659,11 @@ msgstr "Sertifikar zinciri çox uzundur"
 
 #: camel/camel-tcp-stream-openssl.c:607
 msgid "Certificate Revoked"
-msgstr "Sertifikat Ləğv Edildi"
+msgstr "Vəsiqə Ləğv Edildi"
 
 #: camel/camel-tcp-stream-openssl.c:609
 msgid "Invalid Certificate Authority (CA)"
-msgstr "Hökmsüz Sertifikat Təstiqi (CA)"
+msgstr "Səhv Vəsiqə Təsdiqi (CA)"
 
 #: camel/camel-tcp-stream-openssl.c:611
 msgid "Path length exceeded"
@@ -9727,11 +9675,11 @@ msgstr "Səhv məqsəd"
 
 #: camel/camel-tcp-stream-openssl.c:615
 msgid "Certificate untrusted"
-msgstr "Sertifikat e'tibarlı deyil"
+msgstr "Vəsiqə e'tibarlı deyil"
 
 #: camel/camel-tcp-stream-openssl.c:617
 msgid "Certificate rejected"
-msgstr "Sertifikat rədd edildi"
+msgstr "Vəsiqə rədd edildi"
 
 #: camel/camel-tcp-stream-openssl.c:620
 msgid "Subject/Issuer mismatch"
@@ -9747,11 +9695,11 @@ msgstr "AKID/Nəşriyyatçı serial uyğunsuzluğu"
 
 #: camel/camel-tcp-stream-openssl.c:626
 msgid "Key usage does not support certificate signing"
-msgstr "Açar istifadəsi sertifikat imzalamasını dəstəkləmir"
+msgstr "Açar istifadəsi vəsiqə imzalamasını dəstəkləmir"
 
 #: camel/camel-tcp-stream-openssl.c:629
 msgid "Error in application verification"
-msgstr "Tə'minat təstiqləməsində xəta"
+msgstr "Tə'minat təsdiqləməsində xəta"
 
 #: camel/camel-tcp-stream-openssl.c:696 camel/camel-tcp-stream-ssl.c:825
 #, c-format
@@ -9785,7 +9733,7 @@ msgid ""
 "\n"
 "Do you wish to accept anyway?"
 msgstr ""
-"%s-dan hökmsüz sertifikat:\n"
+"%s-dan səhv sertifikat:\n"
 "\n"
 "%s\n"
 "\n"
@@ -9815,7 +9763,7 @@ msgid ""
 "Certificate problem: %s\n"
 "Issuer: %s"
 msgstr ""
-"Sertifikat problemi: %s\n"
+"Vəsiqə problemi: %s\n"
 "Nəşriyyatçı: %s"
 
 #: camel/camel-tcp-stream-ssl.c:931
@@ -9824,7 +9772,7 @@ msgid ""
 "Bad certificate domain: %s\n"
 "Issuer: %s"
 msgstr ""
-"Hökmsüz sertifikat domeni: %s\n"
+"Səhv vəsiqə domeni: %s\n"
 "Nəşriyyatçı: %s"
 
 #: camel/camel-tcp-stream-ssl.c:949
@@ -9842,7 +9790,7 @@ msgid ""
 "Certificate revocation list expired: %s\n"
 "Issuer: %s"
 msgstr ""
-"Sertifikat Ləğvi siyahısının vaxtı başa çatıb: %s\n"
+"Vəsiqə Ləğvi siyahısının vaxtı başa çatıb: %s\n"
 "Nəşriyyatçı: %s"
 
 #: camel/camel-url.c:290
@@ -9875,14 +9823,12 @@ msgid "Cannot rename folder: %s: No such folder"
 msgstr "Qovluq yenidən adlandırıla bilmir: %s: Qovluq yoxdur"
 
 #: camel/camel-vtrash-folder.c:44
-#, fuzzy
 msgid "Cannot copy messages to the Trash folder"
-msgstr "Müvəqqəti qovluq bağlana bilmədi: %s"
+msgstr "İsmarışlar zibil qovluğuna köçürülə bilmir"
 
 #: camel/camel-vtrash-folder.c:46
-#, fuzzy
 msgid "Cannot copy messages to the Junk folder"
-msgstr "Müvəqqəti qovluq bağlana bilmədi: %s"
+msgstr "İsmarışlar spam qovluğuna köçürülə bilmir"
 
 #: camel/providers/groupwise/camel-groupwise-provider.c:53
 #: camel/providers/imap4/camel-imap4-provider.c:35
@@ -9901,26 +9847,24 @@ msgstr "Bu vericidə GƏLƏNLƏR qutusundaki yeni ismarışlara süzgəcləri t�
 
 #: camel/providers/groupwise/camel-groupwise-provider.c:62
 #: camel/providers/imap/camel-imap-provider.c:70
-#, fuzzy
 msgid "Automatically synchronize remote mail locally"
-msgstr "Yeni məktubları _avtomatik olaraq bu aralıqla yoxla:"
+msgstr "Uzaqdakı məktubları avtomatik olaraq sinxronlaşdır"
 
 #: camel/providers/groupwise/camel-groupwise-provider.c:66
-#, fuzzy
 msgid "Address Book And Calendar"
-msgstr "Ünvan Dəftəri"
+msgstr "Ünvan Kitabçası Və Təqvim"
 
 #: camel/providers/groupwise/camel-groupwise-provider.c:69
 msgid "Post Office Agent SOAP Port:"
-msgstr ""
+msgstr "Poçta SOAP Portu:"
 
 #: camel/providers/groupwise/camel-groupwise-provider.c:80
 msgid "Novell GroupWise"
-msgstr ""
+msgstr "Novell GroupWise"
 
 #: camel/providers/groupwise/camel-groupwise-provider.c:82
 msgid "For accessing Novell Groupwise servers"
-msgstr ""
+msgstr "Novell Groupwise vericilərinə yetişmək üçün"
 
 #: camel/providers/groupwise/camel-groupwise-provider.c:97
 #: camel/providers/imap4/camel-imap4-provider.c:70
@@ -9939,109 +9883,96 @@ msgstr "Bu seçim IMAP vericisinə xam mətn şifrəsi ilə bağlanma imkanı ve
 
 #: camel/providers/groupwise/camel-gw-listener.c:305
 #: camel/providers/groupwise/camel-gw-listener.c:328
-#, fuzzy
 msgid "Checklist"
-msgstr "siyahı"
+msgstr "Yoxlama siyahısı"
 
 #: camel/providers/imap4/camel-imap4-command.c:629
-#, fuzzy, c-format
+#, c-format
 msgid "Unexpected response from IMAP4 server %s: %s"
-msgstr "IMAP vericisindən gözlənilməz cavab: %s"
+msgstr "%s IMAP vericisindən gözlənilməz cavab: %s"
 
 #: camel/providers/imap4/camel-imap4-engine.c:415
-#, fuzzy, c-format
+#, c-format
 msgid "Cannot select folder `%s': Invalid mailbox name"
-msgstr "Qovluq silinə bilmir: %s: Səhv əməliyyat"
+msgstr "`%s' qovluğu seçilə bilmir: Səhv poçt qutusu adı"
 
 #: camel/providers/imap4/camel-imap4-engine.c:421
-#, fuzzy, c-format
+#, c-format
 msgid "Cannot select folder `%s': Bad command"
-msgstr "Qovluq alına bilmir: %s: %s"
+msgstr "`%s' qovluğu seçilə bilmir: Səhv əmr"
 
 #: camel/providers/imap4/camel-imap4-engine.c:1144
 #: camel/providers/imap4/camel-imap4-engine.c:1533
 #: camel/providers/imap4/camel-imap4-engine.c:1560
 #: camel/providers/imap4/camel-imap4-engine.c:1590
 #: camel/providers/imap4/camel-imap4-engine.c:1630
-#, fuzzy, c-format
+#, c-format
 msgid "IMAP4 server %s unexpectedly disconnected: %s"
-msgstr "Verici gözlənilməz şəkildə bağlantını kəsdi: %s"
+msgstr "%s vericisi gözlənilməz şəkildə bağlantını kəsdi: %s"
 
 #: camel/providers/imap4/camel-imap4-engine.c:1145
 msgid "Got BYE response"
-msgstr ""
+msgstr "BYE cavabı alındı"
 
 #: camel/providers/imap4/camel-imap4-folder.c:335
-#, fuzzy, c-format
+#, c-format
 msgid "Cannot sync flags to folder `%s': Unknown"
-msgstr "Qovluq alına bilmir: %s: %s"
+msgstr "Bayraqlar '%s' qovluğuna sinxronlaşdırıla bilmir: Naməlum"
 
 #: camel/providers/imap4/camel-imap4-folder.c:341
-#, fuzzy, c-format
+#, c-format
 msgid "Cannot sync flags to folder `%s': Bad command"
-msgstr "Qovluq alına bilmir: %s: %s"
+msgstr "Bayraqlar '%s' qovluğuna sinxronlaşdırıla bilmir: Səhv əmr"
 
 #: camel/providers/imap4/camel-imap4-folder.c:476
-#, fuzzy, c-format
+#, c-format
 msgid "Cannot expunge folder `%s': Unknown"
-msgstr "Qovluq alına bilmir: %s: %s"
+msgstr "'%s' qovluğu silinə bilmir: Naməlum"
 
 #: camel/providers/imap4/camel-imap4-folder.c:481
-#, fuzzy, c-format
+#, c-format
 msgid "Cannot expunge folder `%s': Bad command"
-msgstr "Qovluq alına bilmir: %s: %s"
+msgstr "'%s' qovluğu silinə bilmir: Səhv əmr"
 
 #: camel/providers/imap4/camel-imap4-folder.c:616
-#, fuzzy, c-format
+#, c-format
 msgid "Cannot get message %s from folder `%s': No such message"
 msgstr ""
-"İsmarış alına bilmir: %2$s qovluğundan %1$s\n"
-"   %3$s"
 
 #: camel/providers/imap4/camel-imap4-folder.c:621
-#, fuzzy, c-format
+#, c-format
 msgid "Cannot get message %s from folder `%s': Bad command"
 msgstr ""
-"İsmarış alına bilmir: %2$s qovluğundan %1$s\n"
-"   %3$s"
 
 #: camel/providers/imap4/camel-imap4-folder.c:746
-#, fuzzy, c-format
+#, c-format
 msgid "Cannot append message to folder `%s': Unknown error"
-msgstr "İsmarış mh qovluğuna əlavə edilə bilmir: %s: %s"
+msgstr ""
 
 #: camel/providers/imap4/camel-imap4-folder.c:775
-#, fuzzy, c-format
+#, c-format
 msgid "Cannot append message to folder `%s': Bad command"
-msgstr "İsmarış mh qovluğuna əlavə edilə bilmir: %s: %s"
+msgstr ""
 
 #: camel/providers/imap4/camel-imap4-folder.c:854
-#, fuzzy, c-format
+#, c-format
 msgid "Cannot move messages from folder `%s' to folder `%s': Unknown"
 msgstr ""
-"İsmarış alına bilmir: %2$s qovluğundan %1$s\n"
-"   %3$s"
 
 #: camel/providers/imap4/camel-imap4-folder.c:858
-#, fuzzy, c-format
+#, c-format
 msgid "Cannot copy messages from folder `%s' to folder `%s': Unknown"
 msgstr ""
-"İsmarış alına bilmir: %2$s qovluğundan %1$s\n"
-"   %3$s"
 
 #: camel/providers/imap4/camel-imap4-folder.c:866
-#, fuzzy, c-format
+#, c-format
 msgid "Cannot move messages from folder `%s' to folder `%s': Bad command"
 msgstr ""
-"İsmarış alına bilmir: %2$s qovluğundan %1$s\n"
-"   %3$s"
 
 #: camel/providers/imap4/camel-imap4-folder.c:870
-#, fuzzy, c-format
+#, c-format
 msgid "Cannot copy messages from folder `%s' to folder `%s': Bad command"
 msgstr ""
-"İsmarış alına bilmir: %2$s qovluğundan %1$s\n"
-"   %3$s"
 
 #: camel/providers/imap4/camel-imap4-provider.c:40
 #: camel/providers/imap/camel-imap-provider.c:55
@@ -10065,19 +9996,16 @@ msgid "Namespace"
 msgstr "Ad boşluğu"
 
 #: camel/providers/imap4/camel-imap4-provider.c:53
-#, fuzzy
 msgid "IMAPv4rev1"
-msgstr "IMAPv4 "
+msgstr "IMAPv4rev1"
 
 #: camel/providers/imap4/camel-imap4-provider.c:55
-#, fuzzy
 msgid "For reading and storing mail on IMAPv4rev1 servers. EXPERIMENTAL !!"
-msgstr "IMAP vericilərində məktubların saxlanması və oxuna bilməsi üçün."
+msgstr ""
 
 #: camel/providers/imap4/camel-imap4-provider.c:72
-#, fuzzy
 msgid "This option will connect to the IMAPv4rev1 server using a plaintext password."
-msgstr "Bu seçim IMAP vericisinə xam mətn şifrəsi ilə bağlanma imkanı verir."
+msgstr "Bu seçim IMAPv4rev1vericisinə xam mətn şifrəsi ilə bağlanma imkanı verir."
 
 #: camel/providers/imap4/camel-imap4-store.c:165
 #: camel/providers/imap/camel-imap-store.c:429
@@ -10102,15 +10030,14 @@ msgstr "%2$s üstündə %1$s üçün IMAP xidmətləri"
 #: camel/providers/smtp/camel-smtp-transport.c:285
 #, c-format
 msgid "Could not connect to %s (port %d): %s"
-msgstr "%s-a bağlana bilmədi (qapı %d): %s"
+msgstr "%s vericisinə bağlana bilmədi (port %d): %s"
 
 #: camel/providers/imap4/camel-imap4-store.c:210
 #: camel/providers/imap/camel-imap-store.c:553
 #: camel/providers/pop3/camel-pop3-store.c:177
 #: camel/providers/smtp/camel-smtp-transport.c:271
-#, fuzzy
 msgid "SSL unavailable"
-msgstr "TLS Mövcud Deyil"
+msgstr "SSL mövcud deyil"
 
 #: camel/providers/imap4/camel-imap4-store.c:222
 #: camel/providers/imap/camel-imap-store.c:568
@@ -10123,11 +10050,11 @@ msgid "Connection cancelled"
 msgstr "Bağlantı ləğv edildi"
 
 #: camel/providers/imap4/camel-imap4-store.c:261
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "Failed to connect to IMAP server %s in secure mode: Server does not support "
 "STARTTLS"
-msgstr "%2$s təhlükəsizlik modunda %1$s IMAP verisicinə bağlana bilmədi"
+msgstr ""
 
 #: camel/providers/imap4/camel-imap4-store.c:286
 #: camel/providers/imap/camel-imap-store.c:649
@@ -10145,58 +10072,56 @@ msgid "Unknown error"
 msgstr "Naməlum xəta"
 
 #: camel/providers/imap4/camel-imap4-store.c:373
-#, fuzzy, c-format
+#, c-format
 msgid "Cannot authenticate to IMAP server %s using the %s authentication mechanism"
 msgstr ""
-"%s POP vericisinə bağlana bilmədi İstənən tanıtma protokoluna dəstək "
-"verilmir."
 
 #: camel/providers/imap4/camel-imap4-store.c:418
-#, fuzzy, c-format
+#, c-format
 msgid "%sPlease enter the IMAP password for %s on host %s"
-msgstr "%sXahiş edirik %s@%s üçün SMTP şifrənizi bildirin"
+msgstr ""
 
 #: camel/providers/imap4/camel-imap4-store.c:492
-#, fuzzy, c-format
+#, c-format
 msgid "Cannot authenticate to IMAP server %s using %s"
-msgstr "%s POP vericisinə tanıdıla bilmədi: %s"
+msgstr ""
 
 #: camel/providers/imap4/camel-imap4-store.c:723
-#, fuzzy, c-format
+#, c-format
 msgid "Cannot get folder `%s' on IMAP server %s: Unknown"
-msgstr "Qovluq alına bilmir: %s: %s"
+msgstr ""
 
 #: camel/providers/imap4/camel-imap4-store.c:782
 #: camel/providers/imap/camel-imap-store.c:1857
 #: camel/providers/imap/camel-imap-store.c:2235
-#, fuzzy, c-format
+#, c-format
 msgid "The folder name \"%s\" is invalid because it contains the character \"%c\""
-msgstr "\"%s\" qovluq adı \"%c\" hərfini daxil etdiyi üçün hökmsüzdür"
+msgstr "\"%s\" qovluq adı \"%c\" hərfini daxil etdiyi üçün səhvdir"
 
 #: camel/providers/imap4/camel-imap4-store.c:826
-#, fuzzy, c-format
+#, c-format
 msgid "Cannot create folder `%s': Invalid mailbox name"
-msgstr "Qovluq yenidən adlandırıla bilmir: %s: Səhv əməliyyat"
+msgstr "`%s' qovluğu yaradıla bilmir: Səhv poçt qutusu adı"
 
 #: camel/providers/imap4/camel-imap4-store.c:831
-#, fuzzy, c-format
+#, c-format
 msgid "Cannot create folder `%s': Bad command"
-msgstr "Qovluq alına bilmir: %s: %s"
+msgstr "`%s' qovluğu yaradıla bilmir: Səhv əmr"
 
 #: camel/providers/imap4/camel-imap4-store.c:859
-#, fuzzy, c-format
+#, c-format
 msgid "Cannot delete folder `%s': Special folder"
-msgstr "Qovluq silinə bilmir: %s: Qovluq yoxdur"
+msgstr "`%s' qovluğu silinə bilmir: Xüsusi qovluq"
 
 #: camel/providers/imap4/camel-imap4-store.c:891
-#, fuzzy, c-format
+#, c-format
 msgid "Cannot delete folder `%s': Invalid mailbox name"
-msgstr "Qovluq silinə bilmir: %s: Səhv əməliyyat"
+msgstr "`%s' qovluğu silinə bilmir: Səhv poçt qutusu adı"
 
 #: camel/providers/imap4/camel-imap4-store.c:896
-#, fuzzy, c-format
+#, c-format
 msgid "Cannot delete folder `%s': Bad command"
-msgstr "Qovluq silinə bilmir: %s: Səhv əməliyyat"
+msgstr "`%s' qovluğu silinə bilmir: Səhv ad"
 
 #: camel/providers/imap4/camel-imap4-store.c:1037
 #, c-format
@@ -10204,44 +10129,42 @@ msgid "Cannot get %s information for pattern `%s' on IMAP server %s: %s"
 msgstr ""
 
 #: camel/providers/imap4/camel-imap4-store.c:1039
-#, fuzzy
 msgid "Bad command"
-msgstr "Qabığ Əmri"
+msgstr "Səhv əmr"
 
 #: camel/providers/imap4/camel-imap4-store.c:1100
-#, fuzzy, c-format
+#, c-format
 msgid "Cannot subscribe to folder `%s': Invalid mailbox name"
-msgstr "Qovluq silinə bilmir: %s: Səhv əməliyyat"
+msgstr "`%s' qovluğuna abunə oluna bilmir: Səhv poçt qutusu adı"
 
 #: camel/providers/imap4/camel-imap4-store.c:1105
-#, fuzzy, c-format
+#, c-format
 msgid "Cannot subscribe to folder `%s': Bad command"
-msgstr "Qovluq alına bilmir: %s: %s"
+msgstr "`%s' qovluğuna abunə oluna bilmir: Səhv əmr"
 
 #: camel/providers/imap4/camel-imap4-store.c:1149
-#, fuzzy, c-format
+#, c-format
 msgid "Cannot unsubscribe from folder `%s': Invalid mailbox name"
-msgstr "Qovluq yenidən adlandırıla bilmir: %s: Səhv əməliyyat"
+msgstr "`%s' qovluğundan abunəlik ləğv edilə bilmir: Səhv poçt qutusu adı"
 
 #: camel/providers/imap4/camel-imap4-store.c:1154
-#, fuzzy, c-format
+#, c-format
 msgid "Cannot unsubscribe from folder `%s': Bad command"
-msgstr "Qovluq alına bilmir: %s: %s"
+msgstr "`%s' qovluğundan abunəlik ləğv edilə bilmir: Səhv əmr"
 
 #: camel/providers/imap4/camel-imap4-utils.c:85
-#, fuzzy, c-format
+#, c-format
 msgid "Unexpected token in response from IMAP server %s: "
-msgstr "IMAP vericisindən gözlənilməz cavab: %s"
+msgstr "%s IMAP vericisindən gözlənilməz cavab: "
 
 #: camel/providers/imap4/camel-imap4-utils.c:108
-#, fuzzy
 msgid "No data"
-msgstr "Heç bir mə'lumat bildirilməyib"
+msgstr "Məlumat yoxdur"
 
 #: camel/providers/imap4/camel-imap4-utils.c:291
-#, fuzzy, c-format
+#, c-format
 msgid "IMAP server %s unexpectedly disconnected: %s"
-msgstr "Verici gözlənilməz şəkildə bağlantını kəsdi: %s"
+msgstr "%s vericisi gözlənilməz şəkildə bağlantını kəsdi: %s"
 
 #: camel/providers/imap/camel-imap-command.c:218
 #: camel/providers/imap/camel-imap-command.c:257
@@ -10371,22 +10294,18 @@ msgid "Failed to cache %s: %s"
 msgstr "%s ön yaddaşa alına bilmədi: %s"
 
 #: camel/providers/imap/camel-imap-provider.c:43
-#, fuzzy
 msgid "Checking for New Mail"
-msgstr "Yeni poçt yoxlanır"
+msgstr "Yeni Poçt Yoxlanır"
 
 #: camel/providers/imap/camel-imap-provider.c:48
-#, fuzzy
 msgid "Connection to Server"
-msgstr "Vericiyə bağlanır..."
+msgstr "Vericiyə Bağlanır"
 
 #: camel/providers/imap/camel-imap-provider.c:50
-#, fuzzy
 msgid "Use custom command to connect to server"
-msgstr "LDAP vericisinə bağlanma xətası"
+msgstr ""
 
 #: camel/providers/imap/camel-imap-provider.c:52
-#, fuzzy
 msgid "Command:"
 msgstr "Əmr:"
 
@@ -10395,14 +10314,12 @@ msgid "Apply filters to new messages in INBOX on this server"
 msgstr "Bu vericidə GƏLƏNLƏR qutusundaki yeni ismarışlara süzgəcləri tətbiq et"
 
 #: camel/providers/imap/camel-imap-provider.c:66
-#, fuzzy
 msgid "Check new messages for Junk contents"
-msgstr "Bütün qovluqlarda yeni poçtu yoxla"
+msgstr "Yeni ismarışlarda Spam izini yoxla"
 
 #: camel/providers/imap/camel-imap-provider.c:68
-#, fuzzy
 msgid "Only check for Junk messages in the INBOX folder"
-msgstr "Bütün qovluqlarda yeni poçtu yoxla"
+msgstr "Spam ismarışlarını təkcə GƏLƏNLƏR qovluğunda axtar"
 
 #: camel/providers/imap/camel-imap-provider.c:76
 msgid "IMAP"
@@ -10423,9 +10340,9 @@ msgid "SSL negotiations failed"
 msgstr "SSL danışıqları bacarılmadı"
 
 #: camel/providers/imap/camel-imap-store.c:818
-#, fuzzy, c-format
+#, c-format
 msgid "Could not connect with command \"%s\": %s"
-msgstr "%s-a bağlana bilmədi (qapı %d): %s"
+msgstr ""
 
 #: camel/providers/imap/camel-imap-store.c:1242
 #, c-format
@@ -10474,14 +10391,14 @@ msgstr "Qonşu qovluq alt qovluqlara malik ola bilməzi"
 #: camel/providers/local/camel-maildir-store.c:137
 #: camel/providers/local/camel-mbox-store.c:212
 #: camel/providers/local/camel-mh-store.c:236
-#, fuzzy, c-format
+#, c-format
 msgid "Cannot create folder `%s': folder exists."
-msgstr "Qovluq alına bilmir: %s: %s"
+msgstr "`%s' qovluğu yaradıla bilmir: qovluq mövcuddur."
 
 #: camel/providers/imap/camel-imap-store.c:2246
 #, c-format
 msgid "Unknown parent folder: %s"
-msgstr "Namə'lum qonşu qovluq: %s"
+msgstr "Naməlum qonşu qovluq: %s"
 
 #: camel/providers/imapp/camel-imapp-provider.c:39
 #: camel/providers/pop3/camel-pop3-provider.c:38
@@ -10489,9 +10406,8 @@ msgid "Message storage"
 msgstr "İsmarışın saxlanması"
 
 #: camel/providers/imapp/camel-imapp-provider.c:47
-#, fuzzy
 msgid "IMAP+"
-msgstr "IMAP"
+msgstr "IMAP+"
 
 #: camel/providers/imapp/camel-imapp-provider.c:49
 msgid ""
@@ -10502,14 +10418,13 @@ msgid ""
 msgstr ""
 
 #: camel/providers/imapp/camel-imapp-store.c:328
-#, fuzzy, c-format
+#, c-format
 msgid "Could not connect to POP server on %s"
-msgstr "%s POP vericisinə bağlana bilmədi"
+msgstr "%s üstündəki POP vericisinə bağlana bilmədi"
 
 #: camel/providers/local/camel-local-folder.c:179
-#, fuzzy
 msgid "Index message body data"
-msgstr "Əlaqəyə ismarış göndər"
+msgstr "İsmarışların məzmun məlumatını indekslə"
 
 #. $HOME relative path + protocol string
 #: camel/providers/local/camel-local-folder.c:389
@@ -10632,9 +10547,9 @@ msgstr "`%s' qovluq indeks faylı silinə bilmədi: %s"
 
 #: camel/providers/local/camel-local-store.c:456
 #: camel/providers/local/camel-mbox-store.c:320
-#, fuzzy, c-format
+#, c-format
 msgid "Could not delete folder meta file `%s': %s"
-msgstr "`%s' qovluq mündəricat faylı silinə bilmədi: %s"
+msgstr ""
 
 #: camel/providers/local/camel-local-summary.c:405
 #, c-format
@@ -10657,33 +10572,33 @@ msgstr "İsmarış maildir qovluğuna əlavə edilə bilmir: %s: %s "
 #: camel/providers/local/camel-maildir-folder.c:234
 #: camel/providers/local/camel-mh-folder.c:220
 msgid "Invalid message contents"
-msgstr "Hökmsüz ismarış məzmunu"
+msgstr "Səhv ismarış məzmunu"
 
 #: camel/providers/local/camel-maildir-store.c:107
 #: camel/providers/local/camel-mbox-store.c:154
 #: camel/providers/local/camel-mh-store.c:204
-#, fuzzy, c-format
+#, c-format
 msgid "Cannot get folder `%s': %s"
-msgstr "Qovluq alına bilmir: %s: %s"
+msgstr "`%s' qolvuğu alına bilmir: %s"
 
 #: camel/providers/local/camel-maildir-store.c:111
 #: camel/providers/local/camel-mbox-store.c:162
 #: camel/providers/local/camel-mh-store.c:211
-#, fuzzy, c-format
+#, c-format
 msgid "Cannot get folder `%s': folder does not exist."
-msgstr "`%s' qovluğu mövcud deyil."
+msgstr "`%s' qolvuğu alına bilmir: qovluq mövcud deyil."
 
 #: camel/providers/local/camel-maildir-store.c:119
 #: camel/providers/local/camel-mbox-store.c:184
 #: camel/providers/local/camel-mbox-store.c:196
-#, fuzzy, c-format
+#, c-format
 msgid "Cannot create folder `%s': %s"
-msgstr "Qovluq alına bilmir: %s: %s"
+msgstr "`%s' qovluğu yarana bilmir: %s"
 
 #: camel/providers/local/camel-maildir-store.c:134
-#, fuzzy, c-format
+#, c-format
 msgid "Cannot get folder `%s': not a maildir directory."
-msgstr "`%s' maildir qovluğu deyil."
+msgstr "`%s' qovluğu alına bilmir: poçt qutusu qovluğu deyil."
 
 #: camel/providers/local/camel-maildir-store.c:173
 #: camel/providers/local/camel-maildir-store.c:211
@@ -10694,24 +10609,24 @@ msgstr "`%s' qovluğu silinə bilmədi: %s"
 
 #: camel/providers/local/camel-maildir-store.c:175
 msgid "not a maildir directory"
-msgstr "maildir qovluğu deyil"
+msgstr "poçt qutusu qovluğu deyil"
 
 #: camel/providers/local/camel-maildir-store.c:341
 #: camel/providers/local/camel-spool-store.c:286
 #: camel/providers/local/camel-spool-store.c:316
 #, c-format
 msgid "Could not scan folder `%s': %s"
-msgstr "`%s' qovluğu darana bilmədi: %s"
+msgstr "`%s' qovluğu oxuna bilmədi: %s"
 
 #: camel/providers/local/camel-maildir-summary.c:419
 #: camel/providers/local/camel-maildir-summary.c:550
 #, c-format
 msgid "Cannot open maildir directory path: %s: %s"
-msgstr "maildir qovluğu cığırı açıla bilmir: %s: %s"
+msgstr "Poçt qutusu qovluğu cığırı açıla bilmir: %s: %s"
 
 #: camel/providers/local/camel-maildir-summary.c:543
 msgid "Checking folder consistency"
-msgstr "Qovluq ardıcıllığı yoxlanır"
+msgstr "Qovluğun düzgünlüyü yoxlanır"
 
 #: camel/providers/local/camel-maildir-summary.c:646
 msgid "Checking for new messages"
@@ -10723,13 +10638,13 @@ msgstr "Yeni ismarışlar yoxlanır"
 #: camel/providers/local/camel-mbox-summary.c:633
 #: camel/providers/local/camel-spool-summary.c:137
 msgid "Storing folder"
-msgstr "Qovluq saxlanır"
+msgstr "Qovluq qeyd edilir"
 
 #: camel/providers/local/camel-mbox-folder.c:225
 #: camel/providers/local/camel-spool-folder.c:148
 #, c-format
 msgid "Cannot create folder lock on %s: %s"
-msgstr "%s üstündə qovluq qıfılı yaradıla bilməir: %s"
+msgstr "%s üstündə qovluq qıfılı yaradıla bilmir: %s"
 
 #: camel/providers/local/camel-mbox-folder.c:284
 #, c-format
@@ -10743,7 +10658,7 @@ msgstr "Məktub əlavəsi ləğv edildi"
 #: camel/providers/local/camel-mbox-folder.c:347
 #, c-format
 msgid "Cannot append message to mbox file: %s: %s"
-msgstr "İsmarış mbox fayllına əlava edilə bimir: %s: %s"
+msgstr "İsmarış mbox faylına əlava edilə bimir: %s: %s"
 
 #: camel/providers/local/camel-mbox-folder.c:435
 #: camel/providers/local/camel-mbox-folder.c:466
@@ -10766,14 +10681,13 @@ msgstr "İsmarış quruluşu bacarılmadı: Məktub qutusu xəsərlidir?"
 
 #: camel/providers/local/camel-mbox-store.c:176
 #: camel/providers/local/camel-mbox-store.c:362
-#, fuzzy
 msgid "Cannot create a folder by this name."
-msgstr "Bu adda qovluq yaradıla bilmir"
+msgstr "Bu adda qovluq yaradıla bilmir."
 
 #: camel/providers/local/camel-mbox-store.c:206
-#, fuzzy, c-format
+#, c-format
 msgid "Cannot get folder `%s': not a regular file."
-msgstr "%s faylı ilişdirilə bilmir: sıravı fayl deyil"
+msgstr "%s qovluğu alına bilmir: sıravı fayl deyil."
 
 #: camel/providers/local/camel-mbox-store.c:236
 #: camel/providers/local/camel-mbox-store.c:247
@@ -10797,34 +10711,32 @@ msgid "Folder `%s' is not empty. Not deleted."
 msgstr "`%s' qovluğu boş deyil. Silinmədi."
 
 #: camel/providers/local/camel-mbox-store.c:375
-#, fuzzy, c-format
+#, c-format
 msgid "Cannot create directory `%s': %s."
-msgstr "%s qovluğu yaradıla bilmədi: %s"
+msgstr "%s qovluğu yaradıla bilmədi: %s."
 
 #: camel/providers/local/camel-mbox-store.c:389
-#, fuzzy, c-format
+#, c-format
 msgid "Cannot create folder: %s: %s"
-msgstr "Qovluq alına bilmir: %s: %s"
+msgstr "Qovluq yaradıla bilmir: %s: %s"
 
 #: camel/providers/local/camel-mbox-store.c:391
-#, fuzzy
 msgid "Folder already exists"
-msgstr "Kard ID onsuz da mövcuddur"
+msgstr "Qovluq onsuz da mövcuddur"
 
 #: camel/providers/local/camel-mbox-store.c:473
-#, fuzzy
 msgid "The new folder name is illegal."
-msgstr "Bildirilən qovluq adı hökmlü deyildir: %s"
+msgstr "Bildirilən yeni qovluq adı səhvdir."
 
 #: camel/providers/local/camel-mbox-store.c:486
-#, fuzzy, c-format
+#, c-format
 msgid "Could not rename `%s': `%s': %s"
-msgstr "'%s' yenidən adlandırıla bilmədi: %s"
+msgstr "'%s' yenidən adlandırıla bilmədi: `%s': %s"
 
 #: camel/providers/local/camel-mbox-store.c:561
-#, fuzzy, c-format
+#, c-format
 msgid "Could not rename '%s' to %s: %s"
-msgstr "%s qovluğu %s adi ilə yenidən adlandırıla bilmədi: %s"
+msgstr "%s qovluğu %s adı ilə yenidən adlandırıla bilmədi: %s"
 
 #: camel/providers/local/camel-mbox-summary.c:375
 #, c-format
@@ -10881,7 +10793,7 @@ msgstr "İcmal və qovluq bir birinə uyğun gəlmir, sinxronizasiyadan sonra be
 #: camel/providers/local/camel-spool-summary.c:334
 #, c-format
 msgid "Unknown error: %s"
-msgstr "Namə'lum xəta: %s"
+msgstr ""
 
 #: camel/providers/local/camel-mbox-summary.c:846
 #, c-format
@@ -10909,16 +10821,14 @@ msgid "Cannot append message to mh folder: %s: %s"
 msgstr "İsmarış mh qovluğuna əlavə edilə bilmir: %s: %s"
 
 #: camel/providers/local/camel-mh-store.c:219
-#, fuzzy, c-format
+#, c-format
 msgid "Could not create folder `%s': %s"
-msgstr ""
-"`%s' qovluğu yaradıla bilmədi:\n"
-"%s"
+msgstr "`%s' qovluğu yaradıla bilmədi: %s"
 
 #: camel/providers/local/camel-mh-store.c:231
-#, fuzzy, c-format
+#, c-format
 msgid "Cannot get folder `%s': not a directory."
-msgstr "Qovluq alına bilmir: %s: %s"
+msgstr "%s qovluğu alına bilmir: qovluq deyil."
 
 #: camel/providers/local/camel-mh-summary.c:244
 #, c-format
@@ -11015,22 +10925,21 @@ msgstr ""
 
 #: camel/providers/nntp/camel-nntp-auth.c:44
 #: camel/providers/nntp/camel-nntp-store.c:997
-#, fuzzy, c-format
+#, c-format
 msgid "Please enter the NNTP password for %s@%s"
-msgstr "%sXahiş edirik %s@%s üçün SMTP şifrənizi bildirin"
+msgstr "Xahiş edirik %s@%s hesabı üçün NNTP şifrənizi bildirin"
 
 #: camel/providers/nntp/camel-nntp-auth.c:64
 msgid "Server rejected username"
 msgstr ""
 
 #: camel/providers/nntp/camel-nntp-auth.c:70
-#, fuzzy
 msgid "Failed to send username to server"
-msgstr "LDAP vericisinə bağlanma xətası"
+msgstr "İstifadəçi adı vericiyə göndərilə bilmədi"
 
 #: camel/providers/nntp/camel-nntp-auth.c:79
 msgid "Server rejected username/password"
-msgstr ""
+msgstr "Verici istifadəçi adı/şifrəni rədd etdi"
 
 #: camel/providers/nntp/camel-nntp-folder.c:168
 #: camel/providers/nntp/camel-nntp-folder.c:263
@@ -11059,9 +10968,9 @@ msgid "Internal error: uid in invalid format: %s"
 msgstr ""
 
 #: camel/providers/nntp/camel-nntp-folder.c:201
-#, fuzzy, c-format
+#, c-format
 msgid "Could not get article %s from NNTP server"
-msgstr "Qrup alına bilmədi: %s"
+msgstr ""
 
 #: camel/providers/nntp/camel-nntp-folder.c:362
 msgid "Posting not allowed by news server"
@@ -11083,40 +10992,32 @@ msgid "Error reading response to posted message: message not posted"
 msgstr ""
 
 #: camel/providers/nntp/camel-nntp-folder.c:441
-#, fuzzy, c-format
+#, c-format
 msgid "Error posting message: %s: message not posted"
 msgstr ""
-"İsmarışın avtomatik qeyd edilmə xatası: %s:\n"
-" %s"
 
 #: camel/providers/nntp/camel-nntp-folder.c:457
 msgid "You cannot post NNTP messages while working offline!"
 msgstr ""
 
 #: camel/providers/nntp/camel-nntp-folder.c:468
-#, fuzzy
 msgid "You cannot copy messages from a NNTP folder!"
-msgstr "Müvəqqəti qovluq bağlana bilmədi: %s"
+msgstr ""
 
 #: camel/providers/nntp/camel-nntp-grouplist.c:45
-#, fuzzy
 msgid "Could not get group list from server."
-msgstr "Qrup alına bilmədi: %s"
+msgstr ""
 
 #: camel/providers/nntp/camel-nntp-grouplist.c:98
 #: camel/providers/nntp/camel-nntp-grouplist.c:107
-#, fuzzy, c-format
+#, c-format
 msgid "Unable to load grouplist file for %s: %s"
 msgstr ""
-"Yekun faylı yaradıla bilmir: %s\n"
-" %s"
 
 #: camel/providers/nntp/camel-nntp-grouplist.c:158
-#, fuzzy, c-format
+#, c-format
 msgid "Unable to save grouplist file for %s: %s"
 msgstr ""
-"Yekun faylı yaradıla bilmir: %s\n"
-" %s"
 
 #: camel/providers/nntp/camel-nntp-provider.c:43
 msgid "Show folders in short notation (e.g. c.o.linux rather than comp.os.linux)"
@@ -11158,19 +11059,16 @@ msgid "USENET News via %s"
 msgstr "%s vasitəsilə USENET Xəbərləri"
 
 #: camel/providers/nntp/camel-nntp-store.c:640
-#, fuzzy
 msgid "Stream error"
-msgstr "oxuma xətası"
+msgstr ""
 
 #: camel/providers/nntp/camel-nntp-store.c:643
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "Error retrieving newsgroups:\n"
 "\n"
 "%s"
 msgstr ""
-"İsmarışların mövqeyə qeyd edilmə xətası: %s:\n"
-" %s"
 
 #: camel/providers/nntp/camel-nntp-store.c:735
 msgid ""
@@ -11191,19 +11089,17 @@ msgid "You cannot create a folder in a News store: subscribe instead."
 msgstr ""
 
 #: camel/providers/nntp/camel-nntp-store.c:800
-#, fuzzy
 msgid "You cannot rename a folder in a News store."
-msgstr "%s qovluğu %s adi ilə yenidən adlandırıla bilmədi: %s"
+msgstr ""
 
 #: camel/providers/nntp/camel-nntp-store.c:808
-#, fuzzy
 msgid "You cannot remove a folder in a News store: unsubscribe instead."
-msgstr "Qovluq içindəkilərdən birinə daçına bilməz."
+msgstr ""
 
 #: camel/providers/nntp/camel-nntp-summary.c:253
-#, fuzzy, c-format
+#, c-format
 msgid "Connection error: %s"
-msgstr "Namə'lum xəta: %s"
+msgstr "Bağlanma xətası: %s"
 
 #: camel/providers/nntp/camel-nntp-summary.c:262
 #, c-format
@@ -11216,9 +11112,8 @@ msgid "Could not get group: %s"
 msgstr "Qrup alına bilmədi: %s"
 
 #: camel/providers/nntp/camel-nntp-summary.c:333
-#, fuzzy
 msgid "Could not get messages: unspecified error"
-msgstr "İsmarış göndərilə bilmədi: %s"
+msgstr ""
 
 #: camel/providers/nntp/camel-nntp-summary.c:378
 #, c-format
@@ -11317,7 +11212,7 @@ msgstr ""
 #: camel/providers/pop3/camel-pop3-store.c:195
 #, c-format
 msgid "Could not connect to POP server %s (port %d): %s"
-msgstr "%s POP vericisinə bağlana bilmədi (qapı %d): %s"
+msgstr "%s POP vericisinə bağlana bilmədi (port %d): %s"
 
 #: camel/providers/pop3/camel-pop3-store.c:227
 #: camel/providers/pop3/camel-pop3-store.c:256
@@ -11357,9 +11252,9 @@ msgid "Failed to authenticate on POP server %s: %s"
 msgstr "%s POP vericisinə tanıdıla bilmədi: %s"
 
 #: camel/providers/pop3/camel-pop3-store.c:480
-#, fuzzy, c-format
+#, c-format
 msgid "%sPlease enter the POP password for %s on host %s"
-msgstr "%sXahiş edirik, %s@%s üçün POP şifrənizi bildirin"
+msgstr "%1$sXahiş edirik, %3$s qovşağındakı @%2$s hesabı üçün POP şifrənizi bildirin"
 
 #: camel/providers/pop3/camel-pop3-store.c:535
 #: camel/providers/pop3/camel-pop3-store.c:542
@@ -11436,9 +11331,8 @@ msgid "SMTP"
 msgstr "SMTP"
 
 #: camel/providers/smtp/camel-smtp-provider.c:39
-#, fuzzy
 msgid "For delivering mail by connecting to a remote mailhub using SMTP."
-msgstr "Uzaq məktub yayıcısına SMTP ilə bağlanaraq məktub göndərmək üçün.\n"
+msgstr "Uzaq məktub yayıcısına SMTP ilə bağlanaraq məktub göndərmək üçün."
 
 #: camel/providers/smtp/camel-smtp-transport.c:174
 msgid "Syntax error, command unrecognized"
@@ -11555,14 +11449,13 @@ msgid "server does not appear to support SSL"
 msgstr "deyəsən verici SSL xidmətini dəstəkləmir"
 
 #: camel/providers/smtp/camel-smtp-transport.c:358
-#, fuzzy, c-format
+#, c-format
 msgid "STARTTLS command failed: %s"
-msgstr "IMAP əmri iflas etdi: %s"
+msgstr "STARTTLS əmri iflas etdi: %s"
 
 #: camel/providers/smtp/camel-smtp-transport.c:373
-#, fuzzy
 msgid "STARTTLS command failed"
-msgstr "IMAP əmri iflas etdi: %s"
+msgstr "STARTTLS əmri iflas etdi"
 
 #: camel/providers/smtp/camel-smtp-transport.c:476
 #, c-format
@@ -11570,9 +11463,9 @@ msgid "SMTP server %s does not support requested authentication type %s."
 msgstr "%s SMTP vericisi istənən %s tanıtma növünü dəstəkləmir."
 
 #: camel/providers/smtp/camel-smtp-transport.c:514
-#, fuzzy, c-format
+#, c-format
 msgid "%sPlease enter the SMTP password for %s on host %s"
-msgstr "%sXahiş edirik %s@%s üçün SMTP şifrənizi bildirin"
+msgstr "%1$sXahiş edirik, %3$s qovşağındakı @%2$s hesabı üçün SMTP şifrənizi bildirin"
 
 #: camel/providers/smtp/camel-smtp-transport.c:533
 #, c-format
@@ -11596,13 +11489,12 @@ msgid "SMTP mail delivery via %s"
 msgstr "%s vasitəsilə SMTP məktub göndərilməsi"
 
 #: camel/providers/smtp/camel-smtp-transport.c:686
-#, fuzzy
 msgid "Cannot send message: service not connected."
-msgstr "İsmarış göndrərilə bilmədi: alıcı bildirilməyib."
+msgstr "İsmarış göndrərilə bilmir: xidmətlə bağlı deyil."
 
 #: camel/providers/smtp/camel-smtp-transport.c:692
 msgid "Cannot send message: sender address not valid."
-msgstr "İsmarış göndrərilə bilmədi: göndərənin ünvanı hökmsüzdür."
+msgstr "İsmarış göndrərilə bilmir: göndərənin ünvanı səhvdir."
 
 #: camel/providers/smtp/camel-smtp-transport.c:696
 msgid "Sending message"
@@ -11614,21 +11506,20 @@ msgstr "İsmarış göndrərilə bilmədi: alıcı bildirilməyib."
 
 #: camel/providers/smtp/camel-smtp-transport.c:722
 msgid "Cannot send message: one or more invalid recipients"
-msgstr "İsmarış göndrərilə bilmədi: bir ya da daha çox hökmsüz alıcı"
+msgstr "İsmarış göndrərilə bilmədi: bir ya da daha çox səhv alıcı"
 
 #: camel/providers/smtp/camel-smtp-transport.c:894
 msgid "SMTP Greeting"
 msgstr "SMTP Qarşılaması"
 
 #: camel/providers/smtp/camel-smtp-transport.c:943
-#, fuzzy, c-format
+#, c-format
 msgid "HELO command failed: %s"
-msgstr "IMAP əmri iflas etdi: %s"
+msgstr "HELO əmri iflas etdi: %s"
 
 #: camel/providers/smtp/camel-smtp-transport.c:960
-#, fuzzy
 msgid "HELO command failed"
-msgstr "IMAP əmri iflas etdi: %s"
+msgstr "HELO əmri iflas etdi"
 
 #: camel/providers/smtp/camel-smtp-transport.c:1026
 msgid "SMTP Authentication"
@@ -11640,74 +11531,69 @@ msgstr "SASL tanıtma cismini yaratma xətası."
 
 #: camel/providers/smtp/camel-smtp-transport.c:1049
 #: camel/providers/smtp/camel-smtp-transport.c:1060
-#, fuzzy, c-format
+#, c-format
 msgid "AUTH command failed: %s"
-msgstr "IMAP əmri iflas etdi: %s"
+msgstr "AUTH əmri iflas etdi: %s"
 
 #: camel/providers/smtp/camel-smtp-transport.c:1066
-#, fuzzy
 msgid "AUTH command failed"
-msgstr "IMAP əmri iflas etdi: %s"
+msgstr "AUTH əmri iflas etdi"
 
 #: camel/providers/smtp/camel-smtp-transport.c:1128
 msgid "Bad authentication response from server.\n"
 msgstr "Vericidən xətalı tanıtma istəyi alındı.\n"
 
 #: camel/providers/smtp/camel-smtp-transport.c:1153
-#, fuzzy, c-format
+#, c-format
 msgid "MAIL FROM command failed: %s: mail not sent"
-msgstr "MAIL FROM istək vaxt dolması: %s: məktub göndərilmədi"
+msgstr "MAIL FROM əmri iflas etdi: %s: məktub göndərilmədi"
 
 #: camel/providers/smtp/camel-smtp-transport.c:1170
-#, fuzzy
 msgid "MAIL FROM command failed"
-msgstr "IMAP əmri iflas etdi: %s"
+msgstr "MAIL FROM əmri iflas etdi"
 
 #: camel/providers/smtp/camel-smtp-transport.c:1194
-#, fuzzy, c-format
+#, c-format
 msgid "RCPT TO command failed: %s: mail not sent"
-msgstr "RCTP TO istəyi vaxt dolması: %s: məktub göndərilmədi"
+msgstr "RCTP TO əmri iflas etdi: %s: məktub göndərilmədi"
 
 #: camel/providers/smtp/camel-smtp-transport.c:1213
 #, c-format
 msgid "RCPT TO <%s> failed"
-msgstr "RCPT TO <%s> bacarılmadı"
+msgstr "RCPT TO <%s> iflas etdi"
 
 #: camel/providers/smtp/camel-smtp-transport.c:1252
 #: camel/providers/smtp/camel-smtp-transport.c:1310
 #: camel/providers/smtp/camel-smtp-transport.c:1329
-#, fuzzy, c-format
+#, c-format
 msgid "DATA command failed: %s: mail not sent"
-msgstr "DATA istəyi vaxt dolması. %s: məktub göndərilmədi"
+msgstr "DATA əmri iflas etdi %s: məktub göndərilmədi"
 
 #. we should have gotten instructions on how to use the DATA command:
 #. * 354 Enter mail, end with "." on a line by itself
 #.
 #: camel/providers/smtp/camel-smtp-transport.c:1269
 #: camel/providers/smtp/camel-smtp-transport.c:1345
-#, fuzzy
 msgid "DATA command failed"
-msgstr "IMAP əmri iflas etdi: %s"
+msgstr "DATA əmri iflas etdi"
 
 #: camel/providers/smtp/camel-smtp-transport.c:1368
-#, fuzzy, c-format
+#, c-format
 msgid "RSET command failed: %s"
-msgstr "IMAP əmri iflas etdi: %s"
+msgstr "RSET əmri iflas etdi: %s"
 
 #: camel/providers/smtp/camel-smtp-transport.c:1384
-#, fuzzy
 msgid "RSET command failed"
-msgstr "IMAP əmri iflas etdi: %s"
+msgstr "RSET əmri iflas etdi"
 
 #: camel/providers/smtp/camel-smtp-transport.c:1407
-#, fuzzy, c-format
+#, c-format
 msgid "QUIT command failed: %s"
-msgstr "IMAP əmri iflas etdi: %s"
+msgstr "QUIT əmri iflas etdi: %s"
 
 #: camel/providers/smtp/camel-smtp-transport.c:1421
-#, fuzzy
 msgid "QUIT command failed"
-msgstr "IMAP əmri iflas etdi: %s"
+msgstr "QUIT əmri iflas etdi"
 
 #: composer/e-msg-composer-attachment-bar.c:106
 #, c-format
@@ -11769,30 +11655,26 @@ msgid "Suggest automatic display of attachment"
 msgstr "İlişdirilmiş faylın avtomatik göstərilməsini məsləhət et"
 
 #: composer/e-msg-composer.c:704
-#, fuzzy
 msgid "Cannot sign outgoing message: No signing certificate set for this account"
-msgstr "Bu hesab işlədildiyində bütün məktubları _həmişə imzala"
+msgstr "Göndərilən ismarış imzalana bilmir: Bu hesab üçün heç bir imza vəsiqəsi seşilməyib"
 
 #: composer/e-msg-composer.c:711
-#, fuzzy
 msgid ""
 "Cannot encrypt outgoing message: No encryption certificate set for this "
 "account"
-msgstr "Bu hesab işlədildiyində bütün məktubları _həmişə imzala"
+msgstr "Göndərilən ismarış şifrələnə bilmir: Bu hesab üçün heç bir imza vəsiqəsi seşilməyib"
 
 #: composer/e-msg-composer.c:1283
-#, fuzzy
 msgid "Could not open file"
-msgstr "Fayl açıla bilmir"
+msgstr "Fayl açıla bilmədi"
 
 #: composer/e-msg-composer.c:1291
 msgid "Unable to retrieve message from editor"
 msgstr "Editordan ismarış alına bilmir"
 
 #: composer/e-msg-composer.c:1561
-#, fuzzy
 msgid "Untitled Message"
-msgstr "Çoxlu İsmarış"
+msgstr "Adsız İsmarış"
 
 #: composer/e-msg-composer.c:1591
 msgid "Open file"
@@ -11865,9 +11747,8 @@ msgid "Posting destination"
 msgstr "Yollanacaq hədəf"
 
 #: composer/e-msg-composer-hdrs.c:513
-#, fuzzy
 msgid "Choose folders to post the message to."
-msgstr "İsmarışa bir fayl ilişdir"
+msgstr "İsmarışı göndərəcəyiniz qovluqları seçin."
 
 #: composer/e-msg-composer-hdrs.c:547
 msgid "Click here for the address book"
@@ -11934,9 +11815,8 @@ msgid "Post To:"
 msgstr "Yolla:"
 
 #: composer/e-msg-composer-hdrs.c:619
-#, fuzzy
 msgid "Click here to select folders to post to"
-msgstr "<qovluq seçmək üçün buraya tıqlayın>"
+msgstr "Göndəriləcək qovluqları seçmək üçün buraya tıqlayın"
 
 #: composer/e-msg-composer-select-file.c:127
 msgid "Attach file(s)"
@@ -11944,24 +11824,23 @@ msgstr "Fayl(lar) ilişdir"
 
 #. mail-composer:no-attach primary
 #: composer/mail-composer-errors.xml.h:2
-#, fuzzy
 msgid "You cannot attach the file `${0}' to this message."
-msgstr "İsmarışa bir fayl ilişdir"
+msgstr "`${0}' faylını bu ismarışa ilişdirə bilməzsiniz."
 
 #. mail-composer:no-attach secondary
 #: composer/mail-composer-errors.xml.h:4
 msgid "${1}"
-msgstr ""
+msgstr "${1}"
 
 #. mail-composer:attach-notfile primary
 #: composer/mail-composer-errors.xml.h:6
 msgid "The file `${0}' is not a regular file and cannot be sent in a message."
-msgstr ""
+msgstr "`${0}' reqular deyil və ismarışla göndərilə bilməz."
 
 #. mail-composer:attach-directory primary
 #: composer/mail-composer-errors.xml.h:8
 msgid "Directories can not be attached to Messages."
-msgstr ""
+msgstr "Qovluqlar ismarışlara ilişdirilə bilməz."
 
 #. mail-composer:attach-directory secondary
 #: composer/mail-composer-errors.xml.h:10
@@ -11969,18 +11848,18 @@ msgid ""
 "To attach the contents of this directory, either attach the files in this "
 "directory individually, or create an archive of the directory and attach it."
 msgstr ""
+"Bu qovluğun məzmununu ilişdirmək üçün ya qovluqdakı faylları tək tək ilişdirin, "
+"ya da qovluqdan arxiv yaradıb onu ilişdirin."
 
 #. mail-composer:recover-autosave title
 #: composer/mail-composer-errors.xml.h:12
-#, fuzzy
 msgid "Unfinished messages found"
-msgstr "_Sonrakı Oxunmamış İsmarış"
+msgstr "Tamamlanmamış ismarışlar tapıldı"
 
 #. mail-composer:recover-autosave primary
 #: composer/mail-composer-errors.xml.h:14
-#, fuzzy
 msgid "Do you want to recover unfinished messages?"
-msgstr "Dəyişiklikləri qeyd etmək istəyirsiniz?"
+msgstr "Tamamlanmamış ismarışları bərpa etmək istəyirsinizmi?"
 
 #. mail-composer:recover-autosave secondary
 #: composer/mail-composer-errors.xml.h:16
@@ -11988,28 +11867,26 @@ msgid ""
 "Evolution quit unexpectedly while you were composing a new message. "
 "Recovering the message will allow you to continue where you left off."
 msgstr ""
+"Evolution proqramı siz məktub yazarkən iflas etmişdi. "
+"Bu ismarışı bərpa edərək qaldığınız yerdən davam edə bilərsiniz."
 
 #: composer/mail-composer-errors.xml.h:17
-#, fuzzy
 msgid "Don't Recover"
-msgstr "Silmə"
+msgstr "Bərpa Etmə"
 
 #: composer/mail-composer-errors.xml.h:18
-#, fuzzy
 msgid "Recover"
-msgstr "Sil"
+msgstr "Bərpa Et"
 
 #. mail-composer:no-autosave primary
 #: composer/mail-composer-errors.xml.h:20
-#, fuzzy
 msgid "Could not save to autosave file \"{0}\"."
-msgstr "İmza faylı qeyd edilə bilmir: %s"
+msgstr "\"{0}\" avtomatik qeyd faylına qeyd edilə bilmədi."
 
 #. mail-composer:no-autosave secondary
 #: composer/mail-composer-errors.xml.h:22
-#, fuzzy
 msgid "Error saving to autosave because \"{1}\"."
-msgstr "Qısa yolları qeyd edərkən xəta."
+msgstr "Avtomatik qeyd etmə xətası, səbəb: \"{1}\"."
 
 #. mail-composer:exit-unsaved title
 #: composer/mail-composer-errors.xml.h:24
@@ -12018,11 +11895,10 @@ msgstr "Diqqət: Təkmilləşdirilmiş İsmarış"
 
 #. mail-composer:exit-unsaved primary
 #: composer/mail-composer-errors.xml.h:26
-#, fuzzy
 msgid ""
 "Are you sure you want to discard the message, titled '{0}', you are "
 "composing?"
-msgstr "Bu adsız görüşü həqiqətən də silmək istəyirsiniz?"
+msgstr ""
 
 #. mail-composer:exit-unsaved secondary
 #: composer/mail-composer-errors.xml.h:28
@@ -12033,20 +11909,17 @@ msgid ""
 msgstr ""
 
 #: composer/mail-composer-errors.xml.h:29
-#, fuzzy
 msgid "Discard Changes"
-msgstr "Dəyişiklikləri _Unut"
+msgstr "Dəyişiklikləri Unut"
 
 #: composer/mail-composer-errors.xml.h:30
-#, fuzzy
 msgid "Save Message"
-msgstr "İsmarışı Fərqli Qeyd Et..."
+msgstr "İsmarışı Qeyd Et"
 
 #. mail-composer:no-build-message primary
 #: composer/mail-composer-errors.xml.h:32
-#, fuzzy
 msgid "Could not create message."
-msgstr "Boru yaradıla bilmədi: %s"
+msgstr "İsmarış yaradıla bilmədi."
 
 #. mail-composer:no-build-message secondary
 #: composer/mail-composer-errors.xml.h:34
@@ -12055,19 +11928,18 @@ msgstr ""
 
 #. mail-composer:no-sig-file primary
 #: composer/mail-composer-errors.xml.h:36
-#, fuzzy
 msgid "Could not read signature file \"{0}\"."
-msgstr "İmza faylı qeyd edilə bilmir: %s"
+msgstr "\"{0}\" imza faylı oxuna bilmədi."
 
 #. mail-composer:no-sig-file secondary
 #: composer/mail-composer-errors.xml.h:38
 msgid "Because \"${1}\"."
-msgstr ""
+msgstr "Səbəb: \"${1}\"."
 
 #. mail-composer:all-accounts-deleted primary
 #: composer/mail-composer-errors.xml.h:40
 msgid "All accounts have been removed."
-msgstr ""
+msgstr "Bütün hesablar silindi."
 
 #. mail-composer:all-accounts-deleted secondary
 #: composer/mail-composer-errors.xml.h:42
@@ -12075,14 +11947,12 @@ msgid "You need to configure an account before you can compose mail."
 msgstr "Məktub yazmadan əvvəl bir hesab quraşdırmalısınız."
 
 #: data/evolution.desktop.in.in.h:1
-#, fuzzy
 msgid "The Ximian Evolution Groupware Suite"
-msgstr "Evolution ümumqrup proqram tə'minatı dəsti"
+msgstr "Ximian Evolution Groupware Dəsti"
 
 #: data/evolution.desktop.in.in.h:2
-#, fuzzy
 msgid "Ximian Evolution (Unstable)"
-msgstr "Ximian Evolution"
+msgstr "Evolution"
 
 #: data/evolution.keys.in.in.h:1
 msgid "address card"
@@ -12305,53 +12175,53 @@ msgid "%I %p"
 msgstr "%I %p"
 
 #: filter/filter-datespec.c:73
-#, fuzzy, c-format
+#, c-format
 msgid "1 second ago"
 msgid_plural "%d seconds ago"
 msgstr[0] "1 saniyə əvvəl"
-msgstr[1] "1 saniyə əvvəl"
+msgstr[1] "%d saniyə əvvəl"
 
 #: filter/filter-datespec.c:74
-#, fuzzy, c-format
+#, c-format
 msgid "1 minute ago"
 msgid_plural "%d minutes ago"
 msgstr[0] "1 dəqiqə əvvəl"
-msgstr[1] "1 dəqiqə əvvəl"
+msgstr[1] "%d dəqiqə əvvəl"
 
 #: filter/filter-datespec.c:75
-#, fuzzy, c-format
+#, c-format
 msgid "1 hour ago"
 msgid_plural "%d hours ago"
 msgstr[0] "1 saat əvvəl"
-msgstr[1] "1 saat əvvəl"
+msgstr[1] "%d saat əvvəl"
 
 #: filter/filter-datespec.c:76
-#, fuzzy, c-format
+#, c-format
 msgid "1 day ago"
 msgid_plural "%d days ago"
 msgstr[0] "1 gün əvvəl"
-msgstr[1] "1 gün əvvəl"
+msgstr[1] "%d gün əvvəl"
 
 #: filter/filter-datespec.c:77
-#, fuzzy, c-format
+#, c-format
 msgid "1 week ago"
 msgid_plural "%d weeks ago"
 msgstr[0] "1 həftə əvvəl"
-msgstr[1] "1 həftə əvvəl"
+msgstr[1] "%d həftə əvvəl"
 
 #: filter/filter-datespec.c:78
-#, fuzzy, c-format
+#, c-format
 msgid "1 month ago"
 msgid_plural "%d months ago"
 msgstr[0] "1 ay əvvəl"
-msgstr[1] "1 ay əvvəl"
+msgstr[1] "%d ay əvvəl"
 
 #: filter/filter-datespec.c:79
-#, fuzzy, c-format
+#, c-format
 msgid "1 year ago"
 msgid_plural "%d years ago"
 msgstr[0] "1 il əvvəl"
-msgstr[1] "1 il əvvəl"
+msgstr[1] "%d il əvvəl"
 
 #: filter/filter-datespec.c:280
 msgid "<click here to select a date>"
@@ -12376,88 +12246,78 @@ msgstr "_Süzgəc Qaydaları"
 
 #. filter:no-date primary
 #: filter/filter-errors.xml.h:2
-#, fuzzy
 msgid "Missing date."
-msgstr "Görüş Yenilənməsi"
+msgstr "Əksik tarix."
 
 #. filter:no-date secondary
 #: filter/filter-errors.xml.h:4
 msgid "You must choose a date."
-msgstr "Tarix seçməlisiniz."
+msgstr "Tarixi seçməlisiniz."
 
 #. filter:no-file primary
 #: filter/filter-errors.xml.h:6
-#, fuzzy
 msgid "Missing file name."
-msgstr "Ayırılan _adı:"
+msgstr "Əksik fayl adı."
 
 #. filter:no-file secondary
 #: filter/filter-errors.xml.h:8 filter/filter-errors.xml.h:12
 msgid "You must specify a file name."
-msgstr "Fayl adı bildirməlisiniz."
+msgstr "Fayl adını bildirməlisiniz."
 
 #. filter:bad-file primary
 #: filter/filter-errors.xml.h:10
-#, fuzzy
 msgid "File \"{0}\" does not exist or is not a regular file."
-msgstr "`%s' faylı mövcud deyil ya da hökmlü fayl deyil."
+msgstr "\"{0}\" faylı mövcud deyil ya da düzgün fayl deyil."
 
 #. filter:no-folder primary
 #: filter/filter-errors.xml.h:14
-#, fuzzy
 msgid "Missing folder."
-msgstr "%s qovluğu çıxardılır"
+msgstr "Əksik qovluq."
 
 #. filter:no-folder secondary
 #: filter/filter-errors.xml.h:16
 msgid "You must specify a folder."
-msgstr "Qovluq bildirməlisiniz."
+msgstr "Qovluğu bildirməlisiniz."
 
 #. filter:bad-regexp primary
 #: filter/filter-errors.xml.h:18
-#, fuzzy
 msgid "Bad regular expression \"{0}\"."
-msgstr ""
-"'%s' qaydalı ifadəsində xəta:\n"
-"%s"
+msgstr "Səhv qaydalı ifadə \"{0}\"."
 
 #. filter:bad-regexp secondary
 #: filter/filter-errors.xml.h:20
 msgid "Could not compile regular expression \"{1}\"."
-msgstr ""
+msgstr "\"{1}\" qaydalı ifadəsi dərlənə bilmədi."
 
 #. filter:no-name primary
 #: filter/filter-errors.xml.h:22 filter/filter-errors.xml.h:26
-#, fuzzy
 msgid "Missing name."
-msgstr "Tapşırıq"
+msgstr "Əksik ad."
 
 #. filter:no-name secondary
 #: filter/filter-errors.xml.h:24
 msgid "You must name this filter."
-msgstr "Bu süzgəcə ad verməlisiniz."
+msgstr "Bu süzgəcə bir ad verməlisiniz."
 
 #. filter:no-name-vfolder secondary
 #: filter/filter-errors.xml.h:28
-#, fuzzy
 msgid "You must name this vFolder."
-msgstr "Bu vqovluğa ad verməlisiniz."
+msgstr "Bu vFolder-a bir ad verməlisiniz."
 
 #. filter:bad-name-notunique primary
 #: filter/filter-errors.xml.h:30
 msgid "Name \"{0}\" already used."
-msgstr ""
+msgstr "\"{0}\" adı onsuz da mövcuddur."
 
 #. filter:bad-name-notunique secondary
 #: filter/filter-errors.xml.h:32
 msgid "Please choose another name."
-msgstr ""
+msgstr "Xahiş edirik başqa ad seçin."
 
 #. filter:vfolder-no-source primary
 #: filter/filter-errors.xml.h:34
-#, fuzzy
 msgid "No sources selected."
-msgstr "Heç bir verici seçilməyib"
+msgstr "Heç bir mənbə seçilməyib."
 
 #. filter:vfolder-no-source secondary
 #: filter/filter-errors.xml.h:36
@@ -12465,7 +12325,7 @@ msgid ""
 "You must specify at least one folder as a source.\n"
 "Either by selecting the folders individually, and/or by selecting\n"
 "all local folders, all remote folders, or both."
-msgstr ""
+msgstr "Ən az bir qovluğu mənbə olaraq seçməlisiniz."
 
 #: filter/filter-file.c:288
 msgid "Choose a file"
@@ -12473,9 +12333,8 @@ msgstr "Faylı seç"
 
 #. and now for the action area
 #: filter/filter-filter.c:491
-#, fuzzy
 msgid "<b>Then</b>"
-msgstr "<b>Qalıb:</b> "
+msgstr "<b>Bu zaman</b> "
 
 #: filter/filter-folder.c:238 filter/vfolder-rule.c:493
 #: mail/mail-account-gui.c:1335
@@ -12483,19 +12342,16 @@ msgid "Select Folder"
 msgstr "Qovluğu Seç"
 
 #: filter/filter.glade.h:1
-#, fuzzy
 msgid "    "
 msgstr "    "
 
 #: filter/filter.glade.h:2
-#, fuzzy
 msgid "<b>_Filter Rules</b>"
-msgstr "Süzgəc Qaydaları"
+msgstr "<b>_Süzgəc Qaydaları</b>"
 
 #: filter/filter.glade.h:3
-#, fuzzy
 msgid "<b>vFolder Sources</b>"
-msgstr "vQovluq Mənbələri"
+msgstr "<b>vFolder Mənbələri</b>"
 
 #: filter/filter.glade.h:4
 msgid "Compare against"
@@ -12531,7 +12387,7 @@ msgstr ""
 
 #: filter/filter.glade.h:13
 msgid "a time relative to the current time"
-msgstr "indiki vaxta görə müddət"
+msgstr "indiki vaxta nəzərən müddət"
 
 #: filter/filter.glade.h:14
 msgid "ago"
@@ -12588,21 +12444,19 @@ msgstr "Ediləcəklər"
 #: filter/filter-label.c:125 mail/em-migrate.c:920 mail/mail-config.c:80
 #: mail/mail-config.glade.h:94
 msgid "Later"
-msgstr "Sonra"
+msgstr "Daha Sonra"
 
 #: filter/filter-part.c:532 shell/GNOME_Evolution_Test.server.in.in.h:3
 msgid "Test"
 msgstr "Sınaq"
 
 #: filter/filter-rule.c:790
-#, fuzzy
 msgid "Rule name:"
-msgstr "Qayda adı: "
+msgstr "Qayda adı:"
 
 #: filter/filter-rule.c:817
-#, fuzzy
 msgid "<b>If</b>"
-msgstr "<b>Qalıb:</b> "
+msgstr "<b>Əgər</b> "
 
 #: filter/filter-rule.c:854
 msgid "if all criteria are met"
@@ -12614,27 +12468,23 @@ msgstr "əgər hər hansı bir kriteriya uyğun gəlirsə"
 
 #: filter/filter-rule.c:856
 msgid "Execute actions"
-msgstr "Gedişatı işə sal"
+msgstr "Gedişatları işə sal"
 
 #: filter/filter-rule.c:877
-#, fuzzy
 msgid "All related"
-msgstr "Temsilli"
+msgstr "Əlaqəli olan hamısı"
 
 #: filter/filter-rule.c:877
-#, fuzzy
 msgid "Replies"
-msgstr "Alıcılar"
+msgstr "Cavablar"
 
 #: filter/filter-rule.c:877
-#, fuzzy
 msgid "Replies and parents"
-msgstr "Cavablanan: %s"
+msgstr "Cavablar və cavablananlar"
 
 #: filter/filter-rule.c:879
-#, fuzzy
 msgid "Include threads"
-msgstr "Daxil et:"
+msgstr "İlgəkləri daxil et"
 
 #: filter/filter-rule.c:974
 msgid "incoming"
@@ -12651,11 +12501,11 @@ msgstr "Xalı Sazla"
 
 #: filter/libfilter-i18n.h:3
 msgid "Assign Color"
-msgstr "Rəng Ver"
+msgstr "Rəng Seç"
 
 #: filter/libfilter-i18n.h:4
 msgid "Assign Score"
-msgstr "Xal Ver"
+msgstr "Xal Seç"
 
 #: filter/libfilter-i18n.h:5
 msgid "Attachments"
@@ -12663,11 +12513,11 @@ msgstr "İlişdirilmiş Fayllar"
 
 #: filter/libfilter-i18n.h:6
 msgid "Beep"
-msgstr "Bip Səsi Çıxart"
+msgstr "Biip"
 
 #: filter/libfilter-i18n.h:7
 msgid "contains"
-msgstr "bunu daxil edirsə"
+msgstr "daxil edirsə"
 
 #: filter/libfilter-i18n.h:8
 msgid "Copy to Folder"
@@ -12699,7 +12549,7 @@ msgstr "mövcud deyilsə"
 
 #: filter/libfilter-i18n.h:16
 msgid "does not return"
-msgstr "cavab göndərmirsə"
+msgstr "nəticə alınmırsa"
 
 #: filter/libfilter-i18n.h:17
 msgid "does not sound like"
@@ -12735,7 +12585,7 @@ msgstr "İfadə"
 
 #: filter/libfilter-i18n.h:25
 msgid "Follow Up"
-msgstr "Sonrakı"
+msgstr "Tamamla"
 
 #: filter/libfilter-i18n.h:27
 msgid "is"
@@ -12767,12 +12617,11 @@ msgstr "bərabər deyilsə"
 
 #: filter/libfilter-i18n.h:34
 msgid "is not Flagged"
-msgstr "Bayraqlı deyilsə"
+msgstr "bayraqlı deyilsə"
 
 #: filter/libfilter-i18n.h:36
-#, fuzzy
 msgid "Junk Test"
-msgstr "İyun"
+msgstr "Spam Sınağı"
 
 #: filter/libfilter-i18n.h:37 mail/em-folder-view.c:927
 #: widgets/misc/e-expander.c:189
@@ -12792,23 +12641,20 @@ msgid "Message Header"
 msgstr "İsmarış Başlığı"
 
 #: filter/libfilter-i18n.h:41
-#, fuzzy
 msgid "Message is Junk"
-msgstr "İsmarışlar"
+msgstr "İsmarış Spam-dır"
 
 #: filter/libfilter-i18n.h:42
-#, fuzzy
 msgid "Message is not Junk"
-msgstr "_Vacib olaraq işarələ"
+msgstr "İsmarış Spam deyil"
 
 #: filter/libfilter-i18n.h:43
 msgid "Move to Folder"
 msgstr "Qovluğa Daşı"
 
 #: filter/libfilter-i18n.h:44
-#, fuzzy
 msgid "Pipe to Program"
-msgstr "Proqramdan çıx"
+msgstr "Proqrama Göndər"
 
 #: filter/libfilter-i18n.h:45
 msgid "Play Sound"
@@ -12832,20 +12678,19 @@ msgstr "Cavab verilən"
 
 #: filter/libfilter-i18n.h:50
 msgid "returns"
-msgstr "cavab göndərirsə"
+msgstr "nəticə alınarsa"
 
 #: filter/libfilter-i18n.h:51
 msgid "returns greater than"
-msgstr "bundan böyük cavab göndərirsə"
+msgstr "bundan böyük nəticə alınarsa"
 
 #: filter/libfilter-i18n.h:52
 msgid "returns less than"
-msgstr "bundan kiçik cavab göndərirsə"
+msgstr "bundan kiçik nəticə alınarsa"
 
 #: filter/libfilter-i18n.h:53
-#, fuzzy
 msgid "Run Program"
-msgstr "Proqramı işə sal: "
+msgstr "Proqram İşə Sal"
 
 #: filter/libfilter-i18n.h:54 filter/score-rule.c:184 filter/score-rule.c:186
 #: mail/message-list.etspec.h:10
@@ -12858,7 +12703,7 @@ msgstr "Göndərən"
 
 #: filter/libfilter-i18n.h:56
 msgid "Set Status"
-msgstr "Vəziyyəti Dəyişdir"
+msgstr "Vəziyyəti Seç"
 
 #: filter/libfilter-i18n.h:57
 msgid "Size (kB)"
@@ -12878,7 +12723,7 @@ msgstr "Xüsusi başlıq"
 
 #: filter/libfilter-i18n.h:61
 msgid "starts with"
-msgstr "bununla başlayırsa:"
+msgstr "bununla başlayırsa"
 
 #: filter/libfilter-i18n.h:63
 msgid "Stop Processing"
@@ -12908,9 +12753,8 @@ msgid "Rule name"
 msgstr "Qayda adı"
 
 #: filter/score-editor.c:110
-#, fuzzy
 msgid "_Score Rules"
-msgstr "Xal Qaydaları"
+msgstr "_Xal Qaydaları"
 
 #: filter/searchtypes.xml.h:1
 msgid "Body contains"
@@ -12945,9 +12789,8 @@ msgid "Subject does not contain"
 msgstr "Mövzu bunu daxil etməsin"
 
 #: filter/vfolder-editor.c:108
-#, fuzzy
 msgid "Virtual _Folders"
-msgstr "Virtual Qovluqlar"
+msgstr "Virtual _Qovluqlar"
 
 #: filter/vfolder-rule.c:493
 msgid "_Add"
@@ -12955,7 +12798,7 @@ msgstr "Ə_lavə Et"
 
 #: filter/vfolder-rule.c:573
 msgid "VFolder source"
-msgstr "VQolvuq mənbəsi"
+msgstr "VQovluq mənbəsi"
 
 #. translators: default account indicator
 #: mail/em-account-prefs.c:418
@@ -12980,37 +12823,34 @@ msgid "Language(s)"
 msgstr "Dil(lər)"
 
 #: mail/em-composer-prefs.c:955
-#, fuzzy
 msgid "Add signature script"
-msgstr "_İmza Əlavə Et"
+msgstr "İmza skripti əlavə et"
 
 #: mail/em-composer-prefs.c:975
 msgid "Signature(s)"
 msgstr "İmza(lar)"
 
 #: mail/em-composer-utils.c:888
-#, fuzzy
 msgid "-------- Forwarded Message --------"
-msgstr "Ötürülmüş İsmarış"
+msgstr "-------- Ötürülülən Məktub --------"
 
 #: mail/em-composer-utils.c:1499
 msgid "an unknown sender"
-msgstr "namə'lum yollayan"
+msgstr "naməlum yollayan"
 
 #. translators: attribution string used when quoting messages,
 #. it must contain a single single %%+05d followed by a single '%%s'
 #: mail/em-composer-utils.c:1509
 msgid "On %a, %Y-%m-%d at %H:%M %%+05d, %%s wrote:"
-msgstr "%a, %Y-%m-%d tarixində, saat %H:%M %%+05d radəsində, %%s yazmışdır ki:"
+msgstr "%a, %Y-%m-%d tarixində, saat %H:%M %%+05d radələrində, %%s yazmışdır ki:"
 
 #: mail/em-folder-browser.c:129
 msgid "Create _Virtual Folder From Search..."
 msgstr "Axtarışdan _Virtual Qovluq Yarat..."
 
 #: mail/em-folder-properties.c:120
-#, fuzzy
 msgid "Folder properties"
-msgstr "Yazı Növü Qurğuları"
+msgstr "Qovluq xassələri"
 
 #. TODO: maybe we want some basic properties here, like message counts/approximate size/etc
 #: mail/em-folder-properties.c:126
@@ -13019,19 +12859,16 @@ msgstr "Xassələr"
 
 #. TODO: can this be done in a loop?
 #: mail/em-folder-properties.c:135
-#, fuzzy
 msgid "Folder Name"
-msgstr "_Qovluq Adı:"
+msgstr "Qovluq Adı"
 
 #: mail/em-folder-properties.c:146
-#, fuzzy
 msgid "Total messages"
-msgstr "Yardım ismarışı"
+msgstr "Toplam ismarış"
 
 #: mail/em-folder-properties.c:158
-#, fuzzy
 msgid "Unread messages"
-msgstr "_Sonrakı Oxunmamış İsmarış"
+msgstr "Oxunmamış ismarışlar"
 
 #: mail/em-folder-selection-button.c:120
 msgid "<click here to select a folder>"
@@ -13048,9 +12885,8 @@ msgid "Specify where to create the folder:"
 msgstr "Qovluğun yaradılacağı yeri bildirin:"
 
 #: mail/em-folder-selector.c:299
-#, fuzzy
 msgid "Create"
-msgstr "Yeni qovluq yarat"
+msgstr "Yarat"
 
 #: mail/em-folder-selector.c:303
 #: shell/glade/e-shell-folder-creation-dialog.glade.h:2
@@ -13058,29 +12894,28 @@ msgid "Folder _name:"
 msgstr "Qovluq _adı:"
 
 #: mail/em-folder-tree.c:839
-#, fuzzy, c-format
+#, c-format
 msgid "Moving folder %s"
-msgstr "%s qovluğu çıxardılır"
+msgstr "%s qovluğu daşınır"
 
 #: mail/em-folder-tree.c:841
-#, fuzzy, c-format
+#, c-format
 msgid "Copying folder %s"
-msgstr "%s qovluğu açılır"
+msgstr "%s qovluğu köçürülür"
 
 #: mail/em-folder-tree.c:848 mail/message-list.c:1555
-#, fuzzy, c-format
+#, c-format
 msgid "Moving messages into folder %s"
 msgstr "İsmarışlar %s qovluğuna daşınır"
 
 #: mail/em-folder-tree.c:850 mail/message-list.c:1557
-#, fuzzy, c-format
+#, c-format
 msgid "Copying messages into folder %s"
 msgstr "İsmarışlar %s qovluğuna köçürülür"
 
 #: mail/em-folder-tree.c:866
-#, fuzzy
 msgid "Cannot drop message(s) into toplevel store"
-msgstr "İsmarışlar Virtual Qovluğa köçürülə ya da daşına bilmir"
+msgstr "İsmarışlar üst səviyyəyə daşına bilmir"
 
 #: mail/em-folder-tree.c:956 ui/evolution-mail-message.xml.h:110
 msgid "_Copy to Folder"
@@ -13093,14 +12928,12 @@ msgstr "Qovluğa _Daşı"
 #: mail/em-folder-tree.c:959 mail/em-folder-tree.c:2069
 #: mail/em-folder-tree.c:2551 mail/em-folder-view.c:798
 #: mail/message-list.c:1645
-#, fuzzy
 msgid "_Move"
 msgstr "_Daşı"
 
 #: mail/em-folder-tree.c:961 mail/message-list.c:1647
-#, fuzzy
 msgid "Cancel _Drag"
-msgstr "Vəzifəni Ləğv Et"
+msgstr "_Daşımağı Ləğv Et"
 
 #: mail/em-folder-tree.c:2056 mail/em-folder-tree.c:2069
 #: mail/em-folder-view.c:798 mail/em-folder-view.c:812
@@ -13109,19 +12942,17 @@ msgid "Select folder"
 msgstr "Qovluq seçin"
 
 #: mail/em-folder-tree.c:2056 mail/em-folder-view.c:812
-#, fuzzy
 msgid "C_opy"
-msgstr "Köçür"
+msgstr "_Köçür"
 
 #: mail/em-folder-tree.c:2096
-#, fuzzy, c-format
+#, c-format
 msgid "Creating folder `%s'"
-msgstr "%s qovluğu saxlanılır"
+msgstr "`%s' qovluğu yaradılır"
 
 #: mail/em-folder-tree.c:2282 mail/mail-component.c:701
-#, fuzzy
 msgid "Create folder"
-msgstr "Yeni qovluq yarat"
+msgstr "Qovluq yarat"
 
 #: mail/em-folder-tree.c:2474
 #, c-format
@@ -13139,9 +12970,8 @@ msgid "_View"
 msgstr "_Görünüş"
 
 #: mail/em-folder-tree.c:2546
-#, fuzzy
 msgid "Open in _New Window"
-msgstr "Yeni Pəncərədə Aç"
+msgstr "_Yeni Pəncərədə Aç"
 
 #. FIXME: need to disable for nochildren folders
 #: mail/em-folder-tree.c:2555
@@ -13240,14 +13070,12 @@ msgid "_Mark as Unimportant"
 msgstr "_Qeyri-vacib olaraq işarələ"
 
 #: mail/em-folder-view.c:915 ui/evolution-mail-message.xml.h:54
-#, fuzzy
 msgid "Mark as _Junk"
-msgstr "Ox_unmamış olaraq işarələ"
+msgstr "_Spam olaraq işarələ"
 
 #: mail/em-folder-view.c:916 ui/evolution-mail-message.xml.h:55
-#, fuzzy
 msgid "Mark as _Not Junk"
-msgstr "_Vacib olaraq işarələ"
+msgstr "Spam _olmayan olaraq işarələ"
 
 #: mail/em-folder-view.c:920
 msgid "U_ndelete"
@@ -13270,9 +13098,8 @@ msgid "Appl_y Filters"
 msgstr "Süzgəcləri _Tətbiq Et"
 
 #: mail/em-folder-view.c:936
-#, fuzzy
 msgid "F_ilter Junk"
-msgstr "Süzgəc Qaydaları"
+msgstr "Spam-ı _Süz"
 
 #: mail/em-folder-view.c:939
 msgid "Crea_te Rule From Message"
@@ -13321,14 +13148,13 @@ msgid "Print Message"
 msgstr "İsmarışı Çap Et"
 
 #: mail/em-folder-view.c:2076
-#, fuzzy
 msgid "_Copy Link Location"
-msgstr "Körpü Ünvanını Köçür"
+msgstr "Körpünün Ünvanını _Köçür"
 
 #: mail/em-folder-view.c:2341
-#, fuzzy, c-format
+#, c-format
 msgid "Click to mail %s"
-msgstr "Vəzifə əlavə etmək üçün tıqlayın"
+msgstr "%s əlaqəsinə məktub yazmaq üçün tıqlayın"
 
 #: mail/em-format.c:750 mail/em-format-html.c:1413 mail/em-format-quote.c:192
 #: mail/em-mailer-prefs.c:82 mail/message-list.etspec.h:7
@@ -13339,12 +13165,12 @@ msgstr "Göndərən"
 #: mail/em-format.c:751 mail/em-format-html.c:1413 mail/em-format-quote.c:192
 #: mail/em-mailer-prefs.c:83
 msgid "Reply-To"
-msgstr "Cavablama-Ünvanı"
+msgstr "Reply-To"
 
 #: mail/em-format.c:752 mail/em-format-html.c:1413 mail/em-format-quote.c:192
 #: mail/em-mailer-prefs.c:84 mail/message-list.etspec.h:14
 msgid "To"
-msgstr "Alıcı:"
+msgstr "Alıcı"
 
 #: mail/em-format.c:753 mail/em-format-html.c:1413 mail/em-format-quote.c:192
 #: mail/em-mailer-prefs.c:85
@@ -13376,11 +13202,11 @@ msgstr "S/MIME ismarışı oxuna bilmədi: Naməlum xəta"
 
 #: mail/em-format.c:1133
 msgid "Unsupported encryption type for multipart/encrypted"
-msgstr ""
+msgstr "multipart/encrypted üçün dəstəklənməyən şifrələmə növü"
 
 #: mail/em-format.c:1279
 msgid "Could not parse MIME message. Displaying as source."
-msgstr "MIME ismarışı oxuna bilmədi: Mənbə olaraq göstərilir."
+msgstr "MIME ismarışı oxuna bilmədi. Mənbə olaraq göstərilir."
 
 #: mail/em-format.c:1298
 msgid "Unsupported signature format"
@@ -13413,7 +13239,7 @@ msgstr "Səhv imza"
 
 #: mail/em-format-html.c:562
 msgid "Valid signature but cannot verify sender"
-msgstr "İmza düzgündür amma yollayan təstiq edilə bilmir"
+msgstr "İmza düzgündür amma yollayan təsdiq edilə bilmir"
 
 #: mail/em-format-html.c:568 mail/em-format-html-display.c:653
 msgid "Unencrypted"
@@ -13491,17 +13317,16 @@ msgid ""
 "This message is not signed. There is no guarantee that this message is "
 "authentic."
 msgstr ""
-"Bu ismarış digital olaraq imzalanmamişdır. Onun original olduğu təstiq edilə "
+"Bu ismarış digital olaraq imzalanmamişdır. Onun original olduğu təsdiq edilə "
 "bilmir."
 
 #: mail/em-format-html-display.c:645
-#, fuzzy
 msgid ""
 "This message is signed and is valid meaning that it is very likely that this "
 "message is authentic."
 msgstr ""
-"Bu ismarış dijital olaraq imzalanmışdır amma orijinal olduğu təstiq edilə "
-"bilmir."
+"Bu ismarış digital olaraq imzalanmışdır və düzgündür, bu da ismarışın təsdiqlənmiş "
+"mənbədən gəldiyini göstərir."
 
 #: mail/em-format-html-display.c:646
 msgid ""
@@ -13511,7 +13336,7 @@ msgstr ""
 
 #: mail/em-format-html-display.c:647
 msgid "Valid signature, cannot verify sender"
-msgstr ""
+msgstr "Düzgün imza, göndərən təsdiq edilə bilmir"
 
 #: mail/em-format-html-display.c:647
 msgid ""
@@ -13546,19 +13371,16 @@ msgid ""
 msgstr ""
 
 #: mail/em-format-html-display.c:757
-#, fuzzy
 msgid "_View Certificate"
 msgstr "_Vəsiqəni Göstər"
 
 #: mail/em-format-html-display.c:772
-#, fuzzy
 msgid "This certificate is not viewable"
-msgstr "Sertifikat hələ hökmlü deyil"
+msgstr "Bu vəsiqə göstərilə bilən deyil"
 
 #: mail/em-format-html-display.c:1007
-#, fuzzy
 msgid "Completed on %B %d, %Y, %l:%M %p"
-msgstr "%B %d, %Y, %l:%M %p tarixinə dək"
+msgstr "%B %d, %Y, %l:%M %p tarixində tamamlanıb"
 
 #: mail/em-format-html-display.c:1015
 msgid "Overdue:"
@@ -13569,42 +13391,37 @@ msgid "by %B %d, %Y, %l:%M %p"
 msgstr "%B %d, %Y, %l:%M %p tarixinə dək"
 
 #: mail/em-format-html-display.c:1088
-#, fuzzy
 msgid "_View Inline"
-msgstr "Daxili Olaraq Göstər"
+msgstr "_Daxili Olaraq Göstər"
 
 #: mail/em-format-html-display.c:1089
-#, fuzzy
 msgid "_Hide"
 msgstr "_Gizlət"
 
 #: mail/em-format-html-print.c:126
 #, c-format
 msgid "Page %d of %d"
-msgstr "Səhifə: %d (Cəmi %d)"
+msgstr "Səhifə: %d / %d"
 
 #: mail/em-junk-filter.c:86
 msgid "Spamassassin (built-in)"
-msgstr ""
+msgstr "Spamassassin (daxili)"
 
 #: mail/em-mailer-prefs.c:100
-#, fuzzy
 msgid "Every time"
-msgstr "Hər il"
+msgstr "Hər dəfə"
 
 #: mail/em-mailer-prefs.c:101
 msgid "Once per day"
-msgstr ""
+msgstr "Gündə bir dəfə"
 
 #: mail/em-mailer-prefs.c:102
-#, fuzzy
 msgid "Once per week"
-msgstr "Hər həftə"
+msgstr "Həftədə bir dəfə"
 
 #: mail/em-mailer-prefs.c:103
-#, fuzzy
 msgid "Once per month"
-msgstr "hər ay"
+msgstr "Ayda bir dəfə"
 
 #: mail/em-migrate.c:1072
 msgid ""
@@ -13615,33 +13432,29 @@ msgid ""
 msgstr ""
 
 #: mail/em-migrate.c:1506
-#, fuzzy, c-format
+#, c-format
 msgid "Unable to create new folder `%s': %s"
-msgstr "Qovluq alına bilmir: %s: %s"
+msgstr "`%s' yeni qovluğu yaradıla bilmir: %s"
 
 #: mail/em-migrate.c:1532
-#, fuzzy, c-format
+#, c-format
 msgid "Unable to copy folder `%s' to `%s': %s"
-msgstr ""
-"Fayl izahatçısı köçürülə bilmir: %s\n"
-" %s"
+msgstr "`%s' qovluğu `%s' ünvanına köçürülə bilmir: %s"
 
 #: mail/em-migrate.c:1715
-#, fuzzy, c-format
+#, c-format
 msgid "Unable to scan for existing mailboxes at `%s': %s"
-msgstr ""
-"Yekun faylı yaradıla bilmir: %s\n"
-" %s"
+msgstr "`%s' ünvanındakı mövcud poçt qutuları axtarıla bilmir: %s"
 
 #: mail/em-migrate.c:1919
-#, fuzzy, c-format
+#, c-format
 msgid "Unable to open old POP keep-on-server data `%s': %s"
-msgstr "%s POP vericisinə tanıdıla bilmədi: %s"
+msgstr "`%s' POP keep-on-server məlumatı açıla bilmədi: %s"
 
 #: mail/em-migrate.c:1933
-#, fuzzy, c-format
+#, c-format
 msgid "Unable to create POP3 keep-on-server data directory `%s': %s"
-msgstr "'%s'-a boru yaradıla bilmədi:'%s'"
+msgstr "`%s' POP3 keep-on-server məlumat cərgəsi yaradıla bilmədi: %s"
 
 #: mail/em-migrate.c:1962
 #, c-format
@@ -13649,16 +13462,14 @@ msgid "Unable to copy POP3 keep-on-server data `%s': %s"
 msgstr ""
 
 #: mail/em-migrate.c:2317 mail/em-migrate.c:2329
-#, fuzzy, c-format
+#, c-format
 msgid "Failed to create local mail storage `%s': %s"
-msgstr "'%s'-a boru yaradıla bilmədi:'%s'"
+msgstr ""
 
 #: mail/em-migrate.c:2480
-#, fuzzy, c-format
+#, c-format
 msgid "Unable to create local mail folders at `%s': %s"
 msgstr ""
-"Yekun faylı yaradıla bilmir: %s\n"
-" %s"
 
 #: mail/em-migrate.c:2498
 msgid ""
@@ -13667,17 +13478,15 @@ msgid ""
 msgstr ""
 
 #: mail/em-popup.c:699
-#, fuzzy
 msgid "Save As..."
-msgstr "_Fərqli Qeyd Et..."
+msgstr "Fərqli Qeyd Et..."
 
 #: mail/em-popup.c:717
-#, fuzzy, c-format
+#, c-format
 msgid "untitled_image.%s"
-msgstr "Adsız İsmarış"
+msgstr "adsiz_ismaris.%s"
 
 #: mail/em-popup.c:807
-#, fuzzy
 msgid "Set as _Background"
 msgstr "Arxa plan olaraq _döşə"
 
@@ -13686,19 +13495,16 @@ msgid "_Reply to sender"
 msgstr "Göndərənə _cavab yaz"
 
 #: mail/em-popup.c:858
-#, fuzzy
 msgid "_Open Link in Browser"
-msgstr "Körpünü Səyyahda Aç"
+msgstr "Körpünü Səyyahda _Aç"
 
 #: mail/em-popup.c:859
-#, fuzzy
 msgid "Se_nd message to..."
-msgstr "Qrupa _ismarış göndər..."
+msgstr "_İsmarış göndər..."
 
 #: mail/em-popup.c:860
-#, fuzzy
 msgid "_Add to Addressbook"
-msgstr "Yollayanı Ünvan Kitabçasına Əlavə Et"
+msgstr "Ünvan Kitabçasına Ə_lavə Et"
 
 #: mail/em-popup.c:966
 #, c-format
@@ -13706,14 +13512,12 @@ msgid "Open in %s..."
 msgstr "%s ilə aç..."
 
 #: mail/em-subscribe-editor.c:606
-#, fuzzy
 msgid "This store does not support subscriptions, or they are not enabled."
-msgstr "Bu verici LDAPv3 sxem mə'lumatını dəstəkləmir"
+msgstr ""
 
 #: mail/em-subscribe-editor.c:635
-#, fuzzy
 msgid "Subscribed"
-msgstr "Qeydiyyatdan Keç"
+msgstr "Qeydiyyatda"
 
 #: mail/em-subscribe-editor.c:639 shell/e-storage-set-view.etspec.h:2
 msgid "Folder"
@@ -13737,127 +13541,110 @@ msgid "Filters"
 msgstr "Süzgəclər"
 
 #: mail/em-utils.c:406
-#, fuzzy
 msgid "message"
-msgstr "İsmarış"
+msgstr "ismarış"
 
 #: mail/em-utils.c:509
-#, fuzzy
 msgid "Save Message..."
-msgstr "İsmarışı Fərqli Qeyd Et..."
+msgstr "İsmarışı Qeyd Et..."
 
 #: mail/em-utils.c:558
-#, fuzzy
 msgid "Add address"
-msgstr "Ünvan"
+msgstr "Ünvan əlavə et"
 
 #. Drop filename for messages from a mailbox
 #: mail/em-utils.c:1016
-#, fuzzy, c-format
+#, c-format
 msgid "Messages from %s"
-msgstr "%s-dan məktub"
+msgstr "%s ünvanından məktublar"
 
 #: mail/evolution-mail.schemas.in.in.h:1
 msgid "Automatic link recognition"
-msgstr ""
+msgstr "Avtomatik körpü aşkarı"
 
 #: mail/evolution-mail.schemas.in.in.h:2
 msgid "Automatic smiley recognition"
-msgstr ""
+msgstr "Avtomatik gülücük aşkarı"
 
 #: mail/evolution-mail.schemas.in.in.h:3
 msgid "Check incoming mail being junk"
-msgstr ""
+msgstr "Gələn məktubların Spam olduğunu yoxla"
 
 #: mail/evolution-mail.schemas.in.in.h:4
 msgid "Citation highlight color"
-msgstr ""
+msgstr "Sitat işıqlandırma rəngi"
 
 #: mail/evolution-mail.schemas.in.in.h:5
 msgid "Citation highlight color."
-msgstr ""
+msgstr "Sitat işıqlandırma rəngi."
 
 #: mail/evolution-mail.schemas.in.in.h:6
 msgid "Composer Window default height"
-msgstr ""
+msgstr "Tərtib pəncərəsinin hündürlüyü"
 
 #: mail/evolution-mail.schemas.in.in.h:7
 msgid "Composer Window default width"
-msgstr ""
+msgstr "Tərtib pəncərəsinin eni"
 
 #: mail/evolution-mail.schemas.in.in.h:8
-#, fuzzy
 msgid "Default charset in which to compose messages"
-msgstr "İsmarışın ön qurğulu mövzusu."
+msgstr "Ön qurğulu olaraq məktubların yazılacağı hərf dəstəsi"
 
 #: mail/evolution-mail.schemas.in.in.h:9
-#, fuzzy
 msgid "Default charset in which to compose messages."
-msgstr "İsmarışın ön qurğulu mövzusu."
+msgstr "Ön qurğulu olaraq məktubların yazılacağı hərf dəstəsi."
 
 #: mail/evolution-mail.schemas.in.in.h:10
-#, fuzzy
 msgid "Default charset in which to display messages"
-msgstr "Göstərilən ismarışın məzmununda mətni axtar"
+msgstr "Ön qurğulu olaraq məktubların göstəriləcəyi hərf dəstəsi"
 
 #: mail/evolution-mail.schemas.in.in.h:11
-#, fuzzy
 msgid "Default charset in which to display messages."
-msgstr "Göstərilən ismarışın məzmununda mətni axtar"
+msgstr "Ön qurğulu olaraq məktubların göstəriləcəyi hərf dəstəsi."
 
 #: mail/evolution-mail.schemas.in.in.h:12
-#, fuzzy
 msgid "Default forward style"
-msgstr "Ötürmə _tərzi:"
+msgstr "Ön qurğulu ötürmə tərzi"
 
 #: mail/evolution-mail.schemas.in.in.h:13
-#, fuzzy
 msgid "Default height of the Composer Window"
-msgstr "İsmarışın ön qurğulu mövzusu."
+msgstr "Tərtib pəncərəsinin ön qurğulu hündürlüyü"
 
 #: mail/evolution-mail.schemas.in.in.h:14
-#, fuzzy
 msgid "Default height of the Message Window"
-msgstr "İsmarışın ön qurğulu mövzusu."
+msgstr "İsmarış pəncərəsinin ön qurğulu hündürlüyü"
 
 #: mail/evolution-mail.schemas.in.in.h:15
-#, fuzzy
 msgid "Default height of the Subscribe dialog"
-msgstr "İsmarışın ön qurğulu mövzusu."
+msgstr "Qeydiyyat pəncərəsinin ön qurğulu hündürlüyü"
 
 #: mail/evolution-mail.schemas.in.in.h:16
-#, fuzzy
 msgid "Default reply style"
-msgstr "Cavab _tərzi:"
+msgstr "Ön qurğulu cavab tərzi"
 
 #: mail/evolution-mail.schemas.in.in.h:17
-#, fuzzy
 msgid "Default width of the Composer Window"
-msgstr "Qovluq çubuğunun nümayiş etdiriləcəyini bildir"
+msgstr "Tərtib pəncərəsinin ön qurğulu eni"
 
 #: mail/evolution-mail.schemas.in.in.h:18
-#, fuzzy
 msgid "Default width of the Message Window"
-msgstr "Qovluq çubuğunun nümayiş etdiriləcəyini bildir"
+msgstr "İsmarış pəncərəsinin ön qurğulu eni"
 
 #: mail/evolution-mail.schemas.in.in.h:19
-#, fuzzy
 msgid "Default width of the Subscribe dialog"
-msgstr "Qovluq çubuğunun nümayiş etdiriləcəyini bildir"
+msgstr "Qeydiyyat pəncərəsinin ön qurğulu eni"
 
 #: mail/evolution-mail.schemas.in.in.h:20
 msgid "Draw spelling error indicators on words as you type."
-msgstr ""
+msgstr "Yazarkən kəlmələrdəki səhv imlanı göstər."
 
 #: mail/evolution-mail.schemas.in.in.h:21
-#, fuzzy
 msgid "Empty Trash folders on exit"
-msgstr "Çıxışda zibil qovluqlarını _boşalt"
+msgstr "Çıxışda zibil qovluqlarını boşalt"
 
 #: mail/evolution-mail.schemas.in.in.h:22
-#, fuzzy
 msgid "Empty all Trash folders when exiting Evolution."
-msgstr "Çıxışda zibil qovluqlarını _boşalt"
+msgstr "Proqramdan çıxışda bütün zibil qovluqlarını boşalt."
 
 #: mail/evolution-mail.schemas.in.in.h:23
 msgid "Enable caret mode, so that you can see a cursor when reading mail."
@@ -13884,21 +13671,19 @@ msgstr ""
 
 #: mail/evolution-mail.schemas.in.in.h:28
 msgid "Last time empty trash was run"
-msgstr ""
+msgstr "Zibilin ən son boşaldıldığı tarix"
 
 #: mail/evolution-mail.schemas.in.in.h:29
 msgid "List of Labels and their associated colors"
-msgstr ""
+msgstr "Etiketlərin siyahısı və onların rəngləri"
 
 #: mail/evolution-mail.schemas.in.in.h:30
-#, fuzzy
 msgid "List of accepted licenses"
-msgstr "Poçt Hesabları"
+msgstr "Qəbul edilən lisenziyaların siyahısı"
 
 #: mail/evolution-mail.schemas.in.in.h:31
-#, fuzzy
 msgid "List of accounts"
-msgstr "Poçt Hesabları"
+msgstr "Hesabların siyahısı"
 
 #: mail/evolution-mail.schemas.in.in.h:32
 msgid ""
@@ -13936,9 +13721,8 @@ msgid ""
 msgstr ""
 
 #: mail/evolution-mail.schemas.in.in.h:39
-#, fuzzy
 msgid "Log filter actions"
-msgstr "Gedişatı işə sal"
+msgstr "Süzgəc gedişatlarını qeydə al"
 
 #: mail/evolution-mail.schemas.in.in.h:40
 msgid "Log filter actions to the specified log file."
@@ -13946,174 +13730,159 @@ msgstr ""
 
 #: mail/evolution-mail.schemas.in.in.h:41
 msgid "Logfile to log filter actions"
-msgstr ""
+msgstr "Süzgəc gedişatlarını qeydə alınacağı fayl"
 
 #: mail/evolution-mail.schemas.in.in.h:42
 msgid "Logfile to log filter actions."
-msgstr ""
+msgstr "Süzgəc gedişatlarını qeydə alınacağı fayl."
 
 #: mail/evolution-mail.schemas.in.in.h:43
 msgid "Mark as Seen after specified timeout"
-msgstr ""
+msgstr "Verilən müddət sonra Görüldü olaraq işarələ"
 
 #: mail/evolution-mail.schemas.in.in.h:44
 msgid "Mark as Seen after specified timeout."
-msgstr ""
+msgstr "Verilən müddət sonra Görüldü olaraq işarələ."
 
 #: mail/evolution-mail.schemas.in.in.h:45
 msgid "Mark citations in the message \"Preview\""
-msgstr ""
+msgstr "Sitatları ismarışın \"Ön İzləməsinə\" işarələ"
 
 #: mail/evolution-mail.schemas.in.in.h:46
 msgid "Mark citations in the message \"Preview\"."
-msgstr ""
+msgstr "Sitatları ismarışın \"Ön İzləməsinə\" işarələ."
 
 #: mail/evolution-mail.schemas.in.in.h:47
-#, fuzzy
 msgid "Message Window default height"
-msgstr "Ö_n Qurğulu Üstünlük:"
+msgstr "İsmarış pəncərəsinin ön qurğulu hündürlüyü"
 
 #: mail/evolution-mail.schemas.in.in.h:48
 msgid "Message Window default width"
-msgstr ""
+msgstr "İsmarış pəncərəsinin ön qurğulu eni"
 
 #: mail/evolution-mail.schemas.in.in.h:49
 msgid "Message-display style (normal, full headers, source)"
-msgstr ""
+msgstr "İsmarış göstərmə tərzi (normal, tam başlıqlar, mənbə)"
 
 #: mail/evolution-mail.schemas.in.in.h:50
 msgid "Minimum days between emptying the trash on exit"
-msgstr ""
+msgstr "Çıxışda zibilin boşaldılması üçün minimal gün"
 
 #: mail/evolution-mail.schemas.in.in.h:51
 msgid "Minimum time between emptying the trash on exit, in days."
-msgstr ""
+msgstr "Çıxışda zibilin boşaldılması üçün minimal zaman, gün olaraq."
 
 #: mail/evolution-mail.schemas.in.in.h:52
-#, fuzzy
 msgid "New Mail Notify sound file"
-msgstr "Yeni Məktub Bildirişi"
+msgstr "Yeni Məktub Bildirişi səs faylı"
 
 #: mail/evolution-mail.schemas.in.in.h:53
-#, fuzzy
 msgid "New Mail Notify type"
-msgstr "Yeni Məktub Bildirişi"
+msgstr "Yeni Məktub Bildirişi növü"
 
 #: mail/evolution-mail.schemas.in.in.h:54
 msgid "Prompt on empty subject"
-msgstr ""
+msgstr "Mövzu boş buraxılanda təsdiq istə"
 
 #: mail/evolution-mail.schemas.in.in.h:55
 msgid "Prompt the user when he or she tries to expunge a folder."
-msgstr ""
+msgstr "İstifadəçi qovluğu silmək istədiyində təsdiq istə"
 
 #: mail/evolution-mail.schemas.in.in.h:56
 msgid "Prompt the user when he or she tries to send a message without a Subject."
-msgstr ""
+msgstr "İstifadəçi məktubu mövzusuz göndərmək istədiyində təsdiq istə"
 
 #: mail/evolution-mail.schemas.in.in.h:57
 msgid "Prompt when user expunges"
-msgstr ""
+msgstr "Silmək istənildiyində təsdiq istə"
 
 #: mail/evolution-mail.schemas.in.in.h:58
 msgid "Prompt when user only fills Bcc"
-msgstr ""
+msgstr "Təkcə Bcc doldurulduğunda təsdiq istə"
 
 #: mail/evolution-mail.schemas.in.in.h:59
-#, fuzzy
 msgid ""
 "Prompt when user tries to send HTML mail to recipients that may not want to "
 "receive HTML mail."
 msgstr ""
-"HTML məktublarını bu tərz məktub istəməyən əlaqələrə göndərdiyimdə _təstiq "
-"istə"
+"HTML məktublarını bu tərz məktub istəməyən əlaqələrə göndərdiyimdə təsdiq "
+"istə."
 
 #: mail/evolution-mail.schemas.in.in.h:60
-#, fuzzy
 msgid "Prompt when user tries to send a message with no To or Cc recipients."
-msgstr "Ancaq _Bcc alıcıları bildirlən ismarış yollamağa çalışdığımda bildir"
+msgstr "Alıcı və Cc alıcıları bildirilməyən ismarış yollamağa çalışdığında təsdiq istə"
 
 #: mail/evolution-mail.schemas.in.in.h:61
 msgid "Prompt when user tries to send unwanted HTML"
-msgstr ""
+msgstr "İstənməyən HTML göndərildiyində təsdiq istə"
 
 #: mail/evolution-mail.schemas.in.in.h:62
 msgid "Recognize links in text and replace them."
-msgstr ""
+msgstr "Mətnlərdəki körpüləri aşkar et və onları əvəz et."
 
 #: mail/evolution-mail.schemas.in.in.h:63
 msgid "Recognize smileys in text and replace them with images."
-msgstr ""
+msgstr "Mətnlərdəki gülücükləri aşkar et və onları emosiya rəsmləri ilə əvəz et."
 
 #: mail/evolution-mail.schemas.in.in.h:64
 msgid "Run junk test on incoming mail"
-msgstr ""
+msgstr "Gələn poçt üstündə Spam sınağını həyata keçir"
 
 #: mail/evolution-mail.schemas.in.in.h:65
-#, fuzzy
 msgid "Send HTML mail by default"
-msgstr "HTML Məktubu Göndərilsin?"
+msgstr "Ön qurğulu olaraq HTML məktub göndər"
 
 #: mail/evolution-mail.schemas.in.in.h:66
-#, fuzzy
 msgid "Send HTML mail by default."
-msgstr "HTML Məktubu Göndərilsin?"
+msgstr "Ön qurğulu olaraq HTML məktub göndər."
 
 #: mail/evolution-mail.schemas.in.in.h:67
-#, fuzzy
 msgid "Show Animations"
-msgstr "Animasiyalı rəsmləri _göstər"
+msgstr "Animasiyalı Göstər"
 
 #: mail/evolution-mail.schemas.in.in.h:68
-#, fuzzy
 msgid "Show animated images as animations."
-msgstr "Animasiyalı rəsmləri _göstər"
+msgstr "Oynayan rəsmləri animasiya olaraq göstər."
 
 #: mail/evolution-mail.schemas.in.in.h:69
 msgid "Show deleted messages (with a strike-through) in the message-list."
-msgstr ""
+msgstr "İsmarış siyahısında silinən məktubları (cızılmış olaraq) göstər."
 
 #: mail/evolution-mail.schemas.in.in.h:70
-#, fuzzy
 msgid "Show deleted messages in the message-list"
-msgstr "İsmarışı normal tərzdə göstər"
+msgstr "İsmarış siyahısında silinən məktubları göstər."
 
 #: mail/evolution-mail.schemas.in.in.h:71
-#, fuzzy
 msgid "Show the \"Preview\" pane"
-msgstr "_Nümayiş Paneli"
+msgstr "\"Nümayiş\" panelini göstər"
 
 #: mail/evolution-mail.schemas.in.in.h:72
 msgid "Show the \"Preview\" pane."
-msgstr ""
+msgstr "\"Nümayiş\" panelini göstər."
 
 #: mail/evolution-mail.schemas.in.in.h:73
-#, fuzzy
 msgid "Sound file to play when new mail arrives."
-msgstr "Yeni məktub alındığında _səs çal"
+msgstr "Yeni məktub alındığında çalınacaq səs faylı."
 
 #: mail/evolution-mail.schemas.in.in.h:74
 msgid "Specifies the type of New Mail Notification the user wishes to use."
 msgstr ""
 
 #: mail/evolution-mail.schemas.in.in.h:75
-#, fuzzy
 msgid "Spell check inline"
-msgstr "İmla _Yoxlaması"
+msgstr "Daxili imla yoxlaması"
 
 #: mail/evolution-mail.schemas.in.in.h:76
-#, fuzzy
 msgid "Subscribe dialog default height"
-msgstr "Ö_n Qurğulu Üstünlük:"
+msgstr ""
 
 #: mail/evolution-mail.schemas.in.in.h:77
 msgid "Subscribe dialog default width"
 msgstr ""
 
 #: mail/evolution-mail.schemas.in.in.h:78
-#, fuzzy
 msgid "Terminal font"
-msgstr "_Terminal Yazı Növü:"
+msgstr "Terminal yazı növü"
 
 #: mail/evolution-mail.schemas.in.in.h:79
 msgid "The last time empty trash was run, in days since the epoch."
@@ -14121,12 +13890,11 @@ msgstr ""
 
 #: mail/evolution-mail.schemas.in.in.h:80
 msgid "The terminal font for mail display"
-msgstr ""
+msgstr "Məktublarda göstərilməsi üçün terminal yazı növü"
 
 #: mail/evolution-mail.schemas.in.in.h:81
-#, fuzzy
 msgid "The variable width font for mail display"
-msgstr "Çap üçün HTML dəyişən yazı növünü seç"
+msgstr "Məktublarda göstərilməsi üçün dəyişən enli yazı növü"
 
 #: mail/evolution-mail.schemas.in.in.h:82
 msgid ""
@@ -14137,18 +13905,16 @@ msgid ""
 msgstr ""
 
 #: mail/evolution-mail.schemas.in.in.h:83
-#, fuzzy
 msgid "Thread the message list."
-msgstr "İlgəklənmiş İsmarış Siyahısı"
+msgstr "İlgəklənmiş İsmarış Siyahısı."
 
 #: mail/evolution-mail.schemas.in.in.h:84
-#, fuzzy
 msgid "Thread the message-list"
 msgstr "İlgəklənmiş İsmarış Siyahısı"
 
 #: mail/evolution-mail.schemas.in.in.h:85
 msgid "Thread the message-list based on Subject"
-msgstr ""
+msgstr "Mövzuya görə ismarış siyahısını ilgəklə"
 
 #: mail/evolution-mail.schemas.in.in.h:86
 msgid "Timeout for marking message as Seen"
@@ -14159,9 +13925,8 @@ msgid "Timeout for marking message as Seen."
 msgstr ""
 
 #: mail/evolution-mail.schemas.in.in.h:88
-#, fuzzy
 msgid "UID string of the default account."
-msgstr "Bu hesabı ön _qurğulu hesabım et"
+msgstr ""
 
 #: mail/evolution-mail.schemas.in.in.h:89
 msgid "Use Spamasssassin daemon and client"
@@ -14173,24 +13938,23 @@ msgstr ""
 
 #: mail/evolution-mail.schemas.in.in.h:91
 msgid "Use custom fonts"
-msgstr ""
+msgstr "Xüsusi yazı növlərini işlət"
 
 #: mail/evolution-mail.schemas.in.in.h:92
 msgid "Use custom fonts for displaying mail"
-msgstr ""
+msgstr "Məktubların göstərilməsi üçün xüsusi yazı növlərini işlət"
 
 #: mail/evolution-mail.schemas.in.in.h:93
 msgid "Use only local spam tests."
-msgstr ""
+msgstr "Təkcə yerli Spam sınaqlarını işlət."
 
 #: mail/evolution-mail.schemas.in.in.h:94
 msgid "Use only the local spam tests (no DNS)."
-msgstr ""
+msgstr "Təkcə yerli Spam sınaqlarını işlət."
 
 #: mail/evolution-mail.schemas.in.in.h:95
-#, fuzzy
 msgid "Variable width font"
-msgstr "_Dəyişən-en:"
+msgstr "Dəyişən enli yazı növü:"
 
 #: mail/evolution-mail.schemas.in.in.h:96
 msgid "View/Bcc menu item is checked"
@@ -14243,13 +14007,12 @@ msgid "port for starting user runned spamd"
 msgstr ""
 
 #: mail/evolution-mail.schemas.in.in.h:108
-#, fuzzy
 msgid "spamd port"
-msgstr "İdxal Et"
+msgstr "spamd portu"
 
 #: mail/GNOME_Evolution_Mail.server.in.in.h:1
 msgid "*Control*F1"
-msgstr ""
+msgstr "*Control*F1"
 
 #: mail/GNOME_Evolution_Mail.server.in.in.h:2
 msgid "Composer Preferences"
@@ -14300,9 +14063,8 @@ msgid "Mail Preferences"
 msgstr ""
 
 #: mail/GNOME_Evolution_Mail.server.in.in.h:15
-#, fuzzy
 msgid "_Mail"
-msgstr "_Məktub:"
+msgstr "_Məktub"
 
 #: mail/importers/elm-importer.c:88
 msgid "Evolution is importing your old Elm mail"
@@ -14323,9 +14085,8 @@ msgid "Please wait"
 msgstr "Xahiş edirik gözləyin"
 
 #: mail/importers/elm-importer.c:244
-#, fuzzy
 msgid "Importing Elm data"
-msgstr "Fayllar İdxal Edilir"
+msgstr "Elm məktubları idxal edilir"
 
 #: mail/importers/elm-importer.c:436
 msgid ""
@@ -14340,27 +14101,24 @@ msgid "Elm"
 msgstr "Elm"
 
 #: mail/importers/evolution-mbox-importer.c:116
-#, fuzzy
 msgid "Destination folder:"
-msgstr "Hədəf sırf oxunandır"
+msgstr "Hədəf qovluq:"
 
 #: mail/importers/evolution-mbox-importer.c:119
-#, fuzzy
 msgid "Select folder to import into"
-msgstr "İdxalçı seçin"
+msgstr "İçinə idxal ediləcək qovluğu seçin"
 
 #: mail/importers/evolution-mbox-importer.c:219
 #: mail/importers/evolution-outlook-importer.c:225
 #: mail/importers/mail-importer.c:226
-#, fuzzy, c-format
+#, c-format
 msgid "Importing `%s'"
-msgstr "İdxal edilir"
+msgstr "`%s' idxal edilir"
 
 #: mail/importers/evolution-outlook-importer.c:272
 #: mail/importers/mail-importer.c:140
-#, fuzzy
 msgid "Importing mailbox"
-msgstr "Fayllar İdxal Edilir"
+msgstr "Poçt qutusu idxal edilir"
 
 #: mail/importers/GNOME_Evolution_Mail_Importers.server.in.in.h:1
 msgid "Evolution Elm importer"
@@ -14437,9 +14195,8 @@ msgid "Evolution is importing your old Netscape data"
 msgstr "Evolution köhnə Netscape verilənlərinizi idxal edir"
 
 #: mail/importers/netscape-importer.c:1707
-#, fuzzy
 msgid "Importing Netscape data"
-msgstr "Evolution köhnə Netscape verilənlərinizi idxal edir"
+msgstr "Netscape verilənləri idxal edilir"
 
 #: mail/importers/netscape-importer.c:1907
 msgid "Settings"
@@ -14454,17 +14211,16 @@ msgid ""
 "Evolution has found Netscape mail files.\n"
 "Would you like them to be imported into Evolution?"
 msgstr ""
-"Evolution Netscape  məktub faylları tapdı.\n"
-"Onları Evolution içinə idxal edək?"
+"Evolution Netscape məktub faylları tapdı.\n"
+"Onları Evolution içinə idxal etmək istəyirsinizmi?"
 
 #: mail/importers/pine-importer.c:116
 msgid "Evolution is importing your old Pine data"
 msgstr "Evolution köhnə Pine verilənlərini idxal edir"
 
 #: mail/importers/pine-importer.c:314
-#, fuzzy
 msgid "Importing Pine data"
-msgstr "Fayllar İdxal Edilir"
+msgstr "Pine verilənləri idxal edilir"
 
 #: mail/importers/pine-importer.c:479
 msgid "Addressbook"
@@ -14538,66 +14294,63 @@ msgid "Add Filter Rule"
 msgstr "Süzgəc Qaydası Əlavə Et"
 
 #: mail/mail-component.c:461
-#, fuzzy, c-format
+#, c-format
 msgid "%d deleted"
-msgstr "Silinən"
+msgstr "%d silinən"
 
 #: mail/mail-component.c:463
 #, c-format
 msgid "%d junk"
-msgstr ""
+msgstr "%d spam"
 
 #: mail/mail-component.c:486
-#, fuzzy, c-format
+#, c-format
 msgid "%d drafts"
-msgstr "%d gün"
+msgstr "%d layihə"
 
 #: mail/mail-component.c:488
-#, fuzzy, c-format
+#, c-format
 msgid "%d sent"
-msgstr "%d saniyə"
+msgstr "%d göndərilən"
 
 #: mail/mail-component.c:490
-#, fuzzy, c-format
+#, c-format
 msgid "%d unsent"
-msgstr "%d saniyə"
+msgstr "%d göndərilməyən"
 
 #: mail/mail-component.c:494
-#, fuzzy, c-format
+#, c-format
 msgid "%d total"
-msgstr "%d əlaqə"
+msgstr "%d toplam"
 
 #: mail/mail-component.c:496
 #, c-format
 msgid ", %d unread"
-msgstr ""
+msgstr ", %d oxunmamış"
 
 #: mail/mail-component.c:653
 msgid "New Mail Message"
-msgstr "Yeni Məktub İsmarışı"
+msgstr "Yeni Məktub"
 
 #: mail/mail-component.c:654
 msgid "_Mail Message"
-msgstr "_Məktub İsmarışı"
+msgstr "_Məktub"
 
 #: mail/mail-component.c:655
 msgid "Compose a new mail message"
-msgstr "Yeni məktub ismarışı yaz"
+msgstr "Yeni məktub yaz"
 
 #: mail/mail-component.c:661
-#, fuzzy
 msgid "New Mail Folder"
-msgstr "Yeni VQovluq"
+msgstr "Yeni Poçt Qovluğu"
 
 #: mail/mail-component.c:662
-#, fuzzy
 msgid "Mail _Folder"
-msgstr "Poçt Süzgəcləri"
+msgstr "Poçt _Qovluğu"
 
 #: mail/mail-component.c:663
-#, fuzzy
 msgid "Create a new mail folder"
-msgstr "Yeni təqvim yarat"
+msgstr "yeni poçt qovluğu yarat"
 
 #: mail/mail-component.c:795
 msgid "Failed upgrading Mail settings or folders."
@@ -14605,7 +14358,7 @@ msgstr ""
 
 #: mail/mail-config.c:895
 msgid "Checking Service"
-msgstr "Yoxlama Xidməti"
+msgstr "Xidmətin Yoxlanması"
 
 #: mail/mail-config.c:973 mail/mail-config.c:977
 msgid "Connecting to server..."
@@ -14645,7 +14398,7 @@ msgstr "Poçtun Göndərilməsi"
 msgid ""
 "Please enter information about the way you will send mail. If you are not "
 "sure, ask your system administrator or Internet Service Provider."
-msgstr "."
+msgstr ""
 
 #: mail/mail-config-druid.c:389 mail/mail-config.glade.h:35
 msgid "Account Management"
@@ -14661,175 +14414,160 @@ msgid ""
 msgstr ""
 
 #: mail/mail-config.glade.h:1
-#, fuzzy
 msgid " Ch_eck for Supported Types "
-msgstr " Dəstəklənən növləri _yoxla "
+msgstr " Dəstəklənən Növləri _Yoxla "
 
 #: mail/mail-config.glade.h:3
-#, fuzzy
 msgid "<b>Preview</b>"
 msgstr "<b>Nümayiş</b>"
 
 #: mail/mail-config.glade.h:4
-#, fuzzy
 msgid "<b>SSL is not supported in this build of evolution</b>"
-msgstr "(Evolution proqramının bu inşasında SSL dəstəyi yoxdur)"
+msgstr "<b>Evolution proqramının bu inşasında SSL dəstəyi yoxdur</b>"
 
 #: mail/mail-config.glade.h:5
-#, fuzzy
 msgid "<b>S_ignatures</b>"
-msgstr "<b>Vəziyyət:</b>"
+msgstr "<b>_İmzalar</b>"
 
 #: mail/mail-config.glade.h:6
-#, fuzzy
 msgid "<b>_Languages</b>"
-msgstr "<b>Vəziyyət:</b>"
+msgstr "<b>_Dillər</b>"
 
 #: mail/mail-config.glade.h:7
 msgid "<span weight=\"bold\">Account Information</span>"
-msgstr ""
+msgstr "<span weight=\"bold\">Hesab Məlumatı</span>"
 
 #: mail/mail-config.glade.h:8
 msgid "<span weight=\"bold\">Alerts</span>"
-msgstr ""
+msgstr "<span weight=\"bold\">Xəbərdarlıqlar</span>"
 
 #: mail/mail-config.glade.h:9
 msgid "<span weight=\"bold\">Authentication Type</span>"
-msgstr ""
+msgstr "<span weight=\"bold\">Tanıdma Növü</span>"
 
 #: mail/mail-config.glade.h:10
 msgid "<span weight=\"bold\">Authentication</span>"
-msgstr ""
+msgstr "<span weight=\"bold\">Tanıdma</span>"
 
 #: mail/mail-config.glade.h:11
-#, fuzzy
 msgid "<span weight=\"bold\">Checking for New Mail</span>"
-msgstr "Yeni Məktubların Yoxlanması"
+msgstr "<span weight=\"bold\">Yeni Məktubların Yoxlanması</span>"
 
 #: mail/mail-config.glade.h:12
 msgid "<span weight=\"bold\">Composing Messages</span>"
-msgstr ""
+msgstr "<span weight=\"bold\">Məktubların Yazılması</span>"
 
 #: mail/mail-config.glade.h:13
 msgid "<span weight=\"bold\">Configuration</span>"
-msgstr ""
+msgstr "<span weight=\"bold\">Qurğular</span>"
 
 #: mail/mail-config.glade.h:14
 msgid "<span weight=\"bold\">Default Behavior</span>"
-msgstr ""
+msgstr "<span weight=\"bold\">Ön Qurğulu Davranış</span>"
 
 #: mail/mail-config.glade.h:15
 msgid "<span weight=\"bold\">Delete Mail</span>"
-msgstr ""
+msgstr "<span weight=\"bold\">Poçtun Silinməsi</span>"
 
 #: mail/mail-config.glade.h:16
 msgid "<span weight=\"bold\">Displayed Mail _Headers</span>"
-msgstr ""
+msgstr "<span weight=\"bold\">Göstərilən Məktub _Başlıqları</span>"
 
 #: mail/mail-config.glade.h:17
 msgid "<span weight=\"bold\">Filter Options</span>"
-msgstr ""
+msgstr "<span weight=\"bold\">Süzgəc Seçimləri</span>"
 
 #: mail/mail-config.glade.h:18
 msgid "<span weight=\"bold\">General</span>"
-msgstr ""
+msgstr "<span weight=\"bold\">Ümumi</span>"
 
 #: mail/mail-config.glade.h:19
 msgid "<span weight=\"bold\">Labels and Colors</span>"
-msgstr ""
+msgstr "<span weight=\"bold\">Etiket və Rənglər</span>"
 
 #: mail/mail-config.glade.h:20
 msgid "<span weight=\"bold\">Loading Images</span>"
-msgstr ""
+msgstr "<span weight=\"bold\">Rəsmlərin Yüklənməsi</span>"
 
 #: mail/mail-config.glade.h:21
 msgid "<span weight=\"bold\">Message Display</span>"
-msgstr ""
+msgstr "<span weight=\"bold\">Məktubların Göstərilməsi</span>"
 
 #: mail/mail-config.glade.h:22
 msgid "<span weight=\"bold\">Message Fonts</span>"
-msgstr ""
+msgstr "<span weight=\"bold\">Məktubların Yazı Növləri</span>"
 
 #: mail/mail-config.glade.h:23
-#, fuzzy
 msgid "<span weight=\"bold\">New Mail Notification</span>"
-msgstr "Yeni Məktub Bildirişi"
+msgstr "<span weight=\"bold\">Yeni Məktub Bildirişi</span>"
 
 #: mail/mail-config.glade.h:24
 msgid "<span weight=\"bold\">Optional Information</span>"
-msgstr ""
+msgstr "<span weight=\"bold\">Seçimə Bağlı Məlumat</span>"
 
 #: mail/mail-config.glade.h:25
 msgid "<span weight=\"bold\">Options</span>"
-msgstr ""
+msgstr "<span weight=\"bold\">Seçimlər</span>"
 
 #: mail/mail-config.glade.h:26
-#, fuzzy
 msgid "<span weight=\"bold\">Pretty Good Privacy (PGP/GPG)</span>"
-msgstr "Pretty Good Privacy (PGP/GPG)"
+msgstr "<span weight=\"bold\">Pretty Good Privacy (PGP/GPG)</span>"
 
 #: mail/mail-config.glade.h:27
 msgid "<span weight=\"bold\">Printed Fonts</span>"
-msgstr ""
+msgstr "<span weight=\"bold\">Çap Edilən Yazı Növləri</span>"
 
 #: mail/mail-config.glade.h:28
 msgid "<span weight=\"bold\">Required Information</span>"
-msgstr ""
+msgstr "<span weight=\"bold\">Lazımi Məlumat</span>"
 
 #: mail/mail-config.glade.h:29
 msgid "<span weight=\"bold\">Secure MIME (S/MIME)</span>"
-msgstr ""
+msgstr "<span weight=\"bold\">Etibarlı MIME (S/MIME)</span>"
 
 #: mail/mail-config.glade.h:30
 msgid "<span weight=\"bold\">Security</span>"
-msgstr ""
+msgstr "<span weight=\"bold\">Təhlükəsizlik</span>"
 
 #: mail/mail-config.glade.h:31
-#, fuzzy
 msgid "<span weight=\"bold\">Sent and Draft Messages</span>"
-msgstr "Göndərilən və Layihə İsmarışları"
+msgstr "<span weight=\"bold\">Göndərilən və Layihə İsmarışlar</span>"
 
 #: mail/mail-config.glade.h:32
 msgid "<span weight=\"bold\">Server Configuration</span>"
 msgstr ""
 
 #: mail/mail-config.glade.h:33
-#, fuzzy
 msgid "A_lso encrypt to self when sending encrypted mail"
-msgstr "Şifrələnmiş məktub göndərildiyi vaxt məktubu _həmişə mənim üçün də şifrələ"
+msgstr "Şifrələnmiş məktub göndərildiyi vaxt məktubu _mənim üçün də şifrələ"
 
 #: mail/mail-config.glade.h:34
 msgid "Account Editor"
 msgstr "Hesab Editoru"
 
 #: mail/mail-config.glade.h:36
-#, fuzzy
 msgid "Add Ne_w Signature..."
-msgstr "Yeni imza əlavə et..."
+msgstr "Yeni _İmza Əlavə Et..."
 
 #: mail/mail-config.glade.h:37
-#, fuzzy
 msgid "Add _Script"
-msgstr "S_kript Əlavə Et"
+msgstr "_Skript Əlavə Et"
 
 #: mail/mail-config.glade.h:38
 msgid "Al_ways encrypt to myself when sending encrypted mail"
-msgstr "Şifrələnmiş məktub göndərildiyi vaxt məktubu həmişə _mənim üçün də şifrələ"
+msgstr "Şifrələnmiş məktub göndərildiyi vaxt məktubu _mənim üçün də şifrələ"
 
 #: mail/mail-config.glade.h:39
-#, fuzzy
 msgid "Alway_s carbon-copy (cc) to:"
-msgstr "Bu ünvana həmişə məktubun _nüsxəsini (Cc) yolla:"
+msgstr "Bu ünvana həmişə məktubun _nüsxəsini (cc) yolla:"
 
 #: mail/mail-config.glade.h:41
-#, fuzzy
 msgid "Always _blind carbon-copy (bcc) to:"
-msgstr "Bu ünvana həmişə məktubun _gizli nüsxəsini (Bcc) yolla:"
+msgstr "Bu ünvana həmişə məktubun _gizli nüsxəsini (bcc) yolla:"
 
 #: mail/mail-config.glade.h:42
-#, fuzzy
 msgid "Always _sign outgoing messages when using this account"
-msgstr "Bu hesab işlədildiyində bütün məktubları _həmişə imzala"
+msgstr "Bu hesab işlədildiyində bütün göndərilən məktubları _imzala"
 
 #: mail/mail-config.glade.h:43
 msgid "Always _trust keys in my keyring when encrypting"
@@ -14844,14 +14582,12 @@ msgid "Attachment"
 msgstr "İlişdirilmiş fayl"
 
 #: mail/mail-config.glade.h:46
-#, fuzzy
 msgid "Automatically _insert smiley images"
 msgstr "Emosiya rəsmlərini avtomatik olaraq _daxil et"
 
 #: mail/mail-config.glade.h:47
-#, fuzzy
 msgid "Automatically check for _new mail every"
-msgstr "Yeni məktubları _avtomatik olaraq bu aralıqla yoxla:"
+msgstr "Yeni məktubları _avtomatik olaraq yoxlama aralığı"
 
 #: mail/mail-config.glade.h:48
 msgid "Baltic (ISO-8859-13)"
@@ -14862,7 +14598,6 @@ msgid "Baltic (ISO-8859-4)"
 msgstr "Baltik (ISO-8859-4)"
 
 #: mail/mail-config.glade.h:50
-#, fuzzy
 msgid "Beep w_hen new mail arrives"
 msgstr "Yeni məktub alındığında _bip səsi çıxart"
 
@@ -14871,18 +14606,16 @@ msgid "C_haracter set:"
 msgstr "_Hərf dəstəsi:"
 
 #: mail/mail-config.glade.h:52
-#, fuzzy
 msgid "Ch_eck for Supported Types "
-msgstr " Dəstəklənən növləri _yoxla "
+msgstr "Dəstəklənən Növləri _Yoxla "
 
 #: mail/mail-config.glade.h:53
-#, fuzzy
 msgid "Check _Incoming Mail"
-msgstr "Yeni Məktubların Yoxlanması"
+msgstr "Gələn Məktubları Yoxla"
 
 #: mail/mail-config.glade.h:54
 msgid "Check spelling while I _type"
-msgstr "Yazdığımda imlanı _yoxla"
+msgstr "Mətn yazıldığında imlanı _yoxla"
 
 #: mail/mail-config.glade.h:55
 msgid "Checks incoming mail messages to be Junk"
@@ -14893,13 +14626,12 @@ msgid "Color for _misspelled words:"
 msgstr "Səhv imlalı mətnin _rəngi:"
 
 #: mail/mail-config.glade.h:57
-#, fuzzy
 msgid "Colors"
 msgstr "Rənglər"
 
 #: mail/mail-config.glade.h:58
 msgid "Confirm _when expunging a folder"
-msgstr "Qovluq həmişəlik silinirkən _təstiq istə"
+msgstr "Qovluq həmişəlik silinirkən _təsdiq istə"
 
 #: mail/mail-config.glade.h:59
 msgid ""
@@ -14922,14 +14654,12 @@ msgid "De_fault"
 msgstr "Ön _qurğulu"
 
 #: mail/mail-config.glade.h:67
-#, fuzzy
 msgid "Default character e_ncoding:"
 msgstr "Ön qurğulu hərf _kodlaması:"
 
 #: mail/mail-config.glade.h:68
-#, fuzzy
 msgid "Defaults"
-msgstr "Ö_n qurğular"
+msgstr "Ön qurğular"
 
 #: mail/mail-config.glade.h:70
 msgid "Do not quote original message"
@@ -14944,28 +14674,24 @@ msgid "Done"
 msgstr "Başa çatdı"
 
 #: mail/mail-config.glade.h:73
-#, fuzzy
 msgid "Drafts _Folder:"
-msgstr "_Layihələr qovluğu:"
+msgstr "Layihələr _Govluğu:"
 
 #: mail/mail-config.glade.h:75
 msgid "Email Accounts"
 msgstr "Epoçt Hesabları"
 
 #: mail/mail-config.glade.h:76
-#, fuzzy
 msgid "Email _Address:"
-msgstr "_Epoçt ünvanı:"
+msgstr "_Epoçt Ünvanı:"
 
 #: mail/mail-config.glade.h:77
-#, fuzzy
 msgid "Empty trash folders on e_xit"
 msgstr "Çıxışda zibil qovluqlarını _boşalt"
 
 #: mail/mail-config.glade.h:78
-#, fuzzy
 msgid "Encry_ption certificate:"
-msgstr "_Sertifikat ID-si:"
+msgstr "Şifrələmə _vəsiqəsi:"
 
 #: mail/mail-config.glade.h:79
 msgid "Evolution Account Assistant"
@@ -14976,9 +14702,8 @@ msgid "Execute Command..."
 msgstr "Əmr İcra Et..."
 
 #: mail/mail-config.glade.h:81
-#, fuzzy
 msgid "Fi_xed-width:"
-msgstr "_Tən-aralıqlı en:"
+msgstr "_Sabit-aralıqlı en:"
 
 #: mail/mail-config.glade.h:82
 msgid "Font Properties"
@@ -14989,14 +14714,12 @@ msgid "Format messages in _HTML"
 msgstr "İsmarışları _HTML olaraq şəkilləndir"
 
 #: mail/mail-config.glade.h:85
-#, fuzzy
 msgid "HTML Mail"
-msgstr "_HTML Məktub"
+msgstr "HTML Məktub"
 
 #: mail/mail-config.glade.h:86
-#, fuzzy
 msgid "Headers"
-msgstr "Başlıq"
+msgstr "Başlıqlar"
 
 #: mail/mail-config.glade.h:87
 msgid "Highlight _quotations with"
@@ -15041,7 +14764,6 @@ msgid "PGP/GPG _Key ID:"
 msgstr "PGP/GPG _Açar ID-si:"
 
 #: mail/mail-config.glade.h:108
-#, fuzzy
 msgid "Play sound file when new mail arri_ves"
 msgstr "Yeni məktub alındığında _səs çal"
 
@@ -15062,9 +14784,8 @@ msgid "Quoted"
 msgstr "Sitatlandırılmış"
 
 #: mail/mail-config.glade.h:113
-#, fuzzy
 msgid "Re_member password"
-msgstr "Şifrəni yadda saxla"
+msgstr "Şifrəni yadda _saxla"
 
 #: mail/mail-config.glade.h:114
 msgid "Re_ply-To:"
@@ -15075,22 +14796,18 @@ msgid "Receiving Email"
 msgstr "Poçtun Alınması"
 
 #: mail/mail-config.glade.h:117
-#, fuzzy
 msgid "Receiving Options"
-msgstr "Alınma _Seçimləri"
+msgstr "Alış Seçimləri"
 
 #: mail/mail-config.glade.h:118
-#, fuzzy
 msgid "Remember _password"
-msgstr "Şifrəni yadda saxla"
+msgstr "Şifrəni yadda _saxla"
 
 #: mail/mail-config.glade.h:120
-#, fuzzy
 msgid "S_tandard Font:"
 msgstr "_Standart Yazı Növü:"
 
 #: mail/mail-config.glade.h:121
-#, fuzzy
 msgid "Security"
 msgstr "Təhlükəsizlik"
 
@@ -15111,64 +14828,56 @@ msgid "Select HTML variable width font for printing"
 msgstr "Çap üçün HTML dəyişən yazı növünü seç"
 
 #: mail/mail-config.glade.h:126
-#, fuzzy
 msgid "Select..."
-msgstr "Sil..."
+msgstr "Seç..."
 
 #: mail/mail-config.glade.h:127
 msgid "Sending Email"
 msgstr "Poçtun Göndərilməsi"
 
 #: mail/mail-config.glade.h:130
-#, fuzzy
 msgid "Sent _Messages Folder:"
-msgstr "Göndərilən _ismarışlar qovluğu:"
+msgstr "Göndərilən _İsmarışlar Qovluğu:"
 
 #: mail/mail-config.glade.h:131
 msgid "Ser_ver requires authentication"
-msgstr "Veri_ci tanıtmanı məcbur qılır"
+msgstr "Veri_ci tanıdmanı məcbur qılır"
 
 #: mail/mail-config.glade.h:132
 msgid "Server _Type: "
 msgstr "Verici _Növü: "
 
 #: mail/mail-config.glade.h:133
-#, fuzzy
 msgid "Si_gning certificate:"
-msgstr "_Sertifikat ID-si:"
+msgstr "İmzalama _vəsiqəsi:"
 
 #: mail/mail-config.glade.h:134
-#, fuzzy
 msgid "Signat_ure:"
-msgstr "İmza:"
+msgstr "İ_mza:"
 
 #: mail/mail-config.glade.h:135
-#, fuzzy
 msgid "Signatures"
-msgstr "_İmzalar"
+msgstr "İmzalar"
 
 #: mail/mail-config.glade.h:136
 msgid "Specify _filename:"
-msgstr "Fayl adı _bildir:"
+msgstr "_Fayl adı bildir:"
 
 #: mail/mail-config.glade.h:137
-#, fuzzy
 msgid "Spell Checking"
-msgstr "İmla _Yoxlaması"
+msgstr "İmlanı Yoxla"
 
 #: mail/mail-config.glade.h:138
 msgid "Standard Unix mbox"
-msgstr "Standart UNIX mbox"
+msgstr "Standart Unix mbox"
 
 #: mail/mail-config.glade.h:139
-#, fuzzy
 msgid "T_erminal Font:"
 msgstr "_Terminal Yazı Növü:"
 
 #: mail/mail-config.glade.h:140
-#, fuzzy
 msgid "T_ype: "
-msgstr "Növ:"
+msgstr "_Növ:"
 
 #: mail/mail-config.glade.h:141
 msgid ""
@@ -15213,14 +14922,12 @@ msgid "_Add Signature"
 msgstr "_İmza Əlavə Et"
 
 #: mail/mail-config.glade.h:157
-#, fuzzy
 msgid "_Always load images from the Internet"
-msgstr "_Netdən rəsmləri həmişə yüklə"
+msgstr "İ_nternetdən rəsmləri həmişə yüklə"
 
 #: mail/mail-config.glade.h:158
-#, fuzzy
 msgid "_Digitally sign outgoing messages (by default)"
-msgstr "Bu hesab işlədildiyində bütün məktubları _həmişə imzala"
+msgstr "Göndərilən məktubları digital olaraq i_mzala (ön qurğulu olaraq)"
 
 #: mail/mail-config.glade.h:159
 msgid "_Do not notify me when new mail arrives"
@@ -15239,36 +14946,34 @@ msgid "_Forward style:"
 msgstr "Ötürmə _tərzi:"
 
 #: mail/mail-config.glade.h:166
-#, fuzzy
 msgid "_Load images if sender is in address book"
-msgstr "Yollayan ünvan kitabçasında varsa, rəsmləri _yüklə"
+msgstr "Yollayan şəxs ünvan kitabçasında varsa, rəsmləri _yüklə"
 
 #: mail/mail-config.glade.h:167
 msgid "_Local Tests Only"
-msgstr ""
+msgstr "Təkcə _Yerli Sınaqlar"
 
 #: mail/mail-config.glade.h:168
 msgid "_Make this my default account"
-msgstr "Bu hesabı ön _qurğulu hesabım et"
+msgstr "Bu hesabı ön qurğulu hesabım _et"
 
 #: mail/mail-config.glade.h:169
 msgid "_Mark messages as read after"
 msgstr "İsmarışları oxunmuş olaraq işarələmə _vaxtı:"
 
 #: mail/mail-config.glade.h:171
-#, fuzzy
 msgid "_Never load images from the Internet"
-msgstr "Netdən rəsmləri _qətiyyən endirmə"
+msgstr "İ_nternetdən rəsmləri qətiyyən yükləmə"
 
 #: mail/mail-config.glade.h:173
 msgid "_Prompt when sending HTML messages to contacts that don't want them"
 msgstr ""
-"HTML məktublarını bu tərz məktub istəməyən əlaqələrə göndərdiyimdə _təstiq "
+"HTML məktublarını bu tərz məktub istəməyən əlaqələrə göndərdiyimdə _təsdiq "
 "istə"
 
 #: mail/mail-config.glade.h:174
 msgid "_Prompt when sending messages with an empty subject line"
-msgstr "_Boş mövzulu məktub göndərdiyimdə təstiq istə"
+msgstr "_Boş mövzulu məktub göndərdiyimdə təsdiq istə"
 
 #: mail/mail-config.glade.h:175
 msgid "_Reply style:"
@@ -15283,9 +14988,8 @@ msgid "_Show animated images"
 msgstr "Animasiyalı rəsmləri _göstər"
 
 #: mail/mail-config.glade.h:178
-#, fuzzy
 msgid "_Use Secure Connection (SSL):"
-msgstr "_E'tibarlı bağlantı (SSL) işlət:"
+msgstr "_Etibarlı bağlantı (SSL) işlət:"
 
 #: mail/mail-config.glade.h:179
 msgid "_Use the same fonts as other applications"
@@ -15301,17 +15005,15 @@ msgstr "izahat"
 
 #. mail:camel-service-auth-invalid primary
 #: mail/mail-errors.xml.h:2
-#, fuzzy
 msgid "Invalid authentication"
-msgstr "Tanıtma"
+msgstr "Səhv tanıtma"
 
 #. mail:camel-service-auth-invalid secondary
 #: mail/mail-errors.xml.h:4
-#, fuzzy
 msgid ""
 "This server does not support this type of authentication and may not support "
 "authentication at all."
-msgstr "%s SMTP vericisi istənən %s tanıtma növünü dəstəkləmir."
+msgstr ""
 
 #. mail:camel-service-auth-failed primary
 #: mail/mail-errors.xml.h:6
@@ -15327,35 +15029,31 @@ msgstr ""
 
 #. mail:ask-send-html primary
 #: mail/mail-errors.xml.h:10
-#, fuzzy
 msgid "Are you sure you want to send a message in HTML format?"
-msgstr "Bu URL-ni həqiqətən də silmək istəyirsiniz?"
+msgstr "HTML şəklində məktub göndərmək istəyirsinizmi?"
 
 #. mail:ask-send-html secondary
 #: mail/mail-errors.xml.h:12
-#, fuzzy
 msgid ""
 "Please make sure the following recipients are willing and able to receive "
 "HTML email:\n"
 "{0}\n"
 "Send anyway?"
 msgstr ""
-"HTML şəklində imsarış göndərirsiniz, xahiş edirik aşağıdakı alıcıların HTML\n"
-"şəklində məktub ala bildikləri və istədiklərindən əmin olun:\n"
+"Xahiş edirik aşağıdakı alıcıların HTML şəklində məktub ala bildiklərindən "
+"və istədiklərindən əmin olun:\n"
+"{0}\n"
+"Yenə də göndərilsin?"
 
 #: mail/mail-errors.xml.h:15 mail/mail-errors.xml.h:20
 #: mail/mail-errors.xml.h:27 mail/mail-errors.xml.h:32
-#, fuzzy
 msgid "_Send"
-msgstr "Göndər"
+msgstr "_Göndər"
 
 #. mail:ask-send-no-subject primary
 #: mail/mail-errors.xml.h:17
-#, fuzzy
 msgid "Are you sure you want to send a message without a subject?"
-msgstr ""
-"Bu əlaqəni həqiqətən\n"
-"də silmək istəyirsiniz?"
+msgstr "Məktubu mövzusuz göndərmək istəyirsinizmi?"
 
 #. mail:ask-send-no-subject secondary
 #: mail/mail-errors.xml.h:19
@@ -15366,9 +15064,8 @@ msgstr ""
 
 #. mail:ask-send-only-bcc-contact primary
 #: mail/mail-errors.xml.h:22 mail/mail-errors.xml.h:29
-#, fuzzy
 msgid "Are you sure you want to send a message with only BCC recipients?"
-msgstr "Ancaq _Bcc alıcıları bildirlən ismarış yollamağa çalışdığımda bildir"
+msgstr "Ancaq BCC alıcıları bildirilən məktub yollamaq istəyirsinizmi?"
 
 #. mail:ask-send-only-bcc-contact secondary
 #: mail/mail-errors.xml.h:24
@@ -15404,72 +15101,63 @@ msgstr ""
 
 #. mail:ask-default-drafts primary
 #: mail/mail-errors.xml.h:38
-#, fuzzy
 msgid "Use default drafts folder?"
-msgstr "Ön qurğulu vəzifələr qovluğu açılır"
+msgstr "Ön qurğulu layihələr qovluğu istifadə edilsinmi?"
 
 #. mail:ask-default-drafts secondary
 #: mail/mail-errors.xml.h:40
-#, fuzzy
 msgid ""
 "Unable to open the drafts folder for this account.  Use the system drafts "
 "folder instead?"
-msgstr ""
-"Bu hesabın qovluğu açıla bilmədi.\n"
-"Ön qurğulu layihə qovluğunu işlətmək istəyirsiniz?"
+msgstr "Bu hesabın layihələr qovluğu açıla bilmədi. Sistemin layihə qovluğu işlədilsin?"
 
 #: mail/mail-errors.xml.h:41
-#, fuzzy
 msgid "Use _Default"
-msgstr "Əsası İş_lət"
+msgstr "Ö_n Qurğulusunu İşlət"
 
 #. mail:ask-expunge primary
 #: mail/mail-errors.xml.h:43
-#, fuzzy
 msgid ""
 "Are you sure you want to permanently remove all the deleted message in "
 "folder \"{0}\"?"
-msgstr "Bu qovluqdan silinmiş ismarışları həmişəlik sil"
+msgstr "\"{0}\" qovluğundakı bütün silinmiş məktubları həmişəlik silmək istəyirsinizmi?"
 
 #. mail:ask-expunge secondary
 #: mail/mail-errors.xml.h:45 mail/mail-errors.xml.h:50
 msgid "If you continue, you will not be able to recover these messages."
-msgstr ""
+msgstr "Əgər davam etsəniz, bu məktubları geri ala bilməyəcəksiniz."
 
 #: mail/mail-errors.xml.h:46
-#, fuzzy
 msgid "_Expunge"
-msgstr "_Cız"
+msgstr "_Həmişəlik Sil"
 
 #. mail:ask-empty-trash primary
 #: mail/mail-errors.xml.h:48
-#, fuzzy
 msgid ""
 "Are you sure you want to permanently remove all the deleted messages in all "
 "folders?"
-msgstr "Bütün qovluqlardaki silinmiş ismarışları həmişəlik sil"
+msgstr "Bütün qovluqlardaki silinmiş ismarışları həmişəlik silmək istəyirsinizmi?"
 
 #: mail/mail-errors.xml.h:51
-#, fuzzy
 msgid "_Empty Trash"
 msgstr "Zibil Qutusunu _Boşalt"
 
 #. mail:exit-unsaved primary
 #: mail/mail-errors.xml.h:53
 msgid "You have unsent messages, do you wish to quit anyway?"
-msgstr ""
+msgstr "Göndərilməmiş məktublarınız var, yenə də çıxmaq istəyirsiniz?"
 
 #. mail:exit-unsaved secondary
 #: mail/mail-errors.xml.h:55
 msgid ""
 "If you quit, these messages will not be sent until Evolution is started "
 "again."
-msgstr ""
+msgstr "Əgər çıxsanız, bu məktublar Evolution yenidən başladılana dək göndərilməyəcəkdir."
 
 #. mail:camel-exception primary
 #: mail/mail-errors.xml.h:57
 msgid "Your message message, with the subject \"{0}\" was not delivered."
-msgstr ""
+msgstr "\"{0}\" mövzulu məktubunuz göndərildiyi ünvana çatmadı."
 
 #. mail:camel-exception secondary
 #: mail/mail-errors.xml.h:59
@@ -15482,11 +15170,8 @@ msgstr ""
 
 #. mail:async-error primary
 #: mail/mail-errors.xml.h:62
-#, fuzzy
 msgid "Error while {0}."
-msgstr ""
-"'%s' sırasında xəta:\n"
-"%s"
+msgstr "{0} sırasında xəta."
 
 #. mail:async-error secondary
 #: mail/mail-errors.xml.h:64
@@ -15495,11 +15180,8 @@ msgstr ""
 
 #. mail:async-error-nodescribe primary
 #: mail/mail-errors.xml.h:66
-#, fuzzy
 msgid "Error while performing operation."
-msgstr ""
-"Əməliyyat aparılırkən xəta:\n"
-"%s"
+msgstr "Əməliyyat aparılırkən xəta."
 
 #. mail:async-error-nodescribe secondary
 #: mail/mail-errors.xml.h:68
@@ -15516,81 +15198,65 @@ msgstr ""
 
 #. mail:ask-session-password primary
 #: mail/mail-errors.xml.h:82
-#, fuzzy
 msgid "Enter password."
-msgstr "Şifrəni bildir"
+msgstr "Şifrəni bildirin."
 
 #. mail:filter-load-error primary
 #: mail/mail-errors.xml.h:86
-#, fuzzy
 msgid "Error loading filter definitions."
-msgstr ""
-"Süzgəc mə'lumatını yükləmə xətası:\n"
-"%s"
+msgstr "Süzgəc mə'lumatını yükləmə xətası."
 
 #. mail:no-save-path primary
 #: mail/mail-errors.xml.h:90
-#, fuzzy
 msgid "Cannot save to directory \"{0}\"."
-msgstr "%s qovluğu yaradıla bilmədi: %s"
+msgstr "\"{0}\" qovluğuna qeyd edilə bilmir."
 
 #. mail:no-save-path secondary
 #: mail/mail-errors.xml.h:92
 msgid "{1}"
-msgstr ""
+msgstr "{1}"
 
 #. mail:no-create-path primary
 #: mail/mail-errors.xml.h:94 mail/mail-errors.xml.h:102
 #: mail/mail-errors.xml.h:106
-#, fuzzy
 msgid "Cannot save to file \"{0}\"."
-msgstr ""
-"`%s' mövqeyinə qeyd edilə bilmir\n"
-" %s"
+msgstr "\"{0}\" faylına qeyd edilə bilmir."
 
 #. mail:no-create-path secondary
 #: mail/mail-errors.xml.h:96
-#, fuzzy
 msgid "Cannot create the save directory, because \"{1}\""
-msgstr "%s qovluğu yaradıla bilmədi: %s"
+msgstr "Qeyd etmə qovluğu yaradıla bilmədi, səbəbi: \"{1}\""
 
 #. mail:no-create-tmp-path primary
 #: mail/mail-errors.xml.h:98
-#, fuzzy
 msgid "Cannot create temporary save directory."
-msgstr "Müvəqqəti qovluq yaradıla bilmədi: %s"
+msgstr "Müvəqqəti qeyd etmə qovluğu yaradıla bilmədi."
 
 #. mail:no-create-tmp-path secondary
 #: mail/mail-errors.xml.h:100 mail/mail-errors.xml.h:112
 #: widgets/misc/e-system-errors.xml.h:11 widgets/misc/e-system-errors.xml.h:15
 msgid "Because \"{1}\"."
-msgstr ""
+msgstr "Səbəbi: \"{1}\"."
 
 #. mail:no-write-path-exists secondary
 #: mail/mail-errors.xml.h:104
-#, fuzzy
 msgid "File exists but cannot overwrite it."
-msgstr "Fayl mövcuddur, üstünə yazılsın?"
+msgstr "Fayl mövcuddur, amma üstünə yazıla bilmir."
 
 #. mail:no-write-path-notfile secondary
 #: mail/mail-errors.xml.h:108
-#, fuzzy
 msgid "File exists but is not a regular file."
-msgstr "`%s' faylı mövcud deyil ya da hökmlü fayl deyil."
+msgstr "Fayl mövcuddur, amma düzgün fayl deyil."
 
 #. mail:no-delete-folder primary
 #: mail/mail-errors.xml.h:110
-#, fuzzy
 msgid "Cannot delete folder \"{0}\"."
-msgstr ""
-"Qovluq silinə bilmir:\n"
-"%s"
+msgstr "\"{0}\" qovluğu silinə bilmir."
 
 #. mail:no-delete-spethal-folder primary
 #: mail/mail-errors.xml.h:114
-#, fuzzy
 msgid "Cannot delete system folder \"{0}\"."
-msgstr "Qovluq silinə bilmir: %s: Qovluq yoxdur"
+msgstr "\"{0}\" sistem qovluğu silinə bilmir."
 
 #. mail:no-delete-spethal-folder secondary
 #: mail/mail-errors.xml.h:116 mail/mail-errors.xml.h:120
@@ -15601,21 +15267,18 @@ msgstr ""
 
 #. mail:no-rename-spethal-folder primary
 #: mail/mail-errors.xml.h:118
-#, fuzzy
 msgid "Cannot rename or move system folder \"{0}\"."
-msgstr "Qovluq yenidən adlandırıla bilmir: %s: Qovluq yoxdur"
+msgstr "\"{0}\" sistem qovluğu daşına ya da yenidən adlandırıla bilmir."
 
 #. mail:ask-delete-folder title
 #: mail/mail-errors.xml.h:122
-#, fuzzy
 msgid "Delete \"{0}\"?"
-msgstr "\"%s\"-i Sil"
+msgstr "\"{0}\" silinsinmi?"
 
 #. mail:ask-delete-folder primary
 #: mail/mail-errors.xml.h:124
-#, fuzzy
 msgid "Really delete folder \"{0}\" and all of its subfolders?"
-msgstr "\"%s\" qovluğu həqiqətən də silinsin?"
+msgstr "Həqiqətən də \"{0}\" qovluğu və bütün alt qovluqları silinsin?"
 
 #. mail:ask-delete-folder secondary
 #: mail/mail-errors.xml.h:126
@@ -15641,41 +15304,33 @@ msgstr ""
 
 #. mail:no-move-folder-nostore primary
 #: mail/mail-errors.xml.h:136 mail/mail-errors.xml.h:140
-#, fuzzy
 msgid "Cannot move folder \"{0}\" to \"{1}\"."
-msgstr ""
-"Qovluq daşına bilmir:\n"
-"%s"
+msgstr "\"{0}\" qovluğu \"{1}\" qovluğuna daşına bilmir."
 
 #. mail:no-move-folder-nostore secondary
 #: mail/mail-errors.xml.h:138 mail/mail-errors.xml.h:146
-#, fuzzy
 msgid "Cannot open source \"{2}\"."
-msgstr "Mənbə açıla bilmədi"
+msgstr "\"{2}\" mənbəsi açıla bilmir."
 
 #. mail:no-move-folder-to-nostore secondary
 #: mail/mail-errors.xml.h:142 mail/mail-errors.xml.h:150
-#, fuzzy
 msgid "Cannot open target \"{2}\"."
-msgstr "İsmarış açıla bilmir"
+msgstr "\"{2}\" hədəfi açıla bilmir."
 
 #. mail:no-copy-folder-nostore primary
 #: mail/mail-errors.xml.h:144 mail/mail-errors.xml.h:148
-#, fuzzy
 msgid "Cannot copy folder \"{0}\" to \"{1}\"."
-msgstr "Qovluq köçürülə bilmir: %s"
+msgstr "\"{0}\" qovluğu \"{1}\" qovluğuna köçürülə bilmir."
 
 #. mail:no-create-folder-nostore primary
 #: mail/mail-errors.xml.h:152
-#, fuzzy
 msgid "Cannot create folder \"{0}\"."
-msgstr "Qovluq alına bilmir: %s: %s"
+msgstr "\"{0}\" qovluğu yarana bilmir."
 
 #. mail:no-create-folder-nostore secondary
 #: mail/mail-errors.xml.h:154
-#, fuzzy
 msgid "Cannot open source \"{1}\""
-msgstr "Mənbə açıla bilmədi"
+msgstr "\"{1}\" mənbəsi açıla bilmir"
 
 #. mail:account-incomplete primary
 #: mail/mail-errors.xml.h:156 mail/mail-errors.xml.h:160
@@ -15694,14 +15349,13 @@ msgstr "Eyni adla iki hesab yarada bilməzsiniz."
 
 #. mail:ask-delete-account title
 #: mail/mail-errors.xml.h:164
-#, fuzzy
 msgid "Delete account?"
-msgstr "Seçili əlaqələri sil"
+msgstr "Hesab silinsin?"
 
 #. mail:ask-delete-account primary
 #: mail/mail-errors.xml.h:166
 msgid "Are you sure you want to delete this account?"
-msgstr "Bu hesabı həqiqətən də silmək istəyirsiniz?"
+msgstr "Həqiqətən də bu hesabı silmək istəyirsiniz?"
 
 #. mail:ask-delete-account secondary
 #: mail/mail-errors.xml.h:168
@@ -15714,46 +15368,38 @@ msgstr "Silmə"
 
 #. mail:no-save-signature primary
 #: mail/mail-errors.xml.h:171
-#, fuzzy
 msgid "Could not save signature file."
-msgstr "İmza faylı qeyd edilə bilmir: %s"
+msgstr "İmza faylı qeyd edilə bilmədi."
 
 #. mail:no-save-signature secondary
 #: mail/mail-errors.xml.h:173
 msgid "Because \"{0}\"."
-msgstr ""
+msgstr "Səbəbi: \"{0}\"."
 
 #. mail:signature-notscript primary
 #: mail/mail-errors.xml.h:175
-#, fuzzy
 msgid "Cannot set signature script \"{0}\"."
-msgstr "_İmza Əlavə Et"
+msgstr "\"{0}\" imza skripti seçilə bilmir."
 
 #. mail:signature-notscript secondary
 #: mail/mail-errors.xml.h:177
 msgid "The script file must exist and be executable."
-msgstr ""
+msgstr "Skript faylı mövcud olmalıdır və icra səlahiyyətinə malik olmalıdır."
 
 #. mail:ask-signature-changed title
 #: mail/mail-errors.xml.h:179
-#, fuzzy
 msgid "Discard changed?"
-msgstr "_Dəyişiklikləri nəzərə alma"
+msgstr "Dəyişikliklər nəzərə alınmasın?"
 
 #. mail:ask-signature-changed primary
 #: mail/mail-errors.xml.h:181
-#, fuzzy
 msgid "Do you wish to save your changes?"
-msgstr "Dəyişiklikləri qeyd etmək istəyirsiniz?"
+msgstr "Dəyişikliklərinizi qeyd etmək istəyirsiniz?"
 
 #. mail:ask-signature-changed secondary
 #: mail/mail-errors.xml.h:183
-#, fuzzy
 msgid "This signature has been changed, but has not been saved."
-msgstr ""
-"İmza dəyişdirilib, amma qeyd edilməyib.\n"
-"\n"
-"Dəyişikliklərinizin qeyd edilməsini istəyirsiniz?"
+msgstr "Bu imza dəyişdirilib, amma qeyd edilməyib."
 
 #: mail/mail-errors.xml.h:184
 msgid "_Discard changes"
@@ -15761,9 +15407,8 @@ msgstr "_Dəyişiklikləri nəzərə alma"
 
 #. mail:vfolder-notexist primary
 #: mail/mail-errors.xml.h:186
-#, fuzzy
 msgid "Cannot edit vFolder \"{0}\" as it does not exist."
-msgstr "`%s' qovluğu mövcud deyil."
+msgstr "\"{0}\" vFolder qovluğu mövcud olmadığı üçün dəyişdirilə bilmir."
 
 #. mail:vfolder-notexist secondary
 #: mail/mail-errors.xml.h:188
@@ -15784,7 +15429,6 @@ msgstr ""
 
 #. mail:vfolder-updated secondary
 #: mail/mail-errors.xml.h:196
-#, fuzzy
 msgid ""
 "The following vFolder(s):\n"
 "{0}\n"
@@ -15792,19 +15436,19 @@ msgid ""
 "    \"{1}\"\n"
 "And have been updated."
 msgstr ""
-"Aşağıdakı vQovluq(lar):\n"
-"%2$s silinmiş qovluğunu istifadə edirdi:\n"
-"    '%1$s'\n"
+"Aşağıdakı vFolder-lar:\n"
+"{0}\n"
+"Silinmiş qovluğu istifadə edirdi:\n"
+"    \"{1}\"\n"
 "Onlar yeniləndilər."
 
 #. mail:filter-updated primary
 #: mail/mail-errors.xml.h:202
 msgid "Mail filters automatically updated."
-msgstr ""
+msgstr "Poçt süzgəcləri avtomatik olaraq yeniləndi."
 
 #. mail:filter-updated secondary
 #: mail/mail-errors.xml.h:204
-#, fuzzy
 msgid ""
 "The following filter rule(s):\n"
 "{0}\n"
@@ -15812,9 +15456,10 @@ msgid ""
 "    \"{1}\"\n"
 "And have been updated."
 msgstr ""
-"Aşağıdakı vQovluq(lar):\n"
-"%2$s silinmiş qovluğunu istifadə edirdi:\n"
-"    '%1$s'\n"
+"Aşağıdakı süzgəc qaydaları:\n"
+"{0}\n"
+"Silinmiş qovluğu istifadə edirdi:\n"
+"    \"{1}\"\n"
 "Onlar yeniləndilər."
 
 #. mail:ask-migrate-existing primary
@@ -15836,7 +15481,6 @@ msgid "Ignore"
 msgstr ""
 
 #: mail/mail-errors.xml.h:217 widgets/misc/e-system-errors.xml.h:7
-#, fuzzy
 msgid "_Overwrite"
 msgstr "Ü_stünə yaz"
 
@@ -15886,9 +15530,9 @@ msgid "Sending message %d of %d"
 msgstr "%d / %d ismarış göndərilir"
 
 #: mail/mail-ops.c:704
-#, fuzzy, c-format
+#, c-format
 msgid "Failed to send %d of %d messages"
-msgstr "%d / %d ismarışında iflas etdi"
+msgstr "Toplam %2$d məktubdan %1$d dənəsi göndərilə bilmədi"
 
 #: mail/mail-ops.c:708
 msgid "Complete."
@@ -15943,9 +15587,9 @@ msgid "Expunging and storing account '%s'"
 msgstr ""
 
 #: mail/mail-ops.c:1469
-#, fuzzy, c-format
+#, c-format
 msgid "Storing account '%s'"
-msgstr "%s qovluğu qeyd edilir"
+msgstr "'%s' hesabı qeyd edilir"
 
 #: mail/mail-ops.c:1524
 msgid "Refreshing folder"
@@ -16122,11 +15766,9 @@ msgid "Name:"
 msgstr "Ad:"
 
 #: mail/mail-tools.c:114
-#, fuzzy, c-format
+#, c-format
 msgid "Could not create spool directory `%s': %s"
-msgstr ""
-"%s qovluğu yaradıla bilmədi:\n"
-"%s"
+msgstr "`%s' növbə qovluğu yaradıla bilmədi: %s"
 
 #: mail/mail-tools.c:141
 #, c-format
@@ -16143,9 +15785,9 @@ msgid "Forwarded message"
 msgstr "Ötürülmüş ismarış"
 
 #: mail/mail-tools.c:319
-#, fuzzy, c-format
+#, c-format
 msgid "Invalid folder: `%s'"
-msgstr "%s qovluğu açılır"
+msgstr "Səhv qovluq: `%s'"
 
 #: mail/mail-vfolder.c:87
 #, c-format
@@ -16153,14 +15795,14 @@ msgid "Setting up vfolder: %s"
 msgstr "vqovluq quraşdırılır: %s"
 
 #: mail/mail-vfolder.c:235
-#, fuzzy, c-format
+#, c-format
 msgid "Updating vFolders for '%s:%s'"
-msgstr "Uri üçün vqovluqlar yenilənir: %s"
+msgstr "%s üçün vFolder-lar yenilənir: %s"
 
 #: mail/mail-vfolder.c:242
-#, fuzzy, c-format
+#, c-format
 msgid "Updating vFolders for '%s'"
-msgstr "Uri üçün vqovluqlar yenilənir: %s"
+msgstr "'%s' üçün vFolder-lar yenilənir"
 
 #: mail/mail-vfolder.c:959
 msgid "vFolders"
@@ -16432,9 +16074,8 @@ msgid "(Untitled)"
 msgstr "(Adsız)"
 
 #: shell/e-shell-importer.c:146
-#, fuzzy
 msgid "Choose the type of importer to run:"
-msgstr ""
+msgstr "İşə salınacaq idxalçının növünü seçin:"
 
 #: shell/e-shell-importer.c:149
 msgid ""
@@ -16525,7 +16166,7 @@ msgstr "Fayl _növü:"
 
 #: shell/e-shell-importer.c:652
 msgid "Import data and settings from _older programs"
-msgstr "_Köhnə proqramlardan verilən və qurğuları idxal et"
+msgstr "Daha _köhnə proqramlardan verilən və qurğuları idxal et"
 
 #: shell/e-shell-importer.c:655
 msgid "Import a _single file"
@@ -17203,15 +16844,15 @@ msgstr "SSL Verici Vəsiqəsi"
 
 #: smime/gui/smime-ui.glade.h:37
 msgid "Trust this CA to identify email users."
-msgstr "Epoçt istifadəçilərini təstiqləmək üçün bu vəsiqə sahibinə güvən."
+msgstr "Epoçt istifadəçilərini təsdiqləmək üçün bu vəsiqə sahibinə güvən."
 
 #: smime/gui/smime-ui.glade.h:38
 msgid "Trust this CA to identify software developers."
-msgstr "Proqram təminatını inkişafçılarını təstiqləmək üçün bu vəsiqə sahibinə güvən."
+msgstr "Proqram təminatını inkişafçılarını təsdiqləmək üçün bu vəsiqə sahibinə güvən."
 
 #: smime/gui/smime-ui.glade.h:39
 msgid "Trust this CA to identify web sites."
-msgstr "Veb saytlarını təstiqləmək üçün bu vəsiqə sahibinə güvən."
+msgstr "Veb saytlarını təsdiqləmək üçün bu vəsiqə sahibinə güvən."
 
 #: smime/gui/smime-ui.glade.h:40
 msgid "View"
@@ -17227,15 +16868,15 @@ msgstr "Sizə yeni Vəsiqə Sahibinə (CA) güvənmə sualı verildi."
 
 #: smime/gui/smime-ui.glade.h:43
 msgid "You have certificates from these organizations that identify you:"
-msgstr "Siz sizi təstiqləyən bu şirkətlərin vəsiqələrinə maliksiniz:"
+msgstr "Siz sizi təsdiqləyən bu şirkətlərin vəsiqələrinə maliksiniz:"
 
 #: smime/gui/smime-ui.glade.h:44
 msgid "You have certificates on file that identify these certificate authorities:"
-msgstr "Siz bu vəsiqə şirkətlərini təstiqləyən vəsiqələrə maliksiniz:"
+msgstr "Siz bu vəsiqə şirkətlərini təsdiqləyən vəsiqələrə maliksiniz:"
 
 #: smime/gui/smime-ui.glade.h:45
 msgid "You have certificates on file that identify these people:"
-msgstr "Siz bu şəxsləri təstiqləyən vəsiqələrə maliksiniz:"
+msgstr "Siz bu şəxsləri təsdiqləyən vəsiqələrə maliksiniz:"
 
 #: smime/gui/smime-ui.glade.h:46
 msgid "Your Certificates"
@@ -17360,11 +17001,11 @@ msgstr "Üzv İmzalayanı"
 
 #: smime/lib/e-cert.c:782
 msgid "SSL Certificate Authority"
-msgstr "SSL Vəsiqəsi Təstiqi"
+msgstr "SSL Vəsiqəsi Təsdiqi"
 
 #: smime/lib/e-cert.c:786
 msgid "Email Certificate Authority"
-msgstr "Epoçt Vəsiqəsi Təstiqi"
+msgstr "Epoçt Vəsiqəsi Təsdiqi"
 
 #: smime/lib/e-cert.c:814
 msgid "Signing"
@@ -18571,7 +18212,7 @@ msgstr "Bu ismarışı şəxsi PGP açarınızla imzalayın"
 
 #: ui/evolution-message-composer.xml.h:31
 msgid "Sign this message with your S/MIME Signature Certificate"
-msgstr "Bu ismarışı şəxsi S/MIME İmza Vəsiqənizlə imzalayın"
+msgstr "Bu məktubu şəxsi S/MIME İmza Vəsiqənizlə imzalayın"
 
 #: ui/evolution-message-composer.xml.h:32
 msgid "Toggles whether the BCC field is displayed"
