@@ -68,8 +68,6 @@ static void e_addressbook_view_class_init	(EAddressbookViewClass	 *klass);
 static void e_addressbook_view_set_arg (GtkObject *o, GtkArg *arg, guint arg_id);
 static void e_addressbook_view_get_arg (GtkObject *object, GtkArg *arg, guint arg_id);
 static void e_addressbook_view_destroy (GtkObject *object);
-static gint e_addressbook_view_key_press_event (GtkWidget *widget,
-						GdkEventKey *event);
 static void change_view_type (EAddressbookView *view, EAddressbookViewType view_type);
 
 static void status_message     (GtkObject *object, const gchar *status, EAddressbookView *eav);
@@ -154,8 +152,6 @@ e_addressbook_view_class_init (EAddressbookViewClass *klass)
 	object_class->set_arg = e_addressbook_view_set_arg;
 	object_class->get_arg = e_addressbook_view_get_arg;
 	object_class->destroy = e_addressbook_view_destroy;
-
-	widget_class->key_press_event = e_addressbook_view_key_press_event;
 
 	gtk_object_add_arg_type ("EAddressbookView::book", GTK_TYPE_OBJECT,
 				 GTK_ARG_READWRITE, ARG_BOOK);
@@ -293,29 +289,6 @@ e_addressbook_view_destroy (GtkObject *object)
 
 	if (GTK_OBJECT_CLASS(parent_class)->destroy)
 		GTK_OBJECT_CLASS(parent_class)->destroy(object);
-}
-
-static gint
-e_addressbook_view_key_press_event (GtkWidget *widget,
-				    GdkEventKey *event)
-{
-	EAddressbookView *view = E_ADDRESSBOOK_VIEW (widget);
-	guint return_val = 0;
-
-	if (GTK_WIDGET_CLASS (parent_class)->key_press_event) {
-		return_val = GTK_WIDGET_CLASS (parent_class)->key_press_event (widget, event);
-		if (return_val != 0)
-			return return_val;
-	}
-
-	if ((event->keyval == GDK_Delete ||
-	     event->keyval == GDK_KP_Delete) &&
-	    event->state == 0) {
-		e_addressbook_view_delete_selection(view);
-		return_val = TRUE;
-	}
-
-	return return_val;
 }
 
 GtkWidget*

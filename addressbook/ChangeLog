@@ -1,3 +1,9 @@
+2001-10-24  Christopher James Lahey  <clahey@ximian.com>
+
+	* gui/widgets/e-addressbook-view.c
+	(e_addressbook_view_class_init): Removed key_press handler here
+	since delete and backspace are now handled by keybindings.
+
 2001-10-23  Jon Trowbridge  <trow@ximian.com>
 
 	* gui/component/addressbook.c: Fix command paths when we specify
