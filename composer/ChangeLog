@@ -1,3 +1,8 @@
+2001-09-20  Jeffrey Stedfast  <fejj@ximian.com>
+
+	* e-msg-composer.c (save_draft): Update to reflect changes to
+	mail_get_folder.
+
 2001-09-20  Iain Holmes  <iain@ximian.com>
 
 	* e-msg-composer.c (get_file_content): Open the file with O_CREAT so
