@@ -1,3 +1,10 @@
+2003-12-09  Ettore Perazzoli  <ettore@ximian.com>
+
+	[#51710]
+
+	* GNOME_Evolution_Shell.server.in.in: Remove
+	GNOME_Evolution_Shell_Config_FolderSettings_Control.
+
 2003-12-06  JP Rosevear <jpr@ximian.com>
 
 	* e-shell-importer.c: remove useless gal include
