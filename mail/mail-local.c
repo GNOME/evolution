@@ -324,6 +324,24 @@ mlf_search_by_expression(CamelFolder *folder, const char *expression, CamelExcep
 	return ret;
 }
 
+static GPtrArray *
+mlf_search_by_uids(CamelFolder *folder, const char *expression, GPtrArray *uids, CamelException *ex)
+{
+	MailLocalFolder *mlf = MAIL_LOCAL_FOLDER (folder);
+	GPtrArray *ret;
+	CamelFolder *f;
+
+	LOCAL_FOLDER_LOCK(mlf);
+	f = mlf->real_folder;
+	camel_object_ref((CamelObject *)f);
+	LOCAL_FOLDER_UNLOCK(mlf);
+
+	ret = camel_folder_search_by_uids(f, expression, uids, ex);
+	camel_object_unref((CamelObject *)f);
+
+	return ret;
+}
+
 static void
 mlf_search_free(CamelFolder *folder, GPtrArray *result)
 {
@@ -476,6 +494,7 @@ mlf_class_init (CamelObjectClass *camel_object_class)
 	camel_folder_class->search_free = mlf_search_free;
 
 	camel_folder_class->search_by_expression = mlf_search_by_expression;
+	camel_folder_class->search_by_uids = mlf_search_by_uids;
 	camel_folder_class->set_message_flags = mlf_set_message_flags;
 	camel_folder_class->set_message_user_flag = mlf_set_message_user_flag;
 	camel_folder_class->set_message_user_tag = mlf_set_message_user_tag;
