@@ -6,7 +6,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: evolution 0.7.0\n"
-"POT-Creation-Date: 2000-12-03 17:06+0100\n"
+"POT-Creation-Date: 2000-12-04 18:30+0100\n"
 "PO-Revision-Date: 2000-09-26 16:58-04:00\n"
 "Last-Translator: Héctor García Álvarez <hector@scouts-es.org>\n"
 "Language-Team: Spanish <es@li.org>\n"
@@ -4057,8 +4057,8 @@ msgid "Forward"
 msgstr "Reenviar"
 
 #: mail/folder-browser.c:486 po/tmp/evolution-mail.xml.h:18
-msgid "Forward as Attachment"
-msgstr "Reenviar como adjunto"
+msgid "Forward inline"
+msgstr "Reenviar dentro del mensaje"
 
 #: mail/folder-browser.c:488
 msgid "Mark as Read"
@@ -4381,18 +4381,6 @@ msgstr "Transporte del correo"
 #: po/tmp/mail-config-druid.glade.h:10
 msgid "Welcome to the Evolution Mail configuration wizard!\n"
 msgstr "¡Bienvenido al ayudante de configuración de correo de Evolution!\n"
-
-#: po/tmp/mail-config-druid.glade.h:11
-msgid "By filling in some information about your email\n"
-msgstr "Rellenando algunos datos sobre su la configuración\n"
-
-#: po/tmp/mail-config-druid.glade.h:12
-msgid "settings, you can start sending and receiving email\n"
-msgstr "de su correo, podrá comenzar a enviar y recivir mensajes\n"
-
-#: po/tmp/mail-config-druid.glade.h:13
-msgid "right away. Click Next to continue."
-msgstr "inmediatamente. Pulse Siguiente para continuar."
 
 #: po/tmp/mail-config-druid.glade.h:14
 msgid ""
@@ -6858,3 +6846,15 @@ msgstr "Error la escribir al archivo temporal: %s: %s"
 #, c-format
 msgid "Cannot append message to mh folder: %s: %s"
 msgstr "No pude añadir el mensaje a la carpeta mh: %s: %s"
+
+#~ msgid "Forward as Attachment"
+#~ msgstr "Reenviar como adjunto"
+
+#~ msgid "By filling in some information about your email\n"
+#~ msgstr "Rellenando algunos datos sobre su la configuración\n"
+
+#~ msgid "settings, you can start sending and receiving email\n"
+#~ msgstr "de su correo, podrá comenzar a enviar y recivir mensajes\n"
+
+#~ msgid "right away. Click Next to continue."
+#~ msgstr "inmediatamente. Pulse Siguiente para continuar."
