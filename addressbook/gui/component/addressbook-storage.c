@@ -31,6 +31,7 @@
 	   <rootdn></rootdn>
 	   <authmethod>simple</authmethod>
 	   <emailaddr>toshok@blubag.com</emailaddr>
+	   <limit>100</limit>
 	   <rememberpass/>
      </contactserver>
    </addressbooks>
@@ -231,6 +232,30 @@ get_string_value (xmlNode *node,
 
 	return retval;
 }
+
+static int
+get_integer_value (xmlNode *node,
+		   const char *name,
+		   int defval)
+{
+	xmlNode *p;
+	xmlChar *xml_string;
+	int retval;
+
+	p = e_xml_get_child_by_name (node, (xmlChar *) name);
+	if (p == NULL)
+		return defval;
+
+	p = e_xml_get_child_by_name (p, (xmlChar *) "text");
+	if (p == NULL) /* there's no text between the tags, return the default */
+		return defval;
+
+	xml_string = xmlNodeListGetString (node->doc, p, 1);
+	retval = atoi (xml_string);
+	xmlFree (xml_string);
+
+	return retval;
+}
 #endif
 
 static char *
@@ -299,9 +324,15 @@ addressbook_storage_init_source_uri (AddressbookSource *source)
 	if (source->uri)
 		g_free (source->uri);
 
-	source->uri = g_strdup_printf  ("ldap://%s:%s/%s??%s",
-					source->host, source->port,
-					source->rootdn, ldap_unparse_scope(source->scope));
+	if (source->limit != 100)
+		source->uri = g_strdup_printf  ("ldap://%s:%s/%s?"/*trigraph prevention*/ "?%s;limit=%d",
+						source->host, source->port,
+						source->rootdn, ldap_unparse_scope(source->scope),
+						source->limit);
+	else 
+		source->uri = g_strdup_printf  ("ldap://%s:%s/%s?"/*trigraph prevention*/ "?%s",
+						source->host, source->port,
+						source->rootdn, ldap_unparse_scope(source->scope));
 }
 
 #ifdef HAVE_LDAP
@@ -330,7 +361,7 @@ load_source_data (const char *file_path)
 
 			if (rv < 0) {
 				g_error ("Failed to rename %s: %s\n",
-					 ADDRESSBOOK_SOURCES_XML,
+					 file_path,
 					 strerror(errno));
 				return FALSE;
 			} else
@@ -361,6 +392,7 @@ load_source_data (const char *file_path)
 			source->scope  = ldap_parse_scope (get_string_value (child, "scope"));
 			source->auth   = ldap_parse_auth (get_string_value (child, "authmethod"));
 			source->email_addr = get_string_value (child, "emailaddr");
+			source->limit  = get_integer_value (child, "limit", 100);
 		}
 		else {
 			g_warning ("unknown node '%s' in %s", child->name, file_path);
@@ -414,6 +446,15 @@ ldap_source_foreach(AddressbookSource *source, xmlNode *root)
 		     (xmlChar *) ldap_unparse_scope(source->scope));
 	xmlNewChild (source_root, NULL, (xmlChar *) "authmethod",
 		     (xmlChar *) ldap_unparse_auth(source->auth));
+
+	if (source->limit != 100) {
+		char *string;
+		string = g_strdup_printf ("%d", source->limit);
+		xmlNewChild (source_root, NULL, (xmlChar *) "limit",
+			     (xmlChar *) string);
+		g_free (string);
+	}
+
 	if (source->auth == ADDRESSBOOK_LDAP_AUTH_SIMPLE) {
 		xmlNewChild (source_root, NULL, (xmlChar *) "emailaddr",
 			     (xmlChar *) source->email_addr);
@@ -445,7 +486,7 @@ save_source_data (const char *file_path)
 	xmlDocDumpMemory (doc, &buf, &buf_size);
 
 	if (buf == NULL) {
-		g_error ("Failed to write %s: xmlBufferCreate() == NULL", ADDRESSBOOK_SOURCES_XML);
+		g_error ("Failed to write %s: xmlBufferCreate() == NULL", file_path);
 		return FALSE;
 	}
 
@@ -454,13 +495,13 @@ save_source_data (const char *file_path)
 	close (fd);
 
 	if (0 > rv) {
-		g_error ("Failed to write new %s: %s\n", ADDRESSBOOK_SOURCES_XML, strerror(errno));
+		g_error ("Failed to write new %s: %s\n", file_path, strerror(errno));
 		unlink (new_path);
 		return FALSE;
 	}
 	else {
 		if (0 > rename (new_path, file_path)) {
-			g_error ("Failed to rename %s: %s\n", ADDRESSBOOK_SOURCES_XML, strerror(errno));
+			g_error ("Failed to rename %s: %s\n", file_path, strerror(errno));
 			unlink (new_path);
 			return FALSE;
 		}
@@ -597,6 +638,7 @@ addressbook_source_copy (const AddressbookSource *source)
 	copy->auth = source->auth;
 	copy->email_addr = g_strdup (source->email_addr);
 	copy->remember_passwd = source->remember_passwd;
+	copy->limit = source->limit;
 
 	return copy;
 }

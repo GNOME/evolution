@@ -44,6 +44,8 @@
 #include "pas-book.h"
 #include "pas-card-cursor.h"
 
+#include <stdlib.h>
+
 
 #define LDAP_MAX_SEARCH_RESPONSES 100
 
@@ -69,6 +71,7 @@ struct _PASBackendLDAPPrivate {
 	gchar    *ldap_rootdn;
 	int      ldap_port;
 	int      ldap_scope;
+	int      ldap_limit;
 	GList    *book_views;
 
 	LDAP     *ldap;
@@ -2285,7 +2288,7 @@ ldap_search_handler (PASBackend *backend, LDAPOp *op)
 					    NULL, /* XXX */
 					    NULL, /* XXX */
 					    NULL,
-					    LDAP_MAX_SEARCH_RESPONSES, &view->search_msgid);
+					    bl->priv->ldap_limit, &view->search_msgid);
 
 		if (ldap_err != LDAP_SUCCESS) {
 			pas_book_view_notify_status_message (view->book_view, ldap_err2string(ldap_err));
@@ -2538,10 +2541,39 @@ pas_backend_ldap_load_uri (PASBackend             *backend,
 	PASBackendLDAP *bl = PAS_BACKEND_LDAP (backend);
 	LDAPURLDesc    *lud;
 	int ldap_error;
+	char **attributes;
+	int i;
+	int limit = 100;
 
 	g_assert (bl->priv->connected == FALSE);
 
-	ldap_error = ldap_url_parse ((char*)uri, &lud);
+	attributes = g_strsplit (uri, ";", 0);
+
+	if (attributes[0] == NULL)
+		return FALSE;
+
+	for (i = 1; attributes[i]; i++) {
+		char *equals;
+		char *value;
+		int key_length;
+		equals = strchr (attributes[i], '=');
+		if (equals) {
+			key_length = equals - attributes[i];
+			value = equals + 1;
+		} else {
+			key_length = strlen (attributes[i]);
+			value = NULL;
+		}
+		
+		if (key_length == strlen("limit") && !strncmp (attributes[i], "limit", key_length)) {
+			if (value)
+				limit = atoi(value);
+		}
+	}
+
+	ldap_error = ldap_url_parse ((char*)attributes[0], &lud);
+	g_strfreev (attributes);
+
 	if (ldap_error == LDAP_SUCCESS) {
 		g_free(bl->priv->uri);
 		bl->priv->uri = g_strdup (uri);
@@ -2551,6 +2583,7 @@ pas_backend_ldap_load_uri (PASBackend             *backend,
 		if (bl->priv->ldap_port == 0)
 			bl->priv->ldap_port = LDAP_PORT;
 		bl->priv->ldap_rootdn = g_strdup(lud->lud_dn);
+		bl->priv->ldap_limit = limit;
 		bl->priv->ldap_scope = lud->lud_scope;
 
 		ldap_free_urldesc(lud);
@@ -2746,6 +2779,7 @@ pas_backend_ldap_init (PASBackendLDAP *backend)
 	priv                   = g_new0 (PASBackendLDAPPrivate, 1);
 
 	priv->supported_fields = e_list_new ((EListCopyFunc)g_strdup, (EListFreeFunc)g_free, NULL);
+	priv->ldap_limit            = 100;
 
 	backend->priv = priv;
 }

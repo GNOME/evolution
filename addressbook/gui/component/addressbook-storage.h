@@ -57,6 +57,7 @@ typedef struct {
 	char *email_addr;                   /* used in AUTH_SIMPLE */
 	gboolean remember_passwd;
 	char *uri; /* filled in from the above */
+	int limit;
 } AddressbookSource;
 
 void addressbook_storage_setup (EvolutionShellComponent *shell_component,

@@ -13,6 +13,7 @@
 #include <e-util/e-html-utils.h>
 #include "addressbook-config.h"
 #include "addressbook-storage.h"
+#include <stdlib.h>
 
 typedef struct _AddressbookSourceDialog AddressbookSourceDialog;
 typedef struct _AddressbookSourcePageItem  AddressbookSourcePageItem;
@@ -33,6 +34,7 @@ struct _AddressbookSourceDialog {
 
 	GtkWidget *port;
 	GtkWidget *rootdn;
+	GtkWidget *limit;
 	GtkWidget *scope_optionmenu;
 	AddressbookLDAPScopeType ldap_scope;
 	GtkWidget *auth_checkbutton;
@@ -126,11 +128,15 @@ add_focus_handler (GtkWidget *widget, GtkWidget *notebook, int page_num)
 static void
 addressbook_source_dialog_set_source (AddressbookSourceDialog *dialog, AddressbookSource *source)
 {
+	char *string;
 	e_utf8_gtk_entry_set_text (GTK_ENTRY (dialog->name), source ? source->name : "");
 	e_utf8_gtk_entry_set_text (GTK_ENTRY (dialog->host), source ? source->host : "");
 	e_utf8_gtk_entry_set_text (GTK_ENTRY (dialog->email), source ? source->email_addr : "");
 	e_utf8_gtk_entry_set_text (GTK_ENTRY (dialog->port), source ? source->port : "389");
 	e_utf8_gtk_entry_set_text (GTK_ENTRY (dialog->rootdn), source ? source->rootdn : "");
+	string = g_strdup_printf ("%d", source ? source->limit : 100);
+	e_utf8_gtk_entry_set_text (GTK_ENTRY (dialog->limit), string);
+	g_free (string);
 
 	gtk_option_menu_set_history (GTK_OPTION_MENU(dialog->scope_optionmenu), source ? source->scope : ADDRESSBOOK_LDAP_SCOPE_ONELEVEL);
 	dialog->ldap_scope = source ? source->scope : ADDRESSBOOK_LDAP_SCOPE_ONELEVEL;
@@ -150,6 +156,7 @@ addressbook_source_dialog_get_source (AddressbookSourceDialog *dialog)
 	source->email_addr = e_utf8_gtk_entry_get_text (GTK_ENTRY (dialog->email));
 	source->port       = e_utf8_gtk_entry_get_text (GTK_ENTRY (dialog->port));
 	source->rootdn     = e_utf8_gtk_entry_get_text (GTK_ENTRY (dialog->rootdn));
+	source->limit      = atoi(e_utf8_gtk_entry_get_text (GTK_ENTRY (dialog->limit)));
 	source->scope      = dialog->ldap_scope;
 	source->auth       = (gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (dialog->auth_checkbutton))
 			      ? ADDRESSBOOK_LDAP_AUTH_SIMPLE : ADDRESSBOOK_LDAP_AUTH_NONE);
@@ -234,6 +241,11 @@ addressbook_source_dialog (GladeXML *gui, AddressbookSource *source, GtkWidget *
 	add_focus_handler (dialog->scope_optionmenu, dialog->advanced_notebook, 2);
 	menu = gtk_option_menu_get_menu (GTK_OPTION_MENU(dialog->scope_optionmenu));
 	gtk_container_foreach (GTK_CONTAINER (menu), (GtkCallback)add_activate_cb, dialog);
+
+	dialog->limit = glade_xml_get_widget (gui, "limit-entry");
+	gtk_signal_connect (GTK_OBJECT (dialog->limit), "changed",
+			    GTK_SIGNAL_FUNC (addressbook_source_edit_changed), dialog);
+	add_focus_handler (dialog->limit, dialog->advanced_notebook, 3);
 
 	/* fill in source info if there is some */
 	addressbook_source_dialog_set_source (dialog, source);

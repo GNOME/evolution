@@ -1,3 +1,18 @@
+2002-01-21  Christopher James Lahey  <clahey@ximian.com>
+
+	* backend/pas/pas-backend-ldap.c (ldap_search_handler): Set the
+	number of cards to return to the value specified in the ldap uri,
+	leaving the default at 100.  Fixes Ximian bug #13953.
+
+	* gui/component/addressbook-config.c (addressbook_source_dialog),
+	gui/component/addressbook-config.glade: Added a limit entry here
+	to edit the limit field of the source.
+
+	* gui/component/addressbook-storage.c,
+	gui/component/addressbook-storage.h
+	(addressbook_storage_init_source_uri): Added a limit field to this
+	class and pass that value through in the uri that's generated.
+
 2002-01-18  Christopher James Lahey  <clahey@ximian.com>
 
 	* backend/ebook/e-card-compare.c: Made username match with no
