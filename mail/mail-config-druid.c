@@ -33,6 +33,7 @@
 #include <string.h>
 #include <unistd.h>
 
+#include <gal/util/e-util.h>
 #include <glade/glade.h>
 #include <gtkhtml/gtkhtml.h>
 #include <libgnomeui/gnome-dialog.h>
@@ -50,18 +51,6 @@
 #include <evolution-wizard.h>
 #include <e-util/e-account.h>
 
-static void mail_config_druid_class_init (MailConfigDruidClass *class);
-static void mail_config_druid_destroy    (GtkObject *obj);
-
-static GtkWindowClass *parent_class;
-
-/* These globals need fixed FIXME FIXME FIXME FIXME*/
-static GHashTable *page_hash = NULL;
-static GList *page_list = NULL;
-static EvolutionWizard *account_wizard;
-
-#define WIZARD_IID "OAFIID:GNOME_Evolution_Mail_Wizard_Factory"
-
 typedef enum {
 	MAIL_CONFIG_WIZARD_PAGE_NONE = -1,
 	MAIL_CONFIG_WIZARD_PAGE_IDENTITY,
@@ -69,299 +58,202 @@ typedef enum {
 	MAIL_CONFIG_WIZARD_PAGE_EXTRA,
 	MAIL_CONFIG_WIZARD_PAGE_TRANSPORT,
 	MAIL_CONFIG_WIZARD_PAGE_MANAGEMENT,
+
+	MAIL_CONFIG_WIZARD_NUM_PAGES
 } MailConfigWizardPage;
 
 typedef struct {
+	/* Only one of these will be set */
+	GnomeDruid *druid;
+	EvolutionWizard *corba_wizard;
+
 	MailAccountGui *gui;
 
-	EAccount *account;
-	EvolutionWizard *wizard;
+	GPtrArray *interior_pages;
+	GnomeDruidPage *last_page;
 
 	gboolean identity_copied;
 	CamelProvider *last_source;
 	MailConfigWizardPage page;
 } MailConfigWizard;
 
-GtkType
-mail_config_druid_get_type (void)
-{
-	static GType type = 0;
-	
-	if (!type) {
-		GTypeInfo type_info = {
-			sizeof (MailConfigDruidClass),
-			NULL, NULL,
-			(GClassInitFunc) mail_config_druid_class_init,
-			NULL, NULL,
-			sizeof (MailConfigDruid),
-			0,
-			(GInstanceInitFunc) NULL,
-		};
 
-		type = g_type_register_static (gtk_window_get_type (), "MailConfigDruid", &type_info, 0);
+
+
+static void
+config_wizard_set_buttons_sensitive (MailConfigWizard *mcw,
+				     gboolean prev_sensitive,
+				     gboolean next_sensitive)
+{
+	if (mcw->corba_wizard) {
+		evolution_wizard_set_buttons_sensitive (mcw->corba_wizard,
+							prev_sensitive,
+							next_sensitive,
+							TRUE, NULL);
+	} else {
+		gnome_druid_set_buttons_sensitive (mcw->druid,
+						   prev_sensitive,
+						   next_sensitive,
+						   TRUE, FALSE);
 	}
-	
-	return type;
 }
 
 static void
-mail_config_druid_class_init (MailConfigDruidClass *class)
+config_wizard_set_page (MailConfigWizard *mcw, MailConfigWizardPage page)
 {
-	GtkObjectClass *object_class;
-	
-	object_class = (GtkObjectClass *) class;
-	parent_class = g_type_class_ref(gtk_window_get_type ());
-	
-	/* override methods */
-	object_class->destroy = mail_config_druid_destroy;
-}
-
-static void
-mail_config_druid_destroy (GtkObject *obj)
-{
-	MailConfigDruid *druid = (MailConfigDruid *) obj;
-	CORBA_Environment ev;
-
-	if (druid->xml) {
-		g_object_unref(druid->xml);
-		druid->xml = NULL;
-	
-		CORBA_exception_init (&ev);
-		Bonobo_EventSource_removeListener ((Bonobo_EventSource) druid->event_source,
-						   bonobo_object_corba_objref(BONOBO_OBJECT(druid->listener)), &ev);
-		CORBA_exception_free (&ev);
-
-		bonobo_object_release_unref ((Bonobo_Unknown) druid->event_source, &ev);
-		bonobo_object_unref (BONOBO_OBJECT (druid->listener));
+	if (mcw->corba_wizard)
+		evolution_wizard_set_page (mcw->corba_wizard, page, NULL);
+	else {
+		if (page <= mcw->interior_pages->len)
+			gnome_druid_set_page (mcw->druid, mcw->interior_pages->pdata[page]);
+		else
+			gnome_druid_set_page (mcw->druid, mcw->last_page);
 	}
-
-	((GtkObjectClass *)(parent_class))->destroy(obj);
-}
-
-
-static struct {
-	char *name;
-	char *text;
-} info[] = {
-	{ "identity_html",
-	  N_("Please enter your name and email address below. The \"optional\" fields below do not need to be filled in, unless you wish to include this information in email you send.") },
-	{ "source_html",
-	  N_("Please enter information about your incoming mail server below. If you are not sure, ask your system administrator or Internet Service Provider.") },
-	{ "extra_html",
-	  N_("Please select among the following options") },
-	{ "transport_html",
-	  N_("Please enter information about the way you will send mail. If you are not sure, ask your system administrator or Internet Service Provider.") },
-	{ "management_html",
-	  N_("You are almost done with the mail configuration process. The identity, incoming mail server and outgoing mail transport method which you provided will be grouped together to make an Evolution mail account. Please enter a name for this account in the space below. This name will be used for display purposes only.") }
-};
-static int num_info = (sizeof (info) / sizeof (info[0]));
-
-static GtkWidget *
-create_label (const char *name)
-{
-	GtkWidget *widget, *align;
-	int i;
-	
-	for (i = 0; i < num_info; i++) {
-		if (!strcmp (name, info[i].name))
-			break;
-	}
-	
-	g_return_val_if_fail (i != num_info, NULL);
-	
-	widget = gtk_label_new (_(info[i].text));
-	gtk_label_set_line_wrap (GTK_LABEL (widget), TRUE);
-	gtk_label_set_justify (GTK_LABEL (widget), GTK_JUSTIFY_FILL);
-	gtk_widget_show (widget);
-	
-	align = gtk_alignment_new (0.0, 0.5, 1.0, 1.0);
-	gtk_container_add (GTK_CONTAINER (align), widget);
-	
-	gtk_widget_show (align);
-	
-	return align;
-}
-
-static void
-druid_cancel (GnomeDruid *druid, gpointer user_data)
-{
-	MailConfigDruid *config = user_data;
-	GNOME_Evolution_Wizard wiz;
-	CORBA_Environment ev;
-
-	wiz = bonobo_object_corba_objref (BONOBO_OBJECT (account_wizard));
-	CORBA_exception_init (&ev);
-
-	GNOME_Evolution_Wizard_notifyAction (wiz, 0, GNOME_Evolution_Wizard_CANCEL, &ev);
-	CORBA_exception_free (&ev);
-
-	if (page_list != NULL) {
-		g_list_free (page_list);
-		page_list = NULL;
-	}
-
-	if (page_hash != NULL) {
-		g_hash_table_destroy (page_hash);
-		page_hash = NULL;
-	}
-
-	gtk_widget_destroy (GTK_WIDGET (config));
-}
-
-static void
-druid_finish (GnomeDruidPage *page, gpointer arg1, gpointer user_data)
-{
-	MailConfigDruid *druid = user_data;
-
-	g_object_set_data(G_OBJECT(account_wizard), "account-data", NULL);
-	if (page_list != NULL) {
-		g_list_free (page_list);
-		page_list = NULL;
-	}
-
-	if (page_hash != NULL) {
-		g_hash_table_destroy (page_hash);
-		page_hash = NULL;
-	}
-
-	gtk_widget_destroy (GTK_WIDGET (druid));
 }
 
 /* Identity Page */
 static void
 identity_changed (GtkWidget *widget, gpointer data)
 {
-	MailConfigWizard *gui = data;
+	MailConfigWizard *mcw = data;
 	GtkWidget *incomplete;
 	gboolean next_sensitive;
 	
-	if (gui->page != MAIL_CONFIG_WIZARD_PAGE_IDENTITY)
+	if (mcw->page != MAIL_CONFIG_WIZARD_PAGE_IDENTITY)
 		return;
 	
-	next_sensitive = mail_account_gui_identity_complete (gui->gui, &incomplete);
+	next_sensitive = mail_account_gui_identity_complete (mcw->gui, &incomplete);
 	
-	evolution_wizard_set_buttons_sensitive (gui->wizard, TRUE, next_sensitive, TRUE, NULL);
+	config_wizard_set_buttons_sensitive (mcw, TRUE, next_sensitive);
 	
 	if (!next_sensitive)
 		gtk_widget_grab_focus (incomplete);
 }
 
 static void
-identity_prepare (EvolutionWizard *wizard, gpointer data)
+identity_prepare (MailConfigWizard *mcw)
 {
-	MailConfigWizard *gui = data;
 	const char *name;
 	
-	gui->page = MAIL_CONFIG_WIZARD_PAGE_IDENTITY;
+	mcw->page = MAIL_CONFIG_WIZARD_PAGE_IDENTITY;
 	
-	name = gtk_entry_get_text (gui->gui->full_name);
+	name = gtk_entry_get_text (mcw->gui->full_name);
 	if (!name) {
 		name = g_get_real_name ();
-		gtk_entry_set_text (gui->gui->full_name, name ? name : "");
-		gtk_editable_select_region (GTK_EDITABLE (gui->gui->full_name), 0, -1);
+		gtk_entry_set_text (mcw->gui->full_name, name ? name : "");
+		gtk_editable_select_region (GTK_EDITABLE (mcw->gui->full_name), 0, -1);
 	}
-	gtk_widget_grab_focus (GTK_WIDGET (gui->gui->full_name));
-	identity_changed (NULL, data);
+	gtk_widget_grab_focus (GTK_WIDGET (mcw->gui->full_name));
+	identity_changed (NULL, mcw);
 }
 
 static gboolean
-identity_next (EvolutionWizard *wizard, gpointer data)
+identity_next (MailConfigWizard *mcw)
 {
-	MailConfigWizard *gui = data;
-	
-	if (!gui->identity_copied) {
+	if (!mcw->identity_copied) {
 		char *username;
 		const char *user;
 
 		/* Copy the username part of the email address into
 		 * the Username field of the source and transport pages.
 		 */
-		user = gtk_entry_get_text (gui->gui->email_address);
+		user = gtk_entry_get_text (mcw->gui->email_address);
 		username = g_strndup (user, strcspn (user, "@"));
-		gtk_entry_set_text (gui->gui->source.username, username);
-		gtk_entry_set_text (gui->gui->transport.username, username);
+		gtk_entry_set_text (mcw->gui->source.username, username);
+		gtk_entry_set_text (mcw->gui->transport.username, username);
 		g_free (username);
 		
-		gui->identity_copied = TRUE;
+		mcw->identity_copied = TRUE;
 	}
 	
 	return FALSE;
+}
+
+static void
+identity_activate_cb (GtkEntry *ent, gpointer user_data)
+{
+	MailConfigWizard *mcw = user_data;
+
+	if (mail_account_gui_identity_complete (mcw->gui, NULL) &&
+	    !identity_next (mcw))
+		config_wizard_set_page (mcw, MAIL_CONFIG_WIZARD_PAGE_SOURCE);
 }
 
 /* Incoming mail Page */
 static void
 source_changed (GtkWidget *widget, gpointer data)
 {
-	MailConfigWizard *gui = data;
+	MailConfigWizard *mcw = data;
 	GtkWidget *incomplete;
 	gboolean next_sensitive;
 	
-	if (gui->page != MAIL_CONFIG_WIZARD_PAGE_SOURCE)
+	if (mcw->page != MAIL_CONFIG_WIZARD_PAGE_SOURCE)
 		return;
 	
-	next_sensitive = mail_account_gui_source_complete (gui->gui, &incomplete);
+	next_sensitive = mail_account_gui_source_complete (mcw->gui, &incomplete);
 	
-	evolution_wizard_set_buttons_sensitive (gui->wizard, TRUE, next_sensitive, TRUE, NULL);
+	config_wizard_set_buttons_sensitive (mcw, TRUE, next_sensitive);
 	
 	if (!next_sensitive)
 		gtk_widget_grab_focus (incomplete);
 }
 
 static void
-source_prepare (EvolutionWizard *wizard, gpointer data)
+source_prepare (MailConfigWizard *mcw)
 {
-	MailConfigWizard *gui = data;
-	
-	gui->page = MAIL_CONFIG_WIZARD_PAGE_SOURCE;
-	source_changed (NULL, gui);
+	mcw->page = MAIL_CONFIG_WIZARD_PAGE_SOURCE;
+	source_changed (NULL, mcw);
 }
 
 static gboolean
-source_next (EvolutionWizard *wizard, gpointer data)
+source_next (MailConfigWizard *mcw)
 {
-	MailConfigWizard *gui = data;
-	
 	/* FIXME: if online, check that the data is good. */
 	
-	if (gui->gui->source.provider && gui->gui->source.provider->extra_conf)
+	if (mcw->gui->source.provider && mcw->gui->source.provider->extra_conf)
 		return FALSE;
 	
 	/* Otherwise, skip to transport page. */
-	evolution_wizard_set_page (gui->wizard, MAIL_CONFIG_WIZARD_PAGE_TRANSPORT, NULL);
-	
+	config_wizard_set_page (mcw, MAIL_CONFIG_WIZARD_PAGE_TRANSPORT);
 	return TRUE;
+}
+
+static void
+source_activate_cb (GtkEntry *ent, gpointer user_data)
+{
+	MailConfigWizard *mcw = user_data;
+
+	if (mail_account_gui_source_complete (mcw->gui, NULL) &&
+	    !source_next (mcw))
+		config_wizard_set_page (mcw, MAIL_CONFIG_WIZARD_PAGE_EXTRA);
 }
 
 /* Extra Config Page */
 static void
-extra_prepare (EvolutionWizard *wizard, gpointer data)
+extra_prepare (MailConfigWizard *mcw)
 {
-	MailConfigWizard *gui = data;
-	
-	gui->page = MAIL_CONFIG_WIZARD_PAGE_EXTRA;
-	if (gui->gui->source.provider != gui->last_source) {
-		gui->last_source = gui->gui->source.provider;
-		mail_account_gui_auto_detect_extra_conf (gui->gui);
+	mcw->page = MAIL_CONFIG_WIZARD_PAGE_EXTRA;
+	if (mcw->gui->source.provider != mcw->last_source) {
+		mcw->last_source = mcw->gui->source.provider;
+		mail_account_gui_auto_detect_extra_conf (mcw->gui);
 	}
 }
 
 /* Transport Page */
 static gboolean
-transport_next (EvolutionWizard *wizard, gpointer data)
+transport_next (MailConfigWizard *mcw)
 {
 	/* FIXME: if online, check that the data is good. */
 	return FALSE;
 }
 
 static gboolean
-transport_back (EvolutionWizard *wizard, gpointer data)
+transport_back (MailConfigWizard *mcw)
 {
-	MailConfigWizard *gui = data;
-	
-	if (gui->gui->source.provider && gui->gui->source.provider->extra_conf)
+	if (mcw->gui->source.provider && mcw->gui->source.provider->extra_conf)
 		return FALSE;
 	else {
-		evolution_wizard_set_page (wizard, MAIL_CONFIG_WIZARD_PAGE_SOURCE, NULL);
+		config_wizard_set_page (mcw, MAIL_CONFIG_WIZARD_PAGE_SOURCE);
 		return TRUE;
 	}
 }
@@ -369,60 +261,66 @@ transport_back (EvolutionWizard *wizard, gpointer data)
 static void
 transport_changed (GtkWidget *widget, gpointer data)
 {
-	MailConfigWizard *gui = data;
+	MailConfigWizard *mcw = data;
 	GtkWidget *incomplete;
 	gboolean next_sensitive;
 	
-	if (gui->page != MAIL_CONFIG_WIZARD_PAGE_TRANSPORT)
+	if (mcw->page != MAIL_CONFIG_WIZARD_PAGE_TRANSPORT)
 		return;
 	
-	next_sensitive = mail_account_gui_transport_complete (gui->gui, &incomplete);
+	next_sensitive = mail_account_gui_transport_complete (mcw->gui, &incomplete);
 	
-	evolution_wizard_set_buttons_sensitive (gui->wizard, TRUE, next_sensitive, TRUE, NULL);
+	config_wizard_set_buttons_sensitive (mcw, TRUE, next_sensitive);
 	
 	if (!next_sensitive)
 		gtk_widget_grab_focus (incomplete);
 }
 
 static void
-transport_prepare (EvolutionWizard *wizard, gpointer data)
+transport_prepare (MailConfigWizard *mcw)
 {
-	MailConfigWizard *gui = data;
-	
-	gui->page = MAIL_CONFIG_WIZARD_PAGE_TRANSPORT;
-	transport_changed (NULL, data);
+	mcw->page = MAIL_CONFIG_WIZARD_PAGE_TRANSPORT;
+	transport_changed (NULL, mcw);
+}
+
+static void
+transport_activate_cb (GtkEntry *ent, gpointer user_data)
+{
+	MailConfigWizard *mcw = user_data;
+
+	if (mail_account_gui_transport_complete (mcw->gui, NULL) &&
+	    !transport_next (mcw))
+		config_wizard_set_page (mcw, MAIL_CONFIG_WIZARD_PAGE_MANAGEMENT);
 }
 
 /* Management page */
 static gboolean
-management_check (MailConfigWizard *wizard)
+management_check (MailConfigWizard *mcw)
 {
 	gboolean next_sensitive;
 	const char *text;
 	
-	text = gtk_entry_get_text (wizard->gui->account_name);
+	text = gtk_entry_get_text (mcw->gui->account_name);
 	next_sensitive = text && *text;
 	
 	/* no accounts with the same name */
 	if (next_sensitive && mail_config_get_account_by_name (text))
 		next_sensitive = FALSE;
 	
-	evolution_wizard_set_buttons_sensitive (wizard->wizard, TRUE,
-						next_sensitive, TRUE, NULL);
+	config_wizard_set_buttons_sensitive (mcw, TRUE, next_sensitive);
 	return next_sensitive;
 }
 
 static void
-management_prepare (EvolutionWizard *wizard, gpointer data)
+management_prepare (MailConfigWizard *mcw)
 {
-	MailConfigWizard *gui = data;
 	const char *name, *text;
 	
-	gui->page = MAIL_CONFIG_WIZARD_PAGE_MANAGEMENT;
+	mcw->page = MAIL_CONFIG_WIZARD_PAGE_MANAGEMENT;
 	
-	text = gtk_entry_get_text (gui->gui->account_name);
+	text = gtk_entry_get_text (mcw->gui->account_name);
 	if (!text || *text == '\0') {
-		name = gtk_entry_get_text(gui->gui->email_address);
+		name = gtk_entry_get_text(mcw->gui->email_address);
 		if (name && *name) {
 			if (mail_config_get_account_by_name (name)) {
 				char *template;
@@ -440,34 +338,145 @@ management_prepare (EvolutionWizard *wizard, gpointer data)
 				} while (mail_config_get_account_by_name (name) && i != 0);
 			}
 			
-			gtk_entry_set_text(gui->gui->account_name, name);
+			gtk_entry_set_text(mcw->gui->account_name, name);
 		}
 	}
 	
-	management_check (gui);
+	management_check (mcw);
 }
 
 static void
 management_changed (GtkWidget *widget, gpointer data)
 {
-	MailConfigWizard *gui = data;
+	MailConfigWizard *mcw = data;
 	
-	if (gui->page != MAIL_CONFIG_WIZARD_PAGE_MANAGEMENT)
+	if (mcw->page != MAIL_CONFIG_WIZARD_PAGE_MANAGEMENT)
 		return;
 	
-	management_check (gui);
+	management_check (mcw);
 	
-	gtk_widget_grab_focus (GTK_WIDGET (gui->gui->account_name));
+	gtk_widget_grab_focus (GTK_WIDGET (mcw->gui->account_name));
 }
 
-static EAccount *
-make_account (void)
+static void
+management_activate_cb (GtkEntry *ent, gpointer user_data)
 {
+	MailConfigWizard *mcw = user_data;
+
+	if (management_check (mcw))
+		config_wizard_set_page (mcw, mcw->page + 1);
+}
+
+
+static struct {
+	const char *page_name;
+	void (*prepare_func) (MailConfigWizard *mcw);
+	gboolean (*back_func) (MailConfigWizard *mcw);
+	gboolean (*next_func) (MailConfigWizard *mcw);
+	const char *help_text;
+} wizard_pages[] = {
+	{ "identity_page", identity_prepare, NULL, identity_next,
+	  N_("Please enter your name and email address below. "
+	     "The \"optional\" fields below do not need to be "
+	     "filled in, unless you wish to include this "
+	     "information in email you send.")
+	},
+
+	{ "source_page", source_prepare, NULL, source_next,
+	  N_("Please enter information about your incoming "
+	     "mail server below. If you are not sure, ask your "
+	     "system administrator or Internet Service Provider.")
+	},
+
+	{ "extra_page", extra_prepare, NULL, NULL,
+	  N_("Please select among the following options")
+	},
+
+	{ "transport_page", transport_prepare, transport_back, transport_next,
+	  N_("Please enter information about the way you will "
+	     "send mail. If you are not sure, ask your system "
+	     "administrator or Internet Service Provider.")
+	},
+
+	{ "management_page", management_prepare, NULL, NULL,
+	  N_("You are almost done with the mail configuration "
+	     "process. The identity, incoming mail server and "
+	     "outgoing mail transport method which you provided "
+	     "will be grouped together to make an Evolution mail "
+	     "account. Please enter a name for this account in "
+	     "the space below. This name will be used for display "
+	     "purposes only.")
+	}
+};
+static const int num_wizard_pages = sizeof (wizard_pages) / sizeof (wizard_pages[0]);
+
+static GtkWidget *
+get_page (GladeXML *xml, int page_num)
+{
+	GtkWidget *vbox, *widget;
+
+	vbox = gtk_vbox_new (FALSE, 4);
+
+	widget = gtk_label_new (_(wizard_pages[page_num].help_text));
+	gtk_label_set_line_wrap (GTK_LABEL (widget), TRUE);
+	gtk_label_set_justify (GTK_LABEL (widget), GTK_JUSTIFY_FILL);
+	gtk_box_pack_start (GTK_BOX (vbox), widget, FALSE, FALSE, 0);
+	gtk_widget_show_all (vbox);
+	
+	switch (page_num) {
+	case MAIL_CONFIG_WIZARD_PAGE_IDENTITY:
+		widget = glade_xml_get_widget (xml, "identity_required_frame");
+		gtk_container_set_border_width (GTK_CONTAINER (widget), 0);
+		gtk_widget_reparent (widget, vbox);
+		gtk_box_set_child_packing (GTK_BOX (vbox), widget, FALSE, FALSE, 0, GTK_PACK_START);
+		widget = glade_xml_get_widget (xml, "identity_optional_frame");
+		gtk_container_set_border_width (GTK_CONTAINER (widget), 0);
+		gtk_widget_reparent (widget, vbox);
+		gtk_box_set_child_packing (GTK_BOX (vbox), widget, FALSE, FALSE, 0, GTK_PACK_START);
+		break;
+
+	case MAIL_CONFIG_WIZARD_PAGE_SOURCE:
+		widget = glade_xml_get_widget (xml, "source_vbox");
+		gtk_container_set_border_width (GTK_CONTAINER (widget), 0);
+		gtk_widget_reparent (widget, vbox);
+		break;
+
+	case MAIL_CONFIG_WIZARD_PAGE_EXTRA:
+		widget = glade_xml_get_widget (xml, "extra_table");
+		gtk_container_set_border_width (GTK_CONTAINER (widget), 0);
+		gtk_widget_reparent (widget, vbox);
+		break;
+
+	case MAIL_CONFIG_WIZARD_PAGE_TRANSPORT:
+		widget = glade_xml_get_widget (xml, "transport_vbox");
+		gtk_container_set_border_width (GTK_CONTAINER (widget), 0);
+		gtk_widget_reparent (widget, vbox);
+		break;
+
+	case MAIL_CONFIG_WIZARD_PAGE_MANAGEMENT:
+		widget = glade_xml_get_widget (xml, "management_frame");
+		gtk_container_set_border_width (GTK_CONTAINER (widget), 0);
+		gtk_widget_reparent (widget, vbox);
+		break;
+
+	default:
+		g_return_val_if_reached (NULL);
+	}
+	
+	return vbox;
+}
+
+
+static MailConfigWizard *
+config_wizard_new (void)
+{
+	MailConfigWizard *mcw;
 	const char *name, *user;
 	EAccountService *xport;
 	struct utsname uts;
 	EAccount *account;
 	
+	/* Create a new account object with some defaults */
 	account = e_account_new ();
 	account->enabled = TRUE;
 	
@@ -482,476 +491,228 @@ make_account (void)
 		account->transport->save_passwd = xport->save_passwd;
 	}
 	
-	return account;
-}
+	/* Create the config wizard object */
+	mcw = g_new0 (MailConfigWizard, 1);
+	mcw->gui = mail_account_gui_new (account, NULL);
+	g_object_unref (account);
+	
+	/* Set up gui */
+	g_signal_connect (mcw->gui->account_name, "changed",
+			  G_CALLBACK (management_changed), mcw);
+	g_signal_connect (mcw->gui->full_name, "changed",
+			  G_CALLBACK (identity_changed), mcw);
+	g_signal_connect (mcw->gui->email_address, "changed",
+			  G_CALLBACK (identity_changed), mcw);
+	g_signal_connect (mcw->gui->reply_to,"changed",
+			  G_CALLBACK (identity_changed), mcw);
+	g_signal_connect (mcw->gui->source.hostname, "changed",
+			  G_CALLBACK (source_changed), mcw);
+	g_signal_connect (mcw->gui->source.username, "changed",
+			  G_CALLBACK (source_changed), mcw);
+	g_signal_connect (mcw->gui->source.path, "changed",
+			  G_CALLBACK (source_changed), mcw);
+	g_signal_connect (mcw->gui->transport.hostname, "changed",
+			  G_CALLBACK (transport_changed), mcw);
+	g_signal_connect (mcw->gui->transport.username, "changed",
+			  G_CALLBACK (transport_changed), mcw);
+	g_signal_connect (mcw->gui->transport_needs_auth, "toggled",
+			  G_CALLBACK (transport_changed), mcw);
+	
+	g_signal_connect (mcw->gui->account_name, "activate",
+			  G_CALLBACK (management_activate_cb), mcw);
+	
+	g_signal_connect (mcw->gui->full_name, "activate",
+			  G_CALLBACK (identity_activate_cb), mcw);
+	g_signal_connect (mcw->gui->email_address, "activate",
+			  G_CALLBACK (identity_activate_cb), mcw);
+	g_signal_connect (mcw->gui->reply_to,"activate",
+			  G_CALLBACK (identity_activate_cb), mcw);
+	g_signal_connect (mcw->gui->organization, "activate",
+			  G_CALLBACK (identity_activate_cb), mcw);
+	
+	g_signal_connect (mcw->gui->source.hostname, "activate",
+			  G_CALLBACK (source_activate_cb), mcw);
+	g_signal_connect (mcw->gui->source.username, "activate",
+			  G_CALLBACK (source_activate_cb), mcw);
+	g_signal_connect (mcw->gui->source.path, "activate",
+			  G_CALLBACK (source_activate_cb), mcw);
+	
+	g_signal_connect (mcw->gui->transport.hostname, "activate",
+			  G_CALLBACK (transport_activate_cb), mcw);
+	g_signal_connect (mcw->gui->transport.username, "activate",
+			  G_CALLBACK (transport_activate_cb), mcw);
 
-static const char *pages[] = { 
-	"identity_page",
-	"source_page",
-	"extra_page",
-	"transport_page",
-	"management_page",
-	"finish_page",
-	"druidpagestart1",
-	NULL
-};
-
-static int
-page_to_num (gpointer page)
-{
-	gpointer r;
-
-	r = g_hash_table_lookup (page_hash, page);
-	if (r == NULL) {
-		return 0;
-	}
-
-	return GPOINTER_TO_INT (r);
-}
-
-static gboolean
-next_func (GnomeDruidPage *page,
-	   GnomeDruid *druid,
-	   gpointer data)
-{
-	GNOME_Evolution_Wizard wiz;
-	CORBA_Environment ev;
-	int pagenum;
-
-	wiz = bonobo_object_corba_objref (BONOBO_OBJECT (account_wizard));
-	CORBA_exception_init (&ev);
-
-	pagenum = page_to_num (page);
-	GNOME_Evolution_Wizard_notifyAction (wiz, pagenum, GNOME_Evolution_Wizard_NEXT, &ev);
-	CORBA_exception_free (&ev);
-
-	if (pagenum < 5-1)
-		return TRUE;
-
-	return FALSE;
-}
-
-static gboolean
-prepare_func (GnomeDruidPage *page,
-	      GnomeDruid *druid,
-	      gpointer data)
-{
-	GNOME_Evolution_Wizard wiz;
-	CORBA_Environment ev;
-	int pagenum;
-
-	wiz = bonobo_object_corba_objref (BONOBO_OBJECT (account_wizard));
-	CORBA_exception_init (&ev);
-
-	pagenum = page_to_num (page);
-	GNOME_Evolution_Wizard_notifyAction (wiz, pagenum, GNOME_Evolution_Wizard_PREPARE, &ev);
-	CORBA_exception_free (&ev);
-	return FALSE;
-}
-
-static gboolean
-back_func (GnomeDruidPage *page,
-	   GnomeDruid *druid,
-	   gpointer data)
-{
-	GNOME_Evolution_Wizard wiz;
-	CORBA_Environment ev;
-	int pagenum;
-
-	wiz = bonobo_object_corba_objref (BONOBO_OBJECT (account_wizard));
-	CORBA_exception_init (&ev);
-
-	pagenum = page_to_num (page);
-	GNOME_Evolution_Wizard_notifyAction (wiz, pagenum, GNOME_Evolution_Wizard_BACK, &ev);
-	CORBA_exception_free (&ev);
-
-	if (pagenum > 0)
-		return TRUE;
-
-	return FALSE;
-}
-
-static gboolean
-finish_func (GnomeDruidPage *page,
-	     GnomeDruid *druid,
-	     gpointer data)
-{
-	GNOME_Evolution_Wizard wiz;
-	CORBA_Environment ev;
-	int pagenum;
-
-	wiz = bonobo_object_corba_objref (BONOBO_OBJECT (account_wizard));
-	CORBA_exception_init (&ev);
-
-	pagenum = page_to_num (page);
-	GNOME_Evolution_Wizard_notifyAction (wiz, 0, GNOME_Evolution_Wizard_FINISH, &ev);
-	CORBA_exception_free (&ev);
-
-	druid_finish (page, druid, data);
-	return FALSE;
+	return mcw;
 }
 
 static void
-wizard_listener_event (BonoboListener *listener,
-		       char *event_name,
-		       BonoboArg *event_data,
-		       CORBA_Environment *ev,
-		       MailConfigDruid *druid)
+free_config_wizard (MailConfigWizard *mcw)
 {
-	CORBA_short buttons, pagenum;
-	GnomeDruidPage *page;
+	mail_account_gui_destroy (mcw->gui);
 
-	if (strcmp (event_name, EVOLUTION_WIZARD_SET_BUTTONS_SENSITIVE) == 0) {
-		buttons = (int) *((CORBA_short *)event_data->_value);
-		gnome_druid_set_buttons_sensitive (GNOME_DRUID (druid->druid),
-						   (buttons & 4) >> 2,
-						   (buttons & 2) >> 1,
-						   (buttons & 1),
-						   FALSE);
-	} else if (strcmp (event_name, EVOLUTION_WIZARD_SET_SHOW_FINISH) == 0) {
-		gnome_druid_set_show_finish (GNOME_DRUID (druid->druid),
-					     (gboolean) *((CORBA_boolean *)event_data->_value));
-	} else if (strcmp (event_name, EVOLUTION_WIZARD_SET_PAGE) == 0) {
-		pagenum = (int) *((CORBA_short *) event_data->_value);
+	if (mcw->interior_pages)
+		g_ptr_array_free (mcw->interior_pages, TRUE);
 
-		page = g_list_nth_data (page_list, pagenum);
-		gnome_druid_set_page (GNOME_DRUID (druid->druid), page);
-	}
+	g_free (mcw);
+}
+
+/* In-proc config druid */
+
+static void
+druid_cancel (GnomeDruid *druid, gpointer user_data)
+{
+	MailConfigWizard *mcw = user_data;
+	GtkWidget *window;
+
+	window = glade_xml_get_widget (mcw->gui->xml, "account_druid");
+	gtk_widget_destroy (window);
+
+	free_config_wizard (mcw);
 }
 
 static void
-construct (MailConfigDruid *druid)
+druid_finish (GnomeDruidPage *page, GnomeDruid *druid, gpointer user_data)
 {
-	GtkWidget *widget;
-	GNOME_Evolution_Wizard corba_wizard;
-	Bonobo_Listener corba_listener;
-	CORBA_Environment ev;
-	int i;
+	MailConfigWizard *mcw = user_data;
 
-	/* Start account wizard */
-	CORBA_exception_init (&ev);
-	corba_wizard = bonobo_activation_activate_from_id ("OAFIID:GNOME_Evolution_Mail_Wizard", 0, NULL, &ev);
-	CORBA_exception_free (&ev);
-	g_assert (account_wizard != NULL);
-	
-	druid->xml = glade_xml_new (EVOLUTION_GLADEDIR "/mail-config.glade", NULL, NULL);
-	/* get our toplevel widget and reparent it */
-	widget = glade_xml_get_widget (druid->xml, "druid");
-	gtk_widget_reparent (widget, GTK_WIDGET (druid));
-	
-	druid->druid = GNOME_DRUID (widget);
-
-	/* set window title */
-	gtk_window_set_title (GTK_WINDOW (druid), _("Evolution Account Assistant"));
-	gtk_window_set_resizable (GTK_WINDOW (druid), TRUE);
-	gtk_window_set_modal (GTK_WINDOW (druid), FALSE);
-	g_object_set (G_OBJECT (druid), "type", GTK_WINDOW_TOPLEVEL, NULL);
-
-	druid->listener = bonobo_listener_new (NULL, NULL);
-	g_signal_connect(druid->listener, "event-notify",
-			 G_CALLBACK (wizard_listener_event), druid);
-	corba_listener = bonobo_object_corba_objref (BONOBO_OBJECT (druid->listener));
-	CORBA_exception_init (&ev);
-	druid->event_source = (Bonobo_Unknown) bonobo_object_query_interface (
-		BONOBO_OBJECT (account_wizard), "IDL:Bonobo/EventSource:1.0", NULL);
-	g_assert (druid->event_source != CORBA_OBJECT_NIL);
-	Bonobo_EventSource_addListener ((Bonobo_EventSource) druid->event_source, corba_listener, &ev);
-	if (BONOBO_EX (&ev)) {
-		g_warning ("Error adding listener (%s)",
-			   CORBA_exception_id (&ev));
-	}
-	CORBA_exception_free (&ev);
-
-	if (page_hash != NULL) {
-		g_hash_table_destroy (page_hash);
-	}
-	page_hash = g_hash_table_new (NULL, NULL);
-	for (i = 0; pages[i] != NULL; i++) {
-		GtkWidget *page;
-		GnomeDruidPageStandard *dpage;
-
-		page = glade_xml_get_widget (druid->xml, pages[i]);
-		/* Store pages */
-		g_hash_table_insert (page_hash, page, GINT_TO_POINTER (i));
-		page_list = g_list_append (page_list, page);
-
-		g_signal_connect(page, "next", G_CALLBACK (next_func), druid);
-		g_signal_connect(page, "prepare", G_CALLBACK (prepare_func), druid);
-		g_signal_connect(page, "back", G_CALLBACK (back_func), druid);
-		g_signal_connect(page, "finish", G_CALLBACK (finish_func), druid);
-
-		if (i < 5) {
-			Bonobo_Control control;
-			GtkWidget *w;
-			CORBA_Environment ev;
-			
-			dpage = GNOME_DRUID_PAGE_STANDARD (page);
-
-			CORBA_exception_init (&ev);
-			control = GNOME_Evolution_Wizard_getControl (corba_wizard, i, &ev);
-			if (BONOBO_EX (&ev)) {
-				g_warning ("Error getting page %d: %s", i, CORBA_exception_id (&ev));
-				CORBA_exception_free (&ev);
-				continue;
-			}
-
-			w = bonobo_widget_new_control_from_objref (control, CORBA_OBJECT_NIL);
-			gtk_box_pack_start (GTK_BOX (dpage->vbox), w, TRUE, TRUE, 0);
-		}
-		gtk_widget_show_all (page);
-
-	}
-	g_signal_connect(druid->druid, "cancel", G_CALLBACK(druid_cancel), druid);
-
-	gnome_druid_set_buttons_sensitive (druid->druid, FALSE, TRUE, TRUE, FALSE);
+	mail_account_gui_save (mcw->gui);
+	druid_cancel (druid, user_data);
 }
+
+static void
+druid_prepare (GnomeDruidPage *page, GnomeDruid *druid, gpointer data)
+{
+	MailConfigWizard *mcw = g_object_get_data (G_OBJECT (druid), "MailConfigWizard");
+	int page_num = GPOINTER_TO_INT (data);
+
+	if (wizard_pages[page_num].prepare_func)
+		wizard_pages[page_num].prepare_func (mcw);
+}
+	
+static gboolean
+druid_back (GnomeDruidPage *page, GnomeDruid *druid, gpointer data)
+{
+	MailConfigWizard *mcw = g_object_get_data (G_OBJECT (druid), "MailConfigWizard");
+	int page_num = GPOINTER_TO_INT (data);
+
+	if (wizard_pages[page_num].back_func)
+		return wizard_pages[page_num].back_func (mcw);
+	else
+		return FALSE;
+}
+	
+static gboolean
+druid_next (GnomeDruidPage *page, GnomeDruid *druid, gpointer data)
+{
+	MailConfigWizard *mcw = g_object_get_data (G_OBJECT (druid), "MailConfigWizard");
+	int page_num = GPOINTER_TO_INT (data);
+
+	if (wizard_pages[page_num].next_func)
+		return wizard_pages[page_num].next_func (mcw);
+	else
+		return FALSE;
+}
+
 
 MailConfigDruid *
-mail_config_druid_new (GNOME_Evolution_Shell shell)
+mail_config_druid_new (void)
 {
-	MailConfigDruid *new;
+	MailConfigWizard *mcw;
+	GtkWidget *page;
+	int i;
 
-	new = (MailConfigDruid *) g_object_new(mail_config_druid_get_type(), NULL);
-	construct (new);
-	new->shell = shell;
+	mcw = config_wizard_new ();
+	mcw->druid = (GnomeDruid *)glade_xml_get_widget (mcw->gui->xml, "druid");
+	g_object_set_data (G_OBJECT (mcw->druid), "MailConfigWizard", mcw);
 
-	return new;
+	mcw->interior_pages = g_ptr_array_new ();
+	for (i = 0; i < num_wizard_pages; i++) {
+		page = glade_xml_get_widget (mcw->gui->xml,
+					     wizard_pages[i].page_name);
+		g_ptr_array_add (mcw->interior_pages, page);
+		gtk_box_pack_start (GTK_BOX (GNOME_DRUID_PAGE_STANDARD (page)->vbox),
+				    get_page (mcw->gui->xml, i),
+				    FALSE, FALSE, 0);
+		g_signal_connect (page, "back", G_CALLBACK (druid_back),
+				  GINT_TO_POINTER (i));
+		g_signal_connect (page, "next", G_CALLBACK (druid_next),
+				  GINT_TO_POINTER (i));
+
+		/* At least in 2.0 (and probably 2.2 too),
+		 * GnomeDruidPageStandard is broken and you need to
+		 * connect_after to "prepare" or else its default
+		 * method will run after your signal handler and
+		 * undo its button sensitivity changes.
+		 */
+		g_signal_connect_after (page, "prepare",
+					G_CALLBACK (druid_prepare),
+					GINT_TO_POINTER (i));
+	}
+	g_signal_connect (mcw->druid, "cancel", G_CALLBACK (druid_cancel), mcw);
+
+	mcw->last_page = (GnomeDruidPage *)glade_xml_get_widget (mcw->gui->xml, "finish_page");
+	g_signal_connect (mcw->last_page, "finish", G_CALLBACK (druid_finish), mcw);
+
+	gnome_druid_set_buttons_sensitive (mcw->druid, FALSE, TRUE, TRUE, FALSE);
+	gtk_widget_show_all (GTK_WIDGET (mcw->druid));
+	mail_account_gui_setup (mcw->gui, NULL);
+
+	return (MailConfigDruid *)glade_xml_get_widget (mcw->gui->xml, "account_druid");
 }
 
-static void wizard_next_cb (EvolutionWizard *wizard, int page_num, MailConfigWizard *gui);
 
-static void
-goto_next_page (MailConfigWizard *gui)
-{
-	wizard_next_cb (gui->wizard, gui->page, gui);
-}
-
-static void
-identity_activate_cb (GtkEntry *ent, gpointer user_data)
-{
-	MailConfigWizard *gui = (MailConfigWizard *) user_data;
-
-	if (mail_account_gui_identity_complete (gui->gui, NULL))
-		goto_next_page (gui);
-}
-
-static void
-source_activate_cb (GtkEntry *ent, gpointer user_data)
-{
-	MailConfigWizard *gui = (MailConfigWizard *) user_data;
-
-	if (mail_account_gui_source_complete (gui->gui, NULL))
-		goto_next_page (gui);
-}
-
-static void
-transport_activate_cb (GtkEntry *ent, gpointer user_data)
-{
-	MailConfigWizard *gui = (MailConfigWizard *) user_data;
-
-	if (mail_account_gui_transport_complete (gui->gui, NULL))
-		goto_next_page (gui);
-}
-
-static void
-management_activate_cb (GtkEntry *ent, gpointer user_data)
-{
-	MailConfigWizard *gui = (MailConfigWizard *) user_data;
-
-	if (management_check (gui))
-		goto_next_page (gui);
-}
+/* CORBA wizard */
 
 static BonoboControl *
 get_fn (EvolutionWizard *wizard,
 	int page_num,
 	void *closure)
 {
-	MailConfigWizard *gui = closure;
-	BonoboControl *control;
-	GtkWidget *vbox, *widget;
-	static gboolean first_time = TRUE;
-	
-	if (gui->gui == NULL) {
-		if (gui->account == NULL) {
-			gui->account = make_account ();
-			g_object_set_data ((GObject *) wizard, "account-data", gui->account);
-		}
-		
-		gui->gui = mail_account_gui_new (gui->account, NULL);
-		
-		/* set up signals, etc */
-		g_signal_connect (gui->gui->account_name, "changed",
-				  G_CALLBACK (management_changed), gui);
-		g_signal_connect (gui->gui->full_name, "changed",
-				  G_CALLBACK (identity_changed), gui);
-		g_signal_connect (gui->gui->email_address, "changed",
-				  G_CALLBACK (identity_changed), gui);
-		g_signal_connect (gui->gui->reply_to,"changed",
-				  G_CALLBACK (identity_changed), gui);
-		g_signal_connect (gui->gui->source.hostname, "changed",
-				  G_CALLBACK (source_changed), gui);
-		g_signal_connect (gui->gui->source.username, "changed",
-				  G_CALLBACK (source_changed), gui);
-		g_signal_connect (gui->gui->source.path, "changed",
-				  G_CALLBACK (source_changed), gui);
-		g_signal_connect (gui->gui->transport.hostname, "changed",
-				  G_CALLBACK (transport_changed), gui);
-		g_signal_connect (gui->gui->transport.username, "changed",
-				  G_CALLBACK (transport_changed), gui);
-		g_signal_connect (gui->gui->transport_needs_auth, "toggled",
-				  G_CALLBACK (transport_changed), gui);
-		
-		g_signal_connect (gui->gui->account_name, "activate",
-				  G_CALLBACK (management_activate_cb), gui);
-		
-		g_signal_connect (gui->gui->full_name, "activate",
-				  G_CALLBACK (identity_activate_cb), gui);
-		g_signal_connect (gui->gui->email_address, "activate",
-				  G_CALLBACK (identity_activate_cb), gui);
-		g_signal_connect (gui->gui->reply_to,"activate",
-				  G_CALLBACK (identity_activate_cb), gui);
-		g_signal_connect (gui->gui->organization, "activate",
-				  G_CALLBACK (identity_activate_cb), gui);
-		
-		g_signal_connect (gui->gui->source.hostname, "activate",
-				  G_CALLBACK (source_activate_cb), gui);
-		g_signal_connect (gui->gui->source.username, "activate",
-				  G_CALLBACK (source_activate_cb), gui);
-		g_signal_connect (gui->gui->source.path, "activate",
-				  G_CALLBACK (source_activate_cb), gui);
-		
-		g_signal_connect (gui->gui->transport.hostname, "activate",
-				  G_CALLBACK (transport_activate_cb), gui);
-		g_signal_connect (gui->gui->transport.username, "activate",
-				  G_CALLBACK (transport_activate_cb), gui);
-		first_time = TRUE;
-	}
-	
-	/* Fill in the druid pages */
-	vbox = gtk_vbox_new (FALSE, 0);
-	switch (page_num) {
-	case 0:
-		widget = create_label ("identity_html");
-		gtk_box_pack_start (GTK_BOX (vbox), widget, FALSE, FALSE, 0);
-		widget = glade_xml_get_widget (gui->gui->xml, "identity_required_frame");
-		gtk_widget_reparent (widget, vbox);
-		gtk_box_set_child_packing (GTK_BOX (vbox), widget, FALSE, FALSE, 0, GTK_PACK_START);
-		widget = glade_xml_get_widget (gui->gui->xml, "identity_optional_frame");
-		gtk_widget_reparent (widget, vbox);
-		gtk_box_set_child_packing (GTK_BOX (vbox), widget, FALSE, FALSE, 0, GTK_PACK_START);
-		break;
-	case 1:
-		widget = create_label ("source_html");
-		gtk_box_pack_start (GTK_BOX (vbox), widget, FALSE, FALSE, 0);
-		widget = glade_xml_get_widget (gui->gui->xml, "source_vbox");
-		gtk_widget_reparent (widget, vbox);
-		gtk_widget_show (widget);
-		break;
-	case 2:
-		widget = create_label ("extra_html");
-		gtk_box_pack_start (GTK_BOX (vbox), widget, FALSE, FALSE, 0);
-		widget = glade_xml_get_widget (gui->gui->xml, "extra_table");
-		gtk_widget_reparent (widget, vbox);
-		break;
-	case 3:
-		widget = create_label ("transport_html");
-		gtk_box_pack_start (GTK_BOX (vbox), widget, FALSE, FALSE, 0);
-		widget = glade_xml_get_widget (gui->gui->xml, "transport_vbox");
-		gtk_widget_reparent (widget, vbox);
-		gtk_widget_show (widget);
-		break;
-	case 4:
-		widget = glade_xml_get_widget (gui->gui->xml, "management_frame");
-		gtk_widget_reparent (widget, vbox);
-		break;
-	default:
-		return NULL;
-	}
-	
-	gtk_widget_show (vbox);
-	control = bonobo_control_new (vbox);
-	
-	if (first_time) {
-		mail_account_gui_setup (gui->gui, NULL);
-		first_time = FALSE;
-	}
-	
-	return control;
+	MailConfigWizard *mcw = closure;
+
+	return bonobo_control_new (get_page (mcw->gui->xml, page_num));
 }
-
-typedef gboolean (*NextFunc)(EvolutionWizard *wizard, gpointer data);
-typedef void (*PrepFunc)(EvolutionWizard *wizard, gpointer data);
-
-static struct {
-	NextFunc next_func;
-	PrepFunc prepare_func;
-	NextFunc back_func;
-	GtkSignalFunc finish_func;
-	GtkSignalFunc help_func;
-} wizard_pages[] = {
-	{ identity_next,
-	  identity_prepare,
-	  NULL,
-	  G_CALLBACK (NULL),
-	  G_CALLBACK (NULL) },
-	{ source_next,
-	  source_prepare,
-	  NULL,
-	  G_CALLBACK (NULL),
-	  G_CALLBACK (NULL) },
-	{ NULL,
-	  extra_prepare,
-	  NULL,
-	  G_CALLBACK (NULL),
-	  G_CALLBACK (NULL) },
-	{ transport_next,
-	  transport_prepare,
-	  transport_back,
-	  G_CALLBACK (NULL),
-	  G_CALLBACK (NULL) },
-	{ NULL,
-	  management_prepare,
-	  NULL,
-	  G_CALLBACK (NULL),
-	  G_CALLBACK (NULL) }
-};
 
 static void
 wizard_next_cb (EvolutionWizard *wizard,
 		int page_num,
-		MailConfigWizard *gui)
+		MailConfigWizard *mcw)
 {
-	if (wizard_pages[page_num].next_func == NULL
-	    || !(wizard_pages[page_num].next_func (wizard, gui))) {
-		if (page_num < 5-1) {
-			evolution_wizard_set_page(wizard, page_num+1, NULL);
-		}
-	}
+	if (page_num >= MAIL_CONFIG_WIZARD_PAGE_MANAGEMENT)
+		return;
+
+	if (wizard_pages[page_num].next_func &&
+	    wizard_pages[page_num].next_func (mcw))
+		return;
+
+	evolution_wizard_set_page (wizard, page_num + 1, NULL);
 }
 
 static void
 wizard_prepare_cb (EvolutionWizard *wizard,
 		   int page_num,
-		   MailConfigWizard *gui)
+		   MailConfigWizard *mcw)
 {
-	if (wizard_pages[page_num].prepare_func != NULL) {
-		wizard_pages[page_num].prepare_func (wizard, gui);
-	}
+	if (wizard_pages[page_num].prepare_func)
+		wizard_pages[page_num].prepare_func (mcw);
 }
 
 static void
 wizard_back_cb (EvolutionWizard *wizard,
 		int page_num,
-		MailConfigWizard *gui) 
+		MailConfigWizard *mcw) 
 {
-	if (page_num >= 5)
-		evolution_wizard_set_page(wizard, 4, NULL);
-	else if (wizard_pages[page_num].back_func == NULL
-	    || !(wizard_pages[page_num].back_func (wizard, gui))) {
-		if (page_num > 0)
-			evolution_wizard_set_page(wizard, page_num-1, NULL);
+	if (page_num >= MAIL_CONFIG_WIZARD_NUM_PAGES) {
+		evolution_wizard_set_page (wizard, MAIL_CONFIG_WIZARD_PAGE_MANAGEMENT, NULL);
+		return;
 	}
+
+	if (wizard_pages[page_num].back_func &&
+	    wizard_pages[page_num].back_func (mcw))
+		return;
+
+	if (page_num > 0)
+		evolution_wizard_set_page (wizard, page_num - 1, NULL);
 }
 
 static void
@@ -970,66 +731,45 @@ wizard_finish_cb (EvolutionWizard *wizard,
 	mail_config_write ();
 	mail_account_gui_destroy (gui);
 	w->gui = NULL;
-	w->account = NULL;
 }
 
 static void
 wizard_cancel_cb (EvolutionWizard *wizard,
 		  int page_num,
-		  MailConfigWizard *gui)
+		  MailConfigWizard *mcw)
 {
-	mail_account_gui_destroy (gui->gui);
-	gui->gui = NULL;
+	mail_account_gui_destroy (mcw->gui);
+	mcw->gui = NULL;
 }
 
 static void
 wizard_help_cb (EvolutionWizard *wizard,
 		int page_num,
-		MailConfigWizard *gui)
+		MailConfigWizard *mcw)
 {
-}
-
-static void
-wizard_free (MailConfigWizard *wizard)
-{
-	if (wizard->gui)
-		mail_account_gui_destroy (wizard->gui);
-	
-	if (wizard->account)
-		g_object_unref (wizard->account);
-	
-	g_free (wizard);
 }
 
 BonoboObject *
 evolution_mail_config_wizard_new (void)
 {
 	EvolutionWizard *wizard;
-	MailConfigWizard *gui;
-	EAccount *account;
+	MailConfigWizard *mcw;
 	
-	account = make_account ();
+	mcw = config_wizard_new ();	
+	mail_account_gui_setup (mcw->gui, NULL);
 	
-	gui = g_new (MailConfigWizard, 1);
-	gui->gui = NULL;
-	gui->account = account;
-	gui->identity_copied = FALSE;
-	gui->last_source = NULL;
-	gui->page = MAIL_CONFIG_WIZARD_PAGE_NONE;
+	wizard = evolution_wizard_new (get_fn, 5, mcw);
 	
-	wizard = evolution_wizard_new (get_fn, 5, gui);
-	account_wizard = wizard;
+	g_object_set_data_full (G_OBJECT (wizard), "MailConfigWizard",
+				mcw, (GDestroyNotify)free_config_wizard);
+	mcw->corba_wizard = wizard;
 	
-	g_object_set_data_full ((GObject *) account_wizard, "account-data", gui,
-				(GDestroyNotify) wizard_free);
-	gui->wizard = wizard;
-	
-	g_signal_connect (wizard, "next", G_CALLBACK (wizard_next_cb), gui);
-	g_signal_connect (wizard, "prepare", G_CALLBACK (wizard_prepare_cb), gui);
-	g_signal_connect (wizard, "back", G_CALLBACK (wizard_back_cb), gui);
-	g_signal_connect (wizard, "finish", G_CALLBACK (wizard_finish_cb), gui);
-	g_signal_connect (wizard, "cancel", G_CALLBACK (wizard_cancel_cb), gui);
-	g_signal_connect (wizard, "help", G_CALLBACK (wizard_help_cb), gui);
+	g_signal_connect (wizard, "next", G_CALLBACK (wizard_next_cb), mcw);
+	g_signal_connect (wizard, "prepare", G_CALLBACK (wizard_prepare_cb), mcw);
+	g_signal_connect (wizard, "back", G_CALLBACK (wizard_back_cb), mcw);
+	g_signal_connect (wizard, "finish", G_CALLBACK (wizard_finish_cb), mcw);
+	g_signal_connect (wizard, "cancel", G_CALLBACK (wizard_cancel_cb), mcw);
+	g_signal_connect (wizard, "help", G_CALLBACK (wizard_help_cb), mcw);
 	
 	return BONOBO_OBJECT (wizard);
 }

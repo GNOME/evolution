@@ -40,37 +40,9 @@ extern "C" {
 #include "shell/Evolution.h"
 #include "mail-account-gui.h"
 
-#define MAIL_CONFIG_DRUID_TYPE        (mail_config_druid_get_type ())
-#define MAIL_CONFIG_DRUID(o)          (G_TYPE_CHECK_INSTANCE_CAST ((o), MAIL_CONFIG_DRUID_TYPE, MailConfigDruid))
-#define MAIL_CONFIG_DRUID_CLASS(k)    (G_TYPE_CHECK_CLASS_CAST ((k), MAIL_CONFIG_DRUID_TYPE, MailConfigDruidClass))
-#define MAIL_IS_CONFIG_DRUID(o)       (G_TYPE_CHECK_INSTANCE_TYPE ((o), MAIL_CONFIG_DRUID_TYPE))
-#define MAIL_IS_CONFIG_DRUID_CLASS(k) (G_TYPE_CHECK_CLASS_TYPE ((k), MAIL_CONFIG_DRUID_TYPE))
+typedef GtkWindow MailConfigDruid;
 
-typedef struct {
-	GtkWindow parent;
-	
-	GnomeDruid *druid;
-	MailAccountGui *gui;
-	GladeXML *xml;
-
-	GNOME_Evolution_Shell shell;
-	gboolean identity_copied;
-	CamelProvider *last_source;
-
-	BonoboListener *listener;
-	Bonobo_EventSource event_source;
-} MailConfigDruid;
-
-typedef struct {
-	GtkWindowClass parent_class;
-	
-	/* signals */
-	
-} MailConfigDruidClass;
-
-GtkType mail_config_druid_get_type (void);
-
-MailConfigDruid *mail_config_druid_new (GNOME_Evolution_Shell shell);
+MailConfigDruid *mail_config_druid_new (void);
 
 char *mail_config_druid_get_account_name (MailConfigDruid *druid);
 gboolean mail_config_druid_get_default_account (MailConfigDruid *druid);

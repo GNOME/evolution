@@ -192,7 +192,7 @@ configure_mail (FolderBrowser *fb)
 			  "You need to do this before you can send,\n"
 			  "receive or compose mail.\n"
 			  "Would you like to configure it now?"))) {
-		druid = mail_config_druid_new (fb->shell);
+		druid = mail_config_druid_new ();
 		g_object_weak_ref ((GObject *) druid, (GWeakNotify) druid_destroy_cb, NULL);
 		gtk_widget_show ((GtkWidget *) druid);
 		gtk_grab_add ((GtkWidget *) druid);

@@ -145,7 +145,7 @@ account_add_clicked (GtkButton *button, gpointer user_data)
 	MailAccountsTab *prefs = (MailAccountsTab *) user_data;
 	
 	if (prefs->druid == NULL) {
-		prefs->druid = (GtkWidget *) mail_config_druid_new (prefs->shell);
+		prefs->druid = (GtkWidget *) mail_config_druid_new ();
 		g_object_weak_ref ((GObject *) prefs->druid,
 				   (GWeakNotify) account_add_finished, prefs);
 		

@@ -333,6 +333,12 @@ mail_account_gui_auto_detect_extra_conf (MailAccountGui *gui)
 gboolean
 mail_account_gui_transport_complete (MailAccountGui *gui, GtkWidget **incomplete)
 {
+	if (!gui->transport.provider) {
+		if (incomplete)
+			*incomplete = GTK_WIDGET (gui->transport.type);
+		return FALSE;
+	}
+
 	/* If it's both source and transport, there's nothing extra to
 	 * configure on the transport page.
 	 */
@@ -1517,13 +1523,15 @@ mail_account_gui_new (EAccount *account, MailAccountsTab *dialog)
 	gui->always_cc = GTK_TOGGLE_BUTTON (glade_xml_get_widget (gui->xml, "always_cc"));
 	gtk_toggle_button_set_active (gui->always_cc, account->always_cc);
 	gui->cc_addrs = GTK_ENTRY (glade_xml_get_widget (gui->xml, "cc_addrs"));
-	gtk_entry_set_text (gui->cc_addrs, account->cc_addrs);
+	if (account->cc_addrs)
+		gtk_entry_set_text (gui->cc_addrs, account->cc_addrs);
 	
 	/* Always Bcc */
 	gui->always_bcc = GTK_TOGGLE_BUTTON (glade_xml_get_widget (gui->xml, "always_bcc"));
 	gtk_toggle_button_set_active (gui->always_bcc, account->always_bcc);
 	gui->bcc_addrs = GTK_ENTRY (glade_xml_get_widget (gui->xml, "bcc_addrs"));
-	gtk_entry_set_text (gui->bcc_addrs, account->bcc_addrs);
+	if (account->bcc_addrs)
+		gtk_entry_set_text (gui->bcc_addrs, account->bcc_addrs);
 	
 	/* Security */
 	gui->pgp_key = GTK_ENTRY (glade_xml_get_widget (gui->xml, "pgp_key"));

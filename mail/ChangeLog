@@ -1,3 +1,21 @@
+2003-02-25  Dan Winship  <danw@ximian.com>
+
+	* mail-config-druid.c: Redo this to not use the CORBA interfaces
+	in the local case (in preparation for redoing the CORBA
+	interfaces).
+	(mail_config_druid_new): Remove unused "shell" arg
+
+	* mail-account-gui.c (mail_account_gui_transport_complete): Don't
+	crash if there's no transport selected at all.
+	(mail_account_gui_new): Don't try to set cc_addrs/bcc_addrs if
+	they're NULL.
+
+	* mail-accounts.c (account_add_clicked): Don't need to pass shell
+	to mail_config_druid_new.
+
+	* mail-callbacks.c (configure_mail): Don't need to pass shell to
+	mail_config_druid_new.
+
 2003-02-24  Jeffrey Stedfast  <fejj@ximian.com>
 
 	* mail-session.c (request_password): Make sure m->config_service
