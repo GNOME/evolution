@@ -63,6 +63,7 @@ noinst_PROGRAMS =  	\
 	test11		\
 	test12		\
 	test-movemail	\
+	test-url	\
 	$(THREAD_RELATED_TESTS)
 
 #	test-formatter	

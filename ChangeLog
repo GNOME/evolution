@@ -1,3 +1,7 @@
+2000-04-17  Dan Winship  <danw@helixcode.com>
+
+	* tests/test-url.c: New program to test CamelURL
+
 2000-04-16  Christopher James Lahey  <clahey@helixcode.com>
 
 	* addressbook/backend/ebook/e-card.c,
