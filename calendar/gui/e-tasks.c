@@ -197,7 +197,7 @@ setup_widgets (ETasks *tasks)
 			    GTK_SIGNAL_FUNC (search_bar_category_changed_cb), tasks);
 
 	gtk_table_attach (GTK_TABLE (tasks), priv->search_bar, 0, 1, 0, 1,
-			  GTK_EXPAND | GTK_FILL, 0, 0, 0);
+			  GTK_EXPAND | GTK_FILL | GTK_SHRINK, 0, 0, 0);
 	gtk_widget_show (priv->search_bar);
 
 	priv->tasks_view = e_calendar_table_new ();

@@ -1612,10 +1612,27 @@ calendar_model_initialize_value (ETableModel *etm, int col)
 static gboolean
 calendar_model_value_is_empty (ETableModel *etm, int col, const void *value)
 {
+	CalendarModel *model;
+	CalendarModelPrivate *priv;
+
 	g_return_val_if_fail (col >= 0 && col < CAL_COMPONENT_FIELD_NUM_FIELDS, TRUE);
+
+	model = CALENDAR_MODEL (etm);
+	priv = model->priv;
 
 	switch (col) {
 	case CAL_COMPONENT_FIELD_CATEGORIES:
+		/* This could be a hack or not.  If the categories field only
+		 * contains the default category, then it possibly means that
+		 * the user has not entered anything at all in the click-to-add;
+		 * the category is in the value because we put it there in
+		 * calendar_model_initialize_value().
+		 */
+		if (priv->default_category && value && strcmp (priv->default_category, value) == 0)
+			return TRUE;
+		else
+			return string_is_empty (value);
+
 	case CAL_COMPONENT_FIELD_CLASSIFICATION: /* actually goes here, not by itself */
 	case CAL_COMPONENT_FIELD_COMPLETED:
 	case CAL_COMPONENT_FIELD_DTEND:

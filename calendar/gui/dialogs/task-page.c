@@ -286,8 +286,8 @@ clear_widgets (TaskPage *tpage)
 
 	/* Status, priority, complete percent */
 	e_dialog_spin_set (priv->percent_complete, 0.0);
-	e_dialog_option_menu_set (priv->status, 0, status_map);
-	e_dialog_option_menu_set (priv->priority, 0, priority_map);
+	e_dialog_option_menu_set (priv->status, ICAL_STATUS_NEEDSACTION, status_map);
+	e_dialog_option_menu_set (priv->priority, PRIORITY_UNDEFINED, priority_map);
 	
 	/* Categories */
 	e_dialog_editable_set (priv->categories, NULL);

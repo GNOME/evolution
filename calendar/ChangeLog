@@ -1,3 +1,17 @@
+2001-08-01  Federico Mena Quintero  <federico@ximian.com>
+
+	* gui/calendar-model.c (calendar_model_value_is_empty): If the
+	default category is the same as the value passed in to this
+	function, return TRUE.  This could be a hack or not, but it
+	prevents two items from being added to the table if a category is
+	selected.
+
+	* gui/e-tasks.c (setup_widgets): Allow the search bar to shrink
+	horizontally.
+
+	* gui/dialogs/task-page.c (clear_widgets): Pass valid values to
+	e_dialog_option_menu_set(); these need to come from the status map.
+
 2001-08-01  Damon Chaplin  <damon@ximian.com>
 
 	* cal-client/cal-client.c: removed debugging messages.
