@@ -1,3 +1,8 @@
+2002-01-23  Ettore Perazzoli  <ettore@ximian.com>
+
+	* gui/contact-editor/e-contact-editor-address.c: #include
+	<locale.h>.
+
 2002-01-22  Chris Toshok  <toshok@ximian.com>
 
 	[ fixes bug # 16864 ]

@@ -32,6 +32,7 @@
 #include <gtk/gtkcombo.h>
 #include <string.h>
 #include <stdlib.h>
+#include <locale.h>
 
 static void e_contact_editor_address_init		(EContactEditorAddress		 *card);
 static void e_contact_editor_address_class_init	(EContactEditorAddressClass	 *klass);
