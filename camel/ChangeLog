@@ -1,5 +1,12 @@
 2002-03-05  Jeffrey Stedfast  <fejj@ximian.com>
 
+	* camel-tcp-stream-ssl.c (save_ssl_cert): Removed. Glory glory
+	hallelujah!
+	(ssl_bad_cert): No longer calls ssl_save_cert or
+	ssl_cert_is_saved.
+
+2002-03-05  Jeffrey Stedfast  <fejj@ximian.com>
+
 	* camel-tcp-stream-openssl.c (camel_tcp_stream_openssl_new_raw):
 	Start the ssl stream off in non-ssl mode (useful for STARTTLS).
 	(camel_tcp_stream_openssl_enable_ssl): New function to toggle an
