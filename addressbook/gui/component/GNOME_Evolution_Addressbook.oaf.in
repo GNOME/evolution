@@ -85,6 +85,8 @@
 	<oaf_attribute name="description" type="string"
 	               value="Evolution component for handling contacts."/>
 
+	<oaf_attribute name="evolution:shell-component-icon" type="string"
+		       value="evolution-contacts.png"/>
 </oaf_server>
 
 </oaf_info>
