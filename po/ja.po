@@ -7,7 +7,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: evolution CVS-20010612\n"
-"POT-Creation-Date: 2001-11-14 19:26-0500\n"
+"POT-Creation-Date: 2001-11-21 15:19-0500\n"
 "PO-Revision-Date: 2001-23-01 00:28+0900\n"
 "Last-Translator: Takuo KITAME <kitame@debian.org>\n"
 "Language-Team: Japanese <translation@gnome.gr.jp>\n"
@@ -6172,31 +6172,6 @@ msgstr "フォルダを取得できません: このストアでは不正な操作です"
 msgid "Cannot create folder: Invalid operation on this store"
 msgstr "フォルダを作成できません: このストアでは不正な操作です"
 
-#: camel/camel-tcp-stream-openssl.c:519
-#, c-format
-msgid ""
-"Issuer: %s\n"
-"Subject: %s"
-msgstr ""
-"発行: %s\n"
-"対象: %s"
-
-#. construct our user prompt
-#: camel/camel-tcp-stream-openssl.c:524 camel/camel-tcp-stream-ssl.c:428
-#, c-format
-msgid ""
-"Bad certificate from %s:\n"
-"\n"
-"%s\n"
-"\n"
-"Do you wish to accept anyway?"
-msgstr ""
-"%s から偽の証明書です:\n"
-"\n"
-"%s\n"
-"\n"
-"承諾を望みますか?"
-
 #: camel/camel-tcp-stream-ssl.c:412
 #, c-format
 msgid ""
@@ -6215,6 +6190,22 @@ msgstr ""
 "場所: %s\n"
 "州: %s\n"
 "国: %s"
+
+#. construct our user prompt
+#: camel/camel-tcp-stream-ssl.c:428
+#, c-format
+msgid ""
+"Bad certificate from %s:\n"
+"\n"
+"%s\n"
+"\n"
+"Do you wish to accept anyway?"
+msgstr ""
+"%s から偽の証明書です:\n"
+"\n"
+"%s\n"
+"\n"
+"承諾を望みますか?"
 
 #: camel/camel-url.c:288
 #, c-format
@@ -7630,13 +7621,13 @@ msgstr ""
 msgid "Cannot initialize Evolution's composer."
 msgstr "Evolution メール作成の初期化が出来ません"
 
-#: data/evolution.desktop.in.h:1 shell/main.c:83
-msgid "Evolution"
-msgstr "Evolution"
-
-#: data/evolution.desktop.in.h:2
+#: data/evolution.desktop.in.h:1
 msgid "The Evolution groupware suite"
 msgstr "Evolution グループウェアスイート"
+
+#: data/evolution.desktop.in.h:2
+msgid "Ximian Evolution"
+msgstr "Ximian Evolution"
 
 #: data/evolution.keys.in.h:1
 msgid "address card"
@@ -7679,11 +7670,11 @@ msgid "Subject does not contain"
 msgstr "件名が次のものを含まない"
 
 #. Remember the password?
-#: e-util/e-passwords.c:347 mail/mail-session.c:267
+#: e-util/e-passwords.c:360 mail/mail-session.c:267
 msgid "Remember this password"
 msgstr "このパスワードを記憶"
 
-#: e-util/e-passwords.c:349 mail/mail-session.c:268
+#: e-util/e-passwords.c:362 mail/mail-session.c:268
 msgid "Remember this password for the remainder of this session"
 msgstr ""
 
@@ -12498,6 +12489,10 @@ msgstr "このメッセージを二度と表示しない"
 msgid "Evolution can import data from the following files:"
 msgstr "Evolution は次のデータをインポートできます:"
 
+#: shell/main.c:83
+msgid "Evolution"
+msgstr "Evolution"
+
 #: shell/main.c:89
 msgid "Evolution is now exiting ..."
 msgstr "Evolution はただいま終了中です..."
@@ -14180,6 +14175,13 @@ msgstr "init_corba(): GNOME を初期化することが出来ませんでした"
 msgid "init_bonobo(): could not initialize Bonobo"
 msgstr "init_bonobo(): Bonobo を初期化することが出来ませんでした"
 
+#~ msgid ""
+#~ "Issuer: %s\n"
+#~ "Subject: %s"
+#~ msgstr ""
+#~ "発行: %s\n"
+#~ "対象: %s"
+
 #~ msgid "I couldn't remove the item from your calendar file!\n"
 #~ msgstr ""
 #~ "私はあなたのカレンダファイルからそのアイテムを削除できませんでした!\n"
@@ -14309,9 +14311,6 @@ msgstr "init_bonobo(): Bonobo を初期化することが出来ませんでした"
 
 #~ msgid "Folder cannot contain the directory separator."
 #~ msgstr "フォルダ名にはディレクトリ区切り文字は使えません"
-
-#~ msgid "Ximian Evolution"
-#~ msgstr "Ximian Evolution"
 
 #~ msgid ""
 #~ "Ximian Evolution is a suite of groupware applications\n"

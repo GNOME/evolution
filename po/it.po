@@ -5,7 +5,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: Evolution\n"
-"POT-Creation-Date: 2001-11-14 19:26-0500\n"
+"POT-Creation-Date: 2001-11-21 15:19-0500\n"
 "PO-Revision-Date: 2001-09-29 10:08-01:00\n"
 "Last-Translator: Clara Tattoni <clara.tattoni@libero.it>\n"
 "Language-Team: Italiano <it@li.org>\n"
@@ -6200,30 +6200,6 @@ msgstr "Impossibile creare una cartella di lock in %s: %s"
 msgid "Cannot create folder: Invalid operation on this store"
 msgstr "Impossibile creare una cartella di lock in %s: %s"
 
-#: camel/camel-tcp-stream-openssl.c:519
-#, c-format
-msgid ""
-"Issuer: %s\n"
-"Subject: %s"
-msgstr ""
-"Mittente: %s\n"
-"Oggetto: %s"
-
-#. construct our user prompt
-#: camel/camel-tcp-stream-openssl.c:524 camel/camel-tcp-stream-ssl.c:428
-#, c-format
-msgid ""
-"Bad certificate from %s:\n"
-"\n"
-"%s\n"
-"\n"
-"Do you wish to accept anyway?"
-msgstr ""
-"Certificato non corretto da %s:\n"
-"\n"
-"%s\n"
-"Accettare comunque?"
-
 #: camel/camel-tcp-stream-ssl.c:412
 #, c-format
 msgid ""
@@ -6242,6 +6218,21 @@ msgstr ""
 "Località: %s\n"
 "Stato: %s\n"
 "Nazione: %s"
+
+#. construct our user prompt
+#: camel/camel-tcp-stream-ssl.c:428
+#, c-format
+msgid ""
+"Bad certificate from %s:\n"
+"\n"
+"%s\n"
+"\n"
+"Do you wish to accept anyway?"
+msgstr ""
+"Certificato non corretto da %s:\n"
+"\n"
+"%s\n"
+"Accettare comunque?"
 
 #: camel/camel-url.c:288
 #, c-format
@@ -7685,13 +7676,14 @@ msgstr ""
 msgid "Cannot initialize Evolution's composer."
 msgstr "Impossibile inizializzare il composer di Evolution."
 
-#: data/evolution.desktop.in.h:1 shell/main.c:83
-msgid "Evolution"
-msgstr "Evolution"
-
-#: data/evolution.desktop.in.h:2
+#: data/evolution.desktop.in.h:1
 msgid "The Evolution groupware suite"
 msgstr "The Evolution groupware suite"
+
+#: data/evolution.desktop.in.h:2
+#, fuzzy
+msgid "Ximian Evolution"
+msgstr "_FAQ di Ximian Evolution"
 
 #: data/evolution.keys.in.h:1
 msgid "address card"
@@ -7734,11 +7726,11 @@ msgid "Subject does not contain"
 msgstr "L'oggetto non contiene"
 
 #. Remember the password?
-#: e-util/e-passwords.c:347 mail/mail-session.c:267
+#: e-util/e-passwords.c:360 mail/mail-session.c:267
 msgid "Remember this password"
 msgstr "Ricorda questa password"
 
-#: e-util/e-passwords.c:349 mail/mail-session.c:268
+#: e-util/e-passwords.c:362 mail/mail-session.c:268
 msgid "Remember this password for the remainder of this session"
 msgstr ""
 
@@ -12596,6 +12588,10 @@ msgstr "Non chiedere di nuovo"
 msgid "Evolution can import data from the following files:"
 msgstr "Evolution può importare dati dai seguenti file:"
 
+#: shell/main.c:83
+msgid "Evolution"
+msgstr "Evolution"
+
 #: shell/main.c:89
 msgid "Evolution is now exiting ..."
 msgstr "Evolution sta ora terminando ..."
@@ -14280,6 +14276,13 @@ msgstr "init_corba(): impossibile inizializzare GNOME"
 #: wombat/wombat.c:225
 msgid "init_bonobo(): could not initialize Bonobo"
 msgstr "init_bonobo(): impossibile inizializzare Bonobo"
+
+#~ msgid ""
+#~ "Issuer: %s\n"
+#~ "Subject: %s"
+#~ msgstr ""
+#~ "Mittente: %s\n"
+#~ "Oggetto: %s"
 
 #~ msgid "I couldn't remove the item from your calendar file!\n"
 #~ msgstr "Impossibile rimuovere oggetto  dal file del calendario!\n"

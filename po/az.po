@@ -5,7 +5,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: evolution 0.3.1\n"
-"POT-Creation-Date: 2001-11-14 19:26-0500\n"
+"POT-Creation-Date: 2001-11-21 15:19-0500\n"
 "PO-Revision-Date: 2001-05-23 00:10GMT +0200\n"
 "Last-Translator: Vasif İsmayıloğlu MD <azerb_linux@hotmail.com>\n"
 "Language-Team: Azerbaijani Turkish <linuxaz@azerimal.net>\n"
@@ -6473,29 +6473,6 @@ msgstr "%s üstündə qovluq qıfılı yaradıla bilmədi: %s"
 msgid "Cannot create folder: Invalid operation on this store"
 msgstr "%s üstündə qovluq qıfılı yaradıla bilmədi: %s"
 
-#: camel/camel-tcp-stream-openssl.c:519
-#, c-format
-msgid ""
-"Issuer: %s\n"
-"Subject: %s"
-msgstr ""
-
-#. construct our user prompt
-#: camel/camel-tcp-stream-openssl.c:524 camel/camel-tcp-stream-ssl.c:428
-#, c-format
-msgid ""
-"Bad certificate from %s:\n"
-"\n"
-"%s\n"
-"\n"
-"Do you wish to accept anyway?"
-msgstr ""
-"%sdan(dən) xəsərli vəsizqə:\n"
-"\n"
-"%s\n"
-"\n"
-"Yenə də qəbul etmək istəyirsiniz?"
-
 #: camel/camel-tcp-stream-ssl.c:412
 #, c-format
 msgid ""
@@ -6514,6 +6491,22 @@ msgstr ""
 "Yer: %s\n"
 "Əyalət: %s\n"
 "Ölkə: %s"
+
+#. construct our user prompt
+#: camel/camel-tcp-stream-ssl.c:428
+#, c-format
+msgid ""
+"Bad certificate from %s:\n"
+"\n"
+"%s\n"
+"\n"
+"Do you wish to accept anyway?"
+msgstr ""
+"%sdan(dən) xəsərli vəsizqə:\n"
+"\n"
+"%s\n"
+"\n"
+"Yenə də qəbul etmək istəyirsiniz?"
 
 #: camel/camel-url.c:288
 #, c-format
@@ -7959,13 +7952,14 @@ msgstr ""
 msgid "Cannot initialize Evolution's composer."
 msgstr "Evolutionun ePoçt yazma parçasını başlada bilmədim ."
 
-#: data/evolution.desktop.in.h:1 shell/main.c:83
-msgid "Evolution"
-msgstr "Evolution"
-
-#: data/evolution.desktop.in.h:2
+#: data/evolution.desktop.in.h:1
 msgid "The Evolution groupware suite"
 msgstr "Evolution qruplaşdırılmış proqram tə'minatı otağı"
+
+#: data/evolution.desktop.in.h:2
+#, fuzzy
+msgid "Ximian Evolution"
+msgstr "Evolution"
 
 #: data/evolution.keys.in.h:1
 msgid "address card"
@@ -8016,11 +8010,11 @@ msgid "Subject does not contain"
 msgstr "daxil etmir"
 
 #. Remember the password?
-#: e-util/e-passwords.c:347 mail/mail-session.c:267
+#: e-util/e-passwords.c:360 mail/mail-session.c:267
 msgid "Remember this password"
 msgstr "Bu parolu yadda saxla"
 
-#: e-util/e-passwords.c:349 mail/mail-session.c:268
+#: e-util/e-passwords.c:362 mail/mail-session.c:268
 msgid "Remember this password for the remainder of this session"
 msgstr ""
 
@@ -13090,6 +13084,10 @@ msgstr "Mənə bir də soruşma"
 msgid "Evolution can import data from the following files:"
 msgstr "Məktub taşkilatcısı 'Evolution' parçası."
 
+#: shell/main.c:83
+msgid "Evolution"
+msgstr "Evolution"
+
 #: shell/main.c:89
 #, fuzzy
 msgid "Evolution is now exiting ..."
@@ -15066,10 +15064,6 @@ msgstr "init_bonobo(): Bonobonu başlada bilmədim"
 #, fuzzy
 #~ msgid "_Imperial"
 #~ msgstr "Aprel"
-
-#, fuzzy
-#~ msgid "Ximian Evolution"
-#~ msgstr "Evolution"
 
 #, fuzzy
 #~ msgid ""

@@ -5,7 +5,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: evolution 1.0\n"
-"POT-Creation-Date: 2001-11-14 19:26-0500\n"
+"POT-Creation-Date: 2001-11-21 15:19-0500\n"
 "PO-Revision-Date: 2001-11-08 21:58-0200\n"
 "Last-Translator: Gustavo Maciel Dias Vieira <gdvieira@zaz.com.br>\n"
 "Language-Team: Brazilian Portuguese <ldp-br@bazar.conectiva.com.br>\n"
@@ -6179,31 +6179,6 @@ msgstr "Não é possível obter pasta: Operação inválida neste repositório"
 msgid "Cannot create folder: Invalid operation on this store"
 msgstr "Não é possível criar pasta: Operação inválida neste repositório"
 
-#: camel/camel-tcp-stream-openssl.c:519
-#, c-format
-msgid ""
-"Issuer: %s\n"
-"Subject: %s"
-msgstr ""
-"Emissor: %s\n"
-"Assunto: %s"
-
-#. construct our user prompt
-#: camel/camel-tcp-stream-openssl.c:524 camel/camel-tcp-stream-ssl.c:428
-#, c-format
-msgid ""
-"Bad certificate from %s:\n"
-"\n"
-"%s\n"
-"\n"
-"Do you wish to accept anyway?"
-msgstr ""
-"Certificado inválido de %s:\n"
-"\n"
-"%s\n"
-"\n"
-"Você deseja aceitá-lo mesmo assim?"
-
 #: camel/camel-tcp-stream-ssl.c:412
 #, c-format
 msgid ""
@@ -6222,6 +6197,22 @@ msgstr ""
 "Localidade: %s\n"
 "Estado: %s\n"
 "País: %s"
+
+#. construct our user prompt
+#: camel/camel-tcp-stream-ssl.c:428
+#, c-format
+msgid ""
+"Bad certificate from %s:\n"
+"\n"
+"%s\n"
+"\n"
+"Do you wish to accept anyway?"
+msgstr ""
+"Certificado inválido de %s:\n"
+"\n"
+"%s\n"
+"\n"
+"Você deseja aceitá-lo mesmo assim?"
 
 #: camel/camel-url.c:288
 #, c-format
@@ -7642,13 +7633,14 @@ msgstr ""
 msgid "Cannot initialize Evolution's composer."
 msgstr "Não é possível iniciar o redator do Evolution."
 
-#: data/evolution.desktop.in.h:1 shell/main.c:83
-msgid "Evolution"
-msgstr "Evolution"
-
-#: data/evolution.desktop.in.h:2
+#: data/evolution.desktop.in.h:1
 msgid "The Evolution groupware suite"
 msgstr "O conjunto de aplicativos de groupware Evolution"
+
+#: data/evolution.desktop.in.h:2
+#, fuzzy
+msgid "Ximian Evolution"
+msgstr "_FAQ do Ximian Evolution"
 
 #: data/evolution.keys.in.h:1
 msgid "address card"
@@ -7691,11 +7683,11 @@ msgid "Subject does not contain"
 msgstr "Assunto não contém"
 
 #. Remember the password?
-#: e-util/e-passwords.c:347 mail/mail-session.c:267
+#: e-util/e-passwords.c:360 mail/mail-session.c:267
 msgid "Remember this password"
 msgstr "Lembrar esta senha"
 
-#: e-util/e-passwords.c:349 mail/mail-session.c:268
+#: e-util/e-passwords.c:362 mail/mail-session.c:268
 msgid "Remember this password for the remainder of this session"
 msgstr "Lembrar esta senha pelo restante desta sessão"
 
@@ -12515,6 +12507,10 @@ msgstr "Não pergunte-me novamente"
 msgid "Evolution can import data from the following files:"
 msgstr "O Evolution pode importar dados dos seguintes arquivos:"
 
+#: shell/main.c:83
+msgid "Evolution"
+msgstr "Evolution"
+
 #: shell/main.c:89
 msgid "Evolution is now exiting ..."
 msgstr "O Evolution está saindo agora ..."
@@ -14194,6 +14190,13 @@ msgstr "init_corba(): não foi possível iniciar GNOME"
 #: wombat/wombat.c:225
 msgid "init_bonobo(): could not initialize Bonobo"
 msgstr "init_bonobo(): não foi possível iniciar Bonobo"
+
+#~ msgid ""
+#~ "Issuer: %s\n"
+#~ "Subject: %s"
+#~ msgstr ""
+#~ "Emissor: %s\n"
+#~ "Assunto: %s"
 
 #~ msgid "I couldn't remove the item from your calendar file!\n"
 #~ msgstr "Não foi possível remover o item do seu arquivo de agenda!\n"

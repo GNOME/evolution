@@ -7,7 +7,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: evolution 1.4.1\n"
-"POT-Creation-Date: 2001-11-14 19:26-0500\n"
+"POT-Creation-Date: 2001-11-21 15:19-0500\n"
 "PO-Revision-Date: 2001-11-10 21:41+0200\n"
 "Last-Translator: Anna Jonna Armannsdottir <a@ingenioer.dk>\n"
 "Language-Team: Danish <dansk@klid.dk>\n"
@@ -6166,31 +6166,6 @@ msgstr "Kan ikke finde mappe: Ugyldig operation på dette lager"
 msgid "Cannot create folder: Invalid operation on this store"
 msgstr "Kan ikke oprette mappe: Ugyldig operation på dette lager"
 
-#: camel/camel-tcp-stream-openssl.c:519
-#, c-format
-msgid ""
-"Issuer: %s\n"
-"Subject: %s"
-msgstr ""
-"Udsteder: %s\n"
-"Emne: %s"
-
-#. construct our user prompt
-#: camel/camel-tcp-stream-openssl.c:524 camel/camel-tcp-stream-ssl.c:428
-#, c-format
-msgid ""
-"Bad certificate from %s:\n"
-"\n"
-"%s\n"
-"\n"
-"Do you wish to accept anyway?"
-msgstr ""
-"Ugyldig certifikat fra %s:\n"
-"\n"
-"%s\n"
-"\n"
-"Vil du acceptere alligevel?"
-
 #: camel/camel-tcp-stream-ssl.c:412
 #, c-format
 msgid ""
@@ -6209,6 +6184,22 @@ msgstr ""
 "Lokalitet: %s\n"
 "Stat: %s\n"
 "Land: %s"
+
+#. construct our user prompt
+#: camel/camel-tcp-stream-ssl.c:428
+#, c-format
+msgid ""
+"Bad certificate from %s:\n"
+"\n"
+"%s\n"
+"\n"
+"Do you wish to accept anyway?"
+msgstr ""
+"Ugyldig certifikat fra %s:\n"
+"\n"
+"%s\n"
+"\n"
+"Vil du acceptere alligevel?"
 
 #: camel/camel-url.c:288
 #, c-format
@@ -7627,13 +7618,14 @@ msgstr ""
 msgid "Cannot initialize Evolution's composer."
 msgstr "Kan ikke initiere Evolutions composer."
 
-#: data/evolution.desktop.in.h:1 shell/main.c:83
-msgid "Evolution"
-msgstr "Evolution"
-
-#: data/evolution.desktop.in.h:2
+#: data/evolution.desktop.in.h:1
 msgid "The Evolution groupware suite"
 msgstr "Gruppevaresuiten Evolution"
+
+#: data/evolution.desktop.in.h:2
+#, fuzzy
+msgid "Ximian Evolution"
+msgstr "Ximian Evolution _OSS"
 
 #: data/evolution.keys.in.h:1
 msgid "address card"
@@ -7676,11 +7668,11 @@ msgid "Subject does not contain"
 msgstr "Emne indeholder ikke"
 
 #. Remember the password?
-#: e-util/e-passwords.c:347 mail/mail-session.c:267
+#: e-util/e-passwords.c:360 mail/mail-session.c:267
 msgid "Remember this password"
 msgstr "Husk denne adgangskode"
 
-#: e-util/e-passwords.c:349 mail/mail-session.c:268
+#: e-util/e-passwords.c:362 mail/mail-session.c:268
 msgid "Remember this password for the remainder of this session"
 msgstr "Husk denne adgangskode for resten af denne session"
 
@@ -12484,6 +12476,10 @@ msgstr "Spørg mig ikke igen"
 msgid "Evolution can import data from the following files:"
 msgstr "Evolution kan importere data fra følgende filer:"
 
+#: shell/main.c:83
+msgid "Evolution"
+msgstr "Evolution"
+
 #: shell/main.c:89
 msgid "Evolution is now exiting ..."
 msgstr "Evolution afslutter nu..."
@@ -14157,6 +14153,13 @@ msgstr "init_corba(): kunne ikke initiere GNOME"
 #: wombat/wombat.c:225
 msgid "init_bonobo(): could not initialize Bonobo"
 msgstr "init_bonobo(): kunne ikke initialisere Bonobo"
+
+#~ msgid ""
+#~ "Issuer: %s\n"
+#~ "Subject: %s"
+#~ msgstr ""
+#~ "Udsteder: %s\n"
+#~ "Emne: %s"
 
 #~ msgid "I couldn't remove the item from your calendar file!\n"
 #~ msgstr "Kunne ikke fjerne elementet fra din kalenderfil!\n"

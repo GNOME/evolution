@@ -142,7 +142,6 @@ camel/camel-service.c
 camel/camel-session.c
 camel/camel-smime-context.c
 camel/camel-store.c
-camel/camel-tcp-stream-openssl.c
 camel/camel-tcp-stream-ssl.c
 camel/camel-url.c
 camel/camel-vee-folder.c

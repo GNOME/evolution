@@ -5,7 +5,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: evolution 0.1\n"
-"POT-Creation-Date: 2001-11-14 19:26-0500\n"
+"POT-Creation-Date: 2001-11-21 15:19-0500\n"
 "PO-Revision-Date: 2000-04-04 15:25+0200\n"
 "Last-Translator: Yuri Syrota <rasta@renome.rovno.ua>\n"
 "Language-Team: Ukrainian <uk@li.org>\n"
@@ -6162,15 +6162,20 @@ msgstr "Не вдалося отримати теку: %s: %s"
 msgid "Cannot create folder: Invalid operation on this store"
 msgstr "Не вдалося отримати теку: %s: %s"
 
-#: camel/camel-tcp-stream-openssl.c:519
+#: camel/camel-tcp-stream-ssl.c:412
 #, c-format
 msgid ""
-"Issuer: %s\n"
-"Subject: %s"
+"EMail: %s\n"
+"Common Name: %s\n"
+"Organization Unit: %s\n"
+"Organization: %s\n"
+"Locality: %s\n"
+"State: %s\n"
+"Country: %s"
 msgstr ""
 
 #. construct our user prompt
-#: camel/camel-tcp-stream-openssl.c:524 camel/camel-tcp-stream-ssl.c:428
+#: camel/camel-tcp-stream-ssl.c:428
 #, c-format
 msgid ""
 "Bad certificate from %s:\n"
@@ -6184,18 +6189,6 @@ msgstr ""
 "%s\n"
 "\n"
 "Бажа╓те прийняти всеодно?"
-
-#: camel/camel-tcp-stream-ssl.c:412
-#, c-format
-msgid ""
-"EMail: %s\n"
-"Common Name: %s\n"
-"Organization Unit: %s\n"
-"Organization: %s\n"
-"Locality: %s\n"
-"State: %s\n"
-"Country: %s"
-msgstr ""
 
 #: camel/camel-url.c:288
 #, c-format
@@ -7584,14 +7577,15 @@ msgstr ""
 msgid "Cannot initialize Evolution's composer."
 msgstr "Не вдалося ╕н╕ц╕ал╕зувати редактора Evolutuion."
 
-#: data/evolution.desktop.in.h:1 shell/main.c:83
-msgid "Evolution"
-msgstr "Evolution"
-
-#: data/evolution.desktop.in.h:2
+#: data/evolution.desktop.in.h:1
 #, fuzzy
 msgid "The Evolution groupware suite"
 msgstr "Evolution - %s"
+
+#: data/evolution.desktop.in.h:2
+#, fuzzy
+msgid "Ximian Evolution"
+msgstr "Част╕ запитання щодо Ximian Evolution"
 
 #: data/evolution.keys.in.h:1
 msgid "address card"
@@ -7634,11 +7628,11 @@ msgid "Subject does not contain"
 msgstr "Тема не м╕стить"
 
 #. Remember the password?
-#: e-util/e-passwords.c:347 mail/mail-session.c:267
+#: e-util/e-passwords.c:360 mail/mail-session.c:267
 msgid "Remember this password"
 msgstr "Запам'ятати цей пароль"
 
-#: e-util/e-passwords.c:349 mail/mail-session.c:268
+#: e-util/e-passwords.c:362 mail/mail-session.c:268
 msgid "Remember this password for the remainder of this session"
 msgstr ""
 
@@ -12418,6 +12412,10 @@ msgstr "Б╕льше не запитувати"
 #: shell/importer/intelligent.c:208
 msgid "Evolution can import data from the following files:"
 msgstr "Evolution може ╕мпортувати дан╕ з таких файл╕в:"
+
+#: shell/main.c:83
+msgid "Evolution"
+msgstr "Evolution"
 
 #: shell/main.c:89
 msgid "Evolution is now exiting ..."

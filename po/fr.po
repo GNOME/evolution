@@ -8,7 +8,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: evolution 0.16.100\n"
-"POT-Creation-Date: 2001-11-14 19:26-0500\n"
+"POT-Creation-Date: 2001-11-21 15:19-0500\n"
 "PO-Revision-Date: 2001-11-09 10:43+0100\n"
 "Last-Translator: Frederic Riss <frederic.riss@laposte.net>\n"
 "Language-Team: GNOME French Team <gnomefr@traduc.org>\n"
@@ -6189,31 +6189,6 @@ msgstr "Impossible d'obtenir le dossier : Opération invalide sur ce stockage"
 msgid "Cannot create folder: Invalid operation on this store"
 msgstr "Impossible de créer le dossier : Opération invalide sur ce stockage"
 
-#: camel/camel-tcp-stream-openssl.c:519
-#, c-format
-msgid ""
-"Issuer: %s\n"
-"Subject: %s"
-msgstr ""
-"Émetteur : %s\n"
-"Sujet : %s"
-
-#. construct our user prompt
-#: camel/camel-tcp-stream-openssl.c:524 camel/camel-tcp-stream-ssl.c:428
-#, c-format
-msgid ""
-"Bad certificate from %s:\n"
-"\n"
-"%s\n"
-"\n"
-"Do you wish to accept anyway?"
-msgstr ""
-"Mauvais certificat de %s :\n"
-"\n"
-"%s\n"
-"\n"
-"Désirez-vous accepter quand même ?"
-
 #: camel/camel-tcp-stream-ssl.c:412
 #, c-format
 msgid ""
@@ -6232,6 +6207,22 @@ msgstr ""
 "Localité : %s\n"
 "État : %s\n"
 "Pays : %s"
+
+#. construct our user prompt
+#: camel/camel-tcp-stream-ssl.c:428
+#, c-format
+msgid ""
+"Bad certificate from %s:\n"
+"\n"
+"%s\n"
+"\n"
+"Do you wish to accept anyway?"
+msgstr ""
+"Mauvais certificat de %s :\n"
+"\n"
+"%s\n"
+"\n"
+"Désirez-vous accepter quand même ?"
 
 #: camel/camel-url.c:288
 #, c-format
@@ -7665,13 +7656,13 @@ msgstr ""
 msgid "Cannot initialize Evolution's composer."
 msgstr "Ne peut initialiser le composant de messagerie d'Evolution."
 
-#: data/evolution.desktop.in.h:1 shell/main.c:83
-msgid "Evolution"
-msgstr "Evolution"
-
-#: data/evolution.desktop.in.h:2
+#: data/evolution.desktop.in.h:1
 msgid "The Evolution groupware suite"
 msgstr "La suite de travail collaboratif Evolution"
+
+#: data/evolution.desktop.in.h:2
+msgid "Ximian Evolution"
+msgstr "Ximian Evolution"
 
 #: data/evolution.keys.in.h:1
 msgid "address card"
@@ -7714,11 +7705,11 @@ msgid "Subject does not contain"
 msgstr "Le sujet ne contient pas"
 
 #. Remember the password?
-#: e-util/e-passwords.c:347 mail/mail-session.c:267
+#: e-util/e-passwords.c:360 mail/mail-session.c:267
 msgid "Remember this password"
 msgstr "Se souvenir du mot de passe"
 
-#: e-util/e-passwords.c:349 mail/mail-session.c:268
+#: e-util/e-passwords.c:362 mail/mail-session.c:268
 msgid "Remember this password for the remainder of this session"
 msgstr "Se souvenir de ce mot de passe pour le reste de cette session"
 
@@ -12547,6 +12538,10 @@ msgstr "Ne plus me demander"
 msgid "Evolution can import data from the following files:"
 msgstr "Evolution ne peut importer de données depuis les fichiers suivants :"
 
+#: shell/main.c:83
+msgid "Evolution"
+msgstr "Evolution"
+
 #: shell/main.c:89
 msgid "Evolution is now exiting ..."
 msgstr "Evolution se ferme..."
@@ -14224,6 +14219,13 @@ msgstr "init_corba() : Ne peut initialiser GNOME"
 msgid "init_bonobo(): could not initialize Bonobo"
 msgstr "init_bonobo() : Ne peut initialiser Bonobo"
 
+#~ msgid ""
+#~ "Issuer: %s\n"
+#~ "Subject: %s"
+#~ msgstr ""
+#~ "Émetteur : %s\n"
+#~ "Sujet : %s"
+
 #~ msgid "I couldn't remove the item from your calendar file!\n"
 #~ msgstr "Je ne peux supprimer l'item de votre fichier de calendrier !\n"
 
@@ -14350,9 +14352,6 @@ msgstr "init_bonobo() : Ne peut initialiser Bonobo"
 
 #~ msgid "Click icon to decrypt."
 #~ msgstr "Cliquez sur l'icone pour décrypter"
-
-#~ msgid "Ximian Evolution"
-#~ msgstr "Ximian Evolution"
 
 #~ msgid ""
 #~ "Ximian Evolution is a suite of groupware applications\n"

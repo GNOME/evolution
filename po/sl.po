@@ -5,7 +5,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: evolution\n"
-"POT-Creation-Date: 2001-11-14 19:26-0500\n"
+"POT-Creation-Date: 2001-11-21 15:19-0500\n"
 "PO-Revision-Date: 2000-07-28 03:15+0200\n"
 "Last-Translator: Andraz Tori <andraz.tori1@guest.arnes.si>\n"
 "Language-Team: Slovenian <sl@li.org>\n"
@@ -6318,31 +6318,6 @@ msgstr "Ne morem ustvariti ključavnice na mapi: %s: %s"
 msgid "Cannot create folder: Invalid operation on this store"
 msgstr "Ne morem ustvariti ključavnice na mapi: %s: %s"
 
-#: camel/camel-tcp-stream-openssl.c:519
-#, c-format
-msgid ""
-"Issuer: %s\n"
-"Subject: %s"
-msgstr ""
-"Proizvedel: %s\n"
-"Zadeva: %s"
-
-#. construct our user prompt
-#: camel/camel-tcp-stream-openssl.c:524 camel/camel-tcp-stream-ssl.c:428
-#, c-format
-msgid ""
-"Bad certificate from %s:\n"
-"\n"
-"%s\n"
-"\n"
-"Do you wish to accept anyway?"
-msgstr ""
-"Slab certifikat od %s:\n"
-"\n"
-"%s\n"
-"\n"
-"Ga želite vseeno sprejeti?"
-
 #: camel/camel-tcp-stream-ssl.c:412
 #, c-format
 msgid ""
@@ -6361,6 +6336,22 @@ msgstr ""
 "Krajevnost: %s\n"
 "Regija/Zvezna država: %s\n"
 "Država: %s"
+
+#. construct our user prompt
+#: camel/camel-tcp-stream-ssl.c:428
+#, c-format
+msgid ""
+"Bad certificate from %s:\n"
+"\n"
+"%s\n"
+"\n"
+"Do you wish to accept anyway?"
+msgstr ""
+"Slab certifikat od %s:\n"
+"\n"
+"%s\n"
+"\n"
+"Ga želite vseeno sprejeti?"
 
 #: camel/camel-url.c:288
 #, c-format
@@ -7802,13 +7793,14 @@ msgstr ""
 msgid "Cannot initialize Evolution's composer."
 msgstr "Ne morem inicializirati Evolucijinega sestavljalca."
 
-#: data/evolution.desktop.in.h:1 shell/main.c:83
-msgid "Evolution"
-msgstr "Evolucija"
-
-#: data/evolution.desktop.in.h:2
+#: data/evolution.desktop.in.h:1
 msgid "The Evolution groupware suite"
 msgstr "Evolucijino programje za delo v skupini"
+
+#: data/evolution.desktop.in.h:2
+#, fuzzy
+msgid "Ximian Evolution"
+msgstr "_Pogosto zastavljena vprašanja"
 
 #: data/evolution.keys.in.h:1
 msgid "address card"
@@ -7852,11 +7844,11 @@ msgid "Subject does not contain"
 msgstr "Zadeva ne vsebuje"
 
 #. Remember the password?
-#: e-util/e-passwords.c:347 mail/mail-session.c:267
+#: e-util/e-passwords.c:360 mail/mail-session.c:267
 msgid "Remember this password"
 msgstr "Zapomni si geslo"
 
-#: e-util/e-passwords.c:349 mail/mail-session.c:268
+#: e-util/e-passwords.c:362 mail/mail-session.c:268
 msgid "Remember this password for the remainder of this session"
 msgstr ""
 
@@ -12754,6 +12746,10 @@ msgstr "Ne sprašuj me več"
 msgid "Evolution can import data from the following files:"
 msgstr "Evolucija lahko uvozi podatke iz sledečih datotek:"
 
+#: shell/main.c:83
+msgid "Evolution"
+msgstr "Evolucija"
+
 #: shell/main.c:89
 #, fuzzy
 msgid "Evolution is now exiting ..."
@@ -14464,6 +14460,13 @@ msgstr "init_corba(): nisem mogel inicializirati GNOMEa"
 #: wombat/wombat.c:225
 msgid "init_bonobo(): could not initialize Bonobo"
 msgstr "init_bonobo(): nisem mogel inicializirati Bonoba"
+
+#~ msgid ""
+#~ "Issuer: %s\n"
+#~ "Subject: %s"
+#~ msgstr ""
+#~ "Proizvedel: %s\n"
+#~ "Zadeva: %s"
 
 #~ msgid "I couldn't remove the item from your calendar file!\n"
 #~ msgstr "Nisem mogel odstraniti predmeta iz vaše datoteke koledarja!\n"

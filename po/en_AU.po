@@ -5,7 +5,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: evolution 0.6\n"
-"POT-Creation-Date: 2001-11-14 19:26-0500\n"
+"POT-Creation-Date: 2001-11-21 15:19-0500\n"
 "PO-Revision-Date: 2000-10-22 16:19+0100\n"
 "Last-Translator: Michael Zucchi <notzed@ximian.com>\n"
 "Language-Team: \n"
@@ -5974,24 +5974,6 @@ msgstr "Can not get folder: Invalid operation on this store"
 msgid "Cannot create folder: Invalid operation on this store"
 msgstr "Can not create folder: Invalid operation on this store"
 
-#: camel/camel-tcp-stream-openssl.c:519
-#, c-format
-msgid ""
-"Issuer: %s\n"
-"Subject: %s"
-msgstr ""
-
-#. construct our user prompt
-#: camel/camel-tcp-stream-openssl.c:524 camel/camel-tcp-stream-ssl.c:428
-#, c-format
-msgid ""
-"Bad certificate from %s:\n"
-"\n"
-"%s\n"
-"\n"
-"Do you wish to accept anyway?"
-msgstr ""
-
 #: camel/camel-tcp-stream-ssl.c:412
 #, c-format
 msgid ""
@@ -6010,6 +5992,17 @@ msgstr ""
 "Locality: %s\n"
 "State: %s\n"
 "Country: %s"
+
+#. construct our user prompt
+#: camel/camel-tcp-stream-ssl.c:428
+#, c-format
+msgid ""
+"Bad certificate from %s:\n"
+"\n"
+"%s\n"
+"\n"
+"Do you wish to accept anyway?"
+msgstr ""
 
 #: camel/camel-url.c:288
 #, c-format
@@ -7364,13 +7357,14 @@ msgstr ""
 msgid "Cannot initialize Evolution's composer."
 msgstr "Cannot initialise Evolution's composer."
 
-#: data/evolution.desktop.in.h:1 shell/main.c:83
-msgid "Evolution"
+#: data/evolution.desktop.in.h:1
+msgid "The Evolution groupware suite"
 msgstr ""
 
 #: data/evolution.desktop.in.h:2
-msgid "The Evolution groupware suite"
-msgstr ""
+#, fuzzy
+msgid "Ximian Evolution"
+msgstr "Can not initialise the Ximian Evolution shell."
 
 #: data/evolution.keys.in.h:1
 msgid "address card"
@@ -7413,11 +7407,11 @@ msgid "Subject does not contain"
 msgstr ""
 
 #. Remember the password?
-#: e-util/e-passwords.c:347 mail/mail-session.c:267
+#: e-util/e-passwords.c:360 mail/mail-session.c:267
 msgid "Remember this password"
 msgstr ""
 
-#: e-util/e-passwords.c:349 mail/mail-session.c:268
+#: e-util/e-passwords.c:362 mail/mail-session.c:268
 msgid "Remember this password for the remainder of this session"
 msgstr ""
 
@@ -12041,6 +12035,10 @@ msgstr ""
 
 #: shell/importer/intelligent.c:208
 msgid "Evolution can import data from the following files:"
+msgstr ""
+
+#: shell/main.c:83
+msgid "Evolution"
 msgstr ""
 
 #: shell/main.c:89

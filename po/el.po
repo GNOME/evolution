@@ -12,7 +12,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: evolution 0.99.2\n"
-"POT-Creation-Date: 2001-11-18 06:10+0000\n"
+"POT-Creation-Date: 2001-11-21 15:19-0500\n"
 "PO-Revision-Date: 2001-11-18 18:37+0000\n"
 "Last-Translator: Simos Xenitellis <simos@hellug.gr>\n"
 "Language-Team: Greek <nls@tux.hellug.gr>\n"
@@ -743,7 +743,8 @@ msgstr "Εργοστάσιο για το συστατικό δείγματος Διευθυνσιολογίου"
 
 #: addressbook/gui/component/addressbook-component.c:71
 #: calendar/gui/dialogs/comp-editor-util.c:310
-#: calendar/gui/dialogs/comp-editor-util.c:366 shell/e-shortcuts.c:1061
+#: calendar/gui/dialogs/comp-editor-util.c:366 shell/e-local-storage.c:172
+#: shell/e-shortcuts.c:1061
 msgid "Contacts"
 msgstr "Γνωριμίες"
 
@@ -915,6 +916,11 @@ msgstr "Όνομα _Διακομιστή:"
 msgid "Could not initialize gnome-vfs"
 msgstr "Αδύνατη η αρχικοποίηση του gnome-vfs"
 
+#: addressbook/gui/component/addressbook-storage.c:167
+#, fuzzy
+msgid "Other Contacts"
+msgstr "Λοιπές Συντομεύσεις"
+
 #: addressbook/gui/component/addressbook.c:468
 msgid "Unable to open addressbook"
 msgstr "Αδύνατο το άνοιγμα του διευθυνσιολογίου"
@@ -964,7 +970,8 @@ msgid "Category is"
 msgstr "Η κατηγορία είναι"
 
 #. We attach subitems below
-#: addressbook/gui/component/addressbook.c:790 widgets/misc/e-filter-bar.h:104
+#: addressbook/gui/component/addressbook.c:790 widgets/misc/e-filter-bar.h:97
+#: widgets/misc/e-filter-bar.h:104
 msgid "Advanced..."
 msgstr "Για Προχωρημένους..."
 
@@ -977,6 +984,16 @@ msgstr "Κάθε Κατηγορία"
 #: addressbook/gui/component/addressbook.c:1071
 msgid "The URI that the Folder Browser will display"
 msgstr "Το URI που θα εμφανίσει ο Εξερευνητής Φακέλλων"
+
+#.
+#. * This is the code for the UI thingie that lets you manipulate the e-mail
+#. * addresses (and *only* the e-mail addresses) associated with an existing
+#. * card.
+#.
+#: addressbook/gui/component/e-address-popup.c:178
+#, fuzzy
+msgid "(none)"
+msgstr "Σημείω_μα"
 
 #: addressbook/gui/component/e-address-popup.c:474
 #: addressbook/gui/contact-editor/contact-editor.glade.h:17
@@ -1276,6 +1293,13 @@ msgid "_Web page address:"
 msgstr ""
 
 #: addressbook/gui/contact-editor/e-contact-editor-confirm-delete.glade.h:1
+#, fuzzy
+msgid ""
+"Are you sure you want\n"
+"to delete this contact?"
+msgstr "Σίγουρα θέλετε να διαγράψετε την ενέργεια που δεν έχει τίτλο;"
+
+#: addressbook/gui/contact-editor/e-contact-editor-confirm-delete.glade.h:3
 msgid "Delete Contact?"
 msgstr "Διαγραφή Γνωριμίας;"
 
@@ -2542,8 +2566,9 @@ msgstr ""
 
 #: addressbook/gui/widgets/e-addressbook-util.c:40
 #: calendar/gui/calendar-model.c:763 calendar/gui/calendar-model.c:1197
-#: calendar/gui/dialogs/task-details-page.glade.h:3 camel/camel-service.c:607
-#: camel/camel-service.c:643
+#: calendar/gui/dialogs/task-details-page.glade.h:3
+#: calendar/gui/e-calendar-table.c:481 calendar/gui/print.c:2255
+#: camel/camel-service.c:607 camel/camel-service.c:643
 msgid "Cancelled"
 msgstr "Ακυρώθηκε"
 
@@ -2865,24 +2890,28 @@ msgid "Untitled appointment"
 msgstr "Ραντεβού χωρίς τίτλο"
 
 #: calendar/cal-util/cal-util.c:498 calendar/cal-util/cal-util.c:520
-#: calendar/gui/dialogs/task-details-page.glade.h:6 mail/message-list.c:651
+#: calendar/gui/dialogs/task-details-page.glade.h:6
+#: calendar/gui/e-calendar-table.c:405 mail/message-list.c:651
 msgid "High"
 msgstr "Ύψος"
 
 #: calendar/cal-util/cal-util.c:500 calendar/cal-util/cal-util.c:522
 #: calendar/gui/calendar-model.c:1711
-#: calendar/gui/dialogs/task-details-page.glade.h:9 mail/message-list.c:650
+#: calendar/gui/dialogs/task-details-page.glade.h:9
+#: calendar/gui/e-calendar-table.c:406 mail/message-list.c:650
 msgid "Normal"
 msgstr "Κανονικό"
 
 #: calendar/cal-util/cal-util.c:502 calendar/cal-util/cal-util.c:524
-#: calendar/gui/dialogs/task-details-page.glade.h:8 mail/message-list.c:649
+#: calendar/gui/dialogs/task-details-page.glade.h:8
+#: calendar/gui/e-calendar-table.c:407 mail/message-list.c:649
 msgid "Low"
 msgstr "Χαμηλή"
 
 #. An empty string is the same as 'None'.
 #: calendar/cal-util/cal-util.c:518
 #: calendar/gui/dialogs/task-details-page.glade.h:13
+#: calendar/gui/e-calendar-table.c:408
 msgid "Undefined"
 msgstr "Μη ορισμένο"
 
@@ -2953,9 +2982,23 @@ msgstr ""
 msgid "Factory for the alarm notification service"
 msgstr ""
 
+#: calendar/gui/alarm-notify/alarm-notify-dialog.c:216
+#, fuzzy
+msgid "Starting:"
+msgstr "Ε_νέργειες"
+
+#: calendar/gui/alarm-notify/alarm-notify-dialog.c:218
+msgid "Ending:"
+msgstr ""
+
 #: calendar/gui/alarm-notify/alarm-notify-dialog.c:231
 msgid "invalid time"
 msgstr "μη έγκυρο ώρα"
+
+#: calendar/gui/alarm-notify/alarm-notify-dialog.c:276
+#, fuzzy
+msgid "Evolution Alarm"
+msgstr "Γ_ραμμή Συντομεύσεων του Evolution"
 
 #: calendar/gui/alarm-notify/alarm-notify-dialog.c:371
 #, c-format
@@ -3049,14 +3092,16 @@ msgid ""
 msgstr ""
 
 #: calendar/gui/calendar-model.c:418 calendar/gui/calendar-model.c:988
+#: calendar/gui/e-calendar-table.c:384
 msgid "Private"
 msgstr "Ιδιωτικό"
 
 #: calendar/gui/calendar-model.c:421 calendar/gui/calendar-model.c:990
+#: calendar/gui/e-calendar-table.c:385
 msgid "Confidential"
 msgstr "Εμπιστευτικό"
 
-#: calendar/gui/calendar-model.c:424
+#: calendar/gui/calendar-model.c:424 calendar/gui/e-calendar-table.c:383
 msgid "Public"
 msgstr "Δημόσιο"
 
@@ -3077,27 +3122,32 @@ msgid "W"
 msgstr "Δ"
 
 #: calendar/gui/calendar-model.c:603 calendar/gui/calendar-model.c:1147
+#: calendar/gui/e-calendar-table.c:457
 msgid "Free"
 msgstr "Ελεύθερο"
 
-#: calendar/gui/calendar-model.c:605 calendar/gui/e-meeting-time-sel.c:427
+#: calendar/gui/calendar-model.c:605 calendar/gui/e-calendar-table.c:458
+#: calendar/gui/e-meeting-time-sel.c:427
 #: shell/evolution-shell-component.c:1029
 msgid "Busy"
 msgstr "Σε απασχόληση"
 
 #: calendar/gui/calendar-model.c:754 calendar/gui/calendar-model.c:1191
 #: calendar/gui/dialogs/task-details-page.glade.h:10
+#: calendar/gui/e-calendar-table.c:478 calendar/gui/print.c:2246
 msgid "Not Started"
 msgstr "Δεν Ξεκίνησε"
 
 #: calendar/gui/calendar-model.c:757 calendar/gui/calendar-model.c:1193
 #: calendar/gui/dialogs/task-details-page.glade.h:7
+#: calendar/gui/e-calendar-table.c:479 calendar/gui/print.c:2249
 msgid "In Progress"
 msgstr "Σε Εξέλιξη"
 
 #: calendar/gui/calendar-model.c:760 calendar/gui/calendar-model.c:1195
 #: calendar/gui/dialogs/task-details-page.glade.h:4
-#: calendar/gui/e-meeting-model.c:329 calendar/gui/e-meeting-model.c:352
+#: calendar/gui/e-calendar-table.c:480 calendar/gui/e-meeting-model.c:329
+#: calendar/gui/e-meeting-model.c:352 calendar/gui/print.c:2252
 msgid "Completed"
 msgstr "Ολοκληρωμένο"
 
@@ -3132,10 +3182,12 @@ msgstr "Εκχωρήθηκε"
 
 #: calendar/gui/calendar-model.c:1721 calendar/gui/e-meeting-model.c:301
 #: calendar/gui/e-meeting-model.c:311 calendar/gui/e-meeting-model.c:536
+#: calendar/gui/e-meeting-model.c:803
 msgid "Yes"
 msgstr "Ναι"
 
 #: calendar/gui/calendar-model.c:1721 calendar/gui/e-meeting-model.c:313
+#: calendar/gui/e-meeting-model.c:804
 msgid "No"
 msgstr "Όχι"
 
@@ -3173,12 +3225,12 @@ msgstr "Περιγραφή περιέχει"
 msgid "Comment contains"
 msgstr "Σχόλιο περιέχει"
 
-#: calendar/gui/cal-search-bar.c:416
+#: calendar/gui/cal-search-bar.c:416 mail/mail-ops.c:1075
 msgid "Unmatched"
 msgstr "Κανένα ταίριασμα"
 
 #: calendar/gui/component-factory.c:63 my-evolution/my-evolution.glade.h:7
-#: shell/e-shortcuts.c:1055
+#: shell/e-local-storage.c:171 shell/e-shortcuts.c:1055
 msgid "Calendar"
 msgstr "Ημερολόγιο"
 
@@ -3186,8 +3238,9 @@ msgstr "Ημερολόγιο"
 msgid "Folder containing appointments and events"
 msgstr "Φάκελος που περιέχει ραντεβού και γεγονότα"
 
-#: calendar/gui/component-factory.c:68 my-evolution/e-summary-tasks.c:247
-#: my-evolution/e-summary-tasks.c:263 shell/e-shortcuts.c:1058
+#: calendar/gui/component-factory.c:68 calendar/gui/print.c:1733
+#: my-evolution/e-summary-tasks.c:247 my-evolution/e-summary-tasks.c:263
+#: shell/e-local-storage.c:177 shell/e-shortcuts.c:1058
 #: views/tasks/galview.xml.h:1
 msgid "Tasks"
 msgstr "Εκκρεμότητες"
@@ -3407,7 +3460,7 @@ msgstr "Υπενθυμιτές"
 
 #: calendar/gui/dialogs/alarm-page.glade.h:7
 #: calendar/gui/dialogs/recurrence-page.glade.h:8
-#: calendar/gui/e-itip-control.glade.h:11
+#: calendar/gui/e-itip-control.c:737 calendar/gui/e-itip-control.glade.h:11
 msgid "Summary:"
 msgstr "Περίληψη:"
 
@@ -3827,7 +3880,7 @@ msgstr "Εξουσιοδότηση Σε:"
 msgid "Enter Delegate"
 msgstr "Εισαγωγή Αντιπροσώπου"
 
-#: calendar/gui/dialogs/event-editor.c:185
+#: calendar/gui/dialogs/event-editor.c:185 calendar/gui/print.c:2203
 msgid "Appointment"
 msgstr "Ραντεβού"
 
@@ -3890,7 +3943,7 @@ msgid "Pu_blic"
 msgstr ""
 
 #: calendar/gui/dialogs/event-page.glade.h:10
-#: calendar/gui/e-calendar-table.etspec.h:12
+#: calendar/gui/e-calendar-table.etspec.h:13
 msgid "Show Time As"
 msgstr "Εμφάνιση Ώρας Ως"
 
@@ -3930,49 +3983,56 @@ msgstr ""
 
 #: calendar/gui/dialogs/meeting-page.etspec.h:2
 #: calendar/gui/e-meeting-time-sel.etspec.h:2
-msgid "Common Name"
-msgstr ""
+#, fuzzy
+msgid "Click here to add an attendee"
+msgstr "Κλίκ εδώ για το διευθυνσιολόγιο"
 
 #: calendar/gui/dialogs/meeting-page.etspec.h:3
 #: calendar/gui/e-meeting-time-sel.etspec.h:3
-msgid "Delegated From"
+msgid "Common Name"
 msgstr ""
 
 #: calendar/gui/dialogs/meeting-page.etspec.h:4
 #: calendar/gui/e-meeting-time-sel.etspec.h:4
-msgid "Delegated To"
+msgid "Delegated From"
 msgstr ""
 
 #: calendar/gui/dialogs/meeting-page.etspec.h:5
 #: calendar/gui/e-meeting-time-sel.etspec.h:5
-msgid "Language"
-msgstr "Γλώσσα"
+msgid "Delegated To"
+msgstr ""
 
 #: calendar/gui/dialogs/meeting-page.etspec.h:6
 #: calendar/gui/e-meeting-time-sel.etspec.h:6
-msgid "Member"
-msgstr "Μέλος"
+msgid "Language"
+msgstr "Γλώσσα"
 
 #: calendar/gui/dialogs/meeting-page.etspec.h:7
 #: calendar/gui/e-meeting-time-sel.etspec.h:7
+msgid "Member"
+msgstr "Μέλος"
+
+#: calendar/gui/dialogs/meeting-page.etspec.h:8
+#: calendar/gui/e-itip-control.c:798
+#: calendar/gui/e-meeting-time-sel.etspec.h:8
 msgid "RSVP"
 msgstr "RSVP"
 
-#: calendar/gui/dialogs/meeting-page.etspec.h:8
-#: calendar/gui/e-meeting-time-sel.etspec.h:8
+#: calendar/gui/dialogs/meeting-page.etspec.h:9
+#: calendar/gui/e-meeting-time-sel.etspec.h:9
 msgid "Role"
 msgstr "Ρόλος"
 
-#: calendar/gui/dialogs/meeting-page.etspec.h:9
-#: calendar/gui/e-calendar-table.etspec.h:14
-#: calendar/gui/e-meeting-time-sel.etspec.h:9 filter/libfilter-i18n.h:49
+#: calendar/gui/dialogs/meeting-page.etspec.h:10
+#: calendar/gui/e-calendar-table.etspec.h:15
+#: calendar/gui/e-meeting-time-sel.etspec.h:10 filter/libfilter-i18n.h:49
 #: mail/message-list.etspec.h:8
 msgid "Status"
 msgstr "Κατάσταση"
 
-#: calendar/gui/dialogs/meeting-page.etspec.h:10
-#: calendar/gui/e-calendar-table.etspec.h:17
-#: calendar/gui/e-meeting-time-sel.etspec.h:10 mail/mail-config.glade.h:85
+#: calendar/gui/dialogs/meeting-page.etspec.h:11
+#: calendar/gui/e-calendar-table.etspec.h:18
+#: calendar/gui/e-meeting-time-sel.etspec.h:11 mail/mail-config.glade.h:85
 #: shell/glade/e-active-connection-dialog.glade.h:5
 msgid "Type"
 msgstr "Τύπος"
@@ -4124,7 +4184,7 @@ msgstr "_Κατάσταση:"
 msgid "Assignment"
 msgstr "Εργασία"
 
-#: calendar/gui/dialogs/task-page.glade.h:5
+#: calendar/gui/dialogs/task-page.glade.h:5 calendar/gui/e-itip-control.c:746
 #: calendar/gui/e-itip-control.glade.h:6
 #: composer/e-msg-composer-attachment.glade.h:2 mail/mail-config.glade.h:26
 msgid "Description:"
@@ -4137,6 +4197,61 @@ msgstr "Ημερομηνία Έ_ναρξης:"
 #: calendar/gui/dialogs/task-page.glade.h:11
 msgid "_Due Date:"
 msgstr "Ημερομηνία _Λήξης:"
+
+#: calendar/gui/e-calendar-table.c:427
+#, c-format
+msgid "0%"
+msgstr ""
+
+#: calendar/gui/e-calendar-table.c:428
+#, c-format
+msgid "10%"
+msgstr ""
+
+#: calendar/gui/e-calendar-table.c:429
+#, c-format
+msgid "20%"
+msgstr ""
+
+#: calendar/gui/e-calendar-table.c:430
+#, c-format
+msgid "30%"
+msgstr ""
+
+#: calendar/gui/e-calendar-table.c:431
+#, c-format
+msgid "40%"
+msgstr ""
+
+#: calendar/gui/e-calendar-table.c:432
+#, c-format
+msgid "50%"
+msgstr ""
+
+#: calendar/gui/e-calendar-table.c:433
+#, c-format
+msgid "60%"
+msgstr ""
+
+#: calendar/gui/e-calendar-table.c:434
+#, c-format
+msgid "70%"
+msgstr ""
+
+#: calendar/gui/e-calendar-table.c:435
+#, c-format
+msgid "80%"
+msgstr ""
+
+#: calendar/gui/e-calendar-table.c:436
+#, c-format
+msgid "90%"
+msgstr ""
+
+#: calendar/gui/e-calendar-table.c:437
+#, c-format
+msgid "100%"
+msgstr ""
 
 #: calendar/gui/e-calendar-table.c:722 calendar/gui/e-day-view.c:2724
 #: calendar/gui/e-week-view.c:1822
@@ -4192,6 +4307,7 @@ msgid "Updating objects"
 msgstr "Ενημέρωση αντικειμένων"
 
 #: calendar/gui/e-calendar-table.c:1228
+#: calendar/gui/e-calendar-table.etspec.h:6
 msgid "Click to add a task"
 msgstr "Κλίκ εδώ για προσθήκη ενέργειας"
 
@@ -4219,48 +4335,48 @@ msgstr ""
 msgid "Alarms"
 msgstr "Συναγερμοί"
 
-#: calendar/gui/e-calendar-table.etspec.h:6 camel/camel-filter-driver.c:723
+#: calendar/gui/e-calendar-table.etspec.h:7 camel/camel-filter-driver.c:723
 #: camel/camel-filter-driver.c:837
 msgid "Complete"
 msgstr "Ολοκληρώθηκε"
 
-#: calendar/gui/e-calendar-table.etspec.h:7
+#: calendar/gui/e-calendar-table.etspec.h:8
 msgid "Completion Date"
 msgstr "Ημερομηνία Ολοκλήρωσης"
 
-#: calendar/gui/e-calendar-table.etspec.h:8
+#: calendar/gui/e-calendar-table.etspec.h:9
 msgid "Due Date"
 msgstr "Ημερομηνία Λήξης"
 
-#: calendar/gui/e-calendar-table.etspec.h:9
+#: calendar/gui/e-calendar-table.etspec.h:10
 msgid "End Date"
 msgstr "Ημερομηνία Τέλους"
 
-#: calendar/gui/e-calendar-table.etspec.h:10
+#: calendar/gui/e-calendar-table.etspec.h:11
 msgid "Geographical Position"
 msgstr "Γεωγραφική Θέση"
 
-#: calendar/gui/e-calendar-table.etspec.h:11
+#: calendar/gui/e-calendar-table.etspec.h:12
 msgid "Priority"
 msgstr "Προτεραιότητα"
 
-#: calendar/gui/e-calendar-table.etspec.h:13
+#: calendar/gui/e-calendar-table.etspec.h:14
 msgid "Start Date"
 msgstr "Ημερομηνία Έναρξης"
 
 #. FIXME: Inbox shortcut should point to something else for
 #. people who won't care about using /Local Folders/Inbox
-#: calendar/gui/e-calendar-table.etspec.h:15
+#: calendar/gui/e-calendar-table.etspec.h:16
 #: my-evolution/component-factory.c:44 shell/e-shortcuts.c:1049
-#: shell/e-storage-set-view.c:1483
+#: shell/e-storage-set-view.c:1483 shell/e-summary-storage.c:79
 msgid "Summary"
 msgstr "Περίληψη"
 
-#: calendar/gui/e-calendar-table.etspec.h:16
+#: calendar/gui/e-calendar-table.etspec.h:17
 msgid "Task sort"
 msgstr "Ταξινόμηση Ενεργειών"
 
-#: calendar/gui/e-calendar-table.etspec.h:18
+#: calendar/gui/e-calendar-table.etspec.h:19
 msgid "URL"
 msgstr "URL"
 
@@ -4285,11 +4401,13 @@ msgstr "%d %b"
 
 #. String to use in 12-hour time format for times in the morning.
 #: calendar/gui/e-day-view.c:612 calendar/gui/e-week-view.c:348
+#: calendar/gui/print.c:768
 msgid "am"
 msgstr "πμ"
 
 #. String to use in 12-hour time format for times in the afternoon.
 #: calendar/gui/e-day-view.c:615 calendar/gui/e-week-view.c:351
+#: calendar/gui/print.c:770
 msgid "pm"
 msgstr "μμ"
 
@@ -4321,6 +4439,315 @@ msgstr "Διαγραφή αυτής της _Εμφάνισης"
 #: calendar/gui/e-day-view.c:3569 calendar/gui/e-week-view.c:3453
 msgid "Delete _All Occurrences"
 msgstr "Διαγραφή Ό_λων των Εμφανίσεων"
+
+#: calendar/gui/e-itip-control.c:524
+#, fuzzy
+msgid "Meeting begins: <b>"
+msgstr "Επισύναψη"
+
+#: calendar/gui/e-itip-control.c:529
+#, fuzzy
+msgid "Task begins: <b>"
+msgstr "Επισύναψη"
+
+#: calendar/gui/e-itip-control.c:534
+#, fuzzy
+msgid "Free/Busy info begins: <b>"
+msgstr "Επισύναψη"
+
+#: calendar/gui/e-itip-control.c:538
+#, fuzzy
+msgid "Begins: <b>"
+msgstr "Επισύναψη"
+
+#: calendar/gui/e-itip-control.c:550
+#, fuzzy
+msgid "Meeting ends: <b>"
+msgstr "Επισύναψη"
+
+#: calendar/gui/e-itip-control.c:553
+#, fuzzy
+msgid "Free/Busy info ends: <b>"
+msgstr "Επισύναψη"
+
+#: calendar/gui/e-itip-control.c:557
+#, fuzzy
+msgid "Ends: <b>"
+msgstr "Επισύναψη"
+
+#: calendar/gui/e-itip-control.c:571
+#, fuzzy
+msgid "Task Completed: <b>"
+msgstr "Ολοκληρωμένο "
+
+#: calendar/gui/e-itip-control.c:581
+#, fuzzy
+msgid "Task Due: <b>"
+msgstr "Επισύναψη"
+
+#: calendar/gui/e-itip-control.c:618 calendar/gui/e-itip-control.c:667
+#, fuzzy
+msgid "iCalendar Information"
+msgstr "Γ_ραμμή Συντομεύσεων του Evolution"
+
+#. Title
+#: calendar/gui/e-itip-control.c:633
+#, fuzzy
+msgid "iCalendar Error"
+msgstr "Ημερολόγιο"
+
+#: calendar/gui/e-itip-control.c:698 calendar/gui/e-itip-control.c:714
+#, fuzzy
+msgid "An unknown person"
+msgstr "άγνωστος αποστολέας"
+
+#. Describe what the user can do
+#: calendar/gui/e-itip-control.c:721
+msgid ""
+"<br> Please review the following information, and then select an action from "
+"the menu below."
+msgstr ""
+
+#: calendar/gui/e-itip-control.c:737
+msgid "<i>None</i>"
+msgstr ""
+
+#: calendar/gui/e-itip-control.c:778 calendar/gui/e-itip-control.c:794
+#: calendar/gui/e-itip-control.c:810 calendar/gui/e-itip-control.c:823
+#: calendar/gui/e-itip-control.c:837 calendar/gui/e-itip-control.c:851
+#, fuzzy
+msgid "Choose an action:"
+msgstr "Επιλε_γμένα Αντικείμενα"
+
+#: calendar/gui/e-itip-control.c:779
+msgid "Update"
+msgstr "Ενημέρωση"
+
+#: calendar/gui/e-itip-control.c:780 calendar/gui/e-itip-control.c:799
+#: calendar/gui/e-itip-control.c:812 calendar/gui/e-itip-control.c:825
+#: calendar/gui/e-itip-control.c:839 calendar/gui/e-itip-control.c:853
+#: shell/e-shell.c:1884 widgets/misc/e-cell-date-edit.c:258
+msgid "OK"
+msgstr "Εντάξει"
+
+#: calendar/gui/e-itip-control.c:795
+#, fuzzy
+msgid "Accept"
+msgstr "Λογαριασμός"
+
+#: calendar/gui/e-itip-control.c:796
+msgid "Tentatively accept"
+msgstr ""
+
+#: calendar/gui/e-itip-control.c:797
+#, fuzzy
+msgid "Decline"
+msgstr "Μπελίζ"
+
+#: calendar/gui/e-itip-control.c:811
+#, fuzzy
+msgid "Send Free/Busy Information"
+msgstr "Επισύναψη"
+
+#: calendar/gui/e-itip-control.c:824
+msgid "Update respondent status"
+msgstr ""
+
+#: calendar/gui/e-itip-control.c:838
+#, fuzzy
+msgid "Send Latest Information"
+msgstr "Γ_ραμμή Συντομεύσεων του Evolution"
+
+#: calendar/gui/e-itip-control.c:852 ui/evolution-mail-global.xml.h:1
+msgid "Cancel"
+msgstr "Ακύρωση"
+
+#: calendar/gui/e-itip-control.c:867
+#, fuzzy, c-format
+msgid "<b>%s</b> has published meeting information."
+msgstr "Επισύναψη"
+
+#: calendar/gui/e-itip-control.c:868
+#, fuzzy
+msgid "Meeting Information"
+msgstr "Παγωμένη βροχή"
+
+#: calendar/gui/e-itip-control.c:872
+#, fuzzy, c-format
+msgid "<b>%s</b> requests your presence at a meeting."
+msgstr "Επισύναψη"
+
+#: calendar/gui/e-itip-control.c:873
+#, fuzzy
+msgid "Meeting Proposal"
+msgstr "Ελήφθη"
+
+#: calendar/gui/e-itip-control.c:877
+#, fuzzy, c-format
+msgid "<b>%s</b> wishes to add to an existing meeting."
+msgstr "Επισύναψη"
+
+#: calendar/gui/e-itip-control.c:878
+#, fuzzy
+msgid "Meeting Update"
+msgstr "Ενημέρωση"
+
+#: calendar/gui/e-itip-control.c:882
+#, fuzzy, c-format
+msgid "<b>%s</b> wishes to receive the latest meeting information."
+msgstr "Επισύναψη"
+
+#: calendar/gui/e-itip-control.c:883
+#, fuzzy
+msgid "Meeting Update Request"
+msgstr "Αίτη_ση Εκκρεμότητας"
+
+#: calendar/gui/e-itip-control.c:887
+#, fuzzy, c-format
+msgid "<b>%s</b> has replied to a meeting request."
+msgstr "Επισύναψη"
+
+#: calendar/gui/e-itip-control.c:888
+#, fuzzy
+msgid "Meeting Reply"
+msgstr "Ελήφθη"
+
+#: calendar/gui/e-itip-control.c:892
+#, fuzzy, c-format
+msgid "<b>%s</b> has cancelled a meeting."
+msgstr "Επισύναψη"
+
+#: calendar/gui/e-itip-control.c:893
+#, fuzzy
+msgid "Meeting Cancellation"
+msgstr "Επιλε_γμένα Αντικείμενα"
+
+#: calendar/gui/e-itip-control.c:897 calendar/gui/e-itip-control.c:947
+#: calendar/gui/e-itip-control.c:982
+#, fuzzy, c-format
+msgid "<b>%s</b> has sent an unintelligible message."
+msgstr "Επισύναψη"
+
+#: calendar/gui/e-itip-control.c:898
+#, fuzzy
+msgid "Bad Meeting Message"
+msgstr "Αποστολή του μηνύματος"
+
+#: calendar/gui/e-itip-control.c:917
+#, fuzzy, c-format
+msgid "<b>%s</b> has published task information."
+msgstr "Επισύναψη"
+
+#: calendar/gui/e-itip-control.c:918
+#, fuzzy
+msgid "Task Information"
+msgstr "Γ_ραμμή Συντομεύσεων του Evolution"
+
+#: calendar/gui/e-itip-control.c:922
+#, fuzzy, c-format
+msgid "<b>%s</b> requests you perform a task."
+msgstr "Επισύναψη"
+
+#: calendar/gui/e-itip-control.c:923
+#, fuzzy
+msgid "Task Proposal"
+msgstr "Εκκρεμό_τητα"
+
+#: calendar/gui/e-itip-control.c:927
+#, fuzzy, c-format
+msgid "<b>%s</b> wishes to add to an existing task."
+msgstr "Επισύναψη"
+
+#: calendar/gui/e-itip-control.c:928
+#, fuzzy
+msgid "Task Update"
+msgstr "Ενημέρωση"
+
+#: calendar/gui/e-itip-control.c:932
+#, fuzzy, c-format
+msgid "<b>%s</b> wishes to receive the latest task information."
+msgstr "Επισύναψη"
+
+#: calendar/gui/e-itip-control.c:933
+#, fuzzy
+msgid "Task Update Request"
+msgstr "Αίτη_ση Εκκρεμότητας"
+
+#: calendar/gui/e-itip-control.c:937
+#, fuzzy, c-format
+msgid "<b>%s</b> has replied to a task assignment."
+msgstr "Επισύναψη"
+
+#: calendar/gui/e-itip-control.c:938
+#, fuzzy
+msgid "Task Reply"
+msgstr "Εκκρεμό_τητα"
+
+#: calendar/gui/e-itip-control.c:942
+#, fuzzy, c-format
+msgid "<b>%s</b> has cancelled a task."
+msgstr "Επισύναψη"
+
+#: calendar/gui/e-itip-control.c:943
+#, fuzzy
+msgid "Task Cancellation"
+msgstr "Επιλε_γμένα Αντικείμενα"
+
+#: calendar/gui/e-itip-control.c:948
+#, fuzzy
+msgid "Bad Task Message"
+msgstr "Ημερολόγιο"
+
+#: calendar/gui/e-itip-control.c:967
+#, fuzzy, c-format
+msgid "<b>%s</b> has published free/busy information."
+msgstr "Επισύναψη"
+
+#: calendar/gui/e-itip-control.c:968
+#, fuzzy
+msgid "Free/Busy Information"
+msgstr "Επισύναψη"
+
+#: calendar/gui/e-itip-control.c:972
+#, fuzzy, c-format
+msgid "<b>%s</b> requests your free/busy information."
+msgstr "Επισύναψη"
+
+#: calendar/gui/e-itip-control.c:973
+#, fuzzy
+msgid "Free/Busy Request"
+msgstr "Απεσταλμένα μηνύματα"
+
+#: calendar/gui/e-itip-control.c:977
+#, fuzzy, c-format
+msgid "<b>%s</b> has replied to a free/busy request."
+msgstr "Επισύναψη"
+
+#: calendar/gui/e-itip-control.c:978
+#, fuzzy
+msgid "Free/Busy Reply"
+msgstr "Απεσταλμένα μηνύματα"
+
+#: calendar/gui/e-itip-control.c:983
+#, fuzzy
+msgid "Bad Free/Busy Message"
+msgstr "Απεσταλμένα μηνύματα"
+
+#: calendar/gui/e-itip-control.c:1052
+msgid "The message does not appear to be properly formed"
+msgstr ""
+
+#: calendar/gui/e-itip-control.c:1071
+msgid "The message contains only unsupported requests."
+msgstr ""
+
+#: calendar/gui/e-itip-control.c:1099 calendar/gui/e-itip-control.c:1105
+msgid "The attachment does not contain a valid calendar message"
+msgstr ""
+
+#: calendar/gui/e-itip-control.c:1130
+msgid "The attachment has no viewable calendar items"
+msgstr ""
 
 #: calendar/gui/e-itip-control.c:1229
 msgid "Calendar file could not be updated!\n"
@@ -4416,65 +4843,75 @@ msgid "Non-Participants"
 msgstr ""
 
 #: calendar/gui/e-meeting-model.c:232 calendar/gui/e-meeting-model.c:249
-#: calendar/gui/e-meeting-model.c:532
+#: calendar/gui/e-meeting-model.c:532 calendar/gui/e-meeting-model.c:771
 msgid "Individual"
 msgstr "Άτομο"
 
 #: calendar/gui/e-meeting-model.c:234 calendar/gui/e-meeting-model.c:251
+#: calendar/gui/e-meeting-model.c:772
 msgid "Group"
 msgstr "Ομάδα"
 
 #: calendar/gui/e-meeting-model.c:236 calendar/gui/e-meeting-model.c:253
+#: calendar/gui/e-meeting-model.c:773
 msgid "Resource"
 msgstr "Πόρος"
 
 #: calendar/gui/e-meeting-model.c:238 calendar/gui/e-meeting-model.c:255
+#: calendar/gui/e-meeting-model.c:774
 msgid "Room"
 msgstr "Δωμάτιο"
 
 #: calendar/gui/e-meeting-model.c:257 calendar/gui/e-meeting-model.c:292
-#: calendar/gui/e-meeting-model.c:357
+#: calendar/gui/e-meeting-model.c:357 calendar/gui/e-meeting-model.c:775
+#: calendar/gui/e-meeting-model.c:791
 #: camel/providers/smtp/camel-smtp-transport.c:222
 #: widgets/misc/e-charset-picker.c:57 widgets/misc/e-charset-picker.c:439
 msgid "Unknown"
 msgstr "Άγνωστη"
 
 #: calendar/gui/e-meeting-model.c:267 calendar/gui/e-meeting-model.c:284
+#: calendar/gui/e-meeting-model.c:787
 msgid "Chair"
 msgstr ""
 
 #: calendar/gui/e-meeting-model.c:269 calendar/gui/e-meeting-model.c:286
-#: calendar/gui/e-meeting-model.c:534
+#: calendar/gui/e-meeting-model.c:534 calendar/gui/e-meeting-model.c:788
 msgid "Required Participant"
 msgstr ""
 
 #: calendar/gui/e-meeting-model.c:271 calendar/gui/e-meeting-model.c:288
+#: calendar/gui/e-meeting-model.c:789
 msgid "Optional Participant"
 msgstr ""
 
 #: calendar/gui/e-meeting-model.c:273 calendar/gui/e-meeting-model.c:290
+#: calendar/gui/e-meeting-model.c:790
 msgid "Non-Participant"
 msgstr ""
 
 #: calendar/gui/e-meeting-model.c:319 calendar/gui/e-meeting-model.c:342
-#: calendar/gui/e-meeting-model.c:542
+#: calendar/gui/e-meeting-model.c:542 calendar/gui/e-meeting-model.c:816
 msgid "Needs Action"
 msgstr "Απαιτεί Ενέργεια"
 
 #: calendar/gui/e-meeting-model.c:321 calendar/gui/e-meeting-model.c:344
+#: calendar/gui/e-meeting-model.c:817
 msgid "Accepted"
 msgstr ""
 
 #: calendar/gui/e-meeting-model.c:323 calendar/gui/e-meeting-model.c:346
+#: calendar/gui/e-meeting-model.c:818
 msgid "Declined"
 msgstr "Άρνηση πρόσβασης"
 
 #: calendar/gui/e-meeting-model.c:325 calendar/gui/e-meeting-model.c:348
-#: calendar/gui/e-meeting-time-sel.c:426
+#: calendar/gui/e-meeting-model.c:819 calendar/gui/e-meeting-time-sel.c:426
 msgid "Tentative"
 msgstr ""
 
 #: calendar/gui/e-meeting-model.c:327 calendar/gui/e-meeting-model.c:350
+#: calendar/gui/e-meeting-model.c:820
 msgid "Delegated"
 msgstr "Εξουσιοδοτήθηκε"
 
@@ -4855,6 +5292,41 @@ msgstr "Επιλεγμένος μήνας (%b %Y)"
 msgid "Selected year (%Y)"
 msgstr "Επιλεγμένο έτος (%Y)"
 
+#: calendar/gui/print.c:2205
+#, fuzzy
+msgid "Task"
+msgstr "Εκκρεμό_τητα"
+
+#: calendar/gui/print.c:2262
+#, fuzzy, c-format
+msgid "Status: %s"
+msgstr "_Κατάσταση:"
+
+#: calendar/gui/print.c:2280
+#, fuzzy, c-format
+msgid "Priority: %s"
+msgstr "_Προτεραιότητα"
+
+#: calendar/gui/print.c:2294
+#, fuzzy, c-format
+msgid "Percent Complete: %i"
+msgstr "% Ολοκληρωμένο"
+
+#: calendar/gui/print.c:2306
+#, fuzzy, c-format
+msgid "URL: %s"
+msgstr "URL:"
+
+#: calendar/gui/print.c:2320
+#, fuzzy, c-format
+msgid "Categories: %s"
+msgstr "Μικρά Εικονίδια"
+
+#: calendar/gui/print.c:2331
+#, fuzzy
+msgid "Contacts: "
+msgstr "_Γνωριμία"
+
 #: calendar/gui/print.c:2386
 msgid "Print Calendar"
 msgstr "Εκτύπωση Ημερολογίου"
@@ -4908,8 +5380,8 @@ msgstr ""
 #: calendar/gui/tasks-migrate.c:133
 #, c-format
 msgid ""
-"The method required to load `%s' is not supported; no items from the calendar "
-"folder will be migrated to the tasks folder."
+"The method required to load `%s' is not supported; no items from the "
+"calendar folder will be migrated to the tasks folder."
 msgstr ""
 
 #: calendar/gui/weekday-picker.c:314 calendar/gui/weekday-picker.c:409
@@ -4990,8 +5462,8 @@ msgstr ""
 
 #: calendar/pcs/query.c:679
 msgid ""
-"contains? expects argument 1 to be one of \"any\", \"summary\", "
-"\"description\""
+"contains? expects argument 1 to be one of \"any\", \"summary\", \"description"
+"\""
 msgstr ""
 
 #: calendar/pcs/query.c:721
@@ -5077,6 +5549,7 @@ msgid "Unable to process spool folder"
 msgstr ""
 
 #: camel/camel-filter-driver.c:688
+#, c-format
 msgid "Getting message %d (%d%%)"
 msgstr "Λήψη μηνύματος %d (%d%%)"
 
@@ -5434,8 +5907,8 @@ msgstr "DIGEST-MD5"
 
 #: camel/camel-sasl-digest-md5.c:45
 msgid ""
-"This option will connect to the server using a secure DIGEST-MD5 password, if "
-"the server supports it."
+"This option will connect to the server using a secure DIGEST-MD5 password, "
+"if the server supports it."
 msgstr ""
 
 #: camel/camel-sasl-digest-md5.c:810
@@ -5467,8 +5940,7 @@ msgid "Kerberos 4"
 msgstr "Κέρβερος 4"
 
 #: camel/camel-sasl-kerberos4.c:42
-msgid ""
-"This option will connect to the server using Kerberos 4 authentication."
+msgid "This option will connect to the server using Kerberos 4 authentication."
 msgstr ""
 
 #: camel/camel-sasl-kerberos4.c:161
@@ -5628,26 +6100,6 @@ msgstr "Αδύνατη η λήψη φακέλου: Άκυρη λειτουργία σε αυτή τη λειτουργία"
 msgid "Cannot create folder: Invalid operation on this store"
 msgstr "Αδύνατη η δημιουργία φακέλου: Άκυρη λειτουργία σε αυτήν την αποθήκη"
 
-#: camel/camel-tcp-stream-openssl.c:519
-#, c-format
-msgid ""
-"Issuer: %s\n"
-"Subject: %s"
-msgstr ""
-"Εκδότης: %s\n"
-"Θέμα: %s"
-
-#. construct our user prompt
-#: camel/camel-tcp-stream-openssl.c:524 camel/camel-tcp-stream-ssl.c:428
-#, c-format
-msgid ""
-"Bad certificate from %s:\n"
-"\n"
-"%s\n"
-"\n"
-"Do you wish to accept anyway?"
-msgstr ""
-
 #: camel/camel-tcp-stream-ssl.c:412
 #, c-format
 msgid ""
@@ -5658,6 +6110,17 @@ msgid ""
 "Locality: %s\n"
 "State: %s\n"
 "Country: %s"
+msgstr ""
+
+#. construct our user prompt
+#: camel/camel-tcp-stream-ssl.c:428
+#, c-format
+msgid ""
+"Bad certificate from %s:\n"
+"\n"
+"%s\n"
+"\n"
+"Do you wish to accept anyway?"
 msgstr ""
 
 #: camel/camel-url.c:288
@@ -5810,8 +6273,7 @@ msgid "For reading and storing mail on IMAP servers."
 msgstr ""
 
 #: camel/providers/imap/camel-imap-provider.c:82
-msgid ""
-"This option will connect to the IMAP server using a plaintext password."
+msgid "This option will connect to the IMAP server using a plaintext password."
 msgstr ""
 
 #: camel/providers/imap/camel-imap-store.c:518
@@ -6405,8 +6867,8 @@ msgstr ""
 #: camel/providers/pop3/camel-pop3-provider.c:79
 msgid ""
 "This option will connect to the POP server using an encrypted password via "
-"the APOP protocol. This may not work for all users even on servers that claim "
-"to support it."
+"the APOP protocol. This may not work for all users even on servers that "
+"claim to support it."
 msgstr ""
 
 #: camel/providers/pop3/camel-pop3-provider.c:91
@@ -6979,7 +7441,8 @@ msgid ""
 "Would you like to try to recover them?"
 msgstr ""
 "Το Ximian Evolution εντόπισε μη αποθηκευμένα αρχεία από προηγούμενη "
-"συνεδρία.\nΘέλετε να προσπαθήσει να τα ανακτήσει;"
+"συνεδρία.\n"
+"Θέλετε να προσπαθήσει να τα ανακτήσει;"
 
 #: composer/e-msg-composer.c:1356
 msgid ""
@@ -7032,13 +7495,14 @@ msgstr ""
 msgid "Cannot initialize Evolution's composer."
 msgstr "Αρχικοποίησης του συστήματος μονάδων Bonobo ανεπιτυχής"
 
-#: data/evolution.desktop.in.h:1 shell/main.c:83
-msgid "Evolution"
-msgstr "Evolution"
+#: data/evolution.desktop.in.h:1
+#, fuzzy
+msgid "The Evolution groupware suite"
+msgstr "Γ_ραμμή Συντομεύσεων του Evolution"
 
 #: data/evolution.desktop.in.h:2
 #, fuzzy
-msgid "The Evolution groupware suite"
+msgid "Ximian Evolution"
 msgstr "Γ_ραμμή Συντομεύσεων του Evolution"
 
 #: data/evolution.keys.in.h:1
@@ -7084,11 +7548,11 @@ msgid "Subject does not contain"
 msgstr "Θέμα δεν περιέχει"
 
 #. Remember the password?
-#: e-util/e-passwords.c:347 mail/mail-session.c:267
+#: e-util/e-passwords.c:360 mail/mail-session.c:267
 msgid "Remember this password"
 msgstr "Απομνημόνευση του κωδικού χρήστη"
 
-#: e-util/e-passwords.c:349 mail/mail-session.c:268
+#: e-util/e-passwords.c:362 mail/mail-session.c:268
 msgid "Remember this password for the remainder of this session"
 msgstr ""
 
@@ -8006,6 +8470,11 @@ msgstr ""
 msgid "VFolder on Mailing List (%s)"
 msgstr ""
 
+#: mail/folder-browser.h:26
+#, fuzzy
+msgid "Default"
+msgstr "Διαγραφή"
+
 #: mail/folder-info.c:64
 msgid "Getting Folder Information"
 msgstr "Λήψη Πληροφοριών Φακέλου"
@@ -8132,6 +8601,26 @@ msgstr ""
 #: mail/mail-accounts.c:783 mail/mail-config.glade.h:42
 msgid "Mail Settings"
 msgstr "Ρυθμίσεις Αλληλογραφίας"
+
+#: mail/mail-autofilter.c:72
+#, fuzzy, c-format
+msgid "Mail to %s"
+msgstr "Κυρίως Συντομεύσεις"
+
+#: mail/mail-autofilter.c:215
+#, fuzzy, c-format
+msgid "Subject is %s"
+msgstr "Θέμα"
+
+#: mail/mail-autofilter.c:231
+#, fuzzy, c-format
+msgid "Mail from %s"
+msgstr "Από %s:"
+
+#: mail/mail-autofilter.c:287
+#, fuzzy, c-format
+msgid "%s mailing list"
+msgstr "Λίστα Συνδρομητών"
 
 #: mail/mail-autofilter.c:336 mail/mail-autofilter.c:356
 msgid "Add Filter Rule"
@@ -8299,8 +8788,8 @@ msgstr ""
 
 #: mail/mail-config-druid.c:146
 msgid ""
-"Please enter your name and email address below. The \"optional\" fields below "
-"do not need to be filled in,\n"
+"Please enter your name and email address below. The \"optional\" fields "
+"below do not need to be filled in,\n"
 "unless you wish to include this information in email you send."
 msgstr ""
 
@@ -8327,8 +8816,9 @@ msgid ""
 "You are almost done with the mail configuration process. The identity, "
 "incoming mail server and\n"
 "outgoing mail transport method which you provided will be grouped together "
-"to\nmake an Evolution mail account. Please enter a name for this account in "
-"the space below.\n"
+"to\n"
+"make an Evolution mail account. Please enter a name for this account in the "
+"space below.\n"
 "This name will be used for display purposes only."
 msgstr ""
 
@@ -8337,6 +8827,11 @@ msgstr ""
 msgid "Evolution Account Assistant"
 msgstr "Βοηθός Λογαριασμού του Evolution"
 
+#: mail/mail-config.c:326
+#, fuzzy, c-format
+msgid "Account %d"
+msgstr "Μικρά Εικονίδια"
+
 #: mail/mail-config.c:1859
 #, c-format
 msgid ""
@@ -8344,6 +8839,14 @@ msgid ""
 "%s\n"
 "No shortcut will be created."
 msgstr ""
+
+#. Create the shortcut. FIXME: This only works if the
+#. * full name matches the path.
+#.
+#: mail/mail-config.c:1870
+#, fuzzy, c-format
+msgid "%s: Inbox"
+msgstr "Εισερχόμενα"
 
 #: mail/mail-config.c:2112
 msgid "Checking Service"
@@ -8451,7 +8954,7 @@ msgstr "Εμφάνιση"
 msgid "Done"
 msgstr "Έγινε"
 
-#: mail/mail-config.glade.h:30
+#: mail/mail-config.glade.h:30 shell/e-local-storage.c:173
 msgid "Drafts"
 msgstr "Πρόχειρα"
 
@@ -8459,7 +8962,8 @@ msgstr "Πρόχειρα"
 msgid "E_nable"
 msgstr "Ενεργο_ποίηση"
 
-#: mail/mail-config.glade.h:32 widgets/misc/e-filter-bar.h:103
+#: mail/mail-config.glade.h:32 widgets/misc/e-filter-bar.h:96
+#: widgets/misc/e-filter-bar.h:103
 msgid "Edit..."
 msgstr "Επεξεργασία..."
 
@@ -8596,6 +9100,7 @@ msgid "Sending Mail"
 msgstr "Αποστολή Αλληλογραφίας"
 
 #: mail/mail-config.glade.h:73 mail/message-list.etspec.h:6
+#: shell/e-local-storage.c:176
 msgid "Sent"
 msgstr "Στάλθηκαν"
 
@@ -8921,6 +9426,24 @@ msgstr "Αντίγρ"
 msgid "Bcc"
 msgstr "Κρυφό αντίγρ"
 
+#: mail/mail-format.c:1813
+msgid ""
+"This message is digitally signed. Click the lock icon for more information."
+msgstr ""
+
+#: mail/mail-format.c:1836
+#, fuzzy
+msgid "Evolution does not recognize this type of signed message."
+msgstr "Αρχικοποίησης του συστήματος μονάδων Bonobo ανεπιτυχής"
+
+#: mail/mail-format.c:1844
+msgid "This message is digitally signed and has been found to be authentic."
+msgstr ""
+
+#: mail/mail-format.c:1852
+msgid "This message is digitally signed but can not be proven to be authentic."
+msgstr ""
+
 #: mail/mail-format.c:2068
 #, c-format
 msgid "Pointer to FTP site (%s)"
@@ -9074,6 +9597,12 @@ msgstr "Γίνετε αντιγραφή"
 #, c-format
 msgid "Scanning folders in \"%s\""
 msgstr ""
+
+#. Fill in the new fields
+#: mail/mail-ops.c:1061 shell/e-local-storage.c:178
+#, fuzzy
+msgid "Trash"
+msgstr "Εκκρεμό_τητα"
 
 #: mail/mail-ops.c:1194
 msgid "Forwarded messages"
@@ -9290,6 +9819,11 @@ msgid ""
 "    '%s'\n"
 "And have been updated."
 msgstr ""
+
+#: mail/mail-vfolder.c:728
+#, fuzzy
+msgid "VFolders"
+msgstr "_Φάκελλος"
 
 #: mail/mail-vfolder.c:824
 #, fuzzy
@@ -9587,6 +10121,41 @@ msgstr ""
 #, fuzzy
 msgid "Executive summary component could not initialize Bonobo.\n"
 msgstr "Μονάδα Ταχ/μείου: Αρχικοποίηση του Bonobo αδύνατη"
+
+#: my-evolution/metar.c:29
+msgid "°F"
+msgstr ""
+
+#: my-evolution/metar.c:29
+msgid "°C"
+msgstr ""
+
+#: my-evolution/metar.c:33
+#, fuzzy
+msgid "knots"
+msgstr "Γνωριμίες"
+
+#: my-evolution/metar.c:33
+msgid "kph"
+msgstr ""
+
+#: my-evolution/metar.c:38
+msgid "inHg"
+msgstr ""
+
+#: my-evolution/metar.c:38
+msgid "mmHg"
+msgstr ""
+
+#: my-evolution/metar.c:41
+#, fuzzy
+msgid "miles"
+msgstr "Χιλή"
+
+#: my-evolution/metar.c:41
+#, fuzzy
+msgid "kilometers"
+msgstr "_Φάκελλος"
 
 #: my-evolution/metar.c:44
 msgid "Clear sky"
@@ -10893,6 +11462,20 @@ msgstr "Προβολή Λεπτομερειών"
 msgid "Cancel Operation"
 msgstr ""
 
+#: shell/e-local-storage.c:174 shell/e-shortcuts.c:1052
+msgid "Inbox"
+msgstr "Εισερχόμενα"
+
+#: shell/e-local-storage.c:175
+#, fuzzy
+msgid "Outbox"
+msgstr "Εισερχόμενα"
+
+#: shell/e-local-storage.c:636
+#, fuzzy
+msgid "Local Folders"
+msgstr "_Φάκελλος"
+
 #: shell/e-setup.c:124
 msgid "Evolution installation"
 msgstr ""
@@ -11318,10 +11901,6 @@ msgid ""
 "in order to access that data again."
 msgstr ""
 
-#: shell/e-shell.c:1884 widgets/misc/e-cell-date-edit.c:258
-msgid "OK"
-msgstr "Εντάξει"
-
 #: shell/e-shell.c:1886
 msgid "Invalid arguments"
 msgstr "Μη έγκυρα ορίσματα"
@@ -11477,10 +12056,6 @@ msgstr "Κυρίως Συντομεύσεις"
 msgid "Shortcuts"
 msgstr "Νεροποντή"
 
-#: shell/e-shortcuts.c:1052
-msgid "Inbox"
-msgstr "Εισερχόμενα"
-
 #: shell/e-storage-set-view.c:658
 #, fuzzy, c-format
 msgid ""
@@ -11551,6 +12126,7 @@ msgid "%s (...)"
 msgstr "%s (...)"
 
 #: shell/e-task-widget.c:196
+#, c-format
 msgid "%s (%d%% complete)"
 msgstr "%s (%d%% ολοκληρωμένο)"
 
@@ -11795,6 +12371,10 @@ msgstr "Αποστολή παρόντος μηνύματος"
 #: shell/importer/intelligent.c:208
 msgid "Evolution can import data from the following files:"
 msgstr "Το Evolution μπορεί να εισάγει δεδομένα από τα επόμενα αρχεία:"
+
+#: shell/main.c:83
+msgid "Evolution"
+msgstr "Evolution"
 
 #: shell/main.c:89
 #, fuzzy
@@ -12246,10 +12826,6 @@ msgstr ""
 #: ui/evolution-executive-summary.xml.h:1
 msgid "Customise My Evolution"
 msgstr "Παραμετροποίηση Του Evolution Μου"
-
-#: ui/evolution-mail-global.xml.h:1
-msgid "Cancel"
-msgstr "Ακύρωση"
 
 #: ui/evolution-mail-global.xml.h:2
 msgid "Cancel the current mail operation"
@@ -13517,6 +14093,16 @@ msgstr "Επεξεργαστής Αναζητήσεων"
 msgid "Save Search"
 msgstr "Αποθήκευση Αναζήτησης"
 
+#: widgets/misc/e-filter-bar.h:94
+#, fuzzy
+msgid "Add to Saved Searches"
+msgstr "Το ημερολόγιό σας"
+
+#: widgets/misc/e-filter-bar.h:95
+#, fuzzy
+msgid "Clear"
+msgstr "Καθαρός Ουρανός"
+
 #: widgets/misc/e-filter-bar.h:102
 msgid "Show All"
 msgstr "Εμφάνιση Όλων"
@@ -13575,280 +14161,12 @@ msgstr "Μονάδα Ταχ/μείου: Αρχικοποίηση του Bonobo αδύνατη"
 msgid "init_bonobo(): could not initialize Bonobo"
 msgstr "init_bonobo(): Αδύνατη η αρχικοποίηση του Bonobo"
 
-#, fuzzy
-#~ msgid "Other Contacts"
-#~ msgstr "Λοιπές Συντομεύσεις"
-
-#, fuzzy
-#~ msgid "(none)"
-#~ msgstr "Σημείω_μα"
-
-#, fuzzy
-#~ msgid "Starting:"
-#~ msgstr "Ε_νέργειες"
-
-#, fuzzy
-#~ msgid "Evolution Alarm"
-#~ msgstr "Γ_ραμμή Συντομεύσεων του Evolution"
-
-#, fuzzy
-#~ msgid "Click here to add an attendee"
-#~ msgstr "Κλίκ εδώ για το διευθυνσιολόγιο"
-
-#, fuzzy
-#~ msgid "Meeting begins: <b>"
-#~ msgstr "Επισύναψη"
-
-#, fuzzy
-#~ msgid "Task begins: <b>"
-#~ msgstr "Επισύναψη"
-
-#, fuzzy
-#~ msgid "Free/Busy info begins: <b>"
-#~ msgstr "Επισύναψη"
-
-#, fuzzy
-#~ msgid "Begins: <b>"
-#~ msgstr "Επισύναψη"
-
-#, fuzzy
-#~ msgid "Meeting ends: <b>"
-#~ msgstr "Επισύναψη"
-
-#, fuzzy
-#~ msgid "Free/Busy info ends: <b>"
-#~ msgstr "Επισύναψη"
-
-#, fuzzy
-#~ msgid "Ends: <b>"
-#~ msgstr "Επισύναψη"
-
-#, fuzzy
-#~ msgid "Task Completed: <b>"
-#~ msgstr "Ολοκληρωμένο "
-
-#, fuzzy
-#~ msgid "Task Due: <b>"
-#~ msgstr "Επισύναψη"
-
-#, fuzzy
-#~ msgid "iCalendar Information"
-#~ msgstr "Γ_ραμμή Συντομεύσεων του Evolution"
-
-#, fuzzy
-#~ msgid "iCalendar Error"
-#~ msgstr "Ημερολόγιο"
-
-#, fuzzy
-#~ msgid "Choose an action:"
-#~ msgstr "Επιλε_γμένα Αντικείμενα"
-
-#~ msgid "Update"
-#~ msgstr "Ενημέρωση"
-
-#, fuzzy
-#~ msgid "Accept"
-#~ msgstr "Λογαριασμός"
-
-#, fuzzy
-#~ msgid "Decline"
-#~ msgstr "Μπελίζ"
-
-#, fuzzy
-#~ msgid "Send Free/Busy Information"
-#~ msgstr "Επισύναψη"
-
-#, fuzzy
-#~ msgid "Send Latest Information"
-#~ msgstr "Γ_ραμμή Συντομεύσεων του Evolution"
-
-#, fuzzy
-#~ msgid "<b>%s</b> has published meeting information."
-#~ msgstr "Επισύναψη"
-
-#, fuzzy
-#~ msgid "Meeting Information"
-#~ msgstr "Παγωμένη βροχή"
-
-#, fuzzy
-#~ msgid "Meeting Proposal"
-#~ msgstr "Ελήφθη"
-
-#, fuzzy
-#~ msgid "Meeting Update"
-#~ msgstr "Ενημέρωση"
-
-#, fuzzy
-#~ msgid "<b>%s</b> wishes to receive the latest meeting information."
-#~ msgstr "Επισύναψη"
-
-#, fuzzy
-#~ msgid "Meeting Update Request"
-#~ msgstr "Αίτη_ση Εκκρεμότητας"
-
-#, fuzzy
-#~ msgid "<b>%s</b> has replied to a meeting request."
-#~ msgstr "Επισύναψη"
-
-#, fuzzy
-#~ msgid "Meeting Reply"
-#~ msgstr "Ελήφθη"
-
-#, fuzzy
-#~ msgid "<b>%s</b> has cancelled a meeting."
-#~ msgstr "Επισύναψη"
-
-#, fuzzy
-#~ msgid "Meeting Cancellation"
-#~ msgstr "Επιλε_γμένα Αντικείμενα"
-
-#, fuzzy
-#~ msgid "Bad Meeting Message"
-#~ msgstr "Αποστολή του μηνύματος"
-
-#, fuzzy
-#~ msgid "<b>%s</b> has published task information."
-#~ msgstr "Επισύναψη"
-
-#, fuzzy
-#~ msgid "Task Information"
-#~ msgstr "Γ_ραμμή Συντομεύσεων του Evolution"
-
-#, fuzzy
-#~ msgid "Task Proposal"
-#~ msgstr "Εκκρεμό_τητα"
-
-#, fuzzy
-#~ msgid "Task Update"
-#~ msgstr "Ενημέρωση"
-
-#, fuzzy
-#~ msgid "<b>%s</b> wishes to receive the latest task information."
-#~ msgstr "Επισύναψη"
-
-#, fuzzy
-#~ msgid "Task Update Request"
-#~ msgstr "Αίτη_ση Εκκρεμότητας"
-
-#, fuzzy
-#~ msgid "<b>%s</b> has replied to a task assignment."
-#~ msgstr "Επισύναψη"
-
-#, fuzzy
-#~ msgid "Task Reply"
-#~ msgstr "Εκκρεμό_τητα"
-
-#, fuzzy
-#~ msgid "Task Cancellation"
-#~ msgstr "Επιλε_γμένα Αντικείμενα"
-
-#, fuzzy
-#~ msgid "Bad Task Message"
-#~ msgstr "Ημερολόγιο"
-
-#, fuzzy
-#~ msgid "<b>%s</b> has published free/busy information."
-#~ msgstr "Επισύναψη"
-
-#, fuzzy
-#~ msgid "Free/Busy Information"
-#~ msgstr "Επισύναψη"
-
-#, fuzzy
-#~ msgid "<b>%s</b> requests your free/busy information."
-#~ msgstr "Επισύναψη"
-
-#, fuzzy
-#~ msgid "Free/Busy Request"
-#~ msgstr "Απεσταλμένα μηνύματα"
-
-#, fuzzy
-#~ msgid "<b>%s</b> has replied to a free/busy request."
-#~ msgstr "Επισύναψη"
-
-#, fuzzy
-#~ msgid "Free/Busy Reply"
-#~ msgstr "Απεσταλμένα μηνύματα"
-
-#, fuzzy
-#~ msgid "Bad Free/Busy Message"
-#~ msgstr "Απεσταλμένα μηνύματα"
-
-#, fuzzy
-#~ msgid "Task"
-#~ msgstr "Εκκρεμό_τητα"
-
-#, fuzzy
-#~ msgid "Status: %s"
-#~ msgstr "_Κατάσταση:"
-
-#, fuzzy
-#~ msgid "Priority: %s"
-#~ msgstr "_Προτεραιότητα"
-
-#, fuzzy
-#~ msgid "Percent Complete: %i"
-#~ msgstr "% Ολοκληρωμένο"
-
-#, fuzzy
-#~ msgid "Categories: %s"
-#~ msgstr "Μικρά Εικονίδια"
-
-#, fuzzy
-#~ msgid "Contacts: "
-#~ msgstr "_Γνωριμία"
-
-#, fuzzy
-#~ msgid "Subject is %s"
-#~ msgstr "Θέμα"
-
-#, fuzzy
-#~ msgid "Account %d"
-#~ msgstr "Μικρά Εικονίδια"
-
-#, fuzzy
-#~ msgid "%s: Inbox"
-#~ msgstr "Εισερχόμενα"
-
-#, fuzzy
-#~ msgid "Evolution does not recognize this type of signed message."
-#~ msgstr "Αρχικοποίησης του συστήματος μονάδων Bonobo ανεπιτυχής"
-
-#, fuzzy
-#~ msgid "Trash"
-#~ msgstr "Εκκρεμό_τητα"
-
-#, fuzzy
-#~ msgid "VFolders"
-#~ msgstr "_Φάκελλος"
-
-#, fuzzy
-#~ msgid "knots"
-#~ msgstr "Γνωριμίες"
-
-#, fuzzy
-#~ msgid "miles"
-#~ msgstr "Χιλή"
-
-#, fuzzy
-#~ msgid "kilometers"
-#~ msgstr "_Φάκελλος"
-
-#, fuzzy
-#~ msgid "Outbox"
-#~ msgstr "Εισερχόμενα"
-
-#, fuzzy
-#~ msgid "Local Folders"
-#~ msgstr "_Φάκελλος"
-
-#, fuzzy
-#~ msgid "Add to Saved Searches"
-#~ msgstr "Το ημερολόγιό σας"
-
-#, fuzzy
-#~ msgid "Clear"
-#~ msgstr "Καθαρός Ουρανός"
+#~ msgid ""
+#~ "Issuer: %s\n"
+#~ "Subject: %s"
+#~ msgstr ""
+#~ "Εκδότης: %s\n"
+#~ "Θέμα: %s"
 
 #, fuzzy
 #~ msgid "Your configuration is complete."
@@ -14383,8 +14701,8 @@ msgstr "init_bonobo(): Αδύνατη η αρχικοποίηση του Bonobo"
 #~ "An error occured when trying to fetch\n"
 #~ "pilot list from the gnome-pilot daemon"
 #~ msgstr ""
-#~ "Προέκυψε εξαίρεση κατά την απόπειρα ανάγνωσης δεδομένων με PersistStream από "
-#~ "τη μονάδα"
+#~ "Προέκυψε εξαίρεση κατά την απόπειρα ανάγνωσης δεδομένων με PersistStream "
+#~ "από τη μονάδα"
 
 #, fuzzy
 #~ msgid "Evolution Calendar Conduit"
@@ -14488,10 +14806,6 @@ msgstr "init_bonobo(): Αδύνατη η αρχικοποίηση του Bonobo"
 #, fuzzy
 #~ msgid "FIXME: Next"
 #~ msgstr "_Γνωριμία"
-
-#, fuzzy
-#~ msgid "Mail Sources"
-#~ msgstr "Κυρίως Συντομεύσεις"
 
 #, fuzzy
 #~ msgid "_Print Contacts..."
@@ -14612,7 +14926,8 @@ msgstr "init_bonobo(): Αδύνατη η αρχικοποίηση του Bonobo"
 
 #~ msgid "We are sorry, Evolution's Folder Browser can not be initialized."
 #~ msgstr ""
-#~ "Μας συγχψρείτε, η αρχικοποίηση του εξερευνητή φακέλλων του Evolution απέτυχε."
+#~ "Μας συγχψρείτε, η αρχικοποίηση του εξερευνητή φακέλλων του Evolution "
+#~ "απέτυχε."
 
 #~ msgid "Clos_e All Items"
 #~ msgstr "Κλ_είσιμο Όλων"
@@ -14749,8 +15064,8 @@ msgstr "init_bonobo(): Αδύνατη η αρχικοποίηση του Bonobo"
 
 #~ msgid ""
 #~ "Detailed forecast not available for this location.\n"
-#~ "Please try the state forecast; note that IWIN forecasts are available only "
-#~ "for US cities."
+#~ "Please try the state forecast; note that IWIN forecasts are available "
+#~ "only for US cities."
 #~ msgstr ""
 #~ "Δεν είναι διαθέσιμη λεπτομερής πρόγνωση για αυτή την τοποθεσία.\n"
 #~ "Παρακαλώ δοκιμάστε την πρόγνωση πολιτείας· υπενθύμιση: προγνώσεις\n"
@@ -14762,8 +15077,8 @@ msgstr "init_bonobo(): Αδύνατη η αρχικοποίηση του Bonobo"
 #~ "only for US cities."
 #~ msgstr ""
 #~ "Δεν είναι διαθέσιμη πρόγνωση πολιτείας για αυτή την τοποθεσία.\n"
-#~ "Παρακαλώ δοκιμάστε τη λεπτομερή πρόγνωση; υπενθύμιση: προγνώσεις από το IWIN "
-#~ "είναι διαθέσιμες μόνο για πόλεις των ΗΠΑ."
+#~ "Παρακαλώ δοκιμάστε τη λεπτομερή πρόγνωση; υπενθύμιση: προγνώσεις από το "
+#~ "IWIN είναι διαθέσιμες μόνο για πόλεις των ΗΠΑ."
 
 #~ msgid ""
 #~ "Invalid location chosen!\n"

@@ -6,7 +6,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: evolution 1.0\n"
-"POT-Creation-Date: 2001-11-21 13:56+0100\n"
+"POT-Creation-Date: 2001-11-21 15:19-0500\n"
 "PO-Revision-Date: 2001-11-20 18:00+0100\n"
 "Last-Translator: Héctor García Álvarez <hector@scouts-es.org>\n"
 "Language-Team: Spanish <es@li.org>\n"
@@ -6157,31 +6157,6 @@ msgstr "No puedo obtener la carpeta: Operación no válida"
 msgid "Cannot create folder: Invalid operation on this store"
 msgstr "No puedo crear la carpeta: Operación no válida"
 
-#: camel/camel-tcp-stream-openssl.c:519
-#, c-format
-msgid ""
-"Issuer: %s\n"
-"Subject: %s"
-msgstr ""
-"Responsable: %s\n"
-"Asunto: %s"
-
-#. construct our user prompt
-#: camel/camel-tcp-stream-openssl.c:524 camel/camel-tcp-stream-ssl.c:428
-#, c-format
-msgid ""
-"Bad certificate from %s:\n"
-"\n"
-"%s\n"
-"\n"
-"Do you wish to accept anyway?"
-msgstr ""
-"Certificado erróneo de %s:\n"
-"\n"
-"%s\n"
-"\n"
-"¿Quieres aceptarlo de todos modos?"
-
 #: camel/camel-tcp-stream-ssl.c:412
 #, c-format
 msgid ""
@@ -6200,6 +6175,22 @@ msgstr ""
 "Localidad: %s\n"
 "Estado: %s\n"
 "País: %s"
+
+#. construct our user prompt
+#: camel/camel-tcp-stream-ssl.c:428
+#, c-format
+msgid ""
+"Bad certificate from %s:\n"
+"\n"
+"%s\n"
+"\n"
+"Do you wish to accept anyway?"
+msgstr ""
+"Certificado erróneo de %s:\n"
+"\n"
+"%s\n"
+"\n"
+"¿Quieres aceptarlo de todos modos?"
 
 #: camel/camel-url.c:288
 #, c-format
@@ -7620,13 +7611,13 @@ msgstr ""
 msgid "Cannot initialize Evolution's composer."
 msgstr "No puedo inicializar el componente de escritura correo de Evolution."
 
-#: data/evolution.desktop.in.h:1 shell/main.c:83
-msgid "Evolution"
-msgstr "Evolution"
-
-#: data/evolution.desktop.in.h:2
+#: data/evolution.desktop.in.h:1
 msgid "The Evolution groupware suite"
 msgstr "La herramienta de trabajo en grupo Evolution"
+
+#: data/evolution.desktop.in.h:2
+msgid "Ximian Evolution"
+msgstr "Ximian Evolution"
 
 #: data/evolution.keys.in.h:1
 msgid "address card"
@@ -12485,6 +12476,10 @@ msgstr "No me preguntes más veces"
 msgid "Evolution can import data from the following files:"
 msgstr "Evolution puede importar datos de los siguiente s archivos:"
 
+#: shell/main.c:83
+msgid "Evolution"
+msgstr "Evolution"
+
 #: shell/main.c:89
 msgid "Evolution is now exiting ..."
 msgstr "Evolution está terminando ..."
@@ -14165,6 +14160,13 @@ msgstr "init_corba(): no pude inicializar GNOME"
 msgid "init_bonobo(): could not initialize Bonobo"
 msgstr "init_bonob(): no pude inicializar Bonobo"
 
+#~ msgid ""
+#~ "Issuer: %s\n"
+#~ "Subject: %s"
+#~ msgstr ""
+#~ "Responsable: %s\n"
+#~ "Asunto: %s"
+
 #~ msgid "I couldn't remove the item from your calendar file!\n"
 #~ msgstr "¡No pude quitar el elemento del archivo de su calendario!\n"
 
@@ -14320,9 +14322,6 @@ msgstr "init_bonob(): no pude inicializar Bonobo"
 
 #~ msgid "Always encrypt to myself when sending encrypyed mail"
 #~ msgstr "Siempre cifrarme a mí mismo cuando envíe correo cifrado"
-
-#~ msgid "Ximian Evolution"
-#~ msgstr "Ximian Evolution"
 
 #~ msgid ""
 #~ "Ximian Evolution is a suite of groupware applications\n"

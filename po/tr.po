@@ -4,7 +4,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: evolution 1.0\n"
-"POT-Creation-Date: 2001-11-14 19:26-0500\n"
+"POT-Creation-Date: 2001-11-21 15:19-0500\n"
 "PO-Revision-Date: 2001-07-07 09:25+0200\n"
 "Last-Translator: Görkem Çetin <gorkem@gelecek.com.tr>\n"
 "Language-Team: GNOME Turk <gnome-turk@gnome.org>\n"
@@ -6435,31 +6435,6 @@ msgstr "%s üzerinde dizin kilitlemesi yaratýlamadý: %s"
 msgid "Cannot create folder: Invalid operation on this store"
 msgstr "%s üzerinde dizin kilitlemesi yaratýlamadý: %s"
 
-#: camel/camel-tcp-stream-openssl.c:519
-#, c-format
-msgid ""
-"Issuer: %s\n"
-"Subject: %s"
-msgstr ""
-"Gönderen: %s\n"
-"Konu: %s"
-
-#. construct our user prompt
-#: camel/camel-tcp-stream-openssl.c:524 camel/camel-tcp-stream-ssl.c:428
-#, c-format
-msgid ""
-"Bad certificate from %s:\n"
-"\n"
-"%s\n"
-"\n"
-"Do you wish to accept anyway?"
-msgstr ""
-"%s adresinden hatalý bir sertifika alýndý:\n"
-"\n"
-"%s\n"
-"\n"
-"Yine de kabul etmek istiyor musunuz?"
-
 #: camel/camel-tcp-stream-ssl.c:412
 #, c-format
 msgid ""
@@ -6478,6 +6453,22 @@ msgstr ""
 "Yer: %s\n"
 "Bölge: %s\n"
 "Þehir: %s"
+
+#. construct our user prompt
+#: camel/camel-tcp-stream-ssl.c:428
+#, c-format
+msgid ""
+"Bad certificate from %s:\n"
+"\n"
+"%s\n"
+"\n"
+"Do you wish to accept anyway?"
+msgstr ""
+"%s adresinden hatalý bir sertifika alýndý:\n"
+"\n"
+"%s\n"
+"\n"
+"Yine de kabul etmek istiyor musunuz?"
 
 #: camel/camel-url.c:288
 #, c-format
@@ -7910,13 +7901,14 @@ msgstr ""
 msgid "Cannot initialize Evolution's composer."
 msgstr "Evolution posta programý açýlamadý."
 
-#: data/evolution.desktop.in.h:1 shell/main.c:83
-msgid "Evolution"
-msgstr "Evolution"
-
-#: data/evolution.desktop.in.h:2
+#: data/evolution.desktop.in.h:1
 msgid "The Evolution groupware suite"
 msgstr "Evolution kitlesel iþlemler uygulamasý"
+
+#: data/evolution.desktop.in.h:2
+#, fuzzy
+msgid "Ximian Evolution"
+msgstr "Evolution"
 
 #: data/evolution.keys.in.h:1
 msgid "address card"
@@ -7967,11 +7959,11 @@ msgid "Subject does not contain"
 msgstr "içermez"
 
 #. Remember the password?
-#: e-util/e-passwords.c:347 mail/mail-session.c:267
+#: e-util/e-passwords.c:360 mail/mail-session.c:267
 msgid "Remember this password"
 msgstr "Bu parolayý hatýrla"
 
-#: e-util/e-passwords.c:349 mail/mail-session.c:268
+#: e-util/e-passwords.c:362 mail/mail-session.c:268
 msgid "Remember this password for the remainder of this session"
 msgstr ""
 
@@ -12976,6 +12968,10 @@ msgstr "Tekrar sorma"
 msgid "Evolution can import data from the following files:"
 msgstr "E-posta alma va gönderme için Evolution bileþeni"
 
+#: shell/main.c:83
+msgid "Evolution"
+msgstr "Evolution"
+
 #: shell/main.c:89
 #, fuzzy
 msgid "Evolution is now exiting ..."
@@ -14749,6 +14745,13 @@ msgstr "init_corba(): GNOME baþlatýlamadý"
 msgid "init_bonobo(): could not initialize Bonobo"
 msgstr "init_bonobo(): Bonobo baþlatýlamadý"
 
+#~ msgid ""
+#~ "Issuer: %s\n"
+#~ "Subject: %s"
+#~ msgstr ""
+#~ "Gönderen: %s\n"
+#~ "Konu: %s"
+
 #~ msgid "I couldn't remove the item from your calendar file!\n"
 #~ msgstr "Bu öðe takvim dosyasýndan silinemedi!\n"
 
@@ -14857,10 +14860,6 @@ msgstr "init_bonobo(): Bonobo baþlatýlamadý"
 #, fuzzy
 #~ msgid "_Imperial"
 #~ msgstr "Nisan"
-
-#, fuzzy
-#~ msgid "Ximian Evolution"
-#~ msgstr "Evolution"
 
 #, fuzzy
 #~ msgid ""

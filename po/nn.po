@@ -7,7 +7,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: evolution-0.11\n"
-"POT-Creation-Date: 2001-11-14 19:26-0500\n"
+"POT-Creation-Date: 2001-11-21 15:19-0500\n"
 "PO-Revision-Date: 2000-10-31 20:17+02:00\n"
 "Last-Translator: Roy-Magne Mo <rmo@sunnmore.net>\n"
 "Language-Team: \n"
@@ -6559,24 +6559,6 @@ msgstr "Leitar etter tilleggsmodular"
 msgid "Cannot create folder: Invalid operation on this store"
 msgstr "Leitar etter tilleggsmodular"
 
-#: camel/camel-tcp-stream-openssl.c:519
-#, fuzzy, c-format
-msgid ""
-"Issuer: %s\n"
-"Subject: %s"
-msgstr "Emne"
-
-#. construct our user prompt
-#: camel/camel-tcp-stream-openssl.c:524 camel/camel-tcp-stream-ssl.c:428
-#, c-format
-msgid ""
-"Bad certificate from %s:\n"
-"\n"
-"%s\n"
-"\n"
-"Do you wish to accept anyway?"
-msgstr ""
-
 #: camel/camel-tcp-stream-ssl.c:412
 #, c-format
 msgid ""
@@ -6587,6 +6569,17 @@ msgid ""
 "Locality: %s\n"
 "State: %s\n"
 "Country: %s"
+msgstr ""
+
+#. construct our user prompt
+#: camel/camel-tcp-stream-ssl.c:428
+#, c-format
+msgid ""
+"Bad certificate from %s:\n"
+"\n"
+"%s\n"
+"\n"
+"Do you wish to accept anyway?"
 msgstr ""
 
 #: camel/camel-url.c:288
@@ -8044,13 +8037,14 @@ msgstr ""
 msgid "Cannot initialize Evolution's composer."
 msgstr "Kan ikkje initialisera lokale variablar"
 
-#: data/evolution.desktop.in.h:1 shell/main.c:83
-msgid "Evolution"
-msgstr "Evolution"
-
-#: data/evolution.desktop.in.h:2
+#: data/evolution.desktop.in.h:1
 msgid "The Evolution groupware suite"
 msgstr "Gruppevareverktyet Evolution"
+
+#: data/evolution.desktop.in.h:2
+#, fuzzy
+msgid "Ximian Evolution"
+msgstr "Evolution"
 
 #: data/evolution.keys.in.h:1
 msgid "address card"
@@ -8100,11 +8094,11 @@ msgid "Subject does not contain"
 msgstr "Emne"
 
 #. Remember the password?
-#: e-util/e-passwords.c:347 mail/mail-session.c:267
+#: e-util/e-passwords.c:360 mail/mail-session.c:267
 msgid "Remember this password"
 msgstr ""
 
-#: e-util/e-passwords.c:349 mail/mail-session.c:268
+#: e-util/e-passwords.c:362 mail/mail-session.c:268
 msgid "Remember this password for the remainder of this session"
 msgstr ""
 
@@ -13352,6 +13346,10 @@ msgstr "Ikkje spør igjen"
 msgid "Evolution can import data from the following files:"
 msgstr "Bruk på følgjande delar:"
 
+#: shell/main.c:83
+msgid "Evolution"
+msgstr "Evolution"
+
 #: shell/main.c:89
 #, fuzzy
 msgid "Evolution is now exiting ..."
@@ -15284,6 +15282,12 @@ msgid "init_bonobo(): could not initialize Bonobo"
 msgstr "Kunne ikkje initiere Bonobo"
 
 #, fuzzy
+#~ msgid ""
+#~ "Issuer: %s\n"
+#~ "Subject: %s"
+#~ msgstr "Emne"
+
+#, fuzzy
 #~ msgid "I couldn't remove the item from your calendar file!\n"
 #~ msgstr "Kunne ikkje lasta kalender '%1'.\n"
 
@@ -15376,10 +15380,6 @@ msgstr "Kunne ikkje initiere Bonobo"
 #, fuzzy
 #~ msgid "_Imperial"
 #~ msgstr "seriell"
-
-#, fuzzy
-#~ msgid "Ximian Evolution"
-#~ msgstr "Evolution"
 
 #, fuzzy
 #~ msgid "%s - Ximian Evolution %s"

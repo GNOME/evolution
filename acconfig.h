@@ -17,7 +17,6 @@
 #undef HAVE_KRB5
 #undef HAVE_NSS
 #undef HAVE_SSL
-#undef HAVE_OPENSSL
 #undef USE_DOT
 #undef USE_FCNTL
 #undef USE_FLOCK

@@ -1,3 +1,21 @@
+2001-11-21  Jeffrey Stedfast  <fejj@ximian.com>
+ 
+ 	* README: Updated. Don't say that the user needs to copy their
+ 	mozilla database files into ~/evolution, since Evolution now
+ 	builds it's own default database files if they don't exist and
+ 	also remove instructions for building with OpenSSL.
+ 
+ 	* acconfig.h: Remove HAVE_OPENSSL define
+ 
+ 	* configure.in: Remove checks for OpenSSL libraries.
+ 
+2001-11-21  Ettore Perazzoli  <ettore@ximian.com>
+
+	* configure.in: Version 1.0.  Require GtkHTML 1.0.
+
+	* data/evolution.desktop.in: Say "Ximian Evolution", not
+	"Evolution".
+
 2001-11-20  Wang Jian  <lark@linux.net.cn>
 
 	* configure.in(ALL_LINGUAS): Re-Added zh_CN. It is checked 

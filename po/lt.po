@@ -5,7 +5,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: evolution 1.0\n"
-"POT-Creation-Date: 2001-11-14 19:26-0500\n"
+"POT-Creation-Date: 2001-11-21 15:19-0500\n"
 "PO-Revision-Date: 2001-10-28 22:33+0200\n"
 "Last-Translator: Gediminas Paulauskas <menesis@delfi.lt>\n"
 "Language-Team: Your language <komp_lt@konferencijos.lt>\n"
@@ -6177,29 +6177,6 @@ msgstr "Negaliu sukurti aplanko uþrakto ant %s: %s"
 msgid "Cannot create folder: Invalid operation on this store"
 msgstr "Negaliu sukurti aplanko uþrakto ant %s: %s"
 
-#: camel/camel-tcp-stream-openssl.c:519
-#, c-format
-msgid ""
-"Issuer: %s\n"
-"Subject: %s"
-msgstr ""
-
-#. construct our user prompt
-#: camel/camel-tcp-stream-openssl.c:524 camel/camel-tcp-stream-ssl.c:428
-#, c-format
-msgid ""
-"Bad certificate from %s:\n"
-"\n"
-"%s\n"
-"\n"
-"Do you wish to accept anyway?"
-msgstr ""
-"Blogas sertifikatas ið %s:\n"
-"\n"
-"%s\n"
-"\n"
-"Ar nori priimti vis tiek?"
-
 #: camel/camel-tcp-stream-ssl.c:412
 #, c-format
 msgid ""
@@ -6218,6 +6195,22 @@ msgstr ""
 "Lokalumas: %s\n"
 "Valstija: %s\n"
 "Valstybë: %s"
+
+#. construct our user prompt
+#: camel/camel-tcp-stream-ssl.c:428
+#, c-format
+msgid ""
+"Bad certificate from %s:\n"
+"\n"
+"%s\n"
+"\n"
+"Do you wish to accept anyway?"
+msgstr ""
+"Blogas sertifikatas ið %s:\n"
+"\n"
+"%s\n"
+"\n"
+"Ar nori priimti vis tiek?"
 
 #: camel/camel-url.c:288
 #, c-format
@@ -7635,13 +7628,14 @@ msgstr ""
 msgid "Cannot initialize Evolution's composer."
 msgstr "Negalëjau inicializuoti Evolution raðyklës."
 
-#: data/evolution.desktop.in.h:1 shell/main.c:83
-msgid "Evolution"
-msgstr "Evolution"
-
-#: data/evolution.desktop.in.h:2
+#: data/evolution.desktop.in.h:1
 msgid "The Evolution groupware suite"
 msgstr ""
+
+#: data/evolution.desktop.in.h:2
+#, fuzzy
+msgid "Ximian Evolution"
+msgstr "Ximian Evolution _FAQ"
 
 #: data/evolution.keys.in.h:1
 msgid "address card"
@@ -7684,11 +7678,11 @@ msgid "Subject does not contain"
 msgstr "Tema savyje neturi"
 
 #. Remember the password?
-#: e-util/e-passwords.c:347 mail/mail-session.c:267
+#: e-util/e-passwords.c:360 mail/mail-session.c:267
 msgid "Remember this password"
 msgstr "Prisiminti ðá slaptaþodá"
 
-#: e-util/e-passwords.c:349 mail/mail-session.c:268
+#: e-util/e-passwords.c:362 mail/mail-session.c:268
 msgid "Remember this password for the remainder of this session"
 msgstr "Prisiminti ðá slaptaþodá iki ðios sesijos galo"
 
@@ -12502,6 +12496,10 @@ msgstr "Kità kartà nebeklausti"
 #: shell/importer/intelligent.c:208
 msgid "Evolution can import data from the following files:"
 msgstr "Evolution gali importuoti duomenis ið þemiau nurodytø bylø:"
+
+#: shell/main.c:83
+msgid "Evolution"
+msgstr "Evolution"
 
 #: shell/main.c:89
 msgid "Evolution is now exiting ..."
