@@ -264,7 +264,7 @@ msgid ""
 "Categories: "
 msgstr ""
 "\n"
-"Categorije: "
+"Kategorije: "
 
 #: addressbook/backend/ebook/e-card.c:3207
 msgid ""
@@ -1490,16 +1490,16 @@ msgstr "oznaèba26"
 
 #: calendar/conduits/calendar/calendar-conduit-control-applet.c:127
 msgid "Evolution Calendar Conduit"
-msgstr "Evolucijin koledarski veznik"
+msgstr "Evolucijin veznik koledarja"
 
 #: calendar/conduits/calendar/calendar-conduit-control-applet.c:130
 msgid "Configuration utility for the evolution calendar conduit.\n"
-msgstr "Nastavitveno orodje za Evolucijin koledarski veznik.\n"
+msgstr "Nastavitveno orodje za Evolucijin veznik koledarja.\n"
 
 #: calendar/conduits/calendar/calendar-conduit.c:687
 #: calendar/conduits/todo/todo-conduit.c:501
 msgid "Error while communicating with calendar server"
-msgstr "Napaka ob komuniciranju s koledarskim stre¾nikom"
+msgstr "Napaka ob komuniciranju s stre¾nikom koledarja"
 
 #: calendar/conduits/calendar/calendar-conduit.c:786
 #: calendar/conduits/calendar/calendar-conduit.c:789
@@ -1801,7 +1801,7 @@ msgstr "60 minut"
 
 #: calendar/gui/dialogs/cal-prefs-dialog.glade.h:8
 msgid "Alarms timeout after"
-msgstr "Alarmi preteèejo po"
+msgstr "Alarmi preteèejo èez"
 
 #: calendar/gui/dialogs/cal-prefs-dialog.glade.h:9
 msgid "Audio Alarms"
@@ -2013,7 +2013,7 @@ msgstr "minut preden se zgodijo."
 #: calendar/gui/dialogs/cal-prefs-dialog.glade.h:58
 #: mail/mail-config.glade.h:79
 msgid "seconds."
-msgstr "sekundah."
+msgstr "sekund."
 
 #: calendar/gui/dialogs/delete-comp.c:68
 #, c-format
@@ -2382,7 +2382,7 @@ msgstr "Preklièi sestanek"
 #: calendar/gui/e-itip-control.glade.h:2
 #, no-c-format
 msgid "%P %%"
-msgstr "%A %%"
+msgstr "%P %%"
 
 #: calendar/gui/e-itip-control.glade.h:3
 msgid "--to--"
@@ -2508,7 +2508,7 @@ msgstr "Vse"
 
 #: calendar/gui/e-tasks.c:150
 msgid "Category:"
-msgstr "Categorija:"
+msgstr "Kategorija:"
 
 #: calendar/gui/e-tasks.c:288
 #, c-format
@@ -3276,7 +3276,7 @@ msgid ""
 "Could not create directory %s:\n"
 "%s"
 msgstr ""
-"Ne morem ustvariti imenika %s:\n"
+"Nisem mogel ustvariti imenika %s:\n"
 "%s"
 
 #: camel/camel-url.c:75
@@ -4477,7 +4477,7 @@ msgstr "Videz"
 
 #: executive-summary/component/executive-summary-config.glade.h:2
 msgid "Background:"
-msgstr "Ozadnje:"
+msgstr "Ozadje:"
 
 #: executive-summary/component/main.c:60
 msgid ""
@@ -5157,7 +5157,7 @@ msgid ""
 "recoverable.  Please use this feature with care."
 msgstr ""
 "Opomba: Ob pretvarjanju med razliènimi oblikami po¹tnih predalov\n"
-"napaka (naprimer pomanjkanje prosotra na disku) ni nujno samodejno\n"
+"napaka (na primer pomanjkanje prosotra na disku) ni nujno samodejno\n"
 " odpravljiva. Prosimo to mo¾nost uprabljajte pazljivo."
 
 #: mail/local-config.glade.h:7
@@ -5566,7 +5566,7 @@ msgid ""
 "Type the name by which you would like to refer to these servers. For "
 "example: \"Work\" or \"Home\"."
 msgstr ""
-"Vpi¹ite ime s katerimi ¾elite nazivati te stre¾nike. Naprimer:\"slu¾beni\" "
+"Vpi¹ite ime s katerimi ¾elite nazivati te stre¾nike. Na primer:\"slu¾beni\" "
 "ali \"domaèi\"."
 
 #: mail/mail-config.glade.h:73
@@ -5642,7 +5642,7 @@ msgstr "Poglej vsebino"
 
 #: mail/mail-display.c:323
 msgid "External Viewer"
-msgstr "Zunanji pregledovalec"
+msgstr "zunanjem pregledovalniku"
 
 #: mail/mail-display.c:346
 #, c-format
