@@ -1,5 +1,10 @@
 2001-03-27  Not Zed  <NotZed@Ximian.com>
 
+	* camel-folder-summary.c (camel_folder_summary_finalize): Unref
+	the html filter when done.
+	(summary_build_content_info): Disable using the html parser to
+	help index html mails until it gets sorted out.
+
 	* camel-vee-folder.c (folder_changed): Fix a cut n paste bug, we
 	want uid_removed not uid_changed deref, fixes bug #1999.
 

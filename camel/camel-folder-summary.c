@@ -199,13 +199,15 @@ camel_folder_summary_finalize (CamelObject *obj)
 		e_memchunk_destroy(s->content_info_chunks);
 
 	if (p->filter_index)
-		camel_object_unref ((CamelObject *)p->filter_index);
+		camel_object_unref((CamelObject *)p->filter_index);
 	if (p->filter_64)
-		camel_object_unref ((CamelObject *)p->filter_64);
+		camel_object_unref((CamelObject *)p->filter_64);
 	if (p->filter_qp)
-		camel_object_unref ((CamelObject *)p->filter_qp);
+		camel_object_unref((CamelObject *)p->filter_qp);
 	if (p->filter_save)
-		camel_object_unref ((CamelObject *)p->filter_save);
+		camel_object_unref((CamelObject *)p->filter_save);
+	if (p->filter_html)
+		camel_object_unref((CamelObject *)p->filter_html);
 
 #ifdef ENABLE_THREADS
 	g_mutex_free(p->summary_lock);
@@ -2102,7 +2104,7 @@ summary_build_content_info(CamelFolderSummary *s, CamelMessageInfo *msginfo, Cam
 				}
 				g_free(encoding);
 			}
-				
+
 			charset = header_content_type_param(ct, "charset");
 			if (charset!=NULL
 			    && !(strcasecmp(charset, "us-ascii")==0
@@ -2123,6 +2125,9 @@ summary_build_content_info(CamelFolderSummary *s, CamelMessageInfo *msginfo, Cam
 				}
 			}
 
+#if 0
+			/* this is disabled for now */
+			/* also, should this go before/instead of the charset decoding?  xml interfaces are utf8 already? */
 			if (header_content_type_is(ct, "text", "html")) {
 				if (p->filter_html == NULL)
 					p->filter_html = camel_mime_filter_html_new();
@@ -2130,6 +2135,7 @@ summary_build_content_info(CamelFolderSummary *s, CamelMessageInfo *msginfo, Cam
 					camel_mime_filter_reset((CamelMimeFilter *)p->filter_html);
 				html_id = camel_mime_parser_filter_add(mp, (CamelMimeFilter *)p->filter_html);
 			}
+#endif
 			
 			/* and this filter actually does the indexing */
 			idx_id = camel_mime_parser_filter_add(mp, (CamelMimeFilter *)p->filter_index);
