@@ -573,7 +573,6 @@ calendar_control_activate (BonoboControl *control,
 
 	bonobo_ui_handler_dock_add (uih, "/Toolbar",
 				    bonobo_object_corba_objref (BONOBO_OBJECT (bonobo_control_new (toolbar))),
-				    GNOME_DOCK_ITEM_BEH_LOCKED |
 				    GNOME_DOCK_ITEM_BEH_EXCLUSIVE,
 				    GNOME_DOCK_TOP,
 				    1, 1, 0);

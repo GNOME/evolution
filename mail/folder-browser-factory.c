@@ -185,7 +185,6 @@ control_activate (BonoboControl *control, BonoboUIHandler *uih)
 	toolbar_control = bonobo_control_new (toolbar);
 	bonobo_ui_handler_dock_add (uih, "/Toolbar",
 				    bonobo_object_corba_objref (BONOBO_OBJECT (toolbar_control)),
-				    GNOME_DOCK_ITEM_BEH_LOCKED |
 				    GNOME_DOCK_ITEM_BEH_EXCLUSIVE,
 				    GNOME_DOCK_TOP,
 				    1, 1, 0);

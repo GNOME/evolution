@@ -1,3 +1,8 @@
+2000-05-11  Dan Winship  <danw@helixcode.com>
+
+	* folder-browser-factory.c (control_activate): Now that we depend
+	on current gnome-libs we can make the toolbar detachable again.
+
 2000-05-11  Federico Mena Quintero  <federico@helixcode.com>
 
 	* folder-browser-factory.c (development_warning): Left-justify the

@@ -1,3 +1,9 @@
+2000-05-11  Dan Winship  <danw@helixcode.com>
+
+	* gui/component/addressbook.c (control_activate): Now that we
+	depend on recent gnome-libs we can make the toolbar detachable
+	again.
+
 2000-05-10  Christopher James Lahey  <clahey@helixcode.com>
 
 	* gui/component/addressbook.c: Make the table view be sorted by

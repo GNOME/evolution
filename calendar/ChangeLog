@@ -1,5 +1,9 @@
 2000-05-11  Dan Winship  <danw@helixcode.com>
 
+	* gui/calendar-commands.c (calendar_control_activate): Now that we
+	depend on current gnome-libs we can make the toolbar detachable
+	again.
+
 	* pcs/icalendar-save.c (timet_to_icaltime): remove unused timezone
 	variable to make this compile on BSD systems (where timezone is
 	the name of a function)
