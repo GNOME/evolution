@@ -71,7 +71,7 @@ druid_destroyed (void)
 	gtk_main_quit ();
 }
 
-static void
+static gboolean
 configure_mail (FolderBrowser *fb)
 {
 	MailConfigDruid *druid;
@@ -87,7 +87,7 @@ configure_mail (FolderBrowser *fb)
 			GNOME_MESSAGE_BOX_QUESTION,
 			GNOME_STOCK_BUTTON_YES,
 			GNOME_STOCK_BUTTON_NO, NULL);
-
+		
 		/*
 		 * Focus YES
 		 */
@@ -111,6 +111,8 @@ configure_mail (FolderBrowser *fb)
 			break;
 		}
 	}
+	
+	return mail_config_is_configured ();
 }
 
 static gboolean
@@ -120,8 +122,8 @@ check_send_configuration (FolderBrowser *fb)
 	
 	/* Check general */
 	if (!mail_config_is_configured ()) {
-		configure_mail (fb);
-		return FALSE;
+		if (!configure_mail (fb))
+			return FALSE;
 	}
 	
 	/* Get the default account */
@@ -177,21 +179,21 @@ void
 send_receive_mail (GtkWidget *widget, gpointer user_data)
 {
 	const MailConfigAccount *account;
-
+	
 	/* receive first then send, this is a temp fix for POP-before-SMTP */
 	if (!mail_config_is_configured ()) {
-		configure_mail (FOLDER_BROWSER (user_data));
-		return;
+		if (!configure_mail (FOLDER_BROWSER (user_data)))
+			return;
 	}
 	
 	account = mail_config_get_default_account ();
 	if (!account || !account->transport) {
-		GtkWidget *win = gtk_widget_get_ancestor(GTK_WIDGET (user_data), GTK_TYPE_WINDOW);
-		gnome_error_dialog_parented (_("You have not set a mail transport method"), GTK_WINDOW(win));
+		GtkWidget *win = gtk_widget_get_ancestor (GTK_WIDGET (user_data), GTK_TYPE_WINDOW);
+		gnome_error_dialog_parented (_("You have not set a mail transport method"), GTK_WINDOW (win));
 		return;
 	}
-
-	mail_send_receive();
+	
+	mail_send_receive ();
 }
 
 static void

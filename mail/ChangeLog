@@ -1,3 +1,11 @@
+2001-02-27  Jeffrey Stedfast  <fejj@ximian.com>
+
+	* mail-callbacks.c (configure_mail): Return TRUE if the user
+	configured his/her settings, else return FALSE.
+	(check_send_configuration): If configure_mail() returns TRUE, then
+	continue otherwise quit.
+	(send_receive_mail): Same.
+
 2001-02-26  Jeffrey Stedfast  <fejj@ximian.com>
 
 	* mail-callbacks.c (mail_generate_reply): Set a "References"
