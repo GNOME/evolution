@@ -481,7 +481,8 @@ get_widgets (MeetingPage *mpage)
 	priv->organizer_table = GW ("organizer-table");
 	priv->organizer = GW ("organizer");
 	gtk_combo_set_value_in_list (GTK_COMBO (priv->organizer), FALSE, FALSE);
-	
+	gtk_entry_set_editable(GTK_COMBO(priv->organizer)->entry, FALSE);
+
 	/* For showing existing organizers */
 	priv->existing_organizer_table = GW ("existing-organizer-table");
 	priv->existing_organizer = GW ("existing-organizer");
