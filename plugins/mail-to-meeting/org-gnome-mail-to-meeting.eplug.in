@@ -4,8 +4,9 @@
     type="shlib"
     id="org.gnome.evolution.plugin.mailToMeeting"
     location="@PLUGINDIR@/liborg-gnome-mail-to-meeting.so"
-    name="Convert a mail message into a meeting"
-    description="A plugin which allows the creation of meetings from the contents of a mail message">
+    name="Convert a mail message into a meeting">
+    <description>A plugin which allows the creation of meetings from the contents of a mail message</description>
+    <author name="Rodrigo Moya" email="rodrigo@novell.com"/>
 
     <!-- hook into the uri popup menu -->
     <hook class="org.gnome.evolution.mail.popup:1.0">
