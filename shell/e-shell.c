@@ -27,6 +27,7 @@
 #include "e-shell.h"
 
 #include "e-util/e-dialog-utils.h"
+#include "e-util/e-bconf-map.h"
 
 #include "e-shell-constants.h"
 #include "e-shell-offline-handler.h"
@@ -461,6 +462,77 @@ e_shell_init (EShell *shell)
 	shell->priv = priv;
 }
 
+static gboolean
+detect_version (GConfClient *gconf, int *major, int *minor, int *revision)
+{
+	char *val, *evolution_dir, *filename;
+	struct stat st;
+	
+	evolution_dir = g_build_filename (g_get_home_dir (), "evolution", NULL);
+	filename = g_build_filename (evolution_dir, "config.xmldb", NULL);
+	
+	val = gconf_client_get_string(gconf, "/apps/evolution/version", NULL);	
+	if (val) {
+		/* Since 1.4.0 We've been keeping the version key in gconf */
+		sscanf(val, "%u.%u.%u", major, minor, revision);
+		g_free(val);
+	} else if (lstat (filename, &st) != 0 || !S_ISDIR (st.st_mode)) {
+		/* If ~/evolution does not exit or is not a directory it must be a new installation */
+		*major = 0;
+		*minor = 0;
+		*revision = 0;
+	} else {
+		xmlDocPtr config_doc = NULL;
+		xmlNodePtr source;
+		char *tmp;
+		
+		if (lstat(filename, &st) == 0
+		    && S_ISREG(st.st_mode))
+			config_doc = xmlParseFile (filename);
+
+		tmp = NULL;
+		if (config_doc
+		    && (source = e_bconf_get_path (config_doc, "/Shell"))
+		    && (tmp = e_bconf_get_value (source, "upgrade_from_1_0_to_1_2_performed"))
+		    && tmp[0] == '1' ) {
+			*major = 1;
+			*minor = 2;
+			*revision = 0;
+		} else {
+			*major = 1;
+			*minor = 0;
+			*revision = 0;
+		}
+		if (tmp)
+			xmlFree(tmp);
+		if (config_doc)
+			xmlFreeDoc (config_doc);		
+	}
+
+	g_free (evolution_dir);
+	g_free (filename);
+
+	return TRUE;
+}
+
+static void
+attempt_upgrade (EShell *shell)
+{
+	GConfClient *gconf_client;
+	int major = 0, minor = 0, revision = 0;
+
+	gconf_client = gconf_client_get_default ();
+
+	if (!detect_version (gconf_client, &major, &minor, &revision)
+	    || !e_shell_attempt_upgrade (shell, major, minor, revision)) 
+		e_notice (NULL, GTK_MESSAGE_ERROR,
+			  _("Warning: Evolution could not upgrade all your data from version %d.%d.%d.\n"
+			    "The data hasn't been deleted, but it will not be seen by this version of Evolution.\n"),
+			  major, minor, revision);
+
+	gconf_client_set_string (gconf_client, "/apps/evolution/version", VERSION, NULL);
+	g_object_unref (gconf_client);
+}
 
 /**
  * e_shell_construct:
@@ -501,7 +573,9 @@ e_shell_construct (EShell *shell,
 
 	while (gtk_events_pending ())
 		gtk_main_iteration ();	
-	
+
+	attempt_upgrade(shell);
+
 	if (e_shell_startup_wizard_create () == FALSE) {
 		bonobo_object_unref (BONOBO_OBJECT (shell));
 		exit (0);
