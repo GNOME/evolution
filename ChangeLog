@@ -1,3 +1,10 @@
+2000-02-03  bertrand  <Bertrand.Guiheneuf@aful.org>
+
+	* camel/camel-formatter.c (find_preferred_displayable_body_part_in_multipart_alternative): 
+	(mime_part_to_html): typo fix : 
+	use find_preferred_displayable_body_part_in_multipart_alternative
+	instead of the other names. Allows camel to have no undefined symbols. 
+
 2000-02-02  Matt Loper  <matt.loper@splashtech.com>
 
 	* tests/test-formatter.c: New file; intended to test the
