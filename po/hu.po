@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: evolution 1.2\n"
 "POT-Creation-Date: 2002-10-28 16:49-0500\n"
-"PO-Revision-Date: 2002-08-25 23:43+0200\n"
+"PO-Revision-Date: 2002-11-06 11:11+0100\n"
 "Last-Translator: Andras Timar <timar@gnome.hu>\n"
 "Language-Team: Hungarian <hu@gnome.hu>\n"
 "MIME-Version: 1.0\n"
@@ -321,9 +321,8 @@ msgstr "%x"
 
 #: addressbook/backend/ebook/e-card-simple.c:853
 #: addressbook/backend/ebook/e-destination.c:706
-#, fuzzy
 msgid "Unnamed List"
-msgstr "Névtelen címlista"
+msgstr "Névtelen lista"
 
 #: addressbook/backend/ebook/e-card.c:2683
 msgid "Multiple VCards"
@@ -359,9 +358,8 @@ msgid "Loading..."
 msgstr "Betöltés..."
 
 #: addressbook/backend/pas/pas-backend-ldap.c:687
-#, fuzzy
 msgid "Reconnecting to LDAP server..."
-msgstr "Kapcsolódás az LDAP-kiszolgálóhoz..."
+msgstr "Újrakapcsolódás az LDAP-kiszolgálóhoz..."
 
 #: addressbook/backend/pas/pas-backend-ldap.c:1230
 msgid "Adding card to LDAP server..."
@@ -385,9 +383,8 @@ msgid "Error performing search"
 msgstr "Hiba a keresés közben"
 
 #: addressbook/conduit/address-conduit.c:293
-#, fuzzy
 msgid "Default Sync Address:"
-msgstr "Emailcím:"
+msgstr "Alapértelmezett szinkronizációs cím:"
 
 #: addressbook/conduit/address-conduit.c:536
 msgid "Cursor could not be loaded\n"
@@ -427,9 +424,8 @@ msgid "A sample Bonobo control which displays an addressbook."
 msgstr "Minta Bonobo vezérlõ, amely a címjegyzéket jeleníti meg."
 
 #: addressbook/gui/component/GNOME_Evolution_Addressbook.oaf.in.h:4
-#, fuzzy
 msgid "Configuration control for the Evolution Addressbook Storages."
-msgstr "Factory az Evolution címjegyzék komponenséhez."
+msgstr "Beállítóeszköz az Evolution Címjegyzék tárolóihoz."
 
 #: addressbook/gui/component/GNOME_Evolution_Addressbook.oaf.in.h:5
 #, fuzzy
@@ -495,14 +491,12 @@ msgid "LDAP server containing contact information"
 msgstr "Névjegyeket tartalmazó LDAP-kiszolgáló"
 
 #: addressbook/gui/component/addressbook-component.c:77
-#, fuzzy
 msgid "Public Contacts"
-msgstr "Névjegyek"
+msgstr "Nyilvános névjegyek"
 
 #: addressbook/gui/component/addressbook-component.c:77
-#, fuzzy
 msgid "Public folder containing contact information"
-msgstr "Névjegyeket tartalmazó mappa"
+msgstr "Névjegyeket tartalmazó nyilvános mappa"
 
 #: addressbook/gui/component/addressbook-component.c:567
 msgid "New Contact"
@@ -553,9 +547,8 @@ msgid "Error retrieving schema information"
 msgstr "Hiba a sémainformációk betöltése közben"
 
 #: addressbook/gui/component/addressbook-config.c:1184
-#, fuzzy
 msgid "Server did not respond with valid schema information"
-msgstr "Az IMAP kiszolgáló válasza nem tartalmaz %s információt"
+msgstr "A kiszolgáló nem adott vissza érvényes sémainformációt"
 
 #: addressbook/gui/component/addressbook-config.c:1630
 msgid "LDAP was not enabled in this build of Evolution"
@@ -591,7 +584,6 @@ msgstr ""
 "létezik-e és van-e jogod az eléréséhez."
 
 #: addressbook/gui/component/addressbook.c:490
-#, fuzzy
 msgid ""
 "We were unable to open this addressbook.  This either\n"
 "means you have entered an incorrect URI, or the LDAP server\n"
@@ -599,7 +591,7 @@ msgid ""
 msgstr ""
 "Nem sikerült megnyitni ezt a címjegyzéket. Ez vagy azt \n"
 "jelenti, hogy helytelen URI-t adtál meg, vagy az LDAP\n"
-"kiszolgáló nem mûködik."
+"kiszolgáló elérhetetlen."
 
 #: addressbook/gui/component/addressbook.c:495
 msgid ""
@@ -614,40 +606,37 @@ msgstr ""
 "az OpenLDAP-t az alábbi helyrõl.\n"
 
 #: addressbook/gui/component/addressbook.c:504
-#, fuzzy
 msgid ""
 "We were unable to open this addressbook.  This either\n"
 "means you have entered an incorrect URI, or the server\n"
 "is unreachable."
 msgstr ""
 "Nem sikerült megnyitni ezt a címjegyzéket. Ez vagy azt \n"
-"jelenti, hogy helytelen URI-t adtál meg, vagy az LDAP\n"
-"kiszolgáló nem mûködik."
+"jelenti, hogy helytelen URI-t adtál meg, vagy a\n"
+"kiszolgáló elérhetetlen."
 
 #. the user clicked cancel in the password dialog
 #: addressbook/gui/component/addressbook.c:582
 msgid "Accessing LDAP Server anonymously"
-msgstr ""
+msgstr "LDAP-kiszolgáló névtelen elérése"
 
 #: addressbook/gui/component/addressbook.c:625
-#, fuzzy
 msgid "Failed to authenticate.\n"
-msgstr "Nem sikerült bejelentkezni az IMAP kiszolgálóra."
+msgstr "Nem sikerült bejelentkezni.\n"
 
 #: addressbook/gui/component/addressbook.c:633
 #: addressbook/gui/component/addressbook.c:636
-#, fuzzy, c-format
+#, c-format
 msgid "%sEnter password for %s (user %s)"
-msgstr "Írd be %s jelszavát (%s felhasználó)"
+msgstr "%sÍrd be %s jelszavát (%s felhasználó)"
 
 #: addressbook/gui/component/addressbook.c:782
 msgid "Name begins with"
 msgstr "Név kezdõdik"
 
 #: addressbook/gui/component/addressbook.c:783
-#, fuzzy
 msgid "Email begins with"
-msgstr "Név kezdõdik"
+msgstr "E-mail kezdõdik"
 
 #: addressbook/gui/component/addressbook.c:784
 #: calendar/gui/cal-search-bar.c:53
@@ -805,7 +794,6 @@ msgid "<- _Remove"
 msgstr "<- _Törlés"
 
 #: addressbook/gui/component/ldap-config.glade.h:12
-#, fuzzy
 msgid "<< Fewer Options"
 msgstr "<< Kevesebb beállítás"
 
@@ -860,18 +848,16 @@ msgid "De_lete"
 msgstr "_Törlés"
 
 #: addressbook/gui/component/ldap-config.glade.h:27
-#, fuzzy
 msgid "Distinguished _name:"
-msgstr "Listanév:"
+msgstr "Megkülönböztetõ _név:"
 
 #: addressbook/gui/component/ldap-config.glade.h:28
 msgid "Email Address:"
 msgstr "E-mail cím:"
 
 #: addressbook/gui/component/ldap-config.glade.h:29
-#, fuzzy
 msgid "Evolution Attribute"
-msgstr "Evolution ébresztõ"
+msgstr "Evolution-attribútum"
 
 #: addressbook/gui/component/ldap-config.glade.h:30
 #, fuzzy
@@ -895,9 +881,8 @@ msgid "General"
 msgstr "Alap"
 
 #: addressbook/gui/component/ldap-config.glade.h:34
-#, fuzzy
 msgid "LDAP Attribute"
-msgstr "LDAP hitelesítés:"
+msgstr "LDAP-attribútum"
 
 #: addressbook/gui/component/ldap-config.glade.h:35
 #, fuzzy
@@ -1243,7 +1228,6 @@ msgid "_Log in method:"
 msgstr "_Bejelentkezési mód:"
 
 #: addressbook/gui/component/ldap-config.glade.h:125
-#, fuzzy
 msgid "_More Options >>"
 msgstr "_Több beállítás >>"
 
@@ -2609,16 +2593,15 @@ msgstr ""
 
 #: addressbook/gui/contact-editor/file-exists.glade.h:1
 msgid "Confirm Overwrite"
-msgstr ""
+msgstr "Felülírás megerõsítése"
 
 #: addressbook/gui/contact-editor/file-exists.glade.h:2
 msgid "Don't bother translating this string.  It's not used."
-msgstr ""
+msgstr "Don't bother translating this string.  It's not used."
 
 #: addressbook/gui/contact-editor/file-exists.glade.h:3
-#, fuzzy
 msgid "Overwrite"
-msgstr "Felülírod a fájlt?"
+msgstr "Felülírás"
 
 #: addressbook/gui/contact-editor/fulladdr.glade.h:1
 msgid "Address _2:"
@@ -2755,9 +2738,8 @@ msgid "Save List as VCard"
 msgstr "Lista mentése VCard-ként"
 
 #: addressbook/gui/contact-list-editor/e-contact-list-editor.etspec.h:1
-#, fuzzy
 msgid "Contact"
-msgstr "Névjegyek"
+msgstr "Névjegy"
 
 #: addressbook/gui/merging/e-card-duplicate-detected.glade.h:1
 msgid "Add Anyway"
@@ -2896,9 +2878,8 @@ msgid "TLS not Available"
 msgstr "TLS nem elérhetõ"
 
 #: addressbook/gui/widgets/e-addressbook-util.c:46
-#, fuzzy
 msgid "Addressbook does not exist"
-msgstr "`%s' fájl nem létezik."
+msgstr "A címjegyzék nem létezik"
 
 #: addressbook/gui/widgets/e-addressbook-util.c:47
 msgid "Other error"
@@ -3167,7 +3148,6 @@ msgid "Save in addressbook"
 msgstr "Mentés a címjegyzékbe"
 
 #: addressbook/gui/widgets/e-minicard-view.c:140
-#, fuzzy
 msgid ""
 "\n"
 "\n"
@@ -3765,9 +3745,8 @@ msgid "Folder containing appointments and events"
 msgstr "Találkozókat és eseményeket tartalmazó mappa"
 
 #: calendar/gui/component-factory.c:76
-#, fuzzy
 msgid "Public Calendar"
-msgstr "_Nyilvános naptár URL:"
+msgstr "Nyilvános naptár"
 
 #: calendar/gui/component-factory.c:77
 #, fuzzy
@@ -3788,9 +3767,8 @@ msgid "Folder containing to-do items"
 msgstr "Teendõket tartalmazó mappa"
 
 #: calendar/gui/component-factory.c:86
-#, fuzzy
 msgid "Public Tasks"
-msgstr "Feladatok nyomtatása"
+msgstr "Nyilváson feladatok"
 
 #: calendar/gui/component-factory.c:87
 #, fuzzy
@@ -5174,9 +5152,8 @@ msgstr "Szabad/foglalt információ _közzététele"
 
 #: calendar/gui/e-day-view.c:3740 calendar/gui/e-week-view.c:3539
 #: ui/evolution.xml.h:62
-#, fuzzy
 msgid "_Settings..."
-msgstr "_Levelezõ beállításai"
+msgstr "_Beállítások..."
 
 #: calendar/gui/e-day-view.c:3749 calendar/gui/e-week-view.c:3546
 #: mail/folder-browser.c:1731 ui/evolution-mail-message.xml.h:112
@@ -6438,9 +6415,8 @@ msgid "Evaluation of the search expression did not yield a boolean value"
 msgstr "A keresési kifejezés kiértékelése nem logikai értékre vezetett"
 
 #: calendar/pcs/query.c:1483
-#, fuzzy
 msgid "Parse error"
-msgstr "értelmezési hiba"
+msgstr "Értelmezési hiba"
 
 #.
 #. * These are the timezone names from the Olson timezone data.
@@ -8198,14 +8174,13 @@ msgid "Failed to unlock secret key: 3 bad passphrases given."
 msgstr ""
 
 #: camel/camel-gpg-context.c:777
-#, fuzzy, c-format
+#, c-format
 msgid "Unexpected response from GnuPG: %s"
-msgstr "Váratlan válasz a POP kiszolgálótól: %s"
+msgstr "Váratlan válasz a GnuPG-tõl kiszolgálótól: %s"
 
 #: camel/camel-gpg-context.c:787
-#, fuzzy
 msgid "No data provided"
-msgstr "Nincs fájlnév megadva."
+msgstr "Nincs adat megadva."
 
 #: camel/camel-gpg-context.c:830
 #, fuzzy
@@ -8511,7 +8486,7 @@ msgstr "Kerberos 4 hitelesítés használatával kapcsolódik a kiszolgálóhoz."
 
 #: camel/camel-sasl-plain.c:32
 msgid "PLAIN"
-msgstr ""
+msgstr "PLAIN"
 
 #: camel/camel-sasl-popb4smtp.c:34
 msgid "POP before SMTP"
@@ -8695,27 +8670,24 @@ msgid "Certificate not yet valid"
 msgstr ""
 
 #: camel/camel-tcp-stream-openssl.c:582
-#, fuzzy
 msgid "Certificate has expired"
-msgstr "_Tanúsítványazonosító:"
+msgstr "A tanúsítvány lejárt"
 
 #: camel/camel-tcp-stream-openssl.c:584
 msgid "CRL not yet valid"
-msgstr ""
+msgstr "A CRL még nem érvényes"
 
 #: camel/camel-tcp-stream-openssl.c:586
 msgid "CRL has expired"
-msgstr ""
+msgstr "A CRL lejárt"
 
 #: camel/camel-tcp-stream-openssl.c:591
-#, fuzzy
 msgid "Error in CRL"
-msgstr "Hiba %s betöltésekor"
+msgstr "Hiba a CRL-ben"
 
 #: camel/camel-tcp-stream-openssl.c:593
-#, fuzzy
 msgid "Out of memory"
-msgstr "Nincs bent"
+msgstr "Megtelt a memória"
 
 #: camel/camel-tcp-stream-openssl.c:595
 msgid "Zero-depth self-signed certificate"
