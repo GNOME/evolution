@@ -1,3 +1,8 @@
+2004-05-26  Sarfraaz Ahmed <asarfraaz@novell.com>
+
+	* e-shell.c (set_interactive): Implemented. Sends the "interactive"
+	message when the first window is created to all the components.
+
 2004-05-26  Not Zed  <NotZed@Ximian.com>
 
 	* importer/evolution-importer.c

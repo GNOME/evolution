@@ -151,7 +151,41 @@ static void
 set_interactive (EShell *shell,
 		 gboolean interactive)
 {
-	/* FIXME TODO */
+	GSList *component_list;
+	GSList *p;
+	GList *first_element;
+	int num_windows;
+	GtkWidget *view;
+
+	g_return_if_fail (E_IS_SHELL (shell));
+	
+	shell->priv->is_interactive = interactive;
+
+	num_windows = g_list_length (shell->priv->windows);
+	
+	/* We want to send the "interactive" message only when the first
+	window is created */
+	if (num_windows != 1)
+		return;
+
+	first_element = g_list_first (shell->priv->windows);
+	view = GTK_WIDGET (first_element->data);
+
+	component_list = e_component_registry_peek_list (shell->priv->component_registry);
+
+	for (p = component_list; p != NULL; p = p->next) {
+		EComponentInfo *info = p->data;
+		CORBA_Environment ev;
+
+		CORBA_exception_init (&ev);
+
+		GNOME_Evolution_Component_interactive (info->iface, interactive,GPOINTER_TO_INT (GDK_WINDOW_XWINDOW (view->window)), &ev);
+
+		/* Ignore errors, the components can decide to not implement
+		   this interface. */
+		
+		CORBA_exception_free (&ev);
+	}
 }
 
 
