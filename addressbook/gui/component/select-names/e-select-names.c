@@ -52,6 +52,8 @@ static void e_select_names_class_init	(ESelectNamesClass	 *klass);
 static void e_select_names_dispose (GObject *object);
 static void update_query (GtkWidget *widget, ESelectNames *e_select_names);
 
+static void sync_table_and_models (ESelectNamesModel *triggering_model, ESelectNames *esl);
+
 extern EvolutionShellClient *global_shell_client;
 
 static GtkDialogClass *parent_class = NULL;
@@ -112,6 +114,12 @@ GtkWidget *e_addressbook_create_ebook_table(char *name, char *string1, char *str
 GtkWidget *e_addressbook_create_folder_selector(char *name, char *string1, char *string2, int num1, int num2);
 
 static void
+search_result (EAddressbookModel *model, EBookViewStatus status, ESelectNames *esn)
+{
+	sync_table_and_models (NULL, esn);
+}
+
+static void
 set_book(EBook *book, EBookStatus status, ESelectNames *esn)
 {
 	g_object_set(esn->model,
@@ -142,6 +150,10 @@ addressbook_model_set_uri(ESelectNames *e_select_names, EAddressbookModel *model
 	}
 
 	book = e_book_new();
+
+	g_signal_connect (model,
+			  "search_result", G_CALLBACK (search_result),
+			  e_select_names);
 
 	g_object_ref(e_select_names);
 	g_object_ref(model);

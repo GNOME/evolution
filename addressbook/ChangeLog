@@ -1,3 +1,40 @@
+2003-03-11  Chris Toshok  <toshok@ximian.com>
+
+	[ fixes bug #39507 ]
+	* gui/component/select-names/e-select-names.c (search_result): new
+	function, sync the models after we do a search.
+	(addressbook_model_set_uri): connect to search_result.
+
+2003-03-11  Chris Toshok  <toshok@ximian.com>
+
+	* gui/component/select-names/e-select-names.c
+	(e_select_names_init): fix compiler warnings about deprecated
+	functions.
+	(e_select_names_child_free): unref the table model.
+	(remove_address): re-enable.
+	(section_right_click_cb): this is an ETable callback now.
+	(e_select_names_add_section): remove a gross gross awful hack, and
+	make the recipient tables ETables instead EEntry's.  We lose the
+	nice underlining, but we can add that back in as another ETable
+	style (like strikeout and bold), and we also fix the longstanding
+	scrolling problems (like bug #25148) and can finally remove
+	addresses by double clicking on them (which is also a bug
+	someplace I think.. dunno the # offhand.)
+
+	* gui/component/select-names/e-select-names-table-model.c
+	(clear_info): always set the count to -1, regardless of what
+	model->data is.
+
+	* gui/component/select-names/e-select-names-model.c: remove some
+	unused enums.
+
+	* gui/component/select-names/Makefile.am (etspec_DATA): add
+	e-select-names-section.etspec
+
+	* gui/component/select-names/e-select-names-section.etspec: new
+	file, spec for the To:/Cc:/Bcc: etable's in the select-names
+	dialog.
+
 2003-03-11  Not Zed  <NotZed@Ximian.com>
 
 	* backend/pas/pas-backend-file.c (INITIAL_VCARD): Updated phone
