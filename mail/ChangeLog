@@ -14,6 +14,31 @@
 
 2003-08-05  Not Zed  <NotZed@Ximian.com>
 
+	** See bug #32732
+
+	* message-list.c (mail_regen_list): use thread_new.
+
+	* mail-local.c (reconfigure_response): use thread_new.
+
+	* mail-display.c (stream_write_or_redisplay_when_loaded): use
+	thread_new.
+
+	* mail-config.c (mail_config_check_service): use thread_new rather
+	than queue.
+
+	* mail-callbacks.c (view_msg): change to use mail_get_messages(),
+	fixes FIXME.
+	(do_view_messages): handle get_messages callback.
+	(do_view_message): removed.
+
+	* mail-ops.c (mail_get_folderinfo): Use a new thread thread
+	semantic.
+	(mail_save_part): "
+	(mail_store_set_offline): "
+	(mail_sync_folder): use queued_slow thread queue.
+	(mail_expunge_folder): "
+	(mail_empty_trash): "
+
 	** See bug #47224.  Hook onto clicked rather than button_pressed,
 	so that dnd works.
 	
