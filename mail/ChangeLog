@@ -1,3 +1,12 @@
+2001-06-28  Jeffrey Stedfast  <fejj@ximian.com>
+
+	* component-factory.c (destination_folder_handle_drop): Since we
+	have an exception variable, we might as well use it when getting
+	folders too.
+
+	* folder-browser.c (message_list_drag_data_recieved): Call
+	gtk_drag_finish.
+
 2001-06-28  Dan Winship  <danw@ximian.com>
 
 	* mail-tools.c (mail_tool_uri_to_folder): After finding a folder,

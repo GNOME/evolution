@@ -433,7 +433,7 @@ message_list_drag_data_recieved (ETree *tree, int row, ETreePath path, int col,
 		fd = open (url, O_RDONLY);
 		if (fd == -1) {
 			g_free (url);
-			return;
+			goto fail;
 		}
 		
 		stream = camel_stream_fs_new_with_fd (fd);
@@ -457,11 +457,11 @@ message_list_drag_data_recieved (ETree *tree, int row, ETreePath path, int col,
 	case DND_TARGET_TYPE_X_EVOLUTION_MESSAGE:
 		folder = x_evolution_message_parse (selection_data->data, selection_data->length, &uids);
 		if (folder == NULL)
-			return;
+			goto fail;
 		
 		if (uids == NULL) {
 			camel_object_unref (CAMEL_OBJECT (folder));
-			return;
+			goto fail;
 		}
 		
 		mail_do_transfer_messages (folder, uids, context->action == GDK_ACTION_MOVE, fb->uri);
@@ -471,6 +471,13 @@ message_list_drag_data_recieved (ETree *tree, int row, ETreePath path, int col,
 	}
 	
 	camel_exception_clear (&ex);
+	
+	gtk_drag_finish (context, TRUE, TRUE, GDK_CURRENT_TIME);
+	
+ fail:
+	camel_exception_clear (&ex);
+	
+	gtk_drag_finish (context, FALSE, TRUE, GDK_CURRENT_TIME);
 }
 
 static void

@@ -396,9 +396,11 @@ destination_folder_handle_drop (EvolutionShellComponentDndDestinationFolder *fol
 		g_free (url);
 		break;
 	case ACCEPTED_DND_TYPE_MESSAGE_RFC822:
-		source = mail_tool_uri_to_folder (physical_uri, NULL);
-		if (!source)
+		source = mail_tool_uri_to_folder (physical_uri, &ex);
+		if (!source) {
+			camel_exception_clear (&ex);
 			return FALSE;
+		}
 		
 		/* write the message(s) out to a CamelStream so we can use it */
 		stream = camel_stream_mem_new ();
@@ -422,12 +424,14 @@ destination_folder_handle_drop (EvolutionShellComponentDndDestinationFolder *fol
 		inptr = strchr (name, ' ');
 		name = g_strndup (name, inptr - name);
 		
-		source = mail_tool_get_folder_from_urlname (url, name, 0, NULL);
+		source = mail_tool_get_folder_from_urlname (url, name, 0, &ex);
 		g_free (name);
 		g_free (url);
 		
-		if (!source)
+		if (!source) {
+			camel_exception_clear (&ex);
 			return FALSE;
+		}
 		
 		/* split the uids */
 		inptr++;
