@@ -1,4 +1,4 @@
-Evoluiton 1.3.2, 2003-04-09
+Evolution 1.3.2, 2003-04-09
 ---------------------------
 
 Bugzilla bugs fixed (see http://bugzilla.ximian.com/show_bug.cgi):
@@ -54,7 +54,7 @@ Bugzilla bugs fixed (see http://bugzilla.ximian.com/show_bug.cgi):
     #34505 - Duplicate alarm dialogs for appts in exchange calendar.
              (Rodrigo)
     #35926 - Contacts entry in appointment editor to be removed.
-             (Hans Petter)
+             (Hans Petter, Dan)
     #37935 - Drawing problems in mini-calendar.  (Hans Petter)
     #39262 - Crash when importing an ics file to local calendar.  (Rodrigo)
     #39356 - New evo users didn't get calendar.  (Rodrigo)
