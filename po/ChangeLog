@@ -1,3 +1,7 @@
+2001-05-19  Akira TAGOH  <tagoh@gnome.gr.jp>
+
+	* ja.po: Updated Japanese translation.
+
 2001-05-16  JP Rosevear  <jpr@ximian.com>
 
 	* POTFILES.in: Remove importers/evolution-gnomecard-importer.c
@@ -52,7 +56,7 @@
 	
 	* lt.po: Updated Lithuanian translation.
 
-2001-05-05  Héctor García Álvarez <hector@scouts-es.org>
+2001-05-05  HñÄtor GarcùÂ Álvarez <hector@scouts-es.org>
 
         * es.po: Updated Spanish translation.
 
@@ -98,7 +102,7 @@
 
 	* sv.po: Updated Swedish translation.
 
-2001-04-24  Héctor García Álvarez <hector@scouts-es.org>
+2001-04-24  HñÄtor GarcùÂ Álvarez <hector@scouts-es.org>
 
         * es.po: Updated Spanish translation.
 
@@ -109,7 +113,7 @@
 2001-04-24  Fatih Demir <kabalak@gtranslator.org>
 
 	* tr.po: Committed updated Turkish translation
-		by Görkem Cetin.
+		by G‹Ókem Cetin.
 
 2001-04-23  Jeffrey Stedfast  <fejj@ximian.com>
 
@@ -156,7 +160,7 @@
 	
 	* nl.po: Updated Dutch translation.
 
-2001-04-18  Héctor García Álvarez <hector@scouts-es.org>
+2001-04-18  HñÄtor GarcùÂ Álvarez <hector@scouts-es.org>
 
         * es.po: Updated Spanish translation.
 	
@@ -181,7 +185,7 @@
 	* POTFILES.in: Removed openpgp-utils.c and added the camel-pgp-*.c
 	files. Added camel-cipher-context.c also.
 
-2001-04-12  Héctor García Álvarez <hector@scouts-es.org>
+2001-04-12  HñÄtor GarcùÂ Álvarez <hector@scouts-es.org>
 
         * es.po: Updated Spanish translation.
 	
@@ -191,7 +195,7 @@
 
 2001-04-12  Christian Rose  <menthos@menthos.com>
 
-	* sv.po: Fixed Swedish translation. Thanks to Göran Uddeborg
+	* sv.po: Fixed Swedish translation. Thanks to G‹Óan Uddeborg
 	<goeran@uddeborg.pp.se>.
 
 2001-04-12  Mikael Hallendal  <micke@codefactory.se>
@@ -224,12 +228,12 @@
 
 2001-04-04  Kjartan Maraas  <kmaraas@gnome.org>
 
-	* no.po: Updated Norwegian (bokmål) translation.
+	* no.po: Updated Norwegian (bokméÍ) translation.
 	
 2001-04-04  Fatih Demir <kabalak@gtranslator.org>
 
 	* tr.po: Committed updated Turkish translation
-		by Görkem.
+		by G‹Ókem.
 
 2001-04-01  Jarkko Ranta  <jjranta@cc.joensuu.fi>
 
@@ -239,7 +243,7 @@
 
 	* fi.po: Updated Finnish translation.
 
-2001-03-29  Héctor García Álvarez <hector@scouts-es.org>
+2001-03-29  HñÄtor GarcùÂ Álvarez <hector@scouts-es.org>
 
         * es.po: Updated Spanish translation.
 	
@@ -250,7 +254,7 @@
 2001-03-25  Fatih Demir <kabalak@gtranslator.org>
 
 	* tr.po: Committed updated Turkish translation
-		by Görkem.
+		by G‹Ókem.
 
 2001-03-22  Dan Winship  <danw@ximian.com>
 
@@ -262,7 +266,7 @@
 
 	* ja.po: Updated Japanese translation.
 
-2001-03-21  Héctor García Álvarez <hector@scouts-es.org>
+2001-03-21  HñÄtor GarcùÂ Álvarez <hector@scouts-es.org>
 
         * es.po: Updated Spanish translation.
 
@@ -272,7 +276,7 @@
 
 2001-03-20  Kjartan Maraas  <kmaraas@gnome.org>
 
-	* no.po: Updated Norwegian (bokmål) translation.
+	* no.po: Updated Norwegian (bokméÍ) translation.
 
 2001-03-19  Jarkko Ranta  <jjranta@cc.joensuu.fi>
 
@@ -280,7 +284,7 @@
 
 2001-03-18  Fatih Demir <kabalak@gtranslator.org>
 
-	* tr.po: Small update by Görkem Cetin.
+	* tr.po: Small update by G‹Ókem Cetin.
 
 2001-03-16  Jeffrey Stedfast  <fejj@ximian.com>
 
@@ -288,7 +292,7 @@
 
 2001-03-16  Kjartan Maraas  <kmaraas@gnome.org>
 
-	* no.po: Updated Norwegian (bokmål) translation.
+	* no.po: Updated Norwegian (bokméÍ) translation.
 
 2001-03-15  Matthias Warkus  <mawarkus@gnome.org>
 
@@ -300,7 +304,7 @@
 
 2001-03-15  Kjartan Maraas  <kmaraas@gnome.org>
 
-	* no.po: Updated Norwegian (bokmål) translation.
+	* no.po: Updated Norwegian (bokméÍ) translation.
 
 2001-03-15  Pablo Saratxaga  <pablo@mandrakesoft.com>
 
@@ -318,14 +322,14 @@
 
 2001-03-13  Kjartan Maraas  <kmaraas@gnome.org>
 
-	* no.po: Updated Norwegian (bokmål) translation.
+	* no.po: Updated Norwegian (bokméÍ) translation.
 	* POTFILES.in: Updated with a bunch of missing files.
 	
 2001-03-12  Jarkko Ranta  <jjranta@cc.joensuu.fi>
 
 	* fi.po: Updated Finnish translation.
 
-2001-03-11  Héctor García Álvarez <hector@scouts-es.org>
+2001-03-11  HñÄtor GarcùÂ Álvarez <hector@scouts-es.org>
 
         * es.po: Updated Spanish translation.
 
@@ -333,7 +337,7 @@
 
 	* ru.po: updated russian translation.
 
-2001-03-10  Héctor García Álvarez <hector@scouts-es.org>
+2001-03-10  HñÄtor GarcùÂ Álvarez <hector@scouts-es.org>
 
         * es.po: Updated Spanish translation.
 
@@ -343,11 +347,11 @@
 
 2001-03-08  Fatih Demir <kabalak@gtranslator.org>
 
-	* tr.po: Committed updated Turkish translation by Görkem Cetin.
+	* tr.po: Committed updated Turkish translation by G‹Ókem Cetin.
 
 2001-03-05  Kjartan Maraas  <kmaraas@gnome.org>
 
-	* no.po: Updated Norwegian (bokmål) translation.
+	* no.po: Updated Norwegian (bokméÍ) translation.
 	* POTFILES.in: Updated with a bunch of missing files.
 	
 2001-03-05  JP Rosevear  <jpr@ximian.com>
@@ -475,7 +479,7 @@
 
 	* sk.po: Updated Slovak translation.
 
-2001-02-09  Héctor García Álvarez <hector@scouts-es.org>
+2001-02-09  HñÄtor GarcùÂ Álvarez <hector@scouts-es.org>
 
         * es.po: Updated Spanish translation.
 
@@ -486,14 +490,14 @@
 2001-02-07  Fatih Demir	<kabalak@kabalak.net>
 	
 	* tr.po: Committed updated Turkish translation by
-		Görkem Cetin.
+		G‹Ókem Cetin.
 
 2001-02-07  Christopher R. Gabriel  <cgabriel@bug.rulez.org>
 
 	* it.po: Updated italian translation from Clara Tattoni
 	<clara.tattoni@libero.it> 
 
-2001-02-06  Héctor García Álvarez <hector@scouts-es.org>
+2001-02-06  HñÄtor GarcùÂ Álvarez <hector@scouts-es.org>
 
         * es.po: Updated Spanish translation.
 
@@ -505,7 +509,7 @@
 
         * hu.po: Terminology fixes by Andras Timar <timar@gnome.hu>
 
-2001-01-30  Héctor García Álvarez <hector@scouts-es.org>
+2001-01-30  HñÄtor GarcùÂ Álvarez <hector@scouts-es.org>
 
         * es.po: Updated Spanish translation.
 
@@ -521,7 +525,7 @@
 
 	* ru.po: updated russian translation.
 
-2001-01-27  Héctor García Álvarez <hector@scouts-es.org>
+2001-01-27  HñÄtor GarcùÂ Álvarez <hector@scouts-es.org>
 
         * es.po: Updated Spanish translation.
 
@@ -534,7 +538,7 @@
 
 	* pt_BR.po: Updated brazilian portuguese translation
 
-2001-01-26  Héctor García Álvarez <hector@scouts-es.org>
+2001-01-26  HñÄtor GarcùÂ Álvarez <hector@scouts-es.org>
 
         * es.po: Updated Spanish translation.
 	
@@ -542,7 +546,7 @@
 
 	* ru.po: updated russian translation.
 
-2001-01-24  Héctor García Álvarez <hector@scouts-es.org>
+2001-01-24  HñÄtor GarcùÂ Álvarez <hector@scouts-es.org>
 
         * es.po: Updated Spanish translation.
 
@@ -551,7 +555,7 @@
         * hu.po: Tons of fixes by Andras and Emese (spelling,
           terminology, headers)
 
-2001-01-23  Martin Norbäck  <d95mback@dtek.chalmers.se>
+2001-01-23  Martin NorbçÄk  <d95mback@dtek.chalmers.se>
 
 	* sv.po: Updated Swedish translation.
 
@@ -573,7 +577,7 @@
 
 2001-01-18  Kjartan Maraas  <kmaraas@gnome.org>
 
-	* no.po: Updated Norwegian (bokmål) translation.
+	* no.po: Updated Norwegian (bokméÍ) translation.
 	* update.sh: Removed old script.
 	
 2001-01-17  Dave Camp <dave@ximian.com>
@@ -587,7 +591,7 @@
 
 	* ru.po: updated russian translation.
 
-2001-01-16  Martin Norbäck  <d95mback@dtek.chalmers.se>
+2001-01-16  Martin NorbçÄk  <d95mback@dtek.chalmers.se>
 
 	* sv.po: Updated Swedish translation, using xml-i18n-update.
 
@@ -595,7 +599,7 @@
 
 	* POTFILES.(in|skip): Updated after consulting Michael.
 
-2001-01-16  Martin Norbäck  <d95mback@dtek.chalmers.se>
+2001-01-16  Martin NorbçÄk  <d95mback@dtek.chalmers.se>
 
 	* sv.po: Updated Swedish translation, using xml-i18n-update.
 
@@ -604,7 +608,7 @@
 	* it.po: Updated italian translation from Clara Tattoni
 	<clara.tattoni@libero.it> 
 
-2001-01-15  Héctor García Álvarez <hector@scouts-es.org>
+2001-01-15  HñÄtor GarcùÂ Álvarez <hector@scouts-es.org>
 
         * es.po: Updated Spanish translation.
 	
@@ -617,7 +621,7 @@
 
 	* sv.po: Updated Swedish translation.
 
-2001-01-11  Héctor García Álvarez <hector@scouts-es.org>
+2001-01-11  HñÄtor GarcùÂ Álvarez <hector@scouts-es.org>
 
         * es.po: Updated Spanish translation.
 	
@@ -639,7 +643,7 @@
 	* POTFILES.in: Removed .oaf.in files until the whole of Evolution
 	uses the xml-i18n-tools framework.
 
-2001-01-09  Héctor García Álvarez <hector@scouts-es.org>
+2001-01-09  HñÄtor GarcùÂ Álvarez <hector@scouts-es.org>
 
         * es.po: Updated Spanish translation.
 	
@@ -649,7 +653,7 @@
 
 2001-01-09  Kjartan Maraas  <kmaraas@gnome.org>
 
-	* no.po: Updated Norwegian (bokmål) translation.
+	* no.po: Updated Norwegian (bokméÍ) translation.
 	
 2001-01-07  Benedikt Roth  <Benedikt.Roth@gmx.net>
 
@@ -675,7 +679,7 @@
 
 	* sv.po: Updated Swedish translation.
 
-2001-01-03  Héctor García Álvarez <hector@scouts-es.org>
+2001-01-03  HñÄtor GarcùÂ Álvarez <hector@scouts-es.org>
 
         * es.po: Updated Spanish translation.
 
@@ -696,7 +700,7 @@
 
 	* no.po: Updated Norwegian translation.
 
-2000-12-23  Héctor García Álvarez <hector@scouts-es.org>
+2000-12-23  HñÄtor GarcùÂ Álvarez <hector@scouts-es.org>
 
         * es.po: Updated Spanish translation.
 	
@@ -720,7 +724,7 @@
 
 	* no.po: Updated Norwegian translation.
 
-2000-12-18  Héctor García Álvarez <hector@scouts-es.org>
+2000-12-18  HñÄtor GarcùÂ Álvarez <hector@scouts-es.org>
 
         * es.po: Updated Spanish translation.
 	
@@ -792,13 +796,13 @@
 
 2000-12-05  Kjartan Maraas  <kmaraas@gnome.org>
 
-	* no.po: Updated Norwegian (bokmål) translation.
+	* no.po: Updated Norwegian (bokméÍ) translation.
 	
 2000-12-04  Valek Filippov  <frob@df.ru>
 
 	* ru.po: updated russian translation.
 
-2000-12-03  Héctor García Álvarez <hector@scouts-es.org>
+2000-12-03  HñÄtor GarcùÂ Álvarez <hector@scouts-es.org>
 
         * es.po: Updated Spanish translation.
 
@@ -820,13 +824,13 @@
 
 2000-11-30  Kjartan Maraas  <kmaraas@gnome.org>
 
-	* no.po: Updated Norwegian (bokmål) translation.
+	* no.po: Updated Norwegian (bokméÍ) translation.
 	
 2000-11-30  Valek Filippov  <frob@df.ru>
 
 	* ru.po: updated russian translation.
 
-2000-11-29  Héctor García Álvarez <hector@scouts-es.org>
+2000-11-29  HñÄtor GarcùÂ Álvarez <hector@scouts-es.org>
 
         * es.po: Updated Spanish translation.
 
@@ -856,7 +860,7 @@
 	* POTFILES.in: Removed mail/message-thread.c and added
 	camel/camel-folder-thread.c
 
-2000-11-20  Héctor García Álvarez <hector@scouts-es.org>
+2000-11-20  HñÄtor GarcùÂ Álvarez <hector@scouts-es.org>
 
         * es.po: Updated Spanish translation.
 
@@ -868,7 +872,7 @@
 
 	* sv.po: Updated Swedish translation.
 
-2000-11-17  Héctor García Álvarez <hector@scouts-es.org>
+2000-11-17  HñÄtor GarcùÂ Álvarez <hector@scouts-es.org>
 
         * es.po: Updated Spanish translation.
 	
@@ -910,7 +914,7 @@
 
 	* ru.po: updated russian translation.
 
-2000-11-08  Héctor García Álvarez <hector@scouts-es.org>
+2000-11-08  HñÄtor GarcùÂ Álvarez <hector@scouts-es.org>
 
         * es.po: Updated Spanish translation.
 
@@ -922,7 +926,7 @@
 
 	* sv.po: Updated Swedish translation.
 
-2000-11-06  Héctor García Álvarez <hector@scouts-es.org>
+2000-11-06  HñÄtor GarcùÂ Álvarez <hector@scouts-es.org>
 
         * es.po: Updated Spanish translation.
 
@@ -1020,7 +1024,7 @@
 	
 2000-10-30  Kjartan Maraas  <kmaraas@gnome.org>
 
-	* no.po: Updated Norwegian (bokmål) translation.
+	* no.po: Updated Norwegian (bokméÍ) translation.
 	
 2000-10-30  Valek Filippov  <frob@df.ru>
 
@@ -1061,7 +1065,7 @@
 
 2000-10-26  Kjartan Maraas  <kmaraas@gnome.org>
 
-	* no.po: Updated Norwegian (bokmål) translation.
+	* no.po: Updated Norwegian (bokméÍ) translation.
 	
 2000-10-26  Matthias Warkus  <mawa@iname.com>
 
@@ -1121,7 +1125,7 @@
 2000-10-14  Kjartan Maraas  <kmaraas@gnome.org>
 
 	* nn.po: Added Norwegian (nynorsk) translation.
-	* no.po: Updated Norwegian (bokmål) translation.
+	* no.po: Updated Norwegian (bokméÍ) translation.
 	
 2000-10-14  Almer S. Tigelaar  <almer1@dds.nl>
 
@@ -1155,7 +1159,7 @@
 
 	* sv.po: Updated Swedish translation.
 
-2000-10-08  Héctor García Alvarez  <hector@scouts-es.org>
+2000-10-08  HñÄtor GarcùÂ Alvarez  <hector@scouts-es.org>
 
         * es.po: updated Spanish translation.
 	
@@ -1179,11 +1183,11 @@
 
 	* sv.po: Updated Swedish translation.
 
-2000-10-05  Héctor García Alvarez  <hector@scouts-es.org>
+2000-10-05  HñÄtor GarcùÂ Alvarez  <hector@scouts-es.org>
 
         * es.po: updated Spanish translation.
 
-2000-10-04  Héctor García Alvarez  <hector@scouts-es.org>
+2000-10-04  HñÄtor GarcùÂ Alvarez  <hector@scouts-es.org>
 
         * es.po: updated Spanish translation.
 
@@ -1195,7 +1199,7 @@
 
 	* no.po: Updated Norwegian translation.
 	
-2000-10-03  Héctor García Álvarez  <hector@scouts-es.org>
+2000-10-03  HñÄtor GarcùÂ Álvarez  <hector@scouts-es.org>
 
 	* es.po: updated Spanish translation.
 
@@ -1642,7 +1646,7 @@
 	* README.tools: Added readme file, which explains the
 	use of the newly checked in po tools.
 
-	hmm, looking forward to tomorrow...viva los compleaños!
+	hmm, looking forward to tomorrow...viva los compleaĞs!
 	:)
 
 2000-06-05  Fatih Demir	<kabalak@gmx.net>
@@ -1760,7 +1764,7 @@
 
 	* sv.po: Updated Swedish translation.
 
-2000-05-08  Héctor García Álvarez <hector@scouts-es.org>
+2000-05-08  HñÄtor GarcùÂ Álvarez <hector@scouts-es.org>
 
 	* es.po: added translation to spanish.
 
