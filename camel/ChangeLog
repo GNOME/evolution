@@ -1,3 +1,10 @@
+2001-01-11  Dan Winship  <danw@ximian.com>
+
+	* camel-folder.c (camel_folder_copy_message_to): Fix a locking
+	problem. (One branch of an if statement was returning with the
+	lock still locked.) Also remove the deprecation comments, to match
+	move_message_to.
+
 2001-01-10  Jeffrey Stedfast  <fejj@helixcode.com>
 
 	* providers/local/camel-local-provider.c: Changed the descriptions
