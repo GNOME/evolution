@@ -1,5 +1,16 @@
 2000-06-01  Ettore Perazzoli  <ettore@helixcode.com>
 
+	* e-shell-view.c (DEFAULT_TREE_WIDTH): Made the tree 150 pixel
+	wide [instead of 100].
+	(setup_widgets): Use `DEFAULT_TREE_WIDTH' instead of
+	`DEFAULT_SHORTCUT_BAR_WIDTH' where appropriate.
+	(e_shell_view_construct): Hide the folder bar by default.
+
+	* e-storage-set-view.c (e_storage_set_view_construct): Set
+	auto-resize mode for column one.
+
+2000-06-01  Ettore Perazzoli  <ettore@helixcode.com>
+
 	* e-shell-view-menu.c (e_shell_view_menu_setup): Set the
 	statusbar.
 

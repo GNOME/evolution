@@ -765,6 +765,7 @@ e_storage_set_view_construct (EStorageSetView *storage_set_view,
 	gtk_ctree_set_expander_style (ctree, GTK_CTREE_EXPANDER_SQUARE);
 	gtk_clist_set_selection_mode (GTK_CLIST (ctree), GTK_SELECTION_BROWSE);
 	gtk_clist_set_row_height (GTK_CLIST (ctree), E_SHELL_MINI_ICON_SIZE);
+	gtk_clist_set_column_auto_resize (GTK_CLIST (ctree), 0, TRUE);
 	
 	priv = storage_set_view->priv;
 

@@ -96,7 +96,7 @@ enum {
 static guint signals[LAST_SIGNAL] = { 0 };
 
 #define DEFAULT_SHORTCUT_BAR_WIDTH 100
-#define DEFAULT_TREE_WIDTH         100
+#define DEFAULT_TREE_WIDTH         130
 
 #define DEFAULT_WIDTH 600
 #define DEFAULT_HEIGHT 600
@@ -262,7 +262,7 @@ setup_widgets (EShellView *shell_view)
 	priv->view_hpaned = e_hpaned_new ();
 	e_paned_add1 (E_PANED (priv->view_hpaned), priv->storage_set_view_box);
 	e_paned_add2 (E_PANED (priv->view_hpaned), priv->notebook);
-	e_paned_set_position (E_PANED (priv->view_hpaned), DEFAULT_SHORTCUT_BAR_WIDTH);
+	e_paned_set_position (E_PANED (priv->view_hpaned), DEFAULT_TREE_WIDTH);
 
 	gtk_box_pack_start (GTK_BOX (priv->view_vbox), priv->view_title_bar,
 			    FALSE, FALSE, 0);
@@ -436,6 +436,8 @@ e_shell_view_construct (EShellView *shell_view,
 	setup_bonobo_ui_handler (shell_view);
 
 	e_shell_view_menu_setup (shell_view);
+
+	e_shell_view_set_folder_bar_mode (shell_view, E_SHELL_VIEW_SUBWINDOW_HIDDEN);
 }
 
 GtkWidget *
