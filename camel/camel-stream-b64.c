@@ -552,7 +552,7 @@ my_reset (CamelStream *stream)
 
 
 void
-camel_stream_b64_write_to_stream (CamelStream *stream, 
+camel_stream_b64_write_to_stream (CamelStreamB64 *stream_b64, 
 				  CamelStream *output_stream)
 {
 	gchar tmp_buf[4096];
@@ -565,10 +565,10 @@ camel_stream_b64_write_to_stream (CamelStream *stream,
 	 * to an output stream.
 	 */
 	g_assert (output_stream);
-	g_assert (stream);
+	g_assert (stream_b64);
 	
-	while (!camel_stream_eos (stream)) {
-		nb_read = camel_stream_read (stream, tmp_buf, 4096);
+	while (!camel_stream_eos (CAMEL_STREAM (stream_b64))) {
+		nb_read = camel_stream_read (CAMEL_STREAM (stream_b64), tmp_buf, 4096);
 		nb_written = 0;
 		while (nb_written < nb_read) 
 			nb_written += camel_stream_write (output_stream, tmp_buf, nb_read);

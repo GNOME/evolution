@@ -118,7 +118,7 @@ void                  camel_stream_b64_set_mode                   (CamelStreamB6
 
 /* utility function that writes the whole de/en-coded
    stream to an output stream */
-void                  camel_stream_b64_write_to_stream            (CamelStream *stream, 
+void                  camel_stream_b64_write_to_stream            (CamelStreamB64 *stream, 
 								   CamelStream *output_stream);
 
 

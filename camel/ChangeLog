@@ -1,5 +1,13 @@
 2000-03-02  bertrand  <bertrand@helixcode.com>
 
+	* camel-stream-b64.c (camel_stream_b64_write_to_stream): 
+	use CamelStreamB64 type for the input stream.
+
+	* camel-mime-part.c (_get_content_object): remove 
+	debugging trace
+	(_write_content_to_stream): implement the b64 
+	encoding the new way (that is using camel_stream_b64)
+
 	* camel-data-wrapper.c (my_write_to_stream): 
 	fix implementation so that it writes properly
 	to the output stream even.

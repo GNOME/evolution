@@ -630,7 +630,6 @@ _get_content_object (CamelMedium *medium)
 			break;
 		}
 
-		printf ("*************************** encoding : %d\n", mime_part->encoding);
 		camel_mime_part_construct_content_from_stream (mime_part, decoded_stream);
 		
 	} else {
@@ -662,6 +661,7 @@ _write_content_to_stream (CamelMimePart *mime_part, CamelStream *stream)
 {
 	CamelMedium *medium = CAMEL_MEDIUM (mime_part);
 	CamelStream *wrapper_stream;
+	CamelStreamB64 *stream_b64;
 
 	CamelDataWrapper *content = medium->content;
 	CAMEL_LOG_FULL_DEBUG ( "Entering CamelMimePart::_write_content_to_stream\n");
@@ -675,9 +675,16 @@ _write_content_to_stream (CamelMimePart *mime_part, CamelStream *stream)
 		camel_data_wrapper_write_to_stream (content, stream);
 		break;
 	case CAMEL_MIME_PART_ENCODING_BASE64:
+		/* encode the data wrapper output stream in base 64 ... */
 		wrapper_stream = camel_data_wrapper_get_output_stream (content);
+		stream_b64 = CAMEL_STREAM_B64 (camel_stream_b64_new_with_input_stream (wrapper_stream));
+		camel_stream_b64_set_mode (stream_b64, CAMEL_STREAM_B64_ENCODER);
 		
-		gmime_encode_base64_to_stream (wrapper_stream, stream);
+		/*  ... and write it to the output stream in a blocking way */
+		camel_stream_b64_write_to_stream (stream_b64, stream);
+		
+		/* now free the intermediate b64 stream */
+		gtk_object_unref (GTK_OBJECT (stream_b64));
 		break;
 	default:
 		g_warning ("Encoding type `%s' not supported.",
