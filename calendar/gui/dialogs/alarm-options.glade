@@ -86,7 +86,7 @@
 	    <snap>False</snap>
 	    <wrap>False</wrap>
 	    <value>1</value>
-	    <lower>0</lower>
+	    <lower>1</lower>
 	    <upper>999</upper>
 	    <step>1</step>
 	    <page>10</page>
