@@ -1,3 +1,18 @@
+2001-09-05  Ettore Perazzoli  <ettore@ximian.com>
+
+	[Fix #958, ShellComponents should not be created by factories, for
+	the calendar.]
+
+	* gui/GNOME_Evolution_Calendar.oaf.in: Remove the
+	ShellComponentFactory.
+
+	* gui/component-factory.c (create_object): Renamed from
+	`component_fn'.  Don't get any args.
+	(component_factory_init): Create the component using
+	`create_object()' and register it into OAF.
+	(COMPONENT_FACTORY_ID): Removed.
+	(COMPONENT_ID): New.
+
 2001-09-04  Federico Mena Quintero  <federico@ximian.com>
 
 	* gui/component-factory.c (sc_user_create_new_item_cb):

@@ -41,9 +41,9 @@
 
 
 
-/* OAFIID for the component factory */
-#define COMPONENT_FACTORY_ID "OAFIID:GNOME_Evolution_Calendar_ShellComponentFactory"
-
+/* OAFIID for the component.  */
+#define COMPONENT_ID "OAFIID:GNOME_Evolution_Calendar_ShellComponent"
+ 
 /* Folder type IDs */
 #define FOLDER_CALENDAR "calendar"
 #define FOLDER_TASKS "tasks"
@@ -479,8 +479,7 @@ destroy_cb (EvolutionShellComponent *shell_component,
 /* The factory function.  */
 
 static BonoboObject *
-factory_fn (BonoboGenericFactory *factory,
-	    void *closure)
+create_object (void)
 {
 	EvolutionShellComponent *shell_component;
 	
@@ -498,6 +497,7 @@ factory_fn (BonoboGenericFactory *factory,
 			    GTK_SIGNAL_FUNC (owner_set_cb), NULL);
 	gtk_signal_connect (GTK_OBJECT (shell_component), "owner_unset",
 			    GTK_SIGNAL_FUNC (owner_unset_cb), NULL);
+
 #if 0
 	gtk_signal_connect (GTK_OBJECT (shell_component), "destroy",
 			    GTK_SIGNAL_FUNC (destroy_cb), NULL);
@@ -526,17 +526,16 @@ factory_fn (BonoboGenericFactory *factory,
 }
 
 
-
 void
 component_factory_init (void)
 {
-	if (factory != NULL)
-		return;
+	BonoboObject *object;
+	int result;
 
-	factory = bonobo_generic_factory_new (COMPONENT_FACTORY_ID, factory_fn, NULL);
-	bonobo_running_context_auto_exit_unref (BONOBO_OBJECT (factory));
+	object = create_object ();
 
-	if (factory == NULL)
+	result = oaf_active_server_register (COMPONENT_ID, bonobo_object_corba_objref (object));
+
+	if (result == OAF_REG_ERROR)
 		g_error ("Cannot initialize Evolution's calendar component.");
-
 }
