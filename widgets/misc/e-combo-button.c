@@ -73,7 +73,7 @@ create_empty_image_widget (void)
 	GtkWidget *image_widget;
 	GdkPixbuf *pixbuf;
 
-	pixbuf = e_icon_factory_get_icon (NULL, 16);
+	pixbuf = e_icon_factory_get_icon (NULL, E_ICON_SIZE_MENU);
 
 	image_widget = gtk_image_new_from_pixbuf (pixbuf);
 

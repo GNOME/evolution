@@ -1,3 +1,12 @@
+2004-05-17  Jeffrey Stedfast  <fejj@novell.com>
+
+	* e-url-entry.c (init): Use E_ICON_SIZE_BUTTON for the icon size
+	in the e_icon_factory_get_icon() call.
+
+	* e-combo-button.c (create_empty_image_widget): Don't hard-code
+	the size of the icon in pixels, instead use the appropriate
+	E_ICON_SIZE_ enum.
+
 2004-05-17  JP Rosevear  <jpr@novell.com>
 
 	Fixes #58460

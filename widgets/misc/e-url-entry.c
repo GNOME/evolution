@@ -104,7 +104,7 @@ init (EUrlEntry *url_entry)
 	priv->button = gtk_button_new ();
 	gtk_widget_set_sensitive (priv->button, FALSE);
 	gtk_box_pack_start (GTK_BOX (url_entry), priv->button, FALSE, FALSE, 0);
-	pixbuf = e_icon_factory_get_icon ("stock_connect-to-url", 16);
+	pixbuf = e_icon_factory_get_icon ("stock_connect-to-url", E_ICON_SIZE_BUTTON);
 	pixmap = gtk_image_new_from_pixbuf (pixbuf);
 	g_object_unref (pixbuf);
 	gtk_container_add (GTK_CONTAINER (priv->button), pixmap);
