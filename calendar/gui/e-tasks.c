@@ -382,7 +382,7 @@ search_bar_sexp_changed_cb (CalSearchBar *cal_search, const char *sexp, gpointer
 	priv = tasks->priv;
 
 	model = e_calendar_table_get_model (E_CALENDAR_TABLE (priv->tasks_view));
-	e_cal_model_set_query (model, sexp);
+	e_cal_model_set_search_query (model, sexp);
 }
 
 /* Callback used when the selected category in the search bar changes */
@@ -642,7 +642,8 @@ static void
 e_tasks_init (ETasks *tasks)
 {
 	ETasksPrivate *priv;
-
+	ECalModel *model;
+	
 	priv = g_new0 (ETasksPrivate, 1);
 	tasks->priv = priv;
 
@@ -654,6 +655,9 @@ e_tasks_init (ETasks *tasks)
 	priv->view_instance = NULL;
 	priv->view_menus = NULL;
 	priv->current_uid = NULL;
+
+	model = e_calendar_table_get_model (E_CALENDAR_TABLE (priv->tasks_view));
+	e_cal_model_set_search_query (model, "#t");
 }
 
 /* Callback used when the set of categories changes in the calendar client */

@@ -1,3 +1,11 @@
+2004-03-15  JP Rosevear  <jpr@ximian.com>
+
+	* gui/e-tasks.c (search_bar_sexp_changed_cb): set the search query
+	(e_tasks_init): set the query to be #t by default
+
+	* gui/e-cal-model.c (redo_queries): use the search query if there
+	is one (and no time is set), make sure to dup the #f
+
 2004-03-15  JP Rosevear <jpr@ximian.com>
 
 	* gui/dialogs/comp-editor-page.c (comp_editor_page_fill_widgets):

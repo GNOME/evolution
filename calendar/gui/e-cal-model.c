@@ -1469,8 +1469,10 @@ redo_queries (ECalModel *model)
 						   "     %s)",
 						   iso_start, iso_end, 
 						   priv->search_sexp ? priv->search_sexp : "");
+	} else if (priv->search_sexp) {
+		priv->full_sexp = g_strdup (priv->search_sexp);
 	} else {
-		priv->full_sexp = ("#f");
+		priv->full_sexp = g_strdup ("#f");
 	}	
 	
 	/* clean up the current contents */
