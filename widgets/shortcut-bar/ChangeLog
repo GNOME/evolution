@@ -1,5 +1,9 @@
 2000-08-16  Larry Ewing  <lewing@helixcode.com>
 
+	* e-icon-bar.c (e_icon_bar_init): remove COLOR_TEXT references.
+
+2000-08-16  Larry Ewing  <lewing@helixcode.com>
+
 	* e-icon-bar.h (enum): get rid of COLOR_TEXT.
 	(struct _EIconBarItem): add pixbuf member to hold unmodified
 	pixbuf.

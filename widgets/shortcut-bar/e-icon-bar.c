@@ -249,10 +249,6 @@ e_icon_bar_init (EIconBar *icon_bar)
 
 	colormap = gtk_widget_get_colormap (GTK_WIDGET (icon_bar));
 
-	icon_bar->colors[E_ICON_BAR_COLOR_TEXT].red   = 65535;
-	icon_bar->colors[E_ICON_BAR_COLOR_TEXT].green = 0;
-	icon_bar->colors[E_ICON_BAR_COLOR_TEXT].blue  = 0;
-
 	icon_bar->colors[E_ICON_BAR_COLOR_EDITING_TEXT].red   = 0;
 	icon_bar->colors[E_ICON_BAR_COLOR_EDITING_TEXT].green = 0;
 	icon_bar->colors[E_ICON_BAR_COLOR_EDITING_TEXT].blue  = 0;
