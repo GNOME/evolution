@@ -65,12 +65,13 @@ camel_mime_part_construct_headers_from_stream (CamelMimePart *mime_part,
 			camel_medium_add_header ( CAMEL_MEDIUM (mime_part), 
 						  cur_header->name, 
 						  cur_header->value);
-	}	
+			g_free (cur_header->name);
+			g_free (cur_header->value);
+		}
 
-	g_array_free (header_array, TRUE);
+		g_array_free (header_array, TRUE);
 
-	CAMEL_LOG_FULL_DEBUG ("CamelMimePartUtils::construct_headers_from_stream "
-			      "headers parsed. Leaving \n");
+		CAMEL_LOG_FULL_DEBUG ("CamelMimePartUtils::construct_headers_from_stream headers parsed. Leaving\n");
 	}
 }
 

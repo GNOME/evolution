@@ -111,6 +111,13 @@ camel_medium_get_type (void)
 }
 
 
+static void
+_free_header (gpointer key, gpointer value, gpointer data)
+{
+	g_free (key);
+	g_free (value);
+}
+
 static void           
 _finalize (GtkObject *object)
 {
@@ -120,7 +127,7 @@ _finalize (GtkObject *object)
 	CAMEL_LOG_FULL_DEBUG ("Entering CamelMedium::finalize\n");
 
 	if (medium->headers) {
-#warning Free hash table elements
+		g_hash_table_foreach (medium->headers, _free_header, NULL);
 		g_hash_table_destroy (medium->headers);
 	}
 
@@ -148,7 +155,8 @@ _add_header (CamelMedium *medium, gchar *header_name, gchar *header_value)
 		g_free (old_header_value);
 	}
 	
-	g_hash_table_insert (medium->headers, header_name, header_value);
+	g_hash_table_insert (medium->headers, g_strdup (header_name),
+			     g_strdup (header_value));
 }
 
 

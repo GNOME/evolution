@@ -1,3 +1,14 @@
+2000-02-23  Dan Winship  <danw@helixcode.com>
+
+	* camel-medium.c (_finalize): Free the data in the headers hash
+	table.
+	(_add_header): g_strdup the header name and value when adding it.
+
+	* camel-mime-part-utils.c
+	(camel_mime_part_construct_headers_from_stream): Free the header
+	data after calling camel_medium_add_header, since it will have
+	g_strdup()ed it itself.
+
 2000-02-22  NotZed  <NotZed@HelixCode.com>
 
 	* providers/mbox/camel-mbox-search.c: Dont compile by default.
