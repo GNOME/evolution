@@ -690,16 +690,9 @@ e_completion_view_construct (ECompletionView *cv, ECompletion *completion)
 	e_scroll_frame_set_scrollbar_spacing (E_SCROLL_FRAME (cv->table), 0);
 	e_scroll_frame_set_policy (E_SCROLL_FRAME (cv->table), GTK_POLICY_NEVER, GTK_POLICY_AUTOMATIC);
 
-#if 0
-	frame = gtk_frame_new (NULL);
-
-	gtk_container_add (GTK_CONTAINER (cv), frame);
-	gtk_container_add (GTK_CONTAINER (frame), cv->table);
-	gtk_widget_show_all (frame);
-#else
 	gtk_container_add (GTK_CONTAINER (cv), cv->table);
 	gtk_widget_show_all (cv->table);
-#endif
+
 	gtk_signal_connect (GTK_OBJECT (e_completion_view_table (cv)),
 			    "click",
 			    GTK_SIGNAL_FUNC (table_click_cb),
@@ -771,7 +764,7 @@ void
 e_completion_view_set_width (ECompletionView *cv, gint width)
 {
 	GtkWidget *w;
-	gint y, r, dummy, line_height;
+	gint y, r, dummy, line_height, final_height;
 	double drop_room, lines;
 
 	g_return_if_fail (cv != NULL);
@@ -811,7 +804,12 @@ e_completion_view_set_width (ECompletionView *cv, gint width)
 	lines = MIN (lines, drop_room);
 
 	/* We reduce the total height by a bit; in practice, this seems to work out well. */
-	gtk_widget_set_usize (w, width, (gint) floor (line_height * (0.5 + (float)lines) * 0.97));
+	final_height = (gint) floor (line_height * (0.5 + (float)lines) * 0.97);
+	//while (w->parent)
+	//w = w->parent;
+	gtk_widget_set_usize (w, width, final_height);
+
+	g_message ("usize: %d %d", width, final_height);
 }
 
 void
