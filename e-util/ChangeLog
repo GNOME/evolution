@@ -1,3 +1,15 @@
+2004-05-19  Jeffrey Stedfast  <fejj@novell.com>
+
+	* e-gui-utils.c (e_icon_for_mime_type): We always have
+	GnomeIconTheme nowadays, get rid of the old unused code.
+	(e_create_image_widget): Use E_ICON_SIZE_DIALOG
+
+2004-05-17  Jeffrey Stedfast  <fejj@novell.com>
+
+	* e-icon-factory.h (E_ICON_SIZE_LIST/STATUS): New #define aliases
+	for common icon usage cases where it may not be obvious that they
+	are the same size as menu icons.
+
 2004-05-12  Jeffrey Stedfast  <fejj@novell.com>
 
 	* e-icon-factory.c (e_icon_factory_shutdown): New function to

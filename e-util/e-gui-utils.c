@@ -9,7 +9,11 @@
  * Copyright (C) 1999 Miguel de Icaza
  * Copyright (C) 2000-2003 Ximian, Inc.
  */
+
+
+#ifdef HAVE_CONFIG_H
 #include <config.h>
+#endif
 
 #include <string.h>
 
@@ -25,22 +29,19 @@
 
 #include <libgnome/gnome-program.h>
 #include <libgnomevfs/gnome-vfs-mime-handlers.h>
-
-#ifdef HAVE_LIBGNOMEUI_GNOME_ICON_LOOKUP_H
 #include <libgnomeui/gnome-icon-lookup.h>
-#endif
 
 GtkWidget *e_create_image_widget(gchar *name,
 				 gchar *string1, gchar *string2,
 				 gint int1, gint int2)
 {
 	GtkWidget *alignment = NULL;
+	GdkPixbuf *pixbuf;
+	GtkWidget *w;
+	
 	if (string1) {
-		GtkWidget *w;
-		GdkPixbuf *pixbuf;
-
-		pixbuf = e_icon_factory_get_icon (string1, 48);
-
+		pixbuf = e_icon_factory_get_icon (string1, E_ICON_SIZE_DIALOG);
+		
 		w = gtk_image_new_from_pixbuf (pixbuf);
 		g_object_unref (pixbuf);
 
@@ -100,73 +101,34 @@ e_button_new_with_stock_icon (const char *label_str, const char *stockid)
 GdkPixbuf *
 e_icon_for_mime_type (const char *mime_type, int size_hint)
 {
+	static GnomeIconTheme *icon_theme = NULL;
 	char *icon_name, *icon_path = NULL;
 	GdkPixbuf *pixbuf = NULL;
-
-#ifdef HAVE_LIBGNOMEUI_GNOME_ICON_LOOKUP_H
-	static GnomeIconTheme *icon_theme = NULL;
-
+	
 	/* Try the icon theme. (GNOME 2.2 or Sun GNOME 2.0).
 	 * This will also look in GNOME VFS.
 	 */
-
+	
 	if (!icon_theme)
 		icon_theme = gnome_icon_theme_new ();
-
+	
 	icon_name = gnome_icon_lookup (icon_theme, NULL, NULL, NULL, NULL,
 				       mime_type, 0, NULL);
 	if (icon_name) {
+		/* FIXME: should we take size_hint as being the same
+		 * as e-icon-factory.c? or should we just leave this
+		 * as pixel size? */
 		icon_path = gnome_icon_theme_lookup_icon (
 			icon_theme, icon_name, size_hint, NULL, NULL);
 		g_free (icon_name);
 	}
-
-#else
-	const char *vfs_icon_name;
-
-	/* Try gnome-vfs. (gnome-vfs.mime itself doesn't offer much,
-	 * but other software packages may define icons for
-	 * themselves.
-	 */
-	vfs_icon_name = gnome_vfs_mime_get_icon (mime_type);
-	if (vfs_icon_name) {
-		icon_path = gnome_program_locate_file (
-			NULL, GNOME_FILE_DOMAIN_PIXMAP,
-			vfs_icon_name, TRUE, NULL);
-	}
-
-	if (!icon_path) {
-		char *p;
-
-		/* Try gnome-mime-data. */
-		icon_name = g_strdup_printf ("document-icons/gnome-%s.png",
-					     mime_type);
-		p = strrchr (icon_name, '/');
-		if (p)
-			*p = '-';
-
-		icon_path = gnome_program_locate_file (
-			NULL, GNOME_FILE_DOMAIN_PIXMAP,
-			icon_name, TRUE, NULL);
-		g_free (icon_name);
-	}
-
-	if (!icon_path) {
-		/* Use the generic document icon. */
-		icon_path = gnome_program_locate_file (NULL, GNOME_FILE_DOMAIN_PIXMAP,
-						      "document-icons/i-regular.png", TRUE, NULL);
-		if (!icon_path) {
-			g_warning ("Could not get any icon for %s!",mime_type);
-			return e_icon_factory_get_icon (NULL, size_hint);
-		}
-	}
-#endif
 	
 	if (icon_path == NULL)
 		return NULL;
 	
 	pixbuf = gdk_pixbuf_new_from_file (icon_path, NULL);
 	g_free (icon_path);
+	
 	return pixbuf;
 }
 
