@@ -263,51 +263,91 @@ icalproperty_free (icalproperty* prop)
 }
 
 
-/* This splits the property every 75 octects, as described in the spec.
+/* This returns where the start of the next line should be. chars_left does
+   not include the trailing '\0'. */
+static char*
+get_next_line_start (char *line_start, int chars_left)
+{
+    char *pos;
+
+    /* If we have 74 chars or less left, we can output all of them. 
+       we return a pointer to the '\0' at the end of the string. */
+    if (chars_left <= 74) {
+        return line_start + chars_left;
+    } 
+
+    /* Now we jump to the last possible character of the line, and step back
+       trying to find a ';' ':' or ' '. If we find one, we return the character
+       after it. If not, we break at 74 chars (the 75th char is the space at
+       the start of the line). */
+    pos = line_start + 73;
+    while (pos > line_start) {
+        if (*pos == ';' || *pos == ':' || *pos == ' ') {
+	    return pos + 1;
+	}
+	pos--;
+    }
+
+    return line_start + 74;
+}
+
+
+/* This splits the property into lines less than 75 octects long (as specified
+   in RFC2445). It tries to split after a ';' if it can.
    It returns a tmp buffer.
    NOTE: I'm not sure if it matters if we split a line in the middle of a
    UTF-8 character. It probably won't look nice in a text editor. */
 static char*
 fold_property_line (char *text)
 {
-    int len, max_lines, line_length, buf_len;
-    char *buf, *src, *dest, ch;
+    size_t buf_size;
+    char *buf, *buf_ptr, *line_start, *next_line_start, *out_buf;
+    int len, chars_left, first_line;
+    char ch;
 
+    /* Start with a buffer twice the size of our property line, so we almost
+       certainly won't overflow it. */
     len = strlen (text);
+    buf_size = len * 2;
+    buf = icalmemory_new_buffer (buf_size);
+    buf_ptr = buf;
 
-    /* The minimum length we split a line at is 65 characters, so calculate
-       the maximum number of newlines we will need. */
-    max_lines = len / 65;
+    /* Step through the text, finding each line to add to the output. */
+    line_start = text;
+    chars_left = len;
+    first_line = 1;
+    for (;;) {
+        if (chars_left <= 0)
+	    break;
 
-    /* Calculate the maximum size for the buffer we need, if we add a newline
-       and a space character for each line, and a '\0' at the end. */
-    buf_len = len + (max_lines * 2);
-    buf = icalmemory_tmp_buffer (buf_len + 1);
+        /* This returns the first character for the next line. */
+        next_line_start = get_next_line_start (line_start, chars_left);
 
-    src = text;
-    dest = buf;
-    line_length = 0;
-    while (ch = *src) {
-        /* If the line is 65 characters or over, try to split at next space.
-	   If it is 75 characters or over, split now. */
-	if ((line_length >= 65 && ch == ' ') || (line_length >= 75)) {
-	    *dest++ = '\n';
-	    *dest++ = ' ';
-	    line_length = 0;
+	/* If this isn't the first line, we need to output a newline and space
+	   first. */
+	if (!first_line) {
+	    icalmemory_append_string (&buf, &buf_ptr, &buf_size, "\n ");
 	}
+	first_line = 0;
 
-	*dest++ = ch;
-	line_length++;
+	/* This adds the line to our tmp buffer. We temporarily place a '\0'
+	   in text, so we can copy the line in one go. */
+	ch = *next_line_start;
+	*next_line_start = '\0';
+	icalmemory_append_string (&buf, &buf_ptr, &buf_size, line_start);
+	*next_line_start = ch;
 
-	src++;
-
-	if (dest - buf > buf_len) {
-	    icalerror_warn ("Buffer overflow.");
-	}
+	/* Now we move on to the next line. */
+	chars_left -= (next_line_start - line_start);
+	line_start = next_line_start;
     }
-    *dest = '\0';
 
-    return buf;
+    /* Copy it to a temporary buffer, and then free it. */
+    out_buf = icalmemory_tmp_buffer (strlen (buf) + 1);
+    strcpy (out_buf, buf);
+    icalmemory_free_buffer (buf);
+
+    return out_buf;
 }
 
 
@@ -458,6 +498,13 @@ icalproperty_as_ical_string (icalproperty* prop)
 
     /* We now use a function to fold the line properly every 75 characters. */
     out_buf = fold_property_line (buf);
+
+    /* This is useful for testing. It outputs the property before and after
+       folding, but only if it was changed. */
+#if 0
+    if (strcmp (buf, out_buf))
+	printf ("Property:\n%sFolded:\n%s", buf, out_buf);
+#endif
 
     /*out_buf = icalmemory_tmp_buffer(strlen(buf)+1);*/
     /*strcpy(out_buf, buf);*/

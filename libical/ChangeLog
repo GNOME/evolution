@@ -1,3 +1,10 @@
+2001-10-31  Damon Chaplin  <damon@ximian.com>
+
+	* src/libical/icalproperty.c (icalproperty_as_ical_string): had to
+	redo the folding code since Outlook 2000 doesn't like parameter values
+	like 'TENTATIVE' cut in half. Now it tries to split after a ';', ':'
+	or space.
+
 2001-10-30  Damon Chaplin  <damon@ximian.com>
 
 	* src/libical/icalproperty.c (fold_property_line): forgot to account
