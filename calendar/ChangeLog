@@ -1,3 +1,26 @@
+2004-10-12  Not Zed  <NotZed@Ximian.com>
+
+	* gui/e-calendar-table.c (setup_popup_icons): removed.
+	(e_calendar_table_show_popup_menu): convert to use e-popup for
+	pluggable popup menu.
+	(e_calendar_table_on_open_task, e_calendar_table_on_save_as)
+	(e_calendar_table_on_print_task, e_calendar_table_on_cut)
+	(e_calendar_table_on_copy, e_calendar_table_on_paste)
+	(e_calendar_table_on_assign, e_calendar_table_on_forward)
+	(delete_cb):
+	(mark_as_complete_cb, open_url_cb): convert to epopup callbacks.
+	Moved all of the callbacks above the table rather than maintaining
+	forward declarations for some of them.
+
+	* gui/e-cal-popup.c (e_cal_popup_target_new_select): add the task
+	required masks, and make one vs many mutally exclusive.
+
+	* gui/e-calendar-view.c (e_calendar_view_create_popup_menu):
+	copy/setup the event list here.
+
+	* gui/e-cal-popup.c (e_cal_popup_target_new_select): take model +
+	events rather than the calendar view.
+
 2004-10-12  Li Yuan  <li.yuan@sun.com>
 
 	* gui/calendar-commands.c:

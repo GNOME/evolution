@@ -74,6 +74,9 @@ enum _e_cal_popup_target_select_t {
 	E_CAL_POPUP_SELECT_ORGANIZER = 1<<6,
 	E_CAL_POPUP_SELECT_NOTEDITING = 1<<7,
 	E_CAL_POPUP_SELECT_NOTMEETING = 1<<8,
+
+	E_CAL_POPUP_SELECT_ASSIGNABLE = 1<<9,
+	E_CAL_POPUP_SELECT_HASURL = 1<<10,
 };
 
 /**
@@ -143,7 +146,7 @@ GType e_cal_popup_get_type(void);
 
 ECalPopup *e_cal_popup_new(const char *menuid);
 
-ECalPopupTargetSelect *e_cal_popup_target_new_select(ECalPopup *eabp, struct _ECalendarView *view);
+ECalPopupTargetSelect *e_cal_popup_target_new_select(ECalPopup *eabp, struct _ECalModel *model, GPtrArray *events);
 ECalPopupTargetSource *e_cal_popup_target_new_source(ECalPopup *eabp, struct _ESourceSelector *selector);
 
 /* ********************************************************************** */

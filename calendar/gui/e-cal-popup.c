@@ -111,56 +111,55 @@ ECalPopup *e_cal_popup_new(const char *menuid)
 
 /**
  * e_cal_popup_target_new_select:
+ * @eabp:
+ * @model: The calendar model.
+ * @events: An array of pointers to ECalModelComponent items.  These
+ * items must be copied.  They, and the @events array will be freed by
+ * the popup menu automatically.
  * 
  * Create a new selection popup target.
  * 
  * Return value: 
  **/
 ECalPopupTargetSelect *
-e_cal_popup_target_new_select(ECalPopup *eabp, ECalendarView *view)
+e_cal_popup_target_new_select(ECalPopup *eabp, struct _ECalModel *model, GPtrArray *events)
 {
 	ECalPopupTargetSelect *t = e_popup_target_new(&eabp->popup, E_CAL_POPUP_TARGET_SELECT, sizeof(*t));
 	guint32 mask = ~0;
-	GList *events, *l;
 	ECal *client;
 	gboolean read_only;
 
-	t->model = e_calendar_view_get_model(view);
+	t->model = model;
 	g_object_ref(t->model);
-	t->events = g_ptr_array_new();
-	l = events = e_calendar_view_get_selected_events(view);
-	for (l=events;l;l=g_list_next(l)) {
-		ECalendarViewEvent *event = l->data;
-
-		if (event)
-			g_ptr_array_add(t->events, e_cal_model_copy_component_data(event->comp_data));
-	}
-
-	/* In reality this is only ever called with a single event or none */
+	t->events = events;
 
 	if (t->events->len == 0) {
 		client = e_cal_model_get_default_client(t->model);
 	} else {
-		ECalendarViewEvent *event = (ECalendarViewEvent *)events->data;
+		ECalModelComponent *comp_data = (ECalendarViewEvent *)t->events->pdata[0];
 
-		mask &= ~E_CAL_POPUP_SELECT_MANY;
-		if (events->next == NULL)
+		if (t->events->len == 1)
 			mask &= ~E_CAL_POPUP_SELECT_ONE;
+		else
+			mask &= ~E_CAL_POPUP_SELECT_MANY;
 
-		if (e_cal_util_component_has_recurrences (event->comp_data->icalcomp))
+		if (icalcomponent_get_first_property (comp_data->icalcomp, ICAL_URL_PROPERTY))
+			mask &= ~E_CAL_POPUP_SELECT_HASURL;
+
+		if (e_cal_util_component_has_recurrences (comp_data->icalcomp))
 			mask &= ~E_CAL_POPUP_SELECT_RECURRING;
 		else
 			mask &= ~E_CAL_POPUP_SELECT_NONRECURRING;
 
-		if (e_cal_util_component_is_instance (event->comp_data->icalcomp))
+		if (e_cal_util_component_is_instance (comp_data->icalcomp))
 			mask &= ~E_CAL_POPUP_SELECT_INSTANCE;
 
-		if (e_cal_util_component_has_organizer (event->comp_data->icalcomp)) {
+		if (e_cal_util_component_has_organizer (comp_data->icalcomp)) {
 			ECalComponent *comp;
 
 			comp = e_cal_component_new ();
-			e_cal_component_set_icalcomponent (comp, icalcomponent_new_clone (event->comp_data->icalcomp));
-			if (!itip_organizer_is_user (comp, event->comp_data->client))
+			e_cal_component_set_icalcomponent (comp, icalcomponent_new_clone (comp_data->icalcomp));
+			if (!itip_organizer_is_user (comp, comp_data->client))
 				mask &= ~E_CAL_POPUP_SELECT_ORGANIZER;
 
 			g_object_unref (comp);
@@ -169,14 +168,16 @@ e_cal_popup_target_new_select(ECalPopup *eabp, ECalendarView *view)
 			mask &= ~(E_CAL_POPUP_SELECT_ORGANIZER|E_CAL_POPUP_SELECT_NOTMEETING);
 		}
 
-		client = event->comp_data->client;
+		client = comp_data->client;
 	}
-
-	g_list_free(events);
 
 	e_cal_is_read_only(client, &read_only, NULL);
 	if (!read_only)
 		mask &= ~E_CAL_POPUP_SELECT_EDITABLE;
+
+	if (!e_cal_get_static_capability (client, CAL_STATIC_CAPABILITY_NO_TASK_ASSIGNMENT)
+	    && !e_cal_get_static_capability (client, CAL_STATIC_CAPABILITY_NO_CONV_TO_ASSIGN_TASK))
+		mask &= ~E_CAL_POPUP_SELECT_ASSIGNABLE;
 
 	/* This bit isn't implemented ... */
 	mask &= ~E_CAL_POPUP_SELECT_NOTEDITING;

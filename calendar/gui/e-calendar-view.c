@@ -1410,8 +1410,11 @@ e_calendar_view_create_popup_menu (ECalendarView *cal_view)
 {
 	ECalPopup *ep;
 	GSList *menus = NULL;
+	GList *selected, *l;
 	int i;
 	ECalPopupTargetSelect *t;
+	ECalModel *model;
+	GPtrArray *events;
 
 	g_return_val_if_fail (E_IS_CALENDAR_VIEW (cal_view), NULL);
 
@@ -1421,7 +1424,19 @@ e_calendar_view_create_popup_menu (ECalendarView *cal_view)
 	 * We could also have a different menu id for each view */
 
 	ep = e_cal_popup_new("com.novell.evolution.calendar.view.popup");
-	t = e_cal_popup_target_new_select(ep, cal_view);
+
+	model = e_calendar_view_get_model(cal_view);
+	events = g_ptr_array_new();
+	selected = e_calendar_view_get_selected_events(cal_view);
+	for (l=selected;l;l=g_list_next(l)) {
+		ECalendarViewEvent *event = l->data;
+
+		if (event)
+			g_ptr_array_add(events, e_cal_model_copy_component_data(event->comp_data));
+	}
+	g_list_free(selected);
+
+	t = e_cal_popup_target_new_select(ep, model, events);
 	t->target.widget = (GtkWidget *)cal_view;
 
 	if (t->events->len == 0) {
