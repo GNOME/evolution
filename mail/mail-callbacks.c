@@ -875,28 +875,6 @@ mail_generate_reply (CamelFolder *folder, CamelMimeMessage *message, const char 
 		return NULL;
 	
 	e_msg_composer_add_message_attachments (composer, message, TRUE);
-
-	if ((mode & REPLY_NO_QUOTE) == 0) {
-		sender = camel_mime_message_get_from (message);
-		if (sender != NULL && camel_address_length (CAMEL_ADDRESS (sender)) > 0) {
-			camel_internet_address_get (sender, 0, &name, &address);
-		} else {
-			name = _("an unknown sender");
-		}
-
-		date = camel_mime_message_get_date (message, NULL);
-		strftime (date_str, sizeof (date_str), _("On %a, %Y-%m-%d at %H:%M, %%s wrote:"),
-			  localtime (&date));
-		format = e_utf8_from_locale_string (date_str);
-		text = mail_tool_quote_message (message, format, name && *name ? name : address);
-		mail_ignore (composer, name, address);
-		g_free (format);
-	
-		if (text) {
-			e_msg_composer_set_body_text (composer, text);
-			g_free (text);
-		}
-	}
 	
 	/* Set the recipients */
 	accounts = mail_config_get_accounts ();
@@ -982,6 +960,28 @@ mail_generate_reply (CamelFolder *folder, CamelMimeMessage *message, const char 
 		g_hash_table_destroy (rcpt_hash);
 	}
 	
+	/* set body text here as we want all ignored words to take effect */
+	if ((mode & REPLY_NO_QUOTE) == 0) {
+		sender = camel_mime_message_get_from (message);
+		if (sender != NULL && camel_address_length (CAMEL_ADDRESS (sender)) > 0) {
+			camel_internet_address_get (sender, 0, &name, &address);
+		} else {
+			name = _("an unknown sender");
+		}
+
+		date = camel_mime_message_get_date (message, NULL);
+		strftime (date_str, sizeof (date_str), _("On %a, %Y-%m-%d at %H:%M, %%s wrote:"),
+			  localtime (&date));
+		format = e_utf8_from_locale_string (date_str);
+		text = mail_tool_quote_message (message, format, name && *name ? name : address);
+		mail_ignore (composer, name, address);
+		g_free (format);
+		if (text) {
+			e_msg_composer_set_body_text (composer, text);
+			g_free (text);
+		}
+	}
+
 	if (me == NULL) {
 		/* as a last resort, set the replying account (aka me)
 		   to the account this was fetched from */

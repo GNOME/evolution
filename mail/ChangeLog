@@ -1,3 +1,8 @@
+2002-02-07  Radek Doulik  <rodo@ximian.com>
+
+	* mail-callbacks.c (mail_generate_reply): call set_body later to
+	allow ignored words to be sent to gtkhtml control ahead
+
 2002-02-07  JP Rosevear  <jpr@ximian.com>
 
 	* component-factory.c (create_component): remove "New" from user
