@@ -950,7 +950,7 @@ get_header_field (gchar *header, gchar *field)
 {
 	gchar *part, *index, *p, *q;
 
-	index = e_strstrcase (header, field);
+	index = (char *) e_strstrcase (header, field);
 	if (index == NULL)
 		return NULL;
 
@@ -1200,7 +1200,7 @@ imap_get_message_info_internal (CamelFolder *folder, guint id)
 	}
 	
 	/* lets grab the UID... */
-	if (!(uid = e_strstrcase (result, "(UID "))) {
+	if (!(uid = (char *) e_strstrcase (result, "(UID "))) {
 		d(fprintf (stderr, "Cannot get a uid for %d\n\n%s\n\n", id, result));
 		g_free (result);
 		return NULL;
