@@ -1,3 +1,7 @@
+2001-06-14  Jeffrey Stedfast  <fejj@ximian.com>
+
+	* evolution-mail.xml: Added a Reply-to-list menu item.
+
 2001-06-08  Iain Holmes  <iain@ximian.com>
 
 	* evolution-executive-summary.xml: Change for the new stuff.
