@@ -434,7 +434,16 @@ calendar_object_changed (Calendar *cal, iCalObject *obj, int flags)
 static void
 calendar_day_change (time_t time, CalendarAlarm *which, void *closure)
 {
+	GList *events;
+	Calendar *cal = closure;
+	
 	calendar_set_day ();
+
+	for (events = cal->events; events; events = events->next){
+		iCalObject *obj = events->data;
+
+		ical_object_try_alarms (obj);
+	}
 }
 
 static void

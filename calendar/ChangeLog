@@ -1,7 +1,12 @@
 1999-01-28  Miguel de Icaza  <miguel@nuclecu.unam.mx>
 
-	* calendar.c (calendar_init_alarms): Schedule an alarm for
-	midnight to change the calendar_day_begin/calendar_day_end.
+	* main.c (parse_an_arg): Add --hidden key to hide the calendar at
+	startup. Only works with GNOME window managers though :-(
+
+	* calendar.c (calendar_day_change): Reschedule alarms for the new day.
+
+	(calendar_init_alarms): Schedule an alarm for midnight to change
+	the calendar_day_begin/calendar_day_end.
 
 	* alarm.c (alarm_ready): If we reschedule, there is no need to
 	activate any pending alarms.

@@ -43,6 +43,9 @@ int day_begin, day_end;
 /* Whether weeks starts on Sunday or Monday */
 int week_starts_on_monday;
 
+/* If true, do not show our top level window */
+int startup_hidden = 0;
+
 /* The array of color properties -- keep in sync with the enumeration defined in main.h.  The color
  * values specified here are the defaults for the program.
  */
@@ -62,7 +65,7 @@ int active_calendars = 0;
 /* A list of all of the calendars started */
 GList *all_calendars = NULL;
 
-static void new_calendar (char *full_name, char *calendar_file, char *geometry, char *view);
+static void new_calendar (char *full_name, char *calendar_file, char *geometry, char *view, gboolean hidden);
 
 /* For dumping part of a calendar */
 static time_t from_t, to_t;
@@ -305,14 +308,14 @@ goto_clicked (GtkWidget *widget, GnomeCalendar *gcal)
 static void
 new_calendar_cmd (GtkWidget *widget, void *data)
 {
-	new_calendar (full_name, NULL, NULL, NULL);
+	new_calendar (full_name, NULL, NULL, NULL, FALSE);
 }
 
 static void
 open_ok (GtkWidget *widget, GtkFileSelection *fs)
 {
 	/* FIXME: find out who owns this calendar and use that name */
-	new_calendar ("Somebody", gtk_file_selection_get_filename (fs), NULL, NULL);
+	new_calendar ("Somebody", gtk_file_selection_get_filename (fs), NULL, NULL, FALSE);
 
 	gtk_widget_destroy (GTK_WIDGET (fs));
 }
@@ -517,7 +520,7 @@ calendar_close_event (GtkWidget *widget, GdkEvent *event, GnomeCalendar *gcal)
 }
 
 static void
-new_calendar (char *full_name, char *calendar_file, char *geometry, char *page)
+new_calendar (char *full_name, char *calendar_file, char *geometry, char *page, gboolean hidden)
 {
 	GtkWidget   *toplevel;
 	char        title[128];
@@ -528,6 +531,7 @@ new_calendar (char *full_name, char *calendar_file, char *geometry, char *page)
 	g_snprintf(title, 128, _("%s%s"), full_name, _("'s calendar"));
 
 	toplevel = gnome_calendar_new (title);
+	    
 	if (gnome_parse_geometry (geometry, &xpos, &ypos, &width, &height)){
 		if (xpos != -1)
 			gtk_widget_set_uposition (toplevel, xpos, ypos);
@@ -552,6 +556,16 @@ new_calendar (char *full_name, char *calendar_file, char *geometry, char *page)
 	active_calendars++;
 	all_calendars = g_list_prepend (all_calendars, toplevel);
 	gtk_widget_realize (toplevel);
+
+	if (hidden){
+		GnomeWinState state;
+		
+		state = gnome_win_hints_get_state (toplevel);
+
+		state |= WIN_STATE_MINIMIZED;
+		gnome_win_hints_set_state (toplevel, state);
+	}
+	
 	gtk_widget_show (toplevel);
 }
 
@@ -568,7 +582,8 @@ process_dates (void)
 enum {
 	GEOMETRY_KEY = -1,
 	USERFILE_KEY = -2,
-	VIEW_KEY     = -3
+	VIEW_KEY     = -3,
+	HIDDEN_KEY   = -4,
 };
 
 /* Lists used to startup various GnomeCalendars */
@@ -672,6 +687,10 @@ parse_an_arg (poptContext ctx,
 		show_events = 1;
 		break;
 
+	case HIDDEN_KEY:
+		startup_hidden = 1;
+		break;
+		
 	default:
 	}
 }
@@ -686,6 +705,7 @@ static const struct poptOption options [] = {
 	{ "geometry", '\0', POPT_ARG_STRING, NULL, GEOMETRY_KEY, N_("Geometry for starting up"), N_("GEOMETRY") },
 	{ "view", '\0', POPT_ARG_STRING, NULL, VIEW_KEY, N_("The startup view mode"), N_("VIEW") },
 	{ "to", 't', POPT_ARG_STRING, NULL, 't', N_("Specifies ending date [for --events]"), N_("DATE") },
+	{ "hidden", 0, POPT_ARG_NONE, NULL, HIDDEN_KEY, N_("If used, starts in iconic mode"), NULL },
 	{ NULL, '\0', 0, NULL, 0}
 };
 
@@ -789,7 +809,7 @@ main(int argc, char *argv[])
 				title = full_name;
 			else
 				title = file;
-			new_calendar (title, file, geometry, page_name);
+			new_calendar (title, file, geometry, page_name, startup_hidden);
 
 			p = p->next;
 			if (g)
@@ -802,7 +822,7 @@ main(int argc, char *argv[])
 		char *geometry = start_geometries ? start_geometries->data : NULL;
 		char *page_name = start_views ? start_views->data : NULL;
 
-		new_calendar (full_name, user_calendar_file, geometry, page_name);
+		new_calendar (full_name, user_calendar_file, geometry, page_name, startup_hidden);
 	}
 	gtk_main ();
 	return 0;
