@@ -70,7 +70,7 @@ get_string_value (xmlNode *node,
 	if (p == NULL)
 		return NULL;
 
-	return (const char *) p->content;
+	return (const char *) xmlNodeListGetString (node->doc, p, 1);
 }
 
 static gboolean

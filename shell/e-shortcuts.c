@@ -155,17 +155,14 @@ load_shortcuts (EShortcuts *shortcuts,
 		shortcut_group->shortcuts = NULL;
 
 		for (q = p->childs; q != NULL; q = q->next) {
-			xmlNode *link_node;
+			gchar *content;
 
 			if (strcmp ((char *) q->name, "item") != 0)
 				continue;
 
-			link_node = e_xml_get_child_by_name (q, (xmlChar *) "text");
-			if (link_node == NULL)
-				continue;
-
+			content = xmlNodeListGetString (doc, q->childs, 1);
 			shortcut_group->shortcuts = g_list_prepend (shortcut_group->shortcuts,
-								    g_strdup (link_node->content));
+								    g_strdup (content));
 		}
 
 		shortcut_group->shortcuts = g_list_reverse (shortcut_group->shortcuts);
@@ -514,3 +511,4 @@ e_shortcuts_get_uri (EShortcuts *shortcuts, int group_num, int num)
 
 
 E_MAKE_TYPE (e_shortcuts, "EShortcuts", EShortcuts, class_init, init, PARENT_TYPE)
+

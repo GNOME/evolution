@@ -1,3 +1,10 @@
+2000-05-15  Iain Holmes  <ih@csd.abdn.ac.uk>
+
+	* e-local-folder.c (get_string_value): Use the correct function to
+	get the node's contents.
+	
+	* e-shortcuts.c (load_shortcuts): Same as above.
+
 2000-05-14  Ettore Perazzoli  <ettore@helixcode.com>
 
 	* e-folder-type-repository.c
