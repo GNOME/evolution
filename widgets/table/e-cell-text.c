@@ -581,41 +581,11 @@ ect_draw (ECellView *ecell_view, GdkDrawable *drawable,
 						       ypos + y1,
 						       lines->text + sel_end - start_char,
 						       end_char - sel_end);
-#if 0 /* Do Bold in EFont directly */
-				/* Draw 1,0 moved image, to simulate bold font */
-				/* We move that to EFont */
-				if (bold) {
-					e_font_draw_utf8_text (drawable, font, text_view->gc, xpos + x1 + 1, ypos + y1,
-						       lines->text,
-						       sel_start - start_char);
-					e_font_draw_utf8_text (drawable, font, fg_gc,
-						       xpos + x1 + 1 + e_font_utf8_text_width (font, lines->text, sel_start - start_char),
-						       ypos + y1,
-						       g_utf8_offset_to_pointer (lines->text, sel_start - start_char),
-						       sel_end - sel_start);
-					e_font_draw_utf8_text (drawable, font, text_view->gc,
-						       xpos + x1 + 1 + e_font_utf8_text_width (font, lines->text, sel_end - start_char),
-						       ypos + y1,
-						       g_utf8_offset_to_pointer (lines->text, sel_end - start_char),
-						       end_char - sel_end);
-				}
-#endif
 			} else {
 				e_font_draw_utf8_text (drawable, font, style, text_view->gc,
 						       xpos + x1, ypos + y1,
 						       lines->text,
 						       lines->length);
-#if 0
-				if (bold) {
-					e_font_draw_ucs2_text (drawable,
-						       font,
-						       text_view->gc,
-						       xpos + x1 + 1,
-						       ypos + y1,
-						       lines->text,
-						       lines->length);
-				}
-#endif
 			}
 			if (edit->selection_start == edit->selection_end &&
 			    edit->selection_start >= start_char &&
@@ -674,42 +644,12 @@ ect_draw (ECellView *ecell_view, GdkDrawable *drawable,
 					       ypos + y1,
 					       ect->ellipsis ? ect->ellipsis : "...",
 					       ect->ellipsis ? strlen (ect->ellipsis) : 3);
-#if 0
-				if (bold) {
-					e_font_draw_ucs2_text (drawable,
-						       font,
-						       text_view->gc,
-						       xpos + x1 + 1,
-						       ypos + y1,
-						       lines->text,
-						       lines->ellipsis_length);
-					e_font_draw_utf8_text (drawable,
-						       font,
-						       text_view->gc,
-						       xpos + x1 + 1 +
-						       lines->width - text_view->ellipsis_width[style],
-						       ypos + y1,
-						       ect->ellipsis ? ect->ellipsis : "...",
-						       ect->ellipsis ? strlen (ect->ellipsis) : 3);
-				}
-#endif
 			} else {
 				e_font_draw_utf8_text (drawable, font, style, text_view->gc,
 					       xpos + x1,
 					       ypos + y1,
 					       lines->text,
 					       lines->length);
-#if 0
-				if (bold) {
-					e_font_draw_ucs2_text (drawable,
-						       font,
-						       text_view->gc,
-						       xpos + x1 + 1,
-						       ypos + y1,
-						       lines->text,
-						       lines->length);
-				}
-#endif
 			}
 			if (ect->strikeout_column >= 0 && e_table_model_value_at(ecell_view->e_table_model, ect->strikeout_column, row)) {
 				gdk_draw_rectangle (drawable,
@@ -728,133 +668,6 @@ ect_draw (ECellView *ecell_view, GdkDrawable *drawable,
 
 	gdk_gc_set_clip_rectangle (text_view->gc, NULL);
 	gdk_gc_set_clip_rectangle (fg_gc, NULL);
-#if 0
-	/* Old ECellText */
-
-	int xoff;
-	gboolean edit_display = FALSE;
-
-	/*
-	 * Figure if this cell is being edited
-	 */
-	if (edit_display){
-		CellEdit *edit = text_view->edit;
-		const char *text = gtk_entry_get_text (edit->entry);
-		GdkWChar *p, *text_wc = g_new (GdkWChar, strlen (text) + 1);
-		int text_wc_len = gdk_mbstowcs (text_wc, text, strlen (text));
-		const int cursor_pos = GTK_EDITABLE (edit->entry)->current_pos;
-		const int left_len = gdk_text_width_wc (text_view->font, text_wc, cursor_pos);
-
-		text_wc [text_wc_len] = 0;
-		/*
-		 * Paint
-		 */
-		gdk_gc_set_foreground (text_view->gc, &w->style->base [GTK_STATE_NORMAL]);
-		gdk_draw_rectangle (drawable, text_view->gc, TRUE,
-				    rect.x, rect.y, rect.width, rect.height);
-		gdk_gc_set_foreground (text_view->gc, &w->style->text [GTK_STATE_NORMAL]);
-
-		{
-			GdkGC *gc = text_view->gc;
-			const int y = y2 - font->descent - ((y2-y1-height)/2);
-			int px, i;
-
-			/*
-			 * Border
-			 */
-			x1 += 2;
-			x2--;
-			
-			px = x1;
-
-			/*
-			 * If the cursor is outside the visible range
-			 *
-			 * FIXME: we really want a better behaviour.
-			 */
-			if ((px + left_len) > x2)
-				px -= left_len - (x2-x1);
-
-			/*
-			 * Draw
-			 */
-			for (i = 0, p = text_wc; *p; p++, i++){
-				gdk_draw_text_wc (
-						  drawable, font, gc, px, y, p, 1);
-
-				if (i == cursor_pos){
-					gdk_draw_line (
-						       drawable, gc,
-						       px, y - font->ascent,
-						       px, y + font->descent - 1);
-				}
-
-				px += gdk_text_width_wc (font, p, 1);
-			}
-
-			if (i == cursor_pos){
-				gdk_draw_line (
-					       drawable, gc,
-					       px, y - font->ascent,
-					       px, y + font->descent - 1);
-			}
-		}
-		g_free (text_wc);
-	} else {
-		/*
-		 * Regular cell
-		 */
-		GdkColor *background, *foreground;
-		int width;
-
-		/*
-		 * Border
-		 */
-		x1++;
-		x2--;
-		
-		/*
-		 * Compute draw mode
-		 */
-		switch (ect->justify){
-		case GTK_JUSTIFY_LEFT:
-			xoff = 1;
-			break;
-			
-		case GTK_JUSTIFY_RIGHT:
-			width = 1 + gdk_text_width (font, str, strlen (str));
-			xoff = (x2 - x1) - width;
-			break;
-			
-		case GTK_JUSTIFY_CENTER:
-			xoff = ((x2 - x1) - gdk_text_width (font, str, strlen (str))) / 2;
-			break;
-		default:
-			xoff = 0;
-			g_warning ("Can not handle GTK_JUSTIFY_FILL");
-			break;
-		}
-		
-		
-		if (selected){
-			background = &w->style->bg [GTK_STATE_SELECTED];
-			foreground = &w->style->text [GTK_STATE_SELECTED];
-		} else {
-			background = &w->style->base [GTK_STATE_NORMAL];
-			foreground = &w->style->text [GTK_STATE_NORMAL];
-		}
-		
-		gdk_gc_set_foreground (text_view->gc, background); 
-		gdk_draw_rectangle (drawable, text_view->gc, TRUE,
-				    rect.x, rect.y, rect.width, rect.height);
-		gdk_gc_set_foreground (text_view->gc, foreground);
-
-		gdk_draw_string (
-				 drawable, font, text_view->gc,
-				 x1 + xoff,
-				 y2 - font->descent - ((y2-y1-height)/2), str);
-	}
-#endif
 }
 
 /*
@@ -1064,36 +877,6 @@ ect_event (ECellView *ecell_view, GdkEvent *event, int model_col, int view_col, 
 	else
 		return 0;
 	
-#if 0
-	switch (event->type){
-	case GDK_BUTTON_PRESS:
-		/*
-		 * Adjust for the border we use
-		 */
-		event->button.x++;
-		
-		printf ("Button pressed at %g %g\n", event->button.x, event->button.y);
-		if (text_view->edit){
-			printf ("FIXME: Should handle click here\n");
-		} else 
-			e_table_item_enter_edit (text_view->cell_view.e_table_item_view, view_col, row);
-		break;
-
-	case GDK_KEY_PRESS:
-		if (event->key.keyval == GDK_Escape){
-			ect_cancel_edit (text_view);
-			return TRUE;
-		}
-		
-		if (!text_view->edit){
-			e_table_item_enter_edit (text_view->cell_view.e_table_item_view, view_col, row);
-			ect_edit_select_all (text_view);
-		}
-
-		gtk_widget_event (GTK_WIDGET (text_view->edit->entry), event);
-		ect_queue_redraw (text_view, view_col, row);
-		break;
-#endif
 }
 
 /*
