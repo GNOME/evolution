@@ -3044,11 +3044,13 @@ footer_print_cb (GtkHTML *html, GnomePrintContext *print_context,
 		gchar *text = g_strdup_printf (_("Page %d of %d"), info->page_num, info->pages);
 		gdouble tw = gnome_font_get_width_string (info->local_font, text);
 
+		gnome_print_gsave       (print_context);
 		gnome_print_newpath     (print_context);
 		gnome_print_setrgbcolor (print_context, .0, .0, .0);
 		gnome_print_moveto      (print_context, x + width - tw, y - gnome_font_get_ascender (info->local_font));
 		gnome_print_setfont     (print_context, info->local_font);
 		gnome_print_show        (print_context, text);
+		gnome_print_grestore    (print_context);
 
 		g_free (text);
 		info->page_num++;
@@ -3137,6 +3139,8 @@ do_mail_print (FolderBrowser *fb, gboolean preview)
 	   user's theme. */
 	fb->mail_display->printing = TRUE;
 	
+	if (!GTK_WIDGET_REALIZED (GTK_WIDGET (html)))
+		gtk_widget_realize (GTK_WIDGET (html));
 	mail_display_render (fb->mail_display, html, TRUE);
 	gtk_html_print_set_master (html, print_master);
 	

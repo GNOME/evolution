@@ -1,3 +1,9 @@
+2002-08-20  Radek Doulik  <rodo@ximian.com>
+
+	* mail-callbacks.c (do_mail_print): be sure that widget is
+	realized so that e_utf8_from_gtk_string works properly
+	(footer_print_cb): save/restore
+
 2002-08-20  Mike Kestner  <mkestner@ximian.com>
 
 	* folder-browser-ui.c (folder_browser_ui_setup_view_menus): guard
