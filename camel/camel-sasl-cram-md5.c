@@ -22,25 +22,28 @@
 
 #include <config.h>
 #include "camel-sasl-cram-md5.h"
+#include "camel-mime-utils.h"
+#include "camel-service.h"
 #include <e-util/md5-utils.h>
 #include <stdio.h>
 #include <string.h>
+
+CamelServiceAuthType camel_sasl_cram_md5_authtype = {
+	N_("CRAM-MD5"),
+
+	N_("This option will connect to the server using a "
+	   "secure CRAM-MD5 password, if the server supports it."),
+
+	"CRAM-MD5",
+	TRUE
+};
 
 static CamelSaslClass *parent_class = NULL;
 
 /* Returns the class for a CamelSaslCramMd5 */
 #define CSCM_CLASS(so) CAMEL_SASL_CRAM_MD5_CLASS (CAMEL_OBJECT_GET_CLASS (so))
 
-static GByteArray *cram_md5_challenge (CamelSasl *sasl, const char *token, CamelException *ex);
-
-enum {
-	STATE_AUTH,
-	STATE_FINAL
-};
-
-struct _CamelSaslCramMd5Private {
-	int state;
-};
+static GByteArray *cram_md5_challenge (CamelSasl *sasl, GByteArray *token, CamelException *ex);
 
 static void
 camel_sasl_cram_md5_class_init (CamelSaslCramMd5Class *camel_sasl_cram_md5_class)
@@ -52,24 +55,6 @@ camel_sasl_cram_md5_class_init (CamelSaslCramMd5Class *camel_sasl_cram_md5_class
 	/* virtual method overload */
 	camel_sasl_class->challenge = cram_md5_challenge;
 }
-
-static void
-camel_sasl_cram_md5_init (gpointer object, gpointer klass)
-{
-	CamelSaslCramMd5 *sasl_cram = CAMEL_SASL_CRAM_MD5 (object);
-	
-	sasl_cram->priv = g_new0 (struct _CamelSaslCramMd5Private, 1);
-}
-
-static void
-camel_sasl_cram_md5_finalize (CamelObject *object)
-{
-	CamelSaslCramMd5 *sasl = CAMEL_SASL_CRAM_MD5 (object);
-	
-	g_free (sasl->username);
-	g_free (sasl->priv);
-}
-
 
 CamelType
 camel_sasl_cram_md5_get_type (void)
@@ -83,26 +68,11 @@ camel_sasl_cram_md5_get_type (void)
 					    sizeof (CamelSaslCramMd5Class),
 					    (CamelObjectClassInitFunc) camel_sasl_cram_md5_class_init,
 					    NULL,
-					    (CamelObjectInitFunc) camel_sasl_cram_md5_init,
-					    (CamelObjectFinalizeFunc) camel_sasl_cram_md5_finalize);
+					    NULL,
+					    NULL);
 	}
 	
 	return type;
-}
-
-CamelSasl *
-camel_sasl_cram_md5_new (const char *username, const char *passwd)
-{
-	CamelSaslCramMd5 *sasl_cram;
-	
-	if (!username) return NULL;
-	if (!passwd) return NULL;
-	
-	sasl_cram = CAMEL_SASL_CRAM_MD5 (camel_object_new (camel_sasl_cram_md5_get_type ()));
-	sasl_cram->username = g_strdup (username);
-	sasl_cram->passwd = g_strdup (passwd);
-	
-	return CAMEL_SASL (sasl_cram);
 }
 
 /* CRAM-MD5 algorithm:
@@ -110,69 +80,60 @@ camel_sasl_cram_md5_new (const char *username, const char *passwd)
  */
 
 static GByteArray *
-cram_md5_challenge (CamelSasl *sasl, const char *token, CamelException *ex)
+cram_md5_challenge (CamelSasl *sasl, GByteArray *token, CamelException *ex)
 {
-	CamelSaslCramMd5 *sasl_cram = CAMEL_SASL_CRAM_MD5 (sasl);
-	struct _CamelSaslCramMd5Private *priv = sasl_cram->priv;
+	char *passwd;
 	guchar digest[16], md5asc[33], *s, *p;
-	char *timestamp, *passwd;
 	GByteArray *ret = NULL;
 	guchar ipad[64];
 	guchar opad[64];
 	MD5Context ctx;
 	int i, pw_len;
-	
-	switch (priv->state) {
-	case STATE_AUTH:
-		timestamp = (char *) token;
-		
-		passwd = sasl_cram->passwd;
-		pw_len = strlen (sasl_cram->passwd);
-		if (pw_len > 64) {
-			md5_init (&ctx);
-			md5_update (&ctx, passwd, pw_len);
-			md5_final (&ctx, digest);
-			passwd = g_strdup (digest);
-			pw_len = 16;
-		}
-		
-		memset (ipad, 0, sizeof (ipad));
-		memset (opad, 0, sizeof (opad));
+
+	/* Need to wait for the server */
+	if (!token)
+		return NULL;
+
+	g_return_val_if_fail (sasl->service->url->passwd != NULL, NULL);
+
+	memset (ipad, 0, sizeof (ipad));
+	memset (opad, 0, sizeof (opad));
+
+	passwd = sasl->service->url->passwd;
+	pw_len = strlen (passwd);
+	if (pw_len <= 64) {
 		memcpy (ipad, passwd, pw_len);
 		memcpy (opad, passwd, pw_len);
-		
-		for (i = 0; i < 64; i++) {
-			ipad[i] ^= 0x36;
-			opad[i] ^= 0x5c;
-		}
-		
-		md5_init (&ctx);
-		md5_update (&ctx, ipad, 64);
-		md5_update (&ctx, timestamp, strlen (timestamp));
-		md5_final (&ctx, digest);
-		
-		md5_init (&ctx);
-		md5_update (&ctx, opad, 64);
-		md5_update (&ctx, digest, 16);
-		md5_final (&ctx, digest);
-		
-		/* lowercase hexify that bad-boy... */
-		for (s = digest, p = md5asc; p < md5asc + 32; s++, p += 2)
-			sprintf (p, "%.2x", *s);
-		
-		ret = g_byte_array_new ();
-		g_byte_array_append (ret, sasl_cram->username, strlen (sasl_cram->username));
-		g_byte_array_append (ret, " ", 1);
-		g_byte_array_append (ret, md5asc, strlen (md5asc));
-		
-		break;
-	case STATE_FINAL:
-		sasl->authenticated = TRUE;
-	default:
-		break;
+	} else {
+		md5_get_digest (passwd, pw_len, ipad);
+		memcpy (opad, ipad, 16);
 	}
-	
-	priv->state++;
+
+	for (i = 0; i < 64; i++) {
+		ipad[i] ^= 0x36;
+		opad[i] ^= 0x5c;
+	}
+
+	md5_init (&ctx);
+	md5_update (&ctx, ipad, 64);
+	md5_update (&ctx, token->data, token->len);
+	md5_final (&ctx, digest);
+
+	md5_init (&ctx);
+	md5_update (&ctx, opad, 64);
+	md5_update (&ctx, digest, 16);
+	md5_final (&ctx, digest);
+
+	/* lowercase hexify that bad-boy... */
+	for (s = digest, p = md5asc; p < md5asc + 32; s++, p += 2)
+		sprintf (p, "%.2x", *s);
+
+	ret = g_byte_array_new ();
+	g_byte_array_append (ret, sasl->service->url->user, strlen (sasl->service->url->user));
+	g_byte_array_append (ret, " ", 1);
+	g_byte_array_append (ret, md5asc, 32);
+ 
+	sasl->authenticated = TRUE;
 	
 	return ret;
 }

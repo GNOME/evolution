@@ -22,13 +22,19 @@
 
 #include <config.h>
 #include "camel-sasl.h"
+#include "camel-mime-utils.h"
+#include "camel-service.h"
+
+#include "camel-sasl-cram-md5.h"
+#include "camel-sasl-kerberos4.h"
+#include "camel-sasl-plain.h"
 
 static CamelObjectClass *parent_class = NULL;
 
 /* Returns the class for a CamelSasl */
 #define CS_CLASS(so) CAMEL_SASL_CLASS (CAMEL_OBJECT_GET_CLASS (so))
 
-static GByteArray *sasl_challenge (CamelSasl *sasl, const char *token, CamelException *ex);
+static GByteArray *sasl_challenge (CamelSasl *sasl, GByteArray *token, CamelException *ex);
 
 static void
 camel_sasl_class_init (CamelSaslClass *camel_sasl_class)
@@ -37,6 +43,13 @@ camel_sasl_class_init (CamelSaslClass *camel_sasl_class)
 	
 	/* virtual method definition */
 	camel_sasl_class->challenge = sasl_challenge;
+}
+
+static void
+camel_sasl_finalize (CamelSasl *sasl)
+{
+	g_free (sasl->service_name);
+	camel_object_unref (CAMEL_OBJECT (sasl->service));
 }
 
 CamelType
@@ -52,7 +65,7 @@ camel_sasl_get_type (void)
 					    (CamelObjectClassInitFunc) camel_sasl_class_init,
 					    NULL,
 					    NULL,
-					    NULL );
+					    (CamelObjectFinalizeFunc) camel_sasl_finalize);
 	}
 	
 	return type;
@@ -60,7 +73,7 @@ camel_sasl_get_type (void)
 
 
 static GByteArray *
-sasl_challenge (CamelSasl *sasl, const char *token, CamelException *ex)
+sasl_challenge (CamelSasl *sasl, GByteArray *token, CamelException *ex)
 {
 	g_warning ("sasl_challenge: Using default implementation!");
 	return NULL;
@@ -68,20 +81,160 @@ sasl_challenge (CamelSasl *sasl, const char *token, CamelException *ex)
 
 /**
  * camel_sasl_challenge:
- * @sasl: a sasl object
- * @token: a token
+ * @sasl: a SASL object
+ * @token: a token, or %NULL
  * @ex: exception
  *
- * Generate the next sasl challenge to send to the server.
+ * If @token is %NULL, generate the initial SASL message to send to
+ * the server. (This will be %NULL if the client doesn't initiate the
+ * exchange.) Otherwise, @token is a challenge from the server, and
+ * the return value is the response.
  *
- * Return value: a string containing the base64 encoded sasl challenge
- * or NULL on either an error or if the negotiation is complete. If an
- * error has occured, @ex will also be set.
+ * Return value: The SASL response or %NULL. If an error occurred, @ex
+ * will also be set.
  **/
 GByteArray *
-camel_sasl_challenge (CamelSasl *sasl, const char *token, CamelException *ex)
+camel_sasl_challenge (CamelSasl *sasl, GByteArray *token, CamelException *ex)
 {
 	g_return_val_if_fail (CAMEL_IS_SASL (sasl), NULL);
-	
+
 	return CS_CLASS (sasl)->challenge (sasl, token, ex);
+}
+
+/**
+ * camel_sasl_challenge_base64:
+ * @sasl: a SASL object
+ * @token: a base64-encoded token
+ * @ex: exception
+ *
+ * As with camel_sasl_challenge(), but the challenge @token and the
+ * response are both base64-encoded.
+ *
+ * Return value: As with camel_sasl_challenge(), but base64-encoded.
+ **/
+char *
+camel_sasl_challenge_base64 (CamelSasl *sasl, const char *token, CamelException *ex)
+{
+	GByteArray *token_binary, *ret_binary;
+	char *ret;
+	int len;
+
+	g_return_val_if_fail (CAMEL_IS_SASL (sasl), NULL);
+
+	if (token) {
+		token_binary = g_byte_array_new ();
+		len = strlen (token);
+		g_byte_array_append (token_binary, token, len);
+		token_binary->len = base64_decode_simple (token_binary->data, len);
+	} else
+		token_binary = NULL;
+
+	ret_binary = camel_sasl_challenge (sasl, token_binary, ex);
+	if (token_binary)
+		g_byte_array_free (token_binary, TRUE);
+	if (!ret_binary)
+		return NULL;
+
+	ret = base64_encode_simple (ret_binary->data, ret_binary->len);
+	g_byte_array_free (ret_binary, TRUE);
+
+	return ret;
+}
+
+/**
+ * camel_sasl_authenticated:
+ * @sasl: a SASL object
+ *
+ * Return value: whether or not @sasl has successfully authenticated
+ * the user. This will be %TRUE after it returns the last needed response.
+ * The caller must still pass that information on to the server and verify
+ * that it has accepted it.
+ **/
+gboolean
+camel_sasl_authenticated (CamelSasl *sasl)
+{
+	return sasl->authenticated;
+}
+
+
+/**
+ * camel_sasl_new:
+ * @service_name: the SASL service name
+ * @mechanism: the SASL mechanism
+ * @service: the CamelService that will be using this SASL
+ *
+ * Return value: a new CamelSasl for the given @service_name,
+ * @mechanism, and @service, or %NULL if the mechanism is not
+ * supported.
+ **/
+CamelSasl *
+camel_sasl_new (const char *service_name, const char *mechanism, CamelService *service)
+{
+	CamelSasl *sasl;
+
+	g_return_val_if_fail (service_name != NULL, NULL);
+	g_return_val_if_fail (mechanism != NULL, NULL);
+	g_return_val_if_fail (CAMEL_IS_SERVICE (service), NULL);
+
+	/* We don't do ANONYMOUS here, because it's a little bit weird. */
+
+	if (!strcmp (mechanism, "CRAM-MD5"))
+		sasl = (CamelSasl *)camel_object_new (CAMEL_SASL_CRAM_MD5_TYPE);
+#ifdef HAVE_KRB4
+	else if (!strcmp (mechanism, "KERBEROS_V4"))
+		sasl = (CamelSasl *)camel_object_new (CAMEL_SASL_KERBEROS4_TYPE);
+#endif
+	else if (!strcmp (mechanism, "PLAIN"))
+		sasl = (CamelSasl *)camel_object_new (CAMEL_SASL_PLAIN_TYPE);
+	else
+		return NULL;
+
+	sasl->service_name = g_strdup (service_name);
+	sasl->service = service;
+	camel_object_ref (CAMEL_OBJECT (service));
+
+	return sasl;
+}
+
+/**
+ * camel_sasl_authtype_list:
+ *
+ * Return value: a GList of SASL-supported authtypes. The caller must
+ * free the list, but not the contents.
+ **/
+GList *
+camel_sasl_authtype_list (void)
+{
+	GList *types = NULL;
+
+	/* We don't do PLAIN here, because it's considered to be
+	 * normal password authentication, just behind SSL.
+	 */
+
+	types = g_list_prepend (types, &camel_sasl_cram_md5_authtype);
+#ifdef HAVE_KRB4
+	types = g_list_prepend (types, &camel_sasl_kerberos4_authtype);
+#endif
+
+	return types;
+}
+
+/**
+ * camel_sasl_authtype:
+ * @mechanism: the SASL mechanism to get an authtype for
+ *
+ * Return value: a CamelServiceAuthType for the given mechanism, if
+ * it is supported.
+ **/
+CamelServiceAuthType *
+camel_sasl_authtype (const char *mechanism)
+{
+	if (!strcmp (mechanism, "CRAM-MD5"))
+		return &camel_sasl_cram_md5_authtype;
+#ifdef HAVE_KRB4
+	else if (!strcmp (mechanism, "KERBEROS_V4"))
+		return &camel_sasl_kerberos4_authtype;
+#endif
+	else
+		return NULL;
 }

@@ -40,9 +40,7 @@ extern "C" {
 typedef struct _CamelSaslKerberos4 {
 	CamelSasl parent_object;
 	struct _CamelSaslKerberos4Private *priv;
-	
-	struct hostent *host;
-	char *protocol, *username;
+
 } CamelSaslKerberos4;
 
 
@@ -55,8 +53,7 @@ typedef struct _CamelSaslKerberos4Class {
 /* Standard Camel function */
 CamelType camel_sasl_kerberos4_get_type (void);
 
-/* public methods */
-CamelSasl * camel_sasl_kerberos4_new (const char *protocol, const char *username, struct hostent *host);
+extern CamelServiceAuthType camel_sasl_kerberos4_authtype;
 
 #ifdef __cplusplus
 }

@@ -37,9 +37,7 @@ extern "C" {
 
 typedef struct _CamelSaslPlain {
 	CamelSasl parent_object;
-	struct _CamelSaslPlainPrivate *priv;
-	
-	char *login, *auth_id, *passwd;
+
 } CamelSaslPlain;
 
 
@@ -51,9 +49,6 @@ typedef struct _CamelSaslPlainClass {
 
 /* Standard Camel function */
 CamelType camel_sasl_plain_get_type (void);
-
-/* public methods */
-CamelSasl * camel_sasl_plain_new (const char *login, const char *auth_id, const char *passwd);
 
 #ifdef __cplusplus
 }

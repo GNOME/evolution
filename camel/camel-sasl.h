@@ -31,6 +31,7 @@ extern "C" {
 #include <glib.h>
 #include <camel/camel-object.h>
 #include <camel/camel-exception.h>
+#include <camel/camel-service.h>
 
 #define CAMEL_SASL_TYPE     (camel_sasl_get_type ())
 #define CAMEL_SASL(obj)     (CAMEL_CHECK_CAST((obj), CAMEL_SASL_TYPE, CamelSasl))
@@ -40,6 +41,8 @@ extern "C" {
 typedef struct _CamelSasl {
 	CamelObject parent_object;
 	
+	char *service_name;
+	CamelService *service;
 	gboolean authenticated;
 } CamelSasl;
 
@@ -47,7 +50,7 @@ typedef struct _CamelSasl {
 typedef struct _CamelSaslClass {
 	CamelObjectClass parent_class;
 	
-	GByteArray *    (*challenge)   (CamelSasl *sasl, const char *token, CamelException *ex);
+	GByteArray *    (*challenge)   (CamelSasl *sasl, GByteArray *token, CamelException *ex);
 
 } CamelSaslClass;
 
@@ -56,9 +59,16 @@ typedef struct _CamelSaslClass {
 CamelType  camel_sasl_get_type (void);
 
 /* public methods */
-GByteArray *camel_sasl_challenge     (CamelSasl *sasl, const char *token, CamelException *ex);
+GByteArray *camel_sasl_challenge        (CamelSasl *sasl, GByteArray *token, CamelException *ex);
+char       *camel_sasl_challenge_base64 (CamelSasl *sasl, const char *token, CamelException *ex);
 
-gboolean    camel_sasl_authenticated (CamelSasl *sasl);
+gboolean    camel_sasl_authenticated    (CamelSasl *sasl);
+
+/* utility functions */
+CamelSasl  *camel_sasl_new              (const char *service_name, const char *mechanism, CamelService *service);
+
+GList                *camel_sasl_authtype_list (void);
+CamelServiceAuthType *camel_sasl_authtype      (const char *mechanism);
 
 #ifdef __cplusplus
 }

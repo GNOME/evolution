@@ -37,9 +37,7 @@ extern "C" {
 
 typedef struct _CamelSaslCramMd5 {
 	CamelSasl parent_object;
-	struct _CamelSaslCramMd5Private *priv;
-	
-	char *username, *passwd;
+
 } CamelSaslCramMd5;
 
 
@@ -52,8 +50,7 @@ typedef struct _CamelSaslCramMd5Class {
 /* Standard Camel function */
 CamelType camel_sasl_cram_md5_get_type (void);
 
-/* public methods */
-CamelSasl * camel_sasl_cram_md5_new (const char *username, const char *passwd);
+extern CamelServiceAuthType camel_sasl_cram_md5_authtype;
 
 #ifdef __cplusplus
 }

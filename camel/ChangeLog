@@ -1,3 +1,40 @@
+2001-03-01  Dan Winship  <danw@ximian.com>
+
+	* camel-sasl.c (camel_sasl_challenge): Take a GByteArray as input
+	as well. Comment that you can pass %NULL for @token to get the
+	initial auth data for mechanisms that are client-initiated.
+	(camel_sasl_challenge_base64): Convenience function for protocols
+	that use base64-encoded SASL.
+	(camel_sasl_authenticated): Implement this... (it was prototyped
+	already)
+	(camel_sasl_new): Function to take a service name, a mechanism
+	name, and a CamelService, and return a CamelSasl for it.
+	(camel_sasl_authtype, camel_sasl_authtype_list): Functions to
+	return CamelServiceAuthType information about SASL mechanisms, to
+	allow providers to deal with them generically.
+
+	* camel-sasl-anonymous.c, camel-sasl-plain.c: Update/simplify for
+	CamelSasl changes. Both of these are single-round
+	(client-initiated) mechanisms, so they don't need to keep state.
+	(camel_sasl_plain_new): Removed; use camel_sasl_new instead.
+	(Can't get rid of camel_sasl_anonymous_new though...)
+
+	* camel-sasl-cram-md5.c: Update/simplify for CamelSasl changes.
+	(camel_sasl_cram_md5_new): Removed; use camel_sasl_new instead.
+	(cram_md5_challenge): Use md5_get_digest where possible, and
+	various other minor simplifications. CRAM-MD5 only has a single
+	round, so there's no need to keep track of state. This code is now
+	tested (against Cyrus IMAPd) and known to work.
+
+	* camel-sasl-kerberos4.h: Update/simplify for CamelSasl changes.
+	Make only a single #ifdef HAVE_KRB4. Remove stuff from priv that
+	isn't needed between rounds.
+	(camel_sasl_kerberos4_new): Removed; use camel_sasl_new instead
+	(krb4_challenge): Fix up the logic I broke in my previous "at
+	least make it compile" fixes, update to match other changes, and
+	remove IMAP-isms that shouldn't be in the generic code. This still
+	isn't tested, because we're stuck behind a NAT right now...
+
 2001-03-01  Jeffrey Stedfast  <fejj@ximian.com>
 
 	* camel-sasl-anonymous.c (anon_challenge): Don't base64 encode the

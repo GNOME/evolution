@@ -22,6 +22,7 @@
 
 #include <config.h>
 #include "camel-sasl-plain.h"
+#include "camel-service.h"
 #include <string.h>
 
 static CamelSaslClass *parent_class = NULL;
@@ -29,16 +30,7 @@ static CamelSaslClass *parent_class = NULL;
 /* Returns the class for a CamelSaslPlain */
 #define CSP_CLASS(so) CAMEL_SASL_PLAIN_CLASS (CAMEL_OBJECT_GET_CLASS (so))
 
-static GByteArray *plain_challenge (CamelSasl *sasl, const char *token, CamelException *ex);
-
-enum {
-	STATE_LOGIN,
-	STATE_FINAL
-};
-
-struct _CamelSaslPlainPrivate {
-	int state;
-};
+static GByteArray *plain_challenge (CamelSasl *sasl, GByteArray *token, CamelException *ex);
 
 static void
 camel_sasl_plain_class_init (CamelSaslPlainClass *camel_sasl_plain_class)
@@ -50,26 +42,6 @@ camel_sasl_plain_class_init (CamelSaslPlainClass *camel_sasl_plain_class)
 	/* virtual method overload */
 	camel_sasl_class->challenge = plain_challenge;
 }
-
-static void
-camel_sasl_plain_init (gpointer object, gpointer klass)
-{
-	CamelSaslPlain *sasl_plain = CAMEL_SASL_PLAIN (object);
-	
-	sasl_plain->priv = g_new0 (struct _CamelSaslPlainPrivate, 1);
-}
-
-static void
-camel_sasl_plain_finalize (CamelObject *object)
-{
-	CamelSaslPlain *sasl = CAMEL_SASL_PLAIN (object);
-	
-	g_free (sasl->login);
-	g_free (sasl->auth_id);
-	g_free (sasl->passwd);
-	g_free (sasl->priv);
-}
-
 
 CamelType
 camel_sasl_plain_get_type (void)
@@ -83,55 +55,35 @@ camel_sasl_plain_get_type (void)
 					    sizeof (CamelSaslPlainClass),
 					    (CamelObjectClassInitFunc) camel_sasl_plain_class_init,
 					    NULL,
-					    (CamelObjectInitFunc) camel_sasl_plain_init,
-					    (CamelObjectFinalizeFunc) camel_sasl_plain_finalize);
+					    NULL,
+					    NULL);
 	}
 	
 	return type;
 }
 
-CamelSasl *
-camel_sasl_plain_new (const char *login, const char *auth_id, const char *passwd)
-{
-	CamelSaslPlain *sasl_plain;
-	
-	if (!auth_id) return NULL;
-	if (!passwd) return NULL;
-	
-	sasl_plain = CAMEL_SASL_PLAIN (camel_object_new (camel_sasl_plain_get_type ()));
-	sasl_plain->login = g_strdup (login);
-	sasl_plain->auth_id = g_strdup (auth_id);
-	sasl_plain->passwd = g_strdup (passwd);
-	
-	return CAMEL_SASL (sasl_plain);
-}
-
 static GByteArray *
-plain_challenge (CamelSasl *sasl, const char *token, CamelException *ex)
+plain_challenge (CamelSasl *sasl, GByteArray *token, CamelException *ex)
 {
-	CamelSaslPlain *sasl_plain = CAMEL_SASL_PLAIN (sasl);
-	struct _CamelSaslPlainPrivate *priv = sasl_plain->priv;
 	GByteArray *buf = NULL;
-	
-	switch (priv->state) {
-	case STATE_LOGIN:
-		/* FIXME: make sure these are "UTF8-SAFE" */
-		buf = g_byte_array_new ();
-		if (sasl_plain->login)
-			g_byte_array_append (buf, sasl_plain->login, strlen (sasl_plain->login));
-		g_byte_array_append (buf, "", 1);
-		g_byte_array_append (buf, sasl_plain->auth_id, strlen (sasl_plain->auth_id));
-		g_byte_array_append (buf, "", 1);
-		g_byte_array_append (buf, sasl_plain->passwd, strlen (sasl_plain->passwd));
-		break;
-	case STATE_FINAL:
-		sasl->authenticated = TRUE;
-		break;
-	default:
-		break;
+	CamelURL *url = sasl->service->url;
+
+	if (token) {
+		camel_exception_set (ex, CAMEL_EXCEPTION_SERVICE_CANT_AUTHENTICATE,
+				     _("Authentication failed."));
+		return NULL;
 	}
-	
-	priv->state++;
+
+	g_return_val_if_fail (url->passwd != NULL, NULL);
+
+	/* FIXME: make sure these are "UTF8-SAFE" */
+	buf = g_byte_array_new ();
+	g_byte_array_append (buf, "", 1);
+	g_byte_array_append (buf, url->user, strlen (url->user));
+	g_byte_array_append (buf, "", 1);
+	g_byte_array_append (buf, url->passwd, strlen (url->passwd));
+
+	sasl->authenticated = TRUE;
 	
 	return buf;
 }
