@@ -1,5 +1,11 @@
 2002-07-05  Jeffrey Stedfast  <fejj@ximian.com>
 
+	* mail-callbacks.c (composer_send_queued_cb): Only queue a send
+	operation if we are in Online mode, otherwise don't bother wasting
+	our time.
+
+2002-07-05  Jeffrey Stedfast  <fejj@ximian.com>
+
 	* main.c (main): No longer need to pass a postpone_cb function
 	into the composer factory_init.
 

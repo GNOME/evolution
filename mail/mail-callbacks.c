@@ -356,8 +356,10 @@ composer_send_queued_cb (CamelFolder *folder, CamelMimeMessage *msg, CamelMessag
 		}
 		gtk_widget_destroy (GTK_WIDGET (send->composer));
 		
-		/* queue a message send */
-		mail_send ();
+		if (camel_session_is_online (session)) {
+			/* queue a message send */
+			mail_send ();
+		}
 	} else {
 		e_msg_composer_set_enable_autosave (send->composer, TRUE);
 		gtk_widget_show (GTK_WIDGET (send->composer));
