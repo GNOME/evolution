@@ -873,8 +873,9 @@ itip_send_comp (CalComponentItipMethod method, CalComponent *send_comp,
 
 	/* Set recipients, subject */
 	GNOME_Evolution_Composer_setHeaders (composer_server, from, to_list, cc_list, bcc_list, subject, &ev);
-	if (BONOBO_EX (&ev)) {		
-		g_warning ("Unable to set composer headers while sending iTip message");
+	if (BONOBO_EX (&ev)) {
+		g_warning ("Unable to set composer headers while sending iTip message: %s",
+			   bonobo_exception_get_text (&ev));
 		goto cleanup;
 	}
 

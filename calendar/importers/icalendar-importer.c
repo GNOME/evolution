@@ -148,83 +148,6 @@ read_file (const char *filename)
 	}
 }
 
-
-/* Returns the URI to load given a folder path. The returned string should be freed. */
-static char*
-get_uri_from_folder_path (ICalImporter *ici, const char *folderpath)
-{
-	GNOME_Evolution_StorageRegistry corba_registry;
-	GNOME_Evolution_StorageRegistry_StorageList *storage_list;
-	GNOME_Evolution_Folder *corba_folder;
-	CORBA_Environment ev;
-	int i;
-	char *uri = NULL;
-
-	corba_registry = evolution_shell_client_get_storage_registry_interface (ici->shell_client);
-	if (!corba_registry) {
-		return g_strdup_printf ("%s/evolution/local/Calendar/calendar.ics",
-					g_get_home_dir ());
-	}
-
-	CORBA_exception_init (&ev);
-	storage_list = GNOME_Evolution_StorageRegistry_getStorageList (corba_registry, &ev);
-	if (BONOBO_EX (&ev)) {
-		g_warning (_("Can't get storage list from registry: %s"), CORBA_exception_id (&ev));
-		CORBA_exception_free (&ev);
-		return NULL;
-	}
-
-	CORBA_exception_free (&ev);
-
-	for (i = 0; i < storage_list->_length; i++) {
-		CORBA_exception_init (&ev);
-		corba_folder = GNOME_Evolution_Storage_getFolderAtPath (storage_list->_buffer[i],
-									folderpath, &ev);
-		if (BONOBO_EX (&ev)) {
-			g_warning (_("Can't call getFolderAtPath on storage: %s"), CORBA_exception_id (&ev));
-			CORBA_exception_free (&ev);
-			continue;
-		}
-	
-		CORBA_exception_free (&ev);
-
-		if (corba_folder) {
-			ici->folder_contains_events = FALSE;
-			ici->folder_contains_tasks = FALSE;
-
-			if (!strncmp (corba_folder->physicalUri, "file:", 5)) {
-				if (!strcmp (corba_folder->type, "tasks")) {
-					ici->folder_contains_tasks = TRUE;
-					uri = g_strdup_printf ("%s/tasks.ics",
-							       corba_folder->physicalUri);
-				}
-				else if (!strcmp (corba_folder->type, "calendar")) {
-					ici->folder_contains_events = TRUE;
-					uri = g_strdup_printf ("%s/calendar.ics",
-							       corba_folder->physicalUri);
-				}
-			} else {
-				uri = g_strdup (corba_folder->physicalUri);
-
-				if (!strcmp (corba_folder->type, "tasks") ||
-				    !strcmp (corba_folder->type, "tasks/public"))
-					ici->folder_contains_tasks = TRUE;
-				else if (!strcmp (corba_folder->type, "calendar") ||
-					 !strcmp (corba_folder->type, "calendar/public"))
-					ici->folder_contains_events = TRUE;
-			}
-
-			CORBA_free (corba_folder);
-			break;
-		}
-	}
-
-	CORBA_free (storage_list);
-
-	return uri;
-}
-
-
 /* This removes all components except VEVENTs and VTIMEZONEs from the toplevel
    icalcomponent, and returns a GList of the VTODO components. */
 static GList*
@@ -378,16 +301,14 @@ support_format_fn (EvolutionImporter *importer,
 static gboolean
 load_file_fn (EvolutionImporter *importer,
 	      const char *filename,
-	      const char *folderpath,
+	      const char *physical_uri,
 	      void *closure)
 {
-	char *uri_str, *contents;
+	char *contents;
 	gboolean ret = FALSE;
 	ICalImporter *ici = (ICalImporter *) closure;
 
 	g_return_val_if_fail (ici != NULL, FALSE);
-
-	uri_str = get_uri_from_folder_path (ici, folderpath);
 
 	contents = read_file (filename);
 
@@ -397,7 +318,7 @@ load_file_fn (EvolutionImporter *importer,
 
 		icalcomp = icalparser_parse_string (contents);
 		if (icalcomp) {
-			if (cal_client_open_calendar (ici->client, uri_str, TRUE)
+			if (cal_client_open_calendar (ici->client, physical_uri, TRUE)
 			    && cal_client_open_default_tasks (ici->tasks_client, FALSE)) {
 				ici->icalcomp = icalcomp;
 				ret = TRUE;
@@ -406,7 +327,6 @@ load_file_fn (EvolutionImporter *importer,
 	}
 
 	g_free (contents);
-	g_free (uri_str);
 
 	return ret;
 }
@@ -509,28 +429,23 @@ load_vcalendar_file (const char *filename)
 static gboolean
 vcal_load_file_fn (EvolutionImporter *importer,
 		   const char *filename,
-		   const char *folderpath,
+		   const char *physical_uri,
 		   void *closure)
 {
-	char *uri_str;
 	gboolean ret = FALSE;
 	ICalImporter *ici = (ICalImporter *) closure;
 	icalcomponent *icalcomp;
 
 	g_return_val_if_fail (ici != NULL, FALSE);
 
-	uri_str = get_uri_from_folder_path (ici, folderpath);
-
 	icalcomp = load_vcalendar_file (filename);
 	if (icalcomp) {
-		if (cal_client_open_calendar (ici->client, uri_str, TRUE)
+		if (cal_client_open_calendar (ici->client, physical_uri, TRUE)
 		    && cal_client_open_default_tasks (ici->tasks_client, FALSE)) {
 			ici->icalcomp = icalcomp;
 			ret = TRUE;
 		}
 	}
-
-	g_free (uri_str);
 
 	return ret;
 }
