@@ -510,7 +510,7 @@ post_browser_clicked_cb (GtkButton *button, EMsgComposerHdrs *hdrs)
 
 	dialog = em_folder_selector_new (emft, EM_FOLDER_SELECTOR_CAN_CREATE,
 	                                 _("Posting destination"),
-	                                 _("Choose folders to post the message to."));
+	                                 _("Choose folders to post the message to."), NULL);
 	
 	post_items = e_msg_composer_hdrs_get_post_to (hdrs);	
 	em_folder_selector_set_selected_list ((EMFolderSelector *) dialog, post_items);
