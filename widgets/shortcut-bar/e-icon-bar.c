@@ -27,6 +27,7 @@
  * icons and descriptions. It provides 2 views - large icons and small icons.
  */
 
+#include <config.h>
 #include <gtk/gtkmain.h>
 #include <gtk/gtksignal.h>
 #include <gdk-pixbuf/gnome-canvas-pixbuf.h>
@@ -296,8 +297,6 @@ e_icon_bar_destroy (GtkObject *object)
 
 	icon_bar = E_ICON_BAR (object);
 
-	GTK_OBJECT_CLASS (parent_class)->destroy (object);
-	
 	for (item_num = 0; item_num < icon_bar->items->len; item_num++) {
 		item = &g_array_index (icon_bar->items,
 				       EIconBarItem, item_num);
@@ -311,6 +310,8 @@ e_icon_bar_destroy (GtkObject *object)
 		gtk_timeout_remove (icon_bar->auto_scroll_timeout_id);
 		icon_bar->auto_scroll_timeout_id = 0;
 	}
+
+	GTK_OBJECT_CLASS (parent_class)->destroy (object);
 }
 
 
@@ -1037,6 +1038,7 @@ e_icon_bar_item_pressed (EIconBar *icon_bar,
 	button = event->button.button;
 
 	if (button == 1 && item_num != -1) {
+		icon_bar->mouse_over_item_num = item_num;
 		icon_bar->pressed_item_num = item_num;
 		icon_bar->pressed_x = event->button.x;
 		icon_bar->pressed_y = event->button.y;

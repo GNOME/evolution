@@ -27,10 +27,10 @@
  * vertically. It is intended for scrolling narrow vertical bars.
  */
 
+#include <config.h>
 #include <gtk/gtkarrow.h>
 #include <gtk/gtkbutton.h>
 #include <gtk/gtksignal.h>
-
 #include "e-vscrolled-bar.h"
 
 /* These are the offsets of the up & down buttons from the right and top/bottom

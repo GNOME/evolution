@@ -34,10 +34,9 @@
  * GtkNotebook tab labels.
  */
 
+#include <config.h>
 #include <math.h>
-
 #include <gnome.h>
-
 #include "e-group-bar.h"
 
 #define E_GROUP_BAR_SCROLL_TIMEOUT	10

@@ -28,6 +28,7 @@
  * the lines between items when dragging.
  */
 
+#include <config.h>
 #include "e-icon-bar-bg-item.h"
 #include "e-icon-bar.h"
 

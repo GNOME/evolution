@@ -1,3 +1,15 @@
+2000-07-16  Damon Chaplin  <damon@helixcode.com>
+
+	* e-shortcut-model.[hc]: new files implementing a simple model for
+	the shortcuts, so we can have multiple views.
+
+	* Makefile.am (libshortcut_bar_a_SOURCES): added e-shortcut-model.[hc]
+
+	* e-shortcut-bar.h: updated to use the model.
+
+	* e-icon-bar.c (e_icon_bar_item_pressed): set mouse_over_item_num as
+	well as pressed_item_num to fix bug.
+
 2000-07-10  Ettore Perazzoli  <ettore@helixcode.com>
 
 	* e-group-bar.c (e_group_bar_add): Set `group_bar'.

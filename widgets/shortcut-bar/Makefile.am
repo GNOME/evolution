@@ -18,6 +18,8 @@ libshortcut_bar_a_SOURCES = 	\
 	e-icon-bar.h		\
 	e-shortcut-bar.c	\
 	e-shortcut-bar.h	\
+	e-shortcut-model.c	\
+	e-shortcut-model.h	\
 	e-vscrolled-bar.c	\
 	e-vscrolled-bar.h
 

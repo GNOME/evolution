@@ -26,6 +26,7 @@
 
 #include "e-group-bar.h"
 #include "e-icon-bar.h"
+#include "e-shortcut-model.h"
 
 #ifdef __cplusplus
 extern "C" {
@@ -58,7 +59,6 @@ struct _EShortcutBarGroup
 
 
 #define E_TYPE_SHORTCUT_BAR	     (e_shortcut_bar_get_type ())
-#define SHORTCUT_BAR(obj)            GTK_CHECK_CAST (obj, e_shortcut_bar_get_type (), EShortcutBar)
 #define E_SHORTCUT_BAR(obj)          GTK_CHECK_CAST (obj, e_shortcut_bar_get_type (), EShortcutBar)
 #define E_SHORTCUT_BAR_CLASS(klass)  GTK_CHECK_CLASS_CAST (klass, e_shortcut_bar_get_type (), EShortcutBarClass)
 #define E_IS_SHORTCUT_BAR(obj)       GTK_CHECK_TYPE (obj, e_shortcut_bar_get_type ())
@@ -67,6 +67,9 @@ struct _EShortcutBarGroup
 struct _EShortcutBar
 {
 	EGroupBar group_bar;
+
+	/* This is the underlying model. */
+	EShortcutModel *model;
 
 	/* This is an array of EShortcutBarGroup elements. */
 	GArray *groups;
@@ -90,27 +93,15 @@ struct _EShortcutBarClass
 					GdkEvent       *event,
 					gint		group_num,
 					gint		item_num);
-	void   (*added_item)	       (EShortcutBar   *shortcut_bar,
-					gint		group_num,
-					gint		item_num);
-	void   (*removed_item)	       (EShortcutBar   *shortcut_bar,
-					gint		group_num,
-					gint		item_num);
-	void   (*added_group)	       (EShortcutBar   *shortcut_bar,
-					gint		group_num);
-	void   (*removed_group)	       (EShortcutBar   *shortcut_bar,
-					gint		group_num);
 };
 
 
 GtkType	   	  e_shortcut_bar_get_type	     (void);
 GtkWidget* 	  e_shortcut_bar_new		     (void);
 
-/* Adds a new group, returning the index. */
-gint	   	  e_shortcut_bar_add_group	     (EShortcutBar	 *shortcut_bar,
-						      const gchar	 *group_name);
-void	   	  e_shortcut_bar_remove_group	     (EShortcutBar	 *shortcut_bar,
-						      gint		  group_num);
+/* Sets the underlying model. */
+void		  e_shortcut_bar_set_model	     (EShortcutBar	 *shortcut_bar,
+						      EShortcutModel	 *shortcut_model);
 
 /* Sets/gets the view type for the group. */
 void              e_shortcut_bar_set_view_type	     (EShortcutBar	 *shortcut_bar,
@@ -119,16 +110,7 @@ void              e_shortcut_bar_set_view_type	     (EShortcutBar	 *shortcut_bar
 EIconBarViewType  e_shortcut_bar_get_view_type	     (EShortcutBar	 *shortcut_bar,
 						      gint		  group_num);
 
-/* Adds a new item to a group, returning the index within the group. */
-gint	   	  e_shortcut_bar_add_item	     (EShortcutBar	 *shortcut_bar,
-						      gint		  group_num,
-						      const gchar	 *item_url,
-						      const gchar	 *item_name);
-
 void	   	  e_shortcut_bar_start_editing_item  (EShortcutBar	 *shortcut_bar,
-						      gint		  group_num,
-						      gint		  item_num);
-void	   	  e_shortcut_bar_remove_item         (EShortcutBar	 *shortcut_bar,
 						      gint		  group_num,
 						      gint		  item_num);
 

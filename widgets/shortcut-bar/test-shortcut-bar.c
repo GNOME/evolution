@@ -80,27 +80,26 @@ static void rename_item (GtkWidget *menuitem,
 			 EShortcutBar *shortcut_bar);
 static void remove_item (GtkWidget *menuitem,
 			 EShortcutBar *shortcut_bar);
-static void on_move_button_clicked (GtkWidget *button,
-				    EShortcutBar *shortcut_bar);
 static void on_set_group_button_clicked (GtkWidget *button,
 					 EShortcutBar *shortcut_bar);
 static void on_set_group_button_no_animation_clicked (GtkWidget *button,
 						      EShortcutBar *shortcut_bar);
-static void on_item_added (EShortcutBar *shortcut_bar,
+static void on_item_added (EShortcutModel *shortcut_model,
 			   gint group_num,
 			   gint item_num);
-static void on_item_removed (EShortcutBar *shortcut_bar,
+static void on_item_removed (EShortcutModel *shortcut_model,
 			     gint group_num,
 			     gint item_num);
-static void on_group_added (EShortcutBar *shortcut_bar,
+static void on_group_added (EShortcutModel *shortcut_model,
 			    gint group_num);
-static void on_group_removed (EShortcutBar *shortcut_bar,
+static void on_group_removed (EShortcutModel *shortcut_model,
 			      gint group_num);
 
 int
 main (int argc, char *argv[])
 {
 	GtkWidget *window, *hpaned, *shortcut_bar, *vbox, *button;
+	EShortcutModel *shortcut_model;
 	gchar *pathname;
 	gint i;
 
@@ -120,20 +119,24 @@ main (int argc, char *argv[])
 	gnome_app_set_contents (GNOME_APP (window), hpaned);
 	gtk_widget_show (hpaned);
 
+	shortcut_model = e_shortcut_model_new ();
+
 	shortcut_bar = e_shortcut_bar_new ();
+	e_shortcut_bar_set_model (E_SHORTCUT_BAR (shortcut_bar),
+				  shortcut_model);
 	e_paned_pack1 (E_PANED (hpaned), shortcut_bar, FALSE, TRUE);
 	gtk_widget_show (shortcut_bar);
 	e_shortcut_bar_set_icon_callback (E_SHORTCUT_BAR (shortcut_bar),
 					  icon_callback,
 					  NULL);
 
-	gtk_signal_connect (GTK_OBJECT (shortcut_bar), "item_added",
+	gtk_signal_connect (GTK_OBJECT (shortcut_model), "item_added",
 			    GTK_SIGNAL_FUNC (on_item_added), NULL);
-	gtk_signal_connect (GTK_OBJECT (shortcut_bar), "item_removed",
+	gtk_signal_connect (GTK_OBJECT (shortcut_model), "item_removed",
 			    GTK_SIGNAL_FUNC (on_item_removed), NULL);
-	gtk_signal_connect (GTK_OBJECT (shortcut_bar), "group_added",
+	gtk_signal_connect (GTK_OBJECT (shortcut_model), "group_added",
 			    GTK_SIGNAL_FUNC (on_group_added), NULL);
-	gtk_signal_connect (GTK_OBJECT (shortcut_bar), "group_removed",
+	gtk_signal_connect (GTK_OBJECT (shortcut_model), "group_removed",
 			    GTK_SIGNAL_FUNC (on_group_removed), NULL);
 
 #if 0
@@ -154,13 +157,6 @@ main (int argc, char *argv[])
 	gtk_signal_connect (GTK_OBJECT (main_label), "size_allocate",
 			    GTK_SIGNAL_FUNC (on_main_label_size_allocate),
 			    NULL);
-
-	button = gtk_button_new_with_label ("Move 1st group to 4th");
-	gtk_box_pack_start (GTK_BOX (vbox), button, FALSE, FALSE, 0);
-	gtk_widget_show (button);
-	gtk_signal_connect (GTK_OBJECT (button), "clicked",
-			    GTK_SIGNAL_FUNC (on_move_button_clicked),
-			    shortcut_bar);
 
 	button = gtk_button_new_with_label ("Set current group to 3rd");
 	gtk_box_pack_start (GTK_BOX (vbox), button, FALSE, FALSE, 0);
@@ -253,12 +249,11 @@ add_test_group (EShortcutBar *shortcut_bar, gint i, gchar *group_name)
 	gchar buffer[128];
 	gint shortcut_type, j;
 
-	group_num = e_shortcut_bar_add_group (E_SHORTCUT_BAR (shortcut_bar),
-					      group_name);
+	group_num = e_shortcut_model_add_group (shortcut_bar->model, -1,
+						group_name);
 
 	if (group_num % 2)
-		e_shortcut_bar_set_view_type (E_SHORTCUT_BAR (shortcut_bar),
-					      group_num,
+		e_shortcut_bar_set_view_type (shortcut_bar, group_num,
 					      E_ICON_BAR_SMALL_ICONS);
 
 	num_items = get_random_int (5) + 3;
@@ -271,7 +266,10 @@ add_test_group (EShortcutBar *shortcut_bar, gint i, gchar *group_name)
 			sprintf (buffer, "Item %i:%i\n", i, j);
 
 		shortcut_type = get_random_int (NUM_SHORTCUT_TYPES);
-		item_num = e_shortcut_bar_add_item (E_SHORTCUT_BAR (shortcut_bar), group_num, shortcut_types[shortcut_type], buffer);
+		item_num = e_shortcut_model_add_item (shortcut_bar->model,
+						      group_num, -1,
+						      shortcut_types[shortcut_type],
+						      buffer);
 	}
 }
 
@@ -435,7 +433,7 @@ remove_group (GtkWidget *menuitem,
 	group_num = GPOINTER_TO_INT (gtk_object_get_data (GTK_OBJECT (menu),
 							  "group_num"));
 	
-	e_shortcut_bar_remove_group (shortcut_bar, group_num);
+	e_shortcut_model_remove_group (shortcut_bar->model, group_num);
 }
 
 
@@ -547,7 +545,8 @@ remove_item (GtkWidget *menuitem,
 	item_num = GPOINTER_TO_INT (gtk_object_get_data (GTK_OBJECT (menu),
 							 "item_num"));
 	
-	e_shortcut_bar_remove_item (shortcut_bar, group_num, item_num);
+	e_shortcut_model_remove_item (shortcut_bar->model, group_num,
+				      item_num);
 }
 
 
@@ -558,7 +557,7 @@ on_set_group_button_clicked (GtkWidget *button,
 	g_print ("In on_set_group_button_clicked\n");
 
 	e_group_bar_set_current_group_num (E_GROUP_BAR (shortcut_bar),
-					   2, FALSE);
+					   2, TRUE);
 }
 
 
@@ -574,17 +573,7 @@ on_set_group_button_no_animation_clicked (GtkWidget *button,
 
 
 static void
-on_move_button_clicked (GtkWidget *button,
-			EShortcutBar *shortcut_bar)
-{
-	g_print ("In on_move_button_clicked\n");
-
-	e_group_bar_reorder_group (E_GROUP_BAR (shortcut_bar), 0, 3);
-}
-
-
-static void
-on_item_added (EShortcutBar *shortcut_bar,
+on_item_added (EShortcutModel *shortcut_model,
 	       gint group_num,
 	       gint item_num)
 {
@@ -593,7 +582,7 @@ on_item_added (EShortcutBar *shortcut_bar,
 
 
 static void
-on_item_removed (EShortcutBar *shortcut_bar,
+on_item_removed (EShortcutModel *shortcut_model,
 		 gint group_num,
 		 gint item_num)
 {
@@ -602,7 +591,7 @@ on_item_removed (EShortcutBar *shortcut_bar,
 
 
 static void
-on_group_added (EShortcutBar *shortcut_bar,
+on_group_added (EShortcutModel *shortcut_model,
 		gint group_num)
 {
 	g_print ("In on_group_added Group:%i\n", group_num);
@@ -610,7 +599,7 @@ on_group_added (EShortcutBar *shortcut_bar,
 
 
 static void
-on_group_removed (EShortcutBar *shortcut_bar,
+on_group_removed (EShortcutModel *shortcut_model,
 		  gint group_num)
 {
 	g_print ("In on_group_removed Group:%i\n", group_num);
