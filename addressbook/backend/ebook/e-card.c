@@ -28,7 +28,6 @@
 #include "e-util/ename/e-name-western.h"
 #include "e-util/ename/e-address-western.h"
 #include "e-book.h"
-#include "e-destination.h"
 
 #define is_a_prop_of(obj,prop) (isAPropertyOf ((obj),(prop)))
 #define str_val(obj) (the_str = (vObjectValueType (obj))? fakeCString (vObjectUStringZValue (obj)) : calloc (1, 1))
@@ -578,15 +577,7 @@ e_card_get_vobject (const ECard *card, gboolean assumeUTF8)
 		EIterator *iterator = e_list_get_iterator(card->email);
 		for ( ; e_iterator_is_valid(iterator) ;e_iterator_next(iterator) ) {
 			VObject *emailprop;
-			char *e = (char *) e_iterator_get(iterator);
-			if (!strncmp (e, "<?xml", 5)) {
-				EDestination *dest = e_destination_import (e);
-				emailprop = ADD_PROP_VALUE(vobj, VCEmailAddressProp, e_destination_get_address (dest));
-				g_object_unref (dest);
-			}
-			else {
-				emailprop = ADD_PROP_VALUE(vobj, VCEmailAddressProp, e);
-			}
+			emailprop = ADD_PROP_VALUE(vobj, VCEmailAddressProp, (char *) e_iterator_get(iterator));
 			addProp (emailprop, VCInternetProp);
 		}
 		g_object_unref(iterator);

@@ -1,5 +1,13 @@
 2003-03-28  Chris Toshok  <toshok@ximian.com>
 
+	[ fixes bug #40403 ]
+	* backend/ebook/e-card.c (e_card_get_vobject): revert the fix for
+	28945, as was done on the 1.2 branch.  this is because the "fix"
+	actually breaks internal use of contact lists.  We need to make
+	the exporting of contacts DTRT, instead of fixing it here.
+
+2003-03-28  Chris Toshok  <toshok@ximian.com>
+
 	[ fix the contact editor so that the only time the address is
 	parsed is when the user types in the address GtkTextView. ]
 	* gui/contact-editor/e-contact-editor.c (address_mailing_changed):
