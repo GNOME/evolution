@@ -227,7 +227,7 @@
 	Fix for bug #55267.
 
 	* e-filter-bar.c (set_property): Use efb->setquery properly (set
-	to TRUE before calling set_item_id and FLASE afterwards). Also
+	to TRUE before calling set_item_id and FALSE afterwards). Also
 	setquery to TRUE before emitting the "search-activated" signal so
 	that we don't run the callback for the signal we are emitting.
 
