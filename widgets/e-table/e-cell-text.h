@@ -54,7 +54,15 @@ typedef struct {
 	int strikeout_column;
 	int bold_column;
 
+	/* This column in the ETable should return a string specifying a color,
+	   either a color name like "red" or a color spec like "rgb:F/0/0".
+	   See the XParseColor man page for the formats available. */
+	int color_column;
+
 	ECellTextFilter filter;
+
+	/* This stores the colors we have allocated. */
+	GHashTable *colors;
 } ECellText;
 
 typedef struct {

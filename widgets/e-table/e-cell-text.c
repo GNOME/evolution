@@ -74,6 +74,7 @@ enum {
 	ARG_STRIKEOUT_COLUMN,
 	ARG_BOLD_COLUMN,
 	ARG_TEXT_FILTER,
+	ARG_COLOR_COLUMN,
 };
 
 
@@ -205,6 +206,8 @@ static gboolean _blink_scroll_timeout (gpointer data);
 static void build_current_cell (CurrentCell *cell, ECellTextView *text_view, int model_col, int view_col, int row);
 static void unbuild_current_cell (CurrentCell *cell);
 static void calc_ellipsis (ECellTextView *text_view);
+static void ect_free_color (gchar *color_spec, GdkColor *color, GdkColormap *colormap);
+static GdkColor* e_cell_text_get_color (ECellTextView *cell_view, gchar *color_spec);
 
 static ECellClass *parent_class;
 
@@ -355,6 +358,8 @@ static void
 ect_unrealize (ECellView *ecv)
 {
 	ECellTextView *text_view = (ECellTextView *) ecv;
+	ECellText *ect = (ECellText*) ecv->ecell;
+	GdkColormap *colormap;
 
 	gdk_gc_unref (text_view->gc);
 	text_view->gc = NULL;
@@ -371,8 +376,32 @@ ect_unrealize (ECellView *ecv)
 
 	gdk_cursor_destroy (text_view->i_cursor);
 
+	if (ect->colors) {
+		colormap = gtk_widget_get_colormap (GTK_WIDGET (text_view->canvas));
+		g_hash_table_foreach (ect->colors, (GHFunc) ect_free_color,
+				      colormap);
+		g_hash_table_destroy (ect->colors);
+		ect->colors = NULL;
+	}
+
 	if (parent_class->unrealize)
 		(* parent_class->unrealize) (ecv);
+}
+
+static void
+ect_free_color (gchar *color_spec, GdkColor *color, GdkColormap *colormap)
+{
+
+	g_free (color_spec);
+
+	/* This frees the color. Note we don't free it if it is the special
+	   value. */
+	if (color != (GdkColor*) 1) {
+		gdk_colors_free (colormap, &color->pixel, 1, 0);
+
+		/* This frees the memory for the GdkColor. */
+		gdk_color_free (color);
+	}
 }
 
 /*
@@ -400,8 +429,9 @@ ect_draw (ECellView *ecell_view, GdkDrawable *drawable,
 	CellEdit *edit = text_view->edit;
 	gboolean edit_display = FALSE;
 	ECellTextLineBreaks *linebreaks;
-	GdkColor *background, *foreground;
+	GdkColor *background, *foreground, *cell_foreground, *cursor_color;
 	gboolean bold = FALSE;
+	gchar *color_spec;
 
 	if (ect->bold_column >= 0 && e_table_model_value_at(ecell_view->e_table_model, ect->bold_column, row))
 		bold = TRUE;
@@ -437,6 +467,18 @@ ect_draw (ECellView *ecell_view, GdkDrawable *drawable,
 		background = &canvas->style->base [GTK_STATE_NORMAL];
 		foreground = &canvas->style->text [GTK_STATE_NORMAL];
 	}
+
+	cursor_color = foreground;
+
+	if (ect->color_column != -1) {
+		color_spec = e_table_model_value_at (ecell_view->e_table_model,
+						     ect->color_column, row);
+		cell_foreground = e_cell_text_get_color (text_view,
+							 color_spec);
+		if (cell_foreground)
+			foreground = cell_foreground;
+	}
+
 	gdk_gc_set_foreground (text_view->gc, background);
 	gdk_draw_rectangle (drawable, text_view->gc, TRUE,
 			    rect.x, rect.y, rect.width, rect.height);
@@ -583,6 +625,7 @@ ect_draw (ECellView *ecell_view, GdkDrawable *drawable,
 			    edit->selection_start >= start_char &&
 			    edit->selection_start <= end_char &&
 			    edit->show_cursor) {
+				gdk_gc_set_foreground (text_view->gc, cursor_color);
 				gdk_draw_rectangle (drawable,
 						    text_view->gc,
 						    TRUE,
@@ -1142,7 +1185,9 @@ ect_leave_edit (ECellView *ecell_view, int model_col, int view_col, int row, voi
 	if (edit){
 		ect_accept_edits (text_view);
 		ect_stop_editing (text_view);
-		unbuild_current_cell (CURRENT_CELL(edit));
+		/* FIXME: edit is freed in ect_stop_editing() so I've
+		   commented this out - Damon. */
+		/*unbuild_current_cell (CURRENT_CELL(edit));*/
 	} else {
 		/*
 		 * We did invoke this leave edit internally
@@ -1221,6 +1266,11 @@ ect_set_arg (GtkObject *object, GtkArg *arg, guint arg_id)
 	case ARG_BOLD_COLUMN:
 		text->bold_column = GTK_VALUE_INT (*arg);
 		break;
+
+	case ARG_COLOR_COLUMN:
+		text->color_column = GTK_VALUE_INT (*arg);
+		break;
+
 	case ARG_TEXT_FILTER:
 		text->filter = GTK_VALUE_POINTER (*arg);
 		break;
@@ -1244,6 +1294,10 @@ ect_get_arg (GtkObject *object, GtkArg *arg, guint arg_id)
 
 	case ARG_BOLD_COLUMN:
 		GTK_VALUE_INT (*arg) = text->bold_column;
+		break;
+
+	case ARG_COLOR_COLUMN:
+		GTK_VALUE_INT (*arg) = text->color_column;
 		break;
 
 	case ARG_TEXT_FILTER:
@@ -1284,6 +1338,8 @@ e_cell_text_class_init (GtkObjectClass *object_class)
 				 GTK_TYPE_INT, GTK_ARG_READWRITE, ARG_STRIKEOUT_COLUMN);
 	gtk_object_add_arg_type ("ECellText::bold_column",
 				 GTK_TYPE_INT, GTK_ARG_READWRITE, ARG_BOLD_COLUMN);
+	gtk_object_add_arg_type ("ECellText::color_column",
+				 GTK_TYPE_INT, GTK_ARG_READWRITE, ARG_COLOR_COLUMN);
 	gtk_object_add_arg_type ("ECellText::text_filter",
 				 GTK_TYPE_POINTER, GTK_ARG_READWRITE, ARG_TEXT_FILTER);
 
@@ -1296,6 +1352,7 @@ e_cell_text_init (ECellText *ect)
 {
 	ect->strikeout_column = -1;
 	ect->bold_column = -1;
+	ect->color_column = -1;
 }
 
 E_MAKE_TYPE(e_cell_text, "ECellText", ECellText, e_cell_text_class_init, e_cell_text_init, PARENT_TYPE);
@@ -2151,5 +2208,46 @@ static void
 unbuild_current_cell (CurrentCell *cell)
 {
 	g_free(cell->text);
+	cell->text = NULL;
+}
+
+
+static GdkColor*
+e_cell_text_get_color (ECellTextView *cell_view, gchar *color_spec)
+{
+	ECellText *ect = E_CELL_TEXT (((ECellView*) cell_view)->ecell);
+	GdkColormap *colormap;
+	GdkColor *color, tmp_color;
+
+	/* If the color spec is NULL we use the default color. */
+	if (color_spec == NULL)
+		return NULL;
+
+	/* Create the hash table if we haven't already. */
+	if (!ect->colors)
+		ect->colors = g_hash_table_new (g_str_hash, g_str_equal);
+
+	/* See if we've already allocated the color. Note that we use a
+	   special value of (GdkColor*) 1 in the hash to indicate that we've
+	   already tried and failed to allocate the color, so we don't keep
+	   trying to allocate it. */
+	color = g_hash_table_lookup (ect->colors, color_spec);
+	if (color == (GdkColor*) 1)
+		return NULL;
+	if (color)
+		return color;
+
+	/* Try to parse the color. */
+	if (gdk_color_parse (color_spec, &tmp_color)) {
+		colormap = gtk_widget_get_colormap (GTK_WIDGET (cell_view->canvas));
+
+		/* Try to allocate the color. */
+		if (gdk_color_alloc (colormap, &tmp_color))
+			color = gdk_color_copy (&tmp_color);
+	}
+
+	g_hash_table_insert (ect->colors, g_strdup (color_spec),
+			     color ? color : (GdkColor*) 1);
+	return color;
 }
 

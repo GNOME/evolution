@@ -1,3 +1,15 @@
+2000-07-23  Damon Chaplin  <damon@helixcode.com>
+
+	* e-cell-text.c: added a color_column where the color can be specified
+	as a string, e.g. "red" or "rgb:F/0/0".
+
+	* e-cell-text.c (ect_leave_edit): don't call unbuild_current_cell()
+	since the CellEdit struct has been freed in ect_stop_editing() and so
+	has the text.
+
+	* e-cell-text.c (unbuild_current_cell): set cell->text to NULL to make
+	sure we	don't try to free it again.
+
 2000-07-21  Christopher James Lahey  <clahey@helixcode.com>
 
 	* e-table.h: Added some unused declarations for drag and drop
