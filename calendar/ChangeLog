@@ -1,3 +1,33 @@
+2001-12-17  JP Rosevear  <jpr@ximian.com>
+ 
+ 	* gui/e-itip-control.c (send_item): use get_real_item
+ 	(get_refresh_options): uncomment out
+ 	(get_real_item): obtain the real object which has the uid of the
+ 	item received
+ 	(show_current_todo): use get_refresh_options for refresh method
+ 	and provide the description and summary from the real component
+ 	since its not in the reply
+ 	(show_current_event): ditto
+ 	(send_item): use get_real_item
+
+2001-12-17  JP Rosevear  <jpr@ximian.com>
+
+	* gui/itip-utils.c (comp_limit_attendees): can't remove properties
+	in an iteration loop, so remove them outside the loop
+	(comp_minimal): don't set a recurid if there isn't one, add the x
+	properties to the clone
+	(comp_compliant): unref the clone for DECLINECOUNTER
+
+	* gui/e-itip-control.c (get_refresh_options): make function
+	available again
+	(show_current_event): use it here
+	(ok_clicked_cb): can't remove properties in an iteration loop, so
+	remove them outside the loop
+
+	* cal-util/cal-component.c (free_icalcomponent): properly free the
+	attendee list
+	(cal_component_rescan): don't destroy the alarm hash
+
 2001-12-13  Damon Chaplin  <damon@ximian.com>
 
 	* zones.h: new file to contain all timezone names for translation.

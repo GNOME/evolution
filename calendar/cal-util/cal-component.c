@@ -275,7 +275,8 @@ static void
 free_icalcomponent (CalComponent *comp, gboolean free)
 {
 	CalComponentPrivate *priv;
-
+	GSList *l;
+	
 	priv = comp->priv;
 
 	if (!priv->icalcomp)
@@ -294,6 +295,11 @@ free_icalcomponent (CalComponent *comp, gboolean free)
 
 	priv->status = NULL;
 
+	for (l = priv->attendee_list; l != NULL; l = l->next)
+		g_free (l->data);
+	g_slist_free (priv->attendee_list);
+	priv->attendee_list = NULL;
+	
 	priv->categories = NULL;
 
 	priv->classification = NULL;
@@ -1078,9 +1084,8 @@ cal_component_rescan (CalComponent *comp)
 
 	/* Clear everything out */
 	free_icalcomponent (comp, FALSE);
-	g_hash_table_destroy (priv->alarm_uid_hash);
-	priv->alarm_uid_hash = NULL;
 
+	/* Rescan */
 	scan_icalcomponent (comp);
 	ensure_mandatory_properties (comp);
 }
