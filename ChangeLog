@@ -1,3 +1,7 @@
+2005-03-21  Philip Van Hoof  <pvanhoof@gnome.org>
+
+	* configure.in: Fix for #73917
+	
 2005-03-16  Pawan Chitrakar  <pawan@nplinux.org>
 
 	* configure.in: Added ne in ALL_LINGUAS
