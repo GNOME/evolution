@@ -1,5 +1,13 @@
 2000-04-11  Chris Toshok  <toshok@helixcode.com>
 
+	* addressbook/backend/pas/pas-backend-file.c
+	(pas_backend_file_search): remove spew.
+	(pas_backend_file_process_create_card): move the sync to the
+	earliest possible point after the db operation.
+	(pas_backend_file_process_remove_card): same.
+	(pas_backend_file_process_modify_card): same, and call
+	pas_book_respond_modify, not pas_book_respond_remove, here.
+
 	* addressbook/gui/component/addressbook.c (card_deleted_cb): new
 	function.
 	(delete_contact_cb): wire up button to call

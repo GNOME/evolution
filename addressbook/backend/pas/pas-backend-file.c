@@ -257,9 +257,7 @@ pas_backend_file_search (PASBackendFile  	*bf,
 			char *vcard_string = vcard_dbt.data;
 
 			/* check if the vcard matches the search sexp */
-			
 			if (vcard_matches_search (view, vcard_string)) {
-				printf ("card matches!\n");
 				cards = g_list_append (cards, strdup(vcard_string));
 			}
 		}
@@ -308,6 +306,10 @@ pas_backend_file_process_create_card (PASBackend *backend,
 	db_error = db->put (db, &id_dbt, &vcard_dbt, 0);
 
 	if (0 == db_error) {
+		db_error = db->sync (db, 0);
+		if (db_error != 0)
+			g_warning ("db->sync failed.\n");
+
 		for (list = bf->priv->book_views; list; list = g_list_next(list)) {
 			PASBackendFileBookView *view = list->data;
 			if (vcard_matches_search (view, vcard))
@@ -319,9 +321,6 @@ pas_backend_file_process_create_card (PASBackend *backend,
 				 Evolution_BookListener_Success,
 				 id);
 
-		db_error = db->sync (db, 0);
-		if (db_error != 0)
-			g_warning ("db->sync failed.\n");
 	}
 	else {
 		/* XXX need a different call status for this case, i
@@ -372,6 +371,11 @@ pas_backend_file_process_remove_card (PASBackend *backend,
 		return;
 	}
 
+	db_error = db->sync (db, 0);
+	if (db_error != 0)
+		g_warning ("db->sync failed.\n");
+
+
 	vcard_string = vcard_dbt.data;
 	for (list = bf->priv->book_views; list; list = g_list_next(list)) {
 		PASBackendFileBookView *view = list->data;
@@ -383,10 +387,6 @@ pas_backend_file_process_remove_card (PASBackend *backend,
 				 book,
 				 Evolution_BookListener_Success);
 	
-	db_error = db->sync (db, 0);
-	if (db_error != 0)
-		g_warning ("db->sync failed.\n");
-
 	g_free (req->id);
 }
 
@@ -413,7 +413,7 @@ pas_backend_file_process_modify_card (PASBackend *backend,
 	/* get the old ecard - the one that's presently in the db */
 	db_error = db->get (db, &id_dbt, &vcard_dbt, 0);
 	if (0 != db_error) {
-		pas_book_respond_remove (
+		pas_book_respond_modify (
 				 book,
 				 Evolution_BookListener_CardNotFound);
 		g_free (req->id);
@@ -426,6 +426,10 @@ pas_backend_file_process_modify_card (PASBackend *backend,
 	db_error = db->put (db, &id_dbt, &vcard_dbt, 0);
 
 	if (0 == db_error) {
+		db_error = db->sync (db, 0);
+		if (db_error != 0)
+			g_warning ("db->sync failed.\n");
+
 		for (list = bf->priv->book_views; list; list = g_list_next(list)) {
 			PASBackendFileBookView *view = list->data;
 			gboolean old_match, new_match;
@@ -443,10 +447,6 @@ pas_backend_file_process_modify_card (PASBackend *backend,
 		pas_book_respond_modify (
 				 book,
 				 Evolution_BookListener_Success);
-
-		db_error = db->sync (db, 0);
-		if (db_error != 0)
-			g_warning ("db->sync failed.\n");
 	}
 	else {
 		pas_book_respond_modify (
