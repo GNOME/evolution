@@ -108,7 +108,7 @@ mbox_folder_name_to_meta_path(CamelStore *store, const char *folder_name, const 
 }
 
 static char *extensions[] = {
-	".msf", ".ev-summary", ".ibex.index", ".ibex.index.data", ".cmeta"
+	".msf", ".ev-summary", ".ibex.index", ".ibex.index.data", ".cmeta", ".lock"
 };
 
 static gboolean
@@ -116,7 +116,11 @@ ignore_file(const char *filename, gboolean sbd)
 {
 	int flen, len, i;
 	
+	/* TODO: Should probably just be 1 regex */
 	flen = strlen(filename);
+	if (flen > 0 && filename[flen-1] == '~')
+		return TRUE;
+
 	for (i = 0; i <(sizeof(extensions) / sizeof(extensions[0])); i++) {
 		len = strlen(extensions[i]);
 		if (len < flen && !strcmp(filename + flen - len, extensions[i]))

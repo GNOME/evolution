@@ -1,5 +1,11 @@
 2004-02-09  Not Zed  <NotZed@Ximian.com>
 
+	** See bug #53978.
+
+	* providers/local/camel-mbox-store.c: added ".lock" to the list of
+	ignored extensions.
+	(ignore_file): ignore anything ending in ~ too.
+
 	** See bug #51319.
 	
 	* providers/local/camel-local-folder.c
