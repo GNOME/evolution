@@ -429,6 +429,7 @@ get_addressbook_names_from_server (char *source_url)
 	gboolean remember;
 	char *failed_auth; 
 	char *prompt;
+	char *password_prompt;
 	char *uri;
 	const char *use_ssl;
 	const char *poa_address;
@@ -457,9 +458,10 @@ get_addressbook_names_from_server (char *source_url)
 	failed_auth = "";
 	cnc = NULL;
         do {
-		prompt = g_strdup_printf (_("%sEnter password for %s (user %s)"),
-                                          failed_auth, poa_address, url->user);
-		
+		password_prompt = g_strdup_printf (_("Enter password for %s (user %s)"),
+                                           poa_address, url->user);
+		prompt = g_strconcat (failed_auth, password_prompt, NULL);
+		g_free (password_prompt);
 		password = e_passwords_ask_password (prompt, "Groupwise", key, prompt,
                                                      E_PASSWORDS_REMEMBER_FOREVER|E_PASSWORDS_SECRET, &remember,
 						     NULL);
