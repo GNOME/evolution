@@ -39,14 +39,6 @@ extern "C" {
  * Used for calendar events and tasks.
  */
 
-/* These index our colors array. */
-typedef enum
-{
-	E_CALENDAR_TABLE_COLOR_OVERDUE,
-	
-	E_CALENDAR_TABLE_COLOR_LAST
-} ECalendarTableColors;
-
 
 #define E_CALENDAR_TABLE(obj)          GTK_CHECK_CAST (obj, e_calendar_table_get_type (), ECalendarTable)
 #define E_CALENDAR_TABLE_CLASS(klass)  GTK_CHECK_CLASS_CAST (klass, e_calendar_table_get_type (), ECalendarTableClass)
@@ -57,29 +49,14 @@ typedef struct _ECalendarTable       ECalendarTable;
 typedef struct _ECalendarTableClass  ECalendarTableClass;
 
 
-typedef gboolean (*ECalendarTableFilterFunc)	(ECalendarTable *cal_table,
-						 CalComponent   *comp,
-						 gpointer	 data);
-
 struct _ECalendarTable
 {
 	GtkTable table;
 
-	/* This is the underlying model which contains all the tasks/events. */
+	/* The model that we use */
 	CalendarModel *model;
 
-	/* This is the model that we use when filtering the tasks/events. */
-	ETableModel *subset_model;
-	
 	GtkWidget *etable;
-	
-	/* Colors for drawing. */
-	GdkColor colors[E_CALENDAR_TABLE_COLOR_LAST];
-
-	/* Data for filtering the Tasks. */
-	ECalendarTableFilterFunc filter_func;
-	gpointer filter_data;
-	GDestroyNotify filter_data_destroy;
 
 	/* The ECell used to view & edit dates. */
 	ECellDateEdit *dates_cell;
@@ -101,9 +78,6 @@ GtkWidget* e_calendar_table_new			(void);
 
 CalendarModel *e_calendar_table_get_model	(ECalendarTable *cal_table);
 
-void	   e_calendar_table_set_cal_client	(ECalendarTable *cal_table,
-						 CalClient	*client);
-
 ETable *e_calendar_table_get_table (ECalendarTable *cal_table);
 
 void e_calendar_table_delete_selected (ECalendarTable *cal_table);
@@ -119,14 +93,6 @@ void	   e_calendar_table_load_state		(ECalendarTable *cal_table,
 						 gchar		*filename);
 void	   e_calendar_table_save_state		(ECalendarTable *cal_table,
 						 gchar		*filename);
-
-void	   e_calendar_table_set_filter_func	(ECalendarTable *cal_table,
-						 ECalendarTableFilterFunc filter_func,
-						 gpointer	 filter_data,
-						 GDestroyNotify  filter_data_destroy);
-gboolean   e_calendar_table_filter_by_category  (ECalendarTable *cal_table,
-						 CalComponent	*comp,
-						 gpointer	 filter_data);
 
 
 #ifdef __cplusplus

@@ -48,6 +48,10 @@ struct _CalendarModelPrivate {
 	/* Types of objects we are dealing with */
 	CalObjType type;
 
+	/* S-expression for query and the query object */
+	char *sexp;
+	CalQuery *query;
+
 	/* Array of pointers to calendar objects */
 	GArray *objects;
 
@@ -96,12 +100,10 @@ static void calendar_model_free_value (ETableModel *etm, int col, void *value);
 static void *calendar_model_initialize_value (ETableModel *etm, int col);
 static gboolean calendar_model_value_is_empty (ETableModel *etm, int col, const void *value);
 static char * calendar_model_value_to_string (ETableModel *etm, int col, const void *value);
-static void load_objects (CalendarModel *model);
 static int remove_object (CalendarModel *model, const char *uid);
 static void ensure_task_complete (CalComponent *comp,
 				  time_t completed_date);
 static void ensure_task_not_complete (CalComponent *comp);
-static void calendar_model_collect_all_categories (CalendarModel *model);
 static gboolean calendar_model_collect_categories	(CalendarModel	*model,
 							 CalComponent	*comp);
 
@@ -190,6 +192,9 @@ calendar_model_init (CalendarModel *model)
 	priv = g_new0 (CalendarModelPrivate, 1);
 	model->priv = priv;
 
+	priv->sexp = g_strdup ("#t"); /* match all by default */
+	priv->query = NULL;
+
 	priv->objects = g_array_new (FALSE, TRUE, sizeof (CalComponent *));
 	priv->uid_index_hash = g_hash_table_new (g_str_hash, g_str_equal);
 	priv->new_comp_vtype = CAL_COMPONENT_EVENT;
@@ -255,6 +260,17 @@ calendar_model_destroy (GtkObject *object)
 		gtk_signal_disconnect_by_data (GTK_OBJECT (priv->client), model);
 		gtk_object_unref (GTK_OBJECT (priv->client));
 		priv->client = NULL;
+	}
+
+	if (priv->sexp) {
+		g_free (priv->sexp);
+		priv->sexp = NULL;
+	}
+
+	if (priv->query) {
+		gtk_signal_disconnect_by_data (GTK_OBJECT (priv->query), model);
+		gtk_object_unref (GTK_OBJECT (priv->query));
+		priv->query = NULL;
 	}
 
 	/* Free the uid->index hash data and the array of UIDs */
@@ -1729,104 +1745,19 @@ calendar_model_new (void)
 }
 
 
-/* Callback used when a calendar is opened into the server */
+/* Callback used when a component is updated in the live query */
 static void
-cal_opened_cb (CalClient *client, CalClientOpenStatus status, gpointer data)
-{
-	CalendarModel *model;
-
-	model = CALENDAR_MODEL (data);
-
-	e_table_model_pre_change (E_TABLE_MODEL (model));
-
-	if (status == CAL_CLIENT_OPEN_SUCCESS) {
-		load_objects (model);
-		calendar_model_collect_all_categories (model);
-	}
-
-	e_table_model_changed (E_TABLE_MODEL (model));
-}
-
-
-/* Removes an object from the model and updates all the indices that follow.
- * Returns the index of the object that was removed, or -1 if no object with
- * such UID was found.
- */
-static int
-remove_object (CalendarModel *model, const char *uid)
-{
-	CalendarModelPrivate *priv;
-	int *idx;
-	CalComponent *orig_comp;
-	int i;
-	int n;
-
-	priv = model->priv;
-
-	/* Find the index of the object to be removed */
-
-	idx = g_hash_table_lookup (priv->uid_index_hash, uid);
-	if (!idx)
-		return -1;
-
-	orig_comp = g_array_index (priv->objects, CalComponent *, *idx);
-	g_assert (orig_comp != NULL);
-
-	/* Decrease the indices of all the objects that follow in the array */
-
-	for (i = *idx + 1; i < priv->objects->len; i++) {
-		CalComponent *comp;
-		int *comp_idx;
-		const char *comp_uid;
-
-		comp = g_array_index (priv->objects, CalComponent *, i);
-		g_assert (comp != NULL);
-
-		cal_component_get_uid (comp, &comp_uid);
-
-		comp_idx = g_hash_table_lookup (priv->uid_index_hash, comp_uid);
-		g_assert (comp_idx != NULL);
-
-		(*comp_idx)--;
-		g_assert (*comp_idx >= 0);
-	}
-
-	/* Remove this object from the array and hash */
-
-	g_hash_table_remove (priv->uid_index_hash, uid);
-	g_array_remove_index (priv->objects, *idx);
-
-	gtk_object_unref (GTK_OBJECT (orig_comp));
-
-	n = *idx;
-	g_free (idx);
-
-	return n;
-}
-
-/* Returns whether a component's type matches the types we support */
-static gboolean
-matches_type (CalObjType type, CalComponentVType vtype)
-{
-	return ((vtype == CAL_COMPONENT_EVENT && (type & CALOBJ_TYPE_EVENT))
-		|| (vtype == CAL_COMPONENT_TODO && (type & CALOBJ_TYPE_TODO))
-		|| (vtype == CAL_COMPONENT_JOURNAL && (type & CALOBJ_TYPE_JOURNAL)));
-}
-
-/* Callback used when an object is updated in the server */
-static void
-obj_updated_cb (CalClient *client, const char *uid, gpointer data)
+query_obj_updated_cb (CalQuery *query, const char *uid,
+		      gboolean query_in_progress, int n_scanned, int total,
+		      gpointer data)
 {
 	CalendarModel *model;
 	CalendarModelPrivate *priv;
 	int orig_idx;
 	CalComponent *new_comp;
-	CalComponentVType new_comp_vtype;
 	const char *new_comp_uid;
 	int *new_idx;
 	CalClientGetStatus status;
-
-	g_print ("In calendar model obj_updated_cb\n");
 
 	model = CALENDAR_MODEL (data);
 	priv = model->priv;
@@ -1837,14 +1768,6 @@ obj_updated_cb (CalClient *client, const char *uid, gpointer data)
 
 	switch (status) {
 	case CAL_CLIENT_GET_SUCCESS:
-		/* Check if we are interested in this type of object */
-
-		new_comp_vtype = cal_component_get_vtype (new_comp);
-		if (!matches_type (priv->type, new_comp_vtype)) {
-			gtk_object_unref (GTK_OBJECT (new_comp));
-			break;
-		}
-
 		/* Insert the object into the model */
 
 		cal_component_get_uid (new_comp, &new_comp_uid);
@@ -1922,13 +1845,11 @@ obj_updated_cb (CalClient *client, const char *uid, gpointer data)
 	default:
 		g_assert_not_reached ();
 	}
-
-	g_print ("Out calendar model obj_updated_cb\n");
 }
 
-/* Callback used when an object is removed in the server */
+/* Callback used when a component is removed from the live query */
 static void
-obj_removed_cb (CalClient *client, const char *uid, gpointer data)
+query_obj_removed_cb (CalQuery *query, const char *uid, gpointer data)
 {
 	CalendarModel *model;
 	int idx;
@@ -1941,67 +1862,175 @@ obj_removed_cb (CalClient *client, const char *uid, gpointer data)
 		e_table_model_row_deleted (E_TABLE_MODEL (model), idx);
 }
 
-/* Loads the required objects from the calendar client */
+/* Callback used when a query ends */
 static void
-load_objects (CalendarModel *model)
+query_query_done_cb (CalQuery *query, CalQueryDoneStatus status, const char *error_str, gpointer data)
+{
+	CalendarModel *model;
+
+	model = CALENDAR_MODEL (data);
+
+	/* FIXME */
+
+	if (status != CAL_QUERY_DONE_SUCCESS)
+		fprintf (stderr, "query done: %s\n", error_str);
+}
+
+/* Callback used when an evaluation error occurs when running a query */
+static void
+query_eval_error_cb (CalQuery *query, const char *error_str, gpointer data)
+{
+	CalendarModel *model;
+
+	model = CALENDAR_MODEL (data);
+
+	/* FIXME */
+
+	fprintf (stderr, "eval error: %s\n", error_str);
+}
+
+/* Builds a complete query sexp for the calendar model by adding the predicates
+ * to filter only for the type of objects that the model supports.
+ */
+static char *
+adjust_query_sexp (CalendarModel *model, const char *sexp)
 {
 	CalendarModelPrivate *priv;
-	GList *uids;
-	GList *l;
+	CalObjType type;
+	char *type_sexp;
+	char *new_sexp;
 
 	priv = model->priv;
 
-	g_assert (cal_client_get_load_state (priv->client) == CAL_CLIENT_LOAD_LOADED);
+	type = priv->type;
 
-	uids = cal_client_get_uids (priv->client, priv->type);
+	if (!(type & CALOBJ_TYPE_ANY))
+		type_sexp = g_strdup ("#t");
+	else
+		type_sexp = g_strdup_printf (
+			"(or %s %s %s)",
+			(type & CALOBJ_TYPE_EVENT) ? "(= (get-vtype) \"VEVENT\")" : "",
+			(type & CALOBJ_TYPE_TODO) ? "(= (get-vtype) \"VTODO\")" : "",
+			(type & CALOBJ_TYPE_JOURNAL) ? "(= (get-vtype) \"VJOURNAL\")" : "");
 
-	for (l = uids; l; l = l->next) {
-		char *uid;
-		CalComponent *comp;
-		const char *comp_uid;
-		CalClientGetStatus status;
-		CalComponentVType comp_vtype;
-		int *idx;
+	new_sexp = g_strdup_printf ("(and %s %s)", type_sexp, sexp);
+	g_free (type_sexp);
 
-		uid = l->data;
-		status = cal_client_get_object (priv->client, uid, &comp);
+	return new_sexp;
+}
 
-		switch (status) {
-		case CAL_CLIENT_GET_SUCCESS:
-			break;
+/* Restarts a query */
+static void
+update_query (CalendarModel *model)
+{
+	CalendarModelPrivate *priv;
+	char *real_sexp;
 
-		case CAL_CLIENT_GET_NOT_FOUND:
-			/* Nothing; the object may have been removed from the server */
-			continue;
+	priv = model->priv;
 
-		case CAL_CLIENT_GET_SYNTAX_ERROR:
-			g_message ("load_objects(): Syntax error when getting object `%s'", uid);
-			continue;
+	e_table_model_pre_change (E_TABLE_MODEL (model));
+	free_objects (model);
+	e_table_model_changed (E_TABLE_MODEL (model));
 
-		default:
-			g_assert_not_reached ();
-		}
+	if (!(priv->client
+	      && cal_client_get_load_state (priv->client) == CAL_CLIENT_LOAD_LOADED))
+		return;
 
-		/* Check if we are interested in this type of object */
-
-		comp_vtype = cal_component_get_vtype (comp);
-		if (!matches_type (priv->type, comp_vtype)) {
-			gtk_object_unref (GTK_OBJECT (comp));
-			continue;
-		}
-
-		/* Insert the object into the model */
-
-		idx = g_new (int, 1);
-
-		g_array_append_val (priv->objects, comp);
-		*idx = priv->objects->len - 1;
-
-		cal_component_get_uid (comp, &comp_uid);
-		g_hash_table_insert (priv->uid_index_hash, (char *) comp_uid, idx);
+	if (priv->query) {
+		gtk_signal_disconnect_by_data (GTK_OBJECT (priv->query), model);
+		gtk_object_unref (GTK_OBJECT (priv->query));
 	}
 
-	cal_obj_uid_list_free (uids);
+	g_assert (priv->sexp != NULL);
+	real_sexp = adjust_query_sexp (model, priv->sexp);
+
+	priv->query = cal_client_get_query (priv->client, real_sexp);
+	g_free (real_sexp);
+
+	if (!priv->query) {
+		g_message ("update_query(): Could not create the query");
+		return;
+	}
+
+	gtk_signal_connect (GTK_OBJECT (priv->query), "obj_updated",
+			    GTK_SIGNAL_FUNC (query_obj_updated_cb), model);
+	gtk_signal_connect (GTK_OBJECT (priv->query), "obj_removed",
+			    GTK_SIGNAL_FUNC (query_obj_removed_cb), model);
+	gtk_signal_connect (GTK_OBJECT (priv->query), "query_done",
+			    GTK_SIGNAL_FUNC (query_query_done_cb), model);
+	gtk_signal_connect (GTK_OBJECT (priv->query), "eval_error",
+			    GTK_SIGNAL_FUNC (query_eval_error_cb), model);
+}
+
+/* Callback used when a calendar is opened into the server */
+static void
+cal_opened_cb (CalClient *client, CalClientOpenStatus status, gpointer data)
+{
+	CalendarModel *model;
+
+	model = CALENDAR_MODEL (data);
+
+	if (status != CAL_CLIENT_OPEN_SUCCESS)
+		return;
+
+	update_query (model);
+}
+
+
+/* Removes an object from the model and updates all the indices that follow.
+ * Returns the index of the object that was removed, or -1 if no object with
+ * such UID was found.
+ */
+static int
+remove_object (CalendarModel *model, const char *uid)
+{
+	CalendarModelPrivate *priv;
+	int *idx;
+	CalComponent *orig_comp;
+	int i;
+	int n;
+
+	priv = model->priv;
+
+	/* Find the index of the object to be removed */
+
+	idx = g_hash_table_lookup (priv->uid_index_hash, uid);
+	if (!idx)
+		return -1;
+
+	orig_comp = g_array_index (priv->objects, CalComponent *, *idx);
+	g_assert (orig_comp != NULL);
+
+	/* Decrease the indices of all the objects that follow in the array */
+
+	for (i = *idx + 1; i < priv->objects->len; i++) {
+		CalComponent *comp;
+		int *comp_idx;
+		const char *comp_uid;
+
+		comp = g_array_index (priv->objects, CalComponent *, i);
+		g_assert (comp != NULL);
+
+		cal_component_get_uid (comp, &comp_uid);
+
+		comp_idx = g_hash_table_lookup (priv->uid_index_hash, comp_uid);
+		g_assert (comp_idx != NULL);
+
+		(*comp_idx)--;
+		g_assert (*comp_idx >= 0);
+	}
+
+	/* Remove this object from the array and hash */
+
+	g_hash_table_remove (priv->uid_index_hash, uid);
+	g_array_remove_index (priv->objects, *idx);
+
+	gtk_object_unref (GTK_OBJECT (orig_comp));
+
+	n = *idx;
+	g_free (idx);
+
+	return n;
 }
 
 /**
@@ -2051,8 +2080,6 @@ calendar_model_set_cal_client (CalendarModel *model, CalClient *client, CalObjTy
 	if (priv->client == client && priv->type == type)
 		return;
 
-	e_table_model_pre_change (E_TABLE_MODEL(model));
-
 	if (client)
 		gtk_object_ref (GTK_OBJECT (client));
 
@@ -2061,25 +2088,42 @@ calendar_model_set_cal_client (CalendarModel *model, CalClient *client, CalObjTy
 		gtk_object_unref (GTK_OBJECT (priv->client));
 	}
 
-	free_objects (model);
-
 	priv->client = client;
 	priv->type = type;
 
 	if (priv->client) {
-		gtk_signal_connect (GTK_OBJECT (priv->client), "obj_updated",
-				    GTK_SIGNAL_FUNC (obj_updated_cb), model);
-		gtk_signal_connect (GTK_OBJECT (priv->client), "obj_removed",
-				    GTK_SIGNAL_FUNC (obj_removed_cb), model);
-
-		if (cal_client_get_load_state (priv->client) != CAL_CLIENT_LOAD_LOADED)
+		if (cal_client_get_load_state (priv->client) == CAL_CLIENT_LOAD_LOADED)
+			update_query (model);
+		else
 			gtk_signal_connect (GTK_OBJECT (priv->client), "cal_opened",
 					    GTK_SIGNAL_FUNC (cal_opened_cb), model);
-		else
-			load_objects (model);
 	}
+}
 
-	e_table_model_changed (E_TABLE_MODEL (model));
+/**
+ * calendar_model_set_query:
+ * @model: A calendar model.
+ * @sexp: Sexp that defines the query.
+ * 
+ * Sets the query sexp that a calendar model will use to filter its contents.
+ **/
+void
+calendar_model_set_query (CalendarModel *model, const char *sexp)
+{
+	CalendarModelPrivate *priv;
+
+	g_return_if_fail (model != NULL);
+	g_return_if_fail (IS_CALENDAR_MODEL (model));
+	g_return_if_fail (sexp != NULL);
+
+	priv = model->priv;
+
+	if (priv->sexp)
+		g_free (priv->sexp);
+
+	priv->sexp = g_strdup (sexp);
+
+	update_query (model);
 }
 
 
@@ -2293,31 +2337,6 @@ calendar_model_set_default_category	(CalendarModel	*model,
 	model->priv->default_category = g_strdup (default_category);
 }
 
-
-static void
-calendar_model_collect_all_categories	(CalendarModel	*model)
-{
-	CalendarModelPrivate *priv;
-	CalComponent *comp;
-	int i;
-
-	priv = model->priv;
-
-	/* Destroy the current tree and start from scratch. */
-	g_tree_traverse (priv->categories, (GTraverseFunc) g_free,
-			 G_PRE_ORDER, NULL);
-	g_tree_destroy (priv->categories);
-
-	priv->categories = g_tree_new ((GCompareFunc)strcmp);
-
-	for (i = 0; i < priv->objects->len; i++) {
-		comp = g_array_index (priv->objects, CalComponent *, i);
-		calendar_model_collect_categories (model, comp);
-	}
-
-	gtk_signal_emit (GTK_OBJECT (model),
-			 calendar_model_signals [CATEGORIES_CHANGED]);
-}
 
 
 static gboolean

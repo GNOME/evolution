@@ -59,6 +59,8 @@ etspec_DATA = e-calendar-table.etspec
 
 evolution_calendar_SOURCES =			\
 	$(IDL_GENERATED)			\
+	cal-search-bar.c			\
+	cal-search-bar.h			\
 	calendar-config.c			\
 	calendar-config.h			\
 	calendar-commands.c			\

@@ -32,6 +32,7 @@
 #include <gal/menus/gal-view-etable.h>
 #include "widgets/menus/gal-view-menus.h"
 #include "dialogs/task-editor.h"
+#include "cal-search-bar.h"
 #include "calendar-config.h"
 #include "component-factory.h"
 
@@ -50,9 +51,16 @@ struct _ETasksPrivate {
 	/* The ECalendarTable showing the tasks. */
 	GtkWidget   *tasks_view;
 
+	/* Search bar for tasks and the current sexp */
+	GtkWidget *search_bar;
+	char *sexp;
+
 	/* The option menu showing the categories, and the popup menu. */
 	GtkWidget *categories_option_menu;
 	GtkWidget *categories_menu;
+
+	/* The category that is currently selected, used to filter out items */
+	char *category;
 
 	/* View collection and the view menus handler */
 	GalViewCollection *view_collection;
@@ -131,6 +139,9 @@ e_tasks_init (ETasks *tasks)
 	priv = g_new0 (ETasksPrivate, 1);
 	tasks->priv = priv;
 
+	priv->sexp = g_strdup ("#t"); /* Match all */
+	priv->category = NULL;
+
 	setup_widgets (tasks);
 }
 
@@ -146,6 +157,51 @@ table_selection_change_cb (ETable *etable, gpointer data)
 	n_selected = e_table_selected_count (etable);
 	gtk_signal_emit (GTK_OBJECT (tasks), e_tasks_signals[SELECTION_CHANGED],
 			 n_selected);
+}
+
+/* Updates the query in the table model by composing the currently selected
+ * category with the current sexp.
+ */
+static void
+update_query (ETasks *tasks)
+{
+	ETasksPrivate *priv;
+	char *new_sexp;
+	gboolean free_new_sexp;
+	CalendarModel *model;
+
+	priv = tasks->priv;
+
+	g_assert (priv->sexp != NULL);
+
+	if (priv->category) {
+		new_sexp = g_strdup_printf ("(and %s (has-categories? \"%s\"))",
+					    priv->sexp, priv->category);
+		free_new_sexp = TRUE;
+	} else {
+		new_sexp = priv->sexp;
+		free_new_sexp = FALSE;
+	}
+
+	model = e_calendar_table_get_model (E_CALENDAR_TABLE (priv->tasks_view));
+	calendar_model_set_query (model, new_sexp);
+
+	if (free_new_sexp)
+		g_free (new_sexp);
+}
+
+/* Callback used when the sexp in the search bar changes */
+static void
+search_bar_sexp_changed_cb (CalSearchBar *cal_search, const char *sexp, gpointer data)
+{
+	ETasks *tasks;
+	ETasksPrivate *priv;
+
+	tasks = E_TASKS (data);
+	priv = tasks->priv;
+
+	priv->sexp = g_strdup (sexp);
+	update_query (tasks);
 }
 
 #define E_TASKS_TABLE_DEFAULT_STATE					\
@@ -169,10 +225,16 @@ setup_widgets (ETasks *tasks)
 
 	priv = tasks->priv;
 
-	hbox = gtk_hbox_new (FALSE, 0);
+	hbox = gtk_hbox_new (FALSE, GNOME_PAD_SMALL);
 	gtk_widget_show (hbox);
 	gtk_table_attach (GTK_TABLE (tasks), hbox, 0, 1, 0, 1,
 			  GTK_EXPAND | GTK_FILL, 0, 0, 0);
+
+	priv->search_bar = cal_search_bar_new ();
+	gtk_signal_connect (GTK_OBJECT (priv->search_bar), "sexp_changed",
+			    GTK_SIGNAL_FUNC (search_bar_sexp_changed_cb), tasks);
+	gtk_box_pack_start (GTK_BOX (hbox), priv->search_bar, TRUE, TRUE, 0);
+	gtk_widget_show (priv->search_bar);
 
 	priv->categories_option_menu = gtk_option_menu_new ();
 	gtk_widget_show (priv->categories_option_menu);
@@ -215,6 +277,7 @@ GtkWidget *
 e_tasks_construct (ETasks *tasks)
 {
 	ETasksPrivate *priv;
+	CalendarModel *model;
 
 	g_return_val_if_fail (tasks != NULL, NULL);
 	g_return_val_if_fail (E_IS_TASKS (tasks), NULL);
@@ -232,8 +295,10 @@ e_tasks_construct (ETasks *tasks)
 	gtk_signal_connect (GTK_OBJECT (priv->client), "obj_removed",
 			    GTK_SIGNAL_FUNC (obj_removed_cb), tasks);
 
-	e_calendar_table_set_cal_client (E_CALENDAR_TABLE (priv->tasks_view),
-					 priv->client);
+	model = e_calendar_table_get_model (E_CALENDAR_TABLE (priv->tasks_view));
+	g_assert (model != NULL);
+
+	calendar_model_set_cal_client (model, priv->client, CALOBJ_TYPE_TODO);
 
 	return GTK_WIDGET (tasks);
 }
@@ -270,6 +335,15 @@ e_tasks_destroy (GtkObject *object)
 
 	tasks = E_TASKS (object);
 	priv = tasks->priv;
+
+	g_assert (priv->sexp != NULL);
+	g_free (priv->sexp);
+	priv->sexp = NULL;
+
+	if (priv->category) {
+		g_free (priv->category);
+		priv->category = NULL;
+	}
 
 	/* Save the ETable layout. */
 	config_filename = e_tasks_get_config_filename (tasks);
@@ -497,7 +571,6 @@ e_tasks_delete_selected (ETasks *tasks)
 	e_calendar_table_delete_selected (cal_table);
 }
 
-
 static void
 e_tasks_on_filter_selected		(GtkMenuShell	*menu_shell,
 					 ETasks		*tasks)
@@ -518,16 +591,18 @@ e_tasks_on_filter_selected		(GtkMenuShell	*menu_shell,
 	cal_table = E_CALENDAR_TABLE (priv->tasks_view);
 	model = cal_table->model;
 
+	if (priv->category)
+		g_free (priv->category);
+
 	if (!strcmp (category, _("All"))) {
 		calendar_model_set_default_category (model, NULL);
-		e_calendar_table_set_filter_func (cal_table, NULL, NULL,
-						  NULL);
+		priv->category = NULL;
 	} else {
 		calendar_model_set_default_category (model, category);
-		e_calendar_table_set_filter_func (cal_table,
-						  e_calendar_table_filter_by_category,
-						  g_strdup (category), g_free);
+		priv->category = g_strdup (category);
 	}
+
+	update_query (tasks);
 }
 
 

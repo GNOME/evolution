@@ -40,8 +40,6 @@
 #include <gal/e-paned/e-vpaned.h>
 #include <cal-util/timeutil.h>
 #include "widgets/menus/gal-view-menus.h"
-#include "widgets/misc/e-search-bar.h"
-#include "widgets/misc/e-filter-bar.h"
 #include "dialogs/event-editor.h"
 #include "e-calendar-table.h"
 #include "e-day-view.h"
@@ -49,6 +47,7 @@
 #include "evolution-calendar.h"
 #include "gnome-cal.h"
 #include "component-factory.h"
+#include "cal-search-bar.h"
 #include "calendar-commands.h"
 #include "calendar-config.h"
 #include "calendar-view.h"
@@ -201,28 +200,6 @@ gnome_calendar_class_init (GnomeCalendarClass *class)
 	object_class->destroy = gnome_calendar_destroy;
 }
 
-static ESearchBarItem search_menu_items[] = {
-	E_FILTERBAR_RESET,
-	{ NULL, -1 }
-};
-
-enum {
-	SEARCH_ANY_FIELD_CONTAINS,
-	SEARCH_SUMMARY_CONTAINS,
-	SEARCH_DESCRIPTION_CONTAINS,
-	SEARCH_COMMENT_CONTAINS,
-	SEARCH_HAS_CATEGORY
-};
-
-static ESearchBarItem search_option_items[] = {
-	{ N_("Any field contains"), SEARCH_ANY_FIELD_CONTAINS },
-	{ N_("Summary contains"), SEARCH_SUMMARY_CONTAINS },
-	{ N_("Description contains"), SEARCH_DESCRIPTION_CONTAINS },
-	{ N_("Comment contains"), SEARCH_COMMENT_CONTAINS },
-	{ N_("Has category"), SEARCH_HAS_CATEGORY },
-	{ NULL, -1 }
-};
-
 /**
  * gnome_calendar_set_query:
  * @gcal: A calendar.
@@ -264,88 +241,6 @@ gnome_calendar_set_query (GnomeCalendar *gcal, char *sexp)
 	}
 }
 
-/* Sets the query string to be (contains? "field" "text") */
-static void
-set_query_contains (GnomeCalendar *gcal, const char *field, const char *text)
-{
-	char *sexp;
-
-	sexp = g_strdup_printf ("(contains? \"%s\" \"%s\")", field, text);
-	gnome_calendar_set_query (gcal, sexp);
-	g_free (sexp);
-}
-
-/* Callback used when the query string is changed in the search bar */
-static void
-search_bar_query_changed_cb (ESearchBar *search_bar, gpointer data)
-{
-	GnomeCalendar *gcal;
-	int item;
-	char *text;
-
-	gcal = GNOME_CALENDAR (data);
-
-	item = e_search_bar_get_option_choice (search_bar);
-	text = e_search_bar_get_text (search_bar);
-
-	if (!text)
-		return; /* This is an error in the UTF8 conversion, not an empty string! */
-
-	switch (item) {
-	case SEARCH_ANY_FIELD_CONTAINS:
-		set_query_contains (gcal, "any", text);
-		break;
-
-	case SEARCH_SUMMARY_CONTAINS:
-		set_query_contains (gcal, "summary", text);
-		break;
-
-	case SEARCH_DESCRIPTION_CONTAINS:
-		set_query_contains (gcal, "description", text);
-		break;
-
-	case SEARCH_COMMENT_CONTAINS:
-		set_query_contains (gcal, "comment", text);
-		break;
-
-	case SEARCH_HAS_CATEGORY: {
-		char *sexp;
-
-		sexp = g_strdup_printf ("(has-categories? \"%s\")", text);
-		gnome_calendar_set_query (gcal, sexp);
-		g_free (sexp);
-		break;
-	}
-
-	default:
-		g_assert_not_reached ();
-	}
-
-	g_free (text);
-}
-
-/* Callback used when a menu item is activated in the search bar */
-static void
-search_bar_menu_activated_cb (ESearchBar *search_bar, int item, gpointer data)
-{
-	GnomeCalendar *gcal;
-
-	gcal = GNOME_CALENDAR (data);
-
-	switch (item) {
-	case E_FILTERBAR_RESET_ID:
-		gnome_calendar_set_query (gcal, "#t"); /* match all */
-		/* FIXME: should we change the rest of the search bar so that
-		 * the user sees that he selected "show all" instead of some
-		 * type/text search combination?
-		 */
-		break;
-
-	default:
-		g_assert_not_reached ();
-	}
-}
-
 /* Returns the current time, for the ECalendarItem. */
 static struct tm
 get_current_time (ECalendarItem *calitem, gpointer data)
@@ -372,6 +267,16 @@ get_current_time (ECalendarItem *calitem, gpointer data)
 	return tmp_tm;
 }
 
+/* Callback used when the sexp changes in the calendar search bar */
+static void
+search_bar_sexp_changed_cb (CalSearchBar *cal_search, const char *sexp, gpointer data)
+{
+	GnomeCalendar *gcal;
+
+	gcal = GNOME_CALENDAR (data);
+	gnome_calendar_set_query (gcal, sexp);
+}
+
 static void
 setup_widgets (GnomeCalendar *gcal)
 {
@@ -382,11 +287,9 @@ setup_widgets (GnomeCalendar *gcal)
 
 	priv = gcal->priv;
 
-	priv->search_bar = e_search_bar_new (search_menu_items, search_option_items);
-	gtk_signal_connect (GTK_OBJECT (priv->search_bar), "query_changed",
-			    GTK_SIGNAL_FUNC (search_bar_query_changed_cb), gcal);
-	gtk_signal_connect (GTK_OBJECT (priv->search_bar), "menu_activated",
-			    GTK_SIGNAL_FUNC (search_bar_menu_activated_cb), gcal);
+	priv->search_bar = cal_search_bar_new ();
+	gtk_signal_connect (GTK_OBJECT (priv->search_bar), "sexp_changed",
+			    GTK_SIGNAL_FUNC (search_bar_sexp_changed_cb), gcal);
 
 	gtk_widget_show (priv->search_bar);
 	gtk_box_pack_start (GTK_BOX (gcal), priv->search_bar, FALSE, FALSE, 0);
@@ -1138,6 +1041,7 @@ gnome_calendar_construct (GnomeCalendar *gcal)
 {
 	GnomeCalendarPrivate *priv;
 	GnomeCalendarViewType view_type;
+	CalendarModel *model;
 
 	g_return_val_if_fail (gcal != NULL, NULL);
 	g_return_val_if_fail (GNOME_IS_CALENDAR (gcal), NULL);
@@ -1177,8 +1081,10 @@ gnome_calendar_construct (GnomeCalendar *gcal)
 	gtk_signal_connect (GTK_OBJECT (priv->task_pad_client), "cal_opened",
 			    GTK_SIGNAL_FUNC (cal_opened_cb), gcal);
 
-	e_calendar_table_set_cal_client (E_CALENDAR_TABLE (priv->todo),
-					 priv->task_pad_client);
+	model = e_calendar_table_get_model (E_CALENDAR_TABLE (priv->todo));
+	g_assert (model != NULL);
+
+	calendar_model_set_cal_client (model, priv->task_pad_client, CALOBJ_TYPE_TODO);
 
 	/* Get the default view to show. */
 	view_type = calendar_config_get_default_view ();

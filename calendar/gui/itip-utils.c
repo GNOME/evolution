@@ -34,6 +34,7 @@
 #include <gal/util/e-util.h>
 #include <ical.h>
 #include <Evolution-Composer.h>
+#include "cal-util/cal-util.h"
 #include "itip-utils.h"
 
 #define GNOME_EVOLUTION_COMPOSER_OAFIID "OAFIID:GNOME_Evolution_Mail_Composer"

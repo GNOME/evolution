@@ -263,104 +263,7 @@ show_month_view_clicked (BonoboUIComponent *uic, gpointer data, const char *path
 
 
 static void
-new_calendar_cmd (BonoboUIComponent *uic, gpointer data, const char *path)
-{
-	new_calendar ();
-}
-
-static void
-open_ok (GtkWidget *widget, GtkFileSelection *fs)
-{
-	GtkWidget *error_dialog;
-	int ret;
-	if(!g_file_exists (gtk_file_selection_get_filename (fs))) {
-		error_dialog = gnome_message_box_new (
-			_("File not found"),
-			GNOME_MESSAGE_BOX_ERROR,
-			GNOME_STOCK_BUTTON_OK,
-			NULL);
-
-		gnome_dialog_set_parent (GNOME_DIALOG (error_dialog), GTK_WINDOW (fs));
-		ret = gnome_dialog_run (GNOME_DIALOG (error_dialog));
-	} else {
-		/* FIXME: find out who owns this calendar and use that name */
-#ifndef NO_WARNINGS
-#warning "FIXME: find out who owns this calendar and use that name"
-#endif
-		/*
-		new_calendar ("Somebody", gtk_file_selection_get_filename (fs));
-		*/
-		gtk_widget_destroy (GTK_WIDGET (fs));
-	}
-}
-
-static void
-open_calendar_cmd (BonoboUIComponent *uic, gpointer data, const char *path)
-{
-	GtkFileSelection *fs;
-
-	fs = GTK_FILE_SELECTION (gtk_file_selection_new (_("Open calendar")));
-
-	gtk_signal_connect (GTK_OBJECT (fs->ok_button), "clicked",
-			    (GtkSignalFunc) open_ok,
-			    fs);
-	gtk_signal_connect_object (GTK_OBJECT (fs->cancel_button), "clicked",
-				   (GtkSignalFunc) gtk_widget_destroy,
-				   GTK_OBJECT (fs));
-
-	gtk_widget_show (GTK_WIDGET (fs));
-	gtk_grab_add (GTK_WIDGET (fs)); /* Yes, it is modal, so sue me */
-}
-
-static void
-save_ok (GtkWidget *widget, GtkFileSelection *fs)
-{
-	GnomeCalendar *gcal;
-	gchar *fname;
-
-	gcal = GNOME_CALENDAR (gtk_object_get_user_data (GTK_OBJECT (fs)));
-	gtk_window_set_wmclass (GTK_WINDOW (gcal), "gnomecal", "gnomecal");
-
-	fname = g_strdup (gtk_file_selection_get_filename (fs));
-	g_free(fname);
-	gtk_main_quit ();
-}
-
-static gint
-close_save (GtkWidget *w)
-{
-	gtk_main_quit ();
-	return TRUE;
-}
-
-static void
-save_as_calendar_cmd (BonoboUIComponent *uic, gpointer data, const char *path)
-{
-	GnomeCalendar *gcal;
-	GtkFileSelection *fs;
-
-	gcal = GNOME_CALENDAR (data);
-
-	fs = GTK_FILE_SELECTION (gtk_file_selection_new (_("Save calendar")));
-	gtk_object_set_user_data (GTK_OBJECT (fs), gcal);
-
-	gtk_signal_connect (GTK_OBJECT (fs->ok_button), "clicked",
-			    (GtkSignalFunc) save_ok,
-			    fs);
-	gtk_signal_connect_object (GTK_OBJECT (fs->cancel_button), "clicked",
-				   (GtkSignalFunc) close_save,
-				   GTK_OBJECT (fs));
-	gtk_signal_connect_object (GTK_OBJECT (fs), "delete_event",
-				   GTK_SIGNAL_FUNC (close_save),
-				   GTK_OBJECT (fs));
-	gtk_widget_show (GTK_WIDGET (fs));
-	gtk_grab_add (GTK_WIDGET (fs)); /* Yes, it is modal, so sue me even more */
-	gtk_main ();
-	gtk_widget_destroy (GTK_WIDGET (fs));
-}
-
-static void
-preferences_cmd (BonoboUIComponent *uic, gpointer data, const char *path)
+settings_cmd (BonoboUIComponent *uic, gpointer data, const char *path)
 {
 	if (!preferences_dialog)
 		preferences_dialog = cal_prefs_dialog_new ();
@@ -471,20 +374,15 @@ clear_folder_bar_label (BonoboControl *control)
 }
 
 static BonoboUIVerb verbs [] = {
-	BONOBO_UI_VERB ("CalendarNew", new_calendar_cmd),
-	BONOBO_UI_VERB ("CalendarOpen", open_calendar_cmd),
-	BONOBO_UI_VERB ("CalendarSaveAs", save_as_calendar_cmd),
 	BONOBO_UI_VERB ("CalendarPrint", file_print_cb),
 	BONOBO_UI_VERB ("CalendarPrintPreview", file_print_preview_cb),
-	BONOBO_UI_VERB ("EditNewAppointment", new_appointment_cb),
-	BONOBO_UI_VERB ("EditNewEvent", new_event_cb),
-	BONOBO_UI_VERB ("CalendarPreferences", preferences_cmd),
+	BONOBO_UI_VERB ("CalendarNewAppointment", new_appointment_cb),
+	BONOBO_UI_VERB ("CalendarNewEvent", new_event_cb),
+	BONOBO_UI_VERB ("CalendarSettings", settings_cmd),
 
 	BONOBO_UI_VERB ("CutEvent", cut_event_cmd),
 	BONOBO_UI_VERB ("CopyEvent", copy_event_cmd),
 	BONOBO_UI_VERB ("PasteEvent", paste_event_cmd),
-
-	BONOBO_UI_VERB ("PublishFreeBusy", publish_freebusy_cmd),
 
 	BONOBO_UI_VERB ("CalendarPrev", previous_clicked),
 	BONOBO_UI_VERB ("CalendarToday", today_clicked),
@@ -496,16 +394,18 @@ static BonoboUIVerb verbs [] = {
 	BONOBO_UI_VERB ("ShowWeekView", show_week_view_clicked),
 	BONOBO_UI_VERB ("ShowMonthView", show_month_view_clicked),
 
+	BONOBO_UI_VERB ("PublishFreeBusy", publish_freebusy_cmd),
+
 	BONOBO_UI_VERB_END
 };
 
 static EPixmap pixmaps [] =
 {
-	E_PIXMAP ("/menu/File/New/NewFirstItem/CalendarNew",	"new_appointment.xpm"),
+	E_PIXMAP ("/menu/File/New/NewFirstItem/NewAppointment",	"new_appointment.xpm"),
 	E_PIXMAP ("/menu/File/Print/Print",			"print.xpm"),
-	E_PIXMAP ("/menu/File/Print/Print Preview",		"print-preview.xpm"),
-	E_PIXMAP ("/menu/Actions/Component/CalendarNew",	"new_appointment.xpm"),
-	E_PIXMAP ("/menu/Tools/Component/CalendarPreferences",	"configure_16_calendar.xpm"),
+	E_PIXMAP ("/menu/File/Print/PrintPreview",		"print-preview.xpm"),
+	E_PIXMAP ("/menu/Actions/Component/NewAppointment",	"new_appointment.xpm"),
+	E_PIXMAP ("/menu/Tools/Component/CalendarSettings",	"configure_16_calendar.xpm"),
 
 	E_PIXMAP ("/Toolbar/New",				"buttons/new_appointment.png"),
 	E_PIXMAP ("/Toolbar/Print",				"buttons/print.png"),

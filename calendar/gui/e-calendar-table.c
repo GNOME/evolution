@@ -82,18 +82,6 @@ static gint e_calendar_table_on_key_press	(ETable		*table,
 						 GdkEventKey	*event,
 						 ECalendarTable *cal_table);
 
-static void e_calendar_table_apply_filter	(ECalendarTable	*cal_table);
-static void e_calendar_table_on_model_changed	(ETableModel	*model,
-						 ECalendarTable	*cal_table);
-static void e_calendar_table_on_rows_inserted	(ETableModel	*model,
-						 int		 row,
-						 int		 count,
-						 ECalendarTable	*cal_table);
-static void e_calendar_table_on_rows_deleted	(ETableModel	*model,
-						 int		 row,
-						 int		 count,
-						 ECalendarTable	*cal_table);
-
 static void selection_clear_event               (GtkWidget *invisible,
 						 GdkEventSelection *event,
 						 ECalendarTable *cal_table);
@@ -252,39 +240,11 @@ e_calendar_table_init (ECalendarTable *cal_table)
 	ETableExtras *extras;
 	gint i;
 	GdkPixbuf *pixbuf;
-	GdkColormap *colormap;
-	gboolean success[E_CALENDAR_TABLE_COLOR_LAST];
-	gint nfailed;
 	GList *strings;
-
-	/* Allocate the colors we need. */
-
-	colormap = gtk_widget_get_colormap (GTK_WIDGET (cal_table));
-
-	cal_table->colors[E_CALENDAR_TABLE_COLOR_OVERDUE].red   = 65535;
-	cal_table->colors[E_CALENDAR_TABLE_COLOR_OVERDUE].green = 0;
-	cal_table->colors[E_CALENDAR_TABLE_COLOR_OVERDUE].blue  = 0;
-
-	nfailed = gdk_colormap_alloc_colors (colormap, cal_table->colors,
-					     E_CALENDAR_TABLE_COLOR_LAST,
-					     FALSE, TRUE, success);
-	if (nfailed)
-		g_warning ("Failed to allocate all colors");
 
 	/* Create the model */
 
 	cal_table->model = calendar_model_new ();
-	cal_table->subset_model = e_table_subset_variable_new (E_TABLE_MODEL (cal_table->model));
-
-	gtk_signal_connect (GTK_OBJECT (cal_table->model), "model_changed",
-			    GTK_SIGNAL_FUNC (e_calendar_table_on_model_changed),
-			    cal_table);
-	gtk_signal_connect (GTK_OBJECT (cal_table->model), "model_rows_inserted",
-			    GTK_SIGNAL_FUNC (e_calendar_table_on_rows_inserted),
-			    cal_table);
-	gtk_signal_connect (GTK_OBJECT (cal_table->model), "model_rows_deleted",
-			    GTK_SIGNAL_FUNC (e_calendar_table_on_rows_deleted),
-			    cal_table);
 
 	/* Create the header columns */
 
@@ -472,7 +432,7 @@ e_calendar_table_init (ECalendarTable *cal_table)
 
 	/* Create the table */
 
-	table = e_table_scrolled_new_from_spec_file (cal_table->subset_model,
+	table = e_table_scrolled_new_from_spec_file (E_TABLE_MODEL (cal_table->model),
 						     extras,
 						     EVOLUTION_ETSPECDIR "/e-calendar-table.etspec",
 						     NULL);
@@ -566,24 +526,12 @@ e_calendar_table_destroy (GtkObject *object)
 	gtk_object_unref (GTK_OBJECT (cal_table->model));
 	cal_table->model = NULL;
 
-	gtk_object_unref (GTK_OBJECT (cal_table->subset_model));
-	cal_table->subset_model = NULL;
-
 	if (cal_table->invisible)
 		gtk_widget_destroy (cal_table->invisible);
 	if (cal_table->clipboard_selection)
 		g_free (cal_table->clipboard_selection);
 
 	GTK_OBJECT_CLASS (parent_class)->destroy (object);
-}
-
-
-void
-e_calendar_table_set_cal_client (ECalendarTable *cal_table,
-				 CalClient	*client)
-{
-	calendar_model_set_cal_client (cal_table->model, client,
-				       CALOBJ_TYPE_TODO);
 }
 
 /**
@@ -723,6 +671,8 @@ e_calendar_table_delete_selected (ECalendarTable *cal_table)
 		comp = get_selected_comp (cal_table);
 	else
 		comp = NULL;
+
+	/* FIXME: this may be something other than a TODO component */
 
 	if (delete_component_dialog (comp, n_selected, CAL_COMPONENT_TODO, GTK_WIDGET (cal_table)))
 		delete_selected_components (cal_table);
@@ -1010,141 +960,6 @@ e_calendar_table_save_state (ECalendarTable	*cal_table,
 			    filename);
 }
 
-
-void
-e_calendar_table_set_filter_func	(ECalendarTable *cal_table,
-					 ECalendarTableFilterFunc filter_func,
-					 gpointer	 filter_data,
-					 GDestroyNotify  filter_data_destroy)
-{
-	g_return_if_fail (E_IS_CALENDAR_TABLE (cal_table));
-
-	if (cal_table->filter_func == filter_func
-	    && cal_table->filter_data == filter_data
-	    && cal_table->filter_data_destroy == filter_data_destroy)
-		return;
-
-	if (cal_table->filter_data_destroy)
-		(*cal_table->filter_data_destroy) (cal_table->filter_data);
-
-	cal_table->filter_func = filter_func;
-	cal_table->filter_data = filter_data;
-	cal_table->filter_data_destroy = filter_data_destroy;
-
-	e_calendar_table_apply_filter (cal_table);
-}
-
-
-static void
-e_calendar_table_apply_filter		(ECalendarTable	*cal_table)
-{
-	ETableSubsetVariable *etssv;
-	CalComponent *comp;
-	gint rows, row;
-
-	etssv = E_TABLE_SUBSET_VARIABLE (cal_table->subset_model);
-
-	/* Make sure that any edits get saved first. */
-	e_table_model_pre_change (cal_table->subset_model);
-
-	/* FIXME: A hack to remove all the existing rows quickly. */
-	E_TABLE_SUBSET (cal_table->subset_model)->n_map = 0;
-
-	if (cal_table->filter_func == NULL) {
-		e_table_subset_variable_add_all (etssv);
-	} else {
-		rows = e_table_model_row_count (E_TABLE_MODEL (cal_table->model));
-		for (row = 0; row < rows; row++) {
-			comp = calendar_model_get_component (cal_table->model,
-							     row);
-
-			if ((*cal_table->filter_func) (cal_table, comp,
-						       cal_table->filter_data))
-				e_table_subset_variable_add (etssv, row);
-		}
-	}
-
-	e_table_model_changed (cal_table->subset_model);
-}
-
-
-gboolean
-e_calendar_table_filter_by_category  (ECalendarTable	*cal_table,
-				      CalComponent	*comp,
-				      gpointer		 filter_data)
-{
-	GSList *categories_list, *elem;
-	gboolean retval = FALSE;
-
-	cal_component_get_categories_list (comp, &categories_list);
-
-	for (elem = categories_list; elem; elem = elem->next) {
-		if (retval == FALSE
-		    && !strcmp ((char*) elem->data, (char*) filter_data))
-			retval = TRUE;
-		g_free (elem->data);
-	}
-
-	g_slist_free (categories_list);
-
-	return retval;
-}
-
-
-static void
-e_calendar_table_on_model_changed	(ETableModel	*model,
-					 ECalendarTable	*cal_table)
-{
-	e_calendar_table_apply_filter (cal_table);
-}
-
-
-static void
-e_calendar_table_on_rows_inserted	(ETableModel	*model,
-					 int		 row,
-					 int		 count,
-					 ECalendarTable	*cal_table)
-{
-	int i;
-
-	for (i = 0; i < count; i++) {
-		gboolean add_row;
-
-		add_row = FALSE;
-
-		if (cal_table->filter_func) {
-			CalComponent *comp;
-
-			comp = calendar_model_get_component (cal_table->model, row + i);
-			g_assert (comp != NULL);
-
-			add_row = (* cal_table->filter_func) (cal_table, comp,
-							      cal_table->filter_data);
-		} else
-			add_row = TRUE;
-
-		if (add_row) {
-			ETableSubsetVariable *etssv;
-
-			etssv = E_TABLE_SUBSET_VARIABLE (cal_table->subset_model);
-
-			e_table_subset_variable_increment (etssv, row, 1);
-			e_table_subset_variable_add (etssv, row);
-		}
-	}
-}
-
-
-static void
-e_calendar_table_on_rows_deleted	(ETableModel	*model,
-					 int		 row,
-					 int		 count,
-					 ECalendarTable	*cal_table)
-{
-	/* We just reapply the filter since we aren't too bothered about
-	   being efficient. It doesn't happen often. */
-	e_calendar_table_apply_filter (cal_table);
-}
 
 static void
 invisible_destroyed (GtkWidget *invisible, ECalendarTable *cal_table)

@@ -277,6 +277,22 @@ module Calendar {
 		/* Makes the alarm notification daemon unconditionally exit */
 		void die ();
 	};
+
+	/* Factory to centralize calendar component editor dialogs */
+	interface CompEditorFactory : Bonobo::Unknown {
+		exception InvalidURI {};
+		exception BackendContactError {};
+		exception NotFound {};
+		exception UnsupportedType {};
+
+		/* Loads a calendar and opens an editor for the specified object */
+		void editExisting (in string uri, in CalObjUID uid)
+			raises (InvalidURI, BackendContactError, NotFound, UnsupportedType);
+
+		/* Loads a calendar and creates a new component of the specified type */
+		void editNew (in string uri, in CalObjType type)
+			raises (InvalidURI, BackendContactError, UnsupportedType);
+	};
 };
 
 };

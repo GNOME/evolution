@@ -1,3 +1,59 @@
+2001-07-27  Federico Mena Quintero  <federico@ximian.com>
+
+	* gui/cal-search-bar.[ch]: New files with a derivative of
+	ESearchBar that generates sexps for calendar queries directly.
+
+	* gui/gnome-cal.c (setup_widgets): Use CalSearchBar instead of
+	ESearchBar.
+
+	* gui/e-calendar-table.h (ECalendarTable): Removed the ->colors
+	array since it is handled by ETableExtras now.
+
+	* gui/e-calendar-table.[ch]: Removed the subset_model.  Now we use
+	the live query facility to filter tasks.  Removed the filter
+	function stuff as well.
+
+	* gui/e-tasks.c (e_tasks_construct): Use
+	calendar_model_set_cal_client() directly instead of
+	e_calendar_table_set_model().
+	(setup_widgets): Create a calendar search bar for the tasks
+	component.
+	(search_bar_sexp_changed_cb): Set the query sexp on the table model.
+	(e_tasks_on_filter_selected): Regenerate the query from the
+	selected category and the current sexp.
+	(update_query): New convenience function to recompute the real
+	query sexp.
+
+	* gui/gnome-cal.c (gnome_calendar_construct): Likewise.
+
+	* gui/e-calendar-table.c (e_calendar_table_set_cal_client):
+	Removed function; people are now supposed to get the model from
+	the calendar table and operate on it.
+
+	* gui/calendar-commands.c (verbs): Consistency fixes with the XML
+	file.
+	(pixmaps): Likewise.
+
+	* gui/Makefile.am (evolution_calendar_SOURCES): Added
+	cal-search-bar.[ch] to the list of sources.
+
+2001-07-20  Federico Mena Quintero  <federico@ximian.com>
+
+	* idl/evolution-calendar.idl (CompEditorFactory): New interface to
+	a centralized factory for calendar component editors.  Has
+	editExisting() and editNew() methods to edit an existing component
+	from a URI/UID pair, and to create a new component in a calendar
+	that is in a particular URI, respectively.
+
+	* gui/comp-editor-factory.[ch]: Implementation files for the
+	component editor factory.
+
+	* gui/GNOME_Evolution_Calendar.oaf.in: Added the CompEditorFactory
+	stuff.
+
+	* gui/Makefile.am (evolution_calendar_SOURCES): Added
+	comp-editor-factory.[ch] to the list of sources.
+
 2001-07-26  JP Rosevear  <jpr@ximian.com>
 
 	* gui/dialogs/meeting-page.c (invite_entry_changed): when an entry
