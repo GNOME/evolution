@@ -182,10 +182,10 @@ ets_sort_info_changed (ETableSortInfo *info, ETableSorter *ets)
 }
 
 static ETableSorter *ets_closure;
-void **vals_closure;
-int cols_closure;
-int *ascending_closure;
-GCompareFunc *compare_closure;
+static void **vals_closure;
+static int cols_closure;
+static int *ascending_closure;
+static GCompareFunc *compare_closure;
 
 /* FIXME: Make it not cache the second and later columns (as if anyone cares.) */
 
