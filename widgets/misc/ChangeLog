@@ -1,3 +1,11 @@
+2001-07-02  Jeffrey Stedfast  <fejj@ximian.com>
+
+	* Makefile.am: Updated to build e-charset-picker.c
+
+	* e-charset-picker.[c,h]: Moved here from gal.
+	(e_charset_picker_bonobo_ui_populate): New function to populate a
+	bonobo-ui with a charset picker menu.
+
 2001-06-14  Damon Chaplin  <damon@ximian.com>
 
 	* e-map.[hc]: copied the EMap widget verbatim from Ximian Setup Tools.

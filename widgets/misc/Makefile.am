@@ -18,6 +18,8 @@ libemiscwidgets_a_SOURCES = 	\
 	e-calendar-item.h	\
 	e-cell-date-edit.c	\
 	e-cell-date-edit.h	\
+	e-charset-picker.c	\
+	e-charset-picker.h	\
 	e-clipped-label.c	\
 	e-clipped-label.h	\
 	e-dateedit.c		\
