@@ -1,3 +1,42 @@
+2002-05-07  JP Rosevear  <jpr@ximian.com>
+
+	* gui/e-itip-control.c (start_calendar_server): start a server a
+	uri
+	(start_default_server): start a default server
+	(get_servers): get all clients for all folders of the given
+	type(s)
+	(find_server): locate a server for a particular uid
+	(init): get_servers, listen for object_requested signal
+	(destroy): destroy all clients
+	(write_html): put options is there own cell
+	(get_publish_options): place selector in if param is true
+	(get_request_options): ditto
+	(get_real_item): only try and look up the item if we know its in
+	the server
+	(show_current_event): find the server (if any) for the current
+	comp
+	(show_current_todo): ditto
+	(update_attendee_status): if there is no server for the comp, it
+	doesn't exist
+	(remove_item): ditto
+	(button_selected_cb): get a client for the selected folder
+	(object_requested_cb): draw the folder button in
+
+	* gui/calendar-config.h: new protos
+
+	* gui/calendar-config.c (calendar_config_default_tasks_folder):
+	get default tasks uri
+	(calendar_config_default_calendar_folder): get default calendar
+	uri
+
+	* cal-client/cal-client.c (get_default_uri): use
+	cal_util_expand_uri
+
+	* cal-util/cal-util.h: new proto
+
+	* cal-util/cal-util.c (cal_util_expand_uri): tack on the file name
+	if its a file uri
+
 2002-05-03  Rodrigo Moya <rodrigo@ximian.com>
 
 	* gui/e-tasks.c (e_tasks_delete_selected):

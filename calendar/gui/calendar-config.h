@@ -182,4 +182,8 @@ void	  calendar_config_check_timezone_set	(void);
    supports 12-hour time format. */
 gboolean  calendar_config_locale_supports_12_hour_format(void);
 
+/* Default folders, read-only */
+char *calendar_config_default_calendar_folder (void);
+char *calendar_config_default_tasks_folder (void);
+
 #endif /* _CALENDAR_CONFIG_H_ */

@@ -796,7 +796,7 @@ static char *
 get_default_uri (gboolean tasks)
 {
 	Bonobo_ConfigDatabase db;
-	char *uri, *file_uri;
+	char *uri;
 	CORBA_Environment ev;
 
 	CORBA_exception_init (&ev);
@@ -817,13 +817,8 @@ get_default_uri (gboolean tasks)
 	if (BONOBO_EX (&ev)) {
 		CORBA_exception_free (&ev);
 		uri = get_fall_back_uri (tasks);
-	} else if (!strncmp (uri, "file:", 5)) {
-		for (file_uri = uri + 5; *file_uri == '/'; file_uri++)
-			;
-		file_uri = g_strdup_printf ("/%s/%s.ics", file_uri,
-					    tasks ? "tasks" : "calendar");
-		g_free (uri);
-		uri = file_uri;
+	} else {
+		uri = cal_util_expand_uri (uri, tasks);
 	}
 	
 	return uri;

@@ -1146,3 +1146,58 @@ calendar_config_get_hide_completed_tasks_sexp (void)
 
 	return sexp;
 }
+
+char *
+calendar_config_default_calendar_folder (void)
+{
+	Bonobo_ConfigDatabase db;
+	char *uri;
+	CORBA_Environment ev;
+
+	CORBA_exception_init (&ev);
+	
+	db = bonobo_get_object ("wombat:", "Bonobo/ConfigDatabase", &ev);
+	
+	if (BONOBO_EX (&ev) || db == CORBA_OBJECT_NIL) {
+		CORBA_exception_free (&ev);
+		return NULL;
+ 	}
+
+	uri = bonobo_config_get_string (db, "/DefaultFolders/calendar_uri", &ev);
+	bonobo_object_release_unref (db, NULL);
+
+	if (BONOBO_EX (&ev)) {
+		CORBA_exception_free (&ev);
+		return NULL;		
+	}
+	
+	return uri;	
+}
+
+char *
+calendar_config_default_tasks_folder (void)
+{
+	Bonobo_ConfigDatabase db;
+	char *uri;
+	CORBA_Environment ev;
+
+	CORBA_exception_init (&ev);
+	
+	db = bonobo_get_object ("wombat:", "Bonobo/ConfigDatabase", &ev);
+	
+	if (BONOBO_EX (&ev) || db == CORBA_OBJECT_NIL) {
+		CORBA_exception_free (&ev);
+		return NULL;
+ 	}
+
+	uri = bonobo_config_get_string (db, "/DefaultFolders/tasks_uri", &ev);
+	bonobo_object_release_unref (db, NULL);
+
+	if (BONOBO_EX (&ev)) {
+		CORBA_exception_free (&ev);
+		return NULL;		
+	}
+	
+	return uri;	
+}
+
