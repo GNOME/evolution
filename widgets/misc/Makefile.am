@@ -43,7 +43,6 @@ widgetsinclude_HEADERS =			\
 	e-search-bar.h				\
 	e-task-bar.h				\
 	e-task-widget.h				\
-	e-title-bar.h				\
 	e-url-entry.h
 
 libemiscwidgets_la_SOURCES =			\
@@ -72,7 +71,6 @@ libemiscwidgets_la_SOURCES =			\
 	e-search-bar.c				\
 	e-task-bar.c				\
 	e-task-widget.c				\
-	e-title-bar.c				\
 	e-url-entry.c
 
 MARSHAL_GENERATED = e-util-marshal.c e-util-marshal.h
@@ -100,7 +98,7 @@ noinst_PROGRAMS = 			\
 	test-dropdown-button		\
 	test-error			\
 	test-multi-config-dialog 	\
-	test-title-bar
+	test-info-label
 
 # test-calendar
 
@@ -142,12 +140,12 @@ test_multi_config_dialog_LDADD = 	\
 	$(top_builddir)/e-util/libeutil.la	\
 	$(E_WIDGETS_LIBS)
 
-# test-title-bar
+# test-info-label
 
-test_title_bar_SOURCES = 	\
-	test-title-bar.c
+test_info_label_SOURCES = 	\
+	test-info-label.c
 
-test_title_bar_LDADD = 		\
+test_info_label_LDADD = 		\
 	./libemiscwidgets.la	\
 	$(top_builddir)/e-util/libeutil.la	\
 	$(E_WIDGETS_LIBS)

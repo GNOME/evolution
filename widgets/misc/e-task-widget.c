@@ -34,13 +34,8 @@
 
 #include <libgnome/gnome-i18n.h>
 
-#include <gal/util/e-util.h>
 
-
 #define SPACING 2
-
-#define PARENT_TYPE (gtk_event_box_get_type ())
-static GtkEventBoxClass *parent_class = NULL;
 
 struct _ETaskWidgetPrivate {
 	char *component_id;
@@ -52,7 +47,8 @@ struct _ETaskWidgetPrivate {
 	GtkWidget *image;
 };
 
-
+G_DEFINE_TYPE (ETaskWidget, e_task_widget, GTK_TYPE_EVENT_BOX)
+
 /* GObject methods.  */
 
 static void
@@ -75,7 +71,7 @@ impl_dispose (GObject *object)
 		priv->icon_pixbuf = NULL;
 	}
 
-	(* G_OBJECT_CLASS (parent_class)->dispose) (object);
+	(* G_OBJECT_CLASS (e_task_widget_parent_class)->dispose) (object);
 }
 
 static void
@@ -90,21 +86,21 @@ impl_finalize (GObject *object)
 	g_free (priv->component_id);
 	g_free (priv);
 
-	(* G_OBJECT_CLASS (parent_class)->finalize) (object);
+	(* G_OBJECT_CLASS (e_task_widget_parent_class)->finalize) (object);
 }
 
 
 static void
-class_init (GObjectClass *object_class)
+e_task_widget_class_init (ETaskWidgetClass *klass)
 {
-	parent_class = g_type_class_ref(PARENT_TYPE);
-
+	GObjectClass *object_class = G_OBJECT_CLASS (klass);
+	
 	object_class->dispose  = impl_dispose;
 	object_class->finalize = impl_finalize;
 }
 
 static void
-init (ETaskWidget *task_widget)
+e_task_widget_init (ETaskWidget *task_widget)
 {
 	ETaskWidgetPrivate *priv;
 
@@ -248,5 +244,3 @@ e_task_widget_get_component_id  (ETaskWidget *task_widget)
 	return task_widget->priv->component_id;
 }
 
-
-E_MAKE_TYPE (e_task_widget, "ETaskWidget", ETaskWidget, class_init, init, PARENT_TYPE)

@@ -1,3 +1,32 @@
+2004-11-26  JP Rosevear  <jpr@novell.com>
+
+	* test-info-label.c: test prog
+
+	* e-url-entry.c: get image directly from icon factory
+
+	* e-combo-button.c: ditto; convert to G_DEFINE_TYPE
+
+	* e-activity-handler.c: convert to G_DEFINE_TYPE
+	
+	* e-task-widget.c: ditto
+
+	* e-task-bar.c: ditto
+
+	* e-multi-config-dialog.c: ditto
+
+	* e-dropdown-button.c: ditto
+
+	* e-cell-renderer-combo.c: ditto
+
+	* e-cell-date-edit.c: ditto
+
+	* e-calendar.c: ditto
+
+	* e-calendar-item.c: ditto
+
+	* Makefile.am: don't build the title bar, build an info label test
+	program
+
 2004-10-28  Li Yuan  <li.yuan@sun.com>
 
 	* e-calendar.c: (e_calendar_init), (e_calendar_new): Make

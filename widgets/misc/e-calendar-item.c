@@ -55,8 +55,6 @@ static const int e_calendar_item_days_in_month[12] = {
   && ((year) % 4 == 0 && ((year) % 100 != 0 || (year) % 400 == 0))) ? 1 : 0)
 
 
-static void e_calendar_item_class_init	(ECalendarItemClass *class);
-static void e_calendar_item_init	(ECalendarItem	 *calitem);
 static void e_calendar_item_destroy	(GtkObject	 *o);
 static void e_calendar_item_get_arg	(GtkObject	 *o,
 					 GtkArg		 *arg,
@@ -237,13 +235,9 @@ enum {
 };
 
 
-static GnomeCanvasItemClass *parent_class;
 static guint e_calendar_item_signals[LAST_SIGNAL] = { 0 };
 
-
-E_MAKE_TYPE (e_calendar_item, "ECalendarItem", ECalendarItem,
-	     e_calendar_item_class_init, e_calendar_item_init,
-	     GNOME_TYPE_CANVAS_ITEM)
+G_DEFINE_TYPE (ECalendarItem, e_calendar_item, GNOME_TYPE_CANVAS_ITEM)
 
 
 static void
@@ -251,8 +245,6 @@ e_calendar_item_class_init (ECalendarItemClass *class)
 {
 	GtkObjectClass  *object_class;
 	GnomeCanvasItemClass *item_class;
-
-	parent_class = g_type_class_peek_parent (class);
 
 	object_class = GTK_OBJECT_CLASS (class);
 	item_class = GNOME_CANVAS_ITEM_CLASS (class);
@@ -458,8 +450,8 @@ e_calendar_item_destroy		(GtkObject *o)
 
 	if (calitem->selecting_axis)
 		g_free (calitem->selecting_axis);
-	if (GTK_OBJECT_CLASS (parent_class)->destroy)
-		(* GTK_OBJECT_CLASS (parent_class)->destroy) (o);
+	if (GTK_OBJECT_CLASS (e_calendar_item_parent_class)->destroy)
+		(* GTK_OBJECT_CLASS (e_calendar_item_parent_class)->destroy) (o);
 }
 
 
@@ -692,8 +684,8 @@ e_calendar_item_realize		(GnomeCanvasItem *item)
 	gboolean success[E_CALENDAR_ITEM_COLOR_LAST];
 	gint nfailed;
 
-	if (GNOME_CANVAS_ITEM_CLASS (parent_class)->realize)
-		(* GNOME_CANVAS_ITEM_CLASS (parent_class)->realize) (item);
+	if (GNOME_CANVAS_ITEM_CLASS (e_calendar_item_parent_class)->realize)
+		(* GNOME_CANVAS_ITEM_CLASS (e_calendar_item_parent_class)->realize) (item);
 
 	calitem = E_CALENDAR_ITEM (item);
 
@@ -744,8 +736,8 @@ e_calendar_item_unrealize	(GnomeCanvasItem *item)
 		gdk_colors_free (colormap, (gulong *) &calitem->colors[i].pixel, 1, 0);
 	}
 
-	if (GNOME_CANVAS_ITEM_CLASS (parent_class)->unrealize)
-		(* GNOME_CANVAS_ITEM_CLASS (parent_class)->unrealize) (item);
+	if (GNOME_CANVAS_ITEM_CLASS (e_calendar_item_parent_class)->unrealize)
+		(* GNOME_CANVAS_ITEM_CLASS (e_calendar_item_parent_class)->unrealize) (item);
 }
 
 
@@ -761,8 +753,8 @@ e_calendar_item_unmap		(GnomeCanvasItem *item)
 		calitem->selecting = FALSE;
 	}
 
-	if (GNOME_CANVAS_ITEM_CLASS (parent_class)->unmap)
-		(* GNOME_CANVAS_ITEM_CLASS (parent_class)->unmap) (item);
+	if (GNOME_CANVAS_ITEM_CLASS (e_calendar_item_parent_class)->unmap)
+		(* GNOME_CANVAS_ITEM_CLASS (e_calendar_item_parent_class)->unmap) (item);
 }
 
 
@@ -780,8 +772,8 @@ e_calendar_item_update		(GnomeCanvasItem *item,
 	PangoContext *pango_context;
 	PangoFontMetrics *font_metrics;
 
-	if (GNOME_CANVAS_ITEM_CLASS (parent_class)->update)
-		(* GNOME_CANVAS_ITEM_CLASS (parent_class)->update) (item, affine, clip_path, flags);
+	if (GNOME_CANVAS_ITEM_CLASS (e_calendar_item_parent_class)->update)
+		(* GNOME_CANVAS_ITEM_CLASS (e_calendar_item_parent_class)->update) (item, affine, clip_path, flags);
 
 	calitem = E_CALENDAR_ITEM (item);
 	style = GTK_WIDGET (item->canvas)->style;

@@ -20,11 +20,13 @@
  * Boston, MA 02111-1307, USA.
  */
 
+#ifdef HAVE_CONFIG_H
 #include <config.h>
+#endif
+
 #include <gtk/gtkcellrenderertext.h>
 #include <gtk/gtkarrow.h>
 #include <gtk/gtkbutton.h>
-#include <gal/util/e-util.h>
 
 #include "e-combo-cell-editable.h"
 #include "e-cell-renderer-combo.h"
@@ -40,7 +42,7 @@ struct _ECellRendererComboPriv {
 	GList *list;
 };
 
-static GtkCellRendererTextClass *parent_class;
+G_DEFINE_TYPE (ECellRendererCombo, e_cell_renderer_combo, GTK_TYPE_CELL_RENDERER_TEXT)
 
 static void
 ecrc_editing_done (GtkCellEditable *editable, ECellRendererCombo *cell)
@@ -88,8 +90,8 @@ ecrc_get_size (GtkCellRenderer *cell, GtkWidget *widget, GdkRectangle *cell_area
 	GtkWidget *btn;
 	GtkRequisition req;
 
-	if (GTK_CELL_RENDERER_CLASS (parent_class)->get_size)
-		GTK_CELL_RENDERER_CLASS (parent_class)->get_size (cell, widget, cell_area, x_offset, y_offset, width, height);
+	if (GTK_CELL_RENDERER_CLASS (e_cell_renderer_combo_parent_class)->get_size)
+		GTK_CELL_RENDERER_CLASS (e_cell_renderer_combo_parent_class)->get_size (cell, widget, cell_area, x_offset, y_offset, width, height);
 
 	btn = gtk_button_new ();
 	gtk_container_add (GTK_CONTAINER (btn), gtk_arrow_new (GTK_ARROW_DOWN, GTK_SHADOW_NONE));
@@ -141,23 +143,21 @@ ecrc_finalize (GObject *obj)
 
 	g_free (cell->priv);
 
-	if (G_OBJECT_CLASS (parent_class)->finalize)
-		G_OBJECT_CLASS (parent_class)->finalize (obj);
+	if (G_OBJECT_CLASS (e_cell_renderer_combo_parent_class)->finalize)
+		G_OBJECT_CLASS (e_cell_renderer_combo_parent_class)->finalize (obj);
 }
 
 static void
-ecrc_init (ECellRendererCombo *cell)
+e_cell_renderer_combo_init (ECellRendererCombo *cell)
 {
 	cell->priv = g_new0 (ECellRendererComboPriv, 1);
 }
 
 static void
-ecrc_class_init (ECellRendererComboClass *class)
+e_cell_renderer_combo_class_init (ECellRendererComboClass *class)
 {
 	GtkCellRendererClass *cell_class = GTK_CELL_RENDERER_CLASS (class);
 	GObjectClass *obj_class = G_OBJECT_CLASS (class);
-	
-	parent_class = GTK_CELL_RENDERER_TEXT_CLASS (g_type_class_peek_parent (class));
 	
 	obj_class->get_property = ecrc_get_prop;
 	obj_class->set_property = ecrc_set_prop;
@@ -169,8 +169,6 @@ ecrc_class_init (ECellRendererComboClass *class)
 	g_object_class_install_property (obj_class, PROP_LIST,
 					 g_param_spec_pointer ("list", "List", "List of items to popup.", G_PARAM_READWRITE));
 }
-
-E_MAKE_TYPE (e_cell_renderer_combo, "ECellRendererCombo", ECellRendererCombo, ecrc_class_init, ecrc_init, GTK_TYPE_CELL_RENDERER_TEXT)
 
 GtkCellRenderer *
 e_cell_renderer_combo_new (void)

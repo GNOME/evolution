@@ -30,7 +30,9 @@
  * to got to the current day.
  */
 
+#ifdef HAVE_CONFIG_H
 #include <config.h>
+#endif
 
 #include "e-calendar.h"
 
@@ -41,7 +43,6 @@
 #include <gtk/gtkpixmap.h>
 #include <gtk/gtksignal.h>
 #include <libgnomecanvas/gnome-canvas-widget.h>
-#include <gal/util/e-util.h>
 #include <libgnome/gnome-i18n.h>
 
 #define E_CALENDAR_SMALL_FONT_PTSIZE 6
@@ -70,8 +71,6 @@
 #define E_CALENDAR_AUTO_MOVE_TIMEOUT		150
 #define E_CALENDAR_AUTO_MOVE_TIMEOUT_DELAY	2
 
-static void e_calendar_class_init	(ECalendarClass *class);
-static void e_calendar_init		(ECalendar	*cal);
 static void e_calendar_destroy		(GtkObject	*object);
 static void e_calendar_realize		(GtkWidget	*widget);
 static void e_calendar_style_set	(GtkWidget	*widget,
@@ -104,11 +103,7 @@ static void e_calendar_start_auto_move	(ECalendar	*cal,
 static gboolean e_calendar_auto_move_handler	(gpointer	 data);
 static void e_calendar_stop_auto_move	(ECalendar	*cal);
 
-static GnomeCanvasClass *parent_class;
-static GtkLayoutClass *grandparent_class;
-
-E_MAKE_TYPE (e_calendar, "ECalendar", ECalendar,
-	     e_calendar_class_init, e_calendar_init, E_CANVAS_TYPE)
+G_DEFINE_TYPE (ECalendar, e_calendar, E_CANVAS_TYPE)
 
 
 static void
@@ -119,9 +114,6 @@ e_calendar_class_init (ECalendarClass *class)
 
 	object_class = (GtkObjectClass *) class;
 	widget_class = (GtkWidgetClass *) class;
-
-	parent_class = g_type_class_ref(E_CANVAS_TYPE);
-	grandparent_class = g_type_class_ref(GTK_TYPE_LAYOUT);
 
 	object_class->destroy = e_calendar_destroy;
 
@@ -252,15 +244,15 @@ e_calendar_destroy		(GtkObject *object)
 		cal->timeout_id = 0;
 	}
 
-	if (GTK_OBJECT_CLASS (parent_class)->destroy)
-		(* GTK_OBJECT_CLASS (parent_class)->destroy) (object);
+	if (GTK_OBJECT_CLASS (e_calendar_parent_class)->destroy)
+		(* GTK_OBJECT_CLASS (e_calendar_parent_class)->destroy) (object);
 }
 
 
 static void
 e_calendar_realize (GtkWidget *widget)
 {
-	(*GTK_WIDGET_CLASS (parent_class)->realize) (widget);
+	(*GTK_WIDGET_CLASS (e_calendar_parent_class)->realize) (widget);
 
 	/* Set the background of the canvas window to the normal color,
 	   or the arrow buttons are not displayed properly. */
@@ -273,8 +265,8 @@ static void
 e_calendar_style_set		(GtkWidget	*widget,
 				 GtkStyle	*previous_style)
 {
-	if (GTK_WIDGET_CLASS (parent_class)->style_set)
-		(*GTK_WIDGET_CLASS (parent_class)->style_set) (widget,
+	if (GTK_WIDGET_CLASS (e_calendar_parent_class)->style_set)
+		(*GTK_WIDGET_CLASS (e_calendar_parent_class)->style_set) (widget,
 							       previous_style);
 
 	/* Set the background of the canvas window to the normal color,
@@ -324,7 +316,7 @@ e_calendar_size_allocate	(GtkWidget	*widget,
 	xthickness = widget->style->xthickness;
 	ythickness = widget->style->ythickness;
 
-	(*GTK_WIDGET_CLASS (parent_class)->size_allocate) (widget, allocation);
+	(*GTK_WIDGET_CLASS (e_calendar_parent_class)->size_allocate) (widget, allocation);
 
 	/* Set up Pango prerequisites */
 	font_desc = gtk_widget_get_style (widget)->font_desc;

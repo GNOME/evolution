@@ -34,9 +34,6 @@
 #include <gtk/gtkimage.h>
 #include <gtk/gtksignal.h>
 
-#include <gal/util/e-util.h>
-
-
 struct _EComboButtonPrivate {
 	GdkPixbuf *icon;
 
@@ -50,12 +47,7 @@ struct _EComboButtonPrivate {
 	gboolean menu_popped_up;
 };
 
-
 #define SPACING 2
-
-
-#define PARENT_TYPE gtk_button_get_type ()
-static GtkButtonClass *parent_class = NULL;
 
 enum {
 	ACTIVATE_DEFAULT,
@@ -64,23 +56,9 @@ enum {
 
 static guint signals[LAST_SIGNAL] = { 0 };
 
-
+G_DEFINE_TYPE (EComboButton, e_combo_button, GTK_TYPE_BUTTON)
+
 /* Utility functions.  */
-
-static GtkWidget *
-create_empty_image_widget (void)
-{
-	GtkWidget *image_widget;
-	GdkPixbuf *pixbuf;
-
-	pixbuf = e_icon_factory_get_icon (NULL, E_ICON_SIZE_MENU);
-
-	image_widget = gtk_image_new_from_pixbuf (pixbuf);
-
-	g_object_unref (pixbuf);
-
-	return image_widget;
-}
 
 static void
 set_icon (EComboButton *combo_button,
@@ -269,7 +247,7 @@ impl_destroy (GtkObject *object)
 		combo_button->priv = NULL;
 	}
 	
-	(* GTK_OBJECT_CLASS (parent_class)->destroy) (object);
+	(* GTK_OBJECT_CLASS (e_combo_button_parent_class)->destroy) (object);
 }
 
 
@@ -323,7 +301,7 @@ impl_leave_notify_event (GtkWidget *widget,
 	   have just popped up the menu.  Otherwise, the button would look as
 	   inactive when the menu is popped up.  */
 	if (! priv->menu_popped_up)
-		return (* GTK_WIDGET_CLASS (parent_class)->leave_notify_event) (widget, event);
+		return (* GTK_WIDGET_CLASS (e_combo_button_parent_class)->leave_notify_event) (widget, event);
 
 	return FALSE;
 }
@@ -392,13 +370,13 @@ impl_released (GtkButton *button)
 
 
 static void
-class_init (GtkObjectClass *object_class)
+e_combo_button_class_init (EComboButtonClass *combo_button_class)
 {
+	GtkObjectClass *object_class;
 	GtkWidgetClass *widget_class;
 	GtkButtonClass *button_class;
 
-	parent_class = g_type_class_ref(PARENT_TYPE);
-
+	object_class = GTK_OBJECT_CLASS (combo_button_class);
 	object_class->destroy = impl_destroy;
 
 	widget_class = GTK_WIDGET_CLASS (object_class);
@@ -418,7 +396,7 @@ class_init (GtkObjectClass *object_class)
 }
 
 static void
-init (EComboButton *combo_button)
+e_combo_button_init (EComboButton *combo_button)
 {
 	EComboButtonPrivate *priv;
 
@@ -429,7 +407,7 @@ init (EComboButton *combo_button)
 	gtk_container_add (GTK_CONTAINER (combo_button), priv->hbox);
 	gtk_widget_show (priv->hbox);
 
-	priv->icon_image = create_empty_image_widget ();
+	priv->icon_image = e_icon_factory_get_image (NULL, E_ICON_SIZE_MENU);
 	gtk_box_pack_start (GTK_BOX (priv->hbox), priv->icon_image, TRUE, TRUE, 0);
 	gtk_widget_show (priv->icon_image);
 
@@ -531,6 +509,3 @@ e_combo_button_set_menu (EComboButton *combo_button,
 			    G_CALLBACK (menu_deactivate_callback),
 			    combo_button);
 }
-
-
-E_MAKE_TYPE (e_combo_button, "EComboButton", EComboButton, class_init, init, PARENT_TYPE)

@@ -27,27 +27,21 @@
 
 #include "e-config-page.h"
 
-#include <gal/util/e-util.h>
-
-#define PARENT_TYPE gtk_event_box_get_type ()
-static GtkEventBoxClass *parent_class = NULL;
+G_DEFINE_TYPE (EConfigPage, e_config_page, GTK_TYPE_EVENT_BOX)
 
 /* GObject methods.  */
 
 static void
-class_init (EConfigPageClass *class)
+e_config_page_class_init (EConfigPageClass *class)
 {
 	GObjectClass *object_class;
 
 	object_class = G_OBJECT_CLASS (class);
-	
-	parent_class = g_type_class_ref(PARENT_TYPE);
 }
 
 static void
-init (EConfigPage *page, EConfigPageClass *klass)
+e_config_page_init (EConfigPage *page)
 {
-	;
 }
 
 GtkWidget *
@@ -56,4 +50,4 @@ e_config_page_new (void)
 	return gtk_type_new (e_config_page_get_type ());
 }
 
-E_MAKE_TYPE (e_config_page, "EConfigPage", EConfigPage, class_init, init, PARENT_TYPE)
+

@@ -32,13 +32,7 @@
 #include <libgnome/gnome-i18n.h>
 #include <libgnomeui/gnome-popup-menu.h>
 
-#include <gal/util/e-util.h>
 #include <gal/widgets/e-popup-menu.h>
-
-
-#define PARENT_TYPE G_TYPE_OBJECT
-static GObjectClass *parent_class = NULL;
-
 
 #define ICON_SIZE 16
 
@@ -55,11 +49,12 @@ struct _ActivityInfo {
 typedef struct _ActivityInfo ActivityInfo;
 
 struct _EActivityHandlerPrivate {
-	uint next_activity_id;
+	guint next_activity_id;
 	GList *activity_infos;
 	GSList *task_bars;
 };
 
+G_DEFINE_TYPE (EActivityHandler, e_activity_handler, G_TYPE_OBJECT)
 
 /* Utility functions.  */
 
@@ -230,7 +225,7 @@ impl_dispose (GObject *object)
 		g_object_weak_unref (G_OBJECT (sp->data), task_bar_destroy_notify, handler);
 	priv->task_bars = NULL;
 
-	(* G_OBJECT_CLASS (parent_class)->dispose) (object);
+	(* G_OBJECT_CLASS (e_activity_handler_parent_class)->dispose) (object);
 }
 
 static void
@@ -244,23 +239,20 @@ impl_finalize (GObject *object)
 
 	g_free (priv);
 
-	(* G_OBJECT_CLASS (parent_class)->finalize) (object);
+	(* G_OBJECT_CLASS (e_activity_handler_parent_class)->finalize) (object);
 }
 
-
-/* GTK+ type stuff.  */
-
 static void
-class_init (GObjectClass *object_class)
+e_activity_handler_class_init (EActivityHandlerClass *activity_handler_class)
 {
-	parent_class = g_type_class_ref(PARENT_TYPE);
-
+	GObjectClass *object_class = (GObjectClass *) activity_handler_class;
+	
 	object_class->dispose  = impl_dispose;
 	object_class->finalize = impl_finalize;
 }
 
 static void
-init (EActivityHandler *activity_handler)
+e_activity_handler_init (EActivityHandler *activity_handler)
 {
 	EActivityHandlerPrivate *priv;
 
@@ -416,5 +408,3 @@ e_activity_handler_operation_finished (EActivityHandler *activity_handler,
 	}
 }
 
-
-E_MAKE_TYPE (e_activity_handler, "EActivityHandler", EActivityHandler, class_init, init, PARENT_TYPE)

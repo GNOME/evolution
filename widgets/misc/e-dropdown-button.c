@@ -28,24 +28,19 @@
 
 #include "e-dropdown-button.h"
 
-
 #include <stdio.h>
 #include <gtk/gtkarrow.h>
 #include <gtk/gtklabel.h>
 #include <gtk/gtkwidget.h>
 #include <libgnomeui/gnome-popup-menu.h>
-#include <gal/util/e-util.h>
 
-
 struct _EDropdownButtonPrivate {
 	GtkAccelGroup *accel_group;
 	GtkWidget *menu;
 };
 
-#define PARENT_TYPE gtk_toggle_button_get_type ()
-static GtkToggleButtonClass *parent_class = NULL;
+G_DEFINE_TYPE (EDropdownButton, e_dropdown_button, GTK_TYPE_TOGGLE_BUTTON)
 
-
 /* Callback to position the pop-up menu.  */
 
 static void
@@ -109,8 +104,8 @@ impl_destroy (GtkObject *object)
 
 	g_free (priv);
 
-	if (GTK_OBJECT_CLASS (parent_class)->destroy)
-		(* GTK_OBJECT_CLASS (parent_class)->destroy) (object);
+	if (GTK_OBJECT_CLASS (e_dropdown_button_parent_class)->destroy)
+		(* GTK_OBJECT_CLASS (e_dropdown_button_parent_class)->destroy) (object);
 }
 
 
@@ -122,8 +117,8 @@ impl_toggled (GtkToggleButton *toggle_button)
 	EDropdownButton *dropdown_button;
 	EDropdownButtonPrivate *priv;
 
-	if (parent_class->toggled)
-		parent_class->toggled (toggle_button);
+	if (GTK_TOGGLE_BUTTON_CLASS (e_dropdown_button_parent_class)->toggled)
+		GTK_TOGGLE_BUTTON_CLASS (e_dropdown_button_parent_class)->toggled (toggle_button);
 
 	dropdown_button = E_DROPDOWN_BUTTON (toggle_button);
 	priv = dropdown_button->priv;
@@ -139,7 +134,7 @@ impl_toggled (GtkToggleButton *toggle_button)
 
 
 static void
-class_init (EDropdownButtonClass *klass)
+e_dropdown_button_class_init (EDropdownButtonClass *klass)
 {
 	GtkObjectClass *object_class;
 	GtkWidgetClass *widget_class;
@@ -151,13 +146,11 @@ class_init (EDropdownButtonClass *klass)
 
 	object_class->destroy = impl_destroy;
 	toggle_class->toggled = impl_toggled;
-
-	parent_class = g_type_class_ref(PARENT_TYPE);
 }
 
 
 static void
-init (EDropdownButton *dropdown_button)
+e_dropdown_button_init (EDropdownButton *dropdown_button)
 {
 	EDropdownButtonPrivate *priv;
 
@@ -245,5 +238,3 @@ e_dropdown_button_new (const char *label_text,
 	return widget;
 }
 
-
-E_MAKE_TYPE (e_dropdown_button, "EDropdownButton", EDropdownButton, class_init, init, PARENT_TYPE)

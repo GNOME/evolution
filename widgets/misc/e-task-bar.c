@@ -26,23 +26,18 @@
 
 #include "e-task-bar.h"
 
-#include <gal/util/e-util.h>
 #include "widgets/misc/e-clipped-label.h"
 
-
 struct _ETaskBarPrivate
 {
 	EClippedLabel *message_label;
 	GtkHBox  *hbox;
 };
 
-#define PARENT_TYPE gtk_hbox_get_type ()
-static GtkHBoxClass *parent_class = NULL;
-
-
 /* WARNING: Ugly hack starts here.  */
-
 #define MAX_ACTIVITIES_PER_COMPONENT 2
+
+G_DEFINE_TYPE (ETaskBar, e_task_bar, GTK_TYPE_HBOX)
 
 static void
 reduce_displayed_activities_per_component (ETaskBar *task_bar)
@@ -89,13 +84,12 @@ reduce_displayed_activities_per_component (ETaskBar *task_bar)
 
 
 static void
-class_init (GtkObjectClass *object_class)
+e_task_bar_class_init (ETaskBarClass *klass)
 {
-	parent_class = g_type_class_ref(PARENT_TYPE);
 }
 
 static void
-init (ETaskBar *task_bar)
+e_task_bar_init (ETaskBar *task_bar)
 {
 	GtkWidget *label, *hbox;
 	
@@ -227,5 +221,3 @@ e_task_bar_get_task_widget (ETaskBar *task_bar,
 	return E_TASK_WIDGET (child_info->widget);
 }
 
-
-E_MAKE_TYPE (e_task_bar, "ETaskBar", ETaskBar, class_init, init, PARENT_TYPE)

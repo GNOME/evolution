@@ -31,7 +31,8 @@
 
 #include <libgnomeui/gnome-app.h>
 #include <libgnomeui/gnome-ui-init.h>
-#include "e-title-bar.h"
+#include <e-util/e-icon-factory.h>
+#include "e-info-label.h"
 
 static void
 delete_event_cb (GtkWidget *widget,
@@ -39,17 +40,19 @@ delete_event_cb (GtkWidget *widget,
 		 gpointer data)
 {
 	gtk_main_quit ();
+	e_icon_factory_shutdown ();
 }
 
 int
 main (int argc, char **argv)
 {
 	GtkWidget *app;
-	GtkWidget *title_bar;
+	GtkWidget *info_label;
 	GtkWidget *label;
 	GtkWidget *vbox;
 
 	gnome_init ("test-title-bar", "0.0", argc, argv);
+	e_icon_factory_init ();
 
 	app = gnome_app_new ("Test", "Test");
 	gtk_window_set_default_size (GTK_WINDOW (app), 400, 400);
@@ -57,14 +60,15 @@ main (int argc, char **argv)
 
 	g_signal_connect((app), "delete_event", G_CALLBACK (delete_event_cb), NULL);
 
-	title_bar = e_title_bar_new ("This is a very annoyingly long title bar");
-	gtk_widget_show (title_bar);
+	info_label = e_info_label_new ("stock_default-folder");
+	e_info_label_set_info ((EInfoLabel *) info_label, "Component Name", "An annoyingly long component message");
+	gtk_widget_show (info_label);
 
 	label = gtk_label_new ("boo");
 	gtk_widget_show (label);
 
 	vbox = gtk_vbox_new (FALSE, 0);
-	gtk_box_pack_start (GTK_BOX (vbox), title_bar, FALSE, TRUE, 0);
+	gtk_box_pack_start (GTK_BOX (vbox), info_label, FALSE, TRUE, 0);
 	gtk_box_pack_start (GTK_BOX (vbox), label, TRUE, TRUE, 0);
 	gtk_widget_show (vbox);
 

@@ -37,11 +37,7 @@
 #include <gdk-pixbuf/gdk-pixbuf.h>
 
 
-#define PARENT_TYPE gtk_dialog_get_type ()
-static GtkDialogClass *parent_class = NULL;
-
 #define SWITCH_PAGE_INTERVAL 250
-
 
 struct _EMultiConfigDialogPrivate {
 	GSList *pages;
@@ -54,6 +50,8 @@ struct _EMultiConfigDialogPrivate {
 	int set_page_timeout_id;
 	int set_page_timeout_page;
 };
+
+G_DEFINE_TYPE (EMultiConfigDialog, e_multi_config_dialog, GTK_TYPE_DIALOG)
 
 
 /* ETable stuff.  */
@@ -177,7 +175,7 @@ impl_finalize (GObject *object)
 
 	g_free (priv);
 
-	(* G_OBJECT_CLASS (parent_class)->finalize) (object);
+	(* G_OBJECT_CLASS (e_multi_config_dialog_parent_class)->finalize) (object);
 }
 
 
@@ -216,7 +214,7 @@ impl_response (GtkDialog *dialog, int response_id)
 /* GObject ctors.  */
 
 static void
-class_init (EMultiConfigDialogClass *class)
+e_multi_config_dialog_class_init (EMultiConfigDialogClass *class)
 {
 	GObjectClass *object_class;
 	GtkDialogClass *dialog_class;
@@ -226,8 +224,6 @@ class_init (EMultiConfigDialogClass *class)
 
 	dialog_class = GTK_DIALOG_CLASS (class);
 	dialog_class->response = impl_response;
-
-	parent_class = g_type_class_ref (PARENT_TYPE);
 }
 
 #define RGB_COLOR(color) (((color).red & 0xff00) << 8 | \
@@ -287,7 +283,7 @@ static ETableMemoryStoreColumnInfo columns[] = {
 };
 
 static void
-init (EMultiConfigDialog *multi_config_dialog)
+e_multi_config_dialog_init (EMultiConfigDialog *multi_config_dialog)
 {
 	EMultiConfigDialogPrivate *priv;
 	ETableModel *list_e_table_model;
@@ -449,5 +445,3 @@ e_multi_config_dialog_show_page (EMultiConfigDialog *dialog, int page)
 	gtk_notebook_set_page (GTK_NOTEBOOK (priv->notebook), page);
 }
 
-
-E_MAKE_TYPE (e_multi_config_dialog, "EMultiConfigDialog", EMultiConfigDialog, class_init, init, PARENT_TYPE)

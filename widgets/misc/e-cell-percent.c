@@ -26,22 +26,21 @@
  * in an ETable.
  */
 
+#ifdef HAVE_CONFIG_H
 #include <config.h>
+#endif
 
 #include <ctype.h>
 
 #include <sys/time.h>
 #include <unistd.h>
 #include <stdio.h>
-#include <gal/util/e-util.h>
 #include <libgnomeui/gnome-messagebox.h>
 #include <libgnome/gnome-i18n.h>
 
 #include "e-cell-percent.h"
 
-#define PARENT_TYPE e_cell_text_get_type ()
-
-static ECellTextClass *parent_class;
+G_DEFINE_TYPE (ECellPercent, e_cell_percent, E_CELL_TEXT_TYPE);
 
 
 static char *
@@ -115,11 +114,9 @@ ecp_set_value (ECellText *cell, ETableModel *model, int col, int row,
 }
 
 static void
-e_cell_percent_class_init (GtkObjectClass *object_class)
+e_cell_percent_class_init (ECellPercentClass *ecpc) 
 {
-	ECellTextClass *ectc = (ECellTextClass *) object_class;
-
-	parent_class = g_type_class_ref(PARENT_TYPE);
+	ECellTextClass *ectc = (ECellTextClass *) ecpc;
 
 	ectc->get_text  = ecp_get_text;
 	ectc->free_text = ecp_free_text;
@@ -127,7 +124,7 @@ e_cell_percent_class_init (GtkObjectClass *object_class)
 }
 
 static void
-e_cell_percent_init (GtkObject *object)
+e_cell_percent_init (ECellPercent *ecp)
 {
 }
 
@@ -153,6 +150,3 @@ e_cell_percent_new (const char *fontname, GtkJustification justify)
       
 	return (ECell *) ecn;
 }
-
-E_MAKE_TYPE (e_cell_percent, "ECellPercent", ECellPercent,
-	     e_cell_percent_class_init, e_cell_percent_init, PARENT_TYPE);
