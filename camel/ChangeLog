@@ -1,3 +1,11 @@
+2001-01-06  Not Zed  <NotZed@HelixCode.com>
+
+	* providers/vee/camel-vee-folder.c (vee_folder_build_folder): Dont
+	try and unref a messageinfo that wasn't there, and use the right
+	free function too.  Modified patch from Iain.
+	(vee_move_message_to): New method, call the real folders'
+	move_message_to method.
+
 2001-01-04  JP Rosevear  <jpr@helixcode.com>
 
 	* tests/lib/Makefile.am: fix includes for compilation

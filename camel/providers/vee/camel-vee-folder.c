@@ -52,6 +52,7 @@ static void vee_sync (CamelFolder *folder, gboolean expunge, CamelException *ex)
 static void vee_expunge (CamelFolder *folder, CamelException *ex);
 
 static CamelMimeMessage *vee_get_message (CamelFolder *folder, const gchar *uid, CamelException *ex);
+static void vee_move_message_to(CamelFolder *source, const char *uid, CamelFolder *dest, CamelException *ex);
 
 static GPtrArray *vee_search_by_expression(CamelFolder *folder, const char *expression, CamelException *ex);
 
@@ -99,6 +100,7 @@ camel_vee_folder_class_init (CamelVeeFolderClass *klass)
 	folder_class->expunge = vee_expunge;
 
 	folder_class->get_message = vee_get_message;
+	folder_class->move_message_to = vee_move_message_to;
 
 	folder_class->search_by_expression = vee_search_by_expression;
 
@@ -586,6 +588,23 @@ vee_set_message_user_flag(CamelFolder *folder, const char *uid, const char *name
 	}
 }
 
+static void
+vee_move_message_to(CamelFolder *folder, const char *uid, CamelFolder *dest, CamelException *ex)
+{
+	CamelVeeMessageInfo *mi;
+
+	mi = (CamelVeeMessageInfo *)camel_folder_summary_uid(folder->summary, uid);
+	if (mi) {
+		/* noop if it we're moving from the same vfolder (uh, which should't happen but who knows) */
+		if (folder != mi->folder) {
+			camel_folder_move_message_to(mi->folder, strchr(camel_message_info_uid(mi), ':')+1, dest, ex);
+		}
+		camel_folder_summary_info_free(folder->summary, (CamelMessageInfo *)mi);
+	} else {
+		camel_exception_setv(ex, CAMEL_EXCEPTION_FOLDER_INVALID_UID, _("No such message: %s"), uid);
+	}
+}
+
 /*
   need incremental update, based on folder.
   Need to watch folders for changes and update accordingly.
@@ -631,13 +650,15 @@ vee_folder_build_folder(CamelVeeFolder *vf, CamelFolder *source, CamelException 
 	count = camel_folder_summary_count(folder->summary);
 	for (i=0;i<count;i++) {
 		CamelVeeMessageInfo *mi = (CamelVeeMessageInfo *)camel_folder_summary_index(folder->summary, i);
-		if (mi && mi->folder == source) {
-			const char *uid = camel_message_info_uid(mi);
-			camel_folder_change_info_add_source(vf->changes, uid);
-			camel_folder_summary_remove(folder->summary, (CamelMessageInfo *)mi);
-			i--;
+		if (mi) {
+			if (mi->folder == source) {
+				const char *uid = camel_message_info_uid(mi);
+				camel_folder_change_info_add_source(vf->changes, uid);
+				camel_folder_summary_remove(folder->summary, (CamelMessageInfo *)mi);
+				i--;
+			}
+			camel_folder_summary_info_free(folder->summary, (CamelMessageInfo *)mi);
 		}
-		camel_message_info_free((CamelMessageInfo *)mi);
 	}
 
 	matches = camel_folder_search_by_expression(f, vf->expression, ex);
