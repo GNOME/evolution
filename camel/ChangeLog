@@ -1,5 +1,8 @@
 2001-05-31  Jeffrey Stedfast  <fejj@ximian.com>
 
+	* camel.h: Added camel-cipher-context.h, camel-cms-context.h,
+	camel-smime-context.h, and camel-smime-utils.h
+
 	* camel-cms-context.[c,h]: New virtual class for manipulating
 	cryptographic message syntax messages (like S/MIME).
 
