@@ -1,5 +1,10 @@
 2001-08-16  Jeffrey Stedfast  <fejj@ximian.com>
 
+	* providers/imap/camel-imap-store.c (imap_keepalive): If we are
+	online and message flags have changed in the current folder, sync
+	the flags else do a NOOP. This fixes bug #4666. Also lock around
+	the NOOP command.
+
 	* providers/imap/camel-imap-folder.c (imap_sync_online): Don't
 	ever send "STORE FLAGS.SILENT ()" since Cyrus imapd doesn't like
 	this (and maybe others too?) so what we'll do instead is to send
@@ -9,22 +14,22 @@
 
 2001-08-16  Peter Williams  <peterw@ximian.com>
 
-	* providers/imap/camel-imap-store.c (imap_connect_online): Fix this
-	again. Sigh. Problem of namespace = "" may not yet be completely
-	solved.
+	* providers/imap/camel-imap-store.c (imap_connect_online): Fix
+	this again. Sigh. Problem of namespace = "" may not yet be
+	completely solved.
 
 2001-08-15  Peter Williams  <peterw@ximian.com>
 
-	* camel-tcp-stream-openssl.c (ssl_error_to_errno): New function. Try
-	to approximate the SSL error into errno.
-	(errlib_error_to_errno): New function, try to approximate OpenSSl's
-	error library's error (ERR_*) into errno.
+	* camel-tcp-stream-openssl.c (ssl_error_to_errno): New
+	function. Try to approximate the SSL error into errno.
+	(errlib_error_to_errno): New function, try to approximate
+	OpenSSl's error library's error (ERR_*) into errno.
 	(stream_read): Try to set errno using ssl_error_to_errno.
 	(stream_write): Same.
 	(open_ssl_connection): Same.
 
-	* providers/imap/camel-imap-store.c (imap_connect_online): Oh crap,
-	huge killer typo.
+	* providers/imap/camel-imap-store.c (imap_connect_online): Oh
+	crap, huge killer typo.
 
 2001-08-14  Peter Williams  <peterw@ximian.com>
 

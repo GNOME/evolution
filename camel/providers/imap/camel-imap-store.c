@@ -157,9 +157,9 @@ camel_imap_store_finalize (CamelObject *object)
 		g_free (imap_store->storage_path);
 
 #ifdef ENABLE_THREADS
-	e_mutex_destroy(imap_store->priv->command_lock);
+	e_mutex_destroy (imap_store->priv->command_lock);
 #endif
-	g_free(imap_store->priv);
+	g_free (imap_store->priv);
 }
 
 static void
@@ -175,14 +175,14 @@ camel_imap_store_init (gpointer object, gpointer klass)
 	imap_store->current_folder = NULL;
 	imap_store->connected = FALSE;
 	imap_store->subscribed_folders = NULL;
-
+	
 	imap_store->tag_prefix = imap_tag_prefix++;
 	if (imap_tag_prefix > 'Z')
 		imap_tag_prefix = 'A';
-
+	
 	imap_store->priv = g_malloc0 (sizeof (*imap_store->priv));
 #ifdef ENABLE_THREADS
-	imap_store->priv->command_lock = e_mutex_new(E_MUTEX_REC);
+	imap_store->priv->command_lock = e_mutex_new (E_MUTEX_REC);
 #endif
 }
 
@@ -1487,12 +1487,46 @@ unsubscribe_folder (CamelStore *store, const char *folder_name,
 	camel_folder_info_free (fi);
 }
 
+static gboolean
+folder_flags_have_changed (CamelFolder *folder)
+{
+	CamelMessageInfo *info;
+	int i, max;
+	
+	max = camel_folder_summary_count (folder->summary);
+	for (i = 0; i < max; i++) {
+		info = camel_folder_summary_index (folder->summary, i);
+		if (!info)
+			continue;
+		if (info->flags & CAMEL_MESSAGE_FOLDER_FLAGGED) {
+			return TRUE;
+		}
+	}
+	
+	return FALSE;
+}
+
 static void
 imap_keepalive (CamelRemoteStore *store)
 {
 	CamelImapStore *imap_store = CAMEL_IMAP_STORE (store);
 	CamelImapResponse *response;
-
+	
+	/* FIXME: should this check to see if we are online? */
+	
+	/* Note: the idea here is to sync the flags of our currently
+	   selected folder if there have been changes... */
+	
+	if (imap_store->current_folder && folder_flags_have_changed (imap_store->current_folder)) {
+		camel_folder_sync (imap_store->current_folder, FALSE, NULL);
+	}
+	
+	/* ...but we also want to NOOP so that we get an untagged response. */
+	
+	CAMEL_IMAP_STORE_LOCK (store, command_lock);
+	
 	response = camel_imap_command (imap_store, NULL, NULL, "NOOP");
 	camel_imap_response_free (imap_store, response);
+	
+	CAMEL_IMAP_STORE_UNLOCK (store, command_lock);
 }

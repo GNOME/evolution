@@ -61,13 +61,13 @@ typedef enum {
 struct _CamelImapStore {
 	CamelDiscoStore parent_object;	
 	struct _CamelImapStorePrivate *priv;
-
+	
 	/* Information about the command channel / connection status */
 	gboolean connected;
 	char tag_prefix;
 	guint32 command;
 	CamelFolder *current_folder;
-
+	
 	/* Information about the server */
 	CamelImapServerLevel server_level;
 	guint32 capabilities, parameters;

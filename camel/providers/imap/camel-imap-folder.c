@@ -677,7 +677,7 @@ imap_sync_online (CamelFolder *folder, CamelException *ex)
 	
 	/* Save the summary */
 	imap_sync_offline (folder, ex);
-
+	
 	CAMEL_IMAP_STORE_UNLOCK (store, command_lock);
 }
 
@@ -685,7 +685,7 @@ static void
 imap_expunge_uids_offline (CamelFolder *folder, GPtrArray *uids, CamelException *ex)
 {
 	int i;
-
+	
 	for (i = 0; i < uids->len; i++) {
 		camel_folder_summary_remove_uid (folder->summary, uids->pdata[i]);
 		/* We intentionally don't remove it from the cache because
@@ -693,7 +693,7 @@ imap_expunge_uids_offline (CamelFolder *folder, GPtrArray *uids, CamelException 
 		 */
 	}
 	camel_folder_summary_save (folder->summary);
-
+	
 	camel_disco_diary_log (CAMEL_DISCO_STORE (folder->parent_store)->diary,
 			       CAMEL_DISCO_DIARY_FOLDER_EXPUNGE, folder, uids);
 }
@@ -704,7 +704,7 @@ imap_expunge_uids_online (CamelFolder *folder, GPtrArray *uids, CamelException *
 	CamelImapStore *store = CAMEL_IMAP_STORE (folder->parent_store);
 	CamelImapResponse *response;
 	char *set;
-
+	
 	set = imap_uid_array_to_set (folder->summary, uids);
 	CAMEL_IMAP_STORE_LOCK (store, command_lock);
 	response = camel_imap_command (store, folder, ex,
@@ -717,7 +717,7 @@ imap_expunge_uids_online (CamelFolder *folder, GPtrArray *uids, CamelException *
 		g_free (set);
 		return;
 	}
-
+	
 	if (store->capabilities & IMAP_CAPABILITY_UIDPLUS) {
 		response = camel_imap_command (store, folder, ex,
 					       "UID EXPUNGE %s", set);
