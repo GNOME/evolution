@@ -1,3 +1,36 @@
+2000-02-08  Federico Mena Quintero  <federico@helixcode.com>
+
+	* evolution-calendar.idl (CalObjInstance): New struct to wrap
+	instances of calendar objects for recurrencies and alarms.
+	(Cal::get_events_in_range): New method to get ocurring and
+	recurring events by time range.
+
+	* cal-backend.c (cal_backend_get_events_in_range): New function to
+	get a list of event instances in a time range.
+	(string_from_ical_object): New internal function.
+	(cal_backend_get_object): Use string_from_ical_object() instead of
+	doing everything ourselves.
+	(cal_backend_get_events_in_range): New function to get a list of
+	the events that occur or recur in a specified time range.
+
+	* cal-client.c (cal_client_get_events_in_range): Implemented
+	client-side function.
+
+	* cal-util.h:
+	* cal-util.c: New files with utilities and types common to the
+	client and server parts.
+	(CalObjInstance): New structure to hold an instance of an actual
+	occurrence, recurrence, or alarm trigger of a calendar object.
+	(cal_obj_instance_list_free): New function to free a list of
+	calendar object instances.
+
+	* cal.c (Cal_get_events_in_range): Implemented new method.
+
+	* corba-cal.c (cal_repo_get_updated_objects): Free `str' with
+	free(), not g_free(), since calendar_get_as_vcal_string() uses
+	writeMemVObject(), which uses realloc().  Fixed in gnome-pim as
+	well.
+
 2000-02-04  Federico Mena Quintero  <federico@helixcode.com>
 
 	* cal-backend.c (get_calendar_base_vobject): New function to

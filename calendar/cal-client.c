@@ -471,3 +471,57 @@ cal_client_get_object (CalClient *client, const char *uid)
 	CORBA_exception_free (&ev);
 	return retval;
 }
+
+GList *
+cal_client_get_events_in_range (CalClient *client, time_t start, time_t end)
+{
+	CalClientPrivate *priv;
+	CORBA_Environment ev;
+	Evolution_Calendar_CalObjInstanceSeq *seq;
+	GList *elist;
+	int i;
+
+	g_return_val_if_fail (client != NULL, NULL);
+	g_return_val_if_fail (IS_CAL_CLIENT (client), NULL);
+
+	priv = client->priv;
+	g_return_val_if_fail (priv->load_state == LOAD_STATE_LOADED, NULL);
+
+	g_return_val_if_fail (start != -1 && end != -1, NULL);
+	g_return_val_if_fail (start <= end, NULL);
+
+	priv = client->priv;
+
+	CORBA_exception_init (&ev);
+
+	seq = Evolution_Calendar_Cal_get_events_in_range (priv->cal, start, end, &ev);
+	if (ev._major != CORBA_NO_EXCEPTION) {
+		g_message ("cal_client_get_events_in_range(): could not get the event range");
+		CORBA_exception_free (&ev);
+		return NULL;
+	}
+	CORBA_exception_free (&ev);
+
+	/* Create the list in reverse order */
+
+	elist = NULL;
+
+	for (i = 0; i < seq->_length; i++) {
+		Evolution_Calendar_CalObjInstance *corba_icoi;
+		CalObjInstance *icoi;
+
+		corba_icoi = &seq->_buffer[i];
+		icoi = g_new (CalObjInstance, 1);
+
+		icoi->calobj = g_strdup (corba_icoi->calobj);
+		icoi->start = corba_icoi->start;
+		icoi->end = corba_icoi->end;
+
+		elist = g_list_prepend (elist, icoi);
+	}
+
+	CORBA_free (seq);
+	elist = g_list_reverse (elist);
+
+	return elist;
+}

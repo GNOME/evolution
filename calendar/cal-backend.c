@@ -299,6 +299,30 @@ get_calendar_base_vobject (CalBackend *backend)
 	return vobj;
 }
 
+/* Builds the string representation of a complete calendar object wrapping the
+ * specified object --- a complete calendar is needed because of the timezone
+ * information.  The return value must be freed with free(), not g_free(), since
+ * the internal implementation calls writeMemVObject() from libversit, which
+ * uses realloc() to allocate this string.
+ */
+static char *
+string_from_ical_object (CalBackend *backend, iCalObject *ico)
+{
+	VObject *vcalobj, *vobj;
+	char *buf;
+
+	vcalobj = get_calendar_base_vobject (backend);
+	vobj = ical_object_to_vobject (ico);
+	addVObjectProp (vcalobj, vobj);
+
+	buf = writeMemVObject (NULL, NULL, vcalobj);
+
+	cleanVObject (vcalobj);
+	cleanStrTbl ();
+
+	return buf;
+}
+
 
 
 /**
@@ -467,8 +491,7 @@ cal_backend_get_object (CalBackend *backend, const char *uid)
 {
 	CalBackendPrivate *priv;
 	iCalObject *ico;
-	VObject *vcalobj, *vobj;
-	char *buf;
+	char *buf, *retval;
 
 	g_return_val_if_fail (backend != NULL, NULL);
 	g_return_val_if_fail (IS_CAL_BACKEND (backend), NULL);
@@ -480,19 +503,105 @@ cal_backend_get_object (CalBackend *backend, const char *uid)
 
 	g_assert (priv->object_hash != NULL);
 
-	ico = g_hash_table_lookup (priv->objec_hash, uid);
+	ico = g_hash_table_lookup (priv->object_hash, uid);
 
 	if (!ico)
 		return NULL;
 
-	vcalobj = get_calendar_base_vobject (backend);
-	vobj = ical_object_to_vobject (ico);
-	addVObjectProp (vcalobj, vobj);
+	/* string_from_ical_object() uses writeMemVObject(), which uses
+	 * realloc(), so we must free its result with free() instead of
+	 * g_free().  We take a copy of the result so that callers can use the
+	 * normal glib function to free it.
+	 */
 
-	buf = writeMemVObject (NULL, NULL, vcalobj);
+	buf = string_from_ical_object (backend, ico);
+	retval = g_strdup (buf);
+	free (buf);
 
-	cleanVObject (vcalobj);
-	cleanStrTbl ();
+	return retval;
+}
 
-	return buf;
+struct build_event_list_closure {
+	CalBackend *backend;
+	GList *event_list;
+};
+
+/* Builds a sorted list of event object instances.  Used as a callback from
+ * ical_object_generate_events().
+ */
+static int
+build_event_list (iCalObject *ico, time_t start, time_t end, void *data)
+{
+	CalObjInstance *icoi;
+	struct build_event_list_closure *c;
+
+	c = data;
+
+	icoi = g_new (CalObjInstance, 1);
+	icoi->calobj = string_from_ical_object (c->backend, ico);
+	icoi->start = start;
+	icoi->end = end;
+
+	c->event_list = g_list_prepend (c->event_list, icoi);
+
+	return TRUE;
+}
+
+/* Compares two CalObjInstance structures by their start times.  Called from
+ * g_list_sort().
+ */
+static gint
+compare_instance_func (gconstpointer a, gconstpointer b)
+{
+	const CalObjInstance *ca, *cb;
+	time_t diff;
+
+	ca = a;
+	cb = b;
+
+	diff = ca->start - cb->start;
+	return (diff < 0) ? -1 : (diff > 0) ? 1 : 0;
+}
+
+/**
+ * cal_backend_get_events_in_range:
+ * @backend: A calendar backend.
+ * @start: Start time for query.
+ * @end: End time for query.
+ * 
+ * Builds a sorted list of calendar event object instances that occur or recur
+ * within the specified time range.  Each object instance contains the object
+ * itself and the start/end times at which it occurs or recurs.
+ * 
+ * Return value: A list of calendar event object instances, sorted by their
+ * start times.
+ **/
+GList *
+cal_backend_get_events_in_range (CalBackend *backend, time_t start, time_t end)
+{
+	CalBackendPrivate *priv;
+	struct build_event_list_closure c;
+	GList *l;
+
+	g_return_val_if_fail (backend != NULL, NULL);
+	g_return_val_if_fail (IS_CAL_BACKEND (backend), NULL);
+
+	priv = backend->priv;
+	g_return_val_if_fail (priv->loaded, NULL);
+
+	g_return_val_if_fail (start != -1 && end != -1, NULL);
+	g_return_val_if_fail (start <= end, NULL);
+
+	c.backend = backend;
+	c.event_list = NULL;
+
+	for (l = priv->events; l; l = l->next) {
+		iCalObject *ico;
+
+		ico = l->data;
+		ical_object_generate_events (ico, start, end, build_event_list, &c);
+	}
+
+	c.event_list = g_list_sort (c.event_list, compare_instance_func);
+	return c.event_list;
 }

@@ -196,6 +196,63 @@ Cal_get_object (PortableServer_Servant servant,
 	}
 }
 
+/* Cal::get_events_in_range method */
+static Evolution_Calendar_CalObjInstanceSeq *
+Cal_get_events_in_range (PortableServer_Servant servant,
+			 const Evolution_Calendar_Time_t start,
+			 const Evolution_Calendar_Time_t end,
+			 CORBA_Environment *ev)
+{
+	Cal *cal;
+	CalPrivate *priv;
+	time_t t_start, t_end;
+	Evolution_Calendar_CalObjInstanceSeq *seq;
+	GList *elist, *l;
+	int n, i;
+
+	cal = CAL (bonobo_object_from_servant (servant));
+	priv = cal->priv;
+
+	t_start = (time_t) start;
+	t_end = (time_t) end;
+
+	if (t_start > t_end || t_start == -1 || t_end == -1) {
+		CORBA_exception_set (ev, CORBA_USER_EXCEPTION,
+				     ex_Evolution_Calendar_Cal_InvalidRange,
+				     NULL);
+		return NULL;
+	}
+
+	/* Figure out the list and allocate the sequence */
+
+	elist = cal_backend_get_events_in_range (priv->backend, t_start, t_end);
+	n = g_list_length (elist);
+
+	seq = Evolution_Calendar_CalObjInstanceSeq__alloc ();
+	seq->_length = n;
+	seq->_buffer = CORBA_sequence_Evolution_Calendar_CalObjInstance_allocbuf (n);
+
+	/* Fill the sequence */
+
+	for (i = 0, l = elist; i < n; i++, l = l->next) {
+		CalObjInstance *icoi;
+		Evolution_Calendar_CalObjInstance *corba_icoi;
+
+		icoi = l->data;
+		corba_icoi = &seq->_buffer[i];
+
+		corba_icoi->calobj = CORBA_string_dup (icoi->calobj);
+		corba_icoi->start = icoi->start;
+		corba_icoi->end = icoi->end;
+	}
+
+	/* Done */
+
+	cal_obj_instance_list_free (elist);
+
+	return seq;
+}
+
 /**
  * cal_get_epv:
  * @void:
@@ -212,6 +269,7 @@ cal_get_epv (void)
 	epv = g_new0 (POA_Evolution_Calendar_Cal__epv, 1);
 	epv->_get_uri = Cal_get_uri;
 	epv->get_object = Cal_get_object;
+	epv->get_events_in_range = Cal_get_events_in_range;
 
 	return epv;
 }

@@ -295,7 +295,7 @@ cal_repo_get_updated_objects (PortableServer_Servant servant,
 	}
 	str = calendar_get_as_vcal_string (dirty_cal);
 	res = CORBA_string_dup (str);
-	g_free (str);
+	free (str); /* calendar_get_as_vcal_string() uses writeMemVObject(), which uses realloc() */
 	calendar_destroy (dirty_cal);
 
 	return res;

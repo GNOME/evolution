@@ -23,11 +23,29 @@ module Calendar {
 	/* An unique identifier for a calendar object */
 	typedef string CalObjUID;
 
+	/* Used to store a time_t */
+	typedef unsigned long Time_t;
+
+	/* An instance of a calendar object that actually occurs.  These are
+	 * "virtual" objects in that they are used to represent instances of
+	 * recurring events and alarms.  "Real" objects just contain the
+	 * information required to figure out the times at which they recur or
+	 * trigger.  
+	 */
+	struct CalObjInstance {
+		CalObj calobj;
+		Time_t start;
+		Time_t end;
+	};
+
+	typedef sequence<CalObjInstance> CalObjInstanceSeq;
+
 	interface Listener;
 
 	/* Calendar client interface */
 	interface Cal : Bonobo::Unknown {
 		exception NotFound {};
+		exception InvalidRange {};
 
 		/* A calendar is identified by its URI */
 		readonly attribute string uri;
@@ -35,6 +53,10 @@ module Calendar {
 		/* Gets an object based on its URI */
 		CalObj get_object (in CalObjUID uid)
 			raises (NotFound);
+
+		/* Gets the events that occur or recur in the specified time range */
+		CalObjInstanceSeq get_events_in_range (in Time_t start, in Time_t end)
+			raises (InvalidRange);
 	};
 
 	/* Listener for changes in a calendar */

@@ -27,6 +27,7 @@
 #include "evolution-calendar.h"
 #include "cal-common.h"
 #include "cal.h"
+#include "cal-util.h"
 
 BEGIN_GNOME_DECLS
 
@@ -39,9 +40,10 @@ BEGIN_GNOME_DECLS
 #define IS_CAL_BACKEND(obj)         (GTK_CHECK_TYPE ((obj), CAL_BACKEND_TYPE))
 #define IS_CAL_BACKEND_CLASS(klass) (GTK_CHECK_CLASS_TYPE ((klass), CAL_BACKEND_TYPE))
 
+/* Load status values */
 typedef enum {
-	CAL_BACKEND_LOAD_SUCCESS,		/* Loading OK */
-	CAL_BACKEND_LOAD_ERROR			/* We need better error reporting in libversit */
+	CAL_BACKEND_LOAD_SUCCESS,	/* Loading OK */
+	CAL_BACKEND_LOAD_ERROR		/* We need better error reporting in libversit */
 } CalBackendLoadStatus;
 
 struct _CalBackend {
@@ -67,6 +69,8 @@ void cal_backend_remove_cal (CalBackend *backend, Cal *cal);
 CalBackendLoadStatus cal_backend_load (CalBackend *backend, GnomeVFSURI *uri);
 
 char *cal_backend_get_object (CalBackend *backend, const char *uid);
+
+GList *cal_backend_get_events_in_range (CalBackend *backend, time_t start, time_t end);
 
 
 

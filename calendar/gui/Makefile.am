@@ -62,6 +62,8 @@ gnomecal_SOURCES =				\
 	cal-client.h				\
 	cal-listener.c				\
 	cal-listener.h				\
+	cal-util.c				\
+	cal-util.h				\
 	calendar.c				\
 	calendar.h				\
 	calendar-conduit.h			\
@@ -134,6 +136,8 @@ tlacuache_SOURCES =				\
 	cal-common.h				\
 	cal-factory.c				\
 	cal-factory.h				\
+	cal-util.c				\
+	cal-util.h				\
 	calobj.c				\
 	calobj.h				\
 	job.c					\
