@@ -127,7 +127,7 @@ emailify_match (ECompletionMatch *match)
 	const gchar *email = e_destination_get_email (dest);
 	const gchar *menu_txt = e_completion_match_get_menu_text (match);
 	
-	if (card && card->email && e_list_length (card->email) > 1) {
+	if (card && card->email && e_list_length (card->email) > 1 && !e_card_evolution_list (card)) {
 		
 		if (email && strstr (menu_txt, email) == NULL) {
 			gchar *tmp = g_strdup_printf ("%s <%s>", menu_txt, email);
@@ -196,7 +196,9 @@ match_email (ESelectNamesCompletion *comp, EDestination *dest)
 	const gchar *email = e_destination_get_email (dest);
 	double score;
 	
-	if (email && !g_utf8_strncasecmp (comp->priv->query_text, email, len)) {
+	if (email
+	    && !g_utf8_strncasecmp (comp->priv->query_text, email, len)
+	    && !e_destination_is_evolution_list (dest)) {
 
 		gchar *name, *str;
 		
@@ -367,7 +369,11 @@ match_name (ESelectNamesCompletion *comp, EDestination *dest)
 	have_additional  = card->name->additional && *card->name->additional;
 	have_family      = card->name->family && *card->name->family;
 
-	if (first_match == MATCHED_GIVEN_NAME) {
+	if (first_match != MATCHED_NOTHING && e_card_evolution_list (card)) {
+
+		menu_text = e_card_name_to_string (card->name);
+
+	} else if (first_match == MATCHED_GIVEN_NAME) {
 
 		if (have_family)
 			menu_text = g_strdup_printf ("%s %s", card->name->given, card->name->family);
@@ -535,7 +541,20 @@ book_query_process_card_list (ESelectNamesCompletion *comp, const GList *cards)
 	while (cards) {
 		ECard *card = E_CARD (cards->data);
 
-		if (card->email) {
+		if (e_card_evolution_list (card)) {
+
+			EDestination *dest = e_destination_new ();
+			ECompletionMatch *match;
+			e_destination_set_card (dest, card, 0);
+			match = book_query_score (comp, dest);
+			if (match && match->score > 0) {
+				e_completion_found_match (E_COMPLETION (comp), match);
+			} else {
+				e_completion_match_unref (match);
+			}
+			gtk_object_unref (GTK_OBJECT (dest));
+
+		} else if (card->email) {
 			gint i;
 			for (i=0; i<e_list_length (card->email); ++i) {
 				EDestination *dest = e_destination_new ();

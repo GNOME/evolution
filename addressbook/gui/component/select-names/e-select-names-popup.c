@@ -216,7 +216,6 @@ popup_menu_card (PopupInfo *info)
 	gint i=0;
 	GtkWidget *pop;
 	EIterator *iterator;
-	gchar *name_str;
 	gint html_toggle;
 
 	/*
@@ -227,10 +226,9 @@ popup_menu_card (PopupInfo *info)
 	memset (radioinfo, 0, sizeof (radioinfo));
 
 	card = e_destination_get_card (info->dest);
-	name_str = e_card_name_to_string (card->name);
 
 	uiinfo[i].type = GNOME_APP_UI_ITEM;
-	uiinfo[i].label = name_str;
+	uiinfo[i].label = (gchar *) e_destination_get_name (info->dest); 
 	++i;
 
 	uiinfo[i].type = GNOME_APP_UI_SEPARATOR;
@@ -290,7 +288,6 @@ popup_menu_card (PopupInfo *info)
 	 */
 
 	pop = gnome_popup_menu_new (uiinfo);
-	g_free (name_str);
 
 	if (using_radio) {
 		gint n = e_destination_get_email_num (info->dest);
@@ -311,7 +308,7 @@ static void
 quick_add_cb (GtkWidget *w, gpointer user_data)
 {
 	PopupInfo *info = (PopupInfo *) user_data;
-	e_contact_quick_add_free_form (e_destination_get_string (info->dest), NULL, NULL);
+	e_contact_quick_add_free_form (e_destination_get_address (info->dest), NULL, NULL);
 }
 
 static GtkWidget *
@@ -325,7 +322,7 @@ popup_menu_nocard (PopupInfo *info)
 
 	memset (uiinfo, 0, sizeof (uiinfo));
 
-	str = e_destination_get_string (info->dest);
+	str = e_destination_get_name (info->dest);
 
 	uiinfo[i].type = GNOME_APP_UI_ITEM;
 	uiinfo[i].label = (gchar *) str;

@@ -674,6 +674,17 @@ add_field (EMinicard *e_minicard, ECardSimpleField field, gdouble left_width)
 	name = g_strdup_printf("%s:", e_card_simple_get_name(e_minicard->simple, field));
 	string = e_card_simple_get(e_minicard->simple, field);
 
+	/* Magically convert embedded XML into an address. */
+	if (!strncmp (string, "<?xml", 4)) {
+		EDestination *dest = e_destination_import (string);
+		if (dest != NULL) {
+			gchar *new_string = g_strdup (e_destination_get_address (dest));
+			g_free (string);
+			string = new_string;
+			gtk_object_unref (GTK_OBJECT (dest));
+		}
+	}
+
 	new_item = e_minicard_label_new(group);
 	gnome_canvas_item_set( new_item,
 			       "width", e_minicard->width - 4.0,

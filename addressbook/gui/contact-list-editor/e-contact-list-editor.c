@@ -765,9 +765,12 @@ extract_info(EContactListEditor *editor)
 				NULL);
 
 		for (i = 0; i < e_table_model_row_count (editor->model); i ++) {
-			char *email = e_contact_list_model_get_email (E_CONTACT_LIST_MODEL(editor->model), i);
-			e_list_append (email_list, email);
-			g_free (email);
+			const EDestination *dest = e_contact_list_model_get_destination (E_CONTACT_LIST_MODEL (editor->model), i);
+			gchar *dest_xml = e_destination_export (dest);
+			if (dest_xml) {
+				e_list_append (email_list, dest_xml);
+			}
+			g_free (dest_xml);
 		}
 	}
 }
@@ -802,24 +805,14 @@ fill_in_info(EContactListEditor *editor)
 		email_iter = e_list_get_iterator (email_list);
 		
 		while (e_iterator_is_valid (email_iter)) {
-			const char *email = e_iterator_get (email_iter);
+			const char *dest_xml = e_iterator_get (email_iter);
+			EDestination *dest;
 
-			if (!strncmp (email, ECARD_UID_LINK_PREFIX, strlen (ECARD_UID_LINK_PREFIX))) {
-				ECard *card;
-				const char *uid;
-				/* it's a serialized uid */
-				uid = email + strlen (ECARD_UID_LINK_PREFIX);
-				card = e_book_get_card (editor->book, uid);
-				if (card) {
-					ECardSimple *simple = e_card_simple_new (card);
-					gtk_object_unref (GTK_OBJECT (card));
-					e_contact_list_model_add_card (E_CONTACT_LIST_MODEL (editor->model),
-								       simple);
-				}
-			}
-			else {
-				e_contact_list_model_add_email (E_CONTACT_LIST_MODEL (editor->model),
-								email);
+			g_message ("incoming xml: [%s]", dest_xml);
+			dest = e_destination_import (dest_xml);
+
+			if (dest != NULL) {
+				e_contact_list_model_add_destination (E_CONTACT_LIST_MODEL (editor->model), dest);
 			}
 
 			e_iterator_next (email_iter);

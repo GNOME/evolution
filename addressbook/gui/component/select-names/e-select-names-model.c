@@ -212,21 +212,6 @@ e_select_names_model_changed (ESelectNamesModel *model)
 	g_free (model->priv->addr_text);
 	model->priv->addr_text = NULL;
 
-#if 0
-	{
-		GList *i = model->priv->data;
-		gint j = 0;
-		g_print ("ESelectNamesModel state:\n");
-		while (i) {
-			EDestination *dest = (EDestination *) i->data;
-			g_print ("%d: %s <%s>\n", j, e_destination_get_string (dest), e_destination_get_email (dest));
-			i = g_list_next (i);
-			++j;
-		}
-		g_print ("\n");
-	}
-#endif
-
 	gtk_signal_emit (GTK_OBJECT(model), e_select_names_model_signals[E_SELECT_NAMES_MODEL_CHANGED]);
 }
 
@@ -276,9 +261,7 @@ e_select_names_model_get_textification (ESelectNamesModel *model)
 			
 			while (iter) {
 				EDestination *dest = E_DESTINATION (iter->data);
-				strv[i] = (gchar *) e_destination_get_string (dest);
-				if (strv[i] == NULL)
-					strv[i] = "";
+				strv[i] = (gchar *) e_destination_get_textrep (dest);
 				++i;
 				iter = g_list_next (iter);
 			}
@@ -311,7 +294,7 @@ e_select_names_model_get_address_text (ESelectNamesModel *model)
 
 			while (iter) {
 				EDestination *dest = E_DESTINATION (iter->data);
-				strv[i] = (gchar *) e_destination_get_email_verbose (dest);
+				strv[i] = (gchar *) e_destination_get_address (dest);
 				if (strv[i])
 					++i;
 				iter = g_list_next (iter);
@@ -421,7 +404,7 @@ e_select_names_model_get_string (ESelectNamesModel *model, gint index)
 
 	dest = e_select_names_model_get_destination (model, index);
 	
-	return dest ? e_destination_get_string (dest) : "";
+	return dest ? e_destination_get_textrep (dest) : "";
 }
 
 void
@@ -458,6 +441,7 @@ void
 e_select_names_model_replace (ESelectNamesModel *model, gint index, EDestination *dest)
 {
 	GList *node;
+	const gchar *new_str, *old_str;
 	gint old_strlen=0, new_strlen=0;
 
 	g_return_if_fail (model != NULL);
@@ -465,7 +449,8 @@ e_select_names_model_replace (ESelectNamesModel *model, gint index, EDestination
 	g_return_if_fail (model->priv->data == NULL || (0 <= index && index < g_list_length (model->priv->data)));
 	g_return_if_fail (dest && E_IS_DESTINATION (dest));
 	
-	new_strlen = e_destination_get_strlen (dest);
+	new_str = e_destination_get_textrep (dest);
+	new_strlen = new_str ? strlen (new_str) : 0;
 
 	if (model->priv->data == NULL) {
 
@@ -478,7 +463,9 @@ e_select_names_model_replace (ESelectNamesModel *model, gint index, EDestination
 		node = g_list_nth (model->priv->data, index);
 
 		if (node->data != dest) {
-			old_strlen = e_destination_get_strlen (E_DESTINATION (node->data));
+
+			old_str = e_destination_get_textrep (E_DESTINATION (node->data));
+			old_strlen = old_str ? strlen (old_str) : 0;
 
 			gtk_object_unref (GTK_OBJECT (node->data));
 
@@ -560,6 +547,7 @@ e_select_names_model_name_pos (ESelectNamesModel *model, gint index, gint *pos, 
 {
 	gint rp = 0, i, len = 0;
 	GList *iter;
+	const gchar *str;
 
 	g_return_if_fail (model != NULL);
 	g_return_if_fail (E_IS_SELECT_NAMES_MODEL (model));
@@ -568,7 +556,8 @@ e_select_names_model_name_pos (ESelectNamesModel *model, gint index, gint *pos, 
 	iter = model->priv->data;
 	while (iter && i <= index) {
 		rp += len + (i > 0 ? SEPLEN : 0);
-		len = e_destination_get_strlen (E_DESTINATION (iter->data));
+		str = e_destination_get_textrep (E_DESTINATION (iter->data));
+		len = str ? strlen (str) : 0;
 		++i;
 		iter = g_list_next (iter);
 	}
@@ -588,6 +577,7 @@ void
 e_select_names_model_text_pos (ESelectNamesModel *model, gint pos, gint *index, gint *start_pos, gint *length)
 {
 	GList *iter;
+	const gchar *str;
 	gint len = 0, i = 0, sp = 0, adj = 0;
 
 	g_return_if_fail (model != NULL);
@@ -596,16 +586,10 @@ e_select_names_model_text_pos (ESelectNamesModel *model, gint pos, gint *index, 
 	iter = model->priv->data;
 
 	while (iter != NULL) {
-		len = e_destination_get_strlen (E_DESTINATION (iter->data));
-
-#if 0
-		g_print ("text_pos: %d %d %d %d\n", len, sp, pos, adj);
-#endif
+		str = e_destination_get_textrep (E_DESTINATION (iter->data));
+		len = str ? strlen (str) : 0;
 
 		if (sp <= pos && pos <= sp + len + adj) {
-#if 0
-			g_print ("breaking\n");
-#endif
 			break;
 		}
 

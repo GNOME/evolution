@@ -29,7 +29,7 @@ contact_list_value_at (ETableModel *etc, int col, int row)
 {
 	EContactListModel *model = E_CONTACT_LIST_MODEL (etc);
 
-	return model->data[row]->string;
+	return (void *) e_destination_get_address (model->data[row]);
 }
 
 /* This function sets the value at a particular point in our ETableModel. */
@@ -85,10 +85,7 @@ contact_list_model_destroy (GtkObject *o)
 	int i;
 
 	for (i = 0; i < model->data_count; i ++) {
-		g_free (model->data[i]->string);
-		if (model->data[i]->simple)
-			gtk_object_unref (GTK_OBJECT(model->data[i]->simple));
-		g_free (model->data[i]);
+		gtk_object_unref (GTK_OBJECT (model->data[i]));
 	}
 	g_free (model->data);
 
@@ -124,7 +121,7 @@ e_contact_list_model_init (GtkObject *object)
 
 	model->data_alloc = 10;
 	model->data_count = 0;
-	model->data = g_new (EContactListModelRow*, model->data_alloc);
+	model->data = g_new (EDestination*, model->data_alloc);
 }
 
 GtkType
@@ -168,73 +165,49 @@ e_contact_list_model_new ()
 }
 
 void
+e_contact_list_model_add_destination (EContactListModel *model, EDestination *dest)
+{
+	if (model->data_count + 1 >= model->data_alloc) {
+		model->data_alloc *= 2;
+		model->data = g_renew (EDestination*, model->data, model->data_alloc);
+	}
+
+	model->data[model->data_count ++] = dest;
+	gtk_object_ref (GTK_OBJECT (dest));
+	gtk_object_sink (GTK_OBJECT (dest));
+
+	e_table_model_changed (E_TABLE_MODEL (model));
+}
+
+void
 e_contact_list_model_add_email (EContactListModel *model,
 				const char *email)
 {
-	EContactListModelRow *new_row;
+	EDestination *new_dest;
 
-	if (model->data_count + 1 >= model->data_alloc) {
-		model->data_alloc *= 2;
-		model->data = g_renew (EContactListModelRow*, model->data, model->data_alloc);
-	}
+	new_dest = e_destination_new ();
+	e_destination_set_email (new_dest, email);
 
-	new_row = g_new (EContactListModelRow, 1);
-	new_row->type = E_CONTACT_LIST_MODEL_ROW_EMAIL;
-	new_row->simple = NULL;
-	new_row->string = g_strdup (email);
-
-	model->data[model->data_count ++] = new_row;
-
-	e_table_model_changed (E_TABLE_MODEL (model));
+	e_contact_list_model_add_destination (model, new_dest);
 }
 
 void
 e_contact_list_model_add_card (EContactListModel *model,
 			       ECardSimple *simple)
 {
-	EContactListModelRow *new_row;
-	char *email, *name;
+	EDestination *new_dest;
 
-	name = e_card_simple_get (simple, E_CARD_SIMPLE_FIELD_NAME_OR_ORG);
-	email = e_card_simple_get (simple, E_CARD_SIMPLE_FIELD_EMAIL);
+	new_dest = e_destination_new ();
+	e_destination_set_card (new_dest, simple->card, 0); /* Hard-wired for default e-mail */
 
-	if (! name && ! email) {
-		/* what to do here? */
-		return;
-	}
-	    
-
-	if (model->data_count + 1 >= model->data_alloc) {
-		model->data_alloc *= 2;
-		model->data = g_renew (EContactListModelRow*, model->data, model->data_alloc);
-	}
-
-	new_row = g_new (EContactListModelRow, 1);
-
-	new_row->type = E_CONTACT_LIST_MODEL_ROW_CARD;
-	new_row->simple = simple;
-	if (FALSE /* XXX e_card_simple_get (simple, E_CARD_SIMPLE_FIELD_EVOLUTION_LIST)*/)
-		new_row->string = g_strconcat ("<", name, ">", NULL);
-	else
-		new_row->string = g_strconcat (name ? name : "",
-					       email ? " <" : "", email ? email : "", email ? ">" : "",
-					       NULL);
-
-	model->data[model->data_count++] = new_row;
-
-	gtk_object_ref (GTK_OBJECT (simple));
-
-	e_table_model_changed (E_TABLE_MODEL (model));
+	e_contact_list_model_add_destination (model, new_dest);
 }
 
 void
 e_contact_list_model_remove_row (EContactListModel *model, int row)
 {
-	g_free (model->data[row]->string);
-	if (model->data[row]->simple)
-		gtk_object_unref (GTK_OBJECT(model->data[row]->simple));
-	g_free (model->data[row]);
-	memmove (model->data + row, model->data + row + 1, sizeof (EContactListModelRow*) * (model->data_count - row - 1));
+	gtk_object_unref (GTK_OBJECT (model->data[row]));
+	memmove (model->data + row, model->data + row + 1, sizeof (EDestination*) * (model->data_count - row - 1));
 	model->data_count --;
 
 	e_table_model_changed (E_TABLE_MODEL (model));
@@ -246,10 +219,7 @@ e_contact_list_model_remove_all (EContactListModel *model)
 	int i;
 
 	for (i = 0; i < model->data_count; i ++) {
-		g_free (model->data[i]->string);
-		if (model->data[i]->simple)
-			gtk_object_unref (GTK_OBJECT(model->data[i]->simple));
-		g_free (model->data[i]);
+		gtk_object_unref (GTK_OBJECT (model->data[i]));
 		model->data[i] = NULL;
 	}
 
@@ -259,13 +229,8 @@ e_contact_list_model_remove_all (EContactListModel *model)
 }
 
 
-char*
-e_contact_list_model_get_email (EContactListModel *model, int row)
+const EDestination *
+e_contact_list_model_get_destination (EContactListModel *model, int row)
 {
-	EContactListModelRow *data = model->data[row];
-
-	if (data->type == E_CONTACT_LIST_MODEL_ROW_EMAIL)
-		return g_strdup (data->string);
-	else
-		return g_strconcat (ECARD_UID_LINK_PREFIX, e_card_simple_get_id (data->simple), NULL);
+	return model->data[row];
 }

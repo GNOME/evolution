@@ -129,8 +129,8 @@ fill_in_info (ESelectNamesTableModel *model)
 					model->data[i].email = g_strdup("");
 				gtk_object_unref(GTK_OBJECT(simple));
 			} else {
-				model->data[i].name =  g_strdup (e_destination_get_string (dest));
-				model->data[i].email = g_strdup (model->data[i].name);
+				model->data[i].name =  g_strdup (e_destination_get_name (dest));
+				model->data[i].email = g_strdup (e_destination_get_email (dest));
 			}
 		}
 	} else {

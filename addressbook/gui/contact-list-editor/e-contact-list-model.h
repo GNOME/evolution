@@ -6,6 +6,7 @@
 #include "addressbook/backend/ebook/e-book.h"
 #include "addressbook/backend/ebook/e-book-view.h"
 #include "addressbook/backend/ebook/e-card-simple.h"
+#include "addressbook/backend/ebook/e-destination.h"
 
 #define E_CONTACT_LIST_MODEL_TYPE        (e_contact_list_model_get_type ())
 #define E_CONTACT_LIST_MODEL(o)          (GTK_CHECK_CAST ((o), E_CONTACT_LIST_MODEL_TYPE, EContactListModel))
@@ -16,21 +17,10 @@
 typedef struct _EContactListModel EContactListModel;
 typedef struct _EContactListModelClass EContactListModelClass;
 
-typedef enum {
-	E_CONTACT_LIST_MODEL_ROW_EMAIL,
-	E_CONTACT_LIST_MODEL_ROW_CARD,
-} EContactListModelRowType;
-
-typedef struct {
-	EContactListModelRowType type;
-	ECardSimple *simple;
-	char        *string;
-} EContactListModelRow;
-
 struct _EContactListModel {
 	ETableModel parent;
 
-	EContactListModelRow **data;
+	EDestination **data;
 	int data_count;
 	int data_alloc;
 };
@@ -45,11 +35,13 @@ GtkType      e_contact_list_model_get_type (void);
 void         e_contact_list_model_construct (EContactListModel *model);
 ETableModel *e_contact_list_model_new (void);
 
-void         e_contact_list_model_add_email  (EContactListModel *model, const char *email);
-void         e_contact_list_model_add_card   (EContactListModel *model, ECardSimple *simple);
+void         e_contact_list_model_add_destination (EContactListModel *model, EDestination *dest);
+void         e_contact_list_model_add_email       (EContactListModel *model, const char *email);
+void         e_contact_list_model_add_card        (EContactListModel *model, ECardSimple *simple);
+
 void	     e_contact_list_model_remove_row (EContactListModel *model, int row);
 void         e_contact_list_model_remove_all (EContactListModel *model);
-char        *e_contact_list_model_get_row    (EContactListModel *model, ECardSimple *simple);
-char        *e_contact_list_model_get_email  (EContactListModel *model, int row);
+
+const EDestination *e_contact_list_model_get_destination (EContactListModel *model, int row);
 
 #endif /* _E_CONTACT_LIST_MODEL_H_ */
