@@ -16,7 +16,6 @@ $(CORBA_SOURCE): $(idls)
 INCLUDES =						\
 	$(DB3_CFLAGS)					\
 	$(LDAP_CFLAGS)					\
-        -DGNOMELOCALEDIR=\""$(localedir)"\"		\
 	-DG_LOG_DOMAIN=\"wombat-pas\"			\
 	-I$(top_srcdir) 				\
 	-I$(top_srcdir)/addressbook/backend		\
@@ -36,13 +35,13 @@ if ENABLE_LDAP
 LDAP_BACKEND = libpasldap.a
 endif
 
-ldapschemadir = $(datadir)/evolution-$(BASE_VERSION)
+ldapschemadir = $(privdatadir)
 ldapschema_DATA= $(LDAP_SCHEMA)
 
 privlib_LIBRARIES = libpas.a
 noinst_LIBRARIES = libpasfile.a $(LDAP_BACKEND)
 
-pasincludedir = $(includedir)/evolution-$(BASE_VERSION)/pas
+pasincludedir = $(privincludedir)/pas
 
 pasinclude_HEADERS =					\
 	$(CORBA_SOURCE_H)				\

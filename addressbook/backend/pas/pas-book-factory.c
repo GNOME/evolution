@@ -439,7 +439,6 @@ gboolean
 pas_book_factory_activate (PASBookFactory *factory, const char *iid)
 {
 	PASBookFactoryPrivate *priv;
-	CORBA_Object obj;
 	Bonobo_RegistrationResult result;
 	char *tmp_iid;
 

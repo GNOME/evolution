@@ -194,7 +194,6 @@ PASBookView *
 pas_book_view_new (GNOME_Evolution_Addressbook_BookViewListener  listener)
 {
 	PASBookView *book_view;
-	GNOME_Evolution_Addressbook_BookView corba_objref;
 
 	book_view = g_object_new (PAS_TYPE_BOOK_VIEW, NULL);
 	
