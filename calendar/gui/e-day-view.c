@@ -7030,7 +7030,6 @@ selection_received (GtkWidget *invisible,
 	e_day_view_get_selected_time_range (day_view, &dtstart, &dtend);
 
 	if (kind == ICAL_VCALENDAR_COMPONENT) {
-		int num_found = 0;
 		icalcomponent_kind child_kind;
 		icalcomponent *subcomp;
 
@@ -7041,39 +7040,29 @@ selection_received (GtkWidget *invisible,
 			if (child_kind == ICAL_VEVENT_COMPONENT ||
 			    child_kind == ICAL_VTODO_COMPONENT ||
 			    child_kind == ICAL_VJOURNAL_COMPONENT) {
-				CalComponent *tmp_comp;
-
 				tt_start = icaltime_as_timet (icalcomponent_get_dtstart (subcomp));
 				tt_end = icaltime_as_timet (icalcomponent_get_dtend (subcomp));
 				ic_dur = icaldurationtype_from_int (tt_end - tt_start);
 				itime = icaltime_from_timet_with_zone (dtstart, FALSE, day_view->zone);
-				/* FIXME: Need to set TZID. */
+
 				icalcomponent_set_dtstart (subcomp, itime);
 				itime = icaltime_add (itime, ic_dur);
 				icalcomponent_set_dtend (subcomp, itime);
 
 				uid = cal_component_gen_uid ();
-				tmp_comp = cal_component_new ();
+				comp = cal_component_new ();
 				cal_component_set_icalcomponent (
-					tmp_comp, icalcomponent_new_clone (subcomp));
-				cal_component_set_uid (tmp_comp, uid);
+					comp, icalcomponent_new_clone (subcomp));
+				cal_component_set_uid (comp, uid);
+
+				cal_client_update_object (day_view->client, comp);
 
 				free (uid);
-				gtk_object_unref (GTK_OBJECT (tmp_comp));
+				gtk_object_unref (GTK_OBJECT (comp));
 
-				num_found++;
 			}
 			subcomp = icalcomponent_get_next_component (
 				icalcomp, ICAL_ANY_COMPONENT);
-		}
-
-		if (num_found) {
-			comp = cal_component_new ();
-			cal_component_set_icalcomponent (comp, icalcomp);
-
-			cal_client_update_object (day_view->client, comp);
-
-			gtk_object_unref (GTK_OBJECT (comp));
 		}
 	}
 	else {
@@ -7081,7 +7070,7 @@ selection_received (GtkWidget *invisible,
 		tt_end = icaltime_as_timet (icalcomponent_get_dtend (icalcomp));
 		ic_dur = icaldurationtype_from_int (tt_end - tt_start);
 		itime = icaltime_from_timet_with_zone (dtstart, FALSE, day_view->zone);
-		/* FIXME: Need to set TZID. */
+
 		icalcomponent_set_dtstart (icalcomp, itime);
 		itime = icaltime_add (itime, ic_dur);
 		icalcomponent_set_dtend (icalcomp, itime);

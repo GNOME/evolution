@@ -3635,15 +3635,15 @@ e_week_view_on_cut (GtkWidget *widget, gpointer data)
 	week_view = E_WEEK_VIEW (data);
 
 	e_week_view_on_copy (widget, data);
-
-	if (week_view->popup_event_num == -1)
-		return;
-
-	event = &g_array_index (week_view->events, EWeekViewEvent,
-				week_view->popup_event_num);
-
-	cal_component_get_uid (event->comp, &uid);
-	cal_client_remove_object (week_view->client, uid);
+ 
+ 	if (week_view->popup_event_num == -1)
+ 		return;
+ 
+ 	event = &g_array_index (week_view->events, EWeekViewEvent,
+ 				week_view->popup_event_num);
+ 
+ 	cal_component_get_uid (event->comp, &uid);
+ 	cal_client_remove_object (week_view->client, uid);
 }
 
 static void
@@ -3855,13 +3855,15 @@ selection_received (GtkWidget *invisible,
 {
 	char *comp_str;
 	icalcomponent *icalcomp;
-	time_t dtstart;
-	struct icaltimetype itime;
 	icalcomponent_kind kind;
 	CalComponent *comp;
-	char *uid;
+	time_t selected_time;
+	struct icaltimetype itime;
+	struct icaltimetype tmp_itime;
 	time_t tt_start, tt_end;
 	struct icaldurationtype ic_dur;
+	char *uid;
+	CalComponentDateTime ccdt;
 
 	g_return_if_fail (E_IS_WEEK_VIEW (week_view));
 
@@ -3885,10 +3887,9 @@ selection_received (GtkWidget *invisible,
 	}
 
 	e_week_view_set_status_message (week_view, _("Updating objects"));
-	dtstart = week_view->day_starts[week_view->selection_start_day];
+	selected_time = week_view->day_starts[week_view->selection_start_day];
 
 	if (kind == ICAL_VCALENDAR_COMPONENT) {
-		int num_found = 0;
 		icalcomponent_kind child_kind;
 		icalcomponent *subcomp;
 
@@ -3899,59 +3900,79 @@ selection_received (GtkWidget *invisible,
 			if (child_kind == ICAL_VEVENT_COMPONENT ||
 			    child_kind == ICAL_VTODO_COMPONENT ||
 			    child_kind == ICAL_VJOURNAL_COMPONENT) {
-				CalComponent *tmp_comp;
+				icalcomponent *new_icalcomp;
 
-				tt_start = icaltime_as_timet (icalcomponent_get_dtstart (subcomp));
-				tt_end = icaltime_as_timet (icalcomponent_get_dtend (subcomp));
+				new_icalcomp = icalcomponent_new_clone (subcomp);
+				comp = cal_component_new ();
+
+				/* change the day for the event */
+				tt_start = icaltime_as_timet (
+					icalcomponent_get_dtstart (new_icalcomp));
+				tt_end = icaltime_as_timet (
+					icalcomponent_get_dtend (new_icalcomp));
 				ic_dur = icaldurationtype_from_int (tt_end - tt_start);
-				itime = icaltime_from_timet_with_zone (dtstart, FALSE, week_view->zone);
-				/* FIXME: Need to set TZID. */
-				icalcomponent_set_dtstart (icalcomp, itime);
+
+				tmp_itime = icaltime_from_timet_with_zone (
+					selected_time, FALSE, week_view->zone);
+				itime = icalcomponent_get_dtstart (new_icalcomp);
+				itime.year = tmp_itime.year;
+				itime.month = tmp_itime.month;
+				itime.day = tmp_itime.day;
+
+				cal_component_set_icalcomponent (comp, new_icalcomp);
+				ccdt.value = &itime;
+				ccdt.tzid = icaltimezone_get_tzid (week_view->zone);
+				cal_component_set_dtstart (comp, &ccdt);
+
 				itime = icaltime_add (itime, ic_dur);
-				icalcomponent_set_dtend (icalcomp, itime);
+				ccdt.value = &itime;
+				cal_component_set_dtend (comp, &ccdt);
 
 				uid = cal_component_gen_uid ();
-				tmp_comp = cal_component_new ();
-				cal_component_set_icalcomponent (
-					tmp_comp, icalcomponent_new_clone (subcomp));
-				cal_component_set_uid (tmp_comp, uid);
+				cal_component_set_uid (comp, uid);
 
-				free (uid);
-				gtk_object_unref (GTK_OBJECT (tmp_comp));
+				cal_client_update_object (week_view->client, comp);
 
-				num_found++;
+				g_free (uid);
+				gtk_object_unref (GTK_OBJECT (comp));
 			}
 			subcomp = icalcomponent_get_next_component (
 				icalcomp, ICAL_ANY_COMPONENT);
 		}
 
-		if (num_found) {
-			comp = cal_component_new ();
-			cal_component_set_icalcomponent (comp, icalcomp);
+		icalcomponent_free (icalcomp);
 
-			cal_client_update_object (week_view->client, comp);
-
-			gtk_object_unref (GTK_OBJECT (comp));
-		}
 	}
 	else {
+		comp = cal_component_new ();
+
+		/* change the day for the event */
 		tt_start = icaltime_as_timet (icalcomponent_get_dtstart (icalcomp));
 		tt_end = icaltime_as_timet (icalcomponent_get_dtend (icalcomp));
 		ic_dur = icaldurationtype_from_int (tt_end - tt_start);
-		itime = icaltime_from_timet_with_zone (dtstart, FALSE, week_view->zone);
-		/* FIXME: need to set TZID */
-		icalcomponent_set_dtstart (icalcomp, itime);
-		itime = icaltime_add (itime, ic_dur);
-		icalcomponent_set_dtend (icalcomp, itime);
 
-		comp = cal_component_new ();
+		tmp_itime = icaltime_from_timet_with_zone (
+			selected_time, FALSE, week_view->zone);
+		itime = icalcomponent_get_dtstart (icalcomp);
+		itime.year = tmp_itime.year;
+		itime.month = tmp_itime.month;
+		itime.day = tmp_itime.day;
+
 		cal_component_set_icalcomponent (comp, icalcomp);
+		ccdt.value = &itime;
+		ccdt.tzid = icaltimezone_get_tzid (week_view->zone);
+		cal_component_set_dtstart (comp, &ccdt);
+
+		itime = icaltime_add (itime, ic_dur);
+		ccdt.value = &itime;
+		cal_component_set_dtend (comp, &ccdt);
+
 		uid = cal_component_gen_uid ();
 		cal_component_set_uid (comp, (const char *) uid);
-		free (uid);
 
 		cal_client_update_object (week_view->client, comp);
 
+		g_free (uid);
 		gtk_object_unref (GTK_OBJECT (comp));
 	}
 

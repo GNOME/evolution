@@ -1,3 +1,13 @@
+2001-11-13  Rodrigo Moya <rodrigo@ximian.com>
+
+	* gui/e-week-view.c (selection_received): only change the day,
+	month and year for the start date, for not screwing up the start
+	time, which was being set to midnight always (Fixes Ximian #5287)
+	Also, deal correctly with VCALENDAR components
+	
+	* gui/e-day-view.c (selection_received): dela correctly with
+	VCALENDAR components being pasted
+
 2001-11-11  Federico Mena Quintero  <federico@ximian.com>
 
 	* gui/alarm-notify/save.c (get_calendars_to_load): The last
