@@ -1,3 +1,11 @@
+2003-05-20  Hans Petter Jansson  <hpj@ximian.com>
+
+	Fixes #42056
+
+	* gui/e-meeting-time-sel.c (e_meeting_time_selector_construct):
+	Don't create accel groups for menuitem mnemonics. Don't use
+	deprecated functions where we actually need accel groups.
+
 2003-05-19  Dan Winship  <danw@ximian.com>
 
 	* pcs/cal-backend.c (cal_backend_finalize): Don't double-free

@@ -280,7 +280,6 @@ e_meeting_time_selector_construct (EMeetingTimeSelector * mts, EMeetingModel *em
 	GdkVisual *visual;
 	GdkColormap *colormap;
 	guint accel_key;
-	GtkAccelGroup *menu_accel_group;
 	time_t meeting_start_time;
 	struct tm *meeting_start_tm;
 	char *filename;
@@ -421,8 +420,9 @@ e_meeting_time_selector_construct (EMeetingTimeSelector * mts, EMeetingModel *em
 	gtk_widget_show (hbox);
 
 	button = gtk_button_new_with_label ("");
-	accel_key = gtk_label_parse_uline (GTK_LABEL (GTK_BIN (button)->child),
-					   _("_Invite Others..."));
+	gtk_label_set_text_with_mnemonic (GTK_LABEL (GTK_BIN (button)->child),
+					  _("_Invite Others..."));
+	accel_key = gtk_label_get_mnemonic_keyval (GTK_LABEL (GTK_BIN (button)->child));
 	gtk_box_pack_start (GTK_BOX (hbox), button, TRUE, TRUE, 6);
 	gtk_widget_show (button);
 	gtk_widget_add_accelerator (button, "clicked", mts->accel_group,
@@ -444,7 +444,8 @@ e_meeting_time_selector_construct (EMeetingTimeSelector * mts, EMeetingModel *em
 	gtk_widget_show (child_hbox);
 
 	label = gtk_label_new ("");
-	accel_key = gtk_label_parse_uline (GTK_LABEL (label), _("_Options"));
+	gtk_label_set_text_with_mnemonic (GTK_LABEL (label), _("_Options"));
+	accel_key = gtk_label_get_mnemonic_keyval (GTK_LABEL (label));
 	gtk_box_pack_start (GTK_BOX (child_hbox), label, TRUE, TRUE, 6);
 	gtk_widget_show (label);
 	gtk_widget_add_accelerator (mts->options_button, "clicked", mts->accel_group,
@@ -459,33 +460,22 @@ e_meeting_time_selector_construct (EMeetingTimeSelector * mts, EMeetingModel *em
 	gtk_menu_attach_to_widget (GTK_MENU (mts->options_menu), mts->options_button,
 				   e_meeting_time_selector_options_menu_detacher);
 
-	menu_accel_group = gtk_accel_group_new ();
-	gtk_menu_set_accel_group (GTK_MENU (mts->options_menu), menu_accel_group);
-	/* FIXME: Should unref accel group here? */
-
 	menuitem = gtk_check_menu_item_new_with_label ("");
-	accel_key = gtk_label_parse_uline (GTK_LABEL (GTK_BIN (menuitem)->child), _("Show _Only Working Hours"));
+	gtk_label_set_text_with_mnemonic (GTK_LABEL (GTK_BIN (menuitem)->child), _("Show _Only Working Hours"));
 	gtk_menu_append (GTK_MENU (mts->options_menu), menuitem);
 	gtk_check_menu_item_set_active (GTK_CHECK_MENU_ITEM (menuitem),
 					mts->working_hours_only);
 
-	gtk_widget_add_accelerator (menuitem, "activate", menu_accel_group,
-				    accel_key, 0, 0);
-	gtk_widget_add_accelerator (menuitem, "activate", menu_accel_group,
-				    accel_key, GDK_MOD1_MASK, 0);
 	g_signal_connect (menuitem, "toggled",
 			  G_CALLBACK (e_meeting_time_selector_on_working_hours_toggled), mts);
 	gtk_widget_show (menuitem);
 
 	menuitem = gtk_check_menu_item_new_with_label ("");
-	accel_key = gtk_label_parse_uline (GTK_LABEL (GTK_BIN (menuitem)->child), _("Show _Zoomed Out"));
+	gtk_label_set_text_with_mnemonic (GTK_LABEL (GTK_BIN (menuitem)->child), _("Show _Zoomed Out"));
 	gtk_menu_append (GTK_MENU (mts->options_menu), menuitem);
 	gtk_check_menu_item_set_active (GTK_CHECK_MENU_ITEM (menuitem),
 					mts->zoomed_out);
-	gtk_widget_add_accelerator (menuitem, "activate", menu_accel_group,
-				    accel_key, 0, 0);
-	gtk_widget_add_accelerator (menuitem, "activate", menu_accel_group,
-				    accel_key, GDK_MOD1_MASK, 0);
+
 	g_signal_connect (menuitem, "toggled",
 			  G_CALLBACK (e_meeting_time_selector_on_zoomed_out_toggled), mts);
 	gtk_widget_show (menuitem);
@@ -496,12 +486,9 @@ e_meeting_time_selector_construct (EMeetingTimeSelector * mts, EMeetingModel *em
 	gtk_widget_show (menuitem);
 
 	menuitem = gtk_menu_item_new_with_label ("");
-	accel_key = gtk_label_parse_uline (GTK_LABEL (GTK_BIN (menuitem)->child), _("_Update Free/Busy"));
+	gtk_label_set_text_with_mnemonic (GTK_LABEL (GTK_BIN (menuitem)->child), _("_Update Free/Busy"));
 	gtk_menu_append (GTK_MENU (mts->options_menu), menuitem);
-	gtk_widget_add_accelerator (menuitem, "activate", menu_accel_group,
-				    accel_key, 0, 0);
-	gtk_widget_add_accelerator (menuitem, "activate", menu_accel_group,
-				    accel_key, GDK_MOD1_MASK, 0);
+
 	g_signal_connect (menuitem, "activate",
 			  G_CALLBACK (e_meeting_time_selector_on_update_free_busy), mts);
 	gtk_widget_show (menuitem);
@@ -513,8 +500,9 @@ e_meeting_time_selector_construct (EMeetingTimeSelector * mts, EMeetingModel *em
 	gtk_widget_show (hbox);
 
 	button = gtk_button_new_with_label ("");
-	accel_key = gtk_label_parse_uline (GTK_LABEL (GTK_BIN (button)->child),
-					   _("_<<"));
+	gtk_label_set_text_with_mnemonic (GTK_LABEL (GTK_BIN (button)->child),
+					  _("_<<"));
+	accel_key = gtk_label_get_mnemonic_keyval (GTK_LABEL (GTK_BIN (button)->child));
 	gtk_widget_add_accelerator (button, "clicked", mts->accel_group,
 				    accel_key, GDK_MOD1_MASK | GDK_SHIFT_MASK, 0);
 	gtk_box_pack_start (GTK_BOX (hbox), button, TRUE, TRUE, 6);
@@ -531,7 +519,8 @@ e_meeting_time_selector_construct (EMeetingTimeSelector * mts, EMeetingModel *em
 	gtk_widget_show (child_hbox);
 
 	label = gtk_label_new ("");
-	accel_key = gtk_label_parse_uline (GTK_LABEL (label), _("_Autopick"));
+	gtk_label_set_text_with_mnemonic (GTK_LABEL (label), _("_Autopick"));
+	accel_key = gtk_label_get_mnemonic_keyval (GTK_LABEL (label));
 	gtk_box_pack_start (GTK_BOX (child_hbox), label, TRUE, TRUE, 6);
 	gtk_widget_show (label);
 	gtk_widget_add_accelerator (mts->autopick_button, "clicked", mts->accel_group,
@@ -544,8 +533,9 @@ e_meeting_time_selector_construct (EMeetingTimeSelector * mts, EMeetingModel *em
 	gtk_widget_show (arrow);
 
 	button = gtk_button_new_with_label ("");
-	accel_key = gtk_label_parse_uline (GTK_LABEL (GTK_BIN (button)->child),
-					   _(">_>"));
+	gtk_label_set_text_with_mnemonic (GTK_LABEL (GTK_BIN (button)->child),
+					  _(">_>"));
+	accel_key = gtk_label_get_mnemonic_keyval (GTK_LABEL (GTK_BIN (button)->child));
 	gtk_widget_add_accelerator (button, "clicked", mts->accel_group,
 				    accel_key, GDK_MOD1_MASK | GDK_SHIFT_MASK, 0);
 	gtk_box_pack_start (GTK_BOX (hbox), button, TRUE, TRUE, 6);
@@ -558,18 +548,11 @@ e_meeting_time_selector_construct (EMeetingTimeSelector * mts, EMeetingModel *em
 	gtk_menu_attach_to_widget (GTK_MENU (mts->autopick_menu), mts->autopick_button,
 				   e_meeting_time_selector_autopick_menu_detacher);
 
-	menu_accel_group = gtk_accel_group_new ();
-	gtk_menu_set_accel_group (GTK_MENU (mts->autopick_menu), menu_accel_group);
-
 	menuitem = gtk_radio_menu_item_new_with_label (NULL, "");
 	mts->autopick_all_item = menuitem;
 	group = gtk_radio_menu_item_group (GTK_RADIO_MENU_ITEM (menuitem));
-	accel_key = gtk_label_parse_uline (GTK_LABEL (GTK_BIN (menuitem)->child), _("_All People and Resources"));
+	gtk_label_set_text_with_mnemonic (GTK_LABEL (GTK_BIN (menuitem)->child), _("_All People and Resources"));
 	gtk_menu_append (GTK_MENU (mts->autopick_menu), menuitem);
-	gtk_widget_add_accelerator (menuitem, "activate", menu_accel_group,
-				    accel_key, 0, 0);
-	gtk_widget_add_accelerator (menuitem, "activate", menu_accel_group,
-				    accel_key, GDK_MOD1_MASK, 0);
 	g_signal_connect (menuitem, "toggled",
 			  G_CALLBACK (e_meeting_time_selector_on_autopick_option_toggled), mts);
 	gtk_widget_show (menuitem);
@@ -577,12 +560,8 @@ e_meeting_time_selector_construct (EMeetingTimeSelector * mts, EMeetingModel *em
 	menuitem = gtk_radio_menu_item_new_with_label (group, "");
 	mts->autopick_all_people_one_resource_item = menuitem;
 	group = gtk_radio_menu_item_group (GTK_RADIO_MENU_ITEM (menuitem));
-	accel_key = gtk_label_parse_uline (GTK_LABEL (GTK_BIN (menuitem)->child), _("All _People and One Resource"));
+	gtk_label_set_text_with_mnemonic (GTK_LABEL (GTK_BIN (menuitem)->child), _("All _People and One Resource"));
 	gtk_menu_append (GTK_MENU (mts->autopick_menu), menuitem);
-	gtk_widget_add_accelerator (menuitem, "activate", menu_accel_group,
-				    accel_key, 0, 0);
-	gtk_widget_add_accelerator (menuitem, "activate", menu_accel_group,
-				    accel_key, GDK_MOD1_MASK, 0);
 	g_signal_connect (menuitem, "toggled",
 			  G_CALLBACK (e_meeting_time_selector_on_autopick_option_toggled), mts);
 	gtk_widget_show (menuitem);
@@ -590,12 +569,8 @@ e_meeting_time_selector_construct (EMeetingTimeSelector * mts, EMeetingModel *em
 	menuitem = gtk_radio_menu_item_new_with_label (group, "");
 	mts->autopick_required_people_item = menuitem;
 	group = gtk_radio_menu_item_group (GTK_RADIO_MENU_ITEM (menuitem));
-	accel_key = gtk_label_parse_uline (GTK_LABEL (GTK_BIN (menuitem)->child), _("_Required People"));
+	gtk_label_set_text_with_mnemonic (GTK_LABEL (GTK_BIN (menuitem)->child), _("_Required People"));
 	gtk_menu_append (GTK_MENU (mts->autopick_menu), menuitem);
-	gtk_widget_add_accelerator (menuitem, "activate", menu_accel_group,
-				    accel_key, 0, 0);
-	gtk_widget_add_accelerator (menuitem, "activate", menu_accel_group,
-				    accel_key, GDK_MOD1_MASK, 0);
 	g_signal_connect (menuitem, "activate",
 			  G_CALLBACK (e_meeting_time_selector_on_autopick_option_toggled), mts);
 	gtk_widget_show (menuitem);
@@ -603,12 +578,8 @@ e_meeting_time_selector_construct (EMeetingTimeSelector * mts, EMeetingModel *em
 	menuitem = gtk_radio_menu_item_new_with_label (group, "");
 	mts->autopick_required_people_one_resource_item = menuitem;
 	group = gtk_radio_menu_item_group (GTK_RADIO_MENU_ITEM (menuitem));
-	accel_key = gtk_label_parse_uline (GTK_LABEL (GTK_BIN (menuitem)->child), _("Required People and _One Resource"));
+	gtk_label_set_text_with_mnemonic (GTK_LABEL (GTK_BIN (menuitem)->child), _("Required People and _One Resource"));
 	gtk_menu_append (GTK_MENU (mts->autopick_menu), menuitem);
-	gtk_widget_add_accelerator (menuitem, "activate", menu_accel_group,
-				    accel_key, 0, 0);
-	gtk_widget_add_accelerator (menuitem, "activate", menu_accel_group,
-				    accel_key, GDK_MOD1_MASK, 0);
 	g_signal_connect (menuitem, "activate",
 			  G_CALLBACK (e_meeting_time_selector_on_autopick_option_toggled), mts);
 	gtk_widget_show (menuitem);
@@ -625,8 +596,9 @@ e_meeting_time_selector_construct (EMeetingTimeSelector * mts, EMeetingModel *em
 	gtk_widget_show (table);
 
 	label = gtk_label_new ("");
-	accel_key = gtk_label_parse_uline (GTK_LABEL (label),
-					   _("Meeting _start time:"));
+	gtk_label_set_text_with_mnemonic (GTK_LABEL (label),
+					  _("Meeting _start time:"));
+	accel_key = gtk_label_get_mnemonic_keyval (GTK_LABEL (label));
 	gtk_misc_set_alignment (GTK_MISC (label), 0.0, 0.5);
 	gtk_table_attach (GTK_TABLE (table), label,
 			  0, 1, 0, 1, GTK_FILL, 0, 4, 0);
@@ -644,8 +616,9 @@ e_meeting_time_selector_construct (EMeetingTimeSelector * mts, EMeetingModel *em
 			  G_CALLBACK (e_meeting_time_selector_on_start_time_changed), mts);
 
 	label = gtk_label_new ("");
-	accel_key = gtk_label_parse_uline (GTK_LABEL (label),
-					   _("Meeting _end time:"));
+	gtk_label_set_text_with_mnemonic (GTK_LABEL (label),
+					  _("Meeting _end time:"));
+	accel_key = gtk_label_get_mnemonic_keyval (GTK_LABEL (label));
 	gtk_misc_set_alignment (GTK_MISC (label), 0.0, 0.5);
 	gtk_table_attach (GTK_TABLE (table), label,
 			  0, 1, 1, 2, GTK_FILL, 0, 4, 0);
