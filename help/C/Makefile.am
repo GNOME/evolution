@@ -27,20 +27,29 @@ evolution-guide: $(SGML_FILES)
 
 dist-hook:
 	mkdir $(distdir)/evolution-guide
-	-cp evolution-guide/*.html evolution-guide/*.css \
-		$(distdir)/evolution-guide
+	-cp evolution-guide/*.html evolution-guide/*.css $(distdir)/evolution-guide
 	mkdir $(distdir)/fig
 	-cp fig/*.png $(distdir)/fig
+	mkdir $(distdir)/evolution-guide/stylesheet-images
+	-cp evolution-guide/stylesheet-images/* $(distdir)/evolution-guide/stylesheet-images
 
 install-data-local: evolution-guide
-	$(top_srcdir)/mkinstalldirs $(DESTDIR)$(evolution_helpdir)/fig
+	$(top_srcdir)/mkinstalldirs $(DESTDIR)$(evolution_helpdir)
 	-for file in $(srcdir)/evolution-guide/*.html $(srcdir)/evolution-guide/*.css; do \
 		basefile=`basename $$file`; \
 		$(INSTALL_DATA) $$file $(DESTDIR)$(evolution_helpdir)/$$basefile; \
 	done
+
+	$(top_srcdir)/mkinstalldirs $(DESTDIR)$(evolution_helpdir)/fig
 	-for file in $(srcdir)/fig/*.png; do \
 		basefile=`basename $$file`; \
 		$(INSTALL_DATA) $$file $(DESTDIR)$(evolution_helpdir)/fig/$$basefile; \
+	done
+
+	$(top_srcdir)/mkinstalldirs $(DESTDIR)$(evolution_helpdir)/stylesheet-images
+	-for file in $(srcdir)/evolution-guide/stylesheet-images/*; do \
+		basefile=`basename $$file`; \
+		$(INSTALL_DATA) $$file $(DESTDIR)$(evolution_helpdir)/stylesheet-images/$$basefile; \
 	done
 
 evolution.ps: evolution.sgml
@@ -48,4 +57,3 @@ evolution.ps: evolution.sgml
 
 evolution.rtf: evolution.sgml	
 	-db2rtf $<
-

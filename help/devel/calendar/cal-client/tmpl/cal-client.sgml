@@ -8,7 +8,10 @@ GTK+ object for communication with personal calendar server.
   <para>
     The #CalClient object provides a nice GTK+ wrapper for the CORBA
     interfaces that are used to communicate between calendar clients
-    and the personal calendar server in the user's Wombat daemon.
+    and the personal calendar server in the user's Wombat daemon.  The
+    CORBA interfaces transfer calendar components in RFC 2445 text
+    format; the #CalClient object automatically converts these into
+    #CalComponent structures that are easier to handle.
   </para>
 
   <para>
@@ -35,7 +38,7 @@ GTK+ object for communication with personal calendar server.
 
 <!-- ##### SECTION See_Also ##### -->
   <para>
-
+    #CalComponent
   </para>
 
 <!-- ##### MACRO CAL_CLIENT ##### -->
