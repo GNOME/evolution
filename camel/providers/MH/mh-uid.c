@@ -182,7 +182,7 @@ mh_generate_uid_list (CamelMhFolder *mh_folder)
 		return -1;
 	}
 		
-	msg_count = camel_folder_get_message_count (CAMEL_FOLDER (mh_folder));
+	msg_count = camel_folder_get_message_count (CAMEL_FOLDER (mh_folder), NULL);
 	if (!msg_count) {
 		CAMEL_LOG_FULL_DEBUG ("no message in %s. Exiting\n", directory_path);
 		return -1;

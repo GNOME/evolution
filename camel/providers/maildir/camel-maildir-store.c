@@ -117,8 +117,8 @@ _get_folder (CamelStore *store, const gchar *folder_name)
 	new_maildir_folder = gtk_type_new (CAMEL_MAILDIR_FOLDER_TYPE);
 	new_folder = CAMEL_FOLDER (new_maildir_folder);
 
-	CF_CLASS (new_folder)->init_with_store (new_folder, store);
-	CF_CLASS (new_folder)->set_name (new_folder, folder_name);
+	CF_CLASS (new_folder)->init_with_store (new_folder, store, NULL);
+	CF_CLASS (new_folder)->set_name (new_folder, folder_name, NULL);
 	
 	return new_folder;
 }

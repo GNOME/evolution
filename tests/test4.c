@@ -32,7 +32,7 @@ main (int argc, char**argv)
 	camel_store_init (store, (CamelSession *)NULL, g_strdup ("mh:///root/Mail"));
 	
 	root_mh_folder = camel_store_get_folder (store, "");
-	mh_subfolders_name = camel_folder_list_subfolders (root_mh_folder);
+	mh_subfolders_name = camel_folder_list_subfolders (root_mh_folder, NULL);
 	
 	printf ("\n------------- Listing root Mh folder subfolders --------\n");
 	while (mh_subfolders_name) {
@@ -48,7 +48,7 @@ main (int argc, char**argv)
 	}
 	
 	/* test existence */
-	inbox_exists = camel_folder_exists (inbox_folder);
+	inbox_exists = camel_folder_exists (inbox_folder, NULL);
 	if (inbox_exists)
 		printf ("MH folder inbox exists, continuing tests\n");
 	else {
@@ -56,9 +56,9 @@ main (int argc, char**argv)
 		return 1;
 	}
 	
-	printf ("\n  Inbox folder contains %d messages\n", camel_folder_get_message_count (inbox_folder));
+	printf ("\n  Inbox folder contains %d messages\n", camel_folder_get_message_count (inbox_folder, NULL));
 	printf ("\n------------- Gettting message numer 3 in inbox --------\n");
-	message_1 = camel_folder_get_message (inbox_folder, 3);
+	message_1 = camel_folder_get_message (inbox_folder, 3, NULL);
 	printf ("--------------------------------------------------------\n\n");
 
 

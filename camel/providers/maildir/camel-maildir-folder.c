@@ -50,16 +50,16 @@ static CamelFolderClass *parent_class=NULL;
 #define CF_CLASS(so) CAMEL_FOLDER_CLASS (GTK_OBJECT(so)->klass)
 #define CMAILDIRS_CLASS(so) CAMEL_STORE_CLASS (GTK_OBJECT(so)->klass)
 
-static void _init_with_store (CamelFolder *folder, CamelStore *parent_store);
-static void _set_name (CamelFolder *folder, const gchar *name);
-static gboolean _exists (CamelFolder *folder);
-static gboolean _create (CamelFolder *folder);
-static gboolean _delete (CamelFolder *folder, gboolean recurse);
-static gboolean _delete_messages (CamelFolder *folder);
-static CamelMimeMessage *_get_message (CamelFolder *folder, gint number);
-static gint _get_message_count (CamelFolder *folder);
-static void _expunge (CamelFolder *folder);
-static GList *_list_subfolders (CamelFolder *folder);
+static void _init_with_store (CamelFolder *folder, CamelStore *parent_store, CamelException *ex);
+static void _set_name (CamelFolder *folder, const gchar *name, CamelException *ex);
+static gboolean _exists (CamelFolder *folder, CamelException *ex);
+static gboolean _create (CamelFolder *folder, CamelException *ex);
+static gboolean _delete (CamelFolder *folder, gboolean recurse, CamelException *ex);
+static gboolean _delete_messages (CamelFolder *folder, CamelException *ex);
+static CamelMimeMessage *_get_message (CamelFolder *folder, gint number, CamelException *ex);
+static gint _get_message_count (CamelFolder *folder, CamelException *ex);
+static void _expunge (CamelFolder *folder, CamelException *ex);
+static GList *_list_subfolders (CamelFolder *folder, CamelException *ex);
 
 /* fs utility functions */
 static DIR * _xopendir (const gchar *path);
@@ -131,14 +131,14 @@ camel_maildir_folder_get_type (void)
  * Perhaps we'll later implement subfolders too...
  */
 static void 
-_init_with_store (CamelFolder *folder, CamelStore *parent_store)
+_init_with_store (CamelFolder *folder, CamelStore *parent_store, CamelException *ex)
 {
 	CAMEL_LOG_FULL_DEBUG ("Entering CamelMaildirFolder::init_with_store\n");
 	g_assert (folder);
 	g_assert (parent_store);
 	
 	/* call parent method */
-	parent_class->init_with_store (folder, parent_store);
+	parent_class->init_with_store (folder, parent_store, ex);
 	
 	folder->can_hold_messages = TRUE;
 	folder->can_hold_folders = TRUE;
@@ -156,7 +156,7 @@ _init_with_store (CamelFolder *folder, CamelStore *parent_store)
  * the given name is not checked in this function.
  */
 static void
-_set_name (CamelFolder *folder, const gchar *name)
+_set_name (CamelFolder *folder, const gchar *name, CamelException *ex)
 {
 	CamelMaildirFolder *maildir_folder;
 	CamelMaildirStore *maildir_store;
@@ -170,7 +170,7 @@ _set_name (CamelFolder *folder, const gchar *name)
 	maildir_store = CAMEL_MAILDIR_STORE (folder->parent_store);
 
 	/* call default implementation */
-	parent_class->set_name (folder, name);
+	parent_class->set_name (folder, name, ex);
 	
 	if (maildir_folder->directory_path)
 		g_free (maildir_folder->directory_path);
@@ -205,7 +205,7 @@ _set_name (CamelFolder *folder, const gchar *name)
  * Return value: TRUE if the maildir exists, FALSE otherwise
  */
 static gboolean
-_exists (CamelFolder *folder)
+_exists (CamelFolder *folder, CamelException *ex)
 {
 	CamelMaildirFolder *maildir_folder = CAMEL_MAILDIR_FOLDER (folder);
 	static const gchar *dir[3] = { "new", "cur", "tmp" };
@@ -258,7 +258,7 @@ _exists (CamelFolder *folder)
  *               FALSE otherwise
  */
 static gboolean
-_create (CamelFolder *folder)
+_create (CamelFolder *folder, CamelException *ex)
 {
 	CamelMaildirFolder *maildir_folder = CAMEL_MAILDIR_FOLDER (folder);
 	static const gchar *dir[3] = { "new", "cur", "tmp" };
@@ -271,7 +271,7 @@ _create (CamelFolder *folder)
 	g_assert (folder);
 
 	/* check whether the maildir already exists */
-	if (camel_folder_exists (folder)) return TRUE;
+	if (camel_folder_exists (folder, ex)) return TRUE;
 
 	maildir = maildir_folder->directory_path;
 
@@ -309,7 +309,7 @@ _create (CamelFolder *folder)
  * maildir directory won't be removed, but it might no longer be a valid maildir.
  */
 static gboolean
-_delete (CamelFolder *folder, gboolean recurse)
+_delete (CamelFolder *folder, gboolean recurse, CamelException *ex)
 {
 	CamelMaildirFolder *maildir_folder = CAMEL_MAILDIR_FOLDER (folder);
 	static const gchar *dir[3] = { "new", "cur", "tmp" };
@@ -322,7 +322,7 @@ _delete (CamelFolder *folder, gboolean recurse)
 	g_assert (folder);
 
 	/* check whether the maildir already exists */
-	if (!camel_folder_exists (folder)) return TRUE;
+	if (!camel_folder_exists (folder, ex)) return TRUE;
 
 	maildir = maildir_folder->directory_path;
 
@@ -367,7 +367,7 @@ _delete (CamelFolder *folder, gboolean recurse)
  *               TRUE otherwise.
  */
 static gboolean 
-_delete_messages (CamelFolder *folder)
+_delete_messages (CamelFolder *folder, CamelException *ex)
 {
 	CamelMaildirFolder *maildir_folder = CAMEL_MAILDIR_FOLDER (folder);
 	const gchar *maildir;
@@ -380,10 +380,10 @@ _delete_messages (CamelFolder *folder)
 	g_assert (folder);
 
 	/* call default implementation */
-	parent_class->delete_messages (folder);
+	parent_class->delete_messages (folder, ex);
 
 	/* Check if the folder didn't exist */
-	if (!camel_folder_exists (folder)) return TRUE;
+	if (!camel_folder_exists (folder, ex)) return TRUE;
 
 	maildir = maildir_folder->directory_path;
 
@@ -424,7 +424,7 @@ _delete_messages (CamelFolder *folder)
  * Return value: the message, NULL on error
  */
 static CamelMimeMessage *
-_get_message (CamelFolder *folder, gint number)
+_get_message (CamelFolder *folder, gint number, CamelException *ex)
 {
 	CamelMaildirFolder *maildir_folder = CAMEL_MAILDIR_FOLDER(folder);
 	DIR *dir_handle;
@@ -439,7 +439,7 @@ _get_message (CamelFolder *folder, gint number)
 	g_assert(folder);
 
 	/* Check if the folder exists */
-	if (!camel_folder_exists (folder)) return NULL;
+	if (!camel_folder_exists (folder, ex)) return NULL;
 
 	maildir = maildir_folder->directory_path;
 
@@ -495,7 +495,7 @@ _get_message (CamelFolder *folder, gint number)
  * Return value: number of messages in the maildir, -1 on error
  */
 static gint
-_get_message_count (CamelFolder *folder)
+_get_message_count (CamelFolder *folder, CamelException *ex)
 {
 	CamelMaildirFolder *maildir_folder = CAMEL_MAILDIR_FOLDER(folder);
 	const gchar *maildir;
@@ -509,7 +509,7 @@ _get_message_count (CamelFolder *folder)
 	g_assert(folder);
 
 	/* check if the maildir exists */
-	if (!camel_folder_exists (folder)) return -1;
+	if (!camel_folder_exists (folder, ex)) return -1;
 
 	maildir = maildir_folder->directory_path;
 
@@ -564,7 +564,7 @@ _get_message_count (CamelFolder *folder)
  * Physically deletes the messages marked as deleted in the folder.
  */
 static void
-_expunge (CamelFolder *folder)
+_expunge (CamelFolder *folder, CamelException *ex)
 {
 	CamelMimeMessage *message;
 	GList *node;
@@ -618,7 +618,7 @@ _expunge (CamelFolder *folder)
  * Return value: list of subfolder names
  */
 static GList *
-_list_subfolders (CamelFolder *folder)
+_list_subfolders (CamelFolder *folder, CamelException *ex)
 {
 	CamelMaildirFolder *maildir_folder = CAMEL_MAILDIR_FOLDER (folder);
 	const gchar *maildir;
@@ -632,7 +632,7 @@ _list_subfolders (CamelFolder *folder)
 	g_assert (folder);
 
 	/* check if the maildir exists */
-	if (!camel_folder_exists (folder)) return NULL;
+	if (!camel_folder_exists (folder, ex)) return NULL;
 
 	/* scan through the maildir toplevel directory */
 	maildir = maildir_folder->directory_path;
