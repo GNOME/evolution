@@ -1,3 +1,9 @@
+2002-11-21  Chris Toshok  <toshok@ximian.com>
+
+	* gui/component/addressbook-storage.h: reorder the enum to match
+	the order used in the option menu in the .glade file.  Fixes lots
+	of reports of scopes being saved as "base" instead of "one".
+
 2002-11-20  Chris Toshok  <toshok@ximian.com>
 
 	[ Should fixes bugs #30323, #33097, #33930, #33332 ]
