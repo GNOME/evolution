@@ -1,3 +1,8 @@
+2000-08-13  Ettore Perazzoli  <ettore@helixcode.com>
+
+	* main.c (main): Set the signal handlers for `SIGSEGV' and
+	`SIGBUS' to the default ones.
+
 2000-08-13  Jeffrey Stedfast  <fejj@helixcode.com>
 
 	* mail-config.c (mail_config_write): Set config->configured to

@@ -8,14 +8,19 @@
  */
 
 #include <config.h>
+
+#include <signal.h>
+
 #include <gnome.h>
 #include <bonobo/bonobo-main.h>
 #include <bonobo/bonobo-object-directory.h>
 #include <glade/glade.h>
 #include <liboaf/liboaf.h>
+
 #ifdef GTKHTML_HAVE_GCONF
 #include <gconf/gconf.h>
 #endif
+
 #include "e-util/e-gui-utils.h"
 #include "e-util/e-cursors.h"
 
@@ -54,6 +59,9 @@ main (int argc, char *argv [])
 	e_cursors_init ();
 
 	component_factory_init ();
+
+	signal (SIGSEGV, SIG_DFL);
+	signal (SIGBUS, SIG_DFL);
 
 	GDK_THREADS_ENTER ();
 	bonobo_main ();
