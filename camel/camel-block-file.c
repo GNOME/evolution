@@ -713,6 +713,7 @@ sync_nolock(CamelBlockFile *bs)
 	d(printf("turning on sync flag\n"));
 
 	bs->root->flags |= CAMEL_BLOCK_FILE_SYNC;
+	bs->root_block->flags |= CAMEL_BLOCK_DIRTY;
 
 	return sync_block_nolock(bs, bs->root_block);
 }
@@ -834,8 +835,10 @@ camel_key_file_finalise(CamelKeyFile *bs)
 	e_dlist_remove((EDListNode *)p);
 	UNLOCK(key_file_lock);
 
-	if (bs->fp)
+	if (bs-> fp) {
+		key_file_count--;
 		fclose(bs->fp);
+	}
 	g_free(bs->path);
 
 #ifdef ENABLE_THREADS

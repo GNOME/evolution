@@ -263,6 +263,8 @@ text_index_sync(CamelIndex *idx)
 	struct _CamelTextIndexRoot *rb;
 	int ret = 0, wfrag, nfrag, work = FALSE;
 
+	d(printf("sync: blocks = %p\n", p->blocks));
+
 	if (p->blocks == NULL)
 		return 0;
 
@@ -304,11 +306,12 @@ text_index_sync(CamelIndex *idx)
 		ret = -1;
 
 	/* only do the frag/compress check if we did some new writes on this index */
-	if (ret == 0 && work) {
-		wfrag = rb->words ? (((rb->keys - rb->words) * 100)/ rb->words) : 0;
-		nfrag = rb->names ? ((rb->deleted * 100) / rb->names) : 0;
-		d(printf("wfrag = %d, nfrag = %d\n", wfrag, nfrag));
-		d(printf("  words = %d, keys = %d\n", rb->words, rb->keys));
+	wfrag = rb->words ? (((rb->keys - rb->words) * 100)/ rb->words) : 0;
+	nfrag = rb->names ? ((rb->deleted * 100) / rb->names) : 0;
+	d(printf("wfrag = %d, nfrag = %d, work = %s, ret = %d\n", wfrag, nfrag, work?"true":"false", ret));
+	d(printf("  words = %d, keys = %d\n", rb->words, rb->keys));
+
+	if (ret == 0) {
 		if (wfrag > 30 || nfrag > 20)
 			ret = text_index_compress_nosync(idx);
 	}
@@ -466,11 +469,13 @@ text_index_compress_nosync(CamelIndex *idx)
 			if (camel_key_file_write(newp->links, &newdata, newcount, newrecords) == -1)
 				goto fail;
 		}
-		
-		newkeyid = camel_key_table_add(newp->word_index, name, newdata, flags);
-		if (newkeyid == 0)
-			goto fail;
-		camel_partition_table_add(newp->word_hash, name, newkeyid);
+
+		if (newdata != 0) {
+			newkeyid = camel_key_table_add(newp->word_index, name, newdata, flags);
+			if (newkeyid == 0)
+				goto fail;
+			camel_partition_table_add(newp->word_hash, name, newkeyid);
+		}
 		g_free(name);
 		name = NULL;
 	}
@@ -505,19 +510,25 @@ text_index_compress_nosync(CamelIndex *idx)
 fail:
 	CAMEL_TEXT_INDEX_UNLOCK(idx, lock);
 
+	camel_index_delete((CamelIndex *)newidx);
+
 	camel_object_unref((CamelObject *)newidx);
 	g_free(name);
 	g_hash_table_destroy(remap);
 
 	/* clean up temp files always */
-	camel_text_index_remove(newpath);
-
 	sprintf(savepath, "%s~.index", oldpath);
 	unlink(savepath);
 	sprintf(newpath, "%s.data", savepath);
 	unlink(newpath);
 
 	return ret;
+}
+
+static int
+text_index_delete(CamelIndex *idx)
+{
+	return camel_text_index_remove(idx->path);
 }
 
 static int
@@ -649,6 +660,8 @@ text_index_delete_name(CamelIndex *idx, const char *name)
 	camel_key_t keyid;
 	struct _CamelTextIndexRoot *rb = (struct _CamelTextIndexRoot *)p->blocks->root;
 
+	d(printf("Delete name: %s\n", name));
+
 	/* probably doesn't really need locking, but oh well */
 	CAMEL_TEXT_INDEX_LOCK(idx, lock);
 
@@ -714,6 +727,7 @@ camel_text_index_class_init(CamelTextIndexClass *klass)
 
 	iklass->sync = text_index_sync;
 	iklass->compress = text_index_compress;
+	iklass->delete = text_index_delete;
 
 	iklass->rename = text_index_rename;
 

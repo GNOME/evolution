@@ -1,3 +1,23 @@
+2002-09-24  Not Zed  <NotZed@Ximian.com>
+
+	* camel-text-index.c (text_index_compress_nosync): If we have no
+	data written to a key, dont add it, or its partition header.
+
+2002-09-23  Not Zed  <NotZed@Ximian.com>
+
+	* camel-block-file.c (sync_nolock): Mark root block dirty if we're
+	going to sync it.
+	(camel_key_file_finalise): de-count the active list if we close
+	it.
+
+	* camel-text-index.c (text_index_delete): Implement.
+	(text_index_compress_nosync): Use index_delete when we're finished
+	with the old one, so it is properly deactivated.
+
+	* camel-index.c (camel_index_delete): Remove api call.  Mark index
+	deleted in new state variable.
+	(camel_index_*): Wrap all calls in check for deleted state.
+
 2002-09-23  Jeffrey Stedfast  <fejj@ximian.com>
 
 	* camel-folder.c (transfer_message_to): If the original message is

@@ -110,7 +110,8 @@ struct _CamelIndex {
 
 	char *path;
 	guint32 version;
-	guint32 flags;
+	guint32 flags;		/* open flags */
+	guint32 state;
 
 	CamelIndexNorm normalise;
 	void *normalise_data;
@@ -121,6 +122,7 @@ struct _CamelIndexClass {
 
 	int			(*sync)(CamelIndex *idx);
 	int			(*compress)(CamelIndex *idx);
+	int			(*delete)(CamelIndex *idx);
 
 	int			(*rename)(CamelIndex *idx, const char *path);
 
@@ -135,6 +137,9 @@ struct _CamelIndexClass {
 	CamelIndexCursor *      (*names)(CamelIndex *idx);
 };
 
+/* flags, stored in 'state', set with set_state */
+#define CAMEL_INDEX_DELETED (1<<0)
+
 CamelType	           camel_index_get_type	(void);
 
 CamelIndex        *camel_index_new(const char *path, int flags);
@@ -145,6 +150,7 @@ void               camel_index_set_normalise(CamelIndex *idx, CamelIndexNorm fun
 
 int                camel_index_sync(CamelIndex *idx);
 int                camel_index_compress(CamelIndex *idx);
+int		   camel_index_delete(CamelIndex *idx);
 
 int                camel_index_has_name(CamelIndex *idx, const char *name);
 CamelIndexName    *camel_index_add_name(CamelIndex *idx, const char *name);
