@@ -20,7 +20,6 @@
  *
  */
 
-
 #ifdef HAVE_CONFIG_H
 #include <config.h>
 #endif
@@ -43,8 +42,7 @@
 #include "camel-session.h"
 #include "camel-service.h" /* for hostname stuff */
 
-#define d(x) x
-
+#define d(x) 
 
 static CamelStreamClass *parent_class = NULL;
 
@@ -380,6 +378,9 @@ http_method_invoke (CamelHttpStream *http)
 		http_disconnect(http);
 		return -1;
 	}
+
+	if (http->authpass && http->proxy)
+		d(printf("HTTP Stream Sending: Proxy-Aurhorization: Basic %s\n", http->authpass));
 	
 	if (http->authpass && http->proxy && camel_stream_printf (http->raw, "Proxy-Authorization: Basic %s\r\n",
 								  http->authpass) == -1) {
@@ -431,6 +432,7 @@ stream_read (CamelStream *stream, char *buffer, size_t n)
 		case 301:
 		case 302: {
 			char *loc;
+			CamelURL *url;
 
 			camel_content_type_unref (http->content_type);
 			http->content_type = NULL;
@@ -445,10 +447,13 @@ stream_read (CamelStream *stream, char *buffer, size_t n)
 			/* redirect... */
 			g_strstrip(loc);
 			d(printf("HTTP redirect, location = %s\n", loc));
+			url = camel_url_new_with_base(http->url, loc);
 			camel_url_free (http->url);
-			http->url = camel_url_new(loc, NULL);
+			http->url = url;
+			if (url == NULL)
+				http->url = camel_url_new(loc, NULL);
+			g_free(loc);
 			if (http->url == NULL) {
-				printf("redirect url '%s' cannot be parsed\n", loc);
 				camel_header_raw_clear (&http->headers);
 				return -1;
 			}
@@ -562,6 +567,21 @@ camel_http_stream_set_proxy (CamelHttpStream *http_stream, const char *proxy_url
 		http_stream->proxy = NULL;
 	else
 		http_stream->proxy = camel_url_new (proxy_url, NULL);
+
+	if (http_stream->proxy) {
+		char *basic, *basic64;
+
+		basic = g_strdup_printf("%s:%s", http_stream->proxy->user?http_stream->proxy->user:"",
+					http_stream->proxy->passwd?http_stream->proxy->passwd:"");
+		basic64 = camel_base64_encode_simple(basic, strlen(basic));
+		memset(basic, 0, strlen(basic));
+		g_free(basic);
+		camel_http_stream_set_proxy_authpass(http_stream, basic64);
+		memset(basic64, 0, strlen(basic64));
+		g_free(basic64);
+	} else {
+		camel_http_stream_set_proxy_authpass(http_stream, NULL);
+	}
 }
 
 void

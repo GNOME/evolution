@@ -1,3 +1,14 @@
+2004-09-21  Not Zed  <NotZed@Ximian.com>
+
+	** See bug #66199.
+
+	* camel-http-stream.c (stream_read): handle relative url's in
+	redirect.
+	(camel_http_stream_set_proxy): generate the basic auth token for
+	basic proxy auth if we have a user and password.
+
+	* camel-http-stream.c: turn off debug.
+
 2004-09-15  Not Zed  <NotZed@Ximian.com>
 
 	** See bug #0xffff.
