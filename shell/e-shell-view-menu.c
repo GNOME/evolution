@@ -576,7 +576,7 @@ update_offline_menu_item (EShellView *shell_view,
 					      "/menu/File/ToggleOffline",
 					      "verb", "WorkOffline", NULL);
 		bonobo_ui_component_set_prop (ui_component,
-					      "/commands/WorkOffline",
+					      "/commands/ToggleOffline",
 					      "sensitive", "1", NULL);
 		break;
 
@@ -588,7 +588,7 @@ update_offline_menu_item (EShellView *shell_view,
 					      "/menu/File/ToggleOffline",
 					      "verb", "WorkOffline", NULL);
 		bonobo_ui_component_set_prop (ui_component,
-					      "/commands/WorkOffline",
+					      "/commands/ToggleOffline",
 					      "sensitive", "0", NULL);
 		break;
 

@@ -1,3 +1,7 @@
+2001-05-07  Jon Trowbridge  <trow@ximian.com>
+
+	* evolution.xml: Added command entry for 'ToggleOffline'.
+
 2001-05-03  Ettore Perazzoli  <ettore@ximian.com>
 
 	* evolution.xml: Renamed `WorkOffline' to `ToggleOffline'.

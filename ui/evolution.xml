@@ -17,6 +17,9 @@
 		<cmd name="HelpSubmitBug" _label="Submit Bug Report"
 			_tip="Submit bug report using Bug Buddy."/>
 
+                <cmd name="ToggleOffline" _type="Toggle"
+		        _label="_Work Offline"
+		        _tip="Toggle whether we are working offline."/>
 
 		<cmd name="HelpAbout" _label="About Evolution..."
 			_tip="Show information about Evolution"
