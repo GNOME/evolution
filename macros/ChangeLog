@@ -1,3 +1,8 @@
+2000-11-05  Martin Baulig  <baulig@suse.de>
+
+	* gnome-bonobo-check.m4 (BONOBO_CFLAGS, BONOBO_LIBS): Added
+	stuff for `bonobox'.
+
 2000-08-01  Pavel Roskin  <proski@gnu.org>
 
 	* curses.m4: AC_WARN replaced with AC_MSG_WARN in comments
