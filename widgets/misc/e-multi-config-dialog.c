@@ -260,11 +260,23 @@ impl_response (GtkDialog *dialog,
 {
 	EMultiConfigDialog *multi_config_dialog;
 	EMultiConfigDialogPrivate *priv;
+	GError *error;
 
 	multi_config_dialog = E_MULTI_CONFIG_DIALOG (dialog);
 	priv = multi_config_dialog->priv;
 
+	error = NULL;
+
 	switch (response_id) {
+	case GTK_RESPONSE_HELP:
+		gnome_help_display_desktop (NULL,
+					    "evolution-" BASE_VERSION,
+					    "config-prefs.xml", 
+					    "config-prefs",
+					    &error);
+		if (error != NULL)
+			g_warning ("%s", error->message);
+		break;
 	case GTK_RESPONSE_OK:
 		do_ok (multi_config_dialog);
 		break;
@@ -414,6 +426,7 @@ init (EMultiConfigDialog *multi_config_dialog)
 	gtk_widget_show (list_e_table);
 
 	gtk_dialog_add_buttons (GTK_DIALOG (multi_config_dialog),
+				GTK_STOCK_HELP, GTK_RESPONSE_HELP,
 				GTK_STOCK_APPLY, GTK_RESPONSE_APPLY,
 				GTK_STOCK_CLOSE, GTK_RESPONSE_CLOSE,
 				GTK_STOCK_OK, GTK_RESPONSE_OK,

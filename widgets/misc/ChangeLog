@@ -1,3 +1,10 @@
+2004-02-10  Rodney Dawes  <dobey@ximian.com>
+
+	* e-multi-config-dialog.c (init): Add a Help button
+	(impl_response): Handle the Help button and open the documentation
+
+	Fixes #30681
+
 2004-02-05  Rodney Dawes  <dobey@ximian.com>
 
 	* e-task-bar.c: Don't show the task label by default
