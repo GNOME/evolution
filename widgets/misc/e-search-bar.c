@@ -67,58 +67,27 @@ enum {
 };
 
 
-/* Signals.  */
+/* Forward decls.  */
 
-static void
-emit_query_changed (ESearchBar *esb)
-{
-	gtk_signal_emit (GTK_OBJECT (esb),
-			 esb_signals [QUERY_CHANGED]);
-}
-
-static void
-emit_search_activated (ESearchBar *esb)
-{
-	if (esb->pending_activate) {
-		gtk_idle_remove (esb->pending_activate);
-		esb->pending_activate = 0;
-	}
-
-	gtk_signal_emit (GTK_OBJECT (esb),
-			 esb_signals [SEARCH_ACTIVATED]);
-}
-
-static void
-emit_menu_activated (ESearchBar *esb, int item)
-{
-	gtk_signal_emit (GTK_OBJECT (esb),
-			 esb_signals [MENU_ACTIVATED],
-			 item);
-}
+static void emit_search_activated (ESearchBar *esb);
 
 
 /* Utility functions.  */
 
 static void
-update_sensitivity (ESearchBar *search_bar)
+set_find_now_sensitive (ESearchBar *search_bar,
+			gboolean sensitive)
 {
 	const char *text;
 
 	text = gtk_entry_get_text (GTK_ENTRY (search_bar->entry));
 
-	if (text != NULL && text[0] != '\0') {
-		if (search_bar->ui_component != NULL)
-			bonobo_ui_component_set_prop (search_bar->ui_component,
-						      "/commands/ESearchBar:FindNow",
-						      "sensitive", "1", NULL);
-		gtk_widget_set_sensitive (search_bar->activate_button, TRUE);
-	} else {
-		if (search_bar->ui_component != NULL)
-			bonobo_ui_component_set_prop (search_bar->ui_component,
-						      "/commands/ESearchBar:FindNow",
-						      "sensitive", "0", NULL);
-		gtk_widget_set_sensitive (search_bar->activate_button, FALSE);
-	}
+	if (search_bar->ui_component != NULL)
+		bonobo_ui_component_set_prop (search_bar->ui_component,
+					      "/commands/ESearchBar:FindNow",
+					      "sensitive", sensitive ? "1" : "0", NULL);
+
+	gtk_widget_set_sensitive (search_bar->activate_button, sensitive);
 }
 
 static char *
@@ -178,6 +147,37 @@ free_menu_items (ESearchBar *esb)
 }
 
 
+/* Signals.  */
+
+static void
+emit_query_changed (ESearchBar *esb)
+{
+	gtk_signal_emit (GTK_OBJECT (esb),
+			 esb_signals [QUERY_CHANGED]);
+}
+
+static void
+emit_search_activated (ESearchBar *esb)
+{
+	if (esb->pending_activate) {
+		gtk_idle_remove (esb->pending_activate);
+		esb->pending_activate = 0;
+	}
+
+	gtk_signal_emit (GTK_OBJECT (esb), esb_signals [SEARCH_ACTIVATED]);
+
+	set_find_now_sensitive (esb, FALSE);
+}
+
+static void
+emit_menu_activated (ESearchBar *esb, int item)
+{
+	gtk_signal_emit (GTK_OBJECT (esb),
+			 esb_signals [MENU_ACTIVATED],
+			 item);
+}
+
+
 /* Callbacks -- Standard verbs.  */
 
 static void
@@ -211,7 +211,7 @@ setup_standard_verbs (ESearchBar *search_bar)
 				      search_now_verb_cb, search_bar);
 
 	/* Make sure the entries are created with the correct sensitivity.  */
-	update_sensitivity (search_bar);
+	set_find_now_sensitive (search_bar, FALSE);
 }
 
 /* Callbacks -- The verbs for all the definable items.  */
@@ -245,7 +245,7 @@ static void
 entry_changed_cb (GtkWidget *widget,
 		  ESearchBar *esb)
 {
-	update_sensitivity (esb);
+	set_find_now_sensitive (esb, TRUE);
 }
 
 static void
@@ -415,6 +415,8 @@ activate_button_clicked_cb (GtkWidget *widget,
 			    ESearchBar *esb)
 {
 	emit_search_activated (esb);
+
+	gtk_widget_grab_focus (esb->entry);
 }
 
 static void
@@ -422,6 +424,8 @@ clear_button_clicked_cb (GtkWidget *widget,
 			 ESearchBar *esb)
 {
 	clear_search (esb);
+
+	gtk_widget_grab_focus (esb->entry);
 }
 
 

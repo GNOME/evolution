@@ -1,5 +1,16 @@
 2002-07-02  Ettore Perazzoli  <ettore@ximian.com>
 
+	* e-search-bar.c (update_sensitivity): Removed.
+	(set_find_now_sensitive): New.
+	(entry_changed_cb): Always make the "Find Now" button and menu
+	item sensitive here.
+	(emit_search_activated): ...And here, always insensitive.
+	(setup_standard_verbs): Always start up insensitive.
+	(activate_button_clicked_cb): Make the entry grab the focus.
+	(clear_button_clicked_cb): Likewise.
+
+2002-07-02  Ettore Perazzoli  <ettore@ximian.com>
+
 	* e-search-bar.c (subitem_activated_cb): Don't emit
 	"search_activated" here.
 	(e_search_bar_set_subitem_id): And not here either.
