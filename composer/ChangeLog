@@ -1,3 +1,17 @@
+2000-03-02  Ettore Perazzoli  <ettore@helixcode.com>
+
+	* e-msg-composer.c (glade_connect): Removed.
+	(setup_signals): Removed.
+	(e_msg_composer_construct): Do not use libglade to set the toolbar
+	and menubar up.
+	(destroy): Removed libglade stuff.
+	(init): Likewise.
+
+	* e-msg-composer.h: Removed `menubar_gui', `toolbar_gui',
+	`appbar_gui'.
+
+	* e-msg-composer.glade: Removed.
+
 2000-01-12  bertrand  <bertrand@helixcode.com>
 
 	* Makefile.am (evolution_msg_composer_LDADD): 

@@ -2,8 +2,7 @@ gladedir = $(datadir)/evolution/glade
 
 glade_DATA =					\
 	e-msg-composer-address-dialog.glade	\
-	e-msg-composer-attachment.glade		\
-	e-msg-composer.glade
+	e-msg-composer-attachment.glade
 
 INCLUDES =					\
 	-I$(top_srcdir)				\

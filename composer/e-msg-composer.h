@@ -49,10 +49,6 @@ typedef struct _EMsgComposerClass  EMsgComposerClass;
 struct _EMsgComposer {
 	GnomeApp parent;
 
-	GladeXML *menubar_gui;
-	GladeXML *toolbar_gui;
-	GladeXML *appbar_gui;
-
 	GtkWidget *hdrs;
 
 	GtkWidget *text;

@@ -125,11 +125,13 @@ show_attachments (EMsgComposer *composer,
 
 	/* Update the GUI.  */
 
+#if 0
 	gtk_check_menu_item_set_active
 		(GTK_CHECK_MENU_ITEM
 		 (glade_xml_get_widget (composer->menubar_gui,
 					"menu_view_attachments")),
 		 show);
+#endif
 
 	/* XXX we should update the toggle toolbar item as well.  At
 	   this point, it is not a toggle because Glade is broken.  */
@@ -258,23 +260,6 @@ address_dialog_cb (GtkWidget *widget,
 }
 
 static void
-glade_connect (GladeXML *gui,
-	       const gchar *widget_name,
-	       const gchar *signal_name,
-	       GtkSignalFunc callback,
-	       gpointer callback_data)
-{
-	GtkWidget *widget;
-
-	widget = glade_xml_get_widget (gui, widget_name);
-	if (widget == NULL)
-		g_warning ("Widget `%s' was not found.", widget_name);
-	else
-		gtk_signal_connect (GTK_OBJECT (widget), signal_name,
-				    GTK_SIGNAL_FUNC (callback), callback_data);
-}
-
-static void
 attachment_bar_changed (EMsgComposerAttachmentBar *bar,
 			gpointer data)
 {
@@ -288,47 +273,6 @@ attachment_bar_changed (EMsgComposerAttachmentBar *bar,
 		e_msg_composer_show_attachments (composer, FALSE);
 }
 
-static void
-setup_signals (EMsgComposer *composer)
-{
-	glade_connect (composer->menubar_gui, "menu_send",
-		       "activate", GTK_SIGNAL_FUNC (send_cb), composer);
-	glade_connect (composer->toolbar_gui, "toolbar_send",
-		       "clicked", GTK_SIGNAL_FUNC (send_cb), composer);
-
-	glade_connect (composer->menubar_gui, "menu_view_attachments",
-		       "activate",
-		       GTK_SIGNAL_FUNC (menu_view_attachments_activate_cb),
-		       composer);
-	glade_connect (composer->toolbar_gui, "toolbar_view_attachments",
-		       "clicked",
-		       GTK_SIGNAL_FUNC (toolbar_view_attachments_clicked_cb),
-		       composer);
-
-	glade_connect (composer->menubar_gui, "menu_add_attachment",
-		       "activate",
-		       GTK_SIGNAL_FUNC (add_attachment_cb), composer);
-	glade_connect (composer->toolbar_gui, "toolbar_add_attachment",
-		       "clicked",
-		       GTK_SIGNAL_FUNC (add_attachment_cb), composer);
-
-	glade_connect (composer->menubar_gui, "menubar_address_dialog",
-		       "activate",
-		       GTK_SIGNAL_FUNC (address_dialog_cb), composer);
-	glade_connect (composer->toolbar_gui, "toolbar_address_dialog",
-		       "clicked",
-		       GTK_SIGNAL_FUNC (address_dialog_cb), composer);
-
-	gtk_signal_connect (GTK_OBJECT (composer->attachment_bar),
-			    "changed",
-			    GTK_SIGNAL_FUNC (attachment_bar_changed),
-			    composer);
-
-	gtk_signal_connect (GTK_OBJECT (composer->hdrs), "show_address_dialog",
-			    GTK_SIGNAL_FUNC (address_dialog_cb),
-			    composer);
-}
-
 
 /* GtkObject methods.  */
 
@@ -338,10 +282,6 @@ destroy (GtkObject *object)
 	EMsgComposer *composer;
 
 	composer = E_MSG_COMPOSER (object);
-
-	gtk_object_unref (GTK_OBJECT (composer->menubar_gui));
-	gtk_object_unref (GTK_OBJECT (composer->toolbar_gui));
-	gtk_object_unref (GTK_OBJECT (composer->appbar_gui));
 
 	if (composer->address_dialog != NULL)
 		gtk_widget_destroy (composer->address_dialog);
@@ -384,10 +324,6 @@ class_init (EMsgComposerClass *klass)
 static void
 init (EMsgComposer *composer)
 {
-	composer->menubar_gui = NULL;
-	composer->toolbar_gui = NULL;
-	composer->appbar_gui = NULL;
-
 	composer->hdrs = NULL;
 
 	composer->text = NULL;
@@ -441,24 +377,6 @@ e_msg_composer_construct (EMsgComposer *composer)
 	gnome_app_construct (GNOME_APP (composer), "e-msg-composer",
 			     "Compose a message");
 
-	composer->menubar_gui = glade_xml_new (E_GLADEDIR "/e-msg-composer.glade",
-					       "menubar");
-	gnome_app_set_menus (GNOME_APP (composer),
-			     GTK_MENU_BAR (glade_xml_get_widget (composer->menubar_gui,
-								 "menubar")));
-
-	composer->toolbar_gui = glade_xml_new (E_GLADEDIR "/e-msg-composer.glade",
-					       "toolbar");
-	gnome_app_set_toolbar (GNOME_APP (composer),
-			       GTK_TOOLBAR (glade_xml_get_widget (composer->toolbar_gui,
-								  "toolbar")));
-
-	composer->appbar_gui = glade_xml_new (E_GLADEDIR "/e-msg-composer.glade",
-					      "appbar");
-	gnome_app_set_statusbar (GNOME_APP (composer),
-				 glade_xml_get_widget (composer->appbar_gui,
-						       "appbar"));
-
 	vbox = gtk_vbox_new (FALSE, 0);
 
 	composer->hdrs = e_msg_composer_hdrs_new ();
@@ -502,8 +420,6 @@ e_msg_composer_construct (EMsgComposer *composer)
 	gtk_widget_show (vbox);
 
 	e_msg_composer_show_attachments (composer, FALSE);
-
-	setup_signals (composer);
 }
 
 /**
