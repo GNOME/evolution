@@ -120,7 +120,8 @@ enum {
 };
 static GtkTargetEntry target_table[] = {
 	{ "application/x-e-calendar-event",     0, TARGET_CALENDAR_EVENT },
-	{ "text/x-calendar",                    0, TARGET_VCALENDAR }
+	{ "text/x-calendar",                    0, TARGET_VCALENDAR },
+	{ "text/calendar",                      0, TARGET_VCALENDAR }
 };
 static guint n_targets = sizeof(target_table) / sizeof(target_table[0]);
 

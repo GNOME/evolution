@@ -1,3 +1,7 @@
+2003-10-23  Rodrigo Moya <rodrigo@ximian.com>
+
+	* gui/e-day-view.c: accept also text/calendar for D&D.
+
 2003-10-23  JP Rosevear <jpr@ximian.com>
 
 	* gui/e-day-view.c (e_day_view_on_top_canvas_drag_data_received):

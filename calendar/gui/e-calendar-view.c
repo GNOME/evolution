@@ -278,7 +278,7 @@ selection_clear_event (GtkWidget *invisible,
 
 void
 e_cal_view_add_event (ECalView *cal_view, CalClient *client, time_t dtstart, 
-			      icaltimezone *default_zone, icalcomponent *icalcomp, gboolean in_top_canvas) 
+		      icaltimezone *default_zone, icalcomponent *icalcomp, gboolean in_top_canvas) 
 {
 	CalComponent *comp;
 	struct icaltimetype itime, old_dtstart, old_dtend;
@@ -396,7 +396,7 @@ selection_received (GtkWidget *invisible,
 			child_kind = icalcomponent_isa (subcomp);
 			if (child_kind == ICAL_VEVENT_COMPONENT)
 				e_cal_view_add_event (cal_view, client, selected_time_start, 
-							      default_zone, subcomp, FALSE);
+						      default_zone, subcomp, FALSE);
 			else if (child_kind == ICAL_VTIMEZONE_COMPONENT) {
 				icaltimezone *zone;
 
