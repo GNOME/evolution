@@ -1,5 +1,20 @@
 2003-02-06  Dan Winship  <danw@ximian.com>
 
+	* Makefile.am (INCLUDES): add EVOLUTION_PRIVDATADIR
+
+	* component-factory.c (owner_set_cb): Use EVOLUTION_PRIVDATADIR
+	* mail-autofilter.c (filter_gui_add_from_message): Likewise
+	(mail_filter_rename_uri): Likewise
+	(mail_filter_delete_uri): Likewise
+	* mail-callbacks.c (filter_edit): Likewise.
+	* mail-search-dialogue.c (mail_search_dialogue_construct):
+	Likewise
+	* mail-session.c (main_get_filter_driver): Likewise
+	* mail-summary.c (generate_folder_summaries): Likewise
+	* mail-vfolder.c (vfolder_load_storage): Likewise
+
+2003-02-06  Dan Winship  <danw@ximian.com>
+
 	* Makefile.am: Remove *dir defs that are in configure.in now
 	(INCLUDES): clean up using new *dir variables
 	(libevolution_mail_la_LDFLAGS): remove -export-dynamic, add

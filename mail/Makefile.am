@@ -22,6 +22,7 @@ INCLUDES =						\
 	-I$(top_builddir)/addressbook/backend		\
 	$(EVOLUTION_MAIL_CFLAGS)			\
 	-DEVOLUTION_DATADIR=\""$(datadir)"\"		\
+	-DEVOLUTION_PRIVDATADIR=\""$(privdatadir)"\"	\
 	-DEVOLUTION_GLADEDIR=\""$(gladedir)"\"		\
 	-DEVOLUTION_ETSPECDIR=\""$(etspecdir)"\"	\
 	-DEVOLUTION_ICONSDIR=\""$(iconsdir)"\"		\

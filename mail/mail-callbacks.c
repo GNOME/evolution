@@ -2754,7 +2754,7 @@ filter_edit (BonoboUIComponent *uih, void *user_data, const char *path)
 	
 	fc = filter_context_new ();
 	user = g_strdup_printf ("%s/filters.xml", evolution_dir);
-	system = EVOLUTION_DATADIR "/evolution-" BASE_VERSION "/filtertypes.xml";
+	system = EVOLUTION_PRIVDATADIR "/filtertypes.xml";
 	rule_context_load ((RuleContext *)fc, system, user);
 	g_free (user);
 	

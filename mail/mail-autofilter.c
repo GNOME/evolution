@@ -314,7 +314,7 @@ filter_gui_add_from_message (CamelMimeMessage *msg, const char *source, int flag
 	
 	fc = filter_context_new ();
 	user = g_strdup_printf ("%s/filters.xml", evolution_dir);
-	system = EVOLUTION_DATADIR "/evolution-" BASE_VERSION "/filtertypes.xml";
+	system = EVOLUTION_PRIVDATADIR "/filtertypes.xml";
 	rule_context_load ((RuleContext *)fc, system, user);
 	rule = filter_rule_from_message (fc, msg, flags);
 	
@@ -335,7 +335,7 @@ mail_filter_rename_uri(CamelStore *store, const char *olduri, const char *newuri
 	
 	fc = filter_context_new ();
 	user = g_strdup_printf ("%s/filters.xml", evolution_dir);
-	system = EVOLUTION_DATADIR "/evolution-" BASE_VERSION "/filtertypes.xml";
+	system = EVOLUTION_PRIVDATADIR "/filtertypes.xml";
 	rule_context_load ((RuleContext *)fc, system, user);
 	
 	changed = rule_context_rename_uri((RuleContext *)fc, olduri, newuri, uri_cmp);
@@ -360,7 +360,7 @@ mail_filter_delete_uri(CamelStore *store, const char *uri)
 	
 	fc = filter_context_new ();
 	user = g_strdup_printf ("%s/filters.xml", evolution_dir);
-	system = EVOLUTION_DATADIR "/evolution-" BASE_VERSION "/filtertypes.xml";
+	system = EVOLUTION_PRIVDATADIR "/filtertypes.xml";
 	rule_context_load ((RuleContext *)fc, system, user);
 	
 	deleted = rule_context_delete_uri ((RuleContext *) fc, uri, uri_cmp);
