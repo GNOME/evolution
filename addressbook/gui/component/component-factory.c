@@ -29,6 +29,7 @@
 #include "eab-popup-control.h"
 #include "eab-vcard-control.h"
 #include "select-names/e-select-names-bonobo.h"
+#include "smime/gui/certificate-manager.h"
 
 #include <bonobo/bonobo-shlib-factory.h>
 
@@ -41,6 +42,7 @@
 #define ADDRESS_POPUP_ID               "OAFIID:GNOME_Evolution_Addressbook_AddressPopup"
 #define SELECT_NAMES_ID                "OAFIID:GNOME_Evolution_Addressbook_SelectNames"
 #define LDAP_STORAGE_CONFIG_CONTROL_ID "OAFIID:GNOME_Evolution_LDAPStorage_ConfigControl"
+#define CERTIFICATE_MANAGER_CONFIG_CONTROL_ID "OAFIID:GNOME_Evolution_SMime_CertificateManager_ConfigControl"
 
 
 static BonoboObject *
@@ -65,6 +67,8 @@ factory (BonoboGenericFactory *factory,
 		return BONOBO_OBJECT (addressbook_config_control_new ());
 	if (strcmp (component_id, SELECT_NAMES_ID) == 0)
 		return BONOBO_OBJECT (e_select_names_bonobo_new ());
+        if (strcmp (component_id, CERTIFICATE_MANAGER_CONFIG_CONTROL_ID) == 0)
+                return BONOBO_OBJECT (certificate_manager_config_control_new ());
 
 	g_warning (FACTORY_ID ": Don't know what to do with %s", component_id);
 	return NULL;

@@ -45,6 +45,6 @@ CLEANFILES= evolution-addressbook-clean
 
 evolution-addressbook-clean: evolution-addressbook-clean.in Makefile
 ## Use sed and then mv to avoid problems if the user interrupts.
-        sed -e 's?\@EVOLUTION_TOOLSDIR\@?$(privlibexecdir)?g' \
+	sed -e 's?\@EVOLUTION_TOOLSDIR\@?$(privlibexecdir)?g' \
            < $(srcdir)/evolution-addressbook-clean.in > evolution-addressbook-clean.tmp \
           && mv evolution-addressbook-clean.tmp evolution-addressbook-clean
