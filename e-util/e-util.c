@@ -275,11 +275,8 @@ e_mkdir_hier(const char *path, mode_t mode)
 		p = strchr (p + 1, '/');
 		if (p)
 			*p = '\0';
-		if (mkdir (copy, mode) == -1) {
-			switch (errno) {
-			case EEXIST:
-				break;
-			default:
+		if (access (copy, F_OK) == -1) {
+			if (mkdir (copy, mode) == -1) {
 				g_free (copy);
 				return -1;
 			}

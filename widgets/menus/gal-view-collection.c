@@ -26,6 +26,7 @@
 #include <util/e-i18n.h>
 #include <ctype.h>
 #include <string.h>
+#include <errno.h>
 #include <libxml/parser.h>
 #include <libgnome/gnome-util.h>
 #include <gal/util/e-util.h>
@@ -469,7 +470,8 @@ gal_view_collection_load              (GalViewCollection *collection)
 	g_return_if_fail (collection->system_dir != NULL);
 	g_return_if_fail (!collection->loaded);
 
-	e_create_directory(collection->local_dir);
+	if ((e_create_directory(collection->local_dir) == -1) && (errno != EEXIST))
+		g_warning ("Unable to create dir %s: %s", collection->local_dir, g_strerror(errno));
 
 	load_single_dir(collection, collection->local_dir, TRUE);
 	load_single_dir(collection, collection->system_dir, FALSE);
@@ -537,7 +539,8 @@ gal_view_collection_save              (GalViewCollection *collection)
 		e_xml_set_string_prop_by_name(child, "type", item->type);
 	}
 	filename = g_concat_dir_and_file(collection->local_dir, "galview.xml");
-	e_xml_save_file (filename, doc);
+	if (e_xml_save_file (filename, doc) == -1)
+		g_warning ("Unable to save view to %s - %s", filename, g_strerror(errno));
 	xmlFreeDoc(doc);
 	g_free(filename);
 }
