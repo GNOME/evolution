@@ -52,7 +52,7 @@
 
 #include "camel-lock.h"
 
-#include "gnome-i18n.h"  /* for _() */
+#include <libgnome/gnome-i18n.h>  /* for _() */
 
 
 #define d(x) /*(printf("%s(%d): ", __FILE__, __LINE__),(x))*/
