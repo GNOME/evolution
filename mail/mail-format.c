@@ -48,6 +48,7 @@
 #include <camel/camel-mime-filter-windows.h>
 
 #include <e-util/e-trie.h>
+#include <e-util/e-time-utils.h>
 
 #include "mail.h"
 #include "mail-tools.h"
@@ -774,6 +775,11 @@ write_field_row_begin (MailDisplayStream *stream, const char *name, int flags)
 	}
 }
 
+/* day of the week names shown for remote mail offsets */
+static char *tz_days [] = {
+	N_("Sun"), N_("Mon"), N_("Tue"), N_("Wed"), N_("Thu"), N_("Fri"), N_("Sat")
+};
+
 static void
 write_date (MailDisplayStream *stream, CamelMimeMessage *message, int flags)
 {
@@ -782,8 +788,36 @@ write_date (MailDisplayStream *stream, CamelMimeMessage *message, int flags)
 	datestr = camel_medium_get_header (CAMEL_MEDIUM (message), "Date");
 	
 	if (datestr) {
-		write_field_row_begin (stream, _("Date"), flags);
-		camel_stream_printf ((CamelStream *) stream, "%s</td> </tr>", datestr);
+		int msg_offset;
+		time_t msg_date;
+		struct tm local;
+		int local_tz;
+
+		msg_date = header_decode_date(datestr, &msg_offset);
+		e_localtime_with_offset(msg_date, &local, &local_tz);
+
+		write_field_row_begin(stream, _("Date"), flags);
+		camel_stream_printf((CamelStream *)stream, "%s", datestr);
+
+		/* Convert message offset to minutes (e.g. -0400 --> -240) */
+		msg_offset = ((msg_offset / 100) * 60) + (msg_offset % 100);
+		/* Turn into offset from localtime, not UTC */
+		msg_offset -= local_tz / 60;
+
+		if (msg_offset) {
+			/* Message timezone different from local. Show both */
+			camel_stream_printf((CamelStream *)stream,  "<I> (");
+			
+			msg_offset += (local.tm_hour * 60) + local.tm_min;
+			if (msg_offset >= (24 * 60) || msg_offset < 0) {
+				/* Timezone conversion crossed midnight. Show day */
+				camel_stream_printf((CamelStream *)stream,  "%s, ",  _(tz_days[local.tm_wday]));
+			}
+			/* translators: 'localtime' equivalent shown in date header for mails from other timezones */
+			camel_stream_printf((CamelStream *)stream, "%02d:%02d %s)</I>", local.tm_hour, local.tm_min, _("localtime"));
+		}
+					     
+		camel_stream_printf ((CamelStream *) stream, "</td> </tr>");
 	}
 }
 
