@@ -110,7 +110,7 @@ static void range_activated (GncalFullDay *fullday);
 
 static GtkContainerClass *parent_class;
 
-static fullday_signals[LAST_SIGNAL] = { 0 };
+static int fullday_signals[LAST_SIGNAL] = { 0 };
 
 
 static void
@@ -390,7 +390,7 @@ child_popup_menu (GncalFullDay *fullday, Child *child, guint32 event_time)
 	child_items[1].data = child;
 	child_items[3].data = fullday;
 
-	sensitive = (ical_object_get_user_data (child->ico) == NULL);
+	sensitive = (child->ico->user_data == NULL);
 
 	child_items[0].sensitive = sensitive;
 	child_items[1].sensitive = sensitive;
@@ -1892,7 +1892,6 @@ void
 gncal_full_day_update (GncalFullDay *fullday, iCalObject *ico, int flags)
 {
 	GList *children;
-	GList *l_events, *events;
 	Child *child;
 	
 	g_return_if_fail (fullday != NULL);

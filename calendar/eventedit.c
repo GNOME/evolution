@@ -971,7 +971,7 @@ event_editor_destroy (GtkObject *object)
 	ee = EVENT_EDITOR (object);
 
 	if (ee->ical)
-		ical_object_set_user_data (ee->ical, NULL); /* we are no longer editing it */
+		ee->ical->user_data = NULL;/* we are no longer editing it */
 }
 
 GtkWidget *
@@ -991,7 +991,7 @@ event_editor_new (GnomeCalendar *gcal, iCalObject *ical)
 		ical->new = 1;
 	}
 
-	ical_object_set_user_data (ical, ee); /* so that the world can know we are editing it */
+	ical->user_data = ee;	/* so that the world can know we are editing it */
 
 	ee->ical = ical;
 	ee->gnome_cal = gcal;

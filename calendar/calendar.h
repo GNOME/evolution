@@ -37,8 +37,6 @@ typedef struct {
 	iCalObject *ico;
 } CalendarObject;
 
-typedef void (*calendarfn)(iCalObject *obj, time_t start, time_t end, void *closure);
-
 Calendar *calendar_new                  (char *title);
 void      calendar_load                 (Calendar *cal, char *fname);
 void      calendar_add_object           (Calendar *cal, iCalObject *obj);

@@ -680,7 +680,7 @@ ical_object_to_vobject (iCalObject *ical)
 }
 
 void
-ical_foreach (GList *events, iCalObjectFn fn, void *closure)
+ical_foreach (GList *events, calendarfn fn, void *closure)
 {
 	for (; events; events = events->next){
 		iCalObject *ical = events->data;
@@ -690,13 +690,13 @@ ical_foreach (GList *events, iCalObjectFn fn, void *closure)
 }
 
 void
-ical_object_set_user_data (iCalObject *ical, void *user_data)
+ical_object_generate_events (iCalObject *ico, time_t start, time_t end, calendarfn cb, void *closure)
 {
-	ical->user_data = user_data;
-}
+	if (!ico->recur){
+		if ((start <= ico->dtstart) && (ico->dtend <= end))
+			(*cb)(ico, ico->dtstart, ico->dtend, closure);
+		return;
+	}
 
-void *
-ical_object_get_user_data (iCalObject *ical)
-{
-	return ical->user_data;
+	/* The event has a recurrence rule */
 }

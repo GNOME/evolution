@@ -32,7 +32,6 @@ calendar_new (char *title)
 void
 calendar_add_object (Calendar *cal, iCalObject *obj)
 {
-	printf ("Adding object\n");
 	switch (obj->type){
 	case ICAL_EVENT:
 		cal->events = g_list_prepend (cal->events, obj);
@@ -117,8 +116,7 @@ calendar_iterate_on_objects (GList *objects, time_t start, time_t end, calendarf
 	for (; objects; objects = objects->next){
 		iCalObject *object = objects->data;
 
-		if ((start <= object->dtstart) && (object->dtend <= end))
-			(*cb)(object, object->dtstart, object->dtend, closure);
+		ical_object_generate_events (object, start, end, cb, closure);
 	}
 }
 
