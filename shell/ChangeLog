@@ -1,8 +1,12 @@
 2004-02-06  JP Rosevear <jpr@ximian.com>
 
 	* importer/intelligent.c (get_intelligent_importers): use base
-	version for importers
+	version for intelligent importers
 
+	* e-shell-importer.c (get_intelligent_importers): ditto
+	
+	Fixes #54004	
+	
 2004-02-06  Rodney Dawes  <dobey@ximian.com>
 
 	* e-shell-window-commands.c (command_quick_reference): Really make
