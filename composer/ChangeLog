@@ -1,3 +1,13 @@
+2002-08-16  Dan Winship  <danw@ximian.com>
+
+	* e-msg-composer-hdrs.c (create_headers): Use an
+	EvolutionFolderSelectorButton instead of a label to indicate the
+	posting destination. #27920.
+	(e_msg_composer_hdrs_set_post_to): Use
+	evolution_folder_button_set_uri.
+	(e_msg_composer_hdrs_get_post_to): Use
+	evolution_folder_button_get_folder.
+
 2002-08-14  Dan Winship  <danw@ximian.com>
 
 	* e-msg-composer.c (from_changed_cb): Don't turn on pgp signing if

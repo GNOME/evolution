@@ -45,9 +45,12 @@
 #include <gal/widgets/e-unicode.h>
 
 #include <camel/camel.h>
+#include "evolution-folder-selector-button.h"
 #include "e-msg-composer-hdrs.h"
 #include "mail/mail-config.h"
 #include "addressbook/backend/ebook/e-book-util.h"
+
+extern EvolutionShellClient *global_shell_client;
 
 
 
@@ -367,6 +370,7 @@ static void
 create_headers (EMsgComposerHdrs *hdrs)
 {
 	EMsgComposerHdrsPrivate *priv = hdrs->priv;
+	static const char *posting_types[] = { "mail", NULL };
 	
 	/*
 	 * Reply-To:
@@ -423,7 +427,9 @@ create_headers (EMsgComposerHdrs *hdrs)
 	 * Post-To
 	 */
 	priv->post_to.label = gtk_label_new (_("Post To:"));
-	priv->post_to.entry = gtk_label_new ("");
+	priv->post_to.entry = evolution_folder_selector_button_new (
+		global_shell_client, _("Posting destination"), NULL,
+		posting_types);
 }
 
 static void
@@ -948,7 +954,7 @@ e_msg_composer_hdrs_set_post_to (EMsgComposerHdrs *hdrs,
 	g_return_if_fail (E_IS_MSG_COMPOSER_HDRS (hdrs));
 	g_return_if_fail (post_to != NULL);
 	
-	gtk_label_set_text (GTK_LABEL (hdrs->priv->post_to.entry), post_to);
+	evolution_folder_selector_button_set_uri (EVOLUTION_FOLDER_SELECTOR_BUTTON (hdrs->priv->post_to.entry), post_to);
 }
 
 void
@@ -1108,13 +1114,12 @@ e_msg_composer_hdrs_get_recipients (EMsgComposerHdrs *hdrs)
 char *
 e_msg_composer_hdrs_get_post_to (EMsgComposerHdrs *hdrs)
 {
-	char *post_to = NULL;
-	
+	GNOME_Evolution_Folder *folder;
+
 	g_return_val_if_fail (E_IS_MSG_COMPOSER_HDRS (hdrs), NULL);
 	
-	gtk_label_get (GTK_LABEL (hdrs->priv->post_to.entry), &post_to);
-	
-	return g_strdup (post_to);
+	folder = evolution_folder_selector_button_get_folder (EVOLUTION_FOLDER_SELECTOR_BUTTON (hdrs->priv->post_to.entry));
+	return folder ? g_strdup (folder->physicalUri) : NULL;
 }
 
 char *
