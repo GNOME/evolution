@@ -113,6 +113,7 @@ month_toggled (GtkToggleButton *toggle, gpointer data)
 static GtkWidget *
 create_months (int month)
 {
+	time_t start_time;
 	GtkWidget *table;
 	GtkWidget *w;
 	GSList *group;
@@ -120,7 +121,9 @@ create_months (int month)
 	struct tm tm;
 	char buf[100];
 
-	tm = *localtime (&gnome_calendar->selection_start_time);
+	gnome_calendar_get_selected_time_range (gnome_calendar, &start_time, NULL);
+
+	tm = *localtime (&start_time);
 
 	table = gtk_table_new (2, 6, TRUE);
 
@@ -250,6 +253,7 @@ goto_today (GtkWidget *widget, gpointer data)
 void
 goto_dialog (GnomeCalendar *gcal)
 {
+	time_t start_time;
 	GtkWidget *vbox;
 	GtkWidget *hbox;
 	GtkWidget *w;
@@ -259,7 +263,9 @@ goto_dialog (GnomeCalendar *gcal)
 	gnome_calendar = gcal;
 	current_index = -1;
 
-	tm = *localtime (&gnome_calendar->selection_start_time);
+	gnome_calendar_get_selected_time_range (gnome_calendar, &start_time, NULL);
+
+	tm = *localtime (&start_time);
 
 	goto_win = gnome_dialog_new (_("Go to date"),
 				     GNOME_STOCK_BUTTON_CANCEL,

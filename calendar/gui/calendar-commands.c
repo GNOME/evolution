@@ -323,12 +323,7 @@ show_day_view_clicked (BonoboUIHandler *uih, void *user_data, const char *path)
 {
 	GnomeCalendar *gcal = GNOME_CALENDAR (user_data);
 
-	/* If we are setting up a view internally we just ignore the clicks. */
-	if (gcal->ignore_view_button_clicks)
-		return;
-
-	gnome_calendar_set_view (gcal, "dayview", FALSE);
-	gtk_widget_grab_focus (gcal->day_view);
+	gnome_calendar_set_view (gcal, "dayview", FALSE, TRUE);
 }
 
 static void
@@ -336,12 +331,7 @@ show_work_week_view_clicked (BonoboUIHandler *uih, void *user_data, const char *
 {
 	GnomeCalendar *gcal = GNOME_CALENDAR (user_data);
 
-	/* If we are setting up a view internally we just ignore the clicks. */
-	if (gcal->ignore_view_button_clicks)
-		return;
-
-	gnome_calendar_set_view (gcal, "workweekview", FALSE);
-	gtk_widget_grab_focus (gcal->work_week_view);
+	gnome_calendar_set_view (gcal, "workweekview", FALSE, TRUE);
 }
 
 static void
@@ -349,12 +339,7 @@ show_week_view_clicked (BonoboUIHandler *uih, void *user_data, const char *path)
 {
 	GnomeCalendar *gcal = GNOME_CALENDAR (user_data);
 
-	/* If we are setting up a view internally we just ignore the clicks. */
-	if (gcal->ignore_view_button_clicks)
-		return;
-
-	gnome_calendar_set_view (gcal, "weekview", FALSE);
-	gtk_widget_grab_focus (gcal->week_view);
+	gnome_calendar_set_view (gcal, "weekview", FALSE, TRUE);
 }
 
 static void
@@ -362,19 +347,14 @@ show_month_view_clicked (BonoboUIHandler *uih, void *user_data, const char *path
 {
 	GnomeCalendar *gcal = GNOME_CALENDAR (user_data);
 
-	/* If we are setting up a view internally we just ignore the clicks. */
-	if (gcal->ignore_view_button_clicks)
-		return;
-
-	gnome_calendar_set_view (gcal, "monthview", FALSE);
-	gtk_widget_grab_focus (gcal->month_view);
+	gnome_calendar_set_view (gcal, "monthview", FALSE, TRUE);
 }
 
 
 static void
 new_calendar_cmd (BonoboUIHandler *uih, void *user_data, const char *path)
 {
-	new_calendar (full_name, NULL, NULL, FALSE);
+	new_calendar (full_name, NULL, FALSE);
 }
 
 static void
@@ -422,7 +402,7 @@ open_ok (GtkWidget *widget, GtkFileSelection *fs)
 #warning "FIXME: find out who owns this calendar and use that name"
 #endif
 		/*
-		new_calendar ("Somebody", gtk_file_selection_get_filename (fs), NULL, NULL, FALSE);
+		new_calendar ("Somebody", gtk_file_selection_get_filename (fs), NULL, FALSE);
 		*/
 		gtk_widget_destroy (GTK_WIDGET (fs));
 	}
@@ -604,10 +584,11 @@ calendar_control_activate (BonoboControl *control,
 
 	/* Note that these indices should correspond with the button indices
 	   in the gnome_toolbar_view_buttons UIINFO struct. */
-	cal->day_button       = gnome_toolbar_view_buttons[0].widget;
-	cal->work_week_button = gnome_toolbar_view_buttons[1].widget;
-	cal->week_button      = gnome_toolbar_view_buttons[2].widget;
-	cal->month_button     = gnome_toolbar_view_buttons[3].widget;
+	gnome_calendar_set_view_buttons (cal,
+					 gnome_toolbar_view_buttons[0].widget,
+					 gnome_toolbar_view_buttons[1].widget,
+					 gnome_toolbar_view_buttons[2].widget,
+					 gnome_toolbar_view_buttons[3].widget);
 
 	/* This makes the appropriate radio button in the toolbar active. */
 	gnome_calendar_update_view_buttons (cal);
@@ -706,28 +687,17 @@ calendar_close_event (GtkWidget *widget, GdkEvent *event, GnomeCalendar *gcal)
 
 
 GnomeCalendar *
-new_calendar (char *full_name, char *geometry, char *page, gboolean hidden)
+new_calendar (char *full_name, char *geometry, gboolean hidden)
 {
 	GtkWidget   *toplevel;
-	char        title[128];
 	int         xpos, ypos, width, height;
 
+	toplevel = gnome_calendar_new ();
 
-	/* i18n: This "%s%s" indicates possession. Languages where the order is
-	 * the inverse should translate it to "%2$s%1$s".
-	 */
-	g_snprintf(title, 128, _("%s%s"), full_name, _("'s calendar"));
-
-	toplevel = gnome_calendar_new (title);
-
-	if (gnome_parse_geometry (geometry, &xpos, &ypos, &width, &height)){
+	if (gnome_parse_geometry (geometry, &xpos, &ypos, &width, &height)) {
 		if (xpos != -1)
 			gtk_widget_set_uposition (toplevel, xpos, ypos);
 	}
-
-	if (page)
-		gnome_calendar_set_view (GNOME_CALENDAR (toplevel), page,
-					 FALSE);
 
 	gtk_signal_connect (GTK_OBJECT (toplevel), "delete_event",
 			    GTK_SIGNAL_FUNC(calendar_close_event), toplevel);

@@ -1,3 +1,47 @@
+2000-09-08  Federico Mena Quintero  <federico@helixcode.com>
+
+	Fall equinox cleanup!
+
+	OK, I know the equinox is not here yet, but weather has changed
+	enough to warrant it.
+
+	Sigh.  This place is definitely not the tropics.
+
+	* gui/gnome-cal.c (obj_updated_cb): Renamed from
+	gnome_calendar_object_updated_cb(); fixed prototype.
+	(obj_removed_cb): Renamed from gnome_calendar_object_removed_cb();
+	fixed prototype.
+	(GnomeCalendarPrivate): Moved all the GnomeCalendar fields to a
+	private structure so I don't have to rebuild the whole calendar
+	GUI directory every time something changes in the object.
+	(GnomeCalendarPrivate): Removed the property bag and the control
+	fields; they are local to the control-factory now.
+	(gnome_calendar_update_view_buttons): Remove the
+	ignore_view_button_clicks mess and just block the signal.
+	(gnome_calendar_set_view): Added a "focus" argument to indicate
+	whether we want the main widget in the specified view to grab the
+	focus.
+	(gnome_calendar_set_view_internal): Handle the focus argument here.
+	(gnome_calendar_set_view_buttons): Temporary hack to notify the
+	calendar about its buttons.
+	(gnome_calendar_get_selected_time_range): New function.
+	(gnome_calendar_get_cal_client): New function.
+
+	* gui/control-factory.c (calendar_properties_init): Keep the
+	property bag local to here; it does not need to be in the calendar
+	object yet.
+	(control_factory_fn): Renamed from control_factory().  Just use
+	control_factory_new_control().
+	(control_factory_new_control): Moved the stuff over from
+	create_control(), and keep the control local to here.  Check the
+	return value of bonobo_control_new().
+
+	* gui/calendar-commands.c (show_day_view_clicked): Remove the
+	ignore_view_button_clicks mess.
+	(new_calendar): Removed the useless "page" argument.
+	(calendar_control_activate): Use gnome_calendar_set_view_buttons()
+	for now.
+
 2000-09-07  Lauris Kaplinski  <lauris@helixcode.com>
 
 	* cal-client/Makefile.am: Added -lunicode

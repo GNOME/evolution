@@ -102,7 +102,7 @@ mark_event_in_month (GnomeMonthItem *mitem, time_t start, time_t end)
 {
 	struct tm tm;
 	int day_index;
-	
+
 	tm = *localtime (&start);
 
 	for (; start <= end; start += 60 * 60 * 24) {
@@ -127,7 +127,7 @@ static gboolean
 mark_month_item_cb (CalComponent *comp, time_t istart, time_t iend, gpointer data)
 {
 	struct minfo *mi = (struct minfo *)data;
-	
+
 	mark_event_in_month (mi->mitem, MAX (istart, mi->start), MIN (iend, mi->end));
 
 	return TRUE;
@@ -136,6 +136,7 @@ mark_month_item_cb (CalComponent *comp, time_t istart, time_t iend, gpointer dat
 void
 mark_month_item (GnomeMonthItem *mitem, GnomeCalendar *gcal)
 {
+	CalClient *client;
 	struct minfo mi;
 
 	g_return_if_fail (mitem != NULL);
@@ -143,12 +144,14 @@ mark_month_item (GnomeMonthItem *mitem, GnomeCalendar *gcal)
 	g_return_if_fail (gcal != NULL);
 	g_return_if_fail (GNOME_IS_CALENDAR (gcal));
 
+	client = gnome_calendar_get_cal_client (gcal);
+
 	mi.mitem = mitem;
 	mi.start = time_month_begin (time_from_day (mitem->year, mitem->month, 1));
 	mi.end = time_month_end (mi.start);
 	
-	cal_client_generate_instances (gcal->client, CALOBJ_TYPE_EVENT, mi.start, mi.end,
-				       mark_month_item_cb, &mi);	
+	cal_client_generate_instances (client, CALOBJ_TYPE_EVENT, mi.start, mi.end,
+				       mark_month_item_cb, &mi);
 }
 
 

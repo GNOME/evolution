@@ -96,7 +96,6 @@ char *color_spec_from_prop (ColorProp propnum);
 
 GnomeCalendar *new_calendar (char *full_name,
 			     char *geometry,
-			     char *page,
 			     gboolean hidden);
 
 void calendar_set_uri (GnomeCalendar *gcal, char *calendar_file);

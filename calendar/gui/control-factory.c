@@ -49,8 +49,8 @@ CORBA_ORB orb;
 
 
 static void
-control_activate_cb (BonoboControl *control, 
-		     gboolean activate, 
+control_activate_cb (BonoboControl *control,
+		     gboolean activate,
 		     gpointer user_data)
 {
 	if (activate)
@@ -112,11 +112,13 @@ set_prop (BonoboPropertyBag *bag,
 
 
 static void
-calendar_properties_init (GnomeCalendar *gcal)
+calendar_properties_init (GnomeCalendar *gcal, BonoboControl *control)
 {
-	gcal->properties = bonobo_property_bag_new (get_prop, set_prop, gcal);
+	BonoboPropertyBag *pbag;
 
-	bonobo_property_bag_add (gcal->properties,
+	pbag = bonobo_property_bag_new (get_prop, set_prop, gcal);
+
+	bonobo_property_bag_add (pbag,
 				 PROPERTY_CALENDAR_URI,
 				 PROPERTY_CALENDAR_URI_IDX,
 				 BONOBO_ARG_STRING,
@@ -124,35 +126,21 @@ calendar_properties_init (GnomeCalendar *gcal)
 				 _("The URI that the calendar will display"),
 				 0);
 
-	bonobo_control_set_property_bag (gcal->control, gcal->properties);
+	bonobo_control_set_property_bag (control, pbag);
 }
 
-
-static BonoboControl *
-create_control (void)
+/* Callback factory function for calendar controls */
+static BonoboObject *
+control_factory_fn (BonoboGenericFactory *Factory, void *data)
 {
 	BonoboControl *control;
-	GnomeCalendar *cal;
 
-	cal = new_calendar (full_name, NULL, NULL, 0);
-	gtk_widget_show (GTK_WIDGET (cal));
+	control = control_factory_new_control ();
 
-	control = bonobo_control_new (GTK_WIDGET (cal));
-	cal->control = control;
-
-	calendar_properties_init (cal);
-
-	gtk_signal_connect (GTK_OBJECT (control), "activate",
-			    control_activate_cb, cal);
-
-	return control;
-}
-
-
-static BonoboObject *
-control_factory (BonoboGenericFactory *Factory, void *closure)
-{
-	return BONOBO_OBJECT (create_control ());
+	if (control)
+		return BONOBO_OBJECT (control);
+	else
+		return NULL;
 }
 
 
@@ -166,7 +154,7 @@ control_factory_init (void)
 
 	puts ("XXXXXX - initializing calendar factory!!!");
 
-	factory = bonobo_generic_factory_new (CONTROL_FACTORY_ID, control_factory, NULL);
+	factory = bonobo_generic_factory_new (CONTROL_FACTORY_ID, control_factory_fn, NULL);
 
 	if (factory == NULL)
 		g_error ("I could not register a Calendar control factory.");
@@ -176,5 +164,22 @@ control_factory_init (void)
 BonoboControl *
 control_factory_new_control (void)
 {
-	return create_control ();
+	BonoboControl *control;
+	GnomeCalendar *gcal;
+
+	gcal = new_calendar (full_name, NULL, 0);
+	gtk_widget_show (GTK_WIDGET (gcal));
+
+	control = bonobo_control_new (GTK_WIDGET (gcal));
+	if (!control) {
+		g_message ("control_factory_fn(): could not create the control!");
+		return NULL;
+	}
+
+	calendar_properties_init (gcal, control);
+
+	gtk_signal_connect (GTK_OBJECT (control), "activate",
+			    GTK_SIGNAL_FUNC (control_activate_cb), gcal);
+
+	return control;
 }

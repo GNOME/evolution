@@ -338,6 +338,7 @@ print_month_small (GnomePrintContext *pc, GnomeCalendar *gcal,
 		   time_t month, double left, double right, double top, double bottom,
 		   int titleflags, time_t greystart, time_t greyend, int bordertitle)
 {
+	CalClient *client;
 	GnomeFont *font, *font_bold, *font_normal;
 	time_t now, next;
 	int x, y;
@@ -347,6 +348,8 @@ print_month_small (GnomePrintContext *pc, GnomeCalendar *gcal,
 	struct tm tm;
 	double xpad, ypad, size;
 	char *daynames[] = { _("Su"), _("Mo"), _("Tu"), _("We"), _("Th"), _("Fr"), _("Sa") };
+
+	client = gnome_calendar_get_cal_client (gcal);
 
 	xpad = (right-left)/7;
 	ypad = (top-bottom)/8.3;
@@ -394,7 +397,9 @@ print_month_small (GnomePrintContext *pc, GnomeCalendar *gcal,
 				sprintf(buf, "%d", day);
 
 				/* this is a slow messy way to do this ... but easy ... */
-				uids = cal_client_get_objects_in_range (gcal->client, CALOBJ_TYPE_EVENT, now, time_day_end (now));
+				uids = cal_client_get_objects_in_range (client,
+									CALOBJ_TYPE_EVENT,
+									now, time_day_end (now));
 				font = uids ? font_bold : font_normal;
 				cal_obj_uid_list_free (uids);
 
@@ -559,6 +564,7 @@ static void
 print_day_details (GnomePrintContext *pc, GnomeCalendar *gcal, time_t whence,
 		   double left, double right, double top, double bottom)
 {
+	CalClient *client;
 	struct pdinfo pdi;
 	time_t start, end;
 	GList *l;
@@ -567,6 +573,8 @@ print_day_details (GnomePrintContext *pc, GnomeCalendar *gcal, time_t whence,
 	double yinc, y, yend, x, xend;
 	double width=40, slot_width;
 	char buf[20];
+
+	client = gnome_calendar_get_cal_client (gcal);
 
 	yinc = (top-bottom)/24;
 
@@ -611,7 +619,7 @@ print_day_details (GnomePrintContext *pc, GnomeCalendar *gcal, time_t whence,
 	start = time_day_begin(whence);
 	end = time_day_end(start);
 
-	cal_client_generate_instances (gcal->client, CALOBJ_TYPE_EVENT, start, end,
+	cal_client_generate_instances (client, CALOBJ_TYPE_EVENT, start, end,
 				       print_day_details_cb, &pdi);
 	
 	num_slots = g_list_length (pdi.slots);
@@ -687,6 +695,7 @@ print_day_summary (GnomePrintContext *pc, GnomeCalendar *gcal, time_t whence,
 		   double left, double right, double top, double bottom,
 		   double size, int totime, int titleformat)
 {
+	CalClient *client;
 	struct psinfo psi;
 	time_t start, end;
 	GList *l;
@@ -695,6 +704,8 @@ print_day_summary (GnomePrintContext *pc, GnomeCalendar *gcal, time_t whence,
 	char buf[100];
 	double margin;
 	struct tm tm;
+
+	client = gnome_calendar_get_cal_client (gcal);
 
 	/* fill static detail */
 	font_summary = gnome_font_new_closest ("Times", GNOME_FONT_BOOK, 0, size);
@@ -710,7 +721,7 @@ print_day_summary (GnomePrintContext *pc, GnomeCalendar *gcal, time_t whence,
 	titled_box (pc, buf, font_summary, ALIGN_RIGHT | ALIGN_BORDER,
 		    &left, &right, &top, &bottom, 0.0);
 
-	cal_client_generate_instances (gcal->client, CALOBJ_TYPE_EVENT, start, end,
+	cal_client_generate_instances (client, CALOBJ_TYPE_EVENT, start, end,
 				       print_day_summary_cb, &psi);
 	inc = size*0.3;
 	incsmall = size*0.2;
@@ -924,10 +935,13 @@ static void
 print_todo_details (GnomePrintContext *pc, GnomeCalendar *gcal, time_t start, time_t end,
 		    double left, double right, double top, double bottom)
 {
+	CalClient *client;
 	struct ptinfo pti;
 	GList *l;
 	GnomeFont *font_summary;
 	double y, yend, x, xend;
+
+	client = gnome_calendar_get_cal_client (gcal);
 
 	font_summary = gnome_font_new_closest ("Times", GNOME_FONT_BOOK, 0, 10);
 
@@ -940,7 +954,7 @@ print_todo_details (GnomePrintContext *pc, GnomeCalendar *gcal, time_t start, ti
 	y = top - 3;
 	yend = bottom - 2;
 
-	cal_client_generate_instances (gcal->client, CALOBJ_TYPE_TODO, start, end,
+	cal_client_generate_instances (client, CALOBJ_TYPE_TODO, start, end,
 				       print_todo_details_cb, &pti);
 
 	for (l = pti.todos; l; l = l->next) {
