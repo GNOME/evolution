@@ -1,3 +1,11 @@
+2002-06-21  Sean Atkinson  <sean@cantab.net>
+
+	* gui/component/addressbook-config.c (addressbook_edit_server_dialog):
+	remove source argument (get it from the dialog).
+	(edit_source_clicked): same.
+	(sources_table_double_click): added to edit server by double-clicking.
+	(ldap_dialog_new): use sources_table_double_click.
+
 2002-06-17  Chris Toshok  <toshok@ximian.com>
 
 	* gui/widgets/e-addressbook-view.c (e_addressbook_view_save_as):

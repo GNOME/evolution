@@ -1300,8 +1300,9 @@ edit_dialog_ok_clicked (GtkWidget *item, AddressbookSourceDialog *sdialog)
 }
 
 static AddressbookSourceDialog*
-addressbook_edit_server_dialog (AddressbookDialog *dialog, AddressbookSource *source, int model_row)
+addressbook_edit_server_dialog (AddressbookDialog *dialog, int model_row)
 {
+	AddressbookSource *source = e_table_memory_get_data (E_TABLE_MEMORY(dialog->sourcesModel), model_row);
 	AddressbookSourceDialog *sdialog = g_new0 (AddressbookSourceDialog, 1);
 	GtkWidget *general_tab_help;
 	GtkWidget *fewer_options_button, *more_options_button;
@@ -1425,9 +1426,7 @@ edit_source_clicked (GtkWidget *widget, AddressbookDialog *dialog)
 
 	for (i = 0; i < row_count; i ++) {
 		if (e_selection_model_is_row_selected (selection_model, i)) {
-			AddressbookSource *source = e_table_memory_get_data (E_TABLE_MEMORY(dialog->sourcesModel), i);
-			AddressbookSourceDialog *sdialog;
-			sdialog = addressbook_edit_server_dialog (dialog, source, i);
+			addressbook_edit_server_dialog (dialog, i);
 			break; /* single select so we're done now */
 		}
 	}
@@ -1523,12 +1522,20 @@ sources_selection_changed (ESelectionModel *esm, AddressbookDialog *dialog)
 	gtk_widget_set_sensitive (dialog->deleteSource, sensitive);
 }
 
+static void
+sources_table_double_click (ETable *et, int row, int col, GdkEvent *event, AddressbookDialog *dialog)
+{
+	addressbook_edit_server_dialog (dialog, row);
+}
+
+
 static AddressbookDialog *
 ldap_dialog_new (GNOME_Evolution_Shell shell)
 {
 	AddressbookDialog *dialog;
 	GList *l;
 	ESelectionModel *esm;
+	ETable *et;
 
 	dialog = g_new0 (AddressbookDialog, 1);
 
@@ -1536,6 +1543,10 @@ ldap_dialog_new (GNOME_Evolution_Shell shell)
 	dialog->shell = shell;
 
 	dialog->sourcesTable = glade_xml_get_widget (dialog->gui, "sourcesTable");
+	et = e_table_scrolled_get_table (E_TABLE_SCROLLED(dialog->sourcesTable));
+	gtk_signal_connect (GTK_OBJECT (et), "double_click",
+			    GTK_SIGNAL_FUNC (sources_table_double_click), dialog);
+	
 	dialog->sourcesModel = gtk_object_get_data (GTK_OBJECT (dialog->sourcesTable), "model");
 	
 	dialog->addSource = glade_xml_get_widget (dialog->gui, "addSource");
@@ -1563,7 +1574,7 @@ ldap_dialog_new (GNOME_Evolution_Shell shell)
 					     -1, source, source->name, source->host);
 	}
 
-	esm = e_table_get_selection_model (e_table_scrolled_get_table (E_TABLE_SCROLLED(dialog->sourcesTable)));
+	esm = e_table_get_selection_model (et);
 	gtk_signal_connect (GTK_OBJECT (esm), "selection_changed",
 			    GTK_SIGNAL_FUNC (sources_selection_changed), dialog);
 
@@ -1596,7 +1607,7 @@ addressbook_dialog_create_sources_table (char *name, char *string1, char *string
 {
 	GtkWidget *table;
 	ETableModel *model;
-	
+
 	model = e_table_memory_store_new (sources_table_columns);
 
 	table = e_table_scrolled_new (model, NULL, SOURCES_TABLE_SPEC, NULL);
