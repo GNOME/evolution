@@ -1,3 +1,19 @@
+2001-03-08  Jeffrey Stedfast  <fejj@ximian.com>
+	These fixes make it so that the CamelStore does not actually hold
+	a ref on it's vTrash folder. The vTrash folder is now created ONLY
+	when it is requested. This solves the problem of not being able to
+	unref a Store and have it disconnect/finalize like we expect it to.
+
+	* camel-store.c (init_trash): When we create the vtrash, add all
+	previously opened folders to it and hook on to the finalize event
+	so that we can then set the store->vtrash to NULL.
+	(get_trash): If a vtrash folder for the store doesn't exist,
+	init_trash() and then try.
+	(construct): No longer need this.
+	(camel_store_class_init): Don't override the construct method.
+	(camel_store_finalize): We no longer hold a ref on the vtrash so
+	don't unref it.
+
 2001-03-07  Jeffrey Stedfast  <fejj@ximian.com>
 
 	* providers/pop3/camel-pop3-store.c (init_trash): Implement.

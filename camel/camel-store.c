@@ -42,10 +42,6 @@ static CamelServiceClass *parent_class = NULL;
 /* Returns the class for a CamelStore */
 #define CS_CLASS(so) CAMEL_STORE_CLASS (CAMEL_OBJECT_GET_CLASS(so))
 
-static void construct (CamelService *service, CamelSession *session,
-		       CamelProvider *provider, CamelURL *url,
-		       CamelException *ex);
-
 static CamelFolder *get_folder (CamelStore *store, const char *folder_name,
 				guint32 flags, CamelException *ex);
 static CamelFolder *get_inbox (CamelStore *store, CamelException *ex);
@@ -78,14 +74,10 @@ camel_store_class_init (CamelStoreClass *camel_store_class)
 {
 	CamelObjectClass *camel_object_class =
 		CAMEL_OBJECT_CLASS (camel_store_class);
-	CamelServiceClass *camel_service_class =
-		CAMEL_SERVICE_CLASS (camel_store_class);
 	
 	parent_class = CAMEL_SERVICE_CLASS (camel_type_get_global_classfuncs (camel_service_get_type ()));
 	
 	/* virtual method definition */
-	camel_service_class->construct = construct;
-	
 	camel_store_class->hash_folder_name = g_str_hash;
 	camel_store_class->compare_folder_name = g_str_equal;
 	camel_store_class->get_folder = get_folder;
@@ -131,19 +123,6 @@ camel_store_init (void *o)
 }
 
 static void
-construct (CamelService *service, CamelSession *session, CamelProvider *provider,
-	   CamelURL *url, CamelException *ex)
-{
-	CamelStoreClass *store_class;
-	
-	parent_class->construct (service, session, provider, url, ex);
-	
-	/* initialize the vTrash folder */
-	store_class = (CamelStoreClass *) CAMEL_OBJECT_GET_CLASS (service);
-	store_class->init_trash (CAMEL_STORE (service));
-}
-
-static void
 camel_store_finalize (CamelObject *object)
 {
 	CamelStore *store = CAMEL_STORE (object);
@@ -156,9 +135,6 @@ camel_store_finalize (CamelObject *object)
 		}
 		g_hash_table_destroy (store->folders);
 	}
-	
-	if (store->vtrash)
-		camel_object_unref (CAMEL_OBJECT (store->vtrash));
 	
 #ifdef ENABLE_THREADS
 	g_mutex_free (store->priv->folder_lock);
@@ -246,7 +222,7 @@ camel_store_get_folder (CamelStore *store, const char *folder_name, guint32 flag
 		folder = CS_CLASS (store)->get_folder (store, folder_name, flags, ex);
 		if (folder && store->folders) {
 			CAMEL_STORE_LOCK(store, cache_lock);
-
+			
 			g_hash_table_insert (store->folders, g_strdup (folder_name), folder);
 			
 			/* Add the folder to the vTrash folder if this store implements it */
@@ -380,6 +356,23 @@ camel_store_get_inbox (CamelStore *store, CamelException *ex)
 
 
 static void
+trash_add_folder (gpointer key, gpointer value, gpointer data)
+{
+	CamelFolder *folder = CAMEL_FOLDER (value);
+	CamelStore *store = CAMEL_STORE (data);
+	
+	camel_vee_folder_add_folder (CAMEL_VEE_FOLDER (store->vtrash), folder);
+}
+
+static void
+trash_finalize (CamelObject *trash, gpointer event_data, gpointer user_data)
+{
+	CamelStore *store = CAMEL_STORE (user_data);
+	
+	store->vtrash = NULL;
+}
+
+static void
 init_trash (CamelStore *store)
 {
 	char *name;
@@ -390,6 +383,16 @@ init_trash (CamelStore *store)
 					      CAMEL_STORE_VEE_FOLDER_AUTO, NULL);
 	
 	g_free (name);
+	
+	if (store->vtrash) {
+		/* attach to the finalise event of the vtrash */
+		camel_object_hook_event (CAMEL_OBJECT (store->vtrash), "finalize",
+					 trash_finalize, store);
+		
+		/* add all the pre-opened folders to the vtrash */
+		if (store->folders)
+			g_hash_table_foreach (store->folders, trash_add_folder, store);
+	}
 }
 
 
@@ -400,8 +403,16 @@ get_trash (CamelStore *store, CamelException *ex)
 		camel_object_ref (CAMEL_OBJECT (store->vtrash));
 		return store->vtrash;
 	} else {
-		g_warning ("This store does not support vTrash.");
-		return NULL;
+		CS_CLASS (store)->init_trash (store);
+		if (store->vtrash) {
+			/* We don't ref here because we don't want the
+                           store to own a ref on the trash folder */
+			/*camel_object_ref (CAMEL_OBJECT (store->vtrash));*/
+			return store->vtrash;
+		} else {
+			g_warning ("This store does not support vTrash.");
+			return NULL;
+		}
 	}
 }
 
