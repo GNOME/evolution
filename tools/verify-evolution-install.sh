@@ -175,13 +175,24 @@ check_bin() {
     #othername=$2
 
     IFSbak="$IFS"
-    search="$PATH"
     IFS=":"
     passed=no
+    exepath=
 
-    for ping in $search; do
-	if test -x $ping/$1 ; then
+    for ping in $PATH; do    
+	if test x"$ping" != x -a -x $ping/$1 ; then
+	    if test x"$passed" = xyes ; then
+		problem="The binary $1 is installed in more than one location"
+		rpmsolution="Make sure that you only have one copy of the package installed"
+		debsolution="Make sure that you only have one copy of the package installed"
+		srcsolution="Make sure that you only have one copy of the package installed"
+		comment="You probably have a package that was installed in two different prefixes,
+either from source twice or from source and from RPM/deb. Remove the older copy.
+(Note: \"make uninstall\" works on tarballs but may damage your gettext installation)"
+		problem
+	    fi
 	    passed=yes;
+	    exepath="$ping/$1"
 	fi
     done
 
@@ -194,6 +205,62 @@ check_bin() {
 	srcsolution="Re-run 'configure' in $2's source directory with the flag '--bindir=$gl_bindir'."
 	comment="Another likely cause of this problem would be a failed installation of $2.
 You should check to see that the install succeeded."
+	problem
+    fi
+
+    lddfile=temp-$$-verify-ldd
+    $LDD $exepath </dev/null >$lddfile 2>/dev/null
+
+    if test x$? != x0 ; then
+	problem="The binary $1 isn't linked correctly"
+	rpmsolution="Make sure that all its dependencies are installed correctly"
+	debsolution="Make sure that all its dependencies are installed correctly"
+	srcsolution="Recompile $2 and make sure that it links correctly."
+	comment="LDD reported the following:
+`cat $lddfile`
+"
+	problem
+    fi
+
+    IFS="
+"
+
+    use_bonobox=no
+    use_bonobo=no
+
+    for ping in `cat $libfile` ; do
+	libname=`echo "$ping" |sed -e 's,^@@\([^@][^@]*\)@@[^@][^@]*@@,\1,'`
+	libpfx=`echo "$ping" |sed -e 's,^@@[^@][^@]*@@\([^@][^@]*\)@@,\1,'`
+
+	match="`cat $lddfile |grep \"${libname}\.\"`"
+
+	if test x"$match" != x ; then
+	    theirlib="`echo $match |sed -e 's,.*=> \([^ ]*\).*$,\1,'`"
+	    theirdir="`dirname $theirlib`"
+
+	    if test x"$theirdir" != x"$libpfx" ; then
+		problem="The binary $1 is linked against the wrong copy of $libname"
+		rpmsolution="The package owning $libname is probably installed twice. Make sure that it's installed correctly."
+		debsolution="The package owning $libname is probably installed twice. Make sure that it's installed correctly."
+		srcsolution="The package owning $libname is probably installed twice. Make sure that it's installed correctly."
+		comment="The version of $libname in $libpfx was expected"
+		problem
+	    elif test x"$libname" = xlibbonobox ; then
+		use_bonobox=yes
+	    elif test x"$libname" = xlibbonobo ; then
+		use_bonobo=yes
+	    fi
+	fi
+    done
+
+    #rm -f $lddfile
+    IFS="$IFSback"
+
+    if test x"$need_bonobox" = xyes -a x"$use_bonobo" = xyes -a x"$use_bonobox" != xyes ; then
+	problem="The binary $1 is linked against Bonobo but not Bonobo-X"
+	rpmsolution="Get the newest possible version of $2, or install it from source if that fails"
+	debsolution="Get the newest possible version of $2, or install it from source if that fails"
+	srcsolution="Run './config.status --recheck' in $2's source directory and reinstall it"
 	problem
     fi
 }
@@ -211,6 +278,13 @@ check_no_gnorba() {
 	srcsolution="Update $2 and re-run 'configure' in its source directory with the flag '--enable-oaf=yes'."
 	problem
     fi
+}
+
+add_lib_to_check() {
+    #lib = $1
+    #path = $2
+
+    echo "@@${1}@@${2}@@" >>$libfile
 }
 
 ########################################
@@ -364,6 +438,8 @@ ${1}Conf.sh should be installed into `$GNOME_CONFIG --libdir`"
 ########################################
 
 #prep
+libfile=temp-$$-libs-verifier
+
 if test -d /var/lib/rpm ; then
     rpmsystem=yes
     RPM=${RPM_PROG-rpm}
@@ -392,6 +468,22 @@ if test x"$GNOME_PATH" != x ; then
     PATH="$GNOME_PATH:$PATH"
 fi
 
+if test x"$LDD" = x ; then
+    if ldd -r /lib/libc.so </dev/null 1>/dev/null 2>&1 ; then
+	LDD="ldd -r"
+    elif type ldd </dev/null 1>/dev/null 2>&1; then
+	LDD="ldd"
+    else
+	problem="Cannot find ldd"
+	rpmsolution="Make sure that glibc is correctly installed!?!?!?"
+	debsolution="Make sure that glibc is correctly installed!?!?!?"
+	srcsolution="See above"
+	comment="If you think that you have ldd, export an environment
+vairable LDD that points to it."
+	problem
+    fi
+fi
+
 #gnome-libs
 check_config GNOME_CONFIG gnome-config gnome-libs
 
@@ -402,20 +494,25 @@ gl_datadir=`$GNOME_CONFIG --datadir`
 gl_bindir=`$GNOME_CONFIG --bindir`
 
 versionparse3 "$gl_version" "1.0.59" "gnome-libs"
+add_lib_to_check libgnome `$GNOME_CONFIG --libdir`
+add_lib_to_check libgnomeui `$GNOME_CONFIG --libdir`
 
 #libunicode
 check_config UNICODE_CONFIG unicode-config libunicode
 check_prefix UNICODE_CONFIG libunicode
 versionparse2 "`$UNICODE_CONFIG --version`" "0.4" libunicode
+add_lib_to_check libunicode "`$UNICODE_CONFIG --prefix`/lib"
 
 #ORBit
 check_config ORBIT_CONFIG orbit-config ORBit
 check_prefix ORBIT_CONFIG ORBit
+add_lib_to_check libORBit "`$ORBIT_CONFIG --prefix`/lib"
 
 #oaf
 check_config OAF_CONFIG oaf-config oaf
 check_prefix OAF_CONFIG oaf
 versionparse3 "`$OAF_CONFIG --version`" "0.4.0" "oaf"
+add_lib_to_check liboaf "`$OAF_CONFIG --prefix`/lib"
 check_bin oafd
 
 OAF_CLIENT=${OAF_CLIENT-oaf-client}
@@ -435,40 +532,96 @@ oaf_prefix=`$OAF_CONFIG --prefix`
 check_oafinfo oafd oaf
 
 #gconf
-check_config GCONF_CONFIG gconf-config GConf
-check_prefix GCONF_CONFIG GConf
-versionparse2 "`$GCONF_CONFIG --version`" "0.5" GConf
-if type gconfd-1 </dev/null >/dev/null 2>/dev/null; then
-    check_oafinfo gconfd-1 GConf
-    check_bin gconfd-1
-else
-    check_oafinfo gconfd GConf
-    check_bin gconfd
-fi
-check_no_gnorba "`$GCONF_CONFIG --libs`" GConf
+#check_config GCONF_CONFIG gconf-config GConf
+#check_prefix GCONF_CONFIG GConf
+#versionparse2 "`$GCONF_CONFIG --version`" "0.5" GConf
+#if type gconfd-1 </dev/null >/dev/null 2>/dev/null; then
+#    check_oafinfo gconfd-1 GConf
+#    check_bin gconfd-1
+#else
+#    check_oafinfo gconfd GConf
+#    check_bin gconfd
+#fi
+#check_no_gnorba "`$GCONF_CONFIG --libs`" GConf
 
 #gnome vfs
 check_module3 vfs gnome-vfs "0.2.0"
 check_no_gnorba "`$GNOME_CONFIG --libs vfs`" gnome-vfs
+add_lib_to_check libgnomevfs "`$GNOME_CONFIG --libdir vfs`"
 
 #gnome print
 check_module2 print gnome-print "0.20"
 check_no_gnorba "`$GNOME_CONFIG --libs print`" gnome-print
+add_lib_to_check libgnomeprint "`$GNOME_CONFIG --libdir print`"
 
 #bonobo
 check_module2 bonobo bonobo "0.15"
 check_prefix "GNOME_CONFIG bonobo" bonobo strict
+add_lib_to_check libbonobo "`$GNOME_CONFIG --libdir bonobo`"
+
+if gnome-config --modversion bonobox </dev/null 1>/dev/null 2>&1 ; then
+    need_bonobox=yes
+    check_module2 bonobox bonobo "0.16"
+    check_prefix "GNOME_CONFIG bonobox" bonobo strict
+    add_lib_to_check libbonobox "`$GNOME_CONFIG --libdir bonobox`"
+fi
+
 check_oafinfo audio-ulaw bonobo
 check_bin bonobo-audio-ulaw bonobo
 check_no_gnorba "`$GNOME_CONFIG --libs bonobo`" bonobo
 
 #gtkhtml
 check_module2 gtkhtml GtkHTML "0.5"
+add_lib_to_check libgtkhtml "`$GNOME_CONFIG --libdir html`"
 check_oafinfo html-editor-control GtkHTML
 check_bin html-editor-control GtkHTML
 check_no_gnorba "`$GNOME_CONFIG --libs gtkhtml`" GtkHTML
 
 #evolution
+
+if test x"$EVOLUTION_PREFIX" = x ; then
+    IFSback="$IFS"
+    IFS=":"
+    passed=no
+
+    for ping in $PATH ; do
+	if test x"$ping" != x -a -x $ping/evolution ; then
+	    if test x"$passed" = xyes ; then
+		problem="Evolution is installed in more than one prefix"
+		rpmsolution="Make sure that you only have one copy of Evolution installed"
+		debsolution="Make sure that you only have one copy of Evolution installed"
+		srcsolution="Make sure that you only have one copy of Evolution installed"
+		comment="Evolution was probably installed in two different prefixes,
+either from source twice or from source and from RPM/deb. Remove the older copy.
+(Note: \"make uninstall\" works on tarballs but may damage your gettext installation)"
+		problem
+	    else
+		passed=yes
+		e_prefix=$ping
+	    fi
+	fi
+    done
+
+    IFS="$IFSbak"
+
+    if test x"$passed" != xyes ; then
+	problem="Evolution does not appear to have been installed"
+    	rpmsolution="Make sure that Evolution was installed properly (rpm -V evolution)"
+	debsolution="Make sure that Evolution was installed properly"
+	srcsolution="Run 'make install' in the evolution source directory"
+        comment="I couldn't find evolution in this path: $PATH"
+	problem
+    fi
+
+    e_prefix="`echo $e_prefix |sed -e 's,\(.*\)/[^/][^/]*,\1,'`"
+    echo "Guessed that evolution is installed in prefix $e_prefix"
+else
+    e_prefix="$EVOLUTION_PREFIX"
+fi
+
+add_lib_to_check libcal-client "$e_prefix/lib"
+add_lib_to_check libcamel "$e_prefix/lib"
+add_lib_to_check libcamelvee "$e_prefix/lib/evolution/camel-providers/0.3"
 check_oafinfo addressbook evolution
 check_oafinfo calendar-control evolution
 check_oafinfo evolution-mail evolution
@@ -482,5 +635,6 @@ check_bin wombat evolution
 check_bin evolution evolution
 
 #done
+rm -f $libfile
 echo "Your Gnome system appears to be properly set up. Enjoy Evolution!"
 exit 0
