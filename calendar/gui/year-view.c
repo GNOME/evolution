@@ -8,7 +8,8 @@
 
 #include <config.h>
 #include <gtk/gtkmain.h>
-#include <libgnomeui/gnome-canvas-text.h>
+#include <gnome.h>
+#include "eventedit.h"
 #include "year-view.h"
 #include "main.h"
 #include "mark.h"
@@ -155,28 +156,224 @@ need_resize (YearView *yv)
 	yv->idle_id = gtk_idle_add (idle_handler, yv);
 }
 
+/* Callback used to destroy the year view's popup menu when the year view itself is destroyed */
+static void
+destroy_menu (GtkWidget *widget, gpointer data)
+{
+	gtk_widget_destroy (GTK_WIDGET (data));
+}
+
+/* Create a new appointment in the highlighted day from the year view's popup menu */
+static void
+new_appointment (GtkWidget *widget, gpointer data)
+{
+	YearView *yv;
+	GtkWidget *ee;
+	time_t *t;
+	struct tm tm;
+	iCalObject *ico;
+
+	yv = YEAR_VIEW (data);
+
+	/* Get the time data from the menu item */
+
+	t = gtk_object_get_data (GTK_OBJECT (widget), "time_data");
+	tm = *localtime (t);
+
+	ico = ical_new ("", user_name, "");
+	ico->new = TRUE;
+
+	/* Set the start time of the event to the beginning of the day */
+
+	tm.tm_hour = day_begin;
+	tm.tm_min  = 0;
+	tm.tm_sec  = 0;
+	ico->dtstart = mktime (&tm);
+
+	/* Set the end time of the event to the end of the day */
+
+	tm.tm_hour = day_end;
+	ico->dtend = mktime (&tm);
+
+	/* Launch the event editor */
+
+	ee = event_editor_new (yv->calendar, ico);
+	gtk_widget_show (ee);
+}
+
+/* Convenience functions to jump to a view and set the time */
+static void
+do_jump (GtkWidget *widget, gpointer data, char *view_name)
+{
+	YearView *yv;
+	time_t *t;
+
+	yv = YEAR_VIEW (data);
+
+	/* Get the time data from the menu item */
+
+	t = gtk_object_get_data (GTK_OBJECT (widget), "time_data");
+
+	/* Set the view and time */
+
+	gnome_calendar_set_view (yv->calendar, view_name);
+	gnome_calendar_goto (yv->calendar, *t);
+}
+
+/* The following three callbacks set the view in the calendar and change the time */
+
+static void
+jump_to_day (GtkWidget *widget, gpointer data)
+{
+	do_jump (widget, data, "dayview");
+}
+
+static void
+jump_to_week (GtkWidget *widget, gpointer data)
+{
+	do_jump (widget, data, "weekview");
+}
+
+static void
+jump_to_month (GtkWidget *widget, gpointer data)
+{
+	do_jump (widget, data, "monthview");
+}
+
+/* Information for the year view's popup menu */
+static GnomeUIInfo yv_popup_menu[] = {
+	GNOMEUIINFO_ITEM_STOCK ("_New appointment in this day...", NULL, new_appointment, GNOME_STOCK_MENU_NEW),
+
+	GNOMEUIINFO_SEPARATOR,
+
+	GNOMEUIINFO_ITEM_STOCK ("Jump to this _day", NULL, jump_to_day, GNOME_STOCK_MENU_JUMP_TO),
+	GNOMEUIINFO_ITEM_STOCK ("Jump to this _week", NULL, jump_to_week, GNOME_STOCK_MENU_JUMP_TO),
+	GNOMEUIINFO_ITEM_STOCK ("Jump to this _month", NULL, jump_to_month, GNOME_STOCK_MENU_JUMP_TO),
+	GNOMEUIINFO_END
+};
+
+/* Returns the popup menu cooresponding to the specified year view.  If the menu has not been
+ * created yet, it creates it and attaches it to the year view.
+ */
+static GtkWidget *
+get_popup_menu (YearView *yv)
+{
+	GtkWidget *menu;
+
+	menu = gtk_object_get_data (GTK_OBJECT (yv), "popup_menu");
+
+	if (!menu) {
+		menu = gnome_popup_menu_new (yv_popup_menu);
+		gtk_object_set_data (GTK_OBJECT (yv), "popup_menu", menu);
+		gtk_signal_connect (GTK_OBJECT (yv), "destroy",
+				    (GtkSignalFunc) destroy_menu,
+				    menu);
+	}
+
+	return menu;
+}
+
+/* Executes the year view's popup menu.  It may disable/enable some menu items based on the
+ * specified flags.  A pointer to a time_t value containing the specified time data is set in the
+ * "time_data" object data key of the menu items.
+ */
+static void
+do_popup_menu (YearView *yv, GdkEventButton *event, int allow_new, int allow_day, int allow_week, int allow_month,
+	       int year, int month, int day)
+{
+	GtkWidget *menu;
+	static time_t t;
+
+	menu = get_popup_menu (yv);
+
+	/* Enable/disable items as appropriate */
+
+	gtk_widget_set_sensitive (yv_popup_menu[0].widget, allow_new);
+	gtk_widget_set_sensitive (yv_popup_menu[2].widget, allow_day);
+	gtk_widget_set_sensitive (yv_popup_menu[3].widget, allow_week);
+	gtk_widget_set_sensitive (yv_popup_menu[4].widget, allow_month);
+
+	/* Set the day item relevant to the context */
+
+	t = time_from_day (year, month, day);
+
+	gtk_object_set_data (GTK_OBJECT (yv_popup_menu[0].widget), "time_data", &t);
+	gtk_object_set_data (GTK_OBJECT (yv_popup_menu[2].widget), "time_data", &t);
+	gtk_object_set_data (GTK_OBJECT (yv_popup_menu[3].widget), "time_data", &t);
+	gtk_object_set_data (GTK_OBJECT (yv_popup_menu[4].widget), "time_data", &t);
+
+	gnome_popup_menu_do_popup (menu, NULL, NULL, event, yv);
+}
+
 /* Event handler for days in the year's month items */
 static gint
 day_event (GnomeCanvasItem *item, GdkEvent *event, gpointer data)
 {
 	YearView *yv;
-	GnomeCanvasItem *mitem;
+	GnomeMonthItem *mitem;
 	int child_num, day;
 
-	mitem = data;
-	child_num = gnome_month_item_child2num (GNOME_MONTH_ITEM (mitem), item);
-	day = gnome_month_item_num2day (GNOME_MONTH_ITEM (mitem), child_num);
+	mitem = GNOME_MONTH_ITEM (data);
+	child_num = gnome_month_item_child2num (mitem, item);
+	day = gnome_month_item_num2day (mitem, child_num);
 
-	yv = gtk_object_get_user_data (GTK_OBJECT (mitem));
+	yv = YEAR_VIEW (item->canvas);
 
 	switch (event->type) {
 	case GDK_BUTTON_PRESS:
-		if ((event->button.button == 1) && (day != 0))
+		if (day == 0)
+			break;
+
+		if (event->button.button == 1) {
 			gnome_calendar_dayjump (yv->calendar,
-						time_from_day (GNOME_MONTH_ITEM (mitem)->year,
-							       GNOME_MONTH_ITEM (mitem)->month,
+						time_from_day (mitem->year,
+							       mitem->month,
 							       day));
+			return TRUE;
+		} else if (event->button.button == 3) {
+			do_popup_menu (yv, (GdkEventButton *) event, TRUE, TRUE, TRUE, TRUE,
+				       mitem->year, mitem->month, day);
+
+			/* We have to stop the signal emission because mark.c will grab it too and
+			 * set the return value to FALSE.  Blargh.
+			 */
+			gtk_signal_emit_stop_by_name (GTK_OBJECT (item), "event");
+			return TRUE;
+		}
+
 		break;
+
+	default:
+		break;
+	}
+
+	return FALSE;
+}
+
+/* Event handler for whole month items */
+static gint
+month_event (GnomeCanvasItem *item, GdkEvent *event, gpointer data)
+{
+	YearView *yv;
+	GnomeMonthItem *mitem;
+
+	mitem = GNOME_MONTH_ITEM (item);
+
+	yv = YEAR_VIEW (item->canvas);
+
+	switch (event->type) {
+	case GDK_BUTTON_PRESS:
+		if (event->button.button != 3)
+			break;
+
+		do_popup_menu (yv, (GdkEventButton *) event, FALSE, FALSE, FALSE, TRUE,
+			       mitem->year, mitem->month, 1);
+
+		/* We have to stop the signal emission because mark.c will grab it too and
+		 * set the return value to FALSE.  Blargh.
+		 */
+		gtk_signal_emit_stop_by_name (GTK_OBJECT (item), "event");
+		return TRUE;
 
 	default:
 		break;
@@ -195,7 +392,7 @@ setup_month_item (YearView *yv, int n)
 
 	mitem = yv->mitems[n];
 
-	/* Connect signals */
+	/* Connect the day signals */
 
 	for (i = 0; i < 42; i++) {
 		item = gnome_month_item_num2child (GNOME_MONTH_ITEM (mitem), GNOME_MONTH_ITEM_DAY_GROUP + i);
@@ -203,6 +400,12 @@ setup_month_item (YearView *yv, int n)
 				    (GtkSignalFunc) day_event,
 				    mitem);
 	}
+
+	/* Connect the month signals */
+
+	gtk_signal_connect (GTK_OBJECT (mitem), "event",
+			    (GtkSignalFunc) month_event,
+			    NULL);
 }
 
 static void
@@ -242,7 +445,6 @@ year_view_init (YearView *yv)
 		/* Month item */
 
 		yv->mitems[i] = gnome_month_item_new (gnome_canvas_root (GNOME_CANVAS (yv)));
-		gtk_object_set_user_data (GTK_OBJECT (yv->mitems[i]), yv);
 		gnome_canvas_item_set (yv->mitems[i],
 				       "anchor", GTK_ANCHOR_NW,
 				       "start_on_monday", week_starts_on_monday,

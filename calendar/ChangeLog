@@ -1,3 +1,15 @@
+1998-09-24  Federico Mena Quintero  <federico@nuclecu.unam.mx>
+
+	* year-view.c (do_popup_menu): New function to execute the popup
+	menu in the year view.
+	(day_event): Invoke the popup menu with the context set to days.
+	(new_appointment): New function to create a new appointment from
+	the year view.
+	(do_jump): New function to do the appropriate view/date jumping
+	from the popup menu.
+
+	* main.c: Fixed two icons in the File menu.
+
 1998-09-21  Federico Mena Quintero  <federico@nuclecu.unam.mx>
 
 	* main.c: Added underlined shortcuts and accelerators to the main menu.
