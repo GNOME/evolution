@@ -1083,7 +1083,7 @@ imap4_build_folder_info (CamelStore *store, const char *top, guint32 flags, GPtr
 		
 		fi->full_name = name;
 		fi->name = g_strdup (p ? p + 1: name);
-		fi->uri = camel_url_to_string (url, 0);
+		fi->uri = camel_url_to_string (url, CAMEL_URL_HIDE_ALL);
 		fi->flags = list->flags;
 		fi->unread = -1;
 		fi->total = -1;

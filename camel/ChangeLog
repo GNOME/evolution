@@ -1,3 +1,11 @@
+2004-06-23  Jeffrey Stedfast  <fejj@novell.com>
+
+	* providers/imap4/camel-imap4-store.c (imap4_build_folder_info):
+	Hide password, etc info in the fi->uri's.
+
+	* providers/imap4/camel-imap4-provider.c: Specify that the
+	fragment is the path.
+
 2004-06-21  Christian Kellner <gicmo@xatom.net>
 
 	* camel-service.c (service_setv): Really set the path if tag is 
