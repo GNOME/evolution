@@ -135,6 +135,19 @@ esb_menubar_activated(GtkWidget *widget, ESearchBar *esb)
 }
 
 static void
+esb_check_labels(GtkWidget *widget, gpointer data)
+{
+	if (GTK_IS_LABEL(widget)) {
+		char *text;
+		gtk_object_get(GTK_OBJECT(widget),
+			       "label", &text,
+			       NULL);
+		gtk_label_parse_uline(GTK_LABEL(widget), text);
+		g_free(text);
+	}
+}
+
+static void
 esb_pack_menubar(ESearchBar *esb, ESearchBarItem *items)
 {
 	GtkWidget *menu, *menuitem;
@@ -144,7 +157,10 @@ esb_pack_menubar(ESearchBar *esb, ESearchBarItem *items)
 	for (i = 0; items[i].id != -1; i++) {
 		GtkWidget *item;
 
-		item = gtk_menu_item_new_with_label (_(items[i].text));
+		if (items[i].text)
+			item = gtk_menu_item_new_with_label (_(items[i].text));
+		else
+			item = gtk_menu_item_new();
 
 		gtk_menu_append (GTK_MENU (menu), item);
 
@@ -156,7 +172,8 @@ esb_pack_menubar(ESearchBar *esb, ESearchBarItem *items)
 	}
 	gtk_widget_show_all (menu);
 
-	menuitem = gnome_stock_menu_item(GNOME_STOCK_MENU_SEARCH, _("Search"));
+	menuitem = gnome_stock_menu_item(GNOME_STOCK_MENU_SEARCH, _("Sear_ch"));
+	e_container_foreach_leaf(GTK_CONTAINER(menuitem), esb_check_labels);
 	gtk_menu_item_set_submenu(GTK_MENU_ITEM(menuitem), menu);
 
 	gtk_widget_show (menuitem);
@@ -190,7 +207,10 @@ esb_pack_option_menu(ESearchBar *esb, ESearchBarItem *items)
 	for (i = 0; items[i].id != -1; i++) {
 		GtkWidget *item;
 
-		item = gtk_menu_item_new_with_label (_(items[i].text));
+		if (items[i].text)
+			item = gtk_menu_item_new_with_label (_(items[i].text));
+		else
+			item = gtk_menu_item_new();
 
 		gtk_menu_append (GTK_MENU (menu), item);
 
