@@ -333,9 +333,6 @@ ecp_event (ECellView *ecv, GdkEvent *event, int model_col, int view_col,
 			width = e_table_header_col_diff (eti->header, view_col,
 							 view_col + 1);
 
-			g_print ("Event in item popup width: %i button: %g,%g\n",
-				 width, event->button.x, event->button.y);
-
 			/* FIXME: The event coords seem to be relative to the
 			   text within the cell, so we have to add 4. */
 			if (event->button.x + 4 >= width - E_CELL_POPUP_ARROW_WIDTH) {
@@ -347,10 +344,8 @@ ecp_event (ECellView *ecv, GdkEvent *event, int model_col, int view_col,
 		if (e_table_model_is_cell_editable (ecv->e_table_model, model_col, row) &&
 		    event->key.state & GDK_MOD1_MASK
 		    && event->key.keyval == GDK_Down) {
-			g_print ("## Alt-Down pressed\n");
 			return e_cell_popup_do_popup (ecp_view, event, row, view_col);
 		}
-		g_print ("Key Press Event ECellPopup\n");
 		break;
 	default:
 		break;
@@ -381,9 +376,6 @@ ecp_enter_edit (ECellView *ecv, int model_col, int view_col, int row)
 {
 	ECellPopupView *ecp_view = (ECellPopupView *) ecv;
 
-	g_print ("In ecp_enter_edit model_col: %i view_col: %i row: %i\n",
-		 model_col, view_col, row);
-
 	return e_cell_enter_edit (ecp_view->child_view, model_col, view_col, row);
 }
 
@@ -396,9 +388,6 @@ ecp_leave_edit (ECellView *ecv, int model_col, int view_col, int row,
 		void *edit_context)
 {
 	ECellPopupView *ecp_view = (ECellPopupView *) ecv;
-
-	g_print ("In ecp_leave_edit model_col: %i view_col: %i row: %i\n",
-		 model_col, view_col, row);
 
 	e_cell_leave_edit (ecp_view->child_view, model_col, view_col, row,
 			   edit_context);

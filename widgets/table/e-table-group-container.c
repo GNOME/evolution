@@ -947,7 +947,7 @@ etgc_class_init (GObjectClass *object_class)
 					 g_param_spec_int ("length_threshold",
 							   _( "Length Threshold" ),
 							   _( "Length Threshold" ),
-							   0, G_MAXINT, 0,
+							   -1, G_MAXINT, 0,
 							   G_PARAM_READWRITE));
 
 	g_object_class_install_property (object_class, PROP_UNIFORM_ROW_HEIGHT,
