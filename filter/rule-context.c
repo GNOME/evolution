@@ -209,7 +209,7 @@ rule_context_new(void)
 }
 
 void
-rule_context_add_part_set(RuleContext *rc, const char *setname, int part_type, RCPartFunc append, RCNextPartFunc next)
+rule_context_add_part_set(RuleContext *rc, const char *setname, GType part_type, RCPartFunc append, RCNextPartFunc next)
 {
 	struct _part_set_map *map;
 	
@@ -226,7 +226,7 @@ rule_context_add_part_set(RuleContext *rc, const char *setname, int part_type, R
 }
 
 void
-rule_context_add_rule_set(RuleContext *rc, const char *setname, int rule_type, RCRuleFunc append, RCNextRuleFunc next)
+rule_context_add_rule_set(RuleContext *rc, const char *setname, GType rule_type, RCRuleFunc append, RCNextRuleFunc next)
 {
 	struct _rule_set_map *map;
 	

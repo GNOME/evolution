@@ -85,14 +85,14 @@ typedef FilterRule * (*RCNextRuleFunc) (RuleContext *rc, FilterRule *rule, const
 
 struct _part_set_map {
 	char *name;
-	int type;
+	GType type;
 	RCPartFunc append;
 	RCNextPartFunc next;
 };
 
 struct _rule_set_map {
 	char *name;
-	int type;
+	GType type;
 	RCRuleFunc append;
 	RCNextRuleFunc next;
 };
@@ -122,9 +122,9 @@ void rule_context_rank_rule (RuleContext *rc, FilterRule *rule, const char *sour
 int rule_context_get_rank_rule (RuleContext *rc, FilterRule *rule, const char *source);
 
 /* setup type for set parts */
-void rule_context_add_part_set (RuleContext *rc, const char *setname, int part_type,
+void rule_context_add_part_set (RuleContext *rc, const char *setname, GType part_type,
 				RCPartFunc append, RCNextPartFunc next);
-void rule_context_add_rule_set (RuleContext *rc, const char *setname, int rule_type,
+void rule_context_add_rule_set (RuleContext *rc, const char *setname, GType rule_type,
 				RCRuleFunc append, RCNextRuleFunc next);
 
 /* uri's disappear/renamed externally */
