@@ -570,7 +570,7 @@ msgstr "Jakékoliv políèko obsahuje"
 
 #: addressbook/gui/component/addressbook.c:780
 msgid "Advanced..."
-msgstr "Pokroèilý..."
+msgstr "Pokroèilé..."
 
 #. All, unmatched, separator
 #: addressbook/gui/component/addressbook.c:1008
@@ -599,7 +599,7 @@ msgstr "Hlavní e-mail"
 
 #: addressbook/gui/component/e-address-popup.c:587
 msgid "Select an Action"
-msgstr "Vybrat èinnost"
+msgstr "Vybrat akci"
 
 #: addressbook/gui/component/e-address-popup.c:593
 #, c-format
@@ -866,7 +866,7 @@ msgstr "_Rozsah vyhledávání: "
 #: calendar/gui/calendar-model.c:1984 calendar/gui/e-day-view.c:1701
 #: calendar/gui/e-week-view.c:1213
 msgid "Searching"
-msgstr ""
+msgstr "Vyhledávání"
 
 #: addressbook/gui/component/ldap-config.glade.h:51
 msgid "Select"
@@ -2703,7 +2703,7 @@ msgstr "Pokroèilé vyhledávání"
 #: addressbook/gui/search/e-addressbook-search-dialog.c:151
 #: mail/mail-search.c:263
 msgid "Search"
-msgstr "Hledat"
+msgstr "Vyhledat"
 
 #: addressbook/gui/widgets/e-addressbook-model.c:137
 msgid "No cards"
@@ -2947,7 +2947,7 @@ msgstr "Pøedbì¾ná nastavení..."
 #: addressbook/gui/widgets/e-addressbook-view.c:889
 #: ui/evolution-addressbook.xml.h:12
 msgid "Forward Contact"
-msgstr "Pøedat kontakt"
+msgstr "Pøeposlat kontakt"
 
 #: addressbook/gui/widgets/e-addressbook-view.c:890
 msgid "Send Message to Contact"
@@ -5050,9 +5050,7 @@ msgstr "Neznámá osoba"
 msgid ""
 "<br> Please review the following information, and then select an action from "
 "the menu below."
-msgstr ""
-"Prohlédnìte si, prosím, následující informaci a poté vyberte èinnost z "
-"uvedené nabídky"
+msgstr "Prohlédnìte si, prosím, následující informaci a poté vyberte akci z uvedené nabídky"
 
 #: calendar/gui/e-itip-control.c:891
 msgid "<i>None</i>"
@@ -5093,7 +5091,7 @@ msgstr "Neznámá"
 #: calendar/gui/e-itip-control.c:1025 calendar/gui/e-itip-control.c:1038
 #: calendar/gui/e-itip-control.c:1051 calendar/gui/e-itip-control.c:1064
 msgid "Choose an action:"
-msgstr "Vybrat èinnost:"
+msgstr "Vybrat akci:"
 
 #: calendar/gui/e-itip-control.c:972
 msgid "Update"
@@ -9441,7 +9439,7 @@ msgstr ""
 
 #: camel/providers/smtp/camel-smtp-transport.c:664
 msgid "Cannot send message: sender address not valid."
-msgstr ""
+msgstr "Zprávu nelze poslat: adresa odesílatele je neplatná."
 
 #: camel/providers/smtp/camel-smtp-transport.c:669 mail/mail-ops.c:607
 msgid "Sending message"
@@ -9449,11 +9447,11 @@ msgstr "Posílám zprávu"
 
 #: camel/providers/smtp/camel-smtp-transport.c:680
 msgid "Cannot send message: no recipients defined."
-msgstr ""
+msgstr "Nelze poslat zprávu: nebyli urèeni pøíjemci."
 
 #: camel/providers/smtp/camel-smtp-transport.c:690
 msgid "Cannot send message: one or more invalid recipients"
-msgstr ""
+msgstr "Nelze poslat zprávu: jeden nebo více neplatných pøíjemcù"
 
 #: camel/providers/smtp/camel-smtp-transport.c:840
 msgid "SMTP Greeting"
@@ -9650,7 +9648,7 @@ msgstr "Komu:"
 
 #: composer/e-msg-composer-hdrs.c:395
 msgid "Enter the recipients of the message"
-msgstr ""
+msgstr "Vyplnit pøíjemce zprávy"
 
 #: composer/e-msg-composer-hdrs.c:398
 msgid "Cc:"
@@ -9821,11 +9819,11 @@ msgstr ""
 
 #: default_user/searches.xml.h:5
 msgid "Recipients contain"
-msgstr ""
+msgstr "Pøíjemci obsahují"
 
 #: default_user/searches.xml.h:6
 msgid "Sender contains"
-msgstr ""
+msgstr "Odesílatel obsahuje"
 
 #: default_user/searches.xml.h:7
 msgid "Subject contains"
@@ -10076,7 +10074,7 @@ msgstr ""
 
 #: filter/filter-filter.c:502
 msgid "Add action"
-msgstr ""
+msgstr "Pøidat akci"
 
 #: filter/filter-folder.c:147
 msgid ""
@@ -10110,7 +10108,7 @@ msgstr ""
 
 #: filter/filter-rule.c:721
 msgid "Rule name: "
-msgstr ""
+msgstr "Název pravidla: "
 
 #: filter/filter-rule.c:725
 msgid "Untitled"
@@ -10118,35 +10116,35 @@ msgstr "Bez názvu"
 
 #: filter/filter-rule.c:742
 msgid "If"
-msgstr ""
+msgstr "Pokud"
 
 #: filter/filter-rule.c:760
 msgid "Execute actions"
-msgstr ""
+msgstr "Provést akce"
 
 #: filter/filter-rule.c:764
 msgid "if all criteria are met"
-msgstr ""
+msgstr "pokud souhlasí v¹echna kritéria"
 
 #: filter/filter-rule.c:769
 msgid "if any criteria are met"
-msgstr ""
+msgstr "pokud souhlasí nìkterá kritéria"
 
 #: filter/filter-rule.c:780
 msgid "Add criterion"
-msgstr ""
+msgstr "Pøidat kritérium"
 
 #: filter/filter-rule.c:865
 msgid "incoming"
-msgstr ""
+msgstr "pøíchozí"
 
 #: filter/filter-rule.c:865
 msgid "outgoing"
-msgstr ""
+msgstr "odchozí"
 
 #: filter/filter.glade.h:1
 msgid "Edit Filters"
-msgstr ""
+msgstr "Editovat filtry"
 
 #: filter/filter.glade.h:2
 msgid "Edit VFolders"
@@ -10154,11 +10152,11 @@ msgstr ""
 
 #: filter/filter.glade.h:4
 msgid "Incoming"
-msgstr ""
+msgstr "Pøíchozí"
 
 #: filter/filter.glade.h:5
 msgid "Outgoing"
-msgstr ""
+msgstr "Odchozí"
 
 #: filter/filter.glade.h:6 filter/vfolder-editor.c:130
 msgid "Virtual Folders"
@@ -10215,43 +10213,43 @@ msgstr "obsahuje"
 
 #: filter/libfilter-i18n.h:9
 msgid "Copy to Folder"
-msgstr ""
+msgstr "Kopírovat do slo¾ky"
 
 #: filter/libfilter-i18n.h:10
 msgid "Date received"
-msgstr ""
+msgstr "Datum pøijetí"
 
 #: filter/libfilter-i18n.h:11
 msgid "Date sent"
-msgstr ""
+msgstr "Datum odeslání"
 
 #: filter/libfilter-i18n.h:13
 msgid "Deleted"
-msgstr ""
+msgstr "Smazáno"
 
 #: filter/libfilter-i18n.h:14
 msgid "does not contain"
-msgstr ""
+msgstr "neobsahuje"
 
 #: filter/libfilter-i18n.h:15
 msgid "does not end with"
-msgstr ""
+msgstr "nekonèí na"
 
 #: filter/libfilter-i18n.h:16
 msgid "does not exist"
-msgstr ""
+msgstr "neexistuje"
 
 #: filter/libfilter-i18n.h:17
 msgid "does not sound like"
-msgstr ""
+msgstr "nezní jako"
 
 #: filter/libfilter-i18n.h:18
 msgid "does not start with"
-msgstr ""
+msgstr "nezaèíná na"
 
 #: filter/libfilter-i18n.h:19
 msgid "Do Not Exist"
-msgstr ""
+msgstr "Neexistuje"
 
 #: filter/libfilter-i18n.h:20
 msgid "Draft"
@@ -10271,11 +10269,11 @@ msgstr ""
 
 #: filter/libfilter-i18n.h:24
 msgid "exists"
-msgstr ""
+msgstr "existuje"
 
 #: filter/libfilter-i18n.h:25
 msgid "Expression"
-msgstr ""
+msgstr "Výraz"
 
 #: filter/libfilter-i18n.h:26
 msgid "Follow Up"
@@ -10348,7 +10346,7 @@ msgstr "Èíst"
 
 #: filter/libfilter-i18n.h:43
 msgid "Recipients"
-msgstr ""
+msgstr "Pøíjemci"
 
 #: filter/libfilter-i18n.h:44
 msgid "Regex Match"
@@ -10356,7 +10354,7 @@ msgstr ""
 
 #: filter/libfilter-i18n.h:45
 msgid "Replied to"
-msgstr ""
+msgstr "Odpovìzeno komu:"
 
 #: filter/libfilter-i18n.h:46 filter/score-rule.c:204 filter/score-rule.c:206
 #: mail/message-list.etspec.h:9
@@ -10365,7 +10363,7 @@ msgstr "Skóre"
 
 #: filter/libfilter-i18n.h:47 mail/mail-callbacks.c:1578
 msgid "Sender"
-msgstr ""
+msgstr "Odesílatel"
 
 #: filter/libfilter-i18n.h:48
 msgid "Set Status"
@@ -10804,7 +10802,7 @@ msgstr "_Tisk"
 
 #: mail/folder-browser.c:1683 ui/evolution-mail-message.xml.h:109
 msgid "_Reply to Sender"
-msgstr ""
+msgstr "_Odpovìdìt odesílateli"
 
 #: mail/folder-browser.c:1684 ui/evolution-mail-message.xml.h:73
 msgid "Reply to _List"
@@ -10812,11 +10810,11 @@ msgstr ""
 
 #: mail/folder-browser.c:1685 ui/evolution-mail-message.xml.h:72
 msgid "Reply to _All"
-msgstr ""
+msgstr "Odpovìdìt _v¹em"
 
 #: mail/folder-browser.c:1686
 msgid "_Forward"
-msgstr "_Dopøedu"
+msgstr "_Pøeposlat"
 
 #: mail/folder-browser.c:1690
 msgid "Follo_w Up..."
@@ -10861,7 +10859,7 @@ msgstr ""
 
 #: mail/folder-browser.c:1717
 msgid "Add Sender to Address_book"
-msgstr ""
+msgstr "Pøidat odesílatele do _adresáøe"
 
 #: mail/folder-browser.c:1721
 msgid "Appl_y Filters"
@@ -11100,7 +11098,7 @@ msgstr ""
 
 #: mail/mail-callbacks.c:300
 msgid "This message contains only Bcc recipients."
-msgstr ""
+msgstr "Tato zpráva je urèena pouze skrytým pøíjemcùm."
 
 #: mail/mail-callbacks.c:304
 msgid ""
@@ -11111,7 +11109,7 @@ msgstr ""
 
 #: mail/mail-callbacks.c:409
 msgid "You must specify recipients in order to send this message."
-msgstr ""
+msgstr "Aby mohla být tato zpráva odeslána, je nutné urèit pøíjemce."
 
 #: mail/mail-callbacks.c:498
 msgid "You must configure an account before you can send this email."
@@ -11125,7 +11123,7 @@ msgstr ""
 
 #: mail/mail-callbacks.c:1003
 msgid "an unknown sender"
-msgstr ""
+msgstr "neznámý odesílatel"
 
 #: mail/mail-callbacks.c:1007
 msgid "On %a, %Y-%m-%d at %H:%M, %%s wrote:"
@@ -11798,7 +11796,7 @@ msgstr ""
 
 #: mail/mail-config.glade.h:144
 msgid "_Create Signature"
-msgstr ""
+msgstr "_Vytvoøit podpis"
 
 #: mail/mail-config.glade.h:145
 msgid "_Default signature:"
@@ -12230,7 +12228,7 @@ msgstr ""
 
 #: mail/mail-ops.c:1208
 msgid "Forwarded messages"
-msgstr ""
+msgstr "Pøeposlané zprávy"
 
 #: mail/mail-ops.c:1251
 #, c-format
@@ -12322,23 +12320,23 @@ msgstr ""
 
 #: mail/mail-search-dialogue.c:113 widgets/misc/e-search-bar.c:506
 msgid "_Search"
-msgstr ""
+msgstr "_Vyhledávání"
 
 #: mail/mail-search.c:137
 msgid "(Untitled Message)"
-msgstr ""
+msgstr "(Neoznaèená zpráva)"
 
 #: mail/mail-search.c:240
 msgid "Untitled Message"
-msgstr ""
+msgstr "Neoznaèená zpráva"
 
 #: mail/mail-search.c:244
 msgid "Empty Message"
-msgstr ""
+msgstr "Prázdná zpráva"
 
 #: mail/mail-search.c:291
 msgid "Find in Message"
-msgstr ""
+msgstr "Najít ve zprávì"
 
 #: mail/mail-search.c:321
 msgid "Case Sensitive"
@@ -12415,7 +12413,7 @@ msgstr ""
 
 #: mail/mail-signature-editor.c:172
 msgid "Save signature"
-msgstr ""
+msgstr "Ulo¾it podpis"
 
 #: mail/mail-signature-editor.c:178
 msgid ""
@@ -12594,7 +12592,7 @@ msgstr ""
 
 #: mail/message-tag-followup.c:61 ui/evolution-mail-message.xml.h:36
 msgid "Forward"
-msgstr "Vpøed"
+msgstr "Pøeposlat"
 
 #: mail/message-tag-followup.c:62
 msgid "No Response Necessary"
@@ -12602,11 +12600,11 @@ msgstr ""
 
 #: mail/message-tag-followup.c:64 ui/evolution-mail-message.xml.h:70
 msgid "Reply"
-msgstr ""
+msgstr "Odpovìdìt"
 
 #: mail/message-tag-followup.c:65 ui/evolution-mail-message.xml.h:71
 msgid "Reply to All"
-msgstr ""
+msgstr "Odpovìdìt v¹em"
 
 #: mail/message-tag-followup.c:66
 msgid "Review"
@@ -25041,7 +25039,7 @@ msgstr ""
 #: ui/evolution-mail-messagedisplay.xml.h:4 ui/evolution-task-editor.xml.h:9
 #: ui/evolution-tasks.xml.h:14 ui/evolution.xml.h:39
 msgid "_Actions"
-msgstr ""
+msgstr "_Akce"
 
 #: ui/evolution-addressbook.xml.h:33
 msgid "_Contact List"
@@ -25049,7 +25047,7 @@ msgstr ""
 
 #: ui/evolution-addressbook.xml.h:37 ui/evolution-contact-editor.xml.h:13
 msgid "_Forward Contact..."
-msgstr ""
+msgstr "_Pøeposlat kontakt..."
 
 #: ui/evolution-addressbook.xml.h:38
 msgid "_Move to Folder..."
@@ -25186,7 +25184,7 @@ msgstr "Zapsat jako..."
 #: ui/evolution-contact-list-editor.xml.h:6
 #: ui/evolution-signature-editor.xml.h:6
 msgid "Save and Close"
-msgstr ""
+msgstr "Ulo¾it a zavøít"
 
 #: ui/evolution-comp-editor.xml.h:15
 msgid "Save the item and close the dialog box"
@@ -25232,11 +25230,11 @@ msgstr "_Ulo¾it"
 
 #: ui/evolution-contact-list-editor.xml.h:3
 msgid "Delete this list"
-msgstr ""
+msgstr "Smazat tento seznam"
 
 #: ui/evolution-contact-list-editor.xml.h:4
 msgid "Delete..."
-msgstr ""
+msgstr "Smazat..."
 
 #: ui/evolution-contact-list-editor.xml.h:7
 msgid "Save the list and close the dialog box"
@@ -25252,7 +25250,7 @@ msgstr ""
 
 #: ui/evolution-event-editor.xml.h:1
 msgid "Cancel Mee_ting"
-msgstr ""
+msgstr "Zru¹it _schùzku"
 
 #: ui/evolution-event-editor.xml.h:2
 msgid "Cancel the meeting for this item"
@@ -25457,7 +25455,7 @@ msgstr ""
 
 #: ui/evolution-mail-message.xml.h:1
 msgid "A_dd Sender to Addressbook"
-msgstr ""
+msgstr "Pøidat _odesílatele do adresáøe"
 
 #: ui/evolution-mail-message.xml.h:2
 msgid "A_pply Filters"
@@ -25465,7 +25463,7 @@ msgstr ""
 
 #: ui/evolution-mail-message.xml.h:3
 msgid "Add Sender to Addressbook"
-msgstr ""
+msgstr "Pøidat odesílatele do adresáøe"
 
 #: ui/evolution-mail-message.xml.h:4
 msgid "Apply filter rules to the selected messages"
@@ -25473,7 +25471,7 @@ msgstr ""
 
 #: ui/evolution-mail-message.xml.h:5
 msgid "Compose a reply to all of the recipients of the selected message"
-msgstr ""
+msgstr "Napsat odpovìï v¹em pøíjemcùm vybrané zprávy"
 
 #: ui/evolution-mail-message.xml.h:6
 msgid "Compose a reply to the mailing list of the selected message"
@@ -25481,11 +25479,11 @@ msgstr ""
 
 #: ui/evolution-mail-message.xml.h:7
 msgid "Compose a reply to the sender of the selected message"
-msgstr ""
+msgstr "Napsat odpovìï odesílateli vybrané zprávy"
 
 #: ui/evolution-mail-message.xml.h:9
 msgid "Copy selected messages to another folder"
-msgstr ""
+msgstr "Kopírovat vybrané zprávy do jiné slo¾ky"
 
 #: ui/evolution-mail-message.xml.h:10
 msgid "Create _Virtual Folder From Message"
@@ -25789,7 +25787,7 @@ msgstr ""
 
 #: ui/evolution-mail-message.xml.h:97
 msgid "_Forward Message"
-msgstr ""
+msgstr "_Pøeposlat zprávu"
 
 #: ui/evolution-mail-message.xml.h:98
 msgid "_Go To"
@@ -25833,11 +25831,11 @@ msgstr ""
 
 #: ui/evolution-mail-message.xml.h:111 ui/evolution.xml.h:58
 msgid "_Tools"
-msgstr ""
+msgstr "_Nástroje"
 
 #: ui/evolution-mail-message.xml.h:112
 msgid "_Undelete"
-msgstr "Smazat"
+msgstr ""
 
 #: ui/evolution-mail-messagedisplay.xml.h:2 ui/evolution.xml.h:5
 msgid "Close this window"
@@ -25857,7 +25855,7 @@ msgstr "_Zobrazení"
 
 #: ui/evolution-message-composer.xml.h:1
 msgid "Attach"
-msgstr ""
+msgstr "Pøíloha"
 
 #: ui/evolution-message-composer.xml.h:4 ui/evolution-signature-editor.xml.h:2
 msgid "Close the current file"
@@ -25865,7 +25863,7 @@ msgstr "Uzavøít aktuální soubor"
 
 #: ui/evolution-message-composer.xml.h:5
 msgid "Delete all but signature"
-msgstr ""
+msgstr "Smazat v¹e kromì podpisu"
 
 #: ui/evolution-message-composer.xml.h:6
 msgid "Encrypt this message with PGP"
@@ -25881,7 +25879,7 @@ msgstr "Pøedformátované"
 
 #: ui/evolution-message-composer.xml.h:9 ui/evolution-signature-editor.xml.h:4
 msgid "H_TML"
-msgstr ""
+msgstr "H_TML"
 
 #: ui/evolution-message-composer.xml.h:10
 msgid "Inline Text _File..."
@@ -25897,7 +25895,7 @@ msgstr ""
 
 #: ui/evolution-message-composer.xml.h:13
 msgid "Open"
-msgstr "Otevøení"
+msgstr "Otevøít"
 
 #: ui/evolution-message-composer.xml.h:14
 msgid "Open a file"
@@ -26527,7 +26525,7 @@ msgstr ""
 
 #: widgets/misc/e-filter-bar.h:93 widgets/misc/e-filter-bar.h:100
 msgid "_Advanced..."
-msgstr "_Pokroèilý..."
+msgstr "_Pokroèilé..."
 
 #: widgets/misc/e-messagebox.c:152
 msgid "Information"
@@ -26552,11 +26550,11 @@ msgstr "Pøí¹tì tuto zprávu nezobrazovat."
 
 #: widgets/misc/e-search-bar.c:512
 msgid "_Find Now"
-msgstr ""
+msgstr "_Vyhledat"
 
 #: widgets/misc/e-search-bar.c:513
 msgid "_Clear"
-msgstr "Vy_prázdnit"
+msgstr "Vy_mazat"
 
 #: widgets/misc/e-search-bar.c:875
 msgid "Clear"
@@ -26564,7 +26562,7 @@ msgstr "Vymazat"
 
 #: widgets/misc/e-search-bar.c:877
 msgid "Find Now"
-msgstr ""
+msgstr "Vyhledat"
 
 #: wombat/GNOME_Evolution_WombatLDAP.oaf.in.h:1
 #: wombat/GNOME_Evolution_WombatNOLDAP.oaf.in.h:1
@@ -26639,7 +26637,7 @@ msgstr ""
 #~ msgstr "Pøidej adresáø"
 
 #~ msgid "Advanced"
-#~ msgstr "Pokroèilý"
+#~ msgstr "Pokroèilé"
 
 #~ msgid "Base"
 #~ msgstr "Základ"
