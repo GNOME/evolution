@@ -13,7 +13,7 @@ CFLAGS += -Wall -Wunused -Wpointer-arith -Wmissing-declarations
 INCLUDES = 			\
 	-I$(includedir)					\
 	$(GNOME_INCLUDEDIR)				\
-	$(CONDUIT_INCLUDEDIR)				\
+	$(GNOME_CONDUIT_INCLUDEDIR)				\
         -DGNOMELOCALEDIR=\""$(datadir)/locale"\"
 
 bin_PROGRAMS = gnomecal calendar-pilot-sync 
@@ -114,8 +114,7 @@ calendar_conduits_LTLIBRARIES = \
 	libcalendar_conduit.la
 
 libcalendar_conduit_la_LIBADD = \
-	$(CONDUIT_LIBDIR) \
-	$(CONDUIT_LIBS) \
+	$(GNOME_CONDUIT_LIBS) \
 	$(GNOME_LIBDIR) \
 	$(GNOME_LIBS)
 

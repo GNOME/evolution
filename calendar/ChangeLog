@@ -1,3 +1,7 @@
+1999-07-31  Peter Teichman  <pat4@acpub.duke.edu>
+
+	* Makefile.am: fixed this up slightly with respect to pilot conduits
+
 1999-07-30  Jonathan Blandford  <jrb@redhat.com>
 
 	* Makefile.am (libcalendar_conduit_la_LIBADD): More autoconf-stuff
