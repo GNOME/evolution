@@ -525,7 +525,7 @@ generate_layout (ECellTextView *text_view, int model_col, int view_col, int row,
 
 	if (row >= 0) {
 		char *temp = e_cell_text_get_text(ect, ecell_view->e_table_model, model_col, row);
-		layout = build_layout (text_view, row, temp, width);
+		layout = build_layout (text_view, row, temp ? temp : "?", width);
 		e_cell_text_free_text(ect, temp);
 	} else
 		layout = build_layout (text_view, row, "Mumbo Jumbo", width);

@@ -1027,7 +1027,7 @@ e_tree_table_adapter_node_set_expanded (ETreeTableAdapter *etta, ETreePath path,
 	node_t *node;
 	int row;
 
-	if (!expanded && e_tree_model_node_is_root (etta->priv->source, path) && !etta->priv->root_visible)
+	if (!expanded && (!gnode || (e_tree_model_node_is_root (etta->priv->source, path) && !etta->priv->root_visible)))
 		return;
 
 	if (!gnode && expanded) {

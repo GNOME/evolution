@@ -1345,18 +1345,6 @@ et_table_cell_changed (ETableModel *table_model, int view_col, int row, ETree *e
 }
 
 static void
-et_table_rows_inserted (ETableModel *table_model, int row, int count, ETree *et)
-{
-	et_table_model_changed (table_model, et);
-}
-
-static void
-et_table_rows_deleted (ETableModel *table_model, int row, int count, ETree *et)
-{
-	et_table_model_changed (table_model, et);
-}
-
-static void
 et_connect_to_etta (ETree *et)
 {
 	et->priv->table_model_change_id = g_signal_connect (et->priv->etta, "model_changed",
@@ -1367,12 +1355,6 @@ et_connect_to_etta (ETree *et)
 
 	et->priv->table_cell_change_id = g_signal_connect (et->priv->etta, "model_cell_changed",
 							   G_CALLBACK (et_table_cell_changed), et);
-
-	et->priv->table_rows_inserted_id = g_signal_connect (et->priv->etta, "model_rows_inserted",
-							     G_CALLBACK (et_table_rows_inserted), et);
-
-	et->priv->table_rows_deleted_id = g_signal_connect (et->priv->etta, "model_rows_deleted",
-							    G_CALLBACK (et_table_rows_deleted), et);
 
 }
 
