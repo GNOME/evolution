@@ -1,3 +1,7 @@
+2003-05-01  JP Rosevear  <jpr@ximian.com>
+
+	* evolution.xml: file all new folder bindings to be ctrl-shift-f
+
 2003-04-28  Rodney Dawes  <dobey@ximian.com>
 
 	* evolution.xml: Changed the New Folder keybinding to C-S-f
