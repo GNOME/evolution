@@ -120,6 +120,7 @@ calendar/gui/tasks-control.c
 calendar/gui/tasks-migrate.c
 calendar/gui/weekday-picker.c
 calendar/importers/GNOME_Evolution_Calendar_Importer.oaf.in
+calendar/importers/icalendar-importer.c
 calendar/pcs/query.c
 calendar/zones.h
 camel/camel-cipher-context.c
@@ -144,6 +145,7 @@ camel/camel-sasl-cram-md5.c
 camel/camel-sasl-digest-md5.c
 camel/camel-sasl-kerberos4.c
 camel/camel-sasl-login.c
+camel/camel-sasl-ntlm.c
 camel/camel-sasl-plain.c
 camel/camel-sasl-popb4smtp.c
 camel/camel-search-private.c
@@ -177,6 +179,7 @@ camel/providers/local/camel-mh-summary.c
 camel/providers/local/camel-spool-folder.c
 camel/providers/local/camel-spool-store.c
 camel/providers/local/camel-spool-summary.c
+camel/providers/local/camel-spoold-store.c
 camel/providers/nntp/camel-nntp-auth.c
 camel/providers/nntp/camel-nntp-folder.c
 camel/providers/nntp/camel-nntp-grouplist.c
@@ -248,6 +251,7 @@ mail/local-config.glade
 mail/mail-account-editor-news.c
 mail/mail-account-editor.c
 mail/mail-account-gui.c
+mail/mail-accounts.etspec
 mail/mail-accounts.c
 mail/mail-autofilter.c
 mail/mail-callbacks.c
@@ -266,12 +270,15 @@ mail/mail-search.c
 mail/mail-search.c
 mail/mail-send-recv.c
 mail/mail-session.c
+mail/mail-signature-editor.c
 mail/mail-summary.c
 mail/mail-tools.c
 mail/mail-vfolder.c
 mail/message-browser.c
 mail/message-list.c
 mail/message-list.etspec
+mail/message-tag-editor.c
+mail/message-tag-followup.c
 mail/subscribe-dialog.c
 mail/subscribe-dialog.etspec
 mail/subscribe-dialog.glade
@@ -282,6 +289,8 @@ my-evolution/e-summary-calendar.c
 my-evolution/e-summary-mail.c
 my-evolution/e-summary-preferences.c
 my-evolution/e-summary-rdf.c
+my-evolution/e-summary-shown.c
+my-evolution/e-summary-table.c
 my-evolution/e-summary-tasks.c
 my-evolution/e-summary-weather.c
 my-evolution/e-summary.c
