@@ -9,6 +9,7 @@
 #include <unistd.h>
 #include <signal.h>
 #include <sys/wait.h>
+#include <fcntl.h>
 #include "calendar.h"
 #include "gnome-cal.h"
 #include "gncal-day-panel.h"
@@ -257,9 +258,9 @@ execute (char *command, int close_standard)
 			 */
 			execl ("/bin/sh", "/bin/sh", "-c", command, (char *) 0);
 			
-			exit (127);
+			_exit (127);
 		} else {
-			exit (127);
+			_exit (127);
 		}
 	}
 	wait (&status);
@@ -285,13 +286,31 @@ calendar_notify (time_t time, void *data)
 	if (ico->malarm.enabled && ico->malarm.trigger == time){
 		char *command;
 		time_t app = ico->malarm.trigger + ico->malarm.offset;
+		pid_t pid;
+		int   p [2];
 
-		command = g_copy_strings ("mail -s '",
-					  _("Reminder of your appointment at "),
-					  ctime (&app), "' '",
-					  ico->malarm.data, "' ",
-					  NULL);
-		execute (command, 1);
+		pipe (p);
+		pid = fork ();
+		if (pid == 0){
+			const int top = max_open_files ();
+			int dev_null, i;
+
+			for (i = 0; i < top; i++)
+				if (i != p [1])
+					close (i);
+			dev_null = open ("/dev/null", O_RDWR);
+			dup2 (p [1], 0);
+			dup2 (dev_null, 1);
+			dup2 (dev_null, 2);
+			execl ("/usr/lib/sendmail", "/usr/lib/sendmail",
+			       ico->malarm.data, NULL);
+			_exit (127);
+		}
+		close (p [1]);
+		command = g_copy_strings ("To: ", ico->malarm.data, "\n",
+					  "Subject: ", _("Reminder of your appointment at "),
+					  ctime (&app), "\n\n", NULL);
+		write (p [0], command, strlen (command));
 
 		g_free (command);
 		return;

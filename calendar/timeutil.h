@@ -17,6 +17,8 @@ time_t time_from_isodate        (char *str);
 time_t time_from_start_duration (time_t start, char *duration);
 char   *isodate_from_time_t     (time_t t);
 int    get_time_t_hour          (time_t t);
+int    isodiff_to_secs          (char *str);
+char   *isodiff_from_secs       (int secs);
 
 time_t time_add_minutes  (time_t time, int minutes);
 time_t time_add_day (time_t time, int days);

@@ -36,6 +36,9 @@ typedef struct {
 	/* Does not get saved, internally used */
 	time_t         offset;
 	time_t         trigger;
+
+	int            snooze_secs;
+	int	       snooze_repeat;
 	
 	/* Widgets */
 	void           *w_count;      /* A GtkEntry */
@@ -109,6 +112,7 @@ typedef struct {
 	time_t         _enddate; /* As found on the vCalendar file */
 	int            __count;
 } Recurrence;
+
 #define IS_INFINITE(r) (r->duration == 0)
 
 /* Flags to indicate what has changed in an object */

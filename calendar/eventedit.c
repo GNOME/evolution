@@ -326,8 +326,6 @@ ee_create_ae (GtkTable *table, char *str, CalendarAlarm *alarm, enum AlarmType t
 			    GTK_SIGNAL_FUNC (alarm_toggle), alarm);
 	gtk_table_attach (table, alarm->w_enabled, 0, 1, y, y+1, FS, FS, 0, 0);
 
-	gtk_toggle_button_set_state (GTK_TOGGLE_BUTTON (alarm->w_enabled), alarm->enabled);
-	
 	alarm->w_count = make_spin_button (alarm->count, 0, 10000);
 	gtk_table_attach (table, alarm->w_count, 1, 2, y, y+1, FS, FS, 0, 0);
 	
@@ -358,7 +356,7 @@ ee_create_ae (GtkTable *table, char *str, CalendarAlarm *alarm, enum AlarmType t
 	default:
 		break;
 	}
-
+	gtk_toggle_button_set_state (GTK_TOGGLE_BUTTON (alarm->w_enabled), alarm->enabled);
 	ee_alarm_setting (alarm, alarm->enabled);
 }
 

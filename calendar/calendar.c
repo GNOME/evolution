@@ -97,6 +97,8 @@ calendar_add_object (Calendar *cal, iCalObject *obj)
 	case ICAL_EVENT:
 		cal->events = g_list_prepend (cal->events, obj);
 		ical_object_try_alarms (obj);
+		obj->malarm.trigger = 0;
+		calendar_notify (0, obj);
 		break;
 
 	case ICAL_TODO:

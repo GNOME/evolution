@@ -218,3 +218,106 @@ time_week_begin   (time_t t)
 	return mktime (&tm);
 }
 
+static char *
+pcat (char *dest, int num, char key)
+{
+	int c;
+
+	c = sprintf (dest, "%d%c", num, key);
+	return dest + c;
+}
+
+/* Converts secs into the ISO difftime representation */
+char *
+isodiff_from_secs (int secs)
+{
+	static char buffer [60], *p;
+	int years, months, weeks, days, hours, minutes;
+	
+	years = months = weeks = days = hours = minutes = 0;
+	
+	years    = secs / (365 * 86400);
+	secs    %= (365 * 86400);
+	months   = secs / (30 * 86400);
+	secs    %= (30 * 86400);
+	weeks    = secs / (7 * 86400);
+	secs    %= (7 * 86400);
+	days     = secs / 86400;
+	secs    %= 86400;
+	hours    = secs / 3600;
+	secs    %= 3600;
+	minutes  = secs / 60;
+	secs    %= 60;
+
+	strcpy (buffer, "P");
+	p = buffer + 1;
+	if (years)
+		p = pcat (p, years, 'Y');
+	if (months)
+		p = pcat (p, months, 'M');
+	if (weeks)
+		p = pcat (p, weeks, 'W');
+	if (days)
+		p = pcat (p, days, 'D');
+	if (hours || minutes || secs){
+		*p++ = 'T';
+		if (hours)
+			p = pcat (p, hours, 'H');
+		if (minutes)
+			p = pcat (p, minutes, 'M');
+		if (secs)
+			p = pcat (p, secs, 'S');
+	}
+	
+	return buffer;
+}
+
+int
+isodiff_to_secs (char *str)
+{
+	int value, time;
+	int years, months, weeks, days, hours, minutes, seconds;
+
+	value = years = months = weeks = days = hours = minutes = time = seconds = 0;
+	if (*str != 'P')
+		return 0;
+
+	str++;
+	while (*str){
+		switch (*str){
+		case '0': case '1': case '2': case '3': case '4':
+		case '5': case '6': case '7': case '8': case '9':
+			value = value * 10 + (*str - '0');
+			break;
+		case 'Y':
+			years = value; value = 0;
+			break;
+		case 'M':
+			if (time)
+				minutes = value;
+			else
+				months = value;
+			value = 0;
+			break;
+		case 'W':
+			weeks = value; value = 0;
+			break;
+		case 'D':
+			days = value; value = 0;
+			break;
+		case 'T':
+			value = 0; time = 1;
+			break;
+		case 'H':
+			hours = value; value = 0;
+			break;
+		case 'S':
+			seconds = value; value = 0;
+			break;
+		}
+		str++;
+	}
+	return seconds + (minutes * 60) + (hours * 3600) +
+	       (days * 86400) + (weeks * 7 * 86400) +
+	       (months * 30 * 86400) + (years * 365 * 86400);
+}

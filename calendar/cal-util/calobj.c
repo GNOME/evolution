@@ -412,17 +412,25 @@ load_recurrence (iCalObject *o, char *str)
 	return 1;
 }
 
+#define is_a_prop_of(obj,prop) isAPropertyOf (obj,prop)
+#define str_val(obj) the_str = fakeCString (vObjectUStringZValue (obj))
+#define has(obj,prop) (vo = isAPropertyOf (obj, prop))
+
 /*
  * FIXME: This is loosing precission.  Enhanec the thresholds
  */
 #define HOURS(n) (n*(60*60))
 
 static void
-setup_alarm_at (time_t base, CalendarAlarm *alarm, char *iso_time)
+setup_alarm_at (iCalObject *ico, CalendarAlarm *alarm, char *iso_time, VObject *vo)
 {
 	time_t alarm_time = time_from_isodate (iso_time);
+	time_t base = ico->dtstart;
 	int d = difftime (base, alarm_time);
-
+	VObject *a;
+	char *the_str;
+	
+	alarm->enabled = 1;
 	if (d > HOURS (2)){
 		if (d > HOURS (48)){
 			alarm->count = d / HOURS (24);
@@ -435,11 +443,17 @@ setup_alarm_at (time_t base, CalendarAlarm *alarm, char *iso_time)
 		alarm->count = d / 60;
 		alarm->units = ALARM_MINUTES;
 	}
-}
 
-#define is_a_prop_of(obj,prop) isAPropertyOf (obj,prop)
-#define str_val(obj) the_str = fakeCString (vObjectUStringZValue (obj))
-#define has(obj,prop) (vo = isAPropertyOf (obj, prop))
+	if ((a = is_a_prop_of (vo, VCSnoozeTimeProp))){
+		alarm->snooze_secs = isodiff_to_secs (str_val (a));
+		free (the_str);
+	}
+
+	if ((a = is_a_prop_of (vo, VCRepeatCountProp))){
+		alarm->snooze_repeat = atoi (str_val (a));
+		free (the_str);
+	}
+}
 
 /* FIXME: we need to load the recurrence properties */
 iCalObject *
@@ -597,9 +611,8 @@ ical_object_create_from_vobject (VObject *o, const char *object_name)
 	ical->dalarm.type = ALARM_DISPLAY;
 	ical->dalarm.enabled = 0;
 	if (has (o, VCDAlarmProp)){
-		if ((a = is_a_prop_of (o, VCRunTimeProp))){
-			ical->dalarm.enabled = 1;
-			setup_alarm_at (ical->dtstart, &ical->dalarm, str_val (a));
+		if ((a = is_a_prop_of (vo, VCRunTimeProp))){
+			setup_alarm_at (ical, &ical->dalarm, str_val (a), vo);
 			free (the_str);
 		}
 	}
@@ -608,9 +621,8 @@ ical_object_create_from_vobject (VObject *o, const char *object_name)
 	ical->aalarm.type = ALARM_AUDIO;
 	ical->aalarm.enabled = 0;
 	if (has (o, VCAAlarmProp)){
-		if ((a = is_a_prop_of (o, VCRunTimeProp))){
-			ical->aalarm.enabled = 1;
-			setup_alarm_at (ical->dtstart, &ical->aalarm, str_val (a));
+		if ((a = is_a_prop_of (vo, VCRunTimeProp))){
+			setup_alarm_at (ical, &ical->aalarm, str_val (a), vo);
 			free (the_str);
 		}
 	}
@@ -620,12 +632,11 @@ ical_object_create_from_vobject (VObject *o, const char *object_name)
 	ical->palarm.enabled = 0;
 	if (has (o, VCPAlarmProp)){
 		ical->palarm.type = ALARM_PROGRAM;
-		if ((a = is_a_prop_of (o, VCRunTimeProp))){
-			ical->palarm.enabled = 1;
-			setup_alarm_at (ical->dtstart, &ical->palarm, str_val (a));
+		if ((a = is_a_prop_of (vo, VCRunTimeProp))){
+			setup_alarm_at (ical, &ical->palarm, str_val (a), vo);
 			free (the_str);
 
-			if ((a = is_a_prop_of (o, VCProcedureNameProp))){
+			if ((a = is_a_prop_of (vo, VCProcedureNameProp))){
 				ical->palarm.data = g_strdup (str_val (a));
 				free (the_str);
 			}
@@ -637,12 +648,11 @@ ical_object_create_from_vobject (VObject *o, const char *object_name)
 	ical->malarm.enabled = 0;
 	if (has (o, VCMAlarmProp)){
 		ical->malarm.type = ALARM_MAIL;
-		if ((a = is_a_prop_of (o, VCRunTimeProp))){
-			ical->malarm.enabled = 1;
-			setup_alarm_at (ical->dtstart, &ical->malarm, str_val (a));
+		if ((a = is_a_prop_of (vo, VCRunTimeProp))){
+			setup_alarm_at (ical, &ical->malarm, str_val (a), vo);
 			free (the_str);
 			
-			if ((a = is_a_prop_of (o, VCEmailAddressProp))){
+			if ((a = is_a_prop_of (vo, VCEmailAddressProp))){
 				ical->malarm.data = g_strdup (str_val (a));
 				free (the_str);
 			}
@@ -754,9 +764,19 @@ save_alarm (VObject *o, CalendarAlarm *alarm, iCalObject *ical)
 	alarm_time = mktime (tm);
 	alarm_object = addProp (o, alarm_names [alarm->type]);
 	addPropValue (alarm_object, VCRunTimeProp, isodate_from_time_t (alarm_time));
-	addPropValue (alarm_object, VCRepeatCountProp, "1");
-	addPropValue (alarm_object, VCDisplayStringProp, "GNOME appointment alarm");
 
+	if (alarm->snooze_secs)
+		addPropValue (alarm_object, VCSnoozeTimeProp, isodiff_from_secs (alarm->snooze_secs));
+	else
+		addPropValue (alarm_object, VCSnoozeTimeProp, "");
+
+	if (alarm->snooze_repeat){
+		char buf [20];
+
+		sprintf (buf, "%d", alarm->snooze_repeat);
+		addPropValue (alarm_object, VCRepeatCountProp, buf);
+	} else
+		addPropValue (alarm_object, VCRepeatCountProp, "");		
 	return alarm_object;
 }
 

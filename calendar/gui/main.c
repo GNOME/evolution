@@ -51,6 +51,9 @@ static char *load_file;
 /* If set, show events for the specified date and quit */
 static int show_events;
 
+/* Session management */
+static GnomeClient *sm_client;
+
 static void
 init_username (void)
 {
@@ -121,7 +124,7 @@ about_calendar_cmd (GtkWidget *widget, void *data)
 	};
 
         about = gnome_about_new (_("Gnome Calendar"), VERSION,
-				 "(C) 1998 the Free Software Fundation",
+				 "(C) 1998 the Free Software Foundation",
 				 authors,
 				 _("The GNOME personal calendar and schedule manager."),
 				 NULL);
@@ -171,7 +174,7 @@ day_range_changed (void)
 }
 
 static void
-quit_cmd (GtkWidget *widget, GnomeCalendar *gcal)
+quit_cmd (void)
 {
 	while (all_calendars){
 		GnomeCalendar *cal = GNOME_CALENDAR (all_calendars->data);
@@ -500,6 +503,42 @@ static struct argp parser =
 	argp_options, parse_an_arg, NULL, NULL, NULL, NULL, NULL
 };
 
+static void
+session_die (void)
+{
+	quit_cmd ();
+}
+
+static int
+session_save_state (GnomeClient *client, gint phase, GnomeRestartStyle save_style, gint shutdown,
+		    GnomeInteractStyle  interact_style, gint fast, gpointer client_data)
+{
+	printf ("Got a message to save the state\n");
+}
+	    
+/* Setup the Session Manager shutdown routine */
+static GnomeClient *
+new_client (void)
+{
+	GnomeClient *client;
+	char buf [4096];
+	
+	client = gnome_client_new_default ();
+	if (client)
+		return NULL;
+	
+	getcwd ((void *)&buf, sizeof (buf));
+	
+	gtk_object_ref(GTK_OBJECT(client));
+	gtk_object_sink(GTK_OBJECT(client));
+
+	gtk_signal_connect (GTK_OBJECT (client), "save_yourself",
+			    GTK_SIGNAL_FUNC (session_save_state), NULL);
+	gtk_signal_connect (GTK_OBJECT (client), "die",
+			    GTK_SIGNAL_FUNC (session_die), NULL);
+	return client;	
+}
+
 int 
 main(int argc, char *argv[])
 {
@@ -510,6 +549,8 @@ main(int argc, char *argv[])
 
 	gnome_init ("calendar", &parser, argc, argv, 0, NULL);
 
+	sm_client = new_client ();
+	
 	process_dates ();
 	alarm_init ();
 	init_calendar ();
