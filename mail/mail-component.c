@@ -534,7 +534,7 @@ impl_createControls (PortableServer_Servant servant,
 	gtk_widget_show (statusbar_widget);
 
 	vbox = gtk_vbox_new(FALSE, 0);
-	info = e_info_label_new("evolution-inbox-mini.png");
+	info = e_info_label_new("stock_mail");
 	e_info_label_set_info((EInfoLabel *)info, _("Mail"), "");
 	gtk_box_pack_start((GtkBox *)vbox, info, FALSE, TRUE, 0);
 	gtk_box_pack_start((GtkBox *)vbox, tree_widget, TRUE, TRUE, 0);
@@ -650,7 +650,7 @@ impl__get_userCreatableItems (PortableServer_Servant servant, CORBA_Environment 
 	list->_buffer[0].menuDescription = _("_Mail Message");
 	list->_buffer[0].tooltip = _("Compose a new mail message");
 	list->_buffer[0].menuShortcut = 'm';
-	list->_buffer[0].iconName = "new-message.xpm";
+	list->_buffer[0].iconName = "stock_mail-compose";
 	list->_buffer[0].type = GNOME_Evolution_CREATABLE_OBJECT;
 
 	list->_buffer[1].id = "folder";
@@ -658,7 +658,7 @@ impl__get_userCreatableItems (PortableServer_Servant servant, CORBA_Environment 
 	list->_buffer[1].menuDescription = _("Mail _Folder");
 	list->_buffer[1].tooltip = _("Create a new mail folder");
 	list->_buffer[1].menuShortcut = 'f';
-	list->_buffer[1].iconName = "folder-mini.png";
+	list->_buffer[1].iconName = "stock_folder";
 	list->_buffer[1].type = GNOME_Evolution_CREATABLE_FOLDER;
 
 	return list;

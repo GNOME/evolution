@@ -38,9 +38,8 @@
 
 #include "e-util/e-account-list.h"
 
-#include "art/mark.xpm"
-
 #include "em-account-prefs.h"
+#include <e-util/e-icon-factory.h>
 
 static void em_account_prefs_class_init (EMAccountPrefsClass *class);
 static void em_account_prefs_init       (EMAccountPrefs *prefs);
@@ -94,7 +93,7 @@ em_account_prefs_class_init (EMAccountPrefsClass *klass)
 	
 	/* setup static data */
 	disabled_pixbuf = NULL;
-	enabled_pixbuf = gdk_pixbuf_new_from_xpm_data ((const char **) mark_xpm);
+	enabled_pixbuf = e_icon_factory_get_icon ("stock_mark", 16);
 }
 
 static void
@@ -103,7 +102,7 @@ em_account_prefs_init (EMAccountPrefs *prefs)
 	prefs->druid = NULL;
 	prefs->editor = NULL;
 	
-	gdk_pixbuf_render_pixmap_and_mask (enabled_pixbuf, &prefs->mark_pixmap, &prefs->mark_bitmap, 128);
+	prefs->mark_pixbuf = g_object_ref (enabled_pixbuf);
 }
 
 static void
@@ -122,8 +121,7 @@ em_account_prefs_finalise (GObject *obj)
 	EMAccountPrefs *prefs = (EMAccountPrefs *) obj;
 	
 	g_object_unref (prefs->gui);
-	gdk_pixmap_unref (prefs->mark_pixmap);
-	g_object_unref (prefs->mark_bitmap);
+	g_object_unref (prefs->mark_pixbuf);
 	
         G_OBJECT_CLASS (parent_class)->finalize (obj);
 }

@@ -61,8 +61,7 @@ struct _EMAccountPrefs {
 	GtkWidget *druid;
 	GtkWidget *editor;
 	
-	GdkPixmap *mark_pixmap;
-	GdkBitmap *mark_bitmap;
+	GdkPixbuf *mark_pixbuf;
 	
 	GtkTreeView *table;
 	

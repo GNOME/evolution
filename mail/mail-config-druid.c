@@ -49,6 +49,7 @@
 
 #include <evolution-wizard.h>
 #include <e-util/e-account.h>
+#include <e-util/e-icon-factory.h>
 
 typedef enum {
 	MAIL_CONFIG_WIZARD_PAGE_NONE = -1,
@@ -353,17 +354,14 @@ management_activate_cb (GtkEntry *ent, gpointer user_data)
 		config_wizard_set_page (mcw, mcw->page + 1);
 }
 
-
-#define WIZARD_ICON(name) (EVOLUTION_IMAGES "/mail-config-druid-" name ".png")
-
 static struct {
-	const char *page_name, *title, *icon_path;
+	const char *page_name, *title, *icon_name;
 	void (*prepare_func) (MailConfigWizard *mcw);
 	gboolean (*back_func) (MailConfigWizard *mcw);
 	gboolean (*next_func) (MailConfigWizard *mcw);
 	const char *help_text;
 } wizard_pages[] = {
-	{ "identity_page", N_("Identity"), WIZARD_ICON ("identity"),
+	{ "identity_page", N_("Identity"), "stock_contact",
 	  identity_prepare, NULL, identity_next,
 	  N_("Please enter your name and email address below. "
 	     "The \"optional\" fields below do not need to be "
@@ -371,26 +369,26 @@ static struct {
 	     "information in email you send.")
 	},
 
-	{ "source_page", N_("Receiving Mail"), WIZARD_ICON ("receive"),
+	{ "source_page", N_("Receiving Mail"), "stock_mail-receive",
 	  source_prepare, NULL, source_next,
 	  N_("Please enter information about your incoming "
 	     "mail server below. If you are not sure, ask your "
 	     "system administrator or Internet Service Provider.")
 	},
 
-	{ "extra_page", N_("Receiving Mail"), WIZARD_ICON ("receive"),
+	{ "extra_page", N_("Receiving Mail"), "stock_mail-receive",
 	  extra_prepare, NULL, NULL,
 	  N_("Please select among the following options")
 	},
 
-	{ "transport_page", N_("Sending Mail"), WIZARD_ICON ("send"),
+	{ "transport_page", N_("Sending Mail"), "stock_mail-send",
 	  transport_prepare, transport_back, transport_next,
 	  N_("Please enter information about the way you will "
 	     "send mail. If you are not sure, ask your system "
 	     "administrator or Internet Service Provider.")
 	},
 
-	{ "management_page", N_("Account Management"), WIZARD_ICON ("account-name"),
+	{ "management_page", N_("Account Management"), "stock_person",
 	  management_prepare, NULL, NULL,
 	  N_("You are almost done with the mail configuration "
 	     "process. The identity, incoming mail server and "
@@ -611,6 +609,7 @@ mail_config_druid_new (void)
 {
 	MailConfigWizard *mcw;
 	GtkWidget *new, *page;
+	GdkPixbuf *icon;
 	int i;
 
 	mcw = config_wizard_new ();
@@ -622,6 +621,9 @@ mail_config_druid_new (void)
 	for (i = 0; i < num_wizard_pages; i++) {
 		page = glade_xml_get_widget (mcw->gui->xml,
 					     wizard_pages[i].page_name);
+		icon = e_icon_factory_get_icon (wizard_pages[i].icon_name, 48);
+		gnome_druid_page_standard_set_logo (GNOME_DRUID_PAGE_STANDARD (page), icon);
+		g_object_unref (icon);
 		g_ptr_array_add (mcw->interior_pages, page);
 		gtk_box_pack_start (GTK_BOX (GNOME_DRUID_PAGE_STANDARD (page)->vbox),
 				    get_page (mcw->gui->xml, i),
@@ -746,7 +748,7 @@ evolution_mail_config_wizard_new (void)
 	
 	wizard = evolution_wizard_new ();
 	for (i = 0; i < MAIL_CONFIG_WIZARD_NUM_PAGES; i++) {
-		icon = gdk_pixbuf_new_from_file (wizard_pages[i].icon_path, NULL);
+		icon = e_icon_factory_get_icon (wizard_pages[i].icon_name, 48);
 		evolution_wizard_add_page (wizard, _(wizard_pages[i].title),
 					   icon, get_page (mcw->gui->xml, i));
 		g_object_unref (icon);

@@ -47,10 +47,9 @@
 #include <gtk/gtktreeview.h>
 
 #include "widgets/misc/e-charset-picker.h"
+#include <e-util/e-icon-factory.h>
 
 #include "mail-config.h"
-
-#include "art/mark.xpm"
 
 
 #define d(x)
@@ -101,9 +100,7 @@ em_composer_prefs_class_init (EMComposerPrefsClass *klass)
 static void
 em_composer_prefs_init (EMComposerPrefs *prefs)
 {
-	prefs->enabled_pixbuf = gdk_pixbuf_new_from_xpm_data ((const char **) mark_xpm);
-	gdk_pixbuf_render_pixmap_and_mask (prefs->enabled_pixbuf, &prefs->mark_pixmap, &prefs->mark_bitmap, 128);
-	
+	prefs->enabled_pixbuf = e_icon_factory_get_icon ("stock_mark", 16);
 	prefs->sig_hash = g_hash_table_new (g_direct_hash, g_direct_equal);
 }
 
@@ -120,8 +117,6 @@ em_composer_prefs_finalise (GObject *obj)
 	
 	g_object_unref (prefs->gui);
 	g_object_unref (prefs->enabled_pixbuf);
-	gdk_pixmap_unref (prefs->mark_pixmap);
-	g_object_unref (prefs->mark_bitmap);
 	
 	g_hash_table_foreach (prefs->sig_hash, (GHFunc) row_free, NULL);
 	g_hash_table_destroy (prefs->sig_hash);
@@ -909,7 +904,7 @@ em_composer_prefs_construct (EMComposerPrefs *prefs)
 	
 	prefs->spell_able_button = glade_xml_get_widget (gui, "buttonSpellCheckEnable");
 	info_pixmap = glade_xml_get_widget (gui, "pixmapSpellInfo");
-	gtk_image_set_from_file (GTK_IMAGE (info_pixmap), EVOLUTION_IMAGES "/info-bulb.png");	
+	gtk_image_set_from_stock (GTK_IMAGE (info_pixmap), GTK_STOCK_DIALOG_INFO, GTK_ICON_SIZE_BUTTON);
 	if (!spell_setup_check_options (prefs)) {
 		gtk_widget_hide (GTK_WIDGET (prefs->colour));
 		gtk_widget_hide (GTK_WIDGET (prefs->language));

@@ -22,6 +22,7 @@
 #include "camel/camel-operation.h"
 
 #include "e-activity-handler.h"
+#include <e-util/e-icon-factory.h>
 
 #include "mail-config.h"
 #include "camel/camel-url.h"
@@ -51,9 +52,6 @@ struct _mail_msg_priv {
 				   pointer itself for locking/race conditions */
 	int activity_id;
 };
-
-/* This is used for the mail status bar, cheap and easy */
-#include "art/mail-new.xpm"
 
 static GdkPixbuf *progress_icon = NULL;
 
@@ -894,7 +892,7 @@ static void do_op_status(struct _mail_msg *mm)
 			data->activity_state = 1;
 			
 			if (progress_icon == NULL)
-				progress_icon = gdk_pixbuf_new_from_xpm_data ((const char **)mail_new_xpm);
+				progress_icon = e_icon_factory_get_icon ("stock_mail-unread", 16);
 			
 			MAIL_MT_UNLOCK (mail_msg_lock);
 			if (msg->ops->describe_msg)

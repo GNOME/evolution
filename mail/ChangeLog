@@ -1,3 +1,24 @@
+2004-04-19  Michael Terry  <mike@mterry.name>
+
+	* GNOME_Evolution_Mail.server.in.in:
+	* em-account-prefs.[ch]:
+	* em-composer-prefs.[ch]:
+	* em-folder-browser.c:
+	* em-folder-tree.c:
+	* em-folder-view.c:
+	* em-format-html-display.c:
+	* em-format-html.[ch]:
+	* em-popup.c:
+	* mail-component.c
+	* mail-config-druid.c:
+	* mail-config.glade:
+	* mail-mt.c:
+	* mail-send-recv.c:
+	* message-list.c:
+	* message-tag-followup.c:
+	* message-tags.glade: Update the mailer to use icon themes through the
+	EIconFactory object in e-util
+
 2004-04-16  David Malcolm  <dmalcolm@redhat.com>
 
 	* importers/netscape-importer.c (netscape_import_accounts):

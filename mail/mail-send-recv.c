@@ -27,7 +27,7 @@
 #include <stdio.h>
 #include <string.h>
 
-/* for the dialogue stuff */
+/* for the dialog stuff */
 #include <glib.h>
 #include <gtk/gtkmain.h>
 #include <gtk/gtkdialog.h>
@@ -56,6 +56,7 @@
 #include "mail-ops.h"
 #include "mail-send-recv.h"
 #include "mail-folder-cache.h"
+#include <e-util/e-icon-factory.h>
 
 #define d(x)
 
@@ -313,6 +314,8 @@ build_dialog (EAccountList *accounts, CamelFolder *outbox, const char *destinati
 	char *pretty_url;
 	EAccount *account;
 	EIterator *iter;
+	GdkPixbuf *pixbuf;
+	GList *icon_list;
 	
 	gd = (GtkDialog *)send_recv_dialog = gtk_dialog_new_with_buttons(_("Send & Receive Mail"), NULL, GTK_DIALOG_NO_SEPARATOR, NULL);
 	gtk_window_set_modal ((GtkWindow *) gd, FALSE);
@@ -320,7 +323,13 @@ build_dialog (EAccountList *accounts, CamelFolder *outbox, const char *destinati
 	stop = (GtkButton *)e_gtk_button_new_with_icon(_("Cancel _All"), GTK_STOCK_CANCEL);
 	gtk_widget_show((GtkWidget *)stop);
 	gtk_dialog_add_action_widget(gd, (GtkWidget *)stop, GTK_RESPONSE_CANCEL);
-	gnome_window_icon_set_from_file (GTK_WINDOW (gd), EVOLUTION_ICONSDIR "/send-receive.xpm");
+	
+	icon_list = e_icon_factory_get_icon_list ("stock_mail-send-receive");
+	if (icon_list) {
+		gtk_window_set_icon_list (GTK_WINDOW (gd), icon_list);
+		g_list_foreach (icon_list, (GFunc) g_object_unref, NULL);
+		g_list_free (icon_list);
+	}
 	
 	num_sources = 0;
 	
@@ -388,7 +397,9 @@ build_dialog (EAccountList *accounts, CamelFolder *outbox, const char *destinati
 		} else if (info->timeout_id == 0)
 			info->timeout_id = g_timeout_add (STATUS_TIMEOUT, operation_status_timeout, info);
 		
-		recv_icon = gtk_image_new_from_file (EVOLUTION_BUTTONSDIR "/receive-24.png");
+		pixbuf = e_icon_factory_get_icon ("stock_mail-receive", 24);
+		recv_icon = gtk_image_new_from_pixbuf (pixbuf);
+		gdk_pixbuf_unref (pixbuf);
 		
 	       	pretty_url = format_url (source->url);
 		label = (GtkLabel *)gtk_label_new (pretty_url);
@@ -441,7 +452,9 @@ build_dialog (EAccountList *accounts, CamelFolder *outbox, const char *destinati
 		} else if (info->timeout_id == 0)
 			info->timeout_id = g_timeout_add (STATUS_TIMEOUT, operation_status_timeout, info);
 		
-		send_icon  = gtk_image_new_from_file (EVOLUTION_BUTTONSDIR "/send-24.png");
+		pixbuf = e_icon_factory_get_icon ("stock_mail-send", 24);
+		send_icon  = gtk_image_new_from_pixbuf (pixbuf);
+		gdk_pixbuf_unref (pixbuf);
 		
 		pretty_url = format_url (destination);
 		label = (GtkLabel *)gtk_label_new (pretty_url);

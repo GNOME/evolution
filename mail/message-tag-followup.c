@@ -43,11 +43,11 @@
 #include <gconf/gconf.h>
 #include <gconf/gconf-client.h>
 
-#include <libgnomeui/gnome-window-icon.h>
 #include <libgnomeui/gnome-pixmap.h>
 
 #include "message-tag-followup.h"
 #include "mail-config.h"
+#include <e-util/e-icon-factory.h>
 
 static void message_tag_followup_class_init (MessageTagFollowUpClass *class);
 static void message_tag_followup_init (MessageTagFollowUp *followup);
@@ -276,10 +276,18 @@ construct (MessageTagEditor *editor)
 	GtkWidget *widget;
 	GList *strings;
 	GladeXML *gui;
+	GList *icon_list;
+	GdkPixbuf *pixbuf;
 	int i;
 	
 	gtk_window_set_title (GTK_WINDOW (editor), _("Flag to Follow Up"));
-	gnome_window_icon_set_from_file (GTK_WINDOW (editor), EVOLUTION_IMAGES "/flag-for-followup-16.png");
+	
+	icon_list = e_icon_factory_get_icon_list ("stock_mail-flag-for-followup");
+	if (icon_list) {
+		gtk_window_set_icon_list (GTK_WINDOW (editor), icon_list);
+		g_list_foreach (icon_list, (GFunc) g_object_unref, NULL);
+		g_list_free (icon_list);
+	}
 
 	gtk_dialog_set_has_separator (GTK_DIALOG (editor), FALSE);
 	gtk_container_set_border_width (GTK_CONTAINER (GTK_DIALOG (editor)->vbox), 0);
@@ -294,7 +302,9 @@ construct (MessageTagEditor *editor)
 	gtk_box_set_child_packing (GTK_BOX (GTK_DIALOG (editor)->vbox), widget, TRUE, TRUE, 6, GTK_PACK_START);
 	
 	widget = glade_xml_get_widget (gui, "pixmap");
-	gtk_image_set_from_file ((GtkImage *)widget, EVOLUTION_GLADEDIR "/flag-for-followup-48.png");
+	pixbuf = e_icon_factory_get_icon ("stock_mail-flag-for-followup", 48);
+	gtk_image_set_from_pixbuf ((GtkImage *)widget, pixbuf);
+	g_object_unref (pixbuf);
 	
 	followup->message_list = GTK_TREE_VIEW (glade_xml_get_widget (gui, "message_list"));
 	model = gtk_list_store_new (2, G_TYPE_STRING, G_TYPE_STRING);

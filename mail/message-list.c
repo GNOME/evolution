@@ -62,22 +62,7 @@
 #include "mail-ops.h"
 
 #include "em-utils.h"
-
-#include "art/mail-new.xpm"
-#include "art/mail-read.xpm"
-#include "art/mail-replied.xpm"
-#include "art/attachment.xpm"
-#include "art/priority-high.xpm"
-#include "art/empty.xpm"
-#include "art/score-lowest.xpm"
-#include "art/score-lower.xpm"
-#include "art/score-low.xpm"
-#include "art/score-normal.xpm"
-#include "art/score-high.xpm"
-#include "art/score-higher.xpm"
-#include "art/score-highest.xpm"
-#include "art/flag-for-followup.xpm"
-#include "art/flag-for-followup-done.xpm"
+#include <e-util/e-icon-factory.h>
 
 /*#define TIMEIT */
 
@@ -172,28 +157,27 @@ enum {
 static guint message_list_signals [LAST_SIGNAL] = {0, };
 
 static struct {
-	char **image_base;
+	gchar *icon_name;
 	GdkPixbuf  *pixbuf;
 } states_pixmaps [] = {
-	{ mail_new_xpm,		NULL },
-	{ mail_read_xpm,	NULL },
-	{ mail_replied_xpm,	NULL },
-/* FIXME: Replace these with pixmaps for multiple_read and multiple_unread */
-    	{ mail_new_xpm,		NULL },
-    	{ mail_read_xpm,	NULL },
-	{ empty_xpm,		NULL },
-	{ attachment_xpm,	NULL },
-	{ priority_high_xpm,	NULL },
-	{ score_lowest_xpm,     NULL },
-	{ score_lower_xpm,      NULL },
-	{ score_low_xpm,        NULL },
-	{ score_normal_xpm,     NULL },
-	{ score_high_xpm,       NULL },
-	{ score_higher_xpm,     NULL },
-	{ score_highest_xpm,    NULL },
-	{ flag_for_followup_xpm,NULL },
-	{ flag_for_followup_done_xpm,NULL },
-	{ NULL,			NULL }
+	{ "stock_mail-unread",			NULL },
+	{ "stock_mail-open",			NULL },
+	{ "stock_mail-replied",			NULL },
+    { "stock_mail-unread-multiple",	NULL },
+    { "stock_mail-open-multiple",	NULL },
+	{ "",					NULL },
+	{ "stock_attach",			NULL },
+	{ "stock_mail-priority-high",	NULL },
+	{ "stock_score-lowest",			NULL },
+	{ "stock_score-lower",			NULL },
+	{ "stock_score-low",			NULL },
+	{ "stock_score-normal",			NULL },
+	{ "stock_score-high",			NULL },
+	{ "stock_score-higher",			NULL },
+	{ "stock_score-highest",		NULL },
+	{ "stock_mail-flag-for-followup",	NULL },
+	{ "stock_mail-flag-for-followup-done",	NULL },
+	{ NULL,					NULL }
 };
 
 /* FIXME: junk prefs */
@@ -1243,9 +1227,8 @@ message_list_init_images (void)
 	if (states_pixmaps [0].pixbuf)
 		return;
 	
-	for (i = 0; states_pixmaps [i].image_base; i++){
-		states_pixmaps [i].pixbuf = gdk_pixbuf_new_from_xpm_data (
-			(const char **) states_pixmaps [i].image_base);
+	for (i = 0; states_pixmaps [i].icon_name; i++){
+		states_pixmaps [i].pixbuf = e_icon_factory_get_icon (states_pixmaps [i].icon_name, 16);
 	}
 }
 

@@ -36,6 +36,7 @@
 #include <gal/util/e-iconv.h>
 #include <gal/util/e-util.h>	/* for e_utf8_strftime, what about e_time_format_time? */
 #include "e-util/e-time-utils.h"
+#include "e-util/e-icon-factory.h"
 
 #include <gtkhtml/gtkhtml.h>
 #include <gtkhtml/gtkhtml-embedded.h>
@@ -291,16 +292,14 @@ em_format_html_set_xmailer_mask(EMFormatHTML *emfh, unsigned int xmailer_mask)
 }
 
 CamelMimePart *
-em_format_html_file_part(EMFormatHTML *efh, const char *mime_type, const char *path, const char *name)
+em_format_html_file_part(EMFormatHTML *efh, const char *mime_type, const char *filename)
 {
 	CamelMimePart *part;
 	CamelStream *stream;
 	CamelDataWrapper *dw;
-	char *filename;
+	gchar *basename;
 
-	filename = g_build_filename(path, name, NULL);
 	stream = camel_stream_fs_new_with_name(filename, O_RDONLY, 0);
-	g_free(filename);
 	if (stream == NULL)
 		return NULL;
 
@@ -313,7 +312,9 @@ em_format_html_file_part(EMFormatHTML *efh, const char *mime_type, const char *p
 	part = camel_mime_part_new();
 	camel_medium_set_content_object((CamelMedium *)part, dw);
 	camel_object_unref(dw);
-	camel_mime_part_set_filename(part, name);
+	basename = g_path_get_basename (filename);
+	camel_mime_part_set_filename(part, basename);
+	g_free (basename);
 
 	return part;
 }
@@ -565,19 +566,19 @@ efh_object_requested(GtkHTML *html, GtkHTMLEmbedded *eb, EMFormatHTML *efh)
 static const struct {
 	const char *icon, *shortdesc;
 } smime_sign_table[4] = {
-	{ "pgp-signature-nokey.png", N_("Unsigned") },
-	{ "pgp-signature-ok.png", N_("Valid signature") },
-	{ "pgp-signature-bad.png", N_("Invalid signature") },
-	{ "pgp-signature-nokey.png", N_("Valid signature, cannot verify sender") },
+	{ NULL, N_("Unsigned") },
+	{ "stock_signature-ok", N_("Valid signature") },
+	{ "stock_signature-bad", N_("Invalid signature") },
+	{ "stock_signature", N_("Valid signature, cannot verify sender") },
 };
 
 static const struct {
 	const char *icon, *shortdesc;
 } smime_encrypt_table[4] = {
 	{ NULL, N_("Unencrypted") },
-	{ "pgp-signature-ok.png", N_("Encrypted, weak"),},
-	{ "pgp-signature-ok.png", N_("Encrypted") },
-	{ "pgp-signature-ok.png", N_("Encrypted, strong") },
+	{ "stock_lock-ok", N_("Encrypted, weak"),},
+	{ "stock_lock-ok", N_("Encrypted") },
+	{ "stock_lock-ok", N_("Encrypted, strong") },
 };
 
 /* TODO: this could probably be virtual on em-format-html
@@ -595,6 +596,7 @@ efh_format_secure(EMFormat *emf, CamelStream *stream, CamelMimePart *part, Camel
 	    && (valid->encrypt.status != CAMEL_CIPHER_VALIDITY_ENCRYPT_NONE
 		|| valid->sign.status != CAMEL_CIPHER_VALIDITY_SIGN_NONE)) {
 		char *classid;
+		gchar *iconpath;
 		CamelMimePart *iconpart;
 
 		camel_stream_printf(stream, "<table border=0 width=\"100%%\" cellpadding=3 cellspacing=0 bgcolor=%s><tr>",
@@ -602,12 +604,13 @@ efh_format_secure(EMFormat *emf, CamelStream *stream, CamelMimePart *part, Camel
 
 		classid = g_strdup_printf("smime:///em-format-html/%s/icon/signed", emf->part_id->str);
 		camel_stream_printf(stream, "<td valign=\"top\"><img src=\"%s\"></td><td valign=\"top\" width=\"100%%\">", classid);
-		iconpart = em_format_html_file_part((EMFormatHTML *)emf, "image/png",
-						    EVOLUTION_ICONSDIR, smime_sign_table[valid->sign.status].icon);
+		iconpath = e_icon_factory_get_icon_filename (smime_sign_table[valid->sign.status].icon, 48);
+		iconpart = em_format_html_file_part((EMFormatHTML *)emf, "image/png", iconpath);
 		if (iconpart) {
 			(void)em_format_add_puri(emf, sizeof(EMFormatPURI), classid, iconpart, efh_write_image);
 			camel_object_unref(iconpart);
 		}
+		g_free (iconpath);
 		g_free(classid);
 
 		if (valid->sign.status != CAMEL_CIPHER_VALIDITY_SIGN_NONE) {
@@ -1679,7 +1682,7 @@ efh_format_headers(EMFormatHTML *efh, CamelStream *stream, CamelMedium *part)
 
 			classid = g_strdup_printf("icon:///em-format-html/%s/icon/header", emf->part_id->str);
 			camel_stream_printf(stream, "<td align=\"right\" valign=\"top\"><img width=16 height=16 src=\"%s\"></td>", classid);
-			iconpart = em_format_html_file_part((EMFormatHTML *)emf, "image/png", EVOLUTION_ICONSDIR, "monkey-16.png");
+			iconpart = em_format_html_file_part((EMFormatHTML *)emf, "image/png", EVOLUTION_ICONSDIR "/monkey-16.png");
 			if (iconpart) {
 				em_format_add_puri(emf, sizeof(EMFormatPURI), classid, iconpart, efh_write_image);
 				camel_object_unref(iconpart);

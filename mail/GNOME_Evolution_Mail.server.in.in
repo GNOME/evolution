@@ -31,9 +31,9 @@
 
     <oaf_attribute name="evolution:button_label" type="string" _value="Mail"/>
     <oaf_attribute name="evolution:button_sort_order" type="string" value="-10"/>
-    <oaf_attribute name="evolution:button_icon" type="string" value="evolution-inbox.png"/>
+    <oaf_attribute name="evolution:button_icon" type="string" value="stock_mail"/>
 
-    <oaf_attribute name="evolution:component_icon" type="string" value="evolution-inbox.png"/>
+    <oaf_attribute name="evolution:component_icon" type="string" value="stock_mail"/>
     <oaf_attribute name="evolution:component_display_order" type="number" value="1"/>
 
     <oaf_attribute name="evolution:uri_schemas" type="stringv">
@@ -55,7 +55,7 @@
 		   _value="Evolution Mail component"/>
 
     <oaf_attribute name="evolution:shell_component_icon" type="string"
-		   value="evolution-inbox.png"/>
+		   value="stock_mail"/>
     <oaf_attribute name="evolution:shell_component_launch_order" type="number"
 		   value="1"/>
   </oaf_server>
@@ -124,7 +124,7 @@
 		   _value="Configure your email accounts here"/>
 
     <oaf_attribute name="evolution2:config_item:icon_name" type="string"
-		   value="mail-accounts-settings.png"/>
+		   value="stock_people"/>
 
     <oaf_attribute name="evolution2:config_item:type" type="stringv">
 	<item value="mail"/>
@@ -153,7 +153,7 @@
 		   _value="Configure mail preferences, including security and message display, here"/>
 
     <oaf_attribute name="evolution2:config_item:icon_name" type="string"
-		   value="mail-config-druid.png"/>
+		   value="stock_mail"/>
     
     <oaf_attribute name="evolution2:config_item:priority" type="string" value="-9"/>
     
@@ -178,7 +178,7 @@
 		   _value="Configure spell-checking, signatures, and the message composer here"/>
 
     <oaf_attribute name="evolution2:config_item:icon_name" type="string"
-		   value="composer-settings.png"/>
+		   value="stock_mail-compose"/>
     
     <oaf_attribute name="evolution2:config_item:priority" type="string" value="-8"/>
     

@@ -706,12 +706,12 @@ static BonoboUIVerb emfb_verbs[] = {
 };
 
 static EPixmap emfb_pixmaps[] = {
-	E_PIXMAP ("/commands/ChangeFolderProperties", "configure_16_folder.xpm"),
-	E_PIXMAP ("/commands/ViewHideRead", "hide_read_messages.xpm"),
-	E_PIXMAP ("/commands/ViewHideSelected", "hide_selected_messages.xpm"),
-	E_PIXMAP ("/commands/ViewShowAll", "show_all_messages.xpm"),
+	E_PIXMAP ("/commands/ChangeFolderProperties", "stock_folder-properties", 16),
+	E_PIXMAP ("/commands/ViewHideRead", "stock_mail-hide-read", 16),
+	E_PIXMAP ("/commands/ViewHideSelected", "stock_mail-hide-selected", 16),
+	E_PIXMAP ("/commands/ViewShowAll", "stock_show-all", 16),
 	
-	E_PIXMAP ("/commands/MailCompose", "new-message.xpm"),
+	E_PIXMAP ("/commands/MailCompose", "stock_mail-compose", 16),
 
 	E_PIXMAP_END
 };

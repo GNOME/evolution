@@ -138,7 +138,7 @@ void em_format_html_set_mark_citations(EMFormatHTML *emf, int state, guint32 cit
 void em_format_html_set_xmailer_mask(EMFormatHTML *emf, unsigned int xmailer_mask);
 
 /* retrieves a pseudo-part icon wrapper for a file */
-struct _CamelMimePart *em_format_html_file_part(EMFormatHTML *efh, const char *mime_type, const char *path, const char *name);
+struct _CamelMimePart *em_format_html_file_part(EMFormatHTML *efh, const char *mime_type, const char *filename);
 
 /* for implementers */
 EMFormatHTMLPObject *em_format_html_add_pobject(EMFormatHTML *efh, size_t size, const char *classid, struct _CamelMimePart *part, EMFormatHTMLPObjectFunc func);

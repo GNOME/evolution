@@ -44,6 +44,7 @@
 
 #include "em-popup.h"
 #include "e-util/e-msgport.h"
+#include <e-util/e-icon-factory.h>
 #include "em-utils.h"
 
 #include <camel/camel-store.h>
@@ -292,12 +293,12 @@ em_popup_create_menu(EMPopup *emp, guint32 hide_mask, guint32 disable_mask)
 		switch (item->type & EM_POPUP_TYPE_MASK) {
 		case EM_POPUP_ITEM:
 			if (item->image) {
-				char *path;
+				GdkPixbuf *pixbuf;
 				GtkWidget *image;
 
-				path = g_build_filename(EVOLUTION_IMAGES, (char *)item->image, NULL);
-				image = gtk_image_new_from_file(path);
-				g_free(path);
+				pixbuf = e_icon_factory_get_icon ((char *)item->image, 16);
+				image = gtk_image_new_from_pixbuf (pixbuf);
+				g_object_unref (pixbuf);
 
 				gtk_widget_show(image);
 				menuitem = (GtkMenuItem *)gtk_image_menu_item_new();
@@ -686,7 +687,7 @@ emp_popup_saveas(GtkWidget *w, EMPopupTarget *t)
 static EMPopupItem emp_standard_select_popups[] = {
 	/*{ EM_POPUP_ITEM, "00.select.00", N_("_Open"), G_CALLBACK(emp_popup_open), NULL, NULL, 0 },*/
 	{ EM_POPUP_ITEM, "00.select.01", N_("_Edit as New Message..."), G_CALLBACK(emp_popup_resend), NULL, NULL, EM_POPUP_SELECT_RESEND },
-	{ EM_POPUP_ITEM, "00.select.02", N_("_Save As..."), G_CALLBACK(emp_popup_saveas), NULL, "save-as-16.png", 0 },	
+	{ EM_POPUP_ITEM, "00.select.02", N_("_Save As..."), G_CALLBACK(emp_popup_saveas), NULL, "stock_save_as", 0 },	
 };
 #endif
 
@@ -801,14 +802,14 @@ emp_part_popup_forward (GtkWidget *w, EMPopupTarget *t)
 }
 
 static EMPopupItem emp_standard_object_popups[] = {
-	{ EM_POPUP_ITEM, "00.part.00", N_("_Save As..."), G_CALLBACK(emp_part_popup_saveas), NULL, "save-as-16.png", 0 },
+	{ EM_POPUP_ITEM, "00.part.00", N_("_Save As..."), G_CALLBACK(emp_part_popup_saveas), NULL, "stock_save_as", 0 },
 	{ EM_POPUP_ITEM, "00.part.10", N_("Set as _Background"), G_CALLBACK(emp_part_popup_set_background), NULL, NULL, EM_POPUP_PART_IMAGE },
 	{ EM_POPUP_BAR, "10.part", NULL, NULL, NULL, NULL, EM_POPUP_PART_MESSAGE },
-	{ EM_POPUP_ITEM, "10.part.00", N_("_Reply to sender"), G_CALLBACK(emp_part_popup_reply_sender), NULL, "reply.xpm" , EM_POPUP_PART_MESSAGE },
+	{ EM_POPUP_ITEM, "10.part.00", N_("_Reply to sender"), G_CALLBACK(emp_part_popup_reply_sender), NULL, "stock_mail-reply" , EM_POPUP_PART_MESSAGE },
 	{ EM_POPUP_ITEM, "10.part.01", N_("Reply to _List"), G_CALLBACK(emp_part_popup_reply_list), NULL, NULL, EM_POPUP_PART_MESSAGE},
-	{ EM_POPUP_ITEM, "10.part.03", N_("Reply to _All"), G_CALLBACK(emp_part_popup_reply_all), NULL, "reply_to_all.xpm", EM_POPUP_PART_MESSAGE},
+	{ EM_POPUP_ITEM, "10.part.03", N_("Reply to _All"), G_CALLBACK(emp_part_popup_reply_all), NULL, "stock_mail-reply_to_all", EM_POPUP_PART_MESSAGE},
 	{ EM_POPUP_BAR, "20.part", NULL, NULL, NULL, NULL, EM_POPUP_PART_MESSAGE },
-	{ EM_POPUP_ITEM, "20.part.00", N_("_Forward"), G_CALLBACK(emp_part_popup_forward), NULL, "forward.xpm", EM_POPUP_PART_MESSAGE },
+	{ EM_POPUP_ITEM, "20.part.00", N_("_Forward"), G_CALLBACK(emp_part_popup_forward), NULL, "stock_mail-forward", EM_POPUP_PART_MESSAGE },
 
 };
 

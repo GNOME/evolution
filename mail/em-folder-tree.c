@@ -50,6 +50,7 @@
 #include "e-util/e-mktemp.h"
 #include "e-util/e-request.h"
 #include "e-util/e-dialog-utils.h"
+#include <e-util/e-icon-factory.h>
 
 #include "filter/vfolder-rule.h"
 
@@ -257,11 +258,11 @@ render_pixbuf (GtkTreeViewColumn *column, GtkCellRenderer *renderer,
 	char *path;
 	
 	if (!initialised) {
-		folder_icons[FOLDER_ICON_NORMAL] = gdk_pixbuf_new_from_file (EVOLUTION_ICONSDIR "/folder-mini.png", NULL);
-		folder_icons[FOLDER_ICON_INBOX] = gdk_pixbuf_new_from_file (EVOLUTION_ICONSDIR "/inbox-mini.png", NULL);
-		folder_icons[FOLDER_ICON_OUTBOX] = gdk_pixbuf_new_from_file (EVOLUTION_ICONSDIR "/outbox-mini.png", NULL);
-		folder_icons[FOLDER_ICON_TRASH] = gdk_pixbuf_new_from_file (EVOLUTION_ICONSDIR "/evolution-trash-mini.png", NULL);
-		folder_icons[FOLDER_ICON_JUNK] = gdk_pixbuf_new_from_file (EVOLUTION_ICONSDIR "/evolution-junk-mini.png", NULL);
+		folder_icons[FOLDER_ICON_NORMAL] = e_icon_factory_get_icon ("stock_folder", 16);
+		folder_icons[FOLDER_ICON_INBOX] = e_icon_factory_get_icon ("stock_inbox", 16);
+		folder_icons[FOLDER_ICON_OUTBOX] = e_icon_factory_get_icon ("stock_outbox", 16);
+		folder_icons[FOLDER_ICON_TRASH] = e_icon_factory_get_icon ("stock_delete", 16);
+		folder_icons[FOLDER_ICON_JUNK] = e_icon_factory_get_icon ("stock_spam", 16);
 		initialised = TRUE;
 	}
 	
@@ -2560,18 +2561,18 @@ static EMPopupItem emft_popup_menu[] = {
 
 	{ EM_POPUP_BAR, "10.emc" },
 #endif
-	{ EM_POPUP_ITEM, "10.emc.00", N_("_Copy"), G_CALLBACK (emft_popup_copy), NULL, "folder-copy-16.png", EM_POPUP_FOLDER_FOLDER|EM_POPUP_FOLDER_SELECT },
-	{ EM_POPUP_ITEM, "10.emc.01", N_("_Move"), G_CALLBACK (emft_popup_move), NULL, "folder-move-16.png", EM_POPUP_FOLDER_FOLDER|EM_POPUP_FOLDER_DELETE },
+	{ EM_POPUP_ITEM, "10.emc.00", N_("_Copy"), G_CALLBACK (emft_popup_copy), NULL, "stock_folder-copy", EM_POPUP_FOLDER_FOLDER|EM_POPUP_FOLDER_SELECT },
+	{ EM_POPUP_ITEM, "10.emc.01", N_("_Move"), G_CALLBACK (emft_popup_move), NULL, "stock_folder-move", EM_POPUP_FOLDER_FOLDER|EM_POPUP_FOLDER_DELETE },
 	
 	{ EM_POPUP_BAR, "20.emc" },
 	/* FIXME: need to disable for nochildren folders */
-	{ EM_POPUP_ITEM, "20.emc.00", N_("_New Folder..."), G_CALLBACK (emft_popup_new_folder), NULL, "folder-mini.png", EM_POPUP_FOLDER_INFERIORS },
+	{ EM_POPUP_ITEM, "20.emc.00", N_("_New Folder..."), G_CALLBACK (emft_popup_new_folder), NULL, "stock_folder", EM_POPUP_FOLDER_INFERIORS },
 	/* FIXME: need to disable for undeletable folders */
-	{ EM_POPUP_ITEM, "20.emc.01", N_("_Delete"), G_CALLBACK (emft_popup_delete_folder), NULL, "evolution-trash-mini.png", EM_POPUP_FOLDER_FOLDER|EM_POPUP_FOLDER_DELETE },
+	{ EM_POPUP_ITEM, "20.emc.01", N_("_Delete"), G_CALLBACK (emft_popup_delete_folder), NULL, "stock_delete", EM_POPUP_FOLDER_FOLDER|EM_POPUP_FOLDER_DELETE },
 	{ EM_POPUP_ITEM, "20.emc.01", N_("_Rename"), G_CALLBACK (emft_popup_rename_folder), NULL, NULL, EM_POPUP_FOLDER_FOLDER|EM_POPUP_FOLDER_DELETE },
 	
 	{ EM_POPUP_BAR, "80.emc" },
-	{ EM_POPUP_ITEM, "80.emc.00", N_("_Properties..."), G_CALLBACK (emft_popup_properties), NULL, "configure_16_folder.xpm", EM_POPUP_FOLDER_FOLDER|EM_POPUP_FOLDER_SELECT },
+	{ EM_POPUP_ITEM, "80.emc.00", N_("_Properties..."), G_CALLBACK (emft_popup_properties), NULL, "stock_folder-properties", EM_POPUP_FOLDER_FOLDER|EM_POPUP_FOLDER_SELECT }
 };
 
 static gboolean

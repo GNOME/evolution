@@ -70,13 +70,13 @@
 	      <property name="spacing">6</property>
 
 	      <child>
-		<widget class="GtkImage" id="pixmap">
+		<widget class="Custom" id="pixmap">
 		  <property name="visible">True</property>
-		  <property name="pixbuf">flag-for-followup-48.png</property>
-		  <property name="xalign">0.5</property>
-		  <property name="yalign">0.5</property>
-		  <property name="xpad">0</property>
-		  <property name="ypad">0</property>
+		  <property name="creation_function">e_create_image_widget</property>
+		  <property name="string1">stock_flag-for-followup</property>
+		  <property name="string2"></property>
+		  <property name="int1">0</property>
+		  <property name="int2">0</property>
 		</widget>
 		<packing>
 		  <property name="padding">0</property>

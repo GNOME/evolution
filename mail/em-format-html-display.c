@@ -80,6 +80,7 @@
 #include <e-util/e-msgport.h>
 #include <e-util/e-gui-utils.h>
 #include <e-util/e-dialog-utils.h>
+#include <e-util/e-icon-factory.h>
 
 #ifdef HAVE_NSS
 #include "certificate-viewer.h"
@@ -636,25 +637,25 @@ efhd_complete(EMFormat *emf)
 
 /* ********************************************************************** */
 
-/* TODO: rename some of this stuff, it isn't 'smime' specific */
 /* TODO: move the dialogue elsehwere */
 /* FIXME: also in em-format-html.c */
+/* FIXME: stock_signature-nokey is not in the icon theme yet */
 static const struct {
 	const char *icon, *shortdesc, *description;
 } smime_sign_table[4] = {
-	{ "pgp-signature-nokey.png", N_("Unsigned"), N_("This message is not signed. There is no guarantee that this message is authentic.") },
-	{ "pgp-signature-ok.png", N_("Valid signature"), N_("This message is signed and is valid meaning that it is very likely that this message is authentic.") },
-	{ "pgp-signature-bad.png", N_("Invalid signature"), N_("The signature of this message cannot be verified, it may have been altered in transit.") },
-	{ "pgp-signature-nokey.png", N_("Valid signature, cannot verify sender"), N_("This message is signed with a valid signature, but the sender of the message cannot be verified.") },
+	{ "stock_signature-nokey", N_("Unsigned"), N_("This message is not signed. There is no guarantee that this message is authentic.") },
+	{ "stock_signature-ok", N_("Valid signature"), N_("This message is signed and is valid meaning that it is very likely that this message is authentic.") },
+	{ "stock_signature-bad", N_("Invalid signature"), N_("The signature of this message cannot be verified, it may have been altered in transit.") },
+	{ "stock_signature", N_("Valid signature, cannot verify sender"), N_("This message is signed with a valid signature, but the sender of the message cannot be verified.") },
 };
 
 static const struct {
 	const char *icon, *shortdesc, *description;
 } smime_encrypt_table[4] = {
-	{ NULL, N_("Unencrypted"), N_("This message is not encrypted.  Its content may be viewed in transit across the Internet.") },
-	{ "pgp-signature-ok.png", N_("Encrypted, weak"), N_("This message is encrypted, but with a weak encryption algorithm.  It would be difficult, but not impossible for an outsider to view the content of this message in a practical amount of time.") },
-	{ "pgp-signature-ok.png", N_("Encrypted"), N_("This message is encrypted.  It would be difficult for an outsider to view the content of this message.") },
-	{ "pgp-signature-ok.png", N_("Encrypted, strong"), N_("This message is encrypted, with a strong encryption algorithm.  It would be very difficult for an outsider to view the content of this message in a practical amount of time.") },
+	{ "stock_signature-nokey", N_("Unencrypted"), N_("This message is not encrypted.  Its content may be viewed in transit across The Internet.") },
+	{ "stock_lock-ok", N_("Encrypted, weak"), N_("This message is encrypted, but with a weak encryption algorithm.  It would be difficult, but not impossible for an outsider to view the content of this message in a practical amount of time.") },
+	{ "stock_lock-ok", N_("Encrypted"), N_("This message is encrypted.  It would be difficult for an outsider to view the content of this message.") },
+	{ "stock_lock-ok", N_("Encrypted, strong"), N_("This message is encrypted, with a strong encryption algorithm.  It would be very difficult for an outsider to view the content of this message in a practical amount of time.") },
 };
 
 struct _smime_pobject {
@@ -838,19 +839,14 @@ efhd_xpkcs7mime_button(EMFormatHTML *efh, GtkHTMLEmbedded *eb, EMFormatHTMLPObje
 	GtkWidget *icon, *button;
 	GdkPixbuf *pixbuf;
 	struct _smime_pobject *po = (struct _smime_pobject *)pobject;
-	char *file;
 	const char *name;
 
 	/* FIXME: need to have it based on encryption and signing too */
 	name = smime_sign_table[po->valid->sign.status].icon;
-	file = g_build_filename(EVOLUTION_ICONSDIR, name, NULL);
-	pixbuf = gdk_pixbuf_new_from_file(file, NULL);
-	g_free(file);
-	if (pixbuf == NULL)
-		return FALSE;
 
-	/* wtf isn't this just scaled on disk? */
-	icon = gtk_image_new_from_pixbuf(gdk_pixbuf_scale_simple(pixbuf, 24, 24, GDK_INTERP_BILINEAR));
+	pixbuf = e_icon_factory_get_icon (name, 24);
+
+	icon = gtk_image_new_from_pixbuf (pixbuf);
 	g_object_unref(pixbuf);
 	gtk_widget_show(icon);
 
@@ -967,10 +963,10 @@ efhd_write_image(EMFormat *emf, CamelStream *stream, EMFormatPURI *puri)
 static void efhd_format_prefix(EMFormat *emf, CamelStream *stream)
 {
 	const char *flag, *comp, *due;
-	CamelMimePart *iconpart;
 	time_t date;
 	char due_date[128];
 	struct tm due_tm;
+	gchar *iconpath;
 
 	if (emf->folder == NULL || emf->uid == NULL
 	    || (flag = camel_folder_get_message_user_tag(emf->folder, emf->uid, "follow-up")) == NULL
@@ -981,16 +977,21 @@ static void efhd_format_prefix(EMFormat *emf, CamelStream *stream)
 	camel_stream_printf(stream, "<table border=1 width=\"100%%\" cellspacing=2 cellpadding=2><tr>");
 
 	comp = camel_folder_get_message_user_tag(emf->folder, emf->uid, "completed-on");
-	iconpart = em_format_html_file_part((EMFormatHTML *)emf, "image/png", EVOLUTION_ICONSDIR,
-					    comp&&comp[0]?"flag-for-followup-done-16.png":"flag-for-followup-16.png");
-	if (iconpart) {
-		char *classid;
+	iconpath = e_icon_factory_get_icon_filename (comp && comp[0] ? "stock_flag-for-followup-done" : "stock_flag-for-followup", 16);
+	if (iconpath) {
+		CamelMimePart *iconpart;
 
-		classid = g_strdup_printf("icon:///em-format-html-display/%s/%s", emf->part_id->str, comp&&comp[0]?"comp":"uncomp");
-		camel_stream_printf(stream, "<td align=\"left\"><img src=\"%s\"></td>", classid);
-		(void)em_format_add_puri(emf, sizeof(EMFormatPURI), classid, iconpart, efhd_write_image);
-		g_free(classid);
-		camel_object_unref(iconpart);
+		iconpart = em_format_html_file_part((EMFormatHTML *)emf, "image/png", iconpath);
+		g_free (iconpath);
+		if (iconpart) {
+			char *classid;
+
+			classid = g_strdup_printf("icon:///em-format-html-display/%s/%s", emf->part_id->str, comp&&comp[0]?"comp":"uncomp");
+			camel_stream_printf(stream, "<td align=\"left\"><img src=\"%s\"></td>", classid);
+			(void)em_format_add_puri(emf, sizeof(EMFormatPURI), classid, iconpart, efhd_write_image);
+			g_free(classid);
+			camel_object_unref(iconpart);
+		}
 	}
 
 	camel_stream_printf(stream, "<td align=\"left\" width=\"100%%\">");
