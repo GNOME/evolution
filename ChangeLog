@@ -1,3 +1,7 @@
+2001-01-12  Christopher James Lahey  <clahey@helixcode.com>
+
+	* configure.in: Make evolution depend on the new version of gal.
+
 2001-01-12  Dan Winship  <danw@ximian.com>
 
 	* MAINTAINERS, AUTHORS, README: Ximianize. Also update the README
@@ -28,8 +32,8 @@
 
 2001-01-03  Christopher James Lahey  <clahey@helixcode.com>
 
-	* configure.in (EVOLUTION_DIR): Removed
-	camel/providers/mbox/Makefile and camel/providers/mh/Makefile.
+	* configure.in: Removed camel/providers/mbox/Makefile and
+	camel/providers/mh/Makefile.
 
 2001-01-01  Michael Meeks  <michael@helixcode.com>
 
