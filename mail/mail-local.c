@@ -814,7 +814,6 @@ do_register_folder (gpointer in_data, gpointer op_data, CamelException *ex)
 	if (meta->indexed)
 		flags |= CAMEL_STORE_FOLDER_BODY_INDEX;
 	local_folder->folder = camel_store_get_folder (store, meta->name, flags, ex);
-	printf("got folder exception %s\n", camel_exception_get_description(ex));
 	local_folder->last_unread = camel_folder_get_unread_message_count(local_folder->folder);
 	camel_object_unref (CAMEL_OBJECT (store));
 	free_metainfo (meta);
