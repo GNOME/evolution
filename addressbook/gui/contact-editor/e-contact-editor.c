@@ -557,6 +557,11 @@ set_entry_changed_signals(EContactEditor *editor)
 		gtk_signal_connect(GTK_OBJECT(widget), "changed",
 				   company_entry_changed, editor);
 	}
+	widget = glade_xml_get_widget(editor->gui, "entry-web");
+	if (widget && GTK_IS_ENTRY(widget)) {
+		gtk_signal_connect(GTK_OBJECT(widget), "changed",
+				   widget_changed, editor);
+	}
 	widget = glade_xml_get_widget(editor->gui, "entry-categories");
 	if (widget && GTK_IS_ENTRY(widget)) {
 		gtk_signal_connect(GTK_OBJECT(widget), "changed",
