@@ -1,3 +1,23 @@
+2002-05-03  Christopher James Lahey  <clahey@ximian.com>
+
+	* gui/component/GNOME_Evolution_Addressbook.oaf.in: Updated this
+	to have the ConfigControlFactory have an addressbookwide generic
+	name and added OAFIID:GNOME_Evolution_Addressbook_ConfigControl.
+
+	* gui/component/Makefile.am (evolution_addressbook_SOURCES),
+	gui/component/addressbook-component.c,
+	gui/component/addressbook-storage.c, gui/component/addressbook.c:
+	Replaced ldap-config.c and ldap-config.h with addressbook-config.c
+	andaddressbook-config.h.
+
+	* gui/component/addressbook-config.c,
+	gui/component/addressbook-config.h: Based on ldap-config.c and
+	ldap-config.h.  Added a folder list control.  Made this a multi
+	factory.
+
+	* gui/component/ldap-config.c, gui/component/ldap-config.h:
+	Replaced these with addressbook-config.c and addressbook-config.h.
+
 2002-05-02  Christopher James Lahey  <clahey@ximian.com>
 
 	* gui/component/select-names/e-select-names.c (selection_change):

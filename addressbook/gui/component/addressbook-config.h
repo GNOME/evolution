@@ -17,17 +17,19 @@
  * Free Software Foundation, Inc., 59 Temple Place - Suite 330,
  * Boston, MA 02111-1307, USA.
  *
- * Author: Chris Toshok
- */
+ * Authors:
+ * Chris Toshok <toshok@ximian.com>
+ * Chris Lahey <clahey@ximian.com>
+ **/
 
-#ifndef __LDAP_CONFIG_H__
-#define __LDAP_CONFIG_H__
+#ifndef __ADDRESSBOOK_CONFIG_H__
+#define __ADDRESSBOOK_CONFIG_H__
 
 #include "addressbook-storage.h"
 
-void  ldap_config_create_new_source  (const char            *new_source,
-				      GtkWidget             *parent);
+void  addressbook_config_create_new_source  (const char            *new_source,
+					     GtkWidget             *parent);
 
-gboolean  ldap_config_register_factory  (GNOME_Evolution_Shell shell);
+gboolean  addressbook_config_register_factory  (GNOME_Evolution_Shell shell);
 
-#endif /* __LDAP_CONFIG_H__ */
+#endif /* __ADDRESSBOOK_CONFIG_H__ */

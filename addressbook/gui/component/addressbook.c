@@ -32,7 +32,7 @@
 #include "evolution-activity-client.h"
 #include "e-contact-editor.h"
 #include "e-contact-save-as.h"
-#include "ldap-config.h"
+#include "addressbook-config.h"
 #include "addressbook.h"
 #include "addressbook-component.h"
 #include "addressbook/gui/search/e-addressbook-search-dialog.h"

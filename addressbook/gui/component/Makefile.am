@@ -28,6 +28,8 @@ bin_PROGRAMS =	\
 evolution_addressbook_SOURCES = 	\
 	addressbook-component.c		\
 	addressbook-component.h		\
+	addressbook-config.c		\
+	addressbook-config.h		\
 	addressbook-factory.c		\
 	addressbook-storage.c		\
 	addressbook-storage.h		\
@@ -38,9 +40,7 @@ evolution_addressbook_SOURCES = 	\
 	e-address-widget.h		\
 	e-address-widget.c		\
 	e-address-popup.h		\
-	e-address-popup.c		\
-	ldap-config.c			\
-	ldap-config.h
+	e-address-popup.c
 
 evolution_addressbook_LDADD =								\
 	select-names/libeselectnames.la							\

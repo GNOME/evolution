@@ -44,7 +44,7 @@
 #include "ebook/e-card.h"
 #include "ebook/e-book-util.h"
 
-#include "ldap-config.h"
+#include "addressbook-config.h"
 #include "addressbook-storage.h"
 #include "addressbook-component.h"
 #include "addressbook.h"
@@ -369,7 +369,7 @@ owner_set_cb (EvolutionShellComponent *shell_component,
 	if (global_shell_client == NULL)
 		global_shell_client = shell_client;
 
-	ldap_config_register_factory (bonobo_object_corba_objref (BONOBO_OBJECT (shell_client)));
+	addressbook_config_register_factory (bonobo_object_corba_objref (BONOBO_OBJECT (shell_client)));
 
 	addressbook_storage_setup (shell_component, evolution_homedir);
 }

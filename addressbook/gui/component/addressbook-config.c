@@ -1,15 +1,22 @@
 /* -*- Mode: C; tab-width: 8; indent-tabs-mode: t; c-basic-offset: 8 -*- */
+/*
+ * Authors:
+ * Chris Toshok <toshok@ximian.com>
+ * Chris Lahey <clahey@ximian.com>
+ **/
 
 /*#define STANDALONE*/
 /*#define NEW_ADVANCED_UI*/
 
 #include <config.h>
 
-#include "ldap-config.h"
+#include "addressbook-config.h"
 
+#include "addressbook.h"
 #include "addressbook-storage.h"
 
 #include "evolution-config-control.h"
+#include <shell/e-folder-list.h>
 
 #include <gal/widgets/e-unicode.h>
 #include <gal/e-table/e-table-memory-store.h>
@@ -28,6 +35,7 @@
 #include <glade/glade.h>
 
 #include <stdlib.h>
+#include <sys/time.h>
 
 #ifdef HAVE_LDAP
 #include "ldap.h"
@@ -38,8 +46,9 @@
 #define LDAPS_PORT_STRING "636"
 
 #define GLADE_FILE_NAME "ldap-config.glade"
-
-#define CONFIG_CONTROL_FACTORY_ID "OAFIID:GNOME_Evolution_LDAPStorage_ConfigControlFactory"
+#define CONFIG_CONTROL_FACTORY_ID "OAFIID:GNOME_Evolution_Addressbook_ConfigControlFactory"
+#define LDAP_CONFIG_CONTROL_ID "OAFIID:GNOME_Evolution_LDAPStorage_ConfigControl"
+#define ADDRESSBOOK_CONFIG_CONTROL_ID "OAFIID:GNOME_Evolution_Addressbook_ConfigControl"
 
 #ifdef HAVE_LDAP
 GtkWidget* addressbook_dialog_create_sources_table (char *name, char *string1, char *string2,
@@ -1455,8 +1464,8 @@ delete_source_clicked (GtkWidget *widget, AddressbookDialog *dialog)
 }
 
 static void
-config_control_destroy_callback (EvolutionConfigControl *config_control,
-				 void *data)
+ldap_config_control_destroy_callback (EvolutionConfigControl *config_control,
+				      void *data)
 {
 	AddressbookDialog *dialog;
 
@@ -1470,8 +1479,8 @@ config_control_destroy_callback (EvolutionConfigControl *config_control,
 }
 
 static void
-config_control_apply_callback (EvolutionConfigControl *config_control,
-			       void *data)
+ldap_config_control_apply_callback (EvolutionConfigControl *config_control,
+				    void *data)
 {
 	AddressbookDialog *dialog;
 	int i;
@@ -1585,7 +1594,7 @@ addressbook_dialog_create_sources_table (char *name, char *string1, char *string
 #endif /* HAVE_LDAP */
 
 static EvolutionConfigControl *
-config_control_new (GNOME_Evolution_Shell shell)
+ldap_config_control_new (GNOME_Evolution_Shell shell)
 {
 	GtkWidget *control_widget;
 	EvolutionConfigControl *control;
@@ -1611,12 +1620,78 @@ config_control_new (GNOME_Evolution_Shell shell)
 #ifdef HAVE_LDAP
 	dialog->config_control = control;
 	gtk_signal_connect (GTK_OBJECT (dialog->config_control), "apply",
-			    GTK_SIGNAL_FUNC (config_control_apply_callback), dialog);
+			    GTK_SIGNAL_FUNC (ldap_config_control_apply_callback), dialog);
 	gtk_signal_connect (GTK_OBJECT (dialog->config_control), "destroy",
-			    GTK_SIGNAL_FUNC (config_control_destroy_callback), dialog);
+			    GTK_SIGNAL_FUNC (ldap_config_control_destroy_callback), dialog);
 
 	gtk_widget_unref (dialog->page);
 #endif
+
+	return control;
+}
+
+static void
+addressbook_config_control_destroy_callback (EvolutionConfigControl *config_control,
+					     void *data)
+{
+}
+
+static void
+addressbook_config_control_apply_callback (EvolutionConfigControl *config_control,
+					   EFolderList *list)
+{
+	Bonobo_ConfigDatabase config_db;
+	char *xml;
+	CORBA_Environment ev;
+
+	CORBA_exception_init (&ev);
+
+	config_db = addressbook_config_database(&ev);
+
+	xml = e_folder_list_get_xml (list);
+	bonobo_config_set_string (config_db, "/Addressbook/Completion/uris", xml, &ev);
+	g_free (xml);
+
+	CORBA_exception_free (&ev);
+}
+
+static EvolutionConfigControl *
+addressbook_config_control_new (GNOME_Evolution_Shell shell)
+{
+	GtkWidget *control_widget;
+	EvolutionConfigControl *control;
+	EvolutionShellClient *shell_client;
+	Bonobo_ConfigDatabase config_db;
+	char *xml;
+	CORBA_Environment ev;
+	static const char *possible_types[] = { "contacts", NULL };
+
+	CORBA_exception_init (&ev);
+
+	config_db = addressbook_config_database(&ev);
+
+	xml = bonobo_config_get_string (config_db, "/Addressbook/Completion/uris", &ev);
+	shell_client = evolution_shell_client_new (shell);
+	control_widget = e_folder_list_new (shell_client,
+					    xml);
+	bonobo_object_client_unref (BONOBO_OBJECT_CLIENT (shell_client), NULL);
+	g_free (xml);
+
+	gtk_object_set (GTK_OBJECT (control_widget),
+			"title", _("Extra Completion folders"),
+			"possible_types", possible_types,
+			NULL);
+
+	gtk_widget_show (control_widget);
+
+	control = evolution_config_control_new (control_widget);
+
+	gtk_signal_connect (GTK_OBJECT (control), "apply",
+			    GTK_SIGNAL_FUNC (addressbook_config_control_apply_callback), control_widget);
+	gtk_signal_connect (GTK_OBJECT (control), "destroy",
+			    GTK_SIGNAL_FUNC (addressbook_config_control_destroy_callback), control_widget);
+
+	CORBA_exception_free (&ev);
 
 	return control;
 }
@@ -1628,6 +1703,7 @@ static BonoboGenericFactory *factory = NULL;
 
 static BonoboObject *
 config_control_factory_fn (BonoboGenericFactory *factory,
+			   const char *component_id,
 			   void *data)
 {
 	GNOME_Evolution_Shell shell;
@@ -1635,18 +1711,26 @@ config_control_factory_fn (BonoboGenericFactory *factory,
 
 	shell = (GNOME_Evolution_Shell) data;
 
-	control = config_control_new (shell);
+	if (!strcmp (component_id, LDAP_CONFIG_CONTROL_ID)) {
+		control = ldap_config_control_new (shell);
+	} else if (!strcmp (component_id, ADDRESSBOOK_CONFIG_CONTROL_ID)) {
+		control = addressbook_config_control_new (shell);
+	} else {
+		control = NULL;
+		g_assert_not_reached ();
+	}
+
 	return BONOBO_OBJECT (control);
 }
 
 gboolean
-ldap_config_register_factory (GNOME_Evolution_Shell shell)
+addressbook_config_register_factory (GNOME_Evolution_Shell shell)
 {
 	g_return_val_if_fail (shell != CORBA_OBJECT_NIL, FALSE);
 
-	factory = bonobo_generic_factory_new (CONFIG_CONTROL_FACTORY_ID,
-					      config_control_factory_fn,
-					      shell);
+	factory = bonobo_generic_factory_new_multi (CONFIG_CONTROL_FACTORY_ID,
+						    config_control_factory_fn,
+						    shell);
 
 	if (factory != NULL) {
 		return TRUE;
@@ -1657,7 +1741,7 @@ ldap_config_register_factory (GNOME_Evolution_Shell shell)
 }
 
 void
-ldap_config_create_new_source (const char *new_source, GtkWidget *parent)
+addressbook_config_create_new_source (const char *new_source, GtkWidget *parent)
 {
 #ifdef HAVE_LDAP
 #if 0

@@ -65,7 +65,7 @@
 
 #include "evolution-shell-component.h"
 
-#include "ldap-config.h"
+#include "addressbook-config.h"
 
 #define ADDRESSBOOK_SOURCES_XML "addressbook-sources.xml"
 
