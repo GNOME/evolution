@@ -14,6 +14,8 @@
 	(handle_text_plain): Remove special-case hacks for application/pgp
 	types.
 
+	* mail-config.glade: beautification.
+
 2001-07-26  Peter Williams  <peterw@ximian.com>
 
 	* mail-mt.c (do_get_pass): Use magic to make the password

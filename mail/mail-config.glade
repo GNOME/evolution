@@ -2153,7 +2153,7 @@ Kerberos
 	  <name>clistAccounts</name>
 	  <can_focus>True</can_focus>
 	  <columns>3</columns>
-	  <column_widths>53,183,38</column_widths>
+	  <column_widths>53,145,38</column_widths>
 	  <selection_mode>GTK_SELECTION_SINGLE</selection_mode>
 	  <show_titles>True</show_titles>
 	  <shadow_type>GTK_SHADOW_IN</shadow_type>
@@ -2607,6 +2607,34 @@ Kerberos
 	  </widget>
 	</widget>
       </widget>
+
+      <widget>
+	<class>GtkCheckButton</class>
+	<name>chkThreadedList</name>
+	<can_focus>True</can_focus>
+	<label>Message list should display in a threaded fashion by default</label>
+	<active>False</active>
+	<draw_indicator>True</draw_indicator>
+	<child>
+	  <padding>0</padding>
+	  <expand>False</expand>
+	  <fill>False</fill>
+	</child>
+      </widget>
+
+      <widget>
+	<class>GtkCheckButton</class>
+	<name>chkShowPreview</name>
+	<can_focus>True</can_focus>
+	<label>Message preview should be displayed by default</label>
+	<active>True</active>
+	<draw_indicator>True</draw_indicator>
+	<child>
+	  <padding>0</padding>
+	  <expand>False</expand>
+	  <fill>False</fill>
+	</child>
+      </widget>
     </widget>
 
     <widget>
@@ -2853,34 +2881,6 @@ Quoted
 	<name>chkPromptBccOnly</name>
 	<can_focus>True</can_focus>
 	<label>Prompt when sending messages with only Bcc recipients defined</label>
-	<active>True</active>
-	<draw_indicator>True</draw_indicator>
-	<child>
-	  <padding>0</padding>
-	  <expand>False</expand>
-	  <fill>False</fill>
-	</child>
-      </widget>
-
-      <widget>
-	<class>GtkCheckButton</class>
-	<name>chkThreadedList</name>
-	<can_focus>True</can_focus>
-	<label>Message list should display in a threaded fashion by default</label>
-	<active>False</active>
-	<draw_indicator>True</draw_indicator>
-	<child>
-	  <padding>0</padding>
-	  <expand>False</expand>
-	  <fill>False</fill>
-	</child>
-      </widget>
-
-      <widget>
-	<class>GtkCheckButton</class>
-	<name>chkShowPreview</name>
-	<can_focus>True</can_focus>
-	<label>Message preview should be displayed by default</label>
 	<active>True</active>
 	<draw_indicator>True</draw_indicator>
 	<child>
