@@ -1421,7 +1421,7 @@ e_shell_component_maybe_crashed   (EShell *shell,
 		parent_window = GTK_WINDOW (shell_view);
 
 	e_notice (parent_window, GNOME_MESSAGE_BOX_ERROR,
-		  _("Ooops!  The view for `%s' have died unexpectedly.  :-(\n"
+		  _("Ooops!  The views for `%s' have died unexpectedly.  :-(\n"
 		    "This probably means that the %s component has crashed."),
 		  uri, type_name);
 

@@ -1,5 +1,10 @@
 2001-08-16  Ettore Perazzoli  <ettore@ximian.com>
 
+	* e-shell.c (e_shell_component_maybe_crashed): s/the view for `%s'
+	have/the views for `%s' have/.
+
+2001-08-16  Ettore Perazzoli  <ettore@ximian.com>
+
 	* e-storage-set-view.c (etree_icon_at): Remove debugging message.
 
 2001-08-15  Jason Leach  <jleach@ximian.com>
