@@ -1,5 +1,15 @@
 2001-10-18  Jon Trowbridge  <trow@ximian.com>
 
+	* gui/component/select-names/e-select-names-completion.c
+	(check_capabilities): Added.  Check if our book is local or
+	networked.
+	(e_select_names_completion_book_ready): Call check_capabilities.
+	(e_select_names_completion_new): Call check_capabilities.
+	(e_select_names_completion_do_query): If we have a networked book,
+	keep trying if we haven't been able to cache any cards --- our
+	earlier attempts could have failed due to too many matches. (Bug
+	#12932)
+
 	* gui/component/select-names/e-select-names-manager.c
 	(focus_out_cb): Lag our cardification on focus-out.  This seems to
 	help with the unintended cardifications that can result from the

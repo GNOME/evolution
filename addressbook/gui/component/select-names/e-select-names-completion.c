@@ -65,6 +65,8 @@ struct _ESelectNamesCompletionPrivate {
 
 	gboolean match_contact_lists;
 	gboolean primary_only;
+
+	gboolean can_fail_due_to_too_many_hits; /* like LDAP, for example... */
 };
 
 static void e_select_names_completion_class_init (ESelectNamesCompletionClass *);
@@ -967,6 +969,7 @@ e_select_names_completion_do_query (ESelectNamesCompletion *comp, const gchar *q
 		fprintf (out, "cached: %s\n", comp->priv->cached_query_text);
 
 	can_reuse_cached_cards = (comp->priv->cached_query_text
+				  && (!comp->priv->can_fail_due_to_too_many_hits || comp->priv->cached_cards != NULL)
 				  && (strlen (comp->priv->cached_query_text) <= strlen (clean))
 				  && !g_utf8_strncasecmp (comp->priv->cached_query_text, clean, strlen (comp->priv->cached_query_text)));
 
@@ -1111,12 +1114,22 @@ e_select_names_completion_cancel (ECompletion *comp)
 }
 
 static void
+check_capabilities (ESelectNamesCompletion *comp, EBook *book)
+{
+	gchar *cap = e_book_get_static_capabilities (book);
+	comp->priv->can_fail_due_to_too_many_hits = !strcmp (cap, "net");
+	g_free (cap);
+}
+
+static void
 e_select_names_completion_book_ready (EBook *book, EBookStatus status, ESelectNamesCompletion *comp)
 {
 	comp->priv->book_ready = TRUE;
 
 	g_return_if_fail (E_IS_BOOK (book));
 	g_return_if_fail (E_IS_SELECT_NAMES_COMPLETION (comp));
+
+	check_capabilities (comp, book);
 
 	/* If waiting_query is non-NULL, someone tried to start a query before the book was ready.
 	   Now that it is, get started. */
@@ -1162,6 +1175,8 @@ e_select_names_completion_new (EBook *book, ESelectNamesModel *model)
 		comp->priv->book = book;
 		gtk_object_ref (GTK_OBJECT (comp->priv->book));
 		comp->priv->book_ready = TRUE;
+
+		check_capabilities (comp, book);
 
 	}
 		
