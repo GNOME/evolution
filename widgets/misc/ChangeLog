@@ -1,3 +1,20 @@
+2002-07-17  Ettore Perazzoli  <ettore@ximian.com>
+
+	[Fix #27854, spurious warnings from ESearchBar.]
+
+	* e-search-bar.c (setup_standard_verbs): Set the <commands> part
+	of the XML manually with bonobo_ui_component_set() otherwise the
+	verbs don't get added on the other side for us to be able to do
+	bonobo_ui_component_set_prop().
+	(setup_bonobo_menus): New, menu setup code taken from
+	update_bonobo_menus().
+	(remove_bonobo_menus): New; removes the Bonobo menus.
+	(update_bonobo_menus): Rewritten, just call remove_bonobo_menus()
+	first and setup_bonobo_menus() then.
+	(e_search_bar_set_ui_component): Call setup_bonobo_menus() and
+	remove_bonobo_menus() as appropriate instead of just
+	update_bonobo_menus().
+
 2002-07-02  Ettore Perazzoli  <ettore@ximian.com>
 
 	* e-search-bar.c (update_sensitivity): Removed.

@@ -210,6 +210,13 @@ setup_standard_verbs (ESearchBar *search_bar)
 	bonobo_ui_component_add_verb (search_bar->ui_component, "ESearchBar:FindNow",
 				      search_now_verb_cb, search_bar);
 
+	bonobo_ui_component_set (search_bar->ui_component, "/",
+				 ("<commands>"
+				  "  <cmd name=\"ESearchBar:Clear\"/>"
+				  "  <cmd name=\"ESearchBar:FindNow\"/>"
+				  "</commands>"),
+				 NULL);
+
 	/* Make sure the entries are created with the correct sensitivity.  */
 	set_find_now_sensitive (search_bar, FALSE);
 }
@@ -493,14 +500,12 @@ append_xml_menu_item (GString *xml,
 }
 
 static void
-update_bonobo_menus (ESearchBar *esb)
+setup_bonobo_menus (ESearchBar *esb)
 {
 	GString *xml;
 	GSList *p;
 	char *verb_name;
 	char *encoded_title;
-
-	bonobo_ui_component_rm (esb->ui_component, "/menu/SearchPlaceholder/Search", NULL);
 
 	xml = g_string_new ("");
 
@@ -535,6 +540,18 @@ update_bonobo_menus (ESearchBar *esb)
 	bonobo_ui_component_set (esb->ui_component, "/menu/SearchPlaceholder", xml->str, NULL);
 
 	g_string_free (xml, TRUE);
+}
+
+static void
+remove_bonobo_menus (ESearchBar *esb)
+{
+	bonobo_ui_component_rm (esb->ui_component, "/menu/SearchPlaceholder/Search", NULL);
+}
+
+static void
+update_bonobo_menus (ESearchBar *esb)
+{
+	setup_bonobo_menus (esb);
 }
 
 static void
@@ -994,14 +1011,16 @@ e_search_bar_set_ui_component (ESearchBar *search_bar,
 {
 	g_return_if_fail (E_IS_SEARCH_BAR (search_bar));
 
-	if (search_bar->ui_component != NULL)
+	if (search_bar->ui_component != NULL) {
+		remove_bonobo_menus (search_bar);
 		bonobo_object_unref (BONOBO_OBJECT (search_bar->ui_component));
+	}
 
 	search_bar->ui_component = ui_component;
 	if (ui_component != NULL) {
 		bonobo_object_ref (BONOBO_OBJECT (ui_component));
 		setup_standard_verbs (search_bar);
-		update_bonobo_menus (search_bar);
+		setup_bonobo_menus (search_bar);
 	}
 }
 
