@@ -54,7 +54,6 @@ shortcut_bar_mode_changed_cb (EShellView *shell_view,
 	path = (const char *) data;
 	uih = e_shell_view_get_bonobo_ui_handler (shell_view);
 
-#warning FIXME: use node_set
 	bonobo_ui_handler_menu_set_toggle_state (uih, path, toggle_state);
 }
 
@@ -75,7 +74,6 @@ folder_bar_mode_changed_cb (EShellView *shell_view,
 	path = (const char *) data;
 	uih = e_shell_view_get_bonobo_ui_handler (shell_view);
 
-#warning FIXME: use node_set
 	bonobo_ui_handler_menu_set_toggle_state (uih, path, toggle_state);
 }
 
@@ -426,9 +424,8 @@ menu_do_misc (BonoboUIComponent *component,
 }
 
 
-/* FIXME these must match the corresponding setup in the GnomeUIInfo and this sucks sucks.  */
-#define SHORTCUT_BAR_TOGGLE_PATH "/View/Show shortcut bar"
-#define FOLDER_BAR_TOGGLE_PATH "/View/Show folder bar"
+#define SHORTCUT_BAR_TOGGLE_PATH "/menu/View/ShortcutBar"
+#define FOLDER_BAR_TOGGLE_PATH "/menu/View/FolderBar"
 
 void
 e_shell_view_menu_setup (EShellView *shell_view)
@@ -455,6 +452,21 @@ e_shell_view_menu_setup (EShellView *shell_view)
 	bonobo_ui_component_add_verb_list_with_data (
 		component, help_verbs, shell_view);
 
+	container = bonobo_ui_compat_get_container (uih);
+	g_return_if_fail (container != CORBA_OBJECT_NIL);
+
+	bonobo_ui_container_freeze (container, NULL);
+
+	fname = bonobo_ui_util_get_ui_fname ("evolution.xml");
+	g_warning ("Attempting ui load from '%s'", fname);
+
+	ui = bonobo_ui_util_new_ui (component, fname, "evolution");
+
+	bonobo_ui_component_set_tree (component, container, "/", ui, NULL);
+
+	g_free (fname);
+	xmlFreeNode (ui);
+
 	menu_do_misc (component, shell_view);
 
 	gtk_signal_connect (GTK_OBJECT (shell_view), "shortcut_bar_mode_changed",
@@ -470,15 +482,5 @@ e_shell_view_menu_setup (EShellView *shell_view)
 	shortcut_bar_mode_changed_cb (shell_view, e_shell_view_get_shortcut_bar_mode (shell_view),
 				      SHORTCUT_BAR_TOGGLE_PATH);
 
-	container = bonobo_ui_compat_get_container (uih);
-	g_return_if_fail (container != CORBA_OBJECT_NIL);
-
-	fname = bonobo_ui_util_get_ui_fname ("evolution.xml");
-	g_warning ("Attempting ui load from '%s'", fname);
-
-	ui = bonobo_ui_util_new_ui (component, fname, "evolution");
-
-	bonobo_ui_component_set_tree (component, container, "/", ui, NULL);
-	g_free (fname);
-	xmlFreeNode (ui);
+	bonobo_ui_container_thaw (container, NULL);
 }
