@@ -456,7 +456,7 @@ e_mktime_utc (struct tm *tm)
 	return tt;
 }
 
-/* Like localtime_r(3), but also returns an offset in minutes after UTC.
+/* Like localtime_r(3), but also returns an offset in seconds after UTC.
    (Calling gmtime with tt + offset would generate the same tm) */
 void
 e_localtime_with_offset (time_t tt, struct tm *tm, int *offset)
