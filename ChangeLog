@@ -1,3 +1,8 @@
+2000-04-26  Matt Loper  <matt@helixcode.com>
+
+	* widgets/e-text/e-text.c (e_text_destroy): Kill text->timer and
+	text->timeout on destroy.
+
 2000-04-26  Dan Winship  <danw@helixcode.com>
 
 	* tests: Update for the camel changes.

@@ -1,3 +1,10 @@
+2000-04-26  Matt Loper  <matt@helixcode.com>
+
+	* e-shell-view.c (bonobo_widget_is_dead): Helper function to see
+	whether a bonobo widget is a zombie (ie the remote bonobo control
+	died).
+	(e_shell_view_set_view): Try to respawn dead widgets.
+
 2000-04-25  Dan Winship  <danw@helixcode.com>
 
 	* Makefile.am: include -I$(datadir)/idl in orbit-idl arguments so

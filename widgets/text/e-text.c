@@ -398,6 +398,17 @@ e_text_destroy (GtkObject *object)
 	if (text->stipple)
 		gdk_bitmap_unref (text->stipple);
 
+	if (text->timeout_id) {
+		g_source_remove(text->timeout_id);
+		text->timeout_id = 0;
+	}
+	
+	if (text->timer) {
+		g_timer_stop(text->timer);
+		g_timer_destroy(text->timer);
+		text->timer = NULL;
+	}
+				
 	if (GTK_OBJECT_CLASS (parent_class)->destroy)
 		(* GTK_OBJECT_CLASS (parent_class)->destroy) (object);
 }

@@ -19,6 +19,7 @@
 
 #include <bonobo.h>
 #include <libgnorba/gnorba.h>
+#include <gtk/gtkprivate.h>
 
 #define PARENT_TYPE gnome_app_get_type ()
 
@@ -32,8 +33,9 @@ struct _EShellViewPrivate
 };
 
 static void
-destroy_folder_view (EFolder *unused, GtkWidget *folder_view, gpointer unused2)
+destroy_folder_view (gpointer unused, gpointer pfolder_view, gpointer unused2)
 {
+	GtkWidget *folder_view = GTK_WIDGET (pfolder_view);
 	BonoboWidget *bonobo_widget;
 	BonoboObject *bonobo_object;	
 	CORBA_Object corba_control;
@@ -107,7 +109,7 @@ e_shell_view_setup_shortcut_display (EShellView *eshell_view)
 	
 	eshell_view->hpaned = e_paned_new (TRUE);
 
-	e_paned_insert (eshell_view->hpaned, 0,
+	e_paned_insert (E_PANED (eshell_view->hpaned), 0,
 			eshell_view->shortcut_bar,
 			100);
 
@@ -161,17 +163,21 @@ get_view (EShellView *eshell_view, EFolder *efolder, Bonobo_UIHandler uih)
 		BonoboControlFrame *cf;
 
 		w = bonobo_widget_new_control ("control:calendar", uih);
-		cf = bonobo_widget_get_control_frame (BONOBO_WIDGET (w));
-		pbc = bonobo_control_frame_get_control_property_bag (cf);
-		/*pbc = bonobo_control_get_property_bag (w);*/
 
-		user_cal_file =
-			g_concat_dir_and_file (gnome_util_user_home (),
-					       ".gnome/user-cal.vcf");
-
-		bonobo_property_bag_client_set_value_string (pbc,
-							     "calendar_uri",
-							     user_cal_file);
+		if (w) {
+			cf = bonobo_widget_get_control_frame (BONOBO_WIDGET (w));
+			pbc = bonobo_control_frame_get_control_property_bag (cf);
+			/*pbc = bonobo_control_get_property_bag (w);*/
+			
+			user_cal_file =
+				g_concat_dir_and_file (gnome_util_user_home (),
+						       ".gnome/user-cal.vcf");
+			
+			bonobo_property_bag_client_set_value_string (pbc,
+								     "calendar_uri",
+								     user_cal_file);
+		}
+		
 		break;
 	}
 
@@ -233,10 +239,10 @@ void e_shell_view_toggle_shortcut_bar (EShellView *eshell_view)
 	
 	if (shortcut_bar->parent) {
 		gtk_widget_ref (shortcut_bar);				
-		e_paned_remove (hpaned, shortcut_bar);
+		e_paned_remove (E_PANED (hpaned), shortcut_bar);
 	}
 	else
-		e_paned_insert (hpaned, 0, shortcut_bar, 
+		e_paned_insert (E_PANED (hpaned), 0, shortcut_bar, 
 				100);
 	gtk_widget_show_all (GTK_WIDGET (hpaned));
 }
@@ -244,6 +250,24 @@ void e_shell_view_toggle_shortcut_bar (EShellView *eshell_view)
 void e_shell_view_toggle_treeview (EShellView *eshell_view)
 {
 	
+}
+
+static gboolean
+bonobo_widget_is_dead (BonoboWidget *bw)
+{
+	BonoboObject *boc = BONOBO_OBJECT (bonobo_widget_get_server (bw));
+	CORBA_Object obj = bonobo_object_corba_objref (boc);
+
+	CORBA_Environment ev;
+	
+	gboolean is_dead = FALSE;
+
+	CORBA_exception_init (&ev);
+	if (CORBA_Object_non_existent(obj, &ev))
+		is_dead = TRUE;
+	CORBA_exception_free (&ev);
+
+	return is_dead;
 }
 
 
@@ -276,11 +300,43 @@ e_shell_view_set_view (EShellView *eshell_view, EFolder *efolder)
 	folder_view = g_hash_table_lookup (eshell_view->priv->folder_views,
 					   efolder);
 	if (folder_view) {
-		int notebook_page = gtk_notebook_page_num (notebook,
-							   folder_view);
-		g_assert (notebook_page != -1);
+		int notebook_page;
 
+		g_assert (GTK_IS_NOTEBOOK (notebook));
+		g_assert (GTK_IS_WIDGET (folder_view));
+		
+		notebook_page = gtk_notebook_page_num (notebook,
+						       folder_view);
+		g_assert (notebook_page != -1);
+		
+		/* a BonoboWidget can be a "zombie" in the sense that its
+		   actual control is dead; if it's zombie, let's recreate it*/
+		if (bonobo_widget_is_dead (BONOBO_WIDGET (folder_view))) {
+
+			GtkWidget *parent = folder_view->parent;
+			Bonobo_UIHandler uih =
+				bonobo_object_corba_objref (
+					BONOBO_OBJECT (eshell_view->uih));			
+
+			/* out with the old */
+			gtk_container_remove (GTK_CONTAINER (parent), folder_view);
+
+			/* in with the new */
+			folder_view = get_view (eshell_view, efolder, uih);
+			gtk_container_add (GTK_CONTAINER (parent), folder_view);
+
+			/* make sure it's in our hashtable, so we can get to
+			   it from the shortcut bar */
+			g_hash_table_insert (eshell_view->priv->folder_views,
+					     efolder, folder_view);
+			gtk_widget_show_all (folder_view);
+		}
+		
+		
 		gtk_notebook_set_page (notebook, notebook_page);
+
+		return;
+		
 	} else {
 		/* Get a new control that represents this efolder,
 		 * append it to our notebook, and put it in our hash.
@@ -345,7 +401,7 @@ e_shell_view_new (EShell *eshell, EFolder *efolder, gboolean show_shortcut_bar)
 			FALSE);
 
 		gtk_widget_show (eshell_view->priv->notebook);
-		
+
 		e_paned_insert (E_PANED (eshell_view->hpaned),
 				1,
 				eshell_view->priv->notebook,
