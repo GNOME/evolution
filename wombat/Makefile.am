@@ -33,8 +33,6 @@ wombat_LDADD =							\
 	$(top_builddir)/e-util/libeutil.la			\
 	$(LDAP_LIBS)
 
-wombat_LDFLAGS = `gnome-config --libs gnorba` 
-
 oafdir = $(datadir)/oaf
 oaf_DATA = GNOME_Evolution_Wombat.oafinfo
 
