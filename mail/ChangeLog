@@ -1,3 +1,7 @@
+2004-06-08  Rodney Dawes  <dobey@ximian.com>
+
+	* mail-config.glade: Fix for SSL options appearing for sendmail
+
 2004-06-08  Jeffrey Stedfast  <fejj@novell.com>
 
 	* em-folder-tree.c (em_folder_tree_set_selected): Scroll to the
