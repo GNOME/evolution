@@ -61,9 +61,11 @@ typedef struct {
 	
 	gchar *pgp_key;
 	gboolean pgp_encrypt_to_self;
+	gboolean pgp_always_sign;
 	
 	gchar *smime_key;
 	gboolean smime_encrypt_to_self;
+	gboolean smime_always_sign;
 } MailConfigAccount;
 
 typedef enum {

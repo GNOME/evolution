@@ -449,12 +449,12 @@ create_msg_composer (const char *url)
 	send_html = mail_config_get_send_html ();
 	
 	composer = url ? e_msg_composer_new_from_url (url) : e_msg_composer_new ();
-
+	
 	if (composer) {
 		e_msg_composer_set_send_html (composer, send_html);
 		e_msg_composer_show_sig_file (composer);
 	}
-
+	
 	return GTK_WIDGET (composer);
 }
 
@@ -462,7 +462,7 @@ void
 compose_msg (GtkWidget *widget, gpointer user_data)
 {
 	GtkWidget *composer;
-
+	
 	if (!check_send_configuration (FOLDER_BROWSER (user_data)))
 		return;
 	
@@ -474,7 +474,7 @@ compose_msg (GtkWidget *widget, gpointer user_data)
 			    GTK_SIGNAL_FUNC (composer_send_cb), NULL);
 	gtk_signal_connect (GTK_OBJECT (composer), "postpone",
 			    GTK_SIGNAL_FUNC (composer_postpone_cb), NULL);
-
+	
 	gtk_widget_show (composer);
 }
 
@@ -753,8 +753,8 @@ static void
 requeue_mail_reply(CamelFolder *folder, char *uid, CamelMimeMessage *msg, void *data)
 {
 	int mode = GPOINTER_TO_INT(data);
-
-	mail_reply(folder, msg, uid, mode);
+	
+	mail_reply (folder, msg, uid, mode);
 }
 
 void

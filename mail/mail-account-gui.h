@@ -71,7 +71,7 @@ typedef struct {
 	GtkToggleButton *has_html_signature;
 	GtkButton *edit_signature;
 	GtkButton *edit_html_signature;
-
+	
 	/* incoming mail */
 	MailAccountGuiService source;
 	GtkToggleButton *source_auto_check;
@@ -97,8 +97,10 @@ typedef struct {
 	/* Security */
 	GtkEntry *pgp_key;
 	GtkToggleButton *pgp_encrypt_to_self;
+	GtkToggleButton *pgp_always_sign;
 	GtkEntry *smime_key;
 	GtkToggleButton *smime_encrypt_to_self;
+	GtkToggleButton *smime_always_sign;
 } MailAccountGui;
 
 

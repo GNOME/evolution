@@ -191,9 +191,11 @@ account_copy (const MailConfigAccount *account)
 	
 	new->pgp_key = g_strdup (account->pgp_key);
 	new->pgp_encrypt_to_self = account->pgp_encrypt_to_self;
+	new->pgp_always_sign = account->pgp_always_sign;
 	
 	new->smime_key = g_strdup (account->smime_key);
 	new->smime_encrypt_to_self = account->smime_encrypt_to_self;
+	new->smime_always_sign = account->smime_always_sign;
 	
 	return new;
 }

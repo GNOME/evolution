@@ -1266,11 +1266,15 @@ mail_account_gui_new (MailConfigAccount *account)
 		e_utf8_gtk_entry_set_text (gui->pgp_key, account->pgp_key);
 	gui->pgp_encrypt_to_self = GTK_TOGGLE_BUTTON (glade_xml_get_widget (gui->xml, "pgp_encrypt_to_self"));
 	gtk_toggle_button_set_active (gui->pgp_encrypt_to_self, account->pgp_encrypt_to_self);
+	gui->pgp_always_sign = GTK_TOGGLE_BUTTON (glade_xml_get_widget (gui->xml, "pgp_always_sign"));
+	gtk_toggle_button_set_active (gui->pgp_always_sign, account->pgp_always_sign);
 	gui->smime_key = GTK_ENTRY (glade_xml_get_widget (gui->xml, "smime_key"));
 	if (account->smime_key)
 		e_utf8_gtk_entry_set_text (gui->smime_key, account->smime_key);
 	gui->smime_encrypt_to_self = GTK_TOGGLE_BUTTON (glade_xml_get_widget (gui->xml, "smime_encrypt_to_self"));
 	gtk_toggle_button_set_active (gui->smime_encrypt_to_self, account->smime_encrypt_to_self);
+	gui->smime_always_sign = GTK_TOGGLE_BUTTON (glade_xml_get_widget (gui->xml, "smime_always_sign"));
+	gtk_toggle_button_set_active (gui->smime_always_sign, account->smime_always_sign);
 	
 #ifndef HAVE_NSS
 	{
@@ -1565,7 +1569,7 @@ mail_account_gui_save (MailAccountGui *gui)
 	account->name = e_utf8_gtk_entry_get_text (gui->account_name);
 	if (gtk_toggle_button_get_active (gui->default_account))
 		mail_config_set_default_account (account);
-
+	
 	/* construct the identity */
 	identity_destroy (account->id);
 	account->id = g_new0 (MailConfigIdentity, 1);
@@ -1602,9 +1606,11 @@ mail_account_gui_save (MailAccountGui *gui)
 	g_free (account->pgp_key);
 	account->pgp_key = e_utf8_gtk_entry_get_text (gui->pgp_key);
 	account->pgp_encrypt_to_self = gtk_toggle_button_get_active (gui->pgp_encrypt_to_self);
+	account->pgp_always_sign = gtk_toggle_button_get_active (gui->pgp_always_sign);
 	g_free (account->smime_key);
 	account->smime_key = e_utf8_gtk_entry_get_text (gui->smime_key);
 	account->smime_encrypt_to_self = gtk_toggle_button_get_active (gui->smime_encrypt_to_self);
+	account->smime_always_sign = gtk_toggle_button_get_active (gui->smime_always_sign);
 	
 	mail_autoreceive_setup ();
 	
