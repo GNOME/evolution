@@ -3276,8 +3276,6 @@ manage_subscriptions (BonoboUIComponent *uih, void *user_data, const char *path)
 		gtk_signal_connect (GTK_OBJECT (SUBSCRIBE_DIALOG (subscribe_dialog)->app), "destroy",
 				    subscribe_dialog_destroy, NULL);
 		
-		gnome_dialog_set_close (GNOME_DIALOG (SUBSCRIBE_DIALOG (subscribe_dialog)->app), TRUE);
-		
 		subscribe_dialog_show (subscribe_dialog);
 	} else {
 		gdk_window_raise (SUBSCRIBE_DIALOG (subscribe_dialog)->app->window);

@@ -1,3 +1,32 @@
+2002-08-09  Peter Williams  <peterw@ximian.com>
+
+	* subscribe-dialog.c: Change this into a GnomeApp so we get a
+	statusbar and the dialog is a little more comprehensible.
+
+	* subscribe-dialog.c: (struct _FolderETree): Add members for
+	tracking activity callback information.
+	(get_short_folderinfo_got): Notify the activity callback.
+	(subscribe_get_short_folderinfo): Here too.
+	(folder_etree_init): Initialize the activity level to 0.
+	(folder_etree_construct): Take new parameters of our activity
+	callback and user_data.
+	(folder_etree_new): Here too.
+	(store_data_get_widget): Take the parameters here and pass them
+	on.
+	(sc_close_pressed): New callback for when close button is pressed.
+	(sc_activity_timeout): New timeout to move the activity bar when
+	folders are being scanned.
+	(sc_activity_cb): If activity_level > 0, start the progressbar
+	moving and set the status.
+	(menu_item_selected): Pass the callback to store_data_get_widget.
+	(subscribe_dialog_construct): Load some more widgets and adapt to
+	some changes in the XML. Also connect the close button signal and
+	initialize the progress bar's settings.
+
+	* mail-callbacks.c (manage_subscriptions): Don't call 
+	gnome_dialog_set_close on it anymore since it's no longer a gnome 
+	dialog.
+
 2002-08-14  Dan Winship  <danw@ximian.com>
 
 	* mail-config.glade: Add a "don't sign meeting requests" option to
