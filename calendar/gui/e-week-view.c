@@ -1355,6 +1355,20 @@ e_week_view_on_button_press (GtkWidget *widget,
 	g_print ("In e_week_view_on_button_press\n");
 #endif
 
+	/* Handle scroll wheel events */
+	if (event->button == 4 || event->button == 5) {
+		GtkAdjustment *adj = GTK_RANGE (week_view->vscrollbar)->adjustment;
+		gfloat new_value;
+
+		new_value = adj->value + ((event->button == 4) ?
+					  -adj->page_increment:
+					  adj->page_increment);
+		new_value = CLAMP (new_value, adj->lower, adj->upper - adj->page_size);
+		gtk_adjustment_set_value (adj, new_value);
+
+		return TRUE;
+	}
+
 	/* If an event is pressed just return. */
 	if (week_view->pressed_event_num != -1)
 		return FALSE;

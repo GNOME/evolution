@@ -133,6 +133,11 @@ static gboolean e_day_view_on_main_canvas_button_press (GtkWidget *widget,
 static gboolean e_day_view_on_main_canvas_button_release (GtkWidget *widget,
 							  GdkEventButton *event,
 							  EDayView *day_view);
+
+static gboolean e_day_view_on_time_canvas_button_press (GtkWidget *widget,
+							GdkEventButton *event,
+							EDayView *day_view);
+
 static void e_day_view_update_calendar_selection_time (EDayView *day_view);
 static gboolean e_day_view_on_main_canvas_motion (GtkWidget *widget,
 						  GdkEventMotion *event,
@@ -759,7 +764,11 @@ e_day_view_init (EDayView *day_view)
 			  0, 1, 1, 2,
 			  GTK_FILL, GTK_EXPAND | GTK_FILL, 0, 0);
 	gtk_widget_show (day_view->time_canvas);
-
+	gtk_signal_connect_after (GTK_OBJECT (day_view->time_canvas),
+				  "button_press_event",
+				  GTK_SIGNAL_FUNC (e_day_view_on_time_canvas_button_press),
+				  day_view);
+	
 	canvas_group = GNOME_CANVAS_GROUP (GNOME_CANVAS (day_view->time_canvas)->root);
 
 	day_view->time_canvas_item =
@@ -1906,6 +1915,20 @@ e_day_view_on_main_canvas_button_press (GtkWidget *widget,
 	gint event_x, event_y, scroll_x, scroll_y, row, day, event_num;
 	EDayViewPosition pos;
 
+	/* Handle scroll wheel events */
+	if (event->button == 4 || event->button == 5) {
+		GtkAdjustment *adj = GTK_LAYOUT (day_view->main_canvas)->vadjustment;
+		gfloat new_value;
+
+		new_value = adj->value + ((event->button == 4) ?
+					  -adj->page_increment / 2:
+					  adj->page_increment / 2);
+		new_value = CLAMP (new_value, adj->lower, adj->upper - adj->page_size);
+		gtk_adjustment_set_value (adj, new_value);
+
+		return TRUE;
+	}
+	
 	/* Convert the coords to the main canvas window, or return if the
 	   window is not found. */
 	if (!e_day_view_convert_event_coords (day_view, (GdkEvent*) event,
@@ -1953,6 +1976,29 @@ e_day_view_on_main_canvas_button_press (GtkWidget *widget,
 	}
 
 	return TRUE;
+}
+
+
+static gboolean
+e_day_view_on_time_canvas_button_press (GtkWidget      *widget,
+					GdkEventButton *event,
+					EDayView       *day_view)
+{
+	/* Handle scroll wheel events */
+	if (event->button == 4 || event->button == 5) {
+		GtkAdjustment *adj = GTK_LAYOUT (day_view->main_canvas)->vadjustment;
+		gfloat new_value;
+		
+		new_value = adj->value + ((event->button == 4) ?
+					  -adj->page_increment / 2:
+					  adj->page_increment / 2);
+		new_value = CLAMP (new_value, adj->lower, adj->upper - adj->page_size);
+		gtk_adjustment_set_value (adj, new_value);
+		
+		return TRUE;
+	}
+	
+	return FALSE;
 }
 
 
