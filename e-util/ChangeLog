@@ -1,3 +1,9 @@
+2004-03-18  Not Zed  <NotZed@Ximian.com>
+
+	* e-account.c (e_account_writable, e_account_writable_option):
+	added interface to find out if various fields or server options
+	are writable.  to work around gconf limitations.
+
 2004-03-04  William Jon McCann  <mccann@jhu.edu>
 
 	* e-dialog-utils.c (e_notice, e_notice_with_xid, save_ok): 

@@ -32,8 +32,45 @@
 #include <libxml/tree.h>
 #include <libxml/xmlmemory.h>
 
+#include <gconf/gconf-client.h>
+
 #define PARENT_TYPE G_TYPE_OBJECT
 static GObjectClass *parent_class = NULL;
+
+/*
+lock mail accounts	Relatively difficult -- involves redesign of the XML blobs which describe accounts
+disable adding mail accounts	Simple -- can be done with just a Gconf key and some UI work to make assoc. widgets unavailable
+disable editing mail accounts	Relatively difficult -- involves redesign of the XML blobs which describe accounts
+disable removing mail accounts	
+lock default character encoding	Simple -- Gconf key + a little UI work to desensitize widgets, etc
+disable free busy publishing	
+disable specific mime types (from being viewed)	90% done already (Unknown MIME types still pose a problem)
+lock image loading preference	
+lock junk mail filtering settings	
+**  junk mail per account
+lock work week	
+lock first day of work week	
+lock working hours	
+disable forward as icalendar	
+lock color options for tasks	
+lock default contact filing format	
+* forbid signatures	Simple -- can be done with just a Gconf key and some UI work to make assoc. widgets unavailable
+* lock user to having 1 specific signature	Simple -- can be done with just a Gconf key and some UI work to make assoc. widgets unavailable
+* forbid adding/removing signatures	Simple -- can be done with just a Gconf key and some UI work to make assoc. widgets unavailable
+* lock each account to a certain signature	Relatively difficult -- involved redesign of the XML blobs which describe accounts 
+* set default folders	
+set trash emptying frequency	
+* lock displayed mail headers	Simple -- can be done with just a Gconf key and some UI work to make assoc. widgets unavailable
+* lock authentication type (for incoming mail)	Relatively difficult -- involves redesign of the XML blobs which describe accounts
+* lock authentication type (for outgoing mail)	Relatively difficult -- involves redesign of the XML blobs which describe accounts
+* lock minimum check mail on server frequency	Simple -- can be done with just a Gconf key and some UI work to make assoc. widgets unavailable
+** lock save password
+* require ssl always	Relatively difficult -- involves redesign of the XML blobs which describe accounts
+** lock imap subscribed folder option
+** lock filtering of inbox
+** lock source account/options
+** lock destination account/options
+*/
 
 static void finalize (GObject *);
 
@@ -528,7 +565,6 @@ e_account_to_xml (EAccount *account)
 	return tmp;
 }
 
-
 /**
  * e_account_uid_from_xml:
  * @xml: an XML account description
@@ -557,4 +593,191 @@ e_account_uid_from_xml (const char *xml)
 	xmlFreeDoc (doc);
 
 	return uid;
+}
+
+enum {
+	EAP_IMAP_SUBSCRIBED = 0,
+	EAP_IMAP_NAMESPACE,
+	EAP_FILTER_INBOX,
+	EAP_FILTER_JUNK,
+	EAP_FORCE_SSL,
+	EAP_LOCK_SIGNATURE,
+	EAP_LOCK_AUTH,
+	EAP_LOCK_AUTOCHECK,
+	EAP_LOCK_DEFAULT_FOLDERS,
+	EAP_LOCK_SAVE_PASSWD,
+	EAP_LOCK_SOURCE_URL,
+	EAP_LOCK_TRANSPORT_URL,
+};
+
+static struct _system_info {
+	const char *key;
+	guint32 perm;
+} system_perms[] = {
+	{ "imap_subscribed", 1<<EAP_IMAP_SUBSCRIBED },
+	{ "imap_namespace", 1<<EAP_IMAP_NAMESPACE },
+	{ "filter_inbox", 1<<EAP_FILTER_INBOX },
+	{ "filter_junk", 1<<EAP_FILTER_JUNK },
+	{ "force_ssl", 1<<EAP_FORCE_SSL },
+	{ "signature", 1<<EAP_LOCK_SIGNATURE },
+	{ "authtype", 1<<EAP_LOCK_AUTH },
+	{ "autocheck", 1<<EAP_LOCK_AUTOCHECK },
+	{ "default_folders", 1<<EAP_LOCK_DEFAULT_FOLDERS },
+	{ "save_passwd" , 1<<EAP_LOCK_SAVE_PASSWD },
+/*	{ "source_url", 1<<EAP_LOCK_SOURCE_URL },
+	{ "transport_url", 1<<EAP_LOCK_TRANSPORT_URL },*/
+};
+
+static struct {
+	guint32 perms;
+} account_perms[E_ACCOUNT_ITEM_LAST] = {
+	{ /* E_ACCOUNT_ID_NAME, */ },
+	{ /* E_ACCOUNT_ID_ADDRESS, */ },
+	{ /* E_ACCOUNT_ID_REPLY_TO, */ },
+	{ /* E_ACCOUNT_ID_ORGANIZATION */ },
+	{ /* E_ACCOUNT_ID_DEF_SIGNATURE */ 1<<EAP_LOCK_SIGNATURE },
+	{ /* E_ACCOUNT_ID_AUTO_SIGNATURE */ 1<<EAP_LOCK_SIGNATURE },
+
+	{ /* E_ACCOUNT_SOURCE_URL */ },
+	{ /* E_ACCOUNT_SOURCE_KEEP_ON_SERVER */ },
+	{ /* E_ACCOUNT_SOURCE_AUTO_CHECK */ 1<<EAP_LOCK_AUTOCHECK },
+	{ /* E_ACCOUNT_SOURCE_AUTO_CHECK_TIME */ 1<<EAP_LOCK_AUTOCHECK },
+	{ /* E_ACCOUNT_SOURCE_SAVE_PASSWD */ 1<<EAP_LOCK_SAVE_PASSWD },
+
+	{ /* E_ACCOUNT_TRANSPORT_URL */ },
+	{ /* E_ACCOUNT_TRANSPORT_SAVE_PASSWD */ 1<<EAP_LOCK_SAVE_PASSWD },
+
+	{ /* E_ACCOUNT_DRAFTS_FOLDER_URI */ 1<<EAP_LOCK_DEFAULT_FOLDERS },
+	{ /* E_ACCOUNT_SENT_FOLDER_URI */ 1<<EAP_LOCK_DEFAULT_FOLDERS },
+
+	{ /* E_ACCOUNT_CC_ALWAYS */ },
+	{ /* E_ACCOUNT_CC_ADDRS */ },
+
+	{ /* E_ACCOUNT_BCC_ALWAYS */ },
+	{ /* E_ACCOUNT_BCC_ADDRS */ },
+
+	{ /* E_ACCOUNT_PGP_KEY */ },
+	{ /* E_ACCOUNT_PGP_ENCRYPT_TO_SELF */ },
+	{ /* E_ACCOUNT_PGP_ALWAYS_SIGN */ },
+	{ /* E_ACCOUNT_PGP_NO_IMIP_SIGN */ },
+	{ /* E_ACCOUNT_PGP_ALWAYS_TRUST */ },
+
+	{ /* E_ACCOUNT_SMIME_SIGN_KEY */ },
+	{ /* E_ACCOUNT_SMIME_ENCRYPT_KEY */ },
+	{ /* E_ACCOUNT_SMIME_SIGN_DEFAULT */ },
+	{ /* E_ACCOUNT_SMIME_ENCRYPT_TO_SELF */ },
+	{ /* E_ACCOUNT_SMIME_ENCRYPE_DEFAULT */ },
+};
+
+static GHashTable *ea_option_table;
+static GHashTable *ea_system_table;
+static guint32 ea_perms;
+
+static struct _option_info {
+	char *key;
+	guint32 perms;
+} ea_option_list[] = {
+	{ "imap_use_lsub", 1<<EAP_IMAP_SUBSCRIBED },
+	{ "imap_override_namespace", 1<<EAP_IMAP_NAMESPACE },
+	{ "imap_filter", 1<<EAP_FILTER_INBOX },
+	{ "imap_filter_junk", 1<<EAP_FILTER_JUNK },
+	{ "imap_filter_junk_inbox", 1<<EAP_FILTER_JUNK },
+	{ "*_use_ssl", 1<<EAP_FORCE_SSL },
+	{ "*_auth", 1<<EAP_LOCK_AUTH },
+};
+
+#define LOCK_BASE "/apps/evolution/lock/mail/accounts"
+
+static void
+ea_setting_notify(GConfClient *gconf, guint cnxn_id, GConfEntry *entry, void *crap)
+{
+	GConfValue *value;
+	char *tkey;
+	struct _system_info *info;
+
+	g_return_if_fail (gconf_entry_get_key (entry) != NULL);
+	
+	if (!(value = gconf_entry_get_value (entry)))
+		return;
+	
+	tkey = strrchr(entry->key, '/');
+	g_return_if_fail (tkey != NULL);
+
+	info = g_hash_table_lookup(ea_system_table, tkey+1);
+	if (info) {
+		if (gconf_value_get_bool(value))
+			ea_perms |= info->perm;
+		else
+			ea_perms &= ~info->perm;
+	}
+
+	printf("checking key '%s', new perms '%08x'\n", tkey+1, ea_perms);
+}
+
+static void
+ea_setting_setup(void)
+{
+	GConfClient *gconf = gconf_client_get_default();
+	GConfEntry *entry;
+	GError *err = NULL;
+	int i;
+	char key[64];
+
+	if (ea_option_table != NULL)
+		return;
+
+	ea_option_table = g_hash_table_new(g_str_hash, g_str_equal);
+	for (i=0;i<sizeof(ea_option_list)/sizeof(ea_option_list[0]);i++)
+		g_hash_table_insert(ea_option_table, ea_option_list[i].key, &ea_option_list[i]);
+
+	gconf_client_add_dir(gconf, LOCK_BASE, GCONF_CLIENT_PRELOAD_NONE, NULL);
+
+	ea_system_table = g_hash_table_new(g_str_hash, g_str_equal);
+	for (i=0;i<sizeof(system_perms)/sizeof(system_perms[0]);i++) {
+		g_hash_table_insert(ea_system_table, (char *)system_perms[i].key, &system_perms[i]);
+		sprintf(key, LOCK_BASE "/%s", system_perms[i].key);
+		entry = gconf_client_get_entry(gconf, key, NULL, TRUE, &err);
+		if (entry)
+			ea_setting_notify(gconf, 0, entry, NULL);
+		gconf_entry_free(entry);
+	}
+
+	if (err) {
+		g_warning("Could not load account lock settings: %s", err->message);
+		g_error_free(err);
+	}
+
+	gconf_client_notify_add(gconf, LOCK_BASE, (GConfClientNotifyFunc)ea_setting_notify, NULL, NULL, NULL);
+	g_object_unref(gconf);
+}
+
+gboolean
+e_account_writable_option(EAccount *ea, const char *protocol, const char *option)
+{
+	char *key;
+	struct _option_info *info;
+
+	ea_setting_setup();
+
+	key = alloca(strlen(protocol)+strlen(option)+2);
+	sprintf(key, "%s_%s", protocol, option);
+
+	info = g_hash_table_lookup(ea_option_table, key);
+	if (info == NULL) {
+		sprintf(key, "*_%s", option);
+		info = g_hash_table_lookup(ea_option_table, key);
+	}
+
+	printf("checking writable option '%s' perms=%08x\n", option, info?info->perms:0);
+
+	return info == NULL
+		|| (info->perms & ea_perms) == 0;
+}
+
+gboolean
+e_account_writable(EAccount *ea, e_account_item_t type)
+{
+	ea_setting_setup();
+
+	return (account_perms[type].perms & ea_perms) == 0;
 }
