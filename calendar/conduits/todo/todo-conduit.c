@@ -395,22 +395,14 @@ static char *print_remote (GnomePilotRecord *remote)
 static int
 start_calendar_server (EToDoConduitContext *ctxt)
 {
-	char *uri;
-	
 	g_return_val_if_fail (ctxt != NULL, -2);
-
+	
 	/* FIXME Need a mechanism for the user to select uri's */
 	/* FIXME Can we use the cal model? */
-	uri = g_strdup_printf ("file://%s/local/Tasks/", g_get_home_dir ());
-	ctxt->client = e_cal_new (uri, E_CAL_SOURCE_TYPE_TODO);
-	g_free (uri);
 	
-	if (!ctxt->client)
+	if (!e_cal_open_default (&ctxt->client, E_CAL_SOURCE_TYPE_TODO, NULL, NULL, NULL))
 		return -1;
-
-	if (!e_cal_open (ctxt->client,  FALSE, NULL))
-		return -1;
-
+	
 	return 0;
 }
 
@@ -456,8 +448,8 @@ map_name (EToDoConduitContext *ctxt)
 {
 	char *filename;
 	
-	filename = g_strdup_printf ("%s/evolution/local/Tasks/pilot-map-todo-%d.xml", g_get_home_dir (), ctxt->cfg->pilot_id);
-
+	filename = g_strdup_printf ("%s/.evolution/tasks/local/system/pilot-map-todo-%d.xml", g_get_home_dir (), ctxt->cfg->pilot_id);
+	
 	return filename;
 }
 
@@ -866,42 +858,34 @@ pre_sync (GnomePilotConduit *conduit,
 	LOG (g_message ( "  Using timezone: %s", icaltimezone_get_tzid (ctxt->timezone) ));
 
 	/* Set the default timezone on the backend. */
-	if (ctxt->timezone) {
-		if (!e_cal_set_default_timezone (ctxt->client, ctxt->timezone, NULL))
-			return -1;		
-	}
-
+	if (ctxt->timezone && !e_cal_set_default_timezone (ctxt->client, ctxt->timezone, NULL))
+		return -1;
+	
 	/* Get the default component */
 	if (!e_cal_get_default_object (ctxt->client, &icalcomp, NULL))
 		return -1;
-
+	
 	ctxt->default_comp = e_cal_component_new ();
 	if (!e_cal_component_set_icalcomponent (ctxt->default_comp, icalcomp)) {
 		g_object_unref (ctxt->default_comp);
 		icalcomponent_free (icalcomp);
 		return -1;
 	}
-
-	ctxt->default_comp = e_cal_component_new ();
-	if (!e_cal_component_set_icalcomponent (ctxt->default_comp, icalcomp)) {
-		g_object_unref (ctxt->default_comp);
-		icalcomponent_free (icalcomp);
-		return -1;
-	}
-
+	
 	/* Load the uid <--> pilot id map */
 	filename = map_name (ctxt);
 	e_pilot_map_read (filename, &ctxt->map);
 	g_free (filename);
 
 	/* Get the local database */
-	if (!e_cal_get_object_list_as_comp (ctxt->client, "(#t)", &ctxt->comps, NULL))
+	if (!e_cal_get_object_list_as_comp (ctxt->client, "#t", &ctxt->comps, NULL))
 		return -1;
-
+	
 	/* Count and hash the changes */
 	change_id = g_strdup_printf ("pilot-sync-evolution-todo-%d", ctxt->cfg->pilot_id);
 	if (!e_cal_get_changes (ctxt->client, change_id, &ctxt->changed, NULL))
 		return -1;
+	
 	ctxt->changed_hash = g_hash_table_new (g_str_hash, g_str_equal);
 	g_free (change_id);
 	
@@ -1367,7 +1351,7 @@ conduit_get_gpilot_conduit (guint32 pilot_id)
 
 	retval = gnome_pilot_conduit_sync_abs_new ("ToDoDB", 0x746F646F);
 	g_assert (retval != NULL);
-
+	
 	ctxt = e_todo_context_new (pilot_id);
 	gtk_object_set_data (GTK_OBJECT (retval), "todoconduit_context", ctxt);
 

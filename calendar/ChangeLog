@@ -1,3 +1,11 @@
+2004-04-22  Jeffrey Stedfast  <fejj@ximian.com>
+
+	* conduits/todo/todo-conduit.c (start_calendar_server): Use
+	e_cal_open_default() instead of e_cal_open().
+	(map_name): Changed the path for the pilot map filename.
+	(pre_sync): Changed the query to "#t" instead of "(#t)" and
+	removed a duplicate block of code (seems to have been a paste-o?).
+
 2004-04-22  JP Rosevear  <jpr@ximian.com>
 
 	Fixes #56092
