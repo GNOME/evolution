@@ -1,5 +1,5 @@
 <ETableSpecification no-headers="true" cursor-mode="line">
-  <ETableColumn model_col= "2" _title="Name" expansion="1.0" minimum_width="20" resizable="true" cell="string" compare="collate" search="string"/>
+  <ETableColumn model_col= "86" _title="Name" expansion="1.0" minimum_width="20" resizable="true" cell="string" compare="collate" search="string"/>
     <ETableState>
 	<column source="0"/>
 	    <grouping> <leaf column="0" ascending="true"/> </grouping>
