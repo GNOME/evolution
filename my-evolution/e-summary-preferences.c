@@ -6,6 +6,10 @@
  * Authors: Iain Holmes  <iain@ximian.com>
  */
 
+#ifdef HAVE_CONFIG_H
+#include <config.h>
+#endif
+
 #include "e-summary.h"
 #include "e-summary-preferences.h"
 

@@ -1,3 +1,8 @@
+2001-07-09  Kjartan Maraas  <kmaraas@gnome.org>
+
+	* e-summary-preferences.c: Added #include <config.h> to get
+	translations working.
+	
 2001-07-06  Iain Holmes  <iain@ximian.com>
 
 	* e-summary-preferences.c (str_list_from_vector): Change the delimiter
