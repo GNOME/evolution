@@ -1314,7 +1314,7 @@ e_reflow_class_init (EReflowClass *klass)
 							      NULL,
 							      G_PARAM_READWRITE));
 
-	g_object_class_install_property (object_class, PROP_EMPTY_MESSAGE,
+	g_object_class_install_property (object_class, PROP_MODEL,
 					 g_param_spec_object ("model",
 							      _( "Reflow model" ),
 							      _( "Reflow model" ),
