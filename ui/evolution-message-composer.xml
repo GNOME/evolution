@@ -123,10 +123,6 @@
 
 		<separator/>
 
-		<toolitem name="bold" type="toggle" _label="Bold"
-		_descr="Sets something as bold" pixtype="stock"
-		pixname="Open" id="bold"/>
-	
 	</dockitem>
 
 </Root>

@@ -1,3 +1,7 @@
+2000-12-12  Radek Doulik  <rodo@helixcode.com>
+
+	* evolution-message-composer.xml: removed Bold item from toolbar
+
 2000-12-04  Dan Winship  <danw@helixcode.com>
 
 	* evolution-mail.xml: Fix typo
