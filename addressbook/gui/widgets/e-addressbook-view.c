@@ -480,16 +480,12 @@ eab_view_new (void)
 	g_signal_connect_swapped (eav->paned, "button_release_event",
 				  G_CALLBACK (get_paned_position), eav);
 
-	eav->widget = gtk_label_new ("empty label here");
-	gtk_container_add (GTK_CONTAINER (eav->paned), eav->widget);
-	gtk_widget_show (eav->widget);
-
 	eav->contact_display = eab_contact_display_new ();
 	eav->contact_display_window = gtk_scrolled_window_new (NULL, NULL);
-	gtk_scrolled_window_set_policy (GTK_SCROLLED_WINDOW (eav->contact_display_window), GTK_POLICY_AUTOMATIC, GTK_POLICY_ALWAYS);
+	gtk_scrolled_window_set_policy (GTK_SCROLLED_WINDOW (eav->contact_display_window), GTK_POLICY_AUTOMATIC, GTK_POLICY_AUTOMATIC);
 	gtk_scrolled_window_set_shadow_type (GTK_SCROLLED_WINDOW (eav->contact_display_window), GTK_SHADOW_IN);
 	gtk_container_add (GTK_CONTAINER (eav->contact_display_window), eav->contact_display);
-	gtk_container_add (GTK_CONTAINER (eav->paned), eav->contact_display_window);
+	gtk_paned_add2 (GTK_PANED (eav->paned), eav->contact_display_window);
 	gtk_widget_show (eav->contact_display);
 	gtk_widget_show (eav->contact_display_window);
 	gtk_widget_show (eav->paned);
