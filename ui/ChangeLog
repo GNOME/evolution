@@ -33,7 +33,6 @@
 	Ctrl-Shift-Y so we are more like O* and don't get in the way of
 	the Ctrl-Shift-C for "New Contact".
 
->>>>>>> 1.245
 2001-09-04  Ettore Perazzoli  <ettore@ximian.com>
 
 	* evolution-mail-global.xml: Add an F9 accelerator for the
