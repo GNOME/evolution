@@ -1665,8 +1665,9 @@ eti_realize (GnomeCanvasItem *item)
 
 	free_height_cache(eti);
 
-	if (item->canvas->focused_item == NULL) {
+	if (item->canvas->focused_item == NULL && eti->selection) {
 		int row;
+
 		row = e_selection_model_cursor_row (E_SELECTION_MODEL (eti->selection));
 		row = model_to_view_row(eti, row);
 		if (row != -1) {

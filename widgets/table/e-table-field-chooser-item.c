@@ -42,6 +42,8 @@
 
 #include "e-table-field-chooser-item.h"
 
+#define d(x)
+
 #if 0
 enum {
 	BUTTON_PRESSED,
@@ -546,6 +548,7 @@ etfci_start_drag (ETableFieldChooserItem *etfci, GdkEvent *event, double x, doub
 	etfci->drag_col = ecol->col_idx;
 
 	etfci_drag_types[0].target = g_strdup_printf("%s-%s", etfci_drag_types[0].target, etfci->dnd_code);
+	d(g_print ("etfci - %s\n", etfci_drag_types[0].target));
 	list = gtk_target_list_new (etfci_drag_types, ELEMENTS (etfci_drag_types));
 	context = gtk_drag_begin (widget, list, GDK_ACTION_MOVE, 1, event);
 	g_free(etfci_drag_types[0].target);

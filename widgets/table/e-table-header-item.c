@@ -592,9 +592,12 @@ do_drag_motion(ETableHeaderItem *ethi,
 	       guint time,
 	       gboolean recreate)
 {
+	d(g_print("In do_drag_motion\n"));
+	d(g_print("x = %d, y = %d, ethi->width = %d, ethi->height = %d\n", x, y, ethi->width, ethi->height));
 	if ((x >= 0) && (x <= (ethi->width)) &&
 	    (y >= 0) && (y <= (ethi->height))){
 		int col;
+		d(g_print("In header\n"));
 		
 		col = ethi_find_col_by_x_nearest (ethi, x);
 
@@ -718,8 +721,12 @@ ethi_drag_motion (GtkWidget *widget, GdkDragContext *context,
 
 	g_free (headertype);
 
+	d(g_print ("y = %d, widget->allocation.y = %d, GTK_LAYOUT (widget)->vadjustment->value = %f\n", y, widget->allocation.y, GTK_LAYOUT (widget)->vadjustment->value));
+
+#if 0
 	x -= widget->allocation.x;
 	y -= widget->allocation.y;
+#endif
 
 	if (x < 20)
 		direction |= ET_SCROLL_LEFT;
@@ -850,6 +857,7 @@ ethi_drag_drop (GtkWidget *canvas,
 		
 		if (col != -1) {
 			char *target = g_strdup_printf ("%s-%s", TARGET_ETABLE_COL_TYPE, ethi->dnd_code);
+			d(g_print ("ethi -  %s\n", target));
 			gtk_drag_get_data (canvas, context, gdk_atom_intern(target, FALSE), time);
 			g_free (target);
 		}
