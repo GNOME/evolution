@@ -1,5 +1,11 @@
 2001-08-13  Ettore Perazzoli  <ettore@ximian.com>
 
+	* e-gray-bar.c (impl_style_set): Removed.
+	(class_init): Don't override that method anymore.
+	(e_gray_bar_new): Call `endarken_style()' here instead.
+
+2001-08-13  Ettore Perazzoli  <ettore@ximian.com>
+
 	[Fix #7109, Evolution crashes when the splash screen dialog is
 	killed by clicking the "X" button.]
 
