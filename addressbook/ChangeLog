@@ -1,5 +1,12 @@
 2003-11-07  JP Rosevear <jpr@ximian.com>
 
+	* gui/contact-editor/Makefile.am: don't include the c marshaller
+	file twice
+
+	* gui/widgets/Makefile.am: ditto
+	
+2003-11-07  JP Rosevear <jpr@ximian.com>
+
 	* gui/widgets/Makefile.am: make sure the marshal header is in the
 	source list
 

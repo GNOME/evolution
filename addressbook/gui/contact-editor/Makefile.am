@@ -27,7 +27,6 @@ libecontacteditor_la_SOURCES = 			\
 	e-contact-editor-address.h		\
 	e-contact-editor-fullname.c		\
 	e-contact-editor-fullname.h		\
-	e-contact-editor-marshal.c		\
 	e-contact-editor.c			\
 	e-contact-editor.h			\
 	e-contact-quick-add.c			\

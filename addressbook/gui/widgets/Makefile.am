@@ -49,7 +49,6 @@ libeabwidgets_la_SOURCES =			\
 	eab-popup-control.h			\
 	eab-vcard-control.c			\
 	eab-vcard-control.h			\
-	eab-marshal.c				\
 	e-minicard.c				\
 	e-minicard.h				\
 	e-minicard-label.c			\
