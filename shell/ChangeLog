@@ -1,5 +1,10 @@
 2002-06-26  Iain <iain@ximian.com>
 
+	* e-shell-importer.c (show_import_wizard): Only let the dialog be
+	opened once.
+
+2002-06-26  Iain <iain@ximian.com>
+
 	* Evolution-StorageSetView.idl: Add a notifyFolderToggled method,
 	allow checkedFolders to be writable.
 

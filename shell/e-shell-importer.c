@@ -1213,6 +1213,13 @@ druid_finish_button_change (GnomeDruid *druid)
 	gtk_label_set_text (GTK_LABEL (label), _("Import"));
 }
 
+static void
+close_dialog (GtkWidget *dialog,
+	      gboolean *dialog_open)
+{
+	*dialog_open = FALSE;
+}
+
 void
 show_import_wizard (BonoboUIComponent *component,
 		    gpointer           user_data,
@@ -1220,7 +1227,13 @@ show_import_wizard (BonoboUIComponent *component,
 {
 	ImportData *data = g_new0 (ImportData, 1);
 	GtkWidget *html;
+	static gboolean dialog_open = FALSE;
 
+	if (dialog_open) {
+		return;
+	}
+
+	dialog_open = TRUE;
 	data->view = E_SHELL_VIEW (user_data);
 	data->shell = e_shell_view_get_shell (data->view);
 
@@ -1229,6 +1242,8 @@ show_import_wizard (BonoboUIComponent *component,
 	gtk_window_set_wmclass (GTK_WINDOW (data->dialog), "importdruid",
 				"Evolution:shell");
 	gtk_window_set_transient_for (GTK_WINDOW (data->dialog), GTK_WINDOW (user_data));
+	gtk_signal_connect (GTK_OBJECT (data->dialog), "destroy",
+			    GTK_SIGNAL_FUNC (close_dialog), &dialog_open);
 	
 	data->druid = glade_xml_get_widget (data->wizard, "druid1");
 	gtk_signal_connect (GTK_OBJECT (data->druid), "cancel",
