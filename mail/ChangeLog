@@ -1,5 +1,9 @@
 2001-03-27  Dan Winship  <danw@ximian.com>
 
+	* mail-config-druid.c (construct): set the initial druid button
+	state after doing the mail_account_gui_setup, since that may
+	invoke signal handlers that will change it.
+
 	* mail-account-gui.c (mail_account_gui_new): Fill in signature and
 	organization too.
 	(mail_account_gui_save): Preserve the "enabled" flag on the source.

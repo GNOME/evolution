@@ -507,9 +507,9 @@ construct (MailConfigDruid *druid)
 	gtk_signal_connect (GTK_OBJECT (druid->gui->transport.hostname), "changed", transport_changed, druid);
 	gtk_signal_connect (GTK_OBJECT (druid->gui->transport.username), "changed", transport_changed, druid);
 
-	gnome_druid_set_buttons_sensitive (druid->druid, FALSE, TRUE, TRUE);
-
 	mail_account_gui_setup (druid->gui, GTK_WIDGET (druid));
+
+	gnome_druid_set_buttons_sensitive (druid->druid, FALSE, TRUE, TRUE);
 }
 
 MailConfigDruid *
