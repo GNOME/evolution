@@ -119,7 +119,7 @@ dict_check (gpointer ptr)
 }
 
 static void
-begin_dict_search (ECompletion *complete, const gchar *txt, gint pos, gint limit, gpointer user_data)
+request_dict_search (ECompletion *complete, const gchar *txt, gint pos, gint limit, gpointer user_data)
 {
   gint len = strlen (txt);
 
@@ -170,8 +170,8 @@ main (int argc, gchar **argv)
 
   complete = e_completion_new ();
   gtk_signal_connect (GTK_OBJECT (complete),
-		      "begin_completion",
-		      GTK_SIGNAL_FUNC (begin_dict_search),
+		      "request_completion",
+		      GTK_SIGNAL_FUNC (request_dict_search),
 		      NULL);
   gtk_signal_connect (GTK_OBJECT (complete),
 		      "end_completion",

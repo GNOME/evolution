@@ -44,6 +44,8 @@ typedef struct _ECompletion ECompletion;
 typedef struct _ECompletionClass ECompletionClass;
 struct _ECompletionPrivate;
 
+typedef gboolean (*ECompletionRefineFn) (ECompletion *, ECompletionMatch *, const gchar *search_text, gint pos);
+
 struct _ECompletion {
 	GtkObject parent;
 
@@ -53,22 +55,33 @@ struct _ECompletion {
 struct _ECompletionClass {
 	GtkObjectClass parent_class;
 
+	/* virtual functions */
+	ECompletionRefineFn (*auto_refine) (ECompletion *comp,
+					    const gchar *old_text, gint old_pos,
+					    const gchar *new_text, gint new_pos);
+	gboolean            ignore_pos_on_auto_unrefine;
+
 	/* Signals */
-	void     (*begin_completion)   (ECompletion *comp, const gchar *search_text, gint pos, gint limit);
+	void     (*request_completion)  (ECompletion *comp, const gchar *search_text, gint pos, gint limit);
+
+	void     (*begin_completion)    (ECompletion *comp, const gchar *search_text, gint pos, gint limit);
+	void     (*restart_completion)  (ECompletion *comp);
+
 	void     (*completion)         (ECompletion *comp, ECompletionMatch *match);
-	void     (*restart_completion) (ECompletion *comp);
+	void     (*lost_completion)    (ECompletion *comp, ECompletionMatch *match);
+
 	void     (*cancel_completion)  (ECompletion *comp);
 	void     (*end_completion)     (ECompletion *comp);
 	void     (*clear_completion)   (ECompletion *comp);
-	void     (*lost_completion)    (ECompletion *comp, ECompletionMatch *match);
 };
 
 GtkType      e_completion_get_type (void);
 
-void         e_completion_begin_search  (ECompletion *comp, const gchar *text, gint pos, gint limit);
-void         e_completion_cancel_search (ECompletion *comp);
+void         e_completion_begin_search    (ECompletion *comp, const gchar *text, gint pos, gint limit);
+void         e_completion_cancel_search   (ECompletion *comp);
 
 gboolean     e_completion_searching       (ECompletion *comp);
+gboolean     e_completion_refining        (ECompletion *comp);
 const gchar *e_completion_search_text     (ECompletion *comp);
 gint         e_completion_search_text_pos (ECompletion *comp);
 gint         e_completion_match_count     (ECompletion *comp);

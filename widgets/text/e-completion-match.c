@@ -48,13 +48,14 @@ e_completion_match_construct (ECompletionMatch *match)
 	g_return_if_fail (match != NULL);
 	
 	match->match_text = NULL;
-	match->menu_text = NULL;
-	match->score = 0;
+	match->menu_text  = NULL;
+	match->score      = 0;
 	match->sort_major = 0;
 	match->sort_minor = 0;
-	match->user_data = NULL;
-	match->ref = 1;
-	match->destroy = NULL;
+	match->user_data  = NULL;
+	match->ref        = 1;
+	match->hit_count  = 0;
+	match->destroy    = NULL;
 }
 
 void
