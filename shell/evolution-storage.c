@@ -406,26 +406,18 @@ impl_Storage_updateFolder (PortableServer_Servant servant,
 	if (priv->corba_storage_listeners == NULL)
 		return;
 
-	CORBA_exception_init (ev);
-
 	for (p = priv->corba_storage_listeners; p != NULL; p = p->next) {
 		GNOME_Evolution_StorageListener listener;
+		CORBA_Environment my_ev;
+
+		CORBA_exception_init (&my_ev);
 
 		listener = p->data;
-		GNOME_Evolution_StorageListener_notifyFolderUpdated (listener,
-								     path,
-								     unread_count,
-								     ev);
+		GNOME_Evolution_StorageListener_notifyFolderUpdated (listener, path,
+								     unread_count, &my_ev);
 
-		if (ev->_major != CORBA_NO_EXCEPTION)
-			continue;
-
-		/* FIXME: Handle errors */
-
-		break;
+		CORBA_exception_free (&my_ev);
 	}
-
-	CORBA_exception_free (ev);
 }
 
 static void
