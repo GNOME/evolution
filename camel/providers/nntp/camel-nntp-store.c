@@ -1027,6 +1027,11 @@ camel_nntp_try_authenticate (CamelNNTPStore *store)
 static gboolean
 nntp_connected (CamelNNTPStore *store, CamelException *ex)
 {
+	if (((CamelDiscoStore *)store)->status == CAMEL_DISCO_STORE_OFFLINE) {
+		g_warning("Trying to talk to nntp session whilst offline");
+		return FALSE;
+	}
+
 	if (store->stream == NULL)
 		return camel_service_connect (CAMEL_SERVICE (store), ex);
 	

@@ -2759,6 +2759,7 @@ header_references_decode_single (const char **in, struct _camel_header_reference
 	*in = inptr;
 }
 
+/* TODO: why is this needed?  Can't the other interface also work? */
 struct _camel_header_references *
 camel_header_references_inreplyto_decode (const char *in)
 {
@@ -2847,6 +2848,48 @@ camel_header_address_decode(const char *in, const char *charset)
 	}
 
 	return list;
+}
+
+struct _camel_header_newsgroup *
+camel_header_newsgroups_decode(const char *in)
+{
+	const char *inptr = in;
+	register char c;
+	struct _camel_header_newsgroup *head, *last, *ng;
+
+	head = NULL;
+	last = (struct _camel_header_newsgroup *)&head;
+
+	c = *in;
+	while (c) {
+		const char *start;
+
+		header_decode_lwsp(&inptr);
+		start = in;
+		while ((c = *in++) && !camel_mime_is_lwsp(c) && c != ',')
+			;
+		if (start != in) {
+			ng = g_malloc(sizeof(*ng));
+			ng->newsgroup = g_strndup(start, in-start);
+			ng->next = NULL;
+			last->next = ng;
+			last = ng;
+		}
+	}
+
+	return head;
+}
+
+void
+camel_header_newsgroups_free(struct _camel_header_newsgroup *ng)
+{
+	while (ng) {
+		struct _camel_header_newsgroup *nng = ng->next;
+
+		g_free(ng->newsgroup);
+		g_free(ng);
+		ng = nng;
+	}
 }
 
 /* this must be kept in sync with the header */

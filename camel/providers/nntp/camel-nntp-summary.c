@@ -242,14 +242,18 @@ camel_nntp_summary_check(CamelNNTPSummary *cns, CamelFolderChangeInfo *changes, 
 	unsigned int n, f, l;
 	int count;
 
+	folder = (CamelFolder *)cns->folder;
+	store = (CamelNNTPStore *)folder->parent_store;
+
+	if (((CamelDiscoStore *)store)->status == CAMEL_DISCO_STORE_OFFLINE)
+		return 0;
+
 	if (xover_setup (cns, ex) == -1) {
 		camel_exception_setv (ex, CAMEL_EXCEPTION_SERVICE_UNAVAILABLE,
 				      _("Connection error: %s"), strerror(errno));
 		return -1;
 	}
 
-	folder = (CamelFolder *)cns->folder;
-	store = (CamelNNTPStore *)folder->parent_store;
 	s = (CamelFolderSummary *)cns;
 
 	ret = camel_nntp_command(store, &line, "group %s", folder->full_name);

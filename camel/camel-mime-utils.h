@@ -106,6 +106,12 @@ struct _camel_header_address {
 	unsigned int refcount;
 };
 
+struct _camel_header_newsgroup {
+	struct _camel_header_newsgroup *next;
+
+	char *newsgroup;
+};
+
 /* MUST be called before everything else */
 void camel_mime_utils_init(void);
 
@@ -190,6 +196,9 @@ char *camel_header_encode_string (const unsigned char *in);
 /* encode a phrase, like the real name of an address */
 char *camel_header_encode_phrase (const unsigned char *in);
 
+/* FIXME: these are the only 2 functions in this header which are ch_(action)_type
+   rather than ch_type_(action) */
+
 /* decode an email date field into a GMT time, + optional offset */
 time_t camel_header_decode_date (const char *in, int *saveoffset);
 char *camel_header_format_date (time_t time, int offset);
@@ -211,6 +220,10 @@ struct _camel_header_references *camel_header_references_dup (const struct _came
 
 /* decode content-location */
 char *camel_header_location_decode (const char *in);
+
+/* nntp stuff */
+struct _camel_header_newsgroup *camel_header_newsgroups_decode(const char *in);
+void camel_header_newsgroups_free(struct _camel_header_newsgroup *ng);
 
 const char *camel_transfer_encoding_to_string (CamelTransferEncoding encoding);
 CamelTransferEncoding camel_transfer_encoding_from_string (const char *string);

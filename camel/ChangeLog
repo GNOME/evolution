@@ -1,3 +1,17 @@
+2004-03-22  Not Zed  <NotZed@Ximian.com>
+
+	* camel-mime-utils.c (camel_header_newsgroups_decode)
+	(camel_header_newsgroups_free): decode newsgroups header into a
+	list of newsgroups.
+
+	** See #55887.
+
+	* providers/nntp/camel-nntp-summary.c (camel_nntp_summary_check):
+	NOOP if we're offline.
+
+	* providers/nntp/camel-nntp-store.c (nntp_connected): spit a
+	warning if we try to do stuff whilst offline, rather than crash.
+
 2004-03-19  Not Zed  <NotZed@Ximian.com>
 
 	* camel-disco-store.c (disco_connect): ref the diary before
