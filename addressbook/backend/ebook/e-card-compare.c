@@ -46,14 +46,16 @@ combine_comparisons (ECardMatchType prev,
 /*** Name comparisons ***/
 
 /* This *so* doesn't belong here... at least not implemented in a
-   sucky way like this.  But by getting it in here now, I can fix it
-   up w/o adding a new feature when we are in feature freeze. :-) */
+   sucky way like this.  But it can be fixed later. */
 
 /* This is very Anglocentric. */
 static gchar *name_synonyms[][2] = {
 	{ "jon", "john" },   /* Ah, the hacker's perogative */
 	{ "joseph", "joe" },
 	{ "robert", "bob" },
+	{ "gene", "jean" },
+	{ "jesse", "jessie" },
+	{ "ian", "iain" },
 	{ "richard", "dick" },
 	{ "william", "bill" },
 	{ "anthony", "tony" },
@@ -72,19 +74,44 @@ static gchar *name_synonyms[][2] = {
 	{ "rebecca", "becca" },
 	{ "rebecca", "becky" },
 	{ "anderson", "andersen" },
+	{ "johnson", "johnsen" },
 	/* We could go on and on... */
 	{ NULL, NULL }
 };
 	
 static gboolean
-name_fragment_match (const gchar *a, const gchar *b)
+name_fragment_match (const gchar *a, const gchar *b, gboolean strict)
 {
-	gint i, len_a, len_b;
+	gint len;
 
-	/* This will cause "Chris" and "Christopher" to match. */
-	len_a = g_utf8_strlen (a, -1);
-	len_b = g_utf8_strlen (b, -1);
-	if (!g_utf8_strncasecmp (a, b, MIN (len_a, len_b)))
+	if (!(a && b && *a && *b))
+		return FALSE;
+
+	/* If we are in 'strict' mode, b must match the beginning of a.
+	   So "Robert", "Rob" would match, but "Robert", "Robbie" wouldn't.
+
+	   If strict is FALSE, it is sufficient for the strings to share
+	   some leading characters.  In this case, "Robert" and "Robbie"
+	   would match, as would "Dave" and "Dan". */
+	
+	if (strict) {
+		len = g_utf8_strlen (b, -1);
+	} else {
+		len = MIN (g_utf8_strlen (a, -1), g_utf8_strlen (b, -1));
+	}
+
+	return !g_utf8_strncasecmp (a, b, len);
+}
+
+static gboolean
+name_fragment_match_with_synonyms (const gchar *a, const gchar *b, gboolean strict)
+{
+	gint i;
+
+	if (!(a && b && *a && *b))
+		return FALSE;
+
+	if (name_fragment_match (a, b, strict))
 		return TRUE;
 
 	/* Check for nicknames.  Yes, the linear search blows. */
@@ -105,10 +132,21 @@ name_fragment_match (const gchar *a, const gchar *b)
 ECardMatchType
 e_card_compare_name_to_string (ECard *card, const gchar *str)
 {
+	return e_card_compare_name_to_string_full (card, str, FALSE, NULL, NULL, NULL);
+}
+
+ECardMatchType
+e_card_compare_name_to_string_full (ECard *card, const gchar *str, gboolean allow_partial_matches,
+				    gint *matched_parts_out, ECardMatchPart *first_matched_part_out, gint *matched_character_count_out)
+{
 	gchar **namev, **givenv = NULL, **addv = NULL, **familyv = NULL;
-	gboolean matched_given = FALSE, matched_additional = FALSE, matched_family = FALSE, mismatch = FALSE;
+
+	gint matched_parts = E_CARD_MATCH_PART_NONE;
+	ECardMatchPart first_matched_part = E_CARD_MATCH_PART_NONE;
+	ECardMatchPart this_part_match = E_CARD_MATCH_PART_NOT_APPLICABLE;
 	ECardMatchType match_type;
-	gint match_count = 0;
+
+	gint match_count = 0, matched_character_count = 0, fragment_count;
 	gint i, j;
 	gchar *str_cpy, *s;
 
@@ -116,7 +154,6 @@ e_card_compare_name_to_string (ECard *card, const gchar *str)
 	g_return_val_if_fail (card->name != NULL, E_CARD_MATCH_NOT_APPLICABLE);
 	g_return_val_if_fail (str != NULL, E_CARD_MATCH_NOT_APPLICABLE);
 
-	/* FIXME: utf-8 */
 	str_cpy = s = g_strdup (str);
 	while (*s) {
 		if (*s == ',' || *s == '"')
@@ -132,67 +169,105 @@ e_card_compare_name_to_string (ECard *card, const gchar *str)
 		addv = g_strsplit (card->name->additional, " ", 0);
 	if (card->name->family)
 		familyv = g_strsplit (card->name->family, " ", 0);
+
+	fragment_count = 0;
+	for (i = 0; givenv && givenv[i]; ++i)
+		++fragment_count;
+	for (i = 0; addv && addv[i]; ++i)
+		++fragment_count;
+	for (i = 0; familyv && familyv[i]; ++i)
+		++fragment_count;
 	
-	for (i = 0; namev[i] && !mismatch; ++i) {
+	for (i = 0; namev[i] && this_part_match != E_CARD_MATCH_PART_NONE; ++i) {
 
 		if (*namev[i]) {
 
-			mismatch = TRUE;
+			this_part_match = E_CARD_MATCH_PART_NONE;
 
-			if (mismatch && givenv) {
+			/* When we are allowing partials, we are strict about the matches we allow.
+			   Does this make sense?  Not really, but it does the right thing for the purposes
+			   of completion. */
+
+			if (givenv && this_part_match == E_CARD_MATCH_PART_NONE) {
 				for (j = 0; givenv[j]; ++j) {
-					if (name_fragment_match (givenv[j], namev[i])) {
-						matched_given = TRUE;
-						mismatch = FALSE;
-						++match_count;
+					if (name_fragment_match_with_synonyms (givenv[j], namev[i], allow_partial_matches)) {
+
+						this_part_match = E_CARD_MATCH_PART_GIVEN_NAME;
+
+						/* We remove a piece of a name once it has been matched against, so
+						   that "john john" won't match "john doe". */
+						g_free (givenv[j]);
+						givenv[j] = g_strdup ("");
 						break;
 					}
 				}
 			}
 
-			if (mismatch && addv) {
+			if (addv && this_part_match == E_CARD_MATCH_PART_NONE) {
 				for (j = 0; addv[j]; ++j) {
-					if (name_fragment_match (addv[j], namev[i])) {
-						matched_additional = TRUE;
-						mismatch = FALSE;
-						++match_count;
+					if (name_fragment_match_with_synonyms (addv[j], namev[i], allow_partial_matches)) {
+						
+						this_part_match = E_CARD_MATCH_PART_ADDITIONAL_NAME;
+
+						g_free (addv[j]);
+						addv[j] = g_strdup ("");
 						break;
 					}
 				}
 			}
 
-			if (mismatch && familyv) {
+			if (familyv && this_part_match == E_CARD_MATCH_PART_NONE) {
 				for (j = 0; familyv[j]; ++j) {
-					if (!g_utf8_strcasecmp (familyv[j], namev[i])) {
-						matched_family = TRUE;
-						mismatch = FALSE;
-						++match_count;
+					if (allow_partial_matches ? name_fragment_match_with_synonyms (familyv[j], namev[i], allow_partial_matches)
+					    : !g_utf8_strcasecmp (familyv[j], namev[i])) {
+
+						this_part_match = E_CARD_MATCH_PART_FAMILY_NAME;
+
+						g_free (familyv[j]);
+						familyv[j] = g_strdup ("");
 						break;
 					}
 				}
 			}
 
+			if (this_part_match != E_CARD_MATCH_PART_NONE) {
+				++match_count;
+				matched_character_count += g_utf8_strlen (namev[i], -1);
+				matched_parts |= this_part_match;
+				if (first_matched_part == E_CARD_MATCH_PART_NONE)
+					first_matched_part = this_part_match;
+			}
 		}
 	}
-
 
 	match_type = E_CARD_MATCH_NONE;
-	if (! mismatch) {
-		
-		switch ( (matched_family ? 1 : 0) + (matched_additional ? 1 : 0) + (matched_given ? 1 : 0)) {
 
-		case 0:
-			match_type =  E_CARD_MATCH_NONE;
-			break;
-		case 1:
+	if (this_part_match != E_CARD_MATCH_PART_NONE) {
+
+		if (match_count > 0)
 			match_type = E_CARD_MATCH_VAGUE;
-			break;
-		case 2:
-		case 3:
+		
+		if (fragment_count == match_count) {
+
+			match_type = E_CARD_MATCH_EXACT;
+
+		} else if (fragment_count == match_count + 1) {
+
 			match_type = E_CARD_MATCH_PARTIAL;
-			break;
+
 		}
 	}
+
+	if (match_type != E_CARD_MATCH_NONE) {
+		g_message ("Matched %s on %s", e_card_name_to_string (card->name), str);
+	}
+
+	if (matched_parts_out)
+		*matched_parts_out = matched_parts;
+	if (first_matched_part_out)
+		*first_matched_part_out = first_matched_part;
+	if (matched_character_count_out)
+		*matched_character_count_out = matched_character_count;
 
 	g_strfreev (namev);
 	g_strfreev (givenv);
@@ -220,7 +295,7 @@ e_card_compare_name (ECard *card1, ECard *card2)
 
 	if (a->given && b->given) {
 		++possible;
-		if (name_fragment_match (a->given, b->given)) {
+		if (name_fragment_match_with_synonyms (a->given, b->given, FALSE /* both inputs are complete */)) {
 			++matches;
 			given_match = TRUE;
 		}
@@ -228,7 +303,7 @@ e_card_compare_name (ECard *card1, ECard *card2)
 
 	if (a->additional && b->additional) {
 		++possible;
-		if (name_fragment_match (a->additional, b->additional)) {
+		if (name_fragment_match_with_synonyms (a->additional, b->additional, FALSE /* both inputs are complete */)) {
 			++matches;
 			additional_match = TRUE;
 		}

@@ -534,8 +534,7 @@ static void
 have_address_query_cb (EBook *book, EBookSimpleQueryStatus status, const GList *cards, gpointer closure)
 {
 	HaveAddressInfo *info = (HaveAddressInfo *) closure;
-
-
+	
 	info->cb (book, 
 		  info->email,
 		  cards && (status == E_BOOK_SIMPLE_QUERY_STATUS_SUCCESS) ? E_CARD (cards->data) : NULL,

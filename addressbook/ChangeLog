@@ -1,3 +1,21 @@
+2001-10-02  Jon Trowbridge  <trow@gnu.org>
+
+	* gui/component/select-names/e-select-names-completion.c
+	(name_style_query): Strip out commas before forming our query.
+	(match_name): Use e_card_compare_name_to_string_full, rather
+	than our crufty old matching code.  Not only is this cleaner,
+	but that crufty old code was very broken when it came to 
+	handling strings with whitespace. (Bug 8988)
+	(match_nickname): utf8 and bug fixes.
+
+	* backend/ebook/e-card-compare.c
+	(e_card_compare_name_to_string_full): Added.  This is basically
+	e_card_compare_name_to_string with a bunch of extra options, so
+	that it can more readily be reused in other contexts.
+	(e_card_compare_name_to_string): This is now just a call to
+	e_card_compare_name_to_string_full with the extra args filled in
+	to defaults that simulate the old behavior.
+
 2001-10-02  Chris Toshok  <toshok@ximian.com>
 
         * backend/ebook/e-book.c (e_book_construct): remove most of the

@@ -42,6 +42,7 @@
 #include <addressbook/backend/ebook/e-book-util.h>
 #include <addressbook/backend/ebook/e-destination.h>
 #include <addressbook/backend/ebook/e-card-simple.h>
+#include <addressbook/backend/ebook/e-card-compare.h>
 
 
 struct _ESelectNamesCompletionPrivate {
@@ -142,15 +143,14 @@ match_nickname (ESelectNamesCompletion *comp, EDestination *dest)
 	if (card->nickname == NULL)
 		return NULL;
 
-	len = MIN (strlen (card->nickname), strlen (comp->priv->query_text));
-
+	len = g_utf8_strlen (comp->priv->query_text, -1);
 	if (card->nickname && !g_utf8_strncasecmp (comp->priv->query_text, card->nickname, len)) {
 		const gchar *name;
 		gchar *str;
 
 		score = len * 2; /* nickname gives 2 points per matching character */
 
-		if (len == strlen (card->nickname)) /* boost score on an exact match */
+		if (len == g_utf8_strlen (card->nickname, -1)) /* boost score on an exact match */
 		    score *= 10;
 
 		name = e_destination_get_name (dest);
@@ -216,10 +216,15 @@ static gchar *
 name_style_query (ESelectNamesCompletion *comp, const gchar *field)
 {
 	if (comp && comp->priv->query_text && *comp->priv->query_text) {
-		gchar *cpy = g_strdup (comp->priv->query_text);
+		gchar *cpy = g_strdup (comp->priv->query_text), *c;
 		gchar **strv;
 		gchar *query;
 		gint i, count=0;
+
+		for (c = cpy; *c; ++c) {
+			if (*c == ',')
+				*c = ' ';
+		}
 
 		strv = g_strsplit (cpy, " ", 0);
 		for (i=0; strv[i]; ++i) {
@@ -252,35 +257,6 @@ sexp_name (ESelectNamesCompletion *comp)
 	return name_style_query (comp, "full_name");
 }
 
-enum {
-	MATCHED_NOTHING         = 0,
-	MATCHED_GIVEN_NAME      = 1<<0,
-	MATCHED_ADDITIONAL_NAME = 1<<1,
-	MATCHED_FAMILY_NAME     = 1<<2
-};
-
-/*
-  Match text against every substring in fragment that follows whitespace.
-  This allows the fragment "de Icaza" to match against txt "ica".
-*/
-static gboolean
-match_name_fragment (const gchar *fragment, const gchar *txt)
-{
-	gint len = strlen (txt);
-
-	while (*fragment) {
-		if (!g_utf8_strncasecmp (fragment, txt, len))
-			return TRUE;
-
-		while (*fragment && !isspace ((gint) *fragment))
-			++fragment;
-		while (*fragment && isspace ((gint) *fragment))
-			++fragment;
-	}
-
-	return FALSE;
-}
-
 static ECompletionMatch *
 match_name (ESelectNamesCompletion *comp, EDestination *dest)
 {
@@ -288,9 +264,9 @@ match_name (ESelectNamesCompletion *comp, EDestination *dest)
 	gchar *menu_text = NULL;
 	ECard *card;
 	const gchar *email;
-	gchar *cpy, **strv;
-	gint len, i, match_len = 0;
-	gint match = MATCHED_NOTHING, first_match = MATCHED_NOTHING;
+	gint match_len = 0;
+	ECardMatchType match;
+	ECardMatchPart first_match;
 	double score = 0;
 	gboolean have_given, have_additional, have_family;
 
@@ -301,56 +277,15 @@ match_name (ESelectNamesCompletion *comp, EDestination *dest)
 
 	email = e_destination_get_email (dest);
 
-	cpy = g_strdup (comp->priv->query_text);
-	strv = g_strsplit (cpy, " ", 0);
-	
-	for (i=0; strv[i] != NULL; ++i) {
-		gint this_match = MATCHED_NOTHING;
+	match = e_card_compare_name_to_string_full (card, comp->priv->query_text, TRUE /* yes, allow partial matches */,
+						    NULL, &first_match, &match_len);
 
-		g_strstrip (strv[i]);
-		len = strlen (strv[i]);
-
-		if (card->name->given
-		    && *card->name->given
-		    && !(match & MATCHED_GIVEN_NAME)
-		    && match_name_fragment (card->name->given, strv[i])) {
-
-			this_match = MATCHED_GIVEN_NAME;
-
-		}
-		else if (card->name->additional
-			 && *card->name->additional
-			 && !(match & MATCHED_ADDITIONAL_NAME)
-			 && match_name_fragment (card->name->additional, strv[i])) {
-
-			this_match = MATCHED_ADDITIONAL_NAME;
-
-		} else if (card->name->family
-			   && *card->name->family
-			   && !(match & MATCHED_FAMILY_NAME)
-			   && match_name_fragment (card->name->family, strv[i])) {
-			
-			this_match = MATCHED_FAMILY_NAME;
-		}
-
-
-		if (this_match != MATCHED_NOTHING) {
-			match_len += len;
-			match |= this_match;
-			if (i == 0)
-				first_match = this_match;
-		} else {
-			match = first_match = MATCHED_NOTHING;
-			break;
-		}
-
-	}
-
-	g_free (cpy);
-	g_strfreev (strv);
+	if (match <= E_CARD_MATCH_NONE)
+		return NULL;
 	
 	score = match_len * 3; /* three points per match character */
 
+#if 0
 	if (card->nickname) {
 		/* We massively boost the score if the nickname exists and is the same as one of the "real" names.  This keeps the
 		   nickname from matching ahead of the real name for this card. */
@@ -360,23 +295,24 @@ match_name (ESelectNamesCompletion *comp, EDestination *dest)
 		    || (card->name->additional && !g_utf8_strncasecmp (card->name->additional, card->nickname, MIN (strlen (card->name->additional), len))))
 			score *= 100;
 	}
+#endif
 
 	have_given       = card->name->given && *card->name->given;
 	have_additional  = card->name->additional && *card->name->additional;
 	have_family      = card->name->family && *card->name->family;
 
-	if (first_match != MATCHED_NOTHING && e_card_evolution_list (card)) {
+	if (e_card_evolution_list (card)) {
 
 		menu_text = e_card_name_to_string (card->name);
 
-	} else if (first_match == MATCHED_GIVEN_NAME) {
+	} else if (first_match == E_CARD_MATCH_PART_GIVEN_NAME) {
 
 		if (have_family)
 			menu_text = g_strdup_printf ("%s %s <%s>", card->name->given, card->name->family, email);
 		else
 			menu_text = g_strdup_printf ("%s <%s>", card->name->given, email);
 
-	} else if (first_match == MATCHED_ADDITIONAL_NAME) {
+	} else if (first_match == E_CARD_MATCH_PART_ADDITIONAL_NAME) {
 
 		if (have_family) {
 			
@@ -397,7 +333,7 @@ match_name (ESelectNamesCompletion *comp, EDestination *dest)
 
 		}
 
-	} else if (first_match == MATCHED_FAMILY_NAME) {
+	} else if (first_match == E_CARD_MATCH_PART_FAMILY_NAME) { 
 
 		if (have_given)
 			menu_text = g_strdup_printf ("%s, %s%s%s <%s>",
@@ -408,6 +344,11 @@ match_name (ESelectNamesCompletion *comp, EDestination *dest)
 						     email);
 		else
 			menu_text = g_strdup_printf ("%s <%s>", card->name->family, email);
+
+	} else { /* something funny happened */
+
+		menu_text = g_strdup_printf ("<%s> ???", email);
+
 	}
 
 	if (menu_text) {
@@ -435,9 +376,8 @@ match_file_as (ESelectNamesCompletion *comp, EDestination *dest)
 	const gchar *name;
 	const gchar *email;
 	gchar *cpy, **strv, *menu_text;
-	gint i;
-	gboolean matched;
-	double score = 0;
+	gint i, len;
+	double score = 0.00001;
 	ECompletionMatch *match;
 
 	name = e_destination_get_name (dest);
@@ -449,17 +389,18 @@ match_file_as (ESelectNamesCompletion *comp, EDestination *dest)
 	cpy = g_strdup (comp->priv->query_text);
 	strv = g_strsplit (cpy, " ", 0);
 
-	matched = FALSE;
-	for (i=0; strv[i] && !matched; ++i) {
-		matched = match_name_fragment (name, strv[i]);
-		if (matched)
-			score = strlen (strv[i]); /* one point per character of the match */
+	for (i=0; strv[i] && score > 0; ++i) {
+		len = g_utf8_strlen (strv[i], -1);
+		if (!g_utf8_strncasecmp (name, strv[i], len))
+			score += len; /* one point per character of the match */
+		else
+			score = 0;
 	}
 	
 	g_free (cpy);
 	g_strfreev (strv);
 
-	if (!matched)
+	if (score <= 0)
 		return NULL;
 	
 	menu_text = g_strdup_printf ("%s <%s>", name, email);
@@ -1075,6 +1016,7 @@ static SearchOverride override[] = {
 	{ "why?", { "\"I must create a system, or be enslaved by another man's.\"",
 		    "            -- Wiliam Blake, \"Jerusalem\"",
 		    NULL } },
+	{ "easter-egg?", { "What were you expecting, a flight simulator?", NULL } },
 	{ NULL, { NULL } } };
 
 static gboolean
