@@ -1,3 +1,46 @@
+2004-12-22  Hans Petter Jansson  <hpj@novell.com>
+
+	* gui/Makefile.am (IDLS)
+	(SELECT_NAMES_IDL_GENERATED_H)
+	(SELECT_NAMES_IDL_GENERATED_C)
+	(SELECT_NAMES_IDL_GENERATED)
+	(IDL_GENERATED): Remove the addressbook IDL.
+
+	* gui/e-meeting-list-view.c (e_meeting_list_finalize)
+	(add_section)
+	(e_meeting_list_view_init)
+	(process_section)
+	(name_selector_dialog_close_cb)
+	(get_select_name_dialog): Adapt to new ENameSelector.
+
+	* gui/e-select-names-editable.c (esne_start_editing)
+	(esne_finalize)
+	(esne_init)
+	(e_select_names_editable_get_type)
+	(entry_activate)
+	(e_select_names_editable_construct)
+	(e_select_names_editable_get_address)
+	(e_select_names_editable_get_name)
+	(e_select_names_editable_set_address): Adapt to new ENameSelector.
+
+	* gui/e-select-names-renderer.c (e_select_names_renderer_editing_done)
+	(e_select_names_renderer_activated)
+	(e_select_names_renderer_start_editing): Adapt to new ENameSelector.
+
+	* gui/dialogs/alarm-dialog.c (malarm_widgets_to_alarm)
+	(addressbook_clicked_cb)
+	(addressbook_response_cb)
+	(setup_select_names)
+	(check_custom_email)
+	(malarm_addresses_changed_cb): Adapt to new ENameSelector.
+
+	* gui/dialogs/e-delegate-dialog.c (e_delegate_dialog_finalize)
+	(e_delegate_dialog_construct)
+	(addressbook_clicked_cb)
+	(addressbook_response_cb)
+	(e_delegate_dialog_get_delegate)
+	(e_delegate_dialog_get_delegate_name): Adapt to new ENameSelector.
+	
 2004-12-22  JP Rosevear  <jpr@novell.com>
 
 	* gui/e-meeting-store.c (freebusy_async): prevent compare against

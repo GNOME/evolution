@@ -22,9 +22,9 @@
 
 #include <libgnomeui/gnome-app.h>
 #include <libgnomeui/gnome-app-helper.h>
-#include <bonobo/bonobo-ui-component.h>
 #include <glade/glade.h>
 #include <gal/e-table/e-table-model.h>
+#include <libedataserverui/e-name-selector.h>
 
 #include "addressbook/gui/contact-editor/eab-editor.h"
 
@@ -40,8 +40,6 @@ G_BEGIN_DECLS
 #define E_IS_CONTACT_LIST_EDITOR(obj)	   (G_TYPE_CHECK_INSTANCE_TYPE ((obj), E_TYPE_CONTACT_LIST_EDITOR))
 #define E_IS_CONTACT_LIST_EDITOR_CLASS(klass) (G_TYPE_CHECK_CLASS_TYPE ((obj), E_TYPE_CONTACT_LIST_EDITOR))
 
-#define SELECT_NAMES_OAFIID "OAFIID:GNOME_Evolution_Addressbook_SelectNames:" BASE_VERSION
-
 typedef struct _EContactListEditor       EContactListEditor;
 typedef struct _EContactListEditorClass  EContactListEditorClass;
 
@@ -53,9 +51,6 @@ struct _EContactListEditor
 	EBook *book;
 
 	EContact *contact;
-
-	/* UI handler */
-	BonoboUIComponent *uic;
 
 	GladeXML *gui;
 	GtkWidget *app;
@@ -74,13 +69,7 @@ struct _EContactListEditor
 	GtkWidget *ok_button;
 	GtkWidget *cancel_button;
 
-	/* FIXME: Unfortunately, we can't use the proper name here, as it'd
-	 * create a circular dependency. The long-term solution would be to
-	 * move the select-names component out of the component/ dir so it can
-	 * be built before sources using this.
-	 * 
-	 * GNOME_Evolution_Addressbook_SelectNames corba_select_names; */
-	gpointer corba_select_names;
+	ENameSelector *name_selector;
 
 	/* Whether we are editing a new contact or an existing one */
 	guint is_new_list : 1;

@@ -31,6 +31,8 @@ extern "C" {
 #pragma }
 #endif /* __cplusplus */
 
+#define ADAPTED_TO_E_NAME_SELECTOR 1
+
 typedef struct _EABPopup EABPopup;
 typedef struct _EABPopupClass EABPopupClass;
 
@@ -113,6 +115,8 @@ struct _EABPopupTargetSource {
 	struct _ESourceSelector *selector;
 };
 
+#ifdef ADAPTED_TO_E_NAME_SELECTOR
+
 /**
  * struct _EABPopupTargetSelectNames - A select names target.
  * 
@@ -129,6 +133,8 @@ struct _EABPopupTargetSelectNames {
 	struct _ESelectNamesModel *model;
 	int row;
 };
+
+#endif
 
 typedef struct _EPopupItem EABPopupItem;
 
@@ -149,7 +155,12 @@ EABPopup *eab_popup_new(const char *menuid);
 
 EABPopupTargetSelect *eab_popup_target_new_select(EABPopup *eabp, struct _EBook *book, int readonly, GPtrArray *cards);
 EABPopupTargetSource *eab_popup_target_new_source(EABPopup *eabp, struct _ESourceSelector *selector);
+
+#ifdef ADAPTED_TO_E_NAME_SELECTOR
+
 EABPopupTargetSelectNames *eab_popup_target_new_select_names(EABPopup *eabp, struct _ESelectNamesModel *model, int row);
+
+#endif
 
 /* ********************************************************************** */
 

@@ -2,8 +2,7 @@
 
 IDLS =												   	\
 	$(top_srcdir)/composer/Evolution-Composer.idl						  	\
-	$(top_srcdir)/calendar/idl/evolution-calendar.idl						\
-	$(top_srcdir)/addressbook/gui/component/select-names/Evolution-Addressbook-SelectNames.idl
+	$(top_srcdir)/calendar/idl/evolution-calendar.idl
 
 CALENDAR_IDL_GENERATED_H =              		\
 	evolution-calendar.h
@@ -33,23 +32,7 @@ $(COMPOSER_IDL_GENERATED_H): $(IDLS)
                 $(srcdir)/../../composer/Evolution-Composer.idl
 $(COMPOSER_IDL_GENERATED_C): $(COMPOSER_IDL_GENERATED_H)
 
-# SelectNames IDL files
-
-SELECT_NAMES_IDL_GENERATED_H =              		\
-	Evolution-Addressbook-SelectNames.h
-SELECT_NAMES_IDL_GENERATED_C =                 		\
-	Evolution-Addressbook-SelectNames-common.c	\
-	Evolution-Addressbook-SelectNames-skels.c	\
-	Evolution-Addressbook-SelectNames-stubs.c
-SELECT_NAMES_IDL_GENERATED = $(SELECT_NAMES_IDL_GENERATED_C) $(SELECT_NAMES_IDL_GENERATED_H)
-
-$(SELECT_NAMES_IDL_GENERATED_H): $(IDLS)
-	$(ORBIT_IDL) -I $(srcdir) $(IDL_INCLUDES)   \
-                $(top_srcdir)/addressbook/gui/component/select-names/Evolution-Addressbook-SelectNames.idl
-$(SELECT_NAMES_IDL_GENERATED_C): $(SELECT_NAMES_IDL_GENERATED_H)
-
-
-IDL_GENERATED = $(CALENDAR_IDL_GENERATED) $(COMPOSER_IDL_GENERATED) $(SELECT_NAMES_IDL_GENERATED)
+IDL_GENERATED = $(CALENDAR_IDL_GENERATED) $(COMPOSER_IDL_GENERATED)
 
 # The marshallers
 MARSHAL_GENERATED = e-calendar-marshal.c e-calendar-marshal.h

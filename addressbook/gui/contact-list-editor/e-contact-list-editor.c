@@ -36,10 +36,6 @@
 #include <gal/e-table/e-table-scrolled.h>
 #include <libgnomevfs/gnome-vfs-ops.h>
 
-#include <bonobo/bonobo-control.h>
-#include <bonobo/bonobo-widget.h>
-#include <bonobo/bonobo-exception.h>
-
 #include "shell/evolution-shell-component-utils.h"
 
 #include "widgets/misc/e-image-chooser.h"
@@ -47,9 +43,8 @@
 #include "addressbook/gui/component/addressbook.h"
 #include "addressbook/gui/widgets/eab-gui-util.h"
 #include "addressbook/util/eab-book-util.h"
-#include "Evolution-Addressbook-SelectNames.h"
 
-#include  "eab-editor.h"
+#include "eab-editor.h"
 #include "e-contact-editor.h"
 #include "e-contact-list-model.h"
 #include "e-contact-list-editor-marshal.h"
@@ -335,11 +330,17 @@ source_selected (GtkWidget *source_option_menu, ESource *source, EContactListEdi
 static void
 e_contact_list_editor_dispose (GObject *object)
 {
-	cancel_load (E_CONTACT_LIST_EDITOR (object));
+	EContactListEditor *editor = E_CONTACT_LIST_EDITOR (object);
+
+	cancel_load (editor);
+
+	if (editor->name_selector) {
+		g_object_unref (editor->name_selector);
+		editor->name_selector = NULL;
+	}
 
 	if (G_OBJECT_CLASS (parent_class)->dispose)
 		(* G_OBJECT_CLASS (parent_class)->dispose) (object);
-
 }
 
 typedef struct {
@@ -440,7 +441,7 @@ e_contact_list_editor_save_contact (EABEditor *editor, gboolean should_close)
 {
 	EContactListEditor *cle = E_CONTACT_LIST_EDITOR (editor);
 
-	save_contact (editor, should_close);
+	save_contact (cle, should_close);
 }
 
 static gboolean
@@ -657,86 +658,90 @@ e_contact_list_editor_create_table(gchar *name,
 }
 
 static void
-add_to_model (EContactListEditor *editor, EDestination **cards)
+add_to_model (EContactListEditor *editor, GList *destinations)
 {
-	int i;
+	GList *l;
 
-	for (i = 0; cards[i] != NULL; i++) {
-		e_contact_list_model_add_destination (E_CONTACT_LIST_MODEL(editor->model), cards[i]);
+	for (l = destinations; l; l = g_list_next (l)) {
+		EDestination *destination = l->data;
+		e_contact_list_model_add_destination (E_CONTACT_LIST_MODEL(editor->model), destination);
 	}
 }
 
 static void
-select_names_ok_cb (BonoboListener *listener, const char *event_name, const CORBA_any *arg,
-		    CORBA_Environment *ev, gpointer data)
+select_names_ok_cb (GtkWidget *widget, gint response, gpointer data)
 {
-	EContactListEditor *ce;
-	EDestination **destv;
-	Bonobo_Control corba_control;
-	GtkWidget *control_widget;
-	char *string = NULL;
+	EContactListEditor  *ce;
+	ENameSelectorDialog *name_selector_dialog;
+	ENameSelectorModel  *name_selector_model;
+	EDestinationStore   *destination_store;
+	GList               *destinations;
 
 	ce = E_CONTACT_LIST_EDITOR (data);
 
-	corba_control = GNOME_Evolution_Addressbook_SelectNames_getEntryBySection (ce->corba_select_names,
-										   "Members", ev);
-	control_widget = bonobo_widget_new_control_from_objref (corba_control, CORBA_OBJECT_NIL);
+	name_selector_dialog = e_name_selector_peek_dialog (ce->name_selector);
+	gtk_widget_hide (GTK_WIDGET (name_selector_dialog));
 
-	bonobo_widget_get_property (BONOBO_WIDGET (control_widget), "destinations",
-					    TC_CORBA_string, &string, NULL);
+	name_selector_model = e_name_selector_peek_model (ce->name_selector);
+	e_name_selector_model_peek_section (name_selector_model, "Members", NULL, &destination_store);
+	destinations = e_destination_store_list_destinations (destination_store);
 
-	destv = e_destination_importv (string);
- 	if (destv) {
-		add_to_model (ce, destv);
- 		g_free (destv);
- 	}
+	add_to_model (ce, destinations);
+
+	g_list_free (destinations);
 
 	ce->changed = TRUE;
 	command_state_changed (ce);
 }
 
-static gboolean
-setup_corba (EContactListEditor *editor)
+static void
+setup_name_selector (EContactListEditor *editor)
 {
-	CORBA_Environment ev;
+	ENameSelectorModel  *name_selector_model;
+	ENameSelectorDialog *name_selector_dialog;
 
-	CORBA_exception_init (&ev);
+	if (editor->name_selector)
+		return;
 
-	editor->corba_select_names = bonobo_activation_activate_from_id (SELECT_NAMES_OAFIID, 0, NULL, &ev);
+	editor->name_selector = e_name_selector_new ();
 
-	/* OAF seems to be broken -- it can return a CORBA_OBJECT_NIL without
-           raising an exception in `ev'.  */
-	if (ev._major != CORBA_NO_EXCEPTION || editor->corba_select_names == CORBA_OBJECT_NIL) {
-		CORBA_exception_free (&ev);
-		return FALSE;
-	}
+	name_selector_model = e_name_selector_peek_model (editor->name_selector);
+	e_name_selector_model_add_section (name_selector_model, "Members", gettext ("Members"), NULL);
 
-	GNOME_Evolution_Addressbook_SelectNames_addSection (
-					editor->corba_select_names, "Members", gettext ("Members"), &ev);
-
-	bonobo_event_source_client_add_listener (editor->corba_select_names,
-						 (BonoboListenerCallbackFn) select_names_ok_cb,
-						 "GNOME/Evolution:ok:dialog", NULL, editor);
-
-	CORBA_exception_free (&ev);
-
-	return TRUE;
+	name_selector_dialog = e_name_selector_peek_dialog (editor->name_selector);
+	gtk_window_set_title (GTK_WINDOW (name_selector_dialog), _("Contact List Members"));
+	g_signal_connect (name_selector_dialog, "response",
+			  G_CALLBACK (select_names_ok_cb), editor);
 }
 
 static void
 select_cb (GtkWidget *w, EContactListEditor *editor)
 {
- 	CORBA_Environment ev;
+	ENameSelectorModel  *name_selector_model;
+	ENameSelectorDialog *name_selector_dialog;
+	EDestinationStore   *destination_store;
+	GList               *destinations;
+	GList               *l;
 
-	if(!setup_corba (editor))
-		return;
+	setup_name_selector (editor);
 
-	CORBA_exception_init (&ev);
+	/* We need to empty out the destination store, since we copy its contents every time.
+	 * This sucks, we should really be wired directly to the EDestinationStore that
+	 * the name selector uses in true MVC fashion. */
 
-	GNOME_Evolution_Addressbook_SelectNames_activateDialog (
-		editor->corba_select_names, _("Required Participants"), &ev);
+	name_selector_model = e_name_selector_peek_model (editor->name_selector);
+	e_name_selector_model_peek_section (name_selector_model, "Members", NULL, &destination_store);
+	destinations = e_destination_store_list_destinations (destination_store);
 
-	CORBA_exception_free (&ev);
+	for (l = destinations; l; l = g_list_next (l)) {
+		EDestination *destination = l->data;
+		e_destination_store_remove_destination (destination_store, destination);
+	}
+
+	g_list_free (destinations);
+
+	name_selector_dialog = e_name_selector_peek_dialog (editor->name_selector);
+	gtk_widget_show (GTK_WIDGET (name_selector_dialog));
 }
 
 GtkWidget *

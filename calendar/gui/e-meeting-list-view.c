@@ -39,22 +39,22 @@
 #include <libecal/e-cal-component.h>
 #include <libecal/e-cal-util.h>
 #include <libecal/e-cal-time-util.h>
-#include "Evolution-Addressbook-SelectNames.h"
+#include <libedataserverui/e-name-selector.h>
 #include "calendar-config.h"
 #include "e-meeting-list-view.h"
 #include <misc/e-cell-renderer-combo.h>
 #include <libebook/e-destination.h>
 #include "e-select-names-renderer.h"
 
-#define SELECT_NAMES_OAFID "OAFIID:GNOME_Evolution_Addressbook_SelectNames:" BASE_VERSION
-
 struct _EMeetingListViewPrivate {
 	EMeetingStore *store;
 
-        GNOME_Evolution_Addressbook_SelectNames corba_select_names;
+	ENameSelector *name_selector;
 };
 
 #define BUF_SIZE 1024
+
+static void name_selector_dialog_close_cb (ENameSelectorDialog *dialog, gint response, gpointer data);
 
 static char *sections[] = {N_("Chair Persons"), 
 			   N_("Required Participants"), 
@@ -75,12 +75,8 @@ e_meeting_list_view_finalize (GObject *obj)
 	EMeetingListView *view = E_MEETING_LIST_VIEW (obj);
 	EMeetingListViewPrivate *priv = view->priv;
 
-	if (priv->corba_select_names != CORBA_OBJECT_NIL) {
-		CORBA_Environment ev;
-		CORBA_exception_init (&ev);
-		bonobo_object_release_unref (priv->corba_select_names, &ev);
-		CORBA_exception_free (&ev);
-	}
+	if (priv->name_selector)
+		g_object_unref (priv->name_selector);
 
 	g_free (priv);
 
@@ -100,15 +96,35 @@ e_meeting_list_view_class_init (EMeetingListViewClass *klass)
 
 
 static void
+add_section (ENameSelector *name_selector, const char *name)
+{
+	ENameSelectorModel *name_selector_model;
+
+	name_selector_model = e_name_selector_peek_model (name_selector);
+	e_name_selector_model_add_section (name_selector_model, name, gettext (name), NULL);
+}
+
+static void
 e_meeting_list_view_init (EMeetingListView *view)
 {
 	EMeetingListViewPrivate *priv;
+	ENameSelectorDialog *name_selector_dialog;
+	gint i;
 
 	priv = g_new0 (EMeetingListViewPrivate, 1);
 
 	view->priv = priv;
 
-	priv->corba_select_names = CORBA_OBJECT_NIL;
+	priv->name_selector = e_name_selector_new ();
+
+	for (i = 0; sections [i]; i++)
+		add_section (priv->name_selector, sections [i]);
+
+	name_selector_dialog = e_name_selector_peek_dialog (view->priv->name_selector);
+	gtk_window_set_title (GTK_WINDOW (name_selector_dialog), _("Required Participants"));
+ 	g_signal_connect (name_selector_dialog, "response",
+			  G_CALLBACK (name_selector_dialog_close_cb), view);
+
 }
 
 static GList *
@@ -307,17 +323,18 @@ e_meeting_list_view_edit (EMeetingListView *emlv, EMeetingAttendee *attendee)
 }
 
 static void
-process_section (EMeetingListView *view, EDestination **cards, icalparameter_role role)
+process_section (EMeetingListView *view, GList *destinations, icalparameter_role role)
 {
 	EMeetingListViewPrivate *priv;
-	int i;
+	GList *l;
 
 	priv = view->priv;
-	for (i = 0; cards[i] != NULL; i++) {
+	for (l = destinations; l; l = g_list_next (l)) {
+		EDestination *destination = l->data;
 		const char *name, *attendee = NULL;
 		char *attr = NULL;
 
-		name = e_destination_get_name (cards[i]);
+		name = e_destination_get_name (destination);
 
 		/* Get the field as attendee from the backend */
 		if (e_cal_get_ldap_attribute (e_meeting_store_get_e_cal (priv->store),
@@ -328,7 +345,7 @@ process_section (EMeetingListView *view, EDestination **cards, icalparameter_rol
 
 				/* FIXME: this does not work, have to use first
 				   e_destination_use_contact() */
-				contact = e_destination_get_contact (cards[i]);
+				contact = e_destination_get_contact (destination);
 				if (contact) {
 					attendee = e_contact_get (contact, E_CONTACT_FREEBUSY_URL);
 					if (!attendee)
@@ -339,7 +356,7 @@ process_section (EMeetingListView *view, EDestination **cards, icalparameter_rol
 
 		/* If we couldn't get the attendee prior, get the email address as the default */
 		if (attendee == NULL || *attendee == '\0') {
-			attendee = e_destination_get_email (cards[i]);
+			attendee = e_destination_get_email (destination);
 		}
 		
 		if (attendee == NULL || *attendee == '\0')
@@ -358,105 +375,35 @@ process_section (EMeetingListView *view, EDestination **cards, icalparameter_rol
 }
 
 static void
-select_names_ok_cb (BonoboListener *listener, const char *event_name, const CORBA_any *arg, CORBA_Environment *ev, gpointer data)
+name_selector_dialog_close_cb (ENameSelectorDialog *dialog, gint response, gpointer data)
 {
-	EMeetingListView *view = E_MEETING_LIST_VIEW (data);
+	EMeetingListView   *view = E_MEETING_LIST_VIEW (data);
+	ENameSelectorModel *name_selector_model;
 	int i;
+
+	name_selector_model = e_name_selector_peek_model (view->priv->name_selector);
 	
 	for (i = 0; sections[i] != NULL; i++) {
-		EDestination **destv;
-		char *string = NULL;
-		Bonobo_Control corba_control = GNOME_Evolution_Addressbook_SelectNames_getEntryBySection 
-			(view->priv->corba_select_names, sections[i], ev);
-		GtkWidget *control_widget = bonobo_widget_new_control_from_objref (corba_control, CORBA_OBJECT_NIL);
+		EDestinationStore *destination_store;
+		GList             *destinations;
 
-		bonobo_widget_get_property (BONOBO_WIDGET (control_widget), "destinations",
-					    TC_CORBA_string, &string, NULL);
-		destv = e_destination_importv (string);
- 		if (destv) {
- 			process_section (view, destv, roles[i]);
- 			g_free (destv);
- 		}
-	}
-}
+		e_name_selector_model_peek_section (name_selector_model, sections [i],
+						    NULL, &destination_store);
+		g_assert (destination_store);
 
-static void
-add_section (GNOME_Evolution_Addressbook_SelectNames corba_select_names, const char *name)
-{
-	CORBA_Environment ev;
-
-	CORBA_exception_init (&ev);
-
-	GNOME_Evolution_Addressbook_SelectNames_addSection (
-					corba_select_names, name, gettext (name), &ev);
-
-	CORBA_exception_free (&ev);
-}
-
-static gboolean
-get_select_name_dialog (EMeetingListView *view) 
-{
-	EMeetingListViewPrivate *priv;
-	CORBA_Environment ev;
-	int i;
-	
-	priv = view->priv;
-
-	CORBA_exception_init (&ev);
-
-	if (priv->corba_select_names != CORBA_OBJECT_NIL) {
-		int i;
-		
-		for (i = 0; sections[i] != NULL; i++) {			
-			GtkWidget *control_widget;
-			Bonobo_Control corba_control = GNOME_Evolution_Addressbook_SelectNames_getEntryBySection 
-							(priv->corba_select_names, sections[i], &ev);
-			if (BONOBO_EX (&ev)) {
-				CORBA_exception_free (&ev);
-				return FALSE;				
-			}
-			
-			control_widget = bonobo_widget_new_control_from_objref (corba_control, CORBA_OBJECT_NIL);
-			
-			bonobo_widget_set_property (BONOBO_WIDGET (control_widget), "text", TC_CORBA_string, "", NULL);		
-		}
-		CORBA_exception_free (&ev);
-
-		return TRUE;
-	}
-	
-	priv->corba_select_names = bonobo_activation_activate_from_id (SELECT_NAMES_OAFID, 0, NULL, &ev);
-
-	for (i = 0; sections[i] != NULL; i++)
-		add_section (priv->corba_select_names, sections[i]);
-
-	bonobo_event_source_client_add_listener (priv->corba_select_names,
-						 (BonoboListenerCallbackFn) select_names_ok_cb,
-						 "GNOME/Evolution:ok:dialog", NULL, view);
-	
-	if (BONOBO_EX (&ev)) {
-		CORBA_exception_free (&ev);
-		return FALSE;
+		destinations = e_destination_store_list_destinations (destination_store);
+		process_section (view, destinations, roles [i]);
+		g_list_free (destinations);
 	}
 
-	CORBA_exception_free (&ev);
-
-	return TRUE;
+	gtk_widget_hide (GTK_WIDGET (dialog));
 }
 
 void
 e_meeting_list_view_invite_others_dialog (EMeetingListView *view)
 {
-	CORBA_Environment ev;
-	
-	if (!get_select_name_dialog (view))
-		return;
+	ENameSelectorDialog *dialog;
 
-	CORBA_exception_init (&ev);
-
-	GNOME_Evolution_Addressbook_SelectNames_activateDialog (
-				view->priv->corba_select_names, _("Required Participants"), &ev);
-
-	CORBA_exception_free (&ev);
+	dialog = e_name_selector_peek_dialog (view->priv->name_selector);
+	gtk_widget_show (GTK_WIDGET (dialog));
 }
-

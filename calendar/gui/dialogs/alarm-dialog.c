@@ -52,7 +52,7 @@
 #include "e-util/e-dialog-widgets.h"
 #include "e-util/e-icon-factory.h"
 #include <libebook/e-destination.h>
-#include "Evolution-Addressbook-SelectNames.h"
+#include <libedataserverui/e-name-selector.h>
 #include "../calendar-config.h"
 #include "comp-editor-util.h"
 #include "alarm-dialog.h"
@@ -105,15 +105,16 @@ typedef struct {
 	GtkWidget *malarm_addressbook;
 	GtkWidget *malarm_message;
 	GtkWidget *malarm_description;
-	GNOME_Evolution_Addressbook_SelectNames corba_select_names;
 
 	/* Procedure alarm widgets */
 	GtkWidget *palarm_group;
 	GtkWidget *palarm_program;
 	GtkWidget *palarm_args;
+
+	/* Addressbook name selector */
+	ENameSelector *name_selector;
 } Dialog;
 
-#define SELECT_NAMES_OAFID "OAFIID:GNOME_Evolution_Addressbook_SelectNames:" BASE_VERSION
 static const char *section_name = "Send To";
 
 /* "relative" types */
@@ -344,21 +345,24 @@ malarm_widgets_to_alarm (Dialog *dialog, ECalComponentAlarm *alarm)
 	EDestination **destv;
 	GtkTextBuffer *text_buffer;
 	GtkTextIter text_iter_start, text_iter_end;
+	ENameSelectorModel *name_selector_model;
+	EDestinationStore *destination_store;
+	GList *destinations;
 	icalcomponent *icalcomp;
 	icalproperty *icalprop;
+	GList *l;
 	int i;
 	
 	/* Attendees */
-	bonobo_widget_get_property (BONOBO_WIDGET (dialog->malarm_addresses), "destinations", 
-				    TC_CORBA_string, &str, NULL);
-	destv = e_destination_importv (str);
-	g_free (str);
-	
-	for (i = 0; destv[i] != NULL; i++) {
+	name_selector_model = e_name_selector_peek_model (dialog->name_selector);
+	e_name_selector_model_peek_section (name_selector_model, section_name, NULL, &destination_store);
+	destinations = e_destination_store_list_destinations (destination_store);
+
+	for (l = destinations; l; l = g_list_next (l)) {
 		EDestination *dest;
 		ECalComponentAttendee *a;
 
-		dest = destv[i];
+		dest = l->data;
 		
 		a = g_new0 (ECalComponentAttendee, 1);
 		a->value = e_destination_get_email (dest);
@@ -370,7 +374,7 @@ malarm_widgets_to_alarm (Dialog *dialog, ECalComponentAlarm *alarm)
 	e_cal_component_alarm_set_attendee_list (alarm, attendee_list);
 
 	e_cal_component_free_attendee_list (attendee_list);
-	e_destination_freev (destv);	
+	g_list_free (destinations);
 
 	if (!gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (dialog->malarm_message)))
 		return;
@@ -616,47 +620,44 @@ static void
 addressbook_clicked_cb (GtkWidget *widget, gpointer data)
 {
 	Dialog *dialog = data;
-	CORBA_Environment ev;
-	
-	CORBA_exception_init (&ev);
+	ENameSelectorDialog *name_selector_dialog;
 
-	GNOME_Evolution_Addressbook_SelectNames_activateDialog (dialog->corba_select_names, 
-								section_name, &ev);
-	
-	CORBA_exception_free (&ev);
+	name_selector_dialog = e_name_selector_peek_dialog (dialog->name_selector);
+	gtk_widget_show (GTK_WIDGET (name_selector_dialog));
+}
+
+static void
+addressbook_response_cb (GtkWidget *widget, gint response, gpointer data)
+{
+	Dialog *dialog = data;
+	ENameSelectorDialog *name_selector_dialog;
+
+	name_selector_dialog = e_name_selector_peek_dialog (dialog->name_selector);
+	gtk_widget_hide (GTK_WIDGET (name_selector_dialog));
 }
 
 static gboolean
 setup_select_names (Dialog *dialog)
 {
-	Bonobo_Control corba_control;
-	CORBA_Environment ev;
-	
-	CORBA_exception_init (&ev);
-	
-	dialog->corba_select_names = bonobo_activation_activate_from_id (SELECT_NAMES_OAFID, 0, NULL, &ev);
-	if (BONOBO_EX (&ev))
-		return FALSE;
-	
-	GNOME_Evolution_Addressbook_SelectNames_addSection (dialog->corba_select_names, 
-							    section_name, section_name, &ev);
-	if (BONOBO_EX (&ev))
-		return FALSE;
+	ENameSelectorModel *name_selector_model;
+	ENameSelectorDialog *name_selector_dialog;
 
-	corba_control = GNOME_Evolution_Addressbook_SelectNames_getEntryBySection (dialog->corba_select_names, 
-										   section_name, &ev);
+	dialog->name_selector = e_name_selector_new ();
+	name_selector_model = e_name_selector_peek_model (dialog->name_selector);
 
-	if (BONOBO_EX (&ev))
-		return FALSE;
-	
-	CORBA_exception_free (&ev);
+	e_name_selector_model_add_section (name_selector_model, section_name, section_name, NULL);
 
-	dialog->malarm_addresses = bonobo_widget_new_control_from_objref (corba_control, CORBA_OBJECT_NIL);
+	dialog->malarm_addresses =
+		GTK_WIDGET (e_name_selector_peek_section_entry (dialog->name_selector, section_name));
 	gtk_widget_show (dialog->malarm_addresses);
 	gtk_box_pack_end_defaults (GTK_BOX (dialog->malarm_address_group), dialog->malarm_addresses);
 
 	gtk_signal_connect (GTK_OBJECT (dialog->malarm_addressbook), "clicked",
 			    GTK_SIGNAL_FUNC (addressbook_clicked_cb), dialog);
+
+	name_selector_dialog = e_name_selector_peek_dialog (dialog->name_selector);
+	g_signal_connect (name_selector_dialog, "response",
+			  G_CALLBACK (addressbook_response_cb), dialog);
 
 	return TRUE;
 }
@@ -774,31 +775,29 @@ check_custom_email (Dialog *dialog)
 	char *str;
 	GtkTextBuffer *text_buffer;
 	GtkTextIter text_iter_start, text_iter_end;
-	EDestination **destv;
+	ENameSelectorModel *name_selector_model;
+	EDestinationStore *destination_store;
+	GList *destinations;
 	gboolean sens;
 
-	bonobo_widget_get_property (BONOBO_WIDGET (dialog->malarm_addresses), "destinations", 
-				    TC_CORBA_string, &str, NULL);
-	destv = e_destination_importv (str);
-	g_free (str);
-	
+	name_selector_model = e_name_selector_peek_model (dialog->name_selector);
+	e_name_selector_model_peek_section (name_selector_model, section_name, NULL, &destination_store);
+	destinations = e_destination_store_list_destinations (destination_store);
+
 	text_buffer = gtk_text_view_get_buffer (GTK_TEXT_VIEW (dialog->malarm_description));
 	gtk_text_buffer_get_start_iter (text_buffer, &text_iter_start);
 	gtk_text_buffer_get_end_iter   (text_buffer, &text_iter_end);
 	str = gtk_text_buffer_get_text (text_buffer, &text_iter_start, &text_iter_end, FALSE);
 
-	sens = (destv != NULL) && (e_dialog_toggle_get (dialog->malarm_message) ? str && *str : TRUE);
+	sens = (destinations != NULL) && (e_dialog_toggle_get (dialog->malarm_message) ? str && *str : TRUE);
 	gtk_dialog_set_response_sensitive (GTK_DIALOG (dialog->toplevel), GTK_RESPONSE_OK, sens);
 
-	e_destination_freev (destv);
+	g_list_free (destinations);
 }
 
 static void
-malarm_addresses_changed_cb  (BonoboListener    *listener,
-			      const char        *event_name,
-			      const CORBA_any   *arg,
-			      CORBA_Environment *ev,
-			      gpointer           data)
+malarm_addresses_changed_cb  (GtkWidget *editable,
+			      gpointer   data)
 {
 	Dialog *dialog = data;
 	
@@ -905,12 +904,8 @@ init_widgets (Dialog *dialog)
 	g_signal_connect (G_OBJECT (text_buffer), "changed",
 			  G_CALLBACK (malarm_description_changed_cb), dialog);
 
-	cf = bonobo_widget_get_control_frame (BONOBO_WIDGET (dialog->malarm_addresses));
-	pb = bonobo_control_frame_get_control_property_bag (cf, NULL);
-	
-	bonobo_event_source_client_add_listener (pb, malarm_addresses_changed_cb,
-						 "Bonobo/Property:change:entry_changed",
-						 NULL, dialog);
+	g_signal_connect (dialog->malarm_addresses, "changed",
+			  G_CALLBACK (malarm_addresses_changed_cb), dialog);
 }
 
 gboolean

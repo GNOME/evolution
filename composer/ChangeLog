@@ -1,3 +1,22 @@
+2004-12-22  Hans Petter Jansson  <hpj@novell.com>
+
+	* e-msg-composer-hdrs.c (addressbook_dialog_response)
+	(setup_corba)
+	(setup_name_selector)
+	(address_button_clicked_cb)
+	(addressbook_entry_changed)
+	(create_addressbook_entry)
+	(destroy)
+	(e_msg_composer_hdrs_new)
+	(destinations_to_name_selector_entry)
+	(e_msg_composer_hdrs_set_to)
+	(e_msg_composer_hdrs_set_cc)
+	(e_msg_composer_hdrs_set_bcc)
+	(destination_list_to_destv)
+	(e_msg_composer_hdrs_get_to)
+	(e_msg_composer_hdrs_get_cc)
+	(e_msg_composer_hdrs_get_bcc): Adapt to new ENameSelector.
+
 2004-12-17  Not Zed  <NotZed@Ximian.com>
 
 	* e-msg-composer-attachment-bar.c (emcab_popup): 

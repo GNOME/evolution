@@ -23,7 +23,7 @@
 #ifndef __E_SELECT_NAMES_EDITABLE_H__
 #define __E_SELECT_NAMES_EDITABLE_H__
 
-#include <bonobo/bonobo-widget.h>
+#include <libedataserverui/e-name-selector-entry.h>
 
 G_BEGIN_DECLS
 
@@ -40,14 +40,14 @@ typedef struct _ESelectNamesEditablePriv  ESelectNamesEditablePriv;
 
 struct _ESelectNamesEditable
 {
-	BonoboWidget parent;
+	ENameSelectorEntry parent;
 
 	ESelectNamesEditablePriv *priv;
 };
 
 struct _ESelectNamesEditableClass
 {
-	BonoboWidgetClass parent_class;
+	ENameSelectorEntryClass parent_class;
 };
 
 GType      e_select_names_editable_get_type (void);

@@ -53,11 +53,9 @@ static void
 e_select_names_renderer_editing_done (GtkCellEditable *editable, ESelectNamesRenderer *cell)
 {
 	gchar *new_address, *new_name;
-	BonoboControlFrame *cf;
 
 	/* We don't need to listen for the de-activation any more */
-	cf = bonobo_widget_get_control_frame (BONOBO_WIDGET (editable));
-	g_signal_handlers_disconnect_matched (G_OBJECT (cf), G_SIGNAL_MATCH_DATA, 0, 0, NULL, NULL, cell);
+	g_signal_handlers_disconnect_matched (editable, G_SIGNAL_MATCH_DATA, 0, 0, NULL, NULL, cell);
 	
 	new_address = e_select_names_editable_get_address (E_SELECT_NAMES_EDITABLE (editable));
 	new_name = e_select_names_editable_get_name (E_SELECT_NAMES_EDITABLE (editable));
@@ -70,10 +68,9 @@ e_select_names_renderer_editing_done (GtkCellEditable *editable, ESelectNamesRen
 }
 
 static void
-e_select_names_renderer_activated (BonoboControlFrame *cf, gboolean activated, ESelectNamesRenderer *cell)
+e_select_names_renderer_activated (ESelectNamesEditable *editable, ESelectNamesRenderer *cell)
 {
-	if (!activated)
-		e_select_names_renderer_editing_done (GTK_CELL_EDITABLE (cell->priv->editable), cell);
+	e_select_names_renderer_editing_done (GTK_CELL_EDITABLE (cell->priv->editable), cell);
 }
 
 static GtkCellEditable *
@@ -83,7 +80,6 @@ e_select_names_renderer_start_editing (GtkCellRenderer *cell, GdkEvent *event, G
 	ESelectNamesRenderer *sn_cell = E_SELECT_NAMES_RENDERER (cell);
 	GtkCellRendererText *text_cell = GTK_CELL_RENDERER_TEXT (cell);
 	ESelectNamesEditable *editable;
-	BonoboControlFrame *cf;
 	
 	if (!text_cell->editable)
 		return NULL;
@@ -94,11 +90,13 @@ e_select_names_renderer_start_editing (GtkCellRenderer *cell, GdkEvent *event, G
 
 	g_signal_connect (editable, "editing_done", G_CALLBACK (e_select_names_renderer_editing_done), sn_cell);
 
+#if 0
 	/* Listen for de-activation/loss of focus */
 	cf = bonobo_widget_get_control_frame (BONOBO_WIDGET (editable));
 	bonobo_control_frame_set_autoactivate (cf, TRUE);
+#endif
 
-	g_signal_connect (cf, "activated", G_CALLBACK (e_select_names_renderer_activated), sn_cell);
+	g_signal_connect (editable, "activate", G_CALLBACK (e_select_names_renderer_activated), sn_cell);
 
 	sn_cell->priv->editable = g_object_ref (editable);
 	sn_cell->priv->path = g_strdup (path);

@@ -1,3 +1,20 @@
+2004-12-22  Hans Petter Jansson  <hpj@novell.com>
+
+	* gui/contact-list-editor/e-contact-list-editor.c
+	(e_contact_list_editor_dispose): Unref the name selector.
+	(e_contact_list_editor_save_contact): Fix a warning.
+	(add_to_model): Take a list instead of a vector of destinations.
+	(select_names_ok_cb): Adapt to new name selector.
+	(setup_corba): Renamed to setup_name_selector () and adapted.
+	(select_cb): Adapt to new name selector.
+
+	* gui/contact-list-editor/e-contact-list-editor.h: Adapt to new
+	name selector and remove CORBA/Bonobo.
+
+	* gui/widgets/eab-popup.c (eabp_target_free)
+	(eabp_popup_target_new_select_names): #ifdef out code that
+	depended on the old name selector.
+
 2004-12-17  Not Zed  <NotZed@Ximian.com>
 
 	* util/ea-popup.c (emp_standard_menu_factory): 

@@ -23,32 +23,25 @@
 #include <config.h>
 #include <gdk/gdkkeysyms.h>
 #include <gtk/gtkcelleditable.h>
-#include <bonobo/bonobo-exception.h>
-#include <bonobo/bonobo-widget.h>
 #include <libebook/e-destination.h>
+#include <libedataserverui/e-select-names-entry.h>
 
 #include "e-select-names-editable.h"
-#include "Evolution-Addressbook-SelectNames.h"
-
-#define SELECT_NAMES_OAFIID "OAFIID:GNOME_Evolution_Addressbook_SelectNames:" BASE_VERSION
 
 struct _ESelectNamesEditablePriv {
-	GNOME_Evolution_Addressbook_SelectNames select_names;
-	Bonobo_Control control;
-	Bonobo_PropertyBag bag;
+	
 };
 
-static BonoboWidgetClass *parent_class;
+static ENameSelectorEntryClass *parent_class;
 
 static void
 esne_start_editing (GtkCellEditable *cell_editable, GdkEvent *event)
 {
 	ESelectNamesEditable *esne = E_SELECT_NAMES_EDITABLE (cell_editable);
-	BonoboControlFrame *cf;
 
 	/* Grab the focus */
-	cf = bonobo_widget_get_control_frame (BONOBO_WIDGET (cell_editable));
-	bonobo_control_frame_control_activate (cf);
+
+	/* TODO */
 }
 
 static void
@@ -62,14 +55,6 @@ esne_finalize (GObject *obj)
 {
 	ESelectNamesEditable *esne = (ESelectNamesEditable *) obj;
 
-	if (esne->priv->select_names != CORBA_OBJECT_NIL)
-		bonobo_object_release_unref (esne->priv->select_names, NULL);
-	esne->priv->select_names = CORBA_OBJECT_NIL;
-
-	if (esne->priv->bag != CORBA_OBJECT_NIL)
-		bonobo_object_release_unref (esne->priv->bag, NULL);
-	esne->priv->bag = CORBA_OBJECT_NIL;
-
 	g_free (esne->priv);
 
 	if (G_OBJECT_CLASS (parent_class)->finalize)
@@ -80,10 +65,6 @@ static void
 esne_init (ESelectNamesEditable *esne)
 {
 	esne->priv = g_new0 (ESelectNamesEditablePriv, 1);
-
-	esne->priv->select_names = CORBA_OBJECT_NIL;
-	esne->priv->control = CORBA_OBJECT_NIL;
-	esne->priv->bag = CORBA_OBJECT_NIL;
 }
 
 static void
@@ -91,7 +72,7 @@ esne_class_init (GObjectClass *klass)
 {
 	klass->finalize = esne_finalize;
 	
-	parent_class = BONOBO_WIDGET_CLASS (g_type_class_peek_parent (klass));
+	parent_class = E_NAME_SELECTOR_ENTRY_CLASS (g_type_class_peek_parent (klass));
 }
 
 GType
@@ -118,7 +99,7 @@ e_select_names_editable_get_type (void)
 			NULL 
 		};
       
-		esne_type = g_type_register_static (BONOBO_TYPE_WIDGET, "ESelectNamesEditable", &esne_info, 0);
+		esne_type = g_type_register_static (E_TYPE_NAME_SELECTOR_ENTRY, "ESelectNamesEditable", &esne_info, 0);
 		
 		g_type_add_interface_static (esne_type, GTK_TYPE_CELL_EDITABLE, &cell_editable_info);
 	}
@@ -127,7 +108,7 @@ e_select_names_editable_get_type (void)
 }
 
 static void
-entry_activate (BonoboListener *listener, const char *event_name, const CORBA_any *arg, CORBA_Environment *ev, gpointer esne)
+entry_activate (ESelectNamesEditable *esne)
 {
 	gtk_cell_editable_editing_done (GTK_CELL_EDITABLE (esne));
 	gtk_cell_editable_remove_widget (GTK_CELL_EDITABLE (esne));
@@ -136,6 +117,11 @@ entry_activate (BonoboListener *listener, const char *event_name, const CORBA_an
 ESelectNamesEditable *
 e_select_names_editable_construct (ESelectNamesEditable *esne)
 {
+	g_signal_connect (esne, "activate", G_CALLBACK (entry_activate), esne);
+
+	return esne;
+
+#if 0
 	CORBA_Environment ev;
 
 	CORBA_exception_init (&ev);
@@ -170,6 +156,7 @@ e_select_names_editable_construct (ESelectNamesEditable *esne)
 						 NULL, esne);
 
 	return esne;
+#endif
 }
 
 ESelectNamesEditable *
@@ -191,44 +178,65 @@ e_select_names_editable_new ()
 gchar *
 e_select_names_editable_get_address (ESelectNamesEditable *esne)
 {
-	EDestination **dest;
+	EDestinationStore *destination_store;
+	GList *destinations;
+	EDestination *destination;
 	gchar *dest_str;
 	gchar *result = NULL;
 
 	g_return_val_if_fail (E_SELECT_NAMES_EDITABLE (esne), NULL);
 
-	dest_str = bonobo_pbclient_get_string (esne->priv->bag, "destinations", NULL);
-	dest = e_destination_importv (dest_str);
-	if (dest)
-		result = g_strdup (e_destination_get_email (*dest));
-	e_destination_freev (dest);
+	destination_store = e_name_selector_entry_peek_destination_store (E_NAME_SELECTOR_ENTRY (esne));
+	destinations = e_destination_store_list_destinations (destination_store);
+	if (!destinations)
+		return NULL;
 
+	destination = destinations->data;
+	result = g_strdup (e_destination_get_email (destination));
+	g_list_free (destinations);
 	return result;
 }
 
 gchar *
 e_select_names_editable_get_name (ESelectNamesEditable *esne)
 {
-	EDestination **dest;
+	EDestinationStore *destination_store;
+	GList *destinations;
+	EDestination *destination;
 	gchar *dest_str;
 	gchar *result = NULL;
 
 	g_return_val_if_fail (E_SELECT_NAMES_EDITABLE (esne), NULL);
 
-	dest_str = bonobo_pbclient_get_string (esne->priv->bag, "destinations", NULL);
-	dest = e_destination_importv (dest_str);
-	if (dest)
-		result = g_strdup (e_destination_get_name (*dest));
-	e_destination_freev (dest);
+	destination_store = e_name_selector_entry_peek_destination_store (E_NAME_SELECTOR_ENTRY (esne));
+	destinations = e_destination_store_list_destinations (destination_store);
+	if (!destinations)
+		return NULL;
 
+	destination = destinations->data;
+	result = g_strdup (e_destination_get_name (destination));
+	g_list_free (destinations);
 	return result;
 }
 
 void
 e_select_names_editable_set_address (ESelectNamesEditable *esne, const gchar *text)
 {
+	EDestinationStore *destination_store;
+	GList *destinations;
+	EDestination *destination;
+	gchar *dest_str;
+	gchar *result = NULL;
+
 	g_return_if_fail (E_IS_SELECT_NAMES_EDITABLE (esne));
 
-	bonobo_pbclient_set_string (esne->priv->bag, "addresses", text, NULL);
+	destination_store = e_name_selector_entry_peek_destination_store (E_NAME_SELECTOR_ENTRY (esne));
+	destinations = e_destination_store_list_destinations (destination_store);
+	if (!destinations)
+		return;
+
+	destination = destinations->data;
+	e_destination_set_address (destination, text);
+	g_list_free (destinations);
 }
 

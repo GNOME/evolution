@@ -36,6 +36,7 @@
 #include <gtk/gtktooltips.h>
 #include <libgnomeui/gnome-uidefs.h>
 #include <libgnome/gnome-i18n.h>
+#include <libedataserverui/e-name-selector.h>
 
 #include "Composer.h"
 
@@ -81,7 +82,7 @@ typedef struct {
 } EMsgComposerHdrPair;
 
 struct _EMsgComposerHdrsPrivate {
-	GNOME_Evolution_Addressbook_SelectNames corba_select_names;
+	ENameSelector *name_selector;
 	
 	/* ui component */
 	BonoboUIComponent *uic;
@@ -112,30 +113,28 @@ enum {
 static int signals[LAST_SIGNAL];
 
 
-static gboolean
-setup_corba (EMsgComposerHdrs *hdrs)
+static void
+addressbook_dialog_response (ENameSelectorDialog *name_selector_dialog, gint response, gpointer user_data)
+{
+	EMsgComposerHdrs *hdrs = E_MSG_COMPOSER_HDRS (user_data);
+
+	gtk_widget_hide (GTK_WIDGET (name_selector_dialog));
+}
+
+static void
+setup_name_selector (EMsgComposerHdrs *hdrs)
 {
 	EMsgComposerHdrsPrivate *priv;
-	CORBA_Environment ev;
+	ENameSelectorDialog *name_selector_dialog;
 	
 	priv = hdrs->priv;
 	
-	g_assert (priv->corba_select_names == CORBA_OBJECT_NIL);
-	
-	CORBA_exception_init (&ev);
-	
-	priv->corba_select_names = bonobo_activation_activate_from_id (SELECT_NAMES_OAFIID, 0, NULL, &ev);
-	
-	/* OAF seems to be broken -- it can return a CORBA_OBJECT_NIL without
-           raising an exception in `ev'.  */
-	if (ev._major != CORBA_NO_EXCEPTION || priv->corba_select_names == CORBA_OBJECT_NIL) {
-		CORBA_exception_free (&ev);
-		return FALSE;
-	}
-	
-	CORBA_exception_free (&ev);
-	
-	return TRUE;
+	g_assert (priv->name_selector == NULL);
+
+	priv->name_selector = e_name_selector_new ();
+	name_selector_dialog = e_name_selector_peek_dialog (priv->name_selector);
+	g_signal_connect (name_selector_dialog, "response",
+			  G_CALLBACK (addressbook_dialog_response), hdrs);
 }
 
 typedef struct {
@@ -172,18 +171,14 @@ address_button_clicked_cb (GtkButton *button, gpointer data)
 	EMsgComposerHdrsAndString *emchas;
 	EMsgComposerHdrs *hdrs;
 	EMsgComposerHdrsPrivate *priv;
-	CORBA_Environment ev;
+	ENameSelectorDialog *name_selector_dialog;
 	
 	emchas = data;
 	hdrs = emchas->hdrs;
 	priv = hdrs->priv;
-	
-	CORBA_exception_init (&ev);
-	
-	GNOME_Evolution_Addressbook_SelectNames_activateDialog (
-		priv->corba_select_names, emchas->string, &ev);
-	
-	CORBA_exception_free (&ev);
+
+	name_selector_dialog = e_name_selector_peek_dialog (priv->name_selector);
+	gtk_widget_show (GTK_WIDGET (name_selector_dialog));
 }
 
 static void
@@ -421,11 +416,8 @@ create_from_optionmenu (EMsgComposerHdrs *hdrs)
 }
 
 static void
-addressbook_entry_changed (BonoboListener    *listener,
-			   const char        *event_name,
-			   const CORBA_any   *arg,
-			   CORBA_Environment *ev,
-			   gpointer           user_data)
+addressbook_entry_changed (GtkWidget *entry,
+			   gpointer   user_data)
 {
 	EMsgComposerHdrs *hdrs = E_MSG_COMPOSER_HDRS (user_data);
 	
@@ -436,16 +428,22 @@ static GtkWidget *
 create_addressbook_entry (EMsgComposerHdrs *hdrs, const char *name)
 {
 	EMsgComposerHdrsPrivate *priv;
-	GNOME_Evolution_Addressbook_SelectNames corba_select_names;
-	Bonobo_Control corba_control;
-	GtkWidget *control_widget;
-	CORBA_Environment ev;
-	BonoboControlFrame *cf;
-	Bonobo_PropertyBag pb = CORBA_OBJECT_NIL;
+	ENameSelectorModel *name_selector_model;
+	ENameSelectorEntry *name_selector_entry;
 	
 	priv = hdrs->priv;
-	corba_select_names = priv->corba_select_names;
-	
+
+	name_selector_model = e_name_selector_peek_model (priv->name_selector);
+	e_name_selector_model_add_section (name_selector_model, name, name, NULL);
+
+	name_selector_entry = e_name_selector_peek_section_entry (priv->name_selector, name);
+	g_signal_connect (name_selector_entry, "changed",
+			  G_CALLBACK (addressbook_entry_changed), hdrs);
+
+	return GTK_WIDGET (name_selector_entry);
+
+#if 0
+
 	CORBA_exception_init (&ev);
 	
 	GNOME_Evolution_Addressbook_SelectNames_addSection (
@@ -478,8 +476,9 @@ create_addressbook_entry (EMsgComposerHdrs *hdrs, const char *name)
 		pb, addressbook_entry_changed,
 		"Bonobo/Property:change:entry_changed",
 		NULL, hdrs);
-	
-	return control_widget;
+
+       	return control_widget;
+#endif
 }
 
 static void
@@ -747,14 +746,11 @@ destroy (GtkObject *object)
 	priv = hdrs->priv;
 	
 	if (priv) {
-		if (priv->corba_select_names != CORBA_OBJECT_NIL) {
-			CORBA_Environment ev;
-			CORBA_exception_init (&ev);
-			bonobo_object_release_unref (priv->corba_select_names, &ev);
-			CORBA_exception_free (&ev);
-			priv->corba_select_names = CORBA_OBJECT_NIL;
+		if (priv->name_selector != NULL) {
+			g_object_unref (priv->name_selector);
+			priv->name_selector = NULL;
 		}
-		
+
 		if (priv->tooltips) {
 			gtk_object_destroy (GTK_OBJECT (priv->tooltips));
 			g_object_unref (priv->tooltips);
@@ -896,10 +892,7 @@ e_msg_composer_hdrs_new (BonoboUIComponent *uic, int visible_mask, int visible_f
 	g_object_ref (new);
 	gtk_object_sink (GTK_OBJECT (new));
 
-	if (!setup_corba (new)) {
-		g_object_unref (new);
-		return NULL;
-	}
+	setup_name_selector (new);
 	
 	new->visible_mask = visible_mask;
 	
@@ -1129,6 +1122,32 @@ e_msg_composer_hdrs_set_reply_to (EMsgComposerHdrs *hdrs,
 		set_pair_visibility (hdrs, &hdrs->priv->cc, TRUE);
 }
 
+static void
+destinations_to_name_selector_entry (ENameSelectorEntry *name_selector_entry, EDestination **destv)
+{
+	EDestinationStore *destination_store;
+	GList *destinations;
+	GList *l;
+	gint i;
+
+	/* First clear the store */
+	destination_store = e_name_selector_entry_peek_destination_store (name_selector_entry);
+	destinations = e_destination_store_list_destinations (destination_store);
+
+	for (l = destinations; l; l = g_list_next (l)) {
+		EDestination *destination = l->data;
+		e_destination_store_remove_destination (destination_store, destination);
+	}
+
+	g_list_free (destinations);
+
+	if (!destv)
+		return;
+
+	for (i = 0; destv [i]; i++)
+		e_destination_store_append_destination (destination_store, destv [i]);
+}
+
 void
 e_msg_composer_hdrs_set_to (EMsgComposerHdrs *hdrs,
 			    EDestination **to_destv)
@@ -1136,10 +1155,8 @@ e_msg_composer_hdrs_set_to (EMsgComposerHdrs *hdrs,
 	char *str;
 	
 	g_return_if_fail (E_IS_MSG_COMPOSER_HDRS (hdrs));
-	
-	str = e_destination_exportv (to_destv);
-	bonobo_widget_set_property (BONOBO_WIDGET (hdrs->priv->to.entry), "destinations", TC_CORBA_string, str ? str : "", NULL); 
-	g_free (str);
+
+	destinations_to_name_selector_entry (E_NAME_SELECTOR_ENTRY (hdrs->priv->to.entry), to_destv);
 }
 
 void
@@ -1149,12 +1166,11 @@ e_msg_composer_hdrs_set_cc (EMsgComposerHdrs *hdrs,
 	char *str;
 	
 	g_return_if_fail (E_IS_MSG_COMPOSER_HDRS (hdrs));
+
+	destinations_to_name_selector_entry (E_NAME_SELECTOR_ENTRY (hdrs->priv->cc.entry), cc_destv);
 	
-	str = e_destination_exportv (cc_destv);
-	bonobo_widget_set_property (BONOBO_WIDGET (hdrs->priv->cc.entry), "destinations", TC_CORBA_string, str ? str :"", NULL);
-	if (str && *str)
+	if (cc_destv && *cc_destv)
 		set_pair_visibility (hdrs, &hdrs->priv->cc, TRUE);
-	g_free (str);
 }
 
 void
@@ -1164,12 +1180,11 @@ e_msg_composer_hdrs_set_bcc (EMsgComposerHdrs *hdrs,
 	char *str;
 	
 	g_return_if_fail (E_IS_MSG_COMPOSER_HDRS (hdrs));
+
+	destinations_to_name_selector_entry (E_NAME_SELECTOR_ENTRY (hdrs->priv->bcc.entry), bcc_destv);
 	
-	str = e_destination_exportv (bcc_destv);
-	bonobo_widget_set_property (BONOBO_WIDGET (hdrs->priv->bcc.entry), "destinations", TC_CORBA_string, str ? str : "", NULL); 
-	if (str && *str)
+	if (bcc_destv && *bcc_destv)
 		set_pair_visibility (hdrs, &hdrs->priv->bcc, TRUE);
-	g_free (str);
 }
 
 
@@ -1364,21 +1379,45 @@ e_msg_composer_hdrs_get_reply_to (EMsgComposerHdrs *hdrs)
 	return addr;
 }
 
+static EDestination **
+destination_list_to_destv (GList *destinations)
+{
+	EDestination **destv;
+	GList *l;
+	gint   n, i;
+
+	n = g_list_length (destinations);
+
+	destv = g_new0 (EDestination *, n + 1);
+
+	for (i = 0, l = destinations; l; i++, l = g_list_next (l)) {
+		EDestination *destination = l->data;
+
+		/* Need to ref, as users expect to own it */
+		g_object_ref (destination);
+		destv [i] = l->data;
+	}
+
+	return destv;
+}
+
 EDestination **
 e_msg_composer_hdrs_get_to (EMsgComposerHdrs *hdrs)
 {
 	char *str = NULL;
+	EDestinationStore *destination_store;
+	GList *destinations;
 	EDestination **destv = NULL;
 	
 	g_return_val_if_fail (E_IS_MSG_COMPOSER_HDRS (hdrs), NULL);
-	
-	bonobo_widget_get_property (BONOBO_WIDGET (hdrs->priv->to.entry), "destinations", TC_CORBA_string, &str, NULL); 
-	
-	if (str != NULL) {
-		destv = e_destination_importv (str);
-		g_free (str);
-	}
-	
+
+	destination_store = e_name_selector_entry_peek_destination_store (E_NAME_SELECTOR_ENTRY (
+		 hdrs->priv->to.entry));
+	destinations = e_destination_store_list_destinations (destination_store);
+
+	destv = destination_list_to_destv (destinations);
+
+	g_list_free (destinations);
 	return destv;
 }
 
@@ -1386,17 +1425,19 @@ EDestination **
 e_msg_composer_hdrs_get_cc (EMsgComposerHdrs *hdrs)
 {
 	char *str = NULL;
+	EDestinationStore *destination_store;
+	GList *destinations;
 	EDestination **destv = NULL;
 	
 	g_return_val_if_fail (E_IS_MSG_COMPOSER_HDRS (hdrs), NULL);
-	
-	bonobo_widget_get_property (BONOBO_WIDGET (hdrs->priv->cc.entry), "destinations", TC_CORBA_string, &str, NULL); 
-	
-	if (str != NULL) {
-		destv = e_destination_importv (str);
-		g_free (str);
-	}
-	
+
+	destination_store = e_name_selector_entry_peek_destination_store (E_NAME_SELECTOR_ENTRY (
+		 hdrs->priv->cc.entry));
+	destinations = e_destination_store_list_destinations (destination_store);
+
+	destv = destination_list_to_destv (destinations);
+
+	g_list_free (destinations);
 	return destv;
 }
 
@@ -1404,17 +1445,19 @@ EDestination **
 e_msg_composer_hdrs_get_bcc (EMsgComposerHdrs *hdrs)
 {
 	char *str = NULL;
+	EDestinationStore *destination_store;
+	GList *destinations;
 	EDestination **destv = NULL;
 	
 	g_return_val_if_fail (E_IS_MSG_COMPOSER_HDRS (hdrs), NULL);
-	
-	bonobo_widget_get_property (BONOBO_WIDGET (hdrs->priv->bcc.entry), "destinations", TC_CORBA_string, &str, NULL); 
-	
-	if (str != NULL) {
-		destv = e_destination_importv (str);
-		g_free (str);
-	}
-	
+
+	destination_store = e_name_selector_entry_peek_destination_store (E_NAME_SELECTOR_ENTRY (
+		 hdrs->priv->bcc.entry));
+	destinations = e_destination_store_list_destinations (destination_store);
+
+	destv = destination_list_to_destv (destinations);
+
+	g_list_free (destinations);
 	return destv;
 }
 

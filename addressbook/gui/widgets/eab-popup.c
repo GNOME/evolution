@@ -65,11 +65,17 @@ eabp_target_free(EPopup *ep, EPopupTarget *t)
 
 		g_object_unref(s->selector);
 		break; }
+
+#ifdef ADAPTED_TO_E_NAME_SELECTOR
+
 	case EAB_POPUP_TARGET_SELECT_NAMES: {
 		EABPopupTargetSelectNames *s = (EABPopupTargetSelectNames *)t;
 
 		g_object_unref(s->model);
 		break; }
+
+#endif
+
 	}
 
 	((EPopupClass *)eabp_parent)->target_free(ep, t);
@@ -199,6 +205,8 @@ eab_popup_target_new_source(EABPopup *eabp, ESourceSelector *selector)
 	return t;
 }
 
+#ifdef ADAPTED_TO_E_NAME_SELECTOR
+
 EABPopupTargetSelectNames *
 eab_popup_target_new_select_names(EABPopup *eabp, struct _ESelectNamesModel *model, int row)
 {
@@ -213,6 +221,8 @@ eab_popup_target_new_select_names(EABPopup *eabp, struct _ESelectNamesModel *mod
 
 	return t;
 }
+
+#endif
 
 /* ********************************************************************** */
 /* Popup menu plugin handler */

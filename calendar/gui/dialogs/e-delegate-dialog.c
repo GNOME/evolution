@@ -23,10 +23,6 @@
 #include <config.h>
 #endif
 
-#include <bonobo-activation/bonobo-activation.h>
-#include <bonobo/bonobo-control.h>
-#include <bonobo/bonobo-exception.h>
-#include <bonobo/bonobo-widget.h>
 #include <gtk/gtksignal.h>
 #include <gtk/gtkcombo.h>
 #include <gtk/gtkentry.h>
@@ -36,7 +32,7 @@
 #include <glade/glade.h>
 #include <widgets/misc/e-map.h>
 #include <libebook/e-destination.h>
-#include "Evolution-Addressbook-SelectNames.h"
+#include <libedataserverui/e-name-selector.h>
 #include "e-delegate-dialog.h"
 
 struct _EDelegateDialogPrivate {
@@ -51,17 +47,17 @@ struct _EDelegateDialogPrivate {
 	GtkWidget *hbox;
 	GtkWidget *addressbook;
 
-        GNOME_Evolution_Addressbook_SelectNames corba_select_names;	
+	ENameSelector *name_selector;
 	GtkWidget *entry;	
 };
 
-#define SELECT_NAMES_OAFID "OAFIID:GNOME_Evolution_Addressbook_SelectNames:" BASE_VERSION
 static const char *section_name = "Delegate To";
 
 static void e_delegate_dialog_finalize		(GObject	*object);
 
 static gboolean get_widgets			(EDelegateDialog *edd);
 static void addressbook_clicked_cb              (GtkWidget *widget, gpointer data);
+static void addressbook_response_cb             (GtkWidget *widget, gint response, gpointer data);
 
 G_DEFINE_TYPE (EDelegateDialog, e_delegate_dialog, G_TYPE_OBJECT);
 
@@ -102,6 +98,8 @@ e_delegate_dialog_finalize (GObject *object)
 	edd = E_DELEGATE_DIALOG (object);
 	priv = edd->priv;
 
+	g_object_unref (priv->name_selector);
+
 	/* Destroy the actual dialog. */
 	dialog = e_delegate_dialog_get_toplevel (edd);
 	gtk_widget_destroy (dialog);
@@ -121,10 +119,10 @@ EDelegateDialog *
 e_delegate_dialog_construct (EDelegateDialog *edd, const char *name, const char *address)
 {
 	EDelegateDialogPrivate *priv;
+	EDestinationStore *destination_store;
 	EDestination *dest;
-	EDestination *destv[2] = {NULL, NULL};
-	Bonobo_Control corba_control;
-	CORBA_Environment ev;
+	ENameSelectorModel *name_selector_model;
+	ENameSelectorDialog *name_selector_dialog;
 	char *str;
 
 	g_return_val_if_fail (edd != NULL, NULL);
@@ -145,47 +143,31 @@ e_delegate_dialog_construct (EDelegateDialog *edd, const char *name, const char 
 		g_message ("e_delegate_dialog_construct(): Could not find all widgets in the XML file!");
 		goto error;
 	}
-	
-	CORBA_exception_init (&ev);
-	
-	priv->corba_select_names = bonobo_activation_activate_from_id (SELECT_NAMES_OAFID, 0, NULL, &ev);
-	GNOME_Evolution_Addressbook_SelectNames_addSectionWithLimit (priv->corba_select_names, 
-								     section_name, 
-								     section_name,
-								     1, &ev);
 
-	if (BONOBO_EX (&ev)) {
-		g_message ("e_delegate_dialog_construct(): Unable to add section!");
-		goto error;
-	}
+	priv->name_selector = e_name_selector_new ();
+	name_selector_model = e_name_selector_peek_model (priv->name_selector);
+	e_name_selector_model_add_section (name_selector_model, section_name, section_name, NULL);
 
-	corba_control = GNOME_Evolution_Addressbook_SelectNames_getEntryBySection (priv->corba_select_names, 
-										   section_name, &ev);
-
-	if (BONOBO_EX (&ev)) {
-		g_message ("e_delegate_dialog_construct(): Unable to get addressbook entry!");
-		goto error;
-	}
-	
-	CORBA_exception_free (&ev);
-
-	priv->entry = bonobo_widget_new_control_from_objref (corba_control, CORBA_OBJECT_NIL);
+	priv->entry = GTK_WIDGET (e_name_selector_peek_section_entry (priv->name_selector, section_name));
 	gtk_widget_show (priv->entry);
 	gtk_box_pack_start (GTK_BOX (priv->hbox), priv->entry, TRUE, TRUE, 6);
 
 	dest = e_destination_new ();
-	destv[0] = dest;
+
 	if (name != NULL && *name)
 		e_destination_set_name (dest, name);
 	if (address != NULL && *address)
 		e_destination_set_email (dest, address);
-	str = e_destination_exportv(destv);
-	bonobo_widget_set_property (BONOBO_WIDGET (priv->entry), "destinations", TC_CORBA_string, str, NULL);
-	g_free(str);
+
+	e_name_selector_model_peek_section (name_selector_model, section_name, NULL, &destination_store);
+	e_destination_store_append_destination (destination_store, dest);
 	g_object_unref (dest);
 		
 	g_signal_connect((priv->addressbook), "clicked",
 			    G_CALLBACK (addressbook_clicked_cb), edd);
+
+	name_selector_dialog = e_name_selector_peek_dialog (priv->name_selector);
+	g_signal_connect (name_selector_dialog, "response", G_CALLBACK (addressbook_response_cb), edd);
 
 	return edd;
 
@@ -218,17 +200,26 @@ addressbook_clicked_cb (GtkWidget *widget, gpointer data)
 {
 	EDelegateDialog *edd = data;
 	EDelegateDialogPrivate *priv;
-	CORBA_Environment ev;
+	ENameSelectorDialog *name_selector_dialog;
 	
 	priv = edd->priv;
 
-	CORBA_exception_init (&ev);
-
-	GNOME_Evolution_Addressbook_SelectNames_activateDialog (priv->corba_select_names, section_name, &ev);
-	
-	CORBA_exception_free (&ev);
+	name_selector_dialog = e_name_selector_peek_dialog (priv->name_selector);
+	gtk_widget_show (GTK_WIDGET (name_selector_dialog));
 }
 
+static void
+addressbook_response_cb (GtkWidget *widget, gint response, gpointer data)
+{
+	EDelegateDialog *edd = data;
+	EDelegateDialogPrivate *priv;
+	ENameSelectorDialog *name_selector_dialog;
+
+	priv = edd->priv;
+
+	name_selector_dialog = e_name_selector_peek_dialog (priv->name_selector);
+	gtk_widget_hide (GTK_WIDGET (name_selector_dialog));
+}
 
 /**
  * e_delegate_dialog_new:
@@ -251,25 +242,30 @@ char *
 e_delegate_dialog_get_delegate		(EDelegateDialog  *edd)
 {
 	EDelegateDialogPrivate *priv;
-	EDestination **destv;
-	char *string = NULL;
+	ENameSelectorModel *name_selector_model;
+	EDestinationStore *destination_store;
+	GList *destinations;
+	EDestination *destination;
 	
 	g_return_val_if_fail (edd != NULL, NULL);
 	g_return_val_if_fail (E_IS_DELEGATE_DIALOG (edd), NULL);
 
 	priv = edd->priv;
-	
-	bonobo_widget_get_property (BONOBO_WIDGET (priv->entry), "destinations", TC_CORBA_string, &string, NULL);
-	destv = e_destination_importv (string);
-	
-	if (destv && destv[0] != NULL) {
+
+	name_selector_model = e_name_selector_peek_model (priv->name_selector);
+	e_name_selector_model_peek_section (name_selector_model, section_name, NULL, &destination_store);
+	destinations = e_destination_store_list_destinations (destination_store);
+	if (!destinations)
+		return NULL;
+
+	destination = destinations->data;
+
+	if (destination) {
 		g_free (priv->address);
-		priv->address = g_strdup (e_destination_get_email (destv[0]));
-		g_free (destv);
+		priv->address = g_strdup (e_destination_get_email (destination));
 	}
 	
-	g_free (string);
-	
+	g_list_free (destinations);
 	return g_strdup (priv->address);
 }
 
@@ -278,27 +274,30 @@ char *
 e_delegate_dialog_get_delegate_name		(EDelegateDialog  *edd)
 {
 	EDelegateDialogPrivate *priv;
-	EDestination **destv;
-	char *string = NULL;
+	ENameSelectorModel *name_selector_model;
+	EDestinationStore *destination_store;
+	GList *destinations;
+	EDestination *destination;
 	
 	g_return_val_if_fail (edd != NULL, NULL);
 	g_return_val_if_fail (E_IS_DELEGATE_DIALOG (edd), NULL);
 
 	priv = edd->priv;
 
-	bonobo_widget_get_property (BONOBO_WIDGET (priv->entry), "destinations", TC_CORBA_string, &string, NULL);
-	destv = e_destination_importv (string);
-	
-	g_message ("importv: [%s]", string);
-	
-	if (destv && destv[0] != NULL) {
+	name_selector_model = e_name_selector_peek_model (priv->name_selector);
+	e_name_selector_model_peek_section (name_selector_model, section_name, NULL, &destination_store);
+	destinations = e_destination_store_list_destinations (destination_store);
+	if (!destinations)
+		return NULL;
+
+	destination = destinations->data;
+
+	if (destination) {
 		g_free (priv->name);
-		priv->name = g_strdup (e_destination_get_name (destv[0]));
-		g_free (destv);
+		priv->name = g_strdup (e_destination_get_name (destination));
 	}
 	
-	g_free (string);
-	
+	g_list_free (destinations);
 	return g_strdup (priv->name);
 }
 
