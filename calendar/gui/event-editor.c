@@ -929,7 +929,7 @@ dialog_to_comp_object (EventEditor *ee)
 	CalComponent *comp;
 	CalComponentText *text;
 	CalComponentDateTime date;
-	struct icalrecurrencetype *recur;
+	struct icalrecurrencetype recur;
 	time_t t;
 	gboolean all_day_event;
 	GtkCList *exception_list;
@@ -952,6 +952,7 @@ dialog_to_comp_object (EventEditor *ee)
 	date.value = g_new (struct icaltimetype, 1);
 	t = e_dialog_dateedit_get (priv->start_time);
 	*date.value = icaltime_from_timet (t, FALSE, TRUE);
+	date.tzid = NULL;
 	cal_component_set_dtstart (comp, &date);
 
 	/* If the all_day toggle is set, the end date is inclusive of the
@@ -995,38 +996,36 @@ dialog_to_comp_object (EventEditor *ee)
 
 	/* Recurrence information */
 	list = NULL;
-	recur = g_new (struct icalrecurrencetype, 1);
-  	icalrecurrencetype_clear (recur);
-	recur->freq = recur_options_get (priv->recurrence_rule_none);
+  	icalrecurrencetype_clear (&recur);
+	recur.freq = recur_options_get (priv->recurrence_rule_none);
 	
-	switch (recur->freq) {
+	switch (recur.freq) {
 	case ICAL_NO_RECURRENCE:
 		/* nothing */
 		break;
 
 	case ICAL_DAILY_RECURRENCE:
-		recur->interval = e_dialog_spin_get_int (priv->recurrence_rule_daily_days);
+		recur.interval = e_dialog_spin_get_int (priv->recurrence_rule_daily_days);
 		break;
 
 	case ICAL_WEEKLY_RECURRENCE:
 		
-		recur->interval = e_dialog_spin_get_int (priv->recurrence_rule_weekly_weeks);
-		
+		recur.interval = e_dialog_spin_get_int (priv->recurrence_rule_weekly_weeks);
 		
 		if (e_dialog_toggle_get (priv->recurrence_rule_weekly_sun))
-			recur->by_day[pos++] = ICAL_SUNDAY_WEEKDAY;		
+			recur.by_day[pos++] = ICAL_SUNDAY_WEEKDAY;		
 		if (e_dialog_toggle_get (priv->recurrence_rule_weekly_mon))
-			recur->by_day[pos++] = ICAL_MONDAY_WEEKDAY;
+			recur.by_day[pos++] = ICAL_MONDAY_WEEKDAY;
 		if (e_dialog_toggle_get (priv->recurrence_rule_weekly_tue))
-			recur->by_day[pos++] = ICAL_TUESDAY_WEEKDAY;
+			recur.by_day[pos++] = ICAL_TUESDAY_WEEKDAY;
 		if (e_dialog_toggle_get (priv->recurrence_rule_weekly_wed))
-			recur->by_day[pos++] = ICAL_WEDNESDAY_WEEKDAY;
+			recur.by_day[pos++] = ICAL_WEDNESDAY_WEEKDAY;
 		if (e_dialog_toggle_get (priv->recurrence_rule_weekly_thu))
-			recur->by_day[pos++] = ICAL_THURSDAY_WEEKDAY;
+			recur.by_day[pos++] = ICAL_THURSDAY_WEEKDAY;
 		if (e_dialog_toggle_get (priv->recurrence_rule_weekly_fri))
-			recur->by_day[pos++] = ICAL_FRIDAY_WEEKDAY;
+			recur.by_day[pos++] = ICAL_FRIDAY_WEEKDAY;
 		if (e_dialog_toggle_get (priv->recurrence_rule_weekly_sat))
-			recur->by_day[pos++] = ICAL_SATURDAY_WEEKDAY;
+			recur.by_day[pos++] = ICAL_SATURDAY_WEEKDAY;
 
 		break;
 
@@ -1034,7 +1033,7 @@ dialog_to_comp_object (EventEditor *ee)
 
 		if (e_dialog_toggle_get (priv->recurrence_rule_monthly_on_day)) {
 				/* by day of in the month (ex: the 5th) */
-			recur->by_month_day[0] = 
+			recur.by_month_day[0] = 
 				e_dialog_spin_get_int (priv->recurrence_rule_monthly_day_nth);
 		} else if (e_dialog_toggle_get (priv->recurrence_rule_monthly_weekday)) {
 				/* "recurrence-rule-monthly-weekday" is TRUE */
@@ -1050,44 +1049,48 @@ dialog_to_comp_object (EventEditor *ee)
 		} else
 			g_assert_not_reached ();
 
-		recur->interval = e_dialog_spin_get_int (priv->recurrence_rule_monthly_every_n_months);
+		recur.interval = e_dialog_spin_get_int (priv->recurrence_rule_monthly_every_n_months);
 
 		break;
 
 	case ICAL_YEARLY_RECURRENCE:
-		recur->interval = e_dialog_spin_get_int (priv->recurrence_rule_yearly_every_n_years);
+		recur.interval = e_dialog_spin_get_int (priv->recurrence_rule_yearly_every_n_years);
 
 	default:
 		g_assert_not_reached ();
 	}
 
-	/* recurrence ending date */
-	if (e_dialog_toggle_get (priv->recurrence_ending_date_end_on)) {
-		/* Also here, to ensure that the event is used, we add 86400
-		 * secs to get get next day, in accordance to the RFC
-		 */
-		t = e_dialog_dateedit_get (priv->recurrence_ending_date_end_on_date) + 86400;
-		recur->until = icaltime_from_timet (t, TRUE, TRUE);
-	} else if (e_dialog_toggle_get (priv->recurrence_ending_date_end_after)) {
-		recur->count = e_dialog_spin_get_int (priv->recurrence_ending_date_end_after_count);
+	if (recur.freq != ICAL_NO_RECURRENCE) {
+		/* recurrence ending date */
+		if (e_dialog_toggle_get (priv->recurrence_ending_date_end_on)) {
+			/* Also here, to ensure that the event is used, we add 86400
+			 * secs to get get next day, in accordance to the RFC
+			 */
+			t = e_dialog_dateedit_get (priv->recurrence_ending_date_end_on_date) + 86400;
+			recur.until = icaltime_from_timet (t, TRUE, TRUE);
+		} else if (e_dialog_toggle_get (priv->recurrence_ending_date_end_after)) {
+			recur.count = e_dialog_spin_get_int (priv->recurrence_ending_date_end_after_count);
+		}
+		list = g_slist_append (list, &recur);
+		cal_component_set_rrule_list (comp, list);
 	}
-	list = g_slist_append (list, recur);
-	cal_component_set_rrule_list (comp, list);
 	
-	/* Get exceptions from clist into ico->exdate */
+	/* Set exceptions */
 	list = NULL;
 	exception_list = GTK_CLIST (priv->recurrence_exceptions_list);
 	for (i = 0; i < exception_list->rows; i++) {
-		struct icaltimetype *tt = g_new (struct icaltimetype, 1);
+		struct icaltimetype tt;
 		time_t *t;
 		
 		t = gtk_clist_get_row_data (exception_list, i);
-		*tt = icaltime_from_timet (*t, FALSE, TRUE);
+		tt = icaltime_from_timet (*t, FALSE, TRUE);
 		
-		list = g_slist_prepend (list, tt);
+		list = g_slist_prepend (list, &tt);
 	}
-	cal_component_set_exdate_list (comp, list);
-	cal_component_free_exdate_list (list);
+	if (list) {
+		cal_component_set_exdate_list (comp, list);
+		cal_component_free_exdate_list (list);
+	}
 
 	cal_component_commit_sequence (comp);
 }
