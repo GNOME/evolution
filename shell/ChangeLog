@@ -1,5 +1,14 @@
 2003-01-10  Ettore Perazzoli  <ettore@ximian.com>
 
+	* main.c (main): Generate the URI list from the popt context
+	fetched from the GnomeProgram object.
+
+	* e-shell-view.c (setup_defaults): Removed @setup_default_uri arg.
+	Don't load any URI here.
+	(e_shell_view_construct): Open the URI here instead.
+
+2003-01-10  Ettore Perazzoli  <ettore@ximian.com>
+
 	* e-shell.c (parse_default_uri): Remove bogus is_default check.
 
 2003-01-10  Ettore Perazzoli  <ettore@ximian.com>

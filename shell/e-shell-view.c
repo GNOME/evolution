@@ -381,16 +381,13 @@ remove_uri_from_history (EShellView *shell_view,
 
 
 static void
-setup_defaults (EShellView *shell_view,
-		gboolean setup_default_uri)
+setup_defaults (EShellView *shell_view)
 {
 	EShellViewPrivate *priv;
 	EShortcutBar *shortcut_bar;
 	GConfClient *client;
 	GSList *icon_types_list;
 	GSList *p;
-	char *path;
-	char *uri;
 	int shortcut_group;
 	int width;
 	int i;
@@ -424,19 +421,6 @@ setup_defaults (EShellView *shell_view,
 	if (priv->folder_bar_shown)
 		e_paned_set_position (E_PANED (priv->view_hpaned), width);
 	priv->view_hpaned_position = width;
-
-	if (setup_default_uri) {
-		path = gconf_client_get_string (client, "/apps/evolution/shell/view_defaults/folder_path", NULL);
-		uri = g_strconcat (E_SHELL_URI_PREFIX, path, NULL);
-
-		if (! e_shell_view_display_uri (shell_view, uri, FALSE)) {
-			e_shell_view_display_uri (shell_view, E_SHELL_VIEW_DEFAULT_URI, FALSE);
-			e_shell_view_display_uri (shell_view, uri, TRUE);
-		}
-
-		g_free (path);
-		g_free (uri);
-	}
 
 	icon_types_list = gconf_client_get_list (client, "/apps/evolution/shell/view_defaults/shortcut_bar/icon_types",
 						 GCONF_VALUE_INT, NULL);
@@ -1765,6 +1749,7 @@ e_shell_view_construct (EShellView *shell_view,
 {
 	EShellViewPrivate *priv;
 	EShellView *view;
+	char *uri_to_load;
 
 	g_return_val_if_fail (shell != NULL, NULL);
 	g_return_val_if_fail (shell_view != NULL, NULL);
@@ -1824,7 +1809,25 @@ e_shell_view_construct (EShellView *shell_view,
 	e_shell_user_creatable_items_handler_attach_menus (e_shell_get_user_creatable_items_handler (priv->shell),
 							   shell_view);
 
-	setup_defaults (view, uri != NULL);
+	setup_defaults (view);
+
+	if (uri != NULL) {
+		uri_to_load = g_strdup (uri);
+	} else {
+		GConfClient *client = gconf_client_get_default ();
+		char *path = gconf_client_get_string (client, "/apps/evolution/shell/view_defaults/folder_path", NULL);
+
+		uri_to_load = g_strconcat (E_SHELL_URI_PREFIX, path, NULL);
+		g_free (path);
+		g_object_unref (client);
+	}
+
+	if (! e_shell_view_display_uri (shell_view, uri_to_load, FALSE)) {
+		e_shell_view_display_uri (shell_view, E_SHELL_VIEW_DEFAULT_URI, FALSE);
+		e_shell_view_display_uri (shell_view, uri_to_load, TRUE);
+	}
+
+	g_free (uri_to_load);
 
 	return view;
 }

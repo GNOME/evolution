@@ -456,6 +456,10 @@ main (int argc, char **argv)
 		{ NULL, '\0', 0, NULL, 0, NULL, NULL }
 	};
 	GSList *uri_list;
+	GValue popt_context_value = { 0, };
+	GnomeProgram *program;
+	poptContext popt_context;
+	const char **args;
 
 	/* Make ElectricFence work.  */
 	free (malloc (10));
@@ -464,11 +468,11 @@ main (int argc, char **argv)
 	bind_textdomain_codeset (GETTEXT_PACKAGE, "UTF-8");
 	textdomain (GETTEXT_PACKAGE);
 
-	gnome_program_init (PACKAGE, VERSION, LIBGNOMEUI_MODULE, argc, argv, 
-			    GNOME_PROGRAM_STANDARD_PROPERTIES,
-			    GNOME_PARAM_POPT_TABLE, options,
-			    GNOME_PARAM_HUMAN_READABLE_NAME, _("Evolution"),
-			    NULL);
+	program = gnome_program_init (PACKAGE, VERSION, LIBGNOMEUI_MODULE, argc, argv, 
+				      GNOME_PROGRAM_STANDARD_PROPERTIES,
+				      GNOME_PARAM_POPT_TABLE, options,
+				      GNOME_PARAM_HUMAN_READABLE_NAME, _("Evolution"),
+				      NULL);
 
 	if (start_online && start_offline) {
 		fprintf (stderr, _("%s: --online and --offline cannot be used together.\n  Use %s --help for more information.\n"),
@@ -502,7 +506,9 @@ main (int argc, char **argv)
 
 	uri_list = NULL;
 
-#if 0
+	g_value_init (&popt_context_value, G_TYPE_POINTER);
+	g_object_get_property (G_OBJECT (program), GNOME_PARAM_POPT_CONTEXT, &popt_context_value);
+	popt_context = g_value_get_pointer (&popt_context_value);
 	args = poptGetArgs (popt_context);
 	if (args != NULL) {
 		const char **p;
@@ -510,7 +516,8 @@ main (int argc, char **argv)
 		for (p = args; *p != NULL; p++)
 			uri_list = g_slist_prepend (uri_list, (char *) *p);
 	}
-#endif
+	uri_list = g_slist_reverse (uri_list);
+	g_value_unset (&popt_context_value);
 
 	gtk_idle_add (idle_cb, uri_list);
 
