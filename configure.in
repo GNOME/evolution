@@ -1393,6 +1393,12 @@ if echo ${plugins_enabled} | grep -q "new-mail-notify" ; then
 		PKG_CHECK_MODULES(NMN, dbus-glib-1)
 		AC_SUBST(NMN_CFLAGS)
 		AC_SUBST(NMN_LIBS)
+
+		# Get the version of the DBus API, so we can hack around API changes until the API stabilises:
+		# multiply by 1000 to convert decimal to integer; so e.g. 0.31 become 310
+		# since preprocessor values must be integral
+		DBUS_VERSION="`$PKG_CONFIG --modversion dbus-1 | awk '{print 1000 * $1}'`"
+		AC_SUBST(DBUS_VERSION)
 	else
 		plugins_enabled=`echo $plugins_enabled | sed -e "s/new-mail-notify//g"`
 		echo "warning: dbus-glib-1 was not found, new-mail-notify plugin will not be built."
@@ -1622,7 +1628,8 @@ echo "\
 	Dot Locking:	  $msg_dot
 	File Locking:	  $msg_file
 	Plugins:	  $msg_plugins
-	Gtk-doc:	  $enable_gtk_doc"
+	Gtk-doc:	  $enable_gtk_doc
+	DBus API version  $DBUS_VERSION"
 
 if test x$enable_gtk_doc = xyes; then
 echo "
