@@ -1,0 +1,70 @@
+
+  <appendix id="authors">
+    <title>Authors</title>
+     <para>
+      <application>Evolution</application> was written by:
+
+      Seth Alves: <email>alves@helixcode.com</email>
+      Anders Carlsson<email>andersca@helixcode.com</email>
+      Damon Chaplin:<email>damon@helixcode.com</email>
+      Clifford R. Conover <email>rusty@zootweb.com</email>
+      Miguel De Icaza: <email>miguel@helixcode.com</email>
+      Arturo Espinoza <email>arturo@nucleu.unam.mx</email>
+      Larry Ewing: <email>lewing@helixcode.com</email>
+      Bertrand Guiheneuf: <email>bertrand@helixcode.com</email>
+      Tuomas Kuosmanen: <email>tigert@gimp.org</email>
+      Christopher J. Lahey: <email>clahey@helixcode.com</email>
+      Matthew Loper:  <email>matt@helixcode.com</email>
+      Dave Mason <email>dcm@redhat.com</email>
+      Federico Mena: <email>federico@helixcode.com</email>
+      Eskil Heyn Olsen<email>deity@eski.dk</email>
+      Nat Friedman: <email>nat@helixcode.com</email>
+      Ettore Perazzoli:<email>ettore@helixcode.com</email>
+      Russell Steinthal: <email>rms39@columbia.edu</email>
+      Peter Teichman: <email>peter@helixcode.com</email>      
+      Chris Toshok: <email>toshok@helixcode.com</email>
+      Radek Doulik: <email>rodo@helixcode.com</email>
+      Dan Winship: <email>winship@helixcode.com</email>
+      Michael Zucchi: <email>notzed@helixcode.com</email>
+
+and other dedicated GNOME programmers. 
+</para>
+    <para>
+      The <application>Evolution</application> code owes a great debt
+       to the <application>GNOME-pim</application> and
+       <application>GNOME-Calendar</application> applications, and to
+       <application>KHTMLW</application>.  The developers of
+       <application>Evolution</application> acknowledge the efforts
+       and contributions of all who worked on those projects.
+    </para>
+
+   <para>
+     For more information please visit the
+      <application>Evolution</application> <ulink
+      url="http://www.helixcode.com/apps/evolution.php3"
+      type="http">Web page</ulink>.  Please send all comments,
+      suggestions, and bug reports to the <ulink
+      url="http://bugs.gnome.org" type="http">GNOME bug tracking
+      database</ulink>. Instructions for submitting bug reports can be
+      found on-line at <ulink
+      url="http://bugs.gnome.org/Reporting.html" type="http">
+      http://bugs.gnome.org/Reporting.html</ulink>. If you are using
+      GNOME 1.1 or later, you can also use command
+      <command>bug-buddy</command> for submitting bug reports.
+    </para>
+    <para>
+      This manual was written by Aaron Weber
+      (<email>aaron@helixcode.com</email>) with the help of the
+      application programmers and the GNOME Documentation Project.
+      Please send all comments and suggestions regarding the manual to
+      the GNOME Documentation Project at
+      <email>docs@gnome.org</email>. You can also add your comments
+      online by using <ulink type="http"
+      url="http://www.gnome.org/gdp/doctable/">GNOME Documentation
+      Status Table</ulink>.
+    </para>
+    <!-- For translations: uncomment this: <para> Latin translation
+      was done by ME (<email>MYNAME@MYADDRESS</email>). Please send
+      all comments and suggestions regarding this translation to
+      SOMEWHERE.  </para> -->
+    </appendix>

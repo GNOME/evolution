@@ -1,0 +1,214 @@
+
+    <chapter id="usage-mainwindow">
+
+    <title>The Main Window: Evolution Basics</title>
+      <para>
+	After <application>Evolution</application> starts up, you will
+	see the <interface>main window</interface>, which looks a lot
+	like in <xref linkend="usage-mainwindow-fig">. On the left of
+	the <interface>main window</interface> are the
+	<interface>shortcut bar</interface> and the
+	<interface>tree-view</interface>.  Just underneath the title
+	bar is a series of menus in the <interface>menu
+	bar</interface>, and below that, the <interface>tool
+	bar</interface> with buttons for different functions. The
+	largest part of the <interface>main window</interface> is
+	taken up by a welcome message.  <!-- para does not end here
+	but after fig! -->
+
+<!-- ==============Figure=================================== -->
+
+<!--
+Make sure that this figure meets its descriptions below: it should
+show the shortcut bar, the tree view with some trees expanded, and so
+forth.  Can these things be labelled with little arrows & stuff?
+ -->
+
+	<figure id="usage-mainwindow-fig">
+	<title>Evolution Main Window</title>
+	<screenshot>
+	  <screeninfo>Evolution Main Window</screeninfo>
+	  <graphic fileref="mainwindow-pic" format="png" srccredit="Aaron Weber">
+	    </graphic>
+	</screenshot>
+	</figure>
+<!-- ==============End of Figure=================================== -->
+
+
+        <note>
+	  <title>The Way Evolution Looks</title>
+	  <para>
+ 	    The appearance of both
+	    <application>Evolution</application> and
+	    <application>GNOME</application> is very easy to
+	    customize, so your screen might not look like this
+	    picture.  You might configure
+	    <application>Evolution</application> to start with a
+	    different view, or without the <interface>shortcut
+	    bar</interface> or <interface>tree view</interface>.
+          </para>
+	</note>
+      </para>
+
+      <sect1 id="usage-mainwindow-shortcutbar">
+	<title>The Shortcut Bar</title>
+	<para>
+          The buttons in the <interface>shortcut bar</interface> give
+          you quick access to the different functions that
+          <application>Evolution</application> provides.
+        </para>
+	<para>
+          The buttons in the <interface>shortcut bar</interface> are:
+          <itemizedlist>
+	    <listitem>
+	      <para>
+                <guibutton>Today</guibutton>, which will bring up a summary
+                of any new messages you've recieved, along with the tasks and
+                appointments you have lined up for today.
+              </para>
+	    </listitem>
+
+	    <listitem>
+	      <para>
+                <guibutton>Inbox</guibutton>, which will show you all
+                of your email.  Your Inbox is also where you can
+                access Evolution's tools to filter, sort, organize,
+                and search your mail.
+              </para>
+	    </listitem>
+
+	    <listitem>
+	       <para>
+                  The <guibutton>Calendar</guibutton>, which can store
+                  appointments for you.  Connected to a network, you
+                  can use it to keep a group of people on schedule and
+                  up to date.
+               </para>
+            </listitem>
+
+	    <listitem>
+	      <para>
+                The <guibutton>Contacts</guibutton> tool holds your
+                addresses, phone numbers, and contact information.
+                Like calendar information, contact data can be
+                synchronized with hand-held devices and shared over a
+                network.  
+              </para>
+	    </listitem>
+
+	    <listitem>
+	      <para>
+                 The <guibutton>Tasks</guibutton> tool combines a "to
+                 do" list with reminders to help you keep track of
+                 daily events.
+              </para>
+	    </listitem>
+
+	    <listitem>
+	      <para> <guibutton>Notes</guibutton> is your catch-all
+                notepad: write <glossterm>haiku</glossterm>, take down
+                messages from phone conversations, or keep small
+                things organized.
+              </para>
+	    </listitem>
+	  </itemizedlist>
+
+
+        </para>
+	<para>
+          If you prefer to use a keyboard shortcut, or <glossterm>hot
+          key</glossterm>, you can use those instead.  They're
+          shown... (INSERT DESCRIPTION) You can also set your own hot
+          keys for functions that don't have any; this is covered in
+          <xref linkend="config">.  If you're using the keyboard
+          shortcuts you may also want to hide the <interface>shortcut
+          bar</interface> by selecting <guimenuitem>Hide/Show Shortcut
+          Bar</guimenuitem> from the <guimenu>MENU</guimenu> menu.
+        </para>
+     </sect1>
+
+      <sect1 id="usage-mainwindow-treeview">
+	<title>The Tree View</title>
+	<para>
+          The <interface>tree view</interface> is the most comprehensive way to
+          get to your information: it can show you everything you've
+          stored with <application>Evolution</application>
+          appointments, address cards, emails, and so forth.
+        
+          The <interface>tree view</interface> display presents your
+          data like a <glossterm>file tree</glossterm>&mdash; it
+          starts small at the top, and branches downwards. There are a
+          few folders you will always see, because they're at the top.
+          On my computer, they are: (ch. to itemizedlist w/descriptions?)
+          <simplelist>
+	    <member>Local Mail</member>
+	    <member>Remote Mail</member>
+	    <member>Address Book</member>
+	    <member>Calendar</member>
+	    <member>Trash</member>
+	  </simplelist>.
+        </para>
+
+	<para>
+          Right-clicking will bring up a menu for just about anything
+          in GNOME, and <application>Evolution</application> is no
+          exception.  If you right-click on a folder, you'll have a
+          menu with the following options:
+	  <itemizedlist>
+	    <listitem><para>Something</para></listitem>
+	    <listitem><para>Something</para></listitem>
+	    <listitem><para>Something</para></listitem>
+	  </itemizedlist>.
+        </para>
+
+	<tip>
+         <title>Context-Sensitive Help</title>
+	  <para>
+            You can almost always get help on an item by
+	    right-clicking it.  If you're not sure what something is,
+	    or don't know what you can do with it, right-clicking and
+	    choosing <guimenuitem>Help</guimenuitem> is a good way to
+	    find out.
+          </para>
+        </tip>
+	
+	<para>
+          If a folder has other folders in it, there will be a plus
+          sign next to it. Click on the plus sign, and you will see
+          the other folders inside.  This may change in the future to
+          something more attractive, like triangles that drop down as
+          you click on them to display the rest of the tree.
+        </para>
+
+	<para>
+          Any time new information arrives in a folder, that folder
+          will be highlighted, or its label displayed as bold
+          text. You can learn more about customizing
+          <application>Evolution</application> alerts and appearance
+          in <xref linkend="config">.
+        </para>
+
+	<para>
+          (CHANGE that title! THIS SECTION BELONGS SOMEWHERE ELSE!)
+          You can drag the folders inside the tree view to change
+          their order or put one folder inside another.  To delete a
+          folder, you can drag it into the trash folder.  The same
+          goes for individual messages, appointments, and address
+          cards, whether they're in the <interface>tree
+          view</interface> or not: drag them where you want them, and
+          they will go there. (IS THIS TRUE?)
+        </para>
+	<para>
+          You can also use the <guimenu>right-click menu</guimenu> to
+          move, rename, and delete folders.
+          <guimenuitem>Delete</guimenuitem> function from the
+          <guimenu>right-click menu</guimenu>.
+        </para>
+	<para>
+          Once you've familiarized yourself with the <interface>main
+          window</interface> you can start doing things with it.
+          We'll start with email: you've got a letter waiting for you
+          already.
+        </para>
+      </sect1>
+    </chapter>

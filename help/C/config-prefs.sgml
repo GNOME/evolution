@@ -1,0 +1,209 @@
+
+    <chapter id="config-prefs">
+      <title>Advanced Configuration with the Preferences Window</title>
+      <para>
+        If you prefer not to use the setup assistant, select
+        <guimenuitem>Preferences</guimenuitem> from the
+        <guimenu>Settings</guimenu> menu, and work your way through
+        the page tabs it offers you.  They are:
+        <itemizedlist>
+          <listitem>
+	    <para>
+               <guilabel>Identity</guilabel>, which allows you to set
+               your name, email address, and other information.  The
+               default values are the ones found on your system account.
+	    </para>
+	  </listitem>
+
+	  <listitem>
+	    <para>
+              <guilabel>Network</guilabel>, which allows you to
+              specify your network settings.  There are no default
+              values for this information.
+             </para>
+	  </listitem>
+
+	  <listitem>
+	    <para>
+              <guilabel>Mail</guilabel>, which allows you to specify
+              attachment and HTML handling, forwarding behavior,
+              filters, and other <application>Evolution</application>
+              behaviors specific to email.  The default behaviors are
+              those approved by Jamie Zawinski.
+            </para>
+	  </listitem>
+ 
+	  <listitem>
+	    <para>
+               <guilabel>Contacts</guilabel>, which allows you to
+               specify behavior that is specific to your contact
+               manager.
+            </para>
+	  </listitem>
+
+	  <listitem>
+	    <para>
+              <guilabel>Calendar</guilabel>, which allows you to set
+              the way that your calendar will behave and appear.  The
+              default view is by week and the default calendar is
+              Western.  Date format is determined by the system clock
+              and localization, and cannot be set here.
+            </para>
+	  </listitem>
+ 
+	  <listitem>
+	    <para>
+              <guilabel>General</guilabel>, which covers everything
+              else, including the <application>Evolution</application>
+              startup screen.
+            </para>
+	  </listitem>
+	</itemizedlist>
+      
+        The <interface>Preferences Dialog</interface> is shown in
+        <xref linkend="config-prefs-fig">.
+      </para>
+
+      <!-- ==============Figure===================== -->
+      <figure id="config-prefs-fig">
+	<title>Preferences Dialog</title>
+	<screenshot>
+	  <screeninfo>Preferences dialog</screeninfo>
+	  <graphic fileref="evolution_config_pic" format="png" srccredit="Aaron Weber">
+	    </graphic>
+	</screenshot>
+      </figure>
+      <!-- ==============End of Figure================-->
+
+
+      <sect1 id="config-prefs-identity">
+      <title>Identity Settings</title> 
+      <para>
+         If you have only one email address, or use automatic
+         forwarding to funnel multiple addresses into one, then you
+         will only need to configure one identity. To create a single
+         user with a single identity, enter the following information:
+         (INSERT detailed DESCRIPTION HERE)
+      </para>
+
+      <para>
+         If you have one email accout for your personal life, and one
+	 for work, you'll want to create multiple identities.  You
+	 can do this by: (INSERT DESCRIPTION HERE)
+      </para>
+
+      <note id="config-prefs-identity-note">
+	<title>Multiple Identities and Network Settings</title>
+	<para>
+           If you use multiple network connections&mdash;if, for
+           example, you dial up an ISP for your personal mail, and use
+           a LAN for your work-related tasks&mdash; you will also have
+           to set seperate network settings for each identity.
+        </para>
+      </note>
+    </sect1>
+
+    <sect1 id="config-prefs-network">
+      <title>Setting up the Network</title> 
+      <para>
+        In order to do much of anything with
+        <application>Evolution</application>, you need to connect to
+        your network.  To do that, you'll need to know your user name
+        and password, what sort of mail sending and receiving
+        protocols your network uses, and the names of the servers
+        you'll be using.  If you're switching from another groupware
+        or email progam, you can almost certainly use the same
+        settings as you did with that program.  Select the
+        <guibutton>Network</guibutton> tab in the
+        <interface>Preferences</interface> window to get started.
+      </para>
+ 
+	<sect2 id="config-prefs-network-advanced">
+	  <title>Advanced Network Configuration</title>
+	  <para>
+            INSERT a little introduction paragraph here.
+          </para>
+	  <sect3 id="config-prefs-network-advanced-multiconnect">
+	    <title>Multiple Network Connections</title>
+	    <para>
+              People with who use multiple ISP's or networks, or who
+	      have multiple email accounts, will need to do a little
+	      more work, but not much.
+            </para>
+	    <example>
+	      <title>Multiple Identities and Networks</title>
+	      <para>
+                Nate's laptop goes everywhere with him, and he needs
+	        to be able to use <application>Evolution</application>
+	        from anywhere&mdash a hotel room, an airplane, a
+	        client's office, his office, anywhere at all.  (INSERT
+	        HOW EVOLUTION HELPS HIM DO THIS).
+              </para>
+	    </example>
+
+	    <para>
+              (INSERT DESCRIPTION OF WHAT THESE THINGS ARE AND HOW TO
+              USE THEM) (I'M THINKING IN TERMS OF THE APPLE LOCATION
+              MANAGER) (Kill this section if Evolution doesn't support
+              this for 1.0).
+            </para>
+	  </sect3>
+	  
+	  <sect3 id="config-prefs-network-advanced-other">
+	    <title>Other Advanced Network Settings</title>
+            <para>
+              I can't think of any at the moment but i'm sure they're
+              out there.  They belong here.
+          </para>
+	  </sect3>
+	</sect2>
+      </sect1>
+      <sect1 id="config-prefs-mail">
+	<title>Modifying the Mail</title>
+	<para>
+          This section discusses mail-specific preferences.  Click on
+          the <guibutton>Mail</guibutton> tab in the
+          <interface>Preferences</interface> window to access these
+          settings.
+        </para>
+	<para>
+          You can set the following options: <!--insert variable list here-->
+        </para>
+      </sect1>
+    
+      <sect1 id="config-prefs-contact">
+	<title>Managing the Contact Manager</title>
+	<para>
+          To set the behavior of your Contact Manager, click on the
+          <guibutton>Contact Manager</guibutton> tab in the
+          <interface>Preferences</interface> window.
+        </para>
+	<para>
+          You can set the following options: <!--insert variable list
+          here-->
+        </para>
+      </sect1>
+    
+      <sect1 id="config-prefs-cal">
+	<title>Configuring the Calendar</title>
+	<para>
+          This section discusses calendar-specific preferences.  Click
+          on the <guibutton>Calendar</guibutton> tab in the
+          <interface>Preferences</interface> window to access these
+          settings.
+        </para>
+        <para>
+          You can set the following options: <!--insert variable list
+          here-->
+        </para>
+      </sect1>
+
+
+      <sect1 id="config-prefs-general">
+	<title>General Preferences</title> 
+	<para>
+          Overall Evolution prefs-- whatever else doesn't fit.
+        </para>
+      </sect1>
+    </chapter>
+    

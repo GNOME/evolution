@@ -1,3 +1,25 @@
+2000-05-18  Aaron Weber  <aaron@helixcode.com>
+
+	* C/evo_book_0.1.sgml: removed.	
+
+	* C/apx-authors.sgml: new file.
+	* C/apx-bugs.sgml: same.
+	* C/apx-fdl.sgml: same.
+	* C/config-prefs.sgml: same.
+	* C/config-setupassist.sgml: same.
+	* C/config-sync.sgml: same.
+	* C/devel-action.sgml: same.
+	* C/devel-component.sgml: same.
+	* C/devel-script.sgml: same.
+	* C/evolution-guide.sgml: same.
+	* C/preface.sgml: same.
+	* C/usage-calendar.sgml: same.
+	* C/usage-contact.sgml: same.
+	* C/usage-mail.sgml: same.
+	* C/usage-mainwindow.sgml: same.
+	* C/usage-setup.sgml: same.
+	* C/usage-sync.sgml: same.
+
 2000-05-07  Dan Winship  <danw@helixcode.com>
 
 	* Camel-Classes: sync

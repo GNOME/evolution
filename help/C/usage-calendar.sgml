@@ -1,0 +1,140 @@
+
+    <chapter id="usage-calendar">
+      <title>The Evolution Calendar: Time-Tamer Extraordinaire</title>
+      <para>
+        To begin using the calendar, select
+        <guibutton>Calendar</guibutton> from the <interface>shortcut
+        bar</interface>.  By default, the calendar starts in week view mode (IS
+        THIS TRUE? CHANGE TEXT TO FIT FEATURE). The calendar week view is
+        shown in <xref linkend="usage-calendar-fig">:
+
+       <!-- ============== Figure ============================= -->
+	<figure id="usage-calendar-fig">
+	  <title>Evolution Calendar View</title>
+	  <screenshot>
+	    <screeninfo>Evolution Contact Manager Window</screeninfo>
+	    <graphic fileref="cal-pic" format="png" srccredit="Aaron Weber">
+	    </graphic>
+	  </screenshot>
+	</figure>
+      <!-- ============== End of Figure ============================= --> 
+
+      </para>
+      <sect1 id ="usage-calendar-view"> 
+	<title>Ways of Looking at your Calendar</title>
+	<para>
+           You can view your calendar by the day, by the week, by the
+           month, or by the year.  To do so, click BUTTONS SOMEWHERE.
+        </para>
+	<para>
+           Describe the less-obvious differences among the views of
+           time here.
+        </para>
+
+	<para>
+           In addition, <application>Evolution</application> supports
+           Hebrew, Muslim, and other calendar formats.  To switch to a
+           different calendar format, choose
+           <guimenuitem>GUIMENUITEM</guimenuitem> from the
+           <guimenu>GUIMENU</guimenu>.
+        </para>
+	<para>
+           Describe the ways that different calendars can work here,
+           and how the different calendars work together.
+        </para>
+      </sect1>
+      <sect1 id="usage-calendar-apts">
+	<title>Scheduling With the Evolution Calendar</title>
+	<para>
+	   The <application>Evolution</application> calendar allows
+           you to schedule events for yourself or a group of people.
+           It can handle events that repeat, event lengths from ten
+           minutes to multiple days, and events that have a date but
+           no specific time.  You can set overlapping events, although
+           <application>Evolution</application> will warn you about
+           trying to do two things at once.  You can also set event
+           reminders so that you don't forget about everything you've
+           just put into your calendar. Basically, it can handle almost
+           any schedule you throw at it.
+        </para>
+	<sect2 id="usage-calendar-apts-basic">
+	  <title>Creating events</title>
+	  <para>
+            While looking at the calendar, select <guimenuitem>New
+            Appointment</guimenuitem> from the
+            <guimenu>MENU</guimenu>, or press
+            <keysym>KEYSYM</keysym>. The <interface>New
+            Appointment</interface> dialog will appear. (INSERT
+            DESCRIPTION OF INTERFACE HERE: Date, Time, Recurrence,
+            Reminders, and Tentative/Confirmed)
+          </para>
+	  <para>
+            You can alter those settings later by clicking once on the
+            event in the <interface>calendar view</interface> to
+            select it, and then choosing <guimenuitem>Event
+            Properties</guimenuitem> from the
+            <guimenu>Settings</guimenu> menu.
+          </para>
+	</sect2>
+
+	<sect2 id="usage-calendar-apts-group">
+	  <title>Appointments for Groups</title>
+	  <para>
+            If you have your calendar set up to work with other
+            calendars over a network, you can see when others are
+            available to meet with you.  To browse other people's
+            calendars over your local network, do this: 
+          </para>
+	  <para>
+            In addition, you can use
+            <application>Evolution</application> to mark a meeting
+            request on another person's calendar.  To do so, first
+            select <guimenuitem>New Appointment</guimenuitem> from the
+            <guimenu>MENU</guimenu>, or press <keysym>KEYSYM</keysym>
+            to bring up the <interface>new event</interface> window.
+            Then describe the event as you would any other.  Before
+            you click <guibutton>OK</guibutton>, (INSERT DESCRIPTION
+            HERE...).  <application>Evolution</application> will
+            automatically send email to each person on the request
+            list, notifying of the time and date of the meeting you
+            have requested with them.  In addition, it will mark the
+            event on your calendar and on theirs as tentative, rather than 
+            a confirmed, event.
+          </para>
+	  <para>
+            To mark a tentative event as confirmed, click once on the
+            event in the <interface>calendar view</interface> to
+            select it, and then choose <guimenuitem>Event
+            Properties</guimenuitem> from the
+            <guimenu>Settings</guimenu> menu.  In the <interface>Event
+            Properties</interface> dialog window, click the
+            "tentative" button to un-mark the event. (NOTE THAT this
+            feature may not at all exist!)
+          </para>
+	</sect2>
+	
+	<sect2 id="usage-calendar-apts-privs">
+	 <title>Scheduling privileges</title>
+	  <para>
+            There are several levels of scheduling privileges.  You
+            can set whether people can see your calendar, whether they
+            can request meetings or appointments, and whether they can
+            create appointments.  This section may have to be deleted,
+            because I don't know if we are going to support privileges
+            at all.
+          </para>
+	</sect2>
+      </sect1>
+
+      <sect1 id="usage-calendar-organize">
+	<title>Organizing your Appointments</title>
+	<para>
+           Until I have <application>Evolution</application> running properly,
+           I have no idea how this sort of organization will actually work.
+        </para>
+	<para>
+           But this section will have at least two paragraphs, and
+           probably a screenshot.
+        </para>
+      </sect1>
+    </chapter>
