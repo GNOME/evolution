@@ -36,6 +36,7 @@ eutilinclude_HEADERS = 				\
 	e-memory.h				\
 	e-mktemp.h				\
 	e-msgport.h				\
+	e-passwords.h				\
 	e-path.h				\
 	e-proxy.h				\
 	e-request.h				\
@@ -64,6 +65,7 @@ libeutil_la_SOURCES =				\
 	e-memory.c				\
 	e-mktemp.c				\
 	e-msgport.c				\
+	e-passwords.c				\
 	e-path.c				\
 	e-proxy.c				\
 	e-request.c				\

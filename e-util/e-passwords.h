@@ -24,13 +24,9 @@
 #define _E_PASSWORD_H_
 
 #include <glib.h>
-#include <bonobo/bonobo-ui-component.h>
 #include <gtk/gtkwindow.h>
 
-#ifdef __cplusplus
-extern "C" {
-#pragma }
-#endif /* __cplusplus */
+G_BEGIN_DECLS
 
 void        e_passwords_init              (const char *component);
 void        e_passwords_shutdown          (void);
@@ -54,8 +50,6 @@ char *      e_passwords_ask_password      (const char *title, const char *key,
 					   gboolean *remember,
 					   GtkWindow *parent);
 
-#ifdef __cplusplus
-}
-#endif /* __cplusplus */
+G_END_DECLS
 
 #endif /* _E_PASSWORD_H_ */

@@ -1,3 +1,11 @@
+2002-11-12  Chris Toshok  <toshok@ximian.com>
+
+	* Makefile.am
+	(eutilinclude_HEADERS): add e-password.h
+	(libeutil_la_SOURCES): add e-password.c
+
+	* e-passwords.[ch]: port this to gnome2's gnome-config-private.
+
 2002-11-11  Ettore Perazzoli  <ettore@ximian.com>
 
 	* e-config-listener.c (add_key): g_strdup() the value in the case
