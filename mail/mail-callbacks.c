@@ -148,27 +148,27 @@ composer_send_cb (EMsgComposer *composer, gpointer data)
 	id = mail_config_get_default_identity ();
 	if (!check_configured () || !id) {
 		GtkWidget *message;
-
+		
 		message = gnome_warning_dialog_parented (_("You need to configure an identity\n"
 							   "before you can send mail."),
 							 GTK_WINDOW (gtk_widget_get_ancestor (GTK_WIDGET (composer),
-										  GTK_TYPE_WINDOW)));
+											      GTK_TYPE_WINDOW)));
 		GDK_THREADS_ENTER ();
 		gnome_dialog_run_and_close (GNOME_DIALOG (message));
 		GDK_THREADS_LEAVE ();
 		return;
 	}
-
+	
 	/* Check for a transport */
-
+	
 	xport = mail_config_get_transport ();
 	if (!xport || !xport->url) {
 		GtkWidget *message;
-
+		
 		message = gnome_warning_dialog_parented (_("You need to configure a mail transport\n"
 							   "before you can send mail."),
 							 GTK_WINDOW (gtk_widget_get_ancestor (GTK_WIDGET (composer),
-										  GTK_TYPE_WINDOW)));
+											      GTK_TYPE_WINDOW)));
 		GDK_THREADS_ENTER ();
 		gnome_dialog_run_and_close (GNOME_DIALOG (message));
 		GDK_THREADS_LEAVE ();
@@ -176,19 +176,19 @@ composer_send_cb (EMsgComposer *composer, gpointer data)
 	}
 
 	/* Generate our from address */
-
+	
 	from = g_strdup (e_msg_composer_hdrs_get_from (E_MSG_COMPOSER_HDRS (composer->hdrs)));
 	if (!from) {
 		CamelInternetAddress *ciaddr;
-
+		
 		ciaddr = camel_internet_address_new ();
 		camel_internet_address_add (ciaddr, id->name, id->address);
 		from = camel_address_encode (CAMEL_ADDRESS (ciaddr));
 		camel_object_unref (CAMEL_OBJECT (ciaddr));
 	}
-
+	
 	/* Get the message */
-
+	
 	message = e_msg_composer_get_message (composer);
 
 	/* Check for no subject */
