@@ -1,3 +1,8 @@
+2002-09-23  Dan Winship  <danw@ximian.com>
+
+	* e-summary-offline-handler.c (impl_goOffline): Pass ev, not &ev
+	to CORBA_Object_duplicate since ev is already a pointer.
+
 2002-09-23  Ettore Perazzoli  <ettore@ximian.com>
 
 	* e-summary-weather.c (e_summary_weather_get_html): Don't add any
