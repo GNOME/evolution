@@ -2,8 +2,12 @@
 #
 #
 
-INCLUDES = 				\
-	-I$(top_srcdir)/calendar	\
+INCLUDES = 					\
+	-I$(top_srcdir)				\
+	-I$(top_srcdir)/calendar		\
+	-I$(top_srcdir)/libical/src/libical	\
+	-I$(top_builddir)/libical/src/libical	\
+	$(BONOBO_GNOME_CFLAGS)			\
 	$(GNOME_PILOT_CFLAGS)
 
 file_conduitsdir=$(libdir)/gnome-pilot/conduits

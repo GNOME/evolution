@@ -1,3 +1,9 @@
+2000-09-02  Ettore Perazzoli  <ettore@helixcode.com>
+
+	* conduits/calendar/Makefile.am (INCLUDES): Add libical include
+	directories and `$(BONOBO_GNOME_CFLAGS)'.
+	* conduits/todo/Makefile.am (INCLUDES): Likewise.
+
 2000-09-02  Lauris Kaplinski  <lauris@helixcode.com>
 
 	* gui/event-editor.c: e_utf8 wrappers
