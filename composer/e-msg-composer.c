@@ -416,6 +416,8 @@ set_editor_text (BonoboWidget *editor, const char *text)
 }
 
 
+/* Commands.  */
+
 static void
 show_attachments (EMsgComposer *composer,
 		  gboolean show)
@@ -442,6 +444,52 @@ show_attachments (EMsgComposer *composer,
 
 	/* XXX we should update the toggle toolbar item as well.  At
 	   this point, it is not a toggle because Glade is broken.  */
+}
+
+static void
+save (EMsgComposer *composer,
+      const char *file_name)
+{
+	CORBA_Environment ev;
+	char *my_file_name;
+
+	if (file_name != NULL)
+		my_file_name = g_strdup (file_name);
+	else
+		my_file_name = e_msg_composer_select_file (composer, _("Save as..."));
+
+	if (my_file_name == NULL)
+		return;
+
+	CORBA_exception_init (&ev);
+
+	Bonobo_PersistFile_save (composer->persist_file_interface, my_file_name, &ev);
+
+	if (ev._major != CORBA_NO_EXCEPTION) {
+		e_notice (GTK_WINDOW (composer), GNOME_MESSAGE_BOX_ERROR,
+			  _("Error saving file: %s"), g_basename (file_name));
+	}
+
+	CORBA_exception_free (&ev);
+
+	g_free (my_file_name);
+}
+
+static void
+load (EMsgComposer *composer,
+      const char *file_name)
+{
+	CORBA_Environment ev;
+
+	CORBA_exception_init (&ev);
+
+	Bonobo_PersistFile_load (composer->persist_file_interface, file_name, &ev);
+
+	if (ev._major != CORBA_NO_EXCEPTION)
+		e_notice (GTK_WINDOW (composer), GNOME_MESSAGE_BOX_ERROR,
+			  _("Error loading file: %s"), g_basename (file_name));
+
+	CORBA_exception_free (&ev);
 }
 
 
@@ -484,7 +532,6 @@ open_cb (GtkWidget *widget,
 	 gpointer data)
 {
 	EMsgComposer *composer;
-	CORBA_Environment ev;
 	char *file_name;
 
 	composer = E_MSG_COMPOSER (data);
@@ -493,15 +540,7 @@ open_cb (GtkWidget *widget,
 	if (file_name == NULL)
 		return;
 
-	CORBA_exception_init (&ev);
-
-	Bonobo_PersistFile_load (composer->persist_file_interface, file_name, &ev);
-
-	if (ev._major != CORBA_NO_EXCEPTION)
-		e_notice (GTK_WINDOW (composer), GNOME_MESSAGE_BOX_ERROR,
-			  _("Error loading file: %s"), g_basename (file_name));
-
-	CORBA_exception_free (&ev);
+	load (composer, file_name);
 
 	g_free (file_name);
 }
@@ -510,12 +549,35 @@ static void
 save_cb (GtkWidget *widget,
 	 gpointer data)
 {
+	EMsgComposer *composer;
+	CORBA_char *file_name;
+	CORBA_Environment ev;
+
+	composer = E_MSG_COMPOSER (data);
+
+	CORBA_exception_init (&ev);
+
+	file_name = Bonobo_PersistFile_get_current_file (composer->persist_file_interface, &ev);
+
+	if (ev._major != CORBA_NO_EXCEPTION) {
+		save (composer, NULL);
+	} else {
+		save (composer, file_name);
+		CORBA_free (file_name);
+	}
+
+	CORBA_exception_free (&ev);
 }
 
 static void
 save_as_cb (GtkWidget *widget,
 	    gpointer data)
 {
+	EMsgComposer *composer;
+
+	composer = E_MSG_COMPOSER (data);
+
+	save (composer, NULL);
 }
 
 static void

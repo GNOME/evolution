@@ -1,3 +1,12 @@
+2000-06-26  Ettore Perazzoli  <ettore@helixcode.com>
+
+	* e-msg-composer.c
+	(load): New.
+	(open_cb): Use it.
+	(save): New function.
+	(save_cb): Implemented by using it.
+	(save_as_cb): Likewise.
+
 2000-06-17  Ettore Perazzoli  <ettore@helixcode.com>
 
 	* e-msg-composer.c (e_msg_composer_construct): I18N the title bar.
