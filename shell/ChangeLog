@@ -1,5 +1,15 @@
 2001-08-24  Ettore Perazzoli  <ettore@ximian.com>
 
+	* e-storage-set-view.c: Change the `selected_row_path' to be
+	non-const.
+	(destroy): Free it.
+	(e_storage_set_view_set_current_folder): Set the selected_row_path
+	to be this path.
+	(tree_drag_begin): Free the selected_row_path and strdup() the
+	value we assign.
+
+2001-08-24  Ettore Perazzoli  <ettore@ximian.com>
+
 	* e-shell-view.c (e_shell_view_remove_control_for_uri): Ooops.
 	Save the pointer to the control for use after the view struct is
 	freed.

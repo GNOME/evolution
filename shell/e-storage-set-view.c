@@ -83,7 +83,7 @@ struct _EStorageSetViewPrivate {
 	GHashTable *type_name_to_pixbuf;
 
 	/* Path of the row selected by the latest "cursor_activated" signal.  */
-	const char *selected_row_path;
+	char *selected_row_path;
 
 	gboolean show_folders;
 
@@ -778,6 +778,8 @@ destroy (GtkObject *object)
 	if (priv->drag_corba_data != NULL)
 		CORBA_free (priv->drag_corba_data);
 
+	g_free (priv->selected_row_path);
+
 	g_free (priv);
 
 	(* GTK_OBJECT_CLASS (parent_class)->destroy) (object);
@@ -887,7 +889,8 @@ tree_drag_begin (ETree *etree,
 	priv = storage_set_view->priv;
 
 	g_print ("%s -- %d\n", __FUNCTION__, row);
-	priv->selected_row_path = e_tree_memory_node_get_data (E_TREE_MEMORY(priv->etree_model), path);
+	g_free (priv->selected_row_path);
+	priv->selected_row_path = g_strdup (e_tree_memory_node_get_data (E_TREE_MEMORY(priv->etree_model), path));
 
 	g_assert (priv->drag_corba_source_interface == CORBA_OBJECT_NIL);
 
@@ -1337,7 +1340,8 @@ cursor_activated (ETree *tree,
 
 	priv = storage_set_view->priv;
 
-	priv->selected_row_path = e_tree_memory_node_get_data (E_TREE_MEMORY (priv->etree_model), path);
+	g_free (priv->selected_row_path);
+	priv->selected_row_path = g_strdup (e_tree_memory_node_get_data (E_TREE_MEMORY (priv->etree_model), path));
 
 	if (e_tree_model_node_depth (priv->etree_model, path) >= 2) {
 		/* it was a folder */
@@ -2021,12 +2025,14 @@ e_storage_set_view_set_current_folder (EStorageSetView *storage_set_view,
 	priv = storage_set_view->priv;
 
 	node = g_hash_table_lookup (priv->path_to_etree_node, path);
-	if (node == NULL) {
+	if (node == NULL)
 		return;
-	}
 
 	e_tree_show_node (E_TREE (storage_set_view), node);
 	e_tree_set_cursor (E_TREE (storage_set_view), node);
+
+	g_free (priv->selected_row_path);
+	priv->selected_row_path = g_strdup (path);
 
 	gtk_signal_emit (GTK_OBJECT (storage_set_view), signals[FOLDER_SELECTED], path);
 }
