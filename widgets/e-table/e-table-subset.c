@@ -9,7 +9,7 @@
 #include <config.h>
 #include <stdlib.h>
 #include <gtk/gtksignal.h>
-#include <e-util/e-util.h>
+#include "e-util/e-util.h"
 #include "e-table-subset.h"
 
 #define PARENT_TYPE E_TABLE_MODEL_TYPE

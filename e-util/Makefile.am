@@ -1,3 +1,5 @@
+INCLUDES =					\
+	$(GNOME_INCLUDEDIR)
 
 noinst_LIBRARIES = libeutil.a
 

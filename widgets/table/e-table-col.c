@@ -10,7 +10,7 @@
 #include <gtk/gtkobject.h>
 #include <gtk/gtksignal.h>
 #include "e-table-col.h"
-#include <e-util/e-util.h>
+#include "e-util/e-util.h"
 
 #define PARENT_TYPE (gtk_object_get_type ())
 

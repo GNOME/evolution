@@ -14,7 +14,7 @@
 #include <stdio.h>
 #include <libgnomeui/gnome-canvas.h>
 #include <gtk/gtksignal.h>
-#include <e-util/e-util.h>
+#include "e-util/e-util.h"
 #include "e-table.h"
 #include "e-table-header-item.h"
 #include "e-table-subset.h"

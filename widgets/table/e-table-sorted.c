@@ -8,7 +8,7 @@
  */
 #include <config.h>
 #include <stdlib.h>
-#include <e-util/e-util.h>
+#include "e-util/e-util.h"
 #include "e-table-sorted.h"
 
 #define PARENT_TYPE E_TABLE_SUBSET_TYPE

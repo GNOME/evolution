@@ -12,7 +12,7 @@
 #include "e-table-header.h"
 #include "e-table-header-item.h"
 #include "e-table-item.h"
-#include "e-cursors.h"
+#include "e-util/e-cursors.h"
 #include "e-cell-text.h"
 #include "e-cell-checkbox.h"
 

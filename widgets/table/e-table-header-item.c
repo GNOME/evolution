@@ -13,10 +13,10 @@
 #include <libgnomeui/gnome-canvas-util.h>
 #include <libgnomeui/gnome-canvas-polygon.h>
 #include <libgnomeui/gnome-canvas-rect-ellipse.h>
+#include "e-util/e-cursors.h"
 #include "e-table-header.h"
 #include "e-table-header-item.h"
 #include "e-table-col-dnd.h"
-#include "e-cursors.h"
 
 #include "add-col.xpm"
 #include "remove-col.xpm"

@@ -14,7 +14,7 @@
 #include <gdk/gdkkeysyms.h>
 #include <libgnomeui/gnome-canvas.h>
 #include "e-cell-toggle.h"
-#include <e-util/e-util.h>
+#include "e-util/e-util.h"
 #include "e-table-item.h"
 
 #define PARENT_TYPE e_cell_get_type()
