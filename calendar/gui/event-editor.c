@@ -394,6 +394,69 @@ make_recur_month_menu (void)
 	return omenu;
 }
 
+/* For monthly recurrences, changes the valid range of the recurrence day index
+ * spin button; e.g. month days are 1-31 while the valid range for a Sunday is
+ * the 1st through 5th of the month.
+ */
+static void
+adjust_day_index_spin (EventEditor *ee)
+{
+	EventEditorPrivate *priv;
+	GtkAdjustment *adj;
+	enum month_day_options month_day;
+
+	priv = ee->priv;
+
+	g_assert (priv->recurrence_month_day_menu != NULL);
+	g_assert (GTK_IS_OPTION_MENU (priv->recurrence_month_day_menu));
+	g_assert (priv->recurrence_month_index_spin != NULL);
+	g_assert (GTK_IS_SPIN_BUTTON (priv->recurrence_month_index_spin));
+
+	month_day = e_dialog_option_menu_get (priv->recurrence_month_day_menu, month_day_options_map);
+
+	adj = gtk_spin_button_get_adjustment (GTK_SPIN_BUTTON (priv->recurrence_month_index_spin));
+
+	switch (month_day) {
+	case MONTH_DAY_NTH:
+		adj->upper = 31;
+		gtk_adjustment_changed (adj);
+		break;
+
+	case MONTH_DAY_MON:
+	case MONTH_DAY_TUE:
+	case MONTH_DAY_WED:
+	case MONTH_DAY_THU:
+	case MONTH_DAY_FRI:
+	case MONTH_DAY_SAT:
+	case MONTH_DAY_SUN:
+		adj->upper = 5;
+		gtk_adjustment_changed (adj);
+
+		if (adj->value > 5) {
+			adj->value = 5;
+			gtk_adjustment_value_changed (adj);
+		}
+
+		break;
+
+	default:
+		g_assert_not_reached ();
+	}
+}
+
+/* Callback used when the monthly day selection menu changes.  We need to change
+ * the valid range of the day index spin button; e.g. days are 1-31 while a
+ * Sunday is the 1st through 5th.
+ */
+static void
+month_day_menu_selection_done_cb (GtkMenuShell *menu_shell, gpointer data)
+{
+	EventEditor *ee;
+
+	ee = EVENT_EDITOR (data);
+	adjust_day_index_spin (ee);
+}
+
 /* Creates the special contents for monthly recurrences */
 static void
 make_recur_monthly_special (EventEditor *ee)
@@ -402,6 +465,7 @@ make_recur_monthly_special (EventEditor *ee)
 	GtkWidget *hbox;
 	GtkWidget *label;
 	GtkAdjustment *adj;
+	GtkWidget *menu;
 
 	priv = ee->priv;
 
@@ -425,6 +489,11 @@ make_recur_monthly_special (EventEditor *ee)
 	gtk_box_pack_start (GTK_BOX (hbox), label, FALSE, FALSE, 0);
 
 	priv->recurrence_month_day_menu = make_recur_month_menu ();
+
+	menu = gtk_option_menu_get_menu (GTK_OPTION_MENU (priv->recurrence_month_day_menu));
+	gtk_signal_connect (GTK_OBJECT (menu), "selection_done",
+			    GTK_SIGNAL_FUNC (month_day_menu_selection_done_cb), ee);
+
 	gtk_box_pack_start (GTK_BOX (hbox), priv->recurrence_month_day_menu, FALSE, FALSE, 0);
 
 	gtk_widget_show_all (hbox);
@@ -435,6 +504,7 @@ make_recur_monthly_special (EventEditor *ee)
 	e_dialog_option_menu_set (priv->recurrence_month_day_menu,
 				  priv->recurrence_month_day,
 				  month_day_options_map);
+	adjust_day_index_spin (ee);
 }
 
 static const int recur_freq_map[] = {

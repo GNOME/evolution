@@ -1,3 +1,9 @@
+2000-11-08  Federico Mena Quintero  <federico@helixcode.com>
+
+	* gui/event-editor.c (adjust_day_index_spin): Adjust the valid
+	range of the month index spin button depending on the selection of
+	the day/weekday menu.
+
 2000-11-07   Jesse Pavel   <jpavel@helixcode.com>
 
 	*gui/e-itip-control.c, gui/e-itip-control.glade: changed the GUI,
