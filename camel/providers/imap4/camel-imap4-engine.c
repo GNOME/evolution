@@ -435,8 +435,8 @@ static struct {
 	const char *name;
 	guint32 flag;
 } imap4_capabilities[] = {
-	{ "IMAP44",         CAMEL_IMAP4_CAPABILITY_IMAP44         },
-	{ "IMAP44REV1",     CAMEL_IMAP4_CAPABILITY_IMAP44REV1     },
+	{ "IMAP4",         CAMEL_IMAP4_CAPABILITY_IMAP4         },
+	{ "IMAP4REV1",     CAMEL_IMAP4_CAPABILITY_IMAP4REV1     },
 	{ "STATUS",        CAMEL_IMAP4_CAPABILITY_STATUS        },
 	{ "NAMESPACE",     CAMEL_IMAP4_CAPABILITY_NAMESPACE     },
 	{ "UIDPLUS",       CAMEL_IMAP4_CAPABILITY_UIDPLUS       },
@@ -493,11 +493,11 @@ engine_parse_capability (CamelIMAP4Engine *engine, int sentinel, CamelException 
 	camel_imap4_stream_unget_token (engine->istream, &token);
 	
 	/* figure out which version of IMAP4 we are dealing with */
-	if (engine->capa & CAMEL_IMAP4_CAPABILITY_IMAP44REV1) {
-		engine->level = CAMEL_IMAP4_LEVEL_IMAP44REV1;
+	if (engine->capa & CAMEL_IMAP4_CAPABILITY_IMAP4REV1) {
+		engine->level = CAMEL_IMAP4_LEVEL_IMAP4REV1;
 		engine->capa |= CAMEL_IMAP4_CAPABILITY_STATUS;
-	} else if (engine->capa & CAMEL_IMAP4_CAPABILITY_IMAP44) {
-		engine->level = CAMEL_IMAP4_LEVEL_IMAP44;
+	} else if (engine->capa & CAMEL_IMAP4_CAPABILITY_IMAP4) {
+		engine->level = CAMEL_IMAP4_LEVEL_IMAP4;
 	} else {
 		engine->level = CAMEL_IMAP4_LEVEL_UNKNOWN;
 	}
