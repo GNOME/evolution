@@ -132,4 +132,4 @@ test_title_bar_LDADD = 		\
 BUILT_SOURCES = $(MARSHAL_GENERATED)
 CLEANFILES    = $(BUILT_SOURCES)
 
-EXTRA_DIST = e-book-marshal.list
+EXTRA_DIST = e-util-marshal.list

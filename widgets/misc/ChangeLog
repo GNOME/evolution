@@ -1,3 +1,8 @@
+2003-01-14  Ettore Perazzoli  <ettore@ximian.com>
+
+	* Makefile.am (EXTRA_DIST): e-util-marshal.list, not
+	e-book-marshal.list.
+
 2003-01-08  Ettore Perazzoli  <ettore@ximian.com>
 
 	* Makefile.am: Images are now in $(datadir)/evolution/images
