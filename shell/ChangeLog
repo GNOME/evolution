@@ -1,5 +1,12 @@
 2001-07-15  Ettore Perazzoli  <ettore@ximian.com>
 
+	[Fix #4387, Shortcut bar items don't keep the name after rename.]
+
+	* e-shortcuts.c (update_shortcuts_by_path): Do not change the name
+	of the shortcut if the folder's name changes.
+
+2001-07-15  Ettore Perazzoli  <ettore@ximian.com>
+
 	* e-storage-set-view.c (etree_icon_at): Return an icon for depths
 	greater than 2 as well.
 
