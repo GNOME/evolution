@@ -23,6 +23,7 @@ IDLS = \
 	Evolution-Session.idl		\
 	Evolution-Shell.idl		\
 	Evolution-ShellComponent.idl	\
+	Evolution-ShellView.idl		\
 	Evolution-Storage.idl
 
 IDL_GENERATED = \
@@ -52,6 +53,8 @@ libeshell_a_SOURCES = 				\
 	evolution-shell-component.h		\
 	evolution-shell-component-client.c	\
 	evolution-shell-component-client.h	\
+	evolution-shell-view.c			\
+	evolution-shell-view.h			\
 	evolution-storage.c			\
 	evolution-storage.h
 

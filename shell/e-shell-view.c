@@ -36,6 +36,8 @@
 #include "e-util/e-util.h"
 #include "e-util/e-gui-utils.h"
 
+#include "evolution-shell-view.h"
+
 #include "e-shell-constants.h"
 #include "e-shell-folder-title-bar.h"
 #include "e-shell-utils.h"
@@ -87,6 +89,12 @@ struct _EShellViewPrivate {
 	/* Status of the shortcut and folder bars.  */
 	EShellViewSubwindowMode shortcut_bar_mode;
 	EShellViewSubwindowMode folder_bar_mode;
+
+	/* Timeout ID for the progress bar.  */
+	int progress_bar_timeout_id;
+
+	/* Status of the progress bar.  */
+	int progress_bar_value;
 };
 
 enum {
@@ -360,13 +368,21 @@ static void
 setup_widgets (EShellView *shell_view)
 {
 	EShellViewPrivate *priv;
+	GtkWidget *progress_bar;
 
 	priv = shell_view->priv;
 
 	/* The application bar.  */
 
-	priv->appbar = gnome_appbar_new (FALSE, TRUE, GNOME_PREFERENCES_NEVER);
+	priv->appbar = gnome_appbar_new (TRUE, TRUE, GNOME_PREFERENCES_NEVER);
 	gnome_app_set_statusbar (GNOME_APP (shell_view), priv->appbar);
+
+	/* The progress bar.  */
+
+	progress_bar = GNOME_APPBAR (GNOME_APP (shell_view)->statusbar)->progress;
+
+	gtk_progress_bar_set_orientation (GTK_PROGRESS_BAR (progress_bar), GTK_PROGRESS_LEFT_TO_RIGHT);
+	gtk_progress_bar_set_bar_style   (GTK_PROGRESS_BAR (progress_bar), GTK_PROGRESS_CONTINUOUS);
 
 	/* The shortcut bar.  */
 
@@ -486,6 +502,9 @@ destroy (GtkObject *object)
 
 	g_free (priv->uri);
 
+	if (priv->progress_bar_timeout_id != 0)
+		gtk_timeout_remove (priv->progress_bar_timeout_id);
+
 	g_free (priv);
 
 	(* GTK_OBJECT_CLASS (parent_class)->destroy) (object);
@@ -553,30 +572,140 @@ init (EShellView *shell_view)
 
 	priv = g_new (EShellViewPrivate, 1);
 
-	priv->shell                 = NULL;
-	priv->uih                   = NULL;
-	priv->uri                   = NULL;
+	priv->shell                   = NULL;
+	priv->uih                     = NULL;
+	priv->uri                     = NULL;
 
-	priv->appbar                = NULL;
-	priv->hpaned                = NULL;
-	priv->view_hpaned           = NULL;
-	priv->contents              = NULL;
-	priv->notebook              = NULL;
+	priv->appbar                  = NULL;
+	priv->hpaned                  = NULL;
+	priv->view_hpaned             = NULL;
+	priv->contents                = NULL;
+	priv->notebook                = NULL;
 
-	priv->storage_set_title_bar = NULL;
-	priv->storage_set_view      = NULL;
-	priv->storage_set_view_box  = NULL;
-	priv->shortcut_bar          = NULL;
+	priv->storage_set_title_bar   = NULL;
+	priv->storage_set_view        = NULL;
+	priv->storage_set_view_box    = NULL;
+	priv->shortcut_bar            = NULL;
 
-	priv->shortcut_bar_mode     = E_SHELL_VIEW_SUBWINDOW_HIDDEN;
-	priv->folder_bar_mode       = E_SHELL_VIEW_SUBWINDOW_HIDDEN;
+	priv->shortcut_bar_mode       = E_SHELL_VIEW_SUBWINDOW_HIDDEN;
+	priv->folder_bar_mode         = E_SHELL_VIEW_SUBWINDOW_HIDDEN;
 
-	priv->hpaned_position       = 0;
-	priv->view_hpaned_position  = 0;
+	priv->hpaned_position         = 0;
+	priv->view_hpaned_position    = 0;
 
-	priv->uri_to_control        = g_hash_table_new (g_str_hash, g_str_equal);
+	priv->uri_to_control          = g_hash_table_new (g_str_hash, g_str_equal);
+
+	priv->progress_bar_timeout_id = 0;
+	priv->progress_bar_value      = 0;
 
 	shell_view->priv = priv;
+}
+
+
+/* Progress bar handling.  */
+
+#define PROGRESS_BAR_TIMEOUT 80
+
+static int
+progress_bar_timeout_cb (void *data)
+{
+	EShellView *shell_view;
+	EShellViewPrivate *priv;
+	GtkWidget *progress_bar;
+
+	shell_view = E_SHELL_VIEW (data);
+	priv = shell_view->priv;
+	progress_bar = GNOME_APPBAR (GNOME_APP (shell_view)->statusbar)->progress;
+
+	priv->progress_bar_value = ! priv->progress_bar_value;
+	gtk_progress_set_value (GTK_PROGRESS (progress_bar), priv->progress_bar_value);
+
+	return TRUE;
+}
+
+static void
+start_progress_bar (EShellView *shell_view)
+{
+	EShellViewPrivate *priv;
+	GtkWidget *progress_bar;
+
+	priv = shell_view->priv;
+	progress_bar = GNOME_APPBAR (GNOME_APP (shell_view)->statusbar)->progress;
+
+	if (priv->progress_bar_timeout_id != 0)
+		return;
+
+	priv->progress_bar_timeout_id = gtk_timeout_add (PROGRESS_BAR_TIMEOUT,
+							 progress_bar_timeout_cb,
+							 shell_view);
+
+	gtk_progress_set_activity_mode (GTK_PROGRESS (progress_bar), TRUE);
+	gtk_progress_set_value (GTK_PROGRESS (progress_bar), priv->progress_bar_value);
+}
+
+static void
+stop_progress_bar (EShellView *shell_view)
+{
+	EShellViewPrivate *priv;
+	GtkWidget *progress_bar;
+
+	priv = shell_view->priv;
+	progress_bar = GNOME_APPBAR (GNOME_APP (shell_view)->statusbar)->progress;
+
+	if (priv->progress_bar_timeout_id != 0) {
+		gtk_timeout_remove (priv->progress_bar_timeout_id);
+		priv->progress_bar_timeout_id = 0;
+	}
+
+	gtk_progress_set_activity_mode (GTK_PROGRESS (progress_bar), FALSE);
+	gtk_progress_set_value (GTK_PROGRESS (progress_bar), 0);
+}
+
+
+/* EvolutionShellView interface callbacks.  */
+
+static void
+shell_view_interface_set_message_cb (EvolutionShellView *shell_view,
+				     const char *message,
+				     gboolean busy,
+				     void *data)
+{
+	GnomeApp *app;
+	GnomeAppBar *app_bar;
+
+	g_print ("%s\n", __FUNCTION__);
+
+	app = GNOME_APP (data);
+	app_bar = GNOME_APPBAR (app->statusbar);
+
+	gtk_progress_set_value (GTK_PROGRESS (app_bar->progress), 1.0);
+
+	if (message != NULL)
+		gnome_appbar_set_status (app_bar, message);
+	else
+		gnome_appbar_set_status (app_bar, "");
+
+	if (busy)
+		start_progress_bar (E_SHELL_VIEW (data));
+	else
+		stop_progress_bar (E_SHELL_VIEW (data));
+}
+
+static void
+shell_view_interface_unset_message_cb (EvolutionShellView *shell_view,
+				       void *data)
+{
+	GnomeApp *app;
+	GnomeAppBar *app_bar;
+
+	g_print ("%s\n", __FUNCTION__);
+
+	app = GNOME_APP (data);
+	app_bar = GNOME_APPBAR (app->statusbar);
+
+	gnome_appbar_set_status (app_bar, "");
+
+	stop_progress_bar (E_SHELL_VIEW (data));
 }
 
 
@@ -794,6 +923,27 @@ set_current_notebook_page (EShellView *shell_view,
 	bonobo_control_frame_control_activate (control_frame);
 }
 
+static void
+setup_evolution_shell_view_interface (EShellView *shell_view,
+				      GtkWidget *control)
+{
+	BonoboControlFrame *control_frame;
+	EvolutionShellView *shell_view_interface;
+
+	control_frame = bonobo_widget_get_control_frame (BONOBO_WIDGET (control));
+	shell_view_interface = evolution_shell_view_new ();
+
+	gtk_signal_connect_while_alive (GTK_OBJECT (shell_view_interface), "set_message",
+					GTK_SIGNAL_FUNC (shell_view_interface_set_message_cb),
+					shell_view, GTK_OBJECT (shell_view));
+	gtk_signal_connect_while_alive (GTK_OBJECT (shell_view_interface), "unset_message",
+					GTK_SIGNAL_FUNC (shell_view_interface_unset_message_cb),
+					shell_view, GTK_OBJECT (shell_view));
+
+	bonobo_object_add_interface (BONOBO_OBJECT (control_frame),
+				     BONOBO_OBJECT (shell_view_interface));
+}
+
 /* Create a new view for @uri with @control.  It assumes a view for @uri does not exist yet.  */
 static GtkWidget *
 get_control_for_uri (EShellView *shell_view,
@@ -855,6 +1005,8 @@ get_control_for_uri (EShellView *shell_view,
 
 	corba_uih = bonobo_object_corba_objref (BONOBO_OBJECT (priv->uih));
 	control = bonobo_widget_new_control_from_objref (corba_control, corba_uih);
+
+	setup_evolution_shell_view_interface (shell_view, control);
 
 	return control;
 }

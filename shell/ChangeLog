@@ -1,3 +1,40 @@
+2000-08-13  Ettore Perazzoli  <ettore@helixcode.com>
+
+	* e-shell-view.c: New members `progress_bar_timeout_id',
+	`progress_bar_value' in `EShellViewPrivate'.
+	(init): Init them.
+	(destroy): If the timeout id is not zero, remove the associated
+	timeout.
+	(progress_bar_timeout_cb): New.
+	(start_progress_bar): New.
+	(stop_progress_bar): New.
+	(shell_view_interface_set_message_cb): If busy, start the progress
+	bar.  Otherwise, stop it.
+	(shell_view_interface_unset_message_cb): Stop the progress bar.
+
+	* e-shell-view.c (setup_widgets): Enable the progress bar in the
+	appbar.
+
+	* e-shell-view.c (shell_view_interface_unset_message_cb): New
+	function, callback for the `EvolutionShellView::unset_message'
+	signal.
+	(shell_view_interface_set_message_cb): New function, callback for
+	the `EvolutionShellView::set_message' signal.
+	(setup_evolution_shell_view_interface): Connect these signals to a
+	newly created EvolutionShellView object, add ::add_interface this
+	object to the control's frame.
+
+	* evolution-shell-view.c: New.
+	* evolution-shell-view.h: New.
+
+	* Evolution-ShellView.idl: New interface.
+
+2000-08-10  Ettore Perazzoli  <ettore@helixcode.com>
+
+	* e-shell.c (ADDRESSBOOK_COMPONENT_ID): New constant; ID for the
+	executive summary component.
+	(setup_components): Activate the executive summary component.
+
 2000-08-10  Dan Winship  <danw@helixcode.com>
 
 	* Evolution-ShellComponent.idl: add "in string evolution_homedir"

@@ -13,4 +13,5 @@
 #include <Evolution-Session.idl>
 #include <Evolution-Shell.idl>
 #include <Evolution-ShellComponent.idl>
+#include <Evolution-ShellView.idl>
 #include <Evolution-Storage.idl>
