@@ -303,31 +303,11 @@ get_time_t (CalendarModel *model, time_t *t, gboolean skip_midnight)
 static char *
 get_categories (CalComponent *comp)
 {
-	GSList *categories;
-	GString *str;
-	char *s;
-	GSList *l;
+	const char *categories;
 
-	cal_component_get_categories_list (comp, &categories);
+	cal_component_get_categories (comp, &categories);
 
-	str = g_string_new (NULL);
-
-	for (l = categories; l; l = l->next) {
-		const char *category;
-
-		category = l->data;
-		g_string_append (str, category);
-
-		if (l->next != NULL)
-			g_string_append (str, ", ");
-	}
-
-	s = str->str;
-
-	g_string_free (str, FALSE);
-	cal_component_free_categories_list (categories);
-
-	return s;
+	return g_strdup (categories);
 }
 
 /* Returns a string based on the CLASSIFICATION property of a calendar component */

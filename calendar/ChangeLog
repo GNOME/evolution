@@ -1,3 +1,27 @@
+2001-01-05  JP Rosevear  <jpr@helixcode.com>
+
+	* gui/dialogs/task-editor.c (get_widgets): get categories button
+	(init_widgets): listen for button click
+	(fill_widgets): fill in the categories area
+	(dialog_to_comp_object): set the cal component categories
+	(categories_clicked): throw up the categories dialog and update
+	when ok is clicked
+
+	* gui/dialogs/task-editor-dialog.glade: Tweak to name the categories 
+	button and make it active
+
+	* gui/calendar-model.c (get_categories): We can get the string list of
+	categories directly now
+
+	* cal-util/cal-component.c (cal_component_get_categories): new function
+	to get the categories list as a string
+	(cal_component_set_categories): same but for setting
+	(free_icalcomponent): init the categories var
+	(scan_categories): kill
+	(scan_property): assign the prop to the categories var
+	(cal_component_get_categories_list): deal with renaming var to categories
+	(cal_component_set_categories_list): fix brokeness
+
 2001-01-03  Federico Mena Quintero  <federico@helixcode.com>
 
 	* gui/calendar-commands.c (new_calendar): Handle the case where

@@ -42,10 +42,7 @@ struct _CalComponentPrivate {
 
 	icalproperty *status;
 
-	struct categories {
-		icalproperty *prop;
-	};
-	GSList *categories_list; /* list of struct categories */
+	icalproperty *categories;
 
 	icalproperty *classification;
 
@@ -244,7 +241,7 @@ free_icalcomponent (CalComponent *comp)
 
 	priv->status = NULL;
 
-	priv->categories_list = free_slist (priv->categories_list);
+	priv->categories = NULL;
 
 	priv->classification = NULL;
 	priv->comment_list = NULL;
@@ -405,21 +402,6 @@ cal_component_clone (CalComponent *comp)
 	return new_comp;
 }
 
-/* Scans the categories property */
-static void
-scan_categories (CalComponent *comp, icalproperty *prop)
-{
-	CalComponentPrivate *priv;
-	struct categories *categ;
-
-	priv = comp->priv;
-
-	categ = g_new (struct categories, 1);
-	categ->prop = prop;
-
-	priv->categories_list = g_slist_append (priv->categories_list, categ);
-}
-
 /* Scans a date/time and timezone pair property */
 static void
 scan_datetime (CalComponent *comp, struct datetime *datetime, icalproperty *prop)
@@ -510,7 +492,7 @@ scan_property (CalComponent *comp, icalproperty *prop)
 		break;
 
 	case ICAL_CATEGORIES_PROPERTY:
-		scan_categories (comp, prop);
+		priv->categories = prop;
 		break;
 
 	case ICAL_CLASS_PROPERTY:
@@ -1130,6 +1112,68 @@ cal_component_set_uid (CalComponent *comp, const char *uid)
 }
 
 /**
+ * cal_component_get_categories:
+ * @comp: A calendar component object. 
+ * @categories: 
+ * 
+ * 
+ **/
+void 
+cal_component_get_categories (CalComponent *comp, const char **categories)
+{
+	CalComponentPrivate *priv;
+
+	g_return_if_fail (comp != NULL);
+	g_return_if_fail (IS_CAL_COMPONENT (comp));
+	g_return_if_fail (categories != NULL);
+
+	priv = comp->priv;
+	g_return_if_fail (priv->icalcomp != NULL);
+
+	if (priv->categories)
+		*categories = icalproperty_get_categories (priv->categories);
+	else
+		*categories = NULL;
+}
+
+/**
+ * cal_component_set_categories:
+ * @comp: A calendar component object.
+ * @categories: 
+ * 
+ * 
+ **/
+void 
+cal_component_set_categories (CalComponent *comp, const char *categories)
+{
+	CalComponentPrivate *priv;
+
+	g_return_if_fail (comp != NULL);
+	g_return_if_fail (IS_CAL_COMPONENT (comp));
+
+	priv = comp->priv;
+	g_return_if_fail (priv->icalcomp != NULL);
+
+	if (!categories) {
+		if (priv->categories) {
+			icalcomponent_remove_property (priv->icalcomp, priv->categories);
+			icalproperty_free (priv->categories);
+			priv->url = NULL;
+		}
+
+		return;
+	}
+
+	if (priv->categories)
+		icalproperty_set_categories (priv->categories, (char *) categories);
+	else {
+		priv->categories = icalproperty_new_categories ((char *) categories);
+		icalcomponent_add_property (priv->icalcomp, priv->categories);
+	}
+}
+
+
+/**
  * cal_component_get_categories_list:
  * @comp: A calendar component object.
  * @categ_list: Return value for the list of strings, where each string is a
@@ -1154,16 +1198,15 @@ cal_component_get_categories_list (CalComponent *comp, GSList **categ_list)
 	priv = comp->priv;
 	g_return_if_fail (priv->icalcomp != NULL);
 
-	if (!priv->categories_list) {
+	if (!priv->categories) {
 		*categ_list = NULL;
 		return;
 	}
 
-	categories = icalproperty_get_categories (priv->categories_list);
+	categories = icalproperty_get_categories (priv->categories);
 	g_assert (categories != NULL);
 
 	cat_start = categories;
-
 	*categ_list = NULL;
 
 	for (p = categories; *p; p++)
@@ -1214,7 +1257,6 @@ void
 cal_component_set_categories_list (CalComponent *comp, GSList *categ_list)
 {
 	CalComponentPrivate *priv;
-	struct categories *cat;
 	char *categories_str;
 
 	g_return_if_fail (comp != NULL);
@@ -1223,40 +1265,23 @@ cal_component_set_categories_list (CalComponent *comp, GSList *categ_list)
 	priv = comp->priv;
 	g_return_if_fail (priv->icalcomp != NULL);
 
-	/* Free the old list */
-
 	if (!categ_list) {
-		if (priv->categories_list) {
-			GSList *l;
-
-			for (l = priv->categories_list; l; l = l->next) {
-				struct categories *c;
-
-				c = l->data;
-				icalcomponent_remove_property (priv->icalcomp, c->prop);
-				icalproperty_free (c->prop);
-
-				g_free (c);
-			}
-
-			g_slist_free (priv->categories_list);
-			priv->categories_list = NULL;
+		if (priv->categories) {
+			icalcomponent_remove_property (priv->icalcomp, priv->categories);
+			icalproperty_free (priv->categories);
 		}
-
+		
 		return;
 	}
 
 	/* Create a single string of categories */
-
 	categories_str = stringify_categories (categ_list);
 
 	/* Set the categories */
-
-	cat = g_new (struct categories, 1);
-	cat->prop = icalproperty_new_categories (categories_str);
+	priv->categories = icalproperty_new_categories (categories_str);
 	g_free (categories_str);
 
-	icalcomponent_add_property (priv->icalcomp, cat->prop);
+	icalcomponent_add_property (priv->icalcomp, priv->categories);
 }
 
 /**

@@ -32,6 +32,7 @@
 #include <glade/glade.h>
 #include <gal/util/e-util.h>
 #include <gal/widgets/e-unicode.h>
+#include <gal/widgets/e-categories.h>
 #include <e-util/e-dialog-widgets.h>
 #include <widgets/misc/e-dateedit.h>
 #include <cal-util/timeutil.h>
@@ -79,6 +80,7 @@ typedef struct {
 	GtkWidget *description;
 
 	GtkWidget *contacts;
+	GtkWidget *categories_btn;
 	GtkWidget *categories;
 
 	GtkWidget *completed_date;
@@ -166,6 +168,8 @@ static void field_changed		(GtkWidget	*widget,
 static void task_editor_set_changed	(TaskEditor	*tedit,
 					 gboolean	 changed);
 static gboolean prompt_to_save_changes	(TaskEditor	*tedit);
+static void categories_clicked          (GtkWidget      *button, 
+					 TaskEditor     *editor);
 
 /* The function libglade calls to create the EDateEdit widgets in the GUI. */
 GtkWidget * task_editor_create_date_edit (void);
@@ -396,6 +400,7 @@ get_widgets (TaskEditor *tedit)
 	priv->description = GW ("description");
 
 	priv->contacts = GW ("contacts");
+	priv->categories_btn = GW ("categories-button");
 	priv->categories = GW ("categories");
 
 	priv->completed_date = GW ("completed-date");
@@ -413,6 +418,7 @@ get_widgets (TaskEditor *tedit)
 		&& priv->classification
 		&& priv->description
 		&& priv->contacts
+		&& priv->categories_btn
 		&& priv->categories
 		&& priv->completed_date
 		&& priv->url);
@@ -464,6 +470,9 @@ init_widgets (TaskEditor *tedit)
 	gtk_signal_connect (GTK_OBJECT (priv->url), "changed",
 			    GTK_SIGNAL_FUNC (field_changed), tedit);
 
+	/* Button clicks */
+	gtk_signal_connect (GTK_OBJECT (priv->categories_btn), "clicked",
+			    GTK_SIGNAL_FUNC (categories_clicked), tedit);
 }
 
 static void
@@ -752,7 +761,8 @@ fill_widgets (TaskEditor *tedit)
 	icalproperty_status status;
 	TaskEditorPriority priority;
 	const char *url;
-
+	const char *categories;
+	
 	priv = tedit->priv;
 
 	task_editor_set_changed (tedit, FALSE);
@@ -848,6 +858,9 @@ fill_widgets (TaskEditor *tedit)
 	e_dialog_option_menu_set (priv->classification, classification,
 				  classification_map);
 
+	/* Categories */
+	cal_component_get_categories (priv->comp, &categories);
+	e_dialog_editable_set (priv->categories, categories);
 
 	/* URL. */
 	cal_component_get_url (priv->comp, &url);
@@ -891,7 +904,7 @@ dialog_to_comp_object (TaskEditor *tedit)
 	TaskEditorPriority priority;
 	int priority_value, percent;
 	CalComponentClassification classification;
-	char *url;
+	char *url, *cat;
 	char *str;
 	
 	priv = tedit->priv;
@@ -986,6 +999,12 @@ dialog_to_comp_object (TaskEditor *tedit)
 						   classification_map);
 	cal_component_set_classification (comp, classification);
 
+	/* Categories */
+	cat = e_dialog_editable_get (priv->categories);
+	cal_component_set_categories (comp, cat);
+
+	if (cat)
+		g_free (cat);
 
 	/* URL. */
 	url = e_dialog_editable_get (priv->url);
@@ -993,7 +1012,6 @@ dialog_to_comp_object (TaskEditor *tedit)
 
 	if (url)
 		g_free (url);
-
 
 	cal_component_commit_sequence (comp);
 }
@@ -1296,4 +1314,29 @@ prompt_to_save_changes		(TaskEditor	*tedit)
 		break;
 	}
 
+}
+
+static void
+categories_clicked(GtkWidget *button, TaskEditor *tedit)
+{
+	char *categories;
+	GnomeDialog *dialog;
+	int result;
+	GtkWidget *entry;
+
+	entry = ((TaskEditorPrivate *)tedit->priv)->categories;
+	categories = e_utf8_gtk_entry_get_text (GTK_ENTRY (entry));
+
+	dialog = GNOME_DIALOG (e_categories_new (categories));
+	result = gnome_dialog_run (dialog);
+	g_free (categories);
+	
+	if (result == 0) {
+		gtk_object_get (GTK_OBJECT (dialog),
+				"categories", &categories,
+				NULL);
+		e_utf8_gtk_entry_set_text (GTK_ENTRY (entry), categories);
+		g_free (categories);
+	}
+	gtk_object_destroy (GTK_OBJECT (dialog));
 }
