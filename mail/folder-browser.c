@@ -2396,6 +2396,8 @@ folder_browser_gui_init (FolderBrowser *fb)
 	fb->resize_id = g_signal_connect (fb->message_list, "size_allocate",
 					  G_CALLBACK (fb_resize_cb), fb);
 	
+	gconf = gconf_client_get_default ();
+	
 	/* listen for updates */
 	gconf_client_add_dir (gconf, "/apps/evolution/mail/display/paned_size",
 			      GCONF_CLIENT_PRELOAD_ONELEVEL, NULL);
@@ -2403,7 +2405,6 @@ folder_browser_gui_init (FolderBrowser *fb)
 	gconf_client_notify_add (gconf, "/apps/evolution/mail/display/paned_size",
 				 paned_size_changed, fb, NULL, NULL);
 	
-	gconf = gconf_client_get_default ();
 	paned_size = gconf_client_get_int (gconf, "/apps/evolution/mail/display/paned_size", NULL);
 	
 	e_paned_add2 (E_PANED (fb->vpaned), GTK_WIDGET (fb->mail_display));

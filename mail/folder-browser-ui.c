@@ -555,6 +555,8 @@ folder_browser_ui_add_list (FolderBrowser *fb)
 	GConfClient *gconf;
 	int state;
 	
+	gconf = gconf_client_get_default ();
+	
 	if (fb->sensitise_state) {
 		g_hash_table_destroy(fb->sensitise_state);
 		fb->sensitise_state = NULL;
