@@ -1,3 +1,8 @@
+2004-12-08  Not Zed  <NotZed@Ximian.com>
+
+	* e-plugin.c (e_plugin_load_plugins): kill warning if we can't
+	open the path.
+
 2004-12-06  Not Zed  <NotZed@Ximian.com>
 
 	* e-config.c (ec_rebuild): set the table spacings to 6 for

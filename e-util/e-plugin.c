@@ -452,7 +452,7 @@ e_plugin_load_plugins(void)
 
 		dir = opendir(path);
 		if (dir == NULL) {
-			g_warning("Could not find plugin path: %s", path);
+			/*g_warning("Could not find plugin path: %s", path);*/
 			continue;
 		}
 
