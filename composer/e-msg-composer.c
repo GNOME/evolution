@@ -1156,9 +1156,11 @@ autosave_manager_query_load_orphans (AutosaveManager *am, EMsgComposer *composer
 			 * check if the file has any length,  It is a valid case if it doesn't 
 			 * so we simply don't ask then.
 			 */
-			if (stat (filename, &st) < 0 || st.st_size == 0)
+			if (stat (filename, &st) < 0 || st.st_size == 0) {
+				unlink (filename);
 				continue;
-				
+			}
+
 			dialog = gnome_ok_cancel_dialog_parented (_("Evolution has detected an editor buffer from a previous session.\n"
 								    "Would you like to recover this buffer?"),
 								  autosave_query_cb, &ok, GTK_WINDOW (composer));
