@@ -704,6 +704,11 @@ destroy (GtkObject *object)
 	shell = E_SHELL (object);
 	priv = shell->priv;
 
+	if (shell->priv->db != CORBA_OBJECT_NIL) {
+		bonobo_object_release_unref (shell->priv->db, NULL);
+		shell->priv->db = CORBA_OBJECT_NIL;
+	}
+
 	if (priv->iid != NULL)
 		oaf_active_server_unregister (priv->iid, bonobo_object_corba_objref (BONOBO_OBJECT (shell)));
 
@@ -749,9 +754,6 @@ destroy (GtkObject *object)
 	}
 
 	g_list_free (priv->views);
-
-	if (shell->priv->db != CORBA_OBJECT_NIL)
-		bonobo_object_release_unref (shell->priv->db, NULL);
 
 	/* No unreffing for these as they are aggregate.  */
 	/* bonobo_object_unref (BONOBO_OBJECT (priv->corba_storage_registry)); */

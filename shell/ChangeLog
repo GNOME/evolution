@@ -1,5 +1,10 @@
 2001-08-19  Ettore Perazzoli  <ettore@ximian.com>
 
+	* e-shell.c (destroy): Put the bonobo_object_release_unref() for
+	the db at the top in an attempt to fix #7542.
+
+2001-08-19  Ettore Perazzoli  <ettore@ximian.com>
+
 	* e-summary-storage.c (e_summary_storage_new): Change type of
 	toplevel node from "Summary" to "summary".  [All the other folder
 	types use lowercase names.]
