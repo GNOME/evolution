@@ -2,10 +2,7 @@
 /* url-util.h : utility functions to parse URLs */
 
 /* 
- * This code is adapted form gzillaurl.h (http://www.gzilla.com)
- * Copyright (C) Raph Levien <raph@acm.org>
- *
- * Modifications by Bertrand Guiheneuf <Bertrand.Guiheneuf@inria.fr>
+ * Copyright (C) Bertrand Guiheneuf <Bertrand.Guiheneuf@inria.fr>
  *
  * This program is free software; you can redistribute it and/or 
  * modify it under the terms of the GNU General Public License as 
@@ -34,18 +31,6 @@ extern "C" {
 #pragma }
 #endif /* __cplusplus */
 
-
-gboolean g_url_is_absolute (const char *url);
-gboolean g_url_match_method (const char *url, const char *method);
-gboolean g_url_relative (const char *base_url,
-			  const char *relative_url,
-			  char *new_url,
-			  gint size_new_url);
-char *g_url_parse (char *url,
-			char *hostname,
-			gint hostname_size,
-			int *port);
-void g_url_parse_hash (char **p_head, char **p_tail, const char *url);
 
 #ifdef __cplusplus
 }

@@ -1,3 +1,11 @@
+1999-04-24 bertrand <Bertrand.Guiheneuf@inria.fr>
+	
+	* camel/url-util.[ch]: I needed the url 
+	functions to use GString, and I wanted a more
+	general scheme so I finally started rewriting 
+	the whole thing from scratch.
+	No more code from gzilla :(
+	
 1999-04-23  bertrand <Bertrand.Guiheneuf@inria.fr>
 
 	* camel/url-util.[ch]:

@@ -1,11 +1,9 @@
 /* -*- Mode: C; tab-width: 8; indent-tabs-mode: t; c-basic-offset: 8 -*- */
 /* url-util.c : utility functions to parse URLs */
 
+
 /* 
- * This code is adapted form gzillaurl.c (http://www.gzilla.com)
- * Copyright (C) Raph Levien <raph@acm.org>
- *
- * Modifications by Bertrand Guiheneuf <Bertrand.Guiheneuf@inria.fr>
+ * Copyright (C) 1999 Bertrand Guiheneuf <Bertrand.Guiheneuf@inria.fr>
  *
  * This program is free software; you can redistribute it and/or 
  * modify it under the terms of the GNU General Public License as 
@@ -25,7 +23,14 @@
 
 
 
-
+/* 
+   Here we deal with URL following the general scheme:
+   protocol://user:password@host:port/name
+   where name is a path-like string (ie dir1/dir2/....)
+   See rfc1738 for the complete description of 
+   Uniform Ressource Locators 
+   
+     Bertrand. */
 
 
 #include <ctype.h> /* for isalpha */
@@ -35,292 +40,183 @@
 
 
 
-/**
- * g_url_is_absolute:
- * @url: 
- * 
- * 
- * 
- * Return value: 
- **/
-gboolean 
-g_url_is_absolute (const char *url) 
+
+
+
+static gboolean 
+find_protocol(GString *url, GString **protocol, guint *position, gboolean *error)
 {
-	gint i;
+
+	guint i;
+	gchar *str_url;
+	gint len_url;
+	gchar *str_protocol;
 	
-	for (i = 0; url[i] != '\0'; i++) {
-		if (url[i] == ':')
+	str_url = url->str;
+	len_url = url->len;
+	
+	*protocol = NULL;
+	*error = FALSE;
+	i=*position;
+	
+	/* find a ':' */
+	while ( (i<len_url) && (str_url[i] != ':') ) i++;
+	
+	if (i==len_url) return FALSE;
+	i++;
+
+	/* check if it is followed by a "//" */
+	if  ((i<len_url) && (str_url[i++] == '/'))
+		if ((i<len_url) && (str_url[i++] == '/'))
+		{
+			
+			str_protocol = g_strndup(str_url, i-3);
+			*protocol = g_string_new(str_protocol);
+			*position=i;
 			return TRUE;
-		else if (!isalpha (url[i])) 
-			return FALSE;
-	}
+		}
+	
 	return FALSE;
 }
 
 
 
-/**
- * g_url_match_method:
- * @url: 
- * @method: 
- * 
- * 
- * 
- * Return value: TRUE if the method matches
- **/
-gboolean 
-g_url_match_method (const char *url, const char *method) 
+
+static gboolean
+find_user(GString *url, GString **user, guint *position, gboolean *error)
 {
-	gint i;
+	guint i;
+	guint at_pos;
 	
-	for (i = 0; method[i] != '\0'; i++)
-		if (url[i] != method[i]) return FALSE;
-	return (url[i] == ':');
-}
-
-
-
-
-/**
- * g_url_add_slash:
- * @url: 
- * @size_url: 
- * 
- * Add the trailing slash if necessary. Return FALSE if there isn't room
- * 
- * Return value: 
- **/
-gboolean 
-g_url_add_slash (char *url, gint size_url) 
-{
-	char hostname[256];
-	gint port;
-	char *tail;
+	gchar *str_url;
+	gint len_url;
+	gchar *str_user;
 	
-	if (g_url_match_method (url, "http") ||
-	    g_url_match_method (url, "ftp")) {
-		tail = g_url_parse (url, hostname, sizeof(hostname), &port);
-		if (tail == NULL)
-			return TRUE;
-		if (tail[0] == '\0') {
-			if (strlen (url) + 1 == size_url)
-				return FALSE;
-			tail[0] = '/';
-			tail[1] = '\0';
-		}
-	}
+	str_url = url->str;
+	len_url = url->len;
+	
+	*user = NULL;
+	i=*position;
+	
+
+	/* find a '@' */
+	while ((i<len_url) && (str_url[i] != '@')) i++;
+	
+	if (i==len_url) return FALSE;
+	at_pos = i;
+	i = *position;
+
+	/* find a ':' */
+	while ( (i<at_pos) && (str_url[i] != ':') ) i++;
+
+	/* now if i has not been incremented at all, there is no user */
+	if (i == *position) return FALSE;
+	
+	str_user = g_strndup(str_url+ *position, i - *position);
+	*user = g_string_new(str_user);
+	if (i<at_pos) *position=i+1; /* there was a ':', skip it */
+	else *position=i;
+	
 	return TRUE;
+
+	
+	
 }
 
-
-
-
-/**
- * g_url_relative:
- * @base_url: 
- * @relative_url: 
- * @new_url: 
- * @size_new_url: 
- * 
- * 
- * 
- * Return value: 
- **/
-gboolean 
-g_url_relative (const char *base_url,
-		    const char *relative_url,
-		    char *new_url,
-		    gint size_new_url) 
+static gboolean
+find_passwd(GString *url, GString **passwd, guint *position, gboolean *error)
 {
-	gint i, j, k;
-	gint num_dotdot;
+	guint i;
 	
-	if (base_url == NULL || g_url_is_absolute (relative_url)) {
-		if (strlen (relative_url) >= size_new_url)
-			return FALSE;
-		strcpy (new_url, relative_url);
-		return g_url_add_slash (new_url, size_new_url);
-	}
+	gchar *str_url;
+	gint len_url;
+	gchar *str_passwd;
 	
-	/* Assure that we have enough room for at least the base URL. */
-	if (strlen (base_url) >= size_new_url)
+	str_url = url->str;
+	len_url = url->len;
+	
+	*passwd = NULL;
+	i=*position;
+	
+
+	/* find a '@' */
+	while ((i<len_url) && (str_url[i] != '@')) i++;
+	
+	if (i==len_url) return FALSE;
+	/*i has not been incremented at all, there is no passwd */
+	if (i == *position) {
+		*position = i+1;
 		return FALSE;
-	
-	/* Copy http://hostname:port/ from base_url to new_url */
-		i = 0;
-		if (g_url_match_method (base_url, "http") ||
-		    g_url_match_method (base_url, "ftp")) {
-			while (base_url[i] != '\0' && base_url[i] != ':')
-				new_url[i] = base_url[i++];
-			if (base_url[i] != '\0')
-				new_url[i] = base_url[i++];
-			if (base_url[i] != '\0')
-				new_url[i] = base_url[i++];
-			if (base_url[i] != '\0')
-				new_url[i] = base_url[i++];
-			while (base_url[i] != '\0' && base_url[i] != '/')
-				new_url[i] = base_url[i++];
-		} else {
-			while (base_url[i] != '\0' && base_url[i] != ':')
-				new_url[i] = base_url[i++];
-			if (base_url[i] != '\0')
-				new_url[i] = base_url[i++];
-		}
-		
-		if (relative_url[0] == '/') {
-			if (i + strlen (relative_url) >= size_new_url)
-				return FALSE;
-			strcpy (new_url + i, relative_url);
-			return g_url_add_slash (new_url, size_new_url);
-		}
-		
-		/* At this point, i points to the first slash following the hostname
-		   (and port) in base_url. */
-		
-		/* Now, figure how many ..'s to follow. */
-		num_dotdot = 0;
-		j = 0;
-		while (relative_url[j] != '\0') {
-			if (relative_url[j] == '.' &&
-			    relative_url[j + 1] == '/') {
-				j += 2;
-			} else if (relative_url[j] == '.' &&
-				   relative_url[j + 1] == '.' &&
-				   relative_url[j + 2] == '/') {
-				j += 3;
-				num_dotdot++;
-			} else {
-				break;
-			}
-		}
-		
-		/* Find num_dotdot+1 slashes back from the end, point k there. */
-		
-		for (k = strlen (base_url); k > i && num_dotdot >= 0; k--)
-			if (base_url[k - 1] == '/')
-				num_dotdot--;
-		
-		if (k + 1 + strlen (relative_url) - j >= size_new_url)
-			return FALSE;
-		
-		while (i < k)
-			new_url[i] = base_url[i++];
-		if (relative_url[0] == '#')
-			while (base_url[i] != '\0')
-				new_url[i] = base_url[i++];
-		else if (base_url[i] == '/' || base_url[i] == '\0')
-			new_url[i++] = '/';
-		strcpy (new_url + i, relative_url + j);
-		return g_url_add_slash (new_url, size_new_url);
-}
-
-
-
-
-
-/* Parse the url, packing the hostname and port into the arguments, and
-   returning the suffix. Return NULL in case of failure. */
-
-/**
- * g_url_parse:
- * @url: 
- * @hostname: 
- * @hostname_size: 
- * @port: 
- * 
- * 
- * 
- * Return value: 
- **/
-char *
-g_url_parse (char *url,
-		 char *hostname,
-		 gint hostname_size,
-		 int *port) 
-{
-	gint i, j;
-	
-	for (i = 0; url[i] != '\0' && url[i] != ':'; i++);
-	if (url[i] != ':' || url[i + 1] != '/' || url[i + 2] != '/') return NULL;
-	i += 3;
-	for (j = i; url[j] != '\0' && url[j] != ':' && url[j] != '/'; j++);
-	if (j - i >= hostname_size) return NULL;
-	memcpy (hostname, url + i, j - i);
-	hostname[j - i] = '\0';
-	if (url[j] == ':') {
-		*port = atoi (url + j + 1);
-		for (j++; url[j] != '\0' && url[j] != '/'; j++);
 	}
-	return url + j;
+	
+	str_passwd = g_strndup(str_url+ *position, i - *position);
+	*passwd = g_string_new(str_passwd);
+	*position=i+1; /* skip it the '@' */
+	
+	return TRUE;
+
+	
+	
 }
 
 
 
 
-#ifndef UNIT_TEST
-/* Parse "http://a/b#c" into "http://a/b" and "#c" (storing both as
-   newly allocated strings into *p_head and *p_tail, respectively.
-   
-   Note: this routine allocates new strings for the subcomponents, so
-   that there's no arbitrary restriction on sizes. That's the way I want
-   all the URL functions to work eventually.
+/* to tests this file :
+   gcc -o test_url_util `glib-config --cflags`  -DTEST_URL_UTIL url-util.c `glib-config --libs
+   ./test_url_util URL
 */
-void
-g_url_parse_hash (char **p_head, char **p_tail, const char *url)
-{
-	gint i;
-	
-	/* todo: I haven't checked this for standards compliance. What's it
-	   supposed to do when there are two hashes? */
-	
-	for (i = 0; url[i] != '\0' && url[i] != '#'; i++);
-	*p_tail = g_strdup (url + i);
-	*p_head = g_new (char, i + 1);
-	memcpy (*p_head, url, i);
-	(*p_head)[i] = '\0';
-}
-#endif
-
-
-
-
-
-#ifdef UNIT_TEST
-/* Unit test as follows:
-   
-   gcc -g -I/usr/local/include/gtk -DUNIT_TEST camelurl.c -o camelurl
-   ./camelurl base_url relative_url
-   
-*/
+#ifdef TEST_URL_UTIL
 
 int 
-main (int argc, char **argv) 
+main (int argc, char **argv)
 {
-	char buf[80];
-	char hostname[80];
-	char *tail;
-	int port;
+
+	GString *url;
+	GString *protocol;
+	GString *user;
+	GString *passwd;
+	guint position=0;
+	gboolean error;
+	gboolean found;
+	guint i;
+
+	url = g_string_new(argv[1]);
+	printf("URL to test : %s\n\n", url->str);
 	
-	if (argc == 3) {
-		if (g_url_relative (argv[1], argv[2], buf, sizeof(buf))) {
-			printf ("%s\n", buf);
-			port = 80;
-			tail = g_url_parse (buf, hostname, sizeof (hostname), &port);
-			if (tail != NULL) {
-				printf ("hostname = %s, port = %d, tail = %s\n", hostname, port, tail);
-			}
-		} else {
-			printf ("buffer overflow!\n");
-		}
-	} else {
-		printf ("Usage: %s base_url relative_url\n", argv[0]);
-	}
+	/* Try to find the protocol */
+	found = find_protocol(url, &protocol, &position, &error);
+	if (found) {
+		printf("protocol found : %s\n", protocol->str);
+	} else printf("protocol not found in URL\n\n");
+	printf("posistion of the next item:\n");
+	printf("%s\n", url->str);
+	for(i=0; i<position; i++) printf(" ");
+	printf("^\n");
+		
+	/* Try to find the user name */
+	found = find_user(url, &user, &position, &error);
+	if (found) {
+		printf("name found : %s\n", user->str);
+	} else printf("user name not found in URL\n");
+	printf("posistion of the next item:\n");
+	printf("%s\n", url->str);
+	for(i=0; i<position; i++) printf(" ");
+	printf("^\n");
+	
+	/* Try to find the password */
+	found = find_passwd(url, &passwd, &position, &error);
+	if (found) {
+		printf("passwd found : %s\n", passwd->str);
+		printf("\n");
+	} else printf("passwd not found in URL\n");
+	printf("posistion of the next item:\n");
+	printf("%s\n", url->str);
+	for(i=0; i<position; i++) printf(" ");
+	printf("^\n");
+	
+	
 	return 0;
 }
-#endif
 
-
-
-
-
-
+#endif /* TEST_URL_UTIL */
