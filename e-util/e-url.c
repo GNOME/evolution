@@ -138,6 +138,8 @@ e_uri_new (const char *uri_string)
 		g_strdown (uri->protocol);
 		uri_string = p + 1;
 	}
+	else
+		uri->protocol = g_strdup ("file");
 
 	if (!*uri_string)
 		return uri;

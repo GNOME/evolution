@@ -1,3 +1,7 @@
+2001-10-03  Rodrigo Moya <rodrigo@ximian.com>
+
+	* e-url.c (e_url_new): default protocol to file: if not specified
+
 2001-10-02  Rodrigo Moya <rodrigo@ximian.com>
 
 	* e-url.c (e_uri_copy): duplicate also the params member
