@@ -1,3 +1,8 @@
+2000-09-07  Dan Winship  <danw@helixcode.com>
+
+	* README: Add a mention of the verify-evolution-install.sh script
+	in tools/.
+
 2000-09-03  Jeffrey Stedfast  <fejj@helixcode.com>
 
 	Reversed my last change as it broke configure, how do I get it so

@@ -20,6 +20,17 @@ http://lists.helixcode.com/archives/public/evolution/
 There is also an #evolution IRC channel on irc.gnome.org.
 
 
+IF IT DOESN'T WORK
+------------------
+
+Did you read the "How to build" section below? :-)
+
+If you have built Evolution and it doesn't work, or you can't get it
+or one of its dependencies to compile, try running the
+"verify-evolution-install.sh" script in the tools/ subdirectory. It
+may be able to figure out what went wrong.
+
+
 HOW TO BUILD EVOLUTION
 ----------------------
 
