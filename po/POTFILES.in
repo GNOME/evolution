@@ -218,6 +218,7 @@ shell/e-shortcuts.c
 shell/e-shortcuts-view.c
 shell/e-storage.c
 shell/e-storage-set-view.c
+shell/e-storage-set-view.etspec
 shell/glade/e-shell-folder-creation-dialog.glade
 shell/GNOME_Evolution_Shell.oaf.in
 shell/importer/import.glade
