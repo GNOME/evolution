@@ -1,5 +1,11 @@
 2003-02-03  Jeffrey Stedfast  <fejj@ximian.com>
 
+	* message-list.c (mail_regen_list): Get the thread_subject setting
+	here instead of in regen_list_regen since that function will be
+	called in another thread and we can't make corba calls in anything
+	but the main thread.
+	(regen_list_regen): Don't make CORBA calls here! (shame on me).
+
 	* mail-identify.c (mail_identify_mime_part): Just use
 	gnome_vfs_get_mime_type_from_name() so we can forget all the crap
 	I implemented before.

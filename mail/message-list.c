@@ -2577,6 +2577,7 @@ struct _regen_list_msg {
 	CamelFolderChangeInfo *changes;
 	gboolean dotree;	/* we are building a tree */
 	gboolean hidedel;	/* we want to/dont want to show deleted messages */
+	gboolean thread_subject;
 	CamelFolderThread *tree;
 
 	CamelFolder *folder;
@@ -2604,11 +2605,9 @@ regen_list_regen (struct _mail_msg *mm)
 {
 	struct _regen_list_msg *m = (struct _regen_list_msg *)mm;
 	GPtrArray *uids, *uidnew, *showuids, *searchuids = NULL;
-	gboolean thread_subject;
 	CamelMessageInfo *info;
-	GConfClient *gconf;
 	int i;
-
+	
 	/* if we have hidedeleted on, use a search to find it out, merge with existing search if set */
 	if (!camel_folder_has_search_capability(m->folder)) {
 		/* if we have no search capability, dont let search or hide deleted work */
@@ -2709,16 +2708,13 @@ regen_list_regen (struct _mail_msg *mm)
 	
 	MESSAGE_LIST_UNLOCK(m->ml, hide_lock);
 	
-	gconf = gconf_client_get_default ();
-	thread_subject = gconf_client_get_bool (gconf, "/apps/evolution/mail/display/thread_subject", NULL);
-	
 	if (!camel_operation_cancel_check(mm->cancel)) {
 		/* update/build a new tree */
 		if (m->dotree) {
 			if (m->tree)
 				camel_folder_thread_messages_apply (m->tree, showuids);
 			else
-				m->tree = camel_folder_thread_messages_new (m->folder, showuids, thread_subject);
+				m->tree = camel_folder_thread_messages_new (m->folder, showuids, m->thread_subject);
 		} else {
 			m->summary = g_ptr_array_new ();
 			for (i = 0; i < showuids->len; i++) {
@@ -2811,6 +2807,7 @@ static void
 mail_regen_list (MessageList *ml, const char *search, const char *hideexpr, CamelFolderChangeInfo *changes)
 {
 	struct _regen_list_msg *m;
+	GConfClient *gconf;
 	
 	if (ml->folder == NULL)
 		return;
@@ -2827,6 +2824,8 @@ mail_regen_list (MessageList *ml, const char *search, const char *hideexpr, Came
 			l = l->next;
 		}
 	}
+	
+	gconf = gconf_client_get_default ();
 	
 #ifndef BROKEN_ETREE
 	/* this can sometimes crash,so ... */
@@ -2847,6 +2846,7 @@ mail_regen_list (MessageList *ml, const char *search, const char *hideexpr, Came
 	m->changes = changes;
 	m->dotree = ml->threaded;
 	m->hidedel = ml->hidedeleted;
+	m->thread_subject = gconf_client_get_bool (gconf, "/apps/evolution/mail/display/thread_subject", NULL);
 	g_object_ref(ml);
 	m->folder = ml->folder;
 	camel_object_ref(m->folder);
