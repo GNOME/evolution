@@ -168,19 +168,7 @@
   </glossdef>
  </glossentry> 
 
- <glossentry id="live-doc">
-  <glossterm>Live Document</glossterm>
-  <glossdef>
-   <para>
-      A document embedded in or attached an email message that
-      contains scripting or other active contents.  For example, a
-      <application>Gnumeric</application> spreadsheet page could be
-      included in a message, and the recipient could alter some of the
-      data from within <application>Evolution</application> without
-      having to start another program.
-   </para>
-  </glossdef>
- </glossentry> 
+
 
  <glossentry id="mail-client">
   <glossterm>Mail Client</glossterm>
@@ -191,6 +179,17 @@
    </para>
   </glossdef>
  </glossentry>
+
+
+ <glossentry id="minicard">
+  <glossterm>Minicard</glossterm>
+  <glossdef>
+   <para>
+      A format for the display of contact data.  Similar in appearance
+      to a small business card.
+   </para>
+  </glossdef>
+ </glossentry> 
 
  <glossentry id="nautilus">
   <glossterm>Nautilus</glossterm>

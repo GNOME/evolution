@@ -41,7 +41,9 @@
        To open up your address book, click on
        <guibutton>Contacts</guibutton> in the shortcut bar.  The
        contact manager is illustrated in <xref
-       linkend="usage-contact-fig">
+       linkend="usage-contact-fig">.  By default, the contact manager
+       shows all your cards in alphabetical order, and in a
+       <glossterm>minicard</glossterm> format.
     </para>
 
 
@@ -73,14 +75,19 @@
            <guibutton>Delete</guibutton> deletes a selected card.
         </para></listitem>
       </itemizedlist>
-    
+    </para>
+    <para>
        The last feature is <guilabel>Quick Search</guilabel>; to use
-       it, just enter what you're looking for and hit
+       it, just type in the person you're looking for and hit
        <keycap>Enter</keycap>.  <application>Evolution</application>
-       will show you all the cards that match; if there are none, the
-       display will be blank.  To display <emphasis>all</emphasis> of
-       your contacts, you can leave the <guilabel>Quick
-       Search</guilabel> field blank, and press enter.
+       will search through the name fields of all the cards to find
+       one that matches.  The search is currently case-sensitive.
+    </para>
+    <para>
+       If there are no matches, the card display will be blank.  To
+       display <emphasis>all</emphasis> of your contacts, you can
+       leave the <guilabel>Quick Search</guilabel> field blank, and
+       press enter.
     </para>
     <para>
        The rest of the contact manager is taken up by the display of
@@ -88,124 +95,183 @@
        cards&mdash; switch between them in the <guimenu>View</guimenu>
        menu &mdash; and move through them alphabetically alphanumeric
        buttons and the scrollbar at the right of the window.
-       
     </para>
   </sect1>
   <sect1 id="usage-contact-cards">
-    <title>Creating, Deleting, and Adding Cards</title>
+    <title>Create, Change, and Delete Cards</title>
+
     <para>
-      Open up the contact editor by pressing the <guibutton>New
-      Card</guibutton> button.  The window has two tabs,
-      <guilabel>General</guilabel>, for basic contact information, and
-      <guilabel>Details</guilabel>, for a more specific description of
-      the person.  In addition, it contains a full menu bar.  FIXME:
-      The contents are still changing rapidly, but you should be able
-      to guess what they're for.
+       The easiest thing you can do with a card is delete it.  To
+       delete a card, click on it once to select it, then press the
+       <guibutton>Delete Card</guibutton> button.
     </para>
 
-    <figure id="usage-contact-editor-fig">
-      <title>Evolution Contact Editor</title>
-      <screenshot>
-	<screeninfo>Evolution Contact Editor</screeninfo>
-	<graphic fileref="fig/contact-new" format="png" srccredit="Aaron Weber">
-	    </graphic>
-      </screenshot>
-    </figure>
-
     <para>
-      The <guilabel>General</guilabel> tab contains no less than seven
-      sections, each with an icon: a face, for name and company; a
-      telephone for phone numbers; an envelope for email address; a
-      house for postal address; a handshake for contacts (FIXME: I
-      don't understand this feature, and the button doesn't do
-      anything yet.); and a briefcase for categories.  The things that
-      go into most of the text fields should be obvious enough, so
-      we'll just describe the more interesting parts of the window.
-      Aside from the <guilabel>Categories</guilabel> feature, which is
-      discussed in <xref linkend="usage-contact-organize">, there are
-      two things you'll want to know about: the first of these is the
-      <guilabel>File As</guilabel> field.
-   </para>
+       Any time you add new information to a card, whether it's an old
+       card you're editing or a new card you're just adding to your
+       address book, you'll use the contact editor.  To change a card
+       that already exists, just double click it to open the contact
+       editor window with all the current information already filled
+       in.  If you want to create a new one, clicking the
+       <guibutton>New Card</guibutton> button will open up that same
+       window, but with empty fields instead of full ones.  Either
+       way, it's the same tool for quite similar tasks, and you'll
+       find that it's pretty flexible and can store quite a lot more
+       than you'd think would fit onto a file card.
+    </para>
 
-   <para>
-      Type "Eva Lucianne Tester" into the <guilabel>Full
-      Name</guilabel> field.  You'll notice that the <guilabel>File
-      As</guilabel> field also fills up, but in reverse: Tester,
-      Lucianne.  You can pick "Eva Tester" from the drop-down, or, if
-      you prefer, type in your own, such as "Lucianne Tester, Eva".  I
-      suggest that you don't enter something entirely different from
-      the actual name, however.  You might forget that you've filed
-      Eva's information under "F" for "Fictitious Helix Code
-      Employees"
-   </para>
-   <para>
-      The other feature I want to mention involves the little squares
-      next to several of the fields.  Click on them and you'll get a
-      menu of different labels; for the fields in the telephone
-      section, it's a long list involving things like
-      <guilabel>Home</guilabel>, <guilabel>Home 2</guilabel>,
-      <guilabel>Other Fax</guilabel>, and <guilabel>Pager</guilabel>.
-      Select from among them to determine which four telephone numbers
-      to display at any given time.  Of course, these connected times
-      mean that people often have more than four telephone numbers.
-      You can display only four in the editor, but
-      <application>Evolution</application> can remember them all for
-      you.  When you click the little square button for the list of
-      labels, any that you've already filled in will be marked.
-   </para>
-
-<!--  FIXME: do this whole thing later.
-      <variablelist>
-         <listitem>
-	  <term>
-          <itemizedlist>
-	<listitem> <para>
-               <guilabel>Name:</guilabel> Enter the person's name here
-            </para></listitem>
-	<listitem> <para>
-
-            </para></listitem>
-	<listitem> <para>
-              <guilabel>Business:</guilabel>
-            </para></listitem>
-	
-	<listitem> <para>
-              <guilabel>Job Title:</guilabel>
-            </para></listitem>
-	
-	<listitem> <para>
-               <guilabel>Home:</guilabel> 
-            </para></listitem>
-      </itemizedlist>
-        </para>
-    
--->
-    <tip>
-      <title>Contact Shortcuts</title>
+    <sect2 id="usage-contact-editor">
+      <title>The Contact Editor</title>
       <para>
-        You can add cards from within an email message or calendar
-        appointment.  While looking at an email, right-click on any
-        email address or message, and choose <guimenuitem>Create Card
-        for this Address</guimenuitem> or <guimenuitem>Create Card for
-        this Sender</guimenuitem> from the menu.  While looking at a
-        calendar appointment, right-click any email address, and
-        choose <guimenuitem>Create Card for this
-        Address</guimenuitem>.  (NOTE that feature may change!
-        unimplemented!)
+	  The contact editor window has two tabs,
+    	  <guilabel>General</guilabel>, for basic contact information,
+    	  and <guilabel>Details</guilabel>, for a more specific
+    	  description of the person.  In addition, it contains a full
+    	  menu bar.  FIXME: The contents are still changing rapidly,
+    	  but you should be able to guess what they're for.
       </para>
-    </tip>
-    
-    <para>
-       You delete a card by pressing the <guibutton>Delete
-       Card</guibutton> button, or by dragging it into the trash
-       folder.
-    </para>
+      
+      <figure id="usage-contact-editor-fig">
+	  <title>Evolution Contact Editor</title>
+	  <screenshot>
+	    <screeninfo>Evolution Contact Editor</screeninfo>
+	  <graphic fileref="fig/contact-new" format="png" srccredit="Aaron Weber">
+		</graphic>
+	</screenshot>
+      </figure>
+      
+      <para> 
+        The <guilabel>General</guilabel> tab contains no less
+        than seven sections, each with an icon: a face, for name and
+        company; a telephone for phone numbers; an envelope for email
+        address; a house for postal address; a handshake for contacts
+        (FIXME: I don't understand this feature, and the button
+        doesn't do anything yet.); and a briefcase for categories.
+        You can guess what sort of information belongs in fields like
+        <guilabel>Job Title</guilabel> and <guilabel>Web page
+        address</guilabel>, but there are several parts of the window
+        that are a little more interesting.  </para> <para>
+        <guilabel>Categories</guilabel> feature, which is discussed in
+        <xref linkend="usage-contact-organize">, there are a few
+        things you'll want to know about: the first of these is the
+        <guilabel>Full Name</guilabel> button.
+      </para>
+      <para>
+        You can enter a name into the <guibutton>Full Name</guibutton>
+        field, or you can click the button to bring up a small dialog
+        box with a few text boxes:
+	<itemizedlist>
+	  <listitem> <para>
+	    <guilabel>Title:</guilabel>Enter an honorific or select one from the menu.
+	  </para></listitem>
+	  
+	  <listitem> <para> <guilabel>First:</guilabel>The person's first, or given, name.
+    	  </para></listitem>
 
-    <para>
-      You can move cards around just as you would move email messages:
-      dragging and dropping works, as does right-clicking and choosing
-      <guimenuitem>Move</guimenuitem> from the menu that appears.
-    </para>
+	  <listitem> <para>
+             <guilabel>Middle:</guilabel>The middle name or initial, if any, goes here.
+          </para></listitem>
+
+	  <listitem> <para>
+	     <guilabel>Last:</guilabel>The last name (surname, family name), belongs here.
+	  </para></listitem>
+
+	  <listitem> <para>
+             <guilabel>Suffix:</guilabel>Suffixes such as "Jr." or "III" can go here. 
+	  </para></listitem>
+	</itemizedlist>
+      </para>
+      
+      <para>
+         The <guilabel>Full Name</guilabel> field has one more trick
+         up its sleeve: it interacts with the <guilabel>File
+             As</guilabel> box to help you organize your contacts.  To
+             see how it works, type a name in the <guilabel>Full
+             Name</guilabel> field: <userinput>Eva Lucianne
+             Tester</userinput>.  You'll notice that the
+             <guilabel>File As</guilabel> field also fills up, but in
+             reverse: <computeroutput>Tester,
+             Lucianne</computeroutput>.  You can pick
+         <computeroutput>Eva Tester</computeroutput> from the
+             drop-down, or type in your own, such as
+         <userinput>Lucianne Tester, Eva</userinput>.  I suggest that
+             you don't enter something entirely different from the
+             actual name, since you might forget that you've filed
+             Eva's information under "F" for "Fictitious Helix Code
+             Employees" </para>
+    
+      <para>   
+        The other feature I want to mention involves the little
+        squares next to several of the fields.  Click on them and
+        you'll get a menu of different labels; for the fields in the
+        telephone section, it's a long list involving things like
+        <guilabel>Home</guilabel>, <guilabel>Home 2</guilabel>,
+        <guilabel>Other Fax</guilabel>, and
+        <guilabel>Pager</guilabel>.  Select from among them to
+        determine which four telephone numbers to display at any given
+        time.  Of course, these connected times mean that people often
+        have more than four telephone numbers.  You can display only
+        four in the editor, but <application>Evolution</application>
+        can remember them all for you.  When you click the little
+        square button for the list of labels, any that you've already
+        filled in will be marked.  </para>
+
+    <!--  FIXME: do this whole thing later.
+	  <variablelist>
+	     <listitem>
+	      <term>
+	      <itemizedlist>
+	    <listitem> <para>
+		   <guilabel>Name:</guilabel> Enter the person's name here
+		</para></listitem>
+	    <listitem> <para>
+
+		</para></listitem>
+	    <listitem> <para>
+		  <guilabel>Business:</guilabel>
+		</para></listitem>
+
+	    <listitem> <para>
+		  <guilabel>Job Title:</guilabel>
+		</para></listitem>
+
+	    <listitem> <para>
+		   <guilabel>Home:</guilabel> 
+		</para></listitem>
+	  </itemizedlist>
+	    </para>
+
+    -->
+    </sect2>
+
+<!--- ############# This section isn't implemented yet either:
+    <sect2>
+      <title></title>
+      <para>
+        <tip>
+	  <title>Contact Shortcuts</title>
+	  <para>
+            You can add cards from within an email message or calendar
+            appointment.  While looking at an email, right-click on
+            any email address or message, and choose
+            <guimenuitem>Create Card for this Address</guimenuitem> or
+            <guimenuitem>Create Card for this Sender</guimenuitem>
+            from the menu.  While looking at a calendar appointment,
+            right-click any email address, and choose
+            <guimenuitem>Create Card for this Address</guimenuitem>.
+            (NOTE that feature may change!  unimplemented!)
+          </para>
+	</tip>
+      </para>
+      <para>
+        You can move cards around just as you would move email
+        messages: dragging and dropping works, as does right-clicking
+        and choosing <guimenuitem>Move</guimenuitem> from the menu
+        that appears.
+      </para>
+    </sect2>
+############### SHORTCUT SECTION COMMENTED OUT FOR NOW -->
+
   </sect1>
 
   <sect1 id="usage-contact-organize">
@@ -382,5 +448,17 @@
     </sect2>
   </sect1>
 </chapter> 
+
+
+
+
+
+
+
+
+
+
+
+
 
 
