@@ -1,0 +1,6 @@
+2003-06-13  Ettore Perazzoli  <ettore@ximian.com>
+
+	* tools/Makefile.am: Remove evolution-launch-composer since it's
+	no longer needed.
+
+

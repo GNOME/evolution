@@ -4,7 +4,6 @@ privlibexec_SCRIPTS =			\
 
 privlibexec_PROGRAMS =			\
 	evolution-addressbook-import	\
-	evolution-launch-composer	\
 	killev
 
 
@@ -49,15 +48,6 @@ evolution_addressbook_import_LDADD =				\
 
 evolution_addressbook_abuse_LDADD =				\
 	$(evolution_addressbook_import_LDADD)
-
-evolution_launch_composer_SOURCES =				\
-        $(CORBA_SOURCE)						\
-        evolution-launch-composer.c
-
-evolution_launch_composer_LDADD =                               \
-        $(GNOME_FULL_LIBS)                                      \
-        $(top_builddir)/addressbook/backend/ebook/libebook.la   \
-        $(top_builddir)/widgets/menus/libmenus.la
 
 killev_SOURCES =						\
 	killev.c
