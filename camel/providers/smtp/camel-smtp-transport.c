@@ -889,7 +889,7 @@ smtp_helo (CamelSmtpTransport *transport, CamelException *ex)
 	
 	camel_exception_clear (&err);
 	
-	if (host && host->h_name) {
+	if (host && host->h_name && *host->h_name) {
 		name = g_strdup (host->h_name);
 	} else {
 #ifdef ENABLE_IPv6

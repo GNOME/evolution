@@ -1,5 +1,10 @@
 2003-04-08  Jeffrey Stedfast  <fejj@ximian.com>
 
+	* providers/smtp/camel-smtp-transport.c (smtp_helo): Make sure
+	host->h_name is not an empty string too? Apparently for one user
+	his resolved hostname is "". Go figure. Probably a broken system,
+	but easy enough to work around.
+
 	* providers/pop3/camel-pop3-store.c (pop3_try_authenticate): If
 	store->engine->line is NULL, use _("Unknown error") as the error
 	string instead.
