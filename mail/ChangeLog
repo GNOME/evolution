@@ -1,5 +1,8 @@
 2000-05-26  Dan Winship  <danw@helixcode.com>
 
+	* mail-format.c (handle_text_html): Fix a bug (security/stability)
+	in its usage of mail_html_write.
+
 	* mail-ops.c (composer_send_cb, reply): set CAMEL_MESSAGE_ANSWERED
 	on a message after a successful reply.
 

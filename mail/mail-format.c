@@ -678,7 +678,7 @@ handle_text_html (CamelMimePart *part, CamelMimeMessage *root, GtkBox *box)
 	mail_html_write (html, stream, "\n<!-- text/html -->\n");
 
 	text = get_data_wrapper_text (wrapper);
-	mail_html_write (html, stream, text);
+	mail_html_write (html, stream, "%s", text);
 	g_free (text);
 
 	mail_html_end (html, stream, FALSE, box);
