@@ -52,6 +52,8 @@ CamelType camel_sasl_plain_get_type (void);
 
 extern CamelServiceAuthType camel_sasl_plain_authtype;
 
+extern CamelServiceAuthType camel_sasl_login_authtype;
+
 #ifdef __cplusplus
 }
 #endif /* __cplusplus */

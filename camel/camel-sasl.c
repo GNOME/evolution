@@ -191,7 +191,7 @@ camel_sasl_new (const char *service_name, const char *mechanism, CamelService *s
 	else if (!strcmp (mechanism, "KERBEROS_V4"))
 		sasl = (CamelSasl *)camel_object_new (CAMEL_SASL_KERBEROS4_TYPE);
 #endif
-	else if (!strcmp (mechanism, "PLAIN"))
+	else if (!strcmp (mechanism, "PLAIN") || !strcmp (mechanism, "LOGIN"))
 		sasl = (CamelSasl *)camel_object_new (CAMEL_SASL_PLAIN_TYPE);
 	else
 		return NULL;
@@ -220,9 +220,10 @@ camel_sasl_authtype_list (gboolean include_plain)
 #ifdef HAVE_KRB4
 	types = g_list_prepend (types, &camel_sasl_kerberos4_authtype);
 #endif
+	types = g_list_prepend (types, &camel_sasl_login_authtype);
 	if (include_plain)
 		types = g_list_prepend (types, &camel_sasl_plain_authtype);
-
+	
 	return types;
 }
 
@@ -246,6 +247,8 @@ camel_sasl_authtype (const char *mechanism)
 #endif
 	else if (!strcmp (mechanism, "PLAIN"))
 		return &camel_sasl_plain_authtype;
+	else if (!strcmp (mechanism, "LOGIN"))
+		return &camel_sasl_login_authtype;
 	else
 		return NULL;
 }

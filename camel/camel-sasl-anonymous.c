@@ -29,6 +29,16 @@
 #include "camel-internet-address.h"
 #include <string.h>
 
+CamelServiceAuthType camel_sasl_anonymous_authtype = {
+	N_("Anonymous"),
+	
+	N_("This option will connect to the server using an anonymous login."),
+	
+	"ANONYMOUS",
+	FALSE,
+	TRUE
+};
+
 static CamelSaslClass *parent_class = NULL;
 
 /* Returns the class for a CamelSaslAnonymous */

@@ -59,7 +59,9 @@ typedef struct _CamelSaslAnonymousClass {
 CamelType camel_sasl_anonymous_get_type (void);
 
 /* public methods */
-CamelSasl * camel_sasl_anonymous_new (CamelSaslAnonTraceType type, const char *trace_info);
+CamelSasl *camel_sasl_anonymous_new (CamelSaslAnonTraceType type, const char *trace_info);
+
+extern CamelServiceAuthType camel_sasl_anonymous_authtype;
 
 #ifdef __cplusplus
 }

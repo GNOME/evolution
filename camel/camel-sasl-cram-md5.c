@@ -38,7 +38,8 @@ CamelServiceAuthType camel_sasl_cram_md5_authtype = {
 	   "secure CRAM-MD5 password, if the server supports it."),
 
 	"CRAM-MD5",
-	TRUE
+	TRUE,
+	FALSE
 };
 
 static CamelSaslClass *parent_class = NULL;

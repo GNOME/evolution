@@ -1189,6 +1189,7 @@ get_folder_info (CamelStore *store, const char *top, gboolean fast,
 			}
 		}
 	}
+	
 	if (need_inbox) {
 		CamelURL *url;
 		char *uri;

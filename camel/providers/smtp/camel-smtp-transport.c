@@ -735,7 +735,7 @@ smtp_auth (CamelSmtpTransport *transport, const char *mech, CamelException *ex)
 			goto lose;
 		
 		/* eat whtspc */
-		for (challenge = respbuf + 4; isspace (*challenge); challenge++);
+		for (challenge = respbuf + 4; *challenge && isspace (*challenge); challenge++);
 		
 		challenge = camel_sasl_challenge_base64 (sasl, challenge, ex);
 		g_free (respbuf);
@@ -778,7 +778,8 @@ smtp_auth (CamelSmtpTransport *transport, const char *mech, CamelException *ex)
 				     _("Bad authentication response from server.\n"));
 	}
 	
-	camel_object_unref (CAMEL_OBJECT (sasl));
+	if (sasl)
+		camel_object_unref (CAMEL_OBJECT (sasl));
 	
 	return FALSE;
 }

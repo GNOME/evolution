@@ -83,8 +83,14 @@ typedef struct {
 
 /* query_auth_types returns a GList of these */
 typedef struct {
-	char *name, *description, *authproto;
-	gboolean need_password;
+	char *name;               /* user-friendly name */
+	char *description;
+	char *authproto;
+	
+	gboolean need_password;   /* needs a password to authenticate */
+	
+	gboolean quick_login;     /* client can send initial challenge to
+				   * speed up the authentication procedure */
 } CamelServiceAuthType;
 
 

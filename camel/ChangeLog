@@ -1,3 +1,25 @@
+2001-04-01  Jeffrey Stedfast  <fejj@ximian.com>
+
+	* camel-sasl-plain.c: 
+	* camel-sasl-anonymous.c: 
+	* camel-sasl-digest-md5.c: 
+	* camel-sasl-cram-md5.c: 
+	* camel-sasl-kerberos4.c: Updated the authtype values.
+
+	* camel-service.h: Added another field to CamelServiceAuthType
+	that specifies whether or not the mechanism supports "quick auth"
+	which means that the client can send the initial challenge in the
+	AUTH request.
+
+	* camel-sasl.c (camel_sasl_new): Add support for LOGIN.
+	(camel_sasl_authtype_list): Here too.
+	(camel_sasl_authtype): And finally here.
+
+	* camel-sasl-plain.c: Define camel_sasl_login_authtype.
+
+	* providers/smtp/camel-smtp-transport.c (smtp_auth): Only unref
+	the SASL object if it exists.
+
 2001-03-30  Dan Winship  <danw@ximian.com>
 
 	* providers/pop3/camel-pop3-store.c (connect_to_server,

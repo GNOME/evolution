@@ -30,11 +30,23 @@
 
 CamelServiceAuthType camel_sasl_plain_authtype = {
 	N_("Password"),
-
+	
 	N_("This option will connect to the server using a "
 	   "simple password."),
-
+	
 	"PLAIN",
+	TRUE,
+	FALSE
+};
+
+CamelServiceAuthType camel_sasl_login_authtype = {
+	N_("NT Login"),
+	
+	N_("This option will connect to the server using a "
+	   "simple password."),
+	
+	"LOGIN",
+	TRUE,
 	TRUE
 };
 
