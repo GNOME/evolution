@@ -133,7 +133,21 @@ xfer_result_callback (EStorageSet *storage_set,
 
 	folder_command_data = (FolderCommandData *) data;
 
-	/* FIXME: do something.  */
+	if (result != E_STORAGE_OK) {
+		char *msg;
+
+		if (folder_command_data->command == FOLDER_COMMAND_COPY)
+			msg = g_strdup_printf (_("Cannot copy folder: %s"),
+					       e_storage_result_to_string (result));
+		else
+			msg = g_strdup_printf (_("Cannot move folder: %s"),
+					       e_storage_result_to_string (result));
+
+		e_notice (GTK_WINDOW (folder_command_data->shell_view),
+			  GNOME_MESSAGE_BOX_ERROR, msg);
+
+		g_free (msg);
+	}
 
 	folder_command_data_free (folder_command_data);
 }
