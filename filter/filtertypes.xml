@@ -10,9 +10,10 @@
 
 <rule name="to-address">
   <code>
-   (match-all (header-contains "To" ${receipient}))
+   (match-all (or (header-contains "To" ${recipient})
+                  (header-contains "Cc" ${recipient})))
   </code>
-  <description lang="en">The To address matches <source type="address" name="receipient">receipients</source>.</description>
+  <description lang="en">The To or Cc address matches <source type="address" name="recipient">recipients</source>.</description>
 </rule>
 
 <rule name="subject-contains">
@@ -77,7 +78,7 @@
   <code>
     (match-all (not (header-contains "To" ${self-email})))
   </code>
-  <description language="en">When I am the receipient.</description>
+  <description language="en">When I am the recipient.</description>
 </rule>
 
 <rule name="not-body-contains">
