@@ -2242,7 +2242,7 @@ msgstr "Nisem mogel nalo¾iti va¹ege datoteke koledarja!\n"
 
 #: calendar/gui/e-itip-control.c:462
 msgid "I couldn't read your calendar file!\n"
-msgstr "Nisem mogel prebrati datoteke va¹ega koledarja!"
+msgstr "Nisem mogel prebrati datoteke va¹ega koledarja!\n"
 
 #: calendar/gui/e-itip-control.c:475
 msgid "This is a reply from someone who was uninvited!"
