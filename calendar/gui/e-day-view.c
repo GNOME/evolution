@@ -4928,6 +4928,17 @@ e_day_view_finish_resize (EDayView *day_view)
 		cal_component_set_dtend (comp, &date);
 	}
 
+	gnome_canvas_item_hide (day_view->resize_rect_item);
+	gnome_canvas_item_hide (day_view->resize_bar_item);
+
+	/* Hide the horizontal bars. */
+	day_view->resize_bars_event_day = -1;
+	day_view->resize_bars_event_num = -1;
+	gnome_canvas_item_hide (day_view->main_canvas_top_resize_bar_item);
+	gnome_canvas_item_hide (day_view->main_canvas_bottom_resize_bar_item);
+
+	day_view->resize_drag_pos = E_DAY_VIEW_POS_NONE;
+
 	if (cal_component_is_instance (comp)) {
 		CalObjModType mod;
 
@@ -4947,17 +4958,6 @@ e_day_view_finish_resize (EDayView *day_view)
 	} else {
 		g_message ("e_day_view_finish_resize(): Could not update the object!");
 	}
-
-	gnome_canvas_item_hide (day_view->resize_rect_item);
-	gnome_canvas_item_hide (day_view->resize_bar_item);
-
-	/* Hide the horizontal bars. */
-	day_view->resize_bars_event_day = -1;
-	day_view->resize_bars_event_num = -1;
-	gnome_canvas_item_hide (day_view->main_canvas_top_resize_bar_item);
-	gnome_canvas_item_hide (day_view->main_canvas_bottom_resize_bar_item);
-
-	day_view->resize_drag_pos = E_DAY_VIEW_POS_NONE;
 	
 	g_object_unref (comp);
 }
