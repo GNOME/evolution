@@ -134,7 +134,7 @@ e_table_field_chooser_init (ETableFieldChooser *etfc)
 	GladeXML *gui;
 	GtkWidget *widget;
 
-	gui = glade_xml_new (ETABLE_GLADEDIR "/e-table-field-chooser.glade", NULL, PACKAGE);
+	gui = glade_xml_new (ETABLE_GLADEDIR "/e-table-field-chooser.glade", NULL, E_I18N_DOMAIN);
 	etfc->gui = gui;
 
 	widget = glade_xml_get_widget(gui, "vbox-top");

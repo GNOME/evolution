@@ -215,7 +215,7 @@ gal_define_views_dialog_init (GalDefineViewsDialog *dialog)
 
 	dialog->collection = NULL;
 
-	gui = glade_xml_new (GAL_GLADEDIR "/gal-define-views.glade", NULL, PACKAGE);
+	gui = glade_xml_new (GAL_GLADEDIR "/gal-define-views.glade", NULL, E_I18N_DOMAIN);
 	dialog->gui = gui;
 
 	widget = glade_xml_get_widget(gui, "table-top");
