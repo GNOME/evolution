@@ -462,7 +462,7 @@ camel_store_rename_folder (CamelStore *store, const char *old_namein, const char
 			camel_object_unref(folder);
 		}
 
-		/* Emit changed signal */
+		/* Emit renamed signal */
 		if (store->flags & CAMEL_STORE_SUBSCRIPTIONS)
 			flags |= CAMEL_STORE_FOLDER_INFO_SUBSCRIBED;
 		

@@ -385,7 +385,7 @@ create_folder (CamelStore *store, const char *parent_name, const char *folder_na
 }
 
 static int
-xrename (CamelStore *store, const char *old_name, const char *new_name, const char *ext, gboolean missingok, CamelException *ex)
+xrename (CamelStore *store, const char *old_name, const char *new_name, const char *ext, gboolean missingok)
 {
 	const char *toplevel_dir = ((CamelLocalStore *) store)->toplevel_dir;
 	char *oldpath, *newpath;
@@ -430,12 +430,6 @@ xrename (CamelStore *store, const char *old_name, const char *new_name, const ch
 		ret = -1;
 	}
 	
-	if (ret == -1) {
-		camel_exception_setv (ex, CAMEL_EXCEPTION_SYSTEM,
-				      _("Could not rename %s to %s: %s"),
-				      oldpath, newpath, g_strerror (err));
-	}
-	
 	g_free (oldpath);
 	g_free (newpath);
 	
@@ -446,7 +440,7 @@ static void
 rename_folder (CamelStore *store, const char *old, const char *new, CamelException *ex)
 {
 	CamelLocalFolder *folder = NULL;
-	char *oldibex, *newibex, *newdir;
+	char *oldibex, *newibex, *newdir, *sbd;
 	int errnosav;
 	
 	if (new[0] == '.' || ignore_file (new, TRUE)) {
@@ -491,12 +485,17 @@ rename_folder (CamelStore *store, const char *old, const char *new, CamelExcepti
 		}
 	}
 	
-	if (xrename (store, old, new, ".ev-summary", TRUE, ex) == -1) {
+	if (xrename (store, old, new, ".ev-summary", TRUE) == -1) {
 		errnosav = errno;
 		goto summary_failed;
 	}
 	
-	if (xrename (store, old, new, NULL, FALSE, ex) == -1) {
+	if (xrename (store, old, new, ".sbd", TRUE) == -1) {
+		errnosav = errno;
+		goto subdir_failed;
+	}
+	
+	if (xrename (store, old, new, NULL, FALSE) == -1) {
 		errnosav = errno;
 		goto base_failed;
 	}
@@ -511,7 +510,11 @@ rename_folder (CamelStore *store, const char *old, const char *new, CamelExcepti
 	
  base_failed:
 	
-	xrename (store, new, old, ".ev-summary", TRUE, ex);
+	xrename (store, new, old, ".ev-summary", TRUE);
+	
+ subdir_failed:
+	
+	xrename (store, new, old, ".sbd", TRUE);
 	
  summary_failed:
 	
@@ -530,8 +533,8 @@ rename_folder (CamelStore *store, const char *old, const char *new, CamelExcepti
 	}
 	
 	camel_exception_setv (ex, CAMEL_EXCEPTION_SYSTEM,
-			      _("Could not rename '%s': %s"),
-			      old, g_strerror (errnosav));
+			      _("Could not rename '%s' to %s: %s"),
+			      old, new, g_strerror (errnosav));
 	
 	g_free (newibex);
 	g_free (oldibex);

@@ -1,3 +1,14 @@
+2004-02-04  Jeffrey Stedfast  <fejj@ximian.com>
+
+	Fix for bug #53755 (local folders case)
+
+	* providers/local/camel-mbox-store.c (xrename): No longer takes an
+	exception arg, we just set errno. Our caller can take care of
+	setting an exception.
+	(rename_folder): Don't pass an exception to xrename(), we always
+	overwrote if an error occured it anyway.
+	(rename_folder): Rename the .sbd as well.
+
 2004-02-04  Not Zed  <NotZed@Ximian.com>
 
 	* camel-store.c (camel_store_sync): added 'expunge' parameter,
