@@ -16,7 +16,7 @@ typedef struct {
 } HTMLStream;
 
 typedef struct {
-	CamelStream parent_class;
+	CamelStreamClass parent_class;
 } HTMLStreamClass;
 
 

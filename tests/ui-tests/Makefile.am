@@ -20,7 +20,8 @@ message_browser_LDADD = \
 	$(INTLLIBS)					\
 	$(EXTRA_GNOME_LIBS)				\
 	$(PTHREAD_LIB) 					\
-	$(EXTRA_GNOME_LIBS)
+	$(EXTRA_GNOME_LIBS) \
+	-lgtkhtml -lgnomeprint ../../mail/html-stream.o
 
 
 noinst_PROGRAMS =  	\
