@@ -39,6 +39,7 @@
 #include "comp-util.h"
 #include "dialogs/new-calendar.h"
 #include "dialogs/comp-editor.h"
+#include "dialogs/copy-source-dialog.h"
 #include "dialogs/event-editor.h"
 #include "widgets/misc/e-source-selector.h"
 
@@ -327,6 +328,21 @@ add_popup_menu_item (GtkMenu *menu, const char *label, const char *pixmap,
 }
 
 static void
+copy_calendar_cb (GtkWidget *widget, CalendarComponent *comp)
+{
+	ESource *selected_source;
+	CalendarComponentPrivate *priv;
+
+	priv = comp->priv;
+	
+	selected_source = e_source_selector_peek_primary_selection (E_SOURCE_SELECTOR (priv->source_selector));
+	if (!selected_source)
+		return;
+
+	copy_source_dialog (GTK_WINDOW (gtk_widget_get_toplevel (widget)), selected_source, CALOBJ_TYPE_EVENT);
+}
+
+static void
 delete_calendar_cb (GtkWidget *widget, CalendarComponent *comp)
 {
 	ESource *selected_source;
@@ -406,8 +422,9 @@ fill_popup_menu_cb (ESourceSelector *selector, GtkMenu *menu, CalendarComponent 
 		TRUE : FALSE;
 
 	add_popup_menu_item (menu, _("New Calendar"), GTK_STOCK_NEW, G_CALLBACK (new_calendar_cb), comp, TRUE);
-	add_popup_menu_item (menu, _("Delete"), GTK_STOCK_DELETE, G_CALLBACK (delete_calendar_cb), comp, sensitive);
+	add_popup_menu_item (menu, _("Copy"), NULL, G_CALLBACK (copy_calendar_cb), comp, sensitive);
 	add_popup_menu_item (menu, _("Rename"), NULL, G_CALLBACK (rename_calendar_cb), comp, sensitive);
+	add_popup_menu_item (menu, _("Delete"), GTK_STOCK_DELETE, G_CALLBACK (delete_calendar_cb), comp, sensitive);
 }
 
 static void

@@ -1,4 +1,4 @@
-/* Evolution calendar - New calendar dialog
+/* Evolution calendar - Copy source dialog
  *
  * Copyright (C) 2003 Novell, Inc.
  *
@@ -18,11 +18,12 @@
  * Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA 02111-1307, USA.
  */
 
-#ifndef NEW_CALENDAR_H
-#define NEW_CALENDAR_H
+#ifndef COPY_SOURCE_DIALOG_H
+#define COPY_SOURCE_DIALOG_H
 
 #include <gtk/gtkwindow.h>
+#include <e-util/e-source.h>
 
-gboolean new_calendar_dialog (GtkWindow *parent);
+gboolean copy_source_dialog (GtkWindow *parent, ESource *source);
 
 #endif

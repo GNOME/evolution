@@ -40,6 +40,7 @@
 #include "comp-util.h"
 #include "calendar-config.h"
 #include "dialogs/comp-editor.h"
+#include "dialogs/copy-source-dialog.h"
 #include "dialogs/task-editor.h"
 #include "widgets/misc/e-source-selector.h"
 
@@ -298,6 +299,21 @@ add_popup_menu_item (GtkMenu *menu, const char *label, const char *pixmap,
 }
 
 static void
+copy_task_list_cb (GtkWidget *widget, TasksComponent *comp)
+{
+	ESource *selected_source;
+	TasksComponentPrivate *priv;
+
+	priv = comp->priv;
+	
+	selected_source = e_source_selector_peek_primary_selection (E_SOURCE_SELECTOR (priv->source_selector));
+	if (!selected_source)
+		return;
+
+	copy_source_dialog (GTK_WINDOW (gtk_widget_get_toplevel (widget), selected_source, CALOBJ_TYPE_TODO);
+}
+
+static void
 delete_task_list_cb (GtkWidget *widget, TasksComponent *comp)
 {
 	ESource *selected_source;
@@ -377,9 +393,10 @@ fill_popup_menu_cb (ESourceSelector *selector, GtkMenu *menu, TasksComponent *co
 
 	add_popup_menu_item (menu, _("New Task List"), GTK_STOCK_NEW, G_CALLBACK (new_task_list_cb),
 			     component, TRUE);
-	add_popup_menu_item (menu, _("Delete"), GTK_STOCK_DELETE, G_CALLBACK (delete_task_list_cb),
-			     component, sensitive);
+	add_popup_menu_item (menu, _("Copy"), NULL, G_CALLBACK (copy_task_list_cb), component, sensitive);
 	add_popup_menu_item (menu, _("Rename"), NULL, G_CALLBACK (rename_task_list_cb),
+			     component, sensitive);
+	add_popup_menu_item (menu, _("Delete"), GTK_STOCK_DELETE, G_CALLBACK (delete_task_list_cb),
 			     component, sensitive);
 }
 

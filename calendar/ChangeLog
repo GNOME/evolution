@@ -1,3 +1,18 @@
+2003-11-23  Rodrigo Moya <rodrigo@ximian.com>
+
+	* gui/dialogs/new-calendar.[ch]: fixed copyright notices.
+
+	* gui/dialogs/copy-source-dialog.[ch]: implementation of the
+	Copy command for sources.
+
+	* gui/dialogs/Makefile.am: added new files.
+
+	* gui/calendar-component.c (fill_popup_menu_cb, copy_calendar_cb):
+	added Copy command.
+
+	* gui/tasks-component.c (fill_popup_menu_cb, copy_task_list_cb):
+	added Copy command.
+
 2003-11-23  Ross Burton  <ross@burtonini.com>
 
 	* gui/alarm-notify/GNOME_Evolution_Calendar_AlarmNotify.server.in.in:

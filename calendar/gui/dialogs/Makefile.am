@@ -46,6 +46,8 @@ libcal_dialogs_la_SOURCES =	\
 	comp-editor-page.h	\
 	comp-editor-util.c	\
 	comp-editor-util.h	\
+	copy-source-dialog.c	\
+	copy-source-dialog.h	\
 	delete-comp.c		\
 	delete-comp.h		\
 	delete-error.c		\
