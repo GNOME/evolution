@@ -105,6 +105,8 @@ Calendar & Tasks:
 
   - Added toolbar button to delete the selected calendar event (Damon)
 
+  - Meeting selector integrated (JP)
+
 Summary:
 
   - Fixed bugs and leaks.  (Iain)
