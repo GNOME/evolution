@@ -1,3 +1,7 @@
+2004-06-22  Rodrigo Moya <rodrigo@novell.com>
+
+	* gui/dialogs/Makefile.am: removed alarm-page.*.
+
 2004-06-22  JP Rosevear  <jpr@novell.com>
 
 	 * gui/dialogs/Makefile.am, gui/dialogs/alarm-dialog.c,
