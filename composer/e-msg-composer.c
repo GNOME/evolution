@@ -766,7 +766,7 @@ build_message (EMsgComposer *composer, gboolean save_html_object_data)
 static char *
 get_file_content (EMsgComposer *composer, const char *file_name, gboolean want_html, guint flags, gboolean warn)
 {
-	CamelStreamFilter *filtered_stream;
+		CamelStreamFilter *filtered_stream;
 	CamelStreamMem *memstream;
 	CamelMimeFilter *html, *charenc;
 	CamelStream *stream;
@@ -789,27 +789,51 @@ get_file_content (EMsgComposer *composer, const char *file_name, gboolean want_h
 	}
 	
 	stream = camel_stream_fs_new_with_fd (fd);
-	filtered_stream = camel_stream_filter_new_with_stream (stream);
-	camel_object_unref (CAMEL_OBJECT (stream));
-	
-	charset = composer ? composer->charset : mail_config_get_default_charset ();
-	charenc = (CamelMimeFilter *) camel_mime_filter_charset_new_convert (charset, "utf-8");
-	camel_stream_filter_add (filtered_stream, charenc);
-	camel_object_unref (CAMEL_OBJECT (charenc));
 	
 	if (want_html) {
+		filtered_stream = camel_stream_filter_new_with_stream (stream);
+		camel_object_unref (stream);
+		
 		html = camel_mime_filter_tohtml_new (flags, 0);
 		camel_stream_filter_add (filtered_stream, html);
-		camel_object_unref (CAMEL_OBJECT (html));
+		camel_object_unref (html);
+		
+		stream = (CamelStream *) filtered_stream;
 	}
 	
 	memstream = (CamelStreamMem *) camel_stream_mem_new ();
 	buffer = g_byte_array_new ();
 	camel_stream_mem_set_byte_array (memstream, buffer);
 	
-	camel_stream_write_to_stream (CAMEL_STREAM (filtered_stream), CAMEL_STREAM (memstream));
-	camel_object_unref (CAMEL_OBJECT (filtered_stream));
-	camel_object_unref (CAMEL_OBJECT (memstream));
+	camel_stream_write_to_stream (stream, (CamelStream *) memstream);
+	camel_object_unref (stream);
+	
+	/* The newer signature UI saves signatures in UTF-8, but we still need to check that
+	   the signature is valid UTF-8 because it is possible that the user imported a
+	   signature file that is in his/her locale charset. If it's not in UTF-8 and not in
+	   the charset the composer is in (or their default mail charset) then fuck it,
+	   there's nothing we can do. */
+	if (!g_utf8_validate (buffer->data, buffer->len, NULL)) {
+		stream = (CamelStream *) memstream;
+		memstream = (CamelStreamMem *) camel_stream_mem_new ();
+		camel_stream_mem_set_byte_array (memstream, g_byte_array_new ());
+		
+		filtered_stream = camel_stream_filter_new_with_stream (stream);
+		camel_object_unref (stream);
+		
+		charset = composer ? composer->charset : mail_config_get_default_charset ();
+		charenc = (CamelMimeFilter *) camel_mime_filter_charset_new_convert (charset, "utf-8");
+		camel_stream_filter_add (filtered_stream, charenc);
+		camel_object_unref (charenc);
+		
+		camel_stream_write_to_stream ((CamelStream *) filtered_stream, (CamelStream *) memstream);
+		camel_object_unref (filtered_stream);
+		g_byte_array_free (buffer, TRUE);
+		
+		buffer = memstream->buffer;
+	}
+	
+	camel_object_unref (memstream);
 	
 	g_byte_array_append (buffer, "", 1);
 	content = buffer->data;

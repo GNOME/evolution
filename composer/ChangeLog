@@ -4,6 +4,10 @@
 	we don't need (if we are going to check if the pointer is a a
 	composer widget using the gtk type-check macros, then there is no
 	need to first check that it isn't NULL).
+	(get_file_content): Signatures are now supposed to be in UTF-8 and
+	not the user's locale charset, so we must first read in the
+	content, then check that it is valid UTF-8. If it isn't, then we
+	need to try to convert it to UTF-8.
 
 2002-07-22  Radek Doulik  <rodo@ximian.com>
 
