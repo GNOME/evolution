@@ -124,9 +124,7 @@ emhs_sync_flush(CamelStream *stream)
 	if (emhs->html_stream == NULL)
 		return -1;
 
-	/* FIXME: flush html stream via gtkhtml_stream_flush which doens't exist yet ... */
-	while (gtk_events_pending ())
-		gtk_main_iteration ();
+	gtk_html_flush (emhs->html);
 
 	return 0;
 }

@@ -1,3 +1,8 @@
+2003-12-05  Radek Doulik  <rodo@ximian.com>
+
+	* em-html-stream.c (emhs_sync_flush): use new gtk_html_flush
+	method instead of forcing processing of all gtk events
+
 2003-12-04  Jeffrey Stedfast  <fejj@ximian.com>
 
 	* em-folder-tree-model.c (em_folder_tree_model_remove_folders):
@@ -21,6 +26,12 @@
 	(em_folder_tree_create_folder): New function to create a folder.
 
 2003-12-04  Radek Doulik  <rodo@ximian.com>
+
+	* em-junk-filter.c (pipe_to_sa): add new err_retval parameter,
+	which specifies which value to return if something went wrong
+	(like failed to exec, ...). update all calls by that. actual junk
+	check has err_retval = 0 to avoid marking false spam - non-zero
+	retval means junk.
 
 	* em-folder-view.c: set junk toolbar buttons pixmaps
 
