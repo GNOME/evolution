@@ -1489,6 +1489,11 @@ static void
 supported_fields_cb (EBook *book, EBookStatus status,
 		     EList *fields, EContactEditor *ce)
 {
+	if (!g_slist_find (all_contact_editors, ce)) {
+		g_warning ("supported_fields_cb called for book that's still around, but contact editor that's been destroyed.");
+		return;
+	}
+
 	gtk_object_set (GTK_OBJECT (ce),
 			"writable_fields", fields,
 			NULL);

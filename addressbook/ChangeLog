@@ -1,3 +1,14 @@
+2002-10-19  Chris Toshok  <toshok@ximian.com>
+
+	[ probable fix for #25477, and memory leak fix ]
+	* gui/contact-editor/e-contact-editor.c (supported_fields_cb): if
+	the dialog isn't in the list of all dialogs it's been destroyed so
+	just return here.
+
+	* backend/ebook/e-book.c
+	(e_book_do_response_get_supported_fields): plug leak of
+	resp->fields.
+
 2002-10-15  Dan Winship  <danw@ximian.com>
 
 	* backend/ebook/e-card.c (e_card_email_match_string): Return right

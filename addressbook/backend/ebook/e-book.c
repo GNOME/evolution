@@ -483,6 +483,8 @@ e_book_do_response_get_supported_fields (EBook                 *book,
 			((EBookFieldsCallback) op->cb) (book, E_BOOK_STATUS_CANCELLED, NULL, op->closure);
 	}
 
+	gtk_object_unref(GTK_OBJECT(resp->fields));
+
 	e_book_op_free (op);
 }
 
