@@ -7,11 +7,11 @@
 
 #include <config.h>
 #include <gnome.h>
+#include <cal-util/timeutil.h>
 #include "gnome-cal.h"
 #include "gnome-month-item.h"
 #include "calendar-commands.h"
 #include "mark.h"
-#include "cal-util/timeutil.h"
 
 
 static GtkWidget *goto_win;		/* The goto dialog window */

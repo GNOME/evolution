@@ -6,10 +6,10 @@
  */
 
 #include <config.h>
+#include <cal-util/timeutil.h>
 #include "gnome-cal.h"
 #include "calendar-commands.h"
 #include "mark.h"
-#include "cal-util/timeutil.h"
 
 
 /* Frees the specified data when an object is destroyed */

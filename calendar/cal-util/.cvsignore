@@ -2,5 +2,5 @@
 Makefile.in
 Makefile
 .deps
-libcalutil.la
+libcal-util.la
 *.lo

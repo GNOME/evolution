@@ -1,3 +1,31 @@
+2000-04-16  Federico Mena Quintero  <federico@helixcode.com>
+
+	* cal-util/Makefile.am: Renamed library from libcalutil to
+	libcal-util, to be consistent with libcal-client.  Install header
+	files in $(includedir)/evolution/cal-util.
+	(INCLUDES): Add "cal-util" log domain for glib.
+	(libcal_clientincludedir): The header files are now installed in
+	$(includedir)/evolution/cal-client.
+
+	* cal-util/cal-util.h: Fix includes.
+
+	* cal-client/client-test.c: Fix includes.
+
+	* pcs/Makefile.am: Create libpcs.a, not a shared library, because
+	it is for internal use by Wombat only.  The header files should
+	not be installed, either.  Removed all the old Tlacuache stuff.
+
+	* gui/Makefile.am (EXTRA_DIST): We no longer distribute
+	gncal.desktop.
+	(evolution_calendar_INCLUDES): Add "calendar-gui" for the glib log
+	domain.
+
+	* gui/*.[ch]: Fix cal-util and cal-client includes.
+
+	* pcs/Makefile.am (INCLUDES): Added "pcs" log domain for glib.
+
+	* pcs/*.[ch]: Fix cal-util includes.
+
 2000-04-11  Chris Toshok  <toshok@helixcode.com>
 
 	* pcs/icalendar.c (icaltime_to_timet): use HAVE_TIMEZONE to switch
@@ -911,7 +939,6 @@
 	* Makefile.am (Conduits_second_DATA): Also install .desktop files
 	for conduit capplets in the gnome/apps menu dir.
 
->>>>>>> 1.252
 1999-12-04  Eskil Heyn Olsen  <deity@eskil.dk>
 
 	* Makefile.am (EXTRA_DIST): Added .desktop files to EXTRA_DIST.

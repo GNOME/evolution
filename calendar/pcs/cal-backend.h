@@ -24,10 +24,10 @@
 
 #include <libgnome/gnome-defs.h>
 #include <libgnomevfs/gnome-vfs.h>
+#include <cal-util/cal-util.h>
 #include "evolution-calendar.h"
 #include "cal-common.h"
 #include "cal.h"
-#include "cal-util.h"
 
 BEGIN_GNOME_DECLS
 

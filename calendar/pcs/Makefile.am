@@ -1,26 +1,9 @@
-#
-# Tlacuache personal calendar server
-#
-
-bin_PROGRAMS = tlacuache
-lib_LTLIBRARIES = libpcs.la
-
-#INCLUDES = \
-#        -DGNOMELOCALEDIR=\""$(datadir)/locale"\" \
-#	-I$(top_srcdir)/libical/src/libical \
-#	-I$(top_srcdir)/libversit \
-#	-I$(top_srcdir)/calendar \
-#	-I. \
-#	-I$(top_srcdir)/calendar/cal-client \
-#        $(GNOME_INCLUDEDIR)
-
-INCLUDES = \
-	-I$(top_srcdir) \
-	-I$(top_srcdir)/calendar/cal-client \
-	-I$(top_srcdir)/calendar/cal-util \
-	-I$(top_srcdir)/calendar \
-	-I$(top_srcdir)/libical/src/libical \
-	$(GNOME_INCLUDEDIR) \
+INCLUDES =						\
+	-DG_LOG_DOMAIN=\"pcs\"				\
+	-I$(top_srcdir)					\
+	-I$(top_srcdir)/calendar			\
+	-I$(top_srcdir)/libical/src/libical		\
+	$(GNOME_INCLUDEDIR)				\
         -DGNOMELOCALEDIR=\""$(datadir)/locale"\"
 
 CORBA_GENERATED =				\
@@ -37,16 +20,9 @@ idl_flags = `$(GNOME_CONFIG) --cflags idl`
 $(CORBA_GENERATED): $(idls)
 	$(ORBIT_IDL) $(idl_flags) $(srcdir)/../idl/evolution-calendar.idl
 
-#tlacuache_INCLUDES =					\
-#        -DGNOMELOCALEDIR=\""$(datadir)/locale"\"        \
-#	-I$(srcdir) -I$(top_srcdir) 			\
-#	-I. 						\
-#	-I.. 						\
-#	-I$(top_builddir)				\
-#        -I$(includedir)                                 \
-#        $(GNOME_INCLUDEDIR)
+noinst_LIBRARIES = libpcs.a
 
-tlacuache_SOURCES =		\
+libpcs_a_SOURCES =		\
 	$(CORBA_GENERATED)	\
 	cal.c			\
 	cal.h			\
@@ -58,44 +34,4 @@ tlacuache_SOURCES =		\
 	icalendar.c		\
 	icalendar.h		\
 	job.c			\
-	job.h			\
-	tlacuache.c
-
-#	alarm.c			\
-#	alarm.h			\
-#	cal-util.c		\
-#	cal-util.h		\
-
-libpcs_la_SOURCES =             \
-	$(CORBA_GENERATED)	\
-	cal.c			\
-	cal-backend.c		\
-	cal-factory.c		\
-	icalendar.c		\
-	job.c			
-
-libpcsincludedir = $(includedir)/calendar/pcs
-
-libpcsinclude_HEADERS =					\
-	cal.h			\
-	cal-backend.h		\
-	cal-common.h		\
-	cal-factory.h		\
-	icalendar.h		\
-	job.h			
-
-ICAL_LINK_FLAGS = $(top_builddir)/libical/src/libical/libical.la
-
-tlacuache_LDADD =					\
-	$(BONOBO_VFS_GNOME_LIBS)			\
-	$(top_builddir)/calendar/cal-util/libcalutil.la	\
-	$(top_builddir)/libversit/libversit.la		\
-	$(ICAL_LINK_FLAGS)
-
-gnorbadir = $(sysconfdir)/CORBA/servers
-
-gnorba_DATA =			\
-	tlacuache.gnorba
-
-EXTRA_DIST =			\
-	$(gnorba_DATA)
+	job.h

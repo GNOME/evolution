@@ -29,7 +29,7 @@ INCLUDES =						\
 
 lib_LTLIBRARIES = libcal-client.la
 
-libcal_clientincludedir = $(includedir)/cal-client
+libcal_clientincludedir = $(includedir)/evolution/cal-client
 
 libcal_client_la_SOURCES =	\
 	$(CORBA_GENERATED)	\
@@ -54,9 +54,9 @@ client_test_INCLUDES =			\
 	$(INCLUDES)			\
 	-DG_LOG_DOMAIN=\"client-test\"
 
-client_test_LDADD =					\
-	$(BONOBO_VFS_GNOME_LIBS)			\
-	$(top_builddir)/calendar/cal-util/libcalutil.la	\
-	$(top_builddir)/libversit/libversit.la		\
-	$(top_builddir)/libical/src/libical/libical.la	\
+client_test_LDADD =						\
+	$(BONOBO_VFS_GNOME_LIBS)				\
+	$(top_builddir)/calendar/cal-util/libcal-util.la	\
+	$(top_builddir)/libversit/libversit.la			\
+	$(top_builddir)/libical/src/libical/libical.la		\
 	libcal-client.la

@@ -8,9 +8,9 @@
 #include <config.h>
 #include <gnome.h>
 #include <string.h>
+#include <cal-util/timeutil.h>
 #include "eventedit.h"
 #include "calendar-commands.h"
-#include "cal-util/timeutil.h"
 
 
 static void event_editor_class_init (EventEditorClass *class);

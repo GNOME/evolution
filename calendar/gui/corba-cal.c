@@ -12,7 +12,7 @@
 /*#include "calendar.h" DELETE */
 #include "gnome-cal.h"
 #include "alarm.h"
-#include "cal-util/timeutil.h"
+#include <cal-util/timeutil.h>
 #include "libversit/vcc.h"
 #include <libgnorba/gnome-factory.h>
 #include "GnomeCal.h"

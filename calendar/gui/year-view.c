@@ -9,12 +9,12 @@
 #include <config.h>
 #include <gtk/gtkmain.h>
 #include <gnome.h>
+#include <cal-util/timeutil.h>
 #include "eventedit.h"
 #include "year-view.h"
 #include "calendar-commands.h"
 #include "mark.h"
 #include "quick-view.h"
-#include "cal-util/timeutil.h"
 
 
 #define HEAD_SPACING 4		/* Spacing between year heading and months */

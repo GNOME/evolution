@@ -1,3 +1,23 @@
+Cal-util:
+
+- calobj.h depends on libversit/vcc.h, because it uses a VObject for
+  ical_object_create_from_vobject().  This should be an internal
+  function in the PCS and nothing else (we do not install libversit,
+  so our public libraries should not depend on it).
+
+- Or maybe we *should* install libversit, since the addressbook code
+  uses it as well.
+
+- timeutil has a lot of crap and some namespace pollution.  Clean it
+  up.
+
+PCS:
+
+- When loading a calendar, substitute duplicated UIDs by new ones, and
+  possibly print out a warning message.
+
+----- Old Gnomecal TODO starts here -----
+
 Pilot:
 
 * Better support for untimed events (we have none now).

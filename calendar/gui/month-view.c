@@ -8,13 +8,13 @@
 #include <config.h>
 #include <gnome.h>
 #include <libgnomeui/gnome-canvas-text.h>
+#include <cal-util/timeutil.h>
 #include "eventedit.h"
 #include "layout.h"
 #include "month-view.h"
 #include "calendar-commands.h"
 #include "mark.h"
 #include "quick-view.h"
-#include "cal-util/timeutil.h"
 
 
 /* Spacing between title and calendar */

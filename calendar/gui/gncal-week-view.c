@@ -10,9 +10,9 @@
 #include <gnome.h>
 #include <string.h>
 #include <gtk/gtk.h>
+#include <cal-util/timeutil.h>
 #include "gncal-week-view.h"
 #include "calendar-commands.h"
-#include "cal-util/timeutil.h"
 
 static void gncal_week_view_init (GncalWeekView *wview);
 

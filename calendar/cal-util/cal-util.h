@@ -25,7 +25,7 @@
 #include <libgnome/gnome-defs.h>
 #include <time.h>
 #include <glib.h>
-#include "calobj.h"
+#include <cal-util/calobj.h>
 
 BEGIN_GNOME_DECLS
 

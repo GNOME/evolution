@@ -1,21 +1,24 @@
-
 INCLUDES =						\
-        -DGNOMELOCALEDIR=\""$(datadir)/locale"\"        \
-	-DG_LOG_DOMAIN=\"cal-client\"			\
+        -DGNOMELOCALEDIR=\""$(datadir)/locale"\"	\
+	-DG_LOG_DOMAIN=\"cal-util\"			\
 	-I$(srcdir) -I$(top_srcdir) 			\
+	-I$(srcdir)/calendar				\
 	-I. 						\
 	-I.. 						\
 	-I$(top_builddir)				\
         -I$(includedir)                                 \
         $(GNOME_INCLUDEDIR)
 
-lib_LTLIBRARIES = libcalutil.la
+lib_LTLIBRARIES = libcal-util.la
 
-libcalutil_la_SOURCES = \
+libcal_util_la_SOURCES = \
 	cal-util.c	\
-	cal-util.h	\
 	calobj.c	\
-	calobj.h	\
-	timeutil.c	\
-	timeutil.h
+	timeutil.c
 
+libcal_utilincludedir = $(includedir)/evolution/cal-util
+
+libcal_utilinclude_HEADERS =	\
+	cal-util.h		\
+	calobj.h		\
+	timeutil.h

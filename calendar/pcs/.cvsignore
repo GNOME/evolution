@@ -5,7 +5,3 @@ evolution-calendar-stubs.c
 evolution-calendar-skels.c
 evolution-calendar-common.c
 evolution-calendar.h
-tlacuache
-.libs
-*.la
-*.lo

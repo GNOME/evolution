@@ -6,8 +6,8 @@ help_base = $(datadir)/gnome/help/cal
 #		 calendar-pilot-sync
 #endif
 
-
 INCLUDES = 						\
+	-DG_LOG_DOMAIN=\"calendar-gui\"			\
 	-I$(top_srcdir)					\
 	-I$(top_srcdir)/calendar			\
 	-I$(top_srcdir)/libical/src/libical		\
@@ -17,18 +17,18 @@ INCLUDES = 						\
 	$(PISOCK_INCLUDEDIR)                  		\
         -DGNOMELOCALEDIR=\""$(datadir)/locale"\"
 
-
-LINK_FLAGS = \
-	$(BONOBO_VFS_GNOME_LIBS) \
-	$(INTLLIBS) \
-	$(top_builddir)/calendar/cal-util/libcalutil.la \
-	$(top_builddir)/e-util/libeutil.la \
-	$(top_builddir)/widgets/e-text/libetext.a \
-	$(top_builddir)/libversit/libversit.la \
-	$(top_builddir)/libical/src/libical/libical.la \
-	$(top_builddir)/calendar/cal-client/libcal-client.la
+LINK_FLAGS =							\
+	$(BONOBO_VFS_GNOME_LIBS)				\
+	$(INTLLIBS)						\
+	$(top_builddir)/calendar/cal-client/libcal-client.la	\
+	$(top_builddir)/calendar/cal-util/libcal-util.la	\
+	$(top_builddir)/e-util/libeutil.la			\
+	$(top_builddir)/widgets/e-text/libetext.a		\
+	$(top_builddir)/libversit/libversit.la			\
+	$(top_builddir)/libical/src/libical/libical.la
 
 bin_PROGRAMS = evolution-calendar
+
 evolution_calendar_SOURCES =			\
 	alarm.c					\
 	alarm.h					\
@@ -182,8 +182,7 @@ gnorba_DATA = calendar-control.gnorba
 #Conduits_second_DATA = $(Conduits_DATA)
 #endif
 
-EXTRA_DIST = \
-	gncal.desktop	\
+EXTRA_DIST =		\
 	bell.xpm	\
 	recur.xpm
 
@@ -195,10 +194,6 @@ EXTRA_DIST = \
 
 #appicondir = $(datadir)/pixmaps
 #appicon_DATA = gnome-calendar-conduit.png
-
-Productivitydir = $(datadir)/gnome/apps/Applications
-
-Productivity_DATA = gncal.desktop
 
 install-data-local:
 	$(mkinstalldirs) $(DESTDIR)$(help_base)/C

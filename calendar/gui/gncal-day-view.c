@@ -8,7 +8,7 @@
 
 #include <gnome.h>
 #include "gncal-day-view.h"
-#include "cal-util/timeutil.h"
+#include <cal-util/timeutil.h>
 #include "view-utils.h"
 #include "calendar-commands.h"
 #include "eventedit.h"

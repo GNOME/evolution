@@ -22,8 +22,8 @@
 
 #include <config.h>
 #include <gtk/gtksignal.h>
+#include <cal-util/calobj.h>
 #include "cal-backend.h"
-#include "calobj.h"
 #include "libversit/vcc.h"
 #include "icalendar.h"
 

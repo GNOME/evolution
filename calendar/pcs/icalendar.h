@@ -2,7 +2,7 @@
 #define ICALENDAR_H
 
 #include <ical.h>
-#include "calobj.h"
+#include <cal-util/calobj.h>
 
 
 

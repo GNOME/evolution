@@ -1,7 +1,7 @@
 #include <config.h>
 #include <libgnorba/gnorba.h>
 #include <bonobo.h>
-#include "cal-client.h"
+#include <cal-client/cal-client.h>
 
 static CalClient *client1;
 static CalClient *client2;
