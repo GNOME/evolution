@@ -70,6 +70,7 @@ enum {
 /* Forward decls.  */
 
 static void emit_search_activated (ESearchBar *esb);
+static void emit_query_changed (ESearchBar *esb);
 
 
 /* Utility functions.  */
@@ -99,7 +100,8 @@ static void
 clear_search (ESearchBar *esb)
 {
 	e_search_bar_set_text (esb, "");
-	e_search_bar_set_item_id (esb, E_SEARCHBAR_CLEAR_ID);
+	e_search_bar_set_item_id (esb, 0);
+	emit_search_activated (esb);
 }
 
 /* Frees an array of subitem information */
@@ -1077,8 +1079,7 @@ e_search_bar_set_item_id (ESearchBar *search_bar, int id)
 	
 	g_return_if_fail (E_IS_SEARCH_BAR (search_bar));
 	
-	row = id == E_SEARCHBAR_CLEAR_ID ? 0 : id;
-	row = find_id (search_bar->option_menu, row, "EsbChoiceId", NULL);
+	row = find_id (search_bar->option_menu, id, "EsbChoiceId", NULL);
 	g_return_if_fail (row != -1);
 	
 	search_bar->item_id = id;
