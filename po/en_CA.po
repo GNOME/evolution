@@ -7,14 +7,14 @@ msgid ""
 msgstr ""
 "Project-Id-Version: evolution 1.5.5\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2004-04-28 11:39-0400\n"
-"PO-Revision-Date: 2004-04-28 15:33-0400\n"
+"POT-Creation-Date: 2004-04-29 10:29-0400\n"
+"PO-Revision-Date: 2004-04-29 10:48-0400\n"
 "Last-Translator: Adam Weinberger <adamw@gnome.org>\n"
 "Language-Team: Canadian English <adamw@FreeBSD.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);"
 
 #: a11y/addressbook/ea-addressbook-view.c:94
 #: a11y/addressbook/ea-addressbook-view.c:103
@@ -4145,7 +4145,7 @@ msgstr "start of appointment"
 #. FIXME: This routine should just be a "toggled" event handler on the checkbox cell renderer which
 #. has "activatable" set.
 #: calendar/gui/dialogs/cal-prefs-dialog.c:567 mail/em-account-prefs.c:463
-#: mail/em-composer-prefs.c:660 mail/em-composer-prefs.c:888
+#: mail/em-composer-prefs.c:663 mail/em-composer-prefs.c:891
 msgid "Enabled"
 msgstr "Enabled"
 
@@ -4161,8 +4161,8 @@ msgstr "Don't Remove"
 #: calendar/gui/dialogs/cal-prefs-dialog.c:811
 #: calendar/gui/dialogs/cal-prefs-dialog.c:844 mail/em-account-prefs.c:285
 #: mail/em-account-prefs.c:326 mail/em-account-prefs.c:369
-#: mail/em-composer-prefs.c:579 mail/em-composer-prefs.c:637
-#: mail/em-composer-prefs.c:667
+#: mail/em-composer-prefs.c:582 mail/em-composer-prefs.c:640
+#: mail/em-composer-prefs.c:670
 msgid "Disable"
 msgstr "Disable"
 
@@ -4170,8 +4170,8 @@ msgstr "Disable"
 #: calendar/gui/dialogs/cal-prefs-dialog.c:811
 #: calendar/gui/dialogs/cal-prefs-dialog.c:846 mail/em-account-prefs.c:285
 #: mail/em-account-prefs.c:326 mail/em-account-prefs.c:371
-#: mail/em-composer-prefs.c:579 mail/em-composer-prefs.c:637
-#: mail/em-composer-prefs.c:667
+#: mail/em-composer-prefs.c:582 mail/em-composer-prefs.c:640
+#: mail/em-composer-prefs.c:670
 msgid "Enable"
 msgstr "Enable"
 
@@ -6189,63 +6189,63 @@ msgstr "The message contains only unsupported requests."
 msgid "The attachment does not contain a valid calendar message"
 msgstr "The attachment does not contain a valid calendar message"
 
-#: calendar/gui/e-itip-control.c:1533
+#: calendar/gui/e-itip-control.c:1535
 msgid "The attachment has no viewable calendar items"
 msgstr "The attachment has no viewable calendar items"
 
-#: calendar/gui/e-itip-control.c:1764
+#: calendar/gui/e-itip-control.c:1766
 msgid "Calendar file could not be updated!\n"
 msgstr "Calendar file could not be updated!\n"
 
-#: calendar/gui/e-itip-control.c:1766
+#: calendar/gui/e-itip-control.c:1768
 msgid "Update complete\n"
 msgstr "Update complete\n"
 
-#: calendar/gui/e-itip-control.c:1796 calendar/gui/e-itip-control.c:1868
+#: calendar/gui/e-itip-control.c:1798 calendar/gui/e-itip-control.c:1870
 msgid "Attendee status can not be updated because the item no longer exists"
 msgstr "Attendee status can not be updated because the item no longer exists"
 
-#: calendar/gui/e-itip-control.c:1812 calendar/gui/e-itip-control.c:1850
+#: calendar/gui/e-itip-control.c:1814 calendar/gui/e-itip-control.c:1852
 msgid "Object is invalid and cannot be updated\n"
 msgstr "Object is invalid and cannot be updated\n"
 
-#: calendar/gui/e-itip-control.c:1822
+#: calendar/gui/e-itip-control.c:1824
 msgid "This response is not from a current attendee.  Add as an attendee?"
 msgstr "This response is not from a current attendee.  Add as an attendee?"
 
-#: calendar/gui/e-itip-control.c:1834
+#: calendar/gui/e-itip-control.c:1836
 msgid "Attendee status could not be updated because of an invalid status!\n"
 msgstr "Attendee status could not be updated because of an invalid status!\n"
 
-#: calendar/gui/e-itip-control.c:1853
+#: calendar/gui/e-itip-control.c:1855
 msgid "There was an error on the CORBA system\n"
 msgstr "There was an error on the CORBA system\n"
 
-#: calendar/gui/e-itip-control.c:1856
+#: calendar/gui/e-itip-control.c:1858
 msgid "Object could not be found\n"
 msgstr "Object could not be found\n"
 
-#: calendar/gui/e-itip-control.c:1859
+#: calendar/gui/e-itip-control.c:1861
 msgid "You don't have the right permissions to update the calendar\n"
 msgstr "You don't have the right permissions to update the calendar\n"
 
-#: calendar/gui/e-itip-control.c:1862
+#: calendar/gui/e-itip-control.c:1864
 msgid "Attendee status updated\n"
 msgstr "Attendee status updated\n"
 
-#: calendar/gui/e-itip-control.c:1865
+#: calendar/gui/e-itip-control.c:1867
 msgid "Attendee status could not be updated!\n"
 msgstr "Attendee status could not be updated!\n"
 
-#: calendar/gui/e-itip-control.c:1896
+#: calendar/gui/e-itip-control.c:1898
 msgid "Removal Complete"
 msgstr "Removal Complete"
 
-#: calendar/gui/e-itip-control.c:1919 calendar/gui/e-itip-control.c:1967
+#: calendar/gui/e-itip-control.c:1921 calendar/gui/e-itip-control.c:1969
 msgid "Item sent!\n"
 msgstr "Item sent!\n"
 
-#: calendar/gui/e-itip-control.c:1921 calendar/gui/e-itip-control.c:1971
+#: calendar/gui/e-itip-control.c:1923 calendar/gui/e-itip-control.c:1973
 msgid "The item could not be sent!\n"
 msgstr "The item could not be sent!\n"
 
@@ -8810,7 +8810,7 @@ msgstr ""
 
 #: camel/camel-gpg-context.c:781 camel/camel-gpg-context.c:1267
 #: camel/camel-gpg-context.c:1425 camel/camel-gpg-context.c:1517
-#: camel/camel-gpg-context.c:1624 mail/mail-ops.c:697
+#: camel/camel-gpg-context.c:1624 mail/mail-ops.c:695
 #: mail/mail-send-recv.c:611
 msgid "Cancelled."
 msgstr "Cancelled."
@@ -12125,8 +12125,8 @@ msgid ""
 "folders individually, and/or by selecting all local folders, all remote "
 "folders, or both."
 msgstr ""
-"You must specify at least one folder as a source. You may select "
-"folders individually, or select all local and/or remote folders."
+"You must specify at least one folder as a source. You may select folders "
+"individually, or select all local and/or remote folders."
 
 #: filter/filter-file.c:288
 msgid "Choose a file"
@@ -12659,20 +12659,20 @@ msgstr "Account name"
 msgid "Protocol"
 msgstr "Protocol"
 
-#: mail/em-composer-prefs.c:292 mail/em-composer-prefs.c:408
+#: mail/em-composer-prefs.c:292 mail/em-composer-prefs.c:411
 #: mail/mail-config.c:1038
 msgid "Unnamed"
 msgstr "Unnamed"
 
-#: mail/em-composer-prefs.c:892
+#: mail/em-composer-prefs.c:895
 msgid "Language(s)"
 msgstr "Language(s)"
 
-#: mail/em-composer-prefs.c:938
+#: mail/em-composer-prefs.c:941
 msgid "Add signature script"
 msgstr "Add signature script"
 
-#: mail/em-composer-prefs.c:958
+#: mail/em-composer-prefs.c:961
 msgid "Signature(s)"
 msgstr "Signature(s)"
 
@@ -12724,16 +12724,17 @@ msgstr "Folder _name:"
 msgid "VFolders"
 msgstr "VFolders"
 
-#: mail/em-folder-tree-model.c:206 mail/em-folder-tree-model.c:208
+#. UNMATCHED is always last
+#: mail/em-folder-tree-model.c:202 mail/em-folder-tree-model.c:204
 msgid "UNMATCHED"
 msgstr "UNMATCHED"
 
 #. Inbox is always first
-#: mail/em-folder-tree-model.c:236 mail/em-folder-tree-model.c:238
+#: mail/em-folder-tree-model.c:208 mail/em-folder-tree-model.c:210
 msgid "Inbox"
 msgstr "Inbox"
 
-#: mail/em-folder-tree-model.c:493 mail/em-folder-tree-model.c:802
+#: mail/em-folder-tree-model.c:465 mail/em-folder-tree-model.c:774
 msgid "Loading..."
 msgstr "Loading..."
 
@@ -14976,8 +14977,8 @@ msgid "Don't delete"
 msgstr "Don't delete"
 
 #: mail/mail-errors.xml.in.h:37
-msgid "Enter password for {0}"
-msgstr "Enter password for {0}"
+msgid "Enter password."
+msgstr "Enter password."
 
 #: mail/mail-errors.xml.in.h:38
 msgid "Error loading filter definitions."
@@ -15230,12 +15231,12 @@ msgstr "Filtering Folder"
 msgid "Fetching Mail"
 msgstr "Fetching Mail"
 
-#: mail/mail-ops.c:534
+#: mail/mail-ops.c:532
 #, c-format
 msgid "Failed to apply outgoing filters: %s"
 msgstr "Failed to apply outgoing filters: %s"
 
-#: mail/mail-ops.c:559
+#: mail/mail-ops.c:557
 #, c-format
 msgid ""
 "Failed to append to %s: %s\n"
@@ -15244,115 +15245,115 @@ msgstr ""
 "Failed to append to %s: %s\n"
 "Appending to local `Sent' folder instead."
 
-#: mail/mail-ops.c:568
+#: mail/mail-ops.c:566
 #, c-format
 msgid "Failed to append to local `Sent' folder: %s"
 msgstr "Failed to append to local `Sent' folder: %s"
 
-#: mail/mail-ops.c:664
+#: mail/mail-ops.c:662
 #, c-format
 msgid "Sending message %d of %d"
 msgstr "Sending message %d of %d"
 
-#: mail/mail-ops.c:695
+#: mail/mail-ops.c:693
 #, c-format
 msgid "Failed to send %d of %d messages"
 msgstr "Failed to send %d of %d messages"
 
-#: mail/mail-ops.c:699
+#: mail/mail-ops.c:697
 msgid "Complete."
 msgstr "Complete."
 
-#: mail/mail-ops.c:796
+#: mail/mail-ops.c:794
 msgid "Saving message to folder"
 msgstr "Saving message to folder"
 
-#: mail/mail-ops.c:881
+#: mail/mail-ops.c:879
 #, c-format
 msgid "Moving messages to %s"
 msgstr "Moving messages to %s"
 
-#: mail/mail-ops.c:881
+#: mail/mail-ops.c:879
 #, c-format
 msgid "Copying messages to %s"
 msgstr "Copying messages to %s"
 
-#: mail/mail-ops.c:994
+#: mail/mail-ops.c:992
 #, c-format
 msgid "Scanning folders in \"%s\""
 msgstr "Scanning folders in \"%s\""
 
-#: mail/mail-ops.c:1107
+#: mail/mail-ops.c:1105
 msgid "Forwarded messages"
 msgstr "Forwarded messages"
 
-#: mail/mail-ops.c:1150
+#: mail/mail-ops.c:1148
 #, c-format
 msgid "Opening folder %s"
 msgstr "Opening folder %s"
 
-#: mail/mail-ops.c:1222
+#: mail/mail-ops.c:1220
 #, c-format
 msgid "Opening store %s"
 msgstr "Opening store %s"
 
-#: mail/mail-ops.c:1300
+#: mail/mail-ops.c:1298
 #, c-format
 msgid "Removing folder %s"
 msgstr "Removing folder %s"
 
-#: mail/mail-ops.c:1394
+#: mail/mail-ops.c:1392
 #, c-format
 msgid "Storing folder '%s'"
 msgstr "Storing folder '%s'"
 
-#: mail/mail-ops.c:1459
+#: mail/mail-ops.c:1457
 #, c-format
 msgid "Expunging and storing account '%s'"
 msgstr "Expunging and storing account '%s'"
 
-#: mail/mail-ops.c:1460
+#: mail/mail-ops.c:1458
 #, c-format
 msgid "Storing account '%s'"
 msgstr "Storing account '%s'"
 
-#: mail/mail-ops.c:1515
+#: mail/mail-ops.c:1513
 msgid "Refreshing folder"
 msgstr "Refreshing folder"
 
-#: mail/mail-ops.c:1551 mail/mail-ops.c:1602
+#: mail/mail-ops.c:1549 mail/mail-ops.c:1600
 msgid "Expunging folder"
 msgstr "Expunging folder"
 
-#: mail/mail-ops.c:1599
+#: mail/mail-ops.c:1597
 #, c-format
 msgid "Emptying trash in '%s'"
 msgstr "Emptying trash in '%s'"
 
-#: mail/mail-ops.c:1600
+#: mail/mail-ops.c:1598
 msgid "Local Folders"
 msgstr "Local Folders"
 
-#: mail/mail-ops.c:1683
+#: mail/mail-ops.c:1681
 #, c-format
 msgid "Retrieving message %s"
 msgstr "Retrieving message %s"
 
-#: mail/mail-ops.c:1755
+#: mail/mail-ops.c:1753
 #, c-format
 msgid "Retrieving %d message"
 msgid_plural "Retrieving %d messages"
 msgstr[0] "Retrieving %d message"
 msgstr[1] "Retrieving %d message(s)"
 
-#: mail/mail-ops.c:1841
+#: mail/mail-ops.c:1839
 #, c-format
 msgid "Saving %d message"
 msgid_plural "Saving %d messsages"
 msgstr[0] "Saving %d message"
 msgstr[1] "Saving %d messsage(s)"
 
-#: mail/mail-ops.c:1891
+#: mail/mail-ops.c:1889
 #, c-format
 msgid ""
 "Unable to create output file: %s\n"
@@ -15361,7 +15362,7 @@ msgstr ""
 "Unable to create output file: %s\n"
 " %s"
 
-#: mail/mail-ops.c:1919
+#: mail/mail-ops.c:1917
 #, c-format
 msgid ""
 "Error saving messages to: %s:\n"
@@ -15370,11 +15371,11 @@ msgstr ""
 "Error saving messages to: %s:\n"
 " %s"
 
-#: mail/mail-ops.c:1990
+#: mail/mail-ops.c:1988
 msgid "Saving attachment"
 msgstr "Saving attachment"
 
-#: mail/mail-ops.c:2007
+#: mail/mail-ops.c:2005
 #, c-format
 msgid ""
 "Cannot create output file: %s:\n"
@@ -15383,17 +15384,17 @@ msgstr ""
 "Cannot create output file: %s:\n"
 " %s"
 
-#: mail/mail-ops.c:2037
+#: mail/mail-ops.c:2035
 #, c-format
 msgid "Could not write data: %s"
 msgstr "Could not write data: %s"
 
-#: mail/mail-ops.c:2185
+#: mail/mail-ops.c:2183
 #, c-format
 msgid "Disconnecting from %s"
 msgstr "Disconnecting from %s"
 
-#: mail/mail-ops.c:2185
+#: mail/mail-ops.c:2183
 #, c-format
 msgid "Reconnecting to %s"
 msgstr "Reconnecting to %s"
