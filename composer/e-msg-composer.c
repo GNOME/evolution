@@ -712,6 +712,19 @@ static const mail_operation_spec op_save_draft = {
 };
 
 static void
+menu_file_save_draft_cb (BonoboUIComponent *uic, void *data, const char *path)
+{
+	EMsgComposer *composer;
+	save_draft_input_t *input;
+	
+	composer = E_MSG_COMPOSER (data);
+	
+	input = g_new0 (save_draft_input_t, 1);
+	input->composer = composer;
+	mail_operation_queue (&op_save_draft, input, TRUE);
+}
+
+static void
 exit_dialog_cb (int reply, EMsgComposer *composer)
 {
 	save_draft_input_t *input;
@@ -1071,6 +1084,7 @@ static BonoboUIVerb verbs [] = {
 	BONOBO_UI_VERB ("FileOpen",   menu_file_open_cb),
 	BONOBO_UI_VERB ("FileSave",   menu_file_save_cb),
 	BONOBO_UI_VERB ("FileSaveAs", menu_file_save_as_cb),
+	BONOBO_UI_VERB ("FileSaveDraft", menu_file_save_draft_cb),
 	BONOBO_UI_VERB ("FileClose",  menu_file_close_cb),
 		  
 	BONOBO_UI_VERB ("FileInsertFile", menu_file_insert_file_cb),
