@@ -1,3 +1,10 @@
+2004-09-28  JP Rosevear  <jpr@novell.com>
+
+	Fixes #66164
+	
+	* e-cell-date-edit.c (e_cell_date_edit_get_popup_pos): replicate
+	fix to e-cell-combo.c by NotZed
+
 2004-09-13  Rodney Dawes  <dobey@novell.com>
 
 	* e-multi-config-dialog.c (impl_response):

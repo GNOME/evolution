@@ -610,10 +610,15 @@ e_cell_date_edit_get_popup_pos		(ECellDateEdit	*ecde,
 				      &wx,
 				      &wy);
 
-	*x += wx;
+	x1 = wx;
+	y1 = wy;
+	
+	*x += x1;
 	/* The ETable positions don't include the grid lines, I think, so we
 	   add 1. */
-	*y += wy + 1;
+	*y += y1 + 1
+		- (int)((GnomeCanvas *)canvas)->layout.vadjustment->value
+		+ ((GnomeCanvas *)canvas)->zoom_yofs;
 
 	avail_height = gdk_screen_height () - *y;
 
