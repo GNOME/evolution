@@ -1,3 +1,13 @@
+2004-01-15  JP Rosevear <jpr@ximian.com>
+
+	* main.c (detect_version): move version detection here
+
+	* e-config-upgrade.c: remove it from here; clean out all the
+	mailer and bonobo conf conversion stuff, its been moved to the
+	mailer and e-util
+
+	* e-config-upgrade.h: remove proto
+
 2004-01-15  Not Zed  <NotZed@Ximian.com>
 
 	* e-config-upgrade.c (e_upgrade_detect_version): fix the check for
