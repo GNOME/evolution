@@ -1,5 +1,17 @@
 2003-10-30  Chris Toshok  <toshok@ximian.com>
 
+	* gui/certificate-manager.h: add boilerplate.
+
+	* gui/certificate-manager.c
+	(certificate_manager_config_control_new): return NULL if the
+	NSS_InitReadWrite fails - we should probably give better status
+	though, or return a GtkLabel with an error message....
+
+	* gui/Makefile.am (INCLUDES): use CERT_UI_CFLAGS.
+	(TEST_LIBS): use CERT_UI_LIBS.
+
+2003-10-30  Chris Toshok  <toshok@ximian.com>
+
 	* tests/Makefile.am (INCLUDES): use CERT_UI_CFLAGS.
 	(TEST_LIBS): use CERT_UI_LIBS.
 

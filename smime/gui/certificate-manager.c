@@ -318,13 +318,15 @@ populate_ui (CertificateManagerData *cfm)
 EvolutionConfigControl*
 certificate_manager_config_control_new (void)
 {
-	CertificateManagerData *cfm_data = g_new0 (CertificateManagerData, 1);
+	CertificateManagerData *cfm_data;
 	GtkWidget *control_widget;
 
 	/* XXX this should happen someplace else, and shouldn't
 	   reference my default mozilla profile :) */
-	NSS_InitReadWrite ("/home/toshok/.mozilla/default/xuvq7jx3.slt");
+	if (SECSuccess != NSS_InitReadWrite ("/home/toshok/.mozilla/default/xuvq7jx3.slt"))
+		return NULL;
 
+	cfm_data = g_new0 (CertificateManagerData, 1);
 	cfm_data->gui = glade_xml_new (EVOLUTION_GLADEDIR "/" GLADE_FILE_NAME, NULL, NULL);
 
 	cfm_data->yourcerts_treeview = glade_xml_get_widget (cfm_data->gui, "yourcerts-treeview");

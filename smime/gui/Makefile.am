@@ -16,7 +16,7 @@ INCLUDES =						\
 	-DLIBGNOME_DISABLE_DEPRECATED			\
 	-DLIBGNOMEUI_DISABLE_DEPRECATED			\
 	$(EVOLUTION_ADDRESSBOOK_CFLAGS)			\
-	$(CAMEL_CFLAGS)
+	$(CERT_UI_CFLAGS)
 
 noinst_LTLIBRARIES = libevolution-smime.la
 
@@ -26,7 +26,7 @@ libevolution_smime_la_SOURCES = 	\
 
 libevolution_smime_la_LIBADD =			\
 	$(top_builddir)/smime/lib/libessmime.la	\
-	$(EVOLUTION_ADDRESSBOOK_LIBS) $(CAMEL_LIBS)
+	$(CERT_UI_LIBS)
 
 
 glade_DATA = smime-ui.glade
