@@ -38,7 +38,8 @@
 
 /* States of a query */
 typedef enum {
-	QUERY_START_PENDING,	/* the query is not populated yet */
+	QUERY_WAIT_FOR_BACKEND, /* the query is not populated and the backend is not loaded */
+	QUERY_START_PENDING,	/* the query is not populated yet, but the backend is loaded */
 	QUERY_IN_PROGRESS,	/* the query is populated; components are still being processed */
 	QUERY_DONE,		/* the query is done, but still accepts object changes */
 	QUERY_PARSE_ERROR	/* a parse error occurred when initially creating the ESexp */
@@ -124,7 +125,7 @@ query_init (Query *query)
 	priv->sexp = NULL;
 
 	priv->idle_id = 0;
-	priv->state = QUERY_START_PENDING;
+	priv->state = QUERY_WAIT_FOR_BACKEND;
 
 	priv->pending_uids = NULL;
 	priv->uids = g_hash_table_new (g_str_hash, g_str_equal);
@@ -156,7 +157,18 @@ query_destroy (GtkObject *object)
 	priv = query->priv;
 
 	if (priv->backend) {
-		gtk_signal_disconnect_by_data (GTK_OBJECT (priv->backend), query);
+		/* If we are waiting for the backend to be opened, we'll be
+		 * connected to its "opened" signal.  If we are in the middle of
+		 * a query or if we are just waiting for object update
+		 * notifications, we'll have the "obj_removed" and "obj_updated"
+		 * connections.  Otherwise, we are either in a parse error state
+		 * or waiting for the query to be populated, and in both cases
+		 * we have no signal connections.
+		 */
+		if (priv->state == QUERY_WAIT_FOR_BACKEND
+		    || priv->state == QUERY_IN_PROGRESS || priv->state == QUERY_DONE)
+			gtk_signal_disconnect_by_data (GTK_OBJECT (priv->backend), query);
+
 		gtk_object_unref (GTK_OBJECT (priv->backend));
 		priv->backend = NULL;
 	}
@@ -1040,22 +1052,17 @@ create_sexp (Query *query)
 	return esexp;
 }
 
-/* Ensures that the sexp has been parsed and the ESexp has been created.  If a
- * parse error occurs, it sets the query state to QUERY_PARSE_ERROR and returns
- * FALSE.
+/* Creates the ESexp and parses the esexp.  If a parse error occurs, it sets the
+ * query state to QUERY_PARSE_ERROR and returns FALSE.
  */
 static gboolean
-ensure_sexp (Query *query)
+parse_sexp (Query *query)
 {
 	QueryPrivate *priv;
 
 	priv = query->priv;
 
-	if (priv->state == QUERY_PARSE_ERROR)
-		g_assert_not_reached (); /* we should already have terminated everything */
-
-	if (priv->esexp)
-		return TRUE;
+	g_assert (priv->state == QUERY_START_PENDING);
 
 	/* Compile the query string */
 
@@ -1068,10 +1075,7 @@ ensure_sexp (Query *query)
 		const char *error_str;
 		CORBA_Environment ev;
 
-		/* Change the state and disconnect from any notifications */
-
 		priv->state = QUERY_PARSE_ERROR;
-		gtk_signal_disconnect_by_data (GTK_OBJECT (priv->backend), query);
 
 		/* Report the error to the listener */
 
@@ -1086,7 +1090,7 @@ ensure_sexp (Query *query)
 			&ev);
 
 		if (BONOBO_EX (&ev))
-			g_message ("ensure_sexp(): Could not notify the listener of "
+			g_message ("parse_sexp(): Could not notify the listener of "
 				   "a parse error");
 
 		CORBA_exception_free (&ev);
@@ -1113,14 +1117,12 @@ match_component (Query *query, const char *uid,
 
 	priv = query->priv;
 
-	g_assert (priv->state != QUERY_PARSE_ERROR);
-
-	if (!ensure_sexp (query))
-		return;
+	g_assert (priv->state == QUERY_IN_PROGRESS || priv->state == QUERY_DONE);
+	g_assert (priv->esexp != NULL);
 
 	comp = cal_backend_get_object_component (priv->backend, uid);
-	g_return_if_fail (comp != NULL);
-	gtk_object_ref (GTK_OBJECT (comp));
+	if (!comp)
+		return;
 
 	/* Eval the sexp */
 
@@ -1128,7 +1130,6 @@ match_component (Query *query, const char *uid,
 
 	priv->next_comp = comp;
 	result = e_sexp_eval (priv->esexp);
-	gtk_object_unref (GTK_OBJECT (comp));
 	priv->next_comp = NULL;
 
 	if (!result) {
@@ -1262,7 +1263,6 @@ populate_query (Query *query)
 	priv->n_pending = priv->pending_total;
 
 	priv->idle_id = g_idle_add (process_component_cb, query);
-	priv->state = QUERY_IN_PROGRESS;
 }
 
 /* Callback used when a component changes in the backend */
@@ -1270,8 +1270,12 @@ static void
 backend_obj_updated_cb (CalBackend *backend, const char *uid, gpointer data)
 {
 	Query *query;
+	QueryPrivate *priv;
 
 	query = QUERY (data);
+	priv = query->priv;
+
+	g_assert (priv->state == QUERY_IN_PROGRESS || priv->state == QUERY_DONE);
 
 	bonobo_object_ref (BONOBO_OBJECT (query));
 
@@ -1291,6 +1295,8 @@ backend_obj_removed_cb (CalBackend *backend, const char *uid, gpointer data)
 	query = QUERY (data);
 	priv = query->priv;
 
+	g_assert (priv->state == QUERY_IN_PROGRESS || priv->state == QUERY_DONE);
+
 	bonobo_object_ref (BONOBO_OBJECT (query));
 
 	remove_component (query, uid);
@@ -1309,9 +1315,11 @@ start_query_cb (gpointer data)
 	query = QUERY (data);
 	priv = query->priv;
 
+	g_assert (priv->state == QUERY_START_PENDING);
+
 	priv->idle_id = 0;
 
-	if (!ensure_sexp (query))
+	if (!parse_sexp (query))
 		return FALSE;
 
 	/* Populate the query with UIDs so that we can process them asynchronously */
@@ -1324,6 +1332,8 @@ start_query_cb (gpointer data)
 	gtk_signal_connect (GTK_OBJECT (priv->backend), "obj_removed",
 			    GTK_SIGNAL_FUNC (backend_obj_removed_cb),
 			    query);
+
+	priv->state = QUERY_IN_PROGRESS;
 
 	return FALSE;
 }
@@ -1339,6 +1349,11 @@ backend_opened_cb (CalBackend *backend, CalBackendOpenStatus status, gpointer da
 
 	query = QUERY (data);
 	priv = query->priv;
+
+	g_assert (priv->state == QUERY_WAIT_FOR_BACKEND);
+
+	gtk_signal_disconnect_by_data (GTK_OBJECT (priv->backend), query);
+	priv->state = QUERY_START_PENDING;
 
 	if (status == CAL_BACKEND_OPEN_SUCCESS) {
 		g_assert (cal_backend_is_loaded (backend));
@@ -1400,6 +1415,8 @@ query_construct (Query *query,
 	/* Queue the query to be started asynchronously */
 
 	if (cal_backend_is_loaded (priv->backend)) {
+		priv->state = QUERY_START_PENDING;
+
 		g_assert (priv->idle_id == 0);
 		priv->idle_id = g_idle_add (start_query_cb, query);
 	} else

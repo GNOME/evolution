@@ -1,3 +1,33 @@
+2001-11-09  Federico Mena Quintero  <federico@ximian.com>
+
+	(committed by Damon)
+
+	Fix bug #14699.
+
+	* pcs/query.c (QueryState): Added a state QUERY_WAIT_FOR_BACKEND
+	to indicate that the query is not populated as we are waiting for
+	the backend to be opened.
+	(query_init): Start in the QUERY_WAIT_FOR_BACKEND state.
+	(query_destroy): Only disconnect from the backend if we are in a
+	state that implies that we are connected to its signals.
+	(query_construct): If the backend is already loaded, immediately
+	set the state to QUERY_START_PENDING.
+	(backend_opened_cb): Disconnect from the backend's "opened"
+	signal.  Set the state to QUERY_START_PENDING.
+	(match_component): We can now only match components if the query
+	is in progress or if it is done.  Assert to that effect, and do
+	not ensure_sexp().
+	(match_component): Do not check for a nonexistent component using
+	g_return_if_fail().  Also, there is no need to ref/unref the
+	component.
+	(backend_obj_updated_cb): Assert to the effect of our state.
+	(backend_obj_removed_cb): Likewise.
+	(parse_sexp): Renamed from ensure_sexp().  Assert that the query
+	has not started.  Do not disconnect from the backend's signals
+	here, since we have no connections.
+	(start_query_cb): Set the state to QUERY_IN_PROGRESS here instead
+	of in populate_query().
+
 2001-12-07  JP Rosevear  <jpr@ximian.com>
   
   	* conduits/calendar/calendar-conduit.c (local_record_from_comp):
