@@ -1,3 +1,7 @@
+2004-09-12  Abel Cheung  <maddog@linuxhall.org>
+
+	* configure.in: Added "hi" "mk" "ml" "ta" to ALL_LINGUAS.
+
 2004-09-10  Mohammad DAMT  <mdamt@bisnisweb.com>
 
 	* configure.in: Added Indonesian "id" to ALL_LINGUAS
