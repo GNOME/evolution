@@ -1,3 +1,18 @@
+2000-11-25  Federico Mena Quintero  <federico@helixcode.com>
+
+	* e-setup.c (check_dir_recur): Plug leaks of the fullname and
+	fulldefaultname.
+	(check_evolution_directory): Plug leaks of defaultdir and newfiles
+	and the list's data; made the code have a single return point.
+
+	* e-shell.c (e_shell_restore_from_settings): Plug leak of prefix.
+	(corba_class_init): Plug leak; we were not assigning the
+	vepv->_base_epv.
+
+	* evolution-storage.c (corba_class_init): Likewise.
+
+	* evolution-local-storage.c (corba_class_init): Likewise.
+
 2000-11-24  Federico Mena Quintero  <federico@helixcode.com>
 
 	* evolution-shell-component.c

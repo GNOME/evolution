@@ -121,7 +121,8 @@ corba_class_init (void)
 	base_epv->default_POA = NULL;
 
 	vepv = &LocalStorage_vepv;
-	vepv->Bonobo_Unknown_epv         = bonobo_object_get_epv ();
+	vepv->_base_epv                        = base_epv;
+	vepv->Bonobo_Unknown_epv               = bonobo_object_get_epv ();
 	vepv->GNOME_Evolution_Storage_epv      = evolution_storage_get_epv ();
 	vepv->GNOME_Evolution_LocalStorage_epv = evolution_local_storage_get_epv ();
 }

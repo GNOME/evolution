@@ -586,6 +586,7 @@ corba_class_init (void)
 	epv->createStorageSetView = impl_Shell_create_storage_set_view;
 
 	vepv = &shell_vepv;
+	vepv->_base_epv = base_epv;
 	vepv->Bonobo_Unknown_epv = bonobo_object_get_epv ();
 	vepv->GNOME_Evolution_Shell_epv = epv;
 }
@@ -1017,6 +1018,8 @@ e_shell_restore_from_settings (EShell *shell)
 	prefix = g_strdup_printf ("=%s/config/Shell=/Views/NumberOfViews",
 				  priv->local_directory);
 	num_views = gnome_config_get_int (prefix);
+	g_free (prefix);
+
 	if (num_views == 0)
 		return FALSE;
 	
