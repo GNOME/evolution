@@ -27,7 +27,7 @@
 
 #include <string.h>
 #include <gtk/gtksignal.h>
-#include <gtk/gtktext.h>
+#include <gtk/gtktextview.h>
 #include <gtk/gtktogglebutton.h>
 #include <gtk/gtkspinbutton.h>
 #include <gtk/gtkoptionmenu.h>
@@ -241,7 +241,7 @@ clear_widgets (TaskPage *tpage)
 
 	/* Summary, description */
 	e_dialog_editable_set (priv->summary, NULL);
-	e_dialog_editable_set (priv->description, NULL);
+	gtk_text_buffer_set_text (gtk_text_view_get_buffer (GTK_TEXT_VIEW (priv->description)), "", 0);
 
 	/* Start, due times */
 	e_date_edit_set_time (E_DATE_EDIT (priv->start_date), 0);
@@ -309,9 +309,11 @@ task_page_fill_widgets (CompEditorPage *page, CalComponent *comp)
 	cal_component_get_description_list (comp, &l);
 	if (l) {
 		text = *(CalComponentText *)l->data;
-		e_dialog_editable_set (priv->description, text.value);
+		gtk_text_buffer_set_text (gtk_text_view_get_buffer (GTK_TEXT_VIEW (priv->description)),
+					  text.value, -1);
 	} else {
-		e_dialog_editable_set (priv->description, NULL);
+		gtk_text_buffer_set_text (gtk_text_view_get_buffer (GTK_TEXT_VIEW (priv->description)),
+					  "", 0);
 	}
 	cal_component_free_text_list (l);
 
@@ -465,9 +467,12 @@ task_page_fill_component (CompEditorPage *page, CalComponent *comp)
 	char *cat, *str;
 	gboolean date_set, time_set;
 	icaltimezone *zone;
+	GtkTextBuffer *text_buffer;
+	GtkTextIter text_iter_start, text_iter_end;
 
 	tpage = TASK_PAGE (page);
 	priv = tpage->priv;
+	text_buffer = gtk_text_view_get_buffer (GTK_TEXT_VIEW (priv->description));
 
 	/* Summary. */
 
@@ -488,7 +493,10 @@ task_page_fill_component (CompEditorPage *page, CalComponent *comp)
 
 	/* Description */
 
-	str = e_dialog_editable_get (priv->description);
+	gtk_text_buffer_get_start_iter (text_buffer, &text_iter_start);
+	gtk_text_buffer_get_end_iter   (text_buffer, &text_iter_end);
+	str = gtk_text_buffer_get_text (text_buffer, &text_iter_start, &text_iter_end, FALSE);
+
 	if (!str || strlen (str) == 0)
 		cal_component_set_description_list (comp, NULL);
 	else {
@@ -645,8 +653,12 @@ get_widgets (TaskPage *tpage)
 
 	priv->summary = GW ("summary");
 
+	/* Glade's visibility flag doesn't seem to work for custom widgets */
 	priv->due_date = GW ("due-date");
+	gtk_widget_show (priv->due_date);
 	priv->start_date = GW ("start-date");
+	gtk_widget_show (priv->start_date);
+
 	priv->due_timezone = GW ("due-timezone");
 	priv->start_timezone = GW ("start-timezone");
 
@@ -828,6 +840,7 @@ static gboolean
 init_widgets (TaskPage *tpage)
 {
 	TaskPagePrivate *priv;
+	GtkTextBuffer *text_buffer;
 	char *location;
 	icaltimezone *zone;
 
@@ -846,10 +859,12 @@ init_widgets (TaskPage *tpage)
 	g_signal_connect((priv->summary), "changed",
 			    G_CALLBACK (summary_changed_cb), tpage);
 
-	/* Description - turn on word wrap. */
-#if 0
-	gtk_text_set_word_wrap (GTK_TEXT (priv->description), TRUE);
-#endif
+	/* Description */
+	text_buffer = gtk_text_buffer_new (NULL);
+	gtk_text_view_set_buffer (GTK_TEXT_VIEW (priv->description), text_buffer);
+	g_object_unref (text_buffer);
+
+	gtk_text_view_set_wrap_mode (GTK_TEXT_VIEW (priv->description), GTK_WRAP_WORD);
 
 	/* Dates */
 	g_signal_connect((priv->start_date), "changed",
@@ -875,6 +890,11 @@ init_widgets (TaskPage *tpage)
 
 	/* Connect the default signal handler to use to make sure the "changed"
 	   field gets set whenever a field is changed. */
+
+	/* Belongs to priv->description */
+	g_signal_connect ((text_buffer), "changed",
+			  G_CALLBACK (field_changed_cb), tpage);
+
 	g_signal_connect((priv->description), "changed",
 			    G_CALLBACK (field_changed_cb), tpage);
 	g_signal_connect((priv->categories), "changed",

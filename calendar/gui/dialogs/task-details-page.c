@@ -467,8 +467,10 @@ get_widgets (TaskDetailsPage *tdpage)
 	priv->percent_complete = GW ("percent-complete");
 
 	priv->completed_date = GW ("completed-date");
+	gtk_widget_show (priv->completed_date);
 
 	priv->url_entry = GW ("url_entry");
+	gtk_widget_show (priv->url_entry);
 	priv->url = e_url_entry_get_entry (E_URL_ENTRY (priv->url_entry));
 	
 #undef GW
@@ -645,7 +647,7 @@ field_changed_cb (GtkWidget *widget, gpointer data)
 	
 	tdpage = TASK_DETAILS_PAGE (data);
 	priv = tdpage->priv;
-	
+
 	if (!priv->updating)
 		comp_editor_page_notify_changed (COMP_EDITOR_PAGE (tdpage));
 }

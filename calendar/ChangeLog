@@ -1,5 +1,17 @@
 2003-02-22  Hans Petter Jansson  <hpj@ximian.com>
 
+	* gui/dialogs/task-details-page.c (get_widgets): Show the custom
+	widgets, since libglade appears to not want to do that.
+
+	* gui/dialogs/task-page.c (clear_widgets): Make the description
+	field use a GtkTextView.
+	(task_page_fill_widgets): Ditto.
+	(task_page_fill_component): Ditto.
+	(init_widgets): Ditto.
+	(get_widgets): Show the custom widgets, since libglade doesn't do it.
+
+2003-02-22  Hans Petter Jansson  <hpj@ximian.com>
+
 	* pcs/cal-backend.c (cal_backend_unref_categories): Add an
 	iteration statement. Fixes hang in wombat.
 
