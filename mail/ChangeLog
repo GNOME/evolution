@@ -1,3 +1,8 @@
+2000-10-31  Jeffrey Stedfast  <fejj@helixcode.com>
+
+	* mail-autofilter.c (filter_gui_add_for_mailing_list): Match "is"
+	rather than "contains" now that we have the "is"-rule.
+
 2000-10-30  Dan Winship  <danw@helixcode.com>
 
 	* mail-config-gui.c (config_do_query_authtypes): Redo this so that

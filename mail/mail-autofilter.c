@@ -324,7 +324,7 @@ filter_gui_add_for_mailing_list (CamelMimeMessage *msg,
 	filter_input_set_value((FilterInput *)element, header_name);
 
 	element = filter_part_find_element(part, "header-type");
-	filter_option_set_current((FilterOption *)element, "contains");
+	filter_option_set_current((FilterOption *)element, "is");
 
 	element = filter_part_find_element(part, "word");
 	filter_input_set_value((FilterInput *)element, header_value);
