@@ -1,3 +1,8 @@
 2004-10-29  Rodrigo Moya <rodrigo@novell.com>
 
+	* org-gnome-mail-to-meeting.eplug.in: fix folder view popup id and
+	use stock icon for meetings.
+
+2004-10-29  Rodrigo Moya <rodrigo@novell.com>
+
 	* added mail-to-meeting plugin, to convert mails to meetings.
