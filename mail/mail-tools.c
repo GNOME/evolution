@@ -49,47 +49,6 @@ static GPrivate *camel_locklevel = NULL;
 #define LOCK_VAL (GPOINTER_TO_INT (g_private_get (camel_locklevel)))
 #define LOCK_SET(val) g_private_set (camel_locklevel, (GINT_TO_POINTER (val)))
 
-void mail_tool_camel_lock_up (void)
-{
-	return;
-
-	G_LOCK (camel_locklevel);
-
-	if (camel_locklevel == NULL)
-		camel_locklevel = g_private_new (GINT_TO_POINTER (0));
-	
-        if (LOCK_VAL == 0) {
-		G_UNLOCK (camel_locklevel);
-                G_LOCK (camel);
-		G_LOCK (camel_locklevel);
-	}
-
-        LOCK_SET (LOCK_VAL + 1);
-
-        G_UNLOCK (camel_locklevel);
-}
-
-void mail_tool_camel_lock_down (void)
-{
-	return;
-
-        G_LOCK (camel_locklevel);
-
-        if (camel_locklevel == NULL) {
-                g_warning ("mail_tool_camel_lock_down: lock down before a lock up?");
-                camel_locklevel = g_private_new (GINT_TO_POINTER (0));
-                return;
-        }
-
-        LOCK_SET (LOCK_VAL - 1);
-
-        if (LOCK_VAL == 0)
-                G_UNLOCK (camel);
-
-        G_UNLOCK (camel_locklevel);
-}
-
-/* **************************************** */
 
 CamelFolder *
 mail_tool_get_folder_from_urlname (const gchar *url, const gchar *name,
@@ -98,17 +57,12 @@ mail_tool_get_folder_from_urlname (const gchar *url, const gchar *name,
 	CamelStore *store;
 	CamelFolder *folder;
 
-	mail_tool_camel_lock_up();
-
 	store = camel_session_get_store (session, url, ex);
-	if (!store) {
-		mail_tool_camel_lock_down();
+	if (!store)
 		return NULL;
-	}
 
 	folder = camel_store_get_folder (store, name, flags, ex);
 	camel_object_unref (CAMEL_OBJECT (store));
-	mail_tool_camel_lock_down();
 
 	return folder;
 }
@@ -156,17 +110,12 @@ mail_tool_get_inbox (const gchar *url, CamelException *ex)
 	CamelStore *store;
 	CamelFolder *folder;
 
-	mail_tool_camel_lock_up();
-
 	store = camel_session_get_store (session, url, ex);
-	if (!store) {
-		mail_tool_camel_lock_down();
+	if (!store)
 		return NULL;
-	}
 
 	folder = camel_store_get_inbox (store, ex);
 	camel_object_unref (CAMEL_OBJECT (store));
-	mail_tool_camel_lock_down();
 
 	return folder;
 }
@@ -211,10 +160,7 @@ mail_tool_do_movemail (const gchar *source_url, CamelException *ex)
 
 
 	/* Movemail from source (source_url) to dest_path */
-
-	mail_tool_camel_lock_up();
 	camel_movemail (source, dest_path, ex);
-	mail_tool_camel_lock_down();
 
 	if (stat (dest_path, &sb) < 0 || sb.st_size == 0) {
 		g_free (dest_path);
@@ -232,9 +178,7 @@ mail_tool_do_movemail (const gchar *source_url, CamelException *ex)
 void
 mail_tool_set_uid_flags (CamelFolder *folder, const char *uid, guint32 mask, guint32 set)
 {
-	mail_tool_camel_lock_up ();
 	camel_folder_set_message_flags (folder, uid, mask, set);
-	mail_tool_camel_lock_down ();
 }
 
 char *
@@ -295,12 +239,6 @@ mail_tool_make_message_attachment (CamelMimeMessage *message)
 }
 
 CamelFolder *
-mail_tool_filter_get_folder_func (CamelFilterDriver *d, const char *uri, void *data)
-{
-	return mail_tool_uri_to_folder_noex (uri);
-}
-
-CamelFolder *
 mail_tool_uri_to_folder (const char *uri, CamelException *ex)
 {
 	CamelURL *url;
@@ -348,34 +286,6 @@ mail_tool_uri_to_folder (const char *uri, CamelException *ex)
 	camel_url_free (url);
 
 	return folder;
-}
-
-CamelFolder *
-mail_tool_uri_to_folder_noex (const char *uri)
-{
-	CamelException ex;
-	CamelFolder *result;
-
-	camel_exception_init (&ex);
-	result = mail_tool_uri_to_folder (uri, &ex);
-
-	if (camel_exception_is_set (&ex)) {
-		gchar *msg;
-		GtkWidget *dialog;
-
-		msg = g_strdup_printf (_("Cannot open location `%s':\n"
-				       "%s"),
-				       uri,
-				       camel_exception_get_description (&ex));
-		dialog = gnome_error_dialog (msg);
-		g_free (msg);
-		gnome_dialog_run_and_close (GNOME_DIALOG (dialog));
-		gtk_widget_destroy (dialog);
-	}
-
-	camel_exception_clear(&ex);
-
-	return result;
 }
 
 /**

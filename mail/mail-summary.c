@@ -329,14 +329,12 @@ generate_folder_summaries (MailSummary *summary)
 	fs->name = g_strdup ("Inbox");
 	g_print ("%p: %s(%p)\n", fs, fs->name, fs->name);
 	fs->uri = NULL;
-	mail_tool_camel_lock_up ();
 	ex = camel_exception_new ();
 	fs->folder = mail_tool_get_local_inbox (ex);
 
 	fs->total = camel_folder_get_message_count (fs->folder);
 	fs->unread = camel_folder_get_unread_message_count (fs->folder);
 	camel_exception_free (ex);
-	mail_tool_camel_lock_down ();
 	camel_object_hook_event (CAMEL_OBJECT (fs->folder), "folder_changed",
 				 (CamelObjectEventHookFunc) folder_changed_cb,
 				 summary);
@@ -357,7 +355,6 @@ generate_folder_summaries (MailSummary *summary)
 		fs->name = g_strdup (rule->name);
 
 		uri = g_strconcat ("vfolder:", rule->name, NULL);
-  		mail_tool_camel_lock_up ();
 		fs->folder = vfolder_uri_to_folder (uri, ex);
 		fs->uri = g_strconcat ("evolution:/VFolders/", rule->name, NULL);
 		g_free (uri);
@@ -378,7 +375,6 @@ generate_folder_summaries (MailSummary *summary)
 		summary->numfolders++;
 
 		camel_exception_free (ex);
-  		mail_tool_camel_lock_down ();
 	}
 
 	gtk_object_destroy (GTK_OBJECT (context));

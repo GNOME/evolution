@@ -1,5 +1,17 @@
 2001-02-24  Jeffrey Stedfast  <fejj@ximian.com>
 
+	* folder-browser.c: Toss the mail_tool_camel_lock* stuff.
+	* mail-ops.c: Same.
+	* mail-summary.c: Here too.
+	
+	* mail-tools.c (mail_tool_uri_to_folder_noex): Blown away!
+	(mail_tool_filter_get_folder_func): *kapoosh*
+	(mail_tool_camel_lock_up): Same.
+	(mail_tool_camel_lock_down): Same.
+	(mail_tool_set_uid_flags): Don't need this rubbish anymore either.
+
+2001-02-24  Jeffrey Stedfast  <fejj@ximian.com>
+
 	* component-factory.c (mail_load_storages): No longer need to
 	construct the vTrash here.
 	(owner_set_cb): Don't make the vTrash for the local store here.

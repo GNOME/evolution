@@ -618,7 +618,6 @@ hide_subject(GtkWidget *w, FolderBrowser *fb)
 			if (subject && subject[0]) {
 				expr = g_string_new("(match-all (header-contains \"subject\" ");
 				e_sexp_encode_string(expr, subject);
-				mail_tool_camel_lock_down();
 				g_string_append(expr, "))");
 				message_list_hide_add(fb->message_list, expr->str, ML_HIDE_SAME, ML_HIDE_SAME);
 				g_string_free(expr, TRUE);
@@ -640,7 +639,6 @@ hide_sender(GtkWidget *w, FolderBrowser *fb)
 		if (camel_internet_address_get(from, 0, &real, &addr)) {
 			expr = g_string_new("(match-all (header-contains \"from\" ");
 			e_sexp_encode_string(expr, addr);
-			mail_tool_camel_lock_down();
 			g_string_append(expr, "))");
 			message_list_hide_add(fb->message_list, expr->str, ML_HIDE_SAME, ML_HIDE_SAME);
 			g_string_free(expr, TRUE);

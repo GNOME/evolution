@@ -28,10 +28,6 @@
 #include <camel/camel.h>
 #include <camel/camel-filter-driver.h> /*eek*/
 
-/* A global recursive lock on Camel */
-void mail_tool_camel_lock_up (void);
-void mail_tool_camel_lock_down (void);
-
 /* Get a CamelFolder from a root url and a foldername (uses the global session)*/
 CamelFolder *
 mail_tool_get_folder_from_urlname (const gchar *url, const gchar *name,
@@ -63,10 +59,6 @@ mail_tool_do_movemail (const gchar *source_url, CamelException *ex);
 void
 mail_tool_move_folder_contents (CamelFolder *source, CamelFolder *dest, gboolean use_cache, CamelException *ex);
 
-/* Sets the flags on a message represented by a UID in a folder. */
-void
-mail_tool_set_uid_flags (CamelFolder *folder, const char *uid, guint32 mask, guint32 set);
-
 /* Generates the subject for a message forwarding @msg */
 gchar *
 mail_tool_generate_forward_subject (CamelMimeMessage *msg);
@@ -79,17 +71,8 @@ mail_tool_make_message_attachment (CamelMimeMessage *message);
 CamelFolder *
 mail_tool_uri_to_folder (const char *uri, CamelException *ex);
 
-/* Same as above taking no exceptions, popping up a GnomeErrorDialog
- * if any problems occur. */
-CamelFolder *
-mail_tool_uri_to_folder_noex (const char *uri);
-
 GHashTable *
 mail_lookup_url_table (CamelMimeMessage *mime_message);
-
-/* Appropriate for filter_driver_run */
-CamelFolder *
-mail_tool_filter_get_folder_func (CamelFilterDriver *d, const char *uri, void *data);
 
 gchar *mail_tool_quote_message (CamelMimeMessage *message, const char *fmt, ...);
 

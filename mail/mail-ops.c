@@ -45,9 +45,6 @@
 
 #define d(x) x
 
-#define mail_tool_camel_lock_down()
-#define mail_tool_camel_lock_up()
-
 FilterContext *
 mail_load_filter_context(void)
 {
