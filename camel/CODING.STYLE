@@ -2,7 +2,7 @@ Note to hackers
 ---------------
 
 When hacking on camel (and on the gnome mailer in general), 
-be sure to follow the same coding style as the intial authors.
+be sure to follow the same coding style as the initial authors.
 Please read the file HACKING in gnumeric and follow the
 general guidelines explained in it.
 
