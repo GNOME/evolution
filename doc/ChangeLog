@@ -1,5 +1,9 @@
 2001-06-21  Kevin Breit  <battery841@mediaone.net>
 
+	* C/fig/*png: Updated graphics for newer UI.
+
+2001-06-21  Kevin Breit  <battery841@mediaone.net>
+
 	* C/usage-mail.sgml: Redid graphics to add labels to them and described 
 	in labels in text.  Looks good!
 
