@@ -29,48 +29,48 @@ evolution_netscape_importer_SOURCES =	\
 	$(MAIL_GENERATED)		\
 	netscape-importer.c
 
-evolution_netscape_importer_LDADD =	\
-	$(BONOBO_GNOME_LIBS)		\
-	$(EXTRA_GNOME_LIBS)		\
-	$(top_builddir)/e-util/libeutil.la	\
+evolution_netscape_importer_LDADD =				\
+	$(DB3_LDADD)						\
+	$(top_builddir)/e-util/libeutil.la			\
 	$(top_builddir)/shell/importer/libevolution-importer.la \
-	$(DB3_LDADD)
+	$(BONOBO_GNOME_LIBS)					\
+	$(EXTRA_GNOME_LIBS)
 
 evolution_elm_importer_SOURCES =	\
 	elm-importer.c
 
-evolution_elm_importer_LDADD =		\
-	$(BONOBO_GNOME_LIBS)		\
-	$(EXTRA_GNOME_LIBS)		\
-	$(top_builddir)/e-util/libeutil.la	\
+evolution_elm_importer_LDADD =					\
+	$(DB3_LDADD)						\
+	$(top_builddir)/e-util/libeutil.la			\
 	$(top_builddir)/shell/importer/libevolution-importer.la \
-	$(DB3_LDADD)
+	$(BONOBO_GNOME_LIBS)					\
+	$(EXTRA_GNOME_LIBS)
 
 evolution_pine_importer_SOURCES =	\
 	pine-importer.c
 
-evolution_pine_importer_LDADD =		\
-	$(BONOBO_GNOME_LIBS)		\
-	$(EXTRA_GNOME_LIBS)		\
-	$(top_builddir)/addressbook/backend/ebook/libebook.la	\
-	$(top_builddir)/e-util/libeutil.la	\
-	$(top_builddir)/e-util/ename/libename.la	\
-	$(top_builddir)/libversit/libversit.la	\
+evolution_pine_importer_LDADD =					\
 	$(top_builddir)/shell/importer/libevolution-importer.la \
-	$(DB3_LDADD)
+	$(DB3_LDADD)						\
+	$(top_builddir)/addressbook/backend/ebook/libebook.la	\
+	$(top_builddir)/e-util/libeutil.la			\
+	$(top_builddir)/e-util/ename/libename.la		\
+	$(top_builddir)/libversit/libversit.la			\
+	$(BONOBO_GNOME_LIBS)					\
+	$(EXTRA_GNOME_LIBS)
 
 evolution_gnomecard_importer_SOURCES =	\
 	evolution-gnomecard-importer.c
 
-evolution_gnomecard_importer_LDADD =	\
-        $(BONOBO_GNOME_LIBS)            \
-        $(EXTRA_GNOME_LIBS)             \
-        $(top_builddir)/addressbook/backend/ebook/libebook.la   \
-        $(top_builddir)/e-util/libeutil.la      \
-        $(top_builddir)/e-util/ename/libename.la        \
-        $(top_builddir)/libversit/libversit.la  \
+evolution_gnomecard_importer_LDADD =				\
         $(top_builddir)/shell/importer/libevolution-importer.la \
-	$(DB3_LDADD)
+	$(DB3_LDADD)						\
+        $(top_builddir)/addressbook/backend/ebook/libebook.la   \
+        $(top_builddir)/e-util/libeutil.la      		\
+        $(top_builddir)/e-util/ename/libename.la        	\
+        $(top_builddir)/libversit/libversit.la  		\
+        $(BONOBO_GNOME_LIBS)            			\
+        $(EXTRA_GNOME_LIBS)
 
 oafdir = $(datadir)/oaf
 oaf_in_files = GNOME_Evolution_Netscape_Intelligent_Importer.oaf.in	\

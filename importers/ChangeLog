@@ -1,3 +1,12 @@
+2001-06-03  Ettore Perazzoli  <ettore@ximian.com>
+
+	* Makefile.am (evolution_netscape_importer_LDADD): Move
+	`$(DB3_LDADD)' before libeutil, and the shared libraries at the
+	bottom.
+	(evolution_elm_importer_LDADD): Likewise.
+	(evolution_pine_importer_LDADD): Likewise.
+	(evolution_gnomecard_importer_LDADD): Likewise.
+
 2001-06-01  Ettore Perazzoli  <ettore@ximian.com>
 
 	* Makefile.am (evolution_netscape_importer_LDADD): Add
