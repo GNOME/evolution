@@ -1,8 +1,8 @@
 <?xml version="1.0"?>
 <ETableState state-version="0.100000">
-  <column source="13"/>
-  <column source="14"/>
-  <column source="9"/>
+  <column source="5"/>
+  <column source="8"/>
+  <column source="6"/>
   <column source="0"/>
   <grouping/>
 </ETableState>
