@@ -1,3 +1,8 @@
+2005-01-10 Vivek Jain <jvivek@novell.com>
+
+	* configure.in : Add shared-folder to plugin 
+	 and base plugin list. Add corresponding Makfile to AC_OUTPUT section.
+
 2005-01-10 Chenthill Palanisamy <pchenthill@novell.com>
 
 	* configure.in: add send-options plugin
