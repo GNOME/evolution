@@ -1,3 +1,9 @@
+2003-01-22  Radek Doulik  <rodo@ximian.com>
+
+	* mail-callbacks.c (do_mail_print): put unrealized html widget
+	into top level widget (gtk window) before realizing it
+	destroy temporary widgets (w, html)
+
 2003-01-21  Jeffrey Stedfast  <fejj@ximian.com>
 
 	* mail-config.c (mail_config_remove_account): Don't unref the

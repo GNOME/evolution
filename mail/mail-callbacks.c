@@ -2844,6 +2844,7 @@ static void
 do_mail_print (FolderBrowser *fb, gboolean preview)
 {
 	GtkHTML *html;
+	GtkWidget *w = NULL;
 	GnomePrintContext *print_context;
 	GnomePrintJob *print_master;
 	GnomePrintConfig *config = NULL;
@@ -2889,8 +2890,13 @@ do_mail_print (FolderBrowser *fb, gboolean preview)
 	   user's theme. */
 	fb->mail_display->printing = TRUE;
 	
-	if (!GTK_WIDGET_REALIZED (GTK_WIDGET (html)))
+	if (!GTK_WIDGET_REALIZED (GTK_WIDGET (html))) {
+		/* gtk widgets don't like to be realized outside top level widget
+		   so we put new html widget into gtk window */
+		w = gtk_window_new (GTK_WINDOW_TOPLEVEL);
+		gtk_container_add (GTK_CONTAINER (w), GTK_WIDGET (html));
 		gtk_widget_realize (GTK_WIDGET (html));
+	}
 	mail_display_render (fb->mail_display, html, TRUE);
 	gtk_html_print_set_master (html, print_master);
 	
@@ -2901,6 +2907,9 @@ do_mail_print (FolderBrowser *fb, gboolean preview)
 	fb->mail_display->printing = FALSE;
 	
 	gnome_print_job_close (print_master);
+	gtk_widget_destroy (GTK_WIDGET (html));
+	if (w)
+		gtk_widget_destroy (w);
 	
 	if (preview){
 		GtkWidget *preview;
@@ -2913,8 +2922,6 @@ do_mail_print (FolderBrowser *fb, gboolean preview)
 		if (result == -1)
 			e_notice (FB_WINDOW (fb), GTK_MESSAGE_ERROR, _("Printing of message failed"));
 	}
-	
-	/* FIXME: We are leaking the GtkHTML object */
 }
 
 /* This is pretty evil.  FolderBrowser's API should be extended to allow these sorts of
