@@ -258,7 +258,6 @@
 	* mail-format.c (handle_multipart_related): Make sure that cid is
 	non-NULL.
 
->>>>>>> 1.2245
 2002-07-01  Not Zed  <NotZed@Ximian.com>
 
 	* mail-folder-cache.c (folder_deleted): Removed.  The
