@@ -1,3 +1,8 @@
+2000-08-02  Christopher James Lahey  <clahey@helixcode.com>
+
+	* gui/component/e-addressbook-model.c: Adapted this to supply the
+	new append_row API of ETableModel.
+
 2000-07-31  Christopher James Lahey  <clahey@helixcode.com>
 
 	* gui/component/addressbook.c: Changed the default set of columns.

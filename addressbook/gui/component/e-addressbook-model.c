@@ -117,17 +117,27 @@ addressbook_is_cell_editable (ETableModel *etc, int col, int row)
 	return E_ADDRESSBOOK_MODEL(etc)->editable;
 }
 
-static gint
-addressbook_append_row (ETableModel *etm)
+static void
+addressbook_append_row (ETableModel *etm, ETableModel *source, gint row)
 {
 	ECard *card;
-	EAddressbookModel *model = E_ADDRESSBOOK_MODEL(etm);
-	model->data = g_realloc(model->data, (model->data_count + 1) * sizeof(ECard *));
+	ECardSimple *simple;
+	EAddressbookModel *addressbook = E_ADDRESSBOOK_MODEL(etm);
+	int col;
+
 	card = e_card_new("");
-	model->data[model->data_count++] = e_card_simple_new (card);
+	simple = e_card_simple_new(card);
+
+	for (col = 0; col < E_CARD_SIMPLE_FIELD_LAST - 1; col++) {
+		const void *val = e_table_model_value_at(source, col, row);
+		e_card_simple_set(simple,
+				  col + 1,
+				  val);
+	}
+	e_card_simple_sync_card(simple);
+	e_book_add_card(addressbook->book, card, NULL, NULL);
+	gtk_object_unref(GTK_OBJECT(simple));
 	gtk_object_unref(GTK_OBJECT(card));
-	e_table_model_row_inserted(E_TABLE_MODEL(model), model->data_count - 1);
-	return model->data_count - 1;
 }
 
 /* This function duplicates the value passed to it. */
