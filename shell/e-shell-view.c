@@ -28,6 +28,10 @@
 #include <config.h>
 #endif
 
+#include <sys/stat.h>
+#include <sys/types.h>
+#include <fcntl.h>
+
 #include <glib.h>
 #include <libgnome/gnome-defs.h>
 #include <libgnome/gnome-i18n.h>
@@ -2158,6 +2162,7 @@ e_shell_view_save_settings (EShellView *shell_view,
 	char *filename;
 	int num_groups;
 	int group;
+	struct stat temp;
 
 	g_return_val_if_fail (shell_view != NULL, FALSE);
 	g_return_val_if_fail (E_IS_SHELL_VIEW (shell_view), FALSE);
@@ -2220,13 +2225,18 @@ e_shell_view_save_settings (EShellView *shell_view,
 
 	g_free (prefix);
 
-	/* Save the expanded state for this ShellViews StorageSetView */
+	/* If ~/evolution/config/ doesn't exist yet, make it */
+	filename = g_strdup_printf ("%s/config/", e_shell_get_local_directory (priv->shell));
+	if (stat (filename, &temp) != 0)
+		mkdir (filename, S_IRWXU);
+	g_free (filename);
+
+	/* Save the expanded state for this ShellView's StorageSetView */
 	filename = g_strdup_printf ("%s/config/storage-set-view-expanded:view_%d",
 				    e_shell_get_local_directory (priv->shell),
 				    view_num);
 	e_tree_save_expanded_state (E_TREE (priv->storage_set_view),
 				    filename);
-
 	g_free (filename);
 
 	return TRUE;

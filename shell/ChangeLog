@@ -1,3 +1,10 @@
+2001-07-11  Jason Leach  <jleach@ximian.com>
+
+	* e-shell-view.c (e_shell_view_save_settings): Make sure to create
+	~/evolution/config/ if it doesn't exist.  (ShellView settings get
+	saved before component settings, so when the mailer comes around
+	to saving ETree stuff, this dir will be there). Fixes bug #4279.
+
 2001-07-10  Jason Leach  <jleach@ximian.com>
 
 	* e-setup.c (copy_default_stuff): Add a temporary block of code to
