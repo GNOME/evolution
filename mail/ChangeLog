@@ -1,3 +1,20 @@
+2001-10-26  Dan Winship  <danw@ximian.com>
+
+	* folder-browser.c (etree_key): Work around something that we
+	think is a GtkHTML bug, where sometimes the adjustments have
+	slightly bogus values and scrolling ends up working backwards.
+	(Ximian 4939)
+
+	* mail-display.c (do_signature, do_attachment_header): Set the
+	icon to be 24x24 here so that (assuming it's not a thumbnail), no
+	resizes will have to be queued later. (There's still a bug with
+	the text to the left of the button being drawn twice for some
+	reason though.)
+
+	* mail-callbacks.c (delete_msg): Fix a bug here that makes
+	deleting multiple messages cause a gratuitous message body fetch.
+	(Ximian 12355)
+
 2001-10-25  Jeffrey Stedfast  <fejj@ximian.com>
 
 	* mail-callbacks.c (providers_config): Set the GdkWindow of the

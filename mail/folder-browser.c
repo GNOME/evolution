@@ -1696,6 +1696,9 @@ etree_key (ETree *tree, int row, ETreePath path, int col, GdkEvent *ev, FolderBr
 
 	switch (ev->key.keyval) {
 	case GDK_space:
+		/* Work around Ximian 4939 */
+		if (vadj->upper < vadj->page_size)
+			break;
 		if (vadj->value < vadj->upper - vadj->page_size - page_size)
 			vadj->value += page_size;
 		else

@@ -608,7 +608,6 @@ pixbuf_gen_idle (struct _PixbufLoader *pbl)
 		gdk_pixbuf_unref (pixbuf);
 	bonobo_ui_toolbar_icon_set_pixbuf (
 		BONOBO_UI_TOOLBAR_ICON (pbl->pixmap), mini);
-  	gtk_widget_set_usize (pbl->pixmap, 24, 24);
 
 	/* Add the pixbuf to the cache */
 	g_hash_table_insert (thumbnail_cache, pbl->cid, mini);
@@ -797,6 +796,7 @@ do_attachment_header (GtkHTML *html, GtkHTMLEmbedded *eb,
 	pbl->type = g_strdup (eb->type);
 	pbl->cid = g_strdup (eb->classid + 6);
 	pbl->pixmap = bonobo_ui_toolbar_icon_new ();
+  	gtk_widget_set_usize (pbl->pixmap, 24, 24);
 	pbl->eb = eb;
 	pbl->destroy_id = gtk_signal_connect (GTK_OBJECT (eb), "destroy",
 					      embeddable_destroy_cb, pbl);
@@ -926,6 +926,7 @@ do_signature (GtkHTML *html, GtkHTMLEmbedded *eb,
 	pbl->type = NULL;
 	pbl->cid = g_strdup (eb->classid);
 	pbl->pixmap = bonobo_ui_toolbar_icon_new ();
+  	gtk_widget_set_usize (pbl->pixmap, 24, 24);
 	pbl->eb = eb;
 	pbl->destroy_id = gtk_signal_connect (GTK_OBJECT (eb), "destroy",
 					      embeddable_destroy_cb, pbl);
