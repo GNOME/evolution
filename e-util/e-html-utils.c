@@ -197,6 +197,9 @@ is_citation (const unsigned char *c, gboolean saw_citation)
  *     citations (lines beginning with "> ", etc).
  *
  *   - E_TEXT_TO_HTML_ESCAPE_8BIT: flatten everything to US-ASCII
+ *
+ *   - E_TEXT_TO_HTML_CITE: quote the text with "> " at the start of each
+ *     line.
  **/
 char *
 e_text_to_html_full (const char *input, unsigned int flags, guint32 color)
@@ -213,7 +216,7 @@ e_text_to_html_full (const char *input, unsigned int flags, guint32 color)
 
 	out = buffer;
 	if (flags & E_TEXT_TO_HTML_PRE)
-		out += sprintf (out, "<PRE>\n");
+		out += sprintf (out, "<PRE>");
 
 	col = 0;
 
@@ -243,6 +246,9 @@ e_text_to_html_full (const char *input, unsigned int flags, guint32 color)
 			/* Display mbox-mangled ">From" as "From" */
 			if (*cur == '>' && !saw_citation)
 				cur++;
+		} else if (flags & E_TEXT_TO_HTML_CITE && col == 0) {
+			check_size (&buffer, &buffer_size, out, 5);
+			out += sprintf (out, "&gt; ");
 		}
 
 		u = g_utf8_get_char (cur);
