@@ -42,7 +42,7 @@
 #include <libgnorba/gnorba.h>
 #include <gtkhtml/gtkhtml.h>
 
-#include <camel/camel.h>
+#include "camel/camel.h"
 
 #include "../mail/mail.h"
 
@@ -483,7 +483,7 @@ load (EMsgComposer *composer,
 	CORBA_exception_free (&ev);
 }
 
-
+#if 0
 /* Exit dialog.  (Displays a "Save composition to 'Drafts' before exiting?" warning before actually exiting.)  */
 
 enum { REPLY_YES = 0, REPLY_NO, REPLY_CANCEL };
@@ -493,15 +493,20 @@ exit_dialog_cb (int reply, EMsgComposer *composer)
 {
 	extern CamelFolder *drafts_folder;
 	CamelMimeMessage *msg;
+	CamelMessageInfo *info;
 	CamelException *ex;
 	char *reason;
 	
 	switch (reply) {
 	case REPLY_YES:
+		/* AIEEEEEEEEEEEE THIS IS ALL WRONG. SHOULD BE ASYNC. */
+		info = g_new0 (CamelMessageInfo, 1);
+		info->flags = CAMEL_MESSAGE_DRAFT;
 		msg = e_msg_composer_get_message (composer);
 
 		ex = camel_exception_new ();
-		camel_folder_append_message (drafts_folder, msg, CAMEL_MESSAGE_DRAFT, ex);
+		camel_folder_append_message (drafts_folder, msg, info, ex);
+		g_free (info);
 		if (camel_exception_is_set (ex))
 			goto error;
 		
@@ -547,7 +552,33 @@ do_exit (EMsgComposer *composer)
 	exit_dialog_cb (button, composer);
 }
 
-
+#else
+
+static void
+do_exit (EMsgComposer *composer)
+{
+	GtkWidget *dialog;
+	GtkWidget *label;
+	gint button;
+	
+	dialog = gnome_dialog_new (_("Evolution"),
+				   GNOME_STOCK_BUTTON_YES,      /* Save */
+				   GNOME_STOCK_BUTTON_NO,       /* Don't save */
+				   NULL);
+	
+	label = gtk_label_new (_("This message has not been sent.\n\nDo you wish to exit the composer?"));
+	gtk_box_pack_start (GTK_BOX (GNOME_DIALOG (dialog)->vbox), label, TRUE, TRUE, 0);
+	gtk_widget_show (label);
+	gnome_dialog_set_parent (GNOME_DIALOG (dialog), GTK_WINDOW (composer));
+	gnome_dialog_set_default (GNOME_DIALOG (dialog), 0);
+	button = gnome_dialog_run_and_close (GNOME_DIALOG (dialog));
+	
+	if (button == 0)
+		gtk_widget_destroy (GTK_WIDGET (composer));
+}
+
+#endif
+
 /* Menu callbacks.  */
 
 static void

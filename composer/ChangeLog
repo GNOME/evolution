@@ -1,3 +1,8 @@
+2000-08-10  Peter Williams  <peterw@helixcode.com>
+
+	* e-msg-composer.c (do_exit): Temporarily disable draft saving
+	while we figure out how to work around Zucchi's new append_message.
+
 2000-08-10  Jeffrey Stedfast  <fejj@helixcode.com>
 
 	* e-msg-composer-hdrs.c (e_msg_composer_hdrs_get_from): Return the
