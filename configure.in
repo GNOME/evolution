@@ -569,13 +569,14 @@ dnl GNOME Libraries
 dnl ***************
 EVO_CHECK_LIB(Bonobo, bonobox, 1.0.3)
 EVO_CHECK_LIB(OAF, oaf, 0.6.2)
-EVO_CHECK_LIB(libglade, libglade, 0.14)
-EVO_CHECK_LIB(gdk-pixbuf with GNOME canvas support, gnomecanvaspixbuf, 0.9.0)
-EVO_CHECK_LIB(GAL, gal, 0.15.99.8)
-EVO_CHECK_LIB(GtkHTML, gtkhtml, 0.15.99.1)
+EVO_CHECK_LIB(libglade, libglade, 0.10)
+EVO_CHECK_LIB(gdk-pixbuf with GNOME canvas support, gnomecanvaspixbuf, 0.8.0)
 EVO_CHECK_LIB(GNOME-VFS, vfs, 1.0)
 EVO_CHECK_LIB(libxml, xml, 1.8.10, 2.0)
 EVO_CHECK_LIB(bonobo-conf, bonobo_conf, 0.11)
+
+EVO_CHECK_LIB(GAL, gal, 0.15.99.8)
+EVO_CHECK_LIB(GtkHTML, gtkhtml, 0.15.99.1)
 
 dnl *************************
 dnl CFLAGS and LIBS and stuff
