@@ -1,4 +1,8 @@
 <<<<<<< ChangeLog
+2005-03-17  Ahmad Riza H Nst  <ari@160c.afraid.org>
+
+	* configure.in: Added Id (Indonesian) to ALL_LINGUAS line.
+
 2005-03-16  Pawan Chitrakar  <pawan@nplinux.org>
 
 	* configure.in: Added ne in ALL_LINGUAS
