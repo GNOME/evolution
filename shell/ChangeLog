@@ -1,6 +1,6 @@
 2004-09-21  JP Rosevear  <jpr@novell.com>
 
-	From Malcolm Tredinnick <malcolm@commsecure.com.au>
+	From Malcolm Tredinnick <malcolm@commsecure.com.au>, Fixes #66261
 	
 	* e-shell-window-commands.c (about_box_new): don't show
 	"translator-credits" if not translated
