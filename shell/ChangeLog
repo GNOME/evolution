@@ -1,3 +1,7 @@
+2001-10-29  Ettore Perazzoli  <ettore@ximian.com>
+
+	* e-shell.c (set_interactive): Remove debugging message.
+
 2001-10-29  Damon Chaplin  <damon@ximian.com>
 
 	* Makefile.am (evolution_LDADD): use libical-evolution.la

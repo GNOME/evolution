@@ -177,8 +177,6 @@ set_interactive (EShell *shell,
 
 		CORBA_exception_init (&ev);
 
-		g_print ("Notifying interactive change (%s) -- %s\n", interactive ? "TRUE" : "FALSE", id);
-
 		GNOME_Evolution_ShellComponent_interactive (shell_component_objref, interactive, &ev);
 		if (ev._major != CORBA_NO_EXCEPTION)
 			g_warning ("Error changing interactive status of component %s to %s -- %s\n",
