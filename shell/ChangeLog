@@ -1,5 +1,10 @@
 2002-05-23  Ettore Perazzoli  <ettore@ximian.com>
 
+	* e-shell-folder-commands.c (delete_dialog): Make a little bit
+	prettier.  Default to "Delete", not "Cancel".
+
+2002-05-23  Ettore Perazzoli  <ettore@ximian.com>
+
 	* e-shortcuts-view.c (rename_group_cb): Set the view type from the
 	original group, thus preserving the small-icon/large-icon state.
 	Fixes #6732.

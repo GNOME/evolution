@@ -396,38 +396,30 @@ delete_cb (EStorageSet *storage_set,
 static int
 delete_dialog (EShellView *shell_view, const char *utf8_folder)
 {
-	GnomeDialog *dialog;
+	GtkWidget *dialog;
 	char *title;
-	GtkWidget *question_label;
 	char *question;
 	char *folder_name;
 
-	/* Popup a dialog asking if they are sure they want to delete
-           the folder */
-	folder_name = e_utf8_to_gtk_string (GTK_WIDGET (shell_view), 
-					    (char *)utf8_folder);
+	folder_name = e_utf8_to_gtk_string (GTK_WIDGET (shell_view), (char *) utf8_folder);
+
 	title = g_strdup_printf (_("Delete \"%s\""), folder_name);
+	question = g_strdup_printf (_("Really delete folder \"%s\"?"), folder_name);
 
-	dialog = GNOME_DIALOG (gnome_dialog_new (title,
-						 GNOME_STOCK_BUTTON_YES,
-						 GNOME_STOCK_BUTTON_NO,
-						 NULL));
+	dialog = gnome_message_box_new (question,
+					GNOME_MESSAGE_BOX_QUESTION,
+					_("Delete"),
+					GNOME_STOCK_BUTTON_CANCEL,
+					NULL);
+	gtk_window_set_title (GTK_WINDOW (dialog), title);
+	gnome_dialog_set_parent (GNOME_DIALOG (dialog), GTK_WINDOW (shell_view));
+	gnome_dialog_set_default (GNOME_DIALOG (dialog), 0);
+
 	g_free (title);
-	gnome_dialog_set_parent (dialog, GTK_WINDOW (shell_view));
-
-	/* "Are you sure..." label */
-	question = g_strdup_printf (_("Are you sure you want to remove the \"%s\" folder?"),
-				    folder_name);
-	question_label = gtk_label_new (question);	
-	gtk_widget_show (question_label);
-
-	gtk_box_pack_start (GTK_BOX (dialog->vbox), question_label, FALSE, TRUE, 2);
 	g_free (folder_name);
 	g_free (question);
 
-	gnome_dialog_set_default (dialog, 1);
-
-	return gnome_dialog_run_and_close (dialog);
+	return gnome_dialog_run_and_close (GNOME_DIALOG (dialog));
 }
 
 void
