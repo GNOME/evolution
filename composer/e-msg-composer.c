@@ -2996,40 +2996,54 @@ e_msg_composer_flush_pending_body (EMsgComposer *composer, gboolean apply)
 }	
 
 static void
+add_attachments_handle_mime_part (EMsgComposer *composer, CamelMimePart *mime_part, 
+				  gboolean just_inlines, int depth)
+{
+	CamelContentType *content_type;
+	CamelDataWrapper *wrapper;
+	
+	content_type = camel_mime_part_get_content_type (mime_part);
+	wrapper = camel_medium_get_content_object (CAMEL_MEDIUM (mime_part));
+	
+	if (CAMEL_IS_MULTIPART (wrapper)) {
+		/* another layer of multipartness... */
+		CamelMultipart *mpart;
+		
+		mpart = CAMEL_MULTIPART (wrapper);
+		
+		add_attachments_from_multipart (composer, mpart, just_inlines, depth + 1);
+	} else if (header_content_type_is (content_type, "text", "*")) {
+		/* do nothing */
+	} else if (header_content_type_is (content_type, "message", "*")) {
+		/* do nothing */
+	} else if (just_inlines) {
+		if (camel_mime_part_get_content_id (mime_part) ||
+		    camel_mime_part_get_content_location (mime_part))
+			e_msg_composer_add_inline_image_from_mime_part (composer, mime_part);
+	} else {
+		e_msg_composer_attach (composer, mime_part);
+	}
+}
+
+static void
 add_attachments_from_multipart (EMsgComposer *composer, CamelMultipart *multipart,
 				gboolean just_inlines, int depth)
 {
 	/* find appropriate message attachments to add to the composer */
+	CamelMimePart *mime_part;
 	int i, nparts;
 	
-	nparts = camel_multipart_get_number (multipart);
-	
-	for (i = 0; i < nparts; i++) {
-		CamelContentType *content_type;
-		CamelMimePart *mime_part;
+	if (CAMEL_IS_MULTIPART_SIGNED (multipart)) {
+		mime_part = camel_multipart_get_part (multipart, CAMEL_MULTIPART_SIGNED_CONTENT);
+		add_attachments_handle_mime_part (composer, mime_part, just_inlines, depth);
+	} else if (CAMEL_IS_MULTIPART_ENCRYPTED (multipart)) {
+		/* what should we do in this case? */
+	} else {
+		nparts = camel_multipart_get_number (multipart);
 		
-		mime_part = camel_multipart_get_part (multipart, i);
-		content_type = camel_mime_part_get_content_type (mime_part);
-		
-		if (header_content_type_is (content_type, "multipart", "*")) {
-			/* another layer of multipartness... */
-			CamelDataWrapper *wrapper;
-			CamelMultipart *mpart;
-			
-			wrapper = camel_medium_get_content_object (CAMEL_MEDIUM (mime_part));
-			mpart = CAMEL_MULTIPART (wrapper);
-			
-			add_attachments_from_multipart (composer, mpart, just_inlines, depth + 1);
-		} else if (header_content_type_is (content_type, "text", "*")) {
-			/* do nothing */
-		} else if (header_content_type_is (content_type, "message", "*")) {
-			/* do nothing */
-		} else if (just_inlines) {
-			if (camel_mime_part_get_content_id (mime_part) ||
-			    camel_mime_part_get_content_location (mime_part))
-				e_msg_composer_add_inline_image_from_mime_part (composer, mime_part);
-		} else {
-			e_msg_composer_attach (composer, mime_part);
+		for (i = 0; i < nparts; i++) {
+			mime_part = camel_multipart_get_part (multipart, i);
+			add_attachments_handle_mime_part (composer, mime_part, just_inlines, depth);
 		}
 	}
 }
@@ -3049,15 +3063,13 @@ void
 e_msg_composer_add_message_attachments (EMsgComposer *composer, CamelMimeMessage *message,
 					gboolean just_inlines)
 {
-	CamelContentType *content_type;
+	CamelDataWrapper *wrapper;
 	
-	content_type = camel_mime_part_get_content_type (CAMEL_MIME_PART (message));
-	if (header_content_type_is (content_type, "multipart", "*")) {
+	wrapper = camel_medium_get_content_object (CAMEL_MEDIUM (message));
+	if (CAMEL_IS_MULTIPART (wrapper)) {
 		/* there must be attachments... */
-		CamelDataWrapper *wrapper;
 		CamelMultipart *multipart;
 		
-		wrapper = camel_medium_get_content_object (CAMEL_MEDIUM (CAMEL_MIME_PART (message)));
 		multipart = CAMEL_MULTIPART (wrapper);
 		
 		add_attachments_from_multipart (composer, multipart, just_inlines, 0);

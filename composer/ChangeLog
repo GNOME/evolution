@@ -1,7 +1,13 @@
+2002-09-17  Jeffrey Stedfast  <fejj@ximian.com>
+
+	* e-msg-composer.c (add_attachments_from_multipart): Handle
+	multipart/signed and multipart/encrypted parts in a more expected
+	way. Fixes bug #28453.
+
 2002-09-15  Kjartan Maraas  <kmaraas@gnome.org>
 
 	* e-msg-composer.c: Mark a string for translation.
-	
+
 2002-09-05  Ettore Perazzoli  <ettore@ximian.com>
 
 	* e-msg-composer.c (composer_key_pressed): Don't chain the event
