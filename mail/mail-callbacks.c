@@ -1156,7 +1156,9 @@ mail_reply (CamelFolder *folder, CamelMimeMessage *msg, const char *uid, int mod
 	camel_object_ref (CAMEL_OBJECT (psd->folder));
 	psd->uid = g_strdup (uid);
 	psd->flags = CAMEL_MESSAGE_ANSWERED | CAMEL_MESSAGE_SEEN;
-	psd->set = CAMEL_MESSAGE_ANSWERED | CAMEL_MESSAGE_SEEN;
+	if (mode == REPLY_LIST || mode == REPLY_ALL)
+		psd->flags |= CAMEL_MESSAGE_ANSWERED_ALL;
+	psd->set = psd->flags;
 	
 	composer = mail_generate_reply (folder, msg, uid, mode);
 	if (!composer)

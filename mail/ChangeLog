@@ -1,3 +1,8 @@
+2002-08-05  Dan Winship  <danw@ximian.com>
+
+	* mail-callbacks.c (mail_reply): Only reply to all or reply to
+	list, set CAMEL_MESSAGE_ANSWERED_ALL too.
+
 2002-08-02  Jeffrey Stedfast  <fejj@ximian.com>
 
 	* message-tag-followup.c (construct): Set the default flag to
