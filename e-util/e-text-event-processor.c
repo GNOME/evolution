@@ -19,8 +19,8 @@
  * Boston, MA 02111-1307, USA.
  */
 
-#include <gtk/gtksignal.h>
 #include "e-text-event-processor.h"
+#include <gtk/gtksignal.h>
 
 static void e_text_event_processor_init		(ETextEventProcessor		 *card);
 static void e_text_event_processor_class_init	(ETextEventProcessorClass	 *klass);

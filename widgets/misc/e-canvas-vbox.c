@@ -234,8 +234,10 @@ e_canvas_vbox_realize (GnomeCanvasItem *item)
 static void
 e_canvas_vbox_remove_item (GnomeCanvasItem *item, ECanvasVbox *vbox)
 {
-	vbox->items = g_list_remove(vbox->items, item);
-	gtk_object_unref(GTK_OBJECT(vbox));
+	if (!GTK_OBJECT_DESTROYED (vbox)) {
+		vbox->items = g_list_remove(vbox->items, item);
+		gtk_object_unref(GTK_OBJECT(vbox));
+	}
 }
 
 static void

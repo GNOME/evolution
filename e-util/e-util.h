@@ -4,7 +4,6 @@
 #include <sys/types.h>
 #include <glib.h>
 #include <gtk/gtktypeutils.h>
-#include <bonobo/bonobo-xobject.h>
 
 #ifdef __cplusplus
 extern "C" {

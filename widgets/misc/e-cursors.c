@@ -5,13 +5,16 @@
  *   Miguel de Icaza (miguel@gnu.org)
  */
 #include <config.h>
-#include "e-colors.h"
+
 #include "e-cursors.h"
+
+#include "e-colors.h"
 #include "pixmaps/cursor_cross.xpm"
 #include "pixmaps/cursor_zoom_in.xpm"
 #include "pixmaps/cursor_zoom_out.xpm"
 #include "pixmaps/cursor_hand_open.xpm"
 #include "pixmaps/cursor_hand_closed.xpm"
+#include <stdio.h>
 
 #define GDK_INTERNAL_CURSOR -1
 

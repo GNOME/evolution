@@ -18,17 +18,19 @@
  * Author: Federico Mena <federico@nuclecu.unam.mx> */
 
 #include <config.h>
+
+#include "e-text.h"
+
 #include <math.h>
 #include <ctype.h>
 #include <unicode.h>
-#include <string.h>
 #include <gdk/gdkx.h> /* for BlackPixel */
 #include <gtk/gtkinvisible.h>
 #include <gtk/gtkmain.h>
 #include <gtk/gtkselection.h>
 #include <gtk/gtkwindow.h>
 #include <libgnomeui/gnome-canvas-rect-ellipse.h>
-#include "e-text.h"
+
 #include "gal/widgets/e-canvas.h"
 #include "gal/widgets/e-canvas-utils.h"
 #include "gal/widgets/e-unicode.h"

@@ -2,6 +2,7 @@
 #define GNOME_APP_LIB_CURSORS_H
 
 #include <gdk/gdk.h>
+#include <libgnome/gnome-defs.h>
 
 BEGIN_GNOME_DECLS
 

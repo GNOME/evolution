@@ -21,14 +21,16 @@
  */
 
 #include <config.h>
+
+#include "e-xml-utils.h"
+
+#include "gal/util/e-i18n.h"
+#include <glib.h>
 #include <locale.h>
 #include <math.h>
-#include <string.h>
 #include <gnome-xml/parser.h>
 #include <gnome-xml/xmlmemory.h>
 #include <libgnome/libgnome.h>
-#include "gal/util/e-i18n.h"
-#include "e-xml-utils.h"
 
 xmlNode *
 e_xml_get_child_by_name (const xmlNode *parent, const xmlChar *child_name)
@@ -260,9 +262,9 @@ e_xml_get_bool_prop_by_name_with_default(const xmlNode *parent, const xmlChar *p
 
 	prop = xmlGetProp ((xmlNode *) parent, prop_name);
 	if (prop != NULL) {
-		if (strcasecmp (prop, "true") == 0) {
+		if (g_strcasecmp (prop, "true") == 0) {
 			ret_val = TRUE;
-		} else if (strcasecmp (prop, "false") == 0) {
+		} else if (g_strcasecmp (prop, "false") == 0) {
 			ret_val = FALSE;
 		}
 		xmlFree(prop);
