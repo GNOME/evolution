@@ -1,3 +1,8 @@
+1999-06-16  Anders Carlsson  <anders.carlsson@tordata.se>
+
+	* main.c (new_calendar): Realize the toplevel widget when
+	--hidden is passed to gnomecal. This fixes a segfault.
+
 1999-06-04  Robert Brady  <rwb197@ecs.soton.ac.uk>
 
 	* gnome-cal.h, gnome-cal.c: Fix abort() problem with the year view.

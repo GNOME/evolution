@@ -597,6 +597,8 @@ new_calendar (char *full_name, char *calendar_file, char *geometry, char *page, 
 	if (hidden){
 		GnomeWinState state;
 		
+		/* Realize the toplevel window to prevent a segfault */
+		gtk_widget_realize (toplevel);
 		state = gnome_win_hints_get_state (toplevel);
 
 		state |= WIN_STATE_MINIMIZED;
