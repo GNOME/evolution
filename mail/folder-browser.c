@@ -2102,7 +2102,7 @@ on_right_click (ETree *tree, gint row, ETreePath path, gint col, GdkEvent *event
 		filter_menu[i].closure = fdata;
 	
 	menu = e_popup_menu_create (context_menu, enable_mask, hide_mask, fb);
-	e_auto_kill_popup_menu_on_hide (menu);
+	e_auto_kill_popup_menu_on_selection_done (menu);
 	
 	g_object_set_data_full ((GObject *) menu, "label_closures", closures, (GtkDestroyNotify) label_closures_free);
 	

@@ -1,3 +1,9 @@
+2003-02-06  Ettore Perazzoli  <ettore@ximian.com>
+
+	* folder-browser.c (on_right_click): Use
+	e_auto_kill_popup_menu_on_selection_done() instead of
+	e_auto_kill_popup_menu_on_hide().
+
 2003-02-06  Dan Winship  <danw@ximian.com>
 
 	* Makefile.am (INCLUDES): add EVOLUTION_PRIVDATADIR. Fix
