@@ -621,7 +621,7 @@ static char *weekday_names [] = {
 };
 
 static GtkWidget *
-make_day_list_widget (char **array)
+make_day_list_widget (char **array, int sel)
 {
 	GtkWidget *option_menu, *menu;
 	int i;
@@ -636,6 +636,7 @@ make_day_list_widget (char **array)
 		gtk_widget_show (item);
 	}
 	gtk_option_menu_set_menu (GTK_OPTION_MENU (option_menu), menu);
+	gtk_option_menu_set_history (GTK_OPTION_MENU (option_menu), sel);
 	return option_menu;
 }
 
@@ -663,7 +664,13 @@ ee_rp_init_frequency (EventEditor *ee)
 	GtkNotebook *notebook;
 	GSList    *group;
 	int       i, page, day_period, week_period, month_period, year_period;
-
+	int       week_vector, default_day, def_pos, def_off;
+	time_t    now;
+	struct tm *tm;
+	
+	now = time (NULL);
+	tm = localtime (&now);
+	
 	f    = gtk_frame_new (_("Frequency"));
 	vbox = gtk_vbox_new (0, 0);
 	hbox = gtk_hbox_new (0, 0);
@@ -679,19 +686,51 @@ ee_rp_init_frequency (EventEditor *ee)
 	week_period  = 1;
 	month_period = 1;
 	year_period  = 1;
-	
+
+	/* Default to today */
+	week_vector = 1 << tm->tm_wday;
+	default_day = tm->tm_mday - 1;
+	def_pos = 0;
+	def_off = 0;
+
 	/* Determine which should be the default selection */
 	if (ee->ical->recur){
 		enum RecurType type = ee->ical->recur->type;
-		int freq = ee->ical->recur->frequency;
-		
+		int interval = ee->ical->recur->interval;
+
 		switch (type){
-		case RECUR_DAILY:           page = 0; day_period   = freq; break;
-		case RECUR_WEEKLY:          page = 1; week_period  = freq; break;
-		case RECUR_MONTHLY_BY_POS:  page = 2; month_period = freq; break;
-		case RECUR_MONTHLY_BY_DAY:  page = 2; month_period = freq; break;
-		case RECUR_YEARLY_BY_MONTH: page = 3; year_period  = freq; break;
-		case RECUR_YEARLY_BY_DAY:   page = 4; year_period  = freq; break;
+		case RECUR_DAILY:
+			page = 0;
+			day_period = interval;
+			break;
+			
+		case RECUR_WEEKLY:
+			page = 1;
+			week_period = interval;
+			week_vector = ee->ical->recur->weekday;
+			break;
+			
+		case RECUR_MONTHLY_BY_POS:
+			page = 2;
+			month_period = interval;
+			def_pos = ee->ical->recur->u.month_pos;
+			break;
+			
+		case RECUR_MONTHLY_BY_DAY:
+			page = 2;
+			month_period = interval;
+			default_day = ee->ical->recur->u.month_day;
+			break;
+			
+		case RECUR_YEARLY_BY_MONTH:
+			page = 3;
+			year_period  = interval;
+			break;
+			
+		case RECUR_YEARLY_BY_DAY:
+			page = 4;
+			year_period  = interval;
+			break;
 		}
 	} else {
 		page         = 0;
@@ -731,6 +770,8 @@ ee_rp_init_frequency (EventEditor *ee)
 	for (i = 0; i < 7; i++){
 		ee->recur_week_days [i] = gtk_check_button_new_with_label (_(day_names [i]));
 		gtk_box_pack_start (GTK_BOX (week_day), ee->recur_week_days [i], 1, 1, 5);
+		if (week_vector & (1 << i))
+			gtk_toggle_button_toggled (GTK_TOGGLE_BUTTON (ee->recur_week_days [i]));
 	}
 	gtk_box_pack_start (GTK_BOX (weekly), week_day, 1, 1, 0);
 
@@ -738,7 +779,7 @@ ee_rp_init_frequency (EventEditor *ee)
 	/* 3. The monthly recurrence */
 	monthly = gtk_table_new (0, 0, 0);
 	re = gtk_radio_button_new_with_label (NULL, _("Recur on the"));
-	ee->recur_month_date = make_day_list_widget (numeral_day_names);
+	ee->recur_month_date = make_day_list_widget (numeral_day_names, default_day);
 	w = gtk_label_new (_("day"));
 	gtk_table_attach (GTK_TABLE (monthly), re,
 			  0, 1, 0, 1, 0, 0, 0, 0);
@@ -748,9 +789,9 @@ ee_rp_init_frequency (EventEditor *ee)
 			  2, 3, 0, 1, 0, 0, 0, 0);
 	gtk_signal_connect (GTK_OBJECT (re), "toggled", GTK_SIGNAL_FUNC (recur_month_enable_date), ee);
 			    
-	r1 = gtk_radio_button_new_with_label (gtk_radio_button_group (GTK_RADIO_BUTTON (r)), _("Recur on the"));
-	ee->recur_month_day = make_day_list_widget (numeral_day_names);
-	ee->recur_month_weekday = make_day_list_widget (weekday_names);
+	r1 = gtk_radio_button_new_with_label (gtk_radio_button_group (GTK_RADIO_BUTTON (re)), _("Recur on the"));
+	ee->recur_month_day = make_day_list_widget (numeral_day_names, 0);
+	ee->recur_month_weekday = make_day_list_widget (weekday_names, def_pos);
 	gtk_table_attach (GTK_TABLE (monthly), r1,
 			  0, 1, 1, 2, 0, 0, 0, 0);
 	gtk_table_attach (GTK_TABLE (monthly), ee->recur_month_day,
@@ -764,6 +805,13 @@ ee_rp_init_frequency (EventEditor *ee)
 			  4, 5, 0, 2, 0, 0, 5, 0);
 	gtk_table_attach (GTK_TABLE (monthly), gtk_label_new (_("month(s)")),
 			  5, 6, 0, 2, 0, 0, 0, 0);
+	if (ee->ical->recur){
+		if (ee->ical->recur->type == RECUR_MONTHLY_BY_POS)
+			gtk_toggle_button_set_state (GTK_TOGGLE_BUTTON (r1), 1);
+	} else {
+		recur_month_enable_date ((re), ee);
+	}
+								   
 	/* 4. The yearly recurrence */
 	yearly = gtk_hbox_new (0, 0);
 	ee->recur_year_period = small_entry (year_period);

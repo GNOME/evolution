@@ -79,10 +79,21 @@ enum RecurType {
 	RECUR_YEARLY_BY_DAY,
 };
 
+#define DAY_LASTDAY 10000
+
 typedef struct {
 	enum RecurType type;
 
-	int frequency;
+	int            interval;
+	time_t         enddate;
+	int            weekday;
+
+	union {
+		int    month_pos;
+		int    month_day;
+	} u;
+	
+	int            temp_duration; /* Used temporarly, we compute enddate */
 } Recurrence;
 
 /* Flags to indicate what has changed in an object */

@@ -115,10 +115,270 @@ set_list (char *str, char *sc)
 	return list;
 }
 
+static GList *
+set_date_list (char *str)
+{
+	GList *list = 0;
+	char *s;
+
+	for (s = strtok (str, ";"); s; s = strtok (NULL, ";")){
+		time_t *t = g_new (time_t, 1);
+
+		*t = time_from_isodate (s);
+		list = g_list_prepend (list, t);
+	}
+	return list;
+}
+
 static void
+ignore_space(char **str)
+{
+	while (**str && isspace (**str))
+		*str++;
+}
+
+static void
+skip_numbers (char **str)
+{
+	while (**str){
+		ignore_space (str);
+		if (!isdigit (**str))
+			return;
+		while (**str && isdigit (**str))
+			;
+	}
+}
+
+static void
+weekdaylist (iCalObject *o, char **str)
+{
+	int i;
+	struct {
+		char first_letter, second_letter;
+		int  index;
+	} days [] = {
+		{ 'S', 'U', 0 },
+		{ 'M', 'O', 1 },
+		{ 'T', 'U', 2 },
+		{ 'W', 'E', 3 },
+		{ 'T', 'H', 4 },
+		{ 'F', 'R', 5 },
+		{ 'S', 'A', 6 }
+	};
+
+	ignore_space (str);
+	do {
+		for (i = 0; i < 7; i++){
+			if (**str == days [i].first_letter && *(*str+1) == days [i].second_letter){
+				o->recur->weekday |= 1 << i;
+				*str += 2;
+				if (**str == ' ')
+					(*str)++;
+			}
+		}
+	} while (isalpha (**str));
+}
+
+static void
+ocurrencelist (iCalObject *o, char **str)
+{
+	char *p, *q;
+	int value = 0;
+	
+	ignore_space (str);
+	p = *str;
+	if (!isdigit (*str))
+		return;
+	
+	if (!(*p >= '1' && *p <= '5'))
+		return;
+
+	if (!(*(p+1) == '+' || *(p+1) == '-'))
+		return;
+	
+	o->recur->u.month_pos = (*p-'0') * (*(p+1) == '+' ? 1 : -1);
+	*str += 2;
+}
+
+static void
+daynumber (iCalObject *o, char **str)
+{
+	int val = 0;
+	char *p = *str;
+
+	ignore_space (str);
+	if (strcmp (p, "LD")){
+		o->recur->u.month_day = DAY_LASTDAY;
+		*str += 2;
+		return;
+	}
+	
+	if (!(isdigit (*p)))
+		return;
+
+	while (**str && isdigit (**str)){
+		val = val * 10 + (**str - '0');
+		*str++;
+	}
+
+	if (**str == '+')
+		*str++;
+
+	if (**str == '-')
+		val *= -1;
+	o->recur->u.month_day = val;
+}
+
+static void
+daynumberlist (iCalObject *o, char **str)
+{
+	int first = 0;
+	int val = 0;
+		
+	ignore_space (str);
+
+	while (**str){
+		if (!isdigit (**str))
+			return;
+		while (**str && isdigit (**str))
+			val = 10 * val + (**str - '0');
+		if (!first){
+			o->recur->u.month_day = val;
+			first = 1;
+			val = 0;
+		}
+	}
+}
+
+static void
+load_recur_weekly (iCalObject *o, char **str)
+{
+	weekdaylist (o, str);
+}
+
+static void
+load_recur_monthly_pos (iCalObject *o, char **str)
+{
+	ocurrencelist (o, str);
+	weekdaylist (o, str);
+}
+
+static void
+load_recur_monthly_day (iCalObject *o, char **str)
+{
+	daynumberlist (o, str);
+}
+
+static void
+load_recur_yearly_month (iCalObject *o, char **str)
+{
+	/* Skip as we do not support multiple months and we do expect
+	 * the dtstart to agree with the value on this field
+	 */
+	skip_numbers (str);
+}
+
+static void
+load_recur_yearly_day (iCalObject *o, char **str)
+{
+	/* Skip as we do not support multiple days and we do expect
+	 * the dtstart to agree with the value on this field
+	 */
+	skip_numbers (str);
+}
+
+static void
+duration (iCalObject *o, char **str)
+{
+	int duration = 0;
+	
+	ignore_space (str);
+	if (**str != '#')
+		return;
+	while (**str && isdigit (**str))
+		duration = duration * 10 + (**str - '0');
+	
+	o->recur->temp_duration = duration;
+}
+
+static void
+enddate (iCalObject *o, char **str)
+{
+	ignore_space (str);
+	if (isdigit (**str)){
+		o->recur->enddate = time_from_isodate (*str);
+		*str += 16;
+	}
+}
+
+static int
 load_recurrence (iCalObject *o, char *str)
 {
+	char c;
+	enum RecurType type;
+	int  interval = 0;
+	
+	type = -1;
+	switch (*str++){
+	case 'D':
+		type = RECUR_DAILY;
+		break;
+		
+	case 'W':
+		type = RECUR_WEEKLY;
+		break;
+		
+	case 'M':
+		if (*str == 'P')
+			type = RECUR_MONTHLY_BY_POS;
+		else if (*str == 'D')
+			type = RECUR_MONTHLY_BY_DAY;
+		str++;
+		break;
+		
+	case 'Y':
+		if (*str == 'M')
+			type = RECUR_YEARLY_BY_MONTH;
+		else if (*str == 'D')
+			type = RECUR_YEARLY_BY_DAY;
+		str++;
+		break;
+	}
+	if (type == -1)
+		return 0;
 
+	o->recur = g_new0 (Recurrence, 1);
+	o->recur->type = type;
+	ignore_space (&str);
+
+	/* Get the interval */
+	while (*str && isdigit (*str))
+		interval = interval * 10 + (*str-'0');
+	o->recur->interval = interval;
+	
+	ignore_space (&str);
+	
+	switch (type){
+	case RECUR_WEEKLY:
+		load_recur_weekly (o, &str);
+		break;
+	case RECUR_MONTHLY_BY_POS:
+		load_recur_monthly_pos (o, &str);
+		break;
+	case RECUR_MONTHLY_BY_DAY:
+		load_recur_monthly_day (o, &str);
+		break;
+	case RECUR_YEARLY_BY_MONTH:
+		load_recur_yearly_month (o, &str);
+		break;
+	case RECUR_YEARLY_BY_DAY:
+		load_recur_yearly_day (o, &str);
+		break;
+	}
+	duration (o, &str);
+	enddate (o, &str);
+
+	return 1;
 }
 
 #define is_a_prop_of(obj,prop) isAPropertyOf (obj,prop)
@@ -133,6 +393,7 @@ ical_object_create_from_vobject (VObject *o, const char *object_name)
 	iCalObject *ical;
 	VObject *vo;
 	VObjectIterator i;
+	int syntax_error;
 
 	ical = g_new0 (iCalObject, 1);
 	
@@ -181,7 +442,7 @@ ical_object_create_from_vobject (VObject *o, const char *object_name)
 
 	/* exdate */
 	if (has (o, VCExpDateProp))
-		ical->exdate = set_list (str_val (vo), ",");
+		ical->exdate = set_date_list (str_val (vo));
 
 	/* description/comment */
 	if (has (o, VCDescriptionProp))
@@ -254,8 +515,13 @@ ical_object_create_from_vobject (VObject *o, const char *object_name)
 
 	/* FIXME: rrule */
 	if (has (o, VCRRuleProp))
-		load_recurrence (ical, str_val (vo));
-		
+		syntax_error = load_recurrence (ical, str_val (vo)) == 0;
+			
+	if (syntax_error){
+		ical_object_destroy (ical);
+		return NULL;
+	}
+	
 	return ical;
 }
 
