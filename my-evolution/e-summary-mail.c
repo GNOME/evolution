@@ -32,6 +32,7 @@
 #include <gtk/gtksignal.h>
 #include <bonobo/bonobo-exception.h>
 #include <bonobo/bonobo-listener.h>
+#include <bonobo/bonobo-property-bag-client.h>
 
 #include <Evolution.h>
 #include <evolution-storage-listener.h>
@@ -232,7 +233,7 @@ new_folder_cb (EvolutionStorageListener *listener,
 	global_preferences = e_summary_preferences_get_global ();
 	for (p = global_preferences->display_folders; p; p = p->next) {
 		if (strcmp (p->data, folder->physicalUri) == 0) {
-			g_print ("Showning: %s\n", folder->physicalUri);
+/* 			g_print ("Showing: %s\n", folder->physicalUri); */
 			folder_store->shown = g_list_append (folder_store->shown, mail_folder);
 			e_summary_mail_get_info (mail_folder->path, 
 						 folder_store->listener);
@@ -305,10 +306,11 @@ mail_change_notify (BonoboListener *listener,
 		    const char *name,
 		    const BonoboArg *arg,
 		    CORBA_Environment *ev,
-		    ESummary *summary)
+		    gpointer data)
 {
 	GNOME_Evolution_FolderInfo_MessageCount *count;
 	ESummaryMailFolder *folder;
+	ESummaryPrefs *global_preferences;
 	GList *p;
 
 	count = arg->_value;
@@ -323,7 +325,8 @@ mail_change_notify (BonoboListener *listener,
 	folder->init = TRUE;
 
 	/* Are we displaying this folder? */
-	for (p = summary->preferences->display_folders; p; p = p->next) {
+	global_preferences = e_summary_preferences_get_global ();
+	for (p = global_preferences->display_folders; p; p = p->next) {
 		g_print ("folder: %s\n", folder->path);
 		if (strcmp (p->data, folder->path) == 0) {
 			g_print ("Received info for shown folder %s\n", folder->path);
@@ -499,10 +502,6 @@ e_summary_mail_init (ESummary *summary)
 	summary->mail = mail;
 
 	mail->html = NULL;
-
-	/* Connect to the global folder_store listener */
-	gtk_signal_connect (GTK_OBJECT (folder_store->listener), "event-notify",
-			    GTK_SIGNAL_FUNC (mail_change_notify), summary);
 
 	e_summary_add_protocol_listener (summary, "mail", e_summary_mail_protocol, mail);
 	return;
@@ -823,10 +822,6 @@ e_summary_mail_free (ESummary *summary)
 
 	mail = summary->mail;
 
-	/* Probably need to disconnect by ID here instead */
-	gtk_signal_disconnect_by_func (GTK_OBJECT (folder_store->listener),
-				       GTK_SIGNAL_FUNC (mail_change_notify), summary);
-
 #if 0
 	g_hash_table_foreach (mail->folders, free_folder, NULL);
 	g_hash_table_destroy (mail->folders);
@@ -844,6 +839,77 @@ e_summary_mail_free (ESummary *summary)
 	
 	g_free (mail);
 	summary->mail = NULL;
+}
+
+static void
+folder_info_pb_changed (BonoboListener *listener,
+			const char *name,
+			const BonoboArg *arg,
+			CORBA_Environment *ev,
+			gpointer data)
+{
+	g_print ("Changed: %s\n", name);
+	e_summary_folder_register_storages (folder_store->shell); 
+}
+
+static void
+lazy_register_storages (void)
+{
+	Bonobo_PropertyBag pb;
+	Bonobo_EventSource event;
+	BonoboListener *listener;
+	Bonobo_Listener corba_listener;
+	CORBA_Environment ev;
+	gboolean ready;
+	
+	/* Get the PropertyBag */
+	CORBA_exception_init (&ev);
+	pb = Bonobo_Unknown_queryInterface (folder_store->folder_info,
+					    "IDL:Bonobo/PropertyBag:1.0", &ev);
+	if (BONOBO_EX (&ev)) {
+		g_warning ("Error getting propertybag interface: %s",
+			   CORBA_exception_id (&ev));
+		CORBA_exception_free (&ev);
+		return;
+	}
+
+	/* Check the initial value */
+	ready = bonobo_property_bag_client_get_value_gboolean (pb,
+							       "folder-info-ready",
+							       NULL);
+	if (ready == TRUE) {
+		g_print ("We're ready\n");
+		/* Register storages */
+		e_summary_folder_register_storages (folder_store->shell); 
+		return;
+	}
+	
+	/* Get thh event source for the bag */
+	event = Bonobo_Unknown_queryInterface (pb,
+					       "IDL:Bonobo/EventSource:1.0", &ev);
+	if (BONOBO_EX (&ev)) {
+		g_warning ("Error getting event source interface: %s",
+			   CORBA_exception_id (&ev));
+		CORBA_exception_free (&ev);
+		return;
+	}
+
+	/* Connect a listener to it */
+	listener = bonobo_listener_new (NULL, NULL);
+	gtk_signal_connect (GTK_OBJECT (listener), "event-notify",
+			    GTK_SIGNAL_FUNC (folder_info_pb_changed), NULL);
+	
+	corba_listener = bonobo_object_corba_objref (BONOBO_OBJECT (listener));
+	Bonobo_EventSource_addListener (event, corba_listener, &ev);
+	if (BONOBO_EX (&ev)) {
+		g_warning ("Error adding listener: %s\n",
+			   CORBA_exception_id (&ev));
+		CORBA_exception_free (&ev);
+		bonobo_object_unref (BONOBO_OBJECT (listener));
+		return;
+	}
+
+	g_print ("Ready\n");
 }
 
 gboolean
@@ -869,10 +935,13 @@ e_summary_folder_init_folder_store (GNOME_Evolution_Shell shell)
 
 	CORBA_exception_free (&ev);
 	folder_store->listener = bonobo_listener_new (NULL, NULL);
-
+	gtk_signal_connect (GTK_OBJECT (folder_store->listener), "event-notify",
+			    GTK_SIGNAL_FUNC (mail_change_notify), NULL);
+	
 	/* Create a hash table for the folders */
 	folder_store->folders = g_hash_table_new (g_str_hash, g_str_equal);
 
-	e_summary_folder_register_storages (shell);
+	/* Wait for the mailer to tell us we're ready to register */
+	lazy_register_storages ();
 	return TRUE;
 }

@@ -1,3 +1,16 @@
+2002-04-08  Iain Holmes <iain@ximian.com>
+
+	* e-summary-mail.c (mail_change_notify): Don't use an ESummary object,
+	get the prefs from the global preferences.
+	(e_summary_mail_init): Don't connect to the listener.
+	(e_summary_mail_free): Don't disconnect the listener.
+	(folder_info_pb_changed): Register the storages.
+	(lazy_register_storages): Get the property bag, and check if the
+	folder-info is ready. If so register the storages, otherwise get the
+	propertybag listener and listen for changes.
+	(e_summary_folder_inif_folder_store): Listen to changes in the stores
+	and register the storages only when the folder info is ready for it.
+
 2002-04-22  Iain Holmes <iain@ximian.com>
 
 	* e-summary-mail.c: Remove the shown and mode bits from the 
