@@ -101,6 +101,7 @@ typedef struct {
 	GtkTableClass parent_class;
 
 	void        (*cursor_change)      (ETable *et, int row);
+	void        (*selection_change)   (ETable *et);
 	void        (*double_click)       (ETable *et, int row);
 	gint        (*right_click)        (ETable *et, int row, int col, GdkEvent *event);
 	gint        (*click)              (ETable *et, int row, int col, GdkEvent *event);
@@ -207,6 +208,7 @@ int             e_table_get_cursor_row            (ETable               *e_table
 void            e_table_selected_row_foreach      (ETable               *e_table,
 						   ETableForeachFunc     callback,
 						   gpointer              closure);
+gint            e_table_selected_count            (ETable               *e_table);
 EPrintable     *e_table_get_printable             (ETable               *e_table);
 
 gint            e_table_get_next_row              (ETable               *e_table,

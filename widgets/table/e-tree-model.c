@@ -994,8 +994,8 @@ e_tree_model_node_remove (ETreeModel *etree, ETreePath *path)
 	if (parent) {
 		if (e_tree_model_node_is_visible (etree, path)) {
 			int row = e_tree_model_row_of_node (etree, path);
-			e_table_model_row_deleted (E_TABLE_MODEL (etree), row);
 			priv->row_array = g_array_remove_index (priv->row_array, row);
+			e_table_model_row_deleted (E_TABLE_MODEL (etree), row);
 
 			/* we need to iterate back up to the root, incrementing the number of visible
 			   descendents */

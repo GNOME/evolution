@@ -41,6 +41,7 @@ static GtkObjectClass *e_table_parent_class;
 
 enum {
 	CURSOR_CHANGE,
+	SELECTION_CHANGE,
 	DOUBLE_CLICK,
 	RIGHT_CLICK,
 	CLICK,
@@ -837,6 +838,12 @@ void            e_table_save_state                (ETable               *e_table
 	gtk_object_sink(GTK_OBJECT(state));
 }
 
+static void
+et_selection_model_selection_change (ETableGroup *etg, ETable *et)
+{
+	gtk_signal_emit (GTK_OBJECT (et),
+			 et_signals [SELECTION_CHANGE]);
+}
 
 static ETable *
 et_real_construct (ETable *e_table, ETableModel *etm, ETableExtras *ete,
@@ -879,6 +886,9 @@ et_real_construct (ETable *e_table, ETableModel *etm, ETableExtras *ete,
 			"model", etm,
 			"sorter", e_table->sorter,
 			NULL);
+
+	gtk_signal_connect(GTK_OBJECT(e_table->selection), "selection_changed",
+			   GTK_SIGNAL_FUNC(et_selection_model_selection_change), e_table);
 
 	if (!specification->no_headers) {
 		e_table_setup_header (e_table);
@@ -1202,6 +1212,15 @@ e_table_selected_row_foreach     (ETable *e_table,
 	e_table_selection_model_foreach(e_table->selection,
 					callback,
 					closure);
+}
+
+gint
+e_table_selected_count     (ETable *e_table)
+{
+	g_return_val_if_fail(e_table != NULL, -1);
+	g_return_val_if_fail(E_IS_TABLE(e_table), -1);
+
+	return e_table_selection_model_selected_count(e_table->selection);
 }
 
 void
@@ -1887,25 +1906,26 @@ e_table_class_init (GtkObjectClass *object_class)
 
 	e_table_parent_class = gtk_type_class (PARENT_TYPE);
 
-	object_class->destroy   	 = et_destroy;
-	object_class->set_arg   	 = et_set_arg;
-	object_class->get_arg   	 = et_get_arg;
+	object_class->destroy           = et_destroy;
+	object_class->set_arg           = et_set_arg;
+	object_class->get_arg           = et_get_arg;
 
-	klass->cursor_change    	 = NULL;
-	klass->double_click     	 = NULL;
-	klass->right_click      	 = NULL;
-	klass->click            	 = NULL;
-	klass->key_press        	 = NULL;
+	klass->cursor_change            = NULL;
+	klass->selection_change         = NULL;
+	klass->double_click             = NULL;
+	klass->right_click              = NULL;
+	klass->click                    = NULL;
+	klass->key_press                = NULL;
 
-	klass->table_drag_begin           	 = NULL;
-	klass->table_drag_end             	 = NULL;
-	klass->table_drag_data_get        	 = NULL;
-	klass->table_drag_data_delete     	 = NULL;
+	klass->table_drag_begin         = NULL;
+	klass->table_drag_end           = NULL;
+	klass->table_drag_data_get      = NULL;
+	klass->table_drag_data_delete   = NULL;
 
-	klass->table_drag_leave                = NULL;
-	klass->table_drag_motion               = NULL;
-	klass->table_drag_drop                 = NULL;
-	klass->table_drag_data_received        = NULL;
+	klass->table_drag_leave         = NULL;
+	klass->table_drag_motion        = NULL;
+	klass->table_drag_drop          = NULL;
+	klass->table_drag_data_received = NULL;
 
 	et_signals [CURSOR_CHANGE] =
 		gtk_signal_new ("cursor_change",
@@ -1914,6 +1934,14 @@ e_table_class_init (GtkObjectClass *object_class)
 				GTK_SIGNAL_OFFSET (ETableClass, cursor_change),
 				gtk_marshal_NONE__INT,
 				GTK_TYPE_NONE, 1, GTK_TYPE_INT);
+
+	et_signals [SELECTION_CHANGE] =
+		gtk_signal_new ("selection_change",
+				GTK_RUN_LAST,
+				object_class->type,
+				GTK_SIGNAL_OFFSET (ETableClass, selection_change),
+				gtk_marshal_NONE__NONE,
+				GTK_TYPE_NONE, 0);
 
 	et_signals [DOUBLE_CLICK] =
 		gtk_signal_new ("double_click",
