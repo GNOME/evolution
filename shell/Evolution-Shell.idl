@@ -75,9 +75,9 @@ module Evolution {
 		 * a folder whose type is listed in @possible_types.
 		 */
 		void selectUserFolder (in FolderSelectionListener listener,
-					 in string title,
-					 in string default_folder,
-					 in FolderTypeNameList possible_types)
+				       in string title,
+				       in string default_folder,
+				       in FolderTypeNameList possible_types)
 			raises (Busy);
 
 		/**
@@ -101,6 +101,13 @@ module Evolution {
 		 * Return value: the newly created control.
 		 */
 		Bonobo::Control createStorageSetView ();
+
+		/**
+		 * setLineStatus:
+		 *
+		 * Set the shell into on-line or off-line mode.
+		 */
+		void setLineStatus (in boolean online);
 	};
 
 	interface FolderSelectionListener {
