@@ -1,4 +1,10 @@
 2000-09-10  JP Rosevear  <jpr@helixcode.com>
+	* conduits/todo/todo-conduit.c: Convert "//" style comments
+	(local_record_from_ical_uid): Remove iCalObject cruft
+	(ical_from_remote_record): ditto
+	(free_match): Properly unref the CalComponent
+
+2000-09-10  JP Rosevear  <jpr@helixcode.com>
 
 	* conduits/todo/todo-conduit.c (local_record_from_icalobject): Use
 	cal component pilot stuff properly
