@@ -66,11 +66,12 @@ static gboolean mbox_exists (CamelFolder *folder, CamelException *ex);
 static gboolean mbox_create(CamelFolder *folder, CamelException *ex);
 static gboolean mbox_delete (CamelFolder *folder, gboolean recurse, CamelException *ex);
 static gboolean mbox_delete_messages (CamelFolder *folder, CamelException *ex);
-static GList *mbox_list_subfolders (CamelFolder *folder, CamelException *ex);
-static CamelMimeMessage *mbox_get_message_by_number (CamelFolder *folder, gint number, CamelException *ex);
 static gint mbox_get_message_count (CamelFolder *folder, CamelException *ex);
 static void mbox_append_message (CamelFolder *folder, CamelMimeMessage *message, CamelException *ex);
-static GList *mbox_get_uid_list  (CamelFolder *folder, CamelException *ex);
+static GPtrArray *mbox_get_uids (CamelFolder *folder, CamelException *ex);
+static GPtrArray *mbox_get_subfolder_names (CamelFolder *folder, CamelException *ex);
+static GPtrArray *mbox_get_summary (CamelFolder *folder, CamelException *ex);
+static void mbox_free_summary (CamelFolder *folder, GPtrArray *array);
 static CamelMimeMessage *mbox_get_message_by_uid (CamelFolder *folder, const gchar *uid, CamelException *ex);
 
 static void mbox_expunge (CamelFolder *folder, CamelException *ex);
@@ -81,7 +82,6 @@ static const gchar *_get_message_uid (CamelFolder *folder, CamelMimeMessage *mes
 
 static void mbox_delete_message_by_uid(CamelFolder *folder, const gchar *uid, CamelException *ex);
 
-GPtrArray *summary_get_message_info (CamelFolder *folder, int first, int count);
 static const CamelMessageInfo *mbox_summary_get_by_uid(CamelFolder *f, const char *uid);
 
 static GList *mbox_search_by_expression(CamelFolder *folder, const char *expression, CamelException *ex);
@@ -106,11 +106,12 @@ camel_mbox_folder_class_init (CamelMboxFolderClass *camel_mbox_folder_class)
 	camel_folder_class->create = mbox_create;
 	camel_folder_class->delete = mbox_delete;
 	camel_folder_class->delete_messages = mbox_delete_messages;
-	camel_folder_class->list_subfolders = mbox_list_subfolders;
-	camel_folder_class->get_message_by_number = mbox_get_message_by_number;
 	camel_folder_class->get_message_count = mbox_get_message_count;
 	camel_folder_class->append_message = mbox_append_message;
-	camel_folder_class->get_uid_list = mbox_get_uid_list;
+	camel_folder_class->get_uids = mbox_get_uids;
+	camel_folder_class->get_subfolder_names = mbox_get_subfolder_names;
+	camel_folder_class->get_summary = mbox_get_summary;
+	camel_folder_class->free_summary = mbox_free_summary;
 	camel_folder_class->expunge = mbox_expunge;
 
 	camel_folder_class->get_message_by_uid = mbox_get_message_by_uid;
@@ -118,7 +119,6 @@ camel_mbox_folder_class_init (CamelMboxFolderClass *camel_mbox_folder_class)
 
 	camel_folder_class->search_by_expression = mbox_search_by_expression;
 
-	camel_folder_class->get_message_info = summary_get_message_info;
 	camel_folder_class->summary_get_by_uid = mbox_summary_get_by_uid;
 
 	gtk_object_class->finalize = mbox_finalize;
@@ -179,7 +179,6 @@ mbox_init (CamelFolder *folder, CamelStore *parent_store,
 	folder->can_hold_messages = TRUE;
 	folder->can_hold_folders = TRUE;
 	folder->has_summary_capability = TRUE;
-	folder->has_uid_capability = TRUE;
 	folder->has_search_capability = TRUE;
 
 	folder->permanent_flags = CAMEL_MESSAGE_ANSWERED |
@@ -577,125 +576,6 @@ mbox_delete_messages (CamelFolder *folder, CamelException *ex)
 
 }
 
-/* FIXME: cleanup */
-static GList *
-mbox_list_subfolders (CamelFolder *folder, CamelException *ex)
-{
-	GList *subfolder_name_list = NULL;
-
-	CamelMboxFolder *mbox_folder = CAMEL_MBOX_FOLDER (folder);
-	const gchar *folder_dir_path;
-	gboolean folder_exists;
-
-	struct stat stat_buf;
-	gint stat_error = 0;
-	gchar *entry_name;
-	gchar *full_entry_name;
-	gchar *real_folder_name;
-	struct dirent *dir_entry;
-	DIR *dir_handle;
-	gboolean folder_suffix_found;
-	
-
-	/* check if the folder object exists */
-	if (!folder) {
-		camel_exception_set (ex, 
-				     CAMEL_EXCEPTION_FOLDER_NULL,
-				     "folder object is NULL");
-		return FALSE;
-	}
-
-
-	/* in the case the folder does not exist, 
-	   raise an exception */
-	folder_exists = camel_folder_exists (folder, ex);
-	if (camel_exception_get_id (ex)) return FALSE;
-
-	if (!folder_exists) {
-		camel_exception_set (ex, 
-				     CAMEL_EXCEPTION_FOLDER_INVALID,
-				     "Inexistant folder.");
-		return FALSE;
-	}
-
-
-	/* get the mbox subfolders directories */
-	folder_dir_path = mbox_folder->folder_file_path;
-	if (!folder_dir_path) {
-		camel_exception_set (ex, 
-				     CAMEL_EXCEPTION_FOLDER_INVALID,
-				     "Invalid folder path. Use set_name ?");
-		return FALSE;
-	}
-
-		
-	dir_handle = opendir (folder_dir_path);
-	
-	/* read the first entry in the directory */
-	dir_entry = readdir (dir_handle);
-	while ((stat_error != -1) && (dir_entry != NULL)) {
-
-		/* get the name of the next entry in the dir */
-		entry_name = dir_entry->d_name;
-		full_entry_name = g_strdup_printf ("%s/%s", folder_dir_path, entry_name);
-		stat_error = stat (full_entry_name, &stat_buf);
-		g_free (full_entry_name);
-
-		/* is it a directory ? */
-		if ((stat_error != -1) && S_ISDIR (stat_buf.st_mode)) {
-			/* yes, add it to the list */
-			if (entry_name[0] != '.') {
-				/* if the folder is a netscape folder, remove the  
-				   ".sdb" from the name */
-				real_folder_name = string_prefix (entry_name, ".sdb", &folder_suffix_found);
-				/* stick here the tests for other folder suffixes if any */
-				
-				if (!folder_suffix_found) real_folder_name = g_strdup (entry_name);
-				
-				/* add the folder name to the list */
-				subfolder_name_list = g_list_append (subfolder_name_list, 
-								     real_folder_name);
-			}
-		}
-		/* read next entry */
-		dir_entry = readdir (dir_handle);
-	}
-
-	closedir (dir_handle);
-
-	return subfolder_name_list;
-
-	
-
-	/* io exception handling */
-		switch (errno) { 
-		case EACCES :
-			
-			camel_exception_setv (ex, 
-					      CAMEL_EXCEPTION_FOLDER_INSUFFICIENT_PERMISSION,
-					      "Unable to list the directory. Full Error text is : %s ", 
-					      strerror (errno));
-			break;
-			
-		case ENOENT :
-		case ENOTDIR :
-			camel_exception_setv (ex, 
-					      CAMEL_EXCEPTION_FOLDER_INVALID_PATH,
-					      "Invalid mbox folder path. Full Error text is : %s ", 
-					      strerror (errno));
-			break;
-			
-		default :
-			camel_exception_set (ex, 
-					     CAMEL_EXCEPTION_SYSTEM,
-					     "Unable to delete the mbox folder.");
-			
-		}
-	
-	g_list_free (subfolder_name_list);
-	return NULL;
-}
-
 static gint
 mbox_get_message_count (CamelFolder *folder, CamelException *ex)
 {
@@ -789,40 +669,29 @@ fail:
 	}
 }
 
-static GList *
-mbox_get_uid_list (CamelFolder *folder, CamelException *ex) 
+static GPtrArray *
+mbox_get_uids (CamelFolder *folder, CamelException *ex) 
 {
-	GList *uid_list = NULL;
+	GPtrArray *array;
 	CamelMboxFolder *mbox_folder = (CamelMboxFolder *)folder;
 	int i, count;
 
-	/* FIXME: how are these allocated strings ever free'd? */
 	count = camel_folder_summary_count((CamelFolderSummary *)mbox_folder->summary);
+	array = g_ptr_array_new ();
+	g_ptr_array_set_size (array, count);
 	for (i=0;i<count;i++) {
 		CamelMboxMessageInfo *info = (CamelMboxMessageInfo *)camel_folder_summary_index((CamelFolderSummary *)mbox_folder->summary, i);
-		uid_list = g_list_prepend(uid_list, g_strdup(info->info.uid));
+		array->pdata[i] = g_strdup(info->info.uid);
 	}
 	
-	return uid_list;
+	return array;
 }
 
-static CamelMimeMessage *
-mbox_get_message_by_number (CamelFolder *folder, gint number, CamelException *ex)
+static GPtrArray *
+mbox_get_subfolder_names (CamelFolder *folder, CamelException *ex)
 {
-	CamelMboxFolder *mbox_folder = (CamelMboxFolder *)folder;
-	CamelMboxMessageInfo *info;
-
-	g_warning("YOUR CODE SHOULD NOT BE GETTING MESSAGES BY NUMBER, CHANGE IT");
-
-	info = (CamelMboxMessageInfo *)camel_folder_summary_index((CamelFolderSummary *)mbox_folder->summary, number);
-	if (info == NULL) {
-		camel_exception_setv (ex, CAMEL_EXCEPTION_FOLDER_INVALID,
-				      "No such message %d in folder `%s'.",
-				      number, folder->name);
-		return NULL;
-	}
-
-	return mbox_get_message_by_uid (folder, info->info.uid, ex);
+	/* No subfolders. */
+	return g_ptr_array_new ();
 }
 
 static void
@@ -948,19 +817,18 @@ fail:
 	return NULL;
 }
 
-/* get message info for a range of messages */
-GPtrArray *summary_get_message_info (CamelFolder *folder, int first, int count)
+GPtrArray *
+mbox_get_summary (CamelFolder *folder, CamelException *ex)
 {
-	GPtrArray *array = g_ptr_array_new();
-	int i, maxcount;
 	CamelMboxFolder *mbox_folder = (CamelMboxFolder *)folder;
 
-        maxcount = camel_folder_summary_count((CamelFolderSummary *)mbox_folder->summary);
-	maxcount = MIN(count, maxcount);
-	for (i=first;i<maxcount;i++)
-		g_ptr_array_add(array, camel_folder_summary_index((CamelFolderSummary *)mbox_folder->summary, i));
+	return ((CamelFolderSummary *)mbox_folder->summary)->messages;
+}
 
-	return array;
+void
+mbox_free_summary (CamelFolder *folder, GPtrArray *array)
+{
+	/* no-op */
 }
 
 /* get a single message info, by uid */

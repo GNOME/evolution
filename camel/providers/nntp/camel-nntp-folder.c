@@ -71,7 +71,7 @@ static GList *_list_subfolders (CamelFolder *folder, CamelException *ex);
 static CamelMimeMessage *_get_message_by_number (CamelFolder *folder, gint number, CamelException *ex);
 static gint _get_message_count (CamelFolder *folder, CamelException *ex);
 static void _append_message (CamelFolder *folder, CamelMimeMessage *message, CamelException *ex);
-static GList *_get_uid_list  (CamelFolder *folder, CamelException *ex);
+static GPtrArray *_get_uid_array  (CamelFolder *folder, CamelException *ex);
 static CamelMimeMessage *_get_message_by_uid (CamelFolder *folder, const gchar *uid, CamelException *ex);
 #if 0
 static void _expunge (CamelFolder *folder, CamelException *ex);
@@ -101,7 +101,7 @@ camel_nntp_folder_class_init (CamelNNTPFolderClass *camel_nntp_folder_class)
 	camel_folder_class->delete_messages = _delete_messages;
 	camel_folder_class->list_subfolders = _list_subfolders;
 	camel_folder_class->get_message_count = _get_message_count;
-	camel_folder_class->get_uid_list = _get_uid_list;
+	camel_folder_class->get_uid_array = _get_uid_array;
 	camel_folder_class->get_message_by_uid = _get_message_by_uid;
 #if 0 
 	camel_folder_class->append_message = _append_message;
@@ -487,23 +487,25 @@ _append_message (CamelFolder *folder, CamelMimeMessage *message, CamelException 
 
 
 
-static GList *
-_get_uid_list (CamelFolder *folder, CamelException *ex) 
+static GPtrArray *
+_get_uid_array (CamelFolder *folder, CamelException *ex) 
 {
 	CamelNNTPFolder *nntp_folder = CAMEL_NNTP_FOLDER (folder);
-	GPtrArray *message_info_array;
+	GPtrArray *message_info_array, *out;
 	CamelMessageInfo *message_info;
-	GList *uid_list = NULL;
 	int i;
 
 	message_info_array = nntp_folder->summary->messages;
+
+	out = g_ptr_array_new ();
+	g_ptr_array_set_size (out, message_info_array->len);
 	
 	for (i=0; i<message_info_array->len; i++) {
 		message_info = (CamelMessageInfo *)(message_info_array->pdata) + i;
-		uid_list = g_list_prepend (uid_list, g_strdup (message_info->uid));
+		out->pdata[i] = g_strdup (message_info->uid);
 	}
 	
-	return uid_list;
+	return out;
 }
 
 static CamelMimeMessage *

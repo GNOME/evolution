@@ -73,7 +73,7 @@ static gboolean delete (CamelFolder *folder, gboolean recurse,
 			CamelException *ex);
 
 
-static GList *list_subfolders         (CamelFolder *folder,
+static GPtrArray *get_subfolder_names (CamelFolder *folder,
 				       CamelException *ex);
 static CamelFolder *get_subfolder     (CamelFolder *folder,
 				       const gchar *folder_name,
@@ -84,15 +84,7 @@ static CamelStore *get_parent_store   (CamelFolder *folder,
 				       CamelException *ex);
 
 
-static gboolean has_message_number_capability  (CamelFolder *folder);
-static CamelMimeMessage *get_message_by_number (CamelFolder *folder,
-						gint number,
-						CamelException *ex);
-static void delete_message_by_number           (CamelFolder *folder,
-						gint number,
-						CamelException *ex);
-static gint get_message_count                  (CamelFolder *folder,
-						CamelException *ex);
+static gint get_message_count (CamelFolder *folder, CamelException *ex);
 
 
 static gboolean delete_messages (CamelFolder *folder,
@@ -105,8 +97,14 @@ static void append_message (CamelFolder *folder, CamelMimeMessage *message,
 			    CamelException *ex);
 
 
-static GList            *get_uid_list        (CamelFolder *folder,
+static GPtrArray        *get_uids            (CamelFolder *folder,
 					      CamelException *ex);
+static void              free_uids           (CamelFolder *folder,
+					      GPtrArray *array);
+static GPtrArray        *get_summary         (CamelFolder *folder,
+					      CamelException *ex);
+static void              free_summary        (CamelFolder *folder,
+					      GPtrArray *array);
 static const gchar      *get_message_uid     (CamelFolder *folder,
 					      CamelMimeMessage *message,
 					      CamelException *ex);
@@ -116,11 +114,6 @@ static CamelMimeMessage *get_message_by_uid  (CamelFolder *folder,
 static void delete_message_by_uid            (CamelFolder *folder,
 					      const gchar *uid,
 					      CamelException *ex);
-
-static GPtrArray *get_message_info   (CamelFolder *folder,
-				      int first, int count);
-static GPtrArray *get_subfolder_info (CamelFolder *folder,
-				      int first, int count);
 
 static const CamelMessageInfo *summary_get_by_uid (CamelFolder *folder,
 						   const char *uid);
@@ -153,23 +146,20 @@ camel_folder_class_init (CamelFolderClass *camel_folder_class)
 	camel_folder_class->get_parent_folder = get_parent_folder;
 	camel_folder_class->get_parent_store = get_parent_store;
 	camel_folder_class->get_mode = get_mode;
-	camel_folder_class->list_subfolders = list_subfolders;
+	camel_folder_class->get_subfolder_names = get_subfolder_names;
+	camel_folder_class->free_subfolder_names = free_uids;
 	camel_folder_class->expunge = expunge;
-	camel_folder_class->has_message_number_capability =
-		has_message_number_capability;
-	camel_folder_class->get_message_by_number = get_message_by_number;
-	camel_folder_class->delete_message_by_number =
-		delete_message_by_number;
 	camel_folder_class->get_message_count = get_message_count;
 	camel_folder_class->append_message = append_message;
 	camel_folder_class->get_permanent_flags = get_permanent_flags;
 	camel_folder_class->get_message_uid = get_message_uid;
 	camel_folder_class->get_message_by_uid = get_message_by_uid;
 	camel_folder_class->delete_message_by_uid = delete_message_by_uid;
-	camel_folder_class->get_uid_list = get_uid_list;
+	camel_folder_class->get_uids = get_uids;
+	camel_folder_class->free_uids = free_uids;
+	camel_folder_class->get_summary = get_summary;
+	camel_folder_class->free_summary = free_summary;
 	camel_folder_class->search_by_expression = search_by_expression;
-	camel_folder_class->get_subfolder_info = get_subfolder_info;
-	camel_folder_class->get_message_info = get_message_info;
 	camel_folder_class->summary_get_by_uid = summary_get_by_uid;
 
 	/* virtual method overload */
@@ -603,28 +593,30 @@ camel_folder_create (CamelFolder *folder, CamelException *ex)
 static gboolean
 delete (CamelFolder *folder, gboolean recurse, CamelException *ex)
 {
-	GList *subfolders=NULL;
-	GList *sf;
+	GPtrArray *subfolders;
+	int i;
 	gboolean ok;
 
 	/* delete all messages in the folder */
 	CF_CLASS (folder)->delete_messages (folder, ex);
-	if (camel_exception_get_id (ex)) return FALSE;
-
-	subfolders = CF_CLASS (folder)->list_subfolders (folder, ex);
-	if (camel_exception_get_id (ex)) {
-		if (subfolders) g_list_free (subfolders);
+	if (camel_exception_get_id (ex))
 		return FALSE;
-	}
+
+	subfolders = camel_folder_get_subfolder_names (folder, ex);
+	if (camel_exception_get_id (ex))
+		return FALSE;
 
         ok = TRUE;
 	if (recurse) { /* delete subfolders */
 		if (subfolders) {
-			sf = subfolders;
-			do {
-				CF_CLASS (sf->data)->delete (CAMEL_FOLDER (sf->data), TRUE, ex);
-				if (camel_exception_get_id (ex)) ok = FALSE;
-			} while (ok && (sf = sf->next));
+			for (i = 0; ok && i < subfolders->len; i++) {
+				CamelFolder *sf;
+
+				sf = camel_folder_get_subfolder (folder, subfolders->pdata[i], ex);
+				camel_folder_delete (sf, TRUE, ex);
+				if (camel_exception_get_id (ex))
+					ok = FALSE;
+			}
 		}
 	} else if (subfolders) {
 		camel_exception_set (ex, CAMEL_EXCEPTION_FOLDER_NON_EMPTY,
@@ -632,7 +624,8 @@ delete (CamelFolder *folder, gboolean recurse, CamelException *ex)
 		ok = FALSE;
 	}
 
-	if (subfolders) g_list_free (subfolders);
+	if (subfolders)
+		camel_folder_free_subfolder_names (folder, subfolders);
 
 	return ok;
 }
@@ -753,30 +746,47 @@ camel_folder_get_mode (CamelFolder *folder, CamelException *ex)
 }
 
 
-static GList *
-list_subfolders (CamelFolder *folder, CamelException *ex)
+static GPtrArray *
+get_subfolder_names (CamelFolder *folder, CamelException *ex)
 {
-	g_warning ("CamelFolder::list_folders not implemented for `%s'",
+	g_warning ("CamelFolder::get_subfolder_names not implemented for `%s'",
 		   gtk_type_name (GTK_OBJECT_TYPE (folder)));
 	return NULL;
 }
 
 /**
- * camel_folder_list_subfolders:
+ * camel_folder_get_subfolder_names:
  * @folder: the folder
  * @ex: a CamelException
  *
- * List subfolders in a folder.
- *
- * Return value: list of subfolder names
+ * Return value: an array containing the names of the folder's
+ * subfolders. The array should not be modified and must be freed with
+ * camel_folder_free_subfolder_names().
  **/
-GList *
-camel_folder_list_subfolders (CamelFolder *folder, CamelException *ex)
+GPtrArray *
+camel_folder_get_subfolder_names (CamelFolder *folder, CamelException *ex)
 {
 	g_return_val_if_fail (CAMEL_IS_FOLDER (folder), NULL);
 	g_return_val_if_fail (camel_folder_is_open (folder), NULL);
 
-	return CF_CLASS (folder)->list_subfolders (folder, ex);
+	return CF_CLASS (folder)->get_subfolder_names (folder, ex);
+}
+
+
+/**
+ * camel_folder_free_subfolder_names:
+ * @folder: folder object
+ * @array: the array of subfolder names to free
+ *
+ * Frees the array of names returned by camel_folder_get_subfolder_names().
+ **/
+void
+camel_folder_free_subfolder_names (CamelFolder *folder, GPtrArray *array)
+{
+	g_return_if_fail (CAMEL_IS_FOLDER (folder));
+	g_return_if_fail (camel_folder_is_open (folder));
+
+	CF_CLASS (folder)->free_subfolder_names (folder, array);
 }
 
 
@@ -802,95 +812,6 @@ camel_folder_expunge (CamelFolder *folder, CamelException *ex)
 	g_return_if_fail (camel_folder_is_open (folder));
 
 	return CF_CLASS (folder)->expunge (folder, ex);
-}
-
-
-static gboolean
-has_message_number_capability (CamelFolder *folder)
-{
-	g_warning ("CamelFolder::has_message_number_capability not "
-		   "implemented for `%s'",
-		   gtk_type_name (GTK_OBJECT_TYPE (folder)));
-	return FALSE;
-}
-
-/**
- * camel_folder_has_message_number_capability:
- * @folder: folder to test
- *
- * Test if the message in this folder can be obtained via the
- * get_by_number method. Usually, when the folder has the UID
- * capability, messages should be referred to by their UID rather than
- * by their number as the UID is more reliable.
- *
- * Return value: whether or not the folder supports message numbers
- **/
-gboolean
-camel_folder_has_message_number_capability (CamelFolder *folder)
-{
-	g_return_val_if_fail (CAMEL_IS_FOLDER (folder), FALSE);
-
-	return CF_CLASS (folder)->has_message_number_capability (folder);
-}
-
-
-static CamelMimeMessage *
-get_message_by_number (CamelFolder *folder, gint number, CamelException *ex)
-{
-	g_warning ("CamelFolder::get_message_by_number not implemented "
-		   "for `%s'", gtk_type_name (GTK_OBJECT_TYPE (folder)));
-	return NULL;
-}
-
-/**
- * camel_folder_get_message_by_number:
- * @folder: a CamelFolder object
- * @number: the number of the message within the folder.
- * @ex: a CamelException
- *
- * Return the message corresponding to that number within the folder.
- *
- * Return value: A pointer on the corresponding message, or %NULL if
- * no corresponding message exists
- **/
-CamelMimeMessage *
-camel_folder_get_message_by_number (CamelFolder *folder, gint number,
-				    CamelException *ex)
-{
-	g_return_val_if_fail (CAMEL_IS_FOLDER (folder), NULL);
-	g_return_val_if_fail (camel_folder_is_open (folder), NULL);
-	g_return_val_if_fail (camel_folder_has_message_number_capability (folder), NULL);
-
-	return CF_CLASS (folder)->get_message_by_number (folder, number, ex);
-}
-
-
-static void
-delete_message_by_number (CamelFolder *folder, gint number,
-			  CamelException *ex)
-{
-	g_warning ("CamelFolder::delete_message_by_number not implemented "
-		   "for `%s'", gtk_type_name (GTK_OBJECT_TYPE (folder)));
-}
-
-/**
- * camel_folder_delete_message_by_number:
- * @folder: a CamelFolder object
- * @number: the number of the message within the folder.
- * @ex: a CamelException
- *
- * Delete the message corresponding to that number within the folder.
- **/
-void
-camel_folder_delete_message_by_number (CamelFolder *folder, gint number,
-				       CamelException *ex)
-{
-	g_return_if_fail (CAMEL_IS_FOLDER (folder));
-	g_return_if_fail (camel_folder_is_open (folder));
-	g_return_if_fail (camel_folder_has_message_number_capability (folder));
-
-	return CF_CLASS (folder)->delete_message_by_number (folder, number,
-							    ex);
 }
 
 
@@ -964,66 +885,6 @@ camel_folder_get_permanent_flags (CamelFolder *folder, CamelException *ex)
 }
 
 
-static GPtrArray *
-get_subfolder_info (CamelFolder *folder, int first, int count)
-{
-	g_warning ("CamelFolder::get_subfolder_info not implemented for `%s'",
-		   gtk_type_name (GTK_OBJECT_TYPE (folder)));
-	return NULL;
-}
-
-/**
- * camel_folder_summary_get_subfolder_info:
- * @summary: a summary
- * @first: the index of the first subfolder to return information for
- * (starting from 0)
- * @count: the number of subfolders to return information for
- *
- * Returns an array of pointers to CamelFolderInfo objects. The caller
- * must free the array when it is done with it, but should not modify
- * the elements.
- *
- * Return value: an array containing information about the subfolders.
- **/
-GPtrArray *
-camel_folder_summary_get_subfolder_info (CamelFolder *folder,
-					 int first, int count)
-{
-	g_assert (folder != NULL);
-	return CF_CLASS (folder)->get_subfolder_info (folder, first, count);
-}
-
-
-static GPtrArray *
-get_message_info (CamelFolder *folder, int first, int count)
-{
-	g_warning ("CamelFolder::get_message_info not implemented for `%s'",
-		   gtk_type_name (GTK_OBJECT_TYPE (folder)));
-	return NULL;
-}
-
-/**
- * camel_folder_summary_get_message_info:
- * @folder: a camel folder
- * @first: the index of the first message to return information for
- * (starting from 0)
- * @count: the number of messages to return information for
- *
- * Returns an array of pointers to CamelMessageInfo objects. The caller
- * must free the array when it is done with it, but should not modify
- * the elements.
- *
- * Return value: an array containing information about the messages.
- **/
-GPtrArray *
-camel_folder_summary_get_message_info (CamelFolder *folder,
-				       int first, int count)
-{
-	g_assert (folder != NULL);
-	return CF_CLASS (folder)->get_message_info (folder, first, count);
-}
-
-
 static const CamelMessageInfo *
 summary_get_by_uid (CamelFolder *folder, const char *uid)
 {
@@ -1061,24 +922,6 @@ camel_folder_has_summary_capability (CamelFolder *folder)
 
 /* UIDs stuff */
 
-/**
- * camel_folder_has_uid_capability: detect if the folder support UIDs
- * @folder: Folder object
- *
- * Detects if a folder supports UID operations, that is reference
- * messages by a Unique IDentifier instead of by message number.
- *
- * Return value: %TRUE if the folder supports UIDs
- **/
-gboolean
-camel_folder_has_uid_capability (CamelFolder *folder)
-{
-	g_return_val_if_fail (CAMEL_IS_FOLDER (folder), FALSE);
-
-	return folder->has_uid_capability;
-}
-
-
 static const gchar *
 get_message_uid (CamelFolder *folder, CamelMimeMessage *message,
 		 CamelException *ex)
@@ -1107,7 +950,6 @@ camel_folder_get_message_uid (CamelFolder *folder, CamelMimeMessage *message,
 {
 	g_return_val_if_fail (CAMEL_IS_FOLDER (folder), NULL);
 	g_return_val_if_fail (CAMEL_IS_MIME_MESSAGE (message), NULL);
-	g_return_val_if_fail (folder->has_uid_capability, NULL);
 	g_return_val_if_fail (camel_folder_is_open (folder), NULL);
 
 	return CF_CLASS (folder)->get_message_uid (folder, message, ex);
@@ -1139,7 +981,6 @@ camel_folder_get_message_by_uid (CamelFolder *folder, const gchar *uid,
 				 CamelException *ex)
 {
 	g_return_val_if_fail (CAMEL_IS_FOLDER (folder), NULL);
-	g_return_val_if_fail (folder->has_uid_capability, NULL);
 	g_return_val_if_fail (camel_folder_is_open (folder), NULL);
 
 	return CF_CLASS (folder)->get_message_by_uid (folder, uid, ex);
@@ -1167,43 +1008,126 @@ camel_folder_delete_message_by_uid (CamelFolder *folder, const gchar *uid,
 				    CamelException *ex)
 {
 	g_return_if_fail (CAMEL_IS_FOLDER (folder));
-	g_return_if_fail (folder->has_uid_capability);
 	g_return_if_fail (camel_folder_is_open (folder));
 
 	return CF_CLASS (folder)->delete_message_by_uid (folder, uid, ex);
 }
 
 
-static GList *
-get_uid_list (CamelFolder *folder, CamelException *ex)
+static GPtrArray *
+get_uids (CamelFolder *folder, CamelException *ex)
 {
-	g_warning ("CamelFolder::get_uid_list not implemented for `%s'",
+	g_warning ("CamelFolder::get_uids not implemented for `%s'",
 		   gtk_type_name (GTK_OBJECT_TYPE (folder)));
 	return NULL;
 }
 
 /**
- * camel_folder_get_uid_list:
+ * camel_folder_get_uids:
  * @folder: folder object
  * @ex: a CamelException
  *
  * Get the list of UIDs available in a folder. This routine is useful
  * for finding what messages are available when the folder does not
- * support summaries. The UIDs in the list must not be freed, the
- * folder object caches them.
+ * support summaries. The returned array shoudl not be modified, and
+ * must be freed by passing it to camel_folder_free_uids().
  *
- * Return value: GList of UIDs corresponding to the messages available
- * in the folder.
+ * Return value: GPtrArray of UIDs corresponding to the messages
+ * available in the folder.
  **/
-GList *
-camel_folder_get_uid_list (CamelFolder *folder, CamelException *ex)
+GPtrArray *
+camel_folder_get_uids (CamelFolder *folder, CamelException *ex)
 {
 	g_return_val_if_fail (CAMEL_IS_FOLDER (folder), NULL);
-	g_return_val_if_fail (folder->has_uid_capability, NULL);
 	g_return_val_if_fail (camel_folder_is_open (folder), NULL);
 
-	return CF_CLASS (folder)->get_uid_list (folder, ex);
+	return CF_CLASS (folder)->get_uids (folder, ex);
 }
+
+
+/* This is also the default implementation of free_subfolder_names. */
+static void
+free_uids (CamelFolder *folder, GPtrArray *array)
+{
+	int i;
+
+	/* Default implementation: free all of the strings and
+	 * the array itself.
+	 */
+	for (i = 0; i < array->len; i++)
+		g_free (array->pdata[i]);
+	g_ptr_array_free (array, TRUE);
+}
+
+/**
+ * camel_folder_free_uids:
+ * @folder: folder object
+ * @array: the array of uids to free
+ *
+ * Frees the array of UIDs returned by camel_folder_get_uids().
+ **/
+void
+camel_folder_free_uids (CamelFolder *folder, GPtrArray *array)
+{
+	g_return_if_fail (CAMEL_IS_FOLDER (folder));
+	g_return_if_fail (camel_folder_is_open (folder));
+
+	CF_CLASS (folder)->free_uids (folder, array);
+}
+
+
+static GPtrArray *
+get_summary (CamelFolder *folder, CamelException *ex)
+{
+	g_warning ("CamelFolder::get_summary not implemented for `%s'",
+		   gtk_type_name (GTK_OBJECT_TYPE (folder)));
+	return NULL;
+}
+
+/**
+ * camel_folder_get_summary:
+ * @folder: a folder object
+ * @ex: a CamelException
+ *
+ * This returns the summary information for the folder. This array
+ * should not be modified, and must be freed with
+ * camel_folder_free_summary().
+ *
+ * Return value: an array of CamelMessageInfo
+ **/
+GPtrArray *
+camel_folder_get_summary (CamelFolder *folder, CamelException *ex)
+{
+	g_return_val_if_fail (CAMEL_IS_FOLDER (folder), NULL);
+	g_return_val_if_fail (camel_folder_is_open (folder), NULL);
+
+	return CF_CLASS (folder)->get_summary (folder, ex);
+}
+
+
+static void
+free_summary (CamelFolder *folder, GPtrArray *array)
+{
+	g_warning ("CamelFolder::free_summary not implemented for `%s'",
+		   gtk_type_name (GTK_OBJECT_TYPE (folder)));
+}
+
+/**
+ * camel_folder_free_summary:
+ * @folder: folder object
+ * @array: the summary array to free
+ *
+ * Frees the summary array returned by camel_folder_get_summary().
+ **/
+void
+camel_folder_free_summary (CamelFolder *folder, GPtrArray *array)
+{
+	g_return_if_fail (CAMEL_IS_FOLDER (folder));
+	g_return_if_fail (camel_folder_is_open (folder));
+
+	CF_CLASS (folder)->free_summary (folder, array);
+}
+
 
 /**
  * camel_folder_has_search_capability:

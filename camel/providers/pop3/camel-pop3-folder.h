@@ -45,6 +45,9 @@ extern "C" {
 typedef struct {
 	CamelFolder parent_object;
 
+	CamelMessageInfo *msg_info;
+	int count;
+
 } CamelPop3Folder;
 
 

@@ -1,9 +1,8 @@
 /* -*- Mode: C; tab-width: 8; indent-tabs-mode: t; c-basic-offset: 8 -*- */
-/* camelFolder.h : Abstract class for an email folder */
+/* camel-folder.h: Abstract class for an email folder */
 
 /* 
- *
- * Author : 
+ * Author: 
  *  Bertrand Guiheneuf <bertrand@helixcode.com>
  *
  * Copyright 1999, 2000 Helix Code, Inc. (http://www.helixcode.com)
@@ -70,7 +69,6 @@ struct _CamelFolder
 	gboolean can_hold_folders:1;
 	gboolean can_hold_messages:1;
 	gboolean has_summary_capability:1;
-	gboolean has_uid_capability:1;
 	gboolean has_search_capability:1;
 };
 
@@ -129,22 +127,9 @@ typedef struct {
 	CamelFolderOpenMode (*get_mode)   (CamelFolder *folder, 
 					   CamelException *ex);
 
-	GList *  (*list_subfolders)   (CamelFolder *folder, 
-				       CamelException *ex);
-
 	void (*expunge)  (CamelFolder *folder, 
 			  CamelException *ex);
 
-	gboolean (*has_message_number_capability) (CamelFolder *folder);
-
-	CamelMimeMessage * (*get_message_by_number) (CamelFolder *folder, 
-						     gint number, 
-						     CamelException *ex);
-	
-	void (*delete_message_by_number) (CamelFolder *folder, 
-					  gint number, 
-					  CamelException *ex);
-	
 	gint   (*get_message_count)   (CamelFolder *folder, 
 				       CamelException *ex);
 
@@ -154,8 +139,6 @@ typedef struct {
 	
 	guint32 (*get_permanent_flags) (CamelFolder *folder,
 					CamelException *ex);
-
-	gboolean (*has_uid_capability) (CamelFolder *folder);
 
 	const gchar * (*get_message_uid)  (CamelFolder *folder, 
 					   CamelMimeMessage *message, 
@@ -169,16 +152,24 @@ typedef struct {
 					const gchar *uid, 
 					CamelException *ex);
 
-	GList * (*get_uid_list)  (CamelFolder *folder, 
-				  CamelException *ex);
+	GPtrArray * (*get_uids)       (CamelFolder *folder,
+				       CamelException *ex);
+	void (*free_uids)             (CamelFolder *folder,
+				       GPtrArray *array);
+
+	GPtrArray * (*get_summary)    (CamelFolder *folder,
+				       CamelException *ex);
+	void (*free_summary)          (CamelFolder *folder,
+				       GPtrArray *summary);
+
+	GPtrArray * (*get_subfolder_names) (CamelFolder *folder,
+				            CamelException *ex);
+	void (*free_subfolder_names)       (CamelFolder *folder,
+					    GPtrArray *subfolders);
 
 	gboolean (*has_search_capability) (CamelFolder *folder);
 
 	GList * (*search_by_expression) (CamelFolder *folder, const char *expression, CamelException *ex);
-
-	/* moved the old summary stuff from camel-folder-summary.h here */
-	GPtrArray * (*get_subfolder_info) (CamelFolder *, int first, int count);
-	GPtrArray * (*get_message_info) (CamelFolder *, int first, int count);
 
 	const CamelMessageInfo * (*summary_get_by_uid) (CamelFolder *, const char *uid);
 } CamelFolderClass;
@@ -253,20 +244,21 @@ void               camel_folder_append_message         (CamelFolder *folder,
 gboolean           camel_folder_has_summary_capability (CamelFolder *folder);
 
 
-/* number based access operations */
-gboolean           camel_folder_has_message_number_capability (CamelFolder *folder);
-CamelMimeMessage * camel_folder_get_message_by_number (CamelFolder *folder, 
-						       gint number, 
-						       CamelException *ex);
-void               camel_folder_delete_message_by_number (CamelFolder *folder, 
-							  gint number, 
-							  CamelException *ex);
 gint               camel_folder_get_message_count     (CamelFolder *folder, 
 						       CamelException *ex);
 
+GPtrArray *        camel_folder_get_summary           (CamelFolder *folder, 
+						       CamelException *ex);
+void               camel_folder_free_summary          (CamelFolder *folder,
+						       GPtrArray *array);
+
+GPtrArray *        camel_folder_get_subfolder_names   (CamelFolder *folder, 
+						       CamelException *ex);
+void               camel_folder_free_subfolder_names  (CamelFolder *folder,
+						       GPtrArray *array);
+
 
 /* uid based access operations */
-gboolean           camel_folder_has_uid_capability    (CamelFolder *folder);
 const gchar *      camel_folder_get_message_uid       (CamelFolder *folder, 
 						       CamelMimeMessage *message, 
 						       CamelException *ex);
@@ -276,19 +268,16 @@ CamelMimeMessage * camel_folder_get_message_by_uid    (CamelFolder *folder,
 void               camel_folder_delete_message_by_uid (CamelFolder *folder, 
 						       const gchar *uid, 
 						       CamelException *ex);
-GList *            camel_folder_get_uid_list          (CamelFolder *folder, 
+GPtrArray *        camel_folder_get_uids              (CamelFolder *folder, 
 						       CamelException *ex);
+void               camel_folder_free_uids             (CamelFolder *folder,
+						       GPtrArray *array);
 
 /* search api */
 gboolean           camel_folder_has_search_capability (CamelFolder *folder);
 GList *		   camel_folder_search_by_expression(CamelFolder *folder, const char *expression, CamelException *ex);
 
-/* summary info, from the old camel-folder-summary
-   FIXME: rename these slightly? */
-GPtrArray *camel_folder_summary_get_subfolder_info (CamelFolder *summary,
-						    int first, int count);
-GPtrArray *camel_folder_summary_get_message_info (CamelFolder *summary,
-						  int first, int count);
+/* summary info. FIXME: rename this slightly? */
 const CamelMessageInfo *camel_folder_summary_get_by_uid (CamelFolder *summary,
 							 const char *uid);
 

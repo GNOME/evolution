@@ -1,3 +1,24 @@
+2000-05-18  Dan Winship  <danw@helixcode.com>
+
+	* camel-folder.c: remove message_number_capability and require uid
+	capatibility.
+	(camel_folder_list_subfolders, camel_folder_get_uid_list,
+	camel_folder_get_subfolder_info, camel_folder_get_message_info):
+	removed
+	(camel_folder_get_subfolder_names,
+	camel_folder_free_subfolder_names): new subfolder interfaces.
+	(camel_folder_get_uids, camel_folder_free_uids): new uid
+	interfaces
+	(camel_folder_get_summary, camel_folder_free_summary): new summary
+	interfaces
+
+	* providers/mbox/camel-mbox-folder.c,
+	* providers/nntp/camel-nntp-folder.c:
+	* providers/vee/camel-vee-folder.c: Update for changes
+
+	* providers/pop3/camel-pop3-folder.c: Implement get_uids, update
+	for other changes.
+
 2000-05-18  NotZed  <NotZed@HelixCode.com>
 
 	* providers/vee/camel-vee-folder.c: Guess!

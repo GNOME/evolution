@@ -46,12 +46,13 @@ static void vee_open (CamelFolder *folder, CamelFolderOpenMode mode, CamelExcept
 static void vee_close (CamelFolder *folder, gboolean expunge, CamelException *ex);
 static gboolean vee_exists (CamelFolder *folder, CamelException *ex);
 
-static GList *vee_get_uid_list  (CamelFolder *folder, CamelException *ex);
+static GPtrArray *vee_get_uids  (CamelFolder *folder, CamelException *ex);
+GPtrArray *vee_get_summary (CamelFolder *folder, CamelException *ex);
+void vee_free_summary (CamelFolder *folder, GPtrArray *array);
 
 static gint vee_get_message_count (CamelFolder *folder, CamelException *ex);
 static CamelMimeMessage *vee_get_message_by_uid (CamelFolder *folder, const gchar *uid, CamelException *ex);
 
-GPtrArray *vee_summary_get_message_info (CamelFolder *folder, int first, int count);
 static const CamelMessageInfo *vee_summary_get_by_uid(CamelFolder *f, const char *uid);
 
 
@@ -106,10 +107,11 @@ camel_vee_folder_class_init (CamelVeeFolderClass *klass)
 	folder_class->close = vee_close;
 	folder_class->exists = vee_exists;
 
-	folder_class->get_uid_list = vee_get_uid_list;
+	folder_class->get_uids = vee_get_uids;
+	folder_class->get_summary = vee_get_summary;
+	folder_class->free_summary = vee_free_summary;
 	folder_class->get_message_by_uid = vee_get_message_by_uid;
 
-	folder_class->get_message_info = vee_summary_get_message_info;
 	folder_class->summary_get_by_uid = vee_summary_get_by_uid;
 
 	folder_class->get_message_count = vee_get_message_count;
@@ -163,7 +165,6 @@ static void vee_init (CamelFolder *folder, CamelStore *parent_store,
 	folder->can_hold_messages = TRUE;
 	folder->can_hold_folders = FALSE;
 	folder->has_summary_capability = TRUE;
-	folder->has_uid_capability = TRUE;
 	folder->has_search_capability = TRUE;
 
 	/* FIXME: what to do about user flags if the subfolder doesn't support them? */
@@ -223,18 +224,16 @@ static CamelMimeMessage *vee_get_message_by_uid (CamelFolder *folder, const gcha
 	return camel_folder_get_message_by_uid(mi->folder, strchr(mi->info.uid, ':')+1, ex);
 }
 
-GPtrArray *vee_summary_get_message_info (CamelFolder *folder, int first, int count)
+GPtrArray *vee_get_summary (CamelFolder *folder, CamelException *ex)
 {
-	GPtrArray *result;
-	int i, max;
 	CamelVeeFolder *vf = (CamelVeeFolder *)folder;
 
-	result = g_ptr_array_new();
-	max = MIN(vf->messages->len, count+first);
-	for (i=first;i<max;i++) {
-		g_ptr_array_add(result, g_ptr_array_index(vf->messages, i));
-	}
-	return result;
+	return vf->messages;
+}
+
+void vee_free_summary (CamelFolder *folder, GPtrArray *array)
+{
+	/* no op */
 }
 
 static const CamelMessageInfo *vee_summary_get_by_uid(CamelFolder *f, const char *uid)
@@ -244,15 +243,17 @@ static const CamelMessageInfo *vee_summary_get_by_uid(CamelFolder *f, const char
 	return g_hash_table_lookup(vf->messages_uid, uid);
 }
 
-static GList *vee_get_uid_list  (CamelFolder *folder, CamelException *ex)
+static GPtrArray *vee_get_uids (CamelFolder *folder, CamelException *ex)
 {
-	GList *result = NULL;
+	GPtrArray *result;
 	int i;
 	CamelVeeFolder *vf = (CamelVeeFolder *)folder;
 
+	result = g_ptr_array_new ();
+	g_ptr_array_set_size (result, vf->messages->len);
 	for (i=0;i<vf->messages->len;i++) {
 		CamelMessageInfo *mi = g_ptr_array_index(vf->messages, i);
-		result = g_list_prepend(result, g_strdup(mi->uid));
+		result->pdata[i] = g_strdup(mi->uid);
 	}
 
 	return result;
