@@ -724,7 +724,7 @@ vfolder_load_storage(GNOME_Evolution_Shell shell)
 				(CamelObjectEventHookFunc)store_folder_renamed, NULL);
 
 	d(printf("got store '%s' = %p\n", storeuri, vfolder_store));
-	mail_load_storage_by_uri(shell, storeuri, U_("VFolders"));
+	mail_load_storage_by_uri(shell, storeuri, U_("VFolders"), TRUE);
 
 	/* load our rules */
 	user = g_strdup_printf ("%s/vfolders.xml", evolution_dir);

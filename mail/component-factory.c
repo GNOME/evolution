@@ -1277,7 +1277,7 @@ storage_connect (EvolutionStorage *storage,
 }
 
 static void
-add_storage (const char *name, const char *uri, CamelService *store,
+add_storage (const char *name, const char *uri, CamelService *store, gboolean auto_connect,
 	     GNOME_Evolution_Shell corba_shell, CamelException *ex)
 {
 	EvolutionStorage *storage;
@@ -1295,7 +1295,8 @@ add_storage (const char *name, const char *uri, CamelService *store,
 	case EVOLUTION_STORAGE_OK:
 		evolution_storage_has_subfolders (storage, "/", _("Connecting..."));
 		mail_hash_storage (store, storage);
-		mail_note_store ((CamelStore *) store, storage, CORBA_OBJECT_NIL, NULL, NULL);
+		if (auto_connect)
+			mail_note_store ((CamelStore *) store, storage, CORBA_OBJECT_NIL, NULL, NULL);
 		/* falllll */
 	case EVOLUTION_STORAGE_ERROR_ALREADYREGISTERED:
 	case EVOLUTION_STORAGE_ERROR_EXISTS:
@@ -1310,7 +1311,7 @@ add_storage (const char *name, const char *uri, CamelService *store,
 
 
 void
-mail_add_storage (CamelStore *store, const char *name, const char *uri)
+mail_add_storage (CamelStore *store, const char *name, const char *uri, gboolean auto_connect)
 {
 	EvolutionShellClient *shell_client;
 	GNOME_Evolution_Shell shell;
@@ -1327,17 +1328,17 @@ mail_add_storage (CamelStore *store, const char *name, const char *uri)
 		char *service_name;
 		
 		service_name = camel_service_get_name ((CamelService *) store, TRUE);
-		add_storage (service_name, uri, (CamelService *) store, shell, &ex);
+		add_storage (service_name, uri, (CamelService *) store, auto_connect, shell, &ex);
 		g_free (service_name);
 	} else {
-		add_storage (name, uri, (CamelService *) store, shell, &ex);
+		add_storage (name, uri, (CamelService *) store, auto_connect, shell, &ex);
 	}
 	
 	camel_exception_clear (&ex);
 }
 
 void
-mail_load_storage_by_uri (GNOME_Evolution_Shell shell, const char *uri, const char *name)
+mail_load_storage_by_uri (GNOME_Evolution_Shell shell, const char *uri, const char *name, gboolean auto_connect)
 {
 	CamelException ex;
 	CamelService *store;
@@ -1376,10 +1377,10 @@ mail_load_storage_by_uri (GNOME_Evolution_Shell shell, const char *uri, const ch
 		char *service_name;
 		
 		service_name = camel_service_get_name (store, TRUE);
-		add_storage (service_name, uri, store, shell, &ex);
+		add_storage (service_name, uri, store, auto_connect, shell, &ex);
 		g_free (service_name);
 	} else
-		add_storage (name, uri, store, shell, &ex);
+		add_storage (name, uri, store, auto_connect, shell, &ex);
 	
 	if (camel_exception_is_set (&ex)) {
 		/* FIXME: real error dialog */
@@ -1423,7 +1424,7 @@ mail_load_storages (GNOME_Evolution_Shell shell, const GSList *sources, gboolean
 		if (service == NULL || service->url == NULL || service->url[0] == '\0')
 			continue;
 		
-		mail_load_storage_by_uri (shell, service->url, name);
+		mail_load_storage_by_uri (shell, service->url, name, service->enabled);
 	}
 }
 

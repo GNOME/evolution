@@ -1,3 +1,20 @@
+2002-07-03  Jeffrey Stedfast  <fejj@ximian.com>
+
+	* mail-vfolder.c (vfolder_load_storage): Pass TRUE as the
+	auto_connect argument to mail_load_storage_from_uri().
+
+	* mail-account-gui.c (add_new_store): Pass FALSE as the
+	auto_connect value to mail_load_storage_from_uri().
+
+	* mail-format.c (handle_multipart_encrypted): Pass the correct
+	pointer into camel_multipart_encrypted_decrypt().
+
+	* component-factory.c (mail_add_storage): Now takes an
+	auto-connect argument which it passes along to add_storage().
+	(mail_load_storage_from_uri): Same.
+	(add_storage): Only call mail_note_store() if we plan on
+	auto-connecting.
+
 2002-07-02  Jeffrey Stedfast  <fejj@ximian.com>
 
 	* folder-browser.c (on_right_click): Increase the size of the

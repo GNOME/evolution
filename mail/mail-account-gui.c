@@ -1787,7 +1787,7 @@ add_new_store (char *uri, CamelStore *store, void *user_data)
 	}
 	
 	/* store is *not* in the folder tree, so lets add it. */
-	mail_add_storage (store, account->name, account->source->url);
+	mail_add_storage (store, account->name, account->source->url, FALSE);
 }
 
 gboolean
