@@ -3,6 +3,13 @@ Evolution 1.4.1, 2003-06-25
 
 Bugzilla bugs fixed (see http://bugzilla.ximian.com/show_bug.cgi):
 
+  * Addressbook
+
+    #41826 - Focus the first minicard when focusing the view for the
+             first time (gilbert.fang@sun.com)
+    #43841 - Contact editor will not save Web Page address (Toshok)
+    #44477 - Make sure the master category list is upgraded (Toshok)
+
   * Calendar
 
     #41582 - Display incorrect after switching between week and day
@@ -101,13 +108,6 @@ Evolution 1.4, 2003-06-02
 -------------------------
 
 Bugzilla bugs fixed (see http://bugzilla.ximian.com/show_bug.cgi):
-
-  * Addressbook
-
-    #41826 - Focus the first minicard when focusing the view for the
-             first time (gilbert.fang@sun.com)
-    #43841 - Contact editor will not save Web Page address (Toshok)
-    #44477 - Make sure the master category list is upgraded (Toshok)
 
   * Calendar
   
