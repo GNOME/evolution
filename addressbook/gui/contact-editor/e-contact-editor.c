@@ -2741,6 +2741,8 @@ real_save_contact (EContactEditor *ce, gboolean should_close)
 static void
 save_contact (EContactEditor *ce, gboolean should_close)
 {
+	char *uid;
+	
 	if (!ce->target_book)
 		return;
 	
@@ -2752,11 +2754,16 @@ save_contact (EContactEditor *ce, gboolean should_close)
 	extract_all (ce);
 	
 	if (!e_contact_editor_is_valid (EAB_EDITOR (ce))) {
+		uid = e_contact_get (ce->contact, E_CONTACT_UID);
 		g_object_unref (ce->contact);
 		ce->contact = e_contact_new ();
+		if (uid) {
+			e_contact_set (ce->contact, E_CONTACT_UID, uid);
+			g_free (uid);
+		}
 		return;
 	}
-
+		
 	real_save_contact (ce, should_close);
 }
 

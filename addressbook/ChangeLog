@@ -1,3 +1,11 @@
+2004-12-01  Sivaiah Nallagatla <snallagatla@novell.com> 
+
+	* gui/contact-editor/e-contact-editor.c (save_contact) :
+	save the uid and set it again in the contact. Otherwise, there is
+	possibility we trying to save the contact wiht out UID, as we destory the 
+	contact and create new one when data is wrong  
+
+	 
 2004-11-28  Sivaiah Nallagatla <snallagatla@novell.com>
 
 	* gui/contact-editor/e-contact-editor.h : Define
