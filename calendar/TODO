@@ -47,3 +47,6 @@ Gnome date selection widget:
 General:
 
 - Write online help.  Nice help.  Lots of help.
+
+- If you leave the calendar running overnight, the "current day"
+  marker in the GnomeMonthItems does not get updated.

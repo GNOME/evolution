@@ -1,3 +1,7 @@
+1998-09-27  Federico Mena Quintero  <federico@nuclecu.unam.mx>
+
+	* main.c: Hotkey for File/Exit should be C-q, not C-x.
+
 1998-09-24  Federico Mena Quintero  <federico@nuclecu.unam.mx>
 
 	* year-view.c (do_popup_menu): New function to execute the popup

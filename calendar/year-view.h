@@ -1,4 +1,4 @@
-/* Year view display for gncal
+/* Year view display for Gnomecal
  *
  * Copyright (C) 1998 The Free Software Foundation
  *
