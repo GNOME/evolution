@@ -11,6 +11,10 @@
 
 	<oaf_attribute name="description" type="string"
                        _value="The Personal Addressbook Server"/>
+
+        <oaf_attribute name="addressbook:supported_protocols" type="stringv">
+		<item value="file"/>
+        </oaf_attribute>
 </oaf_server>
 
 <oaf_server iid="OAFIID:GNOME_Evolution_Wombat_CalendarFactory"

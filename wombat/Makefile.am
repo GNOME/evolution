@@ -43,13 +43,23 @@ wombat_LDADD =							\
 
 oafdir = $(datadir)/oaf
 
+if ENABLE_LDAP
+OAF_IN_FILE=GNOME_Evolution_WombatLDAP.oaf.in
+else
+OAF_IN_FILE=GNOME_Evolution_WombatNOLDAP.oaf.in
+endif
+
+GNOME_Evolution_Wombat.oaf.in: $(OAF_IN_FILE)
+	cp $< $@
+
 oaf_in_files = GNOME_Evolution_Wombat.oaf.in
 oaf_DATA = $(oaf_in_files:.oaf.in=.oaf)
 
 @XML_I18N_MERGE_OAF_RULE@
 
 
-EXTRA_DIST = $(oaf_DATA) $(oaf_in_files) wombat.idl
+EXTRA_DIST = $(oaf_DATA) $(oaf_in_files) wombat.idl \
+	     GNOME_Evolution_WombatLDAP.oaf.in GNOME_Evolution_WombatNOLDAP.oaf.in
 
 if ENABLE_PURIFY
 PLINK = $(LIBTOOL) --mode=link $(PURIFY) $(CCLD) $(AM_CFLAGS) $(CFLAGS) $(LDFLAGS) -o $@
