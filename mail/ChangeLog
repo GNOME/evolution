@@ -1,5 +1,9 @@
 2001-05-25  Jeffrey Stedfast  <fejj@ximian.com>
 
+	* folder-browser-factory.c (control_activate): Disable Resend on
+	non-Sent folder FolderBrowsers. Thanks to Wayne Davis for this
+	patch.
+
 	* component-factory.c (xfer_folder): This code should be correct
 	now. Still waiting on the shell to do it's job of creating the
 	metadata xml file in the destination folder though.

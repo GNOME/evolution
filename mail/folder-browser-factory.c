@@ -258,11 +258,15 @@ control_activate (BonoboControl     *control,
 	} else {
 		state = mail_config_get_hide_deleted();
 	}
-	bonobo_ui_component_set_prop(uic, "/commands/HideDeleted", "state", state?"1":"0", NULL);
-	bonobo_ui_component_add_listener(uic, "HideDeleted", folder_browser_toggle_hide_deleted, folder_browser);
+	bonobo_ui_component_set_prop (uic, "/commands/HideDeleted", "state", state ? "1" : "0", NULL);
+	bonobo_ui_component_add_listener (uic, "HideDeleted", folder_browser_toggle_hide_deleted,
+					  folder_browser);
 	/* FIXME: this kind of bypasses bonobo but seems the only way when we change components */
-	folder_browser_toggle_hide_deleted(uic, "", Bonobo_UIComponent_STATE_CHANGED, state?"1":"0", folder_browser);
-
+	folder_browser_toggle_hide_deleted (uic, "", Bonobo_UIComponent_STATE_CHANGED,
+					    state ? "1" : "0", folder_browser);
+	if (fb->folder && !folder_browser_is_sent (fb)) 
+		bonobo_ui_component_set_prop (uic, "/commands/MessageResend", "sensitive", "0", NULL);
+	
 	folder_browser_setup_view_menus (fb, uic);
 	folder_browser_setup_property_menu (fb, uic);
 	
