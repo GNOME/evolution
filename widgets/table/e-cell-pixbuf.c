@@ -7,11 +7,8 @@
  *
  */
 
-#include <glib.h>
-#include <gtk/gtk.h>
-
 #include <stdio.h>
-
+#include <glib.h>
 #include <libgnomeui/libgnomeui.h>
 
 #include "e-cell-pixbuf.h"

@@ -10,6 +10,7 @@
  */
 
 #include <config.h>
+#include <gdk/gdkkeysyms.h>
 #include <gtk/gtksignal.h>
 #include <libgnomeui/gnome-canvas-rect-ellipse.h>
 #include "e-table-group-container.h"

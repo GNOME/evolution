@@ -2,8 +2,8 @@
 #ifndef _E_TABLE_CLICK_TO_ADD_H_
 #define _E_TABLE_CLICK_TO_ADD_H_
 
-#include <libgnomeui/gnome-canvas.h>
 #include <gnome-xml/tree.h>
+#include <libgnomeui/gnome-canvas.h>
 #include <gal/e-table/e-table-header.h>
 #include <gal/e-table/e-table-sort-info.h>
 #include <gal/e-table/e-table-item.h>

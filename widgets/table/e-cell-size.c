@@ -5,11 +5,10 @@
  */
 
 #include <config.h>
-#include "e-cell-size.h"
-#include <gnome.h>
 #include <sys/time.h>
 #include <unistd.h>
 #include <gal/util/e-util.h>
+#include "e-cell-size.h"
 
 #define PARENT_TYPE e_cell_text_get_type ()
 

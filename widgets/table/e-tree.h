@@ -4,6 +4,11 @@
 
 #include <gtk/gtktable.h>
 #include <gnome-xml/tree.h>
+#include <libgnomeui/gnome-canvas.h>
+#include <gal/e-table/e-table-header.h>
+#include <gal/e-table/e-table-group.h>
+#include <gal/e-table/e-table-sort-info.h>
+#include <gal/e-table/e-table-item.h>
 
 #include <gal/widgets/e-printable.h>
 

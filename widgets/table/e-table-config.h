@@ -2,7 +2,7 @@
 #ifndef _E_TABLE_CONFIG_H_
 #define _E_TABLE_CONFIG_H_
 
-#include <gnome.h>
+#include <libgnome/gnome-defs.h>
 #include <gal/e-table/e-table-sort-info.h>
 #include <gal/e-table/e-table-specification.h>
 #include <gal/widgets/gtk-combo-text.h>

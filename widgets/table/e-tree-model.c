@@ -14,6 +14,7 @@
 
 #include <stdio.h>
 #include <errno.h>
+#include <stdlib.h>
 #include <unistd.h>
 #include <fcntl.h>
 
@@ -21,7 +22,6 @@
 #include <gnome-xml/xmlmemory.h>
 
 #include <gtk/gtksignal.h>
-#include <stdlib.h>
 #include "gal/util/e-util.h"
 #include "gal/util/e-xml-utils.h"
 #include "e-tree-model.h"

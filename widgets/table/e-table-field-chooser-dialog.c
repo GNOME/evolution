@@ -21,7 +21,7 @@
  */
 
 #include <config.h>
-#include <gnome.h>
+#include <libgnomeui/gnome-stock.h>
 #include "e-table-field-chooser-dialog.h"
 
 static void e_table_field_chooser_dialog_init		(ETableFieldChooserDialog		 *card);

@@ -8,6 +8,7 @@
  * Copyright 1999, 2000 Ximian, Inc.
  */
 #include <config.h>
+#include <string.h>
 #include <gtk/gtksignal.h>
 #include <gtk/gtkdnd.h>
 #include <libgnomeui/gnome-canvas.h>

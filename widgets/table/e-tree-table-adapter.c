@@ -12,11 +12,11 @@
 #include <stdlib.h>
 #include <string.h>
 #include <gtk/gtksignal.h>
+#include <gnome-xml/tree.h>
+#include <gnome-xml/parser.h>
 #include "gal/util/e-util.h"
 #include "gal/util/e-xml-utils.h"
 #include "e-tree-table-adapter.h"
-#include "gnome-xml/tree.h"
-#include "gnome-xml/parser.h"
 
 #define PARENT_TYPE E_TABLE_MODEL_TYPE
 #define d(x)

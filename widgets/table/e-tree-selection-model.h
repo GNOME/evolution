@@ -2,7 +2,9 @@
 #ifndef _E_TREE_SELECTION_MODEL_H_
 #define _E_TREE_SELECTION_MODEL_H_
 
+#include <gdk/gdktypes.h>
 #include <gtk/gtkobject.h>
+#include <gal/util/e-sorter.h>
 #include <gal/widgets/e-selection-model.h>
 #include <gal/e-table/e-tree-model.h>
 

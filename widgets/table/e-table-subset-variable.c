@@ -9,8 +9,8 @@
  */
 #include <config.h>
 #include <stdlib.h>
-#include <gtk/gtksignal.h>
 #include <string.h>
+#include <gtk/gtksignal.h>
 #include "gal/util/e-util.h"
 #include "e-table-subset-variable.h"
 

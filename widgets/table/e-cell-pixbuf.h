@@ -10,8 +10,6 @@
 #ifndef _E_CELL_PIXBUF_H_
 #define _E_CELL_PIXBUF_H_
 
-#include <glib.h>
-
 #include <gal/e-table/e-table.h>
 
 #define E_CELL_PIXBUF_TYPE		(e_cell_pixbuf_get_type ())

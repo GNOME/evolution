@@ -14,8 +14,11 @@
 
 #include <config.h>
 
-#include "e-cell-tree.h"
+#include <ctype.h>
+#include <math.h>
+#include <stdio.h>
 
+#include <gdk/gdkx.h> /* for BlackPixel */
 #include <gtk/gtkenums.h>
 #include <gtk/gtkentry.h>
 #include <gtk/gtkwindow.h>
@@ -23,16 +26,12 @@
 #include <gtk/gtksignal.h>
 #include <gdk/gdkkeysyms.h>
 #include <libgnomeui/gnome-canvas.h>
-#include <stdio.h>
 
 #include "e-tree-table-adapter.h"
 #include "e-tree-model.h"
 #include "gal/util/e-util.h"
 #include "e-table-item.h"
-
-#include <gdk/gdkx.h> /* for BlackPixel */
-#include <ctype.h>
-#include <math.h>
+#include "e-cell-tree.h"
 
 #include "tree-expanded.xpm"
 #include "tree-unexpanded.xpm"

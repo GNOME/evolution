@@ -2,6 +2,7 @@
 #ifndef _E_TABLE_COLUMN_SPECIFICATION_H_
 #define _E_TABLE_COLUMN_SPECIFICATION_H_
 
+#include <glib.h>
 #include <gtk/gtkobject.h>
 #include <gnome-xml/tree.h>
 

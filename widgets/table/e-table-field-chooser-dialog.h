@@ -21,7 +21,7 @@
 #ifndef __E_TABLE_FIELD_CHOOSER_DIALOG_H__
 #define __E_TABLE_FIELD_CHOOSER_DIALOG_H__
 
-#include <gnome.h>
+#include <libgnomeui/gnome-dialog.h>
 #include <gal/e-table/e-table-field-chooser.h>
 #include <gal/e-table/e-table-header.h>
 

@@ -15,11 +15,18 @@
 
 #include <config.h>
 #include <stdlib.h>
-#include "gal/util/e-i18n.h"
+#include <string.h>
+#include <gtk/gtkentry.h>
+#include <gtk/gtklabel.h>
+#include <gtk/gtknotebook.h>
+#include <gtk/gtksignal.h>
+#include <gtk/gtktogglebutton.h>
 #include <libgnomeui/gnome-dialog.h>
+#include <libgnomeui/gnome-propertybox.h>
 #include <glade/glade.h>
 #include "e-table-config.h"
 #include "gal/util/e-util.h"
+#include "gal/util/e-i18n.h"
 
 
 #define PARENT_TYPE (gtk_object_get_type())

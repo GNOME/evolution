@@ -8,10 +8,10 @@
  * (C) 2000, 2001 Ximian, Inc.
  */
 #include <config.h>
+#include <gdk/gdkkeysyms.h>
 #include <gtk/gtksignal.h>
 #include "e-table-selection-model.h"
 #include "gal/util/e-util.h"
-#include <gdk/gdkkeysyms.h>
 
 #define ETSM_CLASS(e) ((ETableSelectionModelClass *)((GtkObject *)e)->klass)
 

@@ -25,6 +25,12 @@
  */
 
 #include <config.h>
+#include <stdio.h>
+#include <unicode.h>
+#include <ctype.h>
+#include <math.h>
+#include <string.h>
+#include <gdk/gdkx.h> /* for BlackPixel */
 #include <gtk/gtkenums.h>
 #include <gtk/gtkentry.h>
 #include <gtk/gtkwindow.h>
@@ -32,8 +38,7 @@
 #include <gtk/gtksignal.h>
 #include <gdk/gdkkeysyms.h>
 #include <libgnomeui/gnome-canvas.h>
-#include <stdio.h>
-#include <unicode.h>
+#include <libgnomeui/gnome-canvas-rect-ellipse.h>
 #include "e-cell-text.h"
 #include "gal/util/e-util.h"
 #include "gal/widgets/e-canvas.h"
@@ -45,9 +50,6 @@
 #include "gal/util/e-text-event-processor-emacs-like.h"
 #include "e-table-tooltip.h"
 
-#include <gdk/gdkx.h> /* for BlackPixel */
-#include <ctype.h>
-#include <math.h>
 
 #define ECT_CLASS(c) (E_CELL_TEXT_CLASS(GTK_OBJECT((c))->klass))
 

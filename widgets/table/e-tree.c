@@ -9,15 +9,15 @@
  * Copyright 1999, 2000, 2001, Ximian, Inc
  */
 #include <config.h>
-#include "e-tree.h"
-
 #include <stdlib.h>
 #include <stdio.h>
 #include <string.h>
 #include <stdio.h>
-#include "gal/util/e-i18n.h"
+#include <gdk/gdkkeysyms.h>
 #include <gtk/gtksignal.h>
+#include <libgnomeui/gnome-canvas-rect-ellipse.h>
 
+#include "gal/util/e-i18n.h"
 #include <gal/util/e-util.h>
 #include <gal/widgets/e-canvas.h>
 
@@ -36,6 +36,8 @@
 
 #include <gal/e-table/e-tree-sorted.h>
 #include <gal/e-table/e-tree-table-adapter.h>
+
+#include "e-tree.h"
 
 #define COLUMN_HEADER_HEIGHT 16
 

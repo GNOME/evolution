@@ -13,10 +13,10 @@
  *
  */
 #include <config.h>
+#include <math.h>
 #include <stdio.h>
 #include <gtk/gtksignal.h>
 #include <gdk/gdkkeysyms.h>
-#include <math.h>
 #include "e-table-item.h"
 #include "e-table-subset.h"
 #include "e-cell.h"

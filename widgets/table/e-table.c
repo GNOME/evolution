@@ -13,10 +13,12 @@
 #include <stdio.h>
 #include <string.h>
 #include <stdio.h>
-#include "gal/util/e-i18n.h"
-#include <libgnomeui/gnome-canvas.h>
+#include <gdk/gdkkeysyms.h>
 #include <gtk/gtksignal.h>
+#include <libgnomeui/gnome-canvas.h>
+#include <libgnomeui/gnome-canvas-rect-ellipse.h>
 
+#include "gal/util/e-i18n.h"
 #include "gal/util/e-util.h"
 #include "gal/widgets/e-canvas.h"
 #include "gal/widgets/e-canvas-vbox.h"

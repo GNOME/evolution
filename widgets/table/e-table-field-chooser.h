@@ -21,7 +21,6 @@
 #ifndef __E_TABLE_FIELD_CHOOSER_H__
 #define __E_TABLE_FIELD_CHOOSER_H__
 
-#include <gnome.h>
 #include <glade/glade.h>
 #include <gal/e-table/e-table-header.h>
 
