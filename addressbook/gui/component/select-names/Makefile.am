@@ -59,6 +59,8 @@ libeselectnames_la_SOURCES = 		\
 	e-select-names-manager.h	\
 	e-select-names-model.c		\
 	e-select-names-model.h		\
+	e-select-names-popup.c		\
+	e-select-names-popup.h		\
 	e-select-names-table-model.c	\
 	e-select-names-table-model.h	\
 	e-select-names-text-model.c	\

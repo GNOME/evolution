@@ -60,9 +60,10 @@ EDestination *e_destination_copy (EDestination *);
 void e_destination_set_card   (EDestination *, ECard *card, gint email_num);
 void e_destination_set_string (EDestination *, const gchar *string);
 
-ECard       *e_destination_get_card   (const EDestination *);
-const gchar *e_destination_get_string (const EDestination *);
-gint         e_destination_get_strlen (const EDestination *); /* a convenience function... */
+ECard       *e_destination_get_card      (const EDestination *);
+gint         e_destination_get_email_num (const EDestination *);
+const gchar *e_destination_get_string    (const EDestination *);
+gint         e_destination_get_strlen    (const EDestination *); /* a convenience function... */
 
 const gchar *e_destination_get_email         (const EDestination *);
 const gchar *e_destination_get_email_verbose (const EDestination *);

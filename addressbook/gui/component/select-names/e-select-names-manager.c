@@ -17,6 +17,7 @@
 #include "e-select-names-text-model.h"
 #include "e-select-names.h"
 #include "e-select-names-completion.h"
+#include "e-select-names-popup.h"
 #include <gal/e-text/e-entry.h>
 #include <addressbook/backend/ebook/e-destination.h>
 
@@ -289,6 +290,12 @@ completion_handler (EEntry *entry, const gchar *text, gpointer user_data)
 	e_entry_set_position (entry, start_pos+len);
 }
 
+static void
+popup_cb (EEntry *entry, GdkEventButton *ev, gint pos, ESelectNamesModel *model)
+{
+	e_select_names_popup (model, ev, pos);
+}
+
 GtkWidget *
 e_select_names_manager_create_entry (ESelectNamesManager *manager, const char *id)
 {
@@ -304,7 +311,12 @@ e_select_names_manager_create_entry (ESelectNamesManager *manager, const char *i
 
 			eentry = E_ENTRY (e_entry_new ());
 			gtk_object_set_data (GTK_OBJECT (eentry), "select_names_model", section->model);
-			
+
+			gtk_signal_connect (GTK_OBJECT (eentry),
+					    "popup",
+					    GTK_SIGNAL_FUNC (popup_cb),
+					    section->model);
+
 			entry = g_new (ESelectNamesManagerEntry, 1);
 			entry->entry = eentry;
 			entry->id = (char *)id;

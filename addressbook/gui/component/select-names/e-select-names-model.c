@@ -386,7 +386,11 @@ e_select_names_model_replace (ESelectNamesModel *model, gint index, EDestination
 	new_strlen = e_destination_get_strlen (dest);
 
 	if (model->priv->data == NULL) {
+
 		model->priv->data = g_list_append (model->priv->data, dest);
+		gtk_object_ref (GTK_OBJECT (dest));
+		gtk_object_sink (GTK_OBJECT (dest));
+
 	} else {
 		
 		node = g_list_nth (model->priv->data, index);

@@ -1,3 +1,25 @@
+2001-03-06  Jon Trowbridge  <trow@ximian.com>
+
+	* gui/component/select-names/e-select-names-model.c
+	(e_select_names_model_replace): Fix a reference counting bug.
+
+	* gui/component/select-names/e-select-names-manager.c (popup_cb):
+	A callback for creating the appropriate popup by calling
+	e_select_names_popup.
+	(e_select_names_manager_create_entry): Connect popup_cb to the
+	entry's popup signal
+
+	* gui/component/select-names/e-select-names-popup.c: Added.  Code
+	for popup right-click menus for recipient entries.  Still a bit
+	incomplete.
+
+	* backend/ebook/e-destination.c (e_destination_get_email_num):
+	Added.
+
+	* contact-editor/e-contact-quick-add.c: Added.  Some code and a
+	dialog for very quickly adding entries to the address book.
+	Still not fully working.
+
 2001-03-04  Christopher James Lahey  <clahey@ximian.com>
 
 	* backend/ebook/e-card-simple.c: Cleaned up the formatting in this

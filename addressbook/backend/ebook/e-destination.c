@@ -183,6 +183,14 @@ e_destination_get_card (const EDestination *dest)
 	return dest->priv->card;
 }
 
+gint
+e_destination_get_email_num (const EDestination *dest)
+{
+	g_return_val_if_fail (dest && E_IS_DESTINATION (dest), -1);
+
+	return dest->priv->card_email_num;
+}
+
 const gchar *
 e_destination_get_string (const EDestination *dest)
 {
