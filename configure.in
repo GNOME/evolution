@@ -618,6 +618,12 @@ calendar/gui/dialogs/Makefile
 calendar/conduits/Makefile
 calendar/conduits/calendar/Makefile
 calendar/conduits/todo/Makefile
+executive-summary/Makefile
+executive-summary/idl/Makefile
+executive-summary/evolution-services/Makefile
+executive-summary/widgets/Makefile
+executive-summary/component/Makefile
+executive-summary/test-service/Makefile
 filter/Makefile
 wombat/Makefile
 art/Makefile
@@ -627,6 +633,7 @@ default_user/local/Makefile
 default_user/local/Calendar/Makefile
 default_user/local/Contacts/Makefile
 default_user/local/Drafts/Makefile
+default_user/local/Executive-Summary/Makefile
 default_user/local/Inbox/Makefile
 default_user/local/Outbox/Makefile
 default_user/local/Sent/Makefile

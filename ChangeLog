@@ -1,3 +1,11 @@
+2000-10-05  Iain Holmes  <iain@helixcode.com>
+
+	* executive-summary/*: Added the executive summary stuff.
+
+	* ui/evolution-executive-summary.xml: New.
+
+	* art/add-service.png: New icon.
+
 2000-10-03  Matt Bissiri  <bissiri@eecs.umich.edu>
 
 	* ui/evolution-addressbook-ldap.xml,
