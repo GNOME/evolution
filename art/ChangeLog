@@ -1,3 +1,7 @@
+2001-08-07  Jakub Steiner <jimmac@ximian.com>
+
+	* inbox-*, outbox-*: tree view icons
+
 2001-08-03  Jakub Steiner <jimmac@ximian.com>
 
 	* ldap-16.png, imap-16.png, local-16.png: tree view icons for
