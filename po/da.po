@@ -16885,7 +16885,7 @@ msgstr ""
 "Martin Willemoes Hansen\n"
 "Søren Boll Overgaard\n"
 "Dansk-gruppen <dansk@klid.dk>\n"
-"Mere info: http://www.klid.dk/dansk/\n"
+"Mere info: http://www.klid.dk/dansk/"
 
 #: shell/e-shell-window-commands.c:439
 msgid "Groupware Suite"
