@@ -1,3 +1,8 @@
+2001-07-12  JP Rosevear  <jpr@ximian.com>
+
+	* gui/dialogs/task-details-page.c (task_details_page_set_dates):
+	guard against infinite loops with the updating boolean, fixes 4270
+
 2001-07-12  Rodrigo Moya <rodrigo@ximian.com>
 
 	* gui/e-calendar-table.c: added support for multiple selections in

@@ -387,6 +387,11 @@ task_details_page_set_dates (CompEditorPage *page, CompEditorPageDates *dates)
 	tdpage = TASK_DETAILS_PAGE (page);
 	priv = tdpage->priv;
 
+	if (priv->updating)
+		return;
+	
+	priv->updating = TRUE;
+	
 	comp_editor_date_label (dates, priv->date_time);
 
 	if (dates->complete) {
@@ -412,6 +417,8 @@ task_details_page_set_dates (CompEditorPage *page, CompEditorPageDates *dates)
 						     tt->hour, tt->minute);
 		}
 	}
+	
+	priv->updating = FALSE;
 }
 
 
