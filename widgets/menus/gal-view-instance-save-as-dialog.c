@@ -57,9 +57,17 @@ gal_view_instance_save_as_dialog_set_instance(GalViewInstanceSaveAsDialog *dialo
 {
 	dialog->instance = instance;
 	if (dialog->model) {
+		GtkWidget *table;
 		g_object_set(dialog->model,
 			     "collection", instance ? instance->collection : NULL,
 			     NULL);
+		table = glade_xml_get_widget(dialog->gui, "custom-replace");
+		if (table) {
+			ETable *etable;
+			etable = e_table_scrolled_get_table (E_TABLE_SCROLLED (table));
+			e_selection_model_select_single_row (e_table_get_selection_model (etable), 0);
+			e_selection_model_change_cursor (e_table_get_selection_model (etable), 0, 0);
+		}
 	}
 }
 
@@ -183,7 +191,7 @@ gal_view_instance_save_as_dialog_init (GalViewInstanceSaveAsDialog *dialog)
 {
 	GladeXML *gui;
 	GtkWidget *widget;
-	GtkWidget *etable;
+	GtkWidget *table;
 
 	dialog->instance = NULL;
 
@@ -208,12 +216,12 @@ gal_view_instance_save_as_dialog_init (GalViewInstanceSaveAsDialog *dialog)
 	gvisad_connect_signal(dialog, "radiobutton-create",  "toggled", G_CALLBACK(gvisad_radio_toggled));
 
 	dialog->model = NULL;
-	etable = glade_xml_get_widget(dialog->gui, "custom-replace");
-	if (etable) {
-		dialog->model = g_object_get_data(G_OBJECT (etable), "GalViewInstanceSaveAsDialog::model");
-		g_object_set(dialog->model,
-			     "collection", dialog->instance ? dialog->instance->collection : NULL,
-			     NULL);
+	table = glade_xml_get_widget(dialog->gui, "custom-replace");
+	if (table) {
+		dialog->model = g_object_get_data(G_OBJECT (table), "GalViewInstanceSaveAsDialog::model");
+
+		gal_view_instance_save_as_dialog_set_instance (dialog, dialog->instance);
+		gtk_widget_show_all (table);
 	}
 	
 	gvisad_setup_radio_buttons (dialog);
@@ -224,7 +232,7 @@ gal_view_instance_save_as_dialog_init (GalViewInstanceSaveAsDialog *dialog)
 
 /* For use from libglade. */
 /* ETable creation */
-#define SPEC "<ETableSpecification no-header=\"true\" cursor-mode=\"line\" draw-grid=\"false\" selection-mode=\"single\" gettext-domain=\"" E_I18N_DOMAIN "\">" \
+#define SPEC "<ETableSpecification no-headers=\"true\" cursor-mode=\"line\" draw-grid=\"false\" selection-mode=\"single\" gettext-domain=\"" E_I18N_DOMAIN "\">" \
 	     "<ETableColumn model_col= \"0\" _title=\"Name\" expansion=\"1.0\" minimum_width=\"18\" resizable=\"true\" cell=\"string\" compare=\"string\"/>" \
              "<ETableState> <column source=\"0\"/> <grouping> </grouping> </ETableState>" \
 	     "</ETableSpecification>"
@@ -236,9 +244,10 @@ gal_view_instance_save_as_dialog_create_etable(char *name, char *string1, char *
 {
 	GtkWidget *table;
 	ETableModel *model;
-	model = gal_define_views_model_new();
+	model = gal_define_views_model_new ();
 	table = e_table_scrolled_new(model, NULL, SPEC, NULL);
 	g_object_set_data(G_OBJECT (table), "GalViewInstanceSaveAsDialog::model", model);
+
 	return table;
 }
 
