@@ -1,6 +1,6 @@
 /* -*- Mode: C; tab-width: 8; indent-tabs-mode: t; c-basic-offset: 8 -*- */
 /* 
- * e-reflow.c
+ * e-contact-print.h
  * Copyright (C) 2000  Helix Code, Inc.
  * Author: Chris Lahey <clahey@helixcode.com>
  *

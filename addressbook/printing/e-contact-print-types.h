@@ -27,10 +27,18 @@
 #include <libgnomeprint/gnome-font.h>
 
 typedef struct _EContactPrintStyle EContactPrintStyle;
+typedef enum _EContactPrintType EContactPrintType;
+
+enum _EContactPrintType {
+	E_CONTACT_PRINT_TYPE_CARDS,
+	E_CONTACT_PRINT_TYPE_MEMO_STYLE,
+	E_CONTACT_PRINT_TYPE_PHONE_LIST
+};
 
 struct _EContactPrintStyle
 {
 	gchar *title;
+	EContactPrintType type;
 	gboolean sections_start_new_page;
 	guint num_columns;
 	guint blank_forms;

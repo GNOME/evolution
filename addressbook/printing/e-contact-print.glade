@@ -12,6 +12,7 @@
 <widget>
   <class>GnomeDialog</class>
   <name>print-edit-style</name>
+  <visible>False</visible>
   <title>Page Setup:</title>
   <type>GTK_WINDOW_TOPLEVEL</type>
   <position>GTK_WIN_POS_NONE</position>
@@ -36,7 +37,7 @@
 
     <widget>
       <class>GtkVBox</class>
-      <name>vbox1</name>
+      <name>vbox-contact-print-style-editor</name>
       <homogeneous>False</homogeneous>
       <spacing>5</spacing>
       <child>
@@ -76,7 +77,7 @@
 
 	<widget>
 	  <class>GtkEntry</class>
-	  <name>entry1</name>
+	  <name>label-style-name</name>
 	  <can_focus>True</can_focus>
 	  <editable>False</editable>
 	  <text_visible>True</text_visible>
@@ -1844,8 +1845,8 @@
 	      <xscale>0</xscale>
 	      <yscale>0</yscale>
 	      <child>
-		<left_attach>2</left_attach>
-		<right_attach>3</right_attach>
+		<left_attach>1</left_attach>
+		<right_attach>2</right_attach>
 		<top_attach>0</top_attach>
 		<bottom_attach>1</bottom_attach>
 		<xpad>0</xpad>

@@ -6,8 +6,8 @@
 <blank_forms>2</blank_forms>
 <letter_tabs>TRUE</letter_tabs>
 <letter_headings>TRUE</letter_headings>
-<headings_font>Helvetica-Bold 8</headings_font>
-<body_font>Helvetica 6</body_font>
+<headings_font>Helvetica-Bold 10</headings_font>
+<body_font>Helvetica 8</body_font>
 <print_using_grey>TRUE</print_using_grey>
 <paper_width>8.5</paper_width>
 <paper_height>11</paper_height>
@@ -15,14 +15,14 @@
 <left_margin>0.5</left_margin>
 <bottom_margin>0.5</bottom_margin>
 <right_margin>0.5</right_margin>
-<page_width>2.75</page_width>
-<page_height>4.25</page_height>
+<page_width>4.25</page_width>
+<page_height>5.5</page_height>
 <orientation>portrait</orientation>
-<header_font>Helvetica 6</header_font>
+<header_font>Helvetica 8</header_font>
 <left_header/>
 <center_header/>
 <right_header/>
-<footer_font>Helvetica 6</footer_font>
+<footer_font>Helvetica 8</footer_font>
 <left_footer/>
 <center_footer>[Page #]</center_footer>
 <right_footer/>

@@ -1,5 +1,40 @@
 2000-01-28  Christopher James Lahey  <clahey@helixcode.com>
 
+	* addressbook/printing/e-contact-print-style-editor.h,
+	addressbook/printing/e-contact-print-style-editor.c,
+	addressbook/printing/test-contact-print-style-editor.c: Files to
+	load the contact print style editor from the glade file.  Doesn't
+	really do anything yet.
+
+	* addressbook/printing/Makefile.am: Added style editor stuff.
+
+	* addressbook/printing/e-contact-print.glade: Changed a bit.
+	Fixed an out of place widget.
+
+	* addressbook/printing/.cvsignore: Added
+	contact-print-style-editor-test.
+
+	* addressbook/printing/smallbook.ecps: Fixed up the values to
+	match the new types.
+
+	* addressbook/printing/medbook.ecps,
+	addressbook/printing/phonelist.ecps: Added two new printing
+	styles.
+
+	* addressbook/printing/e-contact-print.h: Fixed an incorrect
+	comment.
+	
+	* addressbook/printing/e-contact-print.c: Added columns and letter
+	tabs.  Tweaked spacing all over the place.  Fixed card height
+	function so that column wrapping is always done correctly.  Added
+	pulling of style information from a file.  Added line wrapping
+	within each text field.
+
+	* addressbook/printing/e-contact-print-types.h: Added a type field
+	for different types of print styles.
+
+2000-01-28  Christopher James Lahey  <clahey@helixcode.com>
+
 	* widgets/e-text.c (e_text_command): Handle the grab and ungrab
 	command instead of doing focus by hand.  This fixes a problem
 	related to the scroll wheel.
