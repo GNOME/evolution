@@ -26,6 +26,8 @@
 #include "e-table-search.h"
 #include "gal/util/e-util.h"
 
+#include <string.h>
+
 #define ETS_CLASS(e) ((ETableSearchClass *)((GtkObject *)e)->klass)
 
 #define PARENT_TYPE gtk_object_get_type ()
