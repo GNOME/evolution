@@ -1,3 +1,10 @@
+2001-04-06  Federico Mena Quintero  <federico@ximian.com>
+
+	* e-sexp.c (scanner_config): Added a question mark to the set of
+	valid characters for symbol names.
+	(parse_value): Fixed parsing of boolean values.
+	(parse_term_free): Added missing clause for ESEXP_TERM_BOOL.
+
 2001-04-04  Kjartan Maraas  <kmaraas@gnome.org>
 
 	* ename/test-ename-western-gtk.c: Fix headers.

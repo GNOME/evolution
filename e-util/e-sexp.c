@@ -103,10 +103,10 @@ static GScannerConfig scanner_config =
 {
 	( " \t\r\n")		/* cset_skip_characters */,
 	( G_CSET_a_2_z
-	  "_+-<=>"
+	  "_+-<=>?"
 	  G_CSET_A_2_Z)		/* cset_identifier_first */,
 	( G_CSET_a_2_z
-	  "_0123456789-<>"
+	  "_0123456789-<>?"
 	  G_CSET_A_2_Z
 	  G_CSET_LATINS
 	  G_CSET_LATINC	)	/* cset_identifier_nth */,
@@ -760,6 +760,16 @@ parse_term_free(struct _ESExp *f, struct _ESExpTerm *t)
 	}
 	
 	switch (t->type) {
+	case ESEXP_TERM_INT:
+	case ESEXP_TERM_BOOL:
+	case ESEXP_TERM_TIME:
+	case ESEXP_TERM_VAR:
+		break;
+
+	case ESEXP_TERM_STRING:
+		g_free(t->value.string);
+		break;
+
 	case ESEXP_TERM_FUNC:
 	case ESEXP_TERM_IFUNC:
 		for (i=0;i<t->value.func.termcount;i++) {
@@ -767,15 +777,7 @@ parse_term_free(struct _ESExp *f, struct _ESExpTerm *t)
 		}
 		g_free(t->value.func.terms);
 		break;
-	case ESEXP_TERM_VAR:
-		break;
-	case ESEXP_TERM_STRING:
-		g_free(t->value.string);
-		break;
-	case ESEXP_TERM_INT:
-		break;
-	case ESEXP_TERM_TIME:
-		break;
+
 	default:
 		printf("parse_term_free: unknown type: %d\n", t->type);
 	}
@@ -833,12 +835,27 @@ parse_value(ESExp *f)
 		t->value.number = g_scanner_cur_value(gs).v_int;
 		p(printf("got int\n"));
 		break;
-	case '#':
+	case '#': {
+		char *str;
+
 		p(printf("got bool?\n"));
 		token = g_scanner_get_next_token(gs);
+		if (token != G_TOKEN_IDENTIFIER) {
+			e_sexp_fatal_error (f, "Invalid format for a boolean value");
+			return NULL;
+		}
+
+		str = g_scanner_cur_value (gs).v_identifier;
+
+		g_assert (str != NULL);
+		if (!(strlen (str) == 1 && (str[0] == 't' || str[0] == 'f'))) {
+			e_sexp_fatal_error (f, "Invalid format for a boolean value");
+			return NULL;
+		}
+
 		t = parse_term_new(f, ESEXP_TERM_BOOL);
-		t->value.bool = token=='t';
-		break;
+		t->value.bool = (str[0] == 't');
+		break; }
 	case G_TOKEN_SYMBOL:
 		s = g_scanner_cur_value(gs).v_symbol;
 		switch (s->type) {
