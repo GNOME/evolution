@@ -1,3 +1,9 @@
+2003-03-31  Jeffrey Stedfast  <fejj@ximian.com>
+
+	* camel-mime-filter-enriched.c (enriched_to_html): Use strncasecmp
+	for matching the nofill and /nofill tags. Also fixed to handle
+	enriched tags that require <param> tags.
+
 2003-03-28  Not Zed  <NotZed@Ximian.com>
 
 	* providers/local/camel-spool-store.c (get_folder): remove unused

@@ -32,38 +32,62 @@
 
 #include "camel-mime-filter-enriched.h"
 
+/* text/enriched is rfc1896 */
+
+typedef char * (*EnrichedParamParser) (const char *inptr, int inlen);
+
+static char *param_parse_colour (const char *inptr, int inlen);
+static char *param_parse_font (const char *inptr, int inlen);
+static char *param_parse_lang (const char *inptr, int inlen);
+
 static struct {
 	char *enriched;
 	char *html;
+	gboolean needs_param;
+	EnrichedParamParser parse_param; /* parses *and* validates the input */
 } enriched_tags[] = {
-	{ "bold",        "<b>"              },
-	{ "/bold",       "</b>"             },
-	{ "italic",      "<i>"              },
-	{ "/italic",     "</i>"             },
-	{ "fixed",       "<tt>"             },
-	{ "/fixed",      "</tt>"            },
-	{ "smaller",     "<font size=-1>"   },
-	{ "/smaller",    "</font>"          },
-	{ "bigger",      "<font size=+1>"   },
-	{ "/bigger",     "</font>"          },
-	{ "underline",   "<u>"              },
-	{ "/underline",  "</u>"             },
-	{ "center",      "<p align=center>" },
-	{ "/center",     "</p>"             },
-	{ "flushleft",   "<p align=left>"   },
-	{ "/flushleft",  "</p>"             },
-	{ "flushright",  "<p align=right>"  },
-	{ "/flushright", "</p>"             },
-	{ "excerpt",     "<blockquote>"     },
-	{ "/excerpt",    "</blockquote>"    },
-	{ "paragraph",   "<p>"              },
-	{ "signature",   "<address>"        },
-	{ "/signature",  "</address>"       },
-	{ "comment",     "<!-- "            },
-	{ "/comment",    " -->"             },
-	{ "param",       "<!-- "            },
-	{ "/param",      " -->"             },
-	{ "np",          "<hr>"             }
+	{ "bold",        "<b>",                 FALSE, NULL               },
+	{ "/bold",       "</b>",                FALSE, NULL               },
+	{ "italic",      "<i>",                 FALSE, NULL               },
+	{ "/italic",     "</i>",                FALSE, NULL               },
+	{ "fixed",       "<tt>",                FALSE, NULL               },
+	{ "/fixed",      "</tt>",               FALSE, NULL               },
+	{ "smaller",     "<font size=-1>",      FALSE, NULL               },
+	{ "/smaller",    "</font>",             FALSE, NULL               },
+	{ "bigger",      "<font size=+1>",      FALSE, NULL               },
+	{ "/bigger",     "</font>",             FALSE, NULL               },
+	{ "underline",   "<u>",                 FALSE, NULL               },
+	{ "/underline",  "</u>",                FALSE, NULL               },
+	{ "center",      "<p align=center>",    FALSE, NULL               },
+	{ "/center",     "</p>",                FALSE, NULL               },
+	{ "flushleft",   "<p align=left>",      FALSE, NULL               },
+	{ "/flushleft",  "</p>",                FALSE, NULL               },
+	{ "flushright",  "<p align=right>",     FALSE, NULL               },
+	{ "/flushright", "</p>",                FALSE, NULL               },
+	{ "excerpt",     "<blockquote>",        FALSE, NULL               },
+	{ "/excerpt",    "</blockquote>",       FALSE, NULL               },
+	{ "paragraph",   "<p>",                 FALSE, NULL               },
+	{ "signature",   "<address>",           FALSE, NULL               },
+	{ "/signature",  "</address>",          FALSE, NULL               },
+	{ "comment",     "<!-- ",               FALSE, NULL               },
+	{ "/comment",    " -->",                FALSE, NULL               },
+	{ "np",          "<hr>",                FALSE, NULL               },
+	{ "fontfamily",  "<font face=\"%s\">",  TRUE,  param_parse_font   },
+	{ "/fontfamily", "</font>",             FALSE, NULL               },
+	{ "color",       "<font color=\"%s\">", TRUE,  param_parse_colour },
+	{ "/color",      "</font>",             FALSE, NULL               },
+	{ "lang",        "<span lang=\"%s\">",  TRUE,  param_parse_lang   },
+	{ "/lang",       "</span>",             FALSE, NULL               },
+	
+	/* don't handle this tag yet... */
+	{ "paraindent",  "<!-- ",               /* TRUE */ FALSE, NULL    },
+	{ "/paraindent", " -->",                FALSE, NULL               },
+	
+	/* as soon as we support all the tags that can have a param
+	 * tag argument, these should be unnecessary, but we'll keep
+	 * them anyway just in case? */
+	{ "param",       "<!-- ",               FALSE, NULL               },
+	{ "/param",      " -->",                FALSE, NULL               },
 };
 
 #define NUM_ENRICHED_TAGS (sizeof (enriched_tags) / sizeof (enriched_tags[0]))
@@ -137,6 +161,119 @@ camel_mime_filter_enriched_init (CamelMimeFilterEnriched *filter)
 	filter->nofill = 0;
 }
 
+
+#if 0
+static gboolean
+enriched_tag_needs_param (const char *tag)
+{
+	int i;
+	
+	for (i = 0; i < NUM_ENRICHED_TAGS; i++)
+		if (!strcasecmp (tag, enriched_tags[i].enriched))
+			return enriched_tags[i].needs_param;
+	
+	return FALSE;
+}
+#endif
+
+static gboolean
+html_tag_needs_param (const char *tag)
+{
+	return strstr (tag, "%s") != NULL;
+}
+
+static const char *valid_colours[] = {
+	"red", "green", "blue", "yellow", "cyan", "magenta", "black", "white"
+};
+
+#define NUM_VALID_COLOURS  (sizeof (valid_colours) / sizeof (valid_colours[0]))
+
+static char *
+param_parse_colour (const char *inptr, int inlen)
+{
+	const char *inend, *end;
+	guint32 rgb = 0;
+	guint v;
+	int i;
+	
+	for (i = 0; i < NUM_VALID_COLOURS; i++) {
+		if (!strncasecmp (inptr, valid_colours[i], inlen))
+			return g_strdup (valid_colours[i]);
+	}
+	
+	/* check for numeric r/g/b in the format: ####,####,#### */
+	if (inptr[4] != ',' || inptr[9] != ',') {
+		/* okay, mailer must have used a string name that
+		 * rfc1896 did not specify? do some simple scanning
+		 * action, a colour name MUST be [a-zA-Z] */
+		end = inptr;
+		inend = inptr + inlen;
+		while (end < inend && ((*end >= 'a' && *end <= 'z') || (*end >= 'A' && *end <= 'Z')))
+			end++;
+		
+		return g_strndup (inptr, end - inptr);
+	}
+	
+	for (i = 0; i < 3; i++) {
+		v = strtoul (inptr, (char **) &end, 16);
+		if (end != inptr + 4)
+			goto invalid_format;
+		
+		v >>= 8;
+		rgb = (rgb << 8) | (v & 0xff);
+		
+		inptr += 5;
+	}
+	
+	return g_strdup_printf ("#%.6X", rgb);
+	
+ invalid_format:
+	
+	/* default colour? */
+	return g_strdup ("black");
+}
+
+static char *
+param_parse_font (const char *fontfamily, int inlen)
+{
+	register const char *inptr = fontfamily;
+	const char *inend = inptr + inlen;
+	
+	/* don't allow any of '"', '<', nor '>' */
+	while (inptr < inend && *inptr != '"' && *inptr != '<' && *inptr != '>')
+		inptr++;
+	
+	return g_strndup (fontfamily, inptr - fontfamily);
+}
+
+static char *
+param_parse_lang (const char *lang, int inlen)
+{
+	register const char *inptr = lang;
+	const char *inend = inptr + inlen;
+	
+	/* don't allow any of '"', '<', nor '>' */
+	while (inptr < inend && *inptr != '"' && *inptr != '<' && *inptr != '>')
+		inptr++;
+	
+	return g_strndup (lang, inptr - lang);
+}
+
+static char *
+param_parse (const char *enriched, const char *inptr, int inlen)
+{
+	int i;
+	
+	for (i = 0; i < NUM_ENRICHED_TAGS; i++) {
+		if (!strcasecmp (enriched, enriched_tags[i].enriched))
+			return enriched_tags[i].parse_param (inptr, inlen);
+	}
+	
+	g_assert_not_reached ();
+	
+	return NULL;
+}
+
 #define IS_RICHTEXT CAMEL_MIME_FILTER_ENRICHED_IS_RICHTEXT
 
 static void
@@ -155,7 +292,7 @@ enriched_to_html (CamelMimeFilter *filter, char *in, size_t inlen, size_t prespa
 	outptr = filter->outbuf;
 	outend = filter->outbuf + filter->outsize;
 	
- loop:
+ retry:
 	do {
 		while (inptr < inend && outptr < outend && !strchr (" <>&\n", *inptr))
 			*outptr++ = *inptr++;
@@ -242,7 +379,7 @@ enriched_to_html (CamelMimeFilter *filter, char *in, size_t inlen, size_t prespa
 					goto backup;
 				}
 			}
-
+			
 			tag = inptr;
 			while (inptr < inend && *inptr != '>')
 				inptr++;
@@ -252,7 +389,7 @@ enriched_to_html (CamelMimeFilter *filter, char *in, size_t inlen, size_t prespa
 				goto need_input;
 			}
 			
-			if (!strncmp (tag, "nofill>", 7)) {
+			if (!strncasecmp (tag, "nofill>", 7)) {
 				if ((outptr + 5) < outend) {
 					memcpy (outptr, "<pre>", 5);
 					enriched->nofill++;
@@ -261,7 +398,7 @@ enriched_to_html (CamelMimeFilter *filter, char *in, size_t inlen, size_t prespa
 					inptr = tag - 1;
 					goto backup;
 				}
-			} else if (!strncmp (tag, "/nofill>", 8)) {
+			} else if (!strncasecmp (tag, "/nofill>", 8)) {
 				if ((outptr + 6) < outend) {
 					memcpy (outptr, "</pre>", 6);
 					enriched->nofill--;
@@ -275,21 +412,80 @@ enriched_to_html (CamelMimeFilter *filter, char *in, size_t inlen, size_t prespa
 				char *enriched_tag;
 				int len;
 				
-				enriched_tag = g_strndup (tag, (inptr - tag));
+				len = inptr - tag;
+				enriched_tag = g_alloca (len + 1);
+				memcpy (enriched_tag, tag, len);
+				enriched_tag[len] = '\0';
+				
 				html_tag = g_hash_table_lookup (enriched_hash, enriched_tag);
-				g_free (enriched_tag);
+				
 				if (html_tag) {
-					len = strlen (html_tag);
-					if ((outptr + len) < outend) {
-						memcpy (outptr, html_tag, len);
-						outptr += len;
+					if (html_tag_needs_param (html_tag)) {
+						const char *start;
+						char *param;
+						
+						while (inptr < inend && *inptr != '<')
+							inptr++;
+						
+#define PARAM_TAG_MIN_LEN  (sizeof ("<param>") + sizeof ("</param>") - 1)
+						if (inptr == inend || (inend - inptr) <= PARAM_TAG_MIN_LEN) {
+							inptr = tag - 1;
+							goto need_input;
+						}
+						
+						if (strncasecmp (inptr, "<param>", 7) != 0) {
+							/* ignore the enriched command tag... */
+							inptr -= 1;
+							goto loop;
+						}
+						
+						inptr += 7;
+						start = inptr;
+						
+						while (inptr < inend && *inptr != '<')
+							inptr++;
+						
+						if (inptr == inend || (inend - inptr) <= 8) {
+							inptr = tag - 1;
+							goto need_input;
+						}
+						
+						if (strncasecmp (inptr, "</param>", 8) != 0) {
+							/* ignore the enriched command tag... */
+							inptr += 7;
+							goto loop;
+						}
+						
+						len = inptr - start;
+						param = param_parse (enriched_tag, start, len);
+						len = strlen (param);
+						
+						inptr += 7;
+						
+						len += strlen (html_tag);
+						
+						if ((outptr + len) < outend) {
+							outptr += snprintf (outptr, len, html_tag, param);
+							g_free (param);
+						} else {
+							g_free (param);
+							inptr = tag - 1;
+							goto backup;
+						}
 					} else {
-						inptr = tag - 1;
-						goto backup;
+						len = strlen (html_tag);
+						if ((outptr + len) < outend) {
+							memcpy (outptr, html_tag, len);
+							outptr += len;
+						} else {
+							inptr = tag - 1;
+							goto backup;
+						}
 					}
 				}
 			}
 			
+		loop:
 			inptr++;
 			break;
 		default:
@@ -323,7 +519,7 @@ enriched_to_html (CamelMimeFilter *filter, char *in, size_t inlen, size_t prespa
 		outend = filter->outbuf + filter->outsize;
 		outptr = filter->outbuf + offset;
 		
-		goto loop;
+		goto retry;
 	} else {
 		camel_mime_filter_backup (filter, inptr, (unsigned) (inend - inptr));
 	}
