@@ -1323,6 +1323,8 @@ imap4_subscribe_folder (CamelStore *store, const char *folder_name, CamelExcepti
 		fi->unread = -1;
 		fi->total = -1;
 		
+		camel_imap4_store_summary_note_info (((CamelIMAP4Store *) store)->summary, fi);
+		
 		camel_object_trigger_event (store, "folder_subscribed", fi);
 		camel_folder_info_free (fi);
 		break;
@@ -1393,6 +1395,8 @@ imap4_unsubscribe_folder (CamelStore *store, const char *folder_name, CamelExcep
 		fi->flags = 0;
 		fi->unread = -1;
 		fi->total = -1;
+		
+		camel_imap4_store_summary_unnote_info (((CamelIMAP4Store *) store)->summary, fi);
 		
 		camel_object_trigger_event (store, "folder_unsubscribed", fi);
 		camel_folder_info_free (fi);

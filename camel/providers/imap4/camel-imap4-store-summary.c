@@ -180,7 +180,7 @@ summary_header_load (CamelStoreSummary *s, FILE *in)
 	
 	is->version = version;
 	if (version < CAMEL_IMAP4_STORE_SUMMARY_VERSION_0) {
-		g_warning ("Store summary header version too low");
+		g_warning ("IMAP4 store summary header version too low");
 		errno = EINVAL;
 		return -1;
 	}

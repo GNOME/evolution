@@ -1,3 +1,16 @@
+2004-11-09  Jeffrey Stedfast  <fejj@novell.com>
+
+	* providers/imap4/camel-imap4-stream.c (camel_imap4_stream_line):
+	Handle not getting the CRLF pair together. Also don't require that
+	we have at least 3 bytes in the read buffer as it is possible we
+	don't have that much (see bug #69160).
+
+2004-11-08  Jeffrey Stedfast  <fejj@novell.com>
+
+	* providers/imap4/camel-imap4-store.c (imap4_subscribe_folder):
+	Note the folder-info just subscribed.
+	(imap4_unsubscribe_folder): Unnote the folder-info.
+
 2004-11-04  Jeffrey Stedfast  <fejj@novell.com>
 
 	* providers/imap4/camel-imap4-engine.c: Added much in-line

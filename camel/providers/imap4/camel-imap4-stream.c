@@ -631,8 +631,7 @@ camel_imap4_stream_line (CamelIMAP4Stream *stream, unsigned char **line, size_t 
 	g_return_val_if_fail (line != NULL, -1);
 	g_return_val_if_fail (len != NULL, -1);
 	
-	if ((stream->inend - stream->inptr) < 3) {
-		/* keep our buffer full to the optimal size */
+	if ((stream->inend - stream->inptr) < 2 && *stream->inptr != '\n') {
 		if (imap4_fill (stream) == -1 && stream->inptr == stream->inend)
 			return -1;
 	}
@@ -646,15 +645,16 @@ camel_imap4_stream_line (CamelIMAP4Stream *stream, unsigned char **line, size_t 
 		inptr++;
 	
 	*len = (inptr - stream->inptr);
+	
+	if (inptr > stream->inptr && inptr[-1] == '\r')
+		inptr[-1] = '\0';
+	
 	if (inptr < inend) {
 		/* got the eoln */
-		if (inptr > stream->inptr && inptr[-1] == '\r')
-			inptr[-1] = '\0';
-		else
-			inptr[0] = '\0';
+		inptr[0] = '\0';
+		*len += 1;
 		
 		stream->inptr = inptr + 1;
-		*len += 1;
 		
 		return 0;
 	}

@@ -602,7 +602,7 @@ camel_imap4_command_step (CamelIMAP4Command *ic)
 				goto exception;
 		} else if (token.token == CAMEL_IMAP4_TOKEN_ATOM && !strcmp (token.v.atom, ic->tag)) {
 			/* we got "<tag> OK/NO/BAD" */
-			fprintf (stderr, "got %s response\n", token.v.atom);
+			d(fprintf (stderr, "got %s response\n", token.v.atom));
 			
 			if (camel_imap4_engine_next_token (engine, &token, &ic->ex) == -1)
 				goto exception;
@@ -616,7 +616,7 @@ camel_imap4_command_step (CamelIMAP4Command *ic)
 					result = CAMEL_IMAP4_RESULT_BAD;
 				
 				if (result == CAMEL_IMAP4_RESULT_NONE) {
-					fprintf (stderr, "expected OK/NO/BAD but got %s\n", token.v.atom);
+					d(fprintf (stderr, "expected OK/NO/BAD but got %s\n", token.v.atom));
 					goto unexpected;
 				}
 				
@@ -634,18 +634,22 @@ camel_imap4_command_step (CamelIMAP4Command *ic)
 						goto exception;
 				}
 			} else {
+#if d(!)0
 				fprintf (stderr, "expected anything but this: ");
 				unexpected_token (&token);
 				fprintf (stderr, "\n");
+#endif
 				
 				goto unexpected;
 			}
 			
 			break;
 		} else {
+#if d(!)0
 			fprintf (stderr, "wtf is this: ");
 			unexpected_token (&token);
 			fprintf (stderr, "\n");
+#endif
 			
 		unexpected:
 			
