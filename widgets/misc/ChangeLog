@@ -1,3 +1,7 @@
+2004-04-19  Jeffrey Stedfast  <fejj@ximian.com>
+
+	* e-info-label.c (e_info_label_new): Updated to sue E_ICON_SIZE enums.
+
 2004-04-19  Rodney Dawes  <dobey@ximian.com>
 
 	* e-info-label.c (e_info_label_new): Update to use EIconFactory to

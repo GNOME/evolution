@@ -112,8 +112,8 @@ e_info_label_new(const char *icon)
 {
 	EInfoLabel *el = g_object_new(e_info_label_get_type(), 0);
 	GtkWidget *image;
-	char *name = e_icon_factory_get_icon_filename (icon, 16);
-
+	char *name = e_icon_factory_get_icon_filename (icon, E_ICON_SIZE_MENU);
+	
 	image = gtk_image_new_from_file(name);
 	g_free(name);
 	gtk_misc_set_padding((GtkMisc *)image, 6, 6);
