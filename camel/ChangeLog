@@ -1,5 +1,8 @@
 2001-03-18  Jeffrey Stedfast  <fejj@ximian.com>
 
+	* camel-remote-store.c (remote_recv_line): Protect against a
+	possibly NULL exception.
+
 	* camel-filter-driver.c (camel_filter_driver_filter_message):
 	Document and modify to return a boolean value denoting whether or
 	not errors occured during processing.
