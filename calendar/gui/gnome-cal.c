@@ -15,6 +15,7 @@
 #include "gncal-day-panel.h"
 #include "gncal-week-view.h"
 #include "gncal-year-view.h"
+#include "month-view.h"
 #include "timeutil.h"
 #include "views.h"
 #include "main.h"
@@ -48,16 +49,18 @@ setup_widgets (GnomeCalendar *gcal)
 
 	now = time (NULL);
 	
-	gcal->notebook  = gtk_notebook_new ();
-	gcal->day_view  = gncal_day_panel_new (gcal, now);
-	gcal->week_view = gncal_week_view_new (gcal, now);
-	gcal->year_view = gncal_year_view_new (gcal, now);
-	gcal->task_view = tasks_create (gcal);
+	gcal->notebook   = gtk_notebook_new ();
+	gcal->day_view   = gncal_day_panel_new (gcal, now);
+	gcal->week_view  = gncal_week_view_new (gcal, now);
+	gcal->month_view = month_view_new (gcal);
+	gcal->year_view  = gncal_year_view_new (gcal, now);
+	gcal->task_view  = tasks_create (gcal);
 
-	gtk_notebook_append_page (GTK_NOTEBOOK (gcal->notebook), gcal->day_view,  gtk_label_new (_("Day View")));
-	gtk_notebook_append_page (GTK_NOTEBOOK (gcal->notebook), gcal->week_view, gtk_label_new (_("Week View")));
-	gtk_notebook_append_page (GTK_NOTEBOOK (gcal->notebook), gcal->year_view, gtk_label_new (_("Year View")));
-/*	gtk_notebook_append_page (GTK_NOTEBOOK (gcal->notebook), gcal->task_view, gtk_label_new (_("Todo"))); */
+	gtk_notebook_append_page (GTK_NOTEBOOK (gcal->notebook), gcal->day_view,   gtk_label_new (_("Day View")));
+	gtk_notebook_append_page (GTK_NOTEBOOK (gcal->notebook), gcal->week_view,  gtk_label_new (_("Week View")));
+	gtk_notebook_append_page (GTK_NOTEBOOK (gcal->notebook), gcal->month_view, gtk_label_new (_("Month View")));
+	gtk_notebook_append_page (GTK_NOTEBOOK (gcal->notebook), gcal->year_view,  gtk_label_new (_("Year View")));
+/*	gtk_notebook_append_page (GTK_NOTEBOOK (gcal->notebook), gcal->task_view,  gtk_label_new (_("Todo"))); */
 
 	gtk_widget_show_all (gcal->notebook);
 	

@@ -10,6 +10,7 @@
 
 #include <libgnome/gnome-defs.h>
 #include <libgnomeui/gnome-app.h>
+#include <libgnomeui/gtkcalendar.h>
 
 #include "calendar.h"
 
@@ -27,6 +28,7 @@ typedef struct {
 	GtkWidget   *notebook;
 	GtkWidget   *day_view;
 	GtkWidget   *week_view;
+	GtkWidget   *month_view;
 	GtkWidget   *year_view;
 	GtkWidget   *task_view;
 	void        *event_editor;

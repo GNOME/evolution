@@ -1,3 +1,22 @@
+1998-08-10  Federico Mena Quintero  <federico@nuclecu.unam.mx>
+
+	* month-view.[ch]: Start of the month view widget.  This will use
+	the generic month item and extend it to have the semantics desired
+	for the gnomecal month view.
+
+	* gnome-month-item.[ch]: New generic canvas item for the month
+	view and the "small calendars".  This is intended to be a
+	high-level display engine for monthly calendars.  This is a work
+	in progress.
+
+	* gnome-cal.h (GnomeCalendar): Added a month_view field.
+
+	* gnome-cal.c (setup_widgets): Create the month view and insert it
+	into the notebook.
+
+	* Makefile.am: Added month-view.[ch] and gnome-month-item.[ch] to
+	the sources.
+
 1998-08-03  Federico Mena Quintero  <federico@nuclecu.unam.mx>
 
 	* main.c (about_calendar_cmd): Use an array of const strings to

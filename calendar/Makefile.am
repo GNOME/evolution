@@ -32,11 +32,15 @@ gnomecal_SOURCES = \
 	gncal-todo.h		\
 	gncal-year-view.c	\
 	gncal-year-view.h	\
+	gnome-month-item.c	\
+	gnome-month-item.h	\
 	getdate.y		\
 	gnome-cal.c		\
 	gnome-cal.h		\
 	main.c			\
 	main.h			\
+	month-view.c		\
+	month-view.h		\
 	popup-menu.c		\
 	popup-menu.h		\
 	prop.c			\
