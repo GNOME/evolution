@@ -2033,6 +2033,14 @@ add_message_from_data (CamelFolder *folder, GPtrArray *messages,
 	messages->pdata[seq - first] = mi;
 }
 
+
+#define CAMEL_MESSAGE_INFO_HEADERS "DATE FROM TO CC SUBJECT REFERENCES IN-REPLY-TO MESSAGE-ID"
+
+/* FIXME: this needs to be kept in sync with camel-mime-utils.c's list
+   of mailing-list headers and so might be best if this were
+   auto-generated? */
+#define MAILING_LIST_HEADERS "X-MAILING-LIST X-LOOP LIST-ID LIST-POST MAILING-LIST ORIGINATOR X-LIST SENDER RETURN-PATH X-BEENTHERE"
+
 static void
 imap_update_summary (CamelFolder *folder, int exists,
 		     CamelFolderChangeInfo *changes,
@@ -2052,7 +2060,7 @@ imap_update_summary (CamelFolder *folder, int exists,
 	
 	CAMEL_SERVICE_ASSERT_LOCKED (store, connect_lock);
 	if (store->server_level >= IMAP_LEVEL_IMAP4REV1)
-		header_spec = "HEADER";
+		header_spec = "HEADER.FIELDS (" CAMEL_MESSAGE_INFO_HEADERS " " MAILING_LIST_HEADERS ")";
 	else
 		header_spec = "0";
 	
@@ -2476,7 +2484,7 @@ parse_fetch_response (CamelImapFolder *imap_folder, char *response)
 {
 	GData *data = NULL;
 	char *start, *part_spec = NULL, *body = NULL, *uid = NULL;
-	gboolean header = FALSE;
+	gboolean cache_header = TRUE, header = FALSE;
 	int body_len = 0;
 	
 	if (*response != '(') {
@@ -2519,7 +2527,13 @@ parse_fetch_response (CamelImapFolder *imap_folder, char *response)
 			if (*response == 'B') {
 				response += 5;
 				
-				if (!g_strncasecmp (response, "HEADER]", 7) || !g_strncasecmp (response, "0]", 2))
+				/* HEADER], HEADER.FIELDS... or 0] */
+				if (!g_strncasecmp (response, "HEADER", 6)) {
+					response += 6;
+					header = TRUE;
+					if (!g_strncasecmp (response, ".FIELDS ", 8))
+						cache_header = FALSE;
+				} else if (!g_strncasecmp (response, "0]", 2))
 					header = TRUE;
 				
 				p = strchr (response, ']');
@@ -2573,8 +2587,7 @@ parse_fetch_response (CamelImapFolder *imap_folder, char *response)
 	if (uid && body) {
 		CamelStream *stream;
 		
-		if (FALSE /*header*/) {
-			g_free (part_spec);
+		if (header && !cache_header) {
 			stream = camel_stream_mem_new_with_buffer (body, body_len);
 		} else {
 			CAMEL_IMAP_FOLDER_LOCK (imap_folder, cache_lock);
