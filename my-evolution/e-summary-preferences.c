@@ -114,7 +114,6 @@ str_list_from_vector (const char *vector)
 gboolean
 e_summary_preferences_restore (ESummaryPrefs *prefs)
 {
-#if 0
 	Bonobo_ConfigDatabase db;
 	CORBA_Environment ev;
 	char *vector;
@@ -130,46 +129,104 @@ e_summary_preferences_restore (ESummaryPrefs *prefs)
 	}
 
 	CORBA_exception_free (&ev);
-	vector = bonobo_config_get_string (db, "Mail/display_folders", NULL);
-	if (vector == NULL) {
+	vector = bonobo_config_get_string (db, "Mail/display_folders", &ev);
+	if (BONOBO_EX (&ev) || vector == NULL) {
+		g_warning ("Error getting Mail/display_folders");
+		CORBA_exception_free (&ev);
 		bonobo_object_release_unref (db, NULL);
 		return FALSE;
 	}
 	prefs->display_folders = str_list_from_vector (vector);
   	g_free (vector);
 
-	prefs->show_full_path = bonobo_config_get_boolean (db, "Mail/show_full_path", NULL);
+	prefs->show_full_path = bonobo_config_get_boolean (db, "Mail/show_full_path", &ev);
+	if (BONOBO_EX (&ev) || db == CORBA_OBJECT_NIL) {
+		g_warning ("Error getting Mail/show_full_path. Using defaults");
+		bonobo_object_release_unref (db, NULL);
+		CORBA_exception_free (&ev);
+		return FALSE;
+	}
 
-	vector = bonobo_config_get_string (db, "RDF/rdf_urls", NULL);
-	if (vector == NULL) {
+
+	vector = bonobo_config_get_string (db, "RDF/rdf_urls", &ev);
+	if (BONOBO_EX (&ev) || vector == NULL) {
+		g_warning ("Error getting RDF/rdf_urls");
+		CORBA_exception_free (&ev);
 		bonobo_object_release_unref (db, NULL);
 		return FALSE;
 	}
 	prefs->rdf_urls = str_list_from_vector (vector);
   	g_free (vector);
 
-	prefs->rdf_refresh_time = bonobo_config_get_long_with_default (db, "RDF/rdf_refresh_time", 600, NULL);
-	prefs->limit = bonobo_config_get_long_with_default (db, "RDF/limit", 10, NULL);
-	prefs->wipe_trackers = bonobo_config_get_boolean_with_default (db, "RDF/wipe_trackers", FALSE, NULL);
+	prefs->rdf_refresh_time = bonobo_config_get_long_with_default (db, "RDF/rdf_refresh_time", 600, &ev);
+	if (BONOBO_EX (&ev) || db == CORBA_OBJECT_NIL) {
+		g_warning ("Error getting RDF/rdf_refresh_time. Using defaults");
+		bonobo_object_release_unref (db, NULL);
+		CORBA_exception_free (&ev);
+		return FALSE;
+	}
 
-	vector = bonobo_config_get_string (db, "Weather/stations", NULL);
-	if (vector == NULL) {
+	prefs->limit = bonobo_config_get_long_with_default (db, "RDF/limit", 10, &ev);
+	if (BONOBO_EX (&ev) || db == CORBA_OBJECT_NIL) {
+		g_warning ("Error getting RDF/limit. Using defaults");
+		bonobo_object_release_unref (db, NULL);
+		CORBA_exception_free (&ev);
+		return FALSE;
+	}
+
+	prefs->wipe_trackers = bonobo_config_get_boolean_with_default (db, "RDF/wipe_trackers", FALSE, &ev);
+	if (BONOBO_EX (&ev) || db == CORBA_OBJECT_NIL) {
+		g_warning ("Error getting RDF/wipe_trackers. Using defaults");
+		bonobo_object_release_unref (db, NULL);
+		CORBA_exception_free (&ev);
+		return FALSE;
+	}
+
+	vector = bonobo_config_get_string (db, "Weather/stations", &ev);
+	if (BONOBO_EX (&ev) || vector == NULL) {
+		g_warning ("Error getting Weather/stations");
+		CORBA_exception_free (&ev);
 		bonobo_object_release_unref (db, NULL);
 		return FALSE;
 	}
 	prefs->stations = str_list_from_vector (vector);
   	g_free (vector);
 
-	prefs->units = bonobo_config_get_long (db, "Weather/units", NULL);
-	prefs->weather_refresh_time = bonobo_config_get_long (db, "Weather/weather_refresh_time", NULL);
+	prefs->units = bonobo_config_get_long (db, "Weather/units", &ev);
+	if (BONOBO_EX (&ev) || db == CORBA_OBJECT_NIL) {
+		g_warning ("Error getting Weather/units. Using defaults");
+		bonobo_object_release_unref (db, NULL);
+		CORBA_exception_free (&ev);
+		return FALSE;
+	}
+
+	prefs->weather_refresh_time = bonobo_config_get_long (db, "Weather/weather_refresh_time", &ev);
+	if (BONOBO_EX (&ev) || db == CORBA_OBJECT_NIL) {
+		g_warning ("Error getting Weather/weather_refresh_time. Using defaults");
+		bonobo_object_release_unref (db, NULL);
+		CORBA_exception_free (&ev);
+		return FALSE;
+	}
+
 	
-	prefs->days = bonobo_config_get_long (db, "Schedule/days", NULL);
-	prefs->show_tasks = bonobo_config_get_long (db, "Schedule/show_tasks", NULL);
+	prefs->days = bonobo_config_get_long (db, "Schedule/days", &ev);
+	if (BONOBO_EX (&ev) || db == CORBA_OBJECT_NIL) {
+		g_warning ("Error getting Schedule/days. Using defaults");
+		bonobo_object_release_unref (db, NULL);
+		CORBA_exception_free (&ev);
+		return FALSE;
+	}
+
+	prefs->show_tasks = bonobo_config_get_long (db, "Schedule/show_tasks", &ev);
+	if (BONOBO_EX (&ev) || db == CORBA_OBJECT_NIL) {
+		g_warning ("Error getting Schedule/show_tasks. Using defaults");
+		bonobo_object_release_unref (db, NULL);
+		CORBA_exception_free (&ev);
+		return FALSE;
+	}
 
 	bonobo_object_release_unref (db, NULL);
 	return TRUE;
-#endif
-	return FALSE;
 }
 
 /* Write prefs to disk */

@@ -1,3 +1,8 @@
+2001-07-05  Iain Holmes  <iain@ximian.com>
+
+	* e-summary-preferences.c (e_summary_preferences_restore): Re-enabled.
+	Bonobo-conf doesn't seem to like NULL for opt_ev.
+
 2001-07-03  Iain Holmes  <iain@ximian.com>
 
 	* e-summary-prefences.c (e_summary_preferences_restore): Disabled until
