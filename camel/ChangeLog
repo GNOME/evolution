@@ -1,3 +1,12 @@
+2002-10-08  Jeffrey Stedfast  <fejj@ximian.com>
+
+	* providers/imap/camel-imap-command.c (imap_read_response): If the
+	response from the IMAP server is "No", don't set the
+	SERVICE_UNAVAILABLE exception, this makes error reporting in the
+	UI for deleting IMAP folders that cannot be deleted inaccurate
+	(ie, it reports "Cannot delete in offline mode" which is not the
+	problem).
+
 2002-10-07  Jeffrey Stedfast  <fejj@ximian.com>
 
 	Fixes bug #31752
@@ -121,7 +130,7 @@
 
 	* providers/imap/camel-imap-folder.c (imap_update_summary): Use
 	the summary's last uid as the one to fetch from, ignoring the
-	cache.  Use strotul instead of atoi as well.
+	cache.  Use strtoul instead of atoi as well.
 
 	* providers/imap/camel-imap-store.c (get_folder_counts): If we
 	have the folder open, and the unread count has changed, refresh
