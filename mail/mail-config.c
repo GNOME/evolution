@@ -834,7 +834,7 @@ mail_config_write_on_exit (void)
 	}
 	g_slist_free (sources);
 	gnome_config_sync ();
-				
+	
 	/* now do cleanup */
 	mail_config_clear ();
 }

@@ -1,7 +1,12 @@
+2001-07-25  Jeffrey Stedfast  <fejj@ximian.com>
+
+	* mail-session.c (make_key): Don't make the key url:item if we
+	have the url, just make it url. This fixes bug #5339.
+
 2001-07-25  Peter Williams  <peterw@ximian.com>
 
-	* folder-browser.c (etree_key): Make it so Enter always opens the message
-	in another window.
+	* folder-browser.c (etree_key): Make it so Enter always opens the
+	message in another window.
 
 2001-07-25  Peter Williams  <peterw@ximian.com>
 
@@ -16,10 +21,11 @@
 
 	* mail-mt.h: Update the prototype here.
 
-	* mail-config.c (mail_config_service_set_save_passwd): New function,
-	pretty bland.
+	* mail-config.c (mail_config_service_set_save_passwd): New
+	function, pretty bland.
 
-	* mail-config.h: Prototype our bland new function. (Get it? It's a pun!)
+	* mail-config.h: Prototype our bland new function. (Get it? It's a
+	pun!)
 
 	* mail-session.c (get_password): Pass the service as well.
 

@@ -136,15 +136,13 @@ mail_session_get_type (void)
 static char *
 make_key (CamelService *service, const char *item)
 {
-	char *key, *url;
-
-	if (service) {
-		url = camel_url_to_string (service->url, CAMEL_URL_HIDE_PASSWORD | CAMEL_URL_HIDE_PARAMS);
-		key = g_strdup_printf ("%s:%s", url, item);
-		g_free (url);
-	} else
+	char *key;
+	
+	if (service)
+		key = camel_url_to_string (service->url, CAMEL_URL_HIDE_PASSWORD | CAMEL_URL_HIDE_PARAMS);
+	else
 		key = g_strdup (item);
-
+	
 	return key;
 }
 
@@ -154,15 +152,15 @@ get_password (CamelSession *session, const char *prompt, gboolean secret,
 {
 	MailSession *mail_session = MAIL_SESSION (session);
 	char *key, *ans;
-
+	
 	key = make_key (service, item);
-
+	
 	ans = g_hash_table_lookup (mail_session->passwords, key);
 	if (ans) {
 		g_free (key);
 		return g_strdup (ans);
 	}
-
+	
 	if (!mail_session->interaction_enabled ||
 	    !(ans = mail_get_password (service, prompt, secret))) {
 		g_free (key);
@@ -170,7 +168,7 @@ get_password (CamelSession *session, const char *prompt, gboolean secret,
 				     _("User canceled operation."));
 		return NULL;
 	}
-
+	
 	g_hash_table_insert (mail_session->passwords, key, g_strdup (ans));
 	return ans;
 }
@@ -182,11 +180,11 @@ forget_password (CamelSession *session, CamelService *service,
 	MailSession *mail_session = MAIL_SESSION (session);
 	char *key = make_key (service, item);
 	gpointer old_key, old_data;
-
+	
 	if (!g_hash_table_lookup_extended (mail_session->passwords, key,
 					   &old_key, &old_data))
 		return;
-
+	
 	g_hash_table_remove (mail_session->passwords, key);
 	g_free (old_data);
 	g_free (old_key);
@@ -198,10 +196,10 @@ alert_user (CamelSession *session, CamelSessionAlertType type,
 {
 	MailSession *mail_session = MAIL_SESSION (session);
 	const char *message_type = NULL;
-
+	
 	if (!mail_session->interaction_enabled)
 		return FALSE;
-
+	
 	switch (type) {
 	case CAMEL_SESSION_ALERT_INFO:
 		message_type = GNOME_MESSAGE_BOX_INFO;
@@ -231,12 +229,13 @@ struct _timeout_msg {
 	gpointer camel_data;
 };
 
-static void timeout_timeout(struct _mail_msg *mm)
+static void
+timeout_timeout (struct _mail_msg *mm)
 {
 	struct _timeout_msg *m = (struct _timeout_msg *)mm;
-
+	
 	/* we ignore the callback result, do we care?? no. */
-	m->cb(m->camel_data);
+	m->cb (m->camel_data);
 }
 
 static struct _mail_msg_op timeout_op = {
@@ -251,14 +250,14 @@ camel_timeout (gpointer data)
 {
 	struct _timeout_data *td = data;
 	struct _timeout_msg *m;
-
-	m = mail_msg_new(&timeout_op, NULL, sizeof(*m));
-
+	
+	m = mail_msg_new (&timeout_op, NULL, sizeof (*m));
+	
 	m->cb = td->cb;
 	m->camel_data = td->camel_data;
-
-	e_thread_put(mail_thread_queued, (EMsg *)m);
-
+	
+	e_thread_put (mail_thread_queued, (EMsg *)m);
+	
 	return TRUE;
 }
 
@@ -266,20 +265,20 @@ static guint
 register_timeout (CamelSession *session, guint32 interval, CamelTimeoutCallback cb, gpointer camel_data)
 {
 	struct _timeout_data *td;
-
+	
 	/* We do this because otherwise the timeout can get called
 	 * more often than the dispatch thread can get rid of it,
 	 * leading to timeout calls piling up, and we don't have a
 	 * good way to watch the return values. It's not cool.
 	 */
 	g_return_val_if_fail (interval > 1000, 0);
-
-	td = g_malloc(sizeof(*td));
+	
+	td = g_malloc (sizeof (*td));
 	td->result = TRUE;
 	td->cb = cb;
 	td->camel_data = camel_data;
-
-	return gtk_timeout_add_full(interval, camel_timeout, NULL, td, g_free);
+	
+	return gtk_timeout_add_full (interval, camel_timeout, NULL, td, g_free);
 }
 
 static gboolean
@@ -303,19 +302,19 @@ get_filter_driver (CamelSession *session, const char *type, CamelException *ex)
 	GString *fsearch, *faction;
 	FilterRule *rule = NULL;
 	char *user, *system, *filename;
-
+	
 	user = g_strdup_printf ("%s/filters.xml", evolution_dir);
 	system = EVOLUTION_DATADIR "/evolution/filtertypes.xml";
 	fc = (RuleContext *)filter_context_new ();
 	rule_context_load (fc, system, user);
 	g_free (user);
-
+	
 	driver = camel_filter_driver_new ();
 	camel_filter_driver_set_folder_func (driver, get_folder, NULL);
-
+	
 	if (TRUE /* perform_logging FIXME */) {
 		MailSession *ms = (MailSession *)session;
-
+		
 		if (ms->filter_logfile == NULL) {
 			filename = g_strdup_printf ("%s/evolution-filter-log",
 						    evolution_dir);
@@ -325,24 +324,24 @@ get_filter_driver (CamelSession *session, const char *type, CamelException *ex)
 		if (ms->filter_logfile)
 			camel_filter_driver_set_logfile (driver, ms->filter_logfile);
 	}
-
+	
 	fsearch = g_string_new ("");
 	faction = g_string_new ("");
-
+	
 	while ((rule = rule_context_next_rule (fc, rule, type))) {
 		g_string_truncate (fsearch, 0);
 		g_string_truncate (faction, 0);
-
+		
 		filter_rule_build_code (rule, fsearch);
 		filter_filter_build_action ((FilterFilter *)rule, faction);
-
+		
 		camel_filter_driver_add_rule (driver, rule->name,
 					      fsearch->str, faction->str);
 	}
-
+	
 	g_string_free (fsearch, TRUE);
 	g_string_free (faction, TRUE);
-
+	
 	gtk_object_unref (GTK_OBJECT (fc));
 	return driver;
 }
@@ -353,7 +352,7 @@ decode_base64 (char *base64)
 {
 	char *plain, *pad = "==";
 	int len, out, state, save;
-
+	
 	len = strlen (base64);
 	plain = g_malloc0 (len);
 	state = save = 0;
@@ -362,7 +361,7 @@ decode_base64 (char *base64)
 		base64_decode_step (pad, 4 - len % 4, plain + out,
 				    &state, &save);
 	}
-
+	
 	return plain;
 }
 
@@ -371,23 +370,23 @@ maybe_remember_password (gpointer key, gpointer password, gpointer url)
 {
 	char *path, *key64, *pass64;
 	int len, state, save;
-
+	
 	len = strlen (url);
 	if (strncmp (key, url, len) != 0)
 		return;
-
+	
 	len = strlen (key);
 	key64 = g_malloc0 ((len + 2) * 4 / 3 + 1);
 	state = save = 0;
 	base64_encode_close (key, len, FALSE, key64, &state, &save);
 	path = g_strdup_printf ("/Evolution/Passwords/%s", key64);
 	g_free (key64);
-
+	
 	len = strlen (password);
 	pass64 = g_malloc0 ((len + 2) * 4 / 3 + 1);
 	state = save = 0;
 	base64_encode_close (password, len, FALSE, pass64, &state, &save);
-
+	
 	gnome_config_private_set_string (path, pass64);
 	g_free (path);
 	g_free (pass64);
@@ -399,11 +398,11 @@ mail_session_remember_password (const char *url_string)
 	GHashTable *passwords = MAIL_SESSION (session)->passwords;
 	CamelURL *url;
 	char *simple_url;
-
+	
 	url = camel_url_new (url_string, NULL);
 	simple_url = camel_url_to_string (url, CAMEL_URL_HIDE_PASSWORD | CAMEL_URL_HIDE_PARAMS);
 	camel_url_free (url);
-
+	
 	g_hash_table_foreach (passwords, maybe_remember_password, simple_url);
 	g_free (simple_url);
 }
@@ -413,7 +412,7 @@ mail_session_forget_password (const char *key)
 {
 	GHashTable *passwords = MAIL_SESSION (session)->passwords;
 	gpointer okey, value;
-
+	
 	if (g_hash_table_lookup_extended (passwords, key, &okey, &value)) {
 		g_hash_table_remove (passwords, key);
 		g_free (okey);
@@ -425,12 +424,12 @@ void
 mail_session_init (void)
 {
 	char *camel_dir;
-
+	
 	if (camel_init (evolution_dir, TRUE) != 0)
 		exit (0);
-
+	
 	session = CAMEL_SESSION (camel_object_new (MAIL_SESSION_TYPE));
-
+	
 	camel_dir = g_strdup_printf ("%s/mail", evolution_dir);
 	camel_session_construct (session, camel_dir);
 	g_free (camel_dir);
@@ -456,17 +455,23 @@ mail_session_forget_passwords (BonoboUIComponent *uih, void *user_data,
 			       const char *path)
 {
 	GHashTable *passwords = MAIL_SESSION (session)->passwords;
-
+	
 	g_hash_table_foreach_remove (passwords, free_entry, NULL);
 	gnome_config_private_clean_section ("/Evolution/Passwords");
 	gnome_config_sync ();
 }
 
 void
-mail_session_set_password (const char *url, const char *password)
+mail_session_set_password (const char *url_string, const char *password)
 {
 	GHashTable *passwords = MAIL_SESSION (session)->passwords;
-
-	g_hash_table_insert (passwords, g_strdup (url), g_strdup (password));
+	char *simple_url;
+	CamelURL *url;
+	
+	url = camel_url_new (url_string, NULL);
+	simple_url = camel_url_to_string (url, CAMEL_URL_HIDE_PASSWORD | CAMEL_URL_HIDE_PARAMS);
+	camel_url_free (url);
+	
+	g_hash_table_insert (passwords, simple_url, g_strdup (password));
 }
 
