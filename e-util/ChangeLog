@@ -1,3 +1,7 @@
+2005-03-01  Not Zed  <NotZed@Ximian.com>
+
+	* *.c: Remove/disable debug.
+
 2005-02-23  Hans Petter Jansson  <hpj@novell.com>
 
 	* Makefile.am (eutilinclude_HEADERS)

@@ -11,6 +11,8 @@
 #include <mono/metadata/assembly.h>
 #include <mono/jit/jit.h>
 
+#define d(x)
+
 static MonoDomain *domain;
 
 /* ********************************************************************** */
@@ -68,7 +70,7 @@ epm_invoke(EPlugin *ep, const char *name, void *data)
 
 		if (epm->handler == NULL
 		    || (p->klass = mono_class_from_name(mono_assembly_get_image(p->assembly), "", epm->handler)) == NULL) {
-			printf("Using static callbacks only");
+			d(printf("Using static callbacks only"));
 		} else {
 			p->plugin = mono_object_new(domain, p->klass);
 			/* could conceivably init with some context too */
@@ -79,7 +81,7 @@ epm_invoke(EPlugin *ep, const char *name, void *data)
 	m = g_hash_table_lookup(p->methods, name);
 	if (m == NULL) {
 		if (p->klass) {
-			printf("looking up method '%s' in class\n", name);
+			d(printf("looking up method '%s' in class\n", name));
 			/* class method */
 			d = mono_method_desc_new(name, FALSE);
 			if (d == NULL) {
@@ -93,7 +95,7 @@ epm_invoke(EPlugin *ep, const char *name, void *data)
 				return NULL;
 			}
 		} else {
-			printf("looking up static method '%s'\n", name);
+			d(printf("looking up static method '%s'\n", name));
 			/* static method */
 			d = mono_method_desc_new(name, FALSE);
 			if (d == NULL) {
@@ -121,7 +123,7 @@ epm_invoke(EPlugin *ep, const char *name, void *data)
 
 	if (res) {
 		void **p = mono_object_unbox(res);
-		printf("mono method returned '%p' %ld\n", *p, (long int)*p);
+		d(printf("mono method returned '%p' %ld\n", *p, (long int)*p));
 		return *p;
 	} else
 		return NULL;
