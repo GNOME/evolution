@@ -187,8 +187,8 @@ Please select a follow up action from the &quot;Flag&quot; menu.</label>
 	<column_spacing>3</column_spacing>
 	<child>
 	  <padding>0</padding>
-	  <expand>True</expand>
-	  <fill>True</fill>
+	  <expand>False</expand>
+	  <fill>False</fill>
 	</child>
 
 	<widget>
