@@ -1,3 +1,13 @@
+2000-07-14  Dan Winship  <danw@helixcode.com>
+
+	* mail-format.c (write_headers): put a <p> at the end of the
+	header table. (I think there used to be whitespace after it, but
+	then some gtkhtml change got rid of it...)
+	(handle_text_plain): Don't do this <PRE>. Instead, CONVERT_NL and
+	CONVERT_SPACES and wrap it in <TT>. Now if the sender didn't
+	include any newlines, it will be wrapped to the width of the
+	window instead of extending off into infinity.
+
 2000-07-13  Dan Winship  <danw@helixcode.com>
 
 	* message-list.c (message_list_destroy): Only unref the folder if

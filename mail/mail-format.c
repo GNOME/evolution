@@ -420,7 +420,7 @@ write_headers (CamelMimeMessage *message, struct mail_format_data *mfd)
 			       camel_mime_message_get_subject (message),
 			       TRUE, mfd->html, mfd->stream);
 
-	mail_html_write (mfd->html, mfd->stream, "</table></td></tr></table></center>");
+	mail_html_write (mfd->html, mfd->stream, "</table></td></tr></table></center><p>");
 }
 
 
@@ -480,14 +480,17 @@ handle_text_plain (CamelMimePart *part, const char *mime_type,
 		return handle_text_plain_flowed (text, mfd);
 
 	mail_html_write (mfd->html, mfd->stream,
-			 "\n<!-- text/plain -->\n<pre>\n");
+			 "\n<!-- text/plain -->\n<tt>\n");
 
-	htmltext = e_text_to_html (text, E_TEXT_TO_HTML_CONVERT_URLS);
+	htmltext = e_text_to_html (text,
+				   E_TEXT_TO_HTML_CONVERT_URLS |
+				   E_TEXT_TO_HTML_CONVERT_NL |
+				   E_TEXT_TO_HTML_CONVERT_SPACES);
 	g_free (text);
 	mail_html_write (mfd->html, mfd->stream, "%s", htmltext);
 	g_free (htmltext);
 
-	mail_html_write (mfd->html, mfd->stream, "</pre>\n");
+	mail_html_write (mfd->html, mfd->stream, "</tt>\n");
 	return TRUE;
 }
 
