@@ -365,7 +365,7 @@ control_activate (BonoboControl *control, BonoboUIHandler *uih,
 		  AddressbookView *view)
 {
 	Bonobo_UIHandler  remote_uih;
-	GtkWidget *toolbar;
+	GtkWidget *toolbar, *toolbar_frame;
 	BonoboControl *toolbar_control;
 	GtkWidget *hbox = gtk_hbox_new (FALSE, 0);
 	GtkWidget *quick_search_widget;
@@ -425,7 +425,14 @@ control_activate (BonoboControl *control, BonoboUIHandler *uih,
 
 	gtk_widget_show_all (hbox);
 
-	toolbar_control = bonobo_control_new (hbox);
+	toolbar_frame = gtk_frame_new (NULL);
+	gtk_frame_set_shadow_type (GTK_FRAME (toolbar_frame), GTK_SHADOW_OUT);
+	gtk_container_add (GTK_CONTAINER (toolbar_frame), hbox);
+	gtk_widget_show (toolbar_frame);
+
+	gtk_widget_show_all (toolbar_frame);
+
+	toolbar_control = bonobo_control_new (toolbar_frame);
 	bonobo_ui_handler_dock_add (
 		uih, "/Toolbar",
 		bonobo_object_corba_objref (BONOBO_OBJECT (toolbar_control)),

@@ -1,3 +1,10 @@
+2000-06-01  Ettore Perazzoli  <ettore@helixcode.com>
+
+	* gui/component/addressbook.c (control_activate): Put the toolbar
+	into a frame to make it look like standard GNOME toolbars.  Also,
+	set `GNOME_DOCK_ITEM_BEH_NEVER_VERTICAL' so that it does not do
+	evil things when its moved to the left or the right of the window.
+
 2000-05-30  Christopher James Lahey  <clahey@helixcode.com>
 
 	* gui/component/e-cardlist-model.c,
