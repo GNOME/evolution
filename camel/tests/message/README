@@ -1,9 +1,0 @@
-
-test1	creating, saving, loading simple messages
-test2	camelinternetaddress tests, internationalised addresses, etc.
-test3	multipart messages
-test4   more encompassing mime parser tests that test real-world messages.
-        Note: In order to test this, though, you'll need to fetch 
-        http://primates.ximian.com/~fejj/camel-mime-tests.tar.gz and 
-        untar it into camel/tests/data/
-
