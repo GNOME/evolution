@@ -33,7 +33,6 @@
 #include <math.h>
 
 #include <gtk/gtksignal.h>
-#include <libgnome/gnome-util.h>
 
 #include <addressbook/backend/ebook/e-book-util.h>
 #include <addressbook/backend/ebook/e-destination.h>

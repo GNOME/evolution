@@ -97,7 +97,7 @@ addressbook_storage_setup (EvolutionShellComponent *shell_component,
 
 	if (storage_path)
 		g_free (storage_path);
-	storage_path = g_concat_dir_and_file (evolution_homedir, ADDRESSBOOK_SOURCES_XML);
+	storage_path = g_build_filename (evolution_homedir, ADDRESSBOOK_SOURCES_XML, NULL);
 #ifdef HAVE_LDAP
 	if (!load_source_data (storage_path))
 		deregister_storage ();

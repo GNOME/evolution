@@ -161,7 +161,7 @@ remove_folder (EvolutionShellComponent *shell_component,
 		return;
 	}
 
-	subdir_path = g_concat_dir_and_file (physical_uri + 7, "subfolders");
+	subdir_path = g_build_filename (physical_uri + 7, "subfolders", NULL);
 	rv = stat (subdir_path, &sb);
 	g_free (subdir_path);
 	if (rv != -1) {
@@ -172,7 +172,7 @@ remove_folder (EvolutionShellComponent *shell_component,
 		return;
 	}
 
-	addressbook_db_path = g_concat_dir_and_file (physical_uri + 7, "addressbook.db");
+	addressbook_db_path = g_build_filename (physical_uri + 7, "addressbook.db", NULL);
 	rv = unlink (addressbook_db_path);
 	g_free (addressbook_db_path);
 	if (rv == 0) {
@@ -523,7 +523,7 @@ add_creatable_item (EvolutionShellComponent *shell_component,
 		icon_path = NULL;
 		icon = NULL;
 	} else {
-		icon_path = g_concat_dir_and_file (EVOLUTION_ICONSDIR, icon_name);
+		icon_path = g_build_filename (EVOLUTION_ICONSDIR, icon_name, NULL);
 		icon = gdk_pixbuf_new_from_file (icon_path, NULL);
 	}
 
@@ -592,7 +592,7 @@ ensure_completion_uris_exist()
 
 	db = e_book_get_config_database ();
 		
-	val = e_config_listener_get_string (db, "/Addressbook/Completion/uris");
+	val = e_config_listener_get_string (db, "/apps/evolution/addressbook/completion/uris");
 
 	if (!val) {
 		EFolderListItem f[2];
@@ -600,7 +600,7 @@ ensure_completion_uris_exist()
 		/* in the case where the user is running for the first
 		   time, populate the list with the local contact
 		   folder */
-		dirname = gnome_util_prepend_user_home("evolution/local/Contacts");
+		dirname = g_build_filename (g_get_home_dir (), "evolution/local/Contacts", NULL);
 		uri = g_strdup_printf ("file://%s", dirname);
 			
 		f[0].uri = "evolution:/local/Contacts";
@@ -613,7 +613,7 @@ ensure_completion_uris_exist()
 
 		g_free (dirname);
 		g_free (uri);
-		e_config_listener_set_string (db, "/Addressbook/Completion/uris", val);
+		e_config_listener_set_string (db, "/apps/evolution/addressbook/completion/uris", val);
 
 		g_free (val);
 	}

@@ -227,6 +227,9 @@ e_contact_list_editor_init (EContactListEditor *editor)
 	editor->table = glade_xml_get_widget (gui, "contact-list-table");
 	editor->model = g_object_get_data (G_OBJECT(editor->table), "model");
 
+	/* XXX need this for libglade-2 it seems */
+	gtk_widget_show (editor->table);
+
 	editor->add_button = glade_xml_get_widget (editor->gui, "add-email-button");
 	editor->remove_button = glade_xml_get_widget (editor->gui, "remove-button");
 

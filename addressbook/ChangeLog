@@ -1,5 +1,25 @@
 2002-11-26  Chris Toshok  <toshok@ximian.com>
 
+	* gui/widgets/e-minicard.c (e_minicard_reflow): remove redundant
+	setting of y2.
+
+	* gui/contact-list-editor/e-contact-list-editor.c
+	(e_contact_list_editor_init): show the table.
+
+	* gui/component/select-names/e-select-names-completion.c: remove
+	an unnecessary #include.
+
+	* gui/component/addressbook-storage.c (addressbook_storage_setup):
+	use g_build_filename.
+
+	* gui/component/addressbook-component.c (remove_folder): use
+	g_build_filename.
+	(add_creatable_item): same.
+	(ensure_completion_uris_exist): same, and use the right gconf
+	paths for completion uris.
+
+2002-11-26  Chris Toshok  <toshok@ximian.com>
+
 	* gui/component/select-names/e-select-names-manager.c
 	(read_completion_books_from_db): use new schema for
 	completion/uris.

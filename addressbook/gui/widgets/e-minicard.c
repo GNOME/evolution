@@ -531,7 +531,7 @@ e_minicard_event (GnomeCanvasItem *item, GdkEvent *event)
 	
 	e_minicard = E_MINICARD (item);
 	canvas = GTK_WIDGET (GNOME_CANVAS_ITEM (item)->canvas);
-	
+
 	switch( event->type ) {
 	case GDK_FOCUS_CHANGE:
 		{
@@ -946,10 +946,6 @@ e_minicard_reflow( GnomeCanvasItem *item, int flags )
 			e_minicard->height += text_height;
 		}
 		e_minicard->height += 2;
-		
-		gnome_canvas_item_set( e_minicard->rect,
-				       "y2", (double) e_minicard->height - 1,
-				       NULL );
 		
 		gnome_canvas_item_set( e_minicard->rect,
 				       "x2", (double) e_minicard->width - 1.0,
