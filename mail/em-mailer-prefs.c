@@ -788,9 +788,9 @@ em_mailer_prefs_construct (EMMailerPrefs *prefs)
 	/* Junk prefs */
 	prefs->check_incoming = GTK_TOGGLE_BUTTON (glade_xml_get_widget (gui, "chkCheckIncomingMail"));
 	toggle_button_init (prefs->check_incoming, prefs->gconf,
-			    "/apps/evolution/mail/junk/sa/check_incoming",
+			    "/apps/evolution/mail/junk/check_incoming",
 			    FALSE, G_CALLBACK (settings_changed), prefs);
-
+	
 	prefs->sa_local_tests_only = GTK_TOGGLE_BUTTON (glade_xml_get_widget (gui, "chkSALocalTestsOnly"));
 	toggle_button_init (prefs->sa_local_tests_only, prefs->gconf,
 			    "/apps/evolution/mail/junk/sa/local_only",

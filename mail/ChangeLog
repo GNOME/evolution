@@ -1,5 +1,9 @@
 2004-03-23  Jeffrey Stedfast  <fejj@ximian.com>
 
+	* em-mailer-prefs.c (em_mailer_prefs_construct): Fixed the key to
+	fetch the value from the correct location. It's
+	junk/check_incoming, not junk/sa/check_incoming. Fixes bug #55903.
+
 	* em-folder-tree-model.c (em_folder_tree_model_set_expanded):
 	Fixed some logic bugs.
 
