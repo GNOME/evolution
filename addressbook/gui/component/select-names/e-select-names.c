@@ -483,7 +483,10 @@ update_query (GtkWidget *button, ESelectNames *e_select_names)
 	if (category && *category)
 		q_array[i++] = g_strdup_printf ("(is \"category\" \"%s\")", category);
 	if (search && *search)
-		q_array[i++] = g_strdup_printf ("(contains \"x-evolution-any-field\" \"%s\")", search);
+		q_array[i++] = g_strdup_printf ("(or (beginswith \"email\" \"%s\") "
+						"    (beginswith \"full_name\" \"%s\") "
+						"    (beginswith \"nickname\" \"%s\"))",
+						search, search, search);
 	q_array[i++] = NULL;
 	if (i > 2) {
 		char *temp = g_strjoinv (" ", q_array);
