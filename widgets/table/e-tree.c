@@ -1733,8 +1733,6 @@ e_tree_drag_unhighlight (ETree *tree)
 	g_return_if_fail(tree != NULL);
 	g_return_if_fail(E_IS_TREE(tree));
 
-	g_print ("Unhighlight requested\n");
-
 	if (tree->priv->drop_highlight) {
 		gtk_object_destroy (GTK_OBJECT (tree->priv->drop_highlight));
 		tree->priv->drop_highlight = NULL;
