@@ -10,14 +10,15 @@
 # Héctor García Álvarez <hector@scouts-es.org>, 2002.
 # Pablo Gonzalo del Campo <pablodc@bigfoot.com>,2003 (revisión).
 # Francisco Javier F. Serrador <serrador@arrakis.es>, 2003.
+# Francisco Javier F. Serrador <franciscojavier.fernandez.serrador@hispalinux.es>, 2003.
 #
 msgid ""
 msgstr ""
 "Project-Id-Version: evolution.evolution-1-4-branch\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2003-09-26 19:39+0200\n"
-"PO-Revision-Date: 2003-09-26 23:31+0200\n"
-"Last-Translator: Francisco Javier F. Serrador <serrador@arrakis.es>\n"
+"PO-Revision-Date: 2003-11-07 10:59+0100\n"
+"Last-Translator: Francisco Javier F. Serrador <franciscojavier.fernandez.serrador@hispalinux.es>\n"
 "Language-Team: Spanish <traductores@es.gnome.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -5567,9 +5568,7 @@ msgstr "Una persona desconocida"
 msgid ""
 "<br> Please review the following information, and then select an action from "
 "the menu below."
-msgstr ""
-"<br> Por favor revise la siguiente información, y seleccione una acción del "
-"menú de abajo."
+msgstr "<br> Revise la siguiente información, y seleccione una acción del menú de abajo."
 
 #: calendar/gui/e-itip-control.c:1020
 msgid "<i>None</i>"
@@ -8861,11 +8860,11 @@ msgstr ""
 #: camel/camel-smime-context.c:171
 #, c-format
 msgid "Please enter your password for %s"
-msgstr "Por favor introduzca su contraseña para %s"
+msgstr "Introduzca su contraseña para %s"
 
 #: camel/camel-smime-context.c:201
 msgid "Please indicate the nickname of a certificate to sign with."
-msgstr "Por favor indique el apodo de un certificado con el que firmar."
+msgstr "Indique el apodo de un certificado con el que firmar."
 
 #: camel/camel-smime-context.c:207
 #, c-format
@@ -9380,7 +9379,7 @@ msgstr "El tipo de autenticación %s no está implementado"
 #: camel/providers/imap/camel-imap-store.c:1108
 #, c-format
 msgid "%sPlease enter the IMAP password for %s@%s"
-msgstr "%s Por favor escriba la contraseña IMAP para %s@%s"
+msgstr "%s Escriba la contraseña IMAP para %s@%s"
 
 #: camel/providers/imap/camel-imap-store.c:1122
 msgid "You didn't enter a password."
@@ -10073,7 +10072,7 @@ msgstr "No se pudo autenticarme en el servidor POP %s: %s"
 #: camel/providers/pop3/camel-pop3-store.c:468
 #, c-format
 msgid "%sPlease enter the POP password for %s@%s"
-msgstr "%s Por favor escriba la contraseña POP para %s@%s"
+msgstr "%s Escriba la contraseña POP para %s@%s"
 
 #: camel/providers/pop3/camel-pop3-store.c:523
 #: camel/providers/pop3/camel-pop3-store.c:530
@@ -10209,7 +10208,7 @@ msgstr "Acción solicitada abortada: error en procesamiento"
 
 #: camel/providers/smtp/camel-smtp-transport.c:203
 msgid "User not local; please try <forward-path>"
-msgstr "El usuario no es local: por favor pruebe con <forward-path>"
+msgstr "El usuario no es local: pruebe con <forward-path>"
 
 #: camel/providers/smtp/camel-smtp-transport.c:205
 msgid "Requested action not taken: insufficient system storage"
@@ -10282,7 +10281,7 @@ msgstr "El servidor SMTP %s no implementa el método de autenticación requerido
 #: camel/providers/smtp/camel-smtp-transport.c:514
 #, c-format
 msgid "%sPlease enter the SMTP password for %s@%s"
-msgstr "%s Por favor escriba la contraseña SMTP para %s@%s"
+msgstr "%s Escriba la contraseña SMTP para %s@%s"
 
 #: camel/providers/smtp/camel-smtp-transport.c:533
 #, c-format
@@ -10683,7 +10682,7 @@ msgid ""
 msgstr ""
 "No se pudo crear una ventana de composición:\n"
 "No se pudo activar el componente del editor HTML.\n"
-"Por favor, asegúrese de que tiene la versión \n"
+"Asegúrese de que tiene la versión \n"
 "correcta de gtkhtml y libgtkthml instalada.\n"
 
 #: composer/e-msg-composer.c:3038
@@ -11802,9 +11801,7 @@ msgstr "Cambiar las propiedades de esta carpeta"
 msgid ""
 "Some of your mail settings seem corrupt, please check that everything is in "
 "order."
-msgstr ""
-"Algunas de sus opciones de correo parece que están corrompidas, por favor "
-"compruebe que todo esté en orden."
+msgstr "Algunas de sus opciones de correo parece que están corrompidas, compruebe que todo esté en orden."
 
 #: mail/component-factory.c:1004
 msgid "You have not set a mail transport method"
@@ -12924,7 +12921,7 @@ msgid ""
 msgstr ""
 "Bienvenido al asistente de configuración de correo de Evolution.\n"
 "\n"
-"Pulse «Siguiente» para comenzar. "
+"Pulse «Adelante» para comenzar. "
 
 #: mail/mail-config.glade.h:130
 msgid "_Add Signature"
@@ -13883,7 +13880,7 @@ msgstr "No se ha seleccionado ningún servidor"
 
 #: mail/subscribe-dialog.c:1598
 msgid "Please select a server."
-msgstr "Por favor seleccione un servidor."
+msgstr "Seleccione un servidor."
 
 #: mail/subscribe-dialog.glade.h:1
 msgid "Folder Subscriptions"
@@ -25348,7 +25345,7 @@ msgstr ""
 
 #: shell/e-shell-importer.c:148 shell/e-shell-startup-wizard.c:724
 msgid "Please select the information that you would like to import:"
-msgstr "Por favor seleccione la información que quiera importar:"
+msgstr "Seleccione la información que quiera importar:"
 
 #: shell/e-shell-importer.c:151
 msgid ""
@@ -25511,7 +25508,7 @@ msgstr "Preferencias de Evolution"
 #. Bonobo control.
 #: shell/e-shell-shared-folder-picker-dialog.c:281
 msgid "Please select a user."
-msgstr "Por favor seleccione un usuario."
+msgstr "Seleccione un usuario."
 
 #: shell/e-shell-shared-folder-picker-dialog.c:387
 msgid "Opening Folder"
