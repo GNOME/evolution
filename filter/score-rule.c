@@ -187,7 +187,7 @@ get_widget (FilterRule *fr, struct _RuleContext *f)
 	
 	gtk_box_pack_start (GTK_BOX (hbox), label, FALSE, FALSE, 3);
 	adj = (GtkAdjustment *) gtk_adjustment_new ((float) sr->score, -3.0, 3.0, 1.0, 1.0, 1.0);
-	g_signal_connect (adj, "value_changed", GTK_SIGNAL_FUNC (spin_changed), sr);
+	g_signal_connect (adj, "value_changed", G_CALLBACK (spin_changed), sr);
 	
 	spin = gtk_spin_button_new (adj, 1.0, 0);
 	gtk_box_pack_start (GTK_BOX (hbox), spin, FALSE, FALSE, 3);

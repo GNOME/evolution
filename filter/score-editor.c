@@ -72,7 +72,7 @@ score_editor_class_init (ScoreEditorClass *klass)
 	GObjectClass *gobject_class = G_OBJECT_CLASS (klass);
 	RuleEditorClass *re_class = (RuleEditorClass *) klass;
 	
-	parent_class = gtk_type_class (rule_editor_get_type ());
+	parent_class = g_type_class_ref(rule_editor_get_type ());
 	
 	gobject_class->finalize = score_editor_finalise;
 	

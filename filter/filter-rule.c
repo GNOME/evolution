@@ -198,7 +198,7 @@ filter_rule_validate (FilterRule *fr)
 {
 	g_assert (IS_FILTER_RULE (fr));
 	
-	return FILTER_RULE_CLASS (fr)->validate (fr);
+	return FILTER_RULE_GET_CLASS (fr)->validate (fr);
 }
 
 static int
@@ -610,8 +610,8 @@ get_rule_part_widget (RuleContext *f, FilterPart *newpart, FilterRule *fr)
 	while ((part = rule_context_next_part (f, part))) {
 		item = gtk_menu_item_new_with_label (_(part->title));
 		g_object_set_data ((GObject *) item, "part", part);
-		g_signal_connect (item, "activate", GTK_SIGNAL_FUNC (option_activate), data);
-		gtk_menu_append (GTK_MENU (menu), item);
+		g_signal_connect (item, "activate", G_CALLBACK (option_activate), data);
+		gtk_menu_shell_append(GTK_MENU_SHELL(menu), item);
 		gtk_widget_show (item);
 		if (!strcmp (newpart->title, part->title))
 			current = index;
@@ -672,7 +672,7 @@ attach_rule (GtkWidget *rule, struct _rule_data *data, FilterPart *part, int row
 	g_object_set_data ((GObject *) remove, "rule", rule);
 	g_object_set_data ((GObject *) rule, "part", part);
 	/*gtk_button_set_relief (GTK_BUTTON (remove), GTK_RELIEF_NONE);*/
-	g_signal_connect (remove, "clicked", GTK_SIGNAL_FUNC (less_parts), data);
+	g_signal_connect (remove, "clicked", G_CALLBACK (less_parts), data);
 	gtk_table_attach (GTK_TABLE (data->parts), remove, 1, 2, row, row + 1,
 			  0, 0, 0, 0);
 	
@@ -760,13 +760,13 @@ get_widget (FilterRule *fr, struct _RuleContext *f)
 	}
 	
 	/* evil kludgy hack because gtk sucks */
-	g_signal_connect (name, "realize", GTK_SIGNAL_FUNC (grab_focus), name);
+	g_signal_connect (name, "realize", G_CALLBACK (grab_focus), name);
 	
 	hbox = gtk_hbox_new (FALSE, 3);
 	gtk_box_pack_start (GTK_BOX (hbox), label, FALSE, FALSE, 0);
 	gtk_box_pack_start (GTK_BOX (hbox), name, TRUE, TRUE, 0);
 	gtk_box_pack_start (GTK_BOX (vbox), hbox, FALSE, FALSE, 0);
-	g_signal_connect (name, "changed", GTK_SIGNAL_FUNC (name_changed), fr);
+	g_signal_connect (name, "changed", G_CALLBACK (name_changed), fr);
 	
 	frame = gtk_frame_new (_("If"));
 	inframe = gtk_vbox_new (FALSE, 3);
@@ -791,13 +791,13 @@ get_widget (FilterRule *fr, struct _RuleContext *f)
 	menu = gtk_menu_new ();
 	
 	item = gtk_menu_item_new_with_label (_("if all criteria are met"));
-	g_signal_connect (item, "activate", GTK_SIGNAL_FUNC (match_all), fr);
-	gtk_menu_append (GTK_MENU (menu), item);
+	g_signal_connect (item, "activate", G_CALLBACK (match_all), fr);
+	gtk_menu_shell_append(GTK_MENU_SHELL(menu), item);
 	gtk_widget_show (item);
 	
 	item = gtk_menu_item_new_with_label (_("if any criteria are met"));
-	g_signal_connect (item, "activate", GTK_SIGNAL_FUNC (match_any), fr);
-	gtk_menu_append (GTK_MENU (menu), item);
+	g_signal_connect (item, "activate", G_CALLBACK (match_any), fr);
+	gtk_menu_shell_append(GTK_MENU_SHELL(menu), item);
 	gtk_widget_show (item);
 	
 	omenu = gtk_option_menu_new ();
@@ -806,7 +806,7 @@ get_widget (FilterRule *fr, struct _RuleContext *f)
 	gtk_widget_show (omenu);
 	
 	add = gtk_button_new_from_stock (GTK_STOCK_ADD);
-	g_signal_connect (add, "clicked", GTK_SIGNAL_FUNC (more_parts), data);
+	g_signal_connect (add, "clicked", G_CALLBACK (more_parts), data);
 	gtk_box_pack_start (GTK_BOX (hbox), add, FALSE, FALSE, 3);
 	
 	gtk_box_pack_end (GTK_BOX (hbox), omenu, FALSE, FALSE, 0);

@@ -98,7 +98,7 @@ rule_editor_class_init (RuleEditorClass *klass)
 	GObjectClass *gobject_class = G_OBJECT_CLASS (klass);
 	GtkObjectClass *object_class = (GtkObjectClass *) klass;
 	
-	parent_class = gtk_type_class (gtk_dialog_get_type ());
+	parent_class = g_type_class_ref(gtk_dialog_get_type ());
 	
 	gobject_class->finalize = rule_editor_finalise;
 	object_class->destroy = rule_editor_destroy;
@@ -283,11 +283,11 @@ rule_add (GtkWidget *widget, RuleEditor *re)
 	gtk_window_set_title ((GtkWindow *) re->dialog, _("Add Rule"));
 	gtk_window_set_default_size (GTK_WINDOW (re->dialog), 650, 400);
 	gtk_window_set_policy (GTK_WINDOW (re->dialog), FALSE, TRUE, FALSE);
-	gtk_widget_set_parent_window (GTK_WIDGET (re->dialog), GTK_WIDGET (re)->window);
+	gtk_window_set_transient_for((GtkWindow *)re->dialog, (GtkWindow *)re);
 	
 	gtk_box_pack_start (GTK_BOX (GTK_DIALOG (re->dialog)->vbox), rules, TRUE, TRUE, 0);
 	
-	g_signal_connect (re->dialog, "response", GTK_SIGNAL_FUNC (add_editor_response), re);
+	g_signal_connect (re->dialog, "response", G_CALLBACK (add_editor_response), re);
 	g_object_weak_ref ((GObject *)re->dialog, (GWeakNotify) editor_destroy, re);
 	
 	gtk_widget_set_sensitive (GTK_WIDGET (re), FALSE);
@@ -364,7 +364,7 @@ rule_edit (GtkWidget *widget, RuleEditor *re)
 	
 	gtk_box_pack_start (GTK_BOX (GTK_DIALOG (re->dialog)->vbox), rules, TRUE, TRUE, 0);
 	
-	g_signal_connect (re->dialog, "clicked", GTK_SIGNAL_FUNC (edit_editor_response), re);
+	g_signal_connect (re->dialog, "response", G_CALLBACK (edit_editor_response), re);
 	g_object_weak_ref ((GObject *)re->dialog, (GWeakNotify) editor_destroy, re);
 	
 	gtk_widget_set_sensitive (GTK_WIDGET (re), FALSE);
@@ -471,11 +471,11 @@ static struct {
 	char *name;
 	GtkSignalFunc func;
 } edit_buttons[] = {
-	{ "rule_add",    GTK_SIGNAL_FUNC (rule_add)    },
-	{ "rule_edit",   GTK_SIGNAL_FUNC (rule_edit)   },
-	{ "rule_delete", GTK_SIGNAL_FUNC (rule_delete) },
-	{ "rule_up",     GTK_SIGNAL_FUNC (rule_up)     },
-	{ "rule_down",   GTK_SIGNAL_FUNC (rule_down)   },
+	{ "rule_add",    G_CALLBACK (rule_add)    },
+	{ "rule_edit",   G_CALLBACK (rule_edit)   },
+	{ "rule_delete", G_CALLBACK (rule_delete) },
+	{ "rule_up",     G_CALLBACK (rule_up)     },
+	{ "rule_down",   G_CALLBACK (rule_down)   },
 };
 
 static void
@@ -538,6 +538,7 @@ set_source (RuleEditor *re, const char *source)
 	
 	d(printf("Checking for rules that are of type %s\n", source?source:"<nil>"));
 	while ((rule = rule_context_next_rule (re->context, rule, source)) != NULL) {
+		d(printf("Adding row '%s'\n", rule->name));
 		gtk_list_store_append (re->model, &iter);
 		gtk_list_store_set (re->model, &iter, 0, rule->name, 1, rule, -1);
 	}
@@ -616,9 +617,9 @@ rule_editor_play_undo (RuleEditor *re)
 }
 
 static void
-editor_clicked (GtkWidget *dialog, int button, RuleEditor *re)
+editor_response (GtkWidget *dialog, int button, RuleEditor *re)
 {
-	if (button != 0) {
+	if (button == GTK_RESPONSE_REJECT) {
 		if (enable_undo)
 			rule_editor_play_undo (re);
 		else {
@@ -659,13 +660,17 @@ rule_editor_construct (RuleEditor *re, RuleContext *context, GladeXML *gui, cons
 	re->model = gtk_list_store_new (2, G_TYPE_STRING, G_TYPE_POINTER);
 	re->list = (GtkTreeView *) glade_xml_get_widget (gui, "rule_list");
 	gtk_tree_view_set_model (re->list, (GtkTreeModel *) re->model);
+	gtk_tree_view_insert_column_with_attributes(re->list, -1, _("Rule(s)"),
+						    gtk_cell_renderer_text_new(),
+						    "text", 0,
+						    NULL);
 	selection = gtk_tree_view_get_selection (re->list);
 	gtk_tree_selection_set_mode (selection, GTK_SELECTION_SINGLE);
 	
-	g_signal_connect (re->list, "cursor-changed", GTK_SIGNAL_FUNC (cursor_changed), re);
-	g_signal_connect (re->list, "button_press_event", GTK_SIGNAL_FUNC (double_click), re);
+	g_signal_connect (re->list, "cursor-changed", G_CALLBACK (cursor_changed), re);
+	g_signal_connect (re->list, "button_press_event", G_CALLBACK (double_click), re);
 	
-	g_signal_connect (re, "clicked", GTK_SIGNAL_FUNC (editor_clicked), re);
+	g_signal_connect (re, "response", G_CALLBACK(editor_response), re);
 	rule_editor_set_source (re, source);
 	
 	if (enable_undo) {

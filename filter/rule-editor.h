@@ -31,10 +31,10 @@
 #include "filter-rule.h"
 
 #define RULE_TYPE_EDITOR            (rule_editor_get_type ())
-#define RULE_EDITOR(obj)            (GTK_CHECK_CAST ((obj), RULE_TYPE_EDITOR, RuleEditor))
-#define RULE_EDITOR_CLASS(klass)    (GTK_CHECK_CLASS_CAST ((klass), RULE_TYPE_EDITOR, RuleEditorClass))
-#define IS_RULE_EDITOR(obj)         (GTK_CHECK_TYPE ((obj), RULE_TYPE_EDITOR))
-#define IS_RULE_EDITOR_CLASS(klass) (GTK_CHECK_CLASS_TYPE ((klass), RULE_TYPE_EDITOR))
+#define RULE_EDITOR(obj)            (G_TYPE_CHECK_INSTANCE_CAST ((obj), RULE_TYPE_EDITOR, RuleEditor))
+#define RULE_EDITOR_CLASS(klass)    (G_TYPE_CHECK_CLASS_CAST ((klass), RULE_TYPE_EDITOR, RuleEditorClass))
+#define IS_RULE_EDITOR(obj)         (G_TYPE_CHECK_INSTANCE_TYPE ((obj), RULE_TYPE_EDITOR))
+#define IS_RULE_EDITOR_CLASS(klass) (G_TYPE_CHECK_CLASS_TYPE ((klass), RULE_TYPE_EDITOR))
 #define RULE_EDITOR_GET_CLASS(obj)  (GTK_CHECK_GET_CLASS ((obj), RULE_TYPE_EDITOR, RuleEditorClass))
 
 typedef struct _RuleEditor	RuleEditor;

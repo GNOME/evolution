@@ -328,7 +328,7 @@ get_widget (FilterElement *fe)
 	if (fi->values && fi->values->data)
 		gtk_entry_set_text (GTK_ENTRY (entry), (const char *) fi->values->data);
 	
-	g_signal_connect (entry, "changed", GTK_SIGNAL_FUNC (entry_changed), fe);
+	g_signal_connect (entry, "changed", G_CALLBACK (entry_changed), fe);
 	
 	return entry;
 }

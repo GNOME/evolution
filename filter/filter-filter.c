@@ -296,7 +296,7 @@ rule_copy (FilterRule *dest, FilterRule *src)
 	fsrc = (FilterFilter *) src;
 	
 	if (fdest->actions) {
-		g_list_foreach (fdest->actions, (GFunc) gtk_object_unref, NULL);
+		g_list_foreach (fdest->actions, (GFunc) g_object_unref, NULL);
 		g_list_free (fdest->actions);
 		fdest->actions = NULL;
 	}
@@ -380,8 +380,8 @@ get_rule_part_widget (FilterContext *f, FilterPart *newpart, FilterRule *fr)
 		item = gtk_menu_item_new_with_label (_(part->title));
 		
 		g_object_set_data ((GObject *) item, "part", part);
-		g_signal_connect (item, "activate", GTK_SIGNAL_FUNC (option_activate), data);
-		gtk_menu_append (GTK_MENU (menu), item);
+		g_signal_connect (item, "activate", G_CALLBACK (option_activate), data);
+		gtk_menu_shell_append(GTK_MENU_SHELL(menu), item);
 		gtk_widget_show (item);
 		
 		if (!strcmp (newpart->title, part->title))
@@ -445,7 +445,7 @@ attach_rule (GtkWidget *rule, struct _rule_data *data, FilterPart *part, int row
 	g_object_set_data ((GObject *) remove, "rule", rule);
 	g_object_set_data ((GObject *) rule, "part", part);
 	/*gtk_button_set_relief (GTK_BUTTON (remove), GTK_RELIEF_NONE);*/
-	g_signal_connect (remove, "clicked", GTK_SIGNAL_FUNC (less_parts), data);
+	g_signal_connect (remove, "clicked", G_CALLBACK (less_parts), data);
 	gtk_table_attach (GTK_TABLE (data->parts), remove, 1, 2, row, row + 1,
 			  0, 0, 0, 0);
 	gtk_widget_show (remove);
@@ -503,7 +503,7 @@ get_widget (FilterRule *fr, RuleContext *rc)
 	
 	add = gtk_button_new_from_stock (GTK_STOCK_ADD);
 	/* gtk_button_set_relief (GTK_BUTTON (add), GTK_RELIEF_NONE); */
-	g_signal_connect (add, "clicked", GTK_SIGNAL_FUNC (more_parts), data);
+	g_signal_connect (add, "clicked", G_CALLBACK (more_parts), data);
 	gtk_box_pack_start (GTK_BOX (hbox), add, FALSE, FALSE, 3);
 	
 	gtk_box_pack_start (GTK_BOX (inframe), hbox, FALSE, FALSE, 3);

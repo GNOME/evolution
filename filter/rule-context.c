@@ -384,7 +384,7 @@ rule_context_save (RuleContext *rc, const char *user)
 	g_assert(rc);
 	g_assert(user);
 	
-	return RULE_CONTEXT_CLASS (rc)->save (rc, user);
+	return RULE_CONTEXT_GET_CLASS (rc)->save (rc, user);
 }
 
 static int
@@ -441,7 +441,7 @@ rule_context_revert(RuleContext *rc, const char *user)
 	
 	d(printf("rule_context: restoring %s %s\n", user));
 	
-	return RULE_CONTEXT_CLASS (rc)->revert (rc, user);
+	return RULE_CONTEXT_GET_CLASS (rc)->revert (rc, user);
 }
 
 struct _revert_data {
@@ -693,7 +693,7 @@ rule_context_add_rule_gui (RuleContext *rc, FilterRule *rule, const char *title,
 	if (path)
 		g_object_set_data_full ((GObject *) dialog, "path", g_strdup (path), g_free);
 	
-	g_signal_connect (dialog, "response", GTK_SIGNAL_FUNC (new_rule_response), rc);
+	g_signal_connect (dialog, "response", G_CALLBACK (new_rule_response), rc);
 	
 	g_object_ref (rc);
 	

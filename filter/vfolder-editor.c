@@ -73,7 +73,7 @@ vfolder_editor_class_init (VfolderEditorClass *klass)
 	GtkObjectClass *object_class = (GtkObjectClass *) klass;
 	RuleEditorClass *re_class = (RuleEditorClass *) klass;
 	
-	parent_class = gtk_type_class (rule_editor_get_type ());
+	parent_class = g_type_class_ref(rule_editor_get_type ());
 	
 	gobject_class->finalize = vfolder_editor_finalise;
 	

@@ -1,3 +1,22 @@
+2002-11-26  Not Zed  <NotZed@Ximian.com>
+
+	* filter-rule.c (filter_rule_validate): FILTER_RULE_CLASS ->
+	_GET_CLASS
+
+	* rule-context.c (rule_context_save): RULE_CONTEXT_CLASS ->
+	RULE_CONTEXT_GET_CLASS
+	(rule_context_revert): "
+
+	* *.[ch]: Ran fix.sh over all files.
+	
+	* rule-editor.c (rule_add): widget:set_parent ->
+	window:set_transient_for
+	(editor_response): renamed from editor_clicked, handle gtk dialog
+	response codes.
+	(rule_edit): connect to response rather than clicked.
+	(rule_editor_construct): Setup a text column in the tree view.
+	Not sure if this can be handled via glade.
+
 2002-11-20  Jeffrey Stedfast  <fejj@ximian.com>
 
 	* filter-label.c (xml_create): gconfify.

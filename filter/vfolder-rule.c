@@ -354,8 +354,8 @@ static struct {
 	char *name;
 	GtkSignalFunc func;
 } edit_buttons[] = {
-	{ "source_add",    GTK_SIGNAL_FUNC (source_add)    },
-	{ "source_remove", GTK_SIGNAL_FUNC (source_remove) },
+	{ "source_add",    G_CALLBACK (source_add)    },
+	{ "source_remove", G_CALLBACK (source_remove) },
 };
 
 static void
@@ -525,7 +525,7 @@ get_widget (FilterRule *fr, RuleContext *rc)
 		gtk_list_store_set (data->model, &iter, 0, source, -1);
 	}
 	
-	g_signal_connect (data->list, "cursor-changed", GTK_SIGNAL_FUNC (select_source), data);
+	g_signal_connect (data->list, "cursor-changed", G_CALLBACK (select_source), data);
 	
 	omenu = (GtkOptionMenu *) glade_xml_get_widget (gui, "source_option");
 	l = GTK_MENU_SHELL (omenu->menu)->children;
@@ -544,7 +544,7 @@ get_widget (FilterRule *fr, RuleContext *rc)
 			g_warning ("Glade file " FILTER_GLADEDIR "/filter.glade out of sync with editor code");
 		}
 		
-		g_signal_connect (item, "activate", GTK_SIGNAL_FUNC (select_source_with), data);
+		g_signal_connect (item, "activate", G_CALLBACK (select_source_with), data);
 		
 		i++;
 		l = l->next;

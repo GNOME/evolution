@@ -28,10 +28,10 @@
 #include "vfolder-context.h"
 
 #define VFOLDER_TYPE_EDITOR            (vfolder_editor_get_type ())
-#define VFOLDER_EDITOR(obj)            (GTK_CHECK_CAST ((obj), VFOLDER_TYPE_EDITOR, VfolderEditor))
-#define VFOLDER_EDITOR_CLASS(klass)    (GTK_CHECK_CLASS_CAST ((klass), VFOLDER_TYPE_EDITOR, VfolderEditorClass))
-#define IS_VFOLDER_EDITOR(obj)         (GTK_CHECK_TYPE ((obj), VFOLDER_TYPE_EDITOR))
-#define IS_VFOLDER_EDITOR_CLASS(klass) (GTK_CHECK_CLASS_TYPE ((klass), VFOLDER_TYPE_EDITOR))
+#define VFOLDER_EDITOR(obj)            (G_TYPE_CHECK_INSTANCE_CAST ((obj), VFOLDER_TYPE_EDITOR, VfolderEditor))
+#define VFOLDER_EDITOR_CLASS(klass)    (G_TYPE_CHECK_CLASS_CAST ((klass), VFOLDER_TYPE_EDITOR, VfolderEditorClass))
+#define IS_VFOLDER_EDITOR(obj)         (G_TYPE_CHECK_INSTANCE_TYPE ((obj), VFOLDER_TYPE_EDITOR))
+#define IS_VFOLDER_EDITOR_CLASS(klass) (G_TYPE_CHECK_CLASS_TYPE ((klass), VFOLDER_TYPE_EDITOR))
 #define VFOLDER_EDITOR_GET_CLASS(obj)  (GTK_CHECK_GET_CLASS ((obj), VFOLDER_TYPE_EDITOR, VfolderEditorClass))
 
 typedef struct _VfolderEditor VfolderEditor;

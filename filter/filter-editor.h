@@ -28,10 +28,10 @@
 #include "filter-context.h"
 
 #define FILTER_TYPE_EDITOR            (filter_editor_get_type ())
-#define FILTER_EDITOR(obj)            (GTK_CHECK_CAST ((obj), FILTER_TYPE_EDITOR, FilterEditor))
-#define FILTER_EDITOR_CLASS(klass)    (GTK_CHECK_CLASS_CAST ((klass), FILTER_TYPE_EDITOR, FilterEditorClass))
-#define IS_FILTER_EDITOR(obj)         (GTK_CHECK_TYPE ((obj), FILTER_TYPE_EDITOR))
-#define IS_FILTER_EDITOR_CLASS(klass) (GTK_CHECK_CLASS_TYPE ((klass), FILTER_TYPE_EDITOR))
+#define FILTER_EDITOR(obj)            (G_TYPE_CHECK_INSTANCE_CAST ((obj), FILTER_TYPE_EDITOR, FilterEditor))
+#define FILTER_EDITOR_CLASS(klass)    (G_TYPE_CHECK_CLASS_CAST ((klass), FILTER_TYPE_EDITOR, FilterEditorClass))
+#define IS_FILTER_EDITOR(obj)         (G_TYPE_CHECK_INSTANCE_TYPE ((obj), FILTER_TYPE_EDITOR))
+#define IS_FILTER_EDITOR_CLASS(klass) (G_TYPE_CHECK_CLASS_TYPE ((klass), FILTER_TYPE_EDITOR))
 #define FILTER_EDITOR_GET_CLASS(obj)  (GTK_CHECK_GET_CLASS ((obj), FILTER_TYPE_EDITOR, FilterEditorClass))
 
 typedef struct _FilterEditor FilterEditor;

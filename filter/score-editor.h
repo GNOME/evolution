@@ -28,10 +28,10 @@
 #include "score-context.h"
 
 #define SCORE_TYPE_EDITOR            (score_editor_get_type ())
-#define SCORE_EDITOR(obj)            (GTK_CHECK_CAST ((obj), SCORE_TYPE_EDITOR, ScoreEditor))
-#define SCORE_EDITOR_CLASS(klass)    (GTK_CHECK_CLASS_CAST ((klass), SCORE_TYPE_EDITOR, ScoreEditorClass))
-#define IS_SCORE_EDITOR(obj)         (GTK_CHECK_TYPE ((obj), SCORE_TYPE_EDITOR))
-#define IS_SCORE_EDITOR_CLASS(klass) (GTK_CHECK_CLASS_TYPE ((klass), SCORE_TYPE_EDITOR))
+#define SCORE_EDITOR(obj)            (G_TYPE_CHECK_INSTANCE_CAST ((obj), SCORE_TYPE_EDITOR, ScoreEditor))
+#define SCORE_EDITOR_CLASS(klass)    (G_TYPE_CHECK_CLASS_CAST ((klass), SCORE_TYPE_EDITOR, ScoreEditorClass))
+#define IS_SCORE_EDITOR(obj)         (G_TYPE_CHECK_INSTANCE_TYPE ((obj), SCORE_TYPE_EDITOR))
+#define IS_SCORE_EDITOR_CLASS(klass) (G_TYPE_CHECK_CLASS_TYPE ((klass), SCORE_TYPE_EDITOR))
 #define SCORE_EDITOR_GET_CLASS(obj)  (GTK_CHECK_GET_CLASS ((obj), SCORE_TYPE_EDITOR, ScoreEditorClass))
 
 typedef struct _ScoreEditor ScoreEditor;

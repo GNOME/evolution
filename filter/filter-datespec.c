@@ -427,13 +427,13 @@ button_clicked (GtkButton *button, FilterDatespec *fds)
 	set_values (fds);
 	
 	g_signal_connect (GTK_OPTION_MENU (p->option_type)->menu, "deactivate",
-			  GTK_SIGNAL_FUNC (set_option_type), fds);
+			  G_CALLBACK (set_option_type), fds);
 	g_signal_connect (GTK_OPTION_MENU (p->option_relative)->menu, "deactivate",
-			  GTK_SIGNAL_FUNC (set_option_relative), fds);
+			  G_CALLBACK (set_option_relative), fds);
 	
 	gtk_box_pack_start ((GtkBox *) dialog->vbox, toplevel, TRUE, TRUE, 3);
 	
-	g_signal_connect (dialog, "response", GTK_SIGNAL_FUNC (dialog_response), fds);
+	g_signal_connect (dialog, "response", G_CALLBACK (dialog_response), fds);
 	
 	gtk_dialog_run (dialog);
 }
@@ -450,7 +450,7 @@ get_widget (FilterElement *fe)
 	
 	button = gtk_button_new();
 	gtk_container_add (GTK_CONTAINER (button), fds->priv->label_button);
-	g_signal_connect (button, "clicked", GTK_SIGNAL_FUNC (button_clicked), fds);
+	g_signal_connect (button, "clicked", G_CALLBACK (button_clicked), fds);
 	
 	gtk_widget_show (button);
 	gtk_widget_show (fds->priv->label_button);

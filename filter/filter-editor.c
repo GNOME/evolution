@@ -73,7 +73,7 @@ filter_editor_class_init (FilterEditorClass *klass)
 	GtkObjectClass *object_class = (GtkObjectClass *) klass;
 	RuleEditorClass *re_class = (RuleEditorClass *) klass;
 	
-	parent_class = gtk_type_class (rule_editor_get_type ());
+	parent_class = g_type_class_ref(rule_editor_get_type ());
 	
 	gobject_class->finalize = filter_editor_finalise;
 	
@@ -123,7 +123,7 @@ select_source (GtkMenuItem *mi, FilterEditor *fe)
 {
 	char *source;
 	
-	source = gtk_object_get_data (GTK_OBJECT (mi), "source");
+	source = g_object_get_data(G_OBJECT(mi), "source");
 	g_assert (source);
 	
 	rule_editor_set_source ((RuleEditor *)fe, source);
@@ -142,9 +142,9 @@ filter_editor_construct (FilterEditor *fe, FilterContext *fc, GladeXML *gui, con
 	for (i = 0; source_names[i]; i++) {
 		item = gtk_menu_item_new_with_label (_(source_names[i]));
 		g_object_set_data_full (G_OBJECT (item), "source", g_strdup (source_names[i]), g_free);
-		gtk_menu_append (GTK_MENU (menu), item);
+		gtk_menu_shell_append(GTK_MENU_SHELL(menu), item);
 		gtk_widget_show (item);
-		g_signal_connect (item, "activate", GTK_SIGNAL_FUNC (select_source), fe);
+		g_signal_connect (item, "activate", G_CALLBACK (select_source), fe);
 	}
 	gtk_option_menu_set_menu (GTK_OPTION_MENU (omenu), menu);
 	gtk_widget_show (omenu);

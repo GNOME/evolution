@@ -48,7 +48,6 @@ static void filter_colour_finalise (GObject *obj);
 
 static FilterElementClass *parent_class;
 
-
 GType
 filter_colour_get_type (void)
 {
@@ -207,7 +206,7 @@ get_widget (FilterElement *fe)
 	cp = (GnomeColorPicker *) gnome_color_picker_new ();
 	gnome_color_picker_set_i16 (cp, fc->r, fc->g, fc->b, fc->a);
 	gtk_widget_show ((GtkWidget *) cp);
-	g_signal_connect (cp, "color_set", GTK_SIGNAL_FUNC (set_colour), fe);
+	g_signal_connect (cp, "color_set", G_CALLBACK (set_colour), fe);
 	
 	return (GtkWidget *) cp;
 }

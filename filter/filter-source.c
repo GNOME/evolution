@@ -270,9 +270,9 @@ get_widget (FilterElement *fe)
 			g_free (label);
 			
 			g_object_set_data ((GObject *) item, "source", info);
-			g_signal_connect (item, "activate", GTK_SIGNAL_FUNC (source_changed), fs);
+			g_signal_connect (item, "activate", G_CALLBACK (source_changed), fs);
 			
-			gtk_menu_append (GTK_MENU (menu), item);
+			gtk_menu_shell_append(GTK_MENU_SHELL(menu), item);
 			gtk_widget_show (item);
 			
 			/* FIXME: don't use e_url_equal */

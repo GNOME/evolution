@@ -299,8 +299,8 @@ get_widget (FilterElement *fe)
 		op = l->data;
 		item = gtk_menu_item_new_with_label (_(op->title));
 		g_object_set_data ((GObject *) item, "option", op);
-		g_signal_connect (item, "activate", GTK_SIGNAL_FUNC (option_changed), fe);
-		gtk_menu_append (GTK_MENU (menu), item);
+		g_signal_connect (item, "activate", G_CALLBACK (option_changed), fe);
+		gtk_menu_shell_append(GTK_MENU_SHELL(menu), item);
 		gtk_widget_show (item);
 		if (op == fo->current) {
 			current = index;
