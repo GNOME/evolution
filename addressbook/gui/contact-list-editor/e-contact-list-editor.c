@@ -767,12 +767,12 @@ add_email_cb (GtkWidget *w, EContactListEditor *editor)
 		/* Skip to the end of the list */
 		if (adj->upper - adj->lower > adj->page_size)
 			gtk_adjustment_set_value (adj, adj->upper);
+		
+		editor->changed = TRUE;
+
 	}
 
 	gtk_entry_set_text (GTK_ENTRY(editor->email_entry), "");
-
-	editor->changed = TRUE;
-
 	command_state_changed (editor);
 }
 

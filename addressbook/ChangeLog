@@ -1,3 +1,8 @@
+2004-06-22  Larry Ewing  <lewing@ximian.com>
+
+	* gui/contact-list-editor/e-contact-list-editor.c (add_email_cb):
+	don't set the changed flag unless we actually add something.
+
 2004-06-21  Federico Mena Quintero  <federico@ximian.com>
 
 	* gui/contact-editor/contact-editor.glade: Make the scrolled
