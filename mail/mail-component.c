@@ -405,6 +405,9 @@ impl_requestCreateItem (PortableServer_Servant servant,
 				     ex_GNOME_Evolution_Component_UnknownType, NULL);
 		return;
 	}
+
+	if (!em_utils_check_user_can_send_mail(NULL))
+		return;
 	
 	em_utils_compose_new_message ();
 }
@@ -413,6 +416,9 @@ static void
 impl_handleURI (PortableServer_Servant servant, const char *uri, CORBA_Environment *ev)
 {
 	if (!strncmp (uri, "mailto:", 7)) {
+		if (!em_utils_check_user_can_send_mail(NULL))
+			return;
+
 		em_utils_compose_new_message_with_mailto (uri);
 	}
 }

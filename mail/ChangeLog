@@ -1,3 +1,14 @@
+2004-01-08  Not Zed  <NotZed@Ximian.com>
+
+	** See bug #50786
+	
+	* GNOME_Evolution_Mail.server.in.in: Remove :: from startup wizard
+	iid, and put the mail wizard into the right factory.
+
+	* mail-component.c (impl_requestCreateItem, impl_handleURI): 
+	* em-folder-browser.c (emfb_mail_compose): check we have an
+	account before trying to send mail.
+
 2004-01-07  Jeffrey Stedfast  <fejj@ximian.com>
 
 	* mail-component.c (mail_component_init): Don't migrate stuff here
