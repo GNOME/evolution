@@ -1,3 +1,10 @@
+2000-06-28  Jeffrey Stedfast  <fejj@helixcode.com>
+
+	* filter-arg-types.c (arg_string_edit_value): Changed "Filter name"
+	to "Option value" as "Filter name" made no sense in the dialog
+	(arg_address_edit_value): Same
+	(arg_folder_edit_value): What do we want to return??
+
 2000-06-27  Ettore Perazzoli  <ettore@helixcode.com>
 
 	* filter-xml.c (load_desc): Strdup content before assigning the

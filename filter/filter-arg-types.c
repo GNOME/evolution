@@ -91,44 +91,43 @@ arg_string_edit_values(FilterArg *arg)
 
 /* pop up a dialogue, asking for a new string value */
 static int
-arg_string_edit_value(FilterArg *arg, int index)
+arg_string_edit_value (FilterArg *arg, int index)
 {
 	GnomeDialog *dialogue;
-	GtkHBox *hbox;
-	GtkLabel *label;
-	GtkEntry *entry;
+	GtkWidget *hbox;
+	GtkWidget *label;
+	GtkWidget *entry;
 	char *text = NULL;
 	char *newtext;
 
-	dialogue = (GnomeDialog *)gnome_dialog_new("Edit value", "Ok", "Cancel", 0);
+	dialogue = (GnomeDialog *)gnome_dialog_new ("Edit value", "Ok", "Cancel", 0);
 
-	hbox = (GtkHBox *)gtk_hbox_new(FALSE, 0);
-	label = (GtkLabel *)gtk_label_new("Folder name");
-	gtk_box_pack_start((GtkBox *)hbox, (GtkWidget *)label, FALSE, FALSE, 0);
-	entry = (GtkEntry *)gtk_entry_new();
-	gtk_box_pack_start((GtkBox *)hbox, (GtkWidget *)entry, TRUE, TRUE, 0);
-	if (index>=0) {
-		text = filter_arg_get_value(arg, index);
+	hbox = gtk_hbox_new (FALSE, 0);
+	label = gtk_label_new ("Option value");
+	gtk_box_pack_start (GTK_BOX (hbox), label, FALSE, FALSE, 0);
+	entry = gtk_entry_new();
+	gtk_box_pack_start (GTK_BOX (hbox), entry, TRUE, TRUE, 0);
+	if (index >= 0) {
+		text = filter_arg_get_value (arg, index);
 	}
 	if (text) {
-		gtk_entry_set_text(entry, text);
+		gtk_entry_set_text (GTK_ENTRY (entry), text);
 	}
-	gtk_box_pack_start((GtkBox *)dialogue->vbox, (GtkWidget *)hbox, TRUE, TRUE, 0);
-	gtk_widget_show_all((GtkWidget *)hbox);
-	gtk_object_ref((GtkObject *)entry);	/* so we can get the text back afterwards */
-	if (gnome_dialog_run_and_close(dialogue) == 0) {
+	gtk_box_pack_start (GTK_BOX (dialogue->vbox), hbox, TRUE, TRUE, 0);
+	gtk_widget_show_all (hbox);
+	gtk_object_ref (GTK_OBJECT (entry));   /* so we can get the text back afterwards */
+	if (gnome_dialog_run_and_close (dialogue) == 0) {
 		GList *node;
 
-		newtext = g_strdup(gtk_entry_get_text(entry));
-		gtk_object_unref((GtkObject *)entry);
-		if (index>=0
-		    && (node = g_list_find(arg->values, text))) {
+		newtext = g_strdup (gtk_entry_get_text (GTK_ENTRY (entry)));
+		gtk_object_unref (GTK_OBJECT (entry));
+		if (index >= 0 && (node = g_list_find (arg->values, text))) {
 			node->data = newtext;
 		} else {
-			arg->values = g_list_append(arg->values, newtext);
+			arg->values = g_list_append (arg->values, newtext);
 		}
-		g_free(text);
-		return g_list_index(arg->values, newtext);
+		g_free (text);
+		return g_list_index (arg->values, newtext);
 	}
 	return -1;
 }
@@ -275,39 +274,39 @@ filter_arg_address_get_type (void)
 }
 
 static void
-arg_address_write_html(FilterArg *argin, GtkHTML *html, GtkHTMLStream *stream)
+arg_address_write_html (FilterArg *argin, GtkHTML *html, GtkHTMLStream *stream)
 {
 	/* empty */
 }
 
 static void
-arg_address_write_text(FilterArg *argin, GString *string)
+arg_address_write_text (FilterArg *argin, GString *string)
 {
 	GList *l;
 	struct filter_arg_address *a;
 
 	l = argin->values;
 	if (l == NULL) {
-		g_string_append(string, "email address");
+		g_string_append (string, "email address");
 	}
 	while (l) {
 		a = l->data;
-		g_string_append(string, a->name);
+		g_string_append (string, a->name);
 		if (l->next) {
-			g_string_append(string, ", ");
+			g_string_append (string, ", ");
 		}
-		l = g_list_next(l);
+		l = g_list_next (l);
 	}
 }
 
 static void
 arg_address_edit_values(FilterArg *arg)
 {
-	printf("edit it!\n");
+	printf ("edit it!\n");
 }
 
 static int
-arg_address_edit_value(FilterArg *arg, int index)
+arg_address_edit_value (FilterArg *arg, int index)
 {
 	GnomeDialog *dialogue;
 	GtkWidget *hbox;
@@ -317,38 +316,38 @@ arg_address_edit_value(FilterArg *arg, int index)
 	char *newtext;
 	struct filter_arg_address *ad = NULL;
 
-	dialogue = (GnomeDialog *)gnome_dialog_new("Edit value", "Ok", "Cancel", 0);
+	dialogue = (GnomeDialog *)gnome_dialog_new ("Edit Address value", "Ok", "Cancel", 0);
 
-	hbox = gtk_hbox_new(FALSE, 0);
-	label = gtk_label_new("Folder name");
-	gtk_box_pack_start(GTK_BOX (hbox), label, FALSE, FALSE, 0);
-	entry = gtk_entry_new();
-	gtk_box_pack_start(GTK_BOX (hbox), entry, TRUE, TRUE, 0);
-	if (index >= 0 && (ad = filter_arg_get_value(arg, index))) {
+	hbox = gtk_hbox_new (FALSE, 0);
+	label = gtk_label_new ("Address");
+	gtk_box_pack_start (GTK_BOX (hbox), label, FALSE, FALSE, 0);
+	entry = gtk_entry_new ();
+	gtk_box_pack_start (GTK_BOX (hbox), entry, TRUE, TRUE, 0);
+	if (index >= 0 && (ad = filter_arg_get_value (arg, index))) {
 		text = ad->email;
 	}
 	if (text) {
-		gtk_entry_set_text(GTK_ENTRY (entry), text);
+		gtk_entry_set_text (GTK_ENTRY (entry), text);
 	}
-	gtk_box_pack_start(GTK_BOX (dialogue->vbox), hbox, TRUE, TRUE, 0);
-	gtk_widget_show_all(hbox);
-	gtk_object_ref(GTK_OBJECT (entry));   /* so we can get the text back afterwards */
-	if (gnome_dialog_run_and_close(dialogue) == 0) {
+	gtk_box_pack_start (GTK_BOX (dialogue->vbox), hbox, TRUE, TRUE, 0);
+	gtk_widget_show_all (hbox);
+	gtk_object_ref (GTK_OBJECT (entry));   /* so we can get the text back afterwards */
+	if (gnome_dialog_run_and_close (dialogue) == 0) {
 		GList *node;
 
-		newtext = g_strdup(gtk_entry_get_text(GTK_ENTRY (entry)));
-		gtk_object_unref(GTK_OBJECT (entry));
+		newtext = g_strdup (gtk_entry_get_text (GTK_ENTRY (entry)));
+		gtk_object_unref (GTK_OBJECT (entry));
 		if (index >= 0 && ad && (node = g_list_find(arg->values, ad))) {
 			ad = node->data;
-			g_free(ad->email);
+			g_free (ad->email);
 			ad->email = newtext;
 		} else {
-			ad = g_malloc0(sizeof(*ad));
+			ad = g_malloc0 (sizeof(*ad));
 			ad->email = newtext;
-			arg->values = g_list_append(arg->values, ad);
+			arg->values = g_list_append (arg->values, ad);
 		}
-		g_free(text);
-		return g_list_index(arg->values, ad);
+		g_free (text);
+		return g_list_index (arg->values, ad);
 	}
 	return -1;
 }
@@ -525,20 +524,20 @@ impl_FolderSelectionListener_selected(PortableServer_Servant listener_servant, c
 
 	/* only if we have a selection */
 	if (physical[0]) {
-		printf("user selected; %s, or did they select %s\n", uri, physical);
+		printf ("user selected; %s, or did they select %s\n", uri, physical);
 
-		if (servant->index>=0
-		    && (node = g_list_index(servant->arg->values, servant->index))) {
-			node->data = g_strdup(physical);
+		/* FIXME: passing arg 2 of `g_list_index' makes pointer from integer without a cast */
+		if (servant->index >= 0 && (node = g_list_index (servant->arg->values, servant->index))) {
+			node->data = g_strdup (physical);
 		} else {
-			servant->arg->values = g_list_append(servant->arg->values, g_strdup(physical));
+			servant->arg->values = g_list_append (servant->arg->values, g_strdup (physical));
 		}
 
-		gtk_signal_emit_by_name(GTK_OBJECT(servant->arg), "changed");
+		gtk_signal_emit_by_name (GTK_OBJECT (servant->arg), "changed");
 	}
-	gtk_object_unref((GtkObject *)servant->arg);
+	gtk_object_unref (GTK_OBJECT (servant->arg));
 
-	g_free(servant);
+	g_free (servant);
 }
 
 static Evolution_FolderSelectionListener
@@ -549,7 +548,7 @@ create_listener (FilterArg *arg, int index)
 	CORBA_Environment ev;
 	FolderSelectionListenerServant *servant;
 
-	if (! FolderSelectionListener_vepv_initialized) {
+	if (!FolderSelectionListener_vepv_initialized) {
 		FolderSelectionListener_base_epv._private = NULL;
 		FolderSelectionListener_base_epv.finalize = NULL;
 		FolderSelectionListener_base_epv.default_POA = NULL;
@@ -561,10 +560,10 @@ create_listener (FilterArg *arg, int index)
 		
 		FolderSelectionListener_vepv_initialized = TRUE;
 	}
-	servant = g_malloc0(sizeof(*servant));
+	servant = g_malloc0 (sizeof (*servant));
 	servant->servant.vepv     = &FolderSelectionListener_vepv;
 	servant->arg = arg;
-	gtk_object_ref((GtkObject *)arg);
+	gtk_object_ref (GTK_OBJECT (arg));
 	servant->index = index;
 
 	listener_servant = (PortableServer_Servant) servant;
@@ -637,22 +636,25 @@ arg_folder_write_text(FilterArg *argin, GString *string)
 }
 
 static int
-arg_folder_edit_value(FilterArg *arg, int index)
+arg_folder_edit_value (FilterArg *arg, int index)
 {
 	char *def;
 	CORBA_Environment ev;
 
-	printf("folder edit value %d\n", index);
+	printf ("folder edit value %d\n", index);
 	if (index < 0) {
 		def = "";
 	} else {
-		def = filter_arg_get_value(arg, index);
+		def = filter_arg_get_value (arg, index);
 	}
 
 	CORBA_exception_init (&ev);
-	Evolution_Shell_user_select_folder(global_shell_interface,
-					   create_listener(arg, index), "Select Folder", def,
-					   &ev);
+	Evolution_Shell_user_select_folder (global_shell_interface,
+					    create_listener (arg, index),
+					    "Select Folder", def, &ev);
+
+#warning "What do we really want to return here???"
+	return 0;
 }
 
 static void
@@ -666,9 +668,9 @@ arg_folder_edit_values(FilterArg *argin)
 	GtkWidget *text;
 	guint i;
 
-	dialogue = gnome_dialog_new("Edit addresses", "Ok", "Cancel", NULL);
-	text = gtk_text_new(NULL, NULL);
-	gtk_object_ref(GTK_OBJECT (text));
+	dialogue = gnome_dialog_new ("Edit addresses", "Ok", "Cancel", NULL);
+	text = gtk_text_new (NULL, NULL);
+	gtk_object_ref (GTK_OBJECT (text));
 
 	l = argin->values;
 	while (l) {
