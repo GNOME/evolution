@@ -253,6 +253,8 @@ Conduits:
   - Addressbook phone numbers now preserved if they can't all be
     synced to desktop (JP)
 
+  - Sync addressbook phone numbers from non-english pilots (JP)
+
   - Various memory leak fixes (JP)
 
   - Handle multi-day calendar events (without recurrences) (JP)
