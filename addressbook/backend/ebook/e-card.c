@@ -326,7 +326,7 @@ e_card_get_id (ECard *card)
 {
 	g_return_val_if_fail (card && E_IS_CARD (card), NULL);
 
-	return card->id;
+	return card->id ? card->id : "";
 }
 
 /**
@@ -344,7 +344,7 @@ e_card_set_id (ECard *card, const char *id)
 
 	if ( card->id )
 		g_free(card->id);
-	card->id = g_strdup(id);
+	card->id = g_strdup(id ? id : "");
 }
 
 EBook *
@@ -729,7 +729,7 @@ e_card_get_vobject (ECard *card, gboolean assumeUTF8)
 		}
 	}
 
-	ADD_PROP_VALUE (vobj, VCUniqueStringProp, card->id);
+	ADD_PROP_VALUE (vobj, VCUniqueStringProp, card->id ? card->id : "");
 
 #if 0	
 	if (crd->photo.prop.used) {

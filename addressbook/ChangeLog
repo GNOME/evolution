@@ -1,3 +1,12 @@
+2001-10-16  Jon Trowbridge  <trow@ximian.com>
+
+	* backend/ebook/e-card.c (e_card_get_id): If card->id is NULL,
+	return an empty string.
+	(e_card_set_id): Don't allow the card id to be set to NULL; use
+	the empty string instead.
+	(e_card_get_vobject): When building our vcard, pass in the empty
+	string as the id if card->id is NULL. (Bug #10164)
+
 2001-10-16  JP Rosevear  <jpr@ximian.com>
 
 	* conduit/address-conduit.c (local_record_from_ecard): don't set
