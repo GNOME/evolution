@@ -166,7 +166,7 @@ backend_cal_opened_online (CalClient *client, CalClientOpenStatus status, gpoint
 	CalendarOfflineHandler *offline_handler = data;
 
 	if (status != CAL_CLIENT_OPEN_SUCCESS) {
-		gtk_object_unref (GTK_OBJECT (client));
+		g_object_unref (G_OBJECT (client));
 		return;
 	}
 
@@ -200,11 +200,11 @@ backend_go_online (gpointer data, gpointer user_data)
 	gboolean success;
 	
 	client = cal_client_new ();
-	gtk_signal_connect (GTK_OBJECT (client), "cal_opened", 
-			    backend_cal_opened_online, offline_handler);
+	g_signal_connect (G_OBJECT (client), "cal_opened", 
+			  G_CALLBACK (backend_cal_opened_online), offline_handler);
 	success = cal_client_open_calendar (client, uri, TRUE);
 	if (!success) {
-		gtk_object_unref (GTK_OBJECT (client));
+		g_object_unref (G_OBJECT (client));
 		return;		
 	}	
 }
