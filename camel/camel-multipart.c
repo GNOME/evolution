@@ -558,10 +558,10 @@ my_set_input_stream (CamelDataWrapper *data_wrapper, CamelStream *stream)
 						     real_boundary_line, 
 						     end_boundary_line, 
 						     &part_end);
-		body_part_input_stream = 
+		body_part_input_stream = CAMEL_SEEKABLE_SUBSTREAM (
 			camel_seekable_substream_new_with_seekable_stream_and_bounds (seekable_stream,
 										      part_begining, 
-										      part_end);
+										      part_end));
 		CAMEL_LOG_FULL_DEBUG ("CamelMultipart::set_input_stream, use a substream,\n"
 				      "\tbegining = %d\n"
 				      "\tend      = %d\n",part_begining, part_end);

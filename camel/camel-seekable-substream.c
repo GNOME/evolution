@@ -231,7 +231,7 @@ _init_with_seekable_stream_and_bounds	 (CamelSeekableSubstream *seekable_substre
 
 
 
-CamelSeekableSubstream *
+CamelStream *
 camel_seekable_substream_new_with_seekable_stream_and_bounds (CamelSeekableStream    *parent_stream,
 							      guint32                 inf_bound, 
 							      gint64                  sup_bound)
@@ -246,7 +246,7 @@ camel_seekable_substream_new_with_seekable_stream_and_bounds (CamelSeekableStrea
 									      parent_stream,
 									      inf_bound,
 									      sup_bound);
-	return seekable_substream;
+	return CAMEL_STREAM (seekable_substream);
 }
 
 

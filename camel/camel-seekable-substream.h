@@ -83,7 +83,7 @@ GtkType camel_seekable_substream_get_type (void);
 /* public methods */
 
 /* obtain a new seekable substream */
-CamelSeekableSubstream *
+CamelStream *
 camel_seekable_substream_new_with_seekable_stream_and_bounds (CamelSeekableStream    *parent_stream,
 							      guint32                 inf_bound, 
 							      gint64                  sup_bound);

@@ -1,5 +1,11 @@
 2000-03-28  Dan Winship  <danw@helixcode.com>
 
+	* camel-seekable-substream.c
+	(camel_seekable_substream_new_with_seekable_stream_and_bounds):
+	make this return a CamelStream rather than a
+	CamelSeekableSubstream, because that's the way Gtk objects tend to
+	work.
+
 	* camel-service.c (camel_service_gethost,
 	camel_service_getport): convenience functions to canonicalize
 	the host and port values of a service's URL.
