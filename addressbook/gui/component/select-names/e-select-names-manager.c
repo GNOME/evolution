@@ -386,6 +386,26 @@ open_book_cb (EBook *book, EBookStatus status, ESelectNamesManager *manager)
 }
 
 static void
+load_completion_books (ESelectNamesManager *manager)
+{
+	EFolderListItem *folders = e_folder_list_parse_xml (manager->cached_folder_list);
+	EFolderListItem *f;
+
+	for (f = folders; f && f->physical_uri; f++) {
+		char *uri;
+		EBook *book = e_book_new ();
+		gtk_object_ref (GTK_OBJECT (manager)); /* ref ourself before our async call */
+
+		if (!strncmp (f->physical_uri, "file:", 5))
+			uri = g_strdup_printf ("%s/addressbook.db", f->physical_uri);
+		else
+			uri = g_strdup (f->physical_uri);
+		addressbook_load_uri (book, uri, (EBookCallback)open_book_cb, manager);
+	}
+	e_folder_list_free_items (folders);
+}
+
+static void
 read_completion_books_from_db (ESelectNamesManager *manager)
 {
 	Bonobo_ConfigDatabase db;
@@ -401,23 +421,9 @@ read_completion_books_from_db (ESelectNamesManager *manager)
 	CORBA_exception_free (&ev);
 
 	if (val) {
-		EFolderListItem *folders = e_folder_list_parse_xml (val);
-		EFolderListItem *f;
-
-		for (f = folders; f && f->physical_uri; f++) {
-			char *uri;
-			EBook *book = e_book_new ();
-			gtk_object_ref (GTK_OBJECT (manager)); /* ref ourself before our async call */
-
-			if (!strncmp (f->physical_uri, "file:", 5))
-				uri = g_strdup_printf ("%s/addressbook.db", f->physical_uri);
-			else
-				uri = g_strdup (f->physical_uri);
-			addressbook_load_uri (book, uri, (EBookCallback)open_book_cb, manager);
-		}
-		e_folder_list_free_items (folders);
-
-		g_free (val);
+		g_free (manager->cached_folder_list);
+		manager->cached_folder_list = val;
+		load_completion_books(manager);
 	}
 }
 
@@ -428,16 +434,29 @@ uris_listener (BonoboListener *listener, char *event_name,
 {
 	ESelectNamesManager *manager = E_SELECT_NAMES_MANAGER (user_data);
 	GList *l;
-	for (l = manager->entries; l; l = l->next) {
-		ESelectNamesManagerEntry *entry = l->data;
-		e_select_names_completion_clear_books (E_SELECT_NAMES_COMPLETION (entry->comp));
+	Bonobo_ConfigDatabase db;
+	char *val;
+
+	db = addressbook_config_database (NULL);
+		
+	val = bonobo_config_get_string (db, "/Addressbook/Completion/uris", NULL);
+
+	if (val) {
+		if (!manager->cached_folder_list || strcmp (val, manager->cached_folder_list)) {
+			for (l = manager->entries; l; l = l->next) {
+				ESelectNamesManagerEntry *entry = l->data;
+				e_select_names_completion_clear_books (E_SELECT_NAMES_COMPLETION (entry->comp));
+			}
+
+			g_list_foreach (manager->completion_books, (GFunc)gtk_object_unref, NULL);
+			g_list_free (manager->completion_books);
+			manager->completion_books = NULL;
+
+			g_free (manager->cached_folder_list);
+			manager->cached_folder_list = val;
+			load_completion_books (manager);
+		}
 	}
-
-	g_list_foreach (manager->completion_books, (GFunc)gtk_object_unref, NULL);
-	g_list_free (manager->completion_books);
-	manager->completion_books = NULL;
-
-	read_completion_books_from_db (manager);
 }
 
 /**
@@ -614,6 +633,7 @@ e_select_names_manager_init (ESelectNamesManager *manager)
 	manager->sections = NULL;
 	manager->entries  = NULL;
 	manager->completion_books  = NULL;
+	manager->cached_folder_list  = NULL;
 }
 
 static void
@@ -641,6 +661,8 @@ e_select_names_manager_destroy (GtkObject *object)
 	manager->completion_books = NULL;
 
 	bonobo_event_source_client_remove_listener (addressbook_config_database (NULL), manager->listener_id, NULL);
+
+	g_free (manager->cached_folder_list);
 }
 
 static void

@@ -1,3 +1,20 @@
+2002-09-22  Chris Toshok  <toshok@ximian.com>
+
+	[ Fixes #28165, 29171 ]
+	* gui/component/select-names/e-select-names-manager.c
+	(uris_listener): check to see if the value has really changed.
+	the way the preferences dialog works is such that we'll get called
+	when any of the Folder Options are changed (default folders,
+	offline stuff, etc.)  we really only want to tear down and build
+	back up the completion books if the autocomplete folder setting
+	changed.
+	(read_completion_books_from_db): cache the folder list, and call
+	load_completion_books.
+	(load_completion_books): new function, loads from the
+	cached_folder_list.
+	(e_select_names_manager_init): init cached_folder_list to NULL.
+	(e_select_names_manager_destroy): g_free (cached_folder_list).
+
 2002-09-20  Chris Toshok  <toshok@ximian.com>
 
 	[ Fixes #30483 ]
