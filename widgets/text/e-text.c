@@ -3511,6 +3511,8 @@ e_text_commit_cb (GtkIMContext *context,
 	if (text->selection_end != text->selection_start)
 		e_text_delete_selection (text);
 	e_text_insert (text, str, strlen (str));
+	g_signal_emit (text, e_text_signals[E_TEXT_KEYPRESS], 0,
+		       0 /* XXX ugh */, 0 /* XXX ugh */);
 }
 
 static gboolean
