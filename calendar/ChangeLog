@@ -1,5 +1,9 @@
 2002-04-06  JP Rosevear  <jpr@ximian.com>
 
+	* pcs/cal-backend-db.[hc]: Remove dead files.
+
+2002-04-06  JP Rosevear  <jpr@ximian.com>
+	
 	* gui/GNOME_Evolution_Calendar.oaf.in: add config_item:type
 
 2002-04-01  Kjartan Maraas  <kmaraas@gnome.org>
