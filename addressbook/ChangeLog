@@ -1,5 +1,43 @@
 2002-11-05  Chris Toshok  <toshok@ximian.com>
 
+	* gui/component/select-names/e-simple-card-bonobo.[ch]: Port to
+	GObject/gnome2.
+	
+	* gui/component/select-names/e-select-names.[ch]: Port to
+	GObject/gnome2.
+	
+	* gui/component/select-names/e-select-names-text-model.c: Port to
+	GObject/gnome2.
+	
+	* gui/component/select-names/e-select-names-table-model.c: Port to
+	GObject/gnome2.
+	
+	* gui/component/select-names/e-select-names-popup.[ch]: Port to
+	GObject/gnome2.
+
+	* gui/component/select-names/e-select-names-model.c: Port to
+	GObject/gnome2.
+
+	* gui/component/select-names/e-select-names-manager.[ch]: Port to
+	GObject/gnome2.
+
+	* gui/component/select-names/e-select-names-factory.c: Port to
+	GObject/gnome2.
+
+	* gui/component/select-names/e-select-names-completion.[ch]: Port
+	to GObject/gnome2.
+
+	* gui/component/select-names/e-select-names-bonobo.[ch]: Port to
+	GObject/gnome2.
+
+	* gui/component/select-names/Makefile.am: typical port stuff.  add
+	marshaller generation foo, dist it, and switch the .oaf to .server
+
+	* gui/component/select-names/.cvsignore: ignore the marshaller
+	stuff.
+<
+2002-11-05  Chris Toshok  <toshok@ximian.com>
+
 	* backend/ebook/.cvsignore: ignore the generated marshaller files.
 
 	* backend/ebook/e-destination.c (e_destination_dispose): rename

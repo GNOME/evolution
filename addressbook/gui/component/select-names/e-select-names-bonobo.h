@@ -51,12 +51,12 @@ struct _ESelectNamesBonobo {
 
 struct _ESelectNamesBonoboClass {
 	BonoboObjectClass parent_class;
+
+	POA_GNOME_Evolution_Addressbook_SelectNames__epv epv;
 };
 
 
-GtkType             e_select_names_bonobo_get_type   (void);
-void                e_select_names_bonobo_construct  (ESelectNamesBonobo *select_names,
-						      GNOME_Evolution_Addressbook_SelectNames corba_object);
+GType               e_select_names_bonobo_get_type   (void);
 ESelectNamesBonobo *e_select_names_bonobo_new        (void);
 
 #ifdef __cplusplus

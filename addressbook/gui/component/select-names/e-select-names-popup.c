@@ -31,7 +31,6 @@
 
 #include <glib.h>
 #include <gtk/gtkcheckmenuitem.h>
-#include <libgnome/gnome-defs.h>
 #include <libgnome/gnome-i18n.h>
 #include <libgnomeui/gnome-app.h>
 #include <libgnomeui/gnome-app-helper.h>
@@ -47,13 +46,13 @@
 typedef struct _PopupInfo PopupInfo;
 struct _PopupInfo {
 	ESelectNamesTextModel *text_model;
-	const EDestination *dest;
+	EDestination *dest;
 	gint pos;
 	gint index;
 };
 
 static PopupInfo *
-popup_info_new (ESelectNamesTextModel *text_model, const EDestination *dest, gint pos, gint index)
+popup_info_new (ESelectNamesTextModel *text_model, EDestination *dest, gint pos, gint index)
 {
 	PopupInfo *info = g_new0 (PopupInfo, 1);
 	info->text_model = text_model;
@@ -62,10 +61,10 @@ popup_info_new (ESelectNamesTextModel *text_model, const EDestination *dest, gin
 	info->index = index;
 
 	if (text_model)
-		gtk_object_ref (GTK_OBJECT (text_model));
+		g_object_ref (text_model);
 
 	if (dest)
-		gtk_object_ref (GTK_OBJECT (dest));
+		g_object_ref (dest);
 
 	return info;
 }
@@ -76,10 +75,10 @@ popup_info_free (PopupInfo *info)
 	if (info) {
 		
 		if (info->text_model)
-			gtk_object_unref (GTK_OBJECT (info->text_model));
+			g_object_unref (info->text_model);
 
 		if (info->dest)
-			gtk_object_unref (GTK_OBJECT (info->dest));
+			g_object_unref (info->dest);
 
 		g_free (info);
 	}
@@ -111,7 +110,7 @@ make_contact_editor_cb (EBook *book, gpointer user_data)
 			ce = e_addressbook_show_contact_editor (book, card, FALSE, TRUE);
 			e_contact_editor_raise (ce);
 		}
-		gtk_object_unref (GTK_OBJECT (dest));
+		g_object_unref (dest);
 	}
 }
 
@@ -122,7 +121,7 @@ edit_contact_info_cb (GtkWidget *w, gpointer user_data)
 	if (info == NULL)
 		return;
 
-	gtk_object_ref (GTK_OBJECT (info->dest));
+	g_object_ref (info->dest);
 	e_book_use_default_book (make_contact_editor_cb, (gpointer) info->dest);
 }
 
@@ -278,7 +277,7 @@ popup_menu_card (PopupInfo *info)
 					++j;
 				}
 			}
-			gtk_object_unref (GTK_OBJECT (iterator));
+			g_object_unref (iterator);
 			
 			radioinfo[j].type = GNOME_APP_UI_ENDOFINFO;
 			
@@ -349,7 +348,7 @@ popup_menu_card (PopupInfo *info)
 				++j;
 			}
 		}
-		gtk_object_unref (GTK_OBJECT (iterator));
+		g_object_unref (iterator);
 	}
 
 	return pop;
@@ -398,7 +397,7 @@ popup_menu_list (PopupInfo *info)
 		uiinfo[i].type = GNOME_APP_UI_SEPARATOR;
 		++i;
 
-		gtk_object_unref (GTK_OBJECT (iterator));
+		g_object_unref (iterator);
 	}
 
 	uiinfo[i].type = GNOME_APP_UI_ITEM;
@@ -433,7 +432,7 @@ popup_menu_list (PopupInfo *info)
 				EDestination *subdest = e_destination_import (label);
 				set_uiinfo_label (&(uiinfo[i]), e_destination_get_address (subdest));
 				++i;
-				gtk_object_unref (GTK_OBJECT (subdest));
+				g_object_unref (subdest);
 			}
 		}
 		if (e_iterator_is_valid (iterator)) {
@@ -442,7 +441,7 @@ popup_menu_list (PopupInfo *info)
 			g_free (gs);
 		}
 
-		gtk_object_unref (GTK_OBJECT (iterator));
+		g_object_unref (iterator);
 	}
 
 
@@ -511,12 +510,12 @@ popup_menu_nocard (PopupInfo *info)
 }
 
 void
-e_select_names_popup (ESelectNamesTextModel *text_model, GdkEventButton *ev, gint pos)
+e_select_names_popup (ESelectNamesTextModel *text_model, GdkEventButton *ev, gint pos, GtkWidget *for_widget)
 {
 	ESelectNamesModel *model;
 	GtkWidget *popup;
 	PopupInfo *info;
-	const EDestination *dest;
+	EDestination *dest;
 	ECard *card;
 	gint index;
 
@@ -530,7 +529,8 @@ e_select_names_popup (ESelectNamesTextModel *text_model, GdkEventButton *ev, gin
 	if (index < 0 || index >= e_select_names_model_count (model))
 		return;
 
-	dest = e_select_names_model_get_destination (model, index);
+	/* XXX yuck, why does this return a const? */
+	dest = (EDestination *)e_select_names_model_get_destination (model, index);
 	if (e_destination_is_empty (dest))
 		return;
 
@@ -549,12 +549,12 @@ e_select_names_popup (ESelectNamesTextModel *text_model, GdkEventButton *ev, gin
 
 	if (popup) {
 		/* Clean up our info item after we've made our selection. */
-		gtk_signal_connect (GTK_OBJECT (popup),
-				    "selection-done",
-				    GTK_SIGNAL_FUNC (popup_info_cleanup),
-				    info);
+		g_signal_connect (popup,
+				  "selection-done",
+				  G_CALLBACK (popup_info_cleanup),
+				  info);
 
-		gnome_popup_menu_do_popup (popup, NULL, NULL, ev, info);
+		gnome_popup_menu_do_popup (popup, NULL, NULL, ev, info, for_widget);
 
 	} else {
 

@@ -34,7 +34,7 @@ struct _ESelectNamesManager {
 
 	GList *completion_books;
 
-	Bonobo_EventSource_ListenerId listener_id;
+	gulong listener_id;
 
 	char *cached_folder_list;
 };

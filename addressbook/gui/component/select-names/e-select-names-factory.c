@@ -37,6 +37,7 @@ static BonoboGenericFactory *factory = NULL;
 
 static BonoboObject *
 factory_fn (BonoboGenericFactory *factory,
+	    const char *component_id,
 	    void *closure)
 {
 	return BONOBO_OBJECT (e_select_names_bonobo_new ());

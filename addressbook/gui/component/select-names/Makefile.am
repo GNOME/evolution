@@ -14,16 +14,15 @@ IDL_GENERATED = \
 Evolution-Addressbook-SelectNames-impl.o: Evolution-Addressbook-SelectNames.h
 
 $(IDL_GENERATED): $(idl_DATA)
-	$(ORBIT_IDL) -I $(srcdir) -I $(datadir)/idl `$(GNOME_CONFIG) --cflags idl`	\
+	$(ORBIT_IDL) -I $(srcdir) $(IDL_INCLUDES) \
 		$(srcdir)/Evolution-Addressbook-SelectNames.idl
 
-oafdir = $(datadir)/oaf
+serversdir = $(libdir)/bonobo/servers
 
-oaf_in_files = GNOME_Evolution_Addressbook_SelectNames.oaf.in
-oaf_DATA = $(oaf_in_files:.oaf.in=.oaf)
+server_in_files = GNOME_Evolution_Addressbook_SelectNames.server.in
+servers_DATA = $(server_in_files:.oaf.in=.oaf)
 
-@XML_I18N_MERGE_OAF_RULE@
-
+@INTLTOOL_SERVER_RULE@
 
 INCLUDES =						\
 	-DG_LOG_DOMAIN=\"evolution-addressbook\"	\
@@ -57,6 +56,7 @@ libeselectnames_la_SOURCES = 			\
 	e-select-names-factory.h		\
 	e-select-names-manager.c		\
 	e-select-names-manager.h		\
+	e-select-names-marshal.c		\
 	e-select-names-model.c			\
 	e-select-names-model.h			\
 	e-select-names-popup.c			\
@@ -70,6 +70,20 @@ libeselectnames_la_SOURCES = 			\
 	e-simple-card-bonobo.c			\
 	e-simple-card-bonobo.h
 
+# GLib marshalling cruft
+
+e-select-names-marshal.h: e-select-names-marshal.list
+	( @GLIB_GENMARSHAL@ --prefix=e_select_names_marshal e-select-names-marshal.list --header > e-select-names-marshal.tmp \
+	&& mv e-select-names-marshal.tmp e-select-names-marshal.h ) \
+	|| ( rm -f e-select-names-marshal.tmp && exit 1 )
+
+e-select-names-marshal.c: e-select-names-marshal.h
+	( @GLIB_GENMARSHAL@ --prefix=e_select_names_marshal e-select-names-marshal.list --body > e-select-names-marshal.tmp \
+	&& mv e-select-names-marshal.tmp e-select-names-marshal.c ) \
+	|| ( rm -f e-select-names-marshal.tmp && exit 1 )
+
+MARSHAL_GENERATED = e-select-names-marshal.c e-select-names-marshal.h
+
 gladedir   = $(datadir)/evolution/glade
 glade_DATA = select-names.glade
 
@@ -78,12 +92,13 @@ etspec_DATA = e-select-names.etspec
 
 EXTRA_DIST = 			\
 	$(glade_DATA)		\
-	$(oaf_in_files)		\
-	$(oaf_DATA)		\
+	$(server_in_files)	\
+	$(servers_DATA)		\
 	$(idl_DATA)		\
-	$(etspec_DATA)
+	$(etspec_DATA)		\
+	e-select-names-marshal.list
 
-BUILT_SOURCES = $(IDL_GENERATED)
+BUILT_SOURCES = $(IDL_GENERATED) $(MARSHAL_GENERATED)
 CLEANFILES = $(BUILT_SOURCES)
 
 dist-hook:

@@ -40,9 +40,9 @@ e_select_names_table_model_add_source (ESelectNamesTableModel *model,
 {
 	model->source = source;
 	if (model->source)
-		gtk_object_ref(GTK_OBJECT(model->source));
-	model->source_changed_id = gtk_signal_connect(GTK_OBJECT(model->source), "changed",
-						      GTK_SIGNAL_FUNC(e_select_names_table_model_model_changed),
+		g_object_ref(model->source);
+	model->source_changed_id = g_signal_connect(GTK_OBJECT(model->source), "changed",
+						      G_CALLBACK(e_select_names_table_model_model_changed),
 						      model);
 }
 
@@ -52,7 +52,7 @@ e_select_names_table_model_drop_source (ESelectNamesTableModel *model)
 	if (model->source_changed_id)
 		gtk_signal_disconnect(GTK_OBJECT(model->source), model->source_changed_id);
 	if (model->source)
-		gtk_object_unref(GTK_OBJECT(model->source));
+		g_object_unref(model->source);
 	model->source = NULL;
 	model->source_changed_id = 0;
 }
@@ -127,7 +127,7 @@ fill_in_info (ESelectNamesTableModel *model)
 				model->data[i].email = e_card_simple_get(simple, E_CARD_SIMPLE_FIELD_EMAIL);
 				if (model->data[i].email == 0)
 					model->data[i].email = g_strdup("");
-				gtk_object_unref(GTK_OBJECT(simple));
+				g_object_unref(simple);
 			} else {
 				const gchar *name = e_destination_get_name (dest);
 				const gchar *email = e_destination_get_email (dest);

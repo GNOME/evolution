@@ -31,7 +31,7 @@
 #include <addressbook/backend/ebook/e-book.h>
 #include "e-select-names-text-model.h"
 
-BEGIN_GNOME_DECLS
+G_BEGIN_DECLS
 
 #define E_SELECT_NAMES_COMPLETION_TYPE        (e_select_names_completion_get_type ())
 #define E_SELECT_NAMES_COMPLETION(o)          (GTK_CHECK_CAST ((o), E_SELECT_NAMES_COMPLETION_TYPE, ESelectNamesCompletion))
@@ -62,7 +62,6 @@ void         e_select_names_completion_clear_books             (ESelectNamesComp
 gboolean     e_select_names_completion_get_match_contact_lists (ESelectNamesCompletion *);
 void         e_select_names_completion_set_match_contact_lists (ESelectNamesCompletion *, gboolean);
 
-END_GNOME_DECLS
+G_END_DECLS
 
 #endif /* E_SELECT_NAMES_COMPLETION_H */
-

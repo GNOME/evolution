@@ -43,7 +43,7 @@
 
 
 
-#define PARENT_TYPE bonobo_object_get_type ()
+#define PARENT_TYPE BONOBO_TYPE_OBJECT
 static BonoboObjectClass *parent_class = NULL;
 
 struct _ESelectNamesBonoboPrivate {
@@ -136,7 +136,7 @@ entry_get_property_fn (BonoboPropertyBag *bag,
 				const ECard *card = e_destination_get_card (destination);
 				ECardSimple *simple = e_card_simple_new ((ECard *) card);
 				ESimpleCardBonobo *simple_card = e_simple_card_bonobo_new (simple);
-				gtk_object_unref (GTK_OBJECT (simple));
+				g_object_unref (simple);
 
 				card_list->_buffer[i] = bonobo_object_corba_objref (BONOBO_OBJECT (simple_card));
 			}
@@ -221,46 +221,16 @@ entry_set_property_fn (BonoboPropertyBag *bag,
 	}
 }
 
-
-/* CORBA interface implementation.  */
-
-static POA_GNOME_Evolution_Addressbook_SelectNames__vepv SelectNames_vepv;
-
-static POA_GNOME_Evolution_Addressbook_SelectNames *
-create_servant (void)
-{
-	POA_GNOME_Evolution_Addressbook_SelectNames *servant;
-	CORBA_Environment ev;
-
-	servant = (POA_GNOME_Evolution_Addressbook_SelectNames *) g_new0 (BonoboObjectServant, 1);
-	servant->vepv = &SelectNames_vepv;
-
-	CORBA_exception_init (&ev);
-
-	POA_GNOME_Evolution_Addressbook_SelectNames__init ((PortableServer_Servant) servant, &ev);
-	if (ev._major != CORBA_NO_EXCEPTION) {
-		g_free (servant);
-		CORBA_exception_free (&ev);
-		return NULL;
-	}
-
-	CORBA_exception_free (&ev);
-
-	return servant;
-}
-
 static void
 impl_SelectNames_add_section (PortableServer_Servant servant,
 			      const CORBA_char *id,
 			      const CORBA_char *title,
 			      CORBA_Environment *ev)
 {
-	BonoboObject *bonobo_object;
 	ESelectNamesBonobo *select_names;
 	ESelectNamesBonoboPrivate *priv;
 
-	bonobo_object = bonobo_object_from_servant (servant);
-	select_names = E_SELECT_NAMES_BONOBO (bonobo_object);
+	select_names = E_SELECT_NAMES_BONOBO (bonobo_object (servant));
 	priv = select_names->priv;
 
 	e_select_names_manager_add_section (priv->manager, id, title);
@@ -273,12 +243,10 @@ impl_SelectNames_add_section_with_limit (PortableServer_Servant servant,
 					 CORBA_short limit,
 					 CORBA_Environment *ev)
 {
-	BonoboObject *bonobo_object;
 	ESelectNamesBonobo *select_names;
 	ESelectNamesBonoboPrivate *priv;
 
-	bonobo_object = bonobo_object_from_servant (servant);
-	select_names = E_SELECT_NAMES_BONOBO (bonobo_object);
+	select_names = E_SELECT_NAMES_BONOBO (bonobo_object (servant));
 	priv = select_names->priv;
 
 	e_select_names_manager_add_section_with_limit (priv->manager, id, title, limit);
@@ -290,7 +258,7 @@ entry_changed (GtkWidget *widget, BonoboControl *control)
 	gboolean changed = GPOINTER_TO_UINT (gtk_object_get_data (GTK_OBJECT (widget), "entry_property_id_changed"));
 
 	if (!changed)
-		bonobo_control_set_property (control, "entry_changed", TRUE, NULL);
+		bonobo_control_set_property (control, NULL, "entry_changed", TRUE);
 }
 
 static void
@@ -334,15 +302,13 @@ impl_SelectNames_get_entry_for_section (PortableServer_Servant servant,
 					const CORBA_char *section_id,
 					CORBA_Environment *ev)
 {
-	BonoboObject *bonobo_object;
 	ESelectNamesBonobo *select_names;
 	ESelectNamesBonoboPrivate *priv;
 	GtkWidget *entry_widget;
 	BonoboControl *control;
 	BonoboPropertyBag *property_bag;
 
-	bonobo_object = bonobo_object_from_servant (servant);
-	select_names = E_SELECT_NAMES_BONOBO (bonobo_object);
+	select_names = E_SELECT_NAMES_BONOBO (bonobo_object (servant));
 	priv = select_names->priv;
 
 	entry_widget = e_select_names_manager_create_entry (priv->manager, section_id);
@@ -378,9 +344,10 @@ impl_SelectNames_get_entry_for_section (PortableServer_Servant servant,
 				 BONOBO_ARG_BOOLEAN, NULL, NULL,
 				 BONOBO_PROPERTY_WRITEABLE);
 
-	bonobo_control_set_properties (control, property_bag);
+	bonobo_control_set_properties (control, bonobo_object_corba_objref (BONOBO_OBJECT (property_bag)), NULL);
+	bonobo_object_unref (BONOBO_OBJECT (property_bag));
 
-	gtk_signal_connect (GTK_OBJECT (entry_widget), "changed", GTK_SIGNAL_FUNC (entry_changed), control);
+	g_signal_connect (entry_widget, "changed", G_CALLBACK (entry_changed), control);
 
 	return CORBA_Object_duplicate (bonobo_object_corba_objref (BONOBO_OBJECT (control)), ev);
 }
@@ -390,12 +357,10 @@ impl_SelectNames_activate_dialog (PortableServer_Servant servant,
 				  const CORBA_char *section_id,
 				  CORBA_Environment *ev)
 {
-	BonoboObject *bonobo_object;
 	ESelectNamesBonobo *select_names;
 	ESelectNamesBonoboPrivate *priv;
 
-	bonobo_object = bonobo_object_from_servant (servant);
-	select_names = E_SELECT_NAMES_BONOBO (bonobo_object);
+	select_names = E_SELECT_NAMES_BONOBO (bonobo_object (servant));
 	priv = select_names->priv;
 
 	e_select_names_manager_activate_dialog (priv->manager, section_id);
@@ -418,50 +383,32 @@ impl_destroy (GtkObject *object)
 		priv->manager->names = NULL;
 	}
 
-	gtk_object_unref (GTK_OBJECT (priv->manager));
+	g_object_unref (priv->manager);
 
 	g_free (priv);
 }
 
 
 static void
-corba_class_init ()
-{
-	POA_GNOME_Evolution_Addressbook_SelectNames__vepv *vepv;
-	POA_GNOME_Evolution_Addressbook_SelectNames__epv *epv;
-	PortableServer_ServantBase__epv *base_epv;
-
-	base_epv = g_new0 (PortableServer_ServantBase__epv, 1);
-	base_epv->_private    = NULL;
-	base_epv->finalize    = NULL;
-	base_epv->default_POA = NULL;
-
-	epv = g_new0 (POA_GNOME_Evolution_Addressbook_SelectNames__epv, 1);
-	epv->addSection          = impl_SelectNames_add_section;
-	epv->addSectionWithLimit = impl_SelectNames_add_section_with_limit;
-	epv->getEntryBySection   = impl_SelectNames_get_entry_for_section;
-	epv->activateDialog      = impl_SelectNames_activate_dialog;
-
-	vepv = &SelectNames_vepv;
-	vepv->Bonobo_Unknown_epv                    = bonobo_object_get_epv ();
-	vepv->GNOME_Evolution_Addressbook_SelectNames_epv = epv;
-}
-
-static void
-class_init (ESelectNamesBonoboClass *klass)
+e_select_names_bonobo_class_init (ESelectNamesBonoboClass *klass)
 {
 	GtkObjectClass *object_class;
+	POA_GNOME_Evolution_Addressbook_SelectNames__epv *epv;
 
 	object_class = GTK_OBJECT_CLASS (klass);
 	parent_class = gtk_type_class (bonobo_object_get_type ());
 
 	object_class->destroy = impl_destroy;
 
-	corba_class_init ();
+	epv = &klass->epv;
+	epv->addSection          = impl_SelectNames_add_section;
+	epv->addSectionWithLimit = impl_SelectNames_add_section_with_limit;
+	epv->getEntryBySection   = impl_SelectNames_get_entry_for_section;
+	epv->activateDialog      = impl_SelectNames_activate_dialog;
 }
 
 static void
-init (ESelectNamesBonobo *select_names)
+e_select_names_bonobo_init (ESelectNamesBonobo *select_names)
 {
 	ESelectNamesBonoboPrivate *priv;
 
@@ -470,28 +417,25 @@ init (ESelectNamesBonobo *select_names)
 	priv->manager = e_select_names_manager_new ();
 	priv->event_source = NULL;
 
-	gtk_signal_connect (GTK_OBJECT (priv->manager),
-			    "changed",
-			    GTK_SIGNAL_FUNC (manager_changed_cb),
-			    select_names);
+	g_signal_connect (priv->manager,
+			  "changed",
+			  G_CALLBACK (manager_changed_cb),
+			  select_names);
 
-	gtk_signal_connect (GTK_OBJECT (priv->manager),
-			    "ok",
-			    GTK_SIGNAL_FUNC (manager_ok_cb),
-			    select_names);
-
+	g_signal_connect (priv->manager,
+			  "ok",
+			  G_CALLBACK (manager_ok_cb),
+			  select_names);
+	
 	select_names->priv = priv;
 }
 
 
-void
-e_select_names_bonobo_construct (ESelectNamesBonobo *select_names,
-				 GNOME_Evolution_Addressbook_SelectNames corba_object)
+static void
+e_select_names_bonobo_construct (ESelectNamesBonobo *select_names)
 {
 	g_return_if_fail (select_names != NULL);
 	g_return_if_fail (E_IS_SELECT_NAMES_BONOBO (select_names));
-
-	bonobo_object_construct (BONOBO_OBJECT (select_names), corba_object);
 
 	g_assert (select_names->priv->event_source == NULL);
 	select_names->priv->event_source = bonobo_event_source_new ();
@@ -501,21 +445,16 @@ e_select_names_bonobo_construct (ESelectNamesBonobo *select_names,
 ESelectNamesBonobo *
 e_select_names_bonobo_new (void)
 {
-	POA_GNOME_Evolution_Addressbook_SelectNames *servant;
-	GNOME_Evolution_Addressbook_SelectNames corba_object;
 	ESelectNamesBonobo *select_names;
 
-	servant = create_servant ();
-	if (servant == NULL)
-		return NULL;
-	
-	select_names = gtk_type_new (e_select_names_bonobo_get_type ());
-
-	corba_object = bonobo_object_activate_servant (BONOBO_OBJECT (select_names), servant);
-	e_select_names_bonobo_construct (select_names, corba_object);
+	select_names = g_object_new (E_TYPE_SELECT_NAMES_BONOBO, NULL);
 
 	return select_names;
 }
 
 
-E_MAKE_TYPE (e_select_names_bonobo, "ESelectNamesBonobo", ESelectNamesBonobo, class_init, init, PARENT_TYPE)
+BONOBO_TYPE_FUNC_FULL (
+		       ESelectNamesBonobo,
+		       GNOME_Evolution_Addressbook_SelectNames,
+		       PARENT_TYPE,
+		       e_select_names_bonobo);

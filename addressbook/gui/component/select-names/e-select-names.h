@@ -22,7 +22,6 @@
 
 #include <glib.h>
 #include <gtk/gtkwidget.h>
-#include <libgnome/gnome-defs.h>
 #include <libgnome/gnome-util.h>
 #include <libgnomeui/gnome-dialog.h>
 #include <glade/glade.h>

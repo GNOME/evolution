@@ -33,7 +33,7 @@
 #include "Evolution-Addressbook-SelectNames.h"
 
 
-#define PARENT_TYPE bonobo_object_get_type ()
+#define PARENT_TYPE BONOBO_TYPE_OBJECT
 static BonoboObjectClass *parent_class = NULL;
 
 struct _ESimpleCardBonoboPrivate {
@@ -41,45 +41,17 @@ struct _ESimpleCardBonoboPrivate {
 };
 
 
-/* CORBA interface implementation.  */
-
-static POA_GNOME_Evolution_Addressbook_SimpleCard__vepv SimpleCard_vepv;
-
-static POA_GNOME_Evolution_Addressbook_SimpleCard *
-create_servant (void)
-{
-	POA_GNOME_Evolution_Addressbook_SimpleCard *servant;
-	CORBA_Environment ev;
-
-	servant = (POA_GNOME_Evolution_Addressbook_SimpleCard *) g_new0 (BonoboObjectServant, 1);
-	servant->vepv = &SimpleCard_vepv;
-
-	CORBA_exception_init (&ev);
-
-	POA_GNOME_Evolution_Addressbook_SimpleCard__init ((PortableServer_Servant) servant, &ev);
-	if (ev._major != CORBA_NO_EXCEPTION) {
-		g_free (servant);
-		CORBA_exception_free (&ev);
-		return NULL;
-	}
-
-	CORBA_exception_free (&ev);
-
-	return servant;
-}
 
 static GNOME_Evolution_Addressbook_SimpleCard_Arbitrary *
 impl_SimpleCard_get_arbitrary (PortableServer_Servant servant,
 			       const CORBA_char *key,
 			       CORBA_Environment *ev)
 {
-	BonoboObject *bonobo_object;
 	ESimpleCardBonobo *simple_card;
 	ESimpleCardBonoboPrivate *priv;
 	GNOME_Evolution_Addressbook_SimpleCard_Arbitrary *ret_val = GNOME_Evolution_Addressbook_SimpleCard_Arbitrary__alloc ();
 
-	bonobo_object = bonobo_object_from_servant (servant);
-	simple_card = E_SIMPLE_CARD_BONOBO (bonobo_object);
+	simple_card = E_SIMPLE_CARD_BONOBO (bonobo_object (servant));
 	priv = simple_card->priv;
 
 	if (priv->card_simple) {
@@ -103,12 +75,10 @@ impl_SimpleCard_set_arbitrary (PortableServer_Servant servant,
 			       const CORBA_char *value,
 			       CORBA_Environment *ev)
 {
-	BonoboObject *bonobo_object;
 	ESimpleCardBonobo *simple_card;
 	ESimpleCardBonoboPrivate *priv;
 
-	bonobo_object = bonobo_object_from_servant (servant);
-	simple_card = E_SIMPLE_CARD_BONOBO (bonobo_object);
+	simple_card = E_SIMPLE_CARD_BONOBO (bonobo_object (servant));
 	priv = simple_card->priv;
 
 	if (priv->card_simple) {
@@ -121,12 +91,10 @@ impl_SimpleCard_get (PortableServer_Servant servant,
 		     GNOME_Evolution_Addressbook_SimpleCard_Field field,
 		     CORBA_Environment *ev)
 {
-	BonoboObject *bonobo_object;
 	ESimpleCardBonobo *simple_card;
 	ESimpleCardBonoboPrivate *priv;
 
-	bonobo_object = bonobo_object_from_servant (servant);
-	simple_card = E_SIMPLE_CARD_BONOBO (bonobo_object);
+	simple_card = E_SIMPLE_CARD_BONOBO (bonobo_object (servant));
 	priv = simple_card->priv;
 
 	if (priv->card_simple) {
@@ -146,12 +114,11 @@ impl_SimpleCard_set (PortableServer_Servant servant,
 		     const CORBA_char *value,
 		     CORBA_Environment *ev)
 {
-	BonoboObject *bonobo_object;
+
 	ESimpleCardBonobo *simple_card;
 	ESimpleCardBonoboPrivate *priv;
 
-	bonobo_object = bonobo_object_from_servant (servant);
-	simple_card = E_SIMPLE_CARD_BONOBO (bonobo_object);
+	simple_card = E_SIMPLE_CARD_BONOBO (bonobo_object (servant));
 	priv = simple_card->priv;
 
 	if (priv->card_simple) {
@@ -165,7 +132,7 @@ impl_SimpleCard_set (PortableServer_Servant servant,
 /* GtkObject methods.  */
 
 static void
-impl_destroy (GtkObject *object)
+impl_dispose (GObject *object)
 {
 	ESimpleCardBonobo *simple_card;
 	ESimpleCardBonoboPrivate *priv;
@@ -174,7 +141,7 @@ impl_destroy (GtkObject *object)
 	priv = simple_card->priv;
 
 	if (priv->card_simple) {
-		gtk_object_unref (GTK_OBJECT (priv->card_simple));
+		g_object_unref (priv->card_simple);
 	}
 
 	g_free (priv);
@@ -184,43 +151,25 @@ impl_destroy (GtkObject *object)
 
 
 static void
-corba_class_init ()
+e_simple_card_bonobo_class_init (ESimpleCardBonoboClass *klass)
 {
-	POA_GNOME_Evolution_Addressbook_SimpleCard__vepv *vepv;
+	GObjectClass *object_class;
 	POA_GNOME_Evolution_Addressbook_SimpleCard__epv *epv;
-	PortableServer_ServantBase__epv *base_epv;
 
-	base_epv                 = g_new0 (PortableServer_ServantBase__epv, 1);
-	base_epv->_private       = NULL;
-	base_epv->finalize       = NULL;
-	base_epv->default_POA    = NULL;
+	object_class = G_OBJECT_CLASS (klass);
+	parent_class = g_type_class_ref (BONOBO_TYPE_OBJECT);
 
-	epv                      = g_new0 (POA_GNOME_Evolution_Addressbook_SimpleCard__epv, 1);
+	object_class->dispose = impl_dispose;
+
+	epv                      = &klass->epv;
 	epv->getArbitrary        = impl_SimpleCard_get_arbitrary;
 	epv->setArbitrary        = impl_SimpleCard_set_arbitrary;
 	epv->get                 = impl_SimpleCard_get;
 	epv->set                 = impl_SimpleCard_set;
-
-	vepv                     = &SimpleCard_vepv;
-	vepv->Bonobo_Unknown_epv = bonobo_object_get_epv ();
-	vepv->GNOME_Evolution_Addressbook_SimpleCard_epv = epv;
 }
 
 static void
-class_init (ESimpleCardBonoboClass *klass)
-{
-	GtkObjectClass *object_class;
-
-	object_class = GTK_OBJECT_CLASS (klass);
-	parent_class = gtk_type_class (bonobo_object_get_type ());
-
-	object_class->destroy = impl_destroy;
-
-	corba_class_init ();
-}
-
-static void
-init (ESimpleCardBonobo *simple_card)
+e_simple_card_bonobo_init (ESimpleCardBonobo *simple_card)
 {
 	ESimpleCardBonoboPrivate *priv;
 
@@ -234,36 +183,30 @@ init (ESimpleCardBonobo *simple_card)
 
 void
 e_simple_card_bonobo_construct (ESimpleCardBonobo *simple_card,
-				GNOME_Evolution_Addressbook_SimpleCard corba_object,
 				ECardSimple *card_simple)
 {
 	g_return_if_fail (simple_card != NULL);
 	g_return_if_fail (E_IS_SIMPLE_CARD_BONOBO (simple_card));
 
-	bonobo_object_construct (BONOBO_OBJECT (simple_card), corba_object);
-
 	simple_card->priv->card_simple = card_simple;
-	gtk_object_ref (GTK_OBJECT (card_simple));
+	g_object_ref (card_simple);
 }
 
 ESimpleCardBonobo *
 e_simple_card_bonobo_new (ECardSimple *card_simple)
 {
-	POA_GNOME_Evolution_Addressbook_SimpleCard *servant;
-	GNOME_Evolution_Addressbook_SimpleCard corba_object;
 	ESimpleCardBonobo *simple_card;
 
-	servant = create_servant ();
-	if (servant == NULL)
-		return NULL;
-	
-	simple_card = gtk_type_new (e_simple_card_bonobo_get_type ());
+	simple_card = g_object_new (E_TYPE_SIMPLE_CARD_BONOBO, NULL);
 
-	corba_object = bonobo_object_activate_servant (BONOBO_OBJECT (simple_card), servant);
-	e_simple_card_bonobo_construct (simple_card, corba_object, card_simple);
+	e_simple_card_bonobo_construct (simple_card, card_simple);
 
 	return simple_card;
 }
 
 
-E_MAKE_TYPE (e_simple_card_bonobo, "ESimpleCardBonobo", ESimpleCardBonobo, class_init, init, PARENT_TYPE)
+BONOBO_TYPE_FUNC_FULL (
+		       ESimpleCardBonobo,
+		       GNOME_Evolution_Addressbook_SimpleCard,
+		       PARENT_TYPE,
+		       e_simple_card_bonobo);

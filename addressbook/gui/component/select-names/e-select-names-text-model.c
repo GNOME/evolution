@@ -248,21 +248,21 @@ e_select_names_text_model_set_source (ESelectNamesTextModel *model,
 	if (model->source) {
 		gtk_signal_disconnect (GTK_OBJECT (model->source), model->source_changed_id);
 		gtk_signal_disconnect (GTK_OBJECT (model->source), model->source_resize_id);
-		gtk_object_unref (GTK_OBJECT (model->source));
+		g_object_unref (model->source);
 	}
 
 	model->source = source;
 
 	if (model->source) {
-		gtk_object_ref (GTK_OBJECT (model->source));
-		model->source_changed_id = gtk_signal_connect_object (GTK_OBJECT(model->source),
-								      "changed",
-								      GTK_SIGNAL_FUNC (changed_cb),
-								      GTK_OBJECT (model));
-		model->source_resize_id = gtk_signal_connect (GTK_OBJECT(model->source),
-							      "resized",
-							      GTK_SIGNAL_FUNC (resize_cb),
-							      model);
+		g_object_ref (model->source);
+		model->source_changed_id = g_signal_connect (GTK_OBJECT(model->source),
+							     "changed",
+							     GTK_SIGNAL_FUNC (changed_cb),
+							     model);
+		model->source_resize_id = g_signal_connect (GTK_OBJECT(model->source),
+							    "resized",
+							    GTK_SIGNAL_FUNC (resize_cb),
+							    model);
 	}
 }
 

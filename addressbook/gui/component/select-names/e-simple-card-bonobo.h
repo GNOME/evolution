@@ -35,11 +35,11 @@ extern "C" {
 #pragma }
 #endif /* __cplusplus */
 
-#define E_TYPE_SIMPLE_CARD_BONOBO			(e_simple_card_bonobo_get_type ())
-#define E_SIMPLE_CARD_BONOBO(obj)			(GTK_CHECK_CAST ((obj), E_TYPE_SIMPLE_CARD_BONOBO, ESimpleCardBonobo))
-#define E_SIMPLE_CARD_BONOBO_CLASS(klass)		(GTK_CHECK_CLASS_CAST ((klass), E_TYPE_SIMPLE_CARD_BONOBO, ESimpleCardBonoboClass))
-#define E_IS_SIMPLE_CARD_BONOBO(obj)			(GTK_CHECK_TYPE ((obj), E_TYPE_SIMPLE_CARD_BONOBO))
-#define E_IS_SIMPLE_CARD_BONOBO_CLASS(klass)		(GTK_CHECK_CLASS_TYPE ((klass), E_TYPE_SIMPLE_CARD_BONOBO))
+#define E_TYPE_SIMPLE_CARD_BONOBO	    (e_simple_card_bonobo_get_type ())
+#define E_SIMPLE_CARD_BONOBO(obj)	    (G_TYPE_CHECK_INSTANCE_CAST ((obj), E_TYPE_SIMPLE_CARD_BONOBO, ESimpleCardBonobo))
+#define E_SIMPLE_CARD_BONOBO_CLASS(klass)   (G_TYPE_CHECK_CLASS_CAST ((klass), E_TYPE_SIMPLE_CARD_BONOBO, ESimpleCardBonoboClass))
+#define E_IS_SIMPLE_CARD_BONOBO(obj)	    (G_TYPE_CHECK_INSTANCE_TYPE ((obj), E_TYPE_SIMPLE_CARD_BONOBO))
+#define E_IS_SIMPLE_CARD_BONOBO_CLASS(klass) (G_TYPE_CHECK_CLASS_TYPE ((klass), E_TYPE_SIMPLE_CARD_BONOBO))
 
 
 typedef struct _ESimpleCardBonobo        ESimpleCardBonobo;
@@ -54,13 +54,12 @@ struct _ESimpleCardBonobo {
 
 struct _ESimpleCardBonoboClass {
 	BonoboObjectClass parent_class;
+
+	POA_GNOME_Evolution_Addressbook_SimpleCard__epv epv;
 };
 
 
-GtkType            e_simple_card_bonobo_get_type   (void);
-void               e_simple_card_bonobo_construct  (ESimpleCardBonobo                      *simple_card,
-						    GNOME_Evolution_Addressbook_SimpleCard  corba_object,
-						    ECardSimple                            *card_simple);
+GType              e_simple_card_bonobo_get_type   (void);
 ESimpleCardBonobo *e_simple_card_bonobo_new        (ECardSimple                            *card_simple);
 
 #ifdef __cplusplus

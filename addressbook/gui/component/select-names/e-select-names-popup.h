@@ -29,7 +29,7 @@
 
 #include "e-select-names-text-model.h"
 
-void e_select_names_popup (ESelectNamesTextModel *text_model, GdkEventButton *ev, gint pos);
+void e_select_names_popup (ESelectNamesTextModel *text_model, GdkEventButton *ev, gint pos, GtkWidget *for_widget);
 
 #endif /* __E_SELECT_NAMES_POPUP_H__ */
 
