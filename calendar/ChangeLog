@@ -1,5 +1,11 @@
 2004-03-04  Rodrigo Moya <rodrigo@ximian.com>
 
+	* gui/alarm-notify/alarm-notify-dialog.c (alarm_notify_dialog):
+	don't make the dialog window sticky, the icon on the system tray
+	already shows in all workspaces.
+
+2004-03-04  Rodrigo Moya <rodrigo@ximian.com>
+
 	Fixes #54028
 
 	* gui/alarm-notify/alarm-queue.c (query_objects_changed_cb): fixed the

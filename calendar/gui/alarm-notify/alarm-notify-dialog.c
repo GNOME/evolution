@@ -377,7 +377,6 @@ alarm_notify_dialog (time_t trigger, time_t occur_start, time_t occur_end,
 	if (!GTK_WIDGET_REALIZED (an->dialog))
 		gtk_widget_realize (an->dialog);
 
-	gtk_window_stick (GTK_WINDOW (an->dialog));
 	gtk_window_set_icon_from_file (GTK_WINDOW (an->dialog), EVOLUTION_IMAGESDIR "/alarm.png", NULL);
 
 	gtk_widget_show (an->dialog);
