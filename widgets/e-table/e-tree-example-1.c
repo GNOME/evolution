@@ -17,8 +17,8 @@
 
 #include <gdk-pixbuf/gdk-pixbuf.h>
 
-#include "tree-expanded.xpm"
-#include "tree-unexpanded.xpm"
+#include "art/tree-expanded.xpm"
+#include "art/tree-unexpanded.xpm"
 
 GdkPixbuf *tree_expanded_pixbuf;
 GdkPixbuf *tree_unexpanded_pixbuf;
@@ -176,9 +176,6 @@ remove_node (GtkButton *button, gpointer data)
 
 	selected_node = e_tree_model_node_at_row (e_tree_model, selected_row);
 	g_assert (selected_node);
-
-	if (e_tree_model_node_get_children (e_tree_model, selected_node, NULL) > 0)
-		return;
 
 	str = (char*)e_tree_model_node_remove (e_tree_model, selected_node);
 	printf ("removed node %s\n", str);

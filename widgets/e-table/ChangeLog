@@ -1,3 +1,16 @@
+2000-08-22  Chris Toshok  <toshok@helixcode.com>
+
+	* Makefile.am (icons): remove tree-expanded.xpm and
+	tree-unexpanded.xpm.
+
+	* e-tree-example-1.c: use art/tree-expanded.xpm and
+	art/tree-unexpanded.xpm.
+	(remove_node): commit the change listed below (08-21).
+
+	* tree-expanded.xpm: removed.
+
+	* tree-unexpanded.xpm: removed.
+
 2000-08-21  Lauris Kaplinski  <lauris@helixcode.com>
 
 	* e-cell-text.c (ect_event): Use e_utf8_from_gtk_event_key to translate

@@ -169,9 +169,7 @@ icons = 			\
 	add-col.xpm		\
 	check-empty.xpm		\
 	check-filled.xpm	\
-	remove-col.xpm		\
-	tree-expanded.xpm	\
-	tree-unexpanded.xpm
+	remove-col.xpm
 
 EXTRA_DIST =			\
 	sample.table		\
