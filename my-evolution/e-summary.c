@@ -441,6 +441,7 @@ e_summary_url_requested (GtkHTML *html,
 
 		contents = e_read_file_with_length (filename, &length);
 		if (contents == NULL) {
+			g_free (filename);
 			return;
 		}
 
@@ -453,6 +454,7 @@ e_summary_url_requested (GtkHTML *html,
 
 	gtk_html_stream_write (stream, img->buffer, img->bufsize);
 	gtk_html_stream_close (stream, GTK_HTML_STREAM_OK);
+	g_free (filename);
 }
 
 static void

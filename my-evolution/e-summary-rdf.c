@@ -202,14 +202,14 @@ tree_walk (xmlNodePtr root,
 		char *p;
 
 		/* FIXME: Hash table & UID */
-		p = g_strdup_printf ("<font size=\"-2\"><a href=\"rdf://%d\">(+)</a></font>", GPOINTER_TO_INT (r));
+		p = g_strdup_printf ("<a href=\"rdf://%d\" style=\"text-decoration: none; color: black\">&#x25b6;</a>", GPOINTER_TO_INT (r));
 		g_string_append (html, p);
 		g_free (p);
 	} else {
 		char *p;
 
 		/* FIXME: Hash table & UID */
-		p = g_strdup_printf ("<font size=\"-2\"><a href=\"rdf://%d\">(-)</a></font>", GPOINTER_TO_INT (r));
+		p = g_strdup_printf ("<a href=\"rdf://%d\" style=\"text-decoration: none; color: black\">&#x25BC;</a>", GPOINTER_TO_INT (r));
 		g_string_append (html, p);
 		g_free (p);
 	}
@@ -260,7 +260,7 @@ tree_walk (xmlNodePtr root,
 	u = layer_find(channel->children, "link", "");
 
 	if (*u != '\0')
-		g_string_sprintfa (html, "<a href=\"%s\">", u);
+		g_string_sprintfa (html, "<a href=\"%s\" style=\"text-decoration: none; color: black;\"><b>", u);
 
 	if (charset) {
 		char *tmp = e_utf8_from_charset_string (charset, t);
@@ -285,7 +285,7 @@ tree_walk (xmlNodePtr root,
 	for (i = 0; i < items; i++) {
 		char *p = layer_find (item[i]->children, "title", "No information");
 		
-		tmp = g_strdup_printf ("<LI><font size=\"-1\"><A href=\"%s\">\n", layer_find_url(item[i]->children, "link", ""));
+		tmp = g_strdup_printf ("<LI><font size=\"-1\"><A href=\"%s\" style=\"text-decoration: none; color: black;\">\n", layer_find_url(item[i]->children, "link", ""));
 		g_string_append (html, tmp);
 		g_free (tmp);
 

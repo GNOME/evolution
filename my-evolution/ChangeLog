@@ -1,3 +1,7 @@
+2003-06-13  Larry Ewing  <lewing@ximian.com>
+
+	* e-summary.c (e_summary_url_requested): free the filename.
+
 2003-06-05  Not Zed  <NotZed@Ximian.com>
 
 	** For #42691.
