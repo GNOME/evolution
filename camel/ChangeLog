@@ -1,3 +1,9 @@
+2001-11-01    <NotZed@Ximian.com>
+
+	* camel-vee-folder.c (folder_changed_change): Move all searching
+	operations outside of any locks except subfolder lock, same as
+	build_folder.  Fix for #14294.
+
 2001-10-31    <NotZed@Ximian.com>
 
 	* providers/local/camel-spool-folder.c (spool_get_message): Same
