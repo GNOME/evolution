@@ -1,5 +1,9 @@
 2000-04-30  Christopher James Lahey  <clahey@helixcode.com>
 
+	* backend/ebook/.cvsignore: Added load-pine-addressbook.
+
+2000-04-30  Christopher James Lahey  <clahey@helixcode.com>
+
 	* contact-editor/contact-editor.glade,
 	contact-editor/e-contact-editor.c, gui/minicard/e-minicard.c: Made
 	some fields invisible that were visible before.
