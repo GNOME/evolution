@@ -51,7 +51,6 @@ typedef struct _GCalConduitContext GCalConduitContext;
 struct _GCalConduitContext {
 	struct AppointmentAppInfo ai;
 	GCalConduitCfg *cfg;
-	//GNOME_Calendar_Repository calendar;
 	CalClient *client;
 	CORBA_Environment ev;
 	CORBA_ORB orb;

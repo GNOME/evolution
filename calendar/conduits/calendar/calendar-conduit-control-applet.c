@@ -43,7 +43,7 @@ static void doSaveSettings(GtkWidget *widget, GCalConduitCfg *GCalConduitCfg);
 static void setStateCfg (GtkWidget *w, GCalConduitCfg *c);
 
 gint pilotId;
-CORBA_Environment ev;
+/* CORBA_Environment ev; */
 static GnomePilotClient *gpc;
 
 

@@ -1,3 +1,8 @@
+2000-07-13  Seth Alves  <alves@hungry.com>
+
+	* gui/gncal-todo.c (simple_todo_editor): set todo's priority control
+	based on value from ical object during edit.
+
 2000-07-12  Federico Mena Quintero  <federico@helixcode.com>
 
 	* gui/print.c: Revert Michael's GnomeFont patch until the

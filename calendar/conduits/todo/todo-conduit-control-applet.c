@@ -1,4 +1,7 @@
 /* -*- Mode: C; tab-width: 8; indent-tabs-mode: t; c-basic-offset: 8 -*- */
+/* Control applet ("capplet") for the gnome-pilot todo conduit,             */
+/* based on                                                                 */
+/* gpilotd control applet ('capplet') for use with the GNOME control center */
 
 #include <pwd.h>
 #include <sys/types.h>
@@ -14,6 +17,7 @@
 
 #include "todo-conduit.h"
 
+
 /* tell changes callbacks to ignore changes or not */
 static gboolean ignore_changes=FALSE;
 
@@ -28,85 +32,109 @@ GtkWidget *dialogWindow=NULL;
 gboolean activated,org_activation_state;
 GnomePilotConduitManagement *conduit;
 GnomePilotConduitConfig *conduit_config;
-ConduitCfg *origState = NULL;
-ConduitCfg *curState = NULL;
+GCalConduitCfg *origState = NULL;
+GCalConduitCfg *curState = NULL;
 
-static void doTrySettings(GtkWidget *widget, ConduitCfg *conduitCfg);
-static void doRevertSettings(GtkWidget *widget, ConduitCfg *conduitCfg);
-static void doSaveSettings(GtkWidget *widget, ConduitCfg *conduitCfg);
+static void doTrySettings(GtkWidget *widget, GCalConduitCfg *GCalConduitCfg);
+static void doRevertSettings(GtkWidget *widget, GCalConduitCfg *GCalConduitCfg);
+static void doSaveSettings(GtkWidget *widget, GCalConduitCfg *GCalConduitCfg);
 
-static void readStateCfg(GtkWidget *w);
-static void setStateCfg(GtkWidget *w);
+//static void readStateCfg (GtkWidget *w, GCalConduitCfg *c);
+static void setStateCfg (GtkWidget *w, GCalConduitCfg *c);
 
 gint pilotId;
 CORBA_Environment ev;
 static GnomePilotClient *gpc;
 
-#if 0
+
+
+/* This array must be in the same order as enumerations
+   in GnomePilotConduitSyncType as they are used as index.
+   Custom type implies Disabled state.
+*/
+static gchar* sync_options[] ={ N_("Disabled"),
+				N_("Synchronize"),
+				N_("Copy From Pilot"),
+				N_("Copy To Pilot"),
+				N_("Merge From Pilot"),
+				N_("Merge To Pilot")};
+#define SYNC_OPTIONS_COUNT 6
+
+
+
+
+/* Saves the configuration data. */
 static void 
-load_configuration(ConduitCfg **c,
-		   guint32 pilotId) 
+gcalconduit_save_configuration(GCalConduitCfg *c) 
 {
-	g_assert(c!=NULL);
-	*c = g_new0(ConduitCfg,1);
-	(*c)->pilotId = pilotId;
+	gchar prefix[256];
+
+	g_snprintf(prefix,255,"/gnome-pilot.d/todo-conduit/Pilot_%u/",c->pilotId);
+
+	gnome_config_push_prefix(prefix);
+	gnome_config_set_bool ("open_secret", c->open_secret);
+	gnome_config_pop_prefix();
+
+	gnome_config_sync();
+	gnome_config_drop_all();
 }
-#endif /* 0 */
 
-
-#if 0
-static void 
-save_configuration(ConduitCfg *c) 
-{
-	g_return_if_fail(c!=NULL);
-}
-#endif /* 0 */
-
-
-static ConduitCfg*
-dupe_configuration(ConduitCfg *c) {
-	ConduitCfg *retval;
+/* Creates a duplicate of the configuration data */
+static GCalConduitCfg*
+gcalconduit_dupe_configuration(GCalConduitCfg *c) {
+	GCalConduitCfg *retval;
 	g_return_val_if_fail(c!=NULL,NULL);
-	retval = g_new0(ConduitCfg,1);
+	retval = g_new0(GCalConduitCfg,1);
+	retval->sync_type = c->sync_type;
+	retval->open_secret = c->open_secret;
 	retval->pilotId = c->pilotId;
 	return retval;
 }
 
-#if 0
-/** this method frees all data from the conduit config */
-static void 
-destroy_configuration(ConduitCfg **c) 
-{
-	g_return_if_fail(c!=NULL);
-	g_return_if_fail(*c!=NULL);
-	g_free(*c);
-	*c = NULL;
-}
-#endif /* 0 */
 
 static void
-doTrySettings(GtkWidget *widget, ConduitCfg *conduitCfg)
+doTrySettings(GtkWidget *widget, GCalConduitCfg *c)
 {
-	readStateCfg(cfgStateWindow);
-	if(activated)
-		gnome_pilot_conduit_config_enable(conduit_config,GnomePilotConduitSyncTypeCustom);
+	/*
+	readStateCfg (cfgStateWindow, curState);
+	if (activated)
+		gnome_pilot_conduit_config_enable (conduit_config, GnomePilotConduitSyncTypeCustom);
 	else
-		gnome_pilot_conduit_config_disable(conduit_config);
+		gnome_pilot_conduit_config_disable (conduit_config);
+	*/
+
+	if (c->sync_type!=GnomePilotConduitSyncTypeCustom)
+		gnome_pilot_conduit_config_enable_with_first_sync (conduit_config,
+								   c->sync_type,
+								   c->sync_type,
+								   TRUE);
+	else
+		gnome_pilot_conduit_config_disable (conduit_config);
+
+	gcalconduit_save_configuration (c);
 }
 
+
 static void
-doSaveSettings(GtkWidget *widget, ConduitCfg *conduitCfg)
+doSaveSettings(GtkWidget *widget, GCalConduitCfg *GCalConduitCfg)
 {
-	doTrySettings(widget, conduitCfg);
-	save_configuration(conduitCfg);
+	doTrySettings(widget, GCalConduitCfg);
+	gcalconduit_save_configuration(GCalConduitCfg);
 }
 
 
 static void
-doRevertSettings(GtkWidget *widget, ConduitCfg *conduitCfg)
+doCancelSettings(GtkWidget *widget, GCalConduitCfg *c)
+{
+	doSaveSettings (widget, c);
+}
+
+
+static void
+doRevertSettings(GtkWidget *widget, GCalConduitCfg *GCalConduitCfg)
 {
 	activated = org_activation_state;
-	setStateCfg(cfgStateWindow);
+	setStateCfg (cfgStateWindow, curState);
 }
 
 static void 
@@ -115,77 +143,110 @@ about_cb (GtkWidget *widget, gpointer data)
 	GtkWidget *about;
 	const gchar *authors[] = {_("Eskil Heyn Olsen <deity@eskil.dk>"),NULL};
   
-	about = gnome_about_new(_("Gpilotd todo conduit"), VERSION,
-				_("(C) 1998 the Free Software Foundation"),
-				authors,
-				_("Configuration utility for the todo conduit.\n"),
-				_("gnome-unknown.xpm"));
+	about = gnome_about_new (_("Gpilotd todo conduit"), VERSION,
+				 _("(C) 1998 the Free Software Foundation"),
+				 authors,
+				 _("Configuration utility for the todo conduit.\n"),
+				 _("gnome-unknown.xpm"));
 	gtk_widget_show (about);
   
 	return;
 }
 
-static void toggled_cb(GtkWidget *widget, gpointer data) {
-	if(!ignore_changes) {
-		/* gtk_widget_set_sensitive(cfgOptionsWindow,GTK_TOGGLE_BUTTON(widget)->active); */
-		capplet_widget_state_changed(CAPPLET_WIDGET(capplet), TRUE);
+
+/* called by the sync_type GtkOptionMenu */
+static void
+sync_action_selection(GtkMenuShell *widget, gpointer unused) 
+{
+	if (!ignore_changes) {
+		capplet_widget_state_changed(CAPPLET_WIDGET (capplet), TRUE);
 	}
 }
+
+
+/* called by the sync_type GtkOptionMenu */
+static void
+activate_sync_type(GtkMenuItem *widget, gpointer data)
+{
+	curState->sync_type = GPOINTER_TO_INT(data);
+	if(!ignore_changes)
+		capplet_widget_state_changed(CAPPLET_WIDGET(capplet), TRUE);
+}
+
 
 static GtkWidget
 *createStateCfgWindow(void)
 {
 	GtkWidget *vbox, *table;
 	GtkWidget *label;
-	GtkWidget *button;
-
+	GtkWidget *optionMenu,*menuItem;
+	GtkMenu   *menu;
+	gint i;
+	
 	vbox = gtk_vbox_new(FALSE, GNOME_PAD);
 
-	table = gtk_table_new(2, 2, FALSE);
-	gtk_table_set_row_spacings(GTK_TABLE(table), 4);
-	gtk_table_set_col_spacings(GTK_TABLE(table), 10);
+	table =  gtk_hbox_new(FALSE, 0); 
 	gtk_box_pack_start(GTK_BOX(vbox), table, FALSE, FALSE, GNOME_PAD);
 
-	label = gtk_label_new(_("Enabled"));
-	gtk_table_attach_defaults(GTK_TABLE(table), label, 0, 1, 1,2);
+	label = gtk_label_new(_("Synchronize Action"));
+	gtk_box_pack_start(GTK_BOX(table), label, FALSE, FALSE, GNOME_PAD);    
 
-	button = gtk_check_button_new();
-	gtk_object_set_data(GTK_OBJECT(vbox), "conduit_on_off", button);
-	gtk_signal_connect(GTK_OBJECT(button), "toggled",
-			   GTK_SIGNAL_FUNC(toggled_cb),
+	optionMenu=gtk_option_menu_new();
+	gtk_object_set_data(GTK_OBJECT(vbox), "conduit_state", optionMenu);
+	menu = GTK_MENU(gtk_menu_new());
+
+	for (i=0; i<SYNC_OPTIONS_COUNT;i++) {
+		sync_options[i]=_(sync_options[i]);
+		menuItem = gtk_menu_item_new_with_label(sync_options[i]);
+		gtk_widget_show(menuItem);
+		gtk_signal_connect(GTK_OBJECT(menuItem),"activate",
+				   GTK_SIGNAL_FUNC(activate_sync_type),
+				   GINT_TO_POINTER(i));
+		gtk_menu_append(menu,menuItem);
+	}
+
+	gtk_option_menu_set_menu(GTK_OPTION_MENU(optionMenu),GTK_WIDGET(menu));
+	gtk_signal_connect(GTK_OBJECT(menu), "selection-done",
+			   GTK_SIGNAL_FUNC(sync_action_selection),
 			   NULL);
-	gtk_table_attach_defaults(GTK_TABLE(table), button, 1, 2, 1,2);
-
+  
+	gtk_box_pack_start(GTK_BOX(table), optionMenu, FALSE, FALSE, 0);    
+	
 	return vbox;
 }
 
+
 static void
-setStateCfg(GtkWidget *cfg)
+setStateCfg (GtkWidget *w, GCalConduitCfg *c)
 {
-	GtkWidget *button;
-
-	button = gtk_object_get_data(GTK_OBJECT(cfg), "conduit_on_off");
-
-	g_assert(button!=NULL);
-
+	GtkOptionMenu *optionMenu;
+	GtkMenu *menu;
+	
+	optionMenu = gtk_object_get_data (GTK_OBJECT(w), "conduit_state");
+	g_assert (optionMenu != NULL);
+	menu = GTK_MENU (gtk_option_menu_get_menu (optionMenu));
+  
 	ignore_changes = TRUE;
-	gtk_toggle_button_set_active(GTK_TOGGLE_BUTTON(button),activated);
-	/* gtk_widget_set_sensitive(cfgOptionsWindow,GTK_TOGGLE_BUTTON(button)->active); */
+	/* Here were are relying on the items in menu being the same 
+	   order as in GnomePilotConduitSyncType. */
+	gtk_option_menu_set_history (optionMenu, (int) c->sync_type);
 	ignore_changes = FALSE;
 }
 
 
+#if 0
 static void
-readStateCfg(GtkWidget *cfg)
+readStateCfg (GtkWidget *w, GCalConduitCfg *c)
 {
+	/*
 	GtkWidget *button;
-
 	button  = gtk_object_get_data(GTK_OBJECT(cfg), "conduit_on_off");
-  
 	g_assert(button!=NULL);
-
 	activated = GTK_TOGGLE_BUTTON(button)->active;
+	*/
 }
+#endif /* 0 */
+
 
 static void
 pilot_capplet_setup(void)
@@ -210,14 +271,17 @@ pilot_capplet_setup(void)
 			   GTK_SIGNAL_FUNC(doRevertSettings), curState);
 	gtk_signal_connect(GTK_OBJECT(capplet), "ok",
 			   GTK_SIGNAL_FUNC(doSaveSettings), curState);
+	gtk_signal_connect(GTK_OBJECT(capplet), "cancel",
+			   GTK_SIGNAL_FUNC(doCancelSettings), curState);
 	gtk_signal_connect(GTK_OBJECT(capplet), "help",
 			   GTK_SIGNAL_FUNC(about_cb), NULL);
 
 
-	setStateCfg(cfgStateWindow);
+	setStateCfg (cfgStateWindow, curState);
 
-	gtk_widget_show_all(capplet);
+	gtk_widget_show_all (capplet);
 }
+
 
 static void 
 run_error_dialog(gchar *mesg,...) 
@@ -231,6 +295,7 @@ run_error_dialog(gchar *mesg,...)
 	gnome_dialog_run_and_close(GNOME_DIALOG(dialogWindow));
 	va_end(ap);
 }
+
 
 static gint 
 get_pilot_id_from_gpilotd() 
@@ -278,18 +343,17 @@ get_pilot_id_from_gpilotd()
 	}
 }
 
+
 int
-main( int argc, char *argv[] )
+main (int argc, char *argv[])
 {
-	/*
-	bindtextdomain (PACKAGE, GNOMELOCALEDIR);
-	textdomain (PACKAGE);
-	*/
+	g_log_set_always_fatal (G_LOG_LEVEL_ERROR |
+				G_LOG_LEVEL_CRITICAL |
+				G_LOG_LEVEL_WARNING);
 	
 	/* we're a capplet */
 	gnome_capplet_init ("todo conduit control applet", NULL, argc, argv, 
-			    NULL,
-			    0, NULL);
+			    NULL, 0, NULL);
 
    
 	gpc = gnome_pilot_client_new();
@@ -298,17 +362,20 @@ main( int argc, char *argv[] )
 	if(!pilotId) return -1;
 
 	/* put all code to set things up in here */
-	load_configuration(&origState,pilotId);
-	curState = dupe_configuration(origState);
+	gcalconduit_load_configuration (&origState, pilotId);
 
-	/* put all code to set things up in here */
-	conduit = gnome_pilot_conduit_management_new ("todo_conduit",
-						      GNOME_PILOT_CONDUIT_MGMT_ID);
-	if (conduit==NULL) return -1;
-	conduit_config = gnome_pilot_conduit_config_new(conduit,pilotId);
-	org_activation_state = activated = gnome_pilot_conduit_config_is_enabled(conduit_config,NULL);
+	conduit = gnome_pilot_conduit_management_new ("todo_conduit", GNOME_PILOT_CONDUIT_MGMT_ID);
+	if (conduit == NULL) return -1;
+	conduit_config = gnome_pilot_conduit_config_new (conduit, pilotId);
+	org_activation_state = gnome_pilot_conduit_config_is_enabled (conduit_config,
+								      &origState->sync_type);
+	activated = org_activation_state;
+
+	//gpilotd_conduit_mgmt_get_sync_type (conduit, pilotId, &origState->sync_type);
+
+	curState = gcalconduit_dupe_configuration(origState);
     
-	pilot_capplet_setup();
+	pilot_capplet_setup ();
 
 
 	/* done setting up, now run main loop */

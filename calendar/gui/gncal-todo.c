@@ -196,6 +196,7 @@ simple_todo_editor (GncalTodo *todo, iCalObject *ico)
 	gtk_spin_button_set_numeric (GTK_SPIN_BUTTON (pri_spin), TRUE);
 	gtk_spin_button_set_wrap (GTK_SPIN_BUTTON (pri_spin), FALSE);
 	gtk_spin_button_set_snap_to_ticks (GTK_SPIN_BUTTON (pri_spin), FALSE);
+	gtk_spin_button_set_value (GTK_SPIN_BUTTON (pri_spin), (gfloat) ico->priority);
 	gtk_box_pack_start (GTK_BOX (pri_box), pri_spin, FALSE, FALSE, 0);
 	gtk_widget_show (pri_spin);
        

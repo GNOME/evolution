@@ -1,5 +1,4 @@
 /* -*- Mode: C; tab-width: 8; indent-tabs-mode: t; c-basic-offset: 8 -*- */
-/* $Id$ */
 
 #include <config.h>
 #include <sys/stat.h>
@@ -555,6 +554,8 @@ update_record (GnomePilotConduitStandardAbs *conduit,
 	/* update record on server */
 	
 	update_calendar_entry_in_repository (conduit, obj, ctxt);
+	cal_client_update_pilot_id (ctxt->client, obj->uid, obj->pilot_id,
+				    ICAL_PILOT_SYNC_NONE);
 
 	/*
 	 * Shutdown
