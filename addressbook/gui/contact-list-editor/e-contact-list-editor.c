@@ -43,10 +43,10 @@
 #include "widgets/misc/e-image-chooser.h"
 #include "widgets/misc/e-source-option-menu.h"
 
-#include "addressbook/gui/component/select-names/Evolution-Addressbook-SelectNames.h"
 #include "addressbook/gui/component/addressbook.h"
 #include "addressbook/gui/widgets/eab-gui-util.h"
 #include "addressbook/util/eab-book-util.h"
+#include "Evolution-Addressbook-SelectNames.h"
 
 #include  "eab-editor.h"
 #include "e-contact-editor.h"

@@ -1,3 +1,15 @@
+2004-07-14  Chris Toshok  <toshok@ximian.com>
+
+	* gui/contact-list-editor/.cvsignore: ignore
+	Evolution-Addressbook-SelectNames.h.
+
+	* gui/contact-list-editor/e-contact-list-editor.c: include our
+	local (in this directory) generated
+	Evolution-Addressbook-SelectNames.h
+
+	* gui/contact-list-editor/Makefile.am: add stuff to generate (and
+	clean up) the select names header we need to include.
+
 2004-07-13  Rodney Dawes  <dobey@novell.com>
 
 	[ fixes #56657 ]

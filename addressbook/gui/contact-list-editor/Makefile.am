@@ -1,3 +1,13 @@
+IDL = Evolution-Addressbook-SelectNames.idl
+
+IDL_GENERATED_H = 					\
+	Evolution-Addressbook-SelectNames.h
+
+selectnamesdir = $(top_srcdir)/addressbook/gui/component/select-names
+
+$(IDL_GENERATED_H): $(selectnamesdir)/$(IDL)
+	$(ORBIT_IDL) --nostubs --noskels --nocommon $(IDL_INCLUDES) $(selectnamesdir)/$(IDL)
+
 INCLUDES =						\
 	-I$(top_srcdir)					\
 	-I$(top_srcdir)/addressbook/			\
@@ -31,7 +41,7 @@ MARSHAL_GENERATED = e-contact-list-editor-marshal.c e-contact-list-editor-marsha
 glade_DATA  = contact-list-editor.glade
 etspec_DATA = e-contact-list-editor.etspec
 
-BUILT_SOURCES = $(MARSHAL_GENERATED)
+BUILT_SOURCES = $(MARSHAL_GENERATED) $(IDL_GENERATED_H)
 CLEANFILES = $(BUILT_SOURCES)
 
 EXTRA_DIST = $(glade_DATA)	\
