@@ -356,13 +356,6 @@ impl_destroy (GtkObject *object)
 
 	select_names = E_SELECT_NAMES_BONOBO (object);
 	priv = select_names->priv;
-
-	/* FIXME: a hack to work around some ref counting brokenness that
-	   I'll fix later. */
-	if (priv->manager->names) {
-		gtk_widget_destroy (GTK_WIDGET (priv->manager->names));
-		priv->manager->names = NULL;
-	}
 	
 	gtk_object_unref (GTK_OBJECT (priv->manager));
 

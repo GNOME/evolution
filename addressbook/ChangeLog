@@ -1,3 +1,20 @@
+2001-10-31  Jon Trowbridge  <trow@ximian.com>
+
+	* gui/component/select-names/e-select-names.c
+	(e_select_names_destroy): Check that local_listener and
+	other_contacts_listener are non-NULL before
+	disconnecting/unrefing.
+
+	* gui/component/select-names/e-select-names-manager.c
+	(entry_destroyed): The entry shouldn't unref the manager.
+	(e_select_names_manager_create_entry): The entry shouldn't hold a
+	ref to the manager.  It becomes circular.
+	(e_select_names_manager_create_entry): On the other hand, we
+	should hold a ref to the entry we create.
+
+	* gui/component/select-names/e-select-names-bonobo.c
+	(impl_destroy): Remove the explicit dialog destroy hack.
+
 2001-10-30  Jon Trowbridge  <trow@ximian.com>
 
 	* gui/component/select-names/e-select-names-bonobo.c
@@ -1014,7 +1031,7 @@
 	gui/widgets/e-minicard.c (remodel): Fixed these to determine the
 	fields to use properly.
 
-2001-10-02  Jon Trowbridge  <trow@gnu.org>
+2001-10-02  Jon Trowbridge  <trow@ximian.com>
 
 	* gui/component/select-names/e-select-names-completion.c
 	(name_style_query): Strip out commas before forming our query.

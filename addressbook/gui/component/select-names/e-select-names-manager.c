@@ -394,7 +394,6 @@ entry_destroyed(EEntry *entry, ESelectNamesManager *manager)
 			}
 		}
 	}
-	gtk_object_unref(GTK_OBJECT(manager));
 }
 
 static void
@@ -502,6 +501,8 @@ e_select_names_manager_create_entry (ESelectNamesManager *manager, const char *i
 			entry->entry = eentry;
 			entry->id = (char *)id;
 
+			gtk_object_ref (GTK_OBJECT (entry->entry));
+
 			model = e_select_names_text_model_new (section->model);
 			e_list_append (manager->entries, entry);
 			g_free(entry);
@@ -520,9 +521,10 @@ e_select_names_manager_create_entry (ESelectNamesManager *manager, const char *i
 				       "use_ellipsis", TRUE,
 				       "allow_newlines", FALSE,
 				       NULL);
+
 			gtk_signal_connect(GTK_OBJECT(eentry), "destroy",
 					   GTK_SIGNAL_FUNC(entry_destroyed), manager);
-			gtk_object_ref(GTK_OBJECT(manager));
+
 			return GTK_WIDGET(eentry);
 		}
 	}
