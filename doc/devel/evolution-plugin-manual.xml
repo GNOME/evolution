@@ -550,6 +550,7 @@
   ...
   type="shlib"
   location="/full/path/name.so"
+  load-on-startup ?
   ...
   <hook class="...">
    ...
@@ -570,6 +571,19 @@
 		<simpara>
 		  The location parameter contains
 		  the full path-name of a shared object to load.
+		</simpara>
+	      </listitem>
+	    </varlistentry>
+	    <varlistentry>
+	      <term><parameter>load-on-startup</parameter></term>
+	      <listitem>
+		<simpara>
+		  If provided, indicates that the plugin should be loaded and
+		  enabled when the application is first started.  Normally the
+		  plugin is only loaded when necessary, i.e. when a callback is
+		  first invoked.  Only use this option if you have defined an
+		  <function>e_plugin_lib_enable</function> callback in your
+		  module, and only if absolutely necessary.
 		</simpara>
 	      </listitem>
 	    </varlistentry>
