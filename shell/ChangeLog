@@ -1,5 +1,12 @@
 2001-08-16  Ettore Perazzoli  <ettore@ximian.com>
 
+	* e-shell-view-menu.c: Remove the Help menu verbs and add a
+	"HelpFAQ" verb.
+	(command_help): Removed.
+	(command_help_faq): New, implementation for the "HelpFAQ" verb.
+
+2001-08-16  Ettore Perazzoli  <ettore@ximian.com>
+
 	* e-shell-folder-title-bar.c (label_realize_callback): New
 	callback for the realize signal.
 	(make_bold): New.  Hooks up the label_realize_callback.
@@ -67,7 +74,6 @@ o2001-08-16  Ettore Perazzoli  <ettore@ximian.com>
 	* e-corba-storage.c (impl_StorageListener_notifyFolderCreated):
 	Pass the passed-in unread_count to e_storage_new_folder.
 
->>>>>>> 1.617
 2001-08-13  Ettore Perazzoli  <ettore@ximian.com>
 
 	* e-gray-bar.c (impl_style_set): Chain to the parent class.

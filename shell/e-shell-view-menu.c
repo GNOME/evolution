@@ -230,13 +230,11 @@ command_about_box (BonoboUIComponent *uih,
 }
 
 static void
-command_help (BonoboUIComponent *uih,
-	      void *data,
-	      const char *path)
+command_help_faq (BonoboUIComponent *uih,
+		  void *data,
+		  const char *path)
 {
-	GnomeHelpMenuEntry help_entry = { "evolution", data };
-
-	gnome_help_display (NULL, &help_entry);
+	gnome_url_show ("http://www.ximian.com/apps/evolution-faq.html");
 }
 
 static void
@@ -636,11 +634,7 @@ BonoboUIVerb folder_verbs [] = {
 };
 
 BonoboUIVerb help_verbs [] = {
-	BONOBO_UI_VERB_DATA ("HelpIndex", command_help, "index.html"),
-	BONOBO_UI_VERB_DATA ("HelpGetStarted", command_help, "usage-mainwindow.html"),
-	BONOBO_UI_VERB_DATA ("HelpUsingMail", command_help, "usage-mail.html"),
-	BONOBO_UI_VERB_DATA ("HelpUsingCalendar", command_help, "usage-calendar.html"),
-	BONOBO_UI_VERB_DATA ("HelpUsingContact", command_help, "usage-contact.html"),
+	BONOBO_UI_VERB_DATA ("HelpFAQ", command_help_faq, NULL),
 
 	BONOBO_UI_VERB_END
 };
