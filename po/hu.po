@@ -7,8 +7,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: evolution 1.4.1\n"
-"POT-Creation-Date: 2003-07-07 15:49+0200\n"
-"PO-Revision-Date: 2003-07-11 12:33+0200\n"
+"POT-Creation-Date: 2003-07-12 21:47+0200\n"
+"PO-Revision-Date: 2003-07-12 21:48+0200\n"
 "Last-Translator: Andras Timar <timar@gnome.hu>\n"
 "Language-Team: Hungarian <hu@gnome.hu>\n"
 "MIME-Version: 1.0\n"
@@ -1458,7 +1458,7 @@ msgstr "Ka_tegóriák..."
 #: addressbook/gui/contact-editor/contact-editor.glade.h:28
 #: calendar/gui/dialogs/meeting-page.c:717 calendar/gui/e-calendar-table.c:977
 #: calendar/gui/e-day-view.c:3755 calendar/gui/e-week-view.c:3725
-#: mail/folder-browser.c:1790 ui/evolution-addressbook.xml.h:32
+#: mail/folder-browser.c:1808 ui/evolution-addressbook.xml.h:32
 #: ui/evolution-calendar.xml.h:30 ui/evolution-mail-message.xml.h:97
 #: ui/evolution-tasks.xml.h:17 ui/evolution.xml.h:45
 msgid "_Delete"
@@ -3974,7 +3974,7 @@ msgstr ""
 #. An empty string is the same as 'None'.
 #: calendar/gui/calendar-model.c:1176 calendar/gui/dialogs/meeting-page.c:330
 #: calendar/gui/dialogs/meeting-page.glade.h:2 composer/e-msg-composer.c:2064
-#: mail/folder-browser.c:1752 mail/mail-account-gui.c:1260
+#: mail/folder-browser.c:1770 mail/mail-account-gui.c:1260
 #: mail/mail-account-gui.c:1692 mail/mail-accounts.c:442
 #: mail/mail-config.glade.h:76
 #: widgets/e-timezone-dialog/e-timezone-dialog.c:194
@@ -5227,7 +5227,7 @@ msgid "Deleting selected objects"
 msgstr "Kijelölt objektumok törlése"
 
 #: calendar/gui/e-calendar-table.c:958 calendar/gui/e-day-view.c:3737
-#: calendar/gui/e-week-view.c:3707 mail/folder-browser.c:1763
+#: calendar/gui/e-week-view.c:3707 mail/folder-browser.c:1781
 #: shell/e-shortcuts-view.c:422 ui/evolution-addressbook.xml.h:36
 msgid "_Open"
 msgstr "_Megnyitás"
@@ -5432,7 +5432,7 @@ msgid "_Settings..."
 msgstr "_Beállítások..."
 
 #: calendar/gui/e-day-view.c:3738 calendar/gui/e-week-view.c:3708
-#: mail/folder-browser.c:1765 ui/evolution-mail-message.xml.h:112
+#: mail/folder-browser.c:1783 ui/evolution-mail-message.xml.h:112
 msgid "_Save As..."
 msgstr "M_entés másként..."
 
@@ -5600,8 +5600,8 @@ msgstr "Elutasítva"
 #: calendar/gui/e-meeting-model.c:772 camel/camel-gpg-context.c:1574
 #: camel/camel-gpg-context.c:1625 camel/camel-tcp-stream-openssl.c:634
 #: camel/providers/smtp/camel-smtp-transport.c:173
-#: camel/providers/smtp/camel-smtp-transport.c:228 mail/folder-browser.c:345
-#: mail/mail-display.c:953 widgets/misc/e-charset-picker.c:60
+#: camel/providers/smtp/camel-smtp-transport.c:228 mail/folder-browser.c:347
+#: mail/mail-display.c:984 widgets/misc/e-charset-picker.c:60
 msgid "Unknown"
 msgstr "Ismeretlen"
 
@@ -10440,7 +10440,7 @@ msgid "%.0fG"
 msgstr "%.0f G"
 
 #. This is a filename. Translators take note.
-#: composer/e-msg-composer-attachment-bar.c:370 mail/mail-display.c:227
+#: composer/e-msg-composer-attachment-bar.c:370 mail/mail-display.c:228
 msgid "attachment"
 msgstr "melléklet"
 
@@ -10878,7 +10878,7 @@ msgstr ""
 "A megadott néven már létezik fájl.\n"
 "Felülírod?"
 
-#: e-util/e-dialog-utils.c:249 mail/mail-display.c:200
+#: e-util/e-dialog-utils.c:249 mail/mail-display.c:201
 msgid "Overwrite file?"
 msgstr "Felülírod a fájlt?"
 
@@ -11402,7 +11402,7 @@ msgstr "nem"
 msgid "is not Flagged"
 msgstr "nem megjelölt"
 
-#: filter/libfilter-i18n.h:35 mail/folder-browser.c:1800
+#: filter/libfilter-i18n.h:35 mail/folder-browser.c:1818
 msgid "Label"
 msgstr "Címke"
 
@@ -11868,174 +11868,174 @@ msgstr "\"%s\" tulajdonságai"
 msgid "Properties"
 msgstr "Tulajdonságok"
 
-#: mail/folder-browser.c:327 mail/mail-display.c:394 mail/mail-display.c:942
+#: mail/folder-browser.c:329 mail/mail-display.c:395 mail/mail-display.c:973
 #, c-format
 msgid "Could not create temporary directory: %s"
 msgstr "Nem sikerült létrehozni az ideiglenes könyvtárat: %s"
 
-#: mail/folder-browser.c:782
+#: mail/folder-browser.c:800
 #, c-format
 msgid "%d new"
 msgstr "%d új"
 
-#: mail/folder-browser.c:785 mail/folder-browser.c:793
-#: mail/folder-browser.c:796
+#: mail/folder-browser.c:803 mail/folder-browser.c:811
+#: mail/folder-browser.c:814
 msgid ", "
 msgstr ", "
 
-#: mail/folder-browser.c:787
+#: mail/folder-browser.c:805
 #, c-format
 msgid "%d hidden"
 msgstr "%d rejtett"
 
-#: mail/folder-browser.c:789
+#: mail/folder-browser.c:807
 #, c-format
 msgid "%d visible"
 msgstr "%d látható"
 
-#: mail/folder-browser.c:794
+#: mail/folder-browser.c:812
 #, c-format
 msgid "%d selected"
 msgstr "%d kijelölve"
 
-#: mail/folder-browser.c:799
+#: mail/folder-browser.c:817
 #, c-format
 msgid "%d unsent"
 msgstr "%d postázandó"
 
-#: mail/folder-browser.c:801
+#: mail/folder-browser.c:819
 #, c-format
 msgid "%d sent"
 msgstr "%d elküldve"
 
-#: mail/folder-browser.c:803
+#: mail/folder-browser.c:821
 #, c-format
 msgid "%d total"
 msgstr "összesen %d"
 
-#: mail/folder-browser.c:1182
+#: mail/folder-browser.c:1200
 msgid "Create _Virtual Folder From Search..."
 msgstr "_Virtuális mappa gyártása a keresésből"
 
-#: mail/folder-browser.c:1736
+#: mail/folder-browser.c:1754
 msgid "VFolder on _Subject"
 msgstr "VMappa a _tárgyra"
 
-#: mail/folder-browser.c:1737
+#: mail/folder-browser.c:1755
 msgid "VFolder on Se_nder"
 msgstr "VMappa a _feladóra"
 
-#: mail/folder-browser.c:1738
+#: mail/folder-browser.c:1756
 msgid "VFolder on _Recipients"
 msgstr "VMappa a _címzettekre"
 
-#: mail/folder-browser.c:1739
+#: mail/folder-browser.c:1757
 msgid "VFolder on Mailing _List"
 msgstr "VMappa a _levelezőlistára"
 
-#: mail/folder-browser.c:1743
+#: mail/folder-browser.c:1761
 msgid "Filter on Sub_ject"
 msgstr "Szű_rő a tárgyra"
 
-#: mail/folder-browser.c:1744
+#: mail/folder-browser.c:1762
 msgid "Filter on Sen_der"
 msgstr "Szűrő a f_eladóra"
 
-#: mail/folder-browser.c:1745
+#: mail/folder-browser.c:1763
 msgid "Filter on Re_cipients"
 msgstr "Szűrő a _címzettekre"
 
-#: mail/folder-browser.c:1746 mail/folder-browser.c:2070
+#: mail/folder-browser.c:1764 mail/folder-browser.c:2088
 msgid "Filter on _Mailing List"
 msgstr "Szűrő a _levelezőlistára"
 
-#: mail/folder-browser.c:1764
+#: mail/folder-browser.c:1782
 msgid "_Edit as New Message..."
 msgstr "S_zerkesztés új levélként..."
 
-#: mail/folder-browser.c:1766
+#: mail/folder-browser.c:1784
 msgid "_Print"
 msgstr "_Nyomtatás"
 
-#: mail/folder-browser.c:1770 ui/evolution-mail-message.xml.h:110
+#: mail/folder-browser.c:1788 ui/evolution-mail-message.xml.h:110
 msgid "_Reply to Sender"
 msgstr "_Válasz a feladónak"
 
-#: mail/folder-browser.c:1771 ui/evolution-mail-message.xml.h:75
+#: mail/folder-browser.c:1789 ui/evolution-mail-message.xml.h:75
 msgid "Reply to _List"
 msgstr "Válasz a _listának"
 
-#: mail/folder-browser.c:1772 ui/evolution-mail-message.xml.h:74
+#: mail/folder-browser.c:1790 ui/evolution-mail-message.xml.h:74
 msgid "Reply to _All"
 msgstr "Válasz _mindenkinek"
 
-#: mail/folder-browser.c:1773
+#: mail/folder-browser.c:1791
 msgid "_Forward"
 msgstr "Továbbítás"
 
-#: mail/folder-browser.c:1777
+#: mail/folder-browser.c:1795
 msgid "Follo_w Up..."
 msgstr "Követés..."
 
-#: mail/folder-browser.c:1778
+#: mail/folder-browser.c:1796
 msgid "Fla_g Completed"
 msgstr "Befejezve _Jelölő"
 
-#: mail/folder-browser.c:1779
+#: mail/folder-browser.c:1797
 msgid "Cl_ear Flag"
 msgstr "Jelölő törlése"
 
 #. separator here?
-#: mail/folder-browser.c:1783 ui/evolution-mail-message.xml.h:43
+#: mail/folder-browser.c:1801 ui/evolution-mail-message.xml.h:43
 msgid "Mar_k as Read"
 msgstr "_Elolvasva"
 
-#: mail/folder-browser.c:1784
+#: mail/folder-browser.c:1802
 msgid "Mark as _Unread"
 msgstr "_Olvasatlan"
 
-#: mail/folder-browser.c:1785
+#: mail/folder-browser.c:1803
 msgid "Mark as _Important"
 msgstr "_Fontos"
 
-#: mail/folder-browser.c:1786
+#: mail/folder-browser.c:1804
 msgid "_Mark as Unimportant"
 msgstr "_Nem fontos"
 
-#: mail/folder-browser.c:1791
+#: mail/folder-browser.c:1809
 msgid "U_ndelete"
 msgstr "_Visszaállítás"
 
-#: mail/folder-browser.c:1795
+#: mail/folder-browser.c:1813
 msgid "Mo_ve to Folder..."
 msgstr "Á_thelyezés mappába..."
 
-#: mail/folder-browser.c:1796 ui/evolution-addressbook.xml.h:31
+#: mail/folder-browser.c:1814 ui/evolution-addressbook.xml.h:31
 msgid "_Copy to Folder..."
 msgstr "_Másolás mappába..."
 
-#: mail/folder-browser.c:1804
+#: mail/folder-browser.c:1822
 msgid "Add Sender to Address_book"
 msgstr "_Feladó hozzáadása a címjegyzékhez"
 
-#: mail/folder-browser.c:1808
+#: mail/folder-browser.c:1826
 msgid "Appl_y Filters"
 msgstr "_Szűrők alkalmazása"
 
-#: mail/folder-browser.c:1812
+#: mail/folder-browser.c:1830
 msgid "Crea_te Rule From Message"
 msgstr "S_zabály gyártása levélből"
 
-#: mail/folder-browser.c:2071
+#: mail/folder-browser.c:2089
 msgid "VFolder on M_ailing List"
 msgstr "VMappa a _levelezőlistára"
 
-#: mail/folder-browser.c:2073
+#: mail/folder-browser.c:2091
 #, c-format
 msgid "Filter on _Mailing List (%s)"
 msgstr "S_zűrő a levelezőlistára (%s)"
 
-#: mail/folder-browser.c:2074
+#: mail/folder-browser.c:2092
 #, c-format
 msgid "VFolder on M_ailing List (%s)"
 msgstr "V_Mappa a levelezőlistára (%s)"
@@ -12165,7 +12165,7 @@ msgstr "[Alapértelmezett]"
 #: mail/mail-accounts.c:481 mail/mail-accounts.etspec.h:2
 #: mail/mail-composer-prefs.c:708 mail/mail-composer-prefs.c:854
 msgid "Enabled"
-msgstr "Aktív"
+msgstr "Engedélyezve"
 
 #: mail/mail-accounts.c:487 mail/mail-accounts.etspec.h:1
 msgid "Account name"
@@ -13113,7 +13113,7 @@ msgstr "Nem sikerült létrehozni az S/MIME boríték részt."
 msgid "Could not create a S/MIME decode context."
 msgstr "Nem sikerült létrehozni az S/MIME dekódoló részt."
 
-#: mail/mail-display.c:197
+#: mail/mail-display.c:198
 #, c-format
 msgid ""
 "File `%s' already exists.\n"
@@ -13122,70 +13122,70 @@ msgstr ""
 "`%s` néven már létezik fájl.\n"
 "Felülírod?"
 
-#: mail/mail-display.c:336
+#: mail/mail-display.c:337
 msgid "Save Attachment"
 msgstr "Melléklet mentése"
 
-#: mail/mail-display.c:409
+#: mail/mail-display.c:410
 #, c-format
 msgid "Could not create temporary file '%s': %s"
 msgstr "Nem sikerült létrehozni a '%s' ideiglenes fájlt: %s"
 
-#: mail/mail-display.c:457
+#: mail/mail-display.c:478
 msgid "Save Attachment..."
 msgstr "Melléklet mentése..."
 
-#: mail/mail-display.c:458
+#: mail/mail-display.c:479
 msgid "View Inline"
 msgstr "Megtekintés beágyazva"
 
-#: mail/mail-display.c:459
+#: mail/mail-display.c:480
 #, c-format
 msgid "Open in %s..."
 msgstr "Megnyitás ezzel: %s..."
 
-#: mail/mail-display.c:515
+#: mail/mail-display.c:540
 #, c-format
 msgid "View Inline (via %s)"
 msgstr "Megtekintés beágyazva (%s segítségével)"
 
-#: mail/mail-display.c:519
+#: mail/mail-display.c:544
 msgid "Hide"
 msgstr "Elrejtés"
 
-#: mail/mail-display.c:539
+#: mail/mail-display.c:564
 msgid "External Viewer"
 msgstr "Külső nézőke"
 
-#: mail/mail-display.c:1368
+#: mail/mail-display.c:1404
 msgid "Downloading images"
 msgstr "Képek letöltése"
 
-#: mail/mail-display.c:1545
+#: mail/mail-display.c:1581
 msgid "Loading message content"
 msgstr "Üzenet tartalmának betöltése"
 
-#: mail/mail-display.c:1887
+#: mail/mail-display.c:1923
 msgid "Overdue:"
 msgstr "Lejárt elemek:"
 
-#: mail/mail-display.c:1891
+#: mail/mail-display.c:1927
 msgid "by %B %d, %Y, %l:%M %P"
 msgstr "%Y %B %d, %l:%M %P szerint"
 
-#: mail/mail-display.c:2255
+#: mail/mail-display.c:2291
 msgid "Open Link in Browser"
 msgstr "Hivatkozás megnyitása böngészőben"
 
-#: mail/mail-display.c:2256
+#: mail/mail-display.c:2292
 msgid "Copy Link Location"
 msgstr "Hivatkozás címének másolása"
 
-#: mail/mail-display.c:2258
+#: mail/mail-display.c:2294
 msgid "Save Link as (FIXME)"
 msgstr "Hivatkozás mentése másként (FIXME)"
 
-#: mail/mail-display.c:2260
+#: mail/mail-display.c:2296
 msgid "Save Image as..."
 msgstr "Kép mentése másként..."
 
@@ -13638,7 +13638,7 @@ msgstr "Továbbított üzenet - %s"
 msgid "Forwarded message"
 msgstr "Továbbított levél"
 
-#: mail/mail-tools.c:438
+#: mail/mail-tools.c:459 mail/mail-tools.c:466
 msgid "Forwarded Message"
 msgstr "Továbbított levél"
 
@@ -25270,26 +25270,31 @@ msgstr ""
 "Nem sikerült átnevezni a mappát:\n"
 "%s"
 
-#: shell/e-shell-folder-commands.c:538
+#: shell/e-shell-folder-commands.c:534
 #, c-format
 msgid "Rename the \"%s\" folder to:"
 msgstr "\"%s\" mappa átnevezése erre:"
 
-#: shell/e-shell-folder-commands.c:544
+#: shell/e-shell-folder-commands.c:541
 msgid "Rename Folder"
 msgstr "Mappa átnevezése"
 
-#: shell/e-shell-folder-commands.c:553
+#: shell/e-shell-folder-commands.c:547
 #: shell/e-shell-folder-creation-dialog.c:180
 #, c-format
 msgid "The specified folder name is not valid: %s"
 msgstr "A megadott mappanév nem jó: %s"
 
-#: shell/e-shell-folder-commands.c:587
+#: shell/e-shell-folder-commands.c:554
+#, c-format
+msgid "A folder named \"%s\" already exists. Please use a different name."
+msgstr "Már létezik \"%s\" nevű mappa. Használj más nevet."
+
+#: shell/e-shell-folder-commands.c:584
 msgid "Selected folder does not belong to another user"
 msgstr "A kiválasztott mappa nem tartozik egyetlen felhasználóhoz sem"
 
-#: shell/e-shell-folder-commands.c:590
+#: shell/e-shell-folder-commands.c:587
 #, c-format
 msgid ""
 "Cannot remove folder:\n"
@@ -26716,7 +26721,7 @@ msgstr ""
 "A törölt levelek elrejtése ahelyett, hogy vonallal áthúzottan jelenjenek meg"
 
 #: ui/evolution-mail-list.xml.h:9
-msgid "Mark All as R_ead"
+msgid "Mark All as _Read"
 msgstr "Min_degyik elolvasva"
 
 #: ui/evolution-mail-list.xml.h:10
