@@ -1,3 +1,18 @@
+2004-11-21  Sivaiah Nallagatla <snallagatla@novell.com>
+
+	* gui/widgets/eab-gui-util.c (eab_load_error_dialog) : 
+	added message which gets prompted when user tries 
+	to access a book which is not available in offline mode
+
+	* gui/component/addressbook-config.c (eabc_general_offline) 
+	(offline_status_changed_cb) : added a new check box
+	to properties page to mark a book for offline usage 
+
+	* gui/component/addressbook.c (load_source_cb) : do no try to
+	authenticate in case of offline mode. 
+	(auth_required_cb) : new call back which gets called
+	when backend sends notification for  password to client
+	
 2004-11-07  Sivaiah Nallagatla <snallagatla@novell.com>
 
        * util/eab-book-util.c (eab_name_and_email_query) :

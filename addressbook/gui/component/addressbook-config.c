@@ -29,6 +29,7 @@
 #include <gtk/gtkspinbutton.h>
 #include <gtk/gtkcelllayout.h>
 #include <gtk/gtklabel.h>
+#include <gtk/gtk.h>
 #include <libgnome/gnome-i18n.h>
 
 #include <bonobo/bonobo-generic-factory.h>
@@ -541,6 +542,16 @@ name_changed_cb(GtkWidget *w, AddressbookSourceDialog *sdialog)
 	e_source_set_name (sdialog->source, gtk_entry_get_text (GTK_ENTRY (sdialog->display_name)));
 }
 
+static void 
+offline_status_changed_cb (GtkWidget *widget, AddressbookSourceDialog *sdialog)
+{
+	if (gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (widget)))
+		e_source_set_property (sdialog->source, "offline_sync", "1");
+	else 
+		e_source_set_property (sdialog->source, "offline_sync", NULL);	
+	    
+}
+
 static GtkWidget *
 eabc_general_name(EConfig *ec, EConfigItem *item, struct _GtkWidget *parent, struct _GtkWidget *old, void *data)
 {
@@ -548,6 +559,7 @@ eabc_general_name(EConfig *ec, EConfigItem *item, struct _GtkWidget *parent, str
 	const char *uri;
 	GtkWidget *w;
 	GladeXML *gui;
+	
 
 	if (old)
 		return old;
@@ -567,10 +579,33 @@ eabc_general_name(EConfig *ec, EConfigItem *item, struct _GtkWidget *parent, str
 			gtk_widget_set_sensitive (GTK_WIDGET(sdialog->display_name), FALSE);
 		}
 	}
-
+	
 	g_object_unref(gui);
 
 	return w;
+}
+
+
+static GtkWidget *
+eabc_general_offline(EConfig *ec, EConfigItem *item, struct _GtkWidget *parent, struct _GtkWidget *old, void *data)
+{
+	AddressbookSourceDialog *sdialog = data;
+	GtkCheckButton *offline_setting;
+	int row;
+	if (old)
+		return;
+	else {
+		row = ((GtkTable*)parent)->nrows;
+		offline_setting = gtk_check_button_new_with_label (N_("Sync conents locally for offline usage"));
+		gtk_widget_show (offline_setting);
+		gtk_container_add (parent, offline_setting);
+		g_signal_connect (offline_setting, "toggled", G_CALLBACK (offline_status_changed_cb), sdialog);
+		
+	}
+	gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (offline_setting), e_source_get_property (sdialog->source, "offline_sync") ? TRUE : FALSE);
+	gtk_widget_show (offline_setting);
+	return offline_setting;
+
 }
 
 #ifdef HAVE_LDAP
@@ -616,6 +651,7 @@ ssl_optionmenu_changed_cb(GtkWidget *w, AddressbookSourceDialog *sdialog)
 	sdialog->ssl = gtk_option_menu_get_history((GtkOptionMenu *)w);
 	e_source_set_property (sdialog->source, "ssl", ldap_unparse_ssl (sdialog->ssl));
 }
+
 
 static GtkWidget *
 eabc_general_host(EConfig *ec, EConfigItem *item, struct _GtkWidget *parent, struct _GtkWidget *old, void *data)
@@ -857,6 +893,7 @@ static EConfigItem eabc_items[] = {
 	{ E_CONFIG_PAGE, "00.general", N_("General") },
 	{ E_CONFIG_SECTION, "00.general/10.display", N_("Addressbook") },
 	{ E_CONFIG_ITEM, "00.general/10.display/10.name", "hbox122", eabc_general_name },
+	{ E_CONFIG_ITEM, "00.general/10.display/20.offline", NULL, eabc_general_offline },
 #ifdef HAVE_LDAP
 	{ E_CONFIG_SECTION, "00.general/20.server", N_("Server Information") },
 	{ E_CONFIG_ITEM, "00.general/20.server/00.host", "table31", eabc_general_host },

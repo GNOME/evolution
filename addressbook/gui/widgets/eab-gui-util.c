@@ -86,7 +86,14 @@ eab_load_error_dialog (GtkWidget *parent, ESource *source, EBookStatus status)
 
 	uri = e_source_get_uri (source);
 
-	if (!strncmp (uri, "file:", 5)) {
+	if (status == E_BOOK_ERROR_OFFLINE_UNAVAILABLE) {
+		label_string = _("We were unable to open this addressbook. This either means "
+                                 "this book is not marked for offline usage or not yet downloaded "
+                                 "for offline usage. Please load the addressbook once in online mode "
+                                 "to download its conents");
+	}
+		
+	else if (!strncmp (uri, "file:", 5)) {
 		label_string = 
 			_("We were unable to open this addressbook.  Please check that the "
 			  "path exists and that you have permission to access it.");
