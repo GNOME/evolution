@@ -427,44 +427,49 @@ message_list_drag_data_recieved (ETree *tree, int row, ETreePath path, int col,
 {
 	FolderBrowser *fb = FOLDER_BROWSER (user_data);
 	CamelFolder *folder = NULL;
+	char *tmp, *url, **urls;
 	GPtrArray *uids = NULL;
 	CamelStream *stream;
 	CamelException ex;
-	char *inend, *url;
 	CamelURL *uri;
-	int fd;
+	int i, fd;
 	
 	camel_exception_init (&ex);
 	
 	switch (info) {
 	case DND_TARGET_TYPE_TEXT_URI_LIST:
-		url = g_strndup (selection_data->data, selection_data->length);
-		inend = strchr (url, '\n');
-		if (inend)
-			*inend = '\0';
+		tmp = g_strndup (selection_data->data, selection_data->length);
+		urls = g_strsplit (tmp, "\n", 0);
+		g_free (tmp);
 		
-		/* get the path component */
-		g_strstrip (url);
-		uri = camel_url_new (url, NULL);
-		g_free (url);
-		url = uri->path;
-		uri->path = NULL;
-		camel_url_free (uri);
-		
-		fd = open (url, O_RDONLY);
-		if (fd == -1) {
+		for (i = 0; urls[i] != NULL; i++) {
+			/* get the path component */
+			url = g_strstrip (urls[i]);
+			
+			uri = camel_url_new (url, NULL);
 			g_free (url);
-			goto fail;
+			url = uri->path;
+			uri->path = NULL;
+			camel_url_free (uri);
+			
+			fd = open (url, O_RDONLY);
+			if (fd == -1) {
+				g_free (url);
+				/* FIXME: okay, what do we do in this case? */
+				continue;
+			}
+			
+			stream = camel_stream_fs_new_with_fd (fd);
+			message_rfc822_dnd (fb->folder, stream, &ex);
+			camel_object_unref (CAMEL_OBJECT (stream));
+			
+			if (context->action == GDK_ACTION_MOVE && !camel_exception_is_set (&ex))
+				unlink (url);
+			
+			g_free (url);
 		}
 		
-		stream = camel_stream_fs_new_with_fd (fd);
-		message_rfc822_dnd (fb->folder, stream, &ex);
-		camel_object_unref (CAMEL_OBJECT (stream));
-		
-		if (context->action == GDK_ACTION_MOVE && !camel_exception_is_set (&ex))
-			unlink (url);
-		
-		g_free (url);
+		g_free (urls);
 		break;
 	case DND_TARGET_TYPE_MESSAGE_RFC822:
 		/* write the message(s) out to a CamelStream so we can use it */

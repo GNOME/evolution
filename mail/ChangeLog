@@ -1,3 +1,13 @@
+2001-07-17  Jeffrey Stedfast  <fejj@ximian.com>
+
+	* folder-browser.c (message_list_drag_data_recieved): Fix to
+	correctly handle text/uri-lists that contain more than a single
+	url.
+
+	* component-factory.c (destination_folder_handle_drop): Fix to
+	correctly handle text/uri-lists that contain more than a single
+	url.
+
 2001-07-17  Jason Leach  <jleach@ximian.com>
 
 	* mail-config.glade: Make the Path: entry into a GnomeFileEntry so

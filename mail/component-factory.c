@@ -369,14 +369,14 @@ destination_folder_handle_drop (EvolutionShellComponentDndDestinationFolder *des
 				const GNOME_Evolution_ShellComponentDnd_Data *data,
 				gpointer user_data)
 {
-	char *url, *in, *inptr, *inend;
+	char *tmp, *url, **urls, *in, *inptr, *inend;
 	gboolean retval = FALSE;
 	CamelFolder *folder;
 	CamelStream *stream;
 	CamelException ex;
 	GPtrArray *uids;
 	CamelURL *uri;
-	int type, fd;
+	int i, type, fd;
 	
 	if (action == GNOME_Evolution_ShellComponentDnd_ACTION_LINK)
 		return FALSE; /* we can't create links */
@@ -395,36 +395,42 @@ destination_folder_handle_drop (EvolutionShellComponentDndDestinationFolder *des
 		if (!folder)
 			return FALSE;
 		
-		url = g_strndup (data->bytes._buffer, data->bytes._length);
-		inend = strchr (url, '\n');
-		if (inend)
-			*inend = '\0';
+		tmp = g_strndup (data->bytes._buffer, data->bytes._length);
+		urls = g_strsplit (tmp, "\n", 0);
+		g_free (tmp);
 		
-		/* get the path component */
-		g_strstrip (url);
-		uri = camel_url_new (url, NULL);
-		g_free (url);
-		url = uri->path;
-		uri->path = NULL;
-		camel_url_free (uri);
-		
-		fd = open (url, O_RDONLY);
-		if (fd == -1) {
+		retval = TRUE;
+		for (i = 0; urls[i] != NULL && retval; i++) {
+			/* get the path component */
+			url = g_strstrip (urls[i]);
+			
+			uri = camel_url_new (url, NULL);
 			g_free (url);
-			return FALSE;
+			url = uri->path;
+			uri->path = NULL;
+			camel_url_free (uri);
+			
+			fd = open (url, O_RDONLY);
+			if (fd == -1) {
+				g_free (url);
+				/* FIXME: okay, so what do we do in this case? */
+				continue;
+			}
+			
+			stream = camel_stream_fs_new_with_fd (fd);
+			message_rfc822_dnd (folder, stream, &ex);
+			camel_object_unref (CAMEL_OBJECT (stream));
+			camel_object_unref (CAMEL_OBJECT (folder));
+			
+			retval = !camel_exception_is_set (&ex);
+			
+			if (action == GNOME_Evolution_ShellComponentDnd_ACTION_MOVE && retval)
+				unlink (url);
+			
+			g_free (url);
 		}
 		
-		stream = camel_stream_fs_new_with_fd (fd);
-		message_rfc822_dnd (folder, stream, &ex);
-		camel_object_unref (CAMEL_OBJECT (stream));
-		camel_object_unref (CAMEL_OBJECT (folder));
-		
-		retval = !camel_exception_is_set (&ex);
-		
-		if (action == GNOME_Evolution_ShellComponentDnd_ACTION_MOVE && retval)
-			unlink (url);
-		
-		g_free (url);
+		g_free (urls);
 		break;
 	case ACCEPTED_DND_TYPE_MESSAGE_RFC822:
 		folder = mail_tool_uri_to_folder (physical_uri, &ex);
