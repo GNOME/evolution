@@ -1,3 +1,8 @@
+2001-12-10  Damon Chaplin  <damon@ximian.com>
+
+	* importers/GNOME_Evolution_Calendar_Importer.oaf.in: fixed executable
+	name. Fixes bug #16880.
+
 2001-12-08  JP Rosevear  <jpr@ximian.com>
   
   	* conduits/calendar/calendar-conduit.c (local_record_from_comp):
