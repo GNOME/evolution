@@ -1869,12 +1869,16 @@ contact_modified_cb (EBook *book, EBookStatus status, EditorCloseStruct *ecs)
 static void
 save_contact (EContactEditor *ce, gboolean should_close)
 {
-	EditorCloseStruct *ecs = g_new(EditorCloseStruct, 1);
+	EditorCloseStruct *ecs;
 
 	extract_info (ce);
 	if (!ce->target_book)
 		return;
 
+	if (!e_contact_editor_is_valid (EAB_EDITOR (ce)))
+		return;
+
+	ecs = g_new0 (EditorCloseStruct, 1);
 	ecs->ce = ce;
 	g_object_ref (ecs->ce);
 
@@ -1920,7 +1924,44 @@ static gboolean
 e_contact_editor_is_valid (EABEditor *editor)
 {
 	/* insert checks here (date format, for instance, etc.) */
-	return TRUE;
+	EContactEditor *ce = E_CONTACT_EDITOR (editor);
+	GtkWidget *dialog,*widget;
+	gboolean validation_error = FALSE;
+	gint result;
+	GString *errmsg = g_string_new (_("The following entries are invalid:\n\n"));
+
+	widget = glade_xml_get_widget (ce->gui, "dateedit-birthday");
+	if (!(e_date_edit_date_is_valid (E_DATE_EDIT (widget)))) {
+		g_string_append_printf (errmsg, "%s",
+					e_contact_pretty_name (E_CONTACT_BIRTH_DATE));
+		validation_error = TRUE;
+	}
+
+	widget = glade_xml_get_widget (ce->gui, "dateedit-anniversary");
+	if (!(e_date_edit_date_is_valid (E_DATE_EDIT (widget)))) {
+		g_string_append_printf (errmsg, "%s%s",
+					validation_error ? ", " : "",
+					e_contact_pretty_name (E_CONTACT_ANNIVERSARY));
+		validation_error = TRUE;
+	}
+
+	if (validation_error) {
+		g_string_append (errmsg, ".");
+
+		dialog = gtk_message_dialog_new (GTK_WINDOW (ce->app),
+						 0,
+						 GTK_MESSAGE_INFO,
+						 GTK_BUTTONS_OK,
+						 errmsg->str);
+		result = gtk_dialog_run (GTK_DIALOG (dialog));
+		gtk_widget_destroy (dialog);
+		g_string_free (errmsg, TRUE);
+		return FALSE;
+	}
+	else {
+		g_string_free (errmsg, TRUE);
+		return TRUE;
+	}
 }
 
 static gboolean
