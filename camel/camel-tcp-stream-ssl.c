@@ -376,7 +376,6 @@ ssl_bad_cert (void *data, PRFileDesc *sockfd)
 	
 	if (accept) {
 		SECItem *certs[1];
-		SECStatus ret;
 		
 		if (!cert->trust)
 			cert->trust = PORT_ZAlloc (sizeof (CERTCertTrust));
