@@ -1,3 +1,11 @@
+2001-12-12  Ettore Perazzoli  <ettore@ximian.com>
+
+	[Fix #17258, shell displays splash even if Evolution is already
+	running.]
+
+	* e-shell.c (e_shell_construct): Display the splash screen only if
+	the registration succeeds.
+
 2001-12-10  Ettore Perazzoli  <ettore@ximian.com>
 
 	[Fix #14838, saving passwords doesn't work.  It is actually a
