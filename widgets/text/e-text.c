@@ -158,7 +158,7 @@ static GdkAtom clipboard_atom = GDK_NONE;
 
 
 
-/* Destroy handler for the text item */
+/* Dispose handler for the text item */
 
 
 static void
@@ -173,7 +173,7 @@ e_text_style_set (EText *text, GtkStyle *previous_style)
 }
 
 static void
-e_text_destroy (GtkObject *object)
+e_text_dispose (GObject *object)
 {
 	EText *text;
 
@@ -257,8 +257,8 @@ e_text_destroy (GtkObject *object)
 		text->layout = NULL;
 	}
 
-	if (GTK_OBJECT_CLASS (parent_class)->destroy)
-		(* GTK_OBJECT_CLASS (parent_class)->destroy) (object);
+	if (G_OBJECT_CLASS (parent_class)->dispose)
+		(* G_OBJECT_CLASS (parent_class)->dispose) (object);
 }
 
 static void
@@ -3070,16 +3070,14 @@ static void
 e_text_class_init (ETextClass *klass)
 {
 	GObjectClass *gobject_class;
-	GtkObjectClass *object_class;
 	GnomeCanvasItemClass *item_class;
 
 	gobject_class = (GObjectClass *) klass;
-	object_class = (GtkObjectClass *) klass;
 	item_class = (GnomeCanvasItemClass *) klass;
 
 	parent_class = g_type_class_ref (PARENT_TYPE);
 
-	object_class->destroy = e_text_destroy;
+	gobject_class->dispose = e_text_dispose;
 	gobject_class->set_property = e_text_set_property;
 	gobject_class->get_property = e_text_get_property;
 
@@ -3096,7 +3094,7 @@ e_text_class_init (ETextClass *klass)
 
 	e_text_signals[E_TEXT_CHANGED] =
 		g_signal_new ("changed",
-			      G_OBJECT_CLASS_TYPE (object_class),
+			      G_OBJECT_CLASS_TYPE (gobject_class),
 			      G_SIGNAL_RUN_LAST,
 			      G_STRUCT_OFFSET (ETextClass, changed),
 			      NULL, NULL,
@@ -3105,7 +3103,7 @@ e_text_class_init (ETextClass *klass)
 
 	e_text_signals[E_TEXT_ACTIVATE] =
 		g_signal_new ("activate",
-			      G_OBJECT_CLASS_TYPE (object_class),
+			      G_OBJECT_CLASS_TYPE (gobject_class),
 			      G_SIGNAL_RUN_LAST,
 			      G_STRUCT_OFFSET (ETextClass, activate),
 			      NULL, NULL,
@@ -3114,7 +3112,7 @@ e_text_class_init (ETextClass *klass)
 
 	e_text_signals[E_TEXT_KEYPRESS] =
 		g_signal_new ("keypress",
-			      G_OBJECT_CLASS_TYPE (object_class),
+			      G_OBJECT_CLASS_TYPE (gobject_class),
 			      G_SIGNAL_RUN_LAST,
 			      G_STRUCT_OFFSET (ETextClass, keypress),
 			      NULL, NULL,
@@ -3123,7 +3121,7 @@ e_text_class_init (ETextClass *klass)
 
 	e_text_signals[E_TEXT_POPUP] =
 		g_signal_new ("popup",
-			      G_OBJECT_CLASS_TYPE (object_class),
+			      G_OBJECT_CLASS_TYPE (gobject_class),
 			      G_SIGNAL_RUN_LAST,
 			      G_STRUCT_OFFSET (ETextClass, popup),
 			      NULL, NULL,
