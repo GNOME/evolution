@@ -64,7 +64,7 @@ struct _EFilterBar {
 	GtkWidget *save_dialog;    /* current save dialogue (so we dont pop up multiple ones) */
 	
 	FilterRule *current_query; /* as it says */
-	int setquery;		   /* true when we're setting a query directly to advanced, so dont popup the dialogue */
+	int setquery;		   /* true when we're setting a query directly to advanced, so dont popup the dialog */
 	
 	RuleContext *context;
 	char *systemrules;

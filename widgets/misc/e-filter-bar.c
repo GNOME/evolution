@@ -183,6 +183,8 @@ menubar_activated (ESearchBar *esb, int id, void *data)
 	EFilterBar *efb = (EFilterBar *)esb;
 	GtkWidget *dialog, *w;
 	
+	d(printf ("menubar activated!\n"));
+	
 	switch (id) {
 	case E_FILTERBAR_EDIT_ID:
 		if (!efb->save_dialog) {
@@ -245,9 +247,10 @@ menubar_activated (ESearchBar *esb, int id, void *data)
 			g_string_free (out, TRUE);
 #endif
 			efb->current_query = (FilterRule *)efb->menu_rules->pdata[id - efb->menu_base];
-			efb->setquery = TRUE;
 			
+			efb->setquery = TRUE;
 			e_search_bar_set_item_id (esb, E_FILTERBAR_ADVANCED_ID);
+			efb->setquery = FALSE;
 			
 			gtk_widget_set_sensitive (esb->entry, FALSE);
 		} else {
@@ -266,10 +269,14 @@ option_changed (ESearchBar *esb, void *data)
 	int id = e_search_bar_get_item_id (esb);
 	char *query;
 	
-	d(printf("option changed, id = %d\n", id));
+	d(printf("option changed, id = %d, setquery = %s\n", id, efb->setquery ? "true" : "false"));
+	
+	if (efb->setquery)
+		return;
 	
 	switch (id) {
 	case E_FILTERBAR_ADVANCED_ID:
+		d(printf ("do_advanced\n"));
 		do_advanced (esb);
 		break;
 	default:
@@ -286,7 +293,6 @@ option_changed (ESearchBar *esb, void *data)
 			efb->current_query = NULL;
 		}
 	}
-	efb->setquery = FALSE;
 }
 
 static void
@@ -504,7 +510,7 @@ set_option (ESearchBar *esb, ESearchBarItem *items)
 	menu = build_items (esb, items, 1, &efb->option_base, efb->option_rules);
 	((ESearchBarClass *)parent_class)->set_option (esb, (ESearchBarItem *)menu->data);
 	free_built_items (menu);
-
+	
 	e_search_bar_set_item_id (esb, efb->option_base);
 }
 
@@ -631,6 +637,8 @@ set_property (GObject *object, guint property_id, const GValue *value, GParamSpe
 	const char *state;
 	xmlDocPtr doc;
 	
+	
+	
 	switch (property_id) {
 	case PROP_STATE:
 		if ((state = g_value_get_string (value))) {
@@ -662,6 +670,7 @@ set_property (GObject *object, guint property_id, const GValue *value, GParamSpe
 					
 					efb->setquery = TRUE;
 					e_search_bar_set_item_id ((ESearchBar *) efb, E_FILTERBAR_ADVANCED_ID);
+					efb->setquery = FALSE;
 					
 					break;
 				} else if (!strcmp (node->name, "search-bar")) {
@@ -677,10 +686,12 @@ set_property (GObject *object, guint property_id, const GValue *value, GParamSpe
 					item_id = xml_get_prop_int (node, "item_id");
 					subitem_id = xml_get_prop_int (node, "subitem_id");
 					
+					efb->setquery = TRUE;
 					if (subitem_id >= 0)
 						e_search_bar_set_ids ((ESearchBar *) efb, item_id, subitem_id);
 					else
 						e_search_bar_set_item_id ((ESearchBar *) efb, item_id);
+					efb->setquery = FALSE;
 					
 					break;
 				}
@@ -689,15 +700,17 @@ set_property (GObject *object, guint property_id, const GValue *value, GParamSpe
 			}
 			
 			xmlFreeDoc (doc);
-			
-			g_signal_emit_by_name (efb, "search-activated", NULL);
 		} else {
 			/* set default state */
 			e_search_bar_set_text ((ESearchBar *) efb, "");
 			e_search_bar_set_item_id ((ESearchBar *) efb, 0);
-			
-			g_signal_emit_by_name (efb, "search-activated", NULL);
 		}
+		
+		/* we don't want to run option_changed */
+		efb->setquery = TRUE;
+		g_signal_emit_by_name (efb, "search-activated", NULL);
+		efb->setquery = FALSE;
+		
 		break;
 	default:
 		G_OBJECT_WARN_INVALID_PROPERTY_ID (object, property_id, pspec);
