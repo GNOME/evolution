@@ -28,6 +28,7 @@
 #include <stdio.h>
 #include <string.h>
 
+#include "camel-utf8.h"
 #include "camel-url-scanner.h"
 #include "camel-mime-filter-tohtml.h"
 
@@ -147,14 +148,18 @@ static char *
 writeln (CamelMimeFilter *filter, const char *in, const char *inend, char *outptr, char **outend)
 {
 	CamelMimeFilterToHTML *html = (CamelMimeFilterToHTML *) filter;
-	register const char *inptr = in;
-	
+	const char *inptr = in;
+
 	while (inptr < inend) {
-		unsigned char u;
-		
-		outptr = check_size (filter, outptr, outend, 9);
-		
-		switch ((u = (unsigned char) *inptr++)) {
+		guint32 u;
+
+		outptr = check_size (filter, outptr, outend, 16);
+
+		u = camel_utf8_getc_limit(&inptr, inend);
+		switch (u) {
+		case 0xffff:
+			g_warning("Truncated utf8 buffer");
+			return outptr;
 		case '<':
 			outptr = g_stpcpy (outptr, "&lt;");
 			html->column++;
@@ -182,22 +187,21 @@ writeln (CamelMimeFilter *filter, const char *in, const char *inend, char *outpt
 			}
 			/* otherwise, FALL THROUGH */
 		case ' ':
-			if (html->flags & CAMEL_MIME_FILTER_TOHTML_CONVERT_SPACES) {
-				if (inptr == (in + 1) || *inptr == ' ' || *inptr == '\t') {
-					outptr = g_stpcpy (outptr, "&nbsp;");
-					html->column++;
-					break;
-				}
+			if (html->flags & CAMEL_MIME_FILTER_TOHTML_CONVERT_SPACES
+			    && ((inptr == (in + 1) || *inptr == ' ' || *inptr == '\t'))) {
+				outptr = g_stpcpy (outptr, "&nbsp;");
+				html->column++;
+				break;
 			}
 			/* otherwise, FALL THROUGH */
 		default:
-			if (!(u >= 0x20 && u < 0x80) && !(html->flags & CAMEL_MIME_FILTER_TOHTML_PRESERVE_8BIT)) {
+			if (u >= 20 && u <0x80)
+				*outptr++ = u;
+			else {
 				if (html->flags & CAMEL_MIME_FILTER_TOHTML_ESCAPE_8BIT)
 					*outptr++ = '?';
 				else
-					outptr += g_snprintf (outptr, 9, "&#%d;", (int) u);
-			} else {
-				*outptr++ = (char) u;
+					outptr += sprintf(outptr, "&#%u;", u);
 			}
 			html->column++;
 			break;

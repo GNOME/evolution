@@ -1,3 +1,13 @@
+2003-01-13  Not Zed  <NotZed@Ximian.com>
+
+	* camel-mime-filter-tohtml.c (writeln): Read the characters as
+	utf8, rather than as 8 bit bytes.  Remove the PRESERVE_8BIT as it
+	has no meaning.  Also change the default logic slightly so that 8
+	bit or greater characters are properly converted to entities.
+	
+	* camel-utf8.c (camel_utf8_getc_limit): new function, gets a utf8
+	char, bounded by an end pointer.
+
 2003-01-07  Dan Winship  <danw@ximian.com>
 
 	* camel-provider.h (CamelProvider): add a "translation_domain"

@@ -83,6 +83,62 @@ loop:
 	return v;
 }
 
+/**
+ * camel_utf8_getc_limit:
+ * @ptr: 
+ * @end: must not be NULL.
+ * 
+ * Get the next utf8 char at @ptr, and return it, advancing @ptr to
+ * the next character.  If @end is reached before a full utf8
+ * character can be read, then the invalid Unicode char 0xffff is
+ * returned as a sentinel (Unicode 3.1, section 2.7), and @ptr is not
+ * advanced.
+ * 
+ * Return value: The next utf8 char, or 0xffff.
+ **/
+guint32
+camel_utf8_getc_limit(const unsigned char **ptr, const unsigned char *end)
+{
+	register unsigned char *p = (unsigned char *)*ptr;
+	register unsigned char c, r;
+	register guint32 v = 0xffff, m;
+
+again:
+	while (p < end) {
+		r = *p++;
+loop:
+		if (r < 0x80) {
+			*ptr = p;
+			return r;
+		} else if (r < 0xf8) { /* valid start char? (max 4 octets) */
+			v = r;
+			m = 0x7f80;	/* used to mask out the length bits */
+			do {
+				if (p >= end)
+					return 0xffff;
+
+				c = *p++;
+				if ((c & 0xc0) != 0x80) {
+					r = c;
+					goto loop;
+				}
+				v = (v<<6) | (c & 0x3f);
+				r<<=1;
+				m<<=5;
+			} while (r & 0x40);
+		
+			*ptr = p;
+			
+			v &= ~m;
+			return v;
+		} else {
+			goto again;
+		}
+	}
+
+	return 0xffff;
+}
+
 void
 g_string_append_u(GString *out, guint32 c)
 {
