@@ -1,3 +1,8 @@
+2003-01-26  Chris Toshok  <toshok@ximian.com>
+
+	* e-clipped-label.c (e_clipped_label_new): init the layout to
+	NULL.
+
 2003-01-23  Ettore Perazzoli  <ettore@ximian.com>
 
 	* e-title-bar.c (e_title_bar_construct): Make the label bold using

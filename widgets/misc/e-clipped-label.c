@@ -144,6 +144,7 @@ e_clipped_label_new (const gchar *text,
 
 	clipped->font_size = font_size;
 	clipped->font_weight = font_weight;
+	clipped->layout = NULL;
 
 	build_layout (clipped, e_clipped_label_ellipsis);
 	pango_layout_get_pixel_size (clipped->layout, &clipped->ellipsis_width, NULL);
