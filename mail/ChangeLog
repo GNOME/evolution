@@ -1,3 +1,11 @@
+2003-03-19  Radek Doulik  <rodo@ximian.com>
+
+	* mail-composer-prefs.c (spell_load_values): changed default
+	language to en_us instead of en
+	(spell_language_button_press): new handler, ported from 1.2
+	(spell_setup): use spell_language_enable and
+	spell_language_button_press
+
 2003-03-18  Jeffrey Stedfast  <fejj@ximian.com>
 
 	* mail-callbacks.c (composer_get_message):

@@ -565,7 +565,7 @@ spell_load_values (MailComposerPrefs *prefs)
 	GConfValue *val;
 	char *def_lang;
 	
-	def_lang = g_strdup ("en");
+	def_lang = g_strdup (_("en_us"));
 	g_free (prefs->language_str);
 	prefs->language_str = g_strdup (def_lang);
 	prefs->spell_error_color.red   = 0xffff;
@@ -668,6 +668,28 @@ spell_language_enable (GtkWidget *widget, MailComposerPrefs *prefs)
 	}
 }
 
+static gboolean
+spell_language_button_press (GtkTreeView *tv, GdkEventButton *event, MailComposerPrefs *prefs)
+{
+	GtkTreePath *path = NULL;
+	GtkTreeViewColumn *column = NULL;
+	gtk_tree_view_get_path_at_pos (tv, event->x, event->y, &path, &column, NULL, NULL);
+
+	if (path != NULL && column != NULL && !strcmp (gtk_tree_view_column_get_title (column), _("Enabled"))) {
+		GtkTreeIter iter;
+		GtkTreeModel *model;
+		gboolean enabled;
+
+		model = gtk_tree_view_get_model (tv);
+		gtk_tree_model_get_iter (model, &iter, path);
+		gtk_tree_model_get (model, &iter, 0, &enabled, -1);
+		gtk_list_store_set ((GtkListStore *) model, &iter, 0, !enabled, -1);
+		spell_changed (prefs);
+	}
+
+	return FALSE;
+}
+
 static void
 spell_setup (MailComposerPrefs *prefs)
 {
@@ -691,6 +713,9 @@ spell_setup (MailComposerPrefs *prefs)
 	spell_set_ui (prefs);
 	
 	glade_xml_signal_connect_data (prefs->gui, "spellColorSet", G_CALLBACK (spell_color_set), prefs);
+	glade_xml_signal_connect_data (prefs->gui, "spellLanguageEnable", GTK_SIGNAL_FUNC (spell_language_enable), prefs);
+	
+	g_signal_connect (prefs->language, "button_press_event", G_CALLBACK (spell_language_button_press), prefs);
 }
 
 static gboolean
