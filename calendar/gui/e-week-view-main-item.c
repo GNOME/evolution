@@ -264,13 +264,16 @@ e_week_view_main_item_draw_day (EWeekViewMainItem *wvmitem,
 
 	/* If the day is selected, draw the blue background. */
 	selected = TRUE;
-	if (!GTK_WIDGET_HAS_FOCUS (week_view)
-	    || week_view->selection_start_day == -1
+	if (week_view->selection_start_day == -1
 	    || week_view->selection_start_day > day
 	    || week_view->selection_end_day < day)
 		selected = FALSE;
 	if (selected) {
-		gdk_gc_set_foreground (gc, &week_view->colors[E_WEEK_VIEW_COLOR_SELECTED]);
+		if (GTK_WIDGET_HAS_FOCUS (week_view))
+			gdk_gc_set_foreground (gc, &week_view->colors[E_WEEK_VIEW_COLOR_SELECTED]);
+		else
+			gdk_gc_set_foreground (gc, &week_view->colors[E_WEEK_VIEW_COLOR_SELECTED_UNFOCUSSED]);
+
 		if (week_view->multi_week_view) {
 			gdk_draw_rectangle (drawable, gc, TRUE,
 					    x + 2, y + 1,

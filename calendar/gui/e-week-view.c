@@ -565,6 +565,10 @@ e_week_view_realize (GtkWidget *widget)
 	week_view->colors[E_WEEK_VIEW_COLOR_SELECTED].green = 0 * 257;
 	week_view->colors[E_WEEK_VIEW_COLOR_SELECTED].blue  = 156 * 257;
 
+	week_view->colors[E_WEEK_VIEW_COLOR_SELECTED_UNFOCUSSED].red   = 16 * 257;
+	week_view->colors[E_WEEK_VIEW_COLOR_SELECTED_UNFOCUSSED].green = 78 * 257;
+	week_view->colors[E_WEEK_VIEW_COLOR_SELECTED_UNFOCUSSED].blue  = 139 * 257;
+
 	week_view->colors[E_WEEK_VIEW_COLOR_DATES].red   = 0 * 257;
 	week_view->colors[E_WEEK_VIEW_COLOR_DATES].green = 0 * 257;
 	week_view->colors[E_WEEK_VIEW_COLOR_DATES].blue  = 0 * 257;

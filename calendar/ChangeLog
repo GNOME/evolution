@@ -1,3 +1,15 @@
+2003-04-06  Hans Petter Jansson  <hpj@ximian.com>
+
+	Week view part of fix for #39895.
+
+	* gui/e-week-view-main-item.c (e_week_view_main_item_draw_day):
+	Use the UNFOCUSSED colour if we're not focused, rather than not
+	drawing anything.
+
+	* gui/e-week-view.c: Set up the UNFOCUSSED colour.
+
+	* gui/e-week-view.h: Add the UNFOCUSSED colour.
+
 2003-04-04  JP Rosevear  <jpr@ximian.com>
 
 	Fixes #40790
