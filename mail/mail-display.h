@@ -28,9 +28,15 @@ struct _MailDisplay {
 	GtkHTMLStream *stream;
 	gpointer last_active;
 	guint idle_id;
+
+	char *selection;
 	
 	CamelMimeMessage *current_message;
 	GData **data;
+
+	/* Sigh.  This shouldn't be needed.  I haven't figured out why it is
+	   though.  */
+	GtkWidget *invisible;
 };
 
 typedef struct {

@@ -29,6 +29,7 @@
 #include <gdk-pixbuf/gdk-pixbuf-loader.h>
 #include <gal/util/e-util.h>
 #include <gal/widgets/e-popup-menu.h>
+#include <gtk/gtkinvisible.h>
 #include <gtkhtml/gtkhtml-embedded.h>
 #include <gtkhtml/htmlengine.h>	/* XXX */
 #include <gtkhtml/htmlobject.h> /* XXX */
@@ -1210,8 +1211,17 @@ mail_display_init (GtkObject *object)
 {
 	MailDisplay *mail_display = MAIL_DISPLAY (object);
 
-	/* various other initializations */
 	mail_display->current_message = NULL;
+	mail_display->scroll          = NULL;
+	mail_display->html            = NULL;
+	mail_display->stream          = NULL;
+	mail_display->last_active     = NULL;
+	mail_display->idle_id         = 0;
+	mail_display->selection       = NULL;
+	mail_display->current_message = NULL;
+	mail_display->data            = NULL;
+
+	mail_display->invisible       = gtk_invisible_new ();
 }
 
 static void
@@ -1219,10 +1229,46 @@ mail_display_destroy (GtkObject *object)
 {
 	MailDisplay *mail_display = MAIL_DISPLAY (object);
 
+	g_free (mail_display->selection);
+
 	g_datalist_clear (mail_display->data);
 	g_free (mail_display->data);
 
+	gtk_widget_destroy (mail_display->invisible);
+
 	mail_display_parent_class->destroy (object);
+}
+
+static void
+invisible_selection_get_callback (GtkWidget *widget,
+				  GtkSelectionData *selection_data,
+				  guint info,
+				  guint time,
+				  void *data)
+{
+	MailDisplay *display;
+
+	display = MAIL_DISPLAY (data);
+
+	g_assert (info == 1);
+
+	gtk_selection_data_set (selection_data, GDK_SELECTION_TYPE_STRING, 8,
+				display->selection, strlen (display->selection));
+}
+
+static gint
+invisible_selection_clear_event_callback (GtkWidget *widget,
+					  GdkEventSelection *event,
+					  void *data)
+{
+	MailDisplay *display;
+
+	display = MAIL_DISPLAY (data);
+
+	g_free (display->selection);
+	display->selection = NULL;
+
+	return TRUE;
 }
 
 static void
@@ -1233,21 +1279,6 @@ mail_display_class_init (GtkObjectClass *object_class)
 
 	thumbnail_cache = g_hash_table_new (g_str_hash, g_str_equal);
 }
-
-#if 0
-static void
-on_selection_get (GtkWidget *widget, GtkSelectionData *selection_data,
-		  guint info, guint time_stamp, gpointer data)
-{
-	gchar *text;
-
-	text = gtk_object_get_data (GTK_OBJECT(widget), "selection");
-	if (text != NULL)
-		gtk_selection_data_set (selection_data,
-					GDK_SELECTION_TYPE_STRING,
-					8, text, strlen (text));
-}
-#endif
 
 static void
 link_open_in_browser (GtkWidget *w, MailDisplay *mail_display)
@@ -1265,26 +1296,22 @@ link_save_as (GtkWidget *w, MailDisplay *mail_display)
 static void
 link_copy_location (GtkWidget *w, MailDisplay *mail_display)
 {
-	g_print ("FIXME\n");
-#if 0
-	gtk_object_set_data (GTK_OBJECT (mail_display->html),
-		"selection", g_strdup (mail_display->html->pointer_url));
-
-	gtk_selection_owner_set (GTK_WIDGET (mail_display->html),
-				 GDK_SELECTION_PRIMARY,
-				 GDK_CURRENT_TIME);
-#endif
+	g_free (mail_display->selection);
+	mail_display->selection = g_strdup (mail_display->html->pointer_url);
+ 
+	if (! gtk_selection_owner_set (GTK_WIDGET (mail_display->invisible), GDK_SELECTION_PRIMARY, GDK_CURRENT_TIME))
+		g_warning ("Damn");
 }
 
 #define SEPARATOR  { "", NULL, (NULL), NULL,  0 }
 #define TERMINATOR { NULL, NULL, (NULL), NULL,  0 }
 
 static EPopupMenu link_menu [] = {
-	{ N_("Open link in browser"),    NULL,
+	{ N_("Open link in browser"), NULL,
 	  GTK_SIGNAL_FUNC (link_open_in_browser),  NULL,  0 },
-	{ N_("Save as (FIXME)"),                 NULL,
+	{ N_("Save as (FIXME)"), NULL,
 	  GTK_SIGNAL_FUNC (link_save_as), NULL,  0 },
-	{ N_("Copy location (FIXME)"),                 NULL,
+	{ N_("Copy location"), NULL,
 	  GTK_SIGNAL_FUNC (link_copy_location), NULL,  0 },
 	
 	TERMINATOR
@@ -1706,16 +1733,16 @@ mail_display_new (void)
 	gtk_signal_connect (GTK_OBJECT (html), "on_url",
 			    GTK_SIGNAL_FUNC (html_on_url), mail_display);
 
-#if 0
-	gtk_selection_add_target (GTK_WIDGET(html),
-				  GDK_SELECTION_PRIMARY, 
-				  GDK_SELECTION_TYPE_STRING, 1);
-	gtk_signal_connect (GTK_OBJECT (html), "selection_get",
-			    GTK_SIGNAL_FUNC (on_selection_get), NULL);
-#endif
-
 	gtk_container_add (GTK_CONTAINER (scroll), html);
 	gtk_widget_show (GTK_WIDGET (html));
+
+	gtk_signal_connect (GTK_OBJECT (mail_display->invisible), "selection_get",
+			    GTK_SIGNAL_FUNC (invisible_selection_get_callback), mail_display);
+	gtk_signal_connect (GTK_OBJECT (mail_display->invisible), "selection_clear_event",
+			    GTK_SIGNAL_FUNC (invisible_selection_clear_event_callback), mail_display);
+
+	gtk_selection_add_target (mail_display->invisible,
+				  GDK_SELECTION_PRIMARY, GDK_SELECTION_TYPE_STRING, 1);
 
 	mail_display->scroll = E_SCROLL_FRAME (scroll);
 	mail_display->html = GTK_HTML (html);

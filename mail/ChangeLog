@@ -1,3 +1,25 @@
+2001-06-28  Ettore Perazzoli  <ettore@ximian.com>
+
+	* mail-display.c (invisible_selection_get_callback): New, signal
+	handler for "selection_get" on the GtkInvisible widget we use for
+	selections.
+	(invisible_selection_clear_event_callback): New, signal handler
+	for "selection_clear_event" on the same invisible widget.
+	(mail_display_init): Initialize the `selection' and `invisible'
+	members.  Also, explicitly initialize all the other fields as
+	well.
+	(mail_display_destroy): Free `selection'.  Destroy `invisible'.
+	(link_copy_location): Re-implemented to just make the mail display
+	become the owner of the primary selection.
+	(on_selection_get): Remove `#if 0'ed code.
+	(mail_display_new): Remove the `#if 0'ed code that would connect
+	selection stuff to the HTML widget.
+	(mail_display_new): Connect the signals and add the targets to the
+	invisible widget.
+
+	* mail-display.h: New members `selection' and `GtkInvisible' in
+	`MailDisplay'.
+
 2001-06-28  Jeffrey Stedfast  <fejj@ximian.com>
 
 	* mail-config.c (mail_config_write_on_exit): Don't bother trying
