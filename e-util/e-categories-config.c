@@ -91,9 +91,9 @@ initialize_categories_config (void)
 		e_categories_config_set_icon_for (
 			_("Phone Calls"), EVOLUTION_CATEGORY_ICONS "/16_category_phonecalls.png");
 		e_categories_config_set_icon_for (
-			_("Status"), NULL);
+			_("Status"), EVOLUTION_CATEGORY_ICONS "/16_category_status.png");
 		e_categories_config_set_icon_for (
-			_("Strategies"), NULL);
+			_("Strategies"), EVOLUTION_CATEGORY_ICONS "/16_category_strategies.png");
 		e_categories_config_set_icon_for (
 			_("Suppliers"), NULL);
 		e_categories_config_set_icon_for (
