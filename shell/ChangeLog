@@ -1,5 +1,16 @@
 2001-10-30  Ettore Perazzoli  <ettore@ximian.com>
 
+	* evolution-shell-component.c (impl_owner_unset): New.
+	(class_init): Install it.
+	(impl_unsetOwner): Just emit the "owner_unset" signal as the
+	default implementation for that signal does all the work now.
+	(impl_owner_died): Set the owner_client to %NULL before unreffing
+	it.
+	(destroy): Likewise.
+	(impl_owner_unset): Likewise.
+
+2001-10-30  Ettore Perazzoli  <ettore@ximian.com>
+
 	* e-shell-view.c (e_shell_view_construct): Connect to the
 	"removed_folder" signal with gtk_signal_connect_while_alive() so
 	we don't crash if the view gets destroyed.  Fixes #13285.

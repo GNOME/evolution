@@ -194,8 +194,14 @@ owner_ping_callback (void *data)
 	if (alive)
 		return TRUE;
 
-	g_print ("\t*** The shell has disappeared\n");
-	gtk_signal_emit (GTK_OBJECT (shell_component), signals[OWNER_DIED]);
+	/* This is tricky.  During the pinging, we might have gotten an
+	   ::unsetOwner invocation which has invalidated our owner_client.  In
+	   this case, no "owner_died" should be emitted.  */
+	
+	if (priv->owner_client != NULL) {
+		g_print ("\t*** The shell has disappeared\n");
+		gtk_signal_emit (GTK_OBJECT (shell_component), signals[OWNER_DIED]);
+	}
 
 	priv->ping_timeout_id = -1;
 
@@ -402,14 +408,6 @@ impl_unsetOwner (PortableServer_Servant servant,
 				     ex_GNOME_Evolution_ShellComponent_NotOwned, NULL);
 		return;
 	}
-
-	if (priv->ping_timeout_id != -1) {
-		g_source_remove (priv->ping_timeout_id);
-		priv->ping_timeout_id = -1;
-	}
-
-	bonobo_object_unref (BONOBO_OBJECT (priv->owner_client));
-	priv->owner_client = NULL;
 
 	gtk_signal_emit (GTK_OBJECT (shell_component), signals[OWNER_UNSET]);
 }
@@ -658,8 +656,13 @@ destroy (GtkObject *object)
 
 	CORBA_exception_init (&ev);
 
-	if (priv->owner_client != NULL)
-		bonobo_object_unref (BONOBO_OBJECT (priv->owner_client));
+	if (priv->owner_client != NULL) {
+		BonoboObject *owner_client_object;
+
+		owner_client_object = BONOBO_OBJECT (priv->owner_client);
+		priv->owner_client = NULL;
+		bonobo_object_unref (BONOBO_OBJECT (owner_client_object));
+	}
 
 	CORBA_exception_free (&ev);
 
@@ -692,14 +695,34 @@ destroy (GtkObject *object)
 /* EvolutionShellComponent methods.  */
 
 static void
-impl_owner_died (EvolutionShellComponent *shell_component)
+impl_owner_unset (EvolutionShellComponent *shell_component)
 {
 	EvolutionShellComponentPrivate *priv;
+	BonoboObject *owner_client_object;
 
 	priv = shell_component->priv;
 
-	bonobo_object_unref (BONOBO_OBJECT (priv->owner_client));
+	if (priv->ping_timeout_id != -1) {
+		g_source_remove (priv->ping_timeout_id);
+		priv->ping_timeout_id = -1;
+	}
+
+	owner_client_object = BONOBO_OBJECT (priv->owner_client);
 	priv->owner_client = NULL;
+	bonobo_object_unref (BONOBO_OBJECT (owner_client_object));
+}
+
+static void
+impl_owner_died (EvolutionShellComponent *shell_component)
+{
+	EvolutionShellComponentPrivate *priv;
+	BonoboObject *owner_client_object;
+
+	priv = shell_component->priv;
+
+	owner_client_object = BONOBO_OBJECT (priv->owner_client);
+	priv->owner_client = NULL;
+	bonobo_object_unref (BONOBO_OBJECT (owner_client_object));
 
 	/* The default implementation for ::owner_died emits ::owner_unset, so
 	   that we make the behavior for old components kind of correct without
@@ -805,6 +828,7 @@ class_init (EvolutionShellComponentClass *klass)
 
 	shell_component_class = EVOLUTION_SHELL_COMPONENT_CLASS (object_class);
 	shell_component_class->owner_died = impl_owner_died;
+	shell_component_class->owner_unset = impl_owner_unset;
 }
 
 static void
