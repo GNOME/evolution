@@ -1,3 +1,10 @@
+2004-09-08  Not Zed  <NotZed@Ximian.com>
+
+	** See bug #64080.
+
+	* gui/component/Makefile.am (libevolution_addressbook_la_LIBADD):
+	link addressbook to camel.
+
 2004-09-04 Sivaiah Nallagatla <snallagatla@novell.com>
 
 	* gui/widgets/e-addressbook-view.h : add
