@@ -1,3 +1,7 @@
+2002-03-13  Chris Toshok  <toshok@ximian.com>
+
+	* configure.in (EVOLUTION_ADDRESSBOOK_DEPS): add gal.
+
 2002-03-12  Christopher James Lahey  <clahey@ximian.com>
 
 	* configure.in: Bumped the required version of gal.

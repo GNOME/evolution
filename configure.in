@@ -1010,7 +1010,7 @@ AC_SUBST(SHELL_LIBS)
 
 dnl --- evolution-addressbook flags
 
-EVOLUTION_ADDRESSBOOK_DEPS="bonobo_conf bonobox_print gdk_pixbuf gnomecanvaspixbuf gnomeui gtkhtml libglade oaf vfs"
+EVOLUTION_ADDRESSBOOK_DEPS="bonobo_conf bonobox_print gal gdk_pixbuf gnomecanvaspixbuf gnomeui gtkhtml libglade oaf vfs"
 
 EVO_SET_COMPILE_FLAGS(EVOLUTION_ADDRESSBOOK, $EVOLUTION_ADDRESSBOOK_DEPS)
 AC_SUBST(EVOLUTION_ADDRESSBOOK_CFLAGS)
