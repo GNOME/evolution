@@ -337,7 +337,7 @@ print_text(GnomePrintContext *pc, GnomeFont *font, const char *text,
 
 	gnome_print_gsave (pc);
 
-	w = gnome_font_get_width_string (font, text);
+	w = gnome_font_get_width_utf8 (font, text);
 
 	switch (align & 3) {
 	case ALIGN_LEFT:
@@ -545,7 +545,7 @@ print_month_small (GnomePrintContext *pc, GnomeCalendar *gcal, time_t month,
 	/* Get a reasonable estimate of the largest number we will need,
 	   and use it to calculate the offset from the right edge of the
 	   cell that we should put the numbers. */
-	w = gnome_font_get_width_string (font_bold, "23");
+	w = gnome_font_get_width_utf8 (font_bold, "23");
 	text_xpad = (col_width - w) / 2;
 
 	gnome_print_setrgbcolor (pc, 0, 0, 0);
@@ -679,7 +679,7 @@ bound_text(GnomePrintContext *pc, GnomeFont *font, const char *text,
 			gnome_print_show(pc, outbuffer);
 			*wordstart=c;
 			memcpy(outbuffer, wordstart, o-wordstart);
-			width = gnome_font_get_width_string_n(font, outbuffer, o-wordstart);
+			width = gnome_font_get_width_utf8_sized(font, outbuffer, o-wordstart);
 			o=outbuffer+(o-wordstart);
 			wordstart = outbuffer;
 			top -= gnome_font_get_size (font);
@@ -959,7 +959,7 @@ print_day_long_event (GnomePrintContext *pc, GnomeFont *font,
 
 		x1 += 4;
 		print_text (pc, font, buffer, ALIGN_LEFT, x1, x2, y1, y2);
-		x1 += gnome_font_get_width_string (font, buffer);
+		x1 += gnome_font_get_width_utf8 (font, buffer);
 	}
 
 	/* If the event ends before the end of the last day being printed,
@@ -978,7 +978,7 @@ print_day_long_event (GnomePrintContext *pc, GnomeFont *font,
 
 		x2 -= 4;
 		print_text (pc, font, buffer, ALIGN_RIGHT, x1, x2, y1, y2);
-		x2 -= gnome_font_get_width_string (font, buffer);
+		x2 -= gnome_font_get_width_utf8 (font, buffer);
 	}
 
 	/* Print the text. */
@@ -1274,7 +1274,7 @@ print_week_long_event (GnomePrintContext *pc, GnomeFont *font,
 
 		x1 += 4;
 		print_text (pc, font, buffer, ALIGN_LEFT, x1, x2, y1, y2);
-		x1 += gnome_font_get_width_string (font, buffer);
+		x1 += gnome_font_get_width_utf8 (font, buffer);
 	}
 
 	/* If the event ends before the end of the last day being printed,
@@ -1293,7 +1293,7 @@ print_week_long_event (GnomePrintContext *pc, GnomeFont *font,
 
 		x2 -= 4;
 		print_text (pc, font, buffer, ALIGN_RIGHT, x1, x2, y1, y2);
-		x2 -= gnome_font_get_width_string (font, buffer);
+		x2 -= gnome_font_get_width_utf8 (font, buffer);
 	}
 
 	x1 += 4;
@@ -1324,7 +1324,7 @@ print_week_day_event (GnomePrintContext *pc, GnomeFont *font,
 			    buffer, sizeof (buffer));
 
 	print_text (pc, font, buffer, ALIGN_LEFT, x1, x2, y1, y2);
-	x1 += gnome_font_get_width_string (font, buffer);
+	x1 += gnome_font_get_width_utf8 (font, buffer);
 
 	x1 += 4;
 	print_text (pc, font, text, ALIGN_LEFT, x1, x2, y1, y2);
