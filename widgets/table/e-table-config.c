@@ -94,10 +94,8 @@ config_finalize (GObject *object)
 static void
 e_table_config_changed (ETableConfig *config, ETableState *state)
 {
-	g_return_if_fail (config != NULL);
 	g_return_if_fail (E_IS_TABLE_CONFIG (config));
 
-	
 	g_signal_emit(G_OBJECT(config), e_table_config_signals [CHANGED], 0, state);
 }
 
@@ -510,6 +508,7 @@ do_fields_config_dialog (ETableConfig *config)
 
 ETableMemoryStoreColumnInfo store_columns[] = {
 	E_TABLE_MEMORY_STORE_STRING,
+	E_TABLE_MEMORY_STORE_INTEGER,
 	E_TABLE_MEMORY_STORE_TERMINATOR
 };
 
@@ -529,7 +528,7 @@ create_global_store (ETableConfig *config)
 			continue;
 
 		text = g_strdup (dgettext (config->domain, config->source_spec->columns[i]->title));
-		e_table_memory_store_insert_adopt (E_TABLE_MEMORY_STORE (global_store), -1, NULL, text);
+		e_table_memory_store_insert_adopt (E_TABLE_MEMORY_STORE (global_store), -1, NULL, text, i);
 	}
 }
 
@@ -638,6 +637,17 @@ connect_button (ETableConfig *config, GladeXML *gui, const char *widget_name, GC
 		g_signal_connect (G_OBJECT (button), "clicked",
 				  cback, config);
 	}
+}
+
+static gint
+get_source_model_col_index (ETableConfig *config, gint idx)
+{
+	gint visible_index, result;
+	ETableModel *src_model = E_TABLE_SUBSET (config->available_model)->source;
+
+        visible_index = e_table_subset_view_to_model_row (E_TABLE_SUBSET (config->available_model), idx);
+	
+	return GPOINTER_TO_INT (e_table_model_value_at (src_model, 1, visible_index));
 }
 
 static void
@@ -882,7 +892,7 @@ config_button_add (GtkWidget *widget, ETableConfig *config)
 	config->temp_state->expansions = g_renew (double, config->temp_state->expansions, config->temp_state->col_count + count);
 	i = config->temp_state->col_count;
 	for (column = columns; column; column = column->next) {
-		config->temp_state->columns[i] = e_table_subset_view_to_model_row (E_TABLE_SUBSET (config->available_model), GPOINTER_TO_INT (column->data));
+		config->temp_state->columns[i] = get_source_model_col_index (config, GPOINTER_TO_INT (column->data));
 		config->temp_state->expansions[i] = config->source_spec->columns[config->temp_state->columns[i]]->expansion;
 		i++;
 	}
