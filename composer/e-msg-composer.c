@@ -4185,7 +4185,6 @@ e_msg_composer_set_send_html (EMsgComposer *composer,
 			      gboolean send_html)
 {
 	CORBA_Environment ev;
-	GConfClient *gconf;
 	
 	g_return_if_fail (E_IS_MSG_COMPOSER (composer));
 	
@@ -4208,10 +4207,6 @@ e_msg_composer_set_send_html (EMsgComposer *composer,
 	bonobo_widget_set_property (BONOBO_WIDGET (composer->editor),
 				    "FormatHTML", TC_CORBA_boolean,
 				    composer->send_html, NULL);
-	
-	gconf = gconf_client_get_default ();
-	gconf_client_set_bool (gconf, "/apps/evolution/mail/composer/send_html",
-			       composer->send_html, NULL);
 	
 	CORBA_exception_init (&ev);
 	GNOME_GtkHTML_Editor_Engine_runCommand (composer->editor_engine, "unblock-redraw", &ev);

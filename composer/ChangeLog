@@ -1,3 +1,11 @@
+2003-02-22  Jeffrey Stedfast  <fejj@ximian.com>
+
+	* e-msg-composer.c (e_msg_composer_set_send_html): Don't save the
+	HTML format setting to gconf. This option menu is meant for a
+	per-essage setting (ie. once the composer closes, the next
+	composer will again use the default and not what the user chose
+	last time).
+
 2003-02-21  Dan Winship  <danw@ximian.com>
 
 	* Makefile.am: build libcomposer as a shared library so it can be
