@@ -30,4 +30,4 @@ test_shortcut_bar_LDADD = 	\
 	$(EXTRA_GNOME_LIBS)
 
 test_shortcut_bar_LDFLAGS =	\
-	`gnome-config --libs gdk_pixbuf`
+	`gnome-config --libs gdk_pixbuf gnomecanvaspixbuf`

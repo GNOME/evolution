@@ -112,6 +112,20 @@ static guint32 e_text_get_event_time (EText *text);
 static void e_text_get_selection(EText *text, GdkAtom selection, guint32 time);
 static void e_text_supply_selection (EText *text, guint time, GdkAtom selection, guchar *data, gint length);
 
+static GtkWidget *e_text_get_invisible(EText *text);
+static void _selection_clear_event (GtkInvisible *invisible,
+				    GdkEventSelection *event,
+				    EText *text);
+static void _selection_get (GtkInvisible *invisible,
+			    GtkSelectionData *selection_data,
+			    guint info,
+			    guint time_stamp,
+			    EText *text);
+static void _selection_received (GtkInvisible *invisible,
+				 GtkSelectionData *selection_data,
+				 guint time,
+				 EText *text);
+
 static ETextSuckFont *e_suck_font (GdkFont *font);
 static void e_suck_font_free (ETextSuckFont *suckfont);
 
@@ -290,9 +304,9 @@ e_text_init (EText *text)
 	
 	text->tep = NULL;
 
-	text->invisible = NULL;
 	text->has_selection = FALSE;
-
+	
+	text->invisible = NULL;
 	text->primary_selection = NULL;
 	text->primary_length = 0;
 	text->clipboard_selection = NULL;
@@ -315,6 +329,9 @@ e_text_destroy (GtkObject *object)
 
 	if (text->tep)
 		gtk_object_unref (GTK_OBJECT(text->tep));
+	
+	if (text->invisible)
+		gtk_object_unref (GTK_OBJECT(text->invisible));
 
 	if (text->lines)
 		g_free (text->lines);
@@ -1985,6 +2002,47 @@ e_text_command(ETextEventProcessor *tep, ETextEventProcessorCommand *command, gp
 	gnome_canvas_item_request_update (GNOME_CANVAS_ITEM(text));
 }
 
+static void _invisible_destroy (GtkInvisible *invisible,
+				EText *text)
+{
+	text->invisible = NULL;
+}
+
+static GtkWidget *e_text_get_invisible(EText *text)
+{	
+	GtkWidget *invisible;
+	if (text->invisible) {
+		invisible = text->invisible;
+	} else {
+		invisible = gtk_invisible_new();
+		text->invisible = invisible;
+		
+		gtk_selection_add_target (invisible,
+					  GDK_SELECTION_PRIMARY,
+					  GDK_SELECTION_TYPE_STRING,
+					  E_SELECTION_PRIMARY);
+		gtk_selection_add_target (invisible,
+					  clipboard_atom,
+					  GDK_SELECTION_TYPE_STRING,
+					  E_SELECTION_CLIPBOARD);
+		
+		gtk_signal_connect (GTK_OBJECT(invisible), "selection_get",
+				    GTK_SIGNAL_FUNC (_selection_get), 
+				    text);
+		gtk_signal_connect (GTK_OBJECT(invisible), "selection_clear_event",
+				    GTK_SIGNAL_FUNC (_selection_clear_event),
+				    text);
+		gtk_signal_connect (GTK_OBJECT(invisible), "selection_received",
+				    GTK_SIGNAL_FUNC (_selection_received),
+				    text);
+		
+		gtk_signal_connect (GTK_OBJECT(invisible), "destroy",
+				    GTK_SIGNAL_FUNC (_invisible_destroy),
+				    text);
+	}
+	return invisible;
+}
+
 static void
 _selection_clear_event (GtkInvisible *invisible,
 			GdkEventSelection *event,
@@ -1994,7 +2052,6 @@ _selection_clear_event (GtkInvisible *invisible,
 		g_free (text->primary_selection);
 		text->primary_selection = NULL;
 		text->primary_length = 0;
-		gtk_object_unref (GTK_OBJECT(invisible));
 
 		text->has_selection = FALSE;
 		gnome_canvas_item_request_update (GNOME_CANVAS_ITEM(text));
@@ -2003,7 +2060,6 @@ _selection_clear_event (GtkInvisible *invisible,
 		g_free (text->clipboard_selection);
 		text->clipboard_selection = NULL;
 		text->clipboard_length = 0;
-		gtk_object_unref (GTK_OBJECT(invisible));
 	}
 }
 
@@ -2033,7 +2089,6 @@ _selection_received (GtkInvisible *invisible,
 		     EText *text)
 {
 	if (selection_data->length < 0 || selection_data->type != GDK_SELECTION_TYPE_STRING) {
-		gtk_object_unref (GTK_OBJECT(invisible));
 		return;
 	} else {
 		ETextEventProcessorCommand command;
@@ -2043,14 +2098,7 @@ _selection_received (GtkInvisible *invisible,
 		command.value = selection_data->length;
 		command.time = time;
 		e_text_command(text->tep, &command, text);
-		gtk_object_unref (GTK_OBJECT(invisible));
 	}
-}
-
-static void _invisible_destroy (GtkInvisible *invisible,
-				EText *text)
-{
-	text->invisible = NULL;
 }
 
 static void e_text_supply_selection (EText *text, guint time, GdkAtom selection, guchar *data, gint length)
@@ -2058,47 +2106,16 @@ static void e_text_supply_selection (EText *text, guint time, GdkAtom selection,
 	gboolean successful;
 	GtkWidget *invisible;
 
-	if (text->invisible) {
-		invisible = text->invisible;
-		gtk_object_ref (GTK_OBJECT(invisible));
-	} else {
-		invisible = gtk_invisible_new();
-		text->invisible = invisible;
-
-		gtk_selection_add_target (invisible,
-					  GDK_SELECTION_PRIMARY,
-					  GDK_SELECTION_TYPE_STRING,
-					  E_SELECTION_PRIMARY);
-		gtk_selection_add_target (invisible,
-					  clipboard_atom,
-					  GDK_SELECTION_TYPE_STRING,
-					  E_SELECTION_CLIPBOARD);
-
-		gtk_signal_connect (GTK_OBJECT(invisible), "selection_get",
-				    GTK_SIGNAL_FUNC (_selection_get), 
-				    text);
-		gtk_signal_connect (GTK_OBJECT(invisible), "selection_clear_event",
-				    GTK_SIGNAL_FUNC (_selection_clear_event),
-				    text);
-		gtk_signal_connect (GTK_OBJECT(invisible), "selection_received",
-				    GTK_SIGNAL_FUNC (_selection_received),
-				    text);
-
-		gtk_signal_connect (GTK_OBJECT(invisible), "destroy",
-				    GTK_SIGNAL_FUNC (_invisible_destroy),
-				    text);
-	}
+	invisible = e_text_get_invisible(text);
 
 	if (selection == GDK_SELECTION_PRIMARY ) {
 		if (text->primary_selection) {
-			gtk_object_unref (GTK_OBJECT(invisible));
 			g_free (text->primary_selection);
 		}
 		text->primary_selection = g_strndup(data, length);
 		text->primary_length = length;
 	} else if (selection == clipboard_atom) {
 		if (text->clipboard_selection) {
-			gtk_object_unref (GTK_OBJECT(invisible));
 			g_free (text->clipboard_selection);
 		}
 		text->clipboard_selection = g_strndup(data, length);
@@ -2111,45 +2128,13 @@ static void e_text_supply_selection (EText *text, guint time, GdkAtom selection,
 	
 	if (selection == GDK_SELECTION_PRIMARY)
 		text->has_selection = successful;
-
-	if (!successful)
-		gtk_object_unref(GTK_OBJECT(invisible));
 }
 
 static void
 e_text_get_selection(EText *text, GdkAtom selection, guint32 time)
 {
 	GtkWidget *invisible;
-	if (text->invisible) {
-		invisible = text->invisible;
-		gtk_object_ref (GTK_OBJECT(invisible));
-	} else {
-		invisible = gtk_invisible_new();
-		text->invisible = invisible;
-
-		gtk_selection_add_target (invisible,
-					  GDK_SELECTION_PRIMARY,
-					  GDK_SELECTION_TYPE_STRING,
-					  E_SELECTION_PRIMARY);
-		gtk_selection_add_target (invisible,
-					  clipboard_atom,
-					  GDK_SELECTION_TYPE_STRING,
-					  E_SELECTION_CLIPBOARD);
-
-		gtk_signal_connect (GTK_OBJECT(invisible), "selection_get",
-				    GTK_SIGNAL_FUNC (_selection_get), 
-				    text);
-		gtk_signal_connect (GTK_OBJECT(invisible), "selection_clear_event",
-				    GTK_SIGNAL_FUNC (_selection_clear_event),
-				    text);
-		gtk_signal_connect (GTK_OBJECT(invisible), "selection_received",
-				    GTK_SIGNAL_FUNC (_selection_received),
-				    text);
-
-		gtk_signal_connect (GTK_OBJECT(invisible), "destroy",
-				    GTK_SIGNAL_FUNC (_invisible_destroy),
-				    text);
-	}
+	invisible = e_text_get_invisible(text);
 	gtk_selection_convert(invisible,
 			      selection,
 			      GDK_SELECTION_TYPE_STRING,

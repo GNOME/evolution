@@ -5,7 +5,8 @@ SUBDIRS =					\
 	e-util					\
 	widgets					\
 	composer				\
-	tests
+	tests					\
+	addressbook
 
 dist-hook:
 	for subdir in intl ; do \

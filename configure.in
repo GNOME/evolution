@@ -141,6 +141,7 @@ widgets/Makefile
 widgets/meeting-time-sel/Makefile
 widgets/shortcut-bar/Makefile
 widgets/e-table/Makefile
-widgets/toolbar/Makefile
+addressbook/Makefile
+addressbook/contact-editor/Makefile
 shell/Makefile
 ])

@@ -59,7 +59,7 @@ BEGIN_GNOME_DECLS
  * text_width		double			R		Used to query the width of the rendered text
  * text_height		double			R		Used to query the rendered height of the text
  *
- * These are ignored in the AA version:
+ * These are currently ignored in the AA version:
  * editable             boolean                 RW              Can this item be edited
  * use_ellipsis         boolean                 RW              Whether to use ellipsises if text gets cut off.  Meaningless if clip == false.
  * ellipsis             string                  RW              The characters to use as ellipsis.  NULL = "...".
