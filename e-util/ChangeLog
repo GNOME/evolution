@@ -1,3 +1,8 @@
+2003-03-12  Dan Winship  <danw@ximian.com>
+
+	* e-xml-hash-utils.c (e_xml_to_hash): Update for a libxml2 change
+	that was making this code g_warn a lot
+
 2003-03-06  Ettore Perazzoli  <ettore@ximian.com>
 
 	* e-request.c (e_request_string): Make the entry activate the
