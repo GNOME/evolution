@@ -1,19 +1,21 @@
 Version 0.15
 ------------
 
-Calendar:
+Shell:
 
-  - Backend improvements (JP, Rodrigo).
+  - Fixed a problem with shortcuts not appearing when created by the
+    mailer.  (Ettore)
 
-  - The alarm daemon can now re-enter properly [#10840] (Federico).
+  - Fixed right-click menu behavior for folders in the folder bar.
+    (Ettore)
 
-  - Alarms can now have zero-time offsets [#7892] (Federico).
+  - Got Rename to work again.  (Ettore)
 
-  - Warning fixes (Chris).
+  - Fixed some folder copy/move/dnd bugs.  (Ettore)
 
-  - Fixed custom Glade widgets on non-Linux systems (Dan).
+  - Added a menu item to configure the Pilot settings.  (Ettore)
 
-  - Fixed crashing problems in the event/task editor (Damon).
+  - Fixed some other miscellaneous bugs/crashes.  (Ettore)
 
 Mailer:
 
@@ -40,10 +42,23 @@ Mailer:
   - Properly encode the mailto: links we generate inside of displayed
     messages.  (Trow)
 
+Calendar:
+
+  - Backend improvements (JP, Rodrigo).
+
+  - The alarm daemon can now re-enter properly [#10840].  (Federico)
+
+  - Alarms can now have zero-time offsets [#7892].  (Federico)
+
+  - Warning fixes.  (Chris)
+
+  - Fixed custom Glade widgets on non-Linux systems.  (Dan)
+
+  - Fixed crashing problems in the event/task editor.  (Damon)
+
 Addressbook:
 
-  - Miscellaneous bug fixes. (Jon Trowbridge, Chris Toshok, Chris Lahey,
-    JP Rosevear)
+  - Miscellaneous bug fixes.  (Trow, Toshok, Clahey, JP)
 
   - Better handling of addresses containing commas or other special
     characters.  (Trow)
@@ -55,13 +70,14 @@ Addressbook:
 
 Pilot:
 
-  - Now syncs exception dates in calendar and addressbook notes (JP)
+  - Now syncs exception dates in calendar and addressbook notes.  (JP)
 
-  - Does not overwrite custom data on pilot (JP)
+  - Does not overwrite custom data on pilot.  (JP)
 
-  - Address completion no longer marks records as changed (JP)
+  - Address completion no longer marks records as changed.  (JP)
 
-  - Miscellaneous other bug fixes (JP)
+  - Miscellaneous other bug fixes.  (JP)
+
 
 Version 0.14 (Beta 4), 2001-09-21
 ---------------------------------
