@@ -146,6 +146,10 @@ static EPixmap list_pixcache [] = {
 	E_PIXMAP ("/commands/ViewHideSelected", "hide_selected_messages.xpm"),
 	E_PIXMAP ("/commands/ViewShowAll", "show_all_messages.xpm"),
 
+	E_PIXMAP ("/commands/EditCut", "16_cut.png"),
+	E_PIXMAP ("/commands/EditCopy", "16_copy.png"),
+	E_PIXMAP ("/commands/EditPaste", "16_paste.png"),
+
 	E_PIXMAP_END
 };
 
