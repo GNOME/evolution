@@ -59,7 +59,7 @@ static const ETextEventProcessorCommand control_keys[26] =
 	{ E_TEP_SELECTION, E_TEP_NOP, 0, "" },           /* t */
 	{ E_TEP_START_OF_LINE,      E_TEP_DELETE, 0, "" }, /* u */
 	{ E_TEP_SELECTION,          E_TEP_PASTE, 0, "" }, /* v */
-	{ E_TEP_SELECTION,          E_TEP_DELETE, 0, "" }, /* w */
+	{ E_TEP_SELECTION,          E_TEP_NOP, 0, "" }, /* w */
 	{ E_TEP_SELECTION,          E_TEP_DELETE, 0, "" }, /* x */
 	{ E_TEP_SELECTION,          E_TEP_PASTE, 0, "" }, /* y */
 	{ E_TEP_SELECTION, E_TEP_NOP, 0, "" }           /* z */
@@ -435,7 +435,7 @@ e_text_event_processor_emacs_like_event (ETextEventProcessor *tep, ETextEventPro
 				break;
 
 			default:
-				if (key.state & GDK_CONTROL_MASK) {
+				if ((key.state & GDK_CONTROL_MASK) && !(key.state & GDK_MOD1_MASK)) {
 					if ((key.keyval >= 'A') && (key.keyval <= 'Z'))
 						key.keyval -= 'A' - 'a';
 					
@@ -447,7 +447,7 @@ e_text_event_processor_emacs_like_event (ETextEventProcessor *tep, ETextEventPro
 						command.string = control_keys[(int) (key.keyval - 'a')].string;
 					}
 
-					if (key.keyval == 'x' || key.keyval == 'w') {
+					if (key.keyval == 'x') {
 						command.action = E_TEP_COPY;
 						command.position = E_TEP_SELECTION;
 						gtk_signal_emit_by_name (GTK_OBJECT (tep), "command", &command);
@@ -457,7 +457,7 @@ e_text_event_processor_emacs_like_event (ETextEventProcessor *tep, ETextEventPro
 					}
 					
 					break;
-				} else if (key.state & GDK_MOD1_MASK) {
+				} else if ((key.state & GDK_MOD1_MASK) && !(key.state & GDK_CONTROL_MASK)) {
 					if ((key.keyval >= 'A') && (key.keyval <= 'Z'))
 						key.keyval -= 'A' - 'a';
 					
@@ -468,7 +468,7 @@ e_text_event_processor_emacs_like_event (ETextEventProcessor *tep, ETextEventPro
 						command.value = alt_keys[(int) (key.keyval - 'a')].value;
 						command.string = alt_keys[(int) (key.keyval - 'a')].string;
 					}
-				} else if (key.length > 0) {
+				} else if (!(key.state & GDK_MOD1_MASK) && !(key.state & GDK_CONTROL_MASK) && key.length > 0) {
 					if (key.keyval >= GDK_KP_0 && key.keyval <= GDK_KP_9) {
 						key.keyval = '0';
 						key.string = "0";
