@@ -1,3 +1,8 @@
+2001-08-14  Dan Winship  <danw@ximian.com>
+
+	* backend/pas/pas-backend-ldap.c: Fix up to match the
+	pas_book_new/get_vcard changes.
+
 2001-08-14  Christopher James Lahey  <clahey@ximian.com>
 
 	* gui/merging/e-card-merging-book-commit-duplicate-detected.glade:

@@ -1066,6 +1066,23 @@ pas_backend_ldap_process_modify_card (PASBackend *backend,
 }
 
 
+static void
+pas_backend_ldap_process_get_vcard (PASBackend *backend,
+				    PASBook *book,
+				    PASRequest *req)
+{
+	PASBackendLDAP *bl;
+
+	bl = PAS_BACKEND_LDAP (pas_book_get_backend (book));
+
+	/* XXX use ldap_search */
+
+	pas_book_respond_get_vcard (book,
+				    GNOME_Evolution_Addressbook_BookListener_Success,
+				    "");
+}
+
+
 typedef struct {
 	LDAPOp op;
 	PASBook *book;
@@ -2108,19 +2125,6 @@ pas_backend_ldap_process_get_supported_fields (PASBackend *backend,
 					       bl->priv->supported_fields);
 }
 
-static gboolean
-pas_backend_ldap_can_write (PASBook *book)
-{
-	return TRUE; /* XXX */
-}
-
-static gboolean
-pas_backend_ldap_can_write_card (PASBook *book,
-				 const char *id)
-{
-	return TRUE; /* XXX */
-}
-
 static void
 pas_backend_ldap_process_client_requests (PASBook *book)
 {
@@ -2148,6 +2152,10 @@ pas_backend_ldap_process_client_requests (PASBook *book)
 
 	case CheckConnection:
 		pas_backend_ldap_process_check_connection (backend, book, req);
+		break;
+
+	case GetVCard:
+		pas_backend_ldap_process_get_vcard (backend, book, req);
 		break;
 
 	case GetCursor:
@@ -2182,25 +2190,6 @@ pas_backend_ldap_book_destroy_cb (PASBook *book, gpointer data)
 	backend = PAS_BACKEND_LDAP (data);
 
 	pas_backend_remove_client (PAS_BACKEND (backend), book);
-}
-
-static char *
-pas_backend_ldap_get_vcard (PASBook *book, const char *id)
-{
-	PASBackendLDAP *bl;
-	int            ldap_error = LDAP_SUCCESS; /* XXX */
-
-	bl = PAS_BACKEND_LDAP (pas_book_get_backend (book));
-
-	/* XXX use ldap_search */
-
-	if (ldap_error == LDAP_SUCCESS) {
-		/* success */
-		return g_strdup ("");
-	}
-	else {
-		return g_strdup ("");
-	}
 }
 
 static gboolean
@@ -2258,11 +2247,7 @@ pas_backend_ldap_add_client (PASBackend             *backend,
 
 	bl = PAS_BACKEND_LDAP (backend);
 
-	book = pas_book_new (
-		backend, listener,
-		pas_backend_ldap_get_vcard,
-		pas_backend_ldap_can_write,
-		pas_backend_ldap_can_write_card);
+	book = pas_book_new (backend, listener);
 
 	if (!book) {
 		if (!bl->priv->clients)
