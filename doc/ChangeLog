@@ -1,3 +1,9 @@
+2000-04-16  Aaron Weber  <aaron@helixcode.com>
+
+	* C/evo_book_0.1.sgml: new file (doc sgml)
+	
+	* C/ : New directory for doc sgml & graphics
+
 2000-03-05  Christopher James Lahey  <clahey@helixcode.com>
 
 	* white-papers/widgets/e-table.sgml: Added Miguel to the author

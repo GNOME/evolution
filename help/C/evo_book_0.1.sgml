@@ -1,0 +1,449 @@
+<!DOCTYPE book PUBLIC "-//GNOME//DTD DocBook PNG Variant V1.0//EN">
+
+<book>
+<bookinfo>
+  <title>Evolution Users Guide</title>
+  <author><firstname>Aaron</firstname><surname>Weber</surname></author>
+  <copyright><year>2000</year><holder>Aaron Weber and Helix Code, inc.</holder></copyright>
+
+  <legalnotice>
+PUT THE RIGHT LEGALNOTICE IN HERE
+ 
+      <para> Windows, Exchange, and Outlook are trademarks of Microsoft Corp.</para>
+      <para> Lotus and Lotus Notes are trademarks of The Louts Corporation.</para>
+      <para> Macintosh and Apple are  trademarks of Apple Computer, Inc.</para>
+      <para> All other trademarks are property of their respective owners.</para>
+    </legalnotice>
+
+     <releaseinfo> 
+		  This is version 0.0 of Evolution manual.
+     </releaseinfo> <!-- this is version of manual, not application --> 
+
+</bookinfo>
+
+<preface>
+<!-- =============Introduction ============================= -->
+    <title>Introduction</title> 
+
+    <section> <title> What is Evolution?</title>
+    <para>
+      <application>Evolution</application> is a suite of groupware applications
+      for mail, contact management, and calendaring.  It is
+      included in the package <filename>Evolution</filename>, which is a
+      part of the GNOME desktop environment. This document describes
+      version &version; of <application>Evolution</application>
+    </para>
+
+    <para>
+      What that means is that Evolution is your personal secretary.  It can keep track of 
+      memos, emails,
+      and appointments for you and for everyone in your office.
+    </para>
+
+    <para><application>Evolution</application> can be started by
+        selecting <guimenuitem>Evolution</guimenuitem> from
+        <guisubmenu>SUBMENU</guisubmenu> submenu of the <guimenu>Main
+	Menu</guimenu>, or by running the command
+	<command>evolution</command> on the commandline.  
+    </para>
+
+
+</preface>
+
+<part id="usage">
+<title>Using Evolution</title>
+
+    <partintro>
+    <para>
+       As was said before, <application>Evolution</application> can be
+       used to send and recieve email, manage address and other contact information,
+       and maintain  This section describes basic usage of
+       <application>Evolution</application> in each of those functions.  As with most of Linux, 
+       there's more than one way to do things, and you should pick whichever one strikes you as most
+       appropriate.
+    </para>
+    </partintro>
+
+
+    <chapter id="basics">
+    <title>Basic usage</title>
+      <para>
+	When you first start <application>Evolution</application>, you see
+	the <interface>Main window</interface>, as shown in 
+	<xref linkend="mainshot">the following figure. 
+	 From there, you should select which features you wish to
+	use by clicking on their icons in the left-hand navigational column.
+	The Mail features can be accessed by clicking on the <guibutton>Mail</guibutton>,
+	and likewise for other features.
+<!-- ==============Figure=================================== -->
+	<figure id="mainshot">
+	<title>Evolution Main Window</title>
+	<screenshot>
+	    <screeninfo>Evolution Main Window</screeninfo>
+	    <graphic fileref="SCREENSHOT" format="png"
+	    srccredit="Aaron Weber">
+	    </graphic>
+	</screenshot>
+	</figure>
+<!-- ==============End of Figure=================================== -->
+      </para>
+
+  </chapter>
+ 
+  <chapter id="mailer"> 
+     <title>The Evolution Mailer</title>
+      <abstract>
+       <para>
+       This chapter covers the use of the Evolution Mailer. 
+       Configuration of the mail client is discussed in <xref linkend="customization">.
+       If you are already accustomed to other email programs, 
+       you can probably skip the mail sending and checking sections. 
+       The more complex functions, such as filtering, organizing, and searching mail,
+        have some features that are not found in other email programs, and 
+       even power users may wish to review these sections of the guide.
+      <!--those function descr's should be xrefs to sections of the chapter-->
+     </para>
+      </abstract>
+
+      <sect1 id="mailsending">
+      <title>Sending and Recieving Mail</title>
+       <para>
+      You can start writing a new email message by selecting <guimenuitem>New Mail</guimenuitem> from
+      the <guimenu>FilMenu</guimenu>, or by pressing <KeyCombo>NEW-MESSAGE-COMBO</KeyCombo>.  
+      When you do so, the <interface>New Message</interface> window will open, as shown in 
+      <xref linkend="evolution-newmsg">.
+
+
+<!-- ==============Figure=================================== -->
+	<figure id="evolution-newmsg">
+	<title>New Message Window</title>
+	<screenshot>
+	    <screeninfo>Evolution Main Window</screeninfo>
+	    <graphic fileref="evolution_newmsg" format="png"
+	    srccredit="Aaron Weber">
+	    </graphic>
+	</screenshot>
+	</figure>
+<!-- ==============End of Figure=================================== -->
+
+      </para>
+     
+     <para> 
+      You can pick recipients in several ways: 
+      The <guilabel>TO:</guilabel> field is for the primary recipients of the message your are going to send.
+      It is considered bad form to have more than a few email addresses in this form.
+      </para>
+      <para>
+      If you want to send a copy of the message to someone, you may also use the <guilabel>Cc:</guilabel> field.  
+      "Cc" stands for "Carbon Copy"-- Those people will recieve a copy of the message.  They will see
+      the rest of the message list, and are noted as secondary recipients of the message. 
+      </para>
+      
+      <para>
+      If you have a large number of recipients, or if you want to send mail to several people without
+      telling them that it's gone to multiple people, you should use <guilabel>BCC.</guilabel>  BCC stands 
+      for "Blind Carbon Copy".  Addresses entered into this field will recieve the message
+      but the message headers will not see the rest of the recipient list.
+      </para>
+
+      <para>
+      Enter a subject into the <guilabel>Subject:</guilabel> field.
+
+      Enter the text of your message into the <guilabel>Message:</guilabel> text area.
+      </para>
+      
+      <para>
+      If you want to attach a document to your email message, you can do so by
+       <!--describe process here-->.  If the people you are sending a message to
+       can read HTML mail, you can embed an image into the mail.  Otherwise,
+       it's best to attach images, just like other documents.  Be aware that a large
+       attachment will take a long time to download.
+      </para>
+
+      
+      <para>
+      Click <guibutton>Send</guibutton> or press <KeyCombo>SENDCOMBO</KeyCombo> to send the mail.
+      </para>
+    <tip> 
+      <title>Send Now, Send Later</title>
+      <para>
+      Evolution will send mail immediately unless you set it to do so otherwise.  It also checks for 
+      new mail every time you send mail.  If you
+      want, however, you can queue your messages to be sent at a later time, and also set your
+      preferences to check mail on a regular basis, and alert you whenever it finds new messages.
+      I like  to use "Send Later" because it gives me a chance change my mind about a message
+      before it goes out, and I have Evolution set to check my mail every ten minutes, and beep
+      when I get mail that it thinks isn't spam.
+      Use the <interface>Mail Preferences</interface> to specify message queue and filter behavior.  
+      Preferences are discussed in <xref linkend="customization">.
+      </para>
+    </tip>
+    </sect1>
+
+    <sect1 id="mail-sorting">
+    <title>Organizing Your Mail</title>
+
+    <para>
+    If you only get a few messages a day, you probably don't need to to sort or organize them.  When you get several hundred each day,
+    and when you want to refer to a message you've recieved six weeks ago, you want a real
+    organizing system.  This section will cover the mail sorting and organization: folders, searches, vFolders, and filters.
+    <!--those last items should be links-->
+
+    <sect2 id="mail_folders">
+    <para>
+    You can create new folders by selecting <guimenuitem>ITEM</guimenuitem> from the <guimenu>MENU</guimenu>, or by
+    pressing <KeyCombo>SENDCOMBO</KeyCombo>.  Move mail to them by selecting <guimenuitem>ITEM</guimenuitem> from the
+    <guimenu>MENU</guimenu>, or by pressing <KeyCombo>SENDCOMBO</KeyCombo>.  An email message can be in only one folder at a time,
+    just like real mail in real folders. If you forget where an email is, you can search for it. If you find that you want
+    an email to be in several places at once, you should consider creating a vFolder, or virtual folder.
+    <para>
+    </sect2>    
+
+    <sect2 id="mail_searching">
+    <para>
+    Because Evolution automatically creates an index of every email you recieve, it can search through your old
+    messages and present you with the results in short order.  
+    <!--describe the way one creates a search and so forth.-->    
+    </para>
+
+    <para>
+    If you find yourself performing a search frequently, you can save it as vFolder.
+    </para>
+    </sect2>
+    
+    <sect2 id="mail_vFolders">
+    <para>
+    Virtual Folders, or vFolders, are one of the more  advanced features of <application>Evolution</application>.  If they confuse you,
+    you don't have to use them.  However, if you get a lot of mail, and find yourself referring to messages, looking for old email, 
+    or just living in your email client, you'll probably want to use them. 
+    Basically, a vFolder is a saved search, which you can access the same way you would a normmal folder.
+    There are several important differences between the two, however, which come from the fact that  a conventional
+    folder actually contains a message, but a virtual folder is really a different view of all your email.  This means that
+    while a  message can be in several vFolders, it can be in only one conventional folder.  Also, 
+    you cannot add or delete a message from a vFolder, and when you delete a message from a conventional folder,
+    it will disappear from all your vFolders--a search can't find a deleted message.  
+    </para>
+    </sect2>
+
+    <example><title>Using vFolders</title>
+    <para>
+    I have a vFolder set up for all the mail about a project I'm
+    working on, and another one for all the mail from my friend Bernie.
+    If Bernie sends me mail about the project, I can see that message both in the "Bernie" folder and in the "Project" folder.
+    That's because when I open up the "Bernie" folder, I'm really performing a search for all the mail from Bernie, and when you open the 
+    "Project" folder you're really performing a search for all the mail about the project.  That particular message 
+    actually resides in some other folder,
+    maybe just in my Inbox.  I can't delete it from the vFolder, because the vFolder is really a different view of my messages.
+    When I delete it from
+    the Inbox, I have also removed it from all my vFolders, because no search can find a deleted message.
+    <!--this could use a cool picture of the Inbox and 2 vFolders with the message in all 3-->
+    </para>
+    </example>
+    
+
+    <sect2 id="mail_filters">
+    <para>
+    Filters sort your email for you, automatically.  You can access the Filter functions of
+    the email client by <!--BLAH BLAH BLAH-->.
+    </para>
+
+    <para>    
+    Email starts in your Inbox.  As it arrives, it is indexed and filtered from ther.  Any email
+    that does not meet filter action criteria remains in the Inbox.   To create a filter,
+     <!--open the menu somehow-->f you have filters enabled,
+    </para>
+    </sect2>
+  </chapter>
+
+  <chapter id="calendar">
+  <title>Using the Calendar</title>
+  <para>To begin using the calendar, select <guibutton>Calendar</guibutton>
+  from the main navigational frame.  This will cause the calendar component of 
+  <application>Evolution</application> to become active.  This is illustrated in
+  the figure below:  
+<!-- ==============Figure=================================== -->
+	<figure id="contact_picture">
+	  <title>Evolution Contact Manager Window</title>
+	  <screenshot>
+	    <screeninfo>Evolution Contact Manager Window</screeninfo>
+	    <graphic fileref="SCREENSHOT" format="png"
+	    srccredit="ME">
+	    </graphic>
+	  </screenshot>
+	</figure>
+<!-- ==============End of Figure=================================== -->
+</para>
+
+
+
+  </chapter>
+  <chapter id="addressbook">
+
+</chapter>
+
+<chapter>
+<title>Administration and Large-scale setup</title>
+</chapter>
+
+</part><!--end of part two, Administration and Large-Scale Setup-->
+
+
+    <appendix> ... </appendix>
+    <appendix> ... </appendix>
+<index> ... </index>
+</book>
+
+    
+</chapter>
+
+<chapter>
+<title>Administration and Large-scale setup</title>
+</chapter>
+
+</part><!--end of part two, Administration and Large-Scale Setup-->
+
+
+    <appendix> ... </appendix>
+    <appendix> ... </appendix>
+<index> ... </index>
+</book>
+
+
+
+  </chapter>
+
+
+</part> <!--end of part one-->
+ 
+<part id="configuration">
+<title>Configuring Evolution</title>    
+
+<chapter>
+<title>The Preferences Dialog</title>
+
+     <para>
+      To change default settings, select
+      <guimenuitem>Preferences</guimenuitem> command in
+      <guimenu>Settings</guimenu> menu. This launches the
+      <interface>Preferences dialog</interface>, shown in <xref
+      linkend="shot2">. 
+     </para>
+<!-- ==============Figure=================================== -->
+	<figure id="shot2">
+	  <title>Preferences Dialog</title>
+	  <screenshot>
+	    <screeninfo>Preferences dialog</screeninfo>
+	    <graphic fileref="SCREENSHOT" format="png"
+	    srccredit="ME">
+	    </graphic>
+	  </screenshot>
+	</figure>
+<!-- ==============End of Figure=================================== -->
+    
+<!--obviously there should be more description here.-->
+
+</chapter>
+
+<chapter>
+<title>Administration and Large-scale setup</title>
+</chapter>
+
+</part><!--end of part two, Administration and Large-Scale Setup-->
+
+
+
+<!-- =============APPENDICES============================= -->
+  <appendix id="bugs">
+   
+    <title>Known bugs and limitations</title>
+    <abstract>
+    <para>
+     This appendix describes known bugs and limitations of
+    <application>Evolution</application>.  Please 
+    contact the appropriate people if you find one we have not listed,
+    or if you have a patch to fix one.
+    <para>
+    </abstract>
+
+    <para>
+      The program currently does not work.  At all.
+    </para>
+    </appendix>
+
+
+
+<!-- =============Another Appendix============================= -->
+
+  <appendix id="authors">
+    <title>Authors</title>
+     <para>
+      <application>Evolution</application> was written by:
+
+      Seth Alves: <email>alves@helixcode.com</email>
+      Anders Carlsson<email>andersca@helixcode.com</email>
+      Damon Chaplin:<email>damon@helixcode.com</email>
+      Clifford R. Conover <email>rusty@zootweb.com</email>
+      Miguel De Icaza: <email>miguel@helixcode.com</email>
+      Arturo Espinoza <email>arturo@nucleu.unam.mx</email>
+      Larry Ewing: <email>lewing@helixcode.com</email>
+      Bertrand Guiheneuf: <email>bertrand@helixcode.com</email>
+      Tuomas Kuosmanen: <email>tigert@gimp.org</email>
+      Christopher J. Lahey: <email>clahey@helixcode.com</email>
+      Matthew Loper:  <email>matt@helixcode.com</email>
+      Dave Mason <email>dcm@redhat.com</email>
+      Federico Mena: <email>federico@helixcode.com</email>
+      Eskil Heyn Olsen<email>deity@eski.dk</email>
+      Nat Friedman: <email>nat@helixcode.com</email>
+      Ettore Perazzoli:<email>ettore@helixcode.com</email>
+      Russell Steinthal: <email>rms39@columbia.edu</email>
+      Peter Teichman: <email>peter@helixcode.com</email>      
+      Chris Toshok: <email>toshok@helixcode.com</email>
+      Radek Doulik: <email>rodo@helixcode.com</email>
+      Dan Winship: <email>winship@helixcode.com</email>
+      Michael Zucchi: <email>notzed@helixcode.com</email>
+
+and other dedicated GNOME programmers. 
+</para>
+    <para>
+      The<application>Evolution</application> code owes a great debt to
+       <application>GNOME-pim</application>, <application>KHTMLW</application>
+      and the developers of <application>Evolution</application> acknowledge the efforts and contributions of its members.
+    </para>
+
+   <para>
+     For more information please visit <application>Evolution</application> <ulink
+      url="http://www.helixcode.com/apps/evolution.php3" type="http">Web page</ulink>.
+      Please send all comments, suggestions, and bug reports to the
+      <ulink url="http://bugs.gnome.org" type="http">GNOME bug
+      tracking database</ulink>. Instructions for submitting bug reports
+      can be found on-line at <ulink
+      url="http://bugs.gnome.org/Reporting.html" type="http">
+      http://bugs.gnome.org/Reporting.html</ulink>. If you are using GNOME
+      1.1 or later, you can also use command
+      <command>bug-buddy</command> for submitting bug reports. 
+    </para>
+    <para>
+      This manual was written by Aaron Weber
+      (<email>aaron@helixcode.com</email>) with the help of the application programmers.
+       Please send all comments
+      and suggestions regarding the manual to the GNOME Documentation
+      Project at <email>docs@gnome.org</email>. You can also add your
+      comments online by using <ulink type="http"
+      url="http://www.gnome.org/gdp/doctable/">GNOME Documentation
+      Status Table</ulink>. 
+    </para>
+    <!-- For translations: uncomment this:
+      <para> Latin translation was done by ME
+      (<email>MYNAME@MYADDRESS</email>). Please send all comments
+      and suggestions regarding this translation to SOMEWHERE.
+     </para> 
+     -->
+    </appendix>
+
+
+    <appendix> ... </appendix>
+    <appendix> ... </appendix>
+<index> ... </index>
+</book>
+
+
