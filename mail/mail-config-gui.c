@@ -583,8 +583,16 @@ service_page_get_url (MailDialogServicePage *page)
 	url = g_new0 (CamelURL, 1);
 	url->protocol = g_strdup (spitem->protocol);
 
-	if (spitem->user)
-		url->user = e_utf8_gtk_editable_get_chars (GTK_EDITABLE (spitem->user), 0, -1);
+	if (spitem->user) {
+		char *user = e_utf8_gtk_editable_get_chars (GTK_EDITABLE (spitem->user), 0, -1);
+		if (user && *user) {
+			url->user = user;
+		}
+		else {
+			url->user = NULL;
+			g_free (user);
+		}
+	}
 	if (spitem->host) {
 		char *p;
 
