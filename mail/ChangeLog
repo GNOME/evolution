@@ -1,3 +1,8 @@
+2000-10-04  Jeffrey Stedfast  <fejj@helixcode.com>
+
+	* message-list.c (address_compare): Use CamelInternetAddress
+	instead of my quick hack (aka InternetAddress).
+
 2000-10-05  Iain Holmes  <iain@helixcode.com>
 
 	* mail-summary.c: Don't watch for the message-changed signal.

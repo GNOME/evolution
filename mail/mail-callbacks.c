@@ -299,7 +299,6 @@ composer_send_cb (EMsgComposer *composer, gpointer data)
 void
 composer_postpone_cb (EMsgComposer *composer, gpointer data)
 {
-	/* FIXME: do we want to use post_send_data to set flags and stuff? */
 	extern CamelFolder *outbox_folder;
 	CamelMimeMessage *message;
 	struct post_send_data *psd = data;

@@ -108,196 +108,81 @@ static struct {
 	{ NULL,			NULL }
 };
 
-typedef struct {
-	char *name;
-	char *address;
-} InternetAddress;
-
-
-static InternetAddress *
-internet_address_new_from_string (const gchar *string)
-{
-	/* We have 3 possibilities...
-	   1. "Jeffrey Stedfast" <fejj@helixcode.com>
-	   2. fejj@helixcode.com
-	   3. <fejj@helixcode.com> (Jeffrey Stedfast)
-
-	   notzed: actually we dont, this isn't spruce, the addresses have already been parsed by camel.
-	   FIXME: This code wont handle multiple addresses.
-	*/
-
-	InternetAddress *ia;
-	gchar *name = NULL, *address = NULL;
-	const gchar *ptr;
-	const gchar *padding;
-	gboolean in_quotes = FALSE;
-	gboolean name_first = FALSE;
-	
-	g_return_val_if_fail (string != NULL, NULL);
-	g_return_val_if_fail (*string != '\0', NULL);
-	
-	padding = NULL;
-	
-	ptr = string;
-	while (isspace (*ptr))
-		ptr++;
-	
-	/* look for padding between parts... */
-	for (; *ptr; ptr++) {
-		if (*ptr == '"') {
-			in_quotes = !in_quotes;
-			name_first = TRUE;
-		} else if (!in_quotes && isspace (*ptr)) {
-			padding = ptr;
-			break;
-		}
-	}
-	
-	if (padding) {
-		padding--;
-		/* we have a type-one or a type-three address */
-		if (name_first) {
-			name = g_strndup (string, (gint) (padding - string));
-			g_strstrip (name);
-			
-			/* strip off the quotes */
-			if (*name) {
-				*(name + strlen (name) - 1) = '\0';
-				memmove (name, name + 1, strlen (name) - 1);
-			} else {
-				g_free (name);
-				name = NULL;
-			}
-			
-			address = strchr (padding, '<');
-			if (address) {
-				address++;
-				for (ptr = address; *ptr && *ptr != '>'; ptr++);
-				
-				address = g_strndup (address, (gint) (ptr - address));
-			}
-		} else {
-			address = g_strndup (string, (gint) (padding - string));
-			g_strstrip (address);
-			
-			/* strip off the braces */
-			if (*address) {
-				*(address + strlen (address) - 1) = '\0';
-				memmove (address, address + 1, strlen (address) - 1);
-			} else {
-				g_free (address);
-				address = NULL;
-			}
-			
-			name = strchr (padding, '(');
-			if (name) {
-				name++;
-				in_quotes = FALSE;
-				ptr = name;
-				
-				while (*ptr) {
-					if (*ptr == '"')
-						in_quotes = !in_quotes;
-					else if (!in_quotes && *ptr == ')')
-						break;
-				}
-				
-				name = g_strndup (name, (gint) (ptr - name));
-			}
-		}
-	} else {
-		/* we have a type-two address */
-		address = g_strdup (string);
-	}
-	
-	if (!address) {
-		/* the address is the most important part! */
-		g_free (name);
-		return NULL;
-	}
-	
-	ia = g_new (InternetAddress, 1);
-	ia->name = name;
-	ia->address = address;
-	
-	return ia;
-}
-
-static void
-internet_address_destroy (InternetAddress *ia)
-{
-	g_return_if_fail (ia != NULL);
-	
-	g_free (ia->name);
-	g_free (ia->address);
-	g_free (ia);
-}
-
 static gint
 address_compare (gconstpointer address1, gconstpointer address2)
 {
-	InternetAddress *ia1, *ia2;
+	CamelInternetAddress *ia1, *ia2;
+	const char *name1, *name2;
+	const char *addr1, *addr2;
 	gint retval = 0;
 	
-	ia1 = internet_address_new_from_string ((const char *) address1);
-	ia2 = internet_address_new_from_string ((const char *) address2);
+	ia1 = camel_internet_address_new ();
+	ia2 = camel_internet_address_new ();
 	
-	g_return_val_if_fail (ia1 != NULL, -1);
-	g_return_val_if_fail (ia2 != NULL, 1);
+	camel_address_decode (CAMEL_ADDRESS (ia1), (const char *) address1);
+	camel_address_decode (CAMEL_ADDRESS (ia2), (const char *) address2);
 	
-	if (!ia1->name && !ia2->name) {
+	if (!camel_internet_address_get (ia1, 0, &name1, &addr1)) {
+		camel_object_unref (CAMEL_OBJECT (ia1));
+		camel_object_unref (CAMEL_OBJECT (ia2));
+		return 1;
+	}
+	
+	if (!camel_internet_address_get (ia2, 0, &name2, &addr2)) {
+		camel_object_unref (CAMEL_OBJECT (ia1));
+		camel_object_unref (CAMEL_OBJECT (ia2));
+		return -1;
+	}
+	
+	if (!name1 && !name2) {
 		/* if neither has a name we should compare addresses */
-		retval = g_strcasecmp (ia1->address, ia2->address);
+		retval = g_strcasecmp (addr1, addr2);
 	} else {
-		if (!ia1->name)
+		if (!name1)
 			retval = -1;
-		else if (!ia2->name)
+		else if (!name2)
 			retval = 1;
 		else {
-			ENameWestern *name1, *name2;
+			ENameWestern *wname1, *wname2;
 			
-			name1 = e_name_western_parse (ia1->name);
-			name2 = e_name_western_parse (ia2->name);
+			wname1 = e_name_western_parse (name1);
+			wname2 = e_name_western_parse (name2);
 			
-			if (!name1->last && !name2->last) {
+			if (!wname1->last && !wname2->last) {
 				/* neither has a last name */
-				
-				retval = g_strcasecmp (ia1->name, ia2->name);
+				retval = g_strcasecmp (name1, name2);
 			} else {
 				/* compare last names */
-				
-				if (!name1->last)
+				if (!wname1->last)
 					retval = -1;
-				else if (!name2->last)
+				else if (!wname2->last)
 					retval = 1;
 				else {
-					retval = g_strcasecmp (name1->last, name2->last);
+					retval = g_strcasecmp (wname1->last, wname2->last);
 					if (!retval) {
 						/* last names are identical - compare first names */
-						
-						if (!name1->first)
+						if (!wname1->first)
 							retval = -1;
-						else if (!name2->first)
+						else if (!wname2->first)
 							retval = 1;
 						else {
-							retval = g_strcasecmp (name1->first, name2->first);
+							retval = g_strcasecmp (wname1->first, wname2->first);
 							if (!retval) {
 								/* first names are identical - compare addresses */
-								
-								retval = g_strcasecmp (ia1->address, ia2->address);
+								retval = g_strcasecmp (addr1, addr2);
 							}
 						}
 					}
 				}
 			}
 			
-			e_name_western_free (name1);
-			e_name_western_free (name2);
+			e_name_western_free (wname1);
+			e_name_western_free (wname2);
 		}
 	}
 	
-	internet_address_destroy (ia1);
-	internet_address_destroy (ia2);
+	camel_object_unref (CAMEL_OBJECT (ia1));
+	camel_object_unref (CAMEL_OBJECT (ia2));
 	
 	return retval;
 }
