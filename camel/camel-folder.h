@@ -88,7 +88,7 @@ typedef struct {
 	
 	/* Virtual methods */	
 	void   (*init) (CamelFolder *folder, CamelStore *parent_store,
-			CamelFolder *parent_store, const gchar *name,
+			CamelFolder *parent_folder, const gchar *name,
 			gchar separator, CamelException *ex);
 
 	void   (*open) (CamelFolder *folder, 
