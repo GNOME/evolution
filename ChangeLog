@@ -1,3 +1,7 @@
+2000-11-13  Christopher James Lahey  <clahey@helixcode.com>
+
+	* configure.in: Update the gal reqiurement version.
+
 2000-11-10  Michael Meeks  <michael@helixcode.com>
 
 	* configure.in: Require Bonobo >= 0.29, due to the XSync

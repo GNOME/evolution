@@ -1189,7 +1189,7 @@ clear_tree (MessageList *ml)
 	free_tree_ids(etm);
 	
 	if (ml->tree_root) {
-		e_table_model_pre_change((ETableModel *)etm);
+		/* FIXME: Freeze here, buddy. */
 		e_tree_model_node_remove (etm, ml->tree_root);
 	}
 
@@ -1333,9 +1333,7 @@ build_tree (MessageList *ml, struct _thread_messages *thread)
 
 	top = e_tree_model_node_get_first_child(etm, ml->tree_root);
 	if (top == NULL) {
-		e_table_model_pre_change(ml->table_model);
 		build_subtree(ml, ml->tree_root, thread->tree, &row, expanded_nodes);
-		e_table_model_changed(ml->table_model);
 	} else {
 		build_subtree_diff(ml, ml->tree_root, top,  thread->tree, &row, expanded_nodes);
 	}
@@ -1389,6 +1387,8 @@ build_subtree (MessageList *ml, ETreePath *parent, struct _container *c, int *ro
 	char *id;
 	int expanded = FALSE;
 
+	e_tree_model_freeze (tree);
+
 	while (c) {
 		if (c->message) {
 			id = new_id_from_uid(c->message->uid);
@@ -1414,6 +1414,8 @@ build_subtree (MessageList *ml, ETreePath *parent, struct _container *c, int *ro
 		}
 		c = c->next;
 	}
+
+	e_tree_model_thaw (tree);
 }
 
 /* compares a thread tree node with the etable tree node to see if they point to

@@ -1,3 +1,8 @@
+2000-11-13  Christopher James Lahey  <clahey@helixcode.com>
+
+	* message-list.c: Removed some e_table_model calls and replaced
+	them with e_tree_model calls.
+
 2000-11-12  Dan Winship  <danw@helixcode.com>
 
 	* mail-local.c (mail_do_register_folder): Do this the normal way
