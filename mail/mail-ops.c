@@ -222,7 +222,7 @@ uid_cachename_hack (CamelStore *store)
 }
 
 static char *
-fetch_mail_describe (struct _mail_msg *mm)
+fetch_mail_describe (struct _mail_msg *mm, int complete)
 {
 	return g_strdup (_("Fetching Mail"));
 }
@@ -542,6 +542,7 @@ mail_send_message(CamelMimeMessage *message, const char *destination, CamelFilte
 	
 	if (sent_folder_uri) {
 		folder = mail_tool_uri_to_folder (sent_folder_uri, NULL);
+		g_free (sent_folder_uri);
 		if (!folder) {
 			/* FIXME */
 			camel_object_ref (CAMEL_OBJECT (sent_folder));
@@ -1095,16 +1096,20 @@ static void
 get_folderinfo_got (struct _mail_msg *mm)
 {
 	struct _get_folderinfo_msg *m = (struct _get_folderinfo_msg *)mm;
-
-	if (camel_exception_is_set (&(mm->ex)))
+	
+	if (camel_exception_is_set (&mm->ex)) {
+		char *url;
+		
+		url = camel_service_get_url (CAMEL_SERVICE (m->store));
 		g_warning ("Error getting folder info from store at %s: %s",
-			   camel_service_get_url (CAMEL_SERVICE (m->store)),
-			   camel_exception_get_description (&(mm->ex)));
-
+			   url, camel_exception_get_description (&mm->ex));
+		g_free (url);
+	}
+	
 	/* 'done' is probably guaranteed to fail, but... */
-
+	
 	if (m->done)
-		m->done(m->store, m->info, m->data);
+		m->done (m->store, m->info, m->data);
 }
 
 static void

@@ -1,3 +1,15 @@
+2001-08-10  Jeffrey Stedfast  <fejj@ximian.com>
+
+	* folder-browser.c (on_right_click): Added a comment about leaking
+	memory here, but we seem to not even use the 2 strings we
+	strdup...is this code still under construction?
+
+	* mail-ops.c (mail_send_message): Free the sent_folder_uri at the
+	bottom of the function (ironically enough we were freeing it if we
+	encountered an error but never free'd it on success :-)
+	(get_folderinfo_got): Fixed a memory leak...this one would have
+	gone away once we got rid of the debug g_warning though.
+
 2001-08-10  Not Zed  <NotZed@Ximian.com>
 
 	* mail-ops.c (mail_transfer_messages): Dont want it to keep on

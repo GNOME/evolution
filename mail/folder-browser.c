@@ -1380,21 +1380,20 @@ on_right_click (ETree *tree, gint row, ETreePath path, gint col, GdkEvent *event
 		enable_mask |= SELECTION_SET;
 		mailing_list_name = NULL;
 	} else {
+		/* FIXME: we are leaking subject_match and from_match...what do we use them for anyway??? */
 		const char *subject, *real, *addr;
 		const CamelInternetAddress *from;
-
+		
 		mailing_list_name = header_raw_check_mailing_list(
 			&((CamelMimePart *)fb->mail_display->current_message)->headers);
-
-		if ((subject = camel_mime_message_get_subject(fb->mail_display->current_message))
-		    && (subject = strip_re(subject))
-		    && subject[0])
-			subject_match = g_strdup(subject);
-
-		if ((from = camel_mime_message_get_from(fb->mail_display->current_message))
-		    && camel_internet_address_get(from, 0, &real, &addr)
-		    && addr && addr[0])
-			from_match = g_strdup(addr);
+		
+		subject = camel_mime_message_get_subject (fb->mail_display->current_message);
+		if (subject && (subject = strip_re (subject)) && subject[0])
+			subject_match = g_strdup (subject);
+		
+		from = camel_mime_message_get_from (fb->mail_display->current_message);
+		if (from && camel_internet_address_get (from, 0, &real, &addr) && addr && addr[0])
+			from_match = g_strdup (addr);
 	}
 	
 	/* get a list of uids */
@@ -1408,12 +1407,12 @@ on_right_click (ETree *tree, gint row, ETreePath path, gint col, GdkEvent *event
 		gboolean have_unseen = FALSE;
 		gboolean have_important = FALSE;
 		gboolean have_unimportant = FALSE;
-
+		
 		for (i = 0; i < uids->len; i++) {
 			info = camel_folder_get_message_info (fb->folder, uids->pdata[i]);
 			if (info == NULL)
 				continue;
-
+			
 			if (info->flags & CAMEL_MESSAGE_SEEN)
 				have_seen = TRUE;
 			else
@@ -1423,18 +1422,18 @@ on_right_click (ETree *tree, gint row, ETreePath path, gint col, GdkEvent *event
 				have_deleted = TRUE;
 			else
 				have_undeleted = TRUE;
-
+			
 			if (info->flags & CAMEL_MESSAGE_FLAGGED)
 				have_important = TRUE;
 			else
 				have_unimportant = TRUE;
 			
-			camel_folder_free_message_info(fb->folder, info);
-
+			camel_folder_free_message_info (fb->folder, info);
+			
 			if (have_seen && have_unseen && have_deleted && have_undeleted)
 				break;
 		}
-
+		
 		if (!have_unseen)
 			enable_mask |= CAN_MARK_READ;
 		if (!have_seen)
@@ -1444,12 +1443,12 @@ on_right_click (ETree *tree, gint row, ETreePath path, gint col, GdkEvent *event
 			enable_mask |= CAN_DELETE;
 		if (!have_deleted)
 			enable_mask |= CAN_UNDELETE;
-
+		
 		if (!have_unimportant)
 			enable_mask |= CAN_MARK_IMPORTANT;
 		if (!have_important)
 			enable_mask |= CAN_MARK_UNIMPORTANT;
-
+		
 		/*
 		 * Hide items that wont get used.
 		 */
@@ -1459,12 +1458,14 @@ on_right_click (ETree *tree, gint row, ETreePath path, gint col, GdkEvent *event
 			else
 				hide_mask |= CAN_MARK_UNREAD;
 		}
+		
 		if (!(have_undeleted && have_deleted)){
 			if (have_deleted)
 				hide_mask |= CAN_DELETE;
 			else
 				hide_mask |= CAN_UNDELETE;
 		}
+		
 		if (!(have_important && have_unimportant)){
 			if (have_important)
 				hide_mask |= CAN_MARK_IMPORTANT;
@@ -1472,12 +1473,12 @@ on_right_click (ETree *tree, gint row, ETreePath path, gint col, GdkEvent *event
 				hide_mask |= CAN_MARK_UNIMPORTANT;
 		}
 	}
-
+	
 	/* free uids */
 	for (i = 0; i < uids->len; i++)
 		g_free (uids->pdata[i]);
 	g_ptr_array_free (uids, TRUE);
-
+	
 display_menu:
 	
 	/* generate the "Filter on Mailing List menu item name */
@@ -1490,13 +1491,13 @@ display_menu:
 		filter_menu[MLIST_VFOLDER].name = g_strdup_printf (_("VFolder on Mailing List (%s)"), mailing_list_name);
 		g_free(mailing_list_name);
 	}
-
+	
 	menu = e_popup_menu_create (context_menu, enable_mask, hide_mask, fb);
 	e_auto_kill_popup_menu_on_hide (menu);
-
+	
 	if (event->type == GDK_KEY_PRESS) {
 		struct cmpf_data closure;
-
+		
 		closure.tree = tree;
 		closure.row = row;
 		closure.col = col;
@@ -1506,10 +1507,10 @@ display_menu:
 		gtk_menu_popup (menu, NULL, NULL, NULL, NULL,
 				event->button.button, event->button.time);
 	}
-
-	g_free(filter_menu[MLIST_FILTER].name);
-	g_free(filter_menu[MLIST_VFOLDER].name);
-
+	
+	g_free (filter_menu[MLIST_FILTER].name);
+	g_free (filter_menu[MLIST_VFOLDER].name);
+	
 	return TRUE;
 }
 
