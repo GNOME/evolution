@@ -1041,11 +1041,11 @@ load_alarms (GnomeCalendar *gcal)
 
 	/* Queue the midnight alarm refresh */
 
-	priv->midnight_alarm_refresh_id = alarm_add (end_of_day, midnight_refresh_cb, gcal, NULL);
-	if (!priv->midnight_alarm_refresh_id) {
-		g_message ("load_alarms(): Could not set up the midnight refresh alarm!");
-		/* FIXME: what to do? */
-	}
+/*  	priv->midnight_alarm_refresh_id = alarm_add (end_of_day, midnight_refresh_cb, gcal, NULL); */
+/*  	if (!priv->midnight_alarm_refresh_id) { */
+/*  		g_message ("load_alarms(): Could not set up the midnight refresh alarm!"); */
+  		/* FIXME: what to do? */
+/*  	} */
 }
 
 /* Loads the initial data into the calendar; this should be called right after

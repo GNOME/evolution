@@ -1,5 +1,10 @@
 2000-10-16  JP Rosevear  <jpr@helixcode.com>
 
+	* gui/gnome-cal.c (load_alarms): Don't add the midnight alarm
+	for now
+	
+2000-10-16  JP Rosevear  <jpr@helixcode.com>
+
 	* cal-client/cal-client.h: Remove pilot cruft.  All pilot stuff
 	is in the conduits now and uses the logging facility.
 
