@@ -156,6 +156,8 @@ main (int argc, char *argv [])
 		gdk_threads_mutex = NULL;
 	}
 
+	g_print ("Evolution Mail ready and running.\n");
+
 	GDK_THREADS_ENTER ();
 	bonobo_main ();
 
