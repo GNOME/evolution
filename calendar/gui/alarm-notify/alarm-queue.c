@@ -516,6 +516,8 @@ create_snooze (CompQueuedAlarms *cqa, gpointer alarm_id, int snooze_mins)
 	gpointer new_id;
 
 	orig_qa = lookup_queued_alarm (cqa, alarm_id);
+	if (!orig_qa)
+		return;
 
 	t = time (NULL);
 	t += snooze_mins * 60;
