@@ -1,3 +1,9 @@
+2004-08-25  Chenthill Palanisamy  <pchenthill@novell.com>
+
+	* gui/e-tasks.c
+	(default_client_cal_opened_cb): Reset the Status Bar message to
+	NUll, if the status of the Calendar is returned OK.
+
 2004-08-24  Rodrigo Moya <rodrigo@novell.com>
 
 	Fixes #58824

@@ -836,6 +836,7 @@ default_client_cal_opened_cb (ECal *ecal, ECalendarStatus status, ETasks *tasks)
 		
 		set_timezone (tasks);
 		e_cal_model_set_default_client (model, ecal);
+		set_status_message (tasks, NULL);
 		break;
 	case E_CALENDAR_STATUS_BUSY:
 		break;
