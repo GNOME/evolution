@@ -82,6 +82,9 @@ void           e_destination_set_html_mail_pref (EDestination *, gboolean);
 gboolean       e_destination_contains_card      (const EDestination *);
 gboolean       e_destination_from_card          (const EDestination *);
 
+gboolean       e_destination_is_auto_recipient  (const EDestination *);
+void           e_destination_set_auto_recipient (EDestination *, gboolean value);
+
 void           e_destination_use_card           (EDestination *, EDestinationCardCallback cb, gpointer closure);
 
 ECard         *e_destination_get_card           (const EDestination *);
@@ -122,7 +125,9 @@ EDestination  *e_destination_import             (const gchar *str);
 gchar         *e_destination_exportv            (EDestination **);
 EDestination **e_destination_importv            (const gchar *str);
 
-EDestination **e_destination_list_to_vector     (GList *);
+EDestination **e_destination_list_to_vector_sized (GList *, int n);
+EDestination **e_destination_list_to_vector       (GList *);
+
 void           e_destination_freev              (EDestination **);
 
 void           e_destination_touch              (EDestination *);

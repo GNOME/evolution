@@ -1,3 +1,18 @@
+2002-02-01  Jeffrey Stedfast  <fejj@ximian.com>
+
+	* backend/ebook/e-destination.c (e_destination_is_auto_recipient):
+	New function to find out if a destination was one which was
+	auto-matically set by Evolution.
+	(e_destination_set_auto_recipient): Set whether or not the dest is
+	an auto-recipient.
+	(e_destination_touch): Don't touch the address if it is an
+	auto_recipient.
+	(e_destination_list_to_vector_sized): New function to avoid having
+	to calculate the length of the list ourselves. Allows for a bit of
+	optimization if our caller knows the length of the list.
+	(e_destination_xml_encode): Encode the auto_recipient bit.
+	(e_destination_xml_decode): Decode the auto_recipient bit.
+
 2002-02-01  Christopher James Lahey  <clahey@ximian.com>
 
 	* backend/ebook/e-card-simple.c (e_card_simple_sync_card): Made
