@@ -1,3 +1,12 @@
+2005-02-24  Not Zed  <NotZed@Ximian.com>
+
+	** See bug #68459
+
+	* em-composer-utils.c (get_reply_sender): check the followup-to
+	header before the newsgroups header.
+	(reply_get_composer, get_reply_sender, get_reply_all): change
+	post-to to be a CamelNNTPAddress not a string pointer.
+
 2005-02-21  Not Zed  <NotZed@Ximian.com>
 
 	** See bug #71003
