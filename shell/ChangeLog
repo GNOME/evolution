@@ -1,3 +1,8 @@
+2000-07-07  Ettore Perazzoli  <ettore@helixcode.com>
+
+	* e-shell.c (setup_corba_storages): Ref the CORBA storage
+	registry.
+
 2000-07-06  Ettore Perazzoli  <ettore@helixcode.com>
 
 	* evolution-storage.c: Removed `corba_storage_registry' member

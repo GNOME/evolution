@@ -258,17 +258,23 @@ static gboolean
 setup_corba_storages (EShell *shell)
 {
 	EShellPrivate *priv;
+	ECorbaStorageRegistry *corba_storage_registry;
 
 	priv = shell->priv;
 
 	g_assert (priv->storage_set != NULL);
-	priv->corba_storage_registry = e_corba_storage_registry_new (priv->storage_set);
+	corba_storage_registry = e_corba_storage_registry_new (priv->storage_set);
 
-	if (priv->corba_storage_registry == NULL)
+	if (corba_storage_registry == NULL)
 		return FALSE;
 
-	bonobo_object_add_interface (BONOBO_OBJECT (shell),
-				     BONOBO_OBJECT (priv->corba_storage_registry));
+	bonobo_object_add_interface (BONOBO_OBJECT (shell), BONOBO_OBJECT (corba_storage_registry));
+
+	/* Notice that `bonobo_object_add_interface()' aggregates the two object's
+           reference counts, so we need an extra ref here if we want to keep a separate
+           pointer to the storage interface.  */
+	bonobo_object_ref (BONOBO_OBJECT (corba_storage_registry));
+	priv->corba_storage_registry = corba_storage_registry;
 
 	return TRUE;
 }
