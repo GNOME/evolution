@@ -1,3 +1,8 @@
+2001-07-31  Not Zed  <NotZed@Ximian.com>
+
+	* evolution-activity-client.c (evolution_activity_client_update):
+	Also update have_pending_update before calling corba, as below.
+
 2001-07-30  Ettore Perazzoli  <ettore@ximian.com>
 
 	[This should fix #5110, shell crash when switching folders.]
