@@ -48,7 +48,7 @@
 #include <libecal/e-cal.h>
 #include <e-util/e-time-utils.h>
 #include <e-util/e-dialog-widgets.h>
-#include <camel/camel-mime-filter-tohtml.h>
+#include <e-util/e-html-utils.h>
 #include <widgets/misc/e-source-option-menu.h>
 #include "dialogs/delete-error.h"
 #include "calendar-config.h"
@@ -927,7 +927,7 @@ write_html (EItipControl *itip, const gchar *itip_desc, const gchar *itip_title,
 	e_cal_component_get_summary (priv->comp, &text);
 	str = g_strdup_printf ("<i>%s:</i>", _("None"));
 
-	html = text.value ? camel_text_to_html (text.value, CAMEL_MIME_FILTER_TOHTML_CONVERT_NL, 0) : str;
+	html = text.value ? e_text_to_html_full (text.value, E_TEXT_TO_HTML_CONVERT_NL, 0) : str;
 	gtk_html_stream_printf (html_stream, "<b>%s</b><br>%s<br><br>",
 				_("Summary:"), html);
 	g_free (str);
@@ -937,7 +937,7 @@ write_html (EItipControl *itip, const gchar *itip_desc, const gchar *itip_title,
 	/* Location */
 	e_cal_component_get_location (priv->comp, &string);
 	if (string != NULL) {
-		html = camel_text_to_html (string, CAMEL_MIME_FILTER_TOHTML_CONVERT_NL, 0);
+		html = e_text_to_html_full (string, E_TEXT_TO_HTML_CONVERT_NL, 0);
 		gtk_html_stream_printf (html_stream, "<b>%s</b><br>%s<br><br>", 
 					_("Location:"), html);
 		g_free (html);
@@ -983,7 +983,7 @@ write_html (EItipControl *itip, const gchar *itip_desc, const gchar *itip_title,
 		text = *((ECalComponentText *)l->data);
 
 	if (l && text.value) {
-		html = camel_text_to_html (text.value, CAMEL_MIME_FILTER_TOHTML_CONVERT_NL, 0);
+		html = e_text_to_html_full (text.value, E_TEXT_TO_HTML_CONVERT_NL, 0);
 		gtk_html_stream_printf (html_stream, "<b>%s</b><br>%s",
 					_("Description:"), html);
 		g_free (html);
