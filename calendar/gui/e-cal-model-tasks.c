@@ -545,6 +545,7 @@ show_geo_warning (void)
 	dialog = gtk_message_dialog_new (NULL, 0, GTK_MESSAGE_ERROR, GTK_BUTTONS_OK,
 					 _("The geographical position must be entered "
 					   "in the format: \n\n45.436845,125.862501"));
+	gtk_dialog_set_has_separator (GTK_DIALOG (dialog), FALSE);
 	gtk_widget_show (dialog);
 }
 

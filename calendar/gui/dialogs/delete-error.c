@@ -104,6 +104,7 @@ delete_error_dialog (GError *error, ECalComponentVType vtype)
 	dialog = gtk_message_dialog_new (NULL, GTK_DIALOG_MODAL,
 					 GTK_MESSAGE_ERROR,
 					 GTK_BUTTONS_OK, str);
+	gtk_dialog_set_has_separator (GTK_DIALOG (dialog), FALSE);
 	gtk_dialog_run (GTK_DIALOG (dialog));
 	gtk_widget_destroy (dialog);
 }

@@ -1,3 +1,36 @@
+2003-12-19  William Jon McCann  <mccann@jhu.edu>
+
+	* gui/dialogs/task-page.c (source_changed_cb): 
+	* gui/dialogs/send-comp.c (send_component_dialog): 
+	* gui/dialogs/save-comp.c (save_component_dialog): 
+	* gui/dialogs/recur-comp.c (recur_component_dialog): 
+	* gui/dialogs/event-page.c (source_changed_cb): 
+	* gui/dialogs/delete-error.c (delete_error_dialog): 
+	* gui/dialogs/delete-comp.c (delete_component_dialog): 
+	* gui/dialogs/changed-comp.c (changed_component_dialog): 
+	* gui/dialogs/cancel-comp.c (cancel_component_dialog): 
+	* gui/dialogs/alarm-options.glade:
+	* gui/dialogs/alarm-page.glade:
+	* gui/dialogs/cal-prefs-dialog.glade:
+	* gui/dialogs/e-delegate-dialog.glade:
+	* gui/dialogs/event-page.glade:
+	* gui/dialogs/new-calendar.glade:
+	* gui/dialogs/new-task-list.glade:
+	* gui/dialogs/recurrence-page.glade:
+	* gui/dialogs/task-details-page.glade:
+	* gui/dialogs/task-page.glade:
+	* gui/tasks-control.c (confirm_purge): 
+	* gui/tasks-component.c (delete_task_list_cb) 
+	(rename_task_list_cb, setup_create_ecal): 
+	* gui/goto-dialog.glade: 
+	* gui/e-cal-model-tasks.c (show_geo_warning): 
+	* gui/comp-editor-factory.c (cal_opened_cb): 
+	* gui/calendar-component.c (delete_calendar_cb) 
+	(rename_calendar_cb, setup_create_ecal, delete_calendar_cb): 
+	* gui/calendar-commands.c (purge_cmd):
+	Remove separators from dialogs.  Use frame style recommended
+	by the HIG.
+
 2003-12-18  Rodrigo Moya <rodrigo@ximian.com>
 
 	* gui/tasks-component.c (impl_createControls):

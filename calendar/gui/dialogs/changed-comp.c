@@ -104,6 +104,7 @@ changed_component_dialog (GtkWindow *parent, ECalComponent *comp, gboolean delet
 	dialog = gtk_message_dialog_new (parent, GTK_DIALOG_MODAL,
 					 GTK_MESSAGE_QUESTION,
 					 GTK_BUTTONS_YES_NO, str);
+	gtk_dialog_set_has_separator (GTK_DIALOG (dialog), FALSE);
 
 	response = gtk_dialog_run (GTK_DIALOG (dialog));
 	gtk_widget_destroy (dialog);

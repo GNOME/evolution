@@ -347,6 +347,7 @@ delete_task_list_cb (GtkWidget *widget, TasksComponent *comp)
 		GTK_BUTTONS_YES_NO,
 		_("Task List '%s' will be removed. Are you sure you want to continue?"),
 		e_source_peek_name (selected_source));
+	gtk_dialog_set_has_separator (GTK_DIALOG (dialog), FALSE);
 	if (gtk_dialog_run (GTK_DIALOG (dialog)) == GTK_RESPONSE_YES) {
 		if (e_source_selector_source_is_selected (E_SOURCE_SELECTOR (priv->source_selector),
 							  selected_source))
@@ -386,6 +387,7 @@ rename_task_list_cb (GtkWidget *widget, TasksComponent *comp)
 					 GTK_MESSAGE_QUESTION,
 					 GTK_BUTTONS_OK_CANCEL,
 					 _("Rename this task list to"));
+	gtk_dialog_set_has_separator (GTK_DIALOG (dialog), FALSE);
 	entry = gtk_entry_new ();
 	gtk_entry_set_text (GTK_ENTRY (entry), e_source_peek_name (selected_source));
 	gtk_widget_show (entry);
@@ -659,6 +661,7 @@ setup_create_ecal (TasksComponent *component)
 							 GTK_MESSAGE_WARNING, GTK_BUTTONS_OK,
 							 _("Unable to open the task list '%s' for creating events and meetings"), 
 							   e_source_peek_name (source));
+			gtk_dialog_set_has_separator (GTK_DIALOG (dialog), FALSE);
 			gtk_dialog_run (GTK_DIALOG (dialog));
 			gtk_widget_destroy (dialog);
 
@@ -670,6 +673,7 @@ setup_create_ecal (TasksComponent *component)
 		dialog = gtk_message_dialog_new (NULL, GTK_DIALOG_MODAL,
 						 GTK_MESSAGE_WARNING, GTK_BUTTONS_OK,
 						 _("There is no calendar available for creating tasks"));
+		gtk_dialog_set_has_separator (GTK_DIALOG (dialog), FALSE);
 		gtk_dialog_run (GTK_DIALOG (dialog));
 		gtk_widget_destroy (dialog);
 

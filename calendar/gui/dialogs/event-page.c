@@ -1226,6 +1226,7 @@ source_changed_cb (GtkWidget *widget, ESource *source, gpointer data)
 							 GTK_MESSAGE_WARNING, GTK_BUTTONS_OK,
 							 _("Unable to open the calendar '%s'."),
 							 e_source_peek_name (source));
+			gtk_dialog_set_has_separator (GTK_DIALOG (dialog), FALSE);
 			gtk_dialog_run (GTK_DIALOG (dialog));
 			gtk_widget_destroy (dialog);
 		} else {

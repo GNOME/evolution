@@ -52,6 +52,7 @@ save_component_dialog (GtkWindow *parent)
 					 GTK_MESSAGE_QUESTION, GTK_BUTTONS_NONE,
 					 _("This event has been changed, but has not been saved.\n\n"
 					   "Do you wish to save your changes?"));
+	gtk_dialog_set_has_separator (GTK_DIALOG (dialog), FALSE);
        
 	gtk_dialog_add_buttons (GTK_DIALOG (dialog),
 				_("_Discard Changes"),GTK_RESPONSE_NO,
