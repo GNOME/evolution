@@ -20,7 +20,7 @@ endif
 
 bin_PROGRAMS = gnomecal tlacuache $(extra_pilot_bins)
 
-ICAL_LINK_FLAGS = ../libical/src/libical/libical.a
+ICAL_LINK_FLAGS = ../libical/src/libical/.libs/libical.la
 
 INCLUDES = 						\
 	-I$(includedir)					\
