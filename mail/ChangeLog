@@ -1,5 +1,7 @@
 2002-10-01  Jeffrey Stedfast  <fejj@ximian.com>
 
+	* upgrade-mailer.c: Shut up some compiler warnings.
+
 	* importers/evolution-mbox-importer.c (process_item_fn): Use the
 	camel_message_info_new/free functions rather than g_new0 and
 	g_free. Also, if we fail to parse a message make sure we don't

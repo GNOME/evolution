@@ -323,8 +323,8 @@ cache_upgrade (struct _storeinfo *si, const char *folder_name)
 static int
 foldercmp (const void *f1, const void *f2)
 {
-	const char **folder1 = f1;
-	const char **folder2 = f2;
+	const char **folder1 = (const char **) f1;
+	const char **folder2 = (const char **) f2;
 	
 	return strcmp (*folder1, *folder2);
 }
@@ -1045,7 +1045,7 @@ static int
 mailer_upgrade (Bonobo_ConfigDatabase db)
 {
 	GHashTable *imap_sources, *accounts;
-	char *path, *uri, *bak;
+	char *path, *uri;
 	char *account;
 	int num, i;
 	
