@@ -1,5 +1,9 @@
 2004-12-26  Rodrigo Moya <rodrigo@novell.com>
 
+	* gui/e-cal-model.c (search_by_uid_and_client): removed superfluous if
+	check.
+	(e_cal_view_objects_modified_cb): add all objects at once.
+
 	* gui/e-day-view.c (e_day_view_remove_event_cb): set fields we
 	free to NULL.
 

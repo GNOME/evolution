@@ -1238,7 +1238,7 @@ search_by_uid_and_client (ECalModelPrivate *priv, ECal *client, const char *uid)
 
 			tmp_uid = icalcomponent_get_uid (comp_data->icalcomp);
 			if (tmp_uid && *tmp_uid) {
-				if ((!client || comp_data->client == client) && !strcmp (uid, tmp_uid))
+				if (comp_data->client == client && !strcmp (uid, tmp_uid))
 					return comp_data;
 			}
 		}
@@ -1384,7 +1384,6 @@ e_cal_view_objects_modified_cb (ECalView *query, GList *objects, gpointer user_d
 
 	for (l = objects; l; l = l->next) {
 		ECalModelComponent *comp_data;
-		GList node;
 
 		/* remove all recurrences and re-add them after generating them */
 		while ((comp_data = search_by_uid_and_client (priv, e_cal_view_get_client (query),
@@ -1397,11 +1396,10 @@ e_cal_view_objects_modified_cb (ECalView *query, GList *objects, gpointer user_d
 			g_ptr_array_remove (priv->objects, comp_data);
 			e_cal_model_free_component_data (comp_data);
 		}
-
-		node.prev = node.next = NULL;
-		node.data = l->data;
-		e_cal_view_objects_added_cb (query, &node, model);
 	}
+
+	/* now re-add all objects */
+	e_cal_view_objects_added_cb (query, objects, model);
 }
 
 static void
