@@ -103,6 +103,7 @@ static void
 clear_search (ESearchBar *esb)
 {
 	e_search_bar_set_text (esb, "");
+	e_search_bar_set_item_id (esb, E_SEARCHBAR_CLEAR_ID);
 	emit_search_activated (esb);
 }
 
@@ -188,7 +189,7 @@ search_now_verb_cb (BonoboUIComponent *ui_component,
 	ESearchBar *esb;
 
 	esb = E_SEARCH_BAR (data);
-	emit_search_activated (esb);
+	emit_query_changed (esb);
 }
 
 static void

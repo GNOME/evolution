@@ -102,6 +102,11 @@ struct _ESearchBarClass
 	void (*menu_activated)   (ESearchBar *search, int item);
 };
 
+enum {
+	E_SEARCHBAR_FIND_NOW_ID = 0,
+	E_SEARCHBAR_CLEAR_ID    = 1
+};
+
 
 GtkType    e_search_bar_get_type   (void);
 void       e_search_bar_construct  (ESearchBar        *search_bar,

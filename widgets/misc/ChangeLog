@@ -1,3 +1,22 @@
+2002-07-22  Peter Williams  <peterw@ximian.com>
+
+	* e-filter-bar.c (do_advanced): Break out the code for creating
+	the advanced rule editor into a separate function, so that...
+	(menubar_activated): ... can also create an Advanced dialog;
+	needed when the Search menu's advanced button is used.
+	(option_changed): Change this to call the function instead of
+	having all the code to itself.
+
+	* e-search-bar.h: Add id's for the FIND_NOW and CLEAR actions
+	so that other code (eg, EFilterBar) doesn't get confused by
+	an old id being used when the search-activated signal gets
+	emitted.
+
+	* e-search-bar.c (clear_search): Set the item_id to CLEAR
+	before emitting the signal.
+	(search_now_verb_cb): Just make this emit query_changed,
+	as the button in the toolbar does.
+
 2002-07-17  Ettore Perazzoli  <ettore@ximian.com>
 
 	[Fix #27854, spurious warnings from ESearchBar.]

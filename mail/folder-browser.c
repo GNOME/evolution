@@ -2288,6 +2288,8 @@ folder_browser_gui_init (FolderBrowser *fb)
 			    GTK_SIGNAL_FUNC (folder_browser_search_menu_activated), fb);
 	gtk_signal_connect (GTK_OBJECT (fb->search), "search_activated",
 			    GTK_SIGNAL_FUNC (folder_browser_search_do_search), fb);
+	gtk_signal_connect (GTK_OBJECT (fb->search), "query_changed",
+			    GTK_SIGNAL_FUNC (folder_browser_search_do_search), fb);
 	
 	
 	gtk_table_attach (GTK_TABLE (fb), GTK_WIDGET (fb->search),

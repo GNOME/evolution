@@ -132,6 +132,48 @@ rule_advanced_clicked (GtkWidget *dialog, int button, void *data)
 }
 
 static void
+do_advanced (ESearchBar *esb)
+{
+	EFilterBar *efb = (EFilterBar *)esb;
+	
+	d(printf("Advanced search!\n"));
+		
+	if (!efb->save_dialogue && !efb->setquery) {
+		GtkWidget *w, *gd;
+		FilterRule *rule;
+		
+		if (efb->current_query)
+			rule = filter_rule_clone (efb->current_query);
+		else
+			rule = filter_rule_new ();
+		
+		w = filter_rule_get_widget (rule, efb->context);
+		filter_rule_set_source (rule, FILTER_SOURCE_INCOMING);
+		gd = gnome_dialog_new (_("Advanced Search"),
+				       GNOME_STOCK_BUTTON_OK,
+				       _("Save"),
+				       GNOME_STOCK_BUTTON_CANCEL,
+				       NULL);
+		efb->save_dialogue = gd;
+		gnome_dialog_set_default (GNOME_DIALOG (gd), 0);
+		
+		gtk_window_set_policy (GTK_WINDOW (gd), FALSE, TRUE, FALSE);
+		gtk_window_set_default_size (GTK_WINDOW (gd), 600, 300);
+		gtk_box_pack_start (GTK_BOX (GNOME_DIALOG (gd)->vbox), w, TRUE, TRUE, 0);
+		gtk_widget_show (gd);
+		gtk_object_ref (GTK_OBJECT (rule));
+		gtk_object_set_data_full (GTK_OBJECT (gd), "rule", rule, (GtkDestroyNotify)gtk_object_unref);
+		gtk_signal_connect (GTK_OBJECT (gd), "clicked", rule_advanced_clicked, efb);
+		gtk_signal_connect (GTK_OBJECT (gd), "destroy", rule_editor_destroyed, efb);
+			
+		e_search_bar_set_menu_sensitive (esb, E_FILTERBAR_SAVE_ID, FALSE);
+		gtk_widget_set_sensitive (esb->entry, FALSE);
+		
+		gtk_widget_show (gd);
+	}
+}
+
+static void
 menubar_activated (ESearchBar *esb, int id, void *data)
 {
 	EFilterBar *efb = (EFilterBar *)esb;
@@ -181,6 +223,9 @@ menubar_activated (ESearchBar *esb, int id, void *data)
 		
 		d(printf("Save menu\n"));
 		break;
+	case E_FILTERBAR_ADVANCED_ID:
+		do_advanced (esb);
+		break;
 	default:
 		if (id >= efb->menu_base && id < efb->menu_base + efb->menu_rules->len) {
 			GString *out = g_string_new ("");
@@ -214,43 +259,9 @@ option_changed (ESearchBar *esb, void *data)
 	d(printf("option changed, id = %d\n", id));
 	
 	switch (id) {
-	case E_FILTERBAR_ADVANCED_ID: {
-		d(printf("Advanced search!\n"));
-		
-		if (!efb->save_dialogue && !efb->setquery) {
-			GtkWidget *w, *gd;
-			FilterRule *rule;
-			
-			if (efb->current_query)
-				rule = filter_rule_clone (efb->current_query);
-			else
-				rule = filter_rule_new ();
-			
-			w = filter_rule_get_widget (rule, efb->context);
-			filter_rule_set_source (rule, FILTER_SOURCE_INCOMING);
-			gd = gnome_dialog_new (_("Advanced Search"),
-					       GNOME_STOCK_BUTTON_OK,
-					       _("Save"),
-					       GNOME_STOCK_BUTTON_CANCEL,
-					       NULL);
-			efb->save_dialogue = gd;
-			gnome_dialog_set_default (GNOME_DIALOG (gd), 0);
-			
-			gtk_window_set_policy (GTK_WINDOW (gd), FALSE, TRUE, FALSE);
-			gtk_window_set_default_size (GTK_WINDOW (gd), 600, 300);
-			gtk_box_pack_start (GTK_BOX (GNOME_DIALOG (gd)->vbox), w, TRUE, TRUE, 0);
-			gtk_widget_show (gd);
-			gtk_object_ref (GTK_OBJECT (rule));
-			gtk_object_set_data_full (GTK_OBJECT (gd), "rule", rule, (GtkDestroyNotify)gtk_object_unref);
-			gtk_signal_connect (GTK_OBJECT (gd), "clicked", rule_advanced_clicked, efb);
-			gtk_signal_connect (GTK_OBJECT (gd), "destroy", rule_editor_destroyed, efb);
-			
-			e_search_bar_set_menu_sensitive (esb, E_FILTERBAR_SAVE_ID, FALSE);
-			gtk_widget_set_sensitive (esb->entry, FALSE);
-			
-			gtk_widget_show (gd);
-		}
-	}	break;
+	case E_FILTERBAR_ADVANCED_ID:
+		do_advanced (esb);
+		break;
 	default:
 		if (id >= efb->option_base && id < efb->option_base + efb->option_rules->len) {
 			efb->current_query = (FilterRule *)efb->option_rules->pdata[id - efb->option_base];
