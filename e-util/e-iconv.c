@@ -28,6 +28,7 @@
 
 #include <string.h>
 #include <stdio.h>
+#include <stdlib.h>
 
 #include <glib.h>
 #include "e-iconv.h"
@@ -42,10 +43,7 @@
 #include <langinfo.h>
 #endif
 
-/* FIXME: Use feature test */
-#if !defined (__aix__) && !defined (__irix__) && !defined (__sun__)
-#define ICONV_ISO_NEEDS_DASH (1)
-#endif
+#include "iconv-detect.h"
 
 #define cd(x) 
 
@@ -274,21 +272,43 @@ const char *e_iconv_charset_name(const char *charset)
 	if (ret != NULL) {
 		UNLOCK();
 		return ret;
-
-
 	}
 
 	/* Unknown, try canonicalise some basic charset types to something that should work */
 	if (strncmp(name, "iso", 3) == 0) {
 		/* Convert iso-nnnn-n or isonnnn-n or iso_nnnn-n to iso-nnnn-n or isonnnn-n */
-		tmp = name+3;
-		if (tmp[0] == '_' || tmp[0] == '-')
+		int iso, codepage;
+		char *p;
+		
+		tmp = name + 3;
+		if (*tmp == '-' || *tmp == '_')
 			tmp++;
-#ifdef ICONV_ISO_NEEDS_DASH
-		ret = g_strdup_printf("ISO-%s", tmp);
-#else
-		ret = g_strdup_printf("ISO%s", tmp);
-#endif
+		
+		iso = strtoul (tmp, &p, 10);
+		
+		if (iso == 10646) {
+			/* they all become ICONV_10646 */
+			ret = g_strdup (ICONV_10646);
+		} else {
+			tmp = p;
+			if (*tmp == '-' || *tmp == '_')
+				tmp++;
+			
+			codepage = strtoul (tmp, &p, 10);
+			
+			if (p > tmp) {
+				/* codepage is numeric */
+#ifdef __aix__
+				if (codepage == 13)
+					ret = g_strdup ("IBM-921");
+				else
+#endif /* __aix__ */
+					ret = g_strdup_printf (ICONV_ISO_D_FORMAT, iso, codepage);
+			} else {
+				/* codepage is a string - probably iso-2022-jp or something */
+				ret = g_strdup_printf (ICONV_ISO_S_FORMAT, iso, p);
+			}
+		}
 	} else if (strncmp(name, "windows-", 8) == 0) {
 		/* Convert windows-nnnnn or windows-cpnnnnn to cpnnnn */
 		tmp = name+8;
