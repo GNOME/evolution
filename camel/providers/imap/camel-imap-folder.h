@@ -31,7 +31,7 @@
 #ifdef __cplusplus
 extern "C" {
 #pragma }
-#endif /* __cplusplus }*/
+#endif /* __cplusplus */
 
 #include "camel-imap-types.h"
 #include <camel/camel-disco-folder.h>

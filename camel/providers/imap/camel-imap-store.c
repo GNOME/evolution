@@ -1140,8 +1140,12 @@ get_folder_offline (CamelStore *store, const char *folder_name,
 		folder_name = "INBOX";
 	
 	folder_dir = e_path_to_physical (imap_store->storage_path, folder_name);
-	if (access (folder_dir, F_OK) != 0)
-		return no_such_folder (folder_name, ex);
+	if (!folder_dir || access (folder_dir, F_OK) != 0) {
+		g_free (folder_dir);
+		camel_exception_setv (ex, CAMEL_EXCEPTION_STORE_NO_FOLDER,
+				      _("No such folder %s"), folder_name);
+		return NULL;
+	}
 	
 	new_folder = camel_imap_folder_new (store, folder_name, folder_dir, ex);
 	g_free (folder_dir);
