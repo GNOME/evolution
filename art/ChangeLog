@@ -1,3 +1,11 @@
+2002-07-09  Ettore Perazzoli  <ettore@ximian.com>
+
+	* Makefile.am (images_DATA): inbox-mini.png instead of
+	inbox-16.png, outbox-mini.png instead of outbox-16.png.  Also add
+	inbox.png and outbox.png.
+	(inbox.png): New.
+	(outbox.png): New.
+
 2002-05-20  Ettore Perazzoli  <ettore@ximian.com>
 
 	* schedule-meeting-24.png: New.

@@ -69,8 +69,8 @@ images_DATA = \
 	ico-weather.png			\
 	import.png			\
 	import.xpm			\
-	inbox-16.png			\
-	inbox-full-16.png		\
+	inbox.png			\
+	inbox-mini.png			\
 	ldap-mini.png			\
 	ldap-settings.png		\
 	ldap.png			\
@@ -107,8 +107,8 @@ images_DATA = \
 	offline.png			\
 	online.png			\
 	open-in-new-window-16.png 	\
-	outbox-16.png 			\
-	outbox-full-16.png 		\
+	outbox.png			\
+	outbox-mini.png			\
 	pattern.png			\
 	pgp-signature-bad.png 		\
 	pgp-signature-nokey.png 	\
