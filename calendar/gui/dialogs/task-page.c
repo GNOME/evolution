@@ -36,6 +36,7 @@
 #include <gal/widgets/e-categories.h>
 #include <widgets/misc/e-dateedit.h>
 #include "e-util/e-dialog-widgets.h"
+#include "../e-timezone-entry.h"
 #include "comp-editor-util.h"
 #include "task-page.h"
 
@@ -53,6 +54,8 @@ struct _TaskPagePrivate {
 
 	GtkWidget *due_date;
 	GtkWidget *start_date;
+	GtkWidget *due_timezone;
+	GtkWidget *start_timezone;
 
 	GtkWidget *percent_complete;
 
@@ -116,6 +119,7 @@ static void task_page_fill_widgets (CompEditorPage *page, CalComponent *comp);
 static void task_page_fill_component (CompEditorPage *page, CalComponent *comp);
 static void task_page_set_summary (CompEditorPage *page, const char *summary);
 static void task_page_set_dates (CompEditorPage *page, CompEditorPageDates *dates);
+static void task_page_set_cal_client (CompEditorPage *page, CalClient *client);
 
 static CompEditorPageClass *parent_class = NULL;
 
@@ -170,6 +174,7 @@ task_page_class_init (TaskPageClass *class)
 	editor_page_class->fill_component = task_page_fill_component;
 	editor_page_class->set_summary = task_page_set_summary;
 	editor_page_class->set_dates = task_page_set_dates;
+	editor_page_class->set_cal_client = task_page_set_cal_client;
 
 	object_class->destroy = task_page_destroy;
 }
@@ -189,6 +194,8 @@ task_page_init (TaskPage *tpage)
 	priv->summary = NULL;
 	priv->due_date = NULL;
 	priv->start_date = NULL;
+	priv->due_timezone = NULL;
+	priv->start_timezone = NULL;
 	priv->percent_complete = NULL;
 	priv->status = NULL;
 	priv->description = NULL;
@@ -600,6 +607,19 @@ task_page_set_dates (CompEditorPage *page, CompEditorPageDates *dates)
 	priv->updating = FALSE;
 }
 
+static void
+task_page_set_cal_client (CompEditorPage *page, CalClient *client)
+{
+	TaskPage *tpage;
+	TaskPagePrivate *priv;
+
+	tpage = TASK_PAGE (page);
+	priv = tpage->priv;
+
+	e_timezone_entry_set_cal_client (E_TIMEZONE_ENTRY (priv->due_timezone), client);
+	e_timezone_entry_set_cal_client (E_TIMEZONE_ENTRY (priv->start_timezone),client);
+}
+
 
 
 /* Gets the widgets from the XML file and returns if they are all available. */
@@ -621,6 +641,8 @@ get_widgets (TaskPage *tpage)
 
 	priv->due_date = GW ("due-date");
 	priv->start_date = GW ("start-date");
+	priv->due_timezone = GW ("due-timezone");
+	priv->start_timezone = GW ("start-timezone");
 
 	priv->percent_complete = GW ("percent-complete");
 
@@ -644,6 +666,8 @@ get_widgets (TaskPage *tpage)
 	return (priv->summary
 		&& priv->due_date
 		&& priv->start_date
+		&& priv->due_timezone
+		&& priv->start_timezone
 		&& priv->percent_complete
 		&& priv->status
 		&& priv->priority
@@ -854,6 +878,11 @@ init_widgets (TaskPage *tpage)
 			    GTK_SIGNAL_FUNC (date_changed_cb), tpage);
 	gtk_signal_connect (GTK_OBJECT (priv->due_date), "changed",
 			    GTK_SIGNAL_FUNC (date_changed_cb), tpage);
+
+	gtk_signal_connect (GTK_OBJECT (priv->due_timezone), "changed",
+			    GTK_SIGNAL_FUNC (field_changed_cb), tpage);
+	gtk_signal_connect (GTK_OBJECT (priv->start_timezone), "changed",
+			    GTK_SIGNAL_FUNC (field_changed_cb), tpage);
 
 	/* Connect signals. The Status, Percent Complete & Date Completed
 	   properties are closely related so whenever one changes we may need

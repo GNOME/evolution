@@ -61,6 +61,10 @@ void	  calendar_config_write_on_exit		(void);
  * Calendar Settings.
  */
 
+/* The current timezone, e.g. "Europe/London". */
+gchar*	  calendar_config_get_timezone		(void);
+void	  calendar_config_set_timezone		(gchar	     *timezone);
+
 /* The working days of the week, a bit-wise combination of flags. */
 CalWeekdays calendar_config_get_working_days	(void);
 void	  calendar_config_set_working_days	(CalWeekdays  days);

@@ -251,12 +251,10 @@
       </widget>
 
       <widget>
-	<class>Custom</class>
-	<name>completed-date</name>
-	<creation_function>task_details_page_create_date_edit</creation_function>
-	<int1>0</int1>
-	<int2>0</int2>
-	<last_modification_time>Fri, 01 Jun 2001 18:58:51 GMT</last_modification_time>
+	<class>GtkHBox</class>
+	<name>hbox1</name>
+	<homogeneous>False</homogeneous>
+	<spacing>0</spacing>
 	<child>
 	  <left_attach>1</left_attach>
 	  <right_attach>2</right_attach>
@@ -264,13 +262,41 @@
 	  <bottom_attach>1</bottom_attach>
 	  <xpad>0</xpad>
 	  <ypad>0</ypad>
-	  <xexpand>True</xexpand>
+	  <xexpand>False</xexpand>
 	  <yexpand>False</yexpand>
 	  <xshrink>False</xshrink>
 	  <yshrink>False</yshrink>
 	  <xfill>True</xfill>
-	  <yfill>False</yfill>
+	  <yfill>True</yfill>
 	</child>
+
+	<widget>
+	  <class>Custom</class>
+	  <name>completed-date</name>
+	  <creation_function>task_details_page_create_date_edit</creation_function>
+	  <int1>0</int1>
+	  <int2>0</int2>
+	  <last_modification_time>Fri, 01 Jun 2001 18:58:51 GMT</last_modification_time>
+	  <child>
+	    <padding>0</padding>
+	    <expand>True</expand>
+	    <fill>True</fill>
+	  </child>
+	</widget>
+
+	<widget>
+	  <class>Custom</class>
+	  <name>completed-timezone</name>
+	  <creation_function>make_timezone_entry</creation_function>
+	  <int1>0</int1>
+	  <int2>0</int2>
+	  <last_modification_time>Tue, 19 Jun 2001 04:32:42 GMT</last_modification_time>
+	  <child>
+	    <padding>0</padding>
+	    <expand>True</expand>
+	    <fill>True</fill>
+	  </child>
+	</widget>
       </widget>
     </widget>
   </widget>

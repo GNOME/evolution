@@ -26,6 +26,7 @@
 #include <libgnome/gnome-defs.h>
 #include <gtk/gtkwidget.h>
 #include <cal-util/cal-component.h>
+#include "cal-client.h"
 
 BEGIN_GNOME_DECLS
 
@@ -66,6 +67,8 @@ typedef struct {
 
 	void (* set_summary) (CompEditorPage *page, const char *summary);
 	void (* set_dates) (CompEditorPage *page, CompEditorPageDates *dates);
+
+	void (* set_cal_client) (CompEditorPage *page, CalClient *client);
 } CompEditorPageClass;
 
 
@@ -79,6 +82,8 @@ void       comp_editor_page_set_summary            (CompEditorPage      *page,
 						    const char          *summary);
 void       comp_editor_page_set_dates              (CompEditorPage      *page,
 						    CompEditorPageDates *dates);
+void       comp_editor_page_set_cal_client         (CompEditorPage      *page,
+						    CalClient		*client);
 void       comp_editor_page_notify_changed         (CompEditorPage      *page);
 void       comp_editor_page_notify_summary_changed (CompEditorPage      *page,
 						    const char          *summary);

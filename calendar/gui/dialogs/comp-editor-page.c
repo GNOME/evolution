@@ -126,6 +126,7 @@ comp_editor_page_class_init (CompEditorPageClass *class)
 	class->fill_component = NULL;
 	class->set_summary = NULL;
 	class->set_dates = NULL;
+	class->set_cal_client = NULL;
 }
 
 
@@ -219,6 +220,23 @@ comp_editor_page_set_dates (CompEditorPage *page, CompEditorPageDates *dates)
 
 	if (CLASS (page)->set_dates != NULL)
 		(* CLASS (page)->set_dates) (page, dates);
+}
+
+/**
+ * comp_editor_page_set_cal_client:
+ * @page: An editor page
+ * @client: A #CalClient object
+ * 
+ * Sets the #CalClient for the dialog page to use.
+ **/
+void
+comp_editor_page_set_cal_client (CompEditorPage *page, CalClient *client)
+{
+	g_return_if_fail (page != NULL);
+	g_return_if_fail (IS_COMP_EDITOR_PAGE (page));
+
+	if (CLASS (page)->set_cal_client != NULL)
+		(* CLASS (page)->set_cal_client) (page, client);
 }
 
 /**

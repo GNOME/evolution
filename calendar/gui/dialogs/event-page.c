@@ -35,6 +35,7 @@
 #include "widgets/misc/e-dateedit.h"
 #include "cal-util/timeutil.h"
 #include "../calendar-config.h"
+#include "../e-timezone-entry.h"
 #include "comp-editor-util.h"
 #include "event-page.h"
 
@@ -53,6 +54,8 @@ struct _EventPagePrivate {
 
 	GtkWidget *start_time;
 	GtkWidget *end_time;
+	GtkWidget *start_timezone;
+	GtkWidget *end_timezone;
 	GtkWidget *all_day_event;
 
 	GtkWidget *description;
@@ -81,6 +84,7 @@ static void event_page_fill_widgets (CompEditorPage *page, CalComponent *comp);
 static void event_page_fill_component (CompEditorPage *page, CalComponent *comp);
 static void event_page_set_summary (CompEditorPage *page, const char *summary);
 static void event_page_set_dates (CompEditorPage *page, CompEditorPageDates *dates);
+static void event_page_set_cal_client (CompEditorPage *page, CalClient *client);
 
 static CompEditorPageClass *parent_class = NULL;
 
@@ -135,6 +139,7 @@ event_page_class_init (EventPageClass *class)
 	editor_page_class->fill_component = event_page_fill_component;
 	editor_page_class->set_summary = event_page_set_summary;
 	editor_page_class->set_dates = event_page_set_dates;
+	editor_page_class->set_cal_client = event_page_set_cal_client;
 
 	object_class->destroy = event_page_destroy;
 }
@@ -154,6 +159,8 @@ event_page_init (EventPage *epage)
 	priv->summary = NULL;
 	priv->start_time = NULL;
 	priv->end_time = NULL;
+	priv->start_timezone = NULL;
+	priv->end_timezone = NULL;
 	priv->all_day_event = NULL;
 	priv->description = NULL;
 	priv->classification_public = NULL;
@@ -505,6 +512,19 @@ event_page_set_dates (CompEditorPage *page, CompEditorPageDates *dates)
 	/* nothing */
 }
 
+static void
+event_page_set_cal_client (CompEditorPage *page, CalClient *client)
+{
+	EventPage *epage;
+	EventPagePrivate *priv;
+
+	epage = EVENT_PAGE (page);
+	priv = epage->priv;
+
+	e_timezone_entry_set_cal_client (E_TIMEZONE_ENTRY (priv->start_timezone), client);
+	e_timezone_entry_set_cal_client (E_TIMEZONE_ENTRY (priv->end_timezone),client);
+}
+
 
 
 /* Gets the widgets from the XML file and returns if they are all available. */
@@ -526,6 +546,8 @@ get_widgets (EventPage *epage)
 
 	priv->start_time = GW ("start-time");
 	priv->end_time = GW ("end-time");
+	priv->start_timezone = GW ("start-timezone");
+	priv->end_timezone = GW ("end-timezone");
 	priv->all_day_event = GW ("all-day-event");
 
 	priv->description = GW ("description");
@@ -545,6 +567,8 @@ get_widgets (EventPage *epage)
 	return (priv->summary
 		&& priv->start_time
 		&& priv->end_time
+		&& priv->start_timezone
+		&& priv->end_timezone
 		&& priv->all_day_event
 		&& priv->description
 		&& priv->classification_public
@@ -850,6 +874,10 @@ init_widgets (EventPage *epage)
 			    GTK_SIGNAL_FUNC (field_changed_cb), epage);
 	gtk_signal_connect (GTK_OBJECT (priv->end_time), "changed",
 			    GTK_SIGNAL_FUNC (field_changed_cb), epage);
+	gtk_signal_connect (GTK_OBJECT (priv->start_timezone), "changed",
+			    GTK_SIGNAL_FUNC (field_changed_cb), epage);
+	gtk_signal_connect (GTK_OBJECT (priv->end_timezone), "changed",
+			    GTK_SIGNAL_FUNC (field_changed_cb), epage);
 	gtk_signal_connect (GTK_OBJECT (priv->all_day_event), "toggled",
 			    GTK_SIGNAL_FUNC (field_changed_cb), epage);
 	gtk_signal_connect (GTK_OBJECT (priv->description), "changed",
@@ -937,4 +965,12 @@ GtkWidget *
 make_date_edit (void)
 {
 	return comp_editor_new_date_edit (TRUE, TRUE);
+}
+
+GtkWidget *make_timezone_entry (void);
+
+GtkWidget *
+make_timezone_entry (void)
+{
+	return e_timezone_entry_new ();
 }

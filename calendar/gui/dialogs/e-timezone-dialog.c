@@ -69,6 +69,9 @@ static gboolean on_map_timeout			(gpointer	 data);
 static gboolean on_map_motion			(GtkWidget	*widget,
 						 GdkEventMotion *event,
 						 gpointer	 data);
+static gboolean on_map_leave			(GtkWidget	*widget,
+						 GdkEventCrossing *event,
+						 gpointer	 data);
 static gboolean on_map_visibility_changed	(GtkWidget	*w,
 						 GdkEventVisibility *event,
 						 gpointer	 data);
@@ -78,6 +81,10 @@ static gboolean on_map_button_pressed		(GtkWidget	*w,
 
 static char*	get_zone_from_point		(ETimezoneDialog *etd,
 						 EMapPoint	*point);
+static void	find_selected_point		(ETimezoneDialog *etd);
+static void	on_combo_changed		(GtkEditable	*entry,
+						 ETimezoneDialog *etd);
+
 
 static GtkObjectClass *parent_class;
 
@@ -198,6 +205,7 @@ e_timezone_dialog_construct (ETimezoneDialog *etd)
 	map = GTK_WIDGET (e_map_new ());
 	priv->map = E_MAP (map);
 	gtk_widget_set_events (map, gtk_widget_get_events (map)
+			       | GDK_LEAVE_NOTIFY_MASK
 			       | GDK_VISIBILITY_NOTIFY_MASK);
 
 	gtk_entry_set_editable (GTK_ENTRY (GTK_COMBO (priv->timezone_combo)->entry), FALSE);
@@ -207,10 +215,15 @@ e_timezone_dialog_construct (ETimezoneDialog *etd)
 
         gtk_signal_connect (GTK_OBJECT (map), "motion-notify-event",
 			    GTK_SIGNAL_FUNC (on_map_motion), etd);
+        gtk_signal_connect (GTK_OBJECT (map), "leave-notify-event",
+			    GTK_SIGNAL_FUNC (on_map_leave), etd);
         gtk_signal_connect (GTK_OBJECT (map), "visibility-notify-event",
 			    GTK_SIGNAL_FUNC (on_map_visibility_changed), etd);
 	gtk_signal_connect (GTK_OBJECT (map), "button-press-event",
 			    GTK_SIGNAL_FUNC (on_map_button_pressed), etd);
+
+	gtk_signal_connect (GTK_OBJECT (GTK_COMBO (priv->timezone_combo)->entry), "changed", 
+			    GTK_SIGNAL_FUNC (on_combo_changed), etd);
 
 	return etd;
 
@@ -325,6 +338,31 @@ on_map_motion (GtkWidget *widget, GdkEventMotion *event, gpointer data)
 
 
 static gboolean
+on_map_leave (GtkWidget *widget, GdkEventCrossing *event, gpointer data)
+{
+	ETimezoneDialog *etd;
+	ETimezoneDialogPrivate *priv;
+	char *old_zone;
+
+	etd = E_TIMEZONE_DIALOG (data);
+	priv = etd->priv;
+
+	if (priv->point_hover && priv->point_hover != priv->point_selected)
+	        e_map_point_set_color_rgba (priv->map, priv->point_hover,
+					    E_TIMEZONE_DIALOG_MAP_POINT_NORMAL_RGBA);
+
+	priv->point_hover = NULL;
+
+	/* Clear the timezone preview label, if it isn't already empty. */
+	gtk_label_get (GTK_LABEL (priv->timezone_preview), &old_zone);
+	if (strcmp (old_zone, ""))
+		gtk_label_set_text (GTK_LABEL (priv->timezone_preview), "");
+
+	return FALSE;
+}
+
+
+static gboolean
 on_map_visibility_changed (GtkWidget *w, GdkEventVisibility *event,
 			   gpointer data)
 {
@@ -433,7 +471,8 @@ e_timezone_dialog_set_cal_client	(ETimezoneDialog  *etd,
 {
 	ETimezoneDialogPrivate *priv;
 	CalTimezoneInfo *zone;
-	GList *tzlist = NULL;
+	GtkWidget *listitem;
+	GtkCombo *combo;
 	char *current_zone;
 	int i;
 
@@ -443,6 +482,11 @@ e_timezone_dialog_set_cal_client	(ETimezoneDialog  *etd,
 
 	priv = etd->priv;
 
+	combo = GTK_COMBO (priv->timezone_combo);
+
+	/* Clear any existing items */
+	gtk_list_clear_items (GTK_LIST (combo->list), 0, -1);
+
 	priv->zones = cal_client_get_builtin_timezone_info (client);
 
 	if (!priv->zones) {
@@ -450,9 +494,17 @@ e_timezone_dialog_set_cal_client	(ETimezoneDialog  *etd,
 		return;
 	}
 
-	/* Put the "None" and "UTC" entries at the top of the combo's list. */
-	tzlist = g_list_prepend (tzlist, _("None"));
-	tzlist = g_list_prepend (tzlist, _("UTC"));
+	/* Put the "None" and "UTC" entries at the top of the combo's list.
+	   When "None" is selected we want the field to be cleared. */
+	listitem = gtk_list_item_new_with_label (_("None"));
+	gtk_widget_show (listitem);
+	gtk_container_add (GTK_CONTAINER (combo->list), listitem);
+	gtk_combo_set_item_string (combo, GTK_ITEM (listitem), "");
+
+	/* Note: We don't translate timezone names at the moment. */
+	listitem = gtk_list_item_new_with_label ("UTC");
+	gtk_widget_show (listitem);
+	gtk_container_add (GTK_CONTAINER (combo->list), listitem);
 
 	current_zone = gtk_entry_get_text (GTK_ENTRY (GTK_COMBO (priv->timezone_combo)->entry));
 
@@ -469,14 +521,11 @@ e_timezone_dialog_set_cal_client	(ETimezoneDialog  *etd,
 					 zone->longitude, zone->latitude,
 					 E_TIMEZONE_DIALOG_MAP_POINT_NORMAL_RGBA);
 		}
-		tzlist = g_list_prepend (tzlist, zone->location);
+
+		listitem = gtk_list_item_new_with_label (zone->location);
+		gtk_widget_show (listitem);
+		gtk_container_add (GTK_CONTAINER (combo->list), listitem);
 	}
-
-	tzlist = g_list_reverse (tzlist);
-	gtk_combo_set_popdown_strings (GTK_COMBO (priv->timezone_combo),
-				       tzlist);
-	g_list_free (tzlist);
-
 }
 
 
@@ -506,8 +555,9 @@ e_timezone_dialog_set_timezone		(ETimezoneDialog  *etd,
 	priv = etd->priv;
 
 	gtk_entry_set_text (GTK_ENTRY (GTK_COMBO (priv->timezone_combo)->entry),
-			    get_zone_from_point (etd, priv->point_selected));
+			    timezone);
 
+	find_selected_point (etd);
 }
 
 
@@ -524,3 +574,47 @@ e_timezone_dialog_get_toplevel	(ETimezoneDialog  *etd)
 	return priv->app;
 }
 
+
+/* This tries to find the timezone corresponding to the text in the combo,
+   and selects the point so that it flashes. */
+static void
+find_selected_point (ETimezoneDialog *etd)
+{
+	ETimezoneDialogPrivate *priv;
+	CalTimezoneInfo *zone;
+	char *current_zone;
+	EMapPoint *point = NULL;
+	int i;
+
+	priv = etd->priv;
+
+	if (priv->zones == NULL)
+		return;
+
+	current_zone = gtk_entry_get_text (GTK_ENTRY (GTK_COMBO (priv->timezone_combo)->entry));
+
+	for (i = 0; i < priv->zones->len; i++) {
+		zone = &g_array_index (priv->zones, CalTimezoneInfo, i);
+		if (!strcmp (current_zone, zone->location)) {
+			point = e_map_get_closest_point (priv->map,
+							 zone->longitude,
+							 zone->latitude,
+							 FALSE);
+
+			break;
+		}
+	}
+
+	if (priv->point_selected)
+		e_map_point_set_color_rgba (priv->map, priv->point_selected,
+					    E_TIMEZONE_DIALOG_MAP_POINT_NORMAL_RGBA);
+
+	priv->point_selected = point;
+}
+
+
+static void
+on_combo_changed (GtkEditable *entry, ETimezoneDialog *etd)
+{
+	find_selected_point (etd);
+}

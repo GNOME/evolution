@@ -36,6 +36,7 @@
 
 typedef struct
 {
+	gchar	       *timezone;
 	CalWeekdays	working_days;
 	gboolean	use_24_hour_format;
 	gint		week_start_day;
@@ -84,6 +85,7 @@ config_read				(void)
 	gnome_config_push_prefix (prefix);
 	g_free (prefix);
 
+	config->timezone = gnome_config_get_string ("Timezone");
 	config->working_days = gnome_config_get_int_with_default ("WorkingDays", &is_default);
 	if (is_default) {
 		config->working_days = CAL_MONDAY | CAL_TUESDAY
@@ -133,6 +135,8 @@ calendar_config_write			(void)
 	gnome_config_push_prefix (prefix);
 	g_free (prefix);
 
+	if (config->timezone)
+		gnome_config_set_string ("Timezone", config->timezone);
 	gnome_config_set_int ("WorkingDays", config->working_days);
 	gnome_config_set_bool ("Use24HourFormat", config->use_24_hour_format);
 	gnome_config_set_int ("WeekStartDay", config->week_start_day);
@@ -189,6 +193,29 @@ calendar_config_write_on_exit		(void)
 /*
  * Calendar Settings.
  */
+
+/* The current timezone, e.g. "Europe/London". It may be NULL, in which case
+   you should assume UTC (though Evolution will show the timezone-setting
+   dialog the next time a calendar or task folder is selected). */
+gchar*
+calendar_config_get_timezone		(void)
+{
+	return config->timezone;
+}
+
+
+/* Sets the timezone. You shouldn't really set it to the empty string or NULL,
+   as this means that Evolution will show the timezone-setting dialog to ask
+   the user for the timezone. */
+void
+calendar_config_set_timezone		(gchar	     *timezone)
+{
+	if (timezone && timezone[0])
+		config->timezone = timezone;
+	else
+		config->timezone = NULL;
+}
+
 
 /* Whether we use 24-hour format or 12-hour format (AM/PM). */
 gboolean

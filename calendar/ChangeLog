@@ -1,3 +1,38 @@
+2001-06-19  Damon Chaplin  <damon@ximian.com>
+
+	* gui/dialogs/task-details-page.glade: 
+	* gui/dialogs/task-page.glade: 
+	* gui/dialogs/event-page.glade: added timezone fields. Also moved the
+	'All Day' flag into an alignment so it doesn't mess up the height of
+	the other widgets.
+
+	* gui/dialogs/task-details-page.c: 
+	* gui/dialogs/task-page.c: 
+	* gui/dialogs/event-page.c: added code to handle the timezone fields.
+	This still needs to be hooked up when the libical code is finished.
+
+	* gui/dialogs/e-timezone-dialog.c (on_map_leave): new function to
+	clear the preview label and turn off the highlighted point on the
+	map when you move the mouse outside it.
+	(find_selected_point): new function to try to find the point
+	corresponding to the text in the combo.
+	(on_combo_changed): call the above function to update the selected
+	point.
+	(on_map_leave): turn off the preview point & label when the mouse
+	leaves the map.
+	(e_timezone_dialog_set_cal_client): changed it so that selecting "None"
+	clears the entry.
+	
+	* gui/dialogs/comp-editor-page.[hc]: added set_cal_client() virtual
+	method since some pages need to access the CalClient to get timezone
+	information. Also added comp_editor_page_set_cal_client() to call
+	the virtual method.
+
+	* gui/dialogs/comp-editor.c (comp_editor_set_cal_client): called
+	comp_editor_page_set_cal_client() on each page.
+
+	* gui/calendar-config.c: added functions to get & set the timezone.
+
 2001-06-18  Eskil Heyn Olsen  <eskil@eskil.dk>
 
 	* conduits/calendar/calendar-conduit.c: (comp_from_remote_record),
