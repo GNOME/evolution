@@ -1,14 +1,9 @@
 2004-04-06  Hao Sheng  <hao.sheng@sun.com>
 
-	* gui/widgets/e-minicard.c :
+	* gui/widgets/e-minicard.c:
 	(e_minicard_event) : implement keyboard navigation(TAB/shift+TAB)
 	(activaite_editor) : add a new function to activiate contact editor
 	for support "Enter" key
-	* gui/widgets/e-minicard-view-widget.c :
-	(e_minicard_view_widget_class_init) : set the default focus at
-	initialization
-	(e_minicard_view_widget_real_focus_in_event) : set the first item 
-	be focused as default
 
 	Fixes #55056
 
