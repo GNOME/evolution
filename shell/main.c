@@ -570,7 +570,7 @@ main (int argc, char **argv)
 	glade_init ();
 	e_cursors_init ();
 	e_icon_factory_init ();
-
+	
 	icon_list = e_icon_factory_get_icon_list ("stock_mail");
 	if (icon_list) {
 		gtk_window_set_default_icon_list (icon_list);
@@ -603,6 +603,8 @@ main (int argc, char **argv)
 	g_idle_add (idle_cb, uri_list);
 
 	bonobo_main ();
-
+	
+	e_icon_factory_shutdown ();
+	
 	return 0;
 }
