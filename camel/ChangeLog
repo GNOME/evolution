@@ -1,3 +1,14 @@
+2003-07-25  Jeffrey Stedfast  <fejj@ximian.com>
+
+	* camel-mime-utils.c (header_decode_word): Revert NotZed's fix for
+	bug #42170 - this causes even more problems than it solves. See
+	bug #46331 for info. Basically, each address header would be
+	converted to UTF-8 twice which means no raw 8bit address header
+	would render correctly.
+	(header_decode_mailbox): Perform a sanity check on the resultant
+	addr->str to make sure that it is valid UTF-8, if not convert it
+	to UTF-8. Fixes bug #42170.
+
 2003-07-17  Timo Sirainen <tss@iki.fi>
 
 	** See bug #42573
