@@ -1,3 +1,11 @@
+2002-09-30  Ettore Perazzoli  <ettore@ximian.com>
+
+	* evolution-mail-global.xml: Change the accelerator of
+	ToolsSubscriptions to be "u".
+
+	* evolution.xml: Add PilotConduitSettings in Tools.  Rename
+	"Preferences" to "Settings" as per Anna's request.
+
 2002-09-25  Jeffrey Stedfast  <fejj@ximian.com>
 
 	* evolution-mail-message.xml: Make the Zoom accels the same as

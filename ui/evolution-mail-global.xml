@@ -94,7 +94,7 @@
 
 	<separator f="" name="emailglobal3"/>
 
-        <menuitem name="ToolsSubscriptions" verb="" _label="_Subscribe to Folders..."/>
+        <menuitem name="ToolsSubscriptions" verb="" _label="S_ubscribe to Folders..."/>
 
 	<separator f="" name="emailglobal4"/>
 

@@ -160,10 +160,11 @@
     </submenu>
 
     <submenu name="Tools" _label="_Tools">
-      <menuitem name="Settings" verb="" _label="_Preferences..." _tip="Change Evolution's settings"/>
+      <menuitem name="Settings" verb="" _label="_Settings..." _tip="Change Evolution's settings"/>
       <separator/>
       <placeholder name="ComponentPlaceholder"/>
       <menuitem name="PilotSettings" verb="" _label="Pi_lot Settings..." _tip="Set up Pilot configuration"/>
+      <menuitem name="PilotConduitSettings" verb="" _label="Pilot Con_duit Settings..." _tip="Set up Pilot conduit configuration"/>
     </submenu>
 
     <placeholder name="SearchPlaceholder">
