@@ -1,5 +1,10 @@
 2000-10-04  Chris Toshok  <toshok@helixcode.com>
 
+	* providers/nntp/camel-nntp-provider.c
+	(camel_provider_module_init): news: -> nntp:.
+
+2000-10-04  Chris Toshok  <toshok@helixcode.com>
+
 	* providers/nntp/camel-nntp-store.c (nntp_store_get_folder_info):
 	use "nntp:" instead of "news:" since "news:" urls aren't supposed
 	to have host/user/port info in them.  also, if there's a user

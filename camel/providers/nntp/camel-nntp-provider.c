@@ -29,30 +29,15 @@
 #include "camel-session.h"
 
 static CamelProvider news_provider = {
-	"news",
-	"USENET news",
-
-	"This is a read-only provider for USENET newsgroups.",
-
-	"news",
-
-	CAMEL_PROVIDER_IS_REMOTE | CAMEL_PROVIDER_IS_STORAGE,
-
-	{ 0, 0 },
-
-	NULL
-};
-
-static CamelProvider nntp_provider = {
 	"nntp",
-	"USENET news via NNTP",
+	"USENET news",
 
 	"This is a provider for reading from and posting to"
 	"USENET newsgroups.",
 
 	"news",
 
-	CAMEL_PROVIDER_IS_REMOTE,
+	CAMEL_PROVIDER_IS_REMOTE | CAMEL_PROVIDER_IS_STORAGE,
 
 	{ 0, 0 },
 
@@ -64,16 +49,10 @@ camel_provider_module_init (CamelSession *session)
 {
 	news_provider.object_types[CAMEL_PROVIDER_STORE] =
 		camel_nntp_store_get_type();
-#ifdef NOTYET
-	nntp_provider.object_types[CAMEL_PROVIDER_TRANSPORT] =
-		camel_nntp_transport_get_type();
-#endif
 
 	news_provider.service_cache = g_hash_table_new (camel_url_hash, camel_url_equal);
-	nntp_provider.service_cache = g_hash_table_new (camel_url_hash, camel_url_equal);
 
 	camel_session_register_provider (session, &news_provider);
-	camel_session_register_provider (session, &nntp_provider);
 }
 
 
