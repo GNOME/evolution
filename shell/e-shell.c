@@ -2175,7 +2175,6 @@ parse_default_uri (EShell *shell,
 	const char *p;
 	char *config_path;
 	char *path;
-	gboolean is_default;
 
 	component_start = uri + E_SHELL_DEFAULTURI_PREFIX_LEN;
 	p = strchr (uri, '#');
@@ -2193,7 +2192,7 @@ parse_default_uri (EShell *shell,
 
 	/* We expect an evolution: URI here, if we don't get it then something
 	   is messed up.  */
-	if (path == NULL || strncmp (path, E_SHELL_URI_PREFIX, E_SHELL_URI_PREFIX_LEN) != 0 || is_default) {
+	if (path == NULL || strncmp (path, E_SHELL_URI_PREFIX, E_SHELL_URI_PREFIX_LEN) != 0) {
 		g_free (path);
 		if (path_return != NULL)
 			*path_return = NULL;
