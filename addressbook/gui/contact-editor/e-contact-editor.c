@@ -45,6 +45,8 @@
 #include <gal/widgets/e-gui-utils.h>
 #include <gal/e-text/e-entry.h>
 
+#include <libebook/e-address-western.h>
+
 #include <e-util/e-categories-master-list-wombat.h>
 
 #include "addressbook/printing/e-contact-print.h"
@@ -79,7 +81,9 @@ static void e_contact_editor_dispose (GObject *object);
 static void _email_arrow_pressed (GtkWidget *widget, GdkEventButton *button, EContactEditor *editor);
 static void _phone_arrow_pressed (GtkWidget *widget, GdkEventButton *button, EContactEditor *editor);
 static void _address_arrow_pressed (GtkWidget *widget, GdkEventButton *button, EContactEditor *editor);
+#if 0
 static void find_address_mailing (EContactEditor *editor);
+#endif
 static void enable_writable_fields(EContactEditor *editor);
 static void set_editable(EContactEditor *editor);
 static void fill_in_info(EContactEditor *editor);
@@ -328,23 +332,100 @@ email_entry_changed (GtkWidget *widget, EContactEditor *editor)
 	widget_changed (widget, editor);
 }
 
+static gchar *
+address_to_text (const EContactAddress *address)
+{
+	GString *text;
+	gchar *str;
+
+	text = g_string_new ("");
+
+	if (address->street && *address->street) {
+		g_string_append (text, address->street);
+		g_string_append_c (text, '\n');
+	}
+	if (address->ext && *address->ext) {
+		g_string_append (text, address->ext);
+		g_string_append_c (text, '\n');
+	}
+	if (address->po && *address->po) {
+		g_string_append (text, address->po);
+		g_string_append_c (text, '\n');
+	}
+	if (address->locality && *address->locality) {
+		g_string_append (text, address->locality);
+		g_string_append_c (text, '\n');
+	}
+	if (address->region && *address->region) {
+		g_string_append (text, address->region);
+		g_string_append_c (text, '\n');
+	}
+	if (address->code && *address->code) {
+		g_string_append (text, address->code);
+		g_string_append_c (text, '\n');
+	}
+	if (address->country && *address->country) {
+		g_string_append (text, address->country);
+		g_string_append_c (text, '\n');
+	}
+
+	str = text->str;
+	g_string_free (text, FALSE);
+	return str;
+}
+
+static EContactAddress *
+text_to_address (const gchar *text)
+{
+	EAddressWestern *western;
+	EContactAddress *address;
+
+	g_return_val_if_fail (text != NULL, NULL);
+
+	western = e_address_western_parse (text);
+	if (!western)
+		return NULL;
+
+	address = g_new0 (EContactAddress, 1);
+	address->po = western->po_box;
+	address->ext = western->extended;
+	address->street = western->street;
+	address->locality = western->locality;
+	address->region = western->region;
+	address->code = western->postal_code;
+	address->country = western->country;
+
+	g_free (western);
+
+	return address;
+}
+
 static void
 address_text_changed (GtkTextBuffer *buffer, EContactEditor *editor)
 {
-#if notyet
-	ECardAddrLabel *address;
+	EContactAddress *address;
 	GtkTextIter start_iter, end_iter;
+	gchar *text;
+
+	g_print ("editor->address_choice == %d\n", editor->address_choice);
 
 	if (editor->address_choice == -1)
 		return;
 
-	address = e_card_address_label_new();
+	gtk_text_buffer_get_start_iter (GTK_TEXT_BUFFER (buffer), &start_iter);
+	gtk_text_buffer_get_end_iter (GTK_TEXT_BUFFER (buffer), &end_iter);
+
+	text = gtk_text_buffer_get_text (GTK_TEXT_BUFFER (buffer), &start_iter, &end_iter, FALSE);
+	address = text_to_address (text);
+	g_free (text);
 
 	if (editor->address_mailing == editor->address_choice || editor->address_mailing == -1) {
 		GtkWidget *check;
-		
+
+#if 0
 		address->flags |= E_CARD_ADDR_DEFAULT;
-		
+#endif
+
 		check = glade_xml_get_widget(editor->gui, "checkbutton-mailingaddress");
 		if (check && GTK_IS_CHECK_BUTTON (check)) {
 			g_signal_handlers_block_matched (check,
@@ -359,16 +440,11 @@ address_text_changed (GtkTextBuffer *buffer, EContactEditor *editor)
 		}
 	}
 	
-	gtk_text_buffer_get_start_iter (GTK_TEXT_BUFFER (buffer), &start_iter);
-	gtk_text_buffer_get_end_iter (GTK_TEXT_BUFFER (buffer), &end_iter);
+	e_contact_set (editor->contact, editor->address_choice, address);
 
-	address->data = gtk_text_buffer_get_text (GTK_TEXT_BUFFER (buffer), &start_iter, &end_iter, FALSE);
-
-	e_card_simple_set_address(editor->simple, editor->address_choice, address);
-	e_card_address_label_unref(address);
+	g_boxed_free (e_contact_address_get_type (), address);
 
 	widget_changed (NULL, editor);
-#endif
 }
 
 
@@ -781,16 +857,15 @@ full_name_clicked(GtkWidget *button, EContactEditor *editor)
 static void
 full_addr_clicked(GtkWidget *button, EContactEditor *editor)
 {
-#if notyet
 	GtkDialog *dialog;
 	int result;
-	const ECardDeliveryAddress *address;
+	EContactAddress *address;
 
-	address = e_card_simple_get_delivery_address(editor->simple, editor->address_choice);
+	address = e_contact_get (editor->contact, editor->address_choice);
 
 	dialog = GTK_DIALOG(e_contact_editor_address_new(address));
 	g_object_set (dialog,
-		      "editable", editor->address_editable[editor->address_choice],
+		      "editable", editor->address_editable[editor->address_choice - E_CONTACT_FIRST_ADDRESS_ID],
 		      NULL);
 	gtk_widget_show(GTK_WIDGET(dialog));
 
@@ -798,21 +873,21 @@ full_addr_clicked(GtkWidget *button, EContactEditor *editor)
 
 	gtk_widget_hide (GTK_WIDGET (dialog));
 
-	if (editor->address_editable[editor->address_choice] && result == GTK_RESPONSE_OK) {
-		ECardDeliveryAddress *new_address;
+	if (editor->address_editable[editor->address_choice - E_CONTACT_FIRST_ADDRESS_ID] && result == GTK_RESPONSE_OK) {
+		EContactAddress *new_address;
 		GtkWidget *address_widget;
 		int saved_choice = editor->address_choice;
 
 		editor->address_choice = -1;
 
 		g_object_get (dialog,
-			       "address", &new_address,
-			       NULL);
+			      "address", &new_address,
+			      NULL);
 
 		address_widget = glade_xml_get_widget(editor->gui, "text-address");
 		if (address_widget && GTK_IS_TEXT_VIEW(address_widget)) {
 			GtkTextBuffer *buffer;
-			char *string = e_card_delivery_address_to_string(new_address);
+			char *string = address_to_text (new_address);
 
 			buffer = gtk_text_view_get_buffer (GTK_TEXT_VIEW (address_widget));
 
@@ -823,14 +898,15 @@ full_addr_clicked(GtkWidget *button, EContactEditor *editor)
 
 		editor->address_choice = saved_choice;
 
-		e_card_simple_set_delivery_address(editor->simple, editor->address_choice, new_address);
+		e_contact_set (editor->contact, editor->address_choice, new_address);
 
-		e_card_delivery_address_unref(new_address);
+		g_boxed_free (e_contact_address_get_type (), new_address);
 
 		widget_changed (NULL, editor);
 	}
 	gtk_widget_destroy (GTK_WIDGET (dialog));
-#endif
+
+	g_boxed_free (e_contact_address_get_type (), address);
 }
 
 static void
@@ -1294,8 +1370,8 @@ e_contact_editor_init (EContactEditor *e_contact_editor)
 	e_contact_editor->phone_choice[1] = E_CONTACT_PHONE_HOME;
 	e_contact_editor->phone_choice[2] = E_CONTACT_PHONE_BUSINESS_FAX;
 	e_contact_editor->phone_choice[3] = E_CONTACT_PHONE_MOBILE;
-#if 0
-	e_contact_editor->address_choice = 0;
+#if 1
+	e_contact_editor->address_choice = E_CONTACT_FIRST_ADDRESS_ID;
 	e_contact_editor->address_mailing = -1;
 #endif	
 
@@ -1864,7 +1940,7 @@ _email_arrow_pressed (GtkWidget *widget, GdkEventButton *button, EContactEditor 
 	
 	if (result != -1) {
 		GtkWidget *entry = glade_xml_get_widget (editor->gui, "entry-email1");
-		editor->email_choice = result;
+		editor->email_choice = result + E_CONTACT_FIRST_EMAIL_ID;
 
 		set_fields (editor);
 
@@ -1878,58 +1954,62 @@ _email_arrow_pressed (GtkWidget *widget, GdkEventButton *button, EContactEditor 
 static void
 _address_arrow_pressed (GtkWidget *widget, GdkEventButton *button, EContactEditor *editor)
 {
-#if notyet
 	int i;
 	int result;
 
 	e_contact_editor_build_address_ui (editor);
 
-	for(i = 0; i < E_CARD_SIMPLE_ADDRESS_ID_LAST; i++) {
-		const ECardAddrLabel *address = e_card_simple_get_address(editor->simple, i);
+	for (i = E_CONTACT_FIRST_ADDRESS_ID; i <= E_CONTACT_LAST_ADDRESS_ID; i++) {
+		EContactAddress *address = e_contact_get (editor->contact, i);
 		gboolean checked;
-		checked = address && address->data && *address->data;
-		gtk_check_menu_item_set_active(GTK_CHECK_MENU_ITEM(editor->address_info[i].widget),
-					       checked);
+
+		checked = address;
+		gtk_check_menu_item_set_active (
+			GTK_CHECK_MENU_ITEM (editor->address_info [i - E_CONTACT_FIRST_ADDRESS_ID].widget),
+			checked);
+
+		if (address)
+			g_boxed_free (e_contact_address_get_type (), address);
 	}
 
 	result = _arrow_pressed (widget, button, editor, editor->address_popup, &editor->address_list, &editor->address_info, "label-address");
 
 	if (result != -1) {
-		set_address_field(editor, result);
+		set_address_field(editor, result + E_CONTACT_FIRST_ADDRESS_ID);
 
 		/* make sure the buttons/entry is/are sensitive */
 		enable_widget (glade_xml_get_widget (editor->gui, "label-address"), TRUE);
 		enable_widget (glade_xml_get_widget (editor->gui, "text-address"), editor->address_editable[result]);
 		enable_widget (glade_xml_get_widget (editor->gui, "checkbutton-mailingaddress"), editor->address_editable[result]);
 	}
-#endif
 }
 
+#if 0
 static void
 find_address_mailing (EContactEditor *editor)
 {
-#if notyet
-	const ECardDeliveryAddress *address;
+	const EContactAddress *address;
 	int i;
 	
 	editor->address_mailing = -1;
-	for (i = 0; i < E_CARD_SIMPLE_ADDRESS_ID_LAST; i++) {
-		address = e_card_simple_get_delivery_address(editor->simple, i);
+	for (i = E_CONTACT_FIRST_ADDRESS_ID; i <= E_CONTACT_LAST_ADDRESS_ID; i++) {
+		address = e_contact_get_const (editor->contact, i);
 		if (address && (address->flags & E_CARD_ADDR_DEFAULT)) {
 			if (editor->address_mailing == -1) {
 				editor->address_mailing = i;
 			} else {
-				ECardDeliveryAddress *new;
+				EContactAddress *new;
 				
 				new = e_card_delivery_address_copy (address);
+				new = g_boxed_copy (e_contact_address_get_type (), address);
 				new->flags &= ~E_CARD_ADDR_DEFAULT;
 				e_card_simple_set_delivery_address(editor->simple, i, new);
 				e_card_delivery_address_unref (new);
 			}
 		}
 	}
-#endif
 }
+#endif
 
 static void
 set_field(EContactEditor *editor, GtkEntry *entry, const char *string)
@@ -1957,6 +2037,7 @@ set_phone_field(EContactEditor *editor, GtkWidget *entry, const char *phone_numb
 static void
 set_fields(EContactEditor *editor)
 {
+	EContactAddress *address;
 	GtkWidget *entry;
 	GtkWidget *label_widget;
 	int i;
@@ -1984,31 +2065,42 @@ set_fields(EContactEditor *editor)
 
 	e_contact_editor_build_address_ui (editor);
 
-#if notyet
-	for (i = 0; i < E_CARD_SIMPLE_ADDRESS_ID_LAST; i++) {
-		const ECardAddrLabel *address = e_card_simple_get_address(editor->simple, i);
+	/* If address field is selected, try that first. If we don't have that, start
+	 * from top of field list */
+	if (editor->address_choice == -1)
+		address = NULL;
+	else
+		address = e_contact_get (editor->contact, editor->address_choice);
 
-		if (address && address->data && *address->data)
-			break;
-	}
-	if (i == E_CARD_SIMPLE_ADDRESS_ID_LAST)
-		i = 0;
+	if (address) {
+		i = editor->address_choice;
+		g_boxed_free (e_contact_address_get_type (), address);
+	} else {
+		for (i = E_CONTACT_FIRST_ADDRESS_ID; i <= E_CONTACT_LAST_ADDRESS_ID; i++) {
+			address = e_contact_get (editor->contact, i);
 
-	label_widget = glade_xml_get_widget(editor->gui, "label-address");
-	if (label_widget && GTK_IS_LABEL(label_widget)) {
-		g_object_set (label_widget,
-			       "label", _(g_list_nth_data(editor->address_list, i)),
-			       NULL);
+			if (address) {
+				g_boxed_free (e_contact_address_get_type (), address);
+				break;
+			}
+		}
+		if (i > E_CONTACT_LAST_ADDRESS_ID)
+			i = E_CONTACT_FIRST_ADDRESS_ID;
+
+		label_widget = glade_xml_get_widget(editor->gui, "label-address");
+		if (label_widget && GTK_IS_LABEL(label_widget)) {
+			g_object_set (label_widget,
+				      "label", _(g_list_nth_data(editor->address_list, i - E_CONTACT_FIRST_ADDRESS_ID)),
+				      NULL);
+		}
 	}
 
 	set_address_field(editor, i);
-#endif
 }
 
 static void
 set_address_field(EContactEditor *editor, int result)
 {
-#if notyet
 	GtkWidget *text, *check;
 	
 	text = glade_xml_get_widget(editor->gui, "text-address");
@@ -2016,7 +2108,7 @@ set_address_field(EContactEditor *editor, int result)
 	if (text && GTK_IS_TEXT_VIEW(text)) {
 		GtkTextBuffer *buffer;
 		GtkTextIter start_iter, end_iter;
-		const ECardAddrLabel *address;
+		EContactAddress *address;
 
 		if (result == -1)
 			result = editor->address_choice;
@@ -2029,22 +2121,31 @@ set_address_field(EContactEditor *editor, int result)
 
 		gtk_text_buffer_delete (buffer, &start_iter, &end_iter);
 
-		address = e_card_simple_get_address(editor->simple, result);
-		if (address && address->data)
-			gtk_text_buffer_insert (buffer, &start_iter, address->data, strlen (address->data));
+		address = e_contact_get (editor->contact, result);
+		if (address) {
+			gchar *text;
+
+			text = address_to_text (address);
+			gtk_text_buffer_insert (buffer, &start_iter, text, strlen (text));
+			g_free (text);
+		}
 
 		check = glade_xml_get_widget(editor->gui, "checkbutton-mailingaddress");
 		if (check && GTK_IS_CHECK_BUTTON (check)) {
+#if 0
 			if (address && address->data)
 				gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (check), 
 							      address->flags & E_CARD_ADDR_DEFAULT);
 			else
 				gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (check), FALSE);
+#endif
 		}
 		
 		editor->address_choice = result;
+
+		if (address)
+			g_boxed_free (e_contact_address_get_type (), address);
 	}
-#endif
 }
 
 static struct {
@@ -2190,13 +2291,11 @@ enable_writable_fields(EContactEditor *editor)
 		g_hash_table_insert (dropdown_hash,
 				     (char*)e_contact_field_name(phones[i]),
 				     editor->email_info[i].widget);
-#if notyet
 	e_contact_editor_build_address_ui (editor);
-	for (i = 0; i < E_CARD_SIMPLE_ADDRESS_ID_LAST; i ++)
+	for (i = E_CONTACT_FIRST_ADDRESS_ID; i <= E_CONTACT_LAST_ADDRESS_ID; i ++)
 		g_hash_table_insert (dropdown_hash,
-				     (char*)e_card_simple_get_ecard_field(simple, e_card_simple_map_address_to_field (i)),
-				     editor->address_info[i].widget);
-#endif
+				     (char*)e_contact_field_name (i),
+				     editor->address_info[i - E_CONTACT_FIRST_ADDRESS_ID].widget);
 
 	/* then disable them all */
 	g_hash_table_foreach (dropdown_hash, (GHFunc)disable_widget_foreach, NULL);
@@ -2238,13 +2337,11 @@ enable_writable_fields(EContactEditor *editor)
 			g_hash_table_insert (supported_hash, field, field);
 		}
 
-#if notyet
-		for (i = 0; i < E_CARD_SIMPLE_ADDRESS_ID_LAST; i ++) {
-			if (!strcmp (field, e_card_simple_get_ecard_field (simple, e_card_simple_map_address_to_field(i)))) {
-				editor->address_editable [i] = TRUE;
+		for (i = E_CONTACT_FIRST_ADDRESS_ID; i <= E_CONTACT_LAST_ADDRESS_ID; i ++) {
+			if (!strcmp (field, e_contact_field_name (i))) {
+				editor->address_editable [i - E_CONTACT_FIRST_ADDRESS_ID] = TRUE;
 			}
 		}
-#endif
 
 		/* ugh - this is needed to make sure we don't have a
                    disabled label next to a drop down when the item in
@@ -2365,7 +2462,9 @@ fill_in_info(EContactEditor *editor)
 			g_free (string);
 		}
 
+#if 0
 		find_address_mailing (editor);
+#endif
 		
 		widget = glade_xml_get_widget(editor->gui, "checkbutton-htmlmail");
 		if (widget && GTK_IS_CHECK_BUTTON(widget)) {

@@ -1,3 +1,21 @@
+2003-12-15  Hans Petter Jansson  <hpj@ximian.com>
+
+	* gui/contact-editor/e-contact-editor.c (address_to_text): Implement.
+	(text_to_address): Implement, using EAddressWestern.
+	(address_text_changed): Adapt to EContactAddress.
+	(full_addr_clicked): Ditto. Fix field IDs.
+	(e_contact_editor_init): Init address_choice.
+	(_email_arrow_pressed): Fix field IDs.
+	(_address_arrow_pressed): Adapt to EContactAddress and fix field IDs.
+	(find_address_mailing): Leave out for now. Addresses don't have flags
+	anymore...
+	(set_fields): Adapt to EContactAddress and fix field IDs. Make sure
+	changes to other widgets don't make us go back to the first listed
+	address.
+	(set_address_field): Adapt to EContactAddress and fix field IDs.
+	(enable_writable_fields): Ditto.
+	(fill_in_info): Disable find_address_mailing () for now.
+
 2003-12-10  Hans Petter Jansson  <hpj@ximian.com>
 
 	* gui/contact-editor/e-contact-editor-address.c

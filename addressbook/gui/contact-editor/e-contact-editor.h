@@ -79,7 +79,7 @@ struct _EContactEditor
 	EContactField phone_choice[4];
 	EContactField address_choice;
 	EContactField address_mailing;
-	
+
 	/* Whether we are editing a new contact or an existing one */
 	guint is_new_contact : 1;
 
@@ -92,10 +92,8 @@ struct _EContactEditor
 	/* Whether the fullname will accept modifications */
 	guint fullname_editable : 1;
 
-#if notyet
 	/* Whether each of the addresses are editable */
-	gboolean address_editable[E_CARD_SIMPLE_ADDRESS_ID_LAST];
-#endif
+	gboolean address_editable [E_CONTACT_LAST_ADDRESS_ID - E_CONTACT_FIRST_ADDRESS_ID + 1];
 
 	/* Whether an async wombat call is in progress */
 	guint in_async_call : 1;
