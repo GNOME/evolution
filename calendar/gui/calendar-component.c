@@ -39,7 +39,9 @@
 #define SUMMARY_FACTORY_ID   "OAFIID:GNOME_Evolution_Calendar_ExecutiveSummaryComponentFactory"
 
 static BonoboGenericFactory *factory = NULL;
+#ifdef WANT_THE_EXECUTIVE_SUMMARY
 static BonoboGenericFactory *summary_factory = NULL;
+#endif
 char *evolution_dir;
 
 static const EvolutionShellComponentFolderType folder_types[] = {

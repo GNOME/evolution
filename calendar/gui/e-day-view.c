@@ -385,11 +385,12 @@ static void e_day_view_on_main_canvas_drag_data_received (GtkWidget      *widget
 							  guint           time,
 							  EDayView	 *day_view);
 
+#if 0
 static gboolean e_day_view_update_event_cb (EDayView *day_view,
 					    gint day,
 					    gint event_num,
 					    gpointer data);
-
+#endif
 static gboolean e_day_view_remove_event_cb (EDayView *day_view,
 					    gint day,
 					    gint event_num,
@@ -1362,7 +1363,9 @@ obj_updated_cb (CalClient *client, const char *uid, gpointer data)
 		else
 			event = &g_array_index (day_view->events[day],
 						EDayViewEvent, event_num);
+#ifndef NO_WARNINGS
 #warning "FIXME"
+#endif
 
 		/* Do this the long way every time for now */
 #if 0
@@ -1457,7 +1460,7 @@ e_day_view_set_cal_client	(EDayView	*day_view,
 	e_day_view_queue_reload_events (day_view);
 }
 
-
+#if 0
 static gboolean
 e_day_view_update_event_cb (EDayView *day_view,
 			    gint day,
@@ -1493,7 +1496,7 @@ e_day_view_update_event_cb (EDayView *day_view,
 	}
 	return TRUE;
 }
-
+#endif
 
 /* This calls a given function for each event instance (in both views).
    If the callback returns TRUE the iteration is stopped.

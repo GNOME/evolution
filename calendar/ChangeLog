@@ -1,3 +1,25 @@
+2000-12-13  Christopher James Lahey  <clahey@helixcode.com>
+
+	* cal-util/cal-recur.c: #if 0ed cal_obj_date_only_compare_func.
+	(cal_object_get_rdate_end): Changed this function to get rid of a
+	possible uninitialized error on the rdate function.
+
+	* gui/calendar-model.c: Fixed some warnings involving the #define
+	_XOPEN_SOURCE lines here.
+
+	* gui/component-factory.c: #ifdef WANT_THE_EXECUTIVE_SUMMARYed out
+	the summary_factory object since it's unused if
+	WANT_THE_EXCUTIVE_SUMMARY is not defined.
+
+	* gui/e-day-view.c: #if 0ed out e_day_view_remove_event_cb.
+	(obj_updated_cb): #ifndef NO_WARNINGSed out a #warning.
+
+	* gui/e-week-view-event-item.c (e_week_view_event_item_draw): Made
+	it so that
+
+	* gui/e-week-view.c (obj_updated_cb): #ifndef NO_WARNINGSed out a
+	#warning.
+
 2000-12-13  JP Rosevear  <jpr@helixcode.com>
 
 	* conduits/todo/Makefile.am: Revert federico's change for now

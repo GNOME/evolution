@@ -891,7 +891,9 @@ obj_updated_cb (CalClient *client, const char *uid, gpointer data)
 	   update the event fairly easily without changing the events arrays
 	   or computing a new layout. */
 	if (e_week_view_find_event_from_uid (week_view, uid, &event_num)) {
+#ifndef NO_WARNINGS
 #warning "FIXME"
+#endif
 		event = &g_array_index (week_view->events, EWeekViewEvent,
 					event_num);
 

@@ -21,15 +21,16 @@
  * Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA 02111-1307, USA.
  */
 
-/* We need this for strptime. */
-#define _XOPEN_SOURCE
 
 #include <config.h>
-#include <ctype.h>
 #include <math.h>
-#undef _XOPEN_SOURCE
-#include <sys/time.h>
+/* We need this for strptime. */
+#include <ctype.h>
 #define _XOPEN_SOURCE
+#define __USE_XOPEN
+#include <sys/time.h>
+#undef _XOPEN_SOURCE
+#undef __USE_XOPEN
 #include <time.h>
 #include <gnome.h>
 #include <cal-util/timeutil.h>

@@ -439,8 +439,10 @@ static void cal_obj_time_find_first_week	(CalObjTime *cotime,
 						 RecurData  *recur_data);
 static void cal_object_time_from_time		(CalObjTime *cotime,
 						 time_t      t);
+#if 0
 static gint cal_obj_date_only_compare_func (const void *arg1,
 					    const void *arg2);
+#endif
 
 
 
@@ -1194,7 +1196,7 @@ static gboolean
 cal_object_get_rdate_end	(CalObjTime	*occ,
 				 GArray		*rdate_periods)
 {
-	CalObjRecurrenceDate *rdate;
+	CalObjRecurrenceDate *rdate = NULL;
 	CalComponentPeriod *p;
 	gint lower, upper, middle, cmp = 0;
 	time_t t;
@@ -3424,6 +3426,7 @@ cal_obj_time_compare_func (const void *arg1,
 	return retval;
 }
 
+#if 0
 static gint
 cal_obj_date_only_compare_func (const void *arg1,
 				const void *arg2)
@@ -3450,6 +3453,7 @@ cal_obj_date_only_compare_func (const void *arg1,
 
 	return 0;
 }
+#endif
 
 /* Returns the weekday of the given CalObjTime, from 0 (Mon) - 6 (Sun). */
 static gint

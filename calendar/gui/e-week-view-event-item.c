@@ -318,6 +318,11 @@ e_week_view_event_item_draw (GnomeCanvasItem  *canvas_item,
 			draw_start = FALSE;
 			draw_end = FALSE;
 			break;
+		default:
+			g_assert_not_reached();
+			draw_start = FALSE;
+			draw_end = FALSE;
+			break;
 		}
 
 		if (draw_start) {
