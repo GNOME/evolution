@@ -24,11 +24,8 @@
 #include <config.h>
 #include <stdlib.h>
 #include <string.h>
-#include <gtk/gtksignal.h>
 #include "gal/util/e-util.h"
 #include "e-table-without.h"
-
-#define ETW_CLASS(e) ((ETableWithoutClass *)((GtkObject *)e)->klass)
 
 #define PARENT_TYPE E_TABLE_SUBSET_TYPE
 
@@ -130,7 +127,7 @@ delete_hash_element (gpointer key,
 }
 
 static void
-etw_destroy (GtkObject *object)
+etw_dispose (GObject *object)
 {
 	ETableWithout *etw = E_TABLE_WITHOUT (object);
 
@@ -144,8 +141,8 @@ etw_destroy (GtkObject *object)
 		etw->priv = NULL;
 	}
 
-	if (GTK_OBJECT_CLASS (parent_class)->destroy)
-		(* GTK_OBJECT_CLASS (parent_class)->destroy) (object);
+	if (G_OBJECT_CLASS (parent_class)->dispose)
+		(* G_OBJECT_CLASS (parent_class)->dispose) (object);
 }
 
 static void
@@ -225,11 +222,11 @@ static void
 etw_class_init (ETableWithoutClass *klass)
 {
 	ETableSubsetClass *etss_class         = E_TABLE_SUBSET_CLASS (klass);
-	GtkObjectClass *object_class          = GTK_OBJECT_CLASS (klass);
+	GObjectClass *object_class            = G_OBJECT_CLASS (klass);
 
-	parent_class                          = gtk_type_class (PARENT_TYPE);
+	parent_class                          = g_type_class_ref (PARENT_TYPE);
 
-	object_class->destroy                 = etw_destroy;
+	object_class->dispose                 = etw_dispose;
 
 	etss_class->proxy_model_rows_inserted = etw_proxy_model_rows_inserted;
 	etss_class->proxy_model_rows_deleted  = etw_proxy_model_rows_deleted;
@@ -288,7 +285,7 @@ e_table_without_new        (ETableModel                   *source,
 			    ETableWithoutFreeKeyFunc       free_duplicated_key_func,
 			    void                          *closure)
 {
-	ETableWithout *etw = gtk_type_new (E_TABLE_WITHOUT_TYPE);
+	ETableWithout *etw = g_object_new (E_TABLE_WITHOUT_TYPE, NULL);
 
 	if (e_table_without_construct (etw,
 				       source,

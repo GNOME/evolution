@@ -32,10 +32,10 @@ extern "C" {
 #endif /* __cplusplus */
 
 #define E_TABLE_WITHOUT_TYPE        (e_table_without_get_type ())
-#define E_TABLE_WITHOUT(o)          (GTK_CHECK_CAST ((o), E_TABLE_WITHOUT_TYPE, ETableWithout))
-#define E_TABLE_WITHOUT_CLASS(k)    (GTK_CHECK_CLASS_CAST((k), E_TABLE_WITHOUT_TYPE, ETableWithoutClass))
-#define E_IS_TABLE_WITHOUT(o)       (GTK_CHECK_TYPE ((o), E_TABLE_WITHOUT_TYPE))
-#define E_IS_TABLE_WITHOUT_CLASS(k) (GTK_CHECK_CLASS_TYPE ((k), E_TABLE_WITHOUT_TYPE))
+#define E_TABLE_WITHOUT(o)          (G_TYPE_CHECK_INSTANCE_CAST ((o), E_TABLE_WITHOUT_TYPE, ETableWithout))
+#define E_TABLE_WITHOUT_CLASS(k)    (G_TYPE_CHECK_CLASS_CAST((k), E_TABLE_WITHOUT_TYPE, ETableWithoutClass))
+#define E_IS_TABLE_WITHOUT(o)       (G_TYPE_CHECK_INSTANCE_TYPE ((o), E_TABLE_WITHOUT_TYPE))
+#define E_IS_TABLE_WITHOUT_CLASS(k) (G_TYPE_CHECK_CLASS_TYPE ((k), E_TABLE_WITHOUT_TYPE))
 
 typedef struct _ETableWithoutPrivate ETableWithoutPrivate;
 typedef void *(*ETableWithoutGetKeyFunc)       (ETableModel *source,
@@ -56,7 +56,8 @@ typedef struct {
 	ETableSubsetClass parent_class;
 	
 } ETableWithoutClass;
-GtkType      e_table_without_get_type   (void);
+
+GType        e_table_without_get_type   (void);
 ETableModel *e_table_without_new        (ETableModel                   *source,
 					 GHashFunc                      hash_func,
 					 GCompareFunc                   compare_func,
