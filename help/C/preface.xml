@@ -358,3 +358,73 @@ Lastly, we'll have warnings, in cases where you should be careful:
 	</variablelist>
       </para>
     </sect1>
+
+    <sect1 id="preface-for-experts">
+      <title>Introductory Tips for Experienced Users</title>
+      <para>
+        This section has a few tips for experienced users of Linux or
+        UNIX systems:
+      </para>
+      <variablelist>
+        <varlistentry>
+          <term>Backups and File Locations</term>
+          <listitem>
+            <para>
+              To create a backup of your Evolution data, copy the
+              <guilabel>~/evolution/local/</guilabel> directory to
+              your backup disk.  To access data you
+              have backed up, use the <guilabel>Import</guilabel> tool to 
+              restore individual files as needed.
+            </para>
+          </listitem>
+        </varlistentry>
+
+        <varlistentry>
+          <term>Default Browsers</term>
+          <listitem>
+            <para>
+              To set the browser that opens when you click a link in
+              an email, open the GNOME preferences tool
+              (<menuchoice><guimenu>System</guimenu><guimenuitem>Settings</guimenuitem></menuchoice>
+            or <command>gnome-control-center</command>) and start the
+            <guilabel>File Associations</guilabel> tool. There, look under
+            <guilabel>Internet Services</guilabel>, select
+             <guilabel>World wide web (http)</guilabel>, and select
+             the browser of your choice. If you wish to use a 
+             browser other than the ones suggested, you will need to
+             enter the full shell command. For example you might use 
+             <userinput>mybrowser "%s"</userinput> to start the
+             mybrowser program at the right page.
+           </para>
+          </listitem>
+        </varlistentry>
+
+        <varlistentry>
+          <term>Making Evolution Your Default Mail Client</term>
+          <listitem>
+            <para>
+              For GNOME desktops, you can set
+              <application>Evolution</application> to be the default
+              mail client, so that it opens when you click a mailto:
+              link in web pages and help tools. To do that, open the
+              GNOME preferences tool and start the <guilabel>File
+              Associations</guilabel> tool.  There, look under
+              <guilabel>Internet Services</guilabel>, select
+              <guilabel>Electronic mail transmission
+              (mailto)</guilabel>, and select
+              <application>Evolution</application> from the drop-down
+              list.
+            </para>
+            <para>
+              For applications such as Mozilla and Netscape, which do
+              not use the GNOME preference tools, you will need to
+              find the protocol handler preference tool for that
+              application and enter <userinput>evolution
+            "%s"</userinput> as your choice for handling mailto links.
+            </para>
+          </listitem>
+        </varlistentry>
+
+      </variablelist>
+    </sect1>
+  
