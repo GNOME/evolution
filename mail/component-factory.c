@@ -808,8 +808,6 @@ owner_set_cb (EvolutionShellComponent *shell_component,
 		rule_context_load (search_context, system, user);
 	}
 	
-	mail_config_register_factory (corba_shell);
-	
 	if (mail_config_is_corrupt ()) {
 		GtkWidget *dialog;
 		
@@ -1043,8 +1041,6 @@ create_component (void)
 	bonobo_object_add_interface (BONOBO_OBJECT (shell_component),
 				     BONOBO_OBJECT (destination_interface));
 	
-	evolution_mail_config_wizard_init ();
-
 	icon = gdk_pixbuf_new_from_file (EVOLUTION_ICONSDIR "/new-message.xpm", NULL);
 	evolution_shell_component_add_user_creatable_item (shell_component, "message",
 							   _("New Mail Message"), _("_Mail Message"),

@@ -1,3 +1,9 @@
+2003-01-09  Ettore Perazzoli  <ettore@ximian.com>
+
+	* component-factory.c (owner_set_cb): Don't call
+	mail_config_register_factory() or
+	evolution_mail_config_wizard_init().
+
 2003-01-09  Not Zed  <NotZed@Ximian.com>
 
 	* mail-config-druid.c: Added druidpagestart1 to the pages list.
