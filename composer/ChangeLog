@@ -1,3 +1,9 @@
+2000-10-02  Jeffrey Stedfast  <fejj@helixcode.com>
+
+	* e-msg-composer.c (build_message): If the body of the message has
+	8-bit chars, set the Content-Transfer-Encoding type to the best
+	encoding.
+
 2000-10-02  Dan Winship  <danw@helixcode.com>
 
 	* e-icon-list.c: fix #include of gnome-canvas-pixbuf.h

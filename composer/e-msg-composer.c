@@ -187,15 +187,34 @@ typedef enum {
 } MsgFormat;
 
 static gboolean
-is_8bit (guchar *text)
+is_8bit (const guchar *text)
 {
 	guchar *c;
 	
-	for (c = text; *c; c++)
+	for (c = (guchar *) text; *c; c++)
 		if (*c > (guchar) 127)
 			return TRUE;
 	
 	return FALSE;
+}
+
+static int
+best_encoding (const guchar *text)
+{
+	guchar *ch;
+	int count = 0;
+	int total;
+	
+	for (ch = (guchar *) text; *ch; ch++)
+		if (*ch > (guchar) 127)
+			count++;
+	
+	total = (int) (ch - text);
+	
+	if ((float) count <= total * 0.17)
+		return CAMEL_MIME_PART_ENCODING_QUOTEDPRINTABLE;
+	else
+		return CAMEL_MIME_PART_ENCODING_BASE64;
 }
 
 /* This functions builds a CamelMimeMessage for the message that the user has
@@ -247,8 +266,8 @@ build_message (EMsgComposer *composer)
 	}
 	
 	plain = get_text (composer->persist_stream_interface, "text/plain");
-	e8bit = is_8bit (plain);
 	fmt = format_text (plain);
+	e8bit = is_8bit (fmt);
 	g_free (plain);
 	
 	if (type != MSG_FORMAT_PLAIN)
@@ -263,7 +282,7 @@ build_message (EMsgComposer *composer)
 		part = camel_mime_part_new ();
 		camel_mime_part_set_content (part, fmt, strlen (fmt), "text/plain");
 		if (e8bit)
-			camel_mime_part_set_encoding (part, CAMEL_MIME_PART_ENCODING_8BIT);
+			camel_mime_part_set_encoding (part, best_encoding (fmt));
 		
 		g_free (fmt);
 		camel_multipart_add_part (body, part);
@@ -292,7 +311,7 @@ build_message (EMsgComposer *composer)
 		case MSG_FORMAT_PLAIN:
 			camel_mime_part_set_content (part, fmt, strlen (fmt), "text/plain");
 			if (e8bit)
-				camel_mime_part_set_encoding (part, CAMEL_MIME_PART_ENCODING_8BIT);
+				camel_mime_part_set_encoding (part, best_encoding (fmt));
 			g_free (fmt);
 			break;
 		}
@@ -304,23 +323,15 @@ build_message (EMsgComposer *composer)
 		camel_medium_set_content_object (CAMEL_MEDIUM (new), CAMEL_DATA_WRAPPER (multipart));
 		camel_object_unref (CAMEL_OBJECT (multipart));
 	} else {
-		CamelDataWrapper *cdw;
-		CamelStream *stream;
 		switch (type) {
 		case MSG_FORMAT_ALTERNATIVE:
 			camel_medium_set_content_object (CAMEL_MEDIUM (new), CAMEL_DATA_WRAPPER (body));
 			camel_object_unref (CAMEL_OBJECT (body));
 			break;
 		case MSG_FORMAT_PLAIN:
-			stream = camel_stream_mem_new_with_buffer (fmt, strlen (fmt));
-			cdw = camel_data_wrapper_new ();
-			camel_data_wrapper_construct_from_stream (cdw, stream);
-			camel_object_unref (CAMEL_OBJECT (stream));
-			
-			camel_data_wrapper_set_mime_type (cdw, "text/plain");
-			
-			camel_medium_set_content_object (CAMEL_MEDIUM (new), CAMEL_DATA_WRAPPER (cdw));
-			camel_object_unref (CAMEL_OBJECT (cdw));
+			camel_mime_part_set_content (CAMEL_MIME_PART (new), fmt, strlen (fmt), "text/plain");
+			if (e8bit)
+				camel_mime_part_set_encoding (CAMEL_MIME_PART (new), best_encoding (fmt));
 			g_free (fmt);
 			break;
 		}
