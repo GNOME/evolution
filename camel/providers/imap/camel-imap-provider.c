@@ -39,6 +39,13 @@ static gint check_equal (char *s1, char *s2);
 static gint imap_url_equal (gconstpointer a, gconstpointer b);
 
 CamelProviderConfEntry imap_conf_entries[] = {
+	{ CAMEL_PROVIDER_CONF_SECTION_START, "cmdsection", NULL,
+	  N_("Connection to Server") },
+	{ CAMEL_PROVIDER_CONF_CHECKBOX, "use_command", NULL,
+	  N_("Use custom command to connect to server"), "0" },
+	{ CAMEL_PROVIDER_CONF_ENTRY, "command", "use_command",
+	  N_("Command:"), "ssh -C -l %u %h exec /usr/sbin/imapd" },
+	{ CAMEL_PROVIDER_CONF_SECTION_END },
 	{ CAMEL_PROVIDER_CONF_SECTION_START, "mailcheck", NULL,
 	  N_("Checking for new mail") },
 	{ CAMEL_PROVIDER_CONF_CHECKBOX, "check_all", NULL,

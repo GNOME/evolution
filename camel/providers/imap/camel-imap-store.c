@@ -774,7 +774,7 @@ connect_to_server_process (CamelService *service, const char *cmd, CamelExceptio
 	/* Now do %h, %u, etc. substitution in cmd */
 	buf = cmd_copy = g_strdup(cmd);
 
-	full_cmd = "";
+	full_cmd = g_strdup("");
 
 	for(;;) {
 		char *pc;

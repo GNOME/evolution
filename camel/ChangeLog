@@ -1,3 +1,10 @@
+2003-11-28  David Woodhouse  <dwmw2@redhat.com>
+
+	* providers/imap/camel-imap-provider.c: Enable GUI option for
+	'custom command' connection.
+	* providers/imap/camel-imap-store.c: Don't g_free strings in
+	.rodata. It's considered rude.
+
 2003-11-28  Not Zed  <NotZed@Ximian.com>
 
 	* camel-mime-utils.c (mail_list_magic[]): Added list-unsubscribe
