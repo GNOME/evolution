@@ -143,9 +143,15 @@ static void
 account_add_clicked (GtkButton *button, gpointer user_data)
 {
 	MailAccountsTab *prefs = (MailAccountsTab *) user_data;
+	GtkWidget *parent;
 	
 	if (prefs->druid == NULL) {
 		prefs->druid = (GtkWidget *) mail_config_druid_new ();
+		
+		parent = gtk_widget_get_toplevel ((GtkWidget *) prefs);
+		if (GTK_WIDGET_TOPLEVEL (parent))
+			gtk_window_set_transient_for ((GtkWindow *) prefs->druid, (GtkWindow *) parent);
+		
 		g_object_weak_ref ((GObject *) prefs->druid,
 				   (GWeakNotify) account_add_finished, prefs);
 		
@@ -183,10 +189,13 @@ account_edit_clicked (GtkButton *button, gpointer user_data)
 			gtk_tree_model_get (model, &iter, 3, &account, -1);
 		
 		if (account) {
-			GtkWidget *window;
+			GtkWidget *parent;
 			
-			window = gtk_widget_get_ancestor (GTK_WIDGET (prefs), GTK_TYPE_WINDOW);
-			prefs->editor = (GtkWidget *) mail_account_editor_new (account, GTK_WINDOW (window), prefs);
+			parent = gtk_widget_get_toplevel ((GtkWidget *) prefs);
+			parent = GTK_WIDGET_TOPLEVEL (parent) ? parent : NULL;
+			
+			prefs->editor = (GtkWidget *) mail_account_editor_new (account, (GtkWindow *) parent, prefs);
+			
 			g_object_weak_ref ((GObject *) prefs->editor, (GWeakNotify) account_edit_finished, prefs);
 			gtk_widget_show (prefs->editor);
 			g_object_ref (prefs);
