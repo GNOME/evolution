@@ -46,6 +46,12 @@
 #include <errno.h>
 
 
+/* IDs for user creatable items */
+#define CREATE_EVENT_ID "event"
+#define CREATE_MEETING_ID "meeting"
+#define CREATE_ALLDAY_EVENT_ID "allday-event"
+
+
 #define PARENT_TYPE bonobo_object_get_type ()
 static BonoboObjectClass *parent_class = NULL;
 
@@ -359,6 +365,54 @@ impl_createControls (PortableServer_Servant servant,
 }
 
 
+
+static GNOME_Evolution_CreatableItemTypeList *
+impl__get_userCreatableItems (PortableServer_Servant servant,
+			      CORBA_Environment *ev)
+{
+	GNOME_Evolution_CreatableItemTypeList *list = GNOME_Evolution_CreatableItemTypeList__alloc ();
+
+	list->_length  = 3;
+	list->_maximum = list->_length;
+	list->_buffer  = GNOME_Evolution_CreatableItemTypeList_allocbuf (list->_length);
+
+	CORBA_sequence_set_release (list, FALSE);
+
+	list->_buffer[0].id = CREATE_EVENT_ID;
+	list->_buffer[0].description = _("New appointment");
+	list->_buffer[0].menuDescription = _("_Appointment");
+	list->_buffer[0].tooltip = _("Create a new appointment");
+	list->_buffer[0].menuShortcut = 'a';
+	list->_buffer[0].iconName = "new_appointment.xpm";
+
+	list->_buffer[1].id = CREATE_MEETING_ID;
+	list->_buffer[1].description = _("New meeting");
+	list->_buffer[1].menuDescription = _("M_eeting");
+	list->_buffer[1].tooltip = _("Create a new meeting request");
+	list->_buffer[1].menuShortcut = 'e';
+	list->_buffer[1].iconName = "meeting-request-16.png";
+
+	list->_buffer[2].id = CREATE_ALLDAY_EVENT_ID;
+	list->_buffer[2].description = _("New all day appointment");
+	list->_buffer[2].menuDescription = _("All _Day Appointment");
+	list->_buffer[2].tooltip = _("Create a new all-day appointment");
+	list->_buffer[2].menuShortcut = 'd';
+	list->_buffer[2].iconName = "new_all_day_event.png";
+
+	return list;
+}
+
+static void
+impl_requestCreateItem (PortableServer_Servant servant,
+			const CORBA_char *item_type_name,
+			CORBA_Environment *ev)
+{
+	/* FIXME: fill me in */
+
+	CORBA_exception_set (ev, CORBA_USER_EXCEPTION, ex_GNOME_Evolution_Component_UnknownType, NULL);
+}
+
+
 /* Initialization.  */
 
 static void
@@ -369,9 +423,11 @@ calendar_component_class_init (CalendarComponentClass *class)
 
 	parent_class = g_type_class_peek_parent (class);
 
-	epv->createControls = impl_createControls;
+	epv->createControls          = impl_createControls;
+	epv->_get_userCreatableItems = impl__get_userCreatableItems;
+	epv->requestCreateItem       = impl_requestCreateItem;
 
-	object_class->dispose = impl_dispose;
+	object_class->dispose  = impl_dispose;
 	object_class->finalize = impl_finalize;
 }
 
