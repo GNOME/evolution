@@ -1399,14 +1399,32 @@ camel_folder_has_search_capability (CamelFolder *folder)
 	return folder->has_search_capability;
 }
 
-GList *camel_folder_search_by_expression  (CamelFolder *folder,
-					   const char *expression,
-					   CamelException *ex)
+int camel_folder_search_by_expression  (CamelFolder *folder,
+					const char *expression,
+					CamelSearchFunc *func,
+					void *data,
+					CamelException *ex)
 {
 	g_assert (folder != NULL);
-	g_return_val_if_fail (folder->has_search_capability, NULL);
+	g_return_val_if_fail (folder->has_search_capability, -1);
 
-	return CF_CLASS (folder)->search_by_expression (folder, expression, ex);
+	return CF_CLASS (folder)->search_by_expression (folder, expression, func, data, ex);
+}
+
+gboolean camel_folder_search_complete(CamelFolder *folder, int searchid, gboolean wait, CamelException *ex)
+{
+	g_assert (folder != NULL);
+	g_return_if_fail (folder->has_search_capability);
+
+	return CF_CLASS (folder)->search_complete (folder, searchid, wait, ex);
+}
+
+void camel_folder_search_cancel(CamelFolder *folder, int searchid, CamelException *ex)
+{
+	g_assert (folder != NULL);
+	g_return_if_fail (folder->has_search_capability);
+
+	return CF_CLASS (folder)->search_cancel (folder, searchid, ex);	
 }
 
 /* **** */

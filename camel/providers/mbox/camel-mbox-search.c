@@ -76,7 +76,8 @@
 
 
 struct _searchcontext {
-	int whatever;
+	int id;			/* id of this search */
+	int cancelled;		/* search cancelled? */
 
 	CamelFolder *folder;
 
@@ -268,11 +269,11 @@ static struct {
 	{ "header-contains", func_header_contains, 0 },
 };
 
-GList *
-camel_mbox_folder_search_by_expression(CamelFolder *folder, const char *expression, CamelException *ex)
+int camel_mbox_folder_search_by_expression(CamelFolder *folder, const char *expression,
+					   CamelSearchFunc *func, void *data, CamelException *ex)
 {
 	int i;
-	struct _searchcontext ctx;
+	struct _searchcontext *ctx;
 	GList *matches = NULL;
 	ESExp *f;
 	ESExpResult *r;
@@ -280,31 +281,39 @@ camel_mbox_folder_search_by_expression(CamelFolder *folder, const char *expressi
 	/* setup our expression evaluator */
 	f = e_sexp_new();
 
+	ctx = g_malloc0(sizeof(*ctx));
+
+	ctx->id = ((CamelMboxFolder *)folder)->search_id++;
+
 	/* setup out context */
-	ctx.folder = folder;
-	ctx.summary = camel_folder_get_summary(folder, ex);
-	gtk_object_ref((GtkObject *)ctx.summary);
+	ctx->folder = folder;
+	ctx->summary = camel_folder_get_summary(folder, ex);
 	
-	if (camel_exception_get_id (ex)) {
+	if (ctx->summary == NULL || camel_exception_get_id (ex)) {
 		printf ("Cannot get summary\n"
 			"Full description : %s\n", camel_exception_get_description (ex));
-		/* FIXME: free shit */
-		return NULL;
+		g_free(ctx);
+		gtk_object_unref((GtkObject *)f);
+		return -1;
 	}
 
+	gtk_object_ref((GtkObject *)ctx->summary);
 
-	ctx.message_info = camel_folder_summary_get_message_info_list(ctx.summary);
-	ctx.message_current = NULL;
-	ctx.index = ibex_open(CAMEL_MBOX_FOLDER(folder)->index_file_path, FALSE);
-	if (!ctx.index) {
-		perror("Cannot open index file");
+	/* FIXME: the index should be global to the folder */
+	ctx->message_info = camel_folder_summary_get_message_info_list(ctx->summary);
+	ctx->message_current = NULL;
+	ctx->index = ibex_open(CAMEL_MBOX_FOLDER(folder)->index_file_path, FALSE);
+	if (!ctx->index) {
+		perror("Cannot open index file (ignored)");
 	}
+
+	((CamelMboxFolder *)folder)->searches = g_list_append(((CamelMboxFolder *)folder)->searches, ctx);
 
 	for(i=0;i<sizeof(symbols)/sizeof(symbols[0]);i++) {
 		if (symbols[i].type == 1) {
-			e_sexp_add_ifunction(f, 0, symbols[i].name, (ESExpIFunc *)symbols[i].func, &ctx);
+			e_sexp_add_ifunction(f, 0, symbols[i].name, (ESExpIFunc *)symbols[i].func, ctx);
 		} else {
-			e_sexp_add_function(f, 0, symbols[i].name, symbols[i].func, &ctx);
+			e_sexp_add_function(f, 0, symbols[i].name, symbols[i].func, ctx);
 		}
 	}
 
@@ -320,26 +329,89 @@ camel_mbox_folder_search_by_expression(CamelFolder *folder, const char *expressi
 			d(printf("adding match: %s\n", (char *)g_ptr_array_index(r->value.ptrarray, i)));
 			matches = g_list_prepend(matches, g_strdup(g_ptr_array_index(r->value.ptrarray, i)));
 		}
+		if (!ctx->cancelled) {
+			func(folder, ctx->id, TRUE, matches, data);
+		}
+		g_list_free(matches);
 		e_sexp_result_free(r);
 	} else {
 		printf("no result!\n");
 	}
 
-	if (ctx.index)
-		ibex_close(ctx.index);
+	if (ctx->index)
+		ibex_close(ctx->index);
 
-	gtk_object_unref((GtkObject *)ctx.summary);
+	gtk_object_unref((GtkObject *)ctx->summary);
 	gtk_object_unref((GtkObject *)f);
+	i = ctx->id;
 
-	return matches;
+	((CamelMboxFolder *)folder)->searches = g_list_remove(((CamelMboxFolder *)folder)->searches, ctx);
+
+	g_free(ctx);
+
+	return i;
+}
+
+static struct _searchcontext *
+find_context(CamelMboxFolder *f, int id)
+{
+	struct _searchcontext *ctx;
+	GList *l;
+
+	l = f->searches;
+	while (l) {
+		ctx = l->data;
+		if (ctx->id == id) {
+			return ctx;
+		}
+		l = g_list_next(l);
+	}
+
+	return NULL;
+}
+
+gboolean camel_mbox_folder_search_complete(CamelFolder *folder, int searchid, int wait, CamelException *ex)
+{
+	struct _searchcontext *ctx;
+
+	ctx = find_context((CamelMboxFolder *)folder, searchid);
+
+	if (ctx)
+		return ctx->cancelled;
+
+	/* if its been removed, its complete ... */
+	return TRUE;
+}
+
+void camel_mbox_folder_search_cancel(CamelFolder *folder, int searchid, CamelException *ex)
+{
+	struct _searchcontext *ctx;
+
+	ctx = find_context((CamelMboxFolder *)folder, searchid);
+	if (ctx) {
+		ctx->cancelled = TRUE;
+		return;
+	}
+
+	/* FIXME: set exception, return */
 }
 
 #else /* HAVE_FILTER */
 
-GList *
-camel_mbox_folder_search_by_expression(CamelFolder *folder, const char *expression, CamelException *ex)
+int camel_mbox_folder_search_by_expression(CamelFolder *folder, const char *expression,
+					   CamelSearchFunc *func, void *data, CamelException *ex)
 {
-	return NULL;
+	return -1;
+}
+
+gboolean camel_mbox_folder_search_complete(CamelFolder *folder, int searchid, int wait, CamelException *ex)
+{
+	return TRUE;
+}
+
+void camel_mbox_folder_search_cancel(CamelFolder *folder, int searchid, CamelException *ex)
+{
+	/* empty */
 }
 
 #endif /*! HAVE_FILTER */

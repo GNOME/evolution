@@ -56,7 +56,7 @@ typedef enum {
 
 
 typedef void (*CamelFolderAsyncCallback) ();
-
+typedef void (CamelSearchFunc)(CamelFolder *folder, int id, gboolean complete, GList *matches, void *data);
 
 struct _CamelFolder
 {
@@ -195,7 +195,10 @@ typedef struct {
 
 	gboolean (*has_search_capability) (CamelFolder *folder);
 
-	GList *(*search_by_expression) (CamelFolder *folder, const char *expression, CamelException *ex);
+	int (*search_by_expression) (CamelFolder *folder, const char *expression,
+				     CamelSearchFunc *func, void *data, CamelException *ex);
+	gboolean (*search_complete)(CamelFolder *folder, int searchid, gboolean wait, CamelException *ex);
+	void (*search_cancel) (CamelFolder *folder, int searchid, CamelException *ex);
 
 } CamelFolderClass;
 
@@ -301,9 +304,10 @@ GList *            camel_folder_get_uid_list          (CamelFolder *folder,
 
 /* search api */
 gboolean           camel_folder_has_search_capability (CamelFolder *folder);
-GList *            camel_folder_search_by_expression  (CamelFolder *folder,
-						       const char *expression,
-						       CamelException *ex);
+int 		   camel_folder_search_by_expression(CamelFolder *folder, const char *expression,
+						     CamelSearchFunc *func, void *data, CamelException *ex);
+gboolean	   camel_folder_search_complete(CamelFolder *folder, int searchid, gboolean wait, CamelException *ex);
+void		   camel_folder_search_cancel(CamelFolder *folder, int searchid, CamelException *ex);
 
 #ifdef __cplusplus
 }

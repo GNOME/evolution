@@ -59,6 +59,8 @@ typedef struct {
 	CamelMboxSummary *internal_summary; /* internal summary object */
 	GList  *uid_array;
 
+	int search_id;		/* next search id */
+	GList *searches;	/* current searches */
 } CamelMboxFolder;
 
 

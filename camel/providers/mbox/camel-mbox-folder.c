@@ -83,8 +83,6 @@ static void _copy_message_to (CamelFolder *folder, CamelMimeMessage *message, Ca
 static const gchar *_get_message_uid (CamelFolder *folder, CamelMimeMessage *message, CamelException *ex);
 #endif
 
-static GList *search_by_expression(CamelFolder *folder, const char *expression, CamelException *ex);
-
 static void _finalize (GtkObject *object);
 
 static void
@@ -118,7 +116,9 @@ camel_mbox_folder_class_init (CamelMboxFolderClass *camel_mbox_folder_class)
 #endif
 	camel_folder_class->get_message_by_uid = _get_message_by_uid;
 
-	camel_folder_class->search_by_expression = search_by_expression;
+	camel_folder_class->search_by_expression = camel_mbox_folder_search_by_expression;
+	camel_folder_class->search_complete = camel_mbox_folder_search_complete;
+	camel_folder_class->search_cancel = camel_mbox_folder_search_cancel;
 
 	gtk_object_class->finalize = _finalize;
 	
@@ -1072,10 +1072,4 @@ _get_message_by_uid (CamelFolder *folder, const gchar *uid, CamelException *ex)
 	
 	CAMEL_LOG_FULL_DEBUG ("Leaving CamelMboxFolder::get_uid_list\n");	
 	return message;
-}
-
-static GList *
-search_by_expression(CamelFolder *folder, const char *expression, CamelException *ex)
-{
-	return camel_mbox_folder_search_by_expression(folder, expression, ex);
 }
