@@ -1,3 +1,8 @@
+2001-12-10  Not Zed  <NotZed@Ximian.com>
+
+	* Makefile.am: Added vfolders.xml containing default initial
+	vfolders - important vfolder and unread vfolder, #1040.
+
 2001-11-02  JP Rosevear  <jpr@ximian.com>
 
 	* local/Inbox/mbox: Fix email link to be valid
