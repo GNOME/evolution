@@ -4,6 +4,7 @@
 	URIs. Fixes #68264.
 	(e_calendar_http_check): Fixed a memory leak.
 	(e_calendar_http_refresh): Another mem. leak fix.
+	(e_calendar_http_url): Fixed another more memory leak.
 
 2004-11-09  Rodney Dawes  <dobey@novell.com>
 

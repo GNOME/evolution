@@ -94,6 +94,7 @@ e_calendar_http_url (EPlugin *epl, EConfigHookItemFactoryData *data)
 	int row;
 	ECalConfigTargetSource *t = (ECalConfigTargetSource *) data->target;
 	EUri *uri;
+        char *uri_text;
 	static GtkWidget *hidden = NULL;
 
 	if (!hidden)
@@ -102,10 +103,12 @@ e_calendar_http_url (EPlugin *epl, EConfigHookItemFactoryData *data)
 	if (data->old)
 		gtk_widget_destroy (label);
 
-	uri = e_uri_new (e_source_get_uri (t->source));
+        uri_text = e_source_get_uri (t->source);
+	uri = e_uri_new (uri_text);
 	if ((strcmp (uri->protocol, "http") &&
 	     strcmp (uri->protocol, "webcal"))) {
 		e_uri_free (uri);
+                g_free (uri_text);
 		return hidden;
 	}
 	e_uri_free (uri);
@@ -121,11 +124,12 @@ e_calendar_http_url (EPlugin *epl, EConfigHookItemFactoryData *data)
 
 	entry = gtk_entry_new ();
 	gtk_widget_show (entry);
-	gtk_entry_set_text (GTK_ENTRY (entry), e_source_get_uri (t->source));
+	gtk_entry_set_text (GTK_ENTRY (entry), uri_text);
 	gtk_table_attach (GTK_TABLE (parent), entry, 1, 2, row, row+1, GTK_EXPAND | GTK_FILL, 0, 0, 0);
 	gtk_label_set_mnemonic_widget (GTK_LABEL (label), entry);
 	g_signal_connect (G_OBJECT (entry), "changed", G_CALLBACK (url_changed), t->source);
 
+        g_free (uri_text);
 	return entry;
 }
 
@@ -229,14 +233,13 @@ e_calendar_http_refresh (EPlugin *epl, EConfigHookItemFactoryData *data)
 
         uri_text = e_source_get_uri (t->source);
 	uri = e_uri_new (uri_text);
+        g_free (uri_text);
 	if ((strcmp (uri->protocol, "http") &&
 	     strcmp (uri->protocol, "webcal"))) {
 		e_uri_free (uri);
-                g_free (uri_text);
 		return hidden;
 	}
 	e_uri_free (uri);
-        g_free (uri_text);
 
 	parent = data->parent;
 
@@ -295,18 +298,17 @@ e_calendar_http_check (EPlugin *epl, EConfigHookPageCheckData *data)
 		return TRUE;
 
         uri_text = e_source_get_uri (t->source);
-        if (!strncmp (uri_text, "file:", 5))
-        {
+        if (!strncmp (uri_text, "file:", 5)) {
                 g_free (uri_text);
                 return FALSE;
         }
-        
+
 	uri = e_uri_new (uri_text);
 	ok = ((!strcmp (uri->protocol, "webcal")) ||
               (!strcmp (uri->protocol, "http")) ||
               (!strcmp (uri->protocol, "file")) );
 	e_uri_free (uri);
         g_free (uri_text);
-        
+
 	return ok;
 }
