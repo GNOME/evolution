@@ -1,3 +1,19 @@
+1999-11-20  Miguel de Icaza  <miguel@gnu.org>
+
+	* e-table-header-item.c (ethi_set_arg): Compute width, keep track
+	of it. 
+	(ethi_add_table_header): Monitor changes to the Header model;
+	Queue updates.
+	(ethi_draw): Fix the redraw logic here.
+
+	* table-test.c (main): Change the sample code, so we can better
+	debug this.
+
+	* e-table-item.c (eti_header_structure_changed): Keep track of
+	width;  
+	(eti_header_dim_changed): ditto.
+	(eti_draw): Many redraw fixes.
+	
 1999-11-19  Miguel de Icaza  <miguel@gnu.org>
 
 	* e-table-item.c (eti_realize): Hook up;  Load gcs.

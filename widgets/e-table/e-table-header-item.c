@@ -52,8 +52,8 @@ ethi_update (GnomeCanvasItem *item, double *affine, ArtSVP *clip_path, int flags
 
 	item->x1 = ethi->x1;
 	item->y1 = ethi->y1;
-	item->x2 = INT_MAX;
-	item->y2 = ethi->x1 + ethi->height;
+	item->x2 = ethi->x1 + ethi->width;
+	item->y2 = ethi->y1 + ethi->height;
 
 	gnome_canvas_group_child_bounds (GNOME_CANVAS_GROUP (item->parent), item);
 }
@@ -72,6 +72,54 @@ ethi_font_load (ETableHeaderItem *ethi, char *font)
 }
 
 static void
+ethi_drop_table_header (ETableHeaderItem *ethi)
+{
+	GtkObject *header;
+	
+	if (!ethi->eth)
+		return;
+
+	header = GTK_OBJECT (ethi->eth);
+	gtk_signal_disconnect (header, ethi->structure_change_id);
+	gtk_signal_disconnect (header, ethi->dimension_change_id);
+
+	gtk_object_unref (header);
+	ethi->eth = NULL;
+	ethi->width = 0;
+}
+
+static void 
+structure_changed (ETableHeader *header, ETableHeaderItem *ethi)
+{
+	ethi->width = e_table_header_total_width (header);
+
+	ethi_update (GNOME_CANVAS_ITEM (ethi), NULL, NULL, 0);
+}
+
+static void
+dimension_changed (ETableHeader *header, int col, ETableHeaderItem *ethi)
+{
+	ethi->width = e_table_header_total_width (header);
+
+	ethi_update (GNOME_CANVAS_ITEM (ethi), NULL, NULL, 0);
+}
+
+static void
+ethi_add_table_header (ETableHeaderItem *ethi, ETableHeader *header)
+{
+	ethi->eth = header;
+	gtk_object_ref (GTK_OBJECT (ethi->eth));
+	ethi->width = e_table_header_total_width (header);
+
+	ethi->structure_change_id = gtk_signal_connect (
+		GTK_OBJECT (header), "structure_change",
+		GTK_SIGNAL_FUNC(structure_changed), ethi);
+	ethi->dimension_change_id = gtk_signal_connect (
+		GTK_OBJECT (header), "dimension_change",
+		GTK_SIGNAL_FUNC(dimension_changed), ethi);
+}
+
+static void
 ethi_set_arg (GtkObject *o, GtkArg *arg, guint arg_id)
 {
 	GnomeCanvasItem *item;
@@ -83,8 +131,8 @@ ethi_set_arg (GtkObject *o, GtkArg *arg, guint arg_id)
 
 	switch (arg_id){
 	case ARG_TABLE_HEADER:
-		ethi->eth = GTK_VALUE_POINTER (*arg);
-		gtk_object_ref (GTK_OBJECT (ethi->eth));
+		ethi_drop_table_header (ethi);
+		ethi_add_table_header (ethi, GTK_VALUE_POINTER (*arg));
 		break;
 
 	case ARG_TABLE_X:
@@ -196,6 +244,9 @@ ethi_draw (GnomeCanvasItem *item, GdkDrawable *drawable, int x1, int y1, int wid
 	total = 0;
 	x = -x1;
 
+	printf ("My coords are: %g %g %g %g\n",
+		item->x1, item->y1, item->x2, item->y2);
+	
 	for (col = 0; col < cols; col++){
 		ETableCol *ecol = e_table_header_get_column (ethi->eth, col);
 		int col_width;
@@ -206,6 +257,7 @@ ethi_draw (GnomeCanvasItem *item, GdkDrawable *drawable, int x1, int y1, int wid
 			col_width = ecol->width;
 				
 		if (x1 > total + col_width){
+			total += col_width;
 			x += col_width;
 			continue;
 		}
@@ -217,9 +269,10 @@ ethi_draw (GnomeCanvasItem *item, GdkDrawable *drawable, int x1, int y1, int wid
 
 		draw_button (ethi, ecol, drawable, gc,
 			     GTK_WIDGET (canvas)->style,
-			     x, -y1, col_width, ethi->height);
+			     x, ethi->y1 - y1, col_width, ethi->height);
 
 		x += col_width;
+		total += col_width;
 	}
 }
 
@@ -292,7 +345,7 @@ ethi_request_redraw (ETableHeaderItem *ethi)
 	 * request a redraw
 	 */
 	gnome_canvas_request_redraw (
-		canvas, ethi->x1, ethi->y1, INT_MAX, ethi->x1 + ethi->height);
+		canvas, ethi->x1, ethi->y1, ethi->x1 + ethi->width, ethi->x1 + ethi->height);
 }
 
 static void

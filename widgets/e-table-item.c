@@ -31,8 +31,8 @@ eti_update (GnomeCanvasItem *item, double *affine, ArtSVP *clip_path, int flags)
 
 	item->x1 = eti->x1;
 	item->y1 = eti->y1;
-	item->x2 = INT_MAX;
-	item->y2 = eti->x1 + eti->height;
+	item->x2 = eti->x1 + eti->width;
+	item->y2 = eti->y1 + eti->height;
 
 	gnome_canvas_group_child_bounds (GNOME_CANVAS_GROUP (item->parent), item);
 }
@@ -86,15 +86,29 @@ eti_add_table_model (ETableItem *eti, ETableModel *table_model)
 }
 
 static void
+eti_request_redraw (ETableItem *eti)
+{
+	GnomeCanvas *canvas = GNOME_CANVAS_ITEM (eti)->canvas;
+
+	gnome_canvas_request_redraw (canvas, eti->x1, eti->y1, eti->x1 + eti->width, eti->y1 + eti->height);
+}
+
+static void
 eti_header_dim_changed (ETableHeader *eth, int col, ETableItem *eti)
 {
-	printf ("NOTIFY: Dimension changed");
+	eti->width = e_table_header_total_width (eti->header);
+
+	eti_update (GNOME_CANVAS_ITEM (eti), NULL, NULL, 0);
+	eti_request_redraw (eti);
 }
 
 static void
 eti_header_structure_changed (ETableHeader *eth, ETableItem *eti)
 {
-	printf ("NOTIFY: Structure changed");
+	eti->width = e_table_header_total_width (eti->header);
+
+	eti_update (GNOME_CANVAS_ITEM (eti), NULL, NULL, 0);
+	eti_request_redraw (eti);
 }
 
 static void
@@ -104,6 +118,8 @@ eti_add_header_model (ETableItem *eti, ETableHeader *header)
 	
 	eti->header = header;
 	gtk_object_ref (GTK_OBJECT (header));
+
+	eti->width = e_table_header_total_width (header);
 	
 	eti->header_dim_change_id = gtk_signal_connect (
 		GTK_OBJECT (header), "dimension_change",
@@ -203,7 +219,17 @@ static void
 draw_cell (ETableItem *eti, GdkDrawable *drawable, int col, int row,
 	   int x1, int y1, int x2, int y2)
 {
-	gdk_draw_line (drawable, eti->grid_gc, x1, y1, x2-x1, y2-y1);
+	GnomeCanvas *canvas = GNOME_CANVAS_ITEM (eti)->canvas;
+	GdkFont *font;
+	char  text [40];
+		
+	font = GTK_WIDGET (canvas)->style->font;
+	
+	sprintf (text, "%d:%d\n", col, row);
+	gdk_draw_line (drawable, eti->grid_gc, x1, y1, x2, y2);
+	gdk_draw_line (drawable, eti->grid_gc, x1, y2, x2, y1);
+
+	gdk_draw_text (drawable, font, eti->grid_gc, x1, y2, text, strlen (text));
 }
 
 static void
@@ -215,19 +241,20 @@ eti_draw (GnomeCanvasItem *item, GdkDrawable *drawable, int x, int y, int width,
 	int row, col, y1, y2;
 	int first_col, last_col, x_offset;
 	int x1, x2;
-	
+
 	/*
 	 * Clear the background
 	 */
 	gdk_draw_rectangle (
-		drawable, eti->fill_gc, TRUE, 0, 0, width, height);
-
+		drawable, eti->fill_gc, TRUE,
+		eti->x1 - x, eti->y1 - y, eti->width, eti->height);
+	
 	/*
 	 * First column to draw, last column to draw
 	 */
-	x1 = x_offset = 0;
 	first_col = -1;
-	last_col = 0;
+	last_col = x_offset = 0;
+	x1 = eti->x1;
 	for (col = 0; col < cols; col++, x1 = x2){
 		ETableCol *ecol = e_table_header_get_column (eti->header, col);
 
@@ -238,17 +265,26 @@ eti_draw (GnomeCanvasItem *item, GdkDrawable *drawable, int x, int y, int width,
 		if (x2 < x)
 			continue;
 		if (first_col == -1){
-			x_offset = x - x1;
+			x_offset = x1 - x;
 			first_col = col;
 		}
 	}
 	last_col = col;
 
 	/*
+	 * Nothing to paint
+	 */
+	if (first_col == -1)
+		return;
+
+	printf ("Cols %d %d\n", first_col, last_col);
+	/*
 	 * Draw individual lines
 	 */
-	y1 = y2 = 0;
+	y1 = y2 = eti->y1;
 	for (row = eti->top_item; row < rows; row++, y1 = y2){
+		int xd;
+		
 		y2 += e_table_model_row_height (eti->table_model, row) + 1;
 
 		if (y1 > y + height)
@@ -260,10 +296,12 @@ eti_draw (GnomeCanvasItem *item, GdkDrawable *drawable, int x, int y, int width,
 		if (eti->draw_grid)
 			gdk_draw_line (drawable, eti->grid_gc, 0, y - y2, width, y - y2);
 
+		xd = x_offset;
 		for (col = first_col; col < last_col; col++){
 			ETableCol *ecol = e_table_header_get_column (eti->header, col);
 
-			draw_cell (eti, drawable, col, row, x_offset, y1 - y, x_offset + ecol->width, y2);
+			draw_cell (eti, drawable, col, row, xd, y1 - y, xd + ecol->width, y2);
+			xd += ecol->width;
 		}
 	}
 }

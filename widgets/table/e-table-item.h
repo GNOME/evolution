@@ -17,7 +17,7 @@ typedef struct {
 	ETableHeader    *header;
 
 	int              x1, y1;
-	int              height;
+	int              width, height;
 
 	int              top_item;
 	

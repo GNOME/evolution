@@ -226,15 +226,8 @@ main (int argc, char *argv [])
 		gnome_canvas_root (GNOME_CANVAS (canvas)),
 		e_table_header_item_get_type (),
 		"ETableHeader", e_table_header,
-		NULL);
-	gnome_canvas_item_new (
-		gnome_canvas_root (GNOME_CANVAS (canvas)),
-		gnome_canvas_rect_get_type (),
-		"x1", 0.0,
-		"y1", 0.0,
-		"x2", 10.0,
-		"y2", 10.0,
-		"fill_color", "red",
+		"x",  0,
+		"y",  0,
 		NULL);
 
 	gnome_canvas_item_new (
@@ -242,8 +235,8 @@ main (int argc, char *argv [])
 		e_table_item_get_type (),
 		"ETableHeader", e_table_header,
 		"ETableModel", e_table_model,
-		"x",  0,
-		"y", 30,
+		"x",  10,
+		"y",  30,
 		NULL);
 	gtk_main ();
 
