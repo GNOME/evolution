@@ -185,9 +185,7 @@ stream_write (CamelStream *stream, const char *buffer, size_t n)
 	if (seekable->bound_end != CAMEL_STREAM_UNBOUND)
 		nwrite = MIN(seekable->bound_end - seekable->position, n);
 
-#ifndef NO_WARNINGS
-#warning "g_byte_arrays use g_malloc and so are totally unsuitable for this object"
-#endif
+	/* FIXME: we shouldn't use g_byte_arrays or g_malloc perhaps? */
 	if (seekable->position == stream_mem->buffer->len) {
 		g_byte_array_append(stream_mem->buffer, (const guint8 *)buffer, nwrite);
 	} else {

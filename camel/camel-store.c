@@ -316,7 +316,6 @@ void
 camel_store_delete_folder (CamelStore *store, const char *folder_name, CamelException *ex)
 {
 	CamelFolder *folder = NULL;
-	char *key;
 	
 	CAMEL_STORE_LOCK(store, folder_lock);
 
@@ -363,7 +362,6 @@ rename_folder (CamelStore *store, const char *old_name, const char *new_name, Ca
 void
 camel_store_rename_folder (CamelStore *store, const char *old_name, const char *new_name, CamelException *ex)
 {
-	char *key;
 	CamelFolder *folder;
 	int i, oldlen, namelen;
 	GPtrArray *folders;
@@ -1000,7 +998,6 @@ camel_store_unsubscribe_folder (CamelStore *store,
 				CamelException *ex)
 {
 	CamelFolder *folder = NULL;
-	char *key;
 
 	g_return_if_fail (CAMEL_IS_STORE (store));
 	g_return_if_fail (store->flags & CAMEL_STORE_SUBSCRIPTIONS);

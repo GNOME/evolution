@@ -1,3 +1,51 @@
+2003-03-28  Not Zed  <NotZed@Ximian.com>
+
+	* providers/local/camel-spool-store.c (get_folder): remove unused
+	var.
+
+	* providers/imap/camel-imap-utils.c (imap_parse_list_response):
+	moved an unused var to the #if 0'd out block.
+
+	* providers/imap/camel-imap-store.c
+	(parse_list_response_as_folder_info): remove unused vars.
+
+	* camel-index-control.c (main): deifne camel_init() before using
+	it.
+
+	* camel-vee-store.c (vee_get_folder): removed unused var.
+
+	* camel-stream-mem.c (stream_write): warning -> fixme.
+
+	* camel-stream-filter.c (_CamelStreamFilterPrivate): Add a ; to
+	the end of the struct definition.
+
+	* camel-store.c (camel_store_delete_folder): remove unused var.
+	(camel_store_rename_folder): "
+	(camel_store_unsubscribe_folder): "
+
+	* camel-mime-part.c (write_to_stream): Changed warning into a
+	TODO.
+	(construct_from_parser): removed warning, the code was fixed.
+
+	* camel-mime-message.c (construct_from_parser): Remove the
+	warning, the code was fixed.
+
+	* camel-mime-filter-enriched.c (camel_mime_filter_enriched_new):
+	Remove unused var.
+
+	* camel-medium.c (camel_medium_get_header): Removed warning, and
+	changed docs to reflect it.
+
+	* camel-gpg-context.c (gpg_ctx_parse_status): handle MODE_EXPORT
+	as a noop (warning).
+
+	* camel-folder.c (get_message_user_tag): changed a warning into a
+	fixme (its not that important).
+	(camel_folder_get_message_user_tag): "
+
+	* camel-data-cache.c (data_cache_finalise): removed unused vars.
+	(data_cache_expire): "
+
 2003-03-27  Jeffrey Stedfast  <fejj@ximian.com>
 
 	* camel-sasl-gssapi.c (gssapi_challenge): Get rid of debug

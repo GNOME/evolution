@@ -141,7 +141,6 @@ static CamelFolder *
 get_folder(CamelStore * store, const char *folder_name, guint32 flags, CamelException * ex)
 {
 	CamelFolder *folder = NULL;
-	int fd;
 	struct stat st;
 	char *name;
 

@@ -44,8 +44,6 @@ extern int camel_verbose_debug;
 #define dd(x) (camel_verbose_debug?(x):0)
 #define d(x)
 
-static void stream_finalised(CamelObject *o, void *event_data, void *data);
-
 /* how many 'bits' of hash are used to key the toplevel directory */
 #define CAMEL_DATA_CACHE_BITS (6)
 #define CAMEL_DATA_CACHE_MASK ((1<<CAMEL_DATA_CACHE_BITS)-1)
@@ -87,8 +85,6 @@ static void data_cache_init(CamelDataCache *cdc, CamelDataCacheClass *klass)
 static void data_cache_finalise(CamelDataCache *cdc)
 {
 	struct _CamelDataCachePrivate *p;
-	GPtrArray *streams;
-	int i;
 
 	p = cdc->priv;
 	camel_object_bag_destroy(p->busy_bag);
@@ -197,7 +193,6 @@ data_cache_expire(CamelDataCache *cdc, const char *path, const char *keep, time_
 	struct dirent *d;
 	GString *s;
 	struct stat st;
-	char *oldpath;
 	CamelStream *stream;
 
 	dir = opendir(path);

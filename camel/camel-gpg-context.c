@@ -872,6 +872,9 @@ gpg_ctx_parse_status (struct _GpgCtx *gpg, CamelException *ex)
 			if (!strncmp (status, "IMPORT_RES", 10))
 				gpg->seen_eof1 = TRUE;
 			break;
+		case GPG_CTX_MODE_EXPORT:
+			/* noop */
+			break;
 		}
 	}
 	

@@ -1951,8 +1951,8 @@ parse_list_response_as_folder_info (CamelImapStore *imap_store,
 				    const char *response)
 {
 	CamelFolderInfo *fi;
-	int flags, i;
-	char sep, *dir, *name = NULL, *path;
+	int flags;
+	char sep, *dir;
 	CamelURL *url;
 	CamelImapStoreInfo *si;
 	guint32 newflags;

@@ -146,7 +146,6 @@ vee_get_folder (CamelStore *store, const char *folder_name, guint32 flags, Camel
 	CamelVeeFolder *vf;
 	CamelFolder *folder;
 	char *name, *p;
-	int add;
 
 	vf = (CamelVeeFolder *)camel_vee_folder_new(store, folder_name, flags);
 	if ((vf->flags & CAMEL_STORE_FOLDER_PRIVATE) == 0) {

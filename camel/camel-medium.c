@@ -217,7 +217,9 @@ get_header(CamelMedium *medium, const char *header_name)
  * Returns the value of the named header in the medium, or %NULL if
  * it is unset. The caller should not modify or free the data.
  *
- * FIXME: What if the header occurs more than once?
+ * If the header occurs more than once, only retrieve the first
+ * instance of the header.  For multi-occuring headers, use
+ * :get_headers().
  *
  * Return value: the value of the named header, or %NULL
  **/
@@ -226,10 +228,6 @@ camel_medium_get_header(CamelMedium *medium, const char *header_name)
 {
 	g_return_val_if_fail (CAMEL_IS_MEDIUM (medium), NULL);
 	g_return_val_if_fail (header_name != NULL, NULL);
-
-#ifndef NO_WARNINGS
-#warning No way to get multi-valued headers?
-#endif
 
 	return CM_CLASS (medium)->get_header (medium, header_name);
 }

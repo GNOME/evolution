@@ -478,9 +478,6 @@ construct_from_parser (CamelMimePart *dw, CamelMimeParser *mp)
 	}
 
 	d(printf("mime_message::construct_from_parser() leaving\n"));
-#ifndef NO_WARNINGS
-#warning "return a real error code"
-#endif
 	err = camel_mime_parser_errno(mp);
 	if (err != 0) {
 		errno = err;

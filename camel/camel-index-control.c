@@ -125,6 +125,8 @@ static int do_perf(int argc, char **argv);
 
 int main(int argc, char **argv)
 {
+	extern int camel_init(const char *certdb_dir, gboolean nss_init);
+
 	if (argc<2)
 		do_usage(argv[0]);
 

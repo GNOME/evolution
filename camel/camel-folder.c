@@ -814,7 +814,7 @@ get_message_user_tag(CamelFolder *folder, const char *uid, const char *name)
 	if (info == NULL)
 		return NULL;
 
-#warning "Need to duplicate tag string"
+	/* FIXME: Need to duplicate tag string */
 
 	ret = camel_tag_get(&info->user_tags, name);
 	camel_folder_summary_info_free(folder->summary, info);
@@ -837,7 +837,7 @@ camel_folder_get_message_user_tag (CamelFolder *folder, const char *uid,  const 
 
 	g_return_val_if_fail (CAMEL_IS_FOLDER (folder), 0);
 
-#warning "get_message_user_tag() needs to copy the tag contents"
+	/* FIXME: should duplicate string */
 	ret = CF_CLASS (folder)->get_message_user_tag (folder, uid, name);
 
 	return ret;

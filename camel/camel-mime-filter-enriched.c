@@ -368,7 +368,6 @@ CamelMimeFilter *
 camel_mime_filter_enriched_new (guint32 flags)
 {
 	CamelMimeFilterEnriched *new;
-	int i;
 	
 	new = (CamelMimeFilterEnriched *) camel_object_new (CAMEL_TYPE_MIME_FILTER_ENRICHED);
 	new->flags = flags;
