@@ -1,3 +1,13 @@
+2003-01-14  Radek Doulik  <rodo@ximian.com>
+
+	* folder-browser.c (etree_key): use gtk_scrolled_window_*
+	functions for mail_display->scroll
+
+	* mail-display.c (mail_display_new): use gtk_scrolled_window_*
+	functions
+
+	* mail-display.h: use GtkScrolledWindow instead of EScrollFrame
+
 2003-01-14  Jeffrey Stedfast  <fejj@ximian.com>
 
 	* mail-display.c (pixmap_press): Change the user_data argument to

@@ -1237,7 +1237,7 @@ message_list_init (GtkObject *object)
 {
 	MessageList *message_list = MESSAGE_LIST (object);
 
-	gtk_scrolled_window_set_policy (GTK_SCROLLED_WINDOW (message_list), GTK_POLICY_NEVER, GTK_POLICY_ALWAYS);
+	e_scroll_frame_set_policy (E_SCROLL_FRAME (message_list), GTK_POLICY_NEVER, GTK_POLICY_ALWAYS);
 
 	message_list->normalised_hash = g_hash_table_new (g_str_hash, g_str_equal);
 	
