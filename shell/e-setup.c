@@ -168,9 +168,6 @@ check_evolution_directory (const char *evolution_directory)
 	if (retval == FALSE)
 		e_notice (NULL, GNOME_MESSAGE_BOX_ERROR,
 			  _("Could not update files correctly"));
-	else
-		e_notice (NULL, GNOME_MESSAGE_BOX_INFO,
-			  _("Evolution files successfully installed."));
 
  out:
 
@@ -234,11 +231,9 @@ copy_default_stuff (const char *evolution_directory)
 	if (system (command) != 0) {
 		/* FIXME: Give more help.  */
 		e_notice (NULL, GNOME_MESSAGE_BOX_ERROR,
-			  _("Cannot copy files into\n`%s'."), evolution_directory);
+			  _("An error occurred in copying files into\n`%s'."), evolution_directory);
 		retval = FALSE;
 	} else {
-		e_notice (NULL, GNOME_MESSAGE_BOX_INFO,
-			  _("Evolution files successfully installed."));
 		retval = TRUE;
 	}
 
@@ -337,7 +332,7 @@ e_setup (const char *evolution_directory)
 
 	g_free (file);
 
-	file = g_strdup_printf ("%s/shortcuts.xml", evolution_directory);
+	file = g_strdup_printf ("%s/searches.xml", evolution_directory);
 	if (stat (file, &statinfo) != 0) {
 		e_notice (NULL, GNOME_MESSAGE_BOX_ERROR,
 			  _("The directory `%s' exists but is not the\n"

@@ -1,3 +1,18 @@
+2001-07-06  Jason Leach  <jleach@ximian.com>
+
+	[Misc fixes and part of #2228, There should be no dialog boxes
+	during startup.]
+	
+	* e-setup.c (e_setup): Check for searches.xml instead of
+	shortcuts.xml, since shortcuts.xml doesn't really need to exist
+	(and thus wouldn't be a necessary test whether ~/evolution was
+	invalid) because shell can generate shortcuts.
+	(copy_default_stuff): For first time users, only present a dialog
+	if a problem occurred.  We've already clicked "Ok" on a dialog
+	about copying files.
+	(check_evolution_directory): Take out the "successfully installed"
+	dialog on updates too.
+
 2001-07-06  Ettore Perazzoli  <ettore@ximian.com>
 
 	[This should fix #3873, Bizzarre crash after deleting a few
