@@ -156,7 +156,7 @@ generate_html (gpointer data)
 		s1 = e_utf8_from_locale_string (_("Tasks"));
 		s2 = e_utf8_from_locale_string (_("No tasks"));
 		g_free (tasks->html);
-		tasks->html = g_strconcat ("<dl><dt><img src=\"ico-tasks.png\" align=\"middle\" "
+		tasks->html = g_strconcat ("<dl><dt><img src=\"ico-calendar.png\" align=\"middle\" "
 		                              "alt=\"\" width=\"48\" height=\"48\"> <b><a href=\"evolution:/local/Tasks\">",
 		                              s1, "</a></b></dt><dd><b>", s2, "</b></dd></dl>", NULL);
 		g_free (s1);
