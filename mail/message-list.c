@@ -130,12 +130,48 @@ ml_is_cell_editable (ETableModel *etm, int col, int row, void *data)
 static void *
 ml_duplicate_value (ETableModel *etm, int col, const void *value, void *data)
 {
-  return value;
+	switch (col){
+	case COL_ONLINE_STATUS:
+	case COL_MESSAGE_STATUS:
+	case COL_PRIORITY:
+	case COL_ATTACHMENT:
+	  return value;
+
+	case COL_FROM:
+	case COL_SUBJECT:
+	case COL_SENT:
+	case COL_RECEIVE:
+	case COL_TO:
+	case COL_SIZE:
+	  return g_strdup(value);
+	default:
+		g_assert_not_reached ();
+	}
+	return NULL;
 }
 
 static void
 ml_free_value (ETableModel *etm, int col, void *value, void *data)
 {
+	switch (col){
+	case COL_ONLINE_STATUS:
+	case COL_MESSAGE_STATUS:
+	case COL_PRIORITY:
+	case COL_ATTACHMENT:
+	  break;
+
+	case COL_FROM:
+	case COL_SUBJECT:
+	case COL_SENT:
+	case COL_RECEIVE:
+	case COL_TO:
+	case COL_SIZE:
+	  g_free(value);
+	  break;
+	default:
+		g_assert_not_reached ();
+	}
+	return NULL;
 }
 
 static void
@@ -340,6 +376,8 @@ message_list_init (GtkObject *object)
 	 */
 	
 	message_list->etable = e_table_new (message_list->header_model, message_list->table_model, "<ETableSpecification> <columns-shown> <column> 0 </column> <column> 1 </column> <column> 2 </column> <column> 3 </column> <column> 4 </column> <column> 5 </column> <column> 6 </column> <column> 7 </column> <column> 8 </column> <column> 9 </column> </columns-shown> <grouping> <leaf column=\"0\" ascending=\"1\"/> </grouping> </ETableSpecification>");
+
+	gtk_widget_show(message_list->etable);
 	
 	/*
 	 * We do own the Etable, not some widget container
