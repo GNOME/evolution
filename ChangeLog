@@ -1,3 +1,7 @@
+2000-03-05  Christopher James Lahey  <clahey@helixcode.com>
+
+	* e-util/e-xml-utils.c: Fixed e_xml_set_integer_prop_by_name.
+
 2000-03-05  Matt Loper  <matt.loper@splashtech.com>
 
 	* tests/ui-tests/message-browser.c: Commenting added.
