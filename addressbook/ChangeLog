@@ -1,5 +1,12 @@
 2001-10-28  Jon Trowbridge  <trow@ximian.com>
 
+	* backend/ebook/e-card.c (e_card_date_from_string): Expose this
+	function.
+	(e_card_date_to_string): ...and this one.  Fixes build problem in
+	pas-backend-ldap.c.
+
+2001-10-28  Jon Trowbridge  <trow@ximian.com>
+
 	* gui/component/select-names/e-select-names.c
 	(e_select_names_hookup_shell_listeners): Change "this should never
 	happen" dialog to not give my name/e-mail.  Sorry translators.

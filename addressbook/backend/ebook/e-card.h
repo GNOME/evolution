@@ -169,6 +169,10 @@ void                  e_card_name_unref                                   (ECard
 char                 *e_card_name_to_string                               (const ECardName            *name);
 ECardName            *e_card_name_from_string                             (const char                 *full_name);
 
+/* ECardDate */
+ECardDate             e_card_date_from_string                             (const gchar                *str);
+gchar                *e_card_date_to_string                               (ECardDate                  *dt);
+
 /* ECardArbitrary manipulation */
 ECardArbitrary       *e_card_arbitrary_new                                (void);
 ECardArbitrary       *e_card_arbitrary_copy                               (const ECardArbitrary       *arbitrary);

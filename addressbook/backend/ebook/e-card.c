@@ -95,7 +95,6 @@ static void e_card_get_arg (GtkObject *object, GtkArg *arg, guint arg_id);
 static void assign_string(VObject *vobj, char *default_charset, char **string);
 
 char *e_v_object_get_child_value(VObject *vobj, char *name, char *default_charset);
-static ECardDate e_card_date_from_string (char *str);
 
 static void parse_bday(ECard *card, VObject *object, char *default_charset);
 static void parse_full_name(ECard *card, VObject *object, char *default_charset);
@@ -367,7 +366,7 @@ e_card_set_book (ECard *card, EBook *book)
 		gtk_object_ref (GTK_OBJECT (card->book));
 }
 
-static gchar *
+gchar *
 e_card_date_to_string (ECardDate *dt)
 {
 	if (dt) 
@@ -3891,8 +3890,8 @@ card_to_string (Card *crd)
 }
 #endif
 
-static ECardDate
-e_card_date_from_string (char *str)
+ECardDate
+e_card_date_from_string (const char *str)
 {
 	ECardDate date;
 	int length;
