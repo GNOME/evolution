@@ -1,5 +1,8 @@
 2001-07-05  Peter Williams  <peterw@ximian.com>
 
+	* Makefile.am: Remove the ridiculuous relic known as test-mail. Clean up
+	a bit.
+
 	* mail-vfolder.c (vfolder_uri_to_folder): Add mail folder cache hookups.
 
 2001-07-05  Peter Williams  <peterw@ximian.com>

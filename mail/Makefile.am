@@ -2,8 +2,6 @@ SUBDIRS = importers
 
 bin_PROGRAMS =	evolution-mail
 
-noinst_PROGRAMS = test-mail #test-thread
-
 providerdir = $(libdir)/evolution/camel-providers/$(VERSION)
 importerdir = $(libdir)/evolution/evolution-mail-importers/$(VERSION)
 
@@ -128,32 +126,11 @@ evolution_mail_LDADD = 					\
 evolution_mail_LDFLAGS =				\
 	-export-dynamic
 
-test_mail_SOURCES = \
-	test-mail.c
-
-test_mail_LDADD = \
-	$(BONOBO_HTML_GNOME_LIBS)
-
-#test_thread_SOURCES =	\
-#	mail-threads.c	\
-#	mail-threads.h	\
-#	test-thread.c
-#
-#test_thread_LDADD = 				\
-#	$(top_builddir)/camel/libcamel.la	\
-#	$(top_builddir)/e-util/libeutil.la	\
-#	$(top_builddir)/libibex/libibex.la	\
-#	$(BONOBO_HTML_GNOME_LIBS)		\
-#	$(THREADS_LIBS)
-#
-#test_thread_CFLAGS = -g $(THREADS_CFLAGS)
-
 oafdir = $(datadir)/oaf
 oaf_in_files = GNOME_Evolution_Mail.oaf.in
 oaf_DATA = $(oaf_in_files:.oaf.in=.oaf)
 
 @XML_I18N_MERGE_OAF_RULE@
-
 
 gladedir   = $(datadir)/evolution/glade
 glade_DATA = mail-config.glade local-config.glade
