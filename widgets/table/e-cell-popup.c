@@ -351,7 +351,7 @@ ecp_event (ECellView *ecv, GdkEvent *event, int model_col, int view_col,
 	case GDK_KEY_PRESS:
 		if (event->key.state & GDK_MOD1_MASK
 		    && event->key.keyval == GDK_Down) {
-			g_print ("## Enter key pressed\n");
+			g_print ("## Alt-Down pressed\n");
 			return e_cell_popup_do_popup (ecp_view, event);
 		}
 		g_print ("Key Press Event ECellPopup\n");

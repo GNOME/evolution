@@ -66,6 +66,7 @@ enum {
 	ARG_STRIKEOUT_COLUMN,
 	ARG_BOLD_COLUMN,
 	ARG_COLOR_COLUMN,
+	ARG_EDITABLE,
 };
 
 
@@ -1324,6 +1325,10 @@ ect_set_arg (GtkObject *object, GtkArg *arg, guint arg_id)
 		text->color_column = GTK_VALUE_INT (*arg);
 		break;
 
+	case ARG_EDITABLE:
+		text->editable = GTK_VALUE_BOOL (*arg) ? TRUE : FALSE;
+		break;
+
 	default:
 		return;
 	}
@@ -1348,6 +1353,10 @@ ect_get_arg (GtkObject *object, GtkArg *arg, guint arg_id)
 
 	case ARG_COLOR_COLUMN:
 		GTK_VALUE_INT (*arg) = text->color_column;
+		break;
+
+	case ARG_EDITABLE:
+		GTK_VALUE_BOOL (*arg) = text->editable ? TRUE : FALSE;
 		break;
 
 	default:
@@ -1392,6 +1401,8 @@ e_cell_text_class_init (GtkObjectClass *object_class)
 				 GTK_TYPE_INT, GTK_ARG_READWRITE, ARG_BOLD_COLUMN);
 	gtk_object_add_arg_type ("ECellText::color_column",
 				 GTK_TYPE_INT, GTK_ARG_READWRITE, ARG_COLOR_COLUMN);
+	gtk_object_add_arg_type ("ECellText::editable",
+				 GTK_TYPE_BOOL, GTK_ARG_READWRITE, ARG_EDITABLE);
 
 	if (!clipboard_atom)
 		clipboard_atom = gdk_atom_intern ("CLIPBOARD", FALSE);
@@ -1405,6 +1416,7 @@ e_cell_text_init (ECellText *ect)
 	ect->strikeout_column = -1;
 	ect->bold_column = -1;
 	ect->color_column = -1;
+	ect->editable = TRUE;
 }
 
 E_MAKE_TYPE(e_cell_text, "ECellText", ECellText, e_cell_text_class_init, e_cell_text_init, PARENT_TYPE);
@@ -1888,6 +1900,7 @@ e_cell_text_view_command (ETextEventProcessor *tep, ETextEventProcessorCommand *
 	CellEdit *edit = (CellEdit *) data;
 	CurrentCell *cell = CURRENT_CELL(edit);
 	ECellTextView *text_view = cell->text_view;
+	ECellText *ect = E_CELL_TEXT (text_view->cell_view.ecell);
 
 	gboolean change = FALSE;
 	gboolean redraw = FALSE;
@@ -1896,6 +1909,14 @@ e_cell_text_view_command (ETextEventProcessor *tep, ETextEventProcessorCommand *
 	EFont *font;
 	
 	font = text_view->font;
+
+	/* If the EText isn't editable, then ignore any commands that would
+	   modify the text. */
+	if (!ect->editable && (command->action == E_TEP_DELETE
+			       || command->action == E_TEP_INSERT
+			       || command->action == E_TEP_PASTE
+			       || command->action == E_TEP_GET_SELECTION))
+		return;
 
 	switch (command->action) {
 	case E_TEP_MOVE:

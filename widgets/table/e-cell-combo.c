@@ -70,6 +70,7 @@ static void e_cell_combo_destroy	(GtkObject	*object);
 
 static gint e_cell_combo_do_popup	(ECellPopup	*ecp,
 					 GdkEvent	*event);
+static void e_cell_combo_select_matching_item	(ECellCombo	*ecc);
 static void e_cell_combo_show_popup	(ECellCombo	*ecc);
 static void e_cell_combo_get_popup_pos	(ECellCombo	*ecc,
 					 gint		*x,
@@ -225,6 +226,7 @@ e_cell_combo_do_popup			(ECellPopup	*ecp,
 	gint error_code;
 
 	e_cell_combo_show_popup (ecc);
+	e_cell_combo_select_matching_item (ecc);
 
 	if (event->type == GDK_BUTTON_PRESS) {
 		GTK_LIST (ecc->popup_list)->drag_selection = TRUE;
@@ -245,6 +247,48 @@ e_cell_combo_do_popup			(ECellPopup	*ecp,
 	gtk_grab_add (ecc->popup_window);
 
 	return TRUE;
+}
+
+
+static void
+e_cell_combo_select_matching_item	(ECellCombo	*ecc)
+{
+	ECellPopup *ecp = E_CELL_POPUP (ecc);
+	ECellView *ecv = (ECellView*) ecp->popup_cell_view;
+	ETableItem *eti = E_TABLE_ITEM (ecp->popup_cell_view->cell_view.e_table_item_view);
+	ETableCol *ecol;
+	GtkList *list;
+	GtkWidget *listitem, *label;
+	GList *elem;
+	gboolean found = FALSE;
+	char *cell_text, *list_item_text;
+
+	ecol = e_table_header_get_column (eti->header, ecp->popup_view_col);
+	cell_text = e_table_model_value_at (ecv->e_table_model,
+					    ecol->col_idx, ecp->popup_row);
+
+	list = GTK_LIST (ecc->popup_list);
+	elem = list->children;
+	while (elem) {
+		listitem = GTK_WIDGET (elem->data);
+		label = GTK_BIN (listitem)->child;
+		gtk_label_get (GTK_LABEL (label), &list_item_text);
+
+		if (!strcmp (list_item_text, cell_text)) {
+			found = TRUE;
+			gtk_list_select_child (list, listitem);
+			gtk_widget_grab_focus (listitem);
+			break;
+		}
+
+		elem = elem->next;
+	}
+
+	if (!found) {
+		gtk_list_unselect_all (list);
+		if (list->children)
+			gtk_widget_grab_focus (GTK_WIDGET (list->children->data));
+	}
 }
 
 
@@ -272,8 +316,6 @@ e_cell_combo_show_popup			(ECellCombo	*ecc)
 	gtk_widget_realize (ecc->popup_window);
 	gdk_window_resize (ecc->popup_window->window, width, height);
 	gtk_widget_show (ecc->popup_window);
-
-	gtk_widget_grab_focus (ecc->popup_list);
 
 	E_CELL_POPUP (ecc)->popup_shown = TRUE;
 }
@@ -417,7 +459,7 @@ e_cell_combo_button_press		(GtkWidget	*popup_window,
 {
 	GtkWidget *event_widget;
 
-	g_print ("In e_cell_popup_button_press\n");
+	g_print ("In e_cell_combo_button_press\n");
 
 	event_widget = gtk_get_event_widget (event);
 
@@ -439,7 +481,12 @@ e_cell_combo_button_press		(GtkWidget	*popup_window,
 
 	E_CELL_POPUP (ecc)->popup_shown = FALSE;
 
-	e_cell_combo_update_cell (ecc);
+	/* We don't want to update the cell here. Since the list is in browse
+	   mode there will always be one item selected, so when we popup the
+	   list one item is selected even if it doesn't match the current text
+	   in the cell. So if you click outside the popup (which is what has
+	   happened here) it is better to not update the cell. */
+	/*e_cell_combo_update_cell (ecc);*/
 	e_cell_combo_restart_edit (ecc);
 
 	return TRUE;

@@ -49,6 +49,7 @@ typedef struct {
 	char *ellipsis;                 /* The ellipsis characters.  NULL = "...". */
 
 	guint use_ellipsis : 1;         /* Whether to use the ellipsis. */
+	guint editable : 1;		/* Whether the text can be edited. */
 	
 	int strikeout_column;
 	int bold_column;
