@@ -14,6 +14,7 @@ INCLUDES = -I.. -I$(srcdir)/.. 			 \
 	-I$(top_srcdir)/intl			 \
 	-I$(top_srcdir)/e-util			 \
 	$(CAMEL_CFLAGS)				 \
+	$(GNOME_INCLUDEDIR)			 \
 	$(KRB4_CFLAGS)				 \
 	$(NSPR_CFLAGS)				 \
 	$(NSS_CFLAGS)				 \

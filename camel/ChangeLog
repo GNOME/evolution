@@ -1,3 +1,8 @@
+2001-10-22  Rodrigo Moya <rodrigo@ximian.com>
+
+	* Makefile.am: added $GNOME_INCLUDEDIR to INCLUDES, needed for latest
+	libgnome, which install headers in $(prefix)/gnome-1.0
+
 2001-10-21  Jeffrey Stedfast  <fejj@ximian.com>
 
 	* camel-mime-part-utils.c
