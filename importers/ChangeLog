@@ -1,3 +1,7 @@
+2001-06-14  Damon Chaplin  <damon@ximian.com>
+
+	* .cvsignore: added evolution-gnomecard-importer.
+
 2001-06-04  Ettore Perazzoli  <ettore@ximian.com>
 
 	Fix Radek's fix.  $(DB3_LDADD) must always come *before*

@@ -15,5 +15,6 @@ Mail-skels.c
 Mail-common.c
 Mail.h
 evolution-elm-importer
+evolution-gnomecard-importer
 evolution-pine-importer
 evolution-netscape-importer
