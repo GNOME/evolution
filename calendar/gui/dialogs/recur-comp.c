@@ -1,8 +1,8 @@
-/* Evolution calendar - Delete calendar component dialog
+/* Evolution calendar - Recurring calendar component dialog
  *
- * Copyright (C) 2001 Ximian, Inc.
+ * Copyright (C) 2002 Ximian, Inc.
  *
- * Author: Federico Mena-Quintero <federico@ximian.com>
+ * Author: JP Rosevear <jpr@ximian.com>
  *
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of version 2 of the GNU General Public
@@ -55,7 +55,7 @@ recur_component_dialog (CalComponent *comp,
 		break;
 
 	case CAL_COMPONENT_JOURNAL:
-		str = g_strdup_printf (_("You are modifying a recurring journal, what would you like to modify?"));
+		str = g_strdup_printf (_("You are modifying a recurring journal entry, what would you like to modify?"));
 		break;
 
 	default:

@@ -1,8 +1,8 @@
-/* Evolution calendar - Recur calendar component dialog
+/* Evolution calendar - Recurring calendar component dialog
  *
- * Copyright (C) 2001 Ximian, Inc.
+ * Copyright (C) 2002 Ximian, Inc.
  *
- * Author: Federico Mena-Quintero <federico@ximian.com>
+ * Author: JP Rosevear <jpr@ximian.com>
  *
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of version 2 of the GNU General Public

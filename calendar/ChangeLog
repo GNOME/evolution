@@ -1,5 +1,13 @@
 2003-03-04  JP Rosevear  <jpr@ximian.com>
  
+ 	* gui/dialogs/recur-comp.h: fix copyright
+ 
+ 	* gui/dialogs/recur-comp.c: fix copyright
+ 	(recur_component_dialog): say "recurring journal entry" instead of
+ 	just "recurring journal"
+
+2003-03-04  JP Rosevear  <jpr@ximian.com>
+ 
         Partially  Fixes #23606 (from Jack Jia <jack.jia@sun.com>)
  	
  	* gui/dialogs/schedule-page.c (update_time): handle no end date if
