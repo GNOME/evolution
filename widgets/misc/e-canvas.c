@@ -152,7 +152,7 @@ e_canvas_destroy (GtkObject *object)
 					       canvas->visibility_notify_id);
 		canvas->visibility_notify_id = 0;
 
-		gtk_object_unref(GTK_OBJECT(canvas->toplevel));
+		g_object_unref (canvas->toplevel);
 		canvas->toplevel = NULL;
 	}
 
@@ -271,7 +271,7 @@ emit_event (GnomeCanvas *canvas, GdkEvent *event)
 	finished = FALSE;
 
 	while (item && !finished) {
-		gtk_object_ref (GTK_OBJECT (item));
+		g_object_ref (item);
 
 		gtk_signal_emit_by_name (GTK_OBJECT (item), "event",
 					 &ev,
@@ -286,7 +286,7 @@ emit_event (GnomeCanvas *canvas, GdkEvent *event)
 #endif
 
 		parent = item->parent;
-		gtk_object_unref (GTK_OBJECT (item));
+		g_object_unref (item);
 
 		item = parent;
 	}
@@ -942,7 +942,7 @@ e_canvas_item_set_cursor (GnomeCanvasItem *item, gpointer id)
 			func(info->item, flags, info->id);
 		g_message ("ECANVAS: free info (2): item %p, id %p",
 			   info->item, info->id);
-		gtk_object_unref (GTK_OBJECT (info->item));
+		g_object_unref (info->item);
 		g_free(info);
 	}
 	g_list_free(canvas->selection);
@@ -953,7 +953,7 @@ e_canvas_item_set_cursor (GnomeCanvasItem *item, gpointer id)
 
 	info = g_new(ECanvasSelectionInfo, 1);
 	info->item = item;
-	gtk_object_ref (GTK_OBJECT (info->item));
+	g_object_ref (info->item);
 	info->id = id;
 	g_message ("ECANVAS: new info item %p, id %p", item, id);
 
@@ -1018,7 +1018,7 @@ e_canvas_item_add_selection (GnomeCanvasItem *item, gpointer id)
 
 	info = g_new(ECanvasSelectionInfo, 1);
 	info->item = item;
-	gtk_object_ref (GTK_OBJECT (info->item));
+	g_object_ref (info->item);
 	info->id = id;
 	g_message ("ECANVAS: new info (2): item %p, id %p", item, id);
 
@@ -1065,7 +1065,7 @@ e_canvas_item_remove_selection (GnomeCanvasItem *item, gpointer id)
 
 				g_message ("ECANVAS: removing info: item %p, info %p",
 					   info->item, info->id);
-				gtk_object_unref (GTK_OBJECT (info->item));
+				g_object_unref (info->item);
 				g_free(info);
 				g_list_free_1(list);
 				break;
@@ -1085,7 +1085,7 @@ void e_canvas_popup_tooltip (ECanvas *canvas, GtkWidget *widget, int x, int y)
 		canvas->toplevel = gtk_widget_get_toplevel (GTK_WIDGET(canvas));
 		if (canvas->toplevel) {
 			gtk_widget_add_events(canvas->toplevel, GDK_VISIBILITY_NOTIFY_MASK);
-			gtk_object_ref(GTK_OBJECT(canvas->toplevel));
+			g_object_ref (canvas->toplevel);
 			canvas->visibility_notify_id =
 				gtk_signal_connect (GTK_OBJECT (canvas->toplevel), "visibility_notify_event",
 						    GTK_SIGNAL_FUNC (e_canvas_visibility), canvas);

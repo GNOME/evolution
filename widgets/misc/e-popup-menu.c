@@ -178,7 +178,7 @@ e_popup_menu_copy_1 (EPopupMenu *destination,
 
 	destination->pixmap_widget = source->pixmap_widget;
 	if (destination->pixmap_widget)
-		gtk_object_ref (GTK_OBJECT (destination->pixmap_widget));
+		g_object_ref (destination->pixmap_widget);
 	destination->closure = source->closure;
 
 	destination->is_toggle = source->is_toggle;
@@ -196,7 +196,7 @@ e_popup_menu_free_1 (EPopupMenu *menu_item)
 	e_popup_menu_free (menu_item->submenu);
 
 	if (menu_item->pixmap_widget)
-		gtk_object_unref (GTK_OBJECT (menu_item->pixmap_widget));
+		g_object_unref (menu_item->pixmap_widget);
 }
 
 EPopupMenu *

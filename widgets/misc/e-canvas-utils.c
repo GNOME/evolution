@@ -144,7 +144,7 @@ show_area_timeout (gpointer data)
 	DoubsAndCanvas *dac = data;
 
 	e_canvas_show_area(dac->canvas, dac->x1, dac->y1, dac->x2, dac->y2);
-	gtk_object_unref(GTK_OBJECT(dac->canvas));
+	g_object_unref (dac->canvas);
 	g_free(dac);
 	return FALSE;
 }
@@ -166,6 +166,6 @@ e_canvas_item_show_area_delayed (GnomeCanvasItem *item, double x1, double y1, do
 	dac->x2 = x2;
 	dac->y2 = y2;
 	dac->canvas = item->canvas;
-	gtk_object_ref(GTK_OBJECT(item->canvas));
+	g_object_ref (item->canvas);
 	g_timeout_add(delay, show_area_timeout, dac);
 }

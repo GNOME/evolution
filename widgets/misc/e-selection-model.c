@@ -55,7 +55,7 @@ add_sorter(ESelectionModel *esm, ESorter *sorter)
 {
 	esm->sorter = sorter;
 	if (sorter) {
-		gtk_object_ref(GTK_OBJECT(sorter));
+		g_object_ref (sorter);
 	}
 }
 
@@ -63,7 +63,7 @@ inline static void
 drop_sorter(ESelectionModel *esm)
 {
 	if (esm->sorter) {
-		gtk_object_unref(GTK_OBJECT(esm->sorter));
+		g_object_unref (esm->sorter);
 	}
 	esm->sorter = NULL;
 }

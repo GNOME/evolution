@@ -445,7 +445,7 @@ disconnect_model (EReflow *reflow)
 			       reflow->model_items_inserted_id);
 	gtk_signal_disconnect (GTK_OBJECT (reflow->model),
 			       reflow->model_item_changed_id);
-	gtk_object_unref (GTK_OBJECT (reflow->model));
+	g_object_unref (reflow->model);
 
 	reflow->model_changed_id        = 0;
 	reflow->model_items_inserted_id = 0;
@@ -465,7 +465,7 @@ disconnect_selection (EReflow *reflow)
 			       reflow->selection_row_changed_id);
 	gtk_signal_disconnect (GTK_OBJECT (reflow->selection),
 			       reflow->cursor_changed_id);
-	gtk_object_unref (GTK_OBJECT (reflow->selection));
+	g_object_unref (reflow->selection);
 
 	reflow->selection_changed_id = 0;
 	reflow->selection_row_changed_id = 0;
@@ -483,7 +483,7 @@ connect_model (EReflow *reflow, EReflowModel *model)
 		return;
 
 	reflow->model = model;
-	gtk_object_ref (GTK_OBJECT (reflow->model));
+	g_object_ref (reflow->model);
 	reflow->model_changed_id =
 		gtk_signal_connect (GTK_OBJECT (reflow->model), "model_changed",
 				    GTK_SIGNAL_FUNC (model_changed), reflow);
@@ -513,7 +513,7 @@ disconnect_adjustment (EReflow *reflow)
 	gtk_signal_disconnect (GTK_OBJECT (reflow->adjustment),
 			       reflow->adjustment_value_changed_id);
 
-	gtk_object_unref (GTK_OBJECT (reflow->adjustment));
+	g_object_unref (reflow->adjustment);
 
 	reflow->adjustment_changed_id = 0;
 	reflow->adjustment_value_changed_id = 0;
@@ -536,7 +536,7 @@ connect_adjustment (EReflow *reflow, GtkAdjustment *adjustment)
 	reflow->adjustment_value_changed_id =
 		gtk_signal_connect (GTK_OBJECT (adjustment), "value_changed",
 				    GTK_SIGNAL_FUNC (adjustment_changed), reflow);
-	gtk_object_ref (GTK_OBJECT (adjustment));
+	g_object_ref (adjustment);
 }
 
 #if 0
