@@ -4,7 +4,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: E-volution\n"
-"POT-Creation-Date: 2000-05-27 17:55+0000\n"
+"POT-Creation-Date: 2000-05-27 20:01+0100\n"
 "PO-Revision-Date: 2000-05-27 17:56+00:00\n"
 "Last-Translator: Valek Filippov <frob@df.ru>\n"
 "Language-Team: Russian <ru@li.org>\n"
@@ -789,15 +789,15 @@ msgstr "Bug-buddy не был найден в вашем $PATH."
 msgid "Bug buddy could not be run."
 msgstr "Bug-buddy не может быть запущен."
 
-#: shell/e-shell-view-menu.c:110
+#: shell/e-shell-view-menu.c:111
 msgid "Evolution"
 msgstr "Эволюция"
 
-#: shell/e-shell-view-menu.c:112
+#: shell/e-shell-view-menu.c:113
 msgid "Copyright 1999, 2000 Helix Code, Inc."
 msgstr "Copyright 1999, 2000 Helix Code, Inc."
 
-#: shell/e-shell-view-menu.c:114
+#: shell/e-shell-view-menu.c:115
 msgid ""
 "Evolution is a suite of groupware applications\n"
 "for mail, calendaring, and contact management\n"
@@ -807,104 +807,104 @@ msgstr ""
 "ведения календарей и контактной информации для\n"
 "групповой работы в среде GNOME."
 
-#: shell/e-shell-view-menu.c:184 shell/e-shell-view-menu.c:250
+#: shell/e-shell-view-menu.c:185 shell/e-shell-view-menu.c:251
 msgid "_Folder"
 msgstr "Папка"
 
-#: shell/e-shell-view-menu.c:188
+#: shell/e-shell-view-menu.c:189
 msgid "Evolution _Bar Shortcut"
 msgstr "Строка ярлыков Evolution"
 
-#: shell/e-shell-view-menu.c:194
+#: shell/e-shell-view-menu.c:195
 msgid "_Mail message"
 msgstr "Почтовое сообщение"
 
-#: shell/e-shell-view-menu.c:195 shell/e-shell-view-menu.c:198
+#: shell/e-shell-view-menu.c:196 shell/e-shell-view-menu.c:199
 msgid "Composes a new mail message"
 msgstr "Создать новое сообщение"
 
-#: shell/e-shell-view-menu.c:197
+#: shell/e-shell-view-menu.c:198
 msgid "_Appointment"
 msgstr "Встреча"
 
-#: shell/e-shell-view-menu.c:200
+#: shell/e-shell-view-menu.c:201
 msgid "Meeting Re_quest"
 msgstr "Запрос встречи"
 
-#: shell/e-shell-view-menu.c:203
+#: shell/e-shell-view-menu.c:204
 msgid "_Contact"
 msgstr "Контакт"
 
-#: shell/e-shell-view-menu.c:206
+#: shell/e-shell-view-menu.c:207
 msgid "_Task"
 msgstr "Задание"
 
-#: shell/e-shell-view-menu.c:209
+#: shell/e-shell-view-menu.c:210
 msgid "Task _Request"
 msgstr "Запрос задания"
 
-#: shell/e-shell-view-menu.c:212
+#: shell/e-shell-view-menu.c:213
 msgid "_Journal Entry"
 msgstr "Журнальная строка"
 
-#: shell/e-shell-view-menu.c:215
+#: shell/e-shell-view-menu.c:216
 msgid "_Note"
 msgstr "Заметка"
 
-#: shell/e-shell-view-menu.c:225
+#: shell/e-shell-view-menu.c:226
 msgid "_Selected Items"
 msgstr "Выделенные элементы"
 
-#: shell/e-shell-view-menu.c:233
+#: shell/e-shell-view-menu.c:234
 msgid "_New Folder"
 msgstr "Новая папка"
 
-#: shell/e-shell-view-menu.c:241
+#: shell/e-shell-view-menu.c:242
 msgid "_New"
 msgstr "Новое"
 
-#: shell/e-shell-view-menu.c:242
+#: shell/e-shell-view-menu.c:243
 msgid "_Open"
 msgstr "Открыть"
 
-#: shell/e-shell-view-menu.c:243
+#: shell/e-shell-view-menu.c:244
 msgid "Clos_e All Items"
 msgstr "Закрыть все"
 
-#: shell/e-shell-view-menu.c:243
+#: shell/e-shell-view-menu.c:244
 msgid "Closes all the open items"
 msgstr "Закрыть все что открыто"
 
-#: shell/e-shell-view-menu.c:264
+#: shell/e-shell-view-menu.c:265
 msgid "Show _Shortcut Bar"
 msgstr "Показать строку ярлыков"
 
-#: shell/e-shell-view-menu.c:265
+#: shell/e-shell-view-menu.c:266
 msgid "Shows the shortcut bar"
 msgstr "Показать строку ярлыков"
 
-#: shell/e-shell-view-menu.c:267
+#: shell/e-shell-view-menu.c:268
 msgid "Show _Treeview"
 msgstr "Показать просмотр дерева"
 
-#: shell/e-shell-view-menu.c:268
+#: shell/e-shell-view-menu.c:269
 msgid "Shows the tree view"
 msgstr "Показать просмотр дерева"
 
-#: shell/e-shell-view-menu.c:283
+#: shell/e-shell-view-menu.c:284
 msgid "_Submit bug"
 msgstr "Отправить сообщение об ошибке"
 
-#: shell/e-shell-view-menu.c:284
+#: shell/e-shell-view-menu.c:285
 msgid "Submit bug-report via bug-buddy"
 msgstr "Оправить сообщение об ошибке через bug-buddy"
 
 #. FIXME: add Favorites here
-#: shell/e-shell-view-menu.c:299
+#: shell/e-shell-view-menu.c:300
 msgid "_Tools"
 msgstr "Инструменты"
 
-#: shell/e-shell-view-menu.c:300
+#: shell/e-shell-view-menu.c:301
 msgid "_Actions"
 msgstr "Действия"
 

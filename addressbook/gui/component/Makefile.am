@@ -68,7 +68,7 @@ gnorba_DATA = addressbook.gnorba
 endif
 
 gladedir   = $(datadir)/evolution/glade
-glade_DATA = ldap-server-dialog.glade
+glade_DATA = ldap-server-dialog.glade ldap-server-dialog.glade.h
 
 EXTRA_DIST = 			\
 	$(glade_DATA)		\

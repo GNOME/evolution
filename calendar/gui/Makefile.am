@@ -32,7 +32,9 @@ LINK_FLAGS =							\
 	$(top_builddir)/libical/src/libical/libical.la
 
 gladedir   = $(datadir)/evolution/glade
-glade_DATA = event-editor-dialog.glade
+
+glade_DATA = 					\
+	event-editor-dialog.glade
 
 glade_messages = event-editor-dialog.glade.h
 
@@ -113,7 +115,7 @@ gnorba_DATA = calendar-control.gnorba evolution-calendar.gnorba
 endif
 
 EXTRA_DIST =				\
-	$(glade_messages)		\
+	$(glade_DATA)			\
 	bell.xpm			\
 	recur.xpm			\
 	dayview.xpm			\

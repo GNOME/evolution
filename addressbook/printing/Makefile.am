@@ -8,7 +8,8 @@ ecps_DATA  =				\
 gladedir   = $(datadir)/evolution/glade
 
 glade_DATA = 				\
-	e-contact-print.glade
+	e-contact-print.glade		\
+	e-contact-print.glade.h
 
 CPPFLAGS = \
         -DEVOLUTION_GLADEDIR=\""$(gladedir)"\"	\

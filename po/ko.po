@@ -4,7 +4,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: evolution 0.0\n"
-"POT-Creation-Date: 2000-05-16 15:33+0900\n"
+"POT-Creation-Date: 2000-05-27 20:01+0100\n"
 "PO-Revision-Date: 2000-05-16 09:53:35+0900\n"
 "Last-Translator: Sung-Hyun Nam <namsh@kldp.org>\n"
 "Language-Team: korean <ko@li.org>\n"
@@ -38,7 +38,8 @@ msgid "Web page address:"
 msgstr "홈페이지 주소:"
 
 #: addressbook/contact-editor/e-contact-editor-strings.h:12
-msgid "Wants _HTML mail"
+#, fuzzy
+msgid "Wants to receive _HTML mail"
 msgstr "HTML형식 편지 사용(_H)"
 
 #: addressbook/contact-editor/e-contact-editor-strings.h:13
@@ -139,7 +140,7 @@ msgid "Add"
 msgstr "추가"
 
 #: addressbook/contact-editor/e-contact-editor-strings.h:37
-#: mail/folder-browser-factory.c:153
+#: mail/folder-browser-factory.c:50
 msgid "Delete"
 msgstr "삭제"
 
@@ -403,7 +404,7 @@ msgstr "짝수 쪽 뒤집기"
 msgid "Header/Footer"
 msgstr "머리말/꼬리말"
 
-#: composer/e-msg-composer-address-dialog.c:183 composer/e-msg-composer.c:466
+#: composer/e-msg-composer-address-dialog.c:183 composer/e-msg-composer.c:533
 msgid "Cut"
 msgstr "자르기"
 
@@ -411,7 +412,7 @@ msgstr "자르기"
 msgid "Cut selected item into clipboard"
 msgstr "선택한 항목을 클립보드로 자릅니다"
 
-#: composer/e-msg-composer-address-dialog.c:187 composer/e-msg-composer.c:467
+#: composer/e-msg-composer-address-dialog.c:187 composer/e-msg-composer.c:534
 msgid "Copy"
 msgstr "복사"
 
@@ -420,7 +421,7 @@ msgid "Copy selected item into clipboard"
 msgstr "선택한 항목을 클립보드로 복사합니다"
 
 #: composer/e-msg-composer-address-dialog.c:191
-#: composer/e-msg-composer-address-dialog.c:199 composer/e-msg-composer.c:468
+#: composer/e-msg-composer-address-dialog.c:199 composer/e-msg-composer.c:535
 msgid "Paste"
 msgstr "붙이기"
 
@@ -597,64 +598,313 @@ msgstr "제목:"
 msgid "Enter the subject of the mail"
 msgstr "편지의 제목을 입력하세요"
 
-#: composer/e-msg-composer.c:424
+#: composer/e-msg-composer.c:491
 msgid "Save in _folder..."
 msgstr "폴더로 저장(_f)..."
 
-#: composer/e-msg-composer.c:424
+#: composer/e-msg-composer.c:491
 msgid "Save the message in a specified folder"
 msgstr "메세지를 지정한 폴더로 저장합니다"
 
-#: composer/e-msg-composer.c:427 composer/e-msg-composer.c:464
-#: mail/folder-browser-factory.c:139
+#: composer/e-msg-composer.c:494 composer/e-msg-composer.c:531
+#: mail/folder-browser-factory.c:36
 msgid "Send"
 msgstr "보냄"
 
-#: composer/e-msg-composer.c:427
+#: composer/e-msg-composer.c:494
 msgid "Send the message"
 msgstr "메세지를 보냅니다"
 
-#: composer/e-msg-composer.c:435
+#: composer/e-msg-composer.c:502
 msgid "View _attachments"
 msgstr "첨부물 보기(_a)"
 
-#: composer/e-msg-composer.c:435
+#: composer/e-msg-composer.c:502
 msgid "View/hide attachments"
 msgstr "첨부물을 보거나 숨깁니다"
 
-#: composer/e-msg-composer.c:464
+#: composer/e-msg-composer.c:531
 msgid "Send this message"
 msgstr "이 메세지를 보냄"
 
-#: composer/e-msg-composer.c:466
+#: composer/e-msg-composer.c:533
 msgid "Cut selected region into the clipboard"
 msgstr "선택한 영역을 클립보드로 자릅니다"
 
-#: composer/e-msg-composer.c:467
+#: composer/e-msg-composer.c:534
 msgid "Copy selected region into the clipboard"
 msgstr "선택한 영역을 클립보드로 복사합니다"
 
-#: composer/e-msg-composer.c:468
+#: composer/e-msg-composer.c:535
 msgid "Paste selected region into the clipboard"
 msgstr "클립보드에 선택된 영역을 붙입니다"
 
-#: composer/e-msg-composer.c:469
+#: composer/e-msg-composer.c:536
 msgid "Undo"
 msgstr "취소"
 
-#: composer/e-msg-composer.c:469
+#: composer/e-msg-composer.c:536
 msgid "Undo last operation"
 msgstr "마지막 작업 취소"
 
-#: composer/e-msg-composer.c:471
+#: composer/e-msg-composer.c:538
 msgid "Attach"
 msgstr "첨부"
 
-#: composer/e-msg-composer.c:471
+#: composer/e-msg-composer.c:538
 msgid "Attach a file"
 msgstr "파일을 첨부합니다"
 
-#: mail/folder-browser-factory.c:85
+#: mail/folder-browser-factory.c:35
+msgid "Get mail"
+msgstr "편지 받기"
+
+#: mail/folder-browser-factory.c:35
+msgid "Check for new mail"
+msgstr "새 편지를 확인합니다"
+
+#: mail/folder-browser-factory.c:36
+msgid "Send a new message"
+msgstr "새 메세지를 보냅니다"
+
+#: mail/folder-browser-factory.c:37
+msgid "Find"
+msgstr "찾기"
+
+#: mail/folder-browser-factory.c:37
+msgid "Find messages"
+msgstr "메세지를 찾습니다"
+
+#: mail/folder-browser-factory.c:41
+msgid "Reply"
+msgstr "답장"
+
+#: mail/folder-browser-factory.c:41
+msgid "Reply to the sender of this message"
+msgstr "이 메세지를 보낸사람에게 답장을 합니다"
+
+#: mail/folder-browser-factory.c:42
+msgid "Reply to All"
+msgstr "모두 답장"
+
+#: mail/folder-browser-factory.c:42
+msgid "Reply to all recipients of this message"
+msgstr "이 메세지를 받은 모든 사람에게 답장을 합니다"
+
+#: mail/folder-browser-factory.c:44
+msgid "Forward"
+msgstr "전달"
+
+#: mail/folder-browser-factory.c:44
+msgid "Forward this message"
+msgstr "이 메세지를 다른사람에게 전달합니다"
+
+#: mail/folder-browser-factory.c:48
+msgid "Print"
+msgstr "인쇄"
+
+#: mail/folder-browser-factory.c:48
+msgid "Print the selected message"
+msgstr "선택한 메세지를 인쇄합니다"
+
+#: mail/folder-browser-factory.c:50
+msgid "Delete this message"
+msgstr "이 메세지를 삭제합니다"
+
+#: mail/folder-browser-factory.c:67
+msgid "_Expunge"
+msgstr "제거(_E)"
+
+#: mail/folder-browser-factory.c:73
+#, fuzzy
+msgid "_Filter Druid"
+msgstr "필터"
+
+#: mail/folder-browser-factory.c:186
+msgid "We are sorry, Evolution's Folder Browser can not be initialized."
+msgstr "Evolution의 폴더 탐색기를 초기화 할수 없습니다."
+
+#: mail/folder-browser.c:208
+msgid "The URI that the Folder Browser will display"
+msgstr "폴더 탐색기가 표시할 URI"
+
+#: mail/folder-browser.c:211
+msgid "Whether a message preview should be shown"
+msgstr ""
+
+#: mail/main.c:58
+msgid "Mail Component: I could not initialize Bonobo"
+msgstr "메일 컴포넌트: Bonobo를 초기화 할수 없습니다"
+
+#: mail/message-list.c:464
+msgid "Priority"
+msgstr "우선순위"
+
+#: mail/message-list.c:478
+msgid "From"
+msgstr "보낸 사람"
+
+#: mail/message-list.c:485
+msgid "Subject"
+msgstr "제목"
+
+#: mail/message-list.c:492
+msgid "Sent"
+msgstr "보냈슴"
+
+#: mail/message-list.c:499
+msgid "Receive"
+msgstr "받았슴"
+
+#: mail/message-list.c:506
+msgid "To"
+msgstr "받는 사람"
+
+#: mail/message-list.c:513
+msgid "Size"
+msgstr "크기"
+
+#. you might have to call gnome_dialog_run() on the
+#. * dialog returned here, I don't remember...
+#.
+#: shell/e-shell-view-menu.c:62
+msgid "Bug buddy was not found in your $PATH."
+msgstr "시스템의 경로에 Bug buddy를 찾을수 없습니다."
+
+#. same as above
+#: shell/e-shell-view-menu.c:68
+msgid "Bug buddy could not be run."
+msgstr "Bug buddy를 실행할수 없습니다."
+
+#: shell/e-shell-view-menu.c:111
+msgid "Evolution"
+msgstr ""
+
+#: shell/e-shell-view-menu.c:113
+msgid "Copyright 1999, 2000 Helix Code, Inc."
+msgstr ""
+
+#: shell/e-shell-view-menu.c:115
+msgid ""
+"Evolution is a suite of groupware applications\n"
+"for mail, calendaring, and contact management\n"
+"within the GNOME desktop environment."
+msgstr ""
+"Evolution 은 그놈 데스크탑 환경에서 전자우편, \n"
+"일정, 연락처 관리를 하는 그룹웨어 응용프로그램\n"
+"모음 입니다."
+
+#: shell/e-shell-view-menu.c:185 shell/e-shell-view-menu.c:251
+msgid "_Folder"
+msgstr "폴더(_F)"
+
+#: shell/e-shell-view-menu.c:189
+msgid "Evolution _Bar Shortcut"
+msgstr "Evolution 단축 막대(_B)"
+
+#: shell/e-shell-view-menu.c:195
+msgid "_Mail message"
+msgstr "편지 메세지(_M)"
+
+#: shell/e-shell-view-menu.c:196 shell/e-shell-view-menu.c:199
+msgid "Composes a new mail message"
+msgstr "새 메일 메세지를 작성합니다"
+
+#: shell/e-shell-view-menu.c:198
+msgid "_Appointment"
+msgstr "약속(_A)"
+
+#: shell/e-shell-view-menu.c:201
+msgid "Meeting Re_quest"
+msgstr "회의 요청(_q)"
+
+#: shell/e-shell-view-menu.c:204
+msgid "_Contact"
+msgstr "연결(_C)"
+
+#: shell/e-shell-view-menu.c:207
+msgid "_Task"
+msgstr "작업(_T)"
+
+#: shell/e-shell-view-menu.c:210
+msgid "Task _Request"
+msgstr "작업 요청(_R)"
+
+#: shell/e-shell-view-menu.c:213
+msgid "_Journal Entry"
+msgstr "여행 일정(_J)"
+
+#: shell/e-shell-view-menu.c:216
+msgid "_Note"
+msgstr "노트(_N)"
+
+#: shell/e-shell-view-menu.c:226
+msgid "_Selected Items"
+msgstr "선택한 항목(_S)"
+
+#: shell/e-shell-view-menu.c:234
+msgid "_New Folder"
+msgstr "새 폴더(_N)"
+
+#: shell/e-shell-view-menu.c:242
+msgid "_New"
+msgstr "새로운(_N)"
+
+#: shell/e-shell-view-menu.c:243
+msgid "_Open"
+msgstr "열기(_O)"
+
+#: shell/e-shell-view-menu.c:244
+msgid "Clos_e All Items"
+msgstr "모든 항목 닫기(_e)"
+
+#: shell/e-shell-view-menu.c:244
+msgid "Closes all the open items"
+msgstr "열려있는 모든 항목을 닫습니다"
+
+#: shell/e-shell-view-menu.c:265
+#, fuzzy
+msgid "Show _Shortcut Bar"
+msgstr "단축 막대 토글"
+
+#: shell/e-shell-view-menu.c:266
+#, fuzzy
+msgid "Shows the shortcut bar"
+msgstr "단축막대를 토글합니다"
+
+#: shell/e-shell-view-menu.c:268
+#, fuzzy
+msgid "Show _Treeview"
+msgstr "나무모양보기 토글(_T)"
+
+#: shell/e-shell-view-menu.c:269
+#, fuzzy
+msgid "Shows the tree view"
+msgstr "나무 모양보기로 토글합니다"
+
+#: shell/e-shell-view-menu.c:284
+msgid "_Submit bug"
+msgstr "버그 제보(_S)"
+
+#: shell/e-shell-view-menu.c:285
+msgid "Submit bug-report via bug-buddy"
+msgstr "bug-buddy로 버그제보를 합니다"
+
+#. FIXME: add Favorites here
+#: shell/e-shell-view-menu.c:300
+msgid "_Tools"
+msgstr "도구(_T)"
+
+#: shell/e-shell-view-menu.c:301
+msgid "_Actions"
+msgstr "행동(_A)"
+
+#: shell/e-shell.c:157
+#, c-format
+msgid "Cannot set up local storage -- %s"
+msgstr "시스템 저장장치를 지정할수 없습니다 -- %s"
+
+#: shell/main.c:100
 msgid ""
 "Hi.  Thanks for taking the time to download this preview release of\n"
 "the Evolution groupware suite.\n"
@@ -699,7 +949,7 @@ msgstr ""
 "우리의 힘든 작업의 결과가 당신을 기쁘게 하였으면 좋겠으며, 또한 당신의\n"
 "도움을 간절히 기다리고 있습니다.\n"
 
-#: mail/folder-browser-factory.c:114
+#: shell/main.c:129
 msgid ""
 "Thanks\n"
 "The Evolution Team\n"
@@ -707,253 +957,13 @@ msgstr ""
 "감사합니다\n"
 "Evolution 팀\n"
 
-#: mail/folder-browser-factory.c:138
-msgid "Get mail"
-msgstr "편지 받기"
-
-#: mail/folder-browser-factory.c:138
-msgid "Check for new mail"
-msgstr "새 편지를 확인합니다"
-
-#: mail/folder-browser-factory.c:139
-msgid "Send a new message"
-msgstr "새 메세지를 보냅니다"
-
-#: mail/folder-browser-factory.c:140
-msgid "Find"
-msgstr "찾기"
-
-#: mail/folder-browser-factory.c:140
-msgid "Find messages"
-msgstr "메세지를 찾습니다"
-
-#: mail/folder-browser-factory.c:144
-msgid "Reply"
-msgstr "답장"
-
-#: mail/folder-browser-factory.c:144
-msgid "Reply to the sender of this message"
-msgstr "이 메세지를 보낸사람에게 답장을 합니다"
-
-#: mail/folder-browser-factory.c:145
-msgid "Reply to All"
-msgstr "모두 답장"
-
-#: mail/folder-browser-factory.c:145
-msgid "Reply to all recipients of this message"
-msgstr "이 메세지를 받은 모든 사람에게 답장을 합니다"
-
-#: mail/folder-browser-factory.c:147
-msgid "Forward"
-msgstr "전달"
-
-#: mail/folder-browser-factory.c:147
-msgid "Forward this message"
-msgstr "이 메세지를 다른사람에게 전달합니다"
-
-#: mail/folder-browser-factory.c:151
-msgid "Print"
-msgstr "인쇄"
-
-#: mail/folder-browser-factory.c:151
-msgid "Print the selected message"
-msgstr "선택한 메세지를 인쇄합니다"
-
-#: mail/folder-browser-factory.c:153
-msgid "Delete this message"
-msgstr "이 메세지를 삭제합니다"
-
-#: mail/folder-browser-factory.c:170
-msgid "_Expunge"
-msgstr "제거(_E)"
-
-#: mail/folder-browser-factory.c:292
-msgid "We are sorry, Evolution's Folder Browser can not be initialized."
-msgstr "Evolution의 폴더 탐색기를 초기화 할수 없습니다."
-
-#: mail/folder-browser.c:207
-msgid "The URI that the Folder Browser will display"
-msgstr "폴더 탐색기가 표시할 URI"
-
-#: mail/folder-browser.c:210
-msgid "Whether a message preview should be shown"
-msgstr ""
-
-#: mail/main.c:54
-msgid "Mail Component: I could not initialize Bonobo"
-msgstr "메일 컴포넌트: Bonobo를 초기화 할수 없습니다"
-
-#: mail/message-list.c:420
-msgid "Priority"
-msgstr "우선순위"
-
-#: mail/message-list.c:434
-msgid "From"
-msgstr "보낸 사람"
-
-#: mail/message-list.c:441
-msgid "Subject"
-msgstr "제목"
-
-#: mail/message-list.c:448
-msgid "Sent"
-msgstr "보냈슴"
-
-#: mail/message-list.c:455
-msgid "Receive"
-msgstr "받았슴"
-
-#: mail/message-list.c:462
-msgid "To"
-msgstr "받는 사람"
-
-#: mail/message-list.c:469
-msgid "Size"
-msgstr "크기"
-
-#. you might have to call gnome_dialog_run() on the
-#. * dialog returned here, I don't remember...
-#.
-#: shell/e-shell-view-menu.c:62
-msgid "Bug buddy was not found in your $PATH."
-msgstr "시스템의 경로에 Bug buddy를 찾을수 없습니다."
-
-#. same as above
-#: shell/e-shell-view-menu.c:68
-msgid "Bug buddy could not be run."
-msgstr "Bug buddy를 실행할수 없습니다."
-
-#: shell/e-shell-view-menu.c:110
-msgid "Evolution"
-msgstr ""
-
-#: shell/e-shell-view-menu.c:112
-msgid "Copyright 1999, 2000 Helix Code, Inc."
-msgstr ""
-
-#: shell/e-shell-view-menu.c:114
-msgid ""
-"Evolution is a suite of groupware applications\n"
-"for mail, calendaring, and contact management\n"
-"within the GNOME desktop environment."
-msgstr ""
-"Evolution 은 그놈 데스크탑 환경에서 전자우편, \n"
-"일정, 연락처 관리를 하는 그룹웨어 응용프로그램\n"
-"모음 입니다."
-
-#: shell/e-shell-view-menu.c:163 shell/e-shell-view-menu.c:229
-msgid "_Folder"
-msgstr "폴더(_F)"
-
-#: shell/e-shell-view-menu.c:167
-msgid "Evolution _Bar Shortcut"
-msgstr "Evolution 단축 막대(_B)"
-
-#: shell/e-shell-view-menu.c:173
-msgid "_Mail message"
-msgstr "편지 메세지(_M)"
-
-#: shell/e-shell-view-menu.c:174 shell/e-shell-view-menu.c:177
-msgid "Composes a new mail message"
-msgstr "새 메일 메세지를 작성합니다"
-
-#: shell/e-shell-view-menu.c:176
-msgid "_Appointment"
-msgstr "약속(_A)"
-
-#: shell/e-shell-view-menu.c:179
-msgid "Meeting Re_quest"
-msgstr "회의 요청(_q)"
-
-#: shell/e-shell-view-menu.c:182
-msgid "_Contact"
-msgstr "연결(_C)"
-
-#: shell/e-shell-view-menu.c:185
-msgid "_Task"
-msgstr "작업(_T)"
-
-#: shell/e-shell-view-menu.c:188
-msgid "Task _Request"
-msgstr "작업 요청(_R)"
-
-#: shell/e-shell-view-menu.c:191
-msgid "_Journal Entry"
-msgstr "여행 일정(_J)"
-
-#: shell/e-shell-view-menu.c:194
-msgid "_Note"
-msgstr "노트(_N)"
-
-#: shell/e-shell-view-menu.c:204
-msgid "_Selected Items"
-msgstr "선택한 항목(_S)"
-
-#: shell/e-shell-view-menu.c:212
-msgid "_New Folder"
-msgstr "새 폴더(_N)"
-
-#: shell/e-shell-view-menu.c:220
-msgid "_New"
-msgstr "새로운(_N)"
-
-#: shell/e-shell-view-menu.c:221
-msgid "_Open"
-msgstr "열기(_O)"
-
-#: shell/e-shell-view-menu.c:222
-msgid "Clos_e All Items"
-msgstr "모든 항목 닫기(_e)"
-
-#: shell/e-shell-view-menu.c:222
-msgid "Closes all the open items"
-msgstr "열려있는 모든 항목을 닫습니다"
-
-#: shell/e-shell-view-menu.c:243
-msgid "_Toggle Shortcut Bar"
-msgstr "단축 막대 토글"
-
-#: shell/e-shell-view-menu.c:244
-msgid "Toggles the shortcut bar"
-msgstr "단축막대를 토글합니다"
-
-#: shell/e-shell-view-menu.c:246
-msgid "_Toggle Treeview"
-msgstr "나무모양보기 토글(_T)"
-
-#: shell/e-shell-view-menu.c:247
-msgid "Toggles the tree view"
-msgstr "나무 모양보기로 토글합니다"
-
-#: shell/e-shell-view-menu.c:262
-msgid "_Submit bug"
-msgstr "버그 제보(_S)"
-
-#: shell/e-shell-view-menu.c:263
-msgid "Submit bug-report via bug-buddy"
-msgstr "bug-buddy로 버그제보를 합니다"
-
-#. FIXME: add Favorites here
-#: shell/e-shell-view-menu.c:278
-msgid "_Tools"
-msgstr "도구(_T)"
-
-#: shell/e-shell-view-menu.c:279
-msgid "_Actions"
-msgstr "행동(_A)"
-
-#: shell/e-shell.c:81
-#, c-format
-msgid "Cannot set up local storage -- %s"
-msgstr "시스템 저장장치를 지정할수 없습니다 -- %s"
-
-#: shell/main.c:111
-msgid "Cannot initialize the Bonobo component system."
-msgstr "보노보 컴포넌트 시스템을 초기화 할수 없습니다."
-
-#: shell/main.c:126
+#: shell/main.c:156
 msgid "Cannot initialize the Evolution shell."
 msgstr "Evolution 쉘을 초기화 할수 없습니다."
+
+#: shell/main.c:186
+msgid "Cannot initialize the Bonobo component system."
+msgstr "보노보 컴포넌트 시스템을 초기화 할수 없습니다."
 
 #.
 #. * Translatable strings file generated by Glade.

@@ -5,7 +5,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: evolution 0.1\n"
-"POT-Creation-Date: 2000-05-26 23:58+0200\n"
+"POT-Creation-Date: 2000-05-27 20:01+0100\n"
 "PO-Revision-Date: 2000-05-26 23:59+02:00\n"
 "Last-Translator: Kjartan Maraas <kmaraas@online.no>\n"
 "Language-Team: Norwegian <no@li.org>\n"
@@ -788,15 +788,15 @@ msgstr "Bug buddy ble ikke funnet i din $PATH."
 msgid "Bug buddy could not be run."
 msgstr "Bug buddy kunne ikke kjøres."
 
-#: shell/e-shell-view-menu.c:110
+#: shell/e-shell-view-menu.c:111
 msgid "Evolution"
 msgstr "Evolution"
 
-#: shell/e-shell-view-menu.c:112
+#: shell/e-shell-view-menu.c:113
 msgid "Copyright 1999, 2000 Helix Code, Inc."
 msgstr "Copyright 1999, 2000 Helix Code, Inc."
 
-#: shell/e-shell-view-menu.c:114
+#: shell/e-shell-view-menu.c:115
 msgid ""
 "Evolution is a suite of groupware applications\n"
 "for mail, calendaring, and contact management\n"
@@ -806,104 +806,104 @@ msgstr ""
 "for e-post, kalender og kontaktdatabaser for\n"
 "GNOME skrivebordsmiljøet."
 
-#: shell/e-shell-view-menu.c:184 shell/e-shell-view-menu.c:250
+#: shell/e-shell-view-menu.c:185 shell/e-shell-view-menu.c:251
 msgid "_Folder"
 msgstr "_Mappe"
 
-#: shell/e-shell-view-menu.c:188
+#: shell/e-shell-view-menu.c:189
 msgid "Evolution _Bar Shortcut"
 msgstr "Evolution s_narveilinje"
 
-#: shell/e-shell-view-menu.c:194
+#: shell/e-shell-view-menu.c:195
 msgid "_Mail message"
 msgstr "E-post _melding"
 
-#: shell/e-shell-view-menu.c:195 shell/e-shell-view-menu.c:198
+#: shell/e-shell-view-menu.c:196 shell/e-shell-view-menu.c:199
 msgid "Composes a new mail message"
 msgstr "Lager en ny e-post melding"
 
-#: shell/e-shell-view-menu.c:197
+#: shell/e-shell-view-menu.c:198
 msgid "_Appointment"
 msgstr "_Avtale"
 
-#: shell/e-shell-view-menu.c:200
+#: shell/e-shell-view-menu.c:201
 msgid "Meeting Re_quest"
 msgstr "Møteforesp_ørsel"
 
-#: shell/e-shell-view-menu.c:203
+#: shell/e-shell-view-menu.c:204
 msgid "_Contact"
 msgstr "_Kontakt"
 
-#: shell/e-shell-view-menu.c:206
+#: shell/e-shell-view-menu.c:207
 msgid "_Task"
 msgstr "_Oppgave"
 
-#: shell/e-shell-view-menu.c:209
+#: shell/e-shell-view-menu.c:210
 msgid "Task _Request"
 msgstr "Oppgavefo_respørsel"
 
-#: shell/e-shell-view-menu.c:212
+#: shell/e-shell-view-menu.c:213
 msgid "_Journal Entry"
 msgstr "_Journaloppføring"
 
-#: shell/e-shell-view-menu.c:215
+#: shell/e-shell-view-menu.c:216
 msgid "_Note"
 msgstr "_Notat"
 
-#: shell/e-shell-view-menu.c:225
+#: shell/e-shell-view-menu.c:226
 msgid "_Selected Items"
 msgstr "_Valgte oppføringer"
 
-#: shell/e-shell-view-menu.c:233
+#: shell/e-shell-view-menu.c:234
 msgid "_New Folder"
 msgstr "_Ny mappe"
 
-#: shell/e-shell-view-menu.c:241
+#: shell/e-shell-view-menu.c:242
 msgid "_New"
 msgstr "_Ny"
 
-#: shell/e-shell-view-menu.c:242
+#: shell/e-shell-view-menu.c:243
 msgid "_Open"
 msgstr "_Åpne"
 
-#: shell/e-shell-view-menu.c:243
+#: shell/e-shell-view-menu.c:244
 msgid "Clos_e All Items"
 msgstr "Lukk all_e oppføringer"
 
-#: shell/e-shell-view-menu.c:243
+#: shell/e-shell-view-menu.c:244
 msgid "Closes all the open items"
 msgstr "Lukker alle åpne oppføringer"
 
-#: shell/e-shell-view-menu.c:264
+#: shell/e-shell-view-menu.c:265
 msgid "Show _Shortcut Bar"
 msgstr "Vis _snarveilinje"
 
-#: shell/e-shell-view-menu.c:265
+#: shell/e-shell-view-menu.c:266
 msgid "Shows the shortcut bar"
 msgstr "Viser snarveilinjen"
 
-#: shell/e-shell-view-menu.c:267
+#: shell/e-shell-view-menu.c:268
 msgid "Show _Treeview"
 msgstr "Vis _trevisning"
 
-#: shell/e-shell-view-menu.c:268
+#: shell/e-shell-view-menu.c:269
 msgid "Shows the tree view"
 msgstr "Viser trevisning"
 
-#: shell/e-shell-view-menu.c:283
+#: shell/e-shell-view-menu.c:284
 msgid "_Submit bug"
 msgstr "_Send feilrapport"
 
-#: shell/e-shell-view-menu.c:284
+#: shell/e-shell-view-menu.c:285
 msgid "Submit bug-report via bug-buddy"
 msgstr "Send feilrapport med bug-buddy"
 
 #. FIXME: add Favorites here
-#: shell/e-shell-view-menu.c:299
+#: shell/e-shell-view-menu.c:300
 msgid "_Tools"
 msgstr "_Verktøy"
 
-#: shell/e-shell-view-menu.c:300
+#: shell/e-shell-view-menu.c:301
 msgid "_Actions"
 msgstr "H_andlinger"
 

@@ -5,7 +5,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: evolution VERSION\n"
-"POT-Creation-Date: 2000-05-19 19:31+0200\n"
+"POT-Creation-Date: 2000-05-27 20:01+0100\n"
 "PO-Revision-Date: 2000-05-19 19:06+0100\n"
 "Last-Translator: Szabolcs BAN <shooby@gnome.hu>\n"
 "Language-Team: Hungarian <hu@li.org>\n"
@@ -39,7 +39,8 @@ msgid "Web page address:"
 msgstr "Weblap cím:"
 
 #: addressbook/contact-editor/e-contact-editor-strings.h:12
-msgid "Wants _HTML mail"
+#, fuzzy
+msgid "Wants to receive _HTML mail"
 msgstr "_HTML levelet kér"
 
 #: addressbook/contact-editor/e-contact-editor-strings.h:13
@@ -140,7 +141,7 @@ msgid "Add"
 msgstr "Hozzáad"
 
 #: addressbook/contact-editor/e-contact-editor-strings.h:37
-#: mail/folder-browser-factory.c:153
+#: mail/folder-browser-factory.c:50
 msgid "Delete"
 msgstr "Töröl"
 
@@ -410,7 +411,7 @@ msgstr "Páros lapokon fordított"
 msgid "Header/Footer"
 msgstr "Fejléc/lábléc"
 
-#: composer/e-msg-composer-address-dialog.c:183 composer/e-msg-composer.c:466
+#: composer/e-msg-composer-address-dialog.c:183 composer/e-msg-composer.c:533
 msgid "Cut"
 msgstr "Kivág"
 
@@ -418,7 +419,7 @@ msgstr "Kivág"
 msgid "Cut selected item into clipboard"
 msgstr "Kivágja a kiválasztott elemet a vágólapra"
 
-#: composer/e-msg-composer-address-dialog.c:187 composer/e-msg-composer.c:467
+#: composer/e-msg-composer-address-dialog.c:187 composer/e-msg-composer.c:534
 msgid "Copy"
 msgstr "Másol"
 
@@ -427,7 +428,7 @@ msgid "Copy selected item into clipboard"
 msgstr "Másolja a kiválasztott elemet a vágólapra"
 
 #: composer/e-msg-composer-address-dialog.c:191
-#: composer/e-msg-composer-address-dialog.c:199 composer/e-msg-composer.c:468
+#: composer/e-msg-composer-address-dialog.c:199 composer/e-msg-composer.c:535
 msgid "Paste"
 msgstr "Beilleszt"
 
@@ -595,8 +596,8 @@ msgid ""
 "Enter the addresses that will receive a carbon copy of the message without "
 "appearing in the recipient list of the message."
 msgstr ""
-"Írd be azokat a címeket, akik rejtett másolatot kapnak a levélrõl, azaz "
-"a címzettnél nem jelenik meg a címük"
+"Írd be azokat a címeket, akik rejtett másolatot kapnak a levélrõl, azaz a "
+"címzettnél nem jelenik meg a címük"
 
 #: composer/e-msg-composer-hdrs.c:142
 msgid "Subject:"
@@ -606,64 +607,312 @@ msgstr "Téma:"
 msgid "Enter the subject of the mail"
 msgstr "Írd be a levél címét (subject)"
 
-#: composer/e-msg-composer.c:424
+#: composer/e-msg-composer.c:491
 msgid "Save in _folder..."
 msgstr "Mentsd _mappába"
 
-#: composer/e-msg-composer.c:424
+#: composer/e-msg-composer.c:491
 msgid "Save the message in a specified folder"
 msgstr "A levél elmentése másik mappába"
 
-#: composer/e-msg-composer.c:427 composer/e-msg-composer.c:464
-#: mail/folder-browser-factory.c:139
+#: composer/e-msg-composer.c:494 composer/e-msg-composer.c:531
+#: mail/folder-browser-factory.c:36
 msgid "Send"
 msgstr "Elküld"
 
-#: composer/e-msg-composer.c:427
+#: composer/e-msg-composer.c:494
 msgid "Send the message"
 msgstr "Levél elküldése"
 
-#: composer/e-msg-composer.c:435
+#: composer/e-msg-composer.c:502
 msgid "View _attachments"
 msgstr "Csatolások _nézete"
 
-#: composer/e-msg-composer.c:435
+#: composer/e-msg-composer.c:502
 msgid "View/hide attachments"
 msgstr "Csatolások megtekintése"
 
-#: composer/e-msg-composer.c:464
+#: composer/e-msg-composer.c:531
 msgid "Send this message"
 msgstr "Küldd el a levelet"
 
-#: composer/e-msg-composer.c:466
+#: composer/e-msg-composer.c:533
 msgid "Cut selected region into the clipboard"
 msgstr "Vágd ki a kiválasztott részt a vágólapra"
 
-#: composer/e-msg-composer.c:467
+#: composer/e-msg-composer.c:534
 msgid "Copy selected region into the clipboard"
 msgstr "Másold ki a kiválasztott részt a vágólapra"
 
-#: composer/e-msg-composer.c:468
+#: composer/e-msg-composer.c:535
 msgid "Paste selected region into the clipboard"
 msgstr "Másold be a kiválasztott részt a vágólapról"
 
-#: composer/e-msg-composer.c:469
+#: composer/e-msg-composer.c:536
 msgid "Undo"
 msgstr "Visszavon"
 
-#: composer/e-msg-composer.c:469
+#: composer/e-msg-composer.c:536
 msgid "Undo last operation"
 msgstr "Az utolsó mûvelet visszavonása"
 
-#: composer/e-msg-composer.c:471
+#: composer/e-msg-composer.c:538
 msgid "Attach"
 msgstr "Csatolás"
 
-#: composer/e-msg-composer.c:471
+#: composer/e-msg-composer.c:538
 msgid "Attach a file"
 msgstr "Fájl csatolása"
 
-#: mail/folder-browser-factory.c:85
+#: mail/folder-browser-factory.c:35
+msgid "Get mail"
+msgstr "Levél letöltése"
+
+#: mail/folder-browser-factory.c:35
+msgid "Check for new mail"
+msgstr "Új levél jött-e?"
+
+#: mail/folder-browser-factory.c:36
+msgid "Send a new message"
+msgstr "Új levél küldése"
+
+#: mail/folder-browser-factory.c:37
+msgid "Find"
+msgstr "Keres"
+
+#: mail/folder-browser-factory.c:37
+msgid "Find messages"
+msgstr "Levelek keresése"
+
+#: mail/folder-browser-factory.c:41
+msgid "Reply"
+msgstr "Válasz"
+
+#: mail/folder-browser-factory.c:41
+msgid "Reply to the sender of this message"
+msgstr "Válasz küldése a feladónak erre a levélre"
+
+#: mail/folder-browser-factory.c:42
+msgid "Reply to All"
+msgstr "Válasz mindenkinek"
+
+#: mail/folder-browser-factory.c:42
+msgid "Reply to all recipients of this message"
+msgstr "Válasz a feladónak és az összes címzettnek"
+
+#: mail/folder-browser-factory.c:44
+msgid "Forward"
+msgstr "Továbbít"
+
+#: mail/folder-browser-factory.c:44
+msgid "Forward this message"
+msgstr "A levél továbbítása"
+
+#: mail/folder-browser-factory.c:48
+msgid "Print"
+msgstr "Nyomtat"
+
+#: mail/folder-browser-factory.c:48
+msgid "Print the selected message"
+msgstr "A levél nyomtatása"
+
+#: mail/folder-browser-factory.c:50
+msgid "Delete this message"
+msgstr "A levél törlése"
+
+#: mail/folder-browser-factory.c:67
+msgid "_Expunge"
+msgstr "_Tisztít"
+
+#: mail/folder-browser-factory.c:73
+msgid "_Filter Druid"
+msgstr "_Szûrõ varázsló"
+
+#: mail/folder-browser-factory.c:186
+msgid "We are sorry, Evolution's Folder Browser can not be initialized."
+msgstr "Bocs, az Evolution Mappa Böngészõjét nem tudom elindítani."
+
+#: mail/folder-browser.c:208
+msgid "The URI that the Folder Browser will display"
+msgstr "Az URI amit a Mappa Böngészõ meg fog nyitni"
+
+#: mail/folder-browser.c:211
+msgid "Whether a message preview should be shown"
+msgstr "Akár egy üzenet elõnézete is megmutatható"
+
+#: mail/main.c:58
+msgid "Mail Component: I could not initialize Bonobo"
+msgstr "Levél komponens: Nem tudom a bonobo-t elindítani"
+
+#: mail/message-list.c:464
+msgid "Priority"
+msgstr "Prioritás"
+
+#: mail/message-list.c:478
+msgid "From"
+msgstr "Feladó"
+
+#: mail/message-list.c:485
+msgid "Subject"
+msgstr "Téma"
+
+#: mail/message-list.c:492
+msgid "Sent"
+msgstr "Elküld"
+
+#: mail/message-list.c:499
+msgid "Receive"
+msgstr "Fogad"
+
+#: mail/message-list.c:506
+msgid "To"
+msgstr "Címzett"
+
+#: mail/message-list.c:513
+msgid "Size"
+msgstr "Méret"
+
+#. you might have to call gnome_dialog_run() on the
+#. * dialog returned here, I don't remember...
+#.
+#: shell/e-shell-view-menu.c:62
+msgid "Bug buddy was not found in your $PATH."
+msgstr "Bug buddy nem található a $PATH-odban."
+
+#. same as above
+#: shell/e-shell-view-menu.c:68
+msgid "Bug buddy could not be run."
+msgstr "A Bug buddy-t nem tudom futtatni."
+
+#: shell/e-shell-view-menu.c:111
+msgid "Evolution"
+msgstr "Evolution"
+
+#: shell/e-shell-view-menu.c:113
+msgid "Copyright 1999, 2000 Helix Code, Inc."
+msgstr "Copyright 1999, 2000 Helix Code, Inc."
+
+#: shell/e-shell-view-menu.c:115
+msgid ""
+"Evolution is a suite of groupware applications\n"
+"for mail, calendaring, and contact management\n"
+"within the GNOME desktop environment."
+msgstr ""
+"Az Evolution egy munkacsoport program \n"
+"levelezéshez, naptár és címjegyzék funkciókkal\n"
+"a GNOME grafikus környezethez."
+
+#: shell/e-shell-view-menu.c:185 shell/e-shell-view-menu.c:251
+msgid "_Folder"
+msgstr "_Mappa"
+
+#: shell/e-shell-view-menu.c:189
+msgid "Evolution _Bar Shortcut"
+msgstr "Evolution _Indítósáv"
+
+#: shell/e-shell-view-menu.c:195
+msgid "_Mail message"
+msgstr "_Levél"
+
+#: shell/e-shell-view-menu.c:196 shell/e-shell-view-menu.c:199
+msgid "Composes a new mail message"
+msgstr "Egy új levelet készít"
+
+#: shell/e-shell-view-menu.c:198
+msgid "_Appointment"
+msgstr "_Idõpont"
+
+#: shell/e-shell-view-menu.c:201
+msgid "Meeting Re_quest"
+msgstr "Találkozó _felhívás"
+
+#: shell/e-shell-view-menu.c:204
+msgid "_Contact"
+msgstr "_Címjegyzék"
+
+#: shell/e-shell-view-menu.c:207
+msgid "_Task"
+msgstr "Fe_ladatok"
+
+#: shell/e-shell-view-menu.c:210
+msgid "Task _Request"
+msgstr "Feladat f_elhívás"
+
+#: shell/e-shell-view-menu.c:213
+msgid "_Journal Entry"
+msgstr "_Napló bejegyzés"
+
+#: shell/e-shell-view-menu.c:216
+msgid "_Note"
+msgstr "_Megjegyzés"
+
+#: shell/e-shell-view-menu.c:226
+msgid "_Selected Items"
+msgstr "_Kiválasztott elemek"
+
+#: shell/e-shell-view-menu.c:234
+msgid "_New Folder"
+msgstr "Ú_j mappa"
+
+#: shell/e-shell-view-menu.c:242
+msgid "_New"
+msgstr "Ú_j"
+
+#: shell/e-shell-view-menu.c:243
+msgid "_Open"
+msgstr "_Megnyit"
+
+#: shell/e-shell-view-menu.c:244
+msgid "Clos_e All Items"
+msgstr "_Bezár minden elemet"
+
+#: shell/e-shell-view-menu.c:244
+msgid "Closes all the open items"
+msgstr "Az összes megnyitott elemet bezárja"
+
+#: shell/e-shell-view-menu.c:265
+#, fuzzy
+msgid "Show _Shortcut Bar"
+msgstr "_Indítósáv használata"
+
+#: shell/e-shell-view-menu.c:266
+#, fuzzy
+msgid "Shows the shortcut bar"
+msgstr "Az indítósávot kapcsolja ki/be"
+
+#: shell/e-shell-view-menu.c:268
+#, fuzzy
+msgid "Show _Treeview"
+msgstr "Fanézet használata"
+
+#: shell/e-shell-view-menu.c:269
+#, fuzzy
+msgid "Shows the tree view"
+msgstr "A mappa struktúra nézetét kapcsolja ki/be"
+
+#: shell/e-shell-view-menu.c:284
+msgid "_Submit bug"
+msgstr "_Hibajelentés küldése"
+
+#: shell/e-shell-view-menu.c:285
+msgid "Submit bug-report via bug-buddy"
+msgstr "Hibajelentés feladása bug-buddy-val"
+
+#. FIXME: add Favorites here
+#: shell/e-shell-view-menu.c:300
+msgid "_Tools"
+msgstr "_Eszközök"
+
+#: shell/e-shell-view-menu.c:301
+msgid "_Actions"
+msgstr "_Mûveletek"
+
+#: shell/e-shell.c:157
+#, c-format
+msgid "Cannot set up local storage -- %s"
+msgstr "Nem tudom beállítani a helyi tárterületet -- %s"
+
+#: shell/main.c:100
 msgid ""
 "Hi.  Thanks for taking the time to download this preview release of\n"
 "the Evolution groupware suite.\n"
@@ -708,7 +957,7 @@ msgstr ""
 "We hope that you enjoy the results of our hard work, and we eagerly\n"
 "await your contributions!\n"
 
-#: mail/folder-browser-factory.c:114
+#: shell/main.c:129
 msgid ""
 "Thanks\n"
 "The Evolution Team\n"
@@ -716,257 +965,13 @@ msgstr ""
 "Köszönettel\n"
 "Az Evolution Csapat\n"
 
-#: mail/folder-browser-factory.c:138
-msgid "Get mail"
-msgstr "Levél letöltése"
-
-#: mail/folder-browser-factory.c:138
-msgid "Check for new mail"
-msgstr "Új levél jött-e?"
-
-#: mail/folder-browser-factory.c:139
-msgid "Send a new message"
-msgstr "Új levél küldése"
-
-#: mail/folder-browser-factory.c:140
-msgid "Find"
-msgstr "Keres"
-
-#: mail/folder-browser-factory.c:140
-msgid "Find messages"
-msgstr "Levelek keresése"
-
-#: mail/folder-browser-factory.c:144
-msgid "Reply"
-msgstr "Válasz"
-
-#: mail/folder-browser-factory.c:144
-msgid "Reply to the sender of this message"
-msgstr "Válasz küldése a feladónak erre a levélre"
-
-#: mail/folder-browser-factory.c:145
-msgid "Reply to All"
-msgstr "Válasz mindenkinek"
-
-#: mail/folder-browser-factory.c:145
-msgid "Reply to all recipients of this message"
-msgstr "Válasz a feladónak és az összes címzettnek"
-
-#: mail/folder-browser-factory.c:147
-msgid "Forward"
-msgstr "Továbbít"
-
-#: mail/folder-browser-factory.c:147
-msgid "Forward this message"
-msgstr "A levél továbbítása"
-
-#: mail/folder-browser-factory.c:151
-msgid "Print"
-msgstr "Nyomtat"
-
-#: mail/folder-browser-factory.c:151
-msgid "Print the selected message"
-msgstr "A levél nyomtatása"
-
-#: mail/folder-browser-factory.c:153
-msgid "Delete this message"
-msgstr "A levél törlése"
-
-#: mail/folder-browser-factory.c:170
-msgid "_Expunge"
-msgstr "_Tisztít"
-
-#: mail/folder-browser-factory.c:176
-msgid "_Filter Druid"
-msgstr "_Szûrõ varázsló"
-
-#: mail/folder-browser-factory.c:299
-msgid "We are sorry, Evolution's Folder Browser can not be initialized."
-msgstr "Bocs, az Evolution Mappa Böngészõjét nem tudom elindítani."
-
-#: mail/folder-browser.c:207
-msgid "The URI that the Folder Browser will display"
-msgstr "Az URI amit a Mappa Böngészõ meg fog nyitni"
-
-#: mail/folder-browser.c:210
-msgid "Whether a message preview should be shown"
-msgstr "Akár egy üzenet elõnézete is megmutatható"
-
-#: mail/main.c:54
-msgid "Mail Component: I could not initialize Bonobo"
-msgstr "Levél komponens: Nem tudom a bonobo-t elindítani"
-
-#: mail/message-list.c:420
-msgid "Priority"
-msgstr "Prioritás"
-
-#: mail/message-list.c:434
-msgid "From"
-msgstr "Feladó"
-
-#: mail/message-list.c:441
-msgid "Subject"
-msgstr "Téma"
-
-#: mail/message-list.c:448
-msgid "Sent"
-msgstr "Elküld"
-
-#: mail/message-list.c:455
-msgid "Receive"
-msgstr "Fogad"
-
-#: mail/message-list.c:462
-msgid "To"
-msgstr "Címzett"
-
-#: mail/message-list.c:469
-msgid "Size"
-msgstr "Méret"
-
-#. you might have to call gnome_dialog_run() on the
-#. * dialog returned here, I don't remember...
-#.
-#: shell/e-shell-view-menu.c:62
-msgid "Bug buddy was not found in your $PATH."
-msgstr "Bug buddy nem található a $PATH-odban."
-
-#. same as above
-#: shell/e-shell-view-menu.c:68
-msgid "Bug buddy could not be run."
-msgstr "A Bug buddy-t nem tudom futtatni."
-
-#: shell/e-shell-view-menu.c:110
-msgid "Evolution"
-msgstr "Evolution"
-
-#: shell/e-shell-view-menu.c:112
-msgid "Copyright 1999, 2000 Helix Code, Inc."
-msgstr "Copyright 1999, 2000 Helix Code, Inc."
-
-#: shell/e-shell-view-menu.c:114
-msgid ""
-"Evolution is a suite of groupware applications\n"
-"for mail, calendaring, and contact management\n"
-"within the GNOME desktop environment."
-msgstr ""
-"Az Evolution egy munkacsoport program \n"
-"levelezéshez, naptár és címjegyzék funkciókkal\n"
-"a GNOME grafikus környezethez."
-
-#: shell/e-shell-view-menu.c:163 shell/e-shell-view-menu.c:229
-msgid "_Folder"
-msgstr "_Mappa"
-
-#: shell/e-shell-view-menu.c:167
-msgid "Evolution _Bar Shortcut"
-msgstr "Evolution _Indítósáv"
-
-#: shell/e-shell-view-menu.c:173
-msgid "_Mail message"
-msgstr "_Levél"
-
-#: shell/e-shell-view-menu.c:174 shell/e-shell-view-menu.c:177
-msgid "Composes a new mail message"
-msgstr "Egy új levelet készít"
-
-#: shell/e-shell-view-menu.c:176
-msgid "_Appointment"
-msgstr "_Idõpont"
-
-#: shell/e-shell-view-menu.c:179
-msgid "Meeting Re_quest"
-msgstr "Találkozó _felhívás"
-
-#: shell/e-shell-view-menu.c:182
-msgid "_Contact"
-msgstr "_Címjegyzék"
-
-#: shell/e-shell-view-menu.c:185
-msgid "_Task"
-msgstr "Fe_ladatok"
-
-#: shell/e-shell-view-menu.c:188
-msgid "Task _Request"
-msgstr "Feladat f_elhívás"
-
-#: shell/e-shell-view-menu.c:191
-msgid "_Journal Entry"
-msgstr "_Napló bejegyzés"
-
-#: shell/e-shell-view-menu.c:194
-msgid "_Note"
-msgstr "_Megjegyzés"
-
-#: shell/e-shell-view-menu.c:204
-msgid "_Selected Items"
-msgstr "_Kiválasztott elemek"
-
-#: shell/e-shell-view-menu.c:212
-msgid "_New Folder"
-msgstr "Ú_j mappa"
-
-#: shell/e-shell-view-menu.c:220
-msgid "_New"
-msgstr "Ú_j"
-
-#: shell/e-shell-view-menu.c:221
-msgid "_Open"
-msgstr "_Megnyit"
-
-#: shell/e-shell-view-menu.c:222
-msgid "Clos_e All Items"
-msgstr "_Bezár minden elemet"
-
-#: shell/e-shell-view-menu.c:222
-msgid "Closes all the open items"
-msgstr "Az összes megnyitott elemet bezárja"
-
-#: shell/e-shell-view-menu.c:243
-msgid "_Toggle Shortcut Bar"
-msgstr "_Indítósáv használata"
-
-#: shell/e-shell-view-menu.c:244
-msgid "Toggles the shortcut bar"
-msgstr "Az indítósávot kapcsolja ki/be"
-
-#: shell/e-shell-view-menu.c:246
-msgid "_Toggle Treeview"
-msgstr "Fanézet használata"
-
-#: shell/e-shell-view-menu.c:247
-msgid "Toggles the tree view"
-msgstr "A mappa struktúra nézetét kapcsolja ki/be"
-
-#: shell/e-shell-view-menu.c:262
-msgid "_Submit bug"
-msgstr "_Hibajelentés küldése"
-
-#: shell/e-shell-view-menu.c:263
-msgid "Submit bug-report via bug-buddy"
-msgstr "Hibajelentés feladása bug-buddy-val"
-
-#. FIXME: add Favorites here
-#: shell/e-shell-view-menu.c:278
-msgid "_Tools"
-msgstr "_Eszközök"
-
-#: shell/e-shell-view-menu.c:279
-msgid "_Actions"
-msgstr "_Mûveletek"
-
-#: shell/e-shell.c:81
-#, c-format
-msgid "Cannot set up local storage -- %s"
-msgstr "Nem tudom beállítani a helyi tárterületet -- %s"
-
-#: shell/main.c:111
-msgid "Cannot initialize the Bonobo component system."
-msgstr "Nem tudom elindítani a Bonobo komponens rendszert."
-
-#: shell/main.c:126
+#: shell/main.c:156
 msgid "Cannot initialize the Evolution shell."
 msgstr "Nem tudom elindítani az Evolution shell-t."
+
+#: shell/main.c:186
+msgid "Cannot initialize the Bonobo component system."
+msgstr "Nem tudom elindítani a Bonobo komponens rendszert."
 
 #.
 #. * Translatable strings file generated by Glade.

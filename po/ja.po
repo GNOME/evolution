@@ -5,7 +5,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: evolution CVS-20000518\n"
-"POT-Creation-Date: 2000-05-22 03:08+0900\n"
+"POT-Creation-Date: 2000-05-27 20:01+0100\n"
 "PO-Revision-Date: 2000-05-22 03:09+0900\n"
 "Last-Translator: Akira TAGOH <tagoh@gnome.gr.jp>\n"
 "Language-Team: Japanese <translation@gnome.gr.jp>\n"
@@ -140,7 +140,7 @@ msgid "Add"
 msgstr "追加"
 
 #: addressbook/contact-editor/e-contact-editor-strings.h:37
-#: mail/folder-browser-factory.c:94
+#: mail/folder-browser-factory.c:50
 msgid "Delete"
 msgstr "削除"
 
@@ -414,7 +414,7 @@ msgstr "偶数ページを反転"
 msgid "Header/Footer"
 msgstr "ヘッダ/フッタ"
 
-#: composer/e-msg-composer-address-dialog.c:183 composer/e-msg-composer.c:466
+#: composer/e-msg-composer-address-dialog.c:183 composer/e-msg-composer.c:533
 msgid "Cut"
 msgstr "切り取り"
 
@@ -422,7 +422,7 @@ msgstr "切り取り"
 msgid "Cut selected item into clipboard"
 msgstr "クリップボードの中へ選択されたアイテムを切り取る"
 
-#: composer/e-msg-composer-address-dialog.c:187 composer/e-msg-composer.c:467
+#: composer/e-msg-composer-address-dialog.c:187 composer/e-msg-composer.c:534
 msgid "Copy"
 msgstr "コピー"
 
@@ -431,7 +431,7 @@ msgid "Copy selected item into clipboard"
 msgstr "クリップボードの中へ選択されたアイテムをコピーする"
 
 #: composer/e-msg-composer-address-dialog.c:191
-#: composer/e-msg-composer-address-dialog.c:199 composer/e-msg-composer.c:468
+#: composer/e-msg-composer-address-dialog.c:199 composer/e-msg-composer.c:535
 msgid "Paste"
 msgstr "貼り付け"
 
@@ -610,140 +610,140 @@ msgstr "Subject:"
 msgid "Enter the subject of the mail"
 msgstr "メールの表題を入力"
 
-#: composer/e-msg-composer.c:424
+#: composer/e-msg-composer.c:491
 msgid "Save in _folder..."
 msgstr "フォルダ内を保存(_f)..."
 
-#: composer/e-msg-composer.c:424
+#: composer/e-msg-composer.c:491
 msgid "Save the message in a specified folder"
 msgstr "指定したフォルダ内のメッセージを保存する"
 
-#: composer/e-msg-composer.c:427 composer/e-msg-composer.c:464
-#: mail/folder-browser-factory.c:80
+#: composer/e-msg-composer.c:494 composer/e-msg-composer.c:531
+#: mail/folder-browser-factory.c:36
 msgid "Send"
 msgstr "送信"
 
-#: composer/e-msg-composer.c:427
+#: composer/e-msg-composer.c:494
 msgid "Send the message"
 msgstr "メッセージを送信する"
 
-#: composer/e-msg-composer.c:435
+#: composer/e-msg-composer.c:502
 msgid "View _attachments"
 msgstr "添付物を表示 (_a)"
 
-#: composer/e-msg-composer.c:435
+#: composer/e-msg-composer.c:502
 msgid "View/hide attachments"
 msgstr "添付物を表示/隠す"
 
-#: composer/e-msg-composer.c:464
+#: composer/e-msg-composer.c:531
 msgid "Send this message"
 msgstr "このメッセージを送信する"
 
-#: composer/e-msg-composer.c:466
+#: composer/e-msg-composer.c:533
 msgid "Cut selected region into the clipboard"
 msgstr "クリップボードの中へ選択された領域を切り取る"
 
-#: composer/e-msg-composer.c:467
+#: composer/e-msg-composer.c:534
 msgid "Copy selected region into the clipboard"
 msgstr "クリップボードの中へ選択された領域をコピーする"
 
-#: composer/e-msg-composer.c:468
+#: composer/e-msg-composer.c:535
 msgid "Paste selected region into the clipboard"
 msgstr "クリップボードの中へ選択された領域を貼り付ける"
 
-#: composer/e-msg-composer.c:469
+#: composer/e-msg-composer.c:536
 msgid "Undo"
 msgstr "元に戻す"
 
-#: composer/e-msg-composer.c:469
+#: composer/e-msg-composer.c:536
 msgid "Undo last operation"
 msgstr "最後の操作を元に戻す"
 
-#: composer/e-msg-composer.c:471
+#: composer/e-msg-composer.c:538
 msgid "Attach"
 msgstr "添付"
 
-#: composer/e-msg-composer.c:471
+#: composer/e-msg-composer.c:538
 msgid "Attach a file"
 msgstr "ファイルを添付する"
 
-#: mail/folder-browser-factory.c:79
+#: mail/folder-browser-factory.c:35
 msgid "Get mail"
 msgstr "新着メール"
 
-#: mail/folder-browser-factory.c:79
+#: mail/folder-browser-factory.c:35
 msgid "Check for new mail"
 msgstr "新着メールのチェック"
 
-#: mail/folder-browser-factory.c:80
+#: mail/folder-browser-factory.c:36
 msgid "Send a new message"
 msgstr "メッセージを送信する"
 
-#: mail/folder-browser-factory.c:81
+#: mail/folder-browser-factory.c:37
 msgid "Find"
 msgstr "検索"
 
-#: mail/folder-browser-factory.c:81
+#: mail/folder-browser-factory.c:37
 msgid "Find messages"
 msgstr "メッセージを検索する"
 
-#: mail/folder-browser-factory.c:85
+#: mail/folder-browser-factory.c:41
 msgid "Reply"
 msgstr "返信"
 
-#: mail/folder-browser-factory.c:85
+#: mail/folder-browser-factory.c:41
 msgid "Reply to the sender of this message"
 msgstr "メッセージの差出人へ返信する"
 
-#: mail/folder-browser-factory.c:86
+#: mail/folder-browser-factory.c:42
 msgid "Reply to All"
 msgstr "全員へ返信"
 
-#: mail/folder-browser-factory.c:86
+#: mail/folder-browser-factory.c:42
 msgid "Reply to all recipients of this message"
 msgstr "このメッセージの受取人全員へ返信する"
 
-#: mail/folder-browser-factory.c:88
+#: mail/folder-browser-factory.c:44
 msgid "Forward"
 msgstr "転送"
 
-#: mail/folder-browser-factory.c:88
+#: mail/folder-browser-factory.c:44
 msgid "Forward this message"
 msgstr "このメッセージを転送する"
 
-#: mail/folder-browser-factory.c:92
+#: mail/folder-browser-factory.c:48
 msgid "Print"
 msgstr "印刷"
 
-#: mail/folder-browser-factory.c:92
+#: mail/folder-browser-factory.c:48
 msgid "Print the selected message"
 msgstr "選択されたメッセージを印刷する"
 
-#: mail/folder-browser-factory.c:94
+#: mail/folder-browser-factory.c:50
 msgid "Delete this message"
 msgstr "このメッセージを削除する"
 
-#: mail/folder-browser-factory.c:111
+#: mail/folder-browser-factory.c:67
 msgid "_Expunge"
 msgstr "抹消(_E)"
 
-#: mail/folder-browser-factory.c:117
+#: mail/folder-browser-factory.c:73
 msgid "_Filter Druid"
 msgstr "フィルタドルイド(_F)"
 
-#: mail/folder-browser-factory.c:231
+#: mail/folder-browser-factory.c:186
 msgid "We are sorry, Evolution's Folder Browser can not be initialized."
 msgstr "すいませんが，Evolution のフォルダブラウザは初期化することが出来ません"
 
-#: mail/folder-browser.c:207
+#: mail/folder-browser.c:208
 msgid "The URI that the Folder Browser will display"
 msgstr "フォルダブラウザが表示する URI"
 
-#: mail/folder-browser.c:210
+#: mail/folder-browser.c:211
 msgid "Whether a message preview should be shown"
 msgstr "メッセージプレビューは表示すべきかどうか"
 
-#: mail/main.c:54
+#: mail/main.c:58
 msgid "Mail Component: I could not initialize Bonobo"
 msgstr "メールコンポーネント: Bonobo の初期化が出来ませんでした"
 
@@ -787,15 +787,15 @@ msgstr "Bug buddy はあなたの $PATH には見つかりません"
 msgid "Bug buddy could not be run."
 msgstr "Bug buddy は実行できませんでした"
 
-#: shell/e-shell-view-menu.c:110
+#: shell/e-shell-view-menu.c:111
 msgid "Evolution"
 msgstr "Evolution"
 
-#: shell/e-shell-view-menu.c:112
+#: shell/e-shell-view-menu.c:113
 msgid "Copyright 1999, 2000 Helix Code, Inc."
 msgstr "Copyright 1999, 2000 Helix Code, Inc."
 
-#: shell/e-shell-view-menu.c:114
+#: shell/e-shell-view-menu.c:115
 msgid ""
 "Evolution is a suite of groupware applications\n"
 "for mail, calendaring, and contact management\n"
@@ -805,113 +805,117 @@ msgstr ""
 "メール，カレンダ，そしてコンタクトマネージメントのための\n"
 "グループウェアアプリケーションのパッケージソフトです"
 
-#: shell/e-shell-view-menu.c:163 shell/e-shell-view-menu.c:229
+#: shell/e-shell-view-menu.c:185 shell/e-shell-view-menu.c:251
 msgid "_Folder"
 msgstr "フォルダ(_F)"
 
-#: shell/e-shell-view-menu.c:167
+#: shell/e-shell-view-menu.c:189
 msgid "Evolution _Bar Shortcut"
 msgstr "Evolution バーショートカット(_B)"
 
-#: shell/e-shell-view-menu.c:173
+#: shell/e-shell-view-menu.c:195
 msgid "_Mail message"
 msgstr "メールメッセージ(_M)"
 
-#: shell/e-shell-view-menu.c:174 shell/e-shell-view-menu.c:177
+#: shell/e-shell-view-menu.c:196 shell/e-shell-view-menu.c:199
 msgid "Composes a new mail message"
 msgstr "新規メールを作成"
 
-#: shell/e-shell-view-menu.c:176
+#: shell/e-shell-view-menu.c:198
 msgid "_Appointment"
 msgstr "約束(_A)"
 
-#: shell/e-shell-view-menu.c:179
+#: shell/e-shell-view-menu.c:201
 msgid "Meeting Re_quest"
 msgstr "会議依頼(_q)"
 
-#: shell/e-shell-view-menu.c:182
+#: shell/e-shell-view-menu.c:204
 msgid "_Contact"
 msgstr "連絡(_C)"
 
-#: shell/e-shell-view-menu.c:185
+#: shell/e-shell-view-menu.c:207
 msgid "_Task"
 msgstr "仕事(_T)"
 
-#: shell/e-shell-view-menu.c:188
+#: shell/e-shell-view-menu.c:210
 msgid "Task _Request"
 msgstr "仕事依頼(_R)"
 
-#: shell/e-shell-view-menu.c:191
+#: shell/e-shell-view-menu.c:213
 msgid "_Journal Entry"
 msgstr "仕訳記入(_J)"
 
-#: shell/e-shell-view-menu.c:194
+#: shell/e-shell-view-menu.c:216
 msgid "_Note"
 msgstr "ノート(_N)"
 
-#: shell/e-shell-view-menu.c:204
+#: shell/e-shell-view-menu.c:226
 msgid "_Selected Items"
 msgstr "選択されたアイテム(_S)"
 
-#: shell/e-shell-view-menu.c:212
+#: shell/e-shell-view-menu.c:234
 msgid "_New Folder"
 msgstr "新しいフォルダ(_N)"
 
-#: shell/e-shell-view-menu.c:220
+#: shell/e-shell-view-menu.c:242
 msgid "_New"
 msgstr "新規(_N)"
 
-#: shell/e-shell-view-menu.c:221
+#: shell/e-shell-view-menu.c:243
 msgid "_Open"
 msgstr "開く(_O)"
 
-#: shell/e-shell-view-menu.c:222
+#: shell/e-shell-view-menu.c:244
 msgid "Clos_e All Items"
 msgstr "すべてのアイテムを閉じる(_e)"
 
-#: shell/e-shell-view-menu.c:222
+#: shell/e-shell-view-menu.c:244
 msgid "Closes all the open items"
 msgstr "すべての開いたアイテムを閉じる"
 
-#: shell/e-shell-view-menu.c:243
-msgid "_Toggle Shortcut Bar"
+#: shell/e-shell-view-menu.c:265
+#, fuzzy
+msgid "Show _Shortcut Bar"
 msgstr "ショートカットバーを表示/非標示(_T)"
 
-#: shell/e-shell-view-menu.c:244
-msgid "Toggles the shortcut bar"
+#: shell/e-shell-view-menu.c:266
+#, fuzzy
+msgid "Shows the shortcut bar"
 msgstr "ショートカットバーの表示/非標示を切替える"
 
-#: shell/e-shell-view-menu.c:246
-msgid "_Toggle Treeview"
+#: shell/e-shell-view-menu.c:268
+#, fuzzy
+msgid "Show _Treeview"
 msgstr "ツリービューを表示/非標示(_T)"
 
-#: shell/e-shell-view-menu.c:247
-msgid "Toggles the tree view"
+#: shell/e-shell-view-menu.c:269
+#, fuzzy
+msgid "Shows the tree view"
 msgstr "ツリービューの表示/非標示を切替える"
 
-#: shell/e-shell-view-menu.c:262
+#: shell/e-shell-view-menu.c:284
 msgid "_Submit bug"
 msgstr "不具合提出(_S)"
 
-#: shell/e-shell-view-menu.c:263
+#: shell/e-shell-view-menu.c:285
 msgid "Submit bug-report via bug-buddy"
 msgstr "bug-buddy を経由して不具合報告を提出する"
 
 #. FIXME: add Favorites here
-#: shell/e-shell-view-menu.c:278
+#: shell/e-shell-view-menu.c:300
 msgid "_Tools"
 msgstr "ツール(_T)"
 
-#: shell/e-shell-view-menu.c:279
+#: shell/e-shell-view-menu.c:301
 msgid "_Actions"
 msgstr "行動(_A)"
 
-#: shell/e-shell.c:81
+#: shell/e-shell.c:157
 #, c-format
 msgid "Cannot set up local storage -- %s"
 msgstr "局部記憶装置のセットアップが出来ません -- %s"
 
-#: shell/main.c:98
+#: shell/main.c:100
 msgid ""
 "Hi.  Thanks for taking the time to download this preview release of\n"
 "the Evolution groupware suite.\n"
@@ -958,7 +962,7 @@ msgstr ""
 "我々はあなたが我々の困難な作業の結果を楽しむことを望んでいて，そ\n"
 "してあなたの貢献を熱心に待ち受けます．\n"
 
-#: shell/main.c:127
+#: shell/main.c:129
 msgid ""
 "Thanks\n"
 "The Evolution Team\n"
@@ -966,13 +970,13 @@ msgstr ""
 "ありがとう\n"
 "Evolution チーム\n"
 
-#: shell/main.c:170
-msgid "Cannot initialize the Bonobo component system."
-msgstr "Bonobo コンポーネントシステムを初期化出来ません"
-
-#: shell/main.c:185
+#: shell/main.c:156
 msgid "Cannot initialize the Evolution shell."
 msgstr "Evolution シェルの初期化が出来ません"
+
+#: shell/main.c:186
+msgid "Cannot initialize the Bonobo component system."
+msgstr "Bonobo コンポーネントシステムを初期化出来ません"
 
 #.
 #. * Translatable strings file generated by Glade.

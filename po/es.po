@@ -6,7 +6,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: evolution VERSION\n"
-"POT-Creation-Date: 2000-05-26 13:35+0200\n"
+"POT-Creation-Date: 2000-05-27 20:01+0100\n"
 "PO-Revision-Date: 2000-05-03 14:26+0200\n"
 "Last-Translator: Héctor García Alvarez <hector@scouts-es.org>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -416,7 +416,7 @@ msgstr ""
 msgid "Header/Footer"
 msgstr "Cabecera/Pie"
 
-#: composer/e-msg-composer-address-dialog.c:183 composer/e-msg-composer.c:466
+#: composer/e-msg-composer-address-dialog.c:183 composer/e-msg-composer.c:533
 msgid "Cut"
 msgstr "Cortar"
 
@@ -424,7 +424,7 @@ msgstr "Cortar"
 msgid "Cut selected item into clipboard"
 msgstr "Corta la selección y la coloca en el portapapeles"
 
-#: composer/e-msg-composer-address-dialog.c:187 composer/e-msg-composer.c:467
+#: composer/e-msg-composer-address-dialog.c:187 composer/e-msg-composer.c:534
 msgid "Copy"
 msgstr "Copiar"
 
@@ -433,7 +433,7 @@ msgid "Copy selected item into clipboard"
 msgstr "Copia la selección y la coloca en el portapapeles"
 
 #: composer/e-msg-composer-address-dialog.c:191
-#: composer/e-msg-composer-address-dialog.c:199 composer/e-msg-composer.c:468
+#: composer/e-msg-composer-address-dialog.c:199 composer/e-msg-composer.c:535
 msgid "Paste"
 msgstr "Pegar"
 
@@ -612,60 +612,60 @@ msgstr "Asunto:"
 msgid "Enter the subject of the mail"
 msgstr "Escriba el asunto del mensaje"
 
-#: composer/e-msg-composer.c:424
+#: composer/e-msg-composer.c:491
 msgid "Save in _folder..."
 msgstr "Guardar en _carpeta..."
 
-#: composer/e-msg-composer.c:424
+#: composer/e-msg-composer.c:491
 msgid "Save the message in a specified folder"
 msgstr "Guardar el mensaje en una carpeta especificada"
 
-#: composer/e-msg-composer.c:427 composer/e-msg-composer.c:464
+#: composer/e-msg-composer.c:494 composer/e-msg-composer.c:531
 #: mail/folder-browser-factory.c:36
 msgid "Send"
 msgstr "Enviar"
 
-#: composer/e-msg-composer.c:427
+#: composer/e-msg-composer.c:494
 msgid "Send the message"
 msgstr "Enviar el mensaje"
 
-#: composer/e-msg-composer.c:435
+#: composer/e-msg-composer.c:502
 msgid "View _attachments"
 msgstr "Ver _adjuntos"
 
-#: composer/e-msg-composer.c:435
+#: composer/e-msg-composer.c:502
 msgid "View/hide attachments"
 msgstr "Ver/ocultar adjuntos"
 
-#: composer/e-msg-composer.c:464
+#: composer/e-msg-composer.c:531
 msgid "Send this message"
 msgstr "Enviar este mensaje"
 
-#: composer/e-msg-composer.c:466
+#: composer/e-msg-composer.c:533
 msgid "Cut selected region into the clipboard"
 msgstr "Corta la región seleccionada y la coloca en el portapapeles"
 
-#: composer/e-msg-composer.c:467
+#: composer/e-msg-composer.c:534
 msgid "Copy selected region into the clipboard"
 msgstr "Copia la región seleccionada y la coloca en el portapapeles"
 
-#: composer/e-msg-composer.c:468
+#: composer/e-msg-composer.c:535
 msgid "Paste selected region into the clipboard"
 msgstr ""
 
-#: composer/e-msg-composer.c:469
+#: composer/e-msg-composer.c:536
 msgid "Undo"
 msgstr "Deshacer"
 
-#: composer/e-msg-composer.c:469
+#: composer/e-msg-composer.c:536
 msgid "Undo last operation"
 msgstr "Deshacer la ultima operación"
 
-#: composer/e-msg-composer.c:471
+#: composer/e-msg-composer.c:538
 msgid "Attach"
 msgstr "Adjuntar"
 
-#: composer/e-msg-composer.c:471
+#: composer/e-msg-composer.c:538
 msgid "Attach a file"
 msgstr "Adjuntar un fichero"
 
@@ -790,15 +790,15 @@ msgstr "No se ha encontrado a bug buddy en su $PATH."
 msgid "Bug buddy could not be run."
 msgstr "No se ha podido ejecutar bug buddy"
 
-#: shell/e-shell-view-menu.c:110
+#: shell/e-shell-view-menu.c:111
 msgid "Evolution"
 msgstr "Evolution"
 
-#: shell/e-shell-view-menu.c:112
+#: shell/e-shell-view-menu.c:113
 msgid "Copyright 1999, 2000 Helix Code, Inc."
 msgstr "Copyright 1999, 2000 Helix Code, Inc."
 
-#: shell/e-shell-view-menu.c:114
+#: shell/e-shell-view-menu.c:115
 msgid ""
 "Evolution is a suite of groupware applications\n"
 "for mail, calendaring, and contact management\n"
@@ -808,104 +808,106 @@ msgstr ""
 "groupware para manejar el correo, el calendario y la\n"
 "lista de contactos en el entorno del escritorio GNOME."
 
-#: shell/e-shell-view-menu.c:163 shell/e-shell-view-menu.c:229
+#: shell/e-shell-view-menu.c:185 shell/e-shell-view-menu.c:251
 msgid "_Folder"
 msgstr "_Carpeta"
 
-#: shell/e-shell-view-menu.c:167
+#: shell/e-shell-view-menu.c:189
 msgid "Evolution _Bar Shortcut"
 msgstr "_Barra de atajos de Evolution"
 
-#: shell/e-shell-view-menu.c:173
+#: shell/e-shell-view-menu.c:195
 msgid "_Mail message"
 msgstr "_Mensaje de correo"
 
-#: shell/e-shell-view-menu.c:174 shell/e-shell-view-menu.c:177
+#: shell/e-shell-view-menu.c:196 shell/e-shell-view-menu.c:199
 msgid "Composes a new mail message"
 msgstr "Compone un nuevo mensaje de correo"
 
-#: shell/e-shell-view-menu.c:176
+#: shell/e-shell-view-menu.c:198
 msgid "_Appointment"
 msgstr "C_ita"
 
-#: shell/e-shell-view-menu.c:179
+#: shell/e-shell-view-menu.c:201
 msgid "Meeting Re_quest"
 msgstr "_Petición de reunión"
 
-#: shell/e-shell-view-menu.c:182
+#: shell/e-shell-view-menu.c:204
 msgid "_Contact"
 msgstr "C_ontacto"
 
-#: shell/e-shell-view-menu.c:185
+#: shell/e-shell-view-menu.c:207
 msgid "_Task"
 msgstr "_Tarea"
 
-#: shell/e-shell-view-menu.c:188
+#: shell/e-shell-view-menu.c:210
 msgid "Task _Request"
 msgstr "P_etición de tarea"
 
-#: shell/e-shell-view-menu.c:191
+#: shell/e-shell-view-menu.c:213
 msgid "_Journal Entry"
 msgstr ""
 
-#: shell/e-shell-view-menu.c:194
+#: shell/e-shell-view-menu.c:216
 msgid "_Note"
 msgstr "_Nota"
 
-#: shell/e-shell-view-menu.c:204
+#: shell/e-shell-view-menu.c:226
 msgid "_Selected Items"
 msgstr "_Seleccionar elementos"
 
-#: shell/e-shell-view-menu.c:212
+#: shell/e-shell-view-menu.c:234
 msgid "_New Folder"
 msgstr "_Nueva carpeta"
 
-#: shell/e-shell-view-menu.c:220
+#: shell/e-shell-view-menu.c:242
 msgid "_New"
 msgstr "Correo _nuevo"
 
-#: shell/e-shell-view-menu.c:221
+#: shell/e-shell-view-menu.c:243
 msgid "_Open"
 msgstr "_Abrir"
 
-#: shell/e-shell-view-menu.c:222
+#: shell/e-shell-view-menu.c:244
 msgid "Clos_e All Items"
 msgstr "_Cerrar todos los elementos"
 
-#: shell/e-shell-view-menu.c:222
+#: shell/e-shell-view-menu.c:244
 msgid "Closes all the open items"
 msgstr "Cerrar todos los elementos abiertos"
 
-#: shell/e-shell-view-menu.c:243
-msgid "_Toggle Shortcut Bar"
+#: shell/e-shell-view-menu.c:265
+#, fuzzy
+msgid "Show _Shortcut Bar"
 msgstr "_Ocultar la barra de atajos"
 
-#: shell/e-shell-view-menu.c:244
-msgid "Toggles the shortcut bar"
+#: shell/e-shell-view-menu.c:266
+#, fuzzy
+msgid "Shows the shortcut bar"
 msgstr "Oculta la barra de atajos"
 
-#: shell/e-shell-view-menu.c:246
-msgid "_Toggle Treeview"
+#: shell/e-shell-view-menu.c:268
+msgid "Show _Treeview"
 msgstr ""
 
-#: shell/e-shell-view-menu.c:247
-msgid "Toggles the tree view"
+#: shell/e-shell-view-menu.c:269
+msgid "Shows the tree view"
 msgstr ""
 
-#: shell/e-shell-view-menu.c:262
+#: shell/e-shell-view-menu.c:284
 msgid "_Submit bug"
 msgstr "_Enviar un reporte de error"
 
-#: shell/e-shell-view-menu.c:263
+#: shell/e-shell-view-menu.c:285
 msgid "Submit bug-report via bug-buddy"
 msgstr "Enviar un reporte de error a traves de bug-buddy"
 
 #. FIXME: add Favorites here
-#: shell/e-shell-view-menu.c:278
+#: shell/e-shell-view-menu.c:300
 msgid "_Tools"
 msgstr "_Herramientas"
 
-#: shell/e-shell-view-menu.c:279
+#: shell/e-shell-view-menu.c:301
 msgid "_Actions"
 msgstr "_Acciones"
 
