@@ -1,5 +1,8 @@
 2000-03-09  Federico Mena Quintero  <federico@helixcode.com>
 
+	* gui/Makefile.am: Removed the corba-cal stuff.  Commented out the
+	Pilot conduit stuff for now.
+
 	* gui/calendar.c: Random #ifdefs to make it build, although this
 	file is going away.
 
