@@ -55,7 +55,6 @@ $(IDL_GENERATED_H): $(IDLS)
 	$(ORBIT_IDL) -I $(srcdir) $(IDL_INCLUDES) $(srcdir)/Evolution.idl
 
 $(IDL_GENERATED_C): $(IDL_GENERATED_H)
-	@true
 
 
 # SelectNames CORBA stuff
@@ -77,7 +76,6 @@ $(SELECT_NAMES_IDL_GENERATED_H): $(SELECT_NAMES_IDL)
 	$(ORBIT_IDL) -I $(srcdir) $(IDL_INCLUDES) $(SELECT_NAMES_IDL)
 
 $(SELECT_NAMES_IDL_GENERATED_C): $(SELECT_NAMES_IDL_GENERATED_H)
-	@true
 
 
 # IDL install
@@ -300,14 +298,14 @@ install-exec-local:
 # GLib marshalling cruft
 
 e-shell-marshal.h: e-shell-marshal.list
-	( @GLIB_GENMARSHAL@ --prefix=e_shell_marshal e-shell-marshal.list --header > e-shell-marshal.tmp \
-	&& mv e-shell-marshal.tmp e-shell-marshal.h ) \
-	|| ( rm -f e-shell-marshal.tmp && exit 1 )
+	( @GLIB_GENMARSHAL@ --prefix=e_shell_marshal e-shell-marshal.list --header > e-shell-marshal.h.tmp \
+	&& mv e-shell-marshal.h.tmp e-shell-marshal.h ) \
+	|| ( rm -f e-shell-marshal.h.tmp && exit 1 )
 
 e-shell-marshal.c: e-shell-marshal.h
-	( @GLIB_GENMARSHAL@ --prefix=e_shell_marshal e-shell-marshal.list --body > e-shell-marshal.tmp \
-	&& mv e-shell-marshal.tmp e-shell-marshal.c ) \
-	|| ( rm -f e-shell-marshal.tmp && exit 1 )
+	( @GLIB_GENMARSHAL@ --prefix=e_shell_marshal e-shell-marshal.list --body > e-shell-marshal.c.tmp \
+	&& mv e-shell-marshal.c.tmp e-shell-marshal.c ) \
+	|| ( rm -f e-shell-marshal.c.tmp && exit 1 )
 
 MARSHAL_GENERATED = e-shell-marshal.c e-shell-marshal.h
 
@@ -338,8 +336,8 @@ evolution.pure: evolution
 
 endif
 
-CLEANFILES = $(IDL_GENERATED) $(SELECT_NAMES_IDL_GENERATED)
-BUILT_SOURCES = $(IDL_GENERATED_H) $(SELECT_NAMES_IDL_GENERATED_H) $(MARSHAL_GENERATED)
+BUILT_SOURCES = $(IDL_GENERATED) $(SELECT_NAMES_IDL_GENERATED) $(MARSHAL_GENERATED)
+CLEANFILES = $(BUILT_SOURCES)
 
 dist-hook:
 	cd $(distdir); rm -f $(BUILT_SOURCES)

@@ -1,5 +1,18 @@
 2003-01-28  Ettore Perazzoli  <ettore@ximian.com>
 
+	* Makefile.am ($(SELECT_NAMES_IDL_GENERATED_C)): No need for the
+	@true command.
+	($(IDL_GENERATED_C)): Likewise.
+	(e-shell-marshal.h, e-shell-marshal.c): Use different names for
+	the .tmp files so these can be generated in parallel.
+
+	* importer/Makefile.am (GNOME_Evolution_Importer-impl.o): Remove
+	unused rule.
+	($(IDL_GENERATED_C)): Remove useless @true command.
+	(BUILT_SOURCES): Put the .h generated files in here as well.
+
+2003-01-28  Ettore Perazzoli  <ettore@ximian.com>
+
 	* Makefile.am (Evolution-impl.o): Removed unused rule.
 
 2003-01-28  Ettore Perazzoli  <ettore@ximian.com>
