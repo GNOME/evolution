@@ -9,7 +9,7 @@ msgstr ""
 "Project-Id-Version: nn\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2003-10-13 12:23+0200\n"
-"PO-Revision-Date: 2003-10-13 13:49+0200\n"
+"PO-Revision-Date: 2003-10-28 11:42+0100\n"
 "Last-Translator: Åsmund Skjæveland <aasmunds@fys.uio.no>\n"
 "Language-Team: Norwegian Nynorsk <i18n-nn@lister.ping.uio.no>\n"
 "MIME-Version: 1.0\n"
@@ -9261,7 +9261,7 @@ msgstr ""
 #: camel/providers/imap/camel-imap-command.c:688
 #, c-format
 msgid "Unexpected OK response from IMAP server: %s"
-msgstr ""
+msgstr "Uventa svar «OK» frå IMAP-tenar: %s"
 
 #: camel/providers/imap/camel-imap-folder.c:223
 #, c-format
@@ -9275,7 +9275,7 @@ msgstr "Kan ikkje lasta samandrag for %s"
 
 #: camel/providers/imap/camel-imap-folder.c:308
 msgid "Folder was destroyed and recreated on server."
-msgstr ""
+msgstr "Mappa vart øydelagt og laga på nytt på tenaren."
 
 #. Check UIDs and flags of all messages we already know of.
 #: camel/providers/imap/camel-imap-folder.c:550
@@ -9318,14 +9318,14 @@ msgstr "Denne meldinga er ikkje tilgjengeleg."
 #: camel/providers/imap/camel-imap-folder.c:2206
 #: camel/providers/imap/camel-imap-folder.c:2276
 msgid "Fetching summary information for new messages"
-msgstr ""
+msgstr "Hentar samandrag om nye meldingar"
 
 #: camel/providers/imap/camel-imap-folder.c:2580
 msgid "Could not find message body in FETCH response."
-msgstr ""
+msgstr "Fann ikkje meldingskropp i svar på FETCH."
 
 #: camel/providers/imap/camel-imap-message-cache.c:155
-#, fuzzy, c-format
+#, c-format
 msgid "Could not open cache directory: %s"
 msgstr "Kan ikkje opna mellomlagerkatalogen: %s"
 
@@ -9347,9 +9347,8 @@ msgid "Checking for new mail"
 msgstr "Ser etter ny e-post"
 
 #: camel/providers/imap/camel-imap-provider.c:45
-#, fuzzy
 msgid "Check for new messages in all folders"
-msgstr "Berre sjekk for ny e-post."
+msgstr "Sjå etter ny e-post i alle mappene"
 
 #: camel/providers/imap/camel-imap-provider.c:48 shell/e-shell-view.c:1178
 msgid "Folders"
@@ -9369,12 +9368,13 @@ msgstr "Namnerom"
 
 #: camel/providers/imap/camel-imap-provider.c:57
 msgid "Apply filters to new messages in INBOX on this server"
-msgstr ""
+msgstr "Bruk filter på nye meldingar i INBOX på denne tenaren"
 
 #: camel/providers/imap/camel-imap-provider.c:59
 #, fuzzy
+# TRN: Kva betyr dette?
 msgid "Automatically synchronize remote mail locally"
-msgstr "enkle innlegg"
+msgstr "Automatisk synkroniser ekstern e-post med lokal"
 
 #: camel/providers/imap/camel-imap-provider.c:65
 msgid "IMAP"
@@ -9382,7 +9382,7 @@ msgstr "IMAP"
 
 #: camel/providers/imap/camel-imap-provider.c:67
 msgid "For reading and storing mail on IMAP servers."
-msgstr ""
+msgstr "For lesing og lagring av e-post på IMAP-tenarar."
 
 #: camel/providers/imap/camel-imap-provider.c:82
 #: camel/providers/imapp/camel-imapp-provider.c:65
@@ -9394,7 +9394,7 @@ msgstr "Passord"
 #: camel/providers/imap/camel-imap-provider.c:84
 #: camel/providers/imapp/camel-imapp-provider.c:67
 msgid "This option will connect to the IMAP server using a plaintext password."
-msgstr ""
+msgstr "Dette valet let deg kopla til ein IMAP-tenar med eit klartekst-passord."
 
 #: camel/providers/imap/camel-imap-store.c:459
 #, c-format
@@ -9431,9 +9431,8 @@ msgstr "Kan ikkje kopla til IMAP-tenaren %s på ein sikker måte: %s"
 
 #: camel/providers/imap/camel-imap-store.c:656
 #: camel/providers/pop3/camel-pop3-store.c:220
-#, fuzzy
 msgid "SSL/TLS extension not supported."
-msgstr "Operasjonen vart stoppa"
+msgstr "SSL/TLS-utvidinga er ikkje støtta."
 
 #: camel/providers/imap/camel-imap-store.c:687
 #: camel/providers/pop3/camel-pop3-store.c:261
@@ -9460,7 +9459,7 @@ msgstr "Autentiseringstype %s er ikkje støtta"
 #: camel/providers/imapp/camel-imapp-store.c:349
 #, c-format
 msgid "%sPlease enter the IMAP password for %s@%s"
-msgstr ""
+msgstr "%sSkriv inn IMAP-passordet for %s@%s"
 
 #: camel/providers/imap/camel-imap-store.c:1284
 msgid "You didn't enter a password."
@@ -9494,18 +9493,16 @@ msgstr "Ukjend opphavsmappe: %s"
 
 #: camel/providers/imap/camel-imap-store.c:2051
 msgid "The parent folder is not allowed to contain subfolders"
-msgstr ""
+msgstr "Foreldermappa kan ikkje ha undermapper"
 
 #: camel/providers/imapp/camel-imapp-provider.c:39
 #: camel/providers/pop3/camel-pop3-provider.c:38
-#, fuzzy
 msgid "Message storage"
-msgstr "Meldingsliste"
+msgstr "Meldingslager"
 
 #: camel/providers/imapp/camel-imapp-provider.c:47
-#, fuzzy
 msgid "IMAP+"
-msgstr "IMAP"
+msgstr "IMAP+"
 
 #: camel/providers/imapp/camel-imapp-provider.c:49
 msgid ""
@@ -9514,6 +9511,10 @@ msgid ""
 "\n"
 " !!! DO NOT USE THIS FOR PRODUCTION EMAIL  !!!\n"
 msgstr ""
+"Eksperimentell IMAP 4(.1)-klient\n"
+"Dette er utesta og ustøta kode. Du vil heller bruka vanleg imap.\n"
+"\n"
+"IKKJE BRUK DETTE TIL VANLEG E-POST!\n"
 
 #: camel/providers/imapp/camel-imapp-store.c:333
 #, c-format
@@ -9521,9 +9522,8 @@ msgid "Could not connect to POP server on %s"
 msgstr "Kan ikkje kopla til POP-tenaren på %s"
 
 #: camel/providers/local/camel-local-folder.c:179
-#, fuzzy
 msgid "Index message body data"
-msgstr "Sender ei melding til ein nettverksspelar"
+msgstr ""
 
 #. $HOME relative path + protocol string
 #: camel/providers/local/camel-local-folder.c:379
@@ -9546,57 +9546,56 @@ msgstr "%s (%s)"
 
 #: camel/providers/local/camel-local-provider.c:43
 msgid "Use the `.folders' folder summary file (exmh)"
-msgstr ""
+msgstr "Bruk «.folders»-fila til mappesamandrag (exmh)"
 
 #: camel/providers/local/camel-local-provider.c:49
-#, fuzzy
 msgid "MH-format mail directories"
-msgstr "Separate katalogar"
+msgstr "E-post-katalogar i MH-format"
 
 #: camel/providers/local/camel-local-provider.c:50
 msgid "For storing local mail in MH-like mail directories."
-msgstr ""
+msgstr "For lagring av lokal e-post i MH-liknande e-post-katalogar."
 
 #: camel/providers/local/camel-local-provider.c:65
-#, fuzzy
 msgid "Local delivery"
-msgstr "Mapper"
+msgstr "Lokal levering"
 
 #: camel/providers/local/camel-local-provider.c:66
 msgid ""
 "For retrieving (moving) local mail from standard mbox formated spools into "
 "folders managed by Evolution."
 msgstr ""
+"For å henta (eller flytta) lokal e-post frå vanlege meldingslager i mbox-format til "
+"mapper som vert handsama av Evolution."
 
 #: camel/providers/local/camel-local-provider.c:77
 #: camel/providers/local/camel-local-provider.c:94
-#, fuzzy
 msgid "Apply filters to new messages in INBOX"
-msgstr "Sentrer dei valte elementa"
+msgstr "Bruk filter på nye meldingar i INBOX"
 
 #: camel/providers/local/camel-local-provider.c:83
-#, fuzzy
 msgid "Maildir-format mail directories"
-msgstr "Separate katalogar"
+msgstr "E-post-katalogar i Maildir-format"
 
 #: camel/providers/local/camel-local-provider.c:84
 msgid "For storing local mail in maildir directories."
-msgstr ""
+msgstr "For lagring av lokal e-post i maildir-katalogar."
 
 #: camel/providers/local/camel-local-provider.c:95
 msgid "Store status headers in Elm/Pine/Mutt format"
-msgstr ""
+msgstr "Lagra statushovud i Elm/Pine/Mutt-format"
 
 #: camel/providers/local/camel-local-provider.c:101
-#, fuzzy
 msgid "Standard Unix mbox spool or directory"
-msgstr "Standardfil"
+msgstr "Standard Unix e-post-lager («spool») eller katalog"
 
 #: camel/providers/local/camel-local-provider.c:102
 msgid ""
 "For reading and storing local mail in external standard mbox spool files.\n"
 "May also be used to read a tree of Elm, Pine, or Mutt style folders."
 msgstr ""
+"For lesing og lagring av lokal e-post i ekstrerne meldingslager («spool»-filer)\n"
+"i mbox-format. Kan også brukast til å lesa eit tre av mapper av Elm-, Pine- og Mutt-type."
 
 #: camel/providers/local/camel-local-store.c:138
 #: camel/providers/local/camel-local-store.c:227
@@ -9604,7 +9603,7 @@ msgstr ""
 #: camel/providers/local/camel-spool-store.c:116
 #, c-format
 msgid "Store root %s is not an absolute path"
-msgstr ""
+msgstr "Lagerrota %s er ikkje ein absolutt sti"
 
 #: camel/providers/local/camel-local-store.c:145
 #, c-format
@@ -9620,7 +9619,7 @@ msgstr "Kan ikkje henta mappa: %s: %s"
 
 #: camel/providers/local/camel-local-store.c:186
 msgid "Local stores do not have an inbox"
-msgstr ""
+msgstr "Lokale lager har ikkje innboks."
 
 #: camel/providers/local/camel-local-store.c:198
 #, c-format
@@ -9657,12 +9656,11 @@ msgstr "Kan ikkje lagra samandrag: %s: %s"
 
 #: camel/providers/local/camel-local-summary.c:457
 msgid "Unable to add message to summary: unknown reason"
-msgstr ""
+msgstr "Kan ikkje leggja til melding i samandraget. Årsaken er ukjend."
 
 #: camel/providers/local/camel-maildir-folder.c:183
-#, fuzzy
 msgid "Maildir append message cancelled"
-msgstr "Kan ikkje leggja til melding:\n"
+msgstr "Operasjonen å leggja til ei melding i ei maildir vart avbroten"
 
 #: camel/providers/local/camel-maildir-folder.c:186
 #, c-format
@@ -9672,7 +9670,7 @@ msgstr "Kan ikkje leggja til melding i maildir-mappe: %s: %s"
 #: camel/providers/local/camel-maildir-folder.c:234
 #: camel/providers/local/camel-mh-folder.c:220
 msgid "Invalid message contents"
-msgstr ""
+msgstr "Ugyldig meldingsinnhald"
 
 #: camel/providers/local/camel-maildir-store.c:106
 #: camel/providers/local/camel-mh-store.c:202
@@ -9707,7 +9705,7 @@ msgstr ""
 #: camel/providers/local/camel-maildir-store.c:132
 #, c-format
 msgid "`%s' is not a maildir directory."
-msgstr ""
+msgstr "«%s» er ikkje ein maildir-katalog."
 
 #: camel/providers/local/camel-maildir-store.c:167
 #: camel/providers/local/camel-maildir-store.c:205
@@ -9718,7 +9716,7 @@ msgstr "Kan ikkje sletta mappa «%s»: %s"
 
 #: camel/providers/local/camel-maildir-store.c:169
 msgid "not a maildir directory"
-msgstr ""
+msgstr "ikkje ein maildir-katalog"
 
 #: camel/providers/local/camel-maildir-store.c:335
 #: camel/providers/local/camel-spool-store.c:286
@@ -9734,14 +9732,12 @@ msgid "Cannot open maildir directory path: %s: %s"
 msgstr "Kan ikkje opna maildir-katalogstien: %s: %s"
 
 #: camel/providers/local/camel-maildir-summary.c:541
-#, fuzzy
 msgid "Checking folder consistency"
-msgstr "Berre sjekk for ny e-post."
+msgstr "Kontrollerer om mappa er konsistent"
 
 #: camel/providers/local/camel-maildir-summary.c:644
-#, fuzzy
 msgid "Checking for new messages"
-msgstr "Melding"
+msgstr "Ser etter nye meldingar"
 
 #: camel/providers/local/camel-maildir-summary.c:733
 #: camel/providers/local/camel-mbox-summary.c:337
@@ -9763,14 +9759,13 @@ msgid "Cannot open mailbox: %s: %s\n"
 msgstr "Kan ikkje opna postboksen: %s %s\n"
 
 #: camel/providers/local/camel-mbox-folder.c:349
-#, fuzzy
 msgid "Mail append cancelled"
-msgstr "Feil ved opning"
+msgstr "Å leggja til ein e-post vart avbrote"
 
 #: camel/providers/local/camel-mbox-folder.c:352
 #, c-format
 msgid "Cannot append message to mbox file: %s: %s"
-msgstr ""
+msgstr "Kan ikkje leggja til ei melding i mbox-fila: %s: %s"
 
 #: camel/providers/local/camel-mbox-folder.c:440
 #: camel/providers/local/camel-mbox-folder.c:471
@@ -9785,11 +9780,11 @@ msgstr ""
 
 #: camel/providers/local/camel-mbox-folder.c:472
 msgid "The folder appears to be irrecoverably corrupted."
-msgstr ""
+msgstr "Mappa ser ut til å vera øydelagt og kan ikkje reparerast."
 
 #: camel/providers/local/camel-mbox-folder.c:480
 msgid "Message construction failed: Corrupt mailbox?"
-msgstr ""
+msgstr "Bygginga av meldinga feila. Øydelagt mailbox?"
 
 #: camel/providers/local/camel-mbox-store.c:149
 #, c-format
@@ -9801,12 +9796,12 @@ msgstr ""
 "%s"
 
 #: camel/providers/local/camel-mbox-store.c:166
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "Could not create directory `%s':\n"
 "%s"
 msgstr ""
-"Klarte ikkje å laga katalog %s:\n"
+"Klarte ikkje å laga katalogen «%s»:\n"
 "%s"
 
 #: camel/providers/local/camel-mbox-store.c:178
@@ -9838,12 +9833,11 @@ msgstr ""
 #: camel/providers/local/camel-mbox-store.c:236
 #, c-format
 msgid "Folder `%s' is not empty. Not deleted."
-msgstr ""
+msgstr "Mappa «%s» er ikkje tom. Ikkje sletta."
 
 #: camel/providers/local/camel-mbox-store.c:311
-#, fuzzy
 msgid "Cannot create a folder by this name."
-msgstr "Leitar etter tilleggsmodular"
+msgstr "Kan ikkje laga ei mappe med dette namnet."
 
 #: camel/providers/local/camel-mbox-store.c:324
 #, c-format
@@ -9861,9 +9855,8 @@ msgid "Could not rename %s to %s: %s"
 msgstr "Kan ikkje endra namnet på «%s» til «%s»: %s"
 
 #: camel/providers/local/camel-mbox-store.c:427
-#, fuzzy
 msgid "The new folder name is illegal."
-msgstr "Arkivfilnamnet er ikkje gyldig.\n"
+msgstr "Det nye mappenamnet er ikkje gyldig."
 
 #: camel/providers/local/camel-mbox-summary.c:343
 #, c-format
@@ -13387,9 +13380,7 @@ msgid ""
 "%sUsed the removed folder:\n"
 "    '%s'\n"
 "And have been updated."
-msgstr ""
-""
-" s."
+msgstr " s."
 
 #: mail/mail-vfolder.c:776
 msgid "VFolders"
@@ -26881,7 +26872,7 @@ msgstr "Auk tekststorleik"
 
 #: ui/evolution-mail-message.xml.h:46
 msgid "Load _Images"
-msgstr "Last b_ileter"
+msgstr "Last b_ilete"
 
 #: ui/evolution-mail-message.xml.h:47 mail/em-folder-view.c:636
 msgid "Mar_k as Read"
@@ -27157,7 +27148,7 @@ msgstr "_Omdøyp ..."
 
 #: ui/evolution-mail-message.xml.h:121 ui/evolution.xml.h:63
 msgid "_Tools"
-msgstr "Verk_ty"
+msgstr "Verk_tøy"
 
 #: ui/evolution-mail-message.xml.h:122
 #, fuzzy
