@@ -7,8 +7,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: 2.4\n"
-"POT-Creation-Date: 2003-05-21 13:52-0400\n"
-"PO-Revision-Date: 2003-05-08 01:25+0000\n"
+"POT-Creation-Date: 2003-05-22 01:29+0000\n"
+"PO-Revision-Date: 2003-05-22 01:35+0000\n"
 "Last-Translator: Duarte Loreto <happyguy_pt@hotmail.com>\n"
 "Language-Team: Portuguese <gnome_pt@yahoogroups.com>\n"
 "MIME-Version: 1.0\n"
@@ -930,9 +930,8 @@ msgid "Edit LDAP Server"
 msgstr "Editar Servidor LDAP"
 
 #: addressbook/gui/component/ldap-config.glade.h:22
-#, fuzzy
 msgid "Email address:"
-msgstr "Endereço em_ail:"
+msgstr "Endereço email:"
 
 #: addressbook/gui/component/ldap-config.glade.h:23
 msgid "Evolution will use this DN to authenticate you with the server"
@@ -1134,7 +1133,6 @@ msgstr ""
 "entradas um nível abaixo da sua base.\n"
 
 #: addressbook/gui/component/ldap-config.glade.h:65
-#, fuzzy
 msgid ""
 "This assistant will help you to access online directory services\n"
 "using LDAP (Lightweight Directory Access Protocol) servers. \n"
@@ -1353,14 +1351,12 @@ msgid "_Folder:"
 msgstr "_Pasta:"
 
 #: addressbook/gui/contact-editor/contact-editor.glade.h:1
-#, fuzzy
 msgid " B_usiness:"
-msgstr "Profissional"
+msgstr " Pr_ofissional:"
 
 #: addressbook/gui/contact-editor/contact-editor.glade.h:3
-#, fuzzy
 msgid "A_ddress..."
-msgstr "Ende_reço..."
+msgstr "En_dereço..."
 
 #: addressbook/gui/contact-editor/contact-editor.glade.h:4
 msgid "A_ssistant's name:"
@@ -1375,9 +1371,8 @@ msgid "Birthda_y:"
 msgstr "_Data Nascimento:"
 
 #: addressbook/gui/contact-editor/contact-editor.glade.h:7
-#, fuzzy
 msgid "Business fa_x:"
-msgstr "Fax Profissional"
+msgstr "Fa_x profissional:"
 
 #: addressbook/gui/contact-editor/contact-editor.glade.h:8
 msgid "Collaboration"
@@ -1403,9 +1398,8 @@ msgid "F_ree/Busy URL:"
 msgstr "URL Liv_re/Ocupado:"
 
 #: addressbook/gui/contact-editor/contact-editor.glade.h:13
-#, fuzzy
 msgid "File a_s:"
-msgstr "Ar_quivar Como:"
+msgstr "Ar_quivar como:"
 
 #: addressbook/gui/contact-editor/contact-editor.glade.h:14
 msgid "Full _Name..."
@@ -1438,9 +1432,8 @@ msgid "P_rofession:"
 msgstr "P_rofissão:"
 
 #: addressbook/gui/contact-editor/contact-editor.glade.h:22
-#, fuzzy
 msgid "Primary _email:"
-msgstr "Email Principal"
+msgstr "_Email principal:"
 
 #: addressbook/gui/contact-editor/contact-editor.glade.h:23
 msgid "S_pouse:"
@@ -1455,14 +1448,12 @@ msgid "_Add"
 msgstr "_Adicionar"
 
 #: addressbook/gui/contact-editor/contact-editor.glade.h:26
-#, fuzzy
 msgid "_Business:"
-msgstr "Profissional"
+msgstr "Pro_fissional:"
 
 #: addressbook/gui/contact-editor/contact-editor.glade.h:27
-#, fuzzy
 msgid "_Categories..."
-msgstr "Ca_tegorias..."
+msgstr "_Categorias..."
 
 #: addressbook/gui/contact-editor/contact-editor.glade.h:28
 #: calendar/gui/dialogs/meeting-page.c:717 calendar/gui/e-calendar-table.c:968
@@ -1474,23 +1465,20 @@ msgid "_Delete"
 msgstr "Apa_gar"
 
 #: addressbook/gui/contact-editor/contact-editor.glade.h:29
-#, fuzzy
 msgid "_Home:"
-msgstr "Casa"
+msgstr "_Casa:"
 
 #: addressbook/gui/contact-editor/contact-editor.glade.h:30
 msgid "_Job title:"
 msgstr "Título car_go:"
 
 #: addressbook/gui/contact-editor/contact-editor.glade.h:31
-#, fuzzy
 msgid "_Manager's name:"
-msgstr "Nome _Gestor:"
+msgstr "No_me gestor:"
 
 #: addressbook/gui/contact-editor/contact-editor.glade.h:32
-#, fuzzy
 msgid "_Mobile:"
-msgstr "Telemóvel"
+msgstr "Tele_móvel:"
 
 #: addressbook/gui/contact-editor/contact-editor.glade.h:33
 msgid "_Nickname:"
@@ -1505,9 +1493,8 @@ msgid "_Public Calendar URL:"
 msgstr "URL Calendário _Público:"
 
 #: addressbook/gui/contact-editor/contact-editor.glade.h:36
-#, fuzzy
 msgid "_This is the mailing address"
-msgstr "Este é o endereço de e_mail"
+msgstr "Es_te é o endereço de correio"
 
 #: addressbook/gui/contact-editor/contact-editor.glade.h:37
 msgid "_Web page address:"
@@ -2618,19 +2605,16 @@ msgid "Contact Quick-Add"
 msgstr "Adição-Rápida Contacto"
 
 #: addressbook/gui/contact-editor/e-contact-quick-add.c:301
-#, fuzzy
 msgid "_Edit Full"
-msgstr "Edição Completa"
+msgstr "_Edição Completa"
 
 #: addressbook/gui/contact-editor/e-contact-quick-add.c:319
-#, fuzzy
 msgid "_Full Name:"
-msgstr "_Nome completo:"
+msgstr "Nome Comp_leto:"
 
 #: addressbook/gui/contact-editor/e-contact-quick-add.c:325
-#, fuzzy
 msgid "E-_mail:"
-msgstr "Email"
+msgstr "E_mail:"
 
 #: addressbook/gui/contact-editor/e-contact-save-as.c:66
 #, c-format
@@ -2664,9 +2648,8 @@ msgid "Address _2:"
 msgstr "Endereço _2:"
 
 #: addressbook/gui/contact-editor/fulladdr.glade.h:3
-#, fuzzy
 msgid "Ci_ty:"
-msgstr "_Cidade:"
+msgstr "Ci_dade:"
 
 #: addressbook/gui/contact-editor/fulladdr.glade.h:4
 msgid "Countr_y:"
@@ -2765,15 +2748,13 @@ msgid "_Hide addresses when sending mail to this list"
 msgstr "_Esconder endereços ao enviar email para esta lista"
 
 #: addressbook/gui/contact-list-editor/contact-list-editor.glade.h:6
-#, fuzzy
 msgid "_List name:"
-msgstr "_Nome lista:"
+msgstr "Nome _lista:"
 
 #: addressbook/gui/contact-list-editor/contact-list-editor.glade.h:7
-#, fuzzy
 msgid "_Type an email address or drag a contact into the list below:"
 msgstr ""
-"Introduza um endereço email ou arraste um contacto para a lista abaixo:"
+"In_troduza um endereço email ou arraste um contacto para a lista abaixo:"
 
 #: addressbook/gui/contact-list-editor/contact-list-editor.glade.h:8
 msgid "contact-list-editor"
@@ -5000,13 +4981,12 @@ msgid "year(s)"
 msgstr "ano(s)"
 
 #: calendar/gui/dialogs/save-comp.c:54
-#, fuzzy
 msgid ""
 "This event has been changed, but has not been saved.\n"
 "\n"
 "Do you wish to save your changes?"
 msgstr ""
-"Esta assinatura foi alterada, mas não foi gravada.\n"
+"Este evento foi alterado, mas não foi gravado.\n"
 "\n"
 "Deseja gravar as alterações?"
 
@@ -5015,9 +4995,8 @@ msgid "_Discard Changes"
 msgstr "_Descartar Alterações"
 
 #: calendar/gui/dialogs/save-comp.c:63
-#, fuzzy
 msgid "Save Event"
-msgstr "Eventos Calendário"
+msgstr "Gravar Evento"
 
 #: calendar/gui/dialogs/send-comp.c:58
 msgid "The meeting information has been created. Send it?"
@@ -13434,9 +13413,9 @@ msgid "Expunging folder"
 msgstr "A expurgar pasta"
 
 #: mail/mail-ops.c:1642
-#, fuzzy, c-format
+#, c-format
 msgid "Emptying trash in '%s'"
-msgstr "A importar %s como %s"
+msgstr "A esvaziar lixo em '%s'"
 
 #: mail/mail-ops.c:1643 my-evolution/e-summary-mail.c:480
 #: shell/e-local-storage.c:1151
@@ -23748,14 +23727,12 @@ msgid "Quotes of the Day"
 msgstr "Citações do Dia"
 
 #: my-evolution/e-summary-preferences.c:565
-#, fuzzy
 msgid "New News Feed"
-msgstr "Apresentador Notícias"
+msgstr "Novo Apresentador Notícias"
 
 #: my-evolution/e-summary-preferences.c:581
-#, fuzzy
 msgid "_URL:"
-msgstr "URL:"
+msgstr "_URL:"
 
 #: my-evolution/e-summary-rdf.c:315
 msgid "Error downloading RDF"
@@ -25004,9 +24981,8 @@ msgid "News Feed Settings"
 msgstr "Definições Apresentador Notícias"
 
 #: my-evolution/my-evolution.glade.h:6
-#, fuzzy
 msgid "News Feeds"
-msgstr "Apresentador _Notícias"
+msgstr "Apresentador Notícias"
 
 #: my-evolution/my-evolution.glade.h:7
 msgid "One mont_h"
@@ -25025,9 +25001,8 @@ msgid "Refresh _time (seconds):"
 msgstr "Ac_tualizar hora (segundos):"
 
 #: my-evolution/my-evolution.glade.h:11
-#, fuzzy
 msgid "Schedule"
-msgstr "A_genda"
+msgstr "Agenda"
 
 #: my-evolution/my-evolution.glade.h:12
 msgid "Show _all tasks"
@@ -25050,9 +25025,8 @@ msgid "Weather Settings"
 msgstr "Definições Meteorologia"
 
 #: my-evolution/my-evolution.glade.h:18
-#, fuzzy
 msgid "_Delete Feed"
-msgstr "Apagada"
+msgstr "_Apagar Apresentador"
 
 #: my-evolution/my-evolution.glade.h:19
 msgid "_Fahrenheit"
@@ -25063,23 +25037,20 @@ msgid "_Five days"
 msgstr "_Cinco dias"
 
 #: my-evolution/my-evolution.glade.h:21
-#, fuzzy
 msgid "_Max number of items shown:"
-msgstr "Número má_x. de itens a mostrar:"
+msgstr "Número _máx. de itens a mostrar:"
 
 #: my-evolution/my-evolution.glade.h:22
-#, fuzzy
 msgid "_New Feed"
-msgstr "Apresentador _Notícias"
+msgstr "_Novo Apresentador"
 
 #: my-evolution/my-evolution.glade.h:23
 msgid "_One day"
 msgstr "_Um dia"
 
 #: my-evolution/my-evolution.glade.h:24
-#, fuzzy
 msgid "_Show full path for folders"
-msgstr "Mostrar camin_ho completo para as pastas"
+msgstr "Mo_strar caminho completo para as pastas"
 
 #: shell/GNOME_Evolution_Shell.server.in.in.h:1
 msgid "Configure special folders and offline folder behavior here"
@@ -27764,7 +27735,6 @@ msgid "Time Zones"
 msgstr "Fusos Horários"
 
 #: widgets/e-timezone-dialog/e-timezone-dialog.glade.h:4
-#, fuzzy
 msgid ""
 "Use the left mouse button to zoom in on an area of the map and select a time "
 "zone.\n"
@@ -27775,9 +27745,8 @@ msgstr ""
 "Utilize o botão direito do rato para afastar."
 
 #: widgets/e-timezone-dialog/e-timezone-dialog.glade.h:6
-#, fuzzy
 msgid "_Selection:"
-msgstr "Selecção:"
+msgstr "_Selecção:"
 
 #: widgets/menus/gal-view-menus.c:290
 msgid "_Current View"
@@ -27786,11 +27755,11 @@ msgstr "Vista A_ctual"
 #. bonobo displays this string so it must be in locale
 #: widgets/menus/gal-view-menus.c:349
 msgid "Custom View"
-msgstr "Vista Customizada"
+msgstr "Vista Costumizada"
 
 #: widgets/menus/gal-view-menus.c:358
 msgid "Save Custom View..."
-msgstr "Gravar Vista Customizada..."
+msgstr "Gravar Vista Costumizada..."
 
 #: widgets/menus/gal-view-menus.c:371
 msgid "Define Views..."
