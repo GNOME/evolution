@@ -3,7 +3,9 @@
 
 /* 
  *
- * Copyright (C) 1999 Bertrand Guiheneuf <bertrand@helixcode.com> .
+ * Author : Bertrand Guiheneuf <bertrand@helixcode.com> 
+ *
+ * Copyright (C) 1999 Helix Code .
  *
  * This program is free software; you can redistribute it and/or 
  * modify it under the terms of the GNU General Public License as 
@@ -24,6 +26,7 @@
 
 #include <config.h> 
 #include "camel-mbox-parser.h"
+#include "camel-mbox-utils.h"
 #include "camel-log.h"
 #include "camel-exception.h"
 #include <sys/types.h>
@@ -45,6 +48,9 @@
 
 #define MBOX_PARSER_SUBJECT_KW "subject:"
 #define MBOX_PARSER_SUBJECT_KW_SZ 8
+
+#define MBOX_PARSER_TO_KW "to:"
+#define MBOX_PARSER_TO_KW_SZ 3
 
 #define MBOX_PARSER_X_EVOLUTION_KW "x-evolution:"
 #define MBOX_PARSER_X_EVOLUTION_KW_SZ 12
@@ -100,15 +106,14 @@ clear_message_info (CamelMboxParserMessageInfo *preparsing_info)
 	preparsing_info->from = NULL;
 	preparsing_info->date = NULL;
 	preparsing_info->subject = NULL;
-	preparsing_info->status = NULL;
 	preparsing_info->priority = NULL;
 	preparsing_info->references = NULL;
 	preparsing_info->body_summary = NULL;
 	preparsing_info->end_of_headers_offset = 0;
 	
-	preparsing_info->x_evolution = NULL;
 	preparsing_info->x_evolution_offset = 0;
-	/* reparsing_info->x_evolution_length = 0; */
+	preparsing_info->status = 0;
+	preparsing_info->uid = 0;
 		
 }
 
@@ -571,6 +576,8 @@ camel_mbox_parse_file (int fd,
 	int real_interval;
 	gboolean newline;
 	GArray *return_value;
+	gchar *x_ev_header_content;
+
 
 	/* get file size */
 	fstat_result = fstat (fd, &stat_buf);
@@ -674,6 +681,21 @@ camel_mbox_parse_file (int fd,
 				}
 
 
+				/* is the next part a "To" header ? */
+				if (g_strncasecmp (parser->buffer + parser->current_position, 
+						  MBOX_PARSER_TO_KW, 
+						  MBOX_PARSER_TO_KW_SZ) == 0) {
+
+					advance_n_chars (parser, MBOX_PARSER_TO_KW_SZ);
+					read_header (parser, (gchar **) ((gchar *)parser +
+						     G_STRUCT_OFFSET (CamelMboxPreParser, current_message_info) + 
+						     G_STRUCT_OFFSET (CamelMboxParserMessageInfo, to)));
+
+					newline = TRUE;
+					continue;
+				}
+
+
 				/* is the next part a "X-evolution" header ? */
 				if (g_strncasecmp (parser->buffer + parser->current_position, 
 						  MBOX_PARSER_X_EVOLUTION_KW, 
@@ -685,9 +707,19 @@ camel_mbox_parse_file (int fd,
 					parser->current_message_info.x_evolution_offset = parser->real_position
 						- parser->current_message_info.message_position;
 					advance_n_chars (parser, MBOX_PARSER_X_EVOLUTION_KW_SZ);
-					read_header (parser, (gchar **) ((gchar *)parser +
-						     G_STRUCT_OFFSET (CamelMboxPreParser, current_message_info) + 
-						     G_STRUCT_OFFSET (CamelMboxParserMessageInfo, x_evolution)));
+					
+					/* read the header */
+					read_header (parser, &x_ev_header_content);
+					
+					/* parse it and put the result in the uid and status fields */
+					camel_mbox_xev_parse_header_content (x_ev_header_content,	
+									     (guint32 *) ((gchar *)parser +
+											  G_STRUCT_OFFSET (CamelMboxPreParser, current_message_info) + 
+											  G_STRUCT_OFFSET (CamelMboxParserMessageInfo, uid)),
+									     (guchar *) ((gchar *)parser +
+											 G_STRUCT_OFFSET (CamelMboxPreParser, current_message_info) + 
+											 G_STRUCT_OFFSET (CamelMboxParserMessageInfo, status)));
+					g_free (x_ev_header_content);
 
 					/* 
 					   parser->current_message_info.x_evolution_length = 

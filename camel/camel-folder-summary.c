@@ -34,8 +34,8 @@ static GtkObjectClass *parent_class=NULL;
 #define CFS_CLASS(so) CAMEL_FOLDER_SUMMARY_CLASS (GTK_OBJECT(so)->klass)
 
 
-static const GList *_get_subfolder_info_list (CamelFolderSummary *summary);
-static const GList *_get_message_info_list (CamelFolderSummary *summary);
+static const GArray *_get_subfolder_info_list (CamelFolderSummary *summary);
+static const GArray *_get_message_info_list (CamelFolderSummary *summary);
 
 static void _finalize (GtkObject *object);
 
@@ -65,8 +65,8 @@ camel_folder_summary_init (gpointer   object,  gpointer   klass)
 	CamelFolderSummary *summary = CAMEL_FOLDER_SUMMARY (object);
 
 	CAMEL_LOG_FULL_DEBUG ( "camel_folder_summary_init:: Entering\n");
-	summary->subfolder_info_list = NULL;
-	summary->message_info_list = NULL;
+	summary->subfolder_info_list = g_array_new (FALSE, FALSE, sizeof (CamelFolderInfo);
+	summary->message_info_list = g_array_new (FALSE, FALSE, sizeof (CamelMessageInfo);
 	CAMEL_LOG_FULL_DEBUG ( "camel_folder_summary_init:: Leaving\n");
 }
 
@@ -116,14 +116,14 @@ camel_folder_summary_new ()
 	return gtk_type_new (CAMEL_FOLDER_SUMMARY_TYPE);
 }
 
-static const GList *
+static const GArray *
 _get_subfolder_info_list (CamelFolderSummary *summary)
 {
 	return summary->subfolder_info_list;
 }
 
 
-const GList *
+const GArray *
 camel_folder_summary_get_subfolder_info_list (CamelFolderSummary *summary)
 {
 	return CFS_CLASS (summary)->get_subfolder_info_list (summary);
@@ -132,13 +132,13 @@ camel_folder_summary_get_subfolder_info_list (CamelFolderSummary *summary)
 
 
 
-static const GList *
+static const GArray *
 _get_message_info_list (CamelFolderSummary *summary)
 {
 	return summary->message_info_list;
 }
 
-const GList *
+const GArray *
 camel_folder_summary_get_message_info_list (CamelFolderSummary *summary)
 {
 	return CFS_CLASS (summary)->get_message_info_list (summary);

@@ -2,6 +2,7 @@
 /* camel-mbox-folder.c : Abstract class for an email folder */
 
 /* 
+ * Author : Bertrand Guiheneuf <bertrand@helixcode.com> 
  *
  * Copyright (C) 1999 Helix Code .
  *
@@ -21,7 +22,6 @@
  * USA
  */
 
-/* Author : Bertrand Guiheneuf <bertrand@helixcode.com> */
 
 #include <config.h> 
 

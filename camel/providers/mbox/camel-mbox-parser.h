@@ -3,7 +3,9 @@
 
 /* 
  *
- * Copyright (C) 1999 Bertrand Guiheneuf <bertrand@helixcode.com> .
+ * Author : Bertrand Guiheneuf <bertrand@helixcode.com> 
+ *
+ * Copyright (C) 1999 Helix Code .
  *
  * This program is free software; you can redistribute it and/or 
  * modify it under the terms of the GNU General Public License as 
@@ -30,10 +32,11 @@ typedef struct {
 
 	glong message_position;
 	glong size;
+	
 	gchar *from;
+	gchar *to;
 	gchar *date;
 	gchar *subject;
-	gchar *status;
 	gchar *priority;
 	gchar *references;
 	gchar *body_summary;
@@ -41,7 +44,8 @@ typedef struct {
 
 	gchar *x_evolution;
 	gshort x_evolution_offset;
-	/* gshort x_evolution_length; */
+	guint32 uid;
+	guchar status;
 
 } CamelMboxParserMessageInfo;
 

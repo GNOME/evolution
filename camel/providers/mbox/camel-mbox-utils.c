@@ -57,6 +57,8 @@
 #include <glib.h>
 #include "camel-mbox-utils.h"
 #include "camel-mbox-parser.h"
+#include "camel-folder-summary.h"
+#include "camel-mbox-summary.h"
 
 
 
@@ -132,7 +134,7 @@ string_to_flag (gchar string)
 void 
 camel_mbox_xev_parse_header_content (gchar header_content[6], 
 				     guint32 *uid, 
-				     guchar status)
+				     guchar *status)
 {
 	
 	/* we assume that the first 4 characters of the header content 
@@ -140,7 +142,7 @@ camel_mbox_xev_parse_header_content (gchar header_content[6],
 	   toooo bad. 
 	*/
 	*uid = string_to_uid (header_content);
-	status = string_to_flag (header_content[5]);
+	*status = string_to_flag (header_content[5]);
 }
 
 void 
@@ -249,7 +251,7 @@ camel_mbox_write_xev (gchar *mbox_file_name,
 		cur_msg_info = (CamelMboxParserMessageInfo *)(summary_information->data) + cur_msg;
 		end_of_last_message = cur_msg_info->message_position + cur_msg_info->size;
 
-		if ( !cur_msg_info->x_evolution) {
+		if (cur_msg_info->uid == 0) {
 			
 			bytes_to_copy = cur_msg_info->message_position 
 				+ cur_msg_info->end_of_headers_offset
@@ -265,9 +267,10 @@ camel_mbox_write_xev (gchar *mbox_file_name,
 				goto end;
 			}
 			
-			printf ("Writing the x-ev header\n");
-			printf ("Current message number : %d\n", cur_msg);
-			camel_mbox_xev_write_header_content (xev_header + 12, next_free_uid++, 0);
+			cur_msg_info->uid = next_free_uid;
+			cur_msg_info->status = 0;
+			camel_mbox_xev_write_header_content (xev_header + 12, next_free_uid, 0);
+			next_free_uid++;
 			write (fd2, xev_header, 19);
 			cur_offset += 19;
 			cur_msg_info->size += 19;
@@ -333,5 +336,41 @@ camel_mbox_write_xev (gchar *mbox_file_name,
 
 
 
+GArray *
+parsed_information_to_mbox_summary (GArray *parsed_information)
+{
+	guint cur_msg;
+	CamelMboxParserMessageInfo *cur_msg_info;
+	GArray *mbox_summary;
+	CamelMboxSummaryInformation cur_sum_info;
 
+	mbox_summary = g_array_new (FALSE, FALSE, sizeof (CamelMboxSummaryInformation));
+	mbox_summary =  g_array_set_size (mbox_summary, parsed_information->len);
 
+	for (cur_msg = 0; cur_msg < parsed_information->len; cur_msg++) {
+		
+		cur_msg_info = (CamelMboxParserMessageInfo *)(parsed_information->data) + cur_msg;
+
+		cur_sum_info.position = cur_msg_info->message_position;
+
+		cur_sum_info.x_evolution_offset = cur_msg_info->x_evolution_offset;
+
+		cur_sum_info.uid = cur_msg_info->uid;
+
+		cur_sum_info.status = cur_msg_info->status;
+
+		cur_sum_info.subject = cur_msg_info->subject;
+		cur_msg_info->subject = NULL;
+
+		cur_sum_info.sender =  cur_msg_info->from;
+		cur_msg_info->from = NULL;
+	
+		cur_sum_info.to =  cur_msg_info->to;
+		cur_msg_info->to = NULL;
+	
+		g_array_append_vals (mbox_summary, &cur_sum_info, 1);
+		
+	}
+	
+	return mbox_summary;
+}

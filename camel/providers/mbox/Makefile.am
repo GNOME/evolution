@@ -13,14 +13,16 @@ INCLUDES = -I.. -I$(srcdir)/.. -I$(includedir)	\
 
 libcamelmbox_la_SOURCES = 			\
 	camel-mbox-folder.c			\
-	camel-mbox-store.c			\
 	camel-mbox-parser.c			\
+	camel-mbox-store.c			\
+	camel-mbox-summary.c			\
 	camel-mbox-utils.c
 
 libcamelmboxinclude_HEADERS =			\
 	camel-mbox-folder.h			\
-	camel-mbox-store.h			\
 	camel-mbox-parser.h			\
+	camel-mbox-store.h			\
+	camel-mbox-summary.h			\
 	camel-mbox-utils.h
 
 

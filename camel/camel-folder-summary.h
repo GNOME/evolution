@@ -72,9 +72,9 @@ typedef struct {
 
 typedef struct {
 	GtkObject parent_object;
-
-	GList *subfolder_info_list; /* informations on subfolders */
-	GList *message_info_list;   /* informations on messages */
+ 
+	GArray *subfolder_info_list; /* informations on subfolders */
+	GArray *message_info_list;   /* informations on messages */
 
 } CamelFolderSummary;
 
@@ -100,8 +100,8 @@ GtkType camel_folder_summary_get_type (void);
 CamelFolderSummary *camel_folder_summary_new ();
 
 /* get information about the messages and the subfolders in the directory */
-const GList *camel_folder_summary_get_subfolder_info_list (CamelFolderSummary *summary);
-const GList *camel_folder_summary_get_message_info_list (CamelFolderSummary *summary);
+const GArray *camel_folder_summary_get_subfolder_info_list (CamelFolderSummary *summary);
+const GArray *camel_folder_summary_get_message_info_list (CamelFolderSummary *summary);
 
 
 

@@ -39,7 +39,7 @@ extern "C" {
 void 
 camel_mbox_xev_parse_header_content (gchar header_content[6], 
 				     guint32 *uid, 
-				     guchar status);
+				     guchar *status);
 
 void 
 camel_mbox_xev_write_header_content (gchar header_content[6], 
@@ -51,6 +51,9 @@ camel_mbox_write_xev (gchar *mbox_file_name,
 		      GArray *summary_information, 
 		      glong last_uid, 
 		      CamelException *ex);
+
+GArray *
+parsed_information_to_mbox_summary (GArray *parsed_information);
 
 #ifdef __cplusplus
 }

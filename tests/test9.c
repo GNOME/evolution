@@ -43,6 +43,8 @@ main (int argc, char**argv)
 		printf ("Exception caught in camel_mbox_write_xev : %s\n", camel_exception_get_description (ex));
 	}
 	
+
+	
 	
 	
 }
