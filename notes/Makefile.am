@@ -28,12 +28,8 @@ notes_test_SOURCES = 			\
 	e-note.h			\
 	test-notes.c
 
-OAF_FILES = evolution-notes.oafinfo
-
-if USING_OAF
 oafdir = $(datadir)/oaf
-oaf_DATA = $(OAF_FILES)
-endif
+oaf_DATA = evolution-notes.oafinfo
 
 notes_test_LDADD =					\
 	$(top_builddir)/widgets/e-text/libetext.a 	\
