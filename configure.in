@@ -1072,10 +1072,10 @@ dnl EVO_SET_COMPILE_FLAGS(LIBIBEX, bonobo_conf bonobox_print gal gdk_pixbuf gnom
 dnl 		      $THREADS_CFLAGS, $THREADS_LIBS)
 dnl AC_SUBST(LIBIBEX_CFLAGS)
 dnl AC_SUBST(LIBIBEX_LIBS)
-dnl
-dnl EVO_SET_COMPILE_FLAGS(LIBFILTER, bonobo gal gdk_pixbuf gnomecanvaspixbuf gnomeui libglade)
-dnl AC_SUBST(LIBFILTER_CFLAGS)
-dnl AC_SUBST(LIBFILTER_LIBS)
+
+EVO_SET_COMPILE_FLAGS(LIBFILTER, libgnome-2.0 libgnomeui-2.0 libglade-2.0 gal-2.0)
+AC_SUBST(LIBFILTER_CFLAGS)
+AC_SUBST(LIBFILTER_LIBS)
 
 dnl --- evolution (shell) flags
 
@@ -1268,6 +1268,7 @@ default_user/local/Tasks/Makefile
 default_user/local/Trash/Makefile
 e-util/Makefile
 e-util/ename/Makefile
+filter/Makefile
 libversit/Makefile
 shell/Makefile
 shell/evolution-nognome
