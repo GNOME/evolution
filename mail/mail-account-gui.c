@@ -400,7 +400,7 @@ source_type_changed (GtkWidget *widget, gpointer user_data)
 				dwidget = GTK_WIDGET (gui->source.path);
 			
 			if (!strcmp (provider->protocol, "mbox")
-			    || !strcmp(provider->protocol, "spool")) {
+			    || !strcmp (provider->protocol, "spool")) {
 				char *path;
 				
 				if (getenv ("MAIL"))
@@ -455,9 +455,8 @@ source_type_changed (GtkWidget *widget, gpointer user_data)
 		gtk_widget_grab_focus (dwidget);
 	
 	mail_account_gui_build_extra_conf (gui, gui && gui->account && gui->account->source ? gui->account->source->url : NULL);
-
-	if (provider &&
-	    CAMEL_PROVIDER_IS_STORE_AND_TRANSPORT (provider))
+	
+	if (provider && CAMEL_PROVIDER_IS_STORE_AND_TRANSPORT (provider))
 		transport_provider_set_available (gui, provider, TRUE);
 }
 
@@ -484,7 +483,7 @@ transport_type_changed (GtkWidget *widget, gpointer user_data)
 	
 	provider = gtk_object_get_data (GTK_OBJECT (widget), "provider");
 	gui->transport.provider = provider;
-
+	
 	/* description */
 	gtk_label_set_text (gui->transport.description, provider->description);
 	
@@ -620,7 +619,7 @@ void
 mail_account_gui_build_extra_conf (MailAccountGui *gui, const char *url_string)
 {
 	CamelURL *url;
-	GtkWidget *mailcheck_frame, *main_vbox, *cur_vbox;
+	GtkWidget *mailcheck_frame, *main_vbox, *cur_vbox, *username;
 	CamelProviderConfEntry *entries;
 	GList *children, *child;
 	char *name;
@@ -630,6 +629,9 @@ mail_account_gui_build_extra_conf (MailAccountGui *gui, const char *url_string)
 		url = camel_url_new (url_string, NULL);
 	else
 		url = NULL;
+	
+	username = glade_xml_get_widget (gui->xml, "source_user_label");
+	gtk_label_parse_uline (GTK_LABEL (username), _("User_name:"));
 	
 	main_vbox = glade_xml_get_widget (gui->xml, "extra_vbox");
 	
@@ -699,6 +701,19 @@ mail_account_gui_build_extra_conf (MailAccountGui *gui, const char *url_string)
 		}
 		case CAMEL_PROVIDER_CONF_SECTION_END:
 			cur_vbox = main_vbox;
+			break;
+			
+		case CAMEL_PROVIDER_CONF_LABEL:
+			if (entries[i].name && entries[i].text) {
+				GtkWidget *label;
+				
+				if (!strcmp (entries[i].name, "username")) {
+					gtk_label_parse_uline (GTK_LABEL (username), _(entries[i].text));
+				} else {
+					label = gtk_label_new (_(entries[i].text));
+					gtk_box_pack_start (GTK_BOX (cur_vbox), label, FALSE, FALSE, 0);
+				}
+			}
 			break;
 			
 		case CAMEL_PROVIDER_CONF_CHECKBOX:
