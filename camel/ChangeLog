@@ -1,3 +1,20 @@
+2004-11-18  Not Zed  <NotZed@Ximian.com>
+
+	* providers/nntp/camel-nntp-stream.c:
+	* providers/nntp/camel-nntp-store.c:
+	* providers/nntp/camel-nntp-summary.c: Make debug run based on
+	'nntp' debug option.
+
+	* providers/nntp/camel-nntp-store.c (camel_nntp_try_authenticate):
+	retry if the password attempt failed.
+
+	** See bug #68556.
+
+	* providers/nntp/camel-nntp-store.c (xover_setup): don't overwrite
+	exception if we get a failure.
+	(camel_nntp_command): if we continue, then set the return code to
+	-1, so we re-loop rather than abort.
+
 2004-11-09  Not Zed  <NotZed@Ximian.com>
 
 	* providers/imap/camel-imap-folder.c (imap_get_message): before

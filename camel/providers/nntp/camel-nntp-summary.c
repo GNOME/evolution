@@ -36,6 +36,7 @@
 #include "camel/camel-stream-null.h"
 #include "camel/camel-operation.h"
 #include "camel/camel-data-cache.h"
+#include "camel/camel-debug.h"
 
 #include "camel-nntp-summary.h"
 #include "camel-nntp-folder.h"
@@ -45,8 +46,7 @@
 #define w(x)
 #define io(x)
 #define d(x) /*(printf("%s(%d): ", __FILE__, __LINE__),(x))*/
-extern int camel_verbose_debug;
-#define dd(x) (camel_verbose_debug?(x):0)
+#define dd(x) (camel_debug("nntp")?(x):0)
 
 #define CAMEL_NNTP_SUMMARY_VERSION (1)
 
