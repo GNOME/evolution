@@ -94,6 +94,7 @@ scripts/Makefile
 src/Makefile
 src/libical/Makefile
 src/libical/icalversion.h
+src/libicalss/Makefile
 src/libicalvcal/Makefile
 src/python/Makefile
 src/test/Makefile

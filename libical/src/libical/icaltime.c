@@ -170,7 +170,7 @@ time_t icaltime_as_timet(struct icaltimetype tt)
     stm.tm_isdst = -1;
 
     if(tt.is_utc == 1 || tt.is_date == 1){
-	char* old_tz = set_tz("UTC");
+        struct set_tz_save old_tz = set_tz("UTC");
 	t = mktime(&stm);
 	unset_tz(old_tz);
     } else {
@@ -248,20 +248,19 @@ int icaltime_utc_offset(struct icaltimetype ictt, const char* tzid)
     time_t tt = icaltime_as_timet(ictt);
     time_t offset_tt;
     struct tm gtm;
-
-    char *tzstr = 0;
+    struct set_tz_save old_tz; 
 
     if(tzid != 0){
-	tzstr = set_tz(tzid);
+	old_tz = set_tz(tzid);
     }
- 
+
     /* Mis-interpret a UTC broken out time as local time */
     gtm = *(gmtime(&tt));
     gtm.tm_isdst = localtime(&tt)->tm_isdst;    
     offset_tt = mktime(&gtm);
     
     if(tzid != 0){
-	unset_tz(tzstr);
+	unset_tz(old_tz);
     }
 
     return tt-offset_tt;
