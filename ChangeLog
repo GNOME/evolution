@@ -1,3 +1,33 @@
+2000-04-10  Chris Toshok  <toshok@helixcode.com>
+
+	* addressbook/gui/minicard/e-minicard-view.c (get_view): change
+	the empty search string ("") to the valid (contains "full_name" "").
+
+	* wombat/Makefile.am (wombat_LDADD): reorder so libeutil.la comes
+	after libpas (since it uses the sexp stuff now.)
+
+	* addressbook/backend/pas/Makefile.am (INCLUDES): add
+	-I$(top_srcdir)/addressbook/backend/ebook
+
+	* addressbook/backend/pas/pas-backend-file.c
+	(view_destroy): free the search context and unref the sexp.
+	(string_to_dbt): save the zero byte of strings, so we don't have
+	to g_strndup everywhere.
+	(func_contains): new function, implementing the (contains) search
+	function.
+	(vcard_matches_search): generic predicate to tell whether or not a
+	vcard entry matches the current book view.
+	(pas_backend_file_search): rip some of this code out of
+	get_book_view (the portion building the list of cards) and make it
+	use the e-sexp stuff.
+	(pas_backend_file_process_create_card): use vcard_matches_search
+	to only notify if the card will appear in the view.
+	(pas_backend_file_process_remove_card): use vcard_matches_search
+	to only notify if the card will be removed from the view.
+	(pas_backend_file_process_modify_card): use vcard_matches_search
+	to notify if the modified card was added, removed, or changed in
+	the view.
+	
 2000-04-10  Miguel de Icaza  <miguel@gnu.org>
 
 	* configure.in (GNOME_PRINT_CFLAGS): Update to support

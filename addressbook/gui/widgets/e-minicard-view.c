@@ -170,7 +170,7 @@ static gboolean
 get_view(EMinicardView *view)
 {
 	E_REFLOW(view)->items = NULL;
-	e_book_get_book_view(view->book, "", book_view_loaded, view);
+	e_book_get_book_view(view->book, "(contains \"full_name\" \"\")", book_view_loaded, view);
 
 	view->get_view_idle = 0;
 	return FALSE;

@@ -18,13 +18,13 @@ wombat_SOURCES = 	\
 wombat_LDADD =				\
 	$(EXTRA_GNOME_LIBS)		\
 	$(BONOBO_HTML_GNOME_LIBS)	\
-	$(top_builddir)/e-util/libeutil.la     			\
 	$(top_builddir)/addressbook/backend/pas/libpas.la     	\
 	$(top_builddir)/addressbook/backend/ebook/libebook.la  	\
 	$(top_builddir)/calendar/pcs/libpcs.la     		\
 	$(top_builddir)/libical/src/libical/libical.la     	\
 	$(top_builddir)/calendar/cal-util/libcalutil.la     	\
 	$(top_builddir)/libversit/libversit.la 			\
+	$(top_builddir)/e-util/libeutil.la     			\
 	-lgnomevfs
 
 wombat_LDFLAGS = `gnome-config --libs gnorba` 

@@ -20,6 +20,7 @@
 #include <pas-book.h>
 #include <pas-card-cursor.h>
 #include <e-card.h>
+#include <e-sexp.h>
 
 #define PAS_BACKEND_FILE_VERSION_NAME "PAS-DB-VERSION"
 #define PAS_BACKEND_FILE_VERSION "0.1"
@@ -27,6 +28,7 @@
 static PASBackendClass *pas_backend_file_parent_class;
 typedef struct _PASBackendFileCursorPrivate PASBackendFileCursorPrivate;
 typedef struct _PASBackendFileBookView PASBackendFileBookView;
+typedef struct _PASBackendFileSearchContext PASBackendFileSearchContext;
 
 struct _PASBackendFilePrivate {
 	GList    *clients;
@@ -44,8 +46,14 @@ struct _PASBackendFileCursorPrivate {
 };
 
 struct _PASBackendFileBookView {
-	PASBookView *book_view;
-	gchar       *search;
+	PASBookView                 *book_view;
+	gchar                       *search;
+	ESExp                       *search_sexp;
+	PASBackendFileSearchContext *search_context;
+};
+
+struct _PASBackendFileSearchContext {
+	ECard *ecard;
 };
 
 static long
@@ -104,6 +112,8 @@ view_destroy(GtkObject *object, gpointer data)
 	for (list = bf->priv->book_views; list; list = g_list_next(list)) {
 		PASBackendFileBookView *view = list->data;
 		if (view->book_view == PAS_BOOK_VIEW(object)) {
+			gtk_object_unref((GtkObject *)view->search_sexp);
+			g_free (view->search_context);
 			g_free (view->search);
 			g_free (view);
 			bf->priv->book_views = g_list_remove_link(bf->priv->book_views, list);
@@ -130,7 +140,7 @@ static void
 string_to_dbt(const char *str, DBT *dbt)
 {
 	dbt->data = (void*)str;
-	dbt->size = strlen (str);
+	dbt->size = strlen (str) + 1;
 }
 
 static char *
@@ -141,6 +151,134 @@ pas_backend_file_create_unique_id (char *vcard)
 	   should be okay. */
 	static guint c = 0;
 	return g_strdup_printf ("pas-id-%08lX%08X", time(NULL), c++);
+}
+
+static ESExpResult *
+func_contains(struct _ESExp *f, int argc, struct _ESExpResult **argv, void *data)
+{
+	ESExpResult *r;
+	PASBackendFileSearchContext *ctx = data;
+	int truth = FALSE;
+
+	if (argc>1
+	    && argv[0]->type == ESEXP_RES_STRING) {
+		char *propname, *prop = NULL;
+
+		propname = argv[0]->value.string;
+
+		if (!strcasecmp(propname, "full_name"))
+			gtk_object_get(GTK_OBJECT(ctx->ecard),
+				       "full_name", &prop, NULL);
+		else if (!strcasecmp(propname, "url"))
+			gtk_object_get(GTK_OBJECT(ctx->ecard),
+				       "url", &prop, NULL);
+		else if (!strcasecmp(propname, "mailer"))
+			gtk_object_get(GTK_OBJECT(ctx->ecard),
+				       "mailer", &prop, NULL);
+
+		if (prop) {
+			if (argv[1]->type == ESEXP_RES_STRING
+			    && strstr(prop, argv[1]->value.string)) {
+				truth = TRUE;
+			}
+		}
+	}
+	r = e_sexp_result_new(ESEXP_RES_BOOL);
+	r->value.bool = truth;
+
+	return r;
+}
+
+/* 'builtin' functions */
+static struct {
+	char *name;
+	ESExpFunc *func;
+	int type;		/* set to 1 if a function can perform shortcut evaluation, or
+				   doesn't execute everything, 0 otherwise */
+} symbols[] = {
+	{ "contains", func_contains, 0 },
+};
+
+static gboolean
+vcard_matches_search (PASBackendFileBookView *view, char *vcard_string)
+{
+	ESExpResult *r;
+	gboolean retval;
+
+	view->search_context->ecard = e_card_new (vcard_string);
+
+	/* if it's not a valid vcard why is it in our db? :) */
+	if (!view->search_context->ecard)
+		return FALSE;
+
+	r = e_sexp_eval(view->search_sexp);
+
+	retval = (r && r->type == ESEXP_RES_BOOL && r->value.bool);
+
+	gtk_object_unref(GTK_OBJECT(view->search_context->ecard));
+
+	return retval;
+}
+
+static void
+pas_backend_file_search (PASBackendFile  	*bf,
+			 PASBook         	*book,
+			 PASBackendFileBookView *view)
+{
+	int     db_error = 0;
+	GList   *cards = NULL;
+	DB      *db = bf->priv->file_db;
+	DBT     id_dbt, vcard_dbt;
+	int i;
+
+	view->search_sexp = e_sexp_new();
+	view->search_context = g_new0(PASBackendFileSearchContext, 1);
+
+	for(i=0;i<sizeof(symbols)/sizeof(symbols[0]);i++) {
+		if (symbols[i].type == 1) {
+			e_sexp_add_ifunction(view->search_sexp, 0, symbols[i].name,
+					     (ESExpIFunc *)symbols[i].func, view->search_context);
+		} else {
+			e_sexp_add_function(view->search_sexp, 0, symbols[i].name,
+					    symbols[i].func, view->search_context);
+		}
+	}
+
+	e_sexp_input_text(view->search_sexp, view->search, strlen(view->search));
+	e_sexp_parse(view->search_sexp);
+
+	db_error = db->seq(db, &id_dbt, &vcard_dbt, R_FIRST);
+
+	while (db_error == 0) {
+
+		/* don't include the version in the list of cards */
+		if (id_dbt.size != strlen(PAS_BACKEND_FILE_VERSION_NAME + 1)
+		    || strcmp (id_dbt.data, PAS_BACKEND_FILE_VERSION_NAME)) {
+			char *vcard_string = vcard_dbt.data;
+
+			/* check if the vcard matches the search sexp */
+			
+			if (vcard_matches_search (view, vcard_string)) {
+				printf ("card matches!\n");
+				cards = g_list_append (cards, strdup(vcard_string));
+			}
+		}
+		
+		db_error = db->seq(db, &id_dbt, &vcard_dbt, R_NEXT);
+	}
+
+	if (db_error == -1) {
+		g_warning ("pas_backend_file_search: error building list\n");
+	}
+	else {
+		pas_book_view_notify_add (view->book_view, cards);
+	}
+
+	/*
+	** It's fine to do this now since the data has been handed off.
+	*/
+	g_list_foreach (cards, (GFunc)g_free, NULL);
+	g_list_free (cards);
 }
 
 static void
@@ -164,8 +302,6 @@ pas_backend_file_process_create_card (PASBackend *backend,
 	card = e_card_new(req->vcard);
 	e_card_set_id(card, id);
 	vcard = e_card_get_vcard(card);
-	gtk_object_unref(GTK_OBJECT(card));
-	card = NULL;
 
 	string_to_dbt (vcard, &vcard_dbt);
 
@@ -174,8 +310,8 @@ pas_backend_file_process_create_card (PASBackend *backend,
 	if (0 == db_error) {
 		for (list = bf->priv->book_views; list; list = g_list_next(list)) {
 			PASBackendFileBookView *view = list->data;
-			/* if (card matches view->search) */
-			pas_book_view_notify_add_1 (view->book_view, req->vcard);
+			if (vcard_matches_search (view, vcard))
+				pas_book_view_notify_add_1 (view->book_view, req->vcard);
 		}
 
 		pas_book_respond_create (
@@ -199,6 +335,9 @@ pas_backend_file_process_create_card (PASBackend *backend,
 	g_free (id);
 	g_free (vcard);
 	g_free (req->vcard);
+
+	gtk_object_unref(GTK_OBJECT(card));
+	card = NULL;
 }
 
 static void
@@ -208,34 +347,45 @@ pas_backend_file_process_remove_card (PASBackend *backend,
 {
 	PASBackendFile *bf = PAS_BACKEND_FILE (backend);
 	DB             *db = bf->priv->file_db;
-	DBT            id_dbt;
+	DBT            id_dbt, vcard_dbt;
 	int            db_error;
 	GList         *list;
+	char          *vcard_string;
 
 	string_to_dbt (req->id, &id_dbt);
 
-	db_error = db->del (db, &id_dbt, 0);
-
-	if (0 == db_error) {
-		for (list = bf->priv->book_views; list; list = g_list_next(list)) {
-			PASBackendFileBookView *view = list->data;
-			/* if (card matches view->search) */
-			pas_book_view_notify_remove (view->book_view, req->id);
-		}
-
-		pas_book_respond_remove (
-				  book,
-				  Evolution_BookListener_Success);
-
-		db_error = db->sync (db, 0);
-		if (db_error != 0)
-			g_warning ("db->sync failed.\n");
-	}
-	else {
+	db_error = db->get (db, &id_dbt, &vcard_dbt, 0);
+	if (0 != db_error) {
 		pas_book_respond_remove (
 				 book,
 				 Evolution_BookListener_CardNotFound);
+		g_free (req->id);
+		return;
 	}
+	
+	db_error = db->del (db, &id_dbt, 0);
+	if (0 != db_error) {
+		pas_book_respond_remove (
+				 book,
+				 Evolution_BookListener_CardNotFound);
+		g_free (req->id);
+		return;
+	}
+
+	vcard_string = vcard_dbt.data;
+	for (list = bf->priv->book_views; list; list = g_list_next(list)) {
+		PASBackendFileBookView *view = list->data;
+		if (vcard_matches_search (view, vcard_string))
+			pas_book_view_notify_remove (view->book_view, req->id);
+	}
+	
+	pas_book_respond_remove (
+				 book,
+				 Evolution_BookListener_Success);
+	
+	db_error = db->sync (db, 0);
+	if (db_error != 0)
+		g_warning ("db->sync failed.\n");
 
 	g_free (req->id);
 }
@@ -252,11 +402,25 @@ pas_backend_file_process_modify_card (PASBackend *backend,
 	GList         *list;
 	ECard         *card;
 	char          *id;
+	char          *old_vcard_string;
 
+	/* create a new ecard from the request data */
 	card = e_card_new(req->vcard);
 	id = e_card_get_id(card);
 
-	string_to_dbt (id, &id_dbt);
+	string_to_dbt (id, &id_dbt);	
+
+	/* get the old ecard - the one that's presently in the db */
+	db_error = db->get (db, &id_dbt, &vcard_dbt, 0);
+	if (0 != db_error) {
+		pas_book_respond_remove (
+				 book,
+				 Evolution_BookListener_CardNotFound);
+		g_free (req->id);
+		return;
+	}
+	old_vcard_string = g_strdup(vcard_dbt.data);
+
 	string_to_dbt (req->vcard, &vcard_dbt);	
 
 	db_error = db->put (db, &id_dbt, &vcard_dbt, 0);
@@ -264,13 +428,16 @@ pas_backend_file_process_modify_card (PASBackend *backend,
 	if (0 == db_error) {
 		for (list = bf->priv->book_views; list; list = g_list_next(list)) {
 			PASBackendFileBookView *view = list->data;
-			/* if (card matches view->search) */
-			pas_book_view_notify_change_1 (view->book_view, req->vcard);
-			/* else if (card changes to match view->search )
-			   pas_book_view_notify_add_1 (view->book_view, req->vcard);
-			   else if (card changes to not match view->search )
-			   pas_book_view_notify_remove (view->book_view, id);
-			*/
+			gboolean old_match, new_match;
+
+			old_match = vcard_matches_search (view, old_vcard_string);
+			new_match = vcard_matches_search (view, req->vcard);
+			if (old_match && new_match)
+				pas_book_view_notify_change_1 (view->book_view, req->vcard);
+			else if (new_match)
+				pas_book_view_notify_add_1 (view->book_view, req->vcard);
+			else /* if (old_match) */
+				pas_book_view_notify_remove (view->book_view, id);
 		}
 
 		pas_book_respond_modify (
@@ -307,12 +474,12 @@ pas_backend_file_build_all_cards_list(PASBackend *backend,
 	  while (db_error == 0) {
 
 		  /* don't include the version in the list of cards */
-		  if (id_dbt.size != strlen(PAS_BACKEND_FILE_VERSION_NAME)
-		      || strncmp (id_dbt.data, PAS_BACKEND_FILE_VERSION_NAME, id_dbt.size)) {
+		  if (id_dbt.size != strlen(PAS_BACKEND_FILE_VERSION_NAME + 1)
+		      || strcmp (id_dbt.data, PAS_BACKEND_FILE_VERSION_NAME)) {
 
 			  cursor_data->elements = g_list_append(cursor_data->elements,
-								g_strndup(vcard_dbt.data,
-									  vcard_dbt.size));
+								g_strdup(vcard_dbt.data));
+
 		  }
 
 		  db_error = db->seq(db, &id_dbt, &vcard_dbt, R_NEXT);
@@ -383,15 +550,10 @@ pas_backend_file_process_get_book_view (PASBackend *backend,
 					PASRequest *req)
 {
 	PASBackendFile *bf = PAS_BACKEND_FILE (backend);
-	DB             *db = bf->priv->file_db;
-	DBT            id_dbt, vcard_dbt;
 	CORBA_Environment ev;
-	int               db_error = 0;
 	PASBookView       *book_view;
 	Evolution_Book    corba_book;
-	GList             *cards = NULL;
 	PASBackendFileBookView *view;
-	
 
 	g_return_if_fail (req->listener != NULL);
 
@@ -414,49 +576,18 @@ pas_backend_file_process_get_book_view (PASBackend *backend,
 			   GTK_SIGNAL_FUNC(view_destroy), book);
 
 	pas_book_respond_get_book_view (book,
-		   (view != NULL
+		   (book_view != NULL
 		    ? Evolution_BookListener_Success 
 		    : Evolution_BookListener_CardNotFound /* XXX */),
 		   book_view);
 
-	/*
-	** no reason to not iterate through the file now and notify
-	** the listener of all the cards.
-	*/
-
-	db_error = db->seq(db, &id_dbt, &vcard_dbt, R_FIRST);
-
-	while (db_error == 0) {
-
-		/* don't include the version in the list of cards */
-		if (id_dbt.size != strlen(PAS_BACKEND_FILE_VERSION_NAME)
-		    || strncmp (id_dbt.data, PAS_BACKEND_FILE_VERSION_NAME, id_dbt.size)) {
-			
-			cards = g_list_append(cards,
-					      g_strndup(vcard_dbt.data,
-							vcard_dbt.size));
-		}
-		
-		db_error = db->seq(db, &id_dbt, &vcard_dbt, R_NEXT);
-	}
-
-	if (db_error == -1) {
-		g_warning ("pas_backend_file_process_get_book_view: error building list\n");
-	}
-	else {
-		pas_book_view_notify_add (book_view, cards);
-	}
-
-	/*
-	** It's fine to do this now since the data has been handed off.
-	*/
-	g_list_foreach (cards, (GFunc)g_free, NULL);
-	g_list_free (cards);
-
 	view = g_new(PASBackendFileBookView, 1);
 	view->book_view = book_view;
 	view->search = g_strdup(req->search);
+
 	bf->priv->book_views = g_list_prepend(bf->priv->book_views, view);
+
+	pas_backend_file_search (bf, book, view);
 }
 
 static void
@@ -536,7 +667,7 @@ pas_backend_file_get_vcard (PASBook *book, const char *id)
 	db_error = db->get (db, &id_dbt, &vcard_dbt, 0);
 	if (db_error == 0) {
 		/* success */
-		return g_strndup (vcard_dbt.data, vcard_dbt.size);
+		return g_strdup (vcard_dbt.data);
 	}
 	else if (db_error == 1) {
 		/* key was not in file */
@@ -595,7 +726,7 @@ pas_backend_file_maybe_upgrade_db (PASBackendFile *bf)
 	db_error = db->get (db, &version_name_dbt, &version_dbt, 0);
 	if (db_error == 0) {
 		/* success */
-		version = g_strndup (version_dbt.data, version_dbt.size);
+		version = g_strdup (version_dbt.data);
 	}
 	else {
 		/* key was not in file */
