@@ -1,3 +1,9 @@
+1998-08-06  Robert Brady  <rwb197@ecs.soton.ac.uk>
+	
+	* tests/test5.c: test for RFC2047 decoder.
+
+	* camel/gmime-rfc2047.c: Improved RFC2047 decoder.
+
 1999-08-06  bertrand  <Bertrand.Guiheneuf@aful.org>
 
 	* camel/providers/MH/camel-mh-folder.c (_exists): add debug information

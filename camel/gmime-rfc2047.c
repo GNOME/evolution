@@ -49,10 +49,11 @@ hexval (gchar c) {
 	return c - 'a' + 10;
 }
 
-static void 
-decode_quoted (const gchar *text, gchar *to) 
-{
-	while (*text) {
+static gchar *
+decode_quoted(const gchar *text, const gchar *end) {
+	gchar *to = malloc(end - text + 1), *to_2 = to;
+        if (!to) return NULL;
+	while (*text && text < end) {
 		if (*text == '=') {
 			gchar a = hexval (text[1]);
 			gchar b = hexval (text[2]);
@@ -70,20 +71,23 @@ decode_quoted (const gchar *text, gchar *to)
 			text++;
 		}
 	}
-	*to = 0;
+	return to_2;
 }
 
-static void 
-decode_base64 (const gchar *what, gchar *where) 
-{
+static gchar *
+decode_base64(const gchar *data, const gchar *end) {
 	unsigned short pattern = 0;
 	int bits = 0;
 	int delimiter = '=';
 	gchar x;
-	gchar *t = where;
+	gchar *buffer = g_malloc((end - data) * 3);
+	gchar *t = buffer;
 	int Q = 0;
-	while (*what != delimiter) {
-		x = base64_rank[(unsigned char)(*what++)];
+
+	if (!buffer) return NULL;
+
+	while (*data != delimiter) {
+		x = base64_rank[(unsigned char)(*data++)];
 		if (x == NOT_RANKED)
 			continue;
 		pattern <<= 6;
@@ -97,6 +101,7 @@ decode_base64 (const gchar *what, gchar *where)
 		}
 	}
 	*t = 0;
+	return buffer;
 }
 
 static void
@@ -113,86 +118,96 @@ build_base64_rank_table (void)
 	}
 }
 
-gchar 
-*gmime_rfc2047_decode (const gchar *data, const gchar *into_what) 
+
+gchar*
+rfc2047_decode_word (const gchar *data, const gchar *into_what) 
 {
-	gchar buffer[4096] /* FIXME : constant sized buffer */, *b = buffer;
+	const char *charset = strstr(data, "=?"), *encoding, *text, *end;
+
+	char *buffer, *b, *cooked_data;
 	
-	build_base64_rank_table ();
-	
-	while (*data) {
-		
-		/* If we encounter an error we just break out of the loop and copy the rest
-		 * of the text as-is */
-		
-		if (*data=='=') {
-			data++;
-			if (*data=='?') {
-				gchar *charset, *encoding, *text, *end;
-				gchar dc[4096];
-				charset = data+1;
-				encoding = strchr (charset, '?');
-				
-				if (!encoding) break;
-				encoding++;
-				text = strchr (encoding, '?');
-				if (!text) break;
-				text++;
-				end = strstr (text, "?=");
-				if (!end) break;
-				end++;
-				
-				*(encoding-1)=0;
-				*(text-1)=0;
-				*(end-1)=0;
-				
-				if (strcasecmp (encoding, "q") == 0) {
-					decode_quoted(text, dc);
-				} else if (strcasecmp (encoding, "b") == 0) {
-					decode_base64 (text, dc);
-				} else {
-					/* What to do here? */
-					break;
-				}
-				
-				{
-					int f;
-					iconv_t i;
-					const gchar *d2 = dc;
-					int l = strlen (d2), l2 = 4000;
-					
-					i = unicode_iconv_open (into_what, charset);
-					if (!i) 
-						break;
-					
-					unicode_iconv (i, &d2, &l, &b, &l2);
-					
-					unicode_iconv_close (i);
-					data = end;
-				}
-			}
-		} else {
-			*b = *data;
-			b++;
+	buffer = g_malloc(strlen(data) * 2);
+	b = buffer;
+
+	if (!charset) return strdup(data);
+	charset+=2;
+
+	encoding = strchr(charset, '?');
+	if (!encoding) return strdup(data);
+	encoding++;
+
+	text = strchr(encoding, '?');
+	if (!text) return strdup(data);
+	text++;
+
+	end = strstr(text, "?=");
+	if (!end) return strdup(data);
+
+	b[0] = 0;
+
+	if (toupper(*encoding)=='Q')
+		cooked_data = decode_quoted(text, end);
+	else if (toupper(*encoding)=='B')
+		cooked_data = decode_base64(text, end);
+	else
+		return g_strdup(data);
+
+	{
+		char *c = strchr(charset, '?');
+		char *q = g_malloc(c - charset + 1);
+		char *cook_2 = cooked_data;
+		int cook_len = strlen(cook_2);
+		int b_len = 4096;
+		iconv_t i;
+		strncpy(q, charset, c - charset);
+		i = unicode_iconv_open(into_what, q);
+		if (!i) {
+			g_free(q);
+			return g_strdup(buffer);
 		}
-		
-		data++;
-		
+		unicode_iconv(i, &cook_2, &cook_len, &b, &b_len);
+		unicode_iconv_close(i);
 	}
-	
-	while (*data) {
-		*b = *data;
-		b++;
-		data++;
+
+	return g_strdup(buffer);
+}
+
+gchar *
+gmime_rfc2047_decode (const gchar *data, const gchar *into_what) 
+{
+	char *buffer = malloc(strlen(data) * 4), *b = buffer;
+
+	int was_encoded_word = 0;
+
+	build_base64_rank_table ();
+
+	while (data && *data) {
+		char *word_start = strstr(data, "=?"), *decoded;
+		if (!word_start) {
+			strcpy(b, data);
+			return buffer;
+		}
+		if (word_start != data) {
+
+			if (strspn(data, " \t\n\r") != (word_start - data)) {
+				strncpy(b, data, word_start - data);
+				b += word_start - data;
+			}
+		}
+		decoded = rfc2047_decode_word(word_start, into_what);
+		strcpy(b, decoded);
+		b += strlen(decoded);
+		g_free(decoded);
+
+		data = strstr(data, "?=") + 2;
 	}
-	
+
 	*b = 0;
-	
-	return g_strdup (buffer);
+	return buffer;
 }
 
 gchar 
-*rfc2047_encode (const gchar *string, const gchar *charset) 
+*gmime_rfc2047_encode (const gchar *string, const gchar *charset) 
 {
 	gchar buffer[4096] /* FIXME : constant sized buffer */;
 	gchar *b = buffer;
@@ -213,7 +228,7 @@ gchar
 		while (*s) {
 			if (*s == ' ') b += sprintf (b, "_");
 			else if (*s < 0x20 || *s >= 0x7f || *s == '=' || *s == '?' || *s == '_') {
-				b += sprintf (b, "=%2x", *s);
+				b += sprintf (b, "=%2x", (unsigned char)*s);
 			} else {
 				b += sprintf (b, "%c", *s);
 			}
