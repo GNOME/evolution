@@ -1,3 +1,7 @@
+2001-12-17  JP Rosevear  <jpr@ximian.com>
+
+	* NEWS: Update
+
 2001-12-17  Dan Winship  <danw@ximian.com>
 
 	* configure.in (camel_providerdir): Define this here, using only
