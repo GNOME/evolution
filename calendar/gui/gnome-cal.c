@@ -204,11 +204,6 @@ setup_widgets (GnomeCalendar *gcal)
 			    gcal);
 
 	/* The ToDo list. */
-#if 0
-	gcal->todo = gncal_todo_new (gcal);
-	e_paned_pack2 (E_PANED (vpane), gcal->todo, TRUE, TRUE);
-	gtk_widget_show (gcal->todo);
-#endif
 
 	gcal->todo = e_calendar_table_new ();
 	e_paned_pack2 (E_PANED (vpane), gcal->todo, TRUE, TRUE);
@@ -220,6 +215,7 @@ setup_widgets (GnomeCalendar *gcal)
 	/* The Day View. */
 	gcal->day_view = e_day_view_new ();
 	e_day_view_set_calendar (E_DAY_VIEW (gcal->day_view), gcal);
+	e_day_view_set_cal_client (E_DAY_VIEW (gcal->day_view), gcal->client);
 	gtk_widget_show (gcal->day_view);
 	gtk_notebook_append_page (GTK_NOTEBOOK (gcal->sub_notebook),
 				  gcal->day_view, gtk_label_new (""));
@@ -228,6 +224,7 @@ setup_widgets (GnomeCalendar *gcal)
 	gcal->work_week_view = e_day_view_new ();
 	e_day_view_set_days_shown (E_DAY_VIEW (gcal->work_week_view), 5);
 	e_day_view_set_calendar (E_DAY_VIEW (gcal->work_week_view), gcal);
+	e_day_view_set_cal_client (E_DAY_VIEW (gcal->work_week_view), gcal->client);
 	gtk_widget_show (gcal->work_week_view);
 	gtk_notebook_append_page (GTK_NOTEBOOK (gcal->sub_notebook),
 				  gcal->work_week_view, gtk_label_new (""));
@@ -235,6 +232,7 @@ setup_widgets (GnomeCalendar *gcal)
 	/* The Week View. */
 	gcal->week_view = e_week_view_new ();
 	e_week_view_set_calendar (E_WEEK_VIEW (gcal->week_view), gcal);
+	e_week_view_set_cal_client (E_WEEK_VIEW (gcal->week_view), gcal->client);
 	gtk_widget_show (gcal->week_view);
 	gtk_notebook_append_page (GTK_NOTEBOOK (gcal->sub_notebook),
 				  gcal->week_view, gtk_label_new (""));
@@ -242,6 +240,7 @@ setup_widgets (GnomeCalendar *gcal)
 	/* The Month View. */
 	gcal->month_view = e_week_view_new ();
 	e_week_view_set_calendar (E_WEEK_VIEW (gcal->month_view), gcal);
+	e_week_view_set_cal_client (E_WEEK_VIEW (gcal->month_view), gcal->client);
 	e_week_view_set_display_month (E_WEEK_VIEW (gcal->month_view), TRUE);
 	gtk_widget_show (gcal->month_view);
 	gtk_notebook_append_page (GTK_NOTEBOOK (gcal->main_notebook),
@@ -812,15 +811,6 @@ static void
 gnome_calendar_update_all (GnomeCalendar *cal)
 {
 	load_alarms (cal);
-
-	e_day_view_update_all_events (E_DAY_VIEW (cal->day_view));
-	e_day_view_update_all_events (E_DAY_VIEW (cal->work_week_view));
-	e_week_view_update_all_events (E_WEEK_VIEW (cal->week_view));
-	e_week_view_update_all_events (E_WEEK_VIEW (cal->month_view));
-
-#if 0
-	gncal_todo_update (GNCAL_TODO (cal->todo), NULL, TRUE);
-#endif
 	gnome_calendar_tag_calendar (cal, cal->gtk_calendar);
 }
 
@@ -880,23 +870,9 @@ gnome_calendar_object_updated_cb (GtkWidget *cal_client,
 				  const char *uid,
 				  GnomeCalendar  *gcal)
 {
-	g_message ("gnome-cal: got object changed_cb, uid='%s'",
-		   uid?uid:"<NULL>");
-
 	remove_alarms_for_object (gcal, uid);
 	add_alarms_for_object (gcal, uid);
 
-	/* FIXME: do we really want each view to reload the event itself?
-	   Maybe we should keep track of events globally, maybe with ref
-	   counts. We also need to sort out where they get freed. */
-	e_day_view_update_event (E_DAY_VIEW (gcal->day_view), uid);
-	e_day_view_update_event (E_DAY_VIEW (gcal->work_week_view), uid);
-	e_week_view_update_event (E_WEEK_VIEW (gcal->week_view), uid);
-	e_week_view_update_event (E_WEEK_VIEW (gcal->month_view), uid);
-
-#if 0
-	gncal_todo_update (GNCAL_TODO (gcal->todo), NULL, TRUE);
-#endif
 	gnome_calendar_tag_calendar (gcal, gcal->gtk_calendar);
 }
 
@@ -906,19 +882,8 @@ gnome_calendar_object_removed_cb (GtkWidget *cal_client,
 				  const char *uid,
 				  GnomeCalendar  *gcal)
 {
-	g_message ("gnome-cal: got object removed _cb, uid='%s'",
-		   uid?uid:"<NULL>");
-
 	remove_alarms_for_object (gcal, uid);
 
-	e_day_view_remove_event (E_DAY_VIEW (gcal->day_view), uid);
-	e_day_view_remove_event (E_DAY_VIEW (gcal->work_week_view), uid);
-	e_week_view_remove_event (E_WEEK_VIEW (gcal->week_view), uid);
-	e_week_view_remove_event (E_WEEK_VIEW (gcal->month_view), uid);
-
-#if 0
-	gncal_todo_update (GNCAL_TODO (gcal->todo), NULL, CHANGE_ALL);
-#endif
 	gnome_calendar_tag_calendar (gcal, gcal->gtk_calendar);
 }
 
@@ -969,13 +934,10 @@ gnome_calendar_load_cb (CalClient *cal_client,
 	switch (status) {
 	case CAL_CLIENT_LOAD_SUCCESS:
 		gnome_calendar_update_all (locd->gcal);
-		g_message ("gnome_calendar_load_cb: success");
 		break;
 
 	case CAL_CLIENT_LOAD_ERROR:
-		g_message ("gnome_calendar_load_cb: load error");
 		if (locd->gcom == CALENDAR_OPEN_OR_CREATE) {
-			g_message ("gnome_calendar_load_cb: trying create...");
 			/* FIXME: connect to the cal_loaded signal of the
 			 * CalClient and get theasynchronous notification
 			 * properly! */
@@ -1033,7 +995,7 @@ gnome_calendar_open (GnomeCalendar *gcal,
 						  gnome_calendar_load_cb,
 						  locd);
 
-	if (cal_client_load_calendar (gcal->client, file) == FALSE){
+	if (cal_client_load_calendar (gcal->client, file) == FALSE) {
 		g_message ("Error loading calendar: %s", file);
 		return 0;
 	}
@@ -1281,11 +1243,6 @@ gnome_calendar_colors_changed (GnomeCalendar *gcal)
 {
 	g_return_if_fail (gcal != NULL);
 	g_return_if_fail (GNOME_IS_CALENDAR (gcal));
-
-	todo_style_changed = 1;
-#if 0
-	gncal_todo_update (GNCAL_TODO (gcal->todo), NULL, 0);
-#endif
 }
 
 void
@@ -1293,11 +1250,6 @@ gnome_calendar_todo_properties_changed (GnomeCalendar *gcal)
 {
 	g_return_if_fail (gcal != NULL);
 	g_return_if_fail (GNOME_IS_CALENDAR (gcal));
-
-	todo_style_changed = 1;
-#if 0
-	gncal_todo_update (GNCAL_TODO (gcal->todo), NULL, 0);
-#endif
 }
 
 

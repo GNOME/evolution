@@ -242,6 +242,7 @@ e_week_view_init (EWeekView *week_view)
 	colormap = gtk_widget_get_colormap (GTK_WIDGET (week_view));
 
 	week_view->calendar = NULL;
+	week_view->client = NULL;
 
 	week_view->events = g_array_new (FALSE, FALSE,
 					 sizeof (EWeekViewEvent));
@@ -414,6 +415,12 @@ e_week_view_destroy (GtkObject *object)
 	EWeekView *week_view;
 
 	week_view = E_WEEK_VIEW (object);
+
+	if (week_view->client) {
+		gtk_signal_disconnect_by_data (GTK_OBJECT (week_view->client), week_view);
+		gtk_object_unref (GTK_OBJECT (week_view->client));
+		week_view->client = NULL;
+	}
 
 	/* FIXME: free the colors. In EDayView as well. */
 	/* FIXME: free the events and the spans. In EDayView as well? */
@@ -781,6 +788,159 @@ e_week_view_set_calendar	(EWeekView	*week_view,
 }
 
 
+/* Callback used when the calendar client finishes loading */
+static void
+cal_loaded_cb (CalClient *client, CalClientLoadStatus status, gpointer data)
+{
+	EWeekView *week_view;
+
+	week_view = E_WEEK_VIEW (data);
+
+	if (status != CAL_CLIENT_LOAD_SUCCESS)
+		return;
+
+	e_week_view_reload_events (week_view);
+}
+
+/* Callback used when the calendar client tells us that an object changed */
+static void
+obj_updated_cb (CalClient *client, const char *uid, gpointer data)
+{
+	EWeekView *week_view;
+	gint event_num, num_days;
+	CalComponent *comp;
+	CalClientGetStatus status;
+
+	week_view = E_WEEK_VIEW (data);
+
+	/* If we don't have a valid date set yet, just return. */
+	if (!g_date_valid (&week_view->first_day_shown))
+		return;
+
+	/* Get the event from the server. */
+	status = cal_client_get_object (week_view->client, uid, &comp);
+
+	switch (status) {
+	case CAL_CLIENT_GET_SUCCESS:
+		/* Everything is fine */
+		break;
+
+	case CAL_CLIENT_GET_SYNTAX_ERROR:
+		g_message ("obj_updated_cb(): Syntax error when getting object `%s'", uid);
+		return;
+
+	case CAL_CLIENT_GET_NOT_FOUND:
+		/* The object is no longer in the server, so do nothing */
+		return;
+	}
+
+	/* We only care about events. */
+	if (cal_component_get_vtype (comp) != CAL_COMPONENT_EVENT) {
+		gtk_object_unref (GTK_OBJECT (comp));
+		return;
+	}
+
+	/* If the event already exists and the dates didn't change, we can
+	   update the event fairly easily without changing the events arrays
+	   or computing a new layout. */
+	if (e_week_view_find_event_from_uid (week_view, uid, &event_num)) {
+#ifndef NO_WARNINGS
+#warning "FIX ME"
+#endif
+		/* Do this the long way every time for now */
+#if 0
+		event = &g_array_index (week_view->events, EWeekViewEvent,
+					event_num);
+
+		if (ical_object_compare_dates (event->ico, ico)) {
+			e_week_view_foreach_event_with_uid (week_view, uid, e_week_view_update_event_cb, comp);
+			gtk_object_unref (GTK_OBJECT (comp));
+			gtk_widget_queue_draw (week_view->main_canvas);
+			return;
+		}
+#endif
+		/* The dates have changed, so we need to remove the
+		   old occurrrences before adding the new ones. */
+		e_week_view_foreach_event_with_uid (week_view, uid,
+						    e_week_view_remove_event_cb,
+						    NULL);
+	}
+
+	/* Add the occurrences of the event. */
+	num_days = week_view->display_month ? E_WEEK_VIEW_MAX_WEEKS * 7 : 7;
+
+	cal_recur_generate_instances (comp, 
+				      week_view->day_starts[0],
+				      week_view->day_starts[num_days],
+				      e_week_view_add_event,
+				      week_view);
+
+	gtk_object_unref (GTK_OBJECT (comp));
+
+	e_week_view_check_layout (week_view);
+
+	gtk_widget_queue_draw (week_view->main_canvas);
+}
+
+/* Callback used when the calendar client tells us that an object was removed */
+static void
+obj_removed_cb (CalClient *client, const char *uid, gpointer data)
+{
+	EWeekView *week_view;
+
+	week_view = E_WEEK_VIEW (data);
+
+	e_week_view_foreach_event_with_uid (week_view, uid,
+					    e_week_view_remove_event_cb, NULL);
+
+	e_week_view_check_layout (week_view);
+	gtk_widget_queue_draw (week_view->main_canvas);
+}
+
+
+/**
+ * e_week_view_set_cal_client:
+ * @week_view: A week view.
+ * @client: A calendar client interface object.
+ * 
+ * Sets the calendar client interface object that a week view will monitor.
+ **/
+void
+e_week_view_set_cal_client	(EWeekView	*week_view,
+				 CalClient	*client)
+{
+	g_return_if_fail (week_view != NULL);
+	g_return_if_fail (E_IS_WEEK_VIEW (week_view));
+
+	if (client == week_view->client)
+		return;
+
+	if (client)
+		g_return_if_fail (IS_CAL_CLIENT (client));
+
+	if (client)
+		gtk_object_ref (GTK_OBJECT (client));
+
+	if (week_view->client) {
+		gtk_signal_disconnect_by_data (GTK_OBJECT (week_view->client), week_view);
+		gtk_object_unref (GTK_OBJECT (week_view->client));
+	}
+
+	week_view->client = client;
+
+	if (week_view->client) {
+		gtk_signal_connect (GTK_OBJECT (week_view->client), "cal_loaded",
+				    GTK_SIGNAL_FUNC (cal_loaded_cb), week_view);
+		gtk_signal_connect (GTK_OBJECT (week_view->client), "obj_updated",
+				    GTK_SIGNAL_FUNC (obj_updated_cb), week_view);
+		gtk_signal_connect (GTK_OBJECT (week_view->client), "obj_removed",
+				    GTK_SIGNAL_FUNC (obj_removed_cb), week_view);
+	}
+
+	e_week_view_reload_events (week_view);
+}
+
+
 /* This sets the selected time range. The EWeekView will show the corresponding
    month and the days between start_time and end_time will be selected.
    To select a single day, use the same value for start_time & end_time. */
@@ -986,98 +1146,6 @@ e_week_view_set_compress_weekend	(EWeekView	*week_view,
 }
 
 
-/* This reloads all calendar events. */
-void
-e_week_view_update_all_events	(EWeekView	*week_view)
-{
-	e_week_view_reload_events (week_view);
-}
-
-
-/* This is called when one event has been added or updated. */
-void
-e_week_view_update_event		(EWeekView	*week_view,
-					 const gchar	*uid)
-{
-	gint event_num, num_days;
-	CalComponent *comp;
-	CalClientGetStatus status;
-
-	g_return_if_fail (E_IS_WEEK_VIEW (week_view));
-
-#if 0
-	g_print ("In e_week_view_update_event\n");
-#endif
-
-	/* If we don't have a calendar or valid date set yet, just return. */
-	if (!week_view->calendar
-	    || !g_date_valid (&week_view->first_day_shown))
-		return;
-
-	/* Get the event from the server. */
-	status = cal_client_get_object (week_view->calendar->client, uid, &comp);
-
-	switch (status) {
-	case CAL_CLIENT_GET_SUCCESS:
-		/* Do nothing. */
-		break;
-	case CAL_CLIENT_GET_SYNTAX_ERROR:
-		g_warning ("syntax error uid=%s\n", uid);
-		return;
-	case CAL_CLIENT_GET_NOT_FOUND:
-		g_warning ("obj not found uid=%s\n", uid);
-		return;
-	}
-
-	/* We only care about events. */
-	if (comp && cal_component_get_vtype (comp) != CAL_COMPONENT_EVENT) {
-		gtk_object_unref (GTK_OBJECT (comp));
-		return;
-	}
-
-	/* If the event already exists and the dates didn't change, we can
-	   update the event fairly easily without changing the events arrays
-	   or computing a new layout. */
-	if (e_week_view_find_event_from_uid (week_view, uid, &event_num)) {
-#ifndef NO_WARNINGS
-#warning "FIX ME"
-#endif
-		/* Do this the long way every time for now */
-#if 0
-		event = &g_array_index (week_view->events, EWeekViewEvent,
-					event_num);
-
-		if (ical_object_compare_dates (event->ico, ico)) {
-			e_week_view_foreach_event_with_uid (week_view, uid, e_week_view_update_event_cb, comp);
-			gtk_object_unref (GTK_OBJECT (comp));
-			gtk_widget_queue_draw (week_view->main_canvas);
-			return;
-		}
-#endif
-		/* The dates have changed, so we need to remove the
-		   old occurrrences before adding the new ones. */
-		e_week_view_foreach_event_with_uid (week_view, uid,
-						    e_week_view_remove_event_cb,
-						    NULL);
-	}
-
-	/* Add the occurrences of the event. */
-	num_days = week_view->display_month ? E_WEEK_VIEW_MAX_WEEKS * 7 : 7;
-
-	cal_recur_generate_instances (comp, 
-				      week_view->day_starts[0],
-				      week_view->day_starts[num_days],
-				      e_week_view_add_event,
-				      week_view);
-
-	gtk_object_unref (GTK_OBJECT (comp));
-
-	e_week_view_check_layout (week_view);
-
-	gtk_widget_queue_draw (week_view->main_canvas);
-}
-
-
 #ifndef NO_WARNINGS
 static gboolean
 e_week_view_update_event_cb (EWeekView *week_view,
@@ -1154,23 +1222,6 @@ e_week_view_foreach_event_with_uid (EWeekView *week_view,
 				return;
 		}
 	}
-}
-
-
-/* This removes all the events associated with the given uid. Note that for
-   recurring events there may be more than one. If any events are found and
-   removed we need to layout the events again. */
-void
-e_week_view_remove_event	(EWeekView	*week_view,
-				 const gchar	*uid)
-{
-	g_return_if_fail (E_IS_WEEK_VIEW (week_view));
-
-	e_week_view_foreach_event_with_uid (week_view, uid,
-					    e_week_view_remove_event_cb, NULL);
-
-	e_week_view_check_layout (week_view);
-	gtk_widget_queue_draw (week_view->main_canvas);
 }
 
 
@@ -1572,12 +1623,15 @@ e_week_view_reload_events (EWeekView *week_view)
 
 	e_week_view_free_events (week_view);
 
+	if (!(week_view->client && cal_client_is_loaded (week_view->client)))
+		return;
+
 	if (week_view->calendar
 	    && g_date_valid (&week_view->first_day_shown)) {
 		num_days = week_view->display_month
 			? E_WEEK_VIEW_MAX_WEEKS * 7 : 7;
 		
-		cal_client_generate_instances (week_view->calendar->client,
+		cal_client_generate_instances (week_view->client,
 					       CALOBJ_TYPE_EVENT,
 					       week_view->day_starts[0],
 					       week_view->day_starts[num_days],
@@ -2492,7 +2546,7 @@ e_week_view_on_editing_stopped (EWeekView *week_view,
 	cal_component_set_summary (event->comp, &summary);
 	g_free (text);
 	
-	if (!cal_client_update_object (week_view->calendar->client, event->comp))
+	if (!cal_client_update_object (week_view->client, event->comp))
 		g_message ("e_week_view_on_editing_stopped(): Could not update the object!");
 }
 
@@ -2659,7 +2713,7 @@ e_week_view_key_press (GtkWidget *widget, GdkEventKey *event)
 		g_warning ("Couldn't find event to start editing.\n");
 	}
 
-	if (!cal_client_update_object (week_view->calendar->client, comp))
+	if (!cal_client_update_object (week_view->client, comp))
 		g_message ("e_week_view_key_press(): Could not update the object!");
 
 	gtk_object_unref (GTK_OBJECT (comp));
@@ -2818,7 +2872,7 @@ e_week_view_on_delete_occurrence (GtkWidget *widget, gpointer data)
 	cal_component_set_exdate_list (comp, list);
 	cal_component_free_exdate_list (list);
 
-	if (!cal_client_update_object (week_view->calendar->client, comp))
+	if (!cal_client_update_object (week_view->client, comp))
 		g_message ("e_week_view_on_delete_occurrence(): Could not update the object!");
 
 	gtk_object_unref (GTK_OBJECT (comp));
@@ -2841,7 +2895,7 @@ e_week_view_on_delete_appointment (GtkWidget *widget, gpointer data)
 				week_view->popup_event_num);
 	
 	cal_component_get_uid (event->comp, &uid);
-	if (!cal_client_remove_object (week_view->calendar->client, uid))
+	if (!cal_client_remove_object (week_view->client, uid))
 		g_message ("e_week_view_on_delete_appointment(): Could not remove the object!");
 }
 
@@ -2896,12 +2950,12 @@ e_week_view_on_unrecur_appointment (GtkWidget *widget, gpointer data)
 	/* Now update both CalComponents. Note that we do this last since at
 	   present the updates happen synchronously so our event may disappear.
 	*/
-	if (!cal_client_update_object (week_view->calendar->client, comp))
+	if (!cal_client_update_object (week_view->client, comp))
 		g_message ("e_week_view_on_unrecur_appointment(): Could not update the object!");
 
 	gtk_object_unref (GTK_OBJECT (comp));
 
-	if (!cal_client_update_object (week_view->calendar->client, new_comp))
+	if (!cal_client_update_object (week_view->client, new_comp))
 		g_message ("e_week_view_on_unrecur_appointment(): Could not update the object!");
 
 	gtk_object_unref (GTK_OBJECT (new_comp));

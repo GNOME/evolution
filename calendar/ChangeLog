@@ -1,3 +1,57 @@
+2000-08-29  Federico Mena Quintero  <federico@helixcode.com>
+
+	Now the views monitor the client by themselves; it does not make
+	sense to proxy all notifications through the GnomeCal.  The
+	GnomeCal should just be a meta-widget that holds all the views.
+
+	At some later point we'll want to decouple the views from the
+	GnomeCal so that they can be embedded anywhere; they should emit
+	signals to request appropriate actions from the toplevel GUI
+	instead of calling the GnomeCal directly.
+
+	* gui/e-day-view.c (e_day_view_set_cal_client): New function; now
+	the day view monitors the client by itself.
+	(cal_loaded_cb): New callback; moved over from
+	e_day_view_update_all_events().
+	(obj_updated_cb): New callback; moved over from
+	e_day_view_update_event().
+	(obj_removed_cb): New callback; moved over from
+	e_day_view_remove_event().
+	(e_day_view_update_all_events): Removed function.
+	(e_day_view_update_event): Removed function.
+	(e_day_view_remove_event): Removed function.
+	(*): Use the day_view->client directly instead of fetching it from
+	the GnomeCal.
+	(e_day_view_destroy): Unref the client.
+	(e_day_view_reload_events): Check if the client is loaded.
+	(e_day_view_key_press): Set the vtype of the new component.
+
+	* gui/e-week-view.c (e_week_view_set_cal_client): New function.
+	(cal_loaded_cb): New callback.
+	(obj_updated_cb): New callback.
+	(obj_removed_cb): New callback.
+	(e_week_view_update_all_events): Removed function.
+	(e_week_view_update_event): Removed function.
+	(e_week_view_remove_event): Removed function.
+	(*): Use the week_view->client directly.
+	(e_week_view_destroy): Unref the client.
+	(e_week_view_reload_events): Check if the client is loaded.
+
+	* gui/gnome-cal.c (setup_widgets): Set the cal_client on all the
+	views.
+	(gnome_calendar_update_all): Do not update the views, since now
+	they do it themselves.
+	(gnome_calendar_object_updated_cb): Likewise.
+	(gnome_calendar_object_removed_cb): Likewise.
+	(setup_widgets): Remove all to-do list cruft.
+	(gnome_calendar_colors_changed): Likewise.
+	(gnome_calendar_todo_properties_changed): Likewise.
+
+	* gui/calendar-commands.h (todo_style_changed): Removed variable.
+
+	* gui/gncal-todo.c: Removed old clist cruft; just left in the
+	temporary dialog box for now.
+
 2000-08-29  Dan Winship  <danw@helixcode.com>
 
 	* cal-client/client-test.c: 

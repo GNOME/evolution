@@ -168,6 +168,9 @@ struct _EWeekView
 	/* The calendar we are associated with. */
 	GnomeCalendar *calendar;
 
+	/* Calendar client object we are monitoring */
+	CalClient *client;
+
 	/* The array of EWeekViewEvent elements. */
 	GArray *events;
 	gboolean events_sorted;
@@ -309,6 +312,9 @@ GtkWidget* e_week_view_new			(void);
 void       e_week_view_set_calendar		(EWeekView	*week_view,
 						 GnomeCalendar	*calendar);
 
+void       e_week_view_set_cal_client		(EWeekView	*week_view,
+						 CalClient	*client);
+
 /* This sets the selected time range. The EWeekView will show the corresponding
    month and the days between start_time and end_time will be selected.
    To select a single day, use the same value for start_time & end_time. */
@@ -331,20 +337,6 @@ void       e_week_view_set_display_month	(EWeekView	*week_view,
 gboolean   e_week_view_get_compress_weekend	(EWeekView	*week_view);
 void       e_week_view_set_compress_weekend	(EWeekView	*week_view,
 						 gboolean	 compress);
-
-/* This reloads all calendar events. */
-void       e_week_view_update_all_events	(EWeekView	*week_view);
-
-/* This is called when one event has been added or updated. */
-void       e_week_view_update_event		(EWeekView	*week_view,
-						 const gchar	*uid);
-
-/* This removes all the events associated with the given uid. Note that for
-   recurring events there may be more than one. If any events are found and
-   removed we need to layout the events again. */
-void	   e_week_view_remove_event		(EWeekView	*week_view,
-						 const gchar	*uid);
-
 
 /*
  * Internal functions called by the associated canvas items.

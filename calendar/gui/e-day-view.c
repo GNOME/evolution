@@ -442,6 +442,7 @@ e_day_view_init (EDayView *day_view)
 	colormap = gtk_widget_get_colormap (GTK_WIDGET (day_view));
 
 	day_view->calendar = NULL;
+	day_view->client = NULL;
 
 	day_view->long_events = g_array_new (FALSE, FALSE,
 					     sizeof (EDayViewEvent));
@@ -770,7 +771,7 @@ e_day_view_init (EDayView *day_view)
 				  "button_press_event",
 				  GTK_SIGNAL_FUNC (e_day_view_on_time_canvas_button_press),
 				  day_view);
-	
+
 	canvas_group = GNOME_CANVAS_GROUP (GNOME_CANVAS (day_view->time_canvas)->root);
 
 	day_view->time_canvas_item =
@@ -849,6 +850,12 @@ e_day_view_destroy (GtkObject *object)
 	gint day;
 
 	day_view = E_DAY_VIEW (object);
+
+	if (day_view->client) {
+		gtk_signal_disconnect_by_data (GTK_OBJECT (day_view->client), day_view);
+		gtk_object_unref (GTK_OBJECT (day_view->client));
+		day_view->client = NULL;
+	}
 
 	e_day_view_stop_auto_scroll (day_view);
 
@@ -1105,51 +1112,59 @@ e_day_view_set_calendar		(EDayView	*day_view,
 }
 
 
-/* This reloads all calendar events. */
-void
-e_day_view_update_all_events	(EDayView	*day_view)
+/* Callback used when the calendar client finishes loading */
+static void
+cal_loaded_cb (CalClient *client, CalClientLoadStatus status, gpointer data)
 {
+	EDayView *day_view;
+
+	day_view = E_DAY_VIEW (data);
+
+	if (status != CAL_CLIENT_LOAD_SUCCESS)
+		return;
+
 	e_day_view_reload_events (day_view);
 }
 
-
-/* This is called when one event has been added or updated. */
-void
-e_day_view_update_event		(EDayView	*day_view,
-				 const gchar	*uid)
+/* Callback used when the calendar client tells us that an object changed */
+static void
+obj_updated_cb (CalClient *client, const char *uid, gpointer data)
 {
+	EDayView *day_view;
 	EDayViewEvent *event;
 	CalComponent *comp;
 	CalClientGetStatus status;
 	gint day, event_num;
 
-	g_return_if_fail (E_IS_DAY_VIEW (day_view));
+	day_view = E_DAY_VIEW (data);
 
-	g_print ("In e_day_view_update_event day_view:%p uid:%s\n",
-		 day_view, uid);
-
-	/* If our calendar or time hasn't been set yet, just return. */
-	if (!day_view->calendar
-	    || (day_view->lower == 0 && day_view->upper == 0))
+	/* If our time hasn't been set yet, just return. */
+	if (day_view->lower == 0 && day_view->upper == 0)
 		return;
 
 	/* Get the event from the server. */
-	status = cal_client_get_object (day_view->calendar->client, uid, &comp);
+	status = cal_client_get_object (day_view->client, uid, &comp);
 
 	switch (status) {
 	case CAL_CLIENT_GET_SUCCESS:
-		/* Do nothing. */
+		/* Everything is fine */
 		break;
+
 	case CAL_CLIENT_GET_SYNTAX_ERROR:
-		g_warning ("syntax error uid=%s\n", uid);
+		g_message ("obj_updated_cb(): Syntax error when getting object `%s'", uid);
 		return;
+
 	case CAL_CLIENT_GET_NOT_FOUND:
-		g_warning ("obj not found uid=%s\n", uid);
+		/* The object is no longer in the server, so do nothing */
+		return;
+
+	default:
+		g_assert_not_reached ();
 		return;
 	}
 
 	/* We only care about events. */
-	if (comp && cal_component_get_vtype (comp) != CAL_COMPONENT_EVENT) {
+	if (cal_component_get_vtype (comp) != CAL_COMPONENT_EVENT) {
 		gtk_object_unref (GTK_OBJECT (comp));
 		return;
 	}
@@ -1187,9 +1202,9 @@ e_day_view_update_event		(EDayView	*day_view,
 	}
 
 	/* Add the occurrences of the event. */
-	cal_recur_generate_instances (comp, day_view->lower, 
+	cal_recur_generate_instances (comp, day_view->lower,
 				      day_view->upper,
-				      e_day_view_add_event, 
+				      e_day_view_add_event,
 				      day_view);
 	gtk_object_unref (GTK_OBJECT (comp));
 
@@ -1197,6 +1212,65 @@ e_day_view_update_event		(EDayView	*day_view,
 
 	gtk_widget_queue_draw (day_view->top_canvas);
 	gtk_widget_queue_draw (day_view->main_canvas);
+}
+
+/* Callback used when the calendar client tells us that an object was removed */
+static void
+obj_removed_cb (CalClient *client, const char *uid, gpointer data)
+{
+	EDayView *day_view;
+
+	day_view = E_DAY_VIEW (data);
+
+	e_day_view_foreach_event_with_uid (day_view, uid,
+					   e_day_view_remove_event_cb, NULL);
+
+	e_day_view_check_layout (day_view);
+	gtk_widget_queue_draw (day_view->top_canvas);
+	gtk_widget_queue_draw (day_view->main_canvas);
+}
+
+
+/**
+ * e_day_view_set_cal_client:
+ * @day_view: A day view.
+ * @client: A calendar client interface object.
+ *
+ * Sets the calendar client interface object that a day view will monitor.
+ **/
+void
+e_day_view_set_cal_client	(EDayView	*day_view,
+				 CalClient	*client)
+{
+	g_return_if_fail (day_view != NULL);
+	g_return_if_fail (E_IS_DAY_VIEW (day_view));
+
+	if (client == day_view->client)
+		return;
+
+	if (client)
+		g_return_if_fail (IS_CAL_CLIENT (client));
+
+	if (client)
+		gtk_object_ref (GTK_OBJECT (client));
+
+	if (day_view->client) {
+		gtk_signal_disconnect_by_data (GTK_OBJECT (day_view->client), day_view);
+		gtk_object_unref (GTK_OBJECT (day_view->client));
+	}
+
+	day_view->client = client;
+
+	if (day_view->client) {
+		gtk_signal_connect (GTK_OBJECT (day_view->client), "cal_loaded",
+				    GTK_SIGNAL_FUNC (cal_loaded_cb), day_view);
+		gtk_signal_connect (GTK_OBJECT (day_view->client), "obj_updated",
+				    GTK_SIGNAL_FUNC (obj_updated_cb), day_view);
+		gtk_signal_connect (GTK_OBJECT (day_view->client), "obj_removed",
+				    GTK_SIGNAL_FUNC (obj_removed_cb), day_view);
+	}
+
+	e_day_view_reload_events (day_view);
 }
 
 
@@ -1260,7 +1334,7 @@ e_day_view_foreach_event_with_uid (EDayView *day_view,
 	EDayViewEvent *event;
 	gint day, event_num;
 	const char *u;
-	
+
 	for (day = 0; day < day_view->days_shown; day++) {
 		for (event_num = day_view->events[day]->len - 1;
 		     event_num >= 0;
@@ -1290,29 +1364,6 @@ e_day_view_foreach_event_with_uid (EDayView *day_view,
 				return;
 		}
 	}
-}
-
-
-/* This removes all the events associated with the given uid. Note that for
-   recurring events there may be more than one. If any events are found and
-   removed we need to layout the events again. */
-void
-e_day_view_remove_event	(EDayView	*day_view,
-			 const gchar	*uid)
-{
-	g_return_if_fail (E_IS_DAY_VIEW (day_view));
-
-#if 1
-	g_print ("In e_day_view_remove_event day_view:%p uid:%s\n",
-		 day_view, uid);
-#endif
-
-	e_day_view_foreach_event_with_uid (day_view, uid,
-					   e_day_view_remove_event_cb, NULL);
-
-	e_day_view_check_layout (day_view);
-	gtk_widget_queue_draw (day_view->top_canvas);
-	gtk_widget_queue_draw (day_view->main_canvas);
 }
 
 
@@ -1369,7 +1420,7 @@ e_day_view_update_event_label (EDayView *day_view,
 	gboolean free_text = FALSE, editing_event = FALSE;
 	gint offset, start_minute, end_minute;
 	CalComponentText summary;
-	
+
 	event = &g_array_index (day_view->events[day], EDayViewEvent,
 				event_num);
 
@@ -1416,7 +1467,7 @@ e_day_view_update_long_event_label (EDayView *day_view,
 {
 	EDayViewEvent *event;
 	CalComponentText summary;
-	
+
 	event = &g_array_index (day_view->long_events, EDayViewEvent,
 				event_num);
 
@@ -1487,7 +1538,7 @@ e_day_view_find_event_from_uid (EDayView *day_view,
 	EDayViewEvent *event;
 	gint day, event_num;
 	const char *u;
-	
+
 	for (day = 0; day < day_view->days_shown; day++) {
 		for (event_num = 0; event_num < day_view->events[day]->len;
 		     event_num++) {
@@ -1943,7 +1994,7 @@ e_day_view_on_main_canvas_button_press (GtkWidget *widget,
 
 		return TRUE;
 	}
-	
+
 	/* Convert the coords to the main canvas window, or return if the
 	   window is not found. */
 	if (!e_day_view_convert_event_coords (day_view, (GdkEvent*) event,
@@ -2003,16 +2054,16 @@ e_day_view_on_time_canvas_button_press (GtkWidget      *widget,
 	if (event->button == 4 || event->button == 5) {
 		GtkAdjustment *adj = GTK_LAYOUT (day_view->main_canvas)->vadjustment;
 		gfloat new_value;
-		
+
 		new_value = adj->value + ((event->button == 4) ?
 					  -adj->page_increment / 2:
 					  adj->page_increment / 2);
 		new_value = CLAMP (new_value, adj->lower, adj->upper - adj->page_size);
 		gtk_adjustment_set_value (adj, new_value);
-		
+
 		return TRUE;
 	}
-	
+
 	return FALSE;
 }
 
@@ -2405,13 +2456,13 @@ e_day_view_on_new_appointment (GtkWidget *widget, gpointer data)
 	CalComponentDateTime date;
 	time_t dtstart, dtend;
 	struct icaltimetype itt;
-	
+
 	day_view = E_DAY_VIEW (data);
 
 	comp = cal_component_new ();
 	cal_component_set_new_vtype (comp, CAL_COMPONENT_EVENT);
 	e_day_view_get_selected_time_range (day_view, &dtstart, &dtend);
-	
+
 	date.value = &itt;
 	date.tzid = NULL;
 
@@ -2470,7 +2521,7 @@ e_day_view_on_delete_occurrence (GtkWidget *widget, gpointer data)
 	cal_component_set_exdate_list (comp, list);
 	cal_component_free_exdate_list (list);
 
-	if (!cal_client_update_object (day_view->calendar->client, comp))
+	if (!cal_client_update_object (day_view->client, comp))
 		g_message ("e_day_view_on_delete_occurrence(): Could not update the object!");
 
 	gtk_object_unref (GTK_OBJECT (comp));
@@ -2483,7 +2534,7 @@ e_day_view_on_delete_appointment (GtkWidget *widget, gpointer data)
 	EDayView *day_view;
 	EDayViewEvent *event;
 	const char *uid;
-	
+
 	day_view = E_DAY_VIEW (data);
 
 	event = e_day_view_get_popup_menu_event (day_view);
@@ -2494,7 +2545,7 @@ e_day_view_on_delete_appointment (GtkWidget *widget, gpointer data)
 		e_day_view_stop_editing_event (day_view);
 
 	cal_component_get_uid (event->comp, &uid);
-	if (!cal_client_remove_object (day_view->calendar->client, uid))
+	if (!cal_client_remove_object (day_view->client, uid))
 		g_message ("e_day_view_on_delete_appointment(): Could not remove the object!");
 }
 
@@ -2533,7 +2584,7 @@ e_day_view_on_unrecur_appointment (GtkWidget *widget, gpointer data)
 	cal_component_set_exdate_list (new_comp, NULL);
 	cal_component_set_exrule_list (new_comp, NULL);
 
-	date = g_new0 (CalComponentDateTime, 1);	
+	date = g_new0 (CalComponentDateTime, 1);
 	date->value = g_new (struct icaltimetype, 1);
 
 	*date->value = icaltime_from_timet (event->start, FALSE, TRUE);
@@ -2542,16 +2593,16 @@ e_day_view_on_unrecur_appointment (GtkWidget *widget, gpointer data)
 	cal_component_set_dtend (new_comp, date);
 
 	cal_component_free_datetime (date);
-	
+
 	/* Now update both CalComponents. Note that we do this last since at
 	 * present the updates happen synchronously so our event may disappear.
 	 */
-	if (!cal_client_update_object (day_view->calendar->client, comp))
+	if (!cal_client_update_object (day_view->client, comp))
 		g_message ("e_day_view_on_unrecur_appointment(): Could not update the object!");
 
 	gtk_object_unref (GTK_OBJECT (comp));
 
-	if (!cal_client_update_object (day_view->calendar->client, new_comp))
+	if (!cal_client_update_object (day_view->client, new_comp))
 		g_message ("e_day_view_on_unrecur_appointment(): Could not update the object!");
 
 	gtk_object_unref (GTK_OBJECT (new_comp));
@@ -2712,8 +2763,8 @@ e_day_view_on_top_canvas_motion (GtkWidget *widget,
 		cursor = day_view->normal_cursor;
 
 		/* Recurring events can't be resized. */
-		if (event && 
-		    !(cal_component_has_rrules (event->comp) 
+		if (event &&
+		    !(cal_component_has_rrules (event->comp)
 		      && cal_component_has_rdates (event->comp))) {
 			switch (pos) {
 			case E_DAY_VIEW_POS_LEFT_EDGE:
@@ -2819,7 +2870,7 @@ e_day_view_on_main_canvas_motion (GtkWidget *widget,
 		cursor = day_view->normal_cursor;
 
 		/* Recurring events can't be resized. */
-		if (event && 
+		if (event &&
 		    !(cal_component_has_rrules (event->comp)
 		      && cal_component_has_rdates (event->comp))) {
 			switch (pos) {
@@ -3045,7 +3096,7 @@ e_day_view_finish_long_event_resize (EDayView *day_view)
 	CalComponent *comp;
 	CalComponentDateTime date;
 	time_t dt;
-	
+
 	event_num = day_view->resize_event_num;
 	event = &g_array_index (day_view->long_events, EDayViewEvent,
 				event_num);
@@ -3066,12 +3117,12 @@ e_day_view_finish_long_event_resize (EDayView *day_view)
 		cal_component_set_dtend (comp, &date);
 	}
 	g_free (date.value);
-	
+
 	gnome_canvas_item_hide (day_view->resize_long_event_rect_item);
 
 	day_view->resize_drag_pos = E_DAY_VIEW_POS_NONE;
 
-	if (!cal_client_update_object (day_view->calendar->client, comp))
+	if (!cal_client_update_object (day_view->client, comp))
 		g_message ("e_day_view_finish_long_event_resize(): Could not update the object!");
 
 	gtk_object_unref (GTK_OBJECT (comp));
@@ -3110,7 +3161,7 @@ e_day_view_finish_resize (EDayView *day_view)
 		cal_component_set_dtend (comp, &date);
 	}
 	g_free (date.value);
-	
+
 	gnome_canvas_item_hide (day_view->resize_rect_item);
 	gnome_canvas_item_hide (day_view->resize_bar_item);
 
@@ -3122,7 +3173,7 @@ e_day_view_finish_resize (EDayView *day_view)
 
 	day_view->resize_drag_pos = E_DAY_VIEW_POS_NONE;
 
-	if (!cal_client_update_object (day_view->calendar->client, comp))
+	if (!cal_client_update_object (day_view->client, comp))
 		g_message ("e_day_view_finish_resize(): Could not update the object!");
 
 	gtk_object_unref (GTK_OBJECT (comp));
@@ -3179,16 +3230,19 @@ e_day_view_reload_events (EDayView *day_view)
 	day_view->pressed_event_day = -1;
 	day_view->drag_event_day = -1;
 
+	if (!(day_view->client && cal_client_is_loaded (day_view->client)))
+		return;
+
 	/* If both lower & upper are 0, then the time range hasn't been set,
 	   so we don't try to load any events. */
 	if (day_view->calendar
 	    && (day_view->lower != 0 || day_view->upper != 0)) {
-		cal_client_generate_instances (day_view->calendar->client,
+		cal_client_generate_instances (day_view->client,
 					       CALOBJ_TYPE_EVENT,
 					       day_view->lower,
 					       day_view->upper,
 					       e_day_view_add_event,
-					       day_view);   
+					       day_view);
 	}
 
 	/* We need to do this to make sure the top canvas is resized. */
@@ -4020,7 +4074,7 @@ e_day_view_key_press (GtkWidget *widget, GdkEventKey *event)
 	gboolean stop_emission;
 	time_t dtstart, dtend;
 	const char *uid;
-	
+
 	g_return_val_if_fail (widget != NULL, FALSE);
 	g_return_val_if_fail (E_IS_DAY_VIEW (widget), FALSE);
 	g_return_val_if_fail (event != NULL, FALSE);
@@ -4104,6 +4158,7 @@ e_day_view_key_press (GtkWidget *widget, GdkEventKey *event)
 	/* Add a new event covering the selected range.
 	   Note that user_name is a global variable. */
 	comp = cal_component_new ();
+	cal_component_set_new_vtype (comp, CAL_COMPONENT_EVENT);
 
 	e_day_view_get_selected_time_range (day_view, &dtstart, &dtend);
 
@@ -4125,7 +4180,7 @@ e_day_view_key_press (GtkWidget *widget, GdkEventKey *event)
 		g_warning ("Couldn't find event to start editing.\n");
 	}
 
-	if (!cal_client_update_object (day_view->calendar->client, comp))
+	if (!cal_client_update_object (day_view->client, comp))
 		g_message ("e_day_view_key_press(): Could not update the object!");
 
 	gtk_object_unref (GTK_OBJECT (comp));
@@ -4556,7 +4611,7 @@ e_day_view_on_editing_stopped (EDayView *day_view,
 	gchar *text = NULL;
 	CalComponentText summary;
 	const char *uid;
-	
+
 	/* Note: the item we are passed here isn't reliable, so we just stop
 	   the edit of whatever item was being edited. We also receive this
 	   event twice for some reason. */
@@ -4614,8 +4669,8 @@ e_day_view_on_editing_stopped (EDayView *day_view,
 
 	cal_component_set_summary (event->comp, &summary);
 	g_free (text);
-	
-	if (!cal_client_update_object (day_view->calendar->client, event->comp))
+
+	if (!cal_client_update_object (day_view->client, event->comp))
 		g_message ("e_day_view_on_editing_stopped(): Could not update the object!");
 }
 
@@ -5202,15 +5257,15 @@ e_day_view_update_top_canvas_drag (EDayView *day_view,
 	if (!(day_view->drag_long_event_item->object.flags
 	      & GNOME_CANVAS_ITEM_VISIBLE)) {
 		CalComponentText summary;
-		
+
 		cal_component_get_summary (event->comp, &summary);
 		if (event) {
 			cal_component_get_summary (event->comp, &summary);
 			text = g_strdup (summary.value);
-		} else {	
+		} else {
 			text = NULL;
 		}
-		
+
 		gnome_canvas_item_set (day_view->drag_long_event_item,
 				       "text", text ? text : "",
 				       NULL);
@@ -5364,14 +5419,14 @@ e_day_view_update_main_canvas_drag (EDayView *day_view,
 	   set the text then. */
 	if (!(day_view->drag_item->object.flags & GNOME_CANVAS_ITEM_VISIBLE)) {
 		CalComponentText summary;
-		
+
 		if (event) {
 			cal_component_get_summary (event->comp, &summary);
 			text = g_strdup (summary.value);
-		} else {	
+		} else {
 			text = NULL;
 		}
-		
+
 		gnome_canvas_item_set (day_view->drag_item,
 				       "text", text ? text : "",
 				       NULL);
@@ -5507,7 +5562,7 @@ e_day_view_on_drag_data_get (GtkWidget          *widget,
 		event = &g_array_index (day_view->events[day],
 					EDayViewEvent, event_num);
 
-	
+
 	cal_component_get_uid (event->comp, &event_uid);
 
 	g_return_if_fail (event_uid != NULL);
@@ -5537,7 +5592,7 @@ e_day_view_on_top_canvas_drag_data_received  (GtkWidget          *widget,
 	CalComponent *comp;
 	CalComponentDateTime date;
 	time_t dt;
-	
+
 	if ((data->length >= 0) && (data->format == 8)) {
 		pos = e_day_view_convert_position_in_top_canvas (day_view,
 								 x, y, &day,
@@ -5547,7 +5602,7 @@ e_day_view_on_top_canvas_drag_data_received  (GtkWidget          *widget,
 			num_days = 1;
 			start_offset = 0;
 			end_offset = -1;
-			
+
 			if (day_view->drag_event_day == E_DAY_VIEW_LONG_EVENT) {
 				event = &g_array_index (day_view->long_events, EDayViewEvent,
 							day_view->drag_event_num);
@@ -5573,7 +5628,7 @@ e_day_view_on_top_canvas_drag_data_received  (GtkWidget          *widget,
 			event_uid = data->data;
 
 			cal_component_get_uid (event->comp, &uid);
-			
+
 			if (!event_uid || !uid || strcmp (event_uid, uid))
 				g_warning ("Unexpected event UID");
 
@@ -5581,7 +5636,7 @@ e_day_view_on_top_canvas_drag_data_received  (GtkWidget          *widget,
 			   don't want to change the original comp here.
 			   Otherwise we would not detect that the event's time
 			   had changed in the "update_event" callback. */
-			
+
 			comp = cal_component_clone (event->comp);
 
 			date.value = g_new (struct icaltimetype, 1);
@@ -5595,7 +5650,7 @@ e_day_view_on_top_canvas_drag_data_received  (GtkWidget          *widget,
 			*date.value = icaltime_from_timet (dt, FALSE, TRUE);
 			cal_component_set_dtend (comp, &date);
 			g_free (date.value);
-			
+
 			gtk_drag_finish (context, TRUE, TRUE, time);
 
 			/* Reset this since it will be invalid. */
@@ -5606,12 +5661,12 @@ e_day_view_on_top_canvas_drag_data_received  (GtkWidget          *widget,
 			if (event->canvas_item)
 				gnome_canvas_item_show (event->canvas_item);
 
-			if (!cal_client_update_object (day_view->calendar->client, comp))
+			if (!cal_client_update_object (day_view->client, comp))
 				g_message ("e_day_view_on_top_canvas_drag_data_received(): Could "
 					   "not update the object!");
 
 			gtk_object_unref (GTK_OBJECT (comp));
-			
+
 			return;
 		}
 	}
@@ -5638,7 +5693,7 @@ e_day_view_on_main_canvas_drag_data_received  (GtkWidget          *widget,
 	CalComponent *comp;
 	CalComponentDateTime date;
 	time_t dt;
-	
+
 	gnome_canvas_get_scroll_offsets (GNOME_CANVAS (widget),
 					 &scroll_x, &scroll_y);
 	x += scroll_x;
@@ -5653,7 +5708,7 @@ e_day_view_on_main_canvas_drag_data_received  (GtkWidget          *widget,
 			num_rows = 1;
 			start_offset = 0;
 			end_offset = 0;
-			
+
 			if (day_view->drag_event_day == E_DAY_VIEW_LONG_EVENT) {
 				event = &g_array_index (day_view->long_events, EDayViewEvent,
 							day_view->drag_event_num);
@@ -5694,7 +5749,7 @@ e_day_view_on_main_canvas_drag_data_received  (GtkWidget          *widget,
 			*date.value = icaltime_from_timet (dt, FALSE, TRUE);
 			cal_component_set_dtend (comp, &date);
 			g_free (date.value);
-			
+
 			gtk_drag_finish (context, TRUE, TRUE, time);
 
 			/* Reset this since it will be invalid. */
@@ -5705,20 +5760,15 @@ e_day_view_on_main_canvas_drag_data_received  (GtkWidget          *widget,
 			if (event->canvas_item)
 				gnome_canvas_item_show (event->canvas_item);
 
-			if (!cal_client_update_object (day_view->calendar->client, comp))
+			if (!cal_client_update_object (day_view->client, comp))
 				g_message ("e_day_view_on_main_canvas_drag_data_received(): "
 					   "Could not update the object!");
 
 			gtk_object_unref (GTK_OBJECT (comp));
-			
+
 			return;
 		}
 	}
 
 	gtk_drag_finish (context, FALSE, FALSE, time);
 }
-
-
-
-
-

@@ -188,6 +188,9 @@ struct _EDayView
 	/* The calendar we are associated with. */
 	GnomeCalendar *calendar;
 
+	/* Calendar client object we are monitoring */
+	CalClient *client;
+
 	/* The start and end of the day shown. */
 	time_t lower;
 	time_t upper;
@@ -414,6 +417,9 @@ GtkWidget* e_day_view_new			(void);
 void       e_day_view_set_calendar		(EDayView	*day_view,
 						 GnomeCalendar	*calendar);
 
+void       e_day_view_set_cal_client		(EDayView	*day_view,
+						 CalClient	*client);
+
 /* This sets the selected time range. The EDayView will show the day or week
    corresponding to the start time. If the start_time & end_time are not equal
    and are both visible in the view, then the selection is set to those times,
@@ -427,18 +433,6 @@ void       e_day_view_get_selected_time_range	(EDayView	*day_view,
 						 time_t		*start_time,
 						 time_t		*end_time);
 
-/* This reloads all calendar events. */
-void       e_day_view_update_all_events		(EDayView	*day_view);
-
-/* This is called when one event has been added or updated. */
-void       e_day_view_update_event		(EDayView	*day_view,
-						 const gchar	*uid);
-
-/* This removes all the events associated with the given uid. Note that for
-   recurring events there may be more than one. If any events are found and
-   removed we need to layout the events again. */
-void	   e_day_view_remove_event		(EDayView	*day_view,
-						 const gchar	*uid);
 
 /* The number of days shown in the EDayView, from 1 to 7. This is normally
    either 1 or 5 (for the Work-Week view). */

@@ -51,7 +51,6 @@ extern int todo_item_dstatus_highlight_not_due_yet;
 extern int todo_show_time_remaining;
 extern int todo_show_priority;
 extern char *todo_overdue_font_text;
-extern gboolean todo_style_changed;
 extern gint todo_current_sort_column;
 extern gint todo_current_sort_type;
 

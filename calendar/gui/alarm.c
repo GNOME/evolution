@@ -139,7 +139,7 @@ alarm_ready (gpointer data, gint fd, GdkInputCondition cond)
 	g_assert (alarms != NULL);
 	ar = pop_alarm ();
 
-	g_message ("alarm_ready(): Notifying about alarm on %s", ctime (&ar->trigger));
+	g_print ("alarm_ready(): Notifying about alarm on %s\n", ctime (&ar->trigger));
 
 	(* ar->alarm_fn) (ar, ar->trigger, ar->data);
 
@@ -226,7 +226,7 @@ alarm_add (time_t trigger, AlarmFunction alarm_fn, gpointer data,
 	ar->data = data;
 	ar->destroy_notify_fn = destroy_notify_fn;
 
-	g_message ("alarm_add(): Adding alarm for %s", ctime (&trigger));
+	g_print ("alarm_add(): Adding alarm for %s\n", ctime (&trigger));
 
 	if (!queue_alarm (now, ar)) {
 		if (ar->destroy_notify_fn)
