@@ -1,3 +1,23 @@
+2003-12-03  Ettore Perazzoli  <ettore@ximian.com>
+
+	* mail-vfolder.c: Do not #include "evolution-shell-component.h".
+
+	* Makefile.am (libevolution_mail_la_SOURCES): Don't compile
+	mail-importer.[ch] for now.
+
+	* mail-component-factory.c: Do not #include
+	<evolution-shell-client.h>.
+	* mail-config.c: Likewise.
+
+	* mail-vfolder.h: Do not #include <evolution-storage.h> or
+	<evolution-shell-component.h>.
+
+	* mail.h: Do not #include <evolution-storage.h>.
+
+	* mail-ops.h: Do not #include <evolution-storage.h>.
+	(mail_scan_subfolders): Remove prototype.
+	(mail_update_subfolders): Likewise.
+
 2003-12-03  JP Rosevear <jpr@ximian.com>
 
 	* em-folder-tree.c (em_folder_tree_destroy): save the state
