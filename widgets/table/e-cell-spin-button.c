@@ -592,6 +592,7 @@ e_cell_spin_button_step   (ECellSpinButton       *ecsb,
 	ETableModel           *etm;
 	gint                   value;
 	gint                   new_value;
+	gchar                 *str_value;
 	
 	g_return_if_fail (ecsb != NULL);
 	g_return_if_fail (M_IS_CELL_SPIN_BUTTON (ecsb));
@@ -616,7 +617,11 @@ e_cell_spin_button_step   (ECellSpinButton       *ecsb,
 		break;
 	};
 
-	e_table_model_set_value_at (etm, col, row, GINT_TO_POINTER(new_value));
+	str_value = g_strdup_printf ("%d", new_value);
+
+	e_table_model_set_value_at (etm, col, row, str_value);
+
+	g_free (str_value);
 }
 
 void
@@ -631,6 +636,7 @@ e_cell_spin_button_step_float  (ECellSpinButton       *ecsb,
 	ETableModel           *etm;
 	gfloat                 value;
 	gfloat                 new_value;
+	gchar                 *str_value;
 	
 	g_return_if_fail (ecsb != NULL);
 	g_return_if_fail (M_IS_CELL_SPIN_BUTTON (ecsb));
@@ -653,8 +659,12 @@ e_cell_spin_button_step_float  (ECellSpinButton       *ecsb,
 	default:
 		break;
 	};
+	
+	str_value = g_strdup_printf ("%f", new_value);
 
-	e_table_model_set_value_at (etm, col, row, &new_value);
+	e_table_model_set_value_at (etm, col, row, str_value);
+	
+	g_free (str_value);
 }
 
 E_MAKE_TYPE (e_cell_spin_button, "ECellSpinButton", ECellSpinButton, 
