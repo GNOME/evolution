@@ -184,9 +184,9 @@ eab_contact_list_from_string (const char *str)
 {
 	GList *contacts = NULL;
 	GString *gstr = g_string_new ("");
+	char *str_stripped;
 	char *p = (char*)str;
 	char *q;
-	char *blank_line;
 
 	if (!p)
 		return NULL;
@@ -206,37 +206,45 @@ eab_contact_list_from_string (const char *str)
 		p++;
 	}
 
-	p = g_string_free (gstr, FALSE);
-	q = p;
-	do {
-		char *temp;
+	q = p = str_stripped = g_string_free (gstr, FALSE);
 
-		blank_line = strstr (q, "\n\n");
-		if (blank_line) {
-			temp = g_strndup (q, blank_line - q);
-		}
-		else {
-			temp = g_strdup (q);
+	/* Note: The VCard standard says
+	 *
+	 * vcard = "BEGIN" [ws] ":" [ws] "VCARD" [ws] 1*CRLF 
+	 *         items *CRLF "END" [ws] ":" [ws] "VCARD"
+	 *
+	 * which means we can have whitespace (e.g. "BEGIN : VCARD"). So we're not being
+	 * fully compliant here, although I'm not sure it matters. The ideal solution
+	 * would be to have a vcard parsing function that returned the end of the vcard
+	 * parsed. Arguably, contact list parsing should all be in libebook's e-vcard.c,
+	 * where we can do proper parsing and validation without code duplication. */
+
+	for (p = strstr (p, "BEGIN:VCARD"); p; p = strstr (q, "\nBEGIN:VCARD")) {
+		gchar *card_str;
+
+		if (*p == '\n')
+			p++;
+
+		for (q = strstr (p, "END:VCARD"); q; q = strstr (q, "END:VCARD")) {
+			gchar *temp;
+
+			q += 9;
+			temp = q;
+			temp += strspn (temp, "\r\n\t ");
+
+			if (*temp == '\0' || !strncmp (temp, "BEGIN:VCARD", 11))
+				break;  /* Found the outer END:VCARD */
 		}
 
-		/* Do a minimal well-formedness test, since
-		 * e_contact_new_from_vcard () always returns a contact */
-		if (!strstr (p, "BEGIN:VCARD")) {
-			g_free (temp);
+		if (!q)
 			break;
-		}
 
-		contacts = g_list_append (contacts, e_contact_new_from_vcard (temp));
+		card_str = g_strndup (p, q - p);
+		contacts = g_list_append (contacts, e_contact_new_from_vcard (card_str));
+		g_free (card_str);
+	}
 
-		g_free (temp);
-
-		if (blank_line)
-			q = blank_line + 2;
-		else
-			q = NULL;
-	} while (blank_line);
-
-	g_free (p);
+	g_free (str_stripped);
 
 	return contacts;
 }
