@@ -160,7 +160,9 @@ static gboolean gnome_calendar_get_days_shown	(GnomeCalendar	*gcal,
 
 static GtkVBoxClass *parent_class;
 
+#if 0
 static void setup_alarm (GnomeCalendar *cal, CalAlarmInstance *ai);
+#endif
 
 
 
