@@ -1,3 +1,14 @@
+1999-09-14  bertrand  <Bertrand.Guiheneuf@aful.org>
+
+	* camel/Makefile.am (libcamel_la_SOURCES): 
+	added camel-folder-pt-proxy.[ch] to the build
+	process.
+
+	* camel/camel-folder-pt-proxy.c (_init_with_store): 
+	started implementation of the pthread-based 
+	folder proxy.
+	
+
 1999-09-08  bertrand  <Bertrand.Guiheneuf@aful.org>
 
 	* camel/providers/MH/mh-summary.c 
