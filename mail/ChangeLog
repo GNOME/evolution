@@ -1,5 +1,12 @@
 2004-01-20  Not Zed  <NotZed@Ximian.com>
 
+	** See bug #53028.
+
+	* message-list.c (on_selection_changed_cmd): emit the
+	cursor_activated if more than 1 item is selected also.
+
+2004-01-20  Not Zed  <NotZed@Ximian.com>
+
 	** See bug #52990.
 
 	* mail-component.c (mail_component_init): re-enable auto-send-recv

@@ -2663,6 +2663,8 @@ on_selection_changed_cmd(ETree *tree, MessageList *ml)
 {
 	GPtrArray *uids;
 
+	/* not sure if we could just ignore this for the cursor, i think sometimes you
+	   only get a selection changed when you should also get a cursor activated? */
 	uids = message_list_get_selected(ml);
 	g_free(ml->cursor_uid);
 	if (uids->len == 1)
@@ -2670,7 +2672,7 @@ on_selection_changed_cmd(ETree *tree, MessageList *ml)
 	else
 		ml->cursor_uid = NULL;
 
-	if (uids->len <= 1 && !ml->idle_id)
+	if (!ml->idle_id)
 		ml->idle_id = g_idle_add_full (G_PRIORITY_LOW, on_cursor_activated_idle, ml, NULL);
 
 	if (ml->priv->primary_uids) {
