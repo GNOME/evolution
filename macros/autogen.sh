@@ -3,12 +3,6 @@
 
 DIE=0
 
-if [ -n "$GNOME2_PATH" ]; then
-	ACLOCAL_FLAGS="-I $GNOME2_DIR/share/aclocal $ACLOCAL_FLAGS"
-	PATH="$GNOME2_DIR/bin:$PATH"
-	export PATH
-fi
-
 (autoconf --version) < /dev/null > /dev/null 2>&1 || {
   echo
   echo "**Error**: You must have \`autoconf' installed to compile Gnome."
@@ -94,21 +88,12 @@ do
     echo processing $dr
     macrodirs=`sed -n -e 's,AM_ACLOCAL_INCLUDE(\(.*\)),\1,gp' < $coin`
     ( cd $dr
-	DELETEFILES="`find . -name gnome-gettext.m4`"
       aclocalinclude="$ACLOCAL_FLAGS"
-      for k in $aclocalinclude; do
-  	if test -d $k; then
-	  if [ -f $k/gnome.m4 -a "$GNOME_INTERFACE_VERSION" = "1.0" ]; then
-	    rm -f $DELETEFILES
-	  fi
-        fi
-      done
       for k in $macrodirs; do
   	if test -d $k; then
           aclocalinclude="$aclocalinclude -I $k"
-	  if [ -f $k/gnome.m4 -a "$GNOME_INTERFACE_VERSION" = "1.0" ]; then
-	    rm -f $DELETEFILES
-	  fi
+  	##else 
+	##  echo "**Warning**: No such directory \`$k'.  Ignored."
         fi
       done
       if grep "^AM_GNU_GETTEXT" configure.in >/dev/null; then
