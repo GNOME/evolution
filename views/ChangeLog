@@ -1,3 +1,11 @@
+2002-02-13  Christopher James Lahey  <clahey@ximian.com>
+
+	* addressbook/Makefile.am (defaultaddressbook_DATA): Added
+	Address_Cards.galview.
+
+	* addressbook/Address_Cards.galview: New galview file for the
+	minicard view since they save data now.
+
 2002-02-07  Christopher James Lahey  <clahey@ximian.com>
 
 	* addressbook/galview.xml, calendar/galview.xml, mail/galview.xml,
