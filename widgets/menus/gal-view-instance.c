@@ -47,7 +47,7 @@ static const EPopupMenu separator = E_POPUP_SEPARATOR;
 static const EPopupMenu terminator = E_POPUP_TERMINATOR;
 
 
-#define d(x) x
+#define d(x)
 
 enum {
 	DISPLAY_VIEW,

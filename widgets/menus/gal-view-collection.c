@@ -38,7 +38,7 @@
 
 static GObjectClass *gal_view_collection_parent_class;
 
-#define d(x) x
+#define d(x)
 
 enum {
 	DISPLAY_VIEW,
