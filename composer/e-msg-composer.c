@@ -2739,11 +2739,11 @@ composer_key_pressed (GtkWidget *widget, GdkEventKey *event, gpointer user_data)
 {
 	if (event->keyval == GDK_Escape) {
 		do_exit (E_MSG_COMPOSER (widget));
-
-		g_signal_stop_emission_by_name(widget, "key-press-event");
+		
+		g_signal_stop_emission_by_name (widget, "key-press-event");
 		return TRUE; /* Handled.  */
 	}
-
+	
 	return FALSE; /* Not handled. */
 }
 
@@ -2756,8 +2756,7 @@ create_composer (int visible_mask)
 	CORBA_Environment ev;
 	int vis;
 	
-#warning " does win_name need qualifying? "
-	composer = g_object_new (E_TYPE_MSG_COMPOSER, "win_name",  _("Compose a message"), NULL);
+	composer = g_object_new (E_TYPE_MSG_COMPOSER, "win_name", _("Compose a message"), NULL);
 	gtk_window_set_title ((GtkWindow *) composer, _("Compose a message"));
 	
 	all_composers = g_slist_prepend (all_composers, composer);
@@ -2831,15 +2830,15 @@ create_composer (int visible_mask)
 				    NULL);
 	
 	editor_server = bonobo_widget_get_objref (BONOBO_WIDGET (composer->editor));
-
+	
 	/* FIXME: handle exceptions */
-	CORBA_exception_init(&ev);
+	CORBA_exception_init (&ev);
 	composer->persist_file_interface
 		= Bonobo_Unknown_queryInterface (editor_server, "IDL:Bonobo/PersistFile:1.0", &ev);
 	composer->persist_stream_interface
 		= Bonobo_Unknown_queryInterface (editor_server, "IDL:Bonobo/PersistStream:1.0", &ev);
 	CORBA_exception_free (&ev);
-
+	
 	gtk_box_pack_start (GTK_BOX (vbox), composer->editor, TRUE, TRUE, 0);
 	
 	/* Attachment editor, wrapped into an EScrollFrame.  We don't
@@ -2979,10 +2978,10 @@ is_special_header (const char *hdr_name)
 	   1. it's not a X-* header or
 	   2. it's an X-Evolution* header
 	*/
-	if (g_ascii_strncasecmp (hdr_name, "X-", 2))
+	if (strncasecmp (hdr_name, "X-", 2))
 		return TRUE;
 	
-	if (!g_ascii_strncasecmp (hdr_name, "X-Evolution", 11))
+	if (!strncasecmp (hdr_name, "X-Evolution", 11))
 		return TRUE;
 	
 	/* we can keep all other X-* headers */
@@ -2995,9 +2994,9 @@ e_msg_composer_set_pending_body (EMsgComposer *composer, char *text)
 {
 	char *old;
 	
-	old = g_object_get_data (G_OBJECT(composer), "body:text");
+	old = g_object_get_data ((GObject *) composer, "body:text");
         g_free (old);
-	g_object_set_data (G_OBJECT(composer), "body:text", text);
+	g_object_set_data ((GObject *) composer, "body:text", text);
 }
 
 static void
@@ -3005,12 +3004,12 @@ e_msg_composer_flush_pending_body (EMsgComposer *composer, gboolean apply)
 {
         char *body;
 	
-	body = g_object_get_data (G_OBJECT(composer), "body:text");
+	body = g_object_get_data ((GObject *) composer, "body:text");
 	if (body) {
 		if (apply) 
 			set_editor_text (composer, body);
 		
-		g_object_set_data (G_OBJECT(composer), "body:text", NULL);
+		g_object_set_data ((GObject *) composer, "body:text", NULL);
 		g_free (body);
 	}
 }	
@@ -3027,21 +3026,23 @@ add_attachments_handle_mime_part (EMsgComposer *composer, CamelMimePart *mime_pa
 	
 	if (CAMEL_IS_MULTIPART (wrapper)) {
 		/* another layer of multipartness... */
-		CamelMultipart *mpart;
-		
-		mpart = CAMEL_MULTIPART (wrapper);
-		
-		add_attachments_from_multipart (composer, mpart, just_inlines, depth + 1);
-	} else if (header_content_type_is (content_type, "text", "*")) {
-		/* do nothing */
-	} else if (header_content_type_is (content_type, "message", "*")) {
-		/* do nothing */
+		add_attachments_from_multipart (composer, (CamelMultipart *) wrapper, just_inlines, depth + 1);
+	} else if (CAMEL_IS_MIME_MESSAGE (wrapper)) {
+		e_msg_composer_attach (composer, mime_part);
 	} else if (just_inlines) {
 		if (camel_mime_part_get_content_id (mime_part) ||
 		    camel_mime_part_get_content_location (mime_part))
 			e_msg_composer_add_inline_image_from_mime_part (composer, mime_part);
 	} else {
-		e_msg_composer_attach (composer, mime_part);
+		if (header_content_type_is (content_type, "text", "*")) {
+			const char *disposition;
+			
+			disposition = camel_mime_part_get_disposition (mime_part);
+			if (disposition && !strcasecmp (disposition, "attachment"))
+				e_msg_composer_attach (composer, mime_part);
+		} else {
+			e_msg_composer_attach (composer, mime_part);
+		}
 	}
 }
 
@@ -3086,16 +3087,11 @@ e_msg_composer_add_message_attachments (EMsgComposer *composer, CamelMimeMessage
 	CamelDataWrapper *wrapper;
 	
 	wrapper = camel_medium_get_content_object (CAMEL_MEDIUM (message));
-	if (CAMEL_IS_MULTIPART (wrapper)) {
-		/* there must be attachments... */
-		CamelMultipart *multipart;
-		
-		multipart = CAMEL_MULTIPART (wrapper);
-		
-		add_attachments_from_multipart (composer, multipart, just_inlines, 0);
-	} else {
-		/* do nothing... */
-	}
+	if (!CAMEL_IS_MULTIPART (wrapper))
+		return;
+	
+	/* there must be attachments... */
+	add_attachments_from_multipart (composer, (CamelMultipart *) wrapper, just_inlines, 0);
 }
 
 

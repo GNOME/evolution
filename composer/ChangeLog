@@ -1,3 +1,8 @@
+2003-03-19  Jeffrey Stedfast  <fejj@ximian.com>
+
+	* e-msg-composer.c (add_attachments_handle_mime_part): Change the
+	logic to attach text parts when appropriate.
+
 2003-03-18  Jeffrey Stedfast  <fejj@ximian.com>
 
 	* e-msg-composer.c (do_exit): e_msg_composer_hdrs_get_subject()
