@@ -287,7 +287,7 @@ calendar_config_get_hpane_pos		(void)
 {
 	return e_config_listener_get_long_with_default (config,
 						       "/apps/evolution/calendar/display/hpane_position",
-						       -1, NULL);
+						       400, NULL);
 }
 
 
@@ -301,7 +301,7 @@ calendar_config_set_hpane_pos		(gint	      hpane_pos)
 gint
 calendar_config_get_vpane_pos		(void)
 {
-	return e_config_listener_get_long_with_default (config, "/apps/evolution/calendar/display/vpane_position", -1, NULL);
+	return e_config_listener_get_long_with_default (config, "/apps/evolution/calendar/display/vpane_position", 150, NULL);
 }
 
 
@@ -315,7 +315,7 @@ calendar_config_set_vpane_pos		(gint	      vpane_pos)
 gint
 calendar_config_get_month_hpane_pos	(void)
 {
-	return e_config_listener_get_long_with_default (config, "/apps/evolution/calendar/display/month_hpane_position", -1, NULL);
+	return e_config_listener_get_long_with_default (config, "/apps/evolution/calendar/display/month_hpane_position", 32000, NULL);
 }
 
 
@@ -329,7 +329,7 @@ calendar_config_set_month_hpane_pos	(gint	      hpane_pos)
 gint
 calendar_config_get_month_vpane_pos	(void)
 {
-	return  e_config_listener_get_long_with_default (config, "/apps/evolution/calendar/display/month_vpane_position", 0, NULL);
+	return  e_config_listener_get_long_with_default (config, "/apps/evolution/calendar/display/month_vpane_position", 150, NULL);
 }
 
 

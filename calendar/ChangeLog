@@ -1,3 +1,13 @@
+2003-06-18  Dan Winship  <danw@ximian.com>
+
+	* gui/calendar-config.c (calendar_config_get_hpane_pos) 
+	(calendar_config_get_vpane_pos) 
+	(calendar_config_get_month_hpane_pos) 
+	(calendar_config_get_month_vpane_pos): Plug in the defaults from
+	the schemas file here, so that even if something goes wrong with
+	the schemas, people will still get reasonable defaults instead of
+	"I click on the calendar and it shows me tasks".
+
 2003-06-16  Rodrigo Moya <rodrigo@ximian.com>
 
 	* gui/dialogs/comp-editor.c (make_title_from_comp): removed unused
