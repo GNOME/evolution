@@ -1,6 +1,7 @@
 #ifndef _FOLDER_BROWSER_H_
 #define _FOLDER_BROWSER_H_
 
+#include "mail-types.h"
 #include <gtk/gtktable.h>
 #include "camel/camel-stream.h"
 #include <bonobo/bonobo-property-bag.h>
@@ -13,7 +14,8 @@
 #define IS_FOLDER_BROWSER(o)       (GTK_CHECK_TYPE ((o), FOLDER_BROWSER_TYPE))
 #define IS_FOLDER_BROWSER_CLASS(k) (GTK_CHECK_CLASS_TYPE ((k), FOLDER_BROWSER_TYPE))
 
-typedef struct {
+
+struct  _FolderBrowser {
 	GtkTable parent;
 
 	BonoboPropertyBag *properties;
@@ -29,11 +31,16 @@ typedef struct {
 	MailDisplay *mail_display;
 	GtkWidget   *vpaned;
 	gboolean     preview_shown;
-} FolderBrowser;
+
+};
+
 
 typedef struct {
 	GtkTableClass parent_class;
 } FolderBrowserClass;
+
+
+
 
 GtkType        folder_browser_get_type (void);
 GtkWidget     *folder_browser_new      (void);

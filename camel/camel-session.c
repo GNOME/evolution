@@ -23,6 +23,10 @@
  * Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA 02111-1307
  * USA
  */
+
+
+
+
 #include <config.h>
 #include "camel-session.h"
 #include "camel-store.h"
@@ -32,7 +36,11 @@
 #include "url-util.h"
 #include "hash-table-utils.h"
 
+
+
 static GtkObjectClass *parent_class=NULL;
+
+
 
 /* Returns the class for a CamelSession */
 #define CSS_CLASS(so) CAMEL_SESSION_CLASS (GTK_OBJECT(so)->klass)

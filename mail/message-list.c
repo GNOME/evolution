@@ -1,3 +1,4 @@
+/* -*- Mode: C; tab-width: 8; indent-tabs-mode: t; c-basic-offset: 8 -*- */
 /*
  * message-list.c: Displays the messages.
  *                 Implements CORBA's Evolution::MessageList
@@ -25,6 +26,7 @@
 #define N_CHARS(x) (CHAR_WIDTH * (x))
 
 #define COL_ICON_WIDTH        16
+#define COL_CHECK_BOX_WIDTH   16
 #define COL_FROM_WIDTH        N_CHARS(24)
 #define COL_FROM_WIDTH_MIN    32
 #define COL_SUBJECT_WIDTH     N_CHARS(30)
@@ -59,18 +61,23 @@ static int
 ml_row_count (ETableModel *etm, void *data)
 {
 	MessageList *message_list = data;
-	CamelException *ex;
+	CamelException ex;
 	int v;
 	
 	if (!message_list->folder)
 		return 0;
 
-	ex = camel_exception_new ();
-	v = camel_folder_get_message_count (message_list->folder, ex);
-	printf ("number of messages in the folder = %d\n", v);
-	camel_exception_free (ex);
+	camel_exception_init (&ex);
 	
-	return v;
+	v = camel_folder_get_message_count (message_list->folder, &ex);
+	if (camel_exception_get_id (&ex))
+		v = 0;
+	
+	
+	/* in the case where no message is available, return 1
+	 * however, cause we want to be able to show a text */
+	return (v ? v:1);
+	
 }
 
 static void *
@@ -79,17 +86,30 @@ ml_value_at (ETableModel *etm, int col, int row, void *data)
 	static char buffer [10];
 	MessageList *message_list = data;
 	CamelFolderSummary *summary;
-	const GArray *array;
-	CamelMessageInfo *info;
-	CamelException *ex;
-	CamelMimeMessage *message;
+	const GArray *msg_info_array;
+	CamelMessageInfo msg_info;
+	CamelException ex;
+
+	camel_exception_init (&ex);
 	
-	ex = camel_exception_new ();
-	summary = camel_folder_get_summary(message_list->folder, ex);
-	array = camel_folder_summary_get_message_info_list(summary);
-	info = &g_array_index(array, CamelMessageInfo, row);
-	/*message = camel_folder_get_message_by_uid(message_list->folder, info->uid, ex);*/
-	camel_exception_free (ex);
+	summary = message_list->folder_summary;
+	if (!summary)
+		goto nothing_to_see;
+	
+	
+	/* retrieve the message information array */
+	msg_info_array = camel_folder_summary_get_message_info_list (summary);
+
+	/* 
+	 * in the case where it is zero message long 
+	 * display nothing 
+	 */
+	if (msg_info_array->len == 0)
+		goto nothing_to_see;
+
+	msg_info = g_array_index (msg_info_array, CamelMessageInfo, row);
+	
+	
 	switch (col){
 	case COL_ONLINE_STATUS:
 		return GINT_TO_POINTER (0);
@@ -104,23 +124,23 @@ ml_value_at (ETableModel *etm, int col, int row, void *data)
 		return GINT_TO_POINTER (0);
 		
 	case COL_FROM:
-	  if ( info->sender )
-	    return info->sender;
-	  else
-	    return "";
+		if (msg_info.sender)
+			return msg_info.sender;
+		else
+			return "";
 		
 	case COL_SUBJECT:
-	  if ( info->subject )
-	    return info->subject;
-	  else
-	    return "";
+		if (msg_info.subject)
+			return msg_info.subject;
+		else
+			return "";
 		
 	case COL_SENT:
 		return "sent";
 		
 	case COL_RECEIVE:
 		return "receive";
-			
+		
 	case COL_TO:
 		return "dudes@server";
 		
@@ -132,6 +152,17 @@ ml_value_at (ETableModel *etm, int col, int row, void *data)
 		g_assert_not_reached ();
 	}
 	return NULL;
+	
+	
+	nothing_to_see :
+		/* 
+		 * in the case there is nothing to look at, 
+		 * notice the user.
+		 */	
+		if (col == COL_SUBJECT)
+			return "No item in this view";
+		else 
+			return NULL;	  
 }
 
 static void
@@ -200,6 +231,9 @@ ml_thaw (ETableModel *etm, void *data)
 static void
 message_list_init_renderers (MessageList *message_list)
 {
+	gchar *attachment_path;
+	GdkPixbuf *image; 
+
 	g_assert (message_list);
 	g_assert (message_list->table_model);
 	
@@ -209,7 +243,17 @@ message_list_init_renderers (MessageList *message_list)
 
 	message_list->render_online_status = e_cell_checkbox_new ();
 	message_list->render_message_status = e_cell_checkbox_new ();
-	message_list->render_attachment = e_cell_checkbox_new ();
+#if 1
+	message_list->render_attachment = e_cell_checkbox_new (); 
+#else
+	/*
+	 * if we want to use a pixmap, use this code
+	 */
+	attachment_path = gnome_unconditional_datadir_file ("evolution/e-attchmt.png");
+	image = gdk_pixbuf_new_from_file (attachment_path);
+	message_list->render_attachment = e_cell_toggle_new (0, 1, &image);
+	g_free (attachment_path);
+#endif
 
 	/*
 	 * FIXME: We need a real renderer here
@@ -233,19 +277,19 @@ message_list_init_header (MessageList *message_list)
 
 	message_list->table_cols [COL_ONLINE_STATUS] =
 		e_table_col_new (COL_ONLINE_STATUS, _("Online status"),
-				 COL_ICON_WIDTH, COL_ICON_WIDTH,
+				 COL_CHECK_BOX_WIDTH, COL_CHECK_BOX_WIDTH,
 				 message_list->render_online_status,
 				 g_int_compare, FALSE);
 
 	message_list->table_cols [COL_MESSAGE_STATUS] =
 		e_table_col_new (COL_MESSAGE_STATUS, _("Message status"),
-				 COL_ICON_WIDTH, COL_ICON_WIDTH,
+				 COL_CHECK_BOX_WIDTH, COL_CHECK_BOX_WIDTH,
 				 message_list->render_message_status,
 				 g_int_compare, FALSE);
 
 	message_list->table_cols [COL_PRIORITY] =
 		e_table_col_new (COL_PRIORITY, _("Priority"),
-				 COL_ICON_WIDTH, COL_ICON_WIDTH,
+				 COL_CHECK_BOX_WIDTH, COL_CHECK_BOX_WIDTH,
 				 message_list->render_priority,
 				 g_int_compare, FALSE);
 	
@@ -302,6 +346,9 @@ message_list_init_header (MessageList *message_list)
 	}
 }
 
+
+
+#if 0
 static void
 set_header_size (GnomeCanvas *canvas, GtkAllocation *alloc)
 {
@@ -316,7 +363,7 @@ set_content_size (GnomeCanvas *canvas, GtkAllocation *alloc)
         gnome_canvas_set_scroll_region (canvas, 0, 0, alloc->width, alloc->height);
 }
 
-#if 0
+
 static GtkWidget *
 make_etable (MessageList *message_list)
 {
@@ -392,7 +439,7 @@ message_list_init (GtkObject *object)
 	 * The etable
 	 */
 	
-	message_list->etable = e_table_new (message_list->header_model, message_list->table_model, "<ETableSpecification> <columns-shown> <column> 0 </column> <column> 1 </column> <column> 2 </column> <column> 3 </column> <column> 4 </column> <column> 5 </column> <column> 6 </column> <column> 7 </column> <column> 8 </column> <column> 9 </column> </columns-shown> <grouping> <group column=\"4\" ascending=\"1\"> <leaf column=\"0\" ascending=\"1\"/> </group> </grouping> </ETableSpecification>");
+	message_list->etable = e_table_new (message_list->header_model, message_list->table_model, "<ETableSpecification> <columns-shown> <column> 0 </column> <column> 1 </column> <column> 2 </column> <column> 3 </column> <column> 4 </column> <column> 5 </column> <column> 6 </column> <column> 7 </column> <column> 8 </column> <column> 9 </column> </columns-shown> <grouping> <group column=\"4\" ascending=\"1\"> <leaf column=\"5\" ascending=\"1\"/> </group> </grouping> </ETableSpecification>"); 
 
 	gtk_widget_show(message_list->etable);
 	
@@ -512,10 +559,12 @@ create_corba_message_list (BonoboObject *object)
 }
 
 BonoboObject *
-message_list_new (void)
+message_list_new (FolderBrowser *parent_folder_browser)
 {
 	Evolution_MessageList corba_object;
 	MessageList *message_list;
+
+	g_assert (parent_folder_browser);
 
 	message_list = gtk_type_new (message_list_get_type ());
 
@@ -524,6 +573,8 @@ message_list_new (void)
 		gtk_object_destroy (GTK_OBJECT (message_list));
 		return NULL;
 	}
+
+	message_list->parent_folder_browser = parent_folder_browser;
 
 	message_list_construct (message_list, corba_object);
 
@@ -535,6 +586,7 @@ message_list_set_folder (MessageList *message_list, CamelFolder *camel_folder)
 {
 	CamelException ex;
 	gboolean folder_exists;
+	CamelMimeMessage *message;
 
 	g_return_if_fail (message_list != NULL);
 	g_return_if_fail (camel_folder != NULL);
@@ -584,17 +636,52 @@ message_list_set_folder (MessageList *message_list, CamelFolder *camel_folder)
 	message_list->folder_summary =
 		camel_folder_get_summary (camel_folder, &ex);
 	
+	
 	if (camel_exception_get_id (&ex)) {
 		printf ("Unable to get summary: %s\n",
 			ex.desc?ex.desc:"unknown_reason");	  	  
 		return;
 	}
 	
+
 	
 	gtk_object_ref (GTK_OBJECT (camel_folder));
-
+	
 	printf ("Modelo cambio!\n");
 	e_table_model_changed (message_list->table_model);
+
+	/* FIXME : put that in a separate function */
+	/* display the (first) message (in this case) */
+	if (camel_folder_has_uid_capability  (camel_folder)) {
+		const GArray *msg_info_array;
+		CamelMessageInfo msg_info;
+		
+		msg_info_array = camel_folder_summary_get_message_info_list 
+			(message_list->folder_summary);
+
+		if (msg_info_array->len > 0 ) {
+			msg_info = g_array_index (msg_info_array, CamelMessageInfo, 0);
+			
+			message = camel_folder_get_message_by_uid (camel_folder, 
+								   msg_info.uid,
+								   &ex);
+			if (camel_exception_get_id (&ex)) {
+				printf ("Unable to get message: %s\n",
+					ex.desc?ex.desc:"unknown_reason");
+				return;
+			}
+		}
+
+		printf ("Message = %p\n", message);
+		if (message)
+			mail_display_set_message (message_list->parent_folder_browser->mail_display,
+						  CAMEL_MEDIUM (message));
+			
+		
+		
+	} else
+		g_warning ("FIXME : folder does not support UIDS\n");
+	
 }
 
 GtkWidget *

@@ -2,6 +2,9 @@ bin_PROGRAMS =	evolution-mail test-mail
 
 providerdir = $(libdir)/evolution/camel-providers/$(VERSION)
 
+EXTRA_DIST = e-attchmt.png
+pkgdata_DATA = e-attchmt.png
+
 INCLUDES = \
 	-I$(top_srcdir)/widgets				\
 	-I$(top_srcdir)/widgets/e-text			\

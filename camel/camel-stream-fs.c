@@ -161,7 +161,6 @@ static void
 _set_bounds (CamelStreamFs *stream_fs, guint32 inf_bound, guint32 sup_bound)
 {
 	
-	printf ("sup_bounds = %u\n", sup_bound);
 	/* store the bounds */
 	stream_fs->inf_bound = inf_bound;
 	stream_fs->sup_bound = sup_bound;
@@ -529,12 +528,11 @@ _seek (CamelSeekableStream *stream, gint offset, CamelStreamSeekPolicy policy)
 		
 	
 		
-	printf ("***** Seeking : real_offset=%d, whence=%d\n", real_offset, whence);
 	return_position =  lseek (stream_fs->fd, real_offset, whence) - stream_fs->inf_bound;
-	if (((CAMEL_SEEKABLE_STREAM (stream)->cur_pos  + stream_fs->inf_bound) != return_position) && stream_fs->eof) 
+	if (((CAMEL_SEEKABLE_STREAM (stream)->cur_pos) != return_position) && stream_fs->eof) 
 		stream_fs->eof = FALSE;
 
-	CAMEL_SEEKABLE_STREAM (stream)->cur_pos = return_position - stream_fs->inf_bound;
+	CAMEL_SEEKABLE_STREAM (stream)->cur_pos = return_position;
 	
 	
 	return return_position;

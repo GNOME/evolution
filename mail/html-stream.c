@@ -1,3 +1,4 @@
+/* -*- Mode: C; tab-width: 8; indent-tabs-mode: t; c-basic-offset: 8 -*- */
 /*
  * html-stream.c: A CamelStream class that feeds data into a GtkHTML widget
  *
@@ -34,10 +35,30 @@ static gint
 html_stream_write (CamelStream *stream, const gchar *buffer, gint n)
 {
 	HTMLStream *html_stream = HTML_STREAM (stream);
-	
-	gtk_html_write (html_stream->gtk_html, html_stream->gtk_html_stream, buffer, n);
+
+	if (html_stream->gtk_html_stream)
+		gtk_html_write (html_stream->gtk_html, html_stream->gtk_html_stream, buffer, n);
+	else 
+		n = 0;
 
 	return n;
+}
+
+/* 
+ * CamelStream::Reset method
+ * 
+ * Reset the html widget that is, prepare it 
+ * for a new display 
+ */
+static void
+html_stream_reset (CamelStream *stream)
+{
+	HTMLStream *html_stream = HTML_STREAM (stream);
+	
+	if (html_stream->gtk_html_stream)
+		gtk_html_end (html_stream->gtk_html, html_stream->gtk_html_stream, GTK_HTML_STREAM_OK);
+	
+	html_stream->gtk_html_stream = gtk_html_begin (html_stream->gtk_html, "");
 }
 
 /*
@@ -68,6 +89,7 @@ html_stream_close (CamelStream *stream)
 	HTMLStream *html_stream = HTML_STREAM (stream);
 	
 	gtk_html_end (html_stream->gtk_html, html_stream->gtk_html_stream, GTK_HTML_STREAM_OK);
+	html_stream->gtk_html_stream = NULL;
 }
 
 static void
@@ -86,6 +108,7 @@ html_stream_class_init (GtkObjectClass *object_class)
 	
 	stream_class->read = html_stream_read;
 	stream_class->write = html_stream_write;
+	stream_class->reset = html_stream_reset;
 	stream_class->available = html_stream_available;
 	stream_class->eos = html_stream_eos;
 	stream_class->close = html_stream_close;

@@ -580,6 +580,7 @@ my_set_input_stream (CamelDataWrapper *data_wrapper, CamelStream *stream)
 		
 		/* add the body part to the multipart object */
 		camel_multipart_add_part (multipart, body_part);
+		printf ("New Part\n");
 		
 	}
 	

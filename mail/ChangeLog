@@ -1,3 +1,21 @@
+2000-03-05  bertrand  <bertrand@helixcode.com>
+
+	* message-list.h: include a referrence to the parent 
+	folder browser.
+
+	* message-list.c (ml_value_at): use the message summary 
+	from the 
+
+	* html-stream.c (html_stream_close): when the stream 
+	is closed, set the html stream to NULL
+	(html_stream_write): don't write anything if the 
+	html handle does not exist. 
+	(html_stream_reset): implemented. close the current 
+	html handle and begins a new html parser. 
+
+	* session.c (session_store_new): use static exception
+	here. 
+
 2000-03-05  Christopher James Lahey  <clahey@helixcode.com>
 
 	* message-list.c: Added a prototype message listing.

@@ -462,20 +462,22 @@ write_field_to_stream (const gchar* description, const gchar* value,
 	gchar *s;
 	guint ev_length;
 	gchar* encoded_value = value?text_to_html (
-		value, strlen(value), &ev_length):"";
+		value, strlen(value), &ev_length):g_strdup ("");
 	int i;
-	for (i = 0; i < strlen (value); i++)
-		if (!isprint(encoded_value[i]))
-			encoded_value[i] = 'Z';
 	
-	g_assert (description && value);
+	if (value)
+		for (i = 0; i < strlen (value); i++)
+			if (!isprint(encoded_value[i]))
+				encoded_value[i] = 'Z';
+	
+	g_assert (description);
 	
 	s = g_strdup_printf ("%s<b>%s</b>%s%s%s\n",
 			     as_table_row?"<tr><td>":"",
 			     description,
 			     as_table_row?"</td><td>":" ",
 			     encoded_value,
-			     as_table_row?"</td></tr>":"<br>");
+			     as_table_row?"</td></tr>":"");
 
 	camel_stream_write_string (stream, s);
 	g_free (encoded_value);
@@ -523,19 +525,54 @@ write_header_info_to_stream (CamelMimeMessage* mime_message,
 
 	g_assert (mime_message && stream);
 
-	camel_stream_write_string (stream, "<table>");
+	camel_stream_write_string (stream, "<table WIDTH=\"100\%\">");
 	
 	/* A few fields will probably be available from the mime_message;
 	   for each one that's available, write it to the output stream
 	   with a helper function, 'write_field_to_stream'. */
-	if ((s = (gchar*)camel_mime_message_get_subject (mime_message))) {
-		write_field_to_stream ("Subject: ", s, stream, TRUE);
-	}
 
-	if ((s = (gchar*)camel_mime_message_get_from (mime_message))) {
-		write_field_to_stream ("From: ", s, stream, TRUE);
-	}
+	/* blame me for the bad code - rhon rhon ! */
+	/* first row : "From" and "To" */
+	camel_stream_write_string (stream, "<tr>");
+	camel_stream_write_string (stream, "<td>");
+	s = (gchar*)camel_mime_message_get_from (mime_message);
+	write_field_to_stream ("From: ", s, stream, FALSE);
+	
+	camel_stream_write_string (stream, "</td>");
+	camel_stream_write_string (stream, "<td>");
 
+	/* Fill out the "To:" recipients line */
+	recipients = camel_mime_message_get_recipients (
+		mime_message, CAMEL_RECIPIENT_TYPE_TO);
+	
+	if (recipients)
+		write_recipients_to_stream ("To:", recipients, stream, FALSE);
+
+	camel_stream_write_string (stream, "</td>");
+	camel_stream_write_string (stream, "</tr>");
+
+
+
+	/* second row : "Subject" and "CC" */ 
+	camel_stream_write_string (stream, "<tr>");
+	camel_stream_write_string (stream, "<td>");
+	s = (gchar*)camel_mime_message_get_subject (mime_message);
+	write_field_to_stream ("Subject: ", s, stream, FALSE);
+	
+	camel_stream_write_string (stream, "</td>");
+	camel_stream_write_string (stream, "<td>");
+	
+	/* Fill out the "CC:" recipients line */
+	recipients = camel_mime_message_get_recipients (
+		mime_message, CAMEL_RECIPIENT_TYPE_CC);
+	if (recipients)
+		write_recipients_to_stream ("CC:", recipients, stream, FALSE);	
+	
+	camel_stream_write_string (stream, "</td>");
+	camel_stream_write_string (stream, "</tr>");
+
+
+#if FOR_LATER_EXTENSION
 	if ((s = (gchar*)camel_mime_message_get_received_date (mime_message))) {
 		write_field_to_stream ("Received Date: ", s, stream, TRUE);
 	}
@@ -544,24 +581,14 @@ write_header_info_to_stream (CamelMimeMessage* mime_message,
 		write_field_to_stream ("Sent Date: ", s, stream, TRUE);
 	}		
  
-	/* Fill out the "To:" recipients line */
-	recipients = camel_mime_message_get_recipients (
-		mime_message, CAMEL_RECIPIENT_TYPE_TO);
-	
-	if (recipients)
-		write_recipients_to_stream ("To:", recipients, stream, TRUE);
 
-	/* Fill out the "CC:" recipients line */
-	recipients = camel_mime_message_get_recipients (
-		mime_message, CAMEL_RECIPIENT_TYPE_CC);
-	if (recipients)
-		write_recipients_to_stream ("CC:", recipients, stream, TRUE);	
 
 	/* Fill out the "BCC:" recipients line */
 	recipients = camel_mime_message_get_recipients (
 		mime_message, CAMEL_RECIPIENT_TYPE_BCC);	
 	if (recipients)
 		write_recipients_to_stream ("BCC:", recipients, stream, TRUE);
+#endif
 
 	camel_stream_write_string (stream, "</table>");	
 }
@@ -633,7 +660,7 @@ handle_text_plain (CamelFormatter *formatter, CamelDataWrapper *wrapper)
 		nb_bytes_read = camel_stream_read (wrapper_output_stream,
 						   tmp_buffer,
 						   4096);
-
+		
 		/* If there's any text, write it to the stream */
 		if (nb_bytes_read > 0) {
 			
@@ -838,7 +865,9 @@ print_camel_body_part (CamelMimeBodyPart* body_part,
 
 	call_handler_function (formatter, contents, MIME_TYPE_WHOLE (body_part),
 			       MIME_TYPE_MAIN (body_part));
-	camel_stream_write_string (formatter->priv->stream, "\n<hr>\n");
+	camel_stream_write_string (formatter->priv->stream, "\n\n");
+	/* use this when gtktmhl is fixed */
+	/* camel_stream_write_string (formatter->priv->stream, "\n<hr>\n"); */
 }
 
 

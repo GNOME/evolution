@@ -44,9 +44,9 @@ folder_browser_factory (BonoboGenericFactory *factory, void *closure)
 	}
 	
 	
-	/*bonobo_control_set_property_bag (
+	bonobo_control_set_property_bag (
 		control,
-		FOLDER_BROWSER (folder_browser)->properties);*/
+		FOLDER_BROWSER (folder_browser)->properties);
 
 	return BONOBO_OBJECT (control);
 

@@ -14,6 +14,9 @@
 #include "e-shell-view-menu.h"
 #include "e-shell-shortcut.h"
 
+#include <bonobo.h>
+#include <libgnorba/gnorba.h>
+
 #define PARENT_TYPE gnome_app_get_type ()
 
 static GtkObjectClass *parent_class;
@@ -68,17 +71,21 @@ e_shell_view_setup_shortcut_display (EShellView *eshell_view)
 static GtkWidget *
 get_view (EFolder *efolder)
 {
-	GtkWidget *w;
-	char buffer [80];
+  	GtkWidget *w;
+	/*char buffer [80];
 
 	sprintf (buffer, "I am the view for %s\n",
 		 e_folder_get_description (efolder));
 	
 	w = gtk_label_new (buffer);
 
+	*/
+  	w = bonobo_widget_new_control ("GOADID:Evolution:FolderBrowser:1.0",
+				     NULL);
 	gtk_widget_show (w);
 	
 	return w;
+
 }
 
 void

@@ -271,7 +271,7 @@ gmime_read_line_from_stream (CamelStream *stream)
 	new_line = g_string_new ("");
 	do {
 		nb_char_read = camel_stream_read (stream, &next_char, 1);
-		printf ("Nb char read: %d\n", nb_char_read);
+		
 		if (nb_char_read>0) {
 			
 			switch (next_char) {

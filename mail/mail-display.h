@@ -1,9 +1,25 @@
+/* -*- Mode: C; tab-width: 8; indent-tabs-mode: t; c-basic-offset: 8 -*- */
+
+
+
+
+
+
+
+
+
+
+
+
 #ifndef _MAIL_DISPLAY_H_
 #define _MAIL_DISPLAY_H_
 
 #include <gtk/gtktable.h>
 #include <gtkhtml/gtkhtml.h>
 #include "camel/camel-stream.h"
+#include "camel/camel-mime-message.h"
+#include "folder-browser.h"
+
 
 #define MAIL_DISPLAY_TYPE        (mail_display_get_type ())
 #define MAIL_DISPLAY(o)          (GTK_CHECK_CAST ((o), MAIL_DISPLAY_TYPE, MailDisplay))
@@ -11,19 +27,29 @@
 #define IS_MAIL_DISPLAY(o)       (GTK_CHECK_TYPE ((o), MAIL_DISPLAY_TYPE))
 #define IS_MAIL_DISPLAY_CLASS(k) (GTK_CHECK_CLASS_TYPE ((k), MAIL_DISPLAY_TYPE))
 
-typedef struct {
+struct _MailDisplay {
 	GtkTable parent;
 
-	GtkHTML *html;
-} MailDisplay;
+	FolderBrowser *parent_folder_browser;
+
+	GtkHTML *      headers_html_widget;
+	CamelStream *  headers_stream;
+
+	GtkHTML *      body_html_widget;
+	CamelStream *  body_stream;
+	
+};
 
 typedef struct {
 	GtkTableClass parent_class;
 } MailDisplayClass;
 
 GtkType        mail_display_get_type (void);
-GtkWidget     *mail_display_new      (void);
+GtkWidget *    mail_display_new      (FolderBrowser *parent_folder_browser);
 
-CamelStream   *mail_display_get_stream (MailDisplay *display);
+void           mail_display_set_message (MailDisplay *mail_display, 
+					 CamelMedium *medium);
+
+
 
 #endif /* _MAIL_DISPLAY_H_ */

@@ -291,8 +291,6 @@ _read (CamelStream *stream, gchar *buffer, gint n)
 	   and is incompatible with buffering. 
 	*/
 
-	printf ("in CamelSeekable::read stream=(%p) cur position : %d\n", seekable_stream, seekable_stream->cur_pos);
-
 
 	parent_stream_current_position = 
 		camel_seekable_stream_get_current_position (seekable_substream->parent_stream);
@@ -307,19 +305,24 @@ _read (CamelStream *stream, gchar *buffer, gint n)
 			MIN (seekable_substream->sup_bound - position_in_parent, n);
 	else
 		nb_to_read = n;
-
+	//printf ("Nb to read = %d\n", n); 
 	if (!nb_to_read) {
+		
 		seekable_substream->eos = TRUE;
 		return 0;
 	}
 
+	/*printf ("In SeekableSubstream(%p)::read, the position has to be changed\n", stream);
+	printf ("--- parent_stream_current_position=%d,  position_in_parent=%d\n", 
+		parent_stream_current_position, position_in_parent);
+	printf ("--- seekable_substream->inf_bound=%d\n", seekable_substream->inf_bound);
+	printf ("--- seekable_substream->sup_bound=%d\n", seekable_substream->sup_bound);
+	printf ("--- seekable_substream->parent_stream=%p\n", seekable_substream->parent_stream);
+	*/
 	/* go to our position in the parent stream */
 	if (parent_stream_current_position != position_in_parent) {
-		printf ("In SeekableSubstream(%p)::read, the position has to be changed\n", stream);
-		printf ("--- parent_stream_current_position=%d,  position_in_parent=%d\n", parent_stream_current_position, position_in_parent);
-		printf ("--- seekable_substream->inf_bound=%d\n", seekable_substream->inf_bound);
-		printf ("--- seekable_substream->sup_bound=%d\n", seekable_substream->sup_bound);
-		printf ("--- seekable_substream->parent_stream=%p\n", seekable_substream->parent_stream);
+		
+		
 	camel_seekable_stream_seek (seekable_substream->parent_stream, 
 					    position_in_parent,
 					    CAMEL_STREAM_SET);
@@ -330,7 +333,6 @@ _read (CamelStream *stream, gchar *buffer, gint n)
 		camel_seekable_stream_get_current_position (seekable_substream->parent_stream);
 
 	if (parent_stream_current_position != position_in_parent) {
-		printf ("Unable to set the position in the parent\n");
 		seekable_substream->eos = TRUE;
 		return 0;
 	}
@@ -352,7 +354,7 @@ _read (CamelStream *stream, gchar *buffer, gint n)
 		seekable_stream->cur_pos += v;
 
 
-
+	/* printf ("Nb Bytes Read : %d\n",v); */
 	/* return the number of bytes read */
 	return v;
 }
@@ -430,7 +432,6 @@ _eos (CamelStream *stream)
 	
 	g_assert (stream);
 
-	printf ("** %% ** (%p)\n", stream);
 	if (seekable_substream->eos)
 		eos = TRUE;
 	else {
@@ -443,9 +444,7 @@ _eos (CamelStream *stream)
 		} 
 	}
 
-	if (eos)
-		printf ("  EOS\n");
-
+	
 	return eos;
 }
 
@@ -514,7 +513,6 @@ _seek (CamelSeekableStream *stream, gint offset, CamelStreamSeekPolicy policy)
 			seekable_stream->cur_pos = MIN (real_offset, substream_len);
 		} else 
 			seekable_stream->cur_pos = 0;
-		printf ("** set in substream %p, offset=%lld\n", stream, real_offset);
 	}
 	
 

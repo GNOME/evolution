@@ -1,3 +1,4 @@
+/* -*- Mode: C; tab-width: 8; indent-tabs-mode: t; c-basic-offset: 8 -*- */
 /*
  * folder-browser.c: Folder browser top level component
  *
@@ -6,20 +7,25 @@
  *
  * (C) 2000 Helix Code, Inc.
  */
-
 #include <config.h>
 #include <gnome.h>
 #include "e-util/e-util.h"
 #include "camel/camel-exception.h"
 #include "folder-browser.h"
 #include "session.h"
+#include "message-list.h"
+
 
 #define PARENT_TYPE (gtk_table_get_type ())
 
 static GtkObjectClass *folder_browser_parent_class;
 
+
 #define PROPERTY_FOLDER_URI      "folder_uri"
 #define PROPERTY_MESSAGE_PREVIEW "message_preview"
+
+
+
 
 static void
 folder_browser_destroy (GtkObject *object)
@@ -50,25 +56,38 @@ static gboolean
 folder_browser_load_folder (FolderBrowser *fb, const char *name)
 {
 	CamelFolder *new_folder;
-	CamelException *ex;
+	CamelException ex;
+	gboolean new_folder_exists = FALSE;
 
-	ex = camel_exception_new ();
-	new_folder = camel_store_get_folder (default_session->store, name, ex);
+	camel_exception_init (&ex);
+	new_folder = camel_store_get_folder (default_session->store, name, &ex);
 
-	if (camel_exception_get_id (ex)){
-		camel_exception_free (ex);
+	if (camel_exception_get_id (&ex)){
+		printf ("Unable to get folder %s : %s\n",
+			name,
+			ex.desc?ex.desc:"unknown reason");
 		return FALSE;
 	}
-	camel_exception_free (ex);
+	
+	/* if the folder does not exist, we don't want to show it */
+	new_folder_exists = camel_folder_exists (new_folder, &ex);	
+	if (camel_exception_get_id (&ex)) {
+	      printf ("Unable to test for folder existence: %s\n",
+		      ex.desc?ex.desc:"unknown reason");
+	      return FALSE;
+	}
+		
+	if (!new_folder_exists) {
+		gtk_object_unref (GTK_OBJECT (new_folder));
+		return FALSE;
+	}
+
 	
 	if (fb->folder)
 		gtk_object_unref (GTK_OBJECT (fb->folder));
 	
 	fb->folder = new_folder;
 	
-	camel_folder_exists (new_folder, NULL);
-	printf ("In folder browser, folder = %p\n", new_folder);
-       
 	message_list_set_folder (fb->message_list, new_folder);
 
 	return TRUE;
@@ -151,11 +170,11 @@ folder_browser_gui_init (FolderBrowser *fb)
 	fb->message_list_w = message_list_get_widget (fb->message_list);
 	gtk_paned_add1 (GTK_PANED (fb->vpaned), fb->message_list_w);
 	gtk_widget_show (fb->message_list_w);
-#if 0
+
 	gtk_paned_add2 (GTK_PANED (fb->vpaned), GTK_WIDGET (fb->mail_display));
 	gtk_widget_show (GTK_WIDGET (fb->mail_display));
 	gtk_widget_show (GTK_WIDGET (fb));
-#endif
+
 }
 
 static void
@@ -177,8 +196,8 @@ my_folder_browser_init (GtkObject *object)
 	/*
 	 * Our instance data
 	 */
-	fb->message_list = MESSAGE_LIST (message_list_new ());
-	fb->mail_display = MAIL_DISPLAY (mail_display_new ());
+	fb->message_list = MESSAGE_LIST (message_list_new (fb));
+	fb->mail_display = MAIL_DISPLAY (mail_display_new (fb));
 
 	folder_browser_properties_init (fb);
 	folder_browser_gui_init (fb);

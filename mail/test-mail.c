@@ -16,8 +16,14 @@ create_container (void)
 	GtkWidget *window, *control;
 	BonoboUIHandler *uih;
 
+	gdk_rgb_init ();
+
+	gtk_widget_set_default_colormap (gdk_rgb_get_cmap ());
+	gtk_widget_set_default_visual (gdk_rgb_get_visual ());
+
 	window = gtk_window_new (GTK_WINDOW_TOPLEVEL);
-	gtk_widget_show (window);
+	gtk_widget_set_usize (GTK_WIDGET (window), 640, 480);
+	gtk_widget_show (GTK_WIDGET (window));
 
 	uih = bonobo_ui_handler_new ();
 	control = bonobo_widget_new_control ("GOADID:Evolution:FolderBrowser:1.0",

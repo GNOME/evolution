@@ -1,7 +1,15 @@
+2000-03-06  bertrand  <bertrand@helixcode.com>
+
+	* camel-stream-fs.c (_seek): fix a bogus calculation
+	in the return position.
+
 2000-03-05  bertrand  <bertrand@helixcode.com>
 
+	* camel-session.h: cosmetic fixes.
+
 	* camel-stream-fs.c (_read): 
-	(_seek): 
+	(_seek): fixed the current position so that it refers
+	to the current position in the stream, not in its parent.
 
 2000-03-04  NotZed  <NotZed@HelixCode.com>
 
