@@ -1,3 +1,8 @@
+2001-03-02  Not Zed  <NotZed@Ximian.com>
+
+	* mail-mt.c (set_stop): Check the container is not NIL before
+	trying to set thje prop.
+
 2001-03-01  Not Zed  <NotZed@Ximian.com>
 
 	* folder-browser.c (folder_browser_search_menu_activated): Fixes

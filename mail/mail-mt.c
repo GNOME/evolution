@@ -983,6 +983,8 @@ set_stop(int sensitive)
 
 		control = BONOBO_CONTROL (e_iterator_get (it));
 		uic = bonobo_control_get_ui_component (control);
+		if (uic == CORBA_OBJECT_NIL || bonobo_ui_component_get_container(uic) == CORBA_OBJECT_NIL)
+			continue;
 
 		bonobo_ui_component_set_prop(uic, "/commands/MailStop", "sensitive", sensitive?"1":"0", NULL);
 	}
