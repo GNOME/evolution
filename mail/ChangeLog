@@ -1,3 +1,8 @@
+2000-07-07  Jeffrey Stedfast  <fejj@helixcode.com>
+
+	* message-list.c (get_message_info): This wasn't quite right, it
+	will now work but still isn't perfect. See FIXME comment.
+
 2000-07-07  Dan Winship  <danw@helixcode.com>
 
 	* message-thread.c (remove_node): Add another argument "clast"
