@@ -280,7 +280,7 @@ AC_SUBST(DB3_CFLAGS)
 
 CPPFLAGS_save="$CPPFLAGS"
 CPPFLAGS="$CPPFLAGS $DB3_CFLAGS"
-AC_CHECK_HEADERS(db3/db.h db.h, break)
+AC_CHECK_HEADERS(db.h db3/db.h, break)
 
 AC_CACHE_CHECK([db3 header version], ac_cv_db3_header_version,
 [
