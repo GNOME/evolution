@@ -1,3 +1,8 @@
+2003-08-05  Jack Jia  <jack.jia@sun.com>
+
+	* gui/dialogs/event-page.glade: changed one of the "Con_fidential" to 
+	"Co_nfidential" since we already have "File" using the same 'F' key.
+
 2003-08-01  Lorenzo Gil <lgs@sicem.biz>
 
 	* gui/e-alarm-list.c: added the include <config.h> line at the

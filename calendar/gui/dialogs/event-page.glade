@@ -419,7 +419,7 @@
 		    <widget class="GtkRadioButton" id="classification-confidential">
 		      <property name="visible">True</property>
 		      <property name="can_focus">True</property>
-		      <property name="label" translatable="yes">Con_fidential</property>
+		      <property name="label" translatable="yes">Co_nfidential</property>
 		      <property name="use_underline">True</property>
 		      <property name="relief">GTK_RELIEF_NORMAL</property>
 		      <property name="active">False</property>
