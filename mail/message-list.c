@@ -70,9 +70,13 @@ get_message_info(MessageList *message_list, gint row)
 				if (uid) {
 					info = message_list->summary_search_cache->pdata[row] =
 						(CamelMessageInfo *) camel_folder_summary_get_by_uid(message_list->folder, uid);
-				}
+					if (!info)
+						g_warning ("get_message_info: unknown uid %s", uid);
+				} else {
+					g_warning ("get_message_info: row %d not in matches", row);
 			}
-		}
+		} else
+			g_warning ("get_message_info: row %d out of range", row);
 	} else {
 		if (row<message_list->summary_table->len)
 			info = message_list->summary_table->pdata[row];
