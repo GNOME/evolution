@@ -98,6 +98,23 @@ impl_Composer_set_headers (PortableServer_Servant servant,
 }
 
 static void
+impl_Composer_set_multipart_type (PortableServer_Servant servant,
+				  GNOME_Evolution_Composer_MultipartType type,
+				  CORBA_Environment *ev)
+{
+	BonoboObject *bonobo_object;
+	EvolutionComposer *composer;
+
+	bonobo_object = bonobo_object_from_servant (servant);
+	composer = EVOLUTION_COMPOSER (bonobo_object);
+
+	if (type == GNOME_Evolution_Composer_ALTERNATIVE) {
+		composer->composer->is_alternative = TRUE;
+		composer->composer->send_html = FALSE;
+	}
+}
+
+static void
 impl_Composer_set_body_text (PortableServer_Servant servant,
 			     const CORBA_char *text,
 			     CORBA_Environment *ev)
@@ -109,7 +126,6 @@ impl_Composer_set_body_text (PortableServer_Servant servant,
 	composer = EVOLUTION_COMPOSER (bonobo_object);
 
 	e_msg_composer_set_body_text (composer->composer, text);
-	composer->composer->no_body = FALSE;
 }
 
 static void
@@ -206,12 +222,13 @@ evolution_composer_get_epv (void)
 	POA_GNOME_Evolution_Composer__epv *epv;
 
 	epv = g_new0 (POA_GNOME_Evolution_Composer__epv, 1);
-	epv->setHeaders  = impl_Composer_set_headers;
-	epv->setBodyText = impl_Composer_set_body_text;
-	epv->attachMIME  = impl_Composer_attach_MIME;
-	epv->attachData  = impl_Composer_attach_data;
-	epv->show        = impl_Composer_show;
-	epv->send        = impl_Composer_send;
+	epv->setHeaders       = impl_Composer_set_headers;
+	epv->setMultipartType = impl_Composer_set_multipart_type;
+	epv->setBodyText      = impl_Composer_set_body_text;
+	epv->attachMIME       = impl_Composer_attach_MIME;
+	epv->attachData       = impl_Composer_attach_data;
+	epv->show             = impl_Composer_show;
+	epv->send             = impl_Composer_send;
 
 	return epv;
 }
@@ -245,22 +262,12 @@ class_init (EvolutionComposerClass *klass)
 }
 
 static void
-unset_no_body (EMsgComposer *composer, gpointer user_data)
-{
-	composer->no_body = FALSE;
-}
-
-static void
 init (EvolutionComposer *composer)
 {
 	const MailConfigAccount *account;
 
 	account            = mail_config_get_default_account ();
 	composer->composer = e_msg_composer_new ();
-	composer->composer->no_body = TRUE;
-
-	gtk_signal_connect (GTK_OBJECT (composer->composer), "realize",
-			    GTK_SIGNAL_FUNC (unset_no_body), NULL);
 
 	gtk_signal_connect (GTK_OBJECT (composer->composer), "send",
 			    GTK_SIGNAL_FUNC (send_cb), NULL);

@@ -82,6 +82,7 @@ struct _EMsgComposer {
 
 	gboolean attachment_bar_visible : 1;
 	gboolean send_html     : 1;
+	gboolean is_alternative: 1;
 	gboolean pgp_sign      : 1;
 	gboolean pgp_encrypt   : 1;
 	gboolean smime_sign    : 1;
@@ -92,7 +93,6 @@ struct _EMsgComposer {
 	gboolean view_cc       : 1;
 	gboolean view_subject  : 1;
 	gboolean has_changed   : 1;
-	gboolean no_body       : 1;
 
 	gboolean in_signature_insert : 1;
 };

@@ -1,3 +1,14 @@
+2001-10-30  Dan Winship  <danw@ximian.com>
+
+	* Evolution-Composer.idl (setMultipartType): New.
+
+	* evolution-composer.c (impl_Composer_set_multipart_type): Allow
+	caller to specify a multipart/alternative rather than
+	multipart/mixed.
+
+	* e-msg-composer.c (build_message): Revert yesterday's changes.
+	Add new ones for sending multipart/alternative.
+
 2001-10-30  Larry Ewing  <lewing@ximian.com>
 
 	* e-msg-composer.h: add dirty prototype.

@@ -280,21 +280,6 @@ add_inlined_images (EMsgComposer *composer, CamelMultipart *multipart)
 	}
 }
 
-static void
-copy_headers (CamelMedium *dest, CamelMedium *src)
-{
-	CamelMediumHeader header;
-	GArray *headers;
-	int i;
-
-	headers = camel_medium_get_headers (src);
-	for (i = 0; i < headers->len; i++) {
-		header = g_array_index (headers, CamelMediumHeader, i);
-		camel_medium_set_header (dest, header.name, header.value);
-	}
-	camel_medium_free_headers (src, headers);
-}
-
 /* This functions builds a CamelMimeMessage for the message that the user has
  * composed in `composer'.
  */
@@ -314,7 +299,7 @@ build_message (EMsgComposer *composer)
 	CamelMultipart *body = NULL;
 	CamelMimePart *part;
 	CamelException ex;
-	int i, num_attachments;
+	int i;
 	
 	if (composer->persist_stream_interface == CORBA_OBJECT_NIL)
 		return NULL;
@@ -410,10 +395,14 @@ build_message (EMsgComposer *composer)
 	} else
 		current = plain;
 	
-	num_attachments = e_msg_composer_attachment_bar_get_num_attachments (attachment_bar);
-	if (num_attachments) {
+	if (e_msg_composer_attachment_bar_get_num_attachments (attachment_bar)) {
 		CamelMultipart *multipart = camel_multipart_new ();
 		
+		if (composer->is_alternative) {
+			camel_data_wrapper_set_mime_type (CAMEL_DATA_WRAPPER (multipart),
+							  "multipart/alternative");
+		}
+
 		/* Generate a random boundary. */
 		camel_multipart_set_boundary (multipart, NULL);
 		
@@ -426,18 +415,10 @@ build_message (EMsgComposer *composer)
 		camel_object_unref (CAMEL_OBJECT (part));
 		
 		e_msg_composer_attachment_bar_to_multipart (attachment_bar, multipart, composer->charset);
-
-		if (composer->no_body && num_attachments == 1) {
-			part = camel_multipart_get_part (multipart, 1);
-			current = camel_medium_get_content_object (CAMEL_MEDIUM (part));
-			copy_headers (CAMEL_MEDIUM (new), CAMEL_MEDIUM (part));
-			camel_medium_remove_header (CAMEL_MEDIUM (new), "Content-Disposition");
-			camel_object_ref (CAMEL_OBJECT (current));
-			camel_object_unref (CAMEL_OBJECT (multipart));
-		} else		
-			current = CAMEL_DATA_WRAPPER (multipart);
+		
+		current = CAMEL_DATA_WRAPPER (multipart);
 	}
-	
+
 	if (composer->pgp_sign || composer->pgp_encrypt) {
 		part = camel_mime_part_new ();
 		camel_medium_set_content_object (CAMEL_MEDIUM (part), current);

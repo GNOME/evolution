@@ -22,6 +22,11 @@ module Evolution {
 
 		typedef sequence<char> AttachmentData;
 
+		enum MultipartType {
+			MIXED,
+			ALTERNATIVE
+		};
+
 		/**
 		 * setHeaders:
 		 * @to: the "To" recipients
@@ -35,6 +40,27 @@ module Evolution {
 		 **/
 		void setHeaders (in RecipientList to, in RecipientList cc,
 				 in RecipientList bcc, in string subject);
+
+		/**
+		 * setMultipartType:
+		 * @type: a multipart subtype
+		 *
+		 * Sets the kind of multipart message that is being
+		 * created.
+		 *
+		 * If @type is MIXED (the default), setBodyText()
+		 * will create the body, and attachMIME() and
+		 * attachData() will create attachments.
+		 *
+		 * If @type is ALTERNATIVE, setBodyText() will create
+		 * text/plain alternative, and each following
+		 * attachMIME() or attachData() call will create
+		 * another alternative.
+		 *
+		 * Other values of @type are not currently supported,
+		 * although "related" probably should be.
+		 **/
+		void setMultipartType (in MultipartType type);
 
 		/**
 		 * setBodyText:
