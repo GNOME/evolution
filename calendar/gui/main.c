@@ -59,7 +59,7 @@ struct color_prop color_props[] = {
 	{ 0xd364, 0xc6b7, 0x7969, N_("Highlighted day:"),      "/calendar/Colors/prelight_bg" },
 	{ 0x01f0, 0x01f0, 0x01f0, N_("Day numbers:"),          "/calendar/Colors/day_fg" },
 	{ 0x0000, 0x0000, 0xffff, N_("Current day's number:"), "/calendar/Colors/current_fg" },
-	{ 0x0000, 0xaaaa, 0xaaaa, N_("Overdue TODO item"),     "/calendar/Coloirs/todo_overdue" }
+	{ 0x0000, 0xaaaa, 0xaaaa, N_("Overdue To Do item"),     "/calendar/Coloirs/todo_overdue" }
 };
 
 /* Number of active calendars */
