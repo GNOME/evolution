@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: evolution 0.99.2\n"
 "POT-Creation-Date: 2001-11-26 14:41+0100\n"
-"PO-Revision-Date: 2001-11-19 19:59GMT+0200\n"
+"PO-Revision-Date: 2001-12-19 19:21GMT+0200\n"
 "Last-Translator: Vasif İsmayıloğlu MD <azerb_linux@hotmail.com>\n"
 "Language-Team: Azerbaijani Turkic <linuxaz@azerimail.net>\n"
 "MIME-Version: 1.0\n"
@@ -813,8 +813,7 @@ msgid "Email Address:"
 msgstr "ePoçt Ünvanı: "
 
 #: addressbook/gui/component/addressbook-config.glade.h:10
-msgid ""
-"Evolution will use this email address to authenticate you with the server"
+msgid "Evolution will use this email address to authenticate you with the server"
 msgstr "Evolution bu Poçt ünvanından vericiyə tanıtmaq üçün istifadə edəcək"
 
 #: addressbook/gui/component/addressbook-config.glade.h:11
@@ -1314,9 +1313,8 @@ msgid "Delete Contact?"
 msgstr "Əlaqəni Silimmi?"
 
 #: addressbook/gui/contact-editor/e-contact-editor.c:756
-#, fuzzy
 msgid "Category editor not available."
-msgstr "İzahat yoxdur."
+msgstr "Kateqoriya editoru mövcud deyildir."
 
 #: addressbook/gui/contact-editor/e-contact-editor.c:763
 msgid "This contact belongs to these categories:"
@@ -2408,8 +2406,7 @@ msgstr "Üzvlər"
 
 #: addressbook/gui/contact-list-editor/contact-list-editor.glade.h:3
 msgid "Type an email address or drag a contact into the list below:"
-msgstr ""
-"Poçt ünvanını yazın ya da əlaqə məlumatını aşağıdakı siyahıya sürükləyin:"
+msgstr "Poçt ünvanını yazın ya da əlaqə məlumatını aşağıdakı siyahıya sürükləyin:"
 
 #: addressbook/gui/contact-list-editor/contact-list-editor.glade.h:5
 msgid "_Hide addresses when sending mail to this list"
@@ -3119,8 +3116,7 @@ msgid "%d %B"
 msgstr "%d %B"
 
 #: calendar/gui/calendar-commands.c:805
-msgid ""
-"Could not create the calendar view.  Please check your ORBit and OAF setup."
+msgid "Could not create the calendar view.  Please check your ORBit and OAF setup."
 msgstr ""
 "Təqvimin görünüşü quraşdırıla bilmir. Lütfən ORBIT və OAF qurğularınızı "
 "yoxlayın."
@@ -4776,8 +4772,7 @@ msgstr "İştirakçı vəziyyəti güncəlləndi\n"
 
 #: calendar/gui/e-itip-control.c:1288
 msgid "Attendee status can not be updated because the item no longer exists"
-msgstr ""
-"İştirakçı vəziyyəti üzvün artıq mövcud olmadığından ötrü güncəllənə bilmədi"
+msgstr "İştirakçı vəziyyəti üzvün artıq mövcud olmadığından ötrü güncəllənə bilmədi"
 
 #: calendar/gui/e-itip-control.c:1316
 msgid "Removal Complete"
@@ -5356,17 +5351,14 @@ msgid "The URI of the tasks folder to display"
 msgstr "Göstəriləcək vəzifələr qovluğunun URIsi"
 
 #: calendar/gui/tasks-control-factory.c:75
-msgid ""
-"Could not create the tasks view.  Please check your ORBit and OAF setup."
-msgstr ""
-"Vəzifə görünüşü yaradıla bilmir. Lütfən ORBIT və OAF qurğularınızı yoxlayın."
+msgid "Could not create the tasks view.  Please check your ORBit and OAF setup."
+msgstr "Vəzifə görünüşü yaradıla bilmir. Lütfən ORBIT və OAF qurğularınızı yoxlayın."
 
 #: calendar/gui/tasks-migrate.c:105
 msgid ""
 "Evolution has taken the tasks that were in your calendar folder and "
 "automatically migrated them to the new tasks folder."
-msgstr ""
-"\"Evolution\" təqvim qovluğunda olan vəzifələri yeni qovluqlara daşıdı."
+msgstr "\"Evolution\" təqvim qovluğunda olan vəzifələri yeni qovluqlara daşıdı."
 
 #: calendar/gui/tasks-migrate.c:108
 msgid ""
@@ -5478,8 +5470,7 @@ msgstr "contains? qatar olan arqument 2 gözləyir"
 msgid ""
 "contains? expects argument 1 to be one of \"any\", \"summary\", \"description"
 "\""
-msgstr ""
-"contains? \"hər hansı\", \"icmal\", \"izahat\" olan arqument 1 gözləyir"
+msgstr "contains? \"hər hansı\", \"icmal\", \"izahat\" olan arqument 1 gözləyir"
 
 #: calendar/pcs/query.c:721
 msgid "has-categories? expects at least 1 argument"
@@ -5828,8 +5819,7 @@ msgstr "İsmarış dekript edilə bilmir: parol verilməyib"
 #: camel/camel-pgp-context.c:1352
 #, c-format
 msgid "Cannot decrypt this message: couldn't create pipe to GPG/PGP: %s"
-msgstr ""
-"İsmarış dekript edilə bilmir: GPG/PGP proqramına boru yaradıla bilmir. %s"
+msgstr "İsmarış dekript edilə bilmir: GPG/PGP proqramına boru yaradıla bilmir. %s"
 
 #: camel/camel-provider.c:130
 #, c-format
@@ -6334,8 +6324,7 @@ msgstr "IMAP vericisində məktubların saxlanması və oxuna bilməsi üçün."
 
 #: camel/providers/imap/camel-imap-provider.c:82
 msgid "This option will connect to the IMAP server using a plaintext password."
-msgstr ""
-"Bu seçənəklə siz IMAP vericisinə düz mətn parol ilə bağlana biləcəksiniz."
+msgstr "Bu seçənəklə siz IMAP vericisinə düz mətn parol ilə bağlana biləcəksiniz."
 
 #: camel/providers/imap/camel-imap-store.c:518
 #, c-format
@@ -6693,8 +6682,7 @@ msgstr "Müvəqqəti məktub qutusu açıla bilmir: %s"
 #: camel/providers/local/camel-spool-summary.c:978
 #: camel/providers/local/camel-spool-summary.c:986
 msgid "Summary and folder mismatch, even after a sync"
-msgstr ""
-"Toplama və qovluq bir birinə uyğun gəlmir, sinxronizasiyadan sonra da əlbətdə"
+msgstr "Toplama və qovluq bir birinə uyğun gəlmir, sinxronizasiyadan sonra da əlbətdə"
 
 #: camel/providers/local/camel-mbox-summary.c:595
 #: camel/providers/local/camel-spool-summary.c:749
@@ -6956,10 +6944,8 @@ msgstr ""
 "dəstəklənməz."
 
 #: camel/providers/pop3/camel-pop3-provider.c:91
-msgid ""
-"This will connect to the POP server and use Kerberos 4 to authenticate to it."
-msgstr ""
-"Bu seçənək POP verisici ilə Kerberos 4 istifadə edərək ünsiyyət quracaqdır."
+msgid "This will connect to the POP server and use Kerberos 4 to authenticate to it."
+msgstr "Bu seçənək POP verisici ilə Kerberos 4 istifadə edərək ünsiyyət quracaqdır."
 
 #: camel/providers/pop3/camel-pop3-store.c:198
 #, c-format
@@ -7309,14 +7295,12 @@ msgstr "DATA cavablama xətası: %s: məktub göndərilə bilmədi"
 #: camel/providers/smtp/camel-smtp-transport.c:1048
 #, c-format
 msgid "DATA send timed out: message termination: %s: mail not sent"
-msgstr ""
-"DATA göndərmə vaxt dolması: ismarış qurtarılır: %s: məktub göndərilə bilmədi"
+msgstr "DATA göndərmə vaxt dolması: ismarış qurtarılır: %s: məktub göndərilə bilmədi"
 
 #: camel/providers/smtp/camel-smtp-transport.c:1067
 #, c-format
 msgid "DATA response error: message termination: %s: mail not sent"
-msgstr ""
-"DATA cavablama xətası: ismarış qurtarılması: %s: məktub göndərilə bilmədi"
+msgstr "DATA cavablama xətası: ismarış qurtarılması: %s: məktub göndərilə bilmədi"
 
 #: camel/providers/smtp/camel-smtp-transport.c:1091
 #, c-format
@@ -7912,9 +7896,8 @@ msgid "Test"
 msgstr "Sınaq"
 
 #: filter/filter-rule.c:217
-#, fuzzy
 msgid "You must name this filter."
-msgstr "Bu qovluğun adını dəyişdir"
+msgstr "Bu süzgəcə ad verməlisiniz."
 
 #: filter/filter-rule.c:720
 msgid "Rule name: "
@@ -8203,9 +8186,8 @@ msgid "Score Rules"
 msgstr "Qiymətləndirmə Qaydaları"
 
 #: filter/vfolder-rule.c:204
-#, fuzzy
 msgid "You must name this vfolder."
-msgstr "Bu qovluğun adını dəyişdir"
+msgstr "Bu vfolder-ə ad verməlisiniz."
 
 #: filter/vfolder-rule.c:213
 msgid "You need to to specify at least one folder as a source."
@@ -9197,8 +9179,7 @@ msgstr "Pretty Good Privacy"
 
 #: mail/mail-config.glade.h:55
 msgid "Prompt when sending HTML messages to contacts that don't want them"
-msgstr ""
-"Əlaqələrə HTML məktubları göndərəndə bu tərzu istəməyənlər varsa xəbər ver"
+msgstr "Əlaqələrə HTML məktubları göndərəndə bu tərzu istəməyənlər varsa xəbər ver"
 
 #: mail/mail-config.glade.h:56
 msgid "Prompt when sending messages with an _empty subject"
@@ -9567,8 +9548,7 @@ msgid "Bcc"
 msgstr "Bcc"
 
 #: mail/mail-format.c:1817
-msgid ""
-"This message is digitally signed. Click the lock icon for more information."
+msgid "This message is digitally signed. Click the lock icon for more information."
 msgstr ""
 "Bu ismarış digital olaraq imzalanmışdır. Ətraflı məlumat üçün qıfıl "
 "timsalına tıqla."
@@ -9583,8 +9563,7 @@ msgstr "Bu ismarış digital olaraq imzalanmışdır və original olduğu düş�
 
 #: mail/mail-format.c:1856
 msgid "This message is digitally signed but can not be proven to be authentic."
-msgstr ""
-"Bu ismarış digital olaraq imzalanmışdır amma original olduğu düşünülmür."
+msgstr "Bu ismarış digital olaraq imzalanmışdır amma original olduğu düşünülmür."
 
 #: mail/mail-format.c:2072
 #, c-format
@@ -10246,12 +10225,10 @@ msgid "Executive summary component could not initialize Bonobo.\n"
 msgstr "İcraçı icmal qismi Bonobo-nu hazırlaya bilmədi.\n"
 
 #: my-evolution/metar.c:29
-#, fuzzy
 msgid "F"
 msgstr "F"
 
 #: my-evolution/metar.c:29
-#, fuzzy
 msgid "C"
 msgstr "C"
 
@@ -11447,7 +11424,6 @@ msgid "All news _feeds:"
 msgstr "Bütün xə_bərlər:"
 
 #: my-evolution/my-evolution.glade.h:6
-#, fuzzy
 msgid "C_elsius"
 msgstr "S_elsius"
 
@@ -12003,20 +11979,16 @@ msgid "(None)"
 msgstr "(Heç Biri)"
 
 #: shell/e-shell-view.c:1623
-msgid ""
-"Ximian Evolution is currently online.  Click on this button to work offline."
-msgstr ""
-"Ximian Evolution hazırda xətdədir. Xətdən çıxmaq üçün bu düyməyə basın."
+msgid "Ximian Evolution is currently online.  Click on this button to work offline."
+msgstr "Ximian Evolution hazırda xətdədir. Xətdən çıxmaq üçün bu düyməyə basın."
 
 #: shell/e-shell-view.c:1630
 msgid "Ximian Evolution is in the process of going offline."
 msgstr "Ximian Evolution xətdən çıxmaq gedişatındadır."
 
 #: shell/e-shell-view.c:1636
-msgid ""
-"Ximian Evolution is currently offline.  Click on this button to work online."
-msgstr ""
-"Ximian Evolution hazırda xətdə deyil. Xətdə girmək üçün bu düyməyə tıqlayın."
+msgid "Ximian Evolution is currently offline.  Click on this button to work online."
+msgstr "Ximian Evolution hazırda xətdə deyil. Xətdə girmək üçün bu düyməyə tıqlayın."
 
 #: shell/e-shell.c:651
 #, c-format
@@ -12824,7 +12796,7 @@ msgid "Save _As..."
 msgstr "_Fərqli Qeyd Et ..."
 
 #: ui/evolution-contact-editor.xml.h:9
-msgid "Save the contact and close the dialog box"
+msgid "Save the contactt and close the dialog box"
 msgstr "Əlaqəni qeyd et və dialoqu qapat"
 
 #: ui/evolution-contact-editor.xml.h:15
@@ -12900,8 +12872,7 @@ msgstr "_Yeni İsmarış Yaz"
 
 #: ui/evolution-mail-global.xml.h:4
 msgid "Create or edit mail accounts and other preferences"
-msgstr ""
-"Məktub hesabları yaradın və ya təkmilləşdirin, başqa əməliyyatlar aparın"
+msgstr "Məktub hesabları yaradın və ya təkmilləşdirin, başqa əməliyyatlar aparın"
 
 #: ui/evolution-mail-global.xml.h:5
 msgid "Create or edit rules for filtering new mail"
@@ -13008,8 +12979,7 @@ msgid "Hide _Read Messages"
 msgstr "_Oxunmuş İsmarışları Gizlə"
 
 #: ui/evolution-mail-list.xml.h:8
-msgid ""
-"Hide deleted messages rather than displaying them with a line through them"
+msgid "Hide deleted messages rather than displaying them with a line through them"
 msgstr "Üstünə çızıq çəkmək yerinə silinmiş ismarışları eləcə gizlə"
 
 #: ui/evolution-mail-list.xml.h:9
@@ -13038,8 +13008,7 @@ msgstr "İl_gəyi Seç"
 
 #: ui/evolution-mail-list.xml.h:15
 msgid "Select all and only the messages that are not currently selected"
-msgstr ""
-"Təkcə hazırda seçili olmayan ismarışlar olmaq üzərə bütün ismarışları seç"
+msgstr "Təkcə hazırda seçili olmayan ismarışlar olmaq üzərə bütün ismarışları seç"
 
 #: ui/evolution-mail-list.xml.h:16
 msgid "Select all messages in the same thread as the selected message"
@@ -14142,12 +14111,3 @@ msgstr "init_corba(): GNOME başladıla bilmədi"
 msgid "init_bonobo(): could not initialize Bonobo"
 msgstr "init_bonobo(): Bonobonu başlada bilmədim"
 
-#~ msgid ""
-#~ "Are you sure you want\n"
-#~ "to delete this contact?"
-#~ msgstr ""
-#~ "Bu hesabı həqiqətən də\n"
-#~ "silmək istəyirsiniz?"
-
-#~ msgid "Click here to add an attendee"
-#~ msgstr "Dinləyici əlavə etmək üçün buraya tıqlayın"
