@@ -37,6 +37,7 @@ libcamel_la_SOURCES = 				\
 	camel-folder-thread.c			\
 	camel-folder.c				\
 	camel-html-parser.c			\
+	camel-http-stream.c			\
 	camel-internet-address.c		\
 	camel-lock.c				\
 	camel-lock-client.c			\
@@ -125,6 +126,7 @@ libcamelinclude_HEADERS =			\
 	camel-folder-summary.h			\
 	camel-folder-thread.h			\
 	camel-folder.h				\
+	camel-http-stream.h			\
 	camel-internet-address.h		\
 	camel-lock.h				\
 	camel-lock-client.h			\

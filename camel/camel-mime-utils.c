@@ -1815,8 +1815,8 @@ header_decode_value(const char **in)
 	return NULL;
 }
 
-/* shoudl this return -1 for no int? */
-static int
+/* should this return -1 for no int? */
+int
 header_decode_int(const char **in)
 {
 	const char *inptr = *in;

@@ -29,6 +29,7 @@ extern "C" {
 #pragma }
 #endif /* __cplusplus */
 
+#include <camel/camel-mime-parser.h>
 #include <camel/camel-mime-utils.h>
 #include <camel/camel-service.h>
 #include <camel/camel-stream.h>
@@ -52,10 +53,11 @@ typedef enum {
 
 
 typedef struct _CamelHttpStreamClass CamelHttpStreamClass;
-typedef struct _CamelHttpStream CamelHttpStream;
 
 struct _CamelHttpStream {
 	CamelStream parent_object;
+	
+	CamelMimeParser *parser;
 	
 	CamelContentType *content_type;
 	struct _header_raw *headers;
@@ -78,6 +80,8 @@ CamelType camel_http_stream_get_type (void);
 
 /* public methods */
 CamelStream *camel_http_stream_new (CamelHttpMethod method, CamelService *service, CamelURL *url);
+
+CamelContentType *camel_http_stream_get_content_type (CamelHttpStream *http_stream);
 
 #ifdef __cplusplus
 }

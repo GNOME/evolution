@@ -160,6 +160,8 @@ char *header_unfold (const char *in);
 /* decode a header which is a simple token */
 char *header_token_decode (const char *in);
 
+int header_decode_int (const char **in);
+
 /* decode/encode a string type, like a subject line */
 char *header_decode_string (const char *in, const char *default_charset);
 char *header_encode_string (const unsigned char *in);

@@ -28,6 +28,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+#include <ctype.h>
 #include <errno.h>
 
 #include "camel-http-stream.h"
@@ -72,21 +73,22 @@ camel_http_stream_class_init (CamelHttpStreamClass *camel_http_stream_class)
 static void
 camel_http_stream_init (gpointer object, gpointer klass)
 {
-	CamelHttpStream *stream = CAMEL_HTTP_STREAM (object);
+	CamelHttpStream *http = CAMEL_HTTP_STREAM (object);
 	
-	stream->content_type = NULL;
-	stream->headers = NULL;
-	stream->service = NULL;
-	stream->url = NULL;
-	stream->raw = NULL;
+	http->parser = NULL;
+	http->content_type = NULL;
+	http->headers = NULL;
+	http->service = NULL;
+	http->url = NULL;
+	http->raw = NULL;
 }
 
 static void
-headers_free (http->headers)
+headers_free (struct _header_raw *headers)
 {
 	struct _header_raw *node, *next;
 	
-	node = http->headers;
+	node = headers;
 	while (node) {
 		next = node->next;
 		g_free (node->name);
@@ -99,22 +101,25 @@ headers_free (http->headers)
 static void
 camel_http_stream_finalize (CamelObject *object)
 {
-	CamelHttpStream *stream = CAMEL_HTTP_STREAM (object);
+	CamelHttpStream *http = CAMEL_HTTP_STREAM (object);
 	
-	if (stream->content_type)
-		header_content_type_unref (stream->content_type);
+	if (http->parser)
+		camel_object_unref (CAMEL_OBJECT (http->parser));
 	
-	if (stream->headers)
-		headers_free (stream->headers);
+	if (http->content_type)
+		header_content_type_unref (http->content_type);
 	
-	if (stream->service)
-		camel_object_unref (CAMEL_OBJECT (service));
+	if (http->headers)
+		headers_free (http->headers);
 	
-	if (stream->url)
-		camel_url_free (stream->url);
+	if (http->service)
+		camel_object_unref (CAMEL_OBJECT (http->service));
 	
-	if (stream->raw)
-		camel_object_unref (CAMEL_OBJECT (stream->raw));
+	if (http->url)
+		camel_url_free (http->url);
+	
+	if (http->raw)
+		camel_object_unref (CAMEL_OBJECT (http->raw));
 }
 
 
@@ -152,7 +157,7 @@ camel_http_stream_new (CamelHttpMethod method, CamelService *service, CamelURL *
 	CamelHttpStream *stream;
 	char *str;
 	
-	g_return_val_if_fail (!CAMEL_IS_SERVICE (service), NULL);
+	g_return_val_if_fail (CAMEL_IS_SERVICE (service), NULL);
 	g_return_val_if_fail (url != NULL, NULL);
 	
 	stream = CAMEL_HTTP_STREAM (camel_object_new (camel_http_stream_get_type ()));
@@ -219,30 +224,29 @@ http_connect (CamelService *service, CamelURL *url)
 static const char *
 http_next_token (const unsigned char *in)
 {
-	const char *inptr = in;
+	const unsigned char *inptr = in;
 	
-	while (*inptr && !is_lwsp (*inptr))
+	while (*inptr && !isspace ((int) *inptr))
 		inptr++;
 	
-	while (*inptr && is_lwsp (*inptr))
+	while (*inptr && isspace ((int) *inptr))
 		inptr++;
 	
-	return inptr;
+	return (const char *) inptr;
 }
 
 static int
 http_get_headers (CamelHttpStream *http)
 {
-	CamelMimeParser *mp;
 	struct _header_raw *headers, *node, *tail;
 	const char *type, *token;
+	char buffer[4096], *buf;
 	int status, len, err;
-	char *buf;
 	
-	if (camel_stream_buffer_gets (CAMEL_STREAM_BUFFER (http->raw), buffer, 4096) <= 0)
+	if (camel_stream_buffer_gets (CAMEL_STREAM_BUFFER (http->raw), buffer, sizeof (buffer)) <= 0)
 		return -1;
 	
-	if (!stncasecmp (buffer, "HTTP/", 5)) {
+	if (!strncasecmp (buffer, "HTTP/", 5)) {
 		token = http_next_token (buffer);
 		status = header_decode_int (&token);
 		/* FIXME: don't just check for 200 */
@@ -251,15 +255,15 @@ http_get_headers (CamelHttpStream *http)
 	} else
 		goto exception;
 	
-	mp = camel_mime_parser_new ();
-	camel_mime_parser_init_with_stream (mp, http->raw);
+	http->parser = camel_mime_parser_new ();
+	camel_mime_parser_init_with_stream (http->parser, http->raw);
 	
-	switch (camel_mime_parser_step (mp, &buf, &len)) {
+	switch (camel_mime_parser_step (http->parser, &buf, &len)) {
 	case HSCAN_MESSAGE:
 	case HSCAN_HEADER:
 	case HSCAN_MULTIPART:
 		/* we have the headers, build them into 'us' */
-		headers = camel_mime_parser_headers_raw (mp);
+		headers = camel_mime_parser_headers_raw (http->parser);
 		
 		/* if content-type exists, process it first, set for fallback charset in headers */
 		if (http->content_type)
@@ -289,14 +293,18 @@ http_get_headers (CamelHttpStream *http)
 		
 		break;
 	default:
-		g_warning ("Invalid state encountered???: %d", camel_mime_parser_state (mp));
+		g_warning ("Invalid state encountered???: %d", camel_mime_parser_state (http->parser));
 	}
 	
-	err = camel_mime_parser_errno (mp);
-	camel_object_unref (CAMEL_OBJECT (mp));
+	err = camel_mime_parser_errno (http->parser);
 	
-	if (err != 0)
+	if (err != 0) {
+		camel_object_unref (CAMEL_OBJECT (http->parser));
+		http->parser = NULL;
 		goto exception;
+	}
+	
+	camel_mime_parser_drop_step (http->parser);
 	
 	return 0;
 	
@@ -307,105 +315,82 @@ http_get_headers (CamelHttpStream *http)
 	return -1;
 }
 
+static int
+http_method_invoke (CamelHttpStream *http)
+{
+	const char *method = NULL;
+	char *url;
+	
+	switch (http->method) {
+	case CAMEL_HTTP_METHOD_GET:
+		method = "GET";
+		break;
+	case CAMEL_HTTP_METHOD_HEAD:
+		method = "HEAD";
+		break;
+	default:
+		g_assert_not_reached ();
+	}
+	
+	url = camel_url_to_string (http->url, 0);
+	if (camel_stream_printf (http->raw, "%s %s HTTP/1.1\r\nHost: %s\r\n\r\n",
+				 method, http->url->path ? http->url->path : "/",
+				 http->url->host) == -1 ||
+	    camel_stream_flush (http->raw) == -1) {
+		camel_object_unref (CAMEL_OBJECT (http->raw));
+		http->raw = NULL;
+		return -1;
+	}
+	g_free (url);
+	
+	return 0;
+}
 
 static ssize_t
 stream_read (CamelStream *stream, char *buffer, size_t n)
 {
 	CamelHttpStream *http = CAMEL_HTTP_STREAM (stream);
+	const char *parser_buf;
+	ssize_t nread;
 	
-	if (http->method != CAMEL_HTTP_METHOD_GET || http->method != CAMEL_HTTP_METHOD_HEAD) {
-		errno = ENOTSUPP;
+	if (http->method != CAMEL_HTTP_METHOD_GET && http->method != CAMEL_HTTP_METHOD_HEAD) {
+		errno = EIO;
 		return -1;
 	}
 	
 	if (!http->raw) {
-		const char *method;
-		char *url;
-		
 		http->raw = http_connect (http->service, http->url);
 		if (!http->raw)
 			return -1;
 		
-		switch (http->method) {
-		case CAMEL_HTTP_METHOD_GET:
-			method = "GET";
-			break;
-		case CAMEL_HTTP_METHOD_HEAD:
-			method = "HEAD";
-			break;
-		}
-		
-		url = camel_url_to_string (http->url, 0);
-		if (camel_stream_printf (http->raw, "%s %s HTTP/1.1\r\nHost: %s\r\n\r\n",
-					 method, http->url->path ? http->url->path : "/",
-					 http->url->host) == -1 ||
-		    camel_stream_flush (http->raw) == -1) {
-			camel_object_unref (CAMEL_OBJECT (http->raw));
-			http->raw = NULL;
+		if (http_method_invoke (http) == -1)
 			return -1;
-		}
-		g_free (url);
 		
 		if (http_get_headers (http) == -1)
 			return -1;
 	}
 	
-	return camel_stream_read (http->raw, buffer, n);
+	nread = camel_mime_parser_read (http->parser, &parser_buf, n);
+	
+	if (nread > 0)
+		memcpy (buffer, parser_buf, nread);
+	
+	return nread;
 }
 
 static ssize_t
 stream_write (CamelStream *stream, const char *buffer, size_t n)
 {
-	CamelHttpStream *http = CAMEL_HTTP_STREAM (stream);
-	
-	if (http->method == CAMEL_HTTP_METHOD_GET || http->method == CAMEL_HTTP_METHOD_HEAD) {
-		errno = ENOTSUPP;
-		return -1;
-	}
-	
 	return -1;
-#if 0	
-	if (!http->raw) {
-		const char *method;
-		char *url;
-		
-		http->raw = http_connect (http->service, http->url);
-		if (!http->raw)
-			return -1;
-		
-		switch (http->method) {
-		case CAMEL_HTTP_METHOD_PUT:
-			method = "PUT";
-			break;
-		case CAMEL_HTTP_METHOD_POST:
-			method = "POST";
-			break;
-		}
-		
-		url = camel_url_to_string (http->url, 0);
-		if (camel_stream_printf (http->raw, "%s %s HTTP/1.1\r\nHost: %s\r\n\r\n",
-					 method, http->url->path ? http->url->path : "/",
-					 http->url->host) == -1 ||
-		    camel_stream_flush (http->raw) == -1) {
-			camel_object_unref (CAMEL_OBJECT (http->raw));
-			http->raw = NULL;
-			return -1;
-		}
-		g_free (url);
-		
-		if (http_get_headers (http) == -1)
-			return -1;
-	}
-	
-	return camel_stream_write (http->raw, buffer, n);
-#endif
 }
 
 static int
 stream_flush (CamelStream *stream)
 {
-	if (stream->raw)
-		return camel_stream_flush (stream->raw);
+	CamelHttpStream *http = (CamelHttpStream *) stream;
+	
+	if (http->raw)
+		return camel_stream_flush (http->raw);
 	else
 		return 0;
 }
@@ -413,7 +398,7 @@ stream_flush (CamelStream *stream)
 static int
 stream_close (CamelStream *stream)
 {
-	CamelHttpStream *http = CAMEL_HTTP_STREAM (stream);
+	CamelHttpStream *http = (CamelHttpStream *) stream;
 	
 	if (http->raw) {
 		if (camel_stream_close (http->raw) == -1)
@@ -439,3 +424,27 @@ stream_reset (CamelStream *stream)
 	
 	return 0;
 };
+
+
+CamelContentType *
+camel_http_stream_get_content_type (CamelHttpStream *http_stream)
+{
+	g_return_val_if_fail (CAMEL_IS_HTTP_STREAM (http_stream), NULL);
+	
+	if (!http_stream->content_type && !http_stream->raw) {
+		http_stream->raw = http_connect (http_stream->service, http_stream->url);
+		if (!http_stream->raw)
+			return NULL;
+		
+		if (http_method_invoke (http_stream) == -1)
+			return NULL;
+		
+		if (http_get_headers (http_stream) == -1)
+			return NULL;
+	}
+	
+	if (http_stream->content_type)
+		header_content_type_ref (http_stream->content_type);
+	
+	return http_stream->content_type;
+}
