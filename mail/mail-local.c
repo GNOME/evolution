@@ -647,7 +647,7 @@ local_storage_removed_folder_cb (EvolutionStorageListener *storage_listener,
 static CamelProvider local_provider = {
 	"file", "Local mail", NULL, "mail",
 	CAMEL_PROVIDER_IS_STORAGE, CAMEL_URL_NEED_PATH,
-	{ 0, 0 }, NULL
+	/* ... */
 };
 
 /* There's only one "file:" store. */
