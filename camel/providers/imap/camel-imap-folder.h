@@ -70,5 +70,3 @@ GtkType camel_imap_folder_get_type (void);
 #endif /* __cplusplus */
 
 #endif /* CAMEL_IMAP_FOLDER_H */
-
-

@@ -1,3 +1,15 @@
+2000-06-18  Jeffrey Stedfast  <fejj@helixcode.com>
+
+	* providers/imap/camel-imap-folder.c (imap_summary_get_by_uid): 
+	Now gets the message flags as it should.
+	(imap_get_summary): Same as imap_summary_get_by_uid
+	(imap_get_permanent_flags): Return the permanent flags stored
+	on the folder.
+	(imap_get_message_flags): Return message flags associated with
+	given uid. Note: we may want to somehow cache summary info so
+	that we don't have to keep querying the IMAP provider in
+	imap_summary_get_by_uid().
+
 2000-06-17  Jeffrey Stedfast  <fejj@helixcode.com>
 
 	* providers/imap/camel-imap-folder.c (imap_free_summary): We were
