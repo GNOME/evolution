@@ -1,5 +1,12 @@
 2001-03-22  Ettore Perazzoli  <ettore@ximian.com>
 
+	* e-shell-folder-creation-dialog.c (async_create_cb): Changed
+	signature to match `EStorageSetResultCallback' instead of
+	`EStorageResultCallback', to match the changes in the async_create
+	API call.
+
+2001-03-22  Ettore Perazzoli  <ettore@ximian.com>
+
 	* e-storage-set-view.c: Removed some unused static variables.
 	(set_evolution_path_selection): Removed unused variable
 	`evolution_path'.

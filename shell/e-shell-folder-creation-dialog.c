@@ -74,7 +74,7 @@ dialog_data_destroy (DialogData *dialog_data)
 /* Callback for the asynchronous folder creation function.  */
 
 static void
-async_create_cb (EStorage *storage,
+async_create_cb (EStorageSet *storage_set,
 		 EStorageResult result,
 		 void *data)
 {
