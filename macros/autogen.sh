@@ -50,6 +50,11 @@ if test -z "$*"; then
     echo
 fi
 
+case $CC in
+xlc )
+    am_opt=--include-deps;;
+esac
+
 for j in `find $srcdir -name configure.in -print`
 do 
     i=`dirname $j`
@@ -68,7 +73,7 @@ do
     	done; \
     	libtoolize --copy --force; \
     	aclocal $aclocalinclude; \
-    	autoheader; automake --add-missing --gnu; autoheader; autoconf)
+    	autoheader; automake --add-missing --gnu $am_opt; autoheader; autoconf)
     fi
 done
 
