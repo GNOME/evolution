@@ -126,6 +126,9 @@ struct _EMFormatClass {
 
 	GHashTable *type_handlers;
 
+	/* lookup handler, default falls back to hashtable above */
+	const EMFormatHandler *(*find_handler)(EMFormat *, const char *mime_type);
+
 	/* start formatting a message */
 	void (*format_clone)(EMFormat *, struct _CamelMedium *, EMFormat *);
 	/* some internel error/inconsistency */
@@ -171,7 +174,7 @@ GType em_format_get_type(void);
 
 void em_format_class_add_handler(EMFormatClass *emfc, EMFormatHandler *info);
 void em_format_class_remove_handler (EMFormatClass *emfc, const char *mime_type);
-const EMFormatHandler *em_format_find_handler(EMFormat *emf, const char *mime_type);
+#define em_format_find_handler(emf, type) ((EMFormatClass *)G_OBJECT_GET_CLASS(emf))->find_handler((emf), (type))
 const EMFormatHandler *em_format_fallback_handler(EMFormat *emf, const char *mime_type);
 
 /* puri is short for pending uri ... really */

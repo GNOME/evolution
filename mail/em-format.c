@@ -57,6 +57,7 @@
 static void emf_builtin_init(EMFormatClass *);
 static const char *emf_snoop_part(CamelMimePart *part);
 
+static const EMFormatHandler *emf_find_handler(EMFormat *emf, const char *mime_type);
 static void emf_format_clone(EMFormat *emf, CamelMedium *msg, EMFormat *emfsource);
 static gboolean emf_busy(EMFormat *emf);
 
@@ -111,6 +112,7 @@ emf_class_init(GObjectClass *klass)
 	emf_builtin_init((EMFormatClass *)klass);
 
 	klass->finalize = emf_finalise;
+	((EMFormatClass *)klass)->find_handler = emf_find_handler;
 	((EMFormatClass *)klass)->format_clone = emf_format_clone;
 	((EMFormatClass *)klass)->busy = emf_busy;
 
@@ -184,7 +186,6 @@ em_format_class_remove_handler (EMFormatClass *emfc, const char *mime_type)
 	g_hash_table_remove (emfc->type_handlers, mime_type);
 }
 
-
 /**
  * em_format_find_handler:
  * @emf: 
@@ -194,8 +195,8 @@ em_format_class_remove_handler (EMFormatClass *emfc, const char *mime_type)
  * 
  * Return value: NULL if no handler is available.
  **/
-const EMFormatHandler *
-em_format_find_handler(EMFormat *emf, const char *mime_type)
+static const EMFormatHandler *
+emf_find_handler(EMFormat *emf, const char *mime_type)
 {
 	EMFormatClass *emfc = (EMFormatClass *)G_OBJECT_GET_CLASS(emf);
 

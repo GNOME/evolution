@@ -1,3 +1,14 @@
+2004-01-05  Not Zed  <NotZed@Ximian.com>
+
+	** See bug #50996.
+
+	* em-format-html-display.c (efhd_find_handler): implement override
+	for unknown types, try bonobo handlers.
+	(efhd_bonobo_unknown): formathandler for bonobo objects.
+
+	* em-format.c (em_format_find_handler): make virtual, rename to
+	emf_find_handler.
+
 2004-01-04  David Woodhouse  <dwmw2@infradead.org>
 
 	* em-format-html-display.c: Mail warning grammar typo fix.

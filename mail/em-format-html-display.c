@@ -74,6 +74,7 @@
 #include <e-util/e-dialog-utils.h>
 
 #if defined(HAVE_NSS)
+#include <camel/camel-smime-context.h>
 #include "certificate-viewer.h"
 #include "e-cert-db.h"
 #endif
@@ -123,12 +124,16 @@ static void efhd_iframe_created(GtkHTML *html, GtkHTML *iframe, EMFormatHTMLDisp
 /*static void efhd_url_requested(GtkHTML *html, const char *url, GtkHTMLStream *handle, EMFormatHTMLDisplay *efh);
   static gboolean efhd_object_requested(GtkHTML *html, GtkHTMLEmbedded *eb, EMFormatHTMLDisplay *efh);*/
 
+static const EMFormatHandler *efhd_find_handler(EMFormat *emf, const char *mime_type);
 static void efhd_format_clone(EMFormat *, CamelMedium *, EMFormat *);
 static void efhd_format_error(EMFormat *emf, CamelStream *stream, const char *txt);
 static void efhd_format_message(EMFormat *, CamelStream *, CamelMedium *);
 static void efhd_format_source(EMFormat *, CamelStream *, CamelMimePart *);
 static void efhd_format_attachment(EMFormat *, CamelStream *, CamelMimePart *, const char *, const EMFormatHandler *);
 static void efhd_complete(EMFormat *);
+
+static gboolean efhd_bonobo_object(EMFormatHTML *efh, GtkHTMLEmbedded *eb, EMFormatHTMLPObject *pobject);
+static gboolean efhd_use_component(const char *mime_type);
 
 static void efhd_builtin_init(EMFormatHTMLDisplayClass *efhc);
 
@@ -140,7 +145,8 @@ enum {
 
 static guint efhd_signals[EFHD_LAST_SIGNAL] = { 0 };
 
-
+/* EMFormatHandler's for bonobo objects */
+static GHashTable *efhd_bonobo_handlers;
 static EMFormatHTMLClass *efhd_parent;
 
 static void
@@ -254,6 +260,7 @@ efhd_bool_accumulator(GSignalInvocationHint *ihint, GValue *out, const GValue *i
 static void
 efhd_class_init(GObjectClass *klass)
 {
+	((EMFormatClass *)klass)->find_handler = efhd_find_handler;
 	((EMFormatClass *)klass)->format_clone = efhd_format_clone;
 	((EMFormatClass *)klass)->format_error = efhd_format_error;
 	((EMFormatClass *)klass)->format_message = efhd_format_message;
@@ -302,6 +309,8 @@ em_format_html_display_get_type(void)
 		};
 		efhd_parent = g_type_class_ref(em_format_html_get_type());
 		type = g_type_register_static(em_format_html_get_type(), "EMFormatHTMLDisplay", &info, 0);
+
+		efhd_bonobo_handlers = g_hash_table_new(g_str_hash, g_str_equal);
 	}
 
 	return type;
@@ -937,6 +946,40 @@ efhd_builtin_init(EMFormatHTMLDisplayClass *efhc)
 }
 
 /* ********************************************************************** */
+
+static void
+efhd_bonobo_unknown(EMFormat *emf, CamelStream *stream, CamelMimePart *part, const EMFormatHandler *info)
+{
+	static int partid;
+	char *classid;
+
+	classid = g_strdup_printf("bonobo-unknown:///em-format-html-display/%p/%d", part, partid++);
+	em_format_html_add_pobject((EMFormatHTML *)emf, sizeof(EMFormatHTMLPObject), classid, part, efhd_bonobo_object);
+	camel_stream_printf(stream, "<object classid=\"%s\" type=\"%s\">\n", classid, info->mime_type);
+	g_free(classid);
+}
+
+/* ********************************************************************** */
+
+static const EMFormatHandler *efhd_find_handler(EMFormat *emf, const char *mime_type)
+{
+	const EMFormatHandler *handle;
+
+	handle = ((EMFormatClass *)efhd_parent)->find_handler(emf, mime_type);
+	if (handle == NULL
+	    && efhd_use_component(mime_type)
+	    && (handle = g_hash_table_lookup(efhd_bonobo_handlers, mime_type)) == NULL) {
+		EMFormatHandler *h = g_malloc0(sizeof(*h));
+
+		h->mime_type = g_strdup(mime_type);
+		h->handler = efhd_bonobo_unknown;
+		g_hash_table_insert(efhd_bonobo_handlers, h->mime_type, h);
+
+		handle = h;
+	}
+
+	return handle;
+}
 
 static void efhd_format_clone(EMFormat *emf, CamelMedium *part, EMFormat *src)
 {
