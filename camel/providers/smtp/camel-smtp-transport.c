@@ -305,7 +305,7 @@ connect_to_server (CamelService *service, int try_starttls, CamelException *ex)
 	} while (*(respbuf+3) == '-'); /* if we got "220-" then loop again */
 	g_free (respbuf);
 	
-	/* send HELO (or EHLO, depending on the service type) */
+	/* send EHLO (or HELO, depending on the service type) */
 	if (!(transport->flags & CAMEL_SMTP_TRANSPORT_IS_ESMTP)) {
 		/* If we did not auto-detect ESMTP, we should still send EHLO */
 		transport->flags |= CAMEL_SMTP_TRANSPORT_IS_ESMTP;
@@ -324,6 +324,9 @@ connect_to_server (CamelService *service, int try_starttls, CamelException *ex)
 		if (!smtp_helo (transport, ex) && !transport->connected)
 			return FALSE;
 	}
+	
+	/* clear any EHLO/HELO exception and assume that any SMTP errors encountered were non-fatal */
+	camel_exception_clear (ex);
 	
 #ifdef HAVE_SSL
 	if (transport->flags & CAMEL_SMTP_TRANSPORT_USE_SSL_WHEN_POSSIBLE) {
@@ -454,7 +457,7 @@ smtp_connect (CamelService *service, CamelException *ex)
 		return FALSE;
 	
 	/* check to see if AUTH is required, if so...then AUTH ourselves */
-	has_authtypes = g_hash_table_size (transport->authtypes) > 0;
+	has_authtypes = transport->authtypes ? g_hash_table_size (transport->authtypes) > 0 : FALSE;
 	if (service->url->authmech && (transport->flags & CAMEL_SMTP_TRANSPORT_IS_ESMTP) && has_authtypes) {
 		CamelSession *session = camel_service_get_session (service);
 		CamelServiceAuthType *authtype;
@@ -824,6 +827,7 @@ smtp_set_exception (CamelSmtpTransport *transport, const char *respbuf, const ch
 			if (*(rbuf + 3) == '-') {
 				g_free (buffer);
 				buffer = camel_stream_buffer_read_line (CAMEL_STREAM_BUFFER (transport->istream));
+				g_string_append_c (string, '\n');
 			} else {
 				g_free (buffer);
 				buffer = NULL;
@@ -857,23 +861,39 @@ smtp_helo (CamelSmtpTransport *transport, CamelException *ex)
 	struct hostent *host;
 	CamelException err;
 	const char *token;
+	int af;
 	
 	camel_operation_start_transient (NULL, _("SMTP Greeting"));
 	
 	/* get the local host name */
 	camel_exception_init (&err);
+#ifdef ENABLE_IPv6
+	af = transport->localaddr->family == CAMEL_TCP_ADDRESS_IPv6 ? AF_INET6 : AF_INET;
+#else
+	af = AF_INET;
+#endif
 	host = camel_gethostbyaddr ((char *) &transport->localaddr->address,
-				    transport->localaddr->length, AF_INET, &err);
+				    transport->localaddr->length, af, &err);
+	
 	camel_exception_clear (&err);
 	
 	if (host && host->h_name) {
 		name = g_strdup (host->h_name);
 	} else {
+#ifdef ENABLE_IPv6
+		char ip[MAXHOSTNAMELEN + 1];
+		
+		name = g_strdup_printf ("[%s]", inet_ntop (af, transport->localaddr->address, ip, MAXHOSTNAMELEN));
+#else
+		/* We *could* use inet_ntoa() here, but it's probably
+		   not worth it since we would have to worry about
+		   some systems not having inet_ntoa() */
 		name = g_strdup_printf ("[%d.%d.%d.%d]",
 					transport->localaddr->address[0],
 					transport->localaddr->address[1],
 					transport->localaddr->address[2],
 					transport->localaddr->address[3]);
+#endif
 	}
 	
 	camel_free_host (host);
@@ -893,6 +913,7 @@ smtp_helo (CamelSmtpTransport *transport, CamelException *ex)
 				      g_strerror (errno));
 		camel_operation_end (NULL);
 		
+		transport->connected = FALSE;
 		camel_object_unref (transport->istream);
 		transport->istream = NULL;
 		camel_object_unref (transport->ostream);

@@ -1,3 +1,17 @@
+2002-08-23  Jeffrey Stedfast  <fejj@ximian.com>
+
+	* providers/smtp/camel-smtp-transport.c (smtp_helo): If we fail to
+	send the EHLO/HELO command successfully, set transport->connected
+	to FALSE when we close the tcp connection. Also updated to work on
+	an IPv6 network.
+	(smtp_connect): transport->authtypes can be NULL, so NULL-protect
+	the call to g_hash_table_size() - this should fix a warning that
+	was reported on the evolution@ximian.com mailing list.
+	(smtp_set_exception): If the status message is multi-line, add a
+	\n between lines.
+	(connect_to_server): If we are going to ignore the EHLO/HELO error
+	as if it were non-fatal, then we should clear the exception.
+
 2002-08-22  Jeffrey Stedfast  <fejj@ximian.com>
 
 	* providers/imap/camel-imap-store.c (imap_noop): If current_folder
