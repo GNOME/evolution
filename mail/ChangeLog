@@ -1,5 +1,8 @@
 2004-02-23  Jeffrey Stedfast  <fejj@ximian.com>
 
+	* em-format-quote.c (emfq_format_message): Print the headers when
+	forwarding inline/quoted. Fixes bug #53916.
+
 	* em-folder-tree.c (tree_drag_motion): We want UID_LISTs to drop
 	with the MOVE action by default. Fixes a common complaint from
 	IRC.
