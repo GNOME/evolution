@@ -225,7 +225,9 @@ gint            e_table_model_to_view_row         (ETable               *e_table
 						   gint                  model_row);
 gint            e_table_view_to_model_row         (ETable               *e_table,
 						   gint                  view_row);
-
+void            e_table_get_cell_at               (ETable *table,
+						   int x, int y,
+						   int *row_return, int *col_return);
 
 /* Drag & drop stuff. */
 /* Target */

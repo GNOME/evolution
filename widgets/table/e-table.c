@@ -1549,6 +1549,35 @@ e_table_view_to_model_row        (ETable *e_table,
 		return view_row;
 }
 
+/**
+ * e_table_get_cell_at:
+ * @table: An ETable widget
+ * @x: X coordinate for the pixel
+ * @y: Y coordinate for the pixel
+ * @row_return: Pointer to return the row value
+ * @col_return: Pointer to return the column value
+ * 
+ * Return the row and column for the cell in which the pixel at (@x, @y) is
+ * contained.
+ **/
+void
+e_table_get_cell_at (ETable *table,
+		     int x, int y,
+		     int *row_return, int *col_return)
+{
+	g_return_if_fail (table != NULL);
+	g_return_if_fail (E_IS_TABLE (table));
+	g_return_if_fail (row_return != NULL);
+	g_return_if_fail (col_return != NULL);
+
+	/* FIXME it would be nice if it could handle a NULL row_return or
+	 * col_return gracefully.  */
+
+	x += GTK_LAYOUT(table->table_canvas)->hadjustment->value;
+	y += GTK_LAYOUT(table->table_canvas)->vadjustment->value;
+	e_table_group_compute_location(table->group, &x, &y, row_return, col_return);
+}
+
 struct _ETableDragSourceSite
 {
 	GdkModifierType    start_button_mask;
@@ -1806,30 +1835,6 @@ e_table_drag_begin (ETable            *table,
 }
 
 static void
-e_table_compute_location (ETable *table, GtkWidget *widget,
-			  int x, int y, int *row, int *col)
-{
-	if (!(row || col))
-		return;
-	x += GTK_LAYOUT(table->table_canvas)->hadjustment->value;
-	y += GTK_LAYOUT(table->table_canvas)->vadjustment->value;
-	e_table_group_compute_location(table->group, &x, &y, row, col);
-}
-
-#if 0
-void
-e_table_get_position (ETable *table, GtkWidget *widget,
-		      int *x, int *y, int row, int col)
-{
-	if (!(x || y))
-		return;
-	e_table_group_get_position(table->group, x, y, &row, &col);
-	*x -= GTK_LAYOUT(table->table_canvas)->hadjustment->value;
-	*y -= GTK_LAYOUT(table->table_canvas)->vadjustment->value;
-}
-#endif
-
-static void
 et_drag_begin (GtkWidget *widget,
 	       GdkDragContext *context,
 	       ETable *et)
@@ -1909,12 +1914,9 @@ et_drag_motion(GtkWidget *widget,
 {
 	gboolean ret_val;
 	int row, col;
-	e_table_compute_location(et,
-				 widget,
-				 x,
-				 y,
-				 &row,
-				 &col);
+
+	e_table_get_cell_at (et, x, y, &row, &col);
+
 	if (et->drop_row >= 0 && et->drop_col >= 0 &&
 	    row != et->drop_row && col != et->drop_row) {
 		gtk_signal_emit (GTK_OBJECT (et),
@@ -1949,12 +1951,9 @@ et_drag_drop(GtkWidget *widget,
 {
 	gboolean ret_val;
 	int row, col;
-	e_table_compute_location(et,
-				 widget,
-				 x,
-				 y,
-				 &row,
-				 &col);
+
+	e_table_get_cell_at (et, x, y, &row, &col);
+
 	if (et->drop_row >= 0 && et->drop_col >= 0 &&
 	    row != et->drop_row && col != et->drop_row) {
 		gtk_signal_emit (GTK_OBJECT (et),
@@ -2002,12 +2001,9 @@ et_drag_data_received(GtkWidget *widget,
 		      ETable *et)
 {
 	int row, col;
-	e_table_compute_location(et,
-				 widget,
-				 x,
-				 y,
-				 &row,
-				 &col);
+
+	e_table_get_cell_at (et, x, y, &row, &col);
+
 	gtk_signal_emit (GTK_OBJECT (et),
 			 et_signals [TABLE_DRAG_DATA_RECEIVED],
 			 row,
@@ -2032,7 +2028,7 @@ e_table_drag_source_event_cb (GtkWidget      *widget,
 	case GDK_BUTTON_PRESS:
 		if ((GDK_BUTTON1_MASK << (event->button.button - 1)) & site->start_button_mask) {
 			int row, col;
-			e_table_compute_location(table, widget, event->button.x, event->button.y, &row, &col);
+			e_table_get_cell_at (table, event->button.x, event->button.y, &row, &col);
 			if (row >= 0 && col >= 0) {
 				site->state |= (GDK_BUTTON1_MASK << (event->button.button - 1));
 				site->x = event->button.x;
