@@ -68,6 +68,8 @@ typedef struct _CamelFolderInfo {
 #define CAMEL_FOLDER_NOCHILDREN (1<<3)
 /* a folder which is subscribed */
 #define CAMEL_FOLDER_SUBSCRIBED (1<<4)
+/* a virtual folder on a non-virtual store (for vTrash/vJunk) */
+#define CAMEL_FOLDER_VIRTUAL (1<<5)
 
 /* Structure of rename event's event_data */
 typedef struct _CamelRenameInfo {
@@ -111,6 +113,7 @@ struct _CamelStore
 #define CAMEL_STORE_FOLDER_INFO_FAST       (1 << 0)
 #define CAMEL_STORE_FOLDER_INFO_RECURSIVE  (1 << 1)
 #define CAMEL_STORE_FOLDER_INFO_SUBSCRIBED (1 << 2)
+#define CAMEL_STORE_FOLDER_INFO_NO_VIRTUAL (1 << 3)  /* don't include vTrash/vJunk folders */
 
 typedef struct {
 	CamelServiceClass parent_class;

@@ -714,6 +714,7 @@ add_special_info (CamelStore *store, CamelFolderInfo *info, const char *name, co
 	}
 	
 	/* Fill in the new fields */
+	vinfo->flags |= CAMEL_FOLDER_VIRTUAL;
 	vinfo->full_name = g_strdup (full_name);
 	vinfo->name = g_strdup (vinfo->full_name);
 	vinfo->url = uri;
@@ -739,7 +740,9 @@ add_special_info (CamelStore *store, CamelFolderInfo *info, const char *name, co
  * the immediate subfolders of @top. If @flags includes
  * %CAMEL_STORE_FOLDER_INFO_FAST, the unread_message_count fields of
  * some or all of the structures may be set to -1, if the store cannot
- * determine that information quickly.
+ * determine that information quickly. If @flags includes
+ * %CAMEL_STORE_FOLDER_INFO_NO_VIRTUAL, don't include special virtual
+ * folders (such as vTrash or vJunk).
  * 
  * Return value: a CamelFolderInfo tree, which must be freed with
  * camel_store_free_folder_info.
@@ -758,7 +761,7 @@ camel_store_get_folder_info(CamelStore *store, const char *top, guint32 flags, C
 	info = CS_CLASS (store)->get_folder_info (store, top, flags, ex);
 	CAMEL_STORE_UNLOCK(store, folder_lock);
 	
-	if (info && (top == NULL || *top == '\0')) {
+	if (info && (top == NULL || *top == '\0') && (flags & CAMEL_STORE_FOLDER_INFO_NO_VIRTUAL) == 0) {
 		if (info->url && (store->flags & CAMEL_STORE_VTRASH))
 			add_special_info (store, info, CAMEL_VTRASH_NAME, _("Trash"), FALSE);
 		if (info->url && (store->flags & CAMEL_STORE_VJUNK))

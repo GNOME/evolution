@@ -1,3 +1,11 @@
+2004-02-06  Jeffrey Stedfast  <fejj@ximian.com>
+
+	* camel-store.c (add_special_info): Set a CAMEL_FOLDER_VIRTUAL bit
+	on the special folder info so our UI can know if it is virtual or
+	not (meant for vTrash/vJunk).
+	(camel_store_get_folder_info): Don't add vTrash/vJunk if the
+	NO_VIRTUAL flag bit is set. Used by the subscriptions editor.
+
 2004-02-06  Not Zed  <NotZed@Ximian.com>
 
 	* camel-folder.c (camel_folder_set_message_flags): changed to
