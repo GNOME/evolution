@@ -25,6 +25,7 @@
  * USA
  */
 #include <config.h>
+#include <string.h>
 #include "camel-mime-part.h"
 #include <stdio.h>
 #include "gmime-content-field.h"
@@ -591,6 +592,7 @@ _get_content_object (CamelMedium *medium)
 		 * Beware : this will destroy the temp buffer as well
 		 */
 		gtk_object_unref (GTK_OBJECT (stream));
+		mime_part->temp_message_buffer = 0;
 	} else {
 		CAMEL_LOG_FULL_DEBUG ("CamelMimePart::get_content_object part has a pointer "
 				      "to a content object as well as a temp buffer\n");
@@ -803,6 +805,7 @@ camel_mime_part_encoding_to_string (CamelMimePartEncodingType encoding)
 	case CAMEL_MIME_PART_ENCODING_QUOTEDPRINTABLE:
 		return "quoted-printable";
 	}
+	return "";
 }
 
 
@@ -810,13 +813,13 @@ camel_mime_part_encoding_to_string (CamelMimePartEncodingType encoding)
 CamelMimePartEncodingType
 camel_mime_part_encoding_from_string (const gchar *string)
 {
-	if (strncmp (string, "7bit") == 0)
+	if (strcmp (string, "7bit") == 0)
 		return CAMEL_MIME_PART_ENCODING_7BIT;
-	else if (strncmp (string, "8bit") == 0)
+	else if (strcmp (string, "8bit") == 0)
 		return CAMEL_MIME_PART_ENCODING_8BIT;
-	else if (strncmp (string, "base64") == 0)
+	else if (strcmp (string, "base64") == 0)
 		return CAMEL_MIME_PART_ENCODING_BASE64;
-	else if (strncmp (string, "quoted-printable") == 0)
+	else if (strcmp (string, "quoted-printable") == 0)
 		return CAMEL_MIME_PART_ENCODING_QUOTEDPRINTABLE;
 	else
 		/* FIXME?  Spit a warning?  */

@@ -150,21 +150,24 @@ camel_mime_part_store_stream_in_buffer (CamelMimePart *mime_part,
 		mime_part->temp_message_buffer = g_byte_array_new ();
 	
 	buffer = mime_part->temp_message_buffer;
-	
+
 	g_byte_array_set_size (buffer, nb_bytes_read_total + STREAM_READ_CHUNK_SZ);
 	nb_bytes_read_chunk = camel_stream_read (stream,
 						 buffer->data + nb_bytes_read_total, 
 						 STREAM_READ_CHUNK_SZ);
-	nb_bytes_read_total += nb_bytes_read_chunk;
 
-	while (nb_bytes_read_chunk >0) {
-		g_byte_array_set_size (buffer, nb_bytes_read_total + STREAM_READ_CHUNK_SZ);
-		nb_bytes_read_chunk = camel_stream_read (stream,
-							 buffer->data + nb_bytes_read_total, 
-							 STREAM_READ_CHUNK_SZ);
+	if (nb_bytes_read_chunk>0) {
 		nb_bytes_read_total += nb_bytes_read_chunk;
+		
+		while (nb_bytes_read_chunk >0) {
+			g_byte_array_set_size (buffer, nb_bytes_read_total + STREAM_READ_CHUNK_SZ);
+			nb_bytes_read_chunk = camel_stream_read (stream,
+								 buffer->data + nb_bytes_read_total, 
+								 STREAM_READ_CHUNK_SZ);
+			nb_bytes_read_total += nb_bytes_read_chunk;
+		}
 	}
-	
+
 	g_byte_array_set_size (buffer, nb_bytes_read_total);
 	CAMEL_LOG_FULL_DEBUG ("CamelMimePartUtils::store_stream_in_buffer entering\n");
 

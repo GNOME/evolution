@@ -1,3 +1,15 @@
+2000-02-09  NotZed  <notzed@zedzone.helixcode.com>
+
+	* camel/camel-mime-part-utils.c
+	(camel_mime_part_store_stream_in_buffer): If we get a -1 read,
+	DONT update the total bytes, and try and truncate the array in
+	reverse.  Eek.
+
+	* camel/camel-mime-part.c (camel_mime_part_encoding_from_string):
+	This was DEFINETLEY not the right way to do it. strncmp!=strcmp
+	(camel_mime_part_encoding_to_string): Handle the default case.
+	: include string.h for strcmp() etc.
+
 2000-02-09  Matt Loper  <matt@helixcode.com>
 
 	* tests/ui-tests/test-multipart-alt.msg: New test file; run
