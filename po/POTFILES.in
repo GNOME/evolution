@@ -29,6 +29,7 @@ addressbook/gui/widgets/e-addressbook-view.c
 addressbook/gui/widgets/e-minicard.c
 addressbook/gui/widgets/e-minicard-control.c
 addressbook/gui/widgets/e-minicard-view.c
+addressbook/gui/widgets/e-minicard-view-model.c
 addressbook/gui/widgets/gal-view-factory-minicard.c
 addressbook/printing/e-contact-print.glade
 calendar/cal-util/timeutil.c
@@ -71,6 +72,7 @@ calendar/gui/tasks-control.c
 calendar/gui/tasks-migrate.c
 calendar/gui/weekday-picker.c
 camel/camel-cipher-context.c
+camel/camel-disco-store.c
 camel/camel-filter-driver.c
 camel/camel-filter-search.c
 camel/camel-folder-search.c
@@ -78,6 +80,7 @@ camel/camel-lock.c
 camel/camel-movemail.c
 camel/camel-pgp-context.c
 camel/camel-pgp-mime.c
+camel/camel-pkcs7-context.c
 camel/camel-provider.c
 camel/camel-remote-store.c
 camel/camel-sasl-anonymous.c
@@ -89,8 +92,10 @@ camel/camel-sasl-plain.c
 camel/camel-search-private.c
 camel/camel-service.c
 camel/camel-session.c
+camel/camel-smime-context.c
 camel/camel-store.c
 camel/camel-tcp-stream-ssl.c
+camel/camel-tcp-stream-openssl.c
 camel/camel-url.c
 camel/camel-vee-folder.c
 camel/camel-vtrash-folder.c
@@ -160,6 +165,13 @@ filter/score-editor.c
 filter/score-rule.c
 filter/vfolder-editor.c
 filter/vfolder-rule.c
+importers/GNOME_Evolution_Elm_Intelligent_Importer.oaf.in
+importers/GNOME_Evolution_Netscape_Intelligent_Importer.oaf.in
+importers/GNOME_Evolution_Pine_Intelligent_Importer.oaf.in
+importers/elm-importer.c
+importers/evolution-gnomecard-importer.c
+importers/netscape-importer.c
+importers/pine-importer.c
 mail/component-factory.c
 mail/folder-browser.c
 mail/folder-browser-factory.c
@@ -196,6 +208,8 @@ shell/e-shell.c
 shell/e-shell-folder-creation-dialog.c
 shell/e-shell-folder-selection-dialog.c
 shell/e-shell-folder-title-bar.c
+shell/e-shell-importer.c
+shell/e-shell-offline-handler.c
 shell/e-shell-view.c
 shell/e-shell-view-menu.c
 shell/e-shortcuts.c
@@ -204,7 +218,6 @@ shell/e-storage.c
 shell/e-storage-set-view.c
 shell/glade/e-shell-folder-creation-dialog.glade
 shell/GNOME_Evolution_Shell.oaf.in
-shell/importer/importer.c
 shell/importer/import.glade
 shell/importer/intelligent.c
 shell/main.c

@@ -1,3 +1,9 @@
+2001-05-12  Gediminas Paulauskas <menesis@delfi.lt>
+
+	* evolution-mail.xml: add pixmaps for MessageCopy and
+	MessageForwardAttached. Thanks Wayne Davis <wfdavis@seas.upenn.edu>
+	for a patch.
+
 2001-05-07  Jon Trowbridge  <trow@ximian.com>
 
 	* evolution.xml: Added command entry for 'ToggleOffline'.

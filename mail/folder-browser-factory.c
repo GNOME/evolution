@@ -132,9 +132,11 @@ static EPixmap pixcache [] = {
 	E_PIXMAP ("/menu/View/MessageHideClear", "show_all_messages.xpm"),
 
 	E_PIXMAP ("/menu/Actions/Component/SendReceive", "send-receive.xpm"),
+	E_PIXMAP ("/menu/Actions/Component/MessageCopy", "copy_16_message.xpm"),
 	E_PIXMAP ("/menu/Actions/Component/MessageMove", "move_message.xpm"),
 	E_PIXMAP ("/menu/Actions/Component/MessageReplyAll", "reply_to_all.xpm"),
 	E_PIXMAP ("/menu/Actions/Component/MessageReplySender", "reply.xpm"),
+	E_PIXMAP ("/menu/Actions/Component/MessageForwardAttached", "forward.xpm"),
 
 	E_PIXMAP ("/menu/Tools/Component/SetMailConfig", "configure_16_mail.xpm"),
 	

@@ -30,7 +30,6 @@ INCLUDES = \
 	-DEVOLUTION_GLADEDIR=\""$(gladedir)"\"		\
 	-DEVOLUTION_ICONSDIR=\""$(iconsdir)"\"		\
 	-DEVOLUTION_LOCALEDIR=\""$(localedir)"\"	\
-	-DEVOLUTION_DATADIR=\""$(datadir)"\"            \
 	-DCAMEL_PROVIDERDIR=\""$(providerdir)"\"	\
 	-DMAIL_IMPORTERSDIR=\""$(importerdir)"\"	\
 	-DG_LOG_DOMAIN=\"evolution-mail\"

@@ -49,7 +49,8 @@
      _tip="Send a single mail in reply to all the selected mail"/>
 
     <cmd name="MessageForwardAttached" _label="Forward"
-     _tip="Forward the selected mail to someone" accel="*Control*j"/>
+     pixtype="pixbuf" accel="*Control*j"
+     _tip="Forward the selected mail to someone"/>
 
     <cmd name="MessageForwardInlined" _label="Forward inline"
      _tip="Forward this message in-line with your mail, so you can edit it"
@@ -65,7 +66,8 @@
      _tip="Move selected messages to another folder" pixtype="pixbuf" accel="*Control*m"/>
 
     <cmd name="MessageCopy" _label="Copy"
-     _tip="Copy selected messages to another folder" accel="*Control*c"/>
+     pixtype="pixbuf" accel="*Control*c"
+     _tip="Copy selected messages to another folder"/>
 
     <cmd name="MessageDelete" _label="Delete"
      _tip="Delete the selected messages" accel="*Control*d"/>
@@ -230,8 +232,10 @@
       	    _label="Reply to _All"
       	    pixtype="pixbuf"
       	    accel="*Control**Shift*r"/>
+
       	    <menuitem name="MessageForwardAttached" verb=""
       	    _label="_Forward"
+             pixtype="pixbuf"
       	     accel="*Control*f"/>
       	    
       	    <submenu name="ForwardAs" _label="Forward As">
@@ -260,6 +264,7 @@
       	  
       	    <menuitem name="MessageCopy" verb=""
       	    _label="_Copy to Folder..."
+             pixtype="pixbuf"
       	     accel="*Control*c"/>
       	  
       	    <separator/>

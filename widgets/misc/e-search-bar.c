@@ -123,7 +123,7 @@ static void add_dropdown(ESearchBar *esb, ESearchBarItem *items)
 		str = _(items->text);
 		if (str == items->text) {
 			/* It may be english string, or utf8 rule name */
-			item = e_utf8_gtk_menu_item_new_with_label (menu, str);
+			item = e_utf8_gtk_menu_item_new_with_label (GTK_MENU (menu), str);
 		} else
 			item = gtk_menu_item_new_with_label (str);
 	}
@@ -201,7 +201,7 @@ set_option(ESearchBar *esb, ESearchBarItem *items)
 			str = _(items[i].text);
 			if (str == items[i].text) {
 				/* It may be english string, or utf8 rule name */
-				item = e_utf8_gtk_menu_item_new_with_label (menu, str);
+				item = e_utf8_gtk_menu_item_new_with_label (GTK_MENU (menu), str);
 			} else
 				item = gtk_menu_item_new_with_label (str);
 		}
