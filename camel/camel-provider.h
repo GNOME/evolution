@@ -1,5 +1,5 @@
 /* -*- Mode: C; tab-width: 8; indent-tabs-mode: t; c-basic-offset: 8 -*- */
-/* camel-provider.h :  provider management */
+/* camel-provider.h :  provider definition  */
 
 /* 
  *
@@ -31,6 +31,11 @@ extern "C" {
 #pragma }
 #endif /* __cplusplus }*/
 
+#include <gtk/gtk.h>
+#include <gmodule.h>
+
+#define CAMEL_PROVIDER(obj) (CamelProvider *)(obj)
+
 typedef enum {
 	PROVIDER_STORE,
 	PROVIDER_TRANSPORT
@@ -40,11 +45,15 @@ typedef enum {
 typedef struct {
 	GtkType object_type;        /* used to create instance of the provider */
 	ProviderType provider_type; /* is a store or a transport */ 
-	gchar *protocol;          /* name of the protocol ("imap"/"smtp"/"mh" ...) */
-	gchar *provider_name;     /* name of the provider ("Raymond the imap provider") */
-	gchar *description;       /* Useful when multiple providers are available for a same protocol */
+	gchar *protocol;            /* name of the protocol ("imap"/"smtp"/"mh" ...) */
+	gchar *name;       /* name of the provider ("Raymond the imap provider") */
+	gchar *description;         /* Useful when multiple providers are available for a same protocol */
+
+	GModule *gmodule;
 } CamelProvider;
 
+void camel_provider_register (CamelProvider *provider);
+const CamelProvider *camel_provider_register_as_module (const gchar *module_path);
 
 
 #ifdef __cplusplus

@@ -13,6 +13,7 @@ INCLUDES = -I.. -I$(srcdir)/.. -I$(includedir)	\
 
 libcamelmh_la_SOURCES = 			\
 	camel-mh-folder.c			\
+	camel-mh-provider.c			\
 	camel-mh-store.c
 
 libcamelmhinclude_HEADERS =			\

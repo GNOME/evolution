@@ -1,4 +1,17 @@
-1999-08-11  bertrand  <Bertrand.Guiheneuf@aful.org>
+1999-08-12  bertrand  <Bertrand.Guiheneuf@aful.org>
+
+	* camel/providers/MH/camel-mh-provider.c: 
+	new file. MH provider registration stuff.
+
+	* camel/camel-provider.c (camel_provider_register_as_module): 
+	load a provider from a shared object (plugin).
+	(camel_provider_register): register a provider 
+	"by hand". Used for statically defined providers.
+
+	* tests/test7.c: new test.
+	tests providers loading framework.
+
+1999-08-11  
 
 	* camel/camel-service.c (_finalize): 
 	* camel/camel-stream-fs.c (_finalize): 

@@ -114,7 +114,7 @@ camel_session_set_provider (CamelSession *session, CamelProvider *provider)
  * 
  * 
  * 
- * Return value: the newly instantiated folder
+ * Return value: the newly instantiated store
  **/
 CamelStore *
 camel_session_get_store_from_provider (CamelSession *session, CamelProvider *provider)

@@ -33,6 +33,28 @@ extern "C" {
 #include <gtk/gtk.h>
 #include <config.h>
 #include <camel/data-wrapper-repository.h>
+#include <camel/data-wrapper-repository.h>
+#include <camel/camel-log.h>	
+#include <camel/camel-data-wrapper.h>
+#include <camel-simple-data-wrapper.h>
+#include <camel-folder.h>
+#include <camel-mime-body-part.h>
+#include <camel-mime-message.h>
+#include <camel-mime-part.h>
+#include <camel-multipart.h>
+#include <camel-provider.h>
+#include <camel-service.h>
+#include <camel-session.h>
+#include <camel-store.h>
+#include <camel-stream.h>
+#include <camel-stream-fs.h>
+#include <camel-stream-mem.h>
+#include <data-wrapper-repository.h>
+#include <gmime-content-field.h>
+#include <gmime-utils.h>
+#include <gstring-util.h>
+#include <string-utils.h>
+#include <url-util.h>
 
 gint camel_init ();
 
