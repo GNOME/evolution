@@ -3255,6 +3255,13 @@ e_text_command(ETextEventProcessor *tep, ETextEventProcessorCommand *command, gp
 		break;
 	}
 
+	/* it's possible to get here without ever having been realized
+	   by our canvas (if the e-text started completely obscured.)
+	   so let's create our layout object if we don't already have
+	   one. */
+	if (!text->layout)
+		create_layout (text);
+
 	if (scroll && !text->button_down) {
 		/* XXX do we really need the @trailing logic here?  if
 		   we don't we can scrap the loop and just use
