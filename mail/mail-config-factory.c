@@ -115,7 +115,7 @@ config_control_factory_cb (BonoboGenericFactory *factory, const char *component_
 	}
 	
 	g_signal_connect (control, "apply", G_CALLBACK (config_control_apply_cb), data);
-	g_object_weak_ref (control, (GWeakNotify) config_control_destroy_cb, data);
+	g_object_weak_ref ((GObject *) control, (GWeakNotify) config_control_destroy_cb, data);
 	
 	return BONOBO_OBJECT (control);
 }

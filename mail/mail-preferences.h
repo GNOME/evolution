@@ -30,12 +30,13 @@ extern "C" {
 #endif
 
 #include <gtk/gtk.h>
-#include <libgnomeui/gnome-color-picker.h>
-#include <libgnomeui/gnome-file-entry.h>
 #include <glade/glade.h>
+#include <gconf/gconf-client.h>
+#include <libgnomeui/gnome-file-entry.h>
+#include <libgnomeui/gnome-color-picker.h>
+
 #warning "gtkhtml-propmanger"
 /*#include <gtkhtml/gtkhtml-propmanager.h>*/
-#include <gconf/gconf-client.h>
 
 #include "evolution-config-control.h"
 

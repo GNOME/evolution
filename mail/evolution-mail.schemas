@@ -122,7 +122,7 @@
       <applyto>/apps/evolution/mail/display/citation_colour</applyto>
       <owner>evolution-mail</owner>
       <type>string</type>
-      <default>#AAAAAA</default>
+      <default>#737373</default>
       <locale name="C">
          <short>Citation highlight colour</short>
          <long>

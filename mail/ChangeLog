@@ -1,3 +1,9 @@
+2002-11-19  Jeffrey Stedfast  <fejj@ximian.com>
+
+	* mail-preferences.c (mail_preferences_apply): Save the settings
+	via gconf.
+	(mail_preferences_construct): Load the values from gconf.
+
 2002-11-19  Radek Doulik  <rodo@ximian.com>
 
 	* mail-composer-prefs.c (sig_load_preview): use
