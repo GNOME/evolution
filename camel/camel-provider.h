@@ -59,6 +59,8 @@ extern char *camel_provider_type_name[CAMEL_NUM_PROVIDER_TYPES];
  * _IS_STORAGE  mail is stored there. it will appear in the folder tree.
  * _IS_EXTERNAL it appears in the folder tree but is not created by
  *                the mail component.
+ * _HAS_LICENSE  the provider configuration first needs the license to
+ *		   be accepted.
  */
 #define CAMEL_PROVIDER_IS_REMOTE	(1 << 0)
 #define CAMEL_PROVIDER_IS_LOCAL		(1 << 1)
@@ -66,6 +68,7 @@ extern char *camel_provider_type_name[CAMEL_NUM_PROVIDER_TYPES];
 #define CAMEL_PROVIDER_IS_SOURCE	(1 << 3)
 #define CAMEL_PROVIDER_IS_STORAGE	(1 << 4)
 #define CAMEL_PROVIDER_SUPPORTS_SSL	(1 << 5)
+#define CAMEL_PROVIDER_HAS_LICENSE      (1 << 6)
 
 
 /* Flags for url_flags. "ALLOW" means the config dialog will let
@@ -182,6 +185,16 @@ typedef struct {
 	 * evolution source tree).
 	 */
 	char *translation_domain;
+
+	/* This string points to the provider's gconf key value
+	 */
+	const char *license;
+	
+	/* This holds the license file name [ ascii text format ] containing
+	 * the license agreement. This should be the absolute file path. This 
+	 * is read only when the HAS_LICENSE flag is set
+	 */
+	const char *license_file;
 } CamelProvider;
 
 typedef struct _CamelProviderModule CamelProviderModule;
