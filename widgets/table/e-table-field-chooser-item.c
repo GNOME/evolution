@@ -197,19 +197,13 @@ etfci_update (GnomeCanvasItem *item, double *affine, ArtSVP *clip_path, int flag
 }
 
 static void
-etfci_font_load (ETableFieldChooserItem *etfci, char *font)
+etfci_font_load (ETableFieldChooserItem *etfci)
 {
 	if (etfci->font)
 		gdk_font_unref (etfci->font);
-	etfci->font = NULL;
 	
-	if (font)
-		etfci->font = gdk_fontset_load (font);
-
-	if (etfci->font == NULL) {
-		etfci->font = GTK_WIDGET(GNOME_CANVAS_ITEM(etfci)->canvas)->style->font;
-		gdk_font_ref(etfci->font);
-	}
+	etfci->font = GTK_WIDGET(GNOME_CANVAS_ITEM(etfci)->canvas)->style->font;
+	gdk_font_ref(etfci->font);
 }
 
 static void
@@ -411,7 +405,7 @@ etfci_realize (GnomeCanvasItem *item)
 	window = GTK_WIDGET (item->canvas)->window;
 
 	if (!etfci->font)
-		etfci_font_load (etfci, NULL);
+		etfci_font_load (etfci);
 
 	etfci->drag_end_id = gtk_signal_connect (
 		GTK_OBJECT (item->canvas), "drag_end",
@@ -478,7 +472,7 @@ etfci_draw (GnomeCanvasItem *item, GdkDrawable *drawable, int x, int y, int widt
 
 		e_table_header_draw_button (drawable, ecol,
 					    style, etfci->font, state,
-					    GTK_WIDGET (canvas), style->fg_gc[GTK_STATE_NORMAL],
+					    GTK_WIDGET (canvas),
 					    -x, y1 - y,
 					    width, height,
 					    etfci->width, y2 - y1,
@@ -547,7 +541,7 @@ etfci_start_drag (ETableFieldChooserItem *etfci, GdkEvent *event, double x, doub
 
 	e_table_header_draw_button (pixmap, ecol,
 				    widget->style, etfci->font, GTK_WIDGET_STATE (widget),
-				    widget, widget->style->fg_gc[GTK_STATE_NORMAL],
+				    widget,
 				    0, 0,
 				    etfci->width, button_height,
 				    etfci->width, button_height,

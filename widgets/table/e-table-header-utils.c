@@ -191,6 +191,8 @@ make_composite_pixmap (GdkDrawable *drawable, GdkGC *gc,
 	return pixmap;
 }
 
+static GtkWidget *g_label;
+
 /**
  * e_table_header_draw_button:
  * @drawable: Destination drawable.
@@ -213,7 +215,7 @@ make_composite_pixmap (GdkDrawable *drawable, GdkGC *gc,
 void
 e_table_header_draw_button (GdkDrawable *drawable, ETableCol *ecol,
 			    GtkStyle *style, GdkFont *font, GtkStateType state,
-			    GtkWidget *widget, GdkGC *gc,
+			    GtkWidget *widget,
 			    int x, int y, int width, int height,
 			    int button_width, int button_height,
 			    ETableColArrow arrow)
@@ -221,6 +223,7 @@ e_table_header_draw_button (GdkDrawable *drawable, ETableCol *ecol,
 	int xthick, ythick;
 	int inner_x, inner_y;
 	int inner_width, inner_height;
+	GdkGC *gc;
 
 	g_return_if_fail (drawable != NULL);
 	g_return_if_fail (ecol != NULL);
@@ -230,6 +233,18 @@ e_table_header_draw_button (GdkDrawable *drawable, ETableCol *ecol,
 	g_return_if_fail (widget != NULL);
 	g_return_if_fail (GTK_IS_WIDGET (widget));
 	g_return_if_fail (button_width > 0 && button_height > 0);
+
+	if (g_label == NULL) {
+		GtkWidget *button = gtk_button_new_with_label("Hi");
+		GtkWidget *window = gtk_window_new(GTK_WINDOW_TOPLEVEL);
+		g_label = GTK_BIN(button)->child;
+		gtk_container_add (GTK_CONTAINER (window), button);
+		gtk_widget_ensure_style (window);
+		gtk_widget_ensure_style (button);
+		gtk_widget_ensure_style (g_label);
+	}
+
+	gc = g_label->style->fg_gc[GTK_STATE_NORMAL];
 
 	xthick = style->klass->xthickness;
 	ythick = style->klass->ythickness;

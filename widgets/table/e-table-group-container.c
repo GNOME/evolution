@@ -148,13 +148,10 @@ e_table_group_container_construct (GnomeCanvasGroup *parent, ETableGroupContaine
 	etgc->n = n;
 	etgc->ascending = column.ascending;
 
-	
-	etgc->font = gdk_font_load ("lucidasans-10");
-	if (!etgc->font){
-		etgc->font = GTK_WIDGET (GNOME_CANVAS_ITEM (etgc)->canvas)->style->font;
-		
-		gdk_font_ref (etgc->font);
-	}
+	etgc->font = GTK_WIDGET (GNOME_CANVAS_ITEM (etgc)->canvas)->style->font;
+
+	gdk_font_ref (etgc->font);
+
 	etgc->open = TRUE;
 }
 

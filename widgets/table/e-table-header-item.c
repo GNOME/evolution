@@ -195,6 +195,7 @@ ethi_font_set (ETableHeaderItem *ethi, GdkFont *font)
 		gdk_font_unref (ethi->font);
 
 	ethi->font = font;
+	gdk_font_ref (font);
 	
 	ethi->height = e_table_header_item_get_height (ethi);
 	e_canvas_item_request_reflow(GNOME_CANVAS_ITEM(ethi));
@@ -203,13 +204,18 @@ ethi_font_set (ETableHeaderItem *ethi, GdkFont *font)
 static void
 ethi_font_load (ETableHeaderItem *ethi, char *fontname)
 {
-	GdkFont *font;
+	GdkFont *font = NULL;
 
-	font = gdk_fontset_load (fontname);
-	if (font == NULL)
-		font = gdk_font_load ("-adobe-helvetica-medium-r-normal--*-120-*-*-*-*-iso8859-1");
+	if (fontname != NULL)
+		font = gdk_fontset_load (fontname);
+
+	if (font == NULL) {
+		font = GTK_WIDGET (GNOME_CANVAS_ITEM (ethi)->canvas)->style->font;
+		gdk_font_ref (font);
+	}
 	
 	ethi_font_set (ethi, font);
+	gdk_font_unref (font);
 }
 
 static void
@@ -760,6 +766,8 @@ ethi_unrealize (GnomeCanvasItem *item)
 {
 	ETableHeaderItem *ethi = E_TABLE_HEADER_ITEM (item);
 
+	gdk_font_unref (ethi->font);
+
 	gtk_signal_disconnect (GTK_OBJECT (item->canvas), ethi->drag_motion_id);
 	gtk_signal_disconnect (GTK_OBJECT (item->canvas), ethi->drag_leave_id);
 	gtk_signal_disconnect (GTK_OBJECT (item->canvas), ethi->drag_drop_id);
@@ -833,7 +841,7 @@ ethi_draw (GnomeCanvasItem *item, GdkDrawable *drawable, int x, int y, int width
 		e_table_header_draw_button (drawable, ecol,
 					    GTK_WIDGET (canvas)->style, ethi->font,
 					    GTK_WIDGET_STATE (canvas),
-					    GTK_WIDGET (canvas), GTK_WIDGET (canvas)->style->fg_gc[GTK_STATE_NORMAL],
+					    GTK_WIDGET (canvas),
 					    x1 - x, -y,
 					    width, height,
 					    x2 - x1, ethi->height,
@@ -1025,7 +1033,7 @@ ethi_start_drag (ETableHeaderItem *ethi, GdkEvent *event)
 		pixmap, ecol,
 		widget->style, ethi->font,
 		GTK_WIDGET_STATE (widget),
-		widget, widget->style->fg_gc[GTK_STATE_NORMAL],
+		widget,
 		0, 0,
 		col_width, ethi->height,
 		col_width, ethi->height,
