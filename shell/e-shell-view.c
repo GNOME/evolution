@@ -797,6 +797,34 @@ shell_view_interface_unset_message_cb (EvolutionShellView *shell_view,
 	stop_progress_bar (E_SHELL_VIEW (data));
 }
 
+static void
+shell_view_interface_change_current_view_cb (EvolutionShellView *shell_view,
+					     const char *uri,
+					     void *data)
+{
+	EShellView *view;
+
+	view = E_SHELL_VIEW (data);
+
+	g_return_if_fail (view != NULL);
+
+	e_shell_view_display_uri (view, uri);
+}
+
+static void
+shell_view_interface_set_title (EvolutionShellView *shell_view,
+				const char *title,
+				void *data)
+{
+	EShellView *view;
+
+	view = E_SHELL_VIEW (data);
+	
+	g_return_if_fail (view != NULL);
+
+	gtk_window_set_title (GTK_WINDOW (view), title);
+}
+
 
 EShellView *
 e_shell_view_construct (EShellView *shell_view,
@@ -1065,6 +1093,12 @@ setup_evolution_shell_view_interface (EShellView *shell_view,
 					shell_view, GTK_OBJECT (shell_view));
 	gtk_signal_connect_while_alive (GTK_OBJECT (shell_view_interface), "unset_message",
 					GTK_SIGNAL_FUNC (shell_view_interface_unset_message_cb),
+					shell_view, GTK_OBJECT (shell_view));
+	gtk_signal_connect_while_alive (GTK_OBJECT (shell_view_interface), "change_current_view",
+					GTK_SIGNAL_FUNC (shell_view_interface_change_current_view_cb),
+					shell_view, GTK_OBJECT (shell_view));
+	gtk_signal_connect_while_alive (GTK_OBJECT (shell_view_interface), "set_title",
+					GTK_SIGNAL_FUNC (shell_view_interface_set_title),
 					shell_view, GTK_OBJECT (shell_view));
 
 	bonobo_object_add_interface (BONOBO_OBJECT (control_frame),

@@ -1,3 +1,19 @@
+2000-10-26  Iain Holmes  <iain@helixcode.com>
+
+	* Evolution-ShellView.idl: Added a change_current_view method and 
+	a set_title.
+
+	* evolution-shell-view.c (class_init): Added signals for the above methods.
+	(impl_ShellView_change_current_view), (impl_ShellView_set_title): Implementations
+	for above methods.
+	(corba_class_init): Connect the implemenations.
+
+	* e-shell-view.c (shell_view_interface_change_current_view): Change
+	the display to the new uri.
+	(shell_view_interface_set_title): Set the window title.
+	(setup_evolution_shell_view_interface): Connect the signals to the above
+	functions.
+
 2000-11-01  Dan Winship  <danw@helixcode.com>
 
 	* Evolution-Storage.idl: Add "highligted" field to Folder. Add

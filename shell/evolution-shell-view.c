@@ -43,6 +43,8 @@ struct _EvolutionShellViewPrivate {
 enum {
 	SET_MESSAGE,
 	UNSET_MESSAGE,
+	CHANGE_VIEW,
+	SET_TITLE,
 	LAST_SIGNAL
 };
 static int signals[LAST_SIGNAL] = { 0 };
@@ -96,6 +98,30 @@ impl_ShellView_unset_message (PortableServer_Servant servant,
 	gtk_signal_emit (GTK_OBJECT (bonobo_object), signals[UNSET_MESSAGE]);
 }
 
+static void
+impl_ShellView_change_current_view (PortableServer_Servant servant,
+				    CORBA_char *uri,
+				    CORBA_Environment *ev)
+{
+	BonoboObject *bonobo_object;
+
+	bonobo_object = bonobo_object_from_servant (servant);
+	gtk_signal_emit (GTK_OBJECT (bonobo_object), signals[CHANGE_VIEW],
+			 uri);
+}
+
+static void
+impl_ShellView_set_title (PortableServer_Servant servant,
+			  CORBA_char *title,
+			  CORBA_Environment *ev)
+{
+	BonoboObject *bonobo_object;
+
+	bonobo_object = bonobo_object_from_servant (servant);
+	gtk_signal_emit (GTK_OBJECT (bonobo_object), signals[SET_TITLE],
+			 title);
+}
+
 
 /* GtkObject methods.  */
 static void
@@ -128,6 +154,8 @@ corba_class_init (void)
 	epv = g_new0 (POA_Evolution_ShellView__epv, 1);
 	epv->set_message   = impl_ShellView_set_message;
 	epv->unset_message = impl_ShellView_unset_message;
+	epv->change_current_view = impl_ShellView_change_current_view;
+	epv->set_title     = impl_ShellView_set_title;
 
 	vepv = &ShellView_vepv;
 	vepv->_base_epv               = base_epv;
@@ -160,6 +188,24 @@ class_init (EvolutionShellViewClass *klass)
 				  GTK_SIGNAL_OFFSET (EvolutionShellViewClass, unset_message),
 				  gtk_marshal_NONE__NONE,
 				  GTK_TYPE_NONE, 0);
+
+	signals[CHANGE_VIEW]
+		= gtk_signal_new ("change_current_view",
+				  GTK_RUN_FIRST,
+				  object_class->type,
+				  GTK_SIGNAL_OFFSET (EvolutionShellViewClass, change_current_view),
+				  gtk_marshal_NONE__POINTER,
+				  GTK_TYPE_NONE, 1,
+				  GTK_TYPE_STRING);
+
+	signals[SET_TITLE]
+		= gtk_signal_new ("set_title",
+				  GTK_RUN_FIRST,
+				  object_class->type,
+				  GTK_SIGNAL_OFFSET (EvolutionShellViewClass, set_title),
+				  gtk_marshal_NONE__POINTER,
+				  GTK_TYPE_NONE, 1,
+				  GTK_TYPE_STRING);
 
 	gtk_object_class_add_signals (object_class, signals, LAST_SIGNAL);
 

@@ -61,6 +61,8 @@ struct _EvolutionShellViewClass {
 
 	void  (* set_message)   (EvolutionShellView *shell_view, const char *message, gboolean busy);
 	void  (* unset_message) (EvolutionShellView *shell_view);
+	void  (* change_current_view) (EvolutionShellView *shell_view, const char *uri);
+	void  (* set_title)     (EvolutionShellView *shell_view, const char *message);
 };
 
 
