@@ -3,6 +3,7 @@
 	* e-msg-composer.c (composer_get_default_charset_setting): Use
 	e_iconv_locale_charset() instead of e_iconv_locale_name(), dunno
 	what I was thinking. locale_name() doesn't even exist.
+	(setup_ui): Don't free the default_charset, it's a const char*.
 
 	* e-msg-composer-attachment-bar.c (get_default_charset): Same.
 

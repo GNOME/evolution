@@ -2072,7 +2072,7 @@ static void
 setup_ui (EMsgComposer *composer)
 {
 	BonoboUIContainer *container;
-	char *default_charset;
+	const char *default_charset;
 	gboolean hide_smime;
 	GConfClient *gconf;
 	
@@ -2100,7 +2100,6 @@ setup_ui (EMsgComposer *composer)
 					     default_charset,
 					     menu_changed_charset_cb,
 					     composer);
-	g_free (default_charset);
 	
 	/* Format -> HTML */
 	bonobo_ui_component_set_prop (
