@@ -7,7 +7,7 @@
 #include <backend/ebook/e-book-util.h>
 #include <gnome.h>
 
-static int cards_to_add = 1000;
+static int cards_to_add = 100;
 static int cards_added = 0;
 
 static gchar *
@@ -81,12 +81,11 @@ use_addressbook (EBook *book, gpointer closure)
 	for (i = 0; i < cards_to_add; ++i) {
 		gchar *vcard = make_random_vcard ();
 		ECard *card = e_card_new (vcard);
+		g_message ("adding %d", i);
 		e_book_add_card (book, card, add_cb, NULL);
 		g_free (vcard);
 		gtk_object_unref (GTK_OBJECT (card));
 	}
-
-	gtk_exit (0);
 }
 
 int
@@ -100,6 +99,12 @@ main (int argc, char *argv[])
 		POPT_AUTOHELP
 		{ NULL, '\0', 0, NULL, 0, NULL, NULL }
 	};
+
+	if (getenv ("ABUSE_THE_WOMBAT") == NULL) {
+		g_print ("You probably don't want to use this program.\n"
+			 "It isn't very nice.\n");
+		exit(0);
+	}
 
 	bindtextdomain (PACKAGE, EVOLUTION_LOCALEDIR);
 	textdomain (PACKAGE);
