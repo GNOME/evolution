@@ -90,32 +90,29 @@ select_msg (MessageList *message_list, gint row)
 {
 	CamelException ex;
 	CamelMimeMessage *message = NULL;
+	CamelMessageInfo *msg_info;
 
 	camel_exception_init (&ex);
 
-	if (camel_folder_has_uid_capability  (message_list->folder)) {
-		CamelMessageInfo *msg_info;
-
-		msg_info = get_message_info(message_list, row);
-		if (msg_info) {
-			message = camel_folder_get_message_by_uid (message_list->folder, 
-								   msg_info->uid,
-								   &ex);
-			if (camel_exception_get_id (&ex)) {
-				printf ("Unable to get message: %s\n",
-					ex.desc?ex.desc:"unknown_reason");
-				return;
-			}
-		}
-		
-		if (message) {
-			gtk_signal_connect((GtkObject *)message, "message_changed", message_changed, message_list);
-			mail_display_set_message (message_list->parent_folder_browser->mail_display,
-						  CAMEL_MEDIUM (message));
-			gtk_object_unref (GTK_OBJECT (message));
+	msg_info = get_message_info(message_list, row);
+	if (msg_info) {
+		message = camel_folder_get_message_by_uid (message_list->folder, 
+							   msg_info->uid,
+							   &ex);
+		if (camel_exception_get_id (&ex)) {
+			printf ("Unable to get message: %s\n",
+				ex.desc?ex.desc:"unknown_reason");
+			return;
 		}
 	}
-	
+
+	if (message) {
+		gtk_signal_connect((GtkObject *)message, "message_changed",
+				   message_changed, message_list);
+		mail_display_set_message (message_list->parent_folder_browser->mail_display,
+					  CAMEL_MEDIUM (message));
+		gtk_object_unref (GTK_OBJECT (message));
+	}
 }
 
 /*
@@ -712,7 +709,7 @@ folder_changed(CamelFolder *f, int type, MessageList *message_list)
 {
 	if (message_list->summary_table)
 		g_ptr_array_free(message_list->summary_table, TRUE);		
-	message_list->summary_table = camel_folder_summary_get_message_info (message_list->folder, 0, INT_MAX);
+	message_list->summary_table = camel_folder_get_summary (message_list->folder, NULL);
 
 	message_list_set_search(message_list, message_list->search);
 }
@@ -780,7 +777,7 @@ message_list_set_folder (MessageList *message_list, CamelFolder *camel_folder)
 
 	gtk_object_ref (GTK_OBJECT (camel_folder));
 
-	message_list->summary_table = camel_folder_summary_get_message_info (message_list->folder, 0, INT_MAX);
+	message_list->summary_table = camel_folder_get_summary (message_list->folder, NULL);
 	e_table_model_changed (message_list->table_model);
 
 	select_msg (message_list, 0);

@@ -1,3 +1,11 @@
+2000-05-18  Dan Winship  <danw@helixcode.com>
+
+	* message-list.c (select_msg): Update for camel_folder_get_uids
+	(folder_changed, message_list_set_folder): Update for
+	camel_folder_get_summary
+
+	* mail-ops.c (fetch_mail): Update for camel_folder_get_uids
+
 2000-05-17  Dan Winship  <danw@helixcode.com>
 
 	* mail-component.c: This seems to be cruft. Nuke it.

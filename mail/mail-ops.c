@@ -170,9 +170,9 @@ fetch_mail (GtkWidget *button, gpointer user_data)
 
 		/* can we perform filtering on this source? */
 		if (!(sourcefolder->has_summary_capability
-		      && sourcefolder->has_uid_capability
 		      && sourcefolder->has_search_capability)) {
-			int i, count;
+			GPtrArray *uids;
+			int i;
 
 			printf("folder isn't searchable, performing movemail ...\n");
 
@@ -191,12 +191,12 @@ fetch_mail (GtkWidget *button, gpointer user_data)
 				goto cleanup;
 			}
 			
-			count = camel_folder_get_message_count (sourcefolder, ex);
-			printf("got %d messages in source\n", count);
-			for (i = 1; i <= count; i++) {
+			uids = camel_folder_get_uids (sourcefolder, ex);
+			printf("got %d messages in source\n", uids->len);
+			for (i = 0; i < uids->len; i++) {
 				CamelMimeMessage *msg;
-				printf("copying message %d to dest\n", i);
-				msg = camel_folder_get_message_by_number (sourcefolder, i, ex);
+				printf("copying message %d to dest\n", i + 1);
+				msg = camel_folder_get_message_by_uid (sourcefolder, uids->pdata[i], ex);
 				if (camel_exception_get_id (ex) != CAMEL_EXCEPTION_NONE) {
 					mail_exception_dialog ("Unable to read message", ex, fb);
 					gtk_object_unref((GtkObject *)msg);
@@ -212,9 +212,10 @@ fetch_mail (GtkWidget *button, gpointer user_data)
 					goto cleanup;
 				}
 
-				camel_folder_delete_message_by_number(sourcefolder, i, ex);
+				camel_folder_delete_message_by_uid(sourcefolder, uids->pdata[i], ex);
 				gtk_object_unref((GtkObject *)msg);
 			}
+			camel_folder_free_uids (sourcefolder, uids);
 			gtk_object_unref((GtkObject *)sourcefolder);
 		} else {
 			printf("we can search on this folder, performing search!\n");
