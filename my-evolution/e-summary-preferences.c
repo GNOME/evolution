@@ -433,7 +433,6 @@ struct _RDFInfo {
 
 static struct _RDFInfo rdfs[] = {
 	{"http://advogato.org/rss/articles.xml", "Advogato"},
-	{"http://www.appwatch.com/appwatch.rdf", "Appwatch"},
 	{"http://barrapunto.com/barrapunto.rdf", "Barrapunto"},
 	{"http://barrapunto.com/gnome.rdf", "Barrapunto GNOME"},
 	{"http://www.bsdtoday.com/backend/bt.rdf", "BSD Today"},
@@ -463,14 +462,11 @@ static struct _RDFInfo rdfs[] = {
 	{"http://www.python.org/channews.rdf", "Python.org"},
 	{"http://www.quotationspage.com/data/mqotd.rss", N_("Quotes of the Day")},
 	{"http://www.salon.com/feed/RDF/salon_use.rdf", "Salon"},
-	{"http://www.securityfocus.com/topnews-rss.html", "Security Focus"},
-	{"http://www.segfault.org/stories.xml", "Segfault"},
 	{"http://slashdot.org/slashdot.rdf", "Slashdot"},
 	{"http://www.theregister.co.uk/tonys/slashdot.rdf", "The Register"},
 	{"http://www.thinkgeek.com/thinkgeek.rdf", "Think Geek"},
 	{"http://www.webreference.com/webreference.rdf", "Web Reference"},
 	{"http://redcarpet.ximian.com/red-carpet.rdf", "Ximian Red Carpet New"},
-	{"http://www.zope.org/SiteIndex/news.rss", "Zope"},
 	{NULL, NULL}
 };
 
@@ -660,6 +656,21 @@ mail_all_select_row_cb (GtkCList *clist,
 			GdkEvent *event,
 			PropertyData *pd)
 {
+	ESummaryMailRowData *rd;
+	GList *p;
+
+	rd = gtk_clist_get_row_data (GTK_CLIST (pd->mail->all), row);
+	if (rd == NULL) {
+		return;
+	}
+
+	for (p = pd->summary->preferences->display_folders; p; p = p->next) {
+		if (strcmp (rd->uri + 7, p->data) == 0) {
+			/* Already in list */
+			return;
+		}
+	}
+
 	gtk_widget_set_sensitive (pd->mail->add, TRUE);
 }
 
@@ -761,6 +772,19 @@ rdf_all_select_row_cb (GtkCList *clist,
 		       GdkEvent *event,
 		       PropertyData *pd)
 {
+	struct _RDFInfo *info;
+	GList *p;
+
+	info = gtk_clist_get_row_data (GTK_CLIST (pd->rdf->all), row);
+	g_return_if_fail (info != NULL);
+
+	for (p = pd->summary->preferences->rdf_urls; p; p = p->next) {
+		if (strcmp (p->data, info->url) == 0) {
+				/* Found it already */
+			return;
+		}
+	}
+
 	gtk_widget_set_sensitive (pd->rdf->add, TRUE);
 }
 
@@ -954,11 +978,18 @@ weather_all_select_row_cb (GtkCTree *ctree,
 			   PropertyData *pd)
 {
 	ESummaryWeatherLocation *location;
+	GList *p;
 
 	location = gtk_ctree_node_get_row_data (GTK_CTREE (pd->weather->all), row);
 	if (location == NULL) {
 		gtk_ctree_unselect (ctree, row);
 		return;
+	}
+
+	for (p = pd->summary->preferences->stations; p; p = p->next) {
+		if (strcmp (location->code, p->data) == 0) {
+			return; /* Already have it */
+		}
 	}
 
 	gtk_widget_set_sensitive (pd->weather->add, TRUE);

@@ -1,3 +1,11 @@
+2001-09-27  Iain Holmes  <iain@ximian.com>
+
+	* e-summary-preferences.c: (rdfs[]): Removed the broken RDFs
+	(mail_all_select_row_cb): Don't turn on the -> button if the folder is
+	already added.
+	(rdf_all_select_row_cb): Ditto
+	(weather_all_select_row_cb): Ditto
+
 2001-09-26  Iain Holmes  <iain@ximian.com>
 
 	* *.[ch]: Add correct approved copyright notices.
