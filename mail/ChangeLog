@@ -1,3 +1,8 @@
+2001-11-20  Jeffrey Stedfast  <fejj@ximian.com>
+
+	* message-list.c (message_list_select): 'n' shouldn't wrap if 'p'
+	doesn't.
+
 2001-11-16  Jeffrey Stedfast  <fejj@ximian.com>
 
 	* message-list.c (message_list_hide_clear): Save hide state.
