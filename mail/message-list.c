@@ -1261,6 +1261,19 @@ normalised_free (gpointer key, gpointer value, gpointer user_data)
 }
 
 static void
+message_list_dispose(GObject *object)
+{
+	MessageList *message_list = MESSAGE_LIST (object);
+
+	if (message_list->folder) {
+		save_tree_state(message_list);
+		hide_save_state(message_list);
+	}
+
+	G_OBJECT_CLASS (message_list_parent_class)->dispose(object);	
+}
+
+static void
 message_list_finalise (GObject *object)
 {
 	MessageList *message_list = MESSAGE_LIST (object);
@@ -1271,9 +1284,6 @@ message_list_finalise (GObject *object)
 	g_hash_table_destroy (message_list->normalised_hash);
 	
 	if (message_list->folder) {
-		save_tree_state(message_list);
-		hide_save_state(message_list);
-
 		camel_object_unhook_event(message_list->folder, "folder_changed", folder_changed, message_list);
 		camel_object_unhook_event(message_list->folder, "message_changed", message_changed, message_list);
 		camel_object_unref (message_list->folder);
@@ -1321,6 +1331,7 @@ message_list_class_init (GObjectClass *object_class)
 	message_list_parent_class = g_type_class_ref(PARENT_TYPE);
 
 	object_class->finalize = message_list_finalise;
+	object_class->dispose = message_list_dispose;
 
 	message_list_signals[MESSAGE_SELECTED] =
 		g_signal_new ("message_selected",

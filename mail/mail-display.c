@@ -1917,7 +1917,7 @@ mail_display_load_images (MailDisplay *md)
  *----------------------------------------------------------------------*/
 
 static void
-mail_display_init (GtkObject *object)
+mail_display_init (GObject *object)
 {
 	MailDisplay *mail_display = MAIL_DISPLAY (object);
 
@@ -1934,6 +1934,8 @@ mail_display_init (GtkObject *object)
 	mail_display->data              = NULL;
 	
 	mail_display->invisible         = gtk_invisible_new ();
+	g_object_ref(mail_display->invisible);
+	gtk_object_sink((GtkObject *)mail_display->invisible);
 
 	mail_display->display_style     = mail_config_get_message_display_style ();
 
@@ -1952,32 +1954,42 @@ mail_display_destroy (GtkObject *object)
 	if (mail_display->html) {
 		g_object_unref(mail_display->html);
 		mail_display->html = NULL;
-	
-		if (mail_display->current_message) {
-			camel_object_unref (mail_display->current_message);
-			g_datalist_clear (mail_display->data);
-			fetch_cancel(mail_display);
-		}
-	
-		g_free (mail_display->charset);
-		g_free (mail_display->selection);
-		
-		if (mail_display->folder) {
-			if (mail_display->info)
-				camel_folder_free_message_info (mail_display->folder, mail_display->info);
-			camel_object_unref (mail_display->folder);
-		}
-		
-		g_free (mail_display->data);
-		mail_display->data = NULL;
-	
-		if (mail_display->idle_id)
-			gtk_timeout_remove (mail_display->idle_id);
-	
-		g_object_unref (mail_display->invisible);
-
-		g_free(mail_display->priv);
 	}
+	
+	if (mail_display->current_message) {
+		camel_object_unref (mail_display->current_message);
+		g_datalist_clear (mail_display->data);
+		fetch_cancel(mail_display);
+		mail_display->current_message = NULL;
+	}
+	
+	g_free (mail_display->charset);
+	mail_display->charset = NULL;
+	g_free (mail_display->selection);
+	mail_display->selection = NULL;
+
+	if (mail_display->folder) {
+		if (mail_display->info)
+			camel_folder_free_message_info (mail_display->folder, mail_display->info);
+		camel_object_unref (mail_display->folder);
+		mail_display->folder = NULL;
+	}
+		
+	g_free (mail_display->data);
+	mail_display->data = NULL;
+		
+	if (mail_display->idle_id) {
+		gtk_timeout_remove (mail_display->idle_id);
+		mail_display->idle_id = 0;
+	}
+
+	if (mail_display->invisible) {
+		g_object_unref (mail_display->invisible);
+		mail_display->invisible = NULL;
+	}
+
+	g_free(mail_display->priv);
+	mail_display->priv = NULL;
 
 	mail_display_parent_class->destroy (object);
 }

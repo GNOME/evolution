@@ -1,3 +1,24 @@
+2002-11-26  Not Zed  <NotZed@Ximian.com>
+
+	* mail-account-editor.c (mail_account_editor_new):
+	gtk_widget_set_parent_window -> gtk_window_set_transient_for.
+
+	* mail-callbacks.c (composer_send_queued_cb): dont unref composer.
+
+	* message-browser.c (message_browser_destroy): moved back from
+	finalise.
+
+2002-11-25  Not Zed  <NotZed@Ximian.com>
+
+	* message-list.c (message_list_dispose): move saving tree state
+	here.
+	(message_list_finalise): And take it from here.
+
+	* mail-display.c (mail_display_destroy): @#$@# gtk.  changed this
+	around a bit.
+	(mail_display_init): Fix prototype, its a gobject.
+	(mail_display_init): ref/sink the invisible gtkobject.
+
 2002-11-22  Not Zed  <NotZed@Ximian.com>
 
 	* mail-callbacks.c (ask_confirm_for_unwanted_html_mail): removed

@@ -168,7 +168,7 @@ mail_account_editor_new (MailConfigAccount *account, GtkWindow *parent, MailAcco
 	MailAccountEditor *new;
 	
 	new = (MailAccountEditor *) g_object_new(mail_account_editor_get_type (), NULL);
-	gtk_widget_set_parent_window ((GtkWidget *) new, ((GtkWidget *)parent)->window);
+	gtk_window_set_transient_for ((GtkWindow *) new, parent);
 	construct (new, account, dialog);
 	
 	return new;

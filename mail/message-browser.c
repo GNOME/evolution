@@ -61,23 +61,26 @@ static GtkAllocation last_allocation = { 0, 0 };
 static BonoboWindowClass *message_browser_parent_class;
 
 static void
-message_browser_finalise (GObject *object)
+message_browser_destroy (GtkObject *object)
 {
 	MessageBrowser *message_browser;
 	
 	message_browser = MESSAGE_BROWSER (object);
 
-	g_signal_handlers_disconnect_matched(message_browser->fb, G_SIGNAL_MATCH_DATA, 0, 0, NULL, NULL, message_browser);
-	g_object_unref((message_browser->fb));
+	if (message_browser->fb) {
+		g_signal_handlers_disconnect_matched(message_browser->fb, G_SIGNAL_MATCH_DATA, 0, 0, NULL, NULL, message_browser);
+		g_object_unref((message_browser->fb));
+		message_browser->fb = NULL;
+	}
 	
-	if (G_OBJECT_CLASS (message_browser_parent_class)->finalize)
-		(G_OBJECT_CLASS (message_browser_parent_class)->finalize) (object);
+	if (GTK_OBJECT_CLASS (message_browser_parent_class)->destroy)
+		(GTK_OBJECT_CLASS (message_browser_parent_class)->destroy) (object);
 }
 
 static void
 message_browser_class_init (GObjectClass *object_class)
 {
-	object_class->finalize = message_browser_finalise;
+	((GtkObjectClass *)object_class)->destroy = message_browser_destroy;
 	
 	message_browser_parent_class = g_type_class_ref(PARENT_TYPE);
 }

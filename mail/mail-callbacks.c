@@ -397,7 +397,6 @@ composer_send_queued_cb (CamelFolder *folder, CamelMimeMessage *msg, CamelMessag
 		
 		e_msg_composer_set_enable_autosave (send->composer, TRUE);
 		gtk_widget_show (GTK_WIDGET (send->composer));
-		g_object_unref (send->composer);
 	}
 	
 	camel_message_info_free (info);
