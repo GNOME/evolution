@@ -2,6 +2,9 @@
 
   <commands>   <!-- Alphabetical by name, yo -->
 
+    <cmd name="AddSenderToAddressbook"
+     _tip="Add Sender to Address Book"/>
+
     <cmd name="MailNext"
      _tip="Display the next message"
      accel="f"/>
@@ -270,6 +273,10 @@
 
           <menuitem name="MessageMove" verb="" _label="_Move to Folder"/>
           <menuitem name="MessageCopy" verb="" _label="_Copy to Folder"/>
+
+          <separator/>
+
+          <menuitem name="AddSenderToAddressbook" verb="" _label="Add Sender to Address Book"/>
 
           <separator/>
 
