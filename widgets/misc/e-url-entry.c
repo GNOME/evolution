@@ -122,9 +122,10 @@ destroy (GtkObject *obj)
 	EUrlEntryPrivate *priv;
 	
 	url_entry = E_URL_ENTRY (obj);
-	priv = url_entry->priv;
-
-	g_free (priv);
+	if (url_entry->priv) {
+		g_free (url_entry->priv);
+		url_entry->priv = NULL;
+	}
 }
 
 

@@ -1,3 +1,8 @@
+2003-02-27  Chris Toshok  <toshok@ximian.com>
+
+	* e-url-entry.c (destroy): guard this so we don't try to free priv
+	multiple times.
+
 2003-02-25  Dan Winship  <danw@ximian.com>
 
 	* e-map.c (e_map_destroy): Use
