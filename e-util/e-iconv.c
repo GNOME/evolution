@@ -30,6 +30,8 @@
 #include <glib.h>
 #include "e-iconv.h"
 
+#include <locale.h>
+
 #ifdef HAVE_ALLOCA_H
 #include <alloca.h>
 #endif
