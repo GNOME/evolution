@@ -367,7 +367,7 @@ mail_tool_quote_message (CamelMimeMessage *message, const char *fmt, ...)
 		/* look for the signature and strip it off */
 		sig = text;
 	        while ((p = strstr (sig, "\n-- \n")))
-			sig = p + 4;
+			sig = p + 1;
 		
 		if (sig != text)
 			*sig = '\0';
