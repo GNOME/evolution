@@ -201,13 +201,13 @@ set_colour (GnomeColorPicker *cp, guint r, guint g, guint b, guint a, FilterColo
 static GtkWidget *
 get_widget (FilterElement *fe)
 {
-	FilterColour *fc = (FilterColour *)fe;
+	FilterColour *fc = (FilterColour *) fe;
 	GnomeColorPicker *cp;
 	
-	cp = (GnomeColorPicker *)gnome_color_picker_new();
-	gnome_color_picker_set_i16(cp, fc->r, fc->g, fc->b, fc->a);
-	gtk_widget_show((GtkWidget *)cp);
-	g_signal_connect (cp, "color_set", set_colour, fe);
+	cp = (GnomeColorPicker *) gnome_color_picker_new ();
+	gnome_color_picker_set_i16 (cp, fc->r, fc->g, fc->b, fc->a);
+	gtk_widget_show ((GtkWidget *) cp);
+	g_signal_connect (cp, "color_set", GTK_SIGNAL_FUNC (set_colour), fe);
 	
 	return (GtkWidget *) cp;
 }

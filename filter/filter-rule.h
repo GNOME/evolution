@@ -35,6 +35,8 @@
 #define IS_FILTER_RULE_CLASS(klass) (G_TYPE_CHECK_CLASS_TYPE ((klass), FILTER_TYPE_RULE))
 #define FILTER_RULE_GET_CLASS(obj)  (G_TYPE_INSTANCE_GET_CLASS ((obj), FILTER_TYPE_RULE, FilterRuleClass))
 
+struct _RuleContext;
+
 typedef struct _FilterRule	FilterRule;
 typedef struct _FilterRuleClass	FilterRuleClass;
 

@@ -88,8 +88,6 @@ filter_context_class_init (FilterContextClass *klass)
 static void
 filter_context_init (FilterContext *fc)
 {
-	fc->priv = g_malloc0 (sizeof (*rc->priv));
-	
 	rule_context_add_part_set ((RuleContext *) fc, "partset", filter_part_get_type (),
 				   rule_context_add_part, rule_context_next_part);
 	rule_context_add_part_set ((RuleContext *) fc, "actionset", filter_part_get_type (),
