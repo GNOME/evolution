@@ -1,5 +1,11 @@
 2001-10-05  Ettore Perazzoli  <ettore@ximian.com>
 
+	* main.c (quit_box_new): Also `gdk_flush()'.
+	(idle_cb): If the user doesn't specify at least one `evolution:'
+	URI, restore from the settings.  [Fixes #6093.]
+
+2001-10-05  Ettore Perazzoli  <ettore@ximian.com>
+
 	* evolution-shell-component.c: New member `ping_timeout_id' in
 	`EvolutionShellComponentPrivate'.
 	(setup_owner_pinging): New helper function.

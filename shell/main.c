@@ -53,6 +53,7 @@
 
 #include "e-util/e-gtk-utils.h"
 
+#include "e-shell-constants.h"
 #include "e-setup.h"
 
 #include "e-shell.h"
@@ -94,6 +95,7 @@ quit_box_new (void)
 	/* For some reason, the window fails to update without this
 	   sometimes.  */
 	gtk_widget_queue_draw (window);
+	gdk_flush ();
 
 	while (gtk_events_pending ())
 		gtk_main_iteration ();
@@ -203,7 +205,8 @@ idle_cb (void *data)
 	GNOME_Evolution_Shell corba_shell;
 	CORBA_Environment ev;
 	EShellConstructResult result;
-	gboolean restored;
+	GSList *p;
+	gboolean have_evolution_uri;
 
 	CORBA_exception_init (&ev);
 
@@ -218,11 +221,6 @@ idle_cb (void *data)
 				    GTK_SIGNAL_FUNC (no_views_left_cb), NULL);
 		gtk_signal_connect (GTK_OBJECT (shell), "destroy",
 				    GTK_SIGNAL_FUNC (destroy_cb), NULL);
-
-		if (uri_list == NULL)
-			restored = e_shell_restore_from_settings (shell);
-		else
-			restored = FALSE;
 
 		if (!getenv ("EVOLVE_ME_HARDER"))
 			development_warning ();
@@ -240,8 +238,6 @@ idle_cb (void *data)
 			gtk_main_quit ();
 			return FALSE;
 		}
-
-		restored = FALSE;
 		break;
 
 	default:
@@ -254,27 +250,39 @@ idle_cb (void *data)
 
 	}
 
-	if (! restored && uri_list == NULL) {
-		const char *uri = E_SHELL_VIEW_DEFAULT_URI;
+	have_evolution_uri = FALSE;
+	for (p = uri_list; p != NULL; p = p->next) {
+		const char *uri;
 
-		GNOME_Evolution_Shell_handleURI (corba_shell, uri, &ev);
-		if (ev._major != CORBA_NO_EXCEPTION)
-			g_warning ("CORBA exception %s when requesting URI -- %s", ev._repo_id, uri);
-	} else {
-		GSList *p;
+		uri = (const char *) p->data;
+		if (strncmp (uri, E_SHELL_URI_PREFIX, E_SHELL_URI_PREFIX_LEN) == 0)
+			have_evolution_uri = TRUE;
+	}
 
-		for (p = uri_list; p != NULL; p = p->next) {
-			char *uri;
+	if (! have_evolution_uri) {
+		if (! e_shell_restore_from_settings (shell)) {
+			const char *uri;
 
-			uri = (char *) p->data;
-
+			uri = E_SHELL_VIEW_DEFAULT_URI;
 			GNOME_Evolution_Shell_handleURI (corba_shell, uri, &ev);
 			if (ev._major != CORBA_NO_EXCEPTION)
 				g_warning ("CORBA exception %s when requesting URI -- %s", ev._repo_id, uri);
 		}
-
-		g_slist_free (uri_list);
 	}
+
+	for (p = uri_list; p != NULL; p = p->next) {
+		const char *uri;
+
+		uri = (const char *) p->data;
+		GNOME_Evolution_Shell_handleURI (corba_shell, uri, &ev);
+		if (ev._major != CORBA_NO_EXCEPTION)
+			g_warning ("CORBA exception %s when requesting URI -- %s", ev._repo_id, uri);
+
+		if (strncmp (uri, E_SHELL_URI_PREFIX, E_SHELL_URI_PREFIX_LEN) == 0)
+			have_evolution_uri = TRUE;
+	}
+
+	g_slist_free (uri_list);
 
 	CORBA_Object_release (corba_shell, &ev);
 
