@@ -181,6 +181,7 @@ identity_copy (const MailConfigIdentity *id)
 	new = g_new0 (MailConfigIdentity, 1);
 	new->name = g_strdup (id->name);
 	new->address = g_strdup (id->address);
+	new->reply_to = g_strdup (id->reply_to);
 	new->organization = g_strdup (id->organization);
 	new->text_signature = id->text_signature;
 	new->text_random = id->text_random;
@@ -198,6 +199,7 @@ identity_destroy (MailConfigIdentity *id)
 	
 	g_free (id->name);
 	g_free (id->address);
+	g_free (id->reply_to);
 	g_free (id->organization);
 	
 	g_free (id);
@@ -719,6 +721,10 @@ config_read (void)
 		id->address = bonobo_config_get_string (config->db, path, NULL);
 		g_free (path);
 		
+		path = g_strdup_printf ("/Mail/Accounts/identity_reply_to_%d", i);
+		id->reply_to = bonobo_config_get_string (config->db, path, NULL);
+		g_free (path);
+		
 		path = g_strdup_printf ("/Mail/Accounts/identity_organization_%d", i);
 		id->organization = bonobo_config_get_string (config->db, path, NULL);
 		g_free (path);
@@ -727,19 +733,19 @@ config_read (void)
 		path = g_strdup_printf ("/Mail/Accounts/identity_signature_text_%d", i);
 		id->text_signature = lookup_signature (bonobo_config_get_long_with_default (config->db, path, -1, NULL));
 		g_free (path);
-
+		
 		path = g_strdup_printf ("/Mail/Accounts/identity_signature_html_%d", i);
 		id->html_signature = lookup_signature (bonobo_config_get_long_with_default (config->db, path, -1, NULL));
 		g_free (path);
-
+		
 		path = g_strdup_printf ("/Mail/Accounts/identity_signature_text_random_%d", i);
 		id->text_random = bonobo_config_get_boolean_with_default (config->db, path, FALSE, NULL);
 		g_free (path);
-
+		
 		path = g_strdup_printf ("/Mail/Accounts/identity_signature_html_random_%d", i);
 		id->html_random = bonobo_config_get_boolean_with_default (config->db, path, FALSE, NULL);
 		g_free (path);
-
+		
 		/* get the source */
 		source = g_new0 (MailConfigService, 1);
 		
@@ -1121,12 +1127,16 @@ mail_config_write (void)
 		bonobo_config_set_string_wrapper (config->db, path, account->id->address, NULL);
 		g_free (path);
 		
+		path = g_strdup_printf ("/Mail/Accounts/identity_reply_to_%d", i);
+		bonobo_config_set_string_wrapper (config->db, path, account->id->reply_to, NULL);
+		g_free (path);
+		
 		path = g_strdup_printf ("/Mail/Accounts/identity_organization_%d", i);
 		bonobo_config_set_string_wrapper (config->db, path, account->id->organization, NULL);
 		g_free (path);
 		
 		mail_config_write_account_sig (account, i);
-
+		
 		/* source info */
 		path = g_strdup_printf ("/Mail/Accounts/source_url_%d", i);
 		bonobo_config_set_string_wrapper (config->db, path, account->source->url, NULL);
@@ -2845,6 +2855,7 @@ impl_GNOME_Evolution_MailConfig_addAccount (PortableServer_Servant servant,
 	mail_id = g_new0 (MailConfigIdentity, 1);
 	mail_id->name = g_strdup (id.name);
 	mail_id->address = g_strdup (id.address);
+	mail_id->reply_to = g_strdup (id.reply_to);
 	mail_id->organization = g_strdup (id.organization);
 	
 	mail_account->id = mail_id;

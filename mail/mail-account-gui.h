@@ -66,6 +66,7 @@ typedef struct {
 	/* identity */
 	GtkEntry *full_name;
 	GtkEntry *email_address;
+	GtkEntry *reply_to;
 	GtkEntry *organization;
 
 	/* signatures */

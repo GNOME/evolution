@@ -43,8 +43,9 @@ typedef struct {
 typedef struct {
 	char *name;
 	char *address;
+	char *reply_to;
 	char *organization;
-
+	
 	MailConfigSignature *text_signature;
 	gboolean text_random;
 	MailConfigSignature *html_signature;

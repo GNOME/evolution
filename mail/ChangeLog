@@ -1,3 +1,17 @@
+2002-04-12  Jeffrey Stedfast  <fejj@ximian.com>
+
+	* mail-account-gui.c (mail_account_gui_new): Set the text of the
+	reply-to.
+	(mail_account_gui_save): Get the reply-to text here.
+	(mail_account_gui_identity_complete): If there is text in the
+	reply-to widget make sure it's valid.
+
+	* mail-config.c (identity_copy): Copy the reply-to.
+	(config_read): Read in the reply-to for all the accounts.
+	(mail_config_write): Save the reply-to.
+	(impl_GNOME_Evolution_MailConfig_addAccount): Get the reply-to.
+	(identity_destroy): Free the reply-to.
+
 2002-04-11  Jeffrey Stedfast  <fejj@ximian.com>
 
 	* message-list.etspec: s/Sent/Date. This fixes bug #11159.

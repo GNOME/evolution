@@ -106,6 +106,7 @@ mail_account_gui_identity_complete (MailAccountGui *gui, GtkWidget **incomplete)
 		if (incomplete)
 			*incomplete = get_focused_widget (GTK_WIDGET (gui->full_name),
 							  GTK_WIDGET (gui->email_address),
+							  GTK_WIDGET (gui->reply_to),
 							  NULL);
 		return FALSE;
 	}
@@ -114,6 +115,18 @@ mail_account_gui_identity_complete (MailAccountGui *gui, GtkWidget **incomplete)
 	if (!text || !is_email (text)) {
 		if (incomplete)
 			*incomplete = get_focused_widget (GTK_WIDGET (gui->email_address),
+							  GTK_WIDGET (gui->full_name),
+							  GTK_WIDGET (gui->reply_to),
+							  NULL);
+		return FALSE;
+	}
+	
+	/* make sure that if the reply-to field is filled in, that it is valid */
+	text = gtk_entry_get_text (gui->reply_to);
+	if (text && *text && !is_email (text)) {
+		if (incomplete)
+			*incomplete = get_focused_widget (GTK_WIDGET (gui->reply_to),
+							  GTK_WIDGET (gui->email_address),
 							  GTK_WIDGET (gui->full_name),
 							  NULL);
 		return FALSE;
@@ -1393,6 +1406,7 @@ mail_account_gui_new (MailConfigAccount *account, MailAccountsTab *dialog)
 	/* Identity */
 	gui->full_name = GTK_ENTRY (glade_xml_get_widget (gui->xml, "identity_full_name"));
 	gui->email_address = GTK_ENTRY (glade_xml_get_widget (gui->xml, "identity_address"));
+	gui->reply_to = GTK_ENTRY (glade_xml_get_widget (gui->xml, "identity_reply_to"));
 	gui->organization = GTK_ENTRY (glade_xml_get_widget (gui->xml, "identity_organization"));
 	
 	prepare_signatures (gui);
@@ -1402,6 +1416,8 @@ mail_account_gui_new (MailConfigAccount *account, MailAccountsTab *dialog)
 			e_utf8_gtk_entry_set_text (gui->full_name, account->id->name);
 		if (account->id->address)
 			gtk_entry_set_text (gui->email_address, account->id->address);
+		if (account->id->reply_to)
+			gtk_entry_set_text (gui->reply_to, account->id->reply_to);
 		if (account->id->organization)
 			e_utf8_gtk_entry_set_text (gui->organization, account->id->organization);
 		
@@ -1829,6 +1845,7 @@ mail_account_gui_save (MailAccountGui *gui)
 	account->id = g_new0 (MailConfigIdentity, 1);
 	account->id->name = e_utf8_gtk_entry_get_text (gui->full_name);
 	account->id->address = e_utf8_gtk_entry_get_text (gui->email_address);
+	account->id->reply_to = e_utf8_gtk_entry_get_text (gui->reply_to);
 	account->id->organization = e_utf8_gtk_entry_get_text (gui->organization);
 	
 	sig_set_and_write (gui);

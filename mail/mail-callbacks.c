@@ -353,7 +353,7 @@ composer_sent_cb (char *uri, CamelMimeMessage *message, gboolean sent, void *dat
 		}
 		gtk_widget_destroy (GTK_WIDGET (send->composer));
 	} else {
-		e_msg_composer_set_enable_autosave(send->composer, TRUE);
+		e_msg_composer_set_enable_autosave (send->composer, TRUE);
 		gtk_widget_show (GTK_WIDGET (send->composer));
 		gtk_object_unref (GTK_OBJECT (send->composer));
 	}
