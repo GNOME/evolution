@@ -1,5 +1,11 @@
 2001-12-03  Jeffrey Stedfast  <fejj@ximian.com>
 
+	* mail-ops.c (mail_send_message): Don't append "(Preview Version)"
+	at the end of the version string. Use the PREVIEW_RELEASE #define
+	instead.
+
+2001-12-03  Jeffrey Stedfast  <fejj@ximian.com>
+
 	* folder-browser-ui.c: Setup the UI for the AddSenderToAddressbook
 	ui verb thingy.
 
