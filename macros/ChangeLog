@@ -1,3 +1,8 @@
+1999-10-31  Eskil Heyn Olsen  <deity@eskil.dk>
+
+	* gnome-pilot.m4: added PILOT_LINK_CHECK, used by
+	GNOME_PILOT_CHECK. Adds --with-pisock=$dir_for_pilot_link.
+
 1999-10-24  Jacob Berkman  <jberkman@andrew.cmu.edu>
 
 	* gnome-ghttp-check.m4: this should be a better fix
