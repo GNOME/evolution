@@ -4,7 +4,7 @@ SCRIPTS = ../../scripts
 SOURCES = icalcomponent.c icalproperty.c icalparameter.c icalenums.c icalvalue.c icalerror.c icalmemory.c icaltypes.c icalparser.c icalrestriction.c pvl.c
 OBJECTS =  ${SOURCES:.c=.o}
 INCLUDES = -I . -I..
-CFLAGS =  -Wall -g  $(INCLUDES)  -DSTDC_HEADERS=1 -DHAVE_MALLOC_H=1 -DHAVE_UNISTD_H=1 -DHAVE_TIME_H=1 -DHAVE_STDIO_H=1 -DHAVE_SYS_TYPES_H=1 -DHAVE_ASSERT_H=1 -DHAVE_STRDUP=1  -DICAL_ERRORS_ARE_FATAL 
+CFLAGS =  -Wall -g -O2  $(INCLUDES)  -DSTDC_HEADERS=1 -DHAVE_MALLOC_H=1 -DHAVE_UNISTD_H=1 -DHAVE_TIME_H=1 -DHAVE_STDIO_H=1 -DHAVE_SYS_TYPES_H=1 -DHAVE_ASSERT_H=1 -DHAVE_STRDUP=1  -DICAL_ERRORS_ARE_FATAL 
 LIBS   = 
 CC     = gcc
 AR     = ar cr
