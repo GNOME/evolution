@@ -11,6 +11,8 @@ INCLUDES =								\
 	-DEVOLUTION_IMAGES=\""$(imagesdir)"\"				\
 	-DEVOLUTION_CATEGORY_ICONS=\""$(imagesdir)/categories"\"	\
 	-DG_LOG_DOMAIN=\"e-utils\"					\
+	-DG_DISABLE_DEPRECATED						\
+	-DGTK_DISABLE_DEPRECATED					\
 	$(DB3_CFLAGS)							\
 	$(PISOCK_CFLAGS)						\
 	$(E_UTIL_CFLAGS)

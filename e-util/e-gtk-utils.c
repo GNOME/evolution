@@ -71,10 +71,10 @@ alive_disconnecter (GtkObject *object,
 		    DisconnectInfo *info)
 {
 	g_assert (info != NULL);
-
-	gtk_signal_disconnect (info->object1, info->disconnect_handler1);
-	gtk_signal_disconnect (info->object1, info->signal_handler);
-	gtk_signal_disconnect (info->object2, info->disconnect_handler2);
+	
+	g_signal_handler_disconnect (info->object1, info->disconnect_handler1);
+	g_signal_handler_disconnect (info->object1, info->signal_handler);
+	g_signal_handler_disconnect (info->object2, info->disconnect_handler2);
 	
 	g_free (info);
 	
@@ -122,12 +122,12 @@ e_signal_connect_full_while_alive (void *instance,
 							instance_signal, after);
 
 	info->object1 = instance;
-	info->disconnect_handler1 = gtk_signal_connect (instance, "destroy",
-							GTK_SIGNAL_FUNC (alive_disconnecter), info);
+	info->disconnect_handler1 = g_signal_connect (instance, "destroy",
+						      G_CALLBACK (alive_disconnecter), info);
 
 	info->object2 = alive_instance;
-	info->disconnect_handler2 = gtk_signal_connect (alive_instance, "destroy",
-							GTK_SIGNAL_FUNC (alive_disconnecter), info);
+	info->disconnect_handler2 = g_signal_connect (alive_instance, "destroy",
+						      G_CALLBACK (alive_disconnecter), info);
 }
 
 
@@ -165,6 +165,5 @@ widget_realize_callback_for_backing_store (GtkWidget *widget,
 void
 e_make_widget_backing_stored  (GtkWidget *widget)
 {
-	gtk_signal_connect (GTK_OBJECT (widget), "realize",
-			    GTK_SIGNAL_FUNC (widget_realize_callback_for_backing_store), NULL);
+	g_signal_connect (widget, "realize", G_CALLBACK (widget_realize_callback_for_backing_store), NULL);
 }

@@ -1,3 +1,8 @@
+2003-01-02  Jeffrey Stedfast  <fejj@ximian.com>
+
+	A bunch of fixes to make e-util build with -DG_DISABLE_DEPRECATED
+	and -DGTK_DISABLE_DEPRECATED.
+
 2003-01-02  Ettore Perazzoli  <ettore@ximian.com>
 
 	* e-gtk-utils.c (e_signal_connect_full_while_alive): Get to

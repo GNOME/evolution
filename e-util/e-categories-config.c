@@ -12,7 +12,6 @@
 #include <libgnomeui/gnome-dialog.h>
 #include <libgnome/gnome-i18n.h>
 #include <gdk-pixbuf/gdk-pixbuf.h>
-#include <gal/widgets/e-unicode.h>
 #include <gal/widgets/e-categories.h>
 #include "e-categories-config.h"
 #include "e-categories-master-list-wombat.h"
@@ -176,34 +175,34 @@ e_categories_config_set_icon_for (const char *category, const char *icon_file)
 void
 e_categories_config_open_dialog_for_entry (GtkEntry *entry)
 {
-	char *categories;
 	GnomeDialog *dialog;
+	const char *text;
+	char *categories;
 	int result;
-
+	
 	g_return_if_fail (entry != NULL);
 	g_return_if_fail (GTK_IS_ENTRY (entry));
-
+	
 	if (!initialized)
 		initialize_categories_config ();
-
-	categories = e_utf8_gtk_entry_get_text (GTK_ENTRY (entry));
-	dialog = GNOME_DIALOG (e_categories_new (categories));
-
+	
+	text = gtk_entry_get_text (GTK_ENTRY (entry));
+	dialog = GNOME_DIALOG (e_categories_new (text));
+	
 	gtk_object_set (GTK_OBJECT (dialog),
 			"ecml", ecmlw,
 			NULL);
-
+	
 	/* run the dialog */
 	result = gnome_dialog_run (dialog);
-	g_free (categories);
-
+	
 	if (result == 0) {
 		gtk_object_get (GTK_OBJECT (dialog),
 				"categories", &categories,
 				NULL);
-		e_utf8_gtk_entry_set_text (GTK_ENTRY (entry), categories);
+		gtk_entry_set_text (GTK_ENTRY (entry), categories);
 		g_free (categories);
 	}
-
+	
 	gtk_object_destroy (GTK_OBJECT (dialog));
 }

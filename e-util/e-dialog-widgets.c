@@ -33,7 +33,6 @@
 #include <gtk/gtkspinbutton.h>
 #include <libgnomeui/gnome-dateedit.h>
 #include <libgnomeui/gnome-propertybox.h>
-#include <gal/widgets/e-unicode.h>
 
 #include "e-dialog-widgets.h"
 
@@ -55,17 +54,13 @@ typedef struct {
 
 /* Destroy handler for the dialog; frees the dialog hooks */
 static void
-dialog_destroy_cb (GtkObject *dialog, gpointer data)
+dialog_destroy_cb (DialogHooks *hooks, GObject *dialog)
 {
-	DialogHooks *hooks;
-
-	hooks = data;
-
 	g_slist_free (hooks->whooks);
 	hooks->whooks = NULL;
-
+	
 	g_free (hooks);
-	gtk_object_set_data (dialog, "dialog-hooks", NULL);
+	g_object_set_data (dialog, "dialog-hooks", NULL);
 }
 
 /* Ensures that the dialog has the necessary attached data to store the widget
@@ -75,15 +70,14 @@ static DialogHooks *
 get_dialog_hooks (GtkWidget *dialog)
 {
 	DialogHooks *hooks;
-
-	hooks = gtk_object_get_data (GTK_OBJECT (dialog), "dialog-hooks");
+	
+	hooks = g_object_get_data ((GObject *) dialog, "dialog-hooks");
 	if (!hooks) {
 		hooks = g_new0 (DialogHooks, 1);
-		gtk_object_set_data (GTK_OBJECT (dialog), "dialog-hooks", hooks);
-		gtk_signal_connect (GTK_OBJECT (dialog), "destroy",
-				    GTK_SIGNAL_FUNC (dialog_destroy_cb), hooks);
+		g_object_set_data ((GObject *) dialog, "dialog-hooks", hooks);
+		g_object_weak_ref ((GObject *) dialog, (GWeakNotify) dialog_destroy_cb, hooks);
 	}
-
+	
 	return hooks;
 }
 
@@ -94,11 +88,11 @@ static int
 value_to_index (const int *value_map, int value)
 {
 	int i;
-
+	
 	for (i = 0; value_map[i] != -1; i++)
 		if (value_map[i] == value)
 			return i;
-
+	
 	return -1;
 }
 
@@ -109,15 +103,15 @@ static int
 index_to_value (const int *value_map, int index)
 {
 	int i;
-
+	
 	/* We do this the hard way, i.e. not as a simple array reference, to
 	 * check for correctness.
 	 */
-
+	
 	for (i = 0; value_map[i] != -1; i++)
 		if (i == index)
 			return value_map[i];
-
+	
 	return -1;
 }
 
@@ -126,9 +120,9 @@ static void
 toggled_cb (GtkToggleButton *toggle, gpointer data)
 {
 	GnomePropertyBox *pbox;
-
+	
 	pbox = GNOME_PROPERTY_BOX (data);
-
+	
 	/* For radio buttons, we only notify the property box if the button is
 	 * active, because we'll get one call for each of the changed buttons in
 	 * the radio group.
@@ -141,26 +135,24 @@ toggled_cb (GtkToggleButton *toggle, gpointer data)
 static void
 hook_radio (GtkWidget *dialog, GtkRadioButton *radio, gpointer value_var, gpointer info)
 {
-	GSList *group;
-	GSList *l;
-	int *value;
 	const int *value_map;
-
-	group = gtk_radio_button_group (radio);
-
+	GSList *group, *l;
+	int *value;
+	
+	group = gtk_radio_button_get_group (radio);
+	
 	/* Set the value */
-
+	
 	value = (int *) value_var;
 	value_map = (const int *) info;
-
+	
 	e_dialog_radio_set (GTK_WIDGET (radio), *value, value_map);
-
+	
 	/* Hook to changed */
-
+	
 	if (GNOME_IS_PROPERTY_BOX (dialog))
 		for (l = group; l; l = l->next)
-			gtk_signal_connect (GTK_OBJECT (l->data), "toggled",
-					    GTK_SIGNAL_FUNC (toggled_cb), dialog);
+			g_signal_connect (l->data, "toggled", G_CALLBACK (toggled_cb), dialog);
 }
 
 /* Gets the value of a radio button group */
@@ -169,10 +161,10 @@ get_radio_value (GtkRadioButton *radio, gpointer value_var, gpointer info)
 {
 	int *value;
 	const int *value_map;
-
+	
 	value = (int *) value_var;
 	value_map = (const int *) info;
-
+	
 	*value = e_dialog_radio_get (GTK_WIDGET (radio), value_map);
 }
 
@@ -181,7 +173,7 @@ static void
 activate_cb (GtkMenuItem *item, gpointer data)
 {
 	GnomePropertyBox *pbox;
-
+	
 	pbox = GNOME_PROPERTY_BOX (data);
 	gnome_property_box_changed (pbox);
 }
@@ -190,27 +182,26 @@ activate_cb (GtkMenuItem *item, gpointer data)
 static void
 hook_option_menu (GtkWidget *dialog, GtkOptionMenu *omenu, gpointer value_var, gpointer info)
 {
-	int *value;
 	const int *value_map;
-
+	int *value;
+	
 	/* Set the value */
-
+	
 	value = (int *) value_var;
 	value_map = (const int *) info;
-
+	
 	e_dialog_option_menu_set (GTK_WIDGET (omenu), *value, value_map);
-
+	
 	/* Hook to changed */
-
+	
 	if (GNOME_IS_PROPERTY_BOX (dialog)) {
 		GtkMenu *menu;
 		GList *l;
-
+		
 		menu = GTK_MENU (gtk_option_menu_get_menu (omenu));
-
+		
 		for (l = GTK_MENU_SHELL (menu)->children; l; l = l->next)
-			gtk_signal_connect (GTK_OBJECT (l->data), "activate",
-					    GTK_SIGNAL_FUNC (activate_cb), dialog);
+			g_signal_connect (l->data, "activate", G_CALLBACK (activate_cb), dialog);
 	}
 }
 
@@ -218,12 +209,12 @@ hook_option_menu (GtkWidget *dialog, GtkOptionMenu *omenu, gpointer value_var, g
 static void
 get_option_menu_value (GtkOptionMenu *omenu, gpointer value_var, gpointer info)
 {
-	int *value;
 	const int *value_map;
-
+	int *value;
+	
 	value = (int *) value_var;
 	value_map = (const int *) info;
-
+	
 	*value = e_dialog_option_menu_get (GTK_WIDGET (omenu), value_map);
 }
 
@@ -232,17 +223,16 @@ static void
 hook_toggle (GtkWidget *dialog, GtkToggleButton *toggle, gpointer value_var, gpointer info)
 {
 	gboolean *value;
-
+	
 	/* Set the value */
-
+	
 	value = (gboolean *) value_var;
 	e_dialog_toggle_set (GTK_WIDGET (toggle), *value);
-
+	
 	/* Hook to changed */
-
+	
 	if (GNOME_IS_PROPERTY_BOX (dialog))
-		gtk_signal_connect (GTK_OBJECT (toggle), "toggled",
-				    GTK_SIGNAL_FUNC (toggled_cb), dialog);
+		g_signal_connect (toggle, "toggled", G_CALLBACK (toggled_cb), dialog);
 }
 
 /* Gets the value of a toggle button */
@@ -250,7 +240,7 @@ static void
 get_toggle_value (GtkToggleButton *toggle, gpointer value_var, gpointer info)
 {
 	gboolean *value;
-
+	
 	value = (gboolean *) value_var;
 	*value = e_dialog_toggle_get (GTK_WIDGET (toggle));
 }
@@ -260,7 +250,7 @@ static void
 value_changed_cb (GtkAdjustment *adj, gpointer data)
 {
 	GnomePropertyBox *pbox;
-
+	
 	pbox = GNOME_PROPERTY_BOX (data);
 	gnome_property_box_changed (pbox);
 }
@@ -271,19 +261,18 @@ hook_spin_button (GtkWidget *dialog, GtkSpinButton *spin, gpointer value_var, gp
 {
 	double *value;
 	GtkAdjustment *adj;
-
+	
 	/* Set the value */
-
+	
 	value = (double *) value_var;
 	e_dialog_spin_set (GTK_WIDGET (spin), *value);
-
+	
 	/* Hook to changed */
-
+	
 	adj = gtk_spin_button_get_adjustment (spin);
-
+	
 	if (GNOME_IS_PROPERTY_BOX (dialog))
-		gtk_signal_connect (GTK_OBJECT (adj), "value_changed",
-				    GTK_SIGNAL_FUNC (value_changed_cb), dialog);
+		g_signal_connect (adj, "value_changed", G_CALLBACK (value_changed_cb), dialog);
 }
 
 /* Gets the value of a spin button */
@@ -291,7 +280,7 @@ static void
 get_spin_button_value (GtkSpinButton *spin, gpointer value_var, gpointer info)
 {
 	double *value;
-
+	
 	value = (double *) value_var;
 	*value = e_dialog_spin_get_double (GTK_WIDGET (spin));
 }
@@ -301,7 +290,7 @@ static void
 changed_cb (GtkEditable *editable, gpointer data)
 {
 	GnomePropertyBox *pbox;
-
+	
 	pbox = GNOME_PROPERTY_BOX (data);
 	gnome_property_box_changed (pbox);
 }
@@ -311,18 +300,17 @@ static void
 hook_editable (GtkWidget *dialog, GtkEditable *editable, gpointer value_var, gpointer info)
 {
 	char **value;
-
+	
 	/* Set the value */
-
+	
 	value = (char **) value_var;
-
+	
 	e_dialog_editable_set (GTK_WIDGET (editable), *value);
-
+	
 	/* Hook to changed */
-
+	
 	if (GNOME_IS_PROPERTY_BOX (dialog))
-		gtk_signal_connect (GTK_OBJECT (editable), "changed",
-				    GTK_SIGNAL_FUNC (changed_cb), dialog);
+		g_signal_connect (editable, "changed", G_CALLBACK (changed_cb), dialog);
 }
 
 /* Gets the value of a GtkEditable widget */
@@ -330,11 +318,11 @@ static void
 get_editable_value (GtkEditable *editable, gpointer value_var, gpointer data)
 {
 	char **value;
-
+	
 	value = (char **) value_var;
 	if (*value)
 		g_free (*value);
-
+	
 	*value = e_dialog_editable_get (GTK_WIDGET (editable));
 }
 
@@ -348,17 +336,15 @@ get_editable_value (GtkEditable *editable, gpointer value_var, gpointer data)
 void
 e_dialog_editable_set (GtkWidget *widget, const char *value)
 {
+	int pos = 0;
+	
 	g_return_if_fail (widget != NULL);
 	g_return_if_fail (GTK_IS_EDITABLE (widget));
-
+	
 	gtk_editable_delete_text (GTK_EDITABLE (widget), 0, -1);
-
-	if (value) {
-		gint pos;
-
-		pos = 0;
-		e_utf8_gtk_editable_insert_text (GTK_EDITABLE (widget), value, strlen (value), &pos);
-	}
+	
+	if (value)
+		gtk_editable_insert_text (GTK_EDITABLE (widget), value, strlen (value), &pos);
 }
 
 /**
@@ -376,8 +362,8 @@ e_dialog_editable_get (GtkWidget *widget)
 {
 	g_return_val_if_fail (widget != NULL, NULL);
 	g_return_val_if_fail (GTK_IS_EDITABLE (widget), NULL);
-
-	return e_utf8_gtk_editable_get_chars (GTK_EDITABLE (widget), 0, -1);
+	
+	return gtk_editable_get_chars (GTK_EDITABLE (widget), 0, -1);
 }
 
 /**
@@ -397,32 +383,29 @@ e_dialog_editable_get (GtkWidget *widget)
 void
 e_dialog_radio_set (GtkWidget *widget, int value, const int *value_map)
 {
-	GSList *group;
+	GSList *group, *l;
 	int i;
-	GSList *l;
-
+	
 	g_return_if_fail (widget != NULL);
 	g_return_if_fail (GTK_IS_RADIO_BUTTON (widget));
 	g_return_if_fail (value_map != NULL);
-
-	group = gtk_radio_button_group (GTK_RADIO_BUTTON (widget));
-
+	
+	group = gtk_radio_button_get_group (GTK_RADIO_BUTTON (widget));
+	
 	i = value_to_index (value_map, value);
 	if (i != -1) {
 		/* Groups are built by prepending items, so the list ends up in reverse
 		 * order; we need to flip the index around.
 		 */
 		i = g_slist_length (group) - i - 1;
-
+		
 		l = g_slist_nth (group, i);
 		if (!l)
-			g_message ("e_dialog_radio_set(): could not find index %d in radio group!",
-				   i);
-
+			g_message ("e_dialog_radio_set(): could not find index %d in radio group!", i);
+		
 		gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (l->data), TRUE);
 	} else
-		g_message ("e_dialog_radio_set(): could not find value %d in value map!",
-			   value);
+		g_message ("e_dialog_radio_set(): could not find value %d in value map!", value);
 }
 
 /**
@@ -440,38 +423,35 @@ e_dialog_radio_set (GtkWidget *widget, int value, const int *value_map)
 int
 e_dialog_radio_get (GtkWidget *widget, const int *value_map)
 {
-	GSList *group;
-	GSList *l;
-	int i;
-	int v;
-
+	GSList *group, *l;
+	int i, v;
+	
 	g_return_val_if_fail (widget != NULL, -1);
 	g_return_val_if_fail (GTK_IS_RADIO_BUTTON (widget), -1);
 	g_return_val_if_fail (value_map != NULL, -1);
-
-	group = gtk_radio_button_group (GTK_RADIO_BUTTON (widget));
-
+	
+	group = gtk_radio_button_get_group (GTK_RADIO_BUTTON (widget));
+	
 	for (i = 0, l = group; l; l = l->next, i++) {
 		widget = GTK_WIDGET (l->data);
-
+		
 		if (GTK_TOGGLE_BUTTON (widget)->active)
 			break;
 	}
-
-	if (!l)
-		g_assert_not_reached ();
-
+	
+	g_assert (l != NULL);
+	
 	/* Groups are built by prepending items, so the list ends up in reverse
 	 * order; we need to flip the index around.
 	 */
 	i = g_slist_length (group) - i - 1;
-
+	
 	v = index_to_value (value_map, i);
 	if (v == -1) {
 		g_message ("e_dialog_radio_get(): could not find index %d in value map!", i);
 		return -1;
 	}
-
+	
 	return v;
 }
 
@@ -489,7 +469,7 @@ e_dialog_toggle_set (GtkWidget *widget, gboolean value)
 {
 	g_return_if_fail (widget != NULL);
 	g_return_if_fail (GTK_IS_TOGGLE_BUTTON (widget));
-
+	
 	gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (widget), value);
 }
 
@@ -508,7 +488,7 @@ e_dialog_toggle_get (GtkWidget *widget)
 {
 	g_return_val_if_fail (widget != NULL, FALSE);
 	g_return_val_if_fail (GTK_IS_TOGGLE_BUTTON (widget), FALSE);
-
+	
 	return GTK_TOGGLE_BUTTON (widget)->active;
 }
 
@@ -523,14 +503,14 @@ void
 e_dialog_spin_set (GtkWidget *widget, double value)
 {
 	GtkAdjustment *adj;
-
+	
 	g_return_if_fail (widget != NULL);
 	g_return_if_fail (GTK_IS_SPIN_BUTTON (widget));
-
+	
 	adj = gtk_spin_button_get_adjustment (GTK_SPIN_BUTTON (widget));
-
+	
 	adj->value = value;
-	gtk_signal_emit_by_name (GTK_OBJECT (adj), "value_changed");
+	g_signal_emit_by_name (adj, "value_changed", 0);
 }
 
 /**
@@ -545,10 +525,10 @@ double
 e_dialog_spin_get_double (GtkWidget *widget)
 {
 	GtkAdjustment *adj;
-
+	
 	g_return_val_if_fail (widget != NULL, 0.0);
 	g_return_val_if_fail (GTK_IS_SPIN_BUTTON (widget), 0.0);
-
+	
 	adj = gtk_spin_button_get_adjustment (GTK_SPIN_BUTTON (widget));
 	return adj->value;
 }
@@ -565,10 +545,10 @@ int
 e_dialog_spin_get_int (GtkWidget *widget)
 {
 	double value;
-
+	
 	g_return_val_if_fail (widget != NULL, -1);
 	g_return_val_if_fail (GTK_IS_SPIN_BUTTON (widget), -1);
-
+	
 	value = e_dialog_spin_get_double (widget);
 	return (int) floor (value);
 }
@@ -587,13 +567,13 @@ void
 e_dialog_option_menu_set (GtkWidget *widget, int value, const int *value_map)
 {
 	int i;
-
+	
 	g_return_if_fail (widget != NULL);
 	g_return_if_fail (GTK_IS_OPTION_MENU (widget));
 	g_return_if_fail (value_map != NULL);
-
+	
 	i = value_to_index (value_map, value);
-
+	
 	if (i != -1)
 		gtk_option_menu_set_history (GTK_OPTION_MENU (widget), i);
 	else
@@ -622,32 +602,31 @@ e_dialog_option_menu_get (GtkWidget *widget, const int *value_map)
 	GList *l;
 	int i;
 	int v;
-
+	
 	g_return_val_if_fail (widget != NULL, -1);
 	g_return_val_if_fail (GTK_IS_OPTION_MENU (widget), -1);
 	g_return_val_if_fail (value_map != NULL, -1);
-
+	
 	menu = GTK_MENU (gtk_option_menu_get_menu (GTK_OPTION_MENU (widget)));
-
+	
 	active = gtk_menu_get_active (menu);
 	g_assert (active != NULL);
-
+	
 	children = GTK_MENU_SHELL (menu)->children;
-
+	
 	for (i = 0, l = children; l; l = l->next, i++) {
 		if (GTK_WIDGET (l->data) == active)
 			break;
 	}
-
-	if (!l)
-		g_assert_not_reached ();
-
+	
+	g_assert (l != NULL);
+	
 	v = index_to_value (value_map, i);
 	if (v == -1) {
 		g_message ("e_dialog_option_menu_get(): could not find index %d in value map!", i);
 		return -1;
 	}
-
+	
 	return v;
 }
 
@@ -663,7 +642,7 @@ e_dialog_dateedit_set (GtkWidget *widget, time_t t)
 {
 	g_return_if_fail (widget != NULL);
 	g_return_if_fail (GNOME_IS_DATE_EDIT (widget));
-
+	
 	gnome_date_edit_set_time (GNOME_DATE_EDIT (widget), t);
 }
 
@@ -680,7 +659,7 @@ e_dialog_dateedit_get (GtkWidget *widget)
 {
 	g_return_val_if_fail (widget != NULL, -1);
 	g_return_val_if_fail (GNOME_IS_DATE_EDIT (widget), -1);
-
+	
 	return gnome_date_edit_get_date (GNOME_DATE_EDIT (widget));
 }
 
@@ -719,18 +698,18 @@ e_dialog_widget_hook_value (GtkWidget *dialog, GtkWidget *widget,
 {
 	DialogHooks *hooks;
 	WidgetHook *wh;
-
+	
 	g_return_val_if_fail (dialog != NULL, FALSE);
 	g_return_val_if_fail (widget != NULL, FALSE);
 	g_return_val_if_fail (GTK_IS_WIDGET (widget), FALSE);
 	g_return_val_if_fail (value_var != NULL, FALSE);
-
+	
 	hooks = get_dialog_hooks (dialog);
-
+	
 	/* First check if it is a "group" widget, like a radio button or an
 	 * option menu.  Then we check for normal ungrouped widgets.
 	 */
-
+	
 	if (GTK_IS_RADIO_BUTTON (widget))
 		hook_radio (dialog, GTK_RADIO_BUTTON (widget), value_var, info);
 	else if (GTK_IS_OPTION_MENU (widget))
@@ -743,14 +722,14 @@ e_dialog_widget_hook_value (GtkWidget *dialog, GtkWidget *widget,
 		hook_editable (dialog, GTK_EDITABLE (widget), value_var, info);
 	else
 		return FALSE;
-
+	
 	wh = g_new (WidgetHook, 1);
 	wh->widget = widget;
 	wh->value_var = value_var;
 	wh->info = info;
-
+	
 	hooks->whooks = g_slist_prepend (hooks->whooks, wh);
-
+	
 	return TRUE;
 }
 
@@ -769,16 +748,16 @@ e_dialog_get_values (GtkWidget *dialog)
 {
 	DialogHooks *hooks;
 	GSList *l;
-
+	
 	g_return_if_fail (dialog != NULL);
-
+	
 	hooks = get_dialog_hooks (dialog);
-
+	
 	for (l = hooks->whooks; l; l = l->next) {
 		WidgetHook *wh;
-
+		
 		wh = l->data;
-
+		
 		if (GTK_IS_RADIO_BUTTON (wh->widget))
 			get_radio_value (GTK_RADIO_BUTTON (wh->widget), wh->value_var, wh->info);
 		else if (GTK_IS_OPTION_MENU (wh->widget))
@@ -814,19 +793,19 @@ e_dialog_xml_widget_hook_value (GladeXML *xml, GtkWidget *dialog, const char *wi
 				gpointer value_var, gpointer info)
 {
 	GtkWidget *widget;
-
+	
 	g_return_val_if_fail (xml != NULL, FALSE);
 	g_return_val_if_fail (GLADE_IS_XML (xml), FALSE);
 	g_return_val_if_fail (dialog != NULL, FALSE);
 	g_return_val_if_fail (widget_name != NULL, FALSE);
 	g_return_val_if_fail (value_var != NULL, FALSE);
-
+	
 	widget = glade_xml_get_widget (xml, widget_name);
 	if (!widget) {
 		g_message ("e_dialog_xml_widget_hook_value(): could not find widget `%s' in "
 			   "Glade data!", widget_name);
 		return FALSE;
 	}
-
+	
 	return e_dialog_widget_hook_value (dialog, widget, value_var, info);
 }

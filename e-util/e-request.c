@@ -27,7 +27,6 @@
 #include "e-request.h"
 
 #include <libgnomeui/gnome-dialog.h>
-#include <gal/widgets/e-unicode.h>
 
 #include <gtk/gtklabel.h>
 #include <gtk/gtkentry.h>
@@ -52,53 +51,51 @@ e_request_string (GtkWindow *parent,
 		  const char *prompt,
 		  const char *default_string)
 {
-	GtkWidget *dialog;
 	GtkWidget *prompt_label;
+	const char *text = NULL;
+	GtkWidget *dialog;
 	GtkWidget *entry;
 	GtkWidget *vbox;
-	char *retval;
-
+	
 	g_return_val_if_fail (title != NULL, NULL);
 	g_return_val_if_fail (prompt != NULL, NULL);
-
+	
 	dialog = gnome_dialog_new (title, GNOME_STOCK_BUTTON_OK, GNOME_STOCK_BUTTON_CANCEL, NULL);
 	gnome_dialog_set_parent (GNOME_DIALOG (dialog), parent);
 	gnome_dialog_set_default (GNOME_DIALOG (dialog), 0);
 	gnome_dialog_close_hides (GNOME_DIALOG (dialog), TRUE);
-
+	
 	vbox = GNOME_DIALOG (dialog)->vbox;
-
+	
 	prompt_label = gtk_label_new (prompt);
 	gtk_box_pack_start (GTK_BOX (vbox), prompt_label, TRUE, TRUE, 0);
-
+	
 	entry = gtk_entry_new ();
-	e_utf8_gtk_entry_set_text (GTK_ENTRY (entry), default_string);
+	gtk_entry_set_text (GTK_ENTRY (entry), default_string);
 	gtk_entry_select_region (GTK_ENTRY (entry), 0, -1);
 	gtk_box_pack_start (GTK_BOX (vbox), entry, TRUE, TRUE, 0);
-
+	
 	gtk_widget_grab_focus (entry);
 	gnome_dialog_editable_enters (GNOME_DIALOG (dialog), GTK_EDITABLE (entry));
-
+	
 	gtk_widget_show (prompt_label);
 	gtk_widget_show (entry);
 	gtk_widget_show (dialog);
-
+	
 	switch (gnome_dialog_run (GNOME_DIALOG (dialog))) {
 	case 0:
 		/* OK.  */
-		retval = e_utf8_gtk_entry_get_text (GTK_ENTRY (entry));
+		text = gtk_entry_get_text (GTK_ENTRY (entry));
 		break;
 	case -1:
 	case 1:
 		/* Cancel.  */
-		retval = NULL;
 		break;
 	default:
 		g_assert_not_reached ();
-		retval = NULL;
 	}
-
+	
 	gtk_widget_destroy (dialog);
-
-	return retval;
+	
+	return text ? g_strdup (text) : NULL;
 }
