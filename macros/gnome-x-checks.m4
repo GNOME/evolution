@@ -33,21 +33,6 @@ AC_DEFUN([GNOME_X_CHECKS],
 
         LDFLAGS="$saved_ldflags $GTK_LIBS"
 
-dnl Check that we *don't* get GTK 1.3.* yet 
-
-	AC_MSG_CHECKING([whether we have GTK > 1.2])
-	AC_EGREP_CPP(answer_affirmatively,
-	[#include <gtk/gtk.h>
-	#if GTK_MINOR_VERSION > 2
-	   answer_affirmatively
-	#endif
-	], [AC_MSG_ERROR([Aborting, the current versions 
-	of gnome are not yet compatible with the unstable GTK 1.3 release. 
-	Please use GTK 1.2. To get Gtk 1.2 and Glib 1.2 from the CVS repo
-	sitory, use the commands cvs checkout -r gtk-1-2 gtk and
-	cvs checkout -r glib-1-2 glib.])])
-
-
 dnl We are requiring GTK >= 1.1.1, which means this will be fine anyhow.
 	USE_DEVGTK=true
 
