@@ -31,7 +31,6 @@
 #include <gtk/gtktogglebutton.h>
 #include <libgnome/gnome-i18n.h>
 #include <glade/glade.h>
-#include <gal/widgets/e-unicode.h>
 #include <gal/widgets/e-categories.h>
 #include "e-util/e-categories-config.h"
 #include "e-util/e-dialog-widgets.h"

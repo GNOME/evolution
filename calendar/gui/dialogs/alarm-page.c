@@ -29,6 +29,7 @@
 #endif
 
 #include <string.h>
+#include <gtk/gtklabel.h>
 #include <gtk/gtkcellrenderertext.h>
 #include <gtk/gtksignal.h>
 #include <gtk/gtktreeview.h>
@@ -36,7 +37,6 @@
 #include <gtk/gtkoptionmenu.h>
 #include <libgnome/gnome-i18n.h>
 #include <glade/glade.h>
-#include <gal/widgets/e-unicode.h>
 #include "e-util/e-dialog-widgets.h"
 #include "e-util/e-time-utils.h"
 #include <libecal/e-cal-util.h>

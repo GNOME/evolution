@@ -29,7 +29,6 @@
 #include <gtk/gtktogglebutton.h>
 #include <libgnome/gnome-i18n.h>
 #include <glade/glade.h>
-#include <gal/widgets/e-unicode.h>
 #include <widgets/misc/e-dateedit.h>
 #include <widgets/misc/e-url-entry.h>
 #include "e-util/e-dialog-widgets.h"

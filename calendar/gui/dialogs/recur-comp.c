@@ -26,7 +26,6 @@
 #include <gtk/gtk.h>
 #include <libgnome/gnome-i18n.h>
 #include <libgnomeui/gnome-uidefs.h>
-#include <gal/widgets/e-unicode.h>
 #include "recur-comp.h"
 
 

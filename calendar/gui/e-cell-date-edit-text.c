@@ -36,7 +36,6 @@
 #include <libgnomeui/gnome-stock-icons.h> 
 #include <libgnome/gnome-i18n.h>
 #include <gal/util/e-util.h>
-#include <gal/widgets/e-unicode.h>
 #include <e-util/e-time-utils.h>
 #include <libecal/e-cal-time-util.h>
 

@@ -25,7 +25,6 @@
 
 #include <glib.h>
 #include <libgnome/gnome-i18n.h>
-#include <gal/widgets/e-unicode.h>
 #include <gtk/gtkmessagedialog.h>
 #include <gtk/gtkstock.h>
 #include "save-comp.h"

@@ -41,7 +41,6 @@
 #include <gtk/gtkvscrollbar.h>
 #include <gtk/gtkwindow.h>
 #include <gal/widgets/e-gui-utils.h>
-#include <gal/widgets/e-unicode.h>
 #include <gal/util/e-util.h>
 #include <gal/e-table/e-table-memory-store.h>
 #include <gal/e-table/e-cell-checkbox.h>

@@ -1,3 +1,7 @@
+2003-11-20  JP Rosevear <jpr@ximian.com>
+
+	* Remove a bunch of gal includes that are no longer needed
+
 2003-11-19  Rodrigo Moya <rodrigo@ximian.com>
 
 	Fixes #43556

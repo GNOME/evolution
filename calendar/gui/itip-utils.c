@@ -30,7 +30,6 @@
 #include <libgnome/gnome-i18n.h>
 #include <gtk/gtkmessagedialog.h>
 #include <gtk/gtkwidget.h>
-#include <gal/widgets/e-unicode.h>
 #include <gal/util/e-util.h>
 #include <libical/ical.h>
 #include <Evolution-Composer.h>

@@ -30,7 +30,6 @@
 #include <gtk/gtkoptionmenu.h>
 #include <gtk/gtksignal.h>
 #include <libgnome/gnome-i18n.h>
-#include <gal/widgets/e-unicode.h>
 #include <gal/util/e-util.h>
 #include "cal-search-bar.h"
 

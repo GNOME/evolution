@@ -27,7 +27,6 @@
 #include <string.h>
 #include <glade/glade.h>
 #include <gal/util/e-util.h>
-#include <gal/widgets/e-unicode.h>
 #include <libgnome/gnome-i18n.h>
 
 #include "task-page.h"

@@ -35,7 +35,6 @@
 #include <gtk/gtksignal.h>
 #include <gnome.h>
 #include <gal/util/e-util.h>
-#include <gal/widgets/e-unicode.h>
 #include <widgets/e-timezone-dialog/e-timezone-dialog.h>
 #include "e-timezone-entry.h"
 

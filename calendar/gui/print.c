@@ -44,7 +44,6 @@
 #include <gal/util/e-util.h>
 #include <e-util/e-dialog-widgets.h>
 #include <e-util/e-time-utils.h>
-#include <gal/widgets/e-unicode.h>
 #include <libecal/e-cal-time-util.h>
 #include "calendar-commands.h"
 #include "calendar-config.h"

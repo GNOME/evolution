@@ -26,7 +26,6 @@
 #include <gtk/gtkmessagedialog.h>
 #include <libgnome/gnome-i18n.h>
 #include <libgnomeui/gnome-uidefs.h>
-#include <gal/widgets/e-unicode.h>
 #include "send-comp.h"
 
 

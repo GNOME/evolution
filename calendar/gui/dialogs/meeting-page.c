@@ -35,8 +35,6 @@
 #include <glade/glade.h>
 #include <libgnomeui/gnome-stock-icons.h>
 #include <gal/util/e-util.h>
-#include <gal/e-table/e-table.h>
-#include <gal/widgets/e-unicode.h>
 #include <gal/widgets/e-popup-menu.h>
 #include <gal/widgets/e-gui-utils.h>
 #include <widgets/misc/e-dateedit.h>
@@ -694,8 +692,6 @@ meeting_page_construct (MeetingPage *mpage, EMeetingStore *ems,
 			ECal *client)
 {
 	MeetingPagePrivate *priv;
-	ETable *real_table;
-	gchar *filename;
 	char *backend_address;
 	EIterator *it;
 	EAccount *def_account;

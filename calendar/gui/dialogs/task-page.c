@@ -33,7 +33,6 @@
 #include <gtk/gtkoptionmenu.h>
 #include <libgnome/gnome-i18n.h>
 #include <glade/glade.h>
-#include <gal/widgets/e-unicode.h>
 #include <gal/widgets/e-categories.h>
 #include <widgets/misc/e-dateedit.h>
 #include "e-util/e-dialog-widgets.h"

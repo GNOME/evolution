@@ -39,7 +39,6 @@
 #include <libgnomeui/gnome-dialog-util.h>
 #include <bonobo/bonobo-object.h>
 #include <bonobo/bonobo-exception.h>
-#include <gal/widgets/e-unicode.h>
 #include <gtkhtml/gtkhtml.h>
 #include <gtkhtml/gtkhtml-stream.h>
 #include <libical/ical.h>

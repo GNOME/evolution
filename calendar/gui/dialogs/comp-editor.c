@@ -37,7 +37,6 @@
 #include <libgnomeui/gnome-messagebox.h>
 #include <bonobo/bonobo-ui-container.h>
 #include <bonobo/bonobo-ui-util.h>
-#include <gal/widgets/e-unicode.h>
 #include <e-util/e-dialog-utils.h>
 #include <evolution-shell-component-utils.h>
 #include "../print.h"

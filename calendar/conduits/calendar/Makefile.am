@@ -16,17 +16,20 @@ libecalendar_conduit_la_LIBADD = 					\
 	$(top_builddir)/e-util/libeconduit.la	 			\
 	$(EVOLUTION_CALENDAR_CONDUIT_LIBS)
 
-e-calendar.conduit: e-calendar.conduit.in Makefile
+e-calendar-$(BASE_VERSION).conduit: e-calendar.conduit.in
 	sed -e 's^\@prefix\@^$(prefix)^g' 				\
 	    -e 's^\@datadir\@^$(datadir)^g' 				\
-	    < $(srcdir)/e-calendar.conduit.in > e-calendar.conduit.tmp 	\
-	&& mv e-calendar.conduit.tmp e-calendar.conduit
+	    -e 's^\@BASE_VERSION\@^$(BASE_VERSION)^g' 			\
+	    $< > $@
 
-Conduitdir = $(datadir)/gnome-pilot/conduits/
-Conduit_DATA = e-calendar.conduit
+conduitdir = $(datadir)/gnome-pilot/conduits/
+conduit_DATA = e-calendar-$(BASE_VERSION).conduit
+
+BUILT_SOURCES = $(conduit_DATA)
+CLEANFILES = $(BUILT_SOURCES)
 
 EXTRA_DIST = \
 	e-calendar.conduit.in
 
-install-data-local:
-	$(mkinstalldirs) $(Conduitdir)
+dist-hook:
+	cd $(distdir); rm -f $(BUILT_SOURCES)

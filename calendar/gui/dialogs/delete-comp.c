@@ -26,7 +26,6 @@
 #include <gtk/gtkstock.h>
 #include <gtk/gtkmessagedialog.h>
 #include <libgnome/gnome-i18n.h>
-#include <gal/widgets/e-unicode.h>
 #include "../calendar-config.h"
 #include "delete-comp.h"
 

@@ -16,17 +16,20 @@ libetodo_conduit_la_LIBADD = 						\
 	$(top_builddir)/e-util/libeconduit.la		 		\
 	$(EVOLUTION_CALENDAR_CONDUIT_LIBS)
 
-e-todo.conduit: e-todo.conduit.in Makefile
+e-todo-$(BASE_VERSION).conduit: e-todo.conduit.in
 	sed -e 's^\@prefix\@^$(prefix)^g' 				\
 	    -e 's^\@datadir\@^$(datadir)^g' 				\
-	    < $(srcdir)/e-todo.conduit.in > e-todo.conduit.tmp 		\
-	&& mv e-todo.conduit.tmp e-todo.conduit
+	    -e 's^\@BASE_VERSION\@^$(BASE_VERSION)^g' 			\
+	    $< > $@
 
-Conduitdir = $(datadir)/gnome-pilot/conduits/
-Conduit_DATA = e-todo.conduit
+conduitdir = $(datadir)/gnome-pilot/conduits/
+conduit_DATA = e-todo-$(BASE_VERSION).conduit
+
+BUILT_SOURCES = $(conduit_DATA)
+CLEANFILES = $(BUILT_SOURCES)
 
 EXTRA_DIST = \
 	e-todo.conduit.in
 
-install-data-local:
-	$(mkinstalldirs) $(Conduitdir)
+dist-hook:
+	cd $(distdir); rm -f $(BUILT_SOURCES)

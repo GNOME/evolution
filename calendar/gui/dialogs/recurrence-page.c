@@ -28,6 +28,7 @@
 #include <config.h>
 #endif
 
+#include <gtk/gtklabel.h>
 #include <gtk/gtkcellrenderertext.h>
 #include <gtk/gtkmenuitem.h>
 #include <gtk/gtkoptionmenu.h>
@@ -38,7 +39,6 @@
 #include <gtk/gtktreeselection.h>
 #include <libgnome/gnome-i18n.h>
 #include <glade/glade.h>
-#include <gal/widgets/e-unicode.h>
 #include <e-util/e-dialog-widgets.h>
 #include <e-util/e-time-utils.h>
 #include <widgets/misc/e-dateedit.h>

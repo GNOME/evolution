@@ -34,7 +34,6 @@
 #include <libgnomeui/gnome-window-icon.h>
 #include <glade/glade.h>
 #include <e-util/e-time-utils.h>
-#include <gal/widgets/e-unicode.h>
 #include <gtkhtml/gtkhtml.h>
 #include <gtkhtml/gtkhtml-stream.h>
 #include <libecal/e-cal-time-util.h>
