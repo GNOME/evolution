@@ -29,25 +29,14 @@
 #include "e-select-names-editable.h"
 
 struct _ESelectNamesEditablePriv {
-	
+	gint dummy;
 };
 
 static ENameSelectorEntryClass *parent_class;
 
 static void
-esne_start_editing (GtkCellEditable *cell_editable, GdkEvent *event)
-{
-	ESelectNamesEditable *esne = E_SELECT_NAMES_EDITABLE (cell_editable);
-
-	/* Grab the focus */
-
-	/* TODO */
-}
-
-static void
 esne_cell_editable_init (GtkCellEditableIface *iface)
 {
-	iface->start_editing = esne_start_editing;
 }
 
 static void
@@ -107,81 +96,20 @@ e_select_names_editable_get_type (void)
 	return esne_type;
 }
 
-static void
-entry_activate (ESelectNamesEditable *esne)
-{
-	gtk_cell_editable_editing_done (GTK_CELL_EDITABLE (esne));
-	gtk_cell_editable_remove_widget (GTK_CELL_EDITABLE (esne));
-}
-
-ESelectNamesEditable *
-e_select_names_editable_construct (ESelectNamesEditable *esne)
-{
-	g_signal_connect (esne, "activate", G_CALLBACK (entry_activate), esne);
-
-	return esne;
-
-#if 0
-	CORBA_Environment ev;
-
-	CORBA_exception_init (&ev);
-
-	esne->priv->select_names = bonobo_activation_activate_from_id (SELECT_NAMES_OAFIID, 0, NULL, &ev);
-	if (BONOBO_EX (&ev)) {
-		CORBA_exception_free (&ev);
-		return NULL;
-	}
-
-	GNOME_Evolution_Addressbook_SelectNames_addSection (esne->priv->select_names, "A", "A", &ev);
-	if (BONOBO_EX (&ev)) {
-		CORBA_exception_free (&ev);
-		return NULL;
-	}
-
-	esne->priv->control = GNOME_Evolution_Addressbook_SelectNames_getEntryBySection (
-			esne->priv->select_names, "A", &ev);
-	if (BONOBO_EX (&ev)) {
-		CORBA_exception_free (&ev);
-		return NULL;
-	}
-
-	bonobo_widget_construct_control_from_objref (BONOBO_WIDGET (esne), esne->priv->control, CORBA_OBJECT_NIL, &ev);
-
-	CORBA_exception_free (&ev);
-
-	esne->priv->bag = bonobo_control_frame_get_control_property_bag (
-			bonobo_widget_get_control_frame (BONOBO_WIDGET (esne)), NULL);
-	bonobo_event_source_client_add_listener (esne->priv->bag, entry_activate,
-						 "GNOME/Evolution/Addressbook/SelectNames:activate:entry",
-						 NULL, esne);
-
-	return esne;
-#endif
-}
-
 ESelectNamesEditable *
 e_select_names_editable_new ()
 {
 	ESelectNamesEditable *esne = g_object_new (E_TYPE_SELECT_NAMES_EDITABLE, NULL);
 
-	if (!esne)
-		return NULL;
-
-	if (!e_select_names_editable_construct (esne)) {
-		g_object_unref (esne);
-		return NULL;
-	}
-
 	return esne;
 }
 
 gchar *
-e_select_names_editable_get_address (ESelectNamesEditable *esne)
+e_select_names_editable_get_email (ESelectNamesEditable *esne)
 {
 	EDestinationStore *destination_store;
 	GList *destinations;
 	EDestination *destination;
-	gchar *dest_str;
 	gchar *result = NULL;
 
 	g_return_val_if_fail (E_SELECT_NAMES_EDITABLE (esne), NULL);
@@ -197,13 +125,44 @@ e_select_names_editable_get_address (ESelectNamesEditable *esne)
 	return result;
 }
 
+GList *
+e_select_names_editable_get_emails (ESelectNamesEditable *esne)
+{
+	EDestinationStore *destination_store;
+	GList *destinations;
+	EDestination *destination;
+	GList *result = NULL;
+
+	g_return_val_if_fail (E_SELECT_NAMES_EDITABLE (esne), NULL);
+
+	destination_store = e_name_selector_entry_peek_destination_store (E_NAME_SELECTOR_ENTRY (esne));
+	destinations = e_destination_store_list_destinations (destination_store);
+	if (!destinations)
+		return NULL;
+
+	destination = destinations->data;
+	if (e_destination_is_evolution_list (destination)) {	
+		const GList *list_dests, *l;
+
+		list_dests = e_destination_list_get_dests (destination);
+		for (l = list_dests; l != NULL; l = g_list_next (l)) {
+			result = g_list_append (result, g_strdup (e_destination_get_email (l->data)));
+		}
+	} else {
+		result = g_list_append (result, g_strdup (e_destination_get_email (destination)));
+	}
+
+	g_list_free (destinations);
+
+	return result;
+}
+
 gchar *
 e_select_names_editable_get_name (ESelectNamesEditable *esne)
 {
 	EDestinationStore *destination_store;
 	GList *destinations;
 	EDestination *destination;
-	gchar *dest_str;
 	gchar *result = NULL;
 
 	g_return_val_if_fail (E_SELECT_NAMES_EDITABLE (esne), NULL);
@@ -219,24 +178,59 @@ e_select_names_editable_get_name (ESelectNamesEditable *esne)
 	return result;
 }
 
-void
-e_select_names_editable_set_address (ESelectNamesEditable *esne, const gchar *text)
+GList *
+e_select_names_editable_get_names (ESelectNamesEditable *esne)
 {
 	EDestinationStore *destination_store;
 	GList *destinations;
 	EDestination *destination;
-	gchar *dest_str;
-	gchar *result = NULL;
+	GList *result = NULL;
+
+	g_return_val_if_fail (E_SELECT_NAMES_EDITABLE (esne), NULL);
+
+	destination_store = e_name_selector_entry_peek_destination_store (E_NAME_SELECTOR_ENTRY (esne));
+	destinations = e_destination_store_list_destinations (destination_store);
+	if (!destinations)
+		return NULL;
+
+	destination = destinations->data;	
+	if (e_destination_is_evolution_list (destination)) {
+		const GList *list_dests, *l;
+		
+		list_dests = e_destination_list_get_dests (destination);
+		for (l = list_dests; l != NULL; l = g_list_next (l)) {
+			result = g_list_append (result, g_strdup (e_destination_get_name (l->data)));
+		}
+	} else {
+		result = g_list_append (result, g_strdup (e_destination_get_name (destination)));
+	}
+
+	g_list_free (destinations);
+
+	return result;
+}
+
+void
+e_select_names_editable_set_address (ESelectNamesEditable *esne, const gchar *name, const gchar *email)
+{
+	EDestinationStore *destination_store;
+	GList *destinations;
+	EDestination *destination;
 
 	g_return_if_fail (E_IS_SELECT_NAMES_EDITABLE (esne));
 
 	destination_store = e_name_selector_entry_peek_destination_store (E_NAME_SELECTOR_ENTRY (esne));
 	destinations = e_destination_store_list_destinations (destination_store);
+
 	if (!destinations)
-		return;
+		destination = e_destination_new ();
+	else
+		destination = g_object_ref (destinations->data);
 
-	destination = destinations->data;
-	e_destination_set_address (destination, text);
-	g_list_free (destinations);
+	e_destination_set_name (destination, name);
+	e_destination_set_email (destination, email);
+	
+	if (!destinations)
+		e_destination_store_append_destination (destination_store, destination);
+	g_object_unref (destination);
 }
-

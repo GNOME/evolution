@@ -52,13 +52,16 @@ struct _ESelectNamesEditableClass
 
 GType      e_select_names_editable_get_type (void);
 
-ESelectNamesEditable *e_select_names_editable_construct (ESelectNamesEditable *esne);
 ESelectNamesEditable *e_select_names_editable_new (void);
 
-gchar *e_select_names_editable_get_address (ESelectNamesEditable *esne);
-void   e_select_names_editable_set_address (ESelectNamesEditable *esne, const gchar *text);
+gchar *e_select_names_editable_get_email (ESelectNamesEditable *esne);
+GList *e_select_names_editable_get_emails (ESelectNamesEditable *esne);
 
 gchar *e_select_names_editable_get_name (ESelectNamesEditable *esne);
+GList *e_select_names_editable_get_names (ESelectNamesEditable *esne);
+
+void   e_select_names_editable_set_address (ESelectNamesEditable *esne, const gchar *name, const gchar *email);
+
 G_END_DECLS
 
 #endif /* __E_SELECT_NAMES_EDITABLE_H__ */

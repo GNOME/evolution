@@ -1,3 +1,42 @@
+2005-02-21  JP Rosevear  <jpr@novell.com>
+ 
+ 	Fixes #63866, #67714, #62089, #47747, #61495
+ 	
+ 	* gui/e-select-names-renderer.h: update signal
+ 
+ 	* gui/e-select-names-renderer.c
+ 	(e_select_names_renderer_editing_done): emit the cancelled signal
+ 	properly and don't update if it was cancelled
+ 	(e_select_names_renderer_focus_out_event): if the cell loses focus
+ 	the editing is done
+ 	(e_select_names_renderer_start_editing): listen for focus out
+ 	event, and only set the address if appropriate
+ 	(e_select_names_renderer_get_property): handle name/email props
+ 	(e_select_names_renderer_set_property): ditto
+ 	(e_select_names_renderer_finalize): free name/email
+ 	(e_select_names_renderer_class_init): install name/email props;
+ 	cell_edited returns lists now
+ 
+ 	* gui/e-select-names-editable.h: update protos
+ 
+ 	* gui/e-select-names-editable.c: don't really override any of the
+ 	gtkentry editable cell routines since we directly inherit from
+ 	ENameSelectorEntry
+ 	(e_select_names_editable_get_emails): get all the email addresses
+ 	(e_select_names_editable_get_names): get all the names
+ 	(e_select_names_editable_set_address): set the destination
+ 	correctly for editing
+ 
+ 	* gui/e-meeting-list-view.c (attendee_edited_cb): handle a blank
+ 	entry by removing it and don't allow an entry that already exists
+ 	to be entered
+ 	(attendee_editing_canceled_cb): if the item editing is cancelled
+ 	and it has no name or email address, remove it
+ 	(process_section): if the contact has multiple addresses (ie a
+ 	mailing list), expand the entries
+ 
+ 	* gui/e-calendar-marshal.list: add new marshaller
+	
 2005-02-19  Sivaiah Nallagatla <snallagatla@novell.com>
 
 	* gui/calendar-component.c (ensure_sources) :

@@ -32,12 +32,15 @@
 struct _ESelectNamesRendererPriv {
 	ESelectNamesEditable *editable;
 	gchar *path;
-	gchar *address;
+
+	gchar *name;
+	gchar *email;
 };
 
 enum {
 	PROP_0,
-	PROP_ADDRESS
+	PROP_NAME,
+	PROP_EMAIL
 };
 
 enum {
@@ -52,25 +55,39 @@ G_DEFINE_TYPE (ESelectNamesRenderer, e_select_names_renderer, GTK_TYPE_CELL_REND
 static void
 e_select_names_renderer_editing_done (GtkCellEditable *editable, ESelectNamesRenderer *cell)
 {
-	gchar *new_address, *new_name;
+	GList *addresses = NULL, *names = NULL;
 
-	/* We don't need to listen for the de-activation any more */
+	/* We don't need to listen for the focus out event any more */
 	g_signal_handlers_disconnect_matched (editable, G_SIGNAL_MATCH_DATA, 0, 0, NULL, NULL, cell);
+
+	if (GTK_ENTRY (editable)->editing_canceled) {
+		gtk_cell_renderer_editing_canceled (GTK_CELL_RENDERER (cell));		
+		goto cleanup;
+	}
 	
-	new_address = e_select_names_editable_get_address (E_SELECT_NAMES_EDITABLE (editable));
-	new_name = e_select_names_editable_get_name (E_SELECT_NAMES_EDITABLE (editable));
-                                                             
-	g_signal_emit (cell, signals [CELL_EDITED], 0, cell->priv->path, new_address, new_name);
-	g_free (new_address);
-	g_free (new_name);
+	addresses = e_select_names_editable_get_emails (E_SELECT_NAMES_EDITABLE (editable));
+	names = e_select_names_editable_get_names (E_SELECT_NAMES_EDITABLE (editable));
+ 
+	g_signal_emit (cell, signals [CELL_EDITED], 0, cell->priv->path, addresses, names);
+
+	g_list_foreach (addresses, (GFunc)g_free, NULL);
+	g_list_foreach (names, (GFunc)g_free, NULL);
+	g_list_free (addresses);
+	g_list_free (names);
+
+ cleanup:
 	g_free (cell->priv->path);
 	cell->priv->path = NULL;
+	cell->priv->editable = NULL;
 }
 
-static void
-e_select_names_renderer_activated (ESelectNamesEditable *editable, ESelectNamesRenderer *cell)
+static gboolean
+e_select_names_renderer_focus_out_event (GtkWidget *entry, GdkEvent  *event, ESelectNamesRenderer *cell)
 {
 	e_select_names_renderer_editing_done (GTK_CELL_EDITABLE (cell->priv->editable), cell);
+
+	/* entry needs focus-out-event */
+	return FALSE;
 }
 
 static GtkCellEditable *
@@ -85,18 +102,14 @@ e_select_names_renderer_start_editing (GtkCellRenderer *cell, GdkEvent *event, G
 		return NULL;
 
 	editable = E_SELECT_NAMES_EDITABLE (e_select_names_editable_new ());
-	e_select_names_editable_set_address (editable, sn_cell->priv->address);
+	gtk_entry_set_has_frame (GTK_ENTRY (editable), FALSE);
+	gtk_entry_set_alignment (GTK_ENTRY (editable), cell->xalign);
+	if (sn_cell->priv->email && *sn_cell->priv->email) 
+		e_select_names_editable_set_address (editable, sn_cell->priv->name, sn_cell->priv->email);
 	gtk_widget_show (GTK_WIDGET (editable));
 
 	g_signal_connect (editable, "editing_done", G_CALLBACK (e_select_names_renderer_editing_done), sn_cell);
-
-#if 0
-	/* Listen for de-activation/loss of focus */
-	cf = bonobo_widget_get_control_frame (BONOBO_WIDGET (editable));
-	bonobo_control_frame_set_autoactivate (cf, TRUE);
-#endif
-
-	g_signal_connect (editable, "activate", G_CALLBACK (e_select_names_renderer_activated), sn_cell);
+	g_signal_connect (editable, "focus_out_event", G_CALLBACK (e_select_names_renderer_focus_out_event), sn_cell);
 
 	sn_cell->priv->editable = g_object_ref (editable);
 	sn_cell->priv->path = g_strdup (path);
@@ -110,8 +123,11 @@ e_select_names_renderer_get_property (GObject *object, guint prop_id, GValue *va
 	ESelectNamesRenderer *esnr = E_SELECT_NAMES_RENDERER (object);
 
 	switch (prop_id) {
-	case PROP_ADDRESS:
-		g_value_set_string (value, esnr->priv->address);
+	case PROP_NAME:
+		g_value_set_string (value, esnr->priv->name);
+		break;
+	case PROP_EMAIL:
+		g_value_set_string (value, esnr->priv->email);
 		break;
 	default:
 		break;
@@ -124,9 +140,13 @@ e_select_names_renderer_set_property (GObject *object, guint prop_id, const GVal
 	ESelectNamesRenderer *esnr = E_SELECT_NAMES_RENDERER (object);
 
 	switch (prop_id) {
-	case PROP_ADDRESS:
-		g_free (esnr->priv->address);
-		esnr->priv->address = g_strdup (g_value_get_string (value));
+	case PROP_NAME:
+		g_free (esnr->priv->name);
+		esnr->priv->name = g_strdup (g_value_get_string (value));
+		break;
+	case PROP_EMAIL:
+		g_free (esnr->priv->email);
+		esnr->priv->email = g_strdup (g_value_get_string (value));
 		break;
 	default:
 		break;
@@ -143,7 +163,8 @@ e_select_names_renderer_finalize (GObject *obj)
 	cell->priv->editable = NULL;
 
 	g_free (cell->priv->path);
-	g_free (cell->priv->address);
+	g_free (cell->priv->name);
+	g_free (cell->priv->email);
 	g_free (cell->priv);
 
 	if (G_OBJECT_CLASS (e_select_names_renderer_parent_class)->finalize)
@@ -168,17 +189,20 @@ e_select_names_renderer_class_init (ESelectNamesRendererClass *class)
 
 	cell_class->start_editing = e_select_names_renderer_start_editing;
 
-	g_object_class_install_property (obj_class, PROP_ADDRESS,
-					 g_param_spec_string ("address", "Address", "Email address.", NULL, G_PARAM_READWRITE));
+	g_object_class_install_property (obj_class, PROP_NAME,
+					 g_param_spec_string ("name", "Name", "Email name.", NULL, G_PARAM_READWRITE));
+
+	g_object_class_install_property (obj_class, PROP_EMAIL,
+					 g_param_spec_string ("email", "Email", "Email address.", NULL, G_PARAM_READWRITE));
 
 	signals [CELL_EDITED] = g_signal_new ("cell_edited",
 					      G_OBJECT_CLASS_TYPE (obj_class),
 					      G_SIGNAL_RUN_LAST,
 					      G_STRUCT_OFFSET (ESelectNamesRendererClass, cell_edited),
 					      NULL, NULL,
-					      e_calendar_marshal_VOID__STRING_STRING_STRING,
+					      e_calendar_marshal_VOID__STRING_POINTER_POINTER,
 					      G_TYPE_NONE, 3,
-					      G_TYPE_STRING, G_TYPE_STRING, G_TYPE_STRING);
+					      G_TYPE_STRING, G_TYPE_POINTER, G_TYPE_POINTER);
 }
 
 GtkCellRenderer *

@@ -51,8 +51,8 @@ struct _ESelectNamesRendererClass
 
 	void (* cell_edited) (ESelectNamesRenderer *renderer, 
 			      const gchar *path, 
-			      const gchar *address, 
-			      const gchar *name);
+			      GList *addresses, 
+			      GList *names);	
 };
 
 GType            e_select_names_renderer_get_type (void);

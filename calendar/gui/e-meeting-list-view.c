@@ -192,11 +192,84 @@ value_edited (GtkTreeView *view, gint col, const gchar *path, const gchar *text)
 }
 
 static void
-attendee_edited_cb (GtkCellRenderer *renderer, const gchar *path, const gchar *address, const gchar *name, GtkTreeView *view)
+attendee_edited_cb (GtkCellRenderer *renderer, const gchar *path, GList *addresses, GList *names, GtkTreeView *view)
 {
-	value_edited (view, E_MEETING_STORE_ADDRESS_COL, path, address);
-	value_edited (view, E_MEETING_STORE_CN_COL, path, name);
+	EMeetingStore *model = E_MEETING_STORE (gtk_tree_view_get_model (view));
+	GtkTreePath *treepath = gtk_tree_path_new_from_string (path);
+	int row = gtk_tree_path_get_indices (treepath)[0];
+	EMeetingAttendee *existing_attendee;
+
+	existing_attendee = e_meeting_store_find_attendee_at_row (model, row);
+
+	if (g_list_length (addresses) > 1) {
+		EMeetingAttendee *attendee;
+		GList *l, *m;
+
+		for (l = addresses, m = names; l && m; l = l->next, m = m->next) {
+			char *name = m->data, *email = l->data;
+			
+			if (!((name && *name) || (email && *email)))
+				continue;
+			
+			if (e_meeting_store_find_attendee (model, email, NULL) != NULL)
+				continue;
+			
+			attendee = e_meeting_store_add_attendee_with_defaults (model);
+			e_meeting_attendee_set_address (attendee, g_strdup (l->data));
+			e_meeting_attendee_set_cn (attendee, g_strdup (m->data));
+			if (existing_attendee) {
+				/* FIXME Should we copy anything else? */
+				e_meeting_attendee_set_cutype (attendee, e_meeting_attendee_get_cutype (existing_attendee));
+				e_meeting_attendee_set_role (attendee, e_meeting_attendee_get_role (existing_attendee));
+				e_meeting_attendee_set_rsvp (attendee, e_meeting_attendee_get_rsvp (existing_attendee));
+				e_meeting_attendee_set_status (attendee, e_meeting_attendee_get_status (existing_attendee));
+			}
+		}
+
+		if (existing_attendee)
+			e_meeting_store_remove_attendee (model, existing_attendee);
+		
+	} else if (g_list_length (addresses) == 1) {
+		char *name = names->data, *email = addresses->data;
+
+		if (!((name && *name) || (email && *email)) || e_meeting_store_find_attendee (model, email, NULL) != NULL) {
+			if (existing_attendee)
+				e_meeting_store_remove_attendee (model, existing_attendee);
+		} else {
+			value_edited (view, E_MEETING_STORE_ADDRESS_COL, path, email);
+			value_edited (view, E_MEETING_STORE_CN_COL, path, name);
+		}
+	} else {
+		if (existing_attendee)
+			e_meeting_store_remove_attendee (model, existing_attendee);
+	}
+
+	gtk_tree_path_free (treepath);
 }
+
+static void
+attendee_editing_canceled_cb (GtkCellRenderer *renderer, GtkTreeView *view) 
+{
+	EMeetingStore *model = E_MEETING_STORE (gtk_tree_view_get_model (view));
+	GtkTreePath *path;
+	EMeetingAttendee *existing_attendee;
+	int row;
+
+	/* This is for newly added attendees when the editing is cancelled */
+	gtk_tree_view_get_cursor (view, &path, NULL);
+	if (!path)
+		return;
+	
+	row = gtk_tree_path_get_indices (path)[0];
+	existing_attendee = e_meeting_store_find_attendee_at_row (model, row);
+	if (existing_attendee) {
+		if (!e_meeting_attendee_is_set_cn (existing_attendee) && !e_meeting_attendee_is_set_address (existing_attendee))
+			e_meeting_store_remove_attendee (model, existing_attendee);
+	}
+	
+	gtk_tree_path_free (path);
+}
+
 
 static void
 type_edited_cb (GtkCellRenderer *renderer, const gchar *path, const gchar *text, GtkTreeView *view)
@@ -226,7 +299,7 @@ static void
 build_table (GtkTreeView *view)
 {
 	GtkCellRenderer *renderer;
-
+	
 	gtk_tree_view_set_headers_visible (view, TRUE);
 	gtk_tree_view_set_rules_hint (view, TRUE);
 
@@ -234,10 +307,12 @@ build_table (GtkTreeView *view)
 	g_object_set (G_OBJECT (renderer), "editable", TRUE, NULL);
 	gtk_tree_view_insert_column_with_attributes (view, -1, _("Attendee"), renderer,
 						     "text", E_MEETING_STORE_ATTENDEE_COL,
-						     "address", E_MEETING_STORE_ADDRESS_COL,
+						     "name", E_MEETING_STORE_CN_COL,
+						     "email", E_MEETING_STORE_ADDRESS_COL,
 						     "underline", E_MEETING_STORE_ATTENDEE_UNDERLINE_COL,
 						     NULL);
 	g_signal_connect (renderer, "cell_edited", G_CALLBACK (attendee_edited_cb), view);
+	g_signal_connect (renderer, "editing-canceled", G_CALLBACK (attendee_editing_canceled_cb), view);
 	
 	renderer = e_cell_renderer_combo_new ();
 	g_object_set (G_OBJECT (renderer), "list", get_type_strings (), "editable", TRUE, NULL);
@@ -331,46 +406,62 @@ process_section (EMeetingListView *view, GList *destinations, icalparameter_role
 	priv = view->priv;
 	for (l = destinations; l; l = g_list_next (l)) {
 		EDestination *destination = l->data;
-		const char *name, *attendee = NULL;
-		char *attr = NULL;
+		const GList *list_dests, *l;
+		GList card_dest;
 
-		name = e_destination_get_name (destination);
+		if (e_destination_is_evolution_list (destination)) {
+			list_dests = e_destination_list_get_dests (destination);
+		} else {
+			card_dest.next = NULL;
+			card_dest.prev = NULL;
+			card_dest.data = destination;
+			list_dests = &card_dest;
+		}		
+		
+		for (l = list_dests; l; l = l->next) {
+			EDestination *dest = l->data;
+			const char *name, *attendee = NULL;
+			char *attr = NULL;
+			
+			name = e_destination_get_name (dest);
 
-		/* Get the field as attendee from the backend */
-		if (e_cal_get_ldap_attribute (e_meeting_store_get_e_cal (priv->store),
-						   &attr, NULL)) {
-			/* FIXME this should be more general */
-			if (!g_ascii_strcasecmp (attr, "icscalendar")) {
-				EContact *contact;
+			/* Get the field as attendee from the backend */
+			if (e_cal_get_ldap_attribute (e_meeting_store_get_e_cal (priv->store),
+						      &attr, NULL)) {
+				/* FIXME this should be more general */
+				if (!g_ascii_strcasecmp (attr, "icscalendar")) {
+					EContact *contact;
 
-				/* FIXME: this does not work, have to use first
-				   e_destination_use_contact() */
-				contact = e_destination_get_contact (destination);
-				if (contact) {
-					attendee = e_contact_get (contact, E_CONTACT_FREEBUSY_URL);
-					if (!attendee)
-						attendee = e_contact_get (contact, E_CONTACT_CALENDAR_URI);
+					/* FIXME: this does not work, have to use first
+					   e_destination_use_contact() */
+					contact = e_destination_get_contact (dest);
+					if (contact) {
+						attendee = e_contact_get (contact, E_CONTACT_FREEBUSY_URL);
+						if (!attendee)
+							attendee = e_contact_get (contact, E_CONTACT_CALENDAR_URI);
+					}
 				}
 			}
-		}
 
-		/* If we couldn't get the attendee prior, get the email address as the default */
-		if (attendee == NULL || *attendee == '\0') {
-			attendee = e_destination_get_email (destination);
+			/* If we couldn't get the attendee prior, get the email address as the default */
+			if (attendee == NULL || *attendee == '\0') {
+				attendee = e_destination_get_email (dest);
+			}
+		
+			if (attendee == NULL || *attendee == '\0')
+				continue;
+		
+			if (e_meeting_store_find_attendee (priv->store, attendee, NULL) == NULL) {
+				EMeetingAttendee *ia = e_meeting_store_add_attendee_with_defaults (priv->store);
+
+				e_meeting_attendee_set_address (ia, g_strdup_printf ("MAILTO:%s", attendee));
+				e_meeting_attendee_set_role (ia, role);
+				if (role == ICAL_ROLE_NONPARTICIPANT)
+					e_meeting_attendee_set_cutype (ia, ICAL_CUTYPE_RESOURCE);
+				e_meeting_attendee_set_cn (ia, g_strdup (name));
+			}
 		}
 		
-		if (attendee == NULL || *attendee == '\0')
-			continue;
-		
-		if (e_meeting_store_find_attendee (priv->store, attendee, NULL) == NULL) {
-			EMeetingAttendee *ia = e_meeting_store_add_attendee_with_defaults (priv->store);
-
-			e_meeting_attendee_set_address (ia, g_strdup_printf ("MAILTO:%s", attendee));
-			e_meeting_attendee_set_role (ia, role);
-			if (role == ICAL_ROLE_NONPARTICIPANT)
-				e_meeting_attendee_set_cutype (ia, ICAL_CUTYPE_RESOURCE);
-			e_meeting_attendee_set_cn (ia, g_strdup (name));
-		}
 	}
 }
 
