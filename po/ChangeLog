@@ -1,3 +1,7 @@
+2004-09-12  Dafydd Harries  <daf@muse.19inch.net>
+
+	* cy.po: Some work on the Welsh translation.
+
 2004-09-12  Abel Cheung  <maddog@linuxhall.org>
 
 	* zh_TW.po: Updated traditional Chinese translation by GNOME HK Team
@@ -8,7 +12,7 @@
 	* ro.po: Updated Romanian translation
 
 2004-09-12  Hasbullah Bin Pit <sebol@my-penguin.org>
-                                                                                
+
         * ms.po: Updated Malay Translation.
 
 2004-09-11  Mugurel Tudor  <mugurelu@go.ro>
@@ -32,7 +36,7 @@
 	* id.po: Added Indonesian translation
 
 2004-09-09  Arafat Medini <lumina@silverpen.de>
-                                                                                
+
         * ar.po: Updated Arabic translation.
 
 2004-09-09  Priit Laes  <plaes@cvs.gnome.org>
