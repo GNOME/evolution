@@ -356,7 +356,6 @@ shell/importer/import.glade
 shell/importer/intelligent.c
 shell/main.c
 tools/evolution-addressbook-abuse.c
-tools/evolution-addressbook-export.c
 tools/evolution-addressbook-import.c
 tools/evolution-launch-composer.c
 tools/killev.c
