@@ -1,3 +1,9 @@
+2002-06-04  Christopher James Lahey  <clahey@ximian.com>
+
+	* gui/e-tasks.c (e_tasks_setup_view_menus), gui/gnome-cal.c
+	(gnome_calendar_setup_view_menus): Set the title of our
+	GalViewCollection.
+
 2002-06-03  Anna Marie Dirks  <anna@ximian.com>
 
 	* gui/dialogs/cal-prefs-dialog.glade: In an attempt to clean up the 
