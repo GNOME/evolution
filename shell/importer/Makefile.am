@@ -20,7 +20,7 @@ IDL_GENERATED = 	\
 GNOME_Evolution_Importer-impl.o: GNOME_Evolution_Importer.h
 
 $(IDL_GENERATED): $(IDLS)
-	$(ORBIT_IDL) -I $(srcdir) -I $(datadir)/idl `$(GNOME_CONFIG) --cflags idl`	\
+	$(ORBIT_IDL) -I $(srcdir) $(IDL_INCLUDES)	\
 		$(srcdir)/GNOME_Evolution_Importer.idl
 
 idldir = $(datadir)/idl

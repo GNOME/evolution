@@ -1,3 +1,7 @@
+2002-11-08  Rodrigo Moya <rodrigo@ximian.com>
+
+	* importer/Makefile.am: use correctly IDL flags.
+
 2002-11-07  Chris Toshok  <toshok@ximian.com>
 
 	* e-task-widget.c (impl_destroy): guard against multiple calls.
