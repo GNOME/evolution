@@ -1,7 +1,29 @@
 2000-07-27  Jeffrey Stedfast  <fejj@helixcode.com>
 
-	* providers/imap/camel-imap-folder.c (imap_get_message_info): Now uses 
-	a hash table for looking up message info rather than a linear search :)
+	* providers/imap/Makefile.am: Added camel-imap-utils.[c,h]
+	
+	* providers/imap/camel-imap-utils.[c,h]: Utilities for parsing
+	server responses for use in both camel-imap-store.c and
+	camel-imap-folder.c
+	
+	* providers/imap/camel-imap-folder.c (imap_get_summary_internal):
+	Free all the pointers in the headers array.
+	(imap_get_subfolder_names_internal): Updated to use
+	imap_parse_list_response
+	(imap_parse_subfolder_list): Removed in favor of
+	imap_parse_list_response
+
+	* providers/imap/camel-imap-store.c (camel_imap_command_extended):
+	Free all the pointers in the data array.
+	(imap_connect): Updated to use imap_parse_list_response and fixed
+	a leak
+	(folder_is_selectable): Updated.
+	
+2000-07-27  Jeffrey Stedfast  <fejj@helixcode.com>
+	
+	* providers/imap/camel-imap-folder.c (imap_get_message_info): Now
+	uses a hash table for looking up message info rather than a linear
+	search :)
 
 2000-07-27  Peter Williams  <peterw@helixcode.com>
 

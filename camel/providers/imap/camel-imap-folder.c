@@ -39,6 +39,7 @@
 #include "camel-imap-folder.h"
 #include "camel-imap-store.h"
 #include "camel-imap-stream.h"
+#include "camel-imap-utils.h"
 #include "string-utils.h"
 #include "camel-stream.h"
 #include "camel-stream-fs.h"
@@ -77,7 +78,6 @@ static void imap_append_message (CamelFolder *folder, CamelMimeMessage *message,
 static void imap_copy_message_to (CamelFolder *source, const char *uid, CamelFolder *destination, CamelException *ex);
 static void imap_move_message_to (CamelFolder *source, const char *uid, CamelFolder *destination, CamelException *ex);
 
-static gboolean imap_parse_subfolder_line (gchar *buf, gchar *namespace, gchar **flags, gchar **sep, gchar **folder);
 static GPtrArray *imap_get_subfolder_names_internal (CamelFolder *folder, CamelException *ex);
 static GPtrArray *imap_get_subfolder_names (CamelFolder *folder);
 
@@ -642,55 +642,6 @@ imap_get_uids (CamelFolder *folder)
 	return array;
 }
 
-static gboolean
-imap_parse_subfolder_line (gchar *buf, gchar *namespace, gchar **flags, gchar **sep, gchar **folder)
-{
-	gchar *ptr, *eptr, *f;
-	
-	*flags = NULL;
-	*sep = NULL;
-	*folder = NULL;
-	
-	if (g_strncasecmp (buf, "* LIST", 6))
-		return FALSE;
-	
-	ptr = strstr (buf + 6, "(");
-	if (!ptr)
-		return FALSE;
-	
-	ptr++;
-	eptr = strstr (ptr, ")");
-	if (!eptr)
-		return FALSE;
-	
-	*flags = g_strndup (ptr, (gint)(eptr - ptr));
-	
-	ptr = strstr (eptr, "\"");
-	if (!ptr)
-		return FALSE;
-	
-	ptr++;
-	eptr = strstr (ptr, "\"");
-	if (!eptr)
-		return FALSE;
-	
-	*sep = g_strndup (ptr, (gint)(eptr - ptr));
-	
-	ptr = eptr + 1;
-	*folder = g_strdup (ptr);
-	g_strstrip (*folder);
-	
-	/* chop out the folder prefix */
-	if (*namespace && !strncmp (*folder, namespace, strlen (namespace))) {
-		f = *folder + strlen (namespace) + strlen (*sep);
-		memmove (*folder, f, strlen (f) + 1);
-	}
-	
-	string_unquote (*folder);  /* unquote the mailbox if it's quoted */
-	
-	return TRUE;
-}
-
 static GPtrArray *
 imap_get_subfolder_names_internal (CamelFolder *folder, CamelException *ex)
 {
@@ -741,16 +692,13 @@ imap_get_subfolder_names_internal (CamelFolder *folder, CamelException *ex)
 		
 		while (ptr && *ptr == '*') {
 			gchar *flags, *sep, *folder, *buf, *end;
-			gboolean ret;
 			
 			for (end = ptr; *end && *end != '\n'; end++);
 			buf = g_strndup (ptr, (gint)(end - ptr));
 			ptr = end;
 			
-			ret = imap_parse_subfolder_line (buf, namespace, &flags, &sep, &folder);
-			g_free (buf);
-			
-			if (!ret /*|| (flags && strstr (flags, "NoSelect"))*/) {
+			if (!imap_parse_list_response (buf, namespace, &flags, &sep, &folder)) {
+				g_free (buf);
 				g_free (flags);
 				g_free (sep);
 				g_free (folder);
@@ -760,6 +708,8 @@ imap_get_subfolder_names_internal (CamelFolder *folder, CamelException *ex)
 				
 				continue;
 			}
+			
+			g_free (buf);
 			g_free (flags);
 			
 			d(fprintf (stderr, "adding folder: %s\n", folder));
@@ -1181,6 +1131,8 @@ imap_get_summary_internal (CamelFolder *folder, CamelException *ex)
 		g_hash_table_insert (hash, info->uid, info);
 	}
 
+	for (i = 0; i < headers->len; i++)
+		g_free (headers->pdata[i]);
 	g_ptr_array_free (headers, TRUE);
 
 	/* clean up any previous summary data */
@@ -1346,6 +1298,8 @@ imap_get_message_info (CamelFolder *folder, const char *uid)
 static GPtrArray *
 imap_search_by_expression (CamelFolder *folder, const char *expression, CamelException *ex)
 {
+	d(fprintf (stderr, "search expression: %s\n", expression));
+	
 	return g_ptr_array_new ();
 #if 0
 	/* NOTE: This is experimental code... */

@@ -39,6 +39,7 @@
 
 #include "camel-imap-store.h"
 #include "camel-imap-folder.h"
+#include "camel-imap-utils.h"
 #include "camel-folder.h"
 #include "camel-exception.h"
 #include "camel-session.h"
@@ -230,41 +231,6 @@ get_name (CamelService *service, gboolean brief)
 }
 
 static gboolean
-parse_list_response (gchar *buf, gchar **flags, gchar **sep)
-{
-	gchar *ptr, *eptr;
-
-	*flags = NULL;
-	*sep = NULL;
-
-	if (strncasecmp (buf, "* LIST", 6))
-		return FALSE;
-
-	ptr = strstr (buf + 6, "(");
-	if (!ptr)
-		return FALSE;
-	
-	ptr++;
-	eptr = strstr (ptr, ")");
-	if (!eptr)
-		return FALSE;
-	*flags = g_strndup (ptr, (gint)(eptr - ptr));
-
-	ptr = strstr (eptr, "\"");
-	if (!ptr)
-		return FALSE;
-
-	ptr++;
-	eptr = strstr (ptr, "\"");
-	if (!eptr)
-		return FALSE;
-
-	*sep = g_strndup (ptr, (gint)(eptr - ptr));
-
-	return TRUE;
-}
-
-static gboolean
 imap_connect (CamelService *service, CamelException *ex)
 {
 	CamelImapStore *store = CAMEL_IMAP_STORE (service);
@@ -408,19 +374,21 @@ imap_connect (CamelService *service, CamelException *ex)
 				      status != CAMEL_IMAP_FAIL && result ? result :
 				      "Unknown error");
 	} else {
-		if (!strncasecmp (result, "* LIST", 6)) {
-			char *flags, *sep;
-
-			if (parse_list_response (result, &flags, &sep)) {
-				if (*sep) {
-					g_free (store->dir_sep);
-					store->dir_sep = g_strdup (sep);
-				}
-
-				g_free (sep);
+		char *flags, *sep, *folder;
+		
+		if (imap_parse_list_response (result, "", &flags, &sep, &folder)) {
+			if (*sep) {
+				g_free (store->dir_sep);
+				store->dir_sep = g_strdup (sep);
 			}
 		}
+		
+		g_free (flags);
+		g_free (sep);
+		g_free (folder);
 	}
+
+	g_free (result);
 
 	/* Lets add a timeout so that we can hopefully prevent getting disconnected */
 	store->timeout_id = gtk_timeout_add (600000, imap_noop, store);
@@ -563,7 +531,7 @@ imap_create (CamelFolder *folder, CamelException *ex)
 static gboolean
 folder_is_selectable (CamelStore *store, const char *folder_path)
 {
-	char *result, *flags, *sep;
+	char *result, *flags, *sep, *folder;
 	int status;
 	
 	if (!strcmp (folder_path, "INBOX"))
@@ -576,17 +544,19 @@ folder_is_selectable (CamelStore *store, const char *folder_path)
 		return FALSE;
 	}
 	
-	if (parse_list_response (result, &flags, &sep)) {
+	if (imap_parse_list_response (result, "", &flags, &sep, &folder)) {
 		gboolean retval;
 		
 		retval = !e_strstrcase (flags, "NoSelect");
 		g_free (flags);
 		g_free (sep);
+		g_free (folder);
 		
 		return retval;
 	}
 	g_free (flags);
 	g_free (sep);
+	g_free (folder);
 	
 	return FALSE;
 }
@@ -824,6 +794,7 @@ camel_imap_command_extended (CamelImapStore *store, CamelFolder *folder, char **
 	gchar *cmdid, *cmdbuf, *respbuf;
 	GPtrArray *data;
 	va_list app;
+	int i;
 
 #if 0
 	/* First make sure we're connected... */
@@ -948,7 +919,6 @@ camel_imap_command_extended (CamelImapStore *store, CamelFolder *folder, char **
 	
 	if (status == CAMEL_IMAP_OK) {
 		char *p;
-		int i;
 		
 		*ret = g_malloc0 (len + 1);
 		
@@ -970,11 +940,13 @@ camel_imap_command_extended (CamelImapStore *store, CamelFolder *folder, char **
 			*ret = NULL;
 	}
 	
+	for (i = 0; i < data->len; i++)
+		g_free (data->pdata[i]);
 	g_ptr_array_free (data, TRUE);
 	
 	if (folder && recent > 0) {
 		CamelException *ex;
-
+		
 		ex = camel_exception_new ();
 		camel_imap_folder_changed (folder, recent, ex);
 		camel_exception_free (ex);
