@@ -33,15 +33,12 @@ interface Activity : Bonobo::Unknown {
 
 	/* Events propagated through the listener:
 
-	   - "Clicked": The status widget has been clicked on.
+	   - "ShowDetails": The user wants to know details about the
+	     progressing operation.  The component should display additional
+	     information about the operation in progress, or raise a pending
+	     alert dialog.
 
-	   - "DisplayProgress": Display a nice progress dialog for this
-	     operation.
-
-	   - "DisplayDialog": The dialog that the component has requested
-	     through ::requestDialog() can now be safely displayed.
-
-	   - "Cancelled": The user wants the operation to be cancelled.
+	   - "Cancel": The user wants the operation to be cancelled.
 	 */
 
 	/**

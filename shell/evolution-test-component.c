@@ -55,10 +55,17 @@ static int progress = -1;
 /* Callbacks.  */
 
 static void
-activity_client_clicked_callback (EvolutionActivityClient *client,
-				  void *data)
+activity_client_cancel_callback (EvolutionActivityClient *client,
+				 void *data)
 {
-	g_warning ("Task bar button clicked!");
+	g_print ("User requested that the operation be cancelled.\n");
+}
+
+static void
+activity_client_show_details_callback (EvolutionActivityClient *client,
+				       void *data)
+{
+	g_print ("User wants to see details.\n");
 }
 
 
@@ -112,15 +119,17 @@ timeout_callback_1 (void *data)
 	activity_client = evolution_activity_client_new (parent_shell, COMPONENT_ID,
 							 animated_icon,
 							 "Operation Foo started!",
-							 FALSE,
+							 TRUE,
 							 &suggest_display);
 	if (activity_client == CORBA_OBJECT_NIL) {
 		g_warning ("Cannot create EvolutionActivityClient object");
 		return FALSE;
 	}
 
-	gtk_signal_connect (GTK_OBJECT (activity_client), "clicked",
-			    GTK_SIGNAL_FUNC (activity_client_clicked_callback), NULL);
+	gtk_signal_connect (GTK_OBJECT (activity_client), "cancel",
+			    GTK_SIGNAL_FUNC (activity_client_cancel_callback), NULL);
+	gtk_signal_connect (GTK_OBJECT (activity_client), "show_details",
+			    GTK_SIGNAL_FUNC (activity_client_show_details_callback), NULL);
 
 	g_print ("Component becoming busy -- %s\n", COMPONENT_ID);
 	if (suggest_display)

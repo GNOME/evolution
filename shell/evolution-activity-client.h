@@ -57,10 +57,8 @@ struct _EvolutionActivityClientClass {
 	GtkObjectClass parent_class;
 
 	/* Signals.  */
-	void (* clicked) (EvolutionActivityClient *activity_client);
-	void (* display_progress) (EvolutionActivityClient *activity_client);
-	void (* display_dialog) (EvolutionActivityClient *activity_client);
-	void (* cancelled) (EvolutionActivityClient *activity_client);
+	void (* show_details) (EvolutionActivityClient *activity_client);
+	void (* cancel) (EvolutionActivityClient *activity_client);
 };
 
 

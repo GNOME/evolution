@@ -151,6 +151,7 @@ idle_cb (void *data)
 			e_notice (NULL, GNOME_MESSAGE_BOX_ERROR,
 				  _("Cannot access the Evolution shell."));
 			CORBA_exception_free (&ev);
+			gtk_main_quit ();
 			return FALSE;
 		}
 

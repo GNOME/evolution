@@ -31,6 +31,7 @@
 #include <gdk-pixbuf/gdk-pixbuf.h>
 
 #include <libgnome/gnome-i18n.h>
+#include <libgnomeui/gnome-popup-menu.h>
 
 #include <gal/util/e-util.h>
 #include <gal/widgets/e-popup-menu.h>
@@ -136,6 +137,34 @@ lookup_activity (GList *list,
 	return NULL;
 }
 
+static const CORBA_any *
+get_corba_null_value (void)
+{
+	static CORBA_any *null_value = NULL;
+
+	if (null_value == NULL) {
+		null_value = CORBA_any__alloc ();
+		null_value->_type = TC_null;
+	}
+
+	return null_value;
+}
+
+static void
+report_task_event (ActivityInfo *activity_info,
+		   const char *event_name)
+{
+	CORBA_Environment ev;
+
+	CORBA_exception_init (&ev);
+
+	Bonobo_Listener_event (activity_info->event_listener, event_name, get_corba_null_value (), &ev);
+	if (ev._major != CORBA_NO_EXCEPTION)
+		g_warning ("EActivityHandler: Cannot event `%s' -- %s", event_name, ev._repo_id);
+
+	CORBA_exception_free (&ev);
+}
+
 
 /* ETaskWidget actions.  */
 
@@ -144,24 +173,19 @@ task_widget_cancel_callback (GtkWidget *widget,
 			     void *data)
 {
 	ActivityInfo *activity_info;
-	CORBA_Environment ev;
-	CORBA_any *null_value;
-
-	CORBA_exception_init (&ev);
 
 	activity_info = (ActivityInfo *) data;
+	report_task_event (activity_info, "Cancel");
+}
 
-	null_value = CORBA_any__alloc ();
-	null_value->_type = TC_null;
+static void
+task_widget_show_details_callback (GtkWidget *widget,
+				   void *data)
+{
+	ActivityInfo *activity_info;
 
-	Bonobo_Listener_event (activity_info->event_listener, "Cancelled", null_value, &ev);
-	if (ev._major != CORBA_NO_EXCEPTION)
-		g_warning ("EActivityHandler: Cannot report `Cancelled' event -- %s",
-			   ev._repo_id);
-
-	CORBA_free (null_value);
-
-	CORBA_exception_free (&ev);
+	activity_info = (ActivityInfo *) data;
+	report_task_event (activity_info, "ShowDetails");
 }
 
 static void
@@ -171,11 +195,15 @@ show_cancellation_popup (ActivityInfo *activity_info,
 {
 	GtkMenu *popup;
 	EPopupMenu items[] = {
-		{ N_("Cancel"), NULL, task_widget_cancel_callback, NULL, 0 },
+		{ N_("Show Details"), NULL, task_widget_show_details_callback, NULL, 0 },
+		{ "", NULL, NULL, NULL, 0 },
+		{ N_("Cancel Operation"), NULL, task_widget_cancel_callback, NULL, 0 },
 		{ NULL }
 	};
 
+	/* FIXME: We should gray out things properly here.  */
 	popup = e_popup_menu_create (items, 0, 0, activity_info);
+	gnome_popup_menu_do_popup (GTK_WIDGET (popup), NULL, NULL, button_event, activity_info);
 }
 
 static int
@@ -189,7 +217,7 @@ task_widget_button_press_event_callback (GtkWidget *widget,
 
 	activity_info = (ActivityInfo *) data;
 
-	if (button_event->button == 2) {
+	if (button_event->button == 3) {
 		if (! activity_info->cancellable) {
 			return FALSE;
 		} else {

@@ -716,7 +716,8 @@ popup_folder_menu (EStorageSetView *storage_set_view,
 
 	handler = e_folder_type_registry_get_handler_for_type (folder_type_registry,
 							       e_folder_get_type_string (folder));
-	g_assert (handler != NULL);
+	if (handler == NULL)
+		return;
 
 	menu = gtk_menu_new ();
 	bonobo_window_add_popup (bonobo_ui_container_get_win (priv->container),

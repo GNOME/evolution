@@ -1,3 +1,45 @@
+2001-07-02  Ettore Perazzoli  <ettore@ximian.com>
+
+	* e-storage-set-view.c (popup_folder_menu): Don't assert that
+	there is a handler, so we don't crash if user clicks on a folder
+	whose type we cannot handle for some reason [such as an
+	uninstalled component].
+
+	* evolution-test-component.c (activity_client_cancel_callback):
+	New callback for the "cancel" signal on the
+	EvolutionActivityClient object.
+	(activity_client_show_details_callback): New callback for the
+	"show_details" signal.
+	(timeout_callback_1): Connect these two signal handlers.
+
+	* e-activity-handler.c (task_widget_button_press_event_callback):
+	Ahem, right-click is button 3, not button 2.
+	(show_cancellation_popup): Actually pop up the menu.
+	(get_corba_null_value): New helper function to create a CORBA_any
+	null value.
+	(report_task_event): New helper function to report events to the
+	listener.
+	(task_widget_cancel_callback): Use it.  Report "Cancel" instead of
+	"Cancelled".
+	(task_widget_show_details_callback): New, callback for the "Show
+	Details" right-click menu item.
+
+	* evolution-activity-client.c: Updated to dispatch the "Cancel"
+	and "ShowDetails" events as "cancel" and "show_details" signals.
+	(class_init): Install the signals.
+	(listener_callback): Updated to update the signals corresponding
+	to the "ShowDetails" and "Cancel" events.
+
+	* Evolution-Activity.idl: Changed the docs about the events sent
+	to the Bonobo::Listener.  We now only have "ShowDetails" and
+	"Cancelled".
+
+	* evolution-test-component.c (timeout_callback_1): Make the
+	activity cancellable so we can test the right-click cancel menu
+	too.
+
+	* main.c (idle_cb): Actually exit if we cannot reach to the shell.
+
 2001-07-01  Ettore Perazzoli  <ettore@ximian.com>
 
 	* e-uri-schema-registry.c (init): Unset the FLOATING flag on the
