@@ -109,16 +109,6 @@ Lastly, we'll have warnings, in cases where you should be careful:
 	    </listitem>
 	  </varlistentry>
 
-	  <varlistentry>
-	    <term>Performance Improvements</term>
-	    <listitem>
-	      <para>
-                Startup time has decreased, POP server interactions
-                are more efficient, and indexing of locally cached
-                mail is now faster.
-              </para>
-	    </listitem>
-	  </varlistentry>
 
 	  <varlistentry>
 	    <term>Mail Composer Autocomplete</term>
@@ -132,6 +122,18 @@ Lastly, we'll have warnings, in cases where you should be careful:
               </para>
 	    </listitem>
 	  </varlistentry>
+
+	  <varlistentry>
+	    <term>Performance Improvements</term>
+	    <listitem>
+	      <para>
+                Startup time has decreased, POP server interactions
+                are more efficient, and indexing of locally cached
+                mail is now faster.
+              </para>
+	    </listitem>
+	  </varlistentry>
+
 
 	  <varlistentry>
 	    <term>Mail Composer HTML Improvements</term>
@@ -150,6 +152,20 @@ Lastly, we'll have warnings, in cases where you should be careful:
               </para>
 	    </listitem>
 	  </varlistentry>
+
+	  <varlistentry>
+	    <term>Signature Editor</term>
+	    <listitem>
+	      <para>
+                 There is now a signature editor, which can be used to
+                 create plain text or HTML signatures. 
+                 click the the <guilabel>Signatures</guilabel> tab in
+                 the Composer Settings section of the Evolution
+                 Settings window.
+              </para>
+	    </listitem>
+	  </varlistentry>
+
 
 	  <varlistentry>
 	    <term>Keyboard Navigation Overhaul</term>
@@ -230,8 +246,7 @@ Lastly, we'll have warnings, in cases where you should be careful:
 	    <listitem>
 	      <para>
                 vFolders and filters now notice if you move or delete
-                a folder that they use, and update themselves
-                accordingly.
+                a folder that they use.
               </para>
 	    </listitem>
 	  </varlistentry>
@@ -246,17 +261,6 @@ Lastly, we'll have warnings, in cases where you should be careful:
                 vFolder, select <guimenuitem>Add a
                 Column</guimenuitem>, and drag the <guibutton>Original
                 Location</guibutton> item into position.
-              </para>
-	    </listitem>
-	  </varlistentry>
-
-
-	  <varlistentry>
-	    <term>Signature Editor</term>
-	    <listitem>
-	      <para>
-                 There is now a signature editor, and it supports the
-                 full range of Gtkhtml functionality.
               </para>
 	    </listitem>
 	  </varlistentry>
@@ -277,17 +281,20 @@ Lastly, we'll have warnings, in cases where you should be careful:
 	    <listitem>
               <para>
                You may now select which network folders which will be
-               cached locally when you go into Offline mode.
+               cached locally when you go into Offline mode. This
+               setting may be changed from the Folders section of the
+               Evolution Settings window.
              </para>
 	    </listitem>
 	  </varlistentry>
 
 	  <varlistentry>
-	    <term>Redirect (Bounce) Feature Added</term>
+	    <term>Resend (Bounce) Feature Added</term>
 	    <listitem>
 	      <para>
-               To redirect a message with all its headers instead of
-               merely forwarding it, select the message and choose     
+               This feature is often called "Bounce" or "Redirect." To
+               resend a message with all its headers instead of merely
+               forwarding it, select the message and choose
                  <menuchoice>
 		  <guimenu>
                       Actions
@@ -296,7 +303,7 @@ Lastly, we'll have warnings, in cases where you should be careful:
                      Forward
                   </guisubmenu>
 		  <guimenuitem>
-                      Redirect
+                      Resend
                   </guimenuitem>
 		</menuchoice>.
              </para>
