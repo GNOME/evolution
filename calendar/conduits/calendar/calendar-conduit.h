@@ -12,7 +12,6 @@
 #include <gpilotd/gnome-pilot-conduit.h>
 #include <gpilotd/gnome-pilot-conduit-standard-abs.h>
 #include <cal-client/cal-client.h>
-#include <cal-util/calobj.h>
 #include <cal-util/timeutil.h>
 #include <liboaf/liboaf.h>
 

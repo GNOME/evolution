@@ -310,17 +310,17 @@ local_record_from_icalobject (GCalLocalRecord *local,
 	LOG ("local->Id = %ld [%s], status = %d",
 		  local->local.ID,obj->summary,local->ical->pilot_status);
 */
-	switch (pilot_status) {
-	case ICAL_PILOT_SYNC_NONE: 
-		local->local.attr = GnomePilotRecordNothing; 
-		break;
-	case ICAL_PILOT_SYNC_MOD: 
-		local->local.attr = GnomePilotRecordModified; 
-		break;
-	case ICAL_PILOT_SYNC_DEL: 
-		local->local.attr = GnomePilotRecordDeleted; 
-		break;
-	}
+/*  	switch (pilot_status) { */
+/*  	case ICAL_PILOT_SYNC_NONE:  */
+/*  		local->local.attr = GnomePilotRecordNothing;  */
+/*  		break; */
+/*  	case ICAL_PILOT_SYNC_MOD:  */
+/*  		local->local.attr = GnomePilotRecordModified;  */
+/*  		break; */
+/*  	case ICAL_PILOT_SYNC_DEL:  */
+/*  		local->local.attr = GnomePilotRecordDeleted;  */
+/*  		break; */
+/*  	} */
 
 	/* Records without a pilot_id are new */
 	if (local->local.ID == 0)
@@ -690,7 +690,7 @@ update_record (GnomePilotConduitStandardAbs *conduit,
 		//obj->pilot_id = remote->ID;
 		//obj->pilot_status = ICAL_PILOT_SYNC_NONE;
 		cal_component_set_pilot_id (obj, remote->ID);
-		cal_component_set_pilot_status (obj, ICAL_PILOT_SYNC_NONE);
+//		cal_component_set_pilot_status (obj, ICAL_PILOT_SYNC_NONE);
 	} else {
 		CalComponent *new_obj;
 
@@ -709,8 +709,8 @@ update_record (GnomePilotConduitStandardAbs *conduit,
 		cal_component_get_pilot_id (obj, &pilot_id);
 
 		update_calendar_entry_in_repository (conduit, obj, ctxt);
-		cal_client_update_pilot_id (ctxt->client, (char *) uid, pilot_id,
-					    ICAL_PILOT_SYNC_NONE);
+/*  		cal_client_update_pilot_id (ctxt->client, (char *) uid, pilot_id, */
+/*  					    ICAL_PILOT_SYNC_NONE); */
 	}
 
 	/*
@@ -1068,7 +1068,7 @@ set_status (GnomePilotConduitStandardAbs *conduit,
 	    GCalConduitContext *ctxt)
 {
 	gboolean success;
-	iCalPilotState new_state = ICAL_PILOT_SYNC_NONE;
+//	iCalPilotState new_state = ICAL_PILOT_SYNC_NONE;
 
 	printf ("set_status: %s status is now '%s'\n",
 		print_local (local),
@@ -1081,13 +1081,13 @@ set_status (GnomePilotConduitStandardAbs *conduit,
 	switch(status) {
 	case GnomePilotRecordPending:
 	case GnomePilotRecordNothing:
-		new_state = ICAL_PILOT_SYNC_NONE;
+//		new_state = ICAL_PILOT_SYNC_NONE;
 		break;
 	case GnomePilotRecordDeleted:
 		break;
 	case GnomePilotRecordNew:
 	case GnomePilotRecordModified:
-		new_state = ICAL_PILOT_SYNC_MOD;
+//		new_state = ICAL_PILOT_SYNC_MOD;
 		break;	  
 	}
 
@@ -1103,8 +1103,8 @@ set_status (GnomePilotConduitStandardAbs *conduit,
 		cal_component_get_pilot_id (local->ical, &pilot_id);
 
 		success = cal_client_update_object (ctxt->client, local->ical);
-		cal_client_update_pilot_id (ctxt->client, (char *) uid,
-					    pilot_id, new_state);
+/*  		cal_client_update_pilot_id (ctxt->client, (char *) uid, */
+/*  					    pilot_id, new_state); */
 	}
 
 	if (! success) {
