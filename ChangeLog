@@ -1,3 +1,11 @@
+2004-12-14  JP Rosevear  <jpr@novell.com>
+
+	Fixes #6066
+	
+	* README.translators: New information for translators
+
+	* README: Update slightly for 2.1/2.2
+
 2004-12-14  Rodney Dawes  <dobey@novell.com>
 
 	* configure.in (AC_OUTPUT): Add mail/default/zh_CN/Makefile

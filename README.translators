@@ -1,0 +1,9 @@
+Evolution is translated like most GNOME projects, by updating the the
+.po files in evolution/po and by translating the help files in
+evolution/help/C and placing them in a locale specific dir, ie
+evolution/help/fr.  In addition, the default welcome message is in
+evolution/mail/default/C/Inbox and can be tranlated by translating the
+message in the file and also putting it in a locale specific dir, ie
+evolution/mail/default/fr/Inbox.  The file name 'Inbox' should not be
+changed, as this is an internally defined string (the name in the
+folder list will still be translated though).

@@ -31,10 +31,10 @@ The rest of this file is dedicated to building Evolution.
 DEPENDENCIES
 ------------
 
-In order to build Evolution you need to have the full set of GNOME 2.2
+In order to build Evolution you need to have the full set of GNOME 2.6
 (or greater) development libraries installed.
 
-GNOME 2.2 or greater comes with most of the modern distributions, so
+GNOME 2.6 or greater comes with most of the modern distributions, so
 in most cases it should be enough to just install all the devel
 packages from your distribution.
 
@@ -44,35 +44,25 @@ installed, since bugs in the libraries can cause bugs in Evolution.
 Additional dependencies, besides the stock GNOME libraries (the
 dependencies should be compiled in the order they are listed here):
 
-	* [If compiling against GNOME 2.2] libgnomecanvas 2.2.0.2 or
-          later
-
-	  If you have a GNOME 2.2 installation, you need to upgrade
-	  libgnomecanvas to this version (or a later one), since
-	  Evolution exposes a bug in the older versions of the library
-	  which causes a crash.
-
-	* [If compiling against GNOME 2.2] libbonobo and libbonoboui 2.4
-
 	* gnome-icon-theme 1.2.0 or later
 
 	* ORBit 2.9.8 or later
 
 	     ftp://ftp.gnome.org/pub/gnome/sources/libsoup
 	
-	* libsoup 2.2.0 or later
+	* libsoup 2.2.1 or later
 
 	     ftp://ftp.gnome.org/pub/gnome/sources/libsoup
 
-	* evolution-data-server 1.0.0 or later
+	* evolution-data-server 1.1.1 or later
 
 	     ftp://ftp.gnome.org/pub/gnome/sources/evolution-data-server
 
-	* gtkhtml 3.2.0 or later
+	* gtkhtml 3.5.0 or later
 
 	     ftp://ftp.gnome.org/pub/gnome/sources/gtkhtml
 
-	* gal 2.2.0 or later
+	* gal 2.4.0 or later
 
 	     ftp://ftp.gnome.org/pub/gnome/sources/gal
 
