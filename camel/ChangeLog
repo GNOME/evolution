@@ -1,5 +1,9 @@
 2000-11-17  Jeffrey Stedfast  <fejj@helixcode.com>
 
+	* providers/imap/camel-imap-utils.c (imap_parse_nstring): When
+	extracting a literal string, capture up until the end of the last
+	line - this we we don't lose any data if the byte count is off.
+
 	* providers/imap/camel-imap-command.c (imap_read_untagged): Use
 	the byte-read count to decrement the number of bytes left to read
 	rather than using strlen. Not only does this protect against a DoS
