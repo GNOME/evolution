@@ -192,8 +192,9 @@ tasks_control_set_property		(BonoboPropertyBag	*bag,
 	switch (arg_id) {
 
 	case TASKS_CONTROL_PROPERTY_URI_IDX:
+		/* FIXME Remove the old uri? */
 		uri = BONOBO_ARG_GET_STRING (arg);
-		if (!e_tasks_open (tasks, uri)) {
+		if (!e_tasks_add_todo_uri (tasks, uri)) {
 			char *msg;
 
 			msg = g_strdup_printf (_("Could not load the tasks in `%s'"), uri);

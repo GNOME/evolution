@@ -64,8 +64,6 @@ GtkWidget *e_tasks_new             (void);
 void  e_tasks_set_ui_component  (ETasks            *tasks,
 				 BonoboUIComponent *ui_component);
 
-gboolean   e_tasks_open            (ETasks            *tasks,
-				    char              *file);
 gboolean e_tasks_add_todo_uri (ETasks *tasks, const char *str_uri);
 gboolean e_tasks_remove_todo_uri (ETasks *tasks, const char *str_uri);
 gboolean e_tasks_set_default_uri (ETasks *tasks, const char *str_uri);
