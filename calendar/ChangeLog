@@ -1,3 +1,20 @@
+2003-10-24  Rodrigo Moya <rodrigo@ximian.com>
+
+	* gui/calendar-component.c (calendar_component_class_init): removed
+	repeated initialization.
+	(calendar_component_peek): use G_STRLOC for g_warning's.
+
+	* gui/tsaks-control.[ch] (tasks_control_activate,
+	tasks_control_deactivate): made these 2 functions public.
+
+	* gui/tasks-component.[ch]: implementation of the tasks component.
+
+	* gui/Makefile.am:
+	* gui/GNOME_Evolution_Calendar.server.in.in: added tasks component.
+
+	* gui/main.c: ditto.
+	(factory): added code to create the tasks component when requested.
+
 2003-10-24  Dan Winship  <danw@ximian.com>
 
 	* cal-client/cal-client.c (cal_client_get_changes): Remove type arg

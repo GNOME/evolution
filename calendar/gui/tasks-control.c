@@ -70,11 +70,6 @@ static void tasks_control_set_property		(BonoboPropertyBag	*bag,
 static void tasks_control_activate_cb		(BonoboControl		*control,
 						 gboolean		 activate,
 						 gpointer		 user_data);
-static void tasks_control_activate		(BonoboControl		*control,
-						 ETasks			*tasks);
-static void tasks_control_deactivate		(BonoboControl		*control,
-						 ETasks			*tasks);
-
 static void tasks_control_new_task_cmd		(BonoboUIComponent	*uic,
 						 gpointer		 data,
 						 const char		*path);
@@ -287,7 +282,7 @@ static BonoboUIVerb verbs [] = {
 	BONOBO_UI_VERB_END
 };
 
-static void
+void
 tasks_control_activate (BonoboControl *control, ETasks *tasks)
 {
 	Bonobo_UIContainer remote_uih;
@@ -339,7 +334,7 @@ tasks_control_activate (BonoboControl *control, ETasks *tasks)
 }
 
 
-static void
+void
 tasks_control_deactivate (BonoboControl *control, ETasks *tasks)
 {
 	BonoboUIComponent *uic = bonobo_control_get_ui_component (control);

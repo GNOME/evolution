@@ -276,8 +276,6 @@ calendar_component_class_init (CalendarComponentClass *class)
 
 	object_class->dispose = impl_dispose;
 	object_class->finalize = impl_finalize;
-
-	epv->createControls = impl_createControls;
 }
 
 static void
@@ -349,7 +347,7 @@ calendar_component_peek (void)
 		component = g_object_new (calendar_component_get_type (), NULL);
 
 		if (e_mkdir_hier (calendar_component_peek_config_directory (component), 0777) != 0) {
-			g_warning ("Cannot create directory %s: %s",
+			g_warning (G_STRLOC, ": Cannot create directory %s: %s",
 				   calendar_component_peek_config_directory (component),
 				   g_strerror (errno));
 			g_object_unref (component);

@@ -177,6 +177,8 @@ libevolution_calendar_la_SOURCES =		\
 	print.h					\
 	tag-calendar.c				\
 	tag-calendar.h				\
+	tasks-component.c			\
+	tasks-component.h			\
 	tasks-control.c				\
 	tasks-control.h				\
 	weekday-picker.c			\

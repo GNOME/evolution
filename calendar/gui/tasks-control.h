@@ -24,8 +24,11 @@
 #ifndef _TASKS_CONTROL_H_
 #define _TASKS_CONTROL_H_
 
+#include "e-tasks.h"
 
-BonoboControl *tasks_control_new		(void);
+BonoboControl *tasks_control_new        (void);
+void           tasks_control_activate   (BonoboControl *control, ETasks *tasks);
+void           tasks_control_deactivate (BonoboControl *control, ETasks *tasks);
 
 
 #endif /* _TASKS_CONTROL_H_ */
