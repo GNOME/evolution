@@ -36,6 +36,7 @@ typedef struct {
 	int create_card_id, remove_card_id, modify_card_id;
 
 	guint editable : 1;
+	guint first_get_view : 1;
 } EAddressbookModel;
 
 
@@ -50,5 +51,6 @@ ETableModel *e_addressbook_model_new (void);
 /* Returns object with ref count of 1. */
 ECard *e_addressbook_model_get_card(EAddressbookModel *model,
 				    int                row);
+void   e_addressbook_model_stop    (EAddressbookModel *model);
 
 #endif /* _E_ADDRESSBOOK_MODEL_H_ */

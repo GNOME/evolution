@@ -1175,6 +1175,12 @@ pas_backend_file_remove_client (PASBackend             *backend,
 		pas_backend_last_client_gone (backend);
 }
 
+static char *
+pas_backend_file_get_static_capabilities (PASBackend             *backend)
+{
+	return g_strdup("local");
+}
+
 static gboolean
 pas_backend_file_construct (PASBackendFile *backend)
 {
@@ -1230,10 +1236,11 @@ pas_backend_file_class_init (PASBackendFileClass *klass)
 	parent_class = PAS_BACKEND_CLASS (klass);
 
 	/* Set the virtual methods. */
-	parent_class->load_uri      = pas_backend_file_load_uri;
-	parent_class->get_uri       = pas_backend_file_get_uri;
-	parent_class->add_client    = pas_backend_file_add_client;
-	parent_class->remove_client = pas_backend_file_remove_client;
+	parent_class->load_uri                = pas_backend_file_load_uri;
+	parent_class->get_uri                 = pas_backend_file_get_uri;
+	parent_class->add_client              = pas_backend_file_add_client;
+	parent_class->remove_client           = pas_backend_file_remove_client;
+	parent_class->get_static_capabilities = pas_backend_file_get_static_capabilities;
 
 	object_class->destroy = pas_backend_file_destroy;
 }

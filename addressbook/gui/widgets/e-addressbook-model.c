@@ -33,13 +33,8 @@ enum {
 };
 
 static void
-addressbook_destroy(GtkObject *object)
+remove_book_view(EAddressbookModel *model)
 {
-	EAddressbookModel *model = E_ADDRESSBOOK_MODEL(object);
-	int i;
-
-	if (model->get_view_idle)
-		g_source_remove(model->get_view_idle);
 	if (model->book_view && model->create_card_id)
 		gtk_signal_disconnect(GTK_OBJECT (model->book_view),
 				      model->create_card_id);
@@ -49,10 +44,30 @@ addressbook_destroy(GtkObject *object)
 	if (model->book_view && model->modify_card_id)
 		gtk_signal_disconnect(GTK_OBJECT (model->book_view),
 				      model->modify_card_id);
-	if (model->book)
-		gtk_object_unref(GTK_OBJECT(model->book));
+
+	model->create_card_id = 0;
+	model->remove_card_id = 0;
+	model->modify_card_id = 0;
+
 	if (model->book_view)
 		gtk_object_unref(GTK_OBJECT(model->book_view));
+
+	model->book_view = NULL;
+}
+
+static void
+addressbook_destroy(GtkObject *object)
+{
+	EAddressbookModel *model = E_ADDRESSBOOK_MODEL(object);
+	int i;
+
+	if (model->get_view_idle)
+		g_source_remove(model->get_view_idle);
+
+	remove_book_view(model);
+
+	if (model->book)
+		gtk_object_unref(GTK_OBJECT(model->book));
 
 	for ( i = 0; i < model->data_count; i++ ) {
 		gtk_object_unref(GTK_OBJECT(model->data[i]));
@@ -265,6 +280,7 @@ e_addressbook_model_init (GtkObject *object)
 	model->data = NULL;
 	model->data_count = 0;
 	model->editable = TRUE;
+	model->first_get_view = TRUE;
 }
 
 static void
@@ -272,17 +288,7 @@ book_view_loaded (EBook *book, EBookStatus status, EBookView *book_view, gpointe
 {
 	EAddressbookModel *model = closure;
 	int i;
-	if (model->book_view && model->create_card_id)
-		gtk_signal_disconnect(GTK_OBJECT (model->book_view),
-				      model->create_card_id);
-	if (model->book_view && model->remove_card_id)
-		gtk_signal_disconnect(GTK_OBJECT (model->book_view),
-				      model->remove_card_id);
-	if (model->book_view && model->modify_card_id)
-		gtk_signal_disconnect(GTK_OBJECT (model->book_view),
-				      model->modify_card_id);
-	if (model->book_view)
-		gtk_object_unref(GTK_OBJECT(model->book_view));
+	remove_book_view(model);
 	model->book_view = book_view;
 	if (model->book_view)
 		gtk_object_ref(GTK_OBJECT(model->book_view));
@@ -313,8 +319,18 @@ book_view_loaded (EBook *book, EBookStatus status, EBookView *book_view, gpointe
 static gboolean
 get_view(EAddressbookModel *model)
 {
-	if (model->book && model->query)
-		e_book_get_book_view(model->book, model->query, book_view_loaded, model);
+	if (model->book && model->query) {
+		if (model->first_get_view) {
+			char *capabilities;
+			capabilities = e_book_get_static_capabilities(model->book);
+			if (strstr(capabilities, "local")) {
+				e_book_get_book_view(model->book, model->query, book_view_loaded, model);
+			}
+			model->first_get_view = FALSE;
+		}
+		else
+			e_book_get_book_view(model->book, model->query, book_view_loaded, model);
+	}
 
 	model->get_view_idle = 0;
 	return FALSE;
@@ -420,4 +436,9 @@ e_addressbook_model_new (void)
 	et = gtk_type_new (e_addressbook_model_get_type ());
 	
 	return E_TABLE_MODEL(et);
+}
+
+void   e_addressbook_model_stop    (EAddressbookModel *model)
+{
+	remove_book_view(model);
 }

@@ -34,6 +34,17 @@
 			</submenu>
 
 		</placeholder>
+
+		<placeholder name="Component">
+
+			<submenu name="Actions" _label="_Actions">
+
+				<menuitem name="New Directory Server" verb="ContactNewServer"
+				_label="N_ew Directory Server"/>
+
+			</submenu>
+
+		</placeholder>
 	</menu>
 
 	<dockitem name="Toolbar" relief="none">

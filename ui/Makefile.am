@@ -1,6 +1,7 @@
 XML_FILES =				\
 	evolution.xml			\
 	evolution-addressbook.xml	\
+	evolution-addressbook-ldap.xml	\
 	evolution-contact-editor.xml	\
 	evolution-mail.xml		\
 	evolution-calendar.xml

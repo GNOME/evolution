@@ -73,6 +73,8 @@ struct _EMinicardView
 	int canvas_destroy_id;
 
 	int create_card_id, remove_card_id, modify_card_id;
+
+	guint first_get_view : 1;
 };
 
 struct _EMinicardViewClass
@@ -86,6 +88,7 @@ void       e_minicard_view_remove_selection (EMinicardView *view,
 					     gpointer       closure);
 void       e_minicard_view_jump_to_letter   (EMinicardView *view,
 					     char           letter);
+void       e_minicard_view_stop             (EMinicardView *view);
 
 #ifdef __cplusplus
 }

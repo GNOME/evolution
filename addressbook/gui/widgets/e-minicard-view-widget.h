@@ -63,6 +63,7 @@ void       e_minicard_view_widget_remove_selection (EMinicardViewWidget *view,
 						    gpointer       closure);
 void       e_minicard_view_widget_jump_to_letter   (EMinicardViewWidget *view,
 						    char           letter);
+void       e_minicard_view_widget_stop             (EMinicardViewWidget *view);						    
 
 GtkWidget *e_minicard_view_widget_new (void);
 

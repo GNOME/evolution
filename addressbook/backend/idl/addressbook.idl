@@ -84,6 +84,8 @@ module Evolution {
 
 		void check_connection ();
 
+		string get_static_capabilities ();
+
 		string get_name ();
 	};
 

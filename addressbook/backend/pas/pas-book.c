@@ -241,6 +241,20 @@ impl_Evolution_Book_check_connection (PortableServer_Servant servant,
 	pas_book_queue_check_connection (book);
 }
 
+static char *
+impl_Evolution_Book_get_static_capabilities (PortableServer_Servant servant,
+					     CORBA_Environment *ev)
+{
+	PASBook *book = PAS_BOOK (bonobo_object_from_servant (servant));
+	char *temp;
+	char *ret_val;
+
+	temp = pas_backend_get_static_capabilities (book->priv->backend);
+	ret_val = CORBA_string_dup(temp);
+	g_free(temp);
+	return ret_val;
+}
+
 /**
  * pas_book_get_backend:
  */
@@ -598,15 +612,16 @@ pas_book_get_epv (void)
 
 	epv = g_new0 (POA_Evolution_Book__epv, 1);
 
-	epv->get_vcard        = impl_Evolution_Book_get_vcard;
-	epv->can_write        = impl_Evolution_Book_can_write;
-	epv->can_write_card   = impl_Evolution_Book_can_write_card;
-	epv->create_card      = impl_Evolution_Book_create_card;
-	epv->remove_card      = impl_Evolution_Book_remove_card;
-	epv->modify_card      = impl_Evolution_Book_modify_card;
-	epv->check_connection = impl_Evolution_Book_check_connection;
-	epv->get_cursor       = impl_Evolution_Book_get_cursor;
-	epv->get_book_view    = impl_Evolution_Book_get_book_view;
+	epv->get_vcard               = impl_Evolution_Book_get_vcard;
+	epv->can_write               = impl_Evolution_Book_can_write;
+	epv->can_write_card          = impl_Evolution_Book_can_write_card;
+	epv->create_card             = impl_Evolution_Book_create_card;
+	epv->remove_card             = impl_Evolution_Book_remove_card;
+	epv->modify_card             = impl_Evolution_Book_modify_card;
+	epv->check_connection        = impl_Evolution_Book_check_connection;
+	epv->get_static_capabilities = impl_Evolution_Book_get_static_capabilities;
+	epv->get_cursor              = impl_Evolution_Book_get_cursor;
+	epv->get_book_view           = impl_Evolution_Book_get_book_view;
 
 	return epv;
 	

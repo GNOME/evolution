@@ -308,6 +308,20 @@ make_quick_search_widget (GtkSignalFunc start_search_func,
 	return search_vbox;
 }
 
+static void
+show_all_contacts_cb (BonoboUIHandler *uih, void *user_data, const char *path)
+{
+	AddressbookView *view = (AddressbookView *) user_data;
+	e_addressbook_view_show_all(view->view);
+}
+
+static void
+stop_loading_cb (BonoboUIHandler *uih, void *user_data, const char *path)
+{
+	AddressbookView *view = (AddressbookView *) user_data;
+	e_addressbook_view_stop(view->view);
+}
+
 BonoboUIVerb verbs [] = {
 	BONOBO_UI_VERB ("ContactsPrint", print_cb),
 	BONOBO_UI_VERB ("ViewAsTable", toggle_view_as_cb),
@@ -317,6 +331,11 @@ BonoboUIVerb verbs [] = {
 	BONOBO_UI_VERB ("ContactNew", new_contact_cb),
 /*	BONOBO_UI_VERB ("ContactFind", find_contact_cb),*/
 	BONOBO_UI_VERB ("ContactDelete", delete_contact_cb),
+	BONOBO_UI_VERB ("ContactViewAll", show_all_contacts_cb),
+	BONOBO_UI_VERB ("ContactStop", stop_loading_cb),
+#ifdef HAVE_LDAP
+	BONOBO_UI_VERB ("ContactNewServer", new_server_cb),
+#endif
 	
 	BONOBO_UI_VERB_END
 };
@@ -337,19 +356,6 @@ control_activate (BonoboControl *control, BonoboUIHandler *uih,
 	bonobo_ui_handler_set_container (uih, remote_uih);		
 	bonobo_object_release_unref (remote_uih, NULL);
 
-
-#warning FIXME; this needs to be sorted.
-#if 0
-#ifdef HAVE_LDAP
-	bonobo_ui_handler_menu_new_item (uih, "/Actions/New Directory Server",
-					 N_("N_ew Directory Server"),       
-					 NULL, -1,
-					 BONOBO_UI_HANDLER_PIXMAP_NONE, NULL,
-					 0, 0, new_server_cb,
-					 (gpointer)view);
-#endif
-#endif
-
 	component = bonobo_ui_compat_get_component (uih);
 	
 	bonobo_ui_component_add_verb_list_with_data (
@@ -360,12 +366,17 @@ control_activate (BonoboControl *control, BonoboUIHandler *uih,
 	
 	bonobo_ui_container_freeze (container, NULL);
 
+#ifdef HAVE_LDAP
+	fname = bonobo_ui_util_get_ui_fname (
+		EVOLUTION_DATADIR, "evolution-addressbook-ldap.xml");
+#else
 	fname = bonobo_ui_util_get_ui_fname (
 		EVOLUTION_DATADIR, "evolution-addressbook.xml");
+#endif
 	g_warning ("Attempting ui load from '%s'", fname);
 		
 	ui = bonobo_ui_util_new_ui (component, fname, "evolution-addressbook");
-		
+
 	bonobo_ui_component_set_tree (component, container, "/", ui, NULL);
 
 	g_free (fname);

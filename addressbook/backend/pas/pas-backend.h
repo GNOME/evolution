@@ -1,3 +1,4 @@
+/* -*- Mode: C; tab-width: 8; indent-tabs-mode: t; c-basic-offset: 8 -*- */
 /*
  * An abstract class which defines the API to a given backend.
  * There will be one PASBackend object for every URI which is loaded.
@@ -43,6 +44,7 @@ typedef struct {
 	const char *(* get_uri) (PASBackend *backend);
 	gboolean (*add_client) (PASBackend *backend, Evolution_BookListener listener);
 	void (*remove_client) (PASBackend *backend, PASBook *book);
+        char *(*get_static_capabilities) (PASBackend *backend);
 
 	/* Notification signals */
 	void (* last_client_gone) (PASBackend *backend);
@@ -50,18 +52,20 @@ typedef struct {
 
 typedef PASBackend * (*PASBackendFactoryFn) (void);
 
-gboolean    pas_backend_construct          (PASBackend             *backend);
-gboolean    pas_backend_load_uri           (PASBackend             *backend,
-					    const char             *uri);
-const char *pas_backend_get_uri            (PASBackend             *backend);
-gboolean    pas_backend_add_client         (PASBackend             *backend,
-					    Evolution_BookListener  listener);
-void        pas_backend_remove_client      (PASBackend             *backend,
-					    PASBook                *book);
+gboolean    pas_backend_construct                (PASBackend             *backend);
+gboolean    pas_backend_load_uri                 (PASBackend             *backend,
+						  const char             *uri);
+const char *pas_backend_get_uri                  (PASBackend             *backend);
 
-void        pas_backend_last_client_gone   (PASBackend             *backend);
+gboolean    pas_backend_add_client               (PASBackend             *backend,
+						  Evolution_BookListener  listener);
+void        pas_backend_remove_client            (PASBackend             *backend,
+						  PASBook                *book);
+char       *pas_backend_get_static_capabilities  (PASBackend             *backend);
 
-GtkType     pas_backend_get_type           (void);
+void        pas_backend_last_client_gone         (PASBackend             *backend);
+
+GtkType     pas_backend_get_type                 (void);
 
 #define PAS_BACKEND_TYPE        (pas_backend_get_type ())
 #define PAS_BACKEND(o)          (GTK_CHECK_CAST ((o), PAS_BACKEND_TYPE, PASBackend))

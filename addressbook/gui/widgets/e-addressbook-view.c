@@ -709,3 +709,26 @@ e_addressbook_view_delete_selection(EAddressbookView *view)
 	if (view->view_type == E_ADDRESSBOOK_VIEW_MINICARD)
 		e_minicard_view_widget_remove_selection (E_MINICARD_VIEW_WIDGET(view->object), card_deleted_cb, NULL);
 }
+
+void
+e_addressbook_view_show_all(EAddressbookView *view)
+{
+	gtk_object_set(GTK_OBJECT(view),
+		       "query", NULL,
+		       NULL);
+}
+
+void
+e_addressbook_view_stop(EAddressbookView *view)
+{
+	switch(view->view_type) {
+ 	case E_ADDRESSBOOK_VIEW_MINICARD:
+		e_minicard_view_widget_stop(E_MINICARD_VIEW_WIDGET (view->object));
+		break;
+	case E_ADDRESSBOOK_VIEW_TABLE:
+		e_addressbook_model_stop(E_ADDRESSBOOK_MODEL (view->object));
+		break;
+	case E_ADDRESSBOOK_VIEW_NONE:
+		break;
+	}
+}

@@ -1,3 +1,12 @@
+2000-09-22  Christopher James Lahey  <clahey@helixcode.com>
+
+	* ui/Makefile.am: Added evolution-addressbook-ldap.xml.
+
+	* ui/evolution-addressbook-ldap.xml: New file.  (A Variation on
+	evolution-addressbook.xml)
+
+	* ui/evolution-addressbook.xml: Added View All and Stop buttons.
+
 2000-09-21  Federico Mena Quintero  <federico@helixcode.com>
 
 	* ui/evolution-calendar.xml: Removed the AboutCalendar stuff.

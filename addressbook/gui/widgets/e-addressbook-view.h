@@ -79,6 +79,8 @@ GtkType    e_addressbook_view_get_type          (void);
 
 void       e_addressbook_view_print             (EAddressbookView *view);
 void       e_addressbook_view_delete_selection  (EAddressbookView *view);
+void       e_addressbook_view_show_all          (EAddressbookView *view);
+void       e_addressbook_view_stop              (EAddressbookView *view);
 
 #ifdef __cplusplus
 }

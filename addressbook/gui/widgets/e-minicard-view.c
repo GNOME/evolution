@@ -105,6 +105,7 @@ e_minicard_view_init (EMinicardView *view)
 	view->remove_card_id = 0;
 	view->modify_card_id = 0;
 	view->canvas_destroy_id = 0;
+	view->first_get_view = TRUE;
 	
 	gtk_object_set(GTK_OBJECT(view),
 		       "empty_message", _("\n\nThere are no items to show in this view\n\n"
@@ -191,8 +192,18 @@ book_view_loaded (EBook *book, EBookStatus status, EBookView *book_view, gpointe
 static gboolean
 get_view(EMinicardView *view)
 {
-	if (view->book && view->query)
-		e_book_get_book_view(view->book, view->query, book_view_loaded, view);
+	if (view->book && view->query) {
+		if (view->first_get_view) {
+			char *capabilities;
+			capabilities = e_book_get_static_capabilities(view->book);
+			if (strstr(capabilities, "local")) {
+				e_book_get_book_view(view->book, view->query, book_view_loaded, view);
+			}
+			view->first_get_view = FALSE;
+		}
+		else
+			e_book_get_book_view(view->book, view->query, book_view_loaded, view);
+	}
 
 	view->get_view_idle = 0;
 	return FALSE;
@@ -423,10 +434,20 @@ compare_to_letter(EMinicard *card, char *letter)
 	}
 }
 
-void       e_minicard_view_jump_to_letter   (EMinicardView *view,
+void
+e_minicard_view_jump_to_letter   (EMinicardView *view,
 					     char           letter)
 {
 	e_reflow_sorted_jump(E_REFLOW_SORTED(view),
 			     (GCompareFunc) compare_to_letter,
 			     &letter);
+}
+
+void
+e_minicard_view_stop             (EMinicardView *view)
+{
+	disconnect_signals(view);
+	if (view->book_view)
+		gtk_object_unref(GTK_OBJECT(view->book_view));
+	view->book_view = NULL;
 }

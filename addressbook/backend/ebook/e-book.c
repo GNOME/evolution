@@ -435,6 +435,37 @@ e_book_unload_uri (EBook *book)
 	book->priv->load_state = URINotLoaded;
 }
 
+char *
+e_book_get_static_capabilities (EBook *book)
+{
+	CORBA_Environment ev;
+	char *temp;
+	char *ret_val;
+
+	CORBA_exception_init (&ev);
+
+	if (book->priv->load_state != URILoaded) {
+		g_warning ("e_book_unload_uri: No URI is loaded!\n");
+		return g_strdup("");
+	}
+
+	temp = Evolution_Book_get_static_capabilities(book->priv->corba_book, &ev);
+
+	if (ev._major != CORBA_NO_EXCEPTION) {
+		g_warning ("e_book_get_static_capabilities: Exception "
+			   "during get_static_capabilities!\n");
+		CORBA_exception_free (&ev);
+		return NULL;
+	}
+
+	ret_val = g_strdup(temp);
+	CORBA_free(temp);
+
+	CORBA_exception_free (&ev);
+
+	return ret_val;
+}
+
 static gboolean
 e_book_construct (EBook *book)
 {

@@ -56,38 +56,37 @@ typedef char *   (*PASBookGetVCardFn)     (PASBook *book, const char *id);
 typedef gboolean (*PASBookCanWriteFn)     (PASBook *book);
 typedef gboolean (*PASBookCanWriteCardFn) (PASBook *book, const char *id);
 
-PASBook                *pas_book_new                   (PASBackend                        *backend,
-						       	Evolution_BookListener             listener,
-						       	PASBookGetVCardFn                  get_vcard,
-							PASBookCanWriteFn                  can_write,
-							PASBookCanWriteCardFn              can_write_card);
-PASBackend             *pas_book_get_backend           (PASBook                           *book);
-Evolution_BookListener  pas_book_get_listener          (PASBook                           *book);
-int                     pas_book_check_pending         (PASBook                           *book);
-PASRequest             *pas_book_pop_request           (PASBook                           *book);
+PASBook                *pas_book_new                    (PASBackend                        *backend,
+							 Evolution_BookListener             listener,
+							 PASBookGetVCardFn                  get_vcard,
+							 PASBookCanWriteFn                  can_write,
+							 PASBookCanWriteCardFn              can_write_card);
+PASBackend             *pas_book_get_backend            (PASBook                           *book);
+Evolution_BookListener  pas_book_get_listener           (PASBook                           *book);
+int                     pas_book_check_pending          (PASBook                           *book);
+PASRequest             *pas_book_pop_request            (PASBook                           *book);
+void                    pas_book_respond_open           (PASBook                           *book,
+							 Evolution_BookListener_CallStatus  status);
+void                    pas_book_respond_create         (PASBook                           *book,
+							 Evolution_BookListener_CallStatus  status,
+							 const char                        *id);
+void                    pas_book_respond_remove         (PASBook                           *book,
+							 Evolution_BookListener_CallStatus  status);
+void                    pas_book_respond_modify         (PASBook                           *book,
+							 Evolution_BookListener_CallStatus  status);
+void                    pas_book_respond_get_cursor     (PASBook                           *book,
+							 Evolution_BookListener_CallStatus  status,
+							 PASCardCursor                     *cursor);
+void                    pas_book_respond_get_book_view  (PASBook                           *book,
+							 Evolution_BookListener_CallStatus  status,
+							 PASBookView                       *book_view);
+void                    pas_book_report_connection      (PASBook                           *book,
+							 gboolean                           connected);
 
-void                    pas_book_respond_open          (PASBook                           *book,
-						       	Evolution_BookListener_CallStatus  status);
-void                    pas_book_respond_create        (PASBook                           *book,
-						       	Evolution_BookListener_CallStatus  status,
-						       	const char                        *id);
-void                    pas_book_respond_remove        (PASBook                           *book,
-						       	Evolution_BookListener_CallStatus  status);
-void                    pas_book_respond_modify        (PASBook                           *book,
-						       	Evolution_BookListener_CallStatus  status);
-void                    pas_book_respond_get_cursor    (PASBook                           *book,
-						       	Evolution_BookListener_CallStatus  status,
-						       	PASCardCursor                     *cursor);
-void                    pas_book_respond_get_book_view (PASBook                           *book,
-						     	Evolution_BookListener_CallStatus  status,
-						     	PASBookView                       *book_view);
-void                    pas_book_report_connection     (PASBook                           *book,
-						     	gboolean                           connected);
-
-gboolean		pas_book_can_write             (PASBook                           *book);
-gboolean		pas_book_can_write_card        (PASBook                           *book,
-							const char                        *id);
-GtkType                 pas_book_get_type              (void);
+gboolean                pas_book_can_write              (PASBook                           *book);
+gboolean                pas_book_can_write_card         (PASBook                           *book,
+							 const char                        *id);
+GtkType                 pas_book_get_type               (void);
 
 #define PAS_BOOK_TYPE        (pas_book_get_type ())
 #define PAS_BOOK(o)          (GTK_CHECK_CAST ((o), PAS_BOOK_TYPE, PASBook))

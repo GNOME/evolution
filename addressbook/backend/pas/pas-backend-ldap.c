@@ -1352,6 +1352,12 @@ pas_backend_ldap_remove_client (PASBackend             *backend,
 		pas_backend_last_client_gone (backend);
 }
 
+static char *
+pas_backend_ldap_get_static_capabilites (PASBackend *backend)
+{
+	return g_strdup("net");
+}
+
 static gboolean
 pas_backend_ldap_construct (PASBackendLDAP *backend)
 {
@@ -1415,10 +1421,11 @@ pas_backend_ldap_class_init (PASBackendLDAPClass *klass)
 	parent_class = PAS_BACKEND_CLASS (klass);
 
 	/* Set the virtual methods. */
-	parent_class->load_uri      = pas_backend_ldap_load_uri;
-	parent_class->get_uri       = pas_backend_ldap_get_uri;
-	parent_class->add_client    = pas_backend_ldap_add_client;
-	parent_class->remove_client = pas_backend_ldap_remove_client;
+	parent_class->load_uri                = pas_backend_ldap_load_uri;
+	parent_class->get_uri                 = pas_backend_ldap_get_uri;
+	parent_class->add_client              = pas_backend_ldap_add_client;
+	parent_class->remove_client           = pas_backend_ldap_remove_client;
+	parent_class->get_static_capabilities = pas_backend_ldap_get_static_capabilites;
 
 	object_class->destroy = pas_backend_ldap_destroy;
 }

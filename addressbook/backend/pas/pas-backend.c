@@ -1,3 +1,4 @@
+/* -*- Mode: C; tab-width: 8; indent-tabs-mode: t; c-basic-offset: 8 -*- */
 /*
  * Author:
  *   Nat Friedman (nat@helixcode.com)
@@ -95,6 +96,17 @@ pas_backend_remove_client (PASBackend *backend,
 	CLASS (backend)->remove_client (backend, book);
 }
 
+char *
+pas_backend_get_static_capabilities (PASBackend *backend)
+{
+	g_return_val_if_fail (backend != NULL, NULL);
+	g_return_val_if_fail (PAS_IS_BACKEND (backend), NULL);
+	
+	g_assert (CLASS (backend)->get_static_capabilities != NULL);
+
+	return CLASS (backend)->get_static_capabilities (backend);
+}
+
 /**
  * pas_backend_last_client_gone:
  * @backend: An addressbook backend.
@@ -133,6 +145,10 @@ pas_backend_class_init (PASBackendClass *klass)
 				GTK_TYPE_NONE, 0);
 
 	gtk_object_class_add_signals (object_class, pas_backend_signals, LAST_SIGNAL);
+
+	klass->add_client = NULL;
+	klass->remove_client = NULL;
+	klass->get_static_capabilities = NULL;
 }
 
 /**

@@ -268,3 +268,9 @@ void       e_minicard_view_widget_jump_to_letter   (EMinicardViewWidget *view,
 	if (view->emv)
 		e_minicard_view_jump_to_letter(E_MINICARD_VIEW(view->emv), letter);
 }
+
+void
+e_minicard_view_widget_stop(EMinicardViewWidget *view)
+{
+	e_minicard_view_stop(E_MINICARD_VIEW(view->emv));
+}

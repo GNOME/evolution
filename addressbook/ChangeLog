@@ -1,3 +1,31 @@
+2000-09-22  Christopher James Lahey  <clahey@helixcode.com>
+
+	* backend/ebook/e-book.c, backend/ebook/e-book.h,
+	backend/idl/addressbook.idl, backend/pas/pas-backend-file.c,
+	backend/pas/pas-backend-ldap.c, backend/pas-backend.c,
+	backend/pas/pas-backend.h, backend/pas/pas-book.c,
+	backend/pas/pas-book.h: Added a function to query static
+	capabilities (capabilities that can be reported immediately) and
+	implemented them in the 2 servers.
+
+	* gui/component/addressbook.c: Added a View All button and a Stop
+	button.  Sorted out the new directory server stuff a bit.
+
+	* gui/widgets/e-addressbook-model.c,
+	gui/widgets/e-addressbook-model.h: Cleaned up a bit.  Added a stop
+	function.  Check for capabilities before deciding whether to load
+	all cards when initially viewed.
+
+	* gui/widgets/e-addressbook-view.c,
+	gui/widgets/e-addressbook-view.h: Added stop and view all
+	functions.
+
+	* gui/widgets/e-minicard-view-widget.c,
+	gui/widgets/e-minicard-view-widget.h,
+	gui/widgets/e-minicard-view.c, gui/widgets/e-minicard-view.h:
+	Added a stop function.  Check for capabilities before deciding
+	whether to load all cards when initially viewed.
+
 2000-09-21  Michael Meeks  <michael@helixcode.com>
 
 	* gui/component/addressbook.c (control_activate): remove _UIHandler
