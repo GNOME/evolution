@@ -36,9 +36,6 @@ typedef struct _xevolution {
 	char *format;
 } XEvolution;
 
-/* Get the filename for our movemail folder or storage */
-gchar *mail_tool_get_local_movemail_path (void);
-
 /* Get the CamelFolder for the local inbox */
 CamelFolder *mail_tool_get_local_inbox (CamelException *ex);
 

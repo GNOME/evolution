@@ -1,3 +1,20 @@
+2001-12-21  Jeffrey Stedfast  <fejj@ximian.com>
+
+	The idea here is that if we consistantly name the movemail file
+	between Send&Receive sessions that if the user cancells the
+	"download" of a mbox spool that the next Send&Receive will not
+	"lose" mail that didn't finish the previous session. Fixes bug
+	#17759. Well, mostly. If you have 200 messages and cancel after
+	the first 100, say, then the next time you hit Send&Receive, it
+	will start over from 1 so you'll end up duplicating the first 100
+	messages, but at least you won't "lose" mail.
+
+	* mail-tools.c (mail_tool_get_local_movemail_path): Now a static
+	internal function, takes a char *uri argument and no longer
+	generates movemail.%d filenames... they are now based on the uri
+	provided.
+	(mail_tool_do_movemail): Pass along the source_uri.
+
 2001-12-21  Jon Trowbridge  <trow@ximian.com>
 
 	* message-list.c (on_click): Makes the auto-undelete behavior when
