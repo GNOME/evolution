@@ -28,7 +28,7 @@
 
 				<menuitem name="Print" verb="CalendarPrint"
 				_label="_Print this calendar"
-				pixtype="stock" pixname="Menu_Print"
+				pixtype="stock" pixname="Print"
 				accel="*Control*p"/>
 				
 			</placeholder>

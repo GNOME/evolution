@@ -1,6 +1,10 @@
 2000-10-09  Michael Meeks  <michael@helixcode.com>
 
-	* fix the mess with separators.
+	* *.xml: s/Menu_//
+
+2000-10-09  Michael Meeks  <michael@helixcode.com>
+
+	* *.xml fix the mess with separators.
 
 2000-10-09  Michael Meeks  <michael@helixcode.com>
 

@@ -22,12 +22,12 @@
         <menuitem name="Print" verb="PrintMessage"
         _label="Print message..."
         _tip="Print message to the printer"
-        pixtype="stock" pixname="Menu_Print"/>
+        pixtype="stock" pixname="Print"/>
 
         <menuitem name="Print Preview" verb="PrintPreviewMessage"
         _label="Print Preview of message..."
         _tip="Previews the message to be printed"
-        pixtype="stock" pixname="Menu_Print"/>
+        pixtype="stock" pixname="Print"/>
 
       </placeholder>
 

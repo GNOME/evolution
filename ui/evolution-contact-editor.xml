@@ -180,17 +180,17 @@ static GnomeUIInfo main_menu[] = {
 
 		        <menuitem name="Save" verb="ContactEditorSave"
 			_label="_Save"
-			pixtype="stock" pixname="Menu_Save"/>
+			pixtype="stock" pixname="Save"/>
 
 		        <menuitem name="SaveAs" verb="ContactEditorSaveAs"
 			_label="Save _As"
-			pixtype="stock" pixname="Menu_SaveAs"/>
+			pixtype="stock" pixname="SaveAs"/>
 
 			<separator/>
 
 		        <menuitem name="Delete" verb="ContactEditorDelete"
 			_label="Delete"
-			pixtype="stock" pixname="Menu_Trash"/>
+			pixtype="stock" pixname="Trash"/>
 
 			<separator/>
 
@@ -198,7 +198,7 @@ static GnomeUIInfo main_menu[] = {
 
 				<menuitem name="Print" verb="ContactEditorPrint"
 				_label="_Print"
-				pixtype="stock" pixname="Menu_Print"/>
+				pixtype="stock" pixname="Print"/>
 				
 			</placeholder>
 
@@ -206,7 +206,7 @@ static GnomeUIInfo main_menu[] = {
 
 		        <menuitem name="Close" verb="ContactEditorClose"
 			_label="Close"
-			pixtype="stock" pixname="Menu_Close"/>
+			pixtype="stock" pixname="Close"/>
 
 		</submenu>
 	</menu>
