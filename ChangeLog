@@ -1,3 +1,7 @@
+2004-06-24  Pablo Saratxaga  <pablo@mandrakesoft.com>
+
+	* configure.in: Added Walloon (wa) to ALL_LINGUAS.
+
 2004-06-20  Arafat Medini <lumina@silverpen.de>
 
 	* configure.in: Added arabic locale ar to ALL_LINGUAS.
