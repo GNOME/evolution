@@ -839,14 +839,14 @@ table_drag_drop_cb (ETable *table, int row, int col,
 		    GdkDragContext *context,
 		    gint x, gint y, guint time, EContactListEditor *editor)
 {
-	if (context->targets != NULL) {
-		gtk_drag_get_data (GTK_WIDGET (table), context,
-				   GDK_POINTER_TO_ATOM (context->targets->data),
-				   time);
-		return TRUE;
-	}
+	if (context->targets == NULL)
+		return FALSE;
 
-	return FALSE;
+
+	gtk_drag_get_data (GTK_WIDGET (table), context,
+			   GDK_POINTER_TO_ATOM (context->targets->data),
+			   time);
+	return TRUE;
 }
 
 static void
@@ -859,6 +859,7 @@ table_drag_data_received_cb (ETable *table, int row, int col,
 	GtkAdjustment *adj = gtk_scrolled_window_get_vadjustment (GTK_SCROLLED_WINDOW (editor->table));
 	char *target_type;
 	gboolean changed = FALSE;
+	gboolean handled = FALSE;
 
 	target_type = gdk_atom_name (selection_data->target);
 
@@ -866,6 +867,9 @@ table_drag_data_received_cb (ETable *table, int row, int col,
 
 		GList *card_list = e_card_load_cards_from_string_with_default_charset (selection_data->data, "ISO-8859-1");
 		GList *c;
+
+		if (card_list)
+			handled = TRUE;
 
 		for (c = card_list; c; c = c->next) {
 			ECard *ecard = c->data;
@@ -887,12 +891,14 @@ table_drag_data_received_cb (ETable *table, int row, int col,
 		/* Skip to the end of the list */
 		if (adj->upper - adj->lower > adj->page_size)
 			gtk_adjustment_set_value (adj, adj->upper);
+
+		if (changed) {
+			editor->changed = TRUE;
+			command_state_changed (editor);
+		}
 	}
 
-	if (changed) {
-		editor->changed = TRUE;
-		command_state_changed (editor);
-	}
+	gtk_drag_finish (context, handled, FALSE, time);
 }
 
 static void

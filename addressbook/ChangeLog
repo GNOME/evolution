@@ -1,5 +1,13 @@
 2003-03-26  Chris Toshok  <toshok@ximian.com>
 
+	[ fixes bug #34085 ]
+	* gui/contact-list-editor/e-contact-list-editor.c
+	(table_drag_data_received_cb): only successfully complete the drag
+	if they dropped a valid vcard (or vcard list).  Call
+	gtk_drag_finish.
+
+2003-03-26  Chris Toshok  <toshok@ximian.com>
+
 	* gui/contact-list-editor/Makefile.am (INCLUDES): $evolution_uidir
 	-> $evolutionuidir
 
