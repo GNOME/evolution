@@ -592,13 +592,11 @@ select_all (BonoboUIComponent *uih, void *user_data, const char *path)
 {
 	FolderBrowser *fb = FOLDER_BROWSER (user_data);
         MessageList *ml = fb->message_list;
-	ETableScrolled *scrolled;
-	
+
 	if (ml->folder == NULL)
 		return;
-	
-	scrolled = E_TABLE_SCROLLED (ml->etable);
-	e_table_select_all (scrolled->table);
+
+	e_table_select_all (ml->table);
 }
 
 void
@@ -606,13 +604,11 @@ invert_selection (BonoboUIComponent *uih, void *user_data, const char *path)
 {
 	FolderBrowser *fb = FOLDER_BROWSER (user_data);
         MessageList *ml = fb->message_list;
-	ETableScrolled *scrolled;
-	
+
 	if (ml->folder == NULL)
 		return;
-	
-	scrolled = E_TABLE_SCROLLED (ml->etable);
-	e_table_invert_selection (scrolled->table);
+
+	e_table_invert_selection (ml->table);
 }
 
 void
@@ -1009,7 +1005,7 @@ configure_folder (BonoboUIComponent *uih, void *user_data, const char *path)
 {
 	FolderBrowser *fb = FOLDER_BROWSER(user_data);
 	
-	local_reconfigure_folder(fb);
+	mail_local_reconfigure_folder(fb);
 }
 
 void

@@ -8,6 +8,7 @@
 #include <gtk/gtktable.h>
 #include "camel/camel-stream.h"
 #include <bonobo/bonobo-property-bag.h>
+#include <bonobo/bonobo-ui-component.h>
 #include "filter/e-search-bar.h"
 #include "filter/filter-rule.h"
 #include "filter/filter-context.h" /*eek*/
@@ -36,7 +37,6 @@ struct  _FolderBrowser {
 	CamelFolder *folder;
 	
 	MessageList *message_list;
-	GtkWidget   *message_list_w;
 	MailDisplay *mail_display;
 	GtkWidget   *vpaned;
 	

@@ -1,3 +1,31 @@
+2000-12-11  Dan Winship  <danw@helixcode.com>
+
+	* message-list.c: Remove the never-once-used BonoboObject stuff
+	and make MessageList be a GtkWidget instead. Also, keep track of
+	the ETable directly rather than repeatedly calling
+	e_table_scrolled_get_table.
+
+	* folder-browser.c (folder_browser_destroy): Use gtk methods
+	rather than bonobo methods to destroy the message list.
+	(on_right_click, on_double_click): These are being attached to the
+	ETable directly now, so fix the first argument (which isn't being
+	used anyway, but...)
+	(folder_browser_gui_init): simplify now that MessageList itself is
+	a widget. Also use message_list->table rather than
+	e_table_scrolled_get_table.
+
+	* mail-local.c (mail_local_reconfigure_folder): Add "mail_" to
+	the beginning of this function name to match its prototype and the
+	other vague namespace conventions in the mailer.
+
+	* mail-callbacks.c (select_all, invert_selection): Use ml->table.
+	(configure_folder): s/local_reconfigure_folder/mail_&/
+	
+	* mail-ops.c (do_flag_messages): clean up the cleanup a bit
+
+	* mail-tools.c (mail_tool_quote_message): Remove an unused
+	variable.
+
 2000-12-11  Not Zed  <NotZed@HelixCode.com>
 
 	* local-config.glade: reordered the options and added maildir,

@@ -70,7 +70,7 @@ folder_browser_destroy (GtkObject *object)
 	}
 	
 	if (folder_browser->message_list)
-		bonobo_object_unref (BONOBO_OBJECT (folder_browser->message_list));
+		gtk_widget_destroy (GTK_WIDGET (folder_browser->message_list));
 	
 	if (folder_browser->mail_display)
 		gtk_widget_destroy (GTK_WIDGET (folder_browser->mail_display));
@@ -441,7 +441,7 @@ filter_mlist (GtkWidget *w, FolderBrowser *fb)
 
 /* handle context menu over message-list */
 static gint
-on_right_click (ETableScrolled *table, gint row, gint col, GdkEvent *event, FolderBrowser *fb)
+on_right_click (ETable *table, gint row, gint col, GdkEvent *event, FolderBrowser *fb)
 {
 	extern CamelFolder *drafts_folder;
 	const CamelMessageInfo *info;
@@ -631,7 +631,7 @@ etable_key (ETable *table, int row, int col, GdkEvent *ev, FolderBrowser *fb)
 }
 
 static void
-on_double_click (ETableScrolled *table, gint row, gint col, GdkEvent *event, FolderBrowser *fb)
+on_double_click (ETable *table, gint row, gint col, GdkEvent *event, FolderBrowser *fb)
 {
 	view_msg (NULL, fb);
 }
@@ -665,11 +665,10 @@ folder_browser_gui_init (FolderBrowser *fb)
 			  0,
 			  0, 0);
 	
-	fb->message_list_w = message_list_get_widget (fb->message_list);
-	e_paned_add1 (E_PANED (fb->vpaned), fb->message_list_w);
-	gtk_widget_show (fb->message_list_w);
+	e_paned_add1 (E_PANED (fb->vpaned), GTK_WIDGET (fb->message_list));
+	gtk_widget_show (GTK_WIDGET (fb->message_list));
 	
-	gtk_signal_connect (GTK_OBJECT (fb->message_list_w), "size_allocate",
+	gtk_signal_connect (GTK_OBJECT (fb->message_list), "size_allocate",
 	                    GTK_SIGNAL_FUNC (fb_resize_cb), NULL);
 	
 	e_paned_add2 (E_PANED (fb->vpaned), GTK_WIDGET (fb->mail_display));
@@ -723,13 +722,13 @@ my_folder_browser_init (GtkObject *object)
 	fb->message_list = (MessageList *)message_list_new ();
 	fb->mail_display = (MailDisplay *)mail_display_new ();
 	
-	gtk_signal_connect (GTK_OBJECT (e_table_scrolled_get_table(E_TABLE_SCROLLED(fb->message_list->etable))),
+	gtk_signal_connect (GTK_OBJECT (fb->message_list->table),
 			    "key_press", GTK_SIGNAL_FUNC (etable_key), fb);
 
-	gtk_signal_connect (GTK_OBJECT (e_table_scrolled_get_table(E_TABLE_SCROLLED(fb->message_list->etable))),
+	gtk_signal_connect (GTK_OBJECT (fb->message_list->table),
 			    "right_click", GTK_SIGNAL_FUNC (on_right_click), fb);
-	
-	gtk_signal_connect (GTK_OBJECT (e_table_scrolled_get_table(E_TABLE_SCROLLED(fb->message_list->etable))),
+
+	gtk_signal_connect (GTK_OBJECT (fb->message_list->table),
 			    "double_click", GTK_SIGNAL_FUNC (on_double_click), fb);
 
 	gtk_signal_connect (GTK_OBJECT(fb->message_list), "message_selected",

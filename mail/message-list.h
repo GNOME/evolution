@@ -4,9 +4,6 @@
 
 #include <gnome.h>
 #include "mail-types.h"
-#include <bonobo/bonobo-main.h>
-#include <bonobo/bonobo-object.h>
-#include <bonobo/bonobo-ui-component.h>
 #include <gal/e-table/e-table-scrolled.h>
 #include <gal/e-table/e-table-simple.h>
 #include <gal/e-table/e-tree-simple.h>
@@ -20,8 +17,6 @@
 #define MESSAGE_LIST_CLASS(k)    (GTK_CHECK_CLASS_CAST((k), MESSAGE_LIST_TYPE, MessageListClass))
 #define IS_MESSAGE_LIST(o)       (GTK_CHECK_TYPE ((o), MESSAGE_LIST_TYPE))
 #define IS_MESSAGE_LIST_CLASS(k) (GTK_CHECK_CLASS_TYPE ((k), MESSAGE_LIST_TYPE))
-
-typedef struct _Renderer Renderer;
 
 enum {
 	COL_MESSAGE_STATUS,
@@ -44,35 +39,39 @@ enum {
 };
 
 struct _MessageList {
-	BonoboObject parent;
-	
-	ETableModel  *table_model;
-	
-	ETreePath    *tree_root;
-	
-	GtkWidget    *etable;
+	ETableScrolled parent;
 
+	/* The table */
+	ETableModel  *table_model;
+	ETable       *table;
+	ETreePath    *tree_root;
+
+	/* The folder */
 	CamelFolder  *folder;
 
-	GHashTable	*uid_rowmap; /* key is the uid, value is the row number.
-					Note: The key string is owned by table_model (in uid_pool) */
-	struct _EMemPool *uid_pool; /* mempool to hold uid strings */
+	/* UID to model row hash table. Keys owned by the mempool. */
+	GHashTable       *uid_rowmap;
+	struct _EMemPool *uid_pool;
 
-	char *search;		/* current search string */
+	/* Current search string, or %NULL */
+	char *search;
 
-	gboolean threaded;	/* are we displaying threaded view? */
+	/* Are we displaying threaded view? */
+	gboolean threaded;
+
+	/* Where the ETable cursor is. */
 	int cursor_row;
 	const char *cursor_uid;
-	
-	/* row-selection and seen-marking timers */
+
+	/* Row-selection and seen-marking timers */
 	guint idle_id, seen_id;
 };
 
 typedef struct {
-	BonoboObjectClass parent_class;
+	ETableScrolledClass parent_class;
 
 	/* signals - select a message */
-	void (*message_selected)(MessageList *ml, const char *uid);
+	void (*message_selected) (MessageList *ml, const char *uid);
 } MessageListClass;
 
 typedef void (*MessageListForeachFunc) (MessageList *message_list,
@@ -85,10 +84,9 @@ typedef enum {
 } MessageListSelectDirection;
 
 GtkType        message_list_get_type   (void);
-BonoboObject   *message_list_new        (void);
+GtkWidget     *message_list_new        (void);
 void           message_list_set_folder (MessageList *message_list,
 					CamelFolder *camel_folder);
-GtkWidget     *message_list_get_widget (MessageList *message_list);
 
 void           message_list_foreach    (MessageList *message_list,
 					MessageListForeachFunc callback,

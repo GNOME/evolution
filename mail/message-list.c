@@ -13,7 +13,6 @@
 
 #include <config.h>
 #include <gnome.h>
-#include <bonobo/bonobo-main.h>
 #include <camel/camel-exception.h>
 #include <camel/camel-folder.h>
 #include <e-util/ename/e-name-western.h>
@@ -81,7 +80,7 @@
 #define COL_SIZE_EXPANSION     (6.0)
 #define COL_SIZE_WIDTH_MIN     (32)
 
-#define PARENT_TYPE (bonobo_object_get_type ())
+#define PARENT_TYPE (e_table_scrolled_get_type ())
 
 struct _EMailAddress {
 	ENameWestern *wname;
@@ -90,8 +89,7 @@ struct _EMailAddress {
 
 typedef struct _EMailAddress EMailAddress;
 
-static BonoboObjectClass *message_list_parent_class;
-static POA_GNOME_Evolution_MessageList__vepv evolution_message_list_vepv;
+static ETableScrolledClass *message_list_parent_class;
 
 static void on_cursor_change_cmd (ETableScrolled *table, int row, gpointer user_data);
 static gint on_click (ETableScrolled *table, gint row, gint col, GdkEvent *event, MessageList *list);
@@ -365,7 +363,7 @@ message_list_select (MessageList *message_list, int base_row,
 {
 	const CamelMessageInfo *info;
 	int vrow, mrow, last;
-	ETable *et = e_table_scrolled_get_table(E_TABLE_SCROLLED (message_list->etable));
+	ETable *et = message_list->table;
 
 	switch (direction) {
 	case MESSAGE_LIST_SELECT_PREVIOUS:
@@ -1014,12 +1012,11 @@ save_header_state(MessageList *ml)
 {
 	char *filename;
 
-	if (ml->folder == NULL
-	    || ml->etable == NULL)
+	if (ml->folder == NULL || ml->table == NULL)
 		return;
 
 	filename = mail_config_folder_to_cachename(ml->folder, "et-header-");
-	e_table_save_state(e_table_scrolled_get_table(E_TABLE_SCROLLED(ml->etable)), filename);
+	e_table_save_state(ml->table, filename);
 	g_free(filename);
 }
 
@@ -1060,7 +1057,7 @@ message_list_setup_etable(MessageList *message_list)
 		
 		if (path && stat (path, &st) == 0 && st.st_size > 0 && S_ISREG (st.st_mode)) {
 			/* build based on saved file */
-			e_table_load_state (e_table_scrolled_get_table(E_TABLE_SCROLLED (message_list->etable)), path);
+			e_table_load_state (message_list->table, path);
 		} else if (strstr (name, "/Drafts") || strstr (name, "/Outbox") || strstr (name, "/Sent")) {
 			/* these folders have special defaults */
 			char *state = "<ETableState>"
@@ -1068,7 +1065,7 @@ message_list_setup_etable(MessageList *message_list)
 				"<column source=\"8\"/> <column source=\"5\"/> "
 				"<column source=\"6\"/> <grouping> </grouping> </ETableState>";
 			
-			e_table_set_state (e_table_scrolled_get_table(E_TABLE_SCROLLED (message_list->etable)), state);
+			e_table_set_state (message_list->table, state);
 		}
 		
 		g_free (path);
@@ -1082,67 +1079,10 @@ message_list_setup_etable(MessageList *message_list)
 static void
 message_list_init (GtkObject *object)
 {
-	ETableExtras *extras;
 	MessageList *message_list = MESSAGE_LIST (object);
-	char *spec;
 
-	message_list->table_model = (ETableModel *)
-		e_tree_simple_new (ml_col_count,
-				   ml_duplicate_value,
-				   ml_free_value,
-				   ml_initialize_value,
-				   ml_value_is_empty,
-				   ml_value_to_string,
-				   ml_tree_icon_at, ml_tree_value_at,
-				   ml_tree_set_value_at,
-				   ml_tree_is_cell_editable,
-				   message_list);
-	e_tree_model_root_node_set_visible ((ETreeModel *)message_list->table_model, FALSE);
-
-	/*
-	 * The etable
-	 */
-
-	spec = message_list_get_layout (message_list);
-	extras = message_list_create_extras();
-	message_list->etable = e_table_scrolled_new (message_list->table_model, extras, spec, NULL);
-	g_free (spec);
-	gtk_object_sink(GTK_OBJECT(extras));
-
-	e_scroll_frame_set_policy (E_SCROLL_FRAME (message_list->etable), GTK_POLICY_AUTOMATIC, GTK_POLICY_ALWAYS);
-
-	gtk_object_set(GTK_OBJECT(e_table_scrolled_get_table(E_TABLE_SCROLLED(message_list->etable))),
-		       "drawfocus", FALSE,
-		       NULL);
-
-	/*
-	 *gtk_signal_connect (GTK_OBJECT (message_list->etable), "realize",
-	 *		    GTK_SIGNAL_FUNC (select_row), message_list);
-	 */
-
-	gtk_signal_connect (GTK_OBJECT (e_table_scrolled_get_table(E_TABLE_SCROLLED(message_list->etable))), "cursor_change",
-			   GTK_SIGNAL_FUNC (on_cursor_change_cmd), message_list);
-
-	gtk_signal_connect (GTK_OBJECT (e_table_scrolled_get_table(E_TABLE_SCROLLED(message_list->etable))), "click",
-			    GTK_SIGNAL_FUNC (on_click), message_list);
-	
-	/* drag & drop */
-	e_table_drag_source_set (e_table_scrolled_get_table(E_TABLE_SCROLLED (message_list->etable)), GDK_BUTTON1_MASK,
-				 drag_types, num_drag_types, GDK_ACTION_MOVE);
-	
-	gtk_signal_connect (GTK_OBJECT (e_table_scrolled_get_table(E_TABLE_SCROLLED(message_list->etable))), "drag_data_get",
-			    GTK_SIGNAL_FUNC (message_list_drag_data_get), message_list);
-	
-	gtk_widget_show (message_list->etable);
-
-	gtk_object_ref (GTK_OBJECT (message_list->table_model));
-	gtk_object_sink (GTK_OBJECT (message_list->table_model));
-	
-	/*
-	 * We do own the Etable, not some widget container
-	 */
-	gtk_object_ref (GTK_OBJECT (message_list->etable));
-	gtk_object_sink (GTK_OBJECT (message_list->etable));
+	e_scroll_frame_set_policy (E_SCROLL_FRAME (message_list),
+				   GTK_POLICY_AUTOMATIC, GTK_POLICY_ALWAYS);
 
 	message_list->uid_rowmap = g_hash_table_new (g_str_hash, g_str_equal);
 	message_list->uid_pool = e_mempool_new(1024, 512, E_MEMPOOL_ALIGN_BYTE);
@@ -1159,7 +1099,6 @@ message_list_destroy (GtkObject *object)
 	}
 	
 	gtk_object_unref (GTK_OBJECT (message_list->table_model));
-	gtk_object_unref (GTK_OBJECT (message_list->etable));
 	
 	g_hash_table_destroy (message_list->uid_rowmap);
 	e_mempool_destroy(message_list->uid_pool);
@@ -1182,48 +1121,6 @@ message_list_destroy (GtkObject *object)
 }
 
 /*
- * CORBA method: Evolution::MessageList::select_message
- */
-static void
-MessageList_select_message (PortableServer_Servant _servant,
-			    const CORBA_long message_number,
-			    CORBA_Environment *ev)
-{
-	printf ("FIXME: select message method\n");
-}
-
-/*
- * CORBA method: Evolution::MessageList::open_message
- */
-static void
-MessageList_open_message (PortableServer_Servant _servant,
-			  const CORBA_long message_number,
-			  CORBA_Environment *ev)
-{
-	printf ("FIXME: open message method\n");
-}
-
-static POA_GNOME_Evolution_MessageList__epv *
-evolution_message_list_get_epv (void)
-{
-	POA_GNOME_Evolution_MessageList__epv *epv;
-
-	epv = g_new0 (POA_GNOME_Evolution_MessageList__epv, 1);
-
-	epv->selectMessage = MessageList_select_message;
-	epv->openMessage   = MessageList_open_message;
-
-	return epv;
-}
-
-static void
-message_list_corba_class_init (void)
-{
-	evolution_message_list_vepv.Bonobo_Unknown_epv = bonobo_object_get_epv ();
-	evolution_message_list_vepv.GNOME_Evolution_MessageList_epv = evolution_message_list_get_epv ();
-}
-
-/*
  * GtkObjectClass::init
  */
 static void
@@ -1232,8 +1129,6 @@ message_list_class_init (GtkObjectClass *object_class)
 	message_list_parent_class = gtk_type_class (PARENT_TYPE);
 
 	object_class->destroy = message_list_destroy;
-
-	message_list_corba_class_init ();
 
 	message_list_signals[MESSAGE_SELECTED] =
 		gtk_signal_new ("message_selected",
@@ -1249,51 +1144,71 @@ message_list_class_init (GtkObjectClass *object_class)
 }
 
 static void
-message_list_construct (MessageList *message_list, GNOME_Evolution_MessageList corba_message_list)
+message_list_construct (MessageList *message_list)
 {
-	bonobo_object_construct (BONOBO_OBJECT (message_list), corba_message_list);
+	ETableExtras *extras;
+	char *spec;
+
+	message_list->table_model = (ETableModel *)
+		e_tree_simple_new (ml_col_count,
+				   ml_duplicate_value,
+				   ml_free_value,
+				   ml_initialize_value,
+				   ml_value_is_empty,
+				   ml_value_to_string,
+				   ml_tree_icon_at, ml_tree_value_at,
+				   ml_tree_set_value_at,
+				   ml_tree_is_cell_editable,
+				   message_list);
+	gtk_object_ref (GTK_OBJECT (message_list->table_model));
+	gtk_object_sink (GTK_OBJECT (message_list->table_model));
+	
+	e_tree_model_root_node_set_visible ((ETreeModel *)message_list->table_model, FALSE);
+
+	/*
+	 * The etable
+	 */
+	spec = message_list_get_layout (message_list);
+	extras = message_list_create_extras ();
+	e_table_scrolled_construct (E_TABLE_SCROLLED (message_list),
+				    message_list->table_model,
+				    extras, spec, NULL);
+	message_list->table =
+		e_table_scrolled_get_table (E_TABLE_SCROLLED (message_list));
+	g_free (spec);
+	gtk_object_sink (GTK_OBJECT (extras));
+
+	gtk_object_set (GTK_OBJECT (message_list->table), "drawfocus",
+			FALSE, NULL);
+
+	gtk_signal_connect (GTK_OBJECT (message_list->table), "cursor_change",
+			    GTK_SIGNAL_FUNC (on_cursor_change_cmd),
+			    message_list);
+
+	gtk_signal_connect (GTK_OBJECT (message_list->table), "click",
+			    GTK_SIGNAL_FUNC (on_click), message_list);
+	
+	/* drag & drop */
+	e_table_drag_source_set (message_list->table, GDK_BUTTON1_MASK,
+				 drag_types, num_drag_types, GDK_ACTION_MOVE);
+	
+	gtk_signal_connect (GTK_OBJECT (message_list->table), "drag_data_get",
+			    GTK_SIGNAL_FUNC (message_list_drag_data_get),
+			    message_list);
 }
 
-static GNOME_Evolution_MessageList
-create_corba_message_list (BonoboObject *object)
-{
-	POA_GNOME_Evolution_MessageList *servant;
-	CORBA_Environment ev;
-
-	servant = (POA_GNOME_Evolution_MessageList *) g_new0 (BonoboObjectServant, 1);
-	servant->vepv = &evolution_message_list_vepv;
-
-	CORBA_exception_init (&ev);
-	POA_GNOME_Evolution_MessageList__init ((PortableServer_Servant) servant, &ev);
-	if (ev._major != CORBA_NO_EXCEPTION){
-		g_free (servant);
-		CORBA_exception_free (&ev);
-		return CORBA_OBJECT_NIL;
-	}
-
-	CORBA_exception_free (&ev);
-	return (GNOME_Evolution_MessageList) bonobo_object_activate_servant (object, servant);
-}
-
-BonoboObject *
+GtkWidget *
 message_list_new (void)
 {
-	GNOME_Evolution_MessageList corba_object;
 	MessageList *message_list;
 
-	message_list = gtk_type_new (message_list_get_type ());
+	message_list = MESSAGE_LIST (gtk_widget_new (message_list_get_type (),
+						     "hadjustment", NULL,
+						     "vadjustment", NULL,
+						     NULL));
+	message_list_construct (message_list);
 
-	corba_object = create_corba_message_list (BONOBO_OBJECT (message_list));
-	if (corba_object == CORBA_OBJECT_NIL){
-		gtk_object_destroy (GTK_OBJECT (message_list));
-		return NULL;
-	}
-
-	message_list->idle_id = 0;
-
-	message_list_construct (message_list, corba_object);
-
-	return BONOBO_OBJECT (message_list);
+	return GTK_WIDGET (message_list);
 }
 
 static void
@@ -2004,12 +1919,6 @@ message_list_set_folder (MessageList *message_list, CamelFolder *camel_folder)
 	mail_do_regenerate_messagelist (message_list, message_list->search, NULL);
 }
 
-GtkWidget *
-message_list_get_widget (MessageList *message_list)
-{
-	return message_list->etable;
-}
-
 E_MAKE_TYPE (message_list, "MessageList", MessageList, message_list_class_init, message_list_init, PARENT_TYPE);
 
 static gboolean
@@ -2104,7 +2013,7 @@ message_list_foreach (MessageList *message_list,
 	mlfe_data.message_list = message_list;
 	mlfe_data.callback = callback;
 	mlfe_data.user_data = user_data;
-	e_table_selected_row_foreach (e_table_scrolled_get_table(E_TABLE_SCROLLED (message_list->etable)),
+	e_table_selected_row_foreach (message_list->table,
 				      mlfe_callback, &mlfe_data);
 }
 

@@ -421,7 +421,7 @@ reconfigure_clicked(GnomeDialog *d, int button, reconfigure_folder_input_t *data
 void local_reconfigure_folder(FolderBrowser *fb);
 
 void
-local_reconfigure_folder(FolderBrowser *fb)
+mail_local_reconfigure_folder(FolderBrowser *fb)
 {
 	CamelStore *store;
 	GladeXML *gui;
