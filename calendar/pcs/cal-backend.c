@@ -471,6 +471,7 @@ cal_backend_set_node_timet (xmlNodePtr node, const char *name, time_t t)
 	
 	tstring = g_strdup_printf ("%ld", t);
 	xmlSetProp (node, name, tstring);
+	g_free (tstring);
 }
 
 static void

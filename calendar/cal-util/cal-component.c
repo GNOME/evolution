@@ -211,7 +211,7 @@ free_icalcomponent (CalComponent *comp)
 
 	/* Free the icalcomponent */
 
-	if (icalcomponent_get_parent (priv->icalcomp) != NULL)
+	if (icalcomponent_get_parent (priv->icalcomp) == NULL)
 		icalcomponent_free (priv->icalcomp);
 
 	priv->icalcomp = NULL;
