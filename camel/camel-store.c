@@ -67,12 +67,17 @@ static gboolean folder_subscribed (CamelStore *store, const char *folder_name);
 static void subscribe_folder (CamelStore *store, const char *folder_name, CamelException *ex);
 static void unsubscribe_folder (CamelStore *store, const char *folder_name, CamelException *ex);
 
+static void construct (CamelService *service, CamelSession *session,
+		       CamelProvider *provider, CamelURL *url,
+		       CamelException *ex);
+
 static void
 camel_store_class_init (CamelStoreClass *camel_store_class)
 {
 	CamelObjectClass *camel_object_class =
 		CAMEL_OBJECT_CLASS (camel_store_class);
-	
+	CamelServiceClass *camel_service_class = CAMEL_SERVICE_CLASS(camel_store_class);
+
 	parent_class = CAMEL_SERVICE_CLASS (camel_type_get_global_classfuncs (camel_service_get_type ()));
 	
 	/* virtual method definition */
@@ -93,6 +98,8 @@ camel_store_class_init (CamelStoreClass *camel_store_class)
 	camel_store_class->unsubscribe_folder = unsubscribe_folder;
 	
 	/* virtual method overload */
+	camel_service_class->construct = construct;
+
 	camel_object_class_declare_event (camel_object_class,
 					  "folder_created", NULL);
 	camel_object_class_declare_event (camel_object_class,
@@ -182,6 +189,21 @@ folder_finalize (CamelObject *folder, gpointer event_data, gpointer user_data)
 		g_hash_table_foreach_remove (store->folders, folder_matches, folder);
 		CAMEL_STORE_UNLOCK(store, cache_lock);
 	}
+}
+
+static void
+construct (CamelService *service, CamelSession *session,
+	   CamelProvider *provider, CamelURL *url,
+	   CamelException *ex)
+{
+	CamelStore *store = CAMEL_STORE(service);
+
+	parent_class->construct(service, session, provider, url, ex);
+	if (camel_exception_is_set (ex))
+		return;
+
+	if (camel_url_get_param(url, "filter"))
+		store->flags |= CAMEL_STORE_FILTER_INBOX;
 }
 
 static CamelFolder *

@@ -285,8 +285,10 @@ construct (CamelService *service, CamelSession *session,
 	}
 	if (camel_url_get_param (url, "check_all"))
 		imap_store->parameters |= IMAP_PARAM_CHECK_ALL;
-	if (camel_url_get_param (url, "filter"))
+	if (camel_url_get_param (url, "filter")) {
 		imap_store->parameters |= IMAP_PARAM_FILTER_INBOX;
+		store->flags |= CAMEL_STORE_FILTER_INBOX;
+	}
 }
 
 static void

@@ -313,8 +313,8 @@ static int scan_dir(GHashTable *visited, char *root, const char *path, guint32 f
 						closedir(dir);
 						return -1;
 					}
+					g_free(new);
 				}
-				g_free(new);
 			}
 			g_free(tmp);
 		}

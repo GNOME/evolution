@@ -110,6 +110,11 @@ camel_maildir_folder_new(CamelStore *parent_store, const char *full_name, guint3
 	d(printf("Creating maildir folder: %s\n", full_name));
 
 	folder = (CamelFolder *)camel_object_new(CAMEL_MAILDIR_FOLDER_TYPE);
+
+	if (parent_store->flags & CAMEL_STORE_FILTER_INBOX
+	    && strcmp(full_name, "") == 0)
+		folder->filter_recent = TRUE;
+
 	folder = (CamelFolder *)camel_local_folder_construct((CamelLocalFolder *)folder,
 							     parent_store, full_name, flags, ex);
 

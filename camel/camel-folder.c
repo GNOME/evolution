@@ -36,6 +36,8 @@
 #include "e-util/e-memory.h"
 #include "camel-operation.h"
 
+#include "camel-session.h"
+#include "camel-filter-driver.h"
 #include "camel-private.h"
 
 #define d(x) 
@@ -1257,7 +1259,7 @@ freeze (CamelFolder *folder)
 
 	folder->priv->frozen++;
 
-	d(printf ("freeze(%p) = %d\n", folder, folder->priv->frozen));
+	d(printf ("freeze(%p '%s') = %d\n", folder, folder->full_name, folder->priv->frozen));
 	CAMEL_FOLDER_UNLOCK(folder, change_lock);
 }
 
@@ -1281,31 +1283,26 @@ camel_folder_freeze (CamelFolder * folder)
 static void
 thaw (CamelFolder * folder)
 {
-	int i;
-	CamelFolderChangeInfo *info;
+	CamelFolderChangeInfo *info = NULL;
 
 	CAMEL_FOLDER_LOCK(folder, change_lock);
 
 	folder->priv->frozen--;
 
-	d(printf ("thaw(%p) = %d\n", folder, folder->priv->frozen));
+	d(printf ("thaw(%p '%s') = %d\n", folder, folder->full_name, folder->priv->frozen));
 
-	if (folder->priv->frozen == 0) {
-		/* If we have more or less messages, do a folder changed, otherwise just
-		   do a message changed for each one.
-		   TODO: message_changed is now probably irrelevant and not required */
+	if (folder->priv->frozen == 0
+	    && camel_folder_change_info_changed(folder->priv->changed_frozen)) {
 		info = folder->priv->changed_frozen;
-		if (info->uid_added->len > 0 || info->uid_removed->len > 0 || info->uid_changed->len > 10) {
-			camel_object_trigger_event(CAMEL_OBJECT(folder), "folder_changed", info);
-		} else if (info->uid_changed->len > 0) {
-			for (i=0;i<info->uid_changed->len;i++) {
-				camel_object_trigger_event(CAMEL_OBJECT(folder), "message_changed", info->uid_changed->pdata[i]);
-			}
-		}
-		camel_folder_change_info_clear(info);
+		folder->priv->changed_frozen = camel_folder_change_info_new();
 	}
-
+	
 	CAMEL_FOLDER_UNLOCK(folder, change_lock);
+
+	if (info) {
+		camel_object_trigger_event(CAMEL_OBJECT(folder), "folder_changed", info);
+		camel_folder_change_info_free(info);
+	}
 }
 
 /**
@@ -1344,6 +1341,43 @@ camel_folder_is_frozen (CamelFolder *folder)
 	return CF_CLASS (folder)->is_frozen (folder);
 }
 
+#ifdef ENABLE_THREADS
+struct _folder_filter_msg {
+	CamelSessionThreadMsg msg;
+
+	GPtrArray *recents;
+	CamelFolder *folder;
+	CamelFilterDriver *driver;
+	CamelException ex;
+};
+
+static void
+filter_filter(CamelSession *session, CamelSessionThreadMsg *msg)
+{
+	struct _folder_filter_msg *m = (struct _folder_filter_msg *)msg;
+
+	camel_filter_driver_filter_folder(m->driver, m->folder, NULL, m->recents, FALSE, &m->ex);	
+}
+
+static void
+filter_free(CamelSession *session, CamelSessionThreadMsg *msg)
+{
+	struct _folder_filter_msg *m = (struct _folder_filter_msg *)msg;
+	int i;
+
+	camel_folder_thaw(m->folder);
+	camel_object_unref((CamelObject *)m->folder);
+	camel_object_unref((CamelObject *)m->driver);
+	for (i=0;i<m->recents->len;i++)
+		g_free(m->recents->pdata[i]);
+	g_ptr_array_free(m->recents, TRUE);
+}
+
+static CamelSessionThreadOps filter_ops = {
+	filter_filter,
+	filter_free,
+};
+#endif
 
 /* Event hooks that block emission when frozen */
 static gboolean
@@ -1354,18 +1388,56 @@ folder_changed (CamelObject *obj, gpointer event_data)
 	gboolean ret = TRUE;
 
 	d(printf ("folder_changed(%p, %p), frozen=%d\n", obj, event_data, folder->priv->frozen));
+	d(printf(" added %d remoded %d changed %d recent %d\n",
+		 changed->uid_added->len, changed->uid_removed->len,
+		 changed->uid_changed->len, changed->uid_recent->len));
 
-	if (folder->priv->frozen) {
+	if (changed != NULL) {
+		CamelSession *session = ((CamelService *)folder->parent_store)->session;
+		CamelFilterDriver *driver;
+
 		CAMEL_FOLDER_LOCK(folder, change_lock);
+		if (folder->filter_recent
+		    && changed->uid_recent->len>0
+		    && (driver = camel_session_get_filter_driver(session, "incoming", NULL))) {
+#ifdef ENABLE_THREADS
+			GPtrArray *recents = g_ptr_array_new();
+			int i;
+			struct _folder_filter_msg *msg;
 
-		if (changed != NULL)
+			(printf("** Have '%d' recent messages, launching thread to process them\n", changed->uid_recent->len));
+			
+			folder->priv->frozen++;
+			msg = camel_session_thread_msg_new(session, &filter_ops, sizeof(*msg));
+			for (i=0;i<changed->uid_recent->len;i++)
+				g_ptr_array_add(recents, g_strdup(changed->uid_recent->pdata[i]));
+			msg->recents = recents;
+			msg->folder = folder;
+			camel_object_ref((CamelObject *)folder);
+			msg->driver = driver;
+			camel_exception_init(&msg->ex);
+			camel_session_thread_queue(session, &msg->msg, 0);
+#else
+			d(printf("Have '%d' recent messages, filtering\n", changed->recent->len));
+			folder->priv->frozen++;
+			camel_filter_driver_filter_folder(driver, folder, NULL, changed->recent, FALSE, NULL);
+			camel_object_unref((CamelObject *)driver);
+			folder->priv->frozen--;
+#endif
+			/* zero out the recent list so we dont reprocess */
+			/* this pokes past abstraction, but changeinfo is our structure anyway */
+			/* the only other alternative is to recognise when trigger is called from	
+			   thaw(), but thats a pita */
+			g_ptr_array_set_size(changed->uid_recent, 0);
+		}
+		if (folder->priv->frozen) {
 			camel_folder_change_info_cat(folder->priv->changed_frozen, changed);
-		else
+			ret = FALSE;
+		}
+		CAMEL_FOLDER_UNLOCK(folder, change_lock);
+	} else {
 			g_warning("Class %s is passing NULL to folder_changed event",
 				  camel_type_to_name (CAMEL_OBJECT_GET_TYPE (folder)));
-		ret = FALSE;
-
-		CAMEL_FOLDER_UNLOCK(folder, change_lock);
 	}
 
 	return ret;
@@ -1468,6 +1540,7 @@ camel_folder_change_info_new(void)
 	info->uid_added = g_ptr_array_new();
 	info->uid_removed = g_ptr_array_new();
 	info->uid_changed = g_ptr_array_new();
+	info->uid_recent = g_ptr_array_new();
 	info->priv = g_malloc0(sizeof(*info->priv));
 	info->priv->uid_stored = g_hash_table_new(g_str_hash, g_str_equal);
 	info->priv->uid_source = NULL;
@@ -1648,6 +1721,7 @@ camel_folder_change_info_cat(CamelFolderChangeInfo *info, CamelFolderChangeInfo 
 	change_info_cat(info, source->uid_added, camel_folder_change_info_add_uid);
 	change_info_cat(info, source->uid_removed, camel_folder_change_info_remove_uid);
 	change_info_cat(info, source->uid_changed, camel_folder_change_info_change_uid);
+	change_info_cat(info, source->uid_recent, camel_folder_change_info_recent_uid);
 }
 
 /**
@@ -1745,6 +1819,24 @@ camel_folder_change_info_change_uid(CamelFolderChangeInfo *info, const char *uid
 	g_hash_table_insert(p->uid_stored, olduid, info->uid_changed);
 }
 
+void
+camel_folder_change_info_recent_uid(CamelFolderChangeInfo *info, const char *uid)
+{
+	struct _CamelFolderChangeInfoPrivate *p;
+	GPtrArray *olduids;
+	char *olduid;
+	
+	g_assert(info != NULL);
+	
+	p = info->priv;
+
+	/* always add to recent, but dont let anyone else know */	
+	if (!g_hash_table_lookup_extended(p->uid_stored, uid, (void **)&olduid, (void **)&olduids)) {
+		olduid = e_mempool_strdup(p->uid_pool, uid);
+	}
+	g_ptr_array_add(info->uid_recent, olduid);
+}
+
 /**
  * camel_folder_change_info_changed:
  * @info: 
@@ -1758,7 +1850,7 @@ camel_folder_change_info_changed(CamelFolderChangeInfo *info)
 {
 	g_assert(info != NULL);
 	
-	return (info->uid_added->len || info->uid_removed->len || info->uid_changed->len);
+	return (info->uid_added->len || info->uid_removed->len || info->uid_changed->len || info->uid_recent->len);
 }
 
 /**
@@ -1779,6 +1871,7 @@ camel_folder_change_info_clear(CamelFolderChangeInfo *info)
 	g_ptr_array_set_size(info->uid_added, 0);
 	g_ptr_array_set_size(info->uid_removed, 0);
 	g_ptr_array_set_size(info->uid_changed, 0);
+	g_ptr_array_set_size(info->uid_recent, 0);
 	if (p->uid_source) {
 		g_hash_table_destroy(p->uid_source);
 		p->uid_source = NULL;
@@ -1813,5 +1906,6 @@ camel_folder_change_info_free(CamelFolderChangeInfo *info)
 	g_ptr_array_free(info->uid_added, TRUE);
 	g_ptr_array_free(info->uid_removed, TRUE);
 	g_ptr_array_free(info->uid_changed, TRUE);
+	g_ptr_array_free(info->uid_recent, TRUE);
 	g_free(info);
 }

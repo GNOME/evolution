@@ -635,8 +635,10 @@ maildir_summary_check(CamelLocalSummary *cls, CamelFolderChangeInfo *changes, Ca
 
 			if (rename(src, dest) == 0) {
 				camel_maildir_summary_add(cls, destfilename, forceindex);
-				if (changes)
+				if (changes) {
 					camel_folder_change_info_add_uid(changes, destname);
+					camel_folder_change_info_recent_uid(changes, destname);
+				}
 			} else {
 				/* else?  we should probably care about failures, but wont */
 				g_warning("Failed to move new maildir message %s to cur %s", src, dest);

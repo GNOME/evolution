@@ -751,6 +751,11 @@ spool_summary_sync_full(CamelSpoolSummary *cls, gboolean expunge, CamelFolderCha
 						     strerror(errno));
 				goto error;
 			}
+
+			/* mark this message as recent */
+			if (info->info.flags & CAMEL_MESSAGE_FOLDER_NOXEV)
+				camel_folder_change_info_recent_uid(changeinfo, camel_message_info_uid(info));
+
 			info->info.flags &= 0xffff;
 			g_free(xevnew);
 			xevnew = NULL;

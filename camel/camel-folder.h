@@ -47,6 +47,7 @@ struct _CamelFolderChangeInfo {
 	GPtrArray *uid_added;
 	GPtrArray *uid_removed;
 	GPtrArray *uid_changed;
+	GPtrArray *uid_recent;
 
 	struct _CamelFolderChangeInfoPrivate *priv;
 };
@@ -65,6 +66,7 @@ struct _CamelFolder
 	guint32 permanent_flags;
 	gboolean has_summary_capability:1;
 	gboolean has_search_capability:1;
+	gboolean filter_recent:1;
 
 };
 
@@ -301,6 +303,7 @@ void			camel_folder_change_info_cat		(CamelFolderChangeInfo *info, CamelFolderCh
 void			camel_folder_change_info_add_uid	(CamelFolderChangeInfo *info, const char *uid);
 void			camel_folder_change_info_remove_uid	(CamelFolderChangeInfo *info, const char *uid);
 void			camel_folder_change_info_change_uid	(CamelFolderChangeInfo *info, const char *uid);
+void			camel_folder_change_info_recent_uid	(CamelFolderChangeInfo *info, const char *uid);
 
 #ifdef __cplusplus
 }

@@ -499,16 +499,19 @@ search_not(struct _ESExp *f, int argc, struct _ESExpResult **argv, CamelFolderSe
 				/* 'not' against the whole summary */
 				GHashTable *have = g_hash_table_new(g_str_hash, g_str_equal);
 				char **s;
+				CamelMessageInfo **m;
 
 				s = (char **)v->pdata;
 				for (i=0;i<v->len;i++)
 					g_hash_table_insert(have, s[i], s[i]);
 
 				v = search->summary;
-				s = (char **)v->pdata;
+				m = (CamelMessageInfo **)v->pdata;
 				for (i=0;i<v->len;i++) {
-					if (g_hash_table_lookup(have, s[i]) == NULL)
-						g_ptr_array_add(r->value.ptrarray, s[i]);
+					char *uid = (char *)camel_message_info_uid(m[i]);
+
+					if (g_hash_table_lookup(have, uid) == NULL)
+						g_ptr_array_add(r->value.ptrarray, uid);
 				}
 				g_hash_table_destroy(have);
 			}

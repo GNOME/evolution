@@ -190,6 +190,9 @@ get_folder_info (CamelStore *store, const char *top,
 	/* FIXME: This is broken, but it corresponds to what was
 	 * there before.
 	 */
+
+	printf("-- LOCAL STRE -- get folder info: %s\n", top);
+
 	return NULL;
 }
 

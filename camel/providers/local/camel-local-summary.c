@@ -148,18 +148,12 @@ camel_local_summary_load(CamelLocalSummary *cls, int forceindex, CamelException 
 	if (forceindex
 	    || stat(s->summary_path, &st) == -1
 	    || ((CamelLocalSummaryClass *)(CAMEL_OBJECT_GET_CLASS(cls)))->load(cls, forceindex, ex) == -1) {
+		g_warning("Could not load summary: flags may be reset");
 		camel_folder_summary_clear((CamelFolderSummary *)cls);
+		return -1;
 	}
 
-	if (camel_local_summary_check(cls, NULL, ex) == 0) {
-		if (camel_folder_summary_save(s) == -1)
-			g_warning("Could not save summary for %s: %s", cls->folder_path, strerror(errno));
-		if (cls->index && ibex_save(cls->index) == -1)
-			g_warning("Could not sync index for %s: %s", cls->folder_path, strerror(errno));
-
-		return 0;
-	}
-	return -1;
+	return 0;
 }
 
 char *
@@ -260,6 +254,13 @@ camel_local_summary_check(CamelLocalSummary *cls, CamelFolderChangeInfo *changei
 	int ret;
 
 	ret = ((CamelLocalSummaryClass *)(CAMEL_OBJECT_GET_CLASS(cls)))->check(cls, changeinfo, ex);
+
+	if (ret != -1) {
+		if (camel_folder_summary_save((CamelFolderSummary *)cls) == -1)
+			g_warning("Could not save summary for %s: %s", cls->folder_path, strerror(errno));
+		if (cls->index && ibex_save(cls->index) == -1)
+			g_warning("Could not sync index for %s: %s", cls->folder_path, strerror(errno));
+	}
 
 #ifdef DOSTATS
 	if (ret != -1) {

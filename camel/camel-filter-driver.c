@@ -819,7 +819,7 @@ camel_filter_driver_filter_folder (CamelFilterDriver *driver, CamelFolder *folde
 		report_status (driver, CAMEL_FILTER_STATUS_END, 100, _("Complete"));
 	
 	g_free (source_url);
-	
+
 	return status;
 }
 

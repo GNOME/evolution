@@ -104,6 +104,11 @@ struct _CamelServicePrivate {
 struct _CamelSessionPrivate {
 #ifdef ENABLE_THREADS
 	GMutex *lock;		/* for locking everything basically */
+	GMutex *thread_lock;	/* locking threads */
+
+	int thread_id;
+	GHashTable *thread_active;
+	EThread *thread_queue;
 #endif
 };
 

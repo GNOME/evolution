@@ -148,8 +148,7 @@ static CamelFolder *
 get_folder(CamelStore * store, const char *folder_name, guint32 flags, CamelException * ex)
 {
 	char *path = ((CamelService *)store)->url->path;
-	char *name;
-	int len;
+	CamelFolder *folder;
 
 	printf("opening folder %s on path %s\n", folder_name, path);
 
@@ -161,12 +160,9 @@ get_folder(CamelStore * store, const char *folder_name, guint32 flags, CamelExce
 		return NULL;
 	}
 
-	len = strlen(path);
-	name = alloca(len+1);
-	strcpy(name, path);
-	name[len-1] = 0;
+	folder = camel_spool_folder_new(store, folder_name, flags, ex);
 
-	return camel_spool_folder_new(store, name, flags, ex);
+	return folder;
 }
 
 static CamelFolder *

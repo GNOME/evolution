@@ -193,10 +193,6 @@ vee_folder_construct (CamelVeeFolder *vf, CamelStore *parent_store, const char *
 	char *tmp;
 	
 	vf->flags = flags;
-
-	/* We dont support ? syntax anymore */
-	g_assert(strchr(name, '?') == NULL);
-
 	vf->vname = g_strdup(name);
 	tmp = strrchr(vf->vname, '/');
 	if (tmp)

@@ -200,7 +200,7 @@ camel_spool_folder_construct(CamelSpoolFolder *lf, CamelStore *parent_store, con
 		return NULL;
 	}
 
-	camel_spool_summary_check((CamelSpoolSummary *)folder->summary, NULL, ex);
+	camel_spool_summary_check((CamelSpoolSummary *)folder->summary, lf->changes, ex);
 	camel_spool_folder_unlock(lf);
 
 	fi = g_malloc0(sizeof(*fi));
@@ -209,9 +209,8 @@ camel_spool_folder_construct(CamelSpoolFolder *lf, CamelStore *parent_store, con
 	fi->url = g_strdup(lf->folder_path);
 	fi->unread_message_count = camel_folder_get_unread_message_count(folder);
 	camel_object_trigger_event(CAMEL_OBJECT(parent_store), "folder_created", fi);
-	
 	camel_folder_info_free (fi);
-	
+
 	return lf;
 }
 
@@ -223,6 +222,10 @@ camel_spool_folder_new(CamelStore *parent_store, const char *full_name, guint32 
 	d(printf("Creating spool folder: %s in %s\n", full_name, camel_local_store_get_toplevel_dir((CamelLocalStore *)parent_store)));
 
 	folder = (CamelFolder *)camel_object_new(CAMEL_SPOOL_FOLDER_TYPE);
+
+	if (parent_store->flags & CAMEL_STORE_FILTER_INBOX
+	    && strcmp(full_name, "INBOX") == 0)
+		folder->filter_recent = TRUE;
 	folder = (CamelFolder *)camel_spool_folder_construct((CamelSpoolFolder *)folder,
 							     parent_store, full_name, flags, ex);
 

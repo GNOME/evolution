@@ -55,6 +55,12 @@ static CamelProvider mbox_provider = {
 	/* ... */
 };
 
+static CamelProviderConfEntry local_conf_entries[] = {
+	{ CAMEL_PROVIDER_CONF_CHECKBOX, "filter", NULL,
+	  N_("Apply filters to new messages in INBOX"), "0" },
+	{ CAMEL_PROVIDER_CONF_END }
+};
+
 static CamelProvider maildir_provider = {
 	"maildir",
 	N_("Qmail maildir-format mail files"),
@@ -62,6 +68,7 @@ static CamelProvider maildir_provider = {
 	"mail",
 	CAMEL_PROVIDER_IS_SOURCE | CAMEL_PROVIDER_IS_STORAGE,
 	CAMEL_URL_NEED_PATH | CAMEL_URL_PATH_IS_ABSOLUTE,
+	local_conf_entries,
 	/* ... */
 };
 
@@ -72,6 +79,7 @@ static CamelProvider spool_provider = {
 	"mail",
 	CAMEL_PROVIDER_IS_SOURCE | CAMEL_PROVIDER_IS_STORAGE,
 	CAMEL_URL_NEED_PATH | CAMEL_URL_PATH_IS_ABSOLUTE,
+	local_conf_entries,
 	/* ... */
 };
 

@@ -1,3 +1,110 @@
+2001-09-18    <NotZed@Ximian.com>
+
+	* providers/local/camel-maildir-folder.c
+	(camel_maildir_folder_new): If filter inbox is set on the store,
+	and we're opening inbox '', then enable filtering on new messages.
+
+	* providers/local/camel-local-folder.c
+	(camel_local_folder_construct): After loading the summary, check
+	it, and only abort if that fails.  Also maintain the changes
+	count.
+
+	* providers/local/camel-local-summary.c
+	(camel_local_summary_load): Remove summary_check code from here.
+	(camel_local_summary_check): Sync index/summary here, if we were
+	successful.
+
+	* providers/local/camel-spool-folder.c
+	(camel_spool_folder_new): If we have filter-new-messages-on-inbox
+	set and we just opened inbox, turn on filtering on this folder.
+	(camel_spool_folder_construct): Keep track of changes for the
+	folder, so that filter-new-messages works right (?)
+
+	* providers/local/camel-spool-store.c (get_folder): Pass 'INBOX'
+	as the folder name, not the path.
+
+	* camel-folder-search.c (search_not): Modified patch from
+	<peterw@ximian.com> since the summary is messageinfo's, not
+	strings.
+
+	** Ok so the problem with the stuff below is that maildir/spool
+	'summary_load' throws away all events, including recents, joy eh?
+	
+	* providers/local/camel-maildir-summary.c (maildir_summary_check):
+	Add new messages to the recent changeinfo.
+
+	* providers/local/camel-spool-summary.c: Mark 'new' message as
+	recent, for later processing if required (i.e. 'filter new
+	messages').
+
+	* camel-store.c (construct): new function, cascade up construct
+	method and check for 'filter' param, and set accordingly for any
+	one that might want it.
+
+	* providers/imap/camel-imap-store.c (construct): map the
+	param_filter_inbox flag to the store->flags as
+	CAMEL_STORE_FILTER_INBOX.
+
+	* camel-store.h (CAMEL_STORE_FILTER_INBOX): new flag to tell it to
+	filter inbox.
+
+	* providers/imap/camel-imap-folder.h: Removed do_filtering flag
+	from CamelImapFolder.
+
+	* providers/imap/camel-imap-folder.c (imap_update_summary): Remove
+	the 'recents' parameter, use the 'changes' parameter instead to
+	convey this info.
+	(camel_imap_folder_changed): Changed for update_summary api
+	change.  Now always just emit the changed event if we have any
+	changes to report, filtering code removed, handled upstream.
+	(filter_proc): 
+	(filter_free): Removed old filtering code.
+	(camel_imap_folder_new): Set the filter_recent flag on the folder
+	if we're the inbox and filtering of inbox is enabled.
+
+	* camel-folder.c (folder_changed): If we have 'recent' messages,
+	and are set to filter recents, then freeze the folder and launch a
+	thread to do the processing (or similar if threading not enabled).
+	(thaw): Make sure we emit the changed signal outside of owning the
+	lock and if things have changed.  Also, no longer bother
+	downgrading folder_changed events to message_changed events.
+
+	* camel-folder.h (struct _CamelFolder): Added filter_recent flag
+	-> signifies all recent messages in folder should be filtered.
+
+	* camel-session.c: (camel_session_thread_msg_new,
+	camel_session_thread_msg_free, camel_session_thread_queue,
+	camel_session_thread_wait): code to handle async operations as
+	part of camel processing.
+	(camel_session_finalise): free thread_lock, destroy thread, active
+	hash, etc.
+	(camel_session_init): init thread, active hash, etc.
+	(camel_session_class_init): Init virtual functions.
+	(session_thread_msg_new, session_thread_msg_free,
+	session_thread_destroy, session_thread_received,
+	session_thread_queue, session_thread_wait): default implementation
+	of session threads stuff.
+
+2001-09-17    <NotZed@Ximian.com>
+
+	* camel-folder.c (camel_folder_change_info_recent_uid): New
+	function to add a 'recent' uid to the change info.
+	(camel_folder_change_info_clear): Clear recent list.
+	(camel_folder_change_info_free): Free recent list.
+	(camel_folder_change_info_new): Setup recent list.
+
+	* camel-folder.h: Added a uid_recent item to the folder_changed
+	event data.
+
+	* providers/local/camel-maildir-store.c (scan_dir): Free new in
+	the right block.
+
+	* providers/local/camel-local-provider.c: Add local config entries
+	to filter on new messages in spool and maildir provider.
+
+	* camel-vee-folder.c (vee_folder_construct): Remove the assertion
+	which stops ? in names from being allowed.
+
 2001-09-18  Dan Winship  <danw@ximian.com>
 
 	* camel-data-wrapper.c (camel_data_wrapper_is_offline): Virtualize

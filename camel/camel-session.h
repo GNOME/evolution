@@ -37,6 +37,8 @@ extern "C" {
 #include <camel/camel-object.h>
 #include <camel/camel-provider.h>
 
+#include <e-util/e-msgport.h>
+
 #define CAMEL_SESSION_TYPE     (camel_session_get_type ())
 #define CAMEL_SESSION(obj)     (CAMEL_CHECK_CAST((obj), CAMEL_SESSION_TYPE, CamelSession))
 #define CAMEL_SESSION_CLASS(k) (CAMEL_CHECK_CLASS_CAST ((k), CAMEL_SESSION_TYPE, CamelSessionClass))
@@ -59,6 +61,11 @@ struct _CamelSession
 	GHashTable *providers, *modules;
 	gboolean online;
 };
+
+#ifdef ENABLE_THREADS
+typedef struct _CamelSessionThreadOps CamelSessionThreadOps;
+typedef struct _CamelSessionThreadMsg CamelSessionThreadMsg;
+#endif
 
 typedef struct {
 	CamelObjectClass parent_class;
@@ -104,6 +111,14 @@ typedef struct {
 	CamelFilterDriver * (*get_filter_driver) (CamelSession *session,
 						  const char *type,
 						  CamelException *ex);
+#ifdef ENABLE_THREADS
+	/* mechanism for creating and maintaining multiple threads of control */
+	void *(*thread_msg_new)(CamelSession *session, CamelSessionThreadOps *ops, unsigned int size);
+	void (*thread_msg_free)(CamelSession *session, CamelSessionThreadMsg *msg);
+	int (*thread_queue)(CamelSession *session, CamelSessionThreadMsg *msg, int flags);
+	void (*thread_wait)(CamelSession *session, int id);
+#endif
+	
 } CamelSessionClass;
 
 
@@ -174,6 +189,26 @@ void               camel_session_set_online         (CamelSession *session,
 CamelFilterDriver *camel_session_get_filter_driver  (CamelSession *session,
 						     const char *type,
 						     CamelException *ex);
+
+#ifdef ENABLE_THREADS
+struct _CamelSessionThreadOps {
+	void (*receive)(CamelSession *session, struct _CamelSessionThreadMsg *m);
+	void (*free)(CamelSession *session, struct _CamelSessionThreadMsg *m);
+};
+
+struct _CamelSessionThreadMsg {
+	EMsg msg;
+
+	CamelSessionThreadOps *ops;
+	int id;
+	/* user fields follow */
+};
+
+void *camel_session_thread_msg_new(CamelSession *session, CamelSessionThreadOps *ops, unsigned int size);
+void camel_session_thread_msg_free(CamelSession *session, CamelSessionThreadMsg *msg);
+int camel_session_thread_queue(CamelSession *session, CamelSessionThreadMsg *msg, int flags);
+void camel_session_thread_wait(CamelSession *session, int id);
+#endif
 
 #ifdef __cplusplus
 }

@@ -48,7 +48,7 @@ struct _CamelImapFolder {
 
 	struct _CamelImapFolderPrivate *priv;
 
-	gboolean need_rescan, need_refresh, do_filtering;
+	gboolean need_rescan, need_refresh;
 	CamelFolderSearch *search;
 	CamelImapMessageCache *cache;
 };

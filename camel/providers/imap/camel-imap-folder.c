@@ -50,7 +50,6 @@
 #include "camel-data-wrapper.h"
 #include "camel-disco-diary.h"
 #include "camel-exception.h"
-#include "camel-filter-driver.h"
 #include "camel-mime-filter-crlf.h"
 #include "camel-mime-filter-from.h"
 #include "camel-mime-message.h"
@@ -220,7 +219,7 @@ camel_imap_folder_new (CamelStore *parent, const char *folder_name,
 
 	if ((imap_store->parameters & IMAP_PARAM_FILTER_INBOX) &&
 	    !g_strcasecmp (folder_name, "INBOX"))
-		imap_folder->do_filtering = TRUE;
+		folder->filter_recent = TRUE;
 
 	return folder;
 }
@@ -1586,7 +1585,6 @@ add_message_from_data (CamelFolder *folder, GPtrArray *messages,
 static void
 imap_update_summary (CamelFolder *folder, int exists,
 		     CamelFolderChangeInfo *changes,
-		     GPtrArray *recents,
 		     CamelException *ex)
 {
 	CamelImapStore *store = CAMEL_IMAP_STORE (folder->parent_store);
@@ -1775,8 +1773,8 @@ imap_update_summary (CamelFolder *folder, int exists,
 		camel_folder_summary_add (folder->summary, mi);
 		camel_folder_change_info_add_uid (changes, camel_message_info_uid (mi));
 
-		if (recents && (mi->flags & CAMEL_IMAP_MESSAGE_RECENT))
-			g_ptr_array_add (recents, (char *)camel_message_info_uid (mi));
+		if ((mi->flags & CAMEL_IMAP_MESSAGE_RECENT))
+			camel_folder_change_info_recent_uid(changes, camel_message_info_uid (mi));
 	}
 	g_ptr_array_free (messages, TRUE);
 	return;
@@ -1796,44 +1794,6 @@ imap_update_summary (CamelFolder *folder, int exists,
 		}
 		g_ptr_array_free (fetch_data, TRUE);
 	}
-}
-
-struct _filter_msg {
-	CamelImapMsg msg;
-
-	GPtrArray *recents;
-	CamelFolder *folder;
-	CamelFilterDriver *driver;
-};
-
-static void
-filter_proc(CamelImapStore *store, CamelImapMsg *mm)
-{
-	struct _filter_msg *msg = (struct _filter_msg *)mm;
-
-	printf("executing filtering %d messages folder %p\n", msg->recents->len, msg->folder);
-
-	/* what about exceptions? */
-	camel_filter_driver_filter_folder(msg->driver, msg->folder, NULL, msg->recents, FALSE, NULL);
-}
-
-static void
-filter_free(CamelImapStore *store, CamelImapMsg *mm)
-{
-	struct _filter_msg *msg = (struct _filter_msg *)mm;
-	int i;
-
-	printf("freeing filtering %d messages folder %p\n", msg->recents->len, msg->folder);
-
-	camel_object_unref((CamelObject *)msg->driver);
-
-	camel_folder_thaw(msg->folder);
-	camel_object_unref((CamelObject *)msg->folder);
-
-	for (i=0;i<msg->recents->len;i++)
-		g_free(msg->recents->pdata[i]);
-
-	g_ptr_array_free(msg->recents, TRUE);
 }
 
 /* Called with the store's command_lock locked */
@@ -1872,50 +1832,11 @@ camel_imap_folder_changed (CamelFolder *folder, int exists,
 	}
 	
 	len = camel_folder_summary_count (folder->summary);
-	if (exists > len) {
-		if (imap_folder->do_filtering)
-			recents = g_ptr_array_new ();
-		imap_update_summary (folder, exists, changes, recents, ex);
-	}
+	if (exists > len)
+		imap_update_summary (folder, exists, changes, ex);
 	
-	/* if we have updates to make for filtering (probably), then we freeze the
-	   folder so we dont show them till they're complete, this may cause unacceptable
-	   delays for users, but the alternative isn't very nice either (show them and let
-	   them change as processed) */
-	if (recents && !camel_exception_is_set (ex) && recents->len) {
-		CamelFilterDriver *driver;
-		
-		camel_folder_freeze (folder);
-		
-		if (camel_folder_change_info_changed (changes))
-			camel_object_trigger_event (CAMEL_OBJECT (folder), "folder_changed", changes);
-		
-		driver = camel_session_get_filter_driver (CAMEL_SERVICE (folder->parent_store)->session, "incoming", ex);
-		if (driver) {
-#ifdef ENABLE_THREADS
-			int i;
-			struct _filter_msg *msg = (struct _filter_msg *)camel_imap_msg_new(filter_proc, filter_free, sizeof(*msg));
-
-			msg->recents = g_ptr_array_new();
-			for (i=0;i<recents->len;i++)
-				g_ptr_array_add(msg->recents, g_strdup(recents->pdata[i]));
-
-			camel_object_ref((CamelObject *)folder);
-			msg->folder = folder;
-			msg->driver = driver;
-			printf("queueing filtering %d messages folder %p\n", msg->recents->len, folder);
-			camel_imap_msg_queue((CamelImapStore *)folder->parent_store, (CamelImapMsg *)msg);
-#else
-			camel_filter_driver_filter_folder (driver, folder, NULL, recents, FALSE, ex);
-			camel_folder_thaw (folder);
-			camel_object_unref (CAMEL_OBJECT (driver));
-#endif
-		} else
-			camel_folder_thaw (folder);
-	} else {
-		if (camel_folder_change_info_changed (changes))
-			camel_object_trigger_event (CAMEL_OBJECT (folder), "folder_changed", changes);
-	}
+	if (camel_folder_change_info_changed (changes))
+		camel_object_trigger_event (CAMEL_OBJECT (folder), "folder_changed", changes);
 	
 	camel_folder_change_info_free (changes);
 	
