@@ -1407,19 +1407,12 @@ get_content (CamelImapFolder *imap_folder, const char *uid,
 	if (header_content_type_is (ci->type, "multipart", "*")) {
 		CamelMultipart *body_mp;
 		int speclen, num;
-		char *type;
 		
 		body_mp = camel_multipart_new ();
 		camel_data_wrapper_set_mime_type_field (
 			CAMEL_DATA_WRAPPER (body_mp), ci->type);
 		
-		/* try and set the original boundary rather than generating a new one... */
-		camel_multipart_set_boundary (body_mp, header_content_type_param (ci->type, "boundary"));
-		
-		/* looks kinda nasty but this is how ya gotta do it... */
-		type = header_content_type_format (ci->type);
-		camel_mime_part_set_content_type (CAMEL_MIME_PART (body_mp), type);
-		g_free (type);
+		camel_multipart_set_boundary (body_mp, NULL);
 		
 		speclen = strlen (part_spec);
 		child_spec = g_malloc (speclen + 15);
@@ -2002,7 +1995,7 @@ camel_imap_folder_fetch_data (CamelImapFolder *imap_folder, const char *uid,
 		CAMEL_IMAP_FOLDER_UNLOCK (imap_folder, cache_lock);
 		CAMEL_IMAP_STORE_UNLOCK (store, command_lock);
 		return stream;
-	}		
+	}
 	
 	if (camel_disco_store_status (CAMEL_DISCO_STORE (store)) == CAMEL_DISCO_STORE_OFFLINE) {
 		camel_exception_set (ex, CAMEL_EXCEPTION_SERVICE_UNAVAILABLE,

@@ -1,5 +1,13 @@
 2001-12-16  Jeffrey Stedfast  <fejj@ximian.com>
 
+	* providers/imap/camel-imap-folder.c (get_content): Reverted my
+	previous changes here since it doesn't actually work afterall.
+
+	* providers/imap/camel-imap-wrapper.c (imap_wrapper_hydrate):
+	Update to do uudecoding when appropriate.
+
+2001-12-16  Jeffrey Stedfast  <fejj@ximian.com>
+
 	* providers/imap/camel-imap-folder.c (get_content): Try to use the
 	original boundary so luis will stop bugging me about "data
 	corruption". Also preserve other params in the multipart

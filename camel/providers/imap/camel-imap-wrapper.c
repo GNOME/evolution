@@ -113,31 +113,38 @@ imap_wrapper_hydrate (CamelImapWrapper *imap_wrapper, CamelStream *stream)
 	CamelStreamFilter *filterstream;
 	CamelMimeFilter *filter;
 	CamelContentType *ct;
-
+	
 	filterstream = camel_stream_filter_new_with_stream (stream);
-
-	if (camel_mime_part_get_encoding (imap_wrapper->part) ==
-	    CAMEL_MIME_PART_ENCODING_BASE64) {
+	
+	/* FIXME: lame. We already have code to do all this shit in camel-mime-part-utils.c */
+	switch (camel_mime_part_get_encoding (imap_wrapper->part)) {
+	case CAMEL_MIME_PART_ENCODING_BASE64:
 		filter = (CamelMimeFilter *)camel_mime_filter_basic_new_type (CAMEL_MIME_FILTER_BASIC_BASE64_DEC);
 		camel_stream_filter_add (filterstream, filter);
-	} else if (camel_mime_part_get_encoding (imap_wrapper->part) ==
-		   CAMEL_MIME_PART_ENCODING_QUOTEDPRINTABLE) {
+		break;
+	case CAMEL_MIME_PART_ENCODING_QUOTEDPRINTABLE:
 		filter = (CamelMimeFilter *)camel_mime_filter_basic_new_type (CAMEL_MIME_FILTER_BASIC_QP_DEC);
 		camel_stream_filter_add (filterstream, filter);
-	} else
+		break;
+	case CAMEL_MIME_PART_ENCODING_UUENCODE:
+		filter = (CamelMimeFilter *)camel_mime_filter_basic_new_type (CAMEL_MIME_FILTER_BASIC_UU_DEC);
+		camel_stream_filter_add (filterstream, filter);
+		break;
+	default:
 		filter = NULL;
-
+	}
+	
 	ct = camel_mime_part_get_content_type (imap_wrapper->part);
 	if (header_content_type_is (ct, "text", "*")) {
 		const char *charset;
-
-		/* If we just did B64/QP, need to also do CRLF->LF */
+		
+		/* If we just did B64/QP/UU, need to also do CRLF->LF */
 		if (filter) {
 			filter = camel_mime_filter_crlf_new (CAMEL_MIME_FILTER_CRLF_DECODE,
 							     CAMEL_MIME_FILTER_CRLF_MODE_CRLF_ONLY);
 			camel_stream_filter_add (filterstream, filter);
 		}
-
+		
 		charset = header_content_type_param (ct, "charset");
 		if (charset && !(strcasecmp (charset, "us-ascii") == 0
 				 || strcasecmp (charset, "utf-8") == 0)) {
@@ -146,10 +153,10 @@ imap_wrapper_hydrate (CamelImapWrapper *imap_wrapper, CamelStream *stream)
 				camel_stream_filter_add (filterstream, filter);
 		}
 	}
-
+	
 	data_wrapper->stream = CAMEL_STREAM (filterstream);
 	data_wrapper->offline = FALSE;
-
+	
 	camel_object_unref (CAMEL_OBJECT (imap_wrapper->folder));
 	imap_wrapper->folder = NULL;
 	g_free (imap_wrapper->uid);
@@ -163,11 +170,11 @@ static int
 write_to_stream (CamelDataWrapper *data_wrapper, CamelStream *stream)
 {
 	CamelImapWrapper *imap_wrapper = CAMEL_IMAP_WRAPPER (data_wrapper);
-
+	
 	CAMEL_IMAP_WRAPPER_LOCK (imap_wrapper, lock);
 	if (data_wrapper->offline) {
 		CamelStream *datastream;
-
+		
 		datastream = camel_imap_folder_fetch_data (
 			imap_wrapper->folder, imap_wrapper->uid,
 			imap_wrapper->part_spec, FALSE, NULL);
@@ -176,12 +183,12 @@ write_to_stream (CamelDataWrapper *data_wrapper, CamelStream *stream)
 			errno = ENETUNREACH;
 			return -1;
 		}
-
+		
 		imap_wrapper_hydrate (imap_wrapper, datastream);
 		camel_object_unref (CAMEL_OBJECT (datastream));
 	}
 	CAMEL_IMAP_WRAPPER_UNLOCK (imap_wrapper, lock);
-
+	
 	return parent_class->write_to_stream (data_wrapper, stream);
 }
 
