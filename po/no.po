@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: gnome-applets 1.4.1\n"
 "POT-Creation-Date: 2001-07-31 14:52-0400\n"
-"PO-Revision-Date: 2001-07-31 14:54+0200\n"
+"PO-Revision-Date: 2001-07-31 21:45+0200\n"
 "Last-Translator: Kjartan Maraas <kmaraas@gnome.org>\n"
 "Language-Team: Norwegian <no@li.org>\n"
 "MIME-Version: 1.0\n"
@@ -10604,24 +10604,20 @@ msgid "Next"
 msgstr "Neste"
 
 #: ui/evolution-mail-message.xml.h:52
-#, fuzzy
 msgid "Next Important Message"
-msgstr "Neste melding"
+msgstr "Neste viktige melding"
 
 #: ui/evolution-mail-message.xml.h:53
-#, fuzzy
 msgid "Next Message"
 msgstr "Neste melding"
 
 #: ui/evolution-mail-message.xml.h:54
-#, fuzzy
 msgid "Next Thread"
-msgstr "Velg _tråd"
+msgstr "Velg tråd"
 
 #: ui/evolution-mail-message.xml.h:55
-#, fuzzy
 msgid "Next Unread Message"
-msgstr "Neste melding"
+msgstr "Neste uleste melding"
 
 #: ui/evolution-mail-message.xml.h:56
 msgid "Open the selected message in a new window"
@@ -10640,19 +10636,16 @@ msgid "Previous"
 msgstr "Forrige"
 
 #: ui/evolution-mail-message.xml.h:60
-#, fuzzy
 msgid "Previous Important Message"
-msgstr "Forrige melding"
+msgstr "Forrige viktige melding"
 
 #: ui/evolution-mail-message.xml.h:61
-#, fuzzy
 msgid "Previous Message"
 msgstr "Forrige melding"
 
 #: ui/evolution-mail-message.xml.h:62
-#, fuzzy
 msgid "Previous Unread Message"
-msgstr "Forrige melding"
+msgstr "Forrige uleste melding"
 
 #: ui/evolution-mail-message.xml.h:64
 msgid "Print Message..."
@@ -11027,9 +11020,8 @@ msgid "Re_fresh Task"
 msgstr "O_ppdater oppgave"
 
 #: ui/evolution-tasks.xml.h:2
-#, fuzzy
 msgid "Configure the task view's settings"
-msgstr "Konfigurer innstillinger for kalender"
+msgstr "Konfigurer innstillinger for oppgavevisning"
 
 #: ui/evolution-tasks.xml.h:3
 msgid "Copy selected task"
@@ -11060,9 +11052,8 @@ msgid "Save task as something else"
 msgstr "Lagre oppgave som noe annet"
 
 #: ui/evolution-tasks.xml.h:13
-#, fuzzy
 msgid "Tasks Settings"
-msgstr "Inns_tillinger for oppgaver..."
+msgstr "Innstillinger for oppgaver"
 
 #: ui/evolution-tasks.xml.h:19
 msgid "_Task"
