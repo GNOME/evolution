@@ -56,6 +56,18 @@ const struct poptOption calendar_sync_options [] = {
 	{ NULL, '\0', 0, NULL, 0 }
 };
 
+static void
+conduit_free_Appointment (struct Appointment *a)
+{
+	/* free_Appointment is brain-dead with respect to guarding against
+	   double-frees */
+	
+	free_Appointment (a);
+	a->exception = 0;
+	a->description = 0;
+	a->note = 0;
+}
+
 static int
 setup_connection (void)
 {
@@ -156,8 +168,21 @@ update_record (GNOME_Calendar_Repository repo, int id, struct Appointment *a, in
 	/*
 	 * Begin and end
 	 */
+
+	if (a->event)
+	{
+		/* turn day-long events into a full day's appointment */
+		a->begin.tm_sec = 0;
+		a->begin.tm_min = 0;
+		a->begin.tm_hour = 6;
+
+		a->end.tm_sec = 0;
+		a->end.tm_min = 0;
+		a->end.tm_hour = 10;
+	}
+	
 	obj->dtstart = mktime (&a->begin);
-	obj->dtend   = mktime (&a->end);
+	obj->dtend = mktime (&a->end);
 
 	/* Special case: daily repetitions are converted to a multi-day event */
 	if (a->repeatType == repeatDaily){
@@ -455,7 +480,7 @@ sync_object_to_pilot (GNOME_Calendar_Repository repo, iCalObject *obj, int pilot
 	
 	GNOME_Calendar_Repository_update_pilot_id (repo, obj->uid, new_id, ICAL_PILOT_SYNC_NONE, &ev);
 	
-	free_Appointment (a);
+	conduit_free_Appointment (a);
 	g_free (a);
 }
 
@@ -546,9 +571,10 @@ sync_pilot (GNOME_Calendar_Repository repo, int pilot_fd)
 			
 			/* If the object was deleted, remove it from the database */
 			if (attr & dlpRecAttrDeleted){
-				printf ("Deleting\n");
+				printf ("Deleting id %ld\n", id);
 				delete_record (repo, id);
-				free_Appointment (&a);
+				conduit_free_Appointment (&a);
+				dlp_DeleteRecord (pilot_fd, db, 0, id);
 				continue;
 			}
 
@@ -559,8 +585,7 @@ sync_pilot (GNOME_Calendar_Repository repo, int pilot_fd)
 				printf ("updating record\n");
 				update_record (repo, id, &a, attr);
 			}
-			
-			free_Appointment (&a);
+			conduit_free_Appointment (&a);
 		}
 	}
 	

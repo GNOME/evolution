@@ -1,3 +1,12 @@
+1999-08-02  Peter Teichman  <pat4@acpub.duke.edu>
+
+	* calendar-pilot-sync.c (sync_pilot): do deletion of appointments
+	correctly, when they are deleted on the pilot
+	(conduit_free_Appointment): protect against double-freeing parts
+	of the Appointment structure
+	(update_record): all-day events from the pilot are handled a bit
+	more reasonably
+
 1999-08-01  Peter Teichman  <pat4@acpub.duke.edu>
 
 	* calendar-pilot-sync.c (sync_object_to_pilot): The multi-day
