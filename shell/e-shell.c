@@ -473,18 +473,17 @@ e_shell_init (EShell *shell)
 static gboolean
 detect_version (GConfClient *gconf, int *major, int *minor, int *revision)
 {
-	char *val, *evolution_dir, *filename;
+	char *val, *evolution_dir;
 	struct stat st;
 	
 	evolution_dir = g_build_filename (g_get_home_dir (), "evolution", NULL);
-	filename = g_build_filename (evolution_dir, "config.xmldb", NULL);
 	
 	val = gconf_client_get_string(gconf, "/apps/evolution/version", NULL);	
 	if (val) {
 		/* Since 1.4.0 We've been keeping the version key in gconf */
 		sscanf(val, "%u.%u.%u", major, minor, revision);
 		g_free(val);
-	} else if (lstat (filename, &st) != 0 || !S_ISDIR (st.st_mode)) {
+	} else if (lstat (evolution_dir, &st) != 0 || !S_ISDIR (st.st_mode)) {
 		/* If ~/evolution does not exit or is not a directory it must be a new installation */
 		*major = 0;
 		*minor = 0;
@@ -493,10 +492,12 @@ detect_version (GConfClient *gconf, int *major, int *minor, int *revision)
 		xmlDocPtr config_doc = NULL;
 		xmlNodePtr source;
 		char *tmp;
-		
-		if (lstat(filename, &st) == 0
+
+		tmp = g_build_filename (evolution_dir, "config.xmldb", NULL);
+		if (lstat(tmp, &st) == 0
 		    && S_ISREG(st.st_mode))
-			config_doc = xmlParseFile (filename);
+			config_doc = xmlParseFile (tmp);
+		g_free (tmp);
 
 		tmp = NULL;
 		if (config_doc
@@ -518,7 +519,6 @@ detect_version (GConfClient *gconf, int *major, int *minor, int *revision)
 	}
 
 	g_free (evolution_dir);
-	g_free (filename);
 
 	return TRUE;
 }

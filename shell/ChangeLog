@@ -1,3 +1,10 @@
+2004-03-12  Not Zed  <NotZed@Ximian.com>
+
+	* e-shell.c (detect_version): when we check the evolution dir
+	exists, check the evolution dir exists, not the config.xmldb file.
+	Move filename building/usage into the else condition so it can't
+	happen again.  Fixes #53277.
+
 2004-03-10  Bill Zhu  <bill.zhu@sun.com>
 	
 	* e-shell-startup-wizzard.c (key_press_event_callback): Used the stock
