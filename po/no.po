@@ -5,8 +5,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: evolution 1.0\n"
-"POT-Creation-Date: 2002-03-30 08:34+0100\n"
-"PO-Revision-Date: 2002-03-30 08:37+0100\n"
+"POT-Creation-Date: 2002-04-01 21:58+0200\n"
+"PO-Revision-Date: 2002-04-01 22:10+0200\n"
 "Last-Translator: Kjartan Maraas <kmaraas@gnome.org>\n"
 "Language-Team: Norwegian <no@li.org>\n"
 "MIME-Version: 1.0\n"
@@ -472,7 +472,9 @@ msgstr "Factory for eksempelkontroll for adressebok"
 msgid ""
 "This page can be used to configure access to directory servers using the "
 "LDAP protocol"
-msgstr "Denne siden kan brukes til å konfigurere tilgang til katalogtjenere som bruker LDAP-protokollen."
+msgstr ""
+"Denne siden kan brukes til å konfigurere tilgang til katalogtjenere som "
+"bruker LDAP-protokollen."
 
 #: addressbook/gui/component/addressbook-component.c:71
 #: calendar/gui/dialogs/comp-editor-util.c:310
@@ -2966,7 +2968,8 @@ msgstr "Factory for å opprette en factory for komponentredigering"
 
 #: calendar/gui/GNOME_Evolution_Calendar.oaf.in.h:14
 msgid "This page can be used to configure Calendar and Task preferences"
-msgstr "Denne siden kan brukes til å konfigurere brukervalg for kalender og oppgaver"
+msgstr ""
+"Denne siden kan brukes til å konfigurere brukervalg for kalender og oppgaver"
 
 #: calendar/gui/alarm-notify/GNOME_Evolution_Calendar_AlarmNotify.oaf.in.h:1
 msgid "Alarm notification service"
@@ -3502,7 +3505,7 @@ msgstr "Påminnelser"
 
 #: calendar/gui/dialogs/alarm-page.glade.h:7
 #: calendar/gui/dialogs/recurrence-page.glade.h:8
-#: calendar/gui/e-itip-control.c:758 calendar/gui/e-itip-control.glade.h:11
+#: calendar/gui/e-itip-control.c:769 calendar/gui/e-itip-control.glade.h:11
 msgid "Summary:"
 msgstr "Sammendrag:"
 
@@ -4053,7 +4056,7 @@ msgid "Member"
 msgstr "Medlem"
 
 #: calendar/gui/dialogs/meeting-page.etspec.h:8
-#: calendar/gui/e-itip-control.c:853
+#: calendar/gui/e-itip-control.c:864
 #: calendar/gui/e-meeting-time-sel.etspec.h:8
 msgid "RSVP"
 msgstr "RSVP"
@@ -4211,7 +4214,7 @@ msgid "Progress"
 msgstr "Fremdrift"
 
 #: calendar/gui/dialogs/task-details-page.glade.h:12
-#: my-evolution/e-summary-preferences.c:764
+#: my-evolution/e-summary-preferences.c:766
 msgid "URL:"
 msgstr "URL:"
 
@@ -4229,7 +4232,7 @@ msgstr "_Status:"
 msgid "Assignment"
 msgstr "Tildeling"
 
-#: calendar/gui/dialogs/task-page.glade.h:5 calendar/gui/e-itip-control.c:801
+#: calendar/gui/dialogs/task-page.glade.h:5 calendar/gui/e-itip-control.c:812
 #: calendar/gui/e-itip-control.glade.h:6
 #: composer/e-msg-composer-attachment.glade.h:2 mail/mail-config.glade.h:55
 msgid "Description:"
@@ -4408,7 +4411,7 @@ msgstr "Startdato"
 #. FIXME: Inbox shortcut should point to something else for
 #. people who won't care about using /Local Folders/Inbox
 #: calendar/gui/e-calendar-table.etspec.h:16
-#: my-evolution/component-factory.c:46 shell/e-shell.c:661
+#: my-evolution/component-factory.c:48 shell/e-shell.c:661
 #: shell/e-shortcuts.c:1030
 msgid "Summary"
 msgstr "Sammendrag"
@@ -4539,57 +4542,57 @@ msgstr "Slett denne _hendelsen"
 msgid "Delete _All Occurrences"
 msgstr "Slett _alle hendelser"
 
-#: calendar/gui/e-itip-control.c:545
+#: calendar/gui/e-itip-control.c:556
 msgid "Meeting begins: <b>"
 msgstr "Møte starter: <b>"
 
-#: calendar/gui/e-itip-control.c:550
+#: calendar/gui/e-itip-control.c:561
 msgid "Task begins: <b>"
 msgstr "Oppgave starter: <b>"
 
-#: calendar/gui/e-itip-control.c:555
+#: calendar/gui/e-itip-control.c:566
 msgid "Free/Busy info begins: <b>"
 msgstr "Ledig/opptatt-informasjon starter: <b>"
 
-#: calendar/gui/e-itip-control.c:559
+#: calendar/gui/e-itip-control.c:570
 msgid "Begins: <b>"
 msgstr "Starter: <b>"
 
-#: calendar/gui/e-itip-control.c:571
+#: calendar/gui/e-itip-control.c:582
 msgid "Meeting ends: <b>"
 msgstr "Møte slutter: <b>"
 
-#: calendar/gui/e-itip-control.c:574
+#: calendar/gui/e-itip-control.c:585
 msgid "Free/Busy info ends: <b>"
 msgstr "Ledig/opptatt-informasjon slutter: <b>"
 
-#: calendar/gui/e-itip-control.c:578
+#: calendar/gui/e-itip-control.c:589
 msgid "Ends: <b>"
 msgstr "Slutter: <b>"
 
-#: calendar/gui/e-itip-control.c:592
+#: calendar/gui/e-itip-control.c:603
 msgid "Task Completed: <b>"
 msgstr "Oppgave fullført: <b>"
 
-#: calendar/gui/e-itip-control.c:602
+#: calendar/gui/e-itip-control.c:613
 msgid "Task Due: <b>"
 msgstr "Oppgave ferdig: <b>"
 
-#: calendar/gui/e-itip-control.c:639 calendar/gui/e-itip-control.c:688
+#: calendar/gui/e-itip-control.c:650 calendar/gui/e-itip-control.c:699
 msgid "iCalendar Information"
 msgstr "iCalendar-informasjon"
 
 #. Title
-#: calendar/gui/e-itip-control.c:654
+#: calendar/gui/e-itip-control.c:665
 msgid "iCalendar Error"
 msgstr "iCalender-feil"
 
-#: calendar/gui/e-itip-control.c:719 calendar/gui/e-itip-control.c:735
+#: calendar/gui/e-itip-control.c:730 calendar/gui/e-itip-control.c:746
 msgid "An unknown person"
 msgstr "En ukjent person"
 
 #. Describe what the user can do
-#: calendar/gui/e-itip-control.c:742
+#: calendar/gui/e-itip-control.c:753
 msgid ""
 "<br> Please review the following information, and then select an action from "
 "the menu below."
@@ -4597,32 +4600,32 @@ msgstr ""
 "<br>Vennligst sjekk følgende informasjon og velg så en handling fra menyen "
 "under."
 
-#: calendar/gui/e-itip-control.c:758
+#: calendar/gui/e-itip-control.c:769
 msgid "<i>None</i>"
 msgstr "<i>Ingen</i>"
 
-#: calendar/gui/e-itip-control.c:770
+#: calendar/gui/e-itip-control.c:781
 msgid "Status:"
 msgstr "Status:"
 
-#: calendar/gui/e-itip-control.c:775 calendar/gui/e-meeting-model.c:318
+#: calendar/gui/e-itip-control.c:786 calendar/gui/e-meeting-model.c:318
 #: calendar/gui/e-meeting-model.c:341 calendar/gui/e-meeting-model.c:835
 #: calendar/gui/itip-utils.c:323
 msgid "Accepted"
 msgstr "Godtatt"
 
-#: calendar/gui/e-itip-control.c:779 calendar/gui/itip-utils.c:326
+#: calendar/gui/e-itip-control.c:790 calendar/gui/itip-utils.c:326
 msgid "Tentatively Accepted"
 msgstr "Akteptert tentativt"
 
-#: calendar/gui/e-itip-control.c:783 calendar/gui/e-meeting-model.c:320
+#: calendar/gui/e-itip-control.c:794 calendar/gui/e-meeting-model.c:320
 #: calendar/gui/e-meeting-model.c:343 calendar/gui/e-meeting-model.c:836
 #: calendar/gui/itip-utils.c:329 calendar/gui/itip-utils.c:355
 msgid "Declined"
 msgstr "Avslått"
 
-#: calendar/gui/e-itip-control.c:787 calendar/gui/e-itip-control.c:986
-#: calendar/gui/e-itip-control.c:1057 calendar/gui/e-meeting-model.c:254
+#: calendar/gui/e-itip-control.c:798 calendar/gui/e-itip-control.c:997
+#: calendar/gui/e-itip-control.c:1068 calendar/gui/e-meeting-model.c:254
 #: calendar/gui/e-meeting-model.c:289 calendar/gui/e-meeting-model.c:354
 #: calendar/gui/e-meeting-model.c:793 calendar/gui/e-meeting-model.c:809
 #: camel/providers/smtp/camel-smtp-transport.c:172
@@ -4632,259 +4635,259 @@ msgstr "Avslått"
 msgid "Unknown"
 msgstr "Ukjent"
 
-#: calendar/gui/e-itip-control.c:833 calendar/gui/e-itip-control.c:849
-#: calendar/gui/e-itip-control.c:865 calendar/gui/e-itip-control.c:878
-#: calendar/gui/e-itip-control.c:891 calendar/gui/e-itip-control.c:904
+#: calendar/gui/e-itip-control.c:844 calendar/gui/e-itip-control.c:860
+#: calendar/gui/e-itip-control.c:876 calendar/gui/e-itip-control.c:889
+#: calendar/gui/e-itip-control.c:902 calendar/gui/e-itip-control.c:915
 msgid "Choose an action:"
 msgstr "Velg en handling:"
 
-#: calendar/gui/e-itip-control.c:834
+#: calendar/gui/e-itip-control.c:845
 msgid "Update"
 msgstr "Oppdater"
 
-#: calendar/gui/e-itip-control.c:835 calendar/gui/e-itip-control.c:854
-#: calendar/gui/e-itip-control.c:867 calendar/gui/e-itip-control.c:880
-#: calendar/gui/e-itip-control.c:893 calendar/gui/e-itip-control.c:906
+#: calendar/gui/e-itip-control.c:846 calendar/gui/e-itip-control.c:865
+#: calendar/gui/e-itip-control.c:878 calendar/gui/e-itip-control.c:891
+#: calendar/gui/e-itip-control.c:904 calendar/gui/e-itip-control.c:917
 #: shell/e-shell.c:1980 widgets/misc/e-cell-date-edit.c:258
 msgid "OK"
 msgstr "OK"
 
-#: calendar/gui/e-itip-control.c:850
+#: calendar/gui/e-itip-control.c:861
 msgid "Accept"
 msgstr "Godta"
 
-#: calendar/gui/e-itip-control.c:851
+#: calendar/gui/e-itip-control.c:862
 msgid "Tentatively accept"
 msgstr "Godta tentativt"
 
-#: calendar/gui/e-itip-control.c:852
+#: calendar/gui/e-itip-control.c:863
 msgid "Decline"
 msgstr "Avslå"
 
-#: calendar/gui/e-itip-control.c:866
+#: calendar/gui/e-itip-control.c:877
 msgid "Send Free/Busy Information"
 msgstr "Send ledig/opptatt-informasjon"
 
-#: calendar/gui/e-itip-control.c:879
+#: calendar/gui/e-itip-control.c:890
 msgid "Update respondent status"
 msgstr "Oppdater status for respondent"
 
-#: calendar/gui/e-itip-control.c:892
+#: calendar/gui/e-itip-control.c:903
 msgid "Send Latest Information"
 msgstr "Send siste informasjon"
 
-#: calendar/gui/e-itip-control.c:905 calendar/gui/itip-utils.c:343
+#: calendar/gui/e-itip-control.c:916 calendar/gui/itip-utils.c:343
 #: ui/evolution-mail-global.xml.h:1
 msgid "Cancel"
 msgstr "Avbryt"
 
-#: calendar/gui/e-itip-control.c:953
+#: calendar/gui/e-itip-control.c:964
 #, c-format
 msgid "<b>%s</b> has published meeting information."
 msgstr "<b>%s</b> har publisert møteinformasjon."
 
-#: calendar/gui/e-itip-control.c:954
+#: calendar/gui/e-itip-control.c:965
 msgid "Meeting Information"
 msgstr "Møteinformasjon"
 
-#: calendar/gui/e-itip-control.c:958
+#: calendar/gui/e-itip-control.c:969
 #, c-format
 msgid "<b>%s</b> requests your presence at a meeting."
 msgstr "<b>%s</b> forespør din tilstedeværelse i et møte."
 
-#: calendar/gui/e-itip-control.c:959
+#: calendar/gui/e-itip-control.c:970
 msgid "Meeting Proposal"
 msgstr "Møteforslag"
 
-#: calendar/gui/e-itip-control.c:963
+#: calendar/gui/e-itip-control.c:974
 #, c-format
 msgid "<b>%s</b> wishes to add to an existing meeting."
 msgstr "<b>%s</b> ønsker å legge til informasjon i et eksisterende møte."
 
-#: calendar/gui/e-itip-control.c:964
+#: calendar/gui/e-itip-control.c:975
 msgid "Meeting Update"
 msgstr "Møteoppdatering"
 
-#: calendar/gui/e-itip-control.c:968
+#: calendar/gui/e-itip-control.c:979
 #, c-format
 msgid "<b>%s</b> wishes to receive the latest meeting information."
 msgstr "<b>%s</b> ønsker å motta seneste møteinformasjon."
 
-#: calendar/gui/e-itip-control.c:969
+#: calendar/gui/e-itip-control.c:980
 msgid "Meeting Update Request"
 msgstr "Forespørsel om møteoppdatering"
 
-#: calendar/gui/e-itip-control.c:992
+#: calendar/gui/e-itip-control.c:1003
 #, c-format
 msgid "<b>%s</b> has replied to a meeting request."
 msgstr "<b>%s</b> har svart på en møteforespørsel."
 
-#: calendar/gui/e-itip-control.c:993
+#: calendar/gui/e-itip-control.c:1004
 msgid "Meeting Reply"
 msgstr "Møtesvar"
 
-#: calendar/gui/e-itip-control.c:997
+#: calendar/gui/e-itip-control.c:1008
 #, c-format
 msgid "<b>%s</b> has cancelled a meeting."
 msgstr "<b>%s</b> har avlyst et møte."
 
-#: calendar/gui/e-itip-control.c:998
+#: calendar/gui/e-itip-control.c:1009
 msgid "Meeting Cancellation"
 msgstr "Møteavlysing"
 
-#: calendar/gui/e-itip-control.c:1002 calendar/gui/e-itip-control.c:1073
-#: calendar/gui/e-itip-control.c:1108
+#: calendar/gui/e-itip-control.c:1013 calendar/gui/e-itip-control.c:1084
+#: calendar/gui/e-itip-control.c:1119
 #, c-format
 msgid "<b>%s</b> has sent an unintelligible message."
 msgstr "<b>%s</b> har sendt en uforståelig melding."
 
-#: calendar/gui/e-itip-control.c:1003
+#: calendar/gui/e-itip-control.c:1014
 msgid "Bad Meeting Message"
 msgstr "Ugyldig møtemelding"
 
-#: calendar/gui/e-itip-control.c:1023
+#: calendar/gui/e-itip-control.c:1034
 #, c-format
 msgid "<b>%s</b> has published task information."
 msgstr "<b>%s</b> har publisert informasjon om en oppgave."
 
-#: calendar/gui/e-itip-control.c:1024
+#: calendar/gui/e-itip-control.c:1035
 msgid "Task Information"
 msgstr "Oppgaveinformasjon"
 
-#: calendar/gui/e-itip-control.c:1028
+#: calendar/gui/e-itip-control.c:1039
 #, c-format
 msgid "<b>%s</b> requests you perform a task."
 msgstr "<b>%s</b> forespør at du utfører en oppgave."
 
-#: calendar/gui/e-itip-control.c:1029
+#: calendar/gui/e-itip-control.c:1040
 msgid "Task Proposal"
 msgstr "Forespørsel om oppgave"
 
-#: calendar/gui/e-itip-control.c:1033
+#: calendar/gui/e-itip-control.c:1044
 #, c-format
 msgid "<b>%s</b> wishes to add to an existing task."
 msgstr "<b>%s</b> ønsker å legge til informasjon i en eksisterende oppgave."
 
-#: calendar/gui/e-itip-control.c:1034
+#: calendar/gui/e-itip-control.c:1045
 msgid "Task Update"
 msgstr "Oppgaveoppdatering"
 
-#: calendar/gui/e-itip-control.c:1038
+#: calendar/gui/e-itip-control.c:1049
 #, c-format
 msgid "<b>%s</b> wishes to receive the latest task information."
 msgstr "<b>%s</b> ønsker å motta den seneste informasjon om oppgaven."
 
-#: calendar/gui/e-itip-control.c:1039
+#: calendar/gui/e-itip-control.c:1050
 msgid "Task Update Request"
 msgstr "Forespørsel om oppgaveoppdatering"
 
-#: calendar/gui/e-itip-control.c:1063
+#: calendar/gui/e-itip-control.c:1074
 #, c-format
 msgid "<b>%s</b> has replied to a task assignment."
 msgstr "<b>%s</b> har svart på en oppgavetildeling."
 
-#: calendar/gui/e-itip-control.c:1064
+#: calendar/gui/e-itip-control.c:1075
 msgid "Task Reply"
 msgstr "Svar på oppgave"
 
-#: calendar/gui/e-itip-control.c:1068
+#: calendar/gui/e-itip-control.c:1079
 #, c-format
 msgid "<b>%s</b> has cancelled a task."
 msgstr "<b>%s</b> har avlyst en oppgave."
 
-#: calendar/gui/e-itip-control.c:1069
+#: calendar/gui/e-itip-control.c:1080
 msgid "Task Cancellation"
 msgstr "Avlysning av oppgave"
 
-#: calendar/gui/e-itip-control.c:1074
+#: calendar/gui/e-itip-control.c:1085
 msgid "Bad Task Message"
 msgstr "Ugyldig oppgavemelding"
 
-#: calendar/gui/e-itip-control.c:1093
+#: calendar/gui/e-itip-control.c:1104
 #, c-format
 msgid "<b>%s</b> has published free/busy information."
 msgstr "<b>%s</b> har publisert ledig/opptatt-informasjon."
 
-#: calendar/gui/e-itip-control.c:1094
+#: calendar/gui/e-itip-control.c:1105
 msgid "Free/Busy Information"
 msgstr "Ledig/opptatt-informasjon"
 
-#: calendar/gui/e-itip-control.c:1098
+#: calendar/gui/e-itip-control.c:1109
 #, c-format
 msgid "<b>%s</b> requests your free/busy information."
 msgstr "<b>%s</b> forespør din ledig/opptatt-informasjon."
 
-#: calendar/gui/e-itip-control.c:1099
+#: calendar/gui/e-itip-control.c:1110
 msgid "Free/Busy Request"
 msgstr "Ledig/opptatt forespørsel"
 
-#: calendar/gui/e-itip-control.c:1103
+#: calendar/gui/e-itip-control.c:1114
 #, c-format
 msgid "<b>%s</b> has replied to a free/busy request."
 msgstr "<b>%s</b> har svart på en forespørsel etter ledig/opptatt-informasjon."
 
-#: calendar/gui/e-itip-control.c:1104
+#: calendar/gui/e-itip-control.c:1115
 msgid "Free/Busy Reply"
 msgstr "Ledig/opptatt svar"
 
-#: calendar/gui/e-itip-control.c:1109
+#: calendar/gui/e-itip-control.c:1120
 msgid "Bad Free/Busy Message"
 msgstr "Ugyldig ledig/opptatt-melding"
 
-#: calendar/gui/e-itip-control.c:1182
+#: calendar/gui/e-itip-control.c:1193
 msgid "The message does not appear to be properly formed"
 msgstr "Meldingen ser ikke ut til å være riktig utformet"
 
-#: calendar/gui/e-itip-control.c:1201
+#: calendar/gui/e-itip-control.c:1212
 msgid "The message contains only unsupported requests."
 msgstr "Denne meldingen inneholder forespørsler som ikke er støttet."
 
-#: calendar/gui/e-itip-control.c:1229 calendar/gui/e-itip-control.c:1235
+#: calendar/gui/e-itip-control.c:1240 calendar/gui/e-itip-control.c:1246
 msgid "The attachment does not contain a valid calendar message"
 msgstr "Vedlegget inneholder ikke et gyldig kalender-vedlegg"
 
-#: calendar/gui/e-itip-control.c:1260
+#: calendar/gui/e-itip-control.c:1271
 msgid "The attachment has no viewable calendar items"
 msgstr "Vedlegget inneholder ingen visbare kalender-vedlegg"
 
-#: calendar/gui/e-itip-control.c:1338
-msgid "Unable to find any of your identities in the attendees list!\n"
-msgstr "Kunne ikke finne noen av dine identiteter i deltakerlisten!\n"
-
-#: calendar/gui/e-itip-control.c:1369
+#: calendar/gui/e-itip-control.c:1403
 msgid "Calendar file could not be updated!\n"
 msgstr "Kalenderfilen kunne ikke oppdateres!\n"
 
-#: calendar/gui/e-itip-control.c:1371
+#: calendar/gui/e-itip-control.c:1405
 msgid "Update complete\n"
 msgstr "Oppdatering fullført\n"
 
-#: calendar/gui/e-itip-control.c:1416
+#: calendar/gui/e-itip-control.c:1446
+msgid "This response is not from a current attendee.  Add as an attendee?"
+msgstr "Dette svaret er ikke fra en aktiv deltaker. Legg til som deltaker?"
+
+#: calendar/gui/e-itip-control.c:1459
 msgid "Attendee status could not be updated because of an invalid status!\n"
 msgstr "Deltakerstatus kunne ikke oppdateres pga ugyldig status!\n"
 
-#: calendar/gui/e-itip-control.c:1424
+#: calendar/gui/e-itip-control.c:1472
 msgid "Attendee status could not be updated!\n"
 msgstr "Deltakerstatus kunne ikke oppdateres!\n"
 
-#: calendar/gui/e-itip-control.c:1426
+#: calendar/gui/e-itip-control.c:1474
 msgid "Attendee status updated\n"
 msgstr "Deltakerstatus oppdatert\n"
 
-#: calendar/gui/e-itip-control.c:1428
+#: calendar/gui/e-itip-control.c:1476
 msgid "Attendee status can not be updated because the item no longer exists"
 msgstr ""
 "Deltakerstatus kan ikke oppdateres fordi oppføringen ikke eksisterer lenger"
 
-#: calendar/gui/e-itip-control.c:1456
+#: calendar/gui/e-itip-control.c:1504
 msgid "Removal Complete"
 msgstr "Fjerning fullført"
 
-#: calendar/gui/e-itip-control.c:1486 calendar/gui/e-itip-control.c:1536
+#: calendar/gui/e-itip-control.c:1534 calendar/gui/e-itip-control.c:1584
 msgid "Item sent!\n"
 msgstr "Oppføring sendt!\n"
 
-#: calendar/gui/e-itip-control.c:1488 calendar/gui/e-itip-control.c:1540
+#: calendar/gui/e-itip-control.c:1536 calendar/gui/e-itip-control.c:1588
 msgid "The item could not be sent!\n"
 msgstr "Oppføringen kunne ikke sendes!\n"
 
@@ -9506,6 +9509,15 @@ msgstr "Emne inneholder"
 msgid "Subject does not contain"
 msgstr "Emne inneholder ikke"
 
+#: e-util/e-dialog-utils.c:228 mail/mail-callbacks.c:2226
+#: mail/mail-display.c:119
+msgid ""
+"A file by that name already exists.\n"
+"Overwrite it?"
+msgstr ""
+"En fil med samme navn eksisterer allerede.\n"
+"Overskriv den?"
+
 #. Remember the password?
 #: e-util/e-passwords.c:360 mail/mail-session.c:269
 msgid "Remember this password"
@@ -9610,7 +9622,6 @@ msgid "%I %p"
 msgstr "%I %p"
 
 #: executive-summary/GNOME_Evolution_Summary.oaf.in.h:1
-#: my-evolution/GNOME_Evolution_Summary.oaf.in.h:2
 msgid "Evolution component for the executive summary."
 msgstr "Evolution-komponent for sammendrag."
 
@@ -10762,19 +10773,6 @@ msgstr ""
 msgid "You may not create two accounts with the same name."
 msgstr "Du kan ikke opprette to kontoer med samme navn."
 
-#: mail/mail-accounts.c:499 mail/mail-accounts.etspec.h:1
-msgid "Account name"
-msgstr "Kontonavn"
-
-#: mail/mail-accounts.c:498 mail/mail-accounts.etspec.h:2
-#: mail/mail-config.glade.h:70
-msgid "Enabled"
-msgstr "Aktivert"
-
-#: mail/mail-accounts.c:500 mail/mail-accounts.etspec.h:3
-msgid "Protocol"
-msgstr "Protokoll"
-
 #: mail/mail-accounts.c:210
 msgid "Are you sure you want to delete this account?"
 msgstr "Er du sikker på at du vil slette denne kontoen?"
@@ -10794,6 +10792,19 @@ msgstr "Deaktiver"
 #: mail/mail-accounts.c:342 mail/mail-accounts.c:376
 msgid "Enable"
 msgstr "Aktiver"
+
+#: mail/mail-accounts.c:498 mail/mail-accounts.etspec.h:2
+#: mail/mail-config.glade.h:70
+msgid "Enabled"
+msgstr "Aktivert"
+
+#: mail/mail-accounts.c:499 mail/mail-accounts.etspec.h:1
+msgid "Account name"
+msgstr "Kontonavn"
+
+#: mail/mail-accounts.c:500 mail/mail-accounts.etspec.h:3
+msgid "Protocol"
+msgstr "Protokoll"
 
 #: mail/mail-autofilter.c:72
 #, c-format
@@ -10955,14 +10966,6 @@ msgstr "Ingen melding valgt"
 #: mail/mail-callbacks.c:2219 mail/mail-display.c:115
 msgid "Overwrite file?"
 msgstr "Overskriv fil?"
-
-#: mail/mail-callbacks.c:2226 mail/mail-display.c:119
-msgid ""
-"A file by that name already exists.\n"
-"Overwrite it?"
-msgstr ""
-"En fil med samme navn eksisterer allerede.\n"
-"Overskriv den?"
 
 #: mail/mail-callbacks.c:2273
 msgid "Save Message As..."
@@ -12732,15 +12735,23 @@ msgstr "_Fjern abonnement"
 msgid "Configuration control for the Evolution Summary."
 msgstr "Konfigurasjonskontroll for Evolution sammendrag."
 
+#: my-evolution/GNOME_Evolution_Summary.oaf.in.h:2
+msgid "Evolution Summary component."
+msgstr "Komponent for Evolution sammendrag."
+
 #: my-evolution/GNOME_Evolution_Summary.oaf.in.h:3
 msgid "Factory for Evolution Summary's configuration control."
 msgstr "Factory for konfigurasjonskontroll for Evolution sammendrag."
 
 #: my-evolution/GNOME_Evolution_Summary.oaf.in.h:4
+msgid "Factory for the Evolution Summary component."
+msgstr "Factory for Evolutions sammendrag-komponent."
+
+#: my-evolution/GNOME_Evolution_Summary.oaf.in.h:5
 msgid "Summary Preferences"
 msgstr "Brukervalg for sammendrag"
 
-#: my-evolution/GNOME_Evolution_Summary.oaf.in.h:5
+#: my-evolution/GNOME_Evolution_Summary.oaf.in.h:6
 msgid "This page can be used to customize the appearance of the Summary page."
 msgstr "Denne siden kan brukes til å kontrollere utseende av sammendragsiden."
 
@@ -22537,13 +22548,9 @@ msgstr "Zuni Pueblo"
 msgid "Zurich"
 msgstr "Zurich"
 
-#: my-evolution/component-factory.c:46
+#: my-evolution/component-factory.c:48
 msgid "Folder containing the Evolution Summary"
 msgstr "Mappe som inneholder Evolution sammendrag"
-
-#: my-evolution/component-factory.c:159
-msgid "Cannot initialize Evolution's Summary component."
-msgstr "Kan ikke initiere Evolutions sammendragskomponent."
 
 #: my-evolution/e-summary-calendar.c:365 my-evolution/e-summary-calendar.c:383
 msgid "Appointments"
@@ -22569,7 +22576,7 @@ msgstr "Ingen beskrivelse"
 msgid "Mail summary"
 msgstr "E-post sammendrag"
 
-#: my-evolution/e-summary-mail.c:397 shell/e-local-storage.c:1022
+#: my-evolution/e-summary-mail.c:398 shell/e-local-storage.c:1022
 msgid "Local Folders"
 msgstr "Lokale mapper"
 
@@ -22578,28 +22585,28 @@ msgstr "Lokale mapper"
 #. stations and their codes in Evolution sources.
 #. (evolution/my-evolution/Locations)
 #. Codes are seperated with : eg. "KBOS:EGAA"
-#: my-evolution/e-summary-preferences.c:90
+#: my-evolution/e-summary-preferences.c:92
 #: my-evolution/e-summary-weather.c:603
 msgid "KBOS"
 msgstr "KBOS"
 
-#: my-evolution/e-summary-preferences.c:464
+#: my-evolution/e-summary-preferences.c:466
 msgid "Dictionary.com Word of the Day"
 msgstr "Dictionary.com Ord for dagen"
 
-#: my-evolution/e-summary-preferences.c:485
+#: my-evolution/e-summary-preferences.c:487
 msgid "Quotes of the Day"
 msgstr "Dagens sitat"
 
-#: my-evolution/e-summary-preferences.c:744
+#: my-evolution/e-summary-preferences.c:746
 msgid "Add a news feed"
 msgstr "Legg til news-tjener"
 
-#: my-evolution/e-summary-preferences.c:752
+#: my-evolution/e-summary-preferences.c:754
 msgid "Enter the URL of the news feed you wish to add"
 msgstr "Skriv inn URL for nyhetsstedet du vil legge til"
 
-#: my-evolution/e-summary-preferences.c:756
+#: my-evolution/e-summary-preferences.c:758
 msgid "Name:"
 msgstr "Navn:"
 
@@ -26592,6 +26599,12 @@ msgstr "init_corba(): kunne ikke initiere GNOME"
 #: wombat/wombat.c:225
 msgid "init_bonobo(): could not initialize Bonobo"
 msgstr "init_bonobo(): kunne ikke initiere Bonobo"
+
+#~ msgid "Unable to find any of your identities in the attendees list!\n"
+#~ msgstr "Kunne ikke finne noen av dine identiteter i deltakerlisten!\n"
+
+#~ msgid "Cannot initialize Evolution's Summary component."
+#~ msgstr "Kan ikke initiere Evolutions sammendragskomponent."
 
 #~ msgid "LDAP Sources"
 #~ msgstr "LDAP-kilder"
