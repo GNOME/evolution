@@ -1,3 +1,9 @@
+2000-08-25  Dan Winship  <danw@helixcode.com>
+
+	* gui/component/Makefile.am (evolution_addressbook_LDFLAGS): Add
+	-export-dynamic so libglade will be able to resolve custom widget
+	callbacks.
+
 2000-08-23  Lauris Kaplinski  <lauris@helixcode.com>
 
 	* backend/pas/pas-backend-file.c (func_contains): Use e_utf8_strstrcase
