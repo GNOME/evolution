@@ -491,7 +491,7 @@ transport_check (MailConfigDruid *druid)
 	const CamelProvider *prov = druid->transport_provider;
 	gboolean next_sensitive = TRUE;
 	
-	if (prov->url_flags & CAMEL_URL_NEED_HOST)
+	if (prov && prov->url_flags & CAMEL_URL_NEED_HOST)
 		next_sensitive = gtk_entry_get_text (druid->outgoing_hostname) != NULL;
 	
 	gnome_druid_set_buttons_sensitive (druid->druid, TRUE, next_sensitive, TRUE);
@@ -631,7 +631,7 @@ set_defaults (MailConfigDruid *druid)
 	/* construct incoming/outgoing option menus */
 	stores = gtk_menu_new ();
 	transports = gtk_menu_new ();
-	druid->providers = camel_session_list_providers (session, FALSE);
+	druid->providers = camel_session_list_providers (session, TRUE);
 	l = druid->providers;
 	while (l) {
 		CamelProvider *provider = l->data;
@@ -674,14 +674,14 @@ set_defaults (MailConfigDruid *druid)
 		l = l->next;
 	}
 	
+	gtk_option_menu_set_menu (druid->incoming_type, stores);
+	gtk_option_menu_set_menu (druid->outgoing_type, transports);
+	
 	if (fstore)
 		gtk_signal_emit_by_name (GTK_OBJECT (fstore), "activate", druid);
 	
 	if (ftransport)
 		gtk_signal_emit_by_name (GTK_OBJECT (ftransport), "activate", druid);
-	
-	gtk_option_menu_set_menu (druid->incoming_type, stores);
-	gtk_option_menu_set_menu (druid->outgoing_type, transports);
 }
 
 static gboolean
@@ -760,6 +760,7 @@ construct (MailConfigDruid *druid)
 	/* set window title */
 	gtk_window_set_title (GTK_WINDOW (druid), _("Evolution Account Wizard"));
 	gtk_window_set_policy (GTK_WINDOW (druid), FALSE, TRUE, TRUE);
+	gtk_window_set_modal (GTK_WINDOW (druid), TRUE);
 	
 	/* attach to druid page signals */
 	i = 0;

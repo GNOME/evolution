@@ -1,5 +1,12 @@
 2001-01-08  Jeffrey Stedfast  <fejj@helixcode.com>
 
+	* mail-config-druid.c: More lovely fixes...
+
+	* mail-callbacks.c: Don't segfault if a default account doesn't
+	exist.
+
+2001-01-08  Jeffrey Stedfast  <fejj@helixcode.com>
+
 	* mail-config-druid.c: A bunch of fixes.
 
 	* mail-accounts.c: More fixes...

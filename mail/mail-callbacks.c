@@ -115,7 +115,7 @@ check_send_configuration (FolderBrowser *fb)
 	account = mail_config_get_default_account ();
 	
 	/* Check for an identity */
-	if (!account->id) {
+	if (!account) {
 		GtkWidget *message;
 		
 		message = gnome_warning_dialog_parented (_("You need to configure an identity\n"
