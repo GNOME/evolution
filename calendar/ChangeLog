@@ -1,3 +1,8 @@
+1999-07-16  Miguel de Icaza  <miguel@gnu.org>
+
+	* gnome-month-item.c (gnome_month_item_set_arg): Merge fix from
+	gnome-pim-1-0: Fixed cut&paste bug for day fontsets.
+
 1999-07-14  Miguel de Icaza  <miguel@gnu.org>
 
 	* calobj.c (ical_gen_uid): Returns a UID.

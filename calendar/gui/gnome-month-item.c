@@ -1020,7 +1020,7 @@ gnome_month_item_set_arg (GtkObject *object, GtkArg *arg, guint arg_id)
 	case ARG_DAY_FONTSET:
 		gdk_font_unref (mitem->day_font);
 
-		mitem->head_font = gdk_fontset_load (GTK_VALUE_STRING (*arg));
+		mitem->day_font = gdk_fontset_load (GTK_VALUE_STRING (*arg));
 		if (!mitem->day_font) {
 			mitem->day_font =
 			  gdk_fontset_load ("-*-fixed-medium-r-semicondensed--13-120-75-75-c-60-*-*");
