@@ -12,7 +12,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: evolution 1.4.4\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2003-08-02 10:39+0200\n"
+"POT-Creation-Date: 2003-08-03 18:46+0200\n"
 "PO-Revision-Date: 2003-08-02 09:33+0200\n"
 "Last-Translator: Brigitte Le Grand <brigitte.le.grand@sun.com>\n"
 "Language-Team: GNOME French Team <gnomefr@traduc.org>\n"
@@ -9375,7 +9375,7 @@ msgstr "IMAP"
 
 #: camel/providers/imap/camel-imap-provider.c:65
 msgid "For reading and storing mail on IMAP servers."
-msgstr "Lecture et stockage du courrier sur des serveurs IMAP"
+msgstr "Pour la lecture et le stockage du courrier sur des serveurs IMAP."
 
 #: camel/providers/imap/camel-imap-provider.c:80
 #: camel/providers/nntp/camel-nntp-store.c:267
@@ -9512,7 +9512,8 @@ msgstr "Répertoires de courrier au format MH"
 
 #: camel/providers/local/camel-local-provider.c:50
 msgid "For storing local mail in MH-like mail directories."
-msgstr "Pour stocker le courrier local dans des répertoires de type MH."
+msgstr ""
+"Pour stocker le courrier local dans des répertoires de courrier de type MH."
 
 #: camel/providers/local/camel-local-provider.c:65
 msgid "Local delivery"
@@ -9523,8 +9524,8 @@ msgid ""
 "For retrieving (moving) local mail from standard mbox formated spools into "
 "folders managed by Evolution."
 msgstr ""
-"Pour récupérer (déplacer) le courrier local se trouvant dans des boîtes aux "
-"lettres au format standard mbox vers des dossiers gérés par Evolution. "
+"Pour récupérer (déplacer) le courrier local se trouvant dans des boîtes\n"
+"aux lettres au format standard mbox vers des dossiers gérés par Evolution."
 
 #: camel/providers/local/camel-local-provider.c:77
 #: camel/providers/local/camel-local-provider.c:94
@@ -9557,8 +9558,8 @@ msgid ""
 msgstr ""
 "Pour lire et stocker le courrier local dans des fichiers externes au format "
 "standard mbox.\n"
-"Peut également être utilisé pour lire un arbre de dossiers Elm, Pine ou "
-"Mutt. "
+"Peut également être utilisé pour lire une arborescence de dossiers Elm, Pine "
+"ou Mutt. "
 
 #: camel/providers/local/camel-local-store.c:139
 #: camel/providers/local/camel-local-store.c:228
@@ -10172,7 +10173,7 @@ msgid ""
 "For delivering mail by passing it to the \"sendmail\" program on the local "
 "system."
 msgstr ""
-"Pour délivrer le courrier en passant par le programme « sendmail » sur le "
+"Pour délivrer le courrier en passant par le programme « sendmail » du "
 "système local."
 
 #: camel/providers/sendmail/camel-sendmail-transport.c:113
@@ -12377,8 +12378,8 @@ msgid ""
 "Apparently-To header.\n"
 "Send anyway?"
 msgstr ""
-"Il est possible que le serveur de courrier puisse révéler les destinataires "
-"en ajoutant un en-tête Apparently-To.\n"
+"Il est possible que le serveur de messagerie puisse révéler les "
+"destinataires en ajoutant un en-tête Apparently-To.\n"
 "Envoyer quand même ?"
 
 #: mail/mail-callbacks.c:472
@@ -12547,10 +12548,9 @@ msgid ""
 "below do not need to be filled in, unless you wish to include this "
 "information in email you send."
 msgstr ""
-"Veuillez saisir votre nom et votre adresse électronique ci-dessous. Les "
-"champs « optionnels » ci-dessous n'ont pas besoin d'être remplis, à moins "
-"que vous ne désiriez inclure ces informations dans les messages que vous "
-"envoyez."
+"Veuillez saisir votre nom et votre adresse électronique ci-dessous.  Les "
+"champs facultatifs ci-dessous n'ont pas besoin d'être remplis, à moins que "
+"vous ne désiriez inclure ces informations dans les messages que vous envoyez."
 
 #
 #: mail/mail-config-druid.c:388 mail/mail-config-druid.c:395
@@ -12562,7 +12562,7 @@ msgid ""
 "Please enter information about your incoming mail server below. If you are "
 "not sure, ask your system administrator or Internet Service Provider."
 msgstr ""
-"Veuillez saisir les informations de votre serveur de courrier entrant. En "
+"Veuillez saisir les informations de votre serveur de messagerie entrant.  En "
 "cas de doute, adressez-vous à votre administrateur système ou à votre "
 "fournisseur d'accès Internet."
 
@@ -12579,7 +12579,7 @@ msgid ""
 "Please enter information about the way you will send mail. If you are not "
 "sure, ask your system administrator or Internet Service Provider."
 msgstr ""
-"Veuillez saisir les informations nécessaires pour envoyer le courrier. En "
+"Veuillez saisir les informations nécessaires pour envoyer le courrier.  En "
 "cas de doute, adressez-vous à votre administrateur système ou à votre "
 "fournisseur d'accès Internet."
 
@@ -12596,10 +12596,10 @@ msgid ""
 "purposes only."
 msgstr ""
 "La configuration de la messagerie est presque terminée. L'identité, le "
-"serveur de courrier entrant et la méthode d'acheminement du courrier sortant "
-"que vous avez fournis seront regroupés pour créer un compte de messagerie "
-"Evolution. Veuillez saisir un nom pour ce compte dans l'espace ci-dessous. "
-"Ce nom sera utilisé uniquement dans un but d'affichage."
+"serveur de messagerie entrant et la méthode d'acheminement du courrier "
+"sortant que vous avez fournis seront regroupés pour créer un compte de "
+"messagerie Evolution.  Veuillez saisir un nom pour ce compte dans l'espace "
+"ci-dessous.  Ce nom sera utilisé uniquement dans un but d'affichage."
 
 #: mail/mail-config.c:1080
 msgid "Checking Service"
@@ -12864,7 +12864,7 @@ msgstr "Informations facultatives"
 
 #: mail/mail-config.glade.h:80
 msgid "Or_ganization:"
-msgstr "Or_ganisation :"
+msgstr "_Organisation :"
 
 #: mail/mail-config.glade.h:81
 msgid "PGP/GPG _Key ID:"
@@ -12906,7 +12906,7 @@ msgstr "_Mémoriser le mot de passe"
 
 #: mail/mail-config.glade.h:93
 msgid "Re_ply-To:"
-msgstr "Ré_pondre à :"
+msgstr "_Répondre à :"
 
 #: mail/mail-config.glade.h:94
 msgid "Receiving Email"
@@ -13093,7 +13093,7 @@ msgstr "Style de _transfert :"
 
 #: mail/mail-config.glade.h:146
 msgid "_Full name:"
-msgstr "_Nom complet :"
+msgstr "No_m complet :"
 
 #: mail/mail-config.glade.h:148
 msgid "_HTML Mail"
@@ -26159,9 +26159,10 @@ msgid ""
 "\n"
 "Please click the \"Forward\" button to continue. "
 msgstr ""
-"Bienvenue dans Evolution. Les quelques écrans suivants vous\n"
-"permettront de connecter Evolution à vos comptes de messagerie\n"
-"et d'importer les fichiers provenant d'autres applications.\n"
+"Bienvenue dans Evolution.  Les quelques écrans suivants\n"
+"vous permettront de connecter Evolution à vos comptes de\n"
+"messagerie et d'importer les fichiers provenant d'autres\n"
+"applications.\n"
 "\n"
 "Veuillez cliquer sur le bouton « Suivant » pour continuer."
 
@@ -26172,10 +26173,10 @@ msgid ""
 "\n"
 "Click the \"Apply\" button to save your settings. "
 msgstr ""
-"Vous avez saisi toutes les informations\n"
-"nécessaires à la configuration d'Evolution.\n"
+"Vous avez saisi toutes les informations nécessaires à la configuration "
+"d'Evolution.\n"
 "\n"
-"Veuillez cliquer le bouton « Appliquer » pour enregistrer vos paramètres."
+"Veuillez cliquer sur le bouton « Appliquer » pour enregistrer vos paramètres."
 
 #: shell/importer/import.glade.h:1
 msgid "Click \"Import\" to begin importing the file into Evolution. "
