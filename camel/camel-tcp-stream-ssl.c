@@ -25,6 +25,7 @@
 
 #ifdef HAVE_NSS
 #include "camel-tcp-stream-ssl.h"
+#include "camel-session.h"
 #include <unistd.h>
 #include <sys/types.h>
 #include <sys/stat.h>
@@ -84,7 +85,7 @@ camel_tcp_stream_ssl_init (gpointer object, gpointer klass)
 	CamelTcpStreamSSL *stream = CAMEL_TCP_STREAM_SSL (object);
 	
 	stream->sockfd = NULL;
-	stream->session = NULL;
+	stream->service = NULL;
 	stream->expected_host = NULL;
 }
 
@@ -96,7 +97,7 @@ camel_tcp_stream_ssl_finalize (CamelObject *object)
 	if (stream->sockfd != NULL)
 		PR_Close (stream->sockfd);
 	
-	camel_object_unref (CAMEL_OBJECT (stream->session));
+	camel_object_unref (CAMEL_OBJECT (stream->service));
 	g_free (stream->expected_host);
 }
 
@@ -122,24 +123,24 @@ camel_tcp_stream_ssl_get_type (void)
 
 /**
  * camel_tcp_stream_ssl_new:
- * @session: camel session
+ * @service: camel service
  * @expected_host: host that the stream is expected to connect with.
  *
  * Since the SSL certificate authenticator may need to prompt the
- * user, a CamelSession is needed. #expected_host is needed as a
+ * user, a CamelService is needed. #expected_host is needed as a
  * protection against an MITM attack.
  *
  * Return value: a tcp stream
  **/
 CamelStream *
-camel_tcp_stream_ssl_new (CamelSession *session, const char *expected_host)
+camel_tcp_stream_ssl_new (CamelService *service, const char *expected_host)
 {
 	CamelTcpStreamSSL *stream;
 	
 	stream = CAMEL_TCP_STREAM_SSL (camel_object_new (camel_tcp_stream_ssl_get_type ()));
 	
-	camel_object_ref (CAMEL_OBJECT (session));
-	stream->session = session;
+	camel_object_ref (CAMEL_OBJECT (service));
+	stream->service = service;
 	stream->expected_host = g_strdup (expected_host);
 	
 	return CAMEL_STREAM (stream);
@@ -221,23 +222,26 @@ ssl_auth_cert (void *data, PRFileDesc *fd, PRBool checksig, PRBool is_server)
 static SECStatus
 ssl_bad_cert (void *data, PRFileDesc *fd)
 {
-	CamelSession *session;
+	CamelService *service;
+	char *string, *err;
 	gpointer accept;
-	char *string;
 	PRInt32 len;
 	
 	g_return_val_if_fail (data != NULL, SECFailure);
-	g_return_val_if_fail (CAMEL_IS_SESSION (data), SECFailure);
+	g_return_val_if_fail (CAMEL_IS_SERVICE (data), SECFailure);
 	
-	session = CAMEL_SESSION (data);
+	service = CAMEL_SERVICE (data);
 	
 	/* FIXME: International issues here?? */
 	len = PR_GetErrorTextLength ();
-	string = g_malloc0 (len + 1);
-	PR_GetErrorText (string);
+	err = g_malloc0 (len + 1);
+	PR_GetErrorText (err);
 	
-	accept = camel_session_query_authenticator (session, CAMEL_AUTHENTICATOR_ACCEPT,
-						    string, FALSE, NULL, NULL, NULL);
+	string = g_strdup_printf (_("Do you wish to accept this certificate from %s?\n\n%s"),
+				  service->url->host, err);
+	
+	accept = camel_session_query_authenticator (service->session, CAMEL_AUTHENTICATOR_ACCEPT,
+						    string, FALSE, service, NULL, NULL);
 	
 	if (GPOINTER_TO_INT (accept))
 		return SECSuccess;
@@ -273,8 +277,8 @@ stream_connect (CamelTcpStream *stream, struct hostent *host, int port)
 		return -1;
 	}
 	
-	SSL_AuthCertificateHook (ssl_fd, ssl_auth_cert, NULL);
-	SSL_BadCertHook (ssl_fd, ssl_bad_cert, ssl->session);
+	/*SSL_AuthCertificateHook (ssl_fd, ssl_auth_cert, NULL);*/
+	SSL_BadCertHook (ssl_fd, ssl_bad_cert, ssl->service);
 	
 	ssl->sockfd = ssl_fd;
 	

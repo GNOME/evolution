@@ -218,7 +218,7 @@ remote_connect (CamelService *service, CamelException *ex)
 	
 #ifdef HAVE_NSS
 	if (store->use_ssl)
-		tcp_stream = camel_tcp_stream_ssl_new (service->session, service->url->host);
+		tcp_stream = camel_tcp_stream_ssl_new (service, service->url->host);
 	else
 		tcp_stream = camel_tcp_stream_raw_new ();
 #else

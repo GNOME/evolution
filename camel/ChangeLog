@@ -1,5 +1,16 @@
 2001-03-14  Jeffrey Stedfast  <fejj@ximian.com>
 
+	* camel-remote-store.c (remote_connect): Pass the service into the
+	SSL stream, not the session.
+
+	* camel-tcp-stream-ssl.c (camel_tcp_stream_ssl_init): Set the
+	service to NULL.
+	(camel_tcp_stream_ssl_finalize): Unref the service.
+	(camel_tcp_stream_ssl_new): Takes a CamelService arg now rather
+	than a CamelSession arg.
+
+2001-03-14  Jeffrey Stedfast  <fejj@ximian.com>
+
 	* camel.c (camel_init): So it turns out that NSS_Init *isn't*
 	idempotent, so we have to protect against initializing it more
 	than once(contrary to what their design specs suggest).
