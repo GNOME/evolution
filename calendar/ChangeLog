@@ -1,3 +1,21 @@
+2003-02-23  Hans Petter Jansson  <hpj@ximian.com>
+
+	* cal-client/cal-client.c (cal_client_is_read_only): Don't warn
+	if calendar isn't loaded... Doesn't seem to hurt, but this should
+	probably be investigated further.
+
+	* gui/dialogs/comp-editor-util.c (comp_editor_contacts_to_widget):
+	If we have no contacts, don't bother trying to set them in the
+	widget. Used to pass a NULL list, which would lead to much anxiety
+	in callees.
+
+	* gui/dialogs/meeting-page.c (meeting_page_fill_widgets):
+	If we have no potential organizers, emit a sensible warning.
+
+	* gui/dialogs/task-page.c (init_widgets): Don't try to connect to
+	the "changed" signal of the GtkTextView -- we listen to the
+	GtkTextBuffer now.
+
 2003-02-20  Not Zed  <NotZed@Ximian.com>
 
 	* gui/e-itip-control.c (destroy): dont unref accounts anymore.
@@ -144,7 +162,7 @@
 	* cal-client/cal-client.c (get_default_uri): Use the proper path
 	to get the default folder uri's.
 
-2003-02-23  Hans Petter Jansson  <hpj@ximan.com>
+2003-02-23  Hans Petter Jansson  <hpj@ximian.com>
 
 	* gui/gnome-cal.c (backend_died_cb): Appease the compiler.
 	(gnome_calendar_update_paned_quanta): Don't actually try to set

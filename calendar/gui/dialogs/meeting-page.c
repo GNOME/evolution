@@ -319,7 +319,10 @@ meeting_page_fill_widgets (CompEditorPage *page, CalComponent *comp)
 	priv->comp = cal_component_clone (comp);
 	
 	/* List the user identities for default organizers */
-	gtk_combo_set_popdown_strings (GTK_COMBO (priv->organizer), priv->address_strings);
+	if (priv->address_strings)
+		gtk_combo_set_popdown_strings (GTK_COMBO (priv->organizer), priv->address_strings);
+	else
+		g_warning ("No potential organizers!");
 
 	/* If there is an existing organizer show it properly */
 	if (cal_component_has_organizer (comp)) {

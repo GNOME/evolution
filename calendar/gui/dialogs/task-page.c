@@ -895,8 +895,6 @@ init_widgets (TaskPage *tpage)
 	g_signal_connect ((text_buffer), "changed",
 			  G_CALLBACK (field_changed_cb), tpage);
 
-	g_signal_connect((priv->description), "changed",
-			    G_CALLBACK (field_changed_cb), tpage);
 	g_signal_connect((priv->categories), "changed",
 			    G_CALLBACK (field_changed_cb), tpage);
 

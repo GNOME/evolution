@@ -421,6 +421,9 @@ comp_editor_contacts_to_widget (GtkWidget *contacts_entry,
 	int i;
 
 	cal_component_get_contact_list (comp, &contact_list);
+	if (!contact_list)
+		return;
+
 	dest_array = g_ptr_array_new ();
 	for (elem = contact_list; elem; elem = elem->next) {
 		CalComponentText *t = elem->data;
