@@ -1,3 +1,19 @@
+2001-03-13  Iain Holmes  <iain@ximian.com>
+
+	* Makefile.am: Removed the importers and created a subdirectory for them to
+	live happily as plugins.
+
+	* mail-importer.c (mail_importer_create_folder): Modified the function to take
+	a BonoboListener for the callback.
+	(get_importer_list): Get a list of importer plugins.
+	(free_importer_list): Free the list of plugins.
+	(mail_importer_init): Initalise the list of plugins.
+	(main_importer_uninit): Unload the modules.
+
+	* GNOME_Evolution_Mail.oaf.in: Remove the oaf_server entries for the importers.
+
+	* importers/*: Copy the importers in here.
+
 2001-03-12  Jeffrey Stedfast  <fejj@ximian.com>
 
 	* mail-config.c (mail_config_write): Make the transport save

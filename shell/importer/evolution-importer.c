@@ -32,7 +32,7 @@
 #include "evolution-importer.h"
 
 
-#define PARENT_TYPE BONOBO_OBJECT_TYPE
+#define PARENT_TYPE BONOBO_X_OBJECT_TYPE
 static BonoboObjectClass *parent_class = NULL;
 
 struct _EvolutionImporterPrivate {
@@ -45,28 +45,10 @@ struct _EvolutionImporterPrivate {
 };
 
 
-static POA_GNOME_Evolution_Importer__vepv Importer_vepv;
-
-static POA_GNOME_Evolution_Importer *
-create_servant (void)
+static inline EvolutionImporter *
+evolution_importer_from_servant (PortableServer_Servant servant)
 {
-	POA_GNOME_Evolution_Importer *servant;
-	CORBA_Environment ev;
-
-	servant = (POA_GNOME_Evolution_Importer *) g_new0 (BonoboObjectServant, 1);
-	servant->vepv = &Importer_vepv;
-
-	CORBA_exception_init (&ev);
-	POA_GNOME_Evolution_Importer__init ((PortableServer_Servant) servant, &ev);
-	if (ev._major != CORBA_NO_EXCEPTION) {
-		g_free (servant);
-		CORBA_exception_free (&ev);
-		return NULL;
-	}
-
-	CORBA_exception_free (&ev);
-
-	return servant;
+	return EVOLUTION_IMPORTER (bonobo_object_from_servant (servant));
 }
 
 static CORBA_boolean
@@ -74,13 +56,11 @@ impl_GNOME_Evolution_Importer_supportFormat (PortableServer_Servant servant,
 					     const CORBA_char *filename,
 					     CORBA_Environment *ev)
 {
-	BonoboObject *bonobo_object;
 	EvolutionImporter *importer;
 	EvolutionImporterPrivate *priv;
 
-	bonobo_object = bonobo_object_from_servant (servant);
-	importer = EVOLUTION_IMPORTER (bonobo_object);
-	priv = importer->private;
+	importer = evolution_importer_from_servant (servant);
+	priv = importer->priv;
 
 	if (priv->support_format_fn != NULL)
 		return (priv->support_format_fn) (importer, filename, 
@@ -94,13 +74,11 @@ impl_GNOME_Evolution_Importer_loadFile (PortableServer_Servant servant,
 					const CORBA_char *filename,
 					CORBA_Environment *ev)
 {
-	BonoboObject *bonobo_object;
 	EvolutionImporter *importer;
 	EvolutionImporterPrivate *priv;
 
-	bonobo_object = bonobo_object_from_servant (servant);
-	importer = EVOLUTION_IMPORTER (bonobo_object);
-	priv = importer->private;
+	importer = evolution_importer_from_servant (servant);
+	priv = importer->priv;
 
 	if (priv->load_file_fn != NULL)
 		return (priv->load_file_fn) (importer, filename, priv->closure);
@@ -113,13 +91,11 @@ impl_GNOME_Evolution_Importer_processItem (PortableServer_Servant servant,
 					   GNOME_Evolution_ImporterListener listener,
 					   CORBA_Environment *ev)
 {
-	BonoboObject *bonobo_object;
 	EvolutionImporter *importer;
 	EvolutionImporterPrivate *priv;
 
-	bonobo_object = bonobo_object_from_servant (servant);
-	importer = EVOLUTION_IMPORTER (bonobo_object);
-	priv = importer->private;
+	importer = evolution_importer_from_servant (servant);
+	priv = importer->priv;
 
 	if (priv->process_item_fn != NULL)
 		(priv->process_item_fn) (importer, listener, priv->closure, ev);
@@ -132,14 +108,12 @@ static CORBA_char *
 impl_GNOME_Evolution_Importer_getError (PortableServer_Servant servant,
 					CORBA_Environment *ev)
 {
-	BonoboObject *bonobo_object;
 	EvolutionImporter *importer;
 	EvolutionImporterPrivate *priv;
 	CORBA_char *out_str;
 
-	bonobo_object = bonobo_object_from_servant (servant);
-	importer = EVOLUTION_IMPORTER (bonobo_object);
-	priv = importer->private;
+	importer = evolution_importer_from_servant (servant);
+	priv = importer->priv;
 
 	if (priv->get_error_fn != NULL) {
 		out_str = (priv->get_error_fn) (importer, priv->closure);
@@ -156,65 +130,47 @@ destroy (GtkObject *object)
 	EvolutionImporterPrivate *priv;
 
 	importer = EVOLUTION_IMPORTER (object);
-	priv = importer->private;
+	priv = importer->priv;
 
 	if (priv == NULL)
 		return;
 
 	g_free (priv);
-	importer->private = NULL;
+	importer->priv = NULL;
 
-	(* GTK_OBJECT_CLASS (parent_class)->destroy) (object);
+	GTK_OBJECT_CLASS (parent_class)->destroy (object);
 }
 
 static void
-corba_class_init (void)
-{
-	POA_GNOME_Evolution_Importer__vepv *vepv;
-	POA_GNOME_Evolution_Importer__epv *epv;
-	PortableServer_ServantBase__epv *base_epv;
-
-	base_epv = g_new0 (PortableServer_ServantBase__epv, 1);
-	
-	epv = g_new0 (POA_GNOME_Evolution_Importer__epv, 1);
-	epv->supportFormat = impl_GNOME_Evolution_Importer_supportFormat;
-	epv->loadFile = impl_GNOME_Evolution_Importer_loadFile;
-	epv->processItem = impl_GNOME_Evolution_Importer_processItem;
-	epv->getError = impl_GNOME_Evolution_Importer_getError;
-
-	vepv = &Importer_vepv;
-	vepv->_base_epv = base_epv;
-	vepv->Bonobo_Unknown_epv = bonobo_object_get_epv ();
-	vepv->GNOME_Evolution_Importer_epv = epv;
-}
-
-static void
-class_init (EvolutionImporterClass *klass)
+evolution_importer_class_init (EvolutionImporterClass *klass)
 {
 	GtkObjectClass *object_class;
+	POA_GNOME_Evolution_Importer__epv *epv = &klass->epv;
 
 	object_class = GTK_OBJECT_CLASS (klass);
 	object_class->destroy = destroy;
 
 	parent_class = gtk_type_class (PARENT_TYPE);
-	corba_class_init ();
+	epv->supportFormat = impl_GNOME_Evolution_Importer_supportFormat;
+	epv->loadFile = impl_GNOME_Evolution_Importer_loadFile;
+	epv->processItem = impl_GNOME_Evolution_Importer_processItem;
+	epv->getError = impl_GNOME_Evolution_Importer_getError;
 }
 
 static void
-init (EvolutionImporter *importer)
+evolution_importer_init (EvolutionImporter *importer)
 {
 	EvolutionImporterPrivate *priv;
 
 	priv = g_new0 (EvolutionImporterPrivate, 1);
 
-	importer->private = priv;
+	importer->priv = priv;
 }
 
 
 
 static void
 evolution_importer_construct (EvolutionImporter *importer,
-			      GNOME_Evolution_Importer corba_object,
 			      EvolutionImporterSupportFormatFn support_format_fn,
 			      EvolutionImporterLoadFileFn load_file_fn,
 			      EvolutionImporterProcessItemFn process_item_fn,
@@ -225,14 +181,11 @@ evolution_importer_construct (EvolutionImporter *importer,
 
 	g_return_if_fail (importer != NULL);
 	g_return_if_fail (EVOLUTION_IS_IMPORTER (importer));
-	g_return_if_fail (corba_object != CORBA_OBJECT_NIL);
 	g_return_if_fail (support_format_fn != NULL);
 	g_return_if_fail (load_file_fn != NULL);
 	g_return_if_fail (process_item_fn != NULL);
 
-	bonobo_object_construct (BONOBO_OBJECT (importer), corba_object);
-
-	priv = importer->private;
+	priv = importer->priv;
 	priv->support_format_fn = support_format_fn;
 	priv->load_file_fn = load_file_fn;
 	priv->process_item_fn = process_item_fn;
@@ -262,21 +215,14 @@ evolution_importer_new (EvolutionImporterSupportFormatFn support_format_fn,
 			void *closure)
 {
 	EvolutionImporter *importer;
-	POA_GNOME_Evolution_Importer *servant;
-	GNOME_Evolution_Importer corba_object;
-
-	servant = create_servant ();
-	if (servant == NULL)
-		return NULL;
 
 	importer = gtk_type_new (evolution_importer_get_type ());
-	corba_object = bonobo_object_activate_servant (BONOBO_OBJECT (importer),
-						       servant);
-	evolution_importer_construct (importer, corba_object, 
-				      support_format_fn, load_file_fn,
+	evolution_importer_construct (importer, support_format_fn, load_file_fn,
 				      process_item_fn, get_error_fn, closure);
 	return importer;
 }
 
-E_MAKE_TYPE (evolution_importer, "EvolutionImporter", EvolutionImporter,
-	     class_init, init, PARENT_TYPE);
+BONOBO_X_TYPE_FUNC_FULL (EvolutionImporter,
+			 GNOME_Evolution_Importer,
+			 PARENT_TYPE,
+			 evolution_importer);

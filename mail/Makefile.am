@@ -1,8 +1,11 @@
+SUBDIRS = importers
+
 bin_PROGRAMS =	evolution-mail
 
 noinst_PROGRAMS = test-mail #test-thread
 
 providerdir = $(libdir)/evolution/camel-providers/$(VERSION)
+importerdir = $(libdir)/evolution/evolution-mail-importers/$(VERSION)
 
 INCLUDES = \
 	-I$(top_srcdir)/widgets				\
@@ -31,6 +34,7 @@ INCLUDES = \
 	-DEVOLUTION_LOCALEDIR=\""$(localedir)"\"	\
 	-DEVOLUTION_DATADIR=\""$(datadir)"\"            \
 	-DCAMEL_PROVIDERDIR=\""$(providerdir)"\"	\
+	-DMAIL_IMPORTERSDIR=\""$(importerdir)"\"	\
 	-DG_LOG_DOMAIN=\"evolution-mail\"
 
 EVOLUTION_MAIL_CORBA_GENERATED = \
@@ -96,11 +100,7 @@ evolution_mail_SOURCES =		\
 	mail-session.h			\
 	subscribe-dialog.c		\
 	subscribe-dialog.h		\
-	mail.h				\
-	evolution-outlook-importer.c	\
-	evolution-outlook-importer.h	\
-	evolution-mbox-importer.c	\
-	evolution-mbox-importer.h
+	mail.h
 
 evolution_mail_LDADD = 					\
 	$(top_builddir)/shell/libeshell.a		\

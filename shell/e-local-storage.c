@@ -322,6 +322,7 @@ shell_component_result_to_storage_result (EvolutionShellComponentResult result)
 
 struct _AsyncCreateFolderCallbackData {
 	EStorage *storage;
+	Bonobo_Listener listener;
 
 	char *path;
 	char *display_name;
@@ -336,13 +337,37 @@ struct _AsyncCreateFolderCallbackData {
 typedef struct _AsyncCreateFolderCallbackData AsyncCreateFolderCallbackData;
 
 static void
+notify_listener (const Bonobo_Listener listener,
+		 EStorageResult result,
+		 const char *physical_path)
+{
+	CORBA_any any;
+	GNOME_Evolution_Storage_FolderResult folder_result;
+	CORBA_Environment ev;
+
+	folder_result.result = result;
+	folder_result.path = CORBA_string_dup (physical_path ? 
+					       physical_path : "");
+	any._type = TC_GNOME_Evolution_Storage_FolderResult;
+	any._value = &folder_result;
+
+	CORBA_exception_init (&ev);
+	Bonobo_Listener_event (listener, "evolution-shell:folder_created", 
+			       &any, &ev);
+	CORBA_exception_free (&ev);
+}
+
+static void
 component_async_create_folder_callback (EvolutionShellComponentClient *shell_component_client,
 					EvolutionShellComponentResult result,
 					void *data)
 {
 	AsyncCreateFolderCallbackData *callback_data;
+	EStorageResult storage_result;
 
 	callback_data = (AsyncCreateFolderCallbackData *) data;
+
+	storage_result = shell_component_result_to_storage_result (result);
 
 	if (result != EVOLUTION_SHELL_COMPONENT_OK) {
 		/* XXX: This assumes the component won't leave any files in the directory.  */
@@ -361,15 +386,19 @@ component_async_create_folder_callback (EvolutionShellComponentClient *shell_com
 		} else {
 			rmdir (callback_data->physical_path);
 			gtk_object_unref (GTK_OBJECT (folder));
-			result = E_STORAGE_IOERROR;
+			storage_result = E_STORAGE_IOERROR;
 		}
 	}
 
 	bonobo_object_unref (BONOBO_OBJECT (shell_component_client));
 
+	if (callback_data->listener != CORBA_OBJECT_NIL)
+		notify_listener (callback_data->listener, storage_result,
+				 callback_data->physical_path);
+
 	if (callback_data->callback != NULL)
 		(* callback_data->callback) (callback_data->storage,
-					     shell_component_result_to_storage_result (result),
+					     storage_result,
 					     callback_data->callback_data);
 	
 	g_free (callback_data->path);
@@ -420,8 +449,9 @@ impl_get_name (EStorage *storage)
 	return E_LOCAL_STORAGE_NAME;
 }
 
-static int
+static void
 real_do_folder_create (ELocalStorage *local_storage,
+		       Bonobo_Listener listener,
 		       const char *path,
 		       const char *type,
 		       const char *description,
@@ -445,7 +475,7 @@ real_do_folder_create (ELocalStorage *local_storage,
 		if (callback != NULL)
 			(* callback) (storage, E_STORAGE_INVALIDTYPE, data);
 
-		return E_STORAGE_INVALIDTYPE;
+		notify_listener (listener, E_STORAGE_INVALIDTYPE, NULL);
 	}
 	
 	g_assert (g_path_is_absolute (path));
@@ -467,6 +497,7 @@ real_do_folder_create (ELocalStorage *local_storage,
 		subfolders_directory_physical_path = g_concat_dir_and_file (parent_physical_path,
 									    SUBFOLDER_DIR_NAME);
 		
+#if 0
 		if (! g_file_exists (subfolders_directory_physical_path)
 		    && mkdir (subfolders_directory_physical_path, 0700) == -1) {
 			g_free (parent_path);
@@ -477,7 +508,8 @@ real_do_folder_create (ELocalStorage *local_storage,
 					      errno_to_storage_result (), data);
 			return errno_to_storage_result ();
 		}
-		
+#endif
+	
 		physical_path = g_concat_dir_and_file (subfolders_directory_physical_path,
 						       folder_name);
 		g_free (subfolders_directory_physical_path);
@@ -486,13 +518,17 @@ real_do_folder_create (ELocalStorage *local_storage,
 	
 	/* Create the directory that holds the folder.  */
 	
-	if (mkdir (physical_path, 0700) == -1) {
-		g_free (physical_path);
-		if (callback != NULL)
-			(* callback) (storage,
-				      errno_to_storage_result (), data);
+	if (e_mkdir_hier (physical_path, 0700) == -1) {
 
-		return errno_to_storage_result ();
+		/* Bad error which we can't recover from */
+		if (errno != EEXIST) {
+			notify_listener (listener, errno_to_storage_result (),
+					 physical_path);
+			g_free (physical_path);
+			if (callback != NULL)
+				(* callback) (storage,
+					      errno_to_storage_result (), data);
+		}
 	}
 
 	/* Finally tell the component to do the job of creating the physical files in
@@ -510,6 +546,7 @@ real_do_folder_create (ELocalStorage *local_storage,
 	callback_data->description   = g_strdup (description);
 	callback_data->physical_uri  = physical_uri;
 	callback_data->physical_path = physical_path;
+	callback_data->listener      = listener;
 	callback_data->callback      = callback;
 	callback_data->callback_data = data;
 	
@@ -520,25 +557,6 @@ real_do_folder_create (ELocalStorage *local_storage,
 							      type,
 							      component_async_create_folder_callback,
 							      callback_data);
-	return EVOLUTION_STORAGE_OK;
-}
-
-static int
-create_folder_cb (EvolutionStorage *estorage,
-		  const char *path,
-		  const char *type,
-		  const char *description,
-		  const char *parent_p_path,
-		  void *data)
-{
-	ELocalStorage *local_storage;
-	int ret;
-
-	local_storage = E_LOCAL_STORAGE (data);
-	ret = real_do_folder_create (local_storage, path, type, 
-				     description, NULL, data);
-
-	return ret;
 }
 
 static void
@@ -552,7 +570,7 @@ impl_async_create_folder (EStorage *storage,
 	ELocalStorage *local_storage;
 
 	local_storage = E_LOCAL_STORAGE (storage);
-	real_do_folder_create (local_storage, path, type, 
+	real_do_folder_create (local_storage, NULL, path, type, 
 			       description, callback, data);
 }
 
@@ -569,6 +587,21 @@ impl_async_remove_folder (EStorage *storage,
 
 
 /* Callbacks for the `Evolution::LocalStorage' interface we are exposing to the outside world.  */
+static void
+bonobo_interface_create_folder_cb (EvolutionStorage *estorage,
+				   const Bonobo_Listener listener,
+				   const char *path,
+				   const char *type,
+				   const char *description,
+				   const char *parent_p_path,
+				   void *data)
+{
+	ELocalStorage *local_storage;
+
+	local_storage = E_LOCAL_STORAGE (data);
+	real_do_folder_create (local_storage, listener, path, type, 
+			       description, NULL, data);
+}
 
 static void
 bonobo_interface_update_folder_cb (EvolutionLocalStorage *bonobo_local_storage,
@@ -654,7 +687,8 @@ construct (ELocalStorage *local_storage,
 	priv->bonobo_interface = evolution_local_storage_new (E_LOCAL_STORAGE_NAME);
 
 	gtk_signal_connect (GTK_OBJECT (priv->bonobo_interface), "create_folder",
-			    GTK_SIGNAL_FUNC (create_folder_cb), local_storage);
+			    GTK_SIGNAL_FUNC (bonobo_interface_create_folder_cb), 
+			    local_storage);
 	gtk_signal_connect (GTK_OBJECT (priv->bonobo_interface), "update_folder",
 			    GTK_SIGNAL_FUNC (bonobo_interface_update_folder_cb),
 			    local_storage);

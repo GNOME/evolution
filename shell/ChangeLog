@@ -1,3 +1,41 @@
+2001-03-12  Iain Holmes  <iain@ximian.com>
+
+	* Evolution-Storage.idl: Add a FolderResult structure.
+
+	* e-local-storage.c (struct _AsyncCreateFolderCallbackData): Add a
+	Bonobo_Listener.
+	(notify_listener): Function to...notify the listener.
+	(component_async_create_folder_callback): Use the notify_listener
+	function.
+	(real_do_folder_create): New prototype. Replace all returns with
+	a call to notify_listener. Make the directory with a call to
+	e_mkdir_hier instead of multiple calls to mkdir. Only emit a fail
+	on a bad error, not on EEXIST.
+	(bonobo_interface_create_folder_cb): Namespace create_folder_cb to match
+	the others.	
+
+	e-shell.c: Run the intelligent importer.
+
+	evolution-storage.c (impl_Storage_async_create_folder): Just emit the signal,
+	not the callback.
+	(e_marshal_NONE__POINTER_POINTER_POINTER_POINTER_POINTER): Lovely signal
+	marshaller.
+	(class_init): Change the signal definition for the create_folder signal.
+
+	importer/GNOME_Evolution_Importer.idl: Add an IntelligentImporter inteface.
+
+	importer/Makefile.am: Add the evolution-intelligent-importer.c, intelligent.c
+	and evolution-intelligent-importer.h to the files.
+
+	importer/evolution-importer-listener.[ch]: Convert to BonoboXObject.
+
+	importer/evolution-importer.[ch]: BonoboXObjectification.
+
+	importer/evolution-intelligent-importer.[ch]: BonoboXObject for the
+	GNOME:Evolution:IntelligentImporter interface.
+
+	importer/intelligent.c: Code for running the intelligent importers.
+
 2001-03-08  Ettore Perazzoli  <ettore@ximian.com>
 
 	* e-storage-set-view.c (get_folder_at_row): New helper function.

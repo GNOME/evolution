@@ -27,14 +27,17 @@ idl_DATA = $(IDLS)
 libevolution_importerincludedir = $(includedir)/evolution/importer
 libevolution_importer_la_SOURCES = 	\
 	$(IDL_GENERATED)		\
+	evolution-intelligent-importer.c	\
 	evolution-importer-client.c	\
 	evolution-importer-listener.c	\
 	evolution-importer.c		\
+	intelligent.c			\
 	importer.c			\
 	importer.h
 
 libevolution_importerinclude_HEADERS = 	\
 	GNOME_Evolution_Importer.h	\
+	evolution-intelligent-importer.h	\
 	evolution-importer-client.h	\
 	evolution-importer-listener.h	\
 	evolution-importer.h

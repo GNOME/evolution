@@ -7,8 +7,8 @@
 
 #include <e-book.h>
 
-#include <evolution-importer.h>
-#include <GNOME_Evolution_Importer.h>
+#include <importer/evolution-importer.h>
+#include <importer/GNOME_Evolution_Importer.h>
 
 #define COMPONENT_FACTORY_IID "OAFIID:GNOME_Evolution_Addressbook_GnomeCard_ImporterFactory"
 

@@ -145,6 +145,9 @@ create_folder (EvolutionShellComponent *shell_component,
 	if (!strcmp (type, "mail")) {
 		uri = g_strdup_printf ("mbox://%s", physical_uri);
 		mail_create_folder (uri, do_create_folder, CORBA_Object_duplicate (listener, &ev));
+		GNOME_Evolution_ShellComponentListener_notifyResult (listener,
+								     GNOME_Evolution_ShellComponentListener_OK, &ev);
+								     
 	} else {
 		GNOME_Evolution_ShellComponentListener_notifyResult (
 			listener, GNOME_Evolution_ShellComponentListener_UNSUPPORTED_TYPE, &ev);

@@ -1,3 +1,7 @@
+2001-03-13  Iain Holmes  <iain@ximian.com>
+
+	* configure.in: Added the mail/importers dir.
+
 2001-03-12  Jeffrey Stedfast  <fejj@ximian.com>
 
 	* README: Rearranged some of the dependencies to try to get them

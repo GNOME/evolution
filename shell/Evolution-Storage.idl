@@ -42,6 +42,11 @@ module Evolution {
 			GENERIC_ERROR
 		};
 
+		struct FolderResult {
+			Result result;
+			string path;
+		};
+
 		void asyncCreateFolder (in string path,
 					in string type,
 					in string description,

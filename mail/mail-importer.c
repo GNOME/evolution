@@ -36,37 +36,56 @@
 #include <camel/camel-stream-mem.h>
 #include <camel/camel-exception.h>
 
-#include "evolution-outlook-importer.h"
-#include "evolution-mbox-importer.h"
+#include <dirent.h>
+#include <gmodule.h>
 
-static gboolean factory_initialised = FALSE;
+static GList *importer_modules = NULL;
 
 extern char *evolution_dir;
 
 static GNOME_Evolution_LocalStorage local_storage = NULL;
 
+/**
+ * mail_importer_create_folder:
+ * parent_path: The path of the parent folder.
+ * name: The name of the folder to be created.
+ * description: A description of the folder.
+ * listener: A BonoboListener for notification.
+ *
+ * Attempts to create the folder @parent_path/@name. When the folder has been
+ * created, or there is an error, the "evolution-shell:folder-created" event is
+ * emitted on @listener. The BonoboArg that is sent to @listener is a 
+ * GNOME_Evolution_Storage_FolderResult which has two elements: result and path.
+ * Result contains the error code, or success, and path contains the complete
+ * physical path to the newly created folder.
+ */
 void
 mail_importer_create_folder (const char *parent_path,
 			     const char *name,
-			     const char *type,
-			     const char *description)
+			     const char *description,
+			     const BonoboListener *listener)
 {
-	BonoboListener *listener;
 	Bonobo_Listener corba_listener;
 	CORBA_Environment ev;
 	char *path, *physical;
+	char *real_description;
+
+	g_return_if_fail (local_storage != NULL);
+	g_return_if_fail (listener != NULL);
+	g_return_if_fail (BONOBO_IS_LISTENER (listener));
 
 	path = g_concat_dir_and_file (parent_path, name);
 	physical = g_strdup_printf ("file://%s/local/%s", evolution_dir,
 				    parent_path);
 
-	listener = bonobo_listener_new (NULL, NULL);
 	corba_listener = bonobo_object_corba_objref (BONOBO_OBJECT (listener));
+	/* Darn CORBA wanting non-NULL values for strings */
+	real_description = CORBA_string_dup (description ? description : "");
 	
 	CORBA_exception_init (&ev);
 	GNOME_Evolution_Storage_asyncCreateFolder (local_storage, 
-						   path, "mail", name,
-						   physical,
+						   path, "mail", 
+						   real_description, physical,
 						   corba_listener, &ev);
 	CORBA_exception_free (&ev);
 	g_free (path);
@@ -120,6 +139,45 @@ mail_importer_add_line (MailImporter *importer,
 	g_free (info);
 }
 
+/* module management */
+static GList *
+get_importer_list (void)
+{
+	DIR *dir;
+	struct dirent *d;
+	GList *importers_ret = NULL;
+
+	dir = opendir (MAIL_IMPORTERSDIR);
+	if (!dir) {
+		g_warning ("No importers dir: %s", MAIL_IMPORTERSDIR);
+		return NULL;
+	}
+
+	while ((d = readdir (dir))) {
+		char *path, *ext;
+
+		ext = strchr (d->d_name, '.');
+		if (!ext || strcmp (ext, ".so") != 0)
+			continue;
+
+		path = g_concat_dir_and_file (MAIL_IMPORTERSDIR, d->d_name);
+		importers_ret = g_list_prepend (importers_ret, path);
+	}
+
+	closedir (dir);
+	return importers_ret;
+}
+
+static void
+free_importer_list (GList *list)
+{
+	for (; list; list = list->next) {
+		g_free (list->data);
+	}
+
+	g_list_free (list);
+}
+
 /**
  * mail_importer_init:
  *
@@ -128,26 +186,64 @@ mail_importer_add_line (MailImporter *importer,
 void
 mail_importer_init (EvolutionShellClient *client)
 {
-	BonoboGenericFactory *factory;
+	GList *importers, *l;
 
-	if (factory_initialised == TRUE)
+	if (importer_modules != NULL) {
+		return;
+	}
+
+	local_storage = evolution_shell_client_get_local_storage (client);
+
+	if (!g_module_supported ()) {
+		g_warning ("Could not initialise the importers as module loading"
+			   " is not supported on this system");
+		return;
+	}
+
+	importers = get_importer_list ();
+	if (importers == NULL)
 		return;
 
-	/* FIXME: Need plugins */
-	factory = bonobo_generic_factory_new (OUTLOOK_FACTORY_IID,
-					      outlook_factory_fn, 
-					      NULL);
-	if (factory == NULL) {
-		g_error ("Unable to create outlook factory.");
+	for (l = importers; l; l = l->next) {
+		GModule *module;
+
+		module = g_module_open (l->data, 0);
+		if (!module) {
+			g_warning ("Could not load: %s: %s", (char *) l->data,
+				   g_module_error ());
+		} else {
+			void *(*mail_importer_module_init) ();
+
+			if (!g_module_symbol (module, "mail_importer_module_init",
+					      (gpointer *)&mail_importer_module_init)) {
+				g_warning ("Could not load %s: No initialisation",
+					   (char *) l->data);
+				g_module_close (module);
+			}
+
+			mail_importer_module_init ();
+			importer_modules = g_list_prepend (importer_modules, module);
+		}
 	}
 
-	factory = bonobo_generic_factory_new (MBOX_FACTORY_IID,
-					      mbox_factory_fn, NULL);
-	if (factory == NULL) {
-		g_error ("Unable to create mbox factory.");
+	free_importer_list (importers);
+}
+
+/**
+ * mail_importer_uninit:
+ *
+ * Unloads all the modules.
+ */
+void
+mail_importer_uninit (void)
+{
+	GList *l;
+
+	for (l = importer_modules; l; l = l->next) {
+		g_module_close (l->data);
 	}
-	
-	factory_initialised = TRUE;
-	local_storage = evolution_shell_client_get_local_storage (client);
+
+	g_list_free (importer_modules);
+	importer_modules = NULL;
 }
 

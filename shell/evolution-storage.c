@@ -287,23 +287,12 @@ impl_Storage_async_create_folder (PortableServer_Servant servant,
 {
 	BonoboObject *bonobo_object;
 	EvolutionStorage *storage;
-	int int_result;
-	CORBA_any any;
-	GNOME_Evolution_Storage_Result corba_result;
 
 	bonobo_object = bonobo_object_from_servant (servant);
 	storage = EVOLUTION_STORAGE (bonobo_object);
 
-	int_result = GNOME_Evolution_Storage_UNSUPPORTED_OPERATION;
 	gtk_signal_emit (GTK_OBJECT (storage), signals[CREATE_FOLDER],
-			 path, type, description, parent_physical_uri,
-			 &int_result);
-
-	corba_result = storage_gtk_to_corba_result (int_result);
-	any._type = TC_GNOME_Evolution_Storage_Result;
-	any._value = &corba_result;
-
-	Bonobo_Listener_event (listener, "result", &any, ev);
+			 listener, path, type, description, parent_physical_uri);
 }
 
 static void
@@ -435,6 +424,29 @@ corba_class_init (void)
 	vepv->GNOME_Evolution_Storage_epv = evolution_storage_get_epv ();
 }
 
+/* The worst signal marshaller in Scotland */
+typedef void (*GtkSignal_NONE__POINTER_POINTER_POINTER_POINTER_POINTER) (GtkObject *,
+									 gpointer, gpointer, gpointer, gpointer, gpointer,
+									 gpointer user_data);
+
+static void
+e_marshal_NONE__POINTER_POINTER_POINTER_POINTER_POINTER (GtkObject *object,
+							 GtkSignalFunc func,
+							 gpointer func_data,
+							 GtkArg *args)
+{
+	GtkSignal_NONE__POINTER_POINTER_POINTER_POINTER_POINTER rfunc;
+	
+	rfunc = (GtkSignal_NONE__POINTER_POINTER_POINTER_POINTER_POINTER) func;
+	(*rfunc) (object,
+		  GTK_VALUE_POINTER (args[0]),
+		  GTK_VALUE_POINTER (args[1]),
+		  GTK_VALUE_POINTER (args[2]),
+		  GTK_VALUE_POINTER (args[3]),
+		  GTK_VALUE_POINTER (args[4]),
+		  func_data);
+}
+
 static void
 class_init (EvolutionStorageClass *klass)
 {
@@ -450,7 +462,7 @@ class_init (EvolutionStorageClass *klass)
 						 object_class->type,
 						 GTK_SIGNAL_OFFSET (EvolutionStorageClass,
 								    create_folder),
-						 e_marshal_INT__POINTER_POINTER_POINTER_POINTER,
+						 e_marshal_NONE__POINTER_POINTER_POINTER_POINTER_POINTER,
 						 GTK_TYPE_INT, 4,
 						 GTK_TYPE_STRING,
 						 GTK_TYPE_STRING,

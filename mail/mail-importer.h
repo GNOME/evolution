@@ -26,8 +26,8 @@
 
 #include <camel/camel-folder.h>
 #include <camel/camel-stream-mem.h>
-#include <camel/camel-exception.h>
 #include <evolution-shell-client.h>
+#include <bonobo/bonobo-listener.h>
 
 typedef struct _MailImporter MailImporter;
 struct _MailImporter {
@@ -43,6 +43,6 @@ void mail_importer_add_line (MailImporter *importer,
 			     gboolean finished);
 void mail_importer_create_folder (const char *parent_path,
 				  const char *name,
-				  const char *type,
-				  const char *description);
+				  const char *description,
+				  const BonoboListener *listener);
 #endif

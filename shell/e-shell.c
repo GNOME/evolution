@@ -752,6 +752,10 @@ e_shell_construct (EShell *shell,
 	/* Now that we have a local storage, we can tell the components we are here.  */
 	set_owner_on_components (shell);
 
+	/* Run the intelligent importers to find see if any data needs 
+	   importing. */
+	intelligent_importer_init ();
+
 	shortcut_path = g_concat_dir_and_file (local_directory, "shortcuts.xml");
 	priv->shortcuts = e_shortcuts_new (priv->storage_set,
 					   priv->folder_type_registry,

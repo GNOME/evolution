@@ -30,8 +30,8 @@ INCLUDES =						\
 	-I$(top_srcdir)/addressbook/ename		\
 	-I$(top_builddir)/addressbook/backend		\
 	-I$(top_builddir)/addressbook/ename		\
-	-I$(top_builddir)/shell/importer		\
-	-I$(top_srcdir)/shell/importer			\
+	-I$(top_builddir)/shell				\
+	-I$(top_srcdir)/shell				\
         $(BONOBO_GNOME_CFLAGS)				\
 	$(EXTRA_GNOME_CFLAGS)
 

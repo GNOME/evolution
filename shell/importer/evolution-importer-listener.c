@@ -31,9 +31,9 @@
 #include "GNOME_Evolution_Importer.h"
 #include "evolution-importer-listener.h"
 
-#define PARENT_TYPE (bonobo_object_get_type ())
+#define PARENT_TYPE BONOBO_X_OBJECT_TYPE
 
-static BonoboObjectClass *parent_class;
+static BonoboObjectClass *parent_class = NULL;
 
 struct _EvolutionImporterListenerPrivate {
 	EvolutionImporterListenerCallback callback;
@@ -41,6 +41,7 @@ struct _EvolutionImporterListenerPrivate {
 	void *closure;
 };
 
+#if 0
 static POA_GNOME_Evolution_ImporterListener__vepv Listener_vepv;
 
 static POA_GNOME_Evolution_ImporterListener *
@@ -64,6 +65,7 @@ create_servant (void)
 
 	return servant;
 }
+#endif
 
 static EvolutionImporterResult
 corba_result_to_evolution (GNOME_Evolution_ImporterListener_ImporterResult corba_result)
@@ -88,20 +90,24 @@ corba_result_to_evolution (GNOME_Evolution_ImporterListener_ImporterResult corba
 	}
 }
 
+static inline EvolutionImporterListener *
+evolution_importer_listener_from_servant (PortableServer_Servant servant)
+{
+	return EVOLUTION_IMPORTER_LISTENER (bonobo_object_from_servant (servant));
+}
+
 static void
 impl_GNOME_Evolution_ImporterListener_notifyResult (PortableServer_Servant servant,
 						    GNOME_Evolution_ImporterListener_ImporterResult result,
 						    CORBA_boolean more_items,
 						    CORBA_Environment *ev)
 {
-	BonoboObject *bonobo_object;
 	EvolutionImporterListener *listener;
 	EvolutionImporterListenerPrivate *priv;
 	EvolutionImporterResult out_result;
 
-	bonobo_object = bonobo_object_from_servant (servant);
-	listener = EVOLUTION_IMPORTER_LISTENER (bonobo_object);
-	priv = listener->private;
+	listener = evolution_importer_listener_from_servant (servant);
+	priv = listener->priv;
 
 	out_result = corba_result_to_evolution (result);
 	if (priv->callback) {
@@ -121,17 +127,18 @@ destroy (GtkObject *object)
 	EvolutionImporterListenerPrivate *priv;
 
 	listener = EVOLUTION_IMPORTER_LISTENER (object);
-	priv = listener->private;
+	priv = listener->priv;
 
 	if (priv == NULL)
 		return;
 
 	g_free (priv);
-	listener->private = NULL;
+	listener->priv = NULL;
 
-	(* GTK_OBJECT_CLASS (parent_class)->destroy) (object);
+	GTK_OBJECT_CLASS (parent_class)->destroy (object);
 }
 
+#if 0
 static void
 corba_class_init (void)
 {
@@ -152,31 +159,29 @@ corba_class_init (void)
 	vepv->Bonobo_Unknown_epv = bonobo_object_get_epv ();
 	vepv->GNOME_Evolution_ImporterListener_epv = epv;
 }
+#endif
 
 static void
-class_init (EvolutionImporterListenerClass *klass)
+evolution_importer_listener_class_init (EvolutionImporterListenerClass *klass)
 {
 	GtkObjectClass *object_class;
+	POA_GNOME_Evolution_ImporterListener__epv *epv = &klass->epv;
 	
 	object_class = GTK_OBJECT_CLASS (klass);
 	object_class->destroy = destroy;
 
 	parent_class = gtk_type_class (PARENT_TYPE);
-	
-	corba_class_init ();
+	epv->notifyResult = impl_GNOME_Evolution_ImporterListener_notifyResult;
 }
 
 static void
-init (EvolutionImporterListener *listener)
+evolution_importer_listener_init (EvolutionImporterListener *listener)
 {
 	EvolutionImporterListenerPrivate *priv;
 
 	priv = g_new0 (EvolutionImporterListenerPrivate, 1);
-	listener->private = priv;
+	listener->priv = priv;
 }
-
-E_MAKE_TYPE (evolution_importer_listener, "EvolutionImporterListener",
-	     EvolutionImporterListener, class_init, init, PARENT_TYPE);
 
 static void
 evolution_importer_listener_construct (EvolutionImporterListener *listener,
@@ -191,7 +196,7 @@ evolution_importer_listener_construct (EvolutionImporterListener *listener,
 	g_return_if_fail (corba_object != CORBA_OBJECT_NIL);
 	g_return_if_fail (callback != NULL);
 
-	priv = listener->private;
+	priv = listener->priv;
 	priv->callback = callback;
 	priv->closure = closure;
 
@@ -212,18 +217,15 @@ evolution_importer_listener_new (EvolutionImporterListenerCallback callback,
 				 void *closure)
 {
 	EvolutionImporterListener *listener;
-	POA_GNOME_Evolution_ImporterListener *servant;
 	GNOME_Evolution_ImporterListener corba_object;
 
-	servant = create_servant ();
-	if (servant == NULL)
-		return NULL;
-
 	listener = gtk_type_new (evolution_importer_listener_get_type ());
-	corba_object = bonobo_object_activate_servant (BONOBO_OBJECT (listener),
-						       servant);
 
 	evolution_importer_listener_construct (listener, corba_object, 
 					       callback, closure);
 	return listener;
 }
+
+BONOBO_X_TYPE_FUNC_FULL (EvolutionImporterListener,
+			 GNOME_Evolution_ImporterListener,
+			 PARENT_TYPE, evolution_importer_listener);
