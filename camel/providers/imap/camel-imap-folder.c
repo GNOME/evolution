@@ -607,16 +607,20 @@ imap_expunge (CamelFolder *folder, CamelException *ex)
 static const char *
 imap_get_full_name (CamelFolder *folder)
 {
-	CamelURL *url = ((CamelService *)folder->parent_store)->url;
+	CamelImapStore *store = CAMEL_IMAP_STORE (folder->parent_store);
+	char *name;
 	int len;
 
-	if (!url->path || !*url->path || !strcmp (url->path, "/"))
-		return folder->full_name;
-	len = strlen (url->path + 1);
-	if (!strncmp (url->path + 1, folder->full_name, len) &&
-	    strlen (folder->full_name) > len + 1)
-		return folder->full_name + len + 1;
-	return folder->full_name;
+	name = folder->full_name;
+	if (store->namespace && *store->namespace) {
+		len = strlen (store->namespace);
+		if (!strncmp (store->namespace, folder->full_name, len) &&
+		    strlen (folder->full_name) > len)
+			name += len;
+		if (*name == store->dir_sep)
+			name++;
+	}
+	return name;
 }	
 
 static void
