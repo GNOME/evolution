@@ -30,7 +30,7 @@
       <applyto>/apps/evolution/calendar/display/week_start_day</applyto>
       <owner>evolution-calendar</owner>
       <type>int</type>
-      <default></default>
+      <default>1</default>
       <locale name="C">
         <short>Weekday the week starts on</short>
       </locale>
@@ -41,7 +41,7 @@
       <applyto>/apps/evolution/calendar/display/day_start_hour</applyto>
       <owner>evolution-calendar</owner>
       <type>int</type>
-      <default></default>
+      <default>6</default>
       <locale name="C">
         <short>Hour the workday starts on</short>
       </locale>
@@ -52,7 +52,7 @@
       <applyto>/apps/evolution/calendar/display/day_start_minute</applyto>
       <owner>evolution-calendar</owner>
       <type>int</type>
-      <default></default>
+      <default>00</default>
       <locale name="C">
         <short>Minute the workday starts on</short>
       </locale>
@@ -63,7 +63,7 @@
       <applyto>/apps/evolution/calendar/display/day_end_hour</applyto>
       <owner>evolution-calendar</owner>
       <type>int</type>
-      <default></default>
+      <default>23</default>
       <locale name="C">
         <short>Hour the workday ends on</short>
       </locale>
@@ -74,7 +74,7 @@
       <applyto>/apps/evolution/calendar/display/day_end_minute</applyto>
       <owner>evolution-calendar</owner>
       <type>int</type>
-      <default></default>
+      <default>30</default>
       <locale name="C">
         <short>Minute the workday ends on</short>
       </locale>
@@ -85,7 +85,7 @@
       <applyto>/apps/evolution/calendar/display/time_divisions</applyto>
       <owner>evolution-calendar</owner>
       <type>int</type>
-      <default></default>
+      <default>0</default>
       <locale name="C">
         <short></short>  <!-- FIXME -->
       </locale>
@@ -96,7 +96,7 @@
       <applyto>/apps/evolution/calendar/display/default_view</applyto>
       <owner>evolution-calendar</owner>
       <type>int</type>
-      <default></default>
+      <default>0</default>
       <locale name="C">
         <short>The view showing when the calendar starts</short>
       </locale>
@@ -107,7 +107,7 @@
       <applyto>/apps/evolution/calendar/display/hpane_position</applyto>
       <owner>evolution-calendar</owner>
       <type>float</type>
-      <default></default>
+      <default>0</default>
       <locale name="C">
         <short>Position of the horizontal pane</short>
       </locale>
@@ -118,7 +118,7 @@
       <applyto>/apps/evolution/calendar/display/vpane_position</applyto>
       <owner>evolution-calendar</owner>
       <type>float</type>
-      <default></default>
+      <default>0</default>
       <locale name="C">
         <short>Position of the vertical pane</short>
       </locale>
@@ -129,7 +129,7 @@
       <applyto>/apps/evolution/calendar/display/month_hpane_position</applyto>
       <owner>evolution-calendar</owner>
       <type>float</type>
-      <default></default>
+      <default>0</default>
       <locale name="C">
         <short>Position of the horizontal pane in the month view</short>
       </locale>
@@ -140,7 +140,7 @@
       <applyto>/apps/evolution/calendar/display/month_vpane_position</applyto>
       <owner>evolution-calendar</owner>
       <type>float</type>
-      <default></default>
+      <default>0</default>
       <locale name="C">
         <short>Position of the vertical pane in the month view</short>
       </locale>
@@ -151,7 +151,7 @@
       <applyto>/apps/evolution/calendar/display/compress_weekend</applyto>
       <owner>evolution-calendar</owner>
       <type>bool</type>
-      <default></default>
+      <default>true</default>
       <locale name="C">
         <short>Allocate less space to weekend appointments</short>
       </locale>
@@ -162,7 +162,7 @@
       <applyto>/apps/evolution/calendar/display/show_event_end</applyto>
       <owner>evolution-calendar</owner>
       <type>bool</type>
-      <default></default>
+      <default>true</default>
       <locale name="C">
         <short>Show where events end</short> <!-- FIXME: Not sure -->
       </locale>
@@ -173,7 +173,7 @@
       <applyto>/apps/evolution/calendar/display/working_days</applyto>
       <owner>evolution-calendar</owner>
       <type>int</type>
-      <default></default>
+      <default>5</default>
       <locale name="C">
         <short>Number of working days in a week</short>
       </locale>
@@ -186,7 +186,7 @@
       <applyto>/apps/evolution/calendar/tasks/hide_completed</applyto>
       <owner>evolution-calendar</owner>
       <type>bool</type>
-      <default></default>
+      <default>false</default>
       <locale name="C">
         <short>Whether to hide completed tasks</short>
       </locale>
@@ -208,7 +208,7 @@
       <applyto>/apps/evolution/calendar/tasks/hide_completed_value</applyto>
       <owner>evolution-calendar</owner>
       <type>int</type>
-      <default></default>
+      <default>0</default>
       <locale name="C">
         <short></short>  <!-- FIXME -->
       </locale>
@@ -220,7 +220,7 @@
       <key>/schemas/apps/evolution/calendar/tasks/colors/due_today</key>
       <applyto>/apps/evolution/calendar/tasks/colors/due_today</applyto>
       <owner>evolution-calendar</owner>
-      <type>strings</type>
+      <type>string</type>
       <default></default>
       <locale name="C">
         <short>Color of tasks that are due today</short>
@@ -231,7 +231,7 @@
       <key>/schemas/apps/evolution/calendar/tasks/colors/overdue</key>
       <applyto>/apps/evolution/calendar/tasks/colors/overdue</applyto>
       <owner>evolution-calendar</owner>
-      <type>strings</type>
+      <type>string</type>
       <default></default>
       <locale name="C">
         <short>Color of tasks that are overdue</short>
@@ -245,7 +245,7 @@
       <applyto>/apps/evolution/calendar/prompts/confirm_delete</applyto>
       <owner>evolution-calendar</owner>
       <type>bool</type>
-      <default></default>
+      <default>true</default>
       <locale name="C">
         <short>Whether to ask for confirmation on appointment deletion</short>
       </locale>
@@ -256,7 +256,7 @@
       <applyto>/apps/evolution/calendar/prompts/confirm_expunge</applyto>
       <owner>evolution-calendar</owner>
       <type>bool</type>
-      <default></default>
+      <default>true</default>
       <locale name="C">
         <short>Whether to ask for confirmation when folder is expunged</short>
       </locale>
@@ -267,7 +267,7 @@
       <applyto>/apps/evolution/calendar/other/use_default_reminder</applyto>
       <owner>evolution-calendar</owner>
       <type>bool</type>
-      <default></default>
+      <default>true</default>
       <locale name="C">
         <short>Whether to use a default reminder</short>  <!-- FIXME: Not sure -->
       </locale>
@@ -278,7 +278,7 @@
       <applyto>/apps/evolution/calendar/other/default_reminder_interval</applyto>
       <owner>evolution-calendar</owner>
       <type>int</type>
-      <default></default>
+      <default>15</default>
       <locale name="C">
         <short>Interval of default reminder</short>
       </locale>
@@ -288,7 +288,7 @@
       <key>/schemas/apps/evolution/calendar/other/default_reminder_units</key>
       <applyto>/apps/evolution/calendar/other/default_reminder_units</applyto>
       <owner>evolution-calendar</owner>
-      <type>strings</type>
+      <type>string</type>
       <default></default>
       <locale name="C">
         <short>Units of default reminder interval</short>  <!-- FIXME: Not sure -->
@@ -302,7 +302,7 @@
       <applyto>/apps/evolution/calendar/date_navigator/show_week_numbers</applyto>
       <owner>evolution-calendar</owner>
       <type>bool</type>
-      <default></default>
+      <default>true</default>
       <locale name="C">
         <short>Whether to show week numbers in date navigator</short>
       </locale>
@@ -325,8 +325,9 @@
       <key>/schemas/apps/evolution/calendar/notify/calendars</key>
       <applyto>/apps/evolution/calendar/notify/calendars</applyto>
       <owner>evolution-calendar</owner>
-      <type>list</type>  <!-- FIXME: Do I have to specify list/string? How? -->
-      <default></default>
+      <type>list</type>
+      <list_type>string</list_type>
+      <default>[]</default>
       <locale name="C">
         <short>Calendars to notify for</short>  <!-- FIXME: Not sure -->
       </locale>
@@ -336,8 +337,9 @@
       <key>/schemas/apps/evolution/calendar/notify/programs</key>
       <applyto>/apps/evolution/calendar/notify/programs</applyto>
       <owner>evolution-calendar</owner>
-      <type>list</type>  <!-- FIXME: Do I have to specify list/string? How? -->
-      <default></default>
+      <type>list</type>
+      <list_type>string</list_type>
+      <default>[]</default>
       <locale name="C">
         <short>Programs that can run as notification</short>  <!-- FIXME: Not sure -->
       </locale>
