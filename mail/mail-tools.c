@@ -88,7 +88,8 @@ void mail_tool_camel_lock_down (void)
 /* **************************************** */
 
 CamelFolder *
-mail_tool_get_folder_from_urlname (const gchar *url, const gchar *name, CamelException *ex)
+mail_tool_get_folder_from_urlname (const gchar *url, const gchar *name,
+				   gboolean create, CamelException *ex)
 {
 	CamelStore *store;
 	CamelFolder *folder;
@@ -110,7 +111,7 @@ mail_tool_get_folder_from_urlname (const gchar *url, const gchar *name, CamelExc
 		return NULL;
 	}
 
-	folder = camel_store_get_folder (store, name, FALSE, ex);
+	folder = camel_store_get_folder (store, name, create, ex);
 	camel_object_unref (CAMEL_OBJECT (store));
 	mail_tool_camel_lock_down();
 
@@ -136,7 +137,7 @@ mail_tool_get_local_inbox (CamelException *ex)
 	CamelFolder *folder;
 
 	url = mail_tool_get_local_inbox_url();
-	folder = mail_tool_get_folder_from_urlname (url, "mbox", ex);
+	folder = mail_tool_get_folder_from_urlname (url, "mbox", TRUE, ex);
 	g_free (url);
 	return folder;
 }
@@ -145,7 +146,7 @@ CamelFolder *
 mail_tool_get_inbox (const gchar *url, CamelException *ex)
 {
 	/* FIXME: should be smarter? get_default_folder, etc */
-	return mail_tool_get_folder_from_urlname (url, "inbox", ex);
+	return mail_tool_get_folder_from_urlname (url, "inbox", FALSE, ex);
 }
 	
 
@@ -212,7 +213,7 @@ mail_tool_do_movemail (const gchar *source_url, CamelException *ex)
 
 	/* Get the CamelFolder for our dest_path. */
 
-	ret = mail_tool_get_folder_from_urlname (dest_url, "movemail", ex);
+	ret = mail_tool_get_folder_from_urlname (dest_url, "movemail", TRUE, ex);
 	g_free (dest_url);
 	return ret;
 }
@@ -448,7 +449,7 @@ mail_tool_fetch_mail_into_searchable (const char *source_url, gboolean keep_on_s
 		gchar *url;
 
 		url = mail_tool_get_local_inbox_url();
-		search_folder = mail_tool_get_folder_from_urlname (url, "movemail", ex);
+		search_folder = mail_tool_get_folder_from_urlname (url, "movemail", TRUE, ex);
 		g_free (url);
 		if (camel_exception_is_set (ex))
 			goto cleanup;

@@ -33,7 +33,8 @@ void mail_tool_camel_lock_down (void);
 
 /* Get a CamelFolder from a root url and a foldername (uses the global session)*/
 CamelFolder *
-mail_tool_get_folder_from_urlname (const gchar *url, const gchar *name, CamelException *ex);
+mail_tool_get_folder_from_urlname (const gchar *url, const gchar *name,
+				   gboolean create, CamelException *ex);
 
 /* Get the url for the local inbox */
 gchar *mail_tool_get_local_inbox_url (void);

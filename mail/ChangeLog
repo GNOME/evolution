@@ -1,3 +1,13 @@
+2000-08-10  Dan Winship  <danw@helixcode.com>
+
+	* mail-tools.c (mail_tool_get_folder_from_urlname): Add a
+	"gboolean create" argument to pass to camel_store_get_folder.
+
+	* mail-ops.c (do_create_folder, do_setup_draftbox): 
+	* mail-local.c (mail_tool_local_uri_to_folder): 
+	* mail-vfolder.c (vfolder_uri_to_folder): Add create flag to
+	mail_tool_get_folder_from_urlname calls.
+
 2000-08-10  Jeffrey Stedfast  <fejj@helixcode.com>
 
 	* mail-callbacks.c (composer_send_cb): Fix compile warning by

@@ -201,7 +201,7 @@ vfolder_uri_to_folder(const char *uri, CamelException *ex)
 	storeuri = g_strdup_printf("vfolder:%s/vfolder/%s", evolution_dir, info->name);
 	foldername = g_strdup_printf("mbox?%s", info->query);
 
-	folder = mail_tool_get_folder_from_urlname (storeuri, foldername, ex);
+	folder = mail_tool_get_folder_from_urlname (storeuri, foldername, TRUE, ex);
 
 	sourceuri = NULL;
 	sources = 0;

@@ -1337,7 +1337,7 @@ do_create_folder (gpointer in_data, gpointer op_data, CamelException * ex)
 	else {
 		camel_url = g_strdup_printf ("mbox://%s", input->uri);
 		folder = mail_tool_get_folder_from_urlname (camel_url,
-							    "mbox", ex);
+							    "mbox", TRUE, ex);
 		g_free (camel_url);
 
 		if (!camel_exception_is_set (ex)) {
@@ -1747,7 +1747,7 @@ do_setup_draftbox (gpointer in_data, gpointer op_data, CamelException * ex)
 	gchar *url;
 
 	url = g_strdup_printf ("mbox://%s/local/Drafts", evolution_dir);
-	drafts_folder = mail_tool_get_folder_from_urlname (url, "mbox", ex);
+	drafts_folder = mail_tool_get_folder_from_urlname (url, "mbox", TRUE, ex);
 	g_free (url);
 }
 
