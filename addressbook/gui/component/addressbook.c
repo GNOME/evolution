@@ -10,15 +10,16 @@
 
 #include <config.h>
 
+#include <string.h>
 #include <glib.h>
-#include <libgnome/gnome-defs.h>
 #include <libgnome/gnome-i18n.h>
 #include <libgnomeui/gnome-app.h>
-#include <libgnomeui/gnome-stock.h>
 #include <libgnomeui/gnome-uidefs.h>
+#include <libgnomeui/gnome-dialog.h>
 #include <bonobo/bonobo-generic-factory.h>
 #include <bonobo/bonobo-ui-util.h>
 #include <bonobo/bonobo-exception.h>
+#include <bonobo/bonobo-property-bag.h>
 #include <gal/util/e-util.h>
 #include <gal/widgets/e-unicode.h>
 
@@ -94,10 +95,12 @@ view_contact_cb (BonoboUIComponent *uih, void *user_data, const char *path)
 static void
 search_cb (BonoboUIComponent *uih, void *user_data, const char *path)
 {
+#ifdef PENDING_PORT_WORK
 	AddressbookView *view = (AddressbookView *) user_data;
 
 	if (view->view)
 		gtk_widget_show(e_addressbook_search_dialog_new(view->view));
+#endif
 }
 
 static void
@@ -201,7 +204,9 @@ move_contact_to_cb (BonoboUIComponent *uih, void *user_data, const char *path)
 static void
 forget_passwords_cb (BonoboUIComponent *uih, void *user_data, const char *path)
 {
+#ifdef PENDING_PORT_WORK
 	e_passwords_forget_passwords();
+#endif
 }
 
 static void
@@ -345,8 +350,8 @@ control_activate (BonoboControl     *control,
 {
 	Bonobo_UIContainer remote_ui_container;
 
-	remote_ui_container = bonobo_control_get_remote_ui_container (control);
-	bonobo_ui_component_set_container (uic, remote_ui_container);
+	remote_ui_container = bonobo_control_get_remote_ui_container (control, NULL);
+	bonobo_ui_component_set_container (uic, remote_ui_container, NULL);
 	bonobo_object_release_unref (remote_ui_container, NULL);
 
 	e_search_bar_set_ui_component (view->search, uic);
@@ -358,7 +363,7 @@ control_activate (BonoboControl     *control,
 
 	bonobo_ui_util_set_ui (uic, EVOLUTION_DATADIR,
 			       "evolution-addressbook.xml",
-			       "evolution-addressbook");
+			       "evolution-addressbook", NULL);
 
 	e_addressbook_view_setup_menus (view->view, uic);
 
@@ -386,7 +391,7 @@ control_activate_cb (BonoboControl *control,
 			e_addressbook_model_force_folder_bar_message (view->view->model);
 
 	} else {
-		bonobo_ui_component_unset_container (uic);
+		bonobo_ui_component_unset_container (uic, NULL);
 		e_addressbook_view_discard_menus (view->view);
 	}
 }
@@ -412,9 +417,11 @@ static ECategoriesMasterList *
 get_master_list (void)
 {
 	static ECategoriesMasterList *category_list = NULL;
+#ifdef PENDING_PORT_WORK
 
 	if (category_list == NULL)
 		category_list = e_categories_master_list_wombat_new ();
+#endif
 	return category_list;
 }
 
@@ -586,7 +593,9 @@ load_uri_auth_cb (EBook *book, EBookStatus status, gpointer closure)
 			return;
 		}
 		else {
+#ifdef PENDING_PORT_WORK
 			e_passwords_forget_password (data->clean_uri);
+#endif
 			addressbook_authenticate (book, TRUE, data->source, load_uri_auth_cb, closure);
 			return;
 		}
@@ -603,7 +612,7 @@ addressbook_authenticate (EBook *book, gboolean previous_failure, AddressbookSou
 			  EBookCallback cb, gpointer closure)
 {
 	LoadUriData *load_uri_data = closure;
-	const char *password;
+	const char *password = NULL;
 	char *pass_dup = NULL;
 	char *semicolon;
 
@@ -614,7 +623,9 @@ addressbook_authenticate (EBook *book, gboolean previous_failure, AddressbookSou
 	if (semicolon)
 		*semicolon = '\0';
 
+#ifdef PENDING_PORT_WORK
 	password = e_passwords_get_password (load_uri_data->clean_uri);
+#endif
 
 	if (!password) {
 		char *prompt;
@@ -636,9 +647,11 @@ addressbook_authenticate (EBook *book, gboolean previous_failure, AddressbookSou
 			prompt = g_strdup_printf (_("%sEnter password for %s (user %s)"),
 						  failed_auth, source->name, source->email_addr);
 		remember = source->remember_passwd;
+#ifdef PENDING_PORT_WORK
 		pass_dup = e_passwords_ask_password (prompt, load_uri_data->clean_uri, prompt, TRUE,
 						     E_PASSWORDS_REMEMBER_FOREVER, &remember,
 						     NULL);
+#endif
 		if (remember != source->remember_passwd) {
 			source->remember_passwd = remember;
 			addressbook_storage_write_sources ();
@@ -818,7 +831,9 @@ addressbook_search_activated (ESearchBar *esb, AddressbookView *view)
 		       NULL);
 
 	if (search_type == ESB_ADVANCED) {
+#ifdef PENDING_PORT_WORK
 		gtk_widget_show(e_addressbook_search_dialog_new(view->view));
+#endif
 	}
 	else {
 		if ((search_word && strlen (search_word)) || search_type == ESB_CATEGORY) {
@@ -878,7 +893,9 @@ addressbook_query_changed (ESearchBar *esb, AddressbookView *view)
 		       NULL);
 
 	if (search_type == ESB_ADVANCED) {
+#ifdef PENDING_PORT_WORK
 		gtk_widget_show(e_addressbook_search_dialog_new(view->view));
+#endif
 	}
 }
 
@@ -895,7 +912,7 @@ retrieve_shell_view_interface_from_control (BonoboControl *control)
 	if (shell_view_interface)
 		return shell_view_interface;
 
-	control_frame = bonobo_control_get_control_frame (control);
+	control_frame = bonobo_control_get_control_frame (control, NULL);
 
 	if (control_frame == NULL)
 		return CORBA_OBJECT_NIL;
@@ -931,7 +948,7 @@ set_status_message (EAddressbookView *eav, const char *message, AddressbookView 
 		char *clientid = g_strdup_printf ("%p", view);
 
 		if (progress_icon[0] == NULL)
-			progress_icon[0] = gdk_pixbuf_new_from_file (EVOLUTION_IMAGESDIR "/" EVOLUTION_CONTACTS_PROGRESS_IMAGE);
+			progress_icon[0] = gdk_pixbuf_new_from_file (EVOLUTION_IMAGESDIR "/" EVOLUTION_CONTACTS_PROGRESS_IMAGE, NULL);
 
 		view->activity = evolution_activity_client_new (addressbook_component_get_shell_client(), clientid,
 								progress_icon, message, TRUE, &display);
@@ -1132,7 +1149,8 @@ addressbook_factory_new_control (void)
 				 BONOBO_ARG_STRING, NULL, _("The URI that the Folder Browser will display"), 0);
 
 	bonobo_control_set_properties (view->control,
-				       view->properties);
+				       bonobo_object_corba_objref (BONOBO_OBJECT (view->properties)),
+				       NULL);
 
 	gtk_signal_connect (GTK_OBJECT (view->view),
 			    "status_message",
@@ -1161,14 +1179,16 @@ addressbook_factory_new_control (void)
 	
 	view->uri = NULL;
 
-	gtk_signal_connect (GTK_OBJECT (view->control), "activate",
-			    control_activate_cb, view);
+	g_signal_connect (view->control, "activate",
+			  G_CALLBACK (control_activate_cb), view);
 
 	return view->control;
 }
 
 static BonoboObject *
-addressbook_factory (BonoboGenericFactory *Factory, void *closure)
+addressbook_factory (BonoboGenericFactory *Factory,
+		     const char           *component_id,
+		     void *closure)
 {
 	return BONOBO_OBJECT (addressbook_factory_new_control ());
 }

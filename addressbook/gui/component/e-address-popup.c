@@ -29,6 +29,7 @@
  */
 
 #include <config.h>
+#include <string.h>
 #include "addressbook.h"
 #include "e-address-popup.h"
 #include <bonobo/bonobo-control.h>
@@ -130,8 +131,8 @@ mini_wizard_new (void)
 
 	wiz->body          = gtk_vbox_new (FALSE, 2);
 	wiz->vbox          = gtk_vbox_new (FALSE, 2);
-	wiz->ok_button     = gnome_stock_button (GNOME_STOCK_BUTTON_OK);
-	wiz->cancel_button = gnome_stock_button (GNOME_STOCK_BUTTON_CANCEL);
+	wiz->ok_button     = gtk_button_new_from_stock (GTK_STOCK_OK);
+	wiz->cancel_button = gtk_button_new_from_stock (GTK_STOCK_CANCEL);
 
 	wiz->ok_cb      = NULL;
 	wiz->cleanup_cb = NULL;
@@ -236,10 +237,10 @@ email_menu_add_option (EMailMenu *menu, const gchar *addr)
 	gtk_widget_show_all (menu_item);
 	gtk_menu_append (GTK_MENU (gtk_option_menu_get_menu (GTK_OPTION_MENU (menu->option_menu))), menu_item);
 
-	gtk_signal_connect (GTK_OBJECT (menu_item),
-			    "activate",
-			    menu_activate_cb,
-			    menu);
+	g_signal_connect (menu_item,
+			  "activate",
+			  G_CALLBACK (menu_activate_cb),
+			  menu);
 }
 
 static void
@@ -1247,7 +1248,7 @@ e_address_popup_factory_new_control (void)
 				 BONOBO_ARG_BOOLEAN, NULL, NULL,
 				 BONOBO_PROPERTY_READABLE);
 
-        bonobo_control_set_properties (control, bag);
+        bonobo_control_set_properties (control, bonobo_object_corba_objref (BONOBO_OBJECT (bag)), NULL);
         bonobo_object_unref (BONOBO_OBJECT (bag));
 
 	addy->es = bonobo_event_source_new ();
@@ -1258,7 +1259,9 @@ e_address_popup_factory_new_control (void)
 }
 
 static BonoboObject *
-e_address_popup_factory (BonoboGenericFactory *factory, gpointer user_data)
+e_address_popup_factory (BonoboGenericFactory *factory,
+			 const char           *component_id,
+			 gpointer user_data)
 {
 	return BONOBO_OBJECT (e_address_popup_factory_new_control ());
 }

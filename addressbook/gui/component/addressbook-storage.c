@@ -53,12 +53,10 @@
 #include <gnome-xml/parser.h>
 #include <gnome-xml/xmlmemory.h>
 
-#include <libgnome/gnome-defs.h>
 #include <libgnome/gnome-i18n.h>
 #include <libgnome/gnome-util.h>
 #include <bonobo/bonobo-object.h>
 
-#include <gal/util/e-unicode-i18n.h>
 #include <gal/util/e-util.h>
 #include <gal/util/e-xml-utils.h>
 #include <libgnome/gnome-i18n.h>
@@ -165,7 +163,7 @@ addressbook_get_other_contact_storage (void)
 	EvolutionStorageResult result;
 
 	if (storage == NULL) {
-		storage = evolution_storage_new (U_("Other Contacts"), FALSE);
+		storage = evolution_storage_new (_("Other Contacts"), FALSE);
 		gtk_signal_connect (GTK_OBJECT (storage),
 				    "remove_folder",
 				    GTK_SIGNAL_FUNC(remove_ldap_folder), NULL);

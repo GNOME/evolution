@@ -1,5 +1,32 @@
 2002-11-05  Chris Toshok  <toshok@ximian.com>
 
+	* gui/component/.cvsignore: ignore the new .server file.
+	
+	* gui/component/Makefile.am: typical port stuff.  switch the .oaf
+	to .server, and leave out a lot of libs so we can actually get
+	things linking.
+	
+	* gui/component/GNOME_Evolution_Addressbook.server.in: rename
+	.oaf.in here.
+	
+	* gui/component/addressbook-component.c: Port to GObject/gnome2.
+	
+	* gui/component/addressbook-config.c: Port to GObject/gnome2.
+
+	* gui/component/addressbook-factory.c: Port to GObject/gnome2.
+
+	* gui/component/addressbook-storage.c: Port to GObject/gnome2.
+
+	* gui/component/addressbook.[ch]: Port to GObject/gnome2.
+
+	* gui/component/e-address-popup.[ch]: Port to GObject/gnome2.
+
+	* gui/component/e-address-widget.[ch]: Port to GObject/gnome2.
+
+	* gui/component/e-cardlist-model.h: Port to GObject/gnome2.
+	
+2002-11-05  Chris Toshok  <toshok@ximian.com>
+
 	* gui/contact-list-editor/.cvsignore: ignore the marshal generated
 	stuff.
 	

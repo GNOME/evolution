@@ -10,21 +10,13 @@
 
 #include <config.h>
 #include <glib.h>
-#include <libgnome/gnome-defs.h>
-#include <libgnome/gnome-i18n.h>
-#include <libgnomeui/gnome-init.h>
-#include <liboaf/liboaf.h>
+#include <libgnomeui/gnome-ui-init.h>
 #include <bonobo/bonobo-main.h>
-#include <libgnomevfs/gnome-vfs-init.h>
 #include <glade/glade.h>
 #include <gal/widgets/e-cursors.h>
 #include <e-util/e-passwords.h>
 
 #include <camel/camel.h>
-
-#ifdef GTKHTML_HAVE_GCONF
-#include <gconf/gconf.h>
-#endif
 
 #include "addressbook.h"
 #include "addressbook-component.h"
@@ -33,29 +25,6 @@
 #include "addressbook/gui/widgets/e-minicard-control.h"
 #include "select-names/e-select-names-factory.h"
 
-
-static void
-init_corba (int *argc, char **argv)
-{
-	gnome_init_with_popt_table ("evolution-addressbook", "0.0",
-				    *argc, argv, oaf_popt_options, 0, NULL);
-
-	oaf_init (*argc, argv);
-}
-
-static void
-init_bonobo (int argc, char **argv)
-{
-	if (bonobo_init (CORBA_OBJECT_NIL, CORBA_OBJECT_NIL, CORBA_OBJECT_NIL) == FALSE)
-		g_error (_("Could not initialize Bonobo"));
-
-#ifdef GTKHTML_HAVE_GCONF
-	gconf_init (argc, argv, NULL);
-#endif
-
-	glade_gnome_init ();
-}
-
 int
 main (int argc, char **argv)
 {
@@ -63,13 +32,11 @@ main (int argc, char **argv)
 	textdomain (PACKAGE);
 
 	free (malloc (5));
-	
-	init_corba (&argc, argv);
 
-	init_bonobo (argc, argv);
-
-	if (!gnome_vfs_init ())
-		g_error (_("Could not initialize gnome-vfs"));
+	gnome_program_init ("evolution-addressbook", VERSION,
+			    LIBGNOMEUI_MODULE, argc, argv,
+			    GNOME_PROGRAM_STANDARD_PROPERTIES,
+			    NULL);
 
 	/* FIXME: Messy names here.  This file should be `main.c'.  `addressbook.c' should
            be `addressbook-control-factory.c' and the functions should be called
@@ -86,16 +53,21 @@ main (int argc, char **argv)
 	e_address_widget_factory_init ();
 	e_address_popup_factory_init ();
 
+	glade_gnome_init ();
 	e_cursors_init();
 
+#ifdef PENDING_PORT_WORK
 	e_passwords_init("Addressbook");
+#endif
 
 #if 0
 	g_log_set_always_fatal (G_LOG_LEVEL_CRITICAL | G_LOG_LEVEL_WARNING);
 #endif
 
 	/*g_thread_init (NULL);*/
+#ifdef PENDING_PORT_WORK
 	camel_type_init ();
+#endif
 
 	gtk_widget_push_visual (gdk_rgb_get_visual ());
 	gtk_widget_push_colormap (gdk_rgb_get_cmap ());

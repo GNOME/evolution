@@ -97,7 +97,7 @@ create_view (EvolutionShellComponent *shell_component,
 		return EVOLUTION_SHELL_COMPONENT_UNSUPPORTEDTYPE;
 
 	control = addressbook_factory_new_control ();
-	bonobo_control_set_property (control, "folder_uri", physical_uri, NULL);
+	bonobo_control_set_property (control, NULL, "folder_uri", physical_uri);
 
 	*control_return = control;
 
@@ -524,7 +524,7 @@ add_creatable_item (EvolutionShellComponent *shell_component,
 		icon = NULL;
 	} else {
 		icon_path = g_concat_dir_and_file (EVOLUTION_ICONSDIR, icon_name);
-		icon = gdk_pixbuf_new_from_file (icon_path);
+		icon = gdk_pixbuf_new_from_file (icon_path, NULL);
 	}
 
 	evolution_shell_component_add_user_creatable_item (shell_component,
@@ -587,15 +587,12 @@ ensure_completion_uris_exist()
 {
 	/* Initialize the completion uris if they aren't set yet.  The
 	   default set is just the local Contacts folder. */
-	Bonobo_ConfigDatabase db;
-	CORBA_Environment ev;
+	EConfigListener *db;
 	char *val;
 
-	CORBA_exception_init (&ev);
-	
-	db = addressbook_config_database (&ev);
+	db = e_book_get_config_database ();
 		
-	val = bonobo_config_get_string (db, "/Addressbook/Completion/uris", &ev);
+	val = e_config_listener_get_string (db, "/Addressbook/Completion/uris");
 
 	if (!val) {
 		EFolderListItem f[2];
@@ -616,12 +613,10 @@ ensure_completion_uris_exist()
 
 		g_free (dirname);
 		g_free (uri);
-		bonobo_config_set_string (db, "/Addressbook/Completion/uris", val, &ev);
+		e_config_listener_set_string (db, "/Addressbook/Completion/uris", val);
 
 		g_free (val);
 	}
-
-	CORBA_exception_free (&ev);
 }
 
 
@@ -636,9 +631,9 @@ addressbook_component_factory_init (void)
 
 	/* FIXME: Handle errors better?  */
 
-	result = oaf_active_server_register (GNOME_EVOLUTION_ADDRESSBOOK_COMPONENT_ID,
-					     bonobo_object_corba_objref (object));
-	if (result == OAF_REG_ERROR)
+	result = bonobo_activation_active_server_register (GNOME_EVOLUTION_ADDRESSBOOK_COMPONENT_ID,
+							   bonobo_object_corba_objref (object));
+	if (result == Bonobo_ACTIVATION_REG_ERROR)
 		g_error ("Cannot register -- %s", GNOME_EVOLUTION_ADDRESSBOOK_COMPONENT_ID);
 
 	/* XXX this could probably go someplace else, but I'll leave

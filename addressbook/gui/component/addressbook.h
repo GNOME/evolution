@@ -2,12 +2,10 @@
 #define __ADDRESSBOOK_H__
 
 #include <bonobo/bonobo-control.h>
-#include <bonobo-conf/bonobo-config-database.h>
+#include <e-util/e-config-listener.h>
 #include <bonobo/bonobo-object.h>
 #include <bonobo/bonobo-moniker-util.h>
 #include <ebook/e-book.h>
-
-Bonobo_ConfigDatabase addressbook_config_database (CORBA_Environment *ev);
 
 /* use this instead of e_book_load_uri everywhere where you want the
    authentication to be handled for you. */

@@ -28,12 +28,11 @@
 #define __E_ADDRESS_POPUP_H__
 
 #include <gtk/gtk.h>
-#include <libgnome/gnome-defs.h>
 #include <addressbook/backend/ebook/e-book.h>
 #include <addressbook/backend/ebook/e-card.h>
 #include <bonobo/bonobo-event-source.h>
 
-BEGIN_GNOME_DECLS
+G_BEGIN_DECLS
 
 #define E_ADDRESS_POPUP_TYPE        (e_address_popup_get_type ())
 #define E_ADDRESS_POPUP(o)          (GTK_CHECK_CAST ((o), E_ADDRESS_POPUP_TYPE, EAddressPopup))
@@ -83,7 +82,7 @@ GtkWidget *e_address_popup_new (void);
 
 void e_address_popup_factory_init (void);
 
-END_GNOME_DECLS
+G_END_DECLS
 
 #endif /* __E_ADDRESS_POPUP_H__ */
 

@@ -26,6 +26,8 @@
 
 #include <config.h>
 #include <ctype.h>
+#include <gtk/gtklabel.h>
+#include <libgnomeui/gnome-popup-menu.h>
 #include <bonobo/bonobo-control.h>
 #include <bonobo/bonobo-property-bag.h>
 #include <bonobo/bonobo-generic-factory.h>
@@ -441,7 +443,7 @@ e_address_widget_popup (EAddressWidget *addr, GdkEventButton *ev)
 	pop = addr->card ? popup_menu_card (addr) : popup_menu_nocard (addr);
 
 	if (pop)
-		gnome_popup_menu_do_popup (pop, NULL, NULL, ev, addr);
+		gnome_popup_menu_do_popup (pop, NULL, NULL, ev, addr, GTK_WIDGET (addr));
 }
 
 /*
@@ -547,14 +549,16 @@ e_address_widget_factory_new_control (void)
 				 BONOBO_ARG_INT, NULL, NULL,
 				 BONOBO_PROPERTY_WRITEABLE);
 
-	bonobo_control_set_properties (control, bag);
+	bonobo_control_set_properties (control, bonobo_object_corba_objref (BONOBO_OBJECT (bag)), NULL);
 	bonobo_object_unref (BONOBO_OBJECT (bag));
 
 	return control;
 }
 
 static BonoboObject *
-e_address_widget_factory (BonoboGenericFactory *factory, gpointer user_data)
+e_address_widget_factory (BonoboGenericFactory *factory,
+			  const char           *component_id,
+			  gpointer user_data)
 {
 	return BONOBO_OBJECT (e_address_widget_factory_new_control ());
 }

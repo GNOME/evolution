@@ -2,6 +2,10 @@ SUBDIRS	= select-names
 
 INCLUDES =							\
 	-DG_LOG_DOMAIN=\"evolution-addressbook\"		\
+	-DPREFIX=\"$(prefix)\"					\
+	-DSYSCONFDIR=\"$(sysconfdir)\"				\
+	-DDATADIR=\"$(datadir)\"				\
+	-DLIBDIR=\"$(libdir)\"					\
 	-I$(top_srcdir)						\
 	-I$(top_builddir)					\
 	-I$(top_srcdir)/shell					\
@@ -48,27 +52,29 @@ evolution_addressbook_LDADD =								\
 	$(top_builddir)/shell/libeshell.la						\
 	$(top_builddir)/addressbook/gui/widgets/libeminicard.a				\
 	$(top_builddir)/addressbook/backend/ebook/libebook.la				\
-	$(top_builddir)/camel/libcamel.la						\
 	$(top_builddir)/e-util/ename/libename.la					\
 	$(top_builddir)/addressbook/gui/contact-list-editor/libecontactlisteditor.a	\
 	$(top_builddir)/addressbook/gui/contact-editor/libecontacteditor.a		\
 	$(top_builddir)/libversit/libversit.a						\
 	$(top_builddir)/widgets/misc/libemiscwidgets.a 					\
-	$(top_builddir)/addressbook/printing/libecontactprint.a				\
-	$(top_builddir)/addressbook/gui/search/libeaddressbooksearch.a			\
 	$(top_builddir)/addressbook/gui/merging/libecardmerging.a			\
-	$(top_builddir)/filter/libfilter.la						\
 	$(top_builddir)/e-util/libeutil.la						\
 	$(top_builddir)/widgets/menus/libmenus.la					\
 	$(EVOLUTION_ADDRESSBOOK_LIBS) $(LDAP_LIBS)
 
-evolution_addressbook_LDFLAGS = `gnome-config --libs gdk_pixbuf` -export-dynamic
+# not done yet:
+#	$(top_builddir)/addressbook/gui/search/libeaddressbooksearch.a
+#	$(top_builddir)/filter/libfilter.la
+# 	$(top_builddir)/addressbook/printing/libecontactprint.a
+#	$(top_builddir)/camel/libcamel.la
 
-@XML_I18N_MERGE_OAF_RULE@
+#evolution_addressbook_LDFLAGS = `gnome-config --libs gdk_pixbuf` -export-dynamic
 
-oafdir = $(datadir)/oaf
-oaf_in_files = GNOME_Evolution_Addressbook.oaf.in
-oaf_DATA = $(oaf_in_files:.oaf.in=.oaf)
+@INTLTOOL_SERVER_RULE@
+
+serversdir = $(libdir)/bonobo/servers
+server_in_files = GNOME_Evolution_Addressbook.server.in
+servers_DATA = $(server_in_files:.server.in=.server)
 
 gladedir   = $(datadir)/evolution/glade
 glade_DATA = ldap-config.glade
@@ -80,8 +86,8 @@ etspec_DATA = addressbook-config.etspec
 
 EXTRA_DIST = 				\
 	$(glade_DATA)			\
-	$(oaf_DATA)			\
-	$(oaf_in_files)			\
+	$(servers_DATA)			\
+	$(server_in_files)		\
 	$(etspec_DATA)
 
 if ENABLE_PURIFY

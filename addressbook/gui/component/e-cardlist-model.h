@@ -2,16 +2,17 @@
 #ifndef _E_CARDLIST_MODEL_H_
 #define _E_CARDLIST_MODEL_H_
 
+#include <gtk/gtk.h>
 #include <gal/e-table/e-table-model.h>
 #include <ebook/e-book.h>
 #include <ebook/e-book-view.h>
 #include <ebook/e-card-simple.h>
 
-#define E_CARDLIST_MODEL_TYPE        (e_cardlist_model_get_type ())
-#define E_CARDLIST_MODEL(o)          (GTK_CHECK_CAST ((o), E_CARDLIST_MODEL_TYPE, ECardlistModel))
-#define E_CARDLIST_MODEL_CLASS(k)    (GTK_CHECK_CLASS_CAST((k), E_CARDLIST_MODEL_TYPE, ECardlistModelClass))
-#define E_IS_CARDLIST_MODEL(o)       (GTK_CHECK_TYPE ((o), E_CARDLIST_MODEL_TYPE))
-#define E_IS_CARDLIST_MODEL_CLASS(k) (GTK_CHECK_CLASS_TYPE ((k), E_CARDLIST_MODEL_TYPE))
+#define E_TYPE_CARDLIST_MODEL        (e_cardlist_model_get_type ())
+#define E_CARDLIST_MODEL(o)          (GTK_CHECK_CAST ((o), E_TYPE_CARDLIST_MODEL, ECardlistModel))
+#define E_CARDLIST_MODEL_CLASS(k)    (GTK_CHECK_CLASS_CAST((k), E_TYPE_CARDLIST_MODEL, ECardlistModelClass))
+#define E_IS_CARDLIST_MODEL(o)       (GTK_CHECK_TYPE ((o), E_TYPE_CARDLIST_MODEL))
+#define E_IS_CARDLIST_MODEL_CLASS(k) (GTK_CHECK_CLASS_TYPE ((k), E_TYPE_CARDLIST_MODEL))
 
 typedef struct {
 	ETableModel parent;
