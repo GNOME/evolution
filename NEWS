@@ -36,6 +36,16 @@ Bugzilla Bugs Fixed (see http://bugzilla.ximian.com/show_bug.cgi):
               since Outlook doesn't seem to check the filename
               parameter on the Content-Disposition header.     (Jeff)
 
+  * Addressbook
+
+    #16097 -- Need a way to let the user specify the DN to
+              authenticate against (Toshok)
+    #16968 -- changing search type immediately requeries (Toshok)
+    #20089 -- Cannot copy contacts with comma from "Contacts" to LDAP (Toshok)
+    #20690 -- LDAP contacts dont show when using letter shortcuts (Toshok)
+    #20740, 16680 -- LDAP performance problems (Toshok)
+    #20871 -- selectnames dialog needs search feedback (Toshok)
+
 Other fixes:
 
   * Calendar
@@ -43,6 +53,12 @@ Other fixes:
     - Show more descriptive messages on opening errors (Rodrigo)
     - Remove $filename.ics from remote URIs (Rodrigo)
 
+  * Addressbook
+
+    - Fix search weirdness in local addressbooks (Toshok)
+    - Let backends return general error status from load_uri instead
+      of just TRUE/FALSE (Toshok)
+    - EBook(View) handling fixes in select-names and EAddressbookModel (Clahey)
 
 Evolution 1.0.2, 01-24-2002
 ---------------------------
