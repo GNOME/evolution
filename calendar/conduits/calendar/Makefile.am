@@ -3,7 +3,7 @@ INCLUDES = 					\
 	-I$(top_srcdir)/calendar		\
 	-I$(top_srcdir)/libical/src/libical	\
 	-I$(top_builddir)/libical/src/libical	\
-	-I$(top_builddir)/e-util		\
+	-I$(top_srcdir)/e-util			\
 	$(BONOBO_GNOME_CFLAGS)			\
 	$(PISOCK_INCLUDEDIR)			\
 	$(GNOME_PILOT_CFLAGS)

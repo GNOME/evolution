@@ -1,3 +1,8 @@
+2001-02-12  Ettore Perazzoli  <ettore@ximian.com>
+
+	* conduit/Makefile.am (INCLUDES): `-I$(top_srcdir)/e-util', not
+	`-I$(top_builddir)/e-util'.
+
 2001-02-11  Gediminas Paulauskas <menesis@delfi.lt>
 
 	Really use xml-i18n-tools.
