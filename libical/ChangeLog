@@ -1,3 +1,7 @@
+2000-04-10  Damon Chaplin  <damon@helixcode.com>
+
+	* configure.in: added AC_PROG_MAKE_SET.
+
 2000-03-01  Ettore Perazzoli  <ettore@helixcode.com>
 
 	* src/libicalss/Makefile.am (INCLUDES): Include from
