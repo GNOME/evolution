@@ -51,7 +51,7 @@ struct _AddressbookConduitContext {
 	struct AddressAppInfo ai;
 	AddressbookConduitCfg *cfg;
 	EBook *ebook;
-	ECardCursor *cursor;
+	// ECardCursor *cursor;
 	GList *cards;
 	/*	CalClient *client;*/
 	CORBA_Environment ev;

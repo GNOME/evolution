@@ -111,14 +111,14 @@ cursor_cb (EBook *book, EBookStatus status, ECardCursor *cursor, gpointer closur
 		long length;
 		int i;
 
-		ctxt->cursor = cursor;
+		// ctxt->cursor = cursor;
 		ctxt->address_load_success = TRUE;
 
 		length = e_card_cursor_get_length (cursor);
 		ctxt->cards = NULL;
 		for (i = 0; i < length; i ++)
 			ctxt->cards = g_list_append (ctxt->cards, e_card_cursor_get_nth (cursor, i));
-			
+
 		gtk_main_quit(); /* end the sub event loop */
 	}
 	else {
@@ -154,7 +154,7 @@ start_address_server (GnomePilotConduitStandardAbs *conduit,
 
 	path = g_concat_dir_and_file (g_get_home_dir (),
 				      "evolution/local/Contacts/addressbook.db");
-	uri = g_strdup_printf ("file:%s", path);
+	uri = g_strdup_printf ("file://%s", path);
 	g_free (path);
 
 	e_book_load_uri (ctxt->ebook, uri, book_open_cb, ctxt);
@@ -309,7 +309,7 @@ ecard_from_remote_record(GnomePilotConduitStandardAbs *conduit,
 		ADD_PROP (orgprop, entryCompany, VCOrgNameProp);
 	}
 
-#if 0
+#if 1
 	for (i = entryPhone1; i <= entryPhone5; i ++) {
 		if (address.entry [i]) {
 			VObject *phoneprop = addPropValue (vobj,
