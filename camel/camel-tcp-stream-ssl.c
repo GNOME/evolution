@@ -160,7 +160,7 @@ stream_flush (CamelStream *stream)
 static int
 stream_close (CamelStream *stream)
 {
-	g_warning ("CamelTcpStreamSSL::close: Better to call ::disconnect.\n");
+	g_warning ("CamelTcpStreamSSL::close called on a stream where ::disconnect is preferred\n");
 	return PR_Close (((CamelTcpStreamSSL *)stream)->sockfd);
 }
 
@@ -171,7 +171,7 @@ stream_connect (CamelTcpStream *stream, struct hostent *host, int port)
 	CamelTcpStreamSSL *ssl = CAMEL_TCP_STREAM_SSL (stream);
 	PRIntervalTime timeout;
 	PRNetAddr netaddr;
-	PRFileDesc *fd;
+	PRFileDesc *fd, *ssl_fd;
 	
 	g_return_val_if_fail (host != NULL, -1);
 	
@@ -182,15 +182,16 @@ stream_connect (CamelTcpStream *stream, struct hostent *host, int port)
 		return -1;
 	
 	fd = PR_OpenTCPSocket (host->h_addrtype);
+	ssl_fd = SSL_ImportFD (NULL, fd);
 	
-	if (fd == NULL || PR_Connect (fd, &netaddr, timeout) == PR_FAILURE) {
-		if (fd != NULL)
-			PR_Close (fd);
+	if (ssl_fd == NULL || PR_Connect (ssl_fd, &netaddr, timeout) == PR_FAILURE) {
+		if (ssl_fd != NULL)
+			PR_Close (ssl_fd);
 		
 		return -1;
 	}
 	
-	ssl->sockfd = fd;
+	ssl->sockfd = ssl_fd;
 	
 	return 0;
 }
@@ -198,13 +199,6 @@ stream_connect (CamelTcpStream *stream, struct hostent *host, int port)
 static int
 stream_disconnect (CamelTcpStream *stream)
 {
-	PRStatus status;
-	
-	status = PR_Shutdown (((CamelTcpStreamSSL *)stream)->sockfd, PR_SHUTDOWN_BOTH);
-	
-	if (status == PR_FAILURE)
-		return -1;
-	
 	return PR_Close (((CamelTcpStreamSSL *)stream)->sockfd);
 }
 

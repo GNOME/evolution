@@ -1,3 +1,12 @@
+2001-01-15  Jeffrey Stedfast  <fejj@ximian.com>
+
+	* camel-tcp-stream-ssl.c (stream_connect): Uses an SSL socket now
+	although there's still a few things missing (like certificate
+	handling and such).
+
+	* camel.c (camel_ssl_init): A replacement function for
+	camel_init() that also initializes SSL.
+
 2001-01-14  Jeffrey Stedfast  <fejj@ximian.com>
 
 	* camel-tcp-stream-ssl.c (stream_getsockopt): Implemented.

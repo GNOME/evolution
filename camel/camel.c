@@ -47,3 +47,42 @@ camel_init(void)
 
 	return 0;
 }
+
+#ifdef U_CANT_TOUCH_THIS
+#include <ssl.h>
+#include <nss.h>
+
+gint
+camel_ssl_init (char *configdir, gboolean nss_init)
+{
+#ifdef ENABLE_THREADS
+#ifdef G_THREADS_ENABLED	
+	/*g_thread_init (NULL);*/
+#else  /* G_THREADS_ENABLED */
+	printf ("Threads are not supported by your version of glib\n");
+#endif /* G_THREADS_ENABLED */
+#endif /* ENABLE_THREADS */
+	
+	if (getenv ("CAMEL_VERBOSE_DEBUG"))
+		camel_verbose_debug = TRUE;
+	
+	unicode_init ();
+	
+	if (nss_init) {
+		PR_init ();
+		
+		if (NSS_init (configdir) == SECFailure)
+			return -1;
+		
+		/* FIXME: Erm, use appropriate policy? */
+		NSS_SetDomesticPolicy ();
+	}
+	
+	SSL_OptionSetDefault (SSL_ENABLE_SSL2, PR_TRUE);
+	SSL_OptionSetDefault (SSL_ENABLE_SSL3, PR_TRUE);
+	SSL_OptionSetDefault (SSL_ENABLE_TLS, PR_TRUE);
+	SSL_OptionSetDefault (SSL_V2_COMPATIBLE_HELLO, PR_TRUE /* maybe? */);
+	
+	return 0;
+}
+#endif
