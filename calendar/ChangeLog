@@ -1,3 +1,15 @@
+2002-03-28  JP Rosevear  <jpr@ximian.com>
+
+	* gui/e-itip-control.c (clean_up): free the my_address member
+	(find_my_address): fall back on a CN match if possible
+	(change_status): handle changing the status of a non-existent
+	address by adding a new attendee
+	(update_attendee_status): if the attendee response is not from a
+	user on the list of attendees, ask the user if they want to add
+	the attendee any how (as an optional participant)
+	(ok_clicked_cb): if we are suppose to rsvp and the status was ok,
+	but the attendee address is not known, find it
+
 2002-03-06  Rodrigo Moya <rodrigo@ximian.com>
 
 	Should fix #21240
