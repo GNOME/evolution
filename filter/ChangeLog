@@ -1,3 +1,8 @@
+2003-02-12  Jeffrey Stedfast  <fejj@ximian.com>
+
+	* vfolder-rule.c (source_add): Get rid of the need for the
+	GTK_WIDGET_DESTROYED() check.
+
 2003-02-07  Jeffrey Stedfast  <fejj@ximian.com>
 
 	* filter-editor.c (filter_editor_new): Use g_object_new()

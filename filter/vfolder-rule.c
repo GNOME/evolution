@@ -397,24 +397,17 @@ source_add (GtkWidget *widget, struct _source_data *data)
 	static const char *allowed_types[] = { "mail/*", NULL };
 	GNOME_Evolution_Folder *folder;
 	GtkTreeSelection *selection;
+	GtkWidget *window;
 	GtkTreeIter iter;
-	char *def, *uri;
+	char *uri;
 	
-	gtk_widget_set_sensitive (widget, FALSE);
-	def = "";
-	evolution_shell_client_user_select_folder (global_shell_client,
-						   GTK_WINDOW (gtk_widget_get_toplevel (widget)),
-						   _("Select Folder"),
-						   def, allowed_types, &folder);
-#warning "gtk_object_destroyed?"
-#if 0
-	if (GTK_OBJECT_DESTROYED (widget)) {
-		if (folder)
-			CORBA_free (folder);
-		return;
-	}
-#endif
-	gtk_widget_set_sensitive (widget, TRUE);
+	window = gtk_widget_get_toplevel (widget);
+	gtk_widget_set_sensitive (window, FALSE);
+	
+	evolution_shell_client_user_select_folder (global_shell_client, GTK_WINDOW (window),
+						   _("Select Folder"), "", allowed_types, &folder);
+	
+	gtk_widget_set_sensitive (window, TRUE);
 	
 	if (folder) {
 		uri = g_strdup (folder->physicalUri);
