@@ -196,6 +196,27 @@ validate_remote_uri (const gchar *source_location, gboolean interactive, GtkWidg
 	return TRUE;
 }
 
+static gboolean
+source_group_can_add (ESourceGroup *source_group)
+{
+	gboolean can_add;
+	EUri     *uri;
+
+	can_add = !e_source_group_is_readonly (source_group);
+
+	if (can_add) {
+		uri = e_uri_new (e_source_group_peek_base_uri (source_group));
+		
+		if (uri && uri->protocol && uri->protocol [0] && strcmp (uri->protocol, "groupwise")) 
+			can_add = FALSE;
+
+		if (uri)
+			e_uri_free (uri);
+	}
+
+	return can_add;	
+}
+
 static int
 source_group_menu_add_groups (GtkMenuShell *menu_shell, ESourceList *source_list)
 {
@@ -209,7 +230,7 @@ source_group_menu_add_groups (GtkMenuShell *menu_shell, ESourceList *source_list
 
 		menu_item = gtk_menu_item_new_with_label (e_source_group_peek_name (group));
 		gtk_widget_show (menu_item);
-		if (e_source_group_get_readonly(group))
+		if (source_group_can_add (group))
 			gtk_widget_set_sensitive(menu_item, FALSE);
 		else if (i == -1)
 			index = i;

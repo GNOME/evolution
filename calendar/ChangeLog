@@ -1,6 +1,8 @@
 2004-05-04  Larry Ewing  <lewing@ximian.com>
 
 	* gui/dialogs/calendar-setup.c: fix logic error.
+	(source_group_can_add): helper function to fix groupwise case.
+	I'm still not happy with this but it will work for now.
 
 	* gui/dialogs/calendar-setup.c (source_to_dialog): convert units.
 	(dialog_to_source): convert time units.
