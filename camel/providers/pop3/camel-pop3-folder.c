@@ -108,8 +108,10 @@ pop3_finalize (CamelObject *object)
 {
 	CamelPop3Folder *pop3_folder = CAMEL_POP3_FOLDER (object);
 
-	camel_folder_free_deep (NULL, pop3_folder->uids);
-	g_free (pop3_folder->flags);
+	if (pop3_folder->uids)
+		camel_folder_free_deep (NULL, pop3_folder->uids);
+	if (pop3_folder->flags)
+		g_free (pop3_folder->flags);
 }
 
 CamelFolder *
