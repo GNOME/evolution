@@ -132,12 +132,13 @@ create_view (EvolutionShellComponent *shell_component,
 		CamelURL *url;
 		
 		url = camel_url_new (physical_uri, NULL);
-		noselect = camel_url_get_param (url, "noselect");
-		if (url && noselect && !g_strcasecmp (noselect, "yes"))
+		noselect = url ? camel_url_get_param (url, "noselect") : NULL;
+		if (noselect && !g_strcasecmp (noselect, "yes"))
 			control = create_noselect_control ();
 		else
 			control = folder_browser_factory_new_control (physical_uri,
 								      corba_shell);
+		camel_url_free (url);
 	} else if (g_strcasecmp (folder_type, "mailstorage") == 0) {
 		CamelService *store;
 		EvolutionStorage *storage;
@@ -282,16 +283,24 @@ xfer_folder (EvolutionShellComponent *shell_component,
 	     void *closure)
 {
 	CORBA_Environment ev;
+	const char *noselect;
 	CamelFolder *source;
 	CamelException ex;
 	GPtrArray *uids;
+	CamelURL *url;
 	
-	if (strstr (destination_physical_uri, "noselect=yes")) {
+	url = camel_url_new (destination_physical_uri, NULL);
+	noselect = url ? camel_url_get_param (url, "noselect") : NULL;
+	
+	if (noselect && !g_strcasecmp (noselect, "yes")) {
+		camel_url_free (url);
 		GNOME_Evolution_ShellComponentListener_notifyResult (listener, 
 								     GNOME_Evolution_ShellComponentListener_UNSUPPORTED_OPERATION, &ev);
 		return;
 	}
-
+	
+	camel_url_free (url);
+	
 	if (strcmp (type, "mail") != 0) {
 		GNOME_Evolution_ShellComponentListener_notifyResult (listener,
 								     GNOME_Evolution_ShellComponentListener_UNSUPPORTED_TYPE, &ev);
@@ -358,13 +367,21 @@ destination_folder_handle_motion (EvolutionShellComponentDndDestinationFolder *f
 				  GNOME_Evolution_ShellComponentDnd_Action *suggested_action_return,
 				  gpointer user_data)
 {
+	const char *noselect;
+	CamelURL *url;
+	
 	g_print ("in destination_folder_handle_motion (%s)\n", physical_uri);
-
-	if (strstr (physical_uri, "noselect=yes"))
+	
+	url = camel_url_new (physical_uri, NULL);
+	noselect = camel_url_get_param (url, "noselect");
+	
+	if (noselect && !g_strcasecmp (noselect, "yes"))
 		/* uh, no way to say "illegal" */
 		*suggested_action_return = GNOME_Evolution_ShellComponentDnd_ACTION_DEFAULT;
 	else
 		*suggested_action_return = GNOME_Evolution_ShellComponentDnd_ACTION_MOVE;
+	
+	camel_url_free (url);
 	
 	return TRUE;
 }
@@ -413,6 +430,7 @@ destination_folder_handle_drop (EvolutionShellComponentDndDestinationFolder *des
 {
 	char *tmp, *url, **urls, *in, *inptr, *inend;
 	gboolean retval = FALSE;
+	const char *noselect;
 	CamelFolder *folder;
 	CamelStream *stream;
 	CamelException ex;
@@ -423,9 +441,14 @@ destination_folder_handle_drop (EvolutionShellComponentDndDestinationFolder *des
 	if (action == GNOME_Evolution_ShellComponentDnd_ACTION_LINK)
 		return FALSE; /* we can't create links */
 	
-	if (strstr (physical_uri, "noselect=yes"))
+	uri = camel_url_new (physical_uri, NULL);
+	noselect = uri ? camel_url_get_param (uri, "noselect") : NULL;
+	if (noselect && !g_strcasecmp (noselect, "yes")) {
+		camel_url_free (uri);
 		return FALSE;
-
+	}
+	camel_url_free (uri);
+	
 	g_print ("in destination_folder_handle_drop (%s)\n", physical_uri);
 	
 	for (type = 0; accepted_dnd_types[type]; type++)

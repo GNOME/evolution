@@ -203,6 +203,10 @@ message_list_drag_data_get (ETree *tree, int row, ETreePath path, int col,
 	
 	uids = g_ptr_array_new ();
 	message_list_foreach (fb->message_list, add_uid, uids);
+	if (uids->len == 0) {
+		g_ptr_array_free (uids, TRUE);
+		return;
+	}
 	
 	switch (info) {
 	case DND_TARGET_TYPE_TEXT_URI_LIST:

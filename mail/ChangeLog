@@ -1,5 +1,13 @@
 2001-07-26  Jeffrey Stedfast  <fejj@ximian.com>
 
+	* folder-browser.c (message_list_drag_data_get): If we don't have
+	any messages selected, break out. This fixes bug #5612.
+
+	* component-factory.c (xfer_folder): Fixed a strstr (url,
+	"noselect=yes") brokenness.
+	(destination_folder_handle_motion): Same.
+	(destination_folder_handle_drop): And again here.
+
 	* mail-format.c (handle_application_pgp): Implemented.
 	(setup_mime_tables): Setup the application/pgp handler to use
 	handle_application_pgp instead of handle_text_plain.
