@@ -1,3 +1,34 @@
+2001-03-28  Dan Winship  <danw@ximian.com>
+
+	* mail-account-gui.c (mail_account_gui_new): Set up the
+	sent/drafts folder buttons.
+	(folder_picker_clicked): Pop up the folder selector when sent or
+	drafts is clicked.
+	(mail_account_gui_save): Save the sent/drafts folders.
+
+	* mail-config.c (account_copy): copy sent/drafts info
+	(config_read): read sent/drafts info
+	(mail_config_write): write sent/drafts info
+
+	* mail-callbacks.c (composer_send_cb, composer_postpone_cb):
+	split out some common code here (and fix inconsistencies). Always
+	set headers on the message giving the account name, transport,
+	and sent folder to use.
+
+	* mail-ops.c (mail_send_message): If the message has an
+	X-Evolution-Account header, use the transport/sent folder info for
+	that account (assuming it still exists). Otherwise, if it has
+	X-Evolution-Transport and/or X-Evolution-Fcc, use those. If not,
+	use the default transport and sent folder.
+	FIXME: Falls back silently to the default sent folder if it can't
+	open the account-specific one...
+	(send_queue_send): remove the X-Evolution-Transport, etc
+	processing here, as it gets done by mail_send_message now.
+	FIXME: We only sync the default sent folder.
+	
+	* component-factory.c (owner_set_cb): While setting up the
+	standard folders, also record their URIs.
+
 2001-03-27  Jeffrey Stedfast  <fejj@ximian.com>
 
 	* mail-account-editor.c (switch_page): Lets do some NULL checking

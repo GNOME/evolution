@@ -280,35 +280,17 @@ composer_sent_cb(char *uri, CamelMimeMessage *message, gboolean sent, void *data
 	camel_object_unref (CAMEL_OBJECT (message));
 }
 
-void
-composer_send_cb (EMsgComposer *composer, gpointer data)
+CamelMimeMessage *
+composer_get_message (EMsgComposer *composer)
 {
-	const MailConfigAccount *account = NULL;
 	CamelMimeMessage *message;
 	const CamelInternetAddress *iaddr;
 	const char *subject;
-	struct post_send_data *psd = data;
-	struct _send_data *send;
+	const MailConfigAccount *account;
 	
-	if (!mail_config_is_configured ()) {
-		GtkWidget *dialog;
-		
-		dialog = gnome_ok_dialog_parented (_("You must configure an account before you "
-						     "can send this email."),
-						   GTK_WINDOW (composer));
-		gnome_dialog_run_and_close (GNOME_DIALOG (dialog));
-		return;
-	}
-	
-	/* Use the preferred account */
-	account = e_msg_composer_get_preferred_account (composer);
-	if (!account)
-		account = mail_config_get_default_account ();
-	
-	/* Get the message */
 	message = e_msg_composer_get_message (composer);
 	if (message == NULL)
-		return;
+		return NULL;
 	
 	/* Check for no recipients */
 	iaddr = camel_mime_message_get_recipients (message, CAMEL_RECIPIENT_TYPE_TO);
@@ -324,7 +306,7 @@ composer_send_cb (EMsgComposer *composer, gpointer data)
 		gnome_dialog_run_and_close (GNOME_DIALOG (message_box));
 		
 		camel_object_unref (CAMEL_OBJECT (message));
-		return;
+		return NULL;
 	}
 	
 	/* Check for no subject */
@@ -332,55 +314,70 @@ composer_send_cb (EMsgComposer *composer, gpointer data)
 	if (subject == NULL || subject[0] == '\0') {
 		if (!ask_confirm_for_empty_subject (composer)) {
 			camel_object_unref (CAMEL_OBJECT (message));
-			return;
+			return NULL;
 		}
 	}
+
+	/* Add info about the sending account */
+	account = e_msg_composer_get_preferred_account (composer);
+	if (account) {
+		camel_medium_set_header (CAMEL_MEDIUM (message), "X-Evolution-Account", account->name);
+		camel_medium_set_header (CAMEL_MEDIUM (message), "X-Evolution-Transport", account->transport->url);
+		camel_medium_set_header (CAMEL_MEDIUM (message), "X-Evolution-Fcc", account->sent_folder_uri);
+	}
+
+	return message;
+}
+
+void
+composer_send_cb (EMsgComposer *composer, gpointer data)
+{
+	const MailConfigService *transport;
+	CamelMimeMessage *message;
+	struct post_send_data *psd = data;
+	struct _send_data *send;
 	
+	if (!mail_config_is_configured ()) {
+		GtkWidget *dialog;
+		
+		dialog = gnome_ok_dialog_parented (_("You must configure an account before you "
+						     "can send this email."),
+						   GTK_WINDOW (composer));
+		gnome_dialog_run_and_close (GNOME_DIALOG (dialog));
+		return;
+	}
+	
+	message = composer_get_message (composer);
+	if (!message)
+		return;
+	transport = mail_config_get_default_transport ();
+
 	send = g_malloc (sizeof (*send));
 	send->psd = psd;
 	send->composer = composer;
 	gtk_object_ref (GTK_OBJECT (composer));
 	gtk_widget_hide (GTK_WIDGET (composer));
-	mail_send_mail (account->transport->url, message, composer_sent_cb, send);
+	mail_send_mail (transport->url, message, composer_sent_cb, send);
 }
 
 void
 composer_postpone_cb (EMsgComposer *composer, gpointer data)
 {
-	const MailConfigAccount *account = NULL;
 	extern CamelFolder *outbox_folder;
 	CamelMimeMessage *message;
 	struct post_send_data *psd = data;
-	const char *subject;
 	
-	/* Get the message */
-	message = e_msg_composer_get_message (composer);
+	message = composer_get_message (composer);
 	if (message == NULL)
 		return;
 	
-	/* Check for no subject */
-	subject = camel_mime_message_get_subject (message);
-	if (subject == NULL || subject[0] == '\0') {
-		if (!ask_confirm_for_empty_subject (composer)) {
-			camel_object_unref (CAMEL_OBJECT (message));
-			return;
-		}
-	}
-	
-	/* Attach a X-Evolution-Transport header so we know which account
-	   to use when it gets sent later. */
-	account = e_msg_composer_get_preferred_account (composer);
-	if (!account)
-		account = mail_config_get_default_account ();
-	camel_medium_add_header (CAMEL_MEDIUM (message), "X-Evolution-Transport", account->transport->url);
-	
-	/* Save the message in Outbox */
 	mail_append_mail (outbox_folder, message, NULL, NULL, NULL);
-	
 	camel_object_unref (CAMEL_OBJECT (message));
 	
-	if (psd)
+	if (psd) {
 		camel_folder_set_message_flags (psd->folder, psd->uid, psd->flags, psd->flags);
+		free_psd (NULL, psd);
+	}
 	
 	gtk_widget_destroy (GTK_WIDGET (composer));
 }

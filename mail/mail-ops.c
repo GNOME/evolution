@@ -473,14 +473,17 @@ int mail_update_subfolders(CamelStore *store, EvolutionStorage *storage,
 /* sending stuff */
 /* ** SEND MAIL *********************************************************** */
 
+extern CamelFolder *sent_folder;
+
 /* send 1 message to a specific transport */
 static void
 mail_send_message(CamelMimeMessage *message, const char *destination, CamelFilterDriver *driver, CamelException *ex)
 {
-	extern CamelFolder *sent_folder; /* FIXME */
 	CamelMessageInfo *info;
-	CamelTransport *xport;
-	const char *version;
+	CamelTransport *xport = NULL;
+	CamelFolder *folder;
+	const char *version, *header;
+	char *transport_url = NULL, *sent_folder_uri = NULL;
 	
 	if (SUB_VERSION[0] == '\0')
 		version = "Evolution/" VERSION " (Preview Release)";
@@ -492,14 +495,48 @@ mail_send_message(CamelMimeMessage *message, const char *destination, CamelFilte
 	/* Remove the X-Evolution header so we don't send our flags too ;-) */
 	camel_medium_remove_header (CAMEL_MEDIUM (message), "X-Evolution");
 	
-	xport = camel_session_get_transport (session, destination, ex);
-	if (camel_exception_is_set (ex))
+	/* Get information about the account this was composed by. */
+	header = camel_medium_get_header (CAMEL_MEDIUM (message), "X-Evolution-Account");
+	if (header) {
+		const MailConfigAccount *account;
+
+		account = mail_config_get_account_by_name (header);
+		camel_medium_remove_header (CAMEL_MEDIUM (message), "X-Evolution-Account");
+		if (account) {
+			transport_url = g_strdup (account->transport->url);
+			camel_medium_remove_header (CAMEL_MEDIUM (message), "X-Evolution-Transport");
+			sent_folder_uri = account->sent_folder_uri;
+			camel_medium_remove_header (CAMEL_MEDIUM (message), "X-Evolution-Fcc");
+		}
+	}
+	if (!transport_url) {
+		header = camel_medium_get_header (CAMEL_MEDIUM (message), "X-Evolution-Transport");
+		if (header) {
+			transport_url = g_strdup (header);
+			camel_medium_remove_header (CAMEL_MEDIUM (message), "X-Evolution-Transport");
+		}
+	}
+	if (!sent_folder_uri) {
+		header = camel_medium_get_header (CAMEL_MEDIUM (message), "X-Evolution-Fcc");
+		if (header) {
+			sent_folder_uri = g_strdup (header);
+			camel_medium_remove_header (CAMEL_MEDIUM (message), "X-Evolution-Fcc");
+		}
+	}
+
+	xport = camel_session_get_transport (session, transport_url ? transport_url : destination, ex);
+	g_free (transport_url);
+	if (!xport) {
+		g_free (sent_folder_uri);
 		return;
+	}
 	
 	camel_transport_send (xport, (CamelMedium *)message, ex);
 	camel_object_unref (CAMEL_OBJECT (xport));
-	if (camel_exception_is_set (ex))
+	if (camel_exception_is_set (ex)) {
+		g_free (sent_folder_uri);
 		return;
+	}
 	
 	/* post-process */
 	info = camel_message_info_new ();
@@ -509,8 +546,17 @@ mail_send_message(CamelMimeMessage *message, const char *destination, CamelFilte
 		camel_filter_driver_filter_message (driver, message, info,
 						    NULL, NULL, "", ex);
 	
-	if (sent_folder)
-		camel_folder_append_message (sent_folder, message, info, ex);
+	if (sent_folder_uri) {
+		folder = mail_tool_uri_to_folder (sent_folder_uri, NULL);
+		if (!folder) {
+			/* FIXME */
+			folder = sent_folder;
+		}
+	} else
+		folder = sent_folder;
+
+	if (folder)
+		camel_folder_append_message (folder, message, info, ex);
 	
 	camel_message_info_free (info);
 }
@@ -650,7 +696,6 @@ send_queue_send(struct _mail_msg *mm)
 	for (i = 0; i < uids->len; i++) {
 		CamelMimeMessage *message;
 		CamelMessageInfo *info;
-		char *destination;
 		int pc = (100 * i) / uids->len;
 		
 		report_status (m, CAMEL_FILTER_STATUS_START, pc, "Sending message %d of %d", i+1, uids->len);
@@ -663,21 +708,7 @@ send_queue_send(struct _mail_msg *mm)
 		if (camel_exception_is_set (&mm->ex))
 			break;
 		
-		/* Remove the X-Evolution header so we don't send our flags too ;-) */
-		camel_medium_remove_header (CAMEL_MEDIUM (message), "X-Evolution");
-
-		/* We also don't want to send our identity header. */
-		camel_medium_remove_header (CAMEL_MEDIUM (message), "X-Evolution-Identity");
-
-		/* Get the preferred transport URI */
-		destination = (char *)camel_medium_get_header (CAMEL_MEDIUM (message), "X-Evolution-Transport");
-		if (destination) {
-			destination = g_strdup (destination);
-			camel_medium_remove_header (CAMEL_MEDIUM (message), "X-Evolution-Transport");
-			mail_send_message (message, g_strstrip (destination), m->driver, &mm->ex);
-			g_free (destination);
-		} else
-			mail_send_message (message, m->destination, m->driver, &mm->ex);
+		mail_send_message (message, m->destination, m->driver, &mm->ex);
 		
 		if (camel_exception_is_set (&mm->ex))
 			break;

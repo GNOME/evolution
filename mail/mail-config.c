@@ -141,6 +141,11 @@ account_copy (const MailConfigAccount *account)
 	new->source = service_copy (account->source);
 	new->transport = service_copy (account->transport);
 	
+	new->drafts_folder_name = g_strdup (account->drafts_folder_name);
+	new->drafts_folder_uri = g_strdup (account->drafts_folder_uri);
+	new->sent_folder_name = g_strdup (account->sent_folder_name);
+	new->sent_folder_uri = g_strdup (account->sent_folder_uri);
+
 	return new;
 }
 
@@ -231,6 +236,19 @@ config_read (void)
 			have_default = TRUE;
 		g_free (path);
 		
+		path = g_strdup_printf ("account_drafts_folder_name_%d", i);
+		account->drafts_folder_name = gnome_config_get_string (path);
+		g_free (path);
+		path = g_strdup_printf ("account_drafts_folder_uri_%d", i);
+		account->drafts_folder_uri = gnome_config_get_string (path);
+		g_free (path);
+		path = g_strdup_printf ("account_sent_folder_name_%d", i);
+		account->sent_folder_name = gnome_config_get_string (path);
+		g_free (path);
+		path = g_strdup_printf ("account_sent_folder_uri_%d", i);
+		account->sent_folder_uri = gnome_config_get_string (path);
+		g_free (path);
+
 		/* get the identity info */
 		id = g_new0 (MailConfigIdentity, 1);		
 		path = g_strdup_printf ("identity_name_%d", i);
@@ -422,6 +440,18 @@ mail_config_write (void)
 		g_free (path);
 		path = g_strdup_printf ("account_is_default_%d", i);
 		gnome_config_set_bool (path, account->default_account);
+		g_free (path);
+		path = g_strdup_printf ("account_drafts_folder_name_%d", i);
+		gnome_config_set_string (path, account->drafts_folder_name);
+		g_free (path);
+		path = g_strdup_printf ("account_drafts_folder_uri_%d", i);
+		gnome_config_set_string (path, account->drafts_folder_uri);
+		g_free (path);
+		path = g_strdup_printf ("account_sent_folder_name_%d", i);
+		gnome_config_set_string (path, account->sent_folder_name);
+		g_free (path);
+		path = g_strdup_printf ("account_sent_folder_uri_%d", i);
+		gnome_config_set_string (path, account->sent_folder_uri);
 		g_free (path);
 		
 		/* identity info */

@@ -52,6 +52,10 @@ typedef struct {
 } MailAccountGuiService;
 
 typedef struct {
+	char *name, *uri;
+} MailAccountGuiFolder;
+
+typedef struct {
 	GtkWidget *top;
 	MailConfigAccount *account;
 	GladeXML *xml;
@@ -77,6 +81,12 @@ typedef struct {
 	/* account management */
 	GtkEntry *account_name;
 	GtkToggleButton *default_account;
+
+	/* special folders */
+	GtkButton *drafts_folder_button;
+	MailAccountGuiFolder drafts_folder;
+	GtkButton *sent_folder_button;
+	MailAccountGuiFolder sent_folder;
 } MailAccountGui;
 
 

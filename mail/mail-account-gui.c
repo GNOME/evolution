@@ -28,8 +28,11 @@
 
 #include <gal/widgets/e-unicode.h>
 
+#include "shell/evolution-shell-client.h"
 #include "mail-account-gui.h"
 #include "mail-session.h"
+
+extern char *default_drafts_folder_uri, *default_sent_folder_uri;
 
 static void save_service (MailAccountGuiService *gsvc, GHashTable *extra_conf, MailConfigService *service);
 
@@ -646,6 +649,44 @@ extract_values (MailAccountGuiService *source, GHashTable *extra_config, CamelUR
 }
 
 
+extern EvolutionShellClient *global_shell_client;
+
+static void
+set_folder_picker_label (GtkButton *button, const char *name)
+{
+	char *string;
+
+	string = e_utf8_to_gtk_string (GTK_WIDGET (button), name);
+	gtk_label_set_text (GTK_LABEL (GTK_BIN (button)->child), string);
+	g_free (string);
+}
+
+static void
+folder_picker_clicked (GtkButton *button, gpointer user_data)
+{
+	MailAccountGuiFolder *folder = user_data;
+	const char *allowed_types[] = { "mail", NULL };
+	char *physical_uri, *evolution_uri;
+
+	physical_uri = evolution_uri = NULL;
+	evolution_shell_client_user_select_folder (
+		global_shell_client, _("Select Folder"), folder->uri,
+		allowed_types, &evolution_uri, &physical_uri);
+	if (!physical_uri || !*physical_uri) {
+		g_free (physical_uri);
+		g_free (evolution_uri);
+		return;
+	}
+
+	g_free (folder->uri);
+	folder->uri = physical_uri;
+	g_free (folder->name);
+	folder->name = g_strdup (g_basename (evolution_uri));
+	g_free (evolution_uri);
+	set_folder_picker_label (button, folder->name);
+}
+
+
 static gboolean
 setup_service (MailAccountGuiService *gsvc, MailConfigService *service)
 {
@@ -780,6 +821,27 @@ mail_account_gui_new (MailConfigAccount *account)
 	gui->transport.remember = GTK_TOGGLE_BUTTON (glade_xml_get_widget (gui->xml, "transport_remember_password"));
 	gui->transport.check_supported = GTK_BUTTON (glade_xml_get_widget (gui->xml, "transport_check_supported"));
 	gtk_signal_connect (GTK_OBJECT (gui->transport.check_supported), "clicked", GTK_SIGNAL_FUNC (service_check_supported), &gui->transport);
+
+	gui->drafts_folder_button = GTK_BUTTON (glade_xml_get_widget (gui->xml, "drafts_button"));
+	gtk_signal_connect (GTK_OBJECT (gui->drafts_folder_button), "clicked", GTK_SIGNAL_FUNC (folder_picker_clicked), &gui->drafts_folder);
+	if (account->drafts_folder_uri) {
+		gui->drafts_folder.uri = g_strdup (account->drafts_folder_uri);
+		gui->drafts_folder.name = g_strdup (account->drafts_folder_name);
+	} else {
+		gui->drafts_folder.uri = g_strdup (default_drafts_folder_uri);
+		gui->drafts_folder.name = g_strdup (strrchr (default_drafts_folder_uri, '/') + 1);
+	}
+	set_folder_picker_label (gui->drafts_folder_button, gui->drafts_folder.name);
+	gui->sent_folder_button = GTK_BUTTON (glade_xml_get_widget (gui->xml, "sent_button"));
+	gtk_signal_connect (GTK_OBJECT (gui->sent_folder_button), "clicked", GTK_SIGNAL_FUNC (folder_picker_clicked), &gui->sent_folder);
+	if (account->sent_folder_uri) {
+		gui->sent_folder.uri = g_strdup (account->sent_folder_uri);
+		gui->sent_folder.name = g_strdup (account->sent_folder_name);
+	} else {
+		gui->sent_folder.uri = g_strdup (default_sent_folder_uri);
+		gui->sent_folder.name = g_strdup (strrchr (default_sent_folder_uri, '/') + 1);
+	}
+	set_folder_picker_label (gui->sent_folder_button, gui->sent_folder.name);
 
 	return gui;
 }
@@ -1081,6 +1143,15 @@ mail_account_gui_save (MailAccountGui *gui)
 	service_destroy (account->transport);
 	account->transport = g_new0 (MailConfigService, 1);
 	save_service (&gui->transport, NULL, account->transport);
+
+	g_free (account->drafts_folder_name);
+	account->drafts_folder_name = g_strdup (gui->drafts_folder.name);
+	g_free (account->drafts_folder_uri);
+	account->drafts_folder_uri = g_strdup (gui->drafts_folder.uri);
+	g_free (account->sent_folder_name);
+	account->sent_folder_name = g_strdup (gui->sent_folder.name);
+	g_free (account->sent_folder_uri);
+	account->sent_folder_uri = g_strdup (gui->sent_folder.uri);
 
 	return TRUE;
 }

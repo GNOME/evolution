@@ -51,9 +51,12 @@
 #include "mail-summary.h"
 #include "mail-send-recv.h"
 
+char *default_drafts_folder_uri;
 CamelFolder *drafts_folder = NULL;
+char *default_sent_folder_uri;
+CamelFolder *sent_folder = NULL;
+char *default_outbox_folder_uri;
 CamelFolder *outbox_folder = NULL;
-CamelFolder *sent_folder = NULL;     /* this one should be configurable? */
 char *evolution_dir;
 
 #define COMPONENT_FACTORY_ID "OAFIID:GNOME_Evolution_Mail_ShellComponentFactory"
@@ -156,12 +159,12 @@ create_folder (EvolutionShellComponent *shell_component,
 }
 
 static struct {
-	char *name;
+	char *name, **uri;
 	CamelFolder **folder;
 } standard_folders[] = {
-	{ "Drafts", &drafts_folder },
-	{ "Outbox", &outbox_folder },
-	{ "Sent", &sent_folder },
+	{ "Drafts", &default_drafts_folder_uri, &drafts_folder },
+	{ "Outbox", &default_outbox_folder_uri, &outbox_folder },
+	{ "Sent", &default_sent_folder_uri, &sent_folder },
 };
 
 static void
@@ -226,9 +229,8 @@ owner_set_cb (EvolutionShellComponent *shell_component,
 	mail_importer_init (shell_client);
 	
 	for (i = 0; i < sizeof (standard_folders) / sizeof (standard_folders[0]); i++) {
-		char *uri = g_strdup_printf ("file://%s/local/%s", evolution_dir, standard_folders[i].name);
-		mail_msg_wait (mail_get_folder (uri, got_folder, standard_folders[i].folder));
-		g_free (uri);
+		*standard_folders[i].uri = g_strdup_printf ("file://%s/local/%s", evolution_dir, standard_folders[i].name);
+		mail_msg_wait (mail_get_folder (*standard_folders[i].uri, got_folder, standard_folders[i].folder));
 	}
 	
 	mail_session_enable_interaction (TRUE);
