@@ -12,9 +12,16 @@ Mail:
 
   - UNMATCHED vFolder.  (Michael)
 
-  - Cancellable operations.  (Michael)
+  - Cancellable operations, cancellable/async dns lookup, slightly
+    improved progress reporting.  (Michael)
 
   - Filter/vFolder on Mailing List.  (Michael)
+
+  - Partial cleanup/optimisation of vfolder code, moved vfolder
+    into main camel library. (Michael)
+
+  - Saved searches.  Searches now configurable via XML with supporting
+    C code.  (Michael)
 
   - SSL (S/IMAP, S/POP, and S/SMTP).  (Jeff)
 
@@ -38,6 +45,8 @@ Mail:
     info.  (Jeff)
 
   - Redid Forward Inline and Forward Quoted.  (Jeff)
+
+  - Numerous bugfixes, cleanups and optimisations. (Everyone)
 
 Addressbook:
 
