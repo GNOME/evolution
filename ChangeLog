@@ -1,3 +1,7 @@
+2002-02-22  Larry Ewing  <lewing@ximian.com>
+
+	* configure.in: add libglade the to the E_UTIL flags.
+
 2002-02-13  Christopher James Lahey  <clahey@ximian.com>
 
 	* configure.in: Bumped the required version of gal.
