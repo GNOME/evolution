@@ -859,7 +859,6 @@ smtp_helo (CamelSmtpTransport *transport, CamelException *ex)
 {
 	/* say hello to the server */
 	char *name = NULL, *cmdbuf = NULL, *respbuf = NULL;
-	gboolean tried_numeric_host = FALSE;
 	struct hostent *host;
 	CamelException err;
 	const char *token;
