@@ -79,6 +79,7 @@ etog_kill_view (ECellView *ecell_view)
 	for (i = 0; i < etog->n_states * CACHE_SEQ_COUNT; i++)
 		if (toggle_view->pixmap_cache[i])
 			gdk_pixmap_unref (toggle_view->pixmap_cache[i]);
+	g_free (toggle_view->pixmap_cache);
 	g_free (ecell_view);
 }	
 
