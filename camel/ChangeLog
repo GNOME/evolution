@@ -6,6 +6,10 @@
 	(imap_get_message): If the server_level < IMAP4rev1, always fetch
 	messages all-at-once, since they don't support the [#.MIME]
 	syntax.
+	(imap_update_summary): When reading message flags, set the
+	server_flags field as well, and don't overwrite any flags set by
+	camel_folder_summary_info_new_from_message. Might help with some
+	of the flag problems...
 
 2001-04-02  Dan Winship  <danw@ximian.com>
 
