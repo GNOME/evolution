@@ -407,6 +407,9 @@ do_move (struct _ESExp *f, int argc, struct _ESExpResult **argv, CamelFilterDriv
 			if (!outbox)
 				break;
 			
+			if (outbox == p->source)
+				break;
+			
 			if (p->uid && p->source && camel_folder_has_summary_capability (p->source)) {
 				GPtrArray *uids;
 				
