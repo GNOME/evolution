@@ -4,8 +4,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: E-volution\n"
-"POT-Creation-Date: 2000-06-04 21:47+0000\n"
-"PO-Revision-Date: 2000-06-04 23:01+00:00\n"
+"POT-Creation-Date: 2000-06-10 16:36+0000\n"
+"PO-Revision-Date: 2000-06-10 16:41+00:00\n"
 "Last-Translator: Valek Filippov <frob@df.ru>\n"
 "Language-Team: Russian <ru@li.org>\n"
 "MIME-Version: 1.0\n"
@@ -18,154 +18,536 @@ msgstr ""
 msgid "Could not initialize Bonobo"
 msgstr "Не удалось инициализировать Bonobo"
 
-#: addressbook/contact-editor/e-contact-editor.c:812
+#: addressbook/contact-editor/e-contact-editor.c:574
+#: calendar/gui/event-editor.c:1118
+msgid "FIXME: _Appointment"
+msgstr "FIXME: Встреча"
+
+#: addressbook/contact-editor/e-contact-editor.c:575
+#: calendar/gui/event-editor.c:1119
+msgid "FIXME: Meeting Re_quest"
+msgstr "FIXME: Запрос встречи"
+
+#: addressbook/contact-editor/e-contact-editor.c:577
+#: calendar/gui/event-editor.c:1121
+msgid "FIXME: _Mail Message"
+msgstr "FIXME: Почтовое сообщение"
+
+#: addressbook/contact-editor/e-contact-editor.c:578
+#: calendar/gui/event-editor.c:1122
+msgid "FIXME: _Contact"
+msgstr "FIXME: Контакт"
+
+#: addressbook/contact-editor/e-contact-editor.c:579
+#: calendar/gui/event-editor.c:1123
+msgid "FIXME: _Task"
+msgstr "FIXME: Задание"
+
+#: addressbook/contact-editor/e-contact-editor.c:580
+#: calendar/gui/event-editor.c:1124
+msgid "FIXME: Task _Request"
+msgstr "FIXME: Запрос задания"
+
+#: addressbook/contact-editor/e-contact-editor.c:581
+#: calendar/gui/event-editor.c:1125
+msgid "FIXME: _Journal Entry"
+msgstr "FIXME: Журнальная запись"
+
+#: addressbook/contact-editor/e-contact-editor.c:582
+#: calendar/gui/event-editor.c:1126
+msgid "FIXME: _Note"
+msgstr "FIXME: Заметка"
+
+#: addressbook/contact-editor/e-contact-editor.c:584
+#: addressbook/contact-editor/e-contact-editor.c:689
+#: calendar/gui/event-editor.c:1128 calendar/gui/event-editor.c:1235
+msgid "FIXME: Ch_oose Form..."
+msgstr "FIXME: Выбрать из..."
+
+#: addressbook/contact-editor/e-contact-editor.c:589
+#: calendar/gui/event-editor.c:1133
+msgid "FIXME: _Memo Style"
+msgstr "FIXME: Стиль памятки"
+
+#: addressbook/contact-editor/e-contact-editor.c:591
+#: calendar/gui/event-editor.c:1135
+msgid "FIXME: Define Print _Styles..."
+msgstr "FIXME: Определить стили печати..."
+
+#: addressbook/contact-editor/e-contact-editor.c:598
+#: calendar/gui/event-editor.c:1142
+msgid "FIXME: S_end"
+msgstr "FIXME: Отправить"
+
+#: addressbook/contact-editor/e-contact-editor.c:602
+#: calendar/gui/event-editor.c:1146
+msgid "FIXME: Save Attac_hments..."
+msgstr "FIXME: Сохранить вложения..."
+
+#: addressbook/contact-editor/e-contact-editor.c:604
+#: calendar/gui/event-editor.c:1148
+msgid "FIXME: _Delete"
+msgstr "FIXME: Удалить"
+
+#: addressbook/contact-editor/e-contact-editor.c:605
+#: calendar/gui/event-editor.c:1149
+msgid "FIXME: _Move to Folder..."
+msgstr "FIXME: Переместить в папку..."
+
+#: addressbook/contact-editor/e-contact-editor.c:606
+#: calendar/gui/event-editor.c:1150
+msgid "FIXME: Cop_y to Folder..."
+msgstr "FIXME: Скопировать в папку..."
+
+#: addressbook/contact-editor/e-contact-editor.c:608
+#: calendar/gui/event-editor.c:1152
+msgid "Page Set_up"
+msgstr "Настройка страницы:"
+
+#: addressbook/contact-editor/e-contact-editor.c:609
+#: calendar/gui/event-editor.c:1153
+msgid "FIXME: Print Pre_view"
+msgstr "FIXME: Просмотр печати"
+
+#: addressbook/contact-editor/e-contact-editor.c:630
+#: calendar/gui/event-editor.c:1174
+msgid "FIXME: Paste _Special..."
+msgstr "FIXME: Специальная вставка..."
+
+#: addressbook/contact-editor/e-contact-editor.c:635
+#: calendar/gui/event-editor.c:1179
+msgid "FIXME: Mark as U_nread"
+msgstr "FIXME: Пометить как непрочтенное"
+
+#: addressbook/contact-editor/e-contact-editor.c:639
+#: calendar/gui/event-editor.c:1183
+msgid "_Object"
+msgstr "Объект"
+
+#: addressbook/contact-editor/e-contact-editor.c:644
+#: addressbook/contact-editor/e-contact-editor.c:651
+#: calendar/gui/event-editor.c:1188 calendar/gui/event-editor.c:1195
+msgid "FIXME: _Item"
+msgstr "FIXME: Элемент"
+
+#: addressbook/contact-editor/e-contact-editor.c:645
+#: addressbook/contact-editor/e-contact-editor.c:652
+#: calendar/gui/event-editor.c:1189 calendar/gui/event-editor.c:1196
+msgid "FIXME: _Unread Item"
+msgstr "FIXME: Непрочтенный элемент"
+
+#: addressbook/contact-editor/e-contact-editor.c:646
+#: calendar/gui/event-editor.c:1190
+msgid "FIXME: Fi_rst Item in Folder"
+msgstr "FIXME: Первый элемент в папке"
+
+#: addressbook/contact-editor/e-contact-editor.c:653
+#: calendar/gui/event-editor.c:1197
+msgid "FIXME: _Last Item in Folder"
+msgstr "FIXME: Последний элемент в папке"
+
+#: addressbook/contact-editor/e-contact-editor.c:658
+#: calendar/gui/event-editor.c:1202
+msgid "FIXME: _Standard"
+msgstr "FIXME: Стандарт"
+
+#: addressbook/contact-editor/e-contact-editor.c:660
+#: calendar/gui/event-editor.c:1204
+msgid "FIXME: __Formatting"
+msgstr "FIXME: Форматирование"
+
+#: addressbook/contact-editor/e-contact-editor.c:663
+#: calendar/gui/event-editor.c:1207
+msgid "FIXME: _Customize..."
+msgstr "FIXME: Настройка..."
+
+#: addressbook/contact-editor/e-contact-editor.c:668
+#: calendar/gui/event-editor.c:1212
+msgid "Pre_vious"
+msgstr "Пред."
+
+#: addressbook/contact-editor/e-contact-editor.c:669
+#: calendar/gui/event-editor.c:1213
+msgid "Ne_xt"
+msgstr "След."
+
+#: addressbook/contact-editor/e-contact-editor.c:671
+#: calendar/gui/event-editor.c:1217
+msgid "_Toolbars"
+msgstr "Панели инструментов"
+
+#: addressbook/contact-editor/e-contact-editor.c:676
+#: calendar/gui/event-editor.c:1222
+msgid "FIXME: _File..."
+msgstr "FIXME: Файл..."
+
+#: addressbook/contact-editor/e-contact-editor.c:677
+#: calendar/gui/event-editor.c:1223
+msgid "FIXME: It_em..."
+msgstr "FIXME: Элемент..."
+
+#: addressbook/contact-editor/e-contact-editor.c:678
+#: calendar/gui/event-editor.c:1224
+msgid "FIXME: _Object..."
+msgstr "FIXME: Объект..."
+
+#: addressbook/contact-editor/e-contact-editor.c:683
+#: calendar/gui/event-editor.c:1229
+msgid "FIXME: _Font..."
+msgstr "FIXME: Шрифт..."
+
+#: addressbook/contact-editor/e-contact-editor.c:684
+#: calendar/gui/event-editor.c:1230
+msgid "FIXME: _Paragraph..."
+msgstr "FIXME: Параграф..."
+
+#: addressbook/contact-editor/e-contact-editor.c:691
+#: calendar/gui/event-editor.c:1237
+msgid "FIXME: Desi_gn This Form"
+msgstr "FIXME: Конструкция этой формы"
+
+#: addressbook/contact-editor/e-contact-editor.c:692
+#: calendar/gui/event-editor.c:1238
+msgid "FIXME: D_esign a Form..."
+msgstr "FIXME: Создать форму..."
+
+#: addressbook/contact-editor/e-contact-editor.c:694
+#: calendar/gui/event-editor.c:1240
+msgid "FIXME: Publish _Form..."
+msgstr "FIXME: Опубликовать форму..."
+
+#: addressbook/contact-editor/e-contact-editor.c:695
+#: calendar/gui/event-editor.c:1241
+msgid "FIXME: Pu_blish Form As..."
+msgstr "FIXME: Опубликовать форму как..."
+
+#: addressbook/contact-editor/e-contact-editor.c:697
+#: calendar/gui/event-editor.c:1243
+msgid "FIXME: Script _Debugger"
+msgstr "FIXME: Отладчик скрипта"
+
+#: addressbook/contact-editor/e-contact-editor.c:702
+#: calendar/gui/event-editor.c:1248
+msgid "FIXME: _Spelling..."
+msgstr "FIXME: Проверка правописания..."
+
+#: addressbook/contact-editor/e-contact-editor.c:704
+#: calendar/gui/event-editor.c:1253
+msgid "_Forms"
+msgstr "Формы"
+
+#: addressbook/contact-editor/e-contact-editor.c:709
+msgid "FIXME: _New Contact"
+msgstr "FIXME: Новый контакт"
+
+#: addressbook/contact-editor/e-contact-editor.c:710
+msgid "FIXME: New _Contact from Same Company"
+msgstr "FIXME: Новый контакт в той же компании"
+
+#: addressbook/contact-editor/e-contact-editor.c:712
+msgid "FIXME: New _Letter to Contact"
+msgstr "FIXME: Новое письмо для контакта"
+
+#: addressbook/contact-editor/e-contact-editor.c:713
+msgid "FIXME: New _Message to Contact"
+msgstr "FIXME: Новое сообщение для контакта"
+
+#: addressbook/contact-editor/e-contact-editor.c:714
+msgid "FIXME: New Meetin_g with Contact"
+msgstr "FIXME: Новая встреча с контактом"
+
+#: addressbook/contact-editor/e-contact-editor.c:715
+msgid "FIXME: _Plan a Meeting..."
+msgstr "FIXME: План встречи..."
+
+#: addressbook/contact-editor/e-contact-editor.c:716
+msgid "FIXME: New _Task for Contact"
+msgstr "FIXME: Новая задача для контакта"
+
+#: addressbook/contact-editor/e-contact-editor.c:717
+msgid "FIXME: New _Journal Entry for Contact"
+msgstr "FIXME: Новая журнальная запись для контакта"
+
+#: addressbook/contact-editor/e-contact-editor.c:719
+msgid "FIXME: _Flag for Follow Up..."
+msgstr ""
+
+#: addressbook/contact-editor/e-contact-editor.c:720
+msgid "FIXME: _Display Map of Address"
+msgstr ""
+
+#: addressbook/contact-editor/e-contact-editor.c:721
+msgid "FIXME: _Open Web Page"
+msgstr "FIXME: Открыть Web-страницу"
+
+#: addressbook/contact-editor/e-contact-editor.c:723
+msgid "FIXME: Forward as _vCard"
+msgstr "FIXME: Переслать как vCard"
+
+#: addressbook/contact-editor/e-contact-editor.c:724
+#: calendar/gui/event-editor.c:1266
+msgid "FIXME: For_ward"
+msgstr "FIXME: Переслать"
+
+#: addressbook/contact-editor/e-contact-editor.c:736
+#: calendar/gui/event-editor.c:1279
+msgid "_Insert"
+msgstr "Вставить"
+
+#: addressbook/contact-editor/e-contact-editor.c:737
+#: calendar/gui/event-editor.c:1280
+msgid "F_ormat"
+msgstr "Формат"
+
+#. FIXME: add Favorites here
+#: addressbook/contact-editor/e-contact-editor.c:738
+#: calendar/gui/event-editor.c:1281 shell/e-shell-view-menu.c:396
+msgid "_Tools"
+msgstr "Инструменты"
+
+#: addressbook/contact-editor/e-contact-editor.c:739
+#: calendar/gui/event-editor.c:1282
+msgid "Actio_ns"
+msgstr "Действия"
+
+#: addressbook/contact-editor/e-contact-editor.c:770
+#: calendar/gui/event-editor.c:1320
+msgid "FIXME: Save and Close"
+msgstr "FIXME: Сохранить и закрыть"
+
+#: addressbook/contact-editor/e-contact-editor.c:771
+#: calendar/gui/event-editor.c:1321
+msgid "Save the appointment and close the dialog box"
+msgstr "Сохранить встречу и закрыть окно диалога"
+
+#: addressbook/contact-editor/e-contact-editor.c:775
+#: calendar/gui/event-editor.c:1325
+msgid "FIXME: Print..."
+msgstr "FIXME: Печать..."
+
+#: addressbook/contact-editor/e-contact-editor.c:776
+#: calendar/gui/event-editor.c:1326
+msgid "Print this item"
+msgstr "Печать этого элемента"
+
+#: addressbook/contact-editor/e-contact-editor.c:777
+#: calendar/gui/event-editor.c:1327
+msgid "FIXME: Insert File..."
+msgstr "FIXME: Вставить файл..."
+
+#: addressbook/contact-editor/e-contact-editor.c:778
+#: calendar/gui/event-editor.c:1328
+msgid "Insert a file as an attachment"
+msgstr "Вставить файл как вложение"
+
+#: addressbook/contact-editor/e-contact-editor.c:780
+#: calendar/gui/event-editor.c:1330
+msgid "FIXME: Recurrence..."
+msgstr ""
+
+#: addressbook/contact-editor/e-contact-editor.c:781
+#: calendar/gui/event-editor.c:1331
+msgid "Configure recurrence rules"
+msgstr ""
+
+#: addressbook/contact-editor/e-contact-editor.c:783
+#: calendar/gui/event-editor.c:1333
+msgid "FIXME: Invite Attendees..."
+msgstr ""
+
+#: addressbook/contact-editor/e-contact-editor.c:784
+#: calendar/gui/event-editor.c:1334
+msgid "Invite attendees to a meeting"
+msgstr ""
+
+#: addressbook/contact-editor/e-contact-editor.c:786
+#: calendar/gui/event-editor.c:1336
+msgid "FIXME: Delete"
+msgstr "FIXME: Удалить"
+
+#: addressbook/contact-editor/e-contact-editor.c:787
+#: calendar/gui/event-editor.c:1337 calendar/gui/gncal-todo.c:322
+msgid "Delete this item"
+msgstr "Удалить этот элемент"
+
+#: addressbook/contact-editor/e-contact-editor.c:789
+#: calendar/gui/event-editor.c:1339
+msgid "FIXME: Previous"
+msgstr "FIXME: Пред."
+
+#: addressbook/contact-editor/e-contact-editor.c:790
+#: calendar/gui/event-editor.c:1340
+msgid "Go to the previous item"
+msgstr "Перейти к предыдущему элементу"
+
+#: addressbook/contact-editor/e-contact-editor.c:791
+#: calendar/gui/event-editor.c:1341
+msgid "FIXME: Next"
+msgstr "FIXME: След."
+
+#: addressbook/contact-editor/e-contact-editor.c:792
+#: calendar/gui/event-editor.c:1342
+msgid "Go to the next item"
+msgstr "Перейти к следующему элементу"
+
+#: addressbook/contact-editor/e-contact-editor.c:793
+#: calendar/gui/event-editor.c:1343
+msgid "FIXME: Help"
+msgstr "FIXME: Справка"
+
+#: addressbook/contact-editor/e-contact-editor.c:794
+#: calendar/gui/event-editor.c:1344
+msgid "See online help"
+msgstr "Просмотр справки в сети"
+
+#: addressbook/contact-editor/e-contact-editor.c:1209
 msgid "Assistant"
 msgstr "Помощник"
 
-#: addressbook/contact-editor/e-contact-editor.c:813
-#: addressbook/contact-editor/e-contact-editor.c:917
+#: addressbook/contact-editor/e-contact-editor.c:1210
+#: addressbook/contact-editor/e-contact-editor.c:1314
 msgid "Business"
 msgstr "Рабочий"
 
-#: addressbook/contact-editor/e-contact-editor.c:814
+#: addressbook/contact-editor/e-contact-editor.c:1211
 msgid "Business 2"
 msgstr "Рабочий 2"
 
-#: addressbook/contact-editor/e-contact-editor.c:815
+#: addressbook/contact-editor/e-contact-editor.c:1212
 msgid "Business Fax"
 msgstr "Рабочий факс"
 
-#: addressbook/contact-editor/e-contact-editor.c:816
+#: addressbook/contact-editor/e-contact-editor.c:1213
 msgid "Callback"
 msgstr ""
 
-#: addressbook/contact-editor/e-contact-editor.c:817
+#: addressbook/contact-editor/e-contact-editor.c:1214
 msgid "Car"
 msgstr "Машина"
 
-#: addressbook/contact-editor/e-contact-editor.c:818
+#: addressbook/contact-editor/e-contact-editor.c:1215
 msgid "Company"
 msgstr "Компания"
 
-#: addressbook/contact-editor/e-contact-editor.c:819
-#: addressbook/contact-editor/e-contact-editor.c:918
+#: addressbook/contact-editor/e-contact-editor.c:1216
+#: addressbook/contact-editor/e-contact-editor.c:1315
 msgid "Home"
 msgstr "Домашний"
 
-#: addressbook/contact-editor/e-contact-editor.c:820
+#: addressbook/contact-editor/e-contact-editor.c:1217
 msgid "Home 2"
 msgstr "Домашний 2"
 
-#: addressbook/contact-editor/e-contact-editor.c:821
+#: addressbook/contact-editor/e-contact-editor.c:1218
 msgid "Home Fax"
 msgstr "Домашний Факс"
 
-#: addressbook/contact-editor/e-contact-editor.c:822
+#: addressbook/contact-editor/e-contact-editor.c:1219
 msgid "ISDN"
 msgstr "ISDN"
 
-#: addressbook/contact-editor/e-contact-editor.c:823
+#: addressbook/contact-editor/e-contact-editor.c:1220
 msgid "Mobile"
 msgstr "Мобильный"
 
-#: addressbook/contact-editor/e-contact-editor.c:824
-#: addressbook/contact-editor/e-contact-editor.c:919 mail/mail-config.c:2032
+#: addressbook/contact-editor/e-contact-editor.c:1221
+#: addressbook/contact-editor/e-contact-editor.c:1316 mail/mail-config.c:2032
 msgid "Other"
 msgstr "Другой"
 
-#: addressbook/contact-editor/e-contact-editor.c:825
+#: addressbook/contact-editor/e-contact-editor.c:1222
 msgid "Other Fax"
 msgstr "Другой факс"
 
-#: addressbook/contact-editor/e-contact-editor.c:826
+#: addressbook/contact-editor/e-contact-editor.c:1223
 msgid "Pager"
 msgstr "Пэйджер"
 
-#: addressbook/contact-editor/e-contact-editor.c:827
+#: addressbook/contact-editor/e-contact-editor.c:1224
 msgid "Primary"
 msgstr "Первый"
 
-#: addressbook/contact-editor/e-contact-editor.c:828
+#: addressbook/contact-editor/e-contact-editor.c:1225
 msgid "Radio"
 msgstr "Радио"
 
-#: addressbook/contact-editor/e-contact-editor.c:829
+#: addressbook/contact-editor/e-contact-editor.c:1226
 msgid "Telex"
 msgstr "Телекс"
 
-#: addressbook/contact-editor/e-contact-editor.c:830
+#: addressbook/contact-editor/e-contact-editor.c:1227
 msgid "TTY/TDD"
 msgstr ""
 
-#: addressbook/contact-editor/e-contact-editor.c:874
+#: addressbook/contact-editor/e-contact-editor.c:1271
 msgid "Primary Email"
 msgstr "Первый эл.адрес"
 
-#: addressbook/contact-editor/e-contact-editor.c:875
+#: addressbook/contact-editor/e-contact-editor.c:1272
 msgid "Email 2"
 msgstr "Эл.адрес 2"
 
-#: addressbook/contact-editor/e-contact-editor.c:876
+#: addressbook/contact-editor/e-contact-editor.c:1273
 msgid "Email 3"
 msgstr "Эл.адрес 3"
 
-#: addressbook/gui/component/addressbook.c:309
+#: addressbook/gui/component/addressbook.c:314
 #: calendar/gui/calendar-commands.c:544
 msgid "New"
 msgstr "Новый"
 
-#: addressbook/gui/component/addressbook.c:309
+#: addressbook/gui/component/addressbook.c:314
 msgid "Create a new contact"
 msgstr "Создать новый контакт"
 
-#: addressbook/gui/component/addressbook.c:313
+#: addressbook/gui/component/addressbook.c:318
 #: mail/folder-browser-factory.c:37
 msgid "Find"
 msgstr "Найти"
 
-#: addressbook/gui/component/addressbook.c:313
+#: addressbook/gui/component/addressbook.c:318
 msgid "Find a contact"
 msgstr "Найти контакт"
 
-#: addressbook/gui/component/addressbook.c:314
-#: addressbook/gui/component/addressbook.c:381
+#: addressbook/gui/component/addressbook.c:319
+#: addressbook/gui/component/addressbook.c:386
 #: calendar/gui/calendar-commands.c:548 mail/folder-browser-factory.c:48
 msgid "Print"
 msgstr "Печать"
 
-#: addressbook/gui/component/addressbook.c:314
+#: addressbook/gui/component/addressbook.c:319
 msgid "Print contacts"
 msgstr "Напечатать контакт"
 
 #. Delete
-#: addressbook/gui/component/addressbook.c:315 calendar/gui/gncal-todo.c:494
+#: addressbook/gui/component/addressbook.c:320 calendar/gui/gncal-todo.c:494
 #: mail/folder-browser-factory.c:50 mail/mail-config.c:1859
 #: mail/mail-config.c:1958
 msgid "Delete"
 msgstr "Удалить"
 
-#: addressbook/gui/component/addressbook.c:315
+#: addressbook/gui/component/addressbook.c:320
 msgid "Delete a contact"
 msgstr "Удалить контакт"
 
-#: addressbook/gui/component/addressbook.c:388
-#: addressbook/gui/component/addressbook.c:936
+#: addressbook/gui/component/addressbook.c:393
+#: addressbook/gui/component/addressbook.c:935
 msgid "As _Table"
 msgstr "Как таблица"
 
-#: addressbook/gui/component/addressbook.c:395
+#: addressbook/gui/component/addressbook.c:400
 msgid "_New Contact"
 msgstr "Новый контакт"
 
-#: addressbook/gui/component/addressbook.c:403
+#: addressbook/gui/component/addressbook.c:408
 msgid "N_ew Directory Server"
 msgstr "Новый сервер каталогов"
 
-#: addressbook/gui/component/addressbook.c:482
+#: addressbook/gui/component/addressbook.c:487
 msgid "Unable to open addressbook"
 msgstr "Не удалось открыть адресную книгу"
 
-#: addressbook/gui/component/addressbook.c:487
+#: addressbook/gui/component/addressbook.c:492
 msgid ""
 "We were unable to open this addressbook.  This either\n"
 "means you have entered an incorrect URI, or have tried\n"
@@ -177,11 +559,16 @@ msgid ""
 "OpenLDAP and recompile and install evolution.\n"
 msgstr ""
 
-#: addressbook/gui/component/addressbook.c:943
+#: addressbook/gui/component/addressbook.c:843
+#: addressbook/gui/minicard/e-minicard.c:329
+msgid "Save as VCard"
+msgstr "Сохранить как VCard"
+
+#: addressbook/gui/component/addressbook.c:942
 msgid "As _Minicards"
 msgstr "Как миникарточки"
 
-#: addressbook/gui/component/addressbook.c:994 mail/folder-browser.c:249
+#: addressbook/gui/component/addressbook.c:993 mail/folder-browser.c:231
 msgid "The URI that the Folder Browser will display"
 msgstr "URI, который будет показывать программа просмотра папок"
 
@@ -198,10 +585,6 @@ msgstr ""
 "Нет элементов для отображения в этом окне\n"
 "\n"
 "Дважды щелкните здесь для создания нового контакта."
-
-#: addressbook/gui/minicard/e-minicard.c:323
-msgid "Save as VCard"
-msgstr "Сохранить как VCard"
 
 #: calendar/cal-util/timeutil.c:96 calendar/gui/print.c:544
 msgid "am"
@@ -744,55 +1127,55 @@ msgstr "Пт"
 msgid "Sa"
 msgstr "Cб"
 
-#: calendar/gui/print.c:894
+#: calendar/gui/print.c:868
 msgid "TODO Items"
 msgstr ""
 
 #. Day
-#: calendar/gui/print.c:1019
+#: calendar/gui/print.c:980
 msgid "Current day (%a %b %d %Y)"
 msgstr "Текущий день (%a %b %d %Y)"
 
-#: calendar/gui/print.c:1039 calendar/gui/print.c:1053
-#: calendar/gui/print.c:1054
+#: calendar/gui/print.c:1000 calendar/gui/print.c:1014
+#: calendar/gui/print.c:1015
 msgid "%a"
 msgstr "%a"
 
-#: calendar/gui/print.c:1040 calendar/gui/print.c:1041
-#: calendar/gui/print.c:1055 calendar/gui/print.c:1056
+#: calendar/gui/print.c:1001 calendar/gui/print.c:1002
+#: calendar/gui/print.c:1016 calendar/gui/print.c:1017
 msgid "%b"
 msgstr "%b"
 
-#: calendar/gui/print.c:1043
+#: calendar/gui/print.c:1004
 #, c-format
 msgid "Current week (%s %s %d - %s %d %d)"
 msgstr "Текущая неделя (%s %s %d - %s %d %d)"
 
-#: calendar/gui/print.c:1060
+#: calendar/gui/print.c:1021
 #, c-format
 msgid "Current week (%s %s %d - %s %s %d %d)"
 msgstr "Текущая неделя (%s %s %d - %s %s %d %d)"
 
-#: calendar/gui/print.c:1066
+#: calendar/gui/print.c:1027
 #, c-format
 msgid "Current week (%s %s %d %d - %s %s %d %d)"
 msgstr "Текущая неделя (%s %s %d %d - %s %s %d %d)"
 
 #. Month
-#: calendar/gui/print.c:1079
+#: calendar/gui/print.c:1040
 msgid "Current month (%a %Y)"
 msgstr "Текущий месяц (%a %Y)"
 
 #. Year
-#: calendar/gui/print.c:1086
+#: calendar/gui/print.c:1047
 msgid "Current year (%Y)"
 msgstr "Текущий год (%Y)"
 
-#: calendar/gui/print.c:1123
+#: calendar/gui/print.c:1084
 msgid "Print Calendar"
 msgstr "Напечатать календарь"
 
-#: calendar/gui/print.c:1288
+#: calendar/gui/print.c:1249
 msgid "Print Preview"
 msgstr "Просмотр печати"
 
@@ -801,30 +1184,30 @@ msgstr "Просмотр печати"
 msgid "%02i minute divisions"
 msgstr ""
 
-#: calendar/gui/e-day-view.c:2239 calendar/gui/e-day-view.c:2246
-#: calendar/gui/e-day-view.c:2255 calendar/gui/e-week-view.c:2549
-#: calendar/gui/e-week-view.c:2556 calendar/gui/e-week-view.c:2565
+#: calendar/gui/e-day-view.c:2248 calendar/gui/e-day-view.c:2255
+#: calendar/gui/e-day-view.c:2264 calendar/gui/e-week-view.c:2550
+#: calendar/gui/e-week-view.c:2557 calendar/gui/e-week-view.c:2566
 msgid "New appointment..."
 msgstr "Новая встреча..."
 
-#: calendar/gui/e-day-view.c:2243 calendar/gui/e-day-view.c:2250
-#: calendar/gui/e-week-view.c:2553 calendar/gui/e-week-view.c:2560
+#: calendar/gui/e-day-view.c:2252 calendar/gui/e-day-view.c:2259
+#: calendar/gui/e-week-view.c:2554 calendar/gui/e-week-view.c:2561
 msgid "Edit this appointment..."
 msgstr "Правка этой встречи..."
 
-#: calendar/gui/e-day-view.c:2244 calendar/gui/e-week-view.c:2554
+#: calendar/gui/e-day-view.c:2253 calendar/gui/e-week-view.c:2555
 msgid "Delete this appointment"
 msgstr "Удалить эту встречу"
 
-#: calendar/gui/e-day-view.c:2251 calendar/gui/e-week-view.c:2561
+#: calendar/gui/e-day-view.c:2260 calendar/gui/e-week-view.c:2562
 msgid "Make this appointment movable"
 msgstr "Сделать эту встречу перемещаемой"
 
-#: calendar/gui/e-day-view.c:2252 calendar/gui/e-week-view.c:2562
+#: calendar/gui/e-day-view.c:2261 calendar/gui/e-week-view.c:2563
 msgid "Delete this occurrence"
 msgstr "Удалить этот случай"
 
-#: calendar/gui/e-day-view.c:2253 calendar/gui/e-week-view.c:2563
+#: calendar/gui/e-day-view.c:2262 calendar/gui/e-week-view.c:2564
 msgid "Delete all occurrences"
 msgstr "Удалить все случаи"
 
@@ -866,7 +1249,7 @@ msgstr ""
 
 #: calendar/gui/gncal-todo.c:169
 msgid "Summary:"
-msgstr ""
+msgstr "Итог:"
 
 #: calendar/gui/gncal-todo.c:179
 msgid "Due Date:"
@@ -887,10 +1270,6 @@ msgstr "Добавить элемент \"Исполнить\"..."
 #: calendar/gui/gncal-todo.c:321
 msgid "Edit this item..."
 msgstr "Правка этого элемента..."
-
-#: calendar/gui/gncal-todo.c:322
-msgid "Delete this item"
-msgstr "Удалить этот элемент"
 
 #: calendar/gui/gncal-todo.c:420
 msgid "Summary"
@@ -956,17 +1335,17 @@ msgstr "Секунды"
 msgid "Second"
 msgstr "Секунда"
 
-#: calendar/gui/gnome-cal.c:442 calendar/gui/gnome-cal.c:1093
-#: calendar/gui/gnome-cal.c:1149
+#: calendar/gui/gnome-cal.c:442 calendar/gui/gnome-cal.c:1081
+#: calendar/gui/gnome-cal.c:1137
 msgid "Reminder of your appointment at "
 msgstr ""
 
-#: calendar/gui/gnome-cal.c:1085
+#: calendar/gui/gnome-cal.c:1073
 msgid "Snooze"
 msgstr "Короткий сон"
 
 #. Idea: we need Snooze option :-)
-#: calendar/gui/gnome-cal.c:1098 calendar/gui/gnome-cal.c:1153
+#: calendar/gui/gnome-cal.c:1086 calendar/gui/gnome-cal.c:1141
 msgid "Ok"
 msgstr "Ок"
 
@@ -1152,300 +1531,67 @@ msgstr "Таймер на %A %b %d %Y %H:%M"
 msgid "Notification about your appointment on %A %b %d %Y %H:%M"
 msgstr "Уведомление о вашей встрече в %A %b %d %Y %H:%M"
 
-#: calendar/gui/event-editor.c:286
+#: calendar/gui/event-editor.c:289
 msgid "Edit Appointment"
 msgstr "Правка встречи"
 
-#: calendar/gui/event-editor.c:291
+#: calendar/gui/event-editor.c:294
 msgid "No summary"
 msgstr "Нет итога"
 
-#: calendar/gui/event-editor.c:295
+#: calendar/gui/event-editor.c:298
 #, c-format
 msgid "Appointment - %s"
 msgstr "Встреча - %s"
 
-#: calendar/gui/event-editor.c:298
+#: calendar/gui/event-editor.c:301
 #, c-format
 msgid "Task - %s"
 msgstr "Задание - %s"
 
-#: calendar/gui/event-editor.c:301
+#: calendar/gui/event-editor.c:304
 #, c-format
 msgid "Journal entry - %s"
 msgstr "Журнальная запись - %s"
 
 #. Owner, summary
-#: calendar/gui/event-editor.c:591 calendar/gui/event-editor.c:685
+#: calendar/gui/event-editor.c:594 calendar/gui/event-editor.c:688
 msgid "?"
 msgstr "?"
 
-#: calendar/gui/event-editor.c:1115
-msgid "FIXME: _Appointment"
-msgstr "FIXME: Встреча"
-
-#: calendar/gui/event-editor.c:1116
-msgid "FIXME: Meeting Re_quest"
-msgstr "FIXME: Запрос встречи"
-
-#: calendar/gui/event-editor.c:1118
-msgid "FIXME: _Mail Message"
-msgstr "FIXME: Почтовое сообщение"
-
-#: calendar/gui/event-editor.c:1119
-msgid "FIXME: _Contact"
-msgstr "FIXME: Контакт"
-
-#: calendar/gui/event-editor.c:1120
-msgid "FIXME: _Task"
-msgstr "FIXME: Задание"
-
-#: calendar/gui/event-editor.c:1121
-msgid "FIXME: Task _Request"
-msgstr "FIXME: Запрос задания"
-
-#: calendar/gui/event-editor.c:1122
-msgid "FIXME: _Journal Entry"
-msgstr "FIXME: Журнальная запись"
-
-#: calendar/gui/event-editor.c:1123
-msgid "FIXME: _Note"
-msgstr "FIXME: Заметка"
-
-#: calendar/gui/event-editor.c:1125 calendar/gui/event-editor.c:1232
-msgid "FIXME: Ch_oose Form..."
-msgstr "FIXME: Выбрать из..."
-
-#: calendar/gui/event-editor.c:1130
-msgid "FIXME: _Memo Style"
-msgstr "FIXME: Стиль памятки"
-
-#: calendar/gui/event-editor.c:1132
-msgid "FIXME: Define Print _Styles..."
-msgstr "FIXME: Определить стили печати..."
-
-#: calendar/gui/event-editor.c:1139
-msgid "FIXME: S_end"
-msgstr "FIXME: Отправить"
-
-#: calendar/gui/event-editor.c:1143
-msgid "FIXME: Save Attac_hments..."
-msgstr "FIXME: Сохранить вложения..."
-
-#: calendar/gui/event-editor.c:1145
-msgid "FIXME: _Delete"
-msgstr "FIXME: Удалить"
-
-#: calendar/gui/event-editor.c:1146
-msgid "FIXME: _Move to Folder..."
-msgstr "FIXME: Переместить в папку..."
-
-#: calendar/gui/event-editor.c:1147
-msgid "FIXME: Cop_y to Folder..."
-msgstr "FIXME: Скопировать в папку..."
-
-#: calendar/gui/event-editor.c:1149
-msgid "Page Set_up"
-msgstr "Настройка страницы:"
-
-#: calendar/gui/event-editor.c:1150
-msgid "FIXME: Print Pre_view"
-msgstr "FIXME: Просмотр печати"
-
-#: calendar/gui/event-editor.c:1171
-msgid "FIXME: Paste _Special..."
-msgstr "FIXME: Специальная вставка..."
-
-#: calendar/gui/event-editor.c:1176
-msgid "FIXME: Mark as U_nread"
-msgstr "FIXME: Пометить как непрочтенное"
-
-#: calendar/gui/event-editor.c:1180
-msgid "_Object"
-msgstr "Объект"
-
-#: calendar/gui/event-editor.c:1185 calendar/gui/event-editor.c:1192
-msgid "FIXME: _Item"
-msgstr "FIXME: Элемент"
-
-#: calendar/gui/event-editor.c:1186 calendar/gui/event-editor.c:1193
-msgid "FIXME: _Unread Item"
-msgstr "FIXME: Непрочтенный элемент"
-
-#: calendar/gui/event-editor.c:1187
-msgid "FIXME: Fi_rst Item in Folder"
-msgstr "FIXME: Первый элемент в папке"
-
-#: calendar/gui/event-editor.c:1194
-msgid "FIXME: _Last Item in Folder"
-msgstr "FIXME: Последний элемент в папке"
-
-#: calendar/gui/event-editor.c:1199
-msgid "FIXME: _Standard"
-msgstr "FIXME: Стандарт"
-
-#: calendar/gui/event-editor.c:1201
-msgid "FIXME: __Formatting"
-msgstr "FIXME: Форматирование"
-
-#: calendar/gui/event-editor.c:1204
-msgid "FIXME: _Customize..."
-msgstr "FIXME: Настройка..."
-
-#: calendar/gui/event-editor.c:1209
-msgid "Pre_vious"
-msgstr "Пред."
-
-#: calendar/gui/event-editor.c:1210
-msgid "Ne_xt"
-msgstr "След."
-
-#: calendar/gui/event-editor.c:1212
+#: calendar/gui/event-editor.c:1215
 msgid "FIXME: Ca_lendar..."
 msgstr "FIXME: Календарь..."
 
-#: calendar/gui/event-editor.c:1214
-msgid "_Toolbars"
-msgstr "Панели инструментов"
-
-#: calendar/gui/event-editor.c:1219
-msgid "FIXME: _File..."
-msgstr "FIXME: Файл..."
-
-#: calendar/gui/event-editor.c:1220
-msgid "FIXME: It_em..."
-msgstr "FIXME: Элемент..."
-
-#: calendar/gui/event-editor.c:1221
-msgid "FIXME: _Object..."
-msgstr "FIXME: Объект..."
-
-#: calendar/gui/event-editor.c:1226
-msgid "FIXME: _Font..."
-msgstr "FIXME: Шрифт..."
-
-#: calendar/gui/event-editor.c:1227
-msgid "FIXME: _Paragraph..."
-msgstr "FIXME: Параграф..."
-
-#: calendar/gui/event-editor.c:1234
-msgid "FIXME: Desi_gn This Form"
-msgstr "FIXME: Конструкция этой формы"
-
-#: calendar/gui/event-editor.c:1235
-msgid "FIXME: D_esign a Form..."
-msgstr "FIXME: Создать форму..."
-
-#: calendar/gui/event-editor.c:1237
-msgid "FIXME: Publish _Form..."
-msgstr "FIXME: Опубликовать форму..."
-
-#: calendar/gui/event-editor.c:1238
-msgid "FIXME: Pu_blish Form As..."
-msgstr "FIXME: Опубликовать форму как..."
-
-#: calendar/gui/event-editor.c:1240
-msgid "FIXME: Script _Debugger"
-msgstr "FIXME: Отладчик скрипта"
-
-#: calendar/gui/event-editor.c:1245
-msgid "FIXME: _Spelling..."
-msgstr "FIXME: Проверка правописания..."
-
-#: calendar/gui/event-editor.c:1247
+#: calendar/gui/event-editor.c:1250
 msgid "FIXME: Chec_k Names"
 msgstr "FIXME: Проверка имен"
 
-#: calendar/gui/event-editor.c:1248
+#: calendar/gui/event-editor.c:1251
 msgid "FIXME: Address _Book..."
 msgstr "FIXME: Адресная книга..."
 
-#: calendar/gui/event-editor.c:1250
-msgid "_Forms"
-msgstr "Формы"
-
-#: calendar/gui/event-editor.c:1255
+#: calendar/gui/event-editor.c:1258
 msgid "FIXME: _New Appointment"
 msgstr "FIXME: Новая встреча"
 
-#: calendar/gui/event-editor.c:1257
+#: calendar/gui/event-editor.c:1260
 msgid "FIXME: Rec_urrence..."
 msgstr ""
 
-#: calendar/gui/event-editor.c:1259
+#: calendar/gui/event-editor.c:1262
 msgid "FIXME: Intive _Attendees..."
 msgstr ""
 
-#: calendar/gui/event-editor.c:1260
+#: calendar/gui/event-editor.c:1263
 msgid "FIXME: C_ancel Invitation..."
 msgstr ""
 
-#: calendar/gui/event-editor.c:1262
+#: calendar/gui/event-editor.c:1265
 msgid "FIXME: Forward as v_Calendar"
 msgstr "FIXME: Переслать как v_Calendar"
 
-#: calendar/gui/event-editor.c:1263
-msgid "FIXME: For_ward"
-msgstr "FIXME: Переслать"
-
-#: calendar/gui/event-editor.c:1276
-msgid "_Insert"
-msgstr "Вставить"
-
-#: calendar/gui/event-editor.c:1277
-msgid "F_ormat"
-msgstr "Формат"
-
-#. FIXME: add Favorites here
-#: calendar/gui/event-editor.c:1278 shell/e-shell-view-menu.c:388
-msgid "_Tools"
-msgstr "Инструменты"
-
-#: calendar/gui/event-editor.c:1279
-msgid "Actio_ns"
-msgstr "Действия"
-
-#: calendar/gui/event-editor.c:1317
-msgid "FIXME: Save and Close"
-msgstr "FIXME: Сохранить и закрыть"
-
-#: calendar/gui/event-editor.c:1318
-msgid "Saves the appointment and closes the dialog box"
-msgstr "Сохранить встречу и закрыть окно диалога"
-
-#: calendar/gui/event-editor.c:1322
-msgid "FIXME: Print..."
-msgstr "FIXME: Печать..."
-
-#: calendar/gui/event-editor.c:1323
-msgid "FIXME: Insert File..."
-msgstr "FIXME: Вставить файл..."
-
-#: calendar/gui/event-editor.c:1325
-msgid "FIXME: Recurrence..."
-msgstr ""
-
-#: calendar/gui/event-editor.c:1327
-msgid "FIXME: Invite Attendees..."
-msgstr ""
-
-#: calendar/gui/event-editor.c:1329
-msgid "FIXME: Delete"
-msgstr "FIXME: Удалить"
-
-#: calendar/gui/event-editor.c:1331
-msgid "FIXME: Previous"
-msgstr "FIXME: Пред."
-
-#: calendar/gui/event-editor.c:1332
-msgid "FIXME: Next"
-msgstr "FIXME: След."
-
-#: calendar/gui/event-editor.c:1333
-msgid "FIXME: Help"
-msgstr "FIXME: Справка"
-
-#: calendar/gui/event-editor.c:1734
+#: calendar/gui/event-editor.c:1745
 msgid "%a %b %d %Y"
 msgstr "%a %b %d %Y"
 
@@ -1524,29 +1670,25 @@ msgstr "%.1fM"
 msgid "%.1fG"
 msgstr "%.1fG"
 
-#: composer/e-msg-composer-attachment-bar.c:307
+#: composer/e-msg-composer-attachment-bar.c:297
 msgid "Add attachment"
 msgstr "Добавить вложение"
 
-#: composer/e-msg-composer-attachment-bar.c:364 shell/e-shortcuts-view.c:332
+#: composer/e-msg-composer-attachment-bar.c:354 shell/e-shortcuts-view.c:332
 msgid "Remove"
 msgstr "Удалить"
 
-#: composer/e-msg-composer-attachment-bar.c:365
+#: composer/e-msg-composer-attachment-bar.c:355
 msgid "Remove selected items from the attachment list"
 msgstr "Удалить выбранные элементы из списка вложений"
 
-#: composer/e-msg-composer-attachment-bar.c:396
+#: composer/e-msg-composer-attachment-bar.c:386
 msgid "Add attachment..."
 msgstr "Добавить вложение..."
 
-#: composer/e-msg-composer-attachment-bar.c:397
+#: composer/e-msg-composer-attachment-bar.c:387
 msgid "Attach a file to the message"
 msgstr "Присоединить файл к сообщению"
-
-#: composer/e-msg-composer-attachment.c:259
-msgid "Select attachment"
-msgstr "Выбрать вложение"
 
 #: composer/e-msg-composer-hdrs.c:89
 msgid "Click here for the address book"
@@ -1693,29 +1835,33 @@ msgstr "Распечатать выделенное сообщение"
 msgid "Delete this message"
 msgstr "Удалить это сообщение"
 
-#: mail/folder-browser-factory.c:67
+#: mail/folder-browser-factory.c:69
 msgid "_Expunge"
 msgstr "Вычеркнуть"
 
-#: mail/folder-browser-factory.c:73
+#: mail/folder-browser-factory.c:75
 msgid "_Filter Druid ..."
 msgstr "Помощник по фильтрам ..."
 
-#: mail/folder-browser-factory.c:79
+#: mail/folder-browser-factory.c:81
 msgid "_Virtual Folder Druid ..."
 msgstr "Помощник по виртуальным папкам ..."
 
-#: mail/folder-browser-factory.c:85
+#: mail/folder-browser-factory.c:87
 msgid "_Mail Configuration ..."
 msgstr "Настройка почты ..."
 
-#: mail/folder-browser-factory.c:207
+#: mail/folder-browser-factory.c:93
+msgid "Forget _Passwords"
+msgstr ""
+
+#: mail/folder-browser-factory.c:221
 msgid "We are sorry, Evolution's Folder Browser can not be initialized."
 msgstr ""
 "Извините, программа просмотра папок \"Эволюции\" не может быть "
 "инициализирована."
 
-#: mail/folder-browser.c:252
+#: mail/folder-browser.c:234
 msgid "Whether a message preview should be shown"
 msgstr "Будет ли показываться окно просмотра сообщения"
 
@@ -1724,7 +1870,10 @@ msgid ""
 "Enter your name and email address to be used in outgoing mail. You may also, "
 "optionally, enter the name of your organization, and the name of a file to "
 "read your signature from."
-msgstr "Введите ваше имя и эл.адрес, которые будут использоваться для исходящей почты. Вы можете также дополнительно ввести название вашей организации и название файла для считывания подписи."
+msgstr ""
+"Введите ваше имя и эл.адрес, которые будут использоваться для исходящей "
+"почты. Вы можете также дополнительно ввести название вашей организации и "
+"название файла для считывания подписи."
 
 #: mail/mail-config.c:273
 msgid "Full name:"
@@ -1781,7 +1930,8 @@ msgstr ""
 
 #: mail/mail-config.c:957
 msgid "Select the method you would like to use to deliver your mail."
-msgstr "Выберите метод, который вы хотели бы использовать для доставки вашей почты."
+msgstr ""
+"Выберите метод, который вы хотели бы использовать для доставки вашей почты."
 
 #: mail/mail-config.c:1120 mail/mail-config.c:1199
 msgid "Mail Configuration"
@@ -1898,11 +2048,11 @@ msgstr "Кому"
 msgid "Size"
 msgstr "Размер"
 
-#: mail/component-factory.c:147
+#: mail/component-factory.c:154
 msgid "Cannot initialize Evolution's mail component."
 msgstr "Невозможно инициализировать почтовый компонент \"Эволюции\"."
 
-#: shell/main.c:101
+#: shell/main.c:99
 msgid ""
 "Hi.  Thanks for taking the time to download this preview release of\n"
 "the Evolution groupware suite.\n"
@@ -1946,7 +2096,7 @@ msgstr ""
 "Мы надеемся, что вам понравятся результаты нашей упорной работы и мы\n"
 "рассчитываем на ваше участие!\n"
 
-#: shell/main.c:130
+#: shell/main.c:128
 msgid ""
 "Thanks\n"
 "The Evolution Team\n"
@@ -1954,11 +2104,11 @@ msgstr ""
 "С благодарностью\n"
 "Команда Evolution\n"
 
-#: shell/main.c:171
+#: shell/main.c:169
 msgid "Cannot initialize the Evolution shell."
 msgstr "Невозможно инициализировать оболочку \"Эволюции\"."
 
-#: shell/main.c:206
+#: shell/main.c:205
 msgid "Cannot initialize the Bonobo component system."
 msgstr "Не удалось инициализировать компонентную систему Bonobo."
 
@@ -1972,7 +2122,9 @@ msgstr "Похоже вы запустили \"Эволюцию\" в первые."
 
 #: shell/e-setup.c:52
 msgid "Please click \"OK\" to install the Evolution user files under"
-msgstr "Пожалуйста нажмите \"Ок\", чтобы установить пользовательские файлы \"Эволюции\" в"
+msgstr ""
+"Пожалуйста нажмите \"Ок\", чтобы установить пользовательские файлы "
+"\"Эволюции\" в"
 
 #: shell/e-setup.c:69
 #, c-format
@@ -2017,21 +2169,21 @@ msgstr ""
 msgid "Folders"
 msgstr "Папки"
 
-#: shell/e-shell-view.c:571
+#: shell/e-shell-view.c:575
 msgid "None"
 msgstr "Нет"
 
-#: shell/e-shell-view.c:575
+#: shell/e-shell-view.c:579
 #, c-format
 msgid "Evolution - %s"
 msgstr "Эволюция - %s"
 
-#: shell/e-shell-view.c:643
+#: shell/e-shell-view.c:647
 #, c-format
 msgid "Cannot open location: %s"
 msgstr "Невозможно открыть: %s"
 
-#: shell/e-shell.c:176
+#: shell/e-shell.c:177
 #, c-format
 msgid "Cannot set up local storage -- %s"
 msgstr "Невозможно установить локальное хранилище -- %s"
@@ -2075,24 +2227,24 @@ msgstr "Удалить эту закладку из строки закладок"
 #. you might have to call gnome_dialog_run() on the
 #. * dialog returned here, I don't remember...
 #.
-#: shell/e-shell-view-menu.c:106
+#: shell/e-shell-view-menu.c:108
 msgid "Bug buddy was not found in your $PATH."
 msgstr "Bug-buddy не был найден в вашем $PATH."
 
 #. same as above
-#: shell/e-shell-view-menu.c:112
+#: shell/e-shell-view-menu.c:114
 msgid "Bug buddy could not be run."
 msgstr "Bug-buddy не может быть запущен."
 
-#: shell/e-shell-view-menu.c:155
+#: shell/e-shell-view-menu.c:157
 msgid "Evolution"
 msgstr "Эволюция"
 
-#: shell/e-shell-view-menu.c:157
+#: shell/e-shell-view-menu.c:159
 msgid "Copyright 1999, 2000 Helix Code, Inc."
 msgstr "Copyright 1999, 2000 Helix Code, Inc."
 
-#: shell/e-shell-view-menu.c:159
+#: shell/e-shell-view-menu.c:161
 msgid ""
 "Evolution is a suite of groupware applications\n"
 "for mail, calendaring, and contact management\n"
@@ -2102,119 +2254,115 @@ msgstr ""
 "ведения календарей и контактной информации для\n"
 "групповой работы в среде GNOME."
 
-#: shell/e-shell-view-menu.c:254 shell/e-shell-view-menu.c:320
+#: shell/e-shell-view-menu.c:278
 msgid "_Folder"
 msgstr "Папка"
 
-#: shell/e-shell-view-menu.c:258
+#: shell/e-shell-view-menu.c:282
 msgid "Evolution _Bar Shortcut"
 msgstr "Строка ярлыков Evolution"
 
-#: shell/e-shell-view-menu.c:264
+#: shell/e-shell-view-menu.c:288
 msgid "_Mail message"
 msgstr "Почтовое сообщение"
 
-#: shell/e-shell-view-menu.c:265 shell/e-shell-view-menu.c:268
+#: shell/e-shell-view-menu.c:289 shell/e-shell-view-menu.c:292
 msgid "Composes a new mail message"
 msgstr "Создать новое сообщение"
 
-#: shell/e-shell-view-menu.c:267
+#: shell/e-shell-view-menu.c:291
 msgid "_Appointment"
 msgstr "Встреча"
 
-#: shell/e-shell-view-menu.c:270
+#: shell/e-shell-view-menu.c:294
 msgid "Meeting Re_quest"
 msgstr "Запрос встречи"
 
-#: shell/e-shell-view-menu.c:273
+#: shell/e-shell-view-menu.c:297
 msgid "_Contact"
 msgstr "Контакт"
 
-#: shell/e-shell-view-menu.c:276
+#: shell/e-shell-view-menu.c:300
 msgid "_Task"
 msgstr "Задание"
 
-#: shell/e-shell-view-menu.c:279
+#: shell/e-shell-view-menu.c:303
 msgid "Task _Request"
 msgstr "Запрос задания"
 
-#: shell/e-shell-view-menu.c:282
+#: shell/e-shell-view-menu.c:306
 msgid "_Journal Entry"
 msgstr "Журнальная строка"
 
-#: shell/e-shell-view-menu.c:285
+#: shell/e-shell-view-menu.c:309
 msgid "_Note"
 msgstr "Заметка"
 
-#: shell/e-shell-view-menu.c:295
+#: shell/e-shell-view-menu.c:319
 msgid "_Selected Items"
 msgstr "Выделенные элементы"
 
-#: shell/e-shell-view-menu.c:303
-msgid "_New Folder"
-msgstr "Новая папка"
-
-#: shell/e-shell-view-menu.c:311
+#: shell/e-shell-view-menu.c:327
 msgid "_New"
 msgstr "Новое"
 
-#: shell/e-shell-view-menu.c:312
+#: shell/e-shell-view-menu.c:328
 msgid "_Open"
 msgstr "Открыть"
 
-#: shell/e-shell-view-menu.c:313
+#: shell/e-shell-view-menu.c:329
 msgid "Clos_e All Items"
 msgstr "Закрыть все"
 
-#: shell/e-shell-view-menu.c:313
+#: shell/e-shell-view-menu.c:329
 msgid "Closes all the open items"
 msgstr "Закрыть все что открыто"
 
-#: shell/e-shell-view-menu.c:334
+#: shell/e-shell-view-menu.c:342
 msgid "Show _shortcut bar"
 msgstr "Показать строку закладок"
 
-#: shell/e-shell-view-menu.c:335
+#: shell/e-shell-view-menu.c:343
 msgid "Show the shortcut bar"
 msgstr "Показать строку закладок"
 
-#: shell/e-shell-view-menu.c:337
+#: shell/e-shell-view-menu.c:345
 msgid "Show _folder bar"
 msgstr "Показать строку папок"
 
-#: shell/e-shell-view-menu.c:338
+#: shell/e-shell-view-menu.c:346
 msgid "Show the folder bar"
 msgstr "Показать строку папок"
 
-#: shell/e-shell-view-menu.c:355
+#: shell/e-shell-view-menu.c:363
 msgid "Help _Index"
 msgstr "Индекс справки"
 
-#: shell/e-shell-view-menu.c:358
+#: shell/e-shell-view-menu.c:366
 msgid "Getting _Started"
 msgstr "Введение"
 
-#: shell/e-shell-view-menu.c:361
+#: shell/e-shell-view-menu.c:369
 msgid "Using the _Mailer"
 msgstr "Использование почты"
 
-#: shell/e-shell-view-menu.c:364
+#: shell/e-shell-view-menu.c:372
 msgid "Using the _Calendar"
 msgstr "Использование календаря"
 
-#: shell/e-shell-view-menu.c:367
+#: shell/e-shell-view-menu.c:375
 msgid "Using the Cont_act Manager"
 msgstr "Использование диспетчера контактов"
 
-#: shell/e-shell-view-menu.c:372
+#: shell/e-shell-view-menu.c:380
 msgid "_Submit bug report"
 msgstr "Отправить сообщение об ошибке"
 
-#: shell/e-shell-view-menu.c:373
+#: shell/e-shell-view-menu.c:381
 msgid "Submit bug-report via bug-buddy"
 msgstr "Оправить сообщение об ошибке через bug-buddy"
 
-#: shell/e-shell-view-menu.c:389
+#: shell/e-shell-view-menu.c:397
 msgid "_Actions"
 msgstr "Действия"
 
