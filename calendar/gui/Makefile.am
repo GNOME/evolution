@@ -193,7 +193,7 @@ $(server_in_files:.server.in.in=.server.in): $(server_in_files)
 EXTRA_DIST =	 			\
 	$(glade_DATA)			\
 	$(etspec_DATA)			\
-	$(servers_in_files)
+	$(server_in_files)
 
 install-data-local:
 	$(mkinstalldirs) $(DESTDIR)$(help_base)/C
