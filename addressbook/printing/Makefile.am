@@ -19,7 +19,8 @@ INCLUDES =					\
 	-DEVOLUTION_ECPSDIR=\""$(ecpsdir)"\"	\
 	-DDATADIR=\""$(datadir)"\"		\
 	$(GNOME_PRINT_CFLAGS)			\
-        $(BONOBO_GNOME_CFLAGS)
+        $(BONOBO_GNOME_CFLAGS)			\
+	$(EXTRA_GNOME_CFLAGS)
 
 noinst_LIBRARIES =				\
 	libecontactprint.a

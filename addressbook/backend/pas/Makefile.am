@@ -18,7 +18,8 @@ INCLUDES =						\
 	-I$(top_srcdir) 				\
 	-I$(top_srcdir)/addressbook/backend		\
 	-I$(top_builddir)/addressbook/backend		\
-        $(BONOBO_GNOME_CFLAGS)
+        $(BONOBO_GNOME_CFLAGS)				\
+	$(EXTRA_GNOME_CFLAGS)
 
 LDAP_BACKEND_SOURCES = pas-backend-ldap.c pas-backend-ldap.h
 

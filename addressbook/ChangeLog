@@ -1,3 +1,11 @@
+2000-10-27  Christopher James Lahey  <clahey@helixcode.com>
+
+	* backend/pas/Makefile.am, gui/search/Makefile.am,
+	printing/Makefile.am: Fixed these to include EXTRA_GNOME_CFLAGS.
+
+	* gui/component/select-names/e-select-names-manager.c: Turned off
+	newlines in header fields.
+
 2000-10-26  Michael Meeks  <michael@helixcode.com>
 
 	* printing/e-contact-print.c (e_contact_print_letter_tab),

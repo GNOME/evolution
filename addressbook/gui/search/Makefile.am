@@ -12,7 +12,8 @@ INCLUDES =						\
 	-I$(top_srcdir)/widgets/e-text			\
 	-I$(top_srcdir)/widgets/misc			\
 	-DSEARCH_RULE_DIR=\"$(ruledir)\"		\
-	$(BONOBO_GNOME_CFLAGS)
+	$(BONOBO_GNOME_CFLAGS)				\
+	$(EXTRA_GNOME_CFLAGS)
 
 noinst_LIBRARIES =				\
 	libeaddressbooksearch.a

@@ -266,6 +266,7 @@ GtkWidget                    *e_select_names_manager_create_entry              (
 				       "model", model,
 				       "editable", TRUE,
 				       "use_ellipsis", TRUE,
+				       "allow_newlines", FALSE,
 				       NULL);
 			gtk_signal_connect(GTK_OBJECT(eentry), "destroy",
 					   GTK_SIGNAL_FUNC(entry_destroyed), manager);
