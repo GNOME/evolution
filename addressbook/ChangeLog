@@ -1,3 +1,8 @@
+2001-05-04  JP Rosevear  <jpr@ximian.com>
+
+	* backend/pas/pas-backend-file.c
+	(pas_backend_file_process_get_book_view): init change_id to NULL
+
 2001-05-02  JP Rosevear  <jpr@ximian.com>
 
 	* gui/component/addressbook.c (addressbook_view_free): unref the

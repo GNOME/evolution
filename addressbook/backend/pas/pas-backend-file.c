@@ -999,7 +999,8 @@ pas_backend_file_process_get_book_view (PASBackend *backend,
 	view.search = req->search;
 	view.search_sexp = NULL;
 	view.search_context = &ctx;
-	view.change_context = NULL;
+	view.change_id = NULL;
+	view.change_context = NULL;	
 	ctx.card = NULL;
 
 	e_list_append(bf->priv->book_views, &view);
