@@ -174,11 +174,21 @@ tasks_control_set_property		(BonoboPropertyBag	*bag,
 					 gpointer		 user_data)
 {
 	ETasks *tasks = user_data;
+	char *uri;
 
 	switch (arg_id) {
 
 	case TASKS_CONTROL_PROPERTY_URI_IDX:
-		e_tasks_open (tasks, BONOBO_ARG_GET_STRING (arg));
+		uri = BONOBO_ARG_GET_STRING (arg);
+		if (!e_tasks_open (tasks, uri)) {
+			char *msg;
+
+			msg = g_strdup_printf (_("Could not load the tasks in `%s'"), uri);
+			gnome_error_dialog_parented (
+				msg,
+				GTK_WINDOW (gtk_widget_get_toplevel (GTK_WIDGET (tasks))));
+			g_free (msg);
+		}
 		break;
 
 	default:

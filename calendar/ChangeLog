@@ -1,3 +1,10 @@
+2002-02-26  Rodrigo Moya <rodrigo@ximian.com>
+
+	* gui/control-factory.c (set_prop):
+	* gui/tasks-control.c (tasks_control_set_property): display an error
+	message if the call to gnome_calendar_open or e_tasks_open does not
+	return TRUE. Fixes #20346.
+
 2002-02-25  Dan Winship  <danw@ximian.com>
 
 	* gui/itip-utils.c (itip_send_comp): use
