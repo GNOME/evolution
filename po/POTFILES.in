@@ -7,12 +7,12 @@ addressbook/backend/ebook/load-pine-addressbook.c
 addressbook/backend/ebook/test-client.c
 addressbook/backend/ebook/test-client-list.c
 addressbook/conduit/address-conduit.c
-addressbook/contact-editor/contact-editor.glade
-addressbook/contact-editor/e-contact-editor.c
-addressbook/contact-editor/e-contact-editor-confirm-delete.glade
-addressbook/contact-editor/e-contact-quick-add.c
-addressbook/contact-editor/fulladdr.glade
-addressbook/contact-editor/fullname.glade
+addressbook/gui/contact-editor/contact-editor.glade
+addressbook/gui/contact-editor/e-contact-editor.c
+addressbook/gui/contact-editor/e-contact-editor-confirm-delete.glade
+addressbook/gui/contact-editor/e-contact-quick-add.c
+addressbook/gui/contact-editor/fulladdr.glade
+addressbook/gui/contact-editor/fullname.glade
 addressbook/gui/component/addressbook.c
 addressbook/gui/component/addressbook-config.c
 addressbook/gui/component/addressbook-config.glade
@@ -222,6 +222,7 @@ shell/main.c
 ui/evolution-addressbook.xml
 ui/evolution-calendar.xml
 ui/evolution-contact-editor.xml
+ui/evolution-contact-list-editor.xml
 ui/evolution-event-editor.xml
 ui/evolution-executive-summary.xml
 ui/evolution-mail.xml
