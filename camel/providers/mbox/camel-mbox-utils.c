@@ -176,7 +176,8 @@ camel_mbox_copy_file_chunk (gint fd_src,
 		do {
 			nb_read = read (fd_src, buffer, MIN (1000, nb_to_read));
 		} while (nb_read == -1 && errno == EINTR);
-		
+
+
 		if (nb_read == -1) {
 			camel_exception_setv (ex, 
 					      CAMEL_EXCEPTION_FOLDER_INSUFFICIENT_PERMISSION,
@@ -237,7 +238,7 @@ camel_mbox_write_xev (gchar *mbox_file_name,
 	fd1 = open (mbox_file_name, O_RDONLY);
 	fd2 = open (tmp_file_name, 
 		    O_WRONLY | O_CREAT | O_TRUNC ,
-		    S_IRUSR  | S_IWUSR);
+		    S_IRUSR  | S_IWUSR, 0600);
 
 	if (fd2 == -1) {
 			camel_exception_setv (ex, 

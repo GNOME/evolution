@@ -97,7 +97,6 @@ camel_mime_part_construct_content_from_stream (CamelMimePart *mime_part,
 
 	content_type = camel_mime_part_get_content_type (mime_part);
 	/* here we should have a mime type */
-	g_assert (content_type);
 	if (content_type)
 		mime_type = gmime_content_field_get_mime_type (content_type);
 
@@ -119,7 +118,6 @@ camel_mime_part_construct_content_from_stream (CamelMimePart *mime_part,
 	 */
 	content_object_type = 
 		data_wrapper_repository_get_data_wrapper_type (mime_type);
-	
 	CAMEL_LOG_FULL_DEBUG ("CamelMimePartUtils::construct_content_from_stream content"
 			      " type object type used: %s\n", 
 			      gtk_type_name (content_object_type));

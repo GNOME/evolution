@@ -1,3 +1,22 @@
+2000-03-03  NotZed  <NotZed@HelixCode.com>
+
+	* providers/mbox/camel-mbox-utils.c (camel_mbox_write_xev): Make
+	sure we open with create with a creation mask.
+
+2000-03-01  NotZed  <NotZed@HelixCode.com>
+
+	* camel-mime-part-utils.c
+	(camel_mime_part_construct_content_from_stream): DO NOT assert on
+	content type, we have fallback code 4 lines below it ... *sigh*
+
+2000-02-29  NotZed  <NotZed@HelixCode.com>
+
+	* Makefile.am (libcamelinclude_HEADERS): Added camel-stream-buffer
+	to build.
+
+	* camel-stream-buffer.[ch]: Generic buffer which can be applied to
+	any stream.
+
 2000-03-03  bertrand  <bertrand@helixcode.com>
 
 	* camel-formatter.c (handle_image): in the case
@@ -79,6 +98,7 @@
 	Initialise end_of_last_message always.
 	(camel_mbox_copy_file_chunk): Stop trying to read if we run out of
 	data, rather than looping forever.
+	(camel_mbox_write_xev): Use an open flag when opening with create.
 
 	* camel-folder.c (camel_folder_search_by_expression): No, its not
 	a fatal error to search on a non-searchable folder, you just dont
