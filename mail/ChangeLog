@@ -1,3 +1,8 @@
+2002-11-25  Radek Doulik  <rodo@ximian.com>
+
+	* mail-preferences.c (mail_preferences_construct): magic_check -->
+	magic_links_check
+
 2002-11-27  Not Zed  <NotZed@Ximian.com>
 
 	* message-tag-followup.c (construct): gnome_pixmap -> gtkimage.

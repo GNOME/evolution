@@ -200,7 +200,7 @@ mail_preferences_construct (MailPreferences *prefs)
 	char *buf;
 	char *names[][2] = {
 		{ "anim_check", "chkShowAnimatedImages" },
-		{ "magic_check", "chkAutoDetectLinks" },
+		{ "magic_links_check", "chkAutoDetectLinks" },
 		{ NULL, NULL }
 	};
 	
