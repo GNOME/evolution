@@ -28,6 +28,9 @@
 
 #include <gtk/gtk.h>
 #include <glade/glade.h>
+#include <gconf/gconf.h>
+#include <gconf/gconf-client.h>
+#include <gal/util/e-iconv.h>
 #include <libgnome/gnome-util.h>
 #include <libgnomeui/gnome-app.h>
 #include <libgnomeui/gnome-app-helper.h>
@@ -715,6 +718,21 @@ e_msg_composer_attachment_bar_new (GtkAdjustment *adj)
 	return GTK_WIDGET (new);
 }
 
+static const char *
+get_default_charset (void)
+{
+	GConfClient *gconf;
+	const char *charset;
+	char *buf;
+	
+	gconf = gconf_client_get_default ();
+	buf = gconf_client_get_string (gconf, "/apps/evolution/mail/format/charset", NULL);
+	charset = e_iconv_charset_name (buf);
+	g_free (buf);
+	
+	return charset;
+}
+
 static void
 attach_to_multipart (CamelMultipart *multipart,
 		     EMsgComposerAttachment *attachment,
@@ -762,7 +780,7 @@ attach_to_multipart (CamelMultipart *multipart,
 				default_charset = "us-ascii";
 			} else if (!charset) {
 				if (!default_charset)
-					default_charset = mail_config_get_default_charset ();
+					default_charset = get_default_charset ();
 				
 				/* FIXME: We should really check that this fits within the
                                    default_charset and if not find one that does and/or

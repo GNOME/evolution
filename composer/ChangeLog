@@ -1,5 +1,9 @@
 2003-01-07  Jeffrey Stedfast  <fejj@ximian.com>
 
+	* e-msg-composer-attachment-bar.c (get_default_charset): New
+	convenience function.
+	(attach_to_multipart): Use get_default_charset().
+
 	* e-msg-composer.c (composer_get_default_charset): Convenience
 	function.
 	(get_file_content): Use the convenience function to get the
