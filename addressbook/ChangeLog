@@ -1,3 +1,9 @@
+2004-08-16  Chris Toshok  <toshok@ximian.com>
+
+	* gui/widgets/eab-gui-util.c (eab_show_multiple_contacts):
+	reinstate the ngettext patch that was part of the #53464 commit of
+	2004-03-24 by dsegan@gmx.net.
+
 2004-08-12  Carlos Garnacho Parro  <carlosg@gnome.org>
 
 	* gui/widgets/eab-gui-util.c: Optionally use GtkFileChooser if

@@ -272,8 +272,11 @@ eab_show_multiple_contacts (EBook *book,
 							 0,
 							 GTK_MESSAGE_QUESTION,
 							 GTK_BUTTONS_YES_NO,
-							 _("Opening %d contacts will open %d new windows as well.\n"
-							   "Do you really want to display all of these contacts?"),
+							 ngettext("Opening %d contact will open %d new window as well.\n"
+								  "Do you really want to display this contact?",
+								  "Opening %d contacts will open %d new windows as well.\n"
+								  "Do you really want to display all of these contacts?",
+								  length),
 							 length,
 							 length);
 
