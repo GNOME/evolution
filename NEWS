@@ -3,6 +3,9 @@ Version 0.13 (Beta 3)  "Radioactive Waste", 2001-08-21
 
 Shell:
 
+  - New startup assistant to create mail accounts, import mail and set 
+    your timezone. (iain)
+
 Mail:
 
   - Fixed creating IMAP folders.  (Jeff)
@@ -85,6 +88,10 @@ Calendar & Tasks:
 Addressbook:
 
 My Evolution:
+
+  - Miscellaneous fixes all over the place. (iain)
+
+  - New icons. (Tuomas and Jakub)
 
 Conduits:
 
