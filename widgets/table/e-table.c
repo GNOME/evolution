@@ -434,23 +434,11 @@ e_table_canvas_realize (GtkWidget *widget)
 	
 	groups = group_spec_to_desc (e_table->group_spec);
 
-	e_table->root = gnome_canvas_item_new (
-		GNOME_CANVAS_GROUP (e_table->table_canvas->root),
-		gnome_canvas_group_get_type (),
-		"x", 0.0,
-		"y", 0.0,
-		NULL);
-		
 	leaf = e_table_create_nodes (
 		e_table, e_table->model,
 		e_table->header, GNOME_CANVAS_GROUP (e_table->root), 0, groups);
 
-	gnome_canvas_set_scroll_region (
-		GNOME_CANVAS (e_table_canvas),
-		0, 0,
-		e_table_header_total_width (e_table->header) + 200,
-		leaf_height (leaf));
-
+	
 	if (groups)
 		g_free (groups);
 }
@@ -482,6 +470,14 @@ static void
 e_table_canvas_init (GtkObject *canvas)
 {
 	GTK_WIDGET_SET_FLAGS (canvas, GTK_CAN_FOCUS);
+
+	e_table->root = gnome_canvas_item_new (
+		GNOME_CANVAS_GROUP (e_table->table_canvas->root),
+		gnome_canvas_group_get_type (),
+		"x", 0.0,
+		"y", 0.0,
+		NULL);
+		
 }
 
 GtkType e_table_canvas_get_type (void);
@@ -501,9 +497,20 @@ e_table_canvas_new (ETable *e_table)
 }
 
 static void
+table_canvas_size_alocate (GtkWidget *widget, GtkAllocation *alloc, ETable *e_table)
+{
+	gnome_canvas_set_scroll_region (
+		GNOME_CANVAS (e_table->table_canvas),
+		0, 0, alloc->width, alloc->height);
+}
+
+static void
 e_table_setup_table (ETable *e_table)
 {
 	e_table->table_canvas = e_table_canvas_new (e_table);
+	gtk_signal_connect (
+		GTK_OBJECT (e_table->table_canvas), "size_allocate",
+		GTK_SIGNAL_FUNC (table_canvas_size_alocate), e_table);
 
 	gtk_widget_show (GTK_WIDGET (e_table->table_canvas));
 	gtk_table_attach (

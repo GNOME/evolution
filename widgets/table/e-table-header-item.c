@@ -364,8 +364,10 @@ ethi_realize (GnomeCanvasItem *item)
 
 	ethi->normal_cursor = gdk_cursor_new (GDK_ARROW);
 
-	if (!ethi->font)
+	if (!ethi->font){
+		g_warning ("Font had not been set for this ETableHeader");
 		ethi_font_load (ethi, "fixed");
+	}
 
 	/*
 	 * Now, configure DnD

@@ -255,7 +255,7 @@ table_browser_test (void)
 static void
 do_e_table_demo (const char *col_spec, const char *group_spec)
 {
-	GtkWidget *e_table, *window;
+	GtkWidget *e_table, *window, *frame;
 	ETableModel *e_table_model;
 	ECell *cell_left_just;
 	ETableHeader *full_header;
@@ -282,12 +282,14 @@ do_e_table_demo (const char *col_spec, const char *group_spec)
 	
 	
 	window = gtk_window_new (GTK_WINDOW_TOPLEVEL);
+	frame = gtk_frame_new (NULL);
 	e_table = e_table_new (full_header, e_table_model, col_spec, group_spec);
-
-	gtk_container_add (GTK_CONTAINER (window), e_table);
+	gtk_container_add (GTK_CONTAINER (frame), e_table);
+	gtk_container_add (GTK_CONTAINER (window), frame);
 
 	gtk_widget_set_usize (window, 200, 200);
 	gtk_widget_show (e_table);
+	gtk_widget_show (frame);
 	gtk_widget_show (window);
 }
 
