@@ -3403,3 +3403,23 @@ mail_regen_list (MessageList *ml, const char *search, const char *hideexpr, Came
 
 	e_thread_put (mail_thread_new, (EMsg *)m);
 }
+
+
+double
+message_list_get_scrollbar_position (MessageList *ml)
+{
+	GtkAdjustment *adj;
+	
+	adj = gtk_scrolled_window_get_vadjustment ((GtkScrolledWindow *) ml);
+	return gtk_adjustment_get_value (adj);
+}
+
+
+void
+message_list_set_scrollbar_position (MessageList *ml, double pos)
+{
+	GtkAdjustment *adj;
+	
+	adj = gtk_scrolled_window_get_vadjustment ((GtkScrolledWindow *) ml);
+	gtk_adjustment_set_value (adj, pos);
+}

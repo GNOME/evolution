@@ -206,6 +206,9 @@ void	       message_list_set_search (MessageList *ml, const char *search);
 
 void           message_list_save_state (MessageList *ml);
 
+double         message_list_get_scrollbar_position (MessageList *ml);
+void           message_list_set_scrollbar_position (MessageList *ml, double pos);
+
 #define MESSAGE_LIST_LOCK(m, l) g_mutex_lock(((MessageList *)m)->l)
 #define MESSAGE_LIST_UNLOCK(m, l) g_mutex_unlock(((MessageList *)m)->l)
 

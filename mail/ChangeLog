@@ -1,5 +1,9 @@
 2004-04-12  Jeffrey Stedfast  <fejj@ximian.com>
 
+	* message-list.c (message_list_get_scrollbar_position): New
+	function.
+	(message_list_set_scrollbar_position): New function.
+
 	* em-utils.c (em_uri_to_camel): If the provider is unavailable,
 	return euri like the other fail cases. Fixes bug #56846.
 
