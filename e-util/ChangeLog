@@ -1,3 +1,8 @@
+2003-10-20  Ettore Perazzoli  <ettore@ximian.com>
+
+	* Makefile.am (pilot_compile) [! ENABLE_PILOT_CONDUITS]: Add
+	md5-utils.c so it compiles even if you have no Pilot support.
+
 2003-09-26  Jeffrey Stedfast  <fejj@ximian.com>
 
 	* e-host-utils.c (e_gethostbyaddr_r): IPv6 implementation

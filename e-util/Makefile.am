@@ -106,7 +106,7 @@ pilot_sources = \
 if ENABLE_PILOT_CONDUITS
 pilot_compile = $(pilot_sources)
 else
-pilot_compile = 
+pilot_compile = md5-utils.c
 endif
 
 libeconduit_la_SOURCES = $(pilot_compile)
