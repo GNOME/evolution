@@ -233,6 +233,46 @@
     </schema>
 
     <schema>
+      <key>/schemas/apps/evolution/mail/display/fonts/variable/</key>
+      <applyto>/apps/evolution/mail/display/fonts/variable</applyto>
+      <owner>evolution-mail</owner>
+      <type>string</type>
+      <locale name="C">
+         <short>Variable width font</short>
+         <long>
+	 The variable width font for mail display 
+         </long>
+      </locale>
+    </schema>
+
+    <schema>
+      <key>/schemas/apps/evolution/mail/display/fonts/monospace</key>
+      <applyto>/apps/evolution/mail/display/fonts/monospace</applyto>
+      <owner>evolution-mail</owner>
+      <type>string</type>
+      <locale name="C">
+         <short>Terminal font</short>
+         <long>
+	 The terminal font for mail display 
+         </long>
+      </locale>
+    </schema>
+
+    <schema>
+      <key>/schemas/apps/evolution/mail/display/fonts/use_custom</key>
+      <applyto>/apps/evolution/mail/display/fonts/use_custom</applyto>
+      <owner>evolution-mail</owner>
+      <type>bool</type>
+      <default>144</default>
+      <locale name="C">
+         <short>Use custom fonts</short>
+         <long>
+	 Use custom fonts for displaying mail
+         </long>
+      </locale>
+    </schema>
+
+    <schema>
       <key>/schemas/apps/evolution/mail/display/thread_list</key>
       <applyto>/apps/evolution/mail/display/thread_list</applyto>
       <owner>evolution-mail</owner>

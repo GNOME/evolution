@@ -136,6 +136,30 @@ settings_changed (GtkWidget *widget, gpointer user_data)
 }
 
 static void
+font_share_changed (GtkWidget *w, gpointer user_data)
+{
+	MailPreferences *prefs = (MailPreferences *) user_data;
+	gboolean use_custom;
+
+	use_custom = !gtk_toggle_button_get_active (prefs->font_share);
+
+	gtk_widget_set_sensitive (GTK_WIDGET (prefs->font_fixed), use_custom);
+	gtk_widget_set_sensitive (GTK_WIDGET (prefs->font_variable), use_custom);
+
+	if (prefs->control)
+		evolution_config_control_changed (prefs->control);
+}
+
+static void
+font_changed (GnomeFontPicker *fontpicker, gchar *arg1, gpointer user_data)
+{
+	MailPreferences *prefs = (MailPreferences *) user_data;
+	
+	if (prefs->control)
+		evolution_config_control_changed (prefs->control);
+}
+
+static void
 color_set (GtkWidget *widget, guint r, guint g, guint b, guint a, gpointer user_data)
 {
 	MailPreferences *prefs = (MailPreferences *) user_data;
@@ -184,18 +208,13 @@ option_menu_connect (GtkOptionMenu *omenu, gpointer user_data)
 static void
 mail_preferences_construct (MailPreferences *prefs)
 {
-	GtkWidget *widget, *toplevel, *menu;
-	const char *text;
-	GSList *list, *l;
+	GtkWidget *toplevel, *menu;
+	GSList *list;
 	GladeXML *gui;
 	gboolean bool;
+	char *font;
 	int i, val;
 	char *buf;
-	char *names[][2] = {
-		{ "anim_check", "chkShowAnimatedImages" },
-		{ "magic_links_check", "chkAutoDetectLinks" },
-		{ NULL, NULL }
-	};
 	
 	gui = glade_xml_new (EVOLUTION_GLADEDIR "/mail-config.glade", "preferences_tab", NULL);
 	prefs->gui = gui;
@@ -272,6 +291,23 @@ mail_preferences_construct (MailPreferences *prefs)
 			  G_CALLBACK (settings_changed), prefs);
 	g_free (buf);
 	
+	/* Mail  Fonts */
+	font = gconf_client_get_string (prefs->gconf, "/apps/evolution/mail/display/fonts/monospace", NULL);
+	prefs->font_fixed = GNOME_FONT_PICKER (glade_xml_get_widget (gui, "radFontFixed"));
+	gnome_font_picker_set_font_name (prefs->font_fixed, font);
+	g_signal_connect (prefs->font_fixed, "font-set", G_CALLBACK (font_changed), prefs);
+	
+	font = gconf_client_get_string (prefs->gconf, "/apps/evolution/mail/display/fonts/variable", NULL);
+	prefs->font_variable = GNOME_FONT_PICKER (glade_xml_get_widget (gui, "radFontVariable"));
+	gnome_font_picker_set_font_name (prefs->font_variable, font);
+	g_signal_connect (prefs->font_variable, "font-set", G_CALLBACK (font_changed), prefs);
+
+	bool = gconf_client_get_bool (prefs->gconf, "/apps/evolution/mail/display/fonts/use_custom", NULL);
+	prefs->font_share = GTK_TOGGLE_BUTTON (glade_xml_get_widget (gui, "radFontUseSame"));
+	gtk_toggle_button_set_active (prefs->font_share, !bool);
+	g_signal_connect (prefs->font_share, "toggled", G_CALLBACK (font_share_changed), prefs);
+	font_share_changed (GTK_WIDGET (prefs->font_share), prefs);
+
 	/* HTML Mail tab */
 	
 	/* Loading Images */
@@ -287,20 +323,6 @@ mail_preferences_construct (MailPreferences *prefs)
 	prefs->images_always = GTK_TOGGLE_BUTTON (glade_xml_get_widget (gui, "radImagesAlways"));
 	gtk_toggle_button_set_active (prefs->images_always, val == MAIL_CONFIG_HTTP_ALWAYS);
 	g_signal_connect (prefs->images_always, "toggled", G_CALLBACK (settings_changed), prefs);
-	
-#warning "gtkhtml prop manager"
-#if 0
-	prefs->pman = GTK_HTML_PROPMANAGER (gtk_html_propmanager_new (prefs->gconf));
-	g_signal_connect (prefs->pman, "changed", G_CALLBACK (settings_changed), prefs);
-	g_object_ref (prefs->pman);
-	
-	gtk_html_propmanager_set_names (prefs->pman, names);
-	gtk_html_propmanager_set_gui (prefs->pman, gui, NULL);
-	for (i = 0; names[i][0] != NULL; i++) {
-		widget = glade_xml_get_widget (gui, names[i][1]);
-		g_signal_connect (widget, "toggled", G_CALLBACK (settings_changed), prefs);
-	}
-#endif
 	
 	prefs->prompt_unwanted_html = GTK_TOGGLE_BUTTON (glade_xml_get_widget (gui, "chkPromptWantHTML"));
 	bool = gconf_client_get_bool (prefs->gconf, "/apps/evolution/mail/prompts/unwanted_html", NULL);
@@ -418,7 +440,13 @@ mail_preferences_apply (MailPreferences *prefs)
 #if 0	
 	gtk_html_propmanager_apply (prefs->pman);
 #endif
-	
+	gconf_client_set_string (prefs->gconf, "/apps/evolution/mail/display/fonts/variable",
+				 gnome_font_picker_get_font_name (prefs->font_variable), NULL);
+	gconf_client_set_string (prefs->gconf, "/apps/evolution/mail/display/fonts/monospace",
+				 gnome_font_picker_get_font_name (prefs->font_fixed), NULL);
+	gconf_client_set_bool (prefs->gconf, "/apps/evolution/mail/display/fonts/use_custom",
+			       !gtk_toggle_button_get_active (prefs->font_share), NULL);
+
 	gconf_client_set_bool (prefs->gconf, "/apps/evolution/mail/prompts/unwanted_html",
 			       gtk_toggle_button_get_active (prefs->prompt_unwanted_html), NULL);
 	

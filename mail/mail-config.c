@@ -85,12 +85,14 @@ typedef struct {
 	
 	GSList *labels;
 	guint label_notify_id;
+	guint font_notify_id;
 } MailConfig;
 
 static MailConfig *config = NULL;
 static guint config_write_timeout = 0;
 
 #define MAIL_CONFIG_IID "OAFIID:GNOME_Evolution_MailConfig_Factory"
+#define MAIL_CONFIG_RC "/gtkrc-mail-fonts"
 
 /* signatures */
 MailConfigSignature *
@@ -393,6 +395,52 @@ config_cache_labels (void)
 }
 
 static void
+config_write_fonts (void)
+{
+	char *filename;
+	FILE *rc;
+	gboolean custom;
+	char *fix_font;
+	char *var_font;
+	
+	if (!evolution_dir) {
+		g_warning ("evolution_dir empty", filename);
+		return;
+	}
+
+	filename = g_build_filename (evolution_dir, MAIL_CONFIG_RC, NULL);
+	rc = fopen (filename, "w");
+
+	if (!rc) {
+		g_warning ("unable to open %s", filename);
+		g_free (filename);
+		return;
+	}
+	g_free (filename);
+
+	custom = gconf_client_get_bool (config->gconf, "/apps/evolution/mail/display/fonts/use_custom", NULL);
+	var_font = gconf_client_get_string (config->gconf, "/apps/evolution/mail/display/fonts/variable", NULL);
+	fix_font = gconf_client_get_string (config->gconf, "/apps/evolution/mail/display/fonts/monospace", NULL);
+
+
+	fprintf (rc, "style \"evolution-mail-custom-fonts\" {\n");
+	if (custom && var_font && fix_font) {
+		fprintf (rc,
+			 "        GtkHTML::fixed_font_name = \"%s\"\n"
+			 "        font_name = \"%s\"\n",
+			 fix_font, var_font); 
+	}
+	fprintf (rc, "}\n\n"); 
+
+	fprintf (rc, "widget \"*.MailDisplay.*.GtkHTML\" style \"evolution-mail-custom-fonts\"\n");
+	fprintf (rc, "widget \"*.FolderBrowser.*.GtkHTML.\" style \"evolution-mail-custom-fonts\"\n");
+	
+	if (fclose (rc) == 0)
+		gtk_rc_reparse_all ();
+
+}
+
+static void
 gconf_labels_changed (GConfClient *client, guint cnxn_id,
 		      GConfEntry *entry, gpointer user_data)
 {
@@ -400,10 +448,18 @@ gconf_labels_changed (GConfClient *client, guint cnxn_id,
 	config_cache_labels ();
 }
 
+static void
+gconf_fonts_changed (GConfClient *client, guint cnxn_id,
+		      GConfEntry *entry, gpointer user_data)
+{
+	config_write_fonts ();
+}
+
 /* Config struct routines */
 void
 mail_config_init (void)
 {
+	char *filename;
 	if (config)
 		return;
 	
@@ -411,13 +467,27 @@ mail_config_init (void)
 	config->gconf = gconf_client_get_default ();
 	
 	mail_config_clear ();
-	
+
+	/*
+	  config_write_fonts ();
+	  filename = g_build_filename (evolution_dir, MAIL_CONFIG_RC, NULL);
+	*/
+	filename = g_build_filename (g_get_home_dir (), "/evolution", MAIL_CONFIG_RC, NULL);
+	gtk_rc_parse (filename);
+	g_free (filename);
+
+	gconf_client_add_dir (config->gconf, "/apps/evolution/mail/display/fonts", 			      
+			      GCONF_CLIENT_PRELOAD_ONELEVEL, NULL);
+	config->font_notify_id = gconf_client_notify_add (config->gconf, "/apps/evolution/mail/display/fonts",
+							  gconf_fonts_changed, NULL, NULL, NULL);
+
+
 	gconf_client_add_dir (config->gconf, "/apps/evolution/mail/labels",
 			      GCONF_CLIENT_PRELOAD_ONELEVEL, NULL);
 	config->label_notify_id =
 		gconf_client_notify_add (config->gconf, "/apps/evolution/mail/labels",
 					 gconf_labels_changed, NULL, NULL, NULL);
-	
+
 	config_cache_labels ();
 	config_read_signatures ();
 	

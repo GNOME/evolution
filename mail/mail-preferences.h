@@ -34,6 +34,7 @@ extern "C" {
 #include <gconf/gconf-client.h>
 #include <libgnomeui/gnome-file-entry.h>
 #include <libgnomeui/gnome-color-picker.h>
+#include <libgnomeui/gnome-font-picker.h>
 
 #warning "gtkhtml-propmanger"
 /*#include <gtkhtml/gtkhtml-propmanager.h>*/
@@ -81,6 +82,9 @@ struct _MailPreferences {
 	GnomeFileEntry *notify_sound_file;
 	
 	/* HTML Mail tab */
+	GnomeFontPicker *font_variable;
+	GnomeFontPicker *font_fixed;
+	GtkToggleButton *font_share;
 	
 	/* Loading Images */
 	GtkToggleButton *images_always;

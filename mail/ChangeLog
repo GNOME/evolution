@@ -1,3 +1,21 @@
+2003-04-09  Larry Ewing  <lewing@ximian.com>
+
+	* mail-preferences.c 	(font_share_changed): set sensitivity of
+	font pickers based on share setting.
+	(mail_preferences_construct): initialize font prefs.
+	(mail_preferences_apply): set the font prefs.
+	(font_changed): add gnome-font-picker changed function.
+
+	* mail-preferences.h: add font pref widgets.
+
+	* mail-config.c (mail_config_init): add notify to on fonts dir.
+	(config_write_fonts): write out a gtkrc that overrides the gtkhtml
+	fonts settings based on the gconf keys.
+
+	* mail-config.glade: move display font setttings to mail prefs.
+	
+	* evolution-mail.schemas: add font settings.
+
 2003-04-08  Jeffrey Stedfast  <fejj@ximian.com>
 
 	* mail-callbacks.c (do_view_message): Add a check for a NULL uid
