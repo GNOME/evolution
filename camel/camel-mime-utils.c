@@ -40,8 +40,6 @@
 #include <ctype.h>
 #include <errno.h>
 
-#include <libgnomevfs/gnome-vfs.h>
-
 #include "camel-mime-utils.h"
 #include "camel-charset-map.h"
 
