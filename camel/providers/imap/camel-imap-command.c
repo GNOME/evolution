@@ -415,7 +415,8 @@ imap_read_response (CamelImapStore *store, CamelException *ex)
 static char *
 imap_read_untagged (CamelImapStore *store, char *line, CamelException *ex)
 {
-	int fulllen, length, ldigits, nread, i;
+	int fulllen, ldigits, nread, i;
+	unsigned int length;
 	GPtrArray *data;
 	GString *str;
 	char *end, *p, *s, *d;
@@ -438,7 +439,7 @@ imap_read_untagged (CamelImapStore *store, char *line, CamelException *ex)
 			break;
 		
 		length = strtoul (p + 1, &end, 10);
-		if (*end != '}' || *(end + 1) || end == p + 1)
+		if (*end != '}' || *(end + 1) || end == p + 1 || length >= UINT_MAX - 2)
 			break;
 		ldigits = end - (p + 1);
 		
