@@ -1287,8 +1287,8 @@ add_storage (const char *name, const char *uri, CamelService *store,
 	case EVOLUTION_STORAGE_OK:
 		evolution_storage_has_subfolders (storage, "/", _("Connecting..."));
 		mail_hash_storage (store, storage);
-		/*if (auto_connect)
-		  mail_note_store ((CamelStore *) store, storage, CORBA_OBJECT_NIL, NULL, NULL);*/
+		/*if (auto_connect)*/
+		mail_note_store ((CamelStore *) store, storage, CORBA_OBJECT_NIL, NULL, NULL);
 		/* falllll */
 	case EVOLUTION_STORAGE_ERROR_ALREADYREGISTERED:
 	case EVOLUTION_STORAGE_ERROR_EXISTS:

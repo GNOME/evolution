@@ -1,3 +1,8 @@
+2002-07-17  Jeffrey Stedfast  <fejj@ximian.com>
+
+	* component-factory.c (add_storage): Oops, Don't comment out the
+	mail_note_store call.
+
 2002-07-16  Jeffrey Stedfast  <fejj@ximian.com>
 
 	* mail-accounts.c (account_able_clicked): Re-enable some #if 0'd code.
