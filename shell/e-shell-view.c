@@ -173,23 +173,30 @@ get_view (EShellView *eshell_view, EFolder *efolder, Bonobo_UIHandler uih)
 void
 e_shell_view_set_view (EShellView *eshell_view, EFolder *efolder)
 {
-	GtkWidget *notebook = eshell_view->priv->notebook;
+	GtkNotebook *notebook = GTK_NOTEBOOK (eshell_view->priv->notebook);
 	GtkWidget *folder_view = g_hash_table_lookup (
 		eshell_view->priv->folder_views, efolder);
+	int current_page = gtk_notebook_get_current_page (notebook);
 
 	g_assert (eshell_view);
 	g_assert (efolder);
 
+	if (current_page != -1) {
+		GtkWidget *current;
+
+		current = gtk_notebook_get_nth_page (notebook, current_page);
+		bonobo_control_frame_control_deactivate (bonobo_widget_get_control_frame (BONOBO_WIDGET (current)));
+	}
+
 	/* if we found a notebook page in our hash, that represents
 	   this efolder, switch to it */
 	if (folder_view) {
-		
-		int notebook_page = gtk_notebook_page_num (
-			GTK_NOTEBOOK(notebook),
-			folder_view);		
+		int notebook_page = gtk_notebook_page_num (notebook,
+							   folder_view);
 		g_assert (notebook_page != -1);
 
-		gtk_notebook_set_page (GTK_NOTEBOOK (notebook), notebook_page);
+		gtk_notebook_set_page (notebook, notebook_page);
+		bonobo_control_frame_control_activate (bonobo_widget_get_control_frame (BONOBO_WIDGET (folder_view)));
 	}
 	else {
 		/* get a new control that represents this efolder,
@@ -197,21 +204,20 @@ e_shell_view_set_view (EShellView *eshell_view, EFolder *efolder)
 		Bonobo_UIHandler uih =
 			bonobo_object_corba_objref (
 				BONOBO_OBJECT (eshell_view->uih));
- 
+
 		GtkWidget *w = get_view (eshell_view, efolder, uih);
 		int new_page_index;
 
 		if (!w) return;
 		
-		gtk_notebook_append_page (GTK_NOTEBOOK (notebook), w, NULL);
+		gtk_notebook_append_page (notebook, w, NULL);
 
-		new_page_index = gtk_notebook_page_num (
-			GTK_NOTEBOOK(notebook),
-			folder_view);		
+		new_page_index = gtk_notebook_page_num (notebook,
+							folder_view);
 
 		g_hash_table_insert (eshell_view->priv->folder_views,
 				     efolder, w);
-		gtk_notebook_set_page (GTK_NOTEBOOK (notebook),new_page_index);
+		gtk_notebook_set_page (notebook, new_page_index);
 	}
 }
 

@@ -1,3 +1,8 @@
+2000-03-29  Dan Winship  <danw@helixcode.com>
+
+	* folder-browser-factory.c (control_activate): build a toolbar.
+	(control_deactivate): and hide it.
+
 2000-03-27  Chris Toshok <toshok@helixcode.com>
 	* mail-display.c: quiet warnings when building in ../po
 
