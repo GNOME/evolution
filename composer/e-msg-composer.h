@@ -98,6 +98,8 @@ struct _EMsgComposer {
 	guint32 smime_encrypt          : 1;
 	guint32 view_from              : 1;
 	guint32 view_replyto           : 1;
+	guint32 view_to                : 1;
+	guint32 view_postto            : 1;
 	guint32 view_bcc               : 1;
 	guint32 view_cc                : 1;
 	guint32 view_subject           : 1;
@@ -128,7 +130,12 @@ struct _EMsgComposerClass {
 GtkType                  e_msg_composer_get_type                         (void);
 
 EMsgComposer            *e_msg_composer_new                              (void);
-EMsgComposer            *e_msg_composer_new_post                         (void);
+
+#define E_MSG_COMPOSER_MAIL 1
+#define E_MSG_COMPOSER_POST 2
+#define E_MSG_COMPOSER_MAIL_POST E_MSG_COMPOSER_MAIL|E_MSG_COMPOSER_POST
+
+EMsgComposer            *e_msg_composer_new_with_type                    (int type);
 
 EMsgComposer            *e_msg_composer_new_with_message                 (CamelMimeMessage  *msg);
 EMsgComposer            *e_msg_composer_new_from_url                     (const char        *url);
@@ -168,8 +175,14 @@ void                     e_msg_composer_set_send_html                    (EMsgCo
 gboolean                 e_msg_composer_get_view_from                    (EMsgComposer      *composer);
 void                     e_msg_composer_set_view_from                    (EMsgComposer      *composer,
 									  gboolean           view_from);
+gboolean                 e_msg_composer_get_view_to                      (EMsgComposer      *composer);
+void                     e_msg_composer_set_view_to                      (EMsgComposer      *composer,
+									  gboolean           view_replyto);
 gboolean                 e_msg_composer_get_view_replyto                 (EMsgComposer      *composer);
 void                     e_msg_composer_set_view_replyto                 (EMsgComposer      *composer,
+									  gboolean           view_replyto);
+gboolean                 e_msg_composer_get_view_postto                  (EMsgComposer      *composer);
+void                     e_msg_composer_set_view_postto                  (EMsgComposer      *composer,
 									  gboolean           view_replyto);
 gboolean                 e_msg_composer_get_view_cc                      (EMsgComposer      *composer);
 void                     e_msg_composer_set_view_cc                      (EMsgComposer      *composer,

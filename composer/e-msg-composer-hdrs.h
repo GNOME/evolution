@@ -82,7 +82,6 @@ typedef enum {
 	E_MSG_COMPOSER_VISIBLE_CC         = (1 << 3),
 	E_MSG_COMPOSER_VISIBLE_BCC        = (1 << 4),
 	E_MSG_COMPOSER_VISIBLE_POSTTO     = (1 << 5),  /* for posting to folders */
-	E_MSG_COMPOSER_VISIBLE_NEWSGROUP  = (1 << 6),  /* for posting to newsgroups */
 	E_MSG_COMPOSER_VISIBLE_SUBJECT    = (1 << 7)
 } EMsgComposerHeaderVisibleFlags;
 
@@ -91,7 +90,6 @@ typedef enum {
 #define E_MSG_COMPOSER_VISIBLE_MASK_RECIPIENTS (E_MSG_COMPOSER_VISIBLE_TO | E_MSG_COMPOSER_VISIBLE_CC | E_MSG_COMPOSER_VISIBLE_BCC)
 
 #define E_MSG_COMPOSER_VISIBLE_MASK_MAIL (E_MSG_COMPOSER_VISIBLE_MASK_BASIC | E_MSG_COMPOSER_VISIBLE_MASK_RECIPIENTS)
-#define E_MSG_COMPOSER_VISIBLE_MASK_NEWS (E_MSG_COMPOSER_VISIBLE_MASK_BASIC | E_MSG_COMPOSER_VISIBLE_NEWSGROUP)
 #define E_MSG_COMPOSER_VISIBLE_MASK_POST (E_MSG_COMPOSER_VISIBLE_MASK_BASIC | E_MSG_COMPOSER_VISIBLE_POSTTO)
 
 
@@ -117,6 +115,11 @@ void        e_msg_composer_hdrs_set_bcc            (EMsgComposerHdrs *hdrs,
 						    EABDestination    **bcc_destv);
 void        e_msg_composer_hdrs_set_post_to        (EMsgComposerHdrs *hdrs,
 						    const char       *post_to);
+void        e_msg_composer_hdrs_set_post_to_list   (EMsgComposerHdrs *hdrs,
+						    GList *urls);
+void        e_msg_composer_hdrs_set_post_to_base   (EMsgComposerHdrs *hdrs,
+					            const char       *base,
+						    const char       *post_to);
 void        e_msg_composer_hdrs_set_subject        (EMsgComposerHdrs *hdrs,
 						    const char       *subject);
 
@@ -127,8 +130,10 @@ EABDestination **e_msg_composer_hdrs_get_to         (EMsgComposerHdrs *hdrs);
 EABDestination **e_msg_composer_hdrs_get_cc         (EMsgComposerHdrs *hdrs);
 EABDestination **e_msg_composer_hdrs_get_bcc        (EMsgComposerHdrs *hdrs);
 EABDestination **e_msg_composer_hdrs_get_recipients (EMsgComposerHdrs *hdrs);
-char          *e_msg_composer_hdrs_get_post_to     (EMsgComposerHdrs *hdrs);
 const char    *e_msg_composer_hdrs_get_subject     (EMsgComposerHdrs *hdrs);
+
+/* list of gchar* uris; this data is to be freed by the caller */
+GList         *e_msg_composer_hdrs_get_post_to     (EMsgComposerHdrs *hdrs);
 
 GtkWidget  *e_msg_composer_hdrs_get_from_hbox      (EMsgComposerHdrs *hdrs);
 GtkWidget  *e_msg_composer_hdrs_get_from_omenu     (EMsgComposerHdrs *hdrs);

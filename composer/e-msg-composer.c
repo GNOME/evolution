@@ -1864,6 +1864,32 @@ menu_view_replyto_cb (BonoboUIComponent           *component,
 }
 
 static void
+menu_view_to_cb (BonoboUIComponent           *component,
+		      const char                  *path,
+		      Bonobo_UIComponent_EventType type,
+		      const char                  *state,
+		      gpointer                     user_data)
+{
+	if (type != Bonobo_UIComponent_STATE_CHANGED)
+		return;
+	
+	e_msg_composer_set_view_to (E_MSG_COMPOSER (user_data), atoi (state));
+}
+
+static void
+menu_view_postto_cb (BonoboUIComponent           *component,
+		      const char                  *path,
+		      Bonobo_UIComponent_EventType type,
+		      const char                  *state,
+		      gpointer                     user_data)
+{
+	if (type != Bonobo_UIComponent_STATE_CHANGED)
+		return;
+	
+	e_msg_composer_set_view_postto (E_MSG_COMPOSER (user_data), atoi (state));
+}
+
+static void
 menu_view_cc_cb (BonoboUIComponent           *component,
 		 const char                  *path,
 		 Bonobo_UIComponent_EventType type,
@@ -2108,6 +2134,22 @@ setup_ui (EMsgComposer *composer)
 	bonobo_ui_component_add_listener (
 		composer->uic, "ViewReplyTo",
 		menu_view_replyto_cb, composer);
+	
+	/* View/To */
+	bonobo_ui_component_set_prop (
+		composer->uic, "/commands/ViewTo",
+		"state", composer->view_to ? "1" : "0", NULL);
+	bonobo_ui_component_add_listener (
+		composer->uic, "ViewTo",
+		menu_view_to_cb, composer);
+	
+	/* View/PostTo */
+	bonobo_ui_component_set_prop (
+		composer->uic, "/commands/ViewPostTo",
+		"state", composer->view_postto ? "1" : "0", NULL);
+	bonobo_ui_component_add_listener (
+		composer->uic, "ViewPostTo",
+		menu_view_postto_cb, composer);
 	
 	/* View/CC */
 	bonobo_ui_component_set_prop (
@@ -2739,7 +2781,7 @@ e_msg_composer_get_type (void)
 }
 
 static void
-e_msg_composer_load_config (EMsgComposer *composer)
+e_msg_composer_load_config (EMsgComposer *composer, int visible_mask)
 {
 	GConfClient *gconf;
 	
@@ -2747,14 +2789,37 @@ e_msg_composer_load_config (EMsgComposer *composer)
 	
 	composer->view_from = gconf_client_get_bool (
 		gconf, "/apps/evolution/mail/composer/view/From", NULL);
-	composer->view_replyto = gconf_client_get_bool ( 
+	composer->view_replyto = gconf_client_get_bool (
 		gconf, "/apps/evolution/mail/composer/view/ReplyTo", NULL);
+	composer->view_to = gconf_client_get_bool (
+		gconf, "/apps/evolution/mail/composer/view/To", NULL);
+	composer->view_postto = gconf_client_get_bool (
+		gconf, "/apps/evolution/mail/composer/view/PostTo", NULL);
 	composer->view_cc = gconf_client_get_bool ( 
 		gconf, "/apps/evolution/mail/composer/view/Cc", NULL);
 	composer->view_bcc = gconf_client_get_bool (
 		gconf, "/apps/evolution/mail/composer/view/Bcc", NULL);
 	composer->view_subject = gconf_client_get_bool (
 		gconf, "/apps/evolution/mail/composer/view/Subject", NULL);
+	
+	/* if we're mailing, you cannot disable to so it should appear checked */
+	if (visible_mask & E_MSG_COMPOSER_VISIBLE_TO)
+		composer->view_to = TRUE;
+	else
+		composer->view_to = FALSE;
+	
+	/* ditto for post-to */
+	if (visible_mask & E_MSG_COMPOSER_VISIBLE_POSTTO)
+		composer->view_postto = TRUE;
+	else
+		composer->view_postto = FALSE;
+	
+	/* we set these to false initially if we're posting */
+	if (!(visible_mask & E_MSG_COMPOSER_VISIBLE_CC))
+		composer->view_cc = FALSE;
+	
+	if (!(visible_mask & E_MSG_COMPOSER_VISIBLE_BCC))
+		composer->view_bcc = FALSE;
 	
 	g_object_unref (gconf);
 }
@@ -2768,6 +2833,10 @@ e_msg_composer_get_visible_flags (EMsgComposer *composer)
 		flags |= E_MSG_COMPOSER_VISIBLE_FROM;
 	if (composer->view_replyto)
 		flags |= E_MSG_COMPOSER_VISIBLE_REPLYTO;
+	if (composer->view_to)
+		flags |= E_MSG_COMPOSER_VISIBLE_TO;
+	if (composer->view_postto)
+		flags |= E_MSG_COMPOSER_VISIBLE_POSTTO;
 	if (composer->view_cc)
 		flags |= E_MSG_COMPOSER_VISIBLE_CC;
 	if (composer->view_bcc)
@@ -2806,7 +2875,7 @@ map_default_cb (EMsgComposer *composer, gpointer user_data)
 	
 	if (!text || text[0] == '\0') {
 		bonobo_control_frame_control_activate (cf);
-
+		
 		g_free (text);
 		return;
 	}
@@ -2970,7 +3039,7 @@ create_composer (int visible_mask)
 			   drop_types, num_drop_types, GDK_ACTION_COPY);
 	g_signal_connect (composer, "drag_data_received",
 			  G_CALLBACK (drag_data_received), NULL);
-	e_msg_composer_load_config (composer);
+	e_msg_composer_load_config (composer, visible_mask);
 	
 	setup_ui (composer);
 	
@@ -3154,6 +3223,45 @@ set_editor_signature (EMsgComposer *composer)
 	/* printf ("set_editor_signature end\n"); */
 }
 
+/**
+ * e_msg_composer_new_with_type:
+ *
+ * Create a new message composer widget. The type can be
+ * E_MSG_COMPOSER_MAIL, E_MSG_COMPOSER_POST or E_MSG_COMPOSER_MAIL_POST.
+ *
+ * Return value: A pointer to the newly created widget
+ **/
+
+EMsgComposer *
+e_msg_composer_new_with_type (int type)
+{
+	gboolean send_html;
+	GConfClient *gconf;
+	EMsgComposer *new;
+
+	gconf = gconf_client_get_default ();
+	send_html = gconf_client_get_bool (gconf, "/apps/evolution/mail/composer/send_html", NULL);
+	g_object_unref (gconf);
+
+	switch (type) {
+	case E_MSG_COMPOSER_MAIL:
+		new = create_composer (E_MSG_COMPOSER_VISIBLE_MASK_MAIL);
+		break;
+	case E_MSG_COMPOSER_POST:
+		new = create_composer (E_MSG_COMPOSER_VISIBLE_MASK_POST);
+		break;
+	default:
+		new = create_composer (E_MSG_COMPOSER_VISIBLE_MASK_MAIL | E_MSG_COMPOSER_VISIBLE_MASK_POST);
+	}
+
+	if (new) {
+		e_msg_composer_set_send_html (new, send_html);
+		set_editor_text (new, "");
+		set_editor_signature (new);
+	}
+
+	return new;
+}
 
 /**
  * e_msg_composer_new:
@@ -3165,52 +3273,8 @@ set_editor_signature (EMsgComposer *composer)
 EMsgComposer *
 e_msg_composer_new (void)
 {
-	gboolean send_html;
-	GConfClient *gconf;
-	EMsgComposer *new;
-	
-	gconf = gconf_client_get_default ();
-	send_html = gconf_client_get_bool (gconf, "/apps/evolution/mail/composer/send_html", NULL);
-	g_object_unref (gconf);
-	
-	new = create_composer (E_MSG_COMPOSER_VISIBLE_MASK_MAIL);
-	if (new) {
-		e_msg_composer_set_send_html (new, send_html);
-		set_editor_text (new, "");
-		set_editor_signature (new);
-	}
-	
-	return new;
+	return e_msg_composer_new_with_type (E_MSG_COMPOSER_MAIL);
 }
-
-/**
- * e_msg_composer_new_post:
- *
- * Create a new message composer widget.
- * 
- * Return value: A pointer to the newly created widget
- **/
-EMsgComposer *
-e_msg_composer_new_post (void)
-{
-	gboolean send_html;
-	GConfClient *gconf;
-	EMsgComposer *new;
-	
-	gconf = gconf_client_get_default ();
-	send_html = gconf_client_get_bool (gconf, "/apps/evolution/mail/composer/send_html", NULL);
-	g_object_unref (gconf);
-	
-	new = create_composer (E_MSG_COMPOSER_VISIBLE_MASK_POST);
-	if (new) {
-		e_msg_composer_set_send_html (new, send_html);
-		set_editor_text (new, "");
-		set_editor_signature (new);
-	}
-	
-	return new;
-}
-
 
 static gboolean
 is_special_header (const char *hdr_name)
@@ -4704,9 +4768,9 @@ e_msg_composer_set_view_from (EMsgComposer *composer, gboolean view_from)
 /**
  * e_msg_composer_get_view_replyto:
  * @composer: A message composer widget
- * 
+ *
  * Get the status of the "View Reply-To header" flag.
- * 
+ *
  * Return value: The status of the "View Reply-To header" flag.
  **/
 gboolean
@@ -4740,6 +4804,7 @@ e_msg_composer_set_view_replyto (EMsgComposer *composer, gboolean view_replyto)
 	bonobo_ui_component_set_prop (composer->uic, "/commands/ViewReplyTo",
 				      "state", composer->view_replyto ? "1" : "0", NULL);
 	
+	/* we do this /only/ if the fields is in the visible_mask */
 	gconf = gconf_client_get_default ();
 	gconf_client_set_bool (gconf, "/apps/evolution/mail/composer/view/ReplyTo", view_replyto, NULL);
 	g_object_unref (gconf);
@@ -4747,6 +4812,108 @@ e_msg_composer_set_view_replyto (EMsgComposer *composer, gboolean view_replyto)
 	e_msg_composer_hdrs_set_visible (E_MSG_COMPOSER_HDRS (composer->hdrs),
 					 e_msg_composer_get_visible_flags (composer));
 }
+
+
+/**
+ * e_msg_composer_get_view_to:
+ * @composer: A message composer widget
+ *
+ * Get the status of the "View To header" flag.
+ *
+ * Return value: The status of the "View To header" flag.
+ **/
+gboolean
+e_msg_composer_get_view_to (EMsgComposer *composer)
+{
+	g_return_val_if_fail (E_IS_MSG_COMPOSER (composer), FALSE);
+	
+	return composer->view_to;
+}
+
+
+/**
+ * e_msg_composer_set_view_to:
+ * @composer: A message composer widget
+ * @state: whether to show or hide the To selector
+ *
+ * Controls the state of the To selector
+ */
+void
+e_msg_composer_set_view_to (EMsgComposer *composer, gboolean view_to)
+{
+	GConfClient *gconf;
+	
+	g_return_if_fail (E_IS_MSG_COMPOSER (composer));
+	
+	if ((composer->view_to && view_to) ||
+	    (!composer->view_to && !view_to))
+		return;
+	
+	composer->view_to = view_to;
+	bonobo_ui_component_set_prop (composer->uic, "/commands/ViewTo",
+				      "state", composer->view_to ? "1" : "0", NULL);
+	
+	if ((E_MSG_COMPOSER_HDRS(composer->hdrs))->visible_mask & E_MSG_COMPOSER_VISIBLE_TO) {
+		gconf = gconf_client_get_default ();
+		gconf_client_set_bool (gconf, "/apps/evolution/mail/composer/view/To", view_to, NULL);
+		g_object_unref (gconf);
+	}
+	
+	e_msg_composer_hdrs_set_visible (E_MSG_COMPOSER_HDRS (composer->hdrs),
+					 e_msg_composer_get_visible_flags (composer));
+}
+
+
+
+/**
+ * e_msg_composer_get_view_postto:
+ * @composer: A message composer widget
+ *
+ * Get the status of the "View PostTo header" flag.
+ *
+ * Return value: The status of the "View PostTo header" flag.
+ **/
+gboolean
+e_msg_composer_get_view_postto (EMsgComposer *composer)
+{
+	g_return_val_if_fail (E_IS_MSG_COMPOSER (composer), FALSE);
+	
+	return composer->view_postto;
+}
+
+
+/**
+ * e_msg_composer_set_view_postto:
+ * @composer: A message composer widget
+ * @state: whether to show or hide the PostTo selector
+ *
+ * Controls the state of the PostTo selector
+ */
+void
+e_msg_composer_set_view_postto (EMsgComposer *composer, gboolean view_postto)
+{
+	GConfClient *gconf;
+	
+	g_return_if_fail (E_IS_MSG_COMPOSER (composer));
+	
+	if ((composer->view_postto && view_postto) ||
+	    (!composer->view_postto && !view_postto))
+		return;
+	
+	composer->view_postto = view_postto;
+	bonobo_ui_component_set_prop (composer->uic, "/commands/ViewPostTo",
+				      "state", composer->view_postto ? "1" : "0", NULL);
+	
+	if ((E_MSG_COMPOSER_HDRS(composer->hdrs))->visible_mask & E_MSG_COMPOSER_VISIBLE_POSTTO) {
+		gconf = gconf_client_get_default ();
+		gconf_client_set_bool (gconf, "/apps/evolution/mail/composer/view/PostTo", view_postto, NULL);
+		g_object_unref (gconf);
+	}
+	
+	e_msg_composer_hdrs_set_visible (E_MSG_COMPOSER_HDRS (composer->hdrs),
+					 e_msg_composer_get_visible_flags (composer));
+}
+
 
 
 /**
@@ -4788,9 +4955,11 @@ e_msg_composer_set_view_cc (EMsgComposer *composer, gboolean view_cc)
 	bonobo_ui_component_set_prop (composer->uic, "/commands/ViewCC",
 				      "state", composer->view_cc ? "1" : "0", NULL);
 	
-	gconf = gconf_client_get_default ();
-	gconf_client_set_bool (gconf, "/apps/evolution/mail/composer/view/Cc", view_cc, NULL);
-	g_object_unref (gconf);
+	if ((E_MSG_COMPOSER_HDRS (composer->hdrs))->visible_mask & E_MSG_COMPOSER_VISIBLE_CC) {
+		gconf = gconf_client_get_default ();
+		gconf_client_set_bool (gconf, "/apps/evolution/mail/composer/view/Cc", view_cc, NULL);
+		g_object_unref (gconf);
+	}
 	
 	e_msg_composer_hdrs_set_visible (E_MSG_COMPOSER_HDRS (composer->hdrs),
 					 e_msg_composer_get_visible_flags (composer));
@@ -4836,9 +5005,11 @@ e_msg_composer_set_view_bcc (EMsgComposer *composer, gboolean view_bcc)
 	bonobo_ui_component_set_prop (composer->uic, "/commands/ViewBCC",
 				      "state", composer->view_bcc ? "1" : "0", NULL);
 	
-	gconf = gconf_client_get_default ();
-	gconf_client_set_bool (gconf, "/apps/evolution/mail/composer/view/Bcc", view_bcc, NULL);
-	g_object_unref (gconf);
+	if ((E_MSG_COMPOSER_HDRS (composer->hdrs))->visible_mask & E_MSG_COMPOSER_VISIBLE_BCC) {
+		gconf = gconf_client_get_default ();
+		gconf_client_set_bool (gconf, "/apps/evolution/mail/composer/view/Bcc", view_bcc, NULL);
+		g_object_unref (gconf);
+	}
 	
 	e_msg_composer_hdrs_set_visible (E_MSG_COMPOSER_HDRS (composer->hdrs),
 					 e_msg_composer_get_visible_flags (composer));
