@@ -1,3 +1,8 @@
+2003-08-27  Bolian Yin <bolian.yin@sun.com>
+
+	* configure.in: add a11y/widgets/Makefile
+	* Makefile.am: move a11y directory before widgets directory.
+
 2003-08-21  Not Zed  <NotZed@Ximian.com>
 
 	* HACKING: Wrote one.
