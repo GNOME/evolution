@@ -565,8 +565,9 @@ ical_object_create_from_vobject (VObject *o, const char *object_name)
 	}
 	
 	/* FIXME: dalarm */
-	if (has (o, VCDAlarmProp))
-		;
+	if (has (o, VCDAlarmProp)){
+		
+	}
 	
 	/* FIXME: aalarm */
 	if (has (o, VCAAlarmProp))
@@ -624,6 +625,9 @@ store_list (VObject *o, char *prop, GList *values, char sep)
 	addPropValue (o, prop, result);
 	g_free (p);
 }
+
+static char *recur_type_name [] = { "D", "W", "MP", "MD", "YM", "YD" };
+static char *recur_day_list  [] = { "SU", "MO", "TU","WE", "TH", "FR", "SA" };
 
 VObject *
 ical_object_to_vobject (iCalObject *ical)
@@ -702,6 +706,57 @@ ical_object_to_vobject (iCalObject *ical)
 	if (ical->url)
 		addPropValue (o, VCURLProp, ical->url);
 
+	if (ical->recur){
+		char result [256];
+		char buffer [80];
+		int i;
+		
+		sprintf (result, "%s%d ", recur_type_name [ical->recur->type], ical->recur->interval);
+		switch (ical->recur->type){
+		case RECUR_DAILY:
+			break;
+			
+		case RECUR_WEEKLY:
+			for (i = 0; i < 7; i++){
+				if (ical->recur->weekday & (1 << i)){
+					sprintf (buffer, "%s ", recur_day_list [i]);
+					strcat (result, buffer);
+				}
+			}
+			break;
+			
+		case RECUR_MONTHLY_BY_POS: {
+			int nega = ical->recur->u.month_pos < 0;
+				
+			sprintf (buffer, "%d%s ", nega ? -ical->recur->u.month_pos : ical->recur->u.month_pos,
+				 nega ? "-" : "+");
+			strcat (result, buffer);
+			for (i = 0; i < 7; i++){
+				if (ical->recur->weekday & (1 << i)){
+					sprintf (buffer, "%s ", recur_day_list [i]);
+					strcat (result, buffer);
+				}
+			}
+		}
+		break;
+			
+		case RECUR_MONTHLY_BY_DAY:
+			sprintf (buffer, "%d ", ical->recur->u.month_pos);
+			strcat (result, buffer);
+			break;
+			
+		case RECUR_YEARLY_BY_MONTH:
+			break;
+			
+		case RECUR_YEARLY_BY_DAY:
+			break;
+		}
+		if (ical->recur->_enddate == 0)
+			sprintf (buffer, "#%d ",ical->recur->duration);
+		else
+			sprintf (buffer, "%s ", isodate_from_time_t (ical->recur->_enddate));
+		strcat (result, buffer);
+	}
 	/* FIXME: alarms */
 	return o;
 }
@@ -758,7 +813,8 @@ ical_object_generate_events (iCalObject *ico, time_t start, time_t end, calendar
 {
 	Recurrence *recur = ico->recur;
 	time_t current;
-
+	int first_week_day, i;
+	
 	if (!ico->recur){
 		if (time_in_range (ico->dtstart, start, end) ||
 		    time_in_range (ico->dtend, start, end)){
@@ -822,7 +878,55 @@ ical_object_generate_events (iCalObject *ico, time_t start, time_t end, calendar
 		break;
 		
 	case RECUR_MONTHLY_BY_POS:
-		g_warning ("We still do not handle MONTHLY_BY_POS\n");
+		/* FIXME: We only deal with positives now */
+		if (ico->recur->u.month_pos < 0)
+			return;
+		
+		if (ico->recur->u.month_pos == 0)
+			return;
+		
+		first_week_day = 7;
+		for (i = 6; i >= 0; i--)
+			if (ico->recur->weekday & (1 << i))
+				first_week_day = i;
+
+		/* This should not happen, but take it into account */
+		if (first_week_day == 7)
+			return;
+
+		do {
+			struct tm tm;
+			time_t t;
+			int    p, week_day_start;
+
+			tm = *localtime (&current);
+			tm.tm_mday = 1;
+			t = mktime (&tm);
+			tm = *localtime (&t);
+			week_day_start = tm.tm_wday;
+
+			tm.tm_mday = 7 * (ico->recur->u.month_pos -
+					  ((week_day_start <= first_week_day ) ? 1 : 0)) -
+				(week_day_start - first_week_day) + 1;
+			
+			t = mktime (&tm);
+			
+			if (time_in_range (t, start, end))
+				if (!generate (ico, t, cb, closure))
+					return;
+
+			/* Advance a month */
+			current = mktime (&tm);
+			
+			tm.tm_mday = 1;
+			tm.tm_mon += recur->interval;
+			current = mktime (&tm);
+
+			if (current == -1){
+				g_warning ("RECUR_MONTHLY_BY_DAY: mktime error\n");
+				return;
+			}
+		} while (current < end || (end == 0));
 		break;
 
 	case RECUR_MONTHLY_BY_DAY:

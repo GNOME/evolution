@@ -1,3 +1,10 @@
+1998-04-17  Miguel de Icaza  <miguel@nuclecu.unam.mx>
+
+	* calobj.c (ical_object_generate_events): Implement
+	RECUR_MONTHLY_BY_POS implemented.
+
+	(ical_object_to_vobject): Implement recurrence rule saving.
+
 1998-04-16  Federico Mena Quintero  <federico@nuclecu.unam.mx>
 
 	* eventedit.c (ee_store_alarm): Use menu_shell->children, not
