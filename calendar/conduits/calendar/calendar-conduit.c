@@ -977,8 +977,6 @@ pre_sync (GnomePilotConduit *conduit,
 	ctxt->dbi = dbi;	
 	ctxt->client = NULL;
 
-	gnome_pilot_conduit_warning (conduit, "Random warning");
-
 	if (start_calendar_server (ctxt) != 0) {
 		WARN(_("Could not start wombat server"));
 		gnome_pilot_conduit_error (conduit, _("Could not start wombat"));
