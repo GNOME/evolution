@@ -74,7 +74,8 @@ static void handle_unknown_type         (CamelFormatter *formatter,
  * so '<' turns into '&lt;', and '"' turns into '&quot;' */
 static gchar* text_to_html (const guchar *input,
 			    guint len,
-			    guint *encoded_len_return);
+			    guint *encoded_len_return,
+			    gboolean convert_newlines_to_br);
 
 /* compares strings case-insensitively */
 static gint strcase_equal (gconstpointer v, gconstpointer v2);
@@ -373,8 +374,9 @@ call_handler_function (CamelFormatter* formatter,
  * - It has also been altered to turn '\n' into <br>. */
 static gchar *
 text_to_html (const guchar *input,
-		 guint len,
-		 guint *encoded_len_return)
+	      guint len,
+	      guint *encoded_len_return,
+	      gboolean convert_newlines_to_br)
 {
 	const guchar *cur = input;
 	guchar *buffer = NULL;
@@ -438,7 +440,7 @@ text_to_html (const guchar *input,
 		}
 
 		/* turn newlines into <br> */
-		if (*cur == '\n') {
+		if (*cur == '\n' && convert_newlines_to_br) {
 			*out++ = '<';
 			*out++ = 'b';
 			*out++ = 'r';
@@ -464,7 +466,7 @@ write_field_to_stream (const gchar* description, const gchar* value,
 	gchar *s;
 	guint ev_length;
 	gchar* encoded_value = value?text_to_html (
-		value, strlen(value), &ev_length):g_strdup ("");
+		value, strlen(value), &ev_length, TRUE):g_strdup ("");
 	int i;
 	
 	if (value)
@@ -675,7 +677,8 @@ handle_text_plain (CamelFormatter *formatter, CamelDataWrapper *wrapper)
 			/* replace '<' with '&lt;', etc. */
 			text = text_to_html (tmp_buffer,
 					     nb_bytes_read,
-					     &returned_strlen);
+					     &returned_strlen,
+					     FALSE);
 			
 			camel_stream_write_string (formatter->priv->stream, text);
 			g_free (text);

@@ -1,3 +1,10 @@
+2000-03-31  Matt Loper  <matt@helixcode.com>
+
+	* camel-formatter.c (text_to_html): Added "convert_newlines_to_br"
+	boolean param, to give the option of not converting '\n's to <br>
+	tags. This way, when we stick stuff in a <pre> tag, newlines stay
+	newlines.
+
 2000-03-30  Matt Loper  <matt@helixcode.com>
 
 	* camel-formatter.c (handle_text_plain): Use <pre> tag to force
