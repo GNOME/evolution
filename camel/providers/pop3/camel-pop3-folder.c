@@ -285,16 +285,16 @@ pop3_get_message (CamelFolder *folder, const char *uid, CamelException *ex)
 	char *result, *body;
 	CamelStream *msgstream;
 	CamelMimeMessage *msg;
-
+	
 	num = uid_to_number (CAMEL_POP3_FOLDER (folder), uid);
 	if (num == -1) {
 		camel_exception_setv (ex, CAMEL_EXCEPTION_FOLDER_INVALID_UID,
 				      _("No message with uid %s"), uid);
 		return NULL;
 	}
-
-	camel_operation_start_transient(NULL, _("Retrieving POP message %d"), num);
-
+	
+	camel_operation_start_transient (NULL, _("Retrieving POP message %d"), num);
+	
 	status = camel_pop3_command (CAMEL_POP3_STORE (folder->parent_store),
 				     &result, ex, "RETR %d", num);
 	switch (status) {
@@ -304,14 +304,13 @@ pop3_get_message (CamelFolder *folder, const char *uid, CamelException *ex)
 		g_free (result);
 		/* fall through */
 	case CAMEL_POP3_FAIL:
-		camel_operation_end(NULL);
+		camel_operation_end (NULL);
 		return NULL;
 	}
-
-	/* this should be "nnn octets" ? No. RTFRFC. FIXME. */
+	
 	if (result && sscanf (result, "%d", &total) != 1)
 		total = 0;
-
+	
 	g_free (result);
 	body = camel_pop3_command_get_additional_data (CAMEL_POP3_STORE (folder->parent_store), total, ex);
 	if (!body) {
@@ -320,21 +319,21 @@ pop3_get_message (CamelFolder *folder, const char *uid, CamelException *ex)
 				      _("Could not retrieve message from POP "
 					"server %s: %s"), service->url->host,
 				      camel_exception_get_description (ex));
-		camel_operation_end(NULL);
+		camel_operation_end (NULL);
 		return NULL;
 	}
-
+	
 	msgstream = camel_stream_mem_new_with_buffer (body, strlen (body));
 	g_free (body);
 	
 	msg = camel_mime_message_new ();
 	camel_data_wrapper_construct_from_stream (CAMEL_DATA_WRAPPER (msg),
 						  CAMEL_STREAM (msgstream));
-
+	
 	camel_object_unref (CAMEL_OBJECT (msgstream));
-
-	camel_operation_end(NULL);
-
+	
+	camel_operation_end (NULL);
+	
 	return msg;
 }
 

@@ -1188,31 +1188,36 @@ get_folder_info_online (CamelStore *store, const char *top,
 	char *pattern;
 	CamelFolderInfo *fi, *tree;
 	int i;
-
+	
 	if (!camel_remote_store_connected (CAMEL_REMOTE_STORE (store), ex))
 		return NULL;
-
+	
 	name = top;
 	if (!name || name[0] == '\0') {
 		need_inbox = TRUE;
 		name = "";
 	}
-
+	
 	folders = g_ptr_array_new ();
-
+	
 	/* Get top-level */
 	get_folders_online (imap_store, name, folders, FALSE, ex);
 	if (camel_exception_is_set (ex))
 		goto lose;
 	if (folders->len) {
+		const char *noselect;
+		CamelURL *url;
+		
 		fi = folders->pdata[0];
-		if (strstr (fi->url, "noselect=yes") && 
-		    name[0] == '\0') {
+		url = camel_url_new (fi->url, NULL);
+		noselect = url ? camel_url_get_param (url, "noselect") : NULL;
+		if (noselect && !g_strcasecmp (noselect, "yes") && name[0] == '\0') {
 			camel_folder_info_free (fi);
 			g_ptr_array_remove_index (folders, 0);
 		}
+		camel_url_free (url);
 	}
-
+	
 	/* If we want to look at only subscribed folders AND check if
 	 * any of them have new mail, AND the server doesn't return
 	 * Marked/UnMarked with LSUB, then use
@@ -1235,7 +1240,7 @@ get_folder_info_online (CamelStore *store, const char *top,
 		g_ptr_array_free (folders, TRUE);
 		return NULL;
 	}
-
+	
 	/* Add INBOX, if necessary */
 	if (need_inbox) {
 		for (i = 0; i < folders->len; i++) {
@@ -1245,54 +1250,62 @@ get_folder_info_online (CamelStore *store, const char *top,
 				break;
 			}
 		}
-
+		
 		if (need_inbox) {
 			CamelURL *url;
 			char *uri;
-
+			
 			url = camel_url_new (imap_store->base_url, NULL);
 			g_free (url->path);
 			url->path = g_strdup ("/INBOX");
 			uri = camel_url_to_string (url, 0);
 			camel_url_free (url);
-
+			
 			fi = g_new0 (CamelFolderInfo, 1);
 			fi->full_name = g_strdup ("INBOX");
 			fi->name = g_strdup ("INBOX");
 			fi->url = uri;
 			fi->unread_message_count = -1;
-
+			
 			g_ptr_array_add (folders, fi);
 		}
 	}
-
+	
 	/* Assemble. */
 	tree = camel_folder_info_build (folders, name, imap_store->dir_sep, TRUE);
 	if (flags & CAMEL_STORE_FOLDER_INFO_FAST) {
 		g_ptr_array_free (folders, TRUE);
 		return tree;
 	}
-
+	
 	/* Get unread counts. Sync flag changes to the server first so
 	 * it has the same ideas about read/unread as we do.
 	 */
 	camel_store_sync (store, NULL);
 	for (i = 0; i < folders->len; i++) {
+		const char *noselect;
+		CamelURL *url;
+		
 		fi = folders->pdata[i];
-
+		
 		/* Don't check if it doesn't contain messages or if it
 		 * was \UnMarked.
 		 */
-		if (fi->unread_message_count != -1 || strstr (fi->url, "noselect=yes"))
+		url = camel_url_new (fi->url, NULL);
+		noselect = url ? camel_url_get_param (url, "noselect") : NULL;
+		if (fi->unread_message_count != -1 || (noselect && !g_strcasecmp (noselect, "yes"))) {
+			camel_url_free (url);
 			continue;
-
+		}
+		camel_url_free (url);
+		
 		/* Don't check if it's not INBOX and we're only
 		 * checking INBOX.
 		 */
 		if ((!(imap_store->parameters & IMAP_PARAM_CHECK_ALL))
 		    && (g_strcasecmp (fi->name, "INBOX") != 0))
 			continue;
-
+		
 		/* For the current folder, poke it to check for new
 		 * messages and then report that number, rather than
 		 * doing a STATUS command.
@@ -1304,8 +1317,9 @@ get_folder_info_online (CamelStore *store, const char *top,
 		} else
 			fi->unread_message_count = get_folder_status (imap_store, fi->full_name, "UNSEEN");
 	}
-
+	
 	g_ptr_array_free (folders, TRUE);
+	
 	return tree;
 }
 

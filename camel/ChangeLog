@@ -1,3 +1,8 @@
+2001-08-06  Jeffrey Stedfast  <fejj@ximian.com>
+
+	* providers/imap/camel-imap-store.c (get_folder_info_online):
+	Don't strstr for noselect=yes, that's just plain broken.
+
 2001-08-06  Dan Winship  <danw@ximian.com>
 
 	* providers/imap/camel-imap-folder.c (imap_rescan): Fix off-by-one
