@@ -1,3 +1,9 @@
+2003-03-09  Jeffrey Stedfast  <fejj@ximian.com>
+
+	* camel-url-scanner.c (camel_url_addrspec_end): Doh! If inptr ==
+	pos + 1, then return FALSE (before it was checking for inptr ==
+	pos, but it will never be pos).
+
 2003-03-07  Not Zed  <NotZed@Ximian.com>
 
 	* camel-vee-folder.c (vee_search_by_expression): handle a null
