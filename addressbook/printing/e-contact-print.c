@@ -541,19 +541,22 @@ complete_sequence(EBookView *book_view, EContactPrintContext *ctxt)
 		ECard *card = cards->data;
 		ECardSimple *simple = e_card_simple_new(card);
 		guchar *file_as;
+		gchar *letter_str = NULL;
 
 		gtk_object_get(GTK_OBJECT(card),
 			       "file_as", &file_as,
 			       NULL);
-		if ( file_as && (!ctxt->character || *ctxt->character != tolower(*file_as)) ) {
+		if (file_as != NULL) {
+			letter_str = g_strndup (file_as, g_utf8_next_char (file_as) - (gchar *) file_as);
+		}
+		if ( file_as && (!ctxt->character || g_utf8_collate (ctxt->character, letter_str) != 0) ) {
+			g_free (ctxt->character);
+			ctxt->character = g_strdup (letter_str);
 			if (ctxt->style->sections_start_new_page && ! ctxt->first_contact) {
 				e_contact_start_new_page(ctxt);
 			}
 			else if ((!ctxt->first_contact) && (ctxt->y - e_contact_get_letter_heading_height(ctxt) - e_contact_get_card_size(simple, ctxt) < ctxt->style->bottom_margin * 72))
 				e_contact_start_new_column(ctxt);
-			if (!ctxt->character)
-				ctxt->character = g_strdup(" ");
-			*ctxt->character = tolower(*file_as);
 			if ( ctxt->style->letter_headings )
 				e_contact_print_letter_heading(ctxt, ctxt->character);
 			ctxt->first_section = FALSE;
@@ -563,6 +566,7 @@ complete_sequence(EBookView *book_view, EContactPrintContext *ctxt)
 			if ( ctxt->style->letter_headings )
 				e_contact_print_letter_heading(ctxt, ctxt->character);
 		}
+		g_free (letter_str);
 		ctxt->last_char_on_page = toupper(*file_as);
 		if ( ctxt->last_char_on_page < ctxt->first_char_on_page )
 			ctxt->first_char_on_page = ctxt->last_char_on_page;

@@ -1,3 +1,11 @@
+2001-12-20  Zbigniew Chyla  <cyba@gnome.pl>
+
+	Fixes #17725
+
+	* evolution/addressbook/printing/e-contact-print.c (complete_sequence):
+	Do not assume that the first byte of file_as is the first letter, use
+	utf8 functions instead.
+
 2002-01-16  JP Rosevear  <jpr@ximian.com>
 
 	* conduit/address-conduit.c: move all functions here, get rid of
