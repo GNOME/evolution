@@ -28,6 +28,7 @@
 
 GtkWidget* ca_trust_dialog_show (ECert *cert, gboolean importing);
 
+void       ca_trust_dialog_set_trust (GtkWidget *widget, gboolean ssl, gboolean email, gboolean objsign);
 void       ca_trust_dialog_get_trust (GtkWidget *widget, gboolean *ssl, gboolean *email, gboolean *objsign);
 
 #endif /* _CA_TRUST_DIALOG_H_ */

@@ -1,3 +1,18 @@
+2004-04-30  Chris Toshok  <toshok@ximian.com>
+
+	[ fixes bug #52724 ]
+	
+	* gui/ca-trust-dialog.c (ca_trust_dialog_set_trust): new function,
+	set the toggle buttons' states.
+
+	* gui/ca-trust-dialog.h (ca_trust_dialog_set_trust): add
+	prototype.
+
+	* gui/certificate-manager.c (edit_ca): flesh out the rest of the
+	editing here.  set the existing trust levels and get them back
+	from the dialog when OK is clicked (and store them to the cert
+	db.)
+
 2004-03-24  Chris Toshok  <toshok@ximian.com>
 
 	* lib/smime-marshal.list: add BOOL:POINTER,POINTER,POINTER,POINTER

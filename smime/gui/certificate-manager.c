@@ -487,10 +487,29 @@ edit_ca (GtkWidget *widget, CertificateManagerData *cfm)
 
 		if (cert) {
 			GtkWidget *dialog = ca_trust_dialog_show (cert, FALSE);
+			CERTCertificate *icert = e_cert_get_internal_cert (cert);
 
-			gtk_dialog_run (GTK_DIALOG (dialog));
+			ca_trust_dialog_set_trust (dialog,
+						   e_cert_trust_has_trusted_ca (icert->trust, TRUE,  FALSE, FALSE),
+						   e_cert_trust_has_trusted_ca (icert->trust, FALSE, TRUE,  FALSE),
+						   e_cert_trust_has_trusted_ca (icert->trust, FALSE, FALSE, TRUE));
+						   
+			if (gtk_dialog_run (GTK_DIALOG (dialog)) == GTK_RESPONSE_OK) {
+				gboolean trust_ssl, trust_email, trust_objsign;
+				CERTCertTrust trust;
 
-			/* XXX more stuff here surely */
+				ca_trust_dialog_get_trust (dialog,
+							   &trust_ssl, &trust_email, &trust_objsign);
+
+				e_cert_trust_init (&trust);
+				e_cert_trust_set_valid_ca (&trust);
+				e_cert_trust_add_ca_trust (&trust,
+							   trust_ssl,
+							   trust_email,
+							   trust_objsign);
+				
+				CERT_ChangeCertTrust (e_cert_db_peek (), icert, &trust);
+			}
 
 			gtk_widget_destroy (dialog);
 		}

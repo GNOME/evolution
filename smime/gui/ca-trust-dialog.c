@@ -99,6 +99,20 @@ ca_trust_dialog_show (ECert *cert, gboolean importing)
 }
 
 void
+ca_trust_dialog_set_trust (GtkWidget *widget, gboolean ssl, gboolean email, gboolean objsign)
+{
+	CATrustDialogData *ctd_data;
+
+	ctd_data = g_object_get_data (G_OBJECT (widget), "CATrustDialogData");
+	if (!ctd_data)
+		return;
+
+	gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (ctd_data->ssl_checkbutton), ssl);
+	gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (ctd_data->email_checkbutton), email);
+	gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (ctd_data->objsign_checkbutton), objsign);
+}
+
+void
 ca_trust_dialog_get_trust (GtkWidget *widget, gboolean *ssl, gboolean *email, gboolean *objsign)
 {
 	CATrustDialogData *ctd_data;
