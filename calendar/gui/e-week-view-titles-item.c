@@ -147,7 +147,6 @@ e_week_view_titles_item_draw (GnomeCanvasItem  *canvas_item,
 	EWeekView *week_view;
 	GtkStyle *style;
 	GdkGC *fg_gc, *bg_gc, *light_gc, *dark_gc;
-	GdkFont *font;
 	gint canvas_width, canvas_height, col_width, col, date_width, date_x;
 	gchar buffer[128], *date_format;
 	GDate date;
@@ -166,7 +165,6 @@ e_week_view_titles_item_draw (GnomeCanvasItem  *canvas_item,
 	g_return_if_fail (week_view != NULL);
 
 	style = gtk_widget_get_style (GTK_WIDGET (week_view));
-	font = gtk_style_get_font (style);
 	fg_gc = style->fg_gc[GTK_STATE_NORMAL];
 	bg_gc = style->bg_gc[GTK_STATE_NORMAL];
 	light_gc = style->light_gc[GTK_STATE_NORMAL];

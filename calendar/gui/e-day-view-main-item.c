@@ -162,7 +162,6 @@ e_day_view_main_item_draw (GnomeCanvasItem *canvas_item, GdkDrawable *drawable,
 	EDayView *day_view;
 	GtkStyle *style;
 	GdkGC *gc;
-	GdkFont *font;
 	gint row, row_y, grid_x1, grid_x2;
 	gint day, grid_y1, grid_y2;
 	gint work_day_start_y, work_day_end_y;
@@ -180,7 +179,6 @@ e_day_view_main_item_draw (GnomeCanvasItem *canvas_item, GdkDrawable *drawable,
 	g_return_if_fail (day_view != NULL);
 
 	style = gtk_widget_get_style (GTK_WIDGET (day_view));
-	font = gtk_style_get_font (style);
 
 	/* Paint the background colors. */
 	gc = day_view->main_gc;

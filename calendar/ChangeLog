@@ -1,3 +1,37 @@
+2003-04-01  Hans Petter Jansson  <hpj@ximian.com>
+
+	* gui/e-day-view-main-item.c (e_day_view_main_item_draw):
+	Nuke GdkFont and use Pango's font measuring.
+
+	* gui/e-day-view-time-itme.c (e_day_view_time_item_get_column_width)
+	(e_day_view_time_item_draw): Ditto.
+
+	* gui/e-day-view-top-item.c (e_day_view_top_item_draw)
+	(e_day_view_top_item_draw_long_event): Ditto.
+
+	* gui/e-day-view.c (e_day_view_style_set)
+	(e_day_view_recalc_cell_sizes)
+	(e_day_view_reshape_long_event)
+	(e_day_view_update_top_canvas_drag)
+	(e_day_view_update_main_canvas_drag): Ditto.
+
+	* gui/e-meeting-time-sel.c (e_meeting_time_selector_style_set)
+	(e_meeting_time_selector_recalc_date_form): Ditto.
+
+	* gui/e-week-view-event-item.c (e_week_view_draw_time): Ditto.
+
+	* gui/e-week-view-main-item.c (e_week_view_main_item_draw_day):
+	Ditto.
+
+	* gui/e-week-view-titles-item.c (e_week_view_titles_item_draw):
+	Ditto.
+
+	* gui/e-week-view.c (e_week_view_style_set)
+	(e_week_view_recalc_cell_sizes)
+	(e_week_view_reshape_event_span): Ditto.
+
+	* gui/weekday-picker.c (weekday_picker_style_set): Ditto.
+
 2003-04-01  JP Rosevear  <jpr@ximian.com>
 
 	Fix for #17231 (Evo portion)

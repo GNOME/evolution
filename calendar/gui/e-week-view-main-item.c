@@ -205,12 +205,14 @@ e_week_view_main_item_draw_day (EWeekViewMainItem *wvmitem,
 	EWeekView *week_view;
 	GtkStyle *style;
 	GdkGC *gc;
-	GdkFont *font;
 	gint right_edge, bottom_edge, date_width, date_x, line_y;
 	gboolean show_day_name, show_month_name, selected;
 	gchar buffer[128], *format_string;
 	gint month, day_of_month, max_width;
 	GdkColor *bg_color;
+	PangoFontDescription *font_desc;
+	PangoContext *pango_context;
+	PangoFontMetrics *font_metrics;
 	PangoLayout *layout;
 
 #if 0
@@ -218,15 +220,22 @@ e_week_view_main_item_draw_day (EWeekViewMainItem *wvmitem,
 #endif
 	week_view = wvmitem->week_view;
 	style = gtk_widget_get_style (GTK_WIDGET (week_view));
-	font = gtk_style_get_font (style);
 	gc = week_view->main_gc;
+
+	/* Set up Pango prerequisites */
+	font_desc = style->font_desc;
+	pango_context = gtk_widget_get_pango_context (GTK_WIDGET (week_view));
+	font_metrics = pango_context_get_metrics (pango_context, font_desc,
+						  pango_context_get_language (pango_context));
 
 	g_return_if_fail (gc != NULL);
 
 	month = g_date_month (date);
 	day_of_month = g_date_day (date);
-	line_y = y + E_WEEK_VIEW_DATE_T_PAD + font->ascent
-		+ font->descent	+ E_WEEK_VIEW_DATE_LINE_T_PAD;
+	line_y = y + E_WEEK_VIEW_DATE_T_PAD +
+		PANGO_PIXELS (pango_font_metrics_get_ascent (font_metrics)) +
+		PANGO_PIXELS (pango_font_metrics_get_descent (font_metrics)) +
+		E_WEEK_VIEW_DATE_LINE_T_PAD;
 
 	/* Draw the background of the day. In the month view odd months are
 	   one color and even months another, so you can easily see when each
@@ -266,8 +275,9 @@ e_week_view_main_item_draw_day (EWeekViewMainItem *wvmitem,
 			gdk_draw_rectangle (drawable, gc, TRUE,
 					    x + 2, y + 1,
 					    width - 5,
-					    E_WEEK_VIEW_DATE_T_PAD - 1
-					    + font->ascent + font->descent);
+					    E_WEEK_VIEW_DATE_T_PAD - 1 +
+					    PANGO_PIXELS (pango_font_metrics_get_ascent (font_metrics)) +
+					    PANGO_PIXELS (pango_font_metrics_get_descent (font_metrics)));
 		} else {
 			gdk_draw_rectangle (drawable, gc, TRUE,
 					    x + 2, y + 1,

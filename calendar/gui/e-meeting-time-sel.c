@@ -889,35 +889,44 @@ e_meeting_time_selector_style_set (GtkWidget *widget,
 	EMeetingTime saved_time;
 	ETable *real_table;
 	ETableHeader *eth;
-	GdkFont *font;
-	EFont *efont;
 	int hour, max_hour_width;
 	int numcols, col;
 	int maxheight;      
+	PangoFontDescription *font_desc;
+	PangoContext *pango_context;
+	PangoFontMetrics *font_metrics;
+	PangoLayout *layout;
 
 	if (GTK_WIDGET_CLASS (parent_class)->style_set)
 		(*GTK_WIDGET_CLASS (parent_class)->style_set)(widget, previous_style);
 
 	mts = E_MEETING_TIME_SELECTOR (widget);
-	font = gtk_style_get_font (gtk_widget_get_style (widget));
-	efont = e_font_from_gdk_font (font);
+
+	/* Set up Pango prerequisites */
+	font_desc = gtk_widget_get_style (widget)->font_desc;
+	pango_context = gtk_widget_get_pango_context (widget);
+	font_metrics = pango_context_get_metrics (pango_context, font_desc,
+						  pango_context_get_language (pango_context));
+	layout = pango_layout_new (pango_context);
 	
 	/* Calculate the widths of the hour strings in the style's font. */
 	max_hour_width = 0;
 	for (hour = 0; hour < 24; hour++) {
 		if (calendar_config_get_24_hour_format ())
-			mts->hour_widths[hour] = gdk_string_width (font, EMeetingTimeSelectorHours[hour]);
+			pango_layout_set_text (layout, EMeetingTimeSelectorHours [hour], -1);
 		else
-			mts->hour_widths[hour] = gdk_string_width (font, EMeetingTimeSelectorHours12[hour]);
+			pango_layout_set_text (layout, EMeetingTimeSelectorHours12 [hour], -1);
+
+		pango_layout_get_pixel_size (layout, &mts->hour_widths [hour], NULL);
 		max_hour_width = MAX (max_hour_width, mts->hour_widths[hour]);
 	}
               
 	/* FIXME the 5 is for the padding etable adds on */
-	mts->row_height = e_font_height (efont) + 5;
+	mts->row_height =
+		PANGO_PIXELS (pango_font_metrics_get_ascent (font_metrics)) +
+		PANGO_PIXELS (pango_font_metrics_get_descent (font_metrics)) + 5;
 	mts->col_width = max_hour_width + 6;
 
-	e_font_unref (efont);
-              
 	e_meeting_time_selector_save_position (mts, &saved_time);
 	e_meeting_time_selector_recalc_grid (mts);
 	e_meeting_time_selector_restore_position (mts, &saved_time);
@@ -943,6 +952,8 @@ e_meeting_time_selector_style_set (GtkWidget *widget,
 
 	GTK_LAYOUT (mts->display_main)->hadjustment->step_increment = mts->col_width;
 	GTK_LAYOUT (mts->display_main)->vadjustment->step_increment = mts->row_height;
+
+	g_object_unref (layout);
 }
 
 /* This draws a shadow around the top display and main display. */
@@ -2012,9 +2023,17 @@ e_meeting_time_selector_recalc_date_format (EMeetingTimeSelector *mts)
 	gint max_date_width, longest_weekday_width, longest_month_width, width;
 	gint day, longest_weekday, month, longest_month;
 	gchar buffer[128];
-	GdkFont *font;
+	PangoFontDescription *font_desc;
+	PangoContext *pango_context;
+	PangoFontMetrics *font_metrics;
+	PangoLayout *layout;
 
-	font = gtk_style_get_font (gtk_widget_get_style (GTK_WIDGET (mts)));
+	/* Set up Pango prerequisites */
+	font_desc = gtk_widget_get_style (GTK_WIDGET (mts))->font_desc;
+	pango_context = gtk_widget_get_pango_context (GTK_WIDGET (mts));
+	font_metrics = pango_context_get_metrics (pango_context, font_desc,
+						  pango_context_get_language (pango_context));
+	layout = pango_layout_new (pango_context);
 
 	/* Calculate the maximum date width we can fit into the display. */
 	max_date_width = mts->day_width - 2;
@@ -2027,7 +2046,8 @@ e_meeting_time_selector_recalc_date_format (EMeetingTimeSelector *mts)
 	longest_weekday = G_DATE_MONDAY;
 	for (day = G_DATE_MONDAY; day <= G_DATE_SUNDAY; day++) {
 		g_date_strftime (buffer, sizeof (buffer), "%A", &date);
-		width = gdk_string_width (font, buffer);
+		pango_layout_set_text (layout, buffer, -1);
+		pango_layout_get_pixel_size (layout, &width, NULL);
 		if (width > longest_weekday_width) {
 			longest_weekday = day;
 			longest_weekday_width = width;
@@ -2041,7 +2061,8 @@ e_meeting_time_selector_recalc_date_format (EMeetingTimeSelector *mts)
 	for (month = G_DATE_JANUARY; month <= G_DATE_DECEMBER; month++) {
 		g_date_set_month (&date, month);
 		g_date_strftime (buffer, sizeof (buffer), "%B", &date);
-		width = gdk_string_width (font, buffer);
+		pango_layout_set_text (layout, buffer, -1);
+		pango_layout_get_pixel_size (layout, &width, NULL);
 		if (width > longest_month_width) {
 			longest_month = month;
 			longest_month_width = width;
@@ -2063,7 +2084,9 @@ e_meeting_time_selector_recalc_date_format (EMeetingTimeSelector *mts)
 		 longest_month, longest_weekday, buffer);
 #endif
 
-	if (gdk_string_width (font, buffer) < max_date_width) {
+	pango_layout_set_text (layout, buffer, -1);
+	pango_layout_get_pixel_size (layout, &width, NULL);
+	if (width < max_date_width) {
 		mts->date_format = E_MEETING_TIME_SELECTOR_DATE_FULL;
 		return;
 	}
@@ -2074,7 +2097,8 @@ e_meeting_time_selector_recalc_date_format (EMeetingTimeSelector *mts)
 	g_date_set_dmy (&date, 3, 1, 2000);	/* Monday 3rd Jan 2000. */
 	for (day = G_DATE_MONDAY; day <= G_DATE_SUNDAY; day++) {
 		g_date_strftime (buffer, sizeof (buffer), "%a", &date);
-		width = gdk_string_width (font, buffer);
+		pango_layout_set_text (layout, buffer, -1);
+		pango_layout_get_pixel_size (layout, &width, NULL);
 		if (width > longest_weekday_width) {
 			longest_weekday = day;
 			longest_weekday_width = width;
@@ -2093,10 +2117,14 @@ e_meeting_time_selector_recalc_date_format (EMeetingTimeSelector *mts)
 		 longest_month, longest_weekday, buffer);
 #endif
 
-	if (gdk_string_width (font, buffer) < max_date_width)
+	pango_layout_set_text (layout, buffer, -1);
+	pango_layout_get_pixel_size (layout, &width, NULL);
+	if (width < max_date_width)
 		mts->date_format = E_MEETING_TIME_SELECTOR_DATE_ABBREVIATED_DAY;
 	else
 		mts->date_format = E_MEETING_TIME_SELECTOR_DATE_SHORT;
+
+	g_object_unref (layout);
 }
 
 

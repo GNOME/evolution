@@ -1106,7 +1106,6 @@ e_day_view_style_set (GtkWidget *widget,
 		      GtkStyle  *previous_style)
 {
 	EDayView *day_view;
-	GdkFont *font;
 	gint top_rows, top_canvas_height;
 	gint hour, max_large_hour_width;
 	gint minute, max_minute_width, i;
@@ -1116,28 +1115,44 @@ e_day_view_style_set (GtkWidget *widget,
 	struct tm date_tm;
 	gchar buffer[128];
 	gint times_width;
+	PangoFontDescription *font_desc;
+	PangoContext *pango_context;
+	PangoFontMetrics *font_metrics;
+	PangoLayout *layout;
 
 	if (GTK_WIDGET_CLASS (parent_class)->style_set)
 		(*GTK_WIDGET_CLASS (parent_class)->style_set)(widget, previous_style);
 
 	day_view = E_DAY_VIEW (widget);
-	font = gtk_style_get_font (gtk_widget_get_style (widget));
+
+	/* Set up Pango prerequisites */
+	font_desc = gtk_widget_get_style (widget)->font_desc;
+	pango_context = gtk_widget_get_pango_context (widget);
+	font_metrics = pango_context_get_metrics (pango_context, font_desc,
+						  pango_context_get_language (pango_context));
+	layout = pango_layout_new (pango_context);
 
 	/* Create the large font. */
 	if (day_view->large_font_desc != NULL) 
 		pango_font_description_free (day_view->large_font_desc);
 
-	day_view->large_font_desc =
-		pango_font_description_copy (gtk_widget_get_style (widget)->font_desc);
+	day_view->large_font_desc = pango_font_description_copy (font_desc);
 	pango_font_description_set_size (day_view->large_font_desc,
 					 E_DAY_VIEW_LARGE_FONT_PTSIZE * PANGO_SCALE);
 
 	/* Recalculate the height of each row based on the font size. */
-	day_view->row_height = font->ascent + font->descent + E_DAY_VIEW_EVENT_BORDER_HEIGHT + E_DAY_VIEW_EVENT_Y_PAD * 2 + 2 /* FIXME */;
+	day_view->row_height =
+		PANGO_PIXELS (pango_font_metrics_get_ascent (font_metrics)) +
+		PANGO_PIXELS (pango_font_metrics_get_descent (font_metrics)) +
+		E_DAY_VIEW_EVENT_BORDER_HEIGHT + E_DAY_VIEW_EVENT_Y_PAD * 2 + 2 /* FIXME */;
 	day_view->row_height = MAX (day_view->row_height, E_DAY_VIEW_ICON_HEIGHT + E_DAY_VIEW_ICON_Y_PAD + 2);
 	GTK_LAYOUT (day_view->main_canvas)->vadjustment->step_increment = day_view->row_height;
 
-	day_view->top_row_height = font->ascent + font->descent + E_DAY_VIEW_LONG_EVENT_BORDER_HEIGHT * 2 + E_DAY_VIEW_LONG_EVENT_Y_PAD * 2 + E_DAY_VIEW_TOP_CANVAS_Y_GAP;
+	day_view->top_row_height =
+		PANGO_PIXELS (pango_font_metrics_get_ascent (font_metrics)) +
+		PANGO_PIXELS (pango_font_metrics_get_descent (font_metrics)) +
+		E_DAY_VIEW_LONG_EVENT_BORDER_HEIGHT * 2 + E_DAY_VIEW_LONG_EVENT_Y_PAD * 2 +
+		E_DAY_VIEW_TOP_CANVAS_Y_GAP;
 	day_view->top_row_height = MAX (day_view->top_row_height, E_DAY_VIEW_ICON_HEIGHT + E_DAY_VIEW_ICON_Y_PAD + 2 + E_DAY_VIEW_TOP_CANVAS_Y_GAP);
 
 	/* Set the height of the top canvas based on the row height and the
@@ -1158,14 +1173,18 @@ e_day_view_style_set (GtkWidget *widget,
 		date_tm.tm_mon = month;
 
 		strftime (buffer, sizeof (buffer), "%B", &date_tm);
-		width = gdk_string_width (font, buffer);
+		pango_layout_set_text (layout, buffer, -1);
+		pango_layout_get_pixel_size (layout, &width, NULL);
+
 		if (width > longest_month_width) {
 			longest_month_width = width;
 			day_view->longest_month_name = month;
 		}
 
 		strftime (buffer, sizeof (buffer), "%b", &date_tm);
-		width = gdk_string_width (font, buffer);
+		pango_layout_set_text (layout, buffer, -1);
+		pango_layout_get_pixel_size (layout, &width, NULL);
+
 		if (width > longest_abbreviated_month_width) {
 			longest_abbreviated_month_width = width;
 			day_view->longest_abbreviated_month_name = month;
@@ -1185,14 +1204,18 @@ e_day_view_style_set (GtkWidget *widget,
 		date_tm.tm_wday = day;
 
 		strftime (buffer, sizeof (buffer), "%A", &date_tm);
-		width = gdk_string_width (font, buffer);
+		pango_layout_set_text (layout, buffer, -1);
+		pango_layout_get_pixel_size (layout, &width, NULL);
+
 		if (width > longest_weekday_width) {
 			longest_weekday_width = width;
 			day_view->longest_weekday_name = day;
 		}
 
 		strftime (buffer, sizeof (buffer), "%a", &date_tm);
-		width = gdk_string_width (font, buffer);
+		pango_layout_set_text (layout, buffer, -1);
+		pango_layout_get_pixel_size (layout, &width, NULL);
+
 		if (width > longest_abbreviated_weekday_width) {
 			longest_abbreviated_weekday_width = width;
 			day_view->longest_abbreviated_weekday_name = day;
@@ -1205,7 +1228,9 @@ e_day_view_style_set (GtkWidget *widget,
 	max_large_hour_width = 0;
 	for (hour = 0; hour < 24; hour++) {
 		g_snprintf (buffer, sizeof (buffer), "%02i", hour);
-		day_view->small_hour_widths[hour] = gdk_string_width (font, buffer);
+		pango_layout_set_text (layout, buffer, -1);
+		pango_layout_get_pixel_size (layout, &day_view->small_hour_widths [hour], NULL);
+
 		day_view->max_small_hour_width = MAX (day_view->max_small_hour_width, day_view->small_hour_widths[hour]);
 	}
 
@@ -1214,65 +1239,28 @@ e_day_view_style_set (GtkWidget *widget,
 		gint minute_width;
 
 		g_snprintf (buffer, sizeof (buffer), "%02i", minute);
-		minute_width = gdk_string_width (font, buffer);
+		pango_layout_set_text (layout, buffer, -1);
+		pango_layout_get_pixel_size (layout, &minute_width, NULL);
+
 		max_minute_width = MAX (max_minute_width, minute_width);
 	}
 	day_view->max_minute_width = max_minute_width;
-	day_view->colon_width = gdk_string_width (font, ":");
-	day_view->digit_width = gdk_string_width (font, "0");
 
-	day_view->am_string_width = gdk_string_width (font,
-						      day_view->am_string);
-	day_view->pm_string_width = gdk_string_width (font,
-						      day_view->pm_string);
+	pango_layout_set_text (layout, ":", 1);
+	pango_layout_get_pixel_size (layout, &day_view->colon_width, NULL);
+	pango_layout_set_text (layout, "0", 1);
+	pango_layout_get_pixel_size (layout, &day_view->digit_width, NULL);
+
+	pango_layout_set_text (layout, day_view->am_string, -1);
+	pango_layout_get_pixel_size (layout, &day_view->am_string_width, NULL);
+	pango_layout_set_text (layout, day_view->pm_string, -1);
+	pango_layout_get_pixel_size (layout, &day_view->pm_string_width, NULL);
 
 	/* Calculate the width of the time column. */
 	times_width = e_day_view_time_item_get_column_width (E_DAY_VIEW_TIME_ITEM (day_view->time_canvas_item));
 	gtk_widget_set_usize (day_view->time_canvas, times_width, -1);
 
-	/* Set the font of all the EText items. */
-	e_day_view_foreach_event (day_view, e_day_view_set_event_font_cb,
-				  font);
-
-#if 0
-	/* FIXME: Port. */
-
-	/* Set the fonts for the text items used when dragging. */
-	gnome_canvas_item_set (day_view->drag_long_event_item,
-			       "font_gdk", font, NULL);
-
-	gnome_canvas_item_set (day_view->drag_item,
-			       "font_gdk", font, NULL);
-#endif
-}
-
-
-static gboolean
-e_day_view_set_event_font_cb		(EDayView	*day_view,
-					 gint		 day,
-					 gint		 event_num,
-					 gpointer	 data)
-{
-	EDayViewEvent *event;
-#if 0
-	GdkFont *font = data;
-#endif
-
-	if (day == E_DAY_VIEW_LONG_EVENT)
-		event = &g_array_index (day_view->long_events,
-					EDayViewEvent, event_num);
-	else
-		event = &g_array_index (day_view->events[day],
-					EDayViewEvent, event_num);
-
-#if 0
-	if (event->canvas_item)
-		gnome_canvas_item_set (event->canvas_item,
-				       "font_gdk", font,
-				       NULL);
-#endif
-
-	return TRUE;
+	g_object_unref (layout);
 }
 
 
@@ -1336,11 +1324,21 @@ e_day_view_recalc_cell_sizes	(EDayView	*day_view)
 	gfloat width, offset;
 	gint day, max_width;
 	struct tm date_tm;
-	GdkFont *font;
 	char buffer[128];
+	PangoFontDescription *font_desc;
+	PangoContext *pango_context;
+	PangoFontMetrics *font_metrics;
+	PangoLayout *layout;
+	gint pango_width;
 
 	g_return_if_fail (((GtkWidget*)day_view)->style != NULL);
-	font = gtk_style_get_font (gtk_widget_get_style (GTK_WIDGET (day_view)));
+
+	/* Set up Pango prerequisites */
+	font_desc = gtk_widget_get_style (GTK_WIDGET (day_view))->font_desc;
+	pango_context = gtk_widget_get_pango_context (GTK_WIDGET (day_view));
+	font_metrics = pango_context_get_metrics (pango_context, font_desc,
+						  pango_context_get_language (pango_context));
+	layout = pango_layout_new (pango_context);
 
 	/* Calculate the column sizes, using floating point so that pixels
 	   get divided evenly. Note that we use one more element than the
@@ -1376,7 +1374,10 @@ e_day_view_recalc_cell_sizes	(EDayView	*day_view)
 	/* strftime format %A = full weekday name, %d = day of month,
 	   %B = full month name. Don't use any other specifiers. */
 	strftime (buffer, sizeof (buffer), _("%A %d %B"), &date_tm);
-	if (gdk_string_width (font, buffer) < max_width) {
+	pango_layout_set_text (layout, buffer, -1);
+	pango_layout_get_pixel_size (layout, &pango_width, NULL);
+
+	if (pango_width < max_width) {
 		day_view->date_format = E_DAY_VIEW_DATE_FULL;
 		return;
 	}
@@ -1390,7 +1391,10 @@ e_day_view_recalc_cell_sizes	(EDayView	*day_view)
 	/* strftime format %a = abbreviated weekday name, %d = day of month,
 	   %b = abbreviated month name. Don't use any other specifiers. */
 	strftime (buffer, sizeof (buffer), _("%a %d %b"), &date_tm);
-	if (gdk_string_width (font, buffer) < max_width) {
+	pango_layout_set_text (layout, buffer, -1);
+	pango_layout_get_pixel_size (layout, &pango_width, NULL);
+
+	if (pango_width < max_width) {
 		day_view->date_format = E_DAY_VIEW_DATE_ABBREVIATED;
 		return;
 	}
@@ -1403,10 +1407,15 @@ e_day_view_recalc_cell_sizes	(EDayView	*day_view)
 	/* strftime format %d = day of month, %b = abbreviated month name.
 	   Don't use any other specifiers. */
 	strftime (buffer, sizeof (buffer), _("%d %b"), &date_tm);
-	if (gdk_string_width (font, buffer) < max_width)
+	pango_layout_set_text (layout, buffer, -1);
+	pango_layout_get_pixel_size (layout, &pango_width, NULL);
+
+	if (pango_width < max_width)
 		day_view->date_format = E_DAY_VIEW_DATE_NO_WEEKDAY;
 	else
 		day_view->date_format = E_DAY_VIEW_DATE_SHORT;
+
+	g_object_unref (layout);
 }
 
 
@@ -5175,13 +5184,16 @@ e_day_view_reshape_long_event (EDayView *day_view,
 			       gint	 event_num)
 {
 	EDayViewEvent *event;
-	GdkFont *font;
 	gint start_day, end_day, item_x, item_y, item_w, item_h;
 	gint text_x, text_w, num_icons, icons_width, width, time_width;
 	CalComponent *comp;
 	gint min_text_x, max_text_w, text_width, line_len;
 	gchar *text, *end_of_line;
 	gboolean show_icons = TRUE, use_max_width = FALSE;
+	PangoFontDescription *font_desc;
+	PangoContext *pango_context;
+	PangoFontMetrics *font_metrics;
+	PangoLayout *layout;
 
 	event = &g_array_index (day_view->long_events, EDayViewEvent,
 				event_num);
@@ -5207,7 +5219,13 @@ e_day_view_reshape_long_event (EDayView *day_view,
 	   draw them on top of the resize rect. Nor when editing. */
 	num_icons = 0;
 	comp = event->comp;
-	font = gtk_style_get_font (gtk_widget_get_style (GTK_WIDGET (day_view)));
+
+	/* Set up Pango prerequisites */
+	font_desc = gtk_widget_get_style (GTK_WIDGET (day_view))->font_desc;
+	pango_context = gtk_widget_get_pango_context (GTK_WIDGET (day_view));
+	font_metrics = pango_context_get_metrics (pango_context, font_desc,
+						  pango_context_get_language (pango_context));
+	layout = pango_layout_new (pango_context);
 
 	if (day_view->resize_drag_pos != E_DAY_VIEW_POS_NONE
 	    && day_view->resize_event_day == E_DAY_VIEW_LONG_EVENT
@@ -5249,9 +5267,6 @@ e_day_view_reshape_long_event (EDayView *day_view,
 		event->canvas_item =
 			gnome_canvas_item_new (GNOME_CANVAS_GROUP (GNOME_CANVAS (day_view->top_canvas)->root),
 					       e_text_get_type (),
-#if 0
-					       "font_gdk", font,
-#endif
 					       "anchor", GTK_ANCHOR_NW,
 					       "clip", TRUE,
 					       "max_lines", 1,
@@ -5286,7 +5301,8 @@ e_day_view_reshape_long_event (EDayView *day_view,
 				line_len = end_of_line - text;
 			else
 				line_len = strlen (text);
-			text_width = gdk_text_width (font, text, line_len);
+			pango_layout_set_text (layout, text, line_len);
+			pango_layout_get_pixel_size (layout, &text_width, NULL);
 			g_free (text);
 		}
 
@@ -5317,6 +5333,8 @@ e_day_view_reshape_long_event (EDayView *day_view,
 			       NULL);
 	e_canvas_item_move_absolute(event->canvas_item,
 				    text_x, item_y);
+
+	g_object_unref (layout);
 }
 
 
@@ -5403,15 +5421,9 @@ e_day_view_reshape_day_event (EDayView *day_view,
 		}
 
 		if (!event->canvas_item) {
-			GdkFont *font;
-			
-			font = gtk_style_get_font (gtk_widget_get_style (GTK_WIDGET (day_view)));
 			event->canvas_item =
 				gnome_canvas_item_new (GNOME_CANVAS_GROUP (GNOME_CANVAS (day_view->main_canvas)->root),
 						       e_text_get_type (),
-#if 0
-						       "font_gdk", font,
-#endif
 						       "anchor", GTK_ANCHOR_NW,
 						       "line_wrap", TRUE,
 						       "editable", TRUE,
@@ -6820,9 +6832,7 @@ e_day_view_update_top_canvas_drag (EDayView *day_view,
 	EDayViewEvent *event = NULL;
 	gint row, num_days, start_day, end_day;
 	gdouble item_x, item_y, item_w, item_h;
-	GdkFont *font;
 	gchar *text;
-
 
 	/* Calculate the event's position. If the event is in the same
 	   position we started in, we use the same columns. */
@@ -6875,11 +6885,7 @@ e_day_view_update_top_canvas_drag (EDayView *day_view,
 			       "y2", item_y + item_h - 1,
 			       NULL);
 
-	font = gtk_style_get_font (gtk_widget_get_style (GTK_WIDGET (day_view)));
 	gnome_canvas_item_set (day_view->drag_long_event_item,
-#if 0
-			       "font_gdk", font,
-#endif
 			       "clip_width", item_w - (E_DAY_VIEW_LONG_EVENT_BORDER_WIDTH + E_DAY_VIEW_LONG_EVENT_X_PAD) * 2,
 			       "clip_height", item_h - (E_DAY_VIEW_LONG_EVENT_BORDER_HEIGHT + E_DAY_VIEW_LONG_EVENT_Y_PAD) * 2,
 			       NULL);
@@ -6975,7 +6981,6 @@ e_day_view_update_main_canvas_drag (EDayView *day_view,
 	EDayViewEvent *event = NULL;
 	gint cols_in_row, start_col, num_columns, num_rows, start_row, end_row;
 	gdouble item_x, item_y, item_w, item_h;
-	GdkFont *font;
 	gchar *text;
 
 	/* If the position hasn't changed, just return. */
@@ -7038,11 +7043,7 @@ e_day_view_update_main_canvas_drag (EDayView *day_view,
 			       "y2", item_y + item_h - 1,
 			       NULL);
 
-	font = gtk_style_get_font (gtk_widget_get_style (GTK_WIDGET (day_view)));
 	gnome_canvas_item_set (day_view->drag_item,
-#if 0
-			       "font_gdk", font,
-#endif
 			       "clip_width", item_w - E_DAY_VIEW_BAR_WIDTH - E_DAY_VIEW_EVENT_X_PAD * 2,
 			       "clip_height", item_h - (E_DAY_VIEW_EVENT_BORDER_HEIGHT + E_DAY_VIEW_EVENT_Y_PAD) * 2,
 			       NULL);

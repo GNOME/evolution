@@ -166,7 +166,6 @@ e_day_view_top_item_draw (GnomeCanvasItem *canvas_item,
 	GdkGC *gc, *fg_gc, *bg_gc, *light_gc, *dark_gc;
 	gchar buffer[128], *format;
 	GdkRectangle clip_rect;
-	GdkFont *font;
 	gint canvas_width, canvas_height, left_edge, day, date_width, date_x;
 	gint item_height, event_num;
 	struct tm day_start = { 0 };
@@ -182,7 +181,6 @@ e_day_view_top_item_draw (GnomeCanvasItem *canvas_item,
 	g_return_if_fail (day_view != NULL);
 
 	style = gtk_widget_get_style (GTK_WIDGET (day_view));
-	font = gtk_style_get_font (style);
 	gc = day_view->main_gc;
 	fg_gc = style->fg_gc[GTK_STATE_NORMAL];
 	bg_gc = style->bg_gc[GTK_STATE_NORMAL];
@@ -279,10 +277,10 @@ e_day_view_top_item_draw (GnomeCanvasItem *canvas_item,
 		clip_rect.height = item_height - 2;
 		gdk_gc_set_clip_rectangle (fg_gc, &clip_rect);
 
-		date_width = gdk_string_width (font, buffer);
+		layout = gtk_widget_create_pango_layout (GTK_WIDGET (day_view), buffer);
+		pango_layout_get_pixel_size (layout, &date_width, NULL);
 		date_x = day_view->day_offsets[day] + (day_view->day_widths[day] - date_width) / 2;
 
-		layout = gtk_widget_create_pango_layout (GTK_WIDGET (day_view), buffer);
 		gdk_draw_layout (drawable, fg_gc,
 				 date_x - x,
 				 3 - y,
@@ -341,7 +339,6 @@ e_day_view_top_item_draw_long_event (EDayViewTopItem *dvtitem,
 	EDayViewEvent *event;
 	GtkStyle *style;
 	GdkGC *gc, *fg_gc, *bg_gc;
-	GdkFont *font;
 	gint start_day, end_day;
 	gint item_x, item_y, item_w, item_h;
 	gint text_x, icon_x, icon_y, icon_x_inc;
@@ -373,7 +370,6 @@ e_day_view_top_item_draw_long_event (EDayViewTopItem *dvtitem,
 				event_num);
 
 	style = gtk_widget_get_style (GTK_WIDGET (day_view));
-	font = gtk_style_get_font (style);
 	gc = day_view->main_gc;
 	fg_gc = style->fg_gc[GTK_STATE_NORMAL];
 	bg_gc = style->bg_gc[GTK_STATE_NORMAL];

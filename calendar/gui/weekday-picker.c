@@ -362,17 +362,26 @@ weekday_picker_style_set (GtkWidget *widget, GtkStyle *previous_style)
 {
 	WeekdayPicker *wp;
 	WeekdayPickerPrivate *priv;
-	GdkFont *font;
 	int max_width;
 	const char *str;
 	int i, len;
+	PangoFontDescription *font_desc;
+	PangoContext *pango_context;
+	PangoFontMetrics *font_metrics;
+	PangoLayout *layout;
 
 	wp = WEEKDAY_PICKER (widget);
 	priv = wp->priv;
 
-	font = gtk_style_get_font (gtk_widget_get_style (widget));
-	priv->font_ascent = font->ascent;
-	priv->font_descent = font->descent;
+	/* Set up Pango prerequisites */
+	font_desc = gtk_widget_get_style (widget)->font_desc;
+	pango_context = gtk_widget_get_pango_context (widget);
+	font_metrics = pango_context_get_metrics (pango_context, font_desc,
+						  pango_context_get_language (pango_context));
+	layout = pango_layout_new (pango_context);
+
+	priv->font_ascent = PANGO_PIXELS (pango_font_metrics_get_ascent (font_metrics));
+	priv->font_descent = PANGO_PIXELS (pango_font_metrics_get_descent (font_metrics));
 
 	max_width = 0;
 
@@ -382,7 +391,9 @@ weekday_picker_style_set (GtkWidget *widget, GtkStyle *previous_style)
 	for (i = 0; i < len; i++) {
 		int w;
 
-		w = gdk_char_measure (font, str[i]);
+		pango_layout_set_text (layout, str + i, 1);
+		pango_layout_get_pixel_size (layout, &w, NULL);
+
 		if (w > max_width)
 			max_width = w;
 	}
@@ -390,6 +401,7 @@ weekday_picker_style_set (GtkWidget *widget, GtkStyle *previous_style)
 	priv->max_letter_width = max_width;
 
 	configure_items (wp);
+	g_object_unref (layout);
 
 	if (GTK_WIDGET_CLASS (parent_class)->style_set)
 		(* GTK_WIDGET_CLASS (parent_class)->style_set) (widget, previous_style);

@@ -653,12 +653,14 @@ e_week_view_style_set (GtkWidget *widget,
 		       GtkStyle  *previous_style)
 {
 	EWeekView *week_view;
-	GdkFont *font;
 	GtkStyle *style;
 	gint day, day_width, max_day_width, max_abbr_day_width;
 	gint month, month_width, max_month_width, max_abbr_month_width;
 	GDate date;
 	gchar buffer[128];
+	PangoFontDescription *font_desc;
+	PangoContext *pango_context;
+	PangoFontMetrics *font_metrics;
 	PangoLayout *layout;
 
 	if (GTK_WIDGET_CLASS (parent_class)->style_set)
@@ -666,23 +668,33 @@ e_week_view_style_set (GtkWidget *widget,
 
 	week_view = E_WEEK_VIEW (widget);
 	style = gtk_widget_get_style (widget);
-	font = gtk_style_get_font (style);
-	layout = gtk_widget_create_pango_layout (widget, NULL);
+
+	/* Set up Pango prerequisites */
+	font_desc = style->font_desc;
+	pango_context = gtk_widget_get_pango_context (widget);
+	font_metrics = pango_context_get_metrics (pango_context, font_desc,
+						  pango_context_get_language (pango_context));
+	layout = pango_layout_new (pango_context);
 
 	/* Recalculate the height of each row based on the font size. */
-	week_view->row_height = font->ascent + font->descent + E_WEEK_VIEW_EVENT_BORDER_HEIGHT * 2 + E_WEEK_VIEW_EVENT_TEXT_Y_PAD * 2;
+	week_view->row_height = PANGO_PIXELS (pango_font_metrics_get_ascent (font_metrics)) +
+		PANGO_PIXELS (pango_font_metrics_get_descent (font_metrics)) +
+		E_WEEK_VIEW_EVENT_BORDER_HEIGHT * 2 + E_WEEK_VIEW_EVENT_TEXT_Y_PAD * 2;
 	week_view->row_height = MAX (week_view->row_height, E_WEEK_VIEW_ICON_HEIGHT + E_WEEK_VIEW_ICON_Y_PAD + E_WEEK_VIEW_EVENT_BORDER_HEIGHT * 2);
 
 	/* Check that the small font is smaller than the default font.
 	   If it isn't, we won't use it. */
 	if (week_view->small_font_desc) {
-		if (font->ascent + font->descent <= E_WEEK_VIEW_SMALL_FONT_PTSIZE)
+		if (PANGO_PIXELS (pango_font_metrics_get_ascent (font_metrics)) +
+		    PANGO_PIXELS (pango_font_metrics_get_descent (font_metrics))
+		    <= E_WEEK_VIEW_SMALL_FONT_PTSIZE)
 			week_view->use_small_font = FALSE;
 	}
 
 	/* Set the height of the top canvas. */
 	gtk_widget_set_usize (week_view->titles_canvas, -1,
-			      font->ascent + font->descent + 5);
+			      PANGO_PIXELS (pango_font_metrics_get_ascent (font_metrics)) +
+			      PANGO_PIXELS (pango_font_metrics_get_descent (font_metrics)) + 5);
 
 	/* Save the sizes of various strings in the font, so we can quickly
 	   decide which date formats to use. */
@@ -740,21 +752,6 @@ e_week_view_style_set (GtkWidget *widget,
 	week_view->pm_string_width = get_string_width (layout,
 						       week_view->pm_string);
 
-#if 0
-	/* Set the font of all the EText items. */
-	if (week_view->spans) {
-		for (span_num = 0; span_num < week_view->spans->len;
-		     span_num++) {
-			span = &g_array_index (week_view->spans,
-					       EWeekViewEventSpan, span_num);
-			if (span->text_item)
-				gnome_canvas_item_set (span->text_item,
-						       "font_gdk", font,
-						       NULL);
-		}
-	}
-#endif
-
 	g_object_unref (layout);
 }
 
@@ -807,8 +804,10 @@ e_week_view_recalc_cell_sizes (EWeekView *week_view)
 	gint row, col;
 	GtkWidget *widget;
 	GtkStyle *style;
-	GdkFont *font;
 	gint width, height, time_width;
+	PangoFontDescription *font_desc;
+	PangoContext *pango_context;
+	PangoFontMetrics *font_metrics;
 
 	if (week_view->multi_week_view) {
 		week_view->rows = week_view->weeks_shown * 2;
@@ -858,19 +857,26 @@ e_week_view_recalc_cell_sizes (EWeekView *week_view)
 	style = gtk_widget_get_style (widget);
 	if (!style)
 		return;
-	font = gtk_style_get_font (style);
-	if (!font)
+	font_desc = style->font_desc;
+	if (!font_desc)
 		return;
+
+	pango_context = gtk_widget_get_pango_context (widget);
+	font_metrics = pango_context_get_metrics (pango_context, font_desc,
+						  pango_context_get_language (pango_context));
+
 
 	/* Calculate the number of rows of events in each cell, for the large
 	   cells and the compressed weekend cells. */
 	if (week_view->multi_week_view) {
-		week_view->events_y_offset = E_WEEK_VIEW_DATE_T_PAD
-			+ font->ascent + font->descent
+		week_view->events_y_offset = E_WEEK_VIEW_DATE_T_PAD +
+			+ PANGO_PIXELS (pango_font_metrics_get_ascent (font_metrics))
+			+ PANGO_PIXELS (pango_font_metrics_get_descent (font_metrics))
 			+ E_WEEK_VIEW_DATE_B_PAD;
 	} else {
 		week_view->events_y_offset = E_WEEK_VIEW_DATE_T_PAD
-			+ font->ascent + font->descent
+			+ PANGO_PIXELS (pango_font_metrics_get_ascent (font_metrics))
+			+ PANGO_PIXELS (pango_font_metrics_get_descent (font_metrics))
 			+ E_WEEK_VIEW_DATE_LINE_T_PAD + 1
 			+ E_WEEK_VIEW_DATE_LINE_B_PAD;
 	}
@@ -2635,7 +2641,6 @@ e_week_view_reshape_event_span (EWeekView *week_view,
 {
 	EWeekViewEvent *event;
 	EWeekViewEventSpan *span;
-	GdkFont *font;
 	gint span_x, span_y, span_w, num_icons, icons_width, time_width;
 	gint min_text_x, max_text_w, width;
 	gboolean show_icons = TRUE, use_max_width = FALSE;
@@ -2644,14 +2649,24 @@ e_week_view_reshape_event_span (EWeekView *week_view,
 	gdouble text_x, text_y, text_w, text_h;
 	gchar *text, *end_of_line;
 	gint line_len, text_width;
+	PangoFontDescription *font_desc;
+	PangoContext *pango_context;
+	PangoFontMetrics *font_metrics;
+	PangoLayout *layout;
 
 	event = &g_array_index (week_view->events, EWeekViewEvent, event_num);
 	span = &g_array_index (week_view->spans, EWeekViewEventSpan,
 			       event->spans_index + span_num);
 	comp = event->comp;
-	font = gtk_style_get_font (gtk_widget_get_style (GTK_WIDGET (week_view)));
 
 	one_day_event = e_week_view_is_one_day_event (week_view, event_num);
+
+	/* Set up Pango prerequisites */
+	font_desc = gtk_widget_get_style (GTK_WIDGET (week_view))->font_desc;
+	pango_context = gtk_widget_get_pango_context (GTK_WIDGET (week_view));
+	font_metrics = pango_context_get_metrics (pango_context, font_desc,
+						  pango_context_get_language (pango_context));
+	layout = pango_layout_new (pango_context);
 
 	/* If the span will not be visible destroy the canvas items and
 	   return. */
@@ -2721,9 +2736,6 @@ e_week_view_reshape_event_span (EWeekView *week_view,
 		span->text_item =
 			gnome_canvas_item_new (GNOME_CANVAS_GROUP (GNOME_CANVAS (week_view->main_canvas)->root),
 					       e_text_get_type (),
-#if 0
-					       "font_gdk", font,
-#endif
 					       "anchor", GTK_ANCHOR_NW,
 					       "clip", TRUE,
 					       "max_lines", 1,
@@ -2756,7 +2768,10 @@ e_week_view_reshape_event_span (EWeekView *week_view,
 	/* The y position and height are the same for both event types. */
 	text_y = span_y + E_WEEK_VIEW_EVENT_BORDER_HEIGHT
 		+ E_WEEK_VIEW_EVENT_TEXT_Y_PAD;
-	text_h = font->ascent + font->descent;
+
+	text_h =
+		PANGO_PIXELS (pango_font_metrics_get_ascent (font_metrics)) +
+		PANGO_PIXELS (pango_font_metrics_get_descent (font_metrics));
 
 	if (one_day_event) {
 		/* Note that 1-day events don't have a border. Although we
@@ -2815,8 +2830,9 @@ e_week_view_reshape_event_span (EWeekView *week_view,
 					line_len = end_of_line - text;
 				else
 					line_len = strlen (text);
-				text_width = gdk_text_width (font, text,
-							     line_len);
+
+				pango_layout_set_text (layout, text, line_len);
+				pango_layout_get_pixel_size (layout, &text_width, NULL);
 				g_free (text);
 			}
 
@@ -2867,6 +2883,8 @@ e_week_view_reshape_event_span (EWeekView *week_view,
 			       "clip_height", (gdouble) text_h,
 			       NULL);
 	e_canvas_item_move_absolute (span->text_item, text_x, text_y);
+
+	g_object_unref (layout);
 }
 
 
