@@ -1,3 +1,8 @@
+2001-04-24  Ettore Perazzoli  <ettore@ximian.com>
+
+	* C/Makefile.am (install-data-local): Depend on `evolution-guide',
+	not `evolution'.
+
 2001-04-23  Ettore Perazzoli  <ettore@ximian.com>
 
 	* C/Makefile.am (evolution-guide): Use `$(srcdir)' here.
