@@ -8,14 +8,14 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: evolution HEAD\n"
-"POT-Creation-Date: 2004-02-09 15:17-0500\n"
-"PO-Revision-Date: 2004-01-29 00:00+0900\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2004-02-11 14:37+0900\n"
+"PO-Revision-Date: 2004-02-11 14:31+0900\n"
 "Last-Translator: Takeshi AIHANA <aihana@gnome.gr.jp>\n"
 "Language-Team: Japanese <gnome-translation@gnome.gr.jp>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Report-Msgid-Bugs-To: \n"
 
 #: addressbook/conduit/address-conduit.c:272
 msgid "Default Sync Address:"
@@ -47,10 +47,10 @@ msgstr "ここで自動補完を設定します"
 #. can not get name, should be a bug of e-book.Anyway, should set a default name.
 #.
 #. name = e_book_get_name (book);
+#. Create the contacts group
 #: addressbook/gui/component/GNOME_Evolution_Addressbook.server.in.in.h:4
 #: addressbook/tools/evolution-addressbook-export-list-folders.c:51
 #: calendar/gui/migration.c:362 mail/importers/netscape-importer.c:1844
-#: shell/e-shortcuts.c:1088
 msgid "Contacts"
 msgstr "連絡先"
 
@@ -197,6 +197,7 @@ msgid "On This Computer"
 msgstr "このコンピュータ"
 
 #. Create the default Person addressbook
+#. orange
 #: addressbook/gui/component/addressbook-migrate.c:414
 #: calendar/gui/migration.c:433 calendar/gui/migration.c:510
 #: filter/filter-label.c:123 mail/em-migrate.c:925 mail/mail-config.c:65
@@ -404,7 +405,6 @@ msgid "Anonymously"
 msgstr "匿名"
 
 #: addressbook/gui/component/ldap-config.glade.h:16
-#, fuzzy
 msgid ""
 "Congratulations, you are finished setting up this addressbook.\n"
 "\n"
@@ -412,8 +412,7 @@ msgid ""
 msgstr ""
 "おめでとうございます。このアドレス帳の設定が完了しました。\n"
 "\n"
-"\"適用\" ボタンをクリックして、\n"
-"ここで入力した設定を保存して下さい。"
+"\"適用\" ボタンをクリックして、ここで入力した設定を保存して下さい。"
 
 #: addressbook/gui/component/ldap-config.glade.h:19
 msgid "Connecting"
@@ -2469,7 +2468,6 @@ msgid "Search for Contacts..."
 msgstr "連絡先の検索..."
 
 #: addressbook/gui/widgets/e-addressbook-view.c:1050
-#, fuzzy
 msgid "Address Book Sources..."
 msgstr "アドレス帳のソース..."
 
@@ -2498,14 +2496,12 @@ msgid "Print Envelope"
 msgstr "宛名の印刷"
 
 #: addressbook/gui/widgets/e-addressbook-view.c:1064
-#, fuzzy
 msgid "Copy to Address Book..."
-msgstr "アドレス帳..."
+msgstr "アドレス帳へコピー..."
 
 #: addressbook/gui/widgets/e-addressbook-view.c:1065
-#, fuzzy
 msgid "Move to Address Book..."
-msgstr "アドレス帳..."
+msgstr "アドレス帳へ移動..."
 
 #: addressbook/gui/widgets/e-addressbook-view.c:1068
 #: ui/evolution-addressbook.xml.h:6 ui/evolution-tasks.xml.h:4
@@ -2783,11 +2779,11 @@ msgstr "カーソルあり"
 
 #: addressbook/gui/widgets/eab-contact-display.c:116
 msgid "(map)"
-msgstr ""
+msgstr "(マップ)"
 
 #: addressbook/gui/widgets/eab-contact-display.c:126
 msgid "map"
-msgstr ""
+msgstr "マップ"
 
 #: addressbook/gui/widgets/eab-contact-display.c:176
 #: addressbook/gui/widgets/eab-contact-display.c:414
@@ -2795,42 +2791,36 @@ msgid "List Members"
 msgstr "メンバーのリスト化"
 
 #: addressbook/gui/widgets/eab-contact-display.c:232
-#, fuzzy
 msgid "E-mail"
-msgstr "メール"
+msgstr "E-メール"
 
 #: addressbook/gui/widgets/eab-contact-display.c:237
-#, fuzzy
 msgid "work"
 msgstr "仕事"
 
 #: addressbook/gui/widgets/eab-contact-display.c:240
-#, fuzzy
 msgid "Position"
-msgstr "説明"
+msgstr "役職"
 
 #: addressbook/gui/widgets/eab-contact-display.c:246
-#, fuzzy
 msgid "Video Conferencing"
-msgstr "ビデオ会議の URL(_V):"
+msgstr "ビデオ会議"
 
 #: addressbook/gui/widgets/eab-contact-display.c:247
-#, fuzzy
 msgid "Phone"
-msgstr "車載電話"
+msgstr "電話"
 
 #: addressbook/gui/widgets/eab-contact-display.c:248
 msgid "Fax"
-msgstr ""
+msgstr "FAX"
 
 #: addressbook/gui/widgets/eab-contact-display.c:253
-#, fuzzy
 msgid "personal"
 msgstr "プライベート"
 
 #: addressbook/gui/widgets/eab-contact-display.c:261
 msgid "WWW"
-msgstr ""
+msgstr "ウェブ"
 
 #: addressbook/gui/widgets/eab-contact-display.c:262
 #: addressbook/gui/widgets/eab-contact-display.c:473
@@ -2995,9 +2985,8 @@ msgid "Copy contacts to"
 msgstr "複数の連絡先のコピー先"
 
 #: addressbook/gui/widgets/eab-gui-util.c:588
-#, fuzzy
 msgid "Select target addressbook."
-msgstr "アドレス帳から連絡先の選択"
+msgstr "アドレス帳の選択"
 
 #: addressbook/gui/widgets/eab-gui-util.c:767
 msgid "Multiple VCards"
@@ -3077,17 +3066,17 @@ msgstr "カード表示"
 msgid "GTK Tree View"
 msgstr "GTK+ ツリー表示"
 
-#: addressbook/gui/widgets/test-reflow.c:106
+#: addressbook/gui/widgets/test-reflow.c:119
 msgid "Reflow Test"
 msgstr "Reflow のテスト"
 
-#: addressbook/gui/widgets/test-reflow.c:107
+#: addressbook/gui/widgets/test-reflow.c:120
 #: addressbook/printing/test-contact-print-style-editor.c:54
 #: addressbook/printing/test-print.c:53
 msgid "Copyright (C) 2000, Ximian, Inc."
 msgstr "Copyright (C) 2000, Ximian, Inc."
 
-#: addressbook/gui/widgets/test-reflow.c:109
+#: addressbook/gui/widgets/test-reflow.c:122
 msgid "This should test the reflow canvas item"
 msgstr "キャンバスのアイテムを Reflow するどうかをテストします"
 
@@ -3450,9 +3439,9 @@ msgstr "Evolution タスクのコンポーネント"
 
 #: calendar/gui/GNOME_Evolution_Calendar.server.in.in.h:12
 #: calendar/gui/e-tasks.c:1101 calendar/gui/print.c:1820
-#: calendar/gui/tasks-control.c:516 calendar/importers/icalendar-importer.c:80
-#: calendar/importers/icalendar-importer.c:710
-#: mail/importers/netscape-importer.c:1845 shell/e-shortcuts.c:1087
+#: calendar/gui/tasks-control.c:516 calendar/importers/icalendar-importer.c:79
+#: calendar/importers/icalendar-importer.c:709
+#: mail/importers/netscape-importer.c:1845
 msgid "Tasks"
 msgstr "タスク"
 
@@ -3499,7 +3488,7 @@ msgstr "予定の編集(_E)"
 #: calendar/gui/alarm-notify/alarm-queue.c:899 calendar/gui/e-cal-view.c:1237
 #: calendar/gui/e-cal-view.c:1302 calendar/gui/e-calendar-table.c:1037
 #: calendar/gui/e-calendar-table.c:1078 mail/em-folder-view.c:747
-#: shell/e-shortcuts-view.c:422 ui/evolution-addressbook.xml.h:37
+#: ui/evolution-addressbook.xml.h:37
 msgid "_Open"
 msgstr "開く(_O)"
 
@@ -3727,7 +3716,7 @@ msgid "Unmatched"
 msgstr "一致しない"
 
 #: calendar/gui/calendar-commands.c:116 calendar/gui/gnome-cal.c:1597
-#: mail/importers/netscape-importer.c:1843 shell/e-shortcuts.c:1086
+#: mail/importers/netscape-importer.c:1843
 msgid "Calendar"
 msgstr "カレンダ"
 
@@ -3751,10 +3740,14 @@ msgstr "日"
 
 #: calendar/gui/calendar-commands.c:431
 msgid "%A %d %B %Y"
-msgstr "%Y年 %m月 %d日 %A"
+msgstr "%Y年 %B%d日 %A"
 
 #. strftime format %a = abbreviated weekday name, %d = day of month,
 #. %b = abbreviated month name. Don't use any other specifiers.
+#. strftime format %a = abbreviated weekday name,
+#. %d = day of month, %b = abbreviated month name.
+#. You can change the order but don't change the
+#. specifiers or add anything.
 #: calendar/gui/calendar-commands.c:434 calendar/gui/e-day-view-top-item.c:692
 #: calendar/gui/e-day-view.c:1365 calendar/gui/e-week-view-main-item.c:329
 msgid "%a %d %b"
@@ -3768,7 +3761,7 @@ msgstr "%Y/%m/%d (%a)"
 #: calendar/gui/calendar-commands.c:460 calendar/gui/calendar-commands.c:466
 #: calendar/gui/calendar-commands.c:472 calendar/gui/calendar-commands.c:474
 msgid "%d %B %Y"
-msgstr "%Y年 %B %d日"
+msgstr "%Y年 %B%d日"
 
 #. strftime format %d = day of month, %B = full
 #. month name. You can change the order but don't
@@ -3776,7 +3769,7 @@ msgstr "%Y年 %B %d日"
 #: calendar/gui/calendar-commands.c:464
 #: calendar/gui/e-week-view-main-item.c:337 calendar/gui/print.c:1498
 msgid "%d %B"
-msgstr "%m月 %d日"
+msgstr "%B%d日"
 
 #: calendar/gui/calendar-component.c:301
 #, c-format
@@ -4824,6 +4817,11 @@ msgid "_Start time:"
 msgstr "開始時刻(_S):"
 
 #. an empty string is the same as 'None'
+#. add a "None" option to the stores menu
+#. Put the "None" and "UTC" entries at the top of the combo's list.
+#. When "None" is selected we want the field to be cleared.
+#. Note that we don't show this here, since by default a 'None' date
+#. is not permitted.
 #: calendar/gui/dialogs/meeting-page.c:311
 #: calendar/gui/dialogs/meeting-page.glade.h:3
 #: calendar/gui/e-cal-model-tasks.c:591 composer/e-msg-composer.c:2086
@@ -4861,7 +4859,7 @@ msgstr "出席者"
 #: calendar/gui/dialogs/meeting-page.etspec.h:2
 #: calendar/gui/e-meeting-time-sel.etspec.h:2
 msgid "Click here to add an attendee"
-msgstr "出席者を追加する場合は、ここをクリックして下さい"
+msgstr "<ここをクリックして出席者を追加して下さい>"
 
 #: calendar/gui/dialogs/meeting-page.etspec.h:3
 #: calendar/gui/e-meeting-time-sel.etspec.h:3
@@ -5420,7 +5418,6 @@ msgstr "開始日"
 
 #: calendar/gui/e-cal-list-view.etspec.h:5
 #: calendar/gui/e-calendar-table.etspec.h:15 mail/mail-security.glade.h:5
-#: shell/e-shortcuts.c:1083
 msgid "Summary"
 msgstr "サマリ"
 
@@ -5667,7 +5664,7 @@ msgstr "指定したタスクの削除(_D)"
 #: calendar/gui/e-calendar-table.c:1368
 #: calendar/gui/e-calendar-table.etspec.h:6
 msgid "Click to add a task"
-msgstr "タスクを追加する場合は、ここをクリックして下さい"
+msgstr "<ここをクリックしてタスクを追加して下さい>"
 
 #: calendar/gui/e-calendar-table.etspec.h:2
 #, no-c-format
@@ -5708,12 +5705,20 @@ msgid "URL"
 msgstr "URL"
 
 #. strftime format of a weekday, a date and a time, 24-hour.
+#. strptime format of a weekday, a date and a time,
+#. in 24-hour format.
+#. strftime format of a weekday, a date and a
+#. time, in 24-hour format.
 #: calendar/gui/e-cell-date-edit-text.c:117 e-util/e-time-utils.c:180
 #: e-util/e-time-utils.c:393
 msgid "%a %m/%d/%Y %H:%M:%S"
 msgstr "%Y/%m/%d (%a) %H:%M:%S"
 
 #. strftime format of a weekday, a date and a time, 12-hour.
+#. strptime format of a weekday, a date and a time,
+#. in 12-hour format.
+#. strftime format of a weekday, a date and a
+#. time, in 12-hour format.
 #: calendar/gui/e-cell-date-edit-text.c:120 e-util/e-time-utils.c:175
 #: e-util/e-time-utils.c:402
 msgid "%a %m/%d/%Y %I:%M:%S %p"
@@ -5737,17 +5742,24 @@ msgstr "%02i 分分割"
 
 #. strftime format %A = full weekday name, %d = day of month,
 #. %B = full month name. Don't use any other specifiers.
+#. strftime format %A = full weekday name, %d = day of
+#. month, %B = full month name. You can change the
+#. order but don't change the specifiers or add
+#. anything.
 #: calendar/gui/e-day-view-top-item.c:688 calendar/gui/e-day-view.c:1348
 #: calendar/gui/e-week-view-main-item.c:320 calendar/gui/print.c:1514
 msgid "%A %d %B"
-msgstr "%m月 %d日 %A"
+msgstr "%B%d日 %A"
 
 #. strftime format %d = day of month, %b = abbreviated month name.
 #. Don't use any other specifiers.
+#. strftime format %d = day of month, %b = abbreviated
+#. month name. You can change the order but don't
+#. change the specifiers or add anything.
 #: calendar/gui/e-day-view-top-item.c:696 calendar/gui/e-day-view.c:1381
 #: calendar/gui/e-week-view-main-item.c:343
 msgid "%d %b"
-msgstr "%m月 %d日"
+msgstr "%B%d日"
 
 #. String to use in 12-hour time format for times in the morning.
 #: calendar/gui/e-day-view.c:602 calendar/gui/e-week-view.c:334
@@ -6297,10 +6309,14 @@ msgstr "進行中"
 #: calendar/gui/e-meeting-time-sel-item.c:452
 #: calendar/gui/e-meeting-time-sel.c:2060
 msgid "%A, %B %d, %Y"
-msgstr "%Y年 %m月 %d日 %A"
+msgstr "%Y年 %B%d日 %A"
 
 #. This is a strftime() format string %a = abbreviated weekday
 #. name, %m = month number, %d = month day, %Y = full year.
+#. This is a strftime() format string %a = abbreviated weekday name,
+#. %m = month number, %d = month day, %Y = full year.
+#. strptime format of a weekday and a date.
+#. strftime format of a weekday and a date.
 #: calendar/gui/e-meeting-time-sel-item.c:456
 #: calendar/gui/e-meeting-time-sel.c:2093 e-util/e-time-utils.c:203
 #: e-util/e-time-utils.c:296 e-util/e-time-utils.c:384
@@ -6309,6 +6325,10 @@ msgstr "%Y/%m/%d (%a)"
 
 #. This is a strftime() format string %m = month number,
 #. %d = month day, %Y = full year.
+#. strptime format of a weekday and a date.
+#. This is the preferred date format for the locale.
+#. This is a strftime() format for a short date. %m = month,
+#. %d = day of month, %Y = year (all digits).
 #: calendar/gui/e-meeting-time-sel-item.c:460 e-util/e-time-utils.c:238
 #: e-util/e-time-utils.c:299 widgets/misc/e-dateedit.c:1606
 msgid "%m/%d/%Y"
@@ -6521,9 +6541,8 @@ msgid "September"
 msgstr "9 月"
 
 #: calendar/gui/goto-dialog.glade.h:14
-#, fuzzy
 msgid "_Go To Today"
-msgstr "今日へ移動"
+msgstr "今日へ移動(_G)"
 
 #: calendar/gui/itip-utils.c:271 calendar/gui/itip-utils.c:319
 #: calendar/gui/itip-utils.c:351
@@ -6939,20 +6958,19 @@ msgstr "iCalendar ファイル (.ics)"
 msgid "vCalendar files (.vcf)"
 msgstr "vCalendar ファイル (.vcf)"
 
-#: calendar/importers/icalendar-importer.c:79
-#, fuzzy
+#: calendar/importers/icalendar-importer.c:78
 msgid "Appointments and Meetings"
-msgstr "古い予定と会議を完全に削除します"
+msgstr "予定と会議"
 
-#: calendar/importers/icalendar-importer.c:495
+#: calendar/importers/icalendar-importer.c:494
 msgid "Reminder!!"
 msgstr "リマインダです！！"
 
-#: calendar/importers/icalendar-importer.c:703
+#: calendar/importers/icalendar-importer.c:702
 msgid "Calendar Events"
 msgstr "カレンダのイベント"
 
-#: calendar/importers/icalendar-importer.c:728
+#: calendar/importers/icalendar-importer.c:727
 msgid ""
 "Evolution has found Gnome Calendar files.\n"
 "Would you like to import them into Evolution?"
@@ -6960,7 +6978,7 @@ msgstr ""
 "Evolution は GNOME カレンダ・ファイルを検出しました。\n"
 "Evolution へインポートしますか？"
 
-#: calendar/importers/icalendar-importer.c:735
+#: calendar/importers/icalendar-importer.c:734
 msgid "Gnome Calendar"
 msgstr "GNOME カレンダ"
 
@@ -8555,7 +8573,7 @@ msgstr "サーバの再同期"
 
 #: camel/camel-disco-folder.c:41
 msgid "Copy folder content locally for offline operation"
-msgstr "オフライン操作用にフォルダの内容をローカルへコピーする"
+msgstr "フォルダの内容をローカルへコピーする (オフライン用)"
 
 #: camel/camel-disco-folder.c:101
 msgid "Downloading new messages for offline mode"
@@ -9617,7 +9635,6 @@ msgid "Novell GroupWise"
 msgstr "Novell GroupWise"
 
 #: camel/providers/groupwise/camel-groupwise-provider.c:85
-#, fuzzy
 msgid "For accessing Novell Groupwise servers"
 msgstr "Novell Groupwise サーバ・アクセス用です"
 
@@ -10294,14 +10311,14 @@ msgid "The new folder name is illegal."
 msgstr "新しいフォルダの名前は正しくありません。"
 
 #: camel/providers/local/camel-mbox-store.c:465
-#, fuzzy, c-format
+#, c-format
 msgid "Could not rename `%s': `%s': %s"
-msgstr "'%s' の名前を変更できませんでした: %s"
+msgstr "'%s' の名前を変更できませんでした: '%s': %s"
 
 #: camel/providers/local/camel-mbox-store.c:540
-#, fuzzy, c-format
+#, c-format
 msgid "Could not rename '%s' to %s: %s"
-msgstr "%s から %s へ名前を変更できませんでした: %s"
+msgstr "'%s' から %s へ名前を変更できませんでした: %s"
 
 #: camel/providers/local/camel-mbox-summary.c:343
 #, c-format
@@ -10806,9 +10823,9 @@ msgid "Failed to authenticate on POP server %s: %s"
 msgstr "POP サーバ %s で認証に失敗しました: %s"
 
 #: camel/providers/pop3/camel-pop3-store.c:480
-#, fuzzy, c-format
+#, c-format
 msgid "%sPlease enter the POP password for %s on host %s"
-msgstr "%s %s@%s の POP パスワードを入力して下さい"
+msgstr "%s%s@%s の POP パスワードを入力して下さい。"
 
 #: camel/providers/pop3/camel-pop3-store.c:535
 #: camel/providers/pop3/camel-pop3-store.c:542
@@ -11017,9 +11034,9 @@ msgid "SMTP server %s does not support requested authentication type %s."
 msgstr "SMTP サーバ %s は要求した認証方式 %s をサポートしていません"
 
 #: camel/providers/smtp/camel-smtp-transport.c:514
-#, fuzzy, c-format
+#, c-format
 msgid "%sPlease enter the SMTP password for %s on host %s"
-msgstr "%s %s@%s の SMTP パスワードを入力して下さい。"
+msgstr "%s%s@%s の SMTP パスワードを入力して下さい。"
 
 #: camel/providers/smtp/camel-smtp-transport.c:533
 #, c-format
@@ -11289,7 +11306,7 @@ msgstr "送信先:"
 
 #: composer/e-msg-composer-hdrs.c:614
 msgid "Click here to select folders to post to"
-msgstr "<投稿するフォルダを選択する場合はここをクリック>"
+msgstr "<ここをクリックして投稿するフォルダを選択して下さい>"
 
 #: composer/e-msg-composer-select-file.c:119
 msgid "Attach file(s)"
@@ -11618,12 +11635,16 @@ msgstr "カテゴリの同期:"
 
 #. strptime format of a weekday, a date and a time,
 #. in 12-hour format, without seconds.
+#. strftime format of a weekday, a date and a
+#. time, in 12-hour format, without seconds.
 #: e-util/e-time-utils.c:185 e-util/e-time-utils.c:398
 msgid "%a %m/%d/%Y %I:%M %p"
 msgstr "%Y/%m/%d (%a) %p %I:%M"
 
 #. strptime format of a weekday, a date and a time,
 #. in 24-hour format, without seconds.
+#. strftime format of a weekday, a date and a
+#. time, in 24-hour format, without seconds.
 #: e-util/e-time-utils.c:190 e-util/e-time-utils.c:389
 msgid "%a %m/%d/%Y %H:%M"
 msgstr "%Y/%m/%d (%a) %H:%M"
@@ -11675,23 +11696,31 @@ msgid "%m/%d/%Y %H"
 msgstr "%Y/%m/%d %H時"
 
 #. strptime format for a time of day, in 12-hour format.
+#. strftime format of a time in 12-hour format.
 #: e-util/e-time-utils.c:339 e-util/e-time-utils.c:438
 msgid "%I:%M:%S %p"
 msgstr "%p %I時%M分%S秒"
 
 #. strptime format for a time of day, in 24-hour format.
+#. strftime format of a time in 24-hour format.
 #: e-util/e-time-utils.c:343 e-util/e-time-utils.c:430
 msgid "%H:%M:%S"
 msgstr "%H時%M分%S秒"
 
 #. strptime format for time of day, without seconds,
 #. in 12-hour format.
+#. strftime format of a time in 12-hour format,
+#. without seconds.
+#. This is a strftime() format. %I = hour (1-12), %M = minute, %p = am/pm string.
 #: e-util/e-time-utils.c:348 e-util/e-time-utils.c:435
 #: widgets/misc/e-dateedit.c:1416 widgets/misc/e-dateedit.c:1641
 msgid "%I:%M %p"
 msgstr "%p %I時%M分"
 
 #. strptime format for time of day, without seconds 24-hour format.
+#. strftime format of a time in 24-hour format,
+#. without seconds.
+#. This is a strftime() format. %H = hour (0-23), %M = minute.
 #: e-util/e-time-utils.c:352 e-util/e-time-utils.c:427
 #: widgets/misc/e-dateedit.c:1413 widgets/misc/e-dateedit.c:1638
 msgid "%H:%M"
@@ -11771,7 +11800,7 @@ msgstr "日付を選択して下さい。"
 
 #: filter/filter-datespec.c:275
 msgid "<click here to select a date>"
-msgstr "<日付を選択する場合は、ここをクリックして下さい>"
+msgstr "<ここをクリックして日付を選択して下さい>"
 
 #: filter/filter-datespec.c:278 filter/filter-datespec.c:289
 msgid "now"
@@ -12483,9 +12512,8 @@ msgid "Unread messages"
 msgstr "未読のメッセージ数"
 
 #: mail/em-folder-selection-button.c:120
-#: shell/evolution-folder-selector-button.c:100
 msgid "<click here to select a folder>"
-msgstr "<フォルダを選択する場合はここをクリック>"
+msgstr "<ここをクリックしてフォルダを選択して下さい>"
 
 #: mail/em-folder-selector.c:137 shell/e-shell-folder-creation-dialog.c:318
 msgid "Create New Folder"
@@ -12518,7 +12546,6 @@ msgstr "一致しないもの"
 
 #. Inbox is always first
 #: mail/em-folder-tree-model.c:202 mail/em-folder-tree-model.c:204
-#: shell/e-shortcuts.c:1085
 msgid "Inbox"
 msgstr "受信箱"
 
@@ -12527,9 +12554,8 @@ msgid "Loading..."
 msgstr "読み込み中..."
 
 #: mail/em-folder-tree.c:818
-#, fuzzy
 msgid "Cannot drop message(s) into toplevel store"
-msgstr "メッセージの仮想フォルダへのコピーまたは移動ができません"
+msgstr "メッセージをトップレベルの中に移せません"
 
 #: mail/em-folder-tree.c:1721 mail/em-folder-tree.c:1808
 #, c-format
@@ -12555,21 +12581,21 @@ msgstr "フォルダを削除できませんでした: %s"
 msgid "Really delete folder \"%s\" and all of its subfolders?"
 msgstr "本当にフォルダ \"%s\" とそのサブフォルダの全てを削除しますか？"
 
-#: mail/em-folder-tree.c:1993 shell/e-shell-folder-commands.c:416
+#: mail/em-folder-tree.c:1993
 #, c-format
 msgid "Delete \"%s\""
 msgstr "\"%s\" の削除"
 
-#: mail/em-folder-tree.c:2027 shell/e-shell-folder-commands.c:534
+#: mail/em-folder-tree.c:2027
 #, c-format
 msgid "Rename the \"%s\" folder to:"
 msgstr "フォルダ \"%s\" の変更先:"
 
-#: mail/em-folder-tree.c:2029 shell/e-shell-folder-commands.c:541
+#: mail/em-folder-tree.c:2029
 msgid "Rename Folder"
 msgstr "フォルダ名の変更"
 
-#: mail/em-folder-tree.c:2053 shell/e-shell-folder-commands.c:554
+#: mail/em-folder-tree.c:2053
 #, c-format
 msgid "A folder named \"%s\" already exists. Please use a different name."
 msgstr "既にフォルダ名 \"%s\" があります。別の名前を使用して下さい。"
@@ -12593,7 +12619,7 @@ msgstr "移動(_M)"
 msgid "_New Folder..."
 msgstr "新しいフォルダ(_N)"
 
-#: mail/em-folder-tree.c:2112 shell/e-shortcuts-view.c:427
+#: mail/em-folder-tree.c:2112
 msgid "_Rename"
 msgstr "名前の変更(_R)"
 
@@ -12967,7 +12993,7 @@ msgstr "S/MIME メッセージを解析できませんでした: 不明なエラ
 
 #: mail/em-format.c:1151
 msgid "Unsupported encryption type for multipart/encrypted"
-msgstr ""
+msgstr "サポートしていない S/MIME の暗号化の種類"
 
 #: mail/em-format.c:1295
 msgid "Could not parse MIME message. Displaying as source."
@@ -13213,18 +13239,16 @@ msgid "Default forward style"
 msgstr "デフォルトの転送スタイル"
 
 #: mail/evolution-mail.schemas.in.in.h:12
-#, fuzzy
 msgid "Default height of the Message Window"
-msgstr "メッセージのデフォルトの件名です"
+msgstr "メッセージ・ウィンドウのデフォルトの高さです。"
 
 #: mail/evolution-mail.schemas.in.in.h:13
 msgid "Default reply style"
 msgstr "デフォルトの返信スタイル"
 
 #: mail/evolution-mail.schemas.in.in.h:14
-#, fuzzy
 msgid "Default width of the Message Window"
-msgstr "フォルダ・バーのデフォルトの幅"
+msgstr "メッセージ・ウィンドウのデフォルトの幅です。"
 
 #: mail/evolution-mail.schemas.in.in.h:15
 msgid "Draw spelling error indicators on words as you type."
@@ -13346,11 +13370,11 @@ msgstr "メッセージの \"プレビュー\" で使用する引用記号です
 
 #: mail/evolution-mail.schemas.in.in.h:39
 msgid "Message Window default hight"
-msgstr ""
+msgstr "メッセージ・ウィンドウの高さ (デフォルト)"
 
 #: mail/evolution-mail.schemas.in.in.h:40
 msgid "Message Window default width"
-msgstr ""
+msgstr "メッセージ・ウィンドウの幅 (デフォルト)"
 
 #: mail/evolution-mail.schemas.in.in.h:41
 msgid "Message-display style (normal, full headers, source)"
@@ -13883,7 +13907,7 @@ msgstr ""
 
 #: mail/mail-component.c:463
 msgid "You have unsent messages, do you wish to quit anyway?"
-msgstr ""
+msgstr "送信していないメッセージがあります。それでも終了しますか？"
 
 #: mail/mail-component.c:522
 msgid "New Mail Message"
@@ -14693,12 +14717,12 @@ msgstr "フォルダ '%s' の格納"
 #: mail/mail-ops.c:1592
 #, c-format
 msgid "Expunging and storing account '%s'"
-msgstr ""
+msgstr "アカウント '%s' の削除と保存"
 
 #: mail/mail-ops.c:1593
-#, fuzzy, c-format
+#, c-format
 msgid "Storing account '%s'"
-msgstr "フォルダ '%s' の格納"
+msgstr "アカウント '%s' の格納"
 
 #: mail/mail-ops.c:1648
 msgid "Refreshing folder"
@@ -15278,88 +15302,6 @@ msgstr "オフラインのフォルダ"
 msgid "Autocompletion Folders"
 msgstr "自動補完のフォルダ"
 
-#: shell/e-shell-folder-commands.c:140
-#, c-format
-msgid "Cannot copy folder: %s"
-msgstr "フォルダをコピーできません: %s"
-
-#: shell/e-shell-folder-commands.c:142
-#, c-format
-msgid "Cannot move folder: %s"
-msgstr "フォルダを移動できません: %s"
-
-#: shell/e-shell-folder-commands.c:188
-msgid "Cannot move a folder over itself."
-msgstr "フォルダ自身に移動できません。"
-
-#: shell/e-shell-folder-commands.c:190
-msgid "Cannot copy a folder over itself."
-msgstr "フォルダ自身にコピーできません。"
-
-#: shell/e-shell-folder-commands.c:204
-msgid "Cannot move a folder into one of its descendants."
-msgstr "フォルダをその子フォルダには移動できません。"
-
-#: shell/e-shell-folder-commands.c:319
-#, c-format
-msgid "Specify a folder to copy folder \"%s\" into:"
-msgstr "フォルダ \"%s\" をコピーするフォルダを指定します:"
-
-#: shell/e-shell-folder-commands.c:323
-msgid "Copy Folder"
-msgstr "フォルダのコピー"
-
-#: shell/e-shell-folder-commands.c:363
-#, c-format
-msgid "Specify a folder to move folder \"%s\" into:"
-msgstr "フォルダ \"%s\" を移動するフォルダを指定します:"
-
-#: shell/e-shell-folder-commands.c:367
-msgid "Move Folder"
-msgstr "フォルダの移動"
-
-#: shell/e-shell-folder-commands.c:391
-#, c-format
-msgid ""
-"Cannot delete folder:\n"
-"%s"
-msgstr ""
-"フォルダを削除できません:\n"
-"%s"
-
-#: shell/e-shell-folder-commands.c:405
-#, c-format
-msgid "Really delete folder \"%s\"?"
-msgstr "本当にフォルダ \"%s\" を削除しますか？"
-
-#: shell/e-shell-folder-commands.c:489
-#, c-format
-msgid ""
-"Cannot rename folder:\n"
-"%s"
-msgstr ""
-"フォルダ名を変更できません:\n"
-"%s"
-
-#: shell/e-shell-folder-commands.c:547
-#: shell/e-shell-folder-creation-dialog.c:180
-#, c-format
-msgid "The specified folder name is not valid: %s"
-msgstr "指定されたフォルダ名は正しくありません: %s"
-
-#: shell/e-shell-folder-commands.c:584
-msgid "Selected folder does not belong to another user"
-msgstr "指定したフォルダは他のユーザに属していません"
-
-#: shell/e-shell-folder-commands.c:587
-#, c-format
-msgid ""
-"Cannot remove folder:\n"
-"%s"
-msgstr ""
-"フォルダ名を削除できません:\n"
-"%s"
-
 #: shell/e-shell-folder-creation-dialog.c:137
 #, c-format
 msgid ""
@@ -15368,6 +15310,11 @@ msgid ""
 msgstr ""
 "指定されたフォルダを作成できません:\n"
 "%s"
+
+#: shell/e-shell-folder-creation-dialog.c:180
+#, c-format
+msgid "The specified folder name is not valid: %s"
+msgstr "指定されたフォルダ名は正しくありません: %s"
 
 #: shell/e-shell-folder-title-bar.c:592 shell/e-shell-folder-title-bar.c:593
 msgid "(Untitled)"
@@ -15390,9 +15337,8 @@ msgstr ""
 "\"自動\" を選択して、Evolution に解決させてみて下さい。"
 
 #: shell/e-shell-importer.c:154
-#, fuzzy
 msgid "Choose the destination for this import"
-msgstr "このアイテムに対する会議をキャンセルします"
+msgstr "インポート先の選択"
 
 #: shell/e-shell-importer.c:157 shell/e-shell-startup-wizard.c:737
 msgid "Please select the information that you would like to import:"
@@ -15434,9 +15380,9 @@ msgid "Importing"
 msgstr "インポート中"
 
 #: shell/e-shell-importer.c:463
-#, fuzzy, c-format
+#, c-format
 msgid "Importing %s.\n"
-msgstr "インポート中"
+msgstr "%s をインポートしています。\n"
 
 #: shell/e-shell-importer.c:473 shell/e-shell-importer.c:474
 #, c-format
@@ -15494,14 +15440,13 @@ msgid "From %s:"
 msgstr "差出人 %s:"
 
 #: shell/e-shell-importer.c:1034
-#, fuzzy, c-format
+#, c-format
 msgid "No importer available for file %s"
-msgstr "プロトコル '%s' を利用できるプロバイダはありません"
+msgstr "ファイル %s で利用できるインポータがありません"
 
 #: shell/e-shell-importer.c:1046
-#, fuzzy
 msgid "Unable to execute importer"
-msgstr "GPG の実行に失敗しました"
+msgstr "インポータを実行できません"
 
 #: shell/e-shell-importer.c:1156
 msgid "_Import"
@@ -15662,125 +15607,6 @@ msgstr "データベースの設定がありません"
 msgid "Generic error"
 msgstr "一般的なエラー"
 
-#: shell/e-shortcuts-view.c:80
-msgid "Create New Shortcut Group"
-msgstr "新しいショートカット・グループを作成します"
-
-#: shell/e-shortcuts-view.c:81
-msgid "Group name:"
-msgstr "グループ名:"
-
-#: shell/e-shortcuts-view.c:179
-#, c-format
-msgid "Do you really want to remove group \"%s\" from the shortcut bar?"
-msgstr ""
-"本当にショートカット・バーからグループ '%s' を削除してもよろしいですか？"
-
-#: shell/e-shortcuts-view.c:222
-msgid "Rename Shortcut Group"
-msgstr "ショートカット・グループ名の変更"
-
-#: shell/e-shortcuts-view.c:223
-msgid "Rename selected shortcut group to:"
-msgstr "変更するショートカット・グループ名:"
-
-#: shell/e-shortcuts-view.c:255
-msgid "_Small Icons"
-msgstr "小さいアイコン(_S)"
-
-#: shell/e-shortcuts-view.c:256
-msgid "Show the shortcuts as small icons"
-msgstr "小さいアイコンでショートカットを表示します"
-
-#: shell/e-shortcuts-view.c:258
-msgid "_Large Icons"
-msgstr "大きいアイコン(_L)"
-
-#: shell/e-shortcuts-view.c:259
-msgid "Show the shortcuts as large icons"
-msgstr "大きいアイコンでショートカットを表示します"
-
-#: shell/e-shortcuts-view.c:270
-msgid "_Add Group..."
-msgstr "グループの追加(_A)..."
-
-#: shell/e-shortcuts-view.c:271
-msgid "Create a new shortcut group"
-msgstr "新しいショートカット・グループを作成します"
-
-#: shell/e-shortcuts-view.c:273
-msgid "_Remove this Group..."
-msgstr "このグループの削除(_R)..."
-
-#: shell/e-shortcuts-view.c:274
-msgid "Remove this shortcut group"
-msgstr "このショートカット・グループを削除します"
-
-#: shell/e-shortcuts-view.c:276
-msgid "Re_name this Group..."
-msgstr "このグループ名の変更(_N)..."
-
-#: shell/e-shortcuts-view.c:277
-msgid "Rename this shortcut group"
-msgstr "このショートカット・グループ名を変更します"
-
-#: shell/e-shortcuts-view.c:282
-msgid "_Hide the Shortcut Bar"
-msgstr "ショートカット・バーを隠す(_H)"
-
-#: shell/e-shortcuts-view.c:283
-msgid "Hide the shortcut bar"
-msgstr "ショートカット・バーを隠します"
-
-#: shell/e-shortcuts-view.c:288
-msgid "Create _Default Shortcuts"
-msgstr "デフォルト・ショートカットの生成(_D)"
-
-#: shell/e-shortcuts-view.c:289
-msgid "Create Default Shortcuts"
-msgstr "デフォルトのショートカットを作成します"
-
-#: shell/e-shortcuts-view.c:408
-msgid "Rename Shortcut"
-msgstr "ショートカット名の変更"
-
-#: shell/e-shortcuts-view.c:409
-msgid "Rename selected shortcut to:"
-msgstr "選択したショートカット名の変更名:"
-
-#: shell/e-shortcuts-view.c:422
-msgid "Open the folder linked to this shortcut"
-msgstr "このショートカットにリンクしているフォルダを開きます"
-
-#: shell/e-shortcuts-view.c:424
-msgid "Open in New _Window"
-msgstr "新しいウィンドウで開く(_W)"
-
-#: shell/e-shortcuts-view.c:424
-msgid "Open the folder linked to this shortcut in a new window"
-msgstr ""
-"このショートカットにリンクしているフォルダを新規ウィンドウの中に開きます"
-
-#: shell/e-shortcuts-view.c:427
-msgid "Rename this shortcut"
-msgstr "このショートカット名を変更します"
-
-#: shell/e-shortcuts-view.c:429
-msgid "Re_move"
-msgstr "削除(_M)"
-
-#: shell/e-shortcuts-view.c:429
-msgid "Remove this shortcut from the shortcut bar"
-msgstr "ショートカットバーからこのショートカットを削除します"
-
-#: shell/e-shortcuts.c:650
-msgid "Error saving shortcuts."
-msgstr "ショートカットの保存中にエラーが発生しました"
-
-#: shell/e-shortcuts.c:1097
-msgid "Shortcuts"
-msgstr "ショートカット"
-
 #: shell/e-storage-set-view.etspec.h:1
 msgid "Checkbox"
 msgstr "チェックボックス"
@@ -15790,11 +15616,6 @@ msgstr "チェックボックス"
 #: widgets/misc/e-charset-picker.c:109
 msgid "New"
 msgstr "新規"
-
-#: shell/evolution-folder-selector-button.c:128
-#, c-format
-msgid "\"%s\" in \"%s\""
-msgstr "\"%s\" の \"%s\""
 
 #: shell/evolution-shell-component-utils.c:124
 #, c-format
@@ -15944,27 +15765,22 @@ msgid "Evolution Import Assistant"
 msgstr "Evolution インポート・アシスタント"
 
 #: shell/importer/import.glade.h:3
-#, fuzzy
 msgid "Import File"
 msgstr "ファイルのインポート"
 
 #: shell/importer/import.glade.h:4
-#, fuzzy
 msgid "Import Location"
-msgstr "場所"
+msgstr "場所のインポート"
 
 #: shell/importer/import.glade.h:5
-#, fuzzy
 msgid "Importer Type"
-msgstr "インポート"
+msgstr "種類のインポート"
 
 #: shell/importer/import.glade.h:6
-#, fuzzy
 msgid "Select Importers"
-msgstr "インポーターの選択"
+msgstr "インポータの選択"
 
 #: shell/importer/import.glade.h:7
-#, fuzzy
 msgid "Select a File"
 msgstr "ファイルの選択"
 
@@ -16074,7 +15890,7 @@ msgstr "全ての Evolution コンポーネントを強制終了する"
 
 #: shell/main.c:498
 msgid "Forcibly re-migrate from Evolution 1.4"
-msgstr ""
+msgstr "Evolution 1.4系から関連ファイルを強制的に移行する"
 
 #: shell/main.c:501
 msgid "Send the debugging output of all components to a file."
@@ -18234,9 +18050,8 @@ msgid "_Advanced..."
 msgstr "拡張(_A)..."
 
 #: widgets/misc/e-image-chooser.c:172
-#, fuzzy
 msgid "Choose Image"
-msgstr "ファイルの選択"
+msgstr "画像の選択"
 
 #: widgets/misc/e-search-bar.c:531
 msgid "_Search"
@@ -18275,94 +18090,3 @@ msgstr "%s (...)"
 #, c-format
 msgid "%s (%d%% complete)"
 msgstr "%s (%d%% 完了)"
-
-#~ msgid "Copy to folder..."
-#~ msgstr "フォルダへコピー..."
-
-#~ msgid "Move to folder..."
-#~ msgstr "フォルダへ移動..."
-
-#~ msgid "Map It"
-#~ msgstr "Map It"
-
-#~ msgid "Home Address"
-#~ msgstr "自宅の住所"
-
-#~ msgid "Work Address"
-#~ msgstr "勤務先の住所"
-
-#~ msgid "Other Address"
-#~ msgstr "その他の住所"
-
-#~ msgid "Could not open '%s': %s"
-#~ msgstr "'%s' を開けませんでした: %s"
-
-#~ msgid "Could not create temporary mbox store: %s"
-#~ msgstr "作業用 mbox 格納場所を作成できませんでした: %s"
-
-#~ msgid "Could not create temporary mbox folder: %s"
-#~ msgstr "作業用 mbox フォルダを作成できませんでした: %s"
-
-#~ msgid "Could not copy messages to temporary mbox folder: %s"
-#~ msgstr "メッセージを作業用 mbox フォルダへコピーできませんでした: %s"
-
-#~ msgid "Session not initialised"
-#~ msgstr "セッションは初期化されていません"
-
-#~ msgid "This message is digitally signed and has been found to be authentic."
-#~ msgstr "このメッセージには電子署名が付与されており、認証を確認しました。"
-
-#~ msgid ""
-#~ "This message is digitally signed but can not be proven to be authentic."
-#~ msgstr ""
-#~ "このメッセージには電子署名が付与されていますが、認証を確認できません。"
-
-#~ msgid "Evolution Error"
-#~ msgstr "Evolution エラー"
-
-#~ msgid ""
-#~ "There is no importer that is able to handle\n"
-#~ "%s"
-#~ msgstr ""
-#~ "扱うことが可能なインポータがありません\n"
-#~ "%s"
-
-#~ msgid ""
-#~ "Importing %s.\n"
-#~ "Starting %s"
-#~ msgstr ""
-#~ "%s をインポート中\n"
-#~ "%s を開始します"
-
-#~ msgid "Error starting %s"
-#~ msgstr "%s の開始中にエラーが発生しました"
-
-#~ msgid "Select a destination folder for importing this data"
-#~ msgstr "このデータをインポートする送り先のフォルダを選択して下さい"
-
-#~ msgid "Go to folder..."
-#~ msgstr "フォルダへ移動..."
-
-#~ msgid "Select the folder that you want to open"
-#~ msgstr "開きたいフォルダを選択します"
-
-#~ msgid "Create New Shortcut"
-#~ msgstr "新しいショートカットの作成"
-
-#~ msgid "Select the folder you want the shortcut to point to:"
-#~ msgstr "ショートカットを作成するフォルダの選択:"
-
-#~ msgid "Import File (step 3 of 3)"
-#~ msgstr "ファイルのインポート (ステップ 3/3)"
-
-#~ msgid "Importer Type (step 1 of 3)"
-#~ msgstr "インポートする種別 (ステップ 1/3)"
-
-#~ msgid "Select Importers (step 2 of 3)"
-#~ msgstr "インポーターの選択 (ステップ 2/3)"
-
-#~ msgid "Select a File (step 2 of 3)"
-#~ msgstr "ファイルの選択 (ステップ 2/3)"
-
-#~ msgid "Evolution is now exiting ..."
-#~ msgstr "Evolution を終了しています..."
