@@ -1915,8 +1915,7 @@ et_drag_motion(GtkWidget *widget,
 			    y,
 			    &row,
 			    &col);
-	if (et->priv->drop_row >= 0 && et->priv->drop_col >= 0 &&
-	    row != et->priv->drop_row && col != et->priv->drop_row) {
+	if (row != et->priv->drop_row && col != et->priv->drop_row) {
 		gtk_signal_emit (GTK_OBJECT (et),
 				 et_signals [TREE_DRAG_LEAVE],
 				 et->priv->drop_row,
@@ -1932,17 +1931,16 @@ et_drag_motion(GtkWidget *widget,
 	et->priv->drop_row = row;
 	et->priv->drop_path = path;
 	et->priv->drop_col = col;
-	if (row >= 0 && col >= 0)
-		gtk_signal_emit (GTK_OBJECT (et),
-				 et_signals [TREE_DRAG_MOTION],
-				 et->priv->drop_row,
-				 et->priv->drop_path,
-				 et->priv->drop_col,
-				 context,
-				 x,
-				 y,
-				 time,
-				 &ret_val);
+	gtk_signal_emit (GTK_OBJECT (et),
+			 et_signals [TREE_DRAG_MOTION],
+			 et->priv->drop_row,
+			 et->priv->drop_path,
+			 et->priv->drop_col,
+			 context,
+			 x,
+			 y,
+			 time,
+			 &ret_val);
 	return ret_val;
 }
 
@@ -1965,8 +1963,7 @@ et_drag_drop(GtkWidget *widget,
 	path = e_tree_table_adapter_node_at_row(et->priv->etta, row);
 	path = e_tree_sorted_view_to_model_path(et->priv->sorted, path);
 
-	if (et->priv->drop_row >= 0 && et->priv->drop_col >= 0 &&
-	    row != et->priv->drop_row && col != et->priv->drop_row) {
+	if (row != et->priv->drop_row && col != et->priv->drop_row) {
 		gtk_signal_emit (GTK_OBJECT (et),
 				 et_signals [TREE_DRAG_LEAVE],
 				 et->priv->drop_row,
@@ -1974,32 +1971,30 @@ et_drag_drop(GtkWidget *widget,
 				 et->priv->drop_col,
 				 context,
 				 time);
-		if (row >= 0 && col >= 0)
-			gtk_signal_emit (GTK_OBJECT (et),
-					 et_signals [TREE_DRAG_MOTION],
-					 row,
-					 path,
-					 col,
-					 context,
-					 x,
-					 y,
-					 time,
-					 &ret_val);
-	}
-	et->priv->drop_row = row;
-	et->priv->drop_path = path;
-	et->priv->drop_col = col;
-	if (row >= 0 && col >= 0)
 		gtk_signal_emit (GTK_OBJECT (et),
-				 et_signals [TREE_DRAG_DROP],
-				 et->priv->drop_row,
-				 et->priv->drop_path,
-				 et->priv->drop_col,
+				 et_signals [TREE_DRAG_MOTION],
+				 row,
+				 path,
+				 col,
 				 context,
 				 x,
 				 y,
 				 time,
 				 &ret_val);
+	}
+	et->priv->drop_row = row;
+	et->priv->drop_path = path;
+	et->priv->drop_col = col;
+	gtk_signal_emit (GTK_OBJECT (et),
+			 et_signals [TREE_DRAG_DROP],
+			 et->priv->drop_row,
+			 et->priv->drop_path,
+			 et->priv->drop_col,
+			 context,
+			 x,
+			 y,
+			 time,
+			 &ret_val);
 	et->priv->drop_row = -1;
 	et->priv->drop_path = NULL;
 	et->priv->drop_col = -1;

@@ -1912,8 +1912,7 @@ et_drag_motion(GtkWidget *widget,
 
 	e_table_get_cell_at (et, x, y, &row, &col);
 
-	if (et->drop_row >= 0 && et->drop_col >= 0 &&
-	    row != et->drop_row && col != et->drop_row) {
+	if (row != et->drop_row && col != et->drop_row) {
 		gtk_signal_emit (GTK_OBJECT (et),
 				 et_signals [TABLE_DRAG_LEAVE],
 				 et->drop_row,
@@ -1923,16 +1922,15 @@ et_drag_motion(GtkWidget *widget,
 	}
 	et->drop_row = row;
 	et->drop_col = col;
-	if (row >= 0 && col >= 0)
-		gtk_signal_emit (GTK_OBJECT (et),
-				 et_signals [TABLE_DRAG_MOTION],
-				 et->drop_row,
-				 et->drop_col,
-				 context,
-				 x,
-				 y,
-				 time,
-				 &ret_val);
+	gtk_signal_emit (GTK_OBJECT (et),
+			 et_signals [TABLE_DRAG_MOTION],
+			 et->drop_row,
+			 et->drop_col,
+			 context,
+			 x,
+			 y,
+			 time,
+			 &ret_val);
 	return ret_val;
 }
 
@@ -1949,37 +1947,34 @@ et_drag_drop(GtkWidget *widget,
 
 	e_table_get_cell_at (et, x, y, &row, &col);
 
-	if (et->drop_row >= 0 && et->drop_col >= 0 &&
-	    row != et->drop_row && col != et->drop_row) {
+	if (row != et->drop_row && col != et->drop_row) {
 		gtk_signal_emit (GTK_OBJECT (et),
 				 et_signals [TABLE_DRAG_LEAVE],
 				 et->drop_row,
 				 et->drop_col,
 				 context,
 				 time);
-		if (row >= 0 && col >= 0)
-			gtk_signal_emit (GTK_OBJECT (et),
-					 et_signals [TABLE_DRAG_MOTION],
-					 row,
-					 col,
-					 context,
-					 x,
-					 y,
-					 time,
-					 &ret_val);
-	}
-	et->drop_row = row;
-	et->drop_col = col;
-	if (row >= 0 && col >= 0)
 		gtk_signal_emit (GTK_OBJECT (et),
-				 et_signals [TABLE_DRAG_DROP],
-				 et->drop_row,
-				 et->drop_col,
+				 et_signals [TABLE_DRAG_MOTION],
+				 row,
+				 col,
 				 context,
 				 x,
 				 y,
 				 time,
 				 &ret_val);
+	}
+	et->drop_row = row;
+	et->drop_col = col;
+	gtk_signal_emit (GTK_OBJECT (et),
+			 et_signals [TABLE_DRAG_DROP],
+			 et->drop_row,
+			 et->drop_col,
+			 context,
+			 x,
+			 y,
+			 time,
+			 &ret_val);
 	et->drop_row = -1;
 	et->drop_col = -1;
 	return ret_val;
