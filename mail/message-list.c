@@ -56,7 +56,6 @@
 #include "mail-mt.h"
 #include "mail-tools.h"
 #include "mail-ops.h"
-#include "Mail.h"
 
 #include "art/mail-new.xpm"
 #include "art/mail-read.xpm"

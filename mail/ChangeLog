@@ -1,3 +1,18 @@
+2002-09-13  Dan Winship  <danw@ximian.com>
+
+	* Mailer.idl: rename this from "Mail.idl" so that the generated .h
+	file won't overwrite "mail.h" on Mac OS X. Remove some
+	never-implemented IDL and add MailConfig_removeAccount.
+
+	* Makefile.am: Update for IDL rename
+
+	* mail-config.c: #include Mailer.h, not Mail.h
+	(impl_GNOME_Evolution_MailConfig_removeAccount): Implement.
+
+	* folder-info.c: #include Mailer.h, not Mail.h
+
+	* message-list.c: Remove Mail.h include.
+
 2002-09-12  Jeffrey Stedfast  <fejj@ximian.com>
 
 	* main.c (main): Ignore SIGXFSZ to fix bug #30269.

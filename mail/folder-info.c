@@ -12,7 +12,7 @@
 
 #include "folder-info.h"
 
-#include "Mail.h"
+#include "Mailer.h"
 
 #include <glib.h>
 #include <libgnome/gnome-defs.h>

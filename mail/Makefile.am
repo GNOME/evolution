@@ -33,10 +33,10 @@ INCLUDES = \
 	-DG_LOG_DOMAIN=\"evolution-mail\"
 
 EVOLUTION_MAIL_CORBA_GENERATED = \
-	Mail.h			\
-	Mail-common.c		\
-	Mail-skels.c		\
-	Mail-stubs.c
+	Mailer.h		\
+	Mailer-common.c		\
+	Mailer-skels.c		\
+	Mailer-stubs.c
 
 SPELL_IDL = Spell.idl
 
@@ -176,12 +176,12 @@ etspec_DATA = mail-accounts.etspec message-list.etspec subscribe-dialog.etspec
 iconsdir = $(datadir)/images/evolution
 buttonsdir = $(datadir)/images/evolution/buttons
 
-$(EVOLUTION_MAIL_CORBA_GENERATED): Mail.idl 
+$(EVOLUTION_MAIL_CORBA_GENERATED): Mailer.idl 
 	$(ORBIT_IDL) -I $(srcdir) -I $(datadir)/idl -I `$(GNOME_CONFIG) --cflags idl` \
-	-I `$(GNOME_CONFIG) --datadir`/idl $(srcdir)/Mail.idl
+	-I `$(GNOME_CONFIG) --datadir`/idl $(srcdir)/Mailer.idl
 
 EXTRA_DIST = 				\
-	Mail.idl 			\
+	Mailer.idl 			\
 	$(SPELL_IDL)			\
 	$(glade_DATA)			\
 	$(oaf_in_files)			\

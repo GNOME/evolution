@@ -12,22 +12,6 @@
 module GNOME {
 module Evolution {
 	
-	interface MessageList : Bonobo::Unknown {
-		
-		void selectMessage (in long message_number);
-		void openMessage   (in long message_number);
-	};
-	
-	/*
-	 * FolderBrowser object.
-	 *
-	 * configuration of this widget is done trough 
-	 * Bonobo Properties
-	 */
-	interface FolderBrowser : Bonobo::Unknown {
-		MessageList getMessageList ();
-	};
-
 	interface FolderInfo : Bonobo::Unknown {
 		struct MessageCount {
 			string path;
@@ -69,6 +53,7 @@ module Evolution {
 		};
 
 		void addAccount (in Account acc);
+		void removeAccount (in string name);
 	};
 
 	interface MailFilter : Bonobo::Unknown {

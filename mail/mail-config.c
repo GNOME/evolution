@@ -69,7 +69,7 @@
 #include "mail-mt.h"
 #include "mail-tools.h"
 
-#include "Mail.h"
+#include "Mailer.h"
 
 
 MailConfigLabel label_defaults[5] = {
@@ -2836,12 +2836,25 @@ impl_GNOME_Evolution_MailConfig_addAccount (PortableServer_Servant servant,
 }
 
 static void
+impl_GNOME_Evolution_MailConfig_removeAccount (PortableServer_Servant servant,
+					       const CORBA_char *name,
+					       CORBA_Environment *ev)
+{
+	MailConfigAccount *account;
+
+	account = (MailConfigAccount *)mail_config_get_account_by_name (name);
+	if (account)
+		mail_config_remove_account (account);
+}
+
+static void
 evolution_mail_config_class_init (EvolutionMailConfigClass *klass)
 {
 	POA_GNOME_Evolution_MailConfig__epv *epv = &klass->epv;
 
 	parent_class = gtk_type_class (PARENT_TYPE);
 	epv->addAccount = impl_GNOME_Evolution_MailConfig_addAccount;
+	epv->removeAccount = impl_GNOME_Evolution_MailConfig_removeAccount;
 }
 
 static void
