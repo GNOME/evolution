@@ -650,7 +650,7 @@ migrate_pilot_data (const char *component, const char *conduit, const char *old_
 			dbhash = e_dbhash_new (filename);
 			g_free (filename);
 			
-			filename = g_strdup_printf ("%s/%s.ics-%s", new_path, component, dent->d_name, NULL);
+			filename = g_strdup_printf ("%s/%s.ics-%s", new_path, component, dent->d_name);
 			if (stat (filename, &st) != -1)
 				unlink (filename);
 			xmlhash = e_xmlhash_new (filename);

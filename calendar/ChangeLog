@@ -1,3 +1,10 @@
+2004-04-29  Jeffrey Stedfast  <fejj@ximian.com>
+
+	* gui/migration.c (migrate_pilot_data): Removed the terminating
+	NULL vararg since we don't need it for g_strdup_printf, it was
+	only needed when it was g_build_filename(). Gets rid of a gcc
+	warning.
+
 2004-04-29  Not Zed  <NotZed@Ximian.com>
 
 	* gui/e-itip-control.c (e_itip_control_set_data): check we find
