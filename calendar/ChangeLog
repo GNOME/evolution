@@ -1,3 +1,8 @@
+2001-07-02  JP Rosevear  <jpr@ximian.com>
+
+	* gui/calendar-commands.c (publish_freebusy_cmd): publish
+	free/busy information for the currently viewed time range
+
 2001-07-02  Christopher James Lahey  <clahey@ximian.com>
 
 	* gui/Makefile.am (INCLUDES): Added $(BONOBO_CONF_CFLAGS).

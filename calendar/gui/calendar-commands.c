@@ -53,6 +53,7 @@
 #include "goto.h"
 #include "print.h"
 #include "dialogs/cal-prefs-dialog.h"
+#include "itip-utils.h"
 #include "evolution-shell-component-utils.h"
 
 /* A list of all of the calendars started */
@@ -259,6 +260,7 @@ show_month_view_clicked (BonoboUIComponent *uic, gpointer data, const char *path
 }
 
 
+
 static void
 new_calendar_cmd (BonoboUIComponent *uic, gpointer data, const char *path)
 {
@@ -400,6 +402,24 @@ paste_event_cmd (BonoboUIComponent *uic, gpointer data, const gchar *path)
 	set_normal_cursor (gcal);
 }
 
+static void
+publish_freebusy_cmd (BonoboUIComponent *uic, gpointer data, const gchar *path)
+{
+	GnomeCalendar *gcal;
+	CalClient *client;
+	CalClientGetStatus status;
+	CalComponent *comp;
+	time_t start, end;
+	
+	gcal = GNOME_CALENDAR (data);
+	gnome_calendar_get_current_time_range (gcal, &start, &end);
+
+	client = gnome_calendar_get_cal_client (gcal);
+	status = cal_client_get_free_busy (client, start, end, &comp);
+	if (status == CAL_CLIENT_GET_SUCCESS)
+		itip_send_comp (CAL_COMPONENT_METHOD_PUBLISH, comp);
+}
+
 
 static BonoboUIVerb verbs [] = {
 	BONOBO_UI_VERB ("CalendarNew", new_calendar_cmd),
@@ -414,6 +434,8 @@ static BonoboUIVerb verbs [] = {
 	BONOBO_UI_VERB ("CutEvent", cut_event_cmd),
 	BONOBO_UI_VERB ("CopyEvent", copy_event_cmd),
 	BONOBO_UI_VERB ("PasteEvent", paste_event_cmd),
+
+	BONOBO_UI_VERB ("PublishFreeBusy", publish_freebusy_cmd),
 
 	BONOBO_UI_VERB ("CalendarPrev", previous_clicked),
 	BONOBO_UI_VERB ("CalendarToday", today_clicked),

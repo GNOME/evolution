@@ -52,18 +52,30 @@
 	"<ETableSpecification click-to-add=\"true\" "			\
 	" _click-to-add-message=\"Click here to add an attendee\" "	\
 	" draw-grid=\"true\">"						\
-        "  <ETableColumn model_col= \"0\" _title=\"Attendee\" "	\
+        "  <ETableColumn model_col= \"0\" _title=\"Attendee\" "	        \
 	"   expansion=\"1.0\" minimum_width=\"10\" resizable=\"true\" "	\
-	"   cell=\"string\" compare=\"string\"/>"			                \
-        "  <ETableColumn model_col= \"1\" _title=\"Role\" "	\
+	"   cell=\"string\" compare=\"string\"/>"			\
+        "  <ETableColumn model_col= \"1\" _title=\"Member\" "		\
+	"   expansion=\"2.0\" minimum_width=\"10\" resizable=\"true\" "	\
+	"   cell=\"text\" compare=\"string\"/>"			        \
+        "  <ETableColumn model_col= \"2\" _title=\"Type\" "		\
+	"   expansion=\"2.0\" minimum_width=\"10\" resizable=\"true\" "	\
+	"   cell=\"typeedit\" compare=\"string\"/>"			\
+        "  <ETableColumn model_col= \"3\" _title=\"Role\" "	        \
 	"   expansion=\"1.0\" minimum_width=\"10\" resizable=\"true\" "	\
-	"   cell=\"roleedit\"   compare=\"string\"/>"		\
-        "  <ETableColumn model_col= \"2\" _title=\"RSVP\" "	\
+	"   cell=\"roleedit\"   compare=\"string\"/>"		        \
+        "  <ETableColumn model_col= \"4\" _title=\"RSVP\" "	        \
 	"   expansion=\"2.0\" minimum_width=\"10\" resizable=\"true\" "	\
-	"   cell=\"rsvpedit\" compare=\"string\"/>"			                \
-        "  <ETableColumn model_col= \"3\" _title=\"Status\" "		\
+	"   cell=\"rsvpedit\" compare=\"string\"/>"			\
+        "  <ETableColumn model_col= \"5\" _title=\"Status\" "		\
 	"   expansion=\"2.0\" minimum_width=\"10\" resizable=\"true\" "	\
-	"   cell=\"statusedit\" compare=\"string\"/>"			                \
+	"   cell=\"statusedit\" compare=\"string\"/>"			\
+        "  <ETableColumn model_col= \"6\" _title=\"Common Name\" "	\
+	"   expansion=\"2.0\" minimum_width=\"10\" resizable=\"true\" "	\
+	"   cell=\"text\" compare=\"string\"/>"			        \
+        "  <ETableColumn model_col= \"7\" _title=\"Language\" "	\
+	"   expansion=\"2.0\" minimum_width=\"10\" resizable=\"true\" "	\
+	"   cell=\"text\" compare=\"string\"/>"			        \
 	"  <ETableState>"						\
 	"    <column source=\"0\"/>"					\
 	"    <column source=\"1\"/>"					\
@@ -75,9 +87,13 @@
 
 enum columns {
 	MEETING_ATTENDEE_COL,
+	MEETING_MEMBER_COL,
+	MEETING_TYPE_COL,
 	MEETING_ROLE_COL,
 	MEETING_RSVP_COL,
 	MEETING_STATUS_COL,
+	MEETING_CN_COL,
+	MEETING_LANG_COL,
 	MEETING_COLUMN_COUNT
 };
 
@@ -518,6 +534,41 @@ init_widgets (MeetingPage *mpage)
 			    GTK_SIGNAL_FUNC (invite_cb), mpage);
 }
 
+static CalComponentCUType
+text_to_type (const char *type)
+{
+	if (!g_strcasecmp (type, "Individual"))
+		return CAL_COMPONENT_CUTYPE_INDIVIDUAL;
+	else if (!g_strcasecmp (type, "Group"))
+		return CAL_COMPONENT_CUTYPE_GROUP;
+	else if (!g_strcasecmp (type, "Resource"))
+		return CAL_COMPONENT_CUTYPE_RESOURCE;
+	else if (!g_strcasecmp (type, "Room"))
+		return CAL_COMPONENT_CUTYPE_ROOM;
+	else
+		return CAL_COMPONENT_ROLE_UNKNOWN;
+}
+
+static char *
+type_to_text (CalComponentCUType type)
+{
+	switch (type) {
+	case CAL_COMPONENT_CUTYPE_INDIVIDUAL:
+		return "Individual";
+	case CAL_COMPONENT_CUTYPE_GROUP:
+		return "Group";
+	case CAL_COMPONENT_CUTYPE_RESOURCE:
+		return "Resource";
+	case CAL_COMPONENT_CUTYPE_ROOM:
+		return "Room";
+	default:
+		return "Unknown";
+	}
+
+	return NULL;
+
+}
+
 static CalComponentRole
 text_to_role (const char *role)
 {
@@ -649,9 +700,13 @@ append_row (ETableModel *etm, ETableModel *model, int row, void *data)
 	attendee = g_new0 (struct attendee, 1);
 	
 	attendee->address = g_strdup (e_table_model_value_at (model, MEETING_ATTENDEE_COL, row));
+	attendee->member = g_strdup (e_table_model_value_at (model, MEETING_MEMBER_COL, row));
+	attendee->cutype = text_to_type (e_table_model_value_at (model, MEETING_TYPE_COL, row));
 	attendee->role = text_to_role (e_table_model_value_at (model, MEETING_ROLE_COL, row));
 	attendee->rsvp = text_to_boolean (e_table_model_value_at (model, MEETING_RSVP_COL, row));
 	attendee->status = text_to_partstat (e_table_model_value_at (model, MEETING_STATUS_COL, row));
+	attendee->cn = g_strdup (e_table_model_value_at (model, MEETING_CN_COL, row));
+	attendee->language = g_strdup (e_table_model_value_at (model, MEETING_LANG_COL, row));
 
 	priv->attendees = g_slist_append (priv->attendees, attendee);
 	
@@ -677,12 +732,20 @@ value_at (ETableModel *etm, int col, int row, void *data)
 	switch (col) {
 	case MEETING_ATTENDEE_COL:
 		return attendee->address;
+	case MEETING_MEMBER_COL:
+		return attendee->member;
+	case MEETING_TYPE_COL:
+		return type_to_text (attendee->cutype);
 	case MEETING_ROLE_COL:
 		return role_to_text (attendee->role);
 	case MEETING_RSVP_COL:
 		return boolean_to_text (attendee->rsvp);
 	case MEETING_STATUS_COL:
 		return partstat_to_text (attendee->status);
+	case MEETING_CN_COL:
+		return attendee->cn;
+	case MEETING_LANG_COL:
+		return attendee->language;
 	}
 	
 	return NULL;
@@ -704,6 +767,12 @@ set_value_at (ETableModel *etm, int col, int row, const void *val, void *data)
 	case MEETING_ATTENDEE_COL:
 		attendee->address = g_strdup (val);
 		break;
+	case MEETING_MEMBER_COL:
+		attendee->member = g_strdup (val);
+		break;
+	case MEETING_TYPE_COL:
+		attendee->cutype = text_to_type (val);
+		break;
 	case MEETING_ROLE_COL:
 		attendee->role = text_to_role (val);
 		break;
@@ -712,6 +781,12 @@ set_value_at (ETableModel *etm, int col, int row, const void *val, void *data)
 		break;
 	case MEETING_STATUS_COL:
 		attendee->status = text_to_partstat (val);
+		break;
+	case MEETING_CN_COL:
+		attendee->cn = g_strdup (val);
+		break;
+	case MEETING_LANG_COL:
+		attendee->language = g_strdup (val);
 		break;
 	}
 
@@ -745,12 +820,20 @@ init_value (ETableModel *etm, int col, void *data)
 	switch (col) {
 	case MEETING_ATTENDEE_COL:
 		return g_strdup ("");
+	case MEETING_MEMBER_COL:
+		return g_strdup ("");
+	case MEETING_TYPE_COL:
+		return g_strdup ("Individual");
 	case MEETING_ROLE_COL:
 		return g_strdup ("Required Participant");
 	case MEETING_RSVP_COL:
 		return g_strdup ("Yes");
 	case MEETING_STATUS_COL:
 		return g_strdup ("Needs Action");
+	case MEETING_CN_COL:
+		return g_strdup ("");
+	case MEETING_LANG_COL:
+		return g_strdup ("English");
 	}
 	
 	return g_strdup ("");
