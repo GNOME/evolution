@@ -1,3 +1,16 @@
+2002-03-20  Ettore Perazzoli  <ettore@ximian.com>
+
+	* e-search-bar.c (update_bonobo_menus): Remove all the SearchBar
+	items before setting them up again.
+	(free_menu_items): New.
+	(impl_destroy): Call it.
+	(set_menu): Call it here too before adding the new items.
+
+2002-03-18  Ettore Perazzoli  <ettore@ximian.com>
+
+	* e-search-bar.c (verb_name_from_id): New.
+	(e_search_bar_set_menu_sensitive): Rewritten using it.
+
 2002-03-18  Ettore Perazzoli  <ettore@ximian.com>
 
 	* e-search-bar.c (update_bonobo_menus): No accelerator for

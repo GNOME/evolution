@@ -121,6 +121,12 @@ update_sensitivity (ESearchBar *search_bar)
 	}
 }
 
+static char *
+verb_name_from_id (int id)
+{
+	return g_strdup_printf ("ESearchBar:Activate:%d", id);
+}
+
 /* This implements the "clear" action, i.e. clears the text and then emits
  * ::search_activated.  */
 
@@ -129,6 +135,46 @@ clear_search (ESearchBar *esb)
 {
 	e_search_bar_set_text (esb, "");
 	emit_search_activated (esb);
+}
+
+/* Frees an array of subitem information */
+static void
+free_subitems (ESearchBarSubitem *subitems)
+{
+	ESearchBarSubitem *s;
+
+	g_assert (subitems != NULL);
+
+	for (s = subitems; s->id != -1; s++) {
+		if (s->text)
+			g_free (s->text);
+	}
+
+	g_free (subitems);
+}
+
+static void
+free_menu_items (ESearchBar *esb)
+{
+	GSList *p;
+
+	if (esb->menu_items == NULL)
+		return;
+
+	for (p = esb->menu_items; p != NULL; p = p->next) {
+		ESearchBarItem *item;
+
+		item = (ESearchBarItem *) p->data;
+
+		/* (No submitems for the menu_items, so no need to free that
+		   member.)  */
+
+		g_free (item->text);
+		g_free (item);
+	}
+
+	g_slist_free (esb->menu_items);
+	esb->menu_items = NULL;
 }
 
 
@@ -424,6 +470,8 @@ update_bonobo_menus (ESearchBar *esb)
 	GSList *p;
 	char *verb_name;
 
+	bonobo_ui_component_rm (esb->ui_component, "/menu/Search/SearchBar", NULL);
+
 	xml = g_string_new ("<placeholder name=\"SearchBar\">");
 
 	append_xml_menu_item (xml, "FindNow", _("Find Now"), "ESearchBar:FindNow", NULL);
@@ -434,7 +482,7 @@ update_bonobo_menus (ESearchBar *esb)
 
 		item = (const ESearchBarItem *) p->data;
 
-		verb_name = g_strdup_printf ("ESearchBar:Activate:%d", item->id);
+		verb_name = verb_name_from_id (item->id);
 		bonobo_ui_component_add_verb (esb->ui_component, verb_name, search_verb_cb, esb);
 
 		if (item->text == NULL)
@@ -458,6 +506,8 @@ set_menu (ESearchBar *esb,
 {
 	int i;
 
+	free_menu_items (esb);
+
 	if (items == NULL)
 		return;
 
@@ -467,7 +517,7 @@ set_menu (ESearchBar *esb,
 		g_assert (items[i].subitems == NULL);
 
 		new_item = g_new (ESearchBarItem, 1);
-		new_item->text 	   = items[i].text;
+		new_item->text 	   = g_strdup (items[i].text);
 		new_item->id   	   = items[i].id;
 		new_item->subitems = NULL;
 
@@ -476,22 +526,6 @@ set_menu (ESearchBar *esb,
 
 	if (esb->ui_component != NULL)
 		update_bonobo_menus (esb);
-}
-
-/* Frees an array of subitem information */
-static void
-free_subitems (ESearchBarSubitem *subitems)
-{
-	ESearchBarSubitem *s;
-
-	g_assert (subitems != NULL);
-
-	for (s = subitems; s->id != -1; s++) {
-		if (s->text)
-			g_free (s->text);
-	}
-
-	g_free (subitems);
 }
 
 /* Callback used when an option item is destroyed.  We have to destroy its
@@ -694,6 +728,8 @@ impl_destroy (GtkObject *object)
 		gtk_idle_remove (esb->pending_activate);
 		esb->pending_activate = 0;
 	}
+
+	free_menu_items (esb);
 	
 	if (GTK_OBJECT_CLASS (parent_class)->destroy)
 		GTK_OBJECT_CLASS (parent_class)->destroy (object);
@@ -929,14 +965,20 @@ e_search_bar_set_ui_component (ESearchBar *search_bar,
 }
 
 void
-e_search_bar_set_menu_sensitive (ESearchBar *esb, int id, gboolean state)
+e_search_bar_set_menu_sensitive (ESearchBar *search_bar, int id, gboolean state)
 {
-	int row;
-	GtkWidget *widget;
-	
-	row = find_id (esb->dropdown_menu, id, "EsbMenuId", &widget);
-	if (row != -1)
-		gtk_widget_set_sensitive (widget, state);
+	char *verb_name;
+	char *path;
+
+	verb_name = verb_name_from_id (id);
+	path = g_strconcat ("/commands/", verb_name, NULL);
+	g_free (verb_name);
+
+	bonobo_ui_component_set_prop (search_bar->ui_component, path,
+				      "sensitive", state ? "1" : "0",
+				      NULL);
+
+	g_free (path);
 }
 
 GtkType
