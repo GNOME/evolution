@@ -533,7 +533,7 @@ set_prop (BonoboPropertyBag *bag, const BonoboArg *arg, guint arg_id, CORBA_Envi
 }
 
 BonoboControl *
-e_address_widget_factory_new_control (void)
+e_address_widget_new_control (void)
 {
 	BonoboControl *control;
 	BonoboPropertyBag *bag;

@@ -1,3 +1,9 @@
+2003-12-01  Frederic Crozat  <fcrozat@mandrakesoft.com>
+
+	* gui/component/e-address-widget.c: (e_address_widget_new_control):
+	Really rename e_address_widget_factory_new_control into
+	e_address_widget_new_control (Mdk bug #6463, found by Chris Gleba)
+
 2003-11-06 Leon Zhang <leon.zhang@sun.com>
 
 	* gui/widgets/e-minicard.c: (e_minicard_event):
