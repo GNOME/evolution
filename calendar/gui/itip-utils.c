@@ -270,7 +270,7 @@ itip_send_comp (CalComponentItipMethod method, CalComponent *comp)
 
 	sprintf (tempstr, "text/calendar;METHOD=%s", itip_methods[method]);
 	content_type = CORBA_string_dup (tempstr);
-	filename = CORBA_string_dup ("");
+	filename = CORBA_string_dup ("calendar.ics");
 	sprintf (tempstr, "Calendar attachment");
 	description = CORBA_string_dup (tempstr);
 	show_inline = FALSE;

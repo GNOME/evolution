@@ -1,3 +1,8 @@
+2001-08-07  JP Rosevear  <jpr@ximian.com>
+
+	* gui/itip-utils.c (itip_send_comp): Make calendar.ics the
+	suggested name
+
 2001-08-06  Damon Chaplin  <damon@ximian.com>
 
 	* gui/e-week-view.h: 
