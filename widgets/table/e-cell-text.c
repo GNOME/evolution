@@ -1218,7 +1218,7 @@ ect_show_tooltip (ECellView *ecell_view,
 				      "y1", (double) 0.0,
 				      "x2", (double) max_width + 4,
 				      "y2", (double) text_height,
-				      "fill_color", "light gray",
+				      "fill_color_gdk", tooltip->background,
 				      NULL);
 
 	tooltip_text = gnome_canvas_item_new (gnome_canvas_root (GNOME_CANVAS (canvas)),
@@ -1227,6 +1227,7 @@ ect_show_tooltip (ECellView *ecell_view,
 /*  					      "font_gdk", text_view->font, */
 					      "bold", (gboolean) ect->bold_column >= 0 && e_table_model_value_at(ecell_view->e_table_model, ect->bold_column, row),
 					      "strikeout", (gboolean) ect->strikeout_column >= 0 && e_table_model_value_at(ecell_view->e_table_model, ect->strikeout_column, row),
+					      "fill_color_gdk", tooltip->foreground,
 					      "text", cell.text,
 					      "editable", FALSE,
 					      "clip_width", max_width,

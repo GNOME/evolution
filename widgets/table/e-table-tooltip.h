@@ -12,6 +12,8 @@ typedef struct {
 	int row_height;
 	int x, y;
 	int cx, cy;
+	GdkColor *foreground;
+	GdkColor *background;
 	GnomeCanvasItem *eti;
 } ETableTooltip;
 

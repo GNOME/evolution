@@ -141,13 +141,67 @@ view_to_model_col(ETableItem *eti, int col)
 	return ecol ? ecol->col_idx : -1;
 }
 
-static gboolean
+inline static gboolean
 eti_editing (ETableItem *eti)
 {
 	if (eti->editing_col == -1)
 		return FALSE;
 	else
 		return TRUE;
+}
+
+inline static GdkColor *
+eti_get_cell_background_color (ETableItem *eti, int row, int col, gboolean selected, gboolean *allocated)
+{
+	GtkWidget *canvas = GTK_WIDGET(GNOME_CANVAS_ITEM(eti)->canvas);
+	GdkColor *background;
+
+	if (allocated)
+		*allocated = FALSE;
+
+	if (selected){
+		if (GTK_WIDGET_HAS_FOCUS(canvas))
+			background = &canvas->style->bg [GTK_STATE_SELECTED];
+		else
+			background = &canvas->style->bg [GTK_STATE_ACTIVE];
+	} else {
+		background = &canvas->style->base [GTK_STATE_NORMAL];
+	}
+
+#ifdef ALTERNATE_COLORS
+	if (row % 2) {
+		
+	} else {
+		if (allocated)
+			*allocated = TRUE;
+		background = gdk_color_copy (background);
+		e_hsv_tweak (background, 0.0f, 0.0f, -0.05f);
+		gdk_color_alloc (gtk_widget_get_colormap (GTK_WIDGET (canvas)), background);
+	}
+#endif
+
+	return background;
+}
+
+inline static GdkColor *
+eti_get_cell_foreground_color (ETableItem *eti, int row, int col, gboolean selected, gboolean *allocated)
+{
+	GtkWidget *canvas = GTK_WIDGET(GNOME_CANVAS_ITEM(eti)->canvas);
+	GdkColor *foreground;
+
+	if (allocated)
+		*allocated = FALSE;
+
+	if (selected){
+		if (GTK_WIDGET_HAS_FOCUS (canvas))
+			foreground = &canvas->style->text [GTK_STATE_SELECTED];
+		else
+			foreground = &canvas->style->text [GTK_STATE_ACTIVE];
+	} else {
+		foreground = &canvas->style->text [GTK_STATE_NORMAL];
+	}
+
+	return foreground;
 }
 
 /*
@@ -965,6 +1019,10 @@ eti_destroy (GtkObject *object)
 	eti->height_cache_idle_count = 0;
 
 	e_canvas_hide_tooltip (E_CANVAS(GNOME_CANVAS_ITEM(eti)->canvas));
+	if (eti->tooltip->background)
+		gdk_color_free (eti->tooltip->background);
+	if (eti->tooltip->foreground)
+		gdk_color_free (eti->tooltip->foreground);
 	if (eti->tooltip->timer) {
 		gtk_timeout_remove (eti->tooltip->timer);
 		eti->tooltip->timer = 0;
@@ -1111,6 +1169,8 @@ eti_init (GnomeCanvasItem *item)
 	eti->tooltip                   = g_new0 (ETableTooltip, 1);
 	eti->tooltip->timer            = 0;
 	eti->tooltip->eti              = GNOME_CANVAS_ITEM (eti);
+	eti->tooltip->background       = NULL;
+	eti->tooltip->foreground       = NULL;
 
 	eti->grabbed_col               = -1;
 	eti->grabbed_row               = -1;
@@ -1315,7 +1375,7 @@ eti_draw (GnomeCanvasItem *item, GdkDrawable *drawable, int x, int y, int width,
 			ECellView *ecell_view = eti->cell_views [col];
 			gboolean col_selected = selected;
 			ECellFlags flags;
-			gboolean free_background = FALSE;
+			gboolean free_background;
 			GdkColor *background;
 
 			switch (eti->cursor_mode) {
@@ -1329,25 +1389,7 @@ eti_draw (GnomeCanvasItem *item, GdkDrawable *drawable, int x, int y, int width,
 				break;
 			}
 
-			if (col_selected){
-				if (GTK_WIDGET_HAS_FOCUS(canvas))
-					background = &canvas->style->bg [GTK_STATE_SELECTED];
-				else
-					background = &canvas->style->bg [GTK_STATE_ACTIVE];
-			} else {
-				background = &canvas->style->base [GTK_STATE_NORMAL];
-			}
-
-#ifdef ALTERNATE_COLORS
-			if (row % 2) {
-				
-			} else {
-				free_background = TRUE;
-				background = gdk_color_copy (background);
-				e_hsv_tweak (background, 0.0f, 0.0f, -0.05f);
-				gdk_color_alloc (gtk_widget_get_colormap (GTK_WIDGET (canvas)), background);
-			}
-#endif
+			background = eti_get_cell_background_color (eti, row, col, col_selected, &free_background);
 
 			gdk_gc_set_foreground (eti->fill_gc, background);
 			gdk_draw_rectangle (drawable, eti->fill_gc, TRUE,
@@ -1547,6 +1589,10 @@ _do_tooltip (ETableItem *eti)
 	int x = 0, y = 0;
 	int i;
 	int height_extra = eti->horizontal_draw_grid ? 1 : 0;
+	gboolean free_color;
+	ETableCol *ecol;
+	gboolean selected;
+	int cursor_row, cursor_col;
 
 	e_canvas_hide_tooltip (E_CANVAS(GNOME_CANVAS_ITEM(eti)->canvas));
 
@@ -1563,6 +1609,39 @@ _do_tooltip (ETableItem *eti)
 		y += (ETI_ROW_HEIGHT (eti, i) + height_extra);
 	eti->tooltip->y = y;
 	eti->tooltip->row_height = ETI_ROW_HEIGHT (eti, i);
+
+	selected = e_selection_model_is_row_selected(E_SELECTION_MODEL (eti->selection), view_to_model_row(eti,eti->tooltip->row));
+
+	if (eti->tooltip->foreground)
+		gdk_color_free (eti->tooltip->foreground);
+	if (eti->tooltip->background)
+		gdk_color_free (eti->tooltip->background);
+
+	switch (eti->cursor_mode) {
+	case E_CURSOR_SIMPLE:
+	case E_CURSOR_SPREADSHEET:
+		ecol = e_table_header_get_column (eti->header, eti->tooltip->col);
+
+		gtk_object_get(GTK_OBJECT(eti->selection),
+			       "cursor_row", &cursor_row,
+			       "cursor_col", &cursor_col,
+			       NULL);
+
+		if (cursor_col == ecol->col_idx && cursor_row == view_to_model_row(eti, eti->tooltip->row))
+			selected = !selected;
+		break;
+	case E_CURSOR_LINE:
+				/* Nothing */
+		break;
+	}
+
+	eti->tooltip->background = eti_get_cell_background_color (eti, eti->tooltip->row, eti->tooltip->col, selected, &free_color);
+	if (!free_color)
+		eti->tooltip->background = gdk_color_copy(eti->tooltip->background);
+
+	eti->tooltip->foreground = eti_get_cell_foreground_color (eti, eti->tooltip->row, eti->tooltip->col, selected, &free_color);
+	if (!free_color)
+		eti->tooltip->foreground = gdk_color_copy(eti->tooltip->foreground);
 
 	e_cell_show_tooltip (ecell_view, 
 			     view_to_model_col (eti, eti->tooltip->col),
@@ -1650,7 +1729,7 @@ eti_event (GnomeCanvasItem *item, GdkEvent *e)
 				       "cursor_row", &cursor_row,
 				       "cursor_col", &cursor_col,
 				       NULL);
-			
+
 			if (cursor_row == view_to_model_row(eti, row) && cursor_col == view_to_model_col(eti, col)){
 
 				if ((!eti_editing(eti)) && e_table_model_is_cell_editable(eti->table_model, col, row)) {

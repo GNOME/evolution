@@ -1391,6 +1391,12 @@ e_tree_row_count (ETree *et)
 	return e_table_model_row_count (E_TABLE_MODEL(et->priv->etta));
 }
 
+GtkWidget *
+e_tree_get_tooltip (ETree *et)
+{
+	return E_CANVAS(et->priv->table_canvas)->tooltip_window;
+}
+
 struct _ETreeDragSourceSite
 {
 	GdkModifierType    start_button_mask;
