@@ -1,3 +1,12 @@
+2001-07-02  Larry Ewing  <lewing@ximian.com>
+
+	* e-msg-composer.c (autosave_query_load_orphans): querythe user to
+	check if they want to load any orphans we've found.
+	(autosave_query_cb): the dialog callback.
+	(autosave_is_orphan): test if if a particular file is orphaned.
+	(autosave_load_draft): load a message from an autosave file.
+	(autosave_save_draft): save the current buffer to the autosave file.
+
 2001-07-02  Christopher James Lahey  <clahey@ximian.com>
 
 	* Makefile.am (INCLUDES): Added $(BONOBO_CONF_CFLAGS).

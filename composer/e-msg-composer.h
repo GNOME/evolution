@@ -75,7 +75,11 @@ struct _EMsgComposer {
 	Bonobo_ConfigDatabase    config_db;
 	
 	char *charset;
-	
+
+	char *autosave_file;
+        int   autosave_fd;
+	guint autosave_id; 
+
 	gboolean attachment_bar_visible : 1;
 	gboolean send_html     : 1;
 	gboolean pgp_sign      : 1;
@@ -122,6 +126,7 @@ void              e_msg_composer_add_header           (EMsgComposer     *compose
 void              e_msg_composer_attach               (EMsgComposer     *composer,
 						       CamelMimePart    *attachment);
 CamelMimeMessage *e_msg_composer_get_message          (EMsgComposer     *composer);
+CamelMimeMessage *e_msg_composer_get_message_draft    (EMsgComposer     *composer);
 void              e_msg_composer_show_sig_file        (EMsgComposer     *composer);
 gboolean          e_msg_composer_get_send_html        (EMsgComposer     *composer);
 void              e_msg_composer_set_send_html        (EMsgComposer     *composer,

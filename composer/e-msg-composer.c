@@ -42,6 +42,8 @@
 
 #include <errno.h>
 #include <ctype.h>
+#include <stdlib.h>
+#include <dirent.h>
 #include <libgnome/gnome-defs.h>
 #include <libgnomeui/gnome-app.h>
 #include <libgnomeui/gnome-uidefs.h>
@@ -116,9 +118,10 @@ static const int num_drop_types = sizeof (drop_types) / sizeof (drop_types[0]);
 static GnomeAppClass *parent_class = NULL;
 
 /* local prototypes */
-static GList *add_recipients (GList *list, const char *recips, gboolean decode);
-static void free_recipients (GList *list);
-static void handle_multipart (EMsgComposer *composer, CamelMultipart *multipart, int depth);
+static GList *add_recipients   (GList *list, const char *recips, gboolean decode);
+static void free_recipients    (GList *list);
+static void handle_multipart   (EMsgComposer *composer, CamelMultipart *multipart, int depth);
+static void message_rfc822_dnd (EMsgComposer *composer, CamelStream *stream);
 
 
 static GByteArray *
@@ -948,7 +951,6 @@ save_draft (EMsgComposer *composer, int quitok)
 	CamelMessageInfo *info;
 	const MailConfigAccount *account;
 	struct _save_info *si;
-	gboolean old_send_html;
 	CamelFolder *folder = NULL;
 	
 	account = e_msg_composer_get_preferred_account (composer);
@@ -972,20 +974,8 @@ save_draft (EMsgComposer *composer, int quitok)
 	} else
 		folder = drafts_folder;
 	
-	/* always save drafts as HTML to preserve formatting */
-	old_send_html = composer->send_html;
-	composer->send_html = TRUE;
-	msg = e_msg_composer_get_message (composer);
-	composer->send_html = old_send_html;
-	
-	/* Attach whether this message was written in HTML */
-	camel_medium_set_header (CAMEL_MEDIUM (msg), "X-Evolution-Format",
-				 composer->send_html ? "text/html" : "text/plain");
-	
-	/* Attach account info to the draft. */
-	if (account && account->name)
-		camel_medium_set_header (CAMEL_MEDIUM (msg), "X-Evolution-Account", account->name);
-	
+	msg = e_msg_composer_get_message_draft (composer);
+
 	info = g_new0 (CamelMessageInfo, 1);
 	info->flags = CAMEL_MESSAGE_DRAFT | CAMEL_MESSAGE_SEEN;
 	
@@ -996,6 +986,144 @@ save_draft (EMsgComposer *composer, int quitok)
 	
 	mail_append_mail (folder, msg, info, save_done, si);
 	camel_object_unref (CAMEL_OBJECT (msg));
+}
+
+#define AUTOSAVE_SEED ".evolution-composer.autosave-XXXXXX"
+#define AUTOSAVE_INTERVAL 600
+
+static void
+autosave_save_draft (EMsgComposer *composer)
+{
+	CamelMimeMessage *msg;
+	CamelStream *stream;
+	char *file;
+	gint fd;
+
+	if (composer->autosave_file == NULL) {
+		composer->autosave_file = g_strdup_printf ("%s/%s", g_get_home_dir(), AUTOSAVE_SEED);
+		composer->autosave_fd = mkstemp (composer->autosave_file);
+	}
+	fd = composer->autosave_fd;
+	file = composer->autosave_file;
+
+	if (fd == -1) {
+		e_notice (GTK_WINDOW (composer), GNOME_MESSAGE_BOX_ERROR,
+			  _("Error opening file: %s"), file);
+		return;
+	}
+
+	msg = e_msg_composer_get_message_draft (composer);
+	
+	if (ftruncate (fd, (off_t)0) == -1) {
+		e_notice (GTK_WINDOW (composer), GNOME_MESSAGE_BOX_ERROR,
+			  _("Unable to truncate file: %s\n%s"), file, strerror(errno));
+		return;
+	}
+	
+	/* this does an lseek so we don't have to */
+	stream = camel_stream_fs_new_with_fd(fd);
+	if (camel_data_wrapper_write_to_stream((CamelDataWrapper *)msg, stream) == -1
+	    || camel_stream_flush((CamelStream *)stream) == -1) {
+		e_notice (GTK_WINDOW (composer), GNOME_MESSAGE_BOX_ERROR,
+			  _("Error autosaving message: %s\n %s"), file, strerror(errno));
+			
+	}
+	/* set the fd to -1 in the stream so camel doesn't close it we want to keep it open */
+	CAMEL_STREAM_FS (stream)->fd = -1;
+	camel_object_unref((CamelObject *)stream);
+}
+
+static EMsgComposer * 
+autosave_load_draft (const char *filename)
+{
+	CamelStream *stream;
+	CamelMimeMessage *msg;
+	EMsgComposer *composer;
+
+	g_warning ("filename = \"%s\"", filename);
+	stream = camel_stream_fs_new_with_name (filename, O_RDONLY, 0);
+	msg = camel_mime_message_new ();
+	camel_data_wrapper_construct_from_stream (CAMEL_DATA_WRAPPER (msg), stream);
+	
+	composer = e_msg_composer_new_with_message (msg);
+	
+	gtk_widget_show (GTK_WIDGET (composer));
+	return composer;
+}
+
+static gboolean
+autosave_is_orphan (const char *file)
+{
+	g_warning ("I am a bug");
+
+	return (rand()%2);
+}
+
+static void
+autosave_query_cb (gint reply, gpointer data)
+{
+	int *ok = data;
+
+	*ok = !reply;
+}
+
+static GList *
+autosave_query_load_orphans (EMsgComposer *composer)
+{
+	GtkWidget *dialog;
+	DIR *dir;
+	struct dirent *d;
+	GList *matches = NULL;
+	gint len = strlen (AUTOSAVE_SEED);
+	gint pre_len;
+	gint ok;
+
+	/* length of the seed minus the XXXXXX */
+	pre_len = len - 6;
+
+	dir = opendir (g_get_home_dir());
+	if (!dir) {
+		return NULL;
+	}
+		    
+	while ((d = readdir (dir))) {
+		if ((!strncmp (d->d_name, AUTOSAVE_SEED, pre_len) )
+		    && (strlen (d->d_name) == len)
+		    && (strcmp (d->d_name + pre_len, composer->autosave_file + pre_len))
+		    && (autosave_is_orphan (d->d_name))) {
+			dialog = gnome_ok_cancel_dialog_parented (_("Evolution has detected an editor buffer from a previous session.\n"
+								    "Would you like to recover this buffer?"),
+								  autosave_query_cb, &ok, GTK_WINDOW (composer));
+
+			gnome_dialog_run_and_close (GNOME_DIALOG (dialog));
+
+			if (ok) {
+				autosave_load_draft (d->d_name);
+			}
+		}
+	}
+	return matches;
+}
+
+static gint
+autosave_timeout_run (gpointer data)
+{
+	EMsgComposer *composer = E_MSG_COMPOSER (data);
+	autosave_save_draft (composer);
+}
+
+static void
+autosave_timeout_start (EMsgComposer *composer)
+{
+	if (!composer->autosave_id)
+		composer->autosave_id = gtk_timeout_add (AUTOSAVE_INTERVAL, autosave_timeout_run, composer);
+}
+
+static void
+autosave_timeout_stop (EMsgComposer *composer)
+{
+	if (composer->autosave_id)
+		gtk_timeout_remove (composer->autosave_id);
 }
 
 static void
@@ -1826,6 +1954,8 @@ init (EMsgComposer *composer)
 	composer->has_changed              = FALSE;
 	
 	composer->charset                  = NULL;
+	composer->autosave_file            = NULL;
+	composer->autosave_fd              = -1;
 }
 
 
@@ -2655,6 +2785,31 @@ e_msg_composer_get_message (EMsgComposer *composer)
 	g_return_val_if_fail (E_IS_MSG_COMPOSER (composer), NULL);
 	
 	return build_message (composer);
+}
+
+CamelMimeMessage *
+e_msg_composer_get_message_draft (EMsgComposer *composer)
+{
+	CamelMimeMessage *msg;
+	const MailConfigAccount *account;
+	gint old_send_html;
+
+	/* always save drafts as HTML to preserve formatting */
+	old_send_html = composer->send_html;
+	composer->send_html = TRUE;
+	msg = e_msg_composer_get_message (composer);
+	composer->send_html = old_send_html;
+
+	/* Attach whether this message was written in HTML */
+	camel_medium_set_header (CAMEL_MEDIUM (msg), "X-Evolution-Format",
+				 composer->send_html ? "text/html" : "text/plain");
+	
+	/* Attach account info to the draft. */
+	account = e_msg_composer_get_preferred_account (composer);
+	if (account && account->name)
+		camel_medium_set_header (CAMEL_MEDIUM (msg), "X-Evolution-Account", account->name);
+	
+	return msg;
 }
 
 
