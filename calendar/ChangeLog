@@ -1,4 +1,16 @@
-2004-09-20  JP Rosevear  <jpr@novell.com>
+2004-09-21  JP Rosevear  <jpr@novell.com>
+ 
+ 	Fixes #60904
+ 	
+ 	* gui/gnome-cal.c (set_week_start): update the view
+ 	(get_times_for_views): mimic the work week guessing code exactly
+ 	for calculating the time range needed instead of hardcoding 5 days
+ 	(set_working_days): new routine to update the view
+ 	(working_days_changed_cb): use above when getting config change
+ 	notification
+ 	(setup_config): set working days and add notification
+	
+2004-09-21  JP Rosevear  <jpr@novell.com>
  
  	Fixes #66158
  	
