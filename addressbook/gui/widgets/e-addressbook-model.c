@@ -57,16 +57,18 @@ static guint e_addressbook_model_signals [LAST_SIGNAL] = {0, };
 static void
 free_data (EAddressbookModel *model)
 {
-	int i;
+	if (model->data) {
+		int i;
 
-	for ( i = 0; i < model->data_count; i++ ) {
-		g_object_unref (model->data[i]);
+		for ( i = 0; i < model->data_count; i++ ) {
+			g_object_unref (model->data[i]);
+		}
+
+		g_free(model->data);
+		model->data = NULL;
+		model->data_count = 0;
+		model->allocated_count = 0;
 	}
-
-	g_free(model->data);
-	model->data = NULL;
-	model->data_count = 0;
-	model->allocated_count = 0;
 }
 
 static void
@@ -99,9 +101,8 @@ remove_book_view(EAddressbookModel *model)
 	if (model->book_view) {
 		e_book_view_stop (model->book_view);
 		g_object_unref (model->book_view);
+		model->book_view = NULL;
 	}
-
-	model->book_view = NULL;
 }
 
 static void
@@ -132,7 +133,13 @@ addressbook_dispose(GObject *object)
 		model->book = NULL;
 	}
 
-	g_free (model->query);
+	if (model->query) {
+		g_free (model->query);
+		model->query = NULL;
+	}
+
+	if (G_OBJECT_CLASS(parent_class)->dispose)
+		G_OBJECT_CLASS(parent_class)->dispose(object);
 }
 
 static void

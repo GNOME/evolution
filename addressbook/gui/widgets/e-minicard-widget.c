@@ -181,8 +181,10 @@ e_minicard_widget_dispose (GObject *object)
 {
 	EMinicardWidget *emw = E_MINICARD_WIDGET(object);
 
-	if (emw->card)
+	if (emw->card) {
 		g_object_unref (emw->card);
+		emw->card = NULL;
+	}
 	
 	if (G_OBJECT_CLASS(parent_class)->dispose)
 		G_OBJECT_CLASS(parent_class)->dispose(object);

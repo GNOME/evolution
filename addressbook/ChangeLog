@@ -1,5 +1,23 @@
 2002-11-08  Chris Toshok  <toshok@ximian.com>
 
+	* gui/widgets/e-addressbook-model.c (free_data): guard against
+	multiple invocations.
+	(remove_book_view): same.
+	(addressbook_dispose): same.
+
+	* gui/widgets/e-addressbook-view.c (e_addressbook_view_dispose):
+	same.
+
+	* gui/widgets/e-minicard-view-widget.c
+	(e_minicard_view_widget_dispose): same.
+
+	* gui/widgets/e-minicard-view.c (e_minicard_view_dispose): same.
+
+	* gui/widgets/e-minicard-widget.c (e_minicard_widget_dispose):
+	same.
+
+2002-11-08  Chris Toshok  <toshok@ximian.com>
+
 	* gui/widgets/e-addressbook-reflow-adapter.c
 	(addressbook_get_property): oops, missed these casts.
 

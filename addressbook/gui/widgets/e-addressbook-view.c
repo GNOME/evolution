@@ -323,8 +323,10 @@ e_addressbook_view_dispose (GObject *object)
 		eav->book = NULL;
 	}
 
-	g_free(eav->query);
-	eav->query = NULL;
+	if (eav->query) {
+		g_free(eav->query);
+		eav->query = NULL;
+	}
 
 	eav->uic = NULL;
 

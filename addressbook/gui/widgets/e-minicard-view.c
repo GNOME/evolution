@@ -271,6 +271,7 @@ e_minicard_view_dispose (GObject *object)
 	if (view->canvas_drag_data_get_id) {
 		g_signal_handler_disconnect (GNOME_CANVAS_ITEM (view)->canvas,
 					     view->canvas_drag_data_get_id);
+		view->canvas_drag_data_get_id = 0;
 	}
 
 	if (view->adapter) {
@@ -289,7 +290,8 @@ e_minicard_view_dispose (GObject *object)
 	view->writable_status_id = 0;
 	view->adapter = NULL;
 
-	G_OBJECT_CLASS(parent_class)->dispose (object);
+	if (G_OBJECT_CLASS(parent_class)->dispose)
+		G_OBJECT_CLASS(parent_class)->dispose (object);
 }
 
 static guint
