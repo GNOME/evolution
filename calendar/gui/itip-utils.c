@@ -114,7 +114,8 @@ itip_send_comp (CalComponentItipMethod method, CalComponent *comp)
 	gint len;
 	CalComponentText caltext;
 	CalComponentOrganizer organizer;
-	CORBA_char *content_type, *filename, *description, *attach_data;
+	CORBA_char *content_type, *filename, *description;
+	GNOME_Evolution_Composer_AttachmentData *attach_data;
 	CORBA_boolean show_inline;
 	CORBA_char tempstr[200];
 	
@@ -232,7 +233,10 @@ itip_send_comp (CalComponentItipMethod method, CalComponent *comp)
 		icalcomponent_add_component (icomp, clone);
 
 		ical_string = icalcomponent_as_ical_string (icomp);
-		attach_data = CORBA_string_dup (ical_string);
+		attach_data = GNOME_Evolution_Composer_AttachmentData__alloc ();
+		attach_data->_maximum = attach_data->_length = strlen (ical_string);		
+		attach_data->_buffer = CORBA_sequence_CORBA_char_allocbuf (attach_data->_length);	
+		strcpy (attach_data->_buffer, ical_string);
 
 		icalcomponent_free (icomp);
 	}

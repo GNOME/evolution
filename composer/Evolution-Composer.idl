@@ -20,6 +20,8 @@ module Evolution {
 		};
 		typedef sequence<Recipient> RecipientList;
 
+		typedef sequence<char> AttachmentData;
+
 		/**
 		 * setHeaders:
 		 * @to: the "To" recipients
@@ -81,7 +83,7 @@ module Evolution {
 				 in string filename,
 				 in string description,
 				 in boolean show_inline,
-				 in string data);
+				 in AttachmentData data);
 
 		/**
 		 * show:

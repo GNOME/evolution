@@ -158,7 +158,7 @@ impl_Composer_attach_data (PortableServer_Servant servant,
 			   const CORBA_char *filename,
 			   const CORBA_char *description,
 			   const CORBA_boolean show_inline,
-			   const CORBA_char *data,
+			   const GNOME_Evolution_Composer_AttachmentData *data,
 			   CORBA_Environment *ev)
 {
 	BonoboObject *bonobo_object;
@@ -169,7 +169,7 @@ impl_Composer_attach_data (PortableServer_Servant servant,
 	composer = EVOLUTION_COMPOSER (bonobo_object);
 
 	attachment = camel_mime_part_new ();
-	camel_mime_part_set_content (attachment, data, strlen (data),
+	camel_mime_part_set_content (attachment, data->_buffer, data->_length,
 				     content_type);
 
 	if (*filename)

@@ -3744,10 +3744,11 @@ e_card_list_send (GList *cards, ECardDisposition disposition)
 	}
 
 	if (disposition == E_CARD_DISPOSITION_AS_ATTACHMENT) {
-		CORBA_char *content_type, *filename, *description, *attach_data;
+		CORBA_char *content_type, *filename, *description;
+		GNOME_Evolution_Composer_AttachmentData *attach_data;
 		CORBA_boolean show_inline;
 		char *tempstr;
-
+		
 		content_type = CORBA_string_dup ("text/x-vcard");
 		filename = CORBA_string_dup ("");
 
@@ -3768,7 +3769,10 @@ e_card_list_send (GList *cards, ECardDisposition disposition)
 		show_inline = FALSE;
 
 		tempstr = e_card_list_get_vcard (cards);
-		attach_data = CORBA_string_dup (tempstr);
+		attach_data = GNOME_Evolution_Composer_AttachmentData__alloc();
+		attach_data->_maximum = attach_data->_length = strlen (tempstr);
+		attach_data->_buffer = CORBA_sequence_CORBA_char_allocbuf (attach_data->_length);
+		strcpy (attach_data->_buffer, tempstr);
 		g_free (tempstr);
 
 		GNOME_Evolution_Composer_attachData (composer_server, 

@@ -1,3 +1,9 @@
+2001-06-20  Dave Camp  <dave@ximian.com>
+
+	* gui/itip-utils.c (itip_send_comp): Changed attach_data
+	to be a GNOME_Evolution_Composer_AttachmentData rather than a
+	CORBA_char*.
+
 2001-06-20  JP Rosevear  <jpr@ximian.com>
 
 	* gui/dialogs/comp-editor.c (print_cmd): print menu command
@@ -22,6 +28,7 @@
 	* gui/dialogs/send-comp.c (send_component_dialog): remove useless
 	assignment
 	
+>>>>>>> 1.910
 2001-06-20  Rodrigo Moya <rodrigo@ximian.com>
 
 	* idl/evolution-calendar.idl: added getFreeBusy method

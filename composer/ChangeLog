@@ -1,3 +1,12 @@
+2001-06-20  Dave Camp  <dave@ximian.com>
+
+	* Evolution-Composer.idl: Changed attachData to accept a sequence of
+	chars rather than a string.
+
+	* evolution-composer.c (impl_Composer_attach_data): Changed the 'data'
+	argument to a GNOME_Evolution_Composer_AttachmentData, and pass
+	data->_buffer and data->_length to camel_mime_part_set_content().
+
 2001-06-19  JP Rosevear  <jpr@ximian.com>
 
 	* evolution-composer.c (impl_Composer_send): send the message
