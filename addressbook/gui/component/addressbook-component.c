@@ -49,6 +49,8 @@
 #include "smime/gui/component.h"
 #endif
 
+#define LDAP_BASE_URI "ldap://"
+#define PERSONAL_RELATIVE_URI "system"
 
 #define PARENT_TYPE bonobo_object_get_type ()
 static BonoboObjectClass *parent_class = NULL;
@@ -57,6 +59,89 @@ struct _AddressbookComponentPrivate {
 	GConfClient *gconf_client;
 	char *base_directory;
 };
+
+static void
+ensure_sources (AddressbookComponent *component)
+{
+	GSList *groups;
+	ESourceList *source_list;
+	ESourceGroup *group;
+	ESourceGroup *on_this_computer;
+	ESourceGroup *on_ldap_servers;
+	ESource *personal_source;
+	char *base_uri, *base_uri_proto;
+
+	on_this_computer = NULL;
+	on_ldap_servers = NULL;
+	personal_source = NULL;
+
+	if (!e_book_get_addressbooks (&source_list, NULL)) {
+		g_warning ("Could not get addressbook source list from GConf!");
+		return;
+	}
+
+	base_uri = g_build_filename (addressbook_component_peek_base_directory (component),
+				     "addressbook", "local",
+				     NULL);
+
+	base_uri_proto = g_strconcat ("file://", base_uri, NULL);
+
+	groups = e_source_list_peek_groups (source_list);
+	if (groups) {
+		/* groups are already there, we need to search for things... */
+		GSList *g;
+
+		for (g = groups; g; g = g->next) {
+
+			group = E_SOURCE_GROUP (g->data);
+
+			if (!on_this_computer && !strcmp (base_uri_proto, e_source_group_peek_base_uri (group)))
+				on_this_computer = group;
+			else if (!on_ldap_servers && !strcmp (LDAP_BASE_URI, e_source_group_peek_base_uri (group)))
+				on_ldap_servers = group;
+		}
+	}
+
+	if (on_this_computer) {
+		/* make sure "Personal" shows up as a source under
+		   this group */
+		GSList *sources = e_source_group_peek_sources (on_this_computer);
+		GSList *s;
+		for (s = sources; s; s = s->next) {
+			ESource *source = E_SOURCE (s->data);
+			if (!strcmp (PERSONAL_RELATIVE_URI, e_source_peek_relative_uri (source))) {
+				personal_source = source;
+				break;
+			}
+		}
+	}
+	else {
+		/* create the local source group */
+		group = e_source_group_new (_("On This Computer"), base_uri_proto);
+		e_source_list_add_group (source_list, group, -1);
+
+		on_this_computer = group;
+	}
+
+	if (!personal_source) {
+		/* Create the default Person addressbook */
+		ESource *source = e_source_new (_("Personal"), PERSONAL_RELATIVE_URI);
+		e_source_group_add_source (on_this_computer, source, -1);
+
+		personal_source = source;
+	}
+
+	if (!on_ldap_servers) {
+		/* Create the LDAP source group */
+		group = e_source_group_new (_("On LDAP Servers"), LDAP_BASE_URI);
+		e_source_list_add_group (source_list, group, -1);
+
+		on_ldap_servers = group;
+	}
+
+	g_free (base_uri_proto);
+	g_free (base_uri);
+}
 
 /* Evolution::Component CORBA methods.  */
 
@@ -260,6 +345,8 @@ addressbook_component_init (AddressbookComponent *component)
 	priv->base_directory = g_build_filename (g_get_home_dir (), ".evolution", NULL);
 
 	component->priv = priv;
+
+	ensure_sources (component);
 
 #ifdef ENABLE_SMIME
 	smime_component_init ();

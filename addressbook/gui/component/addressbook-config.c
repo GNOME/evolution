@@ -1075,6 +1075,12 @@ addressbook_config_edit_source (GtkWidget *parent, ESource *source)
 		gconf = gconf_client_get_default();
 		sdialog->source_list = e_source_list_new_for_gconf(gconf, "/apps/evolution/addressbook/sources");
 		l = e_source_list_peek_groups(sdialog->source_list);
+		if (!l) {
+			g_warning ("Addressbook source groups are missing! Check your GConf setup.");
+			g_free (sdialog);
+			return NULL;
+		}
+
 		sdialog->menu_source_groups = g_slist_copy(l);
 #ifndef HAVE_LDAP
 		for (;l;l = g_slist_next(l))

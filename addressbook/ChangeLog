@@ -1,3 +1,16 @@
+2004-02-02  Hans Petter Jansson  <hpj@ximian.com>
+
+       * gui/component/addressbook-component.c (ensure_sources): Implement
+       based on the create_groups () function in addressbook-migrate.c.
+       (addressbook_component_init): Call ensure_sources (). This will create
+       the necessary addressbook source groups if they somehow disappeared
+       from GConf.
+
+       * gui/component/addressbook-config.c (addressbook_config_edit_source):
+       If we can't get any source groups, just issue a console warning and
+       return NULL. Creating sources without groups is meaningless.
+	Work around for #67411
+
 2005-02-02  Rodney Dawes  <dobey@novell.com>
 
 	* gui/component/ldap-config.glade: Fix a small spacing issue in the
