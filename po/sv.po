@@ -6,13 +6,13 @@
 # Martin Norbäck <d95mback@dtek.chalmers.se>, 2001.
 # Johan Dahlin <zilch.am@home.se>, 2001.
 #
-# $Id: sv.po,v 1.140 2001/12/19 02:53:34 menthos Exp $
+# $Id: sv.po,v 1.141 2001/12/19 16:50:39 menthos Exp $
 #
 msgid ""
 msgstr ""
 "Project-Id-Version: evolution\n"
-"POT-Creation-Date: 2001-12-19 03:50+0100\n"
-"PO-Revision-Date: 2001-12-19 03:51+0100\n"
+"POT-Creation-Date: 2001-12-19 17:28+0100\n"
+"PO-Revision-Date: 2001-12-19 17:49+0100\n"
 "Last-Translator: Christian Rose <menthos@menthos.com>\n"
 "Language-Team: Swedish <sv@li.org>\n"
 "MIME-Version: 1.0\n"
@@ -623,10 +623,10 @@ msgstr "VCard för %s"
 #: addressbook/backend/ebook/load-pine-addressbook.c:22
 #: addressbook/backend/ebook/test-client-list.c:23
 #: addressbook/backend/ebook/test-client.c:33
-#: addressbook/conduit/address-conduit.c:1539
+#: addressbook/conduit/address-conduit.c:1548
 #: addressbook/gui/component/addressbook-factory.c:50
-#: calendar/conduits/calendar/calendar-conduit.c:1546
-#: calendar/conduits/todo/todo-conduit.c:1130
+#: calendar/conduits/calendar/calendar-conduit.c:1554
+#: calendar/conduits/todo/todo-conduit.c:1138
 #: calendar/gui/alarm-notify/notify-main.c:171 calendar/gui/main.c:62
 #: tools/evolution-addressbook-export.c:60
 #: tools/evolution-addressbook-import.c:86
@@ -679,28 +679,28 @@ msgstr "Mottar LDAP-sökresultat..."
 msgid "Restarting search."
 msgstr "Startar om sökningen."
 
-#: addressbook/conduit/address-conduit.c:293
+#: addressbook/conduit/address-conduit.c:296
 msgid "Cursor could not be loaded\n"
 msgstr "Markören kunde inte läsas in\n"
 
-#: addressbook/conduit/address-conduit.c:306
+#: addressbook/conduit/address-conduit.c:309
 msgid "EBook not loaded\n"
 msgstr "EBook inte inläst\n"
 
-#: addressbook/conduit/address-conduit.c:1094
-#: calendar/conduits/calendar/calendar-conduit.c:1078
-#: calendar/conduits/todo/todo-conduit.c:694
+#: addressbook/conduit/address-conduit.c:1099
+#: calendar/conduits/calendar/calendar-conduit.c:1082
+#: calendar/conduits/todo/todo-conduit.c:698
 msgid "Could not start wombat server"
 msgstr "Kunde inte starta wombat-server"
 
-#: addressbook/conduit/address-conduit.c:1095
-#: calendar/conduits/calendar/calendar-conduit.c:1079
-#: calendar/conduits/todo/todo-conduit.c:695
+#: addressbook/conduit/address-conduit.c:1100
+#: calendar/conduits/calendar/calendar-conduit.c:1083
+#: calendar/conduits/todo/todo-conduit.c:699
 msgid "Could not start wombat"
 msgstr "Kunde inte starta wombat"
 
-#: addressbook/conduit/address-conduit.c:1125
-#: addressbook/conduit/address-conduit.c:1128
+#: addressbook/conduit/address-conduit.c:1130
+#: addressbook/conduit/address-conduit.c:1133
 msgid "Could not read pilot's Address application block"
 msgstr "Kunde inte läsa pilotens adressprogramblock"
 
@@ -971,37 +971,37 @@ msgstr ""
 msgid "Enter password for %s (user %s)"
 msgstr "Ange lösenord för %s (användare %s)"
 
-#: addressbook/gui/component/addressbook.c:803
+#: addressbook/gui/component/addressbook.c:808
 #: calendar/gui/cal-search-bar.c:55
 msgid "Any field contains"
 msgstr "Något fält innehåller"
 
-#: addressbook/gui/component/addressbook.c:804
+#: addressbook/gui/component/addressbook.c:809
 msgid "Name contains"
 msgstr "Namnet innehåller"
 
-#: addressbook/gui/component/addressbook.c:805
+#: addressbook/gui/component/addressbook.c:810
 msgid "Email contains"
 msgstr "E-postadressen innehåller"
 
-#: addressbook/gui/component/addressbook.c:806
+#: addressbook/gui/component/addressbook.c:811
 #: calendar/gui/cal-search-bar.c:59
 msgid "Category is"
 msgstr "Kategori är"
 
 #. We attach subitems below
-#: addressbook/gui/component/addressbook.c:807 widgets/misc/e-filter-bar.h:97
+#: addressbook/gui/component/addressbook.c:812 widgets/misc/e-filter-bar.h:97
 #: widgets/misc/e-filter-bar.h:104
 msgid "Advanced..."
 msgstr "Avancerat..."
 
 #. All, unmatched, separator
-#: addressbook/gui/component/addressbook.c:1025
+#: addressbook/gui/component/addressbook.c:1030
 #: calendar/gui/cal-search-bar.c:412
 msgid "Any Category"
 msgstr "Alla kategorier"
 
-#: addressbook/gui/component/addressbook.c:1107
+#: addressbook/gui/component/addressbook.c:1112
 msgid "The URI that the Folder Browser will display"
 msgstr "URI:n som mappbläddraren kommer att visa"
 
@@ -4547,18 +4547,18 @@ msgstr "Låg"
 msgid "Undefined"
 msgstr "Odefinierad"
 
-#: calendar/conduits/calendar/calendar-conduit.c:1034
-#: calendar/conduits/todo/todo-conduit.c:649
+#: calendar/conduits/calendar/calendar-conduit.c:1029
+#: calendar/conduits/todo/todo-conduit.c:644
 msgid "Error while communicating with calendar server"
 msgstr "Fel vid kommunikation med kalenderserver"
 
-#: calendar/conduits/calendar/calendar-conduit.c:1172
-#: calendar/conduits/calendar/calendar-conduit.c:1175
+#: calendar/conduits/calendar/calendar-conduit.c:1176
+#: calendar/conduits/calendar/calendar-conduit.c:1179
 msgid "Could not read pilot's Calendar application block"
 msgstr "Kunde inte läsa pilotens kalenderprogramblock"
 
-#: calendar/conduits/todo/todo-conduit.c:756
-#: calendar/conduits/todo/todo-conduit.c:759
+#: calendar/conduits/todo/todo-conduit.c:760
+#: calendar/conduits/todo/todo-conduit.c:763
 msgid "Could not read pilot's ToDo application block"
 msgstr "Kunde inte läsa pilotens att-göra-programblock"
 
@@ -5104,7 +5104,7 @@ msgstr "Påminnelser"
 
 #: calendar/gui/dialogs/alarm-page.glade.h:7
 #: calendar/gui/dialogs/recurrence-page.glade.h:8
-#: calendar/gui/e-itip-control.c:745 calendar/gui/e-itip-control.glade.h:11
+#: calendar/gui/e-itip-control.c:738 calendar/gui/e-itip-control.glade.h:11
 msgid "Summary:"
 msgstr "Sammanfattning:"
 
@@ -5669,7 +5669,7 @@ msgid "Member"
 msgstr "Medlem"
 
 #: calendar/gui/dialogs/meeting-page.etspec.h:8
-#: calendar/gui/e-itip-control.c:806
+#: calendar/gui/e-itip-control.c:799
 #: calendar/gui/e-meeting-time-sel.etspec.h:8
 msgid "RSVP"
 msgstr "OSA"
@@ -5840,7 +5840,7 @@ msgstr "_Status:"
 msgid "Assignment"
 msgstr "Tilldelning"
 
-#: calendar/gui/dialogs/task-page.glade.h:5 calendar/gui/e-itip-control.c:754
+#: calendar/gui/dialogs/task-page.glade.h:5 calendar/gui/e-itip-control.c:747
 #: calendar/gui/e-itip-control.glade.h:6
 #: composer/e-msg-composer-attachment.glade.h:2 mail/mail-config.glade.h:27
 msgid "Description:"
@@ -6099,149 +6099,149 @@ msgstr "Ta bort denna f_örekomst"
 msgid "Delete _All Occurrences"
 msgstr "Ta bort _alla förekomster"
 
-#: calendar/gui/e-itip-control.c:532
+#: calendar/gui/e-itip-control.c:525
 msgid "Meeting begins: <b>"
 msgstr "Mötet börjar: <b>"
 
-#: calendar/gui/e-itip-control.c:537
+#: calendar/gui/e-itip-control.c:530
 msgid "Task begins: <b>"
 msgstr "Uppgiften börjar: <b>"
 
-#: calendar/gui/e-itip-control.c:542
+#: calendar/gui/e-itip-control.c:535
 msgid "Free/Busy info begins: <b>"
 msgstr "Ledig-/upptageninformation börjar: <b>"
 
-#: calendar/gui/e-itip-control.c:546
+#: calendar/gui/e-itip-control.c:539
 msgid "Begins: <b>"
 msgstr "Börjar: <b>"
 
-#: calendar/gui/e-itip-control.c:558
+#: calendar/gui/e-itip-control.c:551
 msgid "Meeting ends: <b>"
 msgstr "Mötet slutar: <b>"
 
-#: calendar/gui/e-itip-control.c:561
+#: calendar/gui/e-itip-control.c:554
 msgid "Free/Busy info ends: <b>"
 msgstr "Ledig-/upptageninformation slutar: <b>"
 
-#: calendar/gui/e-itip-control.c:565
+#: calendar/gui/e-itip-control.c:558
 msgid "Ends: <b>"
 msgstr "Slutar: <b>"
 
-#: calendar/gui/e-itip-control.c:579
+#: calendar/gui/e-itip-control.c:572
 msgid "Task Completed: <b>"
 msgstr "Uppgiften färdig: <b>"
 
-#: calendar/gui/e-itip-control.c:589
+#: calendar/gui/e-itip-control.c:582
 msgid "Task Due: <b>"
 msgstr "Uppgiften ska vara utförd: <b>"
 
-#: calendar/gui/e-itip-control.c:626 calendar/gui/e-itip-control.c:675
+#: calendar/gui/e-itip-control.c:619 calendar/gui/e-itip-control.c:668
 msgid "iCalendar Information"
 msgstr "iCalendar-information"
 
 #. Title
-#: calendar/gui/e-itip-control.c:641
+#: calendar/gui/e-itip-control.c:634
 msgid "iCalendar Error"
 msgstr "iCalendar-fel"
 
-#: calendar/gui/e-itip-control.c:706 calendar/gui/e-itip-control.c:722
+#: calendar/gui/e-itip-control.c:699 calendar/gui/e-itip-control.c:715
 msgid "An unknown person"
 msgstr "En okänd person"
 
 #. Describe what the user can do
-#: calendar/gui/e-itip-control.c:729
+#: calendar/gui/e-itip-control.c:722
 msgid ""
 "<br> Please review the following information, and then select an action from "
 "the menu below."
 msgstr ""
 "<br> Granska följande information, och välj sedan en åtgärd från menyn nedan."
 
-#: calendar/gui/e-itip-control.c:745
+#: calendar/gui/e-itip-control.c:738
 msgid "<i>None</i>"
 msgstr "<i>Ingen</i>"
 
-#: calendar/gui/e-itip-control.c:786 calendar/gui/e-itip-control.c:802
-#: calendar/gui/e-itip-control.c:818 calendar/gui/e-itip-control.c:831
-#: calendar/gui/e-itip-control.c:844 calendar/gui/e-itip-control.c:857
+#: calendar/gui/e-itip-control.c:779 calendar/gui/e-itip-control.c:795
+#: calendar/gui/e-itip-control.c:811 calendar/gui/e-itip-control.c:824
+#: calendar/gui/e-itip-control.c:837 calendar/gui/e-itip-control.c:850
 msgid "Choose an action:"
 msgstr "Välj en åtgärd:"
 
-#: calendar/gui/e-itip-control.c:787
+#: calendar/gui/e-itip-control.c:780
 msgid "Update"
 msgstr "Uppdatera"
 
-#: calendar/gui/e-itip-control.c:788 calendar/gui/e-itip-control.c:807
-#: calendar/gui/e-itip-control.c:820 calendar/gui/e-itip-control.c:833
-#: calendar/gui/e-itip-control.c:846 calendar/gui/e-itip-control.c:859
+#: calendar/gui/e-itip-control.c:781 calendar/gui/e-itip-control.c:800
+#: calendar/gui/e-itip-control.c:813 calendar/gui/e-itip-control.c:826
+#: calendar/gui/e-itip-control.c:839 calendar/gui/e-itip-control.c:852
 #: shell/e-shell.c:1884 widgets/misc/e-cell-date-edit.c:258
 msgid "OK"
 msgstr "OK"
 
-#: calendar/gui/e-itip-control.c:803
+#: calendar/gui/e-itip-control.c:796
 msgid "Accept"
 msgstr "Acceptera"
 
-#: calendar/gui/e-itip-control.c:804
+#: calendar/gui/e-itip-control.c:797
 msgid "Tentatively accept"
 msgstr "Acceptera preliminärt"
 
-#: calendar/gui/e-itip-control.c:805
+#: calendar/gui/e-itip-control.c:798
 msgid "Decline"
 msgstr "Neka"
 
-#: calendar/gui/e-itip-control.c:819
+#: calendar/gui/e-itip-control.c:812
 msgid "Send Free/Busy Information"
 msgstr "Skicka ledig-/upptageninformation"
 
-#: calendar/gui/e-itip-control.c:832
+#: calendar/gui/e-itip-control.c:825
 msgid "Update respondent status"
 msgstr "Uppdatera svarandestatus"
 
-#: calendar/gui/e-itip-control.c:845
+#: calendar/gui/e-itip-control.c:838
 msgid "Send Latest Information"
 msgstr "Skicka senaste information"
 
-#: calendar/gui/e-itip-control.c:858 ui/evolution-mail-global.xml.h:1
+#: calendar/gui/e-itip-control.c:851 ui/evolution-mail-global.xml.h:1
 msgid "Cancel"
 msgstr "Avbryt"
 
-#: calendar/gui/e-itip-control.c:906
+#: calendar/gui/e-itip-control.c:899
 #, c-format
 msgid "<b>%s</b> has published meeting information."
 msgstr "<b>%s</b> har publicerat mötesinformation."
 
-#: calendar/gui/e-itip-control.c:907
+#: calendar/gui/e-itip-control.c:900
 msgid "Meeting Information"
 msgstr "Mötesinformation"
 
-#: calendar/gui/e-itip-control.c:911
+#: calendar/gui/e-itip-control.c:904
 #, c-format
 msgid "<b>%s</b> requests your presence at a meeting."
 msgstr "<b>%s</b> begär din närvaro vid ett möte."
 
-#: calendar/gui/e-itip-control.c:912
+#: calendar/gui/e-itip-control.c:905
 msgid "Meeting Proposal"
 msgstr "Mötesförslag"
 
-#: calendar/gui/e-itip-control.c:916
+#: calendar/gui/e-itip-control.c:909
 #, c-format
 msgid "<b>%s</b> wishes to add to an existing meeting."
 msgstr "<b>%s</b> vill lägga till i ett befintligt möte."
 
-#: calendar/gui/e-itip-control.c:917
+#: calendar/gui/e-itip-control.c:910
 msgid "Meeting Update"
 msgstr "Mötesuppdatering"
 
-#: calendar/gui/e-itip-control.c:921
+#: calendar/gui/e-itip-control.c:914
 #, c-format
 msgid "<b>%s</b> wishes to receive the latest meeting information."
 msgstr "<b>%s</b> vill få den senaste mötesinformationen."
 
-#: calendar/gui/e-itip-control.c:922
+#: calendar/gui/e-itip-control.c:915
 msgid "Meeting Update Request"
 msgstr "Begäran av mötesuppdatering"
 
-#: calendar/gui/e-itip-control.c:939 calendar/gui/e-itip-control.c:1010
+#: calendar/gui/e-itip-control.c:932 calendar/gui/e-itip-control.c:1003
 #: calendar/gui/e-meeting-model.c:257 calendar/gui/e-meeting-model.c:292
 #: calendar/gui/e-meeting-model.c:357 calendar/gui/e-meeting-model.c:782
 #: calendar/gui/e-meeting-model.c:798
@@ -6251,177 +6251,177 @@ msgstr "Begäran av mötesuppdatering"
 msgid "Unknown"
 msgstr "Okänd"
 
-#: calendar/gui/e-itip-control.c:945
+#: calendar/gui/e-itip-control.c:938
 #, c-format
 msgid "<b>%s</b> has replied to a meeting request."
 msgstr "<b>%s</b> har svarat på en mötesbegäran."
 
-#: calendar/gui/e-itip-control.c:946
+#: calendar/gui/e-itip-control.c:939
 msgid "Meeting Reply"
 msgstr "Mötessvar"
 
-#: calendar/gui/e-itip-control.c:950
+#: calendar/gui/e-itip-control.c:943
 #, c-format
 msgid "<b>%s</b> has cancelled a meeting."
 msgstr "<b>%s</b> har avbokat ett möte."
 
-#: calendar/gui/e-itip-control.c:951
+#: calendar/gui/e-itip-control.c:944
 msgid "Meeting Cancellation"
 msgstr "Mötesavbokning"
 
-#: calendar/gui/e-itip-control.c:955 calendar/gui/e-itip-control.c:1026
-#: calendar/gui/e-itip-control.c:1061
+#: calendar/gui/e-itip-control.c:948 calendar/gui/e-itip-control.c:1019
+#: calendar/gui/e-itip-control.c:1054
 #, c-format
 msgid "<b>%s</b> has sent an unintelligible message."
 msgstr "<b>%s</b> har skickat ett obegripligt meddelande."
 
-#: calendar/gui/e-itip-control.c:956
+#: calendar/gui/e-itip-control.c:949
 msgid "Bad Meeting Message"
 msgstr "Felaktigt mötesmeddelande"
 
-#: calendar/gui/e-itip-control.c:976
+#: calendar/gui/e-itip-control.c:969
 #, c-format
 msgid "<b>%s</b> has published task information."
 msgstr "<b>%s</b> har publicerat mötesinformation."
 
-#: calendar/gui/e-itip-control.c:977
+#: calendar/gui/e-itip-control.c:970
 msgid "Task Information"
 msgstr "Uppgiftsinformation"
 
-#: calendar/gui/e-itip-control.c:981
+#: calendar/gui/e-itip-control.c:974
 #, c-format
 msgid "<b>%s</b> requests you perform a task."
 msgstr "<b>%s</b> begär att du utför en uppgift."
 
-#: calendar/gui/e-itip-control.c:982
+#: calendar/gui/e-itip-control.c:975
 msgid "Task Proposal"
 msgstr "Uppgiftsförslag"
 
-#: calendar/gui/e-itip-control.c:986
+#: calendar/gui/e-itip-control.c:979
 #, c-format
 msgid "<b>%s</b> wishes to add to an existing task."
 msgstr "<b>%s</b> vill lägga till i en befintlig uppgift."
 
-#: calendar/gui/e-itip-control.c:987
+#: calendar/gui/e-itip-control.c:980
 msgid "Task Update"
 msgstr "Uppgiftsuppdatering"
 
-#: calendar/gui/e-itip-control.c:991
+#: calendar/gui/e-itip-control.c:984
 #, c-format
 msgid "<b>%s</b> wishes to receive the latest task information."
 msgstr "<b>%s</b> vill få den senaste uppgiftsinformationen."
 
-#: calendar/gui/e-itip-control.c:992
+#: calendar/gui/e-itip-control.c:985
 msgid "Task Update Request"
 msgstr "Begäran om uppgiftsuppdatering"
 
-#: calendar/gui/e-itip-control.c:1016
+#: calendar/gui/e-itip-control.c:1009
 #, c-format
 msgid "<b>%s</b> has replied to a task assignment."
 msgstr "<b>%s</b> har svarat på en uppgiftstilldelning."
 
-#: calendar/gui/e-itip-control.c:1017
+#: calendar/gui/e-itip-control.c:1010
 msgid "Task Reply"
 msgstr "Uppgiftssvar"
 
-#: calendar/gui/e-itip-control.c:1021
+#: calendar/gui/e-itip-control.c:1014
 #, c-format
 msgid "<b>%s</b> has cancelled a task."
 msgstr "<b>%s</b> har avbokat en uppgift."
 
-#: calendar/gui/e-itip-control.c:1022
+#: calendar/gui/e-itip-control.c:1015
 msgid "Task Cancellation"
 msgstr "Uppgiftsavbokning"
 
-#: calendar/gui/e-itip-control.c:1027
+#: calendar/gui/e-itip-control.c:1020
 msgid "Bad Task Message"
 msgstr "Felaktigt uppgiftsmeddelande"
 
-#: calendar/gui/e-itip-control.c:1046
+#: calendar/gui/e-itip-control.c:1039
 #, c-format
 msgid "<b>%s</b> has published free/busy information."
 msgstr "<b>%s</b> har publicerat ledig-/upptageninformation."
 
-#: calendar/gui/e-itip-control.c:1047
+#: calendar/gui/e-itip-control.c:1040
 msgid "Free/Busy Information"
 msgstr "Ledig-/upptageninformation"
 
-#: calendar/gui/e-itip-control.c:1051
+#: calendar/gui/e-itip-control.c:1044
 #, c-format
 msgid "<b>%s</b> requests your free/busy information."
 msgstr "<b>%s</b> begär din ledig-/upptageninformation."
 
-#: calendar/gui/e-itip-control.c:1052
+#: calendar/gui/e-itip-control.c:1045
 msgid "Free/Busy Request"
 msgstr "Ledig-/Upptagenbegäran"
 
-#: calendar/gui/e-itip-control.c:1056
+#: calendar/gui/e-itip-control.c:1049
 #, c-format
 msgid "<b>%s</b> has replied to a free/busy request."
 msgstr "<b>%s</b> har svarat på en ledig-/upptagenbegäran."
 
-#: calendar/gui/e-itip-control.c:1057
+#: calendar/gui/e-itip-control.c:1050
 msgid "Free/Busy Reply"
 msgstr "Ledig-/Upptagensvar"
 
-#: calendar/gui/e-itip-control.c:1062
+#: calendar/gui/e-itip-control.c:1055
 msgid "Bad Free/Busy Message"
 msgstr "Felaktigt ledig-/upptagenmeddelande"
 
-#: calendar/gui/e-itip-control.c:1135
+#: calendar/gui/e-itip-control.c:1128
 msgid "The message does not appear to be properly formed"
 msgstr "Meddelandet verkar inte vara korrekt utformat"
 
-#: calendar/gui/e-itip-control.c:1154
+#: calendar/gui/e-itip-control.c:1147
 msgid "The message contains only unsupported requests."
 msgstr "Meddelandet innehåller typer av begäran som inte stöds."
 
-#: calendar/gui/e-itip-control.c:1182 calendar/gui/e-itip-control.c:1188
+#: calendar/gui/e-itip-control.c:1175 calendar/gui/e-itip-control.c:1181
 msgid "The attachment does not contain a valid calendar message"
 msgstr "Bilagan innehåller inte ett giltigt kalendermeddelande"
 
-#: calendar/gui/e-itip-control.c:1213
+#: calendar/gui/e-itip-control.c:1206
 msgid "The attachment has no viewable calendar items"
 msgstr "Bilagan har inga visningsbara kalenderobjekt"
 
-#: calendar/gui/e-itip-control.c:1312
+#: calendar/gui/e-itip-control.c:1305
 msgid "Calendar file could not be updated!\n"
 msgstr "Kalenderfilen kunde inte uppdateras!\n"
 
-#: calendar/gui/e-itip-control.c:1314
+#: calendar/gui/e-itip-control.c:1307
 msgid "Update complete\n"
 msgstr "Uppdateringen färdig\n"
 
-#: calendar/gui/e-itip-control.c:1359
+#: calendar/gui/e-itip-control.c:1352
 msgid "Attendee status could not be updated because of an invalid status!\n"
 msgstr "Närvarandestatus kunde inte uppdateras på grund av ogiltig status!\n"
 
-#: calendar/gui/e-itip-control.c:1367
+#: calendar/gui/e-itip-control.c:1360
 msgid "Attendee status could not be updated!\n"
 msgstr "Närvarandestatus kunde inte uppdateras!\n"
 
-#: calendar/gui/e-itip-control.c:1369
+#: calendar/gui/e-itip-control.c:1362
 msgid "Attendee status updated\n"
 msgstr "Närvarandestatus är uppdaterad\n"
 
-#: calendar/gui/e-itip-control.c:1371
+#: calendar/gui/e-itip-control.c:1364
 msgid "Attendee status can not be updated because the item no longer exists"
 msgstr ""
 "Närvarandestatusen kan inte uppdateras eftersom objektet inte längre finns"
 
-#: calendar/gui/e-itip-control.c:1399
+#: calendar/gui/e-itip-control.c:1392
 msgid "Removal Complete"
 msgstr "Borttagning färdig"
 
-#: calendar/gui/e-itip-control.c:1418 calendar/gui/e-itip-control.c:1468
+#: calendar/gui/e-itip-control.c:1411 calendar/gui/e-itip-control.c:1461
 msgid "Item sent!\n"
 msgstr "Objektet skickat!\n"
 
-#: calendar/gui/e-itip-control.c:1420 calendar/gui/e-itip-control.c:1472
+#: calendar/gui/e-itip-control.c:1413 calendar/gui/e-itip-control.c:1465
 msgid "The item could not be sent!\n"
 msgstr "Objektet kunde inte skickas!\n"
 
-#: calendar/gui/e-itip-control.c:1645
+#: calendar/gui/e-itip-control.c:1638
 msgid "Unable to find any of your identities in the attendees list!\n"
 msgstr "Kan inte hitta någon av dina identiteter i närvarandelistan!\n"
 
@@ -13392,7 +13392,7 @@ msgstr "Akeno Ab"
 
 #: my-evolution/Locations.h:32
 msgid "Akita Airport"
-msgstr "Akita-flygplatsen"
+msgstr "Akita flygplats"
 
 #: my-evolution/Locations.h:33
 msgid "Akron"
@@ -15436,7 +15436,7 @@ msgstr "Dayton-Fairborn"
 
 #: my-evolution/Locations.h:565
 msgid "Dayton-South Airport"
-msgstr "Dayton-Södra flygplatsen"
+msgstr "Dayton-South flygplats"
 
 #: my-evolution/Locations.h:566
 msgid "Dead Horse"
@@ -18284,7 +18284,7 @@ msgstr "Marathon"
 
 #: my-evolution/Locations.h:1309
 msgid "Mar Del Plata"
-msgstr "Mar del Plata"
+msgstr "Mar Del Plata"
 
 #: my-evolution/Locations.h:1310
 msgid "Margarita"
@@ -21076,7 +21076,7 @@ msgstr "Sauce Viejo"
 
 #: my-evolution/Locations.h:2026
 msgid "Sault Ste Marie"
-msgstr "sault Ste Marie"
+msgstr "Sault Ste Marie"
 
 #: my-evolution/Locations.h:2027
 msgid "Savannah"
