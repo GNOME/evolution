@@ -382,7 +382,7 @@ camel_folder_search_execute_expression(CamelFolderSearch *search, const char *ex
 		   unfree'd results as well. */
 		g_hash_table_insert(p->mempool_hash, matches, pool);
 	} else {
-		printf("no result!\n");
+		d(printf("no result!\n"));
 	}
 
 	search->folder = NULL;

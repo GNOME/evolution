@@ -250,7 +250,7 @@ summary_rebuild(CamelMboxSummary *mbs, off_t offset, CamelException *ex)
 
 	fd = open(cls->folder_path, O_RDONLY);
 	if (fd == -1) {
-		printf("%s failed to open: %s\n", cls->folder_path, strerror(errno));
+		d(printf("%s failed to open: %s\n", cls->folder_path, strerror(errno)));
 		camel_exception_setv(ex, 1, _("Could not open folder: %s: %s"),
 				     cls->folder_path, strerror(errno));
 		camel_operation_end(NULL);

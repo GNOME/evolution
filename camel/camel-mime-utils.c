@@ -2922,7 +2922,7 @@ header_param_list_format_append (GString *out, struct _header_param *p)
 				else
 					quote_word (out, TRUE, inptr, ptr - inptr);
 				
-				printf ("wrote: %s\n", out->str + here);
+				d(printf ("wrote: %s\n", out->str + here));
 				
 				used += (out->len - here);
 				

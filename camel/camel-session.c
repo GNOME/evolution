@@ -45,6 +45,8 @@
 
 #include "camel-private.h"
 
+#define d(x)
+
 #define CS_CLASS(so) CAMEL_SESSION_CLASS (CAMEL_OBJECT_GET_CLASS (so))
 
 static void register_provider (CamelSession *session, CamelProvider *provider);
@@ -733,14 +735,14 @@ static void session_thread_msg_free(CamelSession *session, CamelSessionThreadMsg
 {
 	g_assert(msg->ops != NULL);
 
-	printf("free message %p session %p\n", msg, session);
+	d(printf("free message %p session %p\n", msg, session));
 
 	CAMEL_SESSION_LOCK(session, thread_lock);
 	g_hash_table_remove(session->priv->thread_active, (void *)msg->id);
 	CAMEL_SESSION_UNLOCK(session, thread_lock);
 
-	printf("free msg, ops->free = %p\n", msg->ops->free);
-
+	d(printf("free msg, ops->free = %p\n", msg->ops->free));
+	
 	if (msg->ops->free)
 		msg->ops->free(session, msg);
 	g_free(msg);
@@ -748,13 +750,13 @@ static void session_thread_msg_free(CamelSession *session, CamelSessionThreadMsg
 
 static void session_thread_destroy(EThread *thread, CamelSessionThreadMsg *msg, CamelSession *session)
 {
-	printf("destroy message %p session %p\n", msg, session);
+	d(printf("destroy message %p session %p\n", msg, session));
 	session_thread_msg_free(session, msg);
 }
 
 static void session_thread_received(EThread *thread, CamelSessionThreadMsg *msg, CamelSession *session)
 {
-	printf("receive message %p session %p\n", msg, session);
+	d(printf("receive message %p session %p\n", msg, session));
 	if (msg->ops->receive)
 		msg->ops->receive(session, msg);
 }

@@ -41,8 +41,12 @@ extern "C" {
 
 
 typedef struct _CamelFolderInfo {
-	struct _CamelFolderInfo *parent, *sibling, *child;
-	char *url, *full_name, *name;
+	struct _CamelFolderInfo *parent,
+		*sibling,
+		*child;
+	char *url;
+	char *full_name;
+	char *name;
 	int unread_message_count;
 } CamelFolderInfo;
 

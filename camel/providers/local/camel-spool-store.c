@@ -99,8 +99,8 @@ construct (CamelService *service, CamelSession *session, CamelProvider *provider
 	char *path, *name;
 	struct stat st;
 
-	printf("constructing store of type %s '%s:%s'\n",
-	       camel_type_to_name(((CamelObject *)service)->s.type), url->protocol, url->path);
+	d(printf("constructing store of type %s '%s:%s'\n",
+		 camel_type_to_name(((CamelObject *)service)->s.type), url->protocol, url->path));
 
 	CAMEL_SERVICE_CLASS (parent_class)->construct (service, session, provider, url, ex);
 	if (camel_exception_is_set (ex))
@@ -150,7 +150,7 @@ get_folder(CamelStore * store, const char *folder_name, guint32 flags, CamelExce
 	char *path = ((CamelService *)store)->url->path;
 	CamelFolder *folder;
 
-	printf("opening folder %s on path %s\n", folder_name, path);
+	d(printf("opening folder %s on path %s\n", folder_name, path));
 
 	/* we only support an 'INBOX' */
 	if (strcmp(folder_name, "INBOX") != 0) {
@@ -192,7 +192,7 @@ get_folder_info (CamelStore *store, const char *top,
 		fi = g_malloc0(sizeof(*fi));
 		fi->full_name = "/INBOX";
 		fi->name = "INBOX";
-		fi->url = g_strdup_printf("spool://%s#%s", service->url->path, fi->name);
+		fi->url = g_strdup_printf("spool:%s#%s", service->url->path, fi->name);
 		fi->unread_message_count = -1;
 	}
 

@@ -1404,8 +1404,8 @@ folder_changed (CamelObject *obj, gpointer event_data)
 			GPtrArray *recents = g_ptr_array_new();
 			int i;
 			struct _folder_filter_msg *msg;
-
-			(printf("** Have '%d' recent messages, launching thread to process them\n", changed->uid_recent->len));
+			
+			d(printf("** Have '%d' recent messages, launching thread to process them\n", changed->uid_recent->len));
 			
 			folder->priv->frozen++;
 			msg = camel_session_thread_msg_new(session, &filter_ops, sizeof(*msg));

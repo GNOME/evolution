@@ -198,8 +198,20 @@ camel_lock_fcntl(int fd, CamelLockType type, CamelException *ex)
 	memset(&lock, 0, sizeof(lock));
 	lock.l_type = type==CAMEL_LOCK_READ?F_RDLCK:F_WRLCK;
 	if (fcntl(fd, F_SETLK, &lock) == -1) {
-		camel_exception_setv(ex, CAMEL_EXCEPTION_SYSTEM, _("Failed to get lock using fcntl(2): %s"), strerror(errno));
-		return -1;
+		/* If we get a 'locking not vailable' type error,
+		   we assume the filesystem doesn't support fcntl() locking */
+		/* this is somewhat system-dependent */
+		if (errno != EINVAL && errno != ENOLCK) {
+			camel_exception_setv(ex, CAMEL_EXCEPTION_SYSTEM, _("Failed to get lock using fcntl(2): %s"),
+					     strerror(errno));
+			return -1;
+		} else {
+			static int failed = 0;
+
+			if (failed == 0)
+				fprintf(stderr, "fcntl(2) locking appears not to work on this filesystem");
+			failed++;
+		}
 	}
 #endif
 	return 0;

@@ -132,9 +132,9 @@ vee_get_folder (CamelStore *store, const char *folder_name, guint32 flags, Camel
 		if (name == NULL)
 			name = vf->vname;
 		fi->name = g_strdup(name);
-		fi->url = g_strdup_printf("vfolder:%s", vf->vname);
-		fi->unread_message_count = -1;
-	
+		fi->url = g_strdup_printf("vfolder:%s#%s", ((CamelService *)store)->url->path,
+					  ((CamelFolder *)vf)->full_name);
+		fi->unread_message_count = camel_folder_get_message_count((CamelFolder *)vf);
 		camel_object_trigger_event(CAMEL_OBJECT(store), "folder_created", fi);
 		camel_folder_info_free(fi);
 	}

@@ -36,6 +36,8 @@
 #include "camel-exception.h"
 #include "camel-url.h"
 
+#define d(x)
+
 static CamelLocalStoreClass *parent_class = NULL;
 
 /* Returns the class for a CamelMaildirStore */
@@ -245,7 +247,7 @@ static int scan_dir(GHashTable *visited, char *root, const char *path, guint32 f
 	/* look for folders matching the right structure, recursively */
 	name = g_strdup_printf("%s/%s", root, path);
 
-	printf("checking dir '%s' part '%s' for maildir content\n", root, path);
+	d(printf("checking dir '%s' part '%s' for maildir content\n", root, path));
 
 	tmp = g_strdup_printf("%s/tmp", name);
 	cur = g_strdup_printf("%s/cur", name);
@@ -265,8 +267,8 @@ static int scan_dir(GHashTable *visited, char *root, const char *path, guint32 f
 		base = path;
 	fi = camel_folder_info_new(uri, path, base, -1);
 	
-	printf("found! uri = %s\n", fi->url);
-	printf("  full_name = %s\n  name = '%s'\n", fi->full_name, fi->name);
+	d(printf("found! uri = %s\n", fi->url));
+	d(printf("  full_name = %s\n  name = '%s'\n", fi->full_name, fi->name));
 	
 	fi->parent = parent;
 	fi->sibling = *fip;

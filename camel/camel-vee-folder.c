@@ -215,7 +215,7 @@ camel_vee_folder_construct(CamelVeeFolder *vf, CamelStore *parent_store, const c
 	if (folder_unmatched == NULL) {
 		unmatched_uids = g_hash_table_new (g_str_hash, g_str_equal);
 		folder_unmatched = (CamelVeeFolder *)camel_object_new (camel_vee_folder_get_type ());
-		printf("created foldeer unmatched %p\n", folder_unmatched);
+		d(printf("created foldeer unmatched %p\n", folder_unmatched));
 		
 		vee_folder_construct (folder_unmatched, parent_store, "UNMATCHED", CAMEL_STORE_FOLDER_PRIVATE);
 	}
@@ -246,7 +246,7 @@ camel_vee_folder_new(CamelStore *parent_store, const char *name, guint32 flags)
 	if (folder_unmatched == NULL) {
 		unmatched_uids = g_hash_table_new(g_str_hash, g_str_equal);
 		folder_unmatched = vf = (CamelVeeFolder *)camel_object_new(camel_vee_folder_get_type());
-		printf("created foldeer unmatched %p\n", folder_unmatched);
+		d(printf("created foldeer unmatched %p\n", folder_unmatched));
 		vee_folder_construct (vf, parent_store, "UNMATCHED", CAMEL_STORE_FOLDER_PRIVATE);
 	}
 
@@ -254,14 +254,14 @@ camel_vee_folder_new(CamelStore *parent_store, const char *name, guint32 flags)
 
 	if (strcmp(name, "UNMATCHED") == 0) {
 		camel_object_ref((CamelObject *)folder_unmatched);
-		printf("returning unmatched %p, count = %d\n", folder_unmatched, camel_folder_get_message_count((CamelFolder *)folder_unmatched));
+		d(printf("returning unmatched %p, count = %d\n", folder_unmatched, camel_folder_get_message_count((CamelFolder *)folder_unmatched)));
 		return (CamelFolder *)folder_unmatched;
 	}
 
 	vf = (CamelVeeFolder *)camel_object_new(camel_vee_folder_get_type());
 	vee_folder_construct(vf, parent_store, name, flags);
 
-	printf("returning folder %s %p, count = %d\n", name, vf, camel_folder_get_message_count((CamelFolder *)vf));
+	d(printf("returning folder %s %p, count = %d\n", name, vf, camel_folder_get_message_count((CamelFolder *)vf)));
 
 	return (CamelFolder *)vf;
 }
@@ -608,7 +608,7 @@ vee_folder_add_info(CamelVeeFolder *vf, CamelFolder *f, CamelMessageInfo *info, 
 	uid = g_strdup_printf("%.8s%s", hash, camel_message_info_uid(info));
 	dinfo = camel_folder_summary_uid(folder->summary, uid);
 	if (dinfo) {
-		(printf("w:clash, we already have '%s' in summary\n", uid));
+		d(printf("w:clash, we already have '%s' in summary\n", uid));
 		g_free(uid);
 		camel_folder_summary_info_free(folder->summary, dinfo);
 		return NULL;

@@ -191,7 +191,7 @@ get_folder_info (CamelStore *store, const char *top,
 	 * there before.
 	 */
 
-	printf("-- LOCAL STRE -- get folder info: %s\n", top);
+	d(printf("-- LOCAL STRE -- get folder info: %s\n", top));
 
 	return NULL;
 }

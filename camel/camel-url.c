@@ -543,7 +543,7 @@ int
 camel_url_equal(const void *v, const void *v2)
 {
 	const CamelURL *u1 = v, *u2 = v2;
-	
+
 	return check_equal(u1->protocol, u2->protocol)
 		&& check_equal(u1->user, u2->user)
 		&& check_equal(u1->authmech, u2->authmech)

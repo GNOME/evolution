@@ -249,15 +249,11 @@ camel_store_get_folder (CamelStore *store, const char *folder_name, guint32 flag
 			if (store->folders) {
 				CAMEL_STORE_LOCK(store, cache_lock);
 				
-				printf("adding folder '%s' to folders hashtable\n", folder_name);
 				g_hash_table_insert (store->folders, g_strdup (folder_name), folder);
-				
-				printf("store folders size = %d\n", g_hash_table_size(store->folders));
 
 				camel_object_hook_event (CAMEL_OBJECT (folder), "finalize", folder_finalize, store);
 				CAMEL_STORE_UNLOCK(store, cache_lock);
-			} else
-				printf("not adding folder '%s' to folders hashtable\n", folder_name);
+			}
 		}
 	}
 	

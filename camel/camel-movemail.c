@@ -367,7 +367,7 @@ camel_movemail_copy_filter(int fromfd, int tofd, off_t start, size_t bytes, Came
 		if (towrite == -1)
 			return -1;
 
-		printf("read %d unfiltered bytes\n", towrite);
+		d(printf("read %d unfiltered bytes\n", towrite));
 
                 /* check for 'end of file' */
                 if (towrite == 0) {
@@ -383,7 +383,7 @@ camel_movemail_copy_filter(int fromfd, int tofd, off_t start, size_t bytes, Came
 			towrite = filterlen;
 		}
 
-		printf("writing %d filtered bytes\n", towrite);
+		d(printf("writing %d filtered bytes\n", towrite));
 
 		do {
 			toread = write(tofd, filterbuffer, towrite);

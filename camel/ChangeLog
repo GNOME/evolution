@@ -1,8 +1,28 @@
+2001-09-19    <NotZed@Ximian.com>
+
+	* General cleanup of camel debug printfs.
+	
+	* camel-lock.c (camel_lock_fcntl): Changed to return 'success' if
+	the error indicates file locking isn't supported on this
+	filesystem.  Still return a warning just incase (if its the first
+	time).  Might fix a lot of reported bugs.
+
+	* providers/local/camel-spool-store.c (get_folder_info): Dont
+	include the empty // host part in the uri.  This 'breaks' the
+	service lookup.
+
 2001-09-18  Jeffrey Stedfast  <fejj@ximian.com>
 
 	* camel-mime-utils.c: Match mailing-list header List-Owner.
 
 2001-09-18    <NotZed@Ximian.com>
+
+	* camel-vee-store.c (vee_get_folder): Fix the uri genereated for
+	the folderinfo for the folder_created event.
+
+	* camel-store.h: Added 'total' to CamelFolderInfo.
+
+2000-09-18    <NotZed@Ximian.com>
 
 	* providers/local/camel-maildir-folder.c
 	(camel_maildir_folder_new): If filter inbox is set on the store,

@@ -40,7 +40,7 @@
 
 #define d(x)
 
-#define TIMEIT
+/*#define TIMEIT*/
 
 #ifdef TIMEIT
 #include <sys/time.h>
