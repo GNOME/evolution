@@ -1044,7 +1044,7 @@ mail_local_reconfigure_folder (FolderBrowser *fb)
 	gd = (GnomeDialog *)glade_xml_get_widget (gui, "dialog_format");
 	
 	name = mail_tool_get_folder_name (fb->folder);
-	title = g_strdup_printf ("Reconfigure %s", name);
+	title = g_strdup_printf (_("Reconfigure %s"), name);
 	gtk_window_set_title (GTK_WINDOW (gd), title);
 	g_free (title);
 	g_free (name);

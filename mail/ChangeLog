@@ -1,3 +1,7 @@
+2001-05-21  Kjartan Maraas  <kmaraas@gnome.org>
+
+	* mail-local.c: Mark a string for translation.
+	
 2001-05-18  Jon Trowbridge  <trow@ximian.com>
 
 	* Makefile.am (evolution_mail_LDADD): Added libebook.la (which is
@@ -4802,7 +4806,7 @@ End of branch
 	* mail-callbacks.c (save_msg): New callback for saving messages.
 	(save_msg_ok): 
 
-	* folder-browser.c (on_right_click): Add a Save Ass menu item.
+	* folder-browser.c (on_right_click): Add a Save As menu item.
 
 	* mail-ops.c (cleanup_save_messages): Save all emails to the path
 	given.
