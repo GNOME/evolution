@@ -81,7 +81,9 @@ e_request_string (GtkWindow *parent,
 	gtk_editable_select_region (GTK_EDITABLE (entry), 0, -1);
 	gtk_entry_set_activates_default (GTK_ENTRY (entry), TRUE);
 	gtk_box_pack_start (GTK_BOX (vbox), entry, TRUE, TRUE, 3);
-	
+
+	atk_object_set_description (gtk_widget_get_accessible (entry), prompt);	
+
 	gtk_widget_grab_focus (entry);
 	
 	gtk_widget_show (prompt_label);

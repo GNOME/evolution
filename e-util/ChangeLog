@@ -1,3 +1,8 @@
+2005-01-27  Mengjie Yu  <meng-jie.yu@sun.com>
+
+	* e-request.c: (e_request_string):add a11y description for the
+	entry.
+
 2005-01-26  Jeffrey Stedfast  <fejj@novell.com>
 
 	* e-config.c (ech_check): If the plugin isn't enabled, return TRUE
