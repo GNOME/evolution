@@ -196,8 +196,6 @@ storage_set_view_box_button_release_event_cb (GtkWidget *widget,
 
 	shell_view = E_SHELL_VIEW (data);
 
-	puts (__FUNCTION__);
-
 	popdown_transient_folder_bar (shell_view);
 }
 
@@ -237,7 +235,7 @@ storage_set_view_box_map_cb (GtkWidget *widget,
 			       | GDK_LEAVE_NOTIFY_MASK
 			       | GDK_POINTER_MOTION_MASK),
 			      NULL, NULL, GDK_CURRENT_TIME) != 0) {
-		g_warning ("%s -- pointer grab failed.", __FUNCTION__);
+		g_warning ("e-shell-view.c:storage_set_view_box_map_cb() -- pointer grab failed.");
 		e_shell_view_set_folder_bar_mode (shell_view, E_SHELL_VIEW_SUBWINDOW_STICKY);
 		return;
 	}
@@ -407,8 +405,6 @@ storage_selected_cb (EStorageSetView *storage_set_view,
 
 	path = g_strconcat (G_DIR_SEPARATOR_S, name, NULL);
 	switch_on_folder_tree_click (shell_view, path);
-
-	puts (__FUNCTION__);
 
 	g_free (path);
 }

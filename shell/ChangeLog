@@ -1,3 +1,11 @@
+2001-01-26  Ettore Perazzoli  <ettore@ximian.com>
+
+	* e-corba-storage.c: Remove all instances of `__FUNCTION__'.
+	* e-folder-tree.c: Likewise.
+	* e-folder-type-registry.c: Likewise.
+	* e-shell-view.c: Likewise.
+	* e-shell-view-menu.c: Likewise.
+
 2001-01-25  Ettore Perazzoli  <ettore@ximian.com>
 
 	* e-shell-view.c (e_shell_view_construct): Connect the

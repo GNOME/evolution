@@ -243,22 +243,22 @@ e_folder_tree_add (EFolderTree *folder_tree,
 
 	parent_folder = g_hash_table_lookup (folder_tree->path_to_folder, parent_path);
 	if (parent_folder == NULL) {
-		g_warning ("%s: Trying to add a subfolder to a path that does not exist yet -- %s",
-			   __FUNCTION__, parent_path);
+		g_warning ("e_folder_tree_add() -- Trying to add a subfolder to a path that does not exist yet -- %s",
+			   parent_path);
 		return FALSE;
 	}
 
 	folder = g_hash_table_lookup (folder_tree->path_to_folder, path);
 	if (folder != NULL) {
-		g_warning ("%s: Trying to add a subfolder for a path that already exists -- %s",
-			   __FUNCTION__, path);
+		g_warning ("e_folder_tree_add() -- Trying to add a subfolder for a path that already exists -- %s",
+			   path);
 		return FALSE;
 	}
 
 	existing_path = g_hash_table_lookup (folder_tree->data_to_path, data);
 	if (existing_path != NULL) {
-		g_warning ("%s: Trying to add a folder with duplicate data -- %s",
-			   __FUNCTION__, path);
+		g_warning ("e_folder_tree_add() -- Trying to add a folder with duplicate data -- %s",
+			   path);
 		return FALSE;
 	}
 

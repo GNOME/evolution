@@ -313,7 +313,7 @@ e_folder_type_registry_get_icon_name_for_type (EFolderTypeRegistry *folder_type_
 
 	folder_type = get_folder_type (folder_type_registry, type_name);
 	if (folder_type == NULL) {
-		g_warning ("%s: Unknown type -- %s", __FUNCTION__, type_name);
+		g_warning ("e_folder_type_registry_get_icon_name_for_type() -- Unknown type `%s'", type_name);
 		return NULL;
 	}
 
@@ -333,7 +333,7 @@ e_folder_type_registry_get_icon_for_type (EFolderTypeRegistry *folder_type_regis
 
 	folder_type = get_folder_type (folder_type_registry, type_name);
 	if (folder_type == NULL) {
-		g_warning ("%s: Unknown type -- %s", __FUNCTION__, type_name);
+		g_warning ("e_folder_type_registry_get_icon_for_type() -- Unknown type `%s'", type_name);
 		return NULL;
 	}
 
@@ -355,7 +355,7 @@ e_folder_type_registry_get_handler_for_type (EFolderTypeRegistry *folder_type_re
 
 	folder_type = get_folder_type (folder_type_registry, type_name);
 	if (folder_type == NULL) {
-		g_warning ("%s: Unknown type -- %s", __FUNCTION__, type_name);
+		g_warning ("e_folder_type_registry_get_handler_for_type() -- Unknown type `%s'", type_name);
 		return NULL;
 	}
 

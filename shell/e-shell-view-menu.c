@@ -395,7 +395,7 @@ command_xml_dump (gpointer    dummy,
 static void								\
 func (BonoboUIComponent *uic, void *data, const char *path)		\
 {									\
-	g_warning ("EShellView: %s: not implemented.", __FUNCTION__);	\
+	g_warning ("e-shell-view-menu.c: %s: not implemented.", #func);	\
 }									\
 
 static void

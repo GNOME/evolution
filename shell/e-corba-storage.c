@@ -345,11 +345,10 @@ e_corba_storage_construct (ECorbaStorage *corba_storage,
 	CORBA_exception_init (&ev);
 
 	Bonobo_Unknown_ref (storage_interface, &ev);
-	if (ev._major != CORBA_NO_EXCEPTION) {
-		g_warning ("%s -- Cannot reference Bonobo object", __FUNCTION__);
-	} else {
+	if (ev._major != CORBA_NO_EXCEPTION)
+		g_warning ("e_corba_storage_construct() -- Cannot reference Bonobo object");
+	else
 		priv->storage_interface = CORBA_Object_duplicate (storage_interface, &ev);
-	}
 
 	CORBA_exception_free (&ev);
 
