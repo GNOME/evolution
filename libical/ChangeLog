@@ -1,3 +1,11 @@
+2001-01-19  JP Rosevear  <jpr@ximian.com>
+
+	* src/libical/icalvalue.c.in (icalvalue_duration_as_ical_string): add
+	-ve sign to output of duration if appropriate.
+	(icalvalue_trigger_as_ical_string): implement.  not happy how this is
+	done with the -1 for is_date trick but it will do for now and period
+	does things in a similar way.
+
 2000-12-21  JP Rosevear  <jpr@helixcode.com>
 
 	* src/libical/icaltime.c: include configure.h because HAVE_TIMEZONE
