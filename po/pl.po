@@ -12,7 +12,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: evolution\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2004-08-13 14:55-0400\n"
+"POT-Creation-Date: 2004-08-14 21:19+0200\n"
 "PO-Revision-Date: 2004-01-28 14:18+0100\n"
 "Last-Translator: GNOME PL Team <translators@gnome.pl>\n"
 "Language-Team: Polish <translation-team-pl@lists.sourceforge.net>\n"
@@ -4802,9 +4802,8 @@ msgid "_Add Calendar"
 msgstr "_Dodaj kalendarz"
 
 #: calendar/gui/dialogs/calendar-setup.glade.h:7
-#, fuzzy
 msgid "_Add Task List"
-msgstr "Dodawanie listy zadań"
+msgstr "_Dodaj listę zadań"
 
 #: calendar/gui/dialogs/calendar-setup.glade.h:9
 msgid "_Refresh:"
@@ -10231,7 +10230,6 @@ msgid "Automatically synchronize remote mail locally"
 msgstr "Automatyczne synchronizowanie zdalnej poczty lokalnie"
 
 #: camel/providers/groupwise/camel-groupwise-provider.c:69
-#, fuzzy
 msgid "Address Book and Calendar"
 msgstr "Książka adresowa i kalendarz"
 
@@ -10244,9 +10242,8 @@ msgid "Post Office Agent SOAP Port:"
 msgstr "Port agenta pocztowego SOAP:"
 
 #: camel/providers/groupwise/camel-groupwise-provider.c:78
-#, fuzzy
 msgid "Use Secure Connection (SSL)"
-msgstr "Wykorzystanie bezpiecznego połączenia (_SSL):"
+msgstr "Wykorzystanie bezpiecznego połączenia (SSL)"
 
 #: camel/providers/groupwise/camel-groupwise-provider.c:92
 msgid "Novell GroupWise"
@@ -12471,9 +12468,8 @@ msgid "Evolution"
 msgstr "Evolution"
 
 #: data/evolution.desktop.in.in.h:2
-#, fuzzy
 msgid "The Evolution Groupware Suite"
-msgstr "Pakiet do pracy grupowej Ximian Evolution"
+msgstr "Pakiet do pracy grupowej Evolution"
 
 #: data/evolution.keys.in.in.h:1
 msgid "address card"
@@ -17355,13 +17351,12 @@ msgstr ""
 "potrzebami.\n"
 
 #: shell/shell-errors.xml.h:25
-#, fuzzy
 msgid "_Remind Me Later"
-msgstr "Przypomnienie"
+msgstr "_Przypomnij później"
 
 #: shell/shell-errors.xml.h:26
 msgid "_Keep Data"
-msgstr ""
+msgstr "_Zachowaj dane"
 
 #. shell:upgrade-remove-1-4-confirm title
 #. shell:upgrade-remove-1-4-confirm primary
