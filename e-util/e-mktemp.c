@@ -82,7 +82,7 @@ get_path (gboolean make)
 				}
 				
 				/* make sure this is a directory and belongs to us... */
-				if (!S_ISDIR (st.st_dev) || st.st_uid != getuid ()) {
+				if (!S_ISDIR (st.st_mode) || st.st_uid != getuid ()) {
 					/* eek! this is bad... */
 					g_string_free (path, TRUE);
 					return NULL;

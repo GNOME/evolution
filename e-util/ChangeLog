@@ -1,3 +1,9 @@
+2001-09-05  Dan Winship  <danw@ximian.com>
+
+	* e-mktemp.c (get_path): Fix the check for the case when mkdir()
+	returns EEXIST to check S_ISDIR on the right structure component.
+	Fixes bug #8775.
+
 2001-08-31  Federico Mena Quintero  <federico@ximian.com>
 
 	* e-time-utils.c (e_time_parse_date_and_time): Added format for 
