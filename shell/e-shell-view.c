@@ -30,6 +30,7 @@
 
 #include <gnome.h>
 #include <bonobo.h>
+#include <bonobo/bonobo-socket.h>
 #include <libgnomeui/gnome-window-icon.h>
 
 #include "widgets/misc/e-clipped-label.h"
@@ -101,6 +102,9 @@ struct _EShellViewPrivate {
 
 	/* Status of the progress bar.  */
 	int progress_bar_value;
+
+	/* List of sockets we created.  */
+	GList *sockets;
 };
 
 enum {
@@ -548,9 +552,20 @@ destroy (GtkObject *object)
 {
 	EShellView *shell_view;
 	EShellViewPrivate *priv;
+	GList *p;
 
 	shell_view = E_SHELL_VIEW (object);
 	priv = shell_view->priv;
+
+	for (p = priv->sockets; p != NULL; p = p->next) {
+		GtkWidget *socket_widget;
+		int destroy_connection_id;
+
+		socket_widget = GTK_WIDGET (p->data);
+		destroy_connection_id = GPOINTER_TO_INT (gtk_object_get_data (GTK_OBJECT (socket_widget),
+									      "e_shell_view_destroy_connection_id"));
+		gtk_signal_disconnect (GTK_OBJECT (socket_widget), destroy_connection_id);
+	}
 
 	g_hash_table_foreach (priv->uri_to_control, hash_forall_destroy_control, NULL);
 	g_hash_table_destroy (priv->uri_to_control);
@@ -567,7 +582,7 @@ destroy (GtkObject *object)
 	(* GTK_OBJECT_CLASS (parent_class)->destroy) (object);
 }
 
-/* Unrealize handler */
+/* Unrealize handler.  */
 static void
 unrealize (GtkWidget *widget)
 {
@@ -671,6 +686,8 @@ init (EShellView *shell_view)
 
 	priv->progress_bar_timeout_id = 0;
 	priv->progress_bar_value      = 0;
+
+	priv->sockets	              = NULL;
 
 	shell_view->priv = priv;
 }
@@ -922,11 +939,15 @@ update_folder_title_bar (EShellView *shell_view,
 
 	if (folder_icon)
 		e_shell_folder_title_bar_set_icon (E_SHELL_FOLDER_TITLE_BAR (priv->view_title_bar), folder_icon);
+
 	if (folder_name) {
-		gchar * utf;
+		char *utf;
+
 		utf = e_utf8_to_gtk_string (GTK_WIDGET (priv->view_title_bar), folder_name);
 		e_shell_folder_title_bar_set_title (E_SHELL_FOLDER_TITLE_BAR (priv->view_title_bar), utf);
 		g_free (utf);
+	} else {
+		e_shell_folder_title_bar_set_title (E_SHELL_FOLDER_TITLE_BAR (priv->view_title_bar), _("(None)"));
 	}
 }
 
@@ -1035,6 +1056,73 @@ setup_evolution_shell_view_interface (EShellView *shell_view,
 				     BONOBO_OBJECT (shell_view_interface));
 }
 
+
+/* Socket destruction handling.  */
+
+static GtkWidget *
+find_socket (GtkContainer *container)
+{
+	GList *children, *tmp;
+
+	children = gtk_container_children (container);
+	while (children) {
+		if (BONOBO_IS_SOCKET (children->data))
+			return children->data;
+		else if (GTK_IS_CONTAINER (children->data)) {
+			GtkWidget *socket = find_socket (children->data);
+			if (socket)
+				return socket;
+		}
+		tmp = children->next;
+		g_list_free_1 (children);
+		children = tmp;
+	}
+	return NULL;
+}
+
+static void
+socket_destroy_cb (GtkWidget *socket_widget, gpointer data)
+{
+	EShellView *shell_view;
+	EShellViewPrivate *priv;
+	EFolder *folder;
+	GtkWidget *control;
+	const char *uri;
+	char *copy_of_uri;
+
+	shell_view = E_SHELL_VIEW (data);
+	priv = shell_view->priv;
+
+	uri = (const char *) gtk_object_get_data (GTK_OBJECT (socket_widget), "e_shell_view_folder_uri");
+
+	/* Strdup here as the string will be freed when the socket is destroyed.  */
+	copy_of_uri = g_strdup (uri);
+
+	control = g_hash_table_lookup (priv->uri_to_control, uri);
+	if (control == NULL) {
+		g_warning ("What?! Destroyed socket for non-existing URI?  -- %s", uri);
+		return;
+	}
+
+	priv->sockets = g_list_remove (priv->sockets, socket_widget);
+
+	gtk_widget_destroy (control);
+	g_hash_table_remove (priv->uri_to_control, uri);
+
+	folder = e_storage_set_get_folder (e_shell_get_storage_set (priv->shell),
+					   get_storage_set_path_from_uri (uri));
+
+	e_shell_view_display_uri (shell_view, NULL);
+
+	e_notice (GTK_WINDOW (shell_view), GNOME_MESSAGE_BOX_ERROR,
+		  _("Ooops!  The view for %s has died unexpectedly.  :-(\n"
+		    "This probably means that the %s component has crashed."),
+		  uri, e_folder_get_type_string (folder));
+
+	g_free (copy_of_uri);
+}
+
+
 /* Create a new view for @uri with @control.  It assumes a view for @uri does not exist yet.  */
 static GtkWidget *
 get_control_for_uri (EShellView *shell_view,
@@ -1050,8 +1138,9 @@ get_control_for_uri (EShellView *shell_view,
 	Evolution_ShellComponent handler;
 	const char *path;
 	const char *folder_type;
-	GtkWidget *control;
+	GtkWidget *control, *socket;
 	CORBA_Environment ev;
+	int destroy_connection_id;
 
 	priv = shell_view->priv;
 
@@ -1096,6 +1185,17 @@ get_control_for_uri (EShellView *shell_view,
 
 	corba_uih = bonobo_object_corba_objref (BONOBO_OBJECT (priv->uih));
 	control = bonobo_widget_new_control_from_objref (corba_control, corba_uih);
+
+	socket = find_socket (GTK_CONTAINER (control));
+	destroy_connection_id = gtk_signal_connect (GTK_OBJECT (socket), "destroy",
+						    GTK_SIGNAL_FUNC (socket_destroy_cb),
+						    shell_view);
+	gtk_object_set_data (GTK_OBJECT (socket),
+			     "e_shell_view_destroy_connection_id",
+			     GINT_TO_POINTER (destroy_connection_id));
+	gtk_object_set_data_full (GTK_OBJECT (socket), "e_shell_view_folder_uri", g_strdup (uri), g_free);
+
+	priv->sockets = g_list_prepend (priv->sockets, socket);
 
 	setup_evolution_shell_view_interface (shell_view, control);
 
