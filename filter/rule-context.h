@@ -41,11 +41,19 @@
 typedef struct _RuleContext RuleContext;
 typedef struct _RuleContextClass RuleContextClass;
 
+/* backend capabilities, this is a hack since we don't support nested rules */
+enum {
+	RULE_CONTEXT_GROUPING = 1 << 0,
+	RULE_CONTEXT_THREADING = 1 << 1,
+};
+
 struct _RuleContext {
 	GObject parent_object;
 	struct _RuleContextPrivate *priv;
 	
 	char *error;              /* string version of error */
+
+	guint32 flags;		/* capability flags */
 
 	GList *parts;
 	GList *rules;

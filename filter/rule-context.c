@@ -150,6 +150,8 @@ rule_context_init(RuleContext *rc)
 	
 	rc->part_set_map = g_hash_table_new(g_str_hash, g_str_equal);
 	rc->rule_set_map = g_hash_table_new(g_str_hash, g_str_equal);
+
+	rc->flags = RULE_CONTEXT_GROUPING;
 }
 
 static void

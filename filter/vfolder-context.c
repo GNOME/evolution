@@ -78,6 +78,8 @@ vfolder_context_init (VfolderContext *vc)
 	
 	rule_context_add_rule_set ((RuleContext *) vc, "ruleset", vfolder_rule_get_type (),
 				   rule_context_add_rule, rule_context_next_rule);
+
+	((RuleContext *)vc)->flags = RULE_CONTEXT_THREADING | RULE_CONTEXT_GROUPING;
 }
 
 static void
