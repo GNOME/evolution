@@ -8,8 +8,8 @@
 		<item value="IDL:GNOME/ObjectFactory:1.0"/>
 	</oaf_attribute>
 
-	<oaf_attribute name="description" type="string"
-                       _value="Factory for the alarm notification service"/>
+	<oaf_attribute name="name" type="string"
+                       _value="Evolution Calendar alarm notification service"/>
 
 </oaf_server>
 
@@ -17,8 +17,8 @@
             type="factory"
             location="OAFIID:GNOME_Evolution_Calendar_AlarmNotify_Factory">
 
-	<oaf_attribute name="description" type="string"
-                       _value="Alarm notification service"/>
+	<oaf_attribute name="name" type="string"
+                       _value="Evolution Calendar alarm notification service"/>
 </oaf_server>
 
 </oaf_info>

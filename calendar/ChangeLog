@@ -1,3 +1,13 @@
+2003-04-07  Dan Winship  <danw@ximian.com>
+
+	* gui/GNOME_Evolution_Calendar.server.in.in: Clean up server names
+
+	* gui/alarm-notify/GNOME_Evolution_Calendar_AlarmNotify.server.in.in: 
+	Likewise
+
+	* importers/GNOME_Evolution_Calendar_Importer.server.in.in:
+	Likewise. Also mark the evolution:menu_name for i18n
+
 2003-04-07  Hans Petter Jansson  <hpj@ximian.com>
 
 	* gui/e-meeting-attendee.[ch]: GObjectify. Eliminates ref/sink
