@@ -670,14 +670,16 @@ if test "x${with_openssl_libs}" != "xno" -a "x${have_openssl_includes}" != "xno"
 	
 	AC_CACHE_CHECK([for OpenSSL libraries], openssl_libs,
 	[
-		LDFLAGS="$LDFLAGS -L$with_openssl_libs -lssl -lcrypto"
+dnl How can we test to see if we need to link to libld for sure?? 
+dnl RedHat 6.2 seems to need to but Debian Woody doesn't
+		LDFLAGS="$LDFLAGS -L$with_openssl_libs -lssl -lcrypto -ldl"
 		AC_TRY_LINK_FUNC(SSL_read, openssl_libs="yes", openssl_libs="no")
 		LDFLAGS="$LDFLAGS_save"
 	])
 	if test "x${openssl_libs}" != "xno"; then
 		AC_DEFINE(HAVE_OPENSSL)
 		msg_openssl="yes"
-		OPENSSL_LDFLAGS="-L$with_openssl_libs -lssl -lcrypto"
+		OPENSSL_LDFLAGS="-L$with_openssl_libs -lssl -lcrypto -ldl"
 	else
 		OPENSSL_CFLAGS=""
 		OPENSSL_LDFLAGS=""

@@ -1,3 +1,7 @@
+2001-05-09  Jeffrey Stedfast  <fejj@ximian.com>
+
+	* configure.in: OpenSSL LDFLAGS also needs to include -lcrypt
+
 2001-05-08  Iain Holmes  <iain@ximian.com>
 
 	* Makefile.am: Add the importers subdir.
