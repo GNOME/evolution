@@ -1,8 +1,27 @@
+2000-09-20  Aaron Weber  <aaron@helixcode.com>
+
+	* C/config-prefs.sgml: Fixed sig stuff here and in setupassist.
+
+	* C/config-sync.sgml: Fixed description of conduit usage.
+
+2000-09-18  Aaron Weber  <aaron@helixcode.com>
+
+	* C/preface.sgml: Spelling fixes, etc.
+
+=======
 2000-09-19  Federico Mena Quintero  <federico@helixcode.com>
 
 	* C/Makefile.am: Fixed to install the stylesheet-images as well.
 
+>>>>>>> 1.26
 2000-09-07  Aaron Weber  <aaron@helixcode.com>
+
+	* C/fig/ New files: contact-editor.png, mail-composer.png,
+	filter-assist-fig.png, mail-inbox.png
+
+2000-09-07  Aaron Weber  <aaron@helixcode.com>
+
+	* C/preface.sgml: Redid "soft" intro stuff.
 
 	* C/evolution-guide.sgml: Accidentally broke docs, now valid.
 

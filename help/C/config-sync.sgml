@@ -1,19 +1,17 @@
   <chapter id="config-sync">
- 
-       <!-- THIS ENTIRE CHAPTER MAY BE DELETED -->
-
      <title>Setting up your synchronization system</title> 
      <para>
         Synchronization presents you with two issues you'll need to
         deal with.  The first one is pretty simple: you'll need to get
         the data to move among the various devices you're using.  If
         you've already got <application>Gnome-Pilot</application>
-        working, then all you have to do is tell it to use Evolution
-        as a conduit.  If you haven't used
+        working, then all you have to do is tell it to use the
+        <application>Evolution</application>
+        <glossterm>conduit</glossterm>.  If you haven't used
         <application>Gnome-Pilot</application> before, you'll need to
         run the GNOME <application>Control Center</application> and go
         through the hand-held device setup assistant.  Then you can
-        create the Evolution conduit and press the hotsync button.
+        select the Evolution conduit and press the hotsync button.
       </para>
       <para>
         If that doesn't work, jump up and down several times and swear
@@ -21,26 +19,19 @@
         <application>Gnome-Pilot</application> going to the right
         device (for my serial port, it's /dev/ttys0, not the default
         /dev/pilot) and that you have read and write permission on
-        that device.  If you don't you'll need to be added to whatever
-        group has those permissions (for my system, it's tty).
-        Alternately, if you're the only user of your computer and
-        don't care too much about security, just use
-        <command>su</command> to become root, and then use
-        <command>chmod a+rw /dev/[DEVICENAME]</command> to set
-        universal read and write permissions on that port&mdash; just
-        don't tell your sysadmin I said you could.  (Sysadmins, of
-        course, would never do such a thing.)
+        that device.  If you don't, you'll need to be added to whatever
+        group has those permissions (probably tty).
      </para>
      <para>
-        Once <application>Evolution</application> knows where to get
-        the mail, address, and calendar data, it needs to know what to
-        do with it.  When you synchronize your local data with the data on
-        a server or handheld device, you may run into conflicts:
+        Once <application>Evolution</application> knows how to get the
+        mail, address, and calendar data, it needs to know what to do
+        with it.  When you synchronize your local data with the data
+        on a server or handheld device, you may run into conflicts:
         perhaps you have ended up with two cards with the same name
         and different addresses, or old mail that has been deleted
         from one device but not the other.  What if you want to keep
-        only the most recent mail on your hand-held or your laptop,
-        but all the mail on the LDAP server or your desktop machine?
+        only the a few contacts or messages on your hand-held or your
+        laptop, but keep all the data server or your desktop machine?
         Select the <guibutton>Synchronization</guibutton> tab from the
         <interface>Preferences</interface> window to set up the
         conflict resolution preferences.
@@ -58,9 +49,9 @@
 	    synchronization behaviors wrong, you could end up deleting
 	    the messages and cards you want to keep, and keeping the
 	    ones you want to delete.  Before you change these
-	    preferences, make a backup of your
-	    <application>Evolution</application> files.  You can do
-	    this by... <!--DESCRIBE HERE -->
+	    preferences, make a backup of your the
+	    <systemitem><filename>evolution</filename></systemitem>
+	    directory.
           </para>
 	</warning>
        </para>

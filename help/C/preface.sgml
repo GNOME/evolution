@@ -115,13 +115,14 @@
     <!-- ************** FOLLOWING PARAGRAPH FOR DRAFT ONLY ************* -->
       <para>
         This version of the <application>Evolution</application>
-        User's Guide is a <emphasis>draft</emphasis>.  It is missing
-        huge chunks of information, and many of the features it
-        describes are unimplemented.  All the content is subject to
-        change, especially if you help.  Please send comments on the
-        guide to <email>aaron@helixcode.com</email>. If you would like
-        to work on the guide please contact me or see the GNOME
-        Documentation project <ulink
+        User's Guide is a <emphasis>draft</emphasis>. It describes
+        version 0.5.1 of the software.  It is missing huge
+        chunks of information, and many of the features it describes
+        are unimplemented.  All the content is subject to change,
+        especially if you help.  Please send comments on the guide to
+        <email>aaron@helixcode.com</email>. If you would like to work
+        on the guide please contact me or see the GNOME Documentation
+        project <ulink
         url="http://developer.gnome.org/projects/gdp">web
         site</ulink>.  This paragraph will be removed in later
         versions of the manual.
@@ -361,7 +362,6 @@
       <sect2 id="quickref-cal">
         <title>Calendar</title>
         <para>
-
         <variablelist>
 	  <varlistentry>
 	    <term></term>

@@ -76,8 +76,9 @@
             <para>
              A text file appended to any email you send.  A signature
              file typically consists of your name and email address,
-             or a quotation you like.  It should be fewer than four
-             lines of text.
+             or a quotation you like.  It's good form to keep your
+             "sig" on the short side: four lines is plenty. Remeber,
+             this is attached to every email you send.
             </para>
          </listitem>
        </varlistentry>
