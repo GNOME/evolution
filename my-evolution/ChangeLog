@@ -1,5 +1,10 @@
 2003-03-06  Ettore Perazzoli  <ettore@ximian.com>
 
+	* Locations: Added more Swedish locations, submitted by Marten
+	Woxberg.  [See #5344]
+
+2003-03-06  Ettore Perazzoli  <ettore@ximian.com>
+
 	* e-summary-calendar.c (e_summary_calendar_protocol): Use
 	G_GNUC_FUNCTION instead of __FUNCTION__.
 	* e-summary-rdf.c (e_summary_rdf_update): Likewise.

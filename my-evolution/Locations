@@ -1944,20 +1944,32 @@ loc2=Portoroz LJPZ ------ ---
 
 [EU_SE]
 name=Sweden
-loc0=Goteborg\\ (Landvetter) ESGG ------ ---
-loc1=Goteborg\\ (Save) ESGP ------ ---
-loc2=Jonkoping ESGJ ------ ---
-loc3=Kiruna ESNQ ------ ---
-loc4=Malmo/Sturup ESMS ------ ---
-loc5=Norrkoping ESSP ------ ---
-loc6=Ronneby ESDF ------ ---
-loc7=Stockholm\\ (Arlanda) ESSA ------ ---
-loc8=Stockholm\\ (Bromma) ESSB ------ ---
-loc9=Sundsvall-Harnosand ESNN ------ ---
-loc10=Umea ESNU ------ ---
-loc11=Vasteras ESOW ------ ---
-loc12=Vaxjo ESMX ------ ---
-loc13=Visby ESSV ------ ---
+loc0=Borlange ESSD ------ --
+loc1=Gavle \\ Sandviken ESSK  ------ --
+loc2=Gallivare ESNG ------ --
+loc3=Goteborg\\ (Landvetter) ESGG  ------ --
+loc4=Goteborg\\ (Save) ESGP ------ --
+loc5=Hagshult ESMV ------ --
+loc6=Halmstad\\ (Swedish Air Force Base) ESMT ------ --
+loc7=Hultsfred\\(Swedish Air Force Base) ESSF ------ --
+loc8=Jonkoping ESGJ ------ ---
+loc9=Kiruna ESNQ ------ ---
+loc10=Linkoping\\ (Malmen) ESCF ------ --
+loc11=Linkoping\\ (Saab) ESSL ------ --
+loc12=Lulea\\ (Kallax) ESPA ------ --
+loc13=Malmo\\ (Sturup) ESMS ------ --
+loc14=Norrkoping ESSP ------ ---
+loc15=Ronneby ESDF ------ ---
+loc16=Stockholm\\ (Arlanda) ESSA ------ --
+loc17=Stockholm\\ (Bromma) ESSB ------ --
+loc18=Sundsvall-Harnosand ESNN ------ --
+loc19=Umea ESNU ------ ---
+loc20=Vasteras ESOW ------ ---
+loc21=Vaxjo ESMX ------ ---
+loc22=Visby ESSV ------ --
+loc23=Angelholm ESDB ------ --
+loc24=Ornskoldsvik ESNO ------ -- 
+loc25=Ostersund\\ (Froson) ESPC ------ --
 
 [EU_CH]
 name=Switzerland
