@@ -1,3 +1,8 @@
+2001-10-22  Damon Chaplin  <damon@ximian.com>
+
+	* POTFILES.in: added calendar/gui/e-cell-date-edit-text.c and
+	widgets/misc/e-cell-percent.c.
+
 2001-10-22  Christophe Merlet  <redfox@eikonex.org>
 
 	* fr.po: Updated French translation from work of
