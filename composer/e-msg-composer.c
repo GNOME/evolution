@@ -1060,7 +1060,7 @@ autosave_save_draft (EMsgComposer *composer)
 	CamelMimeMessage *message;
 	CamelStream *stream;
 	char *file;
-	gint fd;
+	int fd;
 	gboolean success = TRUE;
 	
 	fd = composer->autosave_fd;
@@ -2208,6 +2208,8 @@ init (EMsgComposer *composer)
 	composer->has_changed              = FALSE;
 	
 	composer->charset                  = NULL;
+	
+	composer->enable_autosave          = TRUE;
 	composer->autosave_file            = NULL;
 	composer->autosave_fd              = -1;
 }
