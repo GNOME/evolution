@@ -2274,14 +2274,22 @@ e_meeting_time_selector_drag_meeting_time (EMeetingTimeSelector *mts,
 
 	/* Calculate the nearest half-hour or hour, depending on whether
 	   zoomed_out is set. */
-	if (mts->zoomed_out) {
-		if (drag_time.minute > 30)
-			drag_time.hour++;
-		drag_time.minute = 0;
+	if (e_date_edit_get_show_time (E_DATE_EDIT (mts->end_date_edit))) {
+		if (mts->zoomed_out) {
+			if (drag_time.minute > 30)
+				drag_time.hour++;
+			drag_time.minute = 0;
+		} else {
+			drag_time.minute += 15;
+			drag_time.minute -= drag_time.minute % 30;
+		}
 	} else {
-		drag_time.minute += 15;
-		drag_time.minute -= drag_time.minute % 30;
+		if (drag_time.hour > 12)
+			g_date_add_days (&drag_time.date, 1);
+		drag_time.hour = 0;
+		drag_time.minute = 0;		
 	}
+	
 	e_meeting_time_selector_fix_time_overflows (&drag_time);
 
 	/* Now make sure we are between first_time & last_time. */
