@@ -16,7 +16,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: evolution 1.5.2\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2004-01-25 23:35+0100\n"
+"POT-Creation-Date: 2004-01-26 01:15+0100\n"
 "PO-Revision-Date: 2004-01-25 22:41+0100\n"
 "Last-Translator: Sébastien Bacher <seb128@debian.org>\n"
 "Language-Team: GNOME French Team <gnomefr@traduc.org>\n"
@@ -37,11 +37,11 @@ msgstr "Impossible de charger le carnet d'adresses"
 #: addressbook/conduit/address-conduit.c:1214
 #: addressbook/conduit/address-conduit.c:1217
 msgid "Could not read pilot's Address application block"
-msgstr "Impossible de lire l'application Adresses du Pilot."
+msgstr "Impossible de lire l'application Adresses du Pilot"
 
 #: addressbook/gui/component/GNOME_Evolution_Addressbook.server.in.in.h:1
 msgid "Autocompletion"
-msgstr "Dossiers de complétion automatique"
+msgstr "Complétion automatique"
 
 #: addressbook/gui/component/GNOME_Evolution_Addressbook.server.in.in.h:2
 msgid "Certificates"
@@ -152,11 +152,11 @@ msgstr "Créer une nouvelle liste de contacts"
 
 #: addressbook/gui/component/addressbook-config.c:391
 msgid "Failed to connect to LDAP server"
-msgstr "Échec de la connexion au serveur LDAP"
+msgstr "La connexion au serveur LDAP a échoué"
 
 #: addressbook/gui/component/addressbook-config.c:415
 msgid "Failed to authenticate with LDAP server"
-msgstr "Échec de l'authentification sur le serveur LDAP"
+msgstr "L'authentification sur le serveur LDAP a échoué"
 
 #: addressbook/gui/component/addressbook-config.c:443
 msgid "Could not perform query on Root DSE"
@@ -177,7 +177,7 @@ msgstr "Erreur lors de la récupération des informations relatives au schéma"
 
 #: addressbook/gui/component/addressbook-config.c:1208
 msgid "Server did not respond with valid schema information"
-msgstr "Le serveur a renvoyé des informations invalides relatives au schéma."
+msgstr "Le serveur a renvoyé des informations non valides relatives au schéma."
 
 #: addressbook/gui/component/addressbook-migrate.c:46
 #: calendar/gui/migration.c:127 mail/em-migrate.c:1070
@@ -317,7 +317,7 @@ msgstr "Accès anonyme au serveur LDAP"
 
 #: addressbook/gui/component/addressbook.c:783
 msgid "Failed to authenticate.\n"
-msgstr "Échec de l'authentification\n"
+msgstr "L'authentification a échoué.\n"
 
 #: addressbook/gui/component/addressbook.c:789
 #, c-format
@@ -440,7 +440,7 @@ msgstr ""
 
 #: addressbook/gui/component/ldap-config.glade.h:19
 msgid "Connecting"
-msgstr "Connexion"
+msgstr "Connexion en cours"
 
 #: addressbook/gui/component/ldap-config.glade.h:20
 msgid "Distinguished _name:"
@@ -867,7 +867,7 @@ msgstr "Sélectionnez les contacts dans le carnet d'adresses"
 
 #: addressbook/gui/component/select-names/select-names.glade.h:2
 msgid "<b>Contacts</b>"
-msgstr "<b>Contacts</b> "
+msgstr "<b>Contacts</b>"
 
 #: addressbook/gui/component/select-names/select-names.glade.h:3
 msgid "<b>Show Contacts</b>"
@@ -1045,7 +1045,7 @@ msgstr "_Portable :"
 
 #: addressbook/gui/contact-editor/contact-editor.glade.h:39
 msgid "_Nickname:"
-msgstr "Sur_nom :"
+msgstr "_Surnom :"
 
 #: addressbook/gui/contact-editor/contact-editor.glade.h:40
 msgid "_Office:"
@@ -2184,7 +2184,7 @@ msgstr "MSN"
 #: addressbook/gui/contact-editor/e-contact-editor.c:3127
 #, c-format
 msgid "Could not find widget for a field: `%s'"
-msgstr "Widget introuvable pour un champ :  `%s'"
+msgstr "Impossible de trouver un composant graphique pour un champ :  `%s'"
 
 #: addressbook/gui/contact-editor/e-contact-quick-add.c:290
 msgid "Contact Quick-Add"
@@ -2221,7 +2221,7 @@ msgstr "Adresse complète"
 
 #: addressbook/gui/contact-editor/fulladdr.glade.h:6
 msgid "_Address:"
-msgstr "A_dresse :"
+msgstr "_Adresse :"
 
 #: addressbook/gui/contact-editor/fulladdr.glade.h:7
 msgid "_PO Box:"
@@ -3284,8 +3284,8 @@ msgstr "Test de l'éditeur de style d'impression de contacts"
 #: addressbook/printing/test-contact-print-style-editor.c:56
 msgid "This should test the contact print style editor widget"
 msgstr ""
-"Ceci devrait tester le widget d'édtieur de style pour l'impression de "
-"contacts"
+"Ceci devrait tester le composant graphique d'éditeur de style pour "
+"l'impression de contacts"
 
 #: addressbook/printing/test-print.c:52
 msgid "Contact Print Test"
@@ -3338,7 +3338,7 @@ msgstr ""
 
 #: addressbook/tools/evolution-addressbook-export.c:63
 msgid "NUMBER"
-msgstr "NUMERO"
+msgstr "NUMÉRO"
 
 #: addressbook/tools/evolution-addressbook-export.c:91
 msgid ""
@@ -3579,19 +3579,19 @@ msgstr "Ne plus me demander à propos de ce programme."
 
 #: calendar/gui/alarm-notify/notify-main.c:159
 msgid "Could not initialize Bonobo"
-msgstr "Impossible d'initialiser Bonobo."
+msgstr "Impossible d'initialiser Bonobo"
 
 #: calendar/gui/alarm-notify/notify-main.c:162
 msgid "Could not initialize gnome-vfs"
-msgstr "Impossible d'initialiser gnome-vfs."
+msgstr "Impossible d'initialiser gnome-vfs"
 
 #: calendar/gui/alarm-notify/notify-main.c:171
 msgid "Could not create the alarm notify service factory"
-msgstr "Impossible de créer la fabrique de services de notification d'alarme."
+msgstr "Impossible de créer la fabrique de services de notification d'alarme"
 
 #: calendar/gui/alarm-notify/util.c:37 calendar/gui/e-tasks.c:111
 msgid "invalid time"
-msgstr "Heure invalide"
+msgstr "Heure non valide"
 
 #: calendar/gui/apps_evolution_calendar.schemas.in.in.h:1
 msgid "Allocate less space to weekend appointments"
@@ -3984,7 +3984,7 @@ msgstr "Avec ces arguments :"
 
 #: calendar/gui/dialogs/alarm-options.glade.h:11 smime/gui/smime-ui.glade.h:47
 msgid "dialog1"
-msgstr "boîte de dialogue 1"
+msgstr "dialog1"
 
 #: calendar/gui/dialogs/alarm-options.glade.h:12
 msgid "extra times every"
@@ -4005,7 +4005,7 @@ msgstr "Action/Activation"
 #: calendar/gui/dialogs/alarm-page.glade.h:1
 #: calendar/gui/dialogs/recurrence-page.glade.h:2
 msgid "Basics"
-msgstr "Basique"
+msgstr "Basiques"
 
 #: calendar/gui/dialogs/alarm-page.glade.h:2
 #: calendar/gui/dialogs/recurrence-page.glade.h:3
@@ -4095,7 +4095,7 @@ msgstr "Ne pas supprimer"
 #: mail/em-composer-prefs.c:679 mail/em-composer-prefs.c:697
 #: mail/em-composer-prefs.c:721
 msgid "Disable"
-msgstr "Désactiver."
+msgstr "Désactiver"
 
 #: calendar/gui/dialogs/cal-prefs-dialog.c:714
 #: calendar/gui/dialogs/cal-prefs-dialog.c:746
@@ -4219,7 +4219,7 @@ msgstr "Jeudi"
 
 #: calendar/gui/dialogs/cal-prefs-dialog.glade.h:26
 msgid "Time"
-msgstr "Horaire"
+msgstr "Heure"
 
 #: calendar/gui/dialogs/cal-prefs-dialog.glade.h:27
 msgid "Time _zone:"
@@ -5040,7 +5040,7 @@ msgstr "Ce rendez-vous contient des récurrences qu'Evolution ne peut éditer."
 
 #: calendar/gui/dialogs/recurrence-page.c:816
 msgid "Recurrence date is invalid"
-msgstr "La date de la récurrence est invalide."
+msgstr "La date de la récurrence est non valide"
 
 #: calendar/gui/dialogs/recurrence-page.c:927
 msgid "on"
@@ -5120,7 +5120,7 @@ msgstr "_Aucune récurrence"
 
 #: calendar/gui/dialogs/recurrence-page.glade.h:12
 msgid "_Remove"
-msgstr "Supprim_er"
+msgstr "_Enlever"
 
 #: calendar/gui/dialogs/recurrence-page.glade.h:13
 msgid "_Simple recurrence"
@@ -5320,7 +5320,7 @@ msgstr "Journalière"
 
 #: calendar/gui/dialogs/url-editor-dialog.glade.h:5
 msgid "Free/Busy Editor"
-msgstr "Editeur libre-occupé"
+msgstr "Éditeur libre-occupé"
 
 #: calendar/gui/dialogs/url-editor-dialog.glade.h:6
 msgid "Free/Busy Publishing Location"
@@ -5553,7 +5553,7 @@ msgstr "Inconnu"
 
 #: calendar/gui/e-cal-model.c:837
 msgid "Recurring"
-msgstr "Récurant"
+msgstr "Récurrant"
 
 #: calendar/gui/e-cal-model.c:839
 msgid "Assigned"
@@ -5653,7 +5653,7 @@ msgstr "Supprimer _toutes les occurrences"
 
 #: calendar/gui/e-cal-view.c:1318 ui/evolution.xml.h:32
 msgid "_Settings..."
-msgstr "Paramétra_ge..."
+msgstr "_Paramétres..."
 
 #: calendar/gui/e-calendar-table.c:413
 msgid "0%"
@@ -5917,7 +5917,7 @@ msgstr "<b>Finit : </b> "
 
 #: calendar/gui/e-itip-control.c:740
 msgid "<b>Completed:</b> "
-msgstr "<b>Terminé : </b>"
+msgstr "<b>Terminé : </b> "
 
 #: calendar/gui/e-itip-control.c:750
 msgid "<b>Due:</b> "
@@ -5982,14 +5982,14 @@ msgstr "Sélectionner une action :"
 
 #: calendar/gui/e-itip-control.c:1035
 msgid "Update"
-msgstr "Mise à jour"
+msgstr "Mettre à jour"
 
 #: calendar/gui/e-itip-control.c:1036 calendar/gui/e-itip-control.c:1067
 #: calendar/gui/e-itip-control.c:1090 calendar/gui/e-itip-control.c:1103
 #: calendar/gui/e-itip-control.c:1116 calendar/gui/e-itip-control.c:1129
 #: shell/e-shell.c:996 widgets/misc/e-cell-date-edit.c:265
 msgid "OK"
-msgstr "OK"
+msgstr "Valider"
 
 #: calendar/gui/e-itip-control.c:1063
 msgid "Accept"
@@ -6033,7 +6033,7 @@ msgstr "Informations de la réunion"
 #: calendar/gui/e-itip-control.c:1210
 #, c-format
 msgid "<b>%s</b> requests the presence of %s at a meeting."
-msgstr "<b>%s</b> demande la présence de %s à ce rendez-vous. "
+msgstr "<b>%s</b> demande la présence de %s à ce rendez-vous."
 
 #: calendar/gui/e-itip-control.c:1212
 #, c-format
@@ -6102,7 +6102,7 @@ msgstr "Informations de la tâche"
 #: calendar/gui/e-itip-control.c:1278
 #, c-format
 msgid "<b>%s</b> requests %s to perform a task."
-msgstr "<b>%s</b> demande à %s d'exécuter une tâche. "
+msgstr "<b>%s</b> demande à %s d'exécuter une tâche."
 
 #: calendar/gui/e-itip-control.c:1280
 #, c-format
@@ -6125,7 +6125,7 @@ msgstr "Mise à jour de tâche"
 #: calendar/gui/e-itip-control.c:1290
 #, c-format
 msgid "<b>%s</b> wishes to receive the latest task information."
-msgstr "<b>%s</b> souhaite recevoir les informations de la dernière tâche"
+msgstr "<b>%s</b> souhaite recevoir les informations de la dernière tâche."
 
 #: calendar/gui/e-itip-control.c:1291
 msgid "Task Update Request"
@@ -6212,11 +6212,11 @@ msgstr "Mise à jour terminée\n"
 #: calendar/gui/e-itip-control.c:1806 calendar/gui/e-itip-control.c:1878
 msgid "Attendee status can not be updated because the item no longer exists"
 msgstr ""
-"Le statut du participant ne peut être mis à jour car l'entrée n'existe plus."
+"Le statut du participant ne peut être mis à jour car l'entrée n'existe plus"
 
 #: calendar/gui/e-itip-control.c:1822 calendar/gui/e-itip-control.c:1860
 msgid "Object is invalid and cannot be updated\n"
-msgstr "L'objet est invalide et ne peut être mis à jour.\n"
+msgstr "L'objet n'est pas valide et ne peut être mis à jour\n"
 
 #: calendar/gui/e-itip-control.c:1832
 msgid "This response is not from a current attendee.  Add as an attendee?"
@@ -8683,24 +8683,24 @@ msgstr "Préparation du dossier « %s » pour le hors-ligne"
 
 #: camel/camel-disco-store.c:367
 msgid "You must be working online to complete this operation"
-msgstr "Vous devez travailler en ligne pour terminer cette opération."
+msgstr "Vous devez travailler en ligne pour terminer cette opération"
 
 #: camel/camel-filter-driver.c:667 camel/camel-filter-search.c:513
 #: camel/camel-process.c:48
 #, c-format
 msgid "Failed to create pipe to '%s': %s"
-msgstr "Impossible de créer le tube pour « %s » : %s."
+msgstr "La création du tube pour « %s » a échoué : %s"
 
 #: camel/camel-filter-driver.c:711 camel/camel-filter-search.c:549
 #: camel/camel-process.c:90
 #, c-format
 msgid "Failed to create create child process '%s': %s"
-msgstr "Impossible de créer un processus fils « %s » : %s."
+msgstr "La création d'un processus fils « %s » a échoué : %s"
 
 #: camel/camel-filter-driver.c:754
 #, c-format
 msgid "Invalid message stream received from %s: %s"
-msgstr "Flux de messages invalide en provenance de %s : %s"
+msgstr "Flux de messages non valide en provenance de %s : %s"
 
 #: camel/camel-filter-driver.c:934 camel/camel-filter-driver.c:943
 msgid "Syncing folders"
@@ -8736,7 +8736,7 @@ msgstr "Impossible d'ouvrir le message."
 #: camel/camel-filter-driver.c:1137 camel/camel-filter-driver.c:1149
 #, c-format
 msgid "Failed on message %d"
-msgstr "Anomalie message %d"
+msgstr "Anomalie au message %d"
 
 #: camel/camel-filter-driver.c:1163 camel/camel-filter-driver.c:1257
 msgid "Syncing folder"
@@ -8745,24 +8745,24 @@ msgstr "Synchronisation du dossier"
 #: camel/camel-filter-driver.c:1224
 #, c-format
 msgid "Getting message %d of %d"
-msgstr "Récupération du message %d parmis %d"
+msgstr "Récupération du message %d sur %d"
 
 #: camel/camel-filter-driver.c:1239
 #, c-format
 msgid "Failed at message %d of %d"
-msgstr "Anomalie message %d du %d"
+msgstr "Anomalie au message %d sur %d"
 
 #: camel/camel-filter-search.c:136
 msgid "Failed to retrieve message"
-msgstr "Échec de la récupération du message"
+msgstr "La récupération du message a échoué"
 
 #: camel/camel-filter-search.c:386
 msgid "Invalid arguments to (system-flag)"
-msgstr "Arguments invalides (system-flag)"
+msgstr "Arguments non valides (system-flag)"
 
 #: camel/camel-filter-search.c:401
 msgid "Invalid arguments to (user-tag)"
-msgstr "Arguments invalides (user-tag)"
+msgstr "Arguments non valides (user-tag)"
 
 #: camel/camel-filter-search.c:670 camel/camel-filter-search.c:678
 #, c-format
@@ -8836,11 +8836,11 @@ msgstr ""
 
 #: camel/camel-gpg-context.c:723
 msgid "Failed to parse gpg userid hint."
-msgstr "Échec d'analyse de l'indication ID d'utilisateur du GPG"
+msgstr "L'analyse de l'indication ID d'utilisateur du GPG a échoué."
 
 #: camel/camel-gpg-context.c:747
 msgid "Failed to parse gpg passphrase request."
-msgstr "Échec d'analyse de la requête de mot de passe du GPG."
+msgstr "L'analyse de la requête de mot de passe du GPG a échoué."
 
 #: camel/camel-gpg-context.c:761
 #, c-format
@@ -8859,7 +8859,8 @@ msgstr "Annulé."
 
 #: camel/camel-gpg-context.c:796
 msgid "Failed to unlock secret key: 3 bad passphrases given."
-msgstr "Échec du déblocage de la clé secrète : 3 mauvais mots de passe saisis."
+msgstr ""
+"Le déblocage de la clé secrète a échoué : 3 mauvais mots de passe saisis."
 
 #: camel/camel-gpg-context.c:802
 #, c-format
@@ -8872,7 +8873,7 @@ msgstr "Aucune donnée fournie"
 
 #: camel/camel-gpg-context.c:852
 msgid "Failed to encrypt: No valid recipients specified."
-msgstr "Échec de chiffrement : aucun destinataire valide spécifié."
+msgstr "Le chiffrement a échoué : aucun destinataire valide spécifié."
 
 #: camel/camel-gpg-context.c:1129
 #, c-format
@@ -8881,14 +8882,14 @@ msgid ""
 "\n"
 "%s"
 msgstr ""
-"Échec GPG %s : %s\n"
+"GPG %s a échoué : %s\n"
 "\n"
 "%s"
 
 #: camel/camel-gpg-context.c:1134
 #, c-format
 msgid "Failed to GPG %s: %s\n"
-msgstr "Échec GPG %s : %s\n"
+msgstr "GPG %s a échoué : %s\n"
 
 #: camel/camel-gpg-context.c:1247 camel/camel-smime-context.c:419
 #, c-format
@@ -8899,18 +8900,18 @@ msgstr "Impossible de générer les données signées : %s."
 #: camel/camel-gpg-context.c:1714
 #, c-format
 msgid "Failed to execute gpg: %s"
-msgstr "Impossible d'exécuter GPG : %s"
+msgstr "L'exécution de GPG a échoué : %s"
 
 #: camel/camel-gpg-context.c:1285 camel/camel-gpg-context.c:1419
 #: camel/camel-gpg-context.c:1500 camel/camel-gpg-context.c:1523
 #: camel/camel-gpg-context.c:1607 camel/camel-gpg-context.c:1631
 #: camel/camel-gpg-context.c:1685 camel/camel-gpg-context.c:1736
 msgid "Failed to execute gpg."
-msgstr "Impossible d'exécuter GPG. "
+msgstr "L'exécution de GPG a échoué."
 
 #: camel/camel-gpg-context.c:1304
 msgid "This is a digitally signed message part"
-msgstr "Ceci est une partie de message numériquement signée."
+msgstr "Ceci est une partie de message numériquement signée"
 
 #: camel/camel-gpg-context.c:1386 camel/camel-gpg-context.c:1395
 #: camel/camel-smime-context.c:717 camel/camel-smime-context.c:728
@@ -8925,12 +8926,12 @@ msgstr ""
 msgid "Cannot verify message signature: could not create temp file: %s"
 msgstr ""
 "Impossible de vérifier la signature de ce message : impossible de créer le "
-"fichier temporaire : %s."
+"fichier temporaire : %s"
 
 #: camel/camel-gpg-context.c:1483
 #, c-format
 msgid "Could not generate encrypting data: %s"
-msgstr "Impossible de générer des données chiffrées : %s."
+msgstr "Impossible de générer des données chiffrées : %s"
 
 #: camel/camel-gpg-context.c:1541
 msgid "This is a digitally encrypted message part"
@@ -8947,29 +8948,29 @@ msgstr "Impossible d'analyser le contenu du message"
 #: camel/camel-lock-client.c:100
 #, c-format
 msgid "Cannot build locking helper pipe: %s"
-msgstr "Impossible de créer le tube de l'aide de verrouillage : %s."
+msgstr "Impossible de créer le tube de l'aide de verrouillage : %s"
 
 #: camel/camel-lock-client.c:113
 #, c-format
 msgid "Cannot fork locking helper: %s"
-msgstr "Impossible de cloner l'aide de verrouillage : %s."
+msgstr "Impossible de cloner l'aide de verrouillage : %s"
 
 #: camel/camel-lock-client.c:191 camel/camel-lock-client.c:214
 #, c-format
 msgid "Could not lock '%s': protocol error with lock-helper"
 msgstr ""
-"Impossible de verrouiller '%s' : erreur de protocole avec l'aide de "
-"verrouillage."
+"Impossible de verrouiller « %s » : erreur de protocole avec l'aide de "
+"verrouillage"
 
 #: camel/camel-lock-client.c:204
 #, c-format
 msgid "Could not lock '%s'"
-msgstr "Impossble de verrouiller '%s'."
+msgstr "Impossble de verrouiller « %s »"
 
 #: camel/camel-lock.c:92 camel/camel-lock.c:113
 #, c-format
 msgid "Could not create lock file for %s: %s"
-msgstr "Impossible de créer le fichier de verrouillage pour %s : %s."
+msgstr "Impossible de créer le fichier de verrouillage pour %s : %s"
 
 #: camel/camel-lock.c:154
 #, c-format
@@ -8981,32 +8982,32 @@ msgstr ""
 #: camel/camel-lock.c:209
 #, c-format
 msgid "Failed to get lock using fcntl(2): %s"
-msgstr "Impossible d'obtenir le verrou avec fcntl(2) : %s."
+msgstr "L'obtention du verrou avec fcntl(2) a échoué : %s"
 
 #: camel/camel-lock.c:272
 #, c-format
 msgid "Failed to get lock using flock(2): %s"
-msgstr "Impossible d'obtenir le verrou avec flock(2) : %s."
+msgstr "L'obtention du verrou avec flock(2) a échoué : %s"
 
 #: camel/camel-movemail.c:107
 #, c-format
 msgid "Could not check mail file %s: %s"
-msgstr "Impossible de vérifier le fichier de courrier %s : %s."
+msgstr "Impossible de vérifier le fichier de courrier %s : %s"
 
 #: camel/camel-movemail.c:120
 #, c-format
 msgid "Could not open mail file %s: %s"
-msgstr "Impossible d'ouvrir le fichier de courrier %s : %s."
+msgstr "Impossible d'ouvrir le fichier de courrier %s : %s"
 
 #: camel/camel-movemail.c:128
 #, c-format
 msgid "Could not open temporary mail file %s: %s"
-msgstr "Impossible d'ouvrir le fichier de courrier temporaire %s : %s."
+msgstr "Impossible d'ouvrir le fichier de courrier temporaire %s : %s"
 
 #: camel/camel-movemail.c:157
 #, c-format
 msgid "Failed to store mail in temp file %s: %s"
-msgstr "Échec du stockage du courrier dans le fichier temporaire %s : %s."
+msgstr "Le stockage du courrier dans le fichier temporaire %s a échoué : %s"
 
 #: camel/camel-movemail.c:187
 #, c-format
@@ -9044,11 +9045,11 @@ msgstr "Erreur de copie du fichier temporaire de courrier : %s"
 
 #: camel/camel-multipart-encrypted.c:229 camel/camel-multipart-encrypted.c:244
 msgid "Failed to decrypt MIME part: protocol error"
-msgstr "Impossible de décrypter la partie MIME : erreur de protocole"
+msgstr "Le déchiffrement de la partie MIME a échoué : erreur de protocole"
 
 #: camel/camel-multipart-encrypted.c:257
 msgid "Failed to decrypt MIME part: invalid structure"
-msgstr "Impossible de décrypter la partie MIME: structure invalide"
+msgstr "Le déchiffrement de la partie MIME a échoué : structure non valide"
 
 #: camel/camel-multipart-signed.c:673 camel/camel-multipart-signed.c:724
 msgid "parse error"
@@ -9091,7 +9092,7 @@ msgid ""
 "Invalid email address trace information:\n"
 "%s"
 msgstr ""
-"Trace d'une adresse électronique invalide :\n"
+"Trace d'une adresse électronique non valide :\n"
 "%s"
 
 #: camel/camel-sasl-anonymous.c:133
@@ -9100,7 +9101,7 @@ msgid ""
 "Invalid opaque trace information:\n"
 "%s"
 msgstr ""
-"Informations de trace opaque invalides :\n"
+"Informations de trace opaque non valides :\n"
 "%s"
 
 #: camel/camel-sasl-anonymous.c:145
@@ -9109,7 +9110,7 @@ msgid ""
 "Invalid trace information:\n"
 "%s"
 msgstr ""
-"Informations de trace invalides :\n"
+"Informations de trace non valides :\n"
 "%s"
 
 #: camel/camel-sasl-cram-md5.c:35
@@ -9143,12 +9144,13 @@ msgstr "Réponse du serveur Challenge trop longue (>2048 octets)\n"
 
 #: camel/camel-sasl-digest-md5.c:822
 msgid "Server challenge invalid\n"
-msgstr "Serveur Challenge invalide\n"
+msgstr "Serveur Challenge non valide\n"
 
 #: camel/camel-sasl-digest-md5.c:828
 msgid "Server challenge contained invalid \"Quality of Protection\" token\n"
 msgstr ""
-"Le serveur Challenge contient le jeton invalide « Quality of Protection ».\n"
+"Le serveur Challenge contient le jeton non valide « Quality of "
+"Protection ».\n"
 
 #: camel/camel-sasl-digest-md5.c:850
 msgid "Server response did not contain authorization data\n"
@@ -9190,7 +9192,7 @@ msgid ""
 "The provided target_name parameter contained an invalid or unsupported type "
 "of name."
 msgstr ""
-"Le paramètre fourni target_name contient un type de nom invalide ou non "
+"Le paramètre fourni target_name contient un type de noms non valide ou non "
 "supporté."
 
 #: camel/camel-sasl-gssapi.c:160
@@ -9243,11 +9245,11 @@ msgstr "Mauvaise réponse d'authentification en provenance du serveur."
 #: camel/camel-sasl-gssapi.c:213
 #, c-format
 msgid "Failed to resolve host `%s': %s"
-msgstr "Impossible de résoudre le nom d'hôte « %s » : %s."
+msgstr "La résolution du nom d'hôte « %s » a échoué : %s"
 
 #: camel/camel-sasl-gssapi.c:299
 msgid "Unsupported security layer."
-msgstr "Couche de sécurité non-supportée"
+msgstr "Couche de sécurité non-supportée."
 
 #: camel/camel-sasl-kerberos4.c:41
 msgid "Kerberos 4"
@@ -9270,7 +9272,7 @@ msgstr ""
 
 #: camel/camel-sasl-login.c:32
 msgid "Login"
-msgstr "Identification"
+msgstr "Connexion"
 
 #: camel/camel-sasl-login.c:34 camel/camel-sasl-plain.c:34
 msgid "This option will connect to the server using a simple password."
@@ -9449,11 +9451,11 @@ msgstr "Signataire : %s <%s> : %s\n"
 
 #: camel/camel-store.c:217
 msgid "Cannot get folder: Invalid operation on this store"
-msgstr "Impossible d'obtenir le dossier : opération invalide sur ce stockage"
+msgstr "Impossible d'obtenir le dossier : opération non valide sur ce stockage"
 
 #: camel/camel-store.c:274
 msgid "Cannot create folder: Invalid operation on this store"
-msgstr "Impossible de créer le dossier : opération invalide sur ce stockage"
+msgstr "Impossible de créer le dossier : opération non valide sur ce stockage"
 
 #: camel/camel-store.c:792 mail/importers/netscape-importer.c:1842
 #: mail/mail-ops.c:1125
@@ -9544,7 +9546,7 @@ msgstr "Certificat révoqué"
 
 #: camel/camel-tcp-stream-openssl.c:609
 msgid "Invalid Certificate Authority (CA)"
-msgstr "Autorité de certification (CA) invalide"
+msgstr "Autorité de certification (CA) non valide"
 
 #: camel/camel-tcp-stream-openssl.c:611
 msgid "Path length exceeded"
@@ -9552,11 +9554,11 @@ msgstr "Longueur de chemin dépassée"
 
 #: camel/camel-tcp-stream-openssl.c:613
 msgid "Invalid purpose"
-msgstr "Utilisation invalide"
+msgstr "Utilisation non valide"
 
 #: camel/camel-tcp-stream-openssl.c:615
 msgid "Certificate untrusted"
-msgstr "Certificat non autorisé :"
+msgstr "Certificat non autorisé"
 
 #: camel/camel-tcp-stream-openssl.c:617
 msgid "Certificate rejected"
@@ -9697,22 +9699,22 @@ msgstr ""
 #: camel/camel-vee-store.c:360
 #, c-format
 msgid "Cannot delete folder: %s: Invalid operation"
-msgstr "Impossible de supprimer le dossier : %s : opération invalide."
+msgstr "Impossible de supprimer le dossier : %s : opération non valide"
 
 #: camel/camel-vee-store.c:381
 #, c-format
 msgid "Cannot delete folder: %s: No such folder"
-msgstr "Impossible de supprimer le dossier : %s : dossier inexistant."
+msgstr "Impossible de supprimer le dossier : %s : dossier inexistant"
 
 #: camel/camel-vee-store.c:394
 #, c-format
 msgid "Cannot rename folder: %s: Invalid operation"
-msgstr "Impossible de renommer le dossier : %s : opération invalide."
+msgstr "Impossible de renommer le dossier : %s : opération non valide"
 
 #: camel/camel-vee-store.c:402
 #, c-format
 msgid "Cannot rename folder: %s: No such folder"
-msgstr "Impossible de renommer le dossier : %s : dossier inexistant."
+msgstr "Impossible de renommer le dossier : %s : dossier inexistant"
 
 #: camel/providers/groupwise/camel-groupwise-provider.c:53
 #: camel/providers/imap/camel-imap-provider.c:50
@@ -9820,22 +9822,22 @@ msgstr "La réponse du serveur s'est terminée trop tôt."
 #: camel/providers/imap/camel-imap-command.c:652
 #, c-format
 msgid "IMAP server response did not contain %s information"
-msgstr "La réponse du serveur IMAP ne contient pas l'information %s."
+msgstr "La réponse du serveur IMAP ne contient pas l'information %s"
 
 #: camel/providers/imap/camel-imap-command.c:688
 #, c-format
 msgid "Unexpected OK response from IMAP server: %s"
-msgstr "Réponse OK inattendue du serveur IMAP : %s."
+msgstr "Réponse OK inattendue du serveur IMAP : %s"
 
 #: camel/providers/imap/camel-imap-folder.c:223
 #, c-format
 msgid "Could not create directory %s: %s"
-msgstr "Impossible de créer le répertoire %s : %s."
+msgstr "Impossible de créer le répertoire %s : %s"
 
 #: camel/providers/imap/camel-imap-folder.c:242
 #, c-format
 msgid "Could not load summary for %s"
-msgstr "Impossible de charger le résumé pour %s."
+msgstr "Impossible de charger le résumé pour %s"
 
 #: camel/providers/imap/camel-imap-folder.c:317
 msgid "Folder was destroyed and recreated on server."
@@ -9892,7 +9894,7 @@ msgstr "Impossible de trouver le corps du message dans la réponse FETCH."
 #: camel/providers/imap/camel-imap-message-cache.c:155
 #, c-format
 msgid "Could not open cache directory: %s"
-msgstr "Impossible d'ouvrir le répertoire de cache : %s."
+msgstr "Impossible d'ouvrir le répertoire de cache : %s"
 
 #: camel/providers/imap/camel-imap-message-cache.c:252
 #: camel/providers/imap/camel-imap-message-cache.c:309
@@ -9900,12 +9902,12 @@ msgstr "Impossible d'ouvrir le répertoire de cache : %s."
 #: camel/providers/imap/camel-imap-message-cache.c:372
 #, c-format
 msgid "Failed to cache message %s: %s"
-msgstr "Impossible de mettre le message %s en cache : %s."
+msgstr "La mise en cache du message %s a échoué : %s"
 
 #: camel/providers/imap/camel-imap-message-cache.c:417
 #, c-format
 msgid "Failed to cache %s: %s"
-msgstr "Impossible de mettre %s en cache : %s."
+msgstr "La mise en cache de %s a échoué : %s"
 
 #: camel/providers/imap/camel-imap-provider.c:43
 msgid "Connection to Server"
@@ -9990,17 +9992,17 @@ msgstr "Connexion annulée"
 #: camel/providers/imap/camel-imap-store.c:696
 #, c-format
 msgid "Failed to connect to IMAP server %s in secure mode: %s"
-msgstr "Impossible de se connecter au serveur IMAP %s en mode sécurisé : %s."
+msgstr "La connexion au serveur IMAP %s en mode sécurisé a échoué : %s"
 
 #: camel/providers/imap/camel-imap-store.c:666
 #: camel/providers/pop3/camel-pop3-store.c:230
 msgid "SSL/TLS extension not supported."
-msgstr "Extension SSL/TSL non supportée"
+msgstr "Extension SSL/TSL non supportée."
 
 #: camel/providers/imap/camel-imap-store.c:697
 #: camel/providers/pop3/camel-pop3-store.c:271
 msgid "SSL negotiations failed"
-msgstr " Échec des négociations SSL"
+msgstr "Les négociations SSL ont échoué"
 
 #: camel/providers/imap/camel-imap-store.c:834
 #, c-format
@@ -10051,7 +10053,7 @@ msgstr "Aucun dossier de type « %s »."
 msgid ""
 "The folder name \"%s\" is invalid because it containes the character \"%c\""
 msgstr ""
-"Le nom de dossier « %s » est invalide car il contient le caractère « %c »."
+"Le nom de dossier « %s » n'est pas valide car il contient le caractère « %c »"
 
 #: camel/providers/imap/camel-imap-store.c:2029
 #, c-format
@@ -10249,7 +10251,7 @@ msgstr "Impossible de joindre le message au dossier maildir : %s : %s."
 #: camel/providers/local/camel-maildir-folder.c:234
 #: camel/providers/local/camel-mh-folder.c:220
 msgid "Invalid message contents"
-msgstr "Contenu de message invalide"
+msgstr "Contenu de message non valide"
 
 #: camel/providers/local/camel-maildir-store.c:106
 #: camel/providers/local/camel-mh-store.c:202
@@ -10598,26 +10600,26 @@ msgid ""
 "Could not sync spool folder %s: %s\n"
 "Folder may be corrupt, copy saved in `%s'"
 msgstr ""
-"Impossible de synchroniser le dossier spool %s : %s.\n"
-"Le dossier est peut-être corrompu, copie enregistrée dans « %s »."
+"Impossible de synchroniser le dossier spool %s : %s\n"
+"Le dossier est peut-être corrompu, copie enregistrée dans « %s »"
 
 #: camel/providers/nntp/camel-nntp-auth.c:44
 #: camel/providers/nntp/camel-nntp-store.c:998
 #, c-format
 msgid "Please enter the NNTP password for %s@%s"
-msgstr "Veuillez saisir le mot de passe NNTP pour %s@%s."
+msgstr "Veuillez saisir le mot de passe NNTP pour %s@%s"
 
 #: camel/providers/nntp/camel-nntp-auth.c:64
 msgid "Server rejected username"
-msgstr "Le serveur a rejeté le nom d'utilisateur."
+msgstr "Le serveur a rejeté le nom d'utilisateur"
 
 #: camel/providers/nntp/camel-nntp-auth.c:70
 msgid "Failed to send username to server"
-msgstr "Échec de l'envoi, au serveur, du nom d'utilisateur"
+msgstr "L'envoi du nom d'utilisateur au serveur a échoué"
 
 #: camel/providers/nntp/camel-nntp-auth.c:79
 msgid "Server rejected username/password"
-msgstr "Le serveur a rejeté le nom d'utilisateur/mot de passe."
+msgstr "Le serveur a rejeté le nom d'utilisateur/mot de passe"
 
 #: camel/providers/nntp/camel-nntp-folder.c:140
 #: camel/providers/nntp/camel-nntp-folder.c:230
@@ -10643,7 +10645,7 @@ msgstr "Impossible d'obtenir le message : %s : %s"
 #: camel/providers/nntp/camel-nntp-folder.c:195
 #, c-format
 msgid "Internal error: uid in invalid format: %s"
-msgstr "Erreur interne : format d'uid invalide : %s"
+msgstr "Erreur interne : format d'uid non valide : %s"
 
 #: camel/providers/nntp/camel-nntp-folder.c:170
 #, c-format
@@ -10658,7 +10660,8 @@ msgstr "Les publications ne sont pas autorisées par le serveur de nouvelles"
 #, c-format
 msgid "Failed to send newsgroups header: %s: message not posted"
 msgstr ""
-"Échec de l'envoi des entêtes de groupe de discussion : %s : message non posté"
+"L'envoi des en-têtes de groupes de discussion a échoué : %s : message non "
+"posté"
 
 #: camel/providers/nntp/camel-nntp-folder.c:404
 #: camel/providers/nntp/camel-nntp-folder.c:417
@@ -10913,19 +10916,19 @@ msgstr ""
 #: camel/providers/pop3/camel-pop3-store.c:197
 #, c-format
 msgid "Could not connect to POP server %s (port %d): %s"
-msgstr "Impossible de se connecter au serveur POP %s (port %d) : %s."
+msgstr "Impossible de se connecter au serveur POP %s (port %d) : %s"
 
 #: camel/providers/pop3/camel-pop3-store.c:229
 #: camel/providers/pop3/camel-pop3-store.c:258
 #: camel/providers/pop3/camel-pop3-store.c:270
 #, c-format
 msgid "Failed to connect to POP server %s in secure mode: %s"
-msgstr "Impossible de se connecter au serveur POP %s en mode sécurisé : %s."
+msgstr "La connexion au serveur POP %s en mode sécurisé a échoué : %s"
 
 #: camel/providers/pop3/camel-pop3-store.c:368
 #, c-format
 msgid "Could not connect to POP server %s"
-msgstr "Impossible de se connecter au serveur POP %s."
+msgstr "Impossible de se connecter au serveur POP %s"
 
 #: camel/providers/pop3/camel-pop3-store.c:409
 #: camel/providers/pop3/camel-pop3-store.c:523
@@ -10951,12 +10954,12 @@ msgstr ""
 #: camel/providers/pop3/camel-pop3-store.c:456
 #, c-format
 msgid "Failed to authenticate on POP server %s: %s"
-msgstr "Authentification sur le serveur POP %s impossible : %s"
+msgstr "L'authentification sur le serveur POP %s a échoué : %s"
 
 #: camel/providers/pop3/camel-pop3-store.c:482
 #, c-format
 msgid "%sPlease enter the POP password for %s@%s"
-msgstr "%sVeuillez saisir le mot de passe POP pour %s@%s."
+msgstr "%sVeuillez saisir le mot de passe POP pour %s@%s"
 
 #: camel/providers/pop3/camel-pop3-store.c:537
 #: camel/providers/pop3/camel-pop3-store.c:544
@@ -11148,11 +11151,11 @@ msgstr "Erreur lors de la réponse de bienvenue"
 #: camel/providers/smtp/camel-smtp-transport.c:382
 #, c-format
 msgid "Failed to connect to SMTP server %s in secure mode: %s"
-msgstr "Impossible de se connecter au serveur SMTP %s en mode sécurisé : %s."
+msgstr "La connexion au serveur SMTP %s en mode sécurisé a échoué : %s"
 
 #: camel/providers/smtp/camel-smtp-transport.c:344
 msgid "server does not appear to support SSL"
-msgstr "Le serveur ne semble pas supporter SSL."
+msgstr "Le serveur ne semble pas supporter SSL"
 
 #: camel/providers/smtp/camel-smtp-transport.c:358
 #, c-format
@@ -11167,12 +11170,12 @@ msgstr "Erreur de réponse STARTTLS"
 #, c-format
 msgid "SMTP server %s does not support requested authentication type %s."
 msgstr ""
-"Le serveur SMTP %s ne supporte pas le type d'authentification demandé %s. "
+"Le serveur SMTP %s ne supporte pas le type d'authentification demandé %s."
 
 #: camel/providers/smtp/camel-smtp-transport.c:514
 #, c-format
 msgid "%sPlease enter the SMTP password for %s@%s"
-msgstr "%sVeuillez saisir le mot de passe SMTP pour %s@%s."
+msgstr "%sVeuillez saisir le mot de passe SMTP pour %s@%s"
 
 #: camel/providers/smtp/camel-smtp-transport.c:533
 #, c-format
@@ -11576,8 +11579,8 @@ msgstr "Généré automatiquement"
 #, c-format
 msgid "<b>%d</b> File Attached"
 msgid_plural "<b>%d</b> Files Attached"
-msgstr[0] "<b>%d</b> Fichier Attaché"
-msgstr[1] "<b>%d</b> Fichiers attachés"
+msgstr[0] "<b>%d</b> fichier attaché"
+msgstr[1] "<b>%d</b> fichiers attachés"
 
 #: composer/e-msg-composer.c:2276
 msgid "Hide _Attachment Bar (drop attachments here)"
@@ -11660,7 +11663,7 @@ msgstr "<b>Message « Absent du bureau » :</b>"
 
 #: designs/OOA/ooa.glade.h:5
 msgid "<b>Status:</b>"
-msgstr "<b>Statut :</b> "
+msgstr "<b>État :</b>"
 
 #: designs/OOA/ooa.glade.h:6
 msgid ""
@@ -11764,11 +11767,11 @@ msgstr "Écraser le fichier ?"
 
 #: e-util/e-passwords.c:357
 msgid "Remember this password"
-msgstr "Mémoriser le mot de passe"
+msgstr "Mémoriser ce mot de passe"
 
 #: e-util/e-passwords.c:359
 msgid "Remember this password for the remainder of this session"
-msgstr "Mémoriser le mot de passe jusqu'à la fin de la session."
+msgstr "Mémoriser ce mot de passe jusqu'à la fin de la session"
 
 #: e-util/e-pilot-settings.c:93
 msgid "Sync Private Records:"
@@ -11975,7 +11978,7 @@ msgstr "Le fichier « %s » n'existe pas ou n'est pas un fichier normal."
 
 #: filter/filter-file.c:299
 msgid "Choose a file"
-msgstr "Choisir un fichier"
+msgstr "Choisissez un fichier"
 
 #. and now for the action area
 #: filter/filter-filter.c:491
@@ -11989,7 +11992,7 @@ msgstr "Vous devez indiquer un dossier."
 #: filter/filter-folder.c:242 filter/vfolder-rule.c:466
 #: mail/mail-account-gui.c:1099
 msgid "Select Folder"
-msgstr "Sélectionnez un dossier."
+msgstr "Sélectionnez un dossier"
 
 #: filter/filter-input.c:191
 #, c-format
@@ -12684,7 +12687,7 @@ msgstr "Boîte de réception"
 
 #: mail/em-folder-tree-model.c:424 mail/em-folder-tree-model.c:714
 msgid "Loading..."
-msgstr "Chargement"
+msgstr "Chargement..."
 
 #: mail/em-folder-tree-model.c:1279 mail/em-utils.c:2085
 #, c-format
@@ -12974,7 +12977,7 @@ msgstr ""
 
 #: mail/em-format-html-display.c:638 mail/em-format-html.c:565
 msgid "Invalid signature"
-msgstr "Signature invalide"
+msgstr "Signature non valide"
 
 #: mail/em-format-html-display.c:638
 msgid ""
@@ -13024,7 +13027,7 @@ msgstr ""
 
 #: mail/em-format-html-display.c:647 mail/em-format-html.c:574
 msgid "Encrypted"
-msgstr "Chiffrer"
+msgstr "Chiffré"
 
 #: mail/em-format-html-display.c:647
 msgid ""
@@ -13092,7 +13095,7 @@ msgstr "_Masquer"
 #: mail/em-format-html-print.c:99
 #, c-format
 msgid "Page %d of %d"
-msgstr "Page %d de %d"
+msgstr "Page %d sur %d"
 
 #: mail/em-format-html.c:456 mail/em-format-html.c:458
 #, c-format
@@ -13143,7 +13146,7 @@ msgstr "De"
 
 #: mail/em-format-html.c:1453 mail/em-format.c:708 mail/em-mailer-prefs.c:68
 msgid "Reply-To"
-msgstr "Répondre à :"
+msgstr "Répondre à"
 
 #: mail/em-format-html.c:1453 mail/em-format.c:709 mail/em-mailer-prefs.c:69
 #: mail/message-list.etspec.h:14
@@ -13214,22 +13217,22 @@ msgstr ""
 #: mail/em-migrate.c:1770 mail/em-migrate.c:1785
 #, c-format
 msgid "Failed to migrate pop3 uid caches: %s"
-msgstr "Impossible de migrer les uid de caches pop3 : %s"
+msgstr "La migration des uid de caches pop3 a échoué : %s"
 
 #: mail/em-migrate.c:1873 mail/em-migrate.c:1974
 #, c-format
 msgid "Failed to migrate folder expand state: %s"
-msgstr "Impossible de migrer les état d'expansion des dossiers : %s"
+msgstr "La migration des état d'expansion des dossiers a échoué : %s"
 
 #: mail/em-migrate.c:2098 mail/em-migrate.c:2267
 #, c-format
 msgid "Failed to create directory `%s': %s"
-msgstr "Impossible de créer le répertoire « %s » : %s"
+msgstr "La création du répertoire « %s » a échoué : %s"
 
 #: mail/em-migrate.c:2110
 #, c-format
 msgid "Failed to open store for `%s': %s"
-msgstr "Impossible d'ouvrir le stockage « %s » : %s"
+msgstr "L'ouverture du stockage « %s » a échoué : %s"
 
 #: mail/em-popup.c:668
 msgid "Save As..."
@@ -13946,7 +13949,7 @@ msgstr ""
 
 #: mail/importers/netscape-importer.c:1237
 msgid "Evolution is importing your old Netscape data"
-msgstr "Evolution importe vos anciennes données Netscape."
+msgstr "Evolution importe vos anciennes données Netscape"
 
 #: mail/importers/netscape-importer.c:1995
 msgid "Scanning mail filters"
@@ -13962,7 +13965,7 @@ msgstr "Démarrage de l'importation"
 
 #: mail/importers/netscape-importer.c:2090
 msgid "Settings"
-msgstr "Paramétrage"
+msgstr "Paramètres"
 
 #: mail/importers/netscape-importer.c:2095
 msgid "Mail Filters"
@@ -14267,7 +14270,7 @@ msgstr "Jeu de _caractères :"
 
 #: mail/mail-config.glade.h:27
 msgid "C_olors"
-msgstr "C_ouleurs"
+msgstr "_Couleurs"
 
 #: mail/mail-config.glade.h:28
 msgid "Check _Incoming Mail"
@@ -14576,7 +14579,7 @@ msgstr "Cert_ificats de signature :"
 
 #: mail/mail-config.glade.h:120
 msgid "Specify _filename:"
-msgstr "Spécifiez le nom de _fichier :"
+msgstr "Spécifiez le nom du _fichier :"
 
 #: mail/mail-config.glade.h:121
 msgid "Spell _Checking"
@@ -14837,7 +14840,7 @@ msgstr "Récupération du courrier"
 #: mail/mail-ops.c:537
 #, c-format
 msgid "Failed to apply outgoing filters: %s"
-msgstr "Échec lors de l'application des filtres de sortie : %s"
+msgstr "L'application des filtres de sortie a échoué : %s"
 
 #: mail/mail-ops.c:558
 #, c-format
@@ -14845,13 +14848,13 @@ msgid ""
 "Failed to append to %s: %s\n"
 "Appending to local `Sent' folder instead."
 msgstr ""
-"Impossible d'ajouter à %s : %s\n"
+"L'ajout à %s a échoué : %s\n"
 "Ajouté au dossier local « Sent » à la place."
 
 #: mail/mail-ops.c:567
 #, c-format
 msgid "Failed to append to local `Sent' folder: %s"
-msgstr "Échec lors de l'ajout au dossier local « Envoyés » : %s"
+msgstr "L'ajout au dossier local « Envoyés » a échoué : %s"
 
 #: mail/mail-ops.c:609
 #, c-format
@@ -14861,16 +14864,16 @@ msgstr "Envoi de « %s »"
 #: mail/mail-ops.c:727
 #, c-format
 msgid "Sending message %d of %d"
-msgstr "Envoi du message %d du %d"
+msgstr "Envoi du message %d sur %d"
 
 #: mail/mail-ops.c:746
 #, c-format
 msgid "Failed on message %d of %d"
-msgstr "Échec sur le message %d de %d"
+msgstr "Le message %d sur %d a échoué"
 
 #: mail/mail-ops.c:748
 msgid "Complete."
-msgstr "Terminé"
+msgstr "Terminé."
 
 #: mail/mail-ops.c:842
 msgid "Saving message to folder"
@@ -14999,7 +15002,7 @@ msgstr "Changer l'état du spam"
 
 #: mail/mail-search.glade.h:2
 msgid "Case Sensitive"
-msgstr "Respecter la casse"
+msgstr "Sensible à la casse"
 
 #: mail/mail-search.glade.h:3
 msgid "Find in Message"
@@ -15076,11 +15079,11 @@ msgstr "Saisissez le mot de passe"
 
 #: mail/mail-session.c:301
 msgid "_Remember this password"
-msgstr "Mémo _riser le mot de passe"
+msgstr "_Mémoriser ce mot de passe"
 
 #: mail/mail-session.c:302
 msgid "_Remember this password for the remainder of this session"
-msgstr "Mémo_riser ce mot de passe jusqu'à la fin de la session."
+msgstr "_Mémoriser ce mot de passe jusqu'à la fin de la session"
 
 #: mail/mail-signature-editor.c:80
 #, c-format
@@ -15129,7 +15132,7 @@ msgstr "Message transféré"
 #: mail/mail-tools.c:313
 #, c-format
 msgid "Invalid folder: `%s'"
-msgstr "Dossier invalide : « %s »"
+msgstr "Dossier non valide : « %s »"
 
 #: mail/mail-vfolder.c:87
 #, c-format
@@ -15460,7 +15463,7 @@ msgstr "S'il faut sauter les dialogues d'avertissement de développement"
 
 #: shell/apps_evolution_shell.schemas.in.in.h:24
 msgid "mail"
-msgstr "Courrier électronique"
+msgstr "courrier électronique"
 
 #: shell/e-shell-about-box.c:45
 msgid "Brought to you by"
@@ -15685,11 +15688,11 @@ msgstr "Automatique"
 
 #: shell/e-shell-importer.c:642
 msgid "_Filename:"
-msgstr "Nom du _fichier :"
+msgstr "_Nom du fichier :"
 
 #: shell/e-shell-importer.c:647
 msgid "Select a file"
-msgstr "Sélectionner un fichier"
+msgstr "Sélectionnez un fichier"
 
 #: shell/e-shell-importer.c:657
 msgid "File _type:"
@@ -15875,7 +15878,7 @@ msgstr ""
 
 #: shell/e-shell.c:998
 msgid "Invalid arguments"
-msgstr "Arguments invalides"
+msgstr "Arguments non valides"
 
 #: shell/e-shell.c:1000
 msgid "Cannot register on OAF"
@@ -15982,7 +15985,7 @@ msgstr "Ouvrir le dossier lié à ce raccourci"
 
 #: shell/e-shortcuts-view.c:424
 msgid "Open in New _Window"
-msgstr "_Ouvrir dans une nouvelle fenêtre"
+msgstr "Ouvrir dans une nouvelle _fenêtre"
 
 #: shell/e-shortcuts-view.c:424
 msgid "Open the folder linked to this shortcut in a new window"
@@ -15994,7 +15997,7 @@ msgstr "Renommer ce raccourci"
 
 #: shell/e-shortcuts-view.c:429
 msgid "Re_move"
-msgstr "Suppri_mer"
+msgstr "_Supprimer"
 
 #: shell/e-shortcuts-view.c:429
 msgid "Remove this shortcut from the shortcut bar"
@@ -16088,7 +16091,7 @@ msgstr "Connexions actives"
 
 #: shell/glade/e-active-connection-dialog.glade.h:2
 msgid "Click OK to close these connections and go offline"
-msgstr "Cliquez sur OK pour fermer ces connexions et passer hors ligne."
+msgstr "Cliquez sur Valider pour fermer ces connexions et passer hors ligne"
 
 #: shell/glade/e-active-connection-dialog.glade.h:3
 msgid "The following connections are currently active:"
@@ -16423,7 +16426,7 @@ msgstr "<b>Ce certificat a été vérifié pour les usages suivants :</b>"
 
 #: smime/gui/smime-ui.glade.h:9
 msgid "<b>Validity</b>"
-msgstr "<b>Validité</b> "
+msgstr "<b>Validité</b>"
 
 #: smime/gui/smime-ui.glade.h:10
 msgid "Authorities"
@@ -16477,7 +16480,7 @@ msgstr "Fenêtre factice seulement"
 
 #: smime/gui/smime-ui.glade.h:23
 msgid "Edit"
-msgstr "Editer"
+msgstr "Éditer"
 
 #: smime/gui/smime-ui.glade.h:24
 msgid "Email Recipient Certificate"
@@ -16815,7 +16818,7 @@ msgstr "Copier les contacts vers un autre dossier..."
 
 #: ui/evolution-addressbook.xml.h:4 ui/evolution-calendar.xml.h:2
 msgid "Copy the selection"
-msgstr "Copier la sélection"
+msgstr "Copie la sélection"
 
 #: ui/evolution-addressbook.xml.h:5
 msgid "Copy to Folder..."
@@ -16823,7 +16826,7 @@ msgstr "Copier vers le dossier..."
 
 #: ui/evolution-addressbook.xml.h:7 ui/evolution-calendar.xml.h:3
 msgid "Cut the selection"
-msgstr "Couper la sélection"
+msgstr "Coupe la sélection"
 
 #: ui/evolution-addressbook.xml.h:9
 msgid "Delete selected contacts"
@@ -16839,7 +16842,7 @@ msgstr "Déplacer vers le dossier..."
 
 #: ui/evolution-addressbook.xml.h:14 ui/evolution-calendar.xml.h:18
 msgid "Paste the clipboard"
-msgstr "Coller le contenu du presse-papiers"
+msgstr "Colle le contenu du presse-papiers"
 
 #: ui/evolution-addressbook.xml.h:15
 msgid "Previews the contacts to be printed"
@@ -16927,7 +16930,7 @@ msgstr "_Rechercher des contacts"
 
 #: ui/evolution-addressbook.xml.h:43
 msgid "_Select All"
-msgstr "Tout _sélectionner"
+msgstr "_Tout sélectionner"
 
 #: ui/evolution-addressbook.xml.h:44
 msgid "_Send Message to Contact..."
@@ -16939,7 +16942,7 @@ msgstr "Jour"
 
 #: ui/evolution-calendar.xml.h:5
 msgid "Delete All Occurrences"
-msgstr "Supprimer toutes les occurences"
+msgstr "Supprimer toutes les occurrences"
 
 #: ui/evolution-calendar.xml.h:6
 msgid "Delete the appointment"
@@ -16947,11 +16950,11 @@ msgstr "Supprimer le rendez-vous"
 
 #: ui/evolution-calendar.xml.h:7
 msgid "Delete this Occurrence"
-msgstr "Supprimer cette occurence"
+msgstr "Supprimer cette occurrence"
 
 #: ui/evolution-calendar.xml.h:8
 msgid "Delete this occurrence"
-msgstr "Supprimer cette occurence"
+msgstr "Supprimer cette occurrence"
 
 #: ui/evolution-calendar.xml.h:9
 msgid "Go To"
@@ -17219,7 +17222,7 @@ msgstr "Créer ou éditer les définitions du dossier virtuel"
 
 #: ui/evolution-mail-global.xml.h:6
 msgid "Empty _Trash"
-msgstr "Vider la _corbeille"
+msgstr "_Vider la corbeille"
 
 #: ui/evolution-mail-global.xml.h:7
 msgid "Open a window for composing a mail message"
@@ -17430,7 +17433,7 @@ msgstr "Créer un dossier virtuel à partir de cet objet"
 
 #: ui/evolution-mail-message.xml.h:23
 msgid "Decrease the text size"
-msgstr "Réduire la taille du texte"
+msgstr "Diminue la taille du texte"
 
 #: ui/evolution-mail-message.xml.h:25
 msgid "Display the next important message"
@@ -17511,7 +17514,7 @@ msgstr ""
 
 #: ui/evolution-mail-message.xml.h:45
 msgid "Increase the text size"
-msgstr "Augmenter la taille du texte"
+msgstr "Augmente la taille du texte"
 
 #: ui/evolution-mail-message.xml.h:47
 msgid "Load _Images"
@@ -17772,7 +17775,7 @@ msgstr "_Récupérer"
 
 #: ui/evolution-mail-messagedisplay.xml.h:2 ui/evolution.xml.h:4
 msgid "Close this window"
-msgstr "Fermer cette fenetre"
+msgstr "Ferme cette fenetre"
 
 #: ui/evolution-mail-messagedisplay.xml.h:5
 #: ui/evolution-message-composer.xml.h:41 ui/evolution-subscribe.xml.h:9
@@ -17790,7 +17793,7 @@ msgstr "Joindre un fichier"
 
 #: ui/evolution-message-composer.xml.h:4 ui/evolution-signature-editor.xml.h:3
 msgid "Close the current file"
-msgstr "Fermer le fichier actif"
+msgstr "Fermer le fichier courant"
 
 #: ui/evolution-message-composer.xml.h:5
 msgid "Delete all but signature"
@@ -17818,7 +17821,7 @@ msgstr "Ouvrir"
 
 #: ui/evolution-message-composer.xml.h:11
 msgid "Open a file"
-msgstr "Ouvrir un fichier"
+msgstr "Ouvre un fichier"
 
 #: ui/evolution-message-composer.xml.h:12
 msgid "PGP Encrypt"
@@ -17856,11 +17859,11 @@ msgstr "Enregistrer dans le dossier..."
 #: ui/evolution-message-composer.xml.h:21
 #: ui/evolution-signature-editor.xml.h:9
 msgid "Save the current file"
-msgstr "Enregistrer le fichier actif"
+msgstr "Enregistrer le fichier courant"
 
 #: ui/evolution-message-composer.xml.h:22
 msgid "Save the current file with a different name"
-msgstr "Enregistrer le fichier actif avec un nom différent"
+msgstr "Enregistrer le fichier courant avec un nom différent"
 
 #: ui/evolution-message-composer.xml.h:23
 msgid "Save the message in a specified folder"
@@ -17974,7 +17977,7 @@ msgstr "H_TML"
 
 #: ui/evolution-signature-editor.xml.h:10
 msgid "Save the current file and close the window"
-msgstr "Enregistrer le fichier actif et fermer la fenêtre"
+msgstr "Enregistrer le fichier courant et fermer la fenêtre"
 
 #: ui/evolution-subscribe.xml.h:1
 msgid "Add folder to your list of subscribed folders"
@@ -18070,7 +18073,7 @@ msgstr "Affiche les tâches sélectionnées"
 
 #: ui/evolution-tasks.xml.h:21
 msgid "_Open Task"
-msgstr "_Ouvrir tâche"
+msgstr "_Ouvrir une tâche"
 
 #: ui/evolution.xml.h:1
 msgid "About Ximian Evolution..."
@@ -18090,7 +18093,7 @@ msgstr "_Quitter"
 
 #: ui/evolution.xml.h:7
 msgid "Exit the program"
-msgstr "Quitter le programme"
+msgstr "Quitte le programme"
 
 #: ui/evolution.xml.h:8
 msgid "Forget _Passwords"
@@ -18098,7 +18101,7 @@ msgstr "Oublier les _mots de passe"
 
 #: ui/evolution.xml.h:9
 msgid "Forget remembered passwords so you will be prompted for them again"
-msgstr "Oublier les mots de passe mémorisés, ils seront demandés à nouveau."
+msgstr "Oublier les mots de passe mémorisés, ils seront demandés à nouveau"
 
 #: ui/evolution.xml.h:10
 msgid "Import data from other programs"
@@ -18154,7 +18157,7 @@ msgstr "À _propos de Ximian Evolution..."
 
 #: ui/evolution.xml.h:28
 msgid "_Help"
-msgstr "A_ide"
+msgstr "_Aide"
 
 #: ui/evolution.xml.h:29
 msgid "_Import..."
@@ -18290,7 +18293,7 @@ msgstr "Enregistrer la vue personnalisée..."
 
 #: widgets/menus/gal-view-menus.c:373
 msgid "Define Views..."
-msgstr "Vues définies"
+msgstr "Définir les vues..."
 
 #. Translators: These are the first characters of each day of the
 #. week, 'M' for 'Monday', 'T' for Tuesday etc.
@@ -18409,11 +18412,11 @@ msgstr "Développé"
 
 #: widgets/misc/e-expander.c:182
 msgid "Whether or not the expander is expanded"
-msgstr "Étendeur développé ou non"
+msgstr "Expandeur développé ou non"
 
 #: widgets/misc/e-expander.c:190
 msgid "Text of the expander's label"
-msgstr "Taille de l'étiquette de l'étendeur"
+msgstr "Taille de l'étiquette de l'expandeur"
 
 #: widgets/misc/e-expander.c:197
 msgid "Use underline"
@@ -18433,23 +18436,25 @@ msgstr "Espacement"
 
 #: widgets/misc/e-expander.c:206
 msgid "Space to put between the label and the child"
-msgstr "Espace entre les étiquettes et les fils"
+msgstr "Espace à mettre entre l'étiquette et le fils"
 
 #: widgets/misc/e-expander.c:215
 msgid "Label widget"
-msgstr "Widget étiquette"
+msgstr "Composant graphique Étiquette"
 
 #: widgets/misc/e-expander.c:216
 msgid "A widget to display in place of the usual expander label"
-msgstr "Un widget à afficher à la place de l'étendeur usuel d'étiquettes"
+msgstr ""
+"Un composant graphique à afficher à la place de l'étiquette de l'expandeur "
+"usuel"
 
 #: widgets/misc/e-expander.c:222
 msgid "Expander Size"
-msgstr "Taille des étendeurs"
+msgstr "Taille de l'expandeur"
 
 #: widgets/misc/e-expander.c:223
 msgid "Size of the expander arrow"
-msgstr "Taille des flèches des étendeurs"
+msgstr "Taille de la flèche de l'expandeur"
 
 #: widgets/misc/e-expander.c:231
 msgid "Indicator Spacing"
@@ -18457,7 +18462,7 @@ msgstr "Indicateur d'espacement"
 
 #: widgets/misc/e-expander.c:232
 msgid "Spacing around expander arrow"
-msgstr "Espace autour des flèches des étendeurs"
+msgstr "Espace autour de la flèche de l'expandeur"
 
 #: widgets/misc/e-filter-bar.c:185
 msgid "Search Editor"
@@ -18542,7 +18547,7 @@ msgstr "Rechercher _maintenant"
 #~ msgstr "<b>Liste des tâches</b>"
 
 #~ msgid "<b>Time</b>"
-#~ msgstr "<b>Heure</b> "
+#~ msgstr "<b>Heure</b>"
 
 #~ msgid "<b>Work Week</b>"
 #~ msgstr "<b>Semaine de travail</b>"
@@ -18780,7 +18785,7 @@ msgstr "Rechercher _maintenant"
 #~ msgstr "Synchronisation du dossier"
 
 #~ msgid "Synchronizing \"%s\" (%d of %d) ..."
-#~ msgstr "Synchronisation de « %s » (%d de %d) ..."
+#~ msgstr "Synchronisation de « %s » (%d sur %d)..."
 
 #~ msgid "(No folder displayed)"
 #~ msgstr "(Aucun dossier affiché)"
@@ -18837,7 +18842,7 @@ msgstr "Rechercher _maintenant"
 #~ msgstr "Erreur CORBA"
 
 #~ msgid "Invalid argument"
-#~ msgstr "Argument invalide"
+#~ msgstr "Argument non valide"
 
 #~ msgid "Already has an owner"
 #~ msgstr "A déjà un propriétaire."
@@ -18861,7 +18866,7 @@ msgstr "Rechercher _maintenant"
 #~ msgstr "Existe"
 
 #~ msgid "Invalid URI"
-#~ msgstr "URI invalide"
+#~ msgstr "URI non valide"
 
 #~ msgid "Has subfolders"
 #~ msgstr "A des sous-dossiers."
@@ -18975,9 +18980,6 @@ msgstr "Rechercher _maintenant"
 #~ msgid "VCard (.vcf, .gcrd)"
 #~ msgstr "VCard (.vcf, .gcrd)"
 
-#~ msgid "Searching..."
-#~ msgstr "Recherche..."
-
 #~ msgid "Using Distinguished Name (DN)"
 #~ msgstr "En utilisant le nom distinctif (DN)"
 
@@ -19004,38 +19006,6 @@ msgstr "Rechercher _maintenant"
 
 #~ msgid "Error performing search"
 #~ msgstr "Erreur lors de la recherche"
-
-#, fuzzy
-#~ msgid "Repository is offline"
-#~ msgstr "Dépôt Hors ligne"
-
-#, fuzzy
-#~ msgid "No such calendar"
-#~ msgstr "Aucun dossier de type « %s »."
-
-#, fuzzy
-#~ msgid "Object not found"
-#~ msgstr "Impossible de trouver l'objet.\n"
-
-#, fuzzy
-#~ msgid "Invalid object"
-#~ msgstr "Utilisation invalide"
-
-#, fuzzy
-#~ msgid "URI not loaded"
-#~ msgstr "EBook non chargé\n"
-
-#, fuzzy
-#~ msgid "Operation has been cancelled"
-#~ msgstr "Opération annulée"
-
-#, fuzzy
-#~ msgid "Could not cancel operation"
-#~ msgstr "Annuler l'opération"
-
-#, fuzzy
-#~ msgid "Authentication failed"
-#~ msgstr " Échec d'authentification"
 
 #~ msgid "Untitled appointment"
 #~ msgstr "Rendez-vous sans titre"
@@ -19207,9 +19177,6 @@ msgstr "Rechercher _maintenant"
 #~ msgid "Dep"
 #~ msgstr "Serv."
 
-#~ msgid "Off"
-#~ msgstr "Bur."
-
 #~ msgid "Prof"
 #~ msgstr "Prof"
 
@@ -19341,7 +19308,7 @@ msgstr "Rechercher _maintenant"
 #~ msgstr "Dossier public contenant des éléments « À faire »"
 
 #~ msgid "Could not update invalid object"
-#~ msgstr "Impossible de mettre à jour un objet invalide."
+#~ msgstr "Impossible de mettre à jour un objet non valide."
 
 #~ msgid "Object not found, not updated"
 #~ msgstr "Objet non trouvé, mise à jour non effectuée"
@@ -19350,7 +19317,7 @@ msgstr "Rechercher _maintenant"
 #~ msgstr "Vous n'avez pas la permission de mettre à jour cet objet."
 
 #~ msgid "The event could not be deleted because it was invalid"
-#~ msgstr "Impossible de supprimer l'événement car il est invalide."
+#~ msgstr "Impossible de supprimer l'événement car il n'est pas valide."
 
 #~ msgid "The task could not be deleted because it was invalid"
 #~ msgstr "Impossible de supprimer la tâche car elle est invalide."
@@ -19656,9 +19623,6 @@ msgstr "Rechercher _maintenant"
 
 #~ msgid "Empty Message"
 #~ msgstr "Message vide"
-
-#~ msgid "Search Forward"
-#~ msgstr "Recherche vers l'avant"
 
 #~ msgid "(No subject)"
 #~ msgstr "(Pas d'objet)"
@@ -28579,9 +28543,6 @@ msgstr "Rechercher _maintenant"
 #~ msgid "Bug buddy was not found in your $PATH."
 #~ msgstr "Bug buddy n'a pas été trouvé dans votre $PATH."
 
-#~ msgid "Host"
-#~ msgstr "Hôte :"
-
 #~ msgid "Output File"
 #~ msgstr "Fichier de sortie"
 
@@ -28808,9 +28769,6 @@ msgstr "Rechercher _maintenant"
 #~ "Importation de %s\n"
 #~ "L'assistant d'importation n'est pas prêt.\n"
 #~ "Attente de 5 secondes avant nouvel essai."
-
-#~ msgid "_Preferences..."
-#~ msgstr "Préférences..."
 
 #~ msgid "Could not parse query string"
 #~ msgstr "Impossible d'analyser la chaîne de recherche."
@@ -29337,9 +29295,6 @@ msgstr "Rechercher _maintenant"
 
 #~ msgid "Delete selected signature"
 #~ msgstr "Supprimer les signatures sélectionnées"
-
-#~ msgid "Display"
-#~ msgstr "Affichage"
 
 #~ msgid "File containing signature"
 #~ msgstr "Fichier contenant la signature"
