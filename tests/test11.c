@@ -73,9 +73,6 @@ main (int argc, char**argv)
 	CamelStore *store;
 	gchar *store_url = "mbox:///tmp/evmail";
 	CamelFolder *folder, *outbox;
-	CamelMimeMessage *message;
-	GList *uid_list;
-	GList *matches;
 	struct search_data *sd;
 
 	gtk_init (&argc, &argv);
@@ -127,7 +124,7 @@ main (int argc, char**argv)
 
 	camel_folder_search_by_expression  (folder,
 					    "(match-all (header-contains \"subject\" \"gnome\"))",
-					    search_cb,
+					    (CamelSearchFunc*)search_cb,
 					    sd,
 					    ex);
 

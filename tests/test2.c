@@ -11,9 +11,8 @@
 int
 main (int argc, char**argv)
 {
-	GHashTable *header_table;
 	CamelMimeMessage *message;
-	CamelStream *input_stream, *output_stream;
+	CamelStream *input_stream;
 	
 	gtk_init (&argc, &argv);
 	camel_init ();
@@ -21,7 +20,7 @@ main (int argc, char**argv)
 	message = camel_mime_message_new ();
 
 	
-	input_stream = camel_stream_fs_new_with_name ("mail.test", CAMEL_STREAM_FS_READ);
+	input_stream = camel_stream_fs_new_with_name ("mail.test", O_RDONLY, 06000);
 	if (!input_stream) {
 		perror ("could not open input file\n");
 		printf ("You must create the file mail.test before running this test\n");

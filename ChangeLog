@@ -1,3 +1,11 @@
+2000-04-26  Dan Winship  <danw@helixcode.com>
+
+	* tests: Update for the camel changes.
+
+	* Makefile.am (SUBDIRS): Remove tests. They aren't terribly
+	useful/interesting any more for the most part, and they frequently
+	don't compile.
+
 2000-04-24  Christopher James Lahey  <clahey@helixcode.com>
 
 	* widgets/e-text/e-text.c: Made the tooltip show up in the correct

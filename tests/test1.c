@@ -7,7 +7,6 @@
 #include "camel-multipart.h"
 #include "camel-stream.h"
 #include "camel-stream-fs.h"
-#include "camel-stream-data-wrapper.h"
 #include "camel.h"
 
 int
@@ -30,7 +29,7 @@ main (int argc, char**argv)
 	} else {
 		if (argc == 2) {
 			attachment_stream = camel_stream_fs_new_with_name
-				(argv[1], CAMEL_STREAM_FS_READ);
+				(argv[1], O_RDONLY, 0600);
 			if (attachment_stream == NULL) {
 				fprintf (stderr, "Cannot open `%s'\n",
 					 argv[1]);
@@ -93,7 +92,7 @@ main (int argc, char**argv)
 
 		gtk_object_unref (GTK_OBJECT (stream_wrapper));*/
 		
-		attachment_wrapper = CAMEL_DATA_WRAPPER (camel_simple_data_wrapper_new ());
+		attachment_wrapper = camel_data_wrapper_new ();
 		camel_data_wrapper_construct_from_stream (attachment_wrapper, 
 							  attachment_stream);
 		
@@ -110,7 +109,7 @@ main (int argc, char**argv)
 	
 	camel_medium_set_content_object (CAMEL_MEDIUM (message), CAMEL_DATA_WRAPPER (multipart));
 
-	stream = camel_stream_fs_new_with_name ("mail1.test", CAMEL_STREAM_FS_WRITE );
+	stream = camel_stream_fs_new_with_name ("mail1.test", O_WRONLY, 0600);
 	if (!stream)  {
 		printf ("could not open output file");
 		exit(2);

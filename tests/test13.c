@@ -37,8 +37,6 @@ dump_message_content(CamelDataWrapper *object)
 		} else if (CAMEL_IS_MIME_MESSAGE(containee)) {
 			dump_message_content((CamelDataWrapper *)containee);
 		} else {
-			int total=0;
-
 			stream = camel_data_wrapper_get_output_stream(containee);
 			left = 0;
 
@@ -61,7 +59,6 @@ dump_message_content(CamelDataWrapper *object)
 int
 main (int argc, char**argv)
 {
-	GHashTable *header_table;
 	CamelMimeMessage *message;
 	CamelStream *input_stream, *output_stream;
 	CamelMimeParser *parser;
@@ -99,7 +96,7 @@ main (int argc, char**argv)
 	message = camel_mime_message_new ();
 
 	
-	input_stream = camel_stream_fs_new_with_name ("mail.test", CAMEL_STREAM_FS_READ);
+	input_stream = camel_stream_fs_new_with_name ("mail.test", O_RDONLY, 0600);
 	if (!input_stream) {
 		perror ("could not open input file\n");
 		printf ("You must create the file mail.test before running this test\n");
@@ -109,14 +106,15 @@ main (int argc, char**argv)
 	printf("creating parser to create message\n");
 	parser = camel_mime_parser_new();
 	camel_mime_parser_init_with_stream(parser, input_stream);
-	camel_mime_part_construct_from_parser(message, parser);
+	camel_mime_part_construct_from_parser(CAMEL_MIME_PART (message),
+					      parser);
 
-	dump_message_content(message);
+	dump_message_content(CAMEL_DATA_WRAPPER (message));
 
 	camel_stream_close (input_stream);
 	gtk_object_unref (GTK_OBJECT (input_stream));
 
-	output_stream = camel_stream_fs_new_with_name ("mail2.test", CAMEL_STREAM_FS_WRITE);
+	output_stream = camel_stream_fs_new_with_name ("mail2.test", O_WRONLY, 0600);
 	camel_data_wrapper_write_to_stream (CAMEL_DATA_WRAPPER (message), output_stream);
 	camel_stream_close (output_stream);
 	gtk_object_unref (GTK_OBJECT (output_stream));

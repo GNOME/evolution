@@ -21,7 +21,6 @@ SUBDIRS =			\
 	filter			\
 	composer		\
 	mail			\
-	tests			\
 	libical			\
 	libversit		\
 	addressbook		\
