@@ -319,6 +319,12 @@ em_folder_tree_destroy (GtkObject *obj)
 		priv->loading_row_id = 0;
 	}
 	
+	if (priv->save_state_id != 0) {
+		em_folder_tree_save_state (emft);
+		g_source_remove (priv->save_state_id);
+		priv->save_state_id = 0;
+	}
+
 	priv->treeview = NULL;
 	priv->model = NULL;
 	
@@ -1663,17 +1669,14 @@ em_folder_tree_get_model (EMFolderTree *emft)
 }
 
 
-static void
+static gboolean
 em_folder_tree_save_state (EMFolderTree *emft)
 {
 	struct _EMFolderTreePrivate *priv = emft->priv;
-	
-	if (priv->save_state_id != 0) {
-		g_source_remove (priv->save_state_id);
-		priv->save_state_id = 0;
-	}
-	
+
 	em_folder_tree_model_save_expanded (priv->model);
+
+	return FALSE
 }
 
 

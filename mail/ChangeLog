@@ -1,3 +1,10 @@
+2003-12-03  JP Rosevear <jpr@ximian.com>
+
+	* em-folder-tree.c (em_folder_tree_destroy): save the state
+	immediately if there is a timeout set
+	(em_folder_tree_save_state): be true GSourceFunc and just return
+	FALSE to remove the source
+
 2003-12-03  Not Zed  <NotZed@Ximian.com>
 
 	* mail-autofilter.c (rule_match_thread): changed to setup the rule
