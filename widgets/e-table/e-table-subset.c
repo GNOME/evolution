@@ -36,8 +36,7 @@ etss_destroy (GtkObject *object)
 	etss->table_model_row_changed_id = 0;
 	etss->table_model_cell_changed_id = 0;
 
-	if (etss->map_table)
-		free (etss->map_table);
+	g_free (etss->map_table);
 
 	GTK_OBJECT_CLASS (etss_parent_class)->destroy (object);
 }
