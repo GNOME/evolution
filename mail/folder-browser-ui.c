@@ -715,8 +715,8 @@ folder_browser_ui_scan_selection (FolderBrowser *fb)
 		enable_mask |= IS_SENT_FOLDER;
 		outgoing = TRUE;
 	}
-
-	if (fb->message_list->threaded)
+	
+	if (fb->message_list && fb->message_list->threaded)
 		enable_mask |= IS_THREADED;
 	else
 		enable_mask |= NOT_THREADED;

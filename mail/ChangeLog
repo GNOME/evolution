@@ -1,5 +1,13 @@
 2002-09-09  Jeffrey Stedfast  <fejj@ximian.com>
 
+	* folder-browser-ui.c (folder_browser_ui_scan_selection): Make
+	sure that fb->message_list is non-NULL before checking
+	fb->message_list->threaded? I guess this'll fix bug #29965.
+
+	* mail-callbacks.c (composer_save_draft_cb): NULL-check the ccd
+	before reffing it.
+	(composer_send_cb): Same.
+
 	* upgrade-mailer.c (shortcuts_upgrade_xml_file): Don't look for an
 	end quote, instead look for </item> to terminate the uri.
 	(shortcuts_upgrade_uri): Hex decode the imap folder name after
