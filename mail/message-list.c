@@ -414,7 +414,7 @@ message_list_drag_data_get (ETable             *table,
 		}
 		
 		subject = g_strdup (camel_message_info_subject (minfo));
-		e_str_make_safe (subject);
+		e_filename_make_safe (subject);
 		filename = g_strdup_printf ("%s/%s.eml", tmpdir, subject);
 		g_free (subject);
 		

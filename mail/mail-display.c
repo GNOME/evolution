@@ -99,8 +99,6 @@ write_data_to_file (CamelMimePart *part, const char *name, gboolean unique)
 	if (!charset)
 		charset = "us-ascii";
 	
-	fprintf (stderr, "mime part charset = %s\n", charset);
-	
 	charsetfilter = camel_mime_filter_charset_new_convert ("utf-8", charset);
 	
 	stream_fs = camel_stream_fs_new_with_fd (fd);
@@ -154,7 +152,7 @@ make_safe_filename (const char *prefix, CamelMimePart *part)
 	
 	p = strrchr (safe, '/') + 1;
 	if (p)
-		e_str_make_safe (p);
+		e_filename_make_safe (p);
 	
 	return safe;
 }
