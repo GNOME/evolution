@@ -951,7 +951,7 @@ e_meeting_time_selector_style_set (GtkWidget *widget,
 		ETableCol *ecol = e_table_header_get_column (eth, col);
 		int height;
 
-		height = e_table_header_compute_height (ecol, widget->style, font);
+		height = e_table_header_compute_height (ecol, widget);
 
 		if (height > maxheight)
 			maxheight = height;

@@ -1,3 +1,8 @@
+2002-11-16  Chris Toshok  <toshok@ximian.com>
+
+	* gui/e-meeting-time-sel.c (e_meeting_time_selector_style_set):
+	use new e_table_header_compute_height signature.
+
 2002-11-15  Rodney Dawes  <dobey@ximian.com>
 
 	* gui/component-factory.c: Use bonobo_main_quit instead of gtk
