@@ -612,6 +612,10 @@ build_message (EMsgComposer *composer)
 	
 #endif /* HAVE_NSS */
 	
+	/* Attach whether this message was written in HTML */
+	camel_medium_set_header (CAMEL_MEDIUM (new), "X-Evolution-Format",
+				 composer->send_html ? "text/html" : "text/plain");
+	
 	return new;
 	
  exception:
@@ -2578,6 +2582,7 @@ e_msg_composer_new_with_message (CamelMimeMessage *msg)
 	CamelContentType *content_type;
 	struct _header_raw *headers;
 	EMsgComposer *new;
+	XEvolution *xev;
 	guint len, i;
 	
 	g_return_val_if_fail (gtk_main_level () > 0, NULL);
@@ -2640,7 +2645,6 @@ e_msg_composer_new_with_message (CamelMimeMessage *msg)
 	if (account_name) {
 		while (*account_name && isspace ((unsigned) *account_name))
 			account_name++;
-		camel_medium_remove_header (CAMEL_MEDIUM (msg), "X-Evolution-Account");
 	}
 	
 	e_msg_composer_set_headers (new, account_name, Tov, Ccv, Bccv, subject);
@@ -2659,15 +2663,11 @@ e_msg_composer_new_with_message (CamelMimeMessage *msg)
 			e_msg_composer_set_send_html (new, TRUE);
 		else
 			e_msg_composer_set_send_html (new, FALSE);
-		
-		camel_medium_remove_header (CAMEL_MEDIUM (msg), "X-Evolution-Format");
 	}
 	
 	/* Remove any other X-Evolution-* headers that may have been set */
-	if (camel_medium_get_header (CAMEL_MEDIUM (msg), "X-Evolution-Transport"))
-		camel_medium_remove_header (CAMEL_MEDIUM (msg), "X-Evolution-Transport");
-	if (camel_medium_get_header (CAMEL_MEDIUM (msg), "X-Evolution-Source"))
-		camel_medium_remove_header (CAMEL_MEDIUM (msg), "X-Evolution-Source");
+	xev = mail_tool_remove_xevolution_headers (msg);
+	mail_tool_destroy_xevolution (xev);
 	
 	/* set extra headers */
 	headers = CAMEL_MIME_PART (msg)->headers;
@@ -3028,10 +3028,6 @@ e_msg_composer_get_message_draft (EMsgComposer *composer)
 	composer->pgp_encrypt = old_pgp_encrypt;
 	composer->smime_sign = old_smime_sign;
 	composer->smime_encrypt = old_smime_encrypt;
-	
-	/* Attach whether this message was written in HTML */
-	camel_medium_set_header (CAMEL_MEDIUM (msg), "X-Evolution-Format",
-				 composer->send_html ? "text/html" : "text/plain");
 	
 	/* Attach account info to the draft. */
 	account = e_msg_composer_get_preferred_account (composer);

@@ -1,3 +1,14 @@
+2001-09-18  Jeffrey Stedfast  <fejj@ximian.com>
+
+	* e-msg-composer.c (build_message): Attach an X-Evolution-Format
+	header so if people re-edit a message in say their Sent folder, we
+	will preserve format preferences.
+	(e_msg_composer_get_message_draft): Don't attach
+	X-Evolution-Format headers here since it is now done in
+	build_message().
+	(e_msg_composer_new_with_message): Make sure to remove *all*
+	X-Evolution headers by using the mail-tools functions.
+
 2001-09-16  Jeffrey Stedfast  <fejj@ximian.com>
 
 	* e-msg-composer-attachment-bar.c (update): Don't
