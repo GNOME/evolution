@@ -45,6 +45,7 @@
 
 #include "mail-vfolder.h"
 #include "mail.h" /*session*/
+#include "mail-format.h"
 #include "mail-tools.h"
 #include "mail-local.h"
 #include "mail-mt.h"
