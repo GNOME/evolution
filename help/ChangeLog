@@ -1,3 +1,7 @@
+2001-11-28  Kevin Breit  <mrproper@ximian.com>
+
+	* C/usage-mail.sgml: Added section about how to make your email pretty.  I'll add more each day or something.
+
 2001-11-14  Ettore Perazzoli  <ettore@ximian.com>
 
 	[Workaround for Nautilus/Scrollkeeper bug that prevents our SGML

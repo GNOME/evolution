@@ -1560,6 +1560,28 @@
       </para>
       <para> Happy mailing! </para>
     </sect2>
+    <sect2 id="fancy-mail">
+      <title>Making Your Email More Fancy</title>
+      <para>
+	<application>Evolution</application> can do a lot with email by utilizing the HTML features.  Making an email functional and visually attractive can be challenging.  The following section provides tips to make your mail functional, while being more visually attractive than ever.
+      </para>
+      <sect3 id="sections-bolded-title">
+	<title>Sections Outlined in Bold</title>
+	<para>
+	  Indented sections are a great way to categorize and group your thoughts together.  Below is an example of indented text with headings to help separate your thoughts into the proper sections:
+	  <figure>
+	    <title>Indented Text with Headlines</title>
+	    <screenshot>
+	      <screeninfo></screeninfo>
+	      <graphic  format="png" fileref="figures/outline" srccredit="Kevin Breit">
+	    </screenshot>
+	  </figure>
+	</para>
+	<para>
+	  Notice how professional the email looks, but it gets the content across well.  Each section is broken up in its own subsection.  The title is bolded, while the text which follows is indented one time.
+	</para>
+      </sect3>
+    </sect2>
   </sect1>
   <sect1 id="rsvp-stuff">
     <title>RSVPs in Mail</title>
