@@ -349,7 +349,7 @@ ical_object_to_vobject (iCalObject *ical)
 
 	/* resources */
 	if (ical->categories)
-		store_list (o, VCCategoriesProp, ical->resources, ";");
+		store_list (o, VCCategoriesProp, ical->resources, ';');
 
 	/* priority */
 	addPropValue (o, VCPriorityProp, to_str (ical->priority));
@@ -358,7 +358,7 @@ ical_object_to_vobject (iCalObject *ical)
 	addPropValue (o, VCTranspProp, to_str (ical->transp));
 
 	/* related */
-	store_list (o, VCRelatedToProp, ical->related, ";");
+	store_list (o, VCRelatedToProp, ical->related, ';');
 
 	/* attach */
 	for (l = ical->attach; l; l = l->next)
@@ -371,4 +371,3 @@ ical_object_to_vobject (iCalObject *ical)
 	/* FIXME: alarms */
 	return o;
 }
-	

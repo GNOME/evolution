@@ -120,6 +120,7 @@ iCalObject *ical_new (char *comment, char *organizer, char *summary);
 iCalObject *ical_object_new (void);
 void        ical_object_destroy (iCalObject *ico);
 iCalObject *ical_object_create_from_vobject (VObject *obj, const char *object_name);
+VObject    *ical_object_to_vobject (iCalObject *ical);
 
 END_GNOME_DECLS
 

@@ -189,10 +189,27 @@ gnome_calendar_load (GnomeCalendar *gcal, char *file)
 }
 
 void
-gnome_calendar_add_object  (GnomeCalendar *gcal, iCalObject *obj)
+gnome_calendar_add_object (GnomeCalendar *gcal, iCalObject *obj)
 {
 	printf ("Adding object at: ");
 	print_time_t (obj->dtstart);
 	calendar_add_object (gcal->cal, obj);
+	gnome_calendar_update_all (gcal);
+}
+
+void
+gnome_calendar_object_changed (GnomeCalendar *gcal, iCalObject *obj)
+{
+	g_return_if_fail (gcal != NULL);
+	g_return_if_fail (GNOME_IS_CALENDAR (gcal));
+	g_return_if_fail (obj != NULL);
+
+	/* FIXME: for now we only update the views.  Most likely we
+	 * need to do something else like set the last_mod field on
+	 * the iCalObject and such - Federico
+	 */
+
+	gcal->cal->modified = TRUE;
+
 	gnome_calendar_update_all (gcal);
 }

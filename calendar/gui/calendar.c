@@ -48,6 +48,10 @@ calendar_add_object (Calendar *cal, iCalObject *obj)
 	default:
 		g_assert_not_reached ();
 	}
+
+	cal->modified = TRUE;
+
+	/* FIXME: do we have to set the last_mod field in the object? */
 }
 
 void
@@ -68,6 +72,8 @@ calendar_remove_object (Calendar *cal, iCalObject *obj)
 	default:
 		g_assert_not_reached ();
 	}
+
+	cal->modified = TRUE;
 }
 
 void

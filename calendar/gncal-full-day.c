@@ -127,9 +127,7 @@ static void
 child_map (GncalFullDay *fullday, Child *child)
 {
 	gdk_window_show (child->window);
-
-	if (!GTK_WIDGET_MAPPED (child->widget))
-		gtk_widget_map (child->widget);
+	gtk_widget_show (child->widget); /* OK, not just a map... */
 }
 
 static void
@@ -203,16 +201,13 @@ static void
 child_draw (GncalFullDay *fullday, Child *child, GdkRectangle *area, int draw_child)
 {
 	GdkRectangle arect, rect, dest;
-	gint w, h;
-
-	gdk_window_get_size (child->window, &w, &h);
 
 	if (!area) {
 		arect.x = 0;
 		arect.y = 0;
 
-		arect.width = w;
-		arect.height = h;
+		arect.width = child->width;
+		arect.height = child->height;
 
 		area = &arect;
 	}
@@ -221,7 +216,7 @@ child_draw (GncalFullDay *fullday, Child *child, GdkRectangle *area, int draw_ch
 
 	rect.x = 0;
 	rect.y = 0;
-	rect.width = w;
+	rect.width = child->width;
 	rect.height = HANDLE_SIZE;
 
 	if (gdk_rectangle_intersect (&rect, area, &dest))
@@ -229,7 +224,7 @@ child_draw (GncalFullDay *fullday, Child *child, GdkRectangle *area, int draw_ch
 
 	/* Bottom handle */
 
-	rect.y = h - HANDLE_SIZE;
+	rect.y = child->height - HANDLE_SIZE;
 
 	if (gdk_rectangle_intersect (&rect, area, &dest))
 		view_utils_draw_textured_frame (GTK_WIDGET (fullday), child->window, &rect, GTK_SHADOW_OUT);
@@ -283,6 +278,8 @@ child_focus_out (GtkWidget *widget, GdkEventFocus *event, gpointer data)
 		g_free (child->ico->summary);
 
 	child->ico->summary = gtk_editable_get_chars (GTK_EDITABLE (widget), 0, -1);
+
+	/* FIXME: need notify calendar of change? */
 
 	return FALSE;
 }
@@ -457,11 +454,10 @@ calc_labels_width (GncalFullDay *fullday)
 }
 
 static void
-layout_child (GncalFullDay *fullday, Child *child, struct layout_row *rows)
+layout_child (GncalFullDay *fullday, Child *child, struct layout_row *rows, int left_x)
 {
-	int c_x, c_y, c_width, c_height;
+	int c_y, c_width, c_height;
 	GtkWidget *widget;
-	int labels_width;
 	int height, f_rows;
 	int row_height;
 
@@ -469,26 +465,23 @@ layout_child (GncalFullDay *fullday, Child *child, struct layout_row *rows)
 
 	widget = GTK_WIDGET (fullday);
 
-	labels_width = calc_labels_width (fullday); /* FIXME: this is expensive to do for each child */
-
 	get_tm_range (fullday, fullday->lower, fullday->upper, NULL, NULL, NULL, &f_rows);
 
 	height = widget->allocation.height - 2 * widget->style->klass->ythickness;
 	row_height = height / f_rows;
 
-	c_x = 2 * (widget->style->klass->xthickness + TEXT_BORDER) + labels_width;
 	c_y = widget->style->klass->ythickness;
 
 	/* FIXME: for now, the children overlap.  Make it layout them nicely. */
 
-	c_width = widget->allocation.width - (widget->style->klass->xthickness + c_x);
+	c_width = widget->allocation.width - (widget->style->klass->xthickness + left_x);
 
 	c_y += child->lower_row * row_height;
 	c_height = child->rows_used * row_height;
 
 	/* Position child */
 
-	child_set_pos (fullday, child, c_x, c_y, c_width, c_height);
+	child_set_pos (fullday, child, left_x, c_y, c_width, c_height);
 }
 
 static void
@@ -496,11 +489,17 @@ layout_children (GncalFullDay *fullday)
 {
 	struct layout_row *rows;
 	GList *children;
+	GtkWidget *widget;
+	int left_x;
 
 	rows = layout_get_rows (fullday);
 
+	widget = GTK_WIDGET (fullday);
+
+	left_x = 2 * (widget->style->klass->xthickness + TEXT_BORDER) + calc_labels_width (fullday);
+
 	for (children = fullday->children; children; children = children->next)
-		layout_child (fullday, children->data, rows);
+		layout_child (fullday, children->data, rows, left_x);
 
 	g_free (rows);
 }
@@ -722,9 +721,111 @@ gncal_full_day_unrealize (GtkWidget *widget)
 }
 
 static void
+paint_back (GncalFullDay *fullday, GdkRectangle *area)
+{
+	GtkWidget *widget;
+	GdkRectangle rect, dest;
+	int x1, y1, width, height;
+	int labels_width, division_x;
+	int rows, row_height;
+	int i, y;
+	struct tm tm;
+	char buf[256];
+
+	widget = GTK_WIDGET (fullday);
+
+	x1 = widget->style->klass->xthickness;
+	y1 = widget->style->klass->ythickness;
+	width = widget->allocation.width - 2 * x1;
+	height = widget->allocation.height - 2 * y1;
+
+	/* Clear and paint frame shadow */
+
+	gdk_window_clear_area (widget->window, area->x, area->y, area->width, area->height);
+
+	gtk_draw_shadow (widget->style, widget->window,
+			 GTK_STATE_NORMAL, GTK_SHADOW_ETCHED_IN,
+			 0, 0,
+			 widget->allocation.width,
+			 widget->allocation.height);
+
+	/* Clear space for labels */
+
+	labels_width = calc_labels_width (fullday);
+
+	rect.x = x1;
+	rect.y = y1;
+	rect.width = 2 * TEXT_BORDER + labels_width;
+	rect.height = height;
+
+	if (gdk_rectangle_intersect (&rect, area, &dest))
+		gdk_draw_rectangle (widget->window,
+				    widget->style->bg_gc[GTK_STATE_NORMAL],
+				    TRUE,
+				    dest.x, dest.y,
+				    dest.width, dest.height);
+
+	/* Vertical division */
+
+	division_x = x1 + 2 * TEXT_BORDER + labels_width;
+
+	gtk_draw_vline (widget->style, widget->window,
+			GTK_STATE_NORMAL,
+			y1,
+			y1 + height - 1,
+			division_x);
+
+	/* Horizontal divisions */
+
+	get_tm_range (fullday, fullday->lower, fullday->upper, &tm, NULL, NULL, &rows);
+
+	row_height = height / rows; /* includes division line at bottom of row */
+
+	y = y1 + row_height - 1;
+
+	for (i = 1; i < rows; i++) {
+		gdk_draw_line (widget->window,
+			       widget->style->black_gc,
+			       x1, y,
+			       x1 + width - 1, y);
+
+		y += row_height;
+	}
+
+	/* Labels */
+
+	y = y1 + ((row_height - 1) - (widget->style->font->ascent + widget->style->font->descent)) / 2;
+
+	rect.height = row_height - 1;
+
+	for (i = 0; i < rows; i++) {
+		mktime (&tm);
+
+		if (gdk_rectangle_intersect (&rect, area, &dest)) {
+			strftime (buf, 256, "%X", &tm);
+
+			gdk_draw_string (widget->window,
+					 widget->style->font,
+					 widget->style->fg_gc[GTK_STATE_NORMAL],
+					 x1 + TEXT_BORDER,
+					 y + widget->style->font->ascent,
+					 buf);
+		}
+
+		rect.y += row_height;
+		y += row_height;
+
+		tm.tm_min += fullday->interval;
+	}
+}
+
+static void
 gncal_full_day_draw (GtkWidget *widget, GdkRectangle *area)
 {
 	GncalFullDay *fullday;
+	GList *children;
+	Child *child;
+	GdkRectangle rect, dest;
 
 	g_return_if_fail (widget != NULL);
 	g_return_if_fail (GNCAL_IS_FULL_DAY (widget));
@@ -735,7 +836,23 @@ gncal_full_day_draw (GtkWidget *widget, GdkRectangle *area)
 
 	fullday = GNCAL_FULL_DAY (widget);
 
-	/* FIXME */
+	paint_back (fullday, area);
+
+	for (children = fullday->children; children; children = children->next) {
+		child = children->data;
+
+		rect.x = child->x;
+		rect.y = child->y;
+		rect.width = child->width;
+		rect.height = child->height;
+
+		if (gdk_rectangle_intersect (&rect, area, &dest)) {
+			dest.x -= child->x;
+			dest.y -= child->y;
+
+			child_draw (fullday, child, &dest, TRUE);
+		}
+	}
 }
 
 static void
@@ -957,11 +1074,9 @@ update_from_drag_info (GncalFullDay *fullday)
 
 	child_range_changed (fullday, di->child);
 
-	/* FIXME: notify calendar of change */
+	/* Notify calendar of change */
 
-	/* FIXME: re-layout or let notification do it? */
-
-	layout_children (fullday);
+	gnome_calendar_object_changed (fullday->calendar, di->child->ico);
 }
 
 static gint
@@ -1019,105 +1134,6 @@ gncal_full_day_motion (GtkWidget *widget, GdkEventMotion *event)
 	draw_xor_rect (fullday);
 
 	return FALSE;
-}
-
-static void
-paint_back (GncalFullDay *fullday, GdkRectangle *area)
-{
-	GtkWidget *widget;
-	GdkRectangle rect, dest;
-	int x1, y1, width, height;
-	int labels_width, division_x;
-	int rows, row_height;
-	int i, y;
-	struct tm tm;
-	char buf[256];
-
-	widget = GTK_WIDGET (fullday);
-
-	x1 = widget->style->klass->xthickness;
-	y1 = widget->style->klass->ythickness;
-	width = widget->allocation.width - 2 * x1;
-	height = widget->allocation.height - 2 * y1;
-
-	/* Clear and paint frame shadow */
-
-	gdk_window_clear_area (widget->window, area->x, area->y, area->width, area->height);
-
-	gtk_draw_shadow (widget->style, widget->window,
-			 GTK_STATE_NORMAL, GTK_SHADOW_ETCHED_IN,
-			 0, 0,
-			 widget->allocation.width,
-			 widget->allocation.height);
-
-	/* Clear space for labels */
-
-	labels_width = calc_labels_width (fullday);
-
-	rect.x = x1;
-	rect.y = y1;
-	rect.width = 2 * TEXT_BORDER + labels_width;
-	rect.height = height;
-
-	if (gdk_rectangle_intersect (&rect, area, &dest))
-		gdk_draw_rectangle (widget->window,
-				    widget->style->bg_gc[GTK_STATE_NORMAL],
-				    TRUE,
-				    dest.x, dest.y,
-				    dest.width, dest.height);
-
-	/* Vertical division */
-
-	division_x = x1 + 2 * TEXT_BORDER + labels_width;
-
-	gtk_draw_vline (widget->style, widget->window,
-			GTK_STATE_NORMAL,
-			y1,
-			y1 + height - 1,
-			division_x);
-
-	/* Horizontal divisions */
-
-	get_tm_range (fullday, fullday->lower, fullday->upper, &tm, NULL, NULL, &rows);
-
-	row_height = height / rows; /* includes division line at bottom of row */
-
-	y = y1 + row_height - 1;
-
-	for (i = 1; i < rows; i++) {
-		gdk_draw_line (widget->window,
-			       widget->style->black_gc,
-			       x1, y,
-			       x1 + width - 1, y);
-
-		y += row_height;
-	}
-
-	/* Labels */
-
-	y = y1 + ((row_height - 1) - (widget->style->font->ascent + widget->style->font->descent)) / 2;
-
-	rect.height = row_height - 1;
-
-	for (i = 0; i < rows; i++) {
-		mktime (&tm);
-
-		if (gdk_rectangle_intersect (&rect, area, &dest)) {
-			strftime (buf, 256, "%X", &tm);
-
-			gdk_draw_string (widget->window,
-					 widget->style->font,
-					 widget->style->fg_gc[GTK_STATE_NORMAL],
-					 x1 + TEXT_BORDER,
-					 y + widget->style->font->ascent,
-					 buf);
-		}
-
-		rect.y += row_height;
-		y += row_height;
-
-		tm.tm_min += fullday->interval;
-	}
 }
 
 static gint

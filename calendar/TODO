@@ -15,8 +15,9 @@ Event editor dialog:
 
 Full day view widget:
 
-- Notify the calendar when a child changes.  Look for the FIXMEs in
-  the code.
+- Check notification to calendar when an object changes.  Maybe we
+  need some flags to tell gnome_calendar_object_changed() whether
+  summary/dates/etc. changed.  Maybe not.
 
 - Select a range in the full day `background' and hit enter to create
   a new appointment in that date.

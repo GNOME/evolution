@@ -1,3 +1,24 @@
+1998-04-09  Federico Mena Quintero  <federico@nuclecu.unam.mx>
+
+	* gncal-full-day.c (child_map): Show instead of just map the child
+	widget (otherwise the text widget gets confused and will not focus).
+
+	* calobj.c (ical_object_to_vobject): Quote chars as 'x', not "x".
+
+	* calobj.h: Added prototype for ical_object_to_vobject().
+
+	* gnome-cal.c (gnome_calendar_object_changed): New function.  This
+	should be called when a calendar object is changed.
+
+	* gncal-full-day.c (update_from_drag_info): Call
+	gnome_calendar_object_changed() instead of updating manually.
+
+	* calendar.c (calendar_add_object):
+	(calendar_remove_object): Set the modified flag to true.
+
+	* gncal-full-day.c (gncal_full_day_draw): Finished implementing
+	this function.
+
 1998-04-08  Raja R Harinath  <harinath@cs.umn.edu>
 
 	* gncal.c (update_calendar): Say `#if 0', not `#ifdef 0'.
