@@ -1,3 +1,9 @@
+2003-04-06  Ettore Perazzoli  <ettore@ximian.com>
+
+	* e-shell-view.c (update_window_icon): Get the large version of
+	the icon instead of the small one, so it works more nicely with
+	modern WMs.
+
 2003-04-04  Ettore Perazzoli  <ettore@ximian.com>
 
 	[#40413]

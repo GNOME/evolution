@@ -1954,7 +1954,7 @@ update_window_icon (EShellView *shell_view,
 		if (icon_name == NULL)
 			icon_path = NULL;
 		else
-			icon_path = e_shell_get_icon_path (icon_name, TRUE);
+			icon_path = e_shell_get_icon_path (icon_name, FALSE);
 	}
 
 	if (icon_path == NULL) {
