@@ -247,8 +247,8 @@ rule_from_message (FilterRule *rule, RuleContext *context, CamelMimeMessage *msg
 		char *namestr;
 		
 		from = camel_mime_message_get_from (msg);
-		for (i = 0; camel_internet_address_get (from, i, &name, &addr); i++) {
-			rule_add_sender (context, rule, addr);
+		for (i = 0; from && camel_internet_address_get (from, i, &name, &addr); i++) {
+			rule_add_sender(context, rule, addr);
 			if (name == NULL || name[0] == '\0')
 				name = addr;
 			namestr = g_strdup_printf(_("Mail from %s"), name);
@@ -258,9 +258,11 @@ rule_from_message (FilterRule *rule, RuleContext *context, CamelMimeMessage *msg
 	}
 	if (flags & AUTO_TO) {
 		addr = (CamelInternetAddress *)camel_mime_message_get_recipients (msg, CAMEL_RECIPIENT_TYPE_TO);
-		rule_match_recipients (context, rule, addr);
+		if (addr)
+			rule_match_recipients (context, rule, addr);
 		addr = (CamelInternetAddress *)camel_mime_message_get_recipients (msg, CAMEL_RECIPIENT_TYPE_CC);
-		rule_match_recipients (context, rule, addr);
+		if (addr)
+			rule_match_recipients (context, rule, addr);
 	}
 	if (flags & AUTO_MLIST) {
 		char *name, *mlist;
