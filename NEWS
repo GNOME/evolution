@@ -1,43 +1,72 @@
-Version 0.12 "No code name yet", 2001-07-31
----------------------------------------------
+Version 0.12 (Beta 2), 2001-07-31
+---------------------------------
+
+Shell:
+
+  - Change the name of the local storage node from "local" to "Local
+    Folders".  (Jason)
+
+  - Fixed a problem with invalid URIs crashing the shell.  (Jason)
+
+  - Hide internal folder types (like "vtrash") from user.  (Ettore)
+
+  - Fixed some crashes that could happen when creating folders.
+    (Ettore)
+
+  - Fixed the URIs for the installed manuals in the help menu.
+    (Ettore)
+
+  - Added a status bar to show components' tasks instead of using
+    pop-up progress dialogs.  (Ettore)
+
+  - Other miscellaneous bug and leak fixes.  (Jason, Ettore)
+
+  - Initialize GConf properly when GtkHTML is built with GConf
+    support.  (Frederic Crozat)
+
+  - Make the shortcut bar not change the current group when renaming
+    it.  (Jason)
 
 Addressbook:
 
-  - Fixed some warnings. (Chris Lahey)
+  - Fixed some warnings.  (Chris T.)
 
-  - I18n fixes. (Zbigniew Chyla)
+  - I18n fixes.  (Zbigniew Chyla)
 
-  - Address quoting in composer bug fixed. (Jon Trowbridge)
-
-  - Made it so that Other Contacts doesn't show up if you don't have
-    LDAP compiled in. (Jason Leach)
+  - Address quoting in composer bug fixed.  (Jon)
 
   - Made it so that Other Contacts doesn't show up if you don't have
-    any LDAP servers configured. (Jos Dehaes)
+    LDAP compiled in.  (Jason)
 
-  - General bug fixes. (Chris Tohsok, Jon , Frederic Crozat, Jason Leach,
-    JP Rosevear, Ettore Perazzoli, Chris Lahey)
+  - Made it so that Other Contacts doesn't show up if you don't have
+    any LDAP servers configured.  (Jos Dehaes)
 
-  - Some LDAP cleanup. (Chris Toshok)
+  - General bug fixes.  (Chris T., Jon, Frederic Crozat, Jason,
+    JP, Ettore, Chris L.)
 
-  - Crash fixes.  (Jon Trowbridge, Dan Winship)
+  - Some LDAP cleanup.  (Chris T.)
 
-  - Work on contact lists.  (Chris Toshok, Jon Trowbridge)
+  - Crash fixes.  (Jon, Dan)
 
-  - Made Contact Editor Save & Close button not active if nothing is changed. (Chris Toshok)
+  - Work on contact lists.  (Chris T., Jon)
 
-  - Added accelerators to a few dialogs. (Taylor Hayward)
+  - Made Contact Editor Save & Close button not active if nothing is
+    changed.  (Chris T.)
 
-  - Made evolution-vcard-importer.c load the file into the correct directory. (Iain Holmes)
+  - Added accelerators to a few dialogs.  (Taylor Hayward)
+
+  - Made evolution-vcard-importer.c load the file into the correct directory.
+    (Iain)
 
 Calendar & Tasks:
 
-  - Show icons for categories (Rodrigo)
+  - Show icons for categories.  (Rodrigo)
 
-  - General bug fixes. (Federico, JP, Damon, Rodrigo)
+  - General bug fixes.  (Federico, JP, Damon, Rodrigo)
 
-Version 0.11 "No code name yet", 2001-07-12
----------------------------------------------
+
+Version 0.11 (Beta 1), 2001-07-12
+---------------------------------
 
 Shell:
 
@@ -165,6 +194,7 @@ My Evolution:
   - Printing, you can print it out and make it look like you've got
     lots of stuff to do when really you're just trying to pass the 
     time by playing Aisleriot or GLine all day (Iain)
+
 
 Version 0.10 "Tasmanian Devil", 2001-04-26
 ------------------------------------------

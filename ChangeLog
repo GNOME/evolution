@@ -1,3 +1,10 @@
+2001-07-31  Ettore Perazzoli  <ettore@ximian.com>
+
+	* NEWS: Added info about the shell changes and slightly changed
+	the formatting for the addressbook ones.
+
+	* configure.in: Require GtkHTML 0.10.0 and GAL 0.9.0.
+
 2001-07-31  Christopher James Lahey  <clahey@ximian.com>
 
 	* NEWS (Addressbook): Updated NEWS for addressbook.
