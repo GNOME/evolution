@@ -167,10 +167,10 @@ layout_buttons (ESidebar *sidebar)
 	int x, y;
 	int i;
 
-	/* (Yes, this code calls gtk_widget_size_request() an ungodly
-	 * number of times, but it's not like we care about
-	 * performance here, and this makes the code simpler.)
-	 */
+	y = allocation->y + allocation->height - V_PADDING - 1;
+
+	if (num_btns == 0)
+		return y;
 
 	/* Figure out the max width and height */
 	for (p = sidebar->priv->buttons; p != NULL; p = p->next) {
@@ -202,7 +202,7 @@ layout_buttons (ESidebar *sidebar)
 		rows [0] = g_slist_append (rows [0], button->button_widget);
 
 		p = sidebar->priv->buttons->next;
-		row_number = 1;
+		row_number = p ? 1 : 0;
 	} else {
 		p = sidebar->priv->buttons;
 		row_number = 0;
@@ -220,7 +220,6 @@ layout_buttons (ESidebar *sidebar)
 	row_last = row_number;
 
 	/* Layout the buttons. */
-	y = allocation->y + allocation->height - V_PADDING - 1;
 	for (i = row_last; i >= 0; i --) {
 		int len, extra_width;
 		
