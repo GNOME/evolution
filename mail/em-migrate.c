@@ -698,7 +698,7 @@ upgrade_passwords_1_2(void)
 {
 	xmlNodePtr root, entry;
 	char *filename;
-	xmlDocPtr priv_doc;
+	xmlDocPtr priv_doc = NULL;
 	struct stat st;
 	int work = 0, res = -1;
 

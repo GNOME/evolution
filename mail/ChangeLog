@@ -1,3 +1,7 @@
+2004-09-30  David Malcolm  <dmalcolm@redhat.com>
+
+	* em-migrate.c (upgrade_passwords_1_2): fix uninitialised pointer.
+
 2004-09-27  Jeffrey Stedfast  <fejj@novell.com>
 
 	* em-account-editor.c: Changed the SSL option menu labels.
