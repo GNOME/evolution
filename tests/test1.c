@@ -78,7 +78,9 @@ main (int argc, char**argv)
 	if (attachment_stream == NULL) {
 		attachment_part = NULL;
 	} else {
-		CamelDataWrapper *stream_wrapper;
+		CamelDataWrapper *attachment_wrapper;
+		
+		/*CamelDataWrapper *stream_wrapper;
 
 		stream_wrapper = camel_stream_data_wrapper_new
 			                                   (attachment_stream);
@@ -90,7 +92,21 @@ main (int argc, char**argv)
 						 stream_wrapper);
 		camel_multipart_add_part (multipart, attachment_part);
 
-		gtk_object_unref (GTK_OBJECT (stream_wrapper));
+		gtk_object_unref (GTK_OBJECT (stream_wrapper));*/
+		
+		attachment_wrapper = CAMEL_DATA_WRAPPER (camel_simple_data_wrapper_new ());
+		camel_data_wrapper_set_input_stream (attachment_wrapper, 
+						     attachment_stream);
+		
+		attachment_part = camel_mime_body_part_new ();
+		camel_mime_part_set_encoding (CAMEL_MIME_PART (attachment_part),
+					      CAMEL_MIME_PART_ENCODING_BASE64);
+		camel_medium_set_content_object (CAMEL_MEDIUM (attachment_part),
+						 attachment_wrapper);
+		camel_multipart_add_part (multipart, attachment_part);
+
+		
+
 	}
 	
 	camel_medium_set_content_object (CAMEL_MEDIUM (message), CAMEL_DATA_WRAPPER (multipart));

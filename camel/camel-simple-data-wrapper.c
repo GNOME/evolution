@@ -35,13 +35,12 @@ static  CamelDataWrapperClass *parent_class=NULL;
 /* Returns the class for a CamelDataWrapper */
 #define CSDW_CLASS(so) CAMEL_SIMPLE_DATA_WRAPPER_CLASS (GTK_OBJECT(so)->klass)
 
-static void            _construct_from_stream     (CamelDataWrapper *data_wrapper, 
-						   CamelStream *stream);
-static void            _write_to_stream           (CamelDataWrapper *data_wrapper, 
-						   CamelStream *stream);
-static void            _finalize                  (GtkObject *object);
-static CamelStream *   _get_stream                (CamelDataWrapper *data_wrapper);
-static CamelStream *   _get_output_stream         (CamelDataWrapper *data_wrapper);
+static void            my_construct_from_stream     (CamelDataWrapper *data_wrapper, 
+						     CamelStream *stream);
+static void            my_write_to_stream           (CamelDataWrapper *data_wrapper, 
+						     CamelStream *stream);
+static void            my_finalize                  (GtkObject *object);
+static CamelStream *   my_get_output_stream         (CamelDataWrapper *data_wrapper);
 
 
 
@@ -55,21 +54,21 @@ camel_simple_data_wrapper_class_init (CamelSimpleDataWrapperClass *camel_simple_
 	/* virtual method definition */
 
 	/* virtual method overload */
-	camel_data_wrapper_class->write_to_stream = _write_to_stream;
-	camel_data_wrapper_class->construct_from_stream = _construct_from_stream;
-	camel_data_wrapper_class->get_output_stream = _get_output_stream;
+	camel_data_wrapper_class->write_to_stream = my_write_to_stream;
+	camel_data_wrapper_class->construct_from_stream = my_construct_from_stream;
+	camel_data_wrapper_class->get_output_stream = my_get_output_stream;
 
-	camel_data_wrapper_class->get_stream = _get_stream;
-
-	gtk_object_class->finalize = _finalize;
+	gtk_object_class->finalize = my_finalize;
 }
 
 
 static void
 camel_simple_data_wrapper_init (CamelSimpleDataWrapper *wrapper)
 {
-	wrapper->stream = NULL;
+	wrapper->byte_array = NULL;
+	wrapper->has_byte_array_stream = FALSE;
 }
+
 
 GtkType
 camel_simple_data_wrapper_get_type (void)
@@ -89,7 +88,8 @@ camel_simple_data_wrapper_get_type (void)
 			(GtkClassInitFunc) NULL,
 		};
 		
-		camel_simple_data_wrapper_type = gtk_type_unique (camel_data_wrapper_get_type (), &camel_simple_data_wrapper_info);
+		camel_simple_data_wrapper_type = gtk_type_unique (camel_data_wrapper_get_type (), 
+								  &camel_simple_data_wrapper_info);
 	}
 	
 	return camel_simple_data_wrapper_type;
@@ -97,7 +97,7 @@ camel_simple_data_wrapper_get_type (void)
 
 
 static void           
-_finalize (GtkObject *object)
+my_finalize (GtkObject *object)
 {
 	CamelSimpleDataWrapper *simple_data_wrapper = CAMEL_SIMPLE_DATA_WRAPPER (object);
 
@@ -130,11 +130,11 @@ camel_simple_data_wrapper_new (void)
 
 
 static void
-_write_to_stream (CamelDataWrapper *data_wrapper, CamelStream *stream)
+my_write_to_stream (CamelDataWrapper *data_wrapper, CamelStream *stream)
 {
 	CamelSimpleDataWrapper *simple_data_wrapper = CAMEL_SIMPLE_DATA_WRAPPER (data_wrapper);
 	GByteArray *array;
-	CAMEL_LOG_FULL_DEBUG ("CamelSimpleDataWrapper:: Entering _write_to_stream\n");
+	CAMEL_LOG_FULL_DEBUG ("CamelSimpleDataWrapper:: Entering my_write_to_stream\n");
 
 	g_assert (data_wrapper);
 	g_assert (stream);
@@ -143,28 +143,28 @@ _write_to_stream (CamelDataWrapper *data_wrapper, CamelStream *stream)
 	if (array->len)
 		camel_stream_write (stream, (gchar *)array->data, array->len);
 
-		CAMEL_LOG_FULL_DEBUG ("CamelSimpleDataWrapper:: Leaving _write_to_stream\n");
+		CAMEL_LOG_FULL_DEBUG ("CamelSimpleDataWrapper:: Leaving my_write_to_stream\n");
 }
 
 
-#define _CMSDW_TMP_BUF_SIZE 100
+#define my_CMSDW_TMP_BUF_SIZE 100
 static void
-_construct_from_stream (CamelDataWrapper *data_wrapper, CamelStream *stream)
+my_construct_from_stream (CamelDataWrapper *data_wrapper, CamelStream *stream)
 {
 	CamelSimpleDataWrapper *simple_data_wrapper = CAMEL_SIMPLE_DATA_WRAPPER (data_wrapper);
 	gint nb_bytes_read;
 	static gchar *tmp_buf;
 	GByteArray *array;
 
-	CAMEL_LOG_FULL_DEBUG ("CamelSimpleDataWrapper:: Entering _construct_from_stream\n");
+	CAMEL_LOG_FULL_DEBUG ("CamelSimpleDataWrapper:: Entering my_construct_from_stream\n");
 
 	g_assert (data_wrapper);
 	g_assert (stream);
 	
 	if (!tmp_buf) {
 		CAMEL_LOG_FULL_DEBUG ("CamelSimpleDataWrapper::construct_from_stream allocating new temp buffer "
-				      "with %d bytes\n",  _CMSDW_TMP_BUF_SIZE);
-		tmp_buf = g_new (gchar, _CMSDW_TMP_BUF_SIZE);
+				      "with %d bytes\n",  my_CMSDW_TMP_BUF_SIZE);
+		tmp_buf = g_new (gchar, my_CMSDW_TMP_BUF_SIZE);
 	}
 	
 	array = simple_data_wrapper->byte_array;
@@ -176,14 +176,14 @@ _construct_from_stream (CamelDataWrapper *data_wrapper, CamelStream *stream)
 	array = g_byte_array_new ();
 	CAMEL_LOG_FULL_DEBUG ("CamelSimpleDataWrapper::construct_from_stream new byte array address:%p\n", array);
 	simple_data_wrapper->byte_array = array;
-	nb_bytes_read = camel_stream_read (stream, tmp_buf, _CMSDW_TMP_BUF_SIZE);
+	nb_bytes_read = camel_stream_read (stream, tmp_buf, my_CMSDW_TMP_BUF_SIZE);
 	while (nb_bytes_read>0) {
 		CAMEL_LOG_FULL_DEBUG ("CamelSimpleDataWrapper::construct_from_stream read %d bytes from stream\n", nb_bytes_read);
 		if (nb_bytes_read>0) g_byte_array_append (array, tmp_buf, nb_bytes_read);		
-		nb_bytes_read = camel_stream_read (stream, tmp_buf, _CMSDW_TMP_BUF_SIZE);
+		nb_bytes_read = camel_stream_read (stream, tmp_buf, my_CMSDW_TMP_BUF_SIZE);
 	};
 
-	CAMEL_LOG_FULL_DEBUG ("CamelSimpleDataWrapper:: Leaving _construct_from_stream\n");	
+	CAMEL_LOG_FULL_DEBUG ("CamelSimpleDataWrapper:: Leaving my_construct_from_stream\n");	
 }
 
 
@@ -219,29 +219,27 @@ camel_simple_data_wrapper_set_text (CamelSimpleDataWrapper *simple_data_wrapper,
 
 
 
+
+
 static CamelStream *
-_get_stream (CamelDataWrapper *data_wrapper)
+my_get_output_stream (CamelDataWrapper *data_wrapper)
 {
 	CamelSimpleDataWrapper *simple_data_wrapper;
+	CamelStream *output_stream = NULL;
 
+
+	CAMEL_LOG_FULL_DEBUG ("CamelSimpleDataWrapper::get_output_stream leaving\n");
+
+	g_assert (data_wrapper);
 	simple_data_wrapper = CAMEL_SIMPLE_DATA_WRAPPER (data_wrapper);
-	if (simple_data_wrapper->stream == NULL) {
-		CamelStream *s;
-
-		s = camel_simple_data_wrapper_stream_new (simple_data_wrapper);
-		simple_data_wrapper->stream = s;
+	
+	if (simple_data_wrapper->byte_array && !(simple_data_wrapper->has_byte_array_stream)) {
+		output_stream = camel_simple_data_wrapper_stream_new (simple_data_wrapper);
+		camel_data_wrapper_set_output_stream (data_wrapper, output_stream);
 	}
 
-	return simple_data_wrapper->stream;
-}
-
-
-static CamelStream *
-_get_output_stream (CamelDataWrapper *data_wrapper)
-{
+	CAMEL_LOG_FULL_DEBUG ("CamelSimpleDataWrapper::get_output_stream leaving\n");
 	
-	CAMEL_LOG_FULL_DEBUG ("CamelSimpleDataWrapper::get_output_stream leaving\n");
-	return camel_data_wrapper_get_input_stream (data_wrapper);
-	CAMEL_LOG_FULL_DEBUG ("CamelSimpleDataWrapper::get_output_stream leaving\n");
-
+	return parent_class->get_output_stream (data_wrapper);
+	       
 }

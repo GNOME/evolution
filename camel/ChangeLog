@@ -1,5 +1,25 @@
 2000-03-02  bertrand  <bertrand@helixcode.com>
 
+	* camel-stream-b64.c (my_read_encode): don't forget to 
+	set the state to 0 after 3.
+	(my_read_encode): don't forget to encode, even in state 3.
+
+	* camel-simple-data-wrapper.c: static functions are prefixed 
+	with my_ instead of _
+	* camel-multipart.c: static functions are prefixed 
+	with my_ instead of _
+	(my_write_to_stream): commented.
+	(my_write_to_stream): warning in case the boudary is set
+	but is a zero length string.
+
+	* camel-mime-part.c (camel_mime_part_encoding_from_string): 
+	remove debug trace. 
+	
+	* camel-mime-part.c: Replaced all static functions
+	with name begining with _ by the same name begining
+	with "my_" to prevent the possible conflicts 
+	with system symbols Dan warned us about. 
+	
 	* camel-stream-b64.c (camel_stream_b64_write_to_stream): 
 	use CamelStreamB64 type for the input stream.
 

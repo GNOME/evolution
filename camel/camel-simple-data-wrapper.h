@@ -50,7 +50,7 @@ struct _CamelSimpleDataWrapper
 	CamelDataWrapper parent_object;
 
 	GByteArray *byte_array;
-	CamelStream *stream;
+	gboolean has_byte_array_stream;
 };
 
 

@@ -355,6 +355,7 @@ _read (CamelStream *stream, gchar *buffer, gint n)
 	do {
 		v = read ( (CAMEL_STREAM_FS (stream))->fd, buffer, nb_to_read);
 	} while (v == -1 && errno == EINTR);
+
 	if (v<0)
 		CAMEL_LOG_FULL_DEBUG ("CamelStreamFs::read v=%d\n", v);
 	else 
@@ -384,18 +385,20 @@ _write (CamelStream *stream, const gchar *buffer, gint n)
 	CamelStreamFs *stream_fs = CAMEL_STREAM_FS (stream);
 	int v;
 	gint nb_to_write;
+	gint nb_bytes_written = 0;
 	
+	if (n <= 0)
+		return 0;
+
 	g_assert (stream);
 	g_assert (stream_fs->fd);
 	CAMEL_LOG_FULL_DEBUG ( "CamelStreamFs:: entering write. n=%d\n", n);
 
-	if (stream_fs->sup_bound != -1)
-		nb_to_write =  MIN (stream_fs->sup_bound - CAMEL_SEEKABLE_STREAM (stream)->cur_pos, n);
-	else 
-		nb_to_write = n;
-
+	/* we do not take the end bounds into account as it does not
+	   really make any sense in the case of a write operation */
 	do {
-		v = write ( stream_fs->fd, buffer, nb_to_write);
+		v = write ( stream_fs->fd, buffer, n);
+		if (v>0) nb_bytes_written += v;
 	} while (v == -1 && errno == EINTR);
 	
 #if HARD_LOG_LEVEL >= FULL_DEBUG
@@ -405,10 +408,10 @@ _write (CamelStream *stream, const gchar *buffer, gint n)
 	}
 #endif
 
-	if (v>0)
-		CAMEL_SEEKABLE_STREAM (stream)->cur_pos += v;
+	if (nb_bytes_written>0)
+		CAMEL_SEEKABLE_STREAM (stream)->cur_pos += nb_bytes_written;
 
-	return v;
+	return nb_bytes_written;
 
 }
 
