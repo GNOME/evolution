@@ -1918,6 +1918,7 @@ et_drag_motion(GtkWidget *widget,
 	gboolean ret_val;
 	int row, col;
 	ETreePath path;
+	y -= 27;
 	e_tree_get_cell_at (et,
 			    x,
 			    y,
@@ -1963,6 +1964,7 @@ et_drag_drop(GtkWidget *widget,
 	gboolean ret_val;
 	int row, col;
 	ETreePath path;
+	y -= 27;
 	e_tree_get_cell_at(et,
 			   x,
 			   y,
@@ -2021,6 +2023,7 @@ et_drag_data_received(GtkWidget *widget,
 {
 	int row, col;
 	ETreePath path;
+	y -= 27;
 	e_tree_get_cell_at(et,
 			   x,
 			   y,
