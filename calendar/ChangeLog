@@ -1,3 +1,11 @@
+2004-04-30  Rodney Dawes  <dobey@ximian.com>
+
+	* gui/alarm-notify/alarm-notify-dialog.c (alarm_notify_dialog):
+	* gui/alarm-notify/alarm-notify.glade:
+	Update the alarm notify dialog to be HIG compliant
+
+	Fixes #41224
+
 2004-04-30  Gary Ekker  <gekker@novell.com>
 
 	* gui/e-tasks.c: (e_tasks_init): Set up the model to use the correct 

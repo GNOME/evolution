@@ -22,6 +22,7 @@
 #include <config.h>
 #include <stdio.h>
 #include <string.h>
+#include <gtk/gtkdialog.h>
 #include <gtk/gtklabel.h>
 #include <gtk/gtkspinbutton.h>
 #include <gtk/gtksignal.h>
@@ -340,6 +341,10 @@ alarm_notify_dialog (time_t trigger, time_t occur_start, time_t occur_end,
 		g_free (an);
 		return NULL;
 	}
+
+	gtk_widget_realize (an->dialog);
+	gtk_container_set_border_width (GTK_CONTAINER (GTK_DIALOG (an->dialog)->vbox), 0);
+	gtk_container_set_border_width (GTK_CONTAINER (GTK_DIALOG (an->dialog)->action_area), 12);
 
 	g_signal_connect (G_OBJECT (an->dialog), "destroy",
 			  G_CALLBACK (dialog_destroy_cb),
