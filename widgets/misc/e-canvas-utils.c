@@ -95,6 +95,40 @@ e_canvas_item_show_area (GnomeCanvasItem *item, double x1, double y1, double x2,
 	e_canvas_show_area(item->canvas, x1, y1, x2, y2);
 }
 
+
+static gboolean
+e_canvas_area_shown (GnomeCanvas *canvas, double x1, double y1, double x2, double y2)
+{
+	GtkAdjustment *h, *v;
+	int dx = 0, dy = 0;
+	
+	g_return_val_if_fail (canvas != NULL, FALSE);
+	g_return_val_if_fail (GNOME_IS_CANVAS (canvas), FALSE);
+
+	h = gtk_layout_get_hadjustment(GTK_LAYOUT(canvas));
+	dx = compute_offset(x1, x2, h->value, h->value + h->page_size);
+	if (CLAMP(h->value + dx, h->lower, h->upper - h->page_size) - h->value != 0)
+		return FALSE;
+
+	v = gtk_layout_get_vadjustment(GTK_LAYOUT(canvas));
+	dy = compute_offset(y1, y2, v->value, v->value + v->page_size);
+	if (CLAMP(v->value + dy, v->lower, v->upper - v->page_size) - v->value != 0)
+		return FALSE;
+	return TRUE;
+}
+
+gboolean
+e_canvas_item_area_shown (GnomeCanvasItem *item, double x1, double y1, double x2, double y2)
+{
+	g_return_val_if_fail (item != NULL, FALSE);
+	g_return_val_if_fail (GNOME_IS_CANVAS_ITEM (item), FALSE);
+	
+	gnome_canvas_item_i2w(item, &x1, &y1);
+	gnome_canvas_item_i2w(item, &x2, &y2);
+
+	return e_canvas_area_shown(item->canvas, x1, y1, x2, y2);
+}
+
 typedef struct {
 	double x1;
 	double y1;
