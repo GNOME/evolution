@@ -532,7 +532,23 @@ source_to_dialog (SourceDialog *source_dialog)
 		g_signal_handlers_unblock_matched (source_dialog->refresh_spin, G_SIGNAL_MATCH_DATA,
 						   0, 0, NULL, NULL, source_dialog);
 	if (source_dialog->source_color) {
-		guint32 color = 0xff00ff00;
+		static char *assigned_colors[] = {
+			0xBECEDD, /* 190 206 221     Blue */
+			0xE2F0EF, /* 226 240 239     Light Blue */
+			0xC6E2B7, /* 198 226 183     Green */
+			0xE2F0D3, /* 226 240 211     Light Green */
+			0xE2D4B7, /* 226 212 183     Khaki */
+			0xEAEAC1, /* 234 234 193     Light Khaki */
+			0xF0B8B7, /* 240 184 183     Pink */
+			0xFED4D3, /* 254 212 211     Light Pink */
+			0xE2C6E1, /* 226 198 225     Purple */
+			0xF0E2EF  /* 240 226 239     Light Purple */
+		};
+		GRand *rand = g_rand_new ();
+		guint32 color;
+
+		color = assigned_colors[g_rand_int_range (rand, 0, 9)];
+		g_rand_free (rand);
 
 		if (source_dialog->source)
 			e_source_get_color (source_dialog->source, &color);
