@@ -28,6 +28,7 @@ SUBDIRS =			\
 	wombat			\
 	art			\
 	default_user		\
+	tools			\
 	po
 
 dist-hook:

@@ -1,3 +1,18 @@
+2000-04-27  Matt Loper  <matt@helixcode.com>
+
+	* configure.in: added tools/Makefile.
+
+	* Makefile.am: Added tools.
+
+	* tools/: New directory for tools relating to evolution.
+
+	* tools/killev: New script for killing all evolution-related
+	stuff.
+
+        * tools/Makefile.am: New file.
+	
+	* tools/.cvsignore: New file.
+
 2000-04-26  NotZed  <NotZed@HelixCode.com>
 
 	* tests/test13.c (main): And here too.
