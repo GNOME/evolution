@@ -142,6 +142,7 @@ cal_backend_class_init (CalBackendClass *class)
 
 	class->get_uri = NULL;
 	class->get_email_address = NULL;
+	class->get_alarm_email_address = NULL;
 	class->get_static_capabilities = NULL;
 	class->open = NULL;
 	class->is_loaded = NULL;
@@ -202,6 +203,16 @@ cal_backend_get_email_address (CalBackend *backend)
 
 	g_assert (CLASS (backend)->get_email_address != NULL);
 	return (* CLASS (backend)->get_email_address) (backend);
+}
+
+const char *
+cal_backend_get_alarm_email_address (CalBackend *backend)
+{
+	g_return_val_if_fail (backend != NULL, NULL);
+	g_return_val_if_fail (IS_CAL_BACKEND (backend), NULL);
+
+	g_assert (CLASS (backend)->get_alarm_email_address != NULL);
+	return (* CLASS (backend)->get_alarm_email_address) (backend);
 }
 
 const char *

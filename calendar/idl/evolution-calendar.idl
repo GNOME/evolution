@@ -155,6 +155,9 @@ module Calendar {
 		string getEmailAddress ()
 			raises (NotFound);
 
+		string getAlarmEmailAddress ()
+			raises (NotFound);
+
 		/* For going online/offline */
 		void setMode (in CalMode mode);
 		

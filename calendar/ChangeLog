@@ -1,3 +1,34 @@
+2003-01-30  JP Rosevear  <jpr@ximian.com>
+
+	Fixes #36763	
+		
+	* gui/dialogs/alarm-page.c (add_clicked_cb): if no address was set
+	for an email alarm, set the default
+	(button_options_clicked_cb): pass the default email address
+
+	* gui/dialogs/alarm-options.h (alarm_options_dialog_run): update proto
+
+	* gui/dialogs/alarm-options.c (alarm_to_malarm_widgets): if there
+	are no email attendees, default to the passed in value
+	(alarm_options_dialog_run): take and track an email param
+
+	* pcs/cal.c (impl_Cal_get_alarm_email_address): implement by
+	calling backend method
+	(cal_class_init): set alarm email address method implementation
+
+	* pcs/cal-backend.h: add new virtual proto
+
+	* pcs/cal-backend.c (cal_backend_class_init): set alarm email
+	address virtual method to NULL
+	(cal_backend_get_alarm_email_address): call backend method
+
+	* pcs/cal-backend-file.c (cal_backend_file_class_init): set alarm
+	email address method
+	(cal_backend_file_get_alarm_email_address): implement by returning
+	NULL
+
+	* idl/evolution-calendar.idl: add getAlarmEmailAddress method
+
 2003-01-29  JP Rosevear  <jpr@ximian.com>
 
 	Fixes #37102

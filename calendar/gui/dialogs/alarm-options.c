@@ -74,6 +74,7 @@ typedef struct {
 	GtkWidget *aalarm_attach;
 
 	/* Mail alarm widgets */
+	const char *email;
 	GtkWidget *malarm_group;
 	GtkWidget *malarm_address_group;
 	GtkWidget *malarm_addresses;
@@ -323,21 +324,29 @@ alarm_to_malarm_widgets (Dialog *dialog, CalComponentAlarm *alarm)
 	/* Recipients */
 	cal_component_alarm_get_attendee_list (alarm, &attendee_list);
 	len = g_slist_length (attendee_list);
-	
-	destv = g_new0 (EDestination *, len + 1);
-	for (l = attendee_list, i = 0; l != NULL; l = l->next, i++) {
-		CalComponentAttendee *a = l->data;
-		EDestination *dest;
-		
-		dest = e_destination_new ();
-		if (a->cn != NULL && *a->cn)
-			e_destination_set_name (dest, a->cn);
-		if (a->value != NULL && *a->value)
-			e_destination_set_email (dest, a->value);
 
-		destv[i] = dest;
+	if (len <= 0) {
+		destv = g_new0 (EDestination *, 2);
+		destv[0] = e_destination_new ();
+		e_destination_set_email (destv[0], dialog->email);
+		destv[1] = NULL;
+		len = 1;
+	} else {
+		destv = g_new0 (EDestination *, len + 1);
+		for (l = attendee_list, i = 0; l != NULL; l = l->next, i++) {
+			CalComponentAttendee *a = l->data;
+			EDestination *dest;
+			
+			dest = e_destination_new ();
+			if (a->cn != NULL && *a->cn)
+				e_destination_set_name (dest, a->cn);
+			if (a->value != NULL && *a->value)
+				e_destination_set_email (dest, a->value);
+			
+			destv[i] = dest;
+		}
+		destv[i] = NULL;
 	}
-	destv[i] = NULL;
 	
 	bonobo_widget_set_property (BONOBO_WIDGET (dialog->malarm_addresses), 
 				    "destinations", e_destination_exportv (destv), NULL);
@@ -748,13 +757,14 @@ dialog_to_alarm (Dialog *dialog, CalComponentAlarm *alarm)
  * Return value: TRUE if the dialog could be created, FALSE otherwise.
  **/
 gboolean
-alarm_options_dialog_run (CalComponentAlarm *alarm, gboolean repeat)
+alarm_options_dialog_run (CalComponentAlarm *alarm, const char *email, gboolean repeat)
 {
 	Dialog dialog;
 
 	g_return_val_if_fail (alarm != NULL, FALSE);
 
 	dialog.repeat = repeat;
+	dialog.email = email;
 	dialog.xml = glade_xml_new (EVOLUTION_GLADEDIR "/alarm-options.glade", NULL);
 	if (!dialog.xml) {
 		g_message ("alarm_options_dialog_new(): Could not load the Glade XML file!");

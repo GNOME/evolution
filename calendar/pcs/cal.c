@@ -101,6 +101,30 @@ impl_Cal_get_email_address (PortableServer_Servant servant,
 
 	return str_email_address_copy;
 }
+		       
+/* Cal::get_alarm_email_address method */
+static CORBA_char *
+impl_Cal_get_alarm_email_address (PortableServer_Servant servant,
+				  CORBA_Environment *ev)
+{
+	Cal *cal;
+	CalPrivate *priv;
+	const char *str_email_address;
+	CORBA_char *str_email_address_copy;
+	
+	cal = CAL (bonobo_object_from_servant (servant));
+	priv = cal->priv;
+	
+	str_email_address = cal_backend_get_alarm_email_address (priv->backend);
+	if (str_email_address == NULL) {
+		bonobo_exception_set (ev, ex_GNOME_Evolution_Calendar_Cal_NotFound);
+		return CORBA_OBJECT_NIL;
+	}
+
+	str_email_address_copy = CORBA_string_dup (str_email_address);
+
+	return str_email_address_copy;
+}
 
 /* Cal::getSchedulingInformation method */
 static CORBA_char *
@@ -791,6 +815,7 @@ cal_class_init (CalClass *klass)
 	epv->_get_uri = impl_Cal_get_uri;
 	epv->isReadOnly = impl_Cal_is_read_only;
 	epv->getEmailAddress = impl_Cal_get_email_address;
+	epv->getAlarmEmailAddress = impl_Cal_get_alarm_email_address;
 	epv->getStaticCapabilities = impl_Cal_get_static_capabilities;
 	epv->setMode = impl_Cal_set_mode;
 	epv->countObjects = impl_Cal_get_n_objects;

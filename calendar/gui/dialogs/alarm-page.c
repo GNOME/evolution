@@ -768,7 +768,8 @@ add_clicked_cb (GtkButton *button, gpointer data)
 	AlarmPagePrivate *priv;
 	CalComponentAlarm *alarm;
 	CalAlarmTrigger trigger;
-
+	CalAlarmAction action;
+	
 	apage = ALARM_PAGE (data);
 	priv = apage->priv;
 
@@ -802,7 +803,24 @@ add_clicked_cb (GtkButton *button, gpointer data)
 	}
 	cal_component_alarm_set_trigger (alarm, trigger);
 
-	cal_component_alarm_set_action (alarm, e_dialog_option_menu_get (priv->action, action_map));
+	action = e_dialog_option_menu_get (priv->action, action_map);
+	cal_component_alarm_set_action (alarm, action);
+	if (action == CAL_ALARM_EMAIL && !cal_component_alarm_has_attendees (alarm)) {
+		const char *email;
+		
+		email = cal_client_get_alarm_email_address (COMP_EDITOR_PAGE (apage)->client);
+		if (email != NULL) {
+			CalComponentAttendee *a;
+			GSList attendee_list;
+
+			a = g_new0 (CalComponentAttendee, 1);
+			a->value = email;
+			attendee_list.data = a;
+			attendee_list.next = NULL;
+			cal_component_alarm_set_attendee_list (alarm, &attendee_list);
+			g_free (a);
+		}
+	}
 
 	append_reminder (apage, alarm);
 }
@@ -839,6 +857,7 @@ button_options_clicked_cb (GtkWidget *widget, gpointer data)
 	AlarmPage *apage;
 	AlarmPagePrivate *priv;
 	gboolean repeat;
+	const char *email;
 	
 	apage = ALARM_PAGE (data);
 	priv = apage->priv;
@@ -846,8 +865,9 @@ button_options_clicked_cb (GtkWidget *widget, gpointer data)
 	cal_component_alarm_set_action (priv->alarm,
 					e_dialog_option_menu_get (priv->action, action_map));
 
-	repeat = !cal_client_get_static_capability (COMP_EDITOR_PAGE (apage)->client, "no-alarm-repeat");	
-	if (!alarm_options_dialog_run (priv->alarm, repeat))
+	repeat = !cal_client_get_static_capability (COMP_EDITOR_PAGE (apage)->client, "no-alarm-repeat");
+	email = cal_client_get_alarm_email_address (COMP_EDITOR_PAGE (apage)->client);
+	if (!alarm_options_dialog_run (priv->alarm, email, repeat))
 		g_message ("button_options_clicked_cb(): Could not create the alarm options dialog");
 }
 

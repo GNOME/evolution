@@ -23,6 +23,6 @@
 
 #include <cal-util/cal-component.h>
 
-gboolean alarm_options_dialog_run (CalComponentAlarm *alarm, gboolean repeat);
+gboolean alarm_options_dialog_run (CalComponentAlarm *alarm, const char *email, gboolean repeat);
 
 #endif

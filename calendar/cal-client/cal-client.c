@@ -49,6 +49,7 @@ struct _CalClientPrivate {
 
 	/* Email address associated with this calendar, or NULL */
 	char *email_address;
+	char *alarm_email_address;
 
 	/* Scheduling info */
 	char *capabilities;
@@ -248,6 +249,7 @@ cal_client_init (CalClient *client)
 	priv->load_state = CAL_CLIENT_LOAD_NOT_LOADED;
 	priv->uri = NULL;
 	priv->email_address = NULL;
+	priv->alarm_email_address = NULL;
 	priv->capabilities = FALSE;
 	priv->factories = NULL;
 	priv->timezones = g_hash_table_new (g_str_hash, g_str_equal);
@@ -381,6 +383,10 @@ cal_client_destroy (GtkObject *object)
 	}
 
 	if (priv->email_address) {
+		g_free (priv->email_address);
+		priv->email_address = NULL;
+	}
+	if (priv->alarm_email_address) {
 		g_free (priv->email_address);
 		priv->email_address = NULL;
 	}
@@ -1114,6 +1120,33 @@ cal_client_get_email_address (CalClient *client)
 	}
 
 	return priv->email_address;
+}
+
+const char *
+cal_client_get_alarm_email_address (CalClient *client)
+{
+	CalClientPrivate *priv;
+
+	g_return_val_if_fail (client != NULL, NULL);
+	g_return_val_if_fail (IS_CAL_CLIENT (client), NULL);
+
+	priv = client->priv;
+	g_return_val_if_fail (priv->load_state == CAL_CLIENT_LOAD_LOADED, NULL);
+
+	if (priv->alarm_email_address == NULL) {
+		CORBA_Environment ev;
+		CORBA_char *email_address;
+
+		CORBA_exception_init (&ev);
+		email_address = GNOME_Evolution_Calendar_Cal_getAlarmEmailAddress (priv->cal, &ev);
+		if (!BONOBO_EX (&ev)) {
+			priv->alarm_email_address = g_strdup (email_address);
+			CORBA_free (email_address);
+		}
+		CORBA_exception_free (&ev);
+	}
+
+	return priv->alarm_email_address;
 }
 
 static void
