@@ -1,3 +1,32 @@
+Version 0.6
+-----------
+
+Shell:
+
+  - Added a cute splash screen.  (Ettore, TigerT)
+
+  - Improved the way `~/evolution' is initialized the first time.
+    (Iain)
+
+  - Fixed the problem with the folder bar disappearing too son when
+    clicking on the scrollbar.  (Ettore)
+
+  - Updated to use the new toolbar and UI merging code from Bonobo.
+    (Michael Meeks, Ettore)
+
+Calendar:
+
+  - Improved todo list and calendar view gui (Damon)
+
+  - Printing works again (Federico)
+
+  - Config dialog improvement and implementation (Damon)
+
+  - Todo and calendar conduits working, except for archiving (JP)
+
+  - vEvent iTip mail attachments can now be added to your calendar (Jesse)
+
+
 Version 0.5.1, "Salamended", 2000-09-15
 ---------------------------------------
 
