@@ -426,6 +426,18 @@ save_calendar_cmd (GtkWidget *widget, void *data)
 		save_as_calendar_cmd (widget, data);
 }
 
+/*
+ * Saves @gcal if it is the default calendar
+ */
+void
+save_default_calendar (GnomeCalendar *gcal)
+{
+	if (!gcal->cal->filename)
+		return;
+	
+	save_calendar_cmd (NULL, gcal);
+}
+
 static GnomeUIInfo gnome_cal_file_menu [] = {
         GNOMEUIINFO_MENU_NEW_ITEM(N_("_New calendar"),
 				  N_("Create a new calendar"),

@@ -59,9 +59,10 @@ ok_button (GtkWidget *widget, GnomeDialog *dialog)
 	if (ico->new) {
 		gnome_calendar_add_object (todo->calendar, ico);
 		ico->new = FALSE;
-	} else
+	} else 
 		gnome_calendar_object_changed (todo->calendar, ico, CHANGE_ALL); /* ok, summary only... */
 
+	save_default_calendar (todo->calendar);
 	gtk_widget_destroy (GTK_WIDGET (dialog));
 }
 
@@ -170,6 +171,7 @@ static void
 delete_todo (GncalTodo *todo)
 {
 	gnome_calendar_remove_object (todo->calendar, get_clist_selected_ico (todo->clist));
+	save_default_calendar (todo->calendar);
 }
 
 static void

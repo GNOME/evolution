@@ -56,5 +56,6 @@ void parse_color_spec (char *spec, int *r, int *g, int *b);
 /* Calls build_color_spec() for the color in the specified property number */
 char *color_spec_from_prop (ColorProp propnum);
 
+void save_default_calendar (GnomeCalendar *gcal);
 
 #endif

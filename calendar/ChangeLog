@@ -1,3 +1,14 @@
+1999-02-11  Miguel de Icaza  <miguel@nuclecu.unam.mx>
+
+	* main.c (save_default_calendar): New function.  Saves the
+	calendar if it is the user's default calendar
+
+	* gncal-full-day.c (unrecur_appointment): 
+	* gncal-day-panel.c (day_view_range_activated): 
+	* eventedit.c (ee_ok): 
+	* gncal-todo.c (ok_button): Added autosave for the default
+	calendar. 
+
 1999-02-09  Tomas Ogren  <stric@ing.umu.se>
 
 	* main.c: Removed the gtk_widget_realize call.
