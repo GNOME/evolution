@@ -181,24 +181,15 @@
 	    <para>
 		  To see how it works, type a name in the
 		  <guilabel>Full Name</guilabel> field. As an example,
-		  we'll use the Ximian mascot, <userinput>Rupert
-		  T. Monkey</userinput>.  You'll notice that the
+		  we'll use <userinput>John
+		  T. Doe</userinput>.  You'll notice that the
 		  <guilabel>File As</guilabel> field also fills in,
-		  but in reverse: <computeroutput>Monkey,
-		  Rupert</computeroutput>.  You can pick
-		  <computeroutput>Rupert Monkey </computeroutput> from
+		  but in reverse: <computeroutput>Doe,
+		  John</computeroutput>.  You can pick
+		  <computeroutput>John Doe</computeroutput> from
 		  the drop-down, or type in your own, such as
-		  <userinput> T. Rupert Monkey </userinput>.
+		  <userinput>T. Doe, John</userinput>.
 		</para>
-	    <tip>
-	      <title>Filing Suggestion</title>
-	      <para>
-		 Don't enter something entirely different from the
-		 actual name, since you might forget that you've filed
-		 Rupert's information under "F" for "Fictitious Ximian
-		 Employee."
-              </para>
-	    </tip>
 	  </listitem>
 	</varlistentry>
 	<varlistentry>
@@ -467,13 +458,13 @@
         </para>
 	<para>
            To mail the list, open a new email and type the name you
-           chose for the list. Ximian Evolution will address the
+           chose for the list. Novell Evolution will address the
            message to the entire list when you send it. You can also
            right-click on the list's address card in the contacts tool
            and select <guimenuitem>Send Message to List</guimenuitem>.
         </para>
         <para>
-           Ximian Evolution cannot store contact lists on Exchange
+           Novell Evolution cannot store contact lists on Exchange
            servers.
         </para>
     </sect2>

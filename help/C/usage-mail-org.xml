@@ -5,7 +5,7 @@
       want to sort and organize them.  When you get a hundred a day
       and you want to refer to a message you received six weeks ago,
       you <emphasis>need</emphasis> to sort and organize them.
-      Fortunately, Ximian Evolution has the tools
+      Fortunately, Novell Evolution has the tools
       to help you do it.
     </para>
 
@@ -19,7 +19,7 @@
     <sect2 id="importing-mail">
       <title>Importing Single Files</title>
       <para>
-        Ximian Evolution can import the
+        Novell Evolution can import the
         following types of files:
         <variablelist>
           <varlistentry>
@@ -39,7 +39,7 @@
 	    <listitem>
 	      <para>
 		A format for storing calendar files.  iCalendar is used by 
-		PalmOS based handhelds, Ximian
+		PalmOS based handhelds, Novell
                 Evolution, and 
 		<application>Microsoft Outlook</application>.
 	      </para>
@@ -71,7 +71,7 @@
             <listitem>
               <para>
                 The email box format used by Mozilla, Netscape,
-                Ximian Evolution, Eudora, and many other email clients.
+                Novell Evolution, Eudora, and many other email clients.
               </para>
             </listitem>
           </varlistentry>
@@ -149,7 +149,7 @@
 	  <title>Microsoft Outlook and Outlook Express Users</title>
 	  <para>
 	    Microsoft Outlook, and versions of Outlook Express after
-	    version 4, use proprietary formats that Ximian
+	    version 4, use proprietary formats that Novell
 	      Evolution cannot read or import.  For contacts,
 	    you may have to email them to yourself and import them that
 	    way.  For email, there is a simpler workaround:
@@ -166,15 +166,15 @@
 	      <listitem>
 		<para>
 		  Copy the files to the system or partition you use for
-		  Ximian Evolution.  
+		  Novell Evolution.  
 		</para>
 	      </listitem>
 	      
 	      <listitem>
 		<para>
-		  Use the Ximian Evolution import
+		  Use the Novell Evolution import
 		  tool to import the files.  There's more information about
-		  why this works, and how, at the Ximian support website.
+		  why this works, and how, at the Novell support website.
 		</para>
 	      </listitem>
 	    </orderedlist>
@@ -188,7 +188,7 @@
 	    <menuchoice><guimenu>File</guimenu><guimenuitem>Compact All
 		Folders</guimenuitem></menuchoice> from within
             Netscape or Mozilla. Otherwise,
-	    Ximian Evolution will import and undelete
+	    Novell Evolution will import and undelete
 	    the messages in Trash folders.
 	  </para>
 	</note>     
@@ -331,7 +331,7 @@
     <sect1 id="usage-mail-organize-folders">
       <title>Getting Organized with Folders</title>
       <para>
-      Ximian Evolution, like most other mail systems, stores mail in
+      Novell Evolution, like most other mail systems, stores mail in
         folders.  You start out with a
 	few mail folders, such as <guilabel>Inbox</guilabel>,
 	<guilabel>Outbox</guilabel>, and <guilabel>Drafts</guilabel>,
@@ -373,7 +373,7 @@
     <title>Searching for Messages</title>
     <para>
       Most mail clients can search through your messages for you,
-      but Ximian Evolution does it faster than most, thanks to its
+      but Novell Evolution does it faster than most, thanks to its
       automatic search index.
     </para>
     <para>
@@ -684,7 +684,7 @@
 		  <para>
 		    Expression - For programmers only: match a message according to an
 		    expression you write in the Scheme language, used to
-		    define filters in Ximian Evolution.
+		    define filters in Novell Evolution.
 		  </para>
 
 <para>
@@ -836,14 +836,14 @@
 	      section.  You can select any of the following options.
 	      <itemizedlist>
 		<listitem><para>
-		    Move to Folder - If you select this item, Ximian Evolution
+		    Move to Folder - If you select this item, Novell Evolution
 		    will put the messages into a folder you specify.  Click the 
 		    <guilabel>&lt;click here to select a folder&gt;</guilabel> button
 		    to select a folder. 
 		  </para></listitem>
 
 		<listitem><para>
-		    Copy to Folder - If you select this item, Ximian Evolution
+		    Copy to Folder - If you select this item, Novell Evolution
 		    will put the messages into a folder you specify.  Click the 
 		    <guilabel>&lt;click here to select a folder&gt;</guilabel> button
 		    to select a folder. 
@@ -862,7 +862,7 @@
 		  </para></listitem>
 		
 		<listitem><para>
-		    Assign Color - Select this item, and Ximian Evolution
+		    Assign Color - Select this item, and Novell Evolution
 		    will mark the message with whatever color you please.
 		  </para></listitem>
 		
@@ -1074,7 +1074,7 @@
 	yourself performing the same search again and again, consider
 	a vFolder. vFolders, or virtual folders, are an advanced way
 	of viewing your email messages within
-	Ximian Evolution.  If you get a lot of
+	Novell Evolution.  If you get a lot of
 	mail or often forget where you put messages, vFolders
 	can help you stay on top of things.
       </para>
@@ -1131,10 +1131,10 @@
       <para>
 	To organize his mailbox, Jim sets up a virtual folder for emails from
 	his friend and co-worker Anna.  He has another one for messages that
-	have ximian.com in the address and Ximian Evolution in the subject line, so he
+	have ximian.com in the address and Novell Evolution in the subject line, so he
 	can keep a record of what people from work send him about
 	Evolution.  If Anna sends him a message about
-	anything other than Ximian Evolution, it only shows up in the "Anna" folder.
+	anything other than Novell Evolution, it only shows up in the "Anna" folder.
 	When Anna sends him mail about the user interface for
 	Evolution, he can see that message both in
 	the "Anna" vFolder and in the "Internal Evolution Discussion"
@@ -1211,7 +1211,7 @@
 		  <para>
 		    Expression - For programmers only: match a message according to an
 		    expression you write in the Scheme language, used to
-		    define vFolders in Ximian Evolution.
+		    define vFolders in Novell Evolution.
 		  </para>
 		</listitem>
 		

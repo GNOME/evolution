@@ -3,7 +3,7 @@
       <para>
         This chapter is very short.  It describes how to synchronize
         the data on your Palm-OS device with the data you store in
-        Ximian Evolution.  If you need
+        Novell Evolution.  If you need
         information on how to set up handheld synchronization, consult
         <xref linkend="config-sync"/>.
       </para>
@@ -27,7 +27,7 @@ protection on your handheld.
 </tip>
         <para>
 	 If you have followed the set up instructions properly, your
-	 Palm-OS device will synchronize data with Ximian
+	 Palm-OS device will synchronize data with Novell
 	 Evolution.
         </para>
 

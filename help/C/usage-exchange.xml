@@ -1,16 +1,16 @@
  <chapter id="usage-exchange">
-    <title>The Ximian Connector for Microsoft Exchange</title>
-    <para>The Ximian Connector for Microsoft Exchange allows Ximian
+    <title>The Evolution Connector for Microsoft Exchange</title>
+    <para>The Evolution Connector for Microsoft Exchange allows Novell
     Evolution clients to access accounts on Microsoft Exchange 2000
-    servers. It is available through Ximian Red Carpet in its own
-    channel. Like Ximian Evolution, it is free software and licensed under the
+    servers. It is available through Novell Red Carpet in its own
+    channel. Like Novell Evolution, it is free software and licensed under the
     GPL.
   </para>
    
   <warning id="licensing">
     <title>Requirements</title>
     <para>
-      Ximian Connector works only with Exchange 2000 and later, and requires
+      Evolution Connector works only with Exchange 2000 and later, and requires
       that Outlook Web Access be enabled. Each user will need a
       valid Microsoft Exchange server account, including license.
   </para>
@@ -19,13 +19,13 @@
   <sect1 id="new-in-connector">
 <title>What's New in Connector &appversion;</title>
   <para>
-    Ximian Connector &appversion; has added the <guilabel>Out of
+    Evolution Connector &appversion; has added the <guilabel>Out of
     Office</guilabel> feature and an automatic configuration tool for
     large Exchange deployments.
   </para>
 
   <para>
-    Previous versions of Ximian Connector for Microsoft Exchange added
+    Previous versions of Evolution Connector for Microsoft Exchange added
     support for the <guilabel>Flag for Followup</guilabel> feature,
     public folders, delegation, direct booking, and more. For
     information on setting up delegation, see <xref
@@ -37,7 +37,7 @@
   <sect1 id="features">
     <title>Connector Features</title>
     <para>
-      In addition to the features listed above, Ximian
+      In addition to the features listed above, Evolution
       Connector supports the following basic 
       <application>Microsoft Exchange</application> features:
       <itemizedlist>
@@ -180,10 +180,10 @@ There are, however, some features which are not available:
   <sect1 id="install">
     <title>Installing the Connector</title>
     <para>
-       To install the Ximian Connector, run Ximian Red Carpet by
+       To install the Evolution Connector, run Red Carpet by
        selecting <menuchoice><guimenu>System</guimenu><guimenuitem>Get
-       Software</guimenuitem></menuchoice>.  Subscribe to the Ximian
-       Connector for Microsoft Exchange channel, select the Ximian
+       Software</guimenuitem></menuchoice>.  Subscribe to the Evolution
+       Connector for Microsoft Exchange channel, select the Evolution
        Connector for Microsoft
        Exchange2000, and click the
        <guilabel>Install</guilabel> button.  You can also install
@@ -194,7 +194,7 @@ There are, however, some features which are not available:
  </sect1>
 
   <sect1 id="exchange-configure">
-    <title>Adding your Exchange Account in Ximian Evolution</title>
+    <title>Adding your Exchange Account in Novell Evolution</title>
     <para>
       Once you have installed the Connector, you need to set up access
       for your Exchange account on both the
@@ -223,36 +223,36 @@ There are, however, some features which are not available:
       </para>
       
       <para>
-	The Ximian website knowledge base, at <ulink type="http"
+	The Novell website knowledge base, at <ulink type="http"
 	url="http://support.ximian.com">support.ximian.com</ulink>,
 	has additional information about checking to make sure that
 	your Exchange server will accept
-	connections from Ximian Evolution.
+	connections from Novell Evolution.
       </para>
     </sect2>
     
 
     <sect2 id="config-client">
-      <title>Standard Configuration Tool for Ximian Connector</title>
+      <title>Standard Configuration Tool for Evolution Connector</title>
       <para>
 	Once you know that your server is ready for you to connect,
-        you are ready to add your Exchange account to Ximian Connector.
+        you are ready to add your Exchange account to Evolution Connector.
      </para>
 
 
     <sect3 id="config-easy">
-      <title>Simple Configuration Tool for Ximian Connector</title>
+      <title>Simple Configuration Tool for Evolution Connector</title>
       <para>
-        Ximian Connector 1.4 comes with a simple account creation tool
+        Evolution Connector 1.4 comes with a simple account creation tool
         for some installations. Other installations will require
         the standard account tool described in <xref
         linkend="config-client" /> below.
       </para>
 	<para>
             If you have no accounts configured, 
-            the simple assistant will start when you start Ximian
+            the simple assistant will start when you start Novell
             Evolution. It asks only for the name of your Outlook
-            Web Access server, and your username and password. Ximian
+            Web Access server, and your username and password. Evolution
             Connector will determine the remaining information on its own.
           </para>
       <para>
@@ -550,7 +550,7 @@ There are, however, some features which are not available:
 			   Server. The GAL is maintained by your
 			   system administrator and you cannot add,
 			   change, or remove items from it using
-			   Ximian Evolution. However, you can use it
+			   Novell Evolution. However, you can use it
 			   to invite people to meetings and to look up
 			   addresses and other information.
 			 </para>
@@ -615,7 +615,7 @@ There are, however, some features which are not available:
       </para>
 	<para>
           Then, quit Evolution and start it
-          up again. Changes to the Ximian Connector accounts
+          up again. Changes to the Evolution Connector accounts
           configuration are not active until you have restarted the
           application.
        </para>
@@ -679,7 +679,7 @@ There are, however, some features which are not available:
       <title>Special Connector Only Settings</title>
       <para>
         There are two items in the Evolution preferences window that
-        are available only with Ximian Connector. The first is
+        are available only with Evolution Connector. The first is
         delegation and permissions handling, and the second is the
         creation of "Out of Office" messages.
       </para>

@@ -24,7 +24,7 @@
 
 <!ENTITY appversion "1.5">
 <!ENTITY docversion "1.5">
-<!ENTITY pubdate "January, 2004">
+<!ENTITY pubdate "May, 2004">
 
 ]>
 
@@ -55,8 +55,8 @@ entity names correspond.  APX is for appendix.  -->
     </copyright>
     
    <releaseinfo>
-      This is version &docversion; of the Ximian Evolution manual. It describes
-      version &appversion; of the Ximian Evolution groupware suite.
+      This is version &docversion; of the Novell Evolution manual. It describes
+      version &appversion; of the Novell Evolution groupware suite.
    </releaseinfo>
 
 
@@ -76,11 +76,11 @@ entity names correspond.  APX is for appendix.  -->
   </preface>
 
   <part id="usage">
-    <title>Getting Started with Ximian Evolution</title>
+    <title>Getting Started with Novell  Evolution</title>
      <partintro>
       <para>
-        Part one of the Ximian Evolution manual
-        describes how to use Ximian Evolution for
+        Part one of the Novell Evolution manual
+        describes how to use Novell Evolution for
         email, contact management, and appointment and task
         scheduling.  You'll find as you go along that there's more
         than one way to do things, and you can pick whichever method
@@ -97,14 +97,14 @@ entity names correspond.  APX is for appendix.  -->
     &USAGE-SYNC; 
   </part>
   <part id="config">
-  <title>Configuring and Managing Ximian Evolution</title>
+  <title>Configuring and Managing Novell Evolution</title>
     <partintro>
       <para>
-        Ximian Evolution is highly
+        Novell Evolution is highly
         configurable.  Usually, when developers say that, they mean
         that they didn't test it out thoroughly and have left it to
         other programmers to "configure" themselves a working
-        system. In the case of Ximian
+        system. In the case of Novell
         Evolution, "configurable" means that, while you
         can expect the program to work perfectly well with the default
         settings, it's also easy to alter its behavior in a wide

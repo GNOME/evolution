@@ -6,7 +6,7 @@
   <title>Managing your Schedule</title>
 
      <para>
-      This chapter will show you how to use the Ximian Evolution
+      This chapter will show you how to use the Novell Evolution
       Calendar to manage your schedule alone or in conjunction with
       peers. To learn about importing calendar data, see <xref
       linkend="importing-mail" />, which covers the Import tool.
@@ -70,7 +70,7 @@
       Of course, you'll want to use the calendar to do more than find
       out what day it is. This section will tell you how to schedule
       appointments, set alarms, and determine appointment
-      recurrence. If you have installed the Ximian Connector for
+      recurrence. If you have installed the Evolution Connector for
       Microsoft Exchange, you can also read <xref
       linkend="full-advantage"/> to learn about how to take full
       advantage of the collaborative group scheduling functions
@@ -225,8 +225,8 @@
       </para>
       <para>
 	Evolution can handle free/busy
-	scheduling Using the Ximian Connector on a Microsoft Exchange
-	2000 server. For more information about Ximian Connector, see
+	scheduling Using the Evolution Connector on a Microsoft Exchange
+	2000 server. For more information about Evolution Connector, see
 	<xref linkend="usage-exchange"/>.
       </para>
       <para>
@@ -458,7 +458,7 @@
         When your meeting attendees get the email inviting them to the
         meeting, they'll be able to enter the information into their
         calendars and let you know if they'll be able to attend; if
-        they use Ximian Evolution or
+        they use Novell Evolution or
         another iCal compliant mail client, they can do this with just
         one click. When you get a response from them, it will include
         an iCal attachment. Opening and accepting this attachment will
@@ -570,14 +570,14 @@
 	<title>Scheduling an Appointment</title>
 	<para>
 	  To schedule an appointment, you'll first need people's
-	  free/busy information.  If you're using the Ximian Connector
+	  free/busy information.  If you're using the Evolution Connector
 	  for Microsoft Exchange, all of the information is already
 	  available to you in the Global Address List. Otherwise, each
 	  person will have to email you their schedule files and you
 	  will have to incorporate them into your calendar.
         </para>
         <para>
-          Regardless of how you get the information, Ximian Evolution
+          Regardless of how you get the information, Novell Evolution
           will display it in the <guilabel>Scheduling</guilabel> tab.
           The pending appointment time will appear in white with bold
           black borders.  Each attendee's free and busy times appear
@@ -595,7 +595,7 @@
 
         <para>
          Read <xref linkend="full-advantage"/> to learn about how to
-	 use this feature with the Ximian Connector for Microsoft
+	 use this feature with the Evolution Connector for Microsoft
 	 Exchange.
        </para>
       </sect3>
@@ -678,7 +678,7 @@
     </para>
     <para>
       The list of tasks is sorted in a similar way to the list of
-      email messages in Ximian Evolution
+      email messages in Novell Evolution
       Mail.  Click once on the message headers to change
       the direction and type of sorting, or right-click to add or
       remove columns from the display.

@@ -7,16 +7,16 @@
      Preface, and adding a paragraph to the beginning of it -->
 
     <note id="evo-is-free-software">
-      <title>Ximian Evolution is Free Software</title>
+      <title>Novell Evolution is Free Software</title>
       <para>
-        Ximian Evolution is licensed under the terms of the GNU General
+        Novell Evolution is licensed under the terms of the GNU General
         Public License (GPL), and its documentation is licensed
         separately
         under the GNU Free Documentation License (GFDL).  You can find a the
         complete text of the GPL in <xref linkend="apx-gpl" />, and of the
         GFDL in <xref linkend="apx-fdl"/>. The licenses are also available
         in the files COPYING and COPYING-DOCS distributed with this
-        software. The Ximian Connector for Microsoft Exchange  is
+        software. The Evolution Connector for Microsoft Exchange  is
         also licensed under the GPL. Copyright for all three pieces of software and their documentation belongs to
         Novell, Inc.
       </para>
@@ -39,7 +39,7 @@
 	</para>
 
 	<para>
-          Ximian is a registered trademark and Ximian Evolution, the
+          Novell is a registered trademark and Novell Evolution, the
 	  dancing monkey logo and the Ximian capsule logo are
 	  trademarks of Novell, Inc. Other names may be trademarks or
 	  registered trademarks of other companies or

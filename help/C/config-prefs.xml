@@ -104,7 +104,7 @@
 	<term><guiicon>Exchange Delegation</guiicon></term>
 	<listitem>
 	  <para>
-            This item will only appear if you have Ximian Connector
+            This item will only appear if you have Evolution Connector
             for Microsoft Exchange installed. It will allow you to
             choose who has access to your Exchange account. This
             feature is covered in <xref linkend="exchange-delegate" />.
@@ -127,7 +127,7 @@
 	<term><guiicon>Out of Office</guiicon></term>
 	<listitem>
 	  <para>
-            This item will only appear if you have Ximian Connector
+            This item will only appear if you have Evolution Connector
             for Microsoft Exchange installed. It allows you to create
             and remove automatic "vacation" messages.  For
             information about how to use this feature, read <xref
@@ -141,7 +141,7 @@
    <sect1 id="config-prefs-mail-identity">
       <title>Working with Mail Accounts</title> 
       <para>
-         Ximian Evolution allows you to
+         Novell Evolution allows you to
          maintain multiple accounts, or identities.  This is useful
          want to keep personal and professional email separate, or if
          you wear several hats at work. When you are writing an email
@@ -383,7 +383,7 @@ smtp.omniport.com:143
               In this section, you will choose and configure a method
               for sending mail.  You may choose <glossterm
               linkend="smtp">SMTP</glossterm>, Microsoft Exchange (if
-              you have installed the Ximian Connector for Microsoft
+              you have installed the Evolution Connector for Microsoft
               Exchange) or <glossterm
               linkend="sendmail">sendmail</glossterm>.
              </para>

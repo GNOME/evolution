@@ -94,7 +94,7 @@ Examples are also set off from the rest of the text.  They look like this:
         Evolution &appversion; has a lot of new features to offer. 
         You can find a complete list of bugs fixed and features added
         in the Evolution release notes at the <ulink
-        url="http://developer.ximian.com">Ximian Developer
+        url="http://gnome.org/projects/evolution/">Evolution Developer
       Website</ulink>. Some of the features include:
     </para>
         <variablelist>
@@ -102,7 +102,7 @@ Examples are also set off from the rest of the text.  They look like this:
 	    <term>Junk Mail (Spam) Filtering</term>
 	    <listitem>
 	      <para>
-                Ximian Evolution &appversion; uses the same font
+                Novell Evolution &appversion; uses the same font
                 smoothing technology as the rest of your GNOME 2
                 desktop.
               </para>
@@ -116,7 +116,7 @@ Examples are also set off from the rest of the text.  They look like this:
                 Now you can access GroupWise servers as well as IMAP
                 and POP mail servers, with no additional installation
                 required. Connection to Microsoft Exchange 2000 and
-                2003 servers is possible with the Ximian Connector.
+                2003 servers is possible with the Evolution Connector.
               </para>
 	    </listitem>
 	  </varlistentry>

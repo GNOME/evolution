@@ -1,14 +1,14 @@
 <chapter id="usage-mainwindow">
 
-  <title>Getting Started with Ximian Evolution</title>
+  <title>Getting Started with Novell Evolution</title>
 
     <sect1 id="what"> 
-      <title>What is Ximian Evolution, and What Can It Do for Me?</title>
+      <title>What is Novell Evolution, and What Can It Do for Me?</title>
       <para>
         Information is useless unless it's organized and accessible;
         it's hardly even worth the name if you can't look at it and be
         <emphasis>informed</emphasis>.  The goal of
-        Ximian Evolution is to make the
+        Novell Evolution is to make the
         tasks of storing, organizing, and retrieving your personal
         information easier, so you can work and communicate with
         others.  That is, it's a highly evolved <glossterm
@@ -16,7 +16,7 @@
         part of the Internet-connected desktop.
       </para>
       <para>
-        In other words, Ximian Evolution is
+        In other words, Novell Evolution is
         a tool to help you get your work done. It can help you work in
         a group by handling email, address and other contact
         information, and one or more calendars.  It can do that on one
@@ -25,11 +25,11 @@
       </para>
 
       <para>
-        With Ximian Evolution, you can
+        With Novell Evolution, you can
         accomplish your most common daily tasks faster.  For example, it
         takes only one or two clicks to enter appointment or
         contact information sent to you by email, or to send email to a contact
-        or appointment.  Ximian Evolution
+        or appointment.  Novell Evolution
         makes displays faster and more efficient, so searches are faster
         and memory usage is lower.  People who get lots of mail will
         appreciate advanced features like <link
@@ -40,9 +40,9 @@
    </sect1>
 
    <sect1 id="usage-mainwindow-starting">
-     <title>The First Time you Start Ximian Evolution</title>
+     <title>The First Time you Start Novell Evolution</title>
      <para>
-       To start Ximian Evolution, do either
+       To start Novell Evolution, do either
       of the following: 
       <itemizedlist>
       <listitem>
@@ -162,7 +162,7 @@
 	  <listitem>
 	    <para>
 	      Server Type: There are numerous types of servers
-	      from which Ximian Evolution
+	      from which Novell Evolution
 	      can fetch your mail.  Ask your system administrator if
 	      you're not sure which of the following are available to
 	      you:
@@ -179,7 +179,7 @@
 		<listitem>
 		  <para>
 		    Microsoft Exchange: Available only if you have
-		    installed the Ximian Connector for Microsoft
+		    installed the Novell Connector for Microsoft
 		    Exchange, this will allow you to connect to a
 		    Microsoft Exchange 2000 or 2003 server, which
                     stores email, calendar, and contact information on
@@ -295,9 +295,9 @@
 		    </itemizedlist>
 
       <tip id="exchange-info">
-	<title>Use Ximian Evolution with Microsoft Exchange</title>
+	<title>Use Novell Evolution with Microsoft Exchange</title>
          <para>
-	   If you have installed Ximian Connector for Microsoft
+	   If you have installed Novell Connector for Microsoft
 	   Exchange, you can access Microsoft Exchange 2000 servers
 	   natively.  If you do not have the Connector, or if you use
 	   an older version of Microsoft Exchange, talk to your system
@@ -462,7 +462,7 @@
 	  <listitem>
 	    <para>
 	      Server Type: There are numerous server types that
-	      Ximian Evolution supports for sending your
+	      Novell Evolution supports for sending your
 	      mail.
 	      <itemizedlist>
 		<listitem>
@@ -477,7 +477,7 @@
 		  <para>Microsoft Exchange: Sends mail through a Microsoft
 		    Exchange server using the Microsoft Exchange 2000
 		    protocol. Available only if you have are using the
-		    Ximian Connector for Microsoft Exchange, which is installed
+		    Novell Connector for Microsoft Exchange, which is installed
 		    separately.
 		  </para>
 		</listitem>
@@ -524,7 +524,7 @@
 	      your best bet is to leave this set at
 	      <guilabel>Password</guilabel>.  If you're not sure, ask
 	      your system administrator or ISP, or have
-	      Ximian Evolution check for
+	      Novell Evolution check for
 	      you by clicking <guilabel>Check for supported
 	      types</guilabel>.
 	    </para>
@@ -578,7 +578,7 @@
   <sect2 id="fourth-step">
       <title>Importing Mail (Optional)</title>
       <para>
-	If Ximian Evolution finds mail or
+	If Novell Evolution finds mail or
 	address files from another application, it will offer to
 	import them.  If you're not sure which file format your mail
 	program uses, ask your system administrator.  If you want, you
@@ -587,7 +587,7 @@
 	<menuchoice><guimenu>File</guimenu><guimenuitem>Import</guimenuitem></menuchoice>.
       </para>
       <para>
-	Ximian Evolution can import the following types of
+	Novell Evolution can import the following types of
 	files:
           <variablelist>
            <varlistentry>
@@ -620,7 +620,7 @@
 	    <listitem>
 	      <para>
 	       The email box format used by Mozilla, Netscape,
-	       Ximian Evolution, Eudora, and many other email clients.
+	       Novell Evolution, Eudora, and many other email clients.
   	     </para>
 	    </listitem>
 	  </varlistentry>
@@ -632,7 +632,7 @@
       <para>
         <application>Microsoft Outlook</application>, and versions of
         <application>Outlook Express</application> after
-	version 4, use proprietary formats that Ximian
+	version 4, use proprietary formats that Novell
 	Evolution cannot read or import.  For contacts,
 	you may have to email them to yourself and import them that
 	way.  For email, see the instructions in <xref
@@ -646,14 +646,14 @@
 	Before importing mail from Netscape, make sure you select
 	<menuchoice><guimenu>File</guimenu><guimenuitem>Compact All
 	Folders</guimenuitem></menuchoice>. If you don't,
-	Ximian Evolution will import and undelete
+	Novell Evolution will import and undelete
 	the messages in your Trash folders.
       </para>
     </note>     
     <tip>
-      <title>Exporting Files From Ximian Evolution</title>
+      <title>Exporting Files From Novell Evolution</title>
       <para>
-        Ximian Evolution uses standard file types for all its information,
+        Novell Evolution uses standard file types for all its information,
         so you should have no trouble taking your information
           elsewhere if you want.
         </para>
@@ -686,7 +686,7 @@
 	<orderedlist numeration="arabic">
 	  <listitem>
 	    <para>
-	      Open Ximian Evolution
+	      Open Novell Evolution
 	    </para>
 	  </listitem>
 	  <listitem>
@@ -745,7 +745,7 @@ standard mbox file format, which
 	<orderedlist numeration="arabic">
 	  <listitem>
 	    <para>
-	      Open Ximian Evolution
+	      Open Novell Evolution
 	    </para>
 	  </listitem>
 	  <listitem>
@@ -794,16 +794,16 @@ standard mbox file format, which
   </sect1>
   
   <sect1 id="ui-intro">
-    <title>What's What in Ximian Evolution</title>
+    <title>What's What in Novell Evolution</title>
     <para>
         Now that you've gotten the first-run configuration out of the
         way, you're ready to get down to work.  Here's a quick
         explanation of what's going on in your main
-        Ximian Evolution window.
+        Novell Evolution window.
     </para>
 
     <figure id="preface-basic-interface">
-      <title>The Ximian Evolution Main Window</title>
+      <title>The Novell Evolution Main Window</title>
       <screenshot>
 	<screeninfo>Inbox</screeninfo>
 	  <mediaobject>
@@ -823,7 +823,7 @@ standard mbox file format, which
     
     <para>
       The <guilabel>menu bar</guilabel> gives you access to nearly all
-      the features that can be found in Ximian
+      the features that can be found in Novell
       Evolution.
     </para>
 
@@ -846,7 +846,9 @@ standard mbox file format, which
       The <guilabel>Shortcut Bar</guilabel> lets you switch between
     folders and between Evolution tools.  At the bottom of the
     shortcut bar there are buttons that let you switch tools, and 
-    above that, all the available folders for the current tool.
+    above that, all the available folders for the current tool. If you have the
+      Evolution Connector for Microsoft Exchange installed, you will have an
+      <guilabel>Exchange</guilabel> button in addition to buttons for the other tools.
     </para>
     
     <para>
@@ -855,7 +857,7 @@ standard mbox file format, which
     </para>
     
     <para>
-      Periodically, Ximian Evolution will need to quietly
+      Periodically, Novell Evolution will need to quietly
       display a message, or tell you the progress of a task.  This most
       often happens when you're checking or sending email.  These progress
     queues are shown here, in the <guilabel>Status Bar</guilabel>.
@@ -875,7 +877,7 @@ standard mbox file format, which
   <sect2 id="usage-mainwindow-shortcutbar">
     <title>The Shortcut Bar</title>
     <para>
-        Ximian Evolution's most important job is
+        Novell Evolution's most important job is
         to give you access to your information and help you use it
         quickly.  One way it does that is through the
         shortcut bar, the column on the left
@@ -935,14 +937,14 @@ standard mbox file format, which
     <sect3 id="subfolders">
     <title>Subfolders</title>
       <para>
-        Ximian Evolution lets you nest folders
+        Novell Evolution lets you nest folders
 	inside of each other, so that you can have a detailed
 	organizational system.
       </para>
 
     <para>
       Right-clicking will bring up a menu for just about anything in
-      Ximian Evolution.  If you right-click on a
+      Novell Evolution.  If you right-click on a
       folder, you'll have a menu with the following options:
       <itemizedlist>
 	<listitem><para><guimenuitem>Copy</guimenuitem>, to copy the folder to another place. When you select this item, Evolution offers a choice of locations to copy to. </para></listitem>
@@ -974,7 +976,7 @@ standard mbox file format, which
       provide all the possible actions for any given view of your
       data.  If you're looking at your Inbox, most of the menu items
       will relate to mail; some will relate to other components of
-      Ximian Evolution and some, especially those
+      Novell Evolution and some, especially those
       in the <guimenu>File Menu</guimenu> will relate to the
       application as a whole. 
    </para> 
@@ -1000,9 +1002,9 @@ standard mbox file format, which
        <varlistentry>
           <term> <guimenu>View</guimenu>:</term>
           <listitem><para>
-            This menu lets you decide how Ximian Evolution 
+            This menu lets you decide how Novell Evolution 
             should look. Some of the features control the appearance of 
-            Ximian Evolution as a whole, and others 
+            Novell Evolution as a whole, and others 
             the way a particular kind of information appears.
           </para></listitem>
         </varlistentry>
@@ -1041,7 +1043,7 @@ standard mbox file format, which
           <term> <guimenu>Help</guimenu>:</term>
           <listitem><para>
              Select among these items to open the
-             Ximian Evolution manual.
+             Novell Evolution manual.
           </para></listitem>
         </varlistentry>
       </variablelist>
@@ -1051,7 +1053,7 @@ standard mbox file format, which
       Once you've familiarized yourself with the main
       window you can start doing things with it.  We'll
       start with the <guilabel>Summary</guilabel>, which provides a
-      quick overview of your Ximian
+      quick overview of your Novell
       Evolution information.
     </para>
     </sect2>
@@ -1059,7 +1061,7 @@ standard mbox file format, which
     <sect2 id="basics-mail">
       <title>Introducing Email</title>
       <para>
-         Ximian Evolution email is like other
+         Novell Evolution email is like other
          email programs in several ways:
      <itemizedlist>
 	  <listitem>
@@ -1092,7 +1094,7 @@ standard mbox file format, which
 	</itemizedlist>
       </para>
       <para>
-        However, Ximian Evolution has some
+        However, Novell Evolution has some
         important differences.  First, it's built to handle very large
       amounts of mail.  The <link
       linkend="usage-mail-organize-spam">junk mail</link>, message <link
@@ -1112,7 +1114,7 @@ linkend="usage-mail-organize-vfolders">vFolder</link>, an advanced
  <!-- ==============Figure=================================== -->
 
       <figure id="usage-mail-intro-fig">
-          <title>Ximian Evolution Mail</title>
+          <title>Novell Evolution Mail</title>
           <screenshot>
             <screeninfo>Inbox</screeninfo>
             <mediaobject><imageobject><imagedata  fileref="figures/mail-inbox" format="PNG" srccredit="Aaron Weber"/>
@@ -1171,7 +1173,7 @@ linkend="usage-mail-organize-vfolders">vFolder</link>, an advanced
       </para>
 
        <para>
-         For an in-depth guide to the email capabilities of Ximian
+         For an in-depth guide to the email capabilities of Novell
          Evolution, read <xref linkend="usage-mail"/>.
       </para>
     </sect2>
@@ -1189,9 +1191,9 @@ linkend="usage-mail-organize-vfolders">vFolder</link>, an advanced
 
    <!-- ============== Figure ============================= -->
     <figure id="usage-calendar-fig">
-      <title>Ximian Evolution Calendar View</title>
+      <title>Novell Evolution Calendar View</title>
       <screenshot>
-	<screeninfo>Ximian Evolution Contact Manager Window</screeninfo>
+	<screeninfo>Novell Evolution Contact Manager Window</screeninfo>
 	<mediaobject><imageobject><imagedata  fileref="figures/calendar" format="PNG" srccredit="Aaron Weber"/>
 	</imageobject></mediaobject>
       </screenshot>
@@ -1244,16 +1246,16 @@ linkend="usage-mail-organize-vfolders">vFolder</link>, an advanced
     <sect2 id="basics-contacts">
       <title>Introducing the Contacts Tool</title>
       <para>
-        The Ximian Evolution contacts tool
+        The Novell Evolution contacts tool
         can handle all of the functions of an address book, phone
         book, or Rolodex.  Of course, it's a lot easier to update
-        Evolution than it is to change an actual paper book. Ximian
+        Evolution than it is to change an actual paper book. Novell
         Evolution also allows easy synchronization with
         hand-held devices and functions with <glossterm
         linkend="ldap">LDAP</glossterm> directories on a network.
       </para>
       <para>
-        Another advantage of the Ximian Evolution
+        Another advantage of the Novell Evolution
         contacts tool is its integration with the rest of the
         application.  For example, you can right-click on an email
         address in Evolution mail to create a contact entry instantly.
@@ -1273,9 +1275,9 @@ linkend="usage-mail-organize-vfolders">vFolder</link>, an advanced
         The contacts tool looks like this:
 
       <figure id="usage-contact-fig">
-	<title>Ximian Evolution Contact Interface</title>
+	<title>Novell Evolution Contact Interface</title>
 	<screenshot>
-	  <screeninfo>Ximian Evolution Contact List Window</screeninfo>
+	  <screeninfo>Novell Evolution Contact List Window</screeninfo>
 	  <mediaobject><imageobject><imagedata  fileref="figures/contact" format="PNG" srccredit="Kevin Breit"/>
   	  </imageobject></mediaobject>
 	</screenshot>

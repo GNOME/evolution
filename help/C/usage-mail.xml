@@ -328,21 +328,29 @@
             </tip>
 
 
-<!-- NOT FOR 1.0
        <sect2 id="usage-mail-getnsend-get-news">
 	  <title>Using Evolution for News</title>
 	<para>
 	  Newsgroups are so similar to email that there's no reason not
 	  to read them side by side.  If you want to do that, add a
-	  news source to your configuration (see <xref
-	  linkend="config-prefs-network-news"/>). The news server will
-	  appear as a remote server, and will look quite similar to an
-        IMAP folder.  When you click <guilabel>Send/Receive</guilabel>,
-	  Evolution will also check for news
-	  messages.
+	  news source to your configuration the same way you would add a mail
+	account, selecting <guilabel>NNTP</guilabel> as the source type. 
+	The news server will appear as a remote mail server, and each news
+	group works like an IMAP folder.  When you click 
+	<guilabel>Send/Receive</guilabel>, Evolution will 
+	also check for news messages.
 	</para>
-	</sect2>
--->
+
+        <para>
+	  To subscribe to a news group, select <menuchoice>
+	  <guimenu>Tools</guimenu> <guimenuitem>Subscribe To
+	    Folders</guimenuitem></menuchoice> and select your NNTP account. Then, select
+	  the groups you want to subscribe to.
+	</para>
+      
+
+
+    </sect2>
 
      <sect2 id="usage-mail-getnsend-get-attach">
 	 <title>Working with Attachments and HTML Mail</title>
