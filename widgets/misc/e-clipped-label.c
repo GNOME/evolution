@@ -390,11 +390,11 @@ e_clipped_label_recalc_chars_displayed (EClippedLabel *label)
 		return;
 	}
 
-	if (max_width <= 0) {
-		label->chars_displayed = 0;
-		label->ellipsis_x = 0;
+	label->chars_displayed = 0;
+	label->ellipsis_x = 0;
+
+	if (max_width <= 0)
 		return;
-	}
 
 	max_width -= label->ellipsis_width;
 
@@ -405,14 +405,8 @@ e_clipped_label_recalc_chars_displayed (EClippedLabel *label)
 					   max_width * PANGO_SCALE,
 					   &index,
 					   NULL)) {
-		g_warning ("pango_layout_line_x_to_index returned false");
 		return;
 	}
-
-#if 0
-	g_slist_foreach (lines, (GFunc)pango_layout_line_unref, NULL);
-	g_slist_free (lines);
-#endif
 
 	label->chars_displayed = index;
 

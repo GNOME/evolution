@@ -1,3 +1,10 @@
+2004-07-16  Chris Toshok  <toshok@ximian.com>
+
+	* e-clipped-label.c (e_clipped_label_recalc_chars_displayed):
+	remove debug spew and fix the display when
+	pango_layout_line_x_to_index returns FALSE (before we were drawing
+	both the ellipses and the text).
+
 2004-07-12  Jeffrey Stedfast  <fejj@novell.com>
 
 	* e-charset-picker.c: s/GB-2312/GB2312/ - fixes bug #61385.
