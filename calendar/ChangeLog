@@ -1,3 +1,11 @@
+2002-04-17  Rodrigo Moya <rodrigo@ximian.com>
+
+	* pcs/cal-backend.[ch]:
+	* pcs/cal-backend-file.c:
+	* pcs/cal.c: reverted my getQuery change, since it will break
+	compatibility with evolution 1.0.3, and, for the time being, we
+	only want this on HEAD.
+
 2002-04-05  Rodrigo Moya <rodrigo@ximian.com>
 
 	* pcs/cal-backend.[ch] (cal_backend_get_query): new method.
