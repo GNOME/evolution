@@ -1,3 +1,8 @@
+2001-08-14  Christopher James Lahey  <clahey@ximian.com>
+
+	* evolution-contact-editor.xml, evolution-contact-list-editor.xml:
+	Added accelerators here.
+
 2001-08-13  Anna Marie Dirks  <anna@ximian.com>
 
 	* evolution-calendar.xml: removed the redundant view-switching
