@@ -59,7 +59,6 @@ typedef struct {
 GtkType mail_account_editor_get_type (void);
 
 MailAccountEditor *mail_account_editor_new (EAccount *account, GtkWindow *parent, MailAccountsTab *dialog);
-void mail_account_editor_changed (MailAccountEditor *editor);
 
 #ifdef __cplusplus
 }

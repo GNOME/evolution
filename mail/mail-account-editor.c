@@ -135,6 +135,12 @@ editor_response_cb (GtkWidget *widget, int button, gpointer user_data)
 }
 
 static void
+mail_account_editor_changed (GtkWidget *widget, MailAccountEditor *editor)
+{
+	gtk_dialog_set_response_sensitive (GTK_WIDGET (editor), GTK_RESPONSE_APPLY, TRUE);
+}
+
+static void
 construct (MailAccountEditor *editor, EAccount *account, MailAccountsTab *dialog)
 {
 	EAccountService *source = account->source;
@@ -155,15 +161,54 @@ construct (MailAccountEditor *editor, EAccount *account, MailAccountsTab *dialog
 				GTK_STOCK_OK, GTK_RESPONSE_OK,
 				NULL);
 
+	g_signal_connect (editor, "response", G_CALLBACK (editor_response_cb), editor);
+
+	g_signal_connect (editor->gui->account_name, "changed", G_CALLBACK (mail_account_editor_changed), editor);
+	g_signal_connect (editor->gui->default_account, "toggled", G_CALLBACK (mail_account_editor_changed), editor);
+	g_signal_connect (editor->gui->full_name, "changed", G_CALLBACK (mail_account_editor_changed), editor);
+	g_signal_connect (editor->gui->email_address, "changed", G_CALLBACK (mail_account_editor_changed), editor);
+	g_signal_connect (editor->gui->reply_to, "changed", G_CALLBACK (mail_account_editor_changed), editor);
+	g_signal_connect (editor->gui->organization, "changed", G_CALLBACK (mail_account_editor_changed), editor);
+
+	g_signal_connect (editor->gui->source.type, "changed", G_CALLBACK (mail_account_editor_changed), editor);
+	g_signal_connect (editor->gui->source.hostname, "changed", G_CALLBACK (mail_account_editor_changed), editor);
+	g_signal_connect (editor->gui->source.username, "changed", G_CALLBACK (mail_account_editor_changed), editor);
+	g_signal_connect (editor->gui->source.path, "changed", G_CALLBACK (mail_account_editor_changed), editor);
+	g_signal_connect (editor->gui->source.use_ssl, "changed", G_CALLBACK (mail_account_editor_changed), editor);
+	g_signal_connect (editor->gui->source.authtype, "changed", G_CALLBACK (mail_account_editor_changed), editor);
+	g_signal_connect (editor->gui->source.remember, "toggled", G_CALLBACK (mail_account_editor_changed), editor);
+
+	g_signal_connect (editor->gui->source_auto_check, "toggled", G_CALLBACK (mail_account_editor_changed), editor);
+	g_signal_connect (editor->gui->source_auto_check_min, "value-changed", G_CALLBACK (mail_account_editor_changed), editor);
+
+	g_signal_connect (editor->gui->transport.type, "changed", G_CALLBACK (mail_account_editor_changed), editor);
+	g_signal_connect (editor->gui->transport.hostname, "changed", G_CALLBACK (mail_account_editor_changed), editor);
+	g_signal_connect (editor->gui->transport.username, "changed", G_CALLBACK (mail_account_editor_changed), editor);
+	g_signal_connect (editor->gui->transport_needs_auth, "toggled", G_CALLBACK (mail_account_editor_changed), editor);
+	g_signal_connect (editor->gui->transport.use_ssl, "changed", G_CALLBACK (mail_account_editor_changed), editor);
+	g_signal_connect (editor->gui->transport.authtype, "changed", G_CALLBACK (mail_account_editor_changed), editor);
+	g_signal_connect (editor->gui->transport.remember, "toggled", G_CALLBACK (mail_account_editor_changed), editor);
+
+	g_signal_connect (editor->gui->drafts_folder_button, "clicked", G_CALLBACK (mail_account_editor_changed), editor);
+	g_signal_connect (editor->gui->sent_folder_button, "clicked", G_CALLBACK (mail_account_editor_changed), editor);
+	g_signal_connect (editor->gui->always_cc, "toggled", G_CALLBACK (mail_account_editor_changed), editor);
+	g_signal_connect (editor->gui->cc_addrs, "changed", G_CALLBACK (mail_account_editor_changed), editor);
+	g_signal_connect (editor->gui->always_bcc, "toggled", G_CALLBACK (mail_account_editor_changed), editor);
+	g_signal_connect (editor->gui->bcc_addrs, "changed", G_CALLBACK (mail_account_editor_changed), editor);
+
+	g_signal_connect (editor->gui->pgp_key, "changed", G_CALLBACK (mail_account_editor_changed), editor);
+	g_signal_connect (editor->gui->pgp_encrypt_to_self, "toggled", G_CALLBACK (mail_account_editor_changed), editor);
+	g_signal_connect (editor->gui->pgp_always_sign, "toggled", G_CALLBACK (mail_account_editor_changed), editor);
+	g_signal_connect (editor->gui->pgp_no_imip_sign, "toggled", G_CALLBACK (mail_account_editor_changed), editor);
+	g_signal_connect (editor->gui->pgp_always_trust, "toggled", G_CALLBACK (mail_account_editor_changed), editor);
+
+	mail_account_gui_setup (editor->gui, GTK_WIDGET (editor));
+
+	mail_account_gui_build_extra_conf (editor->gui, source->url);
+
 	gtk_dialog_set_response_sensitive (GTK_DIALOG (editor),
 					   GTK_RESPONSE_APPLY, FALSE);
 
-	g_signal_connect (editor, "response", G_CALLBACK (editor_response_cb), editor);
-	
-	mail_account_gui_setup (editor->gui, GTK_WIDGET (editor));
-	
-	mail_account_gui_build_extra_conf (editor->gui, source->url);
-	
 	gtk_widget_grab_focus (GTK_WIDGET (editor->gui->account_name));
 }
 
@@ -177,11 +222,4 @@ mail_account_editor_new (EAccount *account, GtkWindow *parent, MailAccountsTab *
 	construct (new, account, dialog);
 	
 	return new;
-}
-
-void
-mail_account_editor_changed (MailAccountEditor *editor)
-{
-	gtk_dialog_set_response_sensitive (GTK_WIDGET (editor), 
-					   GTK_RESPONSE_APPLY, TRUE);
 }
