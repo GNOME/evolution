@@ -207,6 +207,7 @@ void camel_imap_engine_handle_untagged (CamelIMAPEngine *engine, CamelException 
 /* stream wrapper utility functions */
 int camel_imap_engine_next_token (CamelIMAPEngine *engine, struct _camel_imap_token_t *token, CamelException *ex);
 int camel_imap_engine_line (CamelIMAPEngine *engine, unsigned char **line, size_t *len, CamelException *ex);
+int camel_imap_engine_literal (CamelIMAPEngine *engine, unsigned char **literal, size_t *len, CamelException *ex);
 int camel_imap_engine_eat_line (CamelIMAPEngine *engine, CamelException *ex);
 
 

@@ -579,6 +579,7 @@ engine_parse_status (CamelIMAPEngine *engine, CamelException *ex)
 {
 	camel_imap_token_t token;
 	char *mailbox;
+	size_t len;
 	int type;
 	
 	if (camel_imap_engine_next_token (engine, &token, ex) == -1)
@@ -592,7 +593,9 @@ engine_parse_status (CamelIMAPEngine *engine, CamelException *ex)
 		mailbox = g_strdup (token.v.qstring);
 		break;
 	case CAMEL_IMAP_TOKEN_LITERAL:
-		/* FIXME: can this happen? if so implement it */
+		if (camel_imap_engine_literal (engine, (unsigned char **) &mailbox, &len, err) == -1)
+			return -1;
+		break;
 	default:
 		fprintf (stderr, "Unexpected token in IMAP untagged STATUS response: %s%c\n",
 			 token.token == CAMEL_IMAP_TOKEN_NIL ? "NIL" : "",
@@ -1582,7 +1585,7 @@ camel_imap_engine_eat_line (CamelIMAPEngine *engine, CamelException *ex)
 int
 camel_imap_engine_line (CamelIMAPEngine *engine, unsigned char **line, size_t *len, CamelException *ex)
 {
-	GByteArray *linebuf;
+	GByteArray *linebuf = NULL;
 	unsigned char *buf;
 	size_t buflen;
 	int retval;
@@ -1591,7 +1594,7 @@ camel_imap_engine_line (CamelIMAPEngine *engine, unsigned char **line, size_t *l
 		linebuf = g_byte_array_new ();
 	
 	while ((retval = camel_imap_stream_line (engine->istream, &buf, &buflen)) > 0) {
-		if (line != NULL)
+		if (linebuf != NULL)
 			g_byte_array_append (linebuf, buf, buflen);
 	}
 	
@@ -1600,19 +1603,60 @@ camel_imap_engine_line (CamelIMAPEngine *engine, unsigned char **line, size_t *l
 				      _("IMAP server %s unexpectedly disconnected: %s"),
 				      engine->url->host, errno ? g_strerror (errno) : _("Unknown"));
 		
-		if (line != NULL)
+		if (linebuf != NULL)
 			g_byte_array_free (linebuf, TRUE);
 		
 		return -1;
 	}
 	
-	if (line != NULL) {
+	if (linebuf != NULL) {
 		g_byte_array_append (linebuf, buf, buflen);
 		
 		*line = linebuf->data;
 		*len = linebuf->len;
 		
 		g_byte_array_free (linebuf, FALSE);
+	}
+	
+	return 0;
+}
+
+
+int
+camel_imap_engine_literal (CamelIMAPEngine *engine, unsigned char **literal, size_t *len, CamelException *ex)
+{
+	GByteArray *literalbuf = NULL;
+	unsigned char *buf;
+	size_t buflen;
+	int retval;
+	
+	if (literal != NULL)
+		literalbuf = g_byte_array_new ();
+	
+	while ((retval = camel_imap_stream_literal (engine->istream, &buf, &buflen)) > 0) {
+		if (literalbuf != NULL)
+			g_byte_array_append (literalbuf, buf, buflen);
+	}
+	
+	if (retval == -1) {
+		camel_exception_setv (ex, CAMEL_EXCEPTION_SYSTEM,
+				      _("IMAP server %s unexpectedly disconnected: %s"),
+				      engine->url->host, errno ? g_strerror (errno) : _("Unknown"));
+		
+		if (literalbuf != NULL)
+			g_byte_array_free (literalbuf, TRUE);
+		
+		return -1;
+	}
+	
+	if (literalbuf != NULL) {
+		g_byte_array_append (literalbuf, buf, buflen);
+		g_byte_array_append (literalbuf, "", 1);
+		
+		*literal = literalbuf->data;
+		*len = literalbuf->len - 1;
+		
+		g_byte_array_free (literalbuf, FALSE);
 	}
 	
 	return 0;

@@ -1,3 +1,15 @@
+2004-03-24  Jeffrey Stedfast  <fejj@ximian.com>
+
+	* providers/imap4/camel-imap-engine.c (camel_imap_engine_literal):
+	New convenience wrapper function.
+	(engine_parse_status): Fixed to handle literal mailbox strings.
+
+	* providers/imap4/camel-imap-command.c (camel_imap_command_newv):
+	Changed how %L works - create the CamelIMAPLiteral for our caller
+	instead of expecting them to create it for us. We can autodetect
+	what type of object (stream vs data-wrapper) the literal is, so
+	it's trivial to do.
+
 2004-03-23  Jeffrey Stedfast  <fejj@ximian.com>
 
 	* providers/imap/camel-imap-folder.c (imap_get_message): Reworked

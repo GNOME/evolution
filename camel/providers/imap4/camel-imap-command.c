@@ -195,11 +195,10 @@ camel_imap_command_newv (CamelIMAPEngine *engine, CamelIMAPFolder *imap_folder, 
 		if (ch == '%') {
 			CamelIMAPLiteral *literal;
 			CamelIMAPFolder *folder;
-			CamelDataWrapper *wrapper;
-			CamelStream *stream;
 			unsigned int u;
 			char *string;
 			size_t len;
+			void *obj;
 			int c, d;
 			
 			g_string_append_len (str, start, format - start - 1);
@@ -232,7 +231,22 @@ camel_imap_command_newv (CamelIMAPEngine *engine, CamelIMAPFolder *imap_folder, 
 				break;
 			case 'L':
 				/* Literal */
-				literal = va_arg (args, CamelIMAPLiteral *);
+				obj = va_arg (args, void *);
+				
+				literal = g_new (CamelIMAPLiteral, 1);
+				if (CAMEL_IS_DATA_WRAPPER (obj)) {
+					literal->type = CAMEL_IMAP_LITERAL_WRAPPER;
+					literal->literal.wrapper = obj;
+				} else if (CAMEL_IS_STREAM (obj)) {
+					literal->type = CAMEL_IMAP_LITERAL_STREAM;
+					literal->literal.stream = obj;
+				} else {
+					g_assert_not_reached ();
+				}
+				
+				camel_object_ref (obj);
+				
+				/* FIXME: take advantage of LITERAL+? */
 				len = camel_imap_literal_length (literal);
 				g_string_append_printf (str, "{%u}\r\n", len);
 				
@@ -327,7 +341,6 @@ void
 camel_imap_command_unref (CamelIMAPCommand *ic)
 {
 	CamelIMAPCommandPart *part, *next;
-	CamelIMAPLiteral *literal;
 	int i;
 	
 	if (ic == NULL)
