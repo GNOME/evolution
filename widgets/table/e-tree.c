@@ -1822,6 +1822,8 @@ e_tree_get_cell_geometry (ETree *tree,
 {
 	g_return_if_fail (tree != NULL);
 	g_return_if_fail (E_IS_TREE (tree));
+	g_return_if_fail (row >= 0);
+	g_return_if_fail (col >= 0);
 
 	/* FIXME it would be nice if it could handle a NULL row_return or
 	 * col_return gracefully.  */
