@@ -5,6 +5,8 @@
 
 	* cal-client/Makefile.am: Set CLEANFILES directly instead of using
 	`+='.
+	* gui/Makefile.am: Likewise.
+	* gui/alarm-notify/Makefile.am: Likewise.
 
 2001-09-14  Damon Chaplin  <damon@ximian.com>
 
