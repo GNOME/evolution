@@ -1,5 +1,15 @@
 2003-11-14  Jeffrey Stedfast  <fejj@ximian.com>
 
+	* em-folder-selection.c (folder_selected_cb): Only set OK to
+	sensitive if the selected node is not a store node.
+
+	* em-folder-tree-model.c: Moved the store_hash and uri_hash from
+	EMFolderTreePrivate into here instead.
+
+	* em-folder-tree.c: Updated for above changes.
+
+2003-11-14  Jeffrey Stedfast  <fejj@ximian.com>
+
 	* em-folder-view.c (emfv_popup_move): Updated.
 	(emfv_popup_copy): Updated.
 

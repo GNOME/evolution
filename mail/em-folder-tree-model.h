@@ -27,6 +27,8 @@
 #include <gtk/gtktreednd.h>
 #include <gtk/gtktreestore.h>
 
+#include <camel/camel-store.h>
+
 #ifdef __cplusplus
 extern "C" {
 #pragma }
@@ -41,10 +43,27 @@ extern "C" {
 
 typedef struct _EMFolderTreeModel EMFolderTreeModel;
 typedef struct _EMFolderTreeModelClass EMFolderTreeModelClass;
+typedef struct _EMFolderTreeModelStoreInfo EMFolderTreeModelStoreInfo;
+
+struct _EMFolderTreeModelStoreInfo {
+	CamelStore *store;
+	GtkTreeRowReference *row;
+	GHashTable *path_hash;  /* maps CamelFolderInfo::path's to GtkTreeRowReferences */
+	
+	char *display_name;
+	
+	unsigned int created_id;
+	unsigned int deleted_id;
+	unsigned int renamed_id;
+	unsigned int subscribed_id;
+	unsigned int unsubscribed_id;
+};
 
 struct _EMFolderTreeModel {
 	GtkTreeStore parent_object;
 	
+	GHashTable *store_hash;  /* maps CamelStore's to store-info's */
+	GHashTable *uri_hash;    /* maps URI's to GtkTreeRowReferences */
 };
 
 struct _EMFolderTreeModelClass {
@@ -73,6 +92,9 @@ GType em_folder_tree_model_get_type (void);
 
 EMFolderTreeModel *em_folder_tree_model_new (int n_columns, GType *types);
 
+
+void em_folder_tree_model_remove_uri (EMFolderTreeModel *model, const char *uri);
+void em_folder_tree_model_remove_store_info (EMFolderTreeModel *model, CamelStore *store);
 
 #ifdef __cplusplus
 }

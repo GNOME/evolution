@@ -184,12 +184,60 @@ em_folder_tree_model_class_init (EMFolderTreeModelClass *klass)
 static void
 em_folder_tree_model_init (EMFolderTreeModel *model)
 {
-	;
+	model->store_hash = g_hash_table_new (g_direct_hash, g_direct_equal);
+	model->uri_hash = g_hash_table_new (g_str_hash, g_str_equal);
 }
+
+static void
+path_hash_free (gpointer key, gpointer value, gpointer user_data)
+{
+	g_free (key);
+	gtk_tree_row_reference_free (value);
+}
+
+static void
+store_info_free (struct _EMFolderTreeModelStoreInfo *si)
+{
+	camel_object_remove_event (si->store, si->created_id);
+	camel_object_remove_event (si->store, si->deleted_id);
+	camel_object_remove_event (si->store, si->renamed_id);
+	camel_object_remove_event (si->store, si->subscribed_id);
+	camel_object_remove_event (si->store, si->unsubscribed_id);
+	
+	g_free (si->display_name);
+	camel_object_unref (si->store);
+	gtk_tree_row_reference_free (si->row);
+	g_hash_table_foreach (si->path_hash, path_hash_free, NULL);
+	g_free (si);
+}
+
+static void
+store_hash_free (gpointer key, gpointer value, gpointer user_data)
+{
+	struct _EMFolderTreeModelStoreInfo *si = value;
+	
+	store_info_free (si);
+}
+
+static void
+uri_hash_free (gpointer key, gpointer value, gpointer user_data)
+{
+	g_free (key);
+	gtk_tree_row_reference_free (value);
+}
+
 
 static void
 em_folder_tree_model_finalize (GObject *obj)
 {
+	EMFolderTreeModel *model = (EMFolderTreeModel *) obj;
+	
+	g_hash_table_foreach (model->store_hash, store_hash_free, NULL);
+	g_hash_table_destroy (model->store_hash);
+	
+	g_hash_table_foreach (model->uri_hash, uri_hash_free, NULL);
+	g_hash_table_destroy (model->uri_hash);
+	
 	G_OBJECT_CLASS (parent_class)->finalize (obj);
 }
 
@@ -281,4 +329,35 @@ em_folder_tree_model_new (int n_columns, GType *types)
 	gtk_tree_store_set_column_types ((GtkTreeStore *) model, n_columns, types);
 	
 	return model;
+}
+
+
+void
+em_folder_tree_model_remove_uri (EMFolderTreeModel *model, const char *uri)
+{
+	GtkTreeRowReference *row;
+	
+	g_return_if_fail (EM_IS_FOLDER_TREE_MODEL (model));
+	g_return_if_fail (uri != NULL);
+	
+	if ((row = g_hash_table_lookup (model->uri_hash, uri))) {
+		g_hash_table_remove (model->uri_hash, uri);
+		gtk_tree_row_reference_free (row);
+	}
+}
+
+
+void
+em_folder_tree_model_remove_store_info (EMFolderTreeModel *model, CamelStore *store)
+{
+	struct _EMFolderTreeModelStoreInfo *si;
+	
+	g_return_if_fail (EM_IS_FOLDER_TREE_MODEL (model));
+	g_return_if_fail (CAMEL_IS_STORE (store));
+	
+	if (!(si = g_hash_table_lookup (model->store_hash, store)))
+		return;
+	
+	g_hash_table_remove (model->store_hash, si->store);
+	store_info_free (si);
 }

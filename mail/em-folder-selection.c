@@ -38,7 +38,10 @@
 static void
 folder_selected_cb (EMFolderTree *emft, const char *path, const char *uri, GtkDialog *dialog)
 {
-	gtk_dialog_set_response_sensitive (dialog, GTK_RESPONSE_OK, TRUE);
+	if (!path || !strcmp (path, "/"))
+		gtk_dialog_set_response_sensitive (dialog, GTK_RESPONSE_OK, FALSE);
+	else
+		gtk_dialog_set_response_sensitive (dialog, GTK_RESPONSE_OK, TRUE);
 }
 
 static GtkWidget *
