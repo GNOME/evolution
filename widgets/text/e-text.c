@@ -134,7 +134,6 @@ static gboolean show_pango_rectangle (EText *text, PangoRectangle rect);
 static void e_text_do_popup (EText *text, GdkEventButton *button, int position);
 
 static void e_text_update_primary_selection (EText *text);
-static void e_text_delete_selection(EText *text);
 static void e_text_paste (EText *text, GdkAtom selection);
 static void e_text_insert(EText *text, const char *string, int value);
 
@@ -2090,12 +2089,15 @@ e_text_event (GnomeCanvasItem *item, GdkEvent *event)
 			focus_event = (GdkEventFocus *) event;
 			if (focus_event->in) {
 				if (text->im_context) {
-					g_signal_connect (text->im_context, "commit",
-							  G_CALLBACK (e_text_commit_cb), text);
-					g_signal_connect (text->im_context, "retrieve_surrounding",
-							  G_CALLBACK (e_text_retrieve_surrounding_cb), text);
-					g_signal_connect (text->im_context, "delete_surrounding",
-							  G_CALLBACK (e_text_delete_surrounding_cb), text);
+					if (!text->im_context_signals_registered) {
+						g_signal_connect (text->im_context, "commit",
+								  G_CALLBACK (e_text_commit_cb), text);
+						g_signal_connect (text->im_context, "retrieve_surrounding",
+								  G_CALLBACK (e_text_retrieve_surrounding_cb), text);
+						g_signal_connect (text->im_context, "delete_surrounding",
+								  G_CALLBACK (e_text_delete_surrounding_cb), text);
+						text->im_context_signals_registered = TRUE;
+					}
 				}
 				start_editing (text);
 				text->show_cursor = FALSE; /* so we'll redraw and the cursor will be shown */
@@ -2105,6 +2107,7 @@ e_text_event (GnomeCanvasItem *item, GdkEvent *event)
 									      G_SIGNAL_MATCH_DATA,
 									      0, 0, NULL,
 									      NULL, text);
+					text->im_context_signals_registered = FALSE;
 				}
 				e_text_stop_editing (text);
 				if (text->timeout_id) {
@@ -3455,6 +3458,8 @@ e_text_init (EText *text)
 
 	text->im_context              = NULL;
 	text->need_im_reset           = FALSE;
+	text->im_context_signals_registered = FALSE;
+
 
 	e_canvas_item_set_reflow_callback(GNOME_CANVAS_ITEM(text), e_text_reflow);
 }
