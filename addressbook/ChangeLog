@@ -1,3 +1,10 @@
+2004-05-20  Hans Petter Jansson  <hpj@ximian.com>
+
+	* gui/component/addressbook-migrate.c (add_to_notes): Implement.
+	(migrate_contacts_hidden_fields): Implement.
+	(migrate_contacts): Copy fields that are now hidden in the UI,
+	to the notes field.
+
 2004-05-20  Chris Toshok  <toshok@ximian.com>
 
 	* gui/component/addressbook-component.c (impl_requestCreateItem):
