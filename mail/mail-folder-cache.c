@@ -98,8 +98,6 @@ struct _store_info {
 
 	CamelStore *store;	/* the store for these folders */
 
-	EStorage *storage;
-
 	/* Outstanding folderinfo requests */
 	EDList folderinfo_updates;
 };
@@ -186,20 +184,12 @@ real_flush_updates(void *o, void *event_data, void *data)
 {
 	struct _folder_update *up;
 	struct _store_info *si;
-	EStorage *storage;
 	time_t now;
 
 	LOCK(info_lock);
 	while ((up = (struct _folder_update *)e_dlist_remhead(&updates))) {
 		si = g_hash_table_lookup(stores, up->store);
-		if (si) {
-			storage = si->storage;
-			if (storage)
-				g_object_ref (storage);
-		} else {
-			storage = NULL;
-		}
-
+		
 		UNLOCK(info_lock);
 
 		if (up->remove) {
@@ -207,20 +197,10 @@ real_flush_updates(void *o, void *event_data, void *data)
 				mail_vfolder_delete_uri(up->store, up->uri);
 				mail_filter_delete_uri(up->store, up->uri);
 				mail_config_uri_deleted(CAMEL_STORE_CLASS(CAMEL_OBJECT_GET_CLASS(up->store))->compare_folder_name, up->uri);
-				if (up->unsub)
-					e_storage_removed_folder (storage, up->path);
+
 			} else
 				mail_vfolder_add_uri(up->store, up->uri, TRUE);
 		} else {
-			/* Its really a rename, but we have no way of telling the shell that, so remove it */
-			if (up->oldpath) {
-				if (storage != NULL) {
-					d(printf("Removing old folder (rename?) '%s'\n", up->oldpath));
-					e_storage_removed_folder(storage, up->oldpath);
-				}
-				/* ELSE? Shell supposed to handle the local snot case */
-			}
-
 			/* We can tell the vfolder code though */
 			if (up->olduri && up->add) {
 				d(printf("renaming folder '%s' to '%s'\n", up->olduri, up->uri));
@@ -229,40 +209,7 @@ real_flush_updates(void *o, void *event_data, void *data)
 				mail_config_uri_renamed(CAMEL_STORE_CLASS(CAMEL_OBJECT_GET_CLASS(up->store))->compare_folder_name,
 							up->olduri, up->uri);
 			}
-				
-			if (up->name == NULL) {
-				EFolder *folder = e_storage_get_folder (storage, up->path);
-
-				if (folder != NULL) {
-					d(printf("updating unread count to '%s' to %d\n", up->path, up->unread));
-					e_folder_set_unread_count (folder, up->unread);
-				} else {
-					g_warning ("No folder at %s ?!", up->path);
-				}
-			} else if (storage != NULL) {
-				char *type;
-				EFolder *new_folder;
-
-				if (strncmp(up->uri, "vtrash:", 7)==0) {
-					type = "vtrash";
-				} else if (strncmp(up->uri, "vjunk:", 6)==0) {
-					type = "vjunk";
-				} else
-					type = "mail";
-
-				new_folder = e_folder_new (up->name, type, NULL);
-				d(printf("Adding new folder: %s\n", up->path));
-
-				e_folder_set_physical_uri (new_folder, up->uri);
-				e_folder_set_unread_count (new_folder, up->unread);
-				if (CAMEL_IS_DISCO_STORE(up->store) && camel_disco_store_can_work_offline((CamelDiscoStore *)up->store))
-				    e_folder_set_can_sync_offline (new_folder, TRUE);
-				else
-				    e_folder_set_can_sync_offline (new_folder, FALSE);
-
-				e_storage_new_folder(storage, up->path, new_folder);
-			}
-
+			
 			if (!up->olduri && up->add)
 				mail_vfolder_add_uri(up->store, up->uri, FALSE);
 		}
@@ -285,9 +232,6 @@ real_flush_updates(void *o, void *event_data, void *data)
 			notify_idle_id = g_idle_add_full (G_PRIORITY_LOW, notify_idle_cb, NULL, NULL);
 		
 		free_update(up);
-
-		if (storage != NULL)
-			g_object_unref (storage);
 		
 		LOCK(info_lock);
 	}
@@ -429,9 +373,7 @@ setup_folder(CamelFolderInfo *fi, struct _store_info *si)
 
 		up = g_malloc0(sizeof(*up));
 		up->path = g_strdup(mfi->path);
-		if (si->storage != NULL) {
-			up->name = g_strdup(fi->name);
-		}
+		up->name = g_strdup(fi->name);
 		up->uri = g_strdup(fi->url);
 		up->unread = (fi->unread_message_count==-1)?0:fi->unread_message_count;
 		up->store = si->store;
@@ -659,8 +601,7 @@ rename_folders(struct _store_info *si, const char *oldbase, const char *newbase,
 	g_free(old);
 
 	up->path = g_strdup(mfi->path);
-	if (si->storage)
-		up->name = g_strdup(fi->name);
+	up->name = g_strdup(fi->name);
 	up->uri = g_strdup(mfi->uri);
 	up->unread = fi->unread_message_count==-1?0:fi->unread_message_count;
 	up->store = si->store;
@@ -783,10 +724,7 @@ mail_note_store_remove(CamelStore *store)
 			mail_msg_cancel(ud->id);
 			ud = ud->next;
 		}
-
-		/* This is the only gtk object we need to unref */
-		mail_async_event_emit(mail_async_event, MAIL_ASYNC_GUI, (MailAsyncFunc)bonobo_object_unref, si->storage, 0, 0);
-
+		
 		camel_object_unref(si->store);
 		g_hash_table_foreach(si->folders, (GHFunc)free_folder_info_hash, NULL);
 		g_hash_table_destroy(si->folders);
@@ -913,15 +851,13 @@ store_online_cb (CamelStore *store, void *data)
 }
 
 void
-mail_note_store(CamelStore *store, CamelOperation *op, EStorage *storage,
+mail_note_store(CamelStore *store, CamelOperation *op,
 		void (*done)(CamelStore *store, CamelFolderInfo *info, void *data), void *data)
 {
 	struct _store_info *si;
 	struct _update_data *ud;
 	const char *buf;
 	guint timeout;
-
-	g_return_if_fail (storage == NULL || E_IS_STORAGE (storage));
 	
 	g_assert(CAMEL_IS_STORE(store));
 	g_assert(pthread_self() == mail_gui_thread);
@@ -941,15 +877,10 @@ mail_note_store(CamelStore *store, CamelOperation *op, EStorage *storage,
 	if (si == NULL) {
 		d(printf("Noting a new store: %p: %s\n", store, camel_url_to_string(((CamelService *)store)->url, 0)));
 
-		/* FIXME: Need to ref the storages & store or something?? */
-
 		si = g_malloc0(sizeof(*si));
 		si->folders = g_hash_table_new(g_str_hash, g_str_equal);
 		si->folders_uri = g_hash_table_new(CAMEL_STORE_CLASS(CAMEL_OBJECT_GET_CLASS(store))->hash_folder_name,
 						   CAMEL_STORE_CLASS(CAMEL_OBJECT_GET_CLASS(store))->compare_folder_name);
-		si->storage = storage;
-		if (storage != NULL)
-			g_object_ref (storage);
 		si->store = store;
 		camel_object_ref((CamelObject *)store);
 		g_hash_table_insert(stores, store, si);

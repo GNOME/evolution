@@ -42,8 +42,6 @@
 #include "camel/camel-folder.h"
 #include "camel/camel-operation.h"
 
-#include "evolution-storage.h"
-
 #include "mail.h"
 #include "mail-mt.h"
 #include "mail-component.h"
@@ -664,19 +662,7 @@ receive_update_got_store (char *uri, CamelStore *store, void *data)
 	struct _send_info *info = data;
 	
 	if (store) {
-		EStorage *storage = mail_component_lookup_storage (mail_component_peek (), store);
-		
-		if (storage) {
-			mail_note_store(store, info->cancel, storage, receive_update_done, info);
-			/*bonobo_object_unref (BONOBO_OBJECT (storage));*/
-		} else {
-			/* If we get here, store must be an external
-			 * storage other than /local. (Eg, Exchange).
-			 * Do a get_folder_info just to force it to
-			 * update itself.
-			 */
-			mail_get_folderinfo(store, info->cancel, receive_update_got_folderinfo, info);
-		}
+		mail_get_folderinfo (store, info->cancel, receive_update_got_folderinfo, info);
 	} else {
 		receive_done ("", info);
 	}

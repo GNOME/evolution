@@ -37,6 +37,8 @@
 #include "mail-config.h"
 #include "mail-mt.h"
 
+#include "shell/evolution-shell-client.h"
+
 #include <bonobo-activation/bonobo-activation.h>
 #include <bonobo/bonobo-shlib-factory.h>
 

@@ -1,3 +1,27 @@
+2003-11-13  Jeffrey Stedfast  <fejj@ximian.com>
+
+	* em-folder-tree.[c,h]: New folder-tree widget that replaces the
+	shell's folder-tree widget.
+
+	* em-folder-tree-model.[c,h]: New source files subclassing
+	GtkTreeStore for handling the mess that is drag&drop.
+
+	* em-folder-selection-button.c: Ported to use EMFolderTree.
+
+	* em-folder-selection.c: Ported to use EMFolderTree.
+
+	* em-folder-selector.c: Ported to use EMFolderTree.
+
+	* mail-component.c: Ported to use EMFolderTree.
+
+	* mail-offline-handler.c (storage_go_online): Updated to not pass
+	a storage argument.
+
+	* mail-folder-cache.c: Removed storage stuff.
+
+	* mail-send-recv.c (receive_update_got_store): Don't do EStorage*
+	stuff anymore.
+
 2003-11-13  Ettore Perazzoli  <ettore@ximian.com>
 
 	* mail-component.c (impl__get_userCreatableItems): New,
@@ -31,7 +55,8 @@
 
 2003-11-11  Not Zed  <NotZed@Ximian.com>
 
-	* em-format-html.c (efh_application_xpkcs7mime): output icons of the status.
+	* em-format-html.c (efh_application_xpkcs7mime): output icons of
+	the status.
 	(em_format_html_add_pobject): Changed to take a size specificier,
 	return the pobject, and re-ordered args to be more consistent with
 	puri stuff.
@@ -76,6 +101,41 @@
 2003-11-07  JP Rosevear <jpr@ximian.com>
 
 	* Makefile.am: build the marshall files right at the beginning
+
+2003-11-11  Not Zed  <NotZed@Ximian.com>
+
+	* mail-security.glade: new glade file for security related stuff.
+
+	* mail-config.glade: removed the message security dialogue, it
+	gets opened automatically by the config code :(
+
+2003-11-10  Ettore Perazzoli  <ettore@ximian.com>
+
+	* GNOME_Evolution_Mail.server.in.in: Set an
+	"evolution:component_alias" property with a value of "mail".
+
+2003-11-10  Not Zed  <NotZed@Ximian.com>
+
+	* em-format-html.c (em_format_html_multipart_signed_sign): changed
+	for cipher context api changes.
+	* em-format.c (emf_multipart_signed): ditto.
+
+2003-11-07  Not Zed  <NotZed@Ximian.com>
+
+	* mail-config.glade: added security_information_dialog (probably
+	temporarily in this file).
+
+	* em-format.c (em_format_is_attachment): also treat pkcs7-mime as
+	non-attachment.
+	(emf_application_xpkcs7mime): no longer need to worry about
+	scanning the part.
+
+2003-11-07  Dan Winship  <danw@ximian.com>
+
+	* message-list.c: Don't #include e-name-western.h, since the code
+	that uses it is commented out, and we want to remove the local
+	copy, but we don't want to make the mailer depend on the e-d-s
+	copy if it's not even going to be using it.
 
 2003-11-07  JP Rosevear <jpr@ximian.com>
 

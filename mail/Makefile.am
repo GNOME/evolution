@@ -77,6 +77,10 @@ libevolution_mail_la_SOURCES =			\
 	em-folder-selection-button.h		\
 	em-folder-selector.c			\
 	em-folder-selector.h			\
+	em-folder-tree.c			\
+	em-folder-tree.h			\
+	em-folder-tree-model.c			\
+	em-folder-tree-model.h			\
 	em-folder-view.c			\
 	em-folder-view.h			\
 	em-folder-browser.c			\

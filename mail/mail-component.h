@@ -30,7 +30,7 @@
 #include <filter/rule-context.h>
 #include <bonobo/bonobo-object.h>
 
-#include "shell/e-storage-set.h"
+#include "em-folder-tree-model.h"
 
 #include "Evolution.h"
 
@@ -48,13 +48,13 @@ typedef struct _MailComponentClass   MailComponentClass;
 
 struct _MailComponent {
 	BonoboObject parent;
-
+	
 	MailComponentPrivate *priv;
 };
 
 struct _MailComponentClass {
 	BonoboObjectClass parent_class;
-
+	
 	POA_GNOME_Evolution_Component__epv epv;
 };
 
@@ -76,14 +76,13 @@ void        mail_component_remove_storage         (MailComponent *component,
 						   CamelStore    *store);
 void        mail_component_remove_storage_by_uri  (MailComponent *component,
 						   const char    *uri);
-EStorage   *mail_component_lookup_storage         (MailComponent *component,
-						   CamelStore    *store);
 
 int          mail_component_get_storage_count  (MailComponent *component);
-EStorageSet *mail_component_peek_storage_set   (MailComponent *component);
 void         mail_component_storages_foreach   (MailComponent *component,
 						GHFunc         func,
 						void          *data);
+
+EMFolderTreeModel *mail_component_get_tree_model (MailComponent *component);
 
 char *em_uri_from_camel (const char *curi);
 char *em_uri_to_camel (const char *euri);
