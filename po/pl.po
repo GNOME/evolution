@@ -9,8 +9,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: evolution\n"
-"POT-Creation-Date: 2001-10-10 23:56+0200\n"
-"PO-Revision-Date: 2001-10-11 00:04+0200\n"
+"POT-Creation-Date: 2001-10-12 10:26+0200\n"
+"PO-Revision-Date: 2001-10-12 10:31+0200\n"
 "Last-Translator: GNOME PL Team <translators@gnome.pl>\n"
 "Language-Team: Polish <pl@li.org>\n"
 "MIME-Version: 1.0\n"
@@ -3487,7 +3487,7 @@ msgstr "Przypominanie"
 
 #: calendar/gui/dialogs/alarm-page.glade.h:1
 #: calendar/gui/dialogs/recurrence-page.glade.h:1
-#: calendar/gui/e-itip-control.glade.h:1
+#: calendar/gui/e-itip-control.c:1 calendar/gui/e-itip-control.glade.h:1
 msgid "Summary:"
 msgstr "Zestawienie:"
 
@@ -4221,7 +4221,7 @@ msgstr "_Stan:"
 msgid "Assignment"
 msgstr "Przyporz±dkowanie"
 
-#: calendar/gui/dialogs/task-page.glade.h:1
+#: calendar/gui/dialogs/task-page.glade.h:1 calendar/gui/e-itip-control.c:1
 #: calendar/gui/e-itip-control.glade.h:1
 #: composer/e-msg-composer-attachment.glade.h:1 mail/mail-config.glade.h:1
 msgid "Description:"
@@ -4467,6 +4467,35 @@ msgstr "Czas rozpoczêcia informacji o zajêto¶ci: <b>"
 msgid "Begins: <b>"
 msgstr "Rozpoczêcie: <b>"
 
+#: calendar/gui/e-itip-control.c:1
+msgid "Meeting ends: <b>"
+msgstr "Czas zakoñczenia spotkania spotkania: <b>"
+
+#: calendar/gui/e-itip-control.c:1
+msgid "Free/Busy info ends: <b>"
+msgstr "Czas zakoñczenia informacji o zajêto¶ci: <b>"
+
+#: calendar/gui/e-itip-control.c:1
+msgid "Ends: <b>"
+msgstr "Zakoñczenie: <b>"
+
+#: calendar/gui/e-itip-control.c:1
+msgid "Task Completed: <b>"
+msgstr "Zadanie ukoñczone: <b>"
+
+#: calendar/gui/e-itip-control.c:1
+msgid "Task Due: <b>"
+msgstr "Zadanie na: <b>"
+
+#. Title
+#: calendar/gui/e-itip-control.c:1
+msgid "iCalendar Error"
+msgstr "B³±d iCalendarza"
+
+#: calendar/gui/e-itip-control.c:1 calendar/gui/e-itip-control.c:1
+msgid "An unknown person"
+msgstr "Nieznana osoba"
+
 #. Describe what the user can do
 #: calendar/gui/e-itip-control.c:1
 msgid ""
@@ -4477,18 +4506,8 @@ msgstr ""
 "poni¿szego menu."
 
 #: calendar/gui/e-itip-control.c:1
-#, c-format
-msgid "<b>Summary:</b> %s<br><br>"
-msgstr "<b>Zestawienie:</b> %s<br><br>"
-
-#: calendar/gui/e-itip-control.c:1
 msgid "<i>None</i>"
 msgstr "<i>Brak</i>"
-
-#: calendar/gui/e-itip-control.c:1
-#, c-format
-msgid "<b>Description:</b> %s"
-msgstr "<b>Opis:</b> %s"
 
 #: calendar/gui/e-itip-control.c:1
 #, c-format
@@ -8447,8 +8466,16 @@ msgid "Imports Outlook Express 4 files into Evolution"
 msgstr "Impurtuje pliki Outlook Express 4 do Evolution."
 
 #: mail/local-config.glade.h:1
+msgid "Body contents"
+msgstr "Tre¶æ zawiera"
+
+#: mail/local-config.glade.h:1
 msgid "Current store format:"
 msgstr "Bie¿±cy format przechowywania:"
+
+#: mail/local-config.glade.h:1
+msgid "Indexing:"
+msgstr "Indeksowanie:"
 
 #: mail/local-config.glade.h:1
 msgid "Mailbox Format"
