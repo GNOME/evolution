@@ -1,3 +1,10 @@
+2003-06-20  Not Zed  <NotZed@Ximian.com>
+
+	** See bug #43887
+
+	* mail-format.c (mail_get_message_body): handle text/enriched and
+	text/richtext explictly, and dont treat them as text/plain.
+
 2003-06-23  Radek Doulik  <rodo@ximian.com>
 
 	* mail-config.c (config_write_style): add

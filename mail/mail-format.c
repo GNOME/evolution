@@ -2007,13 +2007,18 @@ mail_get_message_body (CamelDataWrapper *data, gboolean want_plain, gboolean cit
 			g_byte_array_free (bytes, FALSE);
 		}
 		
-		if (text && !header_content_type_is (mime_type, "text", "html")) {
+		if (text && !header_content_type_is(mime_type, "text", "html")) {
 			char *html;
 			
-			html = camel_text_to_html (text, CAMEL_MIME_FILTER_TOHTML_PRE |
-						   CAMEL_MIME_FILTER_TOHTML_CONVERT_URLS |
-						   (cite ? CAMEL_MIME_FILTER_TOHTML_CITE : 0), 0);
-			g_free (text);
+			if (header_content_type_is(mime_type, "text", "richtext"))
+				html = camel_enriched_to_html(text, CAMEL_MIME_FILTER_ENRICHED_IS_RICHTEXT);
+			else if (header_content_type_is(mime_type, "text", "enriched"))
+				html = camel_enriched_to_html(text, 0);
+			else
+				html = camel_text_to_html (text, CAMEL_MIME_FILTER_TOHTML_PRE |
+							   CAMEL_MIME_FILTER_TOHTML_CONVERT_URLS |
+							   (cite ? CAMEL_MIME_FILTER_TOHTML_CITE : 0), 0);
+			g_free(text);
 			text = html;
 		}
 		return text;
