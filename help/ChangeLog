@@ -1,5 +1,11 @@
 2001-07-23  Aaron Weber  <aaron@ximian.com>
 
+	* C/usage-mainwindow.sgml: validated.
+
+	* C/config-setupassist.sgml: Removed.
+
+	* C/evolution.sgml: removed config-setupassist.
+
 	* C/usage-exec-summary.sgml: Minor revisions.
 
 	* C/usage-contact.sgml:  Added 'format="png"' to all <image> tags

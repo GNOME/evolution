@@ -1,5 +1,6 @@
+<!--
 <!DOCTYPE Chapter PUBLIC "-//GNOME//DTD DocBook PNG Variant V1.1//EN">
-
+-->
 <chapter id="usage-mainwindow">
 
   <title>The Evolution Workspace</title>
@@ -213,6 +214,7 @@
 	<application>Evolution</application> can import the following types of
 	files:
           <variablelist>
+           <varlistentry>
 	    <term>VCard (.vcf, gcrd)</term>
 	    <listitem>
 	      <para>
@@ -239,9 +241,9 @@
   	     </para>
 	    </listitem>
 	  </varlistentry>
-	  </itemizedlist>
-
-
+       </variablelist>
+</para>
+<para>
     <note>
       <title>Outlook 2000</title>
       <para>
@@ -249,7 +251,7 @@
 	<application>Evolution</application> cannot import directly.
 	To import files from Outlook 2000, you will need to boot to
 	Windows, import the files into Mozilla mail, then reboot and
-	import from Mozilla.  Please see the <xref="faq">FAQ for more
+	import from Mozilla.  Please see the <xref linkend="evolution-faq">FAQ for more
 	information.
       </para>
     </note>     
