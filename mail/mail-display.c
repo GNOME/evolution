@@ -596,7 +596,7 @@ pixbuf_gen_idle (struct _PixbufLoader *pbl)
 			pixbuf = gdk_pixbuf_new_from_file (EVOLUTION_ICONSDIR "/pgp-signature-nokey.png");
 	} else
 		pixbuf = gdk_pixbuf_loader_get_pixbuf (pbl->loader);
-
+	
 	width = gdk_pixbuf_get_width (pixbuf);
 	height = gdk_pixbuf_get_height (pixbuf);
 	

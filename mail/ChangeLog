@@ -1,3 +1,9 @@
+2002-02-14  Jeffrey Stedfast  <fejj@ximian.com>
+
+	* mail-callbacks.c (mail_generate_reply): Default the from-account
+	to the source account. If that fails, then guess the from-account
+	based on the recipients. Fixes bug #20479.
+
 2002-02-13  Jeffrey Stedfast  <fejj@ximian.com>
 
 	* mail-display.c (drag_data_get_cb): Implement.

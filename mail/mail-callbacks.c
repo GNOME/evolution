@@ -886,7 +886,12 @@ mail_generate_reply (CamelFolder *folder, CamelMimeMessage *message, const char 
 	cc_addrs = camel_mime_message_get_recipients (message, CAMEL_RECIPIENT_TYPE_CC);
 	mail_ignore_address (composer, to_addrs);
 	mail_ignore_address (composer, cc_addrs);
-
+	
+	/* default 'me' to the source account... */
+	source = camel_mime_message_get_source (message);
+	if (source)
+		me = mail_config_get_account_by_source_url (source);
+	
 	if (mode == REPLY_LIST) {
 		CamelMessageInfo *info;
 		const char *mlist;
@@ -928,7 +933,8 @@ mail_generate_reply (CamelFolder *folder, CamelMimeMessage *message, const char 
 			}
 		}
 		
-		me = guess_me (to_addrs, cc_addrs, accounts);
+		if (!me)
+			me = guess_me (to_addrs, cc_addrs, accounts);
 	} else {
 		GHashTable *rcpt_hash;
 		
@@ -954,10 +960,11 @@ mail_generate_reply (CamelFolder *folder, CamelMimeMessage *message, const char 
 		}
 		
 		if (mode == REPLY_ALL) {
-			cc = list_add_addresses (cc, to_addrs, accounts, rcpt_hash, &me);
+			cc = list_add_addresses (cc, to_addrs, accounts, rcpt_hash, me ? NULL : &me);
 			cc = list_add_addresses (cc, cc_addrs, accounts, rcpt_hash, me ? NULL : &me);
 		} else {
-			me = guess_me (to_addrs, cc_addrs, accounts);
+			if (!me)
+				me = guess_me (to_addrs, cc_addrs, accounts);
 		}
 		
 		g_hash_table_destroy (rcpt_hash);
@@ -971,7 +978,7 @@ mail_generate_reply (CamelFolder *folder, CamelMimeMessage *message, const char 
 		} else {
 			name = _("an unknown sender");
 		}
-
+		
 		date = camel_mime_message_get_date (message, NULL);
 		strftime (date_str, sizeof (date_str), _("On %a, %Y-%m-%d at %H:%M, %%s wrote:"),
 			  localtime (&date));
@@ -983,13 +990,6 @@ mail_generate_reply (CamelFolder *folder, CamelMimeMessage *message, const char 
 			e_msg_composer_set_body_text (composer, text);
 			g_free (text);
 		}
-	}
-
-	if (me == NULL) {
-		/* as a last resort, set the replying account (aka me)
-		   to the account this was fetched from */
-		source = camel_mime_message_get_source (message);
-		me = mail_config_get_account_by_source_url (source);
 	}
 	
 	/* Set the subject of the new message. */
@@ -1048,7 +1048,7 @@ mail_generate_reply (CamelFolder *folder, CamelMimeMessage *message, const char 
 	} else if (references) {
 		e_msg_composer_add_header (composer, "References", references);
 	}
-
+	
 	e_msg_composer_drop_editor_undo (composer);
 	
 	return composer;
