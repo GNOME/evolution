@@ -1,6 +1,7 @@
 2004-12-21  JP Rosevear  <jpr@novell.com>
 
-	* gui/search/e-addressbook-search-dialog.c: convert to G_DEFINE_TYPE
+	* gui/search/e-addressbook-search-dialog.c: convert to
+	G_DEFINE_TYPE
 	
 	* gui/widgets/gal-view-factory-minicard.c: ditto
 
