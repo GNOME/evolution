@@ -1,3 +1,8 @@
+2000-10-19  Christopher James Lahey  <clahey@helixcode.com>
+
+	* backend/ebook/e-card.c: Change how the extension field acts when
+	converting delivery addresses to labels.
+
 2000-10-18  Christopher James Lahey  <clahey@helixcode.com>
 
 	* backend/ebook/e-card.c, backend/ebook/e-card.h: Added the

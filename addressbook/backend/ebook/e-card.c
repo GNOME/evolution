@@ -1172,15 +1172,13 @@ e_card_delivery_address_from_label(const ECardAddrLabel *label)
 char *
 e_card_delivery_address_to_string(const ECardDeliveryAddress *addr)
 {
-	char *strings[4], **stringptr = strings;
+	char *strings[5], **stringptr = strings;
 	char *line1, *line22, *line2;
 	char *final;
 	if (addr->po && *addr->po)
 		*(stringptr++) = addr->po;
 	if (addr->street && *addr->street)
 		*(stringptr++) = addr->street;
-	if (addr->ext && *addr->ext)
-		*(stringptr++) = addr->ext;
 	*stringptr = NULL;
 	line1 = g_strjoinv(" ", strings);
 	stringptr = strings;
@@ -1200,6 +1198,8 @@ e_card_delivery_address_to_string(const ECardDeliveryAddress *addr)
 	stringptr = strings;
 	if (line1 && *line1)
 		*(stringptr++) = line1;
+	if (addr->ext && *addr->ext)
+		*(stringptr++) = addr->ext;
 	if (line2 && *line2)
 		*(stringptr++) = line2;
 	if (addr->country && *addr->country)
