@@ -1714,42 +1714,37 @@ folder_changed (CamelObject *obj, gpointer event_data)
 			     camel_type_to_name (CAMEL_OBJECT_GET_TYPE (folder))));
 		return ret;
 	}
-	
-	if ((folder->folder_flags & (CAMEL_FOLDER_FILTER_RECENT|CAMEL_FOLDER_FILTER_JUNK)) && changed->uid_recent->len > 0) {
-		const char *source;
-		
-		if (folder->folder_flags & CAMEL_FOLDER_FILTER_RECENT)
-			source = FILTER_SOURCE_INCOMING;
-		else
-			source = FILTER_SOURCE_JUNKTEST;
-		
-		if (folder->folder_flags & CAMEL_FOLDER_FILTER_JUNK) {
-			guint32 flags;
-			int i;
-			
-			for (i = 0; i < changed->uid_changed->len; i++) {
-				flags = camel_folder_get_message_flags (folder, changed->uid_changed->pdata[i]);
-				if (flags & CAMEL_MESSAGE_JUNK_LEARN) {
-					if (flags & CAMEL_MESSAGE_JUNK) {
-						if (!junk)
-							junk = g_ptr_array_new ();
-						g_ptr_array_add (junk, g_strdup (changed->uid_changed->pdata[i]));
-					} else {
-						if (!notjunk)
-							notjunk = g_ptr_array_new ();
-						g_ptr_array_add (notjunk, g_strdup (changed->uid_changed->pdata[i]));
-					}
-					
-					/* reset junk learn flag so that we don't process it again */
-					camel_folder_set_message_flags (folder, changed->uid_changed->pdata[i],
-									CAMEL_MESSAGE_JUNK_LEARN, 0);
+
+	if (changed->uid_changed->len) {
+		int i;
+		guint32 flags;
+
+		for (i = 0; i < changed->uid_changed->len; i ++) {
+			flags = camel_folder_get_message_flags (folder, changed->uid_changed->pdata [i]);
+			if (flags & CAMEL_MESSAGE_JUNK_LEARN) {
+				if (flags & CAMEL_MESSAGE_JUNK) {
+					if (!junk)
+						junk = g_ptr_array_new();
+					g_ptr_array_add (junk, g_strdup (changed->uid_changed->pdata [i]));
+				} else {
+					if (!notjunk)
+						notjunk = g_ptr_array_new();
+					g_ptr_array_add (notjunk, g_strdup (changed->uid_changed->pdata [i]));
 				}
+				/* reset junk learn flag so that we don't process it again */
+				camel_folder_set_message_flags (folder, changed->uid_changed->pdata [i], CAMEL_MESSAGE_JUNK_LEARN, 0);
 			}
 		}
-		
-		driver = camel_session_get_filter_driver (session, source, NULL);
+		d(if (junk || notjunk) printf("** Have '%d' messages for junk filter to learn, launching thread to process them\n",
+					      (junk ? junk->len : 0) + (notjunk ? notjunk->len : 0)));
 	}
-	
+
+	if ((folder->folder_flags & (CAMEL_FOLDER_FILTER_RECENT|CAMEL_FOLDER_FILTER_JUNK))
+	    && changed->uid_recent->len > 0)
+		driver = camel_session_get_filter_driver(session,
+							 (folder->folder_flags & CAMEL_FOLDER_FILTER_RECENT) 
+							 ? FILTER_SOURCE_INCOMING : FILTER_SOURCE_JUNKTEST, NULL);
+		
 	CAMEL_FOLDER_LOCK(folder, change_lock);
 
 	if (driver) {

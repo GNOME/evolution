@@ -1,7 +1,7 @@
-2004-03-17  Jeffrey Stedfast  <fejj@ximian.com>
+2004-03-17  Radek Doulik  <rodo@ximian.com>
 
-	* camel-folder.c (folder_changed): Don't bloody junktest filter
-	mail unless the user has configured Evolution to do so.
+	* camel-folder-summary.h: use 1<<30 for CAMEL_MESSAGE_JUNK_LEARN,
+	1<<17 was already used by imap provider and maybe others
 
 2004-03-17  Not Zed  <NotZed@Ximian.com>
 
