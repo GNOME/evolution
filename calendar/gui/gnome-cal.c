@@ -42,6 +42,7 @@
 #include "dialogs/task-editor.h"
 #include "comp-util.h"
 #include "e-day-view.h"
+#include "e-day-view-time-item.h"
 #include "e-week-view.h"
 #include "evolution-calendar.h"
 #include "gnome-cal.h"
@@ -2640,10 +2641,10 @@ gnome_calendar_vpane_resized (GtkWidget *w, GdkEventButton *e, GnomeCalendar *gc
 	priv = gcal->priv;
 
 	if (priv->current_view_type == GNOME_CAL_MONTH_VIEW && !priv->range_selected) {
-		priv->vpane_pos_month_view = gtk_paned_get_position (priv->vpane);
+		priv->vpane_pos_month_view = gtk_paned_get_position (GTK_PANED (priv->vpane));
 		calendar_config_set_month_vpane_pos (priv->vpane_pos_month_view);
 	} else {
-		priv->vpane_pos = gtk_paned_get_position (priv->vpane);
+		priv->vpane_pos = gtk_paned_get_position (GTK_PANED (priv->vpane));
 		calendar_config_set_vpane_pos (priv->vpane_pos);
 	}
 
@@ -2654,17 +2655,27 @@ static gboolean
 gnome_calendar_hpane_resized (GtkWidget *w, GdkEventButton *e, GnomeCalendar *gcal)
 {
 	GnomeCalendarPrivate *priv;
+	gint times_width;
 
 	priv = gcal->priv;
 
 	if (priv->current_view_type == GNOME_CAL_MONTH_VIEW && !priv->range_selected) {
-		priv->hpane_pos_month_view = gtk_paned_get_position (priv->hpane);
+		priv->hpane_pos_month_view = gtk_paned_get_position (GTK_PANED (priv->hpane));
 		calendar_config_set_month_hpane_pos (priv->hpane_pos_month_view);
 	} else {
-		priv->hpane_pos = gtk_paned_get_position (priv->hpane);
+		priv->hpane_pos = gtk_paned_get_position (GTK_PANED (priv->hpane));
 		calendar_config_set_hpane_pos (priv->hpane_pos);
 	}
 
+	/* adjust the size of the EDayView's time column */
+	times_width = e_day_view_time_item_get_column_width (
+		E_DAY_VIEW_TIME_ITEM (E_DAY_VIEW (priv->day_view)->time_canvas_item));
+	if (times_width < priv->hpane_pos - 20)
+		gtk_widget_set_usize (E_DAY_VIEW (priv->day_view)->time_canvas, times_width, -1);
+	else
+		gtk_widget_set_usize (E_DAY_VIEW (priv->day_view)->time_canvas, priv->hpane_pos - 20, -1);
+	
+	
 	return FALSE;
 }
 

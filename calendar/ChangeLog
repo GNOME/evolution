@@ -1,3 +1,12 @@
+2003-06-10  Rodrigo Moya <rodrigo@ximian.com>
+
+	Fixes #41582
+
+	* gui/gnome-cal.c (gnome_calendar_hpane_resized): killed warnings
+	and added code to resize the EDayView's time column on the hpane's
+	resizing.
+	(gnome_calendar_vpane_resized): killed warnings.
+	
 2003-06-05  Not Zed  <NotZed@Ximian.com>
 
 	** For #42691.
