@@ -264,7 +264,7 @@ create_imap_storage (EvolutionShellComponent *shell_component)
 	source = gnome_config_get_string (cpath);
 	g_free (cpath);
 
-	if (strncasecmp (source, "imap://", 7))
+	if (!source || strncasecmp (source, "imap://", 7))
 		return;
 	
 	corba_shell = evolution_shell_component_get_owner (shell_component);

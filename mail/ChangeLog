@@ -1,3 +1,8 @@
+2000-06-20  Jeffrey Stedfast  <fejj@helixcode.com>
+
+	* component-factory.c (create_imap_storage): Oops. Should
+	have checked for a NULL sources.
+
 2000-06-20  Dan Winship  <danw@helixcode.com>
 
 	* message-list.c (mark_msg_seen): Quick hack to prevent a NULL

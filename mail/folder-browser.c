@@ -104,12 +104,12 @@ folder_browser_load_folder (FolderBrowser *fb, const char *name)
 		/* uhm, I'm just guessing here - this code might be wrong */
 		char *service, *ptr;
 		
-		fprintf (stderr, "\n****** name = %s ******\n\n", name);
+		fprintf (stderr, "\n****** name = %s ******\n", name);
 		service = g_strdup_printf ("%s/", name);
 		for (ptr = service + 7; *ptr && *ptr != '/'; ptr++);
 		ptr++;
 		*ptr = '\0';
-		fprintf (stderr, "\n****** service = %s ******\n\n", service);
+		fprintf (stderr, "****** service = %s ******\n", service);
 		store = camel_session_get_store (session, service, ex);
 		g_free (service);
 		if (store) {
@@ -118,6 +118,7 @@ folder_browser_load_folder (FolderBrowser *fb, const char *name)
 			for (ptr = name + 7; *ptr && *ptr != '/'; ptr++);
 			if (*ptr == '/') {
 				folder_name = ptr + 1;
+				fprintf (stderr, "getting folder: %s\n", folder_name);
 				new_folder = camel_store_get_folder (store, folder_name, TRUE, ex);
 			}
 		}
