@@ -1,5 +1,5 @@
 
-noinst_PROGRAMS = test-recur
+noinst_PROGRAMS = test-recur icalendar-test
 
 INCLUDES =						\
         -DGNOMELOCALEDIR=\""$(datadir)/locale"\"	\
@@ -9,6 +9,7 @@ INCLUDES =						\
 	-I. 						\
 	-I.. 						\
 	-I$(top_builddir)				\
+	-I$(top_srcdir)/libical/src/libical		\
         $(GNOME_INCLUDEDIR)
 
 lib_LTLIBRARIES = libcal-util.la
@@ -30,8 +31,6 @@ libcal_utilinclude_HEADERS =	\
 	cal-util.h		\
 	calobj.h		\
 	timeutil.h
-
-noinst_PROGRAMS = icalendar-test
 
 icalendar_test_SOURCES =	\
 	icalendar-test.c	\

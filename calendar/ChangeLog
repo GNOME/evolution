@@ -1,3 +1,10 @@
+2000-06-15  Dan Winship  <danw@helixcode.com>
+
+	* cal-util/Makefile.am (noinst_PROGRAMS): merge the two separate
+	noinst_PROGRAMS declarations into one so automake accepts it.
+	(INCLUDES): include libical src dir so we don't depend on having
+	ical.h already installed
+
 2000-06-13  Federico Mena Quintero  <federico@helixcode.com>
 
 	* gui/calendar-model.c (CalendarModelPrivate): Added the array of
