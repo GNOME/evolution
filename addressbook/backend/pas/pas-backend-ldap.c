@@ -289,18 +289,18 @@ add_to_supported_fields (PASBackendLDAP *bl, char **attrs, GHashTable *attr_hash
 		char *query_prop = g_hash_table_lookup (attr_hash, attrs[i]);
 
 		if (query_prop) {
-			e_list_append (bl->priv->supported_fields, g_strdup(query_prop));
+			e_list_append (bl->priv->supported_fields, query_prop);
 
 			/* handle the list attributes here */
 			if (!strcmp (query_prop, "email")) {
-				e_list_append (bl->priv->supported_fields, g_strdup("email_2"));
-				e_list_append (bl->priv->supported_fields, g_strdup("email_3"));
+				e_list_append (bl->priv->supported_fields, "email_2");
+				e_list_append (bl->priv->supported_fields, "email_3");
 			}
 			else if (!strcmp (query_prop, "business_phone")) {
-				e_list_append (bl->priv->supported_fields, g_strdup("business_phone_2"));
+				e_list_append (bl->priv->supported_fields, "business_phone_2");
 			}
 			else if (!strcmp (query_prop, "home_phone")) {
-				e_list_append (bl->priv->supported_fields, g_strdup("home_phone_2"));
+				e_list_append (bl->priv->supported_fields, "home_phone_2");
 			}
 		}
 	}
@@ -332,8 +332,6 @@ check_schema_support (PASBackendLDAP *bl)
 	LDAP *ldap = bl->priv->ldap;
 
 	bl->priv->evolutionPersonChecked = TRUE;
-
-	bl->priv->supported_fields = e_list_new ((EListCopyFunc)g_strdup, (EListFreeFunc)g_free, NULL);
 
 	attrs[0] = "objectClasses";
 	attrs[1] = NULL;
@@ -2420,7 +2418,9 @@ pas_backend_ldap_init (PASBackendLDAP *backend)
 {
 	PASBackendLDAPPrivate *priv;
 
-	priv            = g_new0 (PASBackendLDAPPrivate, 1);
+	priv                   = g_new0 (PASBackendLDAPPrivate, 1);
+
+	priv->supported_fields = e_list_new ((EListCopyFunc)g_strdup, (EListFreeFunc)g_free, NULL);
 
 	backend->priv = priv;
 }
