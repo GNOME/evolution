@@ -1079,6 +1079,8 @@ get_summary_uid_numeric (CamelFolderSummary *summary, int index)
  *
  * After calling, @lastuid will be set the index of the first uid
  * *not* included in the returned set string.
+ *
+ * Note: @uids MUST be in sorted order for this code to work properly.
  * 
  * Return value: the set, which the caller must free with g_free()
  **/

@@ -1,3 +1,17 @@
+2003-05-13  Jeffrey Stedfast  <fejj@ximian.com>
+
+	* providers/imap/camel-imap-utils.c (imap_uid_array_to_set): Added
+	a note to the comment block for this function noting that uids
+	MUST be in sorted order.
+
+	* providers/imap/camel-imap-folder.c (imap_expunge_uids_online):
+	Sort the uids before splitting them into UID set chunks. The code
+	that splits the uid array into sets expects the uids to be in
+	sorted order. Fixes bug #42854.
+
+	* providers/imap/camel-imap-command.c (imap_command_start):
+	Re-enable camel_verbose_debug logging.
+
 2003-05-12  Jeffrey Stedfast  <fejj@ximian.com>
 
 	* providers/smtp/camel-smtp-transport.c (smtp_helo): If

@@ -44,7 +44,6 @@
 #include <camel/camel-utf8.h>
 #include <camel/camel-session.h>
 
-#define d(x)
 
 extern int camel_verbose_debug;
 
@@ -198,7 +197,6 @@ imap_command_start (CamelImapStore *store, CamelFolder *folder,
 	}
 	
 	/* Send the command */
-#if d(!)0
 	if (camel_verbose_debug) {
 		const char *mask;
 		
@@ -213,7 +211,6 @@ imap_command_start (CamelImapStore *store, CamelFolder *folder,
 		
 		fprintf (stderr, "sending : %c%.5d %s\r\n", store->tag_prefix, store->command, mask);
 	}
-#endif
 	
 	nwritten = camel_stream_printf (store->ostream, "%c%.5d %s\r\n",
 					store->tag_prefix, store->command++, cmd);

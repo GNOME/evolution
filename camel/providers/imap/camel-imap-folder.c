@@ -847,6 +847,22 @@ imap_expunge_uids_offline (CamelFolder *folder, GPtrArray *uids, CamelException 
 	camel_folder_change_info_free (changes);
 }
 
+static int
+uid_compar (const void *va, const void *vb)
+{
+	const char **sa = (const char **)va, **sb = (const char **)vb;
+	unsigned long a, b;
+
+	a = strtoul (*sa, NULL, 10);
+	b = strtoul (*sb, NULL, 10);
+	if (a < b)
+		return -1;
+	else if (a == b)
+		return 0;
+	else
+		return 1;
+}
+
 static void
 imap_expunge_uids_online (CamelFolder *folder, GPtrArray *uids, CamelException *ex)
 {
@@ -864,7 +880,9 @@ imap_expunge_uids_online (CamelFolder *folder, GPtrArray *uids, CamelException *
 			return;
 		}
 	}
-
+	
+	qsort (uids->pdata, uids->len, sizeof (void *), uid_compar);
+	
 	while (uid < uids->len) {
 		set = imap_uid_array_to_set (folder->summary, uids, uid, UID_SET_LIMIT, &uid);
 		response = camel_imap_command (store, folder, ex,
@@ -889,22 +907,6 @@ imap_expunge_uids_online (CamelFolder *folder, GPtrArray *uids, CamelException *
 	}
 	
 	CAMEL_SERVICE_UNLOCK (store, connect_lock);
-}
-
-static int
-uid_compar (const void *va, const void *vb)
-{
-	const char **sa = (const char **)va, **sb = (const char **)vb;
-	unsigned long a, b;
-
-	a = strtoul (*sa, NULL, 10);
-	b = strtoul (*sb, NULL, 10);
-	if (a < b)
-		return -1;
-	else if (a == b)
-		return 0;
-	else
-		return 1;
 }
 
 static void
