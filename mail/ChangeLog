@@ -1,5 +1,15 @@
 2004-01-09  Not Zed  <NotZed@Ximian.com>
 
+	** See bug 52696.
+	
+	* mail-component.c (setup_search_context): move the searches to
+	~/.evolution/mail/searches.xml (migration?).
+	(setup_search_context): fix a merge error,
+	vfoldertypes.xml->searchtypes.xml since it includes the system
+	searches now.
+
+2004-01-09  Not Zed  <NotZed@Ximian.com>
+
 	* em-folder-tree.c (emft_popup_properties_got_folder): add total +
 	unread counts to properties page.
 

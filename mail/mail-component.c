@@ -162,8 +162,8 @@ static void
 setup_search_context (MailComponent *component)
 {
 	MailComponentPrivate *priv = component->priv;
-	char *user = g_strdup_printf ("%s/evolution/searches.xml", g_get_home_dir ()); /* EPFIXME should be somewhere else. */
-	char *system = g_strdup (EVOLUTION_PRIVDATADIR "/vfoldertypes.xml");
+	char *user = g_build_filename(component->priv->base_directory, "mail/searches.xml", NULL);
+	char *system = g_strdup (EVOLUTION_PRIVDATADIR "/searchtypes.xml");
 	
 	priv->search_context = rule_context_new ();
 	g_object_set_data_full (G_OBJECT (priv->search_context), "user", user, g_free);
