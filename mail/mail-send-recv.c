@@ -488,7 +488,7 @@ receive_done (char *uri, void *data)
 
 	if (g_hash_table_size(info->data->active) == 0) {
 		if (info->data->gd)
-			gtk_object_unref((GtkObject *)info->data->gd);
+			gnome_dialog_close(info->data->gd);
 		free_send_data();
 	}
 

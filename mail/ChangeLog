@@ -1,3 +1,10 @@
+2001-03-27  Not Zed  <NotZed@Ximian.com>
+
+	* mail-send-recv.c (receive_done): Use gnome-dialog-close instead
+	of object_unref, for some reason it doesn't like being unref'd
+	with a refcount of 1, _who knows_.  Gets rid of that refcount
+	warning on get mail.
+
 2001-03-27  Dan Winship  <danw@ximian.com>
 
 	* mail-config.glade: Probably the very last new config dialog
