@@ -961,27 +961,12 @@ e_text_set_property (GObject *object,
 	}
 
 	case PROP_IM_CONTEXT:
-		if (text->im_context) {
-			g_signal_handlers_disconnect_matched (text->im_context,
-							     G_SIGNAL_MATCH_DATA,
-							     0, 0, NULL,
-							     NULL, text);
+		if (text->im_context)
 			g_object_unref (text->im_context);
-		}
 
 		text->im_context = g_value_get_object (value);
-
-		if (text->im_context) {
+		if (text->im_context)
 			g_object_ref (text->im_context);
-			g_signal_connect (text->im_context, "commit",
-					  G_CALLBACK (e_text_commit_cb), text);
-			g_signal_connect (text->im_context, "preedit_changed",
-					  G_CALLBACK (e_text_preedit_changed_cb), text);
-			g_signal_connect (text->im_context, "retrieve_surrounding",
-					  G_CALLBACK (e_text_retrieve_surrounding_cb), text);
-			g_signal_connect (text->im_context, "delete_surrounding",
-					  G_CALLBACK (e_text_delete_surrounding_cb), text);
-		}
 
 		text->need_im_reset = FALSE;
 		break;
@@ -2194,9 +2179,29 @@ e_text_event (GnomeCanvasItem *item, GdkEvent *event)
 			GdkEventFocus *focus_event;
 			focus_event = (GdkEventFocus *) event;
 			if (focus_event->in) {
+				if (text->im_context) {
+					if (!text->im_context_signals_registered) {
+						g_signal_connect (text->im_context, "commit",
+								  G_CALLBACK (e_text_commit_cb), text);
+						g_signal_connect (text->im_context, "preedit_changed",
+								  G_CALLBACK (e_text_preedit_changed_cb), text);
+						g_signal_connect (text->im_context, "retrieve_surrounding",
+								  G_CALLBACK (e_text_retrieve_surrounding_cb), text);
+						g_signal_connect (text->im_context, "delete_surrounding",
+								  G_CALLBACK (e_text_delete_surrounding_cb), text);
+						text->im_context_signals_registered = TRUE;
+					}
+				}
 				start_editing (text);
 				text->show_cursor = FALSE; /* so we'll redraw and the cursor will be shown */
 			} else {
+				if (text->im_context) {
+					g_signal_handlers_disconnect_matched (text->im_context,
+									      G_SIGNAL_MATCH_DATA,
+									      0, 0, NULL,
+									      NULL, text);
+					text->im_context_signals_registered = FALSE;
+				}
 				e_text_stop_editing (text);
 				if (text->timeout_id) {
 					g_source_remove(text->timeout_id);
@@ -3756,6 +3761,7 @@ e_text_init (EText *text)
 
 	text->im_context              = NULL;
 	text->need_im_reset           = FALSE;
+	text->im_context_signals_registered = FALSE;
 
 	text->handle_popup            = FALSE;
 
