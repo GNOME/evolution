@@ -28,8 +28,6 @@
 #include <gtk/gtk.h>
 #include <glade/glade.h>
 #include <libgnome/gnome-i18n.h>
-#include <libgnomeui/gnome-dialog.h>
-#include <libgnomeui/gnome-dialog-util.h>
 
 #include "vfolder-context.h"
 #include "vfolder-rule.h"
@@ -202,8 +200,13 @@ validate (FilterRule *fr)
 	g_return_val_if_fail (fr != NULL, FALSE);
 	
 	if (!fr->name || !*fr->name) {
-		dialog = gnome_ok_dialog (_("You must name this vfolder."));
-		gnome_dialog_run_and_close (GNOME_DIALOG (dialog));
+		/* FIXME: set a aprent window? */
+		dialog = gtk_message_dialog_new (NULL, GTK_DIALOG_DESTROY_WITH_PARENT,
+						 GTK_MESSAGE_ERROR, GTK_BUTTONS_CLOSE,
+						 "%s", _("You must name this vfolder."));
+		
+		gtk_dialog_run ((GtkDialog *) dialog);
+		gtk_widget_destroy (dialog);
 		
 		return 0;
 	}
@@ -211,8 +214,13 @@ validate (FilterRule *fr)
 	/* We have to have at least one source set in the "specific" case.
 	   Do not translate this string! */
 	if (fr->source && !strcmp (fr->source, "specific") && VFOLDER_RULE (fr)->sources == NULL) {
-		dialog = gnome_ok_dialog (_("You need to to specify at least one folder as a source."));
-		gnome_dialog_run_and_close (GNOME_DIALOG (dialog));
+		/* FIXME: set a parent window? */
+		dialog = gtk_message_dialog_new (NULL, GTK_DIALOG_DESTROY_WITH_PARENT,
+						 GTK_MESSAGE_ERROR, GTK_BUTTONS_CLOSE,
+						 "%s", _("You need to to specify at least one folder as a source."));
+		
+		gtk_dialog_run ((GtkDialog *) dialog);
+		gtk_widget_destroy (dialog);
 		
 		return 0;
 	}
@@ -372,7 +380,7 @@ select_source_with (GtkWidget *widget, struct _source_data *data)
 }
 
 static void
-source_add(GtkWidget *widget, struct _source_data *data)
+source_add (GtkWidget *widget, struct _source_data *data)
 {
 	static const char *allowed_types[] = { "mail/*", NULL };
 	GNOME_Evolution_Folder *folder;

@@ -166,6 +166,7 @@ validate (FilterElement *fe)
 						 "%s", _("You must specify a file name."));
 		
 		gtk_dialog_run ((GtkDialog *) dialog);
+		gtk_widget_destroy (dialog);
 		
 		return FALSE;
 	}
@@ -184,6 +185,7 @@ validate (FilterElement *fe)
 							 file->path);
 			
 			gtk_dialog_run ((GtkDialog *) dialog);
+			gtk_widget_destroy (dialog);
 			
 			return FALSE;
 		}

@@ -1,5 +1,18 @@
 2002-11-07  Jeffrey Stedfast  <fejj@ximian.com>
 
+	* vfolder-rule.c (validate): Use a GtkDialog instead of a
+	GnomeDialog for reporting errors.
+
+	* rule-editor.c (rule_add): Use a GtkDialog instead of
+	GnomeDialog.
+	(rule_edit): Same.
+	(add_editor_response): Use a GtkMessageDialog for the error
+	reporting instead of a GnomeDialog.
+	(edit_editor_response): Same.
+
+	* rule-context.c (rule_context_add_rule_gui): Use a GtkDialog
+	instead of a GnomeDialog.
+
 	* filter-rule.c (validate): Use GtkDialog instead of GnomeDialog
 	here.
 

@@ -533,6 +533,7 @@ int main(int argc, char **argv)
 	gtk_box_pack_start ((GtkBox *) dialog->vbox, w, TRUE, TRUE, 0);
 	
 	gtk_dialog_run ((GtkDialog *) dialog);
+	gtk_widget_destroy (dialog);
 	
 	code = g_string_new ("");
 	filter_part_build_code (ff, code);

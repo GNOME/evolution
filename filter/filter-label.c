@@ -117,12 +117,8 @@ static void
 xml_create (FilterElement *fe, xmlNodePtr node)
 {
 	FilterOption *fo = (FilterOption *) fe;
-	GConfClient *gconf;
-	GSList *labels, *l;
 	
 	FILTER_ELEMENT_CLASS (parent_class)->xml_create (fe, node);
-	
-	gconf = gconf_client_get_default ();
 	
 	/* FIXME: probably use gconf_client_get_list() here? */
 }

@@ -208,26 +208,39 @@ create_rule (RuleEditor *re)
 }
 
 static void
-add_editor_clicked (GtkWidget *dialog, int button, RuleEditor *re)
+editor_destroy (GtkWidget *dialog, RuleEditor *re)
+{
+	if (re->edit) {
+		g_object_unref (re->edit);
+		re->edit = NULL;
+	}
+	
+	re->dialog = NULL;
+	
+	gtk_widget_set_sensitive (GTK_WIDGET (re), TRUE);
+	rule_editor_set_sensitive (re);
+}
+
+static void
+add_editor_response (GtkWidget *dialog, int button, RuleEditor *re)
 {
 	GtkWidget *item;
 	GList *l = NULL;
 	
-	switch (button) {
-	case 0:
+	if (button == GTK_RESPONSE_ACCEPT) {
 		if (!filter_rule_validate (re->edit)) {
 			/* no need to popup a dialog because the validate code does that. */
 			return;
 		}
 		
 		if (rule_context_find_rule (re->context, re->edit->name, re->edit->source)) {
-			GtkWidget *dialog;
-			char *what;
+			dialog = gtk_message_dialog_new ((GtkWindow *) dialog, GTK_DIALOG_DESTROY_WITH_PARENT,
+							 GTK_MESSAGE_ERROR, GTK_BUTTONS_CLOSE,
+							 _("Rule name '%s' is not unique, choose another."),
+							 re->edit->name);
 			
-			what = g_strdup_printf(_("Rule name '%s' is not unique, choose another"), re->edit->name);
-			dialog = gnome_ok_dialog (what);
-			g_free (what);
-			gnome_dialog_run_and_close (GNOME_DIALOG (dialog));
+			gtk_dialog_run ((GtkDialog *) dialog);
+			gtk_widget_destroy (dialog);
 			
 			return;
 		}
@@ -249,26 +262,9 @@ add_editor_clicked (GtkWidget *dialog, int button, RuleEditor *re)
 		g_object_ref (re->current);
 		rule_editor_add_undo (re, RULE_EDITOR_LOG_ADD, re->current,
 				      rule_context_get_rank_rule (re->context, re->current, re->current->source), 0);
-	case 1:
-	default:
-		gnome_dialog_close (GNOME_DIALOG (dialog));
-	case -1:
-                if (re->edit) {
-                        g_object_unref (re->edit);
-			re->edit = NULL;
-		}
-		
-		re->dialog = NULL;
-		
-		gtk_widget_set_sensitive (GTK_WIDGET (re), TRUE);
-		rule_editor_set_sensitive (re);
 	}
-}
-
-static void
-add_editor_destroyed (GtkWidget *w, RuleEditor *re)
-{
-	add_editor_clicked (w, -1, re);
+	
+	gtk_widget_destroy (dialog);
 }
 
 static void
@@ -283,31 +279,33 @@ rule_add (GtkWidget *widget, RuleEditor *re)
 	filter_rule_set_source (re->edit, re->source);
 	rules = filter_rule_get_widget (re->edit, re->context);
 	
-	re->dialog = gnome_dialog_new (_("Add Rule"),
-				       GNOME_STOCK_BUTTON_OK,
-				       GNOME_STOCK_BUTTON_CANCEL,
-				       NULL);
+	re->dialog = gtk_dialog_new ();
+	gtk_dialog_add_buttons ((GtkDialog *) re->dialog, GTK_STOCK_OK, GTK_RESPONSE_ACCEPT,
+				GTK_STOCK_CANCEL, GTK_RESPONSE_REJECT, NULL);
 	
+	gtk_window_set_title ((GtkWindow *) re->dialog, _("Add Rule"));
 	gtk_window_set_default_size (GTK_WINDOW (re->dialog), 650, 400);
 	gtk_window_set_policy (GTK_WINDOW (re->dialog), FALSE, TRUE, FALSE);
 	gtk_widget_set_parent_window (GTK_WIDGET (re->dialog), GTK_WIDGET (re)->window);
-	gtk_box_pack_start (GTK_BOX (GNOME_DIALOG (re->dialog)->vbox), rules, TRUE, TRUE, 0);
-	g_signal_connect (re->dialog, "clicked", GTK_SIGNAL_FUNC (add_editor_clicked), re);
-	g_signal_connect (re->dialog, "destroy", GTK_SIGNAL_FUNC (add_editor_destroyed), re);
+	
+	gtk_box_pack_start (GTK_BOX (GTK_DIALOG (re->dialog)->vbox), rules, TRUE, TRUE, 0);
+	
+	g_signal_connect (re->dialog, "response", GTK_SIGNAL_FUNC (add_editor_response), re);
+	g_signal_connect (re->dialog, "destroy", GTK_SIGNAL_FUNC (editor_destroy), re);
+	
 	gtk_widget_set_sensitive (GTK_WIDGET (re), FALSE);
 	
 	gtk_widget_show (re->dialog);
 }
 
 static void
-edit_editor_clicked (GtkWidget *dialog, int button, RuleEditor *re)
+edit_editor_response (GtkWidget *dialog, int button, RuleEditor *re)
 {
 	FilterRule *rule;
 	GtkWidget *item;
 	int pos;
 	
-	switch (button) {
-	case 0:
+	if (button == GTK_RESPONSE_ACCEPT) {
 		if (!filter_rule_validate (re->edit)) {
 			/* no need to popup a dialog because the validate code does that. */
 			return;
@@ -315,13 +313,13 @@ edit_editor_clicked (GtkWidget *dialog, int button, RuleEditor *re)
 		
 		rule = rule_context_find_rule (re->context, re->edit->name, re->edit->source);
 		if (rule != NULL && rule != re->current) {
-			GtkWidget *dialog;
-			char *what;
+			dialog = gtk_message_dialog_new ((GtkWindow *) dialog, GTK_DIALOG_DESTROY_WITH_PARENT,
+							 GTK_MESSAGE_ERROR, GTK_BUTTONS_CLOSE,
+							 _("Rule name '%s' is not unique, choose another."),
+							 re->edit->name);
 			
-			what = g_strdup_printf (_("Rule name '%s' is not unique, choose another"), re->edit->name);
-			dialog = gnome_ok_dialog (what);
-			g_free (what);
-			gnome_dialog_run_and_close (GNOME_DIALOG (dialog));
+			gtk_dialog_run ((GtkDialog *) dialog);
+			gtk_widget_destroy (dialog);
 			
 			return;
 		}
@@ -336,26 +334,9 @@ edit_editor_clicked (GtkWidget *dialog, int button, RuleEditor *re)
 			/* replace the old rule with the new rule */
 			filter_rule_copy (re->current, re->edit);
 		}
-	case 1:
-	default:
-		gnome_dialog_close (GNOME_DIALOG (dialog));
-	case -1:
-		if (re->edit) {
-			g_object_unref (re->edit);
-			re->edit = NULL;
-		}
-		
-		re->dialog = NULL;
-		
-		gtk_widget_set_sensitive (GTK_WIDGET (re), TRUE);
-		rule_editor_set_sensitive (re);
 	}
-}
-
-static void
-edit_editor_destroyed (GtkWidget *w, RuleEditor *re)
-{
-	edit_editor_clicked (w, -1, re);
+	
+	gtk_widget_destroy (dialog);
 }
 
 static void
@@ -369,17 +350,20 @@ rule_edit (GtkWidget *widget, RuleEditor *re)
 	re->edit = filter_rule_clone (re->current);
 	
 	rules = filter_rule_get_widget (re->edit, re->context);
-	re->dialog = gnome_dialog_new (_("Edit Rule"),
-				       GNOME_STOCK_BUTTON_OK,
-				       GNOME_STOCK_BUTTON_CANCEL,
-				       NULL);
 	
-	gnome_dialog_set_parent (GNOME_DIALOG (re->dialog), GTK_WINDOW (re));
-	gtk_window_set_default_size (GTK_WINDOW (re->dialog), 600, 400);
+	re->dialog = gtk_dialog_new ();
+	gtk_dialog_add_buttons ((GtkDialog *) re->dialog, GTK_STOCK_OK, GTK_RESPONSE_ACCEPT,
+				GTK_STOCK_CANCEL, GTK_RESPONSE_REJECT, NULL);
+	
+	gtk_window_set_title ((GtkWindow *) re->dialog, _("Edit Rule"));
+	gtk_window_set_default_size (GTK_WINDOW (re->dialog), 650, 400);
 	gtk_window_set_policy (GTK_WINDOW (re->dialog), FALSE, TRUE, FALSE);
-	gtk_box_pack_start (GTK_BOX (GNOME_DIALOG (re->dialog)->vbox), rules, TRUE, TRUE, 0);
-	g_signal_connect (re->dialog, "clicked", GTK_SIGNAL_FUNC (edit_editor_clicked), re);
-	g_signal_connect (re->dialog, "destroy", GTK_SIGNAL_FUNC (edit_editor_destroyed), re);
+	gtk_widget_set_parent_window (GTK_WIDGET (re->dialog), GTK_WIDGET (re)->window);
+	
+	gtk_box_pack_start (GTK_BOX (GTK_DIALOG (re->dialog)->vbox), rules, TRUE, TRUE, 0);
+	
+	g_signal_connect (re->dialog, "clicked", GTK_SIGNAL_FUNC (edit_editor_response), re);
+	g_signal_connect (re->dialog, "destroy", GTK_SIGNAL_FUNC (editor_destroy), re);
 	
 	gtk_widget_set_sensitive (GTK_WIDGET (re), FALSE);
 	
@@ -644,14 +628,14 @@ rule_editor_construct (RuleEditor *re, RuleContext *context, GladeXML *gui, cons
 	gtk_window_set_policy (GTK_WINDOW (re), FALSE, TRUE, FALSE);
 	
         w = glade_xml_get_widget (gui, "rule_editor");
-	gtk_box_pack_start (GTK_BOX (GNOME_DIALOG (re)->vbox), w, TRUE, TRUE, 0);
+	gtk_box_pack_start (GTK_BOX (GTK_DIALOG (re)->vbox), w, TRUE, TRUE, 0);
 	
 	for (i = 0; i < BUTTON_LAST; i++) {
 		re->priv->buttons[i] = (GtkButton *) w = glade_xml_get_widget (gui, edit_buttons[i].name);
 		g_signal_connect (w, "clicked", edit_buttons[i].func, re);
 	}
 	
-        re->list = (GtkList *) w = glade_xml_get_widget(gui, "rule_list");
+        re->list = (GtkList *) w = glade_xml_get_widget (gui, "rule_list");
 	g_signal_connect (w, "select_child", GTK_SIGNAL_FUNC (select_rule), re);
 	g_signal_connect (w, "button_press_event", GTK_SIGNAL_FUNC (double_click), re);
 	
@@ -659,8 +643,8 @@ rule_editor_construct (RuleEditor *re, RuleContext *context, GladeXML *gui, cons
 	rule_editor_set_source (re, source);
 	
 	if (enable_undo) {
-		gtk_dialog_add_buttons ((GtkDialog *) re, GTK_BUTTONS_OK,
-					GTK_BUTTONS_CANCEL, NULL);
+		gtk_dialog_add_buttons ((GtkDialog *) re, GTK_STOCK_OK, GTK_RESPONSE_ACCEPT,
+					GTK_STOCK_CANCEL, GTK_RESPONSE_REJECT, NULL);
 	} else
-		gtk_dialog_add_buttons ((GtkDialog *) re, GTK_BUTTONS_OK, NULL);
+		gtk_dialog_add_buttons ((GtkDialog *) re, GTK_STOCK_OK, GTK_RESPONSE_ACCEPT, NULL);
 }

@@ -218,6 +218,7 @@ validate (FilterRule *fr)
 						 "%s", _("You must name this filter."));
 		
 		gtk_dialog_run ((GtkDialog *) dialog);
+		gtk_widget_destroy (dialog);
 		
 		return FALSE;
 	}

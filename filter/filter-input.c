@@ -168,10 +168,11 @@ validate (FilterElement *fe)
 	if (fi->values && !strcmp (fi->type, "regex")) {
 		const char *pattern;
 		regex_t regexpat;
+		int regerr;
 		
 		pattern = fi->values->data;
 		
-		if (regcomp (&regexpat, pattern, REG_EXTENDED | REG_NEWLINE | REG_ICASE)) {
+		if ((regerr = regcomp (&regexpat, pattern, REG_EXTENDED | REG_NEWLINE | REG_ICASE))) {
 			size_t reglen;
 			char *regmsg;
 			
@@ -191,6 +192,7 @@ validate (FilterElement *fe)
 							 pattern, regmsg);
 			
 			gtk_dialog_run ((GtkDialog *) dialog);
+			gtk_widget_destroy (dialog);
 			g_free (regmsg);
 			
 			valid = FALSE;

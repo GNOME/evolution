@@ -25,6 +25,7 @@
 #include <config.h>
 #endif
 
+#include <gtk/gtk.h>
 #include <libgnome/gnome-i18n.h>
 
 #include "filter-folder.h"
@@ -152,6 +153,7 @@ validate (FilterElement *fe)
 						 "%s", _("You must specify a folder."));
 		
 		gtk_dialog_run ((GtkDialog *) dialog);
+		gtk_widget_destroy (dialog);
 		
 		return FALSE;
 	}

@@ -32,7 +32,7 @@
 #include <fcntl.h>
 #include <errno.h>
 
-#include <libgnomeui/gnome-dialog.h>
+#include <gtk/gtk.h>
 
 #include <gal/util/e-xml-utils.h>
 
@@ -125,6 +125,8 @@ rule_context_class_init (RuleContextClass *klass)
 			      RULE_TYPE_CONTEXT,
 			      G_SIGNAL_RUN_LAST,
 			      G_STRUCT_OFFSET (RuleContextClass, rule_removed),
+			      NULL,
+			      NULL,
 			      gtk_marshal_NONE__POINTER,
 			      G_TYPE_NONE, 1, G_TYPE_POINTER);
 	
@@ -133,6 +135,8 @@ rule_context_class_init (RuleContextClass *klass)
 			      RULE_TYPE_CONTEXT,
 			      G_SIGNAL_RUN_LAST,
 			      G_STRUCT_OFFSET (RuleContextClass, changed),
+			      NULL,
+			      NULL,
 			      gtk_marshal_NONE__NONE,
 			      G_TYPE_NONE, 0);
 }
@@ -636,9 +640,9 @@ rule_context_add_rule (RuleContext *rc, FilterRule *new)
 }
 
 static void
-new_rule_clicked (GtkWidget *dialog, int button, RuleContext *context)
+new_rule_response (GtkWidget *dialog, int button, RuleContext *context)
 {
-	if (button == 0) {
+	if (button == GTK_RESPONSE_ACCEPT) {
 		FilterRule *rule = g_object_get_data ((GObject *) dialog, "rule");
 		char *user = g_object_get_data ((GObject *) dialog, "path");
 		
@@ -653,39 +657,45 @@ new_rule_clicked (GtkWidget *dialog, int button, RuleContext *context)
 			rule_context_save (context, user);
 	}
 	
-	if (button != -1)
-		gnome_dialog_close (GNOME_DIALOG (dialog));
+	gtk_widget_destroy (dialog);
 }
 
 /* add a rule, with a gui, asking for confirmation first ... optionally save to path */
 void
 rule_context_add_rule_gui (RuleContext *rc, FilterRule *rule, const char *title, const char *path)
 {
-	GtkWidget *dialog, *w;
+	GtkDialog *dialog;
+	GtkWidget *widget;
 	
 	d(printf("add rule gui '%s'\n", rule->name));
 	
 	g_assert (rc);
 	g_assert (rule);
 	
-	w = filter_rule_get_widget (rule, rc);
-	dialog = gnome_dialog_new (title, GNOME_STOCK_BUTTON_OK, GNOME_STOCK_BUTTON_CANCEL, NULL);
-	gtk_window_set_policy (GTK_WINDOW (dialog), FALSE, TRUE, FALSE);
-	gtk_box_pack_start (GTK_BOX (GNOME_DIALOG (dialog)->vbox), w, TRUE, TRUE, 0);
-	gtk_window_set_default_size (GTK_WINDOW (dialog), 600, 400);
-	gtk_widget_show (w);
+	widget = filter_rule_get_widget (rule, rc);
+	gtk_widget_show (widget);
+	
+	dialog = (GtkDialog *) gtk_dialog_new ();
+	gtk_dialog_add_buttons (dialog, GTK_STOCK_OK, GTK_RESPONSE_ACCEPT,
+				GTK_STOCK_CANCEL, GTK_RESPONSE_REJECT, NULL);
+	
+	gtk_window_set_title ((GtkWindow *) dialog, title);
+	gtk_window_set_default_size ((GtkWindow *) dialog, 600, 400);
+	gtk_window_set_policy ((GtkWindow *) dialog, FALSE, TRUE, FALSE);
+	
+	gtk_box_pack_start ((GtkBox *) dialog->vbox, widget, TRUE, TRUE, 0);
 	
 	g_object_set_data_full ((GObject *) dialog, "rule", rule, g_object_unref);
 	if (path)
 		g_object_set_data_full ((GObject *) dialog, "path", g_strdup (path), g_free);
 	
-	g_signal_connect (dialog, "clicked", GTK_SIGNAL_FUNC (new_rule_clicked), rc);
+	g_signal_connect (dialog, "response", GTK_SIGNAL_FUNC (new_rule_response), rc);
 	
 	g_object_ref (rc);
 	
 	g_object_set_data_full ((GObject *) dialog, "context", rc, g_object_unref);
 	
-	gtk_widget_show (dialog);
+	gtk_widget_show ((GtkWidget *) dialog);
 }
 
 void

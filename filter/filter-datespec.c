@@ -176,6 +176,7 @@ validate (FilterElement *fe)
 						 "%s", _("You must choose a date."));
 		
 		gtk_dialog_run ((GtkDialog *) dialog);
+		gtk_widget_destroy (dialog);
 	}
 	
 	return valid;
@@ -391,14 +392,14 @@ set_option_relative (GtkMenu *menu, FilterDatespec *fds)
 }
 
 static void
-dialog_response (GtkDialog *dialog, int button, FilterDatespec *fds)
+dialog_response (GtkWidget *dialog, int button, FilterDatespec *fds)
 {
-	/* FIXME: this may have changed with GtkDialog??? */
-	if (button != 0)
-		return;
+	if (button == GTK_RESPONSE_ACCEPT) {
+		get_values (fds);
+		set_button (fds);
+	}
 	
-	get_values (fds);
-	set_button (fds);
+	gtk_widget_destroy (dialog);
 }
 
 static void
@@ -414,7 +415,8 @@ button_clicked (GtkButton *button, FilterDatespec *fds)
 	
 	dialog = (GtkDialog *) gtk_dialog_new ();
 	gtk_window_set_title ((GtkWindow *) dialog, _("Select a time to compare against"));
-	gtk_dialog_add_buttons (dialog, GTK_BUTTONS_OK, GTK_BUTTONS_CANCEL, NULL);
+	gtk_dialog_add_buttons (dialog, GTK_STOCK_OK, GTK_RESPONSE_ACCEPT,
+				GTK_STOCK_CANCEL, GTK_RESPONSE_REJECT, NULL);
 	
 	p->notebook_type = glade_xml_get_widget (gui, "notebook_type");
 	p->option_type = glade_xml_get_widget (gui, "option_type");

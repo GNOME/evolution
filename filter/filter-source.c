@@ -29,15 +29,8 @@
 #include "filter-source.h"
 
 #include <gtk/gtk.h>
-#include <gnome.h>
 #include <e-util/e-url.h>
 #include <e-util/e-sexp.h>
-#include <bonobo/bonobo-object.h>
-#include <bonobo/bonobo-generic-factory.h>
-#include <bonobo/bonobo-context.h>
-#include <bonobo/bonobo-moniker-util.h>
-#include <bonobo/bonobo-exception.h>
-#include <bonobo-conf/bonobo-config-database.h>
 #include <camel/camel-url.h>
 
 
@@ -232,9 +225,9 @@ clone (FilterElement *fe)
 }
 
 static void
-source_changed (GtkWidget *w, FilterSource *fs)
+source_changed (GtkWidget *item, FilterSource *fs)
 {
-	SourceInfo *info = (SourceInfo *) g_object_get_data (w, "source");
+	SourceInfo *info = (SourceInfo *) g_object_get_data ((GObject *) item, "source");
 	
 	g_free (fs->priv->current_url);
 	fs->priv->current_url = g_strdup (info->url);
@@ -276,8 +269,8 @@ get_widget (FilterElement *fe)
 			item = gtk_menu_item_new_with_label (label);
 			g_free (label);
 			
-			g_object_set_data (item, "source", info);
-			g_signal_connect (item, "activate", source_changed, fs);
+			g_object_set_data ((GObject *) item, "source", info);
+			g_signal_connect (item, "activate", GTK_SIGNAL_FUNC (source_changed), fs);
 			
 			gtk_menu_append (GTK_MENU (menu), item);
 			gtk_widget_show (item);
@@ -344,6 +337,7 @@ filter_source_add_source (FilterSource *fs, const char *account_name, const char
 static void
 filter_source_get_sources (FilterSource *fs)
 {
+#if 0
 	Bonobo_ConfigDatabase db;
 	CORBA_Environment ev;
 	int i, len;
@@ -398,4 +392,5 @@ filter_source_get_sources (FilterSource *fs)
 		g_free (addr);
 		g_free (uri);
 	}
+#endif
 }
