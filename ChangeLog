@@ -1,3 +1,8 @@
+2001-03-04  Dan Winship  <danw@ximian.com>
+
+	* configure.in: Reorganize a bit to get rid of warnings about
+	AC_TRY_COMPILE being used before AC_ISC_POSIX
+
 2001-03-04  Christopher James Lahey  <clahey@ximian.com>
 
 	* configure.in: Added views/addressbook/Makefile.
