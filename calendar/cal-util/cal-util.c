@@ -558,3 +558,58 @@ cal_util_expand_uri (char *uri, gboolean tasks)
 
 	return file_uri;
 }
+
+/* callback for icalcomponent_foreach_tzid */
+typedef struct {
+	icalcomponent *vcal_comp;
+	CalComponent *comp;
+} ForeachTzidData;
+
+static void
+add_timezone_cb (icalparameter *param, void *data)
+{
+	icaltimezone *tz;
+	const char *tzid;
+	icalcomponent *vtz_comp;
+	ForeachTzidData *f_data = (ForeachTzidData *) data;
+
+	tzid = icalparameter_get_tzid (param);
+	if (!tzid)
+		return;
+
+	tz = icalcomponent_get_timezone (f_data->vcal_comp, tzid);
+	if (tz)
+		return;
+
+	tz = icalcomponent_get_timezone (cal_component_get_icalcomponent (f_data->comp),
+					 tzid);
+	if (!tz) {
+		tz = icaltimezone_get_builtin_timezone_from_tzid (tzid);
+		if (!tz)
+			return;
+	}
+
+	vtz_comp = icaltimezone_get_component (tz);
+	if (!vtz_comp)
+		return;
+
+	icalcomponent_add_component (f_data->vcal_comp,
+				     icalcomponent_new_clone (vtz_comp));
+}
+
+/* Adds VTIMEZONE components to a VCALENDAR for all tzid's
+ * in the given CalComponent. */
+void
+cal_util_add_timezones_from_component (icalcomponent *vcal_comp,
+				       CalComponent *comp)
+{
+	ForeachTzidData f_data;
+
+	g_return_if_fail (vcal_comp != NULL);
+	g_return_if_fail (IS_CAL_COMPONENT (comp));
+
+	f_data.vcal_comp = vcal_comp;
+	f_data.comp = comp;
+	icalcomponent_foreach_tzid (cal_component_get_icalcomponent (comp),
+				    add_timezone_cb, &f_data);
+}

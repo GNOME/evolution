@@ -834,6 +834,9 @@ copy_row_cb (int model_row, gpointer data)
 	if (!comp)
 		return;
 
+	/* add timezones to the VCALENDAR component */
+	cal_util_add_timezones_from_component (cal_table->tmp_vcal, comp);
+
 	/* add the new component to the VCALENDAR component */
 	comp_str = cal_component_get_as_string (comp);
 	child = icalparser_parse_string (comp_str);

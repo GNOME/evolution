@@ -2769,6 +2769,8 @@ e_day_view_copy_clipboard (EDayView *day_view)
 {
 	EDayViewEvent *event;
 	char *comp_str;
+	icalcomponent *vcal_comp;
+	icalcomponent *new_icalcomp;
 
 	g_return_if_fail (E_IS_DAY_VIEW (day_view));
 
@@ -2776,11 +2778,21 @@ e_day_view_copy_clipboard (EDayView *day_view)
 	if (event == NULL)
 		return;
 
-	comp_str = cal_component_get_as_string (event->comp);
+	/* create top-level VCALENDAR component and add VTIMEZONE's */
+	vcal_comp = cal_util_new_top_level ();
+	cal_util_add_timezones_from_component (vcal_comp, event->comp);
+
+	new_icalcomp = icalcomponent_new_clone (cal_component_get_icalcomponent (event->comp));
+	icalcomponent_add_component (vcal_comp, new_icalcomp);
+
+	comp_str = icalcomponent_as_ical_string (vcal_comp);
 	if (day_view->clipboard_selection != NULL)
 		g_free (day_view->clipboard_selection);
-	day_view->clipboard_selection = comp_str;
+	day_view->clipboard_selection = g_strdup (comp_str);
 	gtk_selection_owner_set (day_view->invisible, clipboard_atom, GDK_CURRENT_TIME);
+
+	/* free memory */
+	icalcomponent_free (vcal_comp);
 }
 
 void
@@ -4133,6 +4145,8 @@ e_day_view_on_copy (GtkWidget *widget, gpointer data)
 	EDayView *day_view;
 	EDayViewEvent *event;
 	char *comp_str;
+	icalcomponent *vcal_comp;
+	icalcomponent *new_icalcomp;
 
 	day_view = E_DAY_VIEW (data);
 
@@ -4140,12 +4154,22 @@ e_day_view_on_copy (GtkWidget *widget, gpointer data)
 	if (event == NULL)
 		return;
 
-	comp_str = cal_component_get_as_string (event->comp);
+	/* create top-level VCALENDAR component and add VTIMEZONE's */
+	vcal_comp = cal_util_new_top_level ();
+	cal_util_add_timezones_from_component (vcal_comp, event->comp);
+
+	new_icalcomp = icalcomponent_new_clone (cal_component_get_icalcomponent (event->comp));
+	icalcomponent_add_component (vcal_comp, new_icalcomp);
+
+	comp_str = icalcomponent_as_ical_string (vcal_comp);
 	if (day_view->clipboard_selection)
 		g_free (day_view->clipboard_selection);
-	day_view->clipboard_selection = comp_str;
+	day_view->clipboard_selection = g_strdup (comp_str);
 
 	gtk_selection_owner_set (day_view->invisible, clipboard_atom, GDK_CURRENT_TIME);
+
+	/* free memory */
+	icalcomponent_free (vcal_comp);
 }
 
 static void

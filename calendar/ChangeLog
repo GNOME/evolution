@@ -1,3 +1,20 @@
+2002-07-26  Rodrigo Moya <rodrigo@ximian.com>
+
+	* cal-util/cal-util.[ch] (cal_util_add_timezones_from_component):
+	new function for adding VTIMEZONE components to a VCALENDAR
+	component.
+
+	* gui/e-calendar-table.c (copy_row_cb): added VTIMEZONE components
+	to resulting VCALENDAR top-level component.
+
+	* gui/e-week-view.c (e_week_view_copy_clipboard): copy to the
+	clipboard a top-level VCALENDAR component, with all the needed
+	VTIMEZONE components.
+	(e_week_view_on_copy): likewise.
+
+	* gui/e-day-view.c (e_day_view_copy_clipboard): likewise.
+	(e_day_view_on_copy): likewise.
+
 2002-07-26  JP Rosevear  <jpr@ximian.com>
 
 	* gui/comp-editor-factory.c (impl_editExisting): focus the editor
