@@ -1,3 +1,13 @@
+2004-01-12  Larry Ewing  <lewing@ximian.com>
+
+	* GNOME_Evolution_Mail.server.in.in: fix up the controls factory
+	location.
+
+	* mail-component.c (mail_control_new): add new interface for
+	getting a mail control with a folder_uri property bag.
+	(get_prop): pbag get method.
+	(set_prop): pbag set method.
+
 2004-01-11  Jeffrey Stedfast  <fejj@ximian.com>
 
 	* em-migrate.c (cp): Don't O_TRUNC the dest file, instead use

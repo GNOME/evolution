@@ -235,6 +235,55 @@ folder_selected_cb (EMFolderTree *emft, const char *path, const char *uri, EMFol
 		em_folder_view_set_folder_uri (view, uri);
 }
 
+#define PROPERTY_FOLDER_URI          "folder_uri"
+#define PROPERTY_FOLDER_URI_IDX      1
+
+static void
+set_prop (BonoboPropertyBag *bag,
+	  const BonoboArg   *arg,
+	  guint              arg_id,
+	  CORBA_Environment *ev,
+	  gpointer           user_data)
+{
+	EMFolderView *view  = (EMFolderView *)bonobo_control_get_widget (user_data);
+	const gchar *uri;
+
+	switch (arg_id) {
+	case PROPERTY_FOLDER_URI_IDX:
+		uri = BONOBO_ARG_GET_STRING (arg);
+		
+		g_warning ("XXX setting uri blah=\"%s\"\n", uri);
+
+		em_folder_view_set_folder_uri (view, uri);
+		break;
+	default:
+		g_warning ("Unhandled arg %d\n", arg_id);
+		break;
+	}
+}
+
+static void
+get_prop (BonoboPropertyBag *bag,
+	  BonoboArg         *arg,
+	  guint              arg_id,
+	  CORBA_Environment *ev,
+	  gpointer           user_data)
+{
+	GtkWidget *widget = bonobo_control_get_widget (user_data);
+	EMFolderView *view = (EMFolderView *)widget;
+
+	switch (arg_id) {
+	case PROPERTY_FOLDER_URI_IDX:
+		if (view->folder_uri)
+			BONOBO_ARG_SET_STRING (arg, view->folder_uri);
+		else 
+			BONOBO_ARG_SET_STRING (arg, "");
+		break;
+	default:
+		g_warning ("Unhandled arg %d\n", arg_id);
+	}
+}
+
 static void
 view_control_activate_cb (BonoboControl *control, gboolean activate, EMFolderView *view)
 {
@@ -512,6 +561,36 @@ mail_component_init (MailComponent *component)
 
 
 /* Public API.  */
+BonoboControl *
+mail_control_new (void) 
+{
+	BonoboControl *view_control;
+	GtkWidget *view_widget;
+	BonoboPropertyBag *pbag;
+
+	view_widget = em_folder_browser_new ();
+	gtk_widget_show (view_widget);
+
+	view_control = bonobo_control_new (view_widget);
+	pbag = bonobo_property_bag_new (get_prop, set_prop, view_control);
+  
+	bonobo_property_bag_add (pbag,
+				 PROPERTY_FOLDER_URI, 
+				 PROPERTY_FOLDER_URI_IDX,
+				 BONOBO_ARG_STRING,
+				 NULL,
+				 _("URI of the mail source that the view will display"),
+				 0);
+	
+	bonobo_control_set_properties (view_control,
+				       bonobo_object_corba_objref (BONOBO_OBJECT (pbag)),
+				       NULL);
+	bonobo_object_unref (BONOBO_OBJECT (pbag));
+	
+	g_signal_connect (view_control, "activate", G_CALLBACK (view_control_activate_cb), view_widget);
+	
+	return view_control;
+}
 
 MailComponent *
 mail_component_peek (void)
