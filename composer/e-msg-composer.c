@@ -865,7 +865,12 @@ e_msg_composer_get_sig_file_content (const char *sigfile, gboolean in_html)
 		return NULL;
 	}
 	
-	return get_file_content (NULL, sigfile, !in_html, CAMEL_MIME_FILTER_TOHTML_PRESERVE_8BIT, FALSE);
+	return get_file_content (NULL, sigfile, !in_html,
+				 CAMEL_MIME_FILTER_TOHTML_PRESERVE_8BIT |
+				 CAMEL_MIME_FILTER_TOHTML_CONVERT_URLS |
+				 CAMEL_MIME_FILTER_TOHTML_CONVERT_ADDRESSES |
+				 CAMEL_MIME_FILTER_TOHTML_CONVERT_SPACES,
+				 FALSE);
 }
 
 static void
@@ -976,7 +981,7 @@ decode_signature_name (const char *name)
 		s ++;
 	}
 
-	dname = g_new (gchar, len + 1);
+	dname = g_new (char, len + 1);
 
 	s = name;
 	d = dname;
@@ -1067,7 +1072,7 @@ get_signature_html (EMsgComposer *composer)
 					"<TABLE WIDTH=\"100%%\" CELLSPACING=\"0\" CELLPADDING=\"0\"><TR><TD>"
 					"%s%s%s%s"
 					"</TD></TR></TABLE>",
-					composer->signature ? encoded_uid : "",
+				        encoded_uid ? encoded_uid : "",
 					format_html ? "" : "<PRE>\n",
 					format_html || (!strncmp ("-- \n", text, 4) || strstr(text, "\n-- \n")) ? "" : "-- \n",
 					text,
@@ -2076,27 +2081,6 @@ signature_changed (ESignatureList *signatures, ESignature *sig, EMsgComposer *co
 }
 
 static void
-prepare_signatures_menu (EMsgComposer *composer)
-{
-	GtkWidget *hbox, *hspace;
-	GtkWidget *label;
-	
-	hbox = e_msg_composer_hdrs_get_from_hbox (E_MSG_COMPOSER_HDRS (composer->hdrs));
-	
-	label = gtk_label_new (_("Signature:"));
-	gtk_widget_show (label);
-	
-	composer->sig_menu = (GtkOptionMenu *) gtk_option_menu_new ();
-	gtk_widget_show ((GtkWidget *) composer->sig_menu);
-	
-	gtk_box_pack_end_defaults (GTK_BOX (hbox), (GtkWidget *) composer->sig_menu);
-	gtk_box_pack_end (GTK_BOX (hbox), label, FALSE, TRUE, 0);
-	hspace = gtk_hbox_new (FALSE, 0);
-	gtk_widget_show (hspace);
-	gtk_box_pack_start (GTK_BOX (hbox), hspace, FALSE, FALSE, 0);
-}
-
-static void
 sig_select_item (EMsgComposer *composer)
 {
 	ESignature *cur;
@@ -2104,7 +2088,7 @@ sig_select_item (EMsgComposer *composer)
 	GList *items;
 	int i = 0;
 	
-	if (composer->signature) {
+	if (!composer->signature) {
 		gtk_option_menu_set_history (composer->sig_menu, 0);
 		return;
 	}
@@ -2125,9 +2109,24 @@ sig_select_item (EMsgComposer *composer)
 static void
 setup_signatures_menu (EMsgComposer *composer)
 {
+	GtkWidget *hbox, *hspace, *label;
 	ESignatureList *signatures;
 	GtkWidget *menu, *item;
+	ESignature *sig;
 	EIterator *it;
+	
+	hbox = e_msg_composer_hdrs_get_from_hbox (E_MSG_COMPOSER_HDRS (composer->hdrs));
+	
+	label = gtk_label_new (_("Signature:"));
+	gtk_widget_show (label);
+	
+	composer->sig_menu = (GtkOptionMenu *) gtk_option_menu_new ();
+	
+	gtk_box_pack_end_defaults (GTK_BOX (hbox), (GtkWidget *) composer->sig_menu);
+	gtk_box_pack_end (GTK_BOX (hbox), label, FALSE, TRUE, 0);
+	hspace = gtk_hbox_new (FALSE, 0);
+	gtk_widget_show (hspace);
+	gtk_box_pack_start (GTK_BOX (hbox), hspace, FALSE, FALSE, 0);
 	
 	menu = gtk_menu_new ();
 	gtk_widget_show (menu);
@@ -2142,8 +2141,6 @@ setup_signatures_menu (EMsgComposer *composer)
 	it = e_list_get_iterator ((EList *) signatures);
 	
 	while (e_iterator_is_valid (it)) {
-		ESignature *sig;
-		
 		sig = (ESignature *) e_iterator_get (it);
 		signature_added (signatures, sig, composer);
 		e_iterator_next (it);
@@ -2152,6 +2149,8 @@ setup_signatures_menu (EMsgComposer *composer)
 	g_object_unref (it);
 	
 	g_signal_connect (menu, "selection-done", G_CALLBACK (signature_activate_cb), composer);
+
+	gtk_widget_show ((GtkWidget *) composer->sig_menu);
 	
 	composer->sig_added_id = g_signal_connect (signatures, "signature-added", G_CALLBACK (signature_added), composer);
 	composer->sig_removed_id = g_signal_connect (signatures, "signature-removed", G_CALLBACK (signature_removed), composer);
@@ -3172,7 +3171,6 @@ create_composer (int visible_mask)
 			  G_CALLBACK (from_changed_cb), composer);
 	gtk_widget_show (composer->hdrs);
 	
-	prepare_signatures_menu (composer);
 	setup_signatures_menu (composer);
 
 	from_changed_cb((EMsgComposerHdrs *)composer->hdrs, composer);

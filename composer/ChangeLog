@@ -1,3 +1,11 @@
+2004-04-07  Jeffrey Stedfast  <fejj@ximian.com>
+
+	* e-msg-composer.c (sig_select_item): Reversed the logic for
+	setting the signature menu to "None" (only set it to "None" if a
+	signature *isn't* set, doh!)
+	(prepare_signatures_menu): Removed. Combined with
+	setup_signature_menu().
+
 2004-04-06  Radek Doulik  <rodo@ximian.com>
 
 	* e-msg-composer.c (prepare_signatures_menu): added empty hbox so
