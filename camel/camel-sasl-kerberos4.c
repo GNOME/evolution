@@ -43,7 +43,6 @@ CamelServiceAuthType camel_sasl_kerberos4_authtype = {
 	   "Kerberos 4 authentication."),
 
 	"KERBEROS_V4",
-	FALSE,
 	FALSE
 };
 

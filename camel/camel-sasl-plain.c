@@ -30,13 +30,12 @@
 
 CamelServiceAuthType camel_sasl_plain_authtype = {
 	N_("Password"),
-	
+
 	N_("This option will connect to the server using a "
 	   "simple password."),
-	
+
 	"PLAIN",
-	TRUE,
-	FALSE
+	TRUE
 };
 
 static CamelSaslClass *parent_class = NULL;

@@ -70,8 +70,7 @@ CamelServiceAuthType camel_pop3_password_authtype = {
 	   "password. This is the only option supported by many POP servers."),
 
 	"",
-	TRUE,
-	FALSE
+	TRUE
 };
 
 CamelServiceAuthType camel_pop3_apop_authtype = {
@@ -82,8 +81,7 @@ CamelServiceAuthType camel_pop3_apop_authtype = {
 	   "even on servers that claim to support it."),
 
 	"+APOP",
-	TRUE,
-	FALSE
+	TRUE
 };
 
 #ifdef HAVE_KRB4
@@ -94,7 +92,6 @@ CamelServiceAuthType camel_pop3_kpop_authtype = {
 	   "to authenticate to it."),
 
 	"+KPOP",
-	FALSE,
 	FALSE
 };
 #endif

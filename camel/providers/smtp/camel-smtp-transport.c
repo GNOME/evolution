@@ -220,7 +220,7 @@ get_smtp_error_string (int error)
 }
 
 static gboolean
-smtp_connect (CamelService *service, CamelException *ex)
+connect_to_server (CamelService *service, CamelException *ex)
 {
 	CamelSmtpTransport *transport = CAMEL_SMTP_TRANSPORT (service);
 	CamelStream *tcp_stream;
@@ -325,6 +325,17 @@ smtp_connect (CamelService *service, CamelException *ex)
 		smtp_helo (transport, ex);
 	}
 	
+	return TRUE;
+}
+
+static gboolean
+smtp_connect (CamelService *service, CamelException *ex)
+{
+	CamelSmtpTransport *transport = CAMEL_SMTP_TRANSPORT (service);
+
+	if (!connect_to_server (service, ex))
+		return FALSE;
+
 	/* check to see if AUTH is required, if so...then AUTH ourselves */
 	if (service->url->authmech) {
 		CamelSession *session = camel_service_get_session (service);
@@ -404,8 +415,11 @@ smtp_connect (CamelService *service, CamelException *ex)
 			}
 		}
 		
-		/* we have to re-EHLO */
-		smtp_helo (transport, ex);
+		/* The spec says we have to re-EHLO, but some servers
+		 * we won't bother to name don't want you to... so ignore
+		 * errors.
+		 */
+		smtp_helo (transport, NULL);
 	}
 	
 	return TRUE;
@@ -488,10 +502,10 @@ query_auth_types (CamelService *service, CamelException *ex)
 	CamelServiceAuthType *authtype;
 	GList *types, *t, *next;
 	
-	if (!smtp_connect (service, ex))
+	if (!connect_to_server (service, ex))
 		return NULL;
 	
-	types = camel_sasl_authtype_list (TRUE);
+	types = g_list_copy (service->provider->authtypes);
 	for (t = types; t; t = next) {
 		authtype = t->data;
 		next = t->next;
@@ -502,6 +516,7 @@ query_auth_types (CamelService *service, CamelException *ex)
 		}
 	}
 	
+	smtp_disconnect (service, TRUE, NULL);
 	return types;
 }
 
@@ -696,8 +711,7 @@ smtp_helo (CamelSmtpTransport *transport, CamelException *ex)
 static gboolean
 smtp_auth (CamelSmtpTransport *transport, const char *mech, CamelException *ex)
 {
-	CamelServiceAuthType *authtype;
-	gchar *cmdbuf, *respbuf = NULL;
+	gchar *cmdbuf, *respbuf = NULL, *challenge;
 	CamelSasl *sasl;
 	
 	sasl = camel_sasl_new ("smtp", mech, CAMEL_SERVICE (transport));
@@ -708,15 +722,8 @@ smtp_auth (CamelSmtpTransport *transport, const char *mech, CamelException *ex)
 		return FALSE;
 	}
 	
-	/* get the authtype object so we know if we can challenge the server */
-	authtype = camel_sasl_authtype (mech);
-	
-	/* tell the server we want to authenticate... */
-	if (authtype && authtype->quick_login) {
-		/* cool, we can challenge the server in our initial request */
-		char *challenge;
-		
-		challenge = camel_sasl_challenge_base64 (sasl, NULL, ex);
+	challenge = camel_sasl_challenge_base64 (sasl, NULL, ex);
+	if (challenge) {
 		cmdbuf = g_strdup_printf ("AUTH %s %s\r\n", mech, challenge);
 		g_free (challenge);
 	} else
@@ -744,13 +751,11 @@ smtp_auth (CamelSmtpTransport *transport, const char *mech, CamelException *ex)
 	}
 	
 	while (!camel_sasl_authenticated (sasl)) {
-		char *challenge;
-		
 		if (!respbuf)
 			goto lose;
 		
 		/* eat whtspc */
-		for (challenge = respbuf + 4; *challenge && isspace (*challenge); challenge++);
+		for (challenge = respbuf + 4; isspace (*challenge); challenge++);
 		
 		challenge = camel_sasl_challenge_base64 (sasl, challenge, ex);
 		g_free (respbuf);

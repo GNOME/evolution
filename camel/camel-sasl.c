@@ -223,7 +223,6 @@ camel_sasl_authtype_list (gboolean include_plain)
 #ifdef HAVE_KRB4
 	types = g_list_prepend (types, &camel_sasl_kerberos4_authtype);
 #endif
-	types = g_list_prepend (types, &camel_sasl_login_authtype);
 	if (include_plain)
 		types = g_list_prepend (types, &camel_sasl_plain_authtype);
 	

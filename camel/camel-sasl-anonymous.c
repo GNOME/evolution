@@ -35,8 +35,7 @@ CamelServiceAuthType camel_sasl_anonymous_authtype = {
 	N_("This option will connect to the server using an anonymous login."),
 	
 	"ANONYMOUS",
-	FALSE,
-	TRUE
+	FALSE
 };
 
 static CamelSaslClass *parent_class = NULL;

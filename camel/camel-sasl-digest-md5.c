@@ -45,8 +45,7 @@ CamelServiceAuthType camel_sasl_digest_md5_authtype = {
 	   "secure DIGEST-MD5 password, if the server supports it."),
 
 	"DIGEST-MD5",
-	TRUE,
-	FALSE
+	TRUE
 };
 
 static CamelSaslClass *parent_class = NULL;

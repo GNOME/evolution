@@ -1,3 +1,33 @@
+2001-04-02  Dan Winship  <danw@ximian.com>
+
+	* camel-service.h: Remove the "quick_login" member, which is
+	unnecessary.
+
+	* providers/smtp/camel-smtp-transport.c (smtp_auth): Remove the
+	references to quick_login and fix this to use the CamelSasl
+	interfaces correctly to do the same thing.
+	(connect_to_server): Split this out of smtp_connect
+	(smtp_connect): Use connect_to_server. When re-EHLO'ing after
+	auth, ignore errors.
+	(query_auth_types): Use connect_to_server rather than
+	smtp_connect, so it doesn't try to authenticate. Add LOGIN
+	authtype to the list of authtypes to check for.
+
+	* providers/smtp/camel-smtp-provider.c
+	(camel_provider_module_init): Add LOGIN authtype to the authtypes
+	list explicitly.
+
+	* camel-sasl.c (camel_sasl_authtype_list): Don't list LOGIN here:
+	it's not a real SASL authtype and is only used for SMTP.
+	
+	* camel-sasl-plain.c: 
+	* camel-sasl-login.c: 
+	* camel-sasl-kerberos4.c: 
+	* camel-sasl-cram-md5.c: 
+	* camel-sasl-anonymous.c: 
+	* providers/pop3/camel-pop3-provider.c: Remove "quick_login"
+	argument from authtypes.
+
 2001-04-02  Gediminas Paulauskas <menesis@delfi.lt>
 
 	* camel-filter-driver.c: marked missing report status' for translation.

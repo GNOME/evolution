@@ -35,7 +35,6 @@ CamelServiceAuthType camel_sasl_login_authtype = {
 	   "simple password."),
 	
 	"LOGIN",
-	TRUE,
 	TRUE
 };
 

@@ -88,12 +88,6 @@ typedef struct {
 	char *authproto;
 	
 	gboolean need_password;   /* needs a password to authenticate */
-	
-	gboolean quick_login;     /* Client can send initial challenge to
-				   * speed up the authentication procedure.
-				   * Note: This option only ever matters if
-				   * it is a SASL mechanism. If unsure, it
-				   * is safe to say FALSE. */
 } CamelServiceAuthType;
 
 
