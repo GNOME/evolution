@@ -13,9 +13,19 @@
 #define PARENT_TYPE gtk_object_get_type()
 
 static ECellView *
-ec_realize (ECell *e_cell, ETableModel *table_model, void *view)
+ec_new_view (ECell *ecell, ETableModel *table_model, void *e_table_item_view)
 {
 	return NULL;
+}
+
+static void
+ec_realize (ECellView *e_cell)
+{
+}
+
+static void
+ec_kill_view (ECellView *ecell_view)
+{
 }
 
 static void
@@ -85,6 +95,8 @@ e_cell_class_init (GtkObjectClass *object_class)
 
 	ecc->realize = ec_realize;
 	ecc->unrealize = ec_unrealize;
+	ecc->new_view = ec_new_view;
+	ecc->kill_view = ec_kill_view;
 	ecc->draw = ec_draw;
 	ecc->event = ec_event;
 	ecc->focus = ec_focus;
@@ -110,10 +122,22 @@ e_cell_event (ECellView *ecell_view, GdkEvent *event, int model_col, int view_co
 }
 
 ECellView *
-e_cell_realize (ECell *ecell, ETableModel *table_model, void *view)
+e_cell_new_view (ECell *ecell, ETableModel *table_model, void *e_table_item_view)
 {
-	return E_CELL_CLASS (GTK_OBJECT (ecell)->klass)->realize (
-		ecell, table_model, view);
+	return E_CELL_CLASS (GTK_OBJECT (ecell)->klass)->new_view (
+		ecell, table_model, e_table_item_view);
+}
+
+void
+e_cell_view_realize (ECellView *ecell_view)
+{
+	return E_CELL_CLASS (GTK_OBJECT (ecell_view->ecell)->klass)->realize (ecell_view);
+}
+
+void
+e_cell_kill_view (ECellView *ecell_view)
+{
+	E_CELL_CLASS (GTK_OBJECT (ecell_view->ecell)->klass)->kill_view (ecell_view);
 }
 
 void

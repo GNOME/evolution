@@ -1,3 +1,24 @@
+1999-12-30  Miguel de Icaza  <miguel@gnu.org>
+
+	* e-table-item.c (eti_attach_cell_views): New routine, creates the
+	cell views.
+	(eti_detach_cell_views): Detaches the cell_views from the
+	ETableItem.
+	(eti_realize_cell_views, eti_unrealize_cell_views): Simplified to
+	just do realize/unrealize notification.
+	(eti_add_table_model): Only attach the cells when we have both the
+	table model and the header model.
+
+	* e-cell.h (ECellClass): Added two new methods: new_view and
+	kill_view which drive the view process (instead of putting that on
+	realize/unrealize). 
+
+	* e-cell.c: Adapt the code to use the new scheme for view
+	instantiation.
+
+	* e-cell-text.c, e-cell-toggle.c: Adapted to the new class
+	changes.
+	
 1999-12-22  Miguel de Icaza  <miguel@helixcode.com>
 
 	* e-table-item.c (e_table_item_focus): grab focus here with the

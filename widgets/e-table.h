@@ -30,11 +30,6 @@ typedef struct {
 	guint spreadsheet:1;
 
 	char *group_spec;
-
-	/*
-	 * Used during table generation
-	 */
-	int gen_header_width;
 } ETable;
 
 typedef struct {

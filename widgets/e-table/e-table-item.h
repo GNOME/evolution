@@ -38,6 +38,7 @@ typedef struct {
 	unsigned int     draw_focus:1;
 	unsigned int     mode_spreadsheet:1;
 	unsigned int     renderers_can_change_size:1;
+	unsigned int     cell_views_realized:1;
 	
 	int              focused_col, focused_row;
 

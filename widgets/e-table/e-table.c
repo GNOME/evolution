@@ -441,20 +441,9 @@ e_table_canvas_realize (GtkWidget *widget)
 		"y", 0.0,
 		NULL);
 		
-	e_table->gen_header_width = e_table_header_total_width (e_table->header);
-	
 	leaf = e_table_create_nodes (
 		e_table, e_table->model,
 		e_table->header, GNOME_CANVAS_GROUP (e_table->root), 0, groups);
-
-	{
-		static int warn_shown;
-
-		if (!warn_shown){
-			g_warning ("Precompute the width, and update on model changes");
-			warn_shown = 1;
-		}
-	}
 
 	gnome_canvas_set_scroll_region (
 		GNOME_CANVAS (e_table_canvas),

@@ -66,6 +66,21 @@ eti_realize_cell_views (ETableItem *eti)
 {
 	int i;
 	
+	for (i = 0; i < eti->n_cells; i++)
+		e_cell_view_realize (eti->cell_views [i], eti);
+	eti->cell_views_realized = 1;
+}
+
+static void eti_compute_height (ETableItem *eti);
+
+static void
+eti_attach_cell_views (ETableItem *eti)
+{
+	int i;
+
+	g_assert (eti->header);
+	g_assert (eti->table_model);
+	
 	/*
 	 * Now realize the various ECells
 	 */
@@ -75,35 +90,50 @@ eti_realize_cell_views (ETableItem *eti)
 	for (i = 0; i < eti->n_cells; i++){
 		ETableCol *col = e_table_header_get_column (eti->header, i);
 		
-		eti->cell_views [i] = e_cell_realize (col->ecell, eti->table_model, eti);
+		eti->cell_views [i] = e_cell_new_view (col->ecell, eti->table_model, eti);
 	}
+
+	eti_compute_height (eti);
 }
 
 /*
  * During unrealization: we invoke every e-cell (one per column in the current
- * setup) to dispose all resources allocated
+ * setup) to dispose all X resources allocated
  */
 static void
 eti_unrealize_cell_views (ETableItem *eti)
 {
 	int i;
 
-	for (i = 0; i < eti->n_cells; i++){
+	if (eti->cell_views_realized == 0)
+		return;
+	
+	for (i = 0; i < eti->n_cells; i++)
 		e_cell_unrealize (eti->cell_views [i]);
-		eti->cell_views [i] = NULL;
-	}
-	g_free (eti->cell_views);
-	eti->cell_views = NULL;
-	eti->n_cells = 0;
-
+	eti->cell_views_realized = 0;
 }
 
 static void
-eti_bounds (ETableItem *eti, double *x1, double *y1, double *x2, double *y2)
+eti_detach_cell_views (ETableItem *eti)
+{
+	int i;
+	
+	for (i = 0; i < eti->n_cells; i++){
+		e_cell_kill_view (eti->cell_views [i]);
+		eti->cell_views [i] = NULL;
+	}
+		
+	g_free (eti->cell_views);
+	eti->cell_views = NULL;
+	eti->n_cells = 0;
+}
+
+static void
+eti_bounds (GnomeCanvasItem *item, double *x1, double *y1, double *x2, double *y2)
 {
 	double i2c [6];
 	ArtPoint c1, c2, i1, i2;
-	GnomeCanvasItem *item = GNOME_CANVAS_ITEM (eti);
+	ETableItem *eti = E_TABLE_ITEM (item);
 
 	gnome_canvas_item_i2c_affine (item, i2c);
 	i1.x = eti->x1;
@@ -126,12 +156,10 @@ eti_bounds (ETableItem *eti, double *x1, double *y1, double *x2, double *y2)
 static void
 eti_update (GnomeCanvasItem *item, double *affine, ArtSVP *clip_path, int flags)
 {
-	ETableItem *eti = E_TABLE_ITEM (item);
-	
 	if (GNOME_CANVAS_ITEM_CLASS (eti_parent_class)->update)
 		(*GNOME_CANVAS_ITEM_CLASS (eti_parent_class)->update)(item, affine, clip_path, flags);
 
-	eti_bounds (eti, &item->x1, &item->y1, &item->x2, &item->y2);
+	eti_bounds (item, &item->x1, &item->y1, &item->x2, &item->y2);
 	gnome_canvas_group_child_bounds (GNOME_CANVAS_GROUP (item->parent), item);
 }
 
@@ -172,7 +200,13 @@ eti_remove_header_model (ETableItem *eti)
 			       eti->header_structure_change_id);
 	gtk_signal_disconnect (GTK_OBJECT (eti->header),
 			       eti->header_dim_change_id);
+
+	if (eti->cell_views){
+		eti_unrealize_cell_views (eti);
+		eti_detach_cell_views (eti);
+	}
 	gtk_object_unref (GTK_OBJECT (eti->header));
+
 
 	eti->header_structure_change_id = 0;
 	eti->header_dim_change_id = 0;
@@ -192,6 +226,8 @@ eti_row_height (ETableItem *eti, int row)
 	int col;
 	int h, max_h;
 
+	g_assert (eti->cell_views);
+	
 	max_h = 0;
 	
 	for (col = 0; col < cols; col++){
@@ -395,7 +431,12 @@ eti_add_table_model (ETableItem *eti, ETableModel *table_model)
 	eti->table_model_row_change_id = gtk_signal_connect (
 		GTK_OBJECT (table_model), "model_row_changed",
 		GTK_SIGNAL_FUNC (eti_table_model_row_changed), eti);
-		
+
+	if (eti->header){
+		eti_detach_cell_views (eti);
+		eti_attach_cell_views (eti);
+	}
+	
 	eti_table_model_changed (table_model, eti);
 }
 
@@ -420,7 +461,14 @@ eti_header_structure_changed (ETableHeader *eth, ETableItem *eti)
 
 	if (eti->cell_views){
 		eti_unrealize_cell_views (eti);
+		eti_detach_cell_views (eti);
+		eti_attach_cell_views (eti);
 		eti_realize_cell_views (eti);
+	} else {
+		if (eti->table_model){
+			eti_detach_cell_views (eti);
+			eti_attach_cell_views (eti);
+		}
 	}
 	
 	eti_update (GNOME_CANVAS_ITEM (eti), NULL, NULL, 0);
@@ -565,10 +613,10 @@ eti_realize (GnomeCanvasItem *item)
 	gdk_gc_set_ts_origin (eti->focus_gc, 0, 0);
 	gdk_gc_set_stipple (eti->focus_gc, eti->stipple);
 	gdk_gc_set_fill (eti->focus_gc, GDK_OPAQUE_STIPPLED);
+
+	if (eti->cell_views == NULL)
+		eti_attach_cell_views (eti);
 	
-	/*
-	 *
-	 */
 	eti_realize_cell_views (eti);
 
 	eti_compute_height (eti);

@@ -19,7 +19,8 @@ struct _ECell {
 
 struct _ECellView {
 	ECell *ecell;
-	ETableModel *table_model;
+	ETableModel *e_table_model;
+	void        *e_table_item_view;
 	
 	gint   focus_x1, focus_y1, focus_x2, focus_y2;
 	gint   focus_col, focus_row;
@@ -29,9 +30,13 @@ struct _ECellView {
 
 typedef struct {
 	GtkObjectClass parent_class;
+	
+	ECellView *(*new_view)  (ECell *ecell, ETableModel *table_model, void *e_table_item_view);
+	void       (*kill_view) (ECellView *ecell_view);
+	
+	void       (*realize)   (ECellView *ecell_view);
+	void       (*unrealize) (ECellView *ecell_view);
 
-	ECellView *(*realize)   (ECell *ecell, ETableModel *table_model, void *view);
-	void       (*unrealize) (ECellView *e_cell_view);
 	void   	   (*draw)      (ECellView *ecell_view, GdkDrawable *drawable,
 	       			 int model_col, int view_col, int row,
 				 gboolean selected, int x1, int y1, int x2, int y2);
@@ -46,9 +51,14 @@ typedef struct {
 } ECellClass;
 
 GtkType    e_cell_get_type  (void);
+ECellView *e_cell_new_view  (ECell *ecell, ETableModel *table_model, void *e_table_item_view);
+void       e_cell_kill_view (ECellView *ecell_view);
+
 void       e_cell_event     (ECellView *ecell_view, GdkEvent *event, int model_col, int view_col, int row);
-ECellView *e_cell_realize   (ECell *ecell, ETableModel *table_model, void *view);
+
+void       e_cell_realize   (ECellView *ecell_view);
 void       e_cell_unrealize (ECellView *ecell_view);
+
 void       e_cell_draw      (ECellView *ecell_view, GdkDrawable *dr, 
 			     int model_col, int view_col, int row, gboolean selected,
 			     int x1, int y1, int x2, int y2);

@@ -23,7 +23,6 @@ typedef struct {
 	ECellView    cell_view;
 	GdkGC       *gc;
 	GnomeCanvas *canvas;
-	ETableItem  *eti;
 } ECellToggleView;
 
 static ECellClass *parent_class;
@@ -31,26 +30,41 @@ static ECellClass *parent_class;
 static void
 etog_queue_redraw (ECellToggleView *text_view, int view_col, int view_row)
 {
-	e_table_item_redraw_range (text_view->eti, view_col, view_row, view_col, view_row);
+	e_table_item_redraw_range (
+		text_view->cell_view.e_table_item_view,
+		view_col, view_row, view_col, view_row);
 }
 
 /*
  * ECell::realize method
  */
 static ECellView *
-etog_realize (ECell *ecell, ETableModel *table_model, void *view)
+etog_new_view (ECell *ecell, ETableModel *table_model, void *e_table_item_view)
 {
 	ECellToggleView *toggle_view = g_new0 (ECellToggleView, 1);
-	ETableItem *eti = E_TABLE_ITEM (view);
+	ETableItem *eti = E_TABLE_ITEM (e_table_item_view);
 	GnomeCanvas *canvas = GNOME_CANVAS_ITEM (eti)->canvas;
 	
 	toggle_view->cell_view.ecell = ecell;
-	toggle_view->cell_view.table_model = table_model;
-	toggle_view->eti = eti;
+	toggle_view->cell_view.e_table_model = table_model;
+	toggle_view->cell_view.e_table_item_view = e_table_item_view;
 	toggle_view->canvas = canvas;
-	toggle_view->gc = gdk_gc_new (GTK_WIDGET (canvas)->window);
 	
 	return (ECellView *) toggle_view;
+}
+
+static void
+etog_kill_view (ECellView *ecell_view)
+{
+	g_free (ecell_view);
+}	
+
+static void
+etog_realize (ECellView *ecell_view)
+{
+	ECellToggleView *toggle_view = (ECellToggleView *) ecell_view;
+
+	toggle_view->gc = gdk_gc_new (GTK_WIDGET (toggle_view->canvas)->window);
 }
 
 /*
@@ -63,8 +77,6 @@ etog_unrealize (ECellView *ecv)
 
 	gdk_gc_unref (toggle_view->gc);
 	toggle_view->gc = NULL;
-	
-	g_free (toggle_view);
 }
 
 /*
@@ -81,7 +93,7 @@ etog_draw (ECellView *ecell_view, GdkDrawable *drawable,
 	ArtPixBuf *art;
 	int x, y, width, height;
 	const int value = GPOINTER_TO_INT (
-		e_table_model_value_at (ecell_view->table_model, model_col, row));
+		e_table_model_value_at (ecell_view->e_table_model, model_col, row));
 
 	if (value >= toggle->n_states){
 		g_warning ("Value from the table model is %d, the states we support are [0..%d)\n",
@@ -173,7 +185,7 @@ etog_set_value (ECellToggleView *toggle_view, int model_col, int view_col, int r
 	if (value >= toggle->n_states)
 		value = 0;
 
-	e_table_model_set_value_at (toggle_view->cell_view.table_model,
+	e_table_model_set_value_at (toggle_view->cell_view.e_table_model,
 				    model_col, row, GINT_TO_POINTER (value));
 	etog_queue_redraw (toggle_view, view_col, row);
 }
@@ -185,7 +197,7 @@ static gint
 etog_event (ECellView *ecell_view, GdkEvent *event, int model_col, int view_col, int row)
 {
 	ECellToggleView *toggle_view = (ECellToggleView *) ecell_view;
-	void *_value = e_table_model_value_at (ecell_view->table_model, model_col, row);
+	void *_value = e_table_model_value_at (ecell_view->e_table_model, model_col, row);
 	const int value = GPOINTER_TO_INT (_value);
 	
 	switch (event->type){
@@ -237,7 +249,9 @@ e_cell_toggle_class_init (GtkObjectClass *object_class)
 	ECellClass *ecc = (ECellClass *) object_class;
 
 	object_class->destroy = etog_destroy;
-	
+
+	ecc->new_view   = etog_new_view;
+	ecc->kill_view  = etog_kill_view;
 	ecc->realize    = etog_realize;
 	ecc->unrealize  = etog_unrealize;
 	ecc->draw       = etog_draw;
