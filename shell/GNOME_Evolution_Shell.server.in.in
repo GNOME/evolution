@@ -1,6 +1,6 @@
 <oaf_info>
 
-  <oaf_server iid="OAFIID:GNOME_Evolution_Shell"
+  <oaf_server iid="OAFIID:GNOME_Evolution_Shell_2"
 	      type="exe"
 	      location="@BINDIR@/evolution-@VERSION@">
 
@@ -12,7 +12,7 @@
 		   _value="Evolution Shell"/>
   </oaf_server>
 
-  <oaf_server iid="OAFIID:GNOME_Evolution_Shell_Config_Factory"
+  <oaf_server iid="OAFIID:GNOME_Evolution_Shell_Config_Factory_2"
 	      type="exe"
 	      location="evolution-exchange-storage">
 
@@ -21,7 +21,7 @@
     </oaf_attribute>
   </oaf_server>
 
-  <oaf_server iid="OAFIID:GNOME_Evolution_Shell_Config_FolderSettings_Control"
+  <oaf_server iid="OAFIID:GNOME_Evolution_Shell_Config_FolderSettings_Control_2"
 	      type="factory"
 	      location="OAFIID:GNOME_Evolution_Shell_Config_Factory">
 

@@ -1,3 +1,10 @@
+2003-10-22  Ettore Perazzoli  <ettore@ximian.com>
+
+	* GNOME_Evolution_Shell.server.in.in: Append a _2 to all the IIDs.
+
+	* e-shell.h (E_SHELL_OAFIID): Change to "GNOME_Evolution_Shell_2"
+	so it does not conflict with the old IID.
+
 2003-10-22  Jeffrey Stedfast  <fejj@ximian.com>
 
 	* e-shell-window.c (e_shell_window_new): Change to "evolution-1.5"
