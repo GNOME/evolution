@@ -1,3 +1,14 @@
+2002-12-07  Jeffrey Stedfast  <fejj@ximian.com>
+
+	Fix for bug #33295
+
+	* e-msg-composer-attachment.c (e_msg_composer_attachment_edit):
+	Ref the attachment object so that if the attachment is removed
+	while it is still being edited, the attachment object will still
+	exist and therefor foil the user's attempt to make Evolution crash
+	when they close the properties dialog for this attachment.
+	(close_cb): Unref the attachment object.
+
 2002-12-05  Ettore Perazzoli  <ettore@ximian.com>
 
 	[Patch from Chris Lahey <clahey@ximian.com>.]

@@ -219,7 +219,7 @@ e_msg_composer_attachment_new (const char *file_name,
 #if 0
 	/* Note: Outlook 2002 is broken with respect to Content-Ids on
            non-multipart/related parts, so as an interoperability
-           workaround, don't set a Content-Id on these parts. Fixes
+           workwaround, don't set a Content-Id on these parts. Fixes
            bug #10032 */
 	/* set the Content-Id */
 	content_id = header_msgid_generate ();
@@ -360,6 +360,8 @@ close_cb (GtkWidget *widget, gpointer data)
 	gtk_object_unref (GTK_OBJECT (attachment->editor_gui));
 	attachment->editor_gui = NULL;
 	
+	gtk_object_unref (GTK_OBJECT (attachment));
+	
 	destroy_dialog_data (dialog_data);
 }
 
@@ -420,10 +422,12 @@ void
 e_msg_composer_attachment_edit (EMsgComposerAttachment *attachment,
 				GtkWidget *parent)
 {
+	CamelContentType *content_type;
 	DialogData *dialog_data;
+	const char *disposition;
 	GladeXML *editor_gui;
+	char *type;
 	
-	g_return_if_fail (attachment != NULL);
 	g_return_if_fail (E_IS_MSG_COMPOSER_ATTACHMENT (attachment));
 	
 	if (attachment->editor_gui != NULL) {
@@ -450,6 +454,7 @@ e_msg_composer_attachment_edit (EMsgComposerAttachment *attachment,
 	
 	dialog_data = g_new (DialogData, 1);
 	dialog_data->attachment = attachment;
+	gtk_object_ref (GTK_OBJECT (attachment));
 	dialog_data->dialog = glade_xml_get_widget (editor_gui, "dialog");
 	dialog_data->file_name_entry = GTK_ENTRY (
 		glade_xml_get_widget (editor_gui, "file_name_entry"));
@@ -460,24 +465,18 @@ e_msg_composer_attachment_edit (EMsgComposerAttachment *attachment,
 	dialog_data->disposition_checkbox = GTK_TOGGLE_BUTTON (
 		glade_xml_get_widget (editor_gui, "disposition_checkbox"));
 	
-	if (attachment != NULL) {
-		CamelContentType *content_type;
-		const char *disposition;
-		char *type;
-		
-		set_entry (editor_gui, "file_name_entry",
-			   camel_mime_part_get_filename (attachment->body));
-		set_entry (editor_gui, "description_entry",
-			   camel_mime_part_get_description (attachment->body));
-		content_type = camel_mime_part_get_content_type (attachment->body);
-		type = header_content_type_simple (content_type);
-		set_entry (editor_gui, "mime_type_entry", type);
-		g_free (type);
-		
-		disposition = camel_mime_part_get_disposition (attachment->body);
-		gtk_toggle_button_set_active (dialog_data->disposition_checkbox,
-					      disposition && !g_strcasecmp (disposition, "inline"));
-	}
+	set_entry (editor_gui, "file_name_entry",
+		   camel_mime_part_get_filename (attachment->body));
+	set_entry (editor_gui, "description_entry",
+		   camel_mime_part_get_description (attachment->body));
+	content_type = camel_mime_part_get_content_type (attachment->body);
+	type = header_content_type_simple (content_type);
+	set_entry (editor_gui, "mime_type_entry", type);
+	g_free (type);
+	
+	disposition = camel_mime_part_get_disposition (attachment->body);
+	gtk_toggle_button_set_active (dialog_data->disposition_checkbox,
+				      disposition && !g_strcasecmp (disposition, "inline"));
 	
 	connect_widget (editor_gui, "ok_button", "clicked", ok_cb, dialog_data);
 	connect_widget (editor_gui, "close_button", "clicked", close_cb, dialog_data);
