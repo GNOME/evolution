@@ -1232,6 +1232,11 @@ else
 	AC_MSG_ERROR(no)
 fi
 
+dnl -- e-d-s weather datadir
+dataserver_datadir=`pkg-config --variable=privdatadir evolution-data-server-1.2`
+weatherdatadir="$dataserver_datadir/weather"
+AC_SUBST(weatherdatadir)
+
 dnl --- evolution-test flags
 
 EVO_SET_COMPILE_FLAGS(EVOLUTION_TEST, libgnome-2.0 libgnomeui-2.0 libbonobo-2.0 libbonoboui-2.0 >= $BONOBOUI_REQUIRED)
@@ -1333,7 +1338,7 @@ AC_SUBST_FILE(EVO_PLUGIN_RULE)
 AC_ARG_ENABLE(plugins, [  --enable-plugins=[no/all/list]      Enable plugins.],enable_plugins="$enableval",enable_plugins=base)
 
 dnl Add any new plugins here
-plugins_base="calendar-http groupwise-account-setup plugin-manager backup-restore" 
+plugins_base="calendar-http calendar-weather groupwise-account-setup plugin-manager backup-restore" 
 plugins_all="bbdb subject-thread save-attachments prefer-plain save-calendar select-one-source copy-tool mail-to-meeting mail-to-task folder-unsubscribe mark-calendar-offline audio-inline mailing-list-actions groupwise-account-setup itip-formatter backup-restore itip-formatter"
 
 case x"$enable_plugins" in
@@ -1535,6 +1540,7 @@ mail/default/nl/Makefile
 mail/importers/Makefile
 plugins/Makefile
 plugins/calendar-http/Makefile
+plugins/calendar-weather/Makefile
 plugins/plugin-manager/Makefile
 plugins/bbdb/Makefile
 plugins/audio-inline/Makefile
