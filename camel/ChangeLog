@@ -1,3 +1,11 @@
+2003-07-17  Timo Sirainen <tss@iki.fi>
+
+	** See bug #42573
+	
+	* providers/imap/camel-imap-folder.c (do_append): Only free the
+	response after we have finished the literal request, otherwise we
+	could try processing folder updates incorrectly.
+
 2003-07-01  Jeffrey Stedfast  <fejj@ximian.com>
 
 	* camel-sasl-digest-md5.c (digest_response): Don't quote the
