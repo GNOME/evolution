@@ -1644,6 +1644,9 @@ e_calendar_item_button_press	(ECalendarItem	*calitem,
 	if (event->button.button != 1 || day == -1)
 		return FALSE;
 
+	if (calitem->max_days_selected < 1)
+		return TRUE;
+
 	if (gnome_canvas_item_grab (GNOME_CANVAS_ITEM (calitem),
 				    GDK_POINTER_MOTION_MASK
 				    | GDK_BUTTON_RELEASE_MASK,
@@ -2174,11 +2177,12 @@ void
 e_calendar_item_set_max_days_sel       (ECalendarItem	*calitem,
 					gint             days)
 {
-	calitem->max_days_selected = MAX (1, days);
+	calitem->max_days_selected = MAX (0, days);
+	gnome_canvas_item_request_update (GNOME_CANVAS_ITEM (calitem));
 }
 
 
-/* Get the maximum number of days selectable */
+/* Get the maximum number of days before whole weeks are selected */
 gint     
 e_calendar_item_get_days_start_week_sel(ECalendarItem	*calitem)
 {
@@ -2186,7 +2190,7 @@ e_calendar_item_get_days_start_week_sel(ECalendarItem	*calitem)
 }
 
 
-/* Set the maximum number of days selectable */
+/* Set the maximum number of days before whole weeks are selected */
 void	 
 e_calendar_item_set_days_start_week_sel(ECalendarItem	*calitem,
 					gint            days)
@@ -2194,7 +2198,6 @@ e_calendar_item_set_days_start_week_sel(ECalendarItem	*calitem,
 	calitem->days_to_start_week_selection = days;
 }
 
-/* Set the maximum number of days before whole weeks are selected */
 gboolean 
 e_calendar_item_get_display_popup      (ECalendarItem	*calitem)
 {
@@ -2202,7 +2205,6 @@ e_calendar_item_get_display_popup      (ECalendarItem	*calitem)
 }
 
 
-/* Get the maximum number of days before whole weeks are selected */
 void	 
 e_calendar_item_set_display_popup      (ECalendarItem	*calitem,
 					gboolean        display)

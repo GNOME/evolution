@@ -1,3 +1,14 @@
+2001-01-17  Federico Mena Quintero  <federico@ximian.com>
+
+	* e-calendar-item.c (e_calendar_item_set_max_days_sel): Make zero
+	the minimum number of days that can be specified.
+	(e_calendar_item_set_arg): We do need an update when the maximum
+	number of selected days is changed.
+	(e_calendar_item_set_max_days_sel): Request an update of the
+	canvas item.
+	(e_calendar_item_button_press): Do not start selecting days if the
+	max_days_selected is less than 1.
+
 2001-01-17  Jeffrey Stedfast  <fejj@ximian.com>
 
 	* e-messagebox.c (e_message_box_get_id): Oops. Delete this. I
