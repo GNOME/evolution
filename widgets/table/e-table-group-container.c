@@ -213,8 +213,8 @@ e_table_group_container_construct (GnomeCanvasGroup *parent, ETableGroupContaine
 	etgc->ascending = ascending;
 	
 	etgc->font = gdk_font_load ("lucidasans-10");
+	etgc->open = TRUE;
 #if 0
-	etgc->open = open;
 	etgc->transparent = transparent;
 	
 	etgc_dim (etgc, &etgc->width, &etgc->height);

@@ -1,5 +1,10 @@
 2000-03-06  Christopher James Lahey  <clahey@helixcode.com>
 
+	* e-table-header-item.c, e-table-header-item.h: Made it so that
+	columns would be properly indented.
+
+2000-03-06  Christopher James Lahey  <clahey@helixcode.com>
+
 	* e-table-sorted-variable.c: Have identical values get sorted by
 	their actual row.
 

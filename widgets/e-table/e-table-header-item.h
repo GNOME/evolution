@@ -33,6 +33,8 @@ typedef struct {
 	
 	GtkObject       *resize_guide;
 
+	int              group_indent_width;
+
 	/*
 	 * Ids
 	 */

@@ -29,6 +29,8 @@
 
 #define MIN_ARROW_SIZE 10
 
+#define GROUP_INDENT         10
+
 /* Defines the tolerance for proximity of the column division to the cursor position */
 #define TOLERANCE 2
 
@@ -131,7 +133,7 @@ ethi_drop_table_header (ETableHeaderItem *ethi)
 static void 
 structure_changed (ETableHeader *header, ETableHeaderItem *ethi)
 {
-	ethi->width = e_table_header_total_width (header);
+	ethi->width = e_table_header_total_width (header) + ethi->group_indent_width;
 
 	ethi_update (GNOME_CANVAS_ITEM (ethi), NULL, NULL, 0);
 }
@@ -139,7 +141,7 @@ structure_changed (ETableHeader *header, ETableHeaderItem *ethi)
 static void
 dimension_changed (ETableHeader *header, int col, ETableHeaderItem *ethi)
 {
-	ethi->width = e_table_header_total_width (header);
+	ethi->width = e_table_header_total_width (header) + ethi->group_indent_width;
 
 	ethi_update (GNOME_CANVAS_ITEM (ethi), NULL, NULL, 0);
 }
@@ -149,7 +151,7 @@ ethi_add_table_header (ETableHeaderItem *ethi, ETableHeader *header)
 {
 	ethi->eth = header;
 	gtk_object_ref (GTK_OBJECT (ethi->eth));
-	ethi->width = e_table_header_total_width (header);
+	ethi->width = e_table_header_total_width (header) + ethi->group_indent_width;
 
 	ethi->structure_change_id = gtk_signal_connect (
 		GTK_OBJECT (header), "structure_change",
@@ -204,6 +206,8 @@ ethi_find_col_by_x (ETableHeaderItem *ethi, int x)
 
 	if (x < x1)
 		return -1;
+
+	x1 += ethi->group_indent_width;
 	
 	for (col = 0; col < cols; col++){
 		ETableCol *ecol = e_table_header_get_column (ethi->eth, col);
@@ -251,6 +255,9 @@ ethi_add_drop_marker (ETableHeaderItem *ethi, int col)
 	points = gnome_canvas_points_new (3);
 
 	x = e_table_header_col_diff (ethi->eth, 0, col);
+	
+	if ( col > 0 )
+		x += ethi->group_indent_width;
 	
 	points->coords [0] = ethi->x1 + x - 5;
 	points->coords [1] = ethi->y1;
@@ -574,6 +581,7 @@ ethi_draw (GnomeCanvasItem *item, GdkDrawable *drawable, int x, int y, int width
 	int col;
 	GHashTable *arrows = g_hash_table_new(NULL, NULL);
 	xmlNode *node;
+	gint group_indent = 0;
 
 #if 0
 	printf ("My coords are: %g %g %g %g\n",
@@ -586,6 +594,7 @@ ethi_draw (GnomeCanvasItem *item, GdkDrawable *drawable, int x, int y, int width
 			       "grouping", &grouping,
 			       NULL);
 		for (node = grouping->childs; node && strcmp(node->name, "leaf"); node = node->childs) {
+			group_indent ++;
 			g_hash_table_insert(arrows, 
 					    (gpointer) e_xml_get_integer_prop_by_name(node, "column"), 
 					    (gpointer) (e_xml_get_integer_prop_by_name(node, "ascending") ?
@@ -600,7 +609,10 @@ ethi_draw (GnomeCanvasItem *item, GdkDrawable *drawable, int x, int y, int width
 							E_TABLE_COL_ARROW_UP));
 	}
 
+	ethi->group_indent_width = group_indent * GROUP_INDENT;
+	ethi->width = e_table_header_total_width (ethi->eth) + ethi->group_indent_width;
 	x1 = x2 = ethi->x1;
+	x2 += ethi->group_indent_width;
 	for (col = 0; col < cols; col++, x1 = x2){
 		ETableCol *ecol = e_table_header_get_column (ethi->eth, col);
 		int col_width;
@@ -622,7 +634,7 @@ ethi_draw (GnomeCanvasItem *item, GdkDrawable *drawable, int x, int y, int width
 
 		draw_button (ethi, ecol, drawable, gc,
 			     GTK_WIDGET (canvas)->style,
-			     x1 - x, ethi->y1 - y, col_width, ethi->height, 
+			     x1 - x, ethi->y1 - y, x2 - x1, ethi->height, 
 			     (ETableColArrow) g_hash_table_lookup(arrows, (gpointer) ecol->col_idx) );
 	}
 	g_hash_table_destroy(arrows);
@@ -994,6 +1006,8 @@ ethi_init (GnomeCanvasItem *item)
 	ethi->drag_mark = -1;
 	
 	ethi->sort_info = NULL;
+
+	ethi->group_indent_width = 0;
 }
 
 GtkType
