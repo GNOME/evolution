@@ -109,9 +109,11 @@ load_icon (const char *icon_name)
 		int size = sizes[i];
 		
 		if (!(filename = gnome_icon_theme_lookup_icon (icon_theme, icon_name, size, NULL, NULL)))
-			goto exception;
+			filename = g_strdup (icon_name);
 		
 		unscaled = gdk_pixbuf_new_from_file (filename, NULL);
+		if (!unscaled)
+			goto exception;
 		pixbufs[i] = gdk_pixbuf_scale_simple (unscaled, size, size, GDK_INTERP_BILINEAR);
 		g_object_unref (unscaled);
 		g_free (filename);

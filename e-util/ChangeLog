@@ -1,3 +1,8 @@
+2004-04-30  Dan Winship  <danw@ximian.com>
+
+	* e-icon-factory.c (load_icon): Make this work for non-stock icons
+	too.
+
 2004-04-22  Not Zed  <NotZed@Ximian.com>
 
 	* e-icon-factory.c (e_icon_factory_get_icon_list): make sure we
