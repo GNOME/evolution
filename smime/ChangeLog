@@ -1,3 +1,12 @@
+2004-01-04  Chris Toshok  <toshok@ximian.com>
+
+	* gui/certificate-viewer.c (fill_in_general): use <tt> markup
+	around the fingerprints, and italicize the Not part of certificate
+	text.
+	(fill_in_details): create a monospace text tag to be used in the
+	field value textbuffer.
+	(fields_selection_changed): use the text tag when inserting text.
+
 2003-12-10  Not Zed  <NotZed@Ximian.com>
 
 	* gui/e-cert-selector.c (e_cert_selector_new): if we get no
