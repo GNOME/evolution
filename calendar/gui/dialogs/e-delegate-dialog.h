@@ -50,20 +50,24 @@ struct _EDelegateDialogClass {
 	GtkObjectClass parent_class;
 };
 
+GtkType          e_delegate_dialog_get_type          (void);
 
-GtkType		 e_delegate_dialog_get_type		(void);
-EDelegateDialog* e_delegate_dialog_construct		(EDelegateDialog  *etd);
+EDelegateDialog* e_delegate_dialog_construct         (EDelegateDialog *etd,
+						      const char      *name,
+						      const char      *address);
 
-EDelegateDialog* e_delegate_dialog_new			(void);
+EDelegateDialog* e_delegate_dialog_new               (const char      *name,
+						      const char      *address);
 
-char*		 e_delegate_dialog_get_delegate		(EDelegateDialog  *etd);
+char*            e_delegate_dialog_get_delegate      (EDelegateDialog *etd);
 
-char*		 e_delegate_dialog_get_delegate_name    (EDelegateDialog  *etd);
+char*            e_delegate_dialog_get_delegate_name (EDelegateDialog *etd);
 
-void		 e_delegate_dialog_set_delegate		(EDelegateDialog  *etd,
-							 const char       *address);
+void             e_delegate_dialog_set_delegate      (EDelegateDialog *etd,
+						      const char      *address);
 
-GtkWidget*	 e_delegate_dialog_get_toplevel		(EDelegateDialog  *etd);
+GtkWidget*       e_delegate_dialog_get_toplevel      (EDelegateDialog *etd);
+
 
 
 

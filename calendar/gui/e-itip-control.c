@@ -348,7 +348,8 @@ clean_up (EItipControl *itip)
 	g_free (priv->vcalendar);
 	priv->vcalendar = NULL;
 
-	gtk_object_unref (GTK_OBJECT (priv->comp));
+	if (priv->comp)
+		gtk_object_unref (GTK_OBJECT (priv->comp));
 	priv->comp = NULL;
 	
 	icalcomponent_free (priv->top_level);

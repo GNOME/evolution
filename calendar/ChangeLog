@@ -1,3 +1,28 @@
+2001-07-26  JP Rosevear  <jpr@ximian.com>
+
+	* gui/dialogs/meeting-page.c (cleanup_attendees): free a list of
+	attendees
+	(meeting_page_fill_widgets): clean up attendee lists and fix typo
+	(find_match): add ability to return pos of match
+	(popup_delete_cb): if deletion happens, make sure to tidy up
+	delegation chain
+
+	* gui/dialogs/e-delegate-dialog.c (e_delegate_dialog_construct):
+	use the destination rather than text property
+	(e_delegate_dialog_get_delegate): ditto
+	(e_delegate_dialog_new): take name/address pair for dialog default
+
+	* gui/dialogs/e-delegate-dialog.h: update protos
+
+	* gui/e-itip-control.c (clean_up): only unref the object if we
+	have one
+	
+	* gui/itip-control-factory.c (stream_read): make sure we null
+	terminate the final buffer
+
+	* gui/itip-utils.c (itip_send_comp): strip the mailto: from the
+	organizer address if necessary
+
 2001-07-26  Damon Chaplin  <damon@ximian.com>
 
 	* gui/dialogs/recurrence-page.c (exception_select_row_cb): check that

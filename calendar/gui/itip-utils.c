@@ -236,7 +236,7 @@ itip_send_comp (CalComponentItipMethod method, CalComponent *comp)
 			recipient->name = CORBA_string_dup (organizer.cn);
 		else
 			recipient->name = CORBA_string_dup ("");
-		recipient->address = CORBA_string_dup (organizer.value);
+		recipient->address = CORBA_string_dup (itip_strip_mailto (organizer.value));
 		break;
 
 	default:

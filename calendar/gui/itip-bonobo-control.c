@@ -54,7 +54,7 @@ static char *
 stream_read (Bonobo_Stream stream)
 {
 	Bonobo_Stream_iobuf *buffer;
-	CORBA_Environment    ev;
+	CORBA_Environment ev;
 	gchar *data = NULL;
 	gint length = 0;
 
@@ -72,18 +72,15 @@ stream_read (Bonobo_Stream stream)
 		if (buffer->_length <= 0)
 			break;
 
-		data = g_realloc (data,
-				  length + buffer->_length);
-
-		memcpy (data + length,
-			buffer->_buffer, buffer->_length);
-
+		data = g_realloc (data, length + buffer->_length + 1);
+		memcpy (data + length, buffer->_buffer, buffer->_length);
 		length += buffer->_length;
-
+		data[length] = '\0';
+		
 		CORBA_free (buffer);
 #undef READ_CHUNK_SIZE
 	} while (1);
-
+	
 	CORBA_free (buffer);
 	CORBA_exception_free (&ev);
 

@@ -90,9 +90,10 @@ struct attendee {
 
 /* Private part of the MeetingPage structure */
 struct _MeetingPagePrivate {
-	/* List of attendees */
+	/* Lists of attendees */
 	GSList *attendees;
-
+	GSList *deleted_attendees;
+	
 	/* List of identities */
 	GList *addresses;
 	GList *address_strings;
@@ -221,6 +222,28 @@ meeting_page_init (MeetingPage *mpage)
 	priv->updating = FALSE;
 }
 
+static void
+cleanup_attendees (GSList *attendees)
+{
+	GSList *l;
+	
+	for (l = attendees; l != NULL; l = l->next) {
+		struct attendee *a = l->data;
+
+		g_free (a->address);
+		g_free (a->member);
+		g_free (a->delto);
+		g_free (a->delfrom);
+		g_free (a->sentby);
+		g_free (a->cn);
+		g_free (a->language);
+		
+		g_free (a);
+	}
+
+	g_slist_free (attendees);
+}
+
 /* Destroy handler for the task page */
 static void
 meeting_page_destroy (GtkObject *object)
@@ -236,6 +259,9 @@ meeting_page_destroy (GtkObject *object)
 	mpage = MEETING_PAGE (object);
 	priv = mpage->priv;
 
+	cleanup_attendees (priv->attendees);
+	cleanup_attendees (priv->deleted_attendees);
+	
 	itip_addresses_free (priv->addresses);
 	g_list_free (priv->address_strings);
 
@@ -322,6 +348,12 @@ meeting_page_fill_widgets (CompEditorPage *page, CalComponent *comp)
 
 	priv->updating = TRUE;
 	
+	/* Clean out old data */
+	cleanup_attendees (priv->attendees);
+	cleanup_attendees (priv->deleted_attendees);
+	priv->attendees = NULL;	
+	priv->deleted_attendees = NULL;	
+
 	/* Clean the screen */
 	clear_widgets (mpage);
 
@@ -369,7 +401,7 @@ meeting_page_fill_widgets (CompEditorPage *page, CalComponent *comp)
 		attendee->status = att->status;
 		attendee->rsvp = att->rsvp;
 		attendee->delto = att->delto ? g_strdup (att->delto) : g_strdup ("");
-		attendee->delfrom = att->delto ? g_strdup (att->delfrom) : g_strdup ("");
+		attendee->delfrom = att->delfrom ? g_strdup (att->delfrom) : g_strdup ("");
 		attendee->sentby = att->sentby ? g_strdup (att->sentby) : g_strdup ("");
 		attendee->cn = att->cn ? g_strdup (att->cn) : g_strdup ("");
 		attendee->language = att->language ? g_strdup (att->language) : g_strdup ("");
@@ -819,20 +851,27 @@ partstat_to_text (CalComponentPartStat partstat)
 }
 
 static struct attendee *
-is_duplicate (MeetingPage *mpage, char *address)
+find_match (MeetingPage *mpage, char *address, int *pos)
 {
 	MeetingPagePrivate *priv;
 	struct attendee *a;
 	GSList *l;
+	int i;
 	
 	priv = mpage->priv;
 	
+	if (address == NULL)
+		return NULL;
+	
 	/* Make sure we can add the new delegatee person */
-	for (l = priv->attendees; l != NULL; l = l->next) {
+	for (l = priv->attendees, i = 0; l != NULL; l = l->next, i++) {
 		a = l->data;
 			
-		if (a->address != NULL && !g_strcasecmp (itip_strip_mailto (a->address), itip_strip_mailto (address)))
+		if (a->address != NULL && !g_strcasecmp (itip_strip_mailto (a->address), itip_strip_mailto (address))) {
+			if (pos != NULL)
+				*pos = i;
 			return a;
+		}
 	}
 
 	return NULL;
@@ -876,7 +915,7 @@ append_row (ETableModel *etm, ETableModel *model, int row, void *data)
 	priv = mpage->priv;
 	
 	address = (char *) e_table_model_value_at (model, MEETING_ATTENDEE_COL, row);
-	if (is_duplicate (mpage, address) != NULL) {
+	if (find_match (mpage, address, NULL) != NULL) {
 		duplicate_error ();
 		return;
 	}
@@ -1007,9 +1046,12 @@ set_value_at (ETableModel *etm, int col, int row, const void *val, void *data)
 static gboolean
 is_cell_editable (ETableModel *etm, int col, int row, void *data)
 {
+	g_print ("Is editable, %d, %d\n", col, row);
+	
 	switch (col) {
 	case MEETING_DELTO_COL:
 	case MEETING_DELFROM_COL:
+		g_print ("FALSE\n");
 		return FALSE;
 
 	default:
@@ -1201,13 +1243,16 @@ popup_delegate_cb (GtkWidget *widget, gpointer data)
 	MeetingPagePrivate *priv;
 	EDelegateDialog *edd;
 	GtkWidget *dialog;
+	struct attendee *a;
 	char *address = NULL, *name = NULL;
 	gint row_cnt;
 	
 	priv = mpage->priv;
 
+	a = g_slist_nth_data (priv->attendees, priv->row);
+
 	/* Show dialog. */
-	edd = e_delegate_dialog_new ();
+	edd = e_delegate_dialog_new (NULL, itip_strip_mailto (a->delto));
 	dialog = e_delegate_dialog_get_toplevel (edd);
 
 	if (gnome_dialog_run_and_close (GNOME_DIALOG (dialog)) == 0){
@@ -1218,7 +1263,7 @@ popup_delegate_cb (GtkWidget *widget, gpointer data)
 		address = e_delegate_dialog_get_delegate (edd);
 
 		/* Make sure we can add the new delegatee person */
-		if (is_duplicate (mpage, address) != NULL) {
+		if (find_match (mpage, address, NULL) != NULL) {
 			duplicate_error ();
 			goto cleanup;
 		}
@@ -1228,9 +1273,10 @@ popup_delegate_cb (GtkWidget *widget, gpointer data)
 		if (a->delto) {
 			struct attendee *b;
 			
-			b = is_duplicate (mpage, a->delto);
-			if (b != NULL) {				
+			b = find_match (mpage, a->delto, NULL);
+			if (b != NULL) {			
 				priv->attendees = g_slist_remove (priv->attendees, b);
+				priv->deleted_attendees = g_slist_append (priv->deleted_attendees, b);
 				
 				e_table_model_row_deleted (priv->model, priv->row);
 			}			
@@ -1279,14 +1325,42 @@ popup_delete_cb (GtkWidget *widget, gpointer data)
 {
 	MeetingPage *mpage = MEETING_PAGE (data);
 	MeetingPagePrivate *priv;
-	GSList *l;
+	struct attendee *a;
+	int pos = 0;
 	
 	priv = mpage->priv;
-
-	l = g_slist_nth (priv->attendees, priv->row);
-	priv->attendees = g_slist_remove (priv->attendees, l->data);
 	
-	e_table_model_row_deleted (priv->model, priv->row);
+	a = g_slist_nth_data (priv->attendees, priv->row);
+
+	/* If this was a delegatee, no longer delegate */
+	if (a->delfrom != NULL) {
+		struct attendee *b;
+		
+		b = find_match (mpage, a->delfrom, &pos);
+		if (b != NULL && b->delto) {
+			g_free (b->delto);
+			b->delto = g_strdup ("");
+
+			e_table_model_row_changed (priv->model, pos);
+		}
+	}
+	
+	/* Handle deleting all attendees in the delegation chain */	
+	pos = priv->row;
+	while (a != NULL) {
+		struct attendee *b = NULL;
+
+		e_table_model_pre_change (priv->model);
+	
+		priv->attendees = g_slist_remove (priv->attendees, a);		
+		priv->deleted_attendees = g_slist_append (priv->deleted_attendees, a);
+
+		e_table_model_row_deleted (priv->model, pos);
+
+		if (a->delto != NULL)
+			b = find_match (mpage, a->delto, &pos);
+		a = b;
+	}
 }
 
 enum {

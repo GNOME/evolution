@@ -145,9 +145,11 @@ e_delegate_dialog_destroy (GtkObject *object)
 
 
 EDelegateDialog *
-e_delegate_dialog_construct (EDelegateDialog *edd)
+e_delegate_dialog_construct (EDelegateDialog *edd, const char *name, const char *address)
 {
 	EDelegateDialogPrivate *priv;
+	EDestination *dest;
+	EDestination *destv[2] = {NULL, NULL};
 	Bonobo_Control corba_control;
 	CORBA_Environment ev;
 
@@ -197,7 +199,15 @@ e_delegate_dialog_construct (EDelegateDialog *edd)
 	gtk_widget_show (priv->entry);
 	gtk_box_pack_start (GTK_BOX (priv->hbox), priv->entry, TRUE, TRUE, 0);
 
-
+	dest = e_destination_new ();
+	destv[0] = dest;
+	if (name != NULL && *name)
+		e_destination_set_name (dest, name);
+	if (address != NULL && *address)
+		e_destination_set_email (dest, address);
+	bonobo_widget_set_property (BONOBO_WIDGET (priv->entry), "destinations", e_destination_exportv (destv), NULL);
+	gtk_object_unref (GTK_OBJECT (dest));
+		
 	gtk_signal_connect (GTK_OBJECT (priv->addressbook), "clicked",
 			    GTK_SIGNAL_FUNC (addressbook_clicked_cb), edd);
 
@@ -253,12 +263,12 @@ addressbook_clicked_cb (GtkWidget *widget, gpointer data)
  * editor could not be created.
  **/
 EDelegateDialog *
-e_delegate_dialog_new (void)
+e_delegate_dialog_new (const char *name, const char *address)
 {
 	EDelegateDialog *edd;
 
 	edd = E_DELEGATE_DIALOG (gtk_type_new (E_TYPE_DELEGATE_DIALOG));
-	return e_delegate_dialog_construct (E_DELEGATE_DIALOG (edd));
+	return e_delegate_dialog_construct (E_DELEGATE_DIALOG (edd), name, address);
 }
 
 char *
@@ -273,10 +283,8 @@ e_delegate_dialog_get_delegate		(EDelegateDialog  *edd)
 
 	priv = edd->priv;
 	
-	bonobo_widget_get_property (BONOBO_WIDGET (priv->entry), "text", &string, NULL);
+	bonobo_widget_get_property (BONOBO_WIDGET (priv->entry), "destinations", &string, NULL);
 	destv = e_destination_importv (string);
-	
-	g_message ("importv: [%s]", string);
 	
 	if (destv && destv[0] != NULL) {
 		g_free (priv->address);
@@ -317,24 +325,6 @@ e_delegate_dialog_get_delegate_name		(EDelegateDialog  *edd)
 	
 	return g_strdup (priv->name);
 }
-
-void
-e_delegate_dialog_set_delegate		(EDelegateDialog  *edd,
-					 const char *address)
-{
-	EDelegateDialogPrivate *priv;
-
-	g_return_if_fail (edd != NULL);
-	g_return_if_fail (E_IS_DELEGATE_DIALOG (edd));
-
-	priv = edd->priv;
-
-	if (priv->address)
-		g_free (priv->address);
-
-	priv->address = g_strdup (address);
-}
-
 
 GtkWidget*
 e_delegate_dialog_get_toplevel	(EDelegateDialog  *edd)
