@@ -430,6 +430,23 @@ dialog_destroyed (GtkObject *object,
 	g_free (dialog);
 }
 
+struct _idle_data {
+	ESummary *esummary;
+	ESummaryWindow *window;
+};
+
+static gboolean
+idle_remove_window (gpointer data)
+{
+	struct _idle_data *id = data;
+
+	e_summary_remove_window (id->esummary, id->window);
+	e_summary_queue_rebuild (id->esummary);
+	g_free (id);
+
+	return FALSE;
+}
+
 void
 e_summary_url_click (GtkWidget *widget,
 		     const char *url,
@@ -439,6 +456,7 @@ e_summary_url_click (GtkWidget *widget,
 	char *parsed;
 	int address;
 	ESummaryWindow *window;
+	struct _idle_data *id;
 	Bonobo_Control control;
 	Bonobo_Listener corba_listener;
 	GtkWidget *prefsbox, *control_widget;
@@ -473,8 +491,15 @@ e_summary_url_click (GtkWidget *widget,
 		if (window->iid == NULL)
 			break;
 
-		e_summary_remove_window (esummary, window);
-		e_summary_queue_rebuild (esummary);
+		id = g_new (struct _idle_data, 1);
+		id->window = window;
+		id->esummary = esummary;
+
+		/* Close the window on an idle to work around a bug in gnome-vfs
+		   which locaks the e_summary_remove_window function and as
+		   gtkhtml has a pointer grab on, this locks the whole display.
+		   GAH! */
+		g_idle_add (idle_remove_window, id);
 		break;
 
 	case PROTOCOL_CONFIGURE:
