@@ -25,15 +25,7 @@
 #include <config.h>
 #endif
 
-#include <glib.h>
-#include <libgnome/gnome-defs.h>
-#include <libgnome/gnome-i18n.h>
-#include <libgnomeui/gnome-druid.h>
-#include <libgnomeui/gnome-druid-page-finish.h>
-#include <libgnomeui/gnome-druid-page-standard.h>
-#include <libgnomeui/gnome-druid-page-start.h>
-#include <libgnomeui/gnome-file-entry.h>
-#include <libgnomeui/gnome-stock.h>
+#include <gnome.h>
 
 #include <liboaf/liboaf.h>
 
@@ -361,6 +353,18 @@ start_import (const char *filename,
 		gtk_main_iteration ();
 	
 	icd->client = evolution_importer_client_new_from_id (real_iid);
+	if (icd->client == NULL) {
+		label = g_strdup_printf (_("Error starting %s"), real_iid);
+		g_free (real_iid);
+		gtk_label_set_text (GTK_LABEL (icd->contents), label);
+		g_free (label);
+		while (gtk_events_pending ())
+			gtk_main_iteration ();
+
+		gtk_object_unref (GTK_OBJECT (icd->dialog));
+		g_free (icd);
+		return;
+	}
 	g_free (real_iid);
 
 	/* NULL for folderpath means use Inbox */
