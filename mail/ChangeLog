@@ -1,5 +1,11 @@
 2004-05-24  Not Zed  <NotZed@Ximian.com>
 
+	* mail-account-gui.c (mail_account_gui_build_extra_conf): don't
+	enable the widget based on its writability if it is a dependent
+	option which is now disable.
+	(setup_toggle): return whether the widget is sensitive too.
+	#57171.
+
 	* em-popup.c (em_popup_target_new_select): only enable add sender
 	if we also have 1 selected.  #56663.
 

@@ -917,19 +917,22 @@ toggle_sensitivity (GtkToggleButton *toggle, GtkWidget *widget)
 	gtk_widget_set_sensitive (widget, gtk_toggle_button_get_active (toggle));
 }
 
-static void
+/* Returns true if the widget is enabled */
+static gboolean
 setup_toggle (GtkWidget *widget, const char *depname, MailAccountGui *gui)
 {
 	GtkToggleButton *toggle;
 	
 	if (!strcmp (depname, "UNIMPLEMENTED")) {
 		gtk_widget_set_sensitive (widget, FALSE);
-		return;
+		return FALSE;
 	}
 	
 	toggle = g_hash_table_lookup (gui->extra_config, depname);
 	g_signal_connect (toggle, "toggled", G_CALLBACK (toggle_sensitivity), widget);
 	toggle_sensitivity (toggle, widget);
+
+	return gtk_toggle_button_get_active(toggle);
 }
 
 void
@@ -1019,6 +1022,7 @@ mail_account_gui_build_extra_conf (MailAccountGui *gui, const char *url_string)
 	rows = main_table->nrows;
 	for (i = 0; ; i++) {
 		GtkWidget *enable_widget = NULL;
+		int enabled = TRUE;
 		
 		switch (entries[i].type) {
 		case CAMEL_PROVIDER_CONF_SECTION_START:
@@ -1107,8 +1111,8 @@ mail_account_gui_build_extra_conf (MailAccountGui *gui, const char *url_string)
 			rows++;
 			g_hash_table_insert (gui->extra_config, entries[i].name, checkbox);
 			if (entries[i].depname)
-				setup_toggle (checkbox, entries[i].depname, gui);
-			
+				enabled = setup_toggle(checkbox, entries[i].depname, gui);
+
 			enable_widget = checkbox;
 			break;
 		}
@@ -1153,7 +1157,7 @@ mail_account_gui_build_extra_conf (MailAccountGui *gui, const char *url_string)
 			
 			if (entries[i].depname) {
 				setup_toggle (entry, entries[i].depname, gui);
-				setup_toggle (label, entries[i].depname, gui);
+				enabled = setup_toggle (label, entries[i].depname, gui);
 			}
 			
 			g_hash_table_insert (gui->extra_config, entries[i].name, entry);
@@ -1220,7 +1224,7 @@ mail_account_gui_build_extra_conf (MailAccountGui *gui, const char *url_string)
 			if (entries[i].depname) {
 				setup_toggle (checkbox, entries[i].depname, gui);
 				setup_toggle (spin, entries[i].depname, gui);
-				setup_toggle (label, entries[i].depname, gui);
+				enabled = setup_toggle (label, entries[i].depname, gui);
 			}
 			
 			enable_widget = hbox;
@@ -1234,7 +1238,7 @@ mail_account_gui_build_extra_conf (MailAccountGui *gui, const char *url_string)
 			goto done;
 		}
 		
-		if (enable_widget)
+		if (enabled && enable_widget)
 			gtk_widget_set_sensitive(enable_widget, e_account_writable_option(gui->account, gui->source.provider->protocol, entries[i].name));
 	}
 	
