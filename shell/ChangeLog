@@ -1,3 +1,7 @@
+2001-02-24  Jeffrey Stedfast  <fejj@ximian.com>
+
+	* e-storage.c (folder_changed_cb): Don't free a const pointer.
+
 2001-02-23  Iain Holmes  <iain@ximian.com>
 
 	* e-local-storage.c (construct): Connect to the create-folder signal.
