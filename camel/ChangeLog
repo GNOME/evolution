@@ -1,5 +1,23 @@
 2003-03-21  Jeffrey Stedfast  <fejj@ximian.com>
 
+	Camel part of the fix for Lewing's bug #39204. Second half of the
+	patch should also fix it so that text/plain parts that are
+	detected as being text/html are rendered as html (not that I agree
+	with this mind you, but corporate customers want this "feature").
+
+	* camel-mime-part-utils.c
+	(simple_data_wrapper_construct_from_parser): If the part is
+	text/html and doesn't have a charset and we are able to find a
+	charset in the meta tags of the html content, set the charset
+	param on the content-type.
+	(camel_mime_part_construct_content_from_parser): After setting the
+	content object on the mime part, re-set the content-type of the
+	content object back to the one from the parser (as it may contain
+	changes from the original - see changes made to the ct in
+	simple_data_wrapper_construct_from_parser for details).
+
+2003-03-21  Jeffrey Stedfast  <fejj@ximian.com>
+
 	* camel-tcp-stream-ssl.c (camel_certdb_nss_cert_get): continue
 	reading the cert file until we've read it all or get a non-EINTR
 	errno.

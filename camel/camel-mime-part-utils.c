@@ -352,8 +352,10 @@ simple_data_wrapper_construct_from_parser (CamelDataWrapper *dw, CamelMimeParser
 	}
 	
 	/* Possible Lame Mailer Alert... check the META tags for a charset */
-	if (!charset && header_content_type_is (ct, "text", "html"))
-		charset = check_html_charset (buffer->data, buffer->len);
+	if (!charset && header_content_type_is (ct, "text", "html")) {
+		if ((charset = check_html_charset (buffer->data, buffer->len)))
+			header_content_type_set_param (ct, "charset", charset);
+	}
 	
 	/* if we need to do charset conversion, see if we can/it works/etc */
 	if (charset && !(strcasecmp (charset, "us-ascii") == 0
@@ -416,12 +418,15 @@ void
 camel_mime_part_construct_content_from_parser (CamelMimePart *dw, CamelMimeParser *mp)
 {
 	CamelDataWrapper *content = NULL;
+	CamelContentType *ct;
+	
+	ct = camel_mime_parser_content_type (mp);
 	
 	switch (camel_mime_parser_state (mp)) {
 	case HSCAN_HEADER:
 		d(printf("Creating body part\n"));
 		/* multipart/signed is some fucked up type that we must treat as binary data, fun huh, idiots. */
-		if (header_content_type_is (camel_mime_parser_content_type (mp), "multipart", "signed")) {
+		if (header_content_type_is (ct, "multipart", "signed")) {
 			content = (CamelDataWrapper *) camel_multipart_signed_new ();
 			camel_multipart_construct_from_parser ((CamelMultipart *) content, mp);
 		} else {
@@ -436,9 +441,9 @@ camel_mime_part_construct_content_from_parser (CamelMimePart *dw, CamelMimeParse
 		break;
 	case HSCAN_MULTIPART:
 		d(printf("Creating multi-part\n"));
-		if (header_content_type_is (camel_mime_parser_content_type (mp), "multipart", "encrypted"))
+		if (header_content_type_is (ct, "multipart", "encrypted"))
 			content = (CamelDataWrapper *) camel_multipart_encrypted_new ();
-		else if (header_content_type_is (camel_mime_parser_content_type (mp), "multipart", "signed"))
+		else if (header_content_type_is (ct, "multipart", "signed"))
 			content = (CamelDataWrapper *) camel_multipart_signed_new ();
 		else
 			content = (CamelDataWrapper *) camel_multipart_new ();
@@ -451,9 +456,17 @@ camel_mime_part_construct_content_from_parser (CamelMimePart *dw, CamelMimeParse
 	}
 	if (content) {
 		/* would you believe you have to set this BEFORE you set the content object???  oh my god !!!! */
-		camel_data_wrapper_set_mime_type_field (content, 
-							camel_mime_part_get_content_type ((CamelMimePart *)dw));
+		camel_data_wrapper_set_mime_type_field (content, camel_mime_part_get_content_type (dw));
 		camel_medium_set_content_object ((CamelMedium *)dw, content);
-		camel_object_unref ((CamelObject *)content);
+		
+		/* Note: we don't set ct as the content-object's mime-type above because
+		 * camel_medium_set_content_object() may re-write the Content-Type header
+		 * (see CamelMimePart::set_content_object) if we did that (which is a Bad Thing).
+		 * However, if we set it *afterward*, we can still use any special auto-detections
+		 * that we found in simple_data_wrapper_construct_from_parser(). This is important
+		 * later when we go to render the MIME parts in mail-format.c */
+		camel_data_wrapper_set_mime_type_field (content, ct);
+		
+		camel_object_unref (content);
 	}
 }
