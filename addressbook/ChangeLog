@@ -1,3 +1,8 @@
+2000-07-19  Fatih Demir	<kabalak@gmx.net>
+	
+	* conduit/address-conduit-control-applet.desktop:
+		Added the Turkish desktop entry.
+
 2000-07-18  Christopher James Lahey  <clahey@helixcode.com>
 
 	* gui/minicard/e-minicard-control.c: Added "text/vCard" to the

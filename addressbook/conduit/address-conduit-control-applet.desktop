@@ -2,9 +2,11 @@
 Name=Address conduit 
 Name[da]=Udstående
 Name[no]=Oppgaver
+Name[tr]=Adres parçasý
 Comment=Configure the address conduit
 Comment[da]=Konfigurér Udstående
 Comment[no]=Konfigurér oppgavelisten
+Comment[tr]=Adres parçasýnýn ayarlarý
 Exec=address-conduit-control-applet --cap-id=1
 Terminal=0
 Type=Application
