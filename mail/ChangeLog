@@ -1,3 +1,14 @@
+2004-03-19  Jeffrey Stedfast  <fejj@ximian.com>
+
+	Fixes bug #54800.
+
+	* em-folder-tree.c (tree_drag_drop): Remove the autoscroll
+	timeout.
+	(tree_drag_leave): Remove the autoscroll timeout.
+	(tree_autoscroll): New autoscroll timeout callback - automagically
+	scrolls the treeview if appropriate.
+	(tree_drag_motion): Setup the autoscroll timeout.
+
 2004-03-19  Not Zed  <NotZed@Ximian.com>
 
 	* mail-component.c (mail_component_remove_store): ref the store

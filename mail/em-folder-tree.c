@@ -82,6 +82,8 @@ struct _EMFolderTreePrivate {
 	
 	guint save_state_id;
 	
+	guint autoscroll_id;
+	
 	guint loading_row_id;
 	guint loaded_row_id;
 	
@@ -387,7 +389,12 @@ em_folder_tree_destroy (GtkObject *obj)
 		g_source_remove (priv->save_state_id);
 		emft_save_state (emft);
 	}
-
+	
+	if (priv->autoscroll_id != 0) {
+		g_source_remove (priv->autoscroll_id);
+		priv->autoscroll_id = 0;
+	}
+	
 	priv->treeview = NULL;
 	priv->model = NULL;
 	
@@ -1224,6 +1231,11 @@ tree_drag_drop (GtkWidget *widget, GdkDragContext *context, int x, int y, guint 
 	GtkTreePath *path;
 	GdkAtom target;
 	
+	if (priv->autoscroll_id != 0) {
+		g_source_remove (priv->autoscroll_id);
+		priv->autoscroll_id = 0;
+	}
+	
 	if (!gtk_tree_view_get_path_at_pos (priv->treeview, x, y, &path, &column, &cell_x, &cell_y))
 		return FALSE;
 	
@@ -1251,7 +1263,52 @@ tree_drag_end (GtkWidget *widget, GdkDragContext *context, EMFolderTree *emft)
 static void
 tree_drag_leave (GtkWidget *widget, GdkDragContext *context, guint time, EMFolderTree *emft)
 {
+	struct _EMFolderTreePrivate *priv = emft->priv;
+	
+	if (priv->autoscroll_id != 0) {
+		g_source_remove (priv->autoscroll_id);
+		priv->autoscroll_id = 0;
+	}
+	
 	gtk_tree_view_set_drag_dest_row(emft->priv->treeview, NULL, GTK_TREE_VIEW_DROP_BEFORE);
+}
+
+
+#define SCROLL_EDGE_SIZE 15
+
+static gboolean
+tree_autoscroll (EMFolderTree *emft)
+{
+	struct _EMFolderTreePrivate *priv = emft->priv;
+	GtkAdjustment *vadjustment;
+	GdkRectangle rect;
+	GdkWindow *window;
+	int offset, y;
+	float value;
+	
+	/* get the y pointer position relative to the treeview */
+	window = gtk_tree_view_get_bin_window (priv->treeview);
+	gdk_window_get_pointer (window, NULL, &y, NULL);
+	
+	/* rect is in coorinates relative to the scrolled window relative to the treeview */
+	gtk_tree_view_get_visible_rect (priv->treeview, &rect);
+	
+	/* move y into the same coordinate system as rect */
+	y += rect.y;
+	
+	/* see if we are near the top edge */
+	if ((offset = y - (rect.y + 2 * SCROLL_EDGE_SIZE)) > 0) {
+		/* see if we are near the bottom edge */
+		if ((offset = y - (rect.y + rect.height - 2 * SCROLL_EDGE_SIZE)) < 0)
+			return TRUE;
+	}
+	
+	vadjustment = gtk_tree_view_get_vadjustment (priv->treeview);
+	
+	value = CLAMP (vadjustment->value + offset, 0.0, vadjustment->upper - vadjustment->page_size);
+	gtk_adjustment_set_value (vadjustment, value);
+	
+	return TRUE;
 }
 
 static gboolean
@@ -1259,13 +1316,16 @@ tree_drag_motion (GtkWidget *widget, GdkDragContext *context, int x, int y, guin
 {
 	struct _EMFolderTreePrivate *priv = emft->priv;
 	GtkTreeViewDropPosition pos;
-	GtkTreePath *path;
 	GdkDragAction action = 0;
+	GtkTreePath *path;
 	GdkAtom target;
 	int i;
 	
 	if (!gtk_tree_view_get_dest_row_at_pos(priv->treeview, x, y, &path, &pos))
 		return FALSE;
+	
+	if (priv->autoscroll_id == 0)
+		priv->autoscroll_id = g_timeout_add (150, (GSourceFunc) tree_autoscroll, emft);
 	
 	target = emft_drop_target(emft, context, path);
 	if (target != GDK_NONE) {
