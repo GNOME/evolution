@@ -1,3 +1,8 @@
+2001-08-02  Jeffrey Stedfast  <fejj@ximian.com>
+
+	* folder-browser.c (message_list_drag_data_received): I obviously
+	can't spell recieved, er, received...uh, yea.
+
 2001-08-02  Jason Leach  <jleach@ximian.com>
 
 	* mail-config.glade: Set history_id's for the sig and html sig

@@ -425,7 +425,7 @@ x_evolution_message_parse (char *in, unsigned int inlen, GPtrArray **uids)
 }
 
 static void
-message_list_drag_data_recieved (ETree *tree, int row, ETreePath path, int col,
+message_list_drag_data_received (ETree *tree, int row, ETreePath path, int col,
 				 GdkDragContext *context, gint x, gint y,
 				 GtkSelectionData *selection_data, guint info,
 				 guint time, gpointer user_data)
@@ -1842,7 +1842,7 @@ my_folder_browser_init (GtkObject *object)
 			      drag_types, num_drag_types, GDK_ACTION_MOVE | GDK_ACTION_COPY);
 	
 	gtk_signal_connect (GTK_OBJECT (fb->message_list->tree), "tree_drag_data_received",
-			    GTK_SIGNAL_FUNC (message_list_drag_data_recieved), fb);
+			    GTK_SIGNAL_FUNC (message_list_drag_data_received), fb);
 	
 	/* cut, copy & paste */
 	fb->invisible = gtk_invisible_new ();
