@@ -1,3 +1,7 @@
+2004-02-18  Rodrigo Moya <rodrigo@ximian.com>
+ 
+ 	* e-proxy.c (e_proxy_init): unref the GConfClient.
+ 
 2004-02-16  JP Rosevear <jpr@ximian.com>
 
 	* Makefile.am: remove disable deprecated flags

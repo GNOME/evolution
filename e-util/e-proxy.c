@@ -93,4 +93,6 @@ e_proxy_init ()
 				 proxy_setting_changed, NULL, NULL, NULL);
 	
 	set_proxy (client);
+
+	g_object_unref (client);
 }
