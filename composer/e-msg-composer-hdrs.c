@@ -272,14 +272,14 @@ e_msg_composer_hdrs_to_message (EMsgComposerHdrs *hdrs,
 	g_return_if_fail (hdrs != NULL);
 	g_return_if_fail (E_IS_MSG_COMPOSER_HDRS (hdrs));
 	g_return_if_fail (msg != NULL);
-	g_return_if_fail (IS_CAMEL_MIME_MESSAGE (msg));
+	g_return_if_fail (CAMEL_IS_MIME_MESSAGE (msg));
 
 	s = gtk_entry_get_text (GTK_ENTRY (hdrs->priv->subject_entry));
 	camel_mime_message_set_subject (msg, g_strdup (s));
 
-	set_recipients (msg, hdrs->priv->to_entry, RECIPIENT_TYPE_TO);
-	set_recipients (msg, hdrs->priv->cc_entry, RECIPIENT_TYPE_CC);
-	set_recipients (msg, hdrs->priv->bcc_entry, RECIPIENT_TYPE_BCC);
+	set_recipients (msg, hdrs->priv->to_entry, CAMEL_RECIPIENT_TYPE_TO);
+	set_recipients (msg, hdrs->priv->cc_entry, CAMEL_RECIPIENT_TYPE_CC);
+	set_recipients (msg, hdrs->priv->bcc_entry, CAMEL_RECIPIENT_TYPE_BCC);
 }
 
 

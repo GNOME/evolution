@@ -177,9 +177,9 @@ camel_stream_data_wrapper_construct (CamelStreamDataWrapper *wrapper,
 				     CamelStream *stream)
 {
 	g_return_if_fail (wrapper != NULL);
-	g_return_if_fail (IS_CAMEL_STREAM_DATA_WRAPPER (wrapper));
+	g_return_if_fail (CAMEL_IS_STREAM_DATA_WRAPPER (wrapper));
 	g_return_if_fail (stream != NULL);
-	g_return_if_fail (IS_CAMEL_STREAM (stream));
+	g_return_if_fail (CAMEL_IS_STREAM (stream));
 
 	wrapper->stream = stream;
 	gtk_signal_connect (GTK_OBJECT (stream), "destroy",

@@ -1,6 +1,9 @@
-SUBDIRS = po macros camel tests
-
-
+SUBDIRS =					\
+	po					\
+	macros					\
+	camel					\
+	composer				\
+	tests
 
 dist-hook:
 	for subdir in intl ; do \

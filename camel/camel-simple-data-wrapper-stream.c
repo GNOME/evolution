@@ -249,9 +249,9 @@ camel_simple_data_wrapper_stream_construct (CamelSimpleDataWrapperStream *stream
 					    CamelSimpleDataWrapper *wrapper)
 {
 	g_return_if_fail (stream != NULL);
-	g_return_if_fail (IS_CAMEL_SIMPLE_DATA_WRAPPER_STREAM (stream));
+	g_return_if_fail (CAMEL_IS_SIMPLE_DATA_WRAPPER_STREAM (stream));
 	g_return_if_fail (wrapper != NULL);
-	g_return_if_fail (IS_CAMEL_SIMPLE_DATA_WRAPPER (wrapper));
+	g_return_if_fail (CAMEL_IS_SIMPLE_DATA_WRAPPER (wrapper));
 
 	gtk_object_ref (GTK_OBJECT (wrapper));
 	stream->wrapper = wrapper;
@@ -265,7 +265,7 @@ camel_simple_data_wrapper_stream_new (CamelSimpleDataWrapper *wrapper)
 	CamelStream *stream;
 
 	g_return_val_if_fail (wrapper != NULL, NULL);
-	g_return_val_if_fail (IS_CAMEL_SIMPLE_DATA_WRAPPER (wrapper), NULL);
+	g_return_val_if_fail (CAMEL_IS_SIMPLE_DATA_WRAPPER (wrapper), NULL);
 
 	stream = gtk_type_new (camel_simple_data_wrapper_stream_get_type ());
 

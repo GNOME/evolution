@@ -44,7 +44,7 @@ extern "C" {
 #define CAMEL_DATA_WRAPPER_TYPE     (camel_data_wrapper_get_type ())
 #define CAMEL_DATA_WRAPPER(obj)     (GTK_CHECK_CAST((obj), CAMEL_DATA_WRAPPER_TYPE, CamelDataWrapper))
 #define CAMEL_DATA_WRAPPER_CLASS(k) (GTK_CHECK_CLASS_CAST ((k), CAMEL_DATA_WRAPPER_TYPE, CamelDataWrapperClass))
-#define IS_CAMEL_DATA_WRAPPER(o)    (GTK_CHECK_TYPE((o), CAMEL_DATA_WRAPPER_TYPE))
+#define CAMEL_IS_DATA_WRAPPER(o)    (GTK_CHECK_TYPE((o), CAMEL_DATA_WRAPPER_TYPE))
 
 
 typedef struct 

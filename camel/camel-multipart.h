@@ -44,7 +44,7 @@ typedef struct _CamelMultipart CamelMultipart;
 #define CAMEL_MULTIPART_TYPE     (camel_multipart_get_type ())
 #define CAMEL_MULTIPART(obj)     (GTK_CHECK_CAST((obj), CAMEL_MULTIPART_TYPE, CamelMultipart))
 #define CAMEL_MULTIPART_CLASS(k) (GTK_CHECK_CLASS_CAST ((k), CAMEL_MULTIPART_TYPE, CamelMultipartClass))
-#define IS_CAMEL_MULTIPART(o)    (GTK_CHECK_TYPE((o), CAMEL_MULTIPART_TYPE))
+#define CAMEL_IS_MULTIPART(o)    (GTK_CHECK_TYPE((o), CAMEL_MULTIPART_TYPE))
 
 
 struct _CamelMultipart

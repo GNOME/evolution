@@ -45,7 +45,7 @@ typedef struct _CamelStore CamelStore;
 #define CAMEL_STORE_TYPE     (camel_store_get_type ())
 #define CAMEL_STORE(obj)     (GTK_CHECK_CAST((obj), CAMEL_STORE_TYPE, CamelStore))
 #define CAMEL_STORE_CLASS(k) (GTK_CHECK_CLASS_CAST ((k), CAMEL_STORE_TYPE, CamelStoreClass))
-#define IS_CAMEL_STORE(o)    (GTK_CHECK_TYPE((o), CAMEL_STORE_TYPE))
+#define CAMEL_IS_STORE(o)    (GTK_CHECK_TYPE((o), CAMEL_STORE_TYPE))
 
 
 struct _CamelStore

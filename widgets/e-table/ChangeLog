@@ -1,3 +1,22 @@
+1999-11-17  Ettore Perazzoli  <ettore@gnu.org>
+
+	* e-msg-composer-address-dialog.c: Moved to `$(srcdir)/composer'.
+	* e-msg-composer-address-dialog.h: Likewise.
+	* e-msg-composer-address-entry.c: Likewise.
+	* e-msg-composer-address-entry.h: Likewise.
+	* e-msg-composer-attachment-bar.c: Likewise.
+	* e-msg-composer-attachment-bar.h: Likewise.
+	* e-msg-composer-attachment.c: Likewise.
+	* e-msg-composer-attachment.h: Likewise.
+	* e-msg-composer-hdrs.c: Likewise.
+	* e-msg-composer-hdrs.h: Likewise.
+	* e-msg-composer.c: Likewise.
+	* e-msg-composer.h: Likewise.
+	* e-msg-composer-address-dialog.glade: Likewise.
+	* e-msg-composer-attachment.glade: Likewise.
+	* e-msg-composer.glade: Likewise.
+	* Makefile.am: Updated accordingly.
+
 Nov 14 1999 Elliot Lee
 	* Makefile.am: It's libevolutionwidgets.la, not .a
 

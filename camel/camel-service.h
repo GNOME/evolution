@@ -39,7 +39,7 @@ extern "C" {
 #define CAMEL_SERVICE_TYPE     (camel_service_get_type ())
 #define CAMEL_SERVICE(obj)     (GTK_CHECK_CAST((obj), CAMEL_SERVICE_TYPE, CamelService))
 #define CAMEL_SERVICE_CLASS(k) (GTK_CHECK_CLASS_CAST ((k), CAMEL_SERVICE_TYPE, CamelServiceClass))
-#define IS_CAMEL_SERVICE(o)    (GTK_CHECK_TYPE((o), CAMEL_SERVICE_TYPE))
+#define CAMEL_IS_SERVICE(o)    (GTK_CHECK_TYPE((o), CAMEL_SERVICE_TYPE))
 
 
 

@@ -42,7 +42,7 @@ extern "C" {
 #define CAMEL_MIME_PART_TYPE     (camel_mime_part_get_type ())
 #define CAMEL_MIME_PART(obj)     (GTK_CHECK_CAST((obj), CAMEL_MIME_PART_TYPE, CamelMimePart))
 #define CAMEL_MIME_PART_CLASS(k) (GTK_CHECK_CLASS_CAST ((k), CAMEL_MIME_PART_TYPE, CamelMimePartClass))
-#define IS_CAMEL_MIME_PART(o)    (GTK_CHECK_TYPE((o), CAMEL_MIME_PART_TYPE))
+#define CAMEL_IS_MIME_PART(o)    (GTK_CHECK_TYPE((o), CAMEL_MIME_PART_TYPE))
 
 
 enum _CamelMimePartEncodingType {

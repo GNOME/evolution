@@ -441,19 +441,19 @@ e_msg_composer_construct (EMsgComposer *composer)
 	gnome_app_construct (GNOME_APP (composer), "e-msg-composer",
 			     "Compose a message");
 
-	composer->menubar_gui = glade_xml_new (E_GUIDIR "/e-msg-composer.glade",
+	composer->menubar_gui = glade_xml_new (E_GLADEDIR "/e-msg-composer.glade",
 					       "menubar");
 	gnome_app_set_menus (GNOME_APP (composer),
 			     GTK_MENU_BAR (glade_xml_get_widget (composer->menubar_gui,
 								 "menubar")));
 
-	composer->toolbar_gui = glade_xml_new (E_GUIDIR "/e-msg-composer.glade",
+	composer->toolbar_gui = glade_xml_new (E_GLADEDIR "/e-msg-composer.glade",
 					       "toolbar");
 	gnome_app_set_toolbar (GNOME_APP (composer),
 			       GTK_TOOLBAR (glade_xml_get_widget (composer->toolbar_gui,
 								  "toolbar")));
 
-	composer->appbar_gui = glade_xml_new (E_GUIDIR "/e-msg-composer.glade",
+	composer->appbar_gui = glade_xml_new (E_GLADEDIR "/e-msg-composer.glade",
 					      "appbar");
 	gnome_app_set_statusbar (GNOME_APP (composer),
 				 glade_xml_get_widget (composer->appbar_gui,

@@ -14,6 +14,3 @@ LDADD =							\
 	$(INTLLIBS)					\
 	$(EXTRA_GNOME_LIBS)				\
 	$(PTHREAD_LIB)
-
-noinst_PROGRAMS =				\
-	msg-composer-test

@@ -39,7 +39,7 @@ extern "C" {
 #define CAMEL_STREAM_TYPE     (camel_stream_get_type ())
 #define CAMEL_STREAM(obj)     (GTK_CHECK_CAST((obj), CAMEL_STREAM_TYPE, CamelStream))
 #define CAMEL_STREAM_CLASS(k) (GTK_CHECK_CLASS_CAST ((k), CAMEL_STREAM_TYPE, CamelStreamClass))
-#define IS_CAMEL_STREAM(o)    (GTK_CHECK_TYPE((o), CAMEL_STREAM_TYPE))
+#define CAMEL_IS_STREAM(o)    (GTK_CHECK_TYPE((o), CAMEL_STREAM_TYPE))
 
 typedef enum
 {

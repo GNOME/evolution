@@ -41,7 +41,7 @@ extern "C" {
 #define CAMEL_STREAM_BUFFERED_FS_TYPE     (camel_stream_buffered_fs_get_type ())
 #define CAMEL_STREAM_BUFFERED_FS(obj)     (GTK_CHECK_CAST((obj), CAMEL_STREAM_BUFFERED_FS_TYPE, CamelStreamBufferedFs))
 #define CAMEL_STREAM_BUFFERED_FS_CLASS(k) (GTK_CHECK_CLASS_CAST ((k), CAMEL_STREAM_BUFFERED_FS_TYPE, CamelStreamBufferedFsClass))
-#define IS_CAMEL_STREAM_BUFFERED_FS(o)    (GTK_CHECK_TYPE((o), CAMEL_STREAM_BUFFERED_FS_TYPE))
+#define CAMEL_IS_STREAM_BUFFERED_FS(o)    (GTK_CHECK_TYPE((o), CAMEL_STREAM_BUFFERED_FS_TYPE))
 
 typedef enum 
 {

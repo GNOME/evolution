@@ -628,7 +628,7 @@ e_msg_composer_attachment_bar_to_multipart (EMsgComposerAttachmentBar *bar,
 	g_return_if_fail (bar != NULL);
 	g_return_if_fail (E_IS_MSG_COMPOSER_ATTACHMENT_BAR (bar));
 	g_return_if_fail (multipart != NULL);
-	g_return_if_fail (IS_CAMEL_MULTIPART (multipart));
+	g_return_if_fail (CAMEL_IS_MULTIPART (multipart));
 
 	priv = bar->priv;
 

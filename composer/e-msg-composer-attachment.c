@@ -431,7 +431,7 @@ e_msg_composer_attachment_edit (EMsgComposerAttachment *attachment,
 		return;
 	}
 
-	editor_gui = glade_xml_new (E_GUIDIR "/e-msg-composer-attachment.glade",
+	editor_gui = glade_xml_new (E_GLADEDIR "/e-msg-composer-attachment.glade",
 				    NULL);
 	if (editor_gui == NULL) {
 		g_warning ("Cannot load `e-msg-composer-attachment.glade'");

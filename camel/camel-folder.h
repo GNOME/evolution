@@ -46,7 +46,7 @@ typedef struct _CamelFolder CamelFolder;
 #define CAMEL_FOLDER_TYPE     (camel_folder_get_type ())
 #define CAMEL_FOLDER(obj)     (GTK_CHECK_CAST((obj), CAMEL_FOLDER_TYPE, CamelFolder))
 #define CAMEL_FOLDER_CLASS(k) (GTK_CHECK_CLASS_CAST ((k), CAMEL_FOLDER_TYPE, CamelFolderClass))
-#define IS_CAMEL_FOLDER(o)    (GTK_CHECK_TYPE((o), CAMEL_FOLDER_TYPE))
+#define CAMEL_IS_FOLDER(o)    (GTK_CHECK_TYPE((o), CAMEL_FOLDER_TYPE))
 
 typedef enum {
 	FOLDER_OPEN,

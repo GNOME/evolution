@@ -1,5 +1,51 @@
 1999-11-17  Ettore Perazzoli  <ettore@gnu.org>
 
+	* camel/camel-mime-message.c (_write_to_stream): Removed extra ':'
+	in the `Mime-Version' header.
+
+	* tests/ui-tests/msg-composer-test.c: Removed.
+
+	* Makefile.am (SUBDIRS): Added `composer'.
+
+	* configure.in: Create `composer/Makefile'.
+
+	* camel/camel-simple-data-wrapper-stream.c
+	(camel_simple_data_wrapper_stream_construct): Updated accordingly.
+	(camel_simple_data_wrapper_stream_new): Updated accordingly.
+	* camel/camel-stream-data-wrapper.c
+	(camel_stream_data_wrapper_construct): Updated accordingly.
+
+	* camel/camel-data-wrapper.h: Replaced `IS_CAMEL...()' type check
+	macro name with `CAMEL_IS...()'.
+	* camel/camel-folder-pt-proxy.h: Likewise.
+	* camel/camel-folder-summary.h: Likewise. 
+	* camel/camel-folder.h: Likewise. 
+	* camel/camel-medium.h: Likewise. 
+	* camel/camel-mime-body-part.h: Likewise.
+	* camel/camel-mime-message.h: Likewise. 
+	* camel/camel-mime-part.h: Likewise. 
+	* camel/camel-multipart.h: Likewise. 
+	* camel/camel-service.h: Likewise. 
+	* camel/camel-session.h: Likewise. 
+	* camel/camel-simple-data-wrapper-stream.h: Likewise. 
+	* camel/camel-simple-data-wrapper.h: Likewise.
+	* camel/camel-store.h: Likewise.
+	* camel/camel-stream-buffered-fs.h: Likewise.
+	* camel/camel-stream-data-wrapper.h: Likewise. 
+	* camel/camel-stream-fs.h: Likewise. 
+	* camel/camel-stream-mem.h: Likewise. 
+	* camel/camel-stream.h: Likewise. 
+
+	* tests/test1.c (main): Updated to match the `RECIPIENT_TYPE'
+	changes.
+
+	* camel/camel-mime-message.h: Changed `RECIPIENT_TYPE_TO',
+	`RECIPIENT_TYPE_CC' and `RECIPIENT_TYPE_BCC' into
+	`CAMEL_RECIPIENT_TYPE_TO', `CAMEL_RECIPIENT_TYPE_CC' and
+	`CAMEL_RECIPIENT_TYPE_BCC', respectively.
+
+1999-11-17  Ettore Perazzoli  <ettore@gnu.org>
+
 	* camel/camel-mime-message.c (_write_to_stream): Write
 	"Mime-Version: 1.0" to the stream.
 

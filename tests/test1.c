@@ -57,12 +57,18 @@ main (int argc, char**argv)
 	camel_mime_message_set_reply_to (message, g_strdup ("toto@toto.com"));
 	camel_mime_message_set_from (message, g_strdup ("Bertrand.Guiheneuf@aful.org"));
 
-	camel_mime_message_add_recipient (message, RECIPIENT_TYPE_TO, g_strdup ("franck.dechamps@alseve.fr"));
-	camel_mime_message_add_recipient (message, RECIPIENT_TYPE_TO, g_strdup ("mc@alseve.fr"));
-	camel_mime_message_add_recipient (message, RECIPIENT_TYPE_TO, g_strdup ("richard.lengagne@aful.org"));
-	camel_mime_message_add_recipient (message, RECIPIENT_TYPE_CC, g_strdup ("Francois.fleuret@aful.org"));
-	camel_mime_message_add_recipient (message, RECIPIENT_TYPE_CC, g_strdup ("maury@justmagic.com"));
- 	camel_mime_message_add_recipient (message, RECIPIENT_TYPE_BCC, g_strdup ("Bertrand.Guiheneuf@aful.org"));
+	camel_mime_message_add_recipient (message, CAMEL_RECIPIENT_TYPE_TO, 
+					  g_strdup ("franck.dechamps@alseve.fr"));
+	camel_mime_message_add_recipient (message, CAMEL_RECIPIENT_TYPE_TO, 
+					  g_strdup ("mc@alseve.fr"));
+	camel_mime_message_add_recipient (message, CAMEL_RECIPIENT_TYPE_TO, 
+					  g_strdup ("richard.lengagne@aful.org"));
+	camel_mime_message_add_recipient (message, CAMEL_RECIPIENT_TYPE_CC, 
+					  g_strdup ("Francois.fleuret@aful.org"));
+	camel_mime_message_add_recipient (message, CAMEL_RECIPIENT_TYPE_CC, 
+					  g_strdup ("maury@justmagic.com"));
+ 	camel_mime_message_add_recipient (message, CAMEL_RECIPIENT_TYPE_BCC, 
+					  g_strdup ("Bertrand.Guiheneuf@aful.org"));
 
 	multipart = camel_multipart_new ();
 	body_part = camel_mime_body_part_new ();

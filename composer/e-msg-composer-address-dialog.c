@@ -529,7 +529,8 @@ e_msg_composer_address_dialog_construct (EMsgComposerAddressDialog *dialog)
 				 buttons);
 
 	dialog->gui = glade_xml_new
-		(E_GUIDIR "/e-msg-composer-address-dialog.glade", "main_table");
+		(E_GLADEDIR "/e-msg-composer-address-dialog.glade",
+		 "main_table");
 	if (dialog->gui == NULL) {
 		g_warning ("Cannot load `e-msg-composer-address-dialog.glade");
 		return;

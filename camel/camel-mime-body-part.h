@@ -45,7 +45,7 @@ typedef struct _CamelMimeBodyPart CamelMimeBodyPart;
 #define CAMEL_MIME_BODY_PART_TYPE     (camel_mime_body_part_get_type ())
 #define CAMEL_MIME_BODY_PART(obj)     (GTK_CHECK_CAST((obj), CAMEL_MIME_BODY_PART_TYPE, CamelMimeBodyPart))
 #define CAMEL_MIME_BODY_PART_CLASS(k) (GTK_CHECK_CLASS_CAST ((k), CAMEL_MIME_BODY_PART_TYPE, CamelMimeBodyPartClass))
-#define IS_CAMEL_MIME_BODY_PART(o)    (GTK_CHECK_TYPE((o), CAMEL_MIME_BODY_PART_TYPE))
+#define CAMEL_IS_MIME_BODY_PART(o)    (GTK_CHECK_TYPE((o), CAMEL_MIME_BODY_PART_TYPE))
 
 
 struct _CamelMimeBodyPart

@@ -45,7 +45,7 @@ extern "C" {
 #define CAMEL_FOLDER_PT_PROXY_TYPE     (camel_folder_pt_proxy_get_type ())
 #define CAMEL_FOLDER_PT_PROXY(obj)     (GTK_CHECK_CAST((obj), CAMEL_FOLDER_PT_PROXY_TYPE, CamelFolderPtProxy))
 #define CAMEL_FOLDER_PT_PROXY_CLASS(k) (GTK_CHECK_CLASS_CAST ((k), CAMEL_FOLDER_PT_PROXY_TYPE, CamelFolderPtProxyClass))
-#define IS_CAMEL_FOLDER_PT_PROXY(o)    (GTK_CHECK_TYPE((o), CAMEL_FOLDER_PT_PROXY_TYPE))
+#define CAMEL_IS_FOLDER_PT_PROXY(o)    (GTK_CHECK_TYPE((o), CAMEL_FOLDER_PT_PROXY_TYPE))
 
 typedef struct _CamelFolderPtProxy CamelFolderPtProxy;
 

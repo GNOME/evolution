@@ -44,7 +44,7 @@ typedef struct _CamelSession CamelSession;
 #define CAMEL_SESSION_TYPE     (camel_session_get_type ())
 #define CAMEL_SESSION(obj)     (GTK_CHECK_CAST((obj), CAMEL_SESSION_TYPE, CamelSession))
 #define CAMEL_SESSION_CLASS(k) (GTK_CHECK_CLASS_CAST ((k), CAMEL_SESSION_TYPE, CamelSessionClass))
-#define IS_CAMEL_SESSION(o)    (GTK_CHECK_TYPE((o), CAMEL_SESSION_TYPE))
+#define CAMEL_IS_SESSION(o)    (GTK_CHECK_TYPE((o), CAMEL_SESSION_TYPE))
 
 
 

@@ -41,7 +41,7 @@ extern "C" {
 #define CAMEL_FOLDER_SUMMARY_TYPE     (camel_folder_summary_get_type ())
 #define CAMEL_FOLDER_SUMMARY(obj)     (GTK_CHECK_CAST((obj), CAMEL_FOLDER_SUMMARY_TYPE, CamelFolderSummary))
 #define CAMEL_FOLDER_SUMMARY_CLASS(k) (GTK_CHECK_CLASS_CAST ((k), CAMEL_FOLDER_SUMMARY_TYPE, CamelFolderSummaryClass))
-#define IS_CAMEL_FOLDER_SUMMARY(o)    (GTK_CHECK_TYPE((o), CAMEL_FOLDER_SUMMARY_TYPE))
+#define CAMEL_IS_FOLDER_SUMMARY(o)    (GTK_CHECK_TYPE((o), CAMEL_FOLDER_SUMMARY_TYPE))
 
 typedef struct {
 	gchar *name;

@@ -43,15 +43,15 @@ typedef struct _CamelMimeMessage CamelMimeMessage;
 #include "camel-recipient.h"
 
 
-#define RECIPIENT_TYPE_TO "To"
-#define RECIPIENT_TYPE_CC "Cc"
-#define RECIPIENT_TYPE_BCC "Bcc"
+#define CAMEL_RECIPIENT_TYPE_TO "To"
+#define CAMEL_RECIPIENT_TYPE_CC "Cc"
+#define CAMEL_RECIPIENT_TYPE_BCC "Bcc"
 
 
 #define CAMEL_MIME_MESSAGE_TYPE     (camel_mime_message_get_type ())
 #define CAMEL_MIME_MESSAGE(obj)     (GTK_CHECK_CAST((obj), CAMEL_MIME_MESSAGE_TYPE, CamelMimeMessage))
 #define CAMEL_MIME_MESSAGE_CLASS(k) (GTK_CHECK_CLASS_CAST ((k), CAMEL_MIME_MESSAGE_TYPE, CamelMimeMessageClass))
-#define IS_CAMEL_MIME_MESSAGE(o)    (GTK_CHECK_TYPE((o), CAMEL_MIME_MESSAGE_TYPE))
+#define CAMEL_IS_MIME_MESSAGE(o)    (GTK_CHECK_TYPE((o), CAMEL_MIME_MESSAGE_TYPE))
 
 
 

@@ -42,7 +42,7 @@ extern "C" {
 #define CAMEL_MEDIUM_TYPE     (camel_medium_get_type ())
 #define CAMEL_MEDIUM(obj)     (GTK_CHECK_CAST((obj), CAMEL_MEDIUM_TYPE, CamelMedium))
 #define CAMEL_MEDIUM_CLASS(k) (GTK_CHECK_CLASS_CAST ((k), CAMEL_MEDIUM_TYPE, CamelMediumClass))
-#define IS_CAMEL_MEDIUM(o)    (GTK_CHECK_TYPE((o), CAMEL_MEDIUM_TYPE))
+#define CAMEL_IS_MEDIUM(o)    (GTK_CHECK_TYPE((o), CAMEL_MEDIUM_TYPE))
 
 
 typedef struct 
