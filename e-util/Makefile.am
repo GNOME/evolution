@@ -16,7 +16,7 @@ INCLUDES =								\
 	$(E_UTIL_CFLAGS)
 
 privlib_LTLIBRARIES = libeutil.la libedb3util.la libeconduit.la
-noinst_LTLIBRARIES = libeutil-static.la libeconduit-static.la
+noinst_LTLIBRARIES = libeutil-static.la
 
 eutilinclude_HEADERS = 				\
 	e-account-list.h			\
@@ -132,9 +132,6 @@ pilot_compile =
 endif
 
 libeconduit_la_SOURCES = $(pilot_compile)
-
-libeconduit_static_la_SOURCES = $(libeconduit_la_SOURCES)
-libeconduit_static_la_LDFLAGS = -all-static
 
 EXTRA_DIST =				\
 	$(pilot_sources)		\

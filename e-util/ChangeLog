@@ -1,3 +1,8 @@
+2003-09-04  Dan Winship  <danw@ximian.com>
+
+	* Makefile.am: Kill off libeconduit-static: it was only needed for
+	libtool 1.3.
+
 2003-08-28  Jeffrey Stedfast  <fejj@ximian.com>
 
 	* e-mktemp.c (e_mktemp_cleanup): We need to unlink the full paths
