@@ -347,7 +347,8 @@ void cal_backend_update_pilot_id (CalBackend *backend, const char *uid,
  * object that has the same UID as the specified one.  The backend will in
  * turn notify all of its clients about the change.
  * 
- * Return value: TRUE on success, FALSE on being passed an invalid object.
+ * Return value: TRUE on success, FALSE on being passed an invalid object or one
+ * with an unsupported type.
  **/
 gboolean
 cal_backend_update_object (CalBackend *backend, const char *uid, const char *calobj)

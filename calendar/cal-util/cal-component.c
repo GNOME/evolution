@@ -652,29 +652,48 @@ cal_component_set_new_vtype (CalComponent *comp, CalComponentVType type)
  * structure.  If the @comp already had an #icalcomponent set into it, it will
  * will be freed automatically if the #icalcomponent does not have a parent
  * component itself.
+ *
+ * Supported component types are VEVENT, VTODO, VJOURNAL, VFREEBUSY, and VTIMEZONE.
+ *
+ * Return value: TRUE on success, FALSE if @icalcomp is an unsupported component
+ * type.
  **/
-void
+gboolean
 cal_component_set_icalcomponent (CalComponent *comp, icalcomponent *icalcomp)
 {
 	CalComponentPrivate *priv;
+	icalcomponent_kind kind;
 
-	g_return_if_fail (comp != NULL);
-	g_return_if_fail (IS_CAL_COMPONENT (comp));
+	g_return_val_if_fail (comp != NULL, FALSE);
+	g_return_val_if_fail (IS_CAL_COMPONENT (comp), FALSE);
 
 	priv = comp->priv;
 
 	if (priv->icalcomp == icalcomp)
-		return;
+		return TRUE;
 
 	free_icalcomponent (comp);
 
-	priv->icalcomp = icalcomp;
+	if (!icalcomp) {
+		priv->icalcomp = NULL;
+		return TRUE;
+	}
 
-	if (!icalcomp)
-		return;
+	kind = icalcomponent_isa (icalcomp);
+
+	if (!(kind == ICAL_VEVENT_COMPONENT
+	      || kind == ICAL_VTODO_COMPONENT
+	      || kind == ICAL_VJOURNAL_COMPONENT
+	      || kind == ICAL_VFREEBUSY_COMPONENT
+	      || kind == ICAL_VTIMEZONE_COMPONENT))
+		return FALSE;
+
+	priv->icalcomp = icalcomp;
 
 	scan_icalcomponent (comp);
 	ensure_mandatory_properties (comp);
+
+	return TRUE;
 }
 
 /**

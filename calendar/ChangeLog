@@ -1,3 +1,14 @@
+2000-08-02  Federico Mena Quintero  <federico@helixcode.com>
+
+	* pcs/cal-backend-file.[ch]: New files for the iCalendar file
+	backend.
+
+	* pcs/Makefile.am (libpcs_a_SOURCES): Added cal-backend-file.[ch].
+
+	* cal-util/cal-component.c (cal_component_set_icalcomponent):
+	Return an operation success code for if we are passed a component
+	of a type we don't support.
+
 2000-07-31  Federico Mena Quintero  <federico@helixcode.com>
 
 	* cal-util/cal-recur.c (*): Use CalComponent and the new property

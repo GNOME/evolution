@@ -128,7 +128,7 @@ CalComponent *cal_component_new (void);
 
 void cal_component_set_new_vtype (CalComponent *comp, CalComponentVType type);
 
-void cal_component_set_icalcomponent (CalComponent *comp, icalcomponent *icalcomp);
+gboolean cal_component_set_icalcomponent (CalComponent *comp, icalcomponent *icalcomp);
 icalcomponent *cal_component_get_icalcomponent (CalComponent *comp);
 
 CalComponentVType cal_component_get_vtype (CalComponent *comp);
