@@ -65,6 +65,11 @@ eabp_target_free(EPopup *ep, EPopupTarget *t)
 
 		g_object_unref(s->selector);
 		break; }
+	case EAB_POPUP_TARGET_SELECT_NAMES: {
+		EABPopupTargetSelectNames *s = (EABPopupTargetSelectNames *)t;
+
+		g_object_unref(s->model);
+		break; }
 	}
 
 	((EPopupClass *)eabp_parent)->target_free(ep, t);
@@ -189,6 +194,18 @@ eab_popup_target_new_source(EABPopup *eabp, ESourceSelector *selector)
 	return t;
 }
 
+EABPopupTargetSelectNames *
+eab_popup_target_new_select_names(EABPopup *eabp, struct _ESelectNamesModel *model, int row)
+{
+	EABPopupTargetSelectNames *t = e_popup_target_new(&eabp->popup, EAB_POPUP_TARGET_SELECT_NAMES, sizeof(*t));
+
+	t->model = model;
+	g_object_ref(model);
+	t->row = row;
+
+	return t;
+}
+
 /* ********************************************************************** */
 /* Popup menu plugin handler */
 
@@ -231,9 +248,14 @@ static const EPopupHookTargetMask eabph_source_masks[] = {
 	{ 0 }
 };
 
+static const EPopupHookTargetMask eabph_select_names_masks[] = {
+	{ 0 }
+};
+
 static const EPopupHookTargetMap eabph_targets[] = {
 	{ "select", EAB_POPUP_TARGET_SELECT, eabph_select_masks },
 	{ "source", EAB_POPUP_TARGET_SOURCE, eabph_source_masks },
+	{ "select-names", EAB_POPUP_TARGET_SELECT_NAMES, eabph_select_names_masks },
 	{ 0 }
 };
 

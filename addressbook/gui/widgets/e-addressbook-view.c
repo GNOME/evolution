@@ -913,24 +913,24 @@ new_list (EPopup *ep, EPopupItem *pitem, void *data)
 }
 
 static EPopupItem eabv_popup_items[] = {
-	{ E_POPUP_ITEM, "10.new",  N_("New Contact..."), new_card, NULL, "stock_contact", EAB_POPUP_SELECT_EDITABLE},
-	{ E_POPUP_ITEM, "15.newlist", N_("New Contact List..."), new_list, NULL, "stock_contact-list", EAB_POPUP_SELECT_EDITABLE },
+	{ E_POPUP_ITEM, "10.new",  N_("New Contact..."), new_card, NULL, "stock_contact", 0, EAB_POPUP_SELECT_EDITABLE},
+	{ E_POPUP_ITEM, "15.newlist", N_("New Contact List..."), new_list, NULL, "stock_contact-list", 0, EAB_POPUP_SELECT_EDITABLE },
 
 	{ E_POPUP_BAR, "20.bar" },
-	{ E_POPUP_ITEM, "30.saveas", N_("Save as VCard..."), save_as, NULL, "stock_save-as", EAB_POPUP_SELECT_MANY },
-	{ E_POPUP_ITEM, "40.forward", N_("Forward Contact"), send_as, NULL, "stock_mail-forward", EAB_POPUP_SELECT_MANY },
-	{ E_POPUP_ITEM, "50.mailto", N_("Send Message to Contact"), send_to, NULL, "stock_mail-send", EAB_POPUP_SELECT_MANY|EAB_POPUP_SELECT_EMAIL },
-	{ E_POPUP_ITEM, "60.print", N_("Print"), print, NULL, "stock_print", EAB_POPUP_SELECT_MANY },
+	{ E_POPUP_ITEM, "30.saveas", N_("Save as VCard..."), save_as, NULL, "stock_save-as", 0, EAB_POPUP_SELECT_MANY },
+	{ E_POPUP_ITEM, "40.forward", N_("Forward Contact"), send_as, NULL, "stock_mail-forward", 0, EAB_POPUP_SELECT_MANY },
+	{ E_POPUP_ITEM, "50.mailto", N_("Send Message to Contact"), send_to, NULL, "stock_mail-send", 0, EAB_POPUP_SELECT_MANY|EAB_POPUP_SELECT_EMAIL },
+	{ E_POPUP_ITEM, "60.print", N_("Print"), print, NULL, "stock_print", 0, EAB_POPUP_SELECT_MANY },
 
 	{ E_POPUP_BAR, "70.bar" },
-	{ E_POPUP_ITEM, "80.copyto", N_("Copy to Address Book..."), copy_to_folder, NULL, NULL, EAB_POPUP_SELECT_MANY },
-	{ E_POPUP_ITEM, "90.moveto", N_("Move to Address Book..."), move_to_folder, NULL, NULL, EAB_POPUP_SELECT_MANY|EAB_POPUP_SELECT_EDITABLE },
+	{ E_POPUP_ITEM, "80.copyto", N_("Copy to Address Book..."), copy_to_folder, NULL, NULL, 0, EAB_POPUP_SELECT_MANY },
+	{ E_POPUP_ITEM, "90.moveto", N_("Move to Address Book..."), move_to_folder, NULL, NULL, 0, EAB_POPUP_SELECT_MANY|EAB_POPUP_SELECT_EDITABLE },
 
 	{ E_POPUP_BAR, "a0.bar" },
-	{ E_POPUP_BAR, "b0.cut", N_("Cut"), cut, NULL, "stock_cut", EAB_POPUP_SELECT_MANY|EAB_POPUP_SELECT_EDITABLE },
-	{ E_POPUP_ITEM, "c0.copy", N_("Copy"), copy, NULL, "stock_copy", EAB_POPUP_SELECT_MANY },
-	{ E_POPUP_ITEM, "d0.paste", N_("Paste"), paste, NULL, "stock_paste", EAB_POPUP_SELECT_EDITABLE },
-	{ E_POPUP_ITEM, "e0.delete", N_("Delete"), delete, NULL, "stock_delete", EAB_POPUP_SELECT_EDITABLE|EAB_POPUP_SELECT_MANY },
+	{ E_POPUP_BAR, "b0.cut", N_("Cut"), cut, NULL, "stock_cut", 0, EAB_POPUP_SELECT_MANY|EAB_POPUP_SELECT_EDITABLE },
+	{ E_POPUP_ITEM, "c0.copy", N_("Copy"), copy, NULL, "stock_copy", 0, EAB_POPUP_SELECT_MANY },
+	{ E_POPUP_ITEM, "d0.paste", N_("Paste"), paste, NULL, "stock_paste", 0, EAB_POPUP_SELECT_EDITABLE },
+	{ E_POPUP_ITEM, "e0.delete", N_("Delete"), delete, NULL, "stock_delete", 0, EAB_POPUP_SELECT_EDITABLE|EAB_POPUP_SELECT_MANY },
 };
 
 static void
@@ -991,9 +991,7 @@ do_popup_menu(EABView *view, GdkEvent *event)
 
 	e_popup_add_items((EPopup *)ep, menus, eabv_popup_free, contact_and_book);
 
-	/* visibility is disabled, we only disable menu items */
-	/* FIXME: when enable is implemented in e-popup */
-	menu = e_popup_create_menu_once((EPopup *)ep, (EPopupTarget *)t, 0, t->target.mask);
+	menu = e_popup_create_menu_once((EPopup *)ep, (EPopupTarget *)t, 0);
 	gtk_menu_popup(menu, NULL, NULL, NULL, NULL, event?event->button.button:0, event?event->button.time:gtk_get_current_event_time());
 }
 

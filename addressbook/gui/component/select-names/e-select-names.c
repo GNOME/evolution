@@ -29,7 +29,6 @@
 
 #include <gal/e-table/e-table-simple.h>
 #include <gal/e-table/e-table-without.h>
-#include <gal/widgets/e-popup-menu.h>
 
 #include <libebook/e-book.h>
 #include <libebook/e-contact.h>
@@ -38,6 +37,7 @@
 #include <addressbook/util/eab-book-util.h>
 #include <addressbook/gui/component/addressbook-component.h>
 #include <addressbook/gui/component/addressbook.h>
+#include <addressbook/gui/widgets/eab-popup.h>
 
 #include "e-select-names-config.h"
 #include "e-select-names.h"
@@ -678,36 +678,44 @@ remove_address(ETable *table, int row, int col, GdkEvent *event, ESelectNamesChi
 	e_select_names_model_delete (child->source, row);
 }
 
-struct _RightClickData {
-	ESelectNamesChild *child;
-	int row;
+static void
+remove_cb (EPopup *ep, EPopupItem *pitem, void *data)
+{
+	EABPopupTargetSelectNames *t = (EABPopupTargetSelectNames *)ep->target;
+
+	e_select_names_model_delete (t->model, t->row);
+}
+
+static EPopupItem esn_select_popups[] = {
+	{ E_POPUP_ITEM, "20.delete", N_("Remove"), remove_cb, NULL, NULL, 0, 0 },
 };
-typedef struct _RightClickData RightClickData;
 
 static void
-remove_cb (GtkWidget *widget, void *data)
+esn_select_popup_free (EPopup *ep, GSList *list, void *data)
 {
-	RightClickData *rcdata = (RightClickData *)data;
-
-	e_select_names_model_delete (rcdata->child->source, rcdata->row);
-
-	/* Free everything we've created */
-	g_free (rcdata);
+	g_slist_free (list);
 }
 
 static void
 section_right_click_cb (ETable *et, int row, int col, GdkEvent *ev, ESelectNamesChild *child)
 {
-	static EPopupMenu right_click_menu[] = {
-		E_POPUP_ITEM (N_("Remove"), G_CALLBACK (remove_cb), 0),
-		E_POPUP_TERMINATOR
-	};
-	RightClickData *rcdata = g_new0 (RightClickData, 1);
+	EABPopup *ep;
+	EABPopupTargetSelectNames *t;
+	GSList *menus = NULL;
+	int i;
+	GtkMenu *menu;
 
-	rcdata->row = row;
-	rcdata->child = child;
+	ep = eab_popup_new("com.novell.evolution.addressbook.selectNames.popup");
+	t = eab_popup_target_new_select_names(ep, child->source, row);
+	t->target.widget = (GtkWidget *)et;
 
-	e_popup_menu_run (right_click_menu, (GdkEvent *)ev, 0, 0, rcdata);
+	for (i=0;i<sizeof(esn_select_popups)/sizeof(esn_select_popups[0]);i++)
+		menus = g_slist_prepend(menus, &esn_select_popups[i]);
+
+	e_popup_add_items((EPopup *)ep, menus, esn_select_popup_free, NULL);
+
+	menu = e_popup_create_menu_once((EPopup *)ep, (EPopupTarget *)t, 0);
+	gtk_menu_popup(menu, NULL, NULL, NULL, NULL, ev->button.button, ev->button.time);
 }
 
 void

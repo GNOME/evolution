@@ -45,6 +45,7 @@ typedef struct _EABPopupClass EABPopupClass;
 enum _eab_popup_target_t {
 	EAB_POPUP_TARGET_SELECT,
 	EAB_POPUP_TARGET_SOURCE,
+	EAB_POPUP_TARGET_SELECT_NAMES,
 };
 
 /**
@@ -77,6 +78,7 @@ enum _eab_popup_target_source_t {
 
 typedef struct _EABPopupTargetSelect EABPopupTargetSelect;
 typedef struct _EABPopupTargetSource EABPopupTargetSource;
+typedef struct _EABPopupTargetSelectNames EABPopupTargetSelectNames;
 
 /**
  * struct _EABPopupTargetSelect - A list of address cards.
@@ -109,6 +111,23 @@ struct _EABPopupTargetSource {
 	struct _ESourceSelector *selector;
 };
 
+/**
+ * struct _EABPopupTargetSelectNames - A select names target.
+ * 
+ * @target: Superclass.
+ * @model: Select names model.
+ * @row: Row of item selected.
+ *
+ * This target is used to represent an item selected in an
+ * ESelectNames model.
+ **/
+struct _EABPopupTargetSelectNames {
+	EPopupTarget target;
+
+	struct _ESelectNamesModel *model;
+	int row;
+};
+
 typedef struct _EPopupItem EABPopupItem;
 
 /* The object */
@@ -128,6 +147,7 @@ EABPopup *eab_popup_new(const char *menuid);
 
 EABPopupTargetSelect *eab_popup_target_new_select(EABPopup *eabp, struct _EBook *book, int readonly, GPtrArray *cards);
 EABPopupTargetSource *eab_popup_target_new_source(EABPopup *eabp, struct _ESourceSelector *selector);
+EABPopupTargetSelectNames *eab_popup_target_new_select_names(EABPopup *eabp, struct _ESelectNamesModel *model, int row);
 
 /* ********************************************************************** */
 

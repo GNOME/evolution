@@ -1,3 +1,28 @@
+2004-10-06  Not Zed  <NotZed@Ximian.com>
+
+	* gui/component/addressbook-view.c (popup_event_callback): 
+	* gui/component/select-names/e-select-names.c (section_right_click_cb):
+	* gui/widgets/e-addressbook-view.c (do_popup_menu): fix for
+	e-popup api changes.  Moved all mask specifiers to visible rather
+	than enable in the menu table.
+
+2004-10-06  Not Zed  <NotZed@Ximian.com>
+
+	* gui/contact-editor/e-contact-editor.c: removed
+	gnome-popup-menu.h (unused).
+
+	* gui/widgets/e-addressbook-reflow-adapter.c: 
+	* gui/widgets/eab-popup-control.c: remove e-popup-menu.h (unused).
+
+	* gui/component/select-names/e-select-names.c
+	(section_right_click_cb): use e-popup.  Somewhat overengineered
+	for this use ...
+	(remove_cb): api changes.
+
+	* gui/widgets/eab-popup.c (eab_popup_target_new_select_names):
+	added pretty useless wrapper for the select names popup.  Added to
+	hook maps.
+
 2004-10-01  Not Zed  <NotZed@Ximian.com>
 
 	* gui/widgets/e-addressbook-view.c (do_popup_menu): convert to

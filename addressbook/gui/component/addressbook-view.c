@@ -741,9 +741,9 @@ primary_source_selection_changed_callback (ESourceSelector *selector,
 }
 
 static EPopupItem abv_source_popups[] = {
-	{ E_POPUP_ITEM, "10.new", N_("New Address Book"), new_addressbook_cb, NULL, NULL, 0 },
-	{ E_POPUP_ITEM, "20.delete", N_("Delete"), delete_addressbook_cb, NULL, "stock_delete", EAB_POPUP_SOURCE_USER|EAB_POPUP_SOURCE_PRIMARY },
-	{ E_POPUP_ITEM, "30.properties", N_("Properties..."), edit_addressbook_cb, NULL, NULL, EAB_POPUP_SOURCE_PRIMARY },
+	{ E_POPUP_ITEM, "10.new", N_("New Address Book"), new_addressbook_cb, NULL, NULL, 0, 0 },
+	{ E_POPUP_ITEM, "20.delete", N_("Delete"), delete_addressbook_cb, NULL, "stock_delete", 0, EAB_POPUP_SOURCE_USER|EAB_POPUP_SOURCE_PRIMARY },
+	{ E_POPUP_ITEM, "30.properties", N_("Properties..."), edit_addressbook_cb, NULL, NULL, 0, EAB_POPUP_SOURCE_PRIMARY },
 };
 
 static void
@@ -770,8 +770,7 @@ popup_event_callback(ESourceSelector *selector, ESource *source, GdkEventButton 
 
 	e_popup_add_items((EPopup *)ep, menus, abv_source_popup_free, view);
 
-	/* visibility is disabled, we only disable menu items */
-	menu = e_popup_create_menu_once((EPopup *)ep, (EPopupTarget *)t, 0, t->target.mask);
+	menu = e_popup_create_menu_once((EPopup *)ep, (EPopupTarget *)t, 0);
 	gtk_menu_popup(menu, NULL, NULL, NULL, NULL, event?event->button:0, event?event->time:gtk_get_current_event_time());
 
 	return TRUE;
