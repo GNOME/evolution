@@ -47,7 +47,7 @@
 		  _label="Print Pre_view" pixtype="pixbuf"/>
 
 	<menuitem name="Print" verb="CalendarPrint" accel="*Control*p"
-		  _label="_Print Calendar..." pixtype="pixbuf"/>
+		  _label="_Print..." pixtype="pixbuf"/>
       </placeholder>
 
     </submenu>

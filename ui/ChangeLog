@@ -1,3 +1,8 @@
+2001-08-15  Anna Marie Dirks  <anna@ximian.com> 
+
+	*evolution-calendar.xml : Changed "print calendar" to "print".
+ 
+
 2001-08-15  Iain Holmes  <iain@ximian.com>
 
 	* my-evolution.xml: s/My Evolution/Summary/
@@ -5,6 +10,7 @@
 2001-08-14  Federico Mena Quintero  <federico@ximian.com>
 
 	* evolution-calendar.xml: Add Tigert's new icons for Prev and Next.
+
 
 2001-08-14  Christopher James Lahey  <clahey@ximian.com>
 
