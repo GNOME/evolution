@@ -1,5 +1,11 @@
 2004-02-24  Jeffrey Stedfast  <fejj@ximian.com>
 
+	* mail-account-editor.c (construct): Removed Apply button. As
+	discussed on IRC, UI doesn't feel we should have an Apply button
+	here.
+
+2004-02-24  Jeffrey Stedfast  <fejj@ximian.com>
+
 	* mail-account-editor.c (construct): Need to listen for changes to
 	S/MIME options, the signature option menu, and any extra
 	provider-specific config options. Fixes bug #54036.
