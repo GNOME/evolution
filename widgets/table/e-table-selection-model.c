@@ -375,10 +375,10 @@ void             e_table_selection_model_do_something      (ETableSelectionModel
 		}
 		if (selection->cursor_row != row ||
 		    selection->cursor_col != col) {
-			gtk_signal_emit(GTK_OBJECT(selection),
-					e_table_selection_model_signals[CURSOR_CHANGED], row, col);
 			selection->cursor_row = row;
 			selection->cursor_col = col;
+			gtk_signal_emit(GTK_OBJECT(selection),
+					e_table_selection_model_signals[CURSOR_CHANGED], row, col);
 		}
 	}
 }
@@ -389,6 +389,10 @@ e_table_selection_model_clear(ETableSelectionModel *selection)
 	g_free(selection->selection);
 	selection->selection = NULL;
 	selection->row_count = -1;
+	selection->cursor_row = -1;
+	selection->cursor_col = -1;
+	gtk_signal_emit(GTK_OBJECT(selection),
+			e_table_selection_model_signals [CURSOR_CHANGED], -1, -1);
 	gtk_signal_emit(GTK_OBJECT(selection),
 			e_table_selection_model_signals [SELECTION_CHANGED]);
 }

@@ -285,6 +285,8 @@ etcta_event (GnomeCanvasItem *item, GdkEvent *e)
 			one = e_table_one_new(etcta->model);
 			etcta_add_one (etcta, one);
 			gtk_object_unref(GTK_OBJECT(one));
+			
+			e_table_selection_model_clear(etcta->selection);
 
 			etcta->row = gnome_canvas_item_new(GNOME_CANVAS_GROUP(item),
 							   e_table_item_get_type(),
