@@ -1565,14 +1565,14 @@ remove_node_diff(MessageList *ml, ETreePath node, int depth)
 
 	/* and the rowid entry - if and only if it is referencing this node */
 	info = e_tree_memory_node_get_data(E_TREE_MEMORY (etm), node);
-	g_assert(info);
-	g_hash_table_remove(ml->uid_nodemap, camel_message_info_uid(info));
-	camel_folder_free_message_info(ml->folder, info);
-	e_tree_memory_node_set_data(E_TREE_MEMORY(etm), node, NULL);
 
 	/* and only at the toplevel, remove the node (etree should optimise this remove somewhat) */
 	if (depth == 0)
 		e_tree_memory_node_remove(E_TREE_MEMORY(etm), node);
+
+	g_assert(info);
+	g_hash_table_remove(ml->uid_nodemap, camel_message_info_uid(info));
+	camel_folder_free_message_info(ml->folder, info);
 }
 
 /* applies a new tree structure to an existing tree, but only by changing things
@@ -1776,9 +1776,9 @@ build_flat_diff(MessageList *ml, CamelFolderChangeInfo *changes)
 		node = g_hash_table_lookup(ml->uid_nodemap, changes->uid_removed->pdata[i]);
 		if (node) {
 			info = e_tree_memory_node_get_data(E_TREE_MEMORY(ml->model), node);
+			e_tree_memory_node_remove(E_TREE_MEMORY(ml->model), node);
 			camel_folder_free_message_info(ml->folder, info);
 			g_hash_table_remove(ml->uid_nodemap, changes->uid_removed->pdata[i]);
-			e_tree_memory_node_remove(E_TREE_MEMORY(ml->model), node);
 		}
 	}
 
