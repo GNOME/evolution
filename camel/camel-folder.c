@@ -41,6 +41,7 @@ static gboolean camel_folder_can_hold_messages(CamelFolder *folder);
 static gboolean camel_folder_exists(CamelFolder *folder);
 static gboolean camel_folder_is_open(CamelFolder *folder);
 static CamelFolder *camel_folder_get_folder(CamelFolder *folder, GString *folder_name);
+static gboolean __camel_folder_create(CamelFolder *folder);
 
 static void
 camel_folder_class_init (CamelFolderClass *camel_folder_class)
@@ -58,6 +59,7 @@ camel_folder_class_init (CamelFolderClass *camel_folder_class)
 	camel_folder_class->exists = camel_folder_exists;
 	camel_folder_class->is_open = camel_folder_is_open;
 	camel_folder_class->get_folder = camel_folder_get_folder;
+	camel_folder_class->create = __camel_folder_create;
 	/* virtual method overload */
 }
 
@@ -282,20 +284,20 @@ camel_folder_get_folder(CamelFolder *folder, GString *folder_name)
 
 
 
-/** 
- * create : create the folder object on the physical store
- *
- * This routine physically creates the folder object on 
- * the store. Having created the  object does not
- * mean the folder physically exists. If it does not
- * exists, this routine will create it.
- * if the folder full name contains more than one level
- * of hierarchy, all folders between the current folder
- * and the last folder name will be created if not existing.
- *
+/**
+ * __camel_folder_create:
+ * @folder: 
+ * 
+ * this routine handles the recursion mechanism.
+ * Children classes have to implement the actual
+ * creation mechanism. They must call this method
+ * before physically creating the folder in order
+ * to be sure the parent folder exists.
+ * 
+ * Return value: 
  **/
-static void
-camel_folder_create(CamelFolder *folder)
+static gboolean
+__camel_folder_create(CamelFolder *folder)
 {
 	GString *prefix;
 	gchar dich_result;
@@ -306,7 +308,7 @@ camel_folder_create(CamelFolder *folder)
 	g_assert(folder->parent_store);
 	g_assert(folder->name);
 
-	if ( CF_CLASS(folder)->exists(folder) ) return;
+	if ( CF_CLASS(folder)->exists(folder) ) return TRUE;
 	sep = camel_store_get_separator(folder->parent_store);	
 	if (folder->parent_folder) camel_folder_create(folder->parent_folder);
 	else {   
@@ -314,18 +316,49 @@ camel_folder_create(CamelFolder *folder)
 			dich_result = g_string_right_dichotomy(folder->full_name, sep, &prefix, NULL, STRIP_TRAILING);
 			if (dich_result!='o') {
 				g_warning("I have to handle the case where the path is not OK\n"); 
-				return;
+				return FALSE;
 			} else {
-#warning Public method not implemented yet !!!			
 				parent = camel_store_get_folder(folder->parent_store, prefix);
 				camel_folder_create(parent);
-#warning Finish it  when CamelStore is done
-				/*
-				  [parent free];
-				*/
+				gtk_object_unref (GTK_OBJECT(parent));
 			}
 		}
 	}	
+	return TRUE;
 }
 
 	
+/**
+ * camel_folder_create: create the folder object on the physical store
+ * @folder: folder object to create
+ * 
+ * This routine physically creates the folder object on 
+ * the store. Having created the  object does not
+ * mean the folder physically exists. If it does not
+ * exists, this routine will create it.
+ * if the folder full name contains more than one level
+ * of hierarchy, all folders between the current folder
+ * and the last folder name will be created if not existing.
+ * 
+ * Return value: 
+ **/
+gboolean
+camel_folder_create(CamelFolder *folder)
+{
+	return (CF_CLASS(folder)->create(folder));
+}
+
+
+
+
+static gboolean
+__camel_folder_delete (CamelFolder *folder, gboolean recurse)
+{
+	g_assert(folder);
+	
+	/* delete all messages in the folder */
+	
+	if (recurse) { /* delete subfolders */
+		
+	}
+}

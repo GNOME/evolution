@@ -85,20 +85,25 @@ typedef struct {
 	void   (*set_name) (CamelFolder *folder, GString *name);
 	void   (*set_full_name) (CamelFolder *folder, GString *name);
 	GString *  (*get_name) (CamelFolder *folder);
-	GString *  (*get__full_name) (CamelFolder *folder);
+	GString *  (*get_full_name) (CamelFolder *folder);
 	gboolean   (*can_hold_folders) (CamelFolder *folder);
 	gboolean   (*can_hold_messages) (CamelFolder *folder);
 	gboolean   (*exists) (CamelFolder *folder);
 	gboolean   (*is_open) (CamelFolder *folder);
 	CamelFolder *  (*get_folder) (CamelFolder *folder, GString *folder_name);
-
+	gboolean   (*create) (CamelFolder *folder);
 } CamelFolderClass;
 
 
-/* public methods */
 
 /* Standard Gtk function */
 GtkType camel_folder_get_type (void);
+
+
+/* public methods */
+gboolean camel_folder_create(CamelFolder *folder);
+
+
 
 #ifdef __cplusplus
 }
