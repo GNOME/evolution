@@ -236,7 +236,7 @@ update_command_state (EAddressbookView *eav, AddressbookView *view)
 		bonobo_ui_component_set_prop (uic,
 					      "/commands/ContactNewList",
 					      "sensitive",
-					      e_addressbook_view_can_create (view->view) ? "1" : "0", NULL);
+					      e_addressbook_view_can_create_lists (view->view) ? "1" : "0", NULL);
 		
 		bonobo_ui_component_set_prop (uic,
 					      "/commands/ContactsSaveAsVCard",

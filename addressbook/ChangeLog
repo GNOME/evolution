@@ -1,3 +1,26 @@
+2002-06-06  Chris Toshok  <toshok@ximian.com>
+
+	* gui/widgets/e-addressbook-model.c
+	(e_addressbook_model_supports_lists): new function, check the
+	book's static capabilities for "contact-lists".
+
+	* gui/widgets/e-addressbook-model.h: add prototype for
+	e_addressbook_model_supports_lists.
+
+	* gui/widgets/e-addressbook-view.c
+	(e_addressbook_view_can_create_lists): new function, call
+	e_addressbook_model_supports_lists.
+
+	* gui/widgets/e-addressbook-view.h: add prototype for
+	e_addressbook_can_create_lists.
+
+	* gui/component/addressbook.c (update_command_state): for the
+	ContactNewList verb, use e_addressbook_view_can_create_lists.
+
+	* backend/pas/pas-backend-file.c
+	(pas_backend_file_get_static_capabilities): this backend supports
+	contact lists.
+
 2002-06-05  Chris Toshok  <toshok@ximian.com>
 
 	* gui/widgets/e-addressbook-util.c (e_addressbook_error_dialog):

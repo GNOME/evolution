@@ -63,6 +63,7 @@ ECard *e_addressbook_model_get_card  (EAddressbookModel *model,
 				      int                row);
 EBook *e_addressbook_model_get_ebook (EAddressbookModel *model);
 
+gboolean e_addressbook_model_supports_lists (EAddressbookModel *model);
 void     e_addressbook_model_stop      (EAddressbookModel *model);
 gboolean e_addressbook_model_can_stop (EAddressbookModel *model);
 

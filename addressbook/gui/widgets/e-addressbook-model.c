@@ -542,6 +542,21 @@ e_addressbook_model_new (void)
 	return et;
 }
 
+gboolean
+e_addressbook_model_supports_lists (EAddressbookModel *model)
+{
+	gboolean retval;
+	char *capabilities;
+	capabilities = e_book_get_static_capabilities (model->book);
+	if (capabilities && strstr (capabilities, "contact-lists"))
+		retval = TRUE;
+	else
+		retval = FALSE;
+	g_free (capabilities);
+
+	return retval;
+}
+
 void   e_addressbook_model_stop    (EAddressbookModel *model)
 {
 	remove_book_view(model);

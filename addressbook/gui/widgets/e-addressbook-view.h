@@ -115,6 +115,7 @@ void       e_addressbook_view_show_all          (EAddressbookView  *view);
 void       e_addressbook_view_stop              (EAddressbookView  *view);
 
 gboolean   e_addressbook_view_can_create        (EAddressbookView  *view);
+gboolean   e_addressbook_view_can_create_lists  (EAddressbookView  *view);
 gboolean   e_addressbook_view_can_print         (EAddressbookView  *view);
 gboolean   e_addressbook_view_can_save_as       (EAddressbookView  *view);
 gboolean   e_addressbook_view_can_send          (EAddressbookView  *view);

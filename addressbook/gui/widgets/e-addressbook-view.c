@@ -1483,6 +1483,14 @@ e_addressbook_view_can_create (EAddressbookView  *view)
 }
 
 gboolean
+e_addressbook_view_can_create_lists (EAddressbookView  *view)
+{
+	return view ? (e_addressbook_model_editable (view->model) 
+		       && e_addressbook_model_supports_lists (view->model))
+		: FALSE;
+}
+
+gboolean
 e_addressbook_view_can_print (EAddressbookView  *view)
 {
 	return view && view->model ? e_addressbook_model_card_count (view->model) : FALSE;
