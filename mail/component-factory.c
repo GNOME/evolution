@@ -324,9 +324,6 @@ create_imap_storage (EvolutionShellComponent *shell_component)
 		return;
 	}
 
-	/* save the storage for later */
-	gtk_object_set_data (GTK_OBJECT (shell_component), "e-storage", storage);
-
 	ii = g_new( struct create_info_s, 1 );
 	ii->storage = storage;
 	ii->source = g_strdup( source );
@@ -446,9 +443,6 @@ create_news_storage (EvolutionShellComponent *shell_component)
 		g_free (source);
 		return;
 	}
-
-	/* save the storage for later */
-	gtk_object_set_data (GTK_OBJECT (shell_component), "e-storage", storage);
 
 	ni = g_new( struct create_info_s, 1 );
 	ni->storage = storage;
