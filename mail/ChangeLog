@@ -1,3 +1,9 @@
+2004-02-24  Jeffrey Stedfast  <fejj@ximian.com>
+
+	* em-utils.c (em_utils_folder_is_drafts): Use the new
+	camel_store_folder_uri_equal() function.
+	(em_utils_folder_is_sent): Same.
+
 2004-02-23  Jeffrey Stedfast  <fejj@ximian.com>
 
 	Fix for bug #54057
