@@ -1,5 +1,10 @@
 2003-04-11  JP Rosevear  <jpr@ximian.com>
 
+	* cal-client/cal-client.c (cal_client_get_free_busy): only print a
+	message if the exception isn't the reasonable NotFound
+
+2003-04-11  JP Rosevear  <jpr@ximian.com>
+	
 	* gui/dialogs/schedule-page.c (schedule_page_finalize): unref the
 	main widget since we ref it when we un-parent it
 

@@ -1947,7 +1947,8 @@ cal_client_get_free_busy (CalClient *client, GList *users,
 								start, end, &ev);
 	CORBA_free (corba_list);
 	if (BONOBO_EX (&ev) || !calobj_list) {
-		g_message ("cal_client_get_free_busy(): could not get the objects");
+		if (!BONOBO_USER_EX (&ev, ex_GNOME_Evolution_Calendar_Cal_NotFound))
+			g_message ("cal_client_get_free_busy(): could not get the objects");
 		CORBA_exception_free (&ev);
 		return NULL;
 	}
