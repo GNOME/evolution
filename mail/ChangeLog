@@ -1,5 +1,11 @@
 2001-09-20  Jeffrey Stedfast  <fejj@ximian.com>
 
+	* mail-account-gui.c (mail_account_gui_save): Only add the account
+	if it doesn't already exist in the config db.
+
+	* mail-config.c (mail_config_find_account): New convenience
+	function.
+
 	* mail-config-druid.c (wizard_finish_cb): Do not add the account
 	here as this is taken care of in mail_account_gui_save() since it
 	has to be able to set the default account.

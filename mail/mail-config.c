@@ -1369,6 +1369,12 @@ mail_config_set_default_charset (const char *charset)
 }
 
 
+gboolean
+mail_config_find_account (const MailConfigAccount *account)
+{
+	return g_slist_find (config->accounts, (gpointer) account) != NULL;
+}
+
 const MailConfigAccount *
 mail_config_get_default_account (void)
 {

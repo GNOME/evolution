@@ -1195,8 +1195,8 @@ mail_account_gui_new (MailConfigAccount *account)
 	gui->default_account = GTK_TOGGLE_BUTTON (glade_xml_get_widget (gui->xml, "management_default"));
 	if (account->name)
 		e_utf8_gtk_entry_set_text (gui->account_name, account->name);
-	if (!mail_config_get_default_account()
-	    || (account == mail_config_get_default_account()))
+	if (!mail_config_get_default_account ()
+	    || (account == mail_config_get_default_account ()))
 		gtk_toggle_button_set_active (gui->default_account, TRUE);
 	
 	/* Identity */
@@ -1657,7 +1657,8 @@ mail_account_gui_save (MailAccountGui *gui)
 	account->smime_encrypt_to_self = gtk_toggle_button_get_active (gui->smime_encrypt_to_self);
 	account->smime_always_sign = gtk_toggle_button_get_active (gui->smime_always_sign);
 	
-	mail_config_add_account (account);
+	if (!mail_config_find_account (account))
+		mail_config_add_account (account);
 	if (gtk_toggle_button_get_active (gui->default_account))
 		mail_config_set_default_account (account);
 	
