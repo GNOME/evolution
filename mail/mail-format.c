@@ -360,12 +360,18 @@ write_recipients_to_stream (const gchar *recipient_type,
 	i = 0;
 	while (camel_internet_address_get (recipients, i++, &name, &addr)) {
 		char *old_string = recipients_string;
-		recipients_string =
-			g_strdup_printf ("%s%s%s%s%s <%s>",
-					 old_string ? old_string : "",
-					 old_string ? ", " : "",
-					 *name ? "\"" : "", name,
-					 *name ? "\"" : "", addr);
+
+		if (*name) {
+			recipients_string = g_strdup_printf (
+				"%s%s\"%s\" <%s>",
+				old_string ? old_string : "",
+				old_string ? ", " : "",
+				name, addr);
+		} else {
+			recipients_string = g_strdup_printf (
+				"%s%s%s", old_string ? old_string : "",
+				old_string ? ", " : "", addr);
+		}
 		g_free (old_string);
 	}
 

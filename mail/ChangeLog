@@ -1,5 +1,8 @@
 2000-05-28  Dan Winship  <danw@helixcode.com>
 
+	* mail-format.c (write_recipients_to_stream): Use `foo@bar' rather
+	than `<foo@bar>' for recipient with no name.
+
 	* mail-ops.c (fetch_mail): don't put up an error message if the
 	user cancels the password dialog.
 
