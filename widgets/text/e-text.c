@@ -2690,7 +2690,6 @@ popup_targets_received (GtkClipboard     *clipboard,
       	      gtk_menu_popup (GTK_MENU (popup_menu), NULL, NULL,
 			      popup_menu_placement_cb, (gpointer)text,
 			      button->button, GDK_CURRENT_TIME);
-	      gdk_event_free (button);
       } else {
 	      gtk_menu_popup (GTK_MENU (popup_menu), NULL, NULL,
 			      NULL, NULL,
