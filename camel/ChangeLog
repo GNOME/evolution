@@ -1,3 +1,9 @@
+2002-01-11  Jeffrey Stedfast  <fejj@ximian.com>
+
+	* providers/imap/camel-imap-folder.c (imap_update_summary): Kludge
+	around a bug in Exchange 5.5 that reports 2 messages with the same
+	UID. Fixes bug #17694. Replaces the fix from yesterday.
+
 2002-01-10  Jeffrey Stedfast  <fejj@ximian.com>
 
 	* providers/local/camel-local-folder.c: If PATH_MAX doesn't exist,
