@@ -1,3 +1,7 @@
+2001-03-23  Christopher James Lahey  <clahey@ximian.com>
+
+	* message-list.c: Turned on BROKEN_ETREE.
+
 2001-03-22  Iain Holmes  <iain@ximian.com>
 
 	* importers/evolution-outlook-importer.c: Update for new IDL.
