@@ -38,7 +38,7 @@ static gboolean _connect_with_url (CamelService *service, Gurl *url,
 				   CamelException *ex);
 static gboolean _disconnect(CamelService *service, CamelException *ex);
 static gboolean _is_connected (CamelService *service);
-static void _finalize (GtkObject *object);
+static void     _finalize (GtkObject *object);
 static gboolean _set_url (CamelService *service, Gurl *url,
 			  CamelException *ex);
 

@@ -13,7 +13,11 @@ module GNOME {
 	module Evolution {
 
 		interface Shell : GNOME::Unknown {
-
+		  /* 
+		   * add a service to the shell. 
+		   * 
+		   */
+		  void AddService (string service);
 		};
 	};
 };

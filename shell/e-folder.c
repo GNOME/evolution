@@ -1,3 +1,5 @@
+/* -*- Mode: C; tab-width: 8; indent-tabs-mode: t; c-basic-offset: 8 -*- */
+
 /*
  * e-folder.c: Abstract class for Evolution folders
  *
@@ -6,6 +8,8 @@
  *
  * (C) 2000 Helix Code, Inc.
  */
+
+
 #include <config.h>
 #include <gtk/gtksignal.h>
 #include <libgnome/libgnome.h>
@@ -56,6 +60,7 @@ e_folder_class_init (GtkObjectClass *object_class)
 				gtk_marshal_NONE__NONE,
 				GTK_TYPE_NONE,
 				0);
+
 	/* Register our signals */
 	gtk_object_class_add_signals (
 		object_class, efolder_signals, LAST_SIGNAL);
@@ -244,3 +249,5 @@ e_folder_set_view_name (EFolder *efolder, const char *view_name)
 	gtk_signal_emit (GTK_OBJECT (efolder),
 			 efolder_signals [CHANGED]);
 }
+
+

@@ -21,6 +21,8 @@ evolution_SOURCES =		\
 	e-folder.h		\
 	e-init.c		\
 	e-init.h		\
+	e-service.c		\
+	e-service.h		\
 	e-shell.c		\
 	e-shell.h		\
 	e-shell-shortcut.c	\

@@ -1,3 +1,7 @@
+/* -*- Mode: C; tab-width: 8; indent-tabs-mode: t; c-basic-offset: 8 -*- */
+
+
+
 #ifndef _E_FOLDER_H_
 #define _E_FOLDER_H_
 
@@ -28,12 +32,14 @@ typedef struct {
 
 	EFolderType type;
 
+	EService *eservice;     /* an Efolder should have an eservice */
+  
 	/*
 	 * General properties
 	 */
 	char *uri;		/* Location */
 	char *name;		/* Short name */
-	char *desc;	/* Full description */
+	char *desc;	        /* Full description */
 	char *home_page;	/* Home page for this folder */
 
 	/*

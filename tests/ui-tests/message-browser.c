@@ -770,8 +770,7 @@ main (int argc, char *argv[])
 		g_error ("Cannot bonobo_init");
 
 	
-	gnome_init ("MessageBrowser", "1.0", argc, argv);
-
+	
 	gdk_rgb_init ();
 
 	gtk_widget_set_default_colormap (gdk_rgb_get_cmap ());
