@@ -117,7 +117,8 @@ from the evolution preview mirror.
    *** "--disable-more-warnings" when configure, or it may fail to
    *** build.
 
- - gconf - 0.9.0 or later
+ - gconf - 0.9.0 or later. (If you get this from GNOME CVS, use the
+   "gconf-1-0" branch.
 
  - gnome-vfs - 0.3 or later
 

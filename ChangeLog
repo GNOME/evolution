@@ -1,3 +1,7 @@
+2000-12-12  Dan Winship  <danw@helixcode.com>
+
+	* README: Mention the gconf stable branch.
+
 2000-12-07  Christopher James Lahey  <clahey@helixcode.com>
 
 	* configure.in: Updated the required version of gal.
