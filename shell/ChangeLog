@@ -1,3 +1,10 @@
+2002-05-28  Chris Toshok  <toshok@ximian.com>
+
+	* e-folder-list.c (e_folder_list_set_items): skip folders that
+	aren't valid uri's.
+	(e_folder_list_get_items): didn't update this to track the change
+	in model columns.  bad toshok.
+
 2002-05-24  Chris Toshok  <toshok@ximian.com>
 
 	[ fixes 90% of #25047 ]

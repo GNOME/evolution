@@ -572,9 +572,11 @@ e_folder_list_set_items (EFolderList *efl, EFolderListItem *items)
 		GdkPixbuf *pixbuf;
 		char *display_string;
 
+		folder = get_folder_for_uri (efl, items[i].uri);
+		if (!folder)
+			continue;
 		display_string = create_display_string (efl, items[i].uri, items[i].display_name);
 
-		folder = get_folder_for_uri (efl, items[i].uri);
 		pixbuf = evolution_shell_client_get_pixbuf_for_type (efl->priv->client, folder->type, TRUE);
 		
 		e_table_memory_store_insert (efl->priv->model, -1, NULL,
@@ -598,9 +600,9 @@ e_folder_list_get_items (EFolderList *efl)
 	items = g_new (EFolderListItem, count + 1);
 
 	for (i = 0; i < count; i++) {
-		items[i].display_name = g_strdup (e_table_model_value_at (E_TABLE_MODEL (efl->priv->model), 0, i));
-		items[i].uri = g_strdup (e_table_model_value_at (E_TABLE_MODEL (efl->priv->model), 1, i));
-		items[i].physical_uri = g_strdup (e_table_model_value_at (E_TABLE_MODEL (efl->priv->model), 2, i));
+		items[i].display_name = g_strdup (e_table_model_value_at (E_TABLE_MODEL (efl->priv->model), 2, i));
+		items[i].uri = g_strdup (e_table_model_value_at (E_TABLE_MODEL (efl->priv->model), 3, i));
+		items[i].physical_uri = g_strdup (e_table_model_value_at (E_TABLE_MODEL (efl->priv->model), 4, i));
 	}
 	items[i].uri = NULL;
 	items[i].physical_uri = NULL;
