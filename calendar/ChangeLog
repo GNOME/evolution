@@ -1,3 +1,8 @@
+2004-02-18  Rodrigo Moya <rodrigo@ximian.com>
+
+	* gui/alarm-notify/alarm-queue.c (query_objects_changed_cb): add 1 second
+	to the last notification time, or we'll get many times the same notification.
+
 2004-02-18  Kidd Wang  <kidd.wang@sun.com>
 
 	* gui/e-cal-view.c: (e_calendar_view_add_event),

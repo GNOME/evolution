@@ -523,6 +523,8 @@ query_objects_changed_cb (ECal *client, GList *objects, gpointer data)
 	from = config_data_get_last_notification_time ();
 	if (from == -1)
 		from = time (NULL);
+	else
+		from += 1; /* we add 1 to make sure the alarm is not displayed twice */
 
 	zone = config_data_get_timezone ();
 
