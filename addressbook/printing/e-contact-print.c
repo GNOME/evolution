@@ -60,6 +60,8 @@ struct _EContactPrintContext
 	int type;
 	EBook *book;
 	gchar *query;
+
+	GList *cards;
 };
 
 static gint
@@ -496,8 +498,9 @@ e_contact_start_new_column (EContactPrintContext *ctxt)
 }
 
 static void
-create_card(EBookView *book_view, const GList *cards, EContactPrintContext *ctxt)
+complete_sequence(EBookView *book_view, EContactPrintContext *ctxt)
 {
+	GList *cards = ctxt->cards;
 	for(; cards; cards = cards->next) {
 		ECard *card = cards->data;
 		ECardSimple *simple = e_card_simple_new(card);
@@ -549,6 +552,8 @@ create_card(EBookView *book_view, const GList *cards, EContactPrintContext *ctxt
 	gtk_object_unref(GTK_OBJECT(ctxt->master));
 	gtk_object_unref(GTK_OBJECT(ctxt->book));
 	g_free(ctxt->query);
+	g_list_foreach(ctxt->cards, (GFunc) gtk_object_unref, NULL);
+	g_list_free(ctxt->cards);
 	gtk_object_unref(GTK_OBJECT(ctxt->style->headings_font));
 	gtk_object_unref(GTK_OBJECT(ctxt->style->body_font));
 	gtk_object_unref(GTK_OBJECT(ctxt->style->header_font));
@@ -559,6 +564,38 @@ create_card(EBookView *book_view, const GList *cards, EContactPrintContext *ctxt
 	g_free(ctxt);
 }
 
+static int
+card_compare (ECard *card1, ECard *card2) {
+	if (card1 && card2) {
+		char *file_as1, *file_as2;
+		gtk_object_get(GTK_OBJECT(card1),
+			       "file_as", &file_as1,
+			       NULL);
+		gtk_object_get(GTK_OBJECT(card2),
+			       "file_as", &file_as2,
+			       NULL);
+		if (file_as1 && file_as2)
+			return strcmp(file_as1, file_as2);
+		if (file_as1)
+			return -1;
+		if (file_as2)
+			return 1;
+		return strcmp(e_card_get_id(card1), e_card_get_id(card2));
+	} else {
+		return 0;
+	}
+}
+
+static void
+create_card(EBookView *book_view, const GList *cards, EContactPrintContext *ctxt)
+{
+	for(; cards; cards = cards->next) {
+		ECard *card = cards->data;
+		gtk_object_ref(GTK_OBJECT(card));
+		ctxt->cards = g_list_insert_sorted(ctxt->cards, card, (GCompareFunc) card_compare);
+	}
+}
+
 static void
 book_view_loaded (EBook *book, EBookStatus status, EBookView *book_view, EContactPrintContext *ctxt)
 {
@@ -567,6 +604,11 @@ book_view_loaded (EBook *book, EBookStatus status, EBookView *book_view, EContac
 	gtk_signal_connect(GTK_OBJECT(book_view),
 			   "card_added",
 			   GTK_SIGNAL_FUNC(create_card),
+			   ctxt);
+
+	gtk_signal_connect(GTK_OBJECT(book_view),
+			   "sequence_complete",
+			   GTK_SIGNAL_FUNC(complete_sequence),
 			   ctxt);
 }
 
@@ -960,6 +1002,7 @@ e_contact_print_button(GnomeDialog *dialog, gint button, gpointer data)
 		
 		ctxt->book = book;
 		ctxt->query = query;
+		ctxt->cards = NULL;
 		e_contact_do_print(book, ctxt->query, ctxt);
 		gnome_dialog_close(dialog);
 		break;
@@ -990,6 +1033,7 @@ e_contact_print_button(GnomeDialog *dialog, gint button, gpointer data)
 		gtk_object_ref(GTK_OBJECT(book));
 		ctxt->book = book;
 		ctxt->query = g_strdup(query);
+		ctxt->cards = NULL;
 		e_contact_do_print(book, ctxt->query, ctxt);
 		break;
 	case GNOME_PRINT_CANCEL:

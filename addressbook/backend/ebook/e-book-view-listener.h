@@ -40,7 +40,8 @@ typedef enum {
 	/* Async events */
 	CardAddedEvent,
 	CardRemovedEvent,
-	CardModifiedEvent
+	CardModifiedEvent,
+	SequenceCompleteEvent,
 } EBookViewListenerOperation;
 
 typedef struct {

@@ -458,6 +458,7 @@ pas_backend_file_search (PASBackendFile  	*bf,
 	}
 	else {
 		pas_book_view_notify_add (view->book_view, cards);
+		pas_book_view_notify_complete (view->book_view);
 	}
 
 	/*
@@ -529,8 +530,10 @@ pas_backend_file_process_create_card (PASBackend *backend,
 	if (id) {
 		for (list = bf->priv->book_views; list; list = g_list_next(list)) {
 			PASBackendFileBookView *view = list->data;
-			if (vcard_matches_search (view, vcard))
+			if (vcard_matches_search (view, vcard)) {
 				pas_book_view_notify_add_1 (view->book_view, vcard);
+				pas_book_view_notify_complete (view->book_view);
+			}
 		}
 
 		pas_book_respond_create (
@@ -592,8 +595,10 @@ pas_backend_file_process_remove_card (PASBackend *backend,
 	vcard_string = vcard_dbt.data;
 	for (list = bf->priv->book_views; list; list = g_list_next(list)) {
 		PASBackendFileBookView *view = list->data;
-		if (vcard_matches_search (view, vcard_string))
+		if (vcard_matches_search (view, vcard_string)) {
 			pas_book_view_notify_remove (view->book_view, req->id);
+			pas_book_view_notify_complete (view->book_view);
+		}
 	}
 	
 	pas_book_respond_remove (
@@ -655,6 +660,7 @@ pas_backend_file_process_modify_card (PASBackend *backend,
 				pas_book_view_notify_add_1 (view->book_view, req->vcard);
 			else /* if (old_match) */
 				pas_book_view_notify_remove (view->book_view, id);
+			pas_book_view_notify_complete (view->book_view);
 		}
 
 		pas_book_respond_modify (

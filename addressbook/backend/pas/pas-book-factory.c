@@ -359,7 +359,7 @@ impl_Evolution_BookFactory_open_book (PortableServer_Servant        servant,
 			listener,
 			Evolution_BookListener_ProtocolNotSupported,
 			CORBA_OBJECT_NIL,
-			&ev);
+			ev);
 
 		return;
 	}

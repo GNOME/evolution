@@ -32,6 +32,7 @@ module Evolution {
 		void signal_card_added (in VCardList cards);
 		void signal_card_removed (in CardId id);
 		void signal_card_changed (in VCardList cards);
+		void signal_sequence_complete ();
 	};
 	
 	interface BookView : Bonobo::Unknown {

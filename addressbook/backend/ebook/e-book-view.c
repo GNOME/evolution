@@ -31,6 +31,7 @@ enum {
 	CARD_CHANGED,
 	CARD_REMOVED,
 	CARD_ADDED,
+	SEQUENCE_COMPLETE,
 	LAST_SIGNAL
 };
 
@@ -68,6 +69,13 @@ e_book_view_do_removed_event (EBookView                 *book_view,
 	g_free(resp->id);
 }
 
+static void
+e_book_view_do_complete_event (EBookView                 *book_view,
+			      EBookViewListenerResponse *resp)
+{
+	gtk_signal_emit (GTK_OBJECT (book_view), e_book_view_signals [SEQUENCE_COMPLETE]);
+}
+
 
 /*
  * Reading notices out of the EBookViewListener's queue.
@@ -91,6 +99,9 @@ e_book_view_check_listener_queue (EBookViewListener *listener, EBookView *book_v
 		break;
 	case CardRemovedEvent:
 		e_book_view_do_removed_event (book_view, resp);
+		break;
+	case SequenceCompleteEvent:
+		e_book_view_do_complete_event (book_view, resp);
 		break;
 	default:
 		g_error ("EBookView: Unknown operation %d in listener queue!\n",
@@ -247,6 +258,14 @@ e_book_view_class_init (EBookViewClass *klass)
 				gtk_marshal_NONE__POINTER,
 				GTK_TYPE_NONE, 1,
 				GTK_TYPE_POINTER);
+
+	e_book_view_signals [SEQUENCE_COMPLETE] =
+		gtk_signal_new ("sequence_complete",
+				GTK_RUN_LAST,
+				object_class->type,
+				GTK_SIGNAL_OFFSET (EBookViewClass, sequence_complete),
+				gtk_marshal_NONE__NONE,
+				GTK_TYPE_NONE, 0);
 
 	gtk_object_class_add_signals (object_class, e_book_view_signals,
 				      LAST_SIGNAL);

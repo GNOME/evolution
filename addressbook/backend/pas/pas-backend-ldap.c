@@ -623,6 +623,7 @@ poll_ldap (PASBackendLDAPBookView *view)
 	if ((rc = ldap_result (ldap, view->search_msgid, 0, NULL, &res))
 	    != LDAP_RES_SEARCH_ENTRY) {
 		view->search_idle = 0;
+		pas_book_view_notify_complete (view->book_view);
 		return FALSE;
 	}
 		

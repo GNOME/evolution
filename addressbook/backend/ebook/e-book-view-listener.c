@@ -48,7 +48,7 @@ e_book_view_listener_check_queue (EBookViewListener *listener)
 
 static void
 e_book_view_listener_queue_response (EBookViewListener         *listener,
-				EBookViewListenerResponse *response)
+				     EBookViewListenerResponse *response)
 {
 	listener->priv->response_queue =
 		g_list_append (listener->priv->response_queue,
@@ -58,6 +58,22 @@ e_book_view_listener_queue_response (EBookViewListener         *listener,
 		listener->priv->idle_id = g_idle_add (
 			(GSourceFunc) e_book_view_listener_check_queue, listener);
 	}
+}
+
+/* Add, Remove, Modify */
+static void
+e_book_view_listener_queue_empty_event (EBookViewListener          *listener,
+					EBookViewListenerOperation  op)
+{
+	EBookViewListenerResponse *resp;
+
+	resp = g_new0 (EBookViewListenerResponse, 1);
+
+	resp->op        = op;
+	resp->id        = NULL;
+	resp->cards     = NULL;
+
+	e_book_view_listener_queue_response (listener, resp);
 }
 
 /* Add, Remove, Modify */
@@ -130,6 +146,15 @@ impl_BookViewListener_signal_card_changed (PortableServer_Servant servant,
 
 	e_book_view_listener_queue_sequence_event (
 		listener, CardModifiedEvent, cards);
+}
+
+static void
+impl_BookViewListener_signal_sequence_complete (PortableServer_Servant servant,
+						CORBA_Environment *ev)
+{
+	EBookViewListener *listener = E_BOOK_VIEW_LISTENER (bonobo_object_from_servant (servant));
+
+	e_book_view_listener_queue_empty_event (listener, SequenceCompleteEvent);
 }
 
 /**
@@ -285,6 +310,7 @@ e_book_view_listener_get_epv (void)
 	epv->signal_card_changed       = impl_BookViewListener_signal_card_changed;
 	epv->signal_card_removed       = impl_BookViewListener_signal_card_removed;
 	epv->signal_card_added         = impl_BookViewListener_signal_card_added;
+	epv->signal_sequence_complete  = impl_BookViewListener_signal_sequence_complete;
 
 	return epv;
 }

@@ -1,3 +1,15 @@
+2000-05-30  Christopher James Lahey  <clahey@helixcode.com>
+
+	* backend/ebook/e-book-view-listener.c,
+	backend/ebook/e-book-view-listener.h, backend/ebook/e-book-view.c,
+	backend/ebook/e-book-view.h, backend/idl/addressbook.idl,
+	backend/pas/pas-backend-file.c, backend/pas/pas-backend-ldap.c,
+	backend/pas/pas-book-factory.c, backend/pas/pas-book-view.c,
+	backend/pas/pas-book-view.h: Added "sequence_complete" signal.
+
+	* printing/e-contact-print.c: Made printing wait for
+	"sequence_complete" signal and made it sort.
+
 2000-05-25  Christopher James Lahey  <clahey@helixcode.com>
 
 	* gui/component/addressbook.c,
