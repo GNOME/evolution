@@ -5,7 +5,7 @@
  * Author:
  *   Miguel de Icaza (miguel@gnu.org)
  *
- * Copyright 1999, Helix Code, Inc.
+ * Copyright 1999, Ximian, Inc.
  *
  * TODO:
  *   Add a border to the thing, so that focusing works properly.

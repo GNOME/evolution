@@ -1,6 +1,6 @@
 /* -*- Mode: C; tab-width: 8; indent-tabs-mode: t; c-basic-offset: 8 -*- */
 /* e-cell-tree.c - Tree cell renderer
- * Copyright (C) 2000 Helix Code, Inc.
+ * Copyright (C) 2000 Ximian, Inc.
  *
  * Author: Chris Toshok <toshok@helixcode.com>
  *
@@ -9,7 +9,7 @@
  * the ECellText renderer.
  *
  * Copyright (C) 1998 The Free Software Foundation
- * Copyright (C) 1999, 2000 Helix Code, Inc.
+ * Copyright (C) 1999, 2000 Ximian, Inc.
  */
 
 #include <config.h>

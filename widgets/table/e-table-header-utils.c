@@ -1,6 +1,6 @@
 /* ETable widget - utilities for drawing table header buttons
  *
- * Copyright (C) 2000 Helix Code, Inc.
+ * Copyright (C) 2000 Ximian, Inc.
  *
  * Authors: Chris Lahey <clahey@helixcode.com>
  *          Miguel de Icaza <miguel@helixcode.com>

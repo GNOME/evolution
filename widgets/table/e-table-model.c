@@ -6,7 +6,7 @@
  *   Miguel de Icaza (miguel@gnu.org)
  *   Chris Lahey (clahey@helixcode.com)
  *
- * (C) 1999, 2000 Helix Code, Inc.
+ * (C) 1999, 2000 Ximian, Inc.
  */
 #include <config.h>
 #include <gtk/gtksignal.h>

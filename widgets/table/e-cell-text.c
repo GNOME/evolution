@@ -1,11 +1,11 @@
 /* -*- Mode: C; tab-width: 8; indent-tabs-mode: t; c-basic-offset: 8 -*- */
 /* e-cell-text.c - Text cell renderer
- * Copyright (C) 2000 Helix Code, Inc.
+ * Copyright (C) 2000 Ximian, Inc.
  *
  * Authors: Miguel de Icaza <miguel@helixcode.com>
  *          Chris Lahey <clahey@helixcode.com>
  *
- * (C) 1999, 2000 Helix Code, Inc.
+ * (C) 1999, 2000 Ximian, Inc.
  *
  * A lot of code taken from:
  *

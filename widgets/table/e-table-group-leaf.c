@@ -5,7 +5,7 @@
  * Author:
  *   Miguel de Icaza (miguel@gnu.org ()
  *
- * Copyright 1999, Helix Code, Inc.
+ * Copyright 1999, Ximian, Inc.
  */
 
 #include <config.h>

@@ -2,10 +2,11 @@
 /*
  * E-table-config.c: The ETable config dialog.
  *
- * Author:
- *   Chris Lahey <clahey@helixcode.com>
- *
- * (C) 2000 Helix Code, Inc.
+ * Authors:
+ *   Chris Lahey (clahey@ximian.com)
+ *   Miguel de Icaza (miguel@ximian.com)
+ 
+ * (C) 2000, 2001 Ximian, Inc.
  */
 
 #include <config.h>

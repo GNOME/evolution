@@ -5,7 +5,7 @@
  * Author:
  *   Miguel de Icaza (miguel@gnu.org)
  *
- * (C) 1999 Helix Code, Inc
+ * (C) 1999 Ximian, Inc
  */
 #include <config.h>
 #include <gtk/gtkobject.h>

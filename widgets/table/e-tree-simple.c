@@ -6,7 +6,7 @@
  * Author:
  *   Chris Toshok (toshok@helixcode.com)
  *
- * (C) 2000 Helix Code, Inc.  */
+ * (C) 2000 Ximian, Inc.  */
 
 #include <config.h>
 #include <gtk/gtksignal.h>

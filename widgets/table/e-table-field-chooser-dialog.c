@@ -1,7 +1,7 @@
 /* -*- Mode: C; tab-width: 8; indent-tabs-mode: t; c-basic-offset: 8 -*- */
 /* 
  * e-table-field-chooser-dialog.c
- * Copyright (C) 2000  Helix Code, Inc.
+ * Copyright (C) 2000  Ximian, Inc.
  * Author: Chris Lahey <clahey@helixcode.com>
  *
  * This library is free software; you can redistribute it and/or

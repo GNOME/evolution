@@ -6,7 +6,7 @@
  *   Miguel de Icaza (miguel@helixcode.com)
  *   Chris Lahey (clahey@helixcode.com)
  *
- * Copyright 1999, Helix Code, Inc
+ * Copyright 1999, Ximian, Inc
  */
 #include <config.h>
 #include <stdlib.h>

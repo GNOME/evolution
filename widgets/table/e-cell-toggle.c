@@ -4,7 +4,7 @@
  * Author:
  *   Miguel de Icaza (miguel@kernel.org)
  *
- * (C) 1999, 2000 Helix Code, Inc
+ * (C) 1999, 2000 Ximian, Inc
  */
 #include <config.h>
 #include <gtk/gtkenums.h>
