@@ -32,8 +32,10 @@
 GSList *
 e_get_language_list (void)
 {
+	GSList *list = NULL;
 	const char *env;
 	const char *p;
+	char *lang;
 
 	env = g_getenv ("LANGUAGE");
 	if (env == NULL) {
@@ -44,15 +46,24 @@ e_get_language_list (void)
 
 	p = strchr (env, '=');
 	if (p != NULL)
-		return g_slist_prepend (NULL, (void *) (p + 1));
-	else
-		return g_slist_prepend (NULL, (void *) env);
+		env = p;
+
+	list = g_slist_prepend (list, g_strdup (env));
+
+	p = strchr (env, '_');
+	if (p != NULL)
+		list = g_slist_prepend (list, g_strndup (env, p - env));
+
+	return list;
 }
 
 void
 e_free_language_list (GSList *list)
 {
-	g_return_if_fail (list != NULL);
+	GSList *iter;
+
+	for (iter = list; iter; iter = iter->next)
+		g_free (iter->data);
 
 	g_slist_free (list);
 }

@@ -1,3 +1,9 @@
+2002-11-26  Dan Winship  <danw@ximian.com>
+
+	* e-lang-utils.c (e_get_language_list): If the language is
+	something like "fr_FR", return both "fr_FR" and "fr" in the list.
+	Oaf doesn't consider "fr_FR" to match a "-fr" translation.
+
 2002-11-22  Not Zed  <NotZed@Ximian.com>
 
 	* e-msgport.c (EMsgPort): Added an optional nspr pipe field.
