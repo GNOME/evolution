@@ -480,33 +480,10 @@
 	  <name>checkbutton-mailingaddress</name>
 	  <cxx_use_heap>True</cxx_use_heap>
 	  <visible>False</visible>
-	  <can_focus>True</can_focus>
 	  <label>This is the mailing address</label>
 	  <active>False</active>
 	  <draw_indicator>True</draw_indicator>
 	</widget>
-      </widget>
-
-      <widget>
-	<class>GtkButton</class>
-	<name>button-address</name>
-	<cxx_use_heap>True</cxx_use_heap>
-	<can_focus>True</can_focus>
-	<label>A_ddress...</label>
-	<child>
-	  <left_attach>5</left_attach>
-	  <right_attach>7</right_attach>
-	  <top_attach>5</top_attach>
-	  <bottom_attach>6</bottom_attach>
-	  <xpad>0</xpad>
-	  <ypad>0</ypad>
-	  <xexpand>False</xexpand>
-	  <yexpand>False</yexpand>
-	  <xshrink>False</xshrink>
-	  <yshrink>False</yshrink>
-	  <xfill>True</xfill>
-	  <yfill>True</yfill>
-	</child>
       </widget>
 
       <widget>
@@ -984,11 +961,37 @@
 	  <name>checkbutton-htmlmail</name>
 	  <cxx_use_heap>True</cxx_use_heap>
 	  <visible>False</visible>
-	  <can_focus>True</can_focus>
 	  <label>Wants HTML mail</label>
 	  <active>False</active>
 	  <draw_indicator>True</draw_indicator>
 	</widget>
+      </widget>
+
+      <widget>
+	<class>GtkLabel</class>
+	<name>label-address1</name>
+	<cxx_use_heap>True</cxx_use_heap>
+	<label>Business</label>
+	<justify>GTK_JUSTIFY_CENTER</justify>
+	<wrap>False</wrap>
+	<xalign>0</xalign>
+	<yalign>0.5</yalign>
+	<xpad>0</xpad>
+	<ypad>0</ypad>
+	<child>
+	  <left_attach>5</left_attach>
+	  <right_attach>6</right_attach>
+	  <top_attach>5</top_attach>
+	  <bottom_attach>6</bottom_attach>
+	  <xpad>0</xpad>
+	  <ypad>0</ypad>
+	  <xexpand>False</xexpand>
+	  <yexpand>False</yexpand>
+	  <xshrink>False</xshrink>
+	  <yshrink>False</yshrink>
+	  <xfill>True</xfill>
+	  <yfill>True</yfill>
+	</child>
       </widget>
 
       <widget>
@@ -1002,8 +1005,8 @@
 	<child>
 	  <left_attach>6</left_attach>
 	  <right_attach>7</right_attach>
-	  <top_attach>6</top_attach>
-	  <bottom_attach>7</bottom_attach>
+	  <top_attach>5</top_attach>
+	  <bottom_attach>6</bottom_attach>
 	  <xpad>0</xpad>
 	  <ypad>0</ypad>
 	  <xexpand>False</xexpand>
@@ -1027,9 +1030,9 @@
 
       <widget>
 	<class>GtkLabel</class>
-	<name>label-address1</name>
+	<name>address-label</name>
 	<cxx_use_heap>True</cxx_use_heap>
-	<label>Business</label>
+	<label>Address:</label>
 	<justify>GTK_JUSTIFY_CENTER</justify>
 	<wrap>False</wrap>
 	<xalign>0</xalign>
@@ -1038,7 +1041,7 @@
 	<ypad>0</ypad>
 	<child>
 	  <left_attach>5</left_attach>
-	  <right_attach>6</right_attach>
+	  <right_attach>7</right_attach>
 	  <top_attach>6</top_attach>
 	  <bottom_attach>7</bottom_attach>
 	  <xpad>0</xpad>
