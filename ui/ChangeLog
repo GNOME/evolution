@@ -1,3 +1,8 @@
+2001-07-23  Jason Leach  <jleach@ximian.com>
+
+	* evolution-mail-message.xml: Add the "Mark as Unimportant" cmd
+	and menu item to the Edit menu. Bug #5225.
+
 2001-07-21  Jason Leach  <jleach@ximian.com>
 
 	* evolution-mail-list.xml: Capitalize "messages" in "Hide Read

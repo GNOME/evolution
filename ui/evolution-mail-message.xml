@@ -69,6 +69,9 @@
     <cmd name="MessageMarkAsImportant"
      _tip="Mark the selected messages as important"/>
 
+    <cmd name="MessageMarkAsUnimportant"
+     _tip="Mark the selected messages as unimportant"/>
+
     <cmd name="MessageMove"
      _tip="Move selected messages to another folder"
      accel="*Control**Shift*m"
@@ -189,9 +192,10 @@
 
         <separator/>
 
-        <menuitem name="MessageMarkAsRead" verb="" _label="Mar_k As Read"/>
-        <menuitem name="MessageMarkAsUnRead" verb="" _label="Mark As U_nread"/>
-	<menuitem name="MessageMarkAsImportant" verb="" _label="Mark As I_mportant"/>
+        <menuitem name="MessageMarkAsRead" verb="" _label="Mar_k as Read"/>
+        <menuitem name="MessageMarkAsUnRead" verb="" _label="Mark as U_nread"/>
+	<menuitem name="MessageMarkAsImportant" verb="" _label="Mark as I_mportant"/>
+	<menuitem name="MessageMarkAsUnimportant" verb="" _label="Mark as Unimp_ortant"/>
       </placeholder>
     </submenu>
 
