@@ -1,3 +1,14 @@
+2000-09-19  Dan Winship  <danw@helixcode.com>
+
+	* e-msg-composer.c (e_msg_composer_construct): Don't g_error out
+	if the html-editor-control fails.
+	(create_composer): New internal function to create and construct a
+	msg_composer and pop up an error message if it fails.
+	(e_msg_composer_new, e_msg_composer_new_with_sig_file,
+	e_msg_composer_new_with_message, e_msg_composer_new_from_url): Use
+	create_composer, return if it fails, change return type to
+	EMsgComposer *.
+
 2000-09-18  Dan Winship  <danw@helixcode.com>
 
 	* e-msg-composer-attachment.c (get_mime_type): Use

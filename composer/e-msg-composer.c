@@ -79,23 +79,6 @@ static GList *add_recipients (GList *list, const char *recips, gboolean decode);
 static void free_recipients (GList *list);
 
 
-static GtkWidget *
-create_editor (EMsgComposer *composer)
-{
-	GtkWidget *control;
-
-	control = bonobo_widget_new_control (
-		HTML_EDITOR_CONTROL_ID,
-		bonobo_ui_compat_get_container (composer->uih));
-
-	if (control == NULL) {
-		g_error ("Cannot activate `%s'. Did you build gtkhtml with Bonobo and OAF support?", HTML_EDITOR_CONTROL_ID);
-		return NULL;
-	}
-
-	return control;
-}
-
 static char *
 get_text (Bonobo_PersistStream persist, char *format)
 {
@@ -1292,7 +1275,11 @@ e_msg_composer_construct (EMsgComposer *composer)
 	
 	create_menubar (composer);
 	create_toolbar (composer);
-	composer->editor = create_editor (composer);
+	composer->editor = bonobo_widget_new_control (
+		HTML_EDITOR_CONTROL_ID,
+		bonobo_ui_compat_get_container (composer->uih));
+	if (!composer->editor)
+		return;
 
 	editor_server = BONOBO_OBJECT (bonobo_widget_get_server (BONOBO_WIDGET (composer->editor)));
 	
@@ -1335,27 +1322,39 @@ e_msg_composer_construct (EMsgComposer *composer)
 	gtk_widget_grab_focus (e_msg_composer_hdrs_get_to_entry (E_MSG_COMPOSER_HDRS (composer->hdrs)));
 }
 
+static EMsgComposer *
+create_composer (void)
+{
+	EMsgComposer *new;
+
+	new = gtk_type_new (E_TYPE_MSG_COMPOSER);
+	e_msg_composer_construct (new);
+	if (!new->editor) {
+		e_notice (GTK_WINDOW (new), GNOME_MESSAGE_BOX_ERROR,
+			  _("Could not create composer window."));
+		gtk_object_unref (GTK_OBJECT (new));
+		return NULL;
+	}
+	return new;
+}
+
 /**
  * e_msg_composer_new:
  *
- * Create a new message composer widget.  This function must be called
- * within the GTK+ main loop, or it will fail.
+ * Create a new message composer widget.
  * 
  * Return value: A pointer to the newly created widget
  **/
-GtkWidget *
+EMsgComposer *
 e_msg_composer_new (void)
 {
-	GtkWidget *new;
+	EMsgComposer *new;
 
-	g_return_val_if_fail (gtk_main_level () > 0, NULL);
- 
-	new = gtk_type_new (e_msg_composer_get_type ());
-	e_msg_composer_construct (E_MSG_COMPOSER (new));
-
-	/* Load the signature, if any. */
-	set_editor_text (BONOBO_WIDGET (E_MSG_COMPOSER (new)->editor), 
-			 NULL, "");
+	new = create_composer ();
+	if (new) {
+		/* Load the signature, if any. */
+		set_editor_text (BONOBO_WIDGET (new->editor), NULL, "");
+	}
 
 	return new;
 }
@@ -1363,40 +1362,34 @@ e_msg_composer_new (void)
 /**
  * e_msg_composer_new_with_sig_file:
  *
- * Create a new message composer widget.  This function must be called
- * within the GTK+ main loop, or it will fail.  Sets the signature
- * file.
+ * Create a new message composer widget. Sets the signature file.
  * 
  * Return value: A pointer to the newly created widget
  **/
-GtkWidget *
+EMsgComposer *
 e_msg_composer_new_with_sig_file (const char *sig_file)
 {
-	GtkWidget *new;
+	EMsgComposer *new;
 	
-	g_return_val_if_fail (gtk_main_level () > 0, NULL);
-	
-	new = gtk_type_new (e_msg_composer_get_type ());
-	e_msg_composer_construct (E_MSG_COMPOSER (new));
-	
-	/* Load the signature, if any. */
-	set_editor_text (BONOBO_WIDGET (E_MSG_COMPOSER (new)->editor), 
-			 sig_file, "");
-	
-	e_msg_composer_set_sig_file (E_MSG_COMPOSER (new), sig_file);
-	
+	new = create_composer ();
+	if (new) {
+		/* Load the signature, if any. */
+		set_editor_text (BONOBO_WIDGET (new->editor), sig_file, "");
+
+		e_msg_composer_set_sig_file (new, sig_file);
+	}
+
 	return new;
 }
 
 /**
  * e_msg_composer_new_with_message:
  *
- * Create a new message composer widget.  This function must be called
- * within the GTK+ main loop, or it will fail.
+ * Create a new message composer widget.
  * 
  * Return value: A pointer to the newly created widget
  **/
-GtkWidget *
+EMsgComposer *
 e_msg_composer_new_with_message (CamelMimeMessage *msg)
 {
 	const CamelInternetAddress *to, *cc, *bcc;
@@ -1404,14 +1397,13 @@ e_msg_composer_new_with_message (CamelMimeMessage *msg)
 	gboolean is_html;
 	CamelDataWrapper *contents;
 	const gchar *subject;
-	GtkWidget *new;
+	EMsgComposer *new;
 	char *text, *final_text;
 	guint len, i;
 	
-	g_return_val_if_fail (gtk_main_level () > 0, NULL);
-	
-	new = gtk_type_new (e_msg_composer_get_type ());
-	e_msg_composer_construct (E_MSG_COMPOSER (new));
+	new = create_composer ();
+	if (!new)
+		return NULL;
 	
 	subject = camel_mime_message_get_subject (msg);
 	
@@ -1443,7 +1435,7 @@ e_msg_composer_new_with_message (CamelMimeMessage *msg)
 			Bcc = g_list_append (Bcc, g_strdup (addr));
 	}
 	
-	e_msg_composer_set_headers (E_MSG_COMPOSER (new), To, Cc, Bcc, subject);
+	e_msg_composer_set_headers (new, To, Cc, Bcc, subject);
 	
 	free_recipients (To);
 	free_recipients (Cc);
@@ -1458,9 +1450,9 @@ e_msg_composer_new_with_message (CamelMimeMessage *msg)
 					     E_TEXT_TO_HTML_CONVERT_SPACES);
 	g_free (text);
 	
-	e_msg_composer_set_body_text (E_MSG_COMPOSER (new), final_text);
+	e_msg_composer_set_body_text (new, final_text);
 	
-	/*set_editor_text (BONOBO_WIDGET (E_MSG_COMPOSER (new)->editor), 
+	/*set_editor_text (BONOBO_WIDGET (new->editor), 
 	  NULL, "FIXME: like, uh... put the message here and stuff\n");*/
 	
 	return new;
@@ -1505,7 +1497,7 @@ free_recipients (GList *list)
  * Create a new message composer widget, and fill in fields as
  * defined by the provided URL.
  **/
-GtkWidget *
+EMsgComposer *
 e_msg_composer_new_from_url (const char *url)
 {
 	EMsgComposer *composer;
@@ -1518,6 +1510,10 @@ e_msg_composer_new_from_url (const char *url)
 	
 	g_return_val_if_fail (g_strncasecmp (url, "mailto:", 7) == 0, NULL);
 	
+	composer = e_msg_composer_new ();
+	if (!composer)
+		return NULL;
+
 	/* Parse recipients (everything after ':' until '?' or eos. */
 	p = url + 7;
 	len = strcspn (p, "?,");
@@ -1566,7 +1562,6 @@ e_msg_composer_new_from_url (const char *url)
 		}
 	}
 	
-	composer = E_MSG_COMPOSER (e_msg_composer_new ());
 	hdrs = E_MSG_COMPOSER_HDRS (composer->hdrs);
 	e_msg_composer_hdrs_set_to (hdrs, to);
 	free_recipients (to);
@@ -1586,7 +1581,7 @@ e_msg_composer_new_from_url (const char *url)
 		g_free (htmlbody);
 	}
 	
-	return GTK_WIDGET (composer);
+	return composer;
 }
 
 /**
