@@ -230,6 +230,12 @@ char *s = N_("A non-empty folder at \"{1}\" already exists.\n"
 char *s = N_("Ignore");
 char *s = N_("_Overwrite");
 char *s = N_("_Append");
+/* mail:no-load-license primary */
+char *s = N_("Unable to read license file.");
+/* mail:no-load-license secondary */
+char *s = N_("Cannot read the license file \"{0}\", due to an\n"
+	"      installation problem.  You will not be able to use this provider until\n"
+	"      you can accept its license.");
 /* mail:gw-accountsetup-error primary */
 char *s = N_("Unable to connect to the GroupWise\n"
 	"server.");
