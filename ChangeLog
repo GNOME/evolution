@@ -1,5 +1,21 @@
 2000-01-21  bertrand  <bertrand@helixcode.com>
 
+	* tests/test10.c:
+	test the mbox provider. 
+
+	* camel/camel-folder.c (_set_name): 
+	if camel_folder_get_mode returns an
+	exception, return it instead of
+	overriding it with a new one.
+	(camel_folder_is_open): make the is_open
+	method public.
+	(_set_name): use the is_open instead of
+	get_mode.
+	(_set_name): set the fullname even in the case 
+	where the folder has no parent.
+	(_set_name): use %c, not %d to add the 
+	separator char into the full path.
+
 	* camel/camel-store.c: add exception handling everywhere in
 	the store related functions arguments. 
 	* camel/providers/mbox/camel-mbox-folder.c: idem

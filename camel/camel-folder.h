@@ -249,6 +249,7 @@ const gchar *camel_folder_get_full_name (CamelFolder *folder, CamelException *ex
 gboolean camel_folder_exists (CamelFolder *folder, CamelException *ex);
 const GList *camel_folder_list_permanent_flags (CamelFolder *folder, CamelException *ex);
 CamelFolderOpenMode camel_folder_get_mode (CamelFolder *folder, CamelException *ex);
+gboolean camel_folder_is_open (CamelFolder *folder, CamelException *ex);
 
 
 

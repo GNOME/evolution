@@ -477,7 +477,9 @@ _set_name (CamelFolder *folder,
 				     "name parameter is NULL");
 		return;
 	}	
-	
+
+	CAMEL_LOG_FULL_DEBUG ("CamelFolder::set_name, folder name is %s\n", name);
+
 	
 	if (!folder->parent_store) {
 		camel_exception_set (ex, 
@@ -486,10 +488,11 @@ _set_name (CamelFolder *folder,
 		return;
 	}
 
-	/* the set_name method is valid only only on 
+	/* the set_name method is valid only on 
 	   close folders */
 
-	if (camel_folder_get_mode (folder, ex) != FOLDER_CLOSE) {
+	if (camel_folder_is_open (folder, ex)) {
+		if (camel_exception_get_id (ex)) return;
 		camel_exception_set (ex, 
 				     CAMEL_EXCEPTION_FOLDER_INVALID,
 				     "CamelFolder::set_name is valid only on closed folders");
@@ -497,14 +500,19 @@ _set_name (CamelFolder *folder,
 	}
 			
 	separator = camel_store_get_separator (folder->parent_store, ex);
+	if (camel_exception_get_id (ex)) return;
+
 	camel_exception_clear (ex);
 	if (folder->parent_folder) {
 		parent_full_name = camel_folder_get_full_name (folder->parent_folder, ex);
 		if (camel_exception_get_id (ex)) return;
 		
-		full_name = g_strdup_printf ("%s%d%s", parent_full_name, separator, name);		
-	} 
-	
+		full_name = g_strdup_printf ("%s%c%s", parent_full_name, separator, name);		
+	} else {
+		full_name = g_strdup_printf ("%c%s", separator, name);
+	}
+
+	CAMEL_LOG_FULL_DEBUG ("CamelFolder::set_name, folder full name set to %s\n", full_name);
 	folder->name = g_strdup (name);
 	folder->full_name = full_name;
 	
@@ -756,6 +764,29 @@ _is_open (CamelFolder *folder, CamelException *ex)
 	}
 
 	return (folder->open_state == FOLDER_OPEN);
+} 
+
+
+/**
+ * _is_open: test if the folder is open 
+ * @folder: The folder object
+ * 
+ * Tests if a folder is open. If not open it can be opened 
+ * CamelFolder::open
+ * 
+ * Return value: true if the folder exists, false otherwise
+ **/
+gboolean
+camel_folder_is_open (CamelFolder *folder, CamelException *ex)
+{
+	if (!folder) {
+		camel_exception_set (ex, 
+				     CAMEL_EXCEPTION_FOLDER_NULL,
+				     "folder object is NULL");
+		return FALSE;
+	}
+
+	return (CF_CLASS(folder)->is_open (folder, ex));
 } 
 
 

@@ -175,6 +175,7 @@ _init_with_store (CamelFolder *folder, CamelStore *parent_store, CamelException 
 	parent_class->init_with_store (folder, parent_store, ex);
 	if (camel_exception_get_id (ex)) return;
 
+	printf ("%d\n", folder->open_mode);
 	/* we assume that the parent init_with_store 
 	   method checks for the existance of @folder */
 	   

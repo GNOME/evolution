@@ -38,10 +38,14 @@ main (int argc, char**argv)
 	store = camel_session_get_store (session, store_url);
 	
 
-	folder = camel_store_get_folder (store, "Inbox");
-	
+	folder = camel_store_get_folder (store, "Inbox", ex);
+	if (camel_exception_get_id (ex)) {
+		printf ("Exception caughy in camel_store_get_folder"
+			"Full description : %s\n", camel_exception_get_description (ex));
+	}
 	camel_folder_open (folder, FOLDER_OPEN_RW, ex);
 	
+	camel_folder_close (folder, FALSE, ex);
 
 	return 1;
 }  
