@@ -102,8 +102,7 @@ typedef struct {
 	char *sexp;
 
 	int count;
-} EItipControlFindData;
-
+} FormatItipFindData;
 
 typedef void (* FormatItipOpenFunc) (ECal *ecal, ECalendarStatus status, gpointer data);
 
@@ -351,7 +350,7 @@ source_selected_cb (ItipView *view, ESource *source, gpointer data)
 static void
 find_cal_opened_cb (ECal *ecal, ECalendarStatus status, gpointer data)
 {
-	EItipControlFindData *fd = data;
+	FormatItipFindData *fd = data;
 	FormatItipPObject *pitip = fd->pitip;
 	ESource *source;
 	ECalSourceType source_type;
@@ -380,9 +379,12 @@ find_cal_opened_cb (ECal *ecal, ECalendarStatus status, gpointer data)
 
 	/* Check for conflicts */
 	/* If the query fails, we'll just ignore it */
-	/* FIXME Limit the calendars checked for conflicts? */
 	/* FIXME What happens for recurring conflicts? */
-	if (pitip->type == E_CAL_SOURCE_TYPE_EVENT && e_cal_get_object_list (ecal, fd->sexp, &objects, NULL) && g_list_length (objects) > 0) {
+	if (pitip->type == E_CAL_SOURCE_TYPE_EVENT 
+	    && e_source_get_property (E_SOURCE (source), "conflict")
+	    && !g_ascii_strcasecmp (e_source_get_property (E_SOURCE (source), "conflict"), "true")
+	    && e_cal_get_object_list (ecal, fd->sexp, &objects, NULL)
+	    && g_list_length (objects) > 0) {
 		itip_view_add_upper_info_item_printf (ITIP_VIEW (pitip->view), ITIP_VIEW_INFO_ITEM_TYPE_WARNING, 
 						      "An appointment in the calendar '%s' conflicts with this meeting", e_source_peek_name (source));
 
@@ -492,7 +494,7 @@ find_cal_opened_cb (ECal *ecal, ECalendarStatus status, gpointer data)
 static void
 find_server (FormatItipPObject *pitip, ECalComponent *comp)
 {
-	EItipControlFindData *fd = NULL;
+	FormatItipFindData *fd = NULL;
 	GSList *groups, *l;
 	const char *uid;
 
@@ -520,7 +522,7 @@ find_server (FormatItipPObject *pitip, ECalComponent *comp)
 			if (!fd) {
 				char *start = NULL, *end = NULL;
 				
-				fd = g_new0 (EItipControlFindData, 1);
+				fd = g_new0 (FormatItipFindData, 1);
 				fd->pitip = pitip;
 				fd->uid = g_strdup (uid);
 				
@@ -669,8 +671,6 @@ update_item (FormatItipPObject *pitip, ItipViewResponse response)
 						      e_source_peek_name (source), error->message);
 		g_error_free (error);
 	} else {
-		
-		/* FIXME This makes the UI look ugly */
 		itip_view_set_source_list (ITIP_VIEW (pitip->view), NULL);
 
 		itip_view_clear_lower_info_items (ITIP_VIEW (pitip->view));
@@ -1338,6 +1338,57 @@ delete_toggled_cb (GtkWidget *widget, gpointer data)
 	gconf_client_set_bool (target->gconf, GCONF_KEY_DELETE, gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (widget)), NULL);
 }
 
+static void
+initialize_selection (ESourceSelector *selector, ESourceList *source_list)
+{
+	GSList *groups;
+
+	for (groups = e_source_list_peek_groups (source_list); groups; groups = groups->next) {
+		ESourceGroup *group = E_SOURCE_GROUP (groups->data);
+		GSList *sources;
+		for (sources = e_source_group_peek_sources (group); sources; sources = sources->next) {
+			ESource *source = E_SOURCE (sources->data);
+			const char *completion = e_source_get_property (source, "conflict");
+			if (completion && !g_ascii_strcasecmp (completion, "true"))
+				e_source_selector_select_source (selector, source);
+		}
+	}
+}
+
+static void
+source_selection_changed (ESourceSelector *selector, gpointer data)
+{
+	ESourceList *source_list = data;
+	GSList *selection;
+	GSList *l;
+	GSList *groups;
+
+	/* first we clear all the completion flags from all sources */
+	g_message ("Clearing selection");
+	for (groups = e_source_list_peek_groups (source_list); groups; groups = groups->next) {
+		ESourceGroup *group = E_SOURCE_GROUP (groups->data);
+		GSList *sources;
+		for (sources = e_source_group_peek_sources (group); sources; sources = sources->next) {
+			ESource *source = E_SOURCE (sources->data);
+
+			g_message ("Unsetting for %s", e_source_peek_name (source));
+			e_source_set_property (source, "conflict", NULL);
+		}
+	}
+
+	/* then we loop over the selector's selection, setting the
+	   property on those sources */
+	selection = e_source_selector_get_selection (selector);
+	for (l = selection; l; l = l->next) {
+		g_message ("Setting for %s", e_source_peek_name (E_SOURCE (l->data)));
+		e_source_set_property (E_SOURCE (l->data), "conflict", "true");
+	}
+	e_source_selector_free_selection (selection);
+
+	/* FIXME show an error if this fails? */
+	e_source_list_sync (source_list, NULL);
+}
+
 GtkWidget *
 itip_formatter_page_factory (EPlugin *ep, EConfigHookItemFactoryData *hook_data)
 {
@@ -1350,8 +1401,11 @@ itip_formatter_page_factory (EPlugin *ep, EConfigHookItemFactoryData *hook_data)
 	GtkWidget *hbox;
 	GtkWidget *inner_vbox;
 	GtkWidget *check;
-	GtkWidget *check_gaim;
-
+	GtkWidget *label;
+	GtkWidget *ess;
+	GtkWidget *scrolledwin;
+	ESourceList *source_list;
+	
 	/* Create a new notebook page */
 	page = gtk_vbox_new (FALSE, 0);
 	GTK_CONTAINER (page)->border_width = 12;
@@ -1394,15 +1448,36 @@ itip_formatter_page_factory (EPlugin *ep, EConfigHookItemFactoryData *hook_data)
 
 	/* Indent/padding */
 	hbox = gtk_hbox_new (FALSE, 12);
-	gtk_box_pack_start (GTK_BOX (frame), hbox, FALSE, TRUE, 0);
+	gtk_box_pack_start (GTK_BOX (frame), hbox, TRUE, TRUE, 0);
 	padding_label = gtk_label_new ("");
 	gtk_box_pack_start (GTK_BOX (hbox), padding_label, FALSE, FALSE, 0);
 	inner_vbox = gtk_vbox_new (FALSE, 6);
-	gtk_box_pack_start (GTK_BOX (hbox), inner_vbox, FALSE, FALSE, 0);
+	gtk_box_pack_start (GTK_BOX (hbox), inner_vbox, TRUE, TRUE, 0);
 	
 	/* Source selector */
-	check_gaim = gtk_label_new (_("Select the calendars to search for meeting conflicts"));
-	gtk_box_pack_start (GTK_BOX (inner_vbox), check_gaim, FALSE, FALSE, 0);
+	label = gtk_label_new (_("Select the calendars to search for meeting conflicts"));
+	gtk_misc_set_alignment (GTK_MISC (label), 0, 0.5);
+	gtk_box_pack_start (GTK_BOX (inner_vbox), label, FALSE, FALSE, 0);
+
+	if (!e_cal_get_sources (&source_list, E_CAL_SOURCE_TYPE_EVENT, NULL))
+	    /* FIXME Error handling */;
+
+	scrolledwin = gtk_scrolled_window_new (NULL, NULL);
+
+	gtk_scrolled_window_set_policy (GTK_SCROLLED_WINDOW (scrolledwin),
+					GTK_POLICY_AUTOMATIC,
+					GTK_POLICY_AUTOMATIC);
+	gtk_scrolled_window_set_shadow_type (GTK_SCROLLED_WINDOW (scrolledwin),
+					     GTK_SHADOW_IN);
+	gtk_box_pack_start (GTK_BOX (inner_vbox), scrolledwin, TRUE, TRUE, 0);
+
+	ess = e_source_selector_new (source_list);
+	gtk_container_add (GTK_CONTAINER (scrolledwin), ess);
+
+	initialize_selection (E_SOURCE_SELECTOR (ess), source_list);
+	
+	g_signal_connect (ess, "selection_changed", G_CALLBACK (source_selection_changed), source_list);
+	g_object_weak_ref (G_OBJECT (page), (GWeakNotify) g_object_unref, source_list);
 
 	gtk_widget_show_all (page);
 

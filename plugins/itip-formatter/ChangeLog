@@ -1,3 +1,13 @@
+2005-01-09  JP Rosevear  <jpr@novell.com>
+
+	* itip-formatter.c (find_cal_opened_cb): only check for conflicts
+	if the source has the conflict property
+	(initialize_selection): select the "conflict" sources in the
+	selector
+	(source_selection_changed): update the source properties
+	(itip_formatter_page_factory): include the source selector for
+	selecting conflict checking calendars
+
 2005-01-08  Harish Krishnaswamy  <kharish@novell.com>
 
 	* itip-formatter.c: (send_item), (view_response_cb):
