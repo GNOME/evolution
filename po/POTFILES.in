@@ -32,7 +32,6 @@ addressbook/gui/contact-list-editor/e-contact-list-editor.c
 addressbook/gui/merging/e-card-duplicate-detected.glade
 addressbook/gui/merging/e-card-merging-book-commit-duplicate-detected.glade
 addressbook/gui/search/e-addressbook-search-dialog.c
-addressbook/gui/widgets/alphabet.glade
 addressbook/gui/widgets/e-addressbook-model.c
 addressbook/gui/widgets/e-addressbook-reflow-adapter.c
 addressbook/gui/widgets/e-addressbook-table-adapter.c
