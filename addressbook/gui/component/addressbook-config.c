@@ -106,7 +106,7 @@ addressbook_source_dialog_set_source (AddressbookSourceDialog *dialog, Addressbo
 	e_utf8_gtk_entry_set_text (GTK_ENTRY (dialog->rootdn), source ? source->rootdn : "");
 
 	gtk_option_menu_set_history (GTK_OPTION_MENU(dialog->scope_optionmenu), source ? source->scope : 0);
-	gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON(dialog->auth_checkbutton), source->auth == ADDRESSBOOK_LDAP_AUTH_SIMPLE);
+	gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON(dialog->auth_checkbutton), source && source->auth == ADDRESSBOOK_LDAP_AUTH_SIMPLE);
 }
 
 static AddressbookSource *
