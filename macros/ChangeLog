@@ -1,3 +1,8 @@
+Mon Mar  2 15:27:44 1998  Tom Tromey  <tromey@cygnus.com>
+
+	* gnome-x-checks.m4 (GNOME_X_CHECKS): Also check for SMlib.h; some
+	Solaris systems have -lSM but not SMlib.h.
+
 Sun Mar  1 17:49:42 1998  Tom Tromey  <tromey@cygnus.com>
 
 	* gnome.m4 (GNOME_INIT): Changed spacing so --help output looks

@@ -7,7 +7,10 @@ dnl   X_{CFLAGS,LIBS}	     From AC_PATH_XTRA
 dnl   X_{PRE,EXTRA}_LIBS     - do -
 dnl   x_libs		     Essentially $X_PRE_LIBS -lX11 -Xext $X_EXTRA_LIBS
 dnl   CPPFLAGS		     Will include $X_CFLAGS
-dnl   GNOME_HAVE_SM	     `true' or `false' depending of if -lSM is present
+dnl   GNOME_HAVE_SM	     `true' or `false' depending on whether session
+dnl                          management is available.  It is available if
+dnl                          both -lSM and X11/SM/SMlib.h exist.  (Some
+dnl                          Solaris boxes have the library but not the header)
 dnl
 dnl The following configure cache variables are defined (but not used):
 dnl   gnome_cv_passdown_{x_libs,X_LIBS,X_CFLAGS}
@@ -51,16 +54,22 @@ AC_DEFUN([GNOME_X_CHECKS],
 	case "$x_libs" in
 	 *-lSM*)
 	    dnl Already found it.
-	    AC_DEFINE(HAVE_LIBSM)
 	    ;;
 	 *)
 	    dnl Assume that if we have -lSM then we also have -lICE.
 	    AC_CHECK_LIB(SM, SmcSaveYourselfDone,
-	        [AC_DEFINE(HAVE_LIBSM)
-	        x_libs="$x_libs -lSM -lICE"],GNOME_HAVE_SM=false,
+	        [x_libs="$x_libs -lSM -lICE"],GNOME_HAVE_SM=false,
 		$x_libs -lICE)
 	    ;;
 	esac
+
+	if test "$GNOME_HAVE_SM" = true; then
+	   AC_CHECK_HEADERS(X11/SM/SMlib.h,,GNOME_HAVE_SM=false)
+	fi
+
+	if test "$GNOME_HAVE_SM" = true; then
+	   AC_DEFINE(HAVE_LIBSM)
+	fi
 
         AC_CHECK_LIB(gtk, gdk_pixmap_unref,
                 GTK_LIBS="-lgtk -lgdk -lglib -lm",
