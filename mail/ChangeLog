@@ -1,3 +1,8 @@
+2004-10-08  JP Rosevear  <jpr@novell.com>
+ 
+	* mail-account-gui.c (browse_clicked): use "Select a file" so as
+ 	not to break string freeze
+	
 2004-10-08  Harry Lu  <harry.lu@sun.com>
 
 	* em-folder-tree.c: (em_folder_tree_class_init), (real_popup_menu),
