@@ -336,7 +336,7 @@ ssl_bad_cert (void *data, PRFileDesc *sockfd)
 	CERTCertificate *cert;
 	CamelService *service;
 	char *prompt, *cert_str;
-	gpointer accept;
+	gboolean accept;
 	
 	g_return_val_if_fail (data != NULL, SECFailure);
 	g_return_val_if_fail (CAMEL_IS_SERVICE (data), SECFailure);
@@ -366,12 +366,10 @@ ssl_bad_cert (void *data, PRFileDesc *sockfd)
 	g_free (cert_str);
 	
 	/* query the user to find out if we want to accept this certificate */
-	accept = camel_session_query_authenticator (service->session, CAMEL_AUTHENTICATOR_ACCEPT,
-						    prompt, FALSE, service, NULL, NULL);
-	
+	accept = camel_session_alert_user (service->session, CAMEL_SESSION_ALERT_WARNING, prompt, TRUE, NULL);
 	g_free (prompt);
 	
-	if (GPOINTER_TO_INT (accept))
+	if (accept)
 		return SECSuccess;
 	
 	return SECFailure;

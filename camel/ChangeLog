@@ -1,3 +1,23 @@
+2001-04-27  Dan Winship  <danw@ximian.com>
+
+	* camel-session.c: Redo this a lot so that instead of having a
+	class full of callbacks, we have a subclassable class. Also,
+	replace the increasingly horrifying
+	camel_session_query_authenticator with three new routines,
+	camel_session_get_password, camel_session_forget_password, and
+	camel_session_alert_user.
+
+	* camel-pgp-context.c:
+	* camel-pkcs7-context.c:
+	* camel-smime-context.c: 
+	* providers/imap/camel-imap-store.c: 
+	* providers/pop3/camel-pop3-store.c: 
+	* providers/smtp/camel-smtp-transport.c: 
+	Use camel_session_get_password / camel_session_forget_password.
+
+	* camel-tcp-stream-ssl.c (ssl_bad_cert): Use
+	camel_session_alert_user.
+
 2001-04-26  Jeffrey Stedfast  <fejj@ximian.com>
 
 	* camel.c (camel_init): Automagically call camel_shutdown()

@@ -43,22 +43,12 @@ extern "C" {
 #define CAMEL_IS_SESSION(o)    (CAMEL_CHECK_TYPE((o), CAMEL_SESSION_TYPE))
 
 
-typedef enum {
-	CAMEL_AUTHENTICATOR_ASK,
-	CAMEL_AUTHENTICATOR_TELL,
-	CAMEL_AUTHENTICATOR_ACCEPT
-} CamelAuthCallbackMode;
-
-typedef gpointer (*CamelAuthCallback) (CamelAuthCallbackMode mode,
-				       char *data, gboolean secret,
-				       CamelService *service, char *item,
-				       CamelException *ex);
-
 typedef gboolean (*CamelTimeoutCallback) (gpointer data);
-typedef guint (*CamelTimeoutRegisterCallback) (guint32 interval,
-					       CamelTimeoutCallback cb,
-					       gpointer camel_data);
-typedef gboolean (*CamelTimeoutRemoveCallback) (guint id);
+typedef enum {
+	CAMEL_SESSION_ALERT_INFO,
+	CAMEL_SESSION_ALERT_WARNING,
+	CAMEL_SESSION_ALERT_ERROR
+} CamelSessionAlertType;
 
 struct _CamelSession
 {
@@ -66,15 +56,49 @@ struct _CamelSession
 	struct _CamelSessionPrivate *priv;
 
 	char *storage_path;
-	CamelAuthCallback authenticator;
-	CamelTimeoutRegisterCallback registrar;
-	CamelTimeoutRemoveCallback remover;
-
 	GHashTable *providers, *modules;
 };
 
 typedef struct {
 	CamelObjectClass parent_class;
+
+	void            (*register_provider) (CamelSession *session,
+					      CamelProvider *provider);
+	GList *         (*list_providers)    (CamelSession *session,
+					      gboolean load);
+	CamelProvider * (*get_provider)      (CamelSession *session,
+					      const char *url_string,
+					      CamelException *ex);
+
+	CamelService *  (*get_service)       (CamelSession *session,
+					      const char *url_string,
+					      CamelProviderType type,
+					      CamelException *ex);
+	char *          (*get_storage_path)  (CamelSession *session,
+					      CamelService *service,
+					      CamelException *ex);
+
+	char *          (*get_password)      (CamelSession *session,
+					      const char *prompt,
+					      gboolean secret,
+					      CamelService *service,
+					      const char *item,
+					      CamelException *ex);
+	void            (*forget_password)   (CamelSession *session,
+					      CamelService *service,
+					      const char *item,
+					      CamelException *ex);
+	gboolean        (*alert_user)        (CamelSession *session,
+					      CamelSessionAlertType type,
+					      const char *prompt,
+					      gboolean cancel);
+
+	guint           (*register_timeout)  (CamelSession *session,
+					      guint32 interval,
+					      CamelTimeoutCallback callback,
+					      gpointer user_data);
+	gboolean        (*remove_timeout)    (CamelSession *session,
+					      guint handle);
 
 } CamelSessionClass;
 
@@ -85,53 +109,58 @@ typedef struct {
 CamelType camel_session_get_type (void);
 
 
-CamelSession *  camel_session_new (const char *storage_path,
-				   CamelAuthCallback authenticator,
-				   CamelTimeoutRegisterCallback registrar,
-				   CamelTimeoutRemoveCallback remover);
+void            camel_session_construct             (CamelSession *session,
+						     const char *storage_path);
 
-void            camel_session_register_provider       (CamelSession *session,
-						       CamelProvider *provider);
-GList *         camel_session_list_providers          (CamelSession *session,
-						       gboolean load);
+void            camel_session_register_provider     (CamelSession *session,
+						     CamelProvider *provider);
+GList *         camel_session_list_providers        (CamelSession *session,
+						     gboolean load);
 
-CamelProvider * camel_session_get_provider            (CamelSession *session,
-						       const char *url_string,
-						       CamelException *ex);
+CamelProvider * camel_session_get_provider          (CamelSession *session,
+						     const char *url_string,
+						     CamelException *ex);
 
-CamelService *  camel_session_get_service             (CamelSession *session,
-						       const char *url_string,
-						       CamelProviderType type,
-						       CamelException *ex);
-CamelService *  camel_session_get_service_connected   (CamelSession *session, 
-						       const char *url_string,
-						       CamelProviderType type, 
-						       CamelException *ex);
+CamelService *  camel_session_get_service           (CamelSession *session,
+						     const char *url_string,
+						     CamelProviderType type,
+						     CamelException *ex);
+CamelService *  camel_session_get_service_connected (CamelSession *session, 
+						     const char *url_string,
+						     CamelProviderType type, 
+						     CamelException *ex);
 
 #define camel_session_get_store(session, url_string, ex) \
 	((CamelStore *) camel_session_get_service_connected (session, url_string, CAMEL_PROVIDER_STORE, ex))
 #define camel_session_get_transport(session, url_string, ex) \
 	((CamelTransport *) camel_session_get_service_connected (session, url_string, CAMEL_PROVIDER_TRANSPORT, ex))
 
-char *          camel_session_get_storage_path (CamelSession *session,
-						CamelService *service,
-						CamelException *ex);
+char *          camel_session_get_storage_path      (CamelSession *session,
+						     CamelService *service,
+						     CamelException *ex);
 
-gpointer        camel_session_query_authenticator (CamelSession *session,
-						   CamelAuthCallbackMode mode,
-						   char *prompt,
-						   gboolean secret,
-						   CamelService *service,
-						   char *item,
-						   CamelException *ex);
+char *          camel_session_get_password          (CamelSession *session,
+						     const char *prompt,
+						     gboolean secret,
+						     CamelService *service,
+						     const char *item,
+						     CamelException *ex);
+void            camel_session_forget_password       (CamelSession *session,
+						     CamelService *service,
+						     const char *item,
+						     CamelException *ex);
+gboolean        camel_session_alert_user            (CamelSession *session,
+						     CamelSessionAlertType type,
+						     const char *prompt,
+						     gboolean cancel);
 
-guint           camel_session_register_timeout (CamelSession *session,
-						guint32 interval,
-						CamelTimeoutCallback callback,
-						gpointer user_data);
+guint           camel_session_register_timeout      (CamelSession *session,
+						     guint32 interval,
+						     CamelTimeoutCallback callback,
+						     gpointer user_data);
 
-gboolean        camel_session_remove_timeout (CamelSession *session,
-					      guint handle);
+gboolean        camel_session_remove_timeout        (CamelSession *session,
+						     guint handle);
 
 #ifdef __cplusplus
 }

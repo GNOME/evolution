@@ -2,13 +2,12 @@
 /* camel-session.c : Abstract class for an email session */
 
 /*
- *
- * Author:
+ * Authors:
+ *  Dan Winship <danw@ximian.com>
+ *  Jeffrey Stedfast <fejj@ximian.com>
  *  Bertrand Guiheneuf <bertrand@helixcode.com>
- *  Dan Winship <danw@helixcode.com>
- *  Jeffrey Stedfast <fejj@helixcode.com>
  *
- * Copyright 1999, 2000 Helix Code, Inc. (http://www.helixcode.com)
+ * Copyright 1999 - 2001 Ximian, Inc.
  *
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License as
@@ -46,9 +45,22 @@
 
 #include "camel-private.h"
 
-#define d(x)
+#define CS_CLASS(so) CAMEL_SESSION_CLASS (CAMEL_OBJECT_GET_CLASS (so))
 
-static CamelObjectClass *parent_class;
+static void register_provider (CamelSession *session, CamelProvider *provider);
+static GList *list_providers (CamelSession *session, gboolean load);
+static CamelProvider *get_provider (CamelSession *session,
+				    const char *url_string,
+				    CamelException *ex);
+
+static CamelService *get_service (CamelSession *session,
+				  const char *url_string,
+				  CamelProviderType type,
+				  CamelException *ex);
+static char *get_storage_path (CamelSession *session,
+			       CamelService *service,
+			       CamelException *ex);
+
 
 /* The vfolder provider is always avilable */
 static CamelProvider vee_provider = {
@@ -107,7 +119,15 @@ camel_session_finalise (CamelObject *o)
 static void
 camel_session_class_init (CamelSessionClass *camel_session_class)
 {
-	parent_class = camel_type_get_global_classfuncs (camel_object_get_type ());
+	/* virtual method definition */
+	camel_session_class->register_provider = register_provider;
+	camel_session_class->list_providers = list_providers;
+	camel_session_class->get_provider = get_provider;
+	camel_session_class->get_service = get_service;
+	camel_session_class->get_storage_path = get_storage_path;
+
+	vee_provider.object_types[CAMEL_PROVIDER_STORE] = camel_vee_store_get_type ();
+	vee_provider.service_cache = g_hash_table_new (camel_url_hash, camel_url_equal);
 }
 
 CamelType
@@ -116,50 +136,39 @@ camel_session_get_type (void)
 	static CamelType camel_session_type = CAMEL_INVALID_TYPE;
 
 	if (camel_session_type == CAMEL_INVALID_TYPE) {
-		camel_session_type = camel_type_register (camel_object_get_type (), "CamelSession",
-							  sizeof (CamelSession),
-							  sizeof (CamelSessionClass),
-							  (CamelObjectClassInitFunc) camel_session_class_init,
-							  NULL,
-							  (CamelObjectInitFunc) camel_session_init,
-							  (CamelObjectFinalizeFunc) camel_session_finalise);
+		camel_session_type = camel_type_register (
+			camel_object_get_type (), "CamelSession",
+			sizeof (CamelSession),
+			sizeof (CamelSessionClass),
+			(CamelObjectClassInitFunc) camel_session_class_init,
+			NULL,
+			(CamelObjectInitFunc) camel_session_init,
+			(CamelObjectFinalizeFunc) camel_session_finalise);
 	}
 
 	return camel_session_type;
 }
 
 /**
- * camel_session_new:
- * @storage_path: Path to a directory Camel can use for persistent storage.
- * (This directory must already exist.)
- * @authenticator: A callback for discussing authentication information
- * @registrar: A callback for registering timeout callbacks
- * @remove: A callback for removing timeout callbacks
+ * camel_session_construct:
+ * @session: a session object to construct
+ * @storage_path: path to a directory the session can use for
+ * persistent storage. (This directory must already exist.)
  *
- * This creates a new CamelSession object, which represents global state
- * for the Camel library, and contains callbacks that can be used to
- * interact with the main application.
- *
- * Return value: the new CamelSession
+ * Constructs @session.
  **/
-CamelSession *
-camel_session_new (const char *storage_path,
-		   CamelAuthCallback authenticator,
-		   CamelTimeoutRegisterCallback registrar,
-		   CamelTimeoutRemoveCallback remover)
+void
+camel_session_construct (CamelSession *session, const char *storage_path)
 {
-	CamelSession *session = CAMEL_SESSION (camel_object_new (CAMEL_SESSION_TYPE));
-
 	session->storage_path = g_strdup (storage_path);
-	session->authenticator = authenticator;	
-	session->registrar = registrar;
-	session->remover = remover;
-
-	vee_provider.object_types[CAMEL_PROVIDER_STORE] = camel_vee_store_get_type();
-	vee_provider.service_cache = g_hash_table_new(camel_url_hash, camel_url_equal);
 	camel_session_register_provider(session, &vee_provider);
+}
 
-	return session;
+
+static void 
+register_provider (CamelSession *session, CamelProvider *provider)
+{
+	g_hash_table_insert (session->providers, provider->protocol, provider);
 }
 
 /**
@@ -180,8 +189,9 @@ camel_session_register_provider (CamelSession *session,
 	g_return_if_fail (CAMEL_IS_SESSION (session));
 	g_return_if_fail (provider != NULL);
 
-	g_hash_table_insert (session->providers, provider->protocol, provider);
+	CS_CLASS (session)->register_provider (session, provider);
 }
+
 
 static void
 ensure_loaded (gpointer key, gpointer value, gpointer user_data)
@@ -217,6 +227,18 @@ add_to_list (gpointer key, gpointer value, gpointer user_data)
 	*list = g_list_insert_sorted (*list, prov, provider_compare);
 }
 
+static GList *
+list_providers (CamelSession *session, gboolean load)
+{
+	GList *list = NULL;
+
+	if (load)
+		g_hash_table_foreach (session->modules, ensure_loaded, session);
+
+	g_hash_table_foreach (session->providers, add_to_list, &list);
+	return list;
+}
+
 /**
  * camel_session_list_providers:
  * @session: the session
@@ -235,24 +257,21 @@ camel_session_list_providers (CamelSession *session, gboolean load)
 
 	g_return_val_if_fail (CAMEL_IS_SESSION (session), NULL);
 
-	CAMEL_SESSION_LOCK(session, lock);
-
-	if (load)
-		g_hash_table_foreach (session->modules, ensure_loaded, session);
-
-	list = NULL;
-	g_hash_table_foreach (session->providers, add_to_list, &list);
-
-	CAMEL_SESSION_UNLOCK(session, lock);
+	CAMEL_SESSION_LOCK (session, lock);
+	list = CS_CLASS (session)->list_providers (session, load);
+	CAMEL_SESSION_UNLOCK (session, lock);
 
 	return list;
 }
 
+
 static CamelProvider *
-get_provider_locked (CamelSession *session, const char *protocol,
-		     CamelException *ex)
+get_provider (CamelSession *session, const char *url_string, CamelException *ex)
 {
 	CamelProvider *provider;
+	char *protocol;
+
+	protocol = g_strndup (url_string, strcspn (url_string, ":"));
 
 	provider = g_hash_table_lookup (session->providers, protocol);
 	if (!provider) {
@@ -262,8 +281,10 @@ get_provider_locked (CamelSession *session, const char *protocol,
 		path = g_hash_table_lookup (session->modules, protocol);
 		if (path) {
 			camel_provider_load (session, path, ex);
-			if (camel_exception_is_set (ex))
+			if (camel_exception_is_set (ex)) {
+				g_free (protocol);
 				return NULL;
+			}
 		}
 		provider = g_hash_table_lookup (session->providers, protocol);
 	}
@@ -273,6 +294,7 @@ get_provider_locked (CamelSession *session, const char *protocol,
 				      _("No provider available for protocol `%s'"),
 				      protocol);
 	}
+	g_free (protocol);
 
 	return provider;
 }
@@ -293,13 +315,10 @@ camel_session_get_provider (CamelSession *session, const char *url_string,
 			    CamelException *ex)
 {
 	CamelProvider *provider;
-	char *protocol;
 
-	protocol = g_strndup (url_string, strcspn (url_string, ":"));
-	CAMEL_SESSION_LOCK(session, lock);
-	provider = get_provider_locked (session, protocol, ex);
-	CAMEL_SESSION_UNLOCK(session, lock);
-	g_free (protocol);
+	CAMEL_SESSION_LOCK (session, lock);
+	provider = CS_CLASS (session)->get_provider (session, url_string, ex);
+	CAMEL_SESSION_UNLOCK (session, lock);
 
 	return provider;
 }
@@ -321,6 +340,54 @@ service_cache_remove (CamelService *service, gpointer event_data, gpointer user_
 	g_hash_table_remove (provider->service_cache, service->url);
 
 	CAMEL_SESSION_UNLOCK(session, lock);
+}
+
+
+static CamelService *
+get_service (CamelSession *session, const char *url_string,
+	     CamelProviderType type, CamelException *ex)
+{
+	CamelURL *url;
+	CamelProvider *provider;
+	CamelService *service;
+
+	url = camel_url_new (url_string, ex);
+	if (!url)
+		return NULL;
+
+	/* We need to look up the provider so we can then lookup
+	   the service in the provider's cache */
+	provider = CS_CLASS (session)->get_provider (session, url->protocol, ex);
+	if (provider && !provider->object_types[type]) {
+		camel_exception_setv (ex, CAMEL_EXCEPTION_SERVICE_URL_INVALID,
+				      _("No provider available for protocol `%s'"),
+				      url->protocol);
+		provider = NULL;
+	}
+	if (!provider) {
+		camel_url_free (url);
+		return NULL;
+	}
+	
+	/* Now look up the service in the provider's cache */
+	service = g_hash_table_lookup (provider->service_cache, url);
+	if (service != NULL) {
+		camel_url_free (url);
+		camel_object_ref (CAMEL_OBJECT (service));
+		return service;
+	}
+
+	service = (CamelService *)camel_object_new (provider->object_types[type]);
+	camel_service_construct (service, session, provider, url, ex);
+	if (camel_exception_is_set (ex)) {
+		camel_object_unref (CAMEL_OBJECT (service));
+		service = NULL;
+	} else {
+		g_hash_table_insert (provider->service_cache, url, service);
+		camel_object_hook_event (CAMEL_OBJECT (service), "finalize", (CamelObjectEventHookFunc) service_cache_remove, session);
+	}
+
+	return service;
 }
 
 /**
@@ -346,49 +413,14 @@ CamelService *
 camel_session_get_service (CamelSession *session, const char *url_string,
 			   CamelProviderType type, CamelException *ex)
 {
-	CamelURL *url;
-	CamelProvider *provider;
 	CamelService *service;
 
-	url = camel_url_new (url_string, ex);
-	if (!url)
-		return NULL;
+	g_return_val_if_fail (CAMEL_IS_SESSION (session), NULL);
+	g_return_val_if_fail (url_string != NULL, NULL);
 
-	/* We need to look up the provider so we can then lookup
-	   the service in the provider's cache */
-	CAMEL_SESSION_LOCK(session, lock);
-	provider = get_provider_locked (session, url->protocol, ex);
-	if (provider && !provider->object_types[type]) {
-		camel_exception_setv (ex, CAMEL_EXCEPTION_SERVICE_URL_INVALID,
-				      _("No provider available for protocol `%s'"),
-				      url->protocol);
-		provider = NULL;
-	}
-	if (!provider) {
-		camel_url_free (url);
-		CAMEL_SESSION_UNLOCK(session, lock);
-		return NULL;
-	}
-	
-	/* Now look up the service in the provider's cache */
-	service = g_hash_table_lookup (provider->service_cache, url);
-	if (service != NULL) {
-		camel_url_free (url);
-		camel_object_ref (CAMEL_OBJECT (service));
-		CAMEL_SESSION_UNLOCK(session, lock);
-		return service;
-	}
-
-	service = (CamelService *)camel_object_new (provider->object_types[type]);
-	camel_service_construct (service, session, provider, url, ex);
-	if (camel_exception_is_set (ex)) {
-		camel_object_unref (CAMEL_OBJECT (service));
-		service = NULL;
-	} else {
-		g_hash_table_insert (provider->service_cache, url, service);
-		camel_object_hook_event (CAMEL_OBJECT (service), "finalize", (CamelObjectEventHookFunc) service_cache_remove, session);
-	}
-	CAMEL_SESSION_UNLOCK(session, lock);
+	CAMEL_SESSION_LOCK (session, lock);
+	service = CS_CLASS (session)->get_service (session, url_string, type, ex);
+	CAMEL_SESSION_UNLOCK (session, lock);
 
 	return service;
 }
@@ -429,6 +461,29 @@ camel_session_get_service_connected (CamelSession *session,
 }
 
 
+static char *
+get_storage_path (CamelSession *session, CamelService *service, CamelException *ex)
+{
+	char *path, *p;
+
+	p = camel_service_get_path (service);
+	path = g_strdup_printf ("%s/%s", session->storage_path, p);
+	g_free (p);
+
+	if (access (path, F_OK) == 0)
+		return path;
+
+	if (camel_mkdir_hier (path, S_IRWXU) == -1) {
+		camel_exception_setv (ex, CAMEL_EXCEPTION_SYSTEM,
+				      _("Could not create directory %s:\n%s"),
+				      path, g_strerror (errno));
+		g_free (path);
+		return NULL;
+	}
+
+	return path;
+}
+
 /**
  * camel_session_get_storage_path:
  * @session: session object
@@ -448,91 +503,115 @@ char *
 camel_session_get_storage_path (CamelSession *session, CamelService *service,
 				CamelException *ex)
 {
-	char *path, *p;
-	
-	p = camel_service_get_path (service);
-	path = g_strdup_printf ("%s/%s", session->storage_path, p);
-	g_free (p);
-	
-	if (access (path, F_OK) == 0)
-		return path;
-	
-	if (camel_mkdir_hier (path, S_IRWXU) == -1) {
-		camel_exception_setv (ex, CAMEL_EXCEPTION_SYSTEM,
-				      _("Could not create directory %s:\n%s"),
-				      path, g_strerror (errno));
-		g_free (path);
-		return NULL;
-	}
-	
-	return path;
+	g_return_val_if_fail (CAMEL_IS_SESSION (session), NULL);
+	g_return_val_if_fail (CAMEL_IS_SERVICE (service), NULL);
+
+	return CS_CLASS (session)->get_storage_path (session, service, ex);
 }
 
+
 /**
- * camel_session_query_authenticator: query the session authenticator
+ * camel_session_get_password:
  * @session: session object
- * @mode: %CAMEL_AUTHENTICATOR_ASK, %CAMEL_AUTHENTICATOR_TELL or CAMEL_AUTHENTICATOR_ACCEPT
- * @data: prompt to query user with, or data to cache
- * @secret: whether or not the data is secret (eg, a password)
+ * @prompt: prompt to provide to user
+ * @secret: whether or not the data is secret (eg, a password, as opposed
+ * to a smartcard response)
  * @service: the service this query is being made by
  * @item: an identifier, unique within this service, for the information
  * @ex: a CamelException
  *
- * This function is used by a CamelService to discuss authentication
- * information with the application.
+ * This function is used by a CamelService to ask the application and
+ * the user for a password or other authentication data.
  *
  * @service and @item together uniquely identify the piece of data the
  * caller is concerned with.
  *
- * If @mode is %CAMEL_AUTHENTICATOR_ASK, then @data is a question to
- * ask the user (if the application doesn't already have the answer
- * cached). If @secret is set, the user's input should not be echoed
- * back. The authenticator should set @ex to
- * %CAMEL_EXCEPTION_USER_CANCEL if the user did not provide the
+ * @prompt is a question to ask the user (if the application doesn't
+ * already have the answer cached). If @secret is set, the user's
+ * input will not be echoed back. The authenticator should set @ex
+ * to %CAMEL_EXCEPTION_USER_CANCEL if the user did not provide the
  * information. The caller must g_free() the information returned when
  * it is done with it.
  *
- * If @mode is %CAMEL_AUTHENTICATOR_TELL, then @data is information
- * that the application should cache, or %NULL if it should stop
- * caching anything about that datum (eg, because the data is a
- * password that turned out to be incorrect).
- *
- * If @mode is %CAMEL_AUTHENTICATOR_ACCEPT, then @data is a YES/NO
- * question to ask the user (if the application doesn't already have
- * the answer cached). Return GINT_TO_POINTER(TRUE) on accept, or
- * GINT_TO_POINTER(FALSE) to decline.
- *
  * Return value: the authentication information or %NULL.
  **/
-gpointer
-camel_session_query_authenticator (CamelSession *session,
-				   CamelAuthCallbackMode mode,
-				   char *prompt, gboolean secret,
-				   CamelService *service, char *item,
-				   CamelException *ex)
+char *
+camel_session_get_password (CamelSession *session, const char *prompt,
+			    gboolean secret, CamelService *service,
+			    const char *item, CamelException *ex)
 {
-	return session->authenticator (mode, prompt, secret,
-				       service, item, ex);
+	g_return_val_if_fail (CAMEL_IS_SESSION (session), NULL);
+	g_return_val_if_fail (CAMEL_IS_SERVICE (service), NULL);
+	g_return_val_if_fail (prompt != NULL, NULL);
+	g_return_val_if_fail (item != NULL, NULL);
+
+	return CS_CLASS (session)->get_password (session, prompt, secret, service, item, ex);
 }
 
+/**
+ * camel_session_forget_password:
+ * @session: session object
+ * @service: the service rejecting the password
+ * @item: an identifier, unique within this service, for the information
+ * @ex: a CamelException
+ *
+ * This function is used by a CamelService to tell the application
+ * that the authentication information it provided via
+ * camel_session_get_password was rejected by the service. If the
+ * application was caching this information, it should stop,
+ * and if the service asks for it again, it should ask the user.
+ *
+ * @service and @item identify the rejected authentication information,
+ * as with camel_session_get_password.
+ **/
+void
+camel_session_forget_password (CamelSession *session, CamelService *service,
+			       const char *item, CamelException *ex)
+{
+	g_return_if_fail (CAMEL_IS_SESSION (session));
+	g_return_if_fail (CAMEL_IS_SERVICE (service));
+	g_return_if_fail (item != NULL);
+
+	CS_CLASS (session)->forget_password (session, service, item, ex);
+}
 
 /**
- * camel_session_register_timeout: Register a timeout to be called
- * periodically.
+ * camel_session_alert_user:
+ * @session: session object
+ * @type: the type of alert (info, warning, or error)
+ * @prompt: the message for the user
+ * @cancel: whether or not to provide a "Cancel" option in addition to
+ * an "OK" option.
  *
+ * Presents the given @prompt to the user, in the style indicated by
+ * @type. If @cancel is %TRUE, the user will be able to accept or
+ * cancel. Otherwise, the message is purely informational.
+ *
+ * Return value: %TRUE if the user accepts, %FALSE if they cancel.
+ */
+gboolean
+camel_session_alert_user (CamelSession *session, CamelSessionAlertType type,
+			  const char *prompt, gboolean cancel)
+{
+	g_return_val_if_fail (CAMEL_IS_SESSION (session), FALSE);
+	g_return_val_if_fail (prompt != NULL, FALSE);
+
+	return CS_CLASS (session)->alert_user (session, type, prompt, cancel);
+}
+
+/**
+ * camel_session_register_timeout:
  * @session: the CamelSession
  * @interval: the number of milliseconds interval between calls
  * @callback: the function to call
  * @user_data: extra data to be passed to the callback
  *
- * This function will use the registrar callback provided upon
- * camel_session_new to register the timeout. The callback will
- * be called every @interval milliseconds until it returns @FALSE.
- * It will be passed one argument, @user_data.
+ * Registers the given timeout. @callback will be called every
+ * @interval milliseconds with one argument, @user_data, until it
+ * returns %FALSE.
  *
- * Returns a nonzero handle that can be used with 
- * camel_session_remove_timeout on success, and 0 on failure to 
- * register the timeout.
+ * Return value: On success, a non-zero handle that can be used with
+ * camel_session_remove_timeout(). On failure, 0.
  **/
 guint
 camel_session_register_timeout (CamelSession *session,
@@ -540,25 +619,24 @@ camel_session_register_timeout (CamelSession *session,
 				CamelTimeoutCallback callback,
 				gpointer user_data)
 {
-	g_return_val_if_fail (CAMEL_IS_SESSION (session), FALSE);
+	g_return_val_if_fail (CAMEL_IS_SESSION (session), 0);
 
-	return session->registrar (interval, callback, user_data);
+	return CS_CLASS (session)->register_timeout (session, interval, callback, user_data);
 }
 
 /**
- * camel_session_remove_timeout: Remove a previously registered
- * timeout.
- *
+ * camel_session_remove_timeout:
  * @session: the CamelSession
- * @handle: a value returned from camel_session_register_timeout
+ * @handle: a value returned from camel_session_register_timeout()
  *
- * This function will use the remover callback provided upon
- * camel_session_new to remove the timeout.
+ * Removes the indicated timeout.
  *
- * Returns TRUE on success and FALSE on failure.
+ * Return value: %TRUE on success, %FALSE on failure.
  **/
 gboolean
 camel_session_remove_timeout (CamelSession *session, guint handle)
 {
-	return session->remover (handle);
+	g_return_val_if_fail (CAMEL_IS_SESSION (session), FALSE);
+
+	return CS_CLASS (session)->remove_timeout (session, handle);
 }

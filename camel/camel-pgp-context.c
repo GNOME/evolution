@@ -192,9 +192,9 @@ pgp_get_passphrase (CamelSession *session, CamelPgpType pgp_type, char *userid)
 					  type);
 	
 	/* Use the userid as a key if possible, else be generic and use the type */
-	passphrase = camel_session_query_authenticator (session, CAMEL_AUTHENTICATOR_ASK,
-							prompt, TRUE, NULL, userid ? userid : (char *) type,
-							NULL);
+	passphrase = camel_session_get_password (session, prompt, TRUE,
+						 NULL, userid ? userid : type,
+						 NULL);
 	g_free (prompt);
 	
 	return passphrase;
@@ -208,9 +208,7 @@ pgp_forget_passphrase (CamelSession *session, CamelPgpType pgp_type, char *useri
 	if (!userid)
 		type = pgp_get_type_as_string (pgp_type);
 	
-	camel_session_query_authenticator (session, CAMEL_AUTHENTICATOR_TELL,
-					   NULL, FALSE, NULL, userid ? userid : (char *) type,
-					   NULL);
+	camel_session_forget_password (session, NULL, userid ? userid : type, NULL);
 }
 
 static int

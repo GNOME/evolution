@@ -369,10 +369,9 @@ pop3_try_authenticate (CamelService *service, gboolean kpop,
 					    "for %s@%s"), errmsg ? errmsg : "",
 					  service->url->user,
 					  service->url->host);
-		service->url->passwd = camel_session_query_authenticator (
+		service->url->passwd = camel_session_get_password (
 			camel_service_get_session (service),
-			CAMEL_AUTHENTICATOR_ASK, prompt, TRUE,
-			service, "password", ex);
+			prompt, TRUE, service, "password", ex);
 		g_free (prompt);
 		if (!service->url->passwd)
 			return FALSE;
@@ -449,10 +448,9 @@ pop3_connect (CamelService *service, CamelException *ex)
 			camel_exception_clear (ex);
 
 			/* Uncache the password before prompting again. */
-			camel_session_query_authenticator (
+			camel_session_forget_password (
 				camel_service_get_session (service),
-				CAMEL_AUTHENTICATOR_TELL, NULL, TRUE, service,
-				"password", ex);
+				service, "password", ex);
 			g_free (service->url->passwd);
 			service->url->passwd = NULL;
 		}
