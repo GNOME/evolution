@@ -1,3 +1,8 @@
+2004-04-21  Not Zed  <NotZed@Ximian.com>
+
+	* gui/component/addressbook-view.c (addressbook_view_init): fix
+	for e_user_creatable_items handle api changes.
+
 2004-04-20  Chris Toshok  <toshok@ximian.com>
 
 	* gui/widgets/e-addressbook-view.etspec: use cursor-mode="line" to

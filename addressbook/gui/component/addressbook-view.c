@@ -1014,7 +1014,7 @@ addressbook_view_init (AddressbookView *view)
 			  "changed",
 			  G_CALLBACK (source_list_changed_cb), view);
 
-	priv->creatable_items_handler = e_user_creatable_items_handler_new ("contacts");
+	priv->creatable_items_handler = e_user_creatable_items_handler_new ("contacts", NULL, NULL);
 
 	g_signal_connect (priv->folder_view_control, "activate",
 			  G_CALLBACK (control_activate_cb), view);
