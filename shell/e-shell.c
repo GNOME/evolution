@@ -560,6 +560,7 @@ impl_Shell_selectUserFolder (PortableServer_Servant servant,
 	g_signal_connect (folder_selection_dialog, "cancelled",
 			  G_CALLBACK (folder_selection_dialog_cancelled_cb), shell);
 
+#if NASTY_HACK_FOR_OUT_OF_PROC_COMPONENTS
 	if (parent_xid == 0) {
 		gtk_widget_show (folder_selection_dialog);
 	} else {
@@ -569,8 +570,6 @@ impl_Shell_selectUserFolder (PortableServer_Servant servant,
 		/* Set the WM class and the WindowGroup hint to be the same as
 		   the foreign parent window's.  This way smartass window
 		   managers like Sawfish don't get confused.  */
-
-		/* e_set_dialog_parent_from_xid (GTK_WINDOW (folder_selection_dialog), parent_xid); */
 
 		if (XGetClassHint (GDK_DISPLAY (), (Window) parent_xid, &class_hints)) {
 			gtk_window_set_wmclass (GTK_WINDOW (folder_selection_dialog),
@@ -597,6 +596,9 @@ impl_Shell_selectUserFolder (PortableServer_Servant servant,
 			XFree (parent_wm_hints);
 		}
 	}
+#else
+	gtk_widget_show (folder_selection_dialog);
+#endif
 }
 
 static GNOME_Evolution_Storage

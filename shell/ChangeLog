@@ -1,5 +1,11 @@
 2003-03-06  Ettore Perazzoli  <ettore@ximian.com>
 
+	* e-shell.c (impl_Shell_selectUserFolder): At least for now,
+	disable the nasty XWMHints trick to fool WMs; it is not needed now
+	that everything is in-proc.
+
+2003-03-06  Ettore Perazzoli  <ettore@ximian.com>
+
 	* e-shell-utils.c (e_shell_folder_name_is_valid): Do not allow
 	names with a "#" in them either.
 
