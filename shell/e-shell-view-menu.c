@@ -130,17 +130,11 @@ command_close (BonoboUIComponent *uih,
 	       const char *path)
 {
 	EShellView *shell_view;
-	GdkEvent delete_event;
 
 	shell_view = E_SHELL_VIEW (data);
 
-	/* Send a delete_event to the window.  This way we make sure that the
-	   behaviors for delete_event and the menu item are the same.  */
-
-	delete_event.any.type = GDK_DELETE;
-	delete_event.any.window = GTK_WIDGET (shell_view)->window;
-	delete_event.any.send_event = 0;
-	gtk_widget_event (GTK_WIDGET (shell_view), &delete_event);
+	if (e_shell_request_close_view (e_shell_view_get_shell (shell_view), shell_view))
+		gtk_widget_destroy (GTK_WIDGET (shell_view));
 }
 
 static void

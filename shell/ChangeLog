@@ -1,5 +1,29 @@
 2002-09-23  Ettore Perazzoli  <ettore@ximian.com>
 
+	[#28317]
+
+	* e-shell-view-menu.c (command_close): Use
+	e_shell_request_close_view().
+
+	* e-shell.c (e_shell_request_close_view): New, code moved out of
+	view_delete_event_cb().
+	(view_delete_event_cb): Use it.
+
+2002-09-23  Ettore Perazzoli  <ettore@ximian.com>
+
+	[Fix #16556.]
+
+	* e-shell.c (e_shell_construct): Pass self to
+	e_shell_startup_wizard_create.
+
+	* e-shell-startup-wizard.c (e_shell_startup_wizard_create): Get a
+	shell argument.  Set the shell interactive when doing the start-up
+	wizard thing.
+
+	* e-shell.c (e_shell_set_interactive): New.
+
+2002-09-23  Ettore Perazzoli  <ettore@ximian.com>
+
 	* e-shell-folder-creation-dialog.c (get_type_from_parent_path):
 	Return "mail" instead of NULL when we don't have a parent folder.
 	[#28232]

@@ -652,6 +652,16 @@ impl_Shell_setLineStatus (PortableServer_Servant servant,
 }
 
 
+void
+e_shell_set_interactive (EShell *shell,
+			 gboolean interactive)
+{
+	g_return_if_fail (E_IS_SHELL (shell));
+
+	set_interactive (shell, interactive);
+}
+
+
 /* Set up the ::Activity interface.  */
 
 static void
@@ -916,24 +926,9 @@ view_delete_event_cb (GtkWidget *widget,
 	EShell *shell;
 
 	g_assert (E_IS_SHELL_VIEW (widget));
-
 	shell = E_SHELL (data);
-	e_shell_save_settings (shell);
 
-	if (g_list_length (shell->priv->views) != 1) {
-		/* If it's not the last view, just destroy it.  */
-		return FALSE;
-	}
-
-	if (shell->priv->preparing_to_quit)
-		return TRUE;
-
-	/* If it's the last view, ask for confirm before actually destroying
-	   this view.  */
-	if (e_shell_prepare_for_quit (shell))
-		return FALSE;
-	else
-		return TRUE;
+	return ! e_shell_request_close_view (shell, E_SHELL_VIEW (widget));
 }
 
 static void
@@ -1307,7 +1302,7 @@ e_shell_construct (EShell *shell,
 	if (show_splash)
 		gtk_widget_destroy (splash);
 	
-	if (e_shell_startup_wizard_create () == FALSE) {
+	if (e_shell_startup_wizard_create (shell) == FALSE) {
 		e_shell_unregister_all (shell);
 		bonobo_object_unref (BONOBO_OBJECT (shell));
 
@@ -1442,6 +1437,30 @@ e_shell_create_view_from_uri_and_settings (EShell *shell,
 	set_interactive (shell, TRUE);
 
 	return view;
+}
+
+gboolean
+e_shell_request_close_view (EShell *shell,
+			    EShellView *shell_view)
+{
+	g_return_val_if_fail (E_IS_SHELL (shell), FALSE);
+	g_return_val_if_fail (E_IS_SHELL_VIEW (shell_view), FALSE);
+
+	e_shell_save_settings (shell);
+
+	if (g_list_length (shell->priv->views) != 1) {
+		/* Not the last view.  */
+		return TRUE;
+	}
+
+	if (shell->priv->preparing_to_quit)
+		return FALSE;
+
+	/* If it's the last view, ask for confirm. */
+	if (e_shell_prepare_for_quit (shell))
+		return TRUE;
+	else
+		return FALSE;
 }
 
 
