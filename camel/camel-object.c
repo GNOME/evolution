@@ -1098,20 +1098,23 @@ CamelObjectBag *camel_object_bag_new(GHashFunc hash, GEqualFunc equal)
 }
 
 static void
-remove_bag(char *key, CamelObject *o, CamelObjectBag *bag)
+save_object(char *key, CamelObject *o, GPtrArray *objects)
 {
-	camel_object_bag_remove(bag, o);
-	g_free(key);
+	g_ptr_array_add(objects, o);
 }
 
 void camel_object_bag_destroy(CamelObjectBag *bag)
 {
-	int val;
+	int i;
+	GPtrArray *objects = g_ptr_array_new();
 
-	sem_getvalue(&bag->reserve_sem, &val);
-	g_assert(val == 1);
+	sem_getvalue(&bag->reserve_sem, &i);
+	g_assert(i == 1);
 
-	g_hash_table_foreach(bag->object_table, (GHFunc)remove_bag, bag);
+	g_hash_table_foreach(bag->object_table, (GHFunc)save_object, objects);
+	for (i=0;i<objects->len;i++)
+		camel_object_bag_remove(bag, objects->pdata[i]);
+	g_ptr_array_free(objects, TRUE);
 	g_hash_table_destroy(bag->object_table);
 	g_hash_table_destroy(bag->key_table);
 #ifdef ENABLE_THREADS
@@ -1167,7 +1170,6 @@ void camel_object_bag_add(CamelObjectBag *bag, const char *key, void *vo)
 void *camel_object_bag_get(CamelObjectBag *bag, const char *key)
 {
 	CamelObject *o;
-	int retry;
 
 	E_LOCK(type_lock);
 
@@ -1314,10 +1316,7 @@ static void camel_object_bag_remove_unlocked(CamelObjectBag *inbag, CamelObject 
 void camel_object_bag_remove(CamelObjectBag *inbag, void *vo)
 {
 	CamelObject *o = vo;
-	CamelHookPair *pair, *parent;
 	CamelHookList *hooks;
-	char *oldkey;
-	CamelObjectBag *bag;
 
 	if (o->hooks == NULL)
 		return;

@@ -1,3 +1,14 @@
+2003-03-12  Not Zed  <NotZed@Ximian.com>
+
+	* camel-object.c (remove_bag): removed, it was double-freeing the
+	key.
+	(save_object): Just save the object in an array.
+	(camel_object_bag_destroy): first save the object bag's objects in
+	a list, then remove them one at a time from the bag since we can't
+	remove hash table entries while we're in a foreach (PITA glib
+	shit).  For #39486.
+	(camel_object_bag_*): killed some warnings.
+
 2003-03-09  Jeffrey Stedfast  <fejj@ximian.com>
 
 	* camel-url-scanner.c (camel_url_addrspec_end): Doh! If inptr ==
