@@ -1,3 +1,8 @@
+2003-08-01  Lorenzo Gil <lgs@sicem.biz>
+
+	* gui/e-alarm-list.c: added the include <config.h> line at the
+	beginning to enable gettext.
+	
 2003-07-29  Rodrigo Moya <rodrigo@ximian.com>
 
         Fixes all "alarm daemon doesn't start with session"

@@ -20,6 +20,7 @@
  * Authors:  Hans Petter Jansson  <hpj@ximian.com>
  */
 
+#include <config.h>
 #include <string.h>
 #include <gtk/gtktreemodel.h>
 #include <gtk/gtksignal.h>
