@@ -1,3 +1,27 @@
+2004-03-30  Not Zed  <NotZed@Ximian.com>
+
+	* camel-store.c (camel_store_get_folder_info): added some debug to
+	dump the whole folderinfo tree if store:folder_info is set.
+
+	* providers/imapp/camel-imapp-driver.c: #if 0 out some code, to
+	kill warnings.
+
+	* camel-url-scanner.c: include ctype.h for isspace (wonder if it
+	should use utf8 funcs?).
+
+2004-03-29  Not Zed  <NotZed@Ximian.com>
+
+	** See #56146.
+
+	* providers/imap/camel-imap-store.c (get_folders): check the
+	top-level folders list for duplicates as well.
+	(get_folders_add_folders): split out the folder return merging
+	code from get_folders.  Absolute mess of crap to deal with more
+	busted servers.
+
+	* camel-debug.c (camel_debug_start, camel_debug_end): some helpers
+	to wrap debug output for atomicicity.
+
 2004-03-29  Jeffrey Stedfast  <fejj@ximian.com>
 
 	* providers/imap4/camel-imap4-folder.c (camel_imap4_folder_new):

@@ -430,6 +430,7 @@ camel_imapp_driver_sync(CamelIMAPPDriver *id, gboolean expunge, CamelIMAPPFolder
 	}
 }
 
+#if 0
 static void
 fetch_data_free(CamelIMAPPFetch *fd)
 {
@@ -440,6 +441,7 @@ fetch_data_free(CamelIMAPPFetch *fd)
 	g_free(fd->section);
 	g_free(fd);
 }
+#endif
 
 struct _CamelStream *	camel_imapp_driver_fetch(CamelIMAPPDriver *id, struct _CamelIMAPPFolder *folder, const char *uid, const char *body)
 {

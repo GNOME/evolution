@@ -63,14 +63,13 @@
 #include "camel-imap-private.h"
 #include "camel-private.h"
 
+#include "camel-debug.h"
+
 #define d(x) 
 
 /* Specified in RFC 2060 */
 #define IMAP_PORT 143
 #define SIMAP_PORT 993
-
-
-extern int camel_verbose_debug;
 
 static CamelDiscoStoreClass *parent_class = NULL;
 
@@ -2279,6 +2278,9 @@ get_subscribed_folders (CamelImapStore *imap_store, const char *top, CamelExcept
 	char *result;
 	int haveinbox = FALSE;
 
+	if (camel_debug("imap:folder_info"))
+		printf("  get_subscribed folders\n");
+
 	folders = g_ptr_array_new ();
 	names = g_ptr_array_new ();
 	for (i=0;(si = camel_store_summary_index((CamelStoreSummary *)imap_store->summary, i));i++) {
@@ -2569,6 +2571,49 @@ static int folder_eq(const void *ap, const void *bp)
 	return g_str_equal(a, b);
 }
 
+static GSList *
+get_folders_add_folders(GSList *p, int recurse, GHashTable *infos, GPtrArray *folders, GPtrArray *folders_out)
+{
+	CamelFolderInfo *oldfi, *fi;
+	int i;
+
+	/* This is a nasty mess, because some servers will return
+	   broken results from LIST or LSUB if you use '%'.  e.g. you
+	   may get (many) duplicate names, and worse, names may have
+	   conflicting flags. */
+	for (i=0; i<folders->len; i++) {
+		fi = folders->pdata[i];
+		oldfi = g_hash_table_lookup(infos, fi->full_name);
+		if (oldfi == NULL) {
+			d(printf(" new folder '%s'\n", fi->full_name));
+			g_hash_table_insert(infos, fi->full_name, fi);
+			if (recurse)
+				p = g_slist_prepend(p, fi);
+		} else {
+			d(printf(" old folder '%s', old flags %08x  new flags %08x\n", fi->full_name, oldfi->flags, fi->flags));
+
+			/* need to special-case noselect, since it also affects the uri */
+			if ((oldfi->flags & CAMEL_FOLDER_NOSELECT) != 0
+			    && (fi->flags & CAMEL_FOLDER_NOSELECT) == 0) {
+				g_free(oldfi->uri);
+				oldfi->uri = fi->uri;
+				fi->uri = NULL;
+			}
+
+			/* some flags are anded together, some are or'd */
+
+			oldfi->flags = (oldfi->flags & fi->flags & (CAMEL_FOLDER_NOSELECT|CAMEL_FOLDER_NOINFERIORS))
+				| ((oldfi->flags | fi->flags) & ~(CAMEL_FOLDER_NOSELECT|CAMEL_FOLDER_NOINFERIORS));
+
+			camel_folder_info_free(fi);
+		}
+	}
+
+	g_ptr_array_set_size(folders, 0);
+
+	return p;
+}
+
 static GPtrArray *
 get_folders(CamelStore *store, const char *top, guint32 flags, CamelException *ex)
 {
@@ -2585,6 +2630,9 @@ get_folders(CamelStore *store, const char *top, guint32 flags, CamelException *e
 
 	if (!camel_imap_store_connected (imap_store, ex))
 		return NULL;
+
+	if (camel_debug("imap:folder_info"))
+		printf("  get_folders\n");
 
 	/* allow megalomaniacs to override the max of 10 */
 	if (imap_max_depth == 0) {
@@ -2637,10 +2685,7 @@ get_folders(CamelStore *store, const char *top, guint32 flags, CamelException *e
 			goto fail;
 	}
 
-	for (i=0; i<folders->len; i++)
-		p = g_slist_prepend(p, folders->pdata[i]);
-
-	g_ptr_array_set_size(folders, 0);
+	p = get_folders_add_folders(p, TRUE, infos, folders, folders_out);
 
 	/* p is a reversed list of pending folders for the next level, q is the list of folders for this */
 	while (p) {
@@ -2651,10 +2696,9 @@ get_folders(CamelStore *store, const char *top, guint32 flags, CamelException *e
 			fi = q->data;
 
 			q = g_slist_remove_link(q, q);
-			g_hash_table_insert(infos, fi->full_name, fi);
 			g_ptr_array_add(folders_out, fi);
 
-			d(printf("Checking folder '%s'\n", fi->full_name));
+			d(printf("Checking parent folder '%s'\n", fi->full_name));
 
 			/* First if we're not recursive mode on the top level, and we know it has or doesn't
                             or can't have children, no need to go further - a bit ugly */
@@ -2662,6 +2706,7 @@ get_folders(CamelStore *store, const char *top, guint32 flags, CamelException *e
 			     && (flags & CAMEL_STORE_FOLDER_INFO_RECURSIVE) == 0
 			     && (fi->flags & (CAMEL_FOLDER_CHILDREN|CAMEL_FOLDER_NOCHILDREN|CAMEL_FOLDER_NOINFERIORS)) != 0) {
 				/* do nothing */
+				d(printf(" not interested in folder right now ...\n"));
 			}
 				/* Otherwise, if this has (or might have) children, scan it */
 			else if ( (fi->flags & (CAMEL_FOLDER_NOCHILDREN|CAMEL_FOLDER_NOINFERIORS)) == 0
@@ -2677,19 +2722,8 @@ get_folders(CamelStore *store, const char *top, guint32 flags, CamelException *e
 				if (folders->len > 0)
 					fi->flags |= CAMEL_FOLDER_CHILDREN;
 
-				for (i=0;i<folders->len;i++) {
-					fi = folders->pdata[i];
-					if (g_hash_table_lookup(infos, fi->full_name) == NULL) {
-						g_hash_table_insert(infos, fi->full_name, fi);
-						if ((flags & CAMEL_STORE_FOLDER_INFO_RECURSIVE) && depth<imap_max_depth)
-							p = g_slist_prepend(p, fi);
-						else
-							g_ptr_array_add(folders_out, fi);
-					} else {
-						camel_folder_info_free(fi);
-					}
-				}
-				g_ptr_array_set_size(folders, 0);
+				p = get_folders_add_folders(p, (flags & CAMEL_STORE_FOLDER_INFO_RECURSIVE) && depth<imap_max_depth,
+							    infos, folders, folders_out);
 			}
 		}
 		depth++;
@@ -2718,6 +2752,9 @@ get_folder_info_online (CamelStore *store, const char *top, guint32 flags, Camel
 	
 	if (top == NULL)
 		top = "";
+
+	if (camel_debug("imap:folder_info"))
+		printf("get folder info online\n");
 
 	CAMEL_SERVICE_LOCK(store, connect_lock);
 
@@ -2800,6 +2837,9 @@ get_folder_info_offline (CamelStore *store, const char *top,
 	CamelFolderInfo *fi;
 	GPtrArray *folders;
 	char *storage_path;
+
+	if (camel_debug("imap:folder_info"))
+		printf("get folder info offline\n");
 
 	if (!imap_store->connected &&
 	    !camel_service_connect (CAMEL_SERVICE (store), ex))

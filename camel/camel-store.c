@@ -31,6 +31,8 @@
 #include <sys/types.h>
 #include <sys/stat.h>
 
+#include "camel-debug.h"
+
 #include "camel-session.h"
 #include "camel-store.h"
 #include "camel-folder.h"
@@ -732,6 +734,24 @@ add_special_info (CamelStore *store, CamelFolderInfo *info, const char *name, co
 	vinfo->path = g_strdup_printf ("/%s", vinfo->name);
 }
 
+static void
+dump_fi(CamelFolderInfo *fi, int depth)
+{
+	char *s;
+
+	s = g_alloca(depth+1);
+	memset(s, ' ', depth);
+	s[depth] = 0;
+
+	while (fi) {
+		printf("%suri: %s\n", s, fi->uri);
+		printf("%sfull_name: %s\n", s, fi->full_name);
+		printf("%sflags: %08x\n", s, fi->flags);
+		dump_fi(fi->child, depth+2);
+		fi = fi->next;
+	}
+}
+
 /**
  * camel_store_get_folder_info:
  * @store: a CamelStore
@@ -773,6 +793,14 @@ camel_store_get_folder_info(CamelStore *store, const char *top, guint32 flags, C
 			add_special_info (store, info, CAMEL_VTRASH_NAME, _("Trash"), FALSE);
 		if (info->uri && (store->flags & CAMEL_STORE_VJUNK))
 			add_special_info (store, info, CAMEL_VJUNK_NAME, _("Junk"), TRUE);
+	}
+
+	if (camel_debug_start("store:folder_info")) {
+		char *url = camel_url_to_string(((CamelService *)store)->url, CAMEL_URL_HIDE_ALL);
+		printf("Get folder info(%p:%s, '%s') =\n", store, url, top?top:"<null>");
+		g_free(url);
+		dump_fi(info, 2);
+		camel_debug_end();
 	}
 	
 	return info;

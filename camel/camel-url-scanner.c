@@ -26,6 +26,7 @@
 #endif
 
 #include <string.h>
+#include <ctype.h>
 
 #include "e-util/e-trie.h"
 #include "camel-url-scanner.h"

@@ -36,6 +36,9 @@ extern "C" {
 void camel_debug_init(void);
 gboolean camel_debug(const char *mode);
 
+gboolean camel_debug_start(const char *mode);
+void camel_debug_end(void);
+
 /* This interface is deprecated */
 extern int camel_verbose_debug;
 
