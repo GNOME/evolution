@@ -1,3 +1,12 @@
+2001-05-12  Duncan Mak  <duncan@ximian.com>
+
+	* mail-search.c (begin_cb): Updates the subject on refresh and
+	sets subject to "Untitled Message" if subject is NULL.
+	(mail_search_construct): Moved msg_subject to its own GtkLabel,
+	sets subject to "Untitled Message" if subject is NULL. Give focus
+	to entry by default. Made <enter> in entry run
+	dialog_clicked_cb by setting gnome_dialog_editable_enters.
+
 2001-05-12  Gediminas Paulauskas <menesis@delfi.lt>
 
 	* folder-browser-factory.c: load pixmaps for MessageCopy and

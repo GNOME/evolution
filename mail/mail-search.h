@@ -51,6 +51,7 @@ struct _MailSearch {
 	MailDisplay *mail;
 
 	GtkWidget *entry;
+	GtkWidget *msg_label;
 	GtkWidget *count_label;
 
 	gboolean search_forward, case_sensitive;
