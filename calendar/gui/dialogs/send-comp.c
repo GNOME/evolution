@@ -42,12 +42,15 @@
  * Return value: TRUE if the user clicked Yes, FALSE otherwise.
  **/
 gboolean
-send_component_dialog (CalComponent *comp, gboolean new)
+send_component_dialog (CalClient *client, CalComponent *comp, gboolean new)
 {
 	GtkWidget *dialog;
 	CalComponentVType vtype;
 	char *str;
 
+	if (cal_client_get_save_schedules (client))
+		return TRUE;
+	
 	vtype = cal_component_get_vtype (comp);
 
 	switch (vtype) {

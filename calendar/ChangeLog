@@ -1,9 +1,26 @@
 2002-12-20  JP Rosevear  <jpr@ximian.com>
 
+	* *.c: pass client param for send an cancel params
+	
+	* gui/dialogs/send-comp.c (send_component_dialog): take client as
+	a parm and if save schedules return true right away
+
+	* gui/dialogs/send-comp.h: update proto
+
+	* gui/dialogs/cancel-comp.c (cancel_component_dialog): take client
+	as a param and if we are deleting and schedule saves, return true
+	right away
+
+	* gui/dialogs/cancel-comp.h (cancel_component_dialog): update proto
+
+2002-12-20  JP Rosevear  <jpr@ximian.com>
+	
 	* gui/dialogs/alarm-options.glade: add Send To: button
 
-	* gui/dialogs/alarm-options.c (addressbook_clicked_cb): display dialog
-	(setup_select_names): attach above to Send To: button clicked signal
+	* gui/dialogs/alarm-options.c (addressbook_clicked_cb): display
+	dialog
+	(setup_select_names): attach above to Send To: button clicked
+	signal
 
 2002-12-20  JP Rosevear  <jpr@ximian.com>
 

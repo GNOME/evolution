@@ -3286,7 +3286,7 @@ e_week_view_on_editing_stopped (EWeekView *week_view,
 			if (recur_component_dialog (event->comp, &mod, NULL)) {
 				if (cal_client_update_object_with_mod (week_view->client, event->comp, mod) == CAL_CLIENT_RESULT_SUCCESS) {
 					if (itip_organizer_is_user (event->comp) 
-					    && send_component_dialog (event->comp, FALSE))
+					    && send_component_dialog (week_view->client, event->comp, FALSE))
 						itip_send_comp (CAL_COMPONENT_METHOD_REQUEST, event->comp, 
 								week_view->client, NULL);
 				} else {
@@ -3294,7 +3294,7 @@ e_week_view_on_editing_stopped (EWeekView *week_view,
 				}
 			}
 		} else if (cal_client_update_object (week_view->client, event->comp) == CAL_CLIENT_RESULT_SUCCESS) {
-			if (itip_organizer_is_user (event->comp) && send_component_dialog (event->comp, FALSE))
+			if (itip_organizer_is_user (event->comp) && send_component_dialog (week_view->client, event->comp, FALSE))
 				itip_send_comp (CAL_COMPONENT_METHOD_REQUEST, event->comp,
 						week_view->client, NULL);
 		} else {
@@ -3417,6 +3417,9 @@ e_week_view_key_press (GtkWidget *widget, GdkEventKey *event)
 	g_return_val_if_fail (event != NULL, FALSE);
 
 	week_view = E_WEEK_VIEW (widget);
+
+	if (cal_client_get_load_state (week_view->client) != CAL_CLIENT_LOAD_LOADED)
+		return TRUE;
 
 	/* The Escape key aborts a resize operation. */
 #if 0
@@ -3951,7 +3954,7 @@ e_week_view_delete_event_internal (EWeekView *week_view, gint event_num)
 		const char *uid;
 
 		if (itip_organizer_is_user (event->comp) 
-		    && cancel_component_dialog (event->comp, TRUE))
+		    && cancel_component_dialog (week_view->client, event->comp, TRUE))
 			itip_send_comp (CAL_COMPONENT_METHOD_CANCEL, event->comp, week_view->client, NULL);
 
 		cal_component_get_uid (event->comp, &uid);
@@ -4010,7 +4013,7 @@ e_week_view_on_cut (GtkWidget *widget, gpointer data)
  				week_view->popup_event_num);
  
 	if (itip_organizer_is_user (event->comp) 
-	    && cancel_component_dialog (event->comp, TRUE))
+	    && cancel_component_dialog (week_view->client, event->comp, TRUE))
 		itip_send_comp (CAL_COMPONENT_METHOD_CANCEL, event->comp, week_view->client, NULL);
 
  	cal_component_get_uid (event->comp, &uid);
@@ -4355,7 +4358,7 @@ selection_received (GtkWidget *invisible,
 
 		cal_client_update_object (week_view->client, comp);
 
-		if (itip_organizer_is_user (comp) && send_component_dialog (comp, TRUE))
+		if (itip_organizer_is_user (comp) && send_component_dialog (week_view->client, comp, TRUE))
 			itip_send_comp (CAL_COMPONENT_METHOD_REQUEST, comp, week_view->client, NULL);
 
 		g_free (uid);

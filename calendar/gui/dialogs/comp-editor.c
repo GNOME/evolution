@@ -387,7 +387,7 @@ save_comp_with_send (CompEditor *editor)
 	if (!save_comp (editor))
 		return FALSE;
 
- 	if (send && send_component_dialog (priv->comp, !priv->existing_org)) {
+ 	if (send && send_component_dialog (priv->client, priv->comp, !priv->existing_org)) {
  		if (itip_organizer_is_user (priv->comp))
  			return comp_editor_send_comp (editor, CAL_COMPONENT_METHOD_REQUEST);
  		else
@@ -1277,7 +1277,7 @@ delete_cmd (GtkWidget *widget, gpointer data)
 
 	if (delete_component_dialog (priv->comp, FALSE, 1, vtype, GTK_WIDGET (editor))) {
 		if (itip_organizer_is_user (priv->comp) 
-		    && cancel_component_dialog (priv->comp, TRUE))
+		    && cancel_component_dialog (priv->client, priv->comp, TRUE))
 			itip_send_comp (CAL_COMPONENT_METHOD_CANCEL, priv->comp, priv->client, NULL);
 
 		delete_comp (editor);

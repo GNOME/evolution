@@ -23,6 +23,7 @@
 #endif
 
 #include <glib.h>
+#include <libgnome/gnome-defs.h>
 #include <libgnome/gnome-i18n.h>
 #include <libgnomeui/gnome-dialog.h>
 #include <libgnomeui/gnome-dialog-util.h>
@@ -41,11 +42,14 @@
  * Return value: TRUE if the user clicked Yes, FALSE otherwise.
  **/
 gboolean
-cancel_component_dialog (CalComponent *comp, gboolean deleting)
+cancel_component_dialog (CalClient *client, CalComponent *comp, gboolean deleting)
 {
 	GtkWidget *dialog;
 	CalComponentVType vtype;
 	char *str;
+
+	if (deleting && cal_client_get_save_schedules (client))
+		return TRUE;
 
 	vtype = cal_component_get_vtype (comp);
 
