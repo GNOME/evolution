@@ -39,6 +39,7 @@ DFARS 252.227-7013 or 48 CFR 52.227-19, as applicable.
 #ifndef __VCC_H__
 #define __VCC_H__ 1
 
+#include <libgnomevfs/gnome-vfs.h>
 #include "vobject.h"
 
 
@@ -52,6 +53,8 @@ extern DLLEXPORT(void) registerMimeErrorHandler(MimeErrorHandler);
 
 extern DLLEXPORT(VObject*) Parse_MIME(const char *input, unsigned long len);
 extern DLLEXPORT(VObject*) Parse_MIME_FromFileName(char* fname);
+
+VObject *Parse_MIME_FromURI (GnomeVFSURI *uri);
 
 
 /* NOTE regarding Parse_MIME_FromFile

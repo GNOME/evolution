@@ -20,7 +20,9 @@ SUBDIRS =			\
 	tests			\
 	addressbook		\
 	shell			\
-	mail
+	mail			\
+	libversit		\
+	calendar
 
 dist-hook:
 	for subdir in intl ; do \

@@ -1,0 +1,10 @@
+2000-01-20  Federico Mena Quintero  <federico@helixcode.com>
+
+	* vcc.y (LexBuf): Added a "handle" field for the GnomeVFSHandle.
+	(initLex): Initialize the lexBuf.handle.
+	(Parse_MIME_FromGnomeVFSURI): New function to parse a vCalendar
+	object from a GnomeVFS URI.
+	(Parse_MIME_FromGnomeVFSHandle): New function to parse a vCalendar
+	object from a GnomeVFS handle.
+	(lexGetc_): Now it can read characters from the VFS as well.
+
