@@ -1401,9 +1401,9 @@ efh_format_text_header (EMFormatHTML *emfh, CamelStream *stream, const char *lab
 				fmt = "<tr><td>%s: %s</td></tr>";
 		} else {
 			if (flags & EM_FORMAT_HEADER_BOLD)
-				fmt = "<tr><th align=\"right\" valign=\"top\">%s:<b>&nbsp;</b></th><td>%s</td></tr>";
+				fmt = "<tr><th align=\"right\" valign=\"top\" nowrap>%s:<b>&nbsp;</b></th><td>%s</td></tr>";
 			else
-				fmt = "<tr><td align=\"right\" valign=\"top\">%s:<b>&nbsp;</b></td><td>%s</td></tr>";
+				fmt = "<tr><td align=\"right\" valign=\"top\" nowrap>%s:<b>&nbsp;</b></td><td>%s</td></tr>";
 		}
 	}
 
