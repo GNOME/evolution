@@ -91,16 +91,6 @@ static void
 mail_config_druid_finalise (GtkObject *obj)
 {
 	MailConfigDruid *druid = (MailConfigDruid *) obj;
-	GList *l;
-	
-	l = druid->providers;
-	while (l) {
-		CamelProvider *provider = l->data;
-		
-		camel_object_unref (CAMEL_OBJECT (provider));
-		l = l->next;
-	}
-	g_list_free (druid->providers);
 	
 	gtk_object_unref (GTK_OBJECT (druid->gui));
 	
@@ -206,7 +196,6 @@ druid_finish (GnomeDruidPage *page, gpointer arg1, gpointer user_data)
 	id = g_new0 (MailConfigIdentity, 1);
 	id->name = mail_config_druid_get_full_name (druid);
 	id->address = mail_config_druid_get_email_address (druid);
-	id->reply_to = mail_config_druid_get_reply_to (druid);
 	id->organization = mail_config_druid_get_organization (druid);
 	id->signature = mail_config_druid_get_sigfile (druid);
 	
@@ -938,7 +927,6 @@ construct (MailConfigDruid *druid)
 	gtk_signal_connect (GTK_OBJECT (druid->full_name), "changed", identity_changed, druid);
 	druid->email_address = GTK_ENTRY (glade_xml_get_widget (gui, "txtAddress"));
 	gtk_signal_connect (GTK_OBJECT (druid->email_address), "changed", identity_changed, druid);
-	druid->reply_to = GTK_ENTRY (glade_xml_get_widget (gui, "txtReplyTo"));
 	druid->organization = GTK_ENTRY (glade_xml_get_widget (gui, "txtOrganization"));
 	druid->signature = GNOME_FILE_ENTRY (glade_xml_get_widget (gui, "fileSignature"));
 	
@@ -1016,15 +1004,6 @@ mail_config_druid_get_email_address (MailConfigDruid *druid)
 	g_return_val_if_fail (IS_MAIL_CONFIG_DRUID (druid), NULL);
 	
 	return g_strdup (gtk_entry_get_text (druid->email_address));
-}
-
-
-char *
-mail_config_druid_get_reply_to (MailConfigDruid *druid)
-{
-	g_return_val_if_fail (IS_MAIL_CONFIG_DRUID (druid), NULL);
-	
-	return g_strdup (gtk_entry_get_text (druid->reply_to));
 }
 
 

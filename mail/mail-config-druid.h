@@ -59,7 +59,6 @@ struct _MailConfigDruid {
 	GtkWidget *identity_text;
 	GtkEntry *full_name;
 	GtkEntry *email_address;
-	GtkEntry *reply_to;
 	GtkEntry *organization;
 	GnomeFileEntry *signature;
 	

@@ -1,3 +1,12 @@
+2001-01-12  Jeffrey Stedfast  <fejj@ximian.com>
+
+	* mail-config-druid.c (construct): We don't want to be able to set
+	the reply-to in the config druid.
+	(druid_finish): Don't set a reply-to anymore.
+	(mail_config_druid_finalise): Don't unref the providers.
+
+	* mail-config.glade: Took out the Reply-To field in the druid.
+
 2001-01-11  Miguel de Icaza  <miguel@gnu.org>
 
 	* mail-config-druid.c (incoming_type_changed): Guess the default
