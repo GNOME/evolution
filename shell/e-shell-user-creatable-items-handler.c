@@ -251,6 +251,7 @@ free_menu_items (GSList *menu_items)
 			g_object_unref (item->icon);
 
 		g_free (item->component_id);
+		g_free (item->folder_type);
 
 		g_free (item);
 	}

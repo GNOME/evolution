@@ -379,7 +379,7 @@ e_splash_new (void)
 	new = g_object_new (e_splash_get_type (), NULL);
 	e_splash_construct (new, splash_image_pixbuf);
 
-	/* g_object_unref (splash_image_pixbuf); */
+	g_object_unref (splash_image_pixbuf);
 
 	return GTK_WIDGET (new);
 }

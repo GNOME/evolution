@@ -1,3 +1,14 @@
+2003-07-01  Dan Winship  <danw@ximian.com>
+
+	* e-shell-user-creatable-items-handler.c (free_menu_items): free
+	the folder_type
+
+	* e-splash.c (e_splash_new): Unref the pixbuf.
+
+	* evolution-shell-component.c (impl_finalize): Add some missing
+	frees.
+	(user_creatable_item_type_free): free the tooltip
+
 2003-07-09  Ettore Perazzoli  <ettore@ximian.com>
 
 	* e-shell-folder-commands.c (e_shell_command_rename_folder): Do
