@@ -682,7 +682,7 @@ em_utils_compose_new_message_with_mailto (const char *url, const char *fromuri)
 
 	if (fromuri
 	    && (account = mail_config_get_account_by_source_url(fromuri)))
-		e_msg_composer_set_headers (composer, account->name, NULL, NULL, NULL, "");
+		e_msg_composer_hdrs_set_from_account((EMsgComposerHdrs *)composer->hdrs, account->name);
 
 	e_msg_composer_unset_changed (composer);
 	e_msg_composer_drop_editor_undo (composer);
@@ -717,7 +717,7 @@ em_utils_post_to_folder (CamelFolder *folder)
 		g_free (url);
 		
 		if (account)
-			e_msg_composer_set_headers (composer, account->name, NULL, NULL, NULL, "");
+			e_msg_composer_hdrs_set_from_account ((EMsgComposerHdrs *) ((EMsgComposer *) composer)->hdrs, account->name);
 	}
 	
 	em_composer_utils_setup_default_callbacks (composer);
