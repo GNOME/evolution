@@ -3164,7 +3164,7 @@ enable_writable_fields(EContactEditor *editor)
 			g_hash_table_insert (supported_hash, field, field);
 		}
 
-		for (i = 0; i <= G_N_ELEMENTS (addresses); i ++) {
+		for (i = 0; i < G_N_ELEMENTS (addresses); i ++) {
 			if (!strcmp (field, e_contact_field_name (addresses[i]))) {
 				editor->address_editable [i] = TRUE;
 			}
