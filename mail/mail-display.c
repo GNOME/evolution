@@ -795,7 +795,7 @@ mail_display_new (void)
 
 	scroll = e_scroll_frame_new (NULL, NULL);
 	e_scroll_frame_set_policy (E_SCROLL_FRAME (scroll),
-				   GTK_POLICY_AUTOMATIC, GTK_POLICY_AUTOMATIC);
+				   GTK_POLICY_AUTOMATIC, GTK_POLICY_ALWAYS);
 	e_scroll_frame_set_shadow_type (E_SCROLL_FRAME (scroll), GTK_SHADOW_IN);
 	gtk_box_pack_start_defaults (GTK_BOX (mail_display), GTK_WIDGET (scroll));
 	gtk_widget_show (GTK_WIDGET (scroll));
