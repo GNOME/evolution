@@ -1,3 +1,9 @@
+2001-12-21  Jeffrey Stedfast  <fejj@ximian.com>
+
+	* e-msg-composer-select-file.c (composer_hide_cb): Only cancel the
+	selection dialog if it is currently in use, otherwise we'll get an
+	extra gtk_main_quit and the mailer will exit :-(
+
 2001-12-17  Jeffrey Stedfast  <fejj@ximian.com>
 
 	* e-msg-composer.c (read_file_content): Don't block forever if we

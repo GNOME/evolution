@@ -131,7 +131,8 @@ composer_hide_cb (GtkWidget *widget, gpointer user_data)
 	FileSelectionInfo *info;
 	
 	info = (FileSelectionInfo *) user_data;
-	cancel (info);
+	if (GTK_WIDGET_VISIBLE (info->widget))
+		cancel (info);
 }
 
 /* Setup.  */
