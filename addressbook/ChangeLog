@@ -1,3 +1,12 @@
+2002-04-18  Dan Winship  <danw@ximian.com>
+
+	* backend/ebook/e-book-util.c (e_book_load_default_book): Append
+	/addressbook.db to the end of the default URI if it starts with
+	file:
+
+	* backend/ebook/e-book.c (e_book_load_uri_step): Fix this to not
+	loop forever if you have more than one backend.
+
 2002-04-17  Christopher James Lahey  <clahey@ximian.com>
 
 	* gui/component/select-names/e-select-names.c

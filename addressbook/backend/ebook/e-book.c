@@ -547,7 +547,7 @@ e_book_load_uri_step (EBook *book, EBookStatus status, EBookLoadURIData *data)
 {
 	/* iterate to the next possible CardFactory, or fail
 	   if it's the last one */
-	book->priv->iter = book->priv->book_factories->next;
+	book->priv->iter = book->priv->iter->next;
 	if (book->priv->iter) {
 		GNOME_Evolution_Addressbook_BookFactory factory = book->priv->iter->data;
 		e_book_load_uri_from_factory (book, factory, data);

@@ -242,7 +242,7 @@ e_book_default_book_open (EBook *book, EBookStatus status, gpointer closure)
 gboolean
 e_book_load_default_book (EBook *book, EBookCallback open_response, gpointer closure)
 {
-	char *val;
+	char *val, *uri;
 	gboolean rv;
 	CORBA_Environment ev;
 	Bonobo_ConfigDatabase config_db;
@@ -260,8 +260,15 @@ e_book_load_default_book (EBook *book, EBookCallback open_response, gpointer clo
 		DefaultBookClosure *default_book_closure = g_new (DefaultBookClosure, 1);
 		default_book_closure->closure = closure;
 		default_book_closure->open_response = open_response;
-		rv = e_book_load_uri (book, val,
+
+		/* Sigh. FIXME. */
+		if (!strncmp (val, "file:", 5))
+			uri = g_strconcat (val, "/addressbook.db", NULL);
+		else
+			uri = g_strdup (val);
+		rv = e_book_load_uri (book, uri,
 				      e_book_default_book_open, default_book_closure);
+		g_free (uri);
 		g_free (val);
 	}
 	else {
