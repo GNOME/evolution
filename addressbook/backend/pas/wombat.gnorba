@@ -1,0 +1,5 @@
+[evolution:card-server]
+type=exe
+repo_id=IDL:Evolution/CardServer:1.0
+description=The Personal Addressbook Server
+location_info=wombat
