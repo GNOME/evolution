@@ -46,6 +46,7 @@ typedef struct
 	MailConfigService *transport;
 
 	gboolean thread_list;
+	gboolean view_source;
 	gint paned_size;
 	gboolean send_html;
 	gint seen_timeout;
@@ -425,10 +426,22 @@ mail_config_thread_list (void)
 	return config->thread_list;
 }
 
+gboolean
+mail_config_view_source (void)
+{
+	return config->view_source;
+}
+
 void
 mail_config_set_thread_list (gboolean value)
 {
 	config->thread_list = value;
+}
+
+void
+mail_config_set_view_source (gboolean value)
+{
+	config->view_source = value;
 }
 
 gint

@@ -732,16 +732,19 @@ redisplay (MailDisplay *md, gboolean unscroll)
 		adj = e_scroll_frame_get_vadjustment (md->scroll);
 		oldv = adj->value;
 	}
-
+	
 	md->stream = gtk_html_begin (md->html);
 	mail_html_write (md->html, md->stream, "%s%s", HTML_HEADER,
 			 "<BODY TEXT=\"#000000\" BGCOLOR=\"#FFFFFF\">\n");
-
+	
 	if (md->current_message) {
 		camel_object_ref (CAMEL_OBJECT (md->current_message));
-		mail_format_mime_message (md->current_message, md);
+		if (mail_config_view_source ())
+			mail_format_raw_message (md->current_message, md);
+		else
+			mail_format_mime_message (md->current_message, md);
 	}
-
+	
 	mail_html_write (md->html, md->stream, "</BODY></HTML>\n");
 	gtk_html_end (md->html, md->stream, GTK_HTML_STREAM_OK);
 	md->stream = NULL;
@@ -757,6 +760,20 @@ redisplay (MailDisplay *md, gboolean unscroll)
 			e_scroll_frame_set_vadjustment (md->scroll, adj);
 		}
 	}
+}
+
+
+/**
+ * mail_display_redisplay:
+ * @mail_display: the mail display object
+ * @unscroll: specifies whether or not to lose current scroll
+ *
+ * Force a redraw of the message display.
+ **/
+void
+mail_display_redisplay (MailDisplay *mail_display, gboolean unscroll)
+{
+	redisplay (mail_display, unscroll);
 }
 
 /**
@@ -860,7 +877,5 @@ mail_display_new (void)
 
 	return GTK_WIDGET (mail_display);
 }
-
-
 
 E_MAKE_TYPE (mail_display, "MailDisplay", MailDisplay, mail_display_class_init, mail_display_init, PARENT_TYPE);

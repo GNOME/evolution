@@ -1,9 +1,40 @@
+2000-11-21  Jeffrey Stedfast  <fejj@helixcode.com>
+
+	* mail-config.c (mail_config_view_source): New function to return
+	if user wants to view message source.
+	(mail_config_set_view_source): New function to set whether the
+	view wants to view source.
+
+	* mail-ops.c (mail_do_view_message_sources): Removed. We're not
+	gonna view-source this way anymore.
+
+	* folder-browser-factory.c: Removed the ViewSource bonobo verb
+	from the Message menu.
+	(control_activate): Added ViewSource.
+
+	* folder-browser.c (on_right_click): Removed Message menu item to
+	view message source.
+	(folder_browser_toggle_view_source): New callback to set whether
+	or not the MailDisplay shows the raw message or the pretty-ified
+	message.
+
+	* mail-callbacks.c: Removed view_source.
+
+	* mail-display.c (redisplay): If toggle_raw is set then display
+	the raw message else display the pretty formatted message.
+	(mail_display_redisplay): New function to force the redisplay of a
+	message.
+
+	* mail-format.c (mail_format_raw_message): New function to
+	write the raw message data.
+
 2000-11-21  Not Zed  <NotZed@HelixCode.com>
 
 	* mail-vfolder.c (vfolder_uri_to_folder): IF we dont find a
 	source, clear the exception and ignore it silently.  for e.g. if
 	the user reconfigured their mailboxes and one of them no longer
 	exists.
+	
 2000-11-21  Radek Doulik  <rodo@helixcode.com>
 
 	* mail-display.c: #include <gtkhtml/gtkhtml-embedded.h>

@@ -14,7 +14,7 @@
 #include <bonobo/bonobo-main.h>
 #include <bonobo/bonobo-object.h>
 #include <bonobo/bonobo-generic-factory.h>
-#include <bonobo/bonobo-control.h> 
+#include <bonobo/bonobo-control.h>
 #include <bonobo/bonobo-ui-component.h>
 
 #include <gal/util/e-util.h>
@@ -79,8 +79,6 @@ BonoboUIVerb verbs [] = {
 	BONOBO_UI_UNSAFE_VERB ("MessageFilterSubj", filter_subject),
 	BONOBO_UI_UNSAFE_VERB ("MessageFilterSndr", filter_sender),
 	BONOBO_UI_UNSAFE_VERB ("MessageFilterRecip", filter_recipient),
-	
-	BONOBO_UI_UNSAFE_VERB ("MessageViewSource", view_source),
 	
 	/* Folder Menu */
 	BONOBO_UI_UNSAFE_VERB ("FolderExpunge", expunge_folder),
@@ -157,11 +155,22 @@ control_activate (BonoboControl     *control,
 	else
 		bonobo_ui_component_set_prop (
 			uic, "/commands/ViewThreaded", "state", "0", NULL);
-
+	
 	bonobo_ui_component_add_listener (
 		uic, "ViewThreaded",
 		folder_browser_toggle_threads, folder_browser);
-
+	
+	if (mail_config_view_source ())
+		bonobo_ui_component_set_prop (uic, "/commands/ViewSource",
+					      "state", "1", NULL);
+	else
+		bonobo_ui_component_set_prop (uic, "/commands/ViewSource",
+					      "state", "0", NULL);
+	
+	bonobo_ui_component_add_listener (uic, "ViewSource",
+					  folder_browser_toggle_view_source,
+					  folder_browser);
+	
 	update_pixmaps (uic);
 
 	bonobo_ui_component_thaw (uic, NULL);

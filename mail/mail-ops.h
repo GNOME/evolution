@@ -71,6 +71,4 @@ void mail_do_edit_messages (CamelFolder *folder, GPtrArray *uids,
 void mail_do_setup_folder (const char *name, CamelFolder **folder);
 void mail_do_view_messages (CamelFolder *folder, GPtrArray *uids,
 			    FolderBrowser *fb);
-void mail_do_view_message_sources (CamelFolder *folder, GPtrArray *uids,
-				   FolderBrowser *fb);
 void mail_do_save_messages (CamelFolder *folder, GPtrArray *uids, gchar *path);

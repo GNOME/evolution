@@ -59,8 +59,10 @@ void mail_config_write_on_exit (void);
 /* General Accessor functions */
 gboolean       mail_config_is_configured   (void);
 gboolean       mail_config_thread_list     (void);
+gboolean       mail_config_view_source     (void);
 gint           mail_config_paned_size      (void);
 void           mail_config_set_thread_list (gboolean value);
+void           mail_config_set_view_source (gboolean value);
 void           mail_config_set_paned_size  (gint size);
 gboolean       mail_config_send_html (void);
 void           mail_config_set_send_html (gboolean send_html);

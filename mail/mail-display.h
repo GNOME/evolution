@@ -27,7 +27,7 @@ struct _MailDisplay {
 	GtkHTML *html;
 	GtkHTMLStream *stream;
 	guint idle_id;
-
+	
 	CamelMimeMessage *current_message;
 	GData **data;
 };
@@ -39,8 +39,13 @@ typedef struct {
 GtkType        mail_display_get_type    (void);
 GtkWidget *    mail_display_new         (void);
 
+void           mail_display_redisplay (MailDisplay *mail_display, gboolean unscroll);
+
 void           mail_display_set_message (MailDisplay *mail_display, 
 					 CamelMedium *medium);
+
+void           mail_display_toggle_raw  (MailDisplay *mail_display,
+					 gboolean toggle);
 
 
 #define HTML_HEADER "<!DOCTYPE HTML PUBLIC \"-//W3C//DTD HTML 4.0 TRANSITIONAL//EN\">\n<HTML>\n<HEAD>\n<META NAME=\"GENERATOR\" CONTENT=\"Evolution Mail Component\">\n</HEAD>\n"

@@ -929,20 +929,6 @@ configure_folder (BonoboUIComponent *uih, void *user_data, const char *path)
 }
 
 void
-view_source (GtkWidget *widget, gpointer user_data)
-{
-	FolderBrowser *fb = user_data;
-	GPtrArray *uids;
-	
-	if (!fb->folder)
-		return;
-	
-	uids = g_ptr_array_new ();
-	message_list_foreach (fb->message_list, enumerate_msg, uids);
-	mail_do_view_message_sources (fb->folder, uids, fb);
-}
-
-void
 view_msg (GtkWidget *widget, gpointer user_data)
 {
 	FolderBrowser *fb = user_data;

@@ -382,6 +382,22 @@ folder_browser_toggle_threads (BonoboUIComponent           *component,
 }
 
 void
+folder_browser_toggle_view_source (BonoboUIComponent           *component,
+				   const char                  *path,
+				   Bonobo_UIComponent_EventType type,
+				   const char                  *state,
+				   gpointer                     user_data)
+{
+	FolderBrowser *fb = user_data;
+	
+	if (type != Bonobo_UIComponent_STATE_CHANGED)
+		return;
+	
+	mail_config_set_view_source (atoi (state));
+	mail_display_redisplay (fb->mail_display, TRUE);
+}
+
+void
 vfolder_subject (GtkWidget *w, FolderBrowser *fb)
 {
 	vfolder_gui_add_from_message (fb->mail_display->current_message, AUTO_SUBJECT,
@@ -481,8 +497,6 @@ on_right_click (ETableScrolled *table, gint row, gint col, GdkEvent *event, Fold
 		{ _("Apply Filters"),              NULL, GTK_SIGNAL_FUNC (apply_filters),     NULL,  0 },
 		{ "",                              NULL, GTK_SIGNAL_FUNC (NULL),              NULL,  0 },
 		{ _("Create Rule From Message"),   NULL, GTK_SIGNAL_FUNC (NULL),       filter_menu,  2 },
-		{ "",                              NULL, GTK_SIGNAL_FUNC (NULL),              NULL,  0 },
-		{ _("View Message Source"),        NULL, GTK_SIGNAL_FUNC (view_source),       NULL,  0 },
 		{ NULL,                            NULL, NULL,                                NULL,  0 }
 	};
 	
@@ -721,7 +735,7 @@ my_folder_browser_init (GtkObject *object)
 	 */
 	fb->message_list = (MessageList *)message_list_new ();
 	fb->mail_display = (MailDisplay *)mail_display_new ();
-
+	
 	gtk_signal_connect (GTK_OBJECT (fb->message_list->etable),
 			    "key_press", GTK_SIGNAL_FUNC (etable_key), fb);
 

@@ -36,6 +36,8 @@ extern char *evolution_dir;
 /* mail-format */
 void mail_format_mime_message (CamelMimeMessage *mime_message,
 			       MailDisplay *md);
+void mail_format_raw_message (CamelMimeMessage *mime_message,
+			      MailDisplay *md);
 
 typedef gboolean (*MailMimeHandlerFn) (CamelMimePart *part,
 				       const char *mime_type,

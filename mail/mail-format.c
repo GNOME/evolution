@@ -40,6 +40,8 @@
 #include <string.h>   /* for strstr  */
 #include <fcntl.h>
 
+static char *get_data_wrapper_text (CamelDataWrapper *data);
+
 static char *try_inline_pgp (char *start, MailDisplay *md);
 static char *try_uudecoding (char *start, MailDisplay *md);
 static char *try_inline_binhex (char *start, MailDisplay *md);
@@ -140,9 +142,30 @@ mail_format_mime_message (CamelMimeMessage *mime_message, MailDisplay *md)
 		g_datalist_set_data_full (md->data, "urls", urls,
 					  free_urls);
 	}
-
+	
 	write_headers (mime_message, md);
 	call_handler_function (CAMEL_MIME_PART (mime_message), md);
+}
+
+
+/**
+ * mail_format_raw_message: 
+ * @mime_message: the input mime message
+ * @md: the MailDisplay to render into
+ *
+ * Writes a CamelMimeMessage source out into a MailDisplay
+ **/
+void
+mail_format_raw_message (CamelMimeMessage *mime_message, MailDisplay *md)
+{
+	gchar *text;
+	
+	g_return_if_fail (CAMEL_IS_MIME_MESSAGE (mime_message));
+	
+	text = get_data_wrapper_text (CAMEL_DATA_WRAPPER (mime_message));
+	fprintf (stderr, "****** %s\n", text ? "yes! we have text" : "nope...no text");
+	mail_text_write (md->html, md->stream, text ? text : "");
+	g_free (text);
 }
 
 static const char *
