@@ -1,3 +1,9 @@
+2002-04-15  Not Zed  <NotZed@Ximian.com>
+
+	* mail-identify.c (mail_identify_mime_part): Turn off the code
+	which downloads the part if we can't identify it.  See discussion
+	in #11778.
+
 2002-04-17  Christopher James Lahey  <clahey@ximian.com>
 
 	* folder-browser.c, mail-display.c: Updated these to match the new

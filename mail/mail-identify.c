@@ -97,13 +97,17 @@ mail_identify_mime_part (CamelMimePart *part, MailDisplay *md)
 	 * would require a Mac type to mime type conversion table.
 	 */
 
+#if 0
 	/* If the data part is offline, then we didn't try magic
 	 * before, so force it to be loaded so we can try again later.
 	 * FIXME: In a perfect world, we would not load the content
 	 * just to identify the MIME type.
 	 */
+	/* This is disabled as it just frustrates users more than it helps,
+	   see discussion in bug #11778 */
 	if (camel_data_wrapper_is_offline (data))
 		mail_content_loaded (data, md, TRUE, NULL, NULL, NULL);
+#endif
 
 	return NULL;
 }
