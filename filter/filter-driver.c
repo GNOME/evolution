@@ -401,8 +401,7 @@ free_key (gpointer key, gpointer value, gpointer user_data)
 
 gboolean
 filter_driver_run (FilterDriver *driver, CamelMimeMessage *message, CamelMessageInfo *info,
-		   CamelFolder *inbox, enum _filter_source_t sourcetype,
-		   gboolean self_destruct, CamelException *ex)
+		   CamelFolder *inbox, enum _filter_source_t sourcetype, CamelException *ex)
 {
 	struct _FilterDriverPrivate *p = _PRIVATE (driver);
 	ESExpResult *r;
@@ -412,6 +411,7 @@ filter_driver_run (FilterDriver *driver, CamelMimeMessage *message, CamelMessage
 	
 	gtk_object_ref (GTK_OBJECT (driver));
 	camel_object_ref (CAMEL_OBJECT (message));
+	
 	if (inbox)
 		camel_object_ref (CAMEL_OBJECT (inbox));
 	
@@ -483,8 +483,8 @@ filter_driver_run (FilterDriver *driver, CamelMimeMessage *message, CamelMessage
 	camel_object_unref (CAMEL_OBJECT (message));
 	if (inbox)
 		camel_object_unref (CAMEL_OBJECT (inbox));
-	if (self_destruct)
-		gtk_object_unref (GTK_OBJECT (driver));
+	
+	gtk_object_unref (GTK_OBJECT (driver));
 	
 	return filtered;
 }

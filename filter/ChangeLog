@@ -1,5 +1,10 @@
 2000-09-11  Jeffrey Stedfast  <fejj@helixcode.com>
 
+	* filter-driver.c (filter_driver_run): No longer takes a
+	self_destruct argument.
+
+2000-09-11  Jeffrey Stedfast  <fejj@helixcode.com>
+
 	* filter-driver.c (filter_driver_run): Don't freeze/thaw the
 	default inbox here, let the caller freeze/thaw it. Don't destroy
 	the folders hash table here, it's faster if we wait till the
