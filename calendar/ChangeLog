@@ -1,5 +1,6 @@
 2003-11-23  Rodrigo Moya <rodrigo@ximian.com>
 
+	* gui/tasks-component.c:
 	* gui/dialogs/copy-dialog-source.[ch]: fixed compilation errors.
 
 	* gui/dialogs/Makefile.am: added missing header directories.

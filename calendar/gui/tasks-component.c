@@ -310,7 +310,7 @@ copy_task_list_cb (GtkWidget *widget, TasksComponent *comp)
 	if (!selected_source)
 		return;
 
-	copy_source_dialog (GTK_WINDOW (gtk_widget_get_toplevel (widget), selected_source, CALOBJ_TYPE_TODO);
+	copy_source_dialog (GTK_WINDOW (gtk_widget_get_toplevel (widget)), selected_source, CALOBJ_TYPE_TODO);
 }
 
 static void
