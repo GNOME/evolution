@@ -1,5 +1,9 @@
 2001-06-13  Jakub Steiner <jimmac@ximian.com>
 
+	* rdf.png, ico-rdf.png: ximianize those
+
+2001-06-13  Jakub Steiner <jimmac@ximian.com>
+
 	* splash-1-0.png: Initial mockup for the final splash.
 	  Didn't wan't to overwrite the unstable splash.png.
 	
