@@ -1708,6 +1708,18 @@ struct _EMFolderTreeGetFolderInfo {
 	CamelFolderInfo *fi;
 };
 
+static char *
+emft_get_folder_info__desc(struct _mail_msg *mm, int done)
+{
+	struct _EMFolderTreeGetFolderInfo *m = (struct _get_folderinfo_msg *)mm;
+	char *ret, *name;
+
+	name = camel_service_get_name((CamelService *)m->store, TRUE);
+	ret = g_strdup_printf(_("Scanning folders in \"%s\""), name);
+	g_free(name);
+	return ret;
+}
+
 static void
 emft_get_folder_info__get (struct _mail_msg *mm)
 {
@@ -1819,7 +1831,7 @@ emft_get_folder_info__free (struct _mail_msg *mm)
 }
 
 static struct _mail_msg_op get_folder_info_op = {
-	NULL,
+	emft_get_folder_info__desc,
 	emft_get_folder_info__get,
 	emft_get_folder_info__got,
 	emft_get_folder_info__free,

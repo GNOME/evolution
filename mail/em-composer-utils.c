@@ -1750,7 +1750,7 @@ em_utils_reply_to_message(CamelFolder *folder, const char *uid, CamelMimeMessage
 
 	g_return_if_fail(message != NULL);
 	
-	account = guess_account (message, NULL);
+	account = guess_account (message, folder);
 	flags = CAMEL_MESSAGE_ANSWERED | CAMEL_MESSAGE_SEEN;
 	
 	switch (mode) {
