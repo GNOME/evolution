@@ -8,6 +8,7 @@ Bugzilla bugs fixed (see http://bugzilla.ximian.com/show_bug.cgi):
     #41144 - Use stock buttons in the ldap config page. (Toshok)
     #41211 - Add icon to "Add" button in "Add to Contacts" dialog. (Toshok)
     #41255 - Use stock Add/Remove icons in the contact list editor. (Toshok)
+    #41910 - Crash when deleting addresses from long contact lists. (Toshok)
 
 Evolution 1.3.3, 2003-04-29
 ---------------------------
@@ -20,7 +21,6 @@ Bugzilla bugs fixed (see http://bugzilla.ximian.com/show_bug.cgi):
     #40954 - Wombat crashes when opening an appointment  (Toshok)
     #41843 - Don't use localized field names in the csv exporter  (Gilbert Fang)
     #41779 - Fix crash when adding emails to existing contacts  (Toshok)
-    #41910 - Crash when deleting addresses from long contact lists. (Toshok)
 
   * Calendar
 
