@@ -49,11 +49,11 @@
 #include <importer/GNOME_Evolution_Importer.h>
 #include <importer/evolution-importer-client.h>
 
-#include <filter/filter-context.h>
-#include <filter/filter-filter.h>
+#include "mail/em-filter-context.h"
+#include "mail/em-filter-rule.h"
 #include <filter/filter-rule.h>
 #include <filter/filter-option.h>
-#include <filter/filter-folder.h>
+#include "mail/em-filter-folder-element.h"
 #include <filter/filter-int.h>
 
 #include "e-util/e-account-list.h"
@@ -711,16 +711,16 @@ netscape_filter_body_is_not_supported (void)
 
 
 static FilterRule*
-netscape_create_priority_converter (FilterContext *fc, NsFilterActionValueType priority)
+netscape_create_priority_converter (EMFilterContext *fc, NsFilterActionValueType priority)
 {
-	FilterFilter *ff;
+	EMFilterRule *ff;
 	FilterPart   *fp;
 	FilterRule   *fr;
 	FilterElement *el;
 	char           s[MAXLEN];
 	int v;
 
-	ff = filter_filter_new ();
+	ff = em_filter_rule_new ();
 	fr = FILTER_RULE(ff);
 	
 	g_snprintf (s, MAXLEN, filter_name, ns_filter_action_value_types[priority]);
@@ -737,7 +737,7 @@ netscape_create_priority_converter (FilterContext *fc, NsFilterActionValueType p
 	filter_input_set_value ((FilterInput*)el,
 				ns_filter_action_value_types[priority]);
 	
-	fp = filter_context_create_action (fc, "score");
+	fp = em_filter_context_create_action (fc, "score");
 	el = filter_part_find_element (fp, "score");
 
 	switch (priority) {
@@ -762,14 +762,14 @@ netscape_create_priority_converter (FilterContext *fc, NsFilterActionValueType p
 	}
 
 	filter_int_set_value((FilterInt *)el, v);
-	filter_filter_add_action (ff, fp);
+	em_filter_rule_add_action (ff, fp);
 
 	return FILTER_RULE(ff);
 }
 
 
 static void
-netscape_add_priority_workaround_filters (FilterContext *fc)
+netscape_add_priority_workaround_filters (EMFilterContext *fc)
 {
 	FilterRule *fr;
 
@@ -822,11 +822,11 @@ netscape_filter_score_set (NsFilterCondition *cond, FilterInt *el)
 }
 
 
-static FilterFilter *
-netscape_filter_to_evol_filter (FilterContext *fc, NsFilter *nsf, gboolean *priority_needed)
+static EMFilterRule *
+netscape_filter_to_evol_filter (EMFilterContext *fc, NsFilter *nsf, gboolean *priority_needed)
 {
 	RuleContext  *rc = RULE_CONTEXT(fc);
-	FilterFilter *ff = NULL;
+	EMFilterRule *ff = NULL;
 	FilterPart   *fp;
 	FilterRule   *fr;
 	FilterElement *el;
@@ -834,7 +834,7 @@ netscape_filter_to_evol_filter (FilterContext *fc, NsFilter *nsf, gboolean *prio
 	gboolean      part_added = FALSE, action_added = FALSE;
 
 
-	ff = filter_filter_new ();
+	ff = em_filter_rule_new ();
 	fr = FILTER_RULE(ff);
 
 	filter_rule_set_name (fr, nsf->name);
@@ -1113,13 +1113,13 @@ netscape_filter_to_evol_filter (FilterContext *fc, NsFilter *nsf, gboolean *prio
 			char *evol_folder;
 			char *evol_folder_uri;
 
-			fp = filter_context_create_action (fc, "move-to-folder");
-			filter_filter_add_action (ff, fp);
+			fp = em_filter_context_create_action (fc, "move-to-folder");
+			em_filter_rule_add_action (ff, fp);
 			el = filter_part_find_element (fp, "folder");
 
 			evol_folder = netscape_filter_strip_sbd (nsf->action_val_str);
 			evol_folder_uri = netscape_filter_map_folder_to_uri (evol_folder);
-			filter_folder_set_value ((FilterFolder *)el, evol_folder_uri);
+			em_filter_folder_element_set_value ((EMFilterFolderElement *)el, evol_folder_uri);
 			g_free (evol_folder);
 			g_free (evol_folder_uri);
 
@@ -1127,7 +1127,7 @@ netscape_filter_to_evol_filter (FilterContext *fc, NsFilter *nsf, gboolean *prio
 		}
 		break;
 	case CHANGE_PRIORITY:
-		fp = filter_context_create_action (fc, "score");
+		fp = em_filter_context_create_action (fc, "score");
 		el = filter_part_find_element (fp, "score");
 
 		switch (nsf->action_val_id) {
@@ -1156,19 +1156,19 @@ netscape_filter_to_evol_filter (FilterContext *fc, NsFilter *nsf, gboolean *prio
 		}
 		if (action_added) {
 			*priority_needed = TRUE;
-			filter_filter_add_action (ff, fp);
+			em_filter_rule_add_action (ff, fp);
 		}
 		break;
 	case DELETE:
-		fp = filter_context_create_action (fc, "delete");
-		filter_filter_add_action (ff, fp);
+		fp = em_filter_context_create_action (fc, "delete");
+		em_filter_rule_add_action (ff, fp);
 		action_added = TRUE;
 		break;
 	case MARK_READ:
-		fp = filter_context_create_action (fc, "set-status");
+		fp = em_filter_context_create_action (fc, "set-status");
 		el = filter_part_find_element (fp, "flag");
 		filter_option_set_current ((FilterOption *)el, "Seen");
-		filter_filter_add_action (ff, fp);
+		em_filter_rule_add_action (ff, fp);
 		action_added = TRUE;
 		break;
 	case IGNORE_THREAD:
@@ -1191,12 +1191,12 @@ netscape_filter_to_evol_filter (FilterContext *fc, NsFilter *nsf, gboolean *prio
 static void
 netscape_import_filters (NsImporter *importer)
 {
-	FilterContext *fc;
+	EMFilterContext *fc;
 	char *user, *system;
 	FILE *mailrule_handle;
 	char *ns_mailrule;
 	NsFilter      *nsf;
-	FilterFilter  *ff;
+	EMFilterRule  *ff;
 	gboolean       priority_needed = FALSE;
 
 	ns_mailrule = gnome_util_prepend_user_home (".netscape/mailrule");
@@ -1209,7 +1209,7 @@ netscape_import_filters (NsImporter *importer)
 		return;
 	}
 
-	fc = filter_context_new ();
+	fc = em_filter_context_new ();
 	user = g_build_filename(g_get_home_dir (), "evolution/filters.xml");
 	system = EVOLUTION_PRIVDATADIR "/filtertypes.xml";
 

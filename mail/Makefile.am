@@ -66,6 +66,16 @@ libevolution_mail_la_SOURCES =			\
 	em-mailer-prefs.h			\
 	em-inline-filter.c			\
 	em-inline-filter.h			\
+	em-filter-context.c			\
+	em-filter-context.h			\
+	em-filter-editor.c			\
+	em-filter-editor.h			\
+	em-filter-rule.c			\
+	em-filter-rule.h			\
+	em-filter-folder-element.c		\
+	em-filter-folder-element.h		\
+	em-filter-source-element.h		\
+	em-filter-source-element.c		\
 	em-folder-properties.c			\
 	em-folder-properties.h			\
 	em-folder-selection.c			\
@@ -104,6 +114,8 @@ libevolution_mail_la_SOURCES =			\
 	em-popup.h				\
 	em-utils.c				\
 	em-utils.h				\
+	em-search-context.c			\
+	em-search-context.h			\
 	em-subscribe-editor.c			\
 	em-subscribe-editor.h			\
 	em-sync-stream.c			\
@@ -116,6 +128,12 @@ libevolution_mail_la_SOURCES =			\
 	em-junk-plugin.h			\
 	em-html-stream.c			\
 	em-html-stream.h			\
+	em-vfolder-context.c			\
+	em-vfolder-context.h			\
+	em-vfolder-editor.c			\
+	em-vfolder-editor.h			\
+	em-vfolder-rule.c			\
+	em-vfolder-rule.h			\
 	mail-account-editor.c			\
 	mail-account-editor.h			\
 	mail-account-gui.c			\
@@ -181,6 +199,8 @@ libevolution_mail_la_LIBADD =					\
 libevolution_mail_la_LDFLAGS =				\
 	-avoid-version -module
 
+libevolution_mail_la_DEPENDENCIES = em-filter-i18n.h
+
 # .server files
 
 server_in_files = GNOME_Evolution_Mail.server.in.in
@@ -189,12 +209,20 @@ server_DATA = $(server_in_files:.server.in.in=_$(BASE_VERSION).server)
 @INTLTOOL_SERVER_RULE@
 
 # Misc data to install
+filterdir = $(privdatadir)
+filter_DATA = filtertypes.xml vfoldertypes.xml searchtypes.xml
 
 error_DATA = mail-errors.xml
 error_i18n = $(error_DATA:.xml=.xml.h)
 errordir = $(privdatadir)/errors
 %.xml.h: %.xml
 	$(top_builddir)/e-util/e-error-tool $^
+
+em-filter-i18n.h: filtertypes.xml vfoldertypes.xml searchtypes.xml
+	echo "/* Automatically generated. Do not edit. */" > $@;	      \
+	cat $(srcdir)/filtertypes.xml $(srcdir)/vfoldertypes.xml $(srcdir)/searchtypes.xml |	      \
+		sed -n -e 's:.*<title>\(.*\)</title>:char *s = N_("\1");:p' | \
+		sort -u >> $@
 
 glade_DATA = mail-config.glade  subscribe-dialog.glade message-tags.glade mail-search.glade mail-security.glade
 MARSHAL_GENERATED = em-marshal.c em-marshal.h
@@ -211,8 +239,11 @@ EXTRA_DIST = 				\
 	$(glade_DATA)			\
 	$(schema_DATA)			\
 	$(server_in_files)		\
-	$(etspec_DATA)
-
+	$(etspec_DATA)			\
+	filtertypes.xml			\
+	vfoldertypes.xml		\
+	searchtypes.xml			\
+	em-filter-i18n.h
 
 # Purify support
 

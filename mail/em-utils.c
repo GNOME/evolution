@@ -35,7 +35,7 @@
 #include <camel/camel-url-scanner.h>
 #include <camel/camel-file-utils.h>
 
-#include <filter/filter-editor.h>
+#include "em-filter-editor.h"
 
 #include <bonobo/bonobo-listener.h>
 #include <bonobo/bonobo-widget.h>
@@ -229,9 +229,9 @@ em_utils_check_user_can_send_mail (GtkWidget *parent)
 static GtkWidget *filter_editor = NULL;
 
 static void
-filter_editor_response (GtkWidget *dialog, int button, gpointer user_data)
+em_filter_editor_response (GtkWidget *dialog, int button, gpointer user_data)
 {
-	FilterContext *fc;
+	EMFilterContext *fc;
 	
 	if (button == GTK_RESPONSE_OK) {
 		char *user;
@@ -248,7 +248,7 @@ filter_editor_response (GtkWidget *dialog, int button, gpointer user_data)
 	filter_editor = NULL;
 }
 
-static const char *filter_source_names[] = {
+static const char *em_filter_source_element_names[] = {
 	"incoming",
 	"outgoing",
 	NULL,
@@ -267,14 +267,14 @@ em_utils_edit_filters (GtkWidget *parent)
 {
 	const char *base_directory = mail_component_peek_base_directory (mail_component_peek ());
 	char *user, *system;
-	FilterContext *fc;
+	EMFilterContext *fc;
 	
 	if (filter_editor) {
 		gdk_window_raise (GTK_WIDGET (filter_editor)->window);
 		return;
 	}
 	
-	fc = filter_context_new ();
+	fc = em_filter_context_new ();
 	user = g_strdup_printf ("%s/mail/filters.xml", base_directory);
 	system = EVOLUTION_PRIVDATADIR "/filtertypes.xml";
 	rule_context_load ((RuleContext *) fc, system, user);
@@ -285,13 +285,13 @@ em_utils_edit_filters (GtkWidget *parent)
 		return;
 	}
 	
-	filter_editor = (GtkWidget *) filter_editor_new (fc, filter_source_names);
+	filter_editor = (GtkWidget *) em_filter_editor_new (fc, em_filter_source_element_names);
 	if (parent != NULL)
 		e_dialog_set_transient_for ((GtkWindow *) filter_editor, parent);
 	
 	gtk_window_set_title (GTK_WINDOW (filter_editor), _("Filters"));
 	g_object_set_data_full ((GObject *) filter_editor, "context", fc, (GtkDestroyNotify) g_object_unref);
-	g_signal_connect (filter_editor, "response", G_CALLBACK (filter_editor_response), NULL);
+	g_signal_connect (filter_editor, "response", G_CALLBACK (em_filter_editor_response), NULL);
 	gtk_widget_show (GTK_WIDGET (filter_editor));
 }
 

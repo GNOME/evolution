@@ -41,8 +41,8 @@
 #include <camel/camel-file-utils.h>
 #include <camel/camel-movemail.h>
 
-#include <filter/vfolder-rule.h>
-#include <filter/vfolder-context.h>
+#include "em-vfolder-rule.h"
+#include "em-vfolder-context.h"
 #include <filter/filter-option.h>
 #include <filter/filter-input.h>
 

@@ -53,7 +53,7 @@
 
 #include "widgets/misc/e-error.h"
 
-#include "filter/vfolder-rule.h"
+#include "em-vfolder-rule.h"
 
 #include "mail-mt.h"
 #include "mail-ops.h"
@@ -2285,9 +2285,9 @@ emft_popup_new_folder_response (EMFolderSelector *emfs, int response, EMFolderTr
 
 	/* HACK: we need to create vfolders using the vfolder editor */
 	if (CAMEL_IS_VEE_STORE(store)) {
-		VfolderRule *rule;
+		EMVFolderRule *rule;
 
-		rule = vfolder_rule_new();
+		rule = em_vfolder_rule_new();
 		filter_rule_set_name((FilterRule *)rule, path);
 		vfolder_gui_add_rule(rule);
 		gtk_widget_destroy((GtkWidget *)emfs);

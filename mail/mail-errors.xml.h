@@ -206,6 +206,20 @@ char *s = N_("The following filter rule(s):\n"
 	"Used the now removed folder:\n"
 	"    \"{1}\"\n"
 	"And have been updated.");
+/* mail:no-folder primary */
+char *s = N_("Missing folder.");
+/* mail:no-folder secondary */
+char *s = N_("You must specify a folder.");
+/* mail:no-name-vfolder primary */
+char *s = N_("Missing name.");
+/* mail:no-name-vfolder secondary */
+char *s = N_("You must name this vFolder.");
+/* mail:vfolder-no-source primary */
+char *s = N_("No sources selected.");
+/* mail:vfolder-no-source secondary */
+char *s = N_("You must specify at least one folder as a source.\n"
+	"Either by selecting the folders individually, and/or by selecting\n"
+	"all local folders, all remote folders, or both.");
 /* mail:ask-migrate-existing primary */
 char *s = N_("Problem migrating old mail folder \"{0}\".");
 /* mail:ask-migrate-existing secondary */

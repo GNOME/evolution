@@ -2,6 +2,32 @@
 
 	** See #59885.
 
+	** Moved all of the mail specific filtering stuff from filter/* to
+	here.  Renamed appropriately into em* space, etc.
+
+	* em-filter-folder-element.c (emff_copy_value): implement for folders.
+
+	* em-vfolder-rule.c (get_widget): read the vfolder glade from
+	mail-config.glade.
+
+	* mail-config.glade: moved the vfolder source selector here.
+
+	* em-search-context.c: new mail search specific rule context.
+
+	* mail-component.c (setup_search_context): use the new
+	em_search_context.
+
+	* vfolder-rule.c (validate): change error to mail context.
+	
+	* filter-folder.c (validate): change error to mail context.
+
+	* Makefile.am (em-filter-i18n.h): added rule for i18n of mail
+	filter type stuff.
+	(libevolution_mail_la_SOURCES): added in the filter and vfolder
+	rule stuff specific to mail.
+
+	** See #59885.
+
 	* em-format-html-quote.[ch]: remove and remove from build, not
 	used.
 

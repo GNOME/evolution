@@ -45,12 +45,12 @@
 #include "camel/camel-vee-store.h"
 #include "camel/camel-vtrash-folder.h"
 
-#include "filter/vfolder-context.h"
-#include "filter/vfolder-editor.h"
+#include "em-vfolder-context.h"
+#include "em-vfolder-editor.h"
 
 #define d(x) /*(printf("%s(%d):%s: ",  __FILE__, __LINE__, __PRETTY_FUNCTION__), (x))*/
 
-static VfolderContext *context;	/* context remains open all time */
+static EMVFolderContext *context;	/* context remains open all time */
 CamelStore *vfolder_store; /* the 1 static vfolder store */
 
 /* lock for accessing shared resources (below) */
@@ -465,14 +465,14 @@ mail_vfolder_add_uri(CamelStore *store, const char *curi, int remove)
 		/* dont auto-add any sent/drafts folders etc, they must be explictly listed as a source */
 		if (rule->source
 		    && !is_ignore
-		    && ((((VfolderRule *)rule)->with == VFOLDER_RULE_WITH_LOCAL && !remote)
-			|| (((VfolderRule *)rule)->with == VFOLDER_RULE_WITH_REMOTE_ACTIVE && remote)
-			|| (((VfolderRule *)rule)->with == VFOLDER_RULE_WITH_LOCAL_REMOTE_ACTIVE)))
+		    && ((((EMVFolderRule *)rule)->with == EM_VFOLDER_RULE_WITH_LOCAL && !remote)
+			|| (((EMVFolderRule *)rule)->with == EM_VFOLDER_RULE_WITH_REMOTE_ACTIVE && remote)
+			|| (((EMVFolderRule *)rule)->with == EM_VFOLDER_RULE_WITH_LOCAL_REMOTE_ACTIVE)))
 			found = TRUE;
 		
 		/* we check using the store uri_cmp since its more accurate */
 		source = NULL;
-		while (!found && (source = vfolder_rule_next_source((VfolderRule *)rule, source))) {
+		while (!found && (source = em_vfolder_rule_next_source((EMVFolderRule *)rule, source))) {
 			char *esource;
 
 			esource = em_uri_from_camel(source);
@@ -526,7 +526,7 @@ mail_vfolder_delete_uri(CamelStore *store, const char *curi)
  	rule = NULL;
 	while ((rule = rule_context_next_rule ((RuleContext *) context, rule, NULL))) {
 		source = NULL;
-		while ((source = vfolder_rule_next_source ((VfolderRule *) rule, source))) {
+		while ((source = em_vfolder_rule_next_source ((EMVFolderRule *) rule, source))) {
 			/* Remove all sources that match, ignore changed events though
 			   because the adduri call above does the work async */
 			if (uri_cmp (uri, source)) {
@@ -534,7 +534,7 @@ mail_vfolder_delete_uri(CamelStore *store, const char *curi)
 				g_assert (vf != NULL);
 				g_signal_handlers_disconnect_matched (rule, G_SIGNAL_MATCH_FUNC|G_SIGNAL_MATCH_DATA, 0,
 								      0, NULL, rule_changed, vf);
-				vfolder_rule_remove_source ((VfolderRule *)rule, source);
+				em_vfolder_rule_remove_source ((EMVFolderRule *)rule, source);
 				g_signal_connect (rule, "changed", G_CALLBACK(rule_changed), vf);
 				g_string_append_printf (changed, "    %s\n", rule->name);
 				source = NULL;
@@ -600,7 +600,7 @@ mail_vfolder_rename_uri(CamelStore *store, const char *cfrom, const char *cto)
  	rule = NULL;
 	while ( (rule = rule_context_next_rule((RuleContext *)context, rule, NULL)) ) {
 		source = NULL;
-		while ( (source = vfolder_rule_next_source((VfolderRule *)rule, source)) ) {
+		while ( (source = em_vfolder_rule_next_source((EMVFolderRule *)rule, source)) ) {
 			/* Remove all sources that match, ignore changed events though
 			   because the adduri call above does the work async */
 			if (uri_cmp(from, source)) {
@@ -609,8 +609,8 @@ mail_vfolder_rename_uri(CamelStore *store, const char *cfrom, const char *cto)
 				g_assert(vf);
 				g_signal_handlers_disconnect_matched(rule, G_SIGNAL_MATCH_FUNC|G_SIGNAL_MATCH_DATA, 0,
 								     0, NULL, rule_changed, vf);
-				vfolder_rule_remove_source((VfolderRule *)rule, source);
-				vfolder_rule_add_source((VfolderRule *)rule, to);
+				em_vfolder_rule_remove_source((EMVFolderRule *)rule, source);
+				em_vfolder_rule_add_source((EMVFolderRule *)rule, to);
 				g_signal_connect(rule, "changed", G_CALLBACK(rule_changed), vf);
 				changed++;
 				source = NULL;
@@ -693,12 +693,12 @@ rule_changed(FilterRule *rule, CamelFolder *folder)
 	d(printf("Filter rule changed? for folder '%s'!!\n", folder->name));
 
 	/* find any (currently available) folders, and add them to the ones to open */
-	rule_add_sources(((VfolderRule *)rule)->sources, &sources_folder, &sources_uri);
+	rule_add_sources(((EMVFolderRule *)rule)->sources, &sources_folder, &sources_uri);
 
 	LOCK();
-	if (((VfolderRule *)rule)->with == VFOLDER_RULE_WITH_LOCAL || ((VfolderRule *)rule)->with == VFOLDER_RULE_WITH_LOCAL_REMOTE_ACTIVE)
+	if (((EMVFolderRule *)rule)->with == EM_VFOLDER_RULE_WITH_LOCAL || ((EMVFolderRule *)rule)->with == EM_VFOLDER_RULE_WITH_LOCAL_REMOTE_ACTIVE)
 		rule_add_sources(source_folders_local, &sources_folder, &sources_uri);
-	if (((VfolderRule *)rule)->with == VFOLDER_RULE_WITH_REMOTE_ACTIVE || ((VfolderRule *)rule)->with == VFOLDER_RULE_WITH_LOCAL_REMOTE_ACTIVE)
+	if (((EMVFolderRule *)rule)->with == EM_VFOLDER_RULE_WITH_REMOTE_ACTIVE || ((EMVFolderRule *)rule)->with == EM_VFOLDER_RULE_WITH_LOCAL_REMOTE_ACTIVE)
 		rule_add_sources(source_folders_remote, &sources_folder, &sources_uri);
 	UNLOCK();
 
@@ -870,7 +870,7 @@ vfolder_load_storage(void)
 	
 	/* load our rules */
 	user = g_strdup_printf ("%s/mail/vfolders.xml", mail_component_peek_base_directory (mail_component_peek ()));
-	context = vfolder_context_new ();
+	context = em_vfolder_context_new ();
 	if (rule_context_load ((RuleContext *)context,
 			       EVOLUTION_PRIVDATADIR "/vfoldertypes.xml", user) != 0) {
 		g_warning("cannot load vfolders: %s\n", ((RuleContext *)context)->error);
@@ -906,7 +906,7 @@ vfolder_revert(void)
 static GtkWidget *vfolder_editor = NULL;
 
 static void
-vfolder_editor_response (GtkWidget *dialog, int button, void *data)
+em_vfolder_editor_response (GtkWidget *dialog, int button, void *data)
 {
 	char *user;
 
@@ -935,9 +935,9 @@ vfolder_edit (void)
 		return;
 	}
 	
-	vfolder_editor = GTK_WIDGET (vfolder_editor_new (context));
+	vfolder_editor = GTK_WIDGET (em_vfolder_editor_new (context));
 	gtk_window_set_title (GTK_WINDOW (vfolder_editor), _("vFolders"));
-	g_signal_connect(vfolder_editor, "response", G_CALLBACK(vfolder_editor_response), NULL);
+	g_signal_connect(vfolder_editor, "response", G_CALLBACK(em_vfolder_editor_response), NULL);
 	
 	gtk_widget_show (vfolder_editor);
 }
@@ -1040,7 +1040,7 @@ vfolder_create_part(const char *name)
 FilterRule *
 vfolder_clone_rule(FilterRule *in)
 {
-	FilterRule *rule = (FilterRule *)vfolder_rule_new();
+	FilterRule *rule = (FilterRule *)em_vfolder_rule_new();
 	xmlNodePtr xml;
 
 	xml = filter_rule_xml_encode(in);
@@ -1052,7 +1052,7 @@ vfolder_clone_rule(FilterRule *in)
 
 /* adds a rule with a gui */
 void
-vfolder_gui_add_rule(VfolderRule *rule)
+vfolder_gui_add_rule(EMVFolderRule *rule)
 {
 	GtkWidget *w;
 	GtkDialog *gd;
@@ -1082,11 +1082,11 @@ vfolder_gui_add_rule(VfolderRule *rule)
 void
 vfolder_gui_add_from_message(CamelMimeMessage *msg, int flags, const char *source)
 {
-	VfolderRule *rule;
+	EMVFolderRule *rule;
 
 	g_return_if_fail (msg != NULL);
 
-	rule = (VfolderRule*)vfolder_rule_from_message(context, msg, flags, source);
+	rule = (EMVFolderRule*)em_vfolder_rule_from_message(context, msg, flags, source);
 	vfolder_gui_add_rule(rule);
 }
 

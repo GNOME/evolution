@@ -43,8 +43,8 @@
 #include <camel/camel.h>	/* FIXME: this is where camel_init is defined, it shouldn't include everything else */
 #include "camel/camel-filter-driver.h"
 
-#include "filter/filter-context.h"
-#include "filter/filter-filter.h"
+#include "em-filter-context.h"
+#include "em-filter-rule.h"
 #include "mail-component.h"
 #include "mail-config.h"
 #include "mail-session.h"
@@ -615,7 +615,7 @@ main_get_filter_driver (CamelSession *session, const char *type, CamelException 
 	
 	user = g_strdup_printf ("%s/mail/filters.xml", mail_component_peek_base_directory (mail_component_peek ()));
 	system = EVOLUTION_PRIVDATADIR "/filtertypes.xml";
-	fc = (RuleContext *) filter_context_new ();
+	fc = (RuleContext *) em_filter_context_new ();
 	rule_context_load (fc, system, user);
 	g_free (user);
 	
@@ -664,7 +664,7 @@ main_get_filter_driver (CamelSession *session, const char *type, CamelException 
 			g_string_truncate (faction, 0);
 		
 			filter_rule_build_code (rule, fsearch);
-			filter_filter_build_action ((FilterFilter *) rule, faction);
+			em_filter_rule_build_action ((EMFilterRule *) rule, faction);
 			camel_filter_driver_add_rule (driver, rule->name, fsearch->str, faction->str);
 		}
 		

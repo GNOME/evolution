@@ -43,7 +43,7 @@
 #include "e-util/e-account-list.h"
 
 #include "widgets/misc/e-clipped-label.h"
-#include "filter/filter-filter.h"
+#include "em-filter-rule.h"
 #include "camel/camel-filter-driver.h"
 #include "camel/camel-folder.h"
 #include "camel/camel-operation.h"
@@ -317,7 +317,7 @@ build_dialog (EAccountList *accounts, CamelFolder *outbox, const char *destinati
 	GdkPixbuf *pixbuf;
 	GList *icon_list;
 	
-	gd = (GtkDialog *)send_recv_dialog = gtk_dialog_new_with_buttons(_("Send & Receive Mail"), NULL, GTK_DIALOG_NO_SEPARATOR, NULL);
+	gd = (GtkDialog *)(send_recv_dialog = gtk_dialog_new_with_buttons(_("Send & Receive Mail"), NULL, GTK_DIALOG_NO_SEPARATOR, NULL));
 	gtk_window_set_modal ((GtkWindow *) gd, FALSE);
 	
 	stop = (GtkButton *)e_gtk_button_new_with_icon(_("Cancel _All"), GTK_STOCK_CANCEL);

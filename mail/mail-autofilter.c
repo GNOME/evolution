@@ -43,13 +43,13 @@
 #include "em-utils.h"
 #include "widgets/misc/e-error.h"
 
-#include "filter/vfolder-context.h"
-#include "filter/vfolder-rule.h"
-#include "filter/vfolder-editor.h"
+#include "em-vfolder-context.h"
+#include "em-vfolder-rule.h"
+#include "em-vfolder-editor.h"
 
-#include "filter/filter-context.h"
-#include "filter/filter-filter.h"
-#include "filter/filter-editor.h"
+#include "em-filter-context.h"
+#include "em-filter-rule.h"
+#include "em-filter-editor.h"
 #include "filter/filter-option.h"
 
 
@@ -277,13 +277,13 @@ rule_from_message (FilterRule *rule, RuleContext *context, CamelMimeMessage *msg
 }
 
 FilterRule *
-vfolder_rule_from_message (VfolderContext *context, CamelMimeMessage *msg, int flags, const char *source)
+em_vfolder_rule_from_message (EMVFolderContext *context, CamelMimeMessage *msg, int flags, const char *source)
 {
-	VfolderRule *rule;
+	EMVFolderRule *rule;
 	char *euri = em_uri_from_camel(source);
 
-	rule = vfolder_rule_new ();
-	vfolder_rule_add_source (rule, euri);
+	rule = em_vfolder_rule_new ();
+	em_vfolder_rule_add_source (rule, euri);
 	rule_from_message ((FilterRule *)rule, (RuleContext *)context, msg, flags);
 	g_free(euri);
 
@@ -291,16 +291,16 @@ vfolder_rule_from_message (VfolderContext *context, CamelMimeMessage *msg, int f
 }
 
 FilterRule *
-filter_rule_from_message (FilterContext *context, CamelMimeMessage *msg, int flags)
+filter_rule_from_message (EMFilterContext *context, CamelMimeMessage *msg, int flags)
 {
-	FilterFilter *rule;
+	EMFilterRule *rule;
 	FilterPart *part;
 	
-	rule = filter_filter_new ();
+	rule = em_filter_rule_new ();
 	rule_from_message ((FilterRule *)rule, (RuleContext *)context, msg, flags);
 	
-	part = filter_context_next_action (context, NULL);
-	filter_filter_add_action (rule, filter_part_clone (part));
+	part = em_filter_context_next_action (context, NULL);
+	em_filter_rule_add_action (rule, filter_part_clone (part));
 	
 	return (FilterRule *)rule;
 }
@@ -308,13 +308,13 @@ filter_rule_from_message (FilterContext *context, CamelMimeMessage *msg, int fla
 void
 filter_gui_add_from_message (CamelMimeMessage *msg, const char *source, int flags)
 {
-	FilterContext *fc;
+	EMFilterContext *fc;
 	char *user, *system;
 	FilterRule *rule;
 	
 	g_return_if_fail (msg != NULL);
 	
-	fc = filter_context_new ();
+	fc = em_filter_context_new ();
 	user = g_strdup_printf ("%s/mail/filters.xml",
 				mail_component_peek_base_directory (mail_component_peek ()));
 	system = EVOLUTION_PRIVDATADIR "/filtertypes.xml";
@@ -331,7 +331,7 @@ filter_gui_add_from_message (CamelMimeMessage *msg, const char *source, int flag
 void
 mail_filter_rename_uri(CamelStore *store, const char *olduri, const char *newuri)
 {
-	FilterContext *fc;
+	EMFilterContext *fc;
 	char *user, *system;
 	GList *changed;
 	char *eolduri, *enewuri;
@@ -339,7 +339,7 @@ mail_filter_rename_uri(CamelStore *store, const char *olduri, const char *newuri
 	eolduri = em_uri_from_camel(olduri);
 	enewuri = em_uri_from_camel(newuri);
 
-	fc = filter_context_new ();
+	fc = em_filter_context_new ();
 	user = g_strdup_printf ("%s/mail/filters.xml", mail_component_peek_base_directory (mail_component_peek ()));
 	system = EVOLUTION_PRIVDATADIR "/filtertypes.xml";
 	rule_context_load ((RuleContext *)fc, system, user);
@@ -362,14 +362,14 @@ mail_filter_rename_uri(CamelStore *store, const char *olduri, const char *newuri
 void
 mail_filter_delete_uri(CamelStore *store, const char *uri)
 {
-	FilterContext *fc;
+	EMFilterContext *fc;
 	char *user, *system;
 	GList *deleted;
 	char *euri;
 
 	euri = em_uri_from_camel(uri);
 
-	fc = filter_context_new ();
+	fc = em_filter_context_new ();
 	user = g_strdup_printf ("%s/mail/filters.xml", mail_component_peek_base_directory (mail_component_peek ()));
 	system = EVOLUTION_PRIVDATADIR "/filtertypes.xml";
 	rule_context_load ((RuleContext *)fc, system, user);

@@ -56,7 +56,7 @@
 #include "mail-session.h"
 #include "composer/e-msg-composer.h"
 
-#include "filter/filter-filter.h"
+#include "em-filter-rule.h"
 
 #include "mail-mt.h"
 
@@ -93,7 +93,7 @@ struct _fetch_mail_msg {
 };
 
 static char *
-filter_folder_describe (struct _mail_msg *mm, int complete)
+em_filter_folder_element_describe (struct _mail_msg *mm, int complete)
 {
 	return g_strdup (_("Filtering Folder"));
 }
@@ -101,7 +101,7 @@ filter_folder_describe (struct _mail_msg *mm, int complete)
 /* filter a folder, or a subset thereof, uses source_folder/source_uids */
 /* this is shared with fetch_mail */
 static void
-filter_folder_filter (struct _mail_msg *mm)
+em_filter_folder_element_filter (struct _mail_msg *mm)
 {
 	struct _filter_mail_msg *m = (struct _filter_mail_msg *)mm;
 	CamelFolder *folder;
@@ -154,12 +154,12 @@ filter_folder_filter (struct _mail_msg *mm)
 }
 
 static void
-filter_folder_filtered (struct _mail_msg *mm)
+em_filter_folder_element_filtered (struct _mail_msg *mm)
 {
 }
 
 static void
-filter_folder_free (struct _mail_msg *mm)
+em_filter_folder_element_free (struct _mail_msg *mm)
 {
 	struct _filter_mail_msg *m = (struct _filter_mail_msg *)mm;
 	
@@ -181,11 +181,11 @@ filter_folder_free (struct _mail_msg *mm)
 	mail_session_flush_filter_log ();
 }
 
-static struct _mail_msg_op filter_folder_op = {
-	filter_folder_describe,  /* we do our own progress reporting? */
-	filter_folder_filter,
-	filter_folder_filtered,
-	filter_folder_free,
+static struct _mail_msg_op em_filter_folder_element_op = {
+	em_filter_folder_element_describe,  /* we do our own progress reporting? */
+	em_filter_folder_element_filter,
+	em_filter_folder_element_filtered,
+	em_filter_folder_element_free,
 };
 
 void
@@ -195,7 +195,7 @@ mail_filter_folder (CamelFolder *source_folder, GPtrArray *uids,
 {
 	struct _filter_mail_msg *m;
 	
-	m = mail_msg_new (&filter_folder_op, NULL, sizeof (*m));
+	m = mail_msg_new (&em_filter_folder_element_op, NULL, sizeof (*m));
 	m->source_folder = source_folder;
 	camel_object_ref (source_folder);
 	m->source_uids = uids;
@@ -315,7 +315,7 @@ fetch_mail_fetch (struct _mail_msg *mm)
 					camel_uid_cache_free_uids (cache_uids);
 					
 					fm->cache = cache;
-					filter_folder_filter (mm);
+					em_filter_folder_element_filter (mm);
 					
 					/* save the cache of uids that we've just downloaded */
 					camel_uid_cache_save (cache);
@@ -330,7 +330,7 @@ fetch_mail_fetch (struct _mail_msg *mm)
 				camel_uid_cache_destroy (cache);
 				camel_folder_free_uids (folder, folder_uids);
 			} else {
-				filter_folder_filter (mm);
+				em_filter_folder_element_filter (mm);
 			}
 			
 			/* we unref the source folder here since we
@@ -371,7 +371,7 @@ fetch_mail_free (struct _mail_msg *mm)
 	if (m->cancel)
 		camel_operation_unref (m->cancel);
 
-	filter_folder_free (mm);
+	em_filter_folder_element_free (mm);
 }
 
 static struct _mail_msg_op fetch_mail_op = {

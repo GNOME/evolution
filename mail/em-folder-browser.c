@@ -62,7 +62,7 @@
 /* for efilterbar stuff */
 #include <e-util/e-sexp.h>
 #include "mail-vfolder.h"
-#include "filter/vfolder-rule.h"
+#include "em-vfolder-rule.h"
 #include <widgets/misc/e-filter-bar.h>
 #include <camel/camel-search-private.h>
 
@@ -356,8 +356,8 @@ emfb_search_menu_activated(ESearchBar *esb, int id, EMFolderBrowser *emfb)
 			g_free (name);
 			
 			filter_rule_set_source(rule, FILTER_SOURCE_INCOMING);
-			vfolder_rule_add_source((VfolderRule *)rule, emfb->view.folder_uri);
-			vfolder_gui_add_rule((VfolderRule *)rule);
+			em_vfolder_rule_add_source((EMVFolderRule *)rule, emfb->view.folder_uri);
+			vfolder_gui_add_rule((EMVFolderRule *)rule);
 		}
 		break;
 	}
