@@ -2040,18 +2040,13 @@ signature_removed (ESignatureList *signatures, ESignature *sig, EMsgComposer *co
 }
 
 static void
-menu_item_set_label (GtkWidget *widget, const char *label)
+menu_item_set_label (GtkMenuItem *item, const char *label)
 {
-	GList *child;
+	GtkWidget *widget;
 	
-	child = gtk_container_get_children ((GtkContainer *) widget);
-	while (child != NULL) {
-		if (GTK_IS_LABEL (child->data)) {
-			gtk_label_set_text (child->data, label);
-			break;
-		}
-		child = child->next;
-	}
+	widget = gtk_bin_get_child ((GtkBin *) item);
+	if (GTK_IS_LABEL (widget))
+		gtk_label_set_text ((GtkLabel *) widget, label);
 }
 
 static void
