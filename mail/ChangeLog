@@ -1,3 +1,11 @@
+2005-02-24  Not Zed  <NotZed@Ximian.com>
+
+	** See bug #72609
+
+	* em-inline-filter.c (emif_scan): try to convert the filename
+	based on the incoming charset or the locale charset.  This will
+	make sure it is always valid.
+
 2005-02-28  Not Zed  <NotZed@Ximian.com>
 
 	* em-folder-browser.c: reverted Mengjie's patch for 72545.
