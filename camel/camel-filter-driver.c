@@ -501,13 +501,16 @@ open_folder (CamelFilterDriver *driver, const char *folder_url)
 {
 	struct _CamelFilterDriverPrivate *p = _PRIVATE (driver);
 	CamelFolder *camelfolder;
+	CamelException ex;
 	
 	/* we have a lookup table of currently open folders */
 	camelfolder = g_hash_table_lookup (p->folders, folder_url);
 	if (camelfolder)
 		return camelfolder;
 	
-	camelfolder = p->get_folder (driver, folder_url, p->data, p->ex);
+	camel_exception_init (&ex);
+	camelfolder = p->get_folder (driver, folder_url, p->data, &ex);
+	camel_exception_clear (&ex);
 	
 	if (camelfolder) {
 		g_hash_table_insert (p->folders, g_strdup (folder_url), camelfolder);
@@ -667,7 +670,7 @@ camel_filter_driver_filter_mbox (CamelFilterDriver *driver, const char *mbox, co
 		
 		msg = camel_mime_message_new ();
 		if (camel_mime_part_construct_from_parser (CAMEL_MIME_PART (msg), mp) == -1) {
-			report_status (driver, CAMEL_FILTER_STATUS_END, 100, _("Failed message %d"), i);
+			report_status (driver, CAMEL_FILTER_STATUS_END, 100, _("Failed on message %d"), i);
 			camel_exception_set (ex, CAMEL_EXCEPTION_SYSTEM, _("Cannot open message"));
 			camel_object_unref (CAMEL_OBJECT (msg));
 			goto fail;
@@ -677,7 +680,7 @@ camel_filter_driver_filter_mbox (CamelFilterDriver *driver, const char *mbox, co
 							     original_source_url ? original_source_url : source_url, ex);
 		camel_object_unref (CAMEL_OBJECT (msg));
 		if (camel_exception_is_set (ex) || status == -1) {
-			report_status (driver, CAMEL_FILTER_STATUS_END, 100, _("Failed message %d"), i);
+			report_status (driver, CAMEL_FILTER_STATUS_END, 100, _("Failed on message %d"), i);
 			goto fail;
 		}
 		
@@ -686,12 +689,12 @@ camel_filter_driver_filter_mbox (CamelFilterDriver *driver, const char *mbox, co
 		/* skip over the FROM_END state */
 		camel_mime_parser_step (mp, 0, 0);
 	}
-
+	
 	if (p->defaultfolder) {
 		report_status(driver, CAMEL_FILTER_STATUS_PROGRESS, 100, _("Syncing folder"));
 		camel_folder_sync(p->defaultfolder, FALSE, ex);
 	}
-
+	
 	report_status (driver, CAMEL_FILTER_STATUS_END, 100, _("Complete"));
 	
 	return 0;

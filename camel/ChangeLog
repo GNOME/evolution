@@ -1,3 +1,10 @@
+2001-06-26  Jeffrey Stedfast  <fejj@ximian.com>
+
+	* camel-filter-driver.c (open_folder): Since we want an error
+	opening a folder to result in the message being copied to Inbox
+	(assuming no other filters get a chance to `move` it), don't
+	record any exceptions that may occur in this function.
+
 2001-06-26  Dan Winship  <danw@ximian.com>
 
 	* providers/imap/camel-imap-folder.c (camel_imap_folder_selected,
