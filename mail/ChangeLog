@@ -1,3 +1,15 @@
+2001-05-29  Jason Leach  <jleach@ximian.com>
+
+	* message-browser.c (message_browser_new): one-line fix for bug
+	#2536: File->Close in message viewer doesn't work.
+	(message_browser_new): Also replaced like 4 lines of code with a
+	one-liner featuring gnome_app_create_toolbar_with_data().
+
+2001-05-28  Jason Leach  <jleach@ximian.com>
+
+	* mail-local.c (load_metainfo): Don't need to check if (foo!=NULL)
+	before doing an xmlFreeDoc().
+
 2001-05-28  Dan Winship  <danw@ximian.com>
 
 	* mail-format.c (write_text_header): Fix a bug that could cause a

@@ -129,8 +129,7 @@ load_metainfo(const char *path)
 	meta->format = g_strdup("mbox"); /* defaults */
 	meta->name = g_strdup("mbox");
 	meta->indexed = TRUE;
-	if (doc)
-		xmlFreeDoc(doc);
+	xmlFreeDoc(doc);
 	return meta;
 }
 

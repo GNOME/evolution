@@ -256,7 +256,7 @@ set_default_size (GtkWidget *widget)
 GtkWidget *
 message_browser_new (const GNOME_Evolution_Shell shell, const char *uri, const char *uid)
 {
-	GtkWidget *toolbar, *vbox;
+	GtkWidget *vbox;
 	MessageBrowser *new;
 	FolderBrowser *fb;
 	
@@ -265,14 +265,9 @@ message_browser_new (const GNOME_Evolution_Shell shell, const char *uri, const c
 	gnome_app_construct (GNOME_APP (new), "Evolution", "");
 	
 	gtk_object_set_data_full (GTK_OBJECT (new), "uid", g_strdup (uid), g_free);
-	
-	toolbar = gtk_toolbar_new (GTK_ORIENTATION_HORIZONTAL, GTK_TOOLBAR_BOTH);
-	gnome_app_fill_toolbar_with_data (GTK_TOOLBAR (toolbar),
-					  message_browser_toolbar,
-					  NULL, new);
-	
-	gnome_app_set_toolbar (GNOME_APP (new), GTK_TOOLBAR (toolbar));
-	gnome_app_create_menus (GNOME_APP (new), message_browser_menubar);
+
+	gnome_app_create_toolbar_with_data (GNOME_APP (new), message_browser_toolbar, new);
+	gnome_app_create_menus_with_data (GNOME_APP (new), message_browser_menubar, new);
 	
 	fb = FOLDER_BROWSER (folder_browser_new (shell));
 	new->fb = fb;
