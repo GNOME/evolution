@@ -1,3 +1,13 @@
+2002-07-05  Ettore Perazzoli  <ettore@ximian.com>
+
+ 	[Fix #22047, Crash after running the start-up wizard.  The patch
+	was applied a while ago to the evolution-1-0-branch but not on
+	the trunk.]
+ 
+	* e-shell-startup-wizard.c (startup_wizard_cancel): Unref the
+	ETimezoneDialog.
+	(finish_func): Likewise.
+ 
 2002-07-03  Ettore Perazzoli  <ettore@ximian.com>
 
 	[Fixes #27354.]

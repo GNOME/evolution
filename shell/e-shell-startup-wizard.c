@@ -363,6 +363,12 @@ finish_func (GnomeDruidPage *page,
 
 	/* Free data */
 	data->cancel = FALSE;
+
+	/* Need to do this otherwise the timezone widget gets destroyed but the
+	   timezone object isn't, and we can get a crash like #22047.  */
+	gtk_object_unref (GTK_OBJECT (data->timezone_page->etd));
+	data->timezone_page->etd = NULL;
+
 	gtk_widget_destroy (data->dialog);
 	gtk_main_quit ();
 
@@ -816,6 +822,14 @@ startup_wizard_cancel (GnomeDruid *druid,
 {
 	/* Free data */
 	data->cancel = TRUE;
+
+	if (data->timezone_page->etd != NULL) {
+		/* Need to do this otherwise the timezone widget gets destroyed but the
+		   timezone object isn't, and we can get a crash like #22047.  */
+		gtk_object_unref (GTK_OBJECT (data->timezone_page->etd));
+		data->timezone_page->etd = NULL;
+	}
+
 	gtk_widget_destroy (data->dialog);
 	gtk_main_quit ();
 }
