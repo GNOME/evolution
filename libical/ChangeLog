@@ -1,3 +1,8 @@
+2001-05-02  JP Rosevear  <jpr@ximian.com>
+
+	* src/libical/icalparser.c (icalparser_new): initialize
+	"continuation_line" to 0
+
 2001-04-18  Ettore Perazzoli  <ettore@ximian.com>
 
 	* src/Makefile.am (SUBDIRS): Don't compile the Python stuff nor

@@ -100,6 +100,7 @@ icalparser* icalparser_new(void)
 
     impl->tmp_buf_size = TMP_BUF_SIZE;
     impl->buffer_full = 0;
+    impl->continuation_line = 0;
     impl->lineno = 0;
 
     memset(impl->temp,0, TMP_BUF_SIZE);
