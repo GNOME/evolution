@@ -1,3 +1,14 @@
+2004-07-09  Rodney Dawes  <dobey@novell.com>
+
+	* gui/e-day-view-top-item.c (e_day_view_top_item_draw_triangle):
+	Add an argument for the event_num so we can get the event object
+	Draw the left/right triangles with the right color for the event
+	Fix a small alignment bug with the triangle points
+
+	* gui/e-week-view-event-item.c (e_week_view_event_item_draw_triangle):
+	Draw the left/right triangles with the right color for the event
+	Fix a small alignment bug with the triangle points
+	
 2004-07-09  Rodrigo Moya <rodrigo@novell.com>
 
 	Fixes #60289
