@@ -278,9 +278,10 @@ config_write_style (void)
 			 fix_font, var_font); 
 	}
 	fprintf (rc, "}\n\n"); 
-
-	fprintf (rc, "widget \"*.MailDisplay.*.GtkHTML\" style \"evolution-mail-custom-fonts\"\n");
-	fprintf (rc, "widget \"*.FolderBrowser.*.GtkHTML\" style \"evolution-mail-custom-fonts\"\n");
+	
+	fprintf (rc, "widget \"*.EMFolderView.*.GtkHTML\" style \"evolution-mail-custom-fonts\"\n");
+	fprintf (rc, "widget \"*.EMFolderBrowser.*.GtkHTML\" style \"evolution-mail-custom-fonts\"\n");
+	fprintf (rc, "widget \"*.EMMessageBrowser.*.GtkHTML\" style \"evolution-mail-custom-fonts\"\n");
 	fprintf (rc, "widget \"*.BonoboPlug.*.GtkHTML\" style \"evolution-mail-custom-fonts\"\n");
 	fprintf (rc, "widget \"*.EvolutionMailPrintHTMLWidget\" style \"evolution-mail-custom-fonts\"\n");
 

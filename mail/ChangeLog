@@ -1,3 +1,9 @@
+2004-04-15  Jeffrey Stedfast  <fejj@ximian.com>
+
+	* mail-config.c (config_write_style): Change the message display
+	widget names to match the ones we are using in 1.5 (rather than
+	the ones from earlier versions). Fixes bug #57070.
+
 2004-04-14  Jeffrey Stedfast  <fejj@ximian.com>
 
 	* message-list.c: Added a new "message_list_scrolled" signal so
