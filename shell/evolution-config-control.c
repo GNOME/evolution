@@ -40,18 +40,10 @@
 static BonoboObjectClass *parent_class = NULL;
 
 struct _EvolutionConfigControlPrivate {
-	gboolean changed;
 	BonoboControl *control;
 	BonoboEventSource *event_source;
 };
 
-enum {
-	APPLY,
-	LAST_SIGNAL
-};
-static int signals[LAST_SIGNAL] = { 0 };
-
-
 /* GObject methods.  */
 
 static void
@@ -92,21 +84,6 @@ impl_finalize (GObject *object)
 
 
 /* Evolution::ConfigControl CORBA methods.  */
-
-static void
-impl_apply (PortableServer_Servant servant,
-	    CORBA_Environment *ev)
-{
-	EvolutionConfigControl *config_control;
-	EvolutionConfigControlPrivate *priv;
-
-	config_control = EVOLUTION_CONFIG_CONTROL (bonobo_object_from_servant (servant));
-	priv = config_control->priv;
-
-	g_signal_emit (config_control, signals[APPLY], 0);
-
-	priv->changed = FALSE;
-}
 
 static Bonobo_Control
 impl__get_control (PortableServer_Servant servant,
@@ -150,18 +127,9 @@ evolution_config_control_class_init (EvolutionConfigControlClass *class)
 	object_class->finalize = impl_finalize;
 
 	epv = &class->epv;
-	epv->apply            = impl_apply;
 	epv->_get_control     = impl__get_control;
 	epv->_get_eventSource = impl__get_eventSource;
-
-	signals[APPLY] = g_signal_new ("apply",
-				       G_OBJECT_CLASS_TYPE (object_class),
-				       G_SIGNAL_RUN_FIRST,
-				       G_STRUCT_OFFSET (EvolutionConfigControlClass, apply),
-				       NULL, NULL,
-				       e_shell_marshal_NONE__NONE,
-				       G_TYPE_NONE, 0);
-
+	
 	parent_class = g_type_class_ref (PARENT_TYPE);
 }
 
@@ -171,7 +139,6 @@ evolution_config_control_init (EvolutionConfigControl *config_control)
 	EvolutionConfigControlPrivate *priv;
 
 	priv = g_new (EvolutionConfigControlPrivate, 1);
-	priv->changed      = FALSE;
 	priv->control      = NULL;
 	priv->event_source = bonobo_event_source_new ();
 
@@ -206,35 +173,6 @@ evolution_config_control_new (GtkWidget *widget)
 	return new;
 }
 
-void
-evolution_config_control_changed (EvolutionConfigControl *config_control)
-{
-	EvolutionConfigControlPrivate *priv;
-	CORBA_Environment ev;
-	CORBA_any *null_value;
-
-	g_return_if_fail (EVOLUTION_IS_CONFIG_CONTROL (config_control));
-
-	priv = config_control->priv;
-
-	if (priv->changed)
-		return;
-
-	priv->changed = TRUE;
-
-	CORBA_exception_init (&ev);
-
-	null_value = CORBA_any__alloc ();
-	null_value->_type = TC_null;
-
-	bonobo_event_source_notify_listeners (priv->event_source, "changed", null_value, &ev);
-
-	CORBA_free (null_value);
-
-	CORBA_exception_free (&ev);
-}
-
-
 BONOBO_TYPE_FUNC_FULL (EvolutionConfigControl,
 		       GNOME_Evolution_ConfigControl,
 		       PARENT_TYPE,

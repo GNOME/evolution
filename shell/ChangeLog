@@ -1,3 +1,21 @@
+2004-04-07  Jeffrey Stedfast  <fejj@ximian.com>
+
+	* Evolution-ConfigControl.idl: Removed the "apply" method.
+
+	* e-corba-config-page.c: We can probably remove this entire file,
+	it seems pretty useless. But until I know for sure, I guess I
+	won't bother.
+	(impl_apply): Removed, no longer a valid interface.
+	(listener_event_callback): Huh? calls a non-existant function if
+	the event name was "changed". Uhm, yea...ok. Removed.
+	(setup_listener): Removed. Did nothing but to setup the above
+	listener.
+
+	* evolution-config-control.c: No longer needs to keep 'changed'
+	state.
+	(evolution_config_control_changed): Removed.
+	(impl_apply): Removed. No lonegr a valid interface.
+
 2004-03-31  Rodney Dawes  <dobey@ximian.com>
 
 	* e-shell-importer.c (choose_importer_from_list):

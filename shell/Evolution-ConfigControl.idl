@@ -11,24 +11,11 @@
 module GNOME {
 module Evolution {
 	interface ConfigControl : Bonobo::Unknown {
-		/* Apply the current settings.  */
-		void apply ();
-
 		/* The actual Control.  */
 		readonly attribute Bonobo::Control control;
 
 		/* Get the event source for this control.  */
 		readonly attribute Bonobo::EventSource eventSource;
-
-		/* These are the events that get emitted when the properties of
-		   the dialog change:
-
-		     - "changed"
-
-		     	Emitted when the data entered changes, and thus
-		        doesn't match the applied settings anymore.  The user must
-		        assume this to be true until ::apply gets invoked.
-		*/
 	};
 }; /* module Evolution */
 }; /* module GNOME */

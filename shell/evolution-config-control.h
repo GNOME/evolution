@@ -53,10 +53,6 @@ struct _EvolutionConfigControlClass {
 	BonoboObjectClass parent_class;
 
 	POA_GNOME_Evolution_ConfigControl__epv epv;
-
-	/* Signals.  */
-
-	void (* apply) (EvolutionConfigControl *control);
 };
 
 
@@ -64,7 +60,5 @@ GtkType                 evolution_config_control_get_type   (void);
 EvolutionConfigControl *evolution_config_control_new        (GtkWidget              *widget);
 void                    evolution_config_control_construct  (EvolutionConfigControl *control,
 							     GtkWidget              *widget);
-
-void  evolution_config_control_changed  (EvolutionConfigControl *config_control);
 
 #endif /* EVOLUTION_CONFIG_CONTROL_H */
