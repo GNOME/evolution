@@ -18,7 +18,6 @@ INCLUDES = -I.. -I$(srcdir)/.. 			 \
 	$(KRB4_CFLAGS)				 \
 	$(NSPR_CFLAGS)				 \
 	$(NSS_CFLAGS)				 \
-	$(OPENSSL_CFLAGS)			 \
 	-DCAMEL_SBINDIR=\""$(sbindir)"\"	 \
 	-DCAMEL_PROVIDERDIR=\""$(providerdir)"\" \
 	-DG_LOG_DOMAIN=\"camel\"
@@ -52,7 +51,6 @@ libcamel_la_SOURCES = 				\
 	camel-mime-filter-crlf.c		\
 	camel-mime-filter-from.c		\
 	camel-mime-filter-html.c		\
-	camel-mime-filter-tohtml.c		\
 	camel-mime-filter-index.c		\
 	camel-mime-filter-linewrap.c		\
 	camel-mime-filter-save.c		\
@@ -94,7 +92,6 @@ libcamel_la_SOURCES = 				\
 	camel-stream.c				\
 	camel-tcp-stream-raw.c			\
 	camel-tcp-stream-ssl.c			\
-	camel-tcp-stream-openssl.c		\
 	camel-tcp-stream.c			\
 	camel-transport.c			\
 	camel-uid-cache.c			\
@@ -138,7 +135,6 @@ libcamelinclude_HEADERS =			\
 	camel-mime-filter-crlf.h		\
 	camel-mime-filter-from.h		\
 	camel-mime-filter-html.h		\
-	camel-mime-filter-tohtml.h		\
 	camel-mime-filter-index.h		\
 	camel-mime-filter-linewrap.h		\
 	camel-mime-filter-save.h		\
@@ -179,7 +175,6 @@ libcamelinclude_HEADERS =			\
 	camel-stream.h				\
 	camel-tcp-stream-raw.h			\
 	camel-tcp-stream-ssl.h			\
-	camel-tcp-stream-openssl.h		\
 	camel-tcp-stream.h			\
 	camel-transport.h			\
 	camel-types.h				\
@@ -199,8 +194,7 @@ libcamel_la_LIBADD = $(top_builddir)/e-util/libeutil.la \
 	$(CAMEL_LIBS)				\
 	$(KRB4_LDFLAGS)				\
 	$(NSPR_LDFLAGS)				\
-	$(NSS_LDFLAGS)				\
-	$(OPENSSL_LDFLAGS)
+	$(NSS_LDFLAGS)
 
 libcamel_static_la_SOURCES = $(libcamel_la_SOURCES)
 libcamel_static_la_LIBADD  = $(libcamel_la_LIBADD)

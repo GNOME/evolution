@@ -70,7 +70,7 @@ static const char *text[] = {
 	"Michael M. Morrison",
 	"Rodrigo Moya",
 	"Eskil Heyn Olsen",
-	"Gediminas Paulauskas"
+	"Gediminas Paulauskas",
 	"Jesse Pavel",
 	"Ettore Perazzoli",
 	"JP Rosevear",
