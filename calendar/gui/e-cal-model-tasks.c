@@ -21,6 +21,7 @@
 
 #include <config.h>
 #include <math.h>
+#include <string.h>
 #include <gtk/gtkmessagedialog.h>
 #include <libgnome/gnome-i18n.h>
 #include <gal/util/e-util.h>
