@@ -410,7 +410,7 @@ migrate_local_folders (AddressbookComponent *component, ESourceGroup *on_this_co
 }
 
 static char *
-get_string_value (xmlNode *node,
+get_string_child (xmlNode *node,
 		  const char *name)
 {
 	xmlNode *p;
@@ -433,7 +433,7 @@ get_string_value (xmlNode *node,
 }
 
 static int
-get_integer_value (xmlNode *node,
+get_integer_child (xmlNode *node,
 		   const char *name,
 		   int defval)
 {
@@ -501,17 +501,17 @@ migrate_ldap_servers (AddressbookComponent *component, ESourceGroup *on_ldap_ser
 				GString *uri = g_string_new ("");
 				ESource *source;
 
-				name        = get_string_value (child, "name");
-				description = get_string_value (child, "description");
-				port        = get_string_value (child, "port");
-				host        = get_string_value (child, "host");
-				rootdn      = get_string_value (child, "rootdn");
-			        scope       = get_string_value (child, "scope");
-				authmethod  = get_string_value (child, "authmethod");
-				ssl         = get_string_value (child, "ssl");
-				emailaddr   = get_string_value (child, "emailaddr");
-				binddn      = get_string_value (child, "binddn");
-				limit       = get_integer_value (child, "limit", 100);
+				name        = get_string_child (child, "name");
+				description = get_string_child (child, "description");
+				port        = get_string_child (child, "port");
+				host        = get_string_child (child, "host");
+				rootdn      = get_string_child (child, "rootdn");
+			        scope       = get_string_child (child, "scope");
+				authmethod  = get_string_child (child, "authmethod");
+				ssl         = get_string_child (child, "ssl");
+				emailaddr   = get_string_child (child, "emailaddr");
+				binddn      = get_string_child (child, "binddn");
+				limit       = get_integer_child (child, "limit", 100);
 				limitstr    = g_strdup_printf ("%d", limit);
 
 				g_string_append_printf (uri,
@@ -556,6 +556,145 @@ migrate_ldap_servers (AddressbookComponent *component, ESourceGroup *on_ldap_ser
 	return TRUE;
 }
 
+static ESource*
+get_source_by_uri (ESourceList *source_list, const char *uri)
+{
+	GSList *groups;
+	GSList *g;
+
+	groups = e_source_list_peek_groups (source_list);
+	if (!groups)
+		return NULL;
+
+	for (g = groups; g; g = g->next) {
+		GSList *sources;
+		GSList *s;
+		ESourceGroup *group = E_SOURCE_GROUP (g->data);
+
+		sources = e_source_group_peek_sources (group);
+		if (!sources)
+			continue;
+
+		for (s = sources; s; s = s->next) {
+			ESource *source = E_SOURCE (s->data);
+			char *source_uri = e_source_get_uri (source);
+			gboolean found = FALSE;
+
+			if (!strcmp (uri, source_uri))
+				found = TRUE;
+
+			g_free (source_uri);
+			if (found)
+				return source;
+		}
+	}
+
+	return NULL;
+}
+
+static gboolean
+migrate_completion_folders (AddressbookComponent *component, ESourceList *source_list)
+{
+	char *uris_xml = gconf_client_get_string (addressbook_component_peek_gconf_client (component),
+						  "/apps/evolution/addressbook/completion/uris",
+						  NULL);
+
+	printf ("trying to migrate completion folders\n");
+
+	if (uris_xml) {
+		xmlDoc  *doc = xmlParseMemory (uris_xml, strlen (uris_xml));
+		xmlNode *root;
+		xmlNode *child;
+
+		if (!doc)
+			return FALSE;
+
+		dialog_set_folder_name (_("Autocompletion Settings"));
+
+		root = xmlDocGetRootElement (doc);
+		if (root == NULL || strcmp (root->name, "EvolutionFolderList") != 0) {
+			xmlFreeDoc (doc);
+			return FALSE;
+		}
+
+		for (child = root->children; child; child = child->next) {
+			if (!strcmp (child->name, "folder")) {
+				char *physical_uri = e_xml_get_string_prop_by_name (child, "physical-uri");
+				char *uri;
+				ESource *source;
+
+				/* if the physical uri is
+				   file://... we need to convert the
+				   path to the new directory
+				   structure.
+
+				   if the physical_uri is anything
+				   else, we strip off the args
+				   (anything after ;) before searching
+				   for the uri. */
+
+				if (!strncmp (physical_uri, "file://", 7)) {
+					char *local_path = g_build_filename (g_get_home_dir (),
+									     "/evolution/local/",
+									     NULL);
+
+					if (!strncmp (physical_uri + 7, local_path, strlen (local_path))) {
+						char *path_extra;
+						char *path;
+
+						if (!strcmp (physical_uri + 7 + strlen (local_path), "Contacts"))
+							/* special case the ~/evolution/local/Contacts folder */
+							path_extra = "Personal";
+						else
+							path_extra = physical_uri + 7 + strlen (local_path);
+
+						path = g_build_filename (g_get_home_dir (),
+								 "/.evolution/addressbook/local/OnThisComputer",
+								 path_extra,
+								 NULL);
+						uri = g_strdup_printf ("file://%s", path);
+						g_free (path);
+					}
+					else {
+						/* if they somehow created a folder that lies
+						   outside the evolution folder tree, just pass
+						   the uri straight on */
+						uri = g_strdup (physical_uri);
+					}
+
+					g_free (local_path);
+				}
+				else {
+					char *semi = strchr (physical_uri, ';');
+					if (semi)
+						uri = g_strndup (physical_uri, semi - physical_uri);
+					else
+						uri = g_strdup (physical_uri);
+				}
+
+				source = get_source_by_uri (source_list, uri);
+				if (source) {
+					e_source_set_property (source, "completion", "true");
+				}
+				else {
+					g_warning ("found completion folder with uri `%s' that "
+						   "doesn't correspond to anything we migrated.", physical_uri);
+				}
+
+				g_free (physical_uri);
+				g_free (uri);
+			}
+		}
+
+		g_free (uris_xml);
+	}
+	else {
+		g_message ("no completion folder settings to migrate");
+	}
+
+	return TRUE;
+}
+
 int
 addressbook_migrate (AddressbookComponent *component, int major, int minor, int revision)
 {
@@ -581,11 +720,12 @@ addressbook_migrate (AddressbookComponent *component, int major, int minor, int 
 		    (major == 0)) {
 
 			setup_progress_dialog ();
-
 			if (on_this_computer)
 				migrate_local_folders (component, on_this_computer);
 			if (on_ldap_servers)
 				migrate_ldap_servers (component, on_ldap_servers);
+
+			migrate_completion_folders (component, source_list);
 
 			dialog_close ();
 		}

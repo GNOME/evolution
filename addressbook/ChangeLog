@@ -1,5 +1,25 @@
 2004-01-21  Chris Toshok  <toshok@ximian.com>
 
+	* gui/component/addressbook-component.c
+	(addressbook_component_peek_gconf_client): new function.
+
+	* gui/component/addressbook-component.h: add prototype for
+	addressbook_component_peek_gconf_client.
+
+	* gui/component/addressbook-migrate.c
+	(migrate_completion_folders): more gross hacking.  migrate the
+	completion settings.
+	(get_source_by_uri): function to search for an ESource given the
+	entire uri.  used for migrate_completion_folders.
+	(migrate_ldap_servers): get_string_value -> get_string_child.
+	same with get_integer_child.
+	(get_string_child): rename to make it apparent it's a child, not a
+	property.
+	(get_integer_child): same.
+	(addressbook_migrate): call migrate_completion_folders.
+
+2004-01-21  Chris Toshok  <toshok@ximian.com>
+
 	* gui/contact-editor/e-contact-editor.c (new_target_cb): call
 	widget_changed here too, since we're changing the destination.
 

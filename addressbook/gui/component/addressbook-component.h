@@ -57,7 +57,8 @@ GType addressbook_component_get_type (void);
 
 AddressbookComponent *addressbook_component_peek (void);
 
-const char *       addressbook_component_peek_base_directory   (AddressbookComponent *component);
+GConfClient       *addressbook_component_peek_gconf_client     (AddressbookComponent *component);
+const char        *addressbook_component_peek_base_directory   (AddressbookComponent *component);
 EActivityHandler  *addressbook_component_peek_activity_handler (AddressbookComponent *component);
 ESourceList       *addressbook_component_peek_source_list      (AddressbookComponent *component);
 

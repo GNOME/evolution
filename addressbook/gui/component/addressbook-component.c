@@ -478,8 +478,7 @@ addressbook_component_init (AddressbookComponent *component)
 
 	priv = g_new0 (AddressbookComponentPrivate, 1);
 
-	/* EPFIXME: Should use a custom one instead?  Also we should add
-	   addressbook_component_peek_gconf_client().  */
+	/* EPFIXME: Should use a custom one instead? */
 	priv->gconf_client = gconf_client_get_default ();
 
 	priv->source_list = e_source_list_new_for_gconf (priv->gconf_client,
@@ -507,6 +506,14 @@ addressbook_component_peek (void)
 		component = g_object_new (addressbook_component_get_type (), NULL);
 
 	return component;
+}
+
+GConfClient*
+addressbook_component_peek_gconf_client (AddressbookComponent *component)
+{
+	g_return_val_if_fail (ADDRESSBOOK_IS_COMPONENT (component), NULL);
+
+	return component->priv->gconf_client;
 }
 
 const char *
