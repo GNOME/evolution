@@ -36,6 +36,7 @@
 #include <cal-util/timeutil.h>
 #include <cal-client/cal-client.h>
 #include "task-editor.h"
+#include "../calendar-config.h"
 
 
 typedef struct {
@@ -326,7 +327,7 @@ task_editor_create_date_edit (void)
 
 	dedit = e_date_edit_new ();
 	/* FIXME: Set other options. */
-	e_date_edit_set_time_popup_range (E_DATE_EDIT (dedit), 8, 18);
+	e_date_edit_set_time_popup_range (E_DATE_EDIT (dedit), calendar_config_get_day_start_hour (), calendar_config_get_day_end_hour ());
 	e_date_edit_set_allow_no_date_set (E_DATE_EDIT (dedit), TRUE);
 	return dedit;
 }
@@ -1094,8 +1095,8 @@ completed_changed	(EDateEdit	*dedit,
 	if (priv->ignore_callbacks)
 		return;
 
-	t = e_date_edit_get_time (E_DATE_EDIT (priv->completed_date));
 	priv->ignore_callbacks = TRUE;
+	t = e_date_edit_get_time (E_DATE_EDIT (priv->completed_date));
 	if (t == -1) {
 		/* If the 'Completed Date' is set to 'None', we set the
 		   status to 'Not Started' and the percent-complete to 0.

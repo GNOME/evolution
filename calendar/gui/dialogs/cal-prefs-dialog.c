@@ -421,24 +421,16 @@ cal_prefs_dialog_update_config	(CalPrefsDialog	*prefs)
 	calendar_config_set_week_start_day (week_start_day);
 
 	/* Start of Day. */
-	if (e_date_edit_get_time_of_day (E_DATE_EDIT (priv->start_of_day),
-					 &hour, &minute)) {
-		calendar_config_set_day_start_hour (hour);
-		calendar_config_set_day_start_minute (minute);
-	} else {
-		/* FIXME: Show error dialog? */
-		g_warning ("Couldn't parse start of day");
-	}
+	e_date_edit_get_time_of_day (E_DATE_EDIT (priv->start_of_day),
+				     &hour, &minute);
+	calendar_config_set_day_start_hour (hour);
+	calendar_config_set_day_start_minute (minute);
 
 	/* End of Day. */
-	if (e_date_edit_get_time_of_day (E_DATE_EDIT (priv->end_of_day),
-					 &hour, &minute)) {
-		calendar_config_set_day_end_hour (hour);
-		calendar_config_set_day_end_minute (minute);
-	} else {
-		/* FIXME: Show error dialog? */
-		g_warning ("Couldn't parse end of day");
-	}
+	e_date_edit_get_time_of_day (E_DATE_EDIT (priv->end_of_day),
+				     &hour, &minute);
+	calendar_config_set_day_end_hour (hour);
+	calendar_config_set_day_end_minute (minute);
 
 	/* 12/24 Hour Format. */
 	calendar_config_set_24_hour_format (gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (priv->use_24_hour)));
