@@ -2318,13 +2318,14 @@ msgstr "Zimbiabue"
 msgid "_Address:"
 msgstr "_Dirección:"
 
+
 #: addressbook/gui/contact-editor/fulladdr.glade.h:238
 msgid "_City:"
 msgstr "_Ciudad:"
 
 #: addressbook/gui/contact-editor/fulladdr.glade.h:239
 msgid "_PO Box:"
-msgstr "_Dirección:"
+msgstr "_Apartado de correos"
 
 #: addressbook/gui/contact-editor/fulladdr.glade.h:240
 msgid "_State/Province:"
