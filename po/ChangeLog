@@ -1,3 +1,7 @@
+2004-06-15  Leonid Kanter <leon@asplinux.ru>
+
+	* ru.po: Updated Russian translation with correction of %%+05d.
+
 2004-06-15  Funda Wang  <fundawang@linux.net.cn>
 
 	* zh_CN.po: Updated Simplified Chinese translation with correction of %%+05d.
