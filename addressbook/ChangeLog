@@ -1,3 +1,8 @@
+2003-03-26  Chris Toshok  <toshok@ximian.com>
+
+	* gui/contact-list-editor/Makefile.am (INCLUDES): $evolution_uidir
+	-> $evolutionuidir
+
 2003-03-26  Philip Zhao  <philip.zhao@sun.com>
 
 	[ fixes bug #39170 ]
