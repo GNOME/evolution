@@ -1,3 +1,8 @@
+2004-08-10  Not Zed  <NotZed@Ximian.com>
+
+	* gui/e-pub-utils.c (e_pub_publish): 
+	* common/authentication.c (auth_func_cb): epasswords api change.
+
 2004-08-11  JP Rosevear  <jpr@ximian.com>
 
 	Fixes #61555

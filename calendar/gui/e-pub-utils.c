@@ -299,10 +299,10 @@ e_pub_publish (gboolean publish) {
 			if (!password) {
 				prompt = g_strdup_printf (_("Enter the password for %s"), (gchar *)uri->location);
 				password = e_passwords_ask_password (_("Enter password"), 
-							     "Calendar", (gchar *)uri->location, 
-							     prompt, TRUE, 
-							   E_PASSWORDS_REMEMBER_FOREVER,
-							     &remember, NULL);
+								     "Calendar", (gchar *)uri->location, 
+								     prompt,
+								     E_PASSWORDS_REMEMBER_FOREVER|E_PASSWORDS_SECRET,
+								     &remember, NULL);
 
 				g_free (prompt);
 					

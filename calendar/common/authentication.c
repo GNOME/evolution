@@ -45,8 +45,8 @@ auth_func_cb (ECal *ecal, const char *prompt, const char *key, gpointer user_dat
 	password = e_passwords_get_password (component_name, key);
 	
 	if (!password)
-		password = e_passwords_ask_password (_("Enter password"), component_name, key, prompt, TRUE,
-						     E_PASSWORDS_REMEMBER_FOREVER, &remember,
+		password = e_passwords_ask_password (_("Enter password"), component_name, key, prompt,
+						     E_PASSWORDS_REMEMBER_FOREVER|E_PASSWORDS_SECRET, &remember,
 						     NULL);
 
 	return password;
