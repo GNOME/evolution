@@ -247,17 +247,35 @@ Click &quot;Finish&quot; to save your settings.</text>
 
 	<widget>
 	  <class>GtkVBox</class>
-	  <name>vbox31</name>
+	  <name>account_vbox</name>
 	  <border_width>3</border_width>
 	  <homogeneous>False</homogeneous>
 	  <spacing>0</spacing>
+
+	  <widget>
+	    <class>GtkLabel</class>
+	    <name>management_description_label</name>
+	    <label>Type the name by which you would like to refer to this account.
+For example: &quot;Work&quot; or &quot;Personal&quot;</label>
+	    <justify>GTK_JUSTIFY_LEFT</justify>
+	    <wrap>False</wrap>
+	    <xalign>0</xalign>
+	    <yalign>0.5</yalign>
+	    <xpad>0</xpad>
+	    <ypad>0</ypad>
+	    <child>
+	      <padding>0</padding>
+	      <expand>False</expand>
+	      <fill>True</fill>
+	    </child>
+	  </widget>
 
 	  <widget>
 	    <class>GtkHBox</class>
 	    <name>hbox24</name>
 	    <border_width>3</border_width>
 	    <homogeneous>False</homogeneous>
-	    <spacing>5</spacing>
+	    <spacing>4</spacing>
 	    <child>
 	      <padding>0</padding>
 	      <expand>False</expand>

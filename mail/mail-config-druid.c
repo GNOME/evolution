@@ -244,8 +244,16 @@ static void
 identity_prepare (EvolutionWizard *wizard, gpointer data)
 {
 	MailConfigWizard *gui = data;
+	const char *name;
 	
 	gui->page = MAIL_CONFIG_WIZARD_PAGE_IDENTITY;
+	
+	name = gtk_entry_get_text (gui->gui->full_name);
+	if (!name) {
+		name = g_get_real_name ();
+		gtk_entry_set_text (gui->gui->full_name, name ? name : "");
+		gtk_entry_select_region (gui->gui->full_name, 0, -1);
+	}
 	gtk_widget_grab_focus (GTK_WIDGET (gui->gui->full_name));
 	identity_changed (NULL, data);
 }
@@ -382,15 +390,16 @@ static void
 management_check (MailConfigWizard *wizard)
 {
 	gboolean next_sensitive;
+	GtkWidget *label;
 	char *text;
-
+	
 	text = gtk_entry_get_text (wizard->gui->account_name);
 	next_sensitive = text && *text;
-
+	
 	/* no accounts with the same name */
 	if (next_sensitive && mail_config_get_account_by_name (text))
 		next_sensitive = FALSE;
-
+	
 	evolution_wizard_set_buttons_sensitive (wizard->wizard, TRUE,
 						next_sensitive, TRUE, NULL);
 }
@@ -399,12 +408,28 @@ static void
 management_prepare (EvolutionWizard *wizard, gpointer data)
 {
 	MailConfigWizard *gui = data;
-	char *name;
+	const char *name;
 	
 	gui->page = MAIL_CONFIG_WIZARD_PAGE_MANAGEMENT;
 	name = gtk_entry_get_text (gui->gui->email_address);
-	if (name && *name)
+	if (name && *name) {
+		if (mail_config_get_account_by_name (name)) {
+			char *template, *p;
+			unsigned int i = 1;
+			
+			/* length of name + 1 char for ' ' + 1 char
+                           for '(' + 10 chars for %d + 1 char for ')'
+                           + 1 char for nul */
+			template = alloca (strlen (name) + 14);
+			p = stpcpy (template, name);
+			name = template;
+			do {
+				sprintf (p, " (%d)", i++);
+			} while (mail_config_get_account_by_name (name) && i != 0);
+		}
+		
 		gtk_entry_set_text (gui->gui->account_name, name);
+	}
 	
 	management_check (gui);
 }
@@ -413,10 +438,13 @@ static void
 management_changed (GtkWidget *widget, gpointer data)
 {
 	MailConfigWizard *gui = data;
-
+	
 	if (gui->page != MAIL_CONFIG_WIZARD_PAGE_MANAGEMENT)
 		return;
+	
 	management_check (gui);
+	
+	gtk_widget_grab_focus (GTK_WIDGET (gui->gui->account_name));
 }
 
 static MailConfigAccount *
@@ -425,19 +453,19 @@ make_account (void)
 	MailConfigAccount *account;
 	char *name, *user;
 	struct utsname uts;
-
+	
 	account = g_new0 (MailConfigAccount, 1);
-
+	
 	account->id = g_new0 (MailConfigIdentity, 1);
 	name = g_get_real_name ();
 	account->id->name = e_utf8_from_locale_string (name);
-	user = getenv ("USER");
+	user = g_get_user_name ();
 	if (user && !uname (&uts) && strchr (uts.nodename, '.'))
 		account->id->address = g_strdup_printf ("%s@%s", user, uts.nodename);
-
+	
 	if (mail_config_get_default_transport ())
 		account->transport = service_copy (mail_config_get_default_transport ());
-
+	
 	return account;
 }
 

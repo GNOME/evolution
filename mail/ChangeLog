@@ -1,3 +1,12 @@
+2002-03-07  Jeffrey Stedfast  <fejj@ximian.com>
+
+	* mail-config-druid.c (management_changed): Re-focus the account
+	name entry widget.
+	(identity_prepare): If a name is not set, try and get the user's
+	full name for them and set the text on the entry widget.
+	(management_prepare): If the account name is already taken,
+	generate a unique one by appending " (%d)".
+
 2002-03-07  Radek Doulik  <rodo@ximian.com>
 
 	* mail-account-gui.c (sig_new_html): make edit button sensitive
@@ -6,8 +15,11 @@
 
 2002-03-07  Anna Marie Dirks  <anna@ximian.com>
 
-	* folder-browser.c: Made all the acclerators in the context menu on a message work. (There are 22 different menu items here, so picking a unique accelerator for each label was tricky, and some of the choices I made are different from the ones I would have made if there weren't so many stinking menu items.)
-	
+	* folder-browser.c: Made all the acclerators in the context menu
+	on a message work. (There are 22 different menu items here, so
+	picking a unique accelerator for each label was tricky, and some
+	of the choices I made are different from the ones I would have
+	made if there weren't so many stinking menu items.)
 
 2002-03-07  Jeffrey Stedfast  <fejj@ximian.com>
 
