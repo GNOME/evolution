@@ -157,9 +157,8 @@
       <menuitem name="PilotSettings" verb="" _label="_Pilot Settings..."/>
     </submenu>
 
-    <submenu name="Search" _label="_Search">
-      <placeholder name="SearchBar"/>
-    </submenu>
+    <placeholder name="SearchPlaceholder">
+    </placeholder>
 
     <submenu name="Help" _label="_Help">
 

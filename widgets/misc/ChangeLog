@@ -1,5 +1,8 @@
 2002-05-22  Ettore Perazzoli  <ettore@ximian.com>
 
+	* e-search-bar.c (update_bonobo_menus): Put the stuff in
+	/menu/Searchplaceholder/Search instead of /menu/Search.
+
 	* e-combo-button.c (impl_draw): New, overrides GtkWidget::draw.
 	(impl_expose_event): New, overrides GtkWidget::expose_event.
 
