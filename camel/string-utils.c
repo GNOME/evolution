@@ -31,7 +31,7 @@
 gboolean
 string_equal_for_glist (gconstpointer v, gconstpointer v2)
 {
-  return (!strcmp ( ((const gchar *)v), ((const gchar*)v2))) == 0;
+	return (!strcmp ( ((const gchar *)v), ((const gchar*)v2))) == 0;
 }
 
 /* utility func : frees a gchar element in a GList */
@@ -181,10 +181,26 @@ string_unquote (gchar *string)
 	/* if the string is quoted, unquote it */
 
 	g_return_if_fail (string != NULL);
-
+	
 	if (*string == '"' && *(string + strlen (string) - 1) == '"') {
 		*(string + strlen (string) - 1) = '\0';
 		if (*string)
 			memmove (string, string+1, strlen (string));
 	}
+}
+
+gchar *
+strip (gchar *string, gchar c)
+{
+	/* strip all occurances of c from the string */
+	gchar *src, *dst;
+	
+	g_return_val_if_fail (string != NULL, NULL);
+	
+	for (src = dst = string; *src; src++)
+		if (*src != c)
+			*dst++ = *src;
+	*dst = '\0';
+	
+	return string;
 }

@@ -1,5 +1,11 @@
 2000-08-07  Jeffrey Stedfast  <fejj@helixcode.com>
 
+	* providers/imap/camel-imap-utils.c (imap_translate_sexp): Strip
+	all \n's from the expression
+
+	* string-utils.c (strip): New convenience function to strip
+	occurences of a single char from a string
+
 	* camel-mime-message.c (camel_mime_message_set_subject): Do a
 	g_strstrip on the subject so we can stop getting those annoying
 	leading spaces

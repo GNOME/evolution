@@ -369,9 +369,12 @@ char *
 imap_translate_sexp (const char *expression)
 {
 	struct sexp_node *root;
-	char *sexp;
+	char *sexp, *exp;
 	
-	root = get_sexp_node (expression);
+	exp = g_strdup (expression);
+	strip (exp, '\n');
+	root = get_sexp_node (exp);
+	g_free (exp);
 	
 	d(print_node (root, 0));
 	d(fprintf (stderr, "\n"));
@@ -466,8 +469,8 @@ imap_translate_sexp (const char *expression)
 	char *sexp;
 	
 	esexp = e_sexp_new ();
-	
-	e_sexp_input_text (esexp, expression, strlen (expression));
+
+	e_sexp_input_text (esexp, exp, strlen (exp));
 	e_sexp_parse (esexp);
 	
 	sexp = stresexptree (esexp->tree);

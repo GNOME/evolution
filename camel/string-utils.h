@@ -54,9 +54,12 @@ GList   *string_split           (const gchar *string, char sep,
 void     string_trim            (gchar *string, const gchar *chars,
 				 StringTrimOption options);
 
-gchar   *string_prefix (const gchar *s, const gchar *suffix, gboolean *suffix_found);
+gchar   *string_prefix          (const gchar *s, const gchar *suffix,
+				 gboolean *suffix_found);
 
-void    string_unquote (gchar *string);
+void    string_unquote          (gchar *string);
+
+gchar   *strip                  (gchar *string, gchar c);
 
 #ifdef __cplusplus
 }
