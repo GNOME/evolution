@@ -1,3 +1,8 @@
+2001-06-29  Jakub Steiner <jimmac@ximian.com>
+
+	* remove-nntp-folder-24.png, add-nntp-folder-24.png,
+	  refresh-nntp-folders-24.png: manage subscriptions toolbar icons
+
 2001-06-29  Tuomas Kuosmanen  <tigert@ximian.com>
 
 	* print.png: Icon for print message.
