@@ -32,7 +32,6 @@
 #include "widgets/menus/gal-view-menus.h"
 #include "dialogs/task-editor.h"
 #include "calendar-config.h"
-#include "e-calendar-table.h"
 #include "calendar-config.h"
 #include "component-factory.h"
 
@@ -635,6 +634,26 @@ e_tasks_setup_menus (ETasks            *tasks,
 	gtk_object_sink (GTK_OBJECT (collection));
 }
 
+/**
+ * e_tasks_get_calendar_table:
+ * @tasks: A tasks widget.
+ * 
+ * Queries the #ECalendarTable contained in a tasks widget.
+ * 
+ * Return value: The #ECalendarTable that the tasks widget uses to display its
+ * information.
+ **/
+ECalendarTable *
+e_tasks_get_calendar_table (ETasks *tasks)
+{
+	ETasksPrivate *priv;
+
+	g_return_val_if_fail (tasks != NULL, NULL);
+	g_return_val_if_fail (E_IS_TASKS (tasks), NULL);
+
+	priv = tasks->priv;
+	return E_CALENDAR_TABLE (priv->tasks_view);
+}
 
 /* This updates all the preference settings for all the ETasks widgets in use.
  */

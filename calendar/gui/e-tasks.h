@@ -28,6 +28,7 @@
 
 #include <gtk/gtktable.h>
 #include <cal-client/cal-client.h>
+#include "e-calendar-table.h"
 
 #define E_TYPE_TASKS            (e_tasks_get_type ())
 #define E_TASKS(obj)            (GTK_CHECK_CAST ((obj), E_TYPE_TASKS, ETasks))
@@ -70,6 +71,8 @@ void       e_tasks_delete_selected (ETasks            *tasks);
 
 void       e_tasks_setup_menus     (ETasks            *tasks,
 				    BonoboUIComponent *uic);
+
+ECalendarTable *e_tasks_get_calendar_table (ETasks *tasks);
 
 
 /* This updates all the preference settings for all the ETasks widgets in use.

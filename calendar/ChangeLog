@@ -1,3 +1,18 @@
+2001-05-29  Federico Mena Quintero  <federico@ximian.com>
+
+	* gui/e-tasks.c (e_tasks_get_calendar_table): New function.
+
+	* gui/tasks-control.c (tasks_control_activate): Connect to the
+	"selection_changed" signal of the tasks widget here, not in
+	tasks_control_new().  Also, update the sensitivity of the commands
+	here for the first time.
+	(tasks_control_deactivate): Disconnect from the signal here since
+	it only makes sense to monitor selection changes while the control
+	is active.
+	(selection_changed_cb): Removed hack that tested the presence of
+	the remote UI container.
+	(sensitize_commands): New function.
+
 2001-05-28  Damon Chaplin  <damon@ximian.com>
 
 	* gui/e-week-view-layout.[hc]: 
@@ -41,8 +56,6 @@
 	* gui/dialogs/recurrence-page.c: Finished porting from the old
 	event-editor.c.  Made it store a clone of the component for when
 	we need to expand the recurrence set.
-
-2001-05-22  Federico Mena Quintero  <federico@ximian.com>
 
 	* gui/dialogs/event-page.c (event_page_get_dates): New function.
 

@@ -54,7 +54,8 @@ static void tasks_control_activate_cb		(BonoboControl		*control,
 						 gpointer		 user_data);
 static void tasks_control_activate		(BonoboControl		*control,
 						 ETasks			*tasks);
-static void tasks_control_deactivate		(BonoboControl		*control);
+static void tasks_control_deactivate		(BonoboControl		*control,
+						 ETasks			*tasks);
 
 static void tasks_control_new_task_cmd		(BonoboUIComponent	*uic,
 						 gpointer		 data,
@@ -63,28 +64,6 @@ static void tasks_control_delete_cmd		(BonoboUIComponent	*uic,
 						 gpointer		 data,
 						 const char		*path);
 
-
-/* Callback used when the selection in the table changes */
-static void
-selection_changed_cb (ETasks *tasks, int n_selected, gpointer data)
-{
-	BonoboControl *control;
-	BonoboUIComponent *uic;
-	Bonobo_UIContainer ui_container;
-
-	control = BONOBO_CONTROL (data);
-
-	uic = bonobo_control_get_ui_component (control);
-	g_assert (uic != NULL);
-
-	ui_container = bonobo_ui_component_get_container (uic);
-	if (ui_container == CORBA_OBJECT_NIL)
-		return;
-
-	bonobo_ui_component_set_prop (uic, "/commands/TasksDelete", "sensitive",
-				      n_selected == 0 ? "0" : "1",
-				      NULL);
-}
 
 BonoboControl *
 tasks_control_new			(void)
@@ -109,9 +88,6 @@ tasks_control_new			(void)
 	gtk_signal_connect (GTK_OBJECT (control), "activate",
 			    GTK_SIGNAL_FUNC (tasks_control_activate_cb),
 			    tasks);
-
-	gtk_signal_connect (GTK_OBJECT (tasks), "selection_changed",
-			    GTK_SIGNAL_FUNC (selection_changed_cb), control);
 
 	return control;
 }
@@ -199,12 +175,42 @@ tasks_control_activate_cb		(BonoboControl		*control,
 					 gboolean		 activate,
 					 gpointer		 user_data)
 {
+	ETasks *tasks;
+
+	tasks = E_TASKS (user_data);
+
 	if (activate)
-		tasks_control_activate (control, user_data);
+		tasks_control_activate (control, tasks);
 	else
-		tasks_control_deactivate (control);
+		tasks_control_deactivate (control, tasks);
 }
 
+/* Sensitizes the UI Component menu/toolbar commands based on the number of
+ * selected tasks.
+ */
+static void
+sensitize_commands (ETasks *tasks, BonoboControl *control, int n_selected)
+{
+	BonoboUIComponent *uic;
+
+	uic = bonobo_control_get_ui_component (control);
+	g_assert (uic != NULL);
+
+	bonobo_ui_component_set_prop (uic, "/commands/TasksDelete", "sensitive",
+				      n_selected == 0 ? "0" : "1",
+				      NULL);
+}
+
+/* Callback used when the selection in the table changes */
+static void
+selection_changed_cb (ETasks *tasks, int n_selected, gpointer data)
+{
+	BonoboControl *control;
+
+	control = BONOBO_CONTROL (data);
+
+	sensitize_commands (tasks, control, n_selected);
+}
 
 static BonoboUIVerb verbs [] = {
 	BONOBO_UI_VERB ("TasksNewTask", tasks_control_new_task_cmd),
@@ -220,11 +226,13 @@ static EPixmap pixmaps [] = {
 };
 
 static void
-tasks_control_activate			(BonoboControl		*control,
-					 ETasks			*tasks)
+tasks_control_activate (BonoboControl *control, ETasks *tasks)
 {
 	Bonobo_UIContainer remote_uih;
 	BonoboUIComponent *uic;
+	int n_selected;
+	ECalendarTable *cal_table;
+	ETable *etable;
 
 	uic = bonobo_control_get_ui_component (control);
 	g_assert (uic != NULL);
@@ -245,15 +253,27 @@ tasks_control_activate			(BonoboControl		*control,
 
 	e_pixmaps_update (uic, pixmaps);
 
+	gtk_signal_connect (GTK_OBJECT (tasks), "selection_changed",
+			    GTK_SIGNAL_FUNC (selection_changed_cb), control);
+
+	cal_table = e_tasks_get_calendar_table (tasks);
+	etable = e_calendar_table_get_table (cal_table);
+	n_selected = e_table_selected_count (etable);
+
+	sensitize_commands (tasks, control, n_selected);
+
 	bonobo_ui_component_thaw (uic, NULL);
 }
 
 
 static void
-tasks_control_deactivate		(BonoboControl		*control)
+tasks_control_deactivate (BonoboControl *control, ETasks *tasks)
 {
 	BonoboUIComponent *uic = bonobo_control_get_ui_component (control);
 	g_assert (uic != NULL);
+
+	/* Stop monitoring the "selection_changed" signal */
+	gtk_signal_disconnect_by_data (GTK_OBJECT (tasks), control);
 
 	bonobo_ui_component_rm (uic, "/", NULL);
  	bonobo_ui_component_unset_container (uic);
