@@ -388,13 +388,14 @@ _set_name (CamelFolder *folder, const gchar *name, CamelException *ex)
 static gboolean
 _exists (CamelFolder *folder, CamelException *ex)
 {
-	CamelMboxFolder *mbox_folder = CAMEL_MBOX_FOLDER(folder);
+	CamelMboxFolder *mbox_folder;
 	struct stat stat_buf;
 	gint stat_error;
 	gboolean exists;
 
 	CAMEL_LOG_FULL_DEBUG ("Entering CamelMboxFolder::exists\n");
-
+	
+ 
 	/* check if the folder object exists */
 	if (!folder) {
 		camel_exception_set (ex, 
@@ -403,6 +404,9 @@ _exists (CamelFolder *folder, CamelException *ex)
 		return FALSE;
 	}
 
+	mbox_folder = CAMEL_MBOX_FOLDER(folder);
+
+	
 	/* check if the mbox file path is determined */
 	if (!mbox_folder->folder_file_path) {
 		camel_exception_set (ex, 
@@ -492,7 +496,7 @@ _create (CamelFolder *folder, CamelException *ex)
 
 	/* get the paths of what we need to create */
 	folder_file_path = mbox_folder->folder_file_path;
-	folder_dir_path = mbox_folder->folder_file_path;
+	folder_dir_path = mbox_folder->folder_dir_path;
 	
 	if (!(folder_file_path || folder_dir_path)) {
 		camel_exception_set (ex, 

@@ -1,5 +1,40 @@
 2000-02-22  bertrand  <Bertrand.Guiheneuf@aful.org>
 
+	* camel-folder.c (camel_folder_get_subfolder): 
+	(camel_folder_create): 
+	(camel_folder_delete): 
+	(camel_folder_delete_messages): 
+	(camel_folder_list_subfolders): 
+	(camel_folder_expunge): 
+	(camel_folder_get_message_by_number): 
+	(camel_folder_get_message_count): 
+	(camel_folder_append_message): 
+	(camel_folder_copy_message_to): 
+	(camel_folder_get_summary): 
+	(camel_folder_get_message_uid): 
+	(camel_folder_get_message_by_uid): 
+	(camel_folder_get_uid_list): 
+	Check folder state (open/close) and raise an
+	exception if it is not ok. 
+	
+	* providers/mbox/camel-mbox-folder.c (_create): 
+	create the file and the path with two different
+	names.
+
+	* camel-folder.c (_create): handle the case 
+	when the folder name starts with '/'
+
+	* camel-exception.c (camel_exception_new): use 
+	(void) instead of () in decl.
+
+	* camel-exception.h: cosmetic fixes.
+
+	* camel-exception.c (camel_exception_init): new routine.
+	Fix a bug in mail/message-list.c
+	
+
+	* camel-folder.h: cosmetic changes.
+
 	* camel-stream-b64.c (reset__static): added a
 	reset method. Thanks message-browser to find
 	so much bugs :)

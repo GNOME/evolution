@@ -65,7 +65,10 @@ folder_browser_load_folder (FolderBrowser *fb, const char *name)
 		gtk_object_unref (GTK_OBJECT (fb->folder));
 	
 	fb->folder = new_folder;
-
+	
+	camel_folder_exists (new_folder, NULL);
+	printf ("In folder browser, folder = %p\n", new_folder);
+       
 	message_list_set_folder (fb->message_list, new_folder);
 
 	return TRUE;

@@ -21,6 +21,10 @@
  * USA
  */
 
+
+#include <config.h>
+#include "camel-log.h"
+
 #include "camel-mbox-store.h"
 #include "camel-mbox-folder.h"
 #include "camel-exception.h"
@@ -104,12 +108,14 @@ _get_folder (CamelStore *store, const gchar *folder_name, CamelException *ex)
 	/* call the standard routine for that when  */
 	/* it is done ... */
 
+	CAMEL_LOG_FULL_DEBUG ("Entering CamelMboxStore::get_folder\n");
 	new_mbox_folder =  gtk_type_new (CAMEL_MBOX_FOLDER_TYPE);
 	new_folder = CAMEL_FOLDER (new_mbox_folder);
 	
 	CF_CLASS (new_folder)->init_with_store (new_folder, store, ex);
 	CF_CLASS (new_folder)->set_name (new_folder, folder_name, ex);
 	
-	
+	CAMEL_LOG_FULL_DEBUG ("Leaving CamelMboxStore::get_folder\n");
+
 	return new_folder;
 }

@@ -457,19 +457,57 @@ void
 message_list_set_folder (MessageList *message_list, CamelFolder *camel_folder)
 {
 	CamelException ex;
-	
+	gboolean folder_exists;
+
 	g_return_if_fail (message_list != NULL);
 	g_return_if_fail (camel_folder != NULL);
 	g_return_if_fail (IS_MESSAGE_LIST (message_list));
 	g_return_if_fail (CAMEL_IS_FOLDER (camel_folder));
 	g_return_if_fail (camel_folder_has_summary_capability (camel_folder, &ex));
 	
+	
+	camel_exception_init (&ex);
+	
 	if (message_list->folder)
 		gtk_object_unref (GTK_OBJECT (message_list->folder));
 
 	message_list->folder = camel_folder;
-	message_list->folder_summary = camel_folder_get_summary (camel_folder, &ex);
 	
+	folder_exists = camel_folder_exists (camel_folder, NULL);
+	
+	if (camel_exception_get_id (&ex)) {
+	      printf ("Unable to test for folder existence \n");
+	      return;
+	}
+	
+	if (!folder_exists) {	  
+	    g_warning ("Folder does not exist, creating it\n");
+	    /* 
+	       if you don't want the directory to be created
+	       automatically here remove this.
+	    */
+	    camel_folder_create (camel_folder, &ex);
+	    if (camel_exception_get_id (&ex)) {
+	      printf ("Unable to create folder\n");
+	      return;
+	    }
+	   
+	}
+
+	
+	camel_folder_open (camel_folder, FOLDER_OPEN_RW, &ex);
+	if (camel_exception_get_id (&ex)) {
+	  printf ("Unable to open folder\n");
+	  return;
+	}
+
+	message_list->folder_summary = camel_folder_get_summary (camel_folder, &ex);
+	if (camel_exception_get_id (&ex)) {
+	  printf ("Unable to get summary \n");
+	  return;
+	}
+
+
 	gtk_object_ref (GTK_OBJECT (camel_folder));
 
 	printf ("Modelo cambio!\n");

@@ -54,29 +54,30 @@ struct _CamelException {
 
 
 /* creation and destruction functions */
-CamelException *camel_exception_new ();
-void camel_exception_free (CamelException *exception);
+CamelException *          camel_exception_new           (void);
+void                      camel_exception_free          (CamelException *exception);
+void                      camel_exception_init          (CamelException *ex);
 
 
 /* exception content manipulation */
-void camel_exception_clear (CamelException *exception);
-void camel_exception_set (CamelException *ex,
-			  ExceptionId id,
-			  const char *desc);
-void camel_exception_setv (CamelException *ex,
-			   ExceptionId id,
-			   const char *format, 
-			   ...);
+void                      camel_exception_clear         (CamelException *exception);
+void                      camel_exception_set           (CamelException *ex,
+							 ExceptionId id,
+							 const char *desc);
+void                      camel_exception_setv          (CamelException *ex,
+							 ExceptionId id,
+							 const char *format,  
+							 ...);
 
 
 /* exception content transfer */
-void camel_exception_xfer (CamelException *ex_dst,
-			   CamelException *ex_src);
+void                      camel_exception_xfer          (CamelException *ex_dst,
+							 CamelException *ex_src);
 
 
 /* exception content retrieval */
-ExceptionId camel_exception_get_id (CamelException *ex);
-const gchar *camel_exception_get_description (CamelException *ex);
+ExceptionId               camel_exception_get_id        (CamelException *ex);
+const gchar *             camel_exception_get_description (CamelException *ex);
 
 
 

@@ -504,7 +504,7 @@ _set_name (CamelFolder *folder,
 	if (camel_folder_is_open (folder, ex)) {
 		if (camel_exception_get_id (ex)) return;
 		camel_exception_set (ex, 
-				     CAMEL_EXCEPTION_FOLDER_INVALID,
+				     CAMEL_EXCEPTION_FOLDER_INVALID_STATE,
 				     "CamelFolder::set_name is valid only on closed folders");
 		return;		
 	}
@@ -748,7 +748,7 @@ camel_folder_exists (CamelFolder *folder, CamelException *ex)
 				     "folder object is NULL");
 		return FALSE;
 	}
-
+	
 	return (CF_CLASS(folder)->exists (folder, ex));
 }
 
@@ -869,6 +869,15 @@ camel_folder_get_subfolder (CamelFolder *folder, gchar *folder_name, CamelExcept
 				     "folder object is NULL");
 		return FALSE;
 	}
+	
+	/* check if the folder is open */
+	if (!camel_folder_is_open (folder, ex)) {
+		if (camel_exception_get_id (ex)) return NULL;
+		camel_exception_set (ex, 
+				     CAMEL_EXCEPTION_FOLDER_INVALID_STATE,
+				     "CamelFolder::get_subfolder is valid only on open folders");
+		return NULL;		
+	}
 
 	return (CF_CLASS(folder)->get_subfolder(folder,folder_name, ex));
 }
@@ -941,8 +950,10 @@ _create (CamelFolder *folder, CamelException *ex)
 							folder->full_name, sep, &prefix, NULL,
 							STRING_DICHOTOMY_STRIP_TRAILING | STRING_DICHOTOMY_RIGHT_DIR);
 			if (dich_result!='o') {
-				g_warning("have to handle the case where the path is not OK\n"); 
-				return FALSE;
+				if (prefix == NULL) {
+					/* separator is the first caracter, no folder above */
+					 return TRUE;
+				}
 			} else {
 				parent = camel_store_get_folder (folder->parent_store, prefix, ex);
 				camel_folder_create (parent, ex);
@@ -976,6 +987,15 @@ camel_folder_create (CamelFolder *folder, CamelException *ex)
 				     CAMEL_EXCEPTION_FOLDER_NULL,
 				     "folder object is NULL");
 		return FALSE;
+	}
+
+	/* check if the folder is closed */
+	if (camel_folder_is_open (folder, ex)) {
+		if (camel_exception_get_id (ex)) return FALSE;
+		camel_exception_set (ex, 
+				     CAMEL_EXCEPTION_FOLDER_INVALID_STATE,
+				     "CamelFolder::create is valid only on close folders");
+		return FALSE;		
 	}
 
 	return (CF_CLASS(folder)->create(folder, ex));
@@ -1070,13 +1090,23 @@ _delete (CamelFolder *folder, gboolean recurse, CamelException *ex)
  * 
  * Return value: TRUE if deletion was successful
  **/
-gboolean camel_folder_delete (CamelFolder *folder, gboolean recurse, CamelException *ex)
+gboolean 
+camel_folder_delete (CamelFolder *folder, gboolean recurse, CamelException *ex)
 {
 	if (!folder) {
 		camel_exception_set (ex, 
 				     CAMEL_EXCEPTION_FOLDER_NULL,
 				     "folder object is NULL");
 		return FALSE;
+	}
+
+	/* check if the folder is closed */
+	if (camel_folder_is_open (folder, ex)) {
+		if (camel_exception_get_id (ex)) return FALSE;
+		camel_exception_set (ex, 
+				     CAMEL_EXCEPTION_FOLDER_INVALID_STATE,
+				     "CamelFolder::delete is valid only on closed folders");
+		return FALSE;		
 	}
 
 	return CF_CLASS(folder)->delete(folder, recurse, ex);
@@ -1126,6 +1156,15 @@ camel_folder_delete_messages (CamelFolder *folder, CamelException *ex)
 				     CAMEL_EXCEPTION_FOLDER_NULL,
 				     "folder object is NULL");
 		return FALSE;
+	}
+
+	/* check if the folder is closed */
+	if (camel_folder_is_open (folder, ex)) {
+		if (camel_exception_get_id (ex)) return FALSE;
+		camel_exception_set (ex, 
+				     CAMEL_EXCEPTION_FOLDER_INVALID_STATE,
+				     "CamelFolder::delete_messages is valid only on closed folders");
+		return FALSE;		
 	}
 
 	return CF_CLASS(folder)->delete_messages(folder, ex);
@@ -1297,6 +1336,15 @@ camel_folder_list_subfolders (CamelFolder *folder, CamelException *ex)
 				     "folder object is NULL");
 		return NULL;
 	}
+	
+	/* check if the folder is open */
+	if (!camel_folder_is_open (folder, ex)) {
+		if (camel_exception_get_id (ex)) return NULL;
+		camel_exception_set (ex, 
+				     CAMEL_EXCEPTION_FOLDER_INVALID_STATE,
+				     "CamelFolder::list_subfolder is valid only on open folders");
+		return NULL;		
+	}
 
 	return CF_CLASS(folder)->list_subfolders(folder, ex);
 }
@@ -1336,6 +1384,15 @@ camel_folder_expunge (CamelFolder *folder,  CamelException *ex)
 				     CAMEL_EXCEPTION_FOLDER_NULL,
 				     "folder object is NULL");
 		return NULL;
+	}
+	
+	/* check if the folder is closed */
+	if (camel_folder_is_open (folder, ex)) {
+		if (camel_exception_get_id (ex)) return NULL;
+		camel_exception_set (ex, 
+				     CAMEL_EXCEPTION_FOLDER_INVALID_STATE,
+				     "CamelFolder::expunge is valid only on closed folders");
+		return NULL;		
 	}
 
 	return CF_CLASS (folder)->expunge (folder, ex);
@@ -1425,6 +1482,15 @@ camel_folder_get_message_by_number (CamelFolder *folder, gint number, CamelExcep
 		return NULL;
 	}
 
+	/* check if the folder is open */
+	if (!camel_folder_is_open (folder, ex)) {
+		if (camel_exception_get_id (ex)) return NULL;
+		camel_exception_set (ex, 
+				     CAMEL_EXCEPTION_FOLDER_INVALID_STATE,
+				     "CamelFolder::get_message_by_number is valid only on open folders");
+		return NULL;		
+	}
+
 	return CF_CLASS (folder)->get_message_by_number (folder, number, ex);
 }
 
@@ -1455,6 +1521,15 @@ camel_folder_get_message_count (CamelFolder *folder, CamelException *ex)
 				     CAMEL_EXCEPTION_FOLDER_NULL,
 				     "folder object is NULL");
 		return -1;
+	}
+	
+	/* check if the folder is open */
+	if (!camel_folder_is_open (folder, ex)) {
+		if (camel_exception_get_id (ex)) return -1;
+		camel_exception_set (ex, 
+				     CAMEL_EXCEPTION_FOLDER_INVALID_STATE,
+				     "CamelFolder::get_message_count is valid only on open folders");
+		return -1;		
 	}
 
 	return CF_CLASS (folder)->get_message_count (folder, ex);
@@ -1497,6 +1572,15 @@ camel_folder_append_message (CamelFolder *folder,
 				     CAMEL_EXCEPTION_FOLDER_NULL,
 				     "folder object is NULL");
 		return;
+	}
+
+	/* check if the folder is open */
+	if (!camel_folder_is_open (folder, ex)) {
+		if (camel_exception_get_id (ex)) return;
+		camel_exception_set (ex, 
+				     CAMEL_EXCEPTION_FOLDER_INVALID_STATE,
+				     "CamelFolder::append_message is valid only on open folders");
+		return;		
 	}
 
 	CF_CLASS (folder)->append_message (folder, message, ex);
@@ -1560,6 +1644,15 @@ camel_folder_copy_message_to (CamelFolder *folder,
 		return;
 	}
 
+	/* check if the folder is open */
+	if (!camel_folder_is_open (folder, ex)) {
+		if (camel_exception_get_id (ex)) return;
+		camel_exception_set (ex, 
+				     CAMEL_EXCEPTION_FOLDER_INVALID_STATE,
+				     "CamelFolder::copy_message_to is valid only on open folders");
+		return;		
+	}
+
 	CF_CLASS (folder)->copy_message_to (folder, message, dest_folder, ex);;
 }
 
@@ -1604,6 +1697,15 @@ camel_folder_get_summary (CamelFolder *folder,
 				     CAMEL_EXCEPTION_FOLDER_NULL,
 				     "folder object is NULL");
 		return NULL;
+	}
+
+	/* check if the folder is open */
+	if (!camel_folder_is_open (folder, ex)) {
+		if (camel_exception_get_id (ex)) return NULL;
+		camel_exception_set (ex, 
+				     CAMEL_EXCEPTION_FOLDER_INVALID_STATE,
+				     "CamelFolder::get_summary is valid only on open folders");
+		return NULL;		
 	}
 
 	return folder->summary;
@@ -1674,6 +1776,15 @@ camel_folder_get_message_uid (CamelFolder *folder, CamelMimeMessage *message, Ca
 				     CAMEL_EXCEPTION_FOLDER_NON_UID,
 				     "folder is not UID capable");
 		return NULL;
+	}
+
+	/* check if the folder is open */
+	if (!camel_folder_is_open (folder, ex)) {
+		if (camel_exception_get_id (ex)) return NULL;
+		camel_exception_set (ex, 
+				     CAMEL_EXCEPTION_FOLDER_INVALID_STATE,
+				     "CamelFolder::get_message_uid is valid only on open folders");
+		return NULL;		
 	}
 
 	return CF_CLASS (folder)->get_message_uid (folder, message, ex);
@@ -1767,6 +1878,16 @@ camel_folder_get_message_by_uid  (CamelFolder *folder, const gchar *uid, CamelEx
 		return NULL;
 	}
 
+	/* check if the folder is open */
+	if (!camel_folder_is_open (folder, ex)) {
+		if (camel_exception_get_id (ex)) return NULL;
+		camel_exception_set (ex, 
+				     CAMEL_EXCEPTION_FOLDER_INVALID_STATE,
+				     "CamelFolder::get_message_by_uid is valid only on open folders");
+		return NULL;		
+	}
+
+
 	return CF_CLASS (folder)->get_message_by_uid (folder, uid, ex);
 }
 
@@ -1819,6 +1940,15 @@ camel_folder_get_uid_list  (CamelFolder *folder, CamelException *ex)
 				     CAMEL_EXCEPTION_FOLDER_NON_UID,
 				     "folder is not UID capable");
 		return NULL;
+	}
+
+	/* check if the folder is open */
+	if (!camel_folder_is_open (folder, ex)) {
+		if (camel_exception_get_id (ex)) return NULL;
+		camel_exception_set (ex, 
+				     CAMEL_EXCEPTION_FOLDER_INVALID_STATE,
+				     "CamelFolder::get_uid_list is valid only on open folders");
+		return NULL;		
 	}
 
 	return CF_CLASS (folder)->get_uid_list (folder, ex);

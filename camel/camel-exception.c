@@ -38,11 +38,31 @@
  * Return value: The newly allocated exception object.
  **/
 CamelException *
-camel_exception_new ()
+camel_exception_new (void)
 {
 	CamelException *ex;
 
 	ex = g_new (CamelException, 1);
+	ex->desc = NULL;
+
+	/* set the Exception Id to NULL */
+	ex->id = CAMEL_EXCEPTION_NONE;
+
+	return ex;
+}
+
+/**
+ * camel_exception_init: init a (statically allocated) exception. 
+ * 
+ * Init an exception. This routine is mainly
+ * useful when using a statically allocated
+ * exception. 
+ * 
+ * 
+ **/
+void
+camel_exception_init (CamelException *ex)
+{
 	ex->desc = NULL;
 
 	/* set the Exception Id to NULL */
