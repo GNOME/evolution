@@ -1,3 +1,7 @@
+2001-04-18  Ettore Perazzoli  <ettore@ximian.com>
+
+	* e-local-folder.c: #include <unistd.h>.
+
 2001-04-17  Christopher James Lahey  <clahey@ximian.com>
 
 	* e-shell-view.c (storage_set_view_box_event_cb): Proxy events to
