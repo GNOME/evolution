@@ -195,21 +195,26 @@ connect_to_server (CamelService *service, int ssl_mode, int try_starttls, CamelE
 					      _("Could not connect to POP server %s (port %d): %s"),
 					      service->url->host, port, g_strerror (errno));
 		
-		camel_object_unref (CAMEL_OBJECT (tcp_stream));
+		camel_object_unref (tcp_stream);
 		
 		return FALSE;
 	}
 	
 	/* parent class connect initialization */
 	if (CAMEL_SERVICE_CLASS (parent_class)->connect (service, ex) == FALSE) {
-		camel_object_unref (CAMEL_OBJECT (tcp_stream));
+		camel_object_unref (tcp_stream);
 		return FALSE;
 	}
 	
 	if (camel_url_get_param (service->url, "disable_extensions"))
 		flags |= CAMEL_POP3_ENGINE_DISABLE_EXTENSIONS;
 	
-	store->engine = camel_pop3_engine_new (tcp_stream, flags);
+	if (!(store->engine = camel_pop3_engine_new (tcp_stream, flags))) {
+		camel_exception_setv (ex, CAMEL_EXCEPTION_SYSTEM,
+				      _("Failed to read a valid greeting from POP server %s (port %d)"),
+				      service->url->host, port);
+		return FALSE;
+	}
 	
 #ifdef HAVE_SSL
 	if (store->engine) {
@@ -235,7 +240,7 @@ connect_to_server (CamelService *service, int ssl_mode, int try_starttls, CamelE
 	}
 #endif /* HAVE_SSL */
 	
-	camel_object_unref (CAMEL_OBJECT (tcp_stream));
+	camel_object_unref (tcp_stream);
 	
 	return store->engine != NULL;
 	
@@ -537,6 +542,12 @@ pop3_try_authenticate (CamelService *service, gboolean reprompt, const char *err
 					      CAMEL_SERVICE (store)->url->host,
 					      errno ? g_strerror (errno) : _("Unknown error"));
 		}
+	} else if (pcu && pcu->state != CAMEL_POP3_COMMAND_OK) {
+		camel_exception_setv (ex, CAMEL_EXCEPTION_SERVICE_CANT_AUTHENTICATE,
+				      _("Unable to connect to POP server %s.\n"
+					"Error sending username: %s"),
+				      CAMEL_SERVICE (store)->url->host,
+				      store->engine->line ? (char *)store->engine->line : _("Unknown error"));
 	} else if (pcp->state != CAMEL_POP3_COMMAND_OK)
 		camel_exception_setv (ex, CAMEL_EXCEPTION_SERVICE_CANT_AUTHENTICATE,
 				      _("Unable to connect to POP server %s.\n"

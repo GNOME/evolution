@@ -1,5 +1,15 @@
 2004-06-24  Jeffrey Stedfast  <fejj@novell.com>
 
+	* providers/pop3/camel-pop3-store.c (connect_to_server): Error out
+	and set an exception if camel_pop3_engine_new() returns NULL
+	(which it can do now).
+
+	* providers/pop3/camel-pop3-engine.c (get_capabilities): No longer
+	reads the greeting.
+	(camel_pop3_engine_new): Reads the greeting itself and returns
+	NULL if an error occurs (like stupid braindamaged piece of shit
+	POP servers that spew debug prinfs).
+
 	* providers/local/camel-spool-folder.c (spool_lock): If we fail to
 	lock the folder, close the lockfd and reset it to -1. Fixes bug
 	#54680.
