@@ -37,6 +37,8 @@ sgml_ents =	\
 	apx-authors.sgml	\
 	apx-bugs.sgml		\
 	apx-gloss.sgml		\
+	apx-fdl.sgml		\
+	apx-gpl.sgml		\
 	config-prefs.sgml	\
 	config-sync.sgml	\
 	menuref.sgml		\

@@ -1,7 +1,56 @@
   <preface id="introduction">
     <title>Introduction</title> 
+
+     <para>
+       Welcome to the users guide for Ximian Evolution and Ximian
+       Connector for Microsoft Exchange 2000. This section of the
+       manual will tell you a bit about what you've got waiting for
+       you. First, however, we have some legal information.
+     </para>
+
+      <sect1 id="actual-legal-info">
+          <title>Legal Information and Licensing</title>
+       <para>
+         Permission is granted to copy, distribute and/or modify this
+         document under the terms of the GNU Free Documentation
+         License, Version 1.1 or any later version published by the
+         Free Software Foundation with no Invariant Sections, no
+         Front-Cover Texts, and no Back-Cover Texts. You will find a
+         copy of the <citetitle>GNU Free Documentation
+         License</citetitle> attached to this manual in <xref
+         linkend="apx-fdl">.  You may also obtain a copy of the
+         license from the Free Software Foundation by visiting <ulink
+         type="http" url="http://www.fsf.org">their Web site</ulink>
+         or by writing to: Free Software Foundation, Inc., 59 Temple
+         Place - Suite 330, Boston, MA 02111-1307, USA.
+       </para>
+
+       <para>
+         The actual application Ximian Evolution is covered by the GNU
+         General Public License (GPL), and its source code is
+         available from the GNOME cvs repository at <ulink
+         url="http://cvs.gnome.org">cvs.gnome.org</ulink>. You will
+         find a copy of the GPL attached to this document in <xref
+         linkend="apx-gpl">. You may also obtain a copy of the license
+         from the Free Software Foundation by visiting <ulink
+         type="http" url="http://www.fsf.org">their Web site</ulink>
+         or by writing to: Free Software Foundation, Inc., 59 Temple
+         Place - Suite 330, Boston, MA 02111-1307, USA.
+       </para>
+
+        <para>
+         Ximian Connector for Microsoft Exchange 2000 is not Free
+         Software. There are certain restrictions on its usage, and it
+         may not be redistributed. Before downloading it you must
+         agree to the terms of license, which will be (or have been)
+         presented to you upon download. You may review the terms of
+         license for Ximian Connector at <ulink
+         url="http://support.ximian.com/q?92">http://support.ximian.com/q?92</ulink>.
+       </para>
+       </sect1>
+
       <sect1 id="organization">
-        <title>Organization</title>
+        <title>How This Book is Organized</title>
       <para>
         This book is divided into two parts, with several
         appendices. The first part is a <link linkend="usage">guided
@@ -17,7 +66,7 @@
       </sect1>
 
       <sect1 id="typography">
-        <title>Typographical conventions</title>
+        <title>Typographical Conventions</title>
 	<para>
           In this book, we'll mark some words with special typography:
           <simplelist>

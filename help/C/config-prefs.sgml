@@ -435,7 +435,7 @@ smtp.omniport.com:143
         linkend="usage-mail-getnsend-get-attach-html">.
      </para>
      <para>
-       To hange the font which <application>Ximian
+       To change the font which <application>Ximian
         Evolution</application> uses to display mail, do the
         following:
        <orderedlist numeration="arabic">

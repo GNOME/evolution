@@ -26,7 +26,7 @@
    <para>
       For more information please visit the
       <application>Evolution</application> <ulink
-      url="http://www.ximian.com/products/ximian_evolution/"
+      url="http://www.ximian.com/products/evolution/"
       type="http">Web page</ulink>.  Please send all comments,
       suggestions, and bug reports to the <ulink
       url="http://bugzilla.ximian.com" type="http">Ximian bug tracking
@@ -45,10 +45,13 @@
       Please file comments and suggestions for this manual as bugs in
       the Ximian bug tracking system. If you contributed to this
       project but do not see your name here, please contact Aaron
-      Weber (<email>aaron@ximian.com</email>) and he'll list you.
+      Weber (<email>aaron@ximian.com</email>) and he'll list you. The
+      list of translators, in particular, is lacking numerous
+      contributors.
     </para>
       <para>
-       Partial list of Translators:
+       This product has been translated into many languages. Some of
+       the translators are listed here:
          <itemizedlist>
             <listitem><para>
               Daniel Persson for .se
@@ -62,7 +65,6 @@
 	    Kjartan Maraas for .no
             </para></listitem>
            </itemizedlist>
-
          </para>          
     </appendix>
 
