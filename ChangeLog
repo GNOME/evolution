@@ -1,3 +1,7 @@
+2005-01-08  Hans Petter Jansson  <hpj@novell.com>
+
+	* configure.in: Add libedataserverui to the e-util libs and cflags.
+
 2005-01-07  Rodrigo Moya <rodrigo@novell.com>
 
 	* configure.in: removed weatherdatadir definition here.
