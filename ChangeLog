@@ -1,3 +1,8 @@
+2000-03-14  Dan Winship  <danw@helixcode.com>
+
+	* Makefile.am (SUBDIRS): build shell before mail, since mail
+	relies on the shell idl files being compiled.
+
 2000-03-13  Christopher James Lahey  <clahey@helixcode.com>
 
 	* shell/e-shell-view.c: Added an E_FOLDER_CONTACTS section to the

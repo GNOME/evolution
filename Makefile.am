@@ -15,15 +15,15 @@ SUBDIRS =			\
 	macros			\
 	data			\
 	e-util			\
+	widgets			\
+	shell			\
 	libibex			\
 	camel			\
 	filter			\
-	widgets			\
 	composer		\
 	mail			\
 	tests			\
 	addressbook		\
-	shell			\
 	libical			\
 	libversit		\
 	calendar
