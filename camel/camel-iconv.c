@@ -129,9 +129,12 @@ struct {
 	/* FIXME: Japanese/Korean/Chinese stuff needs checking */
 	{ "euckr-0",         "EUC-KR"     },
 	{ "5601",            "EUC-KR"     },
+	{ "zh_TW-euc",       "EUC-TW"     },
+	{ "zh_CN.euc",       "gb2312"     },
+	{ "zh_TW-big5",      "BIG5"       },
 	{ "big5-0",          "BIG5"       },
 	{ "big5.eten-0",     "BIG5"       },
-	{ "big5hkscs-0",     "BIG5HKCS"   },
+	{ "big5hkscs-0",     "BIG5HKSCS"  },
 	{ "gb2312-0",        "gb2312"     },
 	{ "gb2312.1980-0",   "gb2312"     },
 	{ "euc-cn",          "gb2312"     },

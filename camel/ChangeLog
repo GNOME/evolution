@@ -1,3 +1,8 @@
+2003-08-19  Suresh Chandrasekharan <suresh.chandrasekharan@sun.com>
+	
+	* camel-iconv.c: Fix for #46168 'some additional locale aliases
+	required for chinese support'. Also corrected typo in BIG5HKSCS
+
 2003-08-13  Not Zed  <NotZed@Ximian.com>
 
 	* camel-folder-summary.c (camel_folder_summary_remove_range): Fix
