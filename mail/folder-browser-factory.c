@@ -79,6 +79,12 @@ control_activate (BonoboControl *control, BonoboUIHandler *uih,
 					 GNOME_STOCK_PIXMAP_MAIL_NEW,
 					 0, 0, edit_message, folder_browser);
 	
+	bonobo_ui_handler_menu_new_item (uih, "/Actions/View Message", _("_View Message"),
+					 NULL, -1,
+					 BONOBO_UI_HANDLER_PIXMAP_STOCK,
+					 GNOME_STOCK_PIXMAP_MAIL_NEW,
+					 0, 0, view_message, folder_browser);
+	
 	bonobo_ui_handler_menu_new_item (uih, "/Actions/Expunge", _("_Expunge"),
 					 NULL, -1,
 					 BONOBO_UI_HANDLER_PIXMAP_STOCK,
@@ -143,6 +149,7 @@ control_deactivate (BonoboControl *control, BonoboUIHandler *uih,
 	bonobo_ui_handler_menu_remove (uih, "/View/Threaded");
 	bonobo_ui_handler_menu_remove (uih, "/Actions/Mark all seen");
 	bonobo_ui_handler_menu_remove (uih, "/Actions/Edit Message");
+	bonobo_ui_handler_menu_remove (uih, "/Actions/View Message");
 	bonobo_ui_handler_menu_remove (uih, "/Actions/Expunge");
 	bonobo_ui_handler_menu_remove (uih, "/Tools/Mail Filters ...");
 	bonobo_ui_handler_menu_remove (uih, "/Tools/vFolder Editor ...");

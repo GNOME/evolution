@@ -22,6 +22,7 @@
 #include "camel/camel.h"
 #include "composer/e-msg-composer.h"
 #include "mail-config.h"
+#include "folder-browser.h"
 
 /* FIXME FIXME FIXME this sucks sucks sucks sucks */
 
@@ -71,10 +72,14 @@ void print_msg (GtkWidget *button, gpointer user_data);
 
 void mark_all_seen (BonoboUIHandler *uih, void *user_data, const char *path);
 void edit_message (BonoboUIHandler *uih, void *user_data, const char *path);
+void view_message (BonoboUIHandler *uih, void *user_data, const char *path);
 void expunge_folder (BonoboUIHandler *uih, void *user_data, const char *path);
 void filter_edit (BonoboUIHandler *uih, void *user_data, const char *path);
 void vfolder_edit_vfolders (BonoboUIHandler *uih, void *user_data, const char *path);
 void providers_config (BonoboUIHandler *uih, void *user_data, const char *path);
+
+/* mail view */
+GtkWidget *mail_view_create (CamelMimeMessage *msg, FolderBrowser *folder_browser);
 
 /* session */
 void session_init (void);

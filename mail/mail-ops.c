@@ -1028,3 +1028,47 @@ print_msg (GtkWidget *button, gpointer user_data)
 
 	gtk_object_unref (GTK_OBJECT (print_master));
 }
+
+struct view_msg_data {
+	FolderBrowser *fb;
+	CamelException *ex;
+};
+
+static void
+real_view_msg (MessageList *ml, const char *uid, gpointer user_data)
+{
+	struct view_msg_data *data = user_data;
+	CamelMimeMessage *msg;
+	GtkWidget *view;
+	
+	if (camel_exception_is_set (data->ex))
+		return;
+	
+	msg = camel_folder_get_message (ml->folder, uid, data->ex);
+	
+	view = mail_view_create (msg, data->fb);
+	
+	gtk_widget_show (view);
+}
+
+void
+view_message (BonoboUIHandler *uih, void *user_data, const char *path)
+{
+	struct view_msg_data data;
+	FolderBrowser *fb = user_data;
+	CamelException ex;
+	MessageList *ml;
+	
+	camel_exception_init (&ex);
+	
+	data.fb = fb;
+	data.ex = &ex;
+	
+	ml = fb->message_list;
+	message_list_foreach (ml, real_view_msg, &data);
+	if (camel_exception_is_set (&ex)) {
+		mail_exception_dialog ("Could not open message for viewing", &ex, fb);
+		camel_exception_clear (&ex);
+		return;
+	}
+}

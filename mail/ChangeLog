@@ -1,5 +1,18 @@
 2000-08-07  Jeffrey Stedfast  <fejj@helixcode.com>
 
+	* Makefile.am: Added mail-view.c
+	
+	* folder-browser-factory.c (control_activate): Adda menu item for
+	viewing the message
+
+	* mail-view.c: New file containing methods for viewing messages in
+	separate windows
+
+	* mail-ops.c (view_message): New callback for viewing messages in
+	a new window.
+
+2000-08-07  Jeffrey Stedfast  <fejj@helixcode.com>
+
 	* component-factory.c (real_create_generic_storage): New function
 	to replace real_create_imap_storage and real_create_news_storage
 	(create_imap_storage): Updated.
