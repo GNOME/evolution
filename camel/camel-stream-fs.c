@@ -481,6 +481,11 @@ _seek (CamelSeekableStream *stream, gint offset, CamelStreamSeekPolicy policy)
 	gint real_offset; 
 	CamelStreamFs *stream_fs = CAMEL_STREAM_FS (stream);
 
+	/* because we don't know what is going to happen, we
+	   set the eof stream to false so that a reread can
+	   occur */
+	stream_fs->eof = FALSE;
+
 	switch  (policy) {
 	case CAMEL_STREAM_SET:
 		real_offset = MAX (stream_fs->inf_bound + offset, stream_fs->inf_bound);
@@ -522,7 +527,8 @@ _seek (CamelSeekableStream *stream, gint offset, CamelStreamSeekPolicy policy)
 		
 	return_position =  lseek (stream_fs->fd, real_offset, whence) - stream_fs->inf_bound;
 	CAMEL_SEEKABLE_STREAM (stream)->cur_pos = return_position;
-
+	
+	
 	return return_position;
 }
 
