@@ -1,3 +1,7 @@
+2000-08-13  Dan Winship  <danw@helixcode.com>
+
+	* configure.in: Fix the name of the binary to look for for PGP5
+
 2000-08-12  Michael Meeks  <michael@helixcode.com>
 
 	* configure.in: Check for Bonobo 0.17
