@@ -10,7 +10,8 @@ char *e_name_western_pfx_table[] = {
 	"miss", "mr", "mrs", "ms", "sir", 
 	"professor", "prof.", "dr", "dr.", "doctor",
 	"reverend", "president", "judge", "senator",
-	"congressman", "congresswoman",
+	"congressman", "congresswoman", "commander",
+	"lieutenant", "colonel", "major", "general",  
 
 	"the honorable", "the reverend", "his holiness",
 	"his eminence",
