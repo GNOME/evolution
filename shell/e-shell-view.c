@@ -665,6 +665,8 @@ activate_shortcut_cb (EShortcutsView *shortcut_view,
 		EShellView *new_view;
 
 		new_view = e_shell_create_view (e_shell_view_get_shell (shell_view), uri, shell_view);
+		e_shell_view_show_shortcut_bar (new_view, FALSE);
+		e_shell_view_show_folder_bar (new_view, FALSE);
 	} else {
 		e_shell_view_display_uri (shell_view, uri);
 	}

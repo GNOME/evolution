@@ -23,6 +23,7 @@
 #include <config.h>
 #include <fcntl.h>
 #include <glib.h>
+#include <stdio.h>
 
 #include <gtk/gtkframe.h>
 #include <gtk/gtklabel.h>
@@ -60,7 +61,11 @@
 
 static EShell *shell = NULL;
 static char *evolution_directory = NULL;
+
+/* Command-line options.  */
 static gboolean no_splash = FALSE;
+static gboolean start_online = FALSE;
+static gboolean start_offline = FALSE;
 extern char *evolution_debug_log;
 
 
@@ -190,7 +195,7 @@ idle_cb (void *data)
 
 	uri_list = (GSList *) data;
 
-	shell = e_shell_new (evolution_directory, ! no_splash, &result);
+	shell = e_shell_new (evolution_directory, ! no_splash, ! start_offline, &result);
 	g_free (evolution_directory);
 
 	switch (result) {
@@ -287,6 +292,8 @@ main (int argc, char **argv)
 {
 	struct poptOption options[] = {
 		{ "no-splash", '\0', POPT_ARG_NONE, &no_splash, 0, N_("Disable splash screen"), NULL },
+		{ "offline", '\0', POPT_ARG_NONE, &start_offline, 0, N_("Start in offline mode"), NULL },
+		{ "online", '\0', POPT_ARG_NONE, &start_online, 0, N_("Start in online mode"), NULL },
 		{ "debug", '\0', POPT_ARG_STRING, &evolution_debug_log, 0, N_("Send the debugging output of all components to a file."), NULL },
 		{ NULL, '\0', POPT_ARG_INCLUDE_TABLE, &oaf_popt_options, 0, NULL, NULL },
 		POPT_AUTOHELP
@@ -303,6 +310,12 @@ main (int argc, char **argv)
 	free (malloc (10));
 
 	gnome_init_with_popt_table ("Evolution", VERSION " [" SUB_VERSION "]", argc, argv, options, 0, &popt_context);
+
+	if (start_online && start_offline) {
+		fprintf (stderr, _("%s: --online and --offline cannot be used together.\n  Use %s --help for more information.\n"),
+			 argv[0], argv[0]);
+		exit (1);
+	}
 
 	if (evolution_debug_log) {
 		int fd;

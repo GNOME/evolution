@@ -1040,7 +1040,7 @@ init (EShell *shell)
 	priv->corba_shortcuts              = NULL;
 	priv->offline_handler              = NULL;
 	priv->crash_type_names             = NULL;
-	priv->line_status                  = E_SHELL_LINE_STATUS_ONLINE;
+	priv->line_status                  = E_SHELL_LINE_STATUS_OFFLINE;
 	priv->db                           = CORBA_OBJECT_NIL;
 	priv->is_initialized               = FALSE;
 	priv->is_interactive               = FALSE;
@@ -1055,6 +1055,7 @@ init (EShell *shell)
  * @iid: OAFIID for registering the shell into the name server
  * @local_directory: Local directory for storing local information and folders
  * @show_splash: Whether to display a splash screen.
+ * @start_online: Whether to start up in on-line mode.
  * 
  * Construct @shell so that it uses the specified @local_directory and
  * @corba_object.
@@ -1065,7 +1066,8 @@ EShellConstructResult
 e_shell_construct (EShell *shell,
 		   const char *iid,
 		   const char *local_directory,
-		   gboolean show_splash)
+		   gboolean show_splash,
+		   gboolean start_online)
 {
 	GtkWidget *splash;
 	EShellPrivate *priv;
@@ -1078,7 +1080,7 @@ e_shell_construct (EShell *shell,
 	g_return_val_if_fail (g_path_is_absolute (local_directory), E_SHELL_CONSTRUCT_RESULT_INVALIDARG);
 	
 	priv = shell->priv;
-	
+
 	priv->iid                  = g_strdup (iid);
 	priv->local_directory      = g_strdup (local_directory);
 	priv->folder_type_registry = e_folder_type_registry_new ();
@@ -1178,6 +1180,9 @@ e_shell_construct (EShell *shell,
 
 	priv->is_initialized = TRUE;
 
+	if (start_online)
+		e_shell_go_online (shell, NULL);
+
 	return E_SHELL_CONSTRUCT_RESULT_OK;
 }
 
@@ -1185,6 +1190,7 @@ e_shell_construct (EShell *shell,
  * e_shell_new:
  * @local_directory: Local directory for storing local information and folders.
  * @show_splash: Whether to display a splash screen.
+ * @start_online: Whether to start in on-line mode or not.
  * @construct_result_return: A pointer to an EShellConstructResult variable into
  * which the result of the operation will be stored.
  * 
@@ -1195,6 +1201,7 @@ e_shell_construct (EShell *shell,
 EShell *
 e_shell_new (const char *local_directory,
 	     gboolean show_splash,
+	     gboolean start_online,
 	     EShellConstructResult *construct_result_return)
 {
 	EShell *new;
@@ -1206,7 +1213,7 @@ e_shell_new (const char *local_directory,
 
 	new = gtk_type_new (e_shell_get_type ());
 
-	construct_result = e_shell_construct (new, E_SHELL_OAFIID, local_directory, show_splash);
+	construct_result = e_shell_construct (new, E_SHELL_OAFIID, local_directory, show_splash, start_online);
 
 	if (construct_result != E_SHELL_CONSTRUCT_RESULT_OK) {
 		*construct_result_return = construct_result;
@@ -1254,8 +1261,6 @@ e_shell_create_view (EShell *shell,
 	view = create_view (shell, uri, template_view);
 
 	gtk_widget_show (GTK_WIDGET (view));
-	while (gtk_events_pending ())
-		gtk_main_iteration ();
 
 	set_interactive (shell, TRUE);
 

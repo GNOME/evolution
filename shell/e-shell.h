@@ -94,9 +94,11 @@ GtkType                e_shell_get_type   (void);
 EShellConstructResult  e_shell_construct  (EShell                *shell,
 					   const char            *iid,
 					   const char            *local_directory,
-					   gboolean               show_splash);
+					   gboolean               show_splash,
+					   gboolean               start_online);
 EShell                *e_shell_new        (const char            *local_directory,
 					   gboolean               show_splash,
+					   gboolean               start_online,
 					   EShellConstructResult *construct_result_return);
 
 EShellView *e_shell_create_view                (EShell     *shell,
