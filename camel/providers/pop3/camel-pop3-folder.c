@@ -23,6 +23,10 @@
  * USA
  */
 
+#ifdef HAVE_CONFIG_H
+#include <config.h>
+#endif
+
 #include "camel-pop3-folder.h"
 #include "camel-pop3-store.h"
 #include "camel-exception.h"
