@@ -310,15 +310,15 @@ comp_subject (CalComponent *comp)
 
 	switch (cal_component_get_vtype (comp)) {
 	case CAL_COMPONENT_EVENT:
-		return CORBA_string_dup ("Event information");
+		return CORBA_string_dup (U_("Event information"));
 	case CAL_COMPONENT_TODO:
-		return CORBA_string_dup ("Task information");
+		return CORBA_string_dup (U_("Task information"));
 	case CAL_COMPONENT_JOURNAL:
-		return CORBA_string_dup ("Journal information");
+		return CORBA_string_dup (U_("Journal information"));
 	case CAL_COMPONENT_FREEBUSY:
-		return CORBA_string_dup ("Free/Busy information");
+		return CORBA_string_dup (U_("Free/Busy information"));
 	default:
-		return CORBA_string_dup ("Calendar information");
+		return CORBA_string_dup (U_("Calendar information"));
 	}		
 }
 
@@ -352,11 +352,11 @@ comp_description (CalComponent *comp)
 
 	switch (cal_component_get_vtype (comp)) {
 	case CAL_COMPONENT_EVENT:
-		return CORBA_string_dup ("Event information");
+		return CORBA_string_dup (U_("Event information"));
 	case CAL_COMPONENT_TODO:
-		return CORBA_string_dup ("Task information");
+		return CORBA_string_dup (U_("Task information"));
 	case CAL_COMPONENT_JOURNAL:
-		return CORBA_string_dup ("Journal information");
+		return CORBA_string_dup (U_("Journal information"));
 	case CAL_COMPONENT_FREEBUSY:
 		cal_component_get_dtstart (comp, &dt);
 		if (dt.value) {
@@ -366,17 +366,20 @@ comp_description (CalComponent *comp)
 				end = get_label (dt.value);
 		}
 		if (start != NULL && end != NULL) {
-			char *tmp = g_strdup_printf ("Free/Busy information (%s to %s)", start, end);
-			description = CORBA_string_dup (tmp);
-			g_free (tmp);			
+			char *tmp, *tmp_utf;
+			tmp = g_strdup_printf (_("Free/Busy information (%s to %s)"), start, end);
+			tmp_utf = e_utf8_from_locale_string (tmp);
+			description = CORBA_string_dup (tmp_utf);
+			g_free (tmp_utf);
+			g_free (tmp);
 		} else {
-			description = CORBA_string_dup ("Free/Busy information");
+			description = CORBA_string_dup (U_("Free/Busy information"));
 		}
 		g_free (start);
 		g_free (end);
 		return description;		
 	default:
-		return CORBA_string_dup ("iCalendar information");
+		return CORBA_string_dup (U_("iCalendar information"));
 	}
 }
 
