@@ -1,5 +1,12 @@
 2002-02-18  Chris Toshok  <toshok@ximian.com>
 
+	* backend/pas/pas-book-factory.c
+	(pas_book_factory_process_request): if the load_uri fails, notify
+	the listener that the repository is offline.  (partial fix for bug
+	20347)
+
+2002-02-18  Chris Toshok  <toshok@ximian.com>
+
 	* backend/pas/pas-backend-ldap.c (create_dn_from_ecard): escape
 	commas in the dn, since they're used by ldap to specify the node's
 	placement in the tree. (fixes bug 20089)
