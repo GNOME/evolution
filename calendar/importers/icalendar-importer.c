@@ -137,11 +137,15 @@ prepare_events (icalcomponent *icalcomp)
 		if (child_kind != ICAL_VEVENT_COMPONENT
 		    && child_kind != ICAL_VTIMEZONE_COMPONENT) {
 
+			icalcompiter_next (&iter);
+
 			icalcomponent_remove_component (icalcomp, subcomp);
 			if (child_kind == ICAL_VTODO_COMPONENT)
 				vtodos = g_list_prepend (vtodos, subcomp);
 			else
 				icalcomponent_free (subcomp);
+
+			continue;
 		}
 
 		icalcompiter_next (&iter);
@@ -166,8 +170,11 @@ prepare_tasks (icalcomponent *icalcomp, GList *vtodos)
 		icalcomponent_kind child_kind = icalcomponent_isa (subcomp);
 		if (child_kind != ICAL_VTODO_COMPONENT
 		    && child_kind != ICAL_VTIMEZONE_COMPONENT) {
+			icalcompiter_next (&iter);
 			icalcomponent_remove_component (icalcomp, subcomp);
 			icalcomponent_free (subcomp);
+
+			continue;
 		}
 
 		icalcompiter_next (&iter);
