@@ -1,5 +1,9 @@
 2001-09-07  Jeffrey Stedfast  <fejj@ximian.com>
 
+	* camel-tcp-stream-ssl.c (ssl_bad_cert): #if 0 out the code that
+	was hopefully going to fix bug #5325 because the functions I used
+	seem to have been deprecated. *sigh*.
+
 	* camel-remote-store.c (camel_remote_store_finalise): Disconnect
 	from the service here otherwise the locks will be destroyed and by
 	the time CamelService finalizes we'll crash or hang.

@@ -375,6 +375,10 @@ ssl_bad_cert (void *data, PRFileDesc *sockfd)
 	g_free (prompt);
 	
 	if (accept) {
+#if 0
+		/* this code would work, except guess what? mozilla
+                   again changed api - these are all deprecated
+                   functions again. */
 		CERTCertificate *temp;
 		CERTCertTrust *trust;
 		PK11SlotInfo *slot;
@@ -393,7 +397,7 @@ ssl_bad_cert (void *data, PRFileDesc *sockfd)
 		
 		CERT_DestroyCertificate (temp);
 		PORT_Free (nickname);
-		
+#endif		
 		return SECSuccess;
 	}
 	
