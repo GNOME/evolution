@@ -1075,7 +1075,7 @@ e_calendar_table_show_popup_menu (ETable *table,
 		hide_mask = MASK_SINGLE;
 
 	e_cal_is_read_only (comp_data->client, &read_only, NULL);
-	if (!read_only)
+	if (read_only)
 		disable_mask |= MASK_EDITABLE;
 
 	if (e_cal_get_static_capability (comp_data->client, CAL_STATIC_CAPABILITY_NO_TASK_ASSIGNMENT))

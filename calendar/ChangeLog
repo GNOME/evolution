@@ -1,5 +1,10 @@
 2003-11-24  Rodrigo Moya <rodrigo@ximian.com>
 
+	* gui/e-calendar-table.c (e_calendar_table_show_popup_menu): disable
+	editing items if the selected task list is read only, not if it's not.
+
+2003-11-24  Rodrigo Moya <rodrigo@ximian.com>
+
 	* gui/dialogs/new-task-list.glade:
 	* gui/dialogs/new-task-list.[ch]: new files containing the
 	implementation of the 'New Task List' dialog.
