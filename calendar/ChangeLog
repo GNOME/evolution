@@ -1,8 +1,25 @@
+2000-10-17  JP Rosevear  <jpr@helixcode.com>
 
+	* conduits/todo/todo-conduit-control-applet.c: Add defines
+
+	* conduits/todo/todo-conduit-config.h: put #ifdefs around functions
+	can't make this a public interface in the usual way as then the 
+	symbols would be exported
+
+	* conduits/todo/todo-conduit.c: Kill warnings. clahey will be
+	happy! Add some defines to include only the necessary config functions.
+	(conduit_get_gpilot_conduit): Hook up archive signals
+
+	* conduits/calendar/calendar-conduit.c: Same as above
+
+	* conduits/calendar/calendar-conduit-control-applet.c: ditto
+
+	* conduits/calendar/calendar-conduit-config.h: ditto
+	
 2000-10-17  Anna Marie Dirks  <anna@helixcode.com>
+
 	* gui/event-editor.c (event_editor_construct): Added focus to the 
 	general_summary text entry.
-
 
 2000-10-16  Jesse Pavel <jpavel@helixcode.com>
 

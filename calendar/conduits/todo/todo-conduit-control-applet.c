@@ -32,7 +32,15 @@
 
 #include <gpilotd/gnome-pilot-client.h>
 
-#include "todo-conduit-config.h"
+#define TODO_CONFIG_LOAD 1
+#define TODO_CONFIG_SAVE 1
+#define TODO_CONFIG_DUPE 1
+#define TODO_CONFIG_DESTROY 1
+#include <todo-conduit-config.h>
+#undef TODO_CONFIG_LOAD
+#undef TODO_CONFIG_SAVE
+#undef TODO_CONFIG_DUPE
+#undef TODO_CONFIG_DESTROY
 
 /* tell changes callbacks to ignore changes or not */
 static gboolean ignore_changes=FALSE;
@@ -55,7 +63,6 @@ static void doTrySettings(GtkWidget *widget, EToDoConduitCfg *c);
 static void doRevertSettings(GtkWidget *widget, EToDoConduitCfg *c);
 static void doSaveSettings(GtkWidget *widget, EToDoConduitCfg *c);
 
-static void readStateCfg (GtkWidget *w, EToDoConduitCfg *c);
 static void setStateCfg (GtkWidget *w, EToDoConduitCfg *c);
 
 gint pilotId;
@@ -192,13 +199,6 @@ setStateCfg (GtkWidget *w, EToDoConduitCfg *c)
 	gtk_option_menu_set_history (optionMenu, (int) c->sync_type);
 	ignore_changes = FALSE;
 }
-
-
-static void
-readStateCfg (GtkWidget *w, EToDoConduitCfg *c)
-{
-}
-
 
 static void
 pilot_capplet_setup(void)

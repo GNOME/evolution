@@ -32,7 +32,15 @@
 
 #include <gpilotd/gnome-pilot-client.h>
 
-#include "calendar-conduit-config.h"
+#define CAL_CONFIG_LOAD 1
+#define CAL_CONFIG_SAVE 1
+#define CAL_CONFIG_DUPE 1
+#define CAL_CONFIG_DESTROY 1
+#include <calendar-conduit-config.h>
+#undef CAL_CONFIG_LOAD
+#undef CAL_CONFIG_SAVE
+#undef CAL_CONFIG_DUPE
+#undef CAL_CONFIG_DESTROY
 
 /* tell changes callbacks to ignore changes or not */
 static gboolean ignore_changes=FALSE;
@@ -55,7 +63,6 @@ static void doTrySettings(GtkWidget *widget, ECalConduitCfg *c);
 static void doRevertSettings(GtkWidget *widget, ECalConduitCfg *c);
 static void doSaveSettings(GtkWidget *widget, ECalConduitCfg *c);
 
-static void readStateCfg (GtkWidget *w, ECalConduitCfg *c);
 static void setStateCfg (GtkWidget *w, ECalConduitCfg *c);
 
 gint pilotId;
@@ -191,12 +198,6 @@ setStateCfg (GtkWidget *w, ECalConduitCfg *c)
 	   order as in GnomePilotConduitSyncType. */
 	gtk_option_menu_set_history (optionMenu, (int) c->sync_type);
 	ignore_changes = FALSE;
-}
-
-
-static void
-readStateCfg (GtkWidget *w, ECalConduitCfg *c)
-{
 }
 
 
