@@ -40,7 +40,8 @@ gladedir   = $(datadir)/evolution/glade
 
 glade_DATA = 					\
 	event-editor-dialog.glade		\
-	e-meeting-dialog.glade
+	e-meeting-dialog.glade			\
+	e-itip-control.glade
 
 glade_messages = event-editor-dialog.glade.h
 
@@ -77,6 +78,8 @@ evolution_calendar_SOURCES =			\
 	e-week-view.h				\
 	e-meeting-edit.h			\
 	e-meeting-edit.c			\
+	e-itip-control.h			\
+	e-itip-control.c			\
 	event-editor.c				\
 	event-editor.h				\
 	getdate.y				\
@@ -106,7 +109,7 @@ evolution_calendar_LDADD =					\
 evolution_calendar_LDFLAGS = `gnome-config --libs gdk_pixbuf`
 
 oafdir = $(datadir)/oaf
-oaf_DATA = calendar-control.oafinfo evolution-calendar.oafinfo
+oaf_DATA = calendar-control.oafinfo evolution-calendar.oafinfo 
 
 EXTRA_DIST =	 			\
 	$(glade_DATA)			\

@@ -28,7 +28,6 @@
 
 #define E_MEETING_GLADE_XML "e-meeting-dialog.glade"
 
-#define E_MEETING_DEBUG
 
 typedef struct _EMeetingEditorPrivate EMeetingEditorPrivate;
 
@@ -105,10 +104,6 @@ window_delete_cb (GtkWidget *widget,
 
 	priv = (EMeetingEditorPrivate *) ((EMeetingEditor *)data)->priv;
 
-#ifdef E_MEETING_DEBUG
-	g_printerr ("e-meeting-edit.c: The main window received a delete event.\n");
-#endif
-	
 	if (priv->dirty == TRUE) {
 		/* FIXME: notify the event editor that our data has changed. 
 			For now, I'll just display a dialog box. */
@@ -121,9 +116,6 @@ window_delete_cb (GtkWidget *widget,
         		prop = icalcomponent_get_first_property (priv->vevent, ICAL_ORGANIZER_PROPERTY);
 
 			text = gtk_entry_get_text (GTK_ENTRY (priv->organizer_entry));
-#ifdef E_MEETING_DEBUG		
-			g_print ("e-meeting-edit.c: The organizer entry is %s.\n", text);
-#endif
 			if (strlen (text) > 0) {
 				gchar buffer[200];
 				g_snprintf (buffer, 190, "MAILTO:%s", text);
@@ -154,10 +146,6 @@ window_destroy_cb (GtkWidget *widget,
 		   gpointer data)
 {
 	EMeetingEditorPrivate *priv;
-
-#ifdef E_MEETING_DEBUG
-	g_printerr ("e-meeting-edit.c: The main window received a destroy event.\n");
-#endif
 
 	priv = (EMeetingEditorPrivate *) ((EMeetingEditor *)data)->priv;
 
@@ -202,9 +190,6 @@ put_property_in_list (icalproperty *prop, gint rownum, gpointer data)
 
 	param = get_icalparam_by_type (prop, ICAL_ROLE_PARAMETER);
 	if (param == NULL) {
-#ifdef E_MEETING_DEBUG		
-		g_print ("e-meeting-edit.c: within put_param...(), param is NULL.\n");
-#endif
 		param = icalparameter_new_role (ICAL_ROLE_REQPARTICIPANT);
 		icalproperty_add_parameter (prop, param);
 	}
@@ -212,9 +197,6 @@ put_property_in_list (icalproperty *prop, gint rownum, gpointer data)
 	enumval = icalparameter_get_role (param);
 	if (enumval < 0 || enumval > 4)
 		enumval = 4;
-#ifdef E_MEETING_DEBUG		
-	g_print ("e-meeting-edit.c: the role value is %d.\n", enumval);
-#endif
 	
 	row_text[ROLE_COL] = role_values [enumval];
 
@@ -229,11 +211,6 @@ put_property_in_list (icalproperty *prop, gint rownum, gpointer data)
 	else
 		row_text[RSVP_COL] = "N";
 
-#ifdef E_MEETING_DEBUG		
-	g_print ("e-meeting-edit.c: the RSVP is %c.\n", row_text[RSVP_COL][0]);
-#endif
-
-	
 	param = get_icalparam_by_type (prop, ICAL_PARTSTAT_PARAMETER);
 	if (param == NULL) {
 		param = icalparameter_new_partstat (ICAL_PARTSTAT_NEEDSACTION);
@@ -354,9 +331,6 @@ edit_attendee (icalproperty *prop, gpointer data)
 
 		param = NULL;
 		text = gtk_entry_get_text (GTK_ENTRY(priv->role_entry));
-#ifdef E_MEETING_DEBUG		
-		g_print ("e-meeting-edit.c: the role entry text is %s.\n", text);
-#endif
 
 		for (cntr = 0; cntr < 5; cntr++) {
 			if (strncmp (text, role_values[cntr], 3) == 0) {
@@ -396,10 +370,6 @@ add_button_clicked_cb (GtkWidget *widget, gpointer data)
 	icalproperty *prop;
 	icalparameter *param;
 
-#ifdef E_MEETING_DEBUG
-	g_printerr ("e-meeting-edit.c: the add button was clicked.\n");
-#endif
-
 	priv = (EMeetingEditorPrivate *) ((EMeetingEditor *)data)->priv;
 
 	prop = icalproperty_new (ICAL_ATTENDEE_PROPERTY);
@@ -411,19 +381,11 @@ add_button_clicked_cb (GtkWidget *widget, gpointer data)
 	icalproperty_add_parameter (prop, param);
 
 	if (edit_attendee (prop, data) == TRUE) {
-#ifdef E_MEETING_DEBUG		
-		g_print ("e-meeting-edit.c: After edit_attendee()");
-#endif
-
 		/* Let's add this property to our component and to the CList. */
 		icalcomponent_add_property (priv->vevent, prop);
 
 		/* The -1 indicates that we should add a new row. */
 		put_property_in_list (prop, -1, data);
-
-#ifdef E_MEETING_DEBUG		
-		g_print ("e-meeting-edit.c: After put_property_in_list()");
-#endif
 
 		priv->dirty = TRUE;
 	}
@@ -498,6 +460,11 @@ edit_button_clicked_cb (GtkWidget *widget, gpointer data)
 
 			icalproperty_remove_parameter (prop, ICAL_ROLE_PARAMETER);
 			icalproperty_remove_parameter (prop, ICAL_RSVP_PARAMETER);
+
+			param = get_icalparam_by_type (prop, ICAL_ROLE_PARAMETER);
+			if (param != NULL)
+				g_print ("e-meeting-edit.c: param should be NULL, but it isn't.\n");
+
 			icalproperty_remove_parameter (prop, ICAL_PARTSTAT_PARAMETER);
 
 			param = icalparameter_new_clone (get_icalparam_by_type (new_prop, ICAL_ROLE_PARAMETER));
@@ -652,10 +619,6 @@ e_meeting_edit (EMeetingEditor *editor)
 	if (prop != NULL) {
 		gchar *buffer;
 
-#ifdef E_MEETING_DEBUG		
-		g_print ("e-meeting-edit.c: The organizer property is not null.\n");
-#endif
-
 	        value = icalproperty_get_value (prop);
 		buffer = g_strdup (icalvalue_as_ical_string (value));
 	        if (buffer != NULL) {
@@ -671,11 +634,6 @@ e_meeting_edit (EMeetingEditor *editor)
 		}
 		
 	}
-#ifdef E_MEETING_DEBUG		
-	else {
-		g_print ("e-meeting-edit.c: the organizer property was NULL.\n");
-	}
-#endif
 
 	priv->changed_signal_id = gtk_signal_connect (GTK_OBJECT (priv->organizer_entry), "changed",
 						      GTK_SIGNAL_FUNC (organizer_changed_cb), editor);
@@ -694,10 +652,6 @@ e_meeting_edit (EMeetingEditor *editor)
 	gtk_widget_show (priv->meeting_window);
 
 	gtk_main ();
-
-#ifdef E_MEETING_DEBUG
-	g_printerr ("e-meeting-edit.c: We've terminated the subsidiary gtk_main().\n");
-#endif
 
 	if (priv->meeting_window != NULL)
 		gtk_widget_destroy (priv->meeting_window);

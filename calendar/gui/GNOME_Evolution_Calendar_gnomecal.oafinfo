@@ -1,5 +1,39 @@
 <oaf_info>
 
+<oaf_server iid="OAFIID:control-factory:e_itipview:10441fcf-9a4f-4bf9-a026-d50b5462d45a"
+            type="exe"
+            location="evolution-calendar">
+
+	<oaf_attribute name="repo_ids" type="stringv">
+		<item value="IDL:GNOME/GenericFactory:1.0"/>
+	</oaf_attribute>
+
+	<oaf_attribute name="description" type="string"
+                       value="Factory for the calendar iTip view control"/>
+
+</oaf_server>
+
+<oaf_server iid="OAFIID:control:e_itipview:1eef8614-cce4-4398-aed4-f32e920fb6ad"
+            type="factory"
+            location="OAFIID:control-factory:e_itipview:10441fcf-9a4f-4bf9-a026-d50b5462d45a">
+
+	<oaf_attribute name="repo_ids" type="stringv">
+		<item value="IDL:Bonobo/Control:1.0"/>
+	        <item value="IDL:Bonobo/PersistStream:1.0"/>
+	</oaf_attribute>
+
+	<oaf_attribute name="bonobo:supported_mime_types" type="stringv">
+		<item value="text/calendar"/>
+		<item value="text/x-calendar"/>
+	</oaf_attribute>
+
+	<oaf_attribute name="name" type="string"
+		       value="Evolution calendar iTip/iMip viewer"/>
+	<oaf_attribute name="description" type="string"
+                       value="Factory for the calendar iTip view control"/>
+
+</oaf_server>
+
 <oaf_server iid="OAFIID:evolution-shell-component-factory:evolution-calendar:cba77062-1466-4aac-8ce7-b019eaf2e921"
             type="exe"
             location="evolution-calendar">

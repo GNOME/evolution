@@ -40,7 +40,7 @@
 #include <gui/calendar-commands.h>
 #include "component-factory.h"
 #include "control-factory.h"
-
+#include "e-itip-control.h"
 
 static void
 init_bonobo (int *argc, char **argv)
@@ -75,6 +75,7 @@ main (int argc, char **argv)
 
 	control_factory_init ();
 	component_factory_init ();
+	e_itip_control_factory_init ();
 
 	bonobo_main ();
 	fprintf (stderr, "main(): Out of bonobo_main(), we are dying cleanly.  Have a nice day.\n");
