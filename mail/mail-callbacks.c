@@ -2262,12 +2262,12 @@ create_folders (EvolutionStorage *storage, const char *prefix, CamelFolderInfo *
 		evolution_storage_new_folder (storage, path, fi->name,
 					      "vtrash", fi->url,
 					      fi->name, /* description */
-					      fi->unread_message_count > 0);
+					      fi->unread_message_count);
 	else
 		evolution_storage_new_folder (storage, path, fi->name,
 					      "mail", fi->url,
 					      fi->name, /* description */
-					      fi->unread_message_count > 0);
+					      fi->unread_message_count);
 	
 	if (fi->child)
 		create_folders (storage, path, fi->child);
