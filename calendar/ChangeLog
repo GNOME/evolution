@@ -1,3 +1,18 @@
+2004-06-25  JP Rosevear  <jpr@novell.com>
+
+	* gui/dialogs/event-page.c (event_page_init): init alarm interval
+	to -1
+	(clear_widgets): give the alarm time option menu a sensible
+	default
+	(is_custom_alarm): account for the user defined alarm time if it
+	doesn't match the default set
+	(event_page_fill_widgets): default the option menu to the 15
+	minute or user define alarm if no alarm is currently set
+	(event_page_fill_component): account for the user defined alarm
+	tme
+	(init_widgets): add in the user defined alarm time if it doesn't
+	match the default set
+
 2004-06-25  JP Rosevaer  <jpr@novell.com>
 
 	* gui/dialogs/alarm-dialog.c (palarm_widgets_to_alarm): the args
