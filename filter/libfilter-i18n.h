@@ -21,7 +21,6 @@ char *s = N_("ends with");
 char *s = N_("Exist");
 char *s = N_("exists");
 char *s = N_("Expression");
-char *s = N_("Forward to Address");
 char *s = N_("Important");
 char *s = N_("is");
 char *s = N_("is greater than");
