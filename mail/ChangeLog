@@ -1,5 +1,8 @@
 2004-02-05  Jeffrey Stedfast  <fejj@ximian.com>
 
+	* em-folder-browser.c (emfb_set_folder): Always set the
+	search_state, even if it is NULL (NULL means default/unset state).
+
 	* em-folder-view.c (emfv_mail_next_flagged): Pass TRUE as
 	wraparound (to both be consistant with prev_flagged and to fix bug
 	#48681.

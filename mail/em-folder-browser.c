@@ -922,10 +922,9 @@ emfb_set_folder(EMFolderView *emfv, CamelFolder *folder, const char *uri)
 			g_free (sstate);
 		}
 		
-		if ((sstate = camel_object_meta_get (folder, "evolution:search_state"))) {
-			g_object_set (emfb->search, "state", sstate, NULL);
-			g_free (sstate);
-		}
+		sstate = camel_object_meta_get (folder, "evolution:search_state");
+		g_object_set (emfb->search, "state", sstate, NULL);
+		g_free (sstate);
 		
 		if ((sstate = camel_object_meta_get (folder, "evolution:selected_uid")))
 			emfb->priv->select_uid = sstate;
