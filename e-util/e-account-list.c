@@ -130,7 +130,7 @@ gconf_accounts_changed (GConfClient *client, guint cnxn_id,
 			GConfEntry *entry, gpointer user_data)
 {
 	EAccountList *account_list = user_data;
-	GSList *list, *l;
+	GSList *list, *l, *new_accounts = NULL;
 	EAccount *account;
 	EList *old_accounts;
 	EIterator *iter;
@@ -164,13 +164,25 @@ gconf_accounts_changed (GConfClient *client, guint cnxn_id,
 		/* Must be a new account */
 		account = e_account_new_from_xml (l->data);
 		e_list_append (E_LIST (account_list), account);
-		g_signal_emit (account_list, signals[ACCOUNT_ADDED], 0, account);
-		g_object_unref (account);
+		new_accounts = g_slist_prepend (new_accounts, account);
 
 	next:
 		g_free (uid);
 		g_object_unref (iter);
 	}
+
+	/* Now emit signals for each added account. (We do this after
+	 * adding all of them because otherwise if the signal handler
+	 * calls e_account_list_get_default_account() it will end up
+	 * causing the first account in the list to become the
+	 * default.)
+	 */
+	for (l = new_accounts; l; l = l->next) {
+		account = l->data;
+		g_signal_emit (account_list, signals[ACCOUNT_ADDED], 0, account);
+		g_object_unref (account);
+	}
+	g_slist_free (new_accounts);
 
 	/* Anything left in old_accounts must have been deleted */
 	for (iter = e_list_get_iterator (old_accounts);
