@@ -121,6 +121,8 @@ static void emfv_setting_setup(EMFolderView *emfv);
 static void emfv_on_url_cb(GObject *emitter, const char *url, EMFolderView *emfv);
 static void emfv_on_url(EMFolderView *emfv, const char *uri, const char *nice_uri);
 
+static gboolean emfv_popup_menu (GtkWidget *widget);
+
 static const EMFolderViewEnable emfv_enable_map[];
 
 struct _EMFolderViewPrivate {
@@ -265,6 +267,8 @@ emfv_class_init(GObjectClass *klass)
 	klass->finalize = emfv_finalise;
 	
 	((GtkObjectClass *) klass)->destroy = emfv_destroy;
+	
+	((GtkWidgetClass *) klass)->popup_menu = emfv_popup_menu;
 	
 	((EMFolderViewClass *) klass)->update_message_style = TRUE;
 	
@@ -917,7 +921,7 @@ EMFV_POPUP_AUTO_TYPE(filter_type_current, emfv_popup_filter_mlist, AUTO_MLIST)
 
 /* TODO: Move some of these to be 'standard' menu's */
 
-static EPopupItem emfv_popup_menu[] = {
+static EPopupItem emfv_popup_items[] = {
 	{ E_POPUP_ITEM, "00.emfv.00", N_("_Open"), emfv_popup_open, NULL, NULL, 0 },
 	{ E_POPUP_ITEM, "00.emfv.01", N_("_Edit as New Message..."), emfv_popup_edit, NULL, NULL, EM_POPUP_SELECT_EDIT },
 	{ E_POPUP_ITEM, "00.emfv.02", N_("_Save As..."), emfv_popup_saveas, NULL, "stock_save-as", 0 },
@@ -1011,8 +1015,8 @@ emfv_popup(EMFolderView *emfv, GdkEvent *event)
 	emp = em_popup_new("com.ximian.mail.folderview.popup.select");
 	target = em_folder_view_get_popup_target(emfv, emp);
 
-	for (i=0;i<sizeof(emfv_popup_menu)/sizeof(emfv_popup_menu[0]);i++)
-		menus = g_slist_prepend(menus, &emfv_popup_menu[i]);
+	for (i=0;i<sizeof(emfv_popup_items)/sizeof(emfv_popup_items[0]);i++)
+		menus = g_slist_prepend(menus, &emfv_popup_items[i]);
 
 	e_popup_add_items((EPopup *)emp, menus, emfv_popup_items_free, emfv);
 
@@ -1052,7 +1056,7 @@ emfv_popup(EMFolderView *emfv, GdkEvent *event)
 
 	if (event == NULL || event->type == GDK_KEY_PRESS) {
 		/* FIXME: menu pos function */
-		gtk_menu_popup(menu, NULL, NULL, NULL, NULL, 0, event ? event->key.time : time (NULL));
+		gtk_menu_popup(menu, NULL, NULL, NULL, NULL, 0, event ? event->key.time : gtk_get_current_event_time());
 	} else {
 		gtk_menu_popup(menu, NULL, NULL, NULL, NULL, event->button.button, event->button.time);
 	}
@@ -2074,10 +2078,6 @@ emfv_list_key_press(ETree *tree, int row, ETreePath path, int col, GdkEvent *ev,
 	case GDK_ISO_Enter:
 		em_folder_view_open_selected(emfv);
 		break;
-	case GDK_Menu:
-		/* FIXME: location of popup */
-		emfv_popup(emfv, NULL);
-		break;
 	case '!':
 		uids = message_list_get_selected(emfv->list);
 
@@ -2097,6 +2097,16 @@ emfv_list_key_press(ETree *tree, int row, ETreePath path, int col, GdkEvent *ev,
 		return FALSE;
 	}
 	
+	return TRUE;
+}
+
+static gboolean
+emfv_popup_menu (GtkWidget *widget)
+{
+	EMFolderView *emfv = (EMFolderView *)widget;
+
+	emfv_popup (emfv, NULL);
+
 	return TRUE;
 }
 

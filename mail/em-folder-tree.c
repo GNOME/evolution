@@ -163,6 +163,7 @@ static void emft_tree_row_expanded (GtkTreeView *treeview, GtkTreeIter *root, Gt
 static gboolean emft_tree_button_press (GtkTreeView *treeview, GdkEventButton *event, EMFolderTree *emft);
 static void emft_tree_selection_changed (GtkTreeSelection *selection, EMFolderTree *emft);
 static gboolean emft_tree_user_event (GtkTreeView *treeview, GdkEvent *e, EMFolderTree *emft);
+static gboolean emft_popup_menu (GtkWidget *widget);
 
 struct _emft_selection_data {
 	GtkTreeModel *model;
@@ -201,11 +202,14 @@ em_folder_tree_class_init (EMFolderTreeClass *klass)
 {
 	GObjectClass *object_class = G_OBJECT_CLASS (klass);
 	GtkObjectClass *gtk_object_class = GTK_OBJECT_CLASS (klass);
+	GtkWidgetClass *widget_class = GTK_WIDGET_CLASS (klass);
 	
 	parent_class = g_type_class_ref (GTK_TYPE_VBOX);
 	
 	object_class->finalize = em_folder_tree_finalize;
 	gtk_object_class->destroy = em_folder_tree_destroy;
+
+	widget_class->popup_menu = emft_popup_menu;
 	
 	signals[FOLDER_SELECTED] =
 		g_signal_new ("folder-selected",
@@ -2721,7 +2725,7 @@ emft_popup_properties (EPopup *ep, EPopupItem *pitem, void *data)
 	g_free (uri);
 }
 
-static EPopupItem emft_popup_menu[] = {
+static EPopupItem emft_popup_items[] = {
 #if 0
 	{ E_POPUP_ITEM, "00.emc.00", N_("_View"), emft_popup_view, NULL, NULL, EM_POPUP_FOLDER_SELECT },
 	{ E_POPUP_ITEM, "00.emc.01", N_("Open in _New Window"), emft_popup_open_new, NULL, NULL, EM_POPUP_FOLDER_SELECT },
@@ -2749,12 +2753,12 @@ emft_popup_free(EPopup *ep, GSList *items, void *data)
 }
 
 static gboolean
-emft_tree_button_press (GtkTreeView *treeview, GdkEventButton *event, EMFolderTree *emft)
+emft_popup (EMFolderTree *emft, GdkEvent *event)
 {
+	GtkTreeView *treeview;
 	GtkTreeSelection *selection;
 	CamelStore *local, *store;
 	EMPopupTargetFolder *target;
-	GtkTreePath *tree_path;
 	GtkTreeModel *model;
 	GtkTreeIter iter;
 	GSList *menus = NULL;
@@ -2766,29 +2770,13 @@ emft_tree_button_press (GtkTreeView *treeview, GdkEventButton *event, EMFolderTr
 	EMPopup *emp;
 	int i;
 
+	treeview = emft->priv->treeview;
+
 	/* this centralises working out when the user's done something */
 	emft_tree_user_event(treeview, (GdkEvent *)event, emft);
-	
-	if (event->button != 3 && !(event->button == 1 && event->type == GDK_2BUTTON_PRESS))
-		return FALSE;
-	
-	if (!gtk_tree_view_get_path_at_pos (treeview, (int) event->x, (int) event->y, &tree_path, NULL, NULL, NULL))
-		return FALSE;
-	
-	/* select/focus the row that was right-clicked or double-clicked */
-	selection = gtk_tree_view_get_selection (treeview);
-	gtk_tree_selection_select_path(selection, tree_path);
-	gtk_tree_view_set_cursor (treeview, tree_path, NULL, FALSE);
-	
-	if (event->button == 1 && event->type == GDK_2BUTTON_PRESS) {
-		emft_tree_row_activated (treeview, tree_path, NULL, emft);
-		gtk_tree_path_free (tree_path);
-		return TRUE;
-	}
-	
-	gtk_tree_path_free (tree_path);
-	
+
 	/* FIXME: we really need the folderinfo to build a proper menu */
+	selection = gtk_tree_view_get_selection (treeview);
 	if (!emft_selection_get_selected (selection, &model, &iter))
 		return FALSE;
 	
@@ -2826,8 +2814,8 @@ emft_tree_button_press (GtkTreeView *treeview, GdkEventButton *event, EMFolderTr
 	/* FIXME: pass valid fi->flags here */
 	target = em_popup_target_new_folder (emp, uri, info_flags, flags);
 	
-	for (i = 0; i < sizeof (emft_popup_menu) / sizeof (emft_popup_menu[0]); i++)
-		menus = g_slist_prepend (menus, &emft_popup_menu[i]);
+	for (i = 0; i < sizeof (emft_popup_items) / sizeof (emft_popup_items[0]); i++)
+		menus = g_slist_prepend (menus, &emft_popup_items[i]);
 	
 	e_popup_add_items ((EPopup *)emp, menus, emft_popup_free, emft);
 
@@ -2835,15 +2823,52 @@ emft_tree_button_press (GtkTreeView *treeview, GdkEventButton *event, EMFolderTr
 	
 	if (event == NULL || event->type == GDK_KEY_PRESS) {
 		/* FIXME: menu pos function */
-		gtk_menu_popup (menu, NULL, NULL, NULL, NULL, 0, event->time);
+		gtk_menu_popup (menu, NULL, NULL, NULL, NULL, 0, gtk_get_current_event_time());
 	} else {
-		gtk_menu_popup (menu, NULL, NULL, NULL, NULL, event->button, event->time);
+		gtk_menu_popup (menu, NULL, NULL, NULL, NULL, event->button.button, event->button.time);
 	}
 	
 	g_free (full_name);
 	g_free (uri);
-	
+
 	return TRUE;
+}
+
+static gboolean 
+emft_popup_menu (GtkWidget *widget)
+{
+	return emft_popup (EM_FOLDER_TREE (widget), NULL);
+}
+
+static gboolean
+emft_tree_button_press (GtkTreeView *treeview, GdkEventButton *event, EMFolderTree *emft)
+{
+	GtkTreeSelection *selection;
+	GtkTreePath *tree_path;
+
+	/* this centralises working out when the user's done something */
+	emft_tree_user_event(treeview, (GdkEvent *)event, emft);
+	
+	if (event->button != 3 && !(event->button == 1 && event->type == GDK_2BUTTON_PRESS))
+		return FALSE;
+	
+	if (!gtk_tree_view_get_path_at_pos (treeview, (int) event->x, (int) event->y, &tree_path, NULL, NULL, NULL))
+		return FALSE;
+	
+	/* select/focus the row that was right-clicked or double-clicked */
+	selection = gtk_tree_view_get_selection (treeview);
+	gtk_tree_selection_select_path(selection, tree_path);
+	gtk_tree_view_set_cursor (treeview, tree_path, NULL, FALSE);
+	
+	if (event->button == 1 && event->type == GDK_2BUTTON_PRESS) {
+		emft_tree_row_activated (treeview, tree_path, NULL, emft);
+		gtk_tree_path_free (tree_path);
+		return TRUE;
+	}
+	
+	gtk_tree_path_free (tree_path);
+	
+	return emft_popup (emft, (GdkEvent *)event);
 }
 
 /* This is called for keyboard and mouse events, it seems the only way

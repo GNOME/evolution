@@ -1,3 +1,11 @@
+2004-10-08  Harry Lu  <harry.lu@sun.com>
+
+	* em-folder-tree.c: (em_folder_tree_class_init), (real_popup_menu),
+	(emft_popup_menu), (emft_tree_button_press): implement popup_menu
+	so that popup menu can be shown with Shift+F10 on folder tree.
+	* em-folder-view.c: (emfv_popup), (emfv_list_key_press):
+	same as above.
+
 2004-10-07  Not Zed  <NotZed@Ximian.com>
 
 	* mail-component.c (mc_startup): dont init the base plugin system
