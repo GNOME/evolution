@@ -294,7 +294,6 @@ mail/importers/evolution-outlook-importer.c
 mail/importers/mail-importer.c
 mail/importers/netscape-importer.c
 mail/importers/pine-importer.c
-mail/local-config.glade
 mail/mail-account-editor.c
 mail/mail-account-gui.c
 mail/mail-autofilter.c
