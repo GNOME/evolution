@@ -1,7 +1,11 @@
+2001-08-13  Ettore Perazzoli  <ettore@ximian.com>
+
+	* Makefile.am (IDLS): Add `Evolution-common.idl'.
+
 2001-08-13  Dan Winship  <danw@ximian.com>
 
 	* evolution-shell-component.c (init): Initialize
-	priv->user_creatable_item_types. (Score: g_new: 0, g_new0: 2)
+	priv->user_creatable_item_types. [Score: g_new: 0, g_new0: 2]
 
 2001-08-13  Jason Leach  <jleach@ximian.com>
 
