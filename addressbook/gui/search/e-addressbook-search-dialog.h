@@ -24,6 +24,9 @@
 #include <gnome.h>
 #include <ebook/e-book.h>
 
+#include "filter/rule-context.h"
+#include "filter/filter-rule.h"
+
 #ifdef __cplusplus
 extern "C" {
 #pragma }
@@ -45,6 +48,9 @@ struct _EAddressbookSearchDialog
 
 	GtkWidget *search;
 	GtkWidget *view;
+
+	RuleContext *context;
+	FilterRule *rule;
 	GtkWidget *scrolled_window;
 };
 

@@ -89,23 +89,46 @@ e_addressbook_search_dialog_class_init (EAddressbookSearchDialogClass *klass)
 }
 
 static GtkWidget *
-get_widget ()
+get_widget (EAddressbookSearchDialog *view)
 {
-	return gtk_entry_new();
+	FilterPart *part;
+
+	view->context = rule_context_new();
+	/* FIXME: hide this in a class */
+	rule_context_add_part_set(view->context, "partset", filter_part_get_type(),
+				  rule_context_add_part, rule_context_next_part);
+	rule_context_load(view->context, SEARCH_RULE_DIR "/addresstypes.xml", "");
+	view->rule = filter_rule_new();
+	part = rule_context_next_part(view->context, NULL);
+	if (part == NULL) {
+		g_warning("Problem loading search for addressbook no parts to load");
+		return gtk_entry_new();
+	} else {
+		filter_rule_add_part(view->rule, filter_part_clone(part));
+		return filter_rule_get_widget(view->rule, view->context);
+	}
 }
 
 static char *
-get_query ()
+get_query (EAddressbookSearchDialog *view)
 {
-	return "(contains \"email\" \"\")";
+	GString *out = g_string_new("");
+	char *ret;
+
+	filter_rule_build_code(view->rule, out);
+	ret = out->str;
+	printf("Searching using %s\n", ret);
+	g_string_free(out, FALSE);
+	return ret;
 }
 
 static void
 button_press (GtkWidget *widget, EAddressbookSearchDialog *dialog)
 {
 	char *query;
+
 	gtk_widget_show(dialog->scrolled_window);
-	query = get_query();
+	query = get_query(dialog);
 	gtk_object_set(GTK_OBJECT(dialog->view),
 		       "query", query,
 		       NULL);
@@ -120,7 +143,7 @@ e_addressbook_search_dialog_init (EAddressbookSearchDialog *view)
 
 	gtk_window_set_policy(GTK_WINDOW(view), FALSE, TRUE, FALSE);
 
-	view->search = get_widget();
+	view->search = get_widget(view);
 	gtk_box_pack_start(GTK_BOX(dialog->vbox), view->search, TRUE, TRUE, 0);
 	gtk_widget_show(view->search);
 
@@ -188,5 +211,12 @@ e_addressbook_search_dialog_get_arg (GtkObject *object, GtkArg *arg, guint arg_i
 static void
 e_addressbook_search_dialog_destroy (GtkObject *object)
 {
+	EAddressbookSearchDialog *view;
+
+	view = E_ADDRESSBOOK_SEARCH_DIALOG (object);
+
+	gtk_object_unref((GtkObject *)view->context);
+	gtk_object_unref((GtkObject *)view->rule);
+
 	GTK_OBJECT_CLASS(parent_class)->destroy (object);
 }

@@ -1,3 +1,6 @@
+ruledir = $(prefix)/share/evolution
+rule_DATA = addresstypes.xml
+
 INCLUDES =						\
 	-DG_LOG_DOMAIN=\"e-addressbook-search\"		\
 	-I$(top_srcdir)					\
@@ -6,6 +9,7 @@ INCLUDES =						\
 	-I$(top_srcdir)/addressbook/contact-editor	\
 	-I$(top_srcdir)/widgets/e-text			\
 	-I$(top_srcdir)/widgets/misc			\
+	-DSEARCH_RULE_DIR=\"$(ruledir)\"		\
 	$(BONOBO_GNOME_CFLAGS)
 
 noinst_LIBRARIES =				\

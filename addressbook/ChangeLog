@@ -1,3 +1,33 @@
+2000-08-14  Not Zed  <NotZed@HelixCode.com>
+
+	* gui/search/addresstypes.xml: Fixed fullname->full_name for
+	search field.
+
+	* gui/search/e-addressbook-search-dialog.c (get_widget): Check we
+	actually got any parts to build the dialogue with.
+
+2000-08-13  Not Zed  <NotZed@HelixCode.com>
+
+	* gui/component/addressbook-component.c (owner_set_cb): Set the
+	global_shell_client nastyhack when we know it.
+	This is only required to link with the filter code ...
+
+	* gui/component/Makefile.am (evolution_addressbook_LDADD): Added
+	libfilter.a to the link line.
+
+	* gui/search/Makefile.am (noinst_LIBRARIES): Change library name
+	from libaddressbooksearchdialog to libaddressbooksearch, as used
+	elsewhere.
+
+	* gui/search/e-addressbook-search-dialog.c (get_widget):
+	Implement.
+	(get_query): Likewise.
+	(e_addressbook_search_dialog_destroy): Unref filter stuff when
+	done.
+
+	* gui/component/addressbook.c (control_deactivate): Added chris's
+	patch to put the meny in
+
 2000-08-22  Lauris Kaplinski  <lauris@helixcode.com>
 
 	* contact-editor/e-contact-editor.c: Use e_utf8 wrappers everywhere
