@@ -140,35 +140,16 @@ cancel_clicked (GtkWidget *widget, gpointer data)
 }
 
 static void
-switch_page (GtkNotebook *notebook, GtkNotebookPage *page,
-	     int page_num, gpointer user_data)
-{
-	MailAccountEditor *editor = user_data;
-	MailConfigService *source = editor->gui->account->source;
-	MailAccountGuiService *gsrc = &editor->gui->source;
-	char *url = NULL;
-
-	if (page_num != 2)
-		return;
-
-	if (gsrc && gsrc->provider && source->url &&
-	    !strncmp (gsrc->provider->protocol, source->url, strlen (gsrc->provider->protocol)))
-		url = source->url;
-	
-	mail_account_gui_build_extra_conf (editor->gui, url);
-}
-
-static void
 construct (MailAccountEditor *editor, MailConfigAccount *account)
 {
+	MailConfigService *source = account->source;
+	
 	editor->gui = mail_account_gui_new (account);
-
+	
 	/* get our toplevel widget and reparent it */
 	editor->notebook = GTK_NOTEBOOK (glade_xml_get_widget (editor->gui->xml, "account_editor_notebook"));
 	gtk_widget_reparent (GTK_WIDGET (editor->notebook), GNOME_DIALOG (editor)->vbox);
-	gtk_signal_connect (GTK_OBJECT (editor->notebook), "switch-page",
-			    GTK_SIGNAL_FUNC (switch_page), editor);
-
+	
 	/* give our dialog an OK button and title */
 	gtk_window_set_title (GTK_WINDOW (editor), _("Evolution Account Editor"));
 	gtk_window_set_policy (GTK_WINDOW (editor), FALSE, TRUE, TRUE);
@@ -178,7 +159,7 @@ construct (MailAccountEditor *editor, MailConfigAccount *account)
 				     GNOME_STOCK_BUTTON_APPLY,
 				     GNOME_STOCK_BUTTON_CANCEL,
 				     NULL);
-
+	
 	gnome_dialog_button_connect (GNOME_DIALOG (editor), 0 /* OK */,
 				     GTK_SIGNAL_FUNC (ok_clicked),
 				     editor);
@@ -188,8 +169,10 @@ construct (MailAccountEditor *editor, MailConfigAccount *account)
 	gnome_dialog_button_connect (GNOME_DIALOG (editor), 2 /* CANCEL */,
 				     GTK_SIGNAL_FUNC (cancel_clicked),
 				     editor);
-
+	
 	mail_account_gui_setup (editor->gui, GTK_WIDGET (editor));
+	
+	mail_account_gui_build_extra_conf (editor->gui, source->url);
 }
 
 MailAccountEditor *

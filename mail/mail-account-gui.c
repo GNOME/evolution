@@ -271,6 +271,8 @@ source_type_changed (GtkWidget *widget, gpointer user_data)
 
 	if (dwidget)
 		gtk_widget_grab_focus (dwidget);
+	
+	mail_account_gui_build_extra_conf (gui, gui->account->source->url);
 }
 
 

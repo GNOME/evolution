@@ -1,3 +1,15 @@
+2001-06-01  Jeffrey Stedfast  <fejj@ximian.com>
+
+	* mail-account-gui.c (source_type_changed): Call
+	build_extra_conf() here too. This is when we REALLY want to call
+	it anyway, not on switch-page because then we'd lose any data on
+	the Receive Options page if we never switch to that page before
+	applying the changes.
+
+	* mail-account-editor.c (construct): Don't connect to the
+	switch-page event, instead just call build_extra_conf() here with
+	the source->url.
+
 2001-06-01  Dan Winship  <danw@ximian.com>
 
 	* mail-config.c (config_read): Fix dumb misuse of g_get_charset.
