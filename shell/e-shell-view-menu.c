@@ -96,18 +96,18 @@ const char *authors[] = {
 /* EShellView callbacks.  */
 
 static void
-shortcut_bar_mode_changed_cb (EShellView *shell_view,
-			      EShellViewSubwindowMode new_mode,
-			      void *data)
+shortcut_bar_visibility_changed_cb (EShellView *shell_view,
+				    gboolean visible,
+				    void *data)
 {
 	BonoboUIComponent *uic;
 	const char *path;
-	char *txt;
+	const char *txt;
 
-	if (new_mode == E_SHELL_VIEW_SUBWINDOW_HIDDEN)
-		txt = "0";
-	else
+	if (visible)
 		txt = "1";
+	else
+		txt = "0";
 
 	path = (const char *) data;
 	uic = e_shell_view_get_bonobo_ui_component (shell_view);
@@ -116,18 +116,18 @@ shortcut_bar_mode_changed_cb (EShellView *shell_view,
 }
 
 static void
-folder_bar_mode_changed_cb (EShellView *shell_view,
-			    EShellViewSubwindowMode new_mode,
-			    void *data)
+folder_bar_visibility_changed_cb (EShellView *shell_view,
+				  gboolean visible,
+				  void *data)
 {
 	BonoboUIComponent *uic;
 	const char *path;
-	char *txt;
+	const char *txt;
 
-	if (new_mode == E_SHELL_VIEW_SUBWINDOW_HIDDEN)
-		txt = "0";
-	else
+	if (visible)
 		txt = "1";
+	else
+		txt = "0";
 
 	path = (const char *) data;
 	uic = e_shell_view_get_bonobo_ui_component (shell_view);
@@ -223,7 +223,7 @@ command_about_box (BonoboUIComponent *uih,
 					      "within the GNOME desktop environment."),
 					    NULL);
 		gtk_signal_connect(GTK_OBJECT(about_box), "destroy",
-				   GTK_SIGNAL_FUNC(zero_pointer), &about_box);
+				   GTK_SIGNAL_FUNC (zero_pointer), &about_box);
 		gtk_widget_show(about_box);
 
 		g_free (version);
@@ -246,21 +246,15 @@ command_toggle_folder_bar (BonoboUIComponent           *component,
 			   gpointer                     user_data)
 {
 	EShellView *shell_view;
-	EShellViewSubwindowMode mode;
 	gboolean show;
 
 	if (type != Bonobo_UIComponent_STATE_CHANGED)
 		return;
 
 	shell_view = E_SHELL_VIEW (user_data);
-
 	show = atoi (state);
-	if (show)
-		mode = E_SHELL_VIEW_SUBWINDOW_STICKY;
-	else
-		mode = E_SHELL_VIEW_SUBWINDOW_HIDDEN;
 
-	e_shell_view_set_folder_bar_mode (shell_view, mode);
+	e_shell_view_show_folder_bar (shell_view, show);
 }
 
 static void
@@ -271,7 +265,6 @@ command_toggle_shortcut_bar (BonoboUIComponent           *component,
 			     gpointer                     user_data)
 {
 	EShellView *shell_view;
-	EShellViewSubwindowMode mode;
 	gboolean show;
 
 	if (type != Bonobo_UIComponent_STATE_CHANGED)
@@ -281,12 +274,7 @@ command_toggle_shortcut_bar (BonoboUIComponent           *component,
 
 	show = atoi (state);
 
-	if (show)
-		mode = E_SHELL_VIEW_SUBWINDOW_STICKY;
-	else
-		mode = E_SHELL_VIEW_SUBWINDOW_HIDDEN;
-
-	e_shell_view_set_shortcut_bar_mode (shell_view, mode);
+	e_shell_view_show_shortcut_bar (shell_view, show);
 }
 
 
@@ -772,18 +760,18 @@ e_shell_view_menu_setup (EShellView *shell_view)
 
 	e_pixmaps_update (uic, pixmaps);
 
-	gtk_signal_connect (GTK_OBJECT (shell_view), "shortcut_bar_mode_changed",
-			    GTK_SIGNAL_FUNC (shortcut_bar_mode_changed_cb),
+	gtk_signal_connect (GTK_OBJECT (shell_view), "shortcut_bar_visibility_changed",
+			    GTK_SIGNAL_FUNC (shortcut_bar_visibility_changed_cb),
 			    SHORTCUT_BAR_TOGGLE_PATH);
-	gtk_signal_connect (GTK_OBJECT (shell_view), "folder_bar_mode_changed",
-			    GTK_SIGNAL_FUNC (folder_bar_mode_changed_cb),
+	gtk_signal_connect (GTK_OBJECT (shell_view), "folder_bar_visibility_changed",
+			    GTK_SIGNAL_FUNC (folder_bar_visibility_changed_cb),
 			    FOLDER_BAR_TOGGLE_PATH);
 
 	/* Initialize the toggles.  Yeah, this is, well, yuck.  */
-	folder_bar_mode_changed_cb   (shell_view, e_shell_view_get_folder_bar_mode (shell_view),
-				      FOLDER_BAR_TOGGLE_PATH);
-	shortcut_bar_mode_changed_cb (shell_view, e_shell_view_get_shortcut_bar_mode (shell_view),
-				      SHORTCUT_BAR_TOGGLE_PATH);
+	folder_bar_visibility_changed_cb   (shell_view, e_shell_view_folder_bar_shown (shell_view),
+					    FOLDER_BAR_TOGGLE_PATH);
+	shortcut_bar_visibility_changed_cb (shell_view, e_shell_view_shortcut_bar_shown (shell_view),
+					    SHORTCUT_BAR_TOGGLE_PATH);
 
 	/* Set up the work online / work offline menu item.  */
 	gtk_signal_connect_while_alive (GTK_OBJECT (shell), "line_status_changed",

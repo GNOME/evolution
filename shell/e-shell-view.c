@@ -117,7 +117,11 @@ struct _EShellViewPrivate {
 	GtkWidget *menu_hint_label;
 	GtkWidget *task_bar;
 
-	/* The view we have already open.  */
+	/* The pop-up window for the folder-tree (i.e. the one we create when
+	   the user clicks on the folder title.  */
+	GtkWidget *folder_bar_popup;
+
+	/* The views we have already open.  */
 	GHashTable *uri_to_control;
 
 	/* Position of the handles in the paneds, to be restored when we show elements
@@ -125,17 +129,17 @@ struct _EShellViewPrivate {
 	unsigned int hpaned_position;
 	unsigned int view_hpaned_position;
 
-	/* Status of the shortcut and folder bars.  */
-	EShellViewSubwindowMode shortcut_bar_mode;
-	EShellViewSubwindowMode folder_bar_mode;
+	/* Whether the shortcut and folder bars are visible or not.  */
+	unsigned int shortcut_bar_shown : 1;
+	unsigned int folder_bar_shown : 1;
 
 	/* List of sockets we created.  */
 	GList *sockets;
 };
 
 enum {
-	SHORTCUT_BAR_MODE_CHANGED,
-	FOLDER_BAR_MODE_CHANGED,
+	SHORTCUT_BAR_VISIBILITY_CHANGED,
+	FOLDER_BAR_VISIBILITY_CHANGED,
 	LAST_SIGNAL
 };
 
@@ -242,10 +246,18 @@ cleanup_delayed_selection (EShellView *shell_view)
 
 /* Folder bar pop-up handling.  */
 
-static void disconnect_popup_signals (EShellView *shell_view);
+static void
+reparent (GtkWidget *widget,
+	  GtkContainer *new_container)
+{
+	gtk_widget_ref (widget);
+	gtk_container_remove (GTK_CONTAINER (widget->parent), widget);
+	gtk_container_add (GTK_CONTAINER (new_container), widget);
+	gtk_widget_unref (widget);
+}
 
 static void
-popdown_transient_folder_bar (EShellView *shell_view)
+reparent_storage_set_view_box_and_destroy_popup (EShellView *shell_view)
 {
 	EShellViewPrivate *priv;
 
@@ -254,9 +266,26 @@ popdown_transient_folder_bar (EShellView *shell_view)
 	gdk_pointer_ungrab (GDK_CURRENT_TIME);
 	gtk_grab_remove (priv->storage_set_view_box);
 
-	e_shell_view_set_folder_bar_mode (shell_view, E_SHELL_VIEW_SUBWINDOW_HIDDEN);
+	g_assert (priv->folder_bar_popup != NULL);
 
-	disconnect_popup_signals (shell_view);
+	gtk_widget_ref (priv->storage_set_view_box);
+	gtk_container_remove (GTK_CONTAINER (priv->folder_bar_popup), priv->storage_set_view_box);
+	e_paned_pack1 (E_PANED (priv->view_hpaned), priv->storage_set_view_box, FALSE, TRUE);
+	gtk_widget_unref (priv->storage_set_view_box);
+
+	gtk_widget_destroy (priv->folder_bar_popup);
+	priv->folder_bar_popup = NULL;
+}
+
+static void
+popdown_transient_folder_bar (EShellView *shell_view)
+{
+	EShellViewPrivate *priv;
+
+	priv = shell_view->priv;
+
+	reparent_storage_set_view_box_and_destroy_popup (shell_view);
+	gtk_widget_hide (priv->storage_set_view_box);
 
 	e_shell_folder_title_bar_set_toggle_state (E_SHELL_FOLDER_TITLE_BAR (priv->folder_title_bar), FALSE);
 }
@@ -339,18 +368,17 @@ popup_storage_set_view_button_clicked (ETitleBar *title_bar,
 	shell_view = E_SHELL_VIEW (data);
 	priv = shell_view->priv;
 
-	gdk_pointer_ungrab (GDK_CURRENT_TIME);
-	gtk_grab_remove (priv->storage_set_view_box);
+	g_assert (priv->folder_bar_popup != NULL);
 
-	disconnect_popup_signals (shell_view);
+	reparent_storage_set_view_box_and_destroy_popup (shell_view);
 
-	e_shell_view_set_folder_bar_mode (shell_view, E_SHELL_VIEW_SUBWINDOW_STICKY);
+	e_shell_view_show_folder_bar (shell_view, TRUE);
 	e_shell_folder_title_bar_set_toggle_state (E_SHELL_FOLDER_TITLE_BAR (priv->folder_title_bar), FALSE);
 }
 
 static void
-storage_set_view_box_map_cb (GtkWidget *widget,
-			     void *data)
+folder_bar_popup_map_callback (GtkWidget *widget,
+			       void *data)
 {
 	EShellView *shell_view;
 	EShellViewPrivate *priv;
@@ -365,62 +393,63 @@ storage_set_view_box_map_cb (GtkWidget *widget,
 			       | GDK_LEAVE_NOTIFY_MASK
 			       | GDK_POINTER_MOTION_MASK),
 			      NULL, NULL, GDK_CURRENT_TIME) != 0) {
-		g_warning ("e-shell-view.c:storage_set_view_box_map_cb() -- pointer grab failed.");
-		e_shell_view_set_folder_bar_mode (shell_view, E_SHELL_VIEW_SUBWINDOW_STICKY);
+		g_warning ("e-shell-view.c:folder_bar_popup_map_callback() -- pointer grab failed.");
 		return;
 	}
 
 	gtk_grab_add (widget);
-	gtk_signal_connect (GTK_OBJECT (widget), "event",
-			    GTK_SIGNAL_FUNC (storage_set_view_box_event_cb), shell_view);
-	gtk_signal_connect (GTK_OBJECT (widget), "button_release_event",
-			    GTK_SIGNAL_FUNC (storage_set_view_box_button_release_event_cb), shell_view);
-	gtk_signal_connect (GTK_OBJECT (priv->storage_set_view), "button_release_event",
-			    GTK_SIGNAL_FUNC (storage_set_view_box_button_release_event_cb), shell_view);
-	gtk_signal_connect (GTK_OBJECT (priv->storage_set_title_bar), "button_clicked",
-			    GTK_SIGNAL_FUNC (popup_storage_set_view_button_clicked), shell_view);
-}
 
-static void
-disconnect_popup_signals (EShellView *shell_view)
-{
-	EShellViewPrivate *priv;
-
-	priv = shell_view->priv;
-
-	gtk_signal_disconnect_by_func (GTK_OBJECT (priv->storage_set_view_box),
-				       GTK_SIGNAL_FUNC (storage_set_view_box_button_release_event_cb),
-				       shell_view);
-	gtk_signal_disconnect_by_func (GTK_OBJECT (priv->storage_set_view),
-				       GTK_SIGNAL_FUNC (storage_set_view_box_button_release_event_cb),
-				       shell_view);
-	gtk_signal_disconnect_by_func (GTK_OBJECT (priv->storage_set_title_bar),
-				       GTK_SIGNAL_FUNC (popup_storage_set_view_button_clicked),
-				       shell_view);
-	gtk_signal_disconnect_by_func (GTK_OBJECT (priv->storage_set_view_box),
-				       GTK_SIGNAL_FUNC (storage_set_view_box_map_cb),
-				       shell_view);
+	gtk_signal_connect_while_alive (GTK_OBJECT (widget), "event",
+					GTK_SIGNAL_FUNC (storage_set_view_box_event_cb), shell_view,
+					GTK_OBJECT (priv->folder_bar_popup));
+	gtk_signal_connect_while_alive (GTK_OBJECT (widget), "button_release_event",
+					GTK_SIGNAL_FUNC (storage_set_view_box_button_release_event_cb), shell_view,
+					GTK_OBJECT (priv->folder_bar_popup));
+	gtk_signal_connect_while_alive (GTK_OBJECT (priv->storage_set_view), "button_release_event",
+					GTK_SIGNAL_FUNC (storage_set_view_box_button_release_event_cb), shell_view,
+					GTK_OBJECT (priv->folder_bar_popup));
+	gtk_signal_connect_while_alive (GTK_OBJECT (priv->storage_set_title_bar), "button_clicked",
+					GTK_SIGNAL_FUNC (popup_storage_set_view_button_clicked), shell_view,
+					GTK_OBJECT (priv->folder_bar_popup));
 }
 
 static void
 pop_up_folder_bar (EShellView *shell_view)
 {
 	EShellViewPrivate *priv;
+	int x, y;
+	int orig_x, orig_y;
 
 	priv = shell_view->priv;
 
-	priv->folder_bar_mode = E_SHELL_VIEW_SUBWINDOW_TRANSIENT;
+	g_assert (! priv->folder_bar_shown);
+
+	priv->folder_bar_popup = gtk_window_new (GTK_WINDOW_POPUP);
 
 	/* We need to show the storage set view box and do a pointer grab to catch the
            mouse clicks.  But until the box is shown, we cannot grab.  So we connect to
            the "map" signal; `storage_set_view_box_map_cb()' will do the grab.  */
+	gtk_signal_connect (GTK_OBJECT (priv->folder_bar_popup), "map",
+			    GTK_SIGNAL_FUNC (folder_bar_popup_map_callback), shell_view);
 
-	gtk_signal_connect (GTK_OBJECT (priv->storage_set_view_box), "map",
-			    GTK_SIGNAL_FUNC (storage_set_view_box_map_cb), shell_view);
+	x = priv->folder_title_bar->allocation.x;
+	y = priv->folder_title_bar->allocation.y + priv->folder_title_bar->allocation.height;
+
+	gdk_window_get_origin (priv->folder_title_bar->window, &orig_x, &orig_y);
+	x += orig_x;
+	y += orig_y + 2;
+
+	gtk_window_set_default_size (GTK_WINDOW (priv->folder_bar_popup),
+				     priv->view_hpaned_position,
+				     priv->view_hpaned->allocation.height);
+
+	reparent (priv->storage_set_view_box, GTK_CONTAINER (priv->folder_bar_popup));
+
 	gtk_widget_show (priv->storage_set_view_box);
 
-	e_paned_set_position (E_PANED (priv->view_hpaned), priv->view_hpaned_position);
+	gtk_widget_popup (priv->folder_bar_popup, x, y);
 }
+
 
 
 /* Switching views on a tree view click.  */
@@ -464,7 +493,7 @@ switch_on_folder_tree_click (EShellView *shell_view,
 
 	cleanup_delayed_selection (shell_view);
 
-	if (priv->folder_bar_mode == E_SHELL_VIEW_SUBWINDOW_TRANSIENT) {
+	if (priv->folder_bar_popup != NULL) {
 		e_shell_view_display_uri (shell_view, uri);
 		popdown_transient_folder_bar (shell_view);
 		g_free (uri);
@@ -535,8 +564,7 @@ hide_requested_cb (EShortcutsView *shortcut_view,
 
 	shell_view = E_SHELL_VIEW (data);
 
-	e_shell_view_set_shortcut_bar_mode (shell_view,
-					    E_SHELL_VIEW_SUBWINDOW_HIDDEN);
+	e_shell_view_show_shortcut_bar (shell_view, FALSE);
 }
 
 /* Callback called when a folder on the tree view gets clicked.  */
@@ -607,7 +635,8 @@ storage_set_view_button_clicked_cb (ETitleBar *title_bar,
 
 	shell_view = E_SHELL_VIEW (data);
 
-	e_shell_view_set_folder_bar_mode (shell_view, E_SHELL_VIEW_SUBWINDOW_HIDDEN);
+	if (shell_view->priv->folder_bar_popup == NULL)
+		e_shell_view_show_folder_bar (shell_view, FALSE);
 }
 
 /* Callback called when the title bar button is clicked.  */
@@ -623,7 +652,7 @@ title_bar_toggled_cb (EShellFolderTitleBar *title_bar,
 	if (! state)
 		return;
 
-	if (e_shell_view_get_folder_bar_mode (shell_view) != E_SHELL_VIEW_SUBWINDOW_TRANSIENT)
+	if (shell_view->priv->folder_bar_popup == NULL)
 		pop_up_folder_bar (shell_view);
 }
 
@@ -915,9 +944,8 @@ setup_widgets (EShellView *shell_view)
 
 	gtk_widget_show (gray_bar);
 
-	/* By default, both the folder bar and shortcut bar are visible.  */
-	priv->shortcut_bar_mode = E_SHELL_VIEW_SUBWINDOW_STICKY;
-	priv->folder_bar_mode   = E_SHELL_VIEW_SUBWINDOW_STICKY;
+	priv->shortcut_bar_shown = TRUE;
+	priv->folder_bar_shown   = FALSE;
 
 	/* FIXME: Session management and stuff?  */
 	gtk_window_set_default_size (GTK_WINDOW (shell_view), DEFAULT_WIDTH, DEFAULT_HEIGHT);
@@ -953,6 +981,9 @@ destroy (GtkObject *object)
 
 	if (priv->corba_interface != NULL)
 		bonobo_object_unref (BONOBO_OBJECT (priv->corba_interface));
+
+	if (priv->folder_bar_popup != NULL)
+		gtk_widget_destroy (priv->folder_bar_popup);
 
 	for (p = priv->sockets; p != NULL; p = p->next) {
 		GtkWidget *socket_widget;
@@ -997,20 +1028,20 @@ class_init (EShellViewClass *klass)
 
 	parent_class = gtk_type_class (BONOBO_TYPE_WINDOW);
 
-	signals[SHORTCUT_BAR_MODE_CHANGED]
-		= gtk_signal_new ("shortcut_bar_mode_changed",
+	signals[SHORTCUT_BAR_VISIBILITY_CHANGED]
+		= gtk_signal_new ("shortcut_bar_visibility_changed",
 				  GTK_RUN_FIRST,
 				  object_class->type,
-				  GTK_SIGNAL_OFFSET (EShellViewClass, shortcut_bar_mode_changed),
+				  GTK_SIGNAL_OFFSET (EShellViewClass, shortcut_bar_visibility_changed),
 				  gtk_marshal_NONE__INT,
 				  GTK_TYPE_NONE, 1,
 				  GTK_TYPE_INT);
 
-	signals[FOLDER_BAR_MODE_CHANGED]
-		= gtk_signal_new ("folder_bar_mode_changed",
+	signals[FOLDER_BAR_VISIBILITY_CHANGED]
+		= gtk_signal_new ("folder_bar_visibility_changed",
 				  GTK_RUN_FIRST,
 				  object_class->type,
-				  GTK_SIGNAL_OFFSET (EShellViewClass, folder_bar_mode_changed),
+				  GTK_SIGNAL_OFFSET (EShellViewClass, folder_bar_visibility_changed),
 				  gtk_marshal_NONE__INT,
 				  GTK_TYPE_NONE, 1,
 				  GTK_TYPE_INT);
@@ -1052,8 +1083,10 @@ init (EShellView *shell_view)
 	priv->menu_hint_label         = NULL;
 	priv->task_bar                = NULL;
 
-	priv->shortcut_bar_mode       = E_SHELL_VIEW_SUBWINDOW_HIDDEN;
-	priv->folder_bar_mode         = E_SHELL_VIEW_SUBWINDOW_HIDDEN;
+	priv->folder_bar_popup        = NULL;
+
+	priv->shortcut_bar_shown      = FALSE;
+	priv->folder_bar_shown        = FALSE;
 
 	priv->hpaned_position         = 0;
 	priv->view_hpaned_position    = 0;
@@ -1239,7 +1272,7 @@ e_shell_view_construct (EShellView *shell_view,
 					  "/evolution/UIConf/kvps");
 	e_shell_view_menu_setup (shell_view);
 
-	e_shell_view_set_folder_bar_mode (shell_view, E_SHELL_VIEW_SUBWINDOW_HIDDEN);
+	e_shell_view_show_folder_bar (shell_view, FALSE);
 
 	bonobo_ui_component_thaw (priv->ui_component, NULL);
 
@@ -1948,22 +1981,20 @@ e_shell_view_remove_control_for_uri (EShellView *shell_view,
 
 
 void
-e_shell_view_set_shortcut_bar_mode (EShellView *shell_view,
-				    EShellViewSubwindowMode mode)
+e_shell_view_show_shortcut_bar (EShellView *shell_view,
+				gboolean show)
 {
 	EShellViewPrivate *priv;
 
 	g_return_if_fail (shell_view != NULL);
 	g_return_if_fail (E_IS_SHELL_VIEW (shell_view));
-	g_return_if_fail (mode == E_SHELL_VIEW_SUBWINDOW_STICKY
-			  || mode == E_SHELL_VIEW_SUBWINDOW_HIDDEN);
 
 	priv = shell_view->priv;
 
-	if (priv->shortcut_bar_mode == mode)
+	if (!! show == priv->shortcut_bar_shown)
 		return;
 
-	if (mode == E_SHELL_VIEW_SUBWINDOW_STICKY) {
+	if (show) {
 		if (! GTK_WIDGET_VISIBLE (priv->shortcut_frame)) {
 			gtk_widget_show (priv->shortcut_frame);
 			e_paned_set_position (E_PANED (priv->hpaned), priv->hpaned_position);
@@ -1977,39 +2008,29 @@ e_shell_view_set_shortcut_bar_mode (EShellView *shell_view,
 		}
 	}
 
-	priv->shortcut_bar_mode = mode;
+	priv->shortcut_bar_shown = !! show;
 
-	gtk_signal_emit (GTK_OBJECT (shell_view), signals[SHORTCUT_BAR_MODE_CHANGED], mode);
+	gtk_signal_emit (GTK_OBJECT (shell_view), signals[SHORTCUT_BAR_VISIBILITY_CHANGED],
+			 priv->shortcut_bar_shown);
 }
 
-/**
- * e_shell_view_set_folder_bar_mode:
- * @shell_view: 
- * @mode: 
- * 
- * Set the visualization mode for the folder bar's subwindow.
- **/
 void
-e_shell_view_set_folder_bar_mode (EShellView *shell_view,
-				  EShellViewSubwindowMode mode)
+e_shell_view_show_folder_bar (EShellView *shell_view,
+			      gboolean show)
 {
 	EShellViewPrivate *priv;
 
 	g_return_if_fail (shell_view != NULL);
 	g_return_if_fail (E_IS_SHELL_VIEW (shell_view));
-	g_return_if_fail (mode == E_SHELL_VIEW_SUBWINDOW_STICKY
-			  || mode == E_SHELL_VIEW_SUBWINDOW_HIDDEN);
 
 	priv = shell_view->priv;
 
-	if (priv->folder_bar_mode == mode)
+	if (!! show == priv->folder_bar_shown)
 		return;
 
-	if (mode == E_SHELL_VIEW_SUBWINDOW_STICKY) {
-		if (! GTK_WIDGET_VISIBLE (priv->storage_set_view_box)) {
-			gtk_widget_show (priv->storage_set_view_box);
-			e_paned_set_position (E_PANED (priv->view_hpaned), priv->view_hpaned_position);
-		}
+	if (show) {
+		gtk_widget_show (priv->storage_set_view_box);
+		e_paned_set_position (E_PANED (priv->view_hpaned), priv->view_hpaned_position);
 
 		e_title_bar_set_button_mode (E_TITLE_BAR (priv->storage_set_title_bar),
 					     E_TITLE_BAR_BUTTON_MODE_CLOSE);
@@ -2031,27 +2052,28 @@ e_shell_view_set_folder_bar_mode (EShellView *shell_view,
 							TRUE);
 	}
 
-        priv->folder_bar_mode = mode;
+        priv->folder_bar_shown = !! show;
 
-	gtk_signal_emit (GTK_OBJECT (shell_view), signals[FOLDER_BAR_MODE_CHANGED], mode);
+	gtk_signal_emit (GTK_OBJECT (shell_view), signals[FOLDER_BAR_VISIBILITY_CHANGED],
+			 priv->folder_bar_shown);
 }
 
-EShellViewSubwindowMode
-e_shell_view_get_shortcut_bar_mode (EShellView *shell_view)
+gboolean
+e_shell_view_shortcut_bar_shown (EShellView *shell_view)
 {
-	g_return_val_if_fail (shell_view != NULL, E_SHELL_VIEW_SUBWINDOW_HIDDEN);
-	g_return_val_if_fail (E_IS_SHELL_VIEW (shell_view), E_SHELL_VIEW_SUBWINDOW_HIDDEN);
+	g_return_val_if_fail (shell_view != NULL, FALSE);
+	g_return_val_if_fail (E_IS_SHELL_VIEW (shell_view), FALSE);
 
-	return shell_view->priv->shortcut_bar_mode;
+	return shell_view->priv->shortcut_bar_shown;
 }
 
-EShellViewSubwindowMode
-e_shell_view_get_folder_bar_mode (EShellView *shell_view)
+gboolean
+e_shell_view_folder_bar_shown (EShellView *shell_view)
 {
-	g_return_val_if_fail (shell_view != NULL, E_SHELL_VIEW_SUBWINDOW_HIDDEN);
-	g_return_val_if_fail (E_IS_SHELL_VIEW (shell_view), E_SHELL_VIEW_SUBWINDOW_HIDDEN);
+	g_return_val_if_fail (shell_view != NULL, FALSE);
+	g_return_val_if_fail (E_IS_SHELL_VIEW (shell_view), FALSE);
 
-	return shell_view->priv->folder_bar_mode;
+	return shell_view->priv->folder_bar_shown;
 }
 
 
@@ -2220,14 +2242,12 @@ e_shell_view_save_settings (EShellView *shell_view,
 	g_free (key);
 
 
-	key = g_strconcat (prefix, "FolderBarMode", NULL);
-	bonobo_config_set_long (db, key,       
-	        e_shell_view_get_folder_bar_mode (shell_view), NULL);
+	key = g_strconcat (prefix, "FolderBarShown", NULL);
+	bonobo_config_set_long (db, key, e_shell_view_folder_bar_shown (shell_view), NULL);
 	g_free (key);
 
-	key = g_strconcat (prefix, "ShortcutBarMode", NULL);
-	bonobo_config_set_long (db, key,     
-	        e_shell_view_get_shortcut_bar_mode (shell_view), NULL);
+	key = g_strconcat (prefix, "ShortcutBarShown", NULL);
+	bonobo_config_set_long (db, key, e_shell_view_shortcut_bar_shown (shell_view), NULL);
 	g_free (key);
 
 	key = g_strconcat (prefix, "HPanedPosition", NULL);
@@ -2315,14 +2335,14 @@ e_shell_view_load_settings (EShellView *shell_view,
 	e_shell_view_set_current_shortcuts_group_num (shell_view, val);
 	g_free (key);
 
-	key = g_strconcat (prefix, "FolderBarMode", NULL);
+	key = g_strconcat (prefix, "FolderBarShown", NULL);
 	val = bonobo_config_get_long (db, key, NULL);
-	e_shell_view_set_folder_bar_mode (shell_view, val);
+	e_shell_view_show_folder_bar (shell_view, val);
 	g_free (key);
 
-	key = g_strconcat (prefix, "ShortcutBarMode", NULL);
+	key = g_strconcat (prefix, "ShortcutBarShown", NULL);
 	val = bonobo_config_get_long (db, key, NULL);
-	e_shell_view_set_shortcut_bar_mode (shell_view, val);
+	e_shell_view_show_shortcut_bar (shell_view, val);
 	g_free (key);
 
 	key = g_strconcat (prefix, "HPanedPosition", NULL);

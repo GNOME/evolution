@@ -1,3 +1,57 @@
+2001-08-18  Ettore Perazzoli  <ettore@ximian.com>
+
+	* e-shell-view-menu.c (shortcut_bar_visibility_changed_cb): New,
+	replacing `shortcut_bar_mode_changed_cb'.
+	(folder_bar_visibility_changed_cb): New, replacing
+	`folder_bar_mode_changed_cb'.
+	(command_toggle_folder_bar): Use `e_shell_view_show_folder_bar()'
+	instead of `e_shell_view_set_folder_bar_mode()'.
+	(command_toggle_shortcut_bar): Use
+	`e_shell_view_show_shortcut_bar()' instead of
+	`e_shell_view_set_shortcut_bar_mode()'.
+	(e_shell_view_menu_setup): Updated for the
+	"shortcut_bar_visibility_changed" and
+	"folder_bar_visibility_changed" signals and the above changes.
+
+	* e-shell-view.c: New member `folder_bar_popup' in
+	`EShellViewPrivate'.  Replaced `folder_bar_mode' and
+	`shortcut_bar_mode' with `folder_bar_shown' and
+	`shortcut_bar_shown', respectively.
+	(init): Updated to initialize these correctly.
+	(reparent): New helper function.
+	(reparent_storage_set_view_box_and_destroy_popup): New helper
+	function.
+	(popdown_transient_folder_bar): Updated to use the
+	`folder_bar_popup'.
+	(folder_bar_popup_map_callback): Renamed from
+	`storage_set_view_box_map_cb'.
+	(e_shell_view_set_shortcut_bar_mode): Removed.
+	(e_shell_view_set_folder_bar_mode): Removed.
+	(e_shell_view_show_shortcut_bar): New.  All the calls to
+	`e_shell_view_set_shortcut_bar_mode()' replaced with calls to this
+	one.
+	(e_shell_view_show_folder_bar): New.  All the calls to
+	`e_shell_view_set_folder_bar_mode()' replaced with calls to this
+	one.
+	(e_shell_view_folder_bar_shown): New.  All the calls to
+	`e_shell_view_get_folder_bar_mode()' replaced with calls to this
+	one.
+	(e_shell_view_shortcut_bar_shown): New.  All the calls to
+	`e_shell_view_get_shortcut_bar_mode()' replaced with calls to this
+	one.
+	(class_init): Replace signal `folder_bar_mode_changed' with
+	`folder_bar_visibility_changed' and `shortcut_bar_mode_changed'
+	with `shortcut_visibility_changed'.
+	(e_shell_view_save_settings): Use keys "ShortcutBarShown" and
+	"FolderBarShown" instead of "ShortcutBarMode" and "FolderBarMode",
+	respectively.
+	(e_shell_view_load_settings): Likewise.
+
+	* e-shell-view.h: Removed enum `EShellViewSubwindowMode'.  Renamed
+	signal `shortcut_bar_mode_changed' to
+	`shortcut_bar_visibility_changed' and `folder_bar_mode_changed' to
+	`folder_bar_visibility_changed'.
+
 2001-08-17  Iain Holmes  <iain@ximian.com>
 
 	* Makefile.am: Add the Evolution-Wizard.idl file

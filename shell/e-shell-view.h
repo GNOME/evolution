@@ -48,13 +48,6 @@ typedef struct _EShellViewClass   EShellViewClass;
 
 #define DEFAULT_URI "evolution:/local/Inbox"
 
-enum _EShellViewSubwindowMode {
-	E_SHELL_VIEW_SUBWINDOW_HIDDEN,
-	E_SHELL_VIEW_SUBWINDOW_TRANSIENT,
-	E_SHELL_VIEW_SUBWINDOW_STICKY
-};
-typedef enum _EShellViewSubwindowMode EShellViewSubwindowMode;
-
 struct _EShellView {
 	BonoboWindow parent;
 
@@ -65,8 +58,8 @@ struct _EShellViewClass {
 	BonoboWindowClass parent_class;
 
 	/* Signals.  */
-	void (* shortcut_bar_mode_changed) (EShellView *shell_view, EShellViewSubwindowMode new_mode);
-	void (* folder_bar_mode_changed) (EShellView *shell_view, EShellViewSubwindowMode mode);
+	void (* shortcut_bar_visibility_changed) (EShellView *shell_view, gboolean visible);
+	void (* folder_bar_visibility_changed)   (EShellView *shell_view, gboolean visible);
 };
 
 
@@ -86,13 +79,12 @@ const GNOME_Evolution_ShellView  e_shell_view_get_corba_interface  (EShellView *
 gboolean  e_shell_view_display_uri  (EShellView *shell_view,
 				     const char *uri);
 
-void                     e_shell_view_set_shortcut_bar_mode  (EShellView              *shell_view,
-							      EShellViewSubwindowMode  mode);
-EShellViewSubwindowMode  e_shell_view_get_shortcut_bar_mode  (EShellView              *shell_view);
-
-void                     e_shell_view_set_folder_bar_mode  (EShellView              *shell_view,
-							    EShellViewSubwindowMode  mode);
-EShellViewSubwindowMode  e_shell_view_get_folder_bar_mode  (EShellView              *shell_view);
+void      e_shell_view_show_shortcut_bar   (EShellView *shell_view,
+					    gboolean    show);
+gboolean  e_shell_view_shortcut_bar_shown  (EShellView *shell_view);
+void      e_shell_view_show_folder_bar     (EShellView *shell_view,
+					    gboolean    show);
+gboolean  e_shell_view_folder_bar_shown    (EShellView *shell_view);
 
 ETaskBar          *e_shell_view_get_task_bar               (EShellView *shell_view);
 EShell            *e_shell_view_get_shell                  (EShellView *shell_view);
