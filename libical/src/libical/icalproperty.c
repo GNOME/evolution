@@ -550,7 +550,6 @@ icalproperty_remove_parameter (icalproperty* prop, icalparameter_kind kind)
 	icalparameter* param = (icalparameter *)pvl_data (p);
         if (icalparameter_isa(param) == kind) {
             pvl_remove (impl->parameters, p);
-            icalparameter_free (param);
             break;
         }
     }                       

@@ -1,3 +1,8 @@
+2001-10-19  JP Rosevear  <jpr@ximian.com>
+
+	* src/libical/icalproperty.c (icalproperty_remove_parameter):
+	don't free the parameter
+
 2001-10-05  Ettore Perazzoli  <ettore@ximian.com>
 
 	* src/libical/Makefile.am (CLEANFILES): Assign with `=', not `+='.
