@@ -201,6 +201,7 @@ void main(void)
 #include <gal/unicode/gunicode.h>
 #include <locale.h>
 #include <string.h>
+#include <ctype.h>
 #include <glib.h>
 #ifdef ENABLE_THREADS
 #include <pthread.h>
@@ -233,6 +234,11 @@ struct {
 	{ "windows-cp1251", "cp1251"     },
 	{ "windows-1251",   "cp1251"     },
 	{ "cp1251",         "cp1251"     },
+	/* the above mostly serves as an example for windows-style
+	   charsets, but we have code that will parse and convert them
+	   to their cp#### equivalents if/when they show up in
+	   camel_charset_map_to_iconv() so I'm not going to bother
+	   putting them all in here... */
 	{ NULL,             NULL         }
 };
 
@@ -394,17 +400,28 @@ camel_charset_to_iconv (const char *name)
 	charset = g_hash_table_lookup (iconv_charsets, name);
 	if (!charset) {
 		/* Attempt to friendlyify the charset */
-		char *new_charset;
+		char *new_charset, *p;
 		int len;
 		
-		/* Hack to convert charsets like ISO8859-1 to iconv-friendly ISO-8859-1 */
 		if (!g_strncasecmp (name, "iso", 3) && name[3] != '-' && name[3] != '_') {
+			/* Hack to convert charsets like ISO8859-1 to iconv-friendly ISO-8859-1 */
 			len = strlen (name);
 			new_charset = g_malloc (len + 2);
 			memcpy (new_charset, name, 3);
 			new_charset[3] = '-';
 			memcpy (new_charset + 4, name + 3, len - 3);
 			new_charset[len + 1] = '\0';
+		} else if (!g_strncasecmp (name, "windows-", 8)) {
+			/* Convert charsets like windows-1251 and windows-cp1251 to iconv-friendly cp1251 */
+			new_charset = (char *) name + 8;
+			if (!g_strncasecmp (new_charset, "cp", 2))
+				new_charset += 2;
+			
+			for (p = new_charset; *p && isdigit ((unsigned) *p); p++);
+			if (*p == '\0')
+				new_charset = g_strdup_printf ("cp%s", new_charset);
+			else
+				new_charset = g_strdup (name);
 		} else {
 			/* *shrug* - add it to the hash table just the way it is? */
 			new_charset = g_strdup (name);
@@ -415,7 +432,7 @@ camel_charset_to_iconv (const char *name)
 	}
 	ICONV_CHARSETS_UNLOCK ();
 	
-	/*g_warning ("camel_charset_to_iconv (\"%s\") => \"%s\"", name, charset);*/
+	g_warning ("camel_charset_to_iconv (\"%s\") => \"%s\"", name, charset);
 	
 	return charset;
 }

@@ -1,5 +1,13 @@
 2001-09-13  Jeffrey Stedfast  <fejj@ximian.com>
 
+	* camel-mime-part-utils.c
+	(simple_data_wrapper_construct_from_parser): Convert the charset
+	to the iconv-friendly name.
+
+	* camel-charset-map.c (camel_charset_to_iconv): Add code to
+	convert windows-[cp]#### charsets to their iconv-friendly format
+	of cp####.
+
 	* camel-pgp-context.c (crypto_exec_with_passwd): Return -1 on
 	failure.
 
