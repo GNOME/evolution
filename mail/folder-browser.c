@@ -240,7 +240,7 @@ search_set(FolderBrowser *fb)
 	text = gtk_entry_get_text((GtkEntry *)fb->search_entry);
 
 	if (text == NULL || text[0] == 0) {
-		message_list_set_search (fb->message_list, NULL);
+		message_list_regenerate (fb->message_list, NULL);
 		return;
 	}
 
@@ -260,7 +260,7 @@ search_set(FolderBrowser *fb)
 			str++;
 		}
 	}
-	message_list_set_search (fb->message_list, out->str);
+	message_list_regenerate (fb->message_list, out->str);
 	g_string_free(out, TRUE);
 }
 
@@ -311,7 +311,7 @@ folder_browser_clear_search (FolderBrowser *fb)
 {
 	gtk_entry_set_text (GTK_ENTRY (fb->search_entry), "");
 	gtk_option_menu_set_history (GTK_OPTION_MENU (fb->search_menu), 0);
-	message_list_set_search (fb->message_list, NULL);
+	message_list_regenerate (fb->message_list, NULL);
 }
 
 static int

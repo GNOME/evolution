@@ -1,3 +1,32 @@
+2000-07-07  Dan Winship  <danw@helixcode.com>
+
+	* message-list.c: Lots of changes. Store uids as node data on the
+	tree nodes and use those rather than rows where possible. (The
+	concept of "row" is just getting too complicated.) Get rid of the
+	summary_table, because given a uid we can call
+	camel_folder_get_message_info, which makes more sense than keeping
+	a separate uid->row hash table ourselves.
+
+	(get_message_info): update
+	(get_message_row): removed
+	(ml_col_cound, ml_row_count, ml_value_at, ml_set_value_at,
+	ml_cell_is_editable, ml_duplicate_value, ml_free_value,
+	ml_initialize_value, ml_value_is_empty, ml_value_to_string):
+	Removed. We always use the tree model now.
+	(message_list_init): Remove the non-tree code.
+	(build_tree): store uids in the tree rather than row numbers,
+	and build the message_list->uid_rowmap to map from uids to rows
+	when needed.
+	(message_list_regenerate): Renamed from _set_search, since it's
+	used to redraw in non-search cases too.
+	(message_changed): Use the uid_rowmap to get a model row number.
+
+	* message-thread.c (thread_messages): Change the interface on this
+	to work with the new MessageList.
+
+	* folder-browser.c (search_set, folder_browser_clear_search): 
+	s/message_list_set_search/message_list_regenerate/
+
 2000-07-07  Christopher James Lahey  <clahey@helixcode.com>
 
 	* message-list.c (get_message_info): Handle a row number of -1

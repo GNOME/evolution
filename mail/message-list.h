@@ -69,14 +69,9 @@ struct _MessageList {
 
 	CamelFolder  *folder;
 
-	GPtrArray *summary_table; /* the summary of all messages */
 	GHashTable *uid_rowmap;
 
 	char *search;		/* search string */
-	/* FIXME: This should use a better format ... */
-	GList *matches;		/* when a search has been performed ... */
-	int match_count;
-	GPtrArray *summary_search_cache; /* summary info cache for searches */
 
 	int cursor_row, rows_selected;
 	const char *cursor_uid;
@@ -99,7 +94,7 @@ GtkType        message_list_get_type   (void);
 BonoboObject   *message_list_new        (FolderBrowser *parent_folder_browser);
 void           message_list_set_folder (MessageList *message_list,
 					CamelFolder *camel_folder);
-void           message_list_set_search (MessageList *message_list, const char *search);
+void           message_list_regenerate (MessageList *message_list, const char *search);
 GtkWidget     *message_list_get_widget (MessageList *message_list);
 
 void           message_list_foreach    (MessageList *message_list,

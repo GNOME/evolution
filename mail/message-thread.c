@@ -405,7 +405,7 @@ sort_thread(struct _container **cp)
 }
 
 struct _container *
-thread_messages(CamelMessageInfo **messages, int count)
+thread_messages(CamelFolder *folder, GPtrArray *uids)
 {
 	GHashTable *id_table;
 	int i;
@@ -413,9 +413,9 @@ thread_messages(CamelMessageInfo **messages, int count)
 	struct _header_references *ref;
 
 	id_table = g_hash_table_new(g_str_hash, g_str_equal);
-	for (i=0;i<count;i++) {
-		CamelMessageInfo *mi;
-		mi = messages[i];
+	for (i=0;i<uids->len;i++) {
+		const CamelMessageInfo *mi;
+		mi = camel_folder_get_message_info (folder, uids->pdata[i]);
 		if (mi->message_id) {
 			d(printf("doing : %s\n", mi->message_id));
 			c = g_hash_table_lookup(id_table, mi->message_id);
