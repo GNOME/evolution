@@ -7,9 +7,9 @@
 
 
 static void unparse_person (iCalPerson *person, icalproperty *person_prop);
-
 static struct icaltimetype timet_to_icaltime (time_t tt);
-
+static icalproperty *unparse_related (iCalRelation *rel);
+static icalcomponent *unparse_alarm (CalendarAlarm *alarm);
 
 
 icalcomponent*
@@ -218,29 +218,93 @@ icalcomponent_create_from_ical_object (iCalObject *ical)
 
 	/*** relatedto ***/
 
+	if (ical->related) {
+		/* a list of (iCalPerson *) */
+		GList *cur;
+		for (cur = ical->related; cur; cur = cur->next) {
+			iCalRelation *related = (iCalRelation *) cur->data;
+			prop = unparse_related (related);
+			icalcomponent_add_property (comp, prop);
+		}
+	}
+
+
 	/*** url ***/
+	if (ical->url) {
+		prop = icalproperty_new_url (ical->url);
+		icalcomponent_add_property (comp, prop);
+	}
 
 	/*** uid ***/
+	if (ical->uid) {
+		prop = icalproperty_new_uid (ical->uid);
+		icalcomponent_add_property (comp, prop);
+	}
 
 	/*** exdate ***/
+	if (ical->exdate) {
+		struct icaltimetype v;
+		GList *cur;
+		for (cur = ical->exdate; cur; cur = cur->next) {
+			time_t t = (time_t) cur->data;
+			v = timet_to_icaltime (t);
+			prop = icalproperty_new_exdate (v);
+			icalcomponent_add_property (comp, prop);
+		}
+	}
 
 	/*** created ***/
+	if (ical->created) {
+		struct icaltimetype v;
+		v = timet_to_icaltime (ical->created);
+		prop = icalproperty_new_created (v);
+		icalcomponent_add_property (comp, prop);
+	}
 
 	/*** dtstamp ***/
+	if (ical->dtstamp) {
+		struct icaltimetype v;
+		v = timet_to_icaltime (ical->dtstamp);
+		prop = icalproperty_new_created (v);
+		icalcomponent_add_property (comp, prop);
+	}
 
 	/*** lastmodified ***/
+	if (ical->last_mod) {
+		struct icaltimetype v;
+		v = timet_to_icaltime (ical->last_mod);
+		prop = icalproperty_new_created (v);
+		icalcomponent_add_property (comp, prop);
+	}
 
 	/*** sequence ***/
+	if (ical->seq) {
+		prop = icalproperty_new_sequence (ical->seq);
+		icalcomponent_add_property (comp, prop);
+	}
 
 	/*** requeststatus ***/
+	if (ical->rstatus) {
+		prop = icalproperty_new_requeststatus (ical->rstatus);
+		icalcomponent_add_property (comp, prop);
+	}
 
+	/* if there is a VALARM subcomponent, add it here */
 
-	/* then do subcomponents?  valarms? */
+	if (ical->alarms) {
+		GList *cur;
+		for (cur = ical->alarms; cur; cur = cur->next) {
+			CalendarAlarm *alarm = (CalendarAlarm *) cur->data;
+			icalcomponent *subcomp = unparse_alarm (alarm);
+			icalcomponent_add_component (comp, subcomp);
+		}
+	}
 
 	return comp;
 }
 
 
+/* FIX ME -- same as icaltimetype_from_timet in icaltypes.c */
 static
 struct icaltimetype timet_to_icaltime (time_t tt)
 {
@@ -358,4 +422,84 @@ void unparse_person (iCalPerson *person, icalproperty *person_prop)
 
 	/* ret->deleg_to is a list of ICAL_DIR_PARAMETER */
 	/* FIX ME ... */
+}
+
+
+static
+icalproperty *unparse_related (iCalRelation *rel)
+{
+	icalproperty *prop;
+
+	prop = icalproperty_new_relatedto (rel->reltype);
+
+	icalproperty_set_relatedto (prop, rel->uid);
+
+	/* FIX ME  RELTYPE_XNAME ? */
+	
+	return prop;
+}
+
+
+static
+icalcomponent *unparse_alarm (CalendarAlarm *alarm)
+{
+	icalcomponent *comp = icalcomponent_new (ICAL_VALARM_COMPONENT);
+	icalproperty *prop;
+
+	prop = NULL;
+	switch (alarm->type){
+	case ALARM_AUDIO:
+		prop = icalproperty_new_action ("AUDIO");
+		break;
+	case ALARM_DISPLAY:
+		prop = icalproperty_new_action ("DISPLAY");
+		break;
+	case ALARM_MAIL:
+		prop = icalproperty_new_action ("EMAIL");
+		break;
+	case ALARM_PROGRAM:
+		prop = icalproperty_new_action ("PROCEDURE");
+		break;
+	default:
+		g_warning ("Unsupported alarm type!");
+		break;
+	}
+	if (prop)
+		icalcomponent_add_property (comp, prop);
+
+	if (alarm->snooze_repeat)
+		prop = icalproperty_new_repeat (alarm->snooze_repeat);
+
+	if (alarm->snooze_secs) {
+		struct icaldurationtype dur;
+		dur = icaldurationtype_from_timet (alarm->snooze_secs);
+		prop = icalproperty_new_duration (dur);
+		icalcomponent_add_property (comp, prop);
+	}
+
+	if (alarm->attach) {
+		struct icalattachtype *attach;
+		attach = icalattachtype_new ();
+		icalattachtype_set_url (attach, alarm->attach);
+		prop = icalproperty_new_attach (*attach);
+		icalattachtype_free (attach);
+		icalcomponent_add_property (comp, prop);
+	}
+
+	if (alarm->desc) {
+		prop = icalproperty_new_description (alarm->desc);
+		icalcomponent_add_property (comp, prop);
+	}
+
+	if (alarm->summary) {
+		prop = icalproperty_new_summary (alarm->summary);
+		icalcomponent_add_property (comp, prop);
+	}
+
+	if (alarm->attendee) {
+		icalproperty_new_attendee (alarm->attendee);
+		icalcomponent_add_property (comp, prop);
+	}
+
+	return comp;
 }
