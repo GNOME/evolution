@@ -3164,22 +3164,18 @@ msgid "No"
 msgstr "いいえ"
 
 #: calendar/gui/calendar-view-factory.c:149 views/calendar/galview.xml.h:1
-#, fuzzy
 msgid "Day View"
-msgstr "名刺表示"
+msgstr "日"
 
 #: calendar/gui/calendar-view-factory.c:152 views/calendar/galview.xml.h:4
-#, fuzzy
 msgid "Work Week View"
-msgstr "週間労働時間(_O)"
+msgstr "平日"
 
 #: calendar/gui/calendar-view-factory.c:155 views/calendar/galview.xml.h:3
-#, fuzzy
 msgid "Week View"
-msgstr "表示を定義"
+msgstr "週"
 
 #: calendar/gui/calendar-view-factory.c:158 views/calendar/galview.xml.h:2
-#, fuzzy
 msgid "Month View"
 msgstr "月"
 
@@ -3225,9 +3221,8 @@ msgid "Create a new appointment"
 msgstr "新規約束を作成します"
 
 #: calendar/gui/component-factory.c:513 calendar/gui/e-day-view.c:3420
-#, fuzzy
 msgid "New _Appointment"
-msgstr "新規約束"
+msgstr "新規約束(_A)"
 
 #: calendar/gui/component-factory.c:518 ui/evolution-calendar.xml.h:8
 #: ui/evolution-tasks.xml.h:5
@@ -3621,9 +3616,8 @@ msgstr "水曜日"
 
 #: calendar/gui/dialogs/cal-prefs-dialog.glade.h:33
 #: ui/evolution-calendar.xml.h:33
-#, fuzzy
 msgid "Work Week"
-msgstr "週間労働時間(_O)"
+msgstr "平日"
 
 #: calendar/gui/dialogs/cal-prefs-dialog.glade.h:34
 #, fuzzy
@@ -3786,7 +3780,6 @@ msgid "Due "
 msgstr "期日"
 
 #: calendar/gui/dialogs/comp-editor.c:469
-#, fuzzy
 msgid "Edit Appointment"
 msgstr "約束の編集"
 
@@ -4399,7 +4392,7 @@ msgstr "開く(_O)"
 #: calendar/gui/e-week-view.c:3297 ui/evolution-addressbook.xml.h:1
 #: ui/evolution-calendar.xml.h:1 ui/evolution-tasks.xml.h:1
 msgid "C_ut"
-msgstr "切り取り(_U)"
+msgstr "切取り(_U)"
 
 #: calendar/gui/e-calendar-table.c:856 calendar/gui/e-day-view.c:3452
 #: calendar/gui/e-week-view.c:3299 ui/evolution-addressbook.xml.h:33
@@ -4437,7 +4430,6 @@ msgid "_Delete Selected Tasks"
 msgstr "選択したタスクを削除します"
 
 #: calendar/gui/e-calendar-table.c:1130
-#, fuzzy
 msgid "Click to add a task"
 msgstr "タスクを追加するためにここをクリック"
 
@@ -4480,7 +4472,7 @@ msgstr "開始日"
 #: my-evolution/component-factory.c:30 shell/e-shortcuts.c:1051
 #: shell/e-storage-set-view.c:1418
 msgid "Summary"
-msgstr "サマリー"
+msgstr "サマリ"
 
 #: calendar/gui/e-calendar-table.etspec.h:16
 #, fuzzy
@@ -8064,9 +8056,8 @@ msgid "Filter on _Mailing List"
 msgstr "メーリングリストのフィルタ(_M)"
 
 #: mail/folder-browser.c:1285 ui/evolution-mail-message.xml.h:89
-#, fuzzy
 msgid "_Edit as New Message..."
-msgstr "メッセージを印刷..."
+msgstr "新規メッセージとして編集..."
 
 #: mail/folder-browser.c:1287 ui/evolution-mail-message.xml.h:97
 msgid "_Save As..."
@@ -8321,7 +8312,7 @@ msgid ""
 "You need to configure an identity\n"
 "before you can compose mail."
 msgstr ""
-"あなたはメールを作成する前に身元の\n"
+"あなたはメールを作成する前にユーザ情報の\n"
 "設定をする必要があります"
 
 #: mail/mail-callbacks.c:161
@@ -8469,14 +8460,13 @@ msgid "Are you sure you want to open all %d messages in separate windows?"
 msgstr "本当に %d メッセージを別ウィンドウで開いてもよろしいですか?"
 
 #: mail/mail-config-druid.c:135
-#, fuzzy
 msgid ""
 "Please enter your name and email address below. The \"optional\" fields "
 "below do not need to be filled in,\n"
 "unless you wish to include this information in email you send."
 msgstr ""
 "以下にあなたの名前とメールアドレスを入力してください．\"オプション\"\n"
-"フィールド以下は送るメールにこの情報を含みたいないならうめる必要は\n"
+"フィールド以下は送るメールにこの情報を含みたくないならうめる必要は\n"
 "ありません"
 
 #: mail/mail-config-druid.c:137
@@ -8516,7 +8506,7 @@ msgid ""
 "space below.\n"
 "This name will be used for display purposes only."
 msgstr ""
-"メール設定の処理はだいたい完了しました．あなたが提供した身元，メールサーバ"
+"メール設定の処理はだいたい完了しました．あなたが提供したユーザ情報，メールサーバ"
 "や\n"
 "送信プロトコルは Evolution メールアカウントを作るために一纏めにされるでしょ"
 "う\n"
@@ -8526,9 +8516,8 @@ msgstr ""
 
 #. set window title
 #: mail/mail-config-druid.c:570
-#, fuzzy
 msgid "Evolution Account Assistant"
-msgstr "Evolution アカウントウィザード"
+msgstr "Evolutionアカウントアシスタント"
 
 #. right now, the URL always works basically as a matter of luck...
 #. * both IMAP and mbox spool stores have INBOX as their inbox folder
@@ -8536,9 +8525,8 @@ msgstr "Evolution アカウントウィザード"
 #. * what shortcut to insert?
 #.
 #: mail/mail-config.c:1587
-#, fuzzy, c-format
 msgid "%s: Inbox"
-msgstr "mbox"
+msgstr "%s: 受信箱"
 
 #: mail/mail-config.c:1829
 msgid "Checking Service"
@@ -8690,7 +8678,7 @@ msgstr "IMAPv4 "
 
 #: mail/mail-config.glade.h:37 shell/glade/evolution-startup-wizard.glade.h:4
 msgid "Identity"
-msgstr "身元"
+msgstr "ユーザ情報"
 
 #: mail/mail-config.glade.h:38
 msgid "In HTML mail"
@@ -8737,7 +8725,7 @@ msgstr "ニュース"
 
 #: mail/mail-config.glade.h:50
 msgid "Optional Information"
-msgstr "付加情報"
+msgstr "オプション"
 
 #: mail/mail-config.glade.h:52
 msgid "PGP Key ID:"
@@ -8893,23 +8881,20 @@ msgid "_Check for supported types"
 msgstr "サポートされた種別をチェック"
 
 #: mail/mail-config.glade.h:96
-#, fuzzy
 msgid "_Email Address:"
-msgstr "メールアドレス:"
+msgstr "メールアドレス(_E):"
 
 #: mail/mail-config.glade.h:97
 msgid "_Empty trash folders on exit"
 msgstr ""
 
 #: mail/mail-config.glade.h:98
-#, fuzzy
 msgid "_Full Name:"
-msgstr "フルネーム:"
+msgstr "フルネーム(_F):"
 
 #: mail/mail-config.glade.h:99
-#, fuzzy
 msgid "_HTML Signature:"
-msgstr "署名ファイル:"
+msgstr "HTML署名ファイル(_H):"
 
 #: mail/mail-config.glade.h:100
 #, fuzzy
@@ -8946,9 +8931,8 @@ msgid "_Never load images off the net"
 msgstr "二度と画像を読み込まない"
 
 #: mail/mail-config.glade.h:107
-#, fuzzy
 msgid "_Organization:"
-msgstr "組織:"
+msgstr "組織(_O):"
 
 #: mail/mail-config.glade.h:108
 #, fuzzy
@@ -8975,9 +8959,8 @@ msgid "_Send mail in HTML format by default."
 msgstr "デフォルトで HTML 形式のメールを送信する"
 
 #: mail/mail-config.glade.h:113
-#, fuzzy
 msgid "_Signature file:"
-msgstr "署名ファイル:"
+msgstr "署名ファイル(_S):"
 
 #: mail/mail-config.glade.h:114
 #, fuzzy
@@ -9087,19 +9070,17 @@ msgid "Save Link as (FIXME)"
 msgstr "別名で保存 (FIXME)"
 
 #: mail/mail-display.c:1518
-#, fuzzy
 msgid "Save Image as..."
-msgstr "別名で保存..."
+msgstr "画像の保存..."
 
 #: mail/mail-folder-cache.c:151
-#, fuzzy, c-format
 msgid "%d new"
-msgstr "%d 分"
+msgstr "新規%d通"
 
 #: mail/mail-folder-cache.c:157 mail/mail-folder-cache.c:164
 #: mail/mail-folder-cache.c:171
 msgid ", "
-msgstr ""
+msgstr ","
 
 #: mail/mail-folder-cache.c:158
 #, c-format
@@ -9119,7 +9100,7 @@ msgstr "%d 秒"
 #: mail/mail-folder-cache.c:176
 #, c-format
 msgid "%d total"
-msgstr ""
+msgstr "合計%d通"
 
 #: mail/mail-format.c:623
 #, c-format
@@ -11795,14 +11776,12 @@ msgid "Error saving shortcuts."
 msgstr "ショートカットの保存中にエラーが発生しました"
 
 #: shell/e-shortcuts.c:1045
-#, fuzzy
 msgid "Shortcuts"
-msgstr "ショートカットバー(_S)"
+msgstr "ショートカット"
 
 #: shell/e-shortcuts.c:1054
-#, fuzzy
 msgid "Inbox"
-msgstr "mbox"
+msgstr "受信箱"
 
 #: shell/e-storage.c:182 shell/e-storage.c:188
 msgid "(No name)"
@@ -11891,7 +11870,7 @@ msgstr "フォルダを作成する場所を指定してください:"
 
 #: shell/glade/evolution-startup-wizard.glade.h:3
 msgid "First Run Setup Assistant"
-msgstr ""
+msgstr "初回起動時のセットアップアシスタント"
 
 #: shell/glade/evolution-startup-wizard.glade.h:5
 #, fuzzy
@@ -11916,6 +11895,9 @@ msgid ""
 "\n"
 "This assistant will help you get started"
 msgstr ""
+"Evolutionのセットアップアシスタントへようこそ\n"
+"\n"
+"Evolutionをはじめるお手伝いをします"
 
 #: shell/glade/evolution-startup-wizard.glade.h:13
 #, fuzzy
@@ -11976,7 +11958,6 @@ msgid "Evolution can import data from the following files:"
 msgstr "メールを扱うための Evolution コンポーネント"
 
 #: shell/main.c:95
-#, fuzzy, no-c-format
 msgid ""
 "Hi.  Thanks for taking the time to download this preview release\n"
 "of the Ximian Evolution groupware suite.\n"
@@ -11991,30 +11972,24 @@ msgid ""
 "We hope that you enjoy the results of our hard work, and we\n"
 "eagerly await your contributions!\n"
 msgstr ""
-"やあ，Evolution グループウェアスイートのこの PREVIEW RELEASE の\n"
-"ダウンロードに時間を割いてくれてありがとう\n"
+"Ximian Evolutionグループウェアスイートのこのプレビューリリースの\n"
+"ダウンロードに時間を割いてくれてありがとうございます。\n"
 "\n"
-"Evolution は未完成です. それは近付いていますが, 特徴がないか作業\n"
-"途中の所があるということです. もし何かをする方法を思い付くことが\n"
-"出来ないならば, たぶんまだそれをする方法がないためです! :)\n"
+"Ximian Evolutionはまだ未完成です. それは近付いていますが, 機能が\n"
+"まだなかったり、半分くらいしか作業できていなかったりするということです。\n"
 "\n"
-"我々は Evolution が有用なものになることを望んでいますが, まだ次\n"
-"のことに対して注意する必要があるように感じます: クラッシュしたり\n"
-"メールを紛失したり, 動作したプロセスが残ったり, CPU パワーを 100%\n"
-"消費したり, サーバへ対応していないコマンドを送信して, あなたの\n"
-"友人や仕事仲間の前で困らせたりするかもしれません.\n"
+"もしバグがあれば、bugzilla.ximian.comでレポートしてください。\n"
+"このプロダクトは無保証で、怒りっぽい性格の人には向いていません。\n"
 "\n"
 "我々はあなたが我々の成果を楽しむことを望んでいます．そして我々は\n"
 "熱心にあなたの貢献を待ち受けています!\n"
 
 #: shell/main.c:116
-#, fuzzy
 msgid ""
 "Thanks\n"
 "The Ximian Evolution Team\n"
 msgstr ""
-"ありがとう\n"
-"Evolution チーム\n"
+"Ximian Evolutionチームより\n"
 
 #: shell/main.c:173
 #, fuzzy
@@ -12058,7 +12033,7 @@ msgstr "新規コンタクトを作成します"
 
 #: ui/evolution-addressbook.xml.h:6 ui/evolution-tasks.xml.h:6
 msgid "Cut"
-msgstr "切り取り"
+msgstr "切取り"
 
 #: ui/evolution-addressbook.xml.h:7 ui/evolution-calendar.xml.h:10
 msgid "Cut the selection"
@@ -12222,14 +12197,12 @@ msgid "Go To"
 msgstr "移動"
 
 #: ui/evolution-calendar.xml.h:14
-#, fuzzy
 msgid "Go back"
-msgstr "時間を戻します"
+msgstr "前に移動"
 
 #: ui/evolution-calendar.xml.h:15
-#, fuzzy
 msgid "Go forward"
-msgstr "時間を進めます"
+msgstr "先に移動"
 
 #: ui/evolution-calendar.xml.h:16
 msgid "Go to _Date"
@@ -12240,14 +12213,12 @@ msgid "Go to a specific date"
 msgstr "指定日に移動します"
 
 #: ui/evolution-calendar.xml.h:19
-#, fuzzy
 msgid "Go to today"
 msgstr "今日へ移動"
 
 #: ui/evolution-calendar.xml.h:20
-#, fuzzy
 msgid "Month"
-msgstr "月(_M)"
+msgstr "月"
 
 #: ui/evolution-calendar.xml.h:21
 msgid "New Appointment"
@@ -12266,46 +12237,40 @@ msgid "Print Pre_view"
 msgstr "印刷プレビュー(_V)"
 
 #: ui/evolution-calendar.xml.h:26
-#, fuzzy
 msgid "Print this calendar"
-msgstr "このカレンダの印刷します"
+msgstr "このカレンダを印刷します"
 
 #: ui/evolution-calendar.xml.h:27
 msgid "Publish Free/Busy information for this calendar"
 msgstr ""
 
 #: ui/evolution-calendar.xml.h:28
-#, fuzzy
 msgid "Show one day"
-msgstr "1 日を表示します"
+msgstr "1日を表示します"
 
 #: ui/evolution-calendar.xml.h:29
-#, fuzzy
 msgid "Show one month"
-msgstr "1 ヶ月を表示します"
+msgstr "1ヶ月を表示します"
 
 #: ui/evolution-calendar.xml.h:30
-#, fuzzy
 msgid "Show one week"
-msgstr "1 週間を表示します"
+msgstr "1週間を表示します"
 
 #: ui/evolution-calendar.xml.h:31
 msgid "Show the working week"
-msgstr "週間労働時間を表示します"
+msgstr "平日を表示します"
 
 #: ui/evolution-calendar.xml.h:32
 msgid "Week"
 msgstr "週"
 
 #: ui/evolution-calendar.xml.h:35
-#, fuzzy
 msgid "_Appointment..."
-msgstr "約束(_A)"
+msgstr "約束(_A)..."
 
 #: ui/evolution-calendar.xml.h:36
-#, fuzzy
 msgid "_Calendar Settings..."
-msgstr "メール設定(_M)..."
+msgstr "カレンダ設定(_C)..."
 
 #: ui/evolution-calendar.xml.h:42
 #, fuzzy
@@ -12313,9 +12278,8 @@ msgid "_Publish Free/Busy Information"
 msgstr "必須情報"
 
 #: ui/evolution-calendar.xml.h:43
-#, fuzzy
 msgid "_Task..."
-msgstr "タスク(_T)"
+msgstr "タスク(_T)..."
 
 #: ui/evolution-comp-editor.xml.h:2 ui/evolution-contact-editor.xml.h:1
 #: ui/evolution-contact-list-editor.xml.h:1
@@ -12479,9 +12443,8 @@ msgid "Cancel the current mail operation"
 msgstr "現在のメール操作をキャンセルします"
 
 #: ui/evolution-mail-global.xml.h:3
-#, fuzzy
 msgid "Compose _New Message"
-msgstr "メッセージを作成します"
+msgstr "新規メッセージの作成"
 
 #: ui/evolution-mail-global.xml.h:4
 msgid "Create or edit mail accounts and other preferences"
@@ -12508,9 +12471,8 @@ msgid "Forget remembered passwords so you will be prompted for them again"
 msgstr "記憶したパスワードを忘れた場合に再び表示します"
 
 #: ui/evolution-mail-global.xml.h:10
-#, fuzzy
 msgid "New Message"
-msgstr "次のメッセージへ移動します"
+msgstr "新規"
 
 #: ui/evolution-mail-global.xml.h:11
 msgid "Open a window for composing a mail message"
@@ -12554,9 +12516,8 @@ msgid "_Mail Settings..."
 msgstr "メール設定(_M)..."
 
 #: ui/evolution-mail-global.xml.h:22
-#, fuzzy
 msgid "_Preview Pane"
-msgstr "プレビュー"
+msgstr "プレビューペイン(_P)"
 
 #: ui/evolution-mail-global.xml.h:23
 msgid "_Send / Receive"
@@ -12572,14 +12533,12 @@ msgid "Change the properties of this folder"
 msgstr "このフォルダの設定を変更します"
 
 #: ui/evolution-mail-list.xml.h:2
-#, fuzzy
 msgid "Copy selected messages"
-msgstr "選択されたメッセージを隠す(_E)"
+msgstr "選択されたメッセージをコピー"
 
 #: ui/evolution-mail-list.xml.h:3
-#, fuzzy
 msgid "Cu_t"
-msgstr "切り取り"
+msgstr "切取り"
 
 #: ui/evolution-mail-list.xml.h:4
 #, fuzzy
@@ -13421,7 +13380,6 @@ msgid "_Go to Folder..."
 msgstr "フォルダへ移動(_G)..."
 
 #: ui/evolution.xml.h:41
-#, fuzzy
 msgid "_Import File..."
 msgstr "ファイルをインポート(_I)..."
 
