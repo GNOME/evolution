@@ -17,7 +17,6 @@
 #undef HAVE_KRB5
 #undef HAVE_NSS
 #undef HAVE_SSL
-#undef HAVE_OPENSSL
 #undef USE_DOT
 #undef USE_FCNTL
 #undef USE_FLOCK
@@ -33,6 +32,9 @@
 
 /* Sub-version identification string.  */
 #undef SUB_VERSION
+
+/* Prewview-release string */
+#undef PREVIEW_RELEASE
 
 /* Define if ctime_r takes three arguments */
 #undef CTIME_R_THREE_ARGS

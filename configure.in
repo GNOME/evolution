@@ -2,14 +2,17 @@
 AC_INIT(camel)
 AM_CONFIG_HEADER(config.h)
 
-EVOLUTION_MAJOR_VERSION=0
-EVOLUTION_MINOR_VERSION=99
-EVOLUTION_MICRO_VERSION=2
-VERSION=$EVOLUTION_MAJOR_VERSION.$EVOLUTION_MINOR_VERSION.$EVOLUTION_MICRO_VERSION
+EVOLUTION_MAJOR_VERSION=1
+EVOLUTION_MINOR_VERSION=0
+EVOLUTION_MICRO_VERSION=0
+EVOLUTION_NANO_VERSION=99
+VERSION=$EVOLUTION_MAJOR_VERSION.$EVOLUTION_MINOR_VERSION.$EVOLUTION_MICRO_VERSION.$EVOLUTION_NANO_VERSION
 PACKAGE=evolution
 
 AM_INIT_AUTOMAKE($PACKAGE, $VERSION)
 AC_SUBST(VERSION)
+
+AC_DEFINE_UNQUOTED(PREVIEW_RELEASE, " (Preview Release)")
 
 AC_DEFUN(EVO_CHECK_LIB, [
 	dispname="$1"
@@ -576,7 +579,7 @@ EVO_CHECK_LIB(libxml, xml, 1.8.10, 2.0)
 EVO_CHECK_LIB(bonobo-conf, bonobo_conf, 0.11)
 
 EVO_CHECK_LIB(GAL, gal, 0.18.1)
-EVO_CHECK_LIB(GtkHTML, gtkhtml, 0.16)
+EVO_CHECK_LIB(GtkHTML, gtkhtml, 1.0)
 
 dnl *************************
 dnl CFLAGS and LIBS and stuff
@@ -924,73 +927,6 @@ AC_SUBST(NSPR_CFLAGS)
 AC_SUBST(NSPR_LDFLAGS)
 AC_SUBST(NSS_CFLAGS)
 AC_SUBST(NSS_LDFLAGS)
-
-dnl ******************************
-dnl OpenSSL
-dnl ******************************
-
-if test "$msg_ssl" = "no"; then
-	AC_ARG_WITH(openssl-includes, [  --with-openssl-includes=PREFIX     Location of OpenSSL includes.],
-		with_openssl_includes="$withval", with_openssl_includes="/usr/include")
-	have_openssl_includes="no"
-	if test "x${with_openssl_includes}" != "xno"; then
-		CPPFLAGS_save="$CPPFLAGS"
-		
-		AC_MSG_CHECKING(for OpenSSL includes)
-		AC_MSG_RESULT("")
-		
-		CPPFLAGS="$CPPFLAGS -I$with_openssl_includes"
-		AC_CHECK_HEADERS(openssl/ssl.h openssl/x509.h, [ openssl_includes="yes" ])
-		CPPFLAGS="$CPPFLAGS_save"
-		
-		if test "x{$openssl_includes}" != "xno" -a "x{$openssl_includes}" != "x"; then
-			have_openssl_includes="yes"
-			OPENSSL_CFLAGS="-I$with_openssl_includes"
-		else
-			OPENSSL_CFLAGS=""
-		fi
-	else
-		AC_MSG_CHECKING(for OpenSSL includes)
-		AC_MSG_RESULT(no)
-	fi
-	
-	AC_ARG_WITH(openssl-libs, [  --with-openssl-libs=PREFIX     	Location of OpenSSL libs.],
-		with_openssl_libs="$withval")
-	if test "x${with_openssl_libs}" != "xno" -a "x${have_openssl_includes}" != "xno"; then
-		LDFLAGS_save="$LDFLAGS"
-	
-		case $with_openssl_libs in
-		""|-L*) ;;
-		*) with_openssl_libs="-L$with_openssl_libs" ;;
-		esac
-	
-		AC_CHECK_LIB(dl, dlopen, DL_LDFLAGS="-ldl", DL_LDFLAGS="")
-		AC_CACHE_CHECK([for OpenSSL libraries], openssl_libs,
-		[
-			LDFLAGS="$LDFLAGS $with_openssl_libs -lssl -lcrypto $DL_LDFLAGS"
-			AC_TRY_LINK_FUNC(SSL_read, openssl_libs="yes", openssl_libs="no")
-			LDFLAGS="$LDFLAGS_save"
-		])
-		if test "x${openssl_libs}" != "xno"; then
-			AC_DEFINE(HAVE_OPENSSL)
-			AC_DEFINE(HAVE_SSL)
-			msg_ssl="yes (OpenSSL)"
-			OPENSSL_LDFLAGS="$with_openssl_libs -lssl -lcrypto $DL_LDFLAGS"
-		else
-			OPENSSL_CFLAGS=""
-			OPENSSL_LDFLAGS=""
-		fi
-	else
-		AC_MSG_CHECKING(for OpenSSL libraries)
-		AC_MSG_RESULT(no)
-	fi
-else
-	OPENSSL_CFLAGS=""
-	OPENSSL_LDFLAGS=""
-fi
-	
-AC_SUBST(OPENSSL_CFLAGS)
-AC_SUBST(OPENSSL_LDFLAGS)
 
 ##################################################
 # Check for gtk-doc.
