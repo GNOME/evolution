@@ -30,6 +30,7 @@
 #include "camel-mime-filter-from.h"
 #include "camel-mime-filter-crlf.h"
 #include "camel-mime-filter-charset.h"
+#include "camel-mime-filter-chomp.h"
 #include "camel-stream-filter.h"
 #include "camel-stream-mem.h"
 #include "camel-stream-fs.h"
@@ -42,7 +43,7 @@
 
 #define d(x) x
 
-/** rfc2015 stuff (aka PGP/MIME) *******************************/
+/** rfc2015/rfc3156 stuff (aka PGP/MIME) *******************************/
 
 gboolean
 camel_pgp_mime_is_rfc2015_signed (CamelMimePart *mime_part)
@@ -235,10 +236,10 @@ camel_pgp_mime_part_sign (CamelPgpContext *context, CamelMimePart **mime_part, c
 	CamelMultipart *multipart;
 	CamelContentType *mime_type;
 	CamelStreamFilter *filtered_stream;
-	CamelMimeFilter *crlf_filter, *from_filter;
+	CamelMimeFilter *crlf_filter, *from_filter, *chomp_filter;
 	CamelStream *stream, *sigstream;
-	gchar *hash_type = NULL;
 	GSList *encodings = NULL;
+	char *hash_type = NULL;
 	
 	g_return_if_fail (*mime_part != NULL);
 	g_return_if_fail (CAMEL_IS_MIME_PART (*mime_part));
@@ -251,24 +252,42 @@ camel_pgp_mime_part_sign (CamelPgpContext *context, CamelMimePart **mime_part, c
 	
 	/* get the cleartext */
 	stream = camel_stream_mem_new ();
-	crlf_filter = camel_mime_filter_crlf_new (CAMEL_MIME_FILTER_CRLF_ENCODE,
-						  CAMEL_MIME_FILTER_CRLF_MODE_CRLF_ONLY);
-	from_filter = CAMEL_MIME_FILTER (camel_mime_filter_from_new ());
 	filtered_stream = camel_stream_filter_new_with_stream (stream);
-	camel_stream_filter_add (filtered_stream, CAMEL_MIME_FILTER (crlf_filter));
-	camel_object_unref (CAMEL_OBJECT (crlf_filter));
+	
+	/* Note: see rfc3156, section 3 - second note */
+	from_filter = CAMEL_MIME_FILTER (camel_mime_filter_from_new ());
 	camel_stream_filter_add (filtered_stream, CAMEL_MIME_FILTER (from_filter));
 	camel_object_unref (CAMEL_OBJECT (from_filter));
+	
+	/* Note: see rfc3156, section 5.4 (this is the big thing that changed between rfc2015 and rfc3156) */
+	chomp_filter = camel_mime_filter_chomp_new ();
+	camel_stream_filter_add (filtered_stream, CAMEL_MIME_FILTER (chomp_filter));
+	camel_object_unref (CAMEL_OBJECT (chomp_filter));
+	
+	/* Note: see rfc2015 or rfc3156, section 5.1 */
+	crlf_filter = camel_mime_filter_crlf_new (CAMEL_MIME_FILTER_CRLF_ENCODE,
+						  CAMEL_MIME_FILTER_CRLF_MODE_CRLF_ONLY);
+	camel_stream_filter_add (filtered_stream, CAMEL_MIME_FILTER (crlf_filter));
+	camel_object_unref (CAMEL_OBJECT (crlf_filter));
+	
 	camel_data_wrapper_write_to_stream (CAMEL_DATA_WRAPPER (part), CAMEL_STREAM (filtered_stream));
+	camel_stream_flush (CAMEL_STREAM (filtered_stream));
 	camel_object_unref (CAMEL_OBJECT (filtered_stream));
 	
 	/* reset the stream */
 	camel_stream_reset (stream);
 	
+	printf ("attempting to sign data:\n----- BEGIN SIGNED PART -----\n%.*s----- END SIGNED PART -----\n",
+		CAMEL_STREAM_MEM (stream)->buffer->len, CAMEL_STREAM_MEM (stream)->buffer->data);
+	
 	/* construct the signature stream */
 	sigstream = camel_stream_mem_new ();
 	
 	switch (hash) {
+	case CAMEL_CIPHER_HASH_MD2:
+		/* this is a new addition with rfc3156 */
+		hash_type = "pgp-md2";
+		break;
 	case CAMEL_CIPHER_HASH_MD5:
 		hash_type = "pgp-md5";
 		break;
@@ -350,7 +369,7 @@ camel_pgp_mime_part_verify (CamelPgpContext *context, CamelMimePart *mime_part, 
 	CamelMultipart *multipart;
 	CamelMimePart *part, *sigpart;
 	CamelStreamFilter *filtered_stream;
-	CamelMimeFilter *crlf_filter, *from_filter;
+	CamelMimeFilter *crlf_filter, *chomp_filter;
 	CamelStream *stream, *sigstream;
 	CamelCipherValidity *valid;
 	
@@ -366,17 +385,22 @@ camel_pgp_mime_part_verify (CamelPgpContext *context, CamelMimePart *mime_part, 
 	/* get the plain part */
 	part = camel_multipart_get_part (multipart, 0);
 	stream = camel_stream_mem_new ();
+	filtered_stream = camel_stream_filter_new_with_stream (stream);
+	
+	/* Note: see rfc3156, section 5.4 (this is the big thing that changed between rfc2015 and rfc3156) */
+	chomp_filter = camel_mime_filter_chomp_new ();
+	camel_stream_filter_add (filtered_stream, CAMEL_MIME_FILTER (chomp_filter));
+	camel_object_unref (CAMEL_OBJECT (chomp_filter));
+	
+	/* Note: see rfc2015 or rfc3156, section 5.1 */
 	crlf_filter = camel_mime_filter_crlf_new (CAMEL_MIME_FILTER_CRLF_ENCODE,
 						  CAMEL_MIME_FILTER_CRLF_MODE_CRLF_ONLY);
-	from_filter = CAMEL_MIME_FILTER (camel_mime_filter_from_new ());
-	filtered_stream = camel_stream_filter_new_with_stream (stream);
 	camel_stream_filter_add (filtered_stream, CAMEL_MIME_FILTER (crlf_filter));
 	camel_object_unref (CAMEL_OBJECT (crlf_filter));
-	camel_stream_filter_add (filtered_stream, CAMEL_MIME_FILTER (from_filter));
-	camel_object_unref (CAMEL_OBJECT (from_filter));
 	
 	wrapper = CAMEL_DATA_WRAPPER (part);
 	camel_data_wrapper_write_to_stream (wrapper, CAMEL_STREAM (filtered_stream));
+	camel_stream_flush (CAMEL_STREAM (filtered_stream));
 	camel_object_unref (CAMEL_OBJECT (filtered_stream));
 	camel_stream_reset (stream);
 	
@@ -389,6 +413,9 @@ camel_pgp_mime_part_verify (CamelPgpContext *context, CamelMimePart *mime_part, 
 	
 	/* verify */
 	valid = camel_pgp_verify (context, stream, sigstream, ex);
+	
+	printf ("attempted to verify data:\n----- BEGIN SIGNED PART -----\n%.*s----- END SIGNED PART -----\n",
+		CAMEL_STREAM_MEM (stream)->buffer->len, CAMEL_STREAM_MEM (stream)->buffer->data);
 	
 	camel_object_unref (CAMEL_OBJECT (sigstream));
 	camel_object_unref (CAMEL_OBJECT (stream));

@@ -1,3 +1,16 @@
+2002-02-27  Jeffrey Stedfast  <fejj@ximian.com>
+
+	* camel-mime-filter-chomp.c (camel_mime_filter_chomp_new): New
+	stream filter that chomps excess trailing whitespace from the end
+	of the stream. This is needed to update the PGP/MIME code to
+	comply with rfc3156.
+
+	* camel-pgp-mime.c (camel_pgp_mime_part_verify): Don't attach a
+	from filter, if it ain't from-filtered already, then we'll just be
+	breaking stuff. To become rfc3156 compliant, add a chomp filter
+	here.
+	(camel_pgp_mime_part_sign): Add a chomp filter here too.
+
 2002-02-27  Not Zed  <NotZed@Ximian.com>
 
 	* camel-mime-part.c (init_header_name_table): Changed header
