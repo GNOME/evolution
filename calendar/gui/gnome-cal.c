@@ -1726,48 +1726,6 @@ gnome_calendar_set_pane_positions	(GnomeCalendar	*gcal)
 	}
 }
 
-/* Displays an error to indicate that opening a calendar failed */
-static void
-open_error (GnomeCalendar *gcal, const char *uri)
-{
-	char *msg;
-	char *urinopwd;
-
-	urinopwd = get_uri_without_password (uri);
-	msg = g_strdup_printf (_("Could not open the folder in `%s'"), urinopwd);
-	gnome_error_dialog_parented (msg, GTK_WINDOW (gtk_widget_get_toplevel (GTK_WIDGET (gcal))));
-	g_free (msg);
-	g_free (urinopwd);
-}
-
-/* Displays an error to indicate that the specified URI method is not supported */
-static void
-method_error (GnomeCalendar *gcal, const char *uri)
-{
-	char *msg;
-	char *urinopwd;
-
-	urinopwd = get_uri_without_password (uri);
-	msg = g_strdup_printf (_("The method required to open `%s' is not supported"), urinopwd);
-	gnome_error_dialog_parented (msg, GTK_WINDOW (gtk_widget_get_toplevel (GTK_WIDGET (gcal))));
-	g_free (msg);
-	g_free (urinopwd);
-}
-
-/* Displays an error to indicate permission problems */
-static void
-permission_error (GnomeCalendar *gcal, const char *uri)
-{
-	char *msg;
-	char *urinopwd;
-
-	urinopwd = get_uri_without_password (uri);
-	msg = g_strdup_printf (_("You don't have permission to open the folder in `%s'"), urinopwd);
-	gnome_error_dialog_parented (msg, GTK_WINDOW (gtk_widget_get_toplevel (GTK_WIDGET (gcal))));
-	g_free (msg);
-	g_free (urinopwd);
-}
-
 /* Duplicates an array of categories */
 static GPtrArray *
 copy_categories (GPtrArray *categories)
@@ -1782,6 +1740,28 @@ copy_categories (GPtrArray *categories)
 		c->pdata[i] = g_strdup (categories->pdata[i]);
 
 	return c;
+}
+
+static gboolean
+open_ecal (ECal *cal, gboolean only_if_exists)
+{
+	gboolean retval;
+	GError *error = NULL;
+
+	retval = e_cal_open (cal, only_if_exists, &error);
+	if (!retval) {
+		GtkWidget *dialog;
+
+		/* display error message */
+		dialog = gtk_message_dialog_new (NULL, GTK_DIALOG_NO_SEPARATOR,
+						 GTK_MESSAGE_ERROR, GTK_BUTTONS_OK,
+						 _("Could not open '%s': %s"),
+						 e_cal_get_uri (cal),
+						 error ? error->message : "");
+		g_error_free (error);
+	}
+
+	return retval;
 }
 
 /* Adds the categories from an array to a hash table if they don't exist there
@@ -1978,7 +1958,7 @@ gnome_calendar_construct (GnomeCalendar *gcal)
 
 		g_free (uid);
 
-		if (!e_cal_open (priv->task_pad_client, TRUE, NULL))
+		if (!open_ecal (priv->task_pad_client, TRUE))
 			return NULL;
 
 		e_cal_model_add_client (e_calendar_table_get_model (E_CALENDAR_TABLE (priv->todo)),
@@ -2117,7 +2097,7 @@ gnome_calendar_add_event_source (GnomeCalendar *gcal, ESource *source)
 	g_signal_connect (G_OBJECT (client), "backend_died", G_CALLBACK (backend_died_cb), gcal);
 
 	/* FIXME Do this async? */
-	if (!e_cal_open (client, FALSE, NULL)) {
+	if (!open_ecal (client, FALSE)) {
 		g_hash_table_remove (priv->clients, str_uri);
 		priv->clients_list = g_list_remove (priv->clients_list, client);
 		g_signal_handlers_disconnect_matched (client, G_SIGNAL_MATCH_DATA,

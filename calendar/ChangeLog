@@ -1,5 +1,15 @@
 2004-01-05  Rodrigo Moya <rodrigo@ximian.com>
 
+	* gui/gnome-cal.c (open_ecal): new function to open ECal's, get any
+	error information and display it to the user, all-in-one.
+	(gnome_calendar_construct, gnome_calendar_add_event_source): use the
+	above function, instead of e_cal_open().
+	(open_error, method_error, permission_error): removed unneeded
+	functions, we just display the error message returned from the
+	backend.
+
+2004-01-05  Rodrigo Moya <rodrigo@ximian.com>
+
 	* gui/gnome-cal.c (gnome_calendar_construct): no need to connect to
 	the "cal_opened" signal on the task client. Also, added code to
 	add the client to the ECalendarTable's model.
