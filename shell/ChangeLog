@@ -1,3 +1,11 @@
+2000-06-19  Dan Winship  <danw@helixcode.com>
+
+	* evolution-shell-component-client.c
+	(evolution_shell_component_client_new): Add a warning before
+	crashing due to a known bug when it can't activate a component, so
+	people don't have to waste any time trying to figure out what's
+	up.
+
 2000-06-13  Ettore Perazzoli  <ettore@helixcode.com>
 
 	* Makefile.am: Compile the CORBA-built files,
