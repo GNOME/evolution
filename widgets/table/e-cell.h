@@ -2,6 +2,7 @@
 #define _E_CELL_H_
 
 #include <gdk/gdktypes.h>
+#include <libgnomeprint/gnome-print.h>
 #include "e-table-model.h"
 
 #define E_CELL_TYPE        (e_cell_get_type ())
@@ -62,6 +63,9 @@ void       e_cell_unrealize (ECellView *ecell_view);
 void       e_cell_draw      (ECellView *ecell_view, GdkDrawable *dr, 
 			     int model_col, int view_col, int row, gboolean selected,
 			     int x1, int y1, int x2, int y2);
+void       e_cell_print      (ECellView *ecell_view, GnomePrintContext *context, 
+			      int model_col, int view_col, int row,
+			      double width, double height);
 void       e_cell_focus     (ECellView *ecell_view, int model_col, int view_col, int row,
 			     int x1, int y1, int x2, int y2);
 void       e_cell_unfocus   (ECellView *ecell_view);

@@ -25,6 +25,7 @@
 #include "e-minicard-label.h"
 #include "e-text.h"
 #include "e-canvas.h"
+#include "e-util.h"
 static void e_minicard_init		(EMinicard		 *card);
 static void e_minicard_class_init	(EMinicardClass	 *klass);
 static void e_minicard_set_arg (GtkObject *o, GtkArg *arg, guint arg_id);
@@ -105,7 +106,7 @@ e_minicard_class_init (EMinicardClass *klass)
 			   GTK_ARG_READWRITE, ARG_WIDTH); 
   gtk_object_add_arg_type ("EMinicard::height", GTK_TYPE_DOUBLE, 
 			   GTK_ARG_READABLE, ARG_HEIGHT);
-  gtk_object_add_arg_type ("EMinicard::has_focus", GTK_TYPE_BOOL,
+  gtk_object_add_arg_type ("EMinicard::has_focus", GTK_TYPE_ENUM,
 			   GTK_ARG_READWRITE, ARG_HAS_FOCUS);
   gtk_object_add_arg_type ("EMinicard::card", GTK_TYPE_OBJECT, 
 			   GTK_ARG_READWRITE, ARG_CARD);
@@ -149,10 +150,18 @@ e_minicard_set_arg (GtkObject *o, GtkArg *arg, guint arg_id)
 		}
 	  break;
 	case ARG_HAS_FOCUS:
-		if (e_minicard->fields)
-			gnome_canvas_item_set(GNOME_CANVAS_ITEM(e_minicard->fields->data),
-					      "has_focus", GTK_VALUE_BOOL(*arg),
-					      NULL);
+		if (e_minicard->fields) {
+			if ( GTK_VALUE_ENUM(*arg) == E_FOCUS_START ||
+			     GTK_VALUE_ENUM(*arg) == E_FOCUS_CURRENT) {
+				gnome_canvas_item_set(GNOME_CANVAS_ITEM(e_minicard->fields->data),
+						      "has_focus", GTK_VALUE_ENUM(*arg),
+						      NULL);
+			} else if ( GTK_VALUE_ENUM(*arg) == E_FOCUS_END ) {
+				gnome_canvas_item_set(GNOME_CANVAS_ITEM(g_list_last(e_minicard->fields)->data),
+						      "has_focus", GTK_VALUE_ENUM(*arg),
+						      NULL);
+			}
+		}
 		else
 			e_canvas_item_grab_focus(GNOME_CANVAS_ITEM(e_minicard));
 		break;
@@ -179,7 +188,7 @@ e_minicard_get_arg (GtkObject *object, GtkArg *arg, guint arg_id)
 	  GTK_VALUE_DOUBLE (*arg) = e_minicard->height;
 	  break;
 	case ARG_HAS_FOCUS:
-		GTK_VALUE_BOOL (*arg) = e_minicard->has_focus;
+		GTK_VALUE_ENUM (*arg) = e_minicard->has_focus ? E_FOCUS_CURRENT : E_FOCUS_NONE;
 		break;
 	case ARG_CARD:
 	  /* GTK_VALUE_POINTER (*arg) = e_minicard->card; */
@@ -364,11 +373,11 @@ e_minicard_event (GnomeCanvasItem *item, GdkEvent *event)
 		    GList *list;
 		    for (list = e_minicard->fields; list; list = list->next) {
 			    GnomeCanvasItem *item = GNOME_CANVAS_ITEM (list->data);
-			    gboolean has_focus;
+			    EFocus has_focus;
 			    gtk_object_get(GTK_OBJECT(item),
 					   "has_focus", &has_focus,
 					   NULL);
-			    if (has_focus) {
+			    if (has_focus != E_FOCUS_NONE) {
 				    if (event->key.state & GDK_SHIFT_MASK)
 					    list = list->prev;
 				    else
@@ -376,7 +385,7 @@ e_minicard_event (GnomeCanvasItem *item, GdkEvent *event)
 				    if (list) {
 					    item = GNOME_CANVAS_ITEM (list->data);
 					    gnome_canvas_item_set(item,
-								  "has_focus", TRUE,
+								  "has_focus", (event->key.state & GDK_SHIFT_MASK) ? E_FOCUS_END : E_FOCUS_START,
 								  NULL);
 					    return 1;
 				    } else {

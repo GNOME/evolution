@@ -129,7 +129,7 @@ e_cell_new_view (ECell *ecell, ETableModel *table_model, void *e_table_item_view
 }
 
 void
-e_cell_view_realize (ECellView *ecell_view)
+e_cell_realize (ECellView *ecell_view)
 {
 	return E_CELL_CLASS (GTK_OBJECT (ecell_view->ecell)->klass)->realize (ecell_view);
 }

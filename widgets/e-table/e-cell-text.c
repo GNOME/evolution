@@ -120,7 +120,6 @@ typedef struct {
 } ECellTextView;
 
 typedef struct _CurrentCell{
-
 	ECellTextView *text_view;
 	int            width;
 	gchar         *text;
@@ -233,6 +232,10 @@ static void
 ect_stop_editing (ECellTextView *text_view)
 {
 	CellEdit *edit = text_view->edit;
+	int row, view_col;
+
+	row = edit->cell.row;
+	view_col = edit->cell.view_col;
 	
 	g_free (edit->old_text);
 	edit->old_text = NULL;
@@ -246,12 +249,24 @@ ect_stop_editing (ECellTextView *text_view)
 		g_free(edit->primary_selection);
 	if (edit->clipboard_selection)
 		g_free(edit->clipboard_selection);
+	if ( ! edit->default_cursor_shown ) {
+		gdk_window_set_cursor(GTK_WIDGET(text_view->canvas)->window, NULL);
+		edit->default_cursor_shown = TRUE;
+	}
+	if (edit->timeout_id) {
+		g_source_remove(edit->timeout_id);
+		edit->timeout_id = 0;
+	}
+	if (edit->timer) {
+		g_timer_stop(edit->timer);
+		g_timer_destroy(edit->timer);
+		edit->timer = NULL;
+	}
 
 	g_free (edit);
 	
 	text_view->edit = NULL;
-
-	e_table_item_leave_edit (text_view->cell_view.e_table_item_view);
+	ect_queue_redraw (text_view, view_col, row);
 }
 
 /*
@@ -260,7 +275,6 @@ ect_stop_editing (ECellTextView *text_view)
 static void
 ect_cancel_edit (ECellTextView *text_view)
 {
-	ect_queue_redraw (text_view, text_view->edit->cell.view_col, text_view->edit->cell.row);
 	ect_stop_editing (text_view);
 }
 
@@ -379,9 +393,11 @@ ect_draw (ECellView *ecell_view, GdkDrawable *drawable,
 
 	if (edit){
 		
-		if ((edit->cell.view_col == view_col) && (edit->cell.row == row))
+		if ((edit->cell.view_col == view_col) && (edit->cell.row == row)) {
 			edit_display = TRUE;
-		fg_gc = canvas->style->fg_gc[edit->has_selection ? GTK_STATE_SELECTED : GTK_STATE_ACTIVE];
+			fg_gc = canvas->style->fg_gc[edit->has_selection ? GTK_STATE_SELECTED : GTK_STATE_ACTIVE];
+		} else
+			fg_gc = canvas->style->fg_gc[GTK_STATE_ACTIVE];
 	} else {
 		fg_gc = canvas->style->fg_gc[GTK_STATE_ACTIVE];
 	}
@@ -776,6 +792,8 @@ ect_event (ECellView *ecell_view, GdkEvent *event, int model_col, int view_col, 
 		break;
 	case GDK_BUTTON_PRESS: /* Fall Through */
 	case GDK_BUTTON_RELEASE:
+		event->button.x -= 4;
+		event->button.y -= 1;
 		if ((!edit_display) 
 		    && ect->editable
 		    && event->type == GDK_BUTTON_RELEASE
@@ -828,6 +846,8 @@ ect_event (ECellView *ecell_view, GdkEvent *event, int model_col, int view_col, 
 		}
 		break;
 	case GDK_MOTION_NOTIFY:
+		event->motion.x -= 4;
+		event->motion.y -= 1;
 		if (edit_display) {
 			GdkEventMotion motion = event->motion;
 			e_tep_event.motion.time = motion.time;
@@ -928,15 +948,6 @@ ect_height (ECellView *ecell_view, int model_col, int view_col, int row)
 }
 
 /*
- * Callback: invoked when the user pressed "enter" on the GtkEntry
- */
-static void
-ect_entry_activate (GtkEntry *entry, ECellTextView *text_view)
-{
-	e_table_item_leave_edit (text_view->cell_view.e_table_item_view);
-}
-
-/*
  * ECellView::enter_edit method
  */
 static void *
@@ -1011,19 +1022,6 @@ ect_leave_edit (ECellView *ecell_view, int model_col, int view_col, int row, voi
 	CellEdit *edit = text_view->edit;
 
 	if (edit){
-		if ( ! edit->default_cursor_shown ) {
-			gdk_window_set_cursor(GTK_WIDGET(text_view->canvas)->window, NULL);
-			edit->default_cursor_shown = TRUE;
-		}
-		if (edit->timeout_id) {
-			g_source_remove(edit->timeout_id);
-			edit->timeout_id = 0;
-		}
-		if (edit->timer) {
-			g_timer_stop(edit->timer);
-			g_timer_destroy(edit->timer);
-			edit->timer = NULL;
-		}
 		ect_accept_edits (text_view);
 		ect_stop_editing (text_view);
 	} else {
@@ -1508,9 +1506,6 @@ e_cell_text_view_command(ETextEventProcessor *tep, ETextEventProcessorCommand *c
 		break;
 	case E_TEP_ACTIVATE:
 		e_table_item_leave_edit (text_view->cell_view.e_table_item_view);
-		if (edit->timer) {
-			g_timer_reset(edit->timer);
-		}
 		break;
 	case E_TEP_SET_SELECT_BY_WORD:
 		edit->select_by_word = command->value;
@@ -1842,7 +1837,9 @@ calc_line_widths (CurrentCell *cell)
 			}
 			
 			if (ect->use_ellipsis &&
-			    ! text_view->edit &&
+			    (!(text_view->edit &&
+			       cell->row == text_view->edit->cell.row &&
+			       cell->view_col == text_view->edit->cell.view_col)) &&
 			    lines->width > cell->width) {
 				if (font) {
 					lines->ellipsis_length = 0;

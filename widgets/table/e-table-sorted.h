@@ -19,7 +19,7 @@ typedef struct {
 } ETableSorted;
 
 typedef struct {
-	ETableSubset parent_class;
+	ETableSubsetClass parent_class;
 } ETableSortedClass;
 
 GtkType      e_table_sorted_get_type (void);

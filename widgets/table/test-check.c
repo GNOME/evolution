@@ -13,6 +13,7 @@
 #include "e-table-header-item.h"
 #include "e-table-item.h"
 #include "e-util/e-cursors.h"
+#include "e-util/e-canvas-utils.h"
 #include "e-cell-text.h"
 #include "e-cell-checkbox.h"
 
@@ -79,6 +80,12 @@ is_cell_editable (ETableModel *etc, int col, int row, void *data)
 }
 
 static void
+thaw (ETableModel *etc, void *data)
+{
+	e_table_model_changed(etc);
+}
+
+static void
 set_canvas_size (GnomeCanvas *canvas, GtkAllocation *alloc)
 {
 	gnome_canvas_set_scroll_region (canvas, 0, 0, alloc->width, alloc->height);
@@ -93,13 +100,14 @@ check_test (void)
 	ETableCol *col_0, *col_1;
 	ECell *cell_left_just, *cell_image_check;
 	GdkPixbuf *pixbuf;
+	GnomeCanvasItem *item;
 
 	gtk_widget_push_visual (gdk_rgb_get_visual ());
 	gtk_widget_push_colormap (gdk_rgb_get_cmap ());
 	
 	e_table_model = e_table_simple_new (
 		col_count, row_count, value_at,
-		set_value_at, is_cell_editable, NULL);
+		set_value_at, is_cell_editable, thaw, NULL);
 
 	/*
 	 * Header
@@ -137,21 +145,15 @@ check_test (void)
 		"y",  0,
 		NULL);
 
-	gnome_canvas_item_new (
+	item = gnome_canvas_item_new (
 		gnome_canvas_root (GNOME_CANVAS (canvas)),
 		e_table_item_get_type (),
 		"ETableHeader", e_table_header,
 		"ETableModel", e_table_model,
-		"x",  (double) 0,
-		"y",  (double) 30,
 		"drawgrid", TRUE,
 		"drawfocus", TRUE,
 		"spreadsheet", TRUE,
 		NULL);
-	
+	e_canvas_item_move_absolute(item, 0, 30);
 }
-
-
-
-
 

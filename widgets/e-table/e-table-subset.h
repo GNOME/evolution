@@ -1,3 +1,4 @@
+/* -*- Mode: C; tab-width: 8; indent-tabs-mode: t; c-basic-offset: 8 -*- */
 #ifndef _E_TABLE_SUBSET_H_
 #define _E_TABLE_SUBSET_H_
 

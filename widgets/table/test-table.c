@@ -1,3 +1,4 @@
+/* -*- Mode: C; tab-width: 8; indent-tabs-mode: t; c-basic-offset: 8 -*- */
 /*
  * Test code for the ETable package
  *
@@ -55,6 +56,8 @@ parse_headers ()
 	p = buffer;
 	for (i = 0; (s = strtok (p, " \t")) != NULL; i++){
 		column_labels [i] = g_strdup (s);
+		if ( strchr(column_labels [i], '\n') )
+			*strchr(column_labels [i], '\n') = 0;
 		p = NULL;
 	}
 
@@ -174,6 +177,12 @@ is_cell_editable (ETableModel *etc, int col, int row, void *data)
 }
 
 static void
+thaw (ETableModel *etc, void *data)
+{
+	e_table_model_changed(etc);
+}
+
+static void
 set_canvas_size (GnomeCanvas *canvas, GtkAllocation *alloc)
 {
 	gnome_canvas_set_scroll_region (canvas, 0, 0, alloc->width, alloc->height);
@@ -196,7 +205,7 @@ table_browser_test (void)
 	 */
 	e_table_model = e_table_simple_new (
 		col_count, row_count, value_at,
-		set_value_at, is_cell_editable, NULL);
+		set_value_at, is_cell_editable, thaw, NULL);
 
 	/*
 	 * Header
@@ -244,8 +253,6 @@ table_browser_test (void)
 		e_table_item_get_type (),
 		"ETableHeader", e_table_header,
 		"ETableModel", e_table_model,
-		"x",  (double) 0,
-		"y",  (double) 0,
 		"drawgrid", TRUE,
 		"drawfocus", TRUE,
 		"spreadsheet", TRUE,
@@ -253,7 +260,7 @@ table_browser_test (void)
 }
 
 static void
-do_e_table_demo (const char *col_spec, const char *group_spec)
+do_e_table_demo (const char *spec)
 {
 	GtkWidget *e_table, *window, *frame;
 	ETableModel *e_table_model;
@@ -266,7 +273,7 @@ do_e_table_demo (const char *col_spec, const char *group_spec)
 	 */
 	e_table_model = e_table_simple_new (
 		col_count, row_count, value_at,
-		set_value_at, is_cell_editable, NULL);
+		set_value_at, is_cell_editable, thaw, NULL);
 
 	full_header = e_table_header_new ();
 	cell_left_just = e_cell_text_new (e_table_model, NULL, GTK_JUSTIFY_LEFT, TRUE);
@@ -283,7 +290,7 @@ do_e_table_demo (const char *col_spec, const char *group_spec)
 	
 	window = gtk_window_new (GTK_WINDOW_TOPLEVEL);
 	frame = gtk_frame_new (NULL);
-	e_table = e_table_new (full_header, e_table_model, col_spec, group_spec);
+	e_table = e_table_new (full_header, e_table_model, spec);
 	gtk_container_add (GTK_CONTAINER (frame), e_table);
 	gtk_container_add (GTK_CONTAINER (window), frame);
 
@@ -298,9 +305,10 @@ e_table_test (void)
 {
 	load_data ();
 
-	if (getenv ("DO")){
-		do_e_table_demo ("0,1,2,3,4", NULL);
-		do_e_table_demo ("0,1,2,3,4", "3,4");
+	if (1){/*getenv ("DO")){*/
+	  do_e_table_demo ("<ETableSpecification> <columns-shown> <column> 0 </column> <column> 1 </column> <column> 2 </column> <column> 3 </column> <column> 4 </column> </columns-shown> <grouping> <leaf/> </grouping> </ETableSpecification>");
+	  do_e_table_demo ("<ETableSpecification> <columns-shown> <column> 0 </column> <column> 0 </column> <column> 0 </column> <column> 0 </column> <column> 0 </column> <column> 1 </column> <column> 2 </column> <column> 3 </column> <column> 4 </column> </columns-shown> <grouping> <group column=\"3\"> <group column=\"4\"> <leaf/> </group> </group> </grouping> </ETableSpecification>");
 	}
-	do_e_table_demo ("0,1,2,3,4", "3");
+	  do_e_table_demo ("<ETableSpecification> <columns-shown> <column> 0 </column> <column> 1 </column> <column> 2 </column> <column> 3 </column> <column> 4 </column> </columns-shown> <grouping> <group column=\"4\"> <leaf/> </group> </grouping> </ETableSpecification>");
+	  do_e_table_demo ("<ETableSpecification> <columns-shown> <column> 0 </column> <column> 1 </column> <column> 2 </column> <column> 3 </column> <column> 4 </column> </columns-shown> <grouping> <group column=\"3\"> <leaf/> </group> </grouping> </ETableSpecification>");
 }

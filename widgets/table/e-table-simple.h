@@ -1,3 +1,4 @@
+/* -*- Mode: C; tab-width: 8; indent-tabs-mode: t; c-basic-offset: 8 -*- */
 #ifndef _E_TABLE_SIMPLE_H_
 #define _E_TABLE_SIMPLE_H_
 
@@ -8,6 +9,7 @@ typedef	int         (*ETableSimpleRowCountFn)       (ETableModel *etm, void *dat
 typedef	void       *(*ETableSimpleValueAtFn)        (ETableModel *etm, int col, int row, void *data);
 typedef	void        (*ETableSimpleSetValueAtFn)     (ETableModel *etm, int col, int row, const void *val, void *data);
 typedef	gboolean    (*ETableSimpleIsCellEditableFn) (ETableModel *etm, int col, int row, void *data);
+typedef void        (*ETableSimpleThawFn)           (ETableModel *etm, void *data);
 
 typedef struct {
 	ETableModel parent;
@@ -17,6 +19,7 @@ typedef struct {
 	ETableSimpleValueAtFn        value_at;
 	ETableSimpleSetValueAtFn     set_value_at;
 	ETableSimpleIsCellEditableFn is_cell_editable;
+	ETableSimpleThawFn           thaw;
 	void *data;
 } ETableSimple;
 
@@ -31,6 +34,7 @@ ETableModel *e_table_simple_new (ETableSimpleColumnCountFn col_count,
 				 ETableSimpleValueAtFn value_at,
 				 ETableSimpleSetValueAtFn set_value_at,
 				 ETableSimpleIsCellEditableFn is_cell_editable,
+				 ETableSimpleThawFn thaw,
 				 void *data);
 
 #endif /* _E_TABLE_SIMPLE_H_ */

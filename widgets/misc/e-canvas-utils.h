@@ -1,6 +1,6 @@
 /* -*- Mode: C; tab-width: 8; indent-tabs-mode: t; c-basic-offset: 8 -*- */
 /* 
- * e-canvas-utils.c
+ * e-canvas-utils.h
  * Copyright (C) 2000  Helix Code, Inc.
  * Author: Chris Lahey <clahey@helixcode.com>
  *
@@ -20,5 +20,10 @@
  * Boston, MA 02111-1307, USA.
  */
 
+#ifndef __E_CANVAS_UTILS__
+#define __E_CANVAS_UTILS__
+
 #include <gnome.h>
 void e_canvas_item_move_absolute (GnomeCanvasItem *item, double dx, double dy);
+
+#endif /* __E_CANVAS_UTILS__ */

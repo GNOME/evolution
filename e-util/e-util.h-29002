@@ -21,4 +21,12 @@ GtkType l##_get_type(void)\
 	return type;\
 }\
 
+
+typedef enum {
+  E_FOCUS_NONE,
+  E_FOCUS_CURRENT,
+  E_FOCUS_START,
+  E_FOCUS_END
+} EFocus;
+
 #endif /* _E_UTIL_H_ */

@@ -8,6 +8,7 @@
 #include <stdio.h>
 #include <string.h>
 #include <gnome.h>
+#include "e-util/e-canvas-utils.h"
 #include "e-util/e-cursors.h"
 #include "e-table-simple.h"
 #include "e-table-header.h"
@@ -84,6 +85,12 @@ set_canvas_size (GnomeCanvas *canvas, GtkAllocation *alloc)
 	gnome_canvas_set_scroll_region (canvas, 0, 0, alloc->width, alloc->height);
 }
 
+static void
+thaw (ETableModel *etc, void *data)
+{
+	e_table_model_changed(etc);
+}
+
 void
 multi_cols_test (void)
 {
@@ -92,13 +99,14 @@ multi_cols_test (void)
 	ETableHeader *e_table_header, *e_table_header_multiple;
 	ETableCol *col_0, *col_1;
 	ECell *cell_left_just, *cell_image_toggle;
+	GnomeCanvasItem *item;
 
 	gtk_widget_push_visual (gdk_rgb_get_visual ());
 	gtk_widget_push_colormap (gdk_rgb_get_cmap ());
 	
 	e_table_model = e_table_simple_new (
 		col_count, row_count, value_at,
-		set_value_at, is_cell_editable, NULL);
+		set_value_at, is_cell_editable, thaw, NULL);
 
 	/*
 	 * Header
@@ -157,17 +165,17 @@ multi_cols_test (void)
 		"y",  0,
 		NULL);
 
-	gnome_canvas_item_new (
+	item = gnome_canvas_item_new (
 		gnome_canvas_root (GNOME_CANVAS (canvas)),
 		e_table_item_get_type (),
 		"ETableHeader", e_table_header,
 		"ETableModel", e_table_model,
-		"x",  (double) 0,
-		"y",  (double) 30,
 		"drawgrid", TRUE,
 		"drawfocus", TRUE,
 		"spreadsheet", TRUE,
 		NULL);
+
+	e_canvas_item_move_absolute(item, 0, 30);
 	
 	gnome_canvas_item_new (
 		gnome_canvas_root (GNOME_CANVAS (canvas)),
@@ -176,18 +184,16 @@ multi_cols_test (void)
 		"x",  300,
 		"y",  0,
 		NULL);
-	gnome_canvas_item_new (
+	item = gnome_canvas_item_new (
 		gnome_canvas_root (GNOME_CANVAS (canvas)),
 		e_table_item_get_type (),
 		"ETableHeader", e_table_header_multiple,
 		"ETableModel", e_table_model,
-		"x",  (double) 300,
-		"y",  (double) 30,
 		"drawgrid", TRUE,
 		"drawfocus", TRUE,
 		"spreadsheet", TRUE,
 		NULL);
-
+	e_canvas_item_move_absolute(item, 300, 30);
 }
 
 

@@ -1,3 +1,42 @@
+2000-02-24  Christopher James Lahey  <clahey@helixcode.com>
+
+	* widgets/e-text.c, widgets/e-text.h, e-text-event-processor.c,
+	e-text-event-processor.h, e-text-event-processor-emacs-like.c,
+	e-text-event-processor-emacs-like.h,
+	e-text-event-processor-types.h: This were moved to widgets/e-text/
+	a while ago but never removed.  They have now been removed.
+
+	* widgets/e-text/e-text.c, widgets/e-text/e-text.h: Removed some
+	warnings from this file.  Made tooltips disappear when you're
+	finished with them.
+
+	* widgets/e-minicard/test-reflow.c,
+	widgets/e-minicard/test-minicard.c,
+	widgets/e-minicard/test-minicard-label.c: Commented out unused
+	about_callback functions.
+
+	* widgets/e-minicard/e-reflow.c: Made e-reflow pass an EFocus to
+	its e-minicard children.
+
+	* widgets/e-minicard/e-minicard.c: Made e-minicard take and return
+	an EFocus for its "has_focus" argument.  This makes shift-tab work properly.
+
+	* widgets/e-minicard/e-minicard-label.c: Made e-minicard-label take and return
+	an EFocus for its "has_focus" argument.  Made the font that
+	e-minicard-label uses only be allocated once.
+	
+	* e-util/e-canvas-utils.h: Fixed the comment at the top and added
+	#ifndef __E_CANVAS_UTILS__.
+
+	* e-util/Makefile.am: Added e-xml-utils.c and
+	e-xml-utils.h.
+
+	* e-util/e-xml-utils.h, e-util/e-xml-utils.c: Added files for some
+	xml utilities.
+
+	* e-util/e-util.h: Added type EFocus which describes which
+	direction the focus will be coming from.
+
 2000-02-23  Dan Winship  <danw@helixcode.com>
 
 	* e-util/e-setup.c (e_setup_base_dir): Make ~/evolution mode 700

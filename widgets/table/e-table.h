@@ -1,10 +1,13 @@
+/* -*- Mode: C; tab-width: 8; indent-tabs-mode: t; c-basic-offset: 8 -*- */
 #ifndef _E_TABLE_H_
 #define _E_TABLE_H_
 
 #include <libgnomeui/gnome-canvas.h>
 #include <gtk/gtktable.h>
+#include <gnome-xml/tree.h>
 #include "e-table-model.h"
 #include "e-table-header.h"
+#include "e-table-group.h"
 
 BEGIN_GNOME_DECLS
 
@@ -21,15 +24,17 @@ typedef struct {
 
 	ETableHeader *full_header, *header;
 
+	ETableGroup  *group;
+
 	GnomeCanvas *header_canvas, *table_canvas;
 
 	GnomeCanvasItem *header_item, *root;
+
+	xmlDoc *specification;
 	
 	guint draw_grid:1;
 	guint draw_focus:1;
 	guint spreadsheet:1;
-
-	char *group_spec;
 } ETable;
 
 typedef struct {
@@ -38,9 +43,9 @@ typedef struct {
 
 GtkType    e_table_get_type  (void);
 void       e_table_construct (ETable *e_table, ETableHeader *full_header, ETableModel *etm,
-			      const char *cols_spec, const char *group_spec);
+			      const char *spec);
 GtkWidget *e_table_new       (ETableHeader *full_header, ETableModel *etm,
-			      const char *cols_spec, const char *group_spec);
+			      const char *spec);
 
 
 END_GNOME_DECLS

@@ -24,6 +24,7 @@
 #include "e-minicard-label.h"
 #include "e-text.h"
 #include "e-canvas.h"
+#include "e-util.h"
 static void e_minicard_label_init		(EMinicardLabel		 *card);
 static void e_minicard_label_class_init	(EMinicardLabelClass	 *klass);
 static void e_minicard_label_set_arg (GtkObject *o, GtkArg *arg, guint arg_id);
@@ -32,8 +33,8 @@ static gboolean e_minicard_label_event (GnomeCanvasItem *item, GdkEvent *event);
 static void e_minicard_label_realize (GnomeCanvasItem *item);
 static void e_minicard_label_unrealize (GnomeCanvasItem *item);
 
-static void _update_label( EMinicardLabel *minicard_label );
-static void _resize( GtkObject *object, gpointer data );
+static void update_label( EMinicardLabel *minicard_label );
+static void resize( GtkObject *object, gpointer data );
 
 static GnomeCanvasGroupClass *parent_class = NULL;
 
@@ -148,11 +149,11 @@ e_minicard_label_set_arg (GtkObject *o, GtkArg *arg, guint arg_id)
 	switch (arg_id){
 	case ARG_WIDTH:
 	  e_minicard_label->width = GTK_VALUE_DOUBLE (*arg);
-	  _update_label( e_minicard_label );
+	  update_label( e_minicard_label );
 	  gnome_canvas_item_request_update (item);
 	  break;
 	case ARG_HAS_FOCUS:
-		if (e_minicard_label->field && GTK_VALUE_BOOL(*arg))
+		if (e_minicard_label->field && (GTK_VALUE_ENUM(*arg) != E_FOCUS_NONE))
 			e_canvas_item_grab_focus(e_minicard_label->field);
 		break;
 	case ARG_FIELD:
@@ -186,7 +187,7 @@ e_minicard_label_get_arg (GtkObject *object, GtkArg *arg, guint arg_id)
 	  GTK_VALUE_DOUBLE (*arg) = e_minicard_label->height;
 	  break;
 	case ARG_HAS_FOCUS:
-		GTK_VALUE_BOOL (*arg) = e_minicard_label->has_focus;
+		GTK_VALUE_ENUM (*arg) = e_minicard_label->has_focus ? E_FOCUS_CURRENT : E_FOCUS_NONE;
 		break;
 	case ARG_FIELD:
 		if ( e_minicard_label->field ) {
@@ -213,6 +214,11 @@ e_minicard_label_realize (GnomeCanvasItem *item)
 {
 	EMinicardLabel *e_minicard_label;
 	GnomeCanvasGroup *group;
+	static GdkFont *font = NULL;
+	
+	if ( font == NULL ) {
+		font = gdk_font_load("lucidasans-10");
+	}
 
 	e_minicard_label = E_MINICARD_LABEL (item);
 	group = GNOME_CANVAS_GROUP( item );
@@ -239,7 +245,7 @@ e_minicard_label_realize (GnomeCanvasItem *item)
 				 "clip_height", (double) 1,
 				 "clip", TRUE,
 				 "use_ellipsis", TRUE,
-				 "font", "lucidasans-10",
+				 "font_gdk", font,
 				 "fill_color", "black",
 				 NULL );
 	if ( e_minicard_label->fieldname_text )
@@ -251,7 +257,7 @@ e_minicard_label_realize (GnomeCanvasItem *item)
 	  }
 	gtk_signal_connect(GTK_OBJECT(e_minicard_label->fieldname),
 			   "resize",
-			   GTK_SIGNAL_FUNC(_resize),
+			   GTK_SIGNAL_FUNC(resize),
 			   (gpointer) e_minicard_label);
 
 	e_minicard_label->field =
@@ -264,7 +270,7 @@ e_minicard_label_realize (GnomeCanvasItem *item)
 				 "clip_height", (double) 1,
 				 "clip", TRUE,
 				 "use_ellipsis", TRUE,
-				 "font", "lucidasans-10",
+				 "font_gdk", font,
 				 "fill_color", "black",
 				 "editable", TRUE,
 				 NULL );
@@ -278,10 +284,10 @@ e_minicard_label_realize (GnomeCanvasItem *item)
 
 	gtk_signal_connect(GTK_OBJECT(e_minicard_label->field),
 			   "resize",
-			   GTK_SIGNAL_FUNC(_resize),
+			   GTK_SIGNAL_FUNC(resize),
 			   (gpointer) e_minicard_label);
 
-	_update_label (e_minicard_label);
+	update_label (e_minicard_label);
 	
 	if (!item->canvas->aa)
 	  {
@@ -400,7 +406,7 @@ e_minicard_label_event (GnomeCanvasItem *item, GdkEvent *event)
 }
 
 static void
-_update_label( EMinicardLabel *e_minicard_label )
+update_label( EMinicardLabel *e_minicard_label )
 {
   if ( GTK_OBJECT_FLAGS( e_minicard_label ) & GNOME_CANVAS_ITEM_REALIZED )
     {
@@ -450,7 +456,7 @@ _update_label( EMinicardLabel *e_minicard_label )
 
 
 static void 
-_resize( GtkObject *object, gpointer data )
+resize( GtkObject *object, gpointer data )
 {
-	_update_label(E_MINICARD_LABEL(data));
+	update_label(E_MINICARD_LABEL(data));
 }

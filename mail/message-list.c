@@ -14,6 +14,8 @@
 #include "camel/camel-exception.h"
 #include "message-list.h"
 #include "Mail.h"
+#include "widgets/e-table/e-table-header-item.h"
+#include "widgets/e-table/e-table-item.h"
 
 /*
  * Default sizes for the ETable display
@@ -122,6 +124,12 @@ static gboolean
 ml_is_cell_editable (ETableModel *etm, int col, int row, void *data)
 {
 	return FALSE;
+}
+
+static void
+ml_thaw (ETableModel *etm, void *data)
+{
+	e_table_model_changed(etm);
 }
 
 static void
@@ -271,8 +279,6 @@ make_etable (MessageList *message_list)
 		gnome_canvas_root (GNOME_CANVAS (header)),
 		e_table_header_item_get_type (),
 		"ETableHeader", message_list->header_model,
-		"x",  0,
-		"y",  0,
 		NULL);
 
 	gnome_canvas_item_new (
@@ -280,8 +286,6 @@ make_etable (MessageList *message_list)
 		e_table_item_get_type (),
 		"ETableHeader", message_list->header_model,
 		"ETableModel", message_list->table_model,
-		"x",  (double) 0,
-		"y",  (double) 0,
 		"drawgrid", TRUE,
 		"drawfocus", TRUE,
 		"spreadsheet", TRUE,
@@ -308,7 +312,7 @@ message_list_init (GtkObject *object)
 
 	message_list->table_model = e_table_simple_new (
 		ml_col_count, ml_row_count, ml_value_at,
-		ml_set_value_at, ml_is_cell_editable, message_list);
+		ml_set_value_at, ml_is_cell_editable, ml_thaw, message_list);
 
 	message_list_init_renderers (message_list);
 	message_list_init_header (message_list);

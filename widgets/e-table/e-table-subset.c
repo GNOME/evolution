@@ -1,3 +1,4 @@
+/* -*- Mode: C; tab-width: 8; indent-tabs-mode: t; c-basic-offset: 8 -*- */
 /*
  * E-table-subset.c: Implements a table that contains a subset of another table.
  *
@@ -71,6 +72,12 @@ etss_is_cell_editable (ETableModel *etm, int col, int row)
 }
 
 static void
+etss_thaw (ETableModel *etm)
+{
+	e_table_model_changed (etm);
+}
+
+static void
 etss_class_init (GtkObjectClass *klass)
 {
 	ETableModelClass *table_class = (ETableModelClass *) klass;
@@ -84,6 +91,7 @@ etss_class_init (GtkObjectClass *klass)
 	table_class->value_at         = etss_value_at;
 	table_class->set_value_at     = etss_set_value_at;
 	table_class->is_cell_editable = etss_is_cell_editable;
+	table_class->thaw             = etss_thaw;
 }
 
 E_MAKE_TYPE(e_table_subset, "ETableSubset", ETableSubset, etss_class_init, NULL, PARENT_TYPE);
@@ -91,20 +99,23 @@ E_MAKE_TYPE(e_table_subset, "ETableSubset", ETableSubset, etss_class_init, NULL,
 static void
 etss_proxy_model_changed (ETableModel *etm, ETableSubset *etss)
 {
-	e_table_model_changed (E_TABLE_MODEL (etss));
+	if ( !E_TABLE_MODEL(etss)->frozen )
+		e_table_model_changed (E_TABLE_MODEL (etss));
 }
 
 static void
 etss_proxy_model_row_changed (ETableModel *etm, int row, ETableSubset *etss)
 {
-	const int n = etss->n_map;
-	const int * const map_table = etss->map_table;
-	int i;
-	
-	for (i = 0; i < n; i++){
-		if (map_table [i] == row){
-			e_table_model_row_changed (E_TABLE_MODEL (etss), i);
-			return;
+	if ( !E_TABLE_MODEL(etss)->frozen ) {
+		const int n = etss->n_map;
+		const int * const map_table = etss->map_table;
+		int i;
+		
+		for (i = 0; i < n; i++){
+			if (map_table [i] == row){
+				e_table_model_row_changed (E_TABLE_MODEL (etss), i);
+				return;
+			}
 		}
 	}
 }
@@ -112,14 +123,16 @@ etss_proxy_model_row_changed (ETableModel *etm, int row, ETableSubset *etss)
 static void
 etss_proxy_model_cell_changed (ETableModel *etm, int col, int row, ETableSubset *etss)
 {
-	const int n = etss->n_map;
-	const int * const map_table = etss->map_table;
-	int i;
-	
-	for (i = 0; i < n; i++){
-		if (map_table [i] == row){
-			e_table_model_cell_changed (E_TABLE_MODEL (etss), col, i);
-			return;
+	if ( !E_TABLE_MODEL(etss)->frozen ) {
+		const int n = etss->n_map;
+		const int * const map_table = etss->map_table;
+		int i;
+		
+		for (i = 0; i < n; i++){
+			if (map_table [i] == row){
+				e_table_model_cell_changed (E_TABLE_MODEL (etss), col, i);
+				return;
+			}
 		}
 	}
 }
@@ -130,7 +143,7 @@ e_table_subset_construct (ETableSubset *etss, ETableModel *source, int nvals)
 	unsigned int *buffer;
 	int i;
 
-	buffer = (unsigned int *) malloc (sizeof (unsigned int) * nvals);
+	buffer = (unsigned int *) g_malloc (sizeof (unsigned int) * nvals);
 	if (buffer == NULL)
 		return NULL;
 	etss->map_table = buffer;

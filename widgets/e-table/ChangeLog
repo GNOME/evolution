@@ -1,3 +1,73 @@
+2000-02-24  Christopher James Lahey  <clahey@helixcode.com>
+
+	* e-table-subset-variable.c, e-table-subset-variable.h: A new
+	model which is a subset, but you can add and remove rows.
+
+	* test-table.c: Added a thaw method for use with the
+	e-table-subset (emits model_changed.)  Adapted to the changes to
+	e_table_item.  Properly parse headers.  Adapted to the changes to
+	e_table, including creating example xml spec data.
+
+	* test-cols.c, test-check.c: Added a thaw method for use with the
+	e-table-subset (emits model_changed.)  Adapted to the changes to
+	e_table_item.
+
+	* e-table.c, e-table.h: Reworked e-table to use the ETable
+	grouping system.  The only difference for the interface is that
+	instead of passing in a column_spec and a grouping_spec, you pass
+	in a single string that is an xml format that includes both pieces
+	of information.
+
+	* e-table-subset.h: Added rules for emacs to do correct
+	indentation.
+
+	* e-table-subset.c: Implemented freezing.  No signals are emitted
+	while frozen and "model_changed" is emitted when thawed.
+
+	* e-table-sorted.h: ETableSortedClass has ETableSubset as its
+	parent object instead of ETableSubsetClass.  Fixed this.
+
+	* e-table-simple.c, e-table-simple.h: Implemented the thaw method.
+	Use of simple now requires an extra argument (the thaw method.)
+
+	* e-table-model.h, e-table-model.c: Added e_table_model_freeze and
+	e_table_model_thaw.
+
+	* e-table-item.h, e-table-item.c: Reworked this a bit to make it
+	provide some things the new group system needed and to make
+	inter-item keyboard focus work.  Changed the external interface
+	only in the list of arguments it recognizes and signals it emits.
+	Instead of "x" and "y", you have to use
+	e_canvas_item_move_absolute and instead of emitting a
+	"height_changed" signal, it emits a "resize" signal.  There's new
+	"has_focus", "width", and "height" arguments and a function to get
+	the currently focused column.
+
+	* e-table-header-item.c: Got rid of some warnings here.  Changed
+	the 
+
+	* e-table-group-leaf.h, e-table-group-leaf.c,
+	e-table-group-container.h, e-table-group-container.c: New types to
+	make e_table_group work properly.
+
+	* e-table-group.h, e-table-group.c: Completely reworked e-table
+	grouping.  e-table-group now uses a hierarchical structure.
+
+	* e-cell.h: Added e_cell_print.  This doesn't work yet.
+
+	* e-cell.c: Made e_cell_realize exist.  (It was improperly named
+	e_cell_view_realize in the .c.)
+
+	* e-cell-text.c: Made the blinking cursor disappear properly.
+
+	* check-filled.xpm, check-empty.xpm: Made these const char *[]
+	instead of char *[] to avoid compiler warnings.
+
+	* Makefile.am: Added e-table-group-container.c,
+	e-table-group-container.h, e-table-group-leaf.c,
+	e-table-group-leaf.h, e-table-subset-variable.c,
+	e-table-subset-variable.h.
+
 2000-02-18  Miguel de Icaza  <miguel@nuclecu.unam.mx>
 
 	* e-table-header.c: Include <string.h>

@@ -69,6 +69,7 @@ static void resize(GnomeCanvasItem *item, gpointer data)
 			       NULL );	
 }
 
+#if 0
 static void about_callback( GtkWidget *widget, gpointer data )
 {
   
@@ -86,6 +87,7 @@ static void about_callback( GtkWidget *widget, gpointer data )
 		      NULL);
   gtk_widget_show (about);                                            
 }
+#endif
 
 int main( int argc, char *argv[] )
 {

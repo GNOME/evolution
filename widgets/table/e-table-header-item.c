@@ -317,7 +317,7 @@ ethi_drag_motion (GtkObject *canvas, GdkDragContext *context,
 {
 	/* Check if it's the correct ethi */
 	if (ethi->drag_col == -1)
-		return;
+		return FALSE;
 
 	gdk_drag_status (context, 0, time);
 	if (GTK_WIDGET(canvas) == gtk_drag_get_source_widget(context)) {
@@ -372,7 +372,7 @@ ethi_drag_drop (GtkWidget *canvas,
 	gboolean successful = FALSE;
 
 	if (ethi->drag_col == -1)
-		return;
+		return FALSE;
 
 	if (GTK_WIDGET(canvas) == gtk_drag_get_source_widget(context)) {
 		if ((x >= ethi->x1) && (x <= (ethi->x1 + ethi->width)) &&
@@ -486,7 +486,6 @@ draw_button (ETableHeaderItem *ethi, ETableCol *col,
 {
 	GdkRectangle clip;
 	int xtra;
-	int arrowx;
 	
 	gdk_draw_rectangle (
 		drawable, gc, TRUE,
@@ -541,7 +540,7 @@ draw_button (ETableHeaderItem *ethi, ETableCol *col,
 		gtk_paint_arrow   (gtk_widget_get_style(GTK_WIDGET(GNOME_CANVAS_ITEM(ethi)->canvas)),
 				   drawable,
 				   GTK_STATE_NORMAL,
-				   GTK_SHADOW_OUT,
+				   GTK_SHADOW_IN,
 				   &clip,
 				   GTK_WIDGET(GNOME_CANVAS_ITEM(ethi)->canvas),
 				   "header",

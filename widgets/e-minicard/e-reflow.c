@@ -24,6 +24,7 @@
 #include <math.h>
 #include "e-reflow.h"
 #include "e-canvas-utils.h"
+#include "e-util.h"
 static void e_reflow_init		(EReflow		 *card);
 static void e_reflow_class_init	(EReflowClass	 *klass);
 static void e_reflow_set_arg (GtkObject *o, GtkArg *arg, guint arg_id);
@@ -278,7 +279,7 @@ e_reflow_event (GnomeCanvasItem *item, GdkEvent *event)
 				GList *list;
 				for (list = e_reflow->items; list; list = list->next) {
 					GnomeCanvasItem *item = GNOME_CANVAS_ITEM (list->data);
-					gboolean has_focus;
+					EFocus has_focus;
 					gtk_object_get(GTK_OBJECT(item),
 						       "has_focus", &has_focus,
 						       NULL);
@@ -290,7 +291,7 @@ e_reflow_event (GnomeCanvasItem *item, GdkEvent *event)
 						if (list) {
 							item = GNOME_CANVAS_ITEM(list->data);
 							gnome_canvas_item_set(item,
-									      "has_focus", TRUE,
+									      "has_focus", (event->key.state & GDK_SHIFT_MASK) ? E_FOCUS_END : E_FOCUS_START,
 									      NULL);
 							return 1;
 						} else {
@@ -625,7 +626,6 @@ e_reflow_point (GnomeCanvasItem *item,
 		double x, double y, int cx, int cy,
 		GnomeCanvasItem **actual_item)
 {
-	EReflow *e_reflow = E_REFLOW(item);
 	double distance = 1;
 
 	if (GNOME_CANVAS_ITEM_CLASS(parent_class)->point)

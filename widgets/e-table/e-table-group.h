@@ -1,9 +1,12 @@
-#ifndef _E_TABLE_TREE_H_
-#define _E_TABLE_TREE_H_
+/* -*- Mode: C; tab-width: 8; indent-tabs-mode: t; c-basic-offset: 8 -*- */
+#ifndef _E_TABLE_GROUP_H_
+#define _E_TABLE_GROUP_H_
 
 #include <libgnomeui/gnome-canvas.h>
+#include <gnome-xml/tree.h>
 #include "e-table-model.h"
 #include "e-table-header.h"
+#include "e-util/e-util.h"
 
 #define E_TABLE_GROUP_TYPE        (e_table_group_get_type ())
 #define E_TABLE_GROUP(o)          (GTK_CHECK_CAST ((o), E_TABLE_GROUP_TYPE, ETableGroup))
@@ -15,49 +18,75 @@ typedef struct {
 	GnomeCanvasGroup group;
 
 	/*
-	 * The ETableCol used to group this set
+	 * The full header.
 	 */
-	ETableCol    *ecol;
-
+	ETableHeader *full_header;
+	ETableHeader *header;
+	
 	/*
-	 * The canvas rectangle that contains the children
+	 * The model we pull data from.
 	 */
-	GnomeCanvasItem *rect;
-
-	/*
-	 * Dimensions of the ETableGroup
-	 */
-	int width, height;
-
-	/*
-	 * State: the ETableGroup is open or closed
-	 */
-	guint open:1;
+	ETableModel *model;
 
 	/*
 	 * Whether we should add indentation and open/close markers,
 	 * or if we just act as containers of subtables.
 	 */
-	guint transparent:1;
+	guint transparent : 1;
 
-	/*
-	 * List of GnomeCanvasItems we stack
-	 */
-	GSList *children;
+	guint has_focus : 1;
+	
+	guint frozen : 1;
 } ETableGroup;
 
 typedef struct {
 	GnomeCanvasGroupClass parent_class;
-	void (*height_changed) (ETableGroup *etg);
+	void (*resize) (ETableGroup *etg);
+
+	void (*add) (ETableGroup *etg, gint row);
+	gboolean (*remove) (ETableGroup *etg, gint row);
+	gint (*get_count) (ETableGroup *etg);
+	void (*increment) (ETableGroup *etg, gint position, gint amount);
+	void (*set_focus) (ETableGroup *etg, EFocus direction, gint view_col);
+	gboolean (*get_focus) (ETableGroup *etg);
+	gint (*get_focus_column) (ETableGroup *etg);
+	ETableCol *(*get_ecol) (ETableGroup *etg);
+
+	void (*thaw) (ETableGroup *etg);
+	gdouble (*get_height) (ETableGroup *etg);
+	gdouble (*get_width) (ETableGroup *etg);
+	void (*set_width) (ETableGroup *etg, gdouble width);
 } ETableGroupClass;
 
-GnomeCanvasItem *e_table_group_new       (GnomeCanvasGroup *parent, ETableCol *ecol,
-					  gboolean open, gboolean transparent);
-void             e_table_group_construct (GnomeCanvasGroup *parent, ETableGroup *etg, 
-					  ETableCol *ecol, gboolean open, gboolean transparent);
+void             e_table_group_add       (ETableGroup      *etg,
+					  gint              row);
+gboolean         e_table_group_remove    (ETableGroup      *etg,
+					  gint              row);
+gint             e_table_group_get_count (ETableGroup      *etg);
+void             e_table_group_increment (ETableGroup      *etg,
+					  gint              position,
+					  gint              amount);
+void             e_table_group_set_focus (ETableGroup      *etg,
+					  EFocus            direction,
+					  gint              view_col);
+gboolean         e_table_group_get_focus (ETableGroup      *etg);
+gint             e_table_group_get_focus_column (ETableGroup      *etg);
+ETableCol       *e_table_group_get_ecol  (ETableGroup      *etg);
 
-void             e_table_group_add       (ETableGroup *etg, GnomeCanvasItem *child);
+ETableGroup     *e_table_group_new       (GnomeCanvasGroup *parent,
+					  ETableHeader     *full_header,
+					  ETableHeader     *header,
+					  ETableModel      *model,
+					  xmlNode             *rules);
+void             e_table_group_construct (GnomeCanvasGroup *parent,
+					  ETableGroup      *etg,
+					  ETableHeader     *full_header,
+					  ETableHeader     *header,
+					  ETableModel      *model);
+
+/* For emitting the signal */
+void             e_table_group_resize    (ETableGroup      *etg);
 
 GtkType          e_table_group_get_type  (void);
 
-#endif /* _E_TABLE_TREE_H_ */
+#endif /* _E_TABLE_GROUP_H_ */

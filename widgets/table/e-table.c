@@ -1,5 +1,6 @@
+/* -*- Mode: C; tab-width: 8; indent-tabs-mode: t; c-basic-offset: 8 -*- */
 /*
- * E-table-view.c: A graphical view of a Table.
+ * E-table.c: A graphical view of a Table.
  *
  * Author:
  *   Miguel de Icaza (miguel@gnu.org)
@@ -16,7 +17,9 @@
 #include <stdio.h>
 #include <libgnomeui/gnome-canvas.h>
 #include <gtk/gtksignal.h>
+#include <gnome-xml/parser.h>
 #include "e-util/e-util.h"
+#include "e-util/e-xml-utils.h"
 #include "e-table.h"
 #include "e-table-header-item.h"
 #include "e-table-subset.h"
@@ -40,8 +43,6 @@ et_destroy (GtkObject *object)
 	gtk_object_unref (GTK_OBJECT (et->full_header));
 	gtk_object_unref (GTK_OBJECT (et->header));
 
-	g_free (et->group_spec);
-	
 	(*e_table_parent_class->destroy)(object);
 }
 
@@ -56,19 +57,16 @@ e_table_init (GtkObject *object)
 }
 
 static ETableHeader *
-e_table_make_header (ETable *e_table, ETableHeader *full_header, const char *cols)
+e_table_make_header (ETable *e_table, ETableHeader *full_header, xmlNode *xmlColumns)
 {
 	ETableHeader *nh;
-	char *copy = alloca (strlen (cols) + 1);
-	char *p, *state;
+	xmlNode *column;
 	const int max_cols = e_table_header_count (full_header);
 	
 	nh = e_table_header_new ();
-	strcpy (copy, cols);
-	while ((p = strtok_r (copy, ",", &state)) != NULL){
-		int col = atoi (p);
+	for (column = xmlColumns->childs; column; column = column->next) {
+		int col = atoi (column->childs->content);
 
-		copy = NULL;
 		if (col >= max_cols)
 			continue;
 
@@ -113,6 +111,7 @@ e_table_setup_header (ETable *e_table)
 		
 }
 
+#if 0
 typedef struct {
 	void *value;
 	GArray *array;
@@ -201,7 +200,7 @@ e_table_make_subtables (ETableModel *model, GArray *groups)
 		
 	return (ETableModel **) tables;
 }
-
+#endif
 typedef struct _Node Node;
 
 struct _Node {
@@ -212,7 +211,7 @@ struct _Node {
 
 	guint is_leaf:1;
 };
-
+#if 0
 static Node *
 leaf_new (GnomeCanvasItem *table_item, ETableModel *table_model, Node *parent)
 {
@@ -335,8 +334,9 @@ e_table_create_nodes (ETable *e_table, ETableModel *model, ETableHeader *header,
 	groups = e_table_create_groups (model, key_col, ecol->compare);
 	tables = e_table_make_subtables (e_table->model, groups);
 	e_table_destroy_groups (groups);
-
-	group_item = e_table_group_new (root, ecol, TRUE, parent == NULL);
+	group_item = gnome_canvas_item_new (root,
+					    e_table_group_get_type(),
+					    "columns", ecol, TRUE, parent == NULL);
 	group = node_new (group_item, model, parent);
 	
 	for (i = 0; tables [i] != NULL; i++){
@@ -347,8 +347,9 @@ e_table_create_nodes (ETable *e_table, ETableModel *model, ETableHeader *header,
 			GnomeCanvasItem *item_leaf_header;
 			Node *leaf_header;
 			
+			/* FIXME *//*
 			item_leaf_header = e_table_group_new (
-				GNOME_CANVAS_GROUP (group_item), ecol, TRUE, FALSE);
+			GNOME_CANVAS_GROUP (group_item), ecol, TRUE, FALSE);*/
 			leaf_header = node_new (item_leaf_header, tables [i], group);
 
 			e_table_create_leaf (e_table, tables [i], leaf_header);
@@ -424,6 +425,14 @@ static GnomeCanvasClass *e_table_canvas_parent_class;
 static void
 e_table_canvas_realize (GtkWidget *widget)
 {
+#if 0
+	GnomeCanvasItem *group_item;
+	
+	group_item = gnome_canvas_item_new (root,
+					    e_table_group_get_type(),
+					    "header", E_TABLE, TRUE, parent == NULL);
+	
+
 	ETableCanvas *e_table_canvas = (ETableCanvas *) widget;
 	ETable *e_table = e_table_canvas->e_table;
 	int *groups;
@@ -433,6 +442,8 @@ e_table_canvas_realize (GtkWidget *widget)
 	
 	groups = group_spec_to_desc (e_table->group_spec);
 
+	
+
 	leaf = e_table_create_nodes (
 		e_table, e_table->model,
 		e_table->header, GNOME_CANVAS_GROUP (e_table->root), 0, groups);
@@ -440,6 +451,7 @@ e_table_canvas_realize (GtkWidget *widget)
 	
 	if (groups)
 		g_free (groups);
+#endif
 }
 
 static void
@@ -496,33 +508,75 @@ e_table_canvas_new (ETable *e_table)
 
 	return GNOME_CANVAS (e_table_canvas);
 }
+#endif
 
 static void
-table_canvas_size_alocate (GtkWidget *widget, GtkAllocation *alloc, ETable *e_table)
+table_canvas_size_allocate (GtkWidget *widget, GtkAllocation *alloc, ETable *e_table)
 {
+	gdouble height;
+	gdouble width;
+	gtk_object_get(GTK_OBJECT(e_table->group),
+		       "height", &height,
+		       NULL);
 	gnome_canvas_set_scroll_region (
 		GNOME_CANVAS (e_table->table_canvas),
-		0, 0, alloc->width, alloc->height);
+		0, 0, alloc->width, MAX(height, alloc->height));
+	width = alloc->width;
+	gtk_object_set(GTK_OBJECT(e_table->group),
+		       "width", width,
+		       NULL);
 }
 
 static void
-e_table_setup_table (ETable *e_table)
+e_table_setup_table (ETable *e_table, ETableHeader *full_header, ETableHeader *header, ETableModel *model, xmlNode *xml_grouping)
 {
-	e_table->table_canvas = e_table_canvas_new (e_table);
+	e_table->table_canvas = GNOME_CANVAS(gnome_canvas_new ());
 	gtk_signal_connect (
 		GTK_OBJECT (e_table->table_canvas), "size_allocate",
-		GTK_SIGNAL_FUNC (table_canvas_size_alocate), e_table);
+		GTK_SIGNAL_FUNC (table_canvas_size_allocate), e_table);
 
 	gtk_widget_show (GTK_WIDGET (e_table->table_canvas));
 	gtk_table_attach (
 		GTK_TABLE (e_table), GTK_WIDGET (e_table->table_canvas),
 		0, 1, 1, 2, GTK_FILL | GTK_EXPAND, GTK_FILL | GTK_EXPAND, 0, 0);
+	
+	e_table->group = e_table_group_new(GNOME_CANVAS_GROUP(e_table->table_canvas->root),
+					   full_header,
+					   header,
+					   model,
+					   xml_grouping->childs);
+	
+}
+
+static void
+e_table_fill_table (ETable *e_table, ETableModel *model)
+{
+	int count;
+	int i;
+	count = e_table_model_row_count(model);
+	gtk_object_set(GTK_OBJECT(e_table->group),
+		       "frozen", TRUE,
+		       NULL);
+	for ( i = 0; i < count; i++ ) {
+		e_table_group_add(e_table->group, i);
+	}
+	gtk_object_set(GTK_OBJECT(e_table->group),
+		       "frozen", FALSE,
+		       NULL);
 }
 
 void
 e_table_construct (ETable *e_table, ETableHeader *full_header, ETableModel *etm,
-		   const char *cols_spec, const char *group_spec)
+		   const char *spec)
 {
+	xmlDoc *xmlSpec;
+	xmlNode *xmlRoot;
+	xmlNode *xmlColumns;
+	xmlNode *xmlGrouping;
+
+	char *copy;
+	copy = g_strdup(spec);
+
 	GTK_TABLE (e_table)->homogeneous = FALSE;
 
 	gtk_table_resize (GTK_TABLE (e_table), 1, 2);
@@ -532,24 +586,29 @@ e_table_construct (ETable *e_table, ETableHeader *full_header, ETableModel *etm,
 
 	e_table->model = etm;
 	gtk_object_ref (GTK_OBJECT (etm));
+	
+	xmlSpec = xmlParseMemory(copy, strlen(copy) + 1);
+	e_table->specification = xmlSpec;
 
-	e_table->header = e_table_make_header (e_table, full_header, cols_spec);
+	xmlRoot = xmlDocGetRootElement(xmlSpec);
+	xmlColumns = e_xml_get_child_by_name(xmlRoot, "columns-shown");
+	xmlGrouping = e_xml_get_child_by_name(xmlRoot, "grouping");
+	
+	e_table->header = e_table_make_header (e_table, full_header, xmlColumns);
 
 	e_table_setup_header (e_table);
-	e_table_setup_table (e_table);
-
-	e_table->group_spec = g_strdup (group_spec);
-
+	e_table_setup_table (e_table, full_header, e_table->header, etm, xmlGrouping);
+	e_table_fill_table (e_table, etm);
 }
 
 GtkWidget *
-e_table_new (ETableHeader *full_header, ETableModel *etm, const char *cols_spec, const char *group_spec)
+e_table_new (ETableHeader *full_header, ETableModel *etm, const char *spec)
 {
 	ETable *e_table;
 
 	e_table = gtk_type_new (e_table_get_type ());
 
-	e_table_construct (e_table, full_header, etm, cols_spec, group_spec);
+	e_table_construct (e_table, full_header, etm, spec);
 		
 	return (GtkWidget *) e_table;
 }

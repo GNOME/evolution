@@ -68,7 +68,7 @@ typedef struct {
 	GnomeCanvasItemClass parent_class;
 
 	void        (*row_selection)      (ETableItem *eti, int row, gboolean selected);
-	void        (*height_changed)     (ETableItem *eti);
+	void        (*resize)     (ETableItem *eti);
 } ETableItemClass;
 
 GtkType    e_table_item_get_type (void);
@@ -78,6 +78,8 @@ GtkType    e_table_item_get_type (void);
  */
 void       e_table_item_focus    (ETableItem *eti, int col, int row);
 void       e_table_item_unfocus  (ETableItem *eti);
+
+gint       e_table_item_get_focused_column (ETableItem *eti);
 
 /*
  * Selection

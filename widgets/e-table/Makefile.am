@@ -23,6 +23,10 @@ libetable_a_SOURCES = 				\
 	e-table-col.h				\
 	e-table-group.c				\
 	e-table-group.h				\
+	e-table-group-container.c		\
+	e-table-group-container.h		\
+	e-table-group-leaf.c			\
+	e-table-group-leaf.h			\
 	e-table-header.c			\
 	e-table-header.h			\
 	e-table-header-item.c			\
@@ -36,7 +40,9 @@ libetable_a_SOURCES = 				\
 	e-table-sorted.c			\
 	e-table-sorted.h			\
 	e-table-subset.c			\
-	e-table-subset.h
+	e-table-subset.h			\
+	e-table-subset-variable.c		\
+	e-table-subset-variable.h
 
 noinst_PROGRAMS =	\
 	table-test

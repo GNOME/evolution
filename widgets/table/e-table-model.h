@@ -1,3 +1,4 @@
+/* -*- Mode: C; tab-width: 8; indent-tabs-mode: t; c-basic-offset: 8 -*- */
 #ifndef _E_TABLE_MODEL_H_
 #define _E_TABLE_MODEL_H_
 
@@ -11,6 +12,8 @@
 
 typedef struct {
 	GtkObject   base;
+	
+	guint frozen : 1;
 } ETableModel;
 
 typedef struct {
@@ -24,7 +27,7 @@ typedef struct {
 	void       *(*value_at)         (ETableModel *etm, int col, int row);
 	void        (*set_value_at)     (ETableModel *etm, int col, int row, const void *value);
 	gboolean    (*is_cell_editable) (ETableModel *etm, int col, int row);
-
+	void        (*thaw)             (ETableModel *etm);
 	/*
 	 * Signals
 	 */
@@ -47,6 +50,9 @@ int         e_table_model_row_count        (ETableModel *e_table_model);
 void       *e_table_model_value_at         (ETableModel *e_table_model, int col, int row);
 void        e_table_model_set_value_at     (ETableModel *e_table_model, int col, int row, const void *data);
 gboolean    e_table_model_is_cell_editable (ETableModel *e_table_model, int col, int row);
+
+void        e_table_model_freeze           (ETableModel *e_table_model);
+void        e_table_model_thaw             (ETableModel *e_table_model);
 
 /*
  * Routines for emitting signals on the e_table

@@ -1,3 +1,4 @@
+/* -*- Mode: C; tab-width: 8; indent-tabs-mode: t; c-basic-offset: 8 -*- */
 /*
  * e-table-model.c: a simple table model implementation that uses function
  * pointers to simplify the creation of new, exotic and colorful tables in
@@ -55,6 +56,14 @@ simple_is_cell_editable (ETableModel *etm, int col, int row)
 }
 
 static void
+simple_thaw (ETableModel *etm)
+{
+	ETableSimple *simple = (ETableSimple *)etm;
+
+	simple->thaw (etm, simple->data);
+}
+
+static void
 e_table_simple_class_init (GtkObjectClass *object_class)
 {
 	ETableModelClass *model_class = (ETableModelClass *) object_class;
@@ -64,6 +73,7 @@ e_table_simple_class_init (GtkObjectClass *object_class)
 	model_class->value_at = simple_value_at;
 	model_class->set_value_at = simple_set_value_at;
 	model_class->is_cell_editable = simple_is_cell_editable;
+	model_class->thaw = simple_thaw;
 }
 
 GtkType
@@ -95,6 +105,7 @@ e_table_simple_new (ETableSimpleColumnCountFn col_count,
 		    ETableSimpleValueAtFn value_at,
 		    ETableSimpleSetValueAtFn set_value_at,
 		    ETableSimpleIsCellEditableFn is_cell_editable,
+		    ETableSimpleThawFn thaw,
 		    void *data)
 {
 	ETableSimple *et;
@@ -106,6 +117,7 @@ e_table_simple_new (ETableSimpleColumnCountFn col_count,
 	et->value_at = value_at;
 	et->set_value_at = set_value_at;
 	et->is_cell_editable = is_cell_editable;
+	et->thaw = thaw;
 	et->data = data;
 	
 	return (ETableModel *) et;

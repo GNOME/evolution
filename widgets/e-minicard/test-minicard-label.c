@@ -44,6 +44,7 @@ static void allocate_callback(GtkWidget *canvas, GtkAllocation *allocation, gpoi
 			 NULL );
 }
 
+#if 0
 static void about_callback( GtkWidget *widget, gpointer data )
 {
   
@@ -61,6 +62,7 @@ static void about_callback( GtkWidget *widget, gpointer data )
 		      NULL);
   gtk_widget_show (about);                                            
 }
+#endif
 
 static void button_press_callback( GtkWidget *widget, gpointer data )
 {

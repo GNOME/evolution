@@ -1,3 +1,4 @@
+/* -*- Mode: C; tab-width: 8; indent-tabs-mode: t; c-basic-offset: 8 -*- */
 /*
  * E-table-item.c: A GnomeCanvasItem that is a view of an ETableModel.
  *
@@ -26,7 +27,7 @@ static GnomeCanvasItemClass *eti_parent_class;
 
 enum {
 	ROW_SELECTION,
-	HEIGHT_CHANGED,
+	RESIZE,
 	LAST_SIGNAL
 };
 
@@ -36,12 +37,14 @@ enum {
 	ARG_0,
 	ARG_TABLE_HEADER,
 	ARG_TABLE_MODEL,
-	ARG_TABLE_X,
-	ARG_TABLE_Y,
 	ARG_TABLE_DRAW_GRID,
 	ARG_TABLE_DRAW_FOCUS,
 	ARG_MODE_SPREADSHEET,
-	ARG_LENGHT_THRESHOLD
+	ARG_LENGHT_THRESHOLD,
+	
+	ARG_WIDTH,
+	ARG_HEIGHT,
+	ARG_HAS_FOCUS
 };
 
 static gboolean
@@ -67,7 +70,7 @@ eti_realize_cell_views (ETableItem *eti)
 	int i;
 	
 	for (i = 0; i < eti->n_cells; i++)
-		e_cell_view_realize (eti->cell_views [i], eti);
+		e_cell_realize (eti->cell_views [i]);
 	eti->cell_views_realized = 1;
 }
 
@@ -287,13 +290,13 @@ eti_compute_height (ETableItem *eti)
 	int new_height = eti_get_height (eti);
 
 	if (new_height != eti->height){
-		double x1, y1, x2, y2;
+		/*		double x1, y1, x2, y2;*/
 		printf ("Emitting!\n");
 		
 		eti->height = new_height;
 		eti_update (GNOME_CANVAS_ITEM (eti), NULL, NULL, 0);
 
-		gtk_signal_emit (GTK_OBJECT (eti), eti_signals [HEIGHT_CHANGED]);
+		gtk_signal_emit (GTK_OBJECT (eti), eti_signals [RESIZE]);
 	}
 }
 
@@ -537,14 +540,6 @@ eti_set_arg (GtkObject *o, GtkArg *arg, guint arg_id)
 		eti_add_table_model (eti, GTK_VALUE_POINTER (*arg));
 		break;
 		
-	case ARG_TABLE_X:
-		eti->x1 = GTK_VALUE_DOUBLE (*arg);
-		break;
-
-	case ARG_TABLE_Y:
-		eti->y1 = GTK_VALUE_DOUBLE (*arg);
-		break;
-
 	case ARG_LENGHT_THRESHOLD:
 		eti->length_threshold = GTK_VALUE_INT (*arg);
 		break;
@@ -565,6 +560,27 @@ eti_set_arg (GtkObject *o, GtkArg *arg, guint arg_id)
 }
 
 static void
+eti_get_arg (GtkObject *o, GtkArg *arg, guint arg_id)
+{
+	GnomeCanvasItem *item;
+	ETableItem *eti;
+
+	item = GNOME_CANVAS_ITEM (o);
+	eti = E_TABLE_ITEM (o);
+
+	switch (arg_id){
+	case ARG_WIDTH:
+		GTK_VALUE_DOUBLE (*arg) = eti->width;
+		break;
+	case ARG_HEIGHT:
+		GTK_VALUE_DOUBLE (*arg) = eti->height;
+		break;
+	default:
+		arg->type = GTK_TYPE_INVALID;
+	}
+}
+
+static void
 eti_init (GnomeCanvasItem *item)
 {
 	ETableItem *eti = E_TABLE_ITEM (item);
@@ -576,7 +592,7 @@ eti_init (GnomeCanvasItem *item)
 	eti->height = 0;
 	
 	eti->length_threshold = -1;
-	eti->renderers_can_change_size = 0;
+	eti->renderers_can_change_size = 1;
 	
 	eti->selection_mode = GTK_SELECTION_SINGLE;
 }
@@ -878,31 +894,34 @@ find_cell (ETableItem *eti, double x, double y, int *col_res, int *row_res, doub
 }
 
 static void
-eti_cursor_move_left (ETableItem *eti)
+eti_cursor_move (ETableItem *eti, gint row, gint column)
 {
 	e_table_item_leave_edit (eti);
-	e_table_item_focus (eti, eti->focused_col - 1, eti->focused_row);
+	e_table_item_focus (eti, column, row);
+}
+
+static void
+eti_cursor_move_left (ETableItem *eti)
+{
+	eti_cursor_move(eti, eti->focused_row, eti->focused_col - 1);
 }
 
 static void
 eti_cursor_move_right (ETableItem *eti)
 {
-	e_table_item_leave_edit (eti);
-	e_table_item_focus (eti, eti->focused_col + 1, eti->focused_row);
+	eti_cursor_move(eti, eti->focused_row, eti->focused_col + 1);
 }
 
 static void
 eti_cursor_move_up (ETableItem *eti)
 {
-	e_table_item_leave_edit (eti);
-	e_table_item_focus (eti, eti->focused_col, eti->focused_row - 1);
+	eti_cursor_move(eti, eti->focused_row - 1, eti->focused_col);
 }
 
 static void
 eti_cursor_move_down (ETableItem *eti)
 {
-	e_table_item_leave_edit (eti);
-	e_table_item_focus (eti, eti->focused_col, eti->focused_row + 1);
+	eti_cursor_move(eti, eti->focused_row + 1, eti->focused_col);
 }
 
 static int
@@ -911,6 +930,7 @@ eti_event (GnomeCanvasItem *item, GdkEvent *e)
 	ETableItem *eti = E_TABLE_ITEM (item);
 	ECellView *ecell_view;
 	ETableCol *ecol;
+	gint return_val = TRUE;
 
 	switch (e->type){
 	case GDK_BUTTON_PRESS:
@@ -982,66 +1002,66 @@ eti_event (GnomeCanvasItem *item, GdkEvent *e)
 			
 			if (eti->focused_col > 0)
 				eti_cursor_move_left (eti);
-
-			return TRUE;
-
+			break;
+			
 		case GDK_Right:
 			if (!eti->mode_spreadsheet && eti_editing (eti))
 				break;
 			
-			if ((eti->focused_col + 1) < eti->cols)
+			if (eti->focused_col < eti->cols - 1)
 				eti_cursor_move_right (eti);
-			return TRUE;
-
+			break;
+			
 		case GDK_Up:
 			if (eti->focused_row > 0)
 				eti_cursor_move_up (eti);
-			return TRUE;
+			else
+				return_val = FALSE;
+			break;
 			
 		case GDK_Down:
 			if ((eti->focused_row + 1) < eti->rows)
 				eti_cursor_move_down (eti);
-
-			return TRUE;
+			else
+				return_val = FALSE;
+			break;
 
 		case GDK_Tab:
+		case GDK_KP_Tab:
+		case GDK_ISO_Left_Tab:
 			if ((e->key.state & GDK_SHIFT_MASK) != 0){
 				/* shift tab */
 				if (eti->focused_col > 0)
 					eti_cursor_move_left (eti);
-				else if (eti->focused_row > 0){
-					e_table_item_leave_edit (eti);
-					e_table_item_focus (eti, eti->cols - 1, eti->focused_row - 1);
-				} else {
-					/* FIXME: request focus leave backward */
-				}
+				else if (eti->focused_row > 0)
+					eti_cursor_move(eti, eti->focused_row - 1, eti->cols - 1);
+				else
+					return_val = FALSE;
 			} else {
-				if ((eti->focused_col + 1) < eti->cols)
+				if (eti->focused_col < eti->cols - 1)
 					eti_cursor_move_right (eti);
-				else if ((eti->focused_row + 1) < eti->rows){
-					e_table_item_leave_edit (eti);
-					e_table_item_focus (eti, 0, eti->rows - 1);
-				} else {
-					/* FIXME: request focus leave forward */
-				}
+				else if (eti->focused_row < eti->rows - 1)
+					eti_cursor_move(eti, eti->focused_row + 1, 0);
+				else 
+					return_val = FALSE;
 			}
 			break;
 			
 		default:
 			if (!eti_editing (eti)){
 				if ((e->key.state & (GDK_MOD1_MASK | GDK_CONTROL_MASK)) != 0)
-					return 0;
+					return_val = FALSE;
 
 				if (!(e->key.keyval >= 0x20 && e->key.keyval <= 0xff))
-					return 0;
+					return_val = FALSE;
 			}
+
+			ecol = e_table_header_get_column (eti->header, eti->focused_col);
+			ecell_view = eti->cell_views [eti->focused_col];
+			e_cell_event (ecell_view, e, ecol->col_idx, eti->focused_col, eti->focused_row);
 		}
-
-		ecol = e_table_header_get_column (eti->header, eti->focused_col);
-		ecell_view = eti->cell_views [eti->focused_col];
-		e_cell_event (ecell_view, e, ecol->col_idx, eti->focused_col, eti->focused_row);
 		break;
-
+		
 	case GDK_KEY_RELEASE:
 		if (eti->focused_col == -1)
 			return FALSE;
@@ -1053,8 +1073,15 @@ eti_event (GnomeCanvasItem *item, GdkEvent *e)
 		}
 		break;
 
+	case GDK_FOCUS_CHANGE:
+		if (e->focus_change.in) {
+		} else {
+			e_table_item_leave_edit (eti);
+			e_table_item_unfocus (eti);
+		}
+
 	default:
-		return FALSE;
+		return_val = FALSE;
 	}
 	return TRUE;
 }
@@ -1084,6 +1111,7 @@ eti_class_init (GtkObjectClass *object_class)
 	
 	object_class->destroy = eti_destroy;
 	object_class->set_arg = eti_set_arg;
+	object_class->get_arg = eti_get_arg;
 
 	item_class->update      = eti_update;
 	item_class->realize     = eti_realize;
@@ -1099,16 +1127,19 @@ eti_class_init (GtkObjectClass *object_class)
 				 GTK_ARG_WRITABLE, ARG_TABLE_HEADER);
 	gtk_object_add_arg_type ("ETableItem::ETableModel", GTK_TYPE_POINTER,
 				 GTK_ARG_WRITABLE, ARG_TABLE_MODEL);
-	gtk_object_add_arg_type ("ETableItem::x", GTK_TYPE_DOUBLE,
-				 GTK_ARG_WRITABLE, ARG_TABLE_X);
-	gtk_object_add_arg_type ("ETableItem::y", GTK_TYPE_DOUBLE,
-				 GTK_ARG_WRITABLE, ARG_TABLE_Y);
 	gtk_object_add_arg_type ("ETableItem::drawgrid", GTK_TYPE_BOOL,
 				 GTK_ARG_WRITABLE, ARG_TABLE_DRAW_GRID);
 	gtk_object_add_arg_type ("ETableItem::drawfocus", GTK_TYPE_BOOL,
 				 GTK_ARG_WRITABLE, ARG_TABLE_DRAW_FOCUS);
 	gtk_object_add_arg_type ("ETableItem::spreadsheet", GTK_TYPE_BOOL,
 				 GTK_ARG_WRITABLE, ARG_MODE_SPREADSHEET);
+
+	gtk_object_add_arg_type ("ETableItem::width", GTK_TYPE_DOUBLE, 
+				 GTK_ARG_READWRITE, ARG_WIDTH); 
+	gtk_object_add_arg_type ("ETableItem::height", GTK_TYPE_DOUBLE, 
+				 GTK_ARG_READABLE, ARG_HEIGHT);
+	gtk_object_add_arg_type ("ETableItem::has_focus", GTK_TYPE_BOOL,
+				 GTK_ARG_READWRITE, ARG_HAS_FOCUS);
 
 	eti_signals [ROW_SELECTION] =
 		gtk_signal_new ("row_selection",
@@ -1118,11 +1149,11 @@ eti_class_init (GtkObjectClass *object_class)
 				gtk_marshal_NONE__INT_INT,
 				GTK_TYPE_NONE, 2, GTK_TYPE_INT, GTK_TYPE_INT);
 
-	eti_signals [HEIGHT_CHANGED] =
-		gtk_signal_new ("height_changed",
+	eti_signals [RESIZE] =
+		gtk_signal_new ("resize",
 				GTK_RUN_LAST,
 				object_class->type,
-				GTK_SIGNAL_OFFSET (ETableItemClass, height_changed),
+				GTK_SIGNAL_OFFSET (ETableItemClass, resize),
 				gtk_marshal_NONE__NONE,
 				GTK_TYPE_NONE, 0);
 	
@@ -1191,6 +1222,16 @@ e_table_item_unfocus (ETableItem *eti)
 	eti->focused_col = -1;
 	eti->focused_row = -1;	
 }
+
+gint
+e_table_item_get_focused_column (ETableItem *eti)
+{	
+	g_return_val_if_fail (eti != NULL, -1);
+	g_return_val_if_fail (E_IS_TABLE_ITEM (eti), -1);
+
+	return eti->focused_col;
+}
+
 
 const GSList *
 e_table_item_get_selection (ETableItem *eti)

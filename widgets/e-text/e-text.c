@@ -109,8 +109,6 @@ static gint e_text_event (GnomeCanvasItem *item, GdkEvent *event);
 
 static void e_text_command(ETextEventProcessor *tep, ETextEventProcessorCommand *command, gpointer data);
 
-static guint32 e_text_get_event_time (EText *text);
-
 static void e_text_get_selection(EText *text, GdkAtom selection, guint32 time);
 static void e_text_supply_selection (EText *text, guint time, GdkAtom selection, guchar *data, gint length);
 
@@ -1701,7 +1699,7 @@ static void
 _get_xy_from_position (EText *text, gint position, gint *xp, gint *yp)
 {
 	if (xp || yp) {
-		struct line *lines;
+		struct line *lines = NULL;
 		int x, y;
 		int j;
 		x = get_line_xpos (text, lines);
@@ -1993,7 +1991,9 @@ e_text_event (GnomeCanvasItem *item, GdkEvent *event)
 		}
 		break;
 	case GDK_ENTER_NOTIFY:
-		text->tooltip_timeout = gtk_timeout_add (3000, _do_tooltip, text);
+		if ( text->tooltip_count == 0 )
+			text->tooltip_timeout = gtk_timeout_add (1000, _do_tooltip, text);
+		text->tooltip_count ++;
 		text->pointer_in = TRUE;
 		if (text->editing) {
 			if ( text->default_cursor_shown ) {
@@ -2003,10 +2003,13 @@ e_text_event (GnomeCanvasItem *item, GdkEvent *event)
 		}
 		break;
 	case GDK_LEAVE_NOTIFY:
-		gtk_timeout_remove (text->tooltip_timeout);
-		if (text->tooltip_window) {
-			gtk_widget_destroy (text->tooltip_window);
-			text->tooltip_window = NULL;
+		text->tooltip_count --;
+		if ( text->tooltip_count == 0 ) {
+			gtk_timeout_remove (text->tooltip_timeout);
+			if (text->tooltip_window) {
+				gtk_widget_destroy (text->tooltip_window);
+				text->tooltip_window = NULL;
+			}
 		}
 
 		text->pointer_in = FALSE;
@@ -2442,50 +2445,6 @@ e_text_real_paste_clipboard (EText *text)
 				 gdk_atom_intern ("COMPOUND_TEXT", FALSE), time);
 }
 #endif
-
-/* Get the timestamp of the current event. Actually, the only thing
- * we really care about below is the key event
- */
-static guint32
-e_text_get_event_time (EText *text)
-{
-  GdkEvent *event;
-  guint32 tm = GDK_CURRENT_TIME;
-  
-  event = gtk_get_current_event();
-  
-  if (event)
-    switch (event->type)
-      {
-      case GDK_MOTION_NOTIFY:
-	tm = event->motion.time; break;
-      case GDK_BUTTON_PRESS:
-      case GDK_2BUTTON_PRESS:
-      case GDK_3BUTTON_PRESS:
-      case GDK_BUTTON_RELEASE:
-	tm = event->button.time; break;
-      case GDK_KEY_PRESS:
-      case GDK_KEY_RELEASE:
-	tm = event->key.time; break;
-      case GDK_ENTER_NOTIFY:
-      case GDK_LEAVE_NOTIFY:
-	tm = event->crossing.time; break;
-      case GDK_PROPERTY_NOTIFY:
-	tm = event->property.time; break;
-      case GDK_SELECTION_CLEAR:
-      case GDK_SELECTION_REQUEST:
-      case GDK_SELECTION_NOTIFY:
-	tm = event->selection.time; break;
-      case GDK_PROXIMITY_IN:
-      case GDK_PROXIMITY_OUT:
-	tm = event->proximity.time; break;
-      default:			/* use current time */
-	break;
-      }
-  gdk_event_free(event);
-  
-  return tm;
-}
 
 
 

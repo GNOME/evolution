@@ -1,3 +1,4 @@
+/* -*- Mode: C; tab-width: 8; indent-tabs-mode: t; c-basic-offset: 8 -*- */
 /*
  * e-table-model.c: a Table Model
  *
@@ -173,4 +174,23 @@ e_table_model_cell_changed (ETableModel *e_table_model, int col, int row)
 			 e_table_model_signals [MODEL_CELL_CHANGED], col, row);
 }
 
+void
+e_table_model_freeze (ETableModel *e_table_model)
+{
+	g_return_if_fail (e_table_model != NULL);
+	g_return_if_fail (E_IS_TABLE_MODEL (e_table_model));
 
+	e_table_model->frozen = TRUE;
+	return ETM_CLASS (e_table_model)->thaw (e_table_model);
+}
+
+void
+e_table_model_thaw (ETableModel *e_table_model)
+{
+	g_return_if_fail (e_table_model != NULL);
+	g_return_if_fail (E_IS_TABLE_MODEL (e_table_model));
+
+	e_table_model->frozen = FALSE;
+	if (ETM_CLASS(e_table_model)->thaw)
+		ETM_CLASS (e_table_model)->thaw (e_table_model);
+}
