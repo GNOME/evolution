@@ -29,6 +29,8 @@
 #include <libgnomevfs/gnome-vfs-uri.h>
 #include <libgnomevfs/gnome-vfs-ops.h>
 #include <libgnomevfs/gnome-vfs-directory.h>
+#include <libgnomevfs/gnome-vfs-file-info.h>
+#include <libgnomevfs/gnome-vfs-private-utils.h>
 
 #include <bonobo/bonobo-generic-factory.h>
 #include <bonobo/bonobo-context.h>
