@@ -239,7 +239,6 @@ mail/mail-config.glade
 mail/mail-crypto.c
 mail/mail-dialogs.glade
 mail/mail-errors.xml.h
-mail/mail-errors.xml
 mail/mail-folder-cache.c
 mail/mail-mt.c
 mail/mail-ops.c
@@ -269,7 +268,6 @@ plugins/groupwise-send-options/org-gnome-compose-send-options.xml
 plugins/itip-formatter/itip-formatter.c
 plugins/itip-formatter/itip-view.c
 plugins/mailing-list-actions/org-gnome-mailing-list-actions-errors.xml.h
-plugins/mailing-list-actions/org-gnome-mailing-list-actions.xml
 plugins/new-mail-notify/new-mail-notify.c
 plugins/plugin-manager/org-gnome-plugin-manager.xml
 plugins/plugin-manager/plugin-manager.c
