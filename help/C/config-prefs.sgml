@@ -156,72 +156,130 @@ smtp.omniport.com:143
            <listitem>
 	    <para>
               Here, decide whether you'd like to check for mail
-              automatically and how often.  You can also set other
-              options related to the behavior of your server.  If you
-              use POP mail, you can choose to leave mail on the server
-              if you wish. For IMAP, there are more extensife options:
+              automatically and how often. 
+
               <variablelist>
                 <varlistentry>
-                   <term>Check for new messages in all folders</term>
+                   <term>If you chose POP:</term>
                    <listitem>
                      <para>
-                       If you turn this feature on, then at startup
-                       and when you click Send/Receive,
-                       <application>Ximian Evolution</application>
-                       will check all folders on your IMAP server to
-                       see if they have new messages in them. If you
-                       leave it turned off, it will only check the
-                       INBOX folder.  Checking only one folder is
-                       faster than checking them all at once.
+                   <itemizedlist>
+			  <listitem>
+			    <para>Checking for new mail: If you would
+	                     like <application>Evolution</application>
+	                     to check for new mail automatically,
+	                     check the box and select a frequency in
+	                     minutes.
+                           </para>
+			  </listitem>
+
+			  <listitem>
+			    <para>
+                             Message Storage: If you'd like to store
+	                      copies of your mail on the server, check
+	                      this option.
+                           </para>
+			  </listitem>
+			</itemizedlist>
+                      </para>
+		    </listitem>
+                  </varlistentry> 
+
+                <varlistentry>
+                   <term>If you chose Microsoft Exchange:</term>
+                   <listitem>
+                     <para>
+
+	    <itemizedlist> <listitem>
+		<para>Checking for new mail: If you would like
+		<application>Evolution</application> to check for new mail
+		automatically, check the box and select a frequency in
+		minutes.
+		</para>
+	      </listitem>
+
+	      <listitem>
+		<para>Exchange Server: If your active directory user name
+		is different from your Exchange mail user name, check this
+		box and enter your mail username here.
+		</para>
+	      </listitem>
+
+	      <listitem>
+		<para>Create a Global Address List folder: If you would
+		like to have a seperate folder for the Active Directory's
+		Global Address List, leave this box checked. </para>
+	      </listitem>
+
+	      <listitem>
+		<para>
+		  Active Directory Server Name: In most organizations,
+    		  the Active Directory server will be different from
+    		  the Exchange mail server.  If so, check the box and
+    		  enter the Active Directory server name here.
+		</para>
+	      </listitem>
+
+	      <listitem>
+		<para>Limit number of Responses: Select a maximum number
+		of results for an address search. A maximum number of
+		results limits the load on your system and on your network.
+		  </para>
+	      </listitem>
+	    </itemizedlist>                       
                      </para>
                    </listitem>
                   </varlistentry> 
 
                 <varlistentry>
-                   <term>Show only subscribed folders</term>
+                   <term>If you chose IMAP:</term>
                    <listitem>
                      <para>
-                       Some IMAP servers provide you with a very large
-                       number of folders above and beyond your mail
-                       folders, and expect you to indicate which ones
-                       you want to work with.  If you turn this off,
-                       Evolution will show all of your folders. To
-                       subscribe to folders, select
-                       <menuchoice><guimenu>Tools</guimenu>
-                       <guimenuitem>Subscribe to
-                       Folders</guimenuitem></menuchoice>.  You can
-                       learn about subscriptions in <xref
-                       linkend="usage-mail-subscriptions">.
-                     </para>
-                   </listitem>
-                  </varlistentry> 
-
-                <varlistentry>
-                   <term>Override server-supplied namespace</term>
-                   <listitem>
-                     <para>
-                       This is not needed for most IMAP servers. If
-                       you see system files or other non-email files
-                       appearing in the folder tree after configuring
-                       your IMAP server, check this box and specify
-                       the name of the directory that contains your
-                       mail folders.
-                     </para>
-                   </listitem>
-                  </varlistentry> 
-
-                <varlistentry>
-                   <term>Apply filters to new messages in INBOX on
-                   this server</term>
-                   <listitem>
-                     <para>
-                        If you want to use filters on the mail you
-                        store in your IMAP folders, check this box.
-                     </para>
-                   </listitem>
-                  </varlistentry> 
-                  </variablelist>  
+                      
+         <itemizedlist>
+	  <listitem>
+	    <para>Checking for new mail: If you would like
+	    <application>Evolution</application> to check for new mail
+	    automatically, check the box and select a frequency in
+	    minutes.  
             </para>
+	  </listitem>
+
+	  <listitem>
+	    <para>If you want <application>Evolution</application>
+	    to check for new messages in <emphasis>all</emphasis> your
+	    IMAP folders, make sure the <guilabel>Check for new
+	    messages in all folders</guilabel> box is selected.</para>
+	  </listitem>
+
+	  <listitem>
+	    <para>Show only subscribed folders: Check this box if you
+	    have more folders in your IMAP view than you want to
+	    read.</para>
+	  </listitem>
+
+	  <listitem>
+	    <para>
+              Override server-supplied namespace: If you like, enter a
+              specific directory where your server stores mail for
+              you.  Typical values are "mail" and "Mail."  For more
+              information about how to use IMAP mail, see <xref
+              linkend="usage-mail-subscriptions">.</para>
+	  </listitem>
+
+	  <listitem>
+	    <para>Apply filters to new messages in INBOX on this
+	    server: If you'd like your filters to work on this account
+	    as well as on locally downloaded mail, check this box.</para>
+	  </listitem>
+	</itemizedlist>
+                     </para>
+                   </listitem>
+                  </varlistentry> 
+
+             
+                  </variablelist>  
+     </para>
 	  </listitem>
 	  </varlistentry>
 	  <varlistentry> 

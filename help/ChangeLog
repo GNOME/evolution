@@ -1,3 +1,11 @@
+2002-01-15  Aaron Weber  <aaron@ximian.com>
+
+	* C/config-prefs.sgml: Redo the whole options/account-creation
+	thing.
+
+	* C/usage-mainwindow.sgml: Redo the whole options/account-creation
+	thing.
+
 2002-01-07  Aaron Weber  <aaron@ximian.com>
 
 	* C/evolution.sgml: Touched this file but don't think I changed
