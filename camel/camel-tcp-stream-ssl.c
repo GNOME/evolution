@@ -182,7 +182,7 @@ static ssize_t
 stream_write (CamelStream *stream, const char *buffer, size_t n)
 {
 	CamelTcpStreamSSL *tcp_stream_ssl = CAMEL_TCP_STREAM_SSL (stream);
-	ssize_t written;
+	ssize_t written = 0;
 	
 	do {
 		written = PR_Write (tcp_stream_ssl->sockfd, buffer, n);

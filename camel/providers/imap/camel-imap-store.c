@@ -144,17 +144,9 @@ camel_imap_store_init (gpointer object, gpointer klass)
 	CamelRemoteStore *remote_store = CAMEL_REMOTE_STORE (object);
 	CamelImapStore *imap_store = CAMEL_IMAP_STORE (object);
 	CamelStore *store = CAMEL_STORE (object);
-	CamelURL *url;
 	
-	url = CAMEL_SERVICE (store)->url;
-	
-	if (!g_strcasecmp (url->protocol, "imaps")) {
-		remote_store->default_port = 993;
-		remote_store->use_ssl = TRUE;
-	} else {
-		remote_store->default_port = 143;
-		remote_store->use_ssl = FALSE;
-	}
+	remote_store->default_port = 143;
+	remote_store->use_ssl = FALSE;
 	
 	imap_store->dir_sep = '\0';
 	imap_store->current_folder = NULL;
@@ -401,12 +393,19 @@ imap_connect (CamelService *service, CamelException *ex)
 {
 	CamelImapStore *store = CAMEL_IMAP_STORE (service);
 	CamelSession *session = camel_service_get_session (service);
-	char *result, *errbuf = NULL, *name;
-	CamelImapResponse *response;
-	gboolean authenticated = FALSE;
-	int len, i, flags;
 	CamelServiceAuthType *authtype = NULL;
-
+	char *result, *errbuf = NULL, *name;
+	gboolean authenticated = FALSE;
+	CamelImapResponse *response;
+	int len, i, flags;
+	
+	if (!g_strcasecmp (service->url->protocol, "imaps")) {
+		CamelRemoteStore *rstore = CAMEL_REMOTE_STORE (service);
+		
+		rstore->default_port = 993;
+		rstore->use_ssl = TRUE;
+	}
+	
 	if (connect_to_server (service, ex) == 0)
 		return FALSE;
 	

@@ -1,5 +1,12 @@
 2001-03-14  Jeffrey Stedfast  <fejj@ximian.com>
 
+	* providers/imap/camel-imap-store.c (camel_imap_store_init): Eek!
+	So the service's URL isn't set until after this is
+	initialized. This means we can't check for SSL here.
+	(imap_connect): Set the SSL options here instead.
+
+2001-03-14  Jeffrey Stedfast  <fejj@ximian.com>
+
 	* camel-tcp-stream-ssl.c: Numerous fixes to get it to build
 	correctly with NSS enabled.
 
