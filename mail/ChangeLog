@@ -1,3 +1,9 @@
+2003-02-18  Jeffrey Stedfast  <fejj@ximian.com>
+
+	* mail-callbacks.c (mark_all_as_seen): Fixed a memory leak. We
+	need to free each individual uid string in the array, they aren't
+	const char *'s.
+
 2003-01-24  Not Zed  <NotZed@Ximian.com>
 
 	* mail-local.c (non_equal): We do actually need to check they are
