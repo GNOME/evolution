@@ -22,10 +22,30 @@
 #ifndef E_DIALOG_WIDGETS_H
 #define E_DIALOG_WIDGETS_H
 
+#include <time.h>
 #include <glade/glade.h>
 #include <libgnomeui/gnome-propertybox.h>
 
 
+
+void e_dialog_editable_set (GtkWidget *widget, char *value);
+char *e_dialog_editable_get (GtkWidget *widget);
+
+void e_dialog_radio_set (GtkWidget *widget, int value, const int *value_map);
+int e_dialog_radio_get (GtkWidget *widget, const int *value_map);
+
+void e_dialog_toggle_set (GtkWidget *widget, gboolean value);
+gboolean e_dialog_toggle_get (GtkWidget *widget);
+
+void e_dialog_spin_set (GtkWidget *widget, double value);
+double e_dialog_spin_get_double (GtkWidget *widget);
+int e_dialog_spin_get_int (GtkWidget *widget);
+
+void e_dialog_option_menu_set (GtkWidget *widget, int value, const int *value_map);
+int e_dialog_option_menu_get (GtkWidget *widget, const int *value_map);
+
+void e_dialog_dateedit_set (GtkWidget *widget, time_t t);
+time_t e_dialog_dateedit_get (GtkWidget *widget);
 
 gboolean e_dialog_widget_hook_value (GtkWidget *dialog, GtkWidget *widget,
 				     gpointer value_var, gpointer info);

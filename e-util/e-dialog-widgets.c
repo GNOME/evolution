@@ -20,12 +20,15 @@
  */
 
 #include <config.h>
+#include <math.h>
+#include <time.h>
 #include <gtk/gtkmenu.h>
 #include <gtk/gtkmenuitem.h>
 #include <gtk/gtkoptionmenu.h>
 #include <gtk/gtkradiobutton.h>
 #include <gtk/gtksignal.h>
 #include <gtk/gtkspinbutton.h>
+#include <libgnomeui/gnome-dateedit.h>
 #include "e-dialog-widgets.h"
 
 
@@ -354,9 +357,9 @@ get_spin_button_value (GtkSpinButton *spin, gpointer value_var, gpointer info)
 	*value = adj->value;
 }
 
-/* Callback for the "changed" signal of an entry widget */
+/* Callback for the "changed" signal of a GtkEditable widget */
 static void
-changed_cb (GtkEntry *entry, gpointer data)
+changed_cb (GtkEditable *editable, gpointer data)
 {
 	GnomePropertyBox *pbox;
 
@@ -364,27 +367,34 @@ changed_cb (GtkEntry *entry, gpointer data)
 	gnome_property_box_changed (pbox);
 }
 
-/* Hooks an entry widget */
+/* Hooks a GtkEditable widget */
 static void
-hook_entry (GtkWidget *dialog, GtkEntry *entry, gpointer value_var, gpointer info)
+hook_editable (GtkWidget *dialog, GtkEditable *editable, gpointer value_var, gpointer info)
 {
 	char **value;
+	gint pos;
 
 	/* Set the value */
 
 	value = (char **) value_var;
-	gtk_entry_set_text (entry, *value);
+
+	pos = 0;
+	gtk_editable_delete_text (editable, 0, -1);
+
+	/* Take NULL as empty string */
+	if (*value)
+		gtk_editable_insert_text (editable, *value, strlen (*value), &pos);
 
 	/* Hook to changed */
 
 	if (GNOME_IS_PROPERTY_BOX (dialog))
-		gtk_signal_connect (GTK_OBJECT (entry), "changed",
+		gtk_signal_connect (GTK_OBJECT (editable), "changed",
 				    GTK_SIGNAL_FUNC (changed_cb), dialog);
 }
 
-/* Gets the value of an entry widget */
+/* Gets the value of a GtkEditable widget */
 static void
-get_entry_value (GtkEntry *entry, gpointer value_var, gpointer data)
+get_editable_value (GtkEditable *editable, gpointer value_var, gpointer data)
 {
 	char **value;
 
@@ -392,7 +402,221 @@ get_entry_value (GtkEntry *entry, gpointer value_var, gpointer data)
 	if (*value)
 		g_free (*value);
 
-	*value = g_strdup (gtk_entry_get_text (entry));
+	*value = gtk_editable_get_chars (editable, 0, -1);
+}
+
+void
+e_dialog_editable_set (GtkWidget *widget, char *value)
+{
+	g_return_if_fail (widget != NULL);
+	g_return_if_fail (GTK_IS_EDITABLE (widget));
+
+	gtk_editable_delete_text (GTK_EDITABLE (widget), 0, -1);
+
+	if (value) {
+		gint pos;
+
+		pos = 0;
+		gtk_editable_insert_text (GTK_EDITABLE (widget), value, strlen (value), &pos);
+	}
+}
+
+char *
+e_dialog_editable_get (GtkWidget *widget)
+{
+	g_return_val_if_fail (widget != NULL, NULL);
+	g_return_val_if_fail (GTK_IS_EDITABLE (widget), NULL);
+
+	return gtk_editable_get_chars (GTK_EDITABLE (widget), 0, -1);
+}
+
+void
+e_dialog_radio_set (GtkWidget *widget, int value, const int *value_map)
+{
+	GSList *group;
+	int i;
+	GSList *l;
+
+	g_return_if_fail (widget != NULL);
+	g_return_if_fail (GTK_IS_RADIO_BUTTON (widget));
+	g_return_if_fail (value_map != NULL);
+
+	group = gtk_radio_button_group (GTK_RADIO_BUTTON (widget));
+
+	i = value_to_index (value_map, value);
+	if (i != -1) {
+		l = g_slist_nth (group, i);
+		if (!l)
+			g_message ("e_dialog_radio_set(): could not find index %d in radio group!",
+				   i);
+
+		gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (l->data), TRUE);
+	} else
+		g_message ("e_dialog_radio_set(): could not find value %d in value map!",
+			   value);
+}
+
+int
+e_dialog_radio_get (GtkWidget *widget, const int *value_map)
+{
+	GSList *group;
+	GSList *l;
+	int i;
+	int v;
+
+	g_return_val_if_fail (widget != NULL, -1);
+	g_return_val_if_fail (GTK_IS_RADIO_BUTTON (widget), -1);
+	g_return_val_if_fail (value_map != NULL, -1);
+
+	group = gtk_radio_button_group (GTK_RADIO_BUTTON (widget));
+
+	for (i = 0, l = group; l; l = l->next) {
+		widget = GTK_WIDGET (l->data);
+
+		if (GTK_TOGGLE_BUTTON (widget)->active)
+			break;
+	}
+
+	if (!l)
+		g_assert_not_reached ();
+
+	v = index_to_value (value_map, i);
+	if (v == -1) {
+		g_message ("e_dialog_radio_get(): could not find index %d in value map!", i);
+		return -1;
+	}
+
+	return v;
+}
+
+void
+e_dialog_toggle_set (GtkWidget *widget, gboolean value)
+{
+	g_return_if_fail (widget != NULL);
+	g_return_if_fail (GTK_IS_TOGGLE_BUTTON (widget));
+
+	gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (widget), value);
+}
+
+gboolean
+e_dialog_toggle_get (GtkWidget *widget)
+{
+	g_return_val_if_fail (widget != NULL, FALSE);
+	g_return_val_if_fail (GTK_IS_TOGGLE_BUTTON (widget), FALSE);
+
+	return GTK_TOGGLE_BUTTON (widget)->active;
+}
+
+void
+e_dialog_spin_set (GtkWidget *widget, double value)
+{
+	GtkAdjustment *adj;
+
+	g_return_if_fail (widget != NULL);
+	g_return_if_fail (GTK_IS_SPIN_BUTTON (widget));
+
+	adj = gtk_spin_button_get_adjustment (GTK_SPIN_BUTTON (widget));
+
+	adj->value = value;
+	gtk_signal_emit_by_name (GTK_OBJECT (adj), "value_changed");
+}
+
+double
+e_dialog_spin_get_double (GtkWidget *widget)
+{
+	GtkAdjustment *adj;
+
+	g_return_val_if_fail (widget != NULL, 0.0);
+	g_return_val_if_fail (GTK_IS_SPIN_BUTTON (widget), 0.0);
+
+	adj = gtk_spin_button_get_adjustment (GTK_SPIN_BUTTON (widget));
+	return adj->value;
+}
+
+int
+e_dialog_spin_get_int (GtkWidget *widget)
+{
+	double value;
+
+	g_return_val_if_fail (widget != NULL, -1);
+	g_return_val_if_fail (GTK_IS_SPIN_BUTTON (widget), -1);
+
+	value = e_dialog_spin_get_double (widget);
+	return (int) floor (value);
+}
+
+void
+e_dialog_option_menu_set (GtkWidget *widget, int value, const int *value_map)
+{
+	int i;
+
+	g_return_if_fail (widget != NULL);
+	g_return_if_fail (GTK_IS_OPTION_MENU (widget));
+	g_return_if_fail (value_map != NULL);
+
+	i = value_to_index (value_map, value);
+
+	if (i != -1)
+		gtk_option_menu_set_history (GTK_OPTION_MENU (widget), i);
+	else
+		g_message ("e_dialog_option_menu_set(): could not find value %d in value map!",
+			   value);
+}
+
+int
+e_dialog_option_menu_get (GtkWidget *widget, const int *value_map)
+{
+	GtkMenu *menu;
+	GtkWidget *active;
+	GList *children;
+	GList *l;
+	int i;
+	int v;
+
+	g_return_val_if_fail (widget != NULL, -1);
+	g_return_val_if_fail (GTK_IS_OPTION_MENU (widget), -1);
+	g_return_val_if_fail (value_map != NULL, -1);
+
+	menu = GTK_MENU (gtk_option_menu_get_menu (GTK_OPTION_MENU (widget)));
+
+	active = gtk_menu_get_active (menu);
+	g_assert (active != NULL);
+
+	children = GTK_MENU_SHELL (menu)->children;
+
+	for (i = 0, l = children; l; l = l->next) {
+		if (GTK_WIDGET (l->data) == active)
+			break;
+	}
+
+	if (!l)
+		g_assert_not_reached ();
+
+	v = index_to_value (value_map, i);
+	if (v == -1) {
+		g_message ("e_dialog_option_menu_get(): could not find index %d in value map!", i);
+		return -1;
+	}
+
+	return v;
+}
+
+void
+e_dialog_dateedit_set (GtkWidget *widget, time_t t)
+{
+	g_return_if_fail (widget != NULL);
+	g_return_if_fail (GNOME_IS_DATE_EDIT (widget));
+
+	gnome_date_edit_set_time (GNOME_DATE_EDIT (widget), t);
+}
+
+time_t
+e_dialog_dateedit_get (GtkWidget *widget)
+{
+	g_return_val_if_fail (widget != NULL, -1);
+	g_return_val_if_fail (GNOME_IS_DATE_EDIT (widget), -1);
+
+	return gnome_date_edit_get_date (GNOME_DATE_EDIT (widget));
 }
 
 gboolean
@@ -421,8 +645,8 @@ e_dialog_widget_hook_value (GtkWidget *dialog, GtkWidget *widget,
 		hook_toggle (dialog, GTK_TOGGLE_BUTTON (widget), value_var, info);
 	else if (GTK_IS_SPIN_BUTTON (widget))
 		hook_spin_button (dialog, GTK_SPIN_BUTTON (widget), value_var, info);
-	else if (GTK_IS_ENTRY (widget))
-		hook_entry (dialog, GTK_ENTRY (widget), value_var, info);
+	else if (GTK_IS_EDITABLE (widget))
+		hook_editable (dialog, GTK_EDITABLE (widget), value_var, info);
 	else
 		return FALSE;
 
@@ -459,8 +683,8 @@ e_dialog_get_values (GtkWidget *dialog)
 			get_toggle_value (GTK_TOGGLE_BUTTON (wh->widget), wh->value_var, wh->info);
 		else if (GTK_IS_SPIN_BUTTON (wh->widget))
 			get_spin_button_value (GTK_SPIN_BUTTON (wh->widget), wh->value_var, wh->info);
-		else if (GTK_IS_ENTRY (wh->widget))
-			get_entry_value (GTK_ENTRY (wh->widget), wh->value_var, wh->info);
+		else if (GTK_IS_EDITABLE (wh->widget))
+			get_editable_value (GTK_EDITABLE (wh->widget), wh->value_var, wh->info);
 		else
 			g_assert_not_reached ();
 	}

@@ -1,3 +1,20 @@
+2000-05-27  Federico Mena Quintero  <federico@helixcode.com>
+
+	* e-dialog-widgets.c (e_dialog_editable_set): Moved over from
+	event-editor-utils.c.
+	(e_dialog_editable_get): Likewise.
+	(e_dialog_toggle_set): Likewise.
+	(e_dialog_toggle_get): Likewise.
+	(e_dialog_spin_set): Likewise.
+	(e_dialog_spin_get_double): Likewise.
+	(e_dialog_spin_get_int): Likewise.
+	(e_dialog_option_menu_set): Likewise, and added a value map.
+	(e_dialog_option_menu_get): Likewise.
+	(e_dialog_dateedit_set): Likewise.
+	(e_dialog_dateedit_get): Likewise.
+	(e_dialog_radio_set): New function.
+	(e_dialog_radio_get): New function.
+
 2000-05-24  Christopher James Lahey  <clahey@helixcode.com>
 
 	* e-paned.c, e-paned.h: Removed.
