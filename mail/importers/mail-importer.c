@@ -379,7 +379,7 @@ mail_importer_import_folders_sync(const char *filepath, const char *folderparent
 
 		if (S_ISDIR(st.st_mode)) {
 			foldersub = folderparent?g_strdup_printf("%s/%s", folderparent, folder):g_strdup(folder);
-			import_folders(filefull, foldersub, special_folders, cancel);
+			mail_importer_import_folders_sync(filefull, foldersub, special_folders, cancel);
 			g_free(foldersub);
 		}
 

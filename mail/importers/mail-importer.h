@@ -23,8 +23,6 @@
 #ifndef __MAIL_IMPORTER_H__
 #define __MAIL_IMPORTER_H__
 
-#include <camel/camel-operation.h>
-
 struct _MailComponent *mc;
 
 typedef struct _MailImporter MailImporter;
@@ -85,6 +83,6 @@ struct _MailImporterSpecial {
 typedef struct _MailImporterSpecial MailImporterSpecial;
 
 /* api in flux */
-void mail_importer_import_folders_sync(const char *filepath, const char *folderparent, MailImporterSpecial special_folders[], CamelOperation *cancel);
+void mail_importer_import_folders_sync(const char *filepath, const char *folderparent, MailImporterSpecial special_folders[], struct _CamelOperation *cancel);
 
 #endif
