@@ -165,6 +165,17 @@ static struct {
 };
 
 static void
+unref_standard_folders (void)
+{
+	int i;
+	
+	for (i = 0; i < sizeof (standard_folders) / sizeof (standard_folders[0]); i++) {
+		if (standard_folders[i].folder)
+			camel_object_unref (CAMEL_OBJECT (standard_folders[i].folder));
+	}
+}
+
+static void
 got_folder (char *uri, CamelFolder *folder, void *data)
 {
 	CamelFolder **fp = data;
@@ -219,6 +230,8 @@ owner_set_cb (EvolutionShellComponent *shell_component,
 		mail_msg_wait (mail_get_folder (uri, got_folder, standard_folders[i].folder));
 		g_free (uri);
 	}
+	
+	g_atexit (unref_standard_folders);
 	
 	mail_session_enable_interaction (TRUE);
 	

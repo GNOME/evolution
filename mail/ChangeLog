@@ -1,3 +1,12 @@
+2001-03-18  Jeffrey Stedfast  <fejj@ximian.com>
+
+	* component-factory.c (unref_standard_folders): unref the standard
+	folders.
+	(owner_set_cb): Use g_atexit() to call unref_standard_folders()
+	when evolution-mail exits. This should solve the problem where
+	these folders are not synced when evolution-mail closes (because
+	they still had refs on them on close).
+
 2001-03-17  Not Zed  <NotZed@Ximian.com>
 
 	* mail-mt.c (mail_msg_free): Move the proxy event outside the lock

@@ -264,6 +264,7 @@ pgp_mime_part_sign_prepare_part (CamelMimePart *mime_part, GSList **encodings)
 		
 		encoding = camel_mime_part_get_encoding (mime_part);
 		
+		/* FIXME: find the best encoding for this part and use that instead?? */
 		/* the encoding should really be QP or Base64 */
 		if (encoding != CAMEL_MIME_PART_ENCODING_BASE64)
 			camel_mime_part_set_encoding (mime_part, CAMEL_MIME_PART_ENCODING_QUOTEDPRINTABLE);
