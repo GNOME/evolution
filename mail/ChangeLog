@@ -1,3 +1,8 @@
+2000-10-19  Ettore Perazzoli  <ettore@helixcode.com>
+
+	* folder-browser-factory.c: Rename verb `VFolderEdit' to
+	`SetVFolder'.
+
 2000-10-19  Dan Winship  <danw@helixcode.com>
 
 	* mail-ops.c: (do_fetch_mail): For an imap store, just refresh the
