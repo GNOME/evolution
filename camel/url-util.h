@@ -2,7 +2,10 @@
 /* url-util.h : utility functions to parse URLs */
 
 /* 
- * Copyright (C) Bertrand Guiheneuf <Bertrand.Guiheneuf@aful.org>
+ * Author : 
+ *  Bertrand Guiheneuf <Bertrand.Guiheneuf@aful.org>
+ *
+ * Copyright 1999 International GNOME Support (http://www.gnome-support.com)
  *
  * This program is free software; you can redistribute it and/or 
  * modify it under the terms of the GNU General Public License as 
