@@ -40,7 +40,6 @@
 #include <gnome-xml/parser.h>
 #include <gnome-xml/xmlmemory.h>
 
-
 struct _EDestinationPrivate {
 
 	gchar *card_uri;
@@ -413,6 +412,7 @@ e_destination_get_name (const EDestination *dest)
 	
 }
 
+/* FIXME: not utf-8 safe */
 const gchar *
 e_destination_get_email (const EDestination *dest)
 {
@@ -454,6 +454,59 @@ e_destination_get_email (const EDestination *dest)
 	return priv->email;
 }
 
+#define NEEDS_QUOTING(c) ((c) == '.' || (c) == ',' || (c) == '<' || (c) == '>')
+
+/* FIXME: not utf-8 safe */
+static gboolean
+needs_quotes (const gchar *str)
+{
+	gboolean in_quote = FALSE;
+	
+	while (*str) {
+		if (*str == '"')
+			in_quote = !in_quote;
+		else if (NEEDS_QUOTING (*str) && !in_quote) {
+			return TRUE;
+		}
+		++str;
+	}
+	return FALSE;
+}
+
+/* FIXME: not utf-8 safe */
+static gchar *
+quote_string (const gchar *str)
+{
+	gchar *new_str, *t;
+	const gchar *s;
+	if (strchr (str, '\"') == NULL) {
+
+		new_str =  g_strdup_printf ("\"%s\"", str);
+
+	} else {
+
+		new_str = t = g_malloc (strlen (str)+3);
+		*t = '\"';
+		++t;
+		
+		s = str;
+		while (*s) {
+			if (*s != '"') {
+				*t = *s;
+				++t;
+			}
+			++s;
+		}
+		
+		*t = '\"';
+		++t;
+		*t = '\0';
+
+	}
+		
+	return new_str;
+}
+
 const gchar *
 e_destination_get_address (const EDestination *dest)
 {
@@ -462,7 +515,7 @@ e_destination_get_address (const EDestination *dest)
 	g_return_val_if_fail (dest && E_IS_DESTINATION (dest), NULL);
 	
 	priv = (struct _EDestinationPrivate *)dest->priv; /* cast out const */
-	
+
 	if (priv->addr == NULL) {
 		if (e_destination_is_evolution_list (dest)) {
 			gchar **strv = g_new0 (gchar *, g_list_length (priv->list_dests) + 1);
@@ -479,8 +532,6 @@ e_destination_get_address (const EDestination *dest)
 			
 			priv->addr = g_strjoinv (", ", strv);
 			
-			g_message ("List address is [%s]", priv->addr);
-			
 			g_free (strv);
 		} else {
 			const gchar *name     = e_destination_get_name (dest);
@@ -489,30 +540,37 @@ e_destination_get_address (const EDestination *dest)
 			/* If this isn't set, we return NULL */
 			if (email) {
 				if (name) {
-					/* uhm, yea... this'll work. NOT!!! */
-					/* what about ','? or any of the other chars that require quoting?? */
 					const gchar *lt = strchr (name, '<');
-					gchar *namecpy = lt ? g_strndup (name, lt-name) : g_strdup (name);
-					gboolean needs_quotes = (strchr (namecpy, '.') != NULL);
+					gchar *namestrip = lt ? g_strndup (name, lt-name) : g_strdup (name);
+					gchar *namecopy;
 					
-					g_strstrip (namecpy);
+					g_strstrip (namestrip);
+					if (needs_quotes (namestrip)) {
+						namecopy = quote_string (namestrip);
+					} else {
+						namecopy = namestrip;
+						namestrip = NULL;
+					}
+					if (namestrip)
+						g_free (namestrip);
 					
-					priv->addr = g_strdup_printf ("%s%s%s <%s>",
-								      needs_quotes ? "\"" : "",
-								      namecpy,
-								      needs_quotes ? "\"" : "",
-								      email);
-					g_free (namecpy);
+					priv->addr = g_strdup_printf ("%s <%s>", namecopy, email);
+					g_free (namecopy);
+
 				} else {
 					priv->addr = g_strdup (email);
 				}
 			} else {
 				/* Just use the name, which is the best we can do. */
-				priv->addr = g_strdup (name);
+				if (needs_quotes (name)) {
+					priv->addr = quote_string (name);
+				} else {
+					priv->addr = g_strdup (name);
+				}
 			}
 		}
 	}
-	
+
 	return priv->addr;
 }
 
@@ -578,9 +636,13 @@ e_destination_get_address_textv (EDestination **destv)
 	
 	g_return_val_if_fail (destv, NULL);
 
-	/* FIXME: please tell me this is only for assertion
+	/* Q: Please tell me this is only for assertion
            reasons. If this is considered to be ok behavior then you
-           shouldn't use g_return's. Just a reminder ;-) */
+           shouldn't use g_return's. Just a reminder ;-) 
+
+	   A: Yes, this is just an assertion.  (Though it does find the
+	   length of the vector in the process...)
+	*/
 	while (destv[len]) {
 		g_return_val_if_fail (E_IS_DESTINATION (destv[len]), NULL);
 		++len;

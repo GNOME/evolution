@@ -926,6 +926,7 @@ e_select_names_completion_start_query (ESelectNamesCompletion *comp, const gchar
 
 		} else {
 			g_free (comp->priv->query_text);
+			comp->priv->query_text = NULL;
 		}
 		g_free (sexp);
 
@@ -945,8 +946,14 @@ e_select_names_completion_do_query (ESelectNamesCompletion *comp, const gchar *q
 	g_return_if_fail (comp != NULL);
 	g_return_if_fail (E_IS_SELECT_NAMES_COMPLETION (comp));
 
-	query_is_still_running = comp->priv->book_view_tag || comp->priv->book_view;
 	clean = clean_query_text (query_text);
+	if (! (clean && *clean)) {
+		g_free (clean);
+		e_completion_end_search (E_COMPLETION (comp));
+		return;
+	}
+
+	query_is_still_running = comp->priv->book_view_tag || comp->priv->book_view;
 
 	if (out) {
 		fprintf (out, "do_query: %s => %s\n", query_text, clean);

@@ -1,3 +1,16 @@
+2001-07-30  Jon Trowbridge  <trow@ximian.com>
+
+	* gui/component/select-names/e-select-names-completion.c
+	(e_select_names_completion_do_query): Properly handle the case
+	where our "cleaned" completion is the empty string.  This happens,
+	for example, if the query text is the string "\"".  (Bug #5610).
+
+	* backend/ebook/e-destination.c (e_destination_get_address_textv):
+	Reassure fejj that I'm not doing something stupid here.
+	(e_destination_get_address): Fix address quoting.  This is a
+	stop-gap measure until I can change this code to use Camel's
+	superior address-handling routines.  (Also Bug #5610)
+
 2001-07-30  Jason Leach  <jleach@ximian.com>
 
 	* gui/component/addressbook-storage.c (load_source_data): Fix a
