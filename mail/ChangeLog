@@ -1,5 +1,8 @@
 2001-07-13  Peter Williams  <peterw@ximian.com>
 
+	* mail-callbacks.c (expunge_folder): Segfault prevention here if we lose
+	the race with message_list_set_hidedeleted().
+
 	* mail-vfolder.c (unlist_vfolder): New function. If a vfolder in our list
 	gets finalized, NULL out info->folder (Is it wrong if this happens?) Also,
 	locking issues?
