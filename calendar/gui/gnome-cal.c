@@ -52,7 +52,21 @@ setup_widgets (GnomeCalendar *gcal)
 	task_view = tasks_create (gcal);
 
 	{
-		day_view = gncal_full_day_new (gcal, time (NULL), time (NULL) + 86400);
+		struct tm tm;
+		time_t a, b;
+
+		tm = *localtime (&now);
+		tm.tm_hour = 0;
+		tm.tm_min  = 0;
+		tm.tm_sec  = 0;
+
+		a = mktime (&tm);
+
+		tm.tm_mday++;
+
+		b = mktime (&tm);
+
+		day_view = gncal_full_day_new (gcal, a, b);
 	}
 
 	gtk_notebook_append_page (GTK_NOTEBOOK (notebook), day_view,  gtk_label_new (_("Day View")));

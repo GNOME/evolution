@@ -158,6 +158,9 @@ get_tm_bounds (GncalFullDay *fullday, struct tm *lower, struct tm *upper)
 	lmin = 60 * tm_lower.tm_hour + tm_lower.tm_min;
 	umin = 60 * tm_upper.tm_hour + tm_upper.tm_min;
 
+	if (umin == 0) /* midnight of next day? */
+		umin = 60 * 24;
+
 	return (umin - lmin) / fullday->interval; /* number of rows in view */
 }
 
@@ -177,7 +180,7 @@ calc_labels_width (GncalFullDay *fullday)
 	time_upper = mktime (&upper);
 
 	while (tim < time_upper) {
-		strftime (buf, 256, "%R%p", &cur);
+		strftime (buf, 256, "%X", &cur);
 
 		width = gdk_string_width (GTK_WIDGET (fullday)->style->font, buf);
 
@@ -240,9 +243,13 @@ static void
 paint_back (GncalFullDay *fullday, GdkRectangle *area)
 {
 	GtkWidget *widget;
-	GdkRectangle rect;
+	GdkRectangle rect, dest;
 	int x1, y1, width, height;
 	int labels_width, division_x;
+	int rows, row_height;
+	int i, y;
+	struct tm tm;
+	char buf[256];
 
 	widget = GTK_WIDGET (fullday);
 
@@ -261,9 +268,23 @@ paint_back (GncalFullDay *fullday, GdkRectangle *area)
 			 widget->allocation.width,
 			 widget->allocation.height);
 
-	/* Vertical division */
+	/* Clear space for labels */
 
 	labels_width = calc_labels_width (fullday);
+
+	rect.x = x1;
+	rect.y = y1;
+	rect.width = 2 * TEXT_BORDER + labels_width;
+	rect.height = height;
+
+	if (gdk_rectangle_intersect (&rect, area, &dest))
+		gdk_draw_rectangle (widget->window,
+				    widget->style->bg_gc[GTK_STATE_NORMAL],
+				    TRUE,
+				    dest.x, dest.y,
+				    dest.width, dest.height);
+
+	/* Vertical division */
 
 	division_x = x1 + 2 * TEXT_BORDER + labels_width;
 
@@ -272,6 +293,47 @@ paint_back (GncalFullDay *fullday, GdkRectangle *area)
 			y1,
 			y1 + height - 1,
 			division_x);
+
+	/* Horizontal divisions */
+
+	rows = get_tm_bounds (fullday, &tm, NULL);
+
+	row_height = height / rows; /* includes division line */
+
+	y = row_height;
+
+	for (i = 1; i < rows; i++) {
+		gdk_draw_line (widget->window,
+			       widget->style->black_gc,
+			       x1, y,
+			       x1 + width - 1, y);
+
+		y += row_height;
+	}
+
+	/* Labels */
+
+	y = y1 + ((row_height - 1) - (widget->style->font->ascent + widget->style->font->descent)) / 2;
+
+	for (i = 0; i < rows; i++) {
+		mktime (&tm);
+
+		if (gdk_rectangle_intersect (&rect, area, &dest)) {
+			strftime (buf, 256, "%X", &tm);
+
+			gdk_draw_string (widget->window,
+					 widget->style->font,
+					 widget->style->fg_gc[GTK_STATE_NORMAL],
+					 x1 + TEXT_BORDER,
+					 y + widget->style->font->ascent,
+					 buf);
+		}
+
+		rect.y += row_height;
+		y += row_height;
+
+		tm.tm_min += fullday->interval;
+	}
 }
 
 static gint
