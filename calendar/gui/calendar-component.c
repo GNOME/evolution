@@ -418,16 +418,22 @@ edit_calendar_cb (GtkWidget *widget, CalendarComponentView *component_view)
 static void
 fill_popup_menu_cb (ESourceSelector *selector, GtkMenu *menu, CalendarComponentView *component_view)
 {
-	gboolean sensitive;
+	ESource *source;
+	gboolean sensitive, system;
+	const char *source_uri;
+	
+	source = e_source_selector_peek_primary_selection (E_SOURCE_SELECTOR (component_view->source_selector));
+	sensitive =  source ? TRUE : FALSE;
 
-	sensitive = e_source_selector_peek_primary_selection (E_SOURCE_SELECTOR (component_view->source_selector)) ?
-		TRUE : FALSE;
-
+	/* FIXME Gross hack, should have a property or something */
+	source_uri = e_source_peek_relative_uri (source);
+	system = source_uri && !strcmp ("system", source_uri);
+	
 	add_popup_menu_item (menu, _("New Calendar"), "stock_calendar",
 			     G_CALLBACK (new_calendar_cb), component_view, TRUE);
 	add_popup_menu_item (menu, _("Copy"), "stock_folder-copy",
 			     G_CALLBACK (copy_calendar_cb), component_view, sensitive);
-	add_popup_menu_item (menu, _("Delete"), "stock_delete", G_CALLBACK (delete_calendar_cb), component_view, sensitive); 
+	add_popup_menu_item (menu, _("Delete"), "stock_delete", G_CALLBACK (delete_calendar_cb), component_view, sensitive && !system); 
 	add_popup_menu_item (menu, _("Properties..."), NULL, G_CALLBACK (edit_calendar_cb), component_view, sensitive);
 }
 
