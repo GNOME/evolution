@@ -97,7 +97,7 @@ int cal_util_priority_from_string (const char *string);
 char *cal_util_expand_uri (char *uri, gboolean tasks);
 
 void cal_util_add_timezones_from_component (icalcomponent *vcal_comp,
-					    CalComponent *comp);
+					    icalcomponent *icalcomp);
 
 /* The static capabilities to be supported by backends */
 #define CAL_STATIC_CAPABILITY_NO_ALARM_REPEAT             "no-alarm-repeat"

@@ -2562,7 +2562,7 @@ free_timezone_string (gpointer key, gpointer value, gpointer data)
    as before. */
 static char*
 cal_client_get_component_as_string_internal (CalClient *client,
-					     CalComponent *comp,
+					     icalcomponent *icalcomp,
 					     gboolean include_all_timezones)
 {
 	GHashTable *timezone_hash;
@@ -2570,7 +2570,6 @@ cal_client_get_component_as_string_internal (CalClient *client,
 	int initial_vcal_string_len;
 	ForeachTZIDCallbackData cbdata;
 	char *obj_string;
-
 	CalClientPrivate *priv;
 
 	priv = client->priv;
@@ -2583,8 +2582,7 @@ cal_client_get_component_as_string_internal (CalClient *client,
 	cbdata.timezone_hash = timezone_hash;
 	cbdata.include_all_timezones = include_all_timezones;
 	cbdata.success = TRUE;
-	icalcomponent_foreach_tzid (cal_component_get_icalcomponent (comp),
-				    foreach_tzid_callback, &cbdata);
+	icalcomponent_foreach_tzid (icalcomp, foreach_tzid_callback, &cbdata);
 	if (!cbdata.success) {
 		g_hash_table_foreach (timezone_hash, free_timezone_string,
 				      NULL);
@@ -2607,7 +2605,7 @@ cal_client_get_component_as_string_internal (CalClient *client,
 			      vcal_string);
 
 	/* Get the string for the VEVENT/VTODO. */
-	obj_string = cal_component_get_as_string (comp);
+	obj_string = g_strdup (icalcomponent_as_ical_string (icalcomp));
 
 	/* If there were any timezones to send, create a complete VCALENDAR,
 	   else just send the VEVENT/VTODO string. */
@@ -2630,7 +2628,7 @@ cal_client_get_component_as_string_internal (CalClient *client,
 /**
  * cal_client_get_component_as_string:
  * @client: A calendar client.
- * @comp: A calendar component object.
+ * @icalcomp: A calendar component object.
  *
  * Gets a calendar component as an iCalendar string, with a toplevel
  * VCALENDAR component and all VTIMEZONEs needed for the component.
@@ -2639,11 +2637,9 @@ cal_client_get_component_as_string_internal (CalClient *client,
  * failure. The string should be freed after use.
  **/
 char*
-cal_client_get_component_as_string (CalClient *client,
-				    CalComponent *comp)
+cal_client_get_component_as_string (CalClient *client, icalcomponent *icalcomp)
 {
-	return cal_client_get_component_as_string_internal (client, comp,
-							    TRUE);
+	return cal_client_get_component_as_string_internal (client, icalcomp, TRUE);
 }
 
 CalClientResult
@@ -2665,7 +2661,8 @@ cal_client_update_object_with_mod (CalClient *client, CalComponent *comp, CalObj
 	cal_component_commit_sequence (comp);
 
 	obj_string = cal_client_get_component_as_string_internal (client,
-								  comp, FALSE);
+								  cal_component_get_icalcomponent (comp),
+								  FALSE);
 	if (obj_string == NULL)
 		return CAL_CLIENT_RESULT_INVALID_OBJECT;
 

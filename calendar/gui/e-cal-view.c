@@ -587,7 +587,7 @@ e_cal_view_copy_clipboard (ECalView *cal_view)
 		event = (ECalViewEvent *) l->data;
 
 		if (event)
-			cal_util_add_timezones_from_component (vcal_comp, event->comp);
+			cal_util_add_timezones_from_component (vcal_comp, cal_component_get_icalcomponent (event->comp));
 	}
 
 	for (l = selected; l != NULL; l = l->next) {
@@ -846,7 +846,8 @@ on_save_as (GtkWidget *widget, gpointer user_data)
 		return;
 	
 	event = (ECalViewEvent *) selected->data;
-	ical_string = cal_client_get_component_as_string (cal_view->priv->client, event->comp);
+	ical_string = cal_client_get_component_as_string (cal_view->priv->client,
+							  cal_component_get_icalcomponent (event->comp));
 	if (ical_string == NULL) {
 		g_warning ("Couldn't convert item to a string");
 		return;

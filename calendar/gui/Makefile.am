@@ -98,8 +98,6 @@ libevolution_calendar_la_SOURCES =		\
 	calendar-commands.h			\
 	calendar-component.c			\
 	calendar-component.h			\
-	calendar-model.c			\
-	calendar-model.h			\
 	calendar-offline-handler.c		\
 	calendar-offline-handler.h		\
 	calendar-view.c				\

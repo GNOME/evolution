@@ -1,3 +1,107 @@
+2003-08-08  Rodrigo Moya <rodrigo@ximian.com>
+
+	* gui/e-cal-model-calendar.c (ecmc_fill_component_from_model):
+	implemented new virtual method.
+	(ecmc_class_init): initialize new virtual method.
+
+2003-08-08  Rodrigo Moya <rodrigo@ximian.com>
+
+	* cal-client/cal-client.c (cal_client_update_object_with_mod):
+	cal_client_get_component_as_string_internal expects now a
+	icalcomponent, not a CalComponent.
+
+	* gui/e-cal-model.h: added fill_component_from_model virtual method.
+
+	* gui/e-cal-model.c (e_cal_model_get_default_client): return
+	the default URI as per the configuration if we've got that
+	client loaded. If not, return the first client.
+	(get_dtstart): retrieve the value from the icalproperty.
+	(set_summary): implemented correctly.
+	(set_categories, set_classification, set_description): changed
+	to really get an ECalModelComponent.
+	(ecm_append_row): pass the correct arguments to the set_ functions
+	and call the class' fill_component_from_model method to fill in the
+	created icalcomponent.
+
+	* gui/e-cal-model-tasks.c (set_due): added missing function.
+	(ecmt_set_value_at): implemented case for DUE field.
+	(ecmt_fill_component_from_model): implemented new virtual method.
+	(ecmt_append_row): removed.
+
+	* gui/e-cal-model-calendar.c (ecmc_append_row): removed.
+
+	* gui/e-calendar-table.c (e_calendar_table_init): initialize
+	missing fields. Disabled call to g_object_unref on the 'extras'
+	object, since it causes GLib warnings. Something is wrong here.
+
+2003-08-08  Rodrigo Moya <rodrigo@ximian.com>
+
+	* gui/e-cal-model.c (cal_opened_cb): don't call remove_client,
+	since the client, at this point, hasn't been added anywhere.
+	(ecm_finalize): don't call e_cal_model_remove_all_clients, since
+	that function triggers notifications on the model.
+	(query_obj_updated_cb): free all the date fields.
+
+2003-08-07  Rodrigo Moya <rodrigo@ximian.com>
+
+	* gui/e-cal-model.c (ecm_value_at): don't convert to an integer
+	the return value from get_color.
+	(ecm_get_color_for_component): use correct GTK 2.x color values.
+
+	* gui/e-calendar-table.c: replace all CAL_COMPONENT_FIELD...
+	with the correct E_CAL_MODEL_*_FIELD...
+
+2003-08-07  Rodrigo Moya <rodrigo@ximian.com>
+
+	* gui/e-cal-model-tasks.c (get_completed, get_due): added
+	missing implementation.
+	(ecmt_class_init): initialize missing virtual method.
+
+	* gui/gnome-cal.c (gnome_calendar_construct): fixed typo.
+
+2003-08-07  Rodrigo Moya <rodrigo@ximian.com>
+
+	* cal-client/cal-client.[ch] (cal_client_get_component_as_string):
+	* cal-util/cal-util.[ch] (cal_util_add_timezone_from_component):
+	use icalcomponent's instead of CalComponent's.
+
+	* gui/Makefile.am:
+	* gui/calendar-model.[ch]: removed old model class.
+
+	* gui/e-calendar-table.[ch]: use ECalModelTasks class instead
+	of CalendarModel.
+	(e_calendar_table_set_status_message): new function.
+	(get_selected_comp): return an ECalModelComponent.
+	(get_selected_objects): return a list of ECalModelComponent's.
+	(delete_selected_components): use the CalClient associated
+	with each component.
+	(copy_row_cb): adapted to changes in get_selected_comp.
+
+	* gui/e-tasks.c:
+	* gui/print.c:
+	* gui/dialogs/comp-editor.c (save_as_cmd):
+	* gui/e-day-view.c (e_day_view_on_drag_data_get):
+	* gui/e-cal-view.c (e_cal_view_copy_clipboard, on_save_as): pass
+	an icalcomponent to cal_util_add_timezones_from_component and
+	cal_client_get_component_as_string.
+
+	* gui/e-cal-model.[ch] (e_cal_model_set_use_24_hour_format):
+	(e_cal_model_get_default_client):
+	(e_cal_model_set_default_category): new functions.
+
+	* gui/e-cal-model-tasks.[ch] (e_cal_model_tasks_mark_task_complete):
+	new function.
+	(ecmt_get_color_for_component): chain the call to the parent class
+	so that it assigns the per-client color to 'normal' tasks.
+
+	* gui/calendar-config.c (calendar_config_configure_e_calendar_table):
+	call e_cal_model_set_use_24_hour_format.
+
+2003-08-07  Rodrigo Moya <rodrigo@ximian.com>
+
+	* gui/e-cal-model.c (ecm_get_color_for_component): use the color
+	palette from Tuomas.
+
 2003-08-06  Rodrigo Moya <rodrigo@ximian.com>
 
 	* gui/e-cal-model.[ch]: removed 'create_component_with_defaults'
@@ -44,11 +148,6 @@
 
 	* gui/e-cal-model-tasks.c (ecmt_get_color_for_component): implemented
 	new class' virtual method.
-
-2003-08-05  Jack Jia  <jack.jia@sun.com>
-
-	* gui/dialogs/event-page.glade: changed one of the "Con_fidential" to 
-	"Co_nfidential" since we already have "File" using the same 'F' key.
 
 2003-08-05  Rodrigo Moya <rodrigo@ximian.com>
 
@@ -103,11 +202,6 @@
 
 	* gui/e-cal-model-tasks.[ch]: new class for the tasks model.
 
-2003-08-01  Lorenzo Gil <lgs@sicem.biz>
-
-	* gui/e-alarm-list.c: added the include <config.h> line at the
-	beginning to enable gettext.
-
 2003-07-31  Rodrigo Moya <rodrigo@ximian.com>
 
 	* gui/e-cal-model.[ch]: new class, based on CalendarModel to be
@@ -120,6 +214,7 @@
 	* cal-client/cal-client-multi.[ch]:
 	* cal-client/Makefile.am: removed obsolete code.
 
+>>>>>>> 1.1841.2.20
 2003-07-29  Rodrigo Moya <rodrigo@ximian.com>
 
 	Fixes all "alarm daemon doesn't start with session"

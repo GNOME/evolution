@@ -1771,7 +1771,7 @@ print_todo_details (GnomePrintContext *pc, GnomeCalendar *gcal,
 	struct icaltimetype *tt;
 	ECalendarTable *task_pad;
 	ETable *table;
-	CalendarModel *model;
+	ECalModel *model;
 	gint rows, row;
 
 	/* We get the tasks directly from the TaskPad ETable. This means we
@@ -1794,17 +1794,24 @@ print_todo_details (GnomePrintContext *pc, GnomeCalendar *gcal,
 
 	rows = e_table_model_row_count (E_TABLE_MODEL (model));
 	for (row = 0; row < rows; row++) {
+		ECalModelComponent *comp_data;
 		CalComponent *comp;
 		CalComponentText summary;
 		int model_row;
 
 		model_row = e_table_view_to_model_row (table, row);
-		comp = calendar_model_get_component (model, model_row);
-
-		cal_component_get_summary (comp, &summary);
-
-		if (!summary.value)
+		comp_data = e_cal_model_get_component_at (model, model_row);
+		if (!comp_data)
 			continue;
+
+		comp = cal_component_new ();
+		cal_component_set_icalcomponent (comp, icalcomponent_new_clone (comp_data->icalcomp));
+
+		cal_component_get_summary (comp_data->icalcomp, &summary);
+		if (!summary.value) {
+			g_object_unref (comp);
+			continue;
+		}
 
 		x = left;
 		xend = right - 2;
@@ -1835,6 +1842,8 @@ print_todo_details (GnomePrintContext *pc, GnomeCalendar *gcal,
 		gnome_print_lineto (pc, xend, y);
 		gnome_print_stroke (pc);
 		y -= 3;
+
+		g_object_unref (comp);
 	}
 
 	g_object_unref (font_summary);

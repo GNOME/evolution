@@ -1282,7 +1282,8 @@ save_as_cmd (GtkWidget *widget, gpointer data)
 	if (filename == NULL)
 		return;
 	
-	ical_string = cal_client_get_component_as_string (priv->client, priv->comp);
+	ical_string = cal_client_get_component_as_string (priv->client,
+							  cal_component_get_icalcomponent (priv->comp));
 	if (ical_string == NULL) {
 		g_warning ("Couldn't convert item to a string");
 		return;

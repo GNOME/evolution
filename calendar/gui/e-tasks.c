@@ -360,7 +360,8 @@ table_cursor_change_cb (ETable *etable, int row, gpointer data)
 	/* update the HTML widget */
 	if (n_selected == 1) {
 		GtkHTMLStream *stream;
-		CalendarModel *model;
+		ECalModel *model;
+		ECalModelComponent *comp_data;
 		CalComponent *comp;
 		const char *uid;
 
@@ -368,7 +369,9 @@ table_cursor_change_cb (ETable *etable, int row, gpointer data)
 
 		stream = gtk_html_begin (GTK_HTML (priv->html));
 
-		comp = calendar_model_get_component (model, e_table_get_cursor_row (etable));
+		comp_data = e_cal_model_get_component_at (model, e_table_get_cursor_row (etable));
+		comp = cal_component_new ();
+		cal_component_set_icalcomponent (comp, icalcomponent_new_clone (comp_data->icalcomp));
 		write_html (stream, comp);
 
 		gtk_html_stream_close (stream, GTK_HTML_STREAM_OK);
@@ -377,6 +380,8 @@ table_cursor_change_cb (ETable *etable, int row, gpointer data)
 		if (priv->current_uid)
 			g_free (priv->current_uid);
 		priv->current_uid = g_strdup (uid);
+
+		g_object_unref (comp);
 	} else
 		gtk_html_load_empty (GTK_HTML (priv->html));
 }
@@ -401,13 +406,13 @@ search_bar_sexp_changed_cb (CalSearchBar *cal_search, const char *sexp, gpointer
 {
 	ETasks *tasks;
 	ETasksPrivate *priv;
-	CalendarModel *model;
+	ECalModel *model;
 
 	tasks = E_TASKS (data);
 	priv = tasks->priv;
 
 	model = e_calendar_table_get_model (E_CALENDAR_TABLE (priv->tasks_view));
-	calendar_model_set_query (model, sexp);
+	e_cal_model_set_query (model, sexp);
 }
 
 /* Callback used when the selected category in the search bar changes */
@@ -416,13 +421,13 @@ search_bar_category_changed_cb (CalSearchBar *cal_search, const char *category, 
 {
 	ETasks *tasks;
 	ETasksPrivate *priv;
-	CalendarModel *model;
+	ECalModel *model;
 
 	tasks = E_TASKS (data);
 	priv = tasks->priv;
 
 	model = e_calendar_table_get_model (E_CALENDAR_TABLE (priv->tasks_view));
-	calendar_model_set_default_category (model, category);
+	e_cal_model_set_default_category (model, category);
 }
 
 /* Callback used when the user selects a URL in the HTML widget */
@@ -472,7 +477,6 @@ setup_widgets (ETasks *tasks)
 {
 	ETasksPrivate *priv;
 	ETable *etable;
-	CalendarModel *model;
 	GtkWidget *paned, *scroll;
 
 	priv = tasks->priv;
@@ -498,8 +502,6 @@ setup_widgets (ETasks *tasks)
 
 	/* create the task list */
 	priv->tasks_view = e_calendar_table_new ();
-	model = e_calendar_table_get_model (E_CALENDAR_TABLE (priv->tasks_view));
-	calendar_model_set_new_comp_vtype (model, CAL_COMPONENT_TODO);
 
 	etable = e_table_scrolled_get_table (
 		E_TABLE_SCROLLED (E_CALENDAR_TABLE (priv->tasks_view)->etable));
@@ -570,7 +572,7 @@ GtkWidget *
 e_tasks_construct (ETasks *tasks)
 {
 	ETasksPrivate *priv;
-	CalendarModel *model;
+	ECalModel *model;
 
 	g_return_val_if_fail (tasks != NULL, NULL);
 	g_return_val_if_fail (E_IS_TASKS (tasks), NULL);
@@ -595,7 +597,7 @@ e_tasks_construct (ETasks *tasks)
 	model = e_calendar_table_get_model (E_CALENDAR_TABLE (priv->tasks_view));
 	g_assert (model != NULL);
 
-	calendar_model_set_cal_client (model, priv->client, CALOBJ_TYPE_TODO);
+	e_cal_model_add_client (model, priv->client);
 
 	return GTK_WIDGET (tasks);
 }
@@ -668,12 +670,10 @@ static void
 set_status_message (ETasks *tasks, const char *message)
 {
 	ETasksPrivate *priv;
-	CalendarModel *model;
 	
 	priv = tasks->priv;
 	
-	model = e_calendar_table_get_model (E_CALENDAR_TABLE (priv->tasks_view));
-	calendar_model_set_status_message (model, message);
+	e_calendar_table_set_status_message (E_CALENDAR_TABLE (priv->tasks_view), message);
 }
 
 gboolean

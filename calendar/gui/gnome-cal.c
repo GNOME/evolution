@@ -653,7 +653,7 @@ void
 gnome_calendar_set_query (GnomeCalendar *gcal, const char *sexp)
 {
 	GnomeCalendarPrivate *priv;
-	CalendarModel *model;
+	ECalModel *model;
 
 	g_return_if_fail (gcal != NULL);
 	g_return_if_fail (GNOME_IS_CALENDAR (gcal));
@@ -676,7 +676,7 @@ gnome_calendar_set_query (GnomeCalendar *gcal, const char *sexp)
 	/* Set the query on the task pad */
 
 	model = e_calendar_table_get_model (E_CALENDAR_TABLE (priv->todo));
-	calendar_model_set_query (model, sexp);
+	e_cal_model_set_query (model, sexp);
 }
 
 /* Returns the current time, for the ECalendarItem. */
@@ -715,7 +715,7 @@ search_bar_category_changed_cb (CalSearchBar *cal_search, const char *category, 
 {
 	GnomeCalendar *gcal;
 	GnomeCalendarPrivate *priv;
-	CalendarModel *model;
+	ECalModel *model;
 
 	gcal = GNOME_CALENDAR (data);
 	priv = gcal->priv;
@@ -726,7 +726,7 @@ search_bar_category_changed_cb (CalSearchBar *cal_search, const char *category, 
 	e_week_view_set_default_category (E_WEEK_VIEW (priv->month_view), category);
 
 	model = e_calendar_table_get_model (E_CALENDAR_TABLE (priv->todo));
-	calendar_model_set_default_category (model, category);
+	e_cal_model_set_default_category (model, category);
 }
 
 static void
@@ -812,7 +812,6 @@ setup_widgets (GnomeCalendar *gcal)
 	GnomeCalendarPrivate *priv;
 	GtkWidget *w;
 	gchar *filename;
-	CalendarModel *model;
 	ETable *etable;
 
 	priv = gcal->priv;
@@ -872,8 +871,6 @@ setup_widgets (GnomeCalendar *gcal)
 	/* The ToDo list. */
 	priv->todo = e_calendar_table_new ();
 	calendar_config_configure_e_calendar_table (E_CALENDAR_TABLE (priv->todo));
-	model = e_calendar_table_get_model (E_CALENDAR_TABLE (priv->todo));
-	calendar_model_set_new_comp_vtype (model, CAL_COMPONENT_TODO);
 	gtk_paned_pack2 (GTK_PANED (priv->vpane), priv->todo, TRUE, TRUE);
 	gtk_widget_show (priv->todo);
 
@@ -1696,8 +1693,7 @@ client_cal_opened_cb (CalClient *client, CalClientOpenStatus status, gpointer da
 			e_cal_view_set_status_message (E_CAL_VIEW (priv->week_view), msg);
 		}
 		else if (client == priv->task_pad_client) {
-			calendar_model_set_status_message (
-				e_calendar_table_get_model (E_CALENDAR_TABLE (priv->todo)), msg);
+			e_calendar_table_set_status_message (E_CALENDAR_TABLE (priv->todo), msg);
 		}
 		g_free (msg);
 
@@ -1730,8 +1726,7 @@ client_cal_opened_cb (CalClient *client, CalClientOpenStatus status, gpointer da
 		e_cal_view_set_status_message (E_CAL_VIEW (priv->week_view), NULL);
 	}
 	else if (client == priv->task_pad_client) {
-		calendar_model_set_status_message (
-			e_calendar_table_get_model (E_CALENDAR_TABLE (priv->todo)), NULL);
+		e_calendar_table_set_status_message (E_CALENDAR_TABLE (priv->todo), NULL);
 	}
 }
 
@@ -1895,8 +1890,7 @@ backend_died_cb (CalClient *client, gpointer data)
 					     "You will have to restart Evolution in order "
 					     "to use it again"),
 					   uristr);
-		calendar_model_set_status_message (
-			e_calendar_table_get_model (E_CALENDAR_TABLE (priv->todo)), NULL);
+		e_calendar_table_set_status_message (E_CALENDAR_TABLE (priv->todo), NULL);
 	} else {
 		message = NULL;
 		g_assert_not_reached ();
@@ -1912,7 +1906,7 @@ gnome_calendar_construct (GnomeCalendar *gcal)
 {
 	GnomeCalendarPrivate *priv;
 	GnomeCalendarViewType view_type;
-	CalendarModel *model;
+	ECalModel *model;
 
 	g_return_val_if_fail (gcal != NULL, NULL);
 	g_return_val_if_fail (GNOME_IS_CALENDAR (gcal), NULL);
@@ -1959,7 +1953,7 @@ gnome_calendar_construct (GnomeCalendar *gcal)
 	model = e_calendar_table_get_model (E_CALENDAR_TABLE (priv->todo));
 	g_assert (model != NULL);
 
-	calendar_model_set_cal_client (model, priv->task_pad_client, CALOBJ_TYPE_TODO);
+	e_cal_model_add_client (model, priv->task_pad_client);
 
 	/* Get the default view to show. */
 	view_type = calendar_config_get_default_view ();
@@ -2137,8 +2131,7 @@ gnome_calendar_open (GnomeCalendar *gcal, const char *str_uri)
 	if (!uri) {
 		tasks_uri = g_strdup_printf ("%s/local/Tasks/tasks.ics", evolution_dir);
 		message = g_strdup_printf (_("Opening tasks at %s"), tasks_uri);
-		calendar_model_set_status_message (
-			e_calendar_table_get_model (E_CALENDAR_TABLE (priv->todo)), message);
+		e_calendar_table_set_status_message (E_CALENDAR_TABLE (priv->todo), message);
 		g_free (message);
 
 		success = cal_client_open_calendar (priv->task_pad_client, tasks_uri, FALSE);
@@ -2148,17 +2141,15 @@ gnome_calendar_open (GnomeCalendar *gcal, const char *str_uri)
 		if (!g_strncasecmp (uri->protocol, "file", 4)) {
 			tasks_uri = g_strdup_printf ("%s/local/Tasks/tasks.ics", evolution_dir);
 			message = g_strdup_printf (_("Opening tasks at %s"), tasks_uri);
-			calendar_model_set_status_message (
-				e_calendar_table_get_model (E_CALENDAR_TABLE (priv->todo)), message);
+			e_calendar_table_set_status_message (E_CALENDAR_TABLE (priv->todo), message);
 			g_free (message);
 
 			success = cal_client_open_calendar (priv->task_pad_client, tasks_uri, FALSE);
 			g_free (tasks_uri);
 		}
 		else {
-			calendar_model_set_status_message (
-				e_calendar_table_get_model (E_CALENDAR_TABLE (priv->todo)),
-				_("Opening default tasks folder"));
+			e_calendar_table_set_status_message (E_CALENDAR_TABLE (priv->todo),
+							     _("Opening default tasks folder"));
 			success = cal_client_open_default_tasks (priv->task_pad_client, FALSE);
 		}
 	}
@@ -2168,8 +2159,7 @@ gnome_calendar_open (GnomeCalendar *gcal, const char *str_uri)
 
 	if (!success) {
 		g_message ("gnome_calendar_open(): Could not issue the request to open the tasks folder");
-		calendar_model_set_status_message (
-			e_calendar_table_get_model (E_CALENDAR_TABLE (priv->todo)), NULL);
+		e_calendar_table_set_status_message (E_CALENDAR_TABLE (priv->todo), NULL);
 		return FALSE;
 	}
 

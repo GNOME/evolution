@@ -1459,7 +1459,18 @@ void icalcomponent_set_comment(icalcomponent* comp, const char* v);
 const char* icalcomponent_get_comment(icalcomponent* comp);
 
 void icalcomponent_set_uid(icalcomponent* comp, const char* v);
-const char* icalcomponent_get_uid(icalcomponent* comp);
+
+const char* icalcomponent_get_uid(icalcomponent* comp)
+{
+	icalcomponent *inner = icalcomponent_get_inner (comp);
+	icalproperty *prop = icalcomponent_get_first_property (inner, ICAL_UID_PROPERTY);
+
+	if (prop == 0) {
+	    return 0;
+	}
+
+	return icalproperty_get_uid (prop);
+}
 
 void icalcomponent_set_recurrenceid(icalcomponent* comp, 
 				    struct icaltimetype v);

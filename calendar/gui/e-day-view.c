@@ -6794,7 +6794,7 @@ e_day_view_on_drag_data_get (GtkWidget          *widget,
 		icalcomponent *vcal;
 
 		vcal = cal_util_new_top_level ();
-		cal_util_add_timezones_from_component (vcal, event->comp);
+		cal_util_add_timezones_from_component (vcal, cal_component_get_icalcomponent (event->comp));
 		icalcomponent_add_component (
 			vcal,
 			icalcomponent_new_clone (cal_component_get_icalcomponent (event->comp)));

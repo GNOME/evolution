@@ -612,7 +612,7 @@ cal_util_expand_uri (char *uri, gboolean tasks)
 /* callback for icalcomponent_foreach_tzid */
 typedef struct {
 	icalcomponent *vcal_comp;
-	CalComponent *comp;
+	icalcomponent *icalcomp;
 } ForeachTzidData;
 
 static void
@@ -631,8 +631,7 @@ add_timezone_cb (icalparameter *param, void *data)
 	if (tz)
 		return;
 
-	tz = icalcomponent_get_timezone (cal_component_get_icalcomponent (f_data->comp),
-					 tzid);
+	tz = icalcomponent_get_timezone (f_data->icalcomp, tzid);
 	if (!tz) {
 		tz = icaltimezone_get_builtin_timezone_from_tzid (tzid);
 		if (!tz)
@@ -651,15 +650,14 @@ add_timezone_cb (icalparameter *param, void *data)
  * in the given CalComponent. */
 void
 cal_util_add_timezones_from_component (icalcomponent *vcal_comp,
-				       CalComponent *comp)
+				       icalcomponent *icalcomp)
 {
 	ForeachTzidData f_data;
 
 	g_return_if_fail (vcal_comp != NULL);
-	g_return_if_fail (IS_CAL_COMPONENT (comp));
+	g_return_if_fail (icalcomp != NULL);;
 
 	f_data.vcal_comp = vcal_comp;
-	f_data.comp = comp;
-	icalcomponent_foreach_tzid (cal_component_get_icalcomponent (comp),
-				    add_timezone_cb, &f_data);
+	f_data.icalcomp = icalcomp;
+	icalcomponent_foreach_tzid (icalcomp, add_timezone_cb, &f_data);
 }

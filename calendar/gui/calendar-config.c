@@ -631,7 +631,7 @@ calendar_config_configure_e_cell_date_edit	(ECellDateEdit	*ecde)
 void
 calendar_config_configure_e_calendar_table	(ECalendarTable	*cal_table)
 {
-	CalendarModel *model;
+	ECalModel *model;
 	gboolean use_24_hour;
 	char *location;
 	icaltimezone *zone;
@@ -641,17 +641,13 @@ calendar_config_configure_e_calendar_table	(ECalendarTable	*cal_table)
 	use_24_hour = calendar_config_get_24_hour_format ();
 
 	model = e_calendar_table_get_model (cal_table);
-	calendar_model_set_use_24_hour_format (model, use_24_hour);
+	e_cal_model_set_use_24_hour_format (model, use_24_hour);
 
 	location = calendar_config_get_timezone ();
 	zone = icaltimezone_get_builtin_timezone (location);
-	calendar_model_set_timezone (model, zone);
+	e_cal_model_set_timezone (model, zone);
 
 	calendar_config_configure_e_cell_date_edit (cal_table->dates_cell);
-
-	/* Reload the event/tasks, since the 'Hide Completed Tasks' option
-	   may have been changed, so the query needs to be updated. */
-	calendar_model_refresh (model);
 }
 
 

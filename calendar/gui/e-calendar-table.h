@@ -26,12 +26,11 @@
 
 #include <gtk/gtktable.h>
 #include <gal/e-table/e-table-scrolled.h>
+#include <shell/evolution-activity-client.h>
 #include <widgets/misc/e-cell-date-edit.h>
-#include "calendar-model.h"
+#include "e-cal-model.h"
 
-#ifdef __cplusplus
-extern "C" {
-#endif /* __cplusplus */
+G_BEGIN_DECLS
 
 /*
  * ECalendarTable - displays the iCalendar objects in a table (an ETable).
@@ -48,12 +47,11 @@ typedef struct _ECalendarTable       ECalendarTable;
 typedef struct _ECalendarTableClass  ECalendarTableClass;
 
 
-struct _ECalendarTable
-{
+struct _ECalendarTable {
 	GtkTable table;
 
 	/* The model that we use */
-	CalendarModel *model;
+	ECalModel *model;
 
 	GtkWidget *etable;
 
@@ -64,23 +62,25 @@ struct _ECalendarTable
 	GtkWidget *invisible;
 	gchar *clipboard_selection;
 	icalcomponent *tmp_vcal;
+
+	/* The activity client used to show messages on the status bar. */
+        EvolutionActivityClient *activity;
 };
 
-struct _ECalendarTableClass
-{
+struct _ECalendarTableClass {
 	GtkTableClass parent_class;
 };
 
 
-GtkType	   e_calendar_table_get_type		(void);
-GtkWidget* e_calendar_table_new			(void);
+GtkType	   e_calendar_table_get_type (void);
+GtkWidget* e_calendar_table_new	(void);
 
-CalendarModel *e_calendar_table_get_model	(ECalendarTable *cal_table);
+ECalModel *e_calendar_table_get_model (ECalendarTable *cal_table);
 
-ETable *e_calendar_table_get_table (ECalendarTable *cal_table);
+ETable    *e_calendar_table_get_table (ECalendarTable *cal_table);
 
-void e_calendar_table_complete_selected (ECalendarTable *cal_table);
-void e_calendar_table_delete_selected (ECalendarTable *cal_table);
+void       e_calendar_table_complete_selected (ECalendarTable *cal_table);
+void       e_calendar_table_delete_selected (ECalendarTable *cal_table);
 
 /* Clipboard related functions */
 void       e_calendar_table_cut_clipboard       (ECalendarTable *cal_table);
@@ -94,9 +94,9 @@ void	   e_calendar_table_load_state		(ECalendarTable *cal_table,
 void	   e_calendar_table_save_state		(ECalendarTable *cal_table,
 						 gchar		*filename);
 
+void       e_calendar_table_set_status_message (ECalendarTable *cal_table,
+						const gchar *message);
 
-#ifdef __cplusplus
-}
-#endif /* __cplusplus */
+G_END_DECLS
 
 #endif /* _E_CALENDAR_TABLE_H_ */
