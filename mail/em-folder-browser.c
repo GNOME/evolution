@@ -546,15 +546,9 @@ emfb_edit_invert_selection(BonoboUIComponent *uid, void *data, const char *path)
 static void
 emfb_edit_select_all(BonoboUIComponent *uid, void *data, const char *path)
 {
-	EMFolderBrowser *emfb = data;
+	EMFolderView *emfv = data;
 	
-	if (GTK_WIDGET_HAS_FOCUS(((ESearchBar *)emfb->search)->entry))
-		gtk_editable_select_region ((GtkEditable *) (((ESearchBar *)emfb->search)->entry), 0, -1);
-	else if (GTK_WIDGET_HAS_FOCUS(emfb->view.preview->formathtml.html))
-		gtk_html_select_all (emfb->view.preview->formathtml.html);
-	else
-		message_list_select_all(emfb->view.list);
-
+	message_list_select_all(emfv->list);
 }
 
 static void

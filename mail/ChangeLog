@@ -1,3 +1,7 @@
+2005-02-28  Not Zed  <NotZed@Ximian.com>
+
+	* em-folder-browser.c: reverted Mengjie's patch for 72545.
+
 2005-02-27  Frank Arnold  <farnold@cvs.gnome.org>
 
 	* default/de/Inbox: Added German translation of default inbox.
