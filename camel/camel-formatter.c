@@ -305,7 +305,7 @@ call_handler_function (CamelFormatter* formatter,
  */
 	if (mimetype_whole_in) {
 		mimetype_whole = str_tolower (mimetype_whole_in);
-
+		
 		handler_function = g_hash_table_lookup (
 			mime_function_table, mimetype_whole);
 	}
@@ -719,12 +719,12 @@ handle_image (CamelFormatter *formatter, CamelDataWrapper *wrapper)
 
 	uuid = lookup_unique_id (formatter->priv->current_root, wrapper);
 	
-	tag = g_strdup_printf ("<img src=\"%s\">\n", uuid);
+	tag = g_strdup_printf ("<img src=\"camel://%s\">\n", uuid);
 	camel_stream_write_string (formatter->priv->stream, tag);
-
+	debug ("handle_image: tag=%s\n", tag);
 	g_free (uuid);
 	g_free (tag);		
-		
+	
 	debug ("handle_image: exiting\n");	
 }
 
@@ -991,8 +991,8 @@ camel_formatter_class_init (CamelFormatterClass *camel_formatter_class)
 	ADD_HANDLER ("multipart/related", handle_multipart_related);
 	ADD_HANDLER ("multipart/mixed", handle_multipart_mixed);	
 	ADD_HANDLER ("message/rfc822", handle_mime_part);
-	ADD_HANDLER ("image/", handle_image);
-	ADD_HANDLER ("vcard/", handle_vcard);			
+	ADD_HANDLER ("image", handle_image);
+	ADD_HANDLER ("vcard", handle_vcard);			
 
 	/* body parts don't have mime parts per se, so camel
 	   sticks on the following one */

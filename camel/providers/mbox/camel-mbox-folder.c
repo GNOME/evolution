@@ -860,7 +860,6 @@ static void
 _append_message (CamelFolder *folder, CamelMimeMessage *message, CamelException *ex)
 {
 	CamelMboxFolder *mbox_folder = CAMEL_MBOX_FOLDER(folder);
-	//guint new_msg_number;
 	CamelStream *output_stream;
 	guint32 tmp_file_size;
 	guint32 next_uid;
@@ -873,6 +872,7 @@ _append_message (CamelFolder *folder, CamelMimeMessage *message, CamelException 
 	CAMEL_LOG_FULL_DEBUG ("Entering CamelMboxFolder::append_message\n");
 
 	tmp_message_filename = g_strdup_printf ("%s.tmp", mbox_folder->folder_file_path);
+
 	/* write the message itself */
 	output_stream = camel_stream_fs_new_with_name (tmp_message_filename, CAMEL_STREAM_FS_WRITE);
 	if (output_stream != NULL) {

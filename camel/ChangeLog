@@ -1,5 +1,10 @@
 2000-03-03  bertrand  <bertrand@helixcode.com>
 
+	* camel-formatter.c (handle_image): in the case
+	of images, put the content object output stream
+	in the url. This allows the message browser
+	to show inline images.
+
 	* camel-stream-b64.c (my_read_encode): fixed state
 	0 keep value. 
 
