@@ -1,3 +1,11 @@
+2004-01-21  Rodrigo Moya <rodrigo@ximian.com>
+
+	Fixes #51705
+
+	* gui/calendar-component.c (delete_calendar_cb): call
+	e_cal_remove_calendar to actually remove the calendar via
+	the backend.
+
 2004-01-21  JP Rosevear <jpr@ximian.com>
 
 	* gui/dialogs/calendar-setup.c (calendar_setup_new_calendar): just

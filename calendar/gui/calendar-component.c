@@ -301,14 +301,23 @@ delete_calendar_cb (GtkWidget *widget, CalendarComponent *comp)
 		_("Calendar '%s' will be removed. Are you sure you want to continue?"),
 		e_source_peek_name (selected_source));
 	if (gtk_dialog_run (GTK_DIALOG (dialog)) == GTK_RESPONSE_YES) {
-		if (e_source_selector_source_is_selected (E_SOURCE_SELECTOR (priv->source_selector),
-							  selected_source))
-			e_source_selector_unselect_source (E_SOURCE_SELECTOR (priv->source_selector),
-							   selected_source);
-		
-		e_source_group_remove_source (e_source_peek_group (selected_source), selected_source);
+		ECal *cal;
+		char *uri;
 
-		/* FIXME: remove the calendar.ics file and the directory */
+		/* first, ask the backend to remove the calendar */
+		uri = e_source_get_uri (selected_source);
+		cal = e_cal_model_get_client_for_uri (gnome_calendar_get_calendar_model (priv->calendar), uri);
+		g_free (uri);
+		if (cal) {
+			if (e_cal_remove_calendar (cal, NULL)) {
+				if (e_source_selector_source_is_selected (E_SOURCE_SELECTOR (priv->source_selector),
+									  selected_source))
+					e_source_selector_unselect_source (E_SOURCE_SELECTOR (priv->source_selector),
+									   selected_source);
+		
+				e_source_group_remove_source (e_source_peek_group (selected_source), selected_source);
+			}
+		}
 	}
 
 	gtk_widget_destroy (dialog);
