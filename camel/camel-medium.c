@@ -61,6 +61,9 @@ camel_medium_class_init (CamelMediumClass *camel_medium_class)
 	camel_medium_class->remove_header = _remove_header;
 	camel_medium_class->get_header = _get_header;
 	
+	camel_medium_class->set_content_object = _set_content_object;
+	camel_medium_class->get_content_object = _get_content_object;
+	
 	
 	
 	/* virtual method overload */
@@ -76,6 +79,7 @@ camel_medium_init (gpointer   object,  gpointer   klass)
 	CamelMedium *camel_medium = CAMEL_MEDIUM (object);
 	
 	camel_medium->headers =  g_hash_table_new (g_str_hash, g_str_equal);
+	camel_medium->content =  NULL;
 }
 
 
@@ -115,6 +119,7 @@ _finalize (GtkObject *object)
 	CAMEL_LOG_FULL_DEBUG ("Entering CamelMedium::finalize\n");
 
 	if (medium->headers) {
+#warning Free hash table elements
 		g_hash_table_destroy (medium->headers);
 	}
 

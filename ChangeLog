@@ -1,5 +1,10 @@
 1999-08-25  bertrand  <Bertrand.Guiheneuf@aful.org>
 
+	* camel/camel-mime-part.c: now descend from CamelMedium.
+
+	* tests/test1.c (main): all headers must be strdup'ed
+	(main): unref created objects
+
 	* camel/camel-medium.c (_set_content_object): 
 	(_get_content_object): these methods are 
 	in CamelMedium now.

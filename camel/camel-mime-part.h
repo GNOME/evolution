@@ -32,7 +32,7 @@ extern "C" {
 #endif /* __cplusplus }*/
 
 #include <gtk/gtk.h>
-#include "camel-media.h"
+#include "camel-medium.h"
 #include "camel-stream.h"
 
 
@@ -46,9 +46,8 @@ extern "C" {
    would regret it one day */
 typedef struct 
 {
-	CamelDataWrapper parent_object;
+	CamelMedium parent_object;
 	
-	GHashTable *headers;
 	gchar *description;
 	GMimeContentField *disposition;
 	gchar *content_id;
@@ -59,19 +58,15 @@ typedef struct
 	GList *header_lines;
 	
 	GMimeContentField *content_type;
-	CamelDataWrapper *content; /* part real content */
 	
 } CamelMimePart;
 
 
 
 typedef struct {
-	CamelDataWrapperClass parent_class;
+	CamelMediumClass parent_class;
 	
 	/* Virtual methods */	
-	void  (*add_header) (CamelMimePart *mime_part, gchar *header_name, gchar *header_value);
-	void  (*remove_header) (CamelMimePart *mime_part, const gchar *header_name);
-	const gchar * (*get_header) (CamelMimePart *mime_part, const gchar *header_name);
 	void  (*set_description) (CamelMimePart *mime_part, const gchar *description);
 	const gchar * (*get_description) (CamelMimePart *mime_part);
 	void  (*set_disposition) (CamelMimePart *mime_part, const gchar *disposition);
@@ -88,13 +83,12 @@ typedef struct {
 	const GList * (*get_content_languages) (CamelMimePart *mime_part);
 	void  (*set_header_lines) (CamelMimePart *mime_part, GList *header_lines);
 	const GList * (*get_header_lines) (CamelMimePart *mime_part);
+
 	void  (*set_content_type) (CamelMimePart *mime_part, const gchar *content_type);
 	GMimeContentField * (*get_content_type) (CamelMimePart *mime_part);
 	
 	gboolean (*parse_header_pair) (CamelMimePart *mime_part, gchar *header_name, gchar *header_value);
 	
-	const CamelDataWrapper * (*get_content_object) (CamelMimePart *mime_part);
-	void (*set_content_object) (CamelMimePart *mime_part, CamelDataWrapper *content);
 
 } CamelMimePartClass;
 
@@ -105,9 +99,6 @@ GtkType camel_mime_part_get_type (void);
 
 
 /* public methods */
-void camel_mime_part_add_header (CamelMimePart *mime_part, gchar *header_name, gchar *header_value);
-void camel_mime_part_remove_header (CamelMimePart *mime_part, const gchar *header_name);
-const gchar *camel_mime_part_get_header (CamelMimePart *mime_part, const gchar *header_name);
 void camel_mime_part_set_description (CamelMimePart *mime_part,	const gchar *description);
 const gchar *camel_mime_part_get_description (CamelMimePart *mime_part);
 void camel_mime_part_set_disposition (CamelMimePart *mime_part, const gchar *disposition);
@@ -122,9 +113,6 @@ void camel_mime_part_set_content_languages (CamelMimePart *mime_part, GList *con
 const GList *camel_mime_part_get_content_languages (CamelMimePart *mime_part);
 void camel_mime_part_set_header_lines (CamelMimePart *mime_part, GList *header_lines);
 const GList *camel_mime_part_get_header_lines (CamelMimePart *mime_part);
-
-const CamelDataWrapper *camel_mime_part_get_content_object (CamelMimePart *mime_part);
-void camel_mime_part_set_content_object (CamelMimePart *mime_part, CamelDataWrapper *content);
 
 
 /* utility functions */

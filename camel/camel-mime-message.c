@@ -143,6 +143,14 @@ camel_mime_message_init (gpointer object, gpointer klass)
 	
 	camel_mime_message->recipients =  g_hash_table_new (g_strcase_hash, g_strcase_equal);
 	camel_mime_message->flags = g_hash_table_new (g_strcase_hash, g_strcase_equal);
+	
+	camel_mime_message->received_date = NULL;
+	camel_mime_message->sent_date = NULL;
+	camel_mime_message->subject = NULL;
+	camel_mime_message->reply_to = NULL;
+	camel_mime_message->from = NULL;
+	camel_mime_message->folder = NULL;
+	camel_mime_message->session = NULL;
 }
 
 GtkType
@@ -189,7 +197,6 @@ _finalize (GtkObject *object)
 	if (message->flags)
 		g_hash_table_foreach (message->flags, g_hash_table_generic_free, NULL);
 	
-
 	GTK_OBJECT_CLASS (parent_class)->finalize (object);
 	CAMEL_LOG_FULL_DEBUG ("Leaving CamelMimeMessage::finalize\n");
 }

@@ -46,14 +46,24 @@ typedef enum {
 static GHashTable *header_name_table;
 
 
-static CamelDataWrapperClass *parent_class=NULL;
+static CamelMediumClass *parent_class=NULL;
 
 /* Returns the class for a CamelMimePart */
 #define CMP_CLASS(so) CAMEL_MIME_PART_CLASS (GTK_OBJECT(so)->klass)
 
-static void _add_header (CamelMimePart *mime_part, gchar *header_name, gchar *header_value);
-static void _remove_header (CamelMimePart *mime_part, const gchar *header_name);
-static const gchar *_get_header (CamelMimePart *mime_part, const gchar *header_name);
+/* from GtkObject */
+static void _finalize (GtkObject *object);
+
+/* from CamelDataWrapper */
+static void _write_to_stream (CamelDataWrapper *data_wrapper, CamelStream *stream);
+void _construct_from_stream (CamelDataWrapper *data_wrapper, CamelStream *stream);
+
+/* from CamelMedia */ 
+static void _add_header (CamelMedium *medium, gchar *header_name, gchar *header_value);
+
+static void _set_content_object (CamelMedium *medium, CamelDataWrapper *content);
+
+/* CamelMimePart methods */
 static void _set_description (CamelMimePart *mime_part, const gchar *description);
 static const gchar *_get_description (CamelMimePart *mime_part);
 static void _set_disposition (CamelMimePart *mime_part, const gchar *disposition);
@@ -73,14 +83,9 @@ static const GList *_get_header_lines (CamelMimePart *mime_part);
 static void _set_content_type (CamelMimePart *mime_part, const gchar *content_type);
 static GMimeContentField  *_get_content_type (CamelMimePart *mime_part);
 
-static const CamelDataWrapper *_get_content_object(CamelMimePart *mime_part);
-static void _set_content_object(CamelMimePart *mime_part, CamelDataWrapper *content);
-
-static void _write_to_stream (CamelDataWrapper *data_wrapper, CamelStream *stream);
 static gboolean _parse_header_pair (CamelMimePart *mime_part, gchar *header_name, gchar *header_value);
-void _construct_from_stream (CamelDataWrapper *data_wrapper, CamelStream *stream);
 
-static void _finalize (GtkObject *object);
+
 
 /* loads in a hash table the set of header names we */
 /* recognize and associate them with a unique enum  */
@@ -101,16 +106,14 @@ _init_header_name_table()
 static void
 camel_mime_part_class_init (CamelMimePartClass *camel_mime_part_class)
 {
+	CamelMediumClass *camel_medium_class = CAMEL_MEDIUM_CLASS (camel_mime_part_class);
 	CamelDataWrapperClass *camel_data_wrapper_class = CAMEL_DATA_WRAPPER_CLASS (camel_mime_part_class);
 	GtkObjectClass *gtk_object_class = GTK_OBJECT_CLASS (camel_data_wrapper_class);
 
-	parent_class = gtk_type_class (camel_data_wrapper_get_type ());
+	parent_class = gtk_type_class (camel_medium_get_type ());
 	_init_header_name_table();
 	
 	/* virtual method definition */
-	camel_mime_part_class->add_header = _add_header;
-	camel_mime_part_class->remove_header = _remove_header;
-	camel_mime_part_class->get_header = _get_header;
 	camel_mime_part_class->set_description = _set_description;
 	camel_mime_part_class->get_description = _get_description;
 	camel_mime_part_class->set_disposition = _set_disposition;
@@ -131,12 +134,11 @@ camel_mime_part_class_init (CamelMimePartClass *camel_mime_part_class)
 	camel_mime_part_class->get_content_type = _get_content_type;
 	
 	camel_mime_part_class->parse_header_pair = _parse_header_pair;
-	camel_mime_part_class->get_content_object = _get_content_object;
-	camel_mime_part_class->set_content_object = _set_content_object;
-	
-	
-	
-	/* virtual method overload */
+
+	/* virtual method overload */	
+	camel_medium_class->add_header = _add_header;
+	camel_medium_class->set_content_object = _set_content_object;
+
 	camel_data_wrapper_class->write_to_stream = _write_to_stream;
 	camel_data_wrapper_class->construct_from_stream = _construct_from_stream;
 
@@ -148,7 +150,6 @@ camel_mime_part_init (gpointer   object,  gpointer   klass)
 {
 	CamelMimePart *camel_mime_part = CAMEL_MIME_PART (object);
 	
-	camel_mime_part->headers =  g_hash_table_new (g_str_hash, g_str_equal);
 	camel_mime_part->content_type = gmime_content_field_new (NULL, NULL);
 	camel_mime_part->description = NULL;
 	camel_mime_part->disposition = NULL;
@@ -158,7 +159,6 @@ camel_mime_part_init (gpointer   object,  gpointer   klass)
 	camel_mime_part->encoding = NULL;
 	camel_mime_part->filename = NULL;
 	camel_mime_part->header_lines = NULL;
-	camel_mime_part->content = NULL;
 }
 
 
@@ -182,7 +182,7 @@ camel_mime_part_get_type (void)
 			(GtkClassInitFunc) NULL,
 		};
 		
-		camel_mime_part_type = gtk_type_unique (camel_data_wrapper_get_type (), &camel_mime_part_info);
+		camel_mime_part_type = gtk_type_unique (camel_medium_get_type (), &camel_mime_part_info);
 	}
 	
 	return camel_mime_part_type;
@@ -198,10 +198,7 @@ _finalize (GtkObject *object)
 
 	CAMEL_LOG_FULL_DEBUG ("Entering CamelMimePart::finalize\n");
 
-	if (mime_part->headers) {
-#warning Free hash table elements
-		g_hash_table_destroy (mime_part->headers);
-	}
+
 
 	if (mime_part->description) g_free (mime_part->description);
 	if (mime_part->disposition) gmime_content_field_unref (mime_part->disposition);
@@ -213,20 +210,18 @@ _finalize (GtkObject *object)
 	if (mime_part->header_lines) string_list_free (mime_part->header_lines);
 
 	if (mime_part->content_type) gmime_content_field_unref (mime_part->content_type);
-	if (mime_part->content) {
-		CAMEL_LOG_FULL_DEBUG ("CamelMimePart::finalize, unreferencing content object\n");
-		CAMEL_LOG_FULL_DEBUG ("CamelMimePart::finalize,Destroying  object %p\n", mime_part->content);
-		CAMEL_LOG_FULL_DEBUG ("CamelMimePart::finalize, object type : %s\n", gtk_type_name (GTK_OBJECT_TYPE (mime_part->content)));
-		gtk_object_unref (GTK_OBJECT (mime_part->content));
-	}
+
 	GTK_OBJECT_CLASS (parent_class)->finalize (object);
 	CAMEL_LOG_FULL_DEBUG ("Leaving CamelMimePart::finalize\n");
 }
 
 
+/* **** */
+
 static void
-_add_header (CamelMimePart *mime_part, gchar *header_name, gchar *header_value)
+_add_header (CamelMedium *medium, gchar *header_name, gchar *header_value)
 {
+	CamelMimePart *mime_part = CAMEL_MIME_PART (medium);
 	gboolean header_exists;
 	gchar *old_header_name;
 	gchar *old_header_value;
@@ -234,73 +229,12 @@ _add_header (CamelMimePart *mime_part, gchar *header_name, gchar *header_value)
 	/* Try to parse the header pair. If it corresponds to something   */
 	/* known, the job is done in the parsing routine. If not,         */
 	/* we simply add the header in a raw fashion                      */
-	if (CMP_CLASS(mime_part)->parse_header_pair (mime_part, header_name, header_value)) 
-		return;
-	header_exists = g_hash_table_lookup_extended (mime_part->headers, header_name, 
-						      (gpointer *) &old_header_name,
-						      (gpointer *) &old_header_value);
-	if (header_exists) {
-		g_free (old_header_name);
-		g_free (old_header_value);
-	}
-	
-	g_hash_table_insert (mime_part->headers, header_name, header_value);
-}
-
-
-void
-camel_mime_part_add_header (CamelMimePart *mime_part, gchar *header_name, gchar *header_value)
-{
-	CMP_CLASS(mime_part)->add_header(mime_part, header_name, header_value);
+	if (! CMP_CLASS(mime_part)->parse_header_pair (mime_part, header_name, header_value) ) 		
+		parent_class->add_header (medium, header_name, header_value);
 }
 
 
 
-static void
-_remove_header (CamelMimePart *mime_part, const gchar *header_name)
-{
-	
-	gboolean header_exists;
-	gchar *old_header_name;
-	gchar *old_header_value;
-	
-	header_exists = g_hash_table_lookup_extended (mime_part->headers, header_name, 
-						      (gpointer *) &old_header_name,
-						      (gpointer *) &old_header_value);
-	if (header_exists) {
-		g_free (old_header_name);
-		g_free (old_header_value);
-	}
-	
-	g_hash_table_remove (mime_part->headers, header_name);
-	
-}
-
-void
-camel_mime_part_remove_header (CamelMimePart *mime_part, const gchar *header_name)
-{
-	CMP_CLASS(mime_part)->remove_header(mime_part, header_name);
-}
-
-
-
-static const gchar *
-_get_header (CamelMimePart *mime_part, const gchar *header_name)
-{
-	
-	gchar *old_header_name;
-	gchar *old_header_value;
-	gchar *header_value;
-	
-	header_value = (gchar *)g_hash_table_lookup (mime_part->headers, header_name);
-	return header_value;
-}
-
-const gchar *
-camel_mime_part_get_header (CamelMimePart *mime_part, const gchar *header_name)
-{
-	return CMP_CLASS(mime_part)->get_header (mime_part, header_name);
-}
 
 
 
@@ -319,6 +253,9 @@ camel_mime_part_set_description (CamelMimePart *mime_part, const gchar *descript
 
 
 
+/* **** */
+
+
 
 static const gchar *
 _get_description (CamelMimePart *mime_part)
@@ -332,6 +269,9 @@ camel_mime_part_get_description (CamelMimePart *mime_part)
 	return CMP_CLASS(mime_part)->get_description (mime_part);
 }
 
+
+
+/* **** */
 
 
 static void
@@ -351,6 +291,9 @@ camel_mime_part_set_disposition (CamelMimePart *mime_part, const gchar *disposit
 {
 	CMP_CLASS(mime_part)->set_disposition (mime_part, disposition);
 }
+
+
+/* **** */
 
 
 
@@ -386,6 +329,9 @@ camel_mime_part_set_filename (CamelMimePart *mime_part, gchar *filename)
 
 
 
+/* **** */
+
+
 static const gchar *
 _get_filename (CamelMimePart *mime_part)
 {
@@ -398,6 +344,9 @@ camel_mime_part_get_filename (CamelMimePart *mime_part)
 {
 	return CMP_CLASS(mime_part)->get_filename (mime_part);
 }
+
+
+/* **** */
 
 
 /* this routine must not be public */
@@ -416,6 +365,9 @@ _get_content_id (CamelMimePart *mime_part)
 }
 
 
+/* **** */
+
+
 const gchar *
 camel_mime_part_get_content_id (CamelMimePart *mime_part)
 {
@@ -432,6 +384,9 @@ _set_content_MD5 (CamelMimePart *mime_part, gchar *content_MD5)
 }
 
 
+/* **** */
+
+
 static const gchar *
 _get_content_MD5 (CamelMimePart *mime_part)
 {
@@ -443,6 +398,9 @@ camel_mime_part_get_content_MD5 (CamelMimePart *mime_part)
 {
 	return CMP_CLASS(mime_part)->get_content_MD5 (mime_part);
 }
+
+
+/* **** */
 
 
 
@@ -460,6 +418,9 @@ camel_mime_part_set_encoding (CamelMimePart *mime_part, gchar *encoding)
 }
 
 
+/* **** */
+
+
 
 static const gchar *
 _get_encoding (CamelMimePart *mime_part)
@@ -473,6 +434,9 @@ camel_mime_part_get_encoding (CamelMimePart *mime_part)
 	return CMP_CLASS(mime_part)->get_encoding (mime_part);
 }
 
+
+
+/* **** */
 
 
 
@@ -490,6 +454,9 @@ camel_mime_part_set_content_languages (CamelMimePart *mime_part, GList *content_
 }
 
 
+/* **** */
+
+
 
 static const GList *
 _get_content_languages (CamelMimePart *mime_part)
@@ -505,6 +472,9 @@ camel_mime_part_get_content_languages (CamelMimePart *mime_part)
 }
 
 
+/* **** */
+
+
 
 static void
 _set_header_lines (CamelMimePart *mime_part, GList *header_lines)
@@ -518,6 +488,9 @@ camel_mime_part_set_header_lines (CamelMimePart *mime_part, GList *header_lines)
 {
 	CMP_CLASS(mime_part)->set_header_lines (mime_part, header_lines);
 }
+
+
+/* **** */
 
 
 
@@ -536,8 +509,10 @@ camel_mime_part_get_header_lines (CamelMimePart *mime_part)
 }
 
 
+/* **** */
 
-/*********/
+
+
 static void
 _set_content_type (CamelMimePart *mime_part, const gchar *content_type)
 {
@@ -550,6 +525,9 @@ camel_mime_part_set_content_type (CamelMimePart *mime_part, gchar *content_type)
 {
 	CMP_CLASS(mime_part)->set_content_type (mime_part, content_type);
 }
+
+/* **** */
+
 
 static GMimeContentField *
 _get_content_type (CamelMimePart *mime_part)
@@ -566,35 +544,15 @@ camel_mime_part_get_content_type (CamelMimePart *mime_part)
 /*********/
 
 
-static const CamelDataWrapper *
-_get_content_object(CamelMimePart *mime_part)
-{
-	return mime_part->content;
-	
-}
-
-
-const CamelDataWrapper *
-camel_mime_part_get_content_object(CamelMimePart *mime_part)
-{
-	return CMP_CLASS(mime_part)->get_content_object (mime_part);
-}
-
-
-
 
 static void
-_set_content_object(CamelMimePart *mime_part, CamelDataWrapper *content)
+_set_content_object (CamelMedium *medium, CamelDataWrapper *content)
 {
+	CamelMimePart *mime_part = CAMEL_MIME_PART (medium);
 	GMimeContentField *object_content_field;
 
-	CAMEL_LOG_FULL_DEBUG ("Entering CamelMimePart::set_content_object\n");
-	if (mime_part->content) {
-		CAMEL_LOG_FULL_DEBUG ("CamelMimePart::set_content_object unreferencing old content object\n");
-		gtk_object_unref (GTK_OBJECT (mime_part->content));
-	}
-	gtk_object_ref (GTK_OBJECT (content));
-	mime_part->content = content;
+	parent_class->set_content_object (medium, content);
+
 	object_content_field = camel_data_wrapper_get_mime_type_field (content);
 	if (mime_part->content_type && (mime_part->content_type != object_content_field)) 
 		gmime_content_field_unref (mime_part->content_type);
@@ -604,11 +562,7 @@ _set_content_object(CamelMimePart *mime_part, CamelDataWrapper *content)
 	
 }
 
-void 
-camel_mime_part_set_content_object(CamelMimePart *mime_part, CamelDataWrapper *content)
-{
-	CMP_CLASS(mime_part)->set_content_object (mime_part, content);
-}
+/* **** */
 
 
 
@@ -623,11 +577,12 @@ camel_mime_part_set_content_object(CamelMimePart *mime_part, CamelDataWrapper *c
 static void
 _write_content_to_stream (CamelMimePart *mime_part, CamelStream *stream)
 {
+	CamelMedium *medium = CAMEL_MEDIUM (mime_part);
 	guint buffer_size;
 	gchar *buffer;
 	gchar *encoded_buffer;
 
-	CamelDataWrapper *content = mime_part->content;
+	CamelDataWrapper *content = medium->content;
 	CAMEL_LOG_FULL_DEBUG ( "Entering CamelMimePart::_write_content_to_stream\n");
 	CAMEL_LOG_FULL_DEBUG ( "CamelMimePart::_write_content_to_stream, content=%p\n", content);
 	if (!content) return;
@@ -656,7 +611,8 @@ static void
 _write_to_stream (CamelDataWrapper *data_wrapper, CamelStream *stream)
 {
 	CamelMimePart *mp = CAMEL_MIME_PART (data_wrapper);
-	
+	CamelMedium *medium = CAMEL_MEDIUM (data_wrapper);
+
 	CAMEL_LOG_FULL_DEBUG ( "Entering CamelMimePart::write_to_stream\n");
 	
 	CAMEL_LOG_FULL_DEBUG ( "CamelMimePart::write_to_stream writing content-disposition\n");
@@ -673,7 +629,7 @@ _write_to_stream (CamelDataWrapper *data_wrapper, CamelStream *stream)
 	write_header_with_glist_to_stream (stream, "Content-Language", mp->content_languages,", ");
 	
 	CAMEL_LOG_FULL_DEBUG ( "CamelMimePart::write_to_stream writing other headers\n");
-	write_header_table_to_stream (stream, mp->headers);
+	write_header_table_to_stream (stream, medium->headers);
 	
 	CAMEL_LOG_FULL_DEBUG ( "CamelMimePart::write_to_stream writing content-type\n");
 	gmime_content_field_write_to_stream (mp->content_type, stream);
@@ -779,7 +735,8 @@ _parse_hash_table_pair (gpointer key, gpointer value, gpointer user_data)
 	if  (header_value)
 		CAMEL_LOG_FULL_DEBUG ( "header value :%s\n", header_value);
 	
-	camel_mime_part_add_header (mime_part, header_name, header_value);
+	camel_medium_add_header ( CAMEL_MEDIUM (mime_part), header_name, header_value);
+
 	CAMEL_LOG_FULL_DEBUG ( "--------- End -----------------\n"); 
 }
 
@@ -822,7 +779,7 @@ _construct_from_stream (CamelDataWrapper *data_wrapper, CamelStream *stream)
 	g_free (mime_type);
 	content_object = CAMEL_DATA_WRAPPER (gtk_type_new (content_object_type));
 	camel_data_wrapper_set_mime_type_field (content_object, camel_mime_part_get_content_type (mime_part));
-	camel_mime_part_set_content_object (mime_part, content_object);
+	camel_medium_set_content_object ( CAMEL_MEDIUM (mime_part), content_object);
 	camel_data_wrapper_construct_from_stream (content_object, stream);
 
 	/* the object is referenced in the set_content_object method, so unref it here */
@@ -854,22 +811,24 @@ void
 camel_mime_part_set_text (CamelMimePart *camel_mime_part, gchar *text)
 {
 	CamelSimpleDataWrapper *simple_data_wrapper;
+	CamelMedium *medium = CAMEL_MEDIUM (camel_mime_part);
+
 	CAMEL_LOG_FULL_DEBUG ("CamelMimePart:: Entering set_text\n");
 	CAMEL_LOG_TRACE ("CamelMimePart::set_text, setting text as a mime part content\n");
-	if (camel_mime_part->content) {
+	if (medium->content) {
 		CAMEL_LOG_FULL_DEBUG ("CamelMimePart::set_text unreferencing old content object\n");
-		gtk_object_unref (GTK_OBJECT (camel_mime_part->content));
+		gtk_object_unref (GTK_OBJECT (medium->content));
 	}
 	if (text) {
 		simple_data_wrapper = camel_simple_data_wrapper_new ();
 		CAMEL_LOG_FULL_DEBUG ("CamelMimePart::set_text calling CamelSimpleDataWrapper:set_text with %d chars\n", strlen (text));
 		camel_data_wrapper_set_mime_type (CAMEL_DATA_WRAPPER (simple_data_wrapper), "text/plain");
 		camel_simple_data_wrapper_set_text ( simple_data_wrapper, text);
-		camel_mime_part_set_content_object (camel_mime_part, CAMEL_DATA_WRAPPER (simple_data_wrapper));
+		camel_medium_set_content_object ( CAMEL_MEDIUM (camel_mime_part), CAMEL_DATA_WRAPPER (simple_data_wrapper));
 		gtk_object_unref (GTK_OBJECT (simple_data_wrapper));
-	} else camel_mime_part->content = NULL;
-		
-		CAMEL_LOG_FULL_DEBUG ("CamelMimePart:: Leaving camel_mime_part_set_text\n");
+	} else medium->content = NULL;
+	
+	CAMEL_LOG_FULL_DEBUG ("CamelMimePart:: Leaving camel_mime_part_set_text\n");
 }
 
  
