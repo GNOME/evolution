@@ -19,7 +19,8 @@ INCLUDES =					\
 	$(NSPR_CFLAGS)				\
 	$(NSS_CFLAGS)				\
 	$(OPENSSL_CFLAGS)			\
-        -DG_LOG_DOMAIN=\"camel-smtp-provider\"
+	-DG_LOG_DOMAIN=\"camel-smtp-provider\"	\
+	-DG_DISABLE_DEPRECATED
 
 libcamelsmtp_la_SOURCES = 			\
 	camel-smtp-provider.c			\
