@@ -1,3 +1,9 @@
+2003-07-25  Jeffrey Stedfast  <fejj@ximian.com>
+
+	* message-browser.c (on_key_press): New callback function to
+	override the behaviour of hitting the Delete key. Fixes bug
+	#45597.
+
 2003-07-15  Federico Mena Quintero  <federico@ximian.com>
 
 	* folder-browser.c (message_list_drag_data_received): Handle

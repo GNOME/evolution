@@ -2232,7 +2232,6 @@ on_key_press (GtkWidget *widget, GdkEventKey *key, gpointer data)
 	case GDK_KP_Delete:
 		delete_msg (NULL, fb);
 		return TRUE;
-		
 	case GDK_Menu:
 		on_right_click (fb->message_list->tree, row, path, 2,
 				(GdkEvent *)key, fb);
