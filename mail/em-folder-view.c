@@ -614,16 +614,20 @@ struct _move_data {
 	int delete;
 };
 
+static char *default_xfer_messages_uri = NULL;
+
 static void
 emfv_popup_move_cb(const char *uri, void *data)
 {
 	struct _move_data *d = data;
-
-	if (uri)
+	
+	if (uri) {
+		g_free (default_xfer_messages_uri);
+		default_xfer_messages_uri = g_strdup (uri);
 		mail_transfer_messages(d->emfv->folder, d->uids, d->delete, uri, 0, NULL, NULL);
-	else
+	} else
 		em_utils_uids_free(d->uids);
-
+	
 	g_object_unref(d->emfv);
 	g_free(d);
 }
@@ -639,7 +643,7 @@ emfv_popup_move(GtkWidget *w, EMFolderView *emfv)
 	d->uids = message_list_get_selected(emfv->list);
 	d->delete = TRUE;
 	
-	em_select_folder ((GtkWindow *) emfv, _("Select folder"), NULL, emfv_popup_move_cb, d);
+	em_select_folder ((GtkWindow *) emfv, _("Select folder"), default_xfer_messages_uri, emfv_popup_move_cb, d);
 }
 
 static void
@@ -653,7 +657,7 @@ emfv_popup_copy(GtkWidget *w, EMFolderView *emfv)
 	d->uids = message_list_get_selected(emfv->list);
 	d->delete = FALSE;
 	
-	em_select_folder ((GtkWindow *) emfv, _("Select folder"), NULL, emfv_popup_move_cb, d);
+	em_select_folder ((GtkWindow *) emfv, _("Select folder"), default_xfer_messages_uri, emfv_popup_move_cb, d);
 }
 
 static void

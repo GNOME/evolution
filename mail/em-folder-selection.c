@@ -66,12 +66,14 @@ em_select_folder (GtkWindow *parent_window, const char *title, const char *defau
 	emft = (EMFolderTree *) em_folder_tree_new_with_model (model);
 	
 	dialog = em_folder_selector_new(emft, EM_FOLDER_SELECTOR_CAN_CREATE, title, NULL);
-	if (default_uri)
-		em_folder_selector_set_selected((EMFolderSelector *)dialog, default_uri);
+	
 	d = g_malloc0(sizeof(*d));
 	d->data = user_data;
 	d->done = done;
 	g_signal_connect(dialog, "response", G_CALLBACK (emfs_selector_response), d);
 	g_object_set_data_full((GObject *)dialog, "e-select-data", d, (GDestroyNotify)g_free);
 	gtk_widget_show(dialog);
+	
+	if (default_uri)
+		em_folder_selector_set_selected((EMFolderSelector *)dialog, default_uri);
 }

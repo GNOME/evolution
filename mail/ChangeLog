@@ -1,5 +1,17 @@
 2004-04-02  Jeffrey Stedfast  <fejj@ximian.com>
 
+	Fixes bug #53851
+
+	* em-folder-view.c (emfv_popup_move_cb): Save the uri as the
+	default for copy/move.
+	(emfv_popup_move): Use the default copy/move uri.
+	(emfv_popup_copy): Same.
+
+	* em-folder-selection.c (em_select_folder): Select the uri *after*
+	the dialog gets shown.
+
+2004-04-02  Jeffrey Stedfast  <fejj@ximian.com>
+
 	Fixes bug #37416
 
 	* mail-folder-cache.c (update_1folder): Same as below. Also add
