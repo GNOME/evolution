@@ -1,3 +1,12 @@
+2005-01-12  JP Rosevear  <jpr@novell.com>
+
+	* configure.in: fix plugin listing, bump upgrade revision so
+	weather calendar group appears
+
+2005-01-10  JP Rosevear  <jpr@novell.com>
+
+	* configure.in: make itip-formatter a base plugin
+
 2005-01-11  JP Rosevear  <jpr@novell.com>
 
 	* configure.in: bump version
