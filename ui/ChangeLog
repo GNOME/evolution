@@ -1,3 +1,8 @@
+2003-07-09  Anna Marie Dirks  <anna@ximian.com>
+
+	* evolution-mail-list.xml: Change the accelerator for "Mark All Read"
+	to be "R". Fixes bug #45811. 
+
 2003-07-01  Rodrigo Moya <rodrigo@ximian.com>
 
 	Fixes #45524
