@@ -189,6 +189,13 @@ The message is stored in the Outbox folder.  Check the message for errors and re
   <button stock="gtk-delete" response="GTK_RESPONSE_OK"/>
  </error>
 
+ <error id="ask-delete-vfolder" type="question" default="GTK_RESPONSE_CANCEL">
+  <title>Delete &quot;{0}&quot;?</title>
+  <primary>Really delete folder &quot;{0}&quot; and all of its subfolders?</primary>
+  <button stock="gtk-cancel" response="GTK_RESPONSE_CANCEL"/>
+  <button stock="gtk-delete" response="GTK_RESPONSE_OK"/>
+ </error>
+
  <error id="no-rename-folder-exists" type="error">
   <primary>Cannot rename &quot;{0}&quot; to &quot;{1}&quot;.</primary>
   <secondary>A folder named &quot;{1}&quot; already exists. Please use a different name.</secondary>

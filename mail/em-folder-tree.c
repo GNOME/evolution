@@ -2669,9 +2669,10 @@ emft_popup_delete_folder (EPopup *ep, EPopupItem *pitem, void *data)
 	}
 	
 	camel_object_ref (store);
-	
+
 	dialog = e_error_new((GtkWindow *)gtk_widget_get_toplevel((GtkWidget *)emft),
-			     "mail:ask-delete-folder", full_name, NULL);
+			     (store && CAMEL_IS_VEE_STORE(store))?"mail:ask-delete-vfolder":"mail:ask-delete-folder",
+			     full_name, NULL);
 	g_object_set_data_full ((GObject *) dialog, "full_name", full_name, g_free);
 	g_object_set_data_full ((GObject *) dialog, "store", store, camel_object_unref);
 	g_signal_connect (dialog, "response", G_CALLBACK (emft_popup_delete_response), emft);

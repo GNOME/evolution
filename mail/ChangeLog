@@ -1,5 +1,12 @@
 2005-03-31  Not Zed  <NotZed@Ximian.com>
 
+	** See bug #72518
+
+	* em-folder-tree.c (emft_popup_delete_folder): prompt for vfolder
+	case differently.
+
+2005-03-31  Not Zed  <NotZed@Ximian.com>
+
 	* message-list.c (on_selection_changed_cmd): only noop if we only
 	have 1 message selected, otherwise we don't update the menu's.
 	Fixes a problem introduced by 64987's fix.
