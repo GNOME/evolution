@@ -45,7 +45,7 @@
       mail.  Both the <link
       linkend="usage-mail-organize-filters">filtering</link> and <link
       linkend="usage-mail-organize-search">searching</link> functions
-      were built for speed and efficiency on gargantuan volumes of
+      were built for speed and efficiency on large volumes of
       mail. There's also the <application>Evolution</application>
       <link linkend="usage-mail-organize-vFolders">vFolder</link>, an
       advanced organizational feature not found in mainstream mail
@@ -223,11 +223,11 @@
 	</orderedlist>
       </para>
       <note>
-	<title>Trash is Actually a Virtual Folder?</title>
+	<title>Trash is Actually a vFolder?</title>
 	<para>
-	  Your trash bin is actually a Virtual Folder that displays
+	  Your trash bin is actually a vFolder that displays
           all messages you have marked for later deletion.  For more
-          information about Virtual Folders, see <xref
+          information about vFolders, see <xref
           linkend="usage-mail-organize-vfolders">.  If you choose
           <menuchoice> <guimenu>Actions</guimenu> <guimenuitem>Empty
           Trash</guimenuitem> </menuchoice> you will expunge
@@ -334,7 +334,7 @@
 	</sect2>
 
        <sect2 id="usage-mail-getnsend-get-attach">
-	 <title>Attachments and HTML Mail</title>
+	 <title>Working with Attachments and HTML Mail</title>
 	 <para>
 	   If someone sends you an <glossterm>attachment</glossterm>,
 	   a file attached to an email,
@@ -504,7 +504,7 @@
 	  </listitem>
 	  <listitem>
 	    <para>
-	      Click the aarrow next the the attachment icon.
+	      Click the arrow next the attachment icon.
 	    </para>
 	  </listitem>
 	  <listitem>
@@ -659,7 +659,7 @@
             The simplest way to direct a message is to put the email
             address or addresses in the <guilabel>To:</guilabel>
             field, which denotes primary recipients.  To send mail to
-            more than one or two people, you can use the the
+            more than one or two people, you can use the
             <guilabel>Cc:</guilabel> field.
           </para>
           <para>
@@ -895,12 +895,12 @@ with quoted materials and the relevant replies interspersed-->
       </sect2>
 
       <sect2 id="usage-mail-getnsend-send-html">
-        <title>Embellish your email with HTML</title>
+        <title>Enhance your email with HTML</title>
         <para>
             Normally, you can't set text styles or insert pictures in
             emails, which is why you've probably seen people use far
             too many exclamation points for emphasis, or use
-            <glossterm linkend="emoticon">emoticons</glossterm> to
+            text drawn facial expressions to
             convey their feelings.  However, most newer email programs
             can display images and text styles as well as basic
             alignment and paragraph formatting. They do this with
@@ -913,7 +913,7 @@ with quoted materials and the relevant replies interspersed-->
             Some people do not have HTML-capable mail clients, or
             prefer not to receive HTML-enhanced mail because it is
             slower to download and display.  <emphasis>Some</emphasis>
-            people refer to HTML mail as "the root of all evil" and
+            people don't like HTML mail and
             get very angry if you send them HTML mail, which is why
             <application>Evolution</application> sends plain text
             unless you explicitly ask for HTML.  To send HTML mail,

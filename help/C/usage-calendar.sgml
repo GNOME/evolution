@@ -34,8 +34,8 @@
   
   <para>
     The <guilabel>Event List</guilabel> is responsible for showing you all of
-    your scheduled events, whether they are all day events or simply one time
-    events that last a half an hour.
+    your scheduled appointments, whether they are all day appointments or simply one time
+    appointments that last a half an hour.
   </para>
 
   <para>
@@ -106,10 +106,10 @@ lack of time, resources, and interest.
     <para>
       Of course, you'll want to use the calendar to do more than find
       out what day it is. This section will tell you how to schedule
-      events, set alarms, and determine event recurrence.
+      appointments, set alarms, and determine event recurrence.
     </para>
     <sect2 id="usage-calendar-apts-basic">
-      <title>Creating events</title>
+      <title>Creating appointments</title>
       <para>
 	To create a new appointment, select
         <menuchoice>
@@ -138,17 +138,17 @@ lack of time, resources, and interest.
         starting and ending times or to mark it as an <guilabel>All
         day event</guilabel>. An <guilabel>All day event</guilabel>
         appears at the top of a day's event list rather than inside
-        it.  That makes it easy to have events that overlap and fit
+        it.  That makes it easy to have appointments that overlap and fit
         inside each other.  For example, a conference might be an all
         day event, and the meetings at the conference would be timed
-        events.  Of course, events with specific starting and ending
+        appointments.  Of course, appointments with specific starting and ending
         times can also overlap.  When they do they're displayed as
         multiple columns in the day view of the calendar.
       </para>
       <note>
        <title>Doing Two Things At Once</title>
          <para>
-           If you create calendar events that overlap,
+           If you create calendar appointments that overlap,
            <application>Evolution</application> will display them side
            by side in your calendar.  However,
            <application>Evolution</application> cannot help you do
@@ -248,7 +248,7 @@ lack of time, resources, and interest.
 
       <para>
         The <guilabel>Recurrence</guilabel> tab lets you describe
-        repetition in events ranging from once every day up to once
+        repetition in appointments ranging from once every day up to once
         every 100 years.  You can then choose a time and date when the
         event will stop recurring, and, under
         <guilabel>Exceptions</guilabel>, pick individual days when the
@@ -270,7 +270,7 @@ lack of time, resources, and interest.
     <sect2 id="usage-calendar-rsvp">
       <title>RSVPs with the Calendar</title>
       <para>
-	<application>Evolution</application> can be used to setup group events
+	<application>Evolution</application> can be used to setup group appointments
 	and help you manage RSVPs.
       </para>
       <para>
@@ -342,7 +342,7 @@ lack of time, resources, and interest.
     <para>
        The Task Pad, located in the lower right corner of the
        calendar, lets you keep a list of tasks separate from your
-       calendar events.  Tasks are colored and sorted by priority and
+       calendar appointments.  Tasks are colored and sorted by priority and
        due-date (see <xref linkend="config-prefs"> for more
        information), and are included with calendar data during
        synchronization with a hand-held device.  You can use the list
