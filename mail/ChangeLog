@@ -1,3 +1,7 @@
+2001-12-06  Jeffrey Stedfast  <fejj@ximian.com>
+
+	* mail-ops.c (mail_send_message): s/PREVIEW_RELEASE/VERSION_COMMENT
+
 2001-12-03  Jeffrey Stedfast  <fejj@ximian.com>
 
 	* mail-ops.c (mail_send_message): Don't append "(Preview Version)"
