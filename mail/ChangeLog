@@ -1,3 +1,29 @@
+2004-06-18  Not Zed  <NotZed@Ximian.com>
+
+	* em-vfolder-rule.c (get_widget): use mail dialogs.glade.
+
+	* mail-dialogs.glade: move the vfolder-source window here from
+	mail-config.glade.
+
+	* Makefile.am (glade_DATA): fix the glade list.
+
+	* mail-license.glade, subscribe-dialog.glade, mail-security.glade,
+	* mail-search.glade: Merged into mail-dialogs.glade.  Should be
+	easier to manage.
+
+	* message-tag-followup.c (construct): use mail dialogs glade file.
+
+	* mail-account-gui.c (display_license): use mail dialogs glade file.
+
+	* em-subscribe-editor.c (em_subscribe_editor_new): use new glade
+	file.
+
+	* em-format-html-display.c (em_format_html_display_search): use
+	merged glade file.
+	(efhd_xpkcs7mime_validity_clicked): same.
+
+	* mail-dialogs.glade: merge various glade files into here.
+
 2004-06-17  Not Zed  <NotZed@Ximian.com>
 
 	** See #59885.

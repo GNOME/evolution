@@ -224,7 +224,7 @@ em-filter-i18n.h: filtertypes.xml vfoldertypes.xml searchtypes.xml
 		sed -n -e 's:.*<title>\(.*\)</title>:char *s = N_("\1");:p' | \
 		sort -u >> $@
 
-glade_DATA = mail-config.glade  subscribe-dialog.glade message-tags.glade mail-search.glade mail-security.glade
+glade_DATA = mail-config.glade mail-dialogs.glade
 MARSHAL_GENERATED = em-marshal.c em-marshal.h
 @EVO_MARSHAL_RULE@
 

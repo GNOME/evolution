@@ -829,7 +829,7 @@ GtkDialog *em_subscribe_editor_new(void)
 	se = g_malloc0(sizeof(*se));
 	e_dlist_init(&se->stores);
 
-	xml = glade_xml_new (EVOLUTION_GLADEDIR "/subscribe-dialog.glade", "subscribe_dialog", NULL);
+	xml = glade_xml_new (EVOLUTION_GLADEDIR "/mail-dialogs.glade", "subscribe_dialog", NULL);
 	if (xml == NULL) {
 		/* ?? */
 		return NULL;

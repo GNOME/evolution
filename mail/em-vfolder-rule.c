@@ -604,7 +604,7 @@ get_widget(FilterRule *fr, RuleContext *rc)
 	data->rc = rc;
 	data->vr = vr;
 	
-	gui = glade_xml_new(EVOLUTION_GLADEDIR "/mail-config.glade", "vfolder_source_frame", NULL);
+	gui = glade_xml_new(EVOLUTION_GLADEDIR "/mail-dialogs.glade", "vfolder_source_frame", NULL);
         frame = glade_xml_get_widget(gui, "vfolder_source_frame");
 	
 	g_object_set_data_full((GObject *)frame, "data", data, g_free);

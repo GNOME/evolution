@@ -503,7 +503,7 @@ em_format_html_display_search(EMFormatHTMLDisplay *efhd)
 		return;
 	}
 
-	xml = glade_xml_new (EVOLUTION_GLADEDIR "/mail-search.glade", "search_message_dialog", NULL);
+	xml = glade_xml_new (EVOLUTION_GLADEDIR "/mail-dialogs.glade", "search_message_dialog", NULL);
 	if (xml == NULL) {
 		g_warning("Cannot open search dialog glade file");
 		/* ?? */
@@ -792,7 +792,7 @@ efhd_xpkcs7mime_validity_clicked(GtkWidget *button, EMFormatHTMLPObject *pobject
 		/* FIXME: window raise? */
 		return;
 
-	xml = glade_xml_new(EVOLUTION_GLADEDIR "/mail-security.glade", "message_security_dialog", NULL);
+	xml = glade_xml_new(EVOLUTION_GLADEDIR "/mail-dialogs.glade", "message_security_dialog", NULL);
 	po->widget = glade_xml_get_widget(xml, "message_security_dialog");
 
 	vbox = glade_xml_get_widget(xml, "signature_vbox");

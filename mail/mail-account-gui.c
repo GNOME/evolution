@@ -225,7 +225,7 @@ display_license (CamelProvider *prov)
 	char *label_text, *dialog_title;
 	gboolean status;
 	
-	xml = glade_xml_new (EVOLUTION_GLADEDIR "/mail-license.glade", "lic_dialog", NULL);
+	xml = glade_xml_new (EVOLUTION_GLADEDIR "/mail-dialogs.glade", "lic_dialog", NULL);
 	
 	top_widget = glade_xml_get_widget (xml, "lic_dialog");
 	text_entry = GTK_TEXT_VIEW (glade_xml_get_widget (xml, "textview1"));
