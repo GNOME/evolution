@@ -895,11 +895,7 @@ storage_create_folder (EvolutionStorage *storage,
 		for (fi = root; fi; fi = fi->child)
 			camel_store_subscribe_folder (store, fi->full_name, NULL);
 	}
-	
-	prefix = g_strndup (path, name - path - 1);
-	folder_created (store, prefix, root);
-	g_free (prefix);
-	
+
 	camel_store_free_folder_info (store, root);
 	
 	notify_listener (listener, GNOME_Evolution_Storage_OK);

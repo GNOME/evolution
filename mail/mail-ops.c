@@ -1198,29 +1198,6 @@ mail_get_folderinfo (CamelStore *store, void (*done)(CamelStore *store, CamelFol
 	return id;
 }
 
-/* ********************************************************************** */
-
-static void
-do_scan_subfolders (CamelStore *store, CamelFolderInfo *info, void *data)
-{
-	EvolutionStorage *storage = data;
-
-	if (info) {
-		gtk_object_set_data (GTK_OBJECT (storage), "connected", GINT_TO_POINTER (TRUE));
-		mail_storage_create_folder (storage, store, info);
-	}
-}
-
-/* synchronous function to scan the & and add folders in a store */
-void
-mail_scan_subfolders (CamelStore *store, EvolutionStorage *storage)
-{
-	int id;
-	
-	id = mail_get_folderinfo (store, do_scan_subfolders, storage);
-	/*mail_msg_wait(id);*/
-}
-
 /* ** ATTACH MESSAGES ****************************************************** */
 
 struct _build_data {

@@ -1,5 +1,14 @@
 2001-09-21    <NotZed@Ximian.com>
 
+	* mail-callbacks.c (mail_storage_create_folder, folder_created,
+	create_folders):  All made redundant by new mail-folder-cache
+	code.
+	(delete_folders, folder_deleted): Uh, code that isn't used
+	anywhere.  Removed.
+
+	* component-factory.c (storage_create_folder): Dont call
+	folder_created, let the folder_created event handle the update.
+
 	* mail-local.c (mail_local_store_add_folder): Use url path as
 	full_name, not shell path.
 	(mail_local_folder_construct): Remove path argument, and use the
@@ -13,6 +22,7 @@
 
 	* mail-ops.c (mail_update_subfolders): Removed.  Isn't used
 	anymore.
+	(mail_scan_subfolders): Remove, no longer used.
 
 	* mail-send-recv.c (receive_update_got_store): Remove call to
 	mail_update_subfolders.
