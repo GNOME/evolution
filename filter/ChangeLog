@@ -1,5 +1,10 @@
 2000-05-15  NotZed  <NotZed@HelixCode.com>
 
+	* filter-xml.[ch]: Bunch of cleanup.
+
+	* filter-xml.c (filter_*_file): New interfaces to read/write files
+	directly, rather than messing with xmldoc crap.
+
 	* Makefile.am: Removed filter-driver test program, now just part
 	of libfilter.
 

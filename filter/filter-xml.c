@@ -58,7 +58,7 @@ tokenise(const char *name)
 }
 
 static int
-tokenise_xmlfreeprop(const char *name)
+tokenise_xmlfreeprop(char *name)
 {
 	int ret = -1;
 	ret = tokenise(name);
@@ -95,7 +95,6 @@ find_node(xmlNodePtr start, char *name)
 static xmlNodePtr
 find_node_attr(xmlNodePtr start, char *name, char *attrname, char *attrvalue)
 {
-	xmlNodePtr node;
 	char *s;
 
 	d(printf("looking for node named %s with attribute %s=%s\n", name, attrname, attrvalue));
@@ -233,9 +232,6 @@ filter_find_arg(FilterArg *a, char *name)
 static FilterArg *
 load_optionvalue(struct filter_desc *desc, xmlNodePtr node)
 {
-	xmlNodePtr n;
-	int token;
-	int lasttoken = -2;
 	FilterArg *arg = NULL;
 
 	d(printf("creating arg entry for '%s'\n", desc->varname));
@@ -261,31 +257,6 @@ load_optionvalue(struct filter_desc *desc, xmlNodePtr node)
 	return arg;
 }
 
-/* loads a blank (empty args) optionrule from a rule */
-static struct filter_optionrule *
-optionrule_new(struct filter_rule *rule)
-{
-	GList *ldesc;
-	struct filter_desc *desc;
-	struct filter_optionrule *optionrule;
-
-	optionrule = g_malloc0(sizeof(*optionrule));
-	optionrule->rule = rule;
-
-	ldesc = rule->description;
-	while (ldesc) {
-		desc = ldesc->data;
-		if (desc->varname && desc->vartype!=-1) {
-			FilterArg *arg;
-			arg = load_optionvalue(desc, NULL);
-			if (arg)
-				optionrule->args = g_list_append(optionrule->args, arg);
-		}
-		ldesc = g_list_next(ldesc);
-	}
-	return optionrule;
-}
-
 GList *
 filter_load_optionset(xmlDocPtr doc, GList *rules)
 {
@@ -294,7 +265,7 @@ filter_load_optionset(xmlDocPtr doc, GList *rules)
 	struct filter_optionrule *optionrule;
 	struct filter_rule *fr;
 	struct filter_desc *desc;
-	int type, token;
+	int type;
 	GList *l = NULL;
 	GList *lrule;
 	GList *ldesc;
@@ -366,7 +337,7 @@ filter_load_optionset(xmlDocPtr doc, GList *rules)
 xmlNodePtr
 filter_write_optionset(xmlDocPtr doc, GList *optionl)
 {
-	xmlNodePtr root, cur, option, optionrule, optionvalue;
+	xmlNodePtr root, option, optionrule, optionvalue;
 	GList *optionrulel, *argl;
 	struct filter_optionrule *or;
 
@@ -423,7 +394,7 @@ filter_clone_optionrule(struct filter_optionrule *or)
 	arg = or->args;
 	while (arg) {
 		FilterArg *new = filter_arg_clone(FILTER_ARG(arg->data));
-		gtk_object_set_data(new, "origin", arg->data);
+		gtk_object_set_data((GtkObject *)new, "origin", arg->data);
 		rule->args = g_list_append(rule->args, new);
 		arg = g_list_next(arg);
 	}
@@ -434,7 +405,6 @@ void
 filter_clone_optionrule_free(struct filter_optionrule *or)
 {
 	GList *argl;
-	struct filter_optionrule *rule;
 
 	d(printf("---- free optionrule\n"));
 
@@ -548,30 +518,44 @@ filter_load_optionset_free(GList *optionl)
 	}
 }
 
-#ifdef TESTER
-int main(int argc, char **argv)
+GList *filter_load_ruleset_file(const char *name)
 {
-	GList *rules, *options;
-	xmlDocPtr doc, out, optionset, filteroptions;
+	xmlDocPtr doc;
+	GList *rules;
 
-	gnome_init("Test", "0.0", argc, argv);
+	doc = xmlParseFile(name);
+	rules = filter_load_ruleset(doc);
+	xmlFreeDoc(doc);
 
-	doc = xmlParseFile("filterdescription.xml");
+	return rules;
+}
 
-	rules = load_ruleset(doc);
-	options = load_optionset(doc, rules);
+GList *filter_load_optionset_file(const char *name, GList *rules)
+{
+	xmlDocPtr doc;
+	GList *options;
 
-	out = xmlParseFile("saveoptions.xml");
-	options = load_optionset(doc, rules);
-#if 0
+	doc = xmlParseFile(name);
+	options = filter_load_optionset(doc, rules);
+	xmlFreeDoc(doc);
+
+	return options;
+}
+
+int filter_write_optionset_file(const char *name, GList *optionl)
+{
+	xmlDocPtr out;
+	xmlDocPtr optionset;
+	xmlNodePtr filteroptions;
+	int ret;
+
 	out = xmlNewDoc("1.0");
-	optionset = save_optionset(out, options);
+	optionset = filter_write_optionset(out, optionl);
 	filteroptions = xmlNewDocNode(out, NULL, "filteroptions", NULL);
 	xmlAddChild(filteroptions, optionset);
 	xmlDocSetRootElement(out, filteroptions);
-	xmlSaveFile("saveoptions.xml", out);
-#endif
-	return 0;
-}
-#endif
+	ret = xmlSaveFile(name, out);
+	xmlFreeDoc(out);
 
+	return ret;
+}

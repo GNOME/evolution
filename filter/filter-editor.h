@@ -51,4 +51,6 @@ struct _FilterEditorClass {
 guint		filter_editor_get_type	(void);
 FilterEditor      *filter_editor_new	(void);
 
+void filter_editor_set_rules(FilterEditor *e, GList *rules, GList *systemoptions, GList *useroptions);
+
 #endif /* ! _FILTER_EDITOR_H */

@@ -57,6 +57,14 @@ GList *filter_load_ruleset(xmlDocPtr doc);
 GList *filter_load_optionset(xmlDocPtr doc, GList *rules);
 xmlNodePtr filter_write_optionset(xmlDocPtr doc, GList *optionl);
 
+void filter_description_free(GList *descl);
+void filter_load_ruleset_free(GList *nodel);
+void filter_load_optionset_free(GList *optionl);
+
+GList *filter_load_ruleset_file(const char *name);
+GList *filter_load_optionset_file(const char *name, GList *rules);
+int filter_write_optionset_file(const char *name, GList *optionl);
+
 /* callbacks for searching GLists of various types */
 int filter_find_rule(struct filter_rule *a, char *name);
 int filter_find_arg(FilterArg *a, char *name);
