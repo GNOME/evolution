@@ -45,6 +45,11 @@ enum {
 
 static guint e_canvas_signals [LAST_SIGNAL] = { 0, };
 
+typedef struct {
+	GnomeCanvasItem *item;
+	gpointer         id;
+} ECanvasSelectionInfo;
+
 GtkType
 e_canvas_get_type (void)
 {
@@ -107,6 +112,7 @@ e_canvas_class_init (ECanvasClass *klass)
 static void
 e_canvas_init (ECanvas *canvas)
 {
+	canvas->selection = NULL;
 }
 
 static void
@@ -458,3 +464,126 @@ e_canvas_item_set_reflow_callback (GnomeCanvasItem *item, ECanvasItemReflowFunc 
 {
 	gtk_object_set_data(GTK_OBJECT(item), "ECanvasItem::reflow_callback", (gpointer) func);
 }
+
+
+void
+e_canvas_item_set_selection_callback (GnomeCanvasItem *item, ECanvasItemSelectionFunc func)
+{
+	gtk_object_set_data(GTK_OBJECT(item), "ECanvasItem::selection_callback", (gpointer) func);
+}
+
+void
+e_canvas_item_set_selection_compare_callback (GnomeCanvasItem *item, ECanvasItemSelectionCompareFunc func)
+{
+	gtk_object_set_data(GTK_OBJECT(item), "ECanvasItem::selection_compare_callback", (gpointer) func);
+}
+
+void
+e_canvas_item_set_cursor (GnomeCanvasItem *item, gpointer id)
+{
+	GList *list;
+	int flags;
+	ECanvas *canvas;
+	ECanvasSelectionInfo *info;
+	ECanvasItemSelectionFunc func;
+
+	g_return_if_fail(item != NULL);
+	g_return_if_fail(GNOME_IS_CANVAS_ITEM(item));
+	g_return_if_fail(item->canvas != NULL);
+	g_return_if_fail(E_IS_CANVAS(item->canvas));
+
+	canvas = E_CANVAS(item->canvas);
+	flags = E_CANVAS_ITEM_SELECTION_DELETE_DATA;
+
+	for (list = canvas->selection; list; list = g_list_next(list)) {
+		info = list->data;
+
+		func = gtk_object_get_data(GTK_OBJECT(info->item), "ECanvasItem::selection_callback");
+		if (func)
+			func(info->item, flags, info->id);
+		g_free(info);
+	}
+	g_list_free(canvas->selection);
+
+	canvas->selection = NULL;
+	
+	info = g_new(ECanvasSelectionInfo, 1);
+	info->item = item;
+	info->id = id;
+	
+	flags = E_CANVAS_ITEM_SELECTION_SELECT | E_CANVAS_ITEM_SELECTION_CURSOR;
+	func = gtk_object_get_data(GTK_OBJECT(item), "ECanvasItem::selection_callback");
+	if (func)
+		func(item, flags, id);
+	
+	canvas->selection = g_list_prepend(canvas->selection, info);
+}
+
+void
+e_canvas_item_set_cursor_end (GnomeCanvasItem *item, gpointer id)
+{
+}
+
+void
+e_canvas_item_add_selection (GnomeCanvasItem *item, gpointer id)
+{
+	int flags;
+	ECanvas *canvas;
+	ECanvasSelectionInfo *info;
+	ECanvasItemSelectionFunc func;
+
+	g_return_if_fail(item != NULL);
+	g_return_if_fail(GNOME_IS_CANVAS_ITEM(item));
+	g_return_if_fail(item->canvas != NULL);
+	g_return_if_fail(E_IS_CANVAS(item->canvas));
+
+	flags = E_CANVAS_ITEM_SELECTION_SELECT | E_CANVAS_ITEM_SELECTION_CURSOR;
+	canvas = E_CANVAS(item->canvas);
+
+	info = g_new(ECanvasSelectionInfo, 1);
+	info->item = item;
+	info->id = id;
+
+	func = gtk_object_get_data(GTK_OBJECT(item), "ECanvasItem::selection_callback");
+	if (func)
+		func(item, flags, id);
+	
+	canvas->selection = g_list_prepend(canvas->selection, info);
+}
+
+void
+e_canvas_item_remove_selection (GnomeCanvasItem *item, gpointer id)
+{
+	int flags;
+	ECanvas *canvas;
+	ECanvasSelectionInfo *info;
+	GList *list;
+
+	g_return_if_fail(item != NULL);
+	g_return_if_fail(GNOME_IS_CANVAS_ITEM(item));
+	g_return_if_fail(item->canvas != NULL);
+	g_return_if_fail(E_IS_CANVAS(item->canvas));
+
+	flags = E_CANVAS_ITEM_SELECTION_DELETE_DATA;
+	canvas = E_CANVAS(item->canvas);
+
+	for (list = canvas->selection; list; list = g_list_next(list)) {
+		info = list->data;
+		
+		if (info->item == item) {
+			ECanvasItemSelectionCompareFunc compare_func;
+			compare_func = gtk_object_get_data(GTK_OBJECT(info->item), "ECanvasItem::selection_compare_callback");
+			if (compare_func(info->item, info->id, id, 0) == 0) {
+				ECanvasItemSelectionFunc func;
+				func = gtk_object_get_data(GTK_OBJECT(info->item), "ECanvasItem::selection_callback");
+				if (func)
+					func(info->item, flags, info->id);
+				canvas->selection = g_list_remove_link(canvas->selection, list);
+				g_free(info);
+				g_list_free_1(list);
+				break;
+			}
+		}
+	}
+}
+

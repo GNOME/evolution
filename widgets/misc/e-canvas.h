@@ -41,6 +41,16 @@ extern "C" {
 typedef void		(*ECanvasItemReflowFunc)		(GnomeCanvasItem *item,
 								 gint   	  flags);
 
+typedef void            (*ECanvasItemSelectionFunc)             (GnomeCanvasItem *item,
+								 gint             flags,
+								 gpointer         user_data);
+/* Returns the same as strcmp does. */
+typedef gint            (*ECanvasItemSelectionCompareFunc)      (GnomeCanvasItem *item,
+								 gpointer         data1,
+								 gpointer         data2,
+								 gint             flags);
+
+
 typedef struct _ECanvas       ECanvas;
 typedef struct _ECanvasClass  ECanvasClass;
 
@@ -50,11 +60,18 @@ enum {
 	E_CANVAS_ITEM_DESCENDENT_NEEDS_REFLOW = 1 << 14
 };
 
+enum {
+	E_CANVAS_ITEM_SELECTION_SELECT        = 1 << 0, /* TRUE = select.  FALSE = unselect. */
+	E_CANVAS_ITEM_SELECTION_CURSOR        = 1 << 1, /* TRUE = has become cursor.  FALSE = not cursor. */
+	E_CANVAS_ITEM_SELECTION_DELETE_DATA   = 1 << 2,
+};
+
 struct _ECanvas
 {
-	GnomeCanvas parent;
-	
-	int         idle_id;	
+	GnomeCanvas  parent;
+
+	int          idle_id;
+	GList       *selection;
 };
 
 struct _ECanvasClass
@@ -75,6 +92,16 @@ void e_canvas_item_grab_focus (GnomeCanvasItem *item);
 void e_canvas_item_request_reflow (GnomeCanvasItem *item);
 void e_canvas_item_request_parent_reflow (GnomeCanvasItem *item);
 void e_canvas_item_set_reflow_callback (GnomeCanvasItem *item, ECanvasItemReflowFunc func);
+
+void e_canvas_item_set_selection_callback (GnomeCanvasItem *item, ECanvasItemSelectionFunc func);
+void e_canvas_item_set_selection_compare_callback (GnomeCanvasItem *item, ECanvasItemSelectionCompareFunc func);
+
+void e_canvas_item_set_cursor (GnomeCanvasItem *item, gpointer id);
+void e_canvas_item_add_selection (GnomeCanvasItem *item, gpointer id);
+void e_canvas_item_remove_selection (GnomeCanvasItem *item, gpointer id);
+
+/* Not implemented yet. */
+void e_canvas_item_set_cursor_end (GnomeCanvasItem *item, gpointer id);
 
 #ifdef __cplusplus
 }
