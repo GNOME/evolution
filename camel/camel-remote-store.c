@@ -64,8 +64,6 @@ static char    *remote_get_name        (CamelService *service, gboolean brief);
 static char    *remote_get_folder_name (CamelStore *store, 
 					const char *folder_name, 
 					CamelException *ex);
-static void     remote_post_connect    (CamelRemoteStore *store, CamelException *ex);
-static void     remote_pre_disconnect  (CamelRemoteStore *store, CamelException *ex);
 static gint     remote_send_string     (CamelRemoteStore *store, CamelException *ex, 
 					char *fmt, va_list ap);
 static gint     remote_send_stream     (CamelRemoteStore *store, CamelStream *stream,
@@ -94,8 +92,6 @@ camel_remote_store_class_init (CamelRemoteStoreClass *camel_remote_store_class)
 	
 	camel_store_class->get_folder_name = remote_get_folder_name;
 	
-	camel_remote_store_class->post_connect = remote_post_connect;
-	camel_remote_store_class->pre_disconnect = remote_pre_disconnect;
 	camel_remote_store_class->send_string = remote_send_string;
 	camel_remote_store_class->send_stream = remote_send_stream;
 	camel_remote_store_class->recv_line = remote_recv_line;
@@ -205,6 +201,13 @@ refresh_folder_info (gpointer key, gpointer value, gpointer data)
 }
 
 static gboolean
+timeout_cb (gpointer data)
+{
+	CRSC (data)->keepalive (CAMEL_REMOTE_STORE (data));
+	return TRUE;
+}
+
+static gboolean
 remote_connect (CamelService *service, CamelException *ex)
 {
 	CamelRemoteStore *store = CAMEL_REMOTE_STORE (service);
@@ -246,7 +249,8 @@ remote_connect (CamelService *service, CamelException *ex)
 	}
 	
 	/* parent class connect initialization */
-	CAMEL_SERVICE_CLASS (store_class)->connect (service, ex);
+	if (CAMEL_SERVICE_CLASS (store_class)->connect (service, ex) == FALSE)
+		return FALSE;
 	
 	store->ostream = camel_stream_fs_new_with_fd (fd);
 	store->istream = camel_stream_buffer_new (store->ostream, CAMEL_STREAM_BUFFER_READ);
@@ -254,30 +258,15 @@ remote_connect (CamelService *service, CamelException *ex)
 	/* Okay, good enough for us */
 	CAMEL_SERVICE (store)->connected = TRUE;
 	
-	/* implementation of postconnect */
-	CRSC (store)->post_connect (store, ex);
-	
 	if (camel_exception_is_set (ex)) {
 		CamelException dex;
 		
 		camel_exception_init (&dex);
 		camel_service_disconnect (CAMEL_SERVICE (store), &dex);
+		camel_exception_clear (&dex);
 		return FALSE;
 	}
-	
-	return TRUE;
-}
 
-static gboolean
-timeout_cb (gpointer data)
-{
-	CRSC (data)->keepalive (CAMEL_REMOTE_STORE (data));
-	return TRUE;
-}
-
-static void
-remote_post_connect (CamelRemoteStore *store, CamelException *ex)
-{
 	/* Add a timeout so that we can hopefully prevent getting disconnected */
 	/* (Only if the implementation supports it) */
 	if (CRSC (store)->keepalive) {
@@ -290,16 +279,8 @@ remote_post_connect (CamelRemoteStore *store, CamelException *ex)
 	
 	/* Let's make sure that any of our folders are brought up to speed */
 	g_hash_table_foreach (CAMEL_STORE (store)->folders, refresh_folder_info, ex);
-}
-
-static void
-remote_pre_disconnect (CamelRemoteStore *store, CamelException *ex)
-{
-	if (store->timeout_id) {
-		camel_session_remove_timeout (camel_service_get_session (CAMEL_SERVICE (store)),
-					      store->timeout_id);
-		store->timeout_id = 0;
-	}
+	
+	return TRUE;
 }
 
 static gboolean
@@ -307,8 +288,11 @@ remote_disconnect (CamelService *service, CamelException *ex)
 {
 	CamelRemoteStore *store = CAMEL_REMOTE_STORE (service);
 	
-	CRSC (service)->pre_disconnect (store, ex);
-	/* if the exception is set, screw it and dconn anyway */
+	if (store->timeout_id) {
+		camel_session_remove_timeout (camel_service_get_session (CAMEL_SERVICE (store)),
+					      store->timeout_id);
+		store->timeout_id = 0;
+	}
 	
 	if (!CAMEL_SERVICE_CLASS (store_class)->disconnect (service, ex))
 		return FALSE;
@@ -361,6 +345,7 @@ remote_send_string (CamelRemoteStore *store, CamelException *ex, char *fmt, va_l
 		
 		camel_exception_init (&dex);
 		camel_service_disconnect (CAMEL_SERVICE (store), &dex);
+		camel_exception_clear (&dex);
 		return -1;
 	}
 	g_free (cmdbuf);
@@ -419,6 +404,7 @@ remote_send_stream (CamelRemoteStore *store, CamelStream *stream, CamelException
 		
 		camel_exception_init (&dex);
 		camel_service_disconnect (CAMEL_SERVICE (store), &dex);
+		camel_exception_clear (&dex);
 		return -1;
 	}
 	
@@ -478,6 +464,7 @@ remote_recv_line (CamelRemoteStore *store, char **dest, CamelException *ex)
 		
 		camel_exception_init (&dex);
 		camel_service_disconnect (CAMEL_SERVICE (store), &dex);
+		camel_exception_clear (&dex);
 		return -1;
 	}
 	

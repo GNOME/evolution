@@ -1,3 +1,12 @@
+2000-08-30  Peter Williams  <peterw@helixcode.com>
+
+	* mail-config-gui.c (do_test_service): Explicitly connect to
+	the service again.
+
+	* component-factory.c (mail_load_storages): Now that 
+	camel_service_get_provider exists, use it to make this function
+	much simpler.
+
 2000-08-29  Peter Williams  <peterw@helixcode.com>
 
 	* folder-browser.c (folder_browser_new): Ref the Evolution_Shell.

@@ -1,3 +1,26 @@
+2000-08-30  Peter Williams  <peterw@helixcode.com>
+
+	* camel-remote-store.c (remote_connect): Unify with remote_post_connect.
+	(remote_disconnect): Unify with remote_pre_disconnect.
+	(camel_remote_store_class_init): Don't use the post_connect and
+	pre_disconnect classfuncs anymore ; they weren't especially useful.
+
+	* providers/imap/camel-imap-store.c (imap_connect): Use this again
+	instead of implementing post_connect.
+	(imap_disconnect): Analogous to above.
+
+	* camel-session.c (camel_session_get_service_connected): New function.
+	Like camel_session_get_service() but also connects to the service
+	if needed. camel_session_get_{store,transport} (defined in the header)
+	used this now, preventing annoying when-to-connect problems.
+
+	* camel-service.c (camel_service_new): Revert to the old behavior
+	of not connecting until told to do so. Otherwise doing auth
+	testing correctly is really hard.
+	(camel_service_connect): Fix behavior here (set the connected
+	flag).
+	(camel_service_disconnect): Unset the connected flag.
+
 2000-08-30  Jeffrey Stedfast  <fejj@helixcode.com>
 
 	* providers/imap/camel-imap-store.c: General cleanup / moving

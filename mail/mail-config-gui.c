@@ -2266,15 +2266,14 @@ static void do_test_service (gpointer in_data, gpointer op_data, CamelException 
 	
 	service = camel_session_get_service (session, input->url, 
 					     input->type, ex);
-	
+
 	if (camel_exception_get_id (ex) != CAMEL_EXCEPTION_NONE) {
 		data->success = FALSE;
-		/*} else if (camel_service_connect (service, ex)) {
-		 *camel_service_disconnect (service, ex);
-		 *data->success = TRUE;
-		 */
+	} else if (camel_service_connect (service, ex)) {
+		camel_service_disconnect (service, ex);
+		data->success = TRUE;
 	} else {
-		data->success = TRUE;	
+		data->success = FALSE;
 	}
 
 	camel_object_unref (CAMEL_OBJECT (service));

@@ -95,10 +95,15 @@ CamelService *  camel_session_get_service             (CamelSession *session,
 						       const char *url_string,
 						       CamelProviderType type,
 						       CamelException *ex);
+CamelService *  camel_session_get_service_connected   (CamelSession *session, 
+						       const char *url_string,
+						       CamelProviderType type, 
+						       CamelException *ex);
+
 #define camel_session_get_store(session, url_string, ex) \
-	((CamelStore *) camel_session_get_service (session, url_string, CAMEL_PROVIDER_STORE, ex))
+	((CamelStore *) camel_session_get_service_connected (session, url_string, CAMEL_PROVIDER_STORE, ex))
 #define camel_session_get_transport(session, url_string, ex) \
-	((CamelTransport *) camel_session_get_service (session, url_string, CAMEL_PROVIDER_TRANSPORT, ex))
+	((CamelTransport *) camel_session_get_service_connected (session, url_string, CAMEL_PROVIDER_TRANSPORT, ex))
 
 
 char *          camel_session_query_authenticator (CamelSession *session,

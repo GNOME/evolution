@@ -202,94 +202,35 @@ void
 mail_load_storages (Evolution_Shell corba_shell, GSList *sources)
 {
 	CamelException ex;
-	GList *providers;
-	GSList *iter;
 	MailConfigService *svc;
-	GPtrArray *protos;
-	int i;
+	GSList *iter;
 
 	camel_exception_init (&ex);	
-	protos = g_ptr_array_new();
 
-	/* First, open all the storages so that camel
-	 * loads only the providers that we're going
-	 * to need.
-	 *
-	 * We don't open the storage per se but we
-	 * slurp its protocol so that we don't try
-	 * to connect to it just yet.
-	 * 
-	 * We remember the protocol associated with
-	 * each URI for the second pass.
+	/* Load each service (don't connect!). Check its provider and
+	 * see if this belongs in the shell's folder list. If so, add
+	 * it.
 	 */
-	
+
 	for (iter = sources; iter; iter = iter->next) {
 		CamelService *temp;
-		gchar *p;
-		gchar *proto;
+		CamelProvider *prov = NULL;
 
 		svc = (MailConfigService *) iter->data;
 		if (svc->url == NULL || svc->url[0] == '\0')
 			continue;
 
-		p = strchr (svc->url, ':');
-		if (!p || *p == '\0') {
-			g_warning ("Bad url (no protocol): %s", svc->url);
-			continue;
-		}
-
-		p++; /* we're on the char after the colon */
-
-		proto = g_strndup (svc->url, p - svc->url);
-		g_ptr_array_add (protos, proto);
-
-		temp = camel_session_get_service (session, proto, 
+		temp = camel_session_get_service (session, svc->url, 
 						  CAMEL_PROVIDER_STORE, &ex);
 		if (temp == NULL) {
 			/* FIXME: real error dialog */
 
 			g_warning ("couldn't get service %s: %s\n",
 				   svc->url, camel_exception_get_description (&ex));
-		} else
-			camel_object_unref (CAMEL_OBJECT (temp));
-	}
-
-	/* Okay. All the providers we need are loaded.
-	 * Now get the list of them.
-	 */
-
-	providers = camel_session_list_providers (session, FALSE);
-
-	/* Now zip through the sources a second time. This time
-	 * we check to see if its provider is a storage or not.
-	 * If so, add it to the shell.
-	 */
-
-	for (iter = sources, i = 0; iter; iter = iter->next, i++) {
-		CamelProvider *prov = NULL;
-		GList *prov_iter;
-		gchar *proto;
-
-		svc = (MailConfigService *) iter->data;	
-
-		proto = g_ptr_array_index (protos, i);
-
-		/* find its provider */
-		for (prov_iter = providers; prov_iter; prov_iter = prov_iter->next) {
-			CamelProvider *thisone = (CamelProvider *) prov_iter->data;
-
-			if (!g_strncasecmp (proto, thisone->protocol, strlen (thisone->protocol))) {
-				prov = thisone;
-				break;
-			}
-		}
-
-		g_free (proto);
-
-		if (prov == NULL) {
-			g_warning ("No provider for loaded URL \"%s\"?", svc->url);
 			continue;
 		}
+
+		prov = camel_service_get_provider (temp);
 
 		/* FIXME: this case is ambiguous for things like the mbox provider,
 		 * which can really be a spool (/var/spool/mail/user) or a storage
@@ -306,10 +247,9 @@ mail_load_storages (Evolution_Shell corba_shell, GSList *sources)
 					   camel_exception_get_description (&ex));
 			}
 		}
-	}
 
-	g_ptr_array_free (protos, TRUE);
-	camel_exception_clear (&ex);
+		camel_object_unref (CAMEL_OBJECT (temp));
+	}
 }
 
 void

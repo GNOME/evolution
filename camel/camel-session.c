@@ -253,6 +253,25 @@ camel_session_get_service (CamelSession *session, const char *url_string,
 	return service;
 }
 
+CamelService *
+camel_session_get_service_connected (CamelSession *session, const char *url_string,
+				     CamelProviderType type, CamelException *ex)
+{
+	CamelService *svc;
+
+	svc = camel_session_get_service (session, url_string, type, ex);
+	if (svc == NULL)
+		return NULL;
+
+	if (svc->connected == FALSE) {
+		if (camel_service_connect (svc, ex) == FALSE) {
+			camel_object_unref (CAMEL_OBJECT (svc));
+			return NULL;
+		}
+	}
+
+	return svc;
+}
 
 /**
  * camel_session_query_authenticator: query the session authenticator

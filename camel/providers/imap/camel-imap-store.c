@@ -52,8 +52,8 @@
 static CamelRemoteStoreClass *remote_store_class = NULL;
 
 static gboolean imap_create (CamelFolder *folder, CamelException *ex);
-static void imap_post_connect (CamelRemoteStore *remote_store, CamelException *ex);
-static void imap_pre_disconnect (CamelRemoteStore *remote_store, CamelException *ex);
+static gboolean imap_connect (CamelService *service, CamelException *ex);
+static gboolean imap_disconnect (CamelService *service, CamelException *ex);
 static GList *query_auth_types_generic (CamelService *service, CamelException *ex);
 static GList *query_auth_types_connected (CamelService *service, CamelException *ex);
 static CamelFolder *get_folder (CamelStore *store, const char *folder_name, gboolean create,
@@ -79,11 +79,11 @@ camel_imap_store_class_init (CamelImapStoreClass *camel_imap_store_class)
 	/* virtual method overload */
 	camel_service_class->query_auth_types_generic = query_auth_types_generic;
 	camel_service_class->query_auth_types_connected = query_auth_types_connected;
+	camel_service_class->connect = imap_connect;
+	camel_service_class->disconnect = imap_disconnect;
 	
 	camel_store_class->get_folder = get_folder;
 	
-	camel_remote_store_class->post_connect = imap_post_connect;
-	camel_remote_store_class->pre_disconnect = imap_pre_disconnect;
 	camel_remote_store_class->keepalive = imap_keepalive;
 }
 
@@ -170,23 +170,25 @@ query_auth_types_generic (CamelService *service, CamelException *ex)
 	return g_list_prepend (prev, &password_authtype);
 }
 
-static void
-imap_post_connect (CamelRemoteStore *remote_store, CamelException *ex)
+static gboolean
+imap_connect (CamelService *service, CamelException *ex)
 {
-	CamelService *service = CAMEL_SERVICE (remote_store);
-	CamelImapStore *store = CAMEL_IMAP_STORE (remote_store);
+	CamelImapStore *store = CAMEL_IMAP_STORE (service);
 	CamelSession *session = camel_service_get_session (CAMEL_SERVICE (store));
 	gchar *buf, *result, *errbuf = NULL;
 	gboolean authenticated = FALSE;
 	gint status;
 	
+	if (CAMEL_SERVICE_CLASS (remote_store_class)->connect (service, ex) == FALSE)
+		return FALSE;
+
 	store->command = 0;
 	g_free (store->dir_sep);
 	store->dir_sep = g_strdup ("/");  /* default dir sep */
 	
 	/* Read the greeting, if any. */
-	if (camel_remote_store_recv_line (remote_store, &buf, ex) < 0) {
-		return;
+	if (camel_remote_store_recv_line (CAMEL_REMOTE_STORE (service), &buf, ex) < 0) {
+		return FALSE;
 	}
 	g_free (buf);
 	
@@ -215,8 +217,9 @@ imap_post_connect (CamelRemoteStore *remote_store, CamelException *ex)
 			errbuf = NULL;
 			
 			if (!service->url->passwd) {
-				camel_service_disconnect (service, ex);
-				return;
+				camel_exception_set (ex, CAMEL_EXCEPTION_USER_CANCEL, 
+						     "You didn\'t enter a password.");
+				return FALSE;
 			}
 		}
 		
@@ -278,13 +281,13 @@ imap_post_connect (CamelRemoteStore *remote_store, CamelException *ex)
 	
 	g_free (result);
 	
-	CAMEL_REMOTE_STORE_CLASS (remote_store_class)->post_connect (remote_store, ex);
+	return TRUE;
 }
 
-static void
-imap_pre_disconnect (CamelRemoteStore *remote_store, CamelException *ex)
+static gboolean
+imap_disconnect (CamelService *service, CamelException *ex)
 {
-	CamelImapStore *store = CAMEL_IMAP_STORE (remote_store);
+	CamelImapStore *store = CAMEL_IMAP_STORE (service);
 	char *result;
 	int status;
 	
@@ -300,7 +303,7 @@ imap_pre_disconnect (CamelRemoteStore *remote_store, CamelException *ex)
 	
 	store->current_folder = NULL;
 	
-	CAMEL_REMOTE_STORE_CLASS (remote_store_class)->pre_disconnect (remote_store, ex);
+	return CAMEL_SERVICE_CLASS (remote_store_class)->disconnect (service, ex);
 }
 
 const gchar *

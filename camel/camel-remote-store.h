@@ -49,8 +49,6 @@ typedef struct {
 typedef struct {
 	CamelStoreClass parent_class;
 
-	void (*post_connect)  (CamelRemoteStore *store, CamelException *ex);
-	void (*pre_disconnect)(CamelRemoteStore *store, CamelException *ex);
 	gint (*send_string)   (CamelRemoteStore *store, CamelException *ex, 
 			       char *fmt, va_list ap);
 	gint (*send_stream)   (CamelRemoteStore *store, CamelStream *stream, 
