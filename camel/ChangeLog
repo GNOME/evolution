@@ -1,3 +1,16 @@
+2003-06-16  Not Zed  <NotZed@Ximian.com>
+
+	** See bug #44322
+	
+	* providers/imap/camel-imap-command.c (imap_command_strdup_vprintf):
+	If we are outputting a folder name, make sure we calculate buffer
+	size based on the raw/utf7 version
+
+	** See bug #44121
+	
+	* camel-multipart-signed.c (signed_get_part): If we can't parse
+	the content, but we have a stream, just use that as the content.
+
 2003-06-05  Jeffrey Stedfast  <fejj@ximian.com>
 
 	Fix for bug #40788.

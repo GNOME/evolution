@@ -699,7 +699,7 @@ imap_command_strdup_vprintf (CamelImapStore *store, const char *fmt,
 	const char *p, *start;
 	char *out, *outptr, *string;
 	int num, len, i, arglen;
-	
+
 	args = g_ptr_array_new ();
 	
 	/* Determine the length of the data */
@@ -726,6 +726,11 @@ imap_command_strdup_vprintf (CamelImapStore *store, const char *fmt,
 		case 'S':
 		case 'F':
 			string = va_arg (ap, char *);
+			if (*p == 'F') {
+				/* NB: this is freed during output */
+				char *s = camel_imap_store_summary_full_from_path(store->summary, string);
+				string = s?s:camel_utf8_utf7(string);
+			}
 			arglen = strlen (string);
 			g_ptr_array_add (args, string);
 			if (imap_is_atom (string)) {
@@ -776,11 +781,6 @@ imap_command_strdup_vprintf (CamelImapStore *store, const char *fmt,
 		case 'S':
 		case 'F':
 			string = args->pdata[i++];
-			if (*p == 'F') {
-				char *s = camel_imap_store_summary_full_from_path(store->summary, string);
-				string = s?s:camel_utf8_utf7(string);
-			}
-			
 			if (imap_is_atom (string)) {
 				outptr += sprintf (outptr, "%s", string);
 			} else {

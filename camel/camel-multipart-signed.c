@@ -334,13 +334,16 @@ signed_get_part(CamelMultipart *multipart, guint index)
 			return NULL;
 		} else if (dw->stream == NULL) {
 			return NULL;
+		} else if (mps->start1 == -1) {
+			stream = dw->stream;
+			camel_object_ref(stream);
 		} else {
 			stream = camel_seekable_substream_new((CamelSeekableStream *)dw->stream, mps->start1, mps->end1);
 		}
 		camel_stream_reset(stream);
 		mps->content = camel_mime_part_new();
 		camel_data_wrapper_construct_from_stream((CamelDataWrapper *)mps->content, stream);
-		camel_object_unref((CamelObject *)stream);
+		camel_object_unref(stream);
 		return mps->content;
 	case CAMEL_MULTIPART_SIGNED_SIGNATURE:
 		if (mps->signature)
