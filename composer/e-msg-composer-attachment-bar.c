@@ -192,9 +192,16 @@ static void
 remove_attachment (EMsgComposerAttachmentBar *bar,
 		   EMsgComposerAttachment *attachment)
 {
+	g_return_if_fail (E_IS_MSG_COMPOSER_ATTACHMENT_BAR (bar));
+	g_return_if_fail (g_list_find (bar->priv->attachments, attachment) != NULL);
+
 	bar->priv->attachments = g_list_remove (bar->priv->attachments,
 						attachment);
 	bar->priv->num_attachments--;
+	if (attachment->editor_gui != NULL) {
+		GtkWidget *dialog = glade_xml_get_widget (attachment->editor_gui, "dialog");
+		g_signal_emit_by_name (dialog, "response", GTK_RESPONSE_CLOSE);
+	}
 	
 	g_object_unref(attachment);
 	
@@ -336,8 +343,15 @@ remove_selected (EMsgComposerAttachmentBar *bar)
 	p = gnome_icon_list_get_selection (icon_list);
 	for ( ; p != NULL; p = p->next) {
 		num = GPOINTER_TO_INT (p->data);
-		attachment = E_MSG_COMPOSER_ATTACHMENT (g_list_nth (bar->priv->attachments, num)->data);
-		attachment_list = g_list_prepend (attachment_list, attachment);
+		attachment = E_MSG_COMPOSER_ATTACHMENT (g_list_nth_data (bar->priv->attachments, num));
+
+		/* We need to check if there are duplicated index in the return list of 
+		   gnome_icon_list_get_selection() because of gnome bugzilla bug #122356.
+		   FIXME in the future. */
+
+		if (g_list_find (attachment_list, attachment) == NULL) {
+			attachment_list = g_list_prepend (attachment_list, attachment);
+		}
 	}
 	
 	for (p = attachment_list; p != NULL; p = p->next)

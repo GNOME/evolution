@@ -1,3 +1,11 @@
+2003-09-13  Charles Zhang  <charles.zhang@sun.com>
+
+	* e-msg-composer-attachment-bar.c (remove_attachment): Add some
+	assertion. Send Close response signal to the properties dialog
+	while removeing an attachment.
+	* e-msg-composer-attachment-bar.c (remove_selected): Fix a re-
+	remove-attachment bug. [#48466]
+
 2003-09-18  Jeffrey Stedfast  <fejj@ximian.com>
 
 	* e-msg-composer-attachment-bar.c: updated for
