@@ -1,3 +1,11 @@
+2001-02-27  Ettore Perazzoli  <ettore@ximian.com>
+	
+	* Makefile.am (SUBDIRS): Remove `widgets'.
+
+2001-02-27  Ettore Perazzoli  <ettore@ximian.com>
+
+	* Makefile.am (SUBDIRS): Add `widgets'.
+
 2001-02-14  Iain Holmes  <iain@ximian.com>
 
 	* evolution-services/executive-summary-html-view.c
