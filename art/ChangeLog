@@ -1,3 +1,10 @@
+2001-08-02  Jakub Steiner <jimmac@ximian.com>
+
+	* myevo-mail-summary.png, myevo-post-it.png,
+	* myevo-appointments.png: icons for My Evolution -- mail summary,
+	  tasks, appointments. These are _NOT_TO_ replace the shortcut
+	  icons, but solely for My Evolution.
+	
 2001-08-02  Tuomas Kuosmanen  <tigert@ximian.com>
 
 	* receive-24.png: Icon for the send/receive dialog at least.
