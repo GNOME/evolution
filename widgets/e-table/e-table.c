@@ -260,7 +260,6 @@ static Node *
 e_table_create_leaf (ETable *e_table, ETableModel *etm, Node *parent)
 {
 	GnomeCanvasItem *table_item;
-	static double last_y;
 	Node *leaf;
 	
 	table_item = gnome_canvas_item_new (
@@ -339,8 +338,6 @@ e_table_create_nodes (ETable *e_table, ETableModel *model, ETableHeader *header,
 	group = node_new (group_item, model, parent);
 	
 	for (i = 0; tables [i] != NULL; i++){
-		Node *node;
-		
 		/*
 		 * Leafs
 		 */
@@ -450,7 +447,6 @@ e_table_canvas_unrealize (GtkWidget *widget)
 	ETable *e_table = e_table_canvas->e_table;
 	
 	gtk_object_destroy (GTK_OBJECT (e_table->root));
-	e_table->root = NULL;
 
 	GTK_WIDGET_CLASS (e_table_canvas_parent_class)->unrealize (widget);
 }
@@ -469,15 +465,11 @@ e_table_canvas_class_init (GtkObjectClass *object_class)
 static void
 e_table_canvas_init (GtkObject *canvas)
 {
+	ETableCanvas *e_table_canvas = (ETableCanvas *) (canvas);
+	ETable *e_table = e_table_canvas->e_table;
+	
 	GTK_WIDGET_SET_FLAGS (canvas, GTK_CAN_FOCUS);
 
-	e_table->root = gnome_canvas_item_new (
-		GNOME_CANVAS_GROUP (e_table->table_canvas->root),
-		gnome_canvas_group_get_type (),
-		"x", 0.0,
-		"y", 0.0,
-		NULL);
-		
 }
 
 GtkType e_table_canvas_get_type (void);
@@ -492,6 +484,13 @@ e_table_canvas_new (ETable *e_table)
 
 	e_table_canvas = gtk_type_new (e_table_canvas_get_type ());
 	e_table_canvas->e_table = e_table;
+	
+	e_table->root = gnome_canvas_item_new (
+		GNOME_CANVAS_GROUP (GNOME_CANVAS (e_table_canvas)->root),
+		gnome_canvas_group_get_type (),
+		"x", 0.0,
+		"y", 0.0,
+		NULL);
 
 	return GNOME_CANVAS (e_table_canvas);
 }

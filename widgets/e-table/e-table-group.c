@@ -171,9 +171,16 @@ e_table_group_add (ETableGroup *etg, GnomeCanvasItem *item)
 			GnomeCanvasItem *child = l->data;
 
 			height += child->y2 - child->y1;
+
+			printf ("Height\n");
+			if (E_IS_TABLE_ITEM (item)){
+				printf ("    Item:  ");
+			} else {
+				printf ("    Group: ");
+			}
+			printf ("%d\n", child->y2-child->y1);
 		}
 
-		printf ("Positioning item %p at %d\n", item, height);
 		gnome_canvas_item_set (
 			item,
 			"y", (double) height,
