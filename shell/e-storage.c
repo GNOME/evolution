@@ -32,6 +32,8 @@
 
 #include "e-util/e-util.h"
 
+#include "e-folder-tree.h"
+
 #include "e-storage.h"
 
 
@@ -41,18 +43,8 @@ static GtkObjectClass *parent_class = NULL;
 #define ES_CLASS(obj) \
 	E_STORAGE_CLASS (GTK_OBJECT (obj)->klass)
 
-/* This describes a folder and its children.  */
-struct _Folder {
-	struct _Folder *parent;
-
-	char *path;
-	EFolder *e_folder;
-	GList *subfolders;
-};
-typedef struct _Folder Folder;
-
 struct _EStoragePrivate {
-	GHashTable *path_to_folder; /* Folder */
+	EFolderTree *folder_tree;
 };
 
 enum {
@@ -64,111 +56,23 @@ enum {
 static guint signals[LAST_SIGNAL] = { 0 };
 
 
-/* Folder handling.  */
-
-static Folder *
-folder_new (EFolder *e_folder,
-	    const char *path)
-{
-	Folder *folder;
-
-	folder = g_new (Folder, 1);
-	folder->path       = g_strdup (path);
-	folder->parent     = NULL;
-	folder->e_folder   = e_folder;
-	folder->subfolders = NULL;
-
-	return folder;
-}
+/* Destroy notification function for the folders in the tree.  */
 
 static void
-folder_remove_subfolder (Folder *folder, Folder *subfolder)
+folder_destroy_notify (EFolderTree *tree,
+		       const char *path,
+		       void *data,
+		       void *closure)
 {
-	g_list_remove (folder->subfolders, folder);
-}
+	EFolder *e_folder;
 
-static void
-folder_add_subfolder (Folder *folder, Folder *subfolder)
-{
-	folder->subfolders = g_list_prepend (folder->subfolders, subfolder);
-	subfolder->parent = folder;
-}
-
-static void
-folder_destroy (Folder *folder)
-{
-	g_assert (folder->subfolders == NULL);
-
-	if (folder->parent != NULL)
-		folder_remove_subfolder (folder->parent, folder);
-
-	g_free (folder->path);
-
-	if (folder->e_folder != NULL)
-		gtk_object_unref (GTK_OBJECT (folder->e_folder));
-
-	g_free (folder);
-}
-
-static void
-remove_folder (EStorage *storage,
-	       Folder *folder)
-{
-	EStoragePrivate *priv;
-
-	priv = storage->priv;
-
-	if (folder->subfolders != NULL) {
-		GList *p;
-
-		for (p = folder->subfolders; p != NULL; p = p->next) {
-			Folder *subfolder;
-
-			subfolder = (Folder *) p->data;
-			remove_folder (storage, subfolder);
-		}
-
-		g_list_free (folder->subfolders);
-		folder->subfolders = NULL;
+	if (data == NULL) {
+		/* The root folder has no EFolder associated to it.  */
+		return;
 	}
 
-	g_hash_table_remove (priv->path_to_folder, folder->path);
-
-	folder_destroy (folder);
-}
-
-static void
-free_private (EStorage *storage)
-{
-	EStoragePrivate *priv;
-	Folder *root_folder;
-
-	priv = storage->priv;
-
-	root_folder = g_hash_table_lookup (priv->path_to_folder, G_DIR_SEPARATOR_S);
-	remove_folder (storage, root_folder);
-
-	g_hash_table_destroy (priv->path_to_folder);
-
-	g_free (priv);
-}
-
-
-/* Private utility functions.  */
-
-static char *
-get_parent_path (const char *path)
-{
-	const char *last_separator;
-
-	g_assert (g_path_is_absolute (path));
-
-	last_separator = strrchr (path, G_DIR_SEPARATOR);
-
-	if (last_separator == path)
-		return g_strdup (G_DIR_SEPARATOR_S);
-
-	return g_strndup (path, last_separator - path);
+	e_folder = E_FOLDER (data);
+	gtk_object_unref (GTK_OBJECT (e_folder));
 }
 
 
@@ -178,10 +82,13 @@ static void
 destroy (GtkObject *object)
 {
 	EStorage *storage;
+	EStoragePrivate *priv;
 
 	storage = E_STORAGE (object);
+	priv = storage->priv;
 
-	free_private (storage);
+	if (priv->folder_tree != NULL)
+		e_folder_tree_destroy (priv->folder_tree);
 
 	(* GTK_OBJECT_CLASS (parent_class)->destroy) (object);
 }
@@ -193,22 +100,28 @@ static GList *
 impl_list_folders (EStorage *storage,
 		   const char *path)
 {
-	Folder *folder;
-	Folder *subfolder;
+	EStoragePrivate *priv;
+	GList *path_list;
 	GList *list;
 	GList *p;
 
-	folder = g_hash_table_lookup (storage->priv->path_to_folder, path);
-	if (folder == NULL)
-		return NULL;
+	priv = storage->priv;
+
+	path_list = e_folder_tree_get_subfolders (priv->folder_tree, path);
 
 	list = NULL;
-	for (p = folder->subfolders; p != NULL; p = p->next) {
-		subfolder = (Folder *) p->data;
+	for (p = path_list; p != NULL; p = p->next) {
+		EFolder *e_folder;
+		const char *sub_path;
 
-		gtk_object_ref (GTK_OBJECT (subfolder->e_folder));
-		list = g_list_prepend (list, subfolder->e_folder);
+		sub_path = (const char *) p->data;
+		e_folder = e_folder_tree_get_folder (priv->folder_tree, sub_path);
+
+		gtk_object_ref (GTK_OBJECT (e_folder));
+		list = g_list_prepend (list, e_folder);
 	}
+
+	e_free_string_list (path_list);
 
 	return list;
 }
@@ -218,15 +131,13 @@ impl_get_folder (EStorage *storage,
 		 const char *path)
 {
 	EStoragePrivate *priv;
-	Folder *folder;
+	EFolder *e_folder;
 
 	priv = storage->priv;
 
-	folder = g_hash_table_lookup (priv->path_to_folder, path);
-	if (folder == NULL)
-		return NULL;
+	e_folder = (EFolder *) e_folder_tree_get_folder (priv->folder_tree, path);
 
-	return folder->e_folder;
+	return e_folder;
 }
 
 static const char *
@@ -300,7 +211,8 @@ init (EStorage *storage)
 	EStoragePrivate *priv;
 
 	priv = g_new (EStoragePrivate, 1);
-	priv->path_to_folder = g_hash_table_new (g_str_hash, g_str_equal);
+
+	priv->folder_tree = e_folder_tree_new (folder_destroy_notify, NULL);
 
 	storage->priv = priv;
 }
@@ -311,15 +223,10 @@ init (EStorage *storage)
 void
 e_storage_construct (EStorage *storage)
 {
-	Folder *root_folder;
-
 	g_return_if_fail (storage != NULL);
 	g_return_if_fail (E_IS_STORAGE (storage));
 
 	GTK_OBJECT_UNSET_FLAGS (GTK_OBJECT (storage), GTK_FLOATING);
-
-	root_folder = folder_new (NULL, G_DIR_SEPARATOR_S);
-	g_hash_table_insert (storage->priv->path_to_folder, root_folder->path, root_folder);
 }
 
 EStorage *
@@ -463,30 +370,27 @@ struct _GetPathForPhysicalUriForeachData {
 typedef struct _GetPathForPhysicalUriForeachData GetPathForPhysicalUriForeachData;
 
 static void
-get_path_for_physical_uri_foreach (void *key,
-				   void *value,
-				   void *data)
+get_path_for_physical_uri_foreach (EFolderTree *folder_tree,
+				   const char *path,
+				   void *data,
+				   void *closure)
 {
 	GetPathForPhysicalUriForeachData *foreach_data;
 	const char *physical_uri;
-	Folder *folder;
+	EFolder *e_folder;
 
 	foreach_data = (GetPathForPhysicalUriForeachData *) data;
 	if (foreach_data->retval != NULL)
 		return;
 
-	folder       = (Folder *) value;
-	if (folder->e_folder == NULL)
+	e_folder = (EFolder *) data;
+	if (e_folder == NULL)
 		return;
 
-	physical_uri = e_folder_get_physical_uri (folder->e_folder);
+	physical_uri = e_folder_get_physical_uri (e_folder);
 
-	if (strcmp (foreach_data->physical_uri, physical_uri) == 0) {
-		const char *path;
-
-		path = (const char *) key;
+	if (strcmp (foreach_data->physical_uri, physical_uri) == 0)
 		foreach_data->retval = g_strdup (path);
-	}
 }
 
 /**
@@ -514,9 +418,9 @@ e_storage_get_path_for_physical_uri (EStorage *storage,
 	priv = storage->priv;
 
 	foreach_data.physical_uri = physical_uri;
-	foreach_data.retval      = NULL;
+	foreach_data.retval       = NULL;
 
-	g_hash_table_foreach (priv->path_to_folder, get_path_for_physical_uri_foreach, &foreach_data);
+	e_folder_tree_foreach (priv->folder_tree, get_path_for_physical_uri_foreach, &foreach_data);
 
 	return foreach_data.retval;
 }
@@ -529,52 +433,24 @@ e_storage_get_path_for_physical_uri (EStorage *storage,
 
 gboolean
 e_storage_new_folder (EStorage *storage,
-		      const char *full_path,
+		      const char *path,
 		      EFolder *e_folder)
 {
 	EStoragePrivate *priv;
-	Folder *folder;
-	Folder *parent_folder;
-	const char *name;
-	char *parent_path;
 
 	g_return_val_if_fail (storage != NULL, FALSE);
 	g_return_val_if_fail (E_IS_STORAGE (storage), FALSE);
-	g_return_val_if_fail (full_path != NULL, FALSE);
-	g_return_val_if_fail (g_path_is_absolute (full_path), FALSE);
+	g_return_val_if_fail (path != NULL, FALSE);
+	g_return_val_if_fail (g_path_is_absolute (path), FALSE);
 	g_return_val_if_fail (e_folder != NULL, FALSE);
 	g_return_val_if_fail (E_IS_FOLDER (e_folder), FALSE);
 
 	priv = storage->priv;
 
-	parent_path = get_parent_path (full_path);
-
-	parent_folder = g_hash_table_lookup (priv->path_to_folder, parent_path);
-	if (parent_folder == NULL) {
-		g_warning ("%s: Trying to add a subfolder to a path that does not exist yet -- %s",
-			   __FUNCTION__, parent_path);
+	if (! e_folder_tree_add (priv->folder_tree, path, e_folder))
 		return FALSE;
-	}
 
-	name = e_folder_get_name (e_folder);
-	g_assert (name != NULL);
-	g_return_val_if_fail (*name != G_DIR_SEPARATOR, FALSE);
-
-	folder = g_hash_table_lookup (priv->path_to_folder, full_path);
-	if (folder != NULL) {
-		g_warning ("%s: Trying to add a subfolder for a path that already exists -- %s",
-			   __FUNCTION__, full_path);
-		return FALSE;
-	}
-
-	folder = folder_new (e_folder, full_path);
-	folder_add_subfolder (parent_folder, folder);
-
-	g_hash_table_insert (priv->path_to_folder, folder->path, folder);
-
-	gtk_signal_emit (GTK_OBJECT (storage), signals[NEW_FOLDER], folder->path);
-
-	g_free (parent_path);
+	gtk_signal_emit (GTK_OBJECT (storage), signals[NEW_FOLDER], path);
 
 	return TRUE;
 }
@@ -584,7 +460,6 @@ e_storage_removed_folder (EStorage *storage,
 			  const char *path)
 {
 	EStoragePrivate *priv;
-	Folder *folder;
 
 	g_return_val_if_fail (storage != NULL, FALSE);
 	g_return_val_if_fail (E_IS_STORAGE (storage), FALSE);
@@ -593,15 +468,12 @@ e_storage_removed_folder (EStorage *storage,
 
 	priv = storage->priv;
 
-	folder = g_hash_table_lookup (priv->path_to_folder, path);
-	if (folder == NULL) {
-		g_warning ("%s: Folder not found -- %s", __FUNCTION__, path);
+	if (e_folder_tree_get_folder (priv->folder_tree, path) == NULL)
 		return FALSE;
-	}
 
 	gtk_signal_emit (GTK_OBJECT (storage), signals[REMOVED_FOLDER], path);
 
-	remove_folder (storage, folder);
+	e_folder_tree_remove (priv->folder_tree, path);
 
 	return TRUE;
 }

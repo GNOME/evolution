@@ -1,5 +1,37 @@
 2000-09-08  Ettore Perazzoli  <ettore@helixcode.com>
 
+	* e-storage.c: Replaced the `path_to_folder' GHashTable with an
+	EFolderTree named `folder_tree'.
+	(init): Updated accordingly.
+	(destroy): Updated accordingly.
+	(free_private): Removed.
+	(remove_folder): Removed.
+	(folder_new): Removed.
+	(folder_remove_subfolder): Removed.
+	(folder_add_subfolder): Removed.
+	(folder_destroy): Removed.
+	(get_parent_path): Removed.
+	(impl_list_folders): Reimplemented by using the `EFolderTree'
+	methods.
+	(e_storage_construct): Don't create the root folder here.
+	(get_path_for_physical_uri_foreach): Updated to be an
+	`EFolderTreeForeachFunc'.
+	(e_storage_get_path_for_physical_uri): Likewise, updated to use
+	`e_folder_tree_foreach()'.
+	(e_storage_new_folder): Updated to use the EFolderTree.
+	(e_storage_removed_folder): Likewise.
+	(folder_destroy_notify): New function, for the destroy
+	notification of `EFolder'.
+
+	* evolution-storage-listener.c: Change the `servant' member in
+	`EvolutionStorageListenerPrivate' into an
+	`EvolutionStorageListenerServant'.
+
+	* e-folder-tree.c: New.
+	* e-folder-tree.h: New.
+
+2000-09-08  Ettore Perazzoli  <ettore@helixcode.com>
+
 	* evolution-storage-listener.c (create_servant): Return an
 	`EvolutionStorageListenerServant' instead of a
 	`POA_Evolution_StorageListener'.

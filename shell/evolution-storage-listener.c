@@ -38,7 +38,7 @@ static GtkObjectClass *parent_class = NULL;
 
 struct _EvolutionStorageListenerPrivate {
 	Evolution_StorageListener corba_objref;
-	POA_Evolution_StorageListener *servant;
+	EvolutionStorageListenerServant *servant;
 };
 
 
