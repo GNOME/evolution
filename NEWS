@@ -13,6 +13,21 @@ Calendar:
 
   - Fixed custom Glade widgets on non-Linux systems (Dan).
 
+Mailer:
+
+  - Fixed the multiple error-dialog thing.  (Michael)
+
+  - Fixes to PGP decrypting and verification code.  (Jeff)
+
+  - Made vFolders work a lot better.  (Michael)
+
+  - Added a confirm expunge option to the mail settings dialog.
+    (Jeff)
+
+  - Fixed the update-IMAP-unread-counts bug.  (Jeff)
+
+  - Many backend fixes that users won't notice.  (Michael, Jeff, Dan)
+
 Version 0.14 (Beta 4), 2001-09-21
 ---------------------------------
 
