@@ -1,5 +1,8 @@
 2000-06-12  Jeffrey Stedfast  <fejj@helixcode.com>
 
+	* providers/pop3/camel-pop3-folder.c (get_message_by_uid): Now uses
+	the camel-mime-filter-crlf decoder when retrieving messages.
+
 	* camel-mime-filter-smtp.c: Deprecated.
 
 	* providers/smtp/camel-smtp-transport.c (smtp_data): Updated to use

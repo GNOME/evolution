@@ -27,7 +27,9 @@
 #include "camel-pop3-store.h"
 #include "camel-exception.h"
 #include "camel-stream-mem.h"
+#include "camel-stream-filter.h"
 #include "camel-mime-message.h"
+#include "camel-mime-filter-crlf.h"
 
 #include <stdlib.h>
 #include <string.h>
@@ -140,10 +142,12 @@ pop3_close (CamelFolder *folder, gboolean expunge, CamelException *ex)
 static CamelMimeMessage *
 get_message_by_uid (CamelFolder *folder, const char *uid, CamelException *ex)
 {
-	int status;
+	int status, id;
 	char *result, *body;
 	CamelStream *msgstream;
+	CamelStreamFilter *f_stream;
 	CamelMimeMessage *msg;
+	CamelMimeFilter *filter;
 
 	status = camel_pop3_command (CAMEL_POP3_STORE (folder->parent_store),
 				     &result, "RETR %d", atoi (uid));
@@ -171,10 +175,18 @@ get_message_by_uid (CamelFolder *folder, const char *uid, CamelException *ex)
 
 	msgstream = camel_stream_mem_new_with_buffer (body, strlen (body));
 	g_free (body);
+
+	f_stream = camel_stream_filter_new_with_stream (msgstream);
+	filter = camel_mime_filter_crlf_new (CAMEL_MIME_FILTER_CRLF_DECODE, CAMEL_MIME_FILTER_CRLF_MODE_CRLF_DOTS);
+	id = camel_stream_filter_add (f_stream, CAMEL_MIME_FILTER (filter));
+	
 	msg = camel_mime_message_new ();
-	camel_data_wrapper_construct_from_stream (CAMEL_DATA_WRAPPER (msg),
-						  msgstream);
+	camel_data_wrapper_construct_from_stream (CAMEL_DATA_WRAPPER (msg), CAMEL_STREAM (f_stream));
+
+	camel_stream_filter_remove (f_stream, id);
+	camel_stream_close (CAMEL_STREAM (f_stream));
 	gtk_object_unref (GTK_OBJECT (msgstream));
+	gtk_object_unref (GTK_OBJECT (f_stream));
 
 	return msg;
 }

@@ -84,7 +84,7 @@ filter (CamelMimeFilter *f, char *in, size_t len, size_t prespace,
 			if (*p == '\n')
 				*q++ = '\r';
 			else
-				if (do_dots && *(p - 1) == '\n' && *p == '.' && *(p + 1) != '.')
+				if (do_dots && *(p - 1) == '\n' && *p == '.')
 					*q++ = '.';
 			*q++ = *p++;
 		}
