@@ -413,12 +413,9 @@ setup_defaults (EShellView *shell_view)
 	EShellViewPrivate *priv;
 	EShortcutBar *shortcut_bar;
 	GConfClient *client;
-	GSList *icon_types_list;
-	GSList *p;
 	char *file_name;
 	int shortcut_group;
 	int width;
-	int i;
 
 	g_return_if_fail (shell_view != NULL);
 	g_return_if_fail (E_IS_SHELL_VIEW (shell_view));
@@ -449,12 +446,6 @@ setup_defaults (EShellView *shell_view)
 	if (priv->folder_bar_shown)
 		gtk_paned_set_position (GTK_PANED (priv->view_hpaned), width);
 	priv->view_hpaned_position = width;
-
-	icon_types_list = gconf_client_get_list (client, "/apps/evolution/shell/view_defaults/shortcut_bar/icon_types",
-						 GCONF_VALUE_INT, NULL);
-	for (p = icon_types_list, i = 0; p != NULL; p = p->next, i++)
-		e_shortcut_bar_set_view_type (shortcut_bar, i, GPOINTER_TO_INT (p->data));
-	g_slist_free (icon_types_list);
 
 	/* Load the expanded state for the ShellView's StorageSetView */
 	file_name = g_strdup_printf ("%s/config/storage-set-view-expanded:default",
@@ -2816,11 +2807,8 @@ e_shell_view_save_defaults (EShellView *shell_view)
 	GConfClient *client;
 	EShellViewPrivate *priv;
 	EShortcutBar *shortcut_bar;
-	GSList *shortcut_view_type_list;
 	const char *uri;
 	char *file_name;
-	int num_groups;
-	int group;
 	struct stat temp;
 
 	g_return_if_fail (shell_view != NULL);
@@ -2864,21 +2852,6 @@ e_shell_view_save_defaults (EShellView *shell_view)
 					 uri + E_SHELL_URI_PREFIX_LEN, NULL);
 	else
 		gconf_client_unset (client, "/apps/evolution/shell/view_defaults/folder_path", NULL);
-
-	num_groups = e_shortcut_model_get_num_groups (shortcut_bar->model);
-
-	shortcut_view_type_list = NULL;
-	for (group = 0; group < num_groups; group++) {
-		EIconBarViewType view_type;
-
-		view_type = e_shortcut_bar_get_view_type (shortcut_bar, group);
-		shortcut_view_type_list = g_slist_prepend (shortcut_view_type_list, GINT_TO_POINTER (view_type));
-	}
-
-	gconf_client_set_list (client, "/apps/evolution/shell/view_defaults/shortcut_bar/icon_types",
-			       GCONF_VALUE_INT, shortcut_view_type_list, NULL);
-
-	g_slist_free (shortcut_view_type_list);
 
 	/* If ~/evolution/config/ doesn't exist yet, make it */
 	file_name = g_strdup_printf ("%s/config/", e_shell_get_local_directory (priv->shell));

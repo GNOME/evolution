@@ -1122,7 +1122,6 @@ static struct _gconf_map shell_views_map[] = {
 	{ "HPanedPosition", "shell/view_defaults/shortcut_bar/width", BMAP_INT },
 	{ "ViewPanedPosition", "shell/view_defaults/folder_bar/width", BMAP_INT },
 	{ "DisplayedURI", "shell/view_defaults/folder_path", BMAP_STRING },
-	{ "ShortcutBarGroup%iIconMode", "shell/view_defaults/shortcut_bar/icon_types", BMAP_INT|BMAP_LIST },
 	{ 0 },
 };
 

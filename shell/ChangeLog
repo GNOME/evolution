@@ -1,3 +1,17 @@
+2003-04-04  Ettore Perazzoli  <ettore@ximian.com>
+
+	[#40748]
+
+	* apps_evolution_shell.schemas: Remove the icon_modes schema.
+
+	* e-shell-view.c (setup_defaults): Don't set the icon modes from
+	GConf, they are already stored in the shortcuts.xml file.
+	(e_shell_view_save_defaults): Likewise, don't set it here.
+
+	* e-config-upgrade.c: Remove translation from
+	ShortcutBarGroup%iIconMode to
+	shell/view_defaults/shortcut_bar/icon_types.
+
 2003-04-02  Rodrigo Moya <rodrigo@ximian.com>
 
 	* importer/GNOME_Evolution_Importer.idl:
