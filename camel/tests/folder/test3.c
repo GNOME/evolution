@@ -1,10 +1,9 @@
 /* folder/index testing */
 
-#include <gtk/gtk.h>
-
 #include <string.h>
 
 #include "camel-test.h"
+#include "camel-test-provider.h"
 #include "messages.h"
 #include "folders.h"
 #include "session.h"
@@ -139,6 +138,7 @@ run_search(CamelFolder *folder, int m)
 	pull();
 }
 
+static const char *local_drivers[] = { "local" };
 
 static char *stores[] = {
 	"mbox:///tmp/camel-test/mbox",
@@ -157,8 +157,8 @@ int main(int argc, char **argv)
 	int indexed;
 	GPtrArray *uids;
 
-	gtk_init(&argc, &argv);
 	camel_test_init(argc, argv);
+	camel_test_provider_init(1, local_drivers);
 
 	ex = camel_exception_new();
 

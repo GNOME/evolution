@@ -1,6 +1,7 @@
 /* store testing, for remote folders */
 
 #include "camel-test.h"
+#include "camel-test-provider.h"
 #include "folders.h"
 #include "session.h"
 
@@ -9,6 +10,8 @@
 #include <camel/camel-store.h>
 
 #define ARRAY_LEN(x) (sizeof(x)/sizeof(x[0]))
+
+static const char *nntp_drivers[] = { "nntp" };
 
 static char *remote_providers[] = {
 	"NNTP_TEST_URL",
@@ -22,6 +25,7 @@ int main(int argc, char **argv)
 	char *path;
 
 	camel_test_init(argc, argv);
+	camel_test_provider_init(1, nntp_drivers);
 
 	ex = camel_exception_new();
 

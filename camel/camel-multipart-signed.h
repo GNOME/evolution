@@ -33,7 +33,6 @@ extern "C" {
 #endif /* __cplusplus }*/
 
 #include <camel/camel-multipart.h>
-#include <camel/camel-cipher-context.h>
 
 #define CAMEL_MULTIPART_SIGNED_TYPE     (camel_multipart_signed_get_type ())
 #define CAMEL_MULTIPART_SIGNED(obj)     (CAMEL_CHECK_CAST((obj), CAMEL_MULTIPART_SIGNED_TYPE, CamelMultipartSigned))
@@ -92,12 +91,6 @@ CamelType camel_multipart_signed_get_type (void);
 CamelMultipartSigned *camel_multipart_signed_new           (void);
 
 CamelStream *camel_multipart_signed_get_content_stream(CamelMultipartSigned *mps, CamelException *ex);
-
-int		      camel_multipart_signed_sign	   (CamelMultipartSigned *mps, CamelCipherContext *context,
-							    CamelMimePart *content, const char *uiserid,
-							    CamelCipherHash hash, CamelException *ex);
-CamelCipherValidity  *camel_multipart_signed_verify	   (CamelMultipartSigned *mps, CamelCipherContext *context,
-							    CamelException *ex);
 
 #ifdef __cplusplus
 }

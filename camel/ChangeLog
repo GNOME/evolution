@@ -162,6 +162,65 @@
 	Properly handle NILs for the namespace separator (somehow I missed
 	this, silly me).
 
+2004-11-16  Not Zed  <NotZed@Ximian.com>
+
+	* camel-lock-helper.c (g_strerror): have our own so we don't need
+	to link with glib.
+
+	* providers/*/Makefile.am: Do not install ANY provider header
+	files.  No providers are subclassable.  No providers are directly
+	linkable.
+
+	* camel.pc.in: create package config file.
+
+	* tests/lib/folders.c (test_folder_message_ops): updated counts for
+	delete also marking unread.
+
+	* tests/lib/camel-test.c (camel_test_provider_init): new api for
+	initialising test system 'in-build'.
+
+	* camel-provider.c: remove the assertions, init if we need to,k
+	use pthread_once stuff to serialise it.
+
+	* tests/folder/test3.c (main): remove gtk stuff (???).
+
+	* tests/*: Fix all the makefiles.  Made make-check work 'in-build'.
+
+	* tests/lib/folders.c (test_folder_counts): update for api changes.
+	(test_message_info): similar.
+
+	* providers/Makefile.am: removed groupwise from the build, this
+	can't go in here anymore, not in its current state.
+
+	* camel-net-utils.c (camel_gethostbyaddr_r)
+	(camel_gethostbyname_r): the old e_gethost* calls from
+	e-host-utils.c.
+
+2004-11-15  Not Zed  <NotZed@Ximian.com>
+
+	* providers/imap/camel-imap-utils.c (imap_path_to_physical):
+	copied from e-path.c.
+	(imap_path_find_folders): copied from e-path.c.
+
+	* camel.h: remove the provider stuff from the header.
+
+	* camel-provider.c: globalise provider_init variable, and asserton
+	it in all functions that rely on it.
+
+	* camel-service.c: removed getaddrinfo/etc.
+
+	* camel-net-utils.[ch]: separate out camel_getaddrinfo etc.
+
+	* Makefile.am: split camel into 2 libraries, libcamel and
+	libcamel-store.
+
+	* camel-multipart-signed.c (camel_multipart_signed_sign)
+	(camel_multipart_signed_verify, prepare_sign): remove old
+	deprecated api.
+
+	* camel-multipart-encrypted.c (camel_multipart_encrypted_encrypt) 
+	(camel_multipart_encrypted_decrypt): remove old deprecated api.
+
 2004-11-12  Not Zed  <NotZed@Ximian.com>
 
         ** Merge in notzed-messageinfo-branch, fix some minor conflicts.

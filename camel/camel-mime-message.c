@@ -32,9 +32,8 @@
 #include <string.h>
 #include <errno.h>
 
-#include <gal/util/e-iconv.h>
-
-#include <e-util/e-time-utils.h>
+#include <libedataserver/e-iconv.h>
+#include <libedataserver/e-time-utils.h>
 
 #include "camel-mime-message.h"
 #include "camel-multipart.h"

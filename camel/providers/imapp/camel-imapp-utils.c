@@ -13,7 +13,7 @@
 #include "camel-imapp-utils.h"
 #include "camel-imapp-exception.h"
 #include "camel-imapp-engine.h"
-#include "e-util/e-memory.h"
+#include "libedataserver/e-memory.h"
 
 /* high-level parser state */
 #define p(x)

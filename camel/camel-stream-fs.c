@@ -36,7 +36,6 @@
 #include "camel-file-utils.h"
 #include "camel-operation.h"
 #include "camel-stream-fs.h"
-#include "camel-session.h"
 
 static CamelSeekableStreamClass *parent_class = NULL;
 

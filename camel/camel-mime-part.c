@@ -33,7 +33,7 @@
 #include <ctype.h>
 #include <errno.h>
 
-#include <gal/util/e-iconv.h>
+#include <libedataserver/e-iconv.h>
 
 #include "camel-mime-parser.h"
 #include "camel-stream-mem.h"

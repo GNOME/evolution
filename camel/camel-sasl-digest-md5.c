@@ -20,7 +20,6 @@
  *
  */
 
-
 #ifdef HAVE_CONFIG_H
 #include <config.h>
 #endif
@@ -30,14 +29,15 @@
 #include <ctype.h>
 #include <unistd.h>
 
-#include <e-util/md5-utils.h>
+#include <libedataserver/md5-utils.h>
 
-#include <gal/util/e-iconv.h>
+#include <libedataserver/e-iconv.h>
 
 #include "camel-charset-map.h"
 #include "camel-mime-utils.h"
 #include "camel-sasl-digest-md5.h"
 #include "camel-i18n.h"
+#include "camel-net-utils.h"
 
 #define d(x)
 

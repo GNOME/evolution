@@ -54,7 +54,7 @@
 
 /* this is commented because otherwise we get an error about the
    redefinition of MD5Context...yay */
-/*#include <e-util/md5-utils.h>*/
+/*#include <libedataserver/md5-utils.h>*/
 
 #include "camel-tcp-stream-ssl.h"
 #include "camel-stream-fs.h"

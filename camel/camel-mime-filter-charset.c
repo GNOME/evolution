@@ -27,7 +27,7 @@
 #include <string.h>
 #include <errno.h>
 
-#include <gal/util/e-iconv.h>
+#include <libedataserver/e-iconv.h>
 
 #include "camel-mime-filter-charset.h"
 #include "camel-charset-map.h"

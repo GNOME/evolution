@@ -56,6 +56,7 @@
 #include "camel-exception.h"
 #include "camel-sasl.h"
 #include "camel-i18n.h"
+#include "camel-net-utils.h"
 
 extern int camel_verbose_debug;
 #define d(x) (camel_verbose_debug ? (x) : 0)

@@ -42,9 +42,8 @@
 #include <signal.h>
 #include <sys/wait.h>
 
-#include <e-util/e-sexp.h>
-
-#include <gal/util/e-iconv.h>
+#include <libedataserver/e-sexp.h>
+#include <libedataserver/e-iconv.h>
 
 #include "camel-mime-message.h"
 #include "camel-provider.h"

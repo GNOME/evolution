@@ -41,7 +41,7 @@
 #include "camel-imapp-summary.h"
 #include "camel-imapp-exception.h"
 
-#include <e-util/md5-utils.h>
+#include <libedataserver/md5-utils.h>
 
 #include <stdlib.h>
 #include <string.h>

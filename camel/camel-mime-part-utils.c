@@ -32,7 +32,7 @@
 #include <ctype.h>
 #include <errno.h>
 
-#include <gal/util/e-iconv.h>
+#include <libedataserver/e-iconv.h>
 
 #include "camel-charset-map.h"
 #include "camel-mime-part-utils.h"

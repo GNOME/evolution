@@ -45,7 +45,7 @@
 #include "camel-session.h"
 #include "camel-exception.h"
 #include "camel-url.h"
-#include "e-util/md5-utils.h"
+#include "libedataserver/md5-utils.h"
 #include "camel-pop3-engine.h"
 #include "camel-sasl.h"
 #include "camel-data-cache.h"
@@ -55,6 +55,7 @@
 #include "camel-tcp-stream-ssl.h"
 #endif
 #include "camel-i18n.h"
+#include "camel-net-utils.h"
 
 /* Specified in RFC 1939 */
 #define POP3_PORT "110"

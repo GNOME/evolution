@@ -41,7 +41,7 @@
 #include "camel-exception.h"
 #include "camel-string-utils.h"
 #include "camel-vee-store.h"
-#include "e-util/e-msgport.h"
+#include "libedataserver/e-msgport.h"
 #include "camel-i18n.h"
 
 /* table of CamelProviderModule's */
@@ -68,6 +68,21 @@ static CamelProvider vee_provider = {
 	/* ... */
 };
 
+static pthread_once_t setup_once = PTHREAD_ONCE_INIT;
+
+static void
+provider_setup(void)
+{
+	provider_lock = e_mutex_new(E_MUTEX_REC);
+	module_table = g_hash_table_new(camel_strcase_hash, camel_strcase_equal);
+	provider_table = g_hash_table_new(camel_strcase_hash, camel_strcase_equal);
+
+	vee_provider.object_types[CAMEL_PROVIDER_STORE] = camel_vee_store_get_type ();
+	vee_provider.url_hash = camel_url_hash;
+	vee_provider.url_equal = camel_url_equal;
+	camel_provider_register(&vee_provider);
+}
+
 /**
  * camel_provider_init:
  *
@@ -78,6 +93,9 @@ static CamelProvider vee_provider = {
  * A .urls file has the same initial prefix as the shared library it
  * correspond to, and consists of a series of lines containing the URL
  * protocols that that library handles.
+ *
+ * TODO: This should be pathed?
+ * TODO: This should be plugin-d?
  **/
 void
 camel_provider_init (void)
@@ -86,26 +104,19 @@ camel_provider_init (void)
 	struct dirent *d;
 	char *p, *name, buf[80];
 	CamelProviderModule *m;
-	static int init = 0;
+	static int loaded = 0;
 
-	if (init)
+	pthread_once(&setup_once, provider_setup);
+
+	if (loaded)
 		return;
 
-	init = 1;
-
-	provider_lock = e_mutex_new(E_MUTEX_REC);
-	module_table = g_hash_table_new(camel_strcase_hash, camel_strcase_equal);
-	provider_table = g_hash_table_new(camel_strcase_hash, camel_strcase_equal);
-
-	vee_provider.object_types[CAMEL_PROVIDER_STORE] = camel_vee_store_get_type ();
-	vee_provider.url_hash = camel_url_hash;
-	vee_provider.url_equal = camel_url_equal;
-	camel_provider_register(&vee_provider);
+	loaded = 1;
 
 	dir = opendir (CAMEL_PROVIDERDIR);
 	if (!dir) {
-		g_error ("Could not open camel provider directory (%s): %s",
-			 CAMEL_PROVIDERDIR, g_strerror (errno));
+		g_warning("Could not open camel provider directory (%s): %s",
+			  CAMEL_PROVIDERDIR, g_strerror (errno));
 		return;
 	}
 	
@@ -167,6 +178,8 @@ camel_provider_load(const char *path, CamelException *ex)
 	GModule *module;
 	CamelProvider *(*camel_provider_module_init) (void);
 
+	pthread_once(&setup_once, provider_setup);
+
 	if (!g_module_supported ()) {
 		camel_exception_setv (ex, CAMEL_EXCEPTION_SYSTEM,
 				      _("Could not load %s: Module loading "
@@ -209,6 +222,8 @@ camel_provider_register(CamelProvider *provider)
 	GList *l;
 
 	g_return_if_fail (provider != NULL);
+
+	g_assert(provider_table);
 
 	LOCK();
 
@@ -284,6 +299,8 @@ camel_provider_list(gboolean load)
 {
 	GList *list = NULL;
 
+	g_assert(provider_table);
+
 	LOCK();
 
 	if (load) {
@@ -329,6 +346,7 @@ camel_provider_get(const char *url_string, CamelException *ex)
 	size_t len;
 
 	g_return_val_if_fail(url_string != NULL, NULL);
+	g_assert(provider_table);
 
 	len = strcspn(url_string, ":");
 	protocol = g_alloca(len+1);
@@ -388,7 +406,7 @@ camel_provider_auto_detect (CamelProvider *provider, CamelURL *url,
 			    GHashTable **auto_detected, CamelException *ex)
 {
 	g_return_val_if_fail (provider != NULL, -1);
-	
+
 	if (provider->auto_detect) {
 		return provider->auto_detect (url, auto_detected, ex);
 	} else {

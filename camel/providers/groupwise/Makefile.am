@@ -5,19 +5,14 @@ libcamelimapincludedir = $(privincludedir)/camel
 camel_provider_LTLIBRARIES = libcamelgroupwise.la
 camel_provider_DATA = libcamelgroupwise.urls
 
-INCLUDES = -I.. \
-	-I$(srcdir)/..					\
+INCLUDES = \
 	-I$(top_srcdir)/camel				\
 	-I$(top_srcdir)/intl				\
-	-I$(top_srcdir)/e-util				\
+	-I$(top_srcdir)/servers/groupwise		\
 	-I$(top_srcdir)					\
 	-I$(top_srcdir)/camel/providers/imap		\
 	-I$(top_srcdir)/camel/providers/smtp		\
-	$(EVOLUTION_CALENDAR_CFLAGS)                  \
 	$(CAMEL_GROUPWISE_CFLAGS)			\
-	$(GNOME_INCLUDEDIR)				\
-	$(E_UTIL_CFLAGS)				\
-	$(GTK_INCLUDEDIR)				\
 	-DCAMEL_PROVIDERDIR=\"$(camel_providerdir)\"	\
 	-DG_LOG_DOMAIN=\"camel-groupwise-provider\"
 

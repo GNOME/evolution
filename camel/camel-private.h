@@ -36,7 +36,7 @@ extern "C" {
 #endif
 
 #include <pthread.h>
-#include <e-util/e-msgport.h>
+#include <libedataserver/e-msgport.h>
 
 struct _CamelFolderPrivate {
 	EMutex *lock;

@@ -23,7 +23,7 @@
 
 #include <camel/camel-object.h>
 #include <glib.h>
-#include <e-util/e-msgport.h>
+#include <libedataserver/e-msgport.h>
 #include <stdio.h>
 
 typedef guint32 camel_block_t;	/* block offset, absolute, bottom BLOCK_SIZE_BITS always 0 */

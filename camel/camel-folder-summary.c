@@ -33,7 +33,7 @@
 #include <errno.h>
 #include <ctype.h>
 
-#include <gal/util/e-iconv.h>
+#include <libedataserver/e-iconv.h>
 
 #include "camel-folder-summary.h"
 
@@ -55,8 +55,8 @@
 
 #include <camel/camel-string-utils.h>
 
-#include "e-util/md5-utils.h"
-#include "e-util/e-memory.h"
+#include "libedataserver/md5-utils.h"
+#include "libedataserver/e-memory.h"
 
 #include "camel-private.h"
 

@@ -4,6 +4,7 @@
 #include <pthread.h>
 
 #include "camel-test.h"
+#include "camel-test-provider.h"
 #include "folders.h"
 #include "messages.h"
 #include "session.h"
@@ -18,6 +19,8 @@
 #define d(x) 
 
 #define ARRAY_LEN(x) (sizeof(x)/sizeof(x[0]))
+
+static const char *local_drivers[] = { "local" };
 
 static char *local_providers[] = {
 	"mbox",
@@ -135,6 +138,7 @@ int main(int argc, char **argv)
 	GPtrArray *uids;
 
 	camel_test_init(argc, argv);
+	camel_test_provider_init(1, local_drivers);
 
 	ex = camel_exception_new();
 

@@ -35,6 +35,8 @@
 
 #include <glib.h>
 
+#include "libedataserver/e-memory.h"
+
 #include "camel-folder-search.h"
 #include "camel-folder-thread.h"
 
@@ -43,7 +45,6 @@
 #include "camel-multipart.h"
 #include "camel-mime-message.h"
 #include "camel-stream-mem.h"
-#include "e-util/e-memory.h"
 #include "camel-search-private.h"
 #include "camel-i18n.h"
 

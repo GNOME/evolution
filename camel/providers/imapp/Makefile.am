@@ -1,7 +1,5 @@
 ## Process this file with automake to produce Makefile.in
 
-libcamelimappincludedir = $(privincludedir)/camel
-
 camel_provider_LTLIBRARIES = libcamelimapp.la
 camel_provider_DATA = libcamelimapp.urls
 
@@ -27,7 +25,7 @@ libcamelimapp_la_SOURCES =			\
 	camel-imapp-driver.c			\
 	camel-imapp-summary.c
 
-libcamelimappinclude_HEADERS =			\
+noinst_HEADERS =			\
 	camel-imapp-utils.h			\
 	camel-imapp-engine.h			\
 	camel-imapp-stream.h			\
@@ -38,8 +36,5 @@ libcamelimappinclude_HEADERS =			\
 	camel-imapp-summary.h
 
 libcamelimapp_la_LDFLAGS = -avoid-version -module
-
-#noinst_HEADERS =				\
-#	camel-imap-private.h
 
 EXTRA_DIST = libcamelimapp.urls

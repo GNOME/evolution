@@ -37,8 +37,8 @@
 #include <fcntl.h>
 #include <ctype.h>
 
-#include "e-util/e-path.h"
-#include "e-util/e-time-utils.h"
+/*#include "libedataserver/e-path.h"*/
+#include "libedataserver/e-time-utils.h"
 
 #include "camel-imap-folder.h"
 #include "camel-imap-command.h"
@@ -470,7 +470,7 @@ imap_rename (CamelFolder *folder, const char *new)
 	char *folders;
 
 	folders = g_strconcat (imap_store->storage_path, "/folders", NULL);
-	folder_dir = e_path_to_physical (folders, new);
+	folder_dir = imap_path_to_physical (folders, new);
 	g_free (folders);
 	summary_path = g_strdup_printf("%s/summary", folder_dir);
 

@@ -13,3 +13,6 @@ int test_message_compare_content(CamelDataWrapper *dw, const char *text, int len
 int test_message_compare (CamelMimeMessage *msg);
 
 void test_message_dump_structure(CamelMimeMessage *m);
+
+int test_message_compare_header(CamelMimeMessage *m1, CamelMimeMessage *m2);
+int test_message_compare_messages(CamelMimeMessage *m1, CamelMimeMessage *m2);

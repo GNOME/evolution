@@ -32,16 +32,8 @@ extern "C" {
 #pragma }
 #endif /* __cplusplus */
 
-#include <camel/camel-cipher-context.h>
 #include <camel/camel-data-wrapper.h>
 #include <camel/camel-exception.h>
-#include <camel/camel-folder.h>
-#include <camel/camel-digest-folder.h>
-#include <camel/camel-digest-store.h>
-#include <camel/camel-disco-diary.h>
-#include <camel/camel-disco-folder.h>
-#include <camel/camel-disco-store.h>
-#include <camel/camel-vee-folder.h>
 #include <camel/camel-medium.h>
 #include <camel/camel-mime-filter.h>
 #include <camel/camel-mime-filter-basic.h>
@@ -63,29 +55,21 @@ extern "C" {
 #include <camel/camel-mime-part-utils.h>
 #include <camel/camel-mime-part.h>
 #include <camel/camel-mime-utils.h>
-#include <camel/camel-movemail.h>
 #include <camel/camel-multipart.h>
 #include <camel/camel-multipart-encrypted.h>
 #include <camel/camel-multipart-signed.h>
-#include <camel/camel-gpg-context.h>
-#include <camel/camel-provider.h>
 #include <camel/camel-seekable-stream.h>
 #include <camel/camel-seekable-substream.h>
-#include <camel/camel-service.h>
-#include <camel/camel-session.h>
-#include <camel/camel-store.h>
 #include <camel/camel-stream-buffer.h>
 #include <camel/camel-stream-filter.h>
 #include <camel/camel-stream-fs.h>
 #include <camel/camel-stream-mem.h>
 #include <camel/camel-stream.h>
-#include <camel/camel-tcp-stream-raw.h>
-#include <camel/camel-tcp-stream-ssl.h>
-#include <camel/camel-tcp-stream.h>
 #include <camel/camel-transport.h>
-#include <camel/camel-uid-cache.h>
 #include <camel/camel-url.h>
 #include <camel/camel-string-utils.h>
+
+#include <glib.h>
 
 int camel_init (const char *certdb_dir, gboolean nss_init);
 

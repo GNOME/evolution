@@ -34,8 +34,6 @@
 #include <unistd.h>
 #include <errno.h>
 
-#include "e-util/e-path.h"
-
 #include "camel-imap-store.h"
 #include "camel-imap-store-summary.h"
 #include "camel-imap-folder.h"
@@ -62,6 +60,7 @@
 #include "camel-private.h"
 #include "camel-debug.h"
 #include "camel-i18n.h"
+#include "camel-net-utils.h"
 
 #define d(x) 
 
@@ -1042,7 +1041,7 @@ imap_forget_folder (CamelImapStore *imap_store, const char *folder_name, CamelEx
 		name = folder_name;
 	
 	storage_path = g_strdup_printf ("%s/folders", imap_store->storage_path);
-	folder_dir = e_path_to_physical (storage_path, folder_name);
+	folder_dir = imap_path_to_physical (storage_path, folder_name);
 	g_free (storage_path);
 	if (access (folder_dir, F_OK) != 0) {
 		g_free (folder_dir);
@@ -1983,7 +1982,7 @@ get_folder_online (CamelStore *store, const char *folder_name, guint32 flags, Ca
 	}
 
 	storage_path = g_strdup_printf("%s/folders", imap_store->storage_path);
-	folder_dir = e_path_to_physical (storage_path, folder_name);
+	folder_dir = imap_path_to_physical (storage_path, folder_name);
 	g_free(storage_path);
 	new_folder = camel_imap_folder_new (store, folder_name, folder_dir, ex);
 	g_free (folder_dir);
@@ -2026,7 +2025,7 @@ get_folder_offline (CamelStore *store, const char *folder_name,
 		folder_name = "INBOX";
 	
 	storage_path = g_strdup_printf("%s/folders", imap_store->storage_path);
-	folder_dir = e_path_to_physical (storage_path, folder_name);
+	folder_dir = imap_path_to_physical (storage_path, folder_name);
 	g_free(storage_path);
 	if (!folder_dir || access (folder_dir, F_OK) != 0) {
 		g_free (folder_dir);
@@ -2196,8 +2195,8 @@ rename_folder (CamelStore *store, const char *old_name, const char *new_name_in,
 		manage_subscriptions(store, new_name_in, TRUE);
 
 	storage_path = g_strdup_printf("%s/folders", imap_store->storage_path);
-	oldpath = e_path_to_physical (storage_path, old_name);
-	newpath = e_path_to_physical (storage_path, new_name_in);
+	oldpath = imap_path_to_physical (storage_path, old_name);
+	newpath = imap_path_to_physical (storage_path, new_name_in);
 	g_free(storage_path);
 
 	/* So do we care if this didn't work?  Its just a cache? */
@@ -2632,7 +2631,7 @@ fill_fi(CamelStore *store, CamelFolderInfo *fi, guint32 flags)
 
 		/* This is a lot of work for one path! */
 		storage_path = g_strdup_printf("%s/folders", ((CamelImapStore *)store)->storage_path);
-		folder_dir = e_path_to_physical(storage_path, fi->full_name);
+		folder_dir = imap_path_to_physical(storage_path, fi->full_name);
 		path = g_strdup_printf("%s/summary", folder_dir);
 		s = (CamelFolderSummary *)camel_object_new(camel_imap_summary_get_type());
 		camel_folder_summary_set_build_content(s, TRUE);
@@ -3038,7 +3037,7 @@ get_folder_info_offline (CamelStore *store, const char *top,
 	/* A kludge to avoid having to pass a struct to the callback */
 	g_ptr_array_add (folders, imap_store);
 	storage_path = g_strdup_printf("%s/folders", imap_store->storage_path);
-	if (!e_path_find_folders (storage_path, get_one_folder_offline, folders)) {
+	if (!imap_path_find_folders (storage_path, get_one_folder_offline, folders)) {
 		camel_disco_store_check_online (CAMEL_DISCO_STORE (imap_store), ex);
 		fi = NULL;
 	} else {

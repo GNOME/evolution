@@ -45,12 +45,12 @@
 #endif
 
 #include <glib.h>
-#include <gal/util/e-iconv.h>
-#include <e-util/e-time-utils.h>
+#include <libedataserver/e-iconv.h>
+#include <libedataserver/e-time-utils.h>
 
 #include "camel-mime-utils.h"
 #include "camel-charset-map.h"
-#include "camel-service.h"  /* for camel_gethostbyname() */
+#include "camel-net-utils.h"
 #include "camel-utf8.h"
 
 #ifndef CLEAN_DATE

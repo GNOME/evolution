@@ -38,7 +38,7 @@
 #include <langinfo.h>
 #endif
 
-#include "e-util/e-memory.h"
+#include "libedataserver/e-memory.h"
 #include "camel-charset-map.h"
 #include "string-utils.h"
 #include "camel-iconv.h"

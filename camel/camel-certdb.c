@@ -40,7 +40,7 @@
 
 #include <camel/camel-file-utils.h>
 
-#include <e-util/e-memory.h>
+#include <libedataserver/e-memory.h>
 
 
 #define CAMEL_CERTDB_GET_CLASS(db)  ((CamelCertDBClass *) CAMEL_OBJECT_GET_CLASS (db))

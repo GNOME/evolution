@@ -35,6 +35,7 @@
 #include <camel/camel-private.h>
 
 #include <camel/camel-i18n.h>
+#include <camel/camel-net-utils.h>
 
 #include "camel-imap4-store.h"
 #include "camel-imap4-engine.h"

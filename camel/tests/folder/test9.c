@@ -3,6 +3,7 @@
 #include <string.h>
 
 #include "camel-test.h"
+#include "camel-test-provider.h"
 #include "messages.h"
 #include "folders.h"
 #include "session.h"
@@ -18,6 +19,8 @@
 #include "camel/camel-stream-fs.h"
 
 #define ARRAY_LEN(x) (sizeof(x)/sizeof(x[0]))
+
+static const char *local_drivers[] = { "local" };
 
 struct {
 	char *name;
@@ -97,9 +100,8 @@ int main(int argc, char **argv)
 	CamelStream *mbox;
 	CamelFilterDriver *driver;
 
-	/*gtk_init(&argc, &argv);*/
-
 	camel_test_init(argc, argv);
+	camel_test_provider_init(1, local_drivers);
 
 	ex = camel_exception_new();
 

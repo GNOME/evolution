@@ -33,7 +33,7 @@
 #include <ctype.h>
 #include <errno.h>
 
-#include <e-util/md5-utils.h>
+#include <libedataserver/md5-utils.h>
 
 #include <camel/camel-file-utils.h>
 #include <camel/camel-string-utils.h>

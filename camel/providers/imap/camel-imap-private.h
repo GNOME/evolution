@@ -36,7 +36,7 @@ extern "C" {
 #endif
 
 #ifdef ENABLE_THREADS
-#include "e-util/e-msgport.h"
+#include "libedataserver/e-msgport.h"
 #endif
 
 struct _CamelImapFolderPrivate {

@@ -1,7 +1,5 @@
 ## Process this file with automake to produce Makefile.in
 
-libcamelnntpincludedir = $(privincludedir)/camel
-
 camel_provider_LTLIBRARIES = libcamelnntp.la
 camel_provider_DATA = libcamelnntp.urls
 
@@ -24,15 +22,13 @@ libcamelnntp_la_SOURCES = 			\
 	camel-nntp-summary.c			\
 	camel-nntp-store-summary.c
 
-libcamelnntpinclude_HEADERS =			\
+noinst_HEADERS =			\
 	camel-nntp-store.h			\
 	camel-nntp-folder.h			\
 	camel-nntp-resp-codes.h			\
 	camel-nntp-stream.h			\
 	camel-nntp-summary.h			\
-	camel-nntp-store-summary.h
-
-noinst_HEADERS =				\
+	camel-nntp-store-summary.h		\
 	camel-nntp-private.h
 
 libcamelnntp_la_LDFLAGS = -avoid-version -module

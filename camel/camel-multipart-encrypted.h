@@ -30,7 +30,6 @@ extern "C" {
 #endif /* __cplusplus */
 
 #include <camel/camel-multipart.h>
-#include <camel/camel-cipher-context.h>
 
 #define CAMEL_MULTIPART_ENCRYPTED_TYPE     (camel_multipart_encrypted_get_type ())
 #define CAMEL_MULTIPART_ENCRYPTED(obj)     (CAMEL_CHECK_CAST((obj), CAMEL_MULTIPART_ENCRYPTED_TYPE, CamelMultipartEncrypted))
@@ -56,25 +55,14 @@ struct _CamelMultipartEncrypted {
 	char *protocol;
 };
 
-
 struct _CamelMultipartEncryptedClass {
 	CamelMultipartClass parent_class;
 	
 };
 
-
 CamelType camel_multipart_encrypted_get_type (void);
 
-
 CamelMultipartEncrypted *camel_multipart_encrypted_new (void);
-
-int camel_multipart_encrypted_encrypt (CamelMultipartEncrypted *mpe, CamelMimePart *content,
-				       CamelCipherContext *cipher, const char *userid,
-				       GPtrArray *recipients, CamelException *ex);
-
-CamelMimePart *camel_multipart_encrypted_decrypt (CamelMultipartEncrypted *mpe,
-						  CamelCipherContext *cipher,
-						  CamelException *ex);
 
 #ifdef __cplusplus
 }

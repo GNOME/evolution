@@ -37,7 +37,7 @@
 #include "camel-multipart.h"
 #include "camel-mime-part.h"
 #include "camel-exception.h"
-#include "md5-utils.h"
+#include "libedataserver/md5-utils.h"
 
 #define d(x)
 
