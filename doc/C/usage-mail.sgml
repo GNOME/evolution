@@ -89,54 +89,6 @@
 	</screenshot>
       </figure>
 <!-- ==============End of Figure============================== -->
-<!--
-      <para>
-	<inlinegraphic fileref="fig/full-1.png"></inlinegraphic>
-	<guimenu>Menu Bar</guimenu>
-      </para>
-
-      <para>
-	The menu items give you access to most of the functions available to you
-	including writing new email, editing your filters, and changing how
-	Evolution looks.
-      </para>
-
-      <para>
-	<inlinegraphic fileref="fig/full-2.png"></inlinegraphic>
-	<guilabel>Toolbar</guilabel>
-      </para>
-
-      <para>
-	The <guilabel>Toolbar</guilabel> gives you access to the most used
-	functions in <application>Evolution</application>.  You can control
-	whether the toolbar has icons, text, or both.
-      </para>
-
-      <para>
-	<inlinegraphic fileref="fig/full-3.png"></inlinegraphic>
-	<guilabel>Shortcut Bar</guilabel>
-      </para>
-
-      <para>
-	The <guilabel>Shortcut Bar</guilabel> gives you quick and easy access to
-	the many components of <application>Evolution</application>.  You can
-	also set it up as a 'Favorites' bar, and have it store all your favorite
-	folders, so you can access them quickly.
-      </para>
-
-      <para>
-	<inlinegraphic fileref="fig/full-4.png"></inlinegraphic>
-	<guilabel>Status Bar</guilabel>
-      </para>
-
-      <para>
-	Periodically, <application>Evolution</application> will need to quietly
-	display a message, or tell you the progress of something.  This most
-	often happens when you're checking or sending email.  These progress
-	queues are shown here, in the <guilabel>Status Bar</guilabel>.  
-      </para>
-    -->  
-
 
       <para>
 	<inlinegraphic fileref="fig/full-1.png"></inlinegraphic>
@@ -158,17 +110,6 @@
 	be deleted.
       </para>
 
-      <!--
-    <para>
-    <inlinegraphic fileref="fig/full-7.png"></inlinegraphic>
-    <guilabel>Search Bar</guilabel>
-    </para>
-      
-    <para>
-      The <guilabel>Search Bar</guilabel> lets you search through your email
-      with precision so you can easily find what you're looking for.
-    </para>
-      -->      
       <para>
 	Most of the mail-related actions you'll want to perform are
 	listed in the <guimenu>Message</guimenu> menu in the menu
@@ -350,7 +291,9 @@
 <!-- ==============End of Figure=================================== -->
 
  <!-- Check the alignment of the following paragraph in the PS and
- HTML output: it's indented for no good reason -->
+ HTML output: it's indented for no good reason 
+      Kevin Breit: I dont see a problem with it.
+-->
       <para>
 	 Enter an address in the <guilabel>To:</guilabel> field, a
 	 subject in the <guilabel>Subject:</guilabel> and a message in
@@ -546,6 +489,7 @@
 
 <!-- note that this figure should have a reply message ready to send,
 with quoted materials and the relevant replies interspersed-->
+<!-- I want to wait for the formatting bugs to be fixed first -->
  <!-- ==============Figure=================================== -->
        <figure id="usage-mail-getnsend-reply-fig">
 	 <title>Reply Message Window</title>
@@ -580,7 +524,24 @@ with quoted materials and the relevant replies interspersed-->
 	    </para>
 	  </example>
 	</para>
+	<para>
+	  You may want to reply to a whole mailing list.  For this, you would
+	  use the <guibutton>Reply to List</guibutton> instead of the standard
+	  <guibutton>Reply</guibutton> or <guibutton>Reply to All</guibutton>.
+	  <note>
+	    <title>Whats a Mailing List?</title>
+	    <para>
+	      Mailing Lists are one of the most popular ways in which group
+	      collaboration on the internet works.  They allow people to send one
+	      message to one server.  The server then knows who is subscribed to the
+	      mailing list, and sends a copy of your email to all the people on the
+	      list.  As a matter of fact, mailing lists are one of the main ways in
+	      which <application>Evolution</application> was developed.
+	    </para>
+	  </note>
+	</para>
       </sect3>
+
       <sect3 id="usage-mail-getnsend-send-find">
         <title>Searching and Replacing with the Composer</title>
 	<para>
@@ -819,8 +780,7 @@ with quoted materials and the relevant replies interspersed-->
       </sect3>
    
 
-<!-- Function not implemented, 
-possibly never will be due to security evil. -->
+<!-- Function not implemented, possibly never will be due to security evil. -->
 <!--
 	<sect3 id="usage-mail-getnsend-send-live">
 	  <title>Live Documents</title>
@@ -928,7 +888,7 @@ possibly never will be due to security evil. -->
 		 When you reply or forward, include just enough of
 		 the previous message to provide context: not too
 		 much, not too little.
-	       </para>
+	      </para>
 	    </listitem>
 	  </itemizedlist>
 	</para>
@@ -962,48 +922,48 @@ possibly never will be due to security evil. -->
          item in the right click menu for the column headings.
       </para>
       <para>
-         Right-click on one of the column headers to get a list of
-         options:
-             <variablelist>
-                 
-               <varlistentry>
-		  <term><guimenuitem>Sort Ascending</guimenuitem></term>
-		  <listitem><para>
-		     Sorts the messages top to bottom.
-		  </para></listitem>
-               </varlistentry>
-
-	      <varlistentry>
-		  <term><guimenuitem>Sort Descending</guimenuitem></term>
-		  <listitem><para>
-		     Sorts the messages bottom to top.
-		  </para></listitem>
-	      </varlistentry>
-
-              <varlistentry>
-                  <term><guimenuitem>Group By this Field</guimenuitem></term>
-                  <listitem><para>
-                     Groups messages instead of sorting them. (FIXME: Explain further) 
-                  </para></listitem>
-               </varlistentry>
-
-              <varlistentry>
-                  <term><guimenuitem>Remove this
-                  Column</guimenuitem></term> <listitem><para> Remove
-                  this column from the display. You can also remove
-                  columns by dragging the header off the list and
-                  letting it drop.  </para></listitem>
-               </varlistentry>
-
-              <varlistentry>
-                  <term><guimenuitem>Field
-                  Chooser</guimenuitem></term> <listitem><para> A list
-                  of column headers; just drag and drop them into
-                  place between two existing headers. A red arrow will
-                  appear to show you where you're about to put the
-                  column.  </para></listitem>
-               </varlistentry>
-            </variablelist>
+	Right-click on one of the column headers to get a list of
+	options:
+	<variablelist>
+	  
+	  <varlistentry>
+	    <term><guimenuitem>Sort Ascending</guimenuitem></term>
+	    <listitem><para>
+		Sorts the messages top to bottom.
+	      </para></listitem>
+	  </varlistentry>
+	  
+	  <varlistentry>
+	    <term><guimenuitem>Sort Descending</guimenuitem></term>
+	    <listitem><para>
+		Sorts the messages bottom to top.
+	      </para></listitem>
+	  </varlistentry>
+	  
+	  <varlistentry>
+	    <term><guimenuitem>Group By this Field</guimenuitem></term>
+	    <listitem><para>
+		Groups messages instead of sorting them. (FIXME: Explain further) 
+	      </para></listitem>
+	  </varlistentry>
+	  
+	  <varlistentry>
+	    <term><guimenuitem>Remove this
+		Column</guimenuitem></term> <listitem><para> Remove
+		this column from the display. You can also remove
+		columns by dragging the header off the list and
+		letting it drop.  </para></listitem>
+	  </varlistentry>
+	  
+	  <varlistentry>
+	    <term><guimenuitem>Field
+		Chooser</guimenuitem></term> <listitem><para> A list
+		of column headers; just drag and drop them into
+		place between two existing headers. A red arrow will
+		appear to show you where you're about to put the
+		column.  </para></listitem>
+	  </varlistentry>
+	</variablelist>
       </para>
     </sect2>
 
@@ -1242,6 +1202,7 @@ possibly never will be due to security evil. -->
         <guilabel>if all criteria are met</guilabel>, or <guilabel>if
         any criteria are met</guilabel>.
      </para>
+
      <para>
         For each filter criterion, you must first select 
         which of the following parts of the message you want the filter to 
@@ -1356,13 +1317,14 @@ possibly never will be due to security evil. -->
 	  </varlistentry>
 	</variablelist>
       </para>
-        <para>
+
+      <para>
         Now, tell it what to do with those messages.  If you want more
         actions, click <guibutton>Add Action</guibutton>; if you want
         fewer, click <guibutton>Remove Action</guibutton>.  And choose
         again:
-        <variablelist>
 
+        <variablelist>
 	  <varlistentry>
 	    <term><guilabel>Copy to Folder</guilabel></term>
 	    <listitem><para>
@@ -1462,24 +1424,45 @@ possibly never will be due to security evil. -->
     -->
 
       <note>
-	<title>Two Notable Filter Features</title>
+	<title>Notable Filter Features</title>
 	<para>
 	  <itemizedlist>
 	    <listitem><para>
-              Incoming email that your filters don't move goes into the Inbox; 
-              outgoing mail that they don't move ends up in the Sent folder.
-             </para>
+		Incoming email that your filters don't move goes into the Inbox; 
+		outgoing mail that they don't move ends up in the Sent folder.
+	      </para>
 	    </listitem>
-
-	    <listitem><para>If you move a folder, your filters
-	    will follow it.  </para></listitem>
 	  </itemizedlist>
 	</para>
       </note>
+
+     <sect3 id="usage-mail-organize-filters-mailing-lists">
+	<title>Filtering by Mailing List</title>
+	<para>
+	  You can tell <application>Evolution</application> to filter by
+	  mailing list.  This means that <application>Evolution</application>
+	  will look at the mailing list address, and find out automatically
+	  what list this is.  If you are subscribed to mailing lists, you
+	  should use the <guibutton>Filter by List</guibutton> instead of by
+	  sender.
+	  <example>
+	    <title>Filter by List</title>
+	    <para>
+	      Kevin subscribes to bananas@ximian.com.  However, there is also
+	      a bananas@ximian.org address.  If he used a regular
+	      <guibutton>Filter by Sender</guibutton>, he would need to specify
+	      one for each address.  However, <guibutton>Filter by
+	      List</guibutton> will recognize that both of them are the same
+	      list.
+	    </para>
+	  </example>
+	</para>
+      </sect3>
     </sect2>
 
 
-
+      
+      
     <sect2 id="usage-mail-organize-vFolders">
       <title>Getting Really Organized with Virtual Folders</title>
       <para>
