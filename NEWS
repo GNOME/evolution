@@ -32,6 +32,8 @@ Bugzilla bugs fixed (see http://bugzilla.ximian.com/show_bug.cgi):
     	     introducted by #33593 (Michael)
     #31745 - Cannot view mails under '#mh' namespace.  Temporary
              workaround, strip #'s (Michael)
+    #45386 - warnings when sending mail (Michael)
+    #45368 - crash when closing the folder browser thingy
 
   * All
 
