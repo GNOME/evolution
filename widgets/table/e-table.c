@@ -2663,6 +2663,8 @@ e_table_drag_source_unset (ETable *table)
 	site = table->site;
 
 	if (site) {
+		if (site->target_list)
+			gtk_target_list_unref (site->target_list);
 		g_free (site);
 		table->site = NULL;
 	}

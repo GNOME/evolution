@@ -141,8 +141,6 @@ struct ETreePriv {
 	int table_model_change_id;
 	int table_row_change_id;
 	int table_cell_change_id;
-	int table_rows_inserted_id;
-	int table_rows_deleted_id;
 
 	GnomeCanvas *header_canvas, *table_canvas;
 
@@ -260,18 +258,10 @@ et_disconnect_from_etta (ETree *et)
 	if (et->priv->table_cell_change_id != 0)
 		g_signal_handler_disconnect (G_OBJECT (et->priv->etta),
 				             et->priv->table_cell_change_id);
-	if (et->priv->table_rows_inserted_id != 0)
-		g_signal_handler_disconnect (G_OBJECT (et->priv->etta),
-				             et->priv->table_rows_inserted_id);
-	if (et->priv->table_rows_deleted_id != 0)
-		g_signal_handler_disconnect (G_OBJECT (et->priv->etta),
-				             et->priv->table_rows_deleted_id);
 
 	et->priv->table_model_change_id = 0;
 	et->priv->table_row_change_id = 0;
 	et->priv->table_cell_change_id = 0;
-	et->priv->table_rows_inserted_id = 0;
-	et->priv->table_rows_deleted_id = 0;
 }
 
 static void
@@ -558,6 +548,10 @@ e_tree_init (GtkObject *object)
 	e_tree->priv->scroll_idle_id         = 0;
 	e_tree->priv->hover_idle_id          = 0;
 
+	e_tree->priv->table_model_change_id  = 0;
+	e_tree->priv->table_row_change_id    = 0;
+	e_tree->priv->table_cell_change_id   = 0;
+
 	e_tree->priv->alternating_row_colors = 1;
 	e_tree->priv->horizontal_draw_grid   = 1;
 	e_tree->priv->vertical_draw_grid     = 1;
@@ -568,6 +562,7 @@ e_tree_init (GtkObject *object)
 
 	e_tree->priv->row_selection_active   = FALSE;
 	e_tree->priv->horizontal_scrolling   = FALSE;
+	e_tree->priv->scroll_direction       = 0;
 
 	e_tree->priv->drop_row               = -1;
 	e_tree->priv->drop_path              = NULL;
