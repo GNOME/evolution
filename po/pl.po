@@ -13,7 +13,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: evolution\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2003-08-01 01:48+0200\n"
+"POT-Creation-Date: 2003-08-06 23:00+0200\n"
 "PO-Revision-Date: 2003-05-04 16:42+0100\n"
 "Last-Translator: GNOME PL Team <translators@gnome.pl>\n"
 "Language-Team: Polish <pl@li.org>\n"
@@ -1467,8 +1467,9 @@ msgstr "_Kategorie..."
 #: calendar/gui/dialogs/meeting-page.c:717 calendar/gui/e-calendar-table.c:977
 #: calendar/gui/e-day-view.c:3757 calendar/gui/e-week-view.c:3725
 #: mail/folder-browser.c:1812 ui/evolution-addressbook.xml.h:32
-#: ui/evolution-calendar.xml.h:30 ui/evolution-mail-message.xml.h:97
-#: ui/evolution-tasks.xml.h:17 ui/evolution.xml.h:45
+#: ui/evolution-calendar.xml.h:30 ui/evolution-comp-editor.xml.h:17
+#: ui/evolution-mail-message.xml.h:97 ui/evolution-tasks.xml.h:17
+#: ui/evolution.xml.h:45
 msgid "_Delete"
 msgstr "_Usuń"
 
@@ -3980,7 +3981,7 @@ msgstr ""
 
 #. An empty string is the same as 'None'.
 #: calendar/gui/calendar-model.c:1176 calendar/gui/dialogs/meeting-page.c:330
-#: calendar/gui/dialogs/meeting-page.glade.h:2 composer/e-msg-composer.c:2065
+#: calendar/gui/dialogs/meeting-page.glade.h:2 composer/e-msg-composer.c:2067
 #: mail/folder-browser.c:1774 mail/mail-account-gui.c:1260
 #: mail/mail-account-gui.c:1692 mail/mail-accounts.c:442
 #: mail/mail-config.glade.h:76
@@ -4132,11 +4133,11 @@ msgstr "Proste"
 msgid "Date/Time:"
 msgstr "Data/Czas:"
 
-#: calendar/gui/dialogs/alarm-page.glade.h:3 calendar/gui/e-alarm-list.c:461
+#: calendar/gui/dialogs/alarm-page.glade.h:3 calendar/gui/e-alarm-list.c:462
 msgid "Display a message"
 msgstr "Wyświetlenie komunikatu"
 
-#: calendar/gui/dialogs/alarm-page.glade.h:4 calendar/gui/e-alarm-list.c:457
+#: calendar/gui/dialogs/alarm-page.glade.h:4 calendar/gui/e-alarm-list.c:458
 msgid "Play a sound"
 msgstr "Odtworzenie dźwięku"
 
@@ -4144,7 +4145,7 @@ msgstr "Odtworzenie dźwięku"
 msgid "Reminders"
 msgstr "Przypomnienia"
 
-#: calendar/gui/dialogs/alarm-page.glade.h:6 calendar/gui/e-alarm-list.c:469
+#: calendar/gui/dialogs/alarm-page.glade.h:6 calendar/gui/e-alarm-list.c:470
 msgid "Run a program"
 msgstr "Uruchomienie programu"
 
@@ -4555,7 +4556,7 @@ msgstr "Brak zestawienia"
 
 #: calendar/gui/dialogs/comp-editor.c:1281
 #: calendar/gui/e-calendar-table.c:1068 calendar/gui/e-day-view.c:3995
-#: calendar/gui/e-week-view.c:3934 composer/e-msg-composer.c:1169
+#: calendar/gui/e-week-view.c:3934 composer/e-msg-composer.c:1171
 msgid "Save as..."
 msgstr "Zapisz jako..."
 
@@ -4733,9 +4734,9 @@ msgid "Classification"
 msgstr "Klasyfikacja"
 
 #: calendar/gui/dialogs/event-page.glade.h:6
-#: calendar/gui/dialogs/task-page.glade.h:4
-msgid "Con_fidential"
-msgstr "Taj_ny"
+#, fuzzy
+msgid "Co_nfidential"
+msgstr "Tajny"
 
 #: calendar/gui/dialogs/event-page.glade.h:7
 #: calendar/gui/dialogs/task-page.glade.h:5
@@ -5008,7 +5009,7 @@ msgstr ""
 "\n"
 "Czy chcesz zapisać wprowadzone zmiany?"
 
-#: calendar/gui/dialogs/save-comp.c:58 composer/e-msg-composer.c:1566
+#: calendar/gui/dialogs/save-comp.c:58 composer/e-msg-composer.c:1568
 msgid "_Discard Changes"
 msgstr "_Porzuć zmiany"
 
@@ -5080,6 +5081,10 @@ msgstr "Data docelowa jest niepoprawna"
 msgid "Due date is before start date!"
 msgstr ""
 
+#: calendar/gui/dialogs/task-page.glade.h:4
+msgid "Con_fidential"
+msgstr "Taj_ny"
+
 #: calendar/gui/dialogs/task-page.glade.h:6 calendar/gui/e-itip-control.c:1107
 #: calendar/gui/e-itip-control.glade.h:6
 #: composer/e-msg-composer-attachment.glade.h:3 mail/mail-config.glade.h:43
@@ -5094,95 +5099,95 @@ msgstr "Cza_s rozpoczęcia:"
 msgid "_Due Date:"
 msgstr "_Czas zakończenia:"
 
-#: calendar/gui/e-alarm-list.c:393
+#: calendar/gui/e-alarm-list.c:394
 #, c-format
 msgid "%d days"
 msgstr "%d dni"
 
-#: calendar/gui/e-alarm-list.c:396
+#: calendar/gui/e-alarm-list.c:397
 msgid "1 day"
 msgstr "1 dzień"
 
-#: calendar/gui/e-alarm-list.c:401
+#: calendar/gui/e-alarm-list.c:402
 #, c-format
 msgid "%d weeks"
 msgstr "%d tygodni"
 
-#: calendar/gui/e-alarm-list.c:404
+#: calendar/gui/e-alarm-list.c:405
 msgid "1 week"
 msgstr "1 tydzień"
 
-#: calendar/gui/e-alarm-list.c:409
+#: calendar/gui/e-alarm-list.c:410
 #, c-format
 msgid "%d hours"
 msgstr "%d godzin"
 
-#: calendar/gui/e-alarm-list.c:412
+#: calendar/gui/e-alarm-list.c:413
 msgid "1 hour"
 msgstr "1 godzina"
 
-#: calendar/gui/e-alarm-list.c:417
+#: calendar/gui/e-alarm-list.c:418
 #, c-format
 msgid "%d minutes"
 msgstr "%d minut"
 
-#: calendar/gui/e-alarm-list.c:420
+#: calendar/gui/e-alarm-list.c:421
 msgid "1 minute"
 msgstr "1 minuta"
 
-#: calendar/gui/e-alarm-list.c:425
+#: calendar/gui/e-alarm-list.c:426
 #, c-format
 msgid "%d seconds"
 msgstr "%d sekund"
 
-#: calendar/gui/e-alarm-list.c:428
+#: calendar/gui/e-alarm-list.c:429
 msgid "1 second"
 msgstr "1 sekunda"
 
-#: calendar/gui/e-alarm-list.c:465
+#: calendar/gui/e-alarm-list.c:466
 msgid "Send an email"
 msgstr "Wysłanie listu"
 
-#: calendar/gui/e-alarm-list.c:475
+#: calendar/gui/e-alarm-list.c:476
 msgid "Unknown action to be performed"
 msgstr "Wykonanie nieznanej czynności"
 
-#: calendar/gui/e-alarm-list.c:487
+#: calendar/gui/e-alarm-list.c:488
 #, c-format
 msgid "%s %s before the start of the appointment"
 msgstr "%s %s przed początkiem terminu"
 
-#: calendar/gui/e-alarm-list.c:490
+#: calendar/gui/e-alarm-list.c:491
 #, c-format
 msgid "%s %s after the start of the appointment"
 msgstr "%s %s po początku terminu"
 
-#: calendar/gui/e-alarm-list.c:495
+#: calendar/gui/e-alarm-list.c:496
 #, c-format
 msgid "%s at the start of the appointment"
 msgstr "%s na początku terminu"
 
-#: calendar/gui/e-alarm-list.c:504
+#: calendar/gui/e-alarm-list.c:505
 #, c-format
 msgid "%s %s before the end of the appointment"
 msgstr "%s %s przed końcem terminu"
 
-#: calendar/gui/e-alarm-list.c:507
+#: calendar/gui/e-alarm-list.c:508
 #, c-format
 msgid "%s %s after the end of the appointment"
 msgstr "%s %s po końcu terminu"
 
-#: calendar/gui/e-alarm-list.c:512
+#: calendar/gui/e-alarm-list.c:513
 #, c-format
 msgid "%s at the end of the appointment"
 msgstr "%s na końcu terminu"
 
-#: calendar/gui/e-alarm-list.c:536
+#: calendar/gui/e-alarm-list.c:537
 #, c-format
 msgid "%s at %s"
 msgstr "%s o %s"
 
-#: calendar/gui/e-alarm-list.c:542
+#: calendar/gui/e-alarm-list.c:543
 #, c-format
 msgid "%s for an unknown trigger type"
 msgstr "%s z nieznanym typem warunku"
@@ -5249,8 +5254,9 @@ msgstr "Z_apisz jako..."
 #: calendar/gui/e-calendar-table.c:960 calendar/gui/e-day-view.c:3741
 #: calendar/gui/e-week-view.c:3682 calendar/gui/e-week-view.c:3709
 #: ui/evolution-addressbook.xml.h:38 ui/evolution-calendar.xml.h:33
-#: ui/evolution-contact-editor.xml.h:14 ui/evolution-mail-message.xml.h:108
-#: ui/evolution-tasks.xml.h:21 ui/my-evolution.xml.h:6
+#: ui/evolution-comp-editor.xml.h:19 ui/evolution-contact-editor.xml.h:14
+#: ui/evolution-mail-message.xml.h:108 ui/evolution-tasks.xml.h:21
+#: ui/my-evolution.xml.h:6
 msgid "_Print..."
 msgstr "Wy_drukuj..."
 
@@ -5418,7 +5424,7 @@ msgstr "Nowe spotkanie"
 msgid "New Task"
 msgstr "Nowe zadanie"
 
-#: calendar/gui/e-day-view.c:3707 ui/evolution-comp-editor.xml.h:11
+#: calendar/gui/e-day-view.c:3707
 msgid "Print..."
 msgstr "Wydrukuj..."
 
@@ -5612,7 +5618,7 @@ msgstr "Odrzucone"
 #: camel/camel-gpg-context.c:1625 camel/camel-tcp-stream-openssl.c:634
 #: camel/providers/smtp/camel-smtp-transport.c:173
 #: camel/providers/smtp/camel-smtp-transport.c:228 mail/folder-browser.c:347
-#: mail/mail-display.c:928 widgets/misc/e-charset-picker.c:60
+#: mail/mail-display.c:932 widgets/misc/e-charset-picker.c:60
 msgid "Unknown"
 msgstr "Nieznany"
 
@@ -10610,11 +10616,11 @@ msgstr "Cel wysyłania"
 msgid "Attach file(s)"
 msgstr "Załączenie plików"
 
-#: composer/e-msg-composer.c:540
+#: composer/e-msg-composer.c:542
 msgid "Could not create a PGP signature context"
 msgstr "Nie można utworzyć kontekstu podpisu PGP"
 
-#: composer/e-msg-composer.c:819
+#: composer/e-msg-composer.c:821
 #, c-format
 msgid ""
 "Error while reading file %s:\n"
@@ -10623,30 +10629,30 @@ msgstr ""
 "Błąd przy odczycie pliku %s:\n"
 "%s"
 
-#: composer/e-msg-composer.c:1182
+#: composer/e-msg-composer.c:1184
 msgid "File exists, overwrite?"
 msgstr "Plik istnieje, nadpisać?"
 
-#: composer/e-msg-composer.c:1200
+#: composer/e-msg-composer.c:1202
 #, c-format
 msgid "Error saving file: %s"
 msgstr "Błąd przy zapisie pliku: %s"
 
-#: composer/e-msg-composer.c:1223
+#: composer/e-msg-composer.c:1225
 #, c-format
 msgid "Error loading file: %s"
 msgstr "Błąd przy odczycie pliku : %s"
 
-#: composer/e-msg-composer.c:1261
+#: composer/e-msg-composer.c:1263
 #, c-format
 msgid "Error accessing file: %s"
 msgstr "Błąd przy dostępie do pliku: %s"
 
-#: composer/e-msg-composer.c:1269
+#: composer/e-msg-composer.c:1271
 msgid "Unable to retrieve message from editor"
 msgstr "Nie można pobrać listu z edytora"
 
-#: composer/e-msg-composer.c:1276
+#: composer/e-msg-composer.c:1278
 #, c-format
 msgid ""
 "Unable to seek on file: %s\n"
@@ -10655,7 +10661,7 @@ msgstr ""
 "Nie można zmienić położenia w pliku: %s\n"
 "%s"
 
-#: composer/e-msg-composer.c:1283
+#: composer/e-msg-composer.c:1285
 #, c-format
 msgid ""
 "Unable to truncate file: %s\n"
@@ -10664,7 +10670,7 @@ msgstr ""
 "Nie można przyciąć pliku: %s\n"
 "%s"
 
-#: composer/e-msg-composer.c:1292
+#: composer/e-msg-composer.c:1294
 #, c-format
 msgid ""
 "Unable to copy file descriptor: %s\n"
@@ -10673,7 +10679,7 @@ msgstr ""
 "Nie można skopiować deskryptora: %s\n"
 "%s"
 
-#: composer/e-msg-composer.c:1301
+#: composer/e-msg-composer.c:1303
 #, c-format
 msgid ""
 "Error autosaving message: %s\n"
@@ -10682,7 +10688,7 @@ msgstr ""
 "Błąd przy automatycznym zapisie listu: %s\n"
 " %s"
 
-#: composer/e-msg-composer.c:1398
+#: composer/e-msg-composer.c:1400
 msgid ""
 "Ximian Evolution has found unsaved files from a previous session.\n"
 "Would you like to try to recover them?"
@@ -10690,7 +10696,7 @@ msgstr ""
 "Odnaleziono niezapisane pliki z poprzedniej sesji Evolution.\n"
 "Czy chcesz spróbować je odzyskać?"
 
-#: composer/e-msg-composer.c:1561
+#: composer/e-msg-composer.c:1563
 #, c-format
 msgid ""
 "The message \"%s\" has not been sent.\n"
@@ -10701,23 +10707,23 @@ msgstr ""
 "\n"
 "Czy chcesz zapisać zmiany?"
 
-#: composer/e-msg-composer.c:1570
+#: composer/e-msg-composer.c:1572
 msgid "Warning: Modified Message"
 msgstr "Uwaga: Zmodyfikowany list"
 
-#: composer/e-msg-composer.c:1602
+#: composer/e-msg-composer.c:1604
 msgid "Open file"
 msgstr "Otwarcie pliku"
 
-#: composer/e-msg-composer.c:2026
+#: composer/e-msg-composer.c:2028
 msgid "Signature:"
 msgstr "Podpis:"
 
-#: composer/e-msg-composer.c:2066 mail/mail-account-gui.c:1261
+#: composer/e-msg-composer.c:2068 mail/mail-account-gui.c:1261
 msgid "Autogenerated"
 msgstr "Wygenerowany automatycznie"
 
-#: composer/e-msg-composer.c:2242 composer/e-msg-composer.c:2911
+#: composer/e-msg-composer.c:2244 composer/e-msg-composer.c:2911
 #: composer/e-msg-composer.c:2912
 msgid "Compose a message"
 msgstr "Tworzenie listu"
@@ -11908,7 +11914,7 @@ msgstr "Właściwości \"%s\""
 msgid "Properties"
 msgstr "Właściwości"
 
-#: mail/folder-browser.c:329 mail/mail-display.c:393 mail/mail-display.c:917
+#: mail/folder-browser.c:329 mail/mail-display.c:393 mail/mail-display.c:921
 #, c-format
 msgid "Could not create temporary directory: %s"
 msgstr "Nie można utworzyć katalogu tymczasowego: %s"
@@ -13180,62 +13186,62 @@ msgstr "Zapis załącznika"
 msgid "Could not create temporary file '%s': %s"
 msgstr "Nie można utworzyć pliku tymczasowego \"%s\": %s"
 
-#: mail/mail-display.c:476
+#: mail/mail-display.c:480
 msgid "Save Attachment..."
 msgstr "Zapisz załącznik..."
 
-#: mail/mail-display.c:477
+#: mail/mail-display.c:481
 #, fuzzy
 msgid "View Inline"
 msgstr "Wyświetl na miejscu (za pomocą programu %s)"
 
-#: mail/mail-display.c:478
+#: mail/mail-display.c:482
 #, c-format
 msgid "Open in %s..."
 msgstr "Otwórz za pomocą programu %s..."
 
-#: mail/mail-display.c:538
+#: mail/mail-display.c:542
 #, c-format
 msgid "View Inline (via %s)"
 msgstr "Wyświetl na miejscu (za pomocą programu %s)"
 
-#: mail/mail-display.c:542
+#: mail/mail-display.c:546
 msgid "Hide"
 msgstr "Ukryj"
 
-#: mail/mail-display.c:562
+#: mail/mail-display.c:566
 msgid "External Viewer"
 msgstr "Zewnętrzna przeglądarka"
 
-#: mail/mail-display.c:1348
+#: mail/mail-display.c:1352
 msgid "Downloading images"
 msgstr "Pobieranie obrazów"
 
-#: mail/mail-display.c:1525
+#: mail/mail-display.c:1529
 msgid "Loading message content"
 msgstr "Wczytywanie treści listu"
 
-#: mail/mail-display.c:1867
+#: mail/mail-display.c:1871
 msgid "Overdue:"
 msgstr "Zaległe:"
 
-#: mail/mail-display.c:1871
+#: mail/mail-display.c:1875
 msgid "by %B %d, %Y, %l:%M %P"
 msgstr "przez %B %d, %Y, %l:%M %P"
 
-#: mail/mail-display.c:2235
+#: mail/mail-display.c:2239
 msgid "Open Link in Browser"
 msgstr "Otwórz odnośnik w przeglądarce"
 
-#: mail/mail-display.c:2236
+#: mail/mail-display.c:2240
 msgid "Copy Link Location"
 msgstr "Skopiuj adres odnośnika"
 
-#: mail/mail-display.c:2238
+#: mail/mail-display.c:2242
 msgid "Save Link as (FIXME)"
 msgstr "Zapisz odnośnik jako (FIXME)"
 
-#: mail/mail-display.c:2240
+#: mail/mail-display.c:2244
 msgid "Save Image as..."
 msgstr "Zapisz obraz jako..."
 
@@ -13456,64 +13462,64 @@ msgstr "Kopiowanie listów do %s"
 msgid "Scanning folders in \"%s\""
 msgstr "Analizowanie folderów w \"%s\""
 
-#: mail/mail-ops.c:1225
+#: mail/mail-ops.c:1230
 msgid "Forwarded messages"
 msgstr "Przesłane listy"
 
-#: mail/mail-ops.c:1268
+#: mail/mail-ops.c:1273
 #, c-format
 msgid "Opening folder %s"
 msgstr "Otwieranie folderu %s"
 
-#: mail/mail-ops.c:1340
+#: mail/mail-ops.c:1345
 #, c-format
 msgid "Opening store %s"
 msgstr "Otwieranie miejsca przechowywania %s"
 
-#: mail/mail-ops.c:1413
+#: mail/mail-ops.c:1423
 #, c-format
 msgid "Removing folder %s"
 msgstr "Usuwanie folderu %s"
 
-#: mail/mail-ops.c:1507
+#: mail/mail-ops.c:1517
 #, c-format
 msgid "Storing folder '%s'"
 msgstr "Zapisywanie folderu \"%s\""
 
-#: mail/mail-ops.c:1558
+#: mail/mail-ops.c:1568
 msgid "Refreshing folder"
 msgstr "Odświeżanie folderu"
 
-#: mail/mail-ops.c:1594 mail/mail-ops.c:1645
+#: mail/mail-ops.c:1604 mail/mail-ops.c:1655
 msgid "Expunging folder"
 msgstr "Oczyszczanie folderu"
 
-#: mail/mail-ops.c:1642
+#: mail/mail-ops.c:1652
 #, c-format
 msgid "Emptying trash in '%s'"
 msgstr "Opróżnianie śmietnika w \"%s\""
 
-#: mail/mail-ops.c:1643 my-evolution/e-summary-mail.c:483
+#: mail/mail-ops.c:1653 my-evolution/e-summary-mail.c:483
 #: shell/e-local-storage.c:1151
 msgid "Local Folders"
 msgstr "Lokalne foldery"
 
-#: mail/mail-ops.c:1718
+#: mail/mail-ops.c:1728
 #, c-format
 msgid "Retrieving message %s"
 msgstr "Pobieranie listu %s"
 
-#: mail/mail-ops.c:1790
+#: mail/mail-ops.c:1800
 #, c-format
 msgid "Retrieving %d message(s)"
 msgstr "Pobieranie %d listów"
 
-#: mail/mail-ops.c:1876
+#: mail/mail-ops.c:1886
 #, c-format
 msgid "Saving %d messsage(s)"
 msgstr "Zapisywanie %d listów"
 
-#: mail/mail-ops.c:1924
+#: mail/mail-ops.c:1934
 #, c-format
 msgid ""
 "Unable to create output file: %s\n"
@@ -13522,7 +13528,7 @@ msgstr ""
 "Nie można utworzyć pliku wyjściowego: %s\n"
 " %s"
 
-#: mail/mail-ops.c:1952
+#: mail/mail-ops.c:1962
 #, c-format
 msgid ""
 "Error saving messages to: %s:\n"
@@ -13531,11 +13537,11 @@ msgstr ""
 "Błąd przy zapisie listów do: %s:\n"
 " %s"
 
-#: mail/mail-ops.c:2026
+#: mail/mail-ops.c:2036
 msgid "Saving attachment"
 msgstr "Zapisywanie załącznika"
 
-#: mail/mail-ops.c:2043
+#: mail/mail-ops.c:2053
 #, c-format
 msgid ""
 "Cannot create output file: %s:\n"
@@ -13544,17 +13550,17 @@ msgstr ""
 "Nie można utworzyć pliku wyjściowego: %s:\n"
 " %s"
 
-#: mail/mail-ops.c:2073
+#: mail/mail-ops.c:2083
 #, c-format
 msgid "Could not write data: %s"
 msgstr "Nie można zapisać danych: %s"
 
-#: mail/mail-ops.c:2221
+#: mail/mail-ops.c:2231
 #, c-format
 msgid "Disconnecting from %s"
 msgstr "Odłączanie od %s"
 
-#: mail/mail-ops.c:2221
+#: mail/mail-ops.c:2231
 #, c-format
 msgid "Reconnecting to %s"
 msgstr "Ponowne nawiązywanie połączenia z %s"
@@ -16582,9 +16588,8 @@ msgid "East Midlands"
 msgstr ""
 
 #: my-evolution/Locations.h:639
-#, fuzzy
 msgid "East St Louis"
-msgstr "Wschód - południowy wschód"
+msgstr "Wschodnie St Louis"
 
 #: my-evolution/Locations.h:640
 msgid "Eau Claire"
@@ -16608,208 +16613,191 @@ msgstr ""
 
 #: my-evolution/Locations.h:646
 msgid "Edwards AFB"
-msgstr ""
+msgstr "Edwards AFB"
 
 #: my-evolution/Locations.h:647
 msgid "Egilsstadir"
-msgstr ""
+msgstr "Egilsstadir"
 
 #: my-evolution/Locations.h:648
-#, fuzzy
 msgid "Eglin"
-msgstr "Logowanie"
+msgstr "Eglin"
 
 #: my-evolution/Locations.h:649
 msgid "Eglington/Londonderry"
-msgstr ""
+msgstr "Eglington/Londonderry"
 
 #: my-evolution/Locations.h:651
 msgid "Eindhoven"
-msgstr ""
+msgstr "Eindhoven"
 
 #: my-evolution/Locations.h:652
 msgid "Ekofisk"
-msgstr ""
+msgstr "Ekofisk"
 
 #: my-evolution/Locations.h:653
 msgid "Elazig"
-msgstr ""
+msgstr "Elazig"
 
 #: my-evolution/Locations.h:654
 msgid "El Centro"
-msgstr ""
+msgstr "El Centro"
 
 #: my-evolution/Locations.h:655
-#, fuzzy
 msgid "El Dorado"
-msgstr "Tornado"
+msgstr "El Dorado"
 
 #: my-evolution/Locations.h:656
 msgid "Elefsis"
-msgstr ""
+msgstr "Elefsis"
 
 #: my-evolution/Locations.h:657
 msgid "Elfin Cove"
-msgstr ""
+msgstr "Elfin Cove"
 
 #: my-evolution/Locations.h:658
 msgid "Elizabeth City"
-msgstr ""
+msgstr "Elizabeth City"
 
 #: my-evolution/Locations.h:659
 msgid "Elk City"
-msgstr ""
+msgstr "Elk City"
 
 #: my-evolution/Locations.h:660
 msgid "Elkhart"
-msgstr ""
+msgstr "Elkhart"
 
 #: my-evolution/Locations.h:661
-#, fuzzy
 msgid "Elkins"
-msgstr "lista"
+msgstr "Elkins"
 
 #: my-evolution/Locations.h:662
 msgid "Elko"
-msgstr ""
+msgstr "Elko"
 
 #: my-evolution/Locations.h:663
-#, fuzzy
 msgid "Elmira"
-msgstr "Elm"
+msgstr "Elmira"
 
 #: my-evolution/Locations.h:664
-#, fuzzy
 msgid "El Monte"
-msgstr "Miesiąc"
+msgstr "El Monte"
 
 #: my-evolution/Locations.h:665
 msgid "El Paso"
 msgstr "El Paso"
 
 #: my-evolution/Locations.h:667
-#, fuzzy
 msgid "El Salvador Int."
-msgstr "Salwador"
+msgstr "El Salwador Int."
 
 #: my-evolution/Locations.h:668
 msgid "Elsenborn"
-msgstr ""
+msgstr "Elsenborn"
 
 #: my-evolution/Locations.h:669
-#, fuzzy
 msgid "Ely"
-msgstr "Elm"
+msgstr "Ely"
 
 #: my-evolution/Locations.h:670
 msgid "Emmonak"
-msgstr ""
+msgstr "Emmonak"
 
 #: my-evolution/Locations.h:671
-#, fuzzy
 msgid "Emporia"
-msgstr "Ważny"
+msgstr "Emporia"
 
 #: my-evolution/Locations.h:672
 msgid "Enid"
-msgstr ""
+msgstr "Enid"
 
 #: my-evolution/Locations.h:673
-#, fuzzy
 msgid "Enid/Woodring"
-msgstr "Przetwarzanie"
+msgstr "Enid/Woodring"
 
 #: my-evolution/Locations.h:674
 msgid "Enosburg Falls"
-msgstr ""
+msgstr "Enosburg Falls"
 
 #: my-evolution/Locations.h:675
 msgid "Ephrata"
-msgstr ""
+msgstr "Ephrata"
 
 #: my-evolution/Locations.h:676
 msgid "Ercan"
-msgstr ""
+msgstr "Ercan"
 
 #: my-evolution/Locations.h:677
-#, fuzzy
 msgid "Erie"
-msgstr "Erytrea"
+msgstr "Erie"
 
 #: my-evolution/Locations.h:678
 msgid "Erzurum"
-msgstr ""
+msgstr "Erzurum"
 
 #: my-evolution/Locations.h:679
 msgid "Esbjerg"
-msgstr ""
+msgstr "Esbjerg"
 
 #: my-evolution/Locations.h:680
 msgid "Escanaba"
-msgstr ""
+msgstr "Escanaba"
 
 #: my-evolution/Locations.h:681
 msgid "Esfahan"
-msgstr ""
+msgstr "Esfahan"
 
 #: my-evolution/Locations.h:682
 msgid "Eskisehir"
-msgstr ""
+msgstr "Eskisehir"
 
 #: my-evolution/Locations.h:683
 msgid "Estherville"
-msgstr ""
+msgstr "Estherville"
 
 #: my-evolution/Locations.h:685
-#, fuzzy
 msgid "Eugene"
-msgstr "Czerwiec"
+msgstr "Eugene"
 
 #: my-evolution/Locations.h:686
-#, fuzzy
 msgid "Eureka"
-msgstr "Erytrea"
+msgstr "Eureka"
 
 #: my-evolution/Locations.h:687
 msgid "Europe"
 msgstr "Europa"
 
 #: my-evolution/Locations.h:688
-#, fuzzy
 msgid "Evanston"
-msgstr "Wschód"
+msgstr "Evanston"
 
 #: my-evolution/Locations.h:689
 msgid "Evansville"
-msgstr ""
+msgstr "Evansville"
 
 #: my-evolution/Locations.h:690
-#, fuzzy
 msgid "Everett"
-msgstr "Co"
+msgstr "Everett"
 
 #: my-evolution/Locations.h:691
-#, fuzzy
 msgid "Evergreen"
-msgstr "Co tydzień"
+msgstr "Evergreen"
 
 #: my-evolution/Locations.h:692
 msgid "Evreux-Fauville"
-msgstr ""
+msgstr "Evreux-Fauville"
 
 #: my-evolution/Locations.h:693
-#, fuzzy
 msgid "Exeter"
-msgstr "Pogoda"
+msgstr "Exeter"
 
 #: my-evolution/Locations.h:694
 msgid "Ezeiza"
-msgstr ""
+msgstr "Ezeiza"
 
 #: my-evolution/Locations.h:695
-#, fuzzy
 msgid "Fagernes"
-msgstr "Pager"
+msgstr "Fagernes"
 
 #: my-evolution/Locations.h:696
 msgid "Fairbanks"
@@ -16817,215 +16805,191 @@ msgstr "Fairbanks"
 
 #: my-evolution/Locations.h:697
 msgid "Fairchild"
-msgstr ""
+msgstr "Fairchild"
 
 #: my-evolution/Locations.h:698
-#, fuzzy
 msgid "Fairfield"
-msgstr "Pole"
+msgstr "Fairfield"
 
 #: my-evolution/Locations.h:699
-#, fuzzy
 msgid "Fairmont"
-msgstr "Czcionki"
+msgstr "Fairmont"
 
 #: my-evolution/Locations.h:700
-#, fuzzy
 msgid "Fallon"
-msgstr "Telefon"
+msgstr "Fallon"
 
 #: my-evolution/Locations.h:701
 msgid "Falls City"
-msgstr ""
+msgstr "Falls City"
 
 #: my-evolution/Locations.h:702
 msgid "Falmouth-Otis AFB"
-msgstr ""
+msgstr "Falmouth-Otis AFB"
 
 #: my-evolution/Locations.h:703
 msgid "Farbanks/Eielson AFB"
-msgstr ""
+msgstr "Farbanks/Eielson AFB"
 
 #: my-evolution/Locations.h:704
-#, fuzzy
 msgid "Fargo"
-msgstr "temu"
+msgstr "Fargo"
 
 #: my-evolution/Locations.h:705
-#, fuzzy
 msgid "Farmingdale"
-msgstr "Zmienny"
+msgstr "Farmingdale"
 
 #: my-evolution/Locations.h:706
-#, fuzzy
 msgid "Farmington"
-msgstr "Utrzymujące się tornado"
+msgstr "Farmington"
 
 #: my-evolution/Locations.h:707
-#, fuzzy
 msgid "Farmville"
-msgstr "Nazwisko panieńskie"
+msgstr "Farmville"
 
 #: my-evolution/Locations.h:708
-#, fuzzy
 msgid "Faro"
-msgstr "Od"
+msgstr "Faro"
 
 #: my-evolution/Locations.h:709
 msgid "Fayetteville"
-msgstr ""
+msgstr "Fayetteville"
 
 #: my-evolution/Locations.h:710
-#, fuzzy
 msgid "Feng Nin"
-msgstr "Utrzymujący się deszcz"
+msgstr "Feng Nin"
 
 #: my-evolution/Locations.h:711
 msgid "Fergus Falls"
-msgstr ""
+msgstr "Fergus Falls"
 
 #: my-evolution/Locations.h:712
 msgid "Fernando De Noronha"
-msgstr ""
+msgstr "Fernando De Noronha"
 
 #: my-evolution/Locations.h:713
-#, fuzzy
 msgid "Ferrara"
-msgstr "Luty"
+msgstr "Ferrara"
 
 #: my-evolution/Locations.h:714
-#, fuzzy
 msgid "Figari"
-msgstr "Nigeria"
+msgstr "Figari"
 
 #: my-evolution/Locations.h:715
-#, fuzzy
 msgid "Findlay"
-msgstr "Piątek"
+msgstr "Findlay"
 
 #: my-evolution/Locations.h:717
-#, fuzzy
 msgid "Firenze"
-msgstr "Wolny"
+msgstr "Firenze"
 
 #: my-evolution/Locations.h:718
 msgid "Fitchburg"
-msgstr ""
+msgstr "Fitchburg"
 
 #: my-evolution/Locations.h:719
-#, fuzzy
 msgid "Flagstaff"
-msgstr "ostatni"
+msgstr "Flagstaff"
 
 #: my-evolution/Locations.h:720
-#, fuzzy
 msgid "Flint"
-msgstr "lista"
+msgstr "Flint"
 
 #: my-evolution/Locations.h:721
-#, fuzzy
 msgid "Flippin"
-msgstr "Filipiny"
+msgstr "Flippin"
 
 #: my-evolution/Locations.h:722
 msgid "Florence"
 msgstr "Florencja"
 
 #: my-evolution/Locations.h:723
-#, fuzzy
 msgid "Florennes"
-msgstr "Wolny"
+msgstr "Floreny"
 
 #: my-evolution/Locations.h:724
-#, fuzzy
 msgid "Flores"
-msgstr "Nazwa karty"
+msgstr "Flores"
 
 #: my-evolution/Locations.h:725
 msgid "Florianopolis"
-msgstr ""
+msgstr "Florianpolis"
 
 #: my-evolution/Locations.h:726
-#, fuzzy
 msgid "Florida"
-msgstr "Piątek"
+msgstr "Floryda"
 
 #: my-evolution/Locations.h:727
-#, fuzzy
 msgid "Floro"
-msgstr "Od"
+msgstr "Floro"
 
 #: my-evolution/Locations.h:728
 msgid "Fond Du Lac"
-msgstr ""
+msgstr "Fond Du Lac"
 
 #: my-evolution/Locations.h:729
-#, fuzzy
 msgid "Forde/Bringeland"
-msgstr "Finlandia"
+msgstr "Forde/Bringeland"
 
 #: my-evolution/Locations.h:730
-#, fuzzy
 msgid "Forli"
-msgstr "_Pią"
+msgstr "Forli"
 
 #: my-evolution/Locations.h:731
-#, fuzzy
 msgid "Formosa"
-msgstr "Format"
+msgstr "Formoza"
 
 #: my-evolution/Locations.h:732
 msgid "Fortaleza"
-msgstr ""
+msgstr "Fortaleza"
 
 #: my-evolution/Locations.h:733
 msgid "Fort Belvoir"
-msgstr ""
+msgstr "Fort Belvoir"
 
 #: my-evolution/Locations.h:734
 msgid "Fort Benning"
-msgstr ""
+msgstr "Fort Benning"
 
 #: my-evolution/Locations.h:735
 msgid "Fort Bragg"
-msgstr ""
+msgstr "Fort Bragg"
 
 #: my-evolution/Locations.h:736
 msgid "Fort Campbell"
-msgstr ""
+msgstr "Fort Campbell"
 
 #: my-evolution/Locations.h:737
 msgid "Fort Carson"
-msgstr ""
+msgstr "Fort Carson"
 
 #: my-evolution/Locations.h:738
 msgid "Fort Collins"
-msgstr ""
+msgstr "Fort Collins"
 
 #: my-evolution/Locations.h:739
 msgid "Fort Collins/Lovel"
-msgstr ""
+msgstr "Fort Collins/Lovel"
 
 #: my-evolution/Locations.h:740
 msgid "Fort Dodge"
-msgstr ""
+msgstr "Fort Dodge"
 
 #: my-evolution/Locations.h:741
 msgid "Fort Drum"
-msgstr ""
+msgstr "Fort Drum"
 
 #: my-evolution/Locations.h:742
-#, fuzzy
 msgid "Fort Eustis"
-msgstr "Skróty"
+msgstr "Fort Eustis"
 
 #: my-evolution/Locations.h:743
 msgid "Fort Greely/Allen AAF"
-msgstr ""
+msgstr "Fort Greely/Allen AAF"
 
 #: my-evolution/Locations.h:744
 msgid "Fort Huachuca"
-msgstr ""
+msgstr "Fort Huachuca"
 
 #: my-evolution/Locations.h:745
 msgid "Fort Knox"
@@ -17033,92 +16997,87 @@ msgstr "Fort Knox"
 
 #: my-evolution/Locations.h:746
 msgid "Fort Lauderdale"
-msgstr ""
+msgstr "Fort Lauderdale"
 
 #: my-evolution/Locations.h:747
 msgid "Fort Lauderdale (International)"
-msgstr ""
+msgstr "Fort Lauderdale (Międzynarodowy)"
 
 #: my-evolution/Locations.h:748
-#, fuzzy
 msgid "Fort Leonard"
-msgstr "Prześlij"
+msgstr "Fort Leonard"
 
 #: my-evolution/Locations.h:749
 msgid "Fort Lewis"
-msgstr ""
+msgstr "Fort Lewis"
 
 #: my-evolution/Locations.h:750
 msgid "Fort Madison"
-msgstr ""
+msgstr "Fort Madison"
 
 #: my-evolution/Locations.h:751
-#, fuzzy
 msgid "Fort Meade"
-msgstr "_Prześlij list"
+msgstr "Fort Meade"
 
 #: my-evolution/Locations.h:752
 msgid "Fort Myers (Page Field)"
-msgstr ""
+msgstr "Fort Myers (Page Field)"
 
 #: my-evolution/Locations.h:753
 msgid "Fort Myers (Southwest Florida International)"
-msgstr ""
+msgstr "Fort Myers (Południowozachodni port Florydy)"
 
 #: my-evolution/Locations.h:754
 msgid "Fort Polk-Leesville"
-msgstr ""
+msgstr "Fort Polk-Leesville"
 
 #: my-evolution/Locations.h:755
 msgid "Fort Riley"
-msgstr ""
+msgstr "Fort Riley"
 
 #: my-evolution/Locations.h:756
 msgid "Fort Sill"
-msgstr ""
+msgstr "Fort Sill"
 
 #: my-evolution/Locations.h:757
-#, fuzzy
 msgid "Fort Smith"
-msgstr "Format"
+msgstr "Fort Smith"
 
 #: my-evolution/Locations.h:758
-#, fuzzy
 msgid "Fort Stewart"
-msgstr "Przed rozpoczęciem"
+msgstr "Fort Stewart"
 
 #: my-evolution/Locations.h:759
 msgid "Fort Stockton"
-msgstr ""
+msgstr "Fort Stockton"
 
 #: my-evolution/Locations.h:760
-#, fuzzy
 msgid "Fort Wayne"
-msgstr "Francja"
+msgstr "Fort Wayne"
 
 #: my-evolution/Locations.h:761
 msgid "Fort Worth-Alliance"
-msgstr ""
+msgstr "Fort Worth-Allance"
 
 #: my-evolution/Locations.h:762
 msgid "Fort Worth-Meacham"
-msgstr ""
+msgstr "Fort Worth-Meacham"
 
 #: my-evolution/Locations.h:763
 msgid "Fort Worth NAS"
-msgstr ""
+msgstr "Fort Worth NAS"
 
 #: my-evolution/Locations.h:764
 msgid "Fourchon"
-msgstr ""
+msgstr "Fourchon"
 
 #: my-evolution/Locations.h:765
 msgid "Foz Do Iguacu"
-msgstr ""
+msgstr "Foz Do Iguacu"
 
 #: my-evolution/Locations.h:767
 msgid "Frankfort"
-msgstr ""
+msgstr "Franfort"
 
 #: my-evolution/Locations.h:768
 msgid "Frankfurt/Main"
@@ -17129,166 +17088,148 @@ msgid "Franklin"
 msgstr "Franklin"
 
 #: my-evolution/Locations.h:770
-#, fuzzy
 msgid "Fredericton"
-msgstr "opis"
+msgstr "Fredericton"
 
 #: my-evolution/Locations.h:771
-#, fuzzy
 msgid "Freeport"
-msgstr "Wolny"
+msgstr "Freeport"
 
 #: my-evolution/Locations.h:772
 msgid "Frenchville"
-msgstr ""
+msgstr "Frenchville"
 
 #: my-evolution/Locations.h:773
-#, fuzzy
 msgid "Fresno"
-msgstr "Utrzymujący się śnieg"
+msgstr "Fresno"
 
 #: my-evolution/Locations.h:774
 msgid "Fresno-Chandler"
-msgstr ""
+msgstr "Fresno-Chandler"
 
 #: my-evolution/Locations.h:775
-#, fuzzy
 msgid "Friday Harbor"
-msgstr "Piątek"
+msgstr "Friday Harbor"
 
 #: my-evolution/Locations.h:776
 msgid "Friedrichshafen"
-msgstr ""
+msgstr "Friedrichshafen"
 
 #: my-evolution/Locations.h:777
-#, fuzzy
 msgid "Frigg"
-msgstr "_Pią"
+msgstr "Frigg"
 
 #: my-evolution/Locations.h:778
-#, fuzzy
 msgid "Frontone"
-msgstr "Czcionki"
+msgstr "Frontone"
 
 #: my-evolution/Locations.h:779
-#, fuzzy
 msgid "Frosinone"
-msgstr "Zawód"
+msgstr "Frosinone"
 
 #: my-evolution/Locations.h:780
-#, fuzzy
 msgid "Fryeburg"
-msgstr "Luty"
+msgstr "Fryeburg"
 
 #: my-evolution/Locations.h:781
 msgid "Fujairah"
-msgstr ""
+msgstr "Fujairah"
 
 #: my-evolution/Locations.h:782
 msgid "Fuji Ab"
-msgstr ""
+msgstr "Fuji Ab"
 
 #: my-evolution/Locations.h:783
 msgid "Fukue Airport"
-msgstr ""
+msgstr "Fukue Port Lotniczy"
 
 #: my-evolution/Locations.h:784
 msgid "Fukui Airport"
-msgstr ""
+msgstr "Fukui Port Lotniczy"
 
 #: my-evolution/Locations.h:785
 msgid "Fukuoka Airport"
-msgstr ""
+msgstr "Fukuoka Port Lotniczy"
 
 #: my-evolution/Locations.h:786
 msgid "Fullerton"
-msgstr ""
+msgstr "Fullerton"
 
 #: my-evolution/Locations.h:787
 msgid "Funchal"
-msgstr ""
+msgstr "Funchal"
 
 #: my-evolution/Locations.h:788
-#, fuzzy
 msgid "FYR Macedonia"
-msgstr "Macedonia"
+msgstr "FYR Macedonia"
 
 #: my-evolution/Locations.h:789
 msgid "Gadsden"
-msgstr ""
+msgstr "Gadsden"
 
 #: my-evolution/Locations.h:790
-#, fuzzy
 msgid "Gage"
-msgstr "Strona"
+msgstr "Gage"
 
 #: my-evolution/Locations.h:791
-#, fuzzy
 msgid "Gainesville"
-msgstr "Anulowane"
+msgstr "Gainesville"
 
 #: my-evolution/Locations.h:792
 msgid "Galax-Hillsville"
-msgstr ""
+msgstr "Galax-Hillsville"
 
 #: my-evolution/Locations.h:793
 msgid "Galbraith Lake"
-msgstr ""
+msgstr "Galbraith Lake"
 
 #: my-evolution/Locations.h:794
 msgid "Galeao"
-msgstr ""
+msgstr "Galeao"
 
 #: my-evolution/Locations.h:795
-#, fuzzy
 msgid "Galena"
-msgstr "Ghana"
+msgstr "Galena"
 
 #: my-evolution/Locations.h:796
 msgid "Galesburg"
-msgstr ""
+msgstr "Galesburg"
 
 #: my-evolution/Locations.h:797
-#, fuzzy
 msgid "Gallup"
-msgstr "Gwadelupa"
+msgstr "Gallup"
 
 #: my-evolution/Locations.h:798
 msgid "Galveston"
-msgstr ""
+msgstr "Galveston"
 
 #: my-evolution/Locations.h:799
-#, fuzzy
 msgid "Gambell"
-msgstr "Etykieta"
+msgstr "Gambell"
 
 #: my-evolution/Locations.h:800
-#, fuzzy
 msgid "Gander"
-msgstr "Nadawca"
+msgstr "Gander"
 
 #: my-evolution/Locations.h:801
-#, fuzzy
 msgid "Garden City"
-msgstr "Tożsamość"
+msgstr "Garden City"
 
 #: my-evolution/Locations.h:802
 msgid "Gary"
-msgstr ""
+msgstr "Gary"
 
 #: my-evolution/Locations.h:803
-#, fuzzy
 msgid "Gassim"
-msgstr "Guam"
+msgstr "Gassim"
 
 #: my-evolution/Locations.h:804
-#, fuzzy
 msgid "Gatineau"
-msgstr "Gwinea"
+msgstr "Gatineau"
 
 #: my-evolution/Locations.h:805
 msgid "Gaziantep"
-msgstr ""
+msgstr "Gaziantep"
 
 #: my-evolution/Locations.h:806
 msgid "Gdansk"
@@ -17299,90 +17240,80 @@ msgid "Geneve"
 msgstr "Genewa"
 
 #: my-evolution/Locations.h:808
-#, fuzzy
 msgid "Genova"
-msgstr "Ogólne"
+msgstr "Genowa"
 
 #: my-evolution/Locations.h:809
 msgid "George Airport"
-msgstr ""
+msgstr "George Port Lotniczy"
 
 #: my-evolution/Locations.h:810
 msgid "Georgetown"
-msgstr ""
+msgstr "Georgetown"
 
 #: my-evolution/Locations.h:813
-#, fuzzy
 msgid "Ghardaia"
-msgstr "Ghana"
+msgstr "Ghardaia"
 
 #: my-evolution/Locations.h:814
 msgid "Ghedi"
-msgstr ""
+msgstr "Ghedi"
 
 #: my-evolution/Locations.h:816
 msgid "Gifu Ab"
-msgstr ""
+msgstr "Gifu Ab"
 
 #: my-evolution/Locations.h:817
-#, fuzzy
 msgid "Gila Bend"
-msgstr "Finlandia"
+msgstr "Gila Bend"
 
 #: my-evolution/Locations.h:818
 msgid "Gillette"
-msgstr ""
+msgstr "Gillette"
 
 #: my-evolution/Locations.h:819
 msgid "Gilze-Rijen"
-msgstr ""
+msgstr "Gilze-Rijen"
 
 #: my-evolution/Locations.h:820
 msgid "Gioia del Colle"
-msgstr ""
+msgstr "Gioia del Colle"
 
 #: my-evolution/Locations.h:821
-#, fuzzy
 msgid "Girona"
-msgstr "Gwinea"
+msgstr "Girona"
 
 #: my-evolution/Locations.h:822
-#, fuzzy
 msgid "Gizan"
-msgstr "Ghana"
+msgstr "Gizan"
 
 #: my-evolution/Locations.h:823
-#, fuzzy
 msgid "Glasgow"
-msgstr "temu"
+msgstr "Glasgow"
 
 #: my-evolution/Locations.h:824
-#, fuzzy
 msgid "Glendive"
-msgstr "Malediwy"
+msgstr "Glendive"
 
 #: my-evolution/Locations.h:825
 msgid "Glens Falls"
-msgstr ""
+msgstr "Glens Falls"
 
 #: my-evolution/Locations.h:826
-#, fuzzy
 msgid "Goiania"
-msgstr "Rumunia"
+msgstr "Goiania"
 
 #: my-evolution/Locations.h:827
 msgid "Goldsboro"
-msgstr ""
+msgstr "Goldsboro"
 
 #: my-evolution/Locations.h:828
-#, fuzzy
 msgid "Goodland"
-msgstr "Polska"
+msgstr "Goodland"
 
 #: my-evolution/Locations.h:829
-#, fuzzy
 msgid "Goose Bay"
-msgstr "Przechodzi do dzisiaj"
+msgstr "Zatoka Gęsi"
 
 #: my-evolution/Locations.h:830
 msgid "Goteborg (Landvetter)"
@@ -17393,9 +17324,8 @@ msgid "Goteborg (Save)"
 msgstr "Goteborg (Save)"
 
 #: my-evolution/Locations.h:832
-#, fuzzy
 msgid "Granada"
-msgstr "Grenada"
+msgstr "Granada"
 
 #: my-evolution/Locations.h:833
 msgid "Grand Canyon"
@@ -17407,204 +17337,179 @@ msgstr "Kajmany Wielkie"
 
 #: my-evolution/Locations.h:835
 msgid "Grand Forks"
-msgstr ""
+msgstr "Grand Forks"
 
 #: my-evolution/Locations.h:836
-#, fuzzy
 msgid "Grand Island"
-msgstr "Falklandy"
+msgstr "Grand Island"
 
 #: my-evolution/Locations.h:837
 msgid "Grand Isle"
-msgstr ""
+msgstr "Grand Isle"
 
 #: my-evolution/Locations.h:838
 msgid "Grand Junction"
-msgstr ""
+msgstr "Grand Junction"
 
 #: my-evolution/Locations.h:839
-#, fuzzy
 msgid "Grand Marais"
-msgstr "San Marino"
+msgstr "Grand Marais"
 
 #: my-evolution/Locations.h:840
 msgid "Grand Rapids"
-msgstr ""
+msgstr "Grand Rapids"
 
 #: my-evolution/Locations.h:841
-#, fuzzy
 msgid "Grandview"
-msgstr "Podgląd"
+msgstr "Grandview"
 
 #: my-evolution/Locations.h:842
-#, fuzzy
 msgid "Grangeville"
-msgstr "Anulowane"
+msgstr "Grangeville"
 
 #: my-evolution/Locations.h:843
-#, fuzzy
 msgid "Grants"
-msgstr "Szkice"
+msgstr "Grants"
 
 #: my-evolution/Locations.h:844
-#, fuzzy
 msgid "Graz"
-msgstr "Brazylia"
+msgstr "Graz"
 
 #: my-evolution/Locations.h:845
 msgid "Great Falls"
-msgstr ""
+msgstr "Great Falls"
 
 #: my-evolution/Locations.h:847
-#, fuzzy
 msgid "Greeley"
-msgstr "Grecja"
+msgstr "Greeley"
 
 #: my-evolution/Locations.h:848
-#, fuzzy
 msgid "Green Bay"
-msgstr "Grenlandia"
+msgstr "Green Bay"
 
 #: my-evolution/Locations.h:849
 msgid "Green River"
-msgstr ""
+msgstr "Green River"
 
 #: my-evolution/Locations.h:850
 msgid "Greensboro"
-msgstr ""
+msgstr "Greensboro"
 
 #: my-evolution/Locations.h:851
-#, fuzzy
 msgid "Greenville"
-msgstr "Grenlandia"
+msgstr "Greenville"
 
 #: my-evolution/Locations.h:852
 msgid "Greenville-Spartanburg"
-msgstr ""
+msgstr "Greenville-Spartanburg"
 
 #: my-evolution/Locations.h:853
-#, fuzzy
 msgid "Greenwood"
-msgstr "Grenlandia"
+msgstr "Greenwood"
 
 #: my-evolution/Locations.h:854
 msgid "Grenoble-Saint-Geoirs"
-msgstr ""
+msgstr "Grenoble-Saint-Geoirs"
 
 #: my-evolution/Locations.h:855
 msgid "Griffiss AFB"
-msgstr ""
+msgstr "Griffiss AFB"
 
 #: my-evolution/Locations.h:856
-#, fuzzy
 msgid "Groningen"
-msgstr "Ostrzeżenie"
+msgstr "Groningen"
 
 #: my-evolution/Locations.h:857
 msgid "Grosseto"
-msgstr ""
+msgstr "Grosseto"
 
 #: my-evolution/Locations.h:858
 msgid "Groton"
-msgstr ""
+msgstr "Groton"
 
 #: my-evolution/Locations.h:859
-#, fuzzy
 msgid "Guadalajara"
-msgstr "Gwatemala"
+msgstr "Guadalajara"
 
 #: my-evolution/Locations.h:860
-#, fuzzy
 msgid "Guadalupe Pass"
-msgstr "Gwadelupa"
+msgstr "Gwadelupa Pass"
 
 #: my-evolution/Locations.h:861
-#, fuzzy
 msgid "Guanare"
-msgstr "Gujana"
+msgstr "Guanare"
 
 #: my-evolution/Locations.h:862
 msgid "Guangzhou"
-msgstr ""
+msgstr "Guangzhou"
 
 #: my-evolution/Locations.h:863
-#, fuzzy
 msgid "Guantanamo"
-msgstr "Gwatemala"
+msgstr "Guantanamo"
 
 #: my-evolution/Locations.h:864
-#, fuzzy
 msgid "Guarany"
-msgstr "Niemcy"
+msgstr "Gurany"
 
 #: my-evolution/Locations.h:865
-#, fuzzy
 msgid "Guaratingueta"
-msgstr "Gwinea"
+msgstr "Guaratingueta"
 
 #: my-evolution/Locations.h:866
 msgid "Guarulhos"
-msgstr ""
+msgstr "Guarulhos"
 
 #: my-evolution/Locations.h:868
 msgid "Guayaquil/Simon Bolivar"
-msgstr ""
+msgstr "Guayaquil/Simon Bolivar"
 
 #: my-evolution/Locations.h:869
-#, fuzzy
 msgid "Guaymas"
-msgstr "Guam"
+msgstr "Guaymas"
 
 #: my-evolution/Locations.h:870
-#, fuzzy
 msgid "Guernsey"
-msgstr "Niemcy"
+msgstr "Guernsey"
 
 #: my-evolution/Locations.h:871
-#, fuzzy
 msgid "Guidonia"
-msgstr "Gwinea"
+msgstr "Gwidonia"
 
 #: my-evolution/Locations.h:872
 msgid "Gulfport"
-msgstr ""
+msgstr "Gulfport"
 
 #: my-evolution/Locations.h:873
-#, fuzzy
 msgid "Gulkana"
-msgstr "Gujana"
+msgstr "Gulkana"
 
 #: my-evolution/Locations.h:874
 msgid "Gullfax C"
-msgstr ""
+msgstr "Gullfax C"
 
 #: my-evolution/Locations.h:875
-#, fuzzy
 msgid "Gunnison"
-msgstr "Reunion"
+msgstr "Gunnison"
 
 #: my-evolution/Locations.h:876
 msgid "Gunnison (2)"
-msgstr ""
+msgstr "Gunnison (2)"
 
 #: my-evolution/Locations.h:877
-#, fuzzy
 msgid "Guriat"
-msgstr "Gwinea"
+msgstr "Guriat"
 
 #: my-evolution/Locations.h:878
 msgid "Gustavus"
-msgstr ""
+msgstr "Gustavus"
 
 #: my-evolution/Locations.h:879
-#, fuzzy
 msgid "Guymon"
-msgstr "Gujana"
+msgstr "Guymon"
 
 #: my-evolution/Locations.h:880
-#, fuzzy
 msgid "Habana"
-msgstr "Albania"
+msgstr ""
 
 #: my-evolution/Locations.h:881
 msgid "Hachijojima Airport"
@@ -20135,11 +20040,11 @@ msgstr "Najran"
 
 #: my-evolution/Locations.h:1506
 msgid "Nakashibetsu Airport"
-msgstr ""
+msgstr "Nakashibetsu Lotnisko"
 
 #: my-evolution/Locations.h:1507
 msgid "Nalchik"
-msgstr "Nalchik"
+msgstr "Nalczyk"
 
 #: my-evolution/Locations.h:1508
 msgid "Namsos"
@@ -20155,7 +20060,7 @@ msgstr "Nancy - Ochey"
 
 #: my-evolution/Locations.h:1511
 msgid "Nankishirahama Airport"
-msgstr "Nankishirahama Port Lotniczy"
+msgstr "Nankishirahama Lotnisko"
 
 #: my-evolution/Locations.h:1512
 msgid "Nanning"
@@ -20187,7 +20092,7 @@ msgstr "Narwik"
 
 #: my-evolution/Locations.h:1519
 msgid "Nasa Shuttle"
-msgstr ""
+msgstr "Nasa Shuttle"
 
 #: my-evolution/Locations.h:1520
 msgid "Nashua"
@@ -20337,26 +20242,27 @@ msgstr "Nowy Jork-Lotn. JFK"
 msgid "New York-La Guardia"
 msgstr "Nowy Jork-La Guardia"
 
+# To nazwa miasta, a nie wodospadów
+# więc chyba ie trzeba tłumaczyć
 #: my-evolution/Locations.h:1559
 msgid "Niagara Falls"
-msgstr "Wodospady Niagara"
+msgstr "Niagara Falls"
 
 #: my-evolution/Locations.h:1561
 msgid "Nice-Cote d'Azur"
-msgstr ""
+msgstr "Nice-Cote d'Azur"
 
 #: my-evolution/Locations.h:1562
 msgid "Niigata Airport"
-msgstr "Niigata Port Lotniczy"
+msgstr "Niigata Lotnisko"
 
 #: my-evolution/Locations.h:1563
 msgid "Nimes-Garons"
 msgstr "Nimes - Garons"
 
 #: my-evolution/Locations.h:1564
-#, fuzzy
 msgid "Nipawin"
-msgstr "Hiszpania"
+msgstr "Nipawin"
 
 #: my-evolution/Locations.h:1565
 msgid "Nis"
@@ -20368,16 +20274,15 @@ msgstr "Niżny Nowogród"
 
 #: my-evolution/Locations.h:1567
 msgid "N Las Vegas"
-msgstr "Nowe Las Vegas"
+msgstr "N Las Vegas"
 
 #: my-evolution/Locations.h:1568
 msgid "N Myrtle Beach"
-msgstr ""
+msgstr "N Myrtle Beach"
 
 #: my-evolution/Locations.h:1569
-#, fuzzy
 msgid "Nogales"
-msgstr "Zwykły"
+msgstr "Nogales"
 
 #: my-evolution/Locations.h:1570
 msgid "Nome"
@@ -20392,33 +20297,28 @@ msgid "Norfolk NAS"
 msgstr "Norfolk NAS"
 
 #: my-evolution/Locations.h:1574
-#, fuzzy
 msgid "Norrkoping"
-msgstr "Przetwarzanie"
+msgstr "Norrkoping"
 
 #: my-evolution/Locations.h:1575
-#, fuzzy
 msgid "North Adams"
-msgstr "Północny wschód"
+msgstr "North Adams"
 
 #: my-evolution/Locations.h:1576
-#, fuzzy
 msgid "North Bend"
-msgstr "Północ"
+msgstr "North Bend"
 
 #: my-evolution/Locations.h:1577
 msgid "North Carolina"
 msgstr "Północna Karolina"
 
 #: my-evolution/Locations.h:1578
-#, fuzzy
 msgid "North Conway"
-msgstr "Norwegia"
+msgstr "North Conway"
 
 #: my-evolution/Locations.h:1579
-#, fuzzy
 msgid "North Dakota"
-msgstr "Północny wschód"
+msgstr "Północna Dakota"
 
 #: my-evolution/Locations.h:1580
 msgid "Northeast Philadelphia"
@@ -20426,17 +20326,15 @@ msgstr "Północno-wschodnia Filadelfia"
 
 #: my-evolution/Locations.h:1581
 msgid "North Kingstown"
-msgstr ""
+msgstr "North Kingstown"
 
 #: my-evolution/Locations.h:1582
-#, fuzzy
 msgid "North Platte"
-msgstr "Północny wschód"
+msgstr "Północny Platte"
 
 #: my-evolution/Locations.h:1583
-#, fuzzy
 msgid "Northway"
-msgstr "Norwegia"
+msgstr "Northway"
 
 #: my-evolution/Locations.h:1584
 msgid "Northwest Territories"
@@ -20451,17 +20349,16 @@ msgid "Norwood"
 msgstr "Norwood"
 
 #: my-evolution/Locations.h:1588
-#, fuzzy
 msgid "Notodden"
-msgstr "Notka"
+msgstr "Notodden"
 
 #: my-evolution/Locations.h:1589
 msgid "Novara/Cameri"
-msgstr ""
+msgstr "Novara/Cameri"
 
 #: my-evolution/Locations.h:1590
 msgid "Nova Scotia"
-msgstr ""
+msgstr "Nowa Szkocja"
 
 #: my-evolution/Locations.h:1591
 msgid "Novosibirsk"
@@ -20473,118 +20370,107 @@ msgstr "Nowa Gerona"
 
 #: my-evolution/Locations.h:1593
 msgid "Nueva Ocotepeque"
-msgstr ""
+msgstr "Nueva Ocotepeque"
 
 #: my-evolution/Locations.h:1594
-#, fuzzy
 msgid "Nuevo Laredo"
-msgstr "Przed rozpoczęciem"
+msgstr "Nuevo Laredo"
 
 #: my-evolution/Locations.h:1595
 msgid "Nurnberg"
-msgstr ""
+msgstr "Norymberga"
 
 #: my-evolution/Locations.h:1596
 msgid "Nyutabaru Ab"
-msgstr ""
+msgstr "Nyutabaru Ab"
 
 #: my-evolution/Locations.h:1597
 msgid "Oahu"
-msgstr ""
+msgstr "Oahu"
 
 #: my-evolution/Locations.h:1598
 msgid "Oak Harbor"
-msgstr ""
+msgstr "Oak Harbor"
 
 #: my-evolution/Locations.h:1599
-#, fuzzy
 msgid "Oakland"
-msgstr "Tajlandia"
+msgstr "Oakland"
 
 #: my-evolution/Locations.h:1600
-#, fuzzy
 msgid "Oaxaca"
-msgstr "Jamajka"
+msgstr "Oaxaca"
 
 #: my-evolution/Locations.h:1601
 msgid "Oberpfaffenhofen"
-msgstr ""
+msgstr "Oberpfaffenhofen"
 
 #: my-evolution/Locations.h:1602
 msgid "Obihiro Airport"
-msgstr ""
+msgstr "Obihiro Lotnisko"
 
 #: my-evolution/Locations.h:1603
-#, fuzzy
 msgid "Ocala"
-msgstr "Palau"
+msgstr "Ocala"
 
 #: my-evolution/Locations.h:1604
-#, fuzzy
 msgid "Oceanside"
-msgstr "Islandia"
+msgstr "Oceanside"
 
 #: my-evolution/Locations.h:1605
-#, fuzzy
 msgid "Odense"
-msgstr "Pojedyncze"
+msgstr "Odense"
 
 #: my-evolution/Locations.h:1606
 msgid "Odesa"
 msgstr "Odessa"
 
 #: my-evolution/Locations.h:1607
-#, fuzzy
 msgid "Oelwen"
-msgstr "Otwórz"
+msgstr "Oelwen"
 
 #: my-evolution/Locations.h:1608
-#, fuzzy
 msgid "Ogden"
-msgstr "Otwórz"
+msgstr "Ogden"
 
 #: my-evolution/Locations.h:1609
 msgid "Ogden-Hill AFB"
-msgstr ""
+msgstr "Ogden-Hill AFB"
 
 #: my-evolution/Locations.h:1610
 msgid "Ogdensburg"
-msgstr ""
+msgstr "Ogdensburg"
 
 #: my-evolution/Locations.h:1611
 msgid "Ohio"
 msgstr "Ohio"
 
 #: my-evolution/Locations.h:1612
-#, fuzzy
 msgid "Ohrid"
-msgstr "trzeci"
+msgstr "Ochryda"
 
 #: my-evolution/Locations.h:1613
 msgid "Oita Airport"
-msgstr ""
+msgstr "Oita Lotnisko"
 
-# [cyba] Nie mam pewności, ale jest zatoka Cooka, cieśnina, góry, więc chyba...
 #: my-evolution/Locations.h:1614
-#, fuzzy
 msgid "Ojika Island"
-msgstr "Wyspy Cooka"
+msgstr "Wyspa Ojika"
 
 #: my-evolution/Locations.h:1615
 msgid "Okayama Airport"
-msgstr ""
+msgstr "Okayama Lotnisko"
 
 #: my-evolution/Locations.h:1616
 msgid "Oki Airport"
-msgstr ""
+msgstr "Oki Lotnisko"
 
 #: my-evolution/Locations.h:1617
 msgid "Okinoerabu"
-msgstr ""
+msgstr "Okinoerabu"
 
 #: my-evolution/Locations.h:1618
 msgid "Oklahoma"
-msgstr "OKlahoma"
+msgstr "Oklahoma"
 
 #: my-evolution/Locations.h:1619
 msgid "Oklahoma City"
@@ -20592,52 +20478,47 @@ msgstr "Oklahoma City"
 
 #: my-evolution/Locations.h:1620
 msgid "Oklahoma City-Bethany"
-msgstr ""
+msgstr "Oklahoma City-Bethany"
 
 #: my-evolution/Locations.h:1621
 msgid "Oklahoma City-Midwest City"
-msgstr ""
+msgstr "Oklahoma City-Midwest City"
 
 #: my-evolution/Locations.h:1622
-#, fuzzy
 msgid "Okushiri Island"
-msgstr "Wyspa Bożego Narodzenia"
+msgstr "Wyspa Okushiri"
 
 #: my-evolution/Locations.h:1623
-#, fuzzy
 msgid "Olathe"
-msgstr "Inne"
+msgstr "Olathe"
 
 #: my-evolution/Locations.h:1624
 msgid "Olathe/Ind."
-msgstr ""
+msgstr "Olathe/Ind."
 
 #: my-evolution/Locations.h:1625
-#, fuzzy
 msgid "Olbia"
-msgstr "Albania"
+msgstr "Olbia"
 
 #: my-evolution/Locations.h:1626
 msgid "Olympia"
-msgstr ""
+msgstr "Olympia"
 
 #: my-evolution/Locations.h:1627
-#, fuzzy
 msgid "Omaha"
-msgstr "Oman"
+msgstr "Omaha"
 
 #: my-evolution/Locations.h:1628
 msgid "Omaha-Bellevue"
-msgstr ""
+msgstr "Omaha-Bellevue"
 
 #: my-evolution/Locations.h:1629
-#, fuzzy
 msgid "Omak"
-msgstr "Oman"
+msgstr "Omak"
 
 #: my-evolution/Locations.h:1631
 msgid "Ominato Ab"
-msgstr ""
+msgstr "Ominato Ab"
 
 #: my-evolution/Locations.h:1632
 msgid "Omsk"
@@ -20645,39 +20526,35 @@ msgstr "Omsk"
 
 #: my-evolution/Locations.h:1633
 msgid "O'Neill"
-msgstr ""
+msgstr "O'Neill"
 
 #: my-evolution/Locations.h:1634
-#, fuzzy
 msgid "Ontario"
-msgstr "Ułożenie"
+msgstr "Ontario"
 
 #: my-evolution/Locations.h:1635
-#, fuzzy
 msgid "Oostende"
-msgstr "Uczestnik"
+msgstr "Ostenda"
 
 #: my-evolution/Locations.h:1636
-#, fuzzy
 msgid "Oran"
-msgstr "Oman"
+msgstr "Oran"
 
 #: my-evolution/Locations.h:1637
 msgid "Oran/Es Senia"
-msgstr ""
+msgstr "Oran/Es Senia"
 
 #: my-evolution/Locations.h:1638
-#, fuzzy
 msgid "Orange"
-msgstr "Francja"
+msgstr "Orange"
 
 #: my-evolution/Locations.h:1639
 msgid "Orange City"
-msgstr ""
+msgstr "Orange City"
 
 #: my-evolution/Locations.h:1640
 msgid "Ord-Sharp"
-msgstr ""
+msgstr "Ord-Sharp"
 
 #: my-evolution/Locations.h:1641
 msgid "Oregon"
@@ -20685,7 +20562,7 @@ msgstr "Oregon"
 
 #: my-evolution/Locations.h:1642
 msgid "Orenburg"
-msgstr ""
+msgstr "Orenburg"
 
 #: my-evolution/Locations.h:1643
 msgid "Orland"
@@ -20695,48 +20572,46 @@ msgstr "Orland"
 msgid "Orlando"
 msgstr "Orlando"
 
+# FIXME - Czy chodzi tu o lotnisko w orlando?
 #: my-evolution/Locations.h:1645
 msgid "Orlando (Orlando International)"
-msgstr ""
+msgstr "Orlando (Orlando International)"
 
 #: my-evolution/Locations.h:1646
 msgid "Orsta-Volda"
-msgstr ""
+msgstr "Orsta-Volda"
 
 #: my-evolution/Locations.h:1647
-#, fuzzy
 msgid "Oruro"
-msgstr "Błąd"
+msgstr "Oruro"
 
 #: my-evolution/Locations.h:1648
 msgid "Osaka International Airport"
-msgstr ""
+msgstr "Osaka Lotnisko Międzynarodowe"
 
 #: my-evolution/Locations.h:1649
 msgid "Osan Ab"
-msgstr ""
+msgstr "Osan Ab"
 
-# FIXME (drugi / sekunda)
 #: my-evolution/Locations.h:1650
-#, fuzzy
 msgid "Oscoda"
-msgstr "drugi"
+msgstr "Oscoda"
 
 #: my-evolution/Locations.h:1651
 msgid "Oseberg A"
-msgstr ""
+msgstr "Oseberg A"
 
 #: my-evolution/Locations.h:1652
 msgid "Oshima Airport"
-msgstr ""
+msgstr "Oshima Lotnisko"
 
 #: my-evolution/Locations.h:1653
 msgid "Oshkosh"
-msgstr ""
+msgstr "Oshkosh"
 
 #: my-evolution/Locations.h:1654
 msgid "Oslo/Gardenmoen"
-msgstr ""
+msgstr "Oslo/Gardenmoen"
 
 #: my-evolution/Locations.h:1655
 msgid "Ostrava"
@@ -20748,79 +20623,76 @@ msgstr "Ottawa"
 
 #: my-evolution/Locations.h:1657
 msgid "Ottumwa"
-msgstr ""
+msgstr "Ottumwa"
 
 #: my-evolution/Locations.h:1658
 msgid "Owensboro"
-msgstr ""
+msgstr "Owensboro"
 
 #: my-evolution/Locations.h:1659
 msgid "Owyhee"
-msgstr ""
+msgstr "Owyhee"
 
 #: my-evolution/Locations.h:1660
 msgid "Oxford"
 msgstr "Oksford"
 
 #: my-evolution/Locations.h:1661
-#, fuzzy
 msgid "Oxnard"
-msgstr "Karta"
+msgstr "Oxnard"
 
 #: my-evolution/Locations.h:1662
 msgid "Ozark"
-msgstr ""
+msgstr "Ozark"
 
 #: my-evolution/Locations.h:1663
 msgid "Ozuki Ab"
-msgstr ""
+msgstr "Ozuki Ab"
 
 #: my-evolution/Locations.h:1664
 msgid "Paderborn-Haxterberg"
-msgstr ""
+msgstr "Paderborn-Haxterberg"
 
 #: my-evolution/Locations.h:1665
 msgid "Padova"
-msgstr ""
+msgstr "Padwa"
 
 #: my-evolution/Locations.h:1666
 msgid "Paducah"
-msgstr ""
+msgstr "Paducah"
 
 #: my-evolution/Locations.h:1667
 msgid "Paekado"
-msgstr ""
+msgstr "Paekado"
 
 #: my-evolution/Locations.h:1668
 msgid "Paengnyongdo Ab"
-msgstr ""
+msgstr "Paengnyongdo Ab"
 
 #: my-evolution/Locations.h:1669
-#, fuzzy
 msgid "Paganella"
-msgstr "Strona"
+msgstr "Paganella"
 
 #: my-evolution/Locations.h:1672
 msgid "Pa Kuei/Bakuai"
-msgstr ""
+msgstr "Pa Kuei/Bakuai"
 
 #: my-evolution/Locations.h:1673
-#, fuzzy
 msgid "Palacios"
-msgstr "Palau"
+msgstr "Palacios"
 
 #: my-evolution/Locations.h:1674
 msgid "Palermo"
 msgstr "Palermo"
 
+# Miasto w Hiszpanii
 #: my-evolution/Locations.h:1675
 msgid "Palma de Mallorca"
-msgstr ""
+msgstr "Palma de Mallorca"
 
 #: my-evolution/Locations.h:1676
-#, fuzzy
 msgid "Palmdale"
-msgstr "Palau"
+msgstr "Palmdale"
 
 #: my-evolution/Locations.h:1677
 msgid "Palmer"
@@ -20828,36 +20700,31 @@ msgstr "Palmer"
 
 #: my-evolution/Locations.h:1678
 msgid "Palm Springs"
-msgstr ""
+msgstr "Palm Springs"
 
 #: my-evolution/Locations.h:1679
 msgid "Palo Alto"
-msgstr ""
+msgstr "Palo Alto"
 
 #: my-evolution/Locations.h:1680
-#, fuzzy
 msgid "Pamplona"
-msgstr "Palau"
+msgstr "Pampeluna"
 
 #: my-evolution/Locations.h:1682
-#, fuzzy
 msgid "Panama City"
-msgstr "Panama"
+msgstr "Panama City"
 
 #: my-evolution/Locations.h:1683
-#, fuzzy
 msgid "Pantelleria"
-msgstr "Anulowane"
+msgstr "Pantelleria"
 
 #: my-evolution/Locations.h:1684
-#, fuzzy
 msgid "Papa"
-msgstr "Papier"
+msgstr "Papa"
 
 #: my-evolution/Locations.h:1685
-#, fuzzy
 msgid "Paphos"
-msgstr "Laos"
+msgstr "Paphos"
 
 #: my-evolution/Locations.h:1687
 msgid "Paris"
@@ -20877,83 +20744,75 @@ msgstr "Paryż/Orly"
 
 #: my-evolution/Locations.h:1691
 msgid "Parkersburg"
-msgstr ""
+msgstr "Parkersburg"
 
 #: my-evolution/Locations.h:1692
-#, fuzzy
 msgid "Pasco"
-msgstr "Hasło"
+msgstr "Pasco"
 
 #: my-evolution/Locations.h:1693
 msgid "Paso De Los Libres"
-msgstr ""
+msgstr "Paso De Los Libres"
 
 #: my-evolution/Locations.h:1694
 msgid "Paso Robles"
-msgstr ""
+msgstr "Paso Robles"
 
 #: my-evolution/Locations.h:1695
 msgid "Passo dei Giovi"
-msgstr ""
+msgstr "Passo dei Giovi"
 
 #: my-evolution/Locations.h:1696
 msgid "Passo della Cisa"
-msgstr ""
+msgstr "Passo della Cisa"
 
 #: my-evolution/Locations.h:1697
 msgid "Passo Resia"
-msgstr ""
+msgstr "Passo Resia"
 
 #: my-evolution/Locations.h:1698
 msgid "Passo Rolle"
-msgstr ""
+msgstr "Passo Rolle"
 
 #: my-evolution/Locations.h:1699
-#, fuzzy
 msgid "Patna"
-msgstr "Panama"
+msgstr "Patna"
 
 #: my-evolution/Locations.h:1700
-#, fuzzy
 msgid "Patterson"
-msgstr "Osobiste"
+msgstr "Patterson"
 
 #: my-evolution/Locations.h:1701
 msgid "Patuxent River"
-msgstr ""
+msgstr "Patuxent River"
 
 #: my-evolution/Locations.h:1702
 msgid "Pau/Pyrenees"
-msgstr ""
+msgstr "Pau/Pyrenees"
 
 #: my-evolution/Locations.h:1703
 msgid "Paxson"
-msgstr ""
+msgstr "Paxson"
 
 #: my-evolution/Locations.h:1704
-#, fuzzy
 msgid "Paysandu"
-msgstr "Obfity piasek"
+msgstr "Paysandu"
 
 #: my-evolution/Locations.h:1705
-#, fuzzy
 msgid "Payson"
-msgstr "Odtwarzany dźwięk:"
+msgstr "Payson"
 
 #: my-evolution/Locations.h:1706
-#, fuzzy
 msgid "Pellston"
-msgstr "Osobiste"
+msgstr "Pellston"
 
 #: my-evolution/Locations.h:1707
-#, fuzzy
 msgid "Pelotas"
-msgstr "Odśwież"
+msgstr "Pelotas"
 
 #: my-evolution/Locations.h:1708
-#, fuzzy
 msgid "Pendleton"
-msgstr "_Wybór:"
+msgstr "Pendleton"
 
 #: my-evolution/Locations.h:1709
 msgid "Pennsylvania"
@@ -20961,32 +20820,31 @@ msgstr "Pensylwania"
 
 #: my-evolution/Locations.h:1710
 msgid "Penn Yan"
-msgstr ""
+msgstr "Penn Yan"
 
 #: my-evolution/Locations.h:1711
 msgid "Pensacola"
-msgstr ""
+msgstr "Pensacola"
 
 #: my-evolution/Locations.h:1712
 msgid "Pensacola NAS"
-msgstr ""
+msgstr "Pensacola NAS"
 
 #: my-evolution/Locations.h:1713
 msgid "People's Republic of China"
 msgstr "Chińska Republika Ludowa"
 
 #: my-evolution/Locations.h:1714
-#, fuzzy
 msgid "Peoria"
-msgstr "Gruzja"
+msgstr "Peoria"
 
 #: my-evolution/Locations.h:1715
 msgid "Pequot Lakes"
-msgstr ""
+msgstr "Pequot Lakes"
 
 #: my-evolution/Locations.h:1716
 msgid "Pereira/Matecana"
-msgstr ""
+msgstr "Pereira/Matecana"
 
 #: my-evolution/Locations.h:1717
 msgid "Perm"
@@ -20994,24 +20852,23 @@ msgstr "Perm"
 
 #: my-evolution/Locations.h:1718
 msgid "Perpignan-Rivesaltes"
-msgstr ""
+msgstr "Perpignan-Rivesaltes"
 
 #: my-evolution/Locations.h:1719
 msgid "Perry-Foley"
-msgstr ""
+msgstr "Perry-Foley"
 
 #: my-evolution/Locations.h:1720
 msgid "Perth"
 msgstr "Perth"
 
 #: my-evolution/Locations.h:1722
-#, fuzzy
 msgid "Perugia"
-msgstr "Peru"
+msgstr "Perugia"
 
 #: my-evolution/Locations.h:1723
 msgid "Pescara"
-msgstr ""
+msgstr "Pescara"
 
 #: my-evolution/Locations.h:1724
 msgid "Petersburg"
@@ -21019,89 +20876,84 @@ msgstr "Petersburg"
 
 #: my-evolution/Locations.h:1725
 msgid "Petropavlovsk-Kamchatsky"
-msgstr ""
+msgstr "Petropawłowsk Kamczacki"
 
 #: my-evolution/Locations.h:1726
 msgid "Petrozavodsk"
-msgstr ""
+msgstr "Petrozawodsk"
 
 #: my-evolution/Locations.h:1727
 msgid "Philadelphia"
 msgstr "Filadelfia"
 
 #: my-evolution/Locations.h:1728
-#, fuzzy
 msgid "Philip"
-msgstr "Filipiny"
+msgstr "Philip"
 
 #: my-evolution/Locations.h:1729
-#, fuzzy
 msgid "Philipsburg"
-msgstr "Filipiny"
+msgstr "Philipsburg"
 
 #: my-evolution/Locations.h:1730
-#, fuzzy
 msgid "Phillips"
-msgstr "Filipiny"
+msgstr "Phillips"
 
 #: my-evolution/Locations.h:1731
-#, fuzzy
 msgid "Phoenix"
-msgstr "Telefon"
+msgstr "Phoenix"
 
 #: my-evolution/Locations.h:1732
 msgid "Phoenix-Deer Valley"
-msgstr ""
+msgstr "Phoenix-Deer Valley"
 
 #: my-evolution/Locations.h:1733
 msgid "Phoenix-Goodyear"
-msgstr ""
+msgstr "Phoenix-Goodyear"
 
 #: my-evolution/Locations.h:1734
 msgid "Phoenix-Luke AFB"
-msgstr ""
+msgstr "Phoenix-Luke AFB"
 
 #: my-evolution/Locations.h:1735
 msgid "Piacenza"
-msgstr ""
+msgstr "Piacenza"
 
 #: my-evolution/Locations.h:1736
 msgid "Pian Rosa"
-msgstr ""
+msgstr "Pian Rosa"
 
 #: my-evolution/Locations.h:1737
 msgid "Piedras Negras"
-msgstr ""
+msgstr "Piedras Negras"
 
 #: my-evolution/Locations.h:1738
-#, fuzzy
 msgid "Pierre"
-msgstr "Pine"
+msgstr "Pierre"
 
+# Miasto w RPA
 #: my-evolution/Locations.h:1739
 msgid "Pietersburg"
-msgstr ""
+msgstr "Pietersburg"
 
 #: my-evolution/Locations.h:1740
-#, fuzzy
 msgid "Pikeville"
-msgstr "Podgląd"
+msgstr "Pikeville"
 
 #: my-evolution/Locations.h:1741
 msgid "Pine Bluff"
-msgstr ""
+msgstr "Pine Bluff"
 
 #: my-evolution/Locations.h:1742
 msgid "Pingtung North"
-msgstr ""
+msgstr "Pingtung North"
 
 #: my-evolution/Locations.h:1743
 msgid "Pingtung South"
-msgstr ""
+msgstr "Pingtung South"
 
 #: my-evolution/Locations.h:1744
 msgid "Pirassununga"
-msgstr ""
+msgstr "Pirassununga"
 
 #: my-evolution/Locations.h:1745
 msgid "Pisa"
@@ -21109,148 +20961,135 @@ msgstr "Piza"
 
 #: my-evolution/Locations.h:1746
 msgid "Pisco"
-msgstr ""
+msgstr "Pisco"
 
 #: my-evolution/Locations.h:1747
 msgid "Pittsburgh"
-msgstr ""
+msgstr "Pittsburgh"
 
 #: my-evolution/Locations.h:1748
 msgid "Pittsburgh-West Mifflin"
-msgstr ""
+msgstr "Pittsburgh-West Mifflin"
 
 #: my-evolution/Locations.h:1749
 msgid "Plattsburg"
-msgstr ""
+msgstr "Plattsburg"
 
 #: my-evolution/Locations.h:1750
 msgid "Plovdiv"
-msgstr ""
+msgstr "Płowdiw"
 
 #: my-evolution/Locations.h:1751
-#, fuzzy
 msgid "Plymouth"
-msgstr "Południe"
+msgstr "Plymouth"
 
 #: my-evolution/Locations.h:1752
 msgid "Pocatello"
-msgstr ""
+msgstr "Pocatello"
 
 #: my-evolution/Locations.h:1753
 msgid "Pocos De Caldas"
-msgstr ""
+msgstr "Pocos De Caldas"
 
 #: my-evolution/Locations.h:1754
 msgid "Podgorica"
-msgstr ""
+msgstr "Podgorica"
 
 #: my-evolution/Locations.h:1755
-#, fuzzy
 msgid "Podgorica Titograd"
-msgstr "Częściowe tornado"
+msgstr "Podgorica Titograd"
 
 #: my-evolution/Locations.h:1756
 msgid "Pohang Ab"
-msgstr ""
+msgstr "Pohang Ab"
 
 #: my-evolution/Locations.h:1757
-#, fuzzy
 msgid "Point Hope"
-msgstr "Wydrukuj kopertę"
+msgstr "Point Hope"
 
 #: my-evolution/Locations.h:1758
-#, fuzzy
 msgid "Point Lay"
-msgstr "Wydrukuj zestawienie"
+msgstr "Point Lay"
 
 #: my-evolution/Locations.h:1759
-#, fuzzy
 msgid "Point Mugu"
-msgstr "Wydruk listu"
+msgstr "Point Mugu"
 
 #: my-evolution/Locations.h:1760
 msgid "Point Piedras Blanca"
-msgstr ""
+msgstr "Point Piedras Blanca"
 
 #: my-evolution/Locations.h:1761
-#, fuzzy
 msgid "Poitiers"
-msgstr "Filtry"
+msgstr "Poitiers"
 
 #: my-evolution/Locations.h:1763
 msgid "Pompano Beach"
-msgstr ""
+msgstr "Pompano Beach"
 
 #: my-evolution/Locations.h:1764
 msgid "Ponca City"
-msgstr ""
+msgstr "Ponca City"
 
 #: my-evolution/Locations.h:1765
-#, fuzzy
 msgid "Ponce"
-msgstr "Telefon"
+msgstr "Ponce"
 
 #: my-evolution/Locations.h:1766
 msgid "Ponta Pora"
-msgstr ""
+msgstr "Ponta Pora"
 
 #: my-evolution/Locations.h:1767
-#, fuzzy
 msgid "Pontiac"
-msgstr "Kontakt"
+msgstr "Pontiac"
 
 #: my-evolution/Locations.h:1768
 msgid "Pope AFB"
-msgstr ""
+msgstr "Pope AFB"
 
 #: my-evolution/Locations.h:1769
 msgid "Poplar Bluff"
-msgstr ""
+msgstr "Poplar Bluff"
 
 #: my-evolution/Locations.h:1770
 msgid "Poprad"
 msgstr "Poprad"
 
 #: my-evolution/Locations.h:1771
-#, fuzzy
 msgid "Port Alexander"
-msgstr "Polska"
+msgstr "Port Alexander"
 
 #: my-evolution/Locations.h:1772
 msgid "Port Alsworth"
-msgstr ""
+msgstr "Port Alsworth"
 
 #: my-evolution/Locations.h:1773
-#, fuzzy
 msgid "Port Angeles"
-msgstr "Wydrukuj kopertę"
+msgstr "Port Angeles"
 
 #: my-evolution/Locations.h:1774
 msgid "Port-Au-Prince"
-msgstr ""
+msgstr "Port-Au-Prince"
 
 #: my-evolution/Locations.h:1775
 msgid "Port Elizabeth"
-msgstr ""
+msgstr "Port Elizabeth"
 
 #: my-evolution/Locations.h:1776
-#, fuzzy
 msgid "Porterville"
-msgstr "Podgląd"
+msgstr "Porterville"
 
 #: my-evolution/Locations.h:1777
-#, fuzzy
 msgid "Port Hardy"
-msgstr "Wydrukuj kartę"
+msgstr "Port Hardy"
 
 #: my-evolution/Locations.h:1778
-#, fuzzy
 msgid "Port Hedland"
-msgstr "Polska"
+msgstr "Port Hedland"
 
 #: my-evolution/Locations.h:1779
 msgid "Port Heiden"
-msgstr ""
+msgstr "Port Heiden"
 
 #: my-evolution/Locations.h:1780
 msgid "Portland"
@@ -21261,59 +21100,52 @@ msgid "Porto"
 msgstr "Porto"
 
 #: my-evolution/Locations.h:1782
-#, fuzzy
 msgid "Porto Alegre"
-msgstr "Postęp"
+msgstr "Porto Alegre"
 
 #: my-evolution/Locations.h:1783
 msgid "Porto Alegre Apt"
-msgstr ""
+msgstr "Porto Alegre Apt"
 
 #: my-evolution/Locations.h:1784
-#, fuzzy
 msgid "Portoroz"
-msgstr "Portret"
+msgstr "Portoroz"
 
 #: my-evolution/Locations.h:1785
-#, fuzzy
 msgid "Porto Santo"
-msgstr "Portret"
+msgstr "Porto Santo"
 
 #: my-evolution/Locations.h:1786
 msgid "Porto Velho"
-msgstr ""
+msgstr "Porto Velho"
 
 #: my-evolution/Locations.h:1787
-#, fuzzy
 msgid "Port Said"
-msgstr "Portret"
+msgstr "Port Said"
 
 #: my-evolution/Locations.h:1788
 msgid "Portsmouth"
-msgstr ""
+msgstr "Portsmouth"
 
 #: my-evolution/Locations.h:1790
-#, fuzzy
 msgid "Posadas"
-msgstr "Polska"
+msgstr "Posadas"
 
 #: my-evolution/Locations.h:1791
 msgid "Potosi"
-msgstr ""
+msgstr "Potosi"
 
 #: my-evolution/Locations.h:1792
 msgid "Poughkeepsie"
-msgstr ""
+msgstr "Poughkeepsie"
 
 #: my-evolution/Locations.h:1793
-#, fuzzy
 msgid "Pownal"
-msgstr "Osobiste"
+msgstr "Pownal"
 
 #: my-evolution/Locations.h:1794
-#, fuzzy
 msgid "Poza Rica"
-msgstr "Kostaryka"
+msgstr "Poza Rica"
 
 #: my-evolution/Locations.h:1795
 msgid "Poznan"
@@ -21324,173 +21156,152 @@ msgid "Praha"
 msgstr "Praga"
 
 #: my-evolution/Locations.h:1797
-#, fuzzy
 msgid "Pratica di Mare"
-msgstr "Częściowa mżawka"
+msgstr "Pratica di Mare"
 
 #: my-evolution/Locations.h:1798
 msgid "Prescott"
-msgstr ""
+msgstr "Prescott"
 
 #: my-evolution/Locations.h:1799
-#, fuzzy
 msgid "Presidente Prudente"
-msgstr "Podgląd wydruku"
+msgstr "Presidente Prudente"
 
 #: my-evolution/Locations.h:1800
 msgid "Presque Isle"
-msgstr ""
+msgstr "Presque Isle"
 
 #: my-evolution/Locations.h:1801
 msgid "Prestwick"
-msgstr ""
+msgstr "Prestwick"
 
 #: my-evolution/Locations.h:1802
 msgid "Pretoria"
 msgstr "Pretoria"
 
 #: my-evolution/Locations.h:1803
-#, fuzzy
 msgid "Preveza"
-msgstr "Podgląd"
+msgstr "Preveza"
 
 #: my-evolution/Locations.h:1804
-#, fuzzy
 msgid "Price-Carbon"
-msgstr "Pitcairn"
+msgstr "Price-Carbon"
 
 #: my-evolution/Locations.h:1805
 msgid "Pristina"
 msgstr "Prisztina"
 
 #: my-evolution/Locations.h:1806
-#, fuzzy
 msgid "Providence"
-msgstr "_Stan/Prowincja:"
+msgstr "Providence"
 
 #: my-evolution/Locations.h:1807
-#, fuzzy
 msgid "Provincetown"
-msgstr "Podgląd"
+msgstr "Provincetown"
 
 #: my-evolution/Locations.h:1808
-#, fuzzy
 msgid "Provo"
-msgstr "Zawd"
+msgstr "Provo"
 
 #: my-evolution/Locations.h:1809
 msgid "Pskov"
 msgstr "Psków"
 
 #: my-evolution/Locations.h:1810
-#, fuzzy
 msgid "Pucallpa"
-msgstr "Palau"
+msgstr "Pucallpa"
 
 #: my-evolution/Locations.h:1811
 msgid "Pudahuel"
-msgstr ""
+msgstr "Pudahuel"
 
 #: my-evolution/Locations.h:1812
-#, fuzzy
 msgid "Puebla"
-msgstr "Publiczny"
+msgstr "Puebla"
 
 #: my-evolution/Locations.h:1813
-#, fuzzy
 msgid "Pueblo"
-msgstr "Publiczny"
+msgstr "Pueblo"
 
 #: my-evolution/Locations.h:1814
-#, fuzzy
 msgid "Puerto Barrios"
-msgstr "Puerto Rico"
+msgstr "Puerto Barrios"
 
 #: my-evolution/Locations.h:1815
 msgid "Puerto Cabezas"
-msgstr ""
+msgstr "Puerto Cabezas"
 
 #: my-evolution/Locations.h:1816
-#, fuzzy
 msgid "Puerto Escondido"
-msgstr "Puerto Rico"
+msgstr "Puerto Escondido"
 
 #: my-evolution/Locations.h:1817
-#, fuzzy
 msgid "Puerto Lempira"
-msgstr "Puerto Rico"
+msgstr "Puerto Lempira"
 
 #: my-evolution/Locations.h:1818
-#, fuzzy
 msgid "Puerto Limon"
-msgstr "Puerto Rico"
+msgstr "Puerto Limon"
 
 #: my-evolution/Locations.h:1819
-#, fuzzy
 msgid "Puerto Maldonado"
-msgstr "Częściowe tornado"
+msgstr "Puerto Maldonado"
 
 #: my-evolution/Locations.h:1820
-#, fuzzy
 msgid "Puerto Montt"
-msgstr "Puerto Rico"
+msgstr "Puerto Montt"
 
 #: my-evolution/Locations.h:1821
-#, fuzzy
 msgid "Puerto Plata"
-msgstr "Puerto Rico"
+msgstr "Puerto Plata"
 
 #: my-evolution/Locations.h:1823
-#, fuzzy
 msgid "Puerto Suarez"
-msgstr "Wydrukuj"
+msgstr "Puerto Suarez"
 
 #: my-evolution/Locations.h:1824
 msgid "Puerto Vallarta"
-msgstr ""
+msgstr "Puerto Vallarta"
 
 #: my-evolution/Locations.h:1825
-#, fuzzy
 msgid "Pula"
-msgstr "Palau"
+msgstr "Pula"
 
 #: my-evolution/Locations.h:1826
-#, fuzzy
 msgid "Pullman"
-msgstr "Polska"
+msgstr "Pullman"
 
 #: my-evolution/Locations.h:1827
 msgid "Punta Arenas"
-msgstr ""
+msgstr "Punta Arenas"
 
 #: my-evolution/Locations.h:1828
 msgid "Punta Cana"
-msgstr ""
+msgstr "Punta Cana"
 
 #: my-evolution/Locations.h:1829
 msgid "Punta Gorda"
-msgstr ""
+msgstr "Punta Gorda"
 
 #: my-evolution/Locations.h:1830
 msgid "Puntilla Lake"
-msgstr ""
+msgstr "Puntilla Lake"
 
 #: my-evolution/Locations.h:1831
 msgid "Pusan/Kimhae"
-msgstr ""
+msgstr "Pusan/Kimhae"
 
 #: my-evolution/Locations.h:1832
 msgid "Pyongtaek Ab"
-msgstr ""
+msgstr "Pyongtaek Ab"
 
 #: my-evolution/Locations.h:1833
 msgid "Pyongyang"
-msgstr ""
+msgstr "Pyongyang"
 
 #: my-evolution/Locations.h:1835
-#, fuzzy
 msgid "Quantico"
-msgstr "Pytanie"
+msgstr "Quantico"
 
 #: my-evolution/Locations.h:1836
 msgid "Quebec"
@@ -21498,28 +21309,27 @@ msgstr "Quebec"
 
 #: my-evolution/Locations.h:1837
 msgid "Quebec City"
-msgstr ""
+msgstr "Quebec City"
 
 #: my-evolution/Locations.h:1838
 msgid "Queretaro"
-msgstr ""
+msgstr "Queretaro"
 
 #: my-evolution/Locations.h:1839
 msgid "Quillayute"
-msgstr ""
+msgstr "Quillayute"
 
 #: my-evolution/Locations.h:1840
-#, fuzzy
 msgid "Quimper"
-msgstr "Zapytanie"
+msgstr "Quimper"
 
 #: my-evolution/Locations.h:1841
 msgid "Quincy"
-msgstr ""
+msgstr "Quincy"
 
 #: my-evolution/Locations.h:1842
 msgid "Quito/Mariscal Sucre"
-msgstr ""
+msgstr "Quito/Mariscal Sucre"
 
 #: my-evolution/Locations.h:1843
 msgid "Rabat"
@@ -26885,7 +26695,7 @@ msgid "View the current contact"
 msgstr "Wyświetla bieżący kontakt"
 
 #: ui/evolution-addressbook.xml.h:29 ui/evolution-calendar.xml.h:28
-#: ui/evolution-comp-editor.xml.h:17 ui/evolution-contact-editor.xml.h:11
+#: ui/evolution-comp-editor.xml.h:16 ui/evolution-contact-editor.xml.h:11
 #: ui/evolution-contact-list-editor.xml.h:10
 #: ui/evolution-event-editor.xml.h:11 ui/evolution-mail-global.xml.h:17
 #: ui/evolution-mail-list.xml.h:23 ui/evolution-mail-message.xml.h:93
@@ -27028,26 +26838,28 @@ msgstr "Wyświetla podgląd elementu w postaci przygotowanej do druku"
 msgid "Print this item"
 msgstr "Drukuje bieżący element"
 
-#: ui/evolution-comp-editor.xml.h:12 ui/evolution-message-composer.xml.h:16
-#: ui/evolution-signature-editor.xml.h:5
-msgid "Save"
-msgstr "Zapisz"
+#: ui/evolution-comp-editor.xml.h:11 ui/evolution-contact-editor.xml.h:7
+#: ui/evolution-contact-list-editor.xml.h:5
+#: ui/evolution-message-composer.xml.h:18
+msgid "Save _As..."
+msgstr "Zapisz j_ako..."
 
-#: ui/evolution-comp-editor.xml.h:13
-msgid "Save As..."
-msgstr "Zapisz jako..."
-
-#: ui/evolution-comp-editor.xml.h:14 ui/evolution-contact-editor.xml.h:8
+#: ui/evolution-comp-editor.xml.h:12 ui/evolution-contact-editor.xml.h:8
 #: ui/evolution-contact-list-editor.xml.h:6
 #: ui/evolution-signature-editor.xml.h:6
 msgid "Save and Close"
 msgstr "Zapisz i zamknij"
 
-#: ui/evolution-comp-editor.xml.h:15
+#: ui/evolution-comp-editor.xml.h:13
+#, fuzzy
+msgid "Save and _Close"
+msgstr "Zapisz i zamknij"
+
+#: ui/evolution-comp-editor.xml.h:14
 msgid "Save the item and close the dialog box"
 msgstr "Zapisuje element i zamyka okno dialogowe"
 
-#: ui/evolution-comp-editor.xml.h:16
+#: ui/evolution-comp-editor.xml.h:15
 msgid "Save this item to disk"
 msgstr "Zapisuje bieżący element na dysku"
 
@@ -27059,6 +26871,13 @@ msgstr "Zapisuje bieżący element na dysku"
 #: ui/evolution.xml.h:46
 msgid "_File"
 msgstr "_Plik"
+
+#: ui/evolution-comp-editor.xml.h:20 ui/evolution-contact-editor.xml.h:15
+#: ui/evolution-contact-list-editor.xml.h:12
+#: ui/evolution-message-composer.xml.h:47
+#: ui/evolution-signature-editor.xml.h:14
+msgid "_Save"
+msgstr "_Zapisz"
 
 #: ui/evolution-composer-entries.xml.h:1
 msgid "Copy selected text to the clipboard"
@@ -27089,12 +26908,6 @@ msgstr "Zaznacza cały tekst"
 msgid "Print En_velope..."
 msgstr "Wydrukuj _kopertę..."
 
-#: ui/evolution-contact-editor.xml.h:7
-#: ui/evolution-contact-list-editor.xml.h:5
-#: ui/evolution-message-composer.xml.h:18
-msgid "Save _As..."
-msgstr "Zapisz j_ako..."
-
 #: ui/evolution-contact-editor.xml.h:9
 msgid "Save the contact and close the dialog box"
 msgstr "Zapisuje kontakt i zamyka okno dialogowe"
@@ -27102,13 +26915,6 @@ msgstr "Zapisuje kontakt i zamyka okno dialogowe"
 #: ui/evolution-contact-editor.xml.h:10
 msgid "Send _Message to Contact..."
 msgstr "Wyślij _list do kontaktu..."
-
-#: ui/evolution-contact-editor.xml.h:15
-#: ui/evolution-contact-list-editor.xml.h:12
-#: ui/evolution-message-composer.xml.h:47
-#: ui/evolution-signature-editor.xml.h:14
-msgid "_Save"
-msgstr "_Zapisz"
 
 #: ui/evolution-contact-list-editor.xml.h:3
 msgid "Delete this list"
@@ -27808,6 +27614,11 @@ msgstr "Szyfrowanie S/MIME"
 #: ui/evolution-message-composer.xml.h:15
 msgid "S/MIME Sign"
 msgstr "Podpis S/MIME"
+
+#: ui/evolution-message-composer.xml.h:16
+#: ui/evolution-signature-editor.xml.h:5
+msgid "Save"
+msgstr "Zapisz"
 
 #: ui/evolution-message-composer.xml.h:17
 msgid "Save As"
@@ -28531,3 +28342,6 @@ msgstr "Przeglądarka kalendarza iTip/iMip"
 #, fuzzy
 msgid "Evolution Addressbook local file backend"
 msgstr "Przeglądarka miniaturowych kart książki adresowej Evolution"
+
+#~ msgid "Save As..."
+#~ msgstr "Zapisz jako..."
