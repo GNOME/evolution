@@ -6,13 +6,13 @@
 # Martin Norbäck <d95mback@dtek.chalmers.se>, 2001.
 # Johan Dahlin <zilch.am@home.se>, 2001.
 #
-# $Id: sv.po,v 1.156.2.9 2003/03/27 01:13:07 menthos Exp $
+# $Id: sv.po,v 1.156.2.10 2003/05/14 18:10:58 menthos Exp $
 #
 msgid ""
 msgstr ""
 "Project-Id-Version: evolution\n"
-"POT-Creation-Date: 2003-03-27 02:02+0100\n"
-"PO-Revision-Date: 2003-03-27 02:10+0100\n"
+"POT-Creation-Date: 2003-05-14 20:07+0200\n"
+"PO-Revision-Date: 2003-05-14 20:09+0200\n"
 "Last-Translator: Christian Rose <menthos@menthos.com>\n"
 "Language-Team: Swedish <sv@li.org>\n"
 "MIME-Version: 1.0\n"
@@ -3868,15 +3868,15 @@ msgstr "Skapa ett nytt möte"
 
 #: calendar/gui/component-factory.c:755
 msgid "New meeting"
-msgstr "Nytt möte"
+msgstr "Nytt sammanträde"
 
 #: calendar/gui/component-factory.c:755
 msgid "_Meeting"
-msgstr "_Möte"
+msgstr "_Sammanträde"
 
 #: calendar/gui/component-factory.c:756
 msgid "Create a new meeting request"
-msgstr "Skapa en ny mötesbegäran"
+msgstr "Skapa en ny sammanträdesbegäran"
 
 #: calendar/gui/component-factory.c:760
 msgid "New task"
@@ -4077,12 +4077,12 @@ msgstr "%s %s innan starten på mötet"
 #: calendar/gui/dialogs/alarm-page.c:442
 #, c-format
 msgid "%s %s after the end of the appointment"
-msgstr "%s %s efter slut på möte"
+msgstr "%s %s efter slutet på mötet"
 
 #: calendar/gui/dialogs/alarm-page.c:447
 #, c-format
 msgid "%s at the end of the appointment"
-msgstr "%s efter slut på möte"
+msgstr "%s vid slutet på mötet"
 
 #: calendar/gui/dialogs/alarm-page.c:471
 #, c-format
@@ -4368,12 +4368,12 @@ msgid ""
 "The event being deleted is a meeting, would you like to send a cancellation "
 "notice?"
 msgstr ""
-"Evenemanget som tas bort är ett möte. Vill du skicka ett "
+"Evenemanget som tas bort är ett sammanträde. Vill du skicka ett "
 "avbokningsmeddelande?"
 
 #: calendar/gui/dialogs/cancel-comp.c:62
 msgid "Are you sure you want to cancel and delete this meeting?"
-msgstr "Är du säker på att du vill avboka och ta bort detta möte?"
+msgstr "Är du säker på att du vill avboka och ta bort detta sammanträde?"
 
 #: calendar/gui/dialogs/cancel-comp.c:68
 msgid ""
@@ -4603,7 +4603,7 @@ msgstr "Schemaläggning"
 #: calendar/gui/dialogs/event-editor.c:306
 #: calendar/gui/dialogs/event-editor.c:444 ui/evolution-event-editor.xml.h:6
 msgid "Meeting"
-msgstr "Möte"
+msgstr "Sammanträde"
 
 #: calendar/gui/dialogs/event-page.c:666 calendar/gui/dialogs/task-page.c:567
 msgid "Start date is wrong"
@@ -4696,7 +4696,7 @@ msgstr "Det måste finnas åtminstone en närvarande person."
 
 #: calendar/gui/dialogs/meeting-page.c:598
 msgid "That person is already attending the meeting!"
-msgstr "Personen är redan närvarande på mötet!"
+msgstr "Personen är redan närvarande på sammanträdet!"
 
 #: calendar/gui/dialogs/meeting-page.c:673
 msgid "_Delegate To..."
@@ -4946,11 +4946,11 @@ msgstr "år"
 
 #: calendar/gui/dialogs/send-comp.c:59
 msgid "The meeting information has been created. Send it?"
-msgstr "Mötesinformationen har skapats. Skicka den?"
+msgstr "Sammanträdesinformationen har skapats. Skicka den?"
 
 #: calendar/gui/dialogs/send-comp.c:62
 msgid "The meeting information has changed. Send an updated version?"
-msgstr "Mötesinformationen har ändrats. Skicka en uppdaterad version?"
+msgstr "Sammanträdesinformationen har ändrats. Skicka en uppdaterad version?"
 
 #: calendar/gui/dialogs/send-comp.c:69
 msgid "The task assignment information has been created. Send it?"
@@ -5248,7 +5248,7 @@ msgstr "Nytt _heldagsarrangemang"
 
 #: calendar/gui/e-day-view.c:3715 calendar/gui/e-week-view.c:3537
 msgid "New Meeting"
-msgstr "Nytt möte"
+msgstr "Nytt sammanträde"
 
 #: calendar/gui/e-day-view.c:3717 calendar/gui/e-week-view.c:3538
 msgid "New Task"
@@ -5284,7 +5284,7 @@ msgstr "_Spara som..."
 
 #: calendar/gui/e-day-view.c:3767 calendar/gui/e-week-view.c:3580
 msgid "_Schedule Meeting..."
-msgstr "_Boka möte..."
+msgstr "_Boka sammanträde..."
 
 #: calendar/gui/e-day-view.c:3768 calendar/gui/e-week-view.c:3581
 msgid "_Forward as iCalendar..."
@@ -5500,61 +5500,61 @@ msgstr "Avbryt"
 #: calendar/gui/e-itip-control.c:1336
 #, c-format
 msgid "<b>%s</b> has published meeting information."
-msgstr "<b>%s</b> har publicerat mötesinformation."
+msgstr "<b>%s</b> har publicerat sammanträdesinformation."
 
 #: calendar/gui/e-itip-control.c:1337
 msgid "Meeting Information"
-msgstr "Mötesinformation"
+msgstr "Sammanträdesinformation"
 
 #: calendar/gui/e-itip-control.c:1342
 #, c-format
 msgid "<b>%s</b> requests the presence of %s at a meeting."
-msgstr "<b>%s</b> begär att %s närvarar vid ett möte."
+msgstr "<b>%s</b> begär att %s närvarar vid ett sammanträde."
 
 #: calendar/gui/e-itip-control.c:1344
 #, c-format
 msgid "<b>%s</b> requests your presence at a meeting."
-msgstr "<b>%s</b> begär din närvaro vid ett möte."
+msgstr "<b>%s</b> begär din närvaro vid ett sammanträde."
 
 #: calendar/gui/e-itip-control.c:1345
 msgid "Meeting Proposal"
-msgstr "Mötesförslag"
+msgstr "Sammanträdesförslag"
 
 #: calendar/gui/e-itip-control.c:1349
 #, c-format
 msgid "<b>%s</b> wishes to add to an existing meeting."
-msgstr "<b>%s</b> vill lägga till i ett befintligt möte."
+msgstr "<b>%s</b> vill lägga till i ett befintligt sammanträde."
 
 #: calendar/gui/e-itip-control.c:1350
 msgid "Meeting Update"
-msgstr "Mötesuppdatering"
+msgstr "Sammanträdesuppdatering"
 
 #: calendar/gui/e-itip-control.c:1354
 #, c-format
 msgid "<b>%s</b> wishes to receive the latest meeting information."
-msgstr "<b>%s</b> vill få den senaste mötesinformationen."
+msgstr "<b>%s</b> vill få den senaste sammanträdesinformationen."
 
 #: calendar/gui/e-itip-control.c:1355
 msgid "Meeting Update Request"
-msgstr "Begäran av mötesuppdatering"
+msgstr "Begäran av sammanträdesuppdatering"
 
 #: calendar/gui/e-itip-control.c:1362
 #, c-format
 msgid "<b>%s</b> has replied to a meeting request."
-msgstr "<b>%s</b> har svarat på en mötesbegäran."
+msgstr "<b>%s</b> har svarat på en sammanträdesbegäran."
 
 #: calendar/gui/e-itip-control.c:1363
 msgid "Meeting Reply"
-msgstr "Mötessvar"
+msgstr "Sammanträdessvar"
 
 #: calendar/gui/e-itip-control.c:1370
 #, c-format
 msgid "<b>%s</b> has cancelled a meeting."
-msgstr "<b>%s</b> har avbokat ett möte."
+msgstr "<b>%s</b> har avbokat ett sammanträde."
 
 #: calendar/gui/e-itip-control.c:1371
 msgid "Meeting Cancellation"
-msgstr "Mötesavbokning"
+msgstr "Sammanträdesavbokning"
 
 #: calendar/gui/e-itip-control.c:1378 calendar/gui/e-itip-control.c:1445
 #: calendar/gui/e-itip-control.c:1480
@@ -5564,12 +5564,12 @@ msgstr "<b>%s</b> har skickat ett obegripligt meddelande."
 
 #: calendar/gui/e-itip-control.c:1379
 msgid "Bad Meeting Message"
-msgstr "Felaktigt mötesmeddelande"
+msgstr "Felaktigt sammanträdesmeddelande"
 
 #: calendar/gui/e-itip-control.c:1403
 #, c-format
 msgid "<b>%s</b> has published task information."
-msgstr "<b>%s</b> har publicerat mötesinformation."
+msgstr "<b>%s</b> har publicerat uppgiftsinformation."
 
 #: calendar/gui/e-itip-control.c:1404
 msgid "Task Information"
@@ -5936,11 +5936,11 @@ msgstr "Folk som krävs _och en resurs"
 
 #: calendar/gui/e-meeting-time-sel.c:654
 msgid "Meeting _start time:"
-msgstr "Mötets _starttid:"
+msgstr "Sammanträdets _starttid:"
 
 #: calendar/gui/e-meeting-time-sel.c:673
 msgid "Meeting _end time:"
-msgstr "Mötets slu_ttid:"
+msgstr "Sammanträdets slu_ttid:"
 
 #: calendar/gui/e-tasks.c:358 calendar/gui/gnome-cal.c:2036
 #: calendar/gui/gnome-cal.c:2047
@@ -8658,7 +8658,7 @@ msgstr ""
 
 #: camel/camel-sasl-kerberos4.c:218
 #: camel/providers/imap/camel-imap-store.c:1059 camel/camel-sasl-gssapi.c:189
-#: camel/camel-sasl-gssapi.c:238 camel/camel-sasl-gssapi.c:273
+#: camel/camel-sasl-gssapi.c:238 camel/camel-sasl-gssapi.c:274
 #: camel/camel-sasl-gssapi.c:289
 msgid "Bad authentication response from server."
 msgstr "Felaktigt autentiseringssvar från servern."
@@ -12455,7 +12455,7 @@ msgstr "Citera inte originalmeddelandet"
 
 #: mail/mail-config.glade.h:47
 msgid "Don't sign _meeting requests (for Outlook compatibility)"
-msgstr "Signera inte _mötesbegäran (för kompatibilitet med Outlook)"
+msgstr "Signera inte _sammanträdesbegäran (för kompatibilitet med Outlook)"
 
 #: mail/mail-config.glade.h:48 shell/glade/evolution-startup-wizard.glade.h:2
 msgid "Done"
@@ -12987,19 +12987,19 @@ msgstr "Skulle ha utförts:"
 msgid "by %B %d, %Y, %l:%M %P"
 msgstr "den %d %B %Y %H.%M"
 
-#: mail/mail-display.c:2120
+#: mail/mail-display.c:2126
 msgid "Open Link in Browser"
 msgstr "Öppna länk i webbläsare"
 
-#: mail/mail-display.c:2121
+#: mail/mail-display.c:2127
 msgid "Copy Link Location"
 msgstr "Kopiera länkplats"
 
-#: mail/mail-display.c:2123
+#: mail/mail-display.c:2129
 msgid "Save Link as (FIXME)"
 msgstr "Spara länk som (FIXME)"
 
-#: mail/mail-display.c:2125
+#: mail/mail-display.c:2131
 msgid "Save Image as..."
 msgstr "Spara bild som..."
 
@@ -26461,11 +26461,11 @@ msgstr "Skicka _meddelande till lista..."
 
 #: ui/evolution-event-editor.xml.h:1
 msgid "Cancel Mee_ting"
-msgstr "Avboka m_öte"
+msgstr "Avboka samman_träde"
 
 #: ui/evolution-event-editor.xml.h:2
 msgid "Cancel the meeting for this item"
-msgstr "Avboka mötet för detta objekt"
+msgstr "Avboka sammanträdet för detta objekt"
 
 #: ui/evolution-event-editor.xml.h:3 ui/evolution-task-editor.xml.h:5
 msgid "Forward as i_Calendar"
@@ -26477,19 +26477,19 @@ msgstr "Vidarebefordra detta objekt via e-post"
 
 #: ui/evolution-event-editor.xml.h:7
 msgid "Obtain the latest meeting information"
-msgstr "Få tag i den senaste mötesinformationen"
+msgstr "Få tag i den senaste sammanträdesinformationen"
 
 #: ui/evolution-event-editor.xml.h:8
 msgid "Re_fresh Meeting"
-msgstr "U_ppdatera möte"
+msgstr "U_ppdatera sammanträde"
 
 #: ui/evolution-event-editor.xml.h:9
 msgid "Schedule _Meeting"
-msgstr "Boka _möte"
+msgstr "Boka _sammanträde"
 
 #: ui/evolution-event-editor.xml.h:10
 msgid "Schedule a meeting for this item"
-msgstr "Boka ett möte för detta objekt"
+msgstr "Boka ett sammanträde för detta objekt"
 
 #: ui/evolution-executive-summary.xml.h:1
 msgid "Customize My Evolution"
@@ -28039,7 +28039,7 @@ msgstr "De refererade identitetshandlingarna har gått ut."
 msgid "Failed to resolve host `%s': %s"
 msgstr "Misslyckades med att slå upp värden \"%s\": %s"
 
-#: camel/camel-sasl-gssapi.c:297
+#: camel/camel-sasl-gssapi.c:299
 msgid "Unsupported security layer."
 msgstr "Säkerhetslagret stöds inte."
 
@@ -28466,7 +28466,7 @@ msgstr "Säkerhetslagret stöds inte."
 #~ msgstr "Kunde inte skapa fabriken för alarmnotifieringstjänsten"
 
 #~ msgid "Meeting begins: <b>"
-#~ msgstr "Mötet börjar: <b>"
+#~ msgstr "Sammanträdet börjar: <b>"
 
 #~ msgid "Task begins: <b>"
 #~ msgstr "Uppgiften börjar: <b>"
@@ -28478,7 +28478,7 @@ msgstr "Säkerhetslagret stöds inte."
 #~ msgstr "Börjar: <b>"
 
 #~ msgid "Meeting ends: <b>"
-#~ msgstr "Mötet slutar: <b>"
+#~ msgstr "Sammanträdet slutar: <b>"
 
 #~ msgid "Free/Busy info ends: <b>"
 #~ msgstr "Ledig-/upptageninformation slutar: <b>"
@@ -28541,7 +28541,7 @@ msgstr "Säkerhetslagret stöds inte."
 #~ msgstr "_Bläddra..."
 
 #~ msgid "The meeting status has changed. Send an updated version?"
-#~ msgstr "Mötestatusen har ändrats. Skicka en uppdaterad version?"
+#~ msgstr "Sammanträdestatusen har ändrats. Skicka en uppdaterad version?"
 
 #~ msgid "_Delete this Appointment"
 #~ msgstr "_Ta bort detta möte"
@@ -30155,10 +30155,10 @@ msgstr "Säkerhetslagret stöds inte."
 #~ msgstr "Detta är ett evenemang som kan läggas till i din kalender."
 
 #~ msgid "This is a meeting request."
-#~ msgstr "Detta är en mötesbegäran."
+#~ msgstr "Detta är en sammanträdesbegäran."
 
 #~ msgid "This is one or more additions to a current meeting."
-#~ msgstr "Detta är en eller flera tillägg till ett aktuellt möte."
+#~ msgstr "Detta är en eller flera tillägg till ett aktuellt sammanträde."
 
 #~ msgid "This is a request for the latest event information."
 #~ msgstr "Detta är en begäran av den senaste evenemangsinformationen."
@@ -30733,7 +30733,7 @@ msgstr "Säkerhetslagret stöds inte."
 #~ "Meeting"
 #~ msgstr ""
 #~ "Avboka\n"
-#~ "möte"
+#~ "sammanträde"
 
 #~ msgid "Organizer: "
 #~ msgstr "Organisatör:"
@@ -30825,7 +30825,7 @@ msgstr "Säkerhetslagret stöds inte."
 #~ msgstr "Skrivar_inställning..."
 
 #~ msgid "Schedule some sort of a meeting"
-#~ msgstr "Boka någon typ av möte"
+#~ msgstr "Boka någon typ av sammanträde"
 
 #~ msgid "_Journal Entry (FIXME)"
 #~ msgstr "_Dagbokspost (FIXME)"
