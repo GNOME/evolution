@@ -1,3 +1,11 @@
+2000-05-10  Dan Winship  <danw@helixcode.com>
+
+	* camel-multipart.c (write_to_stream): fix a stupid typo. Thank
+	you, C.
+
+	* camel-mime-part.c (write_to_stream): don't ref the stream before
+	wrapper a filter around it, since nothing will ever unref it.
+
 2000-05-10  Christopher James Lahey  <clahey@helixcode.com>
 
 	* Makefile.am: Added camel-types.h, camel-folder-pt-proxy.h, and

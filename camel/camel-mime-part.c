@@ -530,7 +530,6 @@ write_to_stream (CamelDataWrapper *data_wrapper, CamelStream *stream,
 			break;
 		}
 		if (filter) {
-			gtk_object_ref((GtkObject *)stream);
 			filter_stream = camel_stream_filter_new_with_stream(stream);
 			camel_stream_filter_add(filter_stream, filter);
 			stream = (CamelStream *)filter_stream;

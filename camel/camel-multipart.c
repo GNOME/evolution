@@ -444,7 +444,7 @@ write_to_stream (CamelDataWrapper *data_wrapper, CamelStream *stream,
 			return -1;
 
 		total += camel_data_wrapper_write_to_stream (CAMEL_DATA_WRAPPER (node->data), stream, ex);
-		if (camel_exception_is_set (ex));
+		if (camel_exception_is_set (ex))
 			return -1;
 		node = node->next;
 	}
