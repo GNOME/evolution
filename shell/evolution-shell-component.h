@@ -143,6 +143,9 @@ struct _EvolutionShellComponentClass {
 
 	void (* debug)       (EvolutionShellComponent *shell_component);
 
+	void (* interactive)  (EvolutionShellComponent *shell_component,
+			       gboolean is_interactive);
+
 	void (* handle_external_uri) (EvolutionShellComponent *shell_component,
 				      const char *uri);
 

@@ -1,3 +1,21 @@
+2001-10-22  Ettore Perazzoli  <ettore@ximian.com>
+
+	* e-shell.c: New member `is_interactive' in `EShellPrivate'.
+	(init): Init to %FALSE.
+ 	(set_interactive): New.
+	(e_shell_create_view): Make interactive.
+	(view_destroy_cb): If no views are left, make non-interactive.
+
+	* evolution-shell-component.c (class_init): Set up the
+	"interactive" signal.
+	(impl_interactive): New implementation for the ::interactive
+	method.
+	(class_init): Install.
+
+	* evolution-shell-component.h: New signal `interactive'.
+
+	* Evolution-ShellComponent.idl: New method ::interactive.
+
 2001-10-19  Ettore Perazzoli  <ettore@ximian.com>
 
 	* e-storage-set-view.c (tree_drag_data_received): Pass the

@@ -124,6 +124,11 @@ struct _EShellPrivate {
 	   the start-up sequence, to avoid CORBA calls to do make wrong things
 	   to happen while the shell is initializing.  */
 	unsigned int is_initialized : 1;
+
+	/* Wether the shell is working in "interactive" mode or not.
+	   (Currently, it's interactive IIF there is at least one active
+	   view.)  */
+	unsigned int is_interactive : 1;
 };
 
 
@@ -142,6 +147,49 @@ enum {
 };
 
 static guint signals[LAST_SIGNAL] = { 0 };
+
+
+/* Interactivity handling.  */
+
+static void
+set_interactive (EShell *shell,
+		 gboolean interactive)
+{
+	EShellPrivate *priv;
+	GList *id_list, *p;
+
+	priv = shell->priv;
+
+	if (!! priv->is_interactive == !! interactive)
+		return;
+
+	priv->is_interactive = interactive;
+
+	id_list = e_component_registry_get_id_list (priv->component_registry);
+	for (p = id_list; p != NULL; p = p->next) {
+		EvolutionShellComponentClient *shell_component_client;
+		GNOME_Evolution_ShellComponent shell_component_objref;
+		const char *id;
+		CORBA_Environment ev;
+
+		id = (const char *) p->data;
+		shell_component_client = e_component_registry_get_component_by_id (priv->component_registry, id);
+		shell_component_objref = bonobo_object_corba_objref (BONOBO_OBJECT (shell_component_client));
+
+		CORBA_exception_init (&ev);
+
+		g_print ("Notifying interactive change (%s) -- %s\n", interactive ? "TRUE" : "FALSE", id);
+
+		GNOME_Evolution_ShellComponent_interactive (shell_component_objref, interactive, &ev);
+		if (ev._major != CORBA_NO_EXCEPTION)
+			g_warning ("Error changing interactive status of component %s to %s -- %s\n",
+				   id, interactive ? "TRUE" : "FALSE", ev._repo_id);
+
+		CORBA_exception_free (&ev);
+	}
+
+	e_free_string_list (id_list);
+}
 
 
 /* Callback for the folder selection dialog.  */
@@ -430,7 +478,6 @@ impl_Shell_selectUserFolder (PortableServer_Servant servant,
 	} else {
 		XClassHint class_hints;
 		XWMHints *parent_wm_hints;
-		int format;
 
 		/* Set the WM class and the WindowGroup hint to be the same as
 		   the foreign parent window's.  This way smartass window
@@ -800,6 +847,8 @@ view_destroy_cb (GtkObject *object,
 	shell->priv->views = g_list_remove (shell->priv->views, object);
 
 	if (shell->priv->views == NULL) {
+		set_interactive (shell, FALSE);
+
 		bonobo_object_ref (BONOBO_OBJECT (shell));
 		gtk_signal_emit (GTK_OBJECT (shell), signals [NO_VIEWS_LEFT]);
 		bonobo_object_unref (BONOBO_OBJECT (shell));
@@ -954,6 +1003,7 @@ init (EShell *shell)
 	priv->line_status                  = E_SHELL_LINE_STATUS_ONLINE;
 	priv->db                           = CORBA_OBJECT_NIL;
 	priv->is_initialized               = FALSE;
+	priv->is_interactive               = FALSE;
 
 	shell->priv = priv;
 }
@@ -1169,12 +1219,13 @@ e_shell_create_view (EShell *shell,
 	gtk_signal_connect (GTK_OBJECT (view), "destroy",
 			    GTK_SIGNAL_FUNC (view_destroy_cb), shell);
 
-	if (uri != NULL)
-		if (!e_shell_view_display_uri (E_SHELL_VIEW (view), uri))
-			/* FIXME: Consider popping a dialog box up
-			   about how the provided URI does not
-			   exist/could not be displayed */
+	if (uri != NULL) {
+		if (!e_shell_view_display_uri (E_SHELL_VIEW (view), uri)) {
+			/* FIXME: Consider popping a dialog box up about how the provided URI does not
+			   exist/could not be displayed.  */
 			e_shell_view_display_uri (E_SHELL_VIEW (view), E_SHELL_VIEW_DEFAULT_URI);
+		}
+	}
 
 	shell->priv->views = g_list_prepend (shell->priv->views, view);
 
@@ -1185,6 +1236,8 @@ e_shell_create_view (EShell *shell,
 		e_shell_view_show_folder_bar (view, e_shell_view_folder_bar_shown (template_view));
 		e_shell_view_show_shortcut_bar (view, e_shell_view_shortcut_bar_shown (template_view));
 	}
+
+	set_interactive (shell, TRUE);
 
 	return view;
 }

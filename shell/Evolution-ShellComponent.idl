@@ -57,6 +57,8 @@ module Evolution {
 		void unsetOwner ()
 			raises (NotOwned);
 
+		void interactive (in boolean now_interactive);
+
 		void debug (in string log_path);
 
 		/* FIXME: We might want more exceptions here.  */

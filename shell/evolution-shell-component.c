@@ -79,6 +79,7 @@ enum {
 	OWNER_UNSET,
 	OWNER_DIED,
 	DEBUG,
+	INTERACTIVE,
 	HANDLE_EXTERNAL_URI,
 	USER_CREATE_NEW_ITEM,
 	LAST_SIGNAL
@@ -436,6 +437,20 @@ impl_debug (PortableServer_Servant servant,
 	gtk_signal_emit (GTK_OBJECT (shell_component), signals[DEBUG]);
 }
 
+static void
+impl_interactive (PortableServer_Servant servant,
+		  CORBA_boolean interactive,
+		  CORBA_Environment *ev)
+{
+	BonoboObject *bonobo_object;
+	EvolutionShellComponent *shell_component;
+
+	bonobo_object = bonobo_object_from_servant (servant);
+	shell_component = EVOLUTION_SHELL_COMPONENT (bonobo_object);
+
+	gtk_signal_emit (GTK_OBJECT (shell_component), signals[INTERACTIVE], interactive);
+}
+
 static Bonobo_Control
 impl_createView (PortableServer_Servant servant,
 		 const CORBA_char *physical_uri,
@@ -738,6 +753,15 @@ class_init (EvolutionShellComponentClass *klass)
 				  gtk_marshal_NONE__NONE,
 				  GTK_TYPE_NONE, 0);
 
+	signals[INTERACTIVE]
+		= gtk_signal_new ("interactive",
+				  GTK_RUN_FIRST,
+				  object_class->type,
+				  GTK_SIGNAL_OFFSET (EvolutionShellComponentClass, interactive),
+				  gtk_marshal_NONE__BOOL,
+				  GTK_TYPE_NONE, 1,
+				  GTK_TYPE_BOOL);
+
 	signals[HANDLE_EXTERNAL_URI]
 		= gtk_signal_new ("handle_external_uri",
 				  GTK_RUN_FIRST,
@@ -767,7 +791,8 @@ class_init (EvolutionShellComponentClass *klass)
 	epv->_get_userCreatableItemTypes = impl__get_userCreatableItemTypes;
 	epv->setOwner                    = impl_setOwner; 
 	epv->unsetOwner                  = impl_unsetOwner; 
-	epv->debug                       = impl_debug; 
+	epv->debug                       = impl_debug;
+	epv->interactive                 = impl_interactive;
 	epv->createView                  = impl_createView; 
 	epv->handleExternalURI           = impl_handleExternalURI; 
 	epv->createFolderAsync           = impl_createFolderAsync; 
