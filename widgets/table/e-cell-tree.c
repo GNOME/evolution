@@ -282,14 +282,14 @@ static gint
 ect_event (ECellView *ecell_view, GdkEvent *event, int model_col, int view_col, int row)
 {
 	ECellTreeView *tree_view = (ECellTreeView *) ecell_view;
+	ETreeModel *tree_model = e_cell_tree_get_tree_model (ecell_view->e_table_model, row);
+	ETreePath *node = e_cell_tree_get_node (tree_model, row);
+	int offset = offset_of_node (tree_model, node);
 
 	switch (event->type) {
 	case GDK_BUTTON_PRESS: {
 		/* if the event happened in our area of control (and
                    we care about it), handle it. */
-		ETreeModel *tree_model = e_cell_tree_get_tree_model (ecell_view->e_table_model, row);
-		ETreePath *node = e_cell_tree_get_node (tree_model, row);
-		int offset = offset_of_node (tree_model, node);
 
 		/* only activate the tree control if the click/release happens in the icon's area. */
 		if (event->button.x > (offset - INDENT_AMOUNT) && event->button.x < offset) {
@@ -304,7 +304,20 @@ ect_event (ECellView *ecell_view, GdkEvent *event, int model_col, int view_col, 
 			return TRUE;
 	}
 	default:
-		/* otherwise, pass it off to our subcell_view */
+		/* modify the event and pass it off to our subcell_view */
+		switch (event->type) {
+		case GDK_BUTTON_PRESS:
+		case GDK_BUTTON_RELEASE:
+		case GDK_2BUTTON_PRESS:
+		case GDK_3BUTTON_PRESS:
+			event->button.x -= offset;
+			break;
+		case GDK_MOTION_NOTIFY:
+			event->motion.x -= offset;
+			break;
+		default:
+			/* nada */
+		}
 		e_cell_event(tree_view->subcell_view, event, model_col, view_col, row);
 		return TRUE;
 	}
