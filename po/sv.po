@@ -5,13 +5,13 @@
 # Christian Rose <menthos@menthos.com>, 2000, 2001.
 # Martin Norbäck <d95mback@dtek.chalmers.se>, 2001.
 #
-# $Id: sv.po,v 1.82 2001/07/09 22:13:37 menthos Exp $
+# $Id: sv.po,v 1.83 2001/07/10 17:55:28 menthos Exp $
 #
 msgid ""
 msgstr ""
 "Project-Id-Version: evolution\n"
-"POT-Creation-Date: 2001-07-10 00:11+0200\n"
-"PO-Revision-Date: 2001-07-10 00:12+0200\n"
+"POT-Creation-Date: 2001-07-10 19:51+0200\n"
+"PO-Revision-Date: 2001-07-10 19:53+0200\n"
 "Last-Translator: Christian Rose <menthos@menthos.com>\n"
 "Language-Team: Swedish <sv@li.org>\n"
 "MIME-Version: 1.0\n"
@@ -2018,7 +2018,7 @@ msgstr ""
 #: calendar/gui/dialogs/e-timezone-dialog.c:197
 #: calendar/gui/dialogs/meeting-page.glade.h:3
 #: calendar/gui/e-calendar-table.c:425 calendar/gui/e-calendar-table.c:500
-#: mail/mail-account-gui.c:1295 mail/mail-accounts.c:129
+#: mail/mail-account-gui.c:1360 mail/mail-accounts.c:129
 #: mail/mail-accounts.c:380 mail/mail-config.glade.h:56
 #: shell/e-shell-view.c:1402 widgets/misc/e-cell-date-edit.c:240
 #: widgets/misc/e-dateedit.c:439 widgets/misc/e-dateedit.c:1369
@@ -3045,22 +3045,22 @@ msgid "Edit this task"
 msgstr "Redigera denna uppgift"
 
 #: calendar/gui/e-calendar-table.c:958 calendar/gui/e-calendar-table.c:968
-#: calendar/gui/e-day-view.c:3315 calendar/gui/e-week-view.c:3158
+#: calendar/gui/e-day-view.c:3316 calendar/gui/e-week-view.c:3161
 #: ui/evolution-addressbook.xml.h:6 ui/evolution-calendar.xml.h:10
 #: ui/evolution-mail-list.xml.h:4
 msgid "Cut"
 msgstr "Klipp ut"
 
 #: calendar/gui/e-calendar-table.c:959 calendar/gui/e-calendar-table.c:969
-#: calendar/gui/e-day-view.c:3317 calendar/gui/e-week-view.c:3160
+#: calendar/gui/e-day-view.c:3318 calendar/gui/e-week-view.c:3163
 #: ui/evolution-addressbook.xml.h:2 ui/evolution-calendar.xml.h:5
 #: ui/evolution-mail-list.xml.h:2 ui/evolution-mail-message.xml.h:5
 msgid "Copy"
 msgstr "Kopiera"
 
 #: calendar/gui/e-calendar-table.c:960 calendar/gui/e-calendar-table.c:970
-#: calendar/gui/e-day-view.c:3290 calendar/gui/e-day-view.c:3319
-#: calendar/gui/e-week-view.c:3134 calendar/gui/e-week-view.c:3162
+#: calendar/gui/e-day-view.c:3291 calendar/gui/e-day-view.c:3320
+#: calendar/gui/e-week-view.c:3137 calendar/gui/e-week-view.c:3165
 #: ui/evolution-addressbook.xml.h:12 ui/evolution-calendar.xml.h:26
 #: ui/evolution-mail-list.xml.h:12
 msgid "Paste"
@@ -3089,72 +3089,72 @@ msgstr "%02i minutdivisioner"
 
 #. strftime format %A = full weekday name, %d = day of month,
 #. %B = full month name. Don't use any other specifiers.
-#: calendar/gui/e-day-view-top-item.c:285 calendar/gui/e-day-view.c:1327
+#: calendar/gui/e-day-view-top-item.c:285 calendar/gui/e-day-view.c:1328
 #: calendar/gui/e-week-view-main-item.c:325 calendar/gui/print.c:1602
 msgid "%A %d %B"
 msgstr "%A %d %B"
 
 #. strftime format %a = abbreviated weekday name, %d = day of month,
 #. %b = abbreviated month name. Don't use any other specifiers.
-#: calendar/gui/e-day-view-top-item.c:289 calendar/gui/e-day-view.c:1341
+#: calendar/gui/e-day-view-top-item.c:289 calendar/gui/e-day-view.c:1342
 #: calendar/gui/e-week-view-main-item.c:334
 msgid "%a %d %b"
 msgstr "%a %d %b"
 
 #. strftime format %d = day of month, %b = abbreviated month name.
 #. Don't use any other specifiers.
-#: calendar/gui/e-day-view-top-item.c:293 calendar/gui/e-day-view.c:1354
+#: calendar/gui/e-day-view-top-item.c:293 calendar/gui/e-day-view.c:1355
 #: calendar/gui/e-week-view-main-item.c:348
 msgid "%d %b"
 msgstr "%d %b"
 
 #. String to use in 12-hour time format for times in the morning.
-#: calendar/gui/e-day-view.c:574 calendar/gui/e-week-view.c:307
+#: calendar/gui/e-day-view.c:575 calendar/gui/e-week-view.c:308
 #: calendar/gui/print.c:785
 msgid "am"
 msgstr "fm"
 
 #. String to use in 12-hour time format for times in the afternoon.
-#: calendar/gui/e-day-view.c:577 calendar/gui/e-week-view.c:310
+#: calendar/gui/e-day-view.c:578 calendar/gui/e-week-view.c:311
 #: calendar/gui/print.c:787
 msgid "pm"
 msgstr "em"
 
-#: calendar/gui/e-day-view.c:3295 ui/evolution-calendar.xml.h:21
+#: calendar/gui/e-day-view.c:3296 ui/evolution-calendar.xml.h:21
 msgid "New Appointment"
 msgstr "Nytt möte"
 
-#: calendar/gui/e-day-view.c:3297 calendar/gui/e-week-view.c:3141
+#: calendar/gui/e-day-view.c:3298 calendar/gui/e-week-view.c:3144
 msgid "New All Day Event"
 msgstr "Nytt heldagsarrangemang"
 
-#: calendar/gui/e-day-view.c:3302 calendar/gui/e-week-view.c:3146
+#: calendar/gui/e-day-view.c:3303 calendar/gui/e-week-view.c:3149
 msgid "Go to Today"
 msgstr "Gå till idag"
 
-#: calendar/gui/e-day-view.c:3304 calendar/gui/e-week-view.c:3148
+#: calendar/gui/e-day-view.c:3305 calendar/gui/e-week-view.c:3151
 msgid "Go to Date..."
 msgstr "Gå till datum..."
 
-#: calendar/gui/e-day-view.c:3311 calendar/gui/e-week-view.c:3154
+#: calendar/gui/e-day-view.c:3312 calendar/gui/e-week-view.c:3157
 #: shell/e-shortcuts-view.c:468 ui/evolution-calendar.xml.h:24
 #: ui/evolution-message-composer.xml.h:12
 msgid "Open"
 msgstr "Öppna"
 
-#: calendar/gui/e-day-view.c:3313 calendar/gui/e-week-view.c:3156
+#: calendar/gui/e-day-view.c:3314 calendar/gui/e-week-view.c:3159
 msgid "Delete this Appointment"
 msgstr "Ta bort detta möte"
 
-#: calendar/gui/e-day-view.c:3328 calendar/gui/e-week-view.c:3176
+#: calendar/gui/e-day-view.c:3329 calendar/gui/e-week-view.c:3179
 msgid "Make this Occurrence Movable"
 msgstr "Gör denna förekomst flyttbar"
 
-#: calendar/gui/e-day-view.c:3330 calendar/gui/e-week-view.c:3178
+#: calendar/gui/e-day-view.c:3331 calendar/gui/e-week-view.c:3181
 msgid "Delete this Occurrence"
 msgstr "Ta bort denna förekomst"
 
-#: calendar/gui/e-day-view.c:3332
+#: calendar/gui/e-day-view.c:3333
 msgid "Delete all Occurrences"
 msgstr "Ta bort alla förekomster"
 
@@ -3303,11 +3303,11 @@ msgstr "Metoden som krävs för att läsa in \"%s\" stöds inte"
 msgid "%d %B"
 msgstr "%d %B"
 
-#: calendar/gui/e-week-view.c:3139 calendar/gui/e-week-view.c:3167
+#: calendar/gui/e-week-view.c:3142 calendar/gui/e-week-view.c:3170
 msgid "New Appointment..."
 msgstr "Nytt möte..."
 
-#: calendar/gui/e-week-view.c:3180
+#: calendar/gui/e-week-view.c:3183
 msgid "Delete All Occurrences"
 msgstr "Ta bort alla förekomster"
 
@@ -3588,7 +3588,7 @@ msgid "Print Calendar"
 msgstr "Skriv ut kalender"
 
 #: calendar/gui/print.c:2409 calendar/gui/print.c:2501
-#: mail/mail-callbacks.c:1798 my-evolution/e-summary.c:452
+#: mail/mail-callbacks.c:1798 my-evolution/e-summary.c:478
 #: ui/evolution-addressbook.xml.h:16 ui/evolution-calendar.xml.h:31
 #: ui/evolution-comp-editor.xml.h:10
 msgid "Print Preview"
@@ -5534,20 +5534,20 @@ msgstr ""
 "Fel vid automatiskt sparande av meddelande: %s\n"
 " %s"
 
-#: composer/e-msg-composer.c:1164
+#: composer/e-msg-composer.c:1169
 msgid ""
-"Evolution has detected an editor buffer from a previous session.\n"
-"Would you like to recover this buffer?"
+"Evolution has found unsaved files from a previous sesiion.\n"
+"Would you like to attempt recovery?"
 msgstr ""
-"Evolution har upptäckt en redigerarbuffert från en tidigare session.\n"
-"Vill du återställa denna buffert?"
+"Evolution har upptäckt osparade filer från en tidigare session.\n"
+"Vill du göra ett återställningsförsök?"
 
-#: composer/e-msg-composer.c:1316 data/evolution.desktop.in.h:1
+#: composer/e-msg-composer.c:1318 data/evolution.desktop.in.h:1
 #: shell/e-shell-view-menu.c:231
 msgid "Evolution"
 msgstr "Evolution"
 
-#: composer/e-msg-composer.c:1322
+#: composer/e-msg-composer.c:1324
 msgid ""
 "This message has not been sent.\n"
 "\n"
@@ -5557,19 +5557,19 @@ msgstr ""
 "\n"
 "Vill du spara dina ändringar?"
 
-#: composer/e-msg-composer.c:1347
+#: composer/e-msg-composer.c:1349
 msgid "Open file"
 msgstr "Öppna fil"
 
-#: composer/e-msg-composer.c:1496
+#: composer/e-msg-composer.c:1498
 msgid "Insert File"
 msgstr "Infoga fil"
 
-#: composer/e-msg-composer.c:1853 composer/e-msg-composer.c:2241
+#: composer/e-msg-composer.c:1855 composer/e-msg-composer.c:2243
 msgid "Compose a message"
 msgstr "Skriv ett meddelande"
 
-#: composer/e-msg-composer.c:2335
+#: composer/e-msg-composer.c:2337
 msgid "Could not create composer window."
 msgstr "Kunde inte skapa fönster för meddelanderedigering."
 
@@ -5774,7 +5774,7 @@ msgstr ""
 "till."
 
 #: filter/filter-folder.c:225 filter/vfolder-rule.c:292
-#: mail/mail-account-gui.c:701
+#: mail/mail-account-gui.c:766
 msgid "Select Folder"
 msgstr "Välj mapp"
 
@@ -6001,7 +6001,7 @@ msgstr "Status"
 msgid "Stop Processing"
 msgstr "Stoppa behandling"
 
-#: filter/libfilter-i18n.h:34 mail/mail-format.c:785
+#: filter/libfilter-i18n.h:34 mail/mail-format.c:791
 #: mail/message-list.etspec.h:9
 msgid "Subject"
 msgstr "Ämne"
@@ -6094,7 +6094,7 @@ msgstr "Redigera regel"
 msgid "Score Rules"
 msgstr "Poängregler"
 
-#: importers/elm-importer.c:501 importers/evolution-gnomecard-importer.c:224
+#: importers/elm-importer.c:501 importers/evolution-gnomecard-importer.c:228
 #: importers/netscape-importer.c:769 importers/pine-importer.c:638
 #: shell/e-shell-importer.c:651 shell/importer/import.glade.h:4
 #: shell/importer/intelligent.c:194
@@ -6110,9 +6110,8 @@ msgstr "E-post"
 msgid "Elm Aliases"
 msgstr "Elm-alias"
 
-#: importers/elm-importer.c:517 importers/evolution-gnomecard-importer.c:236
-#: importers/netscape-importer.c:796 importers/pine-importer.c:660
-#: shell/importer/intelligent.c:199
+#: importers/elm-importer.c:517 importers/netscape-importer.c:796
+#: importers/pine-importer.c:660 shell/importer/intelligent.c:199
 msgid "Don't ask me again"
 msgstr "Fråga mig inte igen"
 
@@ -6128,11 +6127,11 @@ msgstr ""
 msgid "Elm mail"
 msgstr "Elm-epost"
 
-#: importers/evolution-gnomecard-importer.c:229 importers/pine-importer.c:653
+#: importers/evolution-gnomecard-importer.c:233 importers/pine-importer.c:653
 msgid "Addressbook"
 msgstr "Adressbok"
 
-#: importers/evolution-gnomecard-importer.c:261
+#: importers/evolution-gnomecard-importer.c:253
 msgid ""
 "Evolution has found GnomeCard files.\n"
 "Would you like them to be imported into Evolution?"
@@ -6403,7 +6402,7 @@ msgstr "mbox"
 msgid "mh"
 msgstr "mh"
 
-#: mail/mail-account-editor-news.c:105 mail/mail-account-editor.c:105
+#: mail/mail-account-editor-news.c:105 mail/mail-account-editor.c:107
 msgid "You have not filled in all of the required information."
 msgstr "Du har inte fyllt i all nödvändig information."
 
@@ -6413,15 +6412,15 @@ msgid "Evolution News Editor"
 msgstr "Evolutions diskussionsgruppsredigerare"
 
 #. give our dialog an OK button and title
-#: mail/mail-account-editor.c:154
+#: mail/mail-account-editor.c:156
 msgid "Evolution Account Editor"
 msgstr "Evolutions kontoredigerare"
 
-#: mail/mail-account-gui.c:891
+#: mail/mail-account-gui.c:956
 msgid "Save signature"
 msgstr "Spara signatur"
 
-#: mail/mail-account-gui.c:897
+#: mail/mail-account-gui.c:962
 msgid ""
 "This signature has been changed, but hasn't been saved.\n"
 "\n"
@@ -6662,11 +6661,11 @@ msgstr ""
 "detta konto nedan. Detta namn kommer endast att användas för visning."
 
 #. set window title
-#: mail/mail-config-druid.c:445
+#: mail/mail-config-druid.c:463
 msgid "Evolution Account Wizard"
 msgstr "Kontoguide för Evolution"
 
-#: mail/mail-config.c:1589 mail/mail-config.c:1592
+#: mail/mail-config.c:1563 mail/mail-config.c:1566
 msgid "Connecting to server..."
 msgstr "Ansluter till server..."
 
@@ -7126,80 +7125,80 @@ msgstr "%d gömda"
 msgid "%d total"
 msgstr "%d totalt"
 
-#: mail/mail-format.c:532
+#: mail/mail-format.c:538
 #, c-format
 msgid "%s attachment"
 msgstr "%s-bilaga"
 
-#: mail/mail-format.c:580
+#: mail/mail-format.c:586
 msgid "Could not parse MIME message. Displaying as source."
 msgstr "Kunde inte tolka MIME-meddelande. Visar som källkod."
 
-#: mail/mail-format.c:658 mail/message-list.etspec.h:2
+#: mail/mail-format.c:664 mail/message-list.etspec.h:2
 msgid "Date"
 msgstr "Datum"
 
-#: mail/mail-format.c:774 mail/message-list.etspec.h:4
+#: mail/mail-format.c:780 mail/message-list.etspec.h:4
 msgid "From"
 msgstr "Från"
 
-#: mail/mail-format.c:777
+#: mail/mail-format.c:783
 msgid "Reply-To"
 msgstr "Svara till"
 
-#: mail/mail-format.c:780 mail/message-list.etspec.h:10
+#: mail/mail-format.c:786 mail/message-list.etspec.h:10
 msgid "To"
 msgstr "Till"
 
-#: mail/mail-format.c:783
+#: mail/mail-format.c:789
 msgid "Cc"
 msgstr "Kopia"
 
-#: mail/mail-format.c:1106
+#: mail/mail-format.c:1112
 msgid "No GPG/PGP program configured."
 msgstr "Inget GPG/PGP-program är konfigurerat."
 
-#: mail/mail-format.c:1121
+#: mail/mail-format.c:1127
 msgid "Encrypted message not displayed"
 msgstr "Krypterat meddelande visas inte"
 
-#: mail/mail-format.c:1127
+#: mail/mail-format.c:1133
 msgid "Encrypted message"
 msgstr "Krypterat meddelande"
 
-#: mail/mail-format.c:1128
+#: mail/mail-format.c:1134
 msgid "Click icon to decrypt."
 msgstr "Klicka på ikonen för att dekryptera."
 
-#: mail/mail-format.c:1184
+#: mail/mail-format.c:1190
 msgid "This message is digitally signed and has been found to be authentic."
 msgstr "Detta meddelande är digitalt signerat och har befunnits äkta."
 
-#: mail/mail-format.c:1192
+#: mail/mail-format.c:1198
 msgid "This message is digitally signed but can not be proven to be authentic."
 msgstr "Detta meddelande är digitalt signerat men äktheten kan inte bevisas."
 
-#: mail/mail-format.c:1844
+#: mail/mail-format.c:1850
 #, c-format
 msgid "Pointer to FTP site (%s)"
 msgstr "Pekare till FTP-plats (%s)"
 
-#: mail/mail-format.c:1856
+#: mail/mail-format.c:1862
 #, c-format
 msgid "Pointer to local file (%s) valid at site \"%s\""
 msgstr "Pekare till lokal fil (%s) giltig på platsen \"%s\""
 
-#: mail/mail-format.c:1860
+#: mail/mail-format.c:1866
 #, c-format
 msgid "Pointer to local file (%s)"
 msgstr "Pekare till lokal fil (%s)"
 
-#: mail/mail-format.c:1894
+#: mail/mail-format.c:1900
 #, c-format
 msgid "Pointer to unknown external data (\"%s\" type)"
 msgstr "Pekare till okänd extern data (typen \"%s\")"
 
-#: mail/mail-format.c:1899
+#: mail/mail-format.c:1905
 msgid "Malformed external-body part."
 msgstr "Felaktig del med extern meddelandetext."
 
@@ -7696,11 +7695,11 @@ msgstr "<b>Fel vid hämtning av Metar</b>"
 msgid "Regions"
 msgstr "Regioner"
 
-#: my-evolution/e-summary.c:413 ui/my-evolution.xml.h:3
+#: my-evolution/e-summary.c:439 ui/my-evolution.xml.h:3
 msgid "Print My Evolution"
 msgstr "Skriv ut Mitt Evolution"
 
-#: my-evolution/e-summary.c:459
+#: my-evolution/e-summary.c:485
 msgid "Printing of My Evolution failed"
 msgstr "Utskrift av Mitt Evolution misslyckades"
 
@@ -9073,49 +9072,47 @@ msgstr ""
 "katalogen. Var vänlig och flytta den så att\n"
 "Evolutions användarfiler kan installeras."
 
-#: shell/e-shell-folder-commands.c:159
+#: shell/e-shell-folder-commands.c:160
 msgid "Cannot move a folder over itself."
 msgstr "Kan inte flytta en mapp till sig själv."
 
-#: shell/e-shell-folder-commands.c:161
+#: shell/e-shell-folder-commands.c:162
 msgid "Cannot copy a folder over itself."
 msgstr "Kan inte kopiera en mapp tillsig själv."
 
-#: shell/e-shell-folder-commands.c:175
+#: shell/e-shell-folder-commands.c:176
 msgid "Cannot move a folder into one of its descendants."
 msgstr "Kan inte flytta en mapp till en av dess undermappar."
 
-#: shell/e-shell-folder-commands.c:269
+#: shell/e-shell-folder-commands.c:270
 #, c-format
 msgid "Specify a folder to copy folder \"%s\" into:"
 msgstr "Ange en mapp att kopiera mappen \"%s\" till:"
 
-#: shell/e-shell-folder-commands.c:274
+#: shell/e-shell-folder-commands.c:275
 msgid "Copy folder"
 msgstr "Kopieringsmapp"
 
-#: shell/e-shell-folder-commands.c:312
+#: shell/e-shell-folder-commands.c:313
 #, c-format
 msgid "Specify a folder to move folder \"%s\" into:"
 msgstr "Ange en mapp att flytta mappen \"%s\" till:"
 
-#: shell/e-shell-folder-commands.c:317
+#: shell/e-shell-folder-commands.c:318
 msgid "Move folder"
 msgstr "Flyttningsmapp"
 
-#. Popup a dialog asking if they are sure they want to delete
-#. the folder
-#: shell/e-shell-folder-commands.c:351
+#: shell/e-shell-folder-commands.c:354
 #, c-format
 msgid "Delete folder '%s'"
 msgstr "Ta bort mappen \"%s\""
 
-#: shell/e-shell-folder-commands.c:359
+#: shell/e-shell-folder-commands.c:363
 #, c-format
 msgid "Are you sure you want to remove the '%s' folder?"
 msgstr "Är du säker på att du vill ta bort mappen \"%s\"?"
 
-#: shell/e-shell-folder-commands.c:417
+#: shell/e-shell-folder-commands.c:422
 #, c-format
 msgid "Rename folder '%s'"
 msgstr "Byt namn på mappen \"%s\""
@@ -10676,85 +10673,85 @@ msgid "Save _Draft"
 msgstr "Spara _utkast"
 
 #: ui/evolution-message-composer.xml.h:22
-msgid "Save in _folder... (FIXME)"
-msgstr "Spara i map_p... (FIXME)"
-
-#: ui/evolution-message-composer.xml.h:23
 msgid "Save in folder..."
 msgstr "Spara i mapp..."
 
-#: ui/evolution-message-composer.xml.h:24
+#: ui/evolution-message-composer.xml.h:23
 #: ui/evolution-signature-editor.xml.h:4
 msgid "Save the current file"
 msgstr "Spara aktuell fil"
 
-#: ui/evolution-message-composer.xml.h:25
+#: ui/evolution-message-composer.xml.h:24
 msgid "Save the current file with a different name"
 msgstr "Spara aktuell fil med ett annat namn"
 
-#: ui/evolution-message-composer.xml.h:26
+#: ui/evolution-message-composer.xml.h:25
 msgid "Save the message in a specified folder"
 msgstr "Spara meddelandet i angiven mapp"
 
-#: ui/evolution-message-composer.xml.h:27
+#: ui/evolution-message-composer.xml.h:26
 msgid "Send"
 msgstr "Skicka"
 
-#: ui/evolution-message-composer.xml.h:28
+#: ui/evolution-message-composer.xml.h:27
 msgid "Send _Later"
 msgstr "Skicka senar_e"
 
-#: ui/evolution-message-composer.xml.h:29
+#: ui/evolution-message-composer.xml.h:28
 msgid "Send _later"
 msgstr "Skicka senar_e"
 
-#: ui/evolution-message-composer.xml.h:30
+#: ui/evolution-message-composer.xml.h:29
 msgid "Send the mail in HTML format"
 msgstr "Skicka brevet i HTML-format"
 
-#: ui/evolution-message-composer.xml.h:31
+#: ui/evolution-message-composer.xml.h:30
 msgid "Send the message later"
 msgstr "Skicka meddelandet senare"
 
-#: ui/evolution-message-composer.xml.h:32
+#: ui/evolution-message-composer.xml.h:31
 msgid "Send this message now"
 msgstr "Skicka detta meddelande nu"
 
-#: ui/evolution-message-composer.xml.h:33
+#: ui/evolution-message-composer.xml.h:32
 msgid "Show / hide attachments"
 msgstr "Visa/göm bilaga"
 
-#: ui/evolution-message-composer.xml.h:34
+#: ui/evolution-message-composer.xml.h:33
 msgid "Show _attachments"
 msgstr "Visa _bilagor"
 
-#: ui/evolution-message-composer.xml.h:35
+#: ui/evolution-message-composer.xml.h:34
 msgid "Show attachments"
 msgstr "Visa bilagor"
 
-#: ui/evolution-message-composer.xml.h:36
+#: ui/evolution-message-composer.xml.h:35
 msgid "Sign this message with your PGP key"
 msgstr "Signera detta meddelande med din PGP-nyckel"
 
-#: ui/evolution-message-composer.xml.h:37
+#: ui/evolution-message-composer.xml.h:36
 msgid "Sign this message with your S/MIME Signature Certificate"
 msgstr "Signera detta meddelande med ditt S/MIME-signaturcertifikat"
 
-#: ui/evolution-message-composer.xml.h:38
+#: ui/evolution-message-composer.xml.h:37
 msgid "Toggles whether the BCC field is displayed"
 msgstr "Växla om blindkopiefältet ska visas"
 
-#: ui/evolution-message-composer.xml.h:39
+#: ui/evolution-message-composer.xml.h:38
 msgid "Toggles whether the CC field is displayed"
 msgstr "Växla om kopiefältet ska visas"
 
-#: ui/evolution-message-composer.xml.h:40
+#: ui/evolution-message-composer.xml.h:39
 msgid "Toggles whether the From chooser is displayed"
 msgstr "Växla om frånväljaren ska visas"
 
-#: ui/evolution-message-composer.xml.h:41
+#: ui/evolution-message-composer.xml.h:40
 msgid "Toggles whether the Reply-To field is displayed"
 msgstr "Växla om svara till-fältet ska visas"
+
+#: ui/evolution-message-composer.xml.h:41
+msgid "_Attachment"
+msgstr "_Bilaga"
 
 #: ui/evolution-message-composer.xml.h:42
 msgid "_Bcc Field"
@@ -11362,6 +11359,9 @@ msgstr "init_corba(): kunde inte initiera GNOME"
 #: wombat/wombat.c:198
 msgid "init_bonobo(): could not initialize Bonobo"
 msgstr "init_bonobo(): kunde inte initiera Bonobo"
+
+#~ msgid "Save in _folder... (FIXME)"
+#~ msgstr "Spara i map_p... (FIXME)"
 
 #~ msgid "time-now expects 0 arguments"
 #~ msgstr "time-now förväntar sig 0 argument"
@@ -12228,9 +12228,6 @@ msgstr "init_bonobo(): kunde inte initiera Bonobo"
 
 #~ msgid "View Raw Message Source"
 #~ msgstr "Visa rå meddelandekällkod"
-
-#~ msgid "_Attachment"
-#~ msgstr "_Bilaga"
 
 #~ msgid "_Open Selected Items"
 #~ msgstr "_Öppna markerade objekt"
