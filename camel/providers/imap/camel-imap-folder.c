@@ -149,6 +149,7 @@ camel_imap_folder_init (gpointer object, gpointer klass)
 	folder->has_search_capability = FALSE; /* this gets set in imap_init  */
 
 	imap_folder->summary = NULL;
+	imap_folder->summary_hash = NULL;
 	imap_folder->lsub = NULL;
 }
 
@@ -223,6 +224,17 @@ imap_summary_free (GPtrArray **summary)
 	}
 }
 
+static void
+imap_folder_summary_free (CamelImapFolder *imap_folder)
+{
+	if (imap_folder->summary_hash) {
+		g_hash_table_destroy (imap_folder->summary_hash);
+		imap_folder->summary_hash = NULL;
+	}
+
+	imap_summary_free (&imap_folder->summary);
+}
+
 static void           
 imap_finalize (GtkObject *object)
 {
@@ -230,7 +242,7 @@ imap_finalize (GtkObject *object)
 	CamelImapFolder *imap_folder = CAMEL_IMAP_FOLDER (object);
 	gint max, i;
 	
-	imap_summary_free (&imap_folder->summary);
+	imap_folder_summary_free (imap_folder);
 
 	if (imap_folder->lsub) {
 		max = imap_folder->lsub->len;
@@ -275,6 +287,8 @@ imap_init (CamelFolder *folder, CamelStore *parent_store, CamelFolder *parent_fo
 	
  	imap_folder->search = NULL;
 	imap_folder->summary = NULL;
+	imap_folder->summary_hash = NULL;
+	imap_folder->lsub = NULL;
 }
 
 static void
@@ -362,7 +376,7 @@ imap_expunge (CamelFolder *folder, CamelException *ex)
 
 	/* FIXME: maybe remove the appropriate messages from the summary
 	   so we don't need to refetch the entire summary? */
-	imap_summary_free (&imap_folder->summary);
+	imap_folder_summary_free (imap_folder);
 
 	camel_imap_folder_changed (folder, -1, ex);
 }
@@ -982,6 +996,7 @@ imap_get_summary_internal (CamelFolder *folder, CamelException *ex)
 	/* This ALWAYS updates the summary except on fail */
 	CamelImapFolder *imap_folder = CAMEL_IMAP_FOLDER (folder);
 	GPtrArray *summary = NULL, *headers = NULL;
+	GHashTable *hash = NULL;
 	gint num, i, j, status = 0;
 	char *result, *q, *node;
 	const char *received;
@@ -995,9 +1010,10 @@ imap_get_summary_internal (CamelFolder *folder, CamelException *ex)
 	switch (num) {
 	case 0:
 		/* clean up any previous summary data */
-		imap_summary_free (&imap_folder->summary);
+		imap_folder_summary_free (imap_folder);
 		
 		imap_folder->summary = g_ptr_array_new ();
+		imap_folder->summary_hash = g_hash_table_new (g_str_hash, g_str_equal);
 		
 		return imap_folder->summary;
 	case 1:
@@ -1023,13 +1039,17 @@ imap_get_summary_internal (CamelFolder *folder, CamelException *ex)
 				      "Unknown error");
 		g_free (result);
 
-		g_ptr_array_free (summary, TRUE);
+		if (!imap_folder->summary) {
+			imap_folder->summary = g_ptr_array_new ();
+			imap_folder->summary_hash = g_hash_table_new (g_str_hash, g_str_equal);
+		}
 		
 		return imap_folder->summary;
 	}
 
 	/* initialize our new summary-to-be */
 	summary = g_ptr_array_new ();
+	hash = g_hash_table_new (g_str_hash, g_str_equal);
 	
 	/* create our array of headers from the server response */
 	headers = g_ptr_array_new ();
@@ -1158,14 +1178,16 @@ imap_get_summary_internal (CamelFolder *folder, CamelException *ex)
 		}
 
 		g_ptr_array_add (summary, info);
+		g_hash_table_insert (hash, info->uid, info);
 	}
 
 	g_ptr_array_free (headers, TRUE);
 
 	/* clean up any previous summary data */
-	imap_summary_free (&imap_folder->summary);
+	imap_folder_summary_free (imap_folder);
 	
 	imap_folder->summary = summary;
+	imap_folder->summary_hash = hash;
 	
 	return imap_folder->summary;
 }
@@ -1312,21 +1334,11 @@ static const CamelMessageInfo *
 imap_get_message_info (CamelFolder *folder, const char *uid)
 {
 	CamelImapFolder *imap_folder = CAMEL_IMAP_FOLDER (folder);
-	CamelMessageInfo *info = NULL;
 
 	g_return_val_if_fail (*uid != '\0', NULL);
 
-	if (imap_folder->summary) {
-		int max, i;
-
-		/* FIXME: use a hash table like the mbox provider does */
-		max = imap_folder->summary->len;
-		for (i = 0; i < max; i++) {
-			info = g_ptr_array_index (imap_folder->summary, i);
-			if (!strcmp (info->uid, uid))
-				return info;
-		}
-	}
+	if (imap_folder->summary)
+		return (CamelMessageInfo *) g_hash_table_lookup (imap_folder->summary_hash, uid);
 
 	return NULL;
 }
@@ -1409,8 +1421,10 @@ camel_imap_folder_changed (CamelFolder *folder, gint recent, CamelException *ex)
 		CamelMessageInfo *info;
 		gint i, last;
 
-		if (!imap_folder->summary)
+		if (!imap_folder->summary) {
 			imap_folder->summary = g_ptr_array_new ();
+			imap_folder->summary_hash = g_hash_table_new (g_str_hash, g_str_equal);
+		}
 
 		last = imap_folder->summary->len + 1;
 
@@ -1418,6 +1432,7 @@ camel_imap_folder_changed (CamelFolder *folder, gint recent, CamelException *ex)
 			info = imap_get_message_info_internal (folder, i);
 			if (info) {
 				g_ptr_array_add (imap_folder->summary, info);
+				g_hash_table_insert (imap_folder->summary_hash, info->uid, info);
 			} else {
 				/* our hack failed so now we need to do it the old fashioned way */
 				imap_get_summary_internal (folder, ex);

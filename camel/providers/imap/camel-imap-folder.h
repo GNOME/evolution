@@ -46,7 +46,10 @@ typedef struct {
 	CamelFolder parent_object;
 
 	CamelFolderSearch *search; /* used to run searches */
+
 	GPtrArray *summary;
+	GHashTable *summary_hash;
+	
 	GPtrArray *lsub;
 } CamelImapFolder;
 
