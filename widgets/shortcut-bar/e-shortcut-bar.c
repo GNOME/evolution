@@ -689,7 +689,8 @@ e_shortcut_bar_on_drag_data_delete (GtkWidget          *widget,
 	group_num = e_group_bar_get_group_num (E_GROUP_BAR (shortcut_bar),
 					       widget->parent);
 
-	gtk_signal_emit (GTK_OBJECT (shortcut_bar), group_num, icon_bar->dragged_item_num);
+	gtk_signal_emit (GTK_OBJECT (shortcut_bar), e_shortcut_bar_signals[SHORTCUT_DRAGGED],
+			 group_num, icon_bar->dragged_item_num);
 }
 
 

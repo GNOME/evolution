@@ -1,3 +1,8 @@
+2000-09-26  Ettore Perazzoli  <ettore@helixcode.com>
+
+	* e-shortcut-bar.c (e_shortcut_bar_on_drag_data_delete): Emit the
+	signal correctly.
+
 2000-09-25  Ettore Perazzoli  <ettore@helixcode.com>
 
 	* e-shortcut-bar.c (e_shortcut_bar_destroy): Call
