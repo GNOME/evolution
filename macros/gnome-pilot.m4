@@ -67,10 +67,10 @@ AC_DEFUN([PILOT_LINK_HOOK],[
 		piversion_include="pi-version.h"
 	fi
 
-	pi_version=`cat $piversion_include|grep PILOT_LINK_VERSION|sed 's/#define PILOT_LINK_VERSION \([[0-9]]*\)/\1/'`
-	pi_major=`cat $piversion_include|grep PILOT_LINK_MAJOR|sed 's/#define PILOT_LINK_MAJOR \([[0-9]]*\)/\1/'`
-	pi_minor=`cat $piversion_include|grep PILOT_LINK_MINOR|sed 's/#define PILOT_LINK_MINOR \([[0-9]]*\)/\1/'`
-	pi_patch=`cat $piversion_include|grep PILOT_LINK_PATCH|sed 's/#define PILOT_LINK_PATCH \"\(.*\)\"/\1/'`
+	pi_version=`cat $incdir/pi-version.h|grep PILOT_LINK_VERSION|sed 's/#define PILOT_LINK_VERSION \([[0-9]]*\)/\1/'`
+	pi_major=`cat $incdir/pi-version.h|grep PILOT_LINK_MAJOR|sed 's/#define PILOT_LINK_MAJOR \([[0-9]]*\)/\1/'`
+	pi_minor=`cat $incdir/pi-version.h|grep PILOT_LINK_MINOR|sed 's/#define PILOT_LINK_MINOR \([[0-9]]*\)/\1/'`
+	pi_patch=`cat $incdir/pi-version.h|grep PILOT_LINK_PATCH|sed 's/#define PILOT_LINK_PATCH \"\(.*\)\"/\1/'`
 
 	PILOT_LINK_VERSION="$pi_version.$pi_major.$pi_minor$pi_patch"
 

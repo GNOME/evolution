@@ -1,3 +1,8 @@
+2001-06-22  Eskil Heyn Olsen  <eskil@eskil.dk>
+
+	* gnome-pilot.m4:
+	Fixed the cat of pi-version.h
+
 2001-06-20  Havoc Pennington  <hp@redhat.com>
 
 	* gnome.m4: fix to include the CFLAGS for extra libraries
