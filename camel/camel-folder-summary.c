@@ -84,7 +84,7 @@ static void camel_folder_summary_class_init (CamelFolderSummaryClass *klass);
 static void camel_folder_summary_init       (CamelFolderSummary *obj);
 static void camel_folder_summary_finalise   (GtkObject *obj);
 
-static GtkObjectClass *camel_folder_summary_parent;
+static CamelObjectClass *camel_folder_summary_parent;
 
 enum SIGNALS {
 	LAST_SIGNAL
@@ -108,7 +108,7 @@ camel_folder_summary_get_type (void)
 			(GtkArgGetFunc) NULL
 		};
 		
-		type = gtk_type_unique (gtk_object_get_type (), &type_info);
+		type = gtk_type_unique (camel_object_get_type (), &type_info);
 	}
 	
 	return type;
@@ -119,7 +119,7 @@ camel_folder_summary_class_init (CamelFolderSummaryClass *klass)
 {
 	GtkObjectClass *object_class = (GtkObjectClass *) klass;
 	
-	camel_folder_summary_parent = gtk_type_class (gtk_object_get_type ());
+	camel_folder_summary_parent = gtk_type_class (camel_object_get_type ());
 
 	object_class->finalize = camel_folder_summary_finalise;
 
@@ -178,6 +178,15 @@ camel_folder_summary_finalise (GtkObject *obj)
 	/* FIXME: free contents */
 	g_hash_table_destroy(p->filter_charset);
 	g_free(p);
+
+	if (p->filter_index)
+		gtk_object_unref ((GtkObject *)p->filter_index);
+	if (p->filter_64)
+		gtk_object_unref ((GtkObject *)p->filter_64);
+	if (p->filter_qp)
+		gtk_object_unref ((GtkObject *)p->filter_qp);
+	if (p->filter_save)
+		gtk_object_unref ((GtkObject *)p->filter_save);
 
 	((GtkObjectClass *)(camel_folder_summary_parent))->finalize((GtkObject *)obj);
 }
@@ -1104,8 +1113,8 @@ int main(int argc, char **argv)
 	camel_folder_summary_set_filename(s, "index.summary");
 	camel_folder_summary_save(s);
 
-	gtk_object_unref(mp);
-	gtk_object_unref(s);
+	gtk_object_unref(GTK_OBJECT(mp));
+	gtk_object_unref(GTK_OBJECT(s));
 
 	printf("summarised %d messages\n", camel_folder_summary_count(s));
 #if 0

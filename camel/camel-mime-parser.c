@@ -289,7 +289,7 @@ static char *states[] = {
 	"HSCAN_MESSAGE_END",
 };
 
-static GtkObjectClass *camel_mime_parser_parent;
+static CamelObjectClass *camel_mime_parser_parent;
 
 enum SIGNALS {
 	LAST_SIGNAL
@@ -313,7 +313,7 @@ camel_mime_parser_get_type (void)
 			(GtkArgGetFunc) NULL
 		};
 		
-		type = gtk_type_unique (gtk_object_get_type (), &type_info);
+		type = gtk_type_unique (camel_object_get_type (), &type_info);
 	}
 	
 	return type;
@@ -334,7 +334,7 @@ camel_mime_parser_class_init (CamelMimeParserClass *klass)
 {
 	GtkObjectClass *object_class = (GtkObjectClass *) klass;
 	
-	camel_mime_parser_parent = gtk_type_class (gtk_object_get_type ());
+	camel_mime_parser_parent = gtk_type_class (camel_object_get_type ());
 
 	object_class->finalize = finalise;
 

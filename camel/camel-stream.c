@@ -35,7 +35,7 @@ enum {
 
 static guint camel_stream_signals[LAST_SIGNAL] = { 0 };
 
-static GtkObjectClass *parent_class = NULL;
+static CamelObjectClass *parent_class = NULL;
 
 
 /* Returns the class for a CamelStream */
@@ -43,12 +43,6 @@ static GtkObjectClass *parent_class = NULL;
 
 static void
 default_camel_flush (CamelStream *stream)
-{
-	/* nothing */
-}
-
-static void
-default_camel_close (CamelStream *stream)
 {
 	/* nothing */
 }
@@ -65,15 +59,13 @@ camel_stream_class_init (CamelStreamClass *camel_stream_class)
 {
 	GtkObjectClass *gtk_object_class = GTK_OBJECT_CLASS (camel_stream_class);
 
-	parent_class = gtk_type_class (gtk_object_get_type ());
+	parent_class = gtk_type_class (camel_object_get_type ());
 
 	/* virtual method definition */
 	camel_stream_class->read = NULL;
 	camel_stream_class->write = NULL;
 	camel_stream_class->flush = default_camel_flush;
 	camel_stream_class->eos = eos;
-	camel_stream_class->close = default_camel_close;
-	camel_stream_class->close = NULL;
 
 	/* virtual method overload */
 	
@@ -108,7 +100,7 @@ camel_stream_get_type (void)
 			(GtkClassInitFunc) NULL,
 		};
 		
-		camel_stream_type = gtk_type_unique (gtk_object_get_type (), &camel_stream_info);
+		camel_stream_type = gtk_type_unique (camel_object_get_type (), &camel_stream_info);
 	}
 	
 	return camel_stream_type;
@@ -175,18 +167,6 @@ camel_stream_eos (CamelStream *stream)
 	return CS_CLASS (stream)->eos (stream);
 }
 
-
-/**
- * camel_stram_close: 
- * @stream: a CamelStream object.
- * 
- * Close the @stream object.
- **/
-void
-camel_stream_close (CamelStream *stream)
-{
-	CS_CLASS (stream)->close (stream);
-}
 
 /**
  * camel_stream_reset: reset a stream

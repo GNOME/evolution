@@ -35,7 +35,7 @@ extern "C" {
 #endif /* __cplusplus }*/
 
 #include <gtk/gtk.h>
-#include "camel-types.h"
+#include <camel/camel-types.h>
 
 #define CAMEL_PROVIDER(obj) ((CamelProvider *)(obj))
 

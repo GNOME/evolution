@@ -382,8 +382,8 @@ pop3_connect (CamelService *service, CamelException *ex)
 				     "Could not read greeting from POP "
 				     "server.");
 		return FALSE;
-		camel_stream_close (store->ostream);
-		camel_stream_close (store->istream);
+		gtk_object_unref (GTK_OBJECT (store->ostream));
+		gtk_object_unref (GTK_OBJECT (store->istream));
 	}
 	apoptime = strchr (buf, '<');
 	apopend = apoptime ? strchr (apoptime, '>') : NULL;
@@ -418,8 +418,8 @@ pop3_connect (CamelService *service, CamelException *ex)
 					      "server. Error sending username:"
 					      " %s", msg ? msg : "(Unknown)");
 			g_free (msg);
-			camel_stream_close (store->ostream);
-			camel_stream_close (store->istream);
+			gtk_object_unref (GTK_OBJECT (store->ostream));
+			gtk_object_unref (GTK_OBJECT (store->istream));
 			return FALSE;
 		}
 
@@ -433,8 +433,8 @@ pop3_connect (CamelService *service, CamelException *ex)
 				      "server. Error sending password:"
 				      " %s", msg ? msg : "(Unknown)");
 		g_free (msg);
-		camel_stream_close (store->ostream);
-		camel_stream_close (store->istream);
+		gtk_object_unref (GTK_OBJECT (store->ostream));
+		gtk_object_unref (GTK_OBJECT (store->istream));
 		return FALSE;
 	}
 
@@ -453,11 +453,8 @@ pop3_disconnect (CamelService *service, CamelException *ex)
 	if (!service_class->disconnect (service, ex))
 		return FALSE;
 
-	/* Closing the buffered write stream will close the
-	 * unbuffered read stream wrapped inside it as well.
-	 */
-	camel_stream_close (store->ostream);
 	gtk_object_unref (GTK_OBJECT (store->ostream));
+	gtk_object_unref (GTK_OBJECT (store->istream));
 	store->ostream = NULL;
 	store->istream = NULL;
 	return TRUE;

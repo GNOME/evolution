@@ -33,7 +33,7 @@ extern "C" {
 #endif /* __cplusplus }*/
 
 #include <glib.h>
-#include "camel-marshal-utils.h"
+#include <camel/camel-marshal-utils.h>
 
 
 

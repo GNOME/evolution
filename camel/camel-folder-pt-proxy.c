@@ -36,7 +36,7 @@
 #include <errno.h>
 
 
-static CamelFolderClass *parent_class=NULL;
+static CamelFolderClass *parent_class = NULL;
 
 /* Returns the class for CamelFolderPtProxy and CamelFolder objects */
 #define CFPP_CLASS(so) CAMEL_FOLDER_PT_PROXY_CLASS (GTK_OBJECT(so)->klass)
@@ -222,7 +222,7 @@ camel_folder_pt_proxy_get_type (void)
 			(GtkClassInitFunc) NULL,
 		};
 		
-		camel_folder_pt_proxy_type = gtk_type_unique (gtk_object_get_type (), &camel_folder_pt_proxy_info);
+		camel_folder_pt_proxy_type = gtk_type_unique (camel_folder_get_type (), &camel_folder_pt_proxy_info);
 	}
 	
 	return camel_folder_pt_proxy_type;

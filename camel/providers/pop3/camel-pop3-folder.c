@@ -209,6 +209,7 @@ get_message_by_number (CamelFolder *folder, gint number, CamelException *ex)
 	msg = camel_mime_message_new ();
 	camel_data_wrapper_construct_from_stream (CAMEL_DATA_WRAPPER (msg),
 						  msgstream);
+	gtk_object_unref (GTK_OBJECT (msgstream));
 
 	return msg;
 }

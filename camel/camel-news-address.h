@@ -21,13 +21,12 @@
 #ifndef _CAMEL_NEWS_ADDRESS_H
 #define _CAMEL_NEWS_ADDRESS_H
 
-#include <gtk/gtk.h>
+#include <camel/camel-address.h>
 
 #define CAMEL_NEWS_ADDRESS(obj)         GTK_CHECK_CAST (obj, camel_news_address_get_type (), CamelNewsAddress)
 #define CAMEL_NEWS_ADDRESS_CLASS(klass) GTK_CHECK_CLASS_CAST (klass, camel_news_address_get_type (), CamelNewsAddressClass)
 #define IS_CAMEL_NEWS_ADDRESS(obj)      GTK_CHECK_TYPE (obj, camel_news_address_get_type ())
 
-typedef struct _CamelNewsAddress      CamelNewsAddress;
 typedef struct _CamelNewsAddressClass CamelNewsAddressClass;
 
 struct _CamelNewsAddress {

@@ -254,7 +254,6 @@ set_content_object (CamelMedium *medium, CamelDataWrapper *content)
 	if (medium->content)
 		gtk_object_unref (GTK_OBJECT (medium->content));
 	gtk_object_ref (GTK_OBJECT (content));
-	gtk_object_sink (GTK_OBJECT (content));
 	medium->content = content;
 }
 

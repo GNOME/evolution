@@ -21,17 +21,16 @@
 #ifndef _CAMEL_ADDRESS_H
 #define _CAMEL_ADDRESS_H
 
-#include <gtk/gtk.h>
+#include <camel/camel-object.h>
 
 #define CAMEL_ADDRESS(obj)         GTK_CHECK_CAST (obj, camel_address_get_type (), CamelAddress)
 #define CAMEL_ADDRESS_CLASS(klass) GTK_CHECK_CLASS_CAST (klass, camel_address_get_type (), CamelAddressClass)
 #define IS_CAMEL_ADDRESS(obj)      GTK_CHECK_TYPE (obj, camel_address_get_type ())
 
-typedef struct _CamelAddress      CamelAddress;
 typedef struct _CamelAddressClass CamelAddressClass;
 
 struct _CamelAddress {
-	GtkObject parent;
+	CamelObject parent;
 
 	GPtrArray *addresses;
 
@@ -39,7 +38,7 @@ struct _CamelAddress {
 };
 
 struct _CamelAddressClass {
-	GtkObjectClass parent_class;
+	CamelObjectClass parent_class;
 
 	int   (*decode)		(CamelAddress *, const char *raw);
 	char *(*encode)		(CamelAddress *);

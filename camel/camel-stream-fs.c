@@ -39,7 +39,6 @@ static CamelSeekableStreamClass *parent_class=NULL;
 static gint stream_read (CamelStream *stream, gchar *buffer, gint n);
 static gint stream_write (CamelStream *stream, const gchar *buffer, gint n);
 static void stream_flush (CamelStream *stream);
-static void stream_close (CamelStream *stream);
 static off_t stream_seek (CamelSeekableStream *stream, off_t offset, CamelStreamSeekPolicy policy);
 
 static void finalize (GtkObject *object);
@@ -69,7 +68,6 @@ camel_stream_fs_class_init (CamelStreamFsClass *camel_stream_fs_class)
 	camel_stream_class->read = stream_read;
 	camel_stream_class->write = stream_write;
 	camel_stream_class->flush = stream_flush;
-	camel_stream_class->close = stream_close;
 
 	camel_seekable_stream_class->seek = stream_seek;
 
@@ -317,18 +315,6 @@ static void
 stream_flush (CamelStream *stream)
 {
 	fsync ((CAMEL_STREAM_FS (stream))->fd);
-}
-
-static void
-stream_close (CamelStream *stream)
-{
-	CamelStreamFs *fs = (CamelStreamFs *)stream;
-	if (fs->fd != -1) {
-		close (fs->fd);
-		fs->fd = -1;
-	} else {
-		g_warning("StreamFs::close() on a closed or failed stream");
-	}
 }
 
 static off_t

@@ -126,6 +126,7 @@ simple_data_wrapper_construct_from_parser(CamelDataWrapper *dw, CamelMimeParser 
 		d(printf("Small message part, kept in memory!\n"));
 		mem = camel_stream_mem_new_with_byte_array(buffer);
 		camel_data_wrapper_set_output_stream (dw, mem);
+		gtk_object_unref ((GtkObject *)mem);
 	} else {
 		CamelStream *sub;
 		CamelStreamFilter *filter;
@@ -145,9 +146,11 @@ simple_data_wrapper_construct_from_parser(CamelDataWrapper *dw, CamelMimeParser 
 				camel_stream_filter_add(filter, fch);
 			}
 			camel_data_wrapper_set_output_stream (dw, (CamelStream *)filter);
+			gtk_object_unref ((GtkObject *)filter);
 		} else {
 			camel_data_wrapper_set_output_stream (dw, sub);
 		}
+		gtk_object_unref ((GtkObject *)sub);
 	}
 
 	camel_mime_parser_filter_remove(mp, decid);
@@ -195,6 +198,7 @@ camel_mime_part_construct_content_from_parser(CamelMimePart *dw, CamelMimeParser
 			bodypart = (CamelDataWrapper *)camel_mime_part_new();
 			camel_mime_part_construct_from_parser((CamelMimePart *)bodypart, mp);
 			camel_multipart_add_part((CamelMultipart *)content, (CamelMimePart *)bodypart);
+			gtk_object_unref ((GtkObject *)bodypart);
 		}
 
 		d(printf("Created multi-part\n"));
@@ -208,6 +212,7 @@ camel_mime_part_construct_content_from_parser(CamelMimePart *dw, CamelMimeParser
 		camel_data_wrapper_set_mime_type_field (content, 
 							camel_mime_part_get_content_type ((CamelMimePart *)dw));
 		camel_medium_set_content_object((CamelMedium *)dw, content);
+		gtk_object_unref ((GtkObject *)content);
 	}
 }
 

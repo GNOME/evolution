@@ -29,7 +29,7 @@
 #define CAMEL_URL_H 1
 
 #include <glib.h>
-#include "camel-types.h"
+#include <camel/camel-types.h>
 
 #ifdef __cplusplus
 extern "C" {

@@ -29,7 +29,7 @@
 
 #define d(x)
 
-static GtkObjectClass *parent_class = NULL;
+static CamelObjectClass *parent_class = NULL;
 
 /* Returns the class for a CamelDataWrapper */
 #define CDW_CLASS(so) CAMEL_DATA_WRAPPER_CLASS (GTK_OBJECT (so)->klass)
@@ -56,7 +56,7 @@ camel_data_wrapper_class_init (CamelDataWrapperClass *camel_data_wrapper_class)
 	GtkObjectClass *gtk_object_class =
 		GTK_OBJECT_CLASS (camel_data_wrapper_class);
 
-	parent_class = gtk_type_class (gtk_object_get_type ());
+	parent_class = gtk_type_class (camel_object_get_type ());
 
 	/* virtual method definition */
 	camel_data_wrapper_class->write_to_stream = write_to_stream;
@@ -102,7 +102,7 @@ camel_data_wrapper_get_type (void)
 			(GtkClassInitFunc) NULL,
 		};
 
-		camel_data_wrapper_type = gtk_type_unique (gtk_object_get_type (), &camel_data_wrapper_info);
+		camel_data_wrapper_type = gtk_type_unique (camel_object_get_type (), &camel_data_wrapper_info);
 	}
 
 	return camel_data_wrapper_type;
@@ -123,7 +123,7 @@ finalize (GtkObject *object)
 	if (camel_data_wrapper->output_stream)
 		gtk_object_unref (GTK_OBJECT (camel_data_wrapper->output_stream));
 
-	parent_class->finalize (object);
+	GTK_OBJECT_CLASS (parent_class)->finalize (object);
 }
 
 /**
@@ -147,10 +147,8 @@ set_output_stream (CamelDataWrapper *data_wrapper, CamelStream *stream)
 		gtk_object_unref (GTK_OBJECT (data_wrapper->output_stream));
 
 	data_wrapper->output_stream = stream;
-	if (stream) {
+	if (stream)
 		gtk_object_ref (GTK_OBJECT (stream));
-		gtk_object_sink (GTK_OBJECT (stream));
-	}
 	d(printf("data_wrapper:: set_output_stream(%p)\n", stream));
 }
 

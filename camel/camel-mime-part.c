@@ -656,14 +656,16 @@ camel_mime_part_set_content (CamelMimePart *camel_mime_part,
 		CamelDataWrapper *dw;
 		CamelStream *stream;
 
-		dw = camel_data_wrapper_new();
+		dw = camel_data_wrapper_new ();
 		camel_data_wrapper_set_mime_type (dw, type);
 		stream = camel_stream_mem_new_with_buffer (data, length);
 		camel_data_wrapper_construct_from_stream (dw, stream);
+		gtk_object_unref (GTK_OBJECT (stream));
 		camel_medium_set_content_object (medium, dw);
+		gtk_object_unref (GTK_OBJECT (dw));
 	} else {
 		if (medium->content)
-			gtk_object_unref ( (GtkObject *)medium->content);
+			gtk_object_unref (GTK_OBJECT (medium->content));
 		medium->content = NULL;
 	}
 }

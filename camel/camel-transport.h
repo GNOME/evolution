@@ -34,9 +34,7 @@ extern "C" {
 #pragma }
 #endif /* __cplusplus }*/
 
-#include <gtk/gtk.h>
-#include "camel-types.h"
-#include "camel-service.h"
+#include <camel/camel-service.h>
 
 #define CAMEL_TRANSPORT_TYPE     (camel_transport_get_type ())
 #define CAMEL_TRANSPORT(obj)     (GTK_CHECK_CAST((obj), CAMEL_TRANSPORT_TYPE, CamelTransport))

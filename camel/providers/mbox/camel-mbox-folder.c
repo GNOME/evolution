@@ -804,11 +804,11 @@ mbox_append_message (CamelFolder *folder, CamelMimeMessage *message, CamelExcept
 	camel_stream_write_string (output_stream, "From - \n");
 	/* FIXME: does this return an error?   IT HAS TO FOR THIS TO BE RELIABLE */
 	camel_data_wrapper_write_to_stream (CAMEL_DATA_WRAPPER (message), output_stream);
-	camel_stream_close (output_stream);
 
 	/* TODO: update the summary so it knows a new message is there to summarise/index */
 	/* This is only a performance improvement, the summary is *only* a cache */
 
+	camel_stream_flush (output_stream);
 	gtk_object_unref (GTK_OBJECT (output_stream));
 }
 
@@ -901,8 +901,6 @@ mbox_get_message_by_uid (CamelFolder *folder, const gchar *uid, CamelException *
 	message_stream = camel_stream_fs_new_with_name_and_bounds (mbox_folder->folder_file_path, O_RDONLY, 0,
 								   ((CamelMboxMessageContentInfo *)info->info.content)->pos,
 								   ((CamelMboxMessageContentInfo *)info->info.content)->endpos);
-	gtk_object_ref((GtkObject *)message_stream);
-	gtk_object_sink((GtkObject *)message_stream);
 	message = camel_mime_message_new();
 	if (camel_data_wrapper_construct_from_stream((CamelDataWrapper *)message, message_stream) == -1) {
 		gtk_object_unref((GtkObject *)message);

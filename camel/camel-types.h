@@ -27,14 +27,25 @@ extern "C" {
 #pragma }
 #endif /* __cplusplus }*/
 
+typedef struct _CamelAddress CamelAddress;
 typedef struct _CamelDataWrapper CamelDataWrapper;
 typedef struct _CamelException CamelException;
 typedef struct _CamelFolder CamelFolder;
+typedef struct _CamelFolderSearch CamelFolderSearch;
 typedef struct _CamelFolderSummary CamelFolderSummary;
+typedef struct _CamelInternetAddress CamelInternetAddress;
 typedef struct _CamelMedium CamelMedium;
+typedef struct _CamelMimeFilter CamelMimeFilter;
+typedef struct _CamelMimeFilterBasic CamelMimeFilterBasic;
+typedef struct _CamelMimeFilterCharset CamelMimeFilterCharset;
+typedef struct _CamelMimeFilterIndex CamelMimeFilterIndex;
+typedef struct _CamelMimeFilterSave CamelMimeFilterSave;
 typedef struct _CamelMimeMessage CamelMimeMessage;
+typedef struct _CamelMimeParser CamelMimeParser;
 typedef struct _CamelMimePart CamelMimePart;
 typedef struct _CamelMultipart CamelMultipart;
+typedef struct _CamelNewsAddress CamelNewsAddress;
+typedef struct _CamelObject CamelObject;
 typedef struct _CamelSeekableStream CamelSeekableStream;
 typedef struct _CamelSeekableSubstream CamelSeekableSubstream;
 typedef struct _CamelService CamelService;
@@ -45,6 +56,7 @@ typedef struct _CamelStore CamelStore;
 typedef struct _CamelStream CamelStream;
 typedef struct _CamelStreamBuffer CamelStreamBuffer;
 typedef struct _CamelStreamDataWrapper CamelStreamDataWrapper;
+typedef struct _CamelStreamFilter CamelStreamFilter;
 typedef struct _CamelStreamFs CamelStreamFs;
 typedef struct _CamelStreamMem CamelStreamMem;
 typedef struct _CamelTransport CamelTransport;

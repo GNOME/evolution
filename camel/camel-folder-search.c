@@ -47,7 +47,7 @@ static void camel_folder_search_class_init (CamelFolderSearchClass *klass);
 static void camel_folder_search_init       (CamelFolderSearch *obj);
 static void camel_folder_search_finalise   (GtkObject *obj);
 
-static GtkObjectClass *camel_folder_search_parent;
+static CamelObjectClass *camel_folder_search_parent;
 
 enum SIGNALS {
 	LAST_SIGNAL
@@ -71,7 +71,7 @@ camel_folder_search_get_type (void)
 			(GtkArgGetFunc) NULL
 		};
 		
-		type = gtk_type_unique (gtk_object_get_type (), &type_info);
+		type = gtk_type_unique (camel_object_get_type (), &type_info);
 	}
 	
 	return type;
@@ -82,7 +82,7 @@ camel_folder_search_class_init (CamelFolderSearchClass *klass)
 {
 	GtkObjectClass *object_class = (GtkObjectClass *) klass;
 	
-	camel_folder_search_parent = gtk_type_class (gtk_object_get_type ());
+	camel_folder_search_parent = gtk_type_class (camel_object_get_type ());
 
 	object_class->finalize = camel_folder_search_finalise;
 

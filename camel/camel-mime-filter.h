@@ -23,18 +23,17 @@
 #ifndef _CAMEL_MIME_FILTER_H
 #define _CAMEL_MIME_FILTER_H
 
-#include <gtk/gtk.h>
+#include <camel/camel-object.h>
 #include <sys/types.h>
 
 #define CAMEL_MIME_FILTER(obj)         GTK_CHECK_CAST (obj, camel_mime_filter_get_type (), CamelMimeFilter)
 #define CAMEL_MIME_FILTER_CLASS(klass) GTK_CHECK_CLASS_CAST (klass, camel_mime_filter_get_type (), CamelMimeFilterClass)
 #define IS_CAMEL_MIME_FILTER(obj)      GTK_CHECK_TYPE (obj, camel_mime_filter_get_type ())
 
-typedef struct _CamelMimeFilter      CamelMimeFilter;
 typedef struct _CamelMimeFilterClass CamelMimeFilterClass;
 
 struct _CamelMimeFilter {
-	GtkObject parent;
+	CamelObject parent;
 
 	struct _CamelMimeFilterPrivate *priv;
 
@@ -50,7 +49,7 @@ struct _CamelMimeFilter {
 };
 
 struct _CamelMimeFilterClass {
-	GtkObjectClass parent_class;
+	CamelObjectClass parent_class;
 
 	/* virtual functions */
 	void (*filter)(CamelMimeFilter *f,

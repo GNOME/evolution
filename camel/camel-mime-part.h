@@ -34,9 +34,7 @@ extern "C" {
 #pragma }
 #endif /* __cplusplus }*/
 
-#include <gtk/gtk.h>
-#include "camel-types.h"
-#include "camel-medium.h"
+#include <camel/camel-medium.h>
 #include <camel/camel-mime-utils.h>
 #include <camel/camel-mime-parser.h>
 

@@ -42,7 +42,6 @@ static gint stream_read (CamelStream *stream, gchar *buffer, gint n);
 static gint stream_write (CamelStream *stream, const gchar *buffer, gint n);
 static void stream_flush (CamelStream *stream);
 static gboolean stream_eos (CamelStream *stream);
-static void stream_close (CamelStream *stream);
 
 static void finalize (GtkObject *object);
 static void destroy (GtkObject *object);
@@ -67,7 +66,6 @@ camel_stream_buffer_class_init (CamelStreamBufferClass *camel_stream_buffer_clas
 	camel_stream_class->write = stream_write;
 	camel_stream_class->flush = stream_flush;
 	camel_stream_class->eos = stream_eos;
-	camel_stream_class->close = stream_close;
 
 	gtk_object_class->finalize = finalize;
 	gtk_object_class->destroy = destroy;
@@ -164,6 +162,7 @@ init_vbuf(CamelStreamBuffer *sbf, CamelStream *s, CamelStreamBufferMode mode, ch
 	if (sbf->stream)
 		gtk_object_unref(GTK_OBJECT(sbf->stream));
 	sbf->stream = s;
+	gtk_object_ref(GTK_OBJECT(sbf->stream));
 }
 
 static void
@@ -365,15 +364,6 @@ stream_eos (CamelStream *stream)
 	CamelStreamBuffer *sbf = CAMEL_STREAM_BUFFER (stream);
 
 	return camel_stream_eos(sbf->stream) && sbf->ptr == sbf->end;
-}
-
-static void
-stream_close (CamelStream *stream)
-{
-	CamelStreamBuffer *sbf = CAMEL_STREAM_BUFFER (stream);
-
-	stream_flush(stream);
-	camel_stream_close(sbf->stream);
 }
 
 /**

@@ -21,7 +21,7 @@
 #ifndef _CAMEL_MIME_PARSER_H
 #define _CAMEL_MIME_PARSER_H
 
-#include <gtk/gtk.h>
+#include <camel/camel-object.h>
 
 #include <camel/camel-mime-utils.h>
 #include <camel/camel-mime-filter.h>
@@ -31,7 +31,6 @@
 #define CAMEL_MIME_PARSER_CLASS(klass) GTK_CHECK_CLASS_CAST (klass, camel_mime_parser_get_type (), CamelMimeParserClass)
 #define IS_CAMEL_MIME_PARSER(obj)      GTK_CHECK_TYPE (obj, camel_mime_parser_get_type ())
 
-typedef struct _CamelMimeParser      CamelMimeParser;
 typedef struct _CamelMimeParserClass CamelMimeParserClass;
 
 /* NOTE: if you add more states, you may need to bump the
@@ -59,13 +58,13 @@ enum _header_state {
 };
 
 struct _CamelMimeParser {
-	GtkObject parent;
+	CamelObject parent;
 
 	struct _CamelMimeParserPrivate *priv;
 };
 
 struct _CamelMimeParserClass {
-	GtkObjectClass parent_class;
+	CamelObjectClass parent_class;
 
 	void (*message)(CamelMimeParser *, void *headers);
 	void (*part)(CamelMimeParser *);

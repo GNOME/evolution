@@ -34,8 +34,7 @@ extern "C" {
 #pragma }
 #endif /* __cplusplus }*/
 
-#include <gtk/gtk.h>
-#include "camel-types.h"
+#include <camel/camel-object.h>
 
 #define CAMEL_STREAM_TYPE     (camel_stream_get_type ())
 #define CAMEL_STREAM(obj)     (GTK_CHECK_CAST((obj), CAMEL_STREAM_TYPE, CamelStream))
@@ -44,13 +43,13 @@ extern "C" {
 
 struct _CamelStream
 {
-	GtkObject parent_object;
+	CamelObject parent_object;
 
 	gboolean eos;		/* end of stream indicator, for use by implementing classes */
 };
 
 typedef struct {
-	GtkObjectClass parent_class;
+	CamelObjectClass parent_class;
 	
 	/* Virtual methods */	
 	
@@ -60,7 +59,6 @@ typedef struct {
 	gint      (*write)      (CamelStream *stream, const gchar *buffer, gint n);
 	void      (*flush)      (CamelStream *stream);
 	gboolean  (*eos)        (CamelStream *stream);
-	void      (*close)      (CamelStream *stream);
 	void      (*reset)      (CamelStream *stream);
 } CamelStreamClass;
 
@@ -72,7 +70,6 @@ gint       camel_stream_read      (CamelStream *stream, gchar *buffer, gint n);
 gint       camel_stream_write     (CamelStream *stream, const gchar *buffer, gint n);
 void       camel_stream_flush     (CamelStream *stream);
 gboolean   camel_stream_eos       (CamelStream *stream);
-void       camel_stream_close     (CamelStream *stream);
 void       camel_stream_reset     (CamelStream *stream);
 
 /* utility macros and funcs */

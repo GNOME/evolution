@@ -34,9 +34,7 @@ extern "C" {
 #pragma }
 #endif /* __cplusplus }*/
 
-#include <gtk/gtk.h>
-#include "camel-types.h"
-#include "camel-data-wrapper.h"
+#include <camel/camel-data-wrapper.h>
 
 #define CAMEL_MULTIPART_TYPE     (camel_multipart_get_type ())
 #define CAMEL_MULTIPART(obj)     (GTK_CHECK_CAST((obj), CAMEL_MULTIPART_TYPE, CamelMultipart))

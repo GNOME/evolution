@@ -21,7 +21,6 @@
 #ifndef _CAMEL_MIME_FILTER_CHARSET_H
 #define _CAMEL_MIME_FILTER_CHARSET_H
 
-#include <gtk/gtk.h>
 #include <camel/camel-mime-filter.h>
 #include <unicode.h>
 
@@ -29,7 +28,6 @@
 #define CAMEL_MIME_FILTER_CHARSET_CLASS(klass) GTK_CHECK_CLASS_CAST (klass, camel_mime_filter_charset_get_type (), CamelMimeFilterCharsetClass)
 #define IS_CAMEL_MIME_FILTER_CHARSET(obj)      GTK_CHECK_TYPE (obj, camel_mime_filter_charset_get_type ())
 
-typedef struct _CamelMimeFilterCharset      CamelMimeFilterCharset;
 typedef struct _CamelMimeFilterCharsetClass CamelMimeFilterCharsetClass;
 
 struct _CamelMimeFilterCharset {

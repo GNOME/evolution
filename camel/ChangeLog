@@ -1,3 +1,62 @@
+2000-05-07  Dan Winship  <danw@helixcode.com>
+
+	Make camel not leak like a sieve.
+
+	* camel-object.c: New subclass of GtkObject which is now the base
+	of the Camel object hierarchy. Currently the only difference
+	between CamelObject and GtkObject is that CamelObjects don't start
+	out floating.
+
+	* *.h: Move a bunch of typedefs to camel-types.h. Standardize on
+	using <camel/foo.h> in header files rather than <foo.h>, "foo.h",
+	or "camel/foo.h". Remove some unneeded includes.
+
+	* camel-address.c, camel-data-wrapper.c, camel-folder-search.c,
+	camel-folder-summary.c, camel-folder.c, camel-mime-filter.c,
+	camel-mime-parser.c, camel-service.c, camel-session.c,
+	camel-stream.c: These are now subclasses of CamelObject.
+
+	* camel-data-wrapper.c (set_output_stream):
+	* camel-medium.c (set_content_object):
+	* camel-seekable-substream.c
+	(init_with_seekable_stream_and_bounds):
+	* providers/mbox/camel-mbox-folder.c (mbox_get_message_by_uid): 
+	remove gtk_object_sink calls.
+
+	* camel-stream-buffer.c (init_vbuf): 
+	* camel-stream-filter.c (camel_stream_filter_new_with_stream):
+	ref the original stream.
+
+	* camel-folder-summary.c (camel_folder_summary_finalise): unref
+	the filters when finalizing.
+
+	* camel-mime-part-utils.c
+	(simple_data_wrapper_construct_from_parser,
+	camel_mime_part_construct_content_from_parser):
+	* camel-mime-part.c (camel_mime_part_set_content): Unref objects
+	that are created only to be handed off to other objects. If
+	they're going to be needed later, they will have been additionally
+	ref'ed by the object that needs them.
+
+	* providers/pop3/camel-pop3-folder.c (get_message_by_number):
+	unref the message stream after creating the data from it.
+
+	* camel-stream.c, camel-stream-buffer.c, camel-stream-filter.c,
+	camel-stream-fs.c, camel-stream-mem.c: Remove camel_stream_close,
+	since its semantics are dubious (what happens when you close a
+	stream other people still have references on?).
+
+	* providers/nntp/camel-nntp-store.c:
+	* providers/smtp/camel-smtp-transport.c:
+	* providers/pop3/camel-pop3-store.c:
+	replace camel_stream_close calls with gtk_object_unref.
+
+	* providers/mbox/camel-mbox-folder.c:
+	* providers/nntp/camel-nntp-folder.c:
+	* providers/sendmail/camel-sendmail-transport.c:
+	replace camel_stream_close with camel_stream_flush +
+	gtk_object_unref
+
 2000-05-06  Dan Winship  <danw@helixcode.com>
 
 	* providers/pop3/camel-pop3-store.c (query_auth_types): A machine

@@ -45,6 +45,7 @@ libcamel_la_SOURCES = 				\
 	camel-mime-part-utils.c			\
 	camel-movemail.c			\
 	camel-multipart.c			\
+	camel-object.c				\
 	camel-op-queue.c			\
 	camel-provider.c			\
 	camel-seekable-stream.c			\
@@ -91,6 +92,7 @@ libcamelinclude_HEADERS =			\
 	camel-mime-part-utils.h			\
 	camel-movemail.h			\
 	camel-multipart.h			\
+	camel-object.h				\
 	camel-op-queue.h			\
 	camel-provider.h			\
 	camel-seekable-stream.h			\

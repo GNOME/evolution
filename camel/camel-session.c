@@ -60,7 +60,7 @@ camel_session_get_type (void)
 			(GtkClassInitFunc) NULL,
 		};
 
-		camel_session_type = gtk_type_unique (gtk_object_get_type (),
+		camel_session_type = gtk_type_unique (camel_object_get_type (),
 						      &camel_session_info);
 	}
 

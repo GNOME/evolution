@@ -469,7 +469,7 @@ _append_message (CamelFolder *folder, CamelMimeMessage *message, CamelException 
 		camel_stream_write_string (output_stream, "From - \n");
 		camel_data_wrapper_write_to_stream (CAMEL_DATA_WRAPPER (message), output_stream);
 	}
-	camel_stream_close (output_stream);
+	camel_stream_flush (output_stream);
 	gtk_object_unref (GTK_OBJECT (output_stream));
 
 	/* at this point we have saved the message to a

@@ -25,7 +25,7 @@ static void camel_address_class_init (CamelAddressClass *klass);
 static void camel_address_init       (CamelAddress *obj);
 static void camel_address_finalise   (GtkObject *obj);
 
-static GtkObjectClass *camel_address_parent;
+static CamelObjectClass *camel_address_parent;
 
 enum SIGNALS {
 	LAST_SIGNAL
@@ -49,7 +49,7 @@ camel_address_get_type (void)
 			(GtkArgGetFunc) NULL
 		};
 		
-		type = gtk_type_unique (gtk_object_get_type (), &type_info);
+		type = gtk_type_unique (camel_object_get_type (), &type_info);
 	}
 	
 	return type;
@@ -60,7 +60,7 @@ camel_address_class_init (CamelAddressClass *klass)
 {
 	GtkObjectClass *object_class = (GtkObjectClass *) klass;
 	
-	camel_address_parent = gtk_type_class (gtk_object_get_type ());
+	camel_address_parent = gtk_type_class (camel_object_get_type ());
 
 	object_class->finalize = camel_address_finalise;
 

@@ -140,7 +140,8 @@ _send_internal (CamelMedium *message, char **argv, CamelException *ex)
 	close (fd[0]);
 	out = camel_stream_fs_new_with_fd (fd[1]);
 	camel_data_wrapper_write_to_stream (CAMEL_DATA_WRAPPER (message), out);
-	camel_stream_close (out);
+	camel_stream_flush (out);
+	gtk_object_unref (GTK_OBJECT (out));
 
 	/* Wait for sendmail to exit. */
 	while (waitpid (pid, &wstat, 0) == -1 && errno == EINTR)

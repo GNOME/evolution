@@ -27,7 +27,7 @@
 #define MD5_UTILS_H
 
 #include <glib.h>
-#include "camel-stream.h"
+#include <camel/camel-stream.h>
 
 typedef struct {
 	guint32 buf[4];

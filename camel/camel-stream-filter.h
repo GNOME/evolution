@@ -21,8 +21,6 @@
 #ifndef _CAMEL_STREAM_FILTER_H
 #define _CAMEL_STREAM_FILTER_H
 
-#include <gtk/gtk.h>
-
 #include <camel/camel-stream.h>
 #include <camel/camel-mime-filter.h>
 
@@ -30,7 +28,6 @@
 #define CAMEL_STREAM_FILTER_CLASS(klass) GTK_CHECK_CLASS_CAST (klass, camel_stream_filter_get_type (), CamelStreamFilterClass)
 #define IS_CAMEL_STREAM_FILTER(obj)      GTK_CHECK_TYPE (obj, camel_stream_filter_get_type ())
 
-typedef struct _CamelStreamFilter      CamelStreamFilter;
 typedef struct _CamelStreamFilterClass CamelStreamFilterClass;
 
 struct _CamelStreamFilter {

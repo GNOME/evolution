@@ -36,7 +36,7 @@ extern "C" {
 #pragma }
 #endif /* __cplusplus }*/
 
-#include "camel-op-queue.h"
+#include <camel/camel-op-queue.h>
 
 #define CAMEL_THREAD_PROXY(o)  (CamelThreadProxy *)(o)
 

@@ -21,15 +21,12 @@
 #ifndef _CAMEL_MIME_FILTER_SAVE_H
 #define _CAMEL_MIME_FILTER_SAVE_H
 
-#include <gtk/gtk.h>
-
 #include <camel/camel-mime-filter.h>
 
 #define CAMEL_MIME_FILTER_SAVE(obj)         GTK_CHECK_CAST (obj, camel_mime_filter_save_get_type (), CamelMimeFilterSave)
 #define CAMEL_MIME_FILTER_SAVE_CLASS(klass) GTK_CHECK_CLASS_CAST (klass, camel_mime_filter_save_get_type (), CamelMimeFilterSaveClass)
 #define IS_CAMEL_MIME_FILTER_SAVE(obj)      GTK_CHECK_TYPE (obj, camel_mime_filter_save_get_type ())
 
-typedef struct _CamelMimeFilterSave      CamelMimeFilterSave;
 typedef struct _CamelMimeFilterSaveClass CamelMimeFilterSaveClass;
 
 struct _CamelMimeFilterSave {

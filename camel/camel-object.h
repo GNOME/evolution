@@ -1,8 +1,8 @@
 /* -*- Mode: C; tab-width: 8; indent-tabs-mode: t; c-basic-offset: 8 -*- */
-/* camel-movemail.h: mbox copy function */
+/* camel-object.h: Base class for Camel */
 
-/* 
- * Author: 
+/*
+ * Author:
  *  Dan Winship <danw@helixcode.com>
  *
  * Copyright 2000 Helix Code, Inc. (http://www.helixcode.com)
@@ -23,9 +23,8 @@
  * USA
  */
 
-
-#ifndef CAMEL_MOVEMAIL_H
-#define CAMEL_MOVEMAIL_H 1
+#ifndef CAMEL_OBJECT_H
+#define CAMEL_OBJECT_H 1
 
 
 #ifdef __cplusplus
@@ -33,13 +32,34 @@ extern "C" {
 #pragma }
 #endif /* __cplusplus }*/
 
-#include <camel/camel-exception.h>
+#include <gtk/gtk.h>
+#include <camel/camel-types.h>
 
-int camel_movemail (const char *source, const char *dest, CamelException *ex);
+#define CAMEL_OBJECT_TYPE     (camel_object_get_type ())
+#define CAMEL_OBJECT(obj)     (GTK_CHECK_CAST((obj), CAMEL_OBJECT_TYPE, CamelObject))
+#define CAMEL_OBJECT_CLASS(k) (GTK_CHECK_CLASS_CAST ((k), CAMEL_OBJECT_TYPE, CamelObjectClass))
+#define CAMEL_IS_OBJECT(o)    (GTK_CHECK_TYPE((o), CAMEL_OBJECT_TYPE))
+
+
+struct _CamelObject
+{
+	GtkObject parent_object;
+
+};
+
+
+typedef struct {
+	GtkObjectClass parent_class;
+
+} CamelObjectClass;
+
+
+/* Standard Gtk function */
+GtkType camel_object_get_type (void);
 
 
 #ifdef __cplusplus
 }
 #endif /* __cplusplus */
 
-#endif /* CAMEL_MOVEMAIL_H */
+#endif /* CAMEL_OBJECT_H */

@@ -112,7 +112,6 @@ init_with_seekable_stream_and_bounds (CamelSeekableSubstream *seekable_substream
 	/* Store the parent stream. */
 	seekable_substream->parent_stream = parent_stream;
 	gtk_object_ref (GTK_OBJECT (parent_stream));
-	gtk_object_sink (GTK_OBJECT (parent_stream));
 
 	/* Set the bound of the substream. */
 	camel_seekable_stream_set_bounds ((CamelSeekableStream *)seekable_substream, start, end);

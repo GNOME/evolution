@@ -34,9 +34,8 @@ extern "C" {
 #pragma }
 #endif /* __cplusplus }*/
 
-#include <gtk/gtk.h>
+#include <camel/camel-object.h>
 #include <time.h>
-#include "camel-types.h"
 
 #define CAMEL_FOLDER_TYPE     (camel_folder_get_type ())
 #define CAMEL_FOLDER(obj)     (GTK_CHECK_CAST((obj), CAMEL_FOLDER_TYPE, CamelFolder))
@@ -55,8 +54,6 @@ typedef enum {
 	FOLDER_OPEN_RW      = 3    /* folder is read/write        */ 
 } CamelFolderOpenMode;
 
-
-#warning old summary stuff to be removed!
 
 typedef struct {
 	gchar *name;
@@ -104,7 +101,7 @@ typedef void (*CamelFolderAsyncCallback) ();
 
 struct _CamelFolder
 {
-	GtkObject parent_object;
+	CamelObject parent_object;
 	
 	CamelFolderOpenMode open_mode;
 	CamelFolderState open_state;
@@ -125,7 +122,7 @@ struct _CamelFolder
 
 
 typedef struct {
-	GtkObjectClass parent_class;
+	CamelObjectClass parent_class;
 
 	/* signals */
 	void		(*folder_changed)	(CamelFolder *, int type);

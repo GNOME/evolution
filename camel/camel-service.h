@@ -34,10 +34,9 @@ extern "C" {
 #pragma }
 #endif /* __cplusplus }*/
 
-#include <gtk/gtk.h>
+#include <camel/camel-object.h>
+#include <camel/camel-url.h>
 #include <netdb.h>
-#include "camel-types.h"
-#include "camel-url.h"
 
 #define CAMEL_SERVICE_TYPE     (camel_service_get_type ())
 #define CAMEL_SERVICE(obj)     (GTK_CHECK_CAST((obj), CAMEL_SERVICE_TYPE, CamelService))
@@ -45,9 +44,8 @@ extern "C" {
 #define CAMEL_IS_SERVICE(o)    (GTK_CHECK_TYPE((o), CAMEL_SERVICE_TYPE))
 
 
-
 struct _CamelService {
-	GtkObject parent_object;
+	CamelObject parent_object;
 
 	CamelSession *session;
 	gboolean connected;
@@ -57,9 +55,8 @@ struct _CamelService {
 };
 
 
-
 typedef struct {
-	GtkObjectClass parent_class;
+	CamelObjectClass parent_class;
 
 	gboolean  (*connect)           (CamelService *service, 
 					CamelException *ex);

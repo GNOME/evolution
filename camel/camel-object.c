@@ -1,8 +1,8 @@
 /* -*- Mode: C; tab-width: 8; indent-tabs-mode: t; c-basic-offset: 8 -*- */
-/* camel-movemail.h: mbox copy function */
+/* camel-object.c: Base class for Camel */
 
-/* 
- * Author: 
+/*
+ * Author:
  *  Dan Winship <danw@helixcode.com>
  *
  * Copyright 2000 Helix Code, Inc. (http://www.helixcode.com)
@@ -23,23 +23,35 @@
  * USA
  */
 
+#include <config.h>
+#include "camel-object.h"
 
-#ifndef CAMEL_MOVEMAIL_H
-#define CAMEL_MOVEMAIL_H 1
-
-
-#ifdef __cplusplus
-extern "C" {
-#pragma }
-#endif /* __cplusplus }*/
-
-#include <camel/camel-exception.h>
-
-int camel_movemail (const char *source, const char *dest, CamelException *ex);
-
-
-#ifdef __cplusplus
+static void
+camel_object_init (gpointer object, gpointer klass)
+{
+	GTK_OBJECT_UNSET_FLAGS (object, GTK_FLOATING);
 }
-#endif /* __cplusplus */
 
-#endif /* CAMEL_MOVEMAIL_H */
+GtkType
+camel_object_get_type (void)
+{
+	static GtkType camel_object_type = 0;
+
+	if (!camel_object_type) {
+		GtkTypeInfo camel_object_info =
+		{
+			"CamelObject",
+			sizeof (CamelObject),
+			sizeof (CamelObjectClass),
+			(GtkClassInitFunc) NULL,
+			(GtkObjectInitFunc) camel_object_init,
+				/* reserved_1 */ NULL,
+				/* reserved_2 */ NULL,
+			(GtkClassInitFunc) NULL,
+		};
+
+		camel_object_type = gtk_type_unique (gtk_object_get_type (), &camel_object_info);
+	}
+
+	return camel_object_type;
+}

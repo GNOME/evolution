@@ -49,7 +49,6 @@ static	gint      do_read       (CamelStream *stream, gchar *buffer, gint n);
 static	gint      do_write      (CamelStream *stream, const gchar *buffer, gint n);
 static	void      do_flush      (CamelStream *stream);
 static	gboolean  do_eos        (CamelStream *stream);
-static	void      do_close      (CamelStream *stream);
 static	void      do_reset      (CamelStream *stream);
 
 static CamelStreamClass *camel_stream_filter_parent;
@@ -118,7 +117,6 @@ camel_stream_filter_class_init (CamelStreamFilterClass *klass)
 	camel_stream_class->write = do_write;
 	camel_stream_class->flush = do_flush;
 	camel_stream_class->eos = do_eos; 
-	camel_stream_class->close = do_close;
 	camel_stream_class->reset = do_reset;
 
 	gtk_object_class_add_signals (object_class, signals, LAST_SIGNAL);
@@ -147,6 +145,8 @@ camel_stream_filter_new_with_stream(CamelStream *stream)
 	CamelStreamFilter *new = CAMEL_STREAM_FILTER ( gtk_type_new (camel_stream_filter_get_type ()));
 
 	new->source = stream;
+	gtk_object_ref ((GtkObject *)stream);
+
 	return new;
 }
 
@@ -274,15 +274,6 @@ static	gboolean  do_eos        (CamelStream *stream)
 		return FALSE;
 
 	return camel_stream_eos(filter->source);
-}
-
-static	void      do_close      (CamelStream *stream)
-{
-	CamelStreamFilter *filter = (CamelStreamFilter *)stream;
-	struct _CamelStreamFilterPrivate *p = _PRIVATE(filter);
-
-	p->filteredlen = 0;
-	camel_stream_close(filter->source);
 }
 
 static	void      do_reset      (CamelStream *stream)

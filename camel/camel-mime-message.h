@@ -32,8 +32,6 @@ extern "C" {
 #pragma }
 #endif /* __cplusplus }*/
 
-#include <gtk/gtk.h>
-#include <camel/camel-types.h>
 #include <camel/camel-mime-part.h>
 #include <camel/camel-mime-utils.h>
 #include <camel/camel-internet-address.h>

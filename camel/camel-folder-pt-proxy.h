@@ -37,9 +37,9 @@ extern "C" {
 #pragma }
 #endif /* __cplusplus }*/
 
-#include "camel-folder.h"
-#include "camel-op-queue.h"
-#include "camel-thread-proxy.h"
+#include <camel/camel-folder.h>
+#include <camel/camel-op-queue.h>
+#include <camel/camel-thread-proxy.h>
 
 
 #define CAMEL_FOLDER_PT_PROXY_TYPE     (camel_folder_pt_proxy_get_type ())

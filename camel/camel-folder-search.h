@@ -22,7 +22,7 @@
 #ifndef _CAMEL_FOLDER_SEARCH_H
 #define _CAMEL_FOLDER_SEARCH_H
 
-#include <gtk/gtk.h>
+#include <camel/camel-object.h>
 #include <e-util/e-sexp.h>
 #include <libibex/ibex.h>
 #include <camel/camel-folder.h>
@@ -31,11 +31,10 @@
 #define CAMEL_FOLDER_SEARCH_CLASS(klass) GTK_CHECK_CLASS_CAST (klass, camel_folder_search_get_type (), CamelFolderSearchClass)
 #define IS_CAMEL_FOLDER_SEARCH(obj)      GTK_CHECK_TYPE (obj, camel_folder_search_get_type ())
 
-typedef struct _CamelFolderSearch      CamelFolderSearch;
 typedef struct _CamelFolderSearchClass CamelFolderSearchClass;
 
 struct _CamelFolderSearch {
-	GtkObject parent;
+	CamelObject parent;
 
 	struct _CamelFolderSearchPrivate *priv;
 
@@ -50,7 +49,7 @@ struct _CamelFolderSearch {
 };
 
 struct _CamelFolderSearchClass {
-	GtkObjectClass parent_class;
+	CamelObjectClass parent_class;
 
 	/* general bool/comparison options, usually these wont need to be set, unless it is compiling into another language */
 	ESExpResult * (*and)(struct _ESExp *f, int argc, struct _ESExpTerm **argv, CamelFolderSearch *s);

@@ -30,7 +30,7 @@
 #include "camel-store.h"
 #include "string-utils.h"
 
-static GtkObjectClass *parent_class=NULL;
+static CamelObjectClass *parent_class = NULL;
 
 /* Returns the class for a CamelFolder */
 #define CF_CLASS(so) CAMEL_FOLDER_CLASS (GTK_OBJECT (so)->klass)
@@ -148,7 +148,7 @@ camel_folder_class_init (CamelFolderClass *camel_folder_class)
 {
 	GtkObjectClass *gtk_object_class = GTK_OBJECT_CLASS (camel_folder_class);
 	
-	parent_class = gtk_type_class (gtk_object_get_type ());
+	parent_class = gtk_type_class (camel_object_get_type ());
 	
 	/* virtual method definition */
 	camel_folder_class->init = _init;
@@ -230,7 +230,7 @@ camel_folder_get_type (void)
 			(GtkClassInitFunc) NULL,
 		};
 		
-		camel_folder_type = gtk_type_unique (gtk_object_get_type (), &camel_folder_info);
+		camel_folder_type = gtk_type_unique (camel_object_get_type (), &camel_folder_info);
 	}
 	
 	return camel_folder_type;

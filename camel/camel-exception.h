@@ -36,7 +36,7 @@ extern "C" {
 #endif /* __cplusplus }*/
 
 #include <glib.h>
-#include "camel-types.h"
+#include <camel/camel-types.h>
 
 typedef enum {
 #include "camel-exception-list.def"

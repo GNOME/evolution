@@ -33,7 +33,6 @@ extern "C" {
 #pragma }
 #endif /* __cplusplus }*/
 
-#include <gtk/gtk.h>
 #include <camel/camel-data-wrapper.h>
 #include <camel/camel-exception.h>
 #include <camel/camel-folder-pt-proxy.h>

@@ -34,9 +34,8 @@ extern "C" {
 #pragma }
 #endif /* __cplusplus }*/
 
-#include <gtk/gtk.h>
-#include "camel-types.h"
-#include "camel-provider.h"
+#include <camel/camel-object.h>
+#include <camel/camel-provider.h>
 
 #define CAMEL_SESSION_TYPE     (camel_session_get_type ())
 #define CAMEL_SESSION(obj)     (GTK_CHECK_CAST((obj), CAMEL_SESSION_TYPE, CamelSession))
@@ -50,7 +49,7 @@ typedef char *(*CamelAuthCallback) (char *prompt, gboolean secret,
 
 struct _CamelSession
 {
-	GtkObject parent_object;
+	CamelObject parent_object;
 
 	CamelAuthCallback authenticator;
 
@@ -58,7 +57,7 @@ struct _CamelSession
 };
 
 typedef struct {
-	GtkObjectClass parent_class;
+	CamelObjectClass parent_class;
 
 } CamelSessionClass;
 

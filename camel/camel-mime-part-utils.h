@@ -33,7 +33,7 @@ extern "C" {
 #pragma }
 #endif /* __cplusplus }*/
 
-#include "camel-mime-part.h"
+#include <camel/camel-mime-part.h>
 
 void camel_mime_part_construct_content_from_parser(CamelMimePart *, CamelMimeParser *mp);
 

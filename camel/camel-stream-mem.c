@@ -29,7 +29,7 @@
 #include <fcntl.h>
 #include <errno.h>
 
-static CamelStreamClass *parent_class=NULL;
+static CamelStreamClass *parent_class = NULL;
 
 /* Returns the class for a CamelStreamMEM */
 #define CSM_CLASS(so) CAMEL_STREAM_MEM_CLASS (GTK_OBJECT(so)->klass)
@@ -38,7 +38,6 @@ static gint stream_read (CamelStream *stream, gchar *buffer, gint n);
 static gint stream_write (CamelStream *stream, const gchar *buffer, gint n);
 static void stream_flush (CamelStream *stream);
 static gboolean stream_eos (CamelStream *stream);
-static void stream_close (CamelStream *stream);
 static off_t stream_seek (CamelSeekableStream *stream, off_t offset, CamelStreamSeekPolicy policy);
 
 static void finalize (GtkObject *object);
@@ -50,7 +49,7 @@ camel_stream_mem_class_init (CamelStreamMemClass *camel_stream_mem_class)
 	CamelStreamClass *camel_stream_class = CAMEL_STREAM_CLASS (camel_stream_mem_class);
 	GtkObjectClass *gtk_object_class = GTK_OBJECT_CLASS (camel_stream_mem_class);
 	
-	parent_class = gtk_type_class (gtk_object_get_type ());
+	parent_class = gtk_type_class (camel_stream_get_type ());
 	
 	/* virtual method definition */
 	
@@ -59,7 +58,6 @@ camel_stream_mem_class_init (CamelStreamMemClass *camel_stream_mem_class)
 	camel_stream_class->write = stream_write;
 	camel_stream_class->flush = stream_flush;
 	camel_stream_class->eos = stream_eos;
-	camel_stream_class->close = stream_close;
 
 	camel_seekable_stream_class->seek = stream_seek;
 	
@@ -214,16 +212,6 @@ static gboolean
 stream_eos (CamelStream *stream)
 {
 	return ((CamelStreamMem *)stream)->buffer->len <= ((CamelSeekableStream *)stream)->position;
-}
-
-static void
-stream_close (CamelStream *stream)
-{
-	CamelStreamMem *stream_mem = CAMEL_STREAM_MEM (stream);
-
-	if (stream_mem->buffer && stream_mem->owner)
-		g_byte_array_free (stream_mem->buffer, TRUE);
-	stream_mem->buffer = NULL;
 }
 
 static off_t

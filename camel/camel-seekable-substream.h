@@ -32,9 +32,7 @@ extern "C" {
 #pragma }
 #endif /* __cplusplus }*/
 
-#include <gtk/gtk.h>
-#include "camel-types.h"
-#include "camel-seekable-stream.h"
+#include <camel/camel-seekable-stream.h>
 
 #define CAMEL_SEEKABLE_SUBSTREAM_TYPE       (camel_seekable_substream_get_type ())
 #define CAMEL_SEEKABLE_SUBSTREAM(obj)       (GTK_CHECK_CAST((obj), CAMEL_SEEKABLE_SUBSTREAM_TYPE, CamelSeekableSubstream))

@@ -33,7 +33,7 @@ struct _CamelMimeFilterPrivate {
 static void camel_mime_filter_class_init (CamelMimeFilterClass *klass);
 static void camel_mime_filter_init       (CamelMimeFilter *obj);
 
-static GtkObjectClass *camel_mime_filter_parent;
+static CamelObjectClass *camel_mime_filter_parent;
 
 enum SIGNALS {
 	LAST_SIGNAL
@@ -57,7 +57,7 @@ camel_mime_filter_get_type (void)
 			(GtkArgGetFunc) NULL
 		};
 		
-		type = gtk_type_unique (gtk_object_get_type (), &type_info);
+		type = gtk_type_unique (camel_object_get_type (), &type_info);
 	}
 	
 	return type;
@@ -88,7 +88,7 @@ camel_mime_filter_class_init (CamelMimeFilterClass *klass)
 {
 	GtkObjectClass *object_class = (GtkObjectClass *) klass;
 	
-	camel_mime_filter_parent = gtk_type_class (gtk_object_get_type ());
+	camel_mime_filter_parent = gtk_type_class (camel_object_get_type ());
 
 	object_class->finalize = finalise;
 

@@ -34,8 +34,6 @@ extern "C" {
 #pragma }
 #endif /* __cplusplus }*/
 
-#include <gtk/gtk.h>
-#include <camel/camel-types.h>
 #include <camel/camel-seekable-stream.h>
 
 /* for open flags */

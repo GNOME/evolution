@@ -30,7 +30,7 @@
 #include <ctype.h>
 #include <stdlib.h>
 
-static GtkObjectClass *parent_class=NULL;
+static CamelObjectClass *parent_class = NULL;
 
 /* Returns the class for a CamelService */
 #define CSERV_CLASS(so) CAMEL_SERVICE_CLASS (GTK_OBJECT(so)->klass)
@@ -52,7 +52,7 @@ camel_service_class_init (CamelServiceClass *camel_service_class)
 	GtkObjectClass *gtk_object_class =
 		GTK_OBJECT_CLASS (camel_service_class);
 
-	parent_class = gtk_type_class (gtk_object_get_type ());
+	parent_class = gtk_type_class (camel_object_get_type ());
 	
 	/* virtual method definition */
 	camel_service_class->connect = _connect;
@@ -84,7 +84,7 @@ camel_service_get_type (void)
 			(GtkClassInitFunc) NULL,
 		};
 		
-		camel_service_type = gtk_type_unique (gtk_object_get_type (),
+		camel_service_type = gtk_type_unique (camel_object_get_type (),
 						      &camel_service_info);
 	}
 	

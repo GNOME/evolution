@@ -34,8 +34,6 @@ extern "C" {
 #pragma }
 #endif /* __cplusplus }*/
 
-#include <gtk/gtk.h>
-#include <camel/camel-types.h>
 #include <camel/camel-data-wrapper.h>
 
 #define CAMEL_MEDIUM_TYPE     (camel_medium_get_type ())

@@ -22,7 +22,7 @@
 #ifndef _CAMEL_FOLDER_SUMMARY_H
 #define _CAMEL_FOLDER_SUMMARY_H
 
-#include <gtk/gtk.h>
+#include <camel/camel-object.h>
 #include <stdio.h>
 #include <time.h>
 #include <camel/camel-mime-parser.h>
@@ -88,7 +88,7 @@ enum _CamelFolderSummaryFlags {
 };
 
 struct _CamelFolderSummary {
-	GtkObject parent;
+	CamelObject parent;
 
 	struct _CamelFolderSummaryPrivate *priv;
 
@@ -111,7 +111,7 @@ struct _CamelFolderSummary {
 };
 
 struct _CamelFolderSummaryClass {
-	GtkObjectClass parent_class;
+	CamelObjectClass parent_class;
 
 	/* load/save the global info */
 	int (*summary_header_load)(CamelFolderSummary *, FILE *);

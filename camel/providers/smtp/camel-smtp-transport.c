@@ -198,11 +198,8 @@ smtp_disconnect (CamelService *service, CamelException *ex)
 	if (!service_class->disconnect (service, ex))
 		return FALSE;
 
-	/* Closing the buffered write stream will close the
-	 * unbuffered read stream wrapped inside it as well.
-	 */
-	camel_stream_close (transport->ostream);
 	gtk_object_unref (GTK_OBJECT (transport->ostream));
+	gtk_object_unref (GTK_OBJECT (transport->istream));
 	transport->ostream = NULL;
 	transport->istream = NULL;
 
