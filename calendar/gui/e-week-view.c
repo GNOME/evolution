@@ -1573,7 +1573,7 @@ e_week_view_reload_events (EWeekView *week_view)
 			? E_WEEK_VIEW_MAX_WEEKS * 7 : 7;
 		
 		cal_client_generate_instances (week_view->calendar->client,
-					       CAL_COMPONENT_EVENT,
+					       CALOBJ_TYPE_EVENT,
 					       week_view->day_starts[0],
 					       week_view->day_starts[num_days],
 					       e_week_view_add_event,

@@ -1,5 +1,12 @@
 2000-08-21  JP Rosevear  <jpr@helixcode.com>
 
+	* gui/e-week-view.c (e_week_view_reload_events): 
+	Use CalObjType
+
+	* gui/e-day-view.c (e_day_view_reload_events): ditto
+
+2000-08-21  JP Rosevear  <jpr@helixcode.com>
+
 	* gui/e-day-view-main-item.c (e_day_view_main_item_draw_day_event): 
 	Use CalComponent instead of iCalObject.  #if some alarm stuff
 	

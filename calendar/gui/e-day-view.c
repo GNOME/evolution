@@ -3177,7 +3177,7 @@ e_day_view_reload_events (EDayView *day_view)
 	if (day_view->calendar
 	    && (day_view->lower != 0 || day_view->upper != 0)) {
 		cal_client_generate_instances (day_view->calendar->client,
-					       CAL_COMPONENT_EVENT,
+					       CALOBJ_TYPE_EVENT,
 					       day_view->lower,
 					       day_view->upper,
 					       e_day_view_add_event,
