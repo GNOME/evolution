@@ -45,7 +45,8 @@ struct _EMeetingEditorPrivate {
 	GtkWidget *organizer_entry;
 	GtkWidget *role_entry;
 	GtkWidget *rsvp_check;
-	GtkWidget *publish_button, *request_button, *schedule_button;
+	GtkWidget *publish_button, *request_button, *cancel_button,
+		  *schedule_button;
 	
 	gint changed_signal_id;
 
@@ -469,12 +470,14 @@ schedule_button_clicked_cb (GtkWidget *widget, gpointer data)
 
 static gchar *itip_methods[] = {
 	"REQUEST",
-	"PUBLISH"
+	"PUBLISH",
+	"CANCEL"
 };
 
 enum itip_method_enum {
 	METHOD_REQUEST,
-	METHOD_PUBLISH
+	METHOD_PUBLISH,
+	METHOD_CANCEL
 };
 
 typedef enum itip_method_enum itip_method_enum;
@@ -677,6 +680,16 @@ request_button_clicked_cb (GtkWidget *widget, gpointer data)
 
 	send_calendar_info (METHOD_REQUEST, priv);
 
+}
+
+static void
+cancel_button_clicked_cb (GtkWidget *widget, gpointer data)
+{
+	EMeetingEditorPrivate *priv;
+
+	priv = (EMeetingEditorPrivate *) ((EMeetingEditor *)data)->priv;
+
+	send_calendar_info (METHOD_CANCEL, priv);
 }
 
 
@@ -891,6 +904,7 @@ e_meeting_edit (EMeetingEditor *editor)
 	priv->schedule_button = glade_xml_get_widget (priv->xml, "schedule_button");
 	priv->publish_button = glade_xml_get_widget (priv->xml, "publish_button");
 	priv->request_button = glade_xml_get_widget (priv->xml, "request_button");
+	priv->cancel_button = glade_xml_get_widget (priv->xml, "cancel_button");
 
 	gtk_clist_set_column_justification (GTK_CLIST (priv->attendee_list), ROLE_COL, GTK_JUSTIFY_CENTER);
 	gtk_clist_set_column_justification (GTK_CLIST (priv->attendee_list), RSVP_COL, GTK_JUSTIFY_CENTER);
@@ -916,6 +930,9 @@ e_meeting_edit (EMeetingEditor *editor)
 
 	gtk_signal_connect (GTK_OBJECT (priv->request_button), "clicked",
 			    GTK_SIGNAL_FUNC (request_button_clicked_cb), editor);
+
+	gtk_signal_connect (GTK_OBJECT (priv->cancel_button), "clicked",
+			    GTK_SIGNAL_FUNC (cancel_button_clicked_cb), editor);
 
 	add_button = glade_xml_get_widget (priv->xml, "add_button");
 	delete_button = glade_xml_get_widget (priv->xml, "delete_button");

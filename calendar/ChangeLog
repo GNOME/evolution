@@ -1,3 +1,9 @@
+2000-11-16   Jesse Pavel   <jpavel@helixcode.com>
+
+	* gui/e-itip-control.c, gui/e-meeting-edit.c: added cancellation
+	code to our program; people can cancel meetings, which is the best
+	thing to do for most meetings.
+
 2000-11-13   Jesse Pavel   <jpavel@helixcode.com>
 	
 	* gui/e-itip-control.c: made the REPLY code actually work.

@@ -393,6 +393,41 @@ decline_button_clicked_cb (GtkWidget *widget, gpointer data)
 	return;
 }
 
+
+/********
+ * load_calendar_store() opens and loads the calendar referred to by cal_uri
+ * and sets cal_client as a client for that store. If cal_uri is NULL,
+ * we load the default calendar URI.  If all goes well, it returns TRUE;
+ * otherwise, it returns FALSE.
+ ********/
+static gboolean
+load_calendar_store (char *cal_uri, CalClient **cal_client)
+{
+	char uri_buf[255];
+	char *uri;
+	
+	if (cal_uri == NULL) {
+		snprintf (uri_buf, 250, "%s/local/Calendar/calendar.ics", evolution_dir);
+		uri = uri_buf;
+	}
+	else {
+		uri = cal_uri;
+	}
+
+	*cal_client = cal_client_new ();
+	if (cal_client_load_calendar (*cal_client, uri) == FALSE) {
+		return FALSE;
+	}
+
+	while (!cal_client_is_loaded (*cal_client)) {
+		gtk_main_iteration_do (FALSE);  /* Do a non-blocking iteration. */
+		usleep (200000L);   /* Pause for 1/5th of a second before checking again.*/
+	}
+
+	return TRUE;
+}
+
+
 static void
 update_reply_cb (GtkWidget *widget, gpointer data)
 {
@@ -403,27 +438,17 @@ update_reply_cb (GtkWidget *widget, gpointer data)
 	icalproperty *prop;
 	icalparameter *param;
 	const char *uid;
-	char cal_uri[255];
 
-
-	/* First we must load our calendar object from the calendar store. */
-	snprintf (cal_uri, 250, "%s/local/Calendar/calendar.ics", evolution_dir);
-
-	cal_client = cal_client_new ();
-	if (cal_client_load_calendar (cal_client, cal_uri) == FALSE) {
+	if (load_calendar_store (NULL, &cal_client) == FALSE) {
 		GtkWidget *dialog;
 
-		dialog = gnome_warning_dialog("I couldn't open your calendar file!\n");
+		dialog = gnome_warning_dialog("I couldn't load your calendar file!\n");
 		gnome_dialog_run (GNOME_DIALOG(dialog));
 		gtk_object_unref (GTK_OBJECT (cal_client));
 	
 		return;
 	}
-
-	while (!cal_client_is_loaded (cal_client)) {
-		gtk_main_iteration_do (FALSE);  /* Do a non-blocking iteration. */
-		usleep (200000L);   /* Pause for 1/5th of a second before checking again.*/
-	}
+	
 
 	cal_component_get_uid (priv->cal_comp, &uid);
 	if (cal_client_get_object (cal_client, uid, &cal_comp) != CAL_CLIENT_GET_SUCCESS) {
@@ -477,6 +502,44 @@ update_reply_cb (GtkWidget *widget, gpointer data)
 	gtk_object_unref (GTK_OBJECT (cal_client));
 	gtk_object_unref (GTK_OBJECT (cal_comp));
 }
+
+static void
+cancel_meeting_cb (GtkWidget *widget, gpointer data)
+{
+	EItipControlPrivate *priv = data;
+	CalClient *cal_client;
+	const char *uid;
+
+	if (load_calendar_store (NULL, &cal_client) == FALSE) {
+		GtkWidget *dialog;
+
+		dialog = gnome_warning_dialog("I couldn't load your calendar file!\n");
+		gnome_dialog_run (GNOME_DIALOG(dialog));
+		gtk_object_unref (GTK_OBJECT (cal_client));
+	
+		return;
+	}
+
+	cal_component_get_uid (priv->cal_comp, &uid);
+	if (cal_client_remove_object (cal_client, uid) == FALSE) {
+		GtkWidget *dialog;
+
+		dialog = gnome_warning_dialog("I couldn't delete the calendar component!\n");
+		gnome_dialog_run (GNOME_DIALOG(dialog));
+		gtk_object_unref (GTK_OBJECT (cal_client));
+	
+		return;
+	}
+	else {
+		/* We have success! */
+		GtkWidget *dialog;
+
+		dialog = gnome_ok_dialog("Component successfully deleted.");
+		gnome_dialog_run (GNOME_DIALOG(dialog));
+	}
+		
+}
+
 
 
 /*
@@ -694,7 +757,7 @@ pstream_load (BonoboPersistStream *ps, const Bonobo_Stream stream,
 			{
 			GtkWidget *button;
 
-			sprintf (message, "%s has published calendar information, "
+			snprintf (message, 250, "%s has published calendar information, "
 				 	  "which you can add to your own calendar. "
 				 	  "No reply is necessary.", 
 				 priv->from_address);
@@ -725,7 +788,7 @@ pstream_load (BonoboPersistStream *ps, const Bonobo_Stream stream,
 				}
 			}
 
-			sprintf (message, "This is a meeting organized by %s, "
+			snprintf (message, 250, "This is a meeting organized by %s, "
 					  "who indicated that you %s RSVP.",
 				 (priv->organizer ? priv->organizer : "an unknown person"), 
 				 (rsvp ? "should" : "don't have to") );
@@ -772,7 +835,7 @@ pstream_load (BonoboPersistStream *ps, const Bonobo_Stream stream,
 			}
 
 			if (!success) {
-				sprintf (message, "%s sent a reply to a meeting request, but "
+				snprintf (message, 250, "%s sent a reply to a meeting request, but "
 						  "the reply is not properly formed.",
 					 priv->from_address);
 			}
@@ -786,14 +849,38 @@ pstream_load (BonoboPersistStream *ps, const Bonobo_Stream stream,
 				gtk_signal_connect (GTK_OBJECT (button), "clicked",
 						    GTK_SIGNAL_FUNC (update_reply_cb), priv);
 				
-				sprintf (message, "%s responded to your request, replying with: %s",
+				snprintf (message, 250, "%s responded to your request, replying with: %s",
 					 priv->from_address, partstat_values[priv->new_partstat]);
 			}
 
 			}
 			break;
+		case ICAL_METHOD_CANCEL:
+			{
+			if (strcmp (priv->organizer, priv->from_address) != 0) {
+				snprintf (message, 250, "%s sent a cancellation request, but is not "
+					  		"the organizer of the meeting.",
+					  priv->from_address);
+			}
+			else {
+				GtkWidget *button;
+
+				button =  gtk_button_new_with_label ("Cancel Meeting");
+				gtk_box_pack_start (GTK_BOX (priv->button_box), button, FALSE, FALSE, 3);
+				gtk_widget_show (button);
+
+				gtk_signal_connect (GTK_OBJECT (button), "clicked",
+						    GTK_SIGNAL_FUNC (cancel_meeting_cb), priv);
+
+				snprintf (message, 250, "%s sent a cancellation request. You can"
+							" delete this event from your calendar, if you wish.",
+					  priv->organizer);
+			}
+
+			}
+			break;
 		default:
-			sprintf (message, "I haven't the slightest notion what this calendar "
+			snprintf (message, 250, "I haven't the slightest notion what this calendar "
 					  "object represents. Sorry.");
 		}
 
