@@ -365,7 +365,6 @@ this may not be correct */
 
 static time_t icaltime_to_timet (struct icaltimetype* i)
 {
-	extern long timezone;
 	struct tm t;
 	time_t ret;
 
@@ -384,7 +383,19 @@ static time_t icaltime_to_timet (struct icaltimetype* i)
 
 	ret = mktime(&t);
 
-	return ret - (i->is_utc ? timezone : 0);
+	if (i->is_utc) {
+#ifdef HAVE_TIMEZONE
+	  	extern long timezone;
+		ret -= timezone;
+#else
+		struct tm *tmp;
+		time_t tod = time(NULL);
+		tmp = localtime (&tod);
+		ret += tmp->tm_gmtoff;
+#endif
+	} 
+
+	return ret;
 }
 	
 static iCalPerson*
