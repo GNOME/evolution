@@ -38,6 +38,7 @@
 enum {
 	E_TEXT_CHANGED,
 	E_TEXT_ACTIVATE,
+	E_TEXT_KEYPRESS,
 	E_TEXT_POPUP,
 	E_TEXT_LAST_SIGNAL
 };
@@ -226,6 +227,14 @@ e_text_class_init (ETextClass *klass)
 				GTK_SIGNAL_OFFSET (ETextClass, activate),
 				gtk_marshal_NONE__NONE,
 				GTK_TYPE_NONE, 0);
+
+	e_text_signals[E_TEXT_KEYPRESS] =
+		gtk_signal_new ("keypress",
+				GTK_RUN_LAST,
+				object_class->type,
+				GTK_SIGNAL_OFFSET (ETextClass, keypress),
+				gtk_marshal_NONE__INT_INT,
+				GTK_TYPE_NONE, 2, GTK_TYPE_UINT, GTK_TYPE_UINT);
 
 	e_text_signals[E_TEXT_POPUP] =
 		gtk_signal_new ("popup",
@@ -498,9 +507,6 @@ static void
 e_text_text_model_reposition (ETextModel *model, ETextModelReposFn fn, gpointer repos_data, gpointer user_data)
 {
 	EText *text = E_TEXT (user_data);
-#if 0
-	gint org_start = text->selection_start, org_end = text->selection_end;
-#endif
 	gint model_len = e_text_model_get_text_length (model);
 
 	text->selection_start = fn (text->selection_start, repos_data);
@@ -516,17 +522,6 @@ e_text_text_model_reposition (ETextModel *model, ETextModelReposFn fn, gpointer 
 		text->selection_start = text->selection_end;
 		text->selection_end = tmp;
 	}
-
-#if 0
-	if (org_start != text->selection_start || org_end != text->selection_end) {
-		/*
-		  In general we shouldn't need to do anything to refresh the
-		  canvas to redraw the (moved) selection, since "reposition" events
-		  will only be generated in association with ETextModel-changing
-		  activities.
-		*/
-	}
-#endif
 }
 
 static void
@@ -2961,6 +2956,10 @@ e_text_event (GnomeCanvasItem *item, GdkEvent *event)
 
 			if (e_tep_event.key.string) g_free (e_tep_event.key.string);
 
+			if (event->type == GDK_KEY_PRESS)
+				gtk_signal_emit (GTK_OBJECT (text), e_text_signals[E_TEXT_KEYPRESS],
+						 e_tep_event.key.keyval, e_tep_event.key.state);
+
 			return ret;
 		}
 		else
@@ -3402,6 +3401,7 @@ e_text_command(ETextEventProcessor *tep, ETextEventProcessorCommand *command, gp
 		if (text->timer) {
 			g_timer_reset(text->timer);
 		}
+
 		break;
 	case E_TEP_SELECT:
 		text->selection_start = e_text_model_validate_position (text->model, text->selection_start); /* paranoia */

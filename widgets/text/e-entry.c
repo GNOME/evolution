@@ -119,6 +119,9 @@ struct _EEntryPrivate {
 	gint completion_delay;
 	guint completion_delay_tag;
 	gboolean ptr_grab;
+	gboolean changed_since_keypress;
+	guint changed_since_keypress_tag;
+	gint last_completion_pos;
 
 	guint draw_borders : 1;
 };
@@ -197,16 +200,43 @@ canvas_focus_in_event (GtkWidget *widget, GdkEventFocus *focus, EEntry *entry)
 }
 
 static void
+e_entry_text_keypress (EText *text, guint keyval, guint state, EEntry *entry)
+{
+	if (entry->priv->changed_since_keypress_tag) {
+		gtk_timeout_remove (entry->priv->changed_since_keypress_tag);
+		entry->priv->changed_since_keypress_tag = 0;
+	}
+	
+	if (entry->priv->changed_since_keypress
+	    || (entry->priv->popup_is_visible && e_entry_get_position (entry) != entry->priv->last_completion_pos)) {
+		if (e_entry_is_empty (entry)) {
+			e_entry_cancel_delayed_completion (entry);
+			e_entry_show_popup (entry, FALSE);
+		} else if (entry->priv->popup_is_visible) {
+			e_entry_start_delayed_completion (entry, 1);
+		} else if (entry->priv->completion)
+			e_entry_start_delayed_completion (entry, entry->priv->completion_delay);
+	}
+	entry->priv->changed_since_keypress = FALSE;
+}
+
+static gint
+changed_since_keypress_timeout_fn (gpointer user_data)
+{
+	EEntry *entry = E_ENTRY (user_data);
+	entry->priv->changed_since_keypress = FALSE;
+	entry->priv->changed_since_keypress_tag = 0;
+	return FALSE;
+}
+
+static void
 e_entry_proxy_changed (EText *text, EEntry *entry)
 {
-	if (e_entry_is_empty (entry)) {
-		e_entry_cancel_delayed_completion (entry);
-		e_entry_show_popup (entry, FALSE);
-	} else if (entry->priv->popup_is_visible)
-		e_entry_start_delayed_completion (entry, 1);
-	else if (entry->priv->completion)
-		e_entry_start_delayed_completion (entry, entry->priv->completion_delay);
-
+	if (entry->priv->changed_since_keypress_tag)
+		gtk_timeout_remove (entry->priv->changed_since_keypress_tag);
+	entry->priv->changed_since_keypress = TRUE;
+	entry->priv->changed_since_keypress_tag = gtk_timeout_add (20, changed_since_keypress_timeout_fn, entry);
+	
 	gtk_signal_emit (GTK_OBJECT (entry), e_entry_signals [E_ENTRY_CHANGED]);
 }
 
@@ -259,6 +289,11 @@ e_entry_init (GtkObject *object)
 							 "max_lines", 1,
 							 "editable", TRUE,
 							 NULL));
+
+	gtk_signal_connect (GTK_OBJECT (entry->priv->item),
+			    "keypress",
+			    GTK_SIGNAL_FUNC (e_entry_text_keypress),
+			    entry);
 
 	entry->priv->justification = GTK_JUSTIFY_LEFT;
 	gtk_table_attach (gtk_table, GTK_WIDGET (entry->priv->canvas),
@@ -458,6 +493,8 @@ e_entry_show_popup (EEntry *entry, gboolean visible)
 
 		entry->priv->ptr_grab = FALSE;
 
+		entry->priv->last_completion_pos = -1;
+
 
 	}
 
@@ -485,7 +522,7 @@ e_entry_start_completion (EEntry *entry)
 	
 	e_completion_begin_search (entry->priv->completion,
 				   e_entry_get_text (entry),
-				   e_entry_get_position (entry),
+				   entry->priv->last_completion_pos = e_entry_get_position (entry),
 				   0); /* No limit.  Probably a bad idea. */
 }
 
@@ -694,7 +731,6 @@ e_entry_enable_completion_full (EEntry *entry, ECompletion *completion, gint del
 
 	e_completion_view_connect_keys (E_COMPLETION_VIEW (entry->priv->completion_view), GTK_WIDGET (entry->priv->canvas));
 }
-
 
 /** ** ** ** ** ** ** ** ** ** ** ** ** ** ** ** ** ** ** ** ** ** ** ** ** **/
 
@@ -1001,6 +1037,9 @@ e_entry_destroy (GtkObject *object)
 	if (entry->priv->completion_view_popup)
 		gtk_widget_destroy (entry->priv->completion_view_popup);
 	g_free (entry->priv->pre_browse_text);
+
+	if (entry->priv->changed_since_keypress_tag)
+		gtk_timeout_remove (entry->priv->changed_since_keypress_tag);
 
 	if (entry->priv->ptr_grab)
 		gdk_pointer_ungrab (GDK_CURRENT_TIME);

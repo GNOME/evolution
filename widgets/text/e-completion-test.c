@@ -175,7 +175,7 @@ main (int argc, gchar **argv)
 
   win = gtk_window_new (GTK_WINDOW_TOPLEVEL);
   entry = e_entry_new ();
-  e_entry_enable_completion_full (E_ENTRY (entry), complete, -1, NULL);
+  e_entry_enable_completion_full (E_ENTRY (entry), complete, 0, NULL);
   e_entry_set_editable (E_ENTRY (entry), TRUE);
 
   gtk_signal_connect (GTK_OBJECT (entry),

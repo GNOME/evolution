@@ -217,9 +217,10 @@ struct _EText {
 struct _ETextClass {
 	GnomeCanvasItemClass parent_class;
 
-	void (* changed)  (EText *text);
-	void (* activate) (EText *text);
-	void (* popup)    (EText *text, GdkEventButton *ev, gint pos);
+	void (* changed)   (EText *text);
+	void (* activate)  (EText *text);
+	void (* keypress)  (EText *text, guint keyval, guint state);
+	void (* popup)     (EText *text, GdkEventButton *ev, gint pos);
 };
 
 
