@@ -1644,7 +1644,7 @@ imap_get_message (CamelFolder *folder, const char *uid, CamelException *ex)
 		}
 		
 		response = camel_imap_command (store, folder, ex,
-					       "UID FETCH %s BODY", uid);
+					       "UID FETCH %s BODYSTRUCTURE", uid);
 		if (!response) {
 			camel_folder_summary_info_free (folder->summary, mi);
 			return NULL;
