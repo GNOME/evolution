@@ -1,4 +1,0 @@
-Makefile
-Makefile.in
-*.la
-smime-marshal.[ch]
