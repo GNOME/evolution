@@ -275,6 +275,8 @@ compare_category (ECardSimple *card, const char *str,
 	EList *categories;
 	EIterator *iterator;
 	ECard *ecard;
+	gboolean ret_val = FALSE;
+
 	gtk_object_get (GTK_OBJECT (card),
 			"card", &ecard,
 			NULL);
@@ -285,11 +287,15 @@ compare_category (ECardSimple *card, const char *str,
 	for (iterator = e_list_get_iterator(categories); e_iterator_is_valid (iterator); e_iterator_next (iterator)) {
 		const char *category = e_iterator_get (iterator);
 
-		if (compare(category, str))
-			return TRUE;
+		if (compare(category, str)) {
+			ret_val = TRUE;
+			break;
+		}
 	}
 
-	return FALSE;
+	gtk_object_unref (GTK_OBJECT (iterator));
+	e_card_free_empty_lists (ecard);
+	return ret_val;
 }
 
 static struct prop_info {

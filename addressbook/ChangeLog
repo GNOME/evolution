@@ -1,5 +1,10 @@
 2001-07-05  Christopher James Lahey  <clahey@ximian.com>
 
+	* backend/pas/pas-backend-file.c (compare_category): Fix a memory
+	leak here.
+
+2001-07-05  Christopher James Lahey  <clahey@ximian.com>
+
 	* backend/ebook/e-card-compare.c (match_search_info_free): Set
 	info->avoid = NULL.  This shouldn't make a difference, but it
 	can't hurt.
