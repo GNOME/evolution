@@ -32,30 +32,6 @@ static char *extended_keywords[] = {
 };
 
 
-static const gchar *
-e_address_western_strstrcase (const gchar *haystack, const gchar *needle)
-{
-        /* find the needle in the haystack neglecting case */
-        gchar *ptr;
-        guint len;
-
-        g_return_val_if_fail (haystack != NULL, NULL);
-        g_return_val_if_fail (needle != NULL, NULL);
-
-        len = strlen(needle);
-        if (len > strlen(haystack))
-                return NULL;
-
-        if (len == 0)
-                return (char *)haystack;
-
-        for (ptr = (char *)haystack; *(ptr + len - 1) != '\0'; ptr++)
-                if (!g_strncasecmp(ptr, needle, len))
-                        return ptr;
-
-        return NULL;
-}
-
 
 static gboolean
 e_address_western_is_line_blank (gchar *line)
@@ -306,7 +282,7 @@ e_address_western_extract_street (gchar *line, gchar **street, gchar **extended)
 	gint cntr;
 
 	for (cntr = 0; extended_keywords[cntr] != NULL; cntr++) {
-		split = e_address_western_strstrcase (line, extended_keywords[cntr]);
+		split = e_strstrcase (line, extended_keywords[cntr]);
 		if (split != NULL)
 			break;
 	}

@@ -1,3 +1,8 @@
+2000-10-17  Jesse Pavel  <jpavel@helixcode.com>
+
+	* ename/e-address-western.c: made the routines use the stardard e_strstrcase
+	instead of the included function that existed earlier.
+
 2000-10-11  Iain Holmes  <iain@helixcode.com>
 
 	* ename/e-address-western.c (e_address_western_parse): g_strconcat needs
