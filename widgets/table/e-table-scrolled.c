@@ -94,17 +94,22 @@ key_press_proxy (ETable *et, int row, int col, GdkEvent *event, ETableScrolled *
 static void
 e_table_scrolled_init (GtkObject *object)
 {
-	ETableScrolled *ets = E_TABLE_SCROLLED(object);
+	ETableScrolled *ets;
+	EScrollFrame *scroll_frame;
+
+	ets          = E_TABLE_SCROLLED (object);
+	scroll_frame = E_SCROLL_FRAME   (object);
 
 	ets->table = gtk_type_new(e_table_get_type());
+
+	e_scroll_frame_set_policy      (scroll_frame, GTK_POLICY_AUTOMATIC, GTK_POLICY_AUTOMATIC);
+	e_scroll_frame_set_shadow_type (scroll_frame, GTK_SHADOW_IN);
 }
 
 static void
 e_table_scrolled_real_construct (ETableScrolled *ets)
 {
 	gtk_object_set(GTK_OBJECT(ets),
-		       "hadjustment", NULL,
-		       "vadjustment", NULL,
 		       "shadow_type", GTK_SHADOW_IN,
 		       "hscrollbar_policy", GTK_POLICY_NEVER,
 		       "vscrollbar_policy", GTK_POLICY_AUTOMATIC,
@@ -153,7 +158,10 @@ e_table_scrolled_new (ETableHeader *full_header, ETableModel *etm, const char *s
 {
 	ETableScrolled *ets;
 
-	ets = gtk_type_new (e_table_scrolled_get_type ());
+	ets = E_TABLE_SCROLLED (gtk_widget_new (e_table_scrolled_get_type (),
+						"hadjustment", NULL,
+						"vadjustment", NULL,
+						NULL));
 
 	ets = e_table_scrolled_construct (ets, full_header, etm, spec);
 		

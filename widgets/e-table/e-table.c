@@ -823,8 +823,11 @@ set_scroll_adjustments   (ETable *table,
 			  GtkAdjustment *hadjustment,
 			  GtkAdjustment *vadjustment)
 {
-	vadjustment->step_increment = 20;
-	gtk_adjustment_changed(vadjustment);
+	if (vadjustment != NULL) {
+		vadjustment->step_increment = 20;
+		gtk_adjustment_changed(vadjustment);
+	}
+
 	gtk_layout_set_hadjustment (GTK_LAYOUT(table->table_canvas),
 				    hadjustment);
 	gtk_layout_set_vadjustment (GTK_LAYOUT(table->table_canvas),

@@ -1,5 +1,17 @@
 2000-07-10  Ettore Perazzoli  <ettore@helixcode.com>
 
+	* e-table.c (set_scroll_adjustments): Be safe if @vadjustment is
+	NULL.
+
+	* e-table-scrolled.c (e_table_scrolled_init): Set policy and
+	shadow type.
+	(e_table_scrolled_real_construct): Don't set the adjustments.
+	(e_table_scrolled_new): Create the widget with `gtk_widget_new()'
+	and pass hadjustment/vadjustment NULL values so that we get the
+	`GTK_OBJECT_CONSTRUCTED' approval.
+
+2000-07-10  Ettore Perazzoli  <ettore@helixcode.com>
+
 	* e-table-scrolled.h: s/GtkTable/EScrollFrameClass/.
 
 2000-07-09  Christopher James Lahey  <clahey@helixcode.com>
