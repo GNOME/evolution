@@ -1433,13 +1433,13 @@ etree_value_at (ETreeModel *etree, ETreePath tree_path, int col, void *model_dat
 		if (col == 0)
 			return (void *) e_storage_get_display_name (storage);
 		else
-			return TRUE;
+			return (void *) TRUE;
 	}
 
 	if (col == 0)
 		return _("My Evolution");
 	else
-		return TRUE;
+		return (void *) TRUE;
 }
 
 static void
@@ -1460,7 +1460,7 @@ static void *
 etree_duplicate_value (ETreeModel *etc, int col, const void *value, void *data)
 {
 	if (col == 0)
-		return g_strdup (value);
+		return (void *)g_strdup (value);
 	else
 		return (void *)value;
 }
