@@ -32,6 +32,8 @@
 #include <fcntl.h>
 #include <errno.h>
 #include <string.h>
+#include <time.h>
+
 #include "camel-tcp-stream-raw.h"
 #include "camel-operation.h"
 
@@ -259,16 +261,20 @@ stream_read (CamelStream *stream, char *buffer, size_t n)
 			FD_SET (cancel_fd, &rdset);
 			fdmax = MAX (tcp_stream_raw->sockfd, cancel_fd) + 1;
 			
-			select (fdmax, &rdset, 0, 0, NULL);
-			if (FD_ISSET (cancel_fd, &rdset)) {
-				fcntl (tcp_stream_raw->sockfd, F_SETFL, flags);
-				errno = EINTR;
-				return -1;
+			nread = -1;
+			if (select (fdmax, &rdset, 0, 0, NULL) != -1) {
+				if (FD_ISSET (cancel_fd, &rdset)) {
+					fcntl (tcp_stream_raw->sockfd, F_SETFL, flags);
+					errno = EINTR;
+					return -1;
+				}
+				
+				do {
+					nread = read (tcp_stream_raw->sockfd, buffer, n);
+				} while (nread == -1 && errno == EINTR);
+			} else if (errno == EINTR) {
+				errno = EAGAIN;
 			}
-			
-			do {
-				nread = read (tcp_stream_raw->sockfd, buffer, n);
-			} while (nread == -1 && errno == EINTR);
 		} while (nread == -1 && (errno == EAGAIN || errno == EWOULDBLOCK));
 		
 		error = errno;
@@ -315,32 +321,41 @@ stream_write (CamelStream *stream, const char *buffer, size_t n)
 			FD_SET (tcp_stream_raw->sockfd, &wrset);
 			FD_SET (cancel_fd, &rdset);
 			
-			select (fdmax, &rdset, &wrset, 0, NULL);
-			if (FD_ISSET (cancel_fd, &rdset)) {
-				fcntl (tcp_stream_raw->sockfd, F_SETFL, flags);
-				errno = EINTR;
-				return -1;
-			}
-			
-			do {
-				w = write (tcp_stream_raw->sockfd, buffer + written, n - written);
-			} while (w == -1 && errno == EINTR);
-			
-			if (w == -1) {
-				if (errno == EAGAIN || errno == EWOULDBLOCK) {
-					w = 0;
-				} else {
-					error = errno;
+			w = -1;
+			if (select (fdmax, &rdset, &wrset, 0, NULL) != -1) {
+				if (FD_ISSET (cancel_fd, &rdset)) {
 					fcntl (tcp_stream_raw->sockfd, F_SETFL, flags);
-					errno = error;
+					errno = EINTR;
 					return -1;
 				}
-			} else
-				written += w;
+				
+				do {
+					w = write (tcp_stream_raw->sockfd, buffer + written, n - written);
+				} while (w == -1 && errno == EINTR);
+				
+				if (w == -1) {
+					if (errno == EAGAIN || errno == EWOULDBLOCK) {
+						w = 0;
+					} else {
+						error = errno;
+						fcntl (tcp_stream_raw->sockfd, F_SETFL, flags);
+						errno = error;
+						return -1;
+					}
+				} else
+					written += w;
+			} else if (errno == EINTR) {
+				w = 0;
+			}
 		} while (w != -1 && written < n);
 		
+		error = errno;
 		fcntl (tcp_stream_raw->sockfd, F_SETFL, flags);
+		errno = error;
 	}
+	
+	if (w == -1)
+		return -1;
 	
 	return written;
 }
@@ -396,13 +411,14 @@ socket_connect (struct hostent *h, int port)
 		
 		return fd;
 	} else {
+		int flags, fdmax, status;
 		fd_set rdset, wrset;
-		int flags, fdmax;
+		time_t timeout, now;
 		
 		flags = fcntl (fd, F_GETFL);
 		fcntl (fd, F_SETFL, flags | O_NONBLOCK);
 		
-		ret = connect (fd, (struct sockaddr *)&sin, sizeof (sin));
+		ret = connect (fd, (struct sockaddr *) &sin, sizeof (sin));
 		if (ret == 0) {
 			fcntl (fd, F_SETFL, flags);
 			return fd;
@@ -413,15 +429,22 @@ socket_connect (struct hostent *h, int port)
 			return -1;
 		}
 		
-		FD_ZERO (&rdset);
-		FD_ZERO (&wrset);
-		FD_SET (fd, &wrset);
-		FD_SET (cancel_fd, &rdset);
-		fdmax = MAX (fd, cancel_fd) + 1;
-		tv.tv_usec = 0;
-		tv.tv_sec = 60 * 4;
+		now = time (NULL);
+		timeout = now + 60 * 4;
+		do {
+			FD_ZERO (&rdset);
+			FD_ZERO (&wrset);
+			FD_SET (fd, &wrset);
+			FD_SET (cancel_fd, &rdset);
+			fdmax = MAX (fd, cancel_fd) + 1;
+			tv.tv_sec = timeout - now;
+			tv.tv_usec = 0;
+			
+			status = select (fdmax, &rdset, &wrset, 0, &tv);
+			now = time (NULL);
+		} while (now < timeout && status == -1 && errno == EINTR);
 		
-		if (select (fdmax, &rdset, &wrset, 0, &tv) <= 0) {
+		if (status <= 0) {
 			close (fd);
 			errno = ETIMEDOUT;
 			return -1;

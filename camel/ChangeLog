@@ -1,5 +1,17 @@
 2002-05-02  Jeffrey Stedfast  <fejj@ximian.com>
 
+	* camel-stream-fs.c (stream_read): Same fix as the tcp stream.
+	(stream_write): Again here. Just like tcp stream's stream_write(),
+	also make sure to save errno before calling fcntl to restore the
+	fd flags.
+
+	* camel-tcp-stream-raw.c (stream_read): Handle EINTR errors for
+	select().
+	(stream_write): Same and also preserve errno when setting the fd
+	flags back. If w == -1, return -1.
+
+2002-05-02  Jeffrey Stedfast  <fejj@ximian.com>
+
 	* camel-mime-utils.c (header_decode_mailbox): Fixed the fix for
 	stupidly-broken-mailer bug #5 to work when multiple unescaped
 	characters were in a row. Fixes bug #24140.
