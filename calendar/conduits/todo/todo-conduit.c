@@ -240,7 +240,7 @@ local_record_from_comp_uid (EToDoLocalRecord *local,
 
 
 
-static char *gnome_pilot_status_to_string (gint status)
+static const char *gnome_pilot_status_to_string (gint status)
 {
 	switch(status) {
 	case GnomePilotRecordPending: return "GnomePilotRecordPending";
@@ -262,18 +262,67 @@ void
 local_record_from_compobject(EToDoLocalRecord *local,
 			     CalComponent *comp) 
 {
+	int *priority;
+	struct icaltimetype *completed;
+	CalComponentText summary;
+	GSList *d_list = NULL;
+	CalComponentText *description;
+	CalComponentDateTime due;
+	time_t due_time;
+	CalComponentClassification classif;
 	unsigned long *pilot_id;
 	unsigned long *pilot_status;
-	CalComponentClassification classif;
-	
-	g_return_if_fail (local!=NULL);
-	g_return_if_fail (comp!=NULL);
+
+	LOG ("local_record_from_compobject\n");
+
+	g_return_if_fail (local != NULL);
+	g_return_if_fail (comp != NULL);
 
 	local->comp = comp;
-	local->todo = NULL; /* ??? */
+
+	local->todo = g_new0 (struct ToDo,1);
+
+	/* STOP: don't replace these with g_strdup, since free_ToDo
+	   uses free to deallocate */
+	cal_component_get_summary (comp, &summary);
+	if (summary.value) 
+		local->todo->description = strdup ((char *) summary.value);
+
+	cal_component_get_description_list (comp, &d_list);
+	if (d_list) {
+		description = (CalComponentText *) d_list->data;
+		if (description && description->value)
+			local->todo->note = strdup (description->value);
+		else
+			local->todo->note = NULL;
+	} else {
+		local->todo->note = NULL;
+	}
+
+	cal_component_get_due (comp, &due);	
+	if (due.value) {
+		due_time = icaltime_as_timet (*due.value);
+		
+		local->todo->due = *localtime (&due_time);
+		local->todo->indefinite = 0;
+	} else {
+		local->todo->indefinite = 1;
+	}
+
+	cal_component_get_completed (comp, &completed);
+	if (completed) {
+		local->todo->complete = 1;
+		cal_component_free_icaltimetype (completed);
+	}	
+
+	cal_component_get_priority (comp, &priority);
+	if (priority) {
+		local->todo->priority = *priority;
+		cal_component_free_priority (priority);
+	}
+	
 	cal_component_get_pilot_id (comp, &pilot_id);
 	cal_component_get_pilot_status (comp, &pilot_status);
-
 
 	/* Records without a pilot_id are new */
 	if (!pilot_id) {
@@ -327,10 +376,10 @@ find_record_in_repository(GnomePilotConduitStandardAbs *conduit,
 			local_record_from_compobject (loc, obj);
 			return loc;
 		}
+		LOG ("Pilot ID found, but comp for uid %s was not\n", uid);
 	}
 
 	INFO ("Object did not exist");
-	LOG ("not found\n");
 	return NULL;
 }
 
@@ -612,14 +661,17 @@ match_record	(GnomePilotConduitStandardAbs *conduit,
 	g_return_val_if_fail (local != NULL, -1);
 	g_return_val_if_fail (remote != NULL, -1);
 
-	*local = find_record_in_repository(conduit,remote,ctxt);
+	*local = find_record_in_repository (conduit, remote, ctxt);
 
 	if (*local == NULL)
 		LOG ("    match_record: not found.\n");
 	else
-		LOG ("    match_record: found, %s\n", print_local (*local));
+		LOG ("    match_record: found, %s\n",
+		     print_local (*local));
   
-	if (*local==NULL) return -1;
+	if (*local == NULL) 
+		return -1;
+
 	return 0;
 }
 
@@ -638,7 +690,6 @@ free_match	(GnomePilotConduitStandardAbs *conduit,
 	g_return_val_if_fail (local != NULL, -1);
 	g_return_val_if_fail (*local != NULL, -1);
 
-	gtk_object_unref (GTK_OBJECT ((*local)->comp));
 	g_free (*local);
 
         *local = NULL;
@@ -686,13 +737,14 @@ store_remote (GnomePilotConduitStandardAbs *conduit,
 	      PilotRecord *remote,
 	      EToDoConduitContext *ctxt)
 {
+	g_return_val_if_fail (remote != NULL, -1);
+
 	LOG ("store_remote: copying pilot record %s to desktop\n",
 		print_remote (remote));
 
-	g_return_val_if_fail(remote!=NULL,-1);
 	remote->attr = GnomePilotRecordNothing;
 
-	return update_record(conduit,remote,ctxt);
+	return update_record (conduit, remote, ctxt);
 }
 
 static gint
@@ -715,46 +767,50 @@ iterate (GnomePilotConduitStandardAbs *conduit,
 	static GSList *events,*iterator;
 	static int hest;
 
-	g_return_val_if_fail(local!=NULL,-1);
+	g_return_val_if_fail (local != NULL, -1);
 
-	if(*local==NULL) {
-		/*   LOG ("beginning iteration"); */
+	if (*local == NULL) {
+		LOG ("beginning iteration");
 
-		events = get_calendar_objects(conduit,NULL,ctxt);
+		events = get_calendar_objects (conduit, NULL, ctxt);
 		hest = 0;
 		
-		if(events!=NULL) {
-			 /*  LOG ("iterating over %d records", g_slist_length (events)); */
-			*local = g_new0(EToDoLocalRecord,1);
+		if (events != NULL) {
+			 LOG ("iterating over %d records", g_slist_length (events));
+			*local = g_new0 (EToDoLocalRecord, 1);
 
-			local_record_from_comp_uid(*local,(gchar*)events->data,ctxt);
+			local_record_from_comp_uid (*local, 
+						    (gchar*)events->data, 
+						    ctxt);
 			iterator = events;
 		} else {
-			/*  LOG ("no events"); */
+			LOG ("no events");
 			(*local) = NULL;
 		}
 	} else {
-		/* LOG ("continuing iteration\n"); */
+		LOG ("continuing iteration\n");
 		hest++;
-		if(g_slist_next(iterator)==NULL) {
+		if (g_slist_next (iterator) == NULL) {
 			GSList *l;
 
-			/*  LOG ("ending"); */
+			LOG ("ending");
 			/** free stuff allocated for iteration */
 			g_free((*local));
 
-			/*  LOG ("iterated over %d records", hest) */;
-			for(l=events;l;l=l->next)
-				g_free(l->data);
+			LOG ("iterated over %d records", hest);
+			for (l=events; l; l = l->next)
+				g_free (l->data);
 
-			g_slist_free(events);
+			g_slist_free (events);
 
 			/* ends iteration */
 			(*local) = NULL;
 			return 0;
 		} else {
-			iterator = g_slist_next(iterator);
-			local_record_from_comp_uid(*local,(gchar*)(iterator->data),ctxt);
+			iterator = g_slist_next (iterator);
+			local_record_from_comp_uid(*local, 
+						   (gchar*)(iterator->data), 
+						   ctxt);
 		}
 	}
 	return 1;
@@ -772,39 +828,29 @@ iterate_specific (GnomePilotConduitStandardAbs *conduit,
 
 	/* debugging */
 	{
-		gchar *tmp;
-		switch (flag) {
-		case GnomePilotRecordNothing:
-			tmp = g_strdup("RecordNothing"); break;
-		case GnomePilotRecordModified:
-			tmp = g_strdup("RecordModified"); break;
-		case GnomePilotRecordDeleted:
-			tmp = g_strdup("RecordDeleted"); break;
-		case GnomePilotRecordNew:
-			tmp = g_strdup("RecordNew"); break;
-		default: tmp = g_strdup_printf("0x%x",flag); break;
-		}
+		const char *tmp = gnome_pilot_status_to_string (flag);
 		LOG ("\niterate_specific: (flag = %s)... ", tmp);
-		g_free(tmp);
 	}
 
-	g_return_val_if_fail(local!=NULL,-1);
+	g_return_val_if_fail (local != NULL, -1);
 
 	/* iterate until a record meets the criteria */
 	while (gnome_pilot_conduit_standard_abs_iterate (conduit,
-						      (LocalRecord**)local)) {
-		if((*local)==NULL) break;
-		if(archived && ((*local)->local.archived==archived)) break;
-		if(((*local)->local.attr == flag)) break;
+							 (LocalRecord**)local)) {
+		if ((*local) == NULL) 
+			break;
+		if (archived && ((*local)->local.archived == archived)) 
+			break;
+		if (((*local)->local.attr == flag)) 
+			break;
 	}
 
-	if ((*local)) {
+	if ((*local))
 		LOG (" found %s\n", print_local (*local));
-	} else {
+	else
 		LOG (" no more found.\n");
-	}
 
-	return (*local)==NULL?0:1;
+	return (*local) == NULL ? 0 : 1;
 }
 
 static gint
@@ -827,12 +873,13 @@ set_status (GnomePilotConduitStandardAbs *conduit,
 {
 	gboolean success;
 
-	LOG ("set_status: %s status is now '%s'\n",
-		print_local (local),
-		gnome_pilot_status_to_string (status));
+	LOG ("set_status: %s status is now '%s' for %s\n",
+	     print_local (local),
+	     gnome_pilot_status_to_string (status),
+	     cal_component_get_as_string (local->comp));
 
-	g_return_val_if_fail(local!=NULL,-1);
-	g_assert(local->comp!=NULL);
+	g_return_val_if_fail (local != NULL, -1);
+	g_assert (local->comp != NULL);
 	
 	local->local.attr = status;
 	if (status == GnomePilotRecordDeleted) {

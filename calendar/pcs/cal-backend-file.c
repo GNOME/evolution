@@ -312,6 +312,7 @@ lookup_component (CalBackendFile *cbfile, const char *uid)
 	CalComponent *comp;
 
 	priv = cbfile->priv;
+
 	comp = g_hash_table_lookup (priv->comp_uid_hash, uid);
 
 	return comp;
@@ -472,6 +473,7 @@ add_component (CalBackendFile *cbfile, CalComponent *comp, gboolean add_to_tople
 	CalBackendFilePrivate *priv;
 	GList **list;
 	const char *uid;
+	gchar *key;
 	unsigned long *pilot_id;
 	
 	priv = cbfile->priv;
@@ -499,13 +501,14 @@ add_component (CalBackendFile *cbfile, CalComponent *comp, gboolean add_to_tople
 	 */
 	check_dup_uid (cbfile, comp);
 	cal_component_get_uid (comp, &uid);
-	g_hash_table_insert (priv->comp_uid_hash, (char *) uid, comp);
+	key = g_strdup (uid);
+	g_hash_table_insert (priv->comp_uid_hash, key, comp);
 
 	/* Update the pilot list, if there is a pilot id */
 	cal_component_get_pilot_id (comp, &pilot_id);	
 	if (pilot_id)
 		g_hash_table_insert (priv->comp_pilot_hash, 
-				     pilot_id, (char *)uid);
+				     pilot_id, (char *)key);
 
 	*list = g_list_prepend (*list, comp);
 
@@ -679,7 +682,8 @@ cal_backend_file_load (CalBackend *backend, GnomeVFSURI *uri)
 	priv->icalcomp = icalcomp;
 
 	priv->comp_uid_hash = g_hash_table_new (g_str_hash, g_str_equal);
-	priv->comp_pilot_hash = g_hash_table_new (cbf_pilot_hash, cbf_pilot_equal);
+/*	priv->comp_pilot_hash = g_hash_table_new (cbf_pilot_hash, cbf_pilot_equal); */
+	priv->comp_pilot_hash = g_hash_table_new (g_int_hash, g_int_equal);
 	scan_vcalendar (cbfile);
 
 	/* Clean up */
@@ -725,7 +729,8 @@ cal_backend_file_create (CalBackend *backend, GnomeVFSURI *uri)
 
 	g_assert (priv->comp_uid_hash == NULL);
 	priv->comp_uid_hash = g_hash_table_new (g_str_hash, g_str_equal);
-	priv->comp_pilot_hash = g_hash_table_new (cbf_pilot_hash, cbf_pilot_equal);
+/*	priv->comp_pilot_hash = g_hash_table_new (cbf_pilot_hash, cbf_pilot_equal); */
+	priv->comp_pilot_hash = g_hash_table_new (g_int_hash, g_int_equal);
 
 	/* Done */
 
@@ -1109,7 +1114,7 @@ cal_backend_file_remove_object (CalBackend *backend, const char *uid)
 
 /* Get_uid_by_pilot_id handler for the file backend */
 static char *
-cal_backend_file_get_uid_by_pilot_id (CalBackend *backend, unsigned long int pilot_id)
+cal_backend_file_get_uid_by_pilot_id (CalBackend *backend, unsigned long pilot_id)
 {
 	CalBackendFile *cbfile;
 	CalBackendFilePrivate *priv;
@@ -1120,15 +1125,15 @@ cal_backend_file_get_uid_by_pilot_id (CalBackend *backend, unsigned long int pil
 
 	uid = g_hash_table_lookup (priv->comp_pilot_hash, &pilot_id);
 
-	return uid;
+	return g_strdup (uid);
 }
 
 /* Update_pilot_id handler for the file backend */
 static void
 cal_backend_file_update_pilot_id (CalBackend *backend,
 				  const char *uid,
-				  unsigned long int pilot_id,
-				  unsigned long int pilot_status)
+				  unsigned long pilot_id,
+				  unsigned long pilot_status)
 {
 	CalBackendFile *cbfile;
 	CalBackendFilePrivate *priv;

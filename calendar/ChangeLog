@@ -1,3 +1,19 @@
+2000-09-12  JP Rosevear  <jpr@helixcode.com>
+
+	* pcs/cal-backend-file.c (cal_backend_file_load): Use g_int_*
+	for now
+	(cal_backend_file_create): ditto
+
+	* conduits/todo/todo-conduit.c (local_record_from_compobject): Make
+	this actually fill in the todo record.
+	(find_record_in_repository): Add debug stuff
+	(iterate_specific): Use the already exisiting utility function
+
+	* pcs/cal-backend-file.c (cal_backend_file_update_pilot_id): correct
+	the status and id types. g_strdup the uid since this is not a 
+	constified return
+	(cal_backend_file_get_uid_by_pilot_id): correct the id type
+
 2000-09-12  Ettore Perazzoli  <ettore@helixcode.com>
 
 	* gui/Makefile.am: Remove `ui.xml' stuff.
