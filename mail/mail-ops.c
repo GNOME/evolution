@@ -281,11 +281,6 @@ real_fetch_mail (gpointer user_data )
 		goto cleanup;
 	}
 
-	/* Redisplay. Ick. FIXME */
-	path = g_strdup_printf ("file://%s", path);
-	folder_browser_set_uri (fb, path);
-	g_free (path);
-
  cleanup:
 	g_free(tmp_mbox);
 

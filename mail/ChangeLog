@@ -1,5 +1,9 @@
 2000-07-02  Dan Winship  <danw@helixcode.com>
 
+	* mail-ops.c (real_fetch_mail): Remove hack to redisplay the
+	inbox, since folder_changed signals will now be emitted
+	appropriately.
+
 	* component-factory.c (create_vfolder_storage): Fix
 	filter_driver_new invocation.
 
