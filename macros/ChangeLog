@@ -1,3 +1,8 @@
+2001-09-09  Eskil Heyn Olsen  <eskil@eskil.dk>
+
+	* gnome-pilot.m4:
+	Stuff to check version of gnome-pilot
+
 2001-08-20  Pavel Roskin  <proski@gnu.org>
 
 	* gnome-undelfs.m4 (GNOME_UNDELFS_CHECKS): Specify additional

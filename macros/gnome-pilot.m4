@@ -138,24 +138,78 @@ AC_DEFUN([GNOME_PILOT_HOOK],[
 			fi
 		fi
 	])
+	if test x$gnome_cv_pilot_found = xyes; then
+		if test x$1 != x; then
+			gpv_pre_found=`$GNOME_CONFIG --modversion gpilot`
+			gpv_found=`echo $gpv_pre_found | sed 's/gnome-pilot-\(.*\)/\1/'`
+			AC_MSG_CHECKING([gnome-pilot version ($1)])
+			gpv_major=`echo $gpv_found | sed 's/\([[0-9]]*\).\([[0-9]]*\).\([[0-9]]*\)/\1/'`
+			gpv_minor=`echo $gpv_found | sed 's/\([[0-9]]*\).\([[0-9]]*\).\([[0-9]]*\)/\2/'`
+			gpv_patch=`echo $gpv_found | sed 's/\([[0-9]]*\).\([[0-9]]*\).\([[0-9]]*\)/\3/'`
+			gpv_ma=`echo $1 | sed 's/\([[0-9]]*\).\([[0-9]]*\).\([[0-9]]*\)/\1/'`
+			gpv_mi=`echo $1 | sed 's/\([[0-9]]*\).\([[0-9]]*\).\([[0-9]]*\)/\2/'`
+			gpv_pa=`echo $1 | sed 's/\([[0-9]]*\).\([[0-9]]*\).\([[0-9]]*\)/\3/'`
+
+			if test $gpv_major -eq $gpv_ma; then
+				if test $gpv_minor -eq $gpv_mi; then
+					if test $gpv_patch -ge $gpv_pa; then
+						AC_MSG_RESULT([yes (found $gpv_found)])
+					else
+						AC_MSG_RESULT([too old (found $gpv_found)])
+						gnome_cv_pilot_found=no
+					fi
+				elif test $gpv_minor -gt $gpv_mi; then
+					AC_MSG_RESULT([yes (found $gpv_found)])
+				else					
+					AC_MSG_RESULT([too old (found $gpv_found)])
+					gnome_cv_pilot_found=no
+				fi
+			else
+				AC_MSG_RESULT([major version mismatch (found $gpv_found)])
+				gnome_cv_pilot_found=no
+			fi
+			unset gpv_pre_found
+			unset gpv_found
+			unset gpv_major
+			unset gpv_minor
+			unset gpv_patch
+			unset gpv_ma
+			unset gpv_mi
+			unset gpv_pa
+		fi
+	fi
+
 	AM_CONDITIONAL(HAVE_GNOME_PILOT,test x$gnome_cv_pilot_found = xyes)
 	if test x$gnome_cv_pilot_found = xyes; then
-		PILOT_LINK_CHECK($1)
+		PILOT_LINK_CHECK($2)
 		GNOME_PILOT_CFLAGS=`gnome-config --cflags gpilot`
 		GNOME_PILOT_LIBS=`gnome-config --libs gpilot`
-		$2
 	else
-		if test x$3 = xfailure; then
-			AC_MSG_ERROR(gnome-pilot development package not installed or installation problem)
+		if test x$3 = xfail; then
+			AC_MSG_ERROR([gnome-pilot development package not installed or installation problem])
+		else
+			AC_MSG_WARN([gnome-pilot development package not installed or installation problem])
 		fi
 	fi
 ])
 
 AC_DEFUN([GNOME_PILOT_CHECK],[
 	if test x$1 = x; then
-		GNOME_PILOT_HOOK(0.9.5,[],nofailure)
+		gpv=[]
 	else
-		GNOME_PILOT_HOOK($1,[],nofailure)
+		gpv=$1
 	fi
+	if test x$2 = x; then
+		plv=0.9.5
+	else
+		plv=$2
+	fi
+	if test x$3 = x; then
+		good=[]
+	else
+		good=$3
+	fi
+		
+	GNOME_PILOT_HOOK($gpv, $plv, $good)
 ])
 
