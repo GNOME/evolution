@@ -1,3 +1,8 @@
+2003-03-18  Not Zed  <NotZed@Ximian.com>
+
+	* rule-context.c (new_rule_response): use the same code as in
+	filter-rule to enforce unique names for all rules/vfolders.
+
 2003-03-17  Jeffrey Stedfast  <fejj@ximian.com>
 
 	* rule-editor.c (rule_editor_construct): Set the default window

@@ -33,7 +33,7 @@
 #include <errno.h>
 
 #include <gtk/gtk.h>
-
+#include <libgnome/gnome-i18n.h>
 #include <gal/util/e-xml-utils.h>
 
 #include "rule-context.h"
@@ -652,6 +652,18 @@ new_rule_response(GtkWidget *dialog, int button, RuleContext *context)
 		
 		if (!filter_rule_validate(rule)) {
 			/* no need to popup a dialog because the validate code does that. */
+			return;
+		}
+
+		if (rule_context_find_rule (context, rule->name, rule->source)) {
+			dialog = gtk_message_dialog_new ((GtkWindow *) dialog, GTK_DIALOG_DESTROY_WITH_PARENT,
+							 GTK_MESSAGE_ERROR, GTK_BUTTONS_CLOSE,
+							 _("Rule name '%s' is not unique, choose another."),
+							 rule->name);
+
+			gtk_dialog_run ((GtkDialog *) dialog);
+			gtk_widget_destroy (dialog);
+
 			return;
 		}
 		
