@@ -374,7 +374,8 @@ local_record_from_ecard (EAddrLocalRecord *local, ECard *ecard, EAddrConduitCont
 		local->addr->entry[entryZip] = e_pilot_utf8_to_pchar (delivery->code);
 		local->addr->entry[entryCountry] = e_pilot_utf8_to_pchar (delivery->country);
 	}
-	
+
+	/* Phone numbers */
 	for (i = 0; i <= 7 && phone <= entryPhone5; i++) {
 		const char *phone_str = NULL;
 		char *phonelabel = ctxt->ai.phoneLabels[i];
@@ -404,6 +405,9 @@ local_record_from_ecard (EAddrLocalRecord *local, ECard *ecard, EAddrConduitCont
 	}
 	for (; phone <= entryPhone5; phone++)
 		local->addr->phoneLabel[phone - entryPhone1] = phone - entryPhone1;
+
+	/* Note */
+	local->addr->entry[entryNote] = e_pilot_utf8_to_pchar (ecard->note);
 
 	gtk_object_unref (GTK_OBJECT (simple));
 }
@@ -446,7 +450,7 @@ ecard_from_remote_record(EAddrConduitContext *ctxt,
 	ECardSimple *simple;
 	ECardDeliveryAddress delivery;
 	ECardAddrLabel label;
-	char *string;
+	char *txt;
 	char *stringparts[3];
 	int i;
 
@@ -468,35 +472,26 @@ ecard_from_remote_record(EAddrConduitContext *ctxt,
 		stringparts[i++] = address.entry[entryLastname];
 	stringparts[i] = NULL;
 
-	string = g_strjoinv(" ", stringparts);
-	e_card_simple_set(simple, E_CARD_SIMPLE_FIELD_FULL_NAME, e_pilot_utf8_from_pchar (string));
-	g_free(string);
+	txt = g_strjoinv (" ", stringparts);
+	e_card_simple_set (simple, E_CARD_SIMPLE_FIELD_FULL_NAME, e_pilot_utf8_from_pchar (txt));
+	g_free (txt);
 
-	if (address.entry[entryTitle]) {
-		char *txt = get_entry_text (address, entryTitle);
-		e_card_simple_set(simple, E_CARD_SIMPLE_FIELD_TITLE, txt);
-		g_free (txt);
-	}
+	txt = get_entry_text (address, entryTitle);
+	e_card_simple_set(simple, E_CARD_SIMPLE_FIELD_TITLE, txt);
+	g_free (txt);
 
-	if (address.entry[entryCompany]) {
-		char *txt = get_entry_text (address, entryCompany);
-		e_card_simple_set(simple, E_CARD_SIMPLE_FIELD_ORG, txt);
-		g_free (txt);
-	}
+	txt = get_entry_text (address, entryCompany);
+	e_card_simple_set(simple, E_CARD_SIMPLE_FIELD_ORG, txt);
+	g_free (txt);
 
 	/* Address */
 	memset (&delivery, 0, sizeof (ECardDeliveryAddress));
 	delivery.flags = E_CARD_ADDR_WORK;
-	if (address.entry[entryAddress])
-		delivery.street = get_entry_text (address, entryAddress);
-	if (address.entry[entryCity])
-		delivery.city = get_entry_text (address, entryCity);
-	if (address.entry[entryState])
-		delivery.region = get_entry_text (address, entryState);
-	if (address.entry[entryCountry])
-		delivery.country = get_entry_text (address, entryCountry);
-	if (address.entry[entryZip])
-		delivery.code = get_entry_text (address, entryZip);
+	delivery.street = get_entry_text (address, entryAddress);
+	delivery.city = get_entry_text (address, entryCity);
+	delivery.region = get_entry_text (address, entryState);
+	delivery.country = get_entry_text (address, entryCountry);
+	delivery.code = get_entry_text (address, entryZip);
 
 	label.flags = E_CARD_ADDR_WORK;
 	label.data = e_card_delivery_address_to_string (&delivery);
@@ -536,6 +531,11 @@ ecard_from_remote_record(EAddrConduitContext *ctxt,
 		g_free (phonenum);
 	}
 
+	/* Note */
+	txt = get_entry_text (address, entryNote);
+	e_card_simple_set(simple, E_CARD_SIMPLE_FIELD_NOTE, txt);
+	g_free (txt);
+	
 	e_card_simple_sync_card (simple);
 	gtk_object_unref(GTK_OBJECT(simple));
 
