@@ -22,6 +22,7 @@
 #include <config.h>
 #endif
 
+#include <string.h>
 #include <bonobo-activation/bonobo-activation.h>
 #include <bonobo/bonobo-exception.h>
 #include <libgnome/gnome-util.h>
@@ -1838,8 +1839,8 @@ get_objects_atomically (CalClient *client, CalObjType type, time_t start, time_t
 	 * notification signals and generate the final list of components.
 	 */
 
-	g_signal_handlers_disconnect_by_func (G_OBJECT (client), obj_updated_id, client);
-	g_signal_handlers_disconnect_by_func (G_OBJECT (client), obj_removed_id, client);
+	g_signal_handler_disconnect (client, obj_updated_id);
+	g_signal_handler_disconnect (client, obj_removed_id);
 
 	objects = NULL;
 	g_hash_table_foreach (uid_comp_hash, add_component, &objects);

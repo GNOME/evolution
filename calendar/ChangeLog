@@ -1,3 +1,13 @@
+2002-11-13  Federico Mena Quintero  <federico@ximian.com>
+
+	* cal-client/cal-query.c: #include <string.h>
+	(obj_removed_cb): Fixed prototype.
+
+	* cal-client/cal-client.c (get_objects_atomically): Fix use of
+	g_signal_handler_disconnect().
+
+	* cal-client/client-test.c (create_client): Add G_CALLBACK casts.
+
 2002-11-12  Federico Mena Quintero  <federico@ximian.com>
 
 	* pcs/cal-backend-util.c: #include <string.h>

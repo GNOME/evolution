@@ -187,14 +187,14 @@ create_client (CalClient **client, const char *uri, gboolean only_if_exists)
 		exit (1);
 	}
 
-	g_signal_connect (G_OBJECT (*client), "destroy",
-			  client_destroy_cb,
+	g_signal_connect (*client, "destroy",
+			  G_CALLBACK (client_destroy_cb),
 			  NULL);
 
-	g_signal_connect (G_OBJECT (*client), "cal_opened",
+	g_signal_connect (*client, "cal_opened",
 			  G_CALLBACK (cal_opened_cb),
-			    NULL);
-	g_signal_connect (G_OBJECT (*client), "obj_updated",
+			  NULL);
+	g_signal_connect (*client, "obj_updated",
 			  G_CALLBACK (obj_updated_cb),
 			  NULL);
 

@@ -22,6 +22,7 @@
 #include <config.h>
 #endif
 
+#include <string.h>
 #include <bonobo/bonobo-exception.h>
 #include "cal-util/cal-util-marshal.h"
 #include "cal-query.h"
@@ -225,7 +226,7 @@ obj_updated_cb (QueryListener *ql,
 /* Callback used when an object is removed from the query */
 static void
 obj_removed_cb (QueryListener *ql,
-		const GNOME_Evolution_Calendar_CalObjUID uid,
+		const CORBA_char *uid,
 		gpointer data)
 {
 	CalQuery *query;
