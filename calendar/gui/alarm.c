@@ -29,6 +29,10 @@ typedef struct {
 	CalendarAlarm *alarm;
 } AlarmRecord;
 
+void debug_alarm (AlarmRecord* ar, int add);
+void calendar_notify (time_t time, CalendarAlarm *which, void *data);
+extern int debug_alarms;
+
 /*
  * SIGALRM handler.  Notifies the callback about the alarm
  */
@@ -56,6 +60,8 @@ alarm_ready (void *closure, int fd, GdkInputCondition cond)
 	}
 
 	while (head_alarm){
+		if (debug_alarms)
+			debug_alarm (ar, 0);
 		(*ar->fn)(ar->activation_time, ar->alarm, ar->closure);
 		alarms = g_list_remove (alarms, head_alarm);
 
@@ -135,7 +141,8 @@ alarm_add (CalendarAlarm *alarm, AlarmFunction fn, void *closure)
 		v = setitimer (ITIMER_REAL, &itimer, NULL);
 		head_alarm = alarms->data;
 	}
-
+	if (debug_alarms)
+		debug_alarm (ar, 1);
 	return TRUE;
 }
 
@@ -178,4 +185,33 @@ alarm_init (void)
 	sa.sa_flags   = SA_RESTART;
 	sigaction (SIGALRM, &sa, NULL);
 }
+
+void debug_alarm (AlarmRecord* ar, int add)
+{
+	time_t now = time (NULL);
+	iCalObject *ico = ar->closure;
+	printf ("%s", ctime(&now));
+	if (add)
+		printf ("Added alarm for %s", ctime(&ar->activation_time));
+	else
+		printf ("Activated alarm\n");
+
+	if (ar->fn!=&calendar_notify) return;
+	printf ("--- Summary: %s\n", ico->summary);
+	switch (ar->alarm->type) {
+	case ALARM_MAIL:
+		printf ("--- Type: Mail\n");
+		break;
+	case ALARM_PROGRAM:
+		printf ("--- Type: Program\n");
+		break;
+	case ALARM_DISPLAY:
+		printf ("--- Type: Display\n");
+		break;
+	case ALARM_AUDIO:
+		printf ("--- Type: Audio\n");
+		break;
+	}
+}
+
 

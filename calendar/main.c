@@ -48,6 +48,9 @@ int week_starts_on_monday;
 /* If true, do not show our top level window */
 int startup_hidden = 0;
 
+/* If true, enable debug output for alarms */
+int debug_alarms = 0;
+
 /* The array of color properties -- keep in sync with the enumeration defined in main.h.  The color
  * values specified here are the defaults for the program.
  */
@@ -662,7 +665,8 @@ enum {
 	USERFILE_KEY = -2,
 	VIEW_KEY     = -3,
 	HIDDEN_KEY   = -4,
-	TODO_KEY     = -5
+	TODO_KEY     = -5,
+	DEBUG_KEY    = -6
 };
 
 /* Lists used to startup various GnomeCalendars */
@@ -802,6 +806,11 @@ parse_an_arg (poptContext ctx,
 	case HIDDEN_KEY:
 		startup_hidden = 1;
 		break;
+
+	case DEBUG_KEY:
+		if (!g_strcasecmp (arg, "alarms"))
+			debug_alarms = 1;
+		break;
 		
 	default:
 	}
@@ -820,6 +829,7 @@ static const struct poptOption options [] = {
 	{ "view", '\0', POPT_ARG_STRING, NULL, VIEW_KEY, N_("The startup view mode (dayview, weekview, monthview, yearview)"), N_("VIEW") },
 	{ "to", 't', POPT_ARG_STRING, NULL, 't', N_("Specifies ending date [for --events]"), N_("DATE") },
 	{ "hidden", 0, POPT_ARG_NONE, NULL, HIDDEN_KEY, N_("If used, starts in iconic mode"), NULL },
+	{ "debug", 'd', POPT_ARG_STRING, NULL, DEBUG_KEY, N_("Enable debugging output of TYPE (alarms)"), N_("TYPE") },
 	{ NULL, '\0', 0, NULL, 0}
 };
 

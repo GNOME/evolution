@@ -1,5 +1,7 @@
 1999-10-21  Russell Steinthal  <rms39@columbia.edu>
 
+	* alarm.c, main.c: Added alarm debugging code
+
 	* main.c (open_ok): Show an error box if the user tries to open a
 	non-existent file; fixes bug #1818
 
