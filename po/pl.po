@@ -2,8 +2,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: evolution\n"
-"POT-Creation-Date: 2000-10-25 21:18+0200\n"
-"PO-Revision-Date: 2000-10-30 10:24+0100\n"
+"POT-Creation-Date: 2000-10-31 15:20+0100\n"
+"PO-Revision-Date: 2000-11-02 19:24+0100\n"
 "Last-Translator: GNOME PL Team <translators@gnome.pl>\n"
 "Language-Team: Polish <pl@li.org>\n"
 "MIME-Version: 1.0\n"
@@ -506,12 +506,16 @@ msgid "_Suffix:"
 msgstr ""
 
 #: addressbook/gui/component/addressbook.c:1
+msgid "Quick Search"
+msgstr "Szybkie wyszukiwanie"
+
+#: addressbook/gui/component/addressbook.c:1
 msgid "As _Minicards"
 msgstr ""
 
 #: addressbook/gui/component/addressbook.c:1 ui/evolution-addressbook.h:1
 msgid "As _Table"
-msgstr ""
+msgstr "Jako _tabela"
 
 #: addressbook/gui/component/addressbook.c:1
 msgid "Unable to open addressbook"
@@ -808,7 +812,6 @@ msgstr "Typ:"
 
 #: addressbook/printing/e-contact-print.glade.h:1
 #: addressbook/printing/e-contact-print.glade.h:1
-#: calendar/gui/event-editor-dialog.glade.h:1
 msgid "label26"
 msgstr "etykieta26"
 
@@ -1129,43 +1132,36 @@ msgid "Work week"
 msgstr "Tydzieñ roboczy"
 
 #: calendar/gui/dialogs/cal-prefs-dialog.glade.h:1
-#: calendar/gui/event-editor-dialog.glade.h:1
 #: calendar/gui/gnome-month-item.c:1
 msgid "Mon"
 msgstr "Pon"
 
 #: calendar/gui/dialogs/cal-prefs-dialog.glade.h:1
-#: calendar/gui/event-editor-dialog.glade.h:1
 #: calendar/gui/gnome-month-item.c:1
 msgid "Tue"
 msgstr "Wto"
 
 #: calendar/gui/dialogs/cal-prefs-dialog.glade.h:1
-#: calendar/gui/event-editor-dialog.glade.h:1
 #: calendar/gui/gnome-month-item.c:1
 msgid "Wed"
 msgstr "¦ro"
 
 #: calendar/gui/dialogs/cal-prefs-dialog.glade.h:1
-#: calendar/gui/event-editor-dialog.glade.h:1
 #: calendar/gui/gnome-month-item.c:1
 msgid "Thu"
 msgstr "Czw"
 
 #: calendar/gui/dialogs/cal-prefs-dialog.glade.h:1
-#: calendar/gui/event-editor-dialog.glade.h:1
 #: calendar/gui/gnome-month-item.c:1
 msgid "Fri"
 msgstr "Pi±"
 
 #: calendar/gui/dialogs/cal-prefs-dialog.glade.h:1
-#: calendar/gui/event-editor-dialog.glade.h:1
 #: calendar/gui/gnome-month-item.c:1
 msgid "Sat"
 msgstr "Sob"
 
 #: calendar/gui/dialogs/cal-prefs-dialog.glade.h:1
-#: calendar/gui/event-editor-dialog.glade.h:1
 #: calendar/gui/gnome-month-item.c:1
 msgid "Sun"
 msgstr "Nie"
@@ -1174,31 +1170,38 @@ msgstr "Nie"
 msgid "First day of week:"
 msgstr "Pierwszy dzieñ tygodnia:"
 
-#: calendar/gui/dialogs/cal-prefs-dialog.glade.h:1 calendar/gui/prop.c:1
+#: calendar/gui/dialogs/cal-prefs-dialog.glade.h:1
+#: calendar/gui/event-editor-dialog.glade.h:1 calendar/gui/prop.c:1
 msgid "Monday"
 msgstr "Poniedzia³ek"
 
 #: calendar/gui/dialogs/cal-prefs-dialog.glade.h:1
+#: calendar/gui/event-editor-dialog.glade.h:1
 msgid "Tuesday"
 msgstr "Wtorek"
 
 #: calendar/gui/dialogs/cal-prefs-dialog.glade.h:1
+#: calendar/gui/event-editor-dialog.glade.h:1
 msgid "Wednesday"
 msgstr "¦roda"
 
 #: calendar/gui/dialogs/cal-prefs-dialog.glade.h:1
+#: calendar/gui/event-editor-dialog.glade.h:1
 msgid "Thursday"
 msgstr "Czwartek"
 
 #: calendar/gui/dialogs/cal-prefs-dialog.glade.h:1
+#: calendar/gui/event-editor-dialog.glade.h:1
 msgid "Friday"
 msgstr "Pi±tek"
 
 #: calendar/gui/dialogs/cal-prefs-dialog.glade.h:1
+#: calendar/gui/event-editor-dialog.glade.h:1
 msgid "Saturday"
 msgstr "Sobota"
 
-#: calendar/gui/dialogs/cal-prefs-dialog.glade.h:1 calendar/gui/prop.c:1
+#: calendar/gui/dialogs/cal-prefs-dialog.glade.h:1
+#: calendar/gui/event-editor-dialog.glade.h:1 calendar/gui/prop.c:1
 msgid "Sunday"
 msgstr "Niedziela"
 
@@ -1216,7 +1219,7 @@ msgstr "Opcje wy¶wietlania"
 
 #: calendar/gui/dialogs/cal-prefs-dialog.glade.h:1
 msgid "Time divisions:"
-msgstr ""
+msgstr "Przedzia³y czasu:"
 
 #: calendar/gui/dialogs/cal-prefs-dialog.glade.h:1
 msgid "Time format:"
@@ -1379,6 +1382,7 @@ msgid "No summary"
 msgstr ""
 
 #: calendar/gui/dialogs/task-editor.c:1 calendar/gui/event-editor.c:1
+#, c-format
 msgid "Appointment - %s"
 msgstr "Termin - %s"
 
@@ -1452,8 +1456,7 @@ msgstr "Niski"
 msgid "C_lassification:"
 msgstr ""
 
-#: calendar/gui/dialogs/task-editor-dialog.glade.h:1
-#: calendar/gui/event-editor-dialog.glade.h:1 shell/e-shell-view.c:1
+#: calendar/gui/dialogs/task-editor-dialog.glade.h:1 shell/e-shell-view.c:1
 #: widgets/misc/e-dateedit.c:1 widgets/misc/e-dateedit.c:1
 #: widgets/misc/e-dateedit.c:1
 msgid "None"
@@ -1560,6 +1563,14 @@ msgstr "%d %B"
 msgid "Edit Appointment"
 msgstr "Modyfikuj termin"
 
+#: calendar/gui/event-editor.c:1
+msgid "on"
+msgstr ""
+
+#: calendar/gui/event-editor.c:1
+msgid "ocurrences"
+msgstr "powtórzenia"
+
 #: calendar/gui/event-editor.c:1 calendar/gui/print.c:1
 #: calendar/gui/print.c:1 calendar/gui/print.c:1
 msgid "%a %b %d %Y"
@@ -1570,20 +1581,21 @@ msgid "event-editor-dialog"
 msgstr "event-editor-dialog"
 
 #: calendar/gui/event-editor-dialog.glade.h:1
-msgid "_Summary:"
-msgstr "_Zestawienie:"
+#: calendar/gui/event-editor-dialog.glade.h:1
+msgid "Su_mmary:"
+msgstr "Z_estawienie:"
 
 #: calendar/gui/event-editor-dialog.glade.h:1
 msgid "Time"
 msgstr "Czas"
 
 #: calendar/gui/event-editor-dialog.glade.h:1
-msgid "Start time:"
-msgstr "Czas rozpoczêcia:"
+msgid "_Start time:"
+msgstr "Czas _rozpoczêcia:"
 
 #: calendar/gui/event-editor-dialog.glade.h:1
-msgid "End time:"
-msgstr "Czas zakoñczenia"
+msgid "_End time:"
+msgstr "Czas _zakoñczenia"
 
 #: calendar/gui/event-editor-dialog.glade.h:1
 msgid "A_ll day event"
@@ -1609,22 +1621,26 @@ msgstr "_Tajny"
 #: calendar/gui/event-editor-dialog.glade.h:1
 #: calendar/gui/event-editor-dialog.glade.h:1
 #: calendar/gui/event-editor-dialog.glade.h:1
-msgid ""
-"Minutes\n"
-"Hours\n"
-"Days\n"
-msgstr ""
-"Minut\n"
-"Godzin\n"
-"Dni\n"
+msgid "Minutes"
+msgstr "Minuty"
+
+#: calendar/gui/event-editor-dialog.glade.h:1
+#: calendar/gui/event-editor-dialog.glade.h:1
+#: calendar/gui/event-editor-dialog.glade.h:1
+#: calendar/gui/event-editor-dialog.glade.h:1
+msgid "Hours"
+msgstr "Godziny"
+
+#: calendar/gui/event-editor-dialog.glade.h:1
+#: calendar/gui/event-editor-dialog.glade.h:1
+#: calendar/gui/event-editor-dialog.glade.h:1
+#: calendar/gui/event-editor-dialog.glade.h:1
+msgid "Days"
+msgstr "Dni"
 
 #: calendar/gui/event-editor-dialog.glade.h:1
 msgid "_Display"
 msgstr "_Wy¶wietlanie"
-
-#: calendar/gui/event-editor-dialog.glade.h:1
-msgid "_Audio"
-msgstr "_D¼wiêk"
 
 #: calendar/gui/event-editor-dialog.glade.h:1
 msgid "_Program"
@@ -1643,54 +1659,12 @@ msgid "_Run program:"
 msgstr ""
 
 #: calendar/gui/event-editor-dialog.glade.h:1
+msgid "_Audio"
+msgstr "_D¼wiêk"
+
+#: calendar/gui/event-editor-dialog.glade.h:1
 msgid "Reminder"
 msgstr ""
-
-#: calendar/gui/event-editor-dialog.glade.h:1
-msgid "Recurrence rule"
-msgstr "System powtarzalno¶ci"
-
-#: calendar/gui/event-editor-dialog.glade.h:1
-msgid "Daily"
-msgstr "Dzienny"
-
-#: calendar/gui/event-editor-dialog.glade.h:1
-msgid "Weekly"
-msgstr "Tygodniowy"
-
-#: calendar/gui/event-editor-dialog.glade.h:1
-msgid "Monthly"
-msgstr "Miesiêczny"
-
-#: calendar/gui/event-editor-dialog.glade.h:1
-msgid "Yearly"
-msgstr "Roczny"
-
-#: calendar/gui/event-editor-dialog.glade.h:1
-msgid "label23"
-msgstr "etykieta123"
-
-#: calendar/gui/event-editor-dialog.glade.h:1
-#: calendar/gui/event-editor-dialog.glade.h:1
-#: calendar/gui/event-editor-dialog.glade.h:1
-msgid "Every "
-msgstr "Ka¿dy"
-
-#: calendar/gui/event-editor-dialog.glade.h:1
-msgid "day(s)"
-msgstr "dzieñ/dni"
-
-#: calendar/gui/event-editor-dialog.glade.h:1
-msgid "label24"
-msgstr "etykieta24"
-
-#: calendar/gui/event-editor-dialog.glade.h:1
-msgid "week(s)"
-msgstr "tygodni"
-
-#: calendar/gui/event-editor-dialog.glade.h:1
-msgid "label25"
-msgstr "etykieta25"
 
 #: calendar/gui/event-editor-dialog.glade.h:1
 #: calendar/gui/event-editor-dialog.glade.h:1
@@ -1701,85 +1675,109 @@ msgstr "Powtarzanie"
 msgid "th day of the month"
 msgstr "dnia miesi±ca"
 
-#: calendar/gui/event-editor-dialog.glade.h:1
-msgid ""
-"1st\n"
-"2nd\n"
-"3rd\n"
-"4th\n"
-"5th\n"
-msgstr ""
-"1.\n"
-"2.\n"
-"3.\n"
-"4.\n"
-"5.\n"
+#: calendar/gui/event-editor-dialog.glade.h:1 calendar/gui/print.c:1
+msgid "1st"
+msgstr "1."
+
+#: calendar/gui/event-editor-dialog.glade.h:1 calendar/gui/print.c:1
+msgid "2nd"
+msgstr "2."
+
+#: calendar/gui/event-editor-dialog.glade.h:1 calendar/gui/print.c:1
+msgid "3rd"
+msgstr "3."
+
+#: calendar/gui/event-editor-dialog.glade.h:1 calendar/gui/print.c:1
+msgid "4th"
+msgstr "4."
+
+#: calendar/gui/event-editor-dialog.glade.h:1 calendar/gui/print.c:1
+msgid "5th"
+msgstr "5."
 
 #: calendar/gui/event-editor-dialog.glade.h:1
-msgid ""
-"Monday\n"
-"Tuesday\n"
-"Wednesday\n"
-"Thursday\n"
-"Friday\n"
-"Saturday\n"
-"Sunday\n"
-msgstr ""
-"Poniedzia³ek\n"
-"Wtorek\n"
-"¦roda\n"
-"Czwartek\n"
-"Pi±tek\n"
-"Sobota\n"
-"Niedziela\n"
-
 #: calendar/gui/event-editor-dialog.glade.h:1
 msgid "Every"
 msgstr ""
 
 #: calendar/gui/event-editor-dialog.glade.h:1
+#: calendar/gui/event-editor-dialog.glade.h:1
 msgid "month(s)"
 msgstr "miesiêcy"
+
+#: calendar/gui/event-editor-dialog.glade.h:1
+#: calendar/gui/event-editor-dialog.glade.h:1
+msgid "Recurrence"
+msgstr "Powtarzalno¶æ"
+
+#: calendar/gui/event-editor-dialog.glade.h:1
+msgid "Appointment Basics"
+msgstr ""
+
+#: calendar/gui/event-editor-dialog.glade.h:1
+msgid "_Starting date:"
+msgstr "Czas _rozpoczêcia:"
+
+#: calendar/gui/event-editor-dialog.glade.h:1
+msgid "Recurrence Rule"
+msgstr "Regu³a powtarzalno¶ci"
+
+#: calendar/gui/event-editor-dialog.glade.h:1
+msgid "No recurrence"
+msgstr "Brak powtarzalno¶ci"
+
+#: calendar/gui/event-editor-dialog.glade.h:1
+msgid "Simple recurrence"
+msgstr "Prosta powtarzalno¶æ"
+
+#: calendar/gui/event-editor-dialog.glade.h:1
+msgid "Custom recurrence"
+msgstr "Dowolna powtarzalno¶æ"
+
+#: calendar/gui/event-editor-dialog.glade.h:1
+msgid "day(s)"
+msgstr "dzieñ/dni"
+
+#: calendar/gui/event-editor-dialog.glade.h:1
+msgid "week(s)"
+msgstr "tygodni"
 
 #: calendar/gui/event-editor-dialog.glade.h:1
 msgid "year(s)"
 msgstr "lat"
 
 #: calendar/gui/event-editor-dialog.glade.h:1
-msgid "label27"
-msgstr "etykieta27"
-
-#: calendar/gui/event-editor-dialog.glade.h:1
-msgid "Ending date"
-msgstr "Data koñcowa"
-
-#: calendar/gui/event-editor-dialog.glade.h:1
-msgid "Repeat forever"
-msgstr "Powtarzaj bez koñca"
-
-#: calendar/gui/event-editor-dialog.glade.h:1
-msgid "End on "
+msgid "for"
 msgstr ""
 
 #: calendar/gui/event-editor-dialog.glade.h:1
-msgid "End after"
-msgstr "Zakoñcz po"
+msgid "until"
+msgstr ""
 
 #: calendar/gui/event-editor-dialog.glade.h:1
-msgid "occurrence(s)"
-msgstr "powtórzeniach"
+msgid "forever"
+msgstr ""
 
 #: calendar/gui/event-editor-dialog.glade.h:1
 msgid "Exceptions"
 msgstr "Wyj±tki"
 
 #: calendar/gui/event-editor-dialog.glade.h:1
-msgid "Change"
-msgstr ""
+msgid "Modify"
+msgstr "Zmieñ"
 
 #: calendar/gui/event-editor-dialog.glade.h:1
-msgid "Recurrence"
-msgstr "Powtarzalno¶æ"
+msgid "label21"
+msgstr "etykieta21"
+
+#: calendar/gui/event-editor-dialog.glade.h:1
+msgid ""
+"This appointment has custom recurrence rules that cannot be edited by "
+"Evolution.\n"
+"\n"
+"However, the appointment will recur at the appropriate time and will be "
+"displayed properly in the calendar views."
+msgstr ""
 
 #: calendar/gui/getdate.y:1
 msgid "january"
@@ -2063,26 +2061,6 @@ msgstr ""
 #: calendar/gui/goto.c:1
 msgid "Go to today"
 msgstr "Przejd¼ do dnia dzisiejszego"
-
-#: calendar/gui/print.c:1
-msgid "1st"
-msgstr "1."
-
-#: calendar/gui/print.c:1
-msgid "2nd"
-msgstr "2."
-
-#: calendar/gui/print.c:1
-msgid "3rd"
-msgstr "3."
-
-#: calendar/gui/print.c:1
-msgid "4th"
-msgstr "4."
-
-#: calendar/gui/print.c:1
-msgid "5th"
-msgstr "5."
 
 #: calendar/gui/print.c:1
 msgid "6th"
@@ -2445,7 +2423,7 @@ msgstr ""
 msgid "Could not connect to %s (port %d): %s"
 msgstr "Nie mo¿na nawi±zañ po³±czenia z %s (port %d): %s"
 
-#: camel/camel-remote-store.c:1 camel/providers/imap/camel-imap-store.c:1
+#: camel/camel-remote-store.c:1
 msgid "(unknown host)"
 msgstr "(nieznany komputer)"
 
@@ -2555,9 +2533,13 @@ msgid "This option will connect to the IMAP server using a plaintext password."
 msgstr ""
 
 #: camel/providers/imap/camel-imap-store.c:1
-#, c-format
-msgid "Could not connect to IMAP server on %s."
-msgstr "Nie mo¿na nawi±zaæ po³±czenia z serwerem IMAP pod adresem %s."
+msgid "Kerberos 4"
+msgstr ""
+
+#: camel/providers/imap/camel-imap-store.c:1
+msgid ""
+"This option will connect to the IMAP server using Kerberos 4 authentication."
+msgstr ""
 
 #: camel/providers/imap/camel-imap-store.c:1
 #, c-format
@@ -2747,8 +2729,9 @@ msgstr ""
 "Nie mo¿na otworzyæ foldera \"%s\":\n"
 "%s"
 
-#y, c-format
+# y, c-format
 #: camel/providers/mh/camel-mh-store.c:1
+#, c-format
 msgid ""
 "Could not create folder `%s':\n"
 "%s"
@@ -3467,6 +3450,29 @@ msgid "does not contain"
 msgstr "nie zawiera"
 
 #: filter/libfilter-i18n.h:1
+msgid "does not end with"
+msgstr "nie koñczy siê na"
+
+#: filter/libfilter-i18n.h:1
+msgid "does not exist"
+msgstr "nie istnieje"
+
+#: filter/libfilter-i18n.h:1
+msgid "does not match regex"
+msgstr ""
+
+msgid "does not start with"
+msgstr "nie rozpoczyna siê od"
+
+#: filter/libfilter-i18n.h:1
+msgid "ends with"
+msgstr "koñczy siê na"
+
+#: filter/libfilter-i18n.h:1
+msgid "exists"
+msgstr "istnieje"
+
+#: filter/libfilter-i18n.h:1
 msgid "is greater than"
 msgstr "jest wiêkszy ni¿"
 
@@ -3483,12 +3489,20 @@ msgid "is"
 msgstr "jest"
 
 #: filter/libfilter-i18n.h:1
+msgid "matches regex"
+msgstr ""
+
+#: filter/libfilter-i18n.h:1
 msgid "on or after"
 msgstr "w lub po"
 
 #: filter/libfilter-i18n.h:1
 msgid "on or before"
 msgstr "w lub przed"
+
+#: filter/libfilter-i18n.h:1
+msgid "starts with"
+msgstr ""
 
 #: filter/libfilter-i18n.h:1
 msgid "was after"
@@ -3631,12 +3645,16 @@ msgstr ""
 "Naprawdê wys³aæ?"
 
 #: mail/mail-callbacks.c:1
-msgid "Move message(s) to"
+msgid "You must specify recipients in order to send this message."
 msgstr ""
 
 #: mail/mail-callbacks.c:1
+msgid "Move message(s) to"
+msgstr "Przenoszenie listów do foldera"
+
+#: mail/mail-callbacks.c:1
 msgid "Copy message(s) to"
-msgstr ""
+msgstr "Kopiowanie listów do foldera"
 
 #: mail/mail-callbacks.c:1
 msgid ""
@@ -3652,6 +3670,8 @@ msgid ""
 "Error loading filter information:\n"
 "%s"
 msgstr ""
+"B³±d przy wczytywaniu informacji o filtrze:\n"
+"%s"
 
 #: mail/mail-callbacks.c:1 mail/message-list.c:1
 msgid "Print Message"
@@ -3686,7 +3706,7 @@ msgstr "Plik z podpisem:"
 
 #: mail/mail-config-gui.c:1 mail/mail-config.glade.h:1
 msgid "Signature File"
-msgstr ""
+msgstr "Plik z podpisem"
 
 #: mail/mail-config-gui.c:1
 msgid "Server:"
@@ -3824,6 +3844,8 @@ msgid ""
 "Your email configuration is now complete.\n"
 "Click \"Finish\" to save your new settings"
 msgstr ""
+"Konfiguracja poczta zosta³a zakoñczona.\n"
+"Kliknij \"Zakoñcz\", aby zapisaæ nowe ustawienia."
 
 #: mail/mail-config.glade.h:1 mail/mail-config.glade.h:1
 msgid "Identities"
@@ -3882,7 +3904,7 @@ msgstr ""
 
 #: mail/mail-crypto.c:1 mail/mail-crypto.c:1 mail/mail-crypto.c:1
 msgid "No password provided."
-msgstr ""
+msgstr "Nie podano has³a."
 
 #: mail/mail-crypto.c:1 mail/mail-crypto.c:1 mail/mail-crypto.c:1
 #, c-format
@@ -3891,7 +3913,7 @@ msgstr "Nie mo¿na utworzyæ potoku do GPG/PGP: %s"
 
 #: mail/mail-crypto.c:1
 msgid "No GPG/PGP program available."
-msgstr ""
+msgstr "Brak dostêpnego programu GPG/PGP."
 
 #: mail/mail-display.c:1
 msgid "Overwrite file?"
@@ -3917,7 +3939,7 @@ msgstr ""
 #: mail/mail-display.c:1
 #, c-format
 msgid "Could not write data: %s"
-msgstr ""
+msgstr "Nie mo¿na zapisaæ danych: %s"
 
 #: mail/mail-display.c:1
 msgid "Save Attachment"
@@ -3943,7 +3965,7 @@ msgstr ""
 
 #: mail/mail-display.c:1
 msgid "External Viewer"
-msgstr ""
+msgstr "Zewnêtrzna przegl±darka"
 
 #: mail/mail-display.c:1
 #, c-format
@@ -3952,21 +3974,21 @@ msgstr ""
 
 #: mail/mail-display.c:1
 msgid "Hide"
-msgstr ""
+msgstr "Ukryj"
 
 #: mail/mail-local.c:1
 #, c-format
 msgid "Changing folder \"%s\" to \"%s\" format"
-msgstr ""
+msgstr "Konwertowanie foldera \"%s\" na format \"%s\""
 
 #: mail/mail-local.c:1
 #, c-format
 msgid "Change folder \"%s\" to \"%s\" format"
-msgstr ""
+msgstr "Przekonwertuj folder \"%s\" na format \"%s\""
 
 #: mail/mail-local.c:1
 msgid "Closing current folder"
-msgstr ""
+msgstr "Zamykanie bie¿±cego foldera"
 
 #: mail/mail-local.c:1
 msgid "Renaming old folder and opening"
@@ -4041,15 +4063,15 @@ msgstr "Wy¶lij \"%s\""
 
 #: mail/mail-ops.c:1
 msgid "Send a message without a subject"
-msgstr ""
+msgstr "Wy¶lij list bez tematu"
 
 #: mail/mail-ops.c:1
 msgid "Sending queue"
-msgstr ""
+msgstr "Wysy³anie kolejki"
 
 #: mail/mail-ops.c:1
 msgid "Send queue"
-msgstr ""
+msgstr "Wy¶lij kolejkê"
 
 #: mail/mail-ops.c:1 mail/mail-ops.c:1
 #, c-format
@@ -4058,37 +4080,37 @@ msgstr "Do³±czanie \"%s\""
 
 #: mail/mail-ops.c:1 mail/mail-ops.c:1
 msgid "Appending a message without a subject"
-msgstr ""
+msgstr "Do³±czanie listu bez tematu"
 
 #: mail/mail-ops.c:1
 #, c-format
 msgid "Expunging \"%s\""
-msgstr ""
+msgstr "Czyszczenie \"%s\""
 
 #: mail/mail-ops.c:1
 #, c-format
 msgid "Expunge \"%s\""
-msgstr ""
+msgstr "Wyczy¶æ \"%s\""
 
 #: mail/mail-ops.c:1
 #, c-format
 msgid "Moving messages from \"%s\" into \"%s\""
-msgstr ""
+msgstr "Przenoszenie listów z \"%s\" do \"%s\""
 
 #: mail/mail-ops.c:1
 #, c-format
 msgid "Copying messages from \"%s\" into \"%s\""
-msgstr ""
+msgstr "Kopiowanie listów z \"%s\" do \"%s\""
 
 #: mail/mail-ops.c:1
 #, c-format
 msgid "Move messages from \"%s\" into \"%s\""
-msgstr ""
+msgstr "Przenie¶ listy z \"%s\" do \"%s\""
 
 #: mail/mail-ops.c:1
 #, c-format
 msgid "Copy messages from \"%s\" into \"%s\""
-msgstr ""
+msgstr "Skopiuj listy z \"%s\" do \"%s\""
 
 #: mail/mail-ops.c:1
 msgid "Moving"
@@ -4149,7 +4171,7 @@ msgstr "Przesy³anie listów \"%s\""
 
 #: mail/mail-ops.c:1
 msgid "Forwarding a message without a subject"
-msgstr ""
+msgstr "Przesy³anie listu bez tematu"
 
 #: mail/mail-ops.c:1
 #, c-format
@@ -4158,7 +4180,7 @@ msgstr "Prze¶lij list \"%s\""
 
 #: mail/mail-ops.c:1
 msgid "Forward a message without a subject"
-msgstr ""
+msgstr "Prze¶lij list bez tematu"
 
 #: mail/mail-ops.c:1
 #, c-format
@@ -4183,12 +4205,12 @@ msgstr ""
 #: mail/mail-ops.c:1
 #, c-format
 msgid "Creating \"%s\""
-msgstr ""
+msgstr "Tworzenie \"%s\""
 
 #: mail/mail-ops.c:1
 #, c-format
 msgid "Create \"%s\""
-msgstr ""
+msgstr "Utwórz \"%s\""
 
 #: mail/mail-ops.c:1
 msgid "Exception while reporting result to shell component listener."
@@ -4197,12 +4219,12 @@ msgstr ""
 #: mail/mail-ops.c:1
 #, c-format
 msgid "Synchronizing \"%s\""
-msgstr ""
+msgstr "Synchronizowanie \"%s\""
 
 #: mail/mail-ops.c:1
 #, c-format
 msgid "Synchronize \"%s\""
-msgstr ""
+msgstr "Zsynchronizuj \"%s\""
 
 #: mail/mail-ops.c:1
 #, c-format
@@ -4285,7 +4307,7 @@ msgstr ""
 
 #: mail/mail-threads.c:1
 msgid "Could not create dialog box."
-msgstr ""
+msgstr "Nie mo¿na utworzyæ okna dialogowego."
 
 #: mail/mail-threads.c:1
 msgid "User cancelled query."
@@ -4310,12 +4332,12 @@ msgstr ""
 #: mail/mail-tools.c:1
 #, c-format
 msgid "Retrieving message %d of %d"
-msgstr ""
+msgstr "Pobieranie listu %d z %d"
 
 #: mail/mail-tools.c:1
 #, c-format
 msgid "Writing message %d of %d"
-msgstr ""
+msgstr "Zapisywanie listu %d z %d"
 
 #: mail/mail-tools.c:1
 #, c-format
@@ -4742,7 +4764,7 @@ msgstr ""
 msgid "The specified type is not supported in this storage"
 msgstr ""
 
-#: shell/e-storage-set-view.c:1 ui/evolution.h:1 ui/evolution.h:1
+#: shell/e-storage-set-view.c:1 ui/evolution.h:1
 msgid "_View"
 msgstr "_Widok"
 
@@ -4809,36 +4831,20 @@ msgid "Cannot initialize the Bonobo component system."
 msgstr "Nie mo¿na zainicjowaæ systemu komponentów Bonobo."
 
 #: ui/evolution-addressbook-ldap.h:1
-msgid "_Actions"
-msgstr "_Czynno¶ci"
-
-#: ui/evolution-addressbook-ldap.h:1
 msgid "N_ew Directory Server"
 msgstr "_Nowy serwer katalogowy"
 
-#: ui/evolution-addressbook.h:1
-msgid "_Print Contacts..."
-msgstr "_Drukuj kontakty..."
-
-#: ui/evolution-addressbook.h:1
-msgid "_New Contact"
-msgstr "_Nowy Kontakt"
-
-#: ui/evolution-addressbook.h:1
-msgid "_Tools"
-msgstr "_Narzêdzia"
-
-#: ui/evolution-addressbook.h:1
-msgid "_Search for contacts"
-msgstr "_Szukaj kontaktów"
-
-#: ui/evolution-addressbook.h:1 ui/evolution-calendar.h:1
-msgid "New"
-msgstr "Nowy"
+#: ui/evolution-addressbook-ldap.h:1
+msgid "_Actions"
+msgstr "_Czynno¶ci"
 
 #: ui/evolution-addressbook.h:1
 msgid "Create a new contact"
 msgstr "Tworzy nowy kontakt"
+
+#: ui/evolution-addressbook.h:1
+msgid "Delete a contact"
+msgstr "Usuñ kontakt"
 
 #: ui/evolution-addressbook.h:1
 msgid "Find"
@@ -4848,13 +4854,21 @@ msgstr "Znajd¼"
 msgid "Find a contact"
 msgstr "Odnajduje kontakt"
 
+#: ui/evolution-addressbook.h:1 ui/evolution-calendar.h:1
+msgid "New"
+msgstr "Nowy"
+
 #: ui/evolution-addressbook.h:1
 msgid "Print contacts"
 msgstr "Drukuj kontakty"
 
 #: ui/evolution-addressbook.h:1
-msgid "Delete a contact"
-msgstr "Usuñ kontakt"
+msgid "Stop"
+msgstr "Zatrzymaj"
+
+#: ui/evolution-addressbook.h:1
+msgid "Stop Loading"
+msgstr "Zatrzymuje wczytywanie"
 
 #: ui/evolution-addressbook.h:1
 msgid "View All"
@@ -4865,88 +4879,48 @@ msgid "View all contacts"
 msgstr "Wy¶wietla wszystkie kontakty"
 
 #: ui/evolution-addressbook.h:1
-msgid "Stop"
-msgstr "Zatrzymaj"
+msgid "_New Contact"
+msgstr "_Nowy Kontakt"
 
 #: ui/evolution-addressbook.h:1
-msgid "Stop Loading"
-msgstr "Zatrzymuje wczytywanie"
+msgid "_Print Contacts..."
+msgstr "_Drukuj kontakty..."
 
-#: ui/evolution-calendar.h:1 ui/evolution.h:1
-msgid "_New"
-msgstr "_Nowy"
+#: ui/evolution-addressbook.h:1
+msgid "_Search for contacts"
+msgstr "_Szukaj kontaktów"
 
-#: ui/evolution-calendar.h:1
-msgid "New Ca_lendar"
-msgstr "Nowy _terminarz"
-
-#: ui/evolution-calendar.h:1
-msgid "Create a new calendar"
-msgstr "Tworzy nowy termianrz"
+#: ui/evolution-addressbook.h:1
+msgid "_Tools"
+msgstr "_Narzêdzia"
 
 #: ui/evolution-calendar.h:1
-msgid "_Open"
-msgstr "_Otwórz"
-
-#: ui/evolution-calendar.h:1
-msgid "_Open Calendar"
-msgstr "_Otwórz terminarz"
-
-#: ui/evolution-calendar.h:1
-msgid "Open a calendar"
-msgstr "Otwiera terminarz"
-
-#: ui/evolution-calendar.h:1
-msgid "_Save Calendar As"
-msgstr "_Zapisz terminarz jako"
-
-#: ui/evolution-calendar.h:1
-msgid "Save calendar As something else"
-msgstr "Zapisuje terminarz w innej formie"
-
-#: ui/evolution-calendar.h:1
-msgid "_Print this calendar"
-msgstr ""
-
-#: ui/evolution-calendar.h:1
-msgid "_New appointment..."
-msgstr "_Nowy termin..."
-
-#: ui/evolution-calendar.h:1 ui/evolution-calendar.h:1
-msgid "Create a new appointment"
-msgstr "Tworzy nowy termin"
-
-#: ui/evolution-calendar.h:1
-msgid "Calendar Preferences..."
-msgstr "Preferencje terminarza..."
+msgid "5 Days"
+msgstr "5 dni"
 
 #: ui/evolution-calendar.h:1
 msgid "Alter preferences"
 msgstr ""
 
 #: ui/evolution-calendar.h:1
-msgid "Print this calendar"
-msgstr ""
+msgid "Calendar Preferences..."
+msgstr "Preferencje terminarza..."
 
 #: ui/evolution-calendar.h:1
-msgid "Prev"
-msgstr "Poprzedni"
+msgid "Create a new appointment"
+msgstr "Tworzy nowy termin"
+
+#: ui/evolution-calendar.h:1
+msgid "Create a new calendar"
+msgstr "Tworzy nowy termianrz"
+
+#: ui/evolution-calendar.h:1
+msgid "Day"
+msgstr "Dzieñ"
 
 #: ui/evolution-calendar.h:1
 msgid "Go back in time"
 msgstr "Przemieszcza w czasie do ty³u"
-
-#: ui/evolution-calendar.h:1 widgets/misc/e-dateedit.c:1
-msgid "Today"
-msgstr "Dzi¶"
-
-#: ui/evolution-calendar.h:1
-msgid "Go to present time"
-msgstr "Przemieszcza do bie¿±cego czasu"
-
-#: ui/evolution-calendar.h:1
-msgid "Next"
-msgstr "Nastêpny"
 
 #: ui/evolution-calendar.h:1
 msgid "Go forward in time"
@@ -4961,36 +4935,84 @@ msgid "Go to a specific date"
 msgstr "Przemieszcza do podanej daty"
 
 #: ui/evolution-calendar.h:1
-msgid "Day"
-msgstr "Dzieñ"
-
-#: ui/evolution-calendar.h:1
-msgid "Show 1 day"
-msgstr "Wy¶wietla jeden dzieñ"
-
-#: ui/evolution-calendar.h:1
-msgid "5 Days"
-msgstr "5 dni"
-
-#: ui/evolution-calendar.h:1
-msgid "Show the working week"
-msgstr "Wy¶wietla tydzieñ roboczy"
-
-#: ui/evolution-calendar.h:1
-msgid "Week"
-msgstr "Tydzieñ"
-
-#: ui/evolution-calendar.h:1
-msgid "Show 1 week"
-msgstr "Wy¶wietla jeden tydzieñ"
+msgid "Go to present time"
+msgstr "Przemieszcza do bie¿±cego czasu"
 
 #: ui/evolution-calendar.h:1
 msgid "Month"
 msgstr "Miesi±c"
 
 #: ui/evolution-calendar.h:1
+msgid "New Ca_lendar"
+msgstr "Nowy _terminarz"
+
+#: ui/evolution-calendar.h:1
+msgid "Next"
+msgstr "Nastêpny"
+
+#: ui/evolution-calendar.h:1
+msgid "Open a calendar"
+msgstr "Otwiera terminarz"
+
+#: ui/evolution-calendar.h:1
+msgid "Prev"
+msgstr "Poprzedni"
+
+#: ui/evolution-calendar.h:1
+msgid "Print this calendar"
+msgstr ""
+
+#: ui/evolution-calendar.h:1
+msgid "Save calendar As something else"
+msgstr "Zapisuje terminarz w innej formie"
+
+#: ui/evolution-calendar.h:1
+msgid "Show 1 day"
+msgstr "Wy¶wietla jeden dzieñ"
+
+#: ui/evolution-calendar.h:1
 msgid "Show 1 month"
 msgstr "Wy¶wietla jeden miesi±c"
+
+#: ui/evolution-calendar.h:1
+msgid "Show 1 week"
+msgstr "Wy¶wietla jeden tydzieñ"
+
+#: ui/evolution-calendar.h:1
+msgid "Show the working week"
+msgstr "Wy¶wietla tydzieñ roboczy"
+
+#: ui/evolution-calendar.h:1 widgets/misc/e-dateedit.c:1
+msgid "Today"
+msgstr "Dzi¶"
+
+#: ui/evolution-calendar.h:1
+msgid "Week"
+msgstr "Tydzieñ"
+
+#: ui/evolution-calendar.h:1 ui/evolution.h:1
+msgid "_New"
+msgstr "_Nowy"
+
+#: ui/evolution-calendar.h:1
+msgid "_New appointment..."
+msgstr "_Nowy termin..."
+
+#: ui/evolution-calendar.h:1
+msgid "_Open"
+msgstr "_Otwórz"
+
+#: ui/evolution-calendar.h:1
+msgid "_Open Calendar"
+msgstr "_Otwórz terminarz"
+
+#: ui/evolution-calendar.h:1
+msgid "_Print this calendar"
+msgstr ""
+
+#: ui/evolution-calendar.h:1
+msgid "_Save Calendar As"
+msgstr "_Zapisz terminarz jako"
 
 #: ui/evolution-contact-editor.h:1 ui/evolution-subscribe.h:1
 #: ui/evolution.h:1
@@ -5030,84 +5052,48 @@ msgid "Delete this item"
 msgstr "Usuwa bie¿±cy element"
 
 #: ui/evolution-mail.h:1
-msgid "_Threaded"
-msgstr "Z _w±tkami"
+msgid "Compose"
+msgstr "Utwórz"
 
 #: ui/evolution-mail.h:1
-msgid "Threaded Message list"
-msgstr "Wy¶wietlanie listów z wyodrêbnieniem w±tków"
+msgid "Compose a new message"
+msgstr "Tworzy nowy list"
 
 #: ui/evolution-mail.h:1
-msgid "Print message..."
-msgstr "Wydrukuj list..."
+msgid "Copy"
+msgstr "Kopiuj"
 
 #: ui/evolution-mail.h:1
-msgid "Print message to the printer"
-msgstr "Drukuje list na drukarce"
-
-#: ui/evolution-mail.h:1
-msgid "Print Preview of message..."
-msgstr "Podgl±d wydruku listu..."
-
-#: ui/evolution-mail.h:1
-msgid "Previews the message to be printed"
-msgstr ""
+msgid "Copy message to a new folder"
+msgstr "Kopiuje list do nowego foldera"
 
 #: ui/evolution-mail.h:1 ui/evolution-subscribe.h:1
-msgid "Select _All"
-msgstr "Zaznacz _wszystkie"
+msgid "F_older"
+msgstr "_Folder"
 
 #: ui/evolution-mail.h:1
-msgid "_Invert Selection"
-msgstr "_Odwróæ zaznaczenie"
+msgid "Fi_lter on Sender"
+msgstr "Utwórz filtr w oparciu o n_adawcê"
 
 #: ui/evolution-mail.h:1
-msgid "Mail _Filters..."
-msgstr "_Filtry listów..."
-
-#: ui/evolution-mail.h:1
-msgid "_Virtual Folder Editor..."
-msgstr "Edytor _wirtualnych folderów..."
-
-#: ui/evolution-mail.h:1
-msgid "_Mail Configuration..."
-msgstr "Konfiguracja _listów"
-
-#: ui/evolution-mail.h:1
-msgid "Manage Subscriptions..."
-msgstr ""
+msgid "Filter on Rec_ipients"
+msgstr "Utwórz filtr w oparciu o o_dbiorców"
 
 #: ui/evolution-mail.h:1
 msgid "Forget _Passwords"
 msgstr "Zapomnij _has³a"
 
 #: ui/evolution-mail.h:1
-msgid "_Message"
-msgstr "_List"
+msgid "Get Mail"
+msgstr "Pobierz"
 
 #: ui/evolution-mail.h:1
-msgid "_Open in New Window"
-msgstr "_Otwórz w nowym oknie"
+msgid "Mail _Filters..."
+msgstr "_Filtry listów..."
 
 #: ui/evolution-mail.h:1
-msgid "_Edit Message"
-msgstr "_Zredaguj list"
-
-#: ui/evolution-mail.h:1
-msgid "_Print Message"
-msgstr "_Drukuj list"
-
-#: ui/evolution-mail.h:1
-msgid "Reply to _Sender"
-msgstr "Odpowiedz _nadawcy"
-
-#: ui/evolution-mail.h:1
-msgid "Reply to _All"
-msgstr "Odpowiedz _wszystkim"
-
-#: ui/evolution-mail.h:1
-msgid "_Forward"
-msgstr "_Prze¶lij"
+msgid "Manage Subscriptions..."
+msgstr ""
 
 #: ui/evolution-mail.h:1
 msgid "Mar_k As Read"
@@ -5118,16 +5104,48 @@ msgid "Mark As U_nread"
 msgstr "Oznacz jako _nieprzeczytany"
 
 #: ui/evolution-mail.h:1
-msgid "_Move to Folder"
-msgstr "P_rzenie¶ do foldera"
+msgid "Move"
+msgstr "Przenie¶"
 
 #: ui/evolution-mail.h:1
-msgid "_Copy to Folder"
-msgstr "_Skopiuj do foldera"
+msgid "Move message to a new folder"
+msgstr "Przenosi list do nowego foldera"
 
 #: ui/evolution-mail.h:1
-msgid "_VFolder on Subject"
-msgstr "Utwórz VFolder w oparciu o _temat"
+msgid "Previews the message to be printed"
+msgstr ""
+
+#: ui/evolution-mail.h:1
+msgid "Print Preview of message..."
+msgstr "Podgl±d wydruku listu..."
+
+#: ui/evolution-mail.h:1
+msgid "Print message to the printer"
+msgstr "Drukuje list na drukarce"
+
+#: ui/evolution-mail.h:1
+msgid "Print message..."
+msgstr "Wydrukuj list..."
+
+#: ui/evolution-mail.h:1
+msgid "Reply to _All"
+msgstr "Odpowiedz _wszystkim"
+
+#: ui/evolution-mail.h:1
+msgid "Reply to _Sender"
+msgstr "Odpowiedz _nadawcy"
+
+#: ui/evolution-mail.h:1 ui/evolution-subscribe.h:1
+msgid "Select _All"
+msgstr "Zaznacz _wszystkie"
+
+#: ui/evolution-mail.h:1
+msgid "Send queued mail and retrieve new mail"
+msgstr "Wysy³a listy w kolejce i pobiera nowe"
+
+#: ui/evolution-mail.h:1
+msgid "Threaded Message list"
+msgstr "Wy¶wietlanie listów z wyodrêbnieniem w±tków"
 
 #: ui/evolution-mail.h:1
 msgid "VFolder on Se_nder"
@@ -5138,83 +5156,71 @@ msgid "VFolder on _Recipients"
 msgstr "Utwórz VFolder w oparciu o _odbiorców"
 
 #: ui/evolution-mail.h:1
-msgid "_Filter on Subject"
-msgstr "Utwórz filtr w oparciu o t_emat"
-
-#: ui/evolution-mail.h:1
-msgid "Fi_lter on Sender"
-msgstr "Utwórz filtr w oparciu o n_adawcê"
-
-#: ui/evolution-mail.h:1
-msgid "Filter on Rec_ipients"
-msgstr "Utwórz filtr w oparciu o o_dbiorców"
-
-#: ui/evolution-mail.h:1 ui/evolution-subscribe.h:1
-msgid "F_older"
-msgstr "_Folder"
-
-#: ui/evolution-mail.h:1
-msgid "_Expunge"
-msgstr ""
+msgid "_Apply Filters"
+msgstr "_Zastosuj filtry"
 
 #: ui/evolution-mail.h:1
 msgid "_Configure Folder"
 msgstr "_Skonfiguruj folder"
 
 #: ui/evolution-mail.h:1
-msgid "Get Mail"
-msgstr "Pobierz"
+msgid "_Copy to Folder"
+msgstr "_Skopiuj do foldera"
 
 #: ui/evolution-mail.h:1
-msgid "Send queued mail and retrieve new mail"
-msgstr "Wysy³a listy w kolejce i pobiera nowe"
+msgid "_Edit Message"
+msgstr "_Zredaguj list"
 
 #: ui/evolution-mail.h:1
-msgid "Compose"
-msgstr "Utwórz"
+msgid "_Expunge"
+msgstr "_Wyczy¶æ"
 
 #: ui/evolution-mail.h:1
-msgid "Compose a new message"
-msgstr "Tworzy nowy list"
+msgid "_Filter on Subject"
+msgstr "Utwórz filtr w oparciu o t_emat"
 
 #: ui/evolution-mail.h:1
-msgid "Move"
-msgstr "Przenie¶"
+msgid "_Forward"
+msgstr "_Prze¶lij"
+
+#: ui/evolution-mail.h:1 ui/evolution-subscribe.h:1
+msgid "_Invert Selection"
+msgstr "_Odwróæ zaznaczenie"
 
 #: ui/evolution-mail.h:1
-msgid "Move message to a new folder"
-msgstr "Przenosi list do nowego foldera"
+msgid "_Mail Configuration..."
+msgstr "Konfiguracja _listów"
 
 #: ui/evolution-mail.h:1
-msgid "Copy"
-msgstr "Kopiuj"
+msgid "_Message"
+msgstr "_List"
 
 #: ui/evolution-mail.h:1
-msgid "Copy message to a new folder"
-msgstr "Kopiuje list do nowego foldera"
+msgid "_Move to Folder"
+msgstr "P_rzenie¶ do foldera"
 
-#: ui/evolution-subscribe.h:1 ui/evolution.h:1
-msgid "_Edit"
-msgstr "_Edycja"
+#: ui/evolution-mail.h:1
+msgid "_Open in New Window"
+msgstr "_Otwórz w nowym oknie"
 
-#: ui/evolution-subscribe.h:1
-msgid "_Unselect All"
-msgstr "_Odznacz wszystkie"
+#: ui/evolution-mail.h:1
+msgid "_Print Message"
+msgstr "_Drukuj list"
 
-#: ui/evolution-subscribe.h:1 ui/evolution-subscribe.h:1
-msgid "Subscribe"
-msgstr "Zapisz"
+#: ui/evolution-mail.h:1
+msgid "_Threaded"
+msgstr "Z _w±tkami"
 
-#: ui/evolution-subscribe.h:1 ui/evolution-subscribe.h:1
-msgid "Unsubscribe"
-msgstr "Wypisz"
+#: ui/evolution-mail.h:1
+msgid "_VFolder on Subject"
+msgstr "Utwórz VFolder w oparciu o _temat"
+
+#: ui/evolution-mail.h:1
+msgid "_Virtual Folder Editor..."
+msgstr "Edytor _wirtualnych folderów..."
 
 #: ui/evolution-subscribe.h:1
 msgid "Add folder to your list of subscribed folders"
-msgstr ""
-
-#: ui/evolution-subscribe.h:1
-msgid "Remove folder from your list of subscribed folders"
 msgstr ""
 
 #: ui/evolution-subscribe.h:1
@@ -5225,33 +5231,85 @@ msgstr "Od¶wie¿ listê"
 msgid "Refresh List of Folders"
 msgstr "Od¶wie¿a listê folderów"
 
-#: ui/evolution.h:1
-msgid "Show the _Shortcut Bar"
-msgstr "Wy¶wietlanie paska _skrótów"
+#: ui/evolution-subscribe.h:1
+msgid "Remove folder from your list of subscribed folders"
+msgstr ""
+
+#: ui/evolution-subscribe.h:1
+msgid "Subscribe"
+msgstr "Zapisz"
+
+#: ui/evolution-subscribe.h:1
+msgid "Unsubscribe"
+msgstr "Wypisz"
+
+#: ui/evolution-subscribe.h:1 ui/evolution.h:1
+msgid "_Edit"
+msgstr "_Edycja"
 
 #: ui/evolution.h:1
-msgid "Toggle whether to show the shortcut bar"
-msgstr "Prze³±cza wy¶wietlanie paska skrótów"
+msgid "Create a new folder"
+msgstr "Tworzy nowy folder"
 
 #: ui/evolution.h:1
-msgid "Show the _Folder Bar"
-msgstr "Wy¶wietlanie paska f_olderów"
+msgid "Display a different folder"
+msgstr "Wy¶wietla inny folder"
 
 #: ui/evolution.h:1
-msgid "Toggle whether to show the folder bar"
-msgstr "Prze³±cza wy¶wietlanie paska folderów"
-
-#: ui/evolution.h:1
-msgid "_Folder"
-msgstr "_Folder"
+msgid "E_xit"
+msgstr "Za_koñcz"
 
 #: ui/evolution.h:1
 msgid "Evolution bar _shortcut"
 msgstr ""
 
 #: ui/evolution.h:1
-msgid "_Mail message (FIXME)"
+msgid "Exit the program"
+msgstr "Koñczy pracê programu"
+
+#: ui/evolution.h:1
+msgid "Getting _Started"
+msgstr "_Rozpoczynanie"
+
+#: ui/evolution.h:1
+msgid "Show information about Evolution"
+msgstr "Wy¶wietla informacje o Evolution"
+
+#: ui/evolution.h:1
+msgid "Show the _Folder Bar"
+msgstr "Wy¶wietlanie paska f_olderów"
+
+#: ui/evolution.h:1
+msgid "Show the _Shortcut Bar"
+msgstr "Wy¶wietlanie paska _skrótów"
+
+#: ui/evolution.h:1
+msgid "Submit bug report using Bug Buddy"
+msgstr "Wysy³a zg³oszenie b³êdu za pomoc± Bug Buddy"
+
+#: ui/evolution.h:1
+msgid "Toggle whether to show the folder bar"
+msgstr "Prze³±cza wy¶wietlanie paska folderów"
+
+#: ui/evolution.h:1
+msgid "Toggle whether to show the shortcut bar"
+msgstr "Prze³±cza wy¶wietlanie paska skrótów"
+
+#: ui/evolution.h:1
+msgid "Using the C_ontact Manager"
 msgstr ""
+
+#: ui/evolution.h:1
+msgid "Using the _Calendar"
+msgstr ""
+
+#: ui/evolution.h:1
+msgid "Using the _Mailer"
+msgstr ""
+
+#: ui/evolution.h:1
+msgid "_About Evolution..."
+msgstr "_Informacje o Evolution..."
 
 #: ui/evolution.h:1
 msgid "_Appointment (FIXME)"
@@ -5262,36 +5320,16 @@ msgid "_Contact (FIXME)"
 msgstr "_Kontakt (FIXME)"
 
 #: ui/evolution.h:1
-msgid "_Task (FIXME)"
-msgstr "_Zadanie (FIXME)"
-
-#: ui/evolution.h:1
-msgid "_Go to Folder..."
-msgstr "_Przejd¼ do foldera..."
-
-#: ui/evolution.h:1
-msgid "Display a different folder"
-msgstr "Wy¶wietla inny folder"
-
-#: ui/evolution.h:1
 msgid "_Create New Folder..."
 msgstr "_Utwórz nowy folder..."
 
 #: ui/evolution.h:1
-msgid "Create a new folder"
-msgstr "Tworzy nowy folder"
+msgid "_Folder"
+msgstr "_Folder"
 
 #: ui/evolution.h:1
-msgid "E_xit"
-msgstr "Za_koñcz"
-
-#: ui/evolution.h:1
-msgid "Exit the program"
-msgstr "Koñczy pracê programu"
-
-#: ui/evolution.h:1
-msgid "_Settings"
-msgstr "_Ustawienia"
+msgid "_Go to Folder..."
+msgstr "_Przejd¼ do foldera..."
 
 #: ui/evolution.h:1
 msgid "_Help"
@@ -5302,36 +5340,20 @@ msgid "_Index"
 msgstr "_Indeks"
 
 #: ui/evolution.h:1
-msgid "Getting _Started"
-msgstr "_Rozpoczynanie"
-
-#: ui/evolution.h:1
-msgid "Using the _Mailer"
+msgid "_Mail message (FIXME)"
 msgstr ""
 
 #: ui/evolution.h:1
-msgid "Using the _Calendar"
-msgstr ""
-
-#: ui/evolution.h:1
-msgid "Using the C_ontact Manager"
-msgstr ""
+msgid "_Settings"
+msgstr "_Ustawienia"
 
 #: ui/evolution.h:1
 msgid "_Submit Bug Report"
 msgstr "Wy¶lij _zg³oszenie b³êdu"
 
 #: ui/evolution.h:1
-msgid "Submit bug report using Bug Buddy"
-msgstr "Wysy³a zg³oszenie b³êdu za pomoc± Bug Buddy"
-
-#: ui/evolution.h:1
-msgid "_About Evolution..."
-msgstr "_Informacje o Evolution..."
-
-#: ui/evolution.h:1
-msgid "Show information about Evolution"
-msgstr "Wy¶wietla informacje o Evolution"
+msgid "_Task (FIXME)"
+msgstr "_Zadanie (FIXME)"
 
 #: widgets/meeting-time-sel/e-meeting-time-sel.c:1
 msgid "Tentative"
