@@ -273,7 +273,9 @@ e_destination_set_string (EDestination *dest, const gchar *str)
 {
 	gchar *name = NULL;
 	gchar *email = NULL;
+#if 0
 	gchar *lt, *gt;
+#endif
 
 	g_return_if_fail (dest && E_IS_DESTINATION (dest));
 	g_return_if_fail (str != NULL);
@@ -305,7 +307,9 @@ e_destination_set_string (EDestination *dest, const gchar *str)
 	/* Default: Just treat it as a name address. */
 	name = g_strdup (str);
 
+#if 0
  finished:
+#endif
 	if (name) {
 		g_message ("name: [%s]", name);
 		if (*name)
@@ -913,6 +917,9 @@ e_destination_importv (const gchar *str)
 		return NULL;
 	
 	destv_doc = xmlParseMemory ((gchar *)str, strlen (str));
+	if (destv_doc == NULL)
+		return NULL;
+
 	node = destv_doc->xmlRootNode;
 	
 	if (strcmp (node->name, "destinations"))

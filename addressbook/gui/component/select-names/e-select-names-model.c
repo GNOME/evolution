@@ -372,6 +372,10 @@ e_select_names_model_import_destinationv (ESelectNamesModel *model,
 	destv = e_destination_importv (destinationv);
 
 	e_select_names_model_delete_all (model);
+
+	if (destv == NULL)
+		return;
+
 	for (i = 0; destv[i]; i++) {
 		e_destination_use_card (destv[i], send_changed, model);
 		e_select_names_model_append (model, destv[i]);
