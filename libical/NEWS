@@ -1,4 +1,4 @@
-Version 0.17 29 April (cvs tag libical-0-17 ) 
+Version 0.17 15 May 00  (cvs tag libical-0-17 ) 
 ---------------------------------------------
 
 Fixed two bugs that added extraneous '/' to test values
