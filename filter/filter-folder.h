@@ -35,7 +35,6 @@ struct _FilterFolder {
 	struct _FilterFolderPrivate *priv;
 
 	char *uri;
-	char *name;		/* name of folder for display? */
 };
 
 struct _FilterFolderClass {
@@ -50,7 +49,7 @@ guint		filter_folder_get_type	(void);
 FilterFolder	*filter_folder_new	(void);
 
 /* methods */
-void            filter_folder_set_value(FilterFolder *ff, const char *uri, const char *name);
+void            filter_folder_set_value(FilterFolder *ff, const char *uri);
 
 #endif /* ! _FILTER_FOLDER_H */
 

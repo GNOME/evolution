@@ -327,7 +327,7 @@ filter_element_copy_value(FilterElement *de, FilterElement *se)
 		}
 	} else if (IS_FILTER_FOLDER(se)) {
 		if (IS_FILTER_FOLDER(de)) {
-			filter_folder_set_value((FilterFolder *)de, ((FilterFolder *)se)->uri, ((FilterFolder *)se)->name);
+			filter_folder_set_value((FilterFolder *)de, ((FilterFolder *)se)->uri);
 		}
 	} else if (IS_FILTER_COLOUR(se)) {
 		if (IS_FILTER_COLOUR(de)) {

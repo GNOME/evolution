@@ -171,14 +171,7 @@ static int filter_rename_uri(RuleContext *f, const char *olduri, const char *new
 	GList *l, *el;
 	FilterPart *action;
 	FilterElement *element;
-	const char *name;
 	int count = 0;
-
-	name = strrchr(newuri, '/');
-	if (name)
-		name++;
-	else
-		name = newuri;
 
 	d(printf("uri '%s' renamed to '%s'\n", olduri, newuri));
 
@@ -207,7 +200,7 @@ static int filter_rename_uri(RuleContext *f, const char *olduri, const char *new
 				if (IS_FILTER_FOLDER(element)
 				    && cmp(((FilterFolder *)element)->uri, olduri)) {
 					d(printf(" Changed!\n"));
-					filter_folder_set_value((FilterFolder *)element, newuri, name);
+					filter_folder_set_value((FilterFolder *)element, newuri);
 					rulecount++;
 				}
 				el = el->next;

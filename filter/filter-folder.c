@@ -20,8 +20,6 @@
 
 #include <config.h>
 
-#define SHELL
-
 #include <glib.h>
 #include <libgnome/gnome-defs.h>
 #include <libgnome/gnome-i18n.h>
@@ -30,9 +28,7 @@
 #include <gal/widgets/e-unicode.h>
 
 #include "filter-folder.h"
-#ifdef SHELL
-#include "shell/evolution-shell-client.h"
-#endif
+#include "shell/evolution-folder-selector-button.h"
 #include "e-util/e-sexp.h"
 
 #define d(x)
@@ -45,9 +41,7 @@ static GtkWidget *get_widget(FilterElement *fe);
 static void build_code(FilterElement *fe, GString *out, struct _FilterPart *ff);
 static void format_sexp(FilterElement *, GString *);
 
-#ifdef SHELL
 extern EvolutionShellClient *global_shell_client;
-#endif
 
 static void filter_folder_class_init	(FilterFolderClass *class);
 static void filter_folder_init	(FilterFolder *gspaper);
@@ -115,7 +109,6 @@ filter_folder_finalise (GtkObject *obj)
 	FilterFolder *o = (FilterFolder *)obj;
 	
 	g_free (o->uri);
-	g_free (o->name);
 	
         ((GtkObjectClass *)(parent_class))->finalize(obj);
 }
@@ -135,12 +128,10 @@ filter_folder_new (void)
 }
 
 void
-filter_folder_set_value(FilterFolder *ff, const char *uri, const char *name)
+filter_folder_set_value(FilterFolder *ff, const char *uri)
 {
 	g_free(ff->uri);
 	ff->uri = g_strdup(uri);
-	g_free(ff->name);
-	ff->name = g_strdup(name);
 }
 
 static gboolean
@@ -182,7 +173,6 @@ xml_encode (FilterElement *fe)
 	xmlSetProp (value, "type", "folder");
 	
 	work = xmlNewChild (value, NULL, "folder", NULL);
-	xmlSetProp (work, "name", ff->name);
 	xmlSetProp (work, "uri", ff->uri);
 	
 	return value;
@@ -202,12 +192,7 @@ xml_decode (FilterElement *fe, xmlNodePtr node)
 	n = node->childs;
 	while (n) {
 		if (!strcmp (n->name, "folder")) {
-			char *uri, *name;
-
-			name = xmlGetProp (n, "name");
-			g_free (ff->name);
-			ff->name = g_strdup (name);
-			xmlFree (name);
+			char *uri;
 
 			uri = xmlGetProp (n, "uri");
 			g_free (ff->uri);
@@ -222,88 +207,12 @@ xml_decode (FilterElement *fe, xmlNodePtr node)
 }
 
 static void
-button_clicked (GtkButton *button, FilterFolder *ff)
+folder_selected (EvolutionFolderSelectorButton *button,
+		 GNOME_Evolution_Folder *folder,
+		 FilterFolder *ff)
 {
-#ifdef SHELL
-	const char *allowed_types[] = { "mail", NULL };
-	char *def, *physical_uri, *evolution_uri;
-	gchar *s;
-	
-	def = ff->uri ? ff->uri : "";
-
-	gtk_widget_set_sensitive((GtkWidget *)button, FALSE);
-	gtk_object_ref((GtkObject *)ff);
-
-	evolution_shell_client_user_select_folder (global_shell_client,
-						   GTK_WINDOW (gtk_widget_get_toplevel (GTK_WIDGET (button))),
-						   _("Select Folder"),
-						   def, allowed_types,
-						   &evolution_uri,
-						   &physical_uri);
-
-	if (GTK_OBJECT_DESTROYED(button)) {
-		g_free(physical_uri);
-		g_free(evolution_uri);
-		gtk_object_unref((GtkObject *)ff);
-		return;
-	}
-
-	gtk_widget_set_sensitive((GtkWidget *)button, TRUE);
-	
-	if (physical_uri != NULL && physical_uri[0] != '\0') {
-		g_free (ff->uri);
-		ff->uri = physical_uri;
-		
-		g_free (ff->name);
-		ff->name = g_strdup (g_basename (evolution_uri));
-		s = e_utf8_to_gtk_string (GTK_WIDGET (button), ff->name);
-		gtk_label_set_text (GTK_LABEL (GTK_BIN (button)->child), s);
-		g_free (s);
-	} else {
-		g_free (physical_uri);
-	}
-	g_free (evolution_uri);
-
-	gtk_object_unref((GtkObject *)ff);
-
-#else
-	GnomeDialog *gd;
-	GtkEntry *entry;
-	char *uri, *str;
-
-	gd = (GnomeDialog *)gnome_dialog_new(_("Enter folder URI"),
-					     GNOME_STOCK_BUTTON_OK, GNOME_STOCK_BUTTON_CANCEL,
-					     NULL);
-	gtk_window_set_policy(GTK_WINDOW(gd), FALSE, TRUE, FALSE);
-	entry = (GtkEntry *)gtk_entry_new();
-	if (ff->uri) {
-		e_utf8_gtk_entry_set_text(entry, ff->uri);
-	}
-	gtk_box_pack_start((GtkBox *)gd->vbox, (GtkWidget *)entry, TRUE, TRUE, 3);
-	gtk_widget_show((GtkWidget *)entry);
-	switch (gnome_dialog_run(gd)) {
-	case 0:
-		g_free(ff->uri);
-		g_free(ff->name);
-		uri = e_utf8_gtk_entry_get_text(entry);
-		ff->uri = uri;
-		str = strstr(uri, "//");
-		if (str)
-			str = strchr(str+2, '/');
-		if (str)
-			str++;
-		else
-			str = uri;
-		ff->name = g_strdup(str);
-		s = e_utf8_to_gtk_string ((GtkWidget *) button, ff->name);
-		gtk_label_set_text((GtkLabel *)GTK_BIN(button)->child, s);
-		g_free (s);
-	case 1:
-		gnome_dialog_close(gd);
-	case -1:
-		/* nothing */
-	}
-#endif
+	g_free (ff->uri);
+	ff->uri = g_strdup (folder->physicalUri);
 	
 	gdk_window_raise (GTK_WIDGET (gtk_widget_get_ancestor (GTK_WIDGET (button), GTK_TYPE_WINDOW))->window);
 }
@@ -311,20 +220,17 @@ button_clicked (GtkButton *button, FilterFolder *ff)
 static GtkWidget *
 get_widget (FilterElement *fe)
 {
+	static const char *allowed_types[] = { "mail", NULL };
 	FilterFolder *ff = (FilterFolder *)fe;
 	GtkWidget *button;
-	GtkWidget *label;
 	
-	if (ff->name && ff->name[0])
-		label = gtk_label_new (g_basename (ff->name));
-	else
-		label = gtk_label_new (_("<click here to select a folder>"));
-	
-	button = gtk_button_new ();
-	gtk_container_add (GTK_CONTAINER (button), label);
+	button = evolution_folder_selector_button_new (global_shell_client,
+						       _("Select Folder"),
+						       ff->uri,
+						       allowed_types);
+
 	gtk_widget_show (button);
-	gtk_widget_show (label);
-	gtk_signal_connect (GTK_OBJECT (button), "clicked", button_clicked, ff);
+	gtk_signal_connect (GTK_OBJECT (button), "selected", folder_selected, ff);
 	
 	return button;
 }

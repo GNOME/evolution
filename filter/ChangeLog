@@ -1,3 +1,17 @@
+2002-04-04  Dan Winship  <danw@ximian.com>
+
+	* filter-folder.c: Remove the #ifndef SHELL part. Use an
+	EvolutionFolderSelectorButton. Remove FilterFolder->name since
+	it's no longer needed.
+
+	* filter-context.c (filter_rename_uri): Update for removal of
+	FilterFolder->name.
+
+	* filter-element.c (filter_element_copy_value): Likewise.
+
+	* vfolder-rule.c (source_add): Update for
+	evolution_shell_client_user_select_folder API change.
+
 2002-04-01  Jeffrey Stedfast  <fejj@ximian.com>
 
 	* rule-editor.c (rule_edit): Set 're' as the parent window rather
