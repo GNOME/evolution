@@ -1,3 +1,24 @@
+2003-04-01  Jeffrey Stedfast  <fejj@ximian.com>
+
+	* e-msg-composer.c (composer_entry_focus_in_event_cb): Keep track
+	of which entry widget has focus.
+	(composer_entry_focus_out_event_cb): Same.
+	(control_entry_focus_in_event_cb): Same idea, but since this is in
+	another component, tell that component that its widget has focus
+	so it can merge bonoboui cut/copy/paste (and anything else) menus.
+	(control_entry_focus_out_event_cb): Same.
+	(setup_cut_copy_paste): Connect to the focus-in and focus-out
+	events for all the entry widgets and the html editor.
+	(menu_edit_cut_cb): New callback function since the composer will
+	now own the Cut/Copy/Paste menu items sometimes (depending on
+	which widget is in focus... confused yet? good).
+
+	* e-msg-composer-hdrs.c (from_changed): Update the Reply-To entry
+	to be a normal GtkEntry.
+	(create_headers): Same.
+	(e_msg_composer_hdrs_set_reply_to): Here too.
+	(e_msg_composer_hdrs_get_reply_to): And finally here.
+
 2003-04-01  Not Zed  <NotZed@Ximian.com>
 
 	** See bug #40300 & probably others.

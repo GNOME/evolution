@@ -187,7 +187,7 @@ from_changed (GtkWidget *item, gpointer data)
 	/* we do this rather than calling e_msg_composer_hdrs_set_reply_to()
 	   because we don't want to change the visibility of the header */
 	reply_to = hdrs->account->id->reply_to;
-	e_entry_set_text (E_ENTRY (hdrs->priv->reply_to.entry), reply_to ? reply_to : "");
+	gtk_entry_set_text (GTK_ENTRY (hdrs->priv->reply_to.entry), reply_to ? reply_to : "");
 	
 	g_signal_emit (hdrs, signals [FROM_CHANGED], 0);
 }
@@ -508,12 +508,7 @@ create_headers (EMsgComposerHdrs *hdrs)
 	 * expects the reply_to fields to be initialized.
 	 */
 	priv->reply_to.label = gtk_label_new (_("Reply-To:"));
-	priv->reply_to.entry = e_entry_new ();
-	g_object_set (priv->reply_to.entry,
-		      "editable", TRUE,
-		      "use_ellipsis", TRUE,
-		      "allow_newlines", FALSE,
-		      NULL);
+	priv->reply_to.entry = gtk_entry_new ();
 	
 	/*
 	 * From
@@ -1055,7 +1050,7 @@ e_msg_composer_hdrs_set_reply_to (EMsgComposerHdrs *hdrs,
 {
 	g_return_if_fail (E_IS_MSG_COMPOSER_HDRS (hdrs));
 	
-	e_entry_set_text (E_ENTRY (hdrs->priv->reply_to.entry), reply_to ? reply_to : "");
+	gtk_entry_set_text (GTK_ENTRY (hdrs->priv->reply_to.entry), reply_to ? reply_to : "");
 	
 	if (reply_to && *reply_to)
 		set_pair_visibility (hdrs, &hdrs->priv->cc, TRUE);
@@ -1152,7 +1147,7 @@ e_msg_composer_hdrs_get_reply_to (EMsgComposerHdrs *hdrs)
 	
 	g_return_val_if_fail (E_IS_MSG_COMPOSER_HDRS (hdrs), NULL);
 	
-	reply_to = e_entry_get_text (E_ENTRY (hdrs->priv->reply_to.entry));
+	reply_to = gtk_entry_get_text (GTK_ENTRY (hdrs->priv->reply_to.entry));
 	
 	if (!reply_to || *reply_to == '\0')
 		return NULL;

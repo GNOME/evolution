@@ -59,6 +59,8 @@ struct _EMsgComposer {
 	GtkWidget *hdrs;
 	GPtrArray *extra_hdr_names, *extra_hdr_values;
 	
+	GtkWidget *focused_entry;
+	
 	GtkWidget *editor;
 	
 	GtkWidget *attachment_bar;

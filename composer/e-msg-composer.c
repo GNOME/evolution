@@ -1661,6 +1661,51 @@ menu_file_add_attachment_cb (BonoboUIComponent *uic,
 }
 
 static void
+menu_edit_cut_cb (BonoboUIComponent *uic, void *data, const char *path)
+{
+	EMsgComposer *composer = data;
+	
+	g_return_if_fail (composer->focused_entry != NULL);
+	
+	if (GTK_IS_ENTRY (composer->focused_entry)) {
+		gtk_editable_cut_clipboard (GTK_EDITABLE (composer->focused_entry));
+	} else {
+		/* happy happy joy joy, an EEntry. */
+		g_assert_not_reached ();
+	}
+}
+
+static void
+menu_edit_copy_cb (BonoboUIComponent *uic, void *data, const char *path)
+{
+	EMsgComposer *composer = data;
+	
+	g_return_if_fail (composer->focused_entry != NULL);
+	
+	if (GTK_IS_ENTRY (composer->focused_entry)) {
+		gtk_editable_copy_clipboard (GTK_EDITABLE (composer->focused_entry));
+	} else {
+		/* happy happy joy joy, an EEntry. */
+		g_assert_not_reached ();
+	}
+}
+
+static void
+menu_edit_paste_cb (BonoboUIComponent *uic, void *data, const char *path)
+{
+	EMsgComposer *composer = data;
+	
+	g_return_if_fail (composer->focused_entry != NULL);
+	
+	if (GTK_IS_ENTRY (composer->focused_entry)) {
+		gtk_editable_paste_clipboard (GTK_EDITABLE (composer->focused_entry));
+	} else {
+		/* happy happy joy joy, an EEntry. */
+		g_assert_not_reached ();
+	}
+}
+
+static void
 menu_edit_delete_all_cb (BonoboUIComponent *uic, void *data, const char *path)
 {
 	CORBA_Environment ev;
@@ -1851,17 +1896,21 @@ menu_changed_charset_cb (BonoboUIComponent           *component,
 
 static BonoboUIVerb verbs [] = {
 
-	BONOBO_UI_VERB ("FileOpen",   menu_file_open_cb),
-	BONOBO_UI_VERB ("FileSave",   menu_file_save_cb),
+	BONOBO_UI_VERB ("FileOpen", menu_file_open_cb),
+	BONOBO_UI_VERB ("FileSave", menu_file_save_cb),
 	BONOBO_UI_VERB ("FileSaveAs", menu_file_save_as_cb),
 	BONOBO_UI_VERB ("FileSaveDraft", menu_file_save_draft_cb),
-	BONOBO_UI_VERB ("FileClose",  menu_file_close_cb),
+	BONOBO_UI_VERB ("FileClose", menu_file_close_cb),
 	
-	BONOBO_UI_VERB ("FileAttach",     menu_file_add_attachment_cb),
+	BONOBO_UI_VERB ("FileAttach", menu_file_add_attachment_cb),
 	
-	BONOBO_UI_VERB ("FileSend",       menu_file_send_cb),
+	BONOBO_UI_VERB ("FileSend", menu_file_send_cb),
 	
-	BONOBO_UI_VERB ("DeleteAll",  menu_edit_delete_all_cb),
+	BONOBO_UI_VERB ("EditCut", menu_edit_cut_cb),
+	BONOBO_UI_VERB ("EditCopy", menu_edit_copy_cb),
+	BONOBO_UI_VERB ("EditPaste", menu_edit_paste_cb),
+	
+	BONOBO_UI_VERB ("DeleteAll", menu_edit_delete_all_cb),
 	
 	BONOBO_UI_VERB_END
 };
@@ -2579,6 +2628,8 @@ init (EMsgComposer *composer)
 	composer->extra_hdr_names          = g_ptr_array_new ();
 	composer->extra_hdr_values         = g_ptr_array_new ();
 	
+	composer->focused_entry            = NULL;
+	
 	composer->editor                   = NULL;
 	
 	composer->address_dialog           = NULL;
@@ -2746,6 +2797,84 @@ composer_key_pressed (GtkWidget *widget, GdkEventKey *event, gpointer user_data)
 	return FALSE; /* Not handled. */
 }
 
+
+/* All this snot is so that Cut/Copy/Paste work. */
+static gboolean
+composer_entry_focus_in_event_cb (GtkWidget *widget, GdkEventFocus *event, gpointer user_data)
+{
+	EMsgComposer *composer = user_data;
+	
+	composer->focused_entry = widget;
+	
+	return FALSE;
+}
+
+static gboolean
+composer_entry_focus_out_event_cb (GtkWidget *widget, GdkEventFocus *event, gpointer user_data)
+{
+	EMsgComposer *composer = user_data;
+	
+	g_assert (composer->focused_entry == widget);
+	composer->focused_entry = NULL;
+	
+	return FALSE;
+}
+
+static gboolean
+control_entry_focus_in_event_cb (GtkWidget *widget, GdkEventFocus *event, gpointer user_data)
+{
+	EMsgComposer *composer = user_data;
+	
+	g_assert (composer->focused_entry == NULL);
+	
+	bonobo_control_frame_control_activate (bonobo_widget_get_control_frame (BONOBO_WIDGET (widget)));
+	
+	return FALSE;
+}
+
+static gboolean
+control_entry_focus_out_event_cb (GtkWidget *widget, GdkEventFocus *event, gpointer user_data)
+{
+	EMsgComposer *composer = user_data;
+	
+	g_assert (composer->focused_entry == NULL);
+	
+	bonobo_control_frame_control_deactivate (bonobo_widget_get_control_frame (BONOBO_WIDGET (widget)));
+	
+	return FALSE;
+}
+
+static void
+setup_cut_copy_paste (EMsgComposer *composer)
+{
+	EMsgComposerHdrs *hdrs;
+	GtkWidget *entry;
+	
+	hdrs = (EMsgComposerHdrs *) composer->hdrs;
+	
+	entry = e_msg_composer_hdrs_get_subject_entry (hdrs);
+	g_signal_connect (entry, "focus-in-event", G_CALLBACK (composer_entry_focus_in_event_cb), composer);
+	g_signal_connect (entry, "focus-out-event", G_CALLBACK (composer_entry_focus_out_event_cb), composer);
+	
+	entry = e_msg_composer_hdrs_get_reply_to_entry (hdrs);
+	g_signal_connect (entry, "focus-in-event", G_CALLBACK (composer_entry_focus_in_event_cb), composer);
+	g_signal_connect (entry, "focus-out-event", G_CALLBACK (composer_entry_focus_out_event_cb), composer);
+	
+	entry = e_msg_composer_hdrs_get_to_entry (hdrs);
+	g_signal_connect (entry, "focus-in-event", G_CALLBACK (control_entry_focus_in_event_cb), composer);
+	g_signal_connect (entry, "focus-out-event", G_CALLBACK (control_entry_focus_out_event_cb), composer);
+	
+	entry = e_msg_composer_hdrs_get_cc_entry (hdrs);
+	g_signal_connect (entry, "focus-in-event", G_CALLBACK (control_entry_focus_in_event_cb), composer);
+	g_signal_connect (entry, "focus-out-event", G_CALLBACK (control_entry_focus_out_event_cb), composer);
+	
+	entry = e_msg_composer_hdrs_get_bcc_entry (hdrs);
+	g_signal_connect (entry, "focus-in-event", G_CALLBACK (control_entry_focus_in_event_cb), composer);
+	g_signal_connect (entry, "focus-out-event", G_CALLBACK (control_entry_focus_out_event_cb), composer);
+	
+	/* FIXME: do the same for the gtkhtml editor */
+}
+
 static EMsgComposer *
 create_composer (int visible_mask)
 {
@@ -2880,7 +3009,9 @@ create_composer (int visible_mask)
 		gtk_object_destroy (GTK_OBJECT (composer));
 		return NULL;
 	}
-		
+	
+	setup_cut_copy_paste (composer);
+	
 	g_signal_connect (composer, "map", (GCallback) map_default_cb, NULL);
 	
 	if (am == NULL)
