@@ -1,3 +1,9 @@
+2003-10-23  Ettore Perazzoli  <ettore@ximian.com>
+
+	* GNOME_Evolution_WombatNOLDAP.server.in.in: Add
+	"calendar:supported_protocol" attribute that was missing here (but
+	was in the LDAP one).
+
 2003-10-21  Chris Toshok  <toshok@ximian.com>
 
 	* GNOME_Evolution_WombatLDAP.server.in.in: add vcf to
