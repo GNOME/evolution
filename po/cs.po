@@ -10,7 +10,7 @@ msgstr ""
 "Project-Id-Version: evolution VERSION\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2004-08-28 11:10+0200\n"
-"PO-Revision-Date: 2004-08-28 15:06+0200\n"
+"PO-Revision-Date: 2004-10-08 18:12+0200\n"
 "Last-Translator: Miloslav Trmac <mitr@volny.cz>\n"
 "Language-Team: Czech <cs@li.org>\n"
 "MIME-Version: 1.0\n"
@@ -80,7 +80,7 @@ msgid ""
 "your caps lock might be on."
 msgstr ""
 "Zkontrolujte, že vaše heslo je zadáno správně a že používáte podporovanou "
-"metodupřihlašování. Nezapomeňte, že u mnoha hesel se rozlišuje velikost "
+"metodu přihlašování. Nezapomeňte, že u mnoha hesel se rozlišuje velikost "
 "písmen; možná máte zapnut caps lock."
 
 #. addressbook:ldap-search-base primary
@@ -95,7 +95,7 @@ msgid ""
 "this functionality or it may be misconfigured. Ask your administrator for "
 "supported search bases."
 msgstr ""
-"Tento server LDAP možná používá starší verzi LDAP, která futo funkci "
+"Tento server LDAP možná používá starší verzi LDAP, která tuto funkci "
 "nepodporuje, nebo je možná špatně nastaven. Zeptejte se vašeho správce na "
 "podporované základy vyhledávání."
 
@@ -404,7 +404,7 @@ msgid ""
 "\n"
 "Please be patient while Evolution migrates your folders..."
 msgstr ""
-"Způsob, jak evolution ukládá některá telefonní čísla, se změnil.\n"
+"Způsob, jak Evolution ukládá některá telefonní čísla, se změnil.\n"
 "\n"
 "Počkejte prosím, než Evolution převede vaše složky..."
 
@@ -9576,7 +9576,7 @@ msgstr "Nemohu vyhledat jméno: %s"
 #: camel/camel-service.c:781 camel/camel-service.c:905
 #, c-format
 msgid "Host lookup failed: cannot create thread: %s"
-msgstr "Nemohu najít počítač: nemohu vytvořit thread: %s"
+msgstr "Nemohu najít počítač: nemohu vytvořit vlákno: %s"
 
 #: camel/camel-service.c:794
 #, c-format
@@ -9598,7 +9598,7 @@ msgstr "Nemohu najít počítač: počítač nenalezen"
 
 #: camel/camel-service.c:923
 msgid "Host lookup failed: unknown reason"
-msgstr "Nemohu najít počítač: neznámý důvod"
+msgstr "Nemohu najít počítač: neznánmý důvod"
 
 #: camel/camel-session.c:282
 #, c-format
@@ -9678,7 +9678,7 @@ msgstr "Nemohu přidat data k enkodéru CMS"
 
 #: camel/camel-smime-context.c:441 camel/camel-smime-context.c:894
 msgid "Failed to encode data"
-msgstr "Nemohu zakódvat data"
+msgstr "Nemohu zakódovat data"
 
 #: camel/camel-smime-context.c:514
 msgid "Unverified"
@@ -10602,7 +10602,7 @@ msgstr "IMAPv4rev1"
 
 #: camel/providers/imap4/camel-imap4-provider.c:55
 msgid "For reading and storing mail on IMAPv4rev1 servers. EXPERIMENTAL !!"
-msgstr "Pro čtení a ukládání pošty na serverech IMAPv4rev1. EXPERIMETNÁLNÍ !!"
+msgstr "Pro čtení a ukládání pošty na serverech IMAPv4rev1. EXPERIMENTÁLNÍ !!"
 
 #: camel/providers/imap4/camel-imap4-provider.c:72
 msgid ""
@@ -10618,7 +10618,7 @@ msgid ""
 "STARTTLS"
 msgstr ""
 "Nemohu se připojit k serveru IMAP %s v zabezpečeném režimu: Server "
-"nepodporuje STARTLS"
+"nepodporuje STARTTLS"
 
 #: camel/providers/imap4/camel-imap4-store.c:363
 #, c-format
@@ -12642,7 +12642,7 @@ msgstr "Vybrat čas pro porovnání"
 #. filter:no-date primary
 #: filter/filter-errors.xml.h:2
 msgid "Missing date."
-msgstr "Chýbí datum."
+msgstr "Chybí datum."
 
 #. filter:no-date secondary
 #: filter/filter-errors.xml.h:4
@@ -13526,7 +13526,7 @@ msgstr "Nepodepsána"
 msgid ""
 "This message is not signed. There is no guarantee that this message is "
 "authentic."
-msgstr "Zpráva není podpesána. Není zaručeno, že je tato zpráva pravá."
+msgstr "Zpráva není podepsána. Není zaručeno, že je tato zpráva pravá."
 
 #: mail/em-format-html-display.c:644 mail/em-format-html.c:583
 msgid "Valid signature"
@@ -13998,7 +13998,7 @@ msgstr "Implicitní výška okna zprávy"
 
 #: mail/evolution-mail.schemas.in.in.h:15
 msgid "Default height of the Subscribe dialog"
-msgstr "Implicitní výška dialogu přilašování"
+msgstr "Implicitní výška dialogu přihlašování"
 
 #: mail/evolution-mail.schemas.in.in.h:16
 msgid "Default reply style"
@@ -14014,7 +14014,7 @@ msgstr "Implicitní šířka okna zprávy"
 
 #: mail/evolution-mail.schemas.in.in.h:19
 msgid "Default width of the Subscribe dialog"
-msgstr "Implicitní šířka dialogu přilašování"
+msgstr "Implicitní šířka dialogu přihlašování"
 
 #: mail/evolution-mail.schemas.in.in.h:20
 msgid "Draw spelling error indicators on words as you type."
@@ -14056,7 +14056,7 @@ msgstr ""
 
 #: mail/evolution-mail.schemas.in.in.h:28
 msgid "Last time empty trash was run"
-msgstr "Datum, kdy bylo naposledu spuštěno vyprázdnění koše"
+msgstr "Datum, kdy bylo naposledy spuštěno vyprázdnění koše"
 
 #: mail/evolution-mail.schemas.in.in.h:29
 msgid "List of Labels and their associated colors"
@@ -15590,7 +15590,7 @@ msgid ""
 "Adding a meaningful Subject line to your messages will give your recipients "
 "an idea of what your mail is about."
 msgstr ""
-"Přidání smysluplného řádku s předměntem k vašim zprávám dá vašim příjemcům "
+"Přidání smysluplného řádku s předmětem k vašim zprávám dá vašim příjemcům "
 "shrnutí, o čem je vaše zpráva."
 
 #. mail:ask-send-only-bcc-contact primary
@@ -15643,7 +15643,7 @@ msgid ""
 "email addresses by clicking on the To: button next to the entry box."
 msgstr ""
 "Zadejte prosím do pole Komu: platnou e-mailovou adresu. E-mailové adresy "
-"můžete hledat kliknutím na tlačíko Komu: vedle vstupního pole."
+"můžete hledat kliknutím na tlačítko Komu: vedle vstupního pole."
 
 #. mail:ask-default-drafts primary
 #: mail/mail-errors.xml.h:38
@@ -16093,7 +16093,9 @@ msgstr ""
 msgid ""
 "\n"
 "Please check your account settings and try again.\n"
-msgstr "\nZkontrolujte prosím vaše nastavení účtu a zkuste to znovu.\n"
+msgstr ""
+"\n"
+"Zkontrolujte prosím vaše nastavení účtu a zkuste to znovu.\n"
 
 #: mail/mail-folder-cache.c:795
 #, c-format
@@ -17223,7 +17225,7 @@ msgid ""
 msgstr ""
 "Nastavení vašeho systému neodpovídá vašemu nastavení Evolution.\n"
 "\n"
-"Pro podrobonosti klikněte na Nápověda"
+"Pro podrobnosti klikněte na Nápověda"
 
 #. shell:noshell-reason secondary
 #: shell/shell-errors.xml.h:51
@@ -17238,7 +17240,7 @@ msgstr ""
 "\n"
 "{0}\n"
 "\n"
-"Pro podrobonosti klikněte na Nápověda"
+"Pro podrobnosti klikněte na Nápověda"
 
 #: smime/gui/ca-trust-dialog.c:91
 #, c-format
@@ -17429,7 +17431,7 @@ msgstr "Upravit"
 
 #: smime/gui/smime-ui.glade.h:23
 msgid "Email Certificate Trust Settings"
-msgstr "Nastavení dúvěry certifikátům e-mailu"
+msgstr "Nastavení důvěry certifikátům e-mailu"
 
 #: smime/gui/smime-ui.glade.h:24
 msgid "Email Recipient Certificate"
@@ -17658,7 +17660,7 @@ msgstr "Podepisování"
 
 #: smime/lib/e-cert.c:870
 msgid "Non-repudiation"
-msgstr ""
+msgstr "Nepopření"
 
 #: smime/lib/e-cert.c:874
 msgid "Key Encipherment"
@@ -19541,6 +19543,45 @@ msgstr "%s (...)"
 msgid "%s (%d%% complete)"
 msgstr "%s (%d%% hotovo)"
 
+#~ msgid "cannot create thread"
+#~ msgstr "nemohu vytvořit vlákno"
+
+#~ msgid "Host lookup failed"
+#~ msgstr "Nemohu najít počítač"
+
+#~ msgid "Name lookup failed"
+#~ msgstr "Vyhledávání jména selhalo"
+
+#~ msgid "Name lookup failed: %s"
+#~ msgstr "Vyhledávání jména selhalo: %s"
+
+#~ msgid "Could not connect to %s (port %s): %s"
+#~ msgstr "Nemohu se připojit k %s (port %s): %s"
+
+#~ msgid "Could not connect to %s: %s"
+#~ msgstr "Nemohu se připojit k %s: %s"
+
+#~ msgid "_Discard Changes"
+#~ msgstr "Za_hodit změny"
+
+#~ msgid "Select individual file"
+#~ msgstr "Vyberte jednotlivý soubor"
+
+#~ msgid "Drafts"
+#~ msgstr "Koncepty"
+
+#~ msgid "Outbox"
+#~ msgstr "K odeslání"
+
+#~ msgid "Sent"
+#~ msgstr "Odeslané"
+
+#~ msgid "translator-credits"
+#~ msgstr ""
+#~ "Radka Doulíková <doulikova@centrum.cz>\n"
+#~ "Michal Bukovjan <bukm@centrum.cz>\n"
+#~ "Miloslav Trmač <mitr@volny.cz>"
+
 #~ msgid ""
 #~ "Could not connect to {0}. Groupwise account setup is incomplete. You may "
 #~ "need to setup  the account again"
@@ -19907,9 +19948,6 @@ msgstr "%s (%d%% hotovo)"
 #~ "\n"
 #~ "Chcete uložit změny?"
 
-#~ msgid "_Discard Changes"
-#~ msgstr "Za_hodit změny"
-
 #~ msgid "Save Event"
 #~ msgstr "Uložit událost"
 
@@ -20026,9 +20064,6 @@ msgstr "%s (%d%% hotovo)"
 
 #~ msgid "Failed to migrate folder expand state: %s"
 #~ msgstr "Nemohu převést stav rozbalení složky: %s"
-
-#~ msgid "Failed to open store for `%s': %s"
-#~ msgstr "Nemohu otevřít úložiště pro `%s': %s"
 
 #~ msgid "Evolution Mail folder viewer"
 #~ msgstr "Prohlížeč složek pošty Evolution"
