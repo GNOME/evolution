@@ -11,13 +11,13 @@
     
     <hook class="org.gnome.evolution.mail.config:1.0">
       <group target="account" id="org.gnome.evolution.mail.config.accountDruid">
-	<item type="item" path="20.receive_options/30.soapport/50.dummy" factory="org_gnome_gw_account_setup"/>
+	<item type="item_table" path="20.receive_options/30.soapport/50.dummy" factory="org_gnome_gw_account_setup"/>
       </group>
     </hook>
 	
    <hook class="org.gnome.evolution.mail.config:1.0">
       <group target="account" id="org.gnome.evolution.mail.config.accountEditor">
-	<item type="item" path="20.receive_options/30.soapport/50.dummy" factory="org_gnome_gw_account_setup"/>
+	<item type="item_table" path="20.receive_options/30.soapport/50.dummy" factory="org_gnome_gw_account_setup"/>
       </group>
     </hook>
 	
