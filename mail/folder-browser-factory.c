@@ -168,13 +168,10 @@ update_pixmaps (BonoboUIComponent *uic)
 			pixbuf = gdk_pixbuf_new_from_file (path);
 			if (pixbuf == NULL) {
 				g_warning ("Cannot load image -- %s", path);
-				g_free (path);
-				return;
+			} else {
+				pixcache [i].pixbuf = bonobo_ui_util_pixbuf_to_xml (pixbuf);
+				gdk_pixbuf_unref (pixbuf);
 			}
-
-			pixcache [i].pixbuf = bonobo_ui_util_pixbuf_to_xml (pixbuf);
-			
-			gdk_pixbuf_unref (pixbuf);
 			
 			g_free (path);
 		}
