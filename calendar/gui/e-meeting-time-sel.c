@@ -332,6 +332,8 @@ e_meeting_time_selector_construct (EMeetingTimeSelector * mts, EMeetingModel *em
 	mts->etable = GTK_WIDGET (e_meeting_model_etable_from_model (mts->model,
 								EVOLUTION_ETSPECDIR "/e-meeting-time-sel.etspec",
 								filename));
+	e_scroll_frame_set_policy (E_SCROLL_FRAME (mts->etable), GTK_POLICY_NEVER, GTK_POLICY_NEVER);
+	e_scroll_frame_set_scrollbar_spacing (E_SCROLL_FRAME (mts->etable), 0);
 
 	real_table = e_table_scrolled_get_table (E_TABLE_SCROLLED (mts->etable));
 	gtk_signal_connect (GTK_OBJECT (real_table->sort_info), "sort_info_changed",
@@ -2110,7 +2112,7 @@ e_meeting_time_selector_update_main_canvas_scroll_region (EMeetingTimeSelector *
 {
 	gint height, canvas_height;
 
-	height = mts->row_height * (e_meeting_model_count_attendees (mts->model) + 1);
+	height = mts->row_height * (e_meeting_model_count_attendees (mts->model) + 2);
 	canvas_height = GTK_WIDGET (mts->display_main)->allocation.height;
 
 	height = MAX (height,  canvas_height);

@@ -738,12 +738,8 @@ build_etable (ETableModel *model, const gchar *spec_file, const gchar *state_fil
 	e_cell_combo_set_popdown_strings (E_CELL_COMBO (popup_cell), strings);
 	e_table_extras_add_cell (extras, "statusedit", popup_cell);
 
-
 	etable = e_table_scrolled_new_from_spec_file (model, extras, spec_file, NULL);
-
 	real_table = e_table_scrolled_get_table (E_TABLE_SCROLLED (etable));
-	e_scroll_frame_set_policy (E_SCROLL_FRAME (etable), GTK_POLICY_NEVER, GTK_POLICY_NEVER);
-	e_scroll_frame_set_scrollbar_spacing (E_SCROLL_FRAME (etable), 0);
 	e_table_load_state (real_table, state_file);
 
 #if 0
