@@ -1,5 +1,8 @@
 2001-04-16  Jeffrey Stedfast  <fejj@ximian.com>
 
+	* camel-pgp-context.c (pgp_verify): Go back to doing the utf8
+	conversion by hand so that we don't depend on gal.
+
 	* Makefile.am: Remove the EXTRA_GNOME_CFLAGS include.
 
 	* camel-store.c (camel_mkdir_hier): Convenience function that it

@@ -29,9 +29,9 @@
 #include "camel-stream-fs.h"
 #include "camel-stream-mem.h"
 
-#include <gtk/gtk.h> /* for _() macro */
+#include "camel-charset-map.h"
 
-#include <gal/widgets/e-unicode.h>
+#include <gtk/gtk.h> /* for _() macro */
 
 #include <stdio.h>
 #include <stdlib.h>
@@ -51,6 +51,9 @@
 #include <termios.h>
 #include <unistd.h>
 #include <signal.h>
+
+#include <unicode.h>
+#include <iconv.h>
 
 #define d(x)
 
@@ -963,9 +966,45 @@ pgp_verify (CamelCipherContext *ctx, CamelStream *istream,
 	}
 	
 	if (diagnostics) {
-		char *desc;
+		char *locale, *desc, *outbuf;
+		size_t inlen, outlen;
+		iconv_t cd;
 		
-		desc = e_utf8_from_locale_string (diagnostics);
+		inlen = strlen (diagnostics);
+		outlen = inlen * 4;
+		
+		desc = outbuf = g_new (unsigned char, outlen + 1);
+		
+		locale = camel_charset_locale_name ();
+		if (!locale)
+			locale = g_strdup ("iso-8859-1");
+		
+		cd = iconv_open ("UTF-8", locale);
+		g_free (locale);
+		if (cd != (iconv_t) -1) {
+			const char *inbuf;
+			size_t len;
+			
+			inbuf = diagnostics;
+			len = iconv (cd, &inbuf, &inlen, &outbuf, &outlen);
+			iconv_close (cd);
+			
+			desc[len] = '\0';
+		} else {
+			const char *inptr, *inend;
+			unicode_char_t c;
+			
+			inptr = diagnostics;
+			inend = inptr + inlen;
+			
+			while (inptr && inptr < inend) {
+				inptr = unicode_get_utf8 (inptr, &c);
+				*outbuf++ = c & 0xff;
+			}
+			
+			*outbuf = '\0';
+		}
+		
 		camel_cipher_validity_set_description (valid, desc);
 		g_free (desc);
 	}
