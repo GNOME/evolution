@@ -5,7 +5,7 @@
  *
  * Authors:
  *   Michael Zucchi <notzed@ximian.com>
- *   Jeffery Steadfast <fejj@ximian.com>
+ *   Jeffery Stedfast <fejj@ximian.com>
  *
  * This library is free software; you can redistribute it and/or
  * modify it under the terms of the GNU Library General Public
@@ -43,7 +43,7 @@
 #endif
 
 /* FIXME: Use feature test */
-#ifndef __sun__
+#if !defined (__aix__) && !defined (__irix__) && !defined (__sun__)
 #define ICONV_ISO_NEEDS_DASH (1)
 #endif
 
