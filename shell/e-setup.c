@@ -99,6 +99,8 @@ gboolean
 e_setup (const char *evolution_directory)
 {
 	struct stat statinfo;
+	char *file;
+	int i;
 
 	if (stat (evolution_directory, &statinfo) != 0)
 		return copy_default_stuff (evolution_directory);
@@ -106,10 +108,38 @@ e_setup (const char *evolution_directory)
 	if (! S_ISDIR (statinfo.st_mode)) {
 		e_notice (NULL, GNOME_MESSAGE_BOX_ERROR,
 			  _("The file `%s' is not a directory.\n"
-			    "Please remove it in order to allow installation\n"
+			    "Please move it in order to allow installation\n"
 			    "of the Evolution user files."));
 		return FALSE;
 	}
+
+	/* Make sure this is really our directory, not an Evolution
+	 * build tree or something like that.
+	 */
+	file = g_strdup_printf ("%s/shortcuts.xml", evolution_directory);
+	if (stat (file, &statinfo) != 0) {
+		e_notice (NULL, GNOME_MESSAGE_BOX_ERROR,
+			  _("The directory `%s' exists but is not the\n"
+			    "Evolution directory.  Please move it in order\n"
+			    "to allow installation of the Evolution user "
+			    "files."), evolution_directory);
+		g_free (file);
+		return FALSE;
+	}
+	g_free (file);
+
+	/* If the user has an old-style config file, replace it with
+	 * the new-style config directory. FIXME: This should be
+	 * temporary.
+	 */
+	file = g_strdup_printf ("%s/config", evolution_directory);
+	if (stat (file, &statinfo) == 0 && ! S_ISDIR (statinfo.st_mode)) {
+		char *old = g_strdup_printf ("%s.old", file);
+		rename (file, old);
+		mkdir (file, 0700);
+		g_free (old);
+	}
+	g_free (file);
 
 	return TRUE;
 }

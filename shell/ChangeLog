@@ -1,3 +1,10 @@
+2000-08-08  Dan Winship  <danw@helixcode.com>
+
+	* e-setup.c (e_setup): Check for ~/evolution/shortcuts.xml in
+	addition to ~/evolution, to make sure it's really the directory
+	we're expecting it to be. Also, convert from old-style config file
+	to new-style config directory.
+
 2000-08-04  Michael Meeks  <michael@helixcode.com>
 
 	* evolution-shell-component.c (impl_ShellComponent_populate_folder_context_menu):
