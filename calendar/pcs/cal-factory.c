@@ -267,11 +267,10 @@ lookup_backend (CalFactory *factory, GnomeVFSURI *uri)
 
 /* Callback used when a backend loses its last connected client */
 static void
-backend_last_client_gone_cb (GtkObject *object, gpointer data)
+backend_last_client_gone_cb (CalBackend *backend, gpointer data)
 {
 	CalFactory *factory;
 	CalFactoryPrivate *priv;
-	CalBackend *backend;
 	GnomeVFSURI *uri;
 	gpointer orig_key;
 	gboolean result;
@@ -282,7 +281,6 @@ backend_last_client_gone_cb (GtkObject *object, gpointer data)
 
 	/* Remove the backend from the hash table */
 
-	backend = CAL_BACKEND (object);
 	uri = cal_backend_get_uri (backend);
 	g_assert (uri != NULL);
 
