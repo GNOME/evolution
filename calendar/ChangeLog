@@ -1,3 +1,31 @@
+2004-06-25  JP Rosevear  <jpr@novell.com>
+
+	* gui/dialogs/event-page.c (event_page_finalize): free old_summary
+	(is_custom_alarm): take description into account when checking for
+	custom alarm
+	(is_custom_alarm_uid_list): pass old_summary
+	(is_custom_alarm_store): ditto
+	(is_custom_alarm_store): ditto
+	(sensitize_widgets): ditto
+	(event_page_fill_component): ditto
+	(event_page_fill_widgets): store the initial summary
+	(alarm_changed_cb): make sure the needs description property gets
+	set on the default alarm
+	(alarm_custom_clicked_cb): copy the current store in case the user
+	hits cancel, if all the alarms are erased uncheck the alarm toggle
+
+	* gui/dialogs/alarm-dialog.glade: add toggles for custom messages
+	and sound
+
+	* gui/dialogs/alarm-dialog.c (aalarm_widgets_to_alarm): store
+	custom sound only if the toggle is checked
+	(dalarm_widgets_to_alarm): store custom message only if toggle is
+	checked
+	(get_widgets): load new widgets
+	(aalarm_sound_toggled_cb): sensitize sound entry
+	(dalarm_message_toggled_cb): sensitize message entry
+	(init_widgets): listen for toggle signals
+
 2004-06-24  JP Rosevear  <jpr@novell.com>
 
 	* gui/dialogs/alarm-list-dialog.c (selection_changed_cb):

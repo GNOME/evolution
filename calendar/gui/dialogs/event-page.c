@@ -89,6 +89,8 @@ struct _EventPagePrivate {
 	
 	gboolean updating;
 
+	char *old_summary;
+	
 	/* This is TRUE if both the start & end timezone are the same. If the
 	   start timezone is then changed, we updated the end timezone to the
 	   same value, since 99% of events start and end in one timezone. */
@@ -208,6 +210,8 @@ event_page_finalize (GObject *object)
 		priv->alarm_list_store = NULL;
 	}
 
+	g_free (priv->old_summary);
+	
 	g_free (priv);
 	epage->priv = NULL;
 
@@ -433,12 +437,16 @@ clear_widgets (EventPage *epage)
 }
 
 static gboolean
-is_custom_alarm (ECalComponentAlarm *ca, int *alarm_type) 
+is_custom_alarm (ECalComponentAlarm *ca, char *old_summary, int *alarm_type) 
 {
 	ECalComponentAlarmTrigger trigger;
 	ECalComponentAlarmRepeat repeat;
 	ECalComponentAlarmAction action;
+	ECalComponentText desc;
+	icalcomponent *icalcomp;
+	icalproperty *icalprop;
 	icalattach *attach;
+	gboolean needs_desc = FALSE;
 	
 	e_cal_component_alarm_get_action (ca, &action);
 	if (action != E_CAL_COMPONENT_ALARM_DISPLAY)
@@ -448,11 +456,23 @@ is_custom_alarm (ECalComponentAlarm *ca, int *alarm_type)
 	if (attach)
 		return TRUE;
 
-#if 0	
-	e_cal_component_alarm_get_description (ca, &desc);
-	if (attach)
-		return TRUE;
-#endif
+	icalcomp = e_cal_component_alarm_get_icalcomponent (ca);
+	icalprop = icalcomponent_get_first_property (icalcomp, ICAL_X_PROPERTY);
+	while (icalprop) {
+		const char *x_name;
+
+		x_name = icalproperty_get_x_name (icalprop);
+		if (!strcmp (x_name, "X-EVOLUTION-NEEDS-DESCRIPTION"))
+			needs_desc = TRUE;
+
+		icalprop = icalcomponent_get_next_property (icalcomp, ICAL_X_PROPERTY);
+	}
+
+	if (!needs_desc) {	
+		e_cal_component_alarm_get_description (ca, &desc);
+		if (!desc.value || !old_summary || strcmp (desc.value, old_summary))
+			return TRUE;
+	}
 
 	e_cal_component_alarm_get_repeat (ca, &repeat);
 	if (repeat.repetitions != 0)
@@ -504,7 +524,7 @@ is_custom_alarm (ECalComponentAlarm *ca, int *alarm_type)
 }
 
 static gboolean
-is_custom_alarm_uid_list (ECalComponent *comp, GList *alarms, int *alarm_type)
+is_custom_alarm_uid_list (ECalComponent *comp, GList *alarms, char *old_summary, int *alarm_type)
 {
 	ECalComponentAlarm *ca;
 	gboolean result;
@@ -513,14 +533,14 @@ is_custom_alarm_uid_list (ECalComponent *comp, GList *alarms, int *alarm_type)
 		return TRUE;
 
 	ca = e_cal_component_get_alarm (comp, alarms->data);
-	result = is_custom_alarm (ca, alarm_type);
+	result = is_custom_alarm (ca, old_summary, alarm_type);
 	e_cal_component_alarm_free (ca);
 
 	return result;
 }
 
 static gboolean
-is_custom_alarm_store (EAlarmList *alarm_list_store, int *alarm_type) 
+is_custom_alarm_store (EAlarmList *alarm_list_store, char *old_summary, int *alarm_type) 
 {
 	const ECalComponentAlarm *alarm;
 	GtkTreeModel *model;
@@ -534,7 +554,7 @@ is_custom_alarm_store (EAlarmList *alarm_list_store, int *alarm_type)
 		return FALSE;
 
 	alarm = e_alarm_list_get_alarm (alarm_list_store, &iter);
-	if (is_custom_alarm (( ECalComponentAlarm *)alarm, alarm_type))
+	if (is_custom_alarm ((ECalComponentAlarm *)alarm, old_summary, alarm_type))
 		return TRUE;
 
 	valid_iter = gtk_tree_model_iter_next (model, &iter);
@@ -555,7 +575,7 @@ sensitize_widgets (EventPage *epage)
 	if (!e_cal_is_read_only (COMP_EDITOR_PAGE (epage)->client, &read_only, NULL))
 		read_only = TRUE;
 
-	custom = is_custom_alarm_store (priv->alarm_list_store, NULL);
+	custom = is_custom_alarm_store (priv->alarm_list_store, priv->old_summary, NULL);
 	alarm = e_dialog_toggle_get (priv->alarm);
 	
 	gtk_widget_set_sensitive (priv->summary_label, !read_only);
@@ -612,7 +632,8 @@ event_page_fill_widgets (CompEditorPage *page, ECalComponent *comp)
 
 	e_cal_component_get_summary (comp, &text);
 	e_dialog_editable_set (priv->summary, text.value);
-
+	priv->old_summary = g_strdup (text.value);
+	
 	e_cal_component_get_location (comp, &location);
 	e_dialog_editable_set (priv->location, location);
 
@@ -681,7 +702,7 @@ event_page_fill_widgets (CompEditorPage *page, ECalComponent *comp)
 		e_dialog_toggle_set (priv->alarm, TRUE);
 
 		alarms = e_cal_component_get_alarm_uids (comp);
-		if (!is_custom_alarm_uid_list (comp, alarms, &alarm_type))
+		if (!is_custom_alarm_uid_list (comp, alarms, priv->old_summary, &alarm_type))
 			e_dialog_option_menu_set (priv->alarm_time, alarm_type, alarm_map);
 
 		for (l = alarms; l != NULL; l = l->next) {
@@ -872,7 +893,7 @@ event_page_fill_component (CompEditorPage *page, ECalComponent *comp)
 	/* Alarm */
 	e_cal_component_remove_all_alarms (comp);
 	if (e_dialog_toggle_get (priv->alarm)) {
-		if (is_custom_alarm_store (priv->alarm_list_store, NULL)) {
+		if (is_custom_alarm_store (priv->alarm_list_store, priv->old_summary, NULL)) {
 			GtkTreeModel *model;
 			GtkTreeIter iter;
 			gboolean valid_iter;
@@ -1552,6 +1573,8 @@ alarm_changed_cb (GtkWidget *widget, gpointer data)
 	if (e_dialog_toggle_get (priv->alarm)) {
 		ECalComponentAlarm *ca;
 		ECalComponentAlarmTrigger trigger;
+		icalcomponent *icalcomp;
+		icalproperty *icalprop;
 		int alarm_type;
 		
 		ca = e_cal_component_alarm_new ();		
@@ -1581,6 +1604,11 @@ alarm_changed_cb (GtkWidget *widget, gpointer data)
 		}		
 		e_cal_component_alarm_set_trigger (ca, trigger);
 
+		icalcomp = e_cal_component_alarm_get_icalcomponent (ca);
+		icalprop = icalproperty_new_x ("1");
+		icalproperty_set_x_name (icalprop, "X-EVOLUTION-NEEDS-DESCRIPTION");
+		icalcomponent_add_property (icalcomp, icalprop);
+
 		e_alarm_list_append (priv->alarm_list_store, NULL, ca);
 	} else {
 		e_alarm_list_clear (priv->alarm_list_store);
@@ -1594,14 +1622,43 @@ alarm_custom_clicked_cb (GtkWidget *widget, gpointer data)
 {
 	EventPage *epage;
 	EventPagePrivate *priv;
+	EAlarmList *temp_list_store;
+	GtkTreeModel *model;
+	GtkTreeIter iter;
+	gboolean valid_iter;
 	GtkWidget *toplevel;
 	
 	epage = EVENT_PAGE (data);
 	priv = epage->priv;
 
+	/* Make a copy of the list store in case the user cancels */
+	temp_list_store = e_alarm_list_new ();
+	model = GTK_TREE_MODEL (priv->alarm_list_store);
+	
+	for (valid_iter = gtk_tree_model_get_iter_first (model, &iter); valid_iter;
+	     valid_iter = gtk_tree_model_iter_next (model, &iter)) {
+		ECalComponentAlarm *alarm;
+				
+		alarm = (ECalComponentAlarm *) e_alarm_list_get_alarm (priv->alarm_list_store, &iter);
+		g_assert (alarm != NULL);
+
+		e_alarm_list_append (temp_list_store, NULL, alarm);
+	}	
+	
 	toplevel = gtk_widget_get_toplevel (priv->main);
-	if (alarm_list_dialog_run (toplevel, COMP_EDITOR_PAGE (epage)->client, priv->alarm_list_store))
+	if (alarm_list_dialog_run (toplevel, COMP_EDITOR_PAGE (epage)->client, temp_list_store)) {
+		g_object_unref (priv->alarm_list_store);
+		priv->alarm_list_store = temp_list_store;
+
 		comp_editor_page_notify_changed (COMP_EDITOR_PAGE (epage));	
+	} else {
+		g_object_unref (temp_list_store);
+	}	
+	
+	/* If the user erases everything, uncheck the alarm toggle */
+	valid_iter = gtk_tree_model_get_iter_first (GTK_TREE_MODEL (priv->alarm_list_store), &iter);
+	if (!valid_iter)
+		e_dialog_toggle_set (priv->alarm, FALSE);
 
 	sensitize_widgets (epage);
 }

@@ -89,10 +89,12 @@ typedef struct {
 	
 	/* Display alarm widgets */
 	GtkWidget *dalarm_group;
+	GtkWidget *dalarm_message;
 	GtkWidget *dalarm_description;
 
 	/* Audio alarm widgets */
 	GtkWidget *aalarm_group;
+	GtkWidget *aalarm_sound;
 	GtkWidget *aalarm_attach;
 
 	/* Mail alarm widgets */
@@ -186,6 +188,8 @@ clear_widgets (Dialog *dialog)
 	e_dialog_option_menu_set (dialog->time, E_CAL_COMPONENT_ALARM_TRIGGER_RELATIVE_START, time_map);
 
 	gtk_widget_set_sensitive (dialog->repeat_group, FALSE);
+	gtk_widget_set_sensitive (dialog->dalarm_group, FALSE);
+	gtk_widget_set_sensitive (dialog->aalarm_group, FALSE);
 
 	gtk_notebook_set_current_page (GTK_NOTEBOOK (dialog->option_notebook), 0);
 }
@@ -210,7 +214,6 @@ alarm_to_dialog (Dialog *dialog)
 		else
 			gtk_widget_set_sensitive (l->data, TRUE);
 	}
-
 	/* If we can repeat */
 	repeat = !e_cal_get_static_capability (dialog->ecal, CAL_STATIC_CAPABILITY_NO_ALARM_REPEAT);
 	gtk_widget_set_sensitive (dialog->repeat_toggle, repeat);
@@ -259,6 +262,9 @@ aalarm_widgets_to_alarm (Dialog *dialog, ECalComponentAlarm *alarm)
 	char *url;
 	icalattach *attach;
 
+	if (!gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (dialog->aalarm_sound)))
+		return;
+
 	url = e_dialog_editable_get (dialog->aalarm_attach);
 	attach = icalattach_new_from_url (url ? url : "");
 	g_free (url);
@@ -277,6 +283,9 @@ dalarm_widgets_to_alarm (Dialog *dialog, ECalComponentAlarm *alarm)
 	GtkTextIter text_iter_start, text_iter_end;
 	icalcomponent *icalcomp;
 	icalproperty *icalprop;
+
+	if (!gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (dialog->dalarm_message)))
+		return;
 
 	text_buffer = gtk_text_view_get_buffer (GTK_TEXT_VIEW (dialog->dalarm_description));
 	gtk_text_buffer_get_start_iter (text_buffer, &text_iter_start);
@@ -532,9 +541,11 @@ get_widgets (Dialog *dialog)
 	dialog->option_notebook = GW ("option-notebook");
 
 	dialog->dalarm_group = GW ("dalarm-group");
+	dialog->dalarm_message = GW ("dalarm-message");
 	dialog->dalarm_description = GW ("dalarm-description");
 
 	dialog->aalarm_group = GW ("aalarm-group");
+	dialog->aalarm_sound = GW ("aalarm-sound");
 	dialog->aalarm_attach = GW ("aalarm-attach");
 
 	dialog->malarm_group = GW ("malarm-group");
@@ -560,8 +571,10 @@ get_widgets (Dialog *dialog)
 		&& dialog->repeat_unit
 		&& dialog->option_notebook
 		&& dialog->dalarm_group
+		&& dialog->dalarm_message
 		&& dialog->dalarm_description
 		&& dialog->aalarm_group
+		&& dialog->aalarm_sound
 		&& dialog->aalarm_attach
 		&& dialog->malarm_group
 		&& dialog->malarm_address_group
@@ -674,6 +687,28 @@ repeat_toggle_toggled_cb (GtkToggleButton *toggle, gpointer data)
 	gtk_widget_set_sensitive (dialog->repeat_group, active);
 }
 
+static void
+aalarm_sound_toggled_cb (GtkToggleButton *toggle, gpointer data)
+{
+	Dialog *dialog = data;
+	gboolean active;
+
+	active = gtk_toggle_button_get_active (toggle);
+
+	gtk_widget_set_sensitive (dialog->aalarm_group, active);
+}
+
+static void
+dalarm_message_toggled_cb (GtkToggleButton *toggle, gpointer data)
+{
+	Dialog *dialog = data;
+	gboolean active;
+
+	active = gtk_toggle_button_get_active (toggle);
+
+	gtk_widget_set_sensitive (dialog->dalarm_group, active);
+}
+
 /* Hooks the widget signals */
 static void
 init_widgets (Dialog *dialog)
@@ -687,6 +722,11 @@ init_widgets (Dialog *dialog)
 
 	g_signal_connect (G_OBJECT (dialog->repeat_toggle), "toggled",
 			  G_CALLBACK (repeat_toggle_toggled_cb), dialog);
+
+	g_signal_connect (G_OBJECT (dialog->aalarm_sound), "toggled",
+			  G_CALLBACK (aalarm_sound_toggled_cb), dialog);
+	g_signal_connect (G_OBJECT (dialog->dalarm_message), "toggled",
+			  G_CALLBACK (dalarm_message_toggled_cb), dialog);
 }
 
 gboolean
