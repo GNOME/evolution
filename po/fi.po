@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: evolution\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2004-08-13 14:55-0400\n"
+"POT-Creation-Date: 2004-08-14 21:51+0300\n"
 "PO-Revision-Date: 2004-06-13 21:10+0200\n"
 "Last-Translator: Ilkka Tuohela <hile@iki.fi>\n"
 "Language-Team: Finnish <gnome-fi-laatu@lists.sourceforge.net>\n"
@@ -3691,21 +3691,18 @@ msgstr "Tallenna muutokset"
 
 #. calendar:prompt-save-task title
 #: calendar/calendar-errors.xml.h:76
-#, fuzzy
 msgid "Save Task"
-msgstr "Tallenna nimellä"
+msgstr "Tallenna tehtävä"
 
 #. calendar:prompt-save-task primary
 #: calendar/calendar-errors.xml.h:78
-#, fuzzy
 msgid "Would you like to save your changes to this task?"
-msgstr "Haluatko tallentaa muutokset tähän tapaamiseen?"
+msgstr "Haluatko tallentaa muutoksesi tähän tehtävään?"
 
 #. calendar:prompt-save-task secondary
 #: calendar/calendar-errors.xml.h:80
-#, fuzzy
 msgid "You have made changes to this task, but not yet saved them."
-msgstr "Olet tehnyt muutoksia, mutta et ole vielä tallentanut niitä."
+msgstr "Olet tehnyt muutoksia tähän tehtävään, mutta et ole vielä tallentanut niitä."
 
 #. calendar:prompt-meeting-invite primary
 #: calendar/calendar-errors.xml.h:84
@@ -4771,9 +4768,8 @@ msgid "_Add Calendar"
 msgstr "Lisää kalenteri"
 
 #: calendar/gui/dialogs/calendar-setup.glade.h:7
-#, fuzzy
 msgid "_Add Task List"
-msgstr "Lisää tehtävälista"
+msgstr "_Lisää tehtävälista"
 
 #: calendar/gui/dialogs/calendar-setup.glade.h:9
 msgid "_Refresh:"
@@ -6028,9 +6024,8 @@ msgid "_Forward as iCalendar..."
 msgstr "_Välitä iCalendar-muodossa..."
 
 #: calendar/gui/e-calendar-view.c:1452
-#, fuzzy
 msgid "Make this Occurrence _Movable"
-msgstr "Poista kohta"
+msgstr "Muuta tämä kerta _siirrettäväksi"
 
 #: calendar/gui/e-calendar-view.c:1453 calendar/gui/e-calendar-view.c:1485
 msgid "Delete this _Occurrence"
@@ -10163,7 +10158,6 @@ msgid "Automatically synchronize remote mail locally"
 msgstr "Synkronoi sähköposti etäpalvelimelta automaattisesti"
 
 #: camel/providers/groupwise/camel-groupwise-provider.c:69
-#, fuzzy
 msgid "Address Book and Calendar"
 msgstr "Osoitekirja ja kalenteri"
 
@@ -10176,9 +10170,8 @@ msgid "Post Office Agent SOAP Port:"
 msgstr "Postitoimiston agentin SOAP portti:"
 
 #: camel/providers/groupwise/camel-groupwise-provider.c:78
-#, fuzzy
 msgid "Use Secure Connection (SSL)"
-msgstr "_Käytä salattua yhteyttä (SSL):"
+msgstr "_Käytä salattua yhteyttä (SSL)"
 
 #: camel/providers/groupwise/camel-groupwise-provider.c:92
 msgid "Novell GroupWise"
@@ -12380,9 +12373,8 @@ msgid "Evolution"
 msgstr "Evolution"
 
 #: data/evolution.desktop.in.in.h:2
-#, fuzzy
 msgid "The Evolution Groupware Suite"
-msgstr "Ximian Evolution työryhmäohjelmisto"
+msgstr "Evolution työryhmäohjelmisto"
 
 #: data/evolution.keys.in.in.h:1
 msgid "address card"
@@ -13620,13 +13612,12 @@ msgid "Unencrypted"
 msgstr "Salaamaton"
 
 #: mail/em-format-html-display.c:650
-#, fuzzy
 msgid ""
 "This message is not encrypted.  Its content may be viewed in transit across "
 "the Internet."
 msgstr ""
-"Viesti ei ole salattu. Viestin sisältöä voidaan tutkia sen matkatessa "
-"lähettäjältä Internetin läpi."
+"Viesti' ei ole salattu. Viestin sisältöä voidaan tutkia sen kulkiessa "
+"Internetin läpi."
 
 #: mail/em-format-html-display.c:651 mail/em-format-html.c:592
 msgid "Encrypted, weak"
@@ -17208,13 +17199,12 @@ msgstr ""
 "evolution sisältöineen halutessasi.\n"
 
 #: shell/shell-errors.xml.h:25
-#, fuzzy
 msgid "_Remind Me Later"
-msgstr "Muistutus"
+msgstr "_Muistuta minua myöhemmin"
 
 #: shell/shell-errors.xml.h:26
 msgid "_Keep Data"
-msgstr ""
+msgstr "_Säilytä tiedot"
 
 #. shell:upgrade-remove-1-4-confirm title
 #. shell:upgrade-remove-1-4-confirm primary
@@ -19137,15 +19127,15 @@ msgstr "Näytä tietoja Evolutionista"
 
 #: ui/evolution.xml.h:20
 msgid "Submit Bug Report"
-msgstr "Lähetä virheraportti"
+msgstr "Lähetä vikailmoitus"
 
 #: ui/evolution.xml.h:21
 msgid "Submit _Bug Report"
-msgstr "Lähetä _virheraportti"
+msgstr "Lähetä _vikailmoitus"
 
 #: ui/evolution.xml.h:22
 msgid "Submit a bug report using Bug Buddy"
-msgstr "Lähetä virheraportti käyttäen Bug Buddy:a"
+msgstr "Lähetä vikailmoitus käyttäen Bug Buddyä"
 
 #: ui/evolution.xml.h:23
 msgid "T_oolbar"
