@@ -1,3 +1,13 @@
+2003-08-20  Not Zed  <NotZed@Ximian.com>
+
+	** See bug #47751.
+
+	* rule-editor.c (add_editor_response, edit_editor_response) 
+	(rule_edit, rule_add, rule_editor_construct, editor_response):
+	* rule-context.c (new_rule_response, rule_context_add_rule_gui): 
+	* filter-datespec.c (button_clicked): RESPONSE_REJECT/ACCEPT ->
+	RESPONSE_CANCEL/OK
+
 2003-12-23  JP Rosevear <jpr@ximian.com>
 
 	* vfolder-rule.c (source_add): call peek instead of get as the

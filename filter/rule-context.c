@@ -669,7 +669,7 @@ rule_context_add_rule(RuleContext *rc, FilterRule *new)
 static void
 new_rule_response(GtkWidget *dialog, int button, RuleContext *context)
 {
-	if (button == GTK_RESPONSE_ACCEPT) {
+	if (button == GTK_RESPONSE_OK) {
 		FilterRule *rule = g_object_get_data((GObject *) dialog, "rule");
 		char *user = g_object_get_data((GObject *) dialog, "path");
 		
@@ -716,9 +716,9 @@ rule_context_add_rule_gui(RuleContext *rc, FilterRule *rule, const char *title, 
 	
 	dialog =(GtkDialog *) gtk_dialog_new();
 	gtk_dialog_add_buttons(dialog,
-				GTK_STOCK_CANCEL, GTK_RESPONSE_REJECT,
-				GTK_STOCK_OK, GTK_RESPONSE_ACCEPT,
-				NULL);
+			       GTK_STOCK_CANCEL, GTK_RESPONSE_CANCEL,
+			       GTK_STOCK_OK, GTK_RESPONSE_OK,
+			       NULL);
 	
 	gtk_window_set_title((GtkWindow *) dialog, title);
 	gtk_window_set_default_size((GtkWindow *) dialog, 600, 400);

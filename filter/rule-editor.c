@@ -229,7 +229,7 @@ add_editor_response (GtkWidget *dialog, int button, RuleEditor *re)
 	GtkTreePath *path;
 	GtkTreeIter iter;
 	
-	if (button == GTK_RESPONSE_ACCEPT) {
+	if (button == GTK_RESPONSE_OK) {
 		if (!filter_rule_validate (re->edit)) {
 			/* no need to popup a dialog because the validate code does that. */
 			return;
@@ -284,8 +284,8 @@ rule_add (GtkWidget *widget, RuleEditor *re)
 	
 	re->dialog = gtk_dialog_new ();
 	gtk_dialog_add_buttons ((GtkDialog *) re->dialog,
-				GTK_STOCK_CANCEL, GTK_RESPONSE_REJECT,
-				GTK_STOCK_OK, GTK_RESPONSE_ACCEPT,
+				GTK_STOCK_CANCEL, GTK_RESPONSE_CANCEL,
+				GTK_STOCK_OK, GTK_RESPONSE_OK,
 				NULL);
 	
 	gtk_window_set_title ((GtkWindow *) re->dialog, _("Add Rule"));
@@ -312,7 +312,7 @@ edit_editor_response (GtkWidget *dialog, int button, RuleEditor *re)
 	GtkTreeIter iter;
 	int pos;
 	
-	if (button == GTK_RESPONSE_ACCEPT) {
+	if (button == GTK_RESPONSE_OK) {
 		if (!filter_rule_validate (re->edit)) {
 			/* no need to popup a dialog because the validate code does that. */
 			return;
@@ -366,8 +366,8 @@ rule_edit (GtkWidget *widget, RuleEditor *re)
 	
 	re->dialog = gtk_dialog_new ();
 	gtk_dialog_add_buttons ((GtkDialog *) re->dialog,
-				GTK_STOCK_CANCEL, GTK_RESPONSE_REJECT,
-				GTK_STOCK_OK, GTK_RESPONSE_ACCEPT,
+				GTK_STOCK_CANCEL, GTK_RESPONSE_CANCEL,
+				GTK_STOCK_OK, GTK_RESPONSE_OK,
 				NULL);
 	
 	gtk_window_set_title ((GtkWindow *) re->dialog, _("Edit Rule"));
@@ -649,7 +649,7 @@ rule_editor_play_undo (RuleEditor *re)
 static void
 editor_response (GtkWidget *dialog, int button, RuleEditor *re)
 {
-	if (button == GTK_RESPONSE_REJECT) {
+	if (button == GTK_RESPONSE_CANCEL) {
 		if (enable_undo)
 			rule_editor_play_undo (re);
 		else {
@@ -737,15 +737,8 @@ rule_editor_construct (RuleEditor *re, RuleContext *context, GladeXML *gui, cons
 	g_signal_connect (re, "response", G_CALLBACK (editor_response), re);
 	rule_editor_set_source (re, source);
 	
-	if (enable_undo) {
-		gtk_dialog_add_buttons ((GtkDialog *) re,
-					GTK_STOCK_CANCEL, GTK_RESPONSE_REJECT,
-					GTK_STOCK_OK, GTK_RESPONSE_ACCEPT,
-					NULL);
-	} else {
-		gtk_dialog_add_buttons ((GtkDialog *) re,
-					GTK_STOCK_CANCEL, GTK_RESPONSE_CANCEL,
-					GTK_STOCK_OK, GTK_RESPONSE_ACCEPT,
-					NULL);
-	}
+	gtk_dialog_add_buttons ((GtkDialog *) re,
+				GTK_STOCK_CANCEL, GTK_RESPONSE_CANCEL,
+				GTK_STOCK_OK, GTK_RESPONSE_OK,
+				NULL);
 }
