@@ -133,10 +133,21 @@ set_icon (EComboButton *combo_button,
 
 	priv = combo_button->priv;
 
+	if (priv->icon != NULL)
+		gdk_pixbuf_unref (priv->icon);
+
+	if (pixbuf == NULL) {
+		priv->icon = NULL;
+		gtk_widget_hide (priv->icon_pixmap);
+		return;
+	}
+
 	priv->icon = gdk_pixbuf_ref (pixbuf);
 
 	gdk_pixbuf_render_pixmap_and_mask (pixbuf, &pixmap, &mask, 128);
 	gtk_pixmap_set (GTK_PIXMAP (priv->icon_pixmap), pixmap, mask);
+
+	gtk_widget_show (priv->icon_pixmap);
 
 	gdk_pixmap_unref (pixmap);
 	gdk_pixmap_unref (mask);
@@ -407,7 +418,6 @@ e_combo_button_set_icon (EComboButton *combo_button,
 {
 	g_return_if_fail (combo_button != NULL);
 	g_return_if_fail (E_IS_COMBO_BUTTON (combo_button));
-	g_return_if_fail (pixbuf != NULL);
 
 	set_icon (combo_button, pixbuf);
 }

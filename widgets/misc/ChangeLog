@@ -1,3 +1,15 @@
+2002-02-21  Ettore Perazzoli  <ettore@ximian.com>
+
+	* e-combo-button.c (set_icon): gtk_widget_show() the icon_pixmap
+	if the specified icon is not NULL.
+
+2002-02-20  Ettore Perazzoli  <ettore@ximian.com>
+
+	* e-combo-button.c (set_icon): Work with a NULL @pixbuf as well
+	[in that case, just hide the current icon widget].
+	(e_combo_button_set_icon): Remove the precondition about @pixbuf
+	being non-NULL.
+
 2002-02-08  JP Rosevear  <jpr@ximian.com>
 
 	* e-url-button.[hc]: remove briefly used files
