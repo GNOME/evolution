@@ -34,7 +34,8 @@
 #include "camel/camel-url.h"
 #include "vfolder-context.h"
 #include "vfolder-rule.h"
-#include "shell/evolution-shell-client.h"
+#include "mail/em-folder-selector.h"
+#include "mail/mail-component.h"
 
 #define d(x) 
 
@@ -420,42 +421,45 @@ static char *format_source(const char *uri)
 }
 
 static void
-source_add (GtkWidget *widget, struct _source_data *data)
+vfr_folder_response(GtkWidget *dialog, gint button, struct _source_data *data)
 {
-	static const char *allowed_types[] = { "mail/*", NULL };
-	GNOME_Evolution_Folder *folder;
-	GtkTreeSelection *selection;
-	GtkWidget *window;
-	GtkTreeIter iter;
-	char *uri, *urinice;
-	
-	window = gtk_widget_get_toplevel (widget);
-	gtk_widget_set_sensitive (window, FALSE);
+	const char *uri = em_folder_selector_get_selected_uri((EMFolderSelector *)dialog);
 
-#if 0				/* EPFIXME */
-	evolution_shell_client_user_select_folder (global_shell_client, GTK_WINDOW (window),
-						   _("Select Folder"), "", allowed_types, &folder);
-#else
-	folder = NULL;
-#endif
+	if (button == GTK_RESPONSE_OK
+	    && (uri = em_folder_selector_get_selected_uri((EMFolderSelector *)dialog)) != NULL) {
+		char *urinice;
+		GtkTreeSelection *selection;
+		GtkTreeIter iter;
 	
-	gtk_widget_set_sensitive (window, TRUE);
-	
-	if (folder) {
-		uri = g_strdup (folder->physicalUri);
-		data->vr->sources = g_list_append (data->vr->sources, uri);
+		data->vr->sources = g_list_append (data->vr->sources, g_strdup(uri));
 		
 		gtk_list_store_append (data->model, &iter);
 		urinice = format_source(uri);
-		gtk_list_store_set (data->model, &iter, 0, urinice, 1, uri, -1);
+		gtk_list_store_set(data->model, &iter, 0, urinice, 1, uri, -1);
 		g_free(urinice);
-		selection = gtk_tree_view_get_selection (data->list);
-		gtk_tree_selection_select_iter (selection, &iter);
+		selection = gtk_tree_view_get_selection(data->list);
+		gtk_tree_selection_select_iter(selection, &iter);
 		data->current = uri;
+
+		set_sensitive(data);
 	}
+
+	gtk_widget_destroy(dialog);
+}
+
+static void
+source_add(GtkWidget *widget, struct _source_data *data)
+{
+	struct _EMFolderTree *emft;
+	GtkWidget *dialog;
 	
-	CORBA_free (folder);
-	set_sensitive (data);
+	emft = (struct _EMFolderTree *)em_folder_tree_new_with_model(mail_component_get_tree_model(mail_component_peek()));
+	
+	dialog = em_folder_selector_new(emft, EM_FOLDER_SELECTOR_CAN_CREATE, _("Select Folder"), NULL);
+	gtk_window_set_transient_for((GtkWindow *)dialog, (GtkWindow *)gtk_widget_get_toplevel(widget));
+	gtk_window_set_modal((GtkWindow *)dialog, TRUE);
+	g_signal_connect(dialog, "response", G_CALLBACK(vfr_folder_response), data);
+	gtk_widget_show(dialog);
 }
 
 static void
