@@ -1,3 +1,11 @@
+2004-11-28	S.Çağlar Onur <caglar@uludag.org.tr>
+
+	** See bug #69446.
+
+	* evolution-2.0.2/mail/mail-account-gui.c (mail_account_gui_setup): 
+	some strcasecmp() calls changed with g_ascii_strcasecmp() for Turkish
+	character conversiton problems [ http://www.i18nguy.com/unicode/turkish-i18n.html ]
+
 2004-11-10  Not Zed  <NotZed@Ximian.com>
 
 	** See bug #68794.
