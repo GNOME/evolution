@@ -1419,6 +1419,14 @@ e_calendar_view_create_popup_menu (ECalendarView *cal_view)
 	 * menu was created rather than everyone having to call us.
 	 * We could also have a different menu id for each view */
 
+	/** @HookPoint-ECalPopup: Calendar Main View Context Menu
+	 * @Id: org.gnome.evolution.calendar.view.popup
+	 * @Class: org.gnome.evolution.calendar.popup:1.0
+	 * @Target: ECalPopupTargetSelect
+	 *
+	 * The context menu on the main calendar view.  This menu
+	 * applies to all view types.
+	 */
 	ep = e_cal_popup_new("org.gnome.evolution.calendar.view.popup");
 
 	model = e_calendar_view_get_model(cal_view);

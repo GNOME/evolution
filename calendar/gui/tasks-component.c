@@ -346,6 +346,13 @@ popup_event_cb(ESourceSelector *selector, ESource *insource, GdkEventButton *eve
 	int i;
 	GtkMenu *menu;
 
+	/** @HookPoint-ECalPopup: Tasks Source Selector Context Menu
+	 * @Id: org.gnome.evolution.tasks.source.popup
+	 * @Class: org.gnome.evolution.calendar.popup:1.0
+	 * @Target: ECalPopupTargetSource
+	 *
+	 * The context menu on the source selector in the tasks window.
+	 */
 	ep = e_cal_popup_new("org.gnome.evolution.tasks.source.popup");
 	t = e_cal_popup_target_new_source(ep, selector);
 	t->target.widget = (GtkWidget *)component_view->tasks;

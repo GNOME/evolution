@@ -1188,6 +1188,13 @@ e_calendar_table_show_popup_menu (ETable *table,
 	if (!selection)
 		return TRUE;
 
+	/** @HookPoint-ECalPopup: Tasks Table Context Menu
+	 * @Id: org.gnome.evolution.tasks.table.popup
+	 * @Class: org.gnome.evolution.calendar.popup:1.0
+	 * @Target: ECalPopupTargetSelect
+	 *
+	 * The context menu on the tasks table.
+	 */
 	ep = e_cal_popup_new("org.gnome.evolution.tasks.table.popup");
 
 	events = g_ptr_array_new();

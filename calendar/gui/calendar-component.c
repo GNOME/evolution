@@ -401,6 +401,13 @@ popup_event_cb(ESourceSelector *selector, ESource *insource, GdkEventButton *eve
 	int i;
 	GtkMenu *menu;
 
+	/** @HookPoint-ECalPopup: Calendar Source Selector Context Menu
+	 * @Id: org.gnome.evolution.calendar.source.popup
+	 * @Class: org.gnome.evolution.calendar.popup:1.0
+	 * @Target: ECalPopupTargetSource
+	 *
+	 * The context menu on the source selector in the calendar window.
+	 */
 	ep = e_cal_popup_new("org.gnome.evolution.calendar.source.popup");
 	t = e_cal_popup_target_new_source(ep, selector);
 	t->target.widget = (GtkWidget *)component_view->calendar;

@@ -1,3 +1,10 @@
+2004-10-28  Not Zed  <NotZed@Ximian.com>
+
+	* gui/tasks-component.c (popup_event_cb): 
+	* gui/e-calendar-view.c (e_calendar_view_create_popup_menu): 
+	* gui/e-calendar-table.c (e_calendar_table_show_popup_menu):
+	* gui/calendar-component.c (popup_event_cb): added hook doco.
+
 2004-10-27  Rodrigo Moya <rodrigo@novell.com>
 
 	* gui/e-cal-list-view.c (e_cal_list_view_new): don't expand recurrences
