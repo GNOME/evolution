@@ -1,3 +1,8 @@
+2002-05-07  Dan Winship  <danw@ximian.com>
+
+	* camel-object.c (camel_object_class_cast): Fix a crash in a
+	g_warning.
+
 2002-05-07  Not Zed  <NotZed@Ximian.com>
 
 	* camel-remote-store.c (remote_send_string): Check for LOGIN xxxx

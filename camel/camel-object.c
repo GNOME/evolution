@@ -1,10 +1,9 @@
 /* -*- Mode: C; tab-width: 8; indent-tabs-mode: t; c-basic-offset: 8 -*- *
  *
  * Author:
- *  Dan Winship <danw@ximian.com>
  *  Michael Zucchi <notzed@ximian.com>
  *
- * Copyright 2000 Ximian, Inc. (www.ximian.com)
+ * Copyright 2000-2002 Ximian, Inc. (www.ximian.com)
  *
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of version 2 of the GNU General Public
@@ -550,7 +549,7 @@ camel_object_cast(CamelObject *o, CamelType ctype)
 		k = k->parent;
 	}
 
-	g_warning("Object %p (class '%s') doesn't have '%s' in its heirachy", o, o->klass->name, ctype->name);
+	g_warning("Object %p (class '%s') doesn't have '%s' in its hierarchy", o, o->klass->name, ctype->name);
 
 	return NULL;
 }
@@ -568,7 +567,7 @@ camel_object_class_cast(CamelObjectClass *k, CamelType ctype)
 		k = k->parent;
 	}
 
-	g_warning("Class '%s' doesn't have '%s' in its heirarchy", k->name, ctype->name);
+	g_warning("Class '%s' doesn't have '%s' in its hierarchy", r->name, ctype->name);
 
 	return NULL;
 }
