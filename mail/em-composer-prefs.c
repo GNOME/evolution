@@ -377,13 +377,13 @@ sig_selection_changed (GtkTreeSelection *selection, EMComposerPrefs *prefs)
 }
 
 static void
-sig_fill_clist (GtkTreeView *clist)
+sig_fill_list (GtkTreeView *list)
 {
 	GSList *l;
 	GtkListStore *model;
 	GtkTreeIter iter;
 	
-	model = (GtkListStore *) gtk_tree_view_get_model (clist);
+	model = (GtkListStore *) gtk_tree_view_get_model (list);
 	gtk_list_store_clear (model);
 	
 	for (l = mail_config_get_signature_list (); l; l = l->next) {
@@ -852,7 +852,7 @@ em_composer_prefs_construct (EMComposerPrefs *prefs)
 	
 	/* Spell Checking: GNOME Spell part */
 	prefs->colour = GNOME_COLOR_PICKER (glade_xml_get_widget (gui, "colorpickerSpellCheckColor"));
-	prefs->language = GTK_TREE_VIEW (glade_xml_get_widget (gui, "clistSpellCheckLanguage"));
+	prefs->language = GTK_TREE_VIEW (glade_xml_get_widget (gui, "listSpellCheckLanguage"));
 	model = gtk_list_store_new (3, G_TYPE_BOOLEAN, G_TYPE_STRING, G_TYPE_POINTER);
 	gtk_tree_view_set_model (prefs->language, (GtkTreeModel *) model);
 	gtk_tree_view_insert_column_with_attributes (prefs->language, -1, _("Enabled"),
@@ -866,11 +866,7 @@ em_composer_prefs_construct (EMComposerPrefs *prefs)
 	selection = gtk_tree_view_get_selection (prefs->language);
 	gtk_tree_selection_set_mode (selection, GTK_SELECTION_SINGLE);
 	g_signal_connect (selection, "changed", G_CALLBACK (spell_language_selection_changed), prefs);
-#if 0
-	gtk_clist_set_column_justification (prefs->language, 0, GTK_JUSTIFY_RIGHT);
-	gtk_clist_set_column_auto_resize (prefs->language, 0, TRUE);
-#endif
-
+	
 	prefs->spell_able_button = glade_xml_get_widget (gui, "buttonSpellCheckEnable");
 	info_pixmap = glade_xml_get_widget (gui, "pixmapSpellInfo");
 	gtk_image_set_from_file (GTK_IMAGE (info_pixmap), EVOLUTION_IMAGES "/info-bulb.png");	
@@ -918,7 +914,7 @@ em_composer_prefs_construct (EMComposerPrefs *prefs)
 	prefs->sig_delete = GTK_BUTTON (glade_xml_get_widget (gui, "cmdSignatureDelete"));
 	g_signal_connect (prefs->sig_delete, "clicked", G_CALLBACK (sig_delete_cb), prefs);
 	
-	prefs->sig_list = GTK_TREE_VIEW (glade_xml_get_widget (gui, "clistSignatures"));
+	prefs->sig_list = GTK_TREE_VIEW (glade_xml_get_widget (gui, "listSignatures"));
 	model = gtk_list_store_new (2, G_TYPE_STRING, G_TYPE_POINTER);
 	gtk_tree_view_set_model (prefs->sig_list, (GtkTreeModel *)model);
 	gtk_tree_view_insert_column_with_attributes (prefs->sig_list, -1, _("Signature(s)"),
@@ -929,7 +925,7 @@ em_composer_prefs_construct (EMComposerPrefs *prefs)
 	gtk_tree_selection_set_mode (selection, GTK_SELECTION_SINGLE);
 	g_signal_connect (selection, "changed", G_CALLBACK (sig_selection_changed), prefs);
 	
-	sig_fill_clist (prefs->sig_list);
+	sig_fill_list (prefs->sig_list);
 	if (mail_config_get_signature_list () == NULL) {
 		gtk_widget_set_sensitive ((GtkWidget *) prefs->sig_delete, FALSE);
 		gtk_widget_set_sensitive ((GtkWidget *) prefs->sig_edit, FALSE);

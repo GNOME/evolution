@@ -1,5 +1,9 @@
 2004-02-18  Jeffrey Stedfast  <fejj@ximian.com>
 
+	* em-composer-prefs.c (sig_fill_list): Changed the name to not
+	imply we are working with a GtkCList widget (since we are using a
+	GtkTreeView).
+
 	* em-folder-tree.c (emft_tree_button_press): Pass flags to
 	em_popup_target_new_folder() instead of just an isstore arg.
 	(emft_tree_button_press): Fake the fi flags for vTrash/vJunk so
