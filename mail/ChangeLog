@@ -1,3 +1,11 @@
+2003-02-10  Larry Ewing  <lewing@ximian.com>
+
+	* mail-display.c (save_url): look in the http cache for images
+	when saving
+	(image_save_as): remove random warning.
+	(do_external_viewer): remove unused variable.
+	(do_attachment_header): use g_ascii_strdown
+
 2003-02-07  Larry Ewing  <lewing@ximian.com>
 
 	* mail-display.c (save_data_cb): don't use random memory as a

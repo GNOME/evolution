@@ -43,6 +43,7 @@
 
 #include <libgnomevfs/gnome-vfs-mime-handlers.h>
 #include <libgnomevfs/gnome-vfs.h>
+#include <libgnome/gnome-url.h>
 #include <bonobo/bonobo-control-frame.h>
 #include <bonobo/bonobo-stream-memory.h>
 #include <bonobo/bonobo-widget.h>
@@ -821,36 +822,45 @@ save_url (MailDisplay *md, const char *url)
 	CamelMimePart *part;
 	
 	urls = g_datalist_get_data (md->data, "part_urls");
+	g_return_val_if_fail (url != NULL, NULL);
 	g_return_val_if_fail (urls != NULL, NULL);
 	
 	part = g_hash_table_lookup (urls, url);
 	if (part == NULL) {
-		GByteArray *ba;
-		
-		urls = g_datalist_get_data (md->data, "data_urls");
-		g_return_val_if_fail (urls != NULL, NULL);
+		CamelDataWrapper *wrapper;
+		CamelStream *stream = NULL;
+		const char *name;
 		
 		/* See if it's some piece of cached data if it is then pretend it
 		 * is a mime part so that we can use the mime part saving routines.
 		 * It is gross but it keeps duplicated code to a minimum and helps
 		 * out with ref counting and the like.
 		 */
-		ba = g_hash_table_lookup (urls, url);
-		if (ba) {
-			CamelStream *memstream;
-			CamelDataWrapper *wrapper;
-			const char *name;
-			
-			name = strrchr (url, '/');
-			name = name ? name : url;
-			
-			/* we have to copy the data here since the ba may be long gone
-			 * by the time the user actually saves the file
-			 */
-			memstream = camel_stream_mem_new_with_buffer (ba->data, ba->len);			
+		name = strrchr (url, '/');
+		name = name ? name : url;
+		
+		if (fetch_cache) {
+			/* look in the soup cache */
+			stream = camel_data_cache_get(fetch_cache, FETCH_HTTP_CACHE, url, NULL);
+		} else {
+			GByteArray *ba = NULL;			
+
+			urls = g_datalist_get_data (md->data, "data_urls");
+			g_return_val_if_fail (urls != NULL, NULL);
+		
+			ba = g_hash_table_lookup (urls, url);
+			if (ba) {
+				/* we have to copy the data here since the ba may be long gone
+				 * by the time the user actually saves the file
+				 */
+				stream = camel_stream_mem_new_with_buffer (ba->data, ba->len);			
+			}
+		}
+
+		if (stream) {
 			wrapper = camel_data_wrapper_new ();
-			camel_data_wrapper_construct_from_stream (wrapper, memstream);
-			camel_object_unref (memstream);
+			camel_data_wrapper_construct_from_stream (wrapper, stream);			
+			camel_object_unref (stream);
 			part = camel_mime_part_new ();
 			camel_medium_set_content_object (CAMEL_MEDIUM (part), wrapper);
 			camel_object_unref (wrapper);
@@ -875,7 +885,7 @@ save_url (MailDisplay *md, const char *url)
 		return NULL;
 	}
 	
-	g_warning ("part not found");
+	g_warning ("Data for url: \"%s\" not found", url);
 	
 	return NULL;
 }
@@ -1016,7 +1026,8 @@ do_attachment_header (GtkHTML *html, GtkHTMLEmbedded *eb,
 	
 	/* Drag & Drop */
 	drag_types[DND_TARGET_TYPE_PART_MIME_TYPE].target = header_content_type_simple (part->content_type);
-	g_strdown (drag_types[DND_TARGET_TYPE_PART_MIME_TYPE].target);
+	g_ascii_strdown (drag_types[DND_TARGET_TYPE_PART_MIME_TYPE].target, 
+			 strlen (drag_types[DND_TARGET_TYPE_PART_MIME_TYPE].target));
 	
 	gtk_drag_source_set (button, GDK_BUTTON1_MASK,
 			     drag_types, num_drag_types,
@@ -1069,7 +1080,6 @@ do_external_viewer (GtkHTML *html, GtkHTMLEmbedded *eb,
 	GtkWidget *embedded;
 	Bonobo_PersistStream persist;	
 	CORBA_Environment ev;
-	GByteArray *ba;
 	CamelStreamMem *cstream;
 	BonoboStream *bstream;
 	
@@ -2187,8 +2197,6 @@ image_save_as (GtkWidget *w, MailDisplay *mail_display)
 	const char *src;
 	
 	src = g_object_get_data ((GObject *) mail_display, "current_src_uri");
-	
-	g_warning ("loading uri=%s", src);
 	
 	save_url (mail_display, src);
 }
