@@ -1,5 +1,10 @@
 2003-12-05  Rodney Dawes  <dobey@ximian.com>
 
+	* em-folder-tree.c (render_display_name): Remove the extra || unread
+	check in the conditional in the g_object_set () call
+
+2003-12-05  Rodney Dawes  <dobey@ximian.com>
+
 	Fixes bug #51482
 	
 	* em-folder-tree.c (render_display_name): Don't hardcode colors

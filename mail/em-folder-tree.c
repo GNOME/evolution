@@ -277,7 +277,7 @@ render_display_name (GtkTreeViewColumn *column, GtkCellRenderer *renderer,
 		display = g_strdup (name);
 	
 	g_object_set (renderer, "text", display,
-		      "weight", bold || unread ? PANGO_WEIGHT_BOLD : PANGO_WEIGHT_NORMAL,
+		      "weight", bold ? PANGO_WEIGHT_BOLD : PANGO_WEIGHT_NORMAL,
 		      NULL);
 	
 	g_free (display);
