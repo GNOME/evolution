@@ -1,3 +1,10 @@
+2003-11-30  Ettore Perazzoli  <ettore@ximian.com>
+
+	* test-source-option-menu.c: New test.
+
+	* e-source-option-menu.h: New.
+	* e-source-option-menu.c: New.
+
 2003-11-17  Charles Zhang  <charles.zhang@sun.com>
 
 	* e-search-bar.c(add_button): allow new lable with mnemonic

@@ -31,6 +31,7 @@ widgetsinclude_HEADERS =			\
 	e-map.h					\
 	e-multi-config-dialog.h			\
 	e-search-bar.h				\
+	e-source-option-menu.h			\
 	e-source-selector.h			\
 	e-title-bar.h				\
 	e-url-entry.h
@@ -53,6 +54,7 @@ libemiscwidgets_la_SOURCES =			\
 	e-map.c					\
 	e-multi-config-dialog.c			\
 	e-search-bar.c				\
+	e-source-option-menu.c			\
 	e-source-selector.c			\
 	e-title-bar.c				\
 	e-url-entry.c
@@ -75,6 +77,7 @@ noinst_PROGRAMS = 			\
 	test-dateedit			\
 	test-dropdown-button		\
 	test-multi-config-dialog 	\
+	test-source-option-menu		\
 	test-source-selector		\
 	test-title-bar
 
@@ -126,12 +129,23 @@ test_title_bar_LDADD = 		\
 	$(GNOME_FULL_LIBS)
 
 
-# test-source-list-selector
+# test-source-selector
 
 test_source_selector_SOURCES =			\
 	test-source-selector.c
 
 test_source_selector_LDADD =			\
+	../../e-util/libeutil.la		\
+	./libemiscwidgets.la			\
+	$(SOURCE_SEL_LIBS)
+
+
+# test-source-option-menu
+
+test_source_option_menu_SOURCES =		\
+	test-source-option-menu.c
+
+test_source_option_menu_LDADD =			\
 	../../e-util/libeutil.la		\
 	./libemiscwidgets.la			\
 	$(SOURCE_SEL_LIBS)
