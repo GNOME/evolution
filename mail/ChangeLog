@@ -1,3 +1,9 @@
+2000-06-13  Ettore Perazzoli  <ettore@helixcode.com>
+
+	* Makefile.am (SHELL_OBJS): Removed.
+	(evolution_mail_LDADD): Use `libeshell.a'.  Also use
+	`top_builddir' consistently.
+
 2000-06-12  Jeffrey Stedfast  <fejj@helixcode.com>
 
 	* mail-config.c: Got rid of sources_max_row and identities_max_row

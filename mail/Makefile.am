@@ -28,14 +28,6 @@ EVOLUTION_MAIL_CORBA_GENERATED = \
 	Mail-skels.c		\
 	Mail-stubs.c
 
-# FIXME We should make a libeshell library instead of this gross hack.
-SHELL_OBJS =					\
-	$(top_builddir)/shell/Evolution-common.o \
-	$(top_builddir)/shell/Evolution-stubs.o	\
-	$(top_builddir)/shell/Evolution-skels.o	\
-	$(top_builddir)/shell/evolution-shell-component.o \
-	$(top_builddir)/shell/evolution-storage.o
-
 # FIXME Is there any way around having to do this?
 CAMEL_OBJS_EXTRA =					\
 	$(top_builddir)/camel/providers/vee/libcamelvee.la
@@ -63,17 +55,17 @@ evolution_mail_SOURCES =		\
 
 
 evolution_mail_LDADD = 					\
-	$(SHELL_OBJS)					\
-	../composer/libcomposer.la		 	\
+	$(top_builddir)/shell/libeshell.a		\
+	$(top_builddir)/composer/libcomposer.la		\
 	$(top_builddir)/widgets/e-paned/libepaned.a	\
 	$(top_builddir)/widgets/misc/libemiscwidgets.a	\
-	../widgets/e-table/libetable.a			\
-	../widgets/e-text/libetext.a			\
+	$(top_builddir)/widgets/e-table/libetable.a	\
+	$(top_builddir)/widgets/e-text/libetext.a	\
 	$(CAMEL_OBJS_EXTRA)				\
-	../camel/libcamel.la				\
-	../e-util/libeutil.la				\
-	../libibex/libibex.la				\
-	../filter/libfilter.la				\
+	$(top_builddir)/camel/libcamel.la		\
+	$(top_builddir)/e-util/libeutil.la		\
+	$(top_builddir)/libibex/libibex.la		\
+	$(top_builddir)/filter/libfilter.la		\
 	$(BONOBO_HTML_GNOME_LIBS)			\
 	$(UNICODE_LIBS)
 

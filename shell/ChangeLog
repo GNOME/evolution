@@ -1,3 +1,11 @@
+2000-06-13  Ettore Perazzoli  <ettore@helixcode.com>
+
+	* Makefile.am: Compile the CORBA-built files,
+	evolution-shell-component.c and evolution-storage.c into a
+	separate `libeshell.a' library.  Link the `evolution' executable
+	to it.  Also cleaned up a bit and got rid of the `CPP_FLAGS'
+	assignment.
+
 2000-06-12  Michael Meeks  <michael@helixcode.com>
 
 	* e-shell-folder-selection-dialog.c: include gnome-dialog.h

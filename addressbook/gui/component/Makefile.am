@@ -40,16 +40,8 @@ evolution_addressbook_SOURCES = 	\
 	addressbook.c			\
 	addressbook.h
 
-# FIXME We should make a libeshell library instead of this gross hack.
-SHELL_OBJS =						  \
-	$(top_builddir)/shell/Evolution-common.o 	  \
-	$(top_builddir)/shell/Evolution-stubs.o		  \
-	$(top_builddir)/shell/Evolution-skels.o		  \
-	$(top_builddir)/shell/evolution-shell-component.o \
-	$(top_builddir)/shell/evolution-storage.o
-
 evolution_addressbook_LDADD =						\
-	$(SHELL_OBJS)							\
+	$(top_builddir)/shell/libeshell.a				\
 	$(EXTRA_GNOME_LIBS)						\
 	$(BONOBO_HTML_GNOME_LIBS)					\
 	$(top_builddir)/addressbook/gui/minicard/libeminicard.a		\

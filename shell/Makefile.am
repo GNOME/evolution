@@ -1,39 +1,58 @@
 SUBDIRS = glade
 
-imagesdir = $(datadir)/images/evolution
-
-bin_PROGRAMS = evolution
-
-INCLUDES = 						\
-	-I$(top_srcdir)/widgets				\
-	-I$(top_srcdir)/widgets/misc			\
-	-I$(top_srcdir)					\
-	$(BONOBO_GNOME_CFLAGS)				\
-	-DEVOLUTION_IMAGES=\""$(imagesdir)"\"		\
-	-DEVOLUTION_VERSION=\""$(VERSION)"\"		\
-	-DEVOLUTION_LOCALEDIR=\""$(datadir)/locale"\"   \
-	-DEVOLUTION_DATADIR=\""$(datadir)"\"            \
+INCLUDES = 								\
+	-I$(top_srcdir)/widgets						\
+	-I$(top_srcdir)/widgets/misc					\
+	-I$(top_srcdir)							\
+	$(BONOBO_GNOME_CFLAGS)						\
+	-DEVOLUTION_IMAGES=\""$(datadir)/images/evolution"\"		\
+	-DEVOLUTION_VERSION=\""$(VERSION)"\"				\
+	-DEVOLUTION_LOCALEDIR=\""$(datadir)/locale"\"   		\
+	-DEVOLUTION_DATADIR=\""$(datadir)"\"            		\
+	-DEVOLUTION_GLADEDIR=\"$(datadir)/evolution/glade\"		\
 	-DG_LOG_DOMAIN=\"evolution-shell\"
 
-EVOLUTION_CORBA_GENERATED = 	\
-	Evolution.h		\
-	Evolution-common.c	\
-	Evolution-skels.c	\
-	Evolution-stubs.c
+EXTRA_DIST = $(IDLS)
 
-CLEANFILES = $(EVOLUTION_CORBA_GENERATED)
+CLEANFILES = $(IDL_GENERATED)
 
-IDLS = 					\
+# CORBA stuff
+
+IDLS = \
 	Evolution.idl			\
 	Evolution-Shell.idl		\
 	Evolution-ShellComponent.idl	\
 	Evolution-Storage.idl
 
-CPPFLAGS = \
-	-DE_GLADEDIR=\"$(datadir)/evolution/glade\"
+IDL_GENERATED = \
+	Evolution.h		\
+	Evolution-common.c	\
+	Evolution-skels.c	\
+	Evolution-stubs.c
+
+Evolution-impl.o: Evolution.h
+
+$(IDL_GENERATED): $(IDLS)
+	$(ORBIT_IDL) -I$(datadir)/idl -I`$(GNOME_CONFIG) --datadir`/idl	\
+		-I$(srcdir) $(srcdir)/Evolution.idl
+
+# Shell library
+
+noinst_LIBRARIES =	\
+	libeshell.a
+
+libeshell_a_SOURCES = 				\
+	$(IDL_GENERATED)			\
+	evolution-shell-component.c		\
+	evolution-shell-component.h		\
+	evolution-storage.c			\
+	evolution-storage.h
+
+# Evolution executable
+
+bin_PROGRAMS = evolution
 
 evolution_SOURCES =				\
-	$(EVOLUTION_CORBA_GENERATED)		\
 	e-component-registry.c			\
 	e-component-registry.h			\
 	e-corba-storage-registry.c		\
@@ -77,18 +96,10 @@ evolution_SOURCES =				\
 	e-storage.h				\
 	evolution-shell-component-client.c	\
 	evolution-shell-component-client.h	\
-	evolution-shell-component.c		\
-	evolution-shell-component.h		\
-	evolution-storage.c			\
-	evolution-storage.h			\
 	main.c
 
-Evolution-impl.o: Evolution.h
-
-$(EVOLUTION_CORBA_GENERATED): $(IDLS)
-	$(ORBIT_IDL) -I$(datadir)/idl -I`$(GNOME_CONFIG) --datadir`/idl -I$(srcdir) $(srcdir)/Evolution.idl
-
 evolution_LDADD =						\
+	libeshell.a						\
 	$(top_builddir)/widgets/shortcut-bar/libshortcut-bar.a  \
 	$(top_builddir)/widgets/e-paned/libepaned.a		\
 	$(top_builddir)/widgets/e-text/libetext.a		\
@@ -96,9 +107,10 @@ evolution_LDADD =						\
 	$(top_builddir)/e-util/libeutil.la			\
 	$(BONOBO_GNOME_LIBS)
 
-EXTRA_DIST = $(IDLS)
+# Purify support
 
 if ENABLE_PURIFY
+
 PLINK = $(LIBTOOL) --mode=link $(PURIFY) $(CCLD) $(AM_CFLAGS) $(CFLAGS) $(LDFLAGS) -o $@
 
 all-local: evolution.pure

@@ -39,7 +39,7 @@
 #include "e-shell-folder-creation-dialog.h"
 
 
-#define GLADE_FILE_NAME  E_GLADEDIR "/e-shell-folder-creation-dialog.glade"
+#define GLADE_FILE_NAME  EVOLUTION_GLADEDIR "/e-shell-folder-creation-dialog.glade"
 
 
 /* Data for the callbacks.  */

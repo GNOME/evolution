@@ -1,3 +1,9 @@
+2000-06-13  Ettore Perazzoli  <ettore@helixcode.com>
+
+	* gui/component/Makefile.am (SHELL_OBJS): Removed.
+	(evolution_addressbook_LDADD): Link with
+	`$(top_builddir)/shell/libeshell.a'.
+
 2000-06-12  Federico Mena Quintero  <federico@helixcode.com>
 
 	* contact-editor/e-contact-editor-categories.c: Removed the

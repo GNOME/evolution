@@ -1,3 +1,9 @@
+2000-06-13  Ettore Perazzoli  <ettore@helixcode.com>
+
+	* gui/Makefile.am (SHELL_OBJS): Removed.
+	(evolution_calendar_LDADD): Link with
+	`$(top_builddir)/shell/libeshell.a'.
+
 2000-06-09  Ettore Perazzoli  <ettore@helixcode.com>
 
 	* gui/component-factory.c (factory_fn): Pass NULL for the new args
