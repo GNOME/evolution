@@ -1,3 +1,8 @@
+2001-09-10    <NotZed@Ximian.com>
+
+	* filter-score.c (format_sexp): Encode the score as an integer
+	string, not as a string of integers.  #5098.
+
 2001-09-10  Jeffrey Stedfast  <fejj@ximian.com>
 
 	* filter-datespec.c (button_clicked): Allow the dialog's title to

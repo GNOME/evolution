@@ -228,9 +228,6 @@ static void
 format_sexp (FilterElement *fe, GString *out)
 {
 	FilterScore *fs = (FilterScore *)fe;
-	char *score;
 	
-	score = g_strdup_printf ("%d", fs->score);
-	e_sexp_encode_string (out, score);
-	g_free (score);
+	g_string_sprintfa(out, "%d ", fs->score);
 }
