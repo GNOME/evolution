@@ -472,11 +472,6 @@ set_content_object (CamelMedium *medium, CamelDataWrapper *content)
 }
 
 /**********************************************************************/
-#ifdef WHPT
-#warning : WHPT is already defined !!!!!!
-#endif
-#define WHPT gmime_write_header_pair_to_stream
-
 
 static int
 write_to_stream (CamelDataWrapper *data_wrapper, CamelStream *stream)
@@ -491,7 +486,6 @@ write_to_stream (CamelDataWrapper *data_wrapper, CamelStream *stream)
 	/* FIXME: something needs to be done about this ... */
 	/* FIXME: need to count these bytes too */
 #warning content-languages should be stored as a header
-	gmime_write_header_with_glist_to_stream (stream, "Content-Language", mp->content_languages,", ");
 
 	if (mp->headers) {
 		struct _header_raw *h = mp->headers;

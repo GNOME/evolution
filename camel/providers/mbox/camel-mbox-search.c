@@ -300,8 +300,6 @@ GList *camel_mbox_folder_search_by_expression(CamelFolder *folder, const char *e
 		g_warning("No folder index, searches will not function fully");
 	}
 
-	((CamelMboxFolder *)folder)->searches = g_list_append(((CamelMboxFolder *)folder)->searches, ctx);
-
 	for(i=0;i<sizeof(symbols)/sizeof(symbols[0]);i++) {
 		if (symbols[i].type == 1) {
 			e_sexp_add_ifunction(f, 0, symbols[i].name, (ESExpIFunc *)symbols[i].func, ctx);
@@ -328,8 +326,6 @@ GList *camel_mbox_folder_search_by_expression(CamelFolder *folder, const char *e
 	}
 
 	gtk_object_unref((GtkObject *)f);
-
-	((CamelMboxFolder *)folder)->searches = g_list_remove(((CamelMboxFolder *)folder)->searches, ctx);
 
 	g_free(ctx);
 

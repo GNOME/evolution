@@ -1,5 +1,12 @@
 2000-05-02  NotZed  <NotZed@HelixCode.com>
 
+	* providers/mbox/camel-mbox-search.c
+	(camel_mbox_folder_search_by_expression): Dont store/remove
+	current search from the search list.
+
+	* providers/mbox/camel-mbox-folder.h: Removed searches list,
+	searches are all sync now.
+
 	* gmime-utils.[ch]: What the hell, remove it.  This will break the
 	nntp provider.  The mime parser can be used instead though.
 	Removed from all code including it (but none were using it).
