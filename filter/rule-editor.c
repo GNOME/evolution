@@ -34,7 +34,7 @@
 #include "rule-context.h"
 #include "filter-rule.h"
 
-#define d(x)
+#define d(x) 
 
 static void set_source(RuleEditor *re, const char *source);
 static void set_sensitive(RuleEditor *re);

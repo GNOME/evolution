@@ -34,7 +34,7 @@
 
 #include "rule-context.h"
 
-#define d(x)
+#define d(x) 
 
 static int load(RuleContext * f, const char *system, const char *user);
 static int save(RuleContext * f, const char *user);
@@ -54,6 +54,7 @@ static GtkObjectClass *parent_class;
 enum {
 	RULE_ADDED,
 	RULE_REMOVED,
+	CHANGED,
 	LAST_SIGNAL
 };
 
@@ -111,6 +112,14 @@ rule_context_class_init (RuleContextClass * class)
 			       GTK_SIGNAL_OFFSET (RuleContextClass, rule_removed),
 			       gtk_marshal_NONE__POINTER,
 			       GTK_TYPE_NONE, 1, GTK_TYPE_POINTER);
+
+	signals[CHANGED] =
+		gtk_signal_new("changed",
+			       GTK_RUN_LAST,
+			       object_class->type,
+			       GTK_SIGNAL_OFFSET (RuleContextClass, changed),
+			       gtk_marshal_NONE__NONE,
+			       GTK_TYPE_NONE, 0);
 	
 	gtk_object_class_add_signals(object_class, signals, LAST_SIGNAL);
 }
@@ -227,6 +236,8 @@ rule_context_add_rule_set (RuleContext * f, const char *setname, int rule_type, 
 static void
 rule_context_set_error (RuleContext * f, char *error)
 {
+	g_assert(f);
+
 	g_free (f->error);
 	f->error = error;
 }
@@ -245,6 +256,8 @@ int
 rule_context_load (RuleContext *f, const char *system, const char *user)
 {
 	int res;
+
+	g_assert(f);
 
 	d(printf("rule_context: loading %s %s\n", system, user));
 
@@ -349,6 +362,9 @@ load (RuleContext *f, const char *system, const char *user)
 int
 rule_context_save (RuleContext *f, const char *user)
 {
+	g_assert(f);
+	g_assert(user);
+
 	return ((RuleContextClass *) ((GtkObject *) f)->klass)->save(f, user);
 }
 
@@ -401,6 +417,9 @@ save (RuleContext *f, const char *user)
 FilterPart *
 rule_context_find_part (RuleContext *f, const char *name)
 {
+	g_assert(f);
+	g_assert(name);
+
 	d(printf("find part : "));
 	return filter_part_find_list (f->parts, name);
 }
@@ -409,7 +428,10 @@ FilterPart *
 rule_context_create_part (RuleContext *f, const char *name)
 {
 	FilterPart *part;
-	
+
+	g_assert(f);
+	g_assert(name);
+
 	part = rule_context_find_part (f, name);
 	if (part)
 		part = filter_part_clone (part);
@@ -419,34 +441,51 @@ rule_context_create_part (RuleContext *f, const char *name)
 FilterPart *
 rule_context_next_part (RuleContext *f, FilterPart *last)
 {
+	g_assert(f);
+
 	return filter_part_next_list (f->parts, last);
 }
 
 FilterRule *
 rule_context_next_rule (RuleContext *f, FilterRule *last, const char *source)
 {
+	g_assert(f);
+
 	return filter_rule_next_list (f->rules, last, source);
 }
 
 FilterRule *
 rule_context_find_rule (RuleContext *f, const char *name, const char *source)
 {
+	g_assert(name);
+	g_assert(f);
+
 	return filter_rule_find_list (f->rules, name, source);
 }
 
 void
 rule_context_add_part (RuleContext *f, FilterPart *part)
 {
+	g_assert(f);
+	g_assert(part);
+
 	f->parts = g_list_append (f->parts, part);
 }
 
 void
 rule_context_add_rule (RuleContext *f, FilterRule *new)
 {
+	g_assert(f);
+	g_assert(new);
+
+	d(printf("add rule '%s'\n", new->name));
+
 	f->rules = g_list_append (f->rules, new);
 
-	if (f->priv->frozen == 0)
+	if (f->priv->frozen == 0) {
 		gtk_signal_emit((GtkObject *)f, signals[RULE_ADDED], new);
+		gtk_signal_emit((GtkObject *)f, signals[CHANGED]);
+	}
 }
 
 static void
@@ -478,6 +517,11 @@ void
 rule_context_add_rule_gui (RuleContext *f, FilterRule *rule, const char *title, const char *path)
 {
 	GtkWidget *dialog, *w;
+
+	d(printf("add rule gui '%s'\n", rule->name));
+
+	g_assert(f);
+	g_assert(rule);
 	
 	w = filter_rule_get_widget (rule, f);
 	dialog = gnome_dialog_new (title, GNOME_STOCK_BUTTON_OK, GNOME_STOCK_BUTTON_CANCEL, NULL);
@@ -498,31 +542,75 @@ rule_context_add_rule_gui (RuleContext *f, FilterRule *rule, const char *title, 
 void
 rule_context_remove_rule (RuleContext *f, FilterRule *rule)
 {
+	g_assert(f);
+	g_assert(rule);
+
+	d(printf("remove rule '%s'\n", rule->name));
+
 	f->rules = g_list_remove (f->rules, rule);
 
-	if (f->priv->frozen == 0)
+	if (f->priv->frozen == 0) {
 		gtk_signal_emit((GtkObject *)f, signals[RULE_REMOVED], rule);
+		gtk_signal_emit((GtkObject *)f, signals[CHANGED]);
+	}
 }
 
 void
 rule_context_rank_rule (RuleContext *f, FilterRule *rule, int rank)
 {
-	f->rules = g_list_remove (f->rules, rule);
-	f->rules = g_list_insert (f->rules, rule, rank);
+	GList *node;
+	int i = 0, index = 0;
+
+	g_assert(f);
+	g_assert(rule);
+
+	if (rule_context_get_rank_rule(f, rule, rule->source) == rank)
+		return;
+
+	f->rules = g_list_remove(f->rules, rule);
+	node = f->rules;
+	while (node) {
+		FilterRule *r = node->data;
+
+		if (i == rank) {
+			f->rules = g_list_insert(f->rules, rule, index);
+			if (f->priv->frozen == 0)
+				gtk_signal_emit((GtkObject *)f, signals[CHANGED]);
+			return;
+		}
+
+		index++;		
+		if (rule->source == NULL || (r->source && strcmp (r->source, rule->source) == 0))
+			i++;
+
+		node = node->next;
+	}
+
+	f->rules = g_list_append(f->rules, rule);
+	if (f->priv->frozen == 0)
+		gtk_signal_emit((GtkObject *)f, signals[CHANGED]);
 }
 
 int
 rule_context_get_rank_rule (RuleContext *f, FilterRule *rule, const char *source)
 {
-	GList *node = f->rules;
+	GList *node;
 	int i = 0;
-	
+
+	g_assert(f);
+	g_assert(rule);
+
+	d(printf("getting rank of rule '%s'\n", rule->name));
+
+	node = f->rules;
 	while (node) {
 		FilterRule *r = node->data;
+
+		d(printf(" checking against rule '%s' rank '%d'\n", r->name, i));
 		
 		if (r == rule)
 			return i;
-		
+
 		if (source == NULL || (r->source && strcmp (r->source, source) == 0))
 			i++;
 		

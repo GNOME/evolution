@@ -1,3 +1,13 @@
+2001-10-24    <NotZed@Ximian.com>
+
+	* rule-context.c (rule_context_class_init): Add a changed signal.
+	Emits if the order changes or if you add or remove a rule.
+	(rule_context_rank_rule): Fix rank rule to properly rank based on
+	source, not merely on list position.
+	(rule_context_add_rule): Also emit changed signal.
+	(rule_context_remove_rule): Same.
+	(rule_context_rank_rule): Emit changed signal.
+
 2001-10-20  Jon Trowbridge  <trow@ximian.com>
 
 	* rule-editor.c (set_source): Translate the rule names. (Bug
