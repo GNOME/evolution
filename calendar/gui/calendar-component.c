@@ -168,7 +168,7 @@ update_uri_for_primary_selection (CalendarComponent *calendar_component)
 	ESource *source;
 
 	priv = calendar_component->priv;
-	
+
 	source = e_source_selector_peek_primary_selection (E_SOURCE_SELECTOR (priv->source_selector));
 	if (!source)
 		return;
@@ -257,6 +257,8 @@ get_default_event (ECal *client, gboolean all_day)
 
 	comp = cal_comp_event_new_with_defaults (client);
 
+	g_return_val_if_fail (comp, NULL);
+	
 	location = calendar_config_get_timezone ();
 	zone = icaltimezone_get_builtin_timezone (location);
 
@@ -542,9 +544,28 @@ impl_upgradeFromVersion (PortableServer_Servant servant,
 			}
 			g_free (new_dir);
 		}
+
+		g_free (base_uri);
+
+		/* create the remote source group */
+		group = e_source_group_new (_("On The Web"), "webcal://");
+		e_source_list_add_group (priv->source_list, group, -1);
 	}
 
-	g_free (base_uri);
+	/* create calendar for birthdays & anniversaries */
+	if ((major < 0) ||
+	    ((major == 1) && (minor < 5)) ||
+	    ((major == 1) && (minor == 5) && (revision < 2))) {
+		ESourceGroup *group;
+		ESource *source;
+		char *base_uri, *new_dir;
+		
+		group = e_source_group_new (_("Contacts"), "contacts://");
+		source = e_source_new (_("Birthdays & Anniversaries"), "/");
+		e_source_group_add_source (group, source, -1);
+		e_source_group_set_readonly (group, TRUE);
+		e_source_list_add_group (priv->source_list, group, -1);
+	}
 
 	return CORBA_TRUE;
 }
@@ -774,12 +795,18 @@ impl_requestCreateItem (PortableServer_Servant servant,
 	ECalComponent *comp;
 	EventEditor *editor;
 	gboolean is_meeting = FALSE;
+	gboolean read_only = FALSE;
 	
 	priv = calendar_component->priv;
 
 	if (!setup_create_ecal (calendar_component)) {
 		bonobo_exception_set (ev, ex_GNOME_Evolution_Component_Failed);
 		return;
+
+	e_cal_is_read_only (priv->create_ecal, &read_only, NULL);
+	if (read_only)
+		return;
+	
 	}
 	
 	editor = event_editor_new (priv->create_ecal);

@@ -1,3 +1,8 @@
+2004-01-09  ERDI Gergo  <cactus@cactus.rulez.org>
+
+	* gui/calendar-component.c (impl_upgradeFromVersion): Create
+	ESource for anniversaries
+
 2003-01-09  Hans Petter Jansson  <hpj@ximian.com>
 
 	* gui/calendar-component.c (new_calendar_cb): Call
