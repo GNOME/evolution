@@ -1,3 +1,10 @@
+2001-04-11  Jeffrey Stedfast  <fejj@ximian.com>
+
+	* mail-display.c (save_cb): Change to the user's home dir before
+	opening the filesel.
+
+	* mail-callbacks.c (save_msg): Same.
+
 2001-04-11  Christopher James Lahey  <clahey@ximian.com>
 
 	* message-list.c (save_tree_state, message_list_setup_etree): Save
