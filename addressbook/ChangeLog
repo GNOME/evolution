@@ -1,5 +1,10 @@
+2004-02-03  Dan Winship  <danw@ximian.com>
+
+	* gui/component/select-names/Makefile.am (INCLUDES): add
+	widgets/misc for e-activity-handler.h
+
 2004-02-03 Sivaiah Nallagatla <snallagatla@novell.com>
-                                                                                                                             
+
         * gui/component/addressbook-config.c (dialog_to_source)
         (source_to_dialog) : use gtk_spin_button_* apis to get and set
         values for download limit spin button instead of gtk_entry
