@@ -1,3 +1,9 @@
+2001-05-22  Jeffrey Stedfast  <fejj@ximian.com>
+
+	* mail-config.c (mail_config_write_on_exit): Save the
+	message-display style.
+	(config_read): Read the message-display style.
+
 2001-05-22  Dan Winship  <danw@ximian.com>
 
 	* mail-display.c (on_url_requested): If http mode is

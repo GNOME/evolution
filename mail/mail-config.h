@@ -132,10 +132,10 @@ MailConfigHTTPMode mail_config_get_http_mode (void);
 void               mail_config_set_http_mode (MailConfigHTTPMode);
 
 MailConfigForwardStyle mail_config_get_default_forward_style (void);
-void                   mail_config_set_default_forward_style (MailConfigForwardStyle);
+void                   mail_config_set_default_forward_style (MailConfigForwardStyle style);
 
 MailConfigDisplayStyle mail_config_get_message_display_style (void);
-void                   mail_config_set_message_display_style (MailConfigDisplayStyle);
+void                   mail_config_set_message_display_style (MailConfigDisplayStyle style);
 
 const MailConfigAccount  *mail_config_get_default_account       (void);
 const MailConfigAccount  *mail_config_get_account_by_name       (const char *account_name);

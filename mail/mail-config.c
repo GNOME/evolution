@@ -469,6 +469,14 @@ config_read (void)
 		config->default_forward_style = MAIL_CONFIG_FORWARD_ATTACHED;
 	g_free (str);
 	
+	/* Message Display */
+	str = g_strdup_printf ("=%s/config/Mail=/Format/message_display_style",
+			       evolution_dir);
+	config->message_display_style = gnome_config_get_int_with_default (str, &def);
+	if (def)
+		config->message_display_style = MAIL_CONFIG_DISPLAY_NORMAL;
+	g_free (str);
+	
 	gnome_config_sync ();
 }
 
@@ -656,7 +664,13 @@ mail_config_write_on_exit (void)
 			       evolution_dir);
 	gnome_config_set_int (str, config->default_forward_style);
 	g_free (str);
-
+	
+	/* Message Display */
+	str = g_strdup_printf ("=%s/config/Mail=/Format/message_display_style", 
+			       evolution_dir);
+	gnome_config_set_int (str, config->message_display_style);
+	g_free (str);
+	
 	/* Passwords */
 	gnome_config_private_clean_section ("/Evolution/Passwords");
 	sources = mail_config_get_sources ();
