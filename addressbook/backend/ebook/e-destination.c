@@ -724,7 +724,7 @@ e_destination_xml_decode (EDestination *dest, xmlNodePtr node)
 		} else if (!is_list && !strcmp (node->name, "email")) {
 			tmp = xmlNodeGetContent (node);
 			g_free (email);
-			email = g_strdup (email);
+			email = g_strdup (tmp);
 			xmlFree (tmp);
 		} else if (is_list && !strcmp (node->name, "list_entry")) {
 			xmlNodePtr subnode = node->xmlChildrenNode;

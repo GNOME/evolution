@@ -1,5 +1,11 @@
 2001-07-12  Jeffrey Stedfast  <fejj@ximian.com>
 
+	* backend/ebook/e-destination.c (e_destination_xml_decode):
+	Oops. I introduced my own bug, accidently set `email' to a
+	g_free'd pointer - eek!
+
+2001-07-12  Jeffrey Stedfast  <fejj@ximian.com>
+
 	* backend/ebook/e-destination.c (e_destination_importv): Optimized
 	the same way I optimized g_strsplit. If you use a GPtrArray
 	instead of a linked list, you save yourself from having to iterate
