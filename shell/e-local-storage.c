@@ -204,7 +204,7 @@ load_folder (const char *physical_path,
 						      e_folder_get_type_string (folder))) {
 		g_warning ("Folder in %s has unknown type (%s)... ignoring",
 			   physical_path, e_folder_get_type_string (folder));
-		return FALSE;
+		return TRUE;
 	}
 
 	new_folder (local_storage, path, folder);

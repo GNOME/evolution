@@ -1,3 +1,8 @@
+2002-09-26  Ettore Perazzoli  <ettore@ximian.com>
+
+	* e-local-storage.c (load_folder): Always return TRUE, even in the
+	unknown-type case.
+
 2002-09-25  Rodrigo Moya <rodrigo@ximian.com>
 
 	* e-shell-importer.c (importer_file_page_new): set history_id on
