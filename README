@@ -68,6 +68,18 @@ evolution. Remember also that if you're installing into an odd prefix
 such as /evolution, that you also need to make sure to put
 ${prefix}/bin in your PATH.
 
+If you install Evolution into a different prefix from OAF, you will
+also need to set OAF_INFO_PATH to include the directory where the
+oafinfo files are installed (${prefix}/share/oaf). (OAF will
+eventually obey the GNOME_PATH variable, but it does not do so
+currently.) Eg:
+
+	export OAF_INFO_PATH=/usr/local/share/oaf
+
+If you are already running an oafd, you will need to kill it after
+setting that variable so it gets restarted later with that in its
+environment.
+
 
 Dependencies
 ------------
@@ -109,7 +121,7 @@ ftp.gnome.org. The (*)ed packages are available in Helix GNOME.
 
  - gconf - from CVS (there are currently no released versions)
 
- - gtkhtml - 0.4 or later
+ - gtkhtml - from CVS
 
  - libglade (*)
 
