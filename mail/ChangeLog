@@ -1,3 +1,8 @@
+2002-11-18  Radek Doulik  <rodo@ximian.com>
+
+	* mail-composer-prefs.c (spell_setup_check_options): check
+	exception state and take care when exception raised
+
 2002-11-18  Jeffrey Stedfast  <fejj@ximian.com>
 
 	* mail-accounts.c (mail_accounts_load): Specify which account is
