@@ -1,3 +1,8 @@
+2004-10-06  JP Rosevear  <jpr@novell.com>
+
+	* gui/itip-utils.c (comp_server_send): pass the variable in
+	correctly
+
 2004-09-29  Rodrigo Moya <rodrigo@novell.com>
 
 	Fixes #64683

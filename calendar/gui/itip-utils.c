@@ -541,7 +541,7 @@ comp_server_send (ECalComponentItipMethod method, ECalComponent *comp, ECal *cli
 	GError *error = NULL;
 	
 	top_level = comp_toplevel_with_zones (method, comp, client, zones);
-	if (!e_cal_send_objects (client, top_level, &users, &returned_icalcomp, &error)) {
+	if (!e_cal_send_objects (client, top_level, users, &returned_icalcomp, &error)) {
 		/* FIXME Really need a book problem status code */
 		if (error->code != E_CALENDAR_STATUS_OK) {
 			/* FIXME Better error message */
