@@ -1,3 +1,7 @@
+2001-09-14  Iain Holmes  <iain@ximian.com>
+
+	* pine-importer.c (import_addressfile): Rewrite.
+
 2001-09-10  Iain Holmes  <iain@ximian.com>
 
 	* netscape-importer.c (create_checkboxes_control): Use an HBox instead

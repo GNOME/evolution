@@ -32,6 +32,7 @@
 #include <sys/stat.h>
 #include <unistd.h>
 #include <dirent.h>
+#include <ctype.h>
 
 #include <glib.h>
 
@@ -130,65 +131,6 @@ pine_restore_settings (PineImporter *importer)
 
 }
 
-/* Pass in handle so we can get the next line if we need to */
-static char *
-get_field (char **start,
-	   FILE *handle)
-{
-	char line[4096];
-	char *end, *field;
-	int length;
-
-	/* if this was the last line, just return */
-	if (*start == NULL) {
-		return NULL;
-	}
-
-	/* if start is just \n then we need the next line */
-	if (**start == '\n') {
-		d(g_warning ("Need next line"));
-		if (fgets (line, 4096, handle) == NULL) {
-			g_warning ("Hmmm, no next line");
-			return NULL;
-		}
-
-		if (line[0] != ' ' || line[1] != ' ' || line[2] != ' ') {
-			g_warning ("Next line was not a continuation line\n"
-				   "Oppps: %s", line);
-			return NULL;
-		}
-
-		*start = line + 3;
-	}
-
-	if (**start == '\t') {
-		/* Blank field */
-
-		*start += 1;
-		return NULL;
-	}
-
-	end = strchr (*start, '\t');
-	if (end == NULL) {
-		/* the line was the last comment, so just return the line */
-		length = strlen (line);
-		line[length - 1] = 0;
-
-		field = g_strdup (*start);
-		
-		*start = NULL;
-	} else {
-		/* Null the end */
-		*end = 0;
-
-		field = g_strdup (*start);
-		*start = end + 1;
-	}
-
-	d(g_warning ("Found %s", field));
-	return field;
-}
-
 /* A very basic address spliter.
    Returns the first email address
    denoted by <address> */
@@ -196,6 +138,10 @@ static char *
 parse_address (const char *address)
 {
 	char *addr_dup, *result, *start, *end;
+
+	if (address == NULL) {
+		return NULL;
+	}
 
 	addr_dup = g_strdup (address);
 	start = strchr (addr_dup, '<');
@@ -221,14 +167,50 @@ parse_address (const char *address)
 }
 
 static void
+add_card_cb (EBook *book, 
+	     EBookStatus status,
+	     const char *id,
+	     gpointer closure)
+{
+	gtk_object_unref (GTK_OBJECT (closure));
+}
+
+static void
+parse_line (EBook *book,
+	    char *line)
+{
+	char **strings;
+	ECardName *name;
+	ECard *card;
+	EList *list;
+
+	card = e_card_new ("");
+	strings = g_strsplit (line, "\t", 3);
+	if (strings[0] && strings[1] && strings[2]) {
+		name = e_card_name_from_string (strings[1]);
+		gtk_object_set (GTK_OBJECT (card),
+				"nickname", strings[0],
+				"full_name", strings[1],
+				"name", name, NULL);
+		gtk_object_get (GTK_OBJECT (card),
+				"email", &list,
+				NULL);
+		e_list_append (list, strings[2]);
+		g_strfreev (strings);
+		e_book_add_card (book, card, add_card_cb, card);
+	}
+}
+
+static void
 import_addressfile (EBook *book,
 		    EBookStatus status,
 		    gpointer user_data)
 {
 	char *addressbook;
 	FILE *handle;
-	char line[4096];
-
+	char line[2 * 1024];
+	int which = 0;
+	char *lastline = NULL;
 	PineImporter *importer = user_data;
 
 	addressbook = gnome_util_prepend_user_home (".addressbook");
@@ -240,91 +222,40 @@ import_addressfile (EBook *book,
 		return;
 	}
 
-	while (fgets (line, 4096, handle) != NULL) {
-		char *nick, *fullname, *address, *comment, *fcc, *email = NULL;
-		char *start;
-		gboolean distrib = FALSE;
-
-		start = line;
-		nick = get_field (&start, handle);
-		d(g_print ("Nick: %s\n", nick));
-
-		fullname = get_field (&start, handle);
-		d(g_print ("Fullname: %s\n", fullname));
-
-		address = get_field (&start, handle);
-		d(g_print ("Address: %s\n", address));
-
-		if (*address == '(') {
-			char nextline[4096];
-			/* Fun, it's a distribution list */
-			distrib = TRUE;
-			
-			/* if the last char of address == ) then this is the
-			   full list */
-			while (fgets (nextline, 4096, handle)) {
-				char *bracket;
-				if (nextline[0] != ' ' ||
-				    nextline[1] != ' ' ||
-				    nextline[2] != ' ') {
-					/* Not a continuation line */
-					start = nextline;
-					break;
-				}
-
-				bracket = strchr (nextline, ')');
-				if (bracket != NULL &&
-				    *(bracket + 1) == '\t') {
-
-					*(bracket + 1) = 0;
-					d(g_print ("More addresses: %s\n", nextline));
-					start = bracket + 2;
-					break;
-				} else {
-					d(g_print ("More addresses: %s\n", nextline));
-				}
-			}
-		} else {
-			email = parse_address (address);
-		}
-
-		fcc = get_field (&start, handle);
-		d(g_print ("FCC: %s\n", fcc));
-
-		comment = get_field (&start, handle);
-		d(g_print ("Comment: %s\n", comment));
-
-		if (distrib == FALSE) {
-			/* This was not a distribution list...
-			   Evolution doesn't handle that yet (070501)
-			   Fixme when it does */
-			ECard *card = e_card_new ("");
-			ECardSimple *simple = e_card_simple_new (card);
-
-			if (fullname != NULL)
-				e_card_simple_set (simple, E_CARD_SIMPLE_FIELD_FULL_NAME,
-						   fullname);
-			else
-				e_card_simple_set (simple, E_CARD_SIMPLE_FIELD_FILE_AS,
-						   nick);
-
-			e_card_simple_set (simple, E_CARD_SIMPLE_FIELD_EMAIL,
-					   email);
-			e_card_simple_set (simple, E_CARD_SIMPLE_FIELD_NOTE,
-					   comment);
-			e_card_simple_set (simple, E_CARD_SIMPLE_FIELD_NICKNAME,
-					   nick);
-			e_book_add_card (importer->book, simple->card, NULL, NULL);
-		}
+	while (fgets (line + which * 1024, 1024, handle)) {
+		int length;
+		char *thisline = line + which * 1024;
 		
-		g_free (nick);
-		g_free (email);
-		g_free (address);
-		g_free (comment);
-		g_free (fcc);
-		g_free (fullname);
+		length = strlen (thisline);
+		if (thisline[length - 1] == '\n') {
+			line[--length] = 0;
+		}
+
+		if (lastline && *thisline && isspace ((int) *thisline)) {
+			char *temp;
+
+			while (*thisline && isspace ((int) *thisline)) {
+				thisline++;
+			}
+			temp = lastline;
+			lastline = g_strdup_printf ("%s%s", lastline, thisline);
+			g_free (temp);
+			continue;
+		}
+
+		if (lastline) {
+			parse_line (book, lastline);
+			g_free (lastline);
+		}
+
+		lastline = g_strdup (thisline);
 	}
-	
+
+	if (lastline) {
+		parse_line (book, lastline);
+		g_free (lastline);
+	}
+
 	fclose (handle);
 	if (importer->do_mail == FALSE) {
 		if (importer->db != CORBA_OBJECT_NIL) {
@@ -510,7 +441,6 @@ import_next (PineImporter *importer)
 
 	if (importer->dir_list) {
 		char *folder;
-		gboolean another;
 
 		data = importer->dir_list->data;
 
