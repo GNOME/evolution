@@ -454,9 +454,6 @@
    <option value="Answered">
     <title>Replied to</title>
    </option>
-   <option value="Deleted">
-    <title>Deleted</title>
-   </option>
    <option value="Draft">
     <title>Draft</title>
    </option>
