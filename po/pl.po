@@ -13,7 +13,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: evolution\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2003-07-31 02:36+0200\n"
+"POT-Creation-Date: 2003-07-31 09:07+0200\n"
 "PO-Revision-Date: 2003-05-04 16:42+0100\n"
 "Last-Translator: GNOME PL Team <translators@gnome.pl>\n"
 "Language-Team: Polish <pl@li.org>\n"
@@ -16191,106 +16191,99 @@ msgstr "Zamknij"
 
 #: my-evolution/Locations.h:537
 msgid "Culiacan"
-msgstr ""
+msgstr "Culican"
 
 #: my-evolution/Locations.h:538
-#, fuzzy
 msgid "Cumana"
-msgstr "Gujana"
+msgstr "Cumana"
 
 #: my-evolution/Locations.h:539
 msgid "Cumberland"
-msgstr ""
+msgstr "Cumberland"
 
 #: my-evolution/Locations.h:540
-#, fuzzy
 msgid "Curitiba"
-msgstr "Mauretania"
+msgstr "Curitiba"
 
 #: my-evolution/Locations.h:541
 msgid "Curitiba Apt"
-msgstr ""
+msgstr "Cutitiba Port Lotniczy"
 
 #: my-evolution/Locations.h:542
-#, fuzzy
 msgid "Custer"
-msgstr "Wytnij"
+msgstr "Custer"
 
 #: my-evolution/Locations.h:543
 msgid "Cut Bank"
-msgstr ""
+msgstr "Cut Bank"
 
 #: my-evolution/Locations.h:544
 msgid "Cuzco"
-msgstr ""
+msgstr "Cuzco"
 
 #: my-evolution/Locations.h:547
-#, fuzzy
 msgid "Dagali"
-msgstr "Mali"
+msgstr "Dagali"
 
 #: my-evolution/Locations.h:548
 msgid "Daggett"
-msgstr ""
+msgstr "Daggett"
 
 #: my-evolution/Locations.h:549
 msgid "Dalhart"
-msgstr ""
+msgstr "Dalhart"
 
 #: my-evolution/Locations.h:550
-#, fuzzy
 msgid "Dalian"
-msgstr "Taiwan"
+msgstr "Dalian"
 
 #: my-evolution/Locations.h:551
 msgid "Dallas-Addison"
-msgstr ""
+msgstr "Dallas-Addison"
 
 #: my-evolution/Locations.h:552
 msgid "Dallas-Fort Worth"
-msgstr ""
+msgstr "Dallas-Fort Worth"
 
 #: my-evolution/Locations.h:553
 msgid "Dallas-Love Field"
-msgstr ""
+msgstr "Dallas-Love Field"
 
 #: my-evolution/Locations.h:554
 msgid "Dallas-Redbird"
-msgstr ""
+msgstr "Dallas-Redbird"
 
 #: my-evolution/Locations.h:555
 msgid "Da Nang"
 msgstr "Da Nang"
 
 #: my-evolution/Locations.h:556
-#, fuzzy
 msgid "Danbury"
-msgstr "Styczeń"
+msgstr "Danbury"
 
 #: my-evolution/Locations.h:557
 msgid "Danville"
-msgstr ""
+msgstr "Danville"
 
 #: my-evolution/Locations.h:558
 msgid "Dar-El-Beida"
-msgstr ""
+msgstr "Dar-El-Beida"
 
 #: my-evolution/Locations.h:559
 msgid "Davenport"
-msgstr ""
+msgstr "Davenport"
 
 #: my-evolution/Locations.h:560
 msgid "David"
-msgstr ""
+msgstr "David"
 
 #: my-evolution/Locations.h:561
 msgid "Dawadmi"
-msgstr ""
+msgstr "Dawadmi"
 
 #: my-evolution/Locations.h:562
-#, fuzzy
 msgid "Dayton"
-msgstr "Dzień"
+msgstr "Dayton"
 
 #: my-evolution/Locations.h:563
 msgid "Daytona Beach"
@@ -16298,109 +16291,99 @@ msgstr "Daytona Beach"
 
 #: my-evolution/Locations.h:564
 msgid "Dayton-Fairborn"
-msgstr ""
+msgstr "Dayton-Fairborn"
 
 #: my-evolution/Locations.h:565
-#, fuzzy
 msgid "Dayton-South Airport"
-msgstr "Nie importuj"
+msgstr "Dayton-Południowy Port Lotniczy"
 
 #: my-evolution/Locations.h:566
 msgid "Dead Horse"
-msgstr ""
+msgstr "Dead Horse"
 
 #: my-evolution/Locations.h:567
 msgid "Deauville-Saint-Gatien"
-msgstr ""
+msgstr "Deauville-Saint-Gatien"
 
 #: my-evolution/Locations.h:568
 msgid "Decatur"
-msgstr ""
+msgstr "Decatur"
 
 #: my-evolution/Locations.h:569
 msgid "Decimomannu"
-msgstr ""
+msgstr "Decimomannu"
 
 #: my-evolution/Locations.h:570
 msgid "Decorah"
-msgstr ""
+msgstr "Decorah"
 
 #: my-evolution/Locations.h:571
-#, fuzzy
 msgid "Deelen"
-msgstr "Usuń"
+msgstr "Deelen"
 
 #: my-evolution/Locations.h:572
 msgid "Dekalb/Peachtree"
-msgstr ""
+msgstr "Dekalb/Peachtree"
 
 #: my-evolution/Locations.h:573
 msgid "Delaware"
 msgstr "Delaware"
 
 #: my-evolution/Locations.h:574
-#, fuzzy
 msgid "Del Bajio"
-msgstr "Domyślne zachowanie"
+msgstr "Del Bajio"
 
 #: my-evolution/Locations.h:575
 msgid "Del Rio"
 msgstr "Del Rio"
 
 #: my-evolution/Locations.h:576
-#, fuzzy
 msgid "Delta"
-msgstr "Usuń"
+msgstr "Delta"
 
 #: my-evolution/Locations.h:577
-#, fuzzy
 msgid "Deming"
-msgstr "Spotkanie"
+msgstr "Deming"
 
 #: my-evolution/Locations.h:578
 msgid "Den Helder/De Kooy"
-msgstr ""
+msgstr "Den Helder/De Kooy"
 
 #: my-evolution/Locations.h:579
-#, fuzzy
 msgid "Denison"
-msgstr "Reunion"
+msgstr "Denison"
 
 #: my-evolution/Locations.h:581
-#, fuzzy
 msgid "Denton"
-msgstr "Libia"
+msgstr "Denton"
 
 #: my-evolution/Locations.h:582
-#, fuzzy
 msgid "Denver"
-msgstr "Nigdy"
+msgstr "Denver"
 
 #: my-evolution/Locations.h:583
 msgid "Denver-Aurora"
-msgstr ""
+msgstr "Denver-Aurora"
 
 #: my-evolution/Locations.h:584
 msgid "Denver-Broomfield"
-msgstr ""
+msgstr "Denver-Broomfield"
 
 #: my-evolution/Locations.h:585
 msgid "Denver-Cherry Knolls"
-msgstr ""
+msgstr "Denver-Cherry Knolls"
 
 #: my-evolution/Locations.h:586
 msgid "Desert Rock"
-msgstr ""
+msgstr "Desert Rock"
 
 #: my-evolution/Locations.h:587
-#, fuzzy
 msgid "Des Moines"
-msgstr "Strefy czasowe"
+msgstr "Des Moines"
 
 #: my-evolution/Locations.h:588
-#, fuzzy
 msgid "Destin"
-msgstr "Pytanie"
+msgstr "Destin"
 
 #: my-evolution/Locations.h:589
 msgid "Detroit"
@@ -16408,53 +16391,47 @@ msgstr "Detroit"
 
 #: my-evolution/Locations.h:590
 msgid "Detroit Lakes"
-msgstr ""
+msgstr "Detroit Lakes"
 
 #: my-evolution/Locations.h:591
 msgid "Detroit-Taylor"
-msgstr ""
+msgstr "Detroit-Taylor"
 
 #: my-evolution/Locations.h:592
 msgid "Detroit/Ypsilanti"
-msgstr ""
+msgstr "Detroit/Ypsilanti"
 
 #: my-evolution/Locations.h:593
 msgid "Devils Lake"
-msgstr ""
+msgstr "Devils Lake"
 
 #: my-evolution/Locations.h:594
 msgid "Devils Lake (2)"
-msgstr ""
+msgstr "Devils Lake (2)"
 
 #: my-evolution/Locations.h:595
-#, fuzzy
 msgid "Dhahran"
-msgstr "Bahrain"
+msgstr "Dhahran"
 
 #: my-evolution/Locations.h:596
-#, fuzzy
 msgid "Dickinson"
-msgstr "Wymiary:"
+msgstr "Dickinson"
 
 #: my-evolution/Locations.h:597
-#, fuzzy
 msgid "Dijon"
-msgstr "Gotowe"
+msgstr "Dijon"
 
 #: my-evolution/Locations.h:598
-#, fuzzy
 msgid "Dillingham"
-msgstr "Zbliżający się grad"
+msgstr "Dillingham"
 
 #: my-evolution/Locations.h:599
-#, fuzzy
 msgid "Dillon"
-msgstr "Gotowe"
+msgstr "Dillon"
 
 #: my-evolution/Locations.h:600
-#, fuzzy
 msgid "Dinard"
-msgstr "_Porzuć"
+msgstr "Dinard"
 
 #: my-evolution/Locations.h:601
 msgid "District of Columbia"
@@ -16462,72 +16439,67 @@ msgstr "Dystrykt Columbia"
 
 #: my-evolution/Locations.h:602
 msgid "Diyarbakir"
-msgstr ""
+msgstr "Diyarbakir"
 
 #: my-evolution/Locations.h:603
 msgid "Dnipropetrovsk"
-msgstr ""
+msgstr "Dniepropietrowsk"
 
 #: my-evolution/Locations.h:604
 msgid "Dobbiaco"
-msgstr ""
+msgstr "Dobbiaco"
 
 #: my-evolution/Locations.h:605
 msgid "Dodge City"
-msgstr ""
+msgstr "Dodge City"
 
 #: my-evolution/Locations.h:606
 msgid "Doha"
-msgstr ""
+msgstr "Doha"
 
 #: my-evolution/Locations.h:607
-#, fuzzy
 msgid "Dole"
-msgstr "Rola"
+msgstr "Dole"
 
 #: my-evolution/Locations.h:609
-#, fuzzy
 msgid "Donetsk"
-msgstr "Gotowe"
+msgstr "Donieck"
 
 #: my-evolution/Locations.h:610
-#, fuzzy
 msgid "Dongsha"
-msgstr "Tonga"
+msgstr "Dongsha"
 
 #: my-evolution/Locations.h:611
 msgid "Dongshi"
-msgstr ""
+msgstr "Dongshi"
 
 #: my-evolution/Locations.h:612
 msgid "Don Torcuato"
-msgstr ""
+msgstr "Don Torcuato"
 
 #: my-evolution/Locations.h:613
 msgid "Dortmund-Wickede"
-msgstr ""
+msgstr "Dortmund-Wickede"
 
 #: my-evolution/Locations.h:614
-#, fuzzy
 msgid "Dothan"
-msgstr "Gotowe"
+msgstr "Dothan"
 
 #: my-evolution/Locations.h:615
 msgid "Douglas"
-msgstr ""
+msgstr "Douglas"
 
 #: my-evolution/Locations.h:616
-#, fuzzy
 msgid "Dover"
-msgstr "Przenieś"
+msgstr "Dover"
 
 #: my-evolution/Locations.h:617
 msgid "Dresden-Klotzsche"
-msgstr ""
+msgstr "Drezno-Klotzsche"
 
 #: my-evolution/Locations.h:618
 msgid "Drummond"
-msgstr ""
+msgstr "Drummond"
 
 #: my-evolution/Locations.h:619
 msgid "Dubai"
@@ -16535,7 +16507,7 @@ msgstr "Dubaj"
 
 #: my-evolution/Locations.h:620
 msgid "Dubbo"
-msgstr ""
+msgstr "Dubbo"
 
 #: my-evolution/Locations.h:621
 msgid "Dublin"
@@ -16543,7 +16515,7 @@ msgstr "Dublin"
 
 #: my-evolution/Locations.h:622
 msgid "Du Bois"
-msgstr ""
+msgstr "Du Bois"
 
 #: my-evolution/Locations.h:623
 msgid "Dubrovnik"
@@ -16551,61 +16523,55 @@ msgstr "Dubrownik"
 
 #: my-evolution/Locations.h:624
 msgid "Dubuque"
-msgstr ""
+msgstr "Dubuque"
 
 #: my-evolution/Locations.h:625
-#, fuzzy
 msgid "Dugway"
-msgstr "Dzień"
+msgstr "Dugway"
 
 #: my-evolution/Locations.h:626
-#, fuzzy
 msgid "Duluth"
-msgstr "Domyślny"
+msgstr "Duluth"
 
 #: my-evolution/Locations.h:627
-#, fuzzy
 msgid "Dundee"
-msgstr "Gotowe"
+msgstr "Dundee"
 
 #: my-evolution/Locations.h:628
-#, fuzzy
 msgid "Durango"
-msgstr "temu"
+msgstr "Durango"
 
 #: my-evolution/Locations.h:629
 msgid "Durango Awrs"
-msgstr ""
+msgstr "Durango Awrs"
 
 #: my-evolution/Locations.h:630
 msgid "Durazno"
-msgstr ""
+msgstr "Durazno"
 
 #: my-evolution/Locations.h:631
 msgid "Durban Louis Botha "
-msgstr ""
+msgstr "Durban Louis Botha"
 
 #: my-evolution/Locations.h:632
-#, fuzzy
 msgid "Dusseldorf"
-msgstr "Kurzawa"
+msgstr "Dusseldorf"
 
 #: my-evolution/Locations.h:633
 msgid "Dutch Harbor"
-msgstr ""
+msgstr "Dutch Harbor"
 
 #: my-evolution/Locations.h:634
 msgid "Dyersburg"
-msgstr ""
+msgstr "Dyersburg"
 
 #: my-evolution/Locations.h:635
-#, fuzzy
 msgid "Eagle"
-msgstr "Uaktywnij"
+msgstr "Eagle"
 
 #: my-evolution/Locations.h:636
 msgid "Eagle Range"
-msgstr ""
+msgstr "Eagle Range"
 
 #: my-evolution/Locations.h:637
 msgid "East London"
@@ -16625,9 +16591,8 @@ msgid "Eau Claire"
 msgstr ""
 
 #: my-evolution/Locations.h:642
-#, fuzzy
 msgid "Edinburgh"
-msgstr "Koniec:"
+msgstr "Edynburg"
 
 #: my-evolution/Locations.h:643
 msgid "Edmonton"
@@ -16635,7 +16600,7 @@ msgstr "Edmonton"
 
 #: my-evolution/Locations.h:644
 msgid "Edmonton/Villeneuve"
-msgstr ""
+msgstr "Edmonton/Villeneuve"
 
 #: my-evolution/Locations.h:645
 msgid "Eduardo Gomes International"
@@ -23027,354 +22992,324 @@ msgid "Szombathely"
 msgstr ""
 
 #: my-evolution/Locations.h:2187
-#, fuzzy
 msgid "Tabatinga"
-msgstr "Tradycyjny"
+msgstr "Tabatinga"
 
 #: my-evolution/Locations.h:2188
 msgid "Tabriz"
-msgstr ""
+msgstr "Tebriz"
 
 #: my-evolution/Locations.h:2189
-#, fuzzy
 msgid "Tabuk"
-msgstr "Zadanie"
+msgstr "Tabuk"
 
 #: my-evolution/Locations.h:2190
 msgid "Tachikawa Ab"
-msgstr ""
+msgstr "Tachikawa Ab"
 
 #: my-evolution/Locations.h:2191
-#, fuzzy
 msgid "Tacna"
-msgstr "Tonga"
+msgstr "Tacna"
 
 #: my-evolution/Locations.h:2192
 msgid "Tacoma"
-msgstr ""
+msgstr "Tacoma"
 
 #: my-evolution/Locations.h:2193
 msgid "Tacoma-Lakewood"
-msgstr ""
+msgstr "Tacoma-Lakewood"
 
 #: my-evolution/Locations.h:2194
 msgid "Tacuarembo"
-msgstr ""
+msgstr "Tacuarembó"
 
 #: my-evolution/Locations.h:2195
 msgid "Taegu"
-msgstr ""
+msgstr "Tegu"
 
 #: my-evolution/Locations.h:2196
 msgid "Taegu Ab"
-msgstr ""
+msgstr "Tegu Ab"
 
 #: my-evolution/Locations.h:2197
-#, fuzzy
 msgid "Taejon"
-msgstr "Podejmowane czynności"
+msgstr "Taejon"
 
 #: my-evolution/Locations.h:2198
 msgid "Tahoe Valley"
-msgstr ""
+msgstr "Tahoe Valley"
 
 #: my-evolution/Locations.h:2199
 msgid "Taichung"
-msgstr ""
+msgstr "Taichung"
 
 #: my-evolution/Locations.h:2200
-#, fuzzy
 msgid "Taif"
-msgstr "Taiwan"
+msgstr "Taif"
 
 #: my-evolution/Locations.h:2201
-#, fuzzy
 msgid "Tainan"
-msgstr "Taiwan"
+msgstr "Tajnan"
 
 #: my-evolution/Locations.h:2203
-#, fuzzy
 msgid "Taiyuan"
-msgstr "Taiwan"
+msgstr "Tajjuan"
 
 #: my-evolution/Locations.h:2204
-#, fuzzy
 msgid "Taiz"
-msgstr "Taiwan"
+msgstr "Taizz"
 
 #: my-evolution/Locations.h:2205
-#, fuzzy
 msgid "Tajima"
-msgstr "Taiwan"
+msgstr "Tajima"
 
 #: my-evolution/Locations.h:2206
 msgid "Takamatsu Airport"
-msgstr ""
+msgstr "Takamatsu Lotnisko"
 
 #: my-evolution/Locations.h:2207
 msgid "Talara"
-msgstr ""
+msgstr "Talara"
 
 #: my-evolution/Locations.h:2208
 msgid "Talkeetna"
-msgstr ""
+msgstr "Talkeetna"
 
 #: my-evolution/Locations.h:2209
 msgid "Tallahassee"
-msgstr ""
+msgstr "Tallahassee"
 
 #: my-evolution/Locations.h:2210
 msgid "Tallinn"
-msgstr "Talin"
+msgstr "Tallin"
 
 #: my-evolution/Locations.h:2211
 msgid "Tamanrasset"
-msgstr ""
+msgstr "Tamanrasset"
 
 #: my-evolution/Locations.h:2212
 msgid "Tamanrasset/Aguenna"
-msgstr ""
+msgstr "Tamanrasset/Aguenna"
 
 #: my-evolution/Locations.h:2213
-#, fuzzy
 msgid "Tampa"
-msgstr "Samoa"
+msgstr "Tampa"
 
 #: my-evolution/Locations.h:2214
 msgid "Tampa-Macdill AFB"
-msgstr ""
+msgstr "Tampa-Macdill AFB"
 
 #: my-evolution/Locations.h:2215
-#, fuzzy
 msgid "Tampere"
-msgstr "Papier"
+msgstr "Tampere"
 
 #: my-evolution/Locations.h:2216
 msgid "Tampico"
-msgstr ""
+msgstr "Tampico"
 
 #: my-evolution/Locations.h:2217
-#, fuzzy
 msgid "Tanana"
-msgstr "Taiwan"
+msgstr "Tanana"
 
 #: my-evolution/Locations.h:2218
 msgid "Tanegashima Airport"
-msgstr ""
+msgstr "Tanegashima Lotnisko"
 
 #: my-evolution/Locations.h:2219
-#, fuzzy
 msgid "Taos"
-msgstr "Laos"
+msgstr "Taos"
 
 #: my-evolution/Locations.h:2220
-#, fuzzy
 msgid "Taoyuan"
-msgstr "Taiwan"
+msgstr "Taoyuan"
 
 #: my-evolution/Locations.h:2221
 msgid "Tapachula"
-msgstr ""
+msgstr "Tapachula"
 
 #: my-evolution/Locations.h:2222
-#, fuzzy
 msgid "Taranto"
-msgstr "Taiwan"
+msgstr "Tarent"
 
 #: my-evolution/Locations.h:2223
-#, fuzzy
 msgid "Tarbes"
-msgstr "Test"
+msgstr "Tarbes"
 
 #: my-evolution/Locations.h:2224
-#, fuzzy
 msgid "Tarija"
-msgstr "Taiwan"
+msgstr "Tarija"
 
 #: my-evolution/Locations.h:2225
 msgid "Tarvisio"
-msgstr ""
+msgstr "Tarvisio"
 
 #: my-evolution/Locations.h:2226
-#, fuzzy
 msgid "Tatalina"
-msgstr "Tradycyjny"
+msgstr "Tatalina"
 
 #: my-evolution/Locations.h:2227
 msgid "Tateyama Ab"
-msgstr ""
+msgstr "Tateyama Ab"
 
 #: my-evolution/Locations.h:2228
 msgid "Taunton"
-msgstr ""
+msgstr "Taunton"
 
 #: my-evolution/Locations.h:2229
 msgid "Tebessa"
-msgstr ""
+msgstr "Tibissa"
 
 #: my-evolution/Locations.h:2230
 msgid "Tees-Side"
-msgstr ""
+msgstr "Tees-Side"
 
 #: my-evolution/Locations.h:2231
 msgid "Tegucigalpa"
-msgstr ""
+msgstr "Tegucigalpa"
 
 #: my-evolution/Locations.h:2232
 msgid "Tehran-Mehrabad"
-msgstr ""
+msgstr "Teheran"
 
 #: my-evolution/Locations.h:2233
-#, fuzzy
 msgid "Tela"
-msgstr "Tokelau"
+msgstr "Tela"
 
 #: my-evolution/Locations.h:2234
-#, fuzzy
 msgid "Temple"
-msgstr "Teleks"
+msgstr "Temple"
 
 #: my-evolution/Locations.h:2235
 msgid "Tennessee"
-msgstr ""
+msgstr "Tennessee"
 
 #: my-evolution/Locations.h:2236
 msgid "Tepic"
-msgstr ""
+msgstr "Tepic"
 
 #: my-evolution/Locations.h:2237
-#, fuzzy
 msgid "Teresina"
-msgstr "Osobiste"
+msgstr "Teresina"
 
 #: my-evolution/Locations.h:2238
 msgid "Terre Haute"
-msgstr ""
+msgstr "Terre Haute"
 
 #: my-evolution/Locations.h:2239
 msgid "Terrell"
-msgstr ""
+msgstr "Terrell"
 
 #: my-evolution/Locations.h:2240
 msgid "Teterboro"
-msgstr ""
+msgstr "Teterboro"
 
 #: my-evolution/Locations.h:2241
 msgid "Texarkana"
-msgstr ""
+msgstr "Texarkana"
 
 #: my-evolution/Locations.h:2242
 msgid "Texas"
 msgstr "Teksas"
 
 #: my-evolution/Locations.h:2243
-#, fuzzy
 msgid "The Dalles"
-msgstr "Inna data"
+msgstr "The Dalles"
 
 #: my-evolution/Locations.h:2244
 msgid "Thessaloniki"
-msgstr ""
+msgstr "Thessaloniki"
 
 #: my-evolution/Locations.h:2245
 msgid "Thief River Falls"
-msgstr ""
+msgstr "Thief River Falls"
 
 #: my-evolution/Locations.h:2246
 msgid "Thiruvananthapuram"
-msgstr ""
+msgstr "Thiruvananthapuram"
 
 #: my-evolution/Locations.h:2247
-#, fuzzy
 msgid "Thisted"
-msgstr "Tytuł"
+msgstr "Thisted"
 
 #: my-evolution/Locations.h:2248
 msgid "Thompson Falls"
-msgstr ""
+msgstr "Thompson Falls"
 
 #: my-evolution/Locations.h:2249
-#, fuzzy
 msgid "Thumrait"
-msgstr "Czwartek"
+msgstr "Thumrait"
 
 #: my-evolution/Locations.h:2250
-#, fuzzy
 msgid "Tianjin"
-msgstr "Taiwan"
+msgstr "Tiencin"
 
 #: my-evolution/Locations.h:2251
-#, fuzzy
 msgid "Tijuana"
-msgstr "Łotwa"
+msgstr "Tijuana"
 
 #: my-evolution/Locations.h:2252
 msgid "Timisoara"
-msgstr ""
+msgstr "Timisoara"
 
 #: my-evolution/Locations.h:2253
 msgid "Tin City"
-msgstr ""
+msgstr "Tin City"
 
 #: my-evolution/Locations.h:2254
 msgid "Tirana"
 msgstr "Tirana"
 
 #: my-evolution/Locations.h:2255
-#, fuzzy
 msgid "Tiree"
-msgstr "Czas"
+msgstr "Tiree"
 
 #: my-evolution/Locations.h:2256
 msgid "Tirgu Mures"
-msgstr ""
+msgstr "Tirgu Mures"
 
 #: my-evolution/Locations.h:2257
 msgid "Tiruchchirapalli"
-msgstr ""
+msgstr "Tiruććirappalli"
 
 #: my-evolution/Locations.h:2258
-#, fuzzy
 msgid "Titusville"
-msgstr "Tytuł"
+msgstr "Titusville"
 
 #: my-evolution/Locations.h:2259
-#, fuzzy
 msgid "Tivat"
-msgstr "Prywatny"
+msgstr "Tivat"
 
 #: my-evolution/Locations.h:2260
 msgid "Tlemcen Zenata"
-msgstr ""
+msgstr "Tilimsan"
 
 #: my-evolution/Locations.h:2261
 msgid "Tobias Bolanos"
-msgstr ""
+msgstr "Tobias Bolanos"
 
 #: my-evolution/Locations.h:2262
 msgid "Tocumen"
-msgstr ""
+msgstr "Tocumen"
 
 #: my-evolution/Locations.h:2263
 msgid "Togiak Village"
-msgstr ""
+msgstr "Togiak Vilage"
 
 #: my-evolution/Locations.h:2264
 msgid "Tokachi GSDF"
-msgstr ""
+msgstr "Tokachi GSDF"
 
 #: my-evolution/Locations.h:2265
-#, fuzzy
 msgid "Tokunoshima Island"
-msgstr "Wyspa Bożego Narodzenia"
+msgstr "Wyspa Tokunoshima"
 
 #: my-evolution/Locations.h:2266
 msgid "Tokushima Ab"
-msgstr ""
+msgstr "Tokushima Ab"
 
 #: my-evolution/Locations.h:2267
 msgid "Tokyo Heliport"
-msgstr ""
+msgstr "Tokio Heliport"
 
 #: my-evolution/Locations.h:2268
 msgid "Tokyo International Airport"
@@ -23389,55 +23324,48 @@ msgid "Toledo"
 msgstr "Toledo"
 
 #: my-evolution/Locations.h:2271
-#, fuzzy
 msgid "Toluca"
-msgstr "Tokelau"
+msgstr "Toluca"
 
 #: my-evolution/Locations.h:2272
-#, fuzzy
 msgid "Tonopah"
-msgstr "Tonga"
+msgstr "Tonopah"
 
 #: my-evolution/Locations.h:2273
-#, fuzzy
 msgid "Topeka"
-msgstr "Tokelau"
+msgstr "Topeka"
 
 #: my-evolution/Locations.h:2274
 msgid "Topeka-Forbes Field"
-msgstr ""
+msgstr "Topeka-Forbes Field"
 
 #: my-evolution/Locations.h:2275
 msgid "Torino/Bric Della Croce"
-msgstr ""
+msgstr "Turyn/Bric Della Croce"
 
 #: my-evolution/Locations.h:2276
 msgid "Torino/Caselle"
-msgstr ""
+msgstr "Turyn/Caselle"
 
 #: my-evolution/Locations.h:2277
 msgid "Toronto"
 msgstr "Toronto"
 
 #: my-evolution/Locations.h:2278
-#, fuzzy
 msgid "Torp"
-msgstr "Górny:"
+msgstr "Torp"
 
 #: my-evolution/Locations.h:2279
-#, fuzzy
 msgid "Torrance"
-msgstr "Francja"
+msgstr "Torrance"
 
 #: my-evolution/Locations.h:2280
-#, fuzzy
 msgid "Torreon"
-msgstr "Koreański"
+msgstr "Torreon"
 
 #: my-evolution/Locations.h:2281
-#, fuzzy
 msgid "Tottori Airport"
-msgstr "Rozpoczynanie importowania"
+msgstr "Tottori Lotnisko"
 
 #: my-evolution/Locations.h:2282
 msgid "Toulouse"
@@ -23445,59 +23373,55 @@ msgstr "Tuluza"
 
 #: my-evolution/Locations.h:2283
 msgid "Toul-Rosieres"
-msgstr ""
+msgstr "Toul-Rosieres"
 
 #: my-evolution/Locations.h:2284
 msgid "Tours-St-Symphorien"
-msgstr ""
+msgstr "Tours"
 
 #: my-evolution/Locations.h:2285
 msgid "Toussus-Le Noble"
-msgstr ""
+msgstr "Toussus-Le Noble"
 
 #: my-evolution/Locations.h:2286
 msgid "Townsville"
-msgstr ""
+msgstr "Townsville"
 
 #: my-evolution/Locations.h:2287
 msgid "Toyama Airport"
-msgstr ""
+msgstr "Toyama Lotnisko"
 
 #: my-evolution/Locations.h:2288
 msgid "Trabzon"
 msgstr "Trabzon"
 
 #: my-evolution/Locations.h:2289
-#, fuzzy
 msgid "Trapani"
-msgstr "Japonia"
+msgstr "Trapani"
 
 #: my-evolution/Locations.h:2290
 msgid "Traverse City"
-msgstr ""
+msgstr "Traverse City"
 
 #: my-evolution/Locations.h:2291
-#, fuzzy
 msgid "Trelew"
-msgstr "Teleks"
+msgstr "Trelew"
 
 #: my-evolution/Locations.h:2292
-#, fuzzy
 msgid "Trenton"
-msgstr "Ułożenie"
+msgstr "Trenton"
 
 #: my-evolution/Locations.h:2293
-#, fuzzy
 msgid "Trevico"
-msgstr "Poprzedni"
+msgstr "Trevico"
 
 #: my-evolution/Locations.h:2294
 msgid "Treviso/Istrana"
-msgstr ""
+msgstr "Treviso/Istrana"
 
 #: my-evolution/Locations.h:2295
 msgid "Treviso/S.Angelo"
-msgstr ""
+msgstr "Treviso/S.Angelo"
 
 #: my-evolution/Locations.h:2296
 msgid "Trieste"
@@ -23513,80 +23437,75 @@ msgstr "Trypolis"
 
 #: my-evolution/Locations.h:2299
 msgid "Tromso/Langnes"
-msgstr ""
+msgstr "Tromso/Langnes"
 
 #: my-evolution/Locations.h:2300
 msgid "Trondheim/Vaernes"
-msgstr ""
+msgstr "Trondheim/Vaernes"
 
 #: my-evolution/Locations.h:2301
 msgid "Troutdale"
-msgstr ""
+msgstr "Troutdale"
 
 #: my-evolution/Locations.h:2302
 msgid "Troyes/Barberey"
-msgstr ""
+msgstr "Troyes/Barberey"
 
 #: my-evolution/Locations.h:2303
-#, fuzzy
 msgid "Truckee"
-msgstr "Turcja"
+msgstr "Truckee"
 
 #: my-evolution/Locations.h:2304
 msgid "Truth or Consequences"
-msgstr ""
+msgstr "Truth or Consequences"
 
 #: my-evolution/Locations.h:2305
 msgid "Tsuiki Ab"
-msgstr ""
+msgstr "Tsuiki Ab"
 
 #: my-evolution/Locations.h:2306
 msgid "Tsushima Airport"
-msgstr ""
+msgstr "Cuszima Lotnisko"
 
 #: my-evolution/Locations.h:2307
 msgid "Tucson"
-msgstr ""
+msgstr "Tucson"
 
 #: my-evolution/Locations.h:2308
 msgid "Tucson-Davis AFB"
-msgstr ""
+msgstr "Tucson-Davis AFB"
 
 #: my-evolution/Locations.h:2309
 msgid "Tucuman"
-msgstr ""
+msgstr "Tucuman"
 
 #: my-evolution/Locations.h:2310
 msgid "Tucumcari"
-msgstr ""
+msgstr "Tucumcari"
 
 #: my-evolution/Locations.h:2311
 msgid "Tucurui"
-msgstr ""
+msgstr "Tucurui"
 
 #: my-evolution/Locations.h:2312
 msgid "Tulancingo"
-msgstr ""
+msgstr "Tulancingo"
 
 #: my-evolution/Locations.h:2313
-#, fuzzy
 msgid "Tulcea"
-msgstr "Wtorek"
+msgstr "Tulcza"
 
 #: my-evolution/Locations.h:2314
-#, fuzzy
 msgid "Tulsa"
-msgstr "Wtorek"
+msgstr "Tulsa"
 
 #: my-evolution/Locations.h:2315
-#, fuzzy
 msgid "Tupelo"
-msgstr "_Wto"
+msgstr "Tupelo"
 
 #: my-evolution/Locations.h:2316
-#, fuzzy
 msgid "Turaif"
-msgstr "Turecki"
+msgstr "Turaif"
 
 #: my-evolution/Locations.h:2317
 msgid "Turin"
@@ -23598,62 +23517,59 @@ msgstr "Turku"
 
 #: my-evolution/Locations.h:2320
 msgid "Tuscaloosa"
-msgstr ""
+msgstr "Tuscaloosa"
 
 #: my-evolution/Locations.h:2321
 msgid "Tuxtla Gutierrez"
-msgstr ""
+msgstr "Tuxtla Gutierrez"
 
 #: my-evolution/Locations.h:2322
-#, fuzzy
 msgid "Twenthe"
-msgstr "Próbnie zaakceptowane"
+msgstr "Twenthe"
 
 #: my-evolution/Locations.h:2323
 msgid "Twentynine Palms"
-msgstr ""
+msgstr "Twentynine Palms"
 
 #: my-evolution/Locations.h:2324
 msgid "Twin Falls"
-msgstr ""
+msgstr "Twin Falls"
 
 #: my-evolution/Locations.h:2325
-#, fuzzy
 msgid "Tyler"
-msgstr "Typ"
+msgstr "Tyler"
 
 #: my-evolution/Locations.h:2326
 msgid "Tyndall AFB"
-msgstr ""
+msgstr "Tyndall AFB"
 
 #: my-evolution/Locations.h:2327
-#, fuzzy
 msgid "Tyumen"
-msgstr "Podejmowane czynności"
+msgstr "Tyumen"
 
 #: my-evolution/Locations.h:2328
 msgid "Uberaba"
-msgstr ""
+msgstr "Uberaba"
 
 #: my-evolution/Locations.h:2329
 msgid "Ufa"
-msgstr ""
+msgstr "Ufa"
 
 #: my-evolution/Locations.h:2330
 msgid "Ukiah"
-msgstr ""
+msgstr "Ukiah"
 
 #: my-evolution/Locations.h:2332
 msgid "Ulan-Ude"
-msgstr ""
+msgstr "Ułan Ude"
 
 #: my-evolution/Locations.h:2333
 msgid "Ulsan"
-msgstr ""
+msgstr "Ulsan"
 
 #: my-evolution/Locations.h:2334
 msgid "Ulyanovsk"
-msgstr ""
+msgstr "Symbirsk"
 
 #: my-evolution/Locations.h:2335
 msgid "Umea"
@@ -23661,39 +23577,35 @@ msgstr "Umea"
 
 #: my-evolution/Locations.h:2336
 msgid "Umiat"
-msgstr ""
+msgstr "Umiat"
 
 #: my-evolution/Locations.h:2337
 msgid "Unalakleet"
-msgstr ""
+msgstr "Unalakleet"
 
 #: my-evolution/Locations.h:2338
-#, fuzzy
 msgid "United Arab Emirates "
 msgstr "Zjednoczone Emiraty Arabskie"
 
 #: my-evolution/Locations.h:2341
-#, fuzzy
 msgid "Unst"
-msgstr "Niewidziany"
+msgstr "Unst"
 
 #: my-evolution/Locations.h:2342
 msgid "Upington"
-msgstr ""
+msgstr "Upington"
 
 #: my-evolution/Locations.h:2343
-#, fuzzy
 msgid "Uruapan"
-msgstr "Japonia"
+msgstr "Uruapan"
 
 #: my-evolution/Locations.h:2344
-#, fuzzy
 msgid "Uruguaiana"
-msgstr "Urugwaj"
+msgstr "Uruguaiana"
 
 #: my-evolution/Locations.h:2346
 msgid "Urumqi"
-msgstr ""
+msgstr "Urumczi"
 
 #: my-evolution/Locations.h:2347
 msgid "Utah"
@@ -23701,7 +23613,7 @@ msgstr "Utah"
 
 #: my-evolution/Locations.h:2348
 msgid "Utica"
-msgstr ""
+msgstr "Utica"
 
 #: my-evolution/Locations.h:2349
 msgid "Utrecht/Soesterberg"
@@ -23709,11 +23621,11 @@ msgstr "Utrecht/Soesterberg"
 
 #: my-evolution/Locations.h:2350
 msgid "Utsunomiya Ab"
-msgstr ""
+msgstr "Utsunomiya Ab"
 
 #: my-evolution/Locations.h:2351
 msgid "Uzhgorod"
-msgstr ""
+msgstr "Użgorod"
 
 #: my-evolution/Locations.h:2352
 msgid "Vadso"
