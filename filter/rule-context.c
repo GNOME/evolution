@@ -391,7 +391,6 @@ save (RuleContext *f, const char *user)
 	GList *l;
 	FilterRule *rule;
 	struct _rule_set_map *map;
-	char *usersav, *userbak, *slash;
 	int ret;
 	
 	doc = xmlNewDoc ("1.0");
@@ -411,21 +410,10 @@ save (RuleContext *f, const char *user)
 		l = g_list_next (l);
 	}
 	
-	usersav = alloca(strlen(user)+5);
-	userbak = alloca(strlen(user)+5);
-	slash = strrchr(user, '/');
-	if (slash)
-		sprintf(usersav, "%.*s.#%s", slash-user+1, user, slash+1);
-	else
-		sprintf(usersav, ".#%s", user);
-	sprintf(userbak, "%s~", user);
-	d(printf("saving rules to '%s' then backup '%s'\n", usersav, userbak));
-	ret = e_xml_save_file (usersav, doc);
-	if (ret != -1) {
-		rename(user, userbak);
-		ret = rename(usersav, user);
-	}
+	ret = e_xml_save_file (user, doc);
+	
 	xmlFreeDoc (doc);
+	
 	return ret;
 }
 
