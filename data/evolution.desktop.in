@@ -5,3 +5,4 @@ Exec=evolution
 Icon=evolution.png
 Terminal=0
 Type=Application
+Categories=Application;Calendar;Office

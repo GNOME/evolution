@@ -1,3 +1,9 @@
+2002-06-28  Ettore Perazzoli  <ettore@ximian.com>
+
+	[As suggested by #24466.]
+
+	* data/evolution.desktop.in (Categories): Added.
+
 2002-06-27  Dan Winship  <danw@ximian.com>
 
 	* libversit/Makefile.am: Hack around a libtool/make problem that
