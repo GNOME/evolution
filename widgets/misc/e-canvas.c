@@ -140,6 +140,11 @@ e_canvas_dispose (GObject *object)
 		canvas->toplevel = NULL;
 	}
 
+	if (canvas->im_context) {
+		g_object_unref (canvas->im_context);
+		canvas->im_context = NULL;
+	}
+
 	e_canvas_hide_tooltip(canvas);
 
 	if ((G_OBJECT_CLASS (parent_class))->dispose)
