@@ -370,8 +370,10 @@ edit_im_clicked(GtkWidget *widget, EContactEditor *editor)
 
 	selection = gtk_tree_view_get_selection(GTK_TREE_VIEW(treeview));
 
-	gtk_tree_selection_get_selected(selection, NULL, &iter);
-
+	if (! gtk_tree_selection_get_selected(selection, NULL, &iter) ) {
+		return;
+	} 
+	
 	gtk_tree_model_get(GTK_TREE_MODEL(editor->im_model), &iter,
 					   COLUMN_IM_SERVICE_FIELD, &old_service,
 					   COLUMN_IM_LOCATION, &old_location,

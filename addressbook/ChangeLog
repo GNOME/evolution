@@ -1,3 +1,8 @@
+2004 -01-20 Sivaiah Nallagatla  <snallagatla@novell.com>
+
+	* gui/contact-editor/e-contact-editor.c (edit_im_clicked) : do not call
+	gtk_tree_model_get when nothing in the list is selected 
+
 2004-01-19  Hans Petter Jansson  <hpj@ximian.com>
 
 	* gui/component/select-names/e-select-names.etspec: Get name from
