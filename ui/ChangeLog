@@ -1,3 +1,7 @@
+2004-04-30  Dave Fallon <davef@tetsubo.com>
+
+       * ui/evolution-addressbook.xml: Fixed Bug #57611.
+
 2004-04-15  JP Rosevear <jpr@ximian.com>
 
 	* evolution-comp-editor.xml: remove "Save" only option

@@ -44,7 +44,7 @@
 	 _tip="Send selected contacts to another person."/>
 
     <cmd name="ContactsSendMessageToContact" _label="Send message to contact"
-	 _tip="Send a mess to the selected contacts."/>
+	 _tip="Send a message to the selected contacts."/>
 
     <cmd name="ContactsCopyToFolder" _label="Copy to Folder..."
 	 _tip="Copy Contact(s) to Another Folder..."
