@@ -225,9 +225,9 @@ save (CalBackend *backend)
 	        break;
 	}
 
-	g_free (str_uri);
-
 	printf ("cal-backend: '%s' saved\n", str_uri);
+
+	g_free (str_uri);
 }
 
 

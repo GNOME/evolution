@@ -1150,6 +1150,8 @@ is_date_in_list (GList *list, struct tm *date)
 	return 0;
 }
 
+
+/* FIXME: Doesn't work with events >= 1 day. */
 static int
 generate (iCalObject *ico, time_t reference, calendarfn cb, void *closure)
 {

@@ -986,6 +986,7 @@ e_week_view_update_event		(EWeekView	*week_view,
 	/* Get the event from the server. */
 	obj_string = cal_client_get_object (week_view->calendar->client, uid);
 	status = ical_object_find_in_string (uid, obj_string, &ico);
+	g_free (obj_string);
 
 	switch (status) {
 	case CAL_OBJ_FIND_SUCCESS:
@@ -1318,7 +1319,11 @@ e_week_view_on_button_press (GtkWidget *widget,
 {
 	gint x, y, day;
 
-	/* If an event is pressed, just return. */
+#if 0
+	g_print ("In e_week_view_on_button_press\n");
+#endif
+
+	/* If an event is pressed just return. */
 	if (week_view->pressed_event_num != -1)
 		return FALSE;
 
@@ -1359,6 +1364,10 @@ e_week_view_on_button_release (GtkWidget *widget,
 			       EWeekView *week_view)
 {
 	time_t start, end;
+
+#if 0
+	g_print ("In e_week_view_on_button_release\n");
+#endif
 
 	if (week_view->selection_drag_pos != E_WEEK_VIEW_DRAG_NONE) {
 		week_view->selection_drag_pos = E_WEEK_VIEW_DRAG_NONE;
@@ -1567,6 +1576,13 @@ e_week_view_add_event (iCalObject *ico,
 
 	/* Check that the event times are valid. */
 	num_days = week_view->display_month ? E_WEEK_VIEW_MAX_WEEKS * 7 : 7;
+
+#if 0
+	g_print ("View start:%li end:%li  Event start:%li end:%li\n",
+		 week_view->day_starts[0], week_view->day_starts[num_days],
+		 start, end);
+#endif
+
 	g_return_val_if_fail (start <= end, TRUE);
 	g_return_val_if_fail (start < week_view->day_starts[num_days], TRUE);
 	g_return_val_if_fail (end > week_view->day_starts[0], TRUE);
@@ -2128,6 +2144,8 @@ e_week_view_start_editing_event (EWeekView *week_view,
 	ETextEventProcessor *event_processor = NULL;
 	ETextEventProcessorCommand command;
 
+	g_print ("In e_week_view_start_editing_event\n");
+
 	/* If we are already editing the event, just return. */
 	if (event_num == week_view->editing_event_num
 	    && span_num == week_view->editing_span_num)
@@ -2159,6 +2177,8 @@ e_week_view_start_editing_event (EWeekView *week_view,
 		gtk_signal_emit_by_name (GTK_OBJECT (event_processor),
 					 "command", &command);
 	}
+
+	g_print ("Out e_week_view_start_editing_event\n");
 }
 
 
@@ -2187,8 +2207,13 @@ e_week_view_on_text_item_event (GnomeCanvasItem *item,
 {
 	gint event_num, span_num;
 
+#if 0
+	g_print ("In e_week_view_on_text_item_event\n");
+#endif
+
 	switch (event->type) {
 	case GDK_BUTTON_PRESS:
+		g_print ("  button press\n");
 		if (!e_week_view_find_event_from_item (week_view, item,
 						       &event_num, &span_num))
 			return FALSE;
@@ -2202,14 +2227,14 @@ e_week_view_on_text_item_event (GnomeCanvasItem *item,
 			return TRUE;
 		}
 
+		week_view->pressed_event_num = event_num;
+		week_view->pressed_span_num = span_num;
+
 		/* Only let the EText handle the event while editing. */
 		if (!E_TEXT (item)->editing) {
+			g_print ("  stopping signal\n");
 			gtk_signal_emit_stop_by_name (GTK_OBJECT (item),
 						      "event");
-
-
-			week_view->pressed_event_num = event_num;
-			week_view->pressed_span_num = span_num;
 
 			if (event) {
 				week_view->drag_event_x = event->button.x;
@@ -2219,10 +2244,14 @@ e_week_view_on_text_item_event (GnomeCanvasItem *item,
 
 			/* FIXME: Remember the day offset from the start of
 			   the event. */
+
+			return TRUE;
 		}
 		break;
 	case GDK_BUTTON_RELEASE:
+		g_print ("  button release\n");
 		if (!E_TEXT (item)->editing) {
+			g_print ("  stopping signal\n");
 			gtk_signal_emit_stop_by_name (GTK_OBJECT (item),
 						      "event");
 
@@ -2242,6 +2271,8 @@ e_week_view_on_text_item_event (GnomeCanvasItem *item,
 				week_view->pressed_event_num = -1;
 				return TRUE;
 			}
+		} else {
+			g_print ("  EText may get button release event\n");
 		}
 		week_view->pressed_event_num = -1;
 		break;
@@ -2273,6 +2304,8 @@ e_week_view_on_editing_started (EWeekView *week_view,
 					       &event_num, &span_num))
 		return;
 
+	g_print ("In e_week_view_on_editing_started event_num:%i span_num:%i\n", event_num, span_num);
+
 	week_view->editing_event_num = event_num;
 	week_view->editing_span_num = span_num;
 
@@ -2282,6 +2315,8 @@ e_week_view_on_editing_started (EWeekView *week_view,
 		e_week_view_reshape_event_span (week_view, event_num,
 						span_num);
 	}
+
+	g_print ("Out e_week_view_on_editing_started\n");
 }
 
 
@@ -2293,6 +2328,11 @@ e_week_view_on_editing_stopped (EWeekView *week_view,
 	EWeekViewEvent *event;
 	EWeekViewEventSpan *span;
 	gchar *text = NULL;
+
+	if (e_week_view_find_event_from_item (week_view, item,
+					      &event_num, &span_num)) {
+		g_print ("In e_week_view_on_editing_stopped event_num:%i span_num:%i\n", event_num, span_num);
+	}
 
 	/* Note: the item we are passed here isn't reliable, so we just stop
 	   the edit of whatever item was being edited. We also receive this
@@ -2372,6 +2412,12 @@ e_week_view_find_event_from_item (EWeekView	  *week_view,
 }
 
 
+/* Finds the index of the event with the given uid.
+   Returns TRUE if an event with the uid was found.
+   Note that for recurring events there may be several EWeekViewEvents, one
+   for each instance, all with the same iCalObject and uid. So only use this
+   function if you know the event doesn't recur or you are just checking to
+   see if any events with the uid exist. */
 static gboolean
 e_week_view_find_event_from_uid (EWeekView	  *week_view,
 				 const gchar	  *uid,

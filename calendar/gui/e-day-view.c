@@ -775,11 +775,11 @@ e_day_view_init (EDayView *day_view)
 	day_view->last_cursor_set_in_main_canvas = NULL;
 
 	/* Set up the drop sites. */
-	gtk_drag_dest_set (GTK_WIDGET (day_view->top_canvas),
+	gtk_drag_dest_set (day_view->top_canvas,
 			   GTK_DEST_DEFAULT_ALL,
 			   target_table, n_targets,
 			   GDK_ACTION_COPY | GDK_ACTION_MOVE);
-	gtk_drag_dest_set (GTK_WIDGET (day_view->main_canvas),
+	gtk_drag_dest_set (day_view->main_canvas,
 			   GTK_DEST_DEFAULT_ALL,
 			   target_table, n_targets,
 			   GDK_ACTION_COPY | GDK_ACTION_MOVE);
@@ -1034,6 +1034,8 @@ e_day_view_focus_in (GtkWidget *widget, GdkEventFocus *event)
 	g_return_val_if_fail (E_IS_DAY_VIEW (widget), FALSE);
 	g_return_val_if_fail (event != NULL, FALSE);
 
+	g_print ("In e_day_view_focus_in\n");
+
 	day_view = E_DAY_VIEW (widget);
 
 	GTK_WIDGET_SET_FLAGS (widget, GTK_HAS_FOCUS);
@@ -1053,6 +1055,8 @@ e_day_view_focus_out (GtkWidget *widget, GdkEventFocus *event)
 	g_return_val_if_fail (widget != NULL, FALSE);
 	g_return_val_if_fail (E_IS_DAY_VIEW (widget), FALSE);
 	g_return_val_if_fail (event != NULL, FALSE);
+
+	g_print ("In e_day_view_focus_out\n");
 
 	day_view = E_DAY_VIEW (widget);
 
@@ -1099,6 +1103,9 @@ e_day_view_update_event		(EDayView	*day_view,
 	g_return_if_fail (E_IS_DAY_VIEW (day_view));
 
 #if 0
+	/* FIXME: Just for testing. */
+	chdir ("/home/damon/tmp");
+
 	g_print ("In e_day_view_update_event day_view:%p uid:%s\n",
 		 day_view, uid);
 #endif
@@ -1111,6 +1118,7 @@ e_day_view_update_event		(EDayView	*day_view,
 	/* Get the event from the server. */
 	obj_string = cal_client_get_object (day_view->calendar->client, uid);
 	status = ical_object_find_in_string (uid, obj_string, &ico);
+	g_free (obj_string);
 
 	switch (status) {
 	case CAL_OBJ_FIND_SUCCESS:
@@ -1132,6 +1140,7 @@ e_day_view_update_event		(EDayView	*day_view,
 	   update the event fairly easily without changing the events arrays
 	   or computing a new layout. */
 	if (e_day_view_find_event_from_uid (day_view, uid, &day, &event_num)) {
+		g_print ("  updating existing event\n");
 		if (day == E_DAY_VIEW_LONG_EVENT)
 			event = &g_array_index (day_view->long_events,
 						EDayViewEvent, event_num);
@@ -1140,6 +1149,7 @@ e_day_view_update_event		(EDayView	*day_view,
 						EDayViewEvent, event_num);
 
 		if (ical_object_compare_dates (event->ico, ico)) {
+			g_print ("  unchanged dates\n");
 			e_day_view_foreach_event_with_uid (day_view, uid, e_day_view_update_event_cb, ico);
 			gtk_widget_queue_draw (day_view->top_canvas);
 			gtk_widget_queue_draw (day_view->main_canvas);
@@ -1148,12 +1158,14 @@ e_day_view_update_event		(EDayView	*day_view,
 
 		/* The dates have changed, so we need to remove the
 		   old occurrrences before adding the new ones. */
+		g_print ("  changed dates\n");
 		e_day_view_foreach_event_with_uid (day_view, uid,
 						   e_day_view_remove_event_cb,
 						   NULL);
 	}
 
 	/* Add the occurrences of the event. */
+	g_print ("  generating events\n");
 	ical_object_generate_events (ico, day_view->lower, day_view->upper,
 				     e_day_view_add_event, day_view);
 
@@ -1174,6 +1186,9 @@ e_day_view_update_event_cb (EDayView *day_view,
 	iCalObject *ico;
 
 	ico = data;
+
+	g_print ("In e_day_view_update_event_cb day:%i event_num:%i\n",
+		 day, event_num);
 
 	/* FIXME: When do ico's get freed? */
 	if (day == E_DAY_VIEW_LONG_EVENT) {
@@ -1240,7 +1255,8 @@ e_day_view_foreach_event_with_uid (EDayView *day_view,
 					EDayViewEvent, event_num);
 		if (event->ico && event->ico->uid
 		    && !strcmp (uid, event->ico->uid)) {
-			if (!(*callback) (day_view, day, event_num, data))
+			if (!(*callback) (day_view, E_DAY_VIEW_LONG_EVENT,
+					  event_num, data))
 				return;
 		}
 	}
@@ -1405,9 +1421,13 @@ e_day_view_find_event_from_item (EDayView *day_view,
 }
 
 
-/* Finds the day and index of the event containing the iCalObject.
+/* Finds the day and index of the event with the given uid.
    If is is a long event, E_DAY_VIEW_LONG_EVENT is returned as the day.
-   Returns TRUE if the event was found. */
+   Returns TRUE if an event with the uid was found.
+   Note that for recurring events there may be several EDayViewEvents, one
+   for each instance, all with the same iCalObject and uid. So only use this
+   function if you know the event doesn't recur or you are just checking to
+   see if any events with the uid exist. */
 static gboolean
 e_day_view_find_event_from_uid (EDayView *day_view,
 				const gchar *uid,

@@ -1,3 +1,35 @@
+2000-05-04  Damon Chaplin  <damon@helixcode.com>
+
+	* gui/e-day-view.c (e_day_view_foreach_event_with_uid): for the long
+	events pass E_DAY_VIEW_LONG_EVENT as the day. Fixes SEGV.
+
+	* gui/calendar-commands.c: when we switch views, grab the focus.
+
+	* gui/gnome-cal.c (gnome_calendar_tag_calendar): 
+	(gnome_calendar_mark_gtk_calendar_day): changed this so it uses
+	cal_client_get_events_in_range(), and doesn't load any objects.
+	Also just return if it isn't visible.
+
+	* gui/calendar-commands.c (calendar_get_events_in_range): call
+	g_list_sort() to sort the list rather than g_list_insert_sorted() for
+	each element. It is much more efficient.
+	Also changed it so that the co->ev_start/end fields are copied from
+	the CalObjInstance rather than the parameters to the function
+	(that is right, isn't it?)
+	Also freed the list elements, and finally the list.
+	(calendar_iterate): changed this to use cal_client_get_events_in_range
+	since that is more efficient than getting all the uids and then loading
+	and parsing all the events.
+
+	* pcs/cal-backend.c (save): output the '... saved' message before
+	freeing the string!
+
+	* gui/gncal-todo.c (gncal_todo_update): 
+	* gui/e-week-view.c (e_week_view_update_event): 
+	* gui/e-day-view.c (e_day_view_update_event): 
+	* gui/calendar-commands.c (calendar_get_events_in_range): 
+	(calendar_iterate): free obj_string after it is parsed.
+
 2000-05-02  Damon Chaplin  <damon@helixcode.com>
 
 	* gui/calendar-commands.c (calendar_control_activate): set the active

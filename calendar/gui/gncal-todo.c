@@ -869,6 +869,7 @@ gncal_todo_update (GncalTodo *todo, iCalObject *ico, int flags)
 		iCalObject *obj = NULL;
 			
 		st = ical_object_find_in_string (uid, obj_string, &obj);
+		g_free (obj_string);
 
 		insert_in_clist (todo, obj);
 		g_free (uid);

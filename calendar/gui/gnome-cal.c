@@ -36,6 +36,10 @@ static void gnome_calendar_destroy (GtkObject *object);
 static void gnome_calendar_update_view_times (GnomeCalendar *gcal,
 					      GtkWidget *page);
 static void gnome_calendar_update_gtk_calendar (GnomeCalendar *gcal);
+static int gnome_calendar_mark_gtk_calendar_day (GnomeCalendar *cal,
+						 GtkCalendar *gtk_cal,
+						 time_t start,
+						 time_t end);
 static void gnome_calendar_on_day_selected (GtkCalendar   *calendar,
 					    GnomeCalendar *gcal);
 static void gnome_calendar_on_month_changed (GtkCalendar   *calendar,
@@ -814,12 +818,73 @@ calendar_notify (time_t activation_time, CalendarAlarm *which, void *data)
 }
 
 /*
- * called from the calendar_iterate routine to mark the days of a GtkCalendar
+ * Tags the dates with appointments in a GtkCalendar based on the
+ * GnomeCalendar contents
+ */
+void
+gnome_calendar_tag_calendar (GnomeCalendar *cal, GtkCalendar *gtk_cal)
+{
+	time_t month_begin, month_end;
+	struct tm tm;
+	GList *cois, *l;
+
+	g_return_if_fail (cal != NULL);
+	g_return_if_fail (GNOME_IS_CALENDAR (cal));
+	g_return_if_fail (gtk_cal != NULL);
+	g_return_if_fail (GTK_IS_CALENDAR (gtk_cal));
+
+	/* If the GtkCalendar isn't visible, we just return. */
+	if (!GTK_WIDGET_VISIBLE (cal->gtk_calendar))
+		return;
+
+	/* compute month_begin */
+	tm.tm_hour = 0;
+	tm.tm_min  = 0;
+	tm.tm_sec  = 0;
+	/* setting tm_day to zero is a no-no; it will set mktime back to the
+	   end of the previous month, which may be 28,29,30; this may chop
+	   some days from the calendar */
+	tm.tm_mday = 1;
+	tm.tm_mon  = gtk_cal->month;
+	tm.tm_year = gtk_cal->year - 1900;
+	tm.tm_isdst= -1;
+
+	month_begin = mktime (&tm);
+	tm.tm_mon++;
+	month_end   = mktime (&tm);
+
+	gtk_calendar_freeze (gtk_cal);
+	gtk_calendar_clear_marks (gtk_cal);
+
+	cois = cal_client_get_events_in_range (cal->client, month_begin,
+					       month_end);
+
+	for (l = cois; l; l = l->next) {
+		CalObjInstance *coi = l->data;
+
+		gnome_calendar_mark_gtk_calendar_day (cal, gtk_cal,
+						      coi->start, coi->end);
+
+		g_free (coi->uid);
+		g_free (coi);
+	}
+
+	g_list_free (cois);
+
+	gtk_calendar_thaw (gtk_cal);
+}
+
+
+/*
+ * This is called from gnome_calendar_tag_calendar to mark the days of a
+ * GtkCalendar on which the user has appointments.
  */
 static int
-mark_gtk_calendar_day (iCalObject *obj, time_t start, time_t end, void *c)
+gnome_calendar_mark_gtk_calendar_day (GnomeCalendar *cal,
+				      GtkCalendar *gtk_cal,
+				      time_t start,
+				      time_t end)
 {
-	GtkCalendar *gtk_cal = c;
 	struct tm tm_s, tm_e;
 	gint start_day, end_day, day;
 
@@ -840,41 +905,6 @@ mark_gtk_calendar_day (iCalObject *obj, time_t start, time_t end, void *c)
 	return TRUE;
 }
 
-/*
- * Tags the dates with appointments in a GtkCalendar based on the
- * GnomeCalendar contents
- */
-void
-gnome_calendar_tag_calendar (GnomeCalendar *cal, GtkCalendar *gtk_cal)
-{
-	time_t month_begin, month_end;
-	struct tm tm;
-
-	g_return_if_fail (cal != NULL);
-	g_return_if_fail (GNOME_IS_CALENDAR (cal));
-	g_return_if_fail (gtk_cal != NULL);
-	g_return_if_fail (GTK_IS_CALENDAR (gtk_cal));
-
-	/* compute month_begin */
-	tm.tm_hour = 0;
-	tm.tm_min  = 0;
-	tm.tm_sec  = 0;
-	tm.tm_mday = 1; /* setting this to zero is a no-no; it will set mktime back to the end of the
-					   previous month, which may be 28,29,30; this may chop some days from the calendar */
-	tm.tm_mon  = gtk_cal->month;
-	tm.tm_year = gtk_cal->year - 1900;
-	tm.tm_isdst= -1;
-
-	month_begin = mktime (&tm);
-	tm.tm_mon++;
-	month_end   = mktime (&tm);
-
-	gtk_calendar_freeze (gtk_cal);
-	gtk_calendar_clear_marks (gtk_cal);
-	calendar_iterate (cal, month_begin, month_end,
-			  mark_gtk_calendar_day, gtk_cal);
-	gtk_calendar_thaw (gtk_cal);
-}
 
 /* This is called when the day begin & end times, the AM/PM flag, or the
    week_starts_on_monday flags are changed.

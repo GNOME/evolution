@@ -646,6 +646,9 @@ e_week_view_event_item_button_press (EWeekViewEventItem *wveitem,
 	if (pos == E_WEEK_VIEW_POS_NONE)
 		return FALSE;
 
+	week_view->pressed_event_num = wveitem->event_num;
+	week_view->pressed_span_num = wveitem->span_num;
+
 	/* Ignore clicks on the event while editing. */
 	if (E_TEXT (span->text_item)->editing)
 		return FALSE;
@@ -653,9 +656,6 @@ e_week_view_event_item_button_press (EWeekViewEventItem *wveitem,
 	if (bevent->button.button == 1) {
 		/* Remember the item clicked and the mouse position,
 		   so we can start a drag if the mouse moves. */
-		week_view->pressed_event_num = wveitem->event_num;
-		week_view->pressed_span_num = wveitem->span_num;
-
 		week_view->drag_event_x = bevent->button.x;
 		week_view->drag_event_y = bevent->button.y;
 
@@ -685,7 +685,7 @@ e_week_view_event_item_button_release (EWeekViewEventItem *wveitem,
 	week_view = E_WEEK_VIEW (GTK_WIDGET (item->canvas)->parent);
 	g_return_val_if_fail (E_IS_WEEK_VIEW (week_view), FALSE);
 
-#if 0
+#if 1
 	g_print ("In e_week_view_event_item_button_release\n");
 #endif
 

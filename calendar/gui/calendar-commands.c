@@ -295,6 +295,7 @@ show_day_view_clicked (BonoboUIHandler *uih, void *user_data, const char *path)
 {
 	GnomeCalendar *gcal = GNOME_CALENDAR (user_data);
 	gnome_calendar_set_view (gcal, "dayview");
+	gtk_widget_grab_focus (gcal->day_view);
 }
 
 static void
@@ -302,6 +303,7 @@ show_work_week_view_clicked (BonoboUIHandler *uih, void *user_data, const char *
 {
 	GnomeCalendar *gcal = GNOME_CALENDAR (user_data);
 	gnome_calendar_set_view (gcal, "workweekview");
+	gtk_widget_grab_focus (gcal->work_week_view);
 }
 
 static void
@@ -309,6 +311,7 @@ show_week_view_clicked (BonoboUIHandler *uih, void *user_data, const char *path)
 {
 	GnomeCalendar *gcal = GNOME_CALENDAR (user_data);
 	gnome_calendar_set_view (gcal, "weekview");
+	gtk_widget_grab_focus (gcal->week_view);
 }
 
 static void
@@ -316,6 +319,7 @@ show_month_view_clicked (BonoboUIHandler *uih, void *user_data, const char *path
 {
 	GnomeCalendar *gcal = GNOME_CALENDAR (user_data);
 	gnome_calendar_set_view (gcal, "monthview");
+	gtk_widget_grab_focus (gcal->month_view);
 }
 
 static void
@@ -323,6 +327,7 @@ show_year_view_clicked (BonoboUIHandler *uih, void *user_data, const char *path)
 {
 	GnomeCalendar *gcal = GNOME_CALENDAR (user_data);
 	gnome_calendar_set_view (gcal, "yearview");
+	gtk_widget_grab_focus (gcal->year_view);
 }
 
 static void
@@ -454,7 +459,7 @@ static GnomeUIInfo gnome_toolbar_view_buttons [] = {
 	GNOMEUIINFO_RADIOITEM (N_("Day"),    N_("Show 1 day"),
 			       show_day_view_clicked,
 			       dayview_xpm),
-	GNOMEUIINFO_RADIOITEM (N_("5 Days"), N_("Show 5 days"),
+	GNOMEUIINFO_RADIOITEM (N_("5 Days"), N_("Show the working week"),
 			       show_work_week_view_clicked,
 			       workweekview_xpm),
 	GNOMEUIINFO_RADIOITEM (N_("Week"),   N_("Show 1 week"),
@@ -806,36 +811,61 @@ calendar_iterate (GnomeCalendar *cal,
 		  time_t start, time_t end,
 		  calendarfn cb, void *closure)
 {
-	GList *l, *uids = 0;
+	GList *l, *cois;
+	GHashTable *cache;
+	CalObjFindStatus status;
+	CalObjInstance *coi;
+	char *uid, *obj_string;
+	iCalObject *ico;
 
-	uids = cal_client_get_uids (cal->client, CALOBJ_TYPE_EVENT);
+	cois = cal_client_get_events_in_range (cal->client, start, end);
 
-	for (l = uids; l; l = l->next){
-		CalObjFindStatus status;
-		iCalObject *ico;
-		char *uid = l->data;
-		char *obj_string = cal_client_get_object (cal->client, uid);
+	/* We use a hash table to keep a cache of uid->iCalObject, so for
+	   recurring events we only load and parse the objects once. */
+	cache = g_hash_table_new (g_str_hash, g_str_equal);
 
-		/*iCalObject *obj = string_to_ical_object (obj_string);*/
-		status = ical_object_find_in_string (uid, obj_string, &ico);
-		switch (status){
-		case CAL_OBJ_FIND_SUCCESS:
-			ical_object_generate_events (ico, start, end,
-						     cb, closure);
-			break;
-		case CAL_OBJ_FIND_SYNTAX_ERROR:
-			printf("calendar_iterate: syntax error uid=%s\n",uid);
-			break;
-		case CAL_OBJ_FIND_NOT_FOUND:
-			printf("calendar_iterate: obj not found uid=%s\n",uid);
-			break;
+	for (l = cois; l; l = l->next) {
+		coi = l->data;
+		uid = coi->uid;
+
+		ico = g_hash_table_lookup (cache, uid);
+		if (!ico) {
+			obj_string = cal_client_get_object (cal->client, uid);
+
+			status = ical_object_find_in_string (uid, obj_string,
+							     &ico);
+			g_free (obj_string);
+
+			switch (status) {
+			case CAL_OBJ_FIND_SUCCESS:
+				g_hash_table_insert (cache, ico->uid, ico);
+
+				break;
+			case CAL_OBJ_FIND_SYNTAX_ERROR:
+				printf ("calendar_iterate: syntax error uid=%s\n",
+					uid);
+				ico = NULL;
+				break;
+			case CAL_OBJ_FIND_NOT_FOUND:
+				printf ("calendar_iterate: obj not found uid=%s\n",
+					uid);
+				ico = NULL;
+				break;
+			}
 		}
 
-		/* FIXME: add g_free (obj_string) ? */
+		if (ico)
+			(*cb) (ico, coi->start, coi->end, closure);
 
-		g_free (l->data);
+		g_free (uid);
+		g_free (coi);
 	}
-	g_list_free (uids);
+
+	g_list_free (cois);
+
+	/* Note that we don't need to free the hash keys since they are part
+	   of the iCalObjects. */
+	g_hash_table_destroy (cache);
 }
 
 
@@ -852,34 +882,38 @@ calendar_object_compare_by_start (gconstpointer a, gconstpointer b)
 }
 
 /* FIXME -- where should this (and calendar_object_compare_by_start) go? */
+/* FIXME -- for recurring events we should only load the iCalObject once. */
 /* returns a list of events in the form of CalendarObject* */
-GList *calendar_get_events_in_range (CalClient *calc,
-				     time_t start, time_t end)
+GList*
+calendar_get_events_in_range (CalClient *calc,
+			      time_t start, time_t end)
 {
-	GList *l, *uids, *res = 0;
-	uids = cal_client_get_events_in_range (calc, start, end);
+	GList *l, *cois, *res = NULL;
+	CalObjFindStatus status;
+	CalObjInstance *coi;
+	char *uid, *obj_string;
+	iCalObject *ico;
+	CalendarObject *co;
 
-	for (l = uids; l; l = l->next){
-		CalObjFindStatus status;
-		CalObjInstance *coi = l->data;
-		char *uid = coi->uid;
-		char *obj_string = cal_client_get_object (calc, uid);
-		iCalObject *ico;
+	cois = cal_client_get_events_in_range (calc, start, end);
 
+	for (l = cois; l; l = l->next) {
+		coi = l->data;
+		uid = coi->uid;
+		obj_string = cal_client_get_object (calc, uid);
 
 		status = ical_object_find_in_string (uid, obj_string, &ico);
+		g_free (obj_string);
+
 		switch (status){
 		case CAL_OBJ_FIND_SUCCESS:
-			{
-				CalendarObject *co = g_new (CalendarObject, 1);
-				co->ev_start = start;
-				co->ev_end   = end;
-				co->ico      = ico;
+			co = g_new (CalendarObject, 1);
+			co->ev_start = coi->start;
+			co->ev_end   = coi->end;
+			co->ico      = ico;
 
-				res = g_list_insert_sorted (res, co,
-					calendar_object_compare_by_start);
-				break;
-			}
+			res = g_list_prepend (res, co);
+			break;
 		case CAL_OBJ_FIND_SYNTAX_ERROR:
 			printf ("calendar_get_events_in_range: "
 				"syntax error uid=%s\n", uid);
@@ -890,7 +924,15 @@ GList *calendar_get_events_in_range (CalClient *calc,
 			break;
 		}
 
+		g_free (uid);
+		g_free (coi);
 	}
+
+	g_list_free (cois);
+
+	/* Sort the list here, since it is more efficient to sort it once
+	   rather doing lots of sorted insertions. */
+	res = g_list_sort (res, calendar_object_compare_by_start);
 
 	return res;
 }

@@ -127,6 +127,7 @@ calendar_object_find_by_pilot (GnomeCalendar *cal, int pilot_id)
 	for (l = uids; l; l = l->next){
 		char *obj_string = cal_client_get_object (cal->calc, l->data);
 		iCalObject *obj = string_to_ical_object (obj_string);
+		g_free (obj_string);
 
 		if (obj->pilot_id == pilot_id)
 			return obj;
