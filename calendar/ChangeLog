@@ -1,3 +1,8 @@
+2000-09-08  JP Rosevear  <jpr@helixcode.com>
+
+	* conduits/calendar/calendar-conduit.c (transmit): Use
+	icaltime_as_timet
+
 2000-09-08  Christopher James Lahey  <clahey@helixcode.com>
 
 	* cal-util/cal-recur.c, gui/e-day-view.c, gui/e-week-view.c,

@@ -373,8 +373,6 @@ main (int argc, char *argv[])
 								      &origState->sync_type);
 	activated = org_activation_state;
 
-	//gpilotd_conduit_mgmt_get_sync_type (conduit, pilotId, &origState->sync_type);
-
 	curState = gcalconduit_dupe_configuration(origState);
     
 	pilot_capplet_setup ();

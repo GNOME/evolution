@@ -1198,7 +1198,7 @@ transmit (GnomePilotConduitStandardAbs *conduit,
 		time_t dtstart_time_t;
 
 		cal_component_get_dtstart (local->ical, &dtstart);
-		dtstart_time_t = time_from_icaltimetype (*dtstart.value);
+		dtstart_time_t = icaltime_as_timet (*dtstart.value);
 
 		local->a->begin = *localtime (&dtstart_time_t);
 	}
@@ -1209,7 +1209,7 @@ transmit (GnomePilotConduitStandardAbs *conduit,
 		time_t dtend_time_t;
 
 		cal_component_get_dtend (local->ical, &dtend);
-		dtend_time_t = time_from_icaltimetype (*dtend.value);
+		dtend_time_t = icaltime_as_timet (*dtend.value);
 
 		local->a->end = *localtime (&dtend_time_t);
 	}
