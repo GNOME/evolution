@@ -1,5 +1,11 @@
 2004-06-17  Chris Toshok  <toshok@ximian.com>
 
+	* gui/contact-editor/e-contact-editor.c (e_contact_editor_new):
+	EBookFieldsCallback -> EBookEListCallback.
+	(e_contact_editor_set_property): same.
+
+2004-06-17  Chris Toshok  <toshok@ximian.com>
+
 	* util/eab-book-util.c (eab_name_and_email_query):
 	EBookContactsCallback -> EBookListCallback.
 	(eab_nickname_query): same.

@@ -2997,7 +2997,7 @@ e_contact_editor_new (EBook *book,
 		      NULL);
 
 	if (book)
-		e_book_async_get_supported_fields (book, (EBookFieldsCallback)supported_fields_cb, ce);
+		e_book_async_get_supported_fields (book, (EBookEListCallback)supported_fields_cb, ce);
 
 	return ce;
 }
@@ -3024,7 +3024,7 @@ e_contact_editor_set_property (GObject *object, guint prop_id, const GValue *val
 			g_object_ref (editor->target_book);
 
 			e_book_async_get_supported_fields (editor->target_book,
-							   (EBookFieldsCallback) supported_fields_cb, editor);
+							   (EBookEListCallback) supported_fields_cb, editor);
 		}
 
 		writable = e_book_is_writable (editor->source_book);
@@ -3052,7 +3052,7 @@ e_contact_editor_set_property (GObject *object, guint prop_id, const GValue *val
 		g_object_ref (editor->target_book);
 
 		e_book_async_get_supported_fields (editor->target_book,
-						   (EBookFieldsCallback) supported_fields_cb, editor);
+						   (EBookEListCallback) supported_fields_cb, editor);
 
 		if (!editor->changed && !editor->is_new_contact)
 			editor->changed = TRUE;
