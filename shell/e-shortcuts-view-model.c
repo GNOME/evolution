@@ -64,7 +64,7 @@ get_icon_for_item (EShortcutsViewModel *shortcuts_view_model,
 		EStorageSet *storage_set;
 		EFolderTypeRegistry *folder_type_registry;
 
-		storage_set = e_shortcuts_get_storage_set (priv->shortcuts);
+		storage_set = e_shell_get_storage_set (e_shortcuts_get_shell (priv->shortcuts));
 		folder_type_registry = e_storage_set_get_folder_type_registry (storage_set);
 
 		return e_folder_type_registry_get_icon_for_type (folder_type_registry,

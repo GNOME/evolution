@@ -743,7 +743,7 @@ set_folder_timeout (gpointer data)
 	shell_view = E_SHELL_VIEW (data);
 	priv = shell_view->priv;
 
-	/* set to 0 so we don't remove it in _display_uri() */
+	/* Set to 0 so we don't remove it in _display_uri().  */
 	priv->set_folder_timeout = 0;
 	e_shell_view_display_uri (shell_view, priv->set_folder_uri);
 
@@ -2208,6 +2208,25 @@ create_new_view_for_uri (EShellView *shell_view,
 	return TRUE;
 }
 
+static char *
+evolution_uri_for_default_uri (EShell *shell,
+			       const char *default_uri)
+{
+	char *uri;
+	char *path;
+	char *extra;
+
+	if (! e_shell_parse_uri (shell, default_uri, &path, &extra))
+		return NULL;
+
+	uri = g_strconcat (E_SHELL_URI_PREFIX, path, "#", extra, NULL);
+
+	g_free (path);
+	g_free (extra);
+
+	return uri;
+}
+
 static gboolean
 display_uri (EShellView *shell_view,
 	     const char *uri,
@@ -2218,6 +2237,7 @@ display_uri (EShellView *shell_view,
 	gboolean retval;
 	const char *view_info;
 	char *real_uri;
+	char *allocated_uri = NULL;
 
 	priv = shell_view->priv;
 
@@ -2240,6 +2260,11 @@ display_uri (EShellView *shell_view,
 
 		retval = TRUE;
 		goto end;
+	}
+
+	if (strncmp (uri, E_SHELL_DEFAULTURI_PREFIX, E_SHELL_DEFAULTURI_PREFIX_LEN) == 0) {
+		allocated_uri = evolution_uri_for_default_uri (e_shell_view_get_shell (shell_view), uri);
+		uri = allocated_uri;
 	}
 
 	view_info = strchr (uri, '#');
@@ -2296,6 +2321,8 @@ display_uri (EShellView *shell_view,
 			 e_shell_view_get_current_uri (shell_view),
 			 e_shell_view_get_current_folder_type (shell_view),
 			 e_shell_view_get_current_component_id (shell_view));
+
+	g_free (allocated_uri);
 
 	return retval;
 }

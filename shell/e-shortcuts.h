@@ -86,15 +86,15 @@ struct _EShortcutsClass {
 	void  (* update_shortcut)  	  (EShortcuts *shortcuts, int group_num, int item_num);
 };
 
+
+#include "e-shell.h"
 
 
-GtkType      e_shortcuts_get_type                (void);
-void         e_shortcuts_construct               (EShortcuts          *shortcuts,
-						  EStorageSet         *storage_set,
-						  EFolderTypeRegistry *folder_type_registry);
-EShortcuts  *e_shortcuts_new                     (EStorageSet         *storage_set,
-						  EFolderTypeRegistry *folder_type_registry,
-						  const char          *file_name);
+GtkType     e_shortcuts_get_type       (void);
+void        e_shortcuts_construct      (EShortcuts *shortcuts,
+					EShell     *shell);
+EShortcuts *e_shortcuts_new_from_file  (EShell     *shell,
+					const char *file_name);
 
 int           e_shortcuts_get_num_groups          (EShortcuts *shortcuts);
 
@@ -108,8 +108,9 @@ const EShortcutItem *e_shortcuts_get_shortcut  (EShortcuts *shortcuts,
 						int         group_num,
 						int         num);
 
-EStorageSet  *e_shortcuts_get_storage_set          (EShortcuts *shortcuts);
-GtkWidget    *e_shortcuts_new_view                 (EShortcuts *shortcuts);
+EShell *e_shortcuts_get_shell  (EShortcuts *shortcuts);
+
+GtkWidget *e_shortcuts_new_view  (EShortcuts *shortcuts);
 
 gboolean     e_shortcuts_load                    (EShortcuts          *shortcuts,
 						  const char          *path);

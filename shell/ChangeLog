@@ -1,3 +1,39 @@
+2002-07-17  Ettore Perazzoli  <ettore@ximian.com>
+
+	* e-shortcuts-view-model.c (get_icon_for_item): Get the
+	EStorageSet from the shortcut's shell since there is no
+	e_shortcuts_get_storage_set() anymore.
+	* e-shortcuts-view.c (get_shortcut_info): Likewise.
+	(impl_shortcut_drag_motion): Likewise.
+	(impl_shortcut_drag_data_received): Likewise.
+
+	* e-shell.c (e_shell_construct): e_shortcuts_new_from_file(), not
+	e_shortcuts_new() here.
+
+	* e-shortcuts.c: Removed members storage_set and
+	folder_type_registy in EShortcutsPrivate.  New member shell.
+	(init): Init to NULL.
+	(e_shortcuts_construct): Removed arg @storage_set and
+	@folder_type_registry, new arg @shell.
+	(e_shortcuts_new): Removed.
+	(e_shortcuts_new_from_file): New.
+	(impl_destroy): Renamed from destroy().
+	(e_shortcuts_get_storage_set): Removed.
+	(e_shortcuts_get_shell): New.
+	(load_shortcuts): Accept any URI that can be parsed (by
+	e_shell_parse_uri).
+
+	* e-shell.c (e_shell_parse_uri): New.
+
+	* e-shell-view.c (evolution_uri_for_default_uri): New.
+	(display_uri): Use it to determine the evolution: uri given a
+	default: uri.
+
+	* e-shell.c (impl_Shell_handleURI): Pass it over to
+	e_shell_create_view_from_uri_and_settings() even if it's an
+	E_SHELL_DEFAULTURI_PREFIX.
+	(handle_default_uri): Removed.
+
 2002-07-14  Rodrigo Moya <rodrigo@ximian.com>
 
 	* evolution-storage.c (impl_Storage_getFolderAtPath): no need to

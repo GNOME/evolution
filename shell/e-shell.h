@@ -39,7 +39,6 @@ typedef struct _EShellClass   EShellClass;
 #include "Evolution.h"
 
 #include "e-component-registry.h"
-#include "e-shortcuts.h"
 #include "e-shell-view.h"
 #include "e-uri-schema-registry.h"
 #include "e-shell-user-creatable-items-handler.h"
@@ -97,6 +96,8 @@ enum _EShellConstructResult {
 };
 typedef enum _EShellConstructResult EShellConstructResult;
 
+
+#include "e-shortcuts.h"
 
 
 GtkType                e_shell_get_type   (void);
@@ -156,6 +157,12 @@ gboolean e_shell_prepare_for_quit (EShell *shell);
 
 
 const char *e_shell_construct_result_to_string (EShellConstructResult result);
+
+
+gboolean  e_shell_parse_uri  (EShell      *shell,
+			      const char  *uri,
+			      char       **path_return,
+			      char       **extra_return);
 
 #ifdef __cplusplus
 }

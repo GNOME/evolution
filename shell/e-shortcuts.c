@@ -94,11 +94,8 @@ struct _EShortcutsPrivate {
 	/* Whether these shortcuts need to be saved to disk.  */
 	gboolean dirty;
 
-	/* The storage set to which these shortcuts are associated.  */
-	EStorageSet *storage_set;
-
-	/* The folder type registry.  */
-	EFolderTypeRegistry *folder_type_registry;
+	/* The shell that is associated with these shortcuts.  */
+	EShell *shell;
 
 	/* Total number of groups.  */
 	int num_groups;
@@ -335,6 +332,7 @@ load_shortcuts (EShortcuts *shortcuts,
 			xmlChar *name;
 			xmlChar *type;
 			xmlChar *icon;
+			char *path;
 
 			if (strcmp ((char *) q->name, "item") != 0)
 				continue;
@@ -343,10 +341,10 @@ load_shortcuts (EShortcuts *shortcuts,
 			if (uri == NULL)
 				continue;
 
-			if (strncmp (uri, E_SHELL_URI_PREFIX, E_SHELL_URI_PREFIX_LEN) == 0) {
+			if (e_shell_parse_uri (priv->shell, uri, &path, NULL)) {
 				EFolder *folder;
 
-				folder = e_storage_set_get_folder (priv->storage_set, uri + E_SHELL_URI_PREFIX_LEN);
+				folder = e_storage_set_get_folder (e_shell_get_storage_set (priv->shell), path);
 				if (folder != NULL) {
 					name = xmlMemStrdup (e_folder_get_name (folder));
 					type = xmlMemStrdup (e_folder_get_type_string (folder));
@@ -512,7 +510,7 @@ update_shortcuts_by_path (EShortcuts *shortcuts,
 	gboolean changed = FALSE;
 
 	priv = shortcuts->priv;
-	folder = e_storage_set_get_folder (priv->storage_set, path);
+	folder = e_storage_set_get_folder (e_shell_get_storage_set (priv->shell), path);
 
 	evolution_uri = g_strconcat (E_SHELL_URI_PREFIX, path, NULL);
 
@@ -623,7 +621,7 @@ storage_set_updated_folder_callback (EStorageSet *storage_set,
 /* GtkObject methods.  */
 
 static void
-destroy (GtkObject *object)
+impl_destroy (GtkObject *object)
 {
 	EShortcuts *shortcuts;
 	EShortcutsPrivate *priv;
@@ -632,12 +630,6 @@ destroy (GtkObject *object)
 	priv = shortcuts->priv;
 
 	g_free (priv->file_name);
-
-	if (priv->storage_set != NULL)
-		gtk_object_unref (GTK_OBJECT (priv->storage_set));
-
-	if (priv->folder_type_registry != NULL)
-		gtk_object_unref (GTK_OBJECT (priv->folder_type_registry));
 
 	unload_shortcuts (shortcuts);
 
@@ -659,7 +651,7 @@ class_init (EShortcutsClass *klass)
 	GtkObjectClass *object_class;
 
 	object_class = (GtkObjectClass*) klass;
-	object_class->destroy = destroy;
+	object_class->destroy = impl_destroy;
 
 	parent_class = gtk_type_class (gtk_object_get_type ());
 
@@ -743,35 +735,35 @@ init (EShortcuts *shortcuts)
 	priv = g_new (EShortcutsPrivate, 1);
 
 	priv->file_name      = NULL;
-	priv->storage_set    = NULL;
 	priv->num_groups     = 0;
 	priv->groups         = NULL;
 	priv->views          = NULL;
 	priv->dirty          = 0;
 	priv->save_idle_id   = 0;
+	priv->shell          = NULL;
 
 	shortcuts->priv = priv;
 }
 
 
 void
-e_shortcuts_construct (EShortcuts  *shortcuts,
-		       EStorageSet *storage_set,
-		       EFolderTypeRegistry *folder_type_registry)
+e_shortcuts_construct (EShortcuts *shortcuts,
+		       EShell *shell)
 {
 	EShortcutsPrivate *priv;
+	EStorageSet *storage_set;
 
-	g_return_if_fail (shortcuts != NULL);
 	g_return_if_fail (E_IS_SHORTCUTS (shortcuts));
-	g_return_if_fail (storage_set != NULL);
-	g_return_if_fail (E_IS_STORAGE_SET (storage_set));
+	g_return_if_fail (E_IS_SHELL (shell));
 
 	GTK_OBJECT_UNSET_FLAGS (GTK_OBJECT (shortcuts), GTK_FLOATING);
 
 	priv = shortcuts->priv;
 
-	gtk_object_ref (GTK_OBJECT (storage_set));
-	priv->storage_set = storage_set;
+	/* Don't ref it so we don't create a circular dependency.  */
+	priv->shell = shell;
+
+	storage_set = e_shell_get_storage_set (shell);
 
 	gtk_signal_connect_while_alive (GTK_OBJECT (storage_set), "new_folder",
 					GTK_SIGNAL_FUNC (storage_set_new_folder_callback),
@@ -779,23 +771,19 @@ e_shortcuts_construct (EShortcuts  *shortcuts,
 	gtk_signal_connect_while_alive (GTK_OBJECT (storage_set), "updated_folder",
 					GTK_SIGNAL_FUNC (storage_set_updated_folder_callback),
 					shortcuts, GTK_OBJECT (shortcuts));
-
-	gtk_object_ref (GTK_OBJECT (folder_type_registry));
-	priv->folder_type_registry = folder_type_registry;
 }
 
 EShortcuts *
-e_shortcuts_new (EStorageSet *storage_set,
-		 EFolderTypeRegistry *folder_type_registry,
-		 const char *file_name)
+e_shortcuts_new_from_file (EShell *shell,
+			   const char *file_name)
 {
 	EShortcuts *new;
 
-	g_return_val_if_fail (storage_set != NULL, NULL);
-	g_return_val_if_fail (E_IS_STORAGE_SET (storage_set), NULL);
+	g_return_val_if_fail (E_IS_SHELL (shell), NULL);
+	g_return_val_if_fail (file_name != NULL, NULL);
 
 	new = gtk_type_new (e_shortcuts_get_type ());
-	e_shortcuts_construct (new, storage_set, folder_type_registry);
+	e_shortcuts_construct (new, shell);
 
 	if (! e_shortcuts_load (new, file_name))
 		new->priv->file_name = g_strdup (file_name);
@@ -859,13 +847,13 @@ e_shortcuts_get_shortcuts_in_group (EShortcuts *shortcuts,
 }
 
 
-EStorageSet *
-e_shortcuts_get_storage_set (EShortcuts *shortcuts)
+EShell *
+e_shortcuts_get_shell (EShortcuts *shortcuts)
 {
 	g_return_val_if_fail (shortcuts != NULL, NULL);
 	g_return_val_if_fail (E_IS_SHORTCUTS (shortcuts), NULL);
 
-	return shortcuts->priv->storage_set;
+	return shortcuts->priv->shell;
 }
 
 

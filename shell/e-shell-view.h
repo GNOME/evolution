@@ -26,6 +26,8 @@
 #include "e-task-bar.h"
 
 #include <bonobo/bonobo-win.h>
+#include <bonobo/bonobo-ui-component.h>
+#include <bonobo/bonobo-ui-container.h>
 
 #ifdef __cplusplus
 extern "C" {

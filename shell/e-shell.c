@@ -436,43 +436,6 @@ impl_Shell_createNewView (PortableServer_Servant servant,
 }
 
 static void
-handle_default_uri (EShell *shell, const char *uri, CORBA_Environment *ev)
-{
-	char *component, *dbpath, *extra_info, *new_uri;
-	gboolean def;
-
-	component = g_strdup (uri + E_SHELL_DEFAULTURI_PREFIX_LEN);
-	extra_info = strchr (component, '#');
-	if (extra_info)
-		*extra_info++ = '\0';
-
-	dbpath = g_strdup_printf ("/DefaultFolders/%s_path", component);
-	new_uri = bonobo_config_get_string_with_default (shell->priv->db,
-							 dbpath, NULL, &def);
-	g_free (dbpath);
-
-	if (new_uri == NULL) {
-		CORBA_exception_set (ev, CORBA_USER_EXCEPTION,
-				     ex_GNOME_Evolution_Shell_NotFound, NULL);
-		g_free (component);
-		return;
-	}
-
-	if (extra_info) {
-		char *tmp;
-
-		tmp = new_uri;
-		new_uri = g_strdup_printf ("%s#%s", new_uri, extra_info);
-		g_free (tmp);
-	}
-
-	e_shell_create_view_from_uri_and_settings (shell, new_uri, 0);
-	g_free (new_uri);
-	g_free (component);
-	return;
-}
-
-static void
 impl_Shell_handleURI (PortableServer_Servant servant,
 		      const CORBA_char *uri,
 		      CORBA_Environment *ev)
@@ -489,13 +452,9 @@ impl_Shell_handleURI (PortableServer_Servant servant,
 	shell = E_SHELL (bonobo_object_from_servant (servant));
 	priv = shell->priv;
 
-	if (strncmp (uri, E_SHELL_URI_PREFIX, E_SHELL_URI_PREFIX_LEN) == 0) {
+	if (strncmp (uri, E_SHELL_URI_PREFIX, E_SHELL_URI_PREFIX_LEN) == 0
+	    || strncmp (uri, E_SHELL_DEFAULTURI_PREFIX, E_SHELL_DEFAULTURI_PREFIX_LEN) == 0) {
 		e_shell_create_view_from_uri_and_settings (shell, uri, 0);
-		return;
-	}
-
-	if (strncmp (uri, E_SHELL_DEFAULTURI_PREFIX, E_SHELL_DEFAULTURI_PREFIX_LEN) == 0) {
-		handle_default_uri (shell, uri, ev);
 		return;
 	}
 
@@ -1320,9 +1279,7 @@ e_shell_construct (EShell *shell,
 	/* Set up the shortcuts.  */
 	
 	shortcut_path = g_concat_dir_and_file (local_directory, "shortcuts.xml");
-	priv->shortcuts = e_shortcuts_new (priv->storage_set,
-					   priv->folder_type_registry,
-					   shortcut_path);
+	priv->shortcuts = e_shortcuts_new_from_file (shell, shortcut_path);
 	g_assert (priv->shortcuts != NULL);
 	
 	if (e_shortcuts_get_num_groups (priv->shortcuts) == 0)
@@ -2237,6 +2194,105 @@ e_shell_prepare_for_quit (EShell *shell)
 
 	e_free_string_list (component_ids);
 	return retval;
+}
+
+
+/* URI parsing.   */
+
+static gboolean
+parse_default_uri (EShell *shell,
+		   const char *uri,
+		   char **path_return,
+		   char **extra_return)
+{
+	const char *component_start;
+	const char *component;
+	const char *p;
+	char *db_path;
+	char *path;
+	gboolean is_default;
+
+	component_start = uri + E_SHELL_DEFAULTURI_PREFIX_LEN;
+	p = strchr (uri, '#');
+
+	if (p == NULL)
+		component = g_strdup (component_start);
+	else
+		component = g_strndup (component_start, p - component_start);
+
+	db_path = g_strdup_printf ("/DefaultFolders/%s_path", component);
+	path = bonobo_config_get_string_with_default (e_shell_get_config_db (shell),
+						      db_path, NULL, &is_default);
+
+	/* We expect an evolution: URI here, if we don't get it then something
+	   is messed up.  */
+	if (strncmp (path, E_SHELL_URI_PREFIX, E_SHELL_URI_PREFIX_LEN) != 0 || is_default) {
+		g_free (path);
+		if (path_return != NULL)
+			*path_return = NULL;
+		if (extra_return != NULL)
+			*extra_return = NULL;
+		return FALSE;
+	}
+
+	if (path_return != NULL)
+		*path_return = g_strdup (path + E_SHELL_URI_PREFIX_LEN);
+
+	if (extra_return != NULL) {
+		if (p == NULL)
+			*extra_return = NULL;
+		else
+			*extra_return = g_strdup (p + 1);
+	}
+
+	return TRUE;
+}
+
+static gboolean
+parse_evolution_uri (EShell *shell,
+		     const char *uri,
+		     char **path_return,
+		     char **extra_return)
+{
+	const char *path_start;
+	const char *p;
+
+	path_start = uri + E_SHELL_URI_PREFIX_LEN;
+	p = strchr (path_start, '#');
+
+	if (p != NULL && path_return != NULL)
+		*path_return = g_strndup (path_start, p - path_start);
+	else
+		*path_return = g_strdup (path_start);
+
+	if (extra_return != NULL) {
+		if (p == NULL)
+			*extra_return = NULL;
+		else
+			*extra_return = g_strdup (p + 1);
+	}
+
+	return TRUE;
+}
+
+gboolean
+e_shell_parse_uri (EShell *shell,
+		   const char *uri,
+		   char **path_return,
+		   char **extra_return)
+{
+	g_return_val_if_fail (uri != NULL, FALSE);
+
+	if (strncmp (uri, E_SHELL_DEFAULTURI_PREFIX, E_SHELL_DEFAULTURI_PREFIX_LEN) == 0)
+		return parse_default_uri (shell, uri, path_return, extra_return);
+
+	if (strncmp (uri, E_SHELL_URI_PREFIX, E_SHELL_URI_PREFIX_LEN) == 0)
+		return parse_evolution_uri (shell, uri, path_return, extra_return);
+
+	*path_return = NULL;
+	if (extra_return != NULL)
+		*extra_return =  NULL;
+	return FALSE;
 }
 
 

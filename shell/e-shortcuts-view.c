@@ -520,7 +520,7 @@ get_shortcut_info (EShortcutsView *shortcuts_view,
 	}
 
 	path = strchr (item_url, G_DIR_SEPARATOR);
-	storage_set = e_shortcuts_get_storage_set (priv->shortcuts);
+	storage_set = e_shell_get_storage_set (e_shortcuts_get_shell (priv->shortcuts));
 
 	folder = e_storage_set_get_folder (storage_set, path);
 	if (folder != NULL) {
@@ -611,8 +611,8 @@ impl_shortcut_drag_motion (EShortcutBar *shortcut_bar,
 		return FALSE;
 
 	if (! e_folder_dnd_bridge_motion (widget, context, time,
-				    e_shortcuts_get_storage_set (priv->shortcuts),
-				    shortcut->uri + E_SHELL_URI_PREFIX_LEN))
+					  e_shell_get_storage_set (e_shortcuts_get_shell (priv->shortcuts)),
+					  shortcut->uri + E_SHELL_URI_PREFIX_LEN))
 		gdk_drag_status (context, 0, time);
 
 	return TRUE;
@@ -641,7 +641,7 @@ impl_shortcut_drag_data_received (EShortcutBar *shortcut_bar,
 		return FALSE;
 
 	e_folder_dnd_bridge_data_received (widget, context, selection_data, time,
-					   e_shortcuts_get_storage_set (priv->shortcuts),
+					   e_shell_get_storage_set (e_shortcuts_get_shell (priv->shortcuts)),
 					   shortcut->uri + E_SHELL_URI_PREFIX_LEN);
 	return TRUE;
 }
