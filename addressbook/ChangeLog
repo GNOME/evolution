@@ -1,3 +1,9 @@
+2003-01-23  Sean Gao  <Sean.Gao@Sun.COM>
+
+	[ fixes bug #36375 ]
+	* backend/pas/pas-backend-ldap.c: use PHONE_OTHER_FAX instead of
+	PHONE_OTHER for "other_fax".
+	
 2003-01-23  Chris Toshok  <toshok@ximian.com>
 
 	[ fixes bug #31014, roll this in from the 1.2 branch ]

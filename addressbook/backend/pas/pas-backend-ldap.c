@@ -233,7 +233,7 @@ struct prop_info {
 	STRING_PROP   (E_CARD_SIMPLE_FIELD_PHONE_BUSINESS_FAX, "business_fax", "facsimileTelephoneNumber"), 
 	E_STRING_PROP (E_CARD_SIMPLE_FIELD_PHONE_HOME_FAX,     "home_fax", "homeFacsimileTelephoneNumber"), 
 	E_STRING_PROP (E_CARD_SIMPLE_FIELD_PHONE_OTHER,        "other_phone", "otherPhone"), 
-	E_STRING_PROP (E_CARD_SIMPLE_FIELD_PHONE_OTHER,        "other_fax", "otherFacsimileTelephoneNumber"), 
+	E_STRING_PROP (E_CARD_SIMPLE_FIELD_PHONE_OTHER_FAX,    "other_fax", "otherFacsimileTelephoneNumber"), 
 	STRING_PROP   (E_CARD_SIMPLE_FIELD_PHONE_ISDN,         "isdn", "internationaliSDNNumber"), 
 	STRING_PROP   (E_CARD_SIMPLE_FIELD_PHONE_PAGER,        "pager", "pager"),
 	E_STRING_PROP (E_CARD_SIMPLE_FIELD_PHONE_RADIO,        "radio", "radio"),
