@@ -5,3 +5,4 @@ _libs
 .libs
 gncal
 gnomecal
+getdate.c
