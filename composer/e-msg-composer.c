@@ -149,7 +149,7 @@ static GSList *all_composers = NULL;
 
 
 /* local prototypes */
-static GList *add_recipients   (GList *list, const char *recips, gboolean decode);
+static GList *add_recipients (GList *list, const char *recips);
 
 static void handle_mailto (EMsgComposer *composer, const char *mailto);
 
@@ -3961,17 +3961,14 @@ e_msg_composer_new_redirect (CamelMimeMessage *message, const char *resent_from)
 
 
 static GList *
-add_recipients (GList *list, const char *recips, gboolean decode)
+add_recipients (GList *list, const char *recips)
 {
 	CamelInternetAddress *cia;
 	const char *name, *addr;
 	int num, i;
 	
 	cia = camel_internet_address_new ();
-	if (decode)
-		num = camel_address_decode (CAMEL_ADDRESS (cia), recips);
-	else
-		num = camel_address_unformat (CAMEL_ADDRESS (cia), recips);
+	num = camel_address_decode (CAMEL_ADDRESS (cia), recips);
 	
 	for (i = 0; i < num; i++) {
 		if (camel_internet_address_get (cia, i, &name, &addr)) {
@@ -4007,7 +4004,7 @@ handle_mailto (EMsgComposer *composer, const char *mailto)
 	if (len) {
 		content = g_strndup (p, len);
 		camel_url_decode (content);
-		to = add_recipients (to, content, FALSE);
+		to = add_recipients (to, content);
 		g_free (content);
 	}
 	
@@ -4032,11 +4029,11 @@ handle_mailto (EMsgComposer *composer, const char *mailto)
 			camel_url_decode (content);
 			
 			if (!strcasecmp (header, "to")) {
-				to = add_recipients (to, content, FALSE);
+				to = add_recipients (to, content);
 			} else if (!strcasecmp (header, "cc")) {
-				cc = add_recipients (cc, content, FALSE);
+				cc = add_recipients (cc, content);
 			} else if (!strcasecmp (header, "bcc")) {
-				bcc = add_recipients (bcc, content, FALSE);
+				bcc = add_recipients (bcc, content);
 			} else if (!strcasecmp (header, "subject")) {
 				g_free (subject);
 				if (g_utf8_validate (content, -1, NULL)) {
