@@ -58,7 +58,7 @@ typedef struct {
 	GSList *news;
 	
 	char *pgp_path;
-	int pgp_type;
+	CamelPgpType pgp_type;
 } MailConfig;
 
 static const char GCONFPATH[] = "/apps/Evolution/Mail";
@@ -424,7 +424,7 @@ config_read (void)
 			       evolution_dir);
 	config->pgp_type = gnome_config_get_int_with_default (str, &def);
 	if (def)
-		config->pgp_type = 0;
+		config->pgp_type = CAMEL_PGP_TYPE_NONE;
 	g_free (str);
 	
 	gnome_config_sync ();
@@ -731,14 +731,89 @@ mail_config_set_prompt_empty_subject (gboolean value)
 	config->prompt_empty_subject = value;
 }
 
-gint
+
+struct {
+	char *bin;
+	CamelPgpType type;
+} binaries[] = {
+	{ "gpg", CAMEL_PGP_TYPE_GPG },
+	{ "pgpv", CAMEL_PGP_TYPE_PGP5 },
+	{ "pgp", CAMEL_PGP_TYPE_PGP2 },
+	{ NULL, CAMEL_PGP_TYPE_NONE }
+};
+
+/* FIXME: what about PGP 6.x? And I assume we want to "prefer" GnuPG
+   over the other, which is done now, but after that do we have a
+   order-of-preference for the rest? */
+static void
+auto_detect_pgp_variables (void)
+{
+	CamelPgpType type = CAMEL_PGP_TYPE_NONE;
+	const char *PATH, *path;
+	char *pgp = NULL;
+	
+	PATH = getenv ("PATH");
+	
+	path = PATH;
+	while (path && *path && !type) {
+		const char *pend = strchr (path, ':');
+		char *dirname;
+		int i;
+		
+		if (pend) {
+			/* don't even think of using "." */
+			if (!strncmp (path, ".", pend - path)) {
+				path = pend + 1;
+				continue;
+			}
+			
+			dirname = g_strndup (path, pend - path);
+			path = pend + 1;
+		} else {
+			/* don't even think of using "." */
+			if (!strcmp (path, "."))
+				break;
+			
+			dirname = g_strdup (path);
+			path = NULL;
+		}
+		
+		for (i = 0; binaries[i].bin; i++) {
+			struct stat st;
+			
+			pgp = g_strdup_printf ("%s/%s", dirname, binaries[i].bin);
+			/* make sure the file exists *and* is executable? */
+			if (stat (pgp, &st) != -1 && st.st_mode & (S_IXOTH | S_IXGRP | S_IXUSR)) {
+				type = binaries[i].type;
+				break;
+			}
+			
+			g_free (pgp);
+			pgp = NULL;
+		}
+		
+		g_free (dirname);
+	}
+	
+	if (pgp && type) {
+		mail_config_set_pgp_path (pgp);
+		mail_config_set_pgp_type (type);
+	}
+	
+	g_free (pgp);
+}
+
+CamelPgpType
 mail_config_get_pgp_type (void)
 {
+	if (!config->pgp_path || !config->pgp_type)
+		auto_detect_pgp_variables ();
+	
 	return config->pgp_type;
 }
 
 void
-mail_config_set_pgp_type (gint pgp_type)
+mail_config_set_pgp_type (CamelPgpType pgp_type)
 {
 	config->pgp_type = pgp_type;
 }
@@ -746,6 +821,9 @@ mail_config_set_pgp_type (gint pgp_type)
 const char *
 mail_config_get_pgp_path (void)
 {
+	if (!config->pgp_path || !config->pgp_type)
+		auto_detect_pgp_variables ();
+	
 	return config->pgp_path;
 }
 

@@ -1,3 +1,9 @@
+2001-04-20  Jeffrey Stedfast  <fejj@ximian.com>
+
+	* mail-config.c (mail_config_set_pgp_type): Use a CamelPgpType.
+	(mail_config_get_pgp_type): Return a CamelPgpType.
+	(auto_detect_pgp_variables): auto-detect the user's pgp settings.
+
 2001-04-20  Dan Winship  <danw@ximian.com>
 
 	* mail-format.c (handle_text_plain): Fix a dumb thinko in my 04-11
