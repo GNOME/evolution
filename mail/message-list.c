@@ -1106,7 +1106,7 @@ message_list_get_layout (MessageList *message_list)
 }
 
 static void
-message_list_setup_etree(MessageList *message_list)
+message_list_setup_etree(MessageList *message_list, gboolean outgoing)
 {
 	/* build the spec based on the folder, and possibly from a saved file */
 	/* otherwise, leave default */
@@ -1122,8 +1122,8 @@ message_list_setup_etree(MessageList *message_list)
 		if (path && stat (path, &st) == 0 && st.st_size > 0 && S_ISREG (st.st_mode)) {
 			/* build based on saved file */
 			e_tree_load_state (message_list->tree, path);
-		} else if (strstr (name, "/Drafts") || strstr (name, "/Outbox") || strstr (name, "/Sent")) {
-			/* these folders have special defaults */
+		} else if (outgoing) {
+			/* Swap From/To for Drafts, Sent, Outbox */
 			char *state = "<ETableState>"
 				"<column source=\"0\"/> <column source=\"1\"/> "
 				"<column source=\"8\"/> <column source=\"5\"/> "
@@ -1952,7 +1952,7 @@ message_changed (CamelObject *o, gpointer event_data, gpointer user_data)
 }
 
 void
-message_list_set_folder (MessageList *message_list, CamelFolder *camel_folder)
+message_list_set_folder (MessageList *message_list, CamelFolder *camel_folder, gboolean outgoing)
 {
 	CamelException ex;
 
@@ -1985,7 +1985,7 @@ message_list_set_folder (MessageList *message_list, CamelFolder *camel_folder)
 
 	if (camel_folder) {
 		/* build the etree suitable for this folder */
-		message_list_setup_etree(message_list);
+		message_list_setup_etree(message_list, outgoing);
 		
 		camel_object_hook_event(CAMEL_OBJECT (camel_folder), "folder_changed",
 					folder_changed, message_list);

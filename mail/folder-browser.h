@@ -121,4 +121,8 @@ void folder_browser_set_message_display_style (BonoboUIComponent           *comp
 					       const char                  *state,
 					       gpointer                     user_data);
 
+gboolean folder_browser_is_drafts (FolderBrowser *fb);
+gboolean folder_browser_is_sent   (FolderBrowser *fb);
+gboolean folder_browser_is_outbox (FolderBrowser *fb);
+
 #endif /* _FOLDER_BROWSER_H_ */

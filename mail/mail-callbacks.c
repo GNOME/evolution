@@ -69,9 +69,6 @@
 #include <sys/stat.h>
 #endif
 
-extern CamelFolder *drafts_folder;
-extern CamelFolder *sent_folder;
-
 struct post_send_data {
 	CamelFolder *folder;
 	gchar *uid;
@@ -983,120 +980,6 @@ do_edit_messages(CamelFolder *folder, GPtrArray *uids, GPtrArray *messages, void
 }
 
 static gboolean
-is_sent_folder (CamelFolder *folder)
-{
-	/* FIXME: hide other attributes of the URL? */
-	CamelService *service = CAMEL_SERVICE (folder->parent_store);
-	guint32 flags = CAMEL_URL_HIDE_PASSWORD | CAMEL_URL_HIDE_PARAMS;
-	const GSList *accounts;
-	CamelURL *url;
-	char *str;
-	
-	if (folder == sent_folder)
-		return TRUE;
-	
-	str = camel_url_to_string (service->url, flags);
-	url = camel_url_new (str, NULL);
-	g_free (str);
-	
-	g_free (url->path);
-	url->path = g_strdup_printf ("/%s", folder->full_name);
-	
-	accounts = mail_config_get_accounts ();
-	while (accounts) {
-		const MailConfigAccount *account = accounts->data;
-		
-		if (account && account->sent_folder_uri) {
-			CamelURL *sent_url;
-			
-			sent_url = camel_url_new (account->sent_folder_uri, NULL);
-			
-			if (sent_url) {
-				g_free (sent_url->passwd);
-				sent_url->passwd = NULL;
-				
-				if (sent_url->params) {
-					g_datalist_clear (&url->params);
-					url->params = NULL;
-				}
-				
-				if (camel_url_equal (url, sent_url)) {
-					camel_url_free (sent_url);
-					camel_url_free (url);
-					
-					return TRUE;
-				}
-				
-				camel_url_free (sent_url);
-			}
-		}
-		
-		accounts = accounts->next;
-	}
-	
-	camel_url_free (url);
-	
-	return FALSE;
-}
-
-static gboolean
-is_drafts_folder (CamelFolder *folder)
-{
-	/* FIXME: hide other attributes of the URL? */
-	CamelService *service = CAMEL_SERVICE (folder->parent_store);
-	guint32 flags = CAMEL_URL_HIDE_PASSWORD | CAMEL_URL_HIDE_PARAMS;
-	const GSList *accounts;
-	CamelURL *url;
-	char *str;
-	
-	if (folder == drafts_folder)
-		return TRUE;
-	
-	str = camel_url_to_string (service->url, flags);
-	url = camel_url_new (str, NULL);
-	g_free (str);
-	
-	g_free (url->path);
-	url->path = g_strdup_printf ("/%s", folder->full_name);
-	
-	accounts = mail_config_get_accounts ();
-	while (accounts) {
-		const MailConfigAccount *account = accounts->data;
-		
-		if (account && account->drafts_folder_uri) {
-			CamelURL *drafts_url;
-			
-			drafts_url = camel_url_new (account->drafts_folder_uri, NULL);
-			
-			if (drafts_url) {
-				g_free (drafts_url->passwd);
-				drafts_url->passwd = NULL;
-				
-				if (drafts_url->params) {
-					g_datalist_clear (&url->params);
-					url->params = NULL;
-				}
-				
-				if (camel_url_equal (url, drafts_url)) {
-					camel_url_free (drafts_url);
-					camel_url_free (url);
-					
-					return TRUE;
-				}
-				
-				camel_url_free (drafts_url);
-			}
-		}
-		
-		accounts = accounts->next;
-	}
-	
-	camel_url_free (url);
-	
-	return FALSE;
-}
-
-static gboolean
 are_you_sure (const char *msg, GPtrArray *uids, FolderBrowser *fb)
 {
 	GtkWidget *window = gtk_widget_get_ancestor (GTK_WIDGET (fb), GTK_TYPE_WINDOW);
@@ -1146,7 +1029,7 @@ edit_msg (GtkWidget *widget, gpointer user_data)
 {
 	FolderBrowser *fb = FOLDER_BROWSER (user_data);
 	
-	if (is_drafts_folder (fb->folder)) {
+	if (!folder_browser_is_drafts (fb)) {
 		GtkWidget *message;
 		
 		message = gnome_warning_dialog (_("You may only edit messages saved\n"
@@ -1180,7 +1063,7 @@ resend_msg (GtkWidget *widget, gpointer user_data)
 	FolderBrowser *fb = FOLDER_BROWSER (user_data);
 	GPtrArray *uids;
 	
-	if (!is_sent_folder (fb->folder)) {
+	if (!folder_browser_is_sent (fb)) {
 		GtkWidget *message;
 		
 		message = gnome_warning_dialog (_("You may only resend messages\n"
@@ -1674,7 +1557,7 @@ open_msg (GtkWidget *widget, gpointer user_data)
 {
 	FolderBrowser *fb = FOLDER_BROWSER (user_data);
 	
-	if (is_drafts_folder (fb->folder))
+	if (folder_browser_is_drafts (fb))
 		edit_msg_internal (fb);
 	else
 		view_msg (NULL, user_data);

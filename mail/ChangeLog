@@ -1,3 +1,32 @@
+2001-05-16  Dan Winship  <danw@ximian.com>
+
+	* folder-browser.c (folder_browser_is_drafts,
+	folder_browser_is_sent, folder_browser_is_outbox): Functions to
+	determine if a folderbrowser is one of the drafts, sent, or outbox
+	folders.
+	(got_folder): Pass TRUE for the "outgoing" flag to
+	message_list_set_folder if this is a Sent, Drafts, or Outbox
+	folder.
+
+	* message-list.c (message_list_set_folder): Take a flag saying
+	whether or not the folder is an "outgoing" folder.
+	(message_list_setup_etree): Ditto. Use that rather than a
+	hardcoded list of foldernames for deciding whether to swap From
+	and To in the default layout.
+
+	* mail-config.c (mail_config_folder_to_cachename): Make IMAP
+	folders have unique cachenames rather than only one per store, so
+	that IMAP Sent and Drafts folders don't get forced into having the
+	same layout as the INBOX.
+
+	* mail-callbacks.c: (is_sent_folder, is_drafts_folder): Gone.
+	Replaced with simpler folder_browser_is_* routines.
+	(edit_msg, resend_msg, open_msg): Use folder_browser_is_*
+	routines.
+
+	* mail-local.c (reconfigure_clicked): Update call to
+	message_list_set_folder.
+
 2001-05-16  Jeffrey Stedfast  <fejj@ximian.com>
 
 	* mail-crypto.c (mail_crypto_is_smime_v3_signed): Removed (this

@@ -137,25 +137,6 @@ folder_browser_class_init (GtkObjectClass *object_class)
 	gtk_object_class_add_signals (object_class, folder_browser_signals, LAST_SIGNAL);
 }
 
-/*
- * static gboolean
- * folder_browser_load_folder (FolderBrowser *fb, const char *name)
- * {
- * 	CamelFolder *new_folder;
- * 
- * 	new_folder = mail_tool_uri_to_folder_noex (name);
- * 
- * 	if (!new_folder)
- * 		return FALSE;
- * 
- * 	if (fb->folder)
- * 		camel_object_unref (CAMEL_OBJECT (fb->folder));
- * 	fb->folder = new_folder;
- * 	message_list_set_folder (fb->message_list, new_folder);
- * 	return TRUE;
- * }
- */
-
 static void
 update_unread_count_main(CamelObject *object, gpointer event_data, gpointer user_data)
 {
@@ -224,7 +205,10 @@ got_folder(char *uri, CamelFolder *folder, void *data)
 
 	gtk_widget_set_sensitive(GTK_WIDGET(fb->search), camel_folder_has_search_capability(folder));
 	message_list_set_threaded(fb->message_list, mail_config_get_thread_list());
-	message_list_set_folder(fb->message_list, folder);
+	message_list_set_folder(fb->message_list, folder,
+				folder_browser_is_drafts (fb) ||
+				folder_browser_is_sent (fb) ||
+				folder_browser_is_outbox (fb));
 	vfolder_register_source(folder);
 done:
 	gtk_object_unref((GtkObject *)fb);
@@ -249,6 +233,81 @@ folder_browser_set_uri (FolderBrowser *folder_browser, const char *uri)
 	}
 
 	return TRUE;
+}
+
+
+extern CamelFolder *drafts_folder, *sent_folder, *outbox_folder;
+
+/**
+ * folder_browser_is_drafts:
+ * @fb: a FolderBrowser
+ *
+ * Return value: %TRUE if @fb refers to /local/Drafts or any other
+ * configured Drafts folder.
+ **/
+gboolean
+folder_browser_is_drafts (FolderBrowser *fb)
+{
+	const GSList *accounts;
+	MailConfigAccount *account;
+
+	g_return_val_if_fail (IS_FOLDER_BROWSER (fb) && fb->uri, FALSE);
+
+	if (fb->folder == drafts_folder)
+		return TRUE;
+
+	accounts = mail_config_get_accounts ();
+	while (accounts) {
+		account = accounts->data;
+		if (account->drafts_folder_uri &&
+		    !strcmp (account->drafts_folder_uri, fb->uri))
+			return TRUE;
+		accounts = accounts->next;
+	}
+	return FALSE;
+}
+
+/**
+ * folder_browser_is_sent:
+ * @fb: a FolderBrowser
+ *
+ * Return value: %TRUE if @fb refers to /local/Sent or any other
+ * configured Sent folder.
+ **/
+gboolean
+folder_browser_is_sent (FolderBrowser *fb)
+{
+	const GSList *accounts;
+	MailConfigAccount *account;
+
+	g_return_val_if_fail (IS_FOLDER_BROWSER (fb) && fb->uri, FALSE);
+
+	if (fb->folder == sent_folder)
+		return TRUE;
+
+	accounts = mail_config_get_accounts ();
+	while (accounts) {
+		account = accounts->data;
+		if (account->sent_folder_uri &&
+		    !strcmp (account->sent_folder_uri, fb->uri))
+			return TRUE;
+		accounts = accounts->next;
+	}
+	return FALSE;
+}
+
+/**
+ * folder_browser_is_outbox:
+ * @fb: a FolderBrowser
+ *
+ * Return value: %TRUE if @fb refers to /local/Outbox or any other
+ * configured Outbox folder.
+ **/
+gboolean
+folder_browser_is_outbox (FolderBrowser *fb)
+{
+	/* There can be only one. */
+	return fb->folder == outbox_folder;
 }
 
 void

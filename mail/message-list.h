@@ -101,7 +101,8 @@ typedef enum {
 GtkType        message_list_get_type   (void);
 GtkWidget     *message_list_new        (void);
 void           message_list_set_folder (MessageList *message_list,
-					CamelFolder *camel_folder);
+					CamelFolder *camel_folder,
+					gboolean outgoing);
 
 void           message_list_foreach    (MessageList *message_list,
 					MessageListForeachFunc callback,
