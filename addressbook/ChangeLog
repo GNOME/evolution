@@ -1,5 +1,9 @@
 2000-10-19  JP Rosevear  <jpr@helixcode.com>
 
+	* conduit/*: Merge properly from HEAD
+	
+2000-10-19  JP Rosevear  <jpr@helixcode.com>
+
 	* conduit/Makefile.am: Build fix
 
 	* Makefile.am (DIST_SUBDIRS): Build fix
