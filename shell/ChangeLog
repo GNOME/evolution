@@ -1,3 +1,19 @@
+2002-05-20  Chris Toshok  <toshok@ximian.com>
+
+	* evolution-folder-selector-button.c (clicked): set the parent
+	window insensitive before popping up the dialog and sensitive
+	after it's popped down, to give us semi-modal behavior.  Also,
+	emit a "popped_up" signal when popping up the dialog, and emit
+	"canceled" when the return folder is NULL (when the user canceled
+	the dialog).
+	(class_init): fix typo (?) - parent type isn't
+	bonobo_object_get_type(), it's PARENT_TYPE.  Also, initialize the
+	POPPED_UP and CANCELED signals.
+
+	* evolution-folder-selector-button.h (struct
+	_EvolutionFolderSelectorButtonClass): add popped_up and canceled
+	signals.
+
 2002-05-20  Ettore Perazzoli  <ettore@ximian.com>
 
 	* e-shell-offline-sync.c (sync_folder): Skip the folder if it

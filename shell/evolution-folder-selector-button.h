@@ -52,7 +52,9 @@ struct _EvolutionFolderSelectorButtonClass {
 	GtkButtonClass parent_class;
 
 	/* signals */
+	void (*popped_up) (EvolutionFolderSelectorButton *button);
 	void (*selected) (EvolutionFolderSelectorButton *button, GNOME_Evolution_Folder *folder);
+	void (*canceled) (EvolutionFolderSelectorButton *button);
 };
 
 

@@ -39,7 +39,9 @@ struct _EvolutionFolderSelectorButtonPrivate {
 };
 
 enum {
+	POPPED_UP,
 	SELECTED,
+	CANCELED,
 	LAST_SIGNAL
 };
 static guint signals[LAST_SIGNAL] = { 0 };
@@ -131,8 +133,13 @@ clicked (GtkButton *button)
 		gtk_widget_get_ancestor (GTK_WIDGET (button),
 					 GTK_TYPE_WINDOW);
 
+	gtk_widget_set_sensitive (GTK_WIDGET (parent_window), FALSE);
+
 	folder_selector_button = EVOLUTION_FOLDER_SELECTOR_BUTTON (button);
 	priv = folder_selector_button->priv;
+
+	gtk_signal_emit (GTK_OBJECT (folder_selector_button),
+			 signals[POPPED_UP]);
 
 	evolution_shell_client_user_select_folder (priv->shell_client,
 						   parent_window,
@@ -140,8 +147,14 @@ clicked (GtkButton *button)
 						   priv->uri ? priv->uri : "",
 						   (const char **)priv->possible_types,
 						   &return_folder);
-	if (!return_folder)
+
+	gtk_widget_set_sensitive (GTK_WIDGET (parent_window), TRUE);
+
+	if (!return_folder) {
+		gtk_signal_emit (GTK_OBJECT (folder_selector_button),
+			 	signals[CANCELED]);
 		return;
+	}
 
 	g_free (priv->uri);
 	priv->uri = g_strdup (return_folder->evolutionUri);
@@ -184,7 +197,7 @@ class_init (EvolutionFolderSelectorButtonClass *klass)
 	GtkObjectClass *object_class;
 	GtkButtonClass *button_class;
 
-	parent_class = gtk_type_class (bonobo_object_get_type ());
+	parent_class = gtk_type_class (PARENT_TYPE);
 
 	object_class = GTK_OBJECT_CLASS (klass);
 	button_class = GTK_BUTTON_CLASS (klass);
@@ -192,6 +205,12 @@ class_init (EvolutionFolderSelectorButtonClass *klass)
 	button_class->clicked = clicked;
 	object_class->destroy = destroy;
 
+	signals[POPPED_UP] = gtk_signal_new ("popped_up",
+					    GTK_RUN_FIRST,
+					    object_class->type,
+					    GTK_SIGNAL_OFFSET (EvolutionFolderSelectorButtonClass, popped_up),
+					    gtk_marshal_NONE__NONE,
+					    GTK_TYPE_NONE, 0);
 	signals[SELECTED] = gtk_signal_new ("selected",
 					    GTK_RUN_FIRST,
 					    object_class->type,
@@ -199,6 +218,12 @@ class_init (EvolutionFolderSelectorButtonClass *klass)
 					    gtk_marshal_NONE__POINTER,
 					    GTK_TYPE_NONE, 1,
 					    GTK_TYPE_POINTER);
+	signals[CANCELED] = gtk_signal_new ("canceled",
+					    GTK_RUN_FIRST,
+					    object_class->type,
+					    GTK_SIGNAL_OFFSET (EvolutionFolderSelectorButtonClass, canceled),
+					    gtk_marshal_NONE__NONE,
+					    GTK_TYPE_NONE, 0);
 	gtk_object_class_add_signals (object_class, signals, LAST_SIGNAL);
 }
 
