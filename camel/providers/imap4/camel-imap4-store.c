@@ -275,13 +275,14 @@ connect_to_server (CamelIMAP4Engine *engine, struct addrinfo *ai, int ssl_mode, 
 static struct {
 	char *value;
 	char *serv;
+	char *port;
 	int mode;
 } ssl_options[] = {
-	{ "",              "imaps", MODE_SSL   },  /* really old (1.x) */
-	{ "always",        "imaps", MODE_SSL   },
-	{ "when-possible", "imap",  MODE_TLS   },
-	{ "never",         "imap",  MODE_CLEAR },
-	{ NULL,            "imap",  MODE_CLEAR },
+	{ "",              "imaps", "993", MODE_SSL   },  /* really old (1.x) */
+	{ "always",        "imaps", "993", MODE_SSL   },
+	{ "when-possible", "imap",  "143", MODE_TLS   },
+	{ "never",         "imap",  "143", MODE_CLEAR },
+	{ NULL,            "imap",  "143", MODE_CLEAR },
 };
 
 static gboolean
@@ -292,27 +293,36 @@ connect_to_server_wrapper (CamelIMAP4Engine *engine, CamelException *ex)
 	const char *ssl_mode;
 	int mode, ret, i;
 	char *serv;
-	
+	const char *port;
+
 	if ((ssl_mode = camel_url_get_param (service->url, "use_ssl"))) {
 		for (i = 0; ssl_options[i].value; i++)
 			if (!strcmp (ssl_options[i].value, ssl_mode))
 				break;
 		mode = ssl_options[i].mode;
 		serv = ssl_options[i].serv;
+		port = ssl_options[i].port;
 	} else {
 		mode = MODE_CLEAR;
 		serv = "imap";
+		port = "143";
 	}
 	
 	if (service->url->port) {
 		serv = g_alloca (16);
 		sprintf (serv, "%d", service->url->port);
+		port = NULL;
 	}
 	
 	memset (&hints, 0, sizeof (hints));
 	hints.ai_socktype = SOCK_STREAM;
 	hints.ai_family = PF_UNSPEC;
-	if (!(ai = camel_getaddrinfo (service->url->host, serv, &hints, ex)))
+	ai = camel_getaddrinfo (service->url->host, serv, &hints, ex);
+	if (ai == NULL && port != NULL && camel_exception_get_id(ex) != CAMEL_EXCEPTION_USER_CANCEL) {
+		camel_exception_clear (ex);
+		ai = camel_getaddrinfo (service->url->host, port, &hints, ex);
+	}
+	if (ai == NULL)
 		return FALSE;
 	
 	ret = connect_to_server (engine, ai, mode, ex);

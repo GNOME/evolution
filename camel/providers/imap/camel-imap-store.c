@@ -68,8 +68,8 @@
 #define d(x) 
 
 /* Specified in RFC 2060 */
-#define IMAP_PORT 143
-#define SIMAP_PORT 993
+#define IMAP_PORT "143"
+#define IMAPS_PORT "993"
 
 static CamelDiscoStoreClass *parent_class = NULL;
 
@@ -526,27 +526,34 @@ connect_to_server (CamelService *service, int ssl_mode, int try_starttls, CamelE
 	char *buf;
 	struct addrinfo *ai, hints = { 0 };
 	char *serv;
+	const char *port = NULL;
 
 	/* FIXME: this connect stuff is duplicated everywhere */
 
 	if (service->url->port) {
 		serv = g_alloca(16);
 		sprintf(serv, "%d", service->url->port);
-	} else
+	} else {
 		serv = "imap";
+		port = IMAP_PORT;
+	}
 	
 	if (ssl_mode != USE_SSL_NEVER) {
 #ifdef HAVE_SSL
 		if (try_starttls) {
 			tcp_stream = camel_tcp_stream_ssl_new_raw (service->session, service->url->host, STARTTLS_FLAGS);
 		} else {
-			if (service->url->port == 0)
+			if (service->url->port == 0) {
 				serv = "imaps";
+				port = IMAPS_PORT;
+			}
 			tcp_stream = camel_tcp_stream_ssl_new (service->session, service->url->host, SSL_PORT_FLAGS);
 		}
 #else
-		if (!try_starttls && service->url->port == 0)
+		if (!try_starttls && service->url->port == 0) {
 			serv = "imaps";
+			port = IMAPS_PORT;
+		}
 		
 		camel_exception_setv (ex, CAMEL_EXCEPTION_SERVICE_UNAVAILABLE,
 				      _("Could not connect to %s (port %s): %s"),
@@ -560,6 +567,10 @@ connect_to_server (CamelService *service, int ssl_mode, int try_starttls, CamelE
 
 	hints.ai_socktype = SOCK_STREAM;
 	ai = camel_getaddrinfo(service->url->host, serv, &hints, ex);
+	if (ai == NULL && port != NULL && camel_exception_get_id(ex) != CAMEL_EXCEPTION_USER_CANCEL) {
+		camel_exception_clear(ex);
+		ai = camel_getaddrinfo(service->url->host, port, &hints, ex);
+	}
 	if (ai == NULL) {
 		camel_object_unref(tcp_stream);
 		return FALSE;

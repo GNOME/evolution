@@ -57,8 +57,8 @@
 extern int camel_verbose_debug;
 #define dd(x) (camel_verbose_debug?(x):0)
 
-#define NNTP_PORT  119
-#define NNTPS_PORT 563
+#define NNTP_PORT  "119"
+#define NNTPS_PORT "563"
 
 #define DUMP_EXTENSIONS
 
@@ -69,6 +69,8 @@ static CamelServiceClass *service_class = NULL;
 #define CNNTPS_CLASS(so) CAMEL_NNTP_STORE_CLASS (CAMEL_OBJECT_GET_CLASS(so))
 #define CF_CLASS(so) CAMEL_FOLDER_CLASS (CAMEL_OBJECT_GET_CLASS(so))
 #define CNNTPF_CLASS(so) CAMEL_NNTP_FOLDER_CLASS (CAMEL_OBJECT_GET_CLASS(so))
+
+static int camel_nntp_try_authenticate (CamelNNTPStore *store, CamelException *ex);
 
 static void nntp_construct (CamelService *service, CamelSession *session,
 		            CamelProvider *provider, CamelURL *url,
@@ -112,7 +114,7 @@ xover_setup(CamelNNTPStore *store, CamelException *ex)
 	if (store->xover || getenv("CAMEL_NNTP_DISABLE_XOVER") != NULL)
 		return 0;
 
-	ret = camel_nntp_raw_command(store, ex, &line, "list overview.fmt");
+	ret = camel_nntp_raw_command_auth(store, ex, &line, "list overview.fmt");
 	if (ret == -1) {
 		camel_exception_setv(ex, CAMEL_EXCEPTION_SYSTEM,
 				     _("NNTP Command failed: %s"), g_strerror(errno));
@@ -166,6 +168,7 @@ connect_to_server (CamelService *service, int ssl_mode, CamelException *ex)
 	char *path;
 	struct addrinfo *ai, hints = { 0 };
 	char *serv;
+	const char *port = NULL;
 	
 	CAMEL_SERVICE_LOCK(store, connect_lock);
 
@@ -186,13 +189,17 @@ connect_to_server (CamelService *service, int ssl_mode, CamelException *ex)
 	if (service->url->port) {
 		serv = g_alloca(16);
 		sprintf(serv, "%d", service->url->port);
-	} else
+	} else {
 		serv = "nntp";
+		port = NNTP_PORT;
+	}
 	
 #ifdef HAVE_SSL
 	if (ssl_mode != USE_SSL_NEVER) {
-		if (service->url->port == 0)
+		if (service->url->port == 0) {
 			serv = "nntps";
+			port = NNTPS_PORT;
+		}
 		tcp_stream = camel_tcp_stream_ssl_new (service->session, service->url->host, CAMEL_TCP_STREAM_SSL_ENABLE_SSL2 | CAMEL_TCP_STREAM_SSL_ENABLE_SSL3);
 	} else {
 		tcp_stream = camel_tcp_stream_raw_new ();
@@ -203,6 +210,10 @@ connect_to_server (CamelService *service, int ssl_mode, CamelException *ex)
 
 	hints.ai_socktype = SOCK_STREAM;
 	ai = camel_getaddrinfo(service->url->host, serv, &hints, ex);
+	if (ai == NULL && port != NULL && camel_exception_get_id(ex) != CAMEL_EXCEPTION_USER_CANCEL) {
+		camel_exception_clear(ex);
+		ai = camel_getaddrinfo(service->url->host, port, &hints, ex);
+	}
 	if (ai == NULL) {
 		camel_object_unref(tcp_stream);
 		goto fail;
@@ -254,10 +265,15 @@ connect_to_server (CamelService *service, int ssl_mode, CamelException *ex)
 		
 		goto fail;
 	}
+
+	/* if we have username, try it here */
+	if (service->url->user != NULL
+	    && camel_nntp_try_authenticate(store, ex) != NNTP_AUTH_ACCEPTED)
+		goto fail;
 	
 	/* set 'reader' mode & ignore return code, also ping the server, inn goes offline very quickly otherwise */
-	if (camel_nntp_raw_command (store, ex, (char **) &buf, "mode reader") == -1
-	    || camel_nntp_raw_command (store, ex, (char **) &buf, "date") == -1)
+	if (camel_nntp_raw_command_auth (store, ex, (char **) &buf, "mode reader") == -1
+	    || camel_nntp_raw_command_auth (store, ex, (char **) &buf, "date") == -1)
 		goto fail;
 
 	if (xover_setup(store, ex) == -1)
@@ -1261,6 +1277,33 @@ camel_nntp_raw_command(CamelNNTPStore *store, CamelException *ex, char **line, c
 	return ret;
 }
 
+/* use this where you also need auth to be handled, i.e. most cases where you'd try raw command */
+int
+camel_nntp_raw_command_auth(CamelNNTPStore *store, CamelException *ex, char **line, const char *fmt, ...)
+{
+	int ret, retry, go;
+	va_list ap;
+
+	retry = 0;
+
+	do {
+		go = FALSE;
+		retry++;
+
+		va_start(ap, fmt);
+		ret = camel_nntp_raw_commandv(store, ex, line, fmt, ap);
+		va_end(ap);
+
+		if (ret == NNTP_AUTH_REQUIRED) {
+			if (camel_nntp_try_authenticate(store, ex) != NNTP_AUTH_ACCEPTED)
+				return -1;
+			go = TRUE;
+		}
+	} while (retry < 3 && go);
+
+	return ret;
+}
+
 int
 camel_nntp_command (CamelNNTPStore *store, CamelException *ex, CamelNNTPFolder *folder, char **line, const char *fmt, ...)
 {
@@ -1295,7 +1338,7 @@ camel_nntp_command (CamelNNTPStore *store, CamelException *ex, CamelNNTPFolder *
 
 		if (folder != NULL
 		    && (store->current_folder == NULL || strcmp(store->current_folder, ((CamelFolder *)folder)->full_name) != 0)) {
-			ret = camel_nntp_raw_command(store, ex, line, "group %s", ((CamelFolder *)folder)->full_name);
+			ret = camel_nntp_raw_command_auth(store, ex, line, "group %s", ((CamelFolder *)folder)->full_name);
 			if (ret == 211) {
 				g_free(store->current_folder);
 				store->current_folder = g_strdup(((CamelFolder *)folder)->full_name);

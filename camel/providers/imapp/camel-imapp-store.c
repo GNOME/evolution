@@ -195,6 +195,7 @@ connect_to_server (CamelService *service, int ssl_mode, int try_starttls)
 	ex = camel_exception_new();
 	CAMEL_TRY {
 		char *serv;
+		const char *port = NULL;
 		struct addrinfo *ai, hints = { 0 };
 
 		/* parent class connect initialization */
@@ -205,16 +206,20 @@ connect_to_server (CamelService *service, int ssl_mode, int try_starttls)
 		if (service->url->port) {
 			serv = g_alloca(16);
 			sprintf(serv, "%d", service->url->port);
-		} else
+		} else {
 			serv = "imap";
+			port = "143";
+		}
 
 #ifdef HAVE_SSL	
 		if (camel_url_get_param (service->url, "use_ssl")) {
 			if (try_starttls)
 				tcp_stream = camel_tcp_stream_ssl_new_raw (service->session, service->url->host, STARTTLS_FLAGS);
 			else {
-				if (service->url->port == 0)
+				if (service->url->port == 0) {
 					serv = "imaps";
+					port = "993";
+				}
 				tcp_stream = camel_tcp_stream_ssl_new (service->session, service->url->host, SSL_PORT_FLAGS);
 			}
 		} else {
@@ -226,6 +231,11 @@ connect_to_server (CamelService *service, int ssl_mode, int try_starttls)
 
 		hints.ai_socktype = SOCK_STREAM;
 		ai = camel_getaddrinfo(service->url->host, serv, &hints, ex);
+		if (ex->id && ex->id != CAMEL_EXCEPTION_USER_CANCEL && port != NULL) {
+			camel_exception_clear(ex);
+			ai = camel_getaddrinfo(service->url->host, port, &hints, ex);
+		}
+
 		if (ex->id)
 			camel_exception_throw_ex(ex);
 	
