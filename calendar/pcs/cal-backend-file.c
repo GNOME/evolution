@@ -178,16 +178,45 @@ static void
 save (CalBackendFile *cbfile)
 {
 	CalBackendFilePrivate *priv;
-
+	GnomeVFSHandle *handle = NULL;
+	GnomeVFSResult result;
+	GnomeVFSFileSize out;
+	GnomeVFSURI *backup_uri;
+	char *buf;
+	
 	priv = cbfile->priv;
 	g_assert (priv->uri != NULL);
 	g_assert (priv->icalcomp != NULL);
 
-	/* FIXME */
+	/* Make a backup copy of the file */
+	backup_uri = gnome_vfs_uri_append_file_name (priv->uri, "~");
+	result = gnome_vfs_move_uri (priv->uri, backup_uri, TRUE);
+	gnome_vfs_uri_unref (backup_uri);
 
-	/* FIXME: ensure we have the mandatory PRODID and VERSION properties, and throw
-	 * in CALSCALE for good measure.
-	 */
+//	if (result != GNOME_VFS_OK)
+//		goto error;
+	
+	/* Now write the new file out */
+	result = gnome_vfs_create_uri (&handle, priv->uri, 
+				       GNOME_VFS_OPEN_WRITE,
+				       FALSE, 0666);
+	
+	if (result != GNOME_VFS_OK)
+		goto error;
+	
+	buf = icalcomponent_as_ical_string (priv->icalcomp);
+	result = gnome_vfs_write (handle, buf, strlen (buf) * sizeof (char), &out);
+
+	if (result != GNOME_VFS_OK)
+		goto error;
+
+	gnome_vfs_close (handle);
+
+	return;
+	
+ error:
+	g_warning ("Error writing calendar file.");
+	return;
 }
 
 /* Destroy handler for the file backend */
@@ -440,7 +469,6 @@ add_component (CalBackendFile *cbfile, CalComponent *comp)
 	/* Ensure that the UID is unique; some broken implementations spit
 	 * components with duplicated UIDs.
 	 */
-
 	check_dup_uid (cbfile, comp);
 	cal_component_get_uid (comp, &uid);
 
@@ -922,7 +950,7 @@ cal_backend_file_update_object (CalBackend *backend, const char *uid, const char
 {
 	CalBackendFile *cbfile;
 	CalBackendFilePrivate *priv;
-	icalcomponent *icalcomp;
+	icalcomponent *icalcomp, *icalcomp2;
 	icalcomponent_kind kind;
 	CalComponent *old_comp;
 	CalComponent *comp;
@@ -973,8 +1001,17 @@ cal_backend_file_update_object (CalBackend *backend, const char *uid, const char
 
 	old_comp = lookup_component (cbfile, uid);
 
-	if (old_comp)
+	if (old_comp) {	
+		/* Remove it from our calendar component */
+		icalcomp2 = cal_component_get_icalcomponent (old_comp);
+		icalcomponent_remove_component (priv->icalcomp, icalcomp2);
+
 		remove_component (cbfile, old_comp);
+	}
+	
+	/* Add it to our calendar component */
+	icalcomp2 = cal_component_get_icalcomponent (comp);
+	icalcomponent_add_component (priv->icalcomp, icalcomp2);
 
 	add_component (cbfile, comp);
 #if 0
@@ -997,6 +1034,7 @@ cal_backend_file_remove_object (CalBackend *backend, const char *uid)
 	CalBackendFile *cbfile;
 	CalBackendFilePrivate *priv;
 	CalComponent *comp;
+	icalcomponent *icalcomp;
 
 	cbfile = CAL_BACKEND_FILE (backend);
 	priv = cbfile->priv;
@@ -1008,6 +1046,10 @@ cal_backend_file_remove_object (CalBackend *backend, const char *uid)
 	comp = lookup_component (cbfile, uid);
 	if (!comp)
 		return FALSE;
+
+	/* Remove it from our calendar component */
+	icalcomp = cal_component_get_icalcomponent (comp);
+	icalcomponent_remove_component (priv->icalcomp, icalcomp);
 
 	remove_component (cbfile, comp);
 

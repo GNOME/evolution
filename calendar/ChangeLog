@@ -1,3 +1,11 @@
+2000-08-27  JP Rosevear  <jpr@helixcode.com>
+
+	* pcs/cal-backend-file.c (save): Write out the calendar object
+	(cal_backend_file_update_object): Remove/add the icalcomponent
+	from our master icalcomponent (the calendar)
+	(cal_backend_file_remove_object): Remove the icalcomponent
+	from our master icalcomponent
+
 2000-08-26  JP Rosevear  <jpr@helixcode.com>
 
 	* gui/Makefile.am: Remove gnorba stuff 
