@@ -791,7 +791,6 @@ async_xfer_folder_complete (XferData *xfer_data)
 
 	local_storage = xfer_data->local_storage;
 
-#if 0
 	if (xfer_data->remove_source) {
 		EStorageResult result;
 
@@ -807,11 +806,14 @@ async_xfer_folder_complete (XferData *xfer_data)
 
 			/* FIXME handle failure differently?  This should be n
 			   unlikely situation.  */
-			if (result == E_STORAGE_OK)
+			if (result == E_STORAGE_OK) {
 				e_storage_removed_folder (E_STORAGE (local_storage), item->source_path);
+
+				evolution_storage_removed_folder (EVOLUTION_STORAGE (local_storage->priv->bonobo_interface),
+								  item->source_path);
+			}
 		}
 	}
-#endif
 
 	/* Free the data.  */
 

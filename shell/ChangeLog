@@ -1,3 +1,25 @@
+2001-08-30  Peter Williams  <peterw@ximian.com>
+
+	* e-local-storage.c (async_xfer_folder_complete): Remove the folder from
+	the EvolutionStorage as well as the EStorage.
+
+2001-08-29  Peter Williams  <peterw@ximian.com>
+
+	* e-storage-set-view.c (etree_node_destroy_func): Only call
+	remove_node_from_hash if it's not the root node.
+	(removed_storage_cb): Don't remove the node from the hash here,
+	because it will be removed in the node_destroyed callback.
+	(removed_folder_cb): Same.
+
+	* e-shell-view.c (e_shell_view_remove_control_for_uri): Disconnect
+	from the destroy signal so as not to confuse ourselves. Also, the
+	page remove in the notebook destroys the control and the socket, so don't
+	do that explicitly.
+
+	* e-shell-folder-commands.c
+	(folder_selection_dialog_folder_selected_callback): Remove the control
+	for the source view if we're moving.
+
 2001-08-31  Zbigniew Chyla  <cyba@gnome.pl>
 
 	* e-local-storage.c

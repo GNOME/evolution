@@ -194,6 +194,10 @@ folder_selection_dialog_folder_selected_callback (EShellFolderSelectionDialog *f
 
 	storage_set = e_shell_get_storage_set (folder_command_data->shell);
 
+	if (remove_source)
+		e_shell_view_remove_control_for_uri (folder_command_data->shell_view,
+						     e_shell_view_get_current_uri (folder_command_data->shell_view));
+
 	e_storage_set_async_xfer_folder (storage_set,
 					 folder_command_data->source_path,
 					 folder_command_data->destination_path,

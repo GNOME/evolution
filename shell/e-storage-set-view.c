@@ -1555,7 +1555,8 @@ etree_node_destroy_func (void *data,
 	path = (char *) data;
 	storage_set_view = E_STORAGE_SET_VIEW (user_data);
 
-	remove_node_from_hash (storage_set_view, path);
+	if (strcmp (path, ROOT_NODE_NAME))
+		remove_node_from_hash (storage_set_view, path);
 	g_free (path);
 }
 
@@ -1602,7 +1603,7 @@ removed_storage_cb (EStorageSet *storage_set,
 	etree = priv->etree_model;
 
 	path = g_strconcat (G_DIR_SEPARATOR_S, e_storage_get_name (storage), NULL);
-	node = remove_node_from_hash (storage_set_view, path);
+	node = lookup_node_in_hash (storage_set_view, path);
 	g_free (path);
 
 	e_tree_memory_node_remove (E_TREE_MEMORY(etree), node);
@@ -1683,7 +1684,7 @@ removed_folder_cb (EStorageSet *storage_set,
 	priv = storage_set_view->priv;
 	etree = priv->etree_model;
 
-	node = remove_node_from_hash (storage_set_view, path);
+	node = lookup_node_in_hash (storage_set_view, path);
 	e_tree_memory_node_remove (E_TREE_MEMORY(etree), node);
 }
 

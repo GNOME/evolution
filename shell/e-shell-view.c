@@ -2014,6 +2014,7 @@ e_shell_view_remove_control_for_uri (EShellView *shell_view,
 	GtkWidget *socket;
 	GtkWidget *control;
 	int page_num;
+	int destroy_connection_id;
 
 	g_return_val_if_fail (shell_view != NULL, FALSE);
 	g_return_val_if_fail (E_IS_SHELL_VIEW (shell_view), FALSE);
@@ -2022,8 +2023,10 @@ e_shell_view_remove_control_for_uri (EShellView *shell_view,
 
 	/* Get the control, remove it from our hash of controls */
 	view = g_hash_table_lookup (priv->uri_to_view, uri);
-	if (view == NULL)
+	if (view == NULL) {
+		g_message ("Trying to remove view for non-existing URI -- %s", uri);
 		return FALSE;
+	}
 
 	control = view->control;
 	view_destroy (view);
@@ -2033,14 +2036,14 @@ e_shell_view_remove_control_for_uri (EShellView *shell_view,
 	socket = find_socket (GTK_CONTAINER (control));
 	priv->sockets = g_list_remove (priv->sockets, socket);
 
-	/* Remove the notebook page */
+	/* disconnect from the destroy signal */
+	destroy_connection_id = GPOINTER_TO_INT (gtk_object_get_data (GTK_OBJECT (socket),
+								      "e_shell_view_destroy_connection_id"));
+	gtk_signal_disconnect (GTK_OBJECT (socket), destroy_connection_id);
+
+	/* Remove the notebook page, destroying the control and socket */
 	page_num = gtk_notebook_page_num (GTK_NOTEBOOK (priv->notebook), control);
 	gtk_notebook_remove_page (GTK_NOTEBOOK (priv->notebook), page_num);
-
-	/* Destroy things, socket first because otherwise shell will
-           think the control crashed */
-	gtk_widget_destroy (socket);
-	gtk_widget_destroy (control);
 
 	return TRUE;
 }
