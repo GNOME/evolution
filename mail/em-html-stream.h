@@ -44,6 +44,7 @@ typedef struct _EMHTMLStream {
 	guint destroy_id;
 	struct _GtkHTML *html;
 	struct _GtkHTMLStream *html_stream;
+	GtkHTMLBeginFlags flags;
 } EMHTMLStream;
 
 typedef struct {
@@ -56,6 +57,7 @@ CamelType    em_html_stream_get_type (void);
 
 /* the html_stream is closed when we are finalised (with an error), or closed (ok) */
 CamelStream *em_html_stream_new(struct _GtkHTML *html, struct _GtkHTMLStream *html_stream);
+void em_html_stream_set_flags (EMHTMLStream *emhs, GtkHTMLBeginFlags flags);
 
 #ifdef __cplusplus
 }

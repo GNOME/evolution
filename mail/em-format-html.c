@@ -1310,9 +1310,9 @@ efh_format_timeout(struct _format_msg *m)
 		m->estream = (EMHTMLStream *)em_html_stream_new(efh->html, hstream);
 
 		if (p->last_part == m->message) {
-			/* HACK: so we redraw in the same spot */
-			/* FIXME: It doesn't work! */
-			efh->html->engine->newPage = FALSE;
+			em_html_stream_set_flags (m->estream,
+						  GTK_HTML_BEGIN_KEEP_SCROLL | GTK_HTML_BEGIN_KEEP_IMAGES
+						  | GTK_HTML_BEGIN_BLOCK_UPDATES | GTK_HTML_BEGIN_BLOCK_IMAGES);
 		} else {
 			/* clear cache of inline-scanned text parts */
 			g_hash_table_foreach(p->text_inline_parts, efh_free_inline_parts, NULL);

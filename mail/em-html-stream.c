@@ -109,7 +109,7 @@ emhs_sync_write(CamelStream *stream, const char *buffer, size_t n)
 		return -1;
 
 	if (emhs->html_stream == NULL)
-		emhs->html_stream = gtk_html_begin(emhs->html);
+		emhs->html_stream = gtk_html_begin_full (emhs->html, NULL, NULL, emhs->flags);
 
 	gtk_html_stream_write(emhs->html_stream, buffer, n);
 
@@ -160,10 +160,17 @@ em_html_stream_new(struct _GtkHTML *html, struct _GtkHTMLStream *html_stream)
 	new = EM_HTML_STREAM (camel_object_new (EM_HTML_STREAM_TYPE));
 	new->html_stream = html_stream;
 	new->html = html;
+	new->flags = 0;
 	g_object_ref(html);
 	new->destroy_id = g_signal_connect(html, "destroy", G_CALLBACK(emhs_gtkhtml_destroy), new);
 
 	em_sync_stream_set_buffer_size(&new->sync, 8192);
 
 	return (CamelStream *)new;
+}
+
+void
+em_html_stream_set_flags (EMHTMLStream *emhs, GtkHTMLBeginFlags flags)
+{
+	emhs->flags = flags;
 }

@@ -1,3 +1,15 @@
+2004-04-26  Radek Doulik  <rodo@ximian.com>
+
+	* em-format-html.c (efh_format_timeout): set gtk_html_begin's
+	flags to avoid scroll to top of the message and
+	reloading+flickering of images
+
+	* em-html-stream.c: added GtkHTMLBeginFlags flags field
+	(em_html_stream_set_flags): new helper function to set new flags
+	field
+	(emhs_sync_write): use gtk_html_begin_full with new flags field
+	(em_html_stream_new): zero flags field
+
 2004-04-23  Sarfraaz Ahmed <asarfraaz@novell.com>
 
 	* mail/mail-license.glade: Glade file for displaying the license.
