@@ -1,5 +1,11 @@
 2004-06-10  JP Rosevear  <jpr@novell.com>
 
+	* gui/gnome-cal.c
+	(gnome_calendar_on_date_navigator_selection_changed): only do the
+	range selected hack in one case
+
+2004-06-10  JP Rosevear  <jpr@novell.com>
+
 	* gui/gnome-cal.c (setup_widgets): set 6 weeks shown
 	(display_view): ditto
 

@@ -2692,6 +2692,9 @@ gnome_calendar_on_date_navigator_selection_changed (ECalendarItem *calitem, Gnom
 	/* Switch views as appropriate, and change the number of days or weeks
 	   shown. */
 	if (new_days_shown > 9) {
+		/* FIXME Gross hack so that the view times are updated properly */
+		priv->range_selected = TRUE;
+
 		e_week_view_set_weeks_shown (E_WEEK_VIEW (priv->month_view),
 					     (new_days_shown + 6) / 7);
 		view_type = GNOME_CAL_MONTH_VIEW;
@@ -2706,9 +2709,6 @@ gnome_calendar_on_date_navigator_selection_changed (ECalendarItem *calitem, Gnom
 		else
 			view_type = GNOME_CAL_DAY_VIEW;
 	}
-
-	/* FIXME Gross hack so that the view times are updated properly */
-	priv->range_selected = TRUE;
 
 	/* Make the views display things properly */
 	update_view_times (gcal, new_time);
