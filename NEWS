@@ -71,11 +71,20 @@ Shell:
   #7827  -- Switching desktops leaves the folder bar popped up
   #16507 -- Right Click -> View does nothing
   #17258 -- Shell displays splash even if Evolution is already running
+  #14701 -- Importing locks up Evolution
 
 Misc:
   #16358 -- Evolution doesn't have a man page
 
-
+Summary:
+  #16417 -- CNN headlines suck
+  #14996 -- All Day Appointments are Displayed Incorrectly in the Summary View.
+  #16772 -- Summary crashes on startup
+  #17249 -- Crash going offline
+  #14483 -- "hello"?
+  #11212 -- Degree symbol in weather
+  #8029  -- A Locations.h file has been added for translators to work on.
+  
 Evolution 1.0, 2001-11-14
 -------------------------
 
