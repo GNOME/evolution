@@ -139,6 +139,7 @@ copy_source_dialog (GtkWindow *parent, ESource *source, CalObjType obj_type)
 	gtk_dialog_set_response_sensitive (GTK_DIALOG (csdd.dialog), GTK_RESPONSE_OK, FALSE);
 
 	label = gtk_label_new (_("Select destination source"));
+	gtk_widget_show (label);
 	gtk_box_pack_start (GTK_BOX (GTK_DIALOG (csdd.dialog)->vbox), label, FALSE, FALSE, 6);
 
 	csdd.conf_client = gconf_client_get_default ();
