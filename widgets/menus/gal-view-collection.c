@@ -278,7 +278,7 @@ load_single_file (GalViewCollection *collection,
 
 		factory = NULL;
 		for (factories = collection->factory_list; factories; factories = factories->next) {
-			if (!strcmp(gal_view_factory_get_type_code(factories->data), item->type)) {
+			if (item->type && !strcmp(gal_view_factory_get_type_code(factories->data), item->type)) {
 				factory = factories->data;
 				break;
 			}
