@@ -29,9 +29,6 @@ calendar/conduits/calendar/calendar-conduit-control-applet.c
 calendar/conduits/calendar/calendar-conduit.c
 calendar/conduits/todo/todo-conduit-control-applet.c
 calendar/conduits/todo/todo-conduit.c
-calendar/gui/GNOME_Evolution_Calendar_Control.oaf.in
-calendar/gui/GNOME_Evolution_Calendar_gnomecal.oaf.in
-calendar/gui/GNOME_Evolution_Calendar.oaf.in
 calendar/gui/alarm-notify.c
 calendar/gui/calendar-commands.c
 calendar/gui/calendar-model.c

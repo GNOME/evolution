@@ -1,3 +1,8 @@
+2001-01-09  Federico Mena Quintero  <federico@helixcode.com>
+
+	* POTFILES.in: Removed .oaf.in files until the whole of Evolution
+	uses the xml-i18n-tools framework.
+
 2001-01-09  Héctor García Álvarez <hector@scouts-es.org>
 
         * es.po: Updated Spanish translation.
