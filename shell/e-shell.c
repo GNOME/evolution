@@ -103,6 +103,9 @@ folder_selection_dialog_clicked_cb (GnomeDialog *dialog,
 	char *uri;
 	const char *physical_uri;
 
+	if (button_number == 2)
+		return;
+
 	folder_selection_dialog = E_SHELL_FOLDER_SELECTION_DIALOG (dialog);
 	shell = E_SHELL (data);
 	listener = gtk_object_get_data (GTK_OBJECT (dialog), "corba_listener");
@@ -113,7 +116,7 @@ folder_selection_dialog_clicked_cb (GnomeDialog *dialog,
 
 	uri = g_strconcat (E_SHELL_URI_PREFIX, path, NULL);
 
-	if (folder == NULL)	/* Uh? */
+	if (folder == NULL || button_number == 1)	/* Uh? */
 		physical_uri = "";
 	else
 		physical_uri = e_folder_get_physical_uri (folder);
@@ -127,6 +130,9 @@ folder_selection_dialog_clicked_cb (GnomeDialog *dialog,
 	CORBA_exception_free (&ev);
 
 	g_free (uri);
+
+	if (button_number != -1)
+		gnome_dialog_close(dialog);
 }
 
 
@@ -203,7 +209,7 @@ impl_Shell_user_select_folder (PortableServer_Servant servant,
 	folder_selection_dialog = e_shell_folder_selection_dialog_new (shell, title, default_folder);
 
 	listener_duplicate = CORBA_Object_duplicate (listener, ev);
-	gtk_object_set_data (GTK_OBJECT (folder_selection_dialog), "corba_listener", shell);
+	gtk_object_set_data (GTK_OBJECT (folder_selection_dialog), "corba_listener", listener_duplicate);
 
 	gtk_signal_connect (GTK_OBJECT (folder_selection_dialog), "clicked",
 			    GTK_SIGNAL_FUNC (folder_selection_dialog_clicked_cb), shell);
