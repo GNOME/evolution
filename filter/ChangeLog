@@ -1,3 +1,23 @@
+2004-03-31  Not Zed  <NotZed@Ximian.com>
+
+	* filter.glade: renamed filter_label to rule_label, and removed
+	the vfolder-editor and filter-editor windows.
+
+	* rule-editor.c (rule_editor_new): hide the source widget.
+
+	* vfolder-editor.c (vfolder_editor_new): hide the source widget.
+
+	* rule-editor.c (rule_editor_new): add a label argument.
+
+	* vfolder-editor.c (vfolder_editor_new): ditto below.
+
+	* filter-editor.c (filter_editor_new): dont add any label here.
+
+	* rule-editor.c (rule_editor_construct): Put the widget back in
+	the dialogue box here.  Add an argument for the area label.
+
+	** Revert Rodney's last patch.
+
 2004-03-30  Rodney Dawes  <dobey@ximian.com>
 
 	* filter-editor.c (filter_editor_new): Use the new "filter_editor"

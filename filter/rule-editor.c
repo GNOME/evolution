@@ -159,19 +159,14 @@ rule_editor_destroy (GtkObject *obj)
  * Return value: A new #RuleEditor object.
  **/
 RuleEditor *
-rule_editor_new (RuleContext *rc, const char *source)
+rule_editor_new (RuleContext *rc, const char *source, const char *label)
 {
 	RuleEditor *re = (RuleEditor *) g_object_new (RULE_TYPE_EDITOR, NULL);
 	GladeXML *gui;
-	GtkWidget *w;
 	
 	gui = glade_xml_new (FILTER_GLADEDIR "/filter.glade", "rule_editor", NULL);
-
-	w = glade_xml_get_widget (gui, "rule_editor");
-	gtk_box_pack_start ((GtkBox *) ((GtkDialog *)re)->vbox, w, TRUE, TRUE, 0);
-
-	rule_editor_construct (re, rc, gui, source);
-	
+	rule_editor_construct (re, rc, gui, source, label);
+        gtk_widget_hide(glade_xml_get_widget (gui, "filter_source"));	
 	g_object_unref (gui);
 	
 	return re;
@@ -719,20 +714,23 @@ rule_editor_treeview_new (char *widget_name, char *string1, char *string2, int i
 }
 
 void
-rule_editor_construct (RuleEditor *re, RuleContext *context, GladeXML *gui, const char *source)
+rule_editor_construct (RuleEditor *re, RuleContext *context, GladeXML *gui, const char *source, const char *label)
 {
 	GtkWidget *w;
 	int i;
+	char *tmp;
 	
 	re->context = context;
 	g_object_ref (context);
 	
 	gtk_window_set_resizable ((GtkWindow *) re, TRUE);
 	gtk_window_set_default_size ((GtkWindow *) re, 350, 400);
-
 	gtk_widget_realize ((GtkWidget *) re);
 	gtk_container_set_border_width ((GtkContainer *) ((GtkDialog *) re)->action_area, 12);
-	
+
+	w = glade_xml_get_widget(gui, "rule_editor");
+	gtk_box_pack_start((GtkBox *)((GtkDialog *)re)->vbox, w, TRUE, TRUE, 3);
+
 	for (i = 0; i < BUTTON_LAST; i++) {
 		re->priv->buttons[i] = (GtkButton *) w = glade_xml_get_widget (gui, edit_buttons[i].name);
 		g_signal_connect (w, "clicked", edit_buttons[i].func, re);
@@ -745,7 +743,10 @@ rule_editor_construct (RuleEditor *re, RuleContext *context, GladeXML *gui, cons
 	g_signal_connect (re->list, "cursor-changed", G_CALLBACK (cursor_changed), re);
 	g_signal_connect (re->list, "row-activated", G_CALLBACK (double_click), re);
 
-	w = glade_xml_get_widget (gui, "filter_label");
+	w = glade_xml_get_widget (gui, "rule_label");
+	tmp = alloca(strlen(label)+8);
+	sprintf(tmp, "<b>%s</b>", label);
+	gtk_label_set_label((GtkLabel *)w, tmp);
 	gtk_label_set_mnemonic_widget ((GtkLabel *) w, (GtkWidget *) re->list);
 
 	g_signal_connect (re, "response", G_CALLBACK (editor_response), re);

@@ -105,15 +105,9 @@ filter_editor_new (FilterContext *fc, const char **source_names)
 {
 	FilterEditor *fe = (FilterEditor *) g_object_new (FILTER_TYPE_EDITOR, NULL);
 	GladeXML *gui;
-	GtkWidget *w;
-	
-	gui = glade_xml_new (FILTER_GLADEDIR "/filter.glade", "filter_editor", NULL);
 
-        w = glade_xml_get_widget (gui, "filter_editor");
-	gtk_box_pack_start (GTK_BOX (GTK_DIALOG (fe)->vbox), w, TRUE, TRUE, 0);
-
+	gui = glade_xml_new (FILTER_GLADEDIR "/filter.glade", "rule_editor", NULL);
 	filter_editor_construct (fe, fc, gui, source_names);
-	
 	g_object_unref (gui);
 	
 	return fe;
@@ -150,7 +144,7 @@ filter_editor_construct (FilterEditor *fe, FilterContext *fc, GladeXML *gui, con
 	gtk_option_menu_set_menu (GTK_OPTION_MENU (omenu), menu);
 	gtk_widget_show (omenu);
 	
-	rule_editor_construct ((RuleEditor *) fe, (RuleContext *) fc, gui, source_names[0]);
+	rule_editor_construct ((RuleEditor *) fe, (RuleContext *) fc, gui, source_names[0], _("_Filter Rules"));
 }
 
 static FilterRule *

@@ -105,14 +105,9 @@ score_editor_new (ScoreContext *sc)
 {
 	ScoreEditor *se = (ScoreEditor *) g_object_new (SCORE_TYPE_EDITOR, NULL);
 	GladeXML *gui;
-	GtkWidget *w;
 	
 	gui = glade_xml_new (FILTER_GLADEDIR "/filter.glade", "rule_editor", NULL);
-	rule_editor_construct ((RuleEditor *) se, (RuleContext *) sc, gui, NULL);
-	
-        w = glade_xml_get_widget (gui, "rule_frame");
-	gtk_frame_set_label ((GtkFrame *) w, _("Score Rules"));
-	
+	rule_editor_construct ((RuleEditor *) se, (RuleContext *) sc, gui, NULL, _("_Score Rules"));
 	g_object_unref (gui);
 	
 	return se;

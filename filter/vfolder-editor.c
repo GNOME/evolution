@@ -103,15 +103,10 @@ vfolder_editor_new (VfolderContext *vc)
 {
 	VfolderEditor *ve = (VfolderEditor *) g_object_new (VFOLDER_TYPE_EDITOR, NULL);
 	GladeXML *gui;
-	GtkWidget *w;
 	
-	gui = glade_xml_new (FILTER_GLADEDIR "/filter.glade", "vfolder_editor", NULL);
-
-        w = glade_xml_get_widget (gui, "vfolder_editor");
-	gtk_box_pack_start (GTK_BOX (GTK_DIALOG (ve)->vbox), w, TRUE, TRUE, 0);
-
-	rule_editor_construct ((RuleEditor *) ve, (RuleContext *) vc, gui, NULL);
-		
+	gui = glade_xml_new (FILTER_GLADEDIR "/filter.glade", "rule_editor", NULL);
+	rule_editor_construct ((RuleEditor *) ve, (RuleContext *) vc, gui, NULL, _("Virtual _Folders"));
+        gtk_widget_hide(glade_xml_get_widget (gui, "filter_source"));
 	g_object_unref (gui);
 	
 	return ve;

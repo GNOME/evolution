@@ -89,15 +89,16 @@ struct _RuleEditorUndo {
 	int newrank;
 };
 
-GtkType rule_editor_get_type (void);
-RuleEditor *rule_editor_new (struct _RuleContext *, const char *source);
-void rule_editor_construct (RuleEditor *re, RuleContext *context, GladeXML *gui, const char *source);
+GtkType rule_editor_get_type(void);
+RuleEditor *rule_editor_new(RuleContext *rc, const char *source, const char *label);
+
+void rule_editor_construct(RuleEditor *re, RuleContext *context, GladeXML *gui, const char *source, const char *label);
 
 /* methods */
-void rule_editor_set_source (RuleEditor *re, const char *source);
+void rule_editor_set_source(RuleEditor *re, const char *source);
 /* calculates the sensitivity of the editor */
-void rule_editor_set_sensitive (RuleEditor *re);
+void rule_editor_set_sensitive(RuleEditor *re);
 /* used internally to create a new rule appropriate for the editor */
-struct _FilterRule *rule_editor_create_rule (RuleEditor *re);
+struct _FilterRule *rule_editor_create_rule(RuleEditor *re);
 
 #endif /* ! _RULE_EDITOR_H */
