@@ -86,6 +86,15 @@ set_transient_for_gdk (GtkWindow *window,
 	g_return_if_fail (window != NULL);
 	g_return_if_fail (gtk_object_get_data (GTK_OBJECT (window), TRANSIENT_DATA_ID) == NULL);
 
+	/* if the parent window doesn't exist anymore,
+	 * something is probably about to go very wrong,
+	 * but at least let's not segfault here. */
+
+	if (parent == NULL) {
+		g_warning ("set_transient_for_gdk: uhoh, parent of window %p is NULL", window);
+		return;
+	}
+
 	gdk_window_ref (parent); /* FIXME? */
 
 	gtk_object_set_data (GTK_OBJECT (window), TRANSIENT_DATA_ID, parent);
