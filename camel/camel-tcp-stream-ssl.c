@@ -617,7 +617,7 @@ stream_connect (CamelTcpStream *stream, struct hostent *host, int port)
 				poll.in_flags = PR_POLL_WRITE | PR_POLL_EXCEPT;
 				poll.out_flags = 0;
 				
-				timeout = CONNECT_TIMEOUT;
+				timeout = PR_INTERVAL_MIN;
 				
 				if (PR_Poll (&poll, 1, timeout) == PR_FAILURE) {
 					set_errno (PR_GetError ());

@@ -1,5 +1,9 @@
 2002-06-19  Jeffrey Stedfast  <fejj@ximian.com>
 
+	* camel-tcp-stream-ssl.c (stream_connect): Set the poll timeout to
+	be PR_INTERVAL_MIN, this one shouldn't need to be 2 minutes (plus
+	it blocks my connection at home for far too long).
+
 	* providers/imap/camel-imap-folder.c (imap_refresh_info): Make
 	sure we hold the command_lock before accessing current_folder.
 	(imap_append_online): Same.
