@@ -33,6 +33,7 @@ AC_DEFUN([PILOT_LINK_HOOK],[
 	    else
 		AC_MSG_ERROR("Unable to find libpisock. Try ftp://ryeham.ee.ryerson.ca/pub/PalmOS/.")
 	    fi
+	    piversion_include="pi-version.h"
 	    AC_SUBST(PISOCK_INCLUDEDIR)
 	    AC_SUBST(PISOCK_LIBDIR)
 	fi
@@ -40,7 +41,8 @@ AC_DEFUN([PILOT_LINK_HOOK],[
 
 	if test x$PISOCK_INCLUDEDIR = x; then
 	    AC_CHECK_HEADER(pi-version.h, [], [
-	    AC_CHECK_HEADER(libpisock/pi-version.h, PISOCK_INCLUDEDIR="-I/usr/include/libpisock",
+	    AC_CHECK_HEADER(libpisock/pi-version.h, [PISOCK_INCLUDEDIR="-I/usr/include/libpisock"
+	                                             piversion_include="libpisock/pi-version.h"],
 	    AC_MSG_ERROR("Unable to find pi-version.h")) ])
 	fi
 	
@@ -64,7 +66,7 @@ AC_DEFUN([PILOT_LINK_HOOK],[
 		pl_mi=`echo $1|sed 's/\([[0-9]]*\).\([[0-9]]*\).\([[0-9]]*\)/\3/'`
 		AC_TRY_RUN(
 			[
-			#include <pi-version.h>
+			#include <$piversion_include>
 			int main(int argc,char *argv[]) {
 				if (PILOT_LINK_VERSION == $pl_ve) {
 					if (PILOT_LINK_MAJOR == $pl_ma) {
