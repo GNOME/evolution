@@ -1,3 +1,10 @@
+2000-07-26  Chris Toshok  <toshok@helixcode.com>
+
+	* backend/pas/pas-backend-ldap.c
+	(pas_backend_ldap_build_all_cards_list): add support for user settable scope.
+	(pas_backend_ldap_search): same.
+	(pas_backend_ldap_load_uri): same.
+
 2000-07-26  Dan Winship  <danw@helixcode.com>
 
 	* gui/component/addressbook.oafinfo: lowercasify the

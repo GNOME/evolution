@@ -36,6 +36,7 @@ struct _PASBackendLDAPPrivate {
 	gchar    *ldap_host;
 	gchar    *ldap_rootdn;
 	int      ldap_port;
+	int      ldap_scope;
 	GList    *book_views;
 };
 
@@ -210,7 +211,7 @@ pas_backend_ldap_build_all_cards_list(PASBackend *backend,
 
 		if ((ldap_error = ldap_search_s (ldap,
 						 bl->priv->ldap_rootdn,
-						 LDAP_SCOPE_ONELEVEL,
+						 bl->priv->ldap_scope,
 						 "(objectclass=*)",
 						 NULL, 0, &res)) == -1) {
 			g_warning ("ldap error '%s' in "
@@ -697,12 +698,17 @@ pas_backend_ldap_search (PASBackendLDAP  	*bl,
 			 PASBook         	*book,
 			 PASBackendLDAPBookView *view)
 {
-	char *ldap_query = pas_backend_ldap_build_query(view->search);
+	char *ldap_query;
+
+	if (view->search_idle)
+		g_warning ("pas_backend_ldap_search called again with pending search on this view.\n");
+
+	ldap_query = pas_backend_ldap_build_query(view->search);
 
 	if (ldap_query != NULL) {
 		LDAP           *ldap;
 
-		pas_backend_ldap_ensure_connected(bl);
+		/*		pas_backend_ldap_ensure_connected(bl);*/
 
 		ldap = bl->priv->ldap;
 
@@ -712,7 +718,7 @@ pas_backend_ldap_search (PASBackendLDAP  	*bl,
 
 			if ((view->search_msgid = ldap_search (ldap,
 							       bl->priv->ldap_rootdn,
-							       LDAP_SCOPE_ONELEVEL,
+							       bl->priv->ldap_scope,
 							       ldap_query,
 							       NULL, 0)) == -1) {
 				g_warning ("ldap error '%s' in pas_backend_ldap_search\n", ldap_err2string(ldap->ld_errno));
@@ -761,7 +767,7 @@ pas_backend_ldap_process_get_book_view (PASBackend *backend,
 		 : Evolution_BookListener_CardNotFound /* XXX */),
 		book_view);
 
-	view = g_new(PASBackendLDAPBookView, 1);
+	view = g_new0(PASBackendLDAPBookView, 1);
 	view->book_view = book_view;
 	view->search = g_strdup(req->search);
 	view->blpriv = bl->priv;
@@ -887,6 +893,7 @@ pas_backend_ldap_load_uri (PASBackend             *backend,
 		if (bl->priv->ldap_port == 0)
 			bl->priv->ldap_port = 389;
 		bl->priv->ldap_rootdn = g_strdup(lud->lud_dn);
+		bl->priv->ldap_scope = lud->lud_scope;
 
 		ldap_free_urldesc(lud);
 
