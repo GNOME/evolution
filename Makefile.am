@@ -1,5 +1,6 @@
-changelogs =			\
-	ChangeLog
+changelogs =				\
+	ChangeLog			\
+	ChangeLog.pre-1-4
 
 pkgconfigdir = $(libdir)/pkgconfig
 pkgconfig_DATA = 			\

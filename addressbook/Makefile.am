@@ -4,3 +4,6 @@ endif
 
 SUBDIRS =	\
 	backend printing gui tools $(CONDUIT_SUBDIR)
+
+EXTRA_DIST =	\
+	ChangeLog.pre-1-4
