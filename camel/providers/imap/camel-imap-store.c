@@ -602,7 +602,7 @@ connect_to_server (CamelService *service, int ssl_mode, int try_starttls, CamelE
 					      _("Could not connect to %s (port %d): %s"),
 					      service->url->host, port, g_strerror (errno));
 		
-		camel_object_unref (CAMEL_OBJECT (tcp_stream));
+		camel_object_unref (tcp_stream);
 		
 		return FALSE;
 	}
@@ -617,12 +617,12 @@ connect_to_server (CamelService *service, int ssl_mode, int try_starttls, CamelE
 	/* Read the greeting, if any, and deal with PREAUTH */
 	if (camel_imap_store_readline (store, &buf, ex) < 0) {
 		if (store->istream) {
-			camel_object_unref (CAMEL_OBJECT (store->istream));
+			camel_object_unref (store->istream);
 			store->istream = NULL;
 		}
 		
 		if (store->ostream) {
-			camel_object_unref (CAMEL_OBJECT (store->ostream));
+			camel_object_unref (store->ostream);
 			store->ostream = NULL;
 		}
 		
@@ -637,12 +637,12 @@ connect_to_server (CamelService *service, int ssl_mode, int try_starttls, CamelE
 	/* get the imap server capabilities */
 	if (!imap_get_capability (service, ex)) {
 		if (store->istream) {
-			camel_object_unref (CAMEL_OBJECT (store->istream));
+			camel_object_unref (store->istream);
 			store->istream = NULL;
 		}
 		
 		if (store->ostream) {
-			camel_object_unref (CAMEL_OBJECT (store->ostream));
+			camel_object_unref (store->ostream);
 			store->ostream = NULL;
 		}
 		
@@ -682,8 +682,8 @@ connect_to_server (CamelService *service, int ssl_mode, int try_starttls, CamelE
 	
 	response = camel_imap_command (store, NULL, ex, "STARTTLS");
 	if (!response) {
-		camel_object_unref (CAMEL_OBJECT (store->istream));
-		camel_object_unref (CAMEL_OBJECT (store->ostream));
+		camel_object_unref (store->istream);
+		camel_object_unref (store->ostream);
 		store->istream = store->ostream = NULL;
 		return FALSE;
 	}
@@ -702,12 +702,12 @@ connect_to_server (CamelService *service, int ssl_mode, int try_starttls, CamelE
            command, the client MUST discard prior CAPA responses */
 	if (!imap_get_capability (service, ex)) {
 		if (store->istream) {
-			camel_object_unref (CAMEL_OBJECT (store->istream));
+			camel_object_unref (store->istream);
 			store->istream = NULL;
 		}
 		
 		if (store->ostream) {
-			camel_object_unref (CAMEL_OBJECT (store->ostream));
+			camel_object_unref (store->ostream);
 			store->ostream = NULL;
 		}
 		
@@ -728,12 +728,12 @@ connect_to_server (CamelService *service, int ssl_mode, int try_starttls, CamelE
 	}
 	
 	if (store->istream) {
-		camel_object_unref (CAMEL_OBJECT (store->istream));
+		camel_object_unref (store->istream);
 		store->istream = NULL;
 	}
 	
 	if (store->ostream) {
-		camel_object_unref (CAMEL_OBJECT (store->ostream));
+		camel_object_unref (store->ostream);
 		store->ostream = NULL;
 	}
 	
@@ -834,11 +834,11 @@ connect_to_server_process (CamelService *service, const char *cmd, CamelExceptio
 					      _("Could not connect with command \"%s\": %s"),
 					      full_cmd, g_strerror (errno));
 		
-		camel_object_unref (CAMEL_OBJECT (cmd_stream));
-		g_free(full_cmd);
+		camel_object_unref (cmd_stream);
+		g_free (full_cmd);
 		return FALSE;
 	}
-	g_free(full_cmd);
+	g_free (full_cmd);
 	
 	store->ostream = cmd_stream;
 	store->istream = camel_stream_buffer_new (cmd_stream, CAMEL_STREAM_BUFFER_READ);
@@ -850,12 +850,12 @@ connect_to_server_process (CamelService *service, const char *cmd, CamelExceptio
 	/* Read the greeting, if any, and deal with PREAUTH */
 	if (camel_imap_store_readline (store, &buf, ex) < 0) {
 		if (store->istream) {
-			camel_object_unref (CAMEL_OBJECT (store->istream));
+			camel_object_unref (store->istream);
 			store->istream = NULL;
 		}
 		
 		if (store->ostream) {
-			camel_object_unref (CAMEL_OBJECT (store->ostream));
+			camel_object_unref (store->ostream);
 			store->ostream = NULL;
 		}
 		
@@ -869,12 +869,12 @@ connect_to_server_process (CamelService *service, const char *cmd, CamelExceptio
 	/* get the imap server capabilities */
 	if (!imap_get_capability (service, ex)) {
 		if (store->istream) {
-			camel_object_unref (CAMEL_OBJECT (store->istream));
+			camel_object_unref (store->istream);
 			store->istream = NULL;
 		}
 		
 		if (store->ostream) {
-			camel_object_unref (CAMEL_OBJECT (store->ostream));
+			camel_object_unref (store->ostream);
 			store->ostream = NULL;
 		}
 		
@@ -1205,7 +1205,7 @@ try_auth (CamelImapStore *store, const char *mech, CamelException *ex)
 		goto lose;
 	}
 	
-	camel_object_unref (CAMEL_OBJECT (sasl));
+	camel_object_unref (sasl);
 	
 	return TRUE;
 	
@@ -1221,7 +1221,7 @@ try_auth (CamelImapStore *store, const char *mech, CamelException *ex)
 				     _("Bad authentication response from server."));
 	}
 	
-	camel_object_unref (CAMEL_OBJECT (sasl));
+	camel_object_unref (sasl);
 	
 	return FALSE;
 }
@@ -1553,7 +1553,7 @@ imap_disconnect_offline (CamelService *service, gboolean clean, CamelException *
 	
 	store->connected = FALSE;
 	if (store->current_folder) {
-		camel_object_unref (CAMEL_OBJECT (store->current_folder));
+		camel_object_unref (store->current_folder);
 		store->current_folder = NULL;
 	}
 	
@@ -1570,7 +1570,7 @@ imap_disconnect_offline (CamelService *service, gboolean clean, CamelException *
 	}
 	
 	if (disco->diary) {
-		camel_object_unref (CAMEL_OBJECT (disco->diary));
+		camel_object_unref (disco->diary);
 		disco->diary = NULL;
 	}
 	
@@ -1589,12 +1589,12 @@ imap_disconnect_online (CamelService *service, gboolean clean, CamelException *e
 	}
 	
 	if (store->istream) {
-		camel_object_unref (CAMEL_OBJECT (store->istream));
+		camel_object_unref (store->istream);
 		store->istream = NULL;
 	}
 	
 	if (store->ostream) {
-		camel_object_unref (CAMEL_OBJECT (store->ostream));
+		camel_object_unref (store->ostream);
 		store->ostream = NULL;
 	}
 	
@@ -1734,7 +1734,7 @@ get_folder_online (CamelStore *store, const char *folder_name,
 	/* Lock around the whole lot to check/create atomically */
 	CAMEL_SERVICE_LOCK (imap_store, connect_lock);
 	if (imap_store->current_folder) {
-		camel_object_unref (CAMEL_OBJECT (imap_store->current_folder));
+		camel_object_unref (imap_store->current_folder);
 		imap_store->current_folder = NULL;
 	}
 	response = camel_imap_command (imap_store, NULL, NULL, "SELECT %F", folder_name);
@@ -1773,15 +1773,15 @@ get_folder_online (CamelStore *store, const char *folder_name,
 		CamelException local_ex;
 
 		imap_store->current_folder = new_folder;
-		camel_object_ref (CAMEL_OBJECT (new_folder));
+		camel_object_ref (new_folder);
 		camel_exception_init (&local_ex);
 		camel_imap_folder_selected (new_folder, response, &local_ex);
 
 		if (camel_exception_is_set (&local_ex)) {
 			camel_exception_xfer (ex, &local_ex);
-			camel_object_unref (CAMEL_OBJECT (imap_store->current_folder));
+			camel_object_unref (imap_store->current_folder);
 			imap_store->current_folder = NULL;
-			camel_object_unref (CAMEL_OBJECT (new_folder));
+			camel_object_unref (new_folder);
 			new_folder = NULL;
 		}
 	}
@@ -1840,7 +1840,7 @@ delete_folder (CamelStore *store, const char *folder_name, CamelException *ex)
 		CAMEL_SERVICE_LOCK (imap_store, connect_lock);
 		
 		if (imap_store->current_folder)
-			camel_object_unref (CAMEL_OBJECT (imap_store->current_folder));
+			camel_object_unref (imap_store->current_folder);
 		/* no need to actually create a CamelFolder for INBOX */
 		imap_store->current_folder = NULL;
 		
@@ -1945,7 +1945,7 @@ rename_folder (CamelStore *store, const char *old_name, const char *new_name_in,
 		CAMEL_SERVICE_LOCK (imap_store, connect_lock);
 		
 		if (imap_store->current_folder)
-			camel_object_unref (CAMEL_OBJECT (imap_store->current_folder));
+			camel_object_unref (imap_store->current_folder);
 		/* no need to actually create a CamelFolder for INBOX */
 		imap_store->current_folder = NULL;
 		

@@ -1,5 +1,16 @@
 2004-02-04  Jeffrey Stedfast  <fejj@ximian.com>
 
+	* providers/imap/camel-imap-store.c: Get rid of some unnecessary
+	CAMEL_OBJECT() casts.
+
+	* providers/imap/camel-imap-folder.c (camel_imap_folder_new): The
+	folder_name argument passed to this function is ALWAYS in the UNIX
+	path form (ie. using '/' as the dir sep) and so when getting the
+	short_name, don't use imap_store->dir_sep as the dir sep, always
+	use '/'. Fixes bug #53755 for the IMAP case.
+
+2004-02-04  Jeffrey Stedfast  <fejj@ximian.com>
+
 	Fix for bug #53755 (local folders case)
 
 	* providers/local/camel-mbox-store.c (xrename): No longer takes an

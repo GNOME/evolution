@@ -226,7 +226,7 @@ camel_imap_folder_new (CamelStore *parent, const char *folder_name,
 	}
 
 	folder = CAMEL_FOLDER (camel_object_new (camel_imap_folder_get_type ()));
-	short_name = strrchr (folder_name, imap_store->dir_sep);
+	short_name = strrchr (folder_name, '/');
 	if (short_name)
 		short_name++;
 	else
