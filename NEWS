@@ -125,10 +125,60 @@ Mail:
 
 Calendar:
 
-  - Todo and calendar conduits working except for extended
+  - To-do and calendar conduits working except for extended
     character support (ie accented chars) (JP)
 
   - Updated wombat implementation of change reporting (JP)
+
+  - Majorly kick-ass new recurrence page in the event editor with an
+    easy UI, a preview of what will happen, and lots of love. (Anna)
+
+  - Imported a new libical with the APIs we require for alarms, the
+    start of the timezone code.  This may be the last Evolution
+    release that uses a CVS-imported libical; in the future we should
+    depend on official tarballs. (Federico)
+
+  - Event editor now deals gracefully with iCalendar recurrences we
+    cannot edit. (Federico)
+
+  - Plenty of fixes to the ETable calendar model for the task list
+    (Damon).
+
+  - The task list now saves its state, selected columns and sort order
+    (Damon).
+
+  - Lots of love to the iTIP engine and user interface.  Scheduling
+    appointments via email should be working fine, and they should
+    also work when you receive them. (Jesse)
+
+  - Lots of work on the calendar preferences code. (Damon)
+
+  - Many functional and cosmetic fixes to the day and week
+    views. (Damon)
+
+  - Event and task editors now ask if you try to close them without
+    saving changes. (Damon)
+
+  - You are now prompted if you are sure that you want to delete an
+    appointment. (Federico)
+
+  - Plenty of memory leaks fixed. (JP, Federico)
+
+  - Prettified the event editor a bit by making widget spacings
+    consistent. (Federico)
+
+  - Fixed semantics for handling exception dates (Federico)
+
+  - Some fixes to the recurrence instance generation engine. (Damon)
+
+  - Fixed insertion of new objects via notification into the task
+    list.  (JP, Federico)
+
+  - Misc. polishing for the event editor's innards. (Damon, Federico)
+
+  - Misc. cruft removal from old Gnomecal code (Federico, Miguel)
+
+  - Prettier icons for the task list. (Federico)
 
 Addressbook:
 
