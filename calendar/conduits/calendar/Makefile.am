@@ -4,7 +4,7 @@ INCLUDES = 					\
 	$(EVOLUTION_CALENDAR_CONDUIT_CFLAGS)
 
 # Calendar Conduit
-privlib_LTLIBRARIES = libecalendar_conduit.la
+privconduit_LTLIBRARIES = libecalendar_conduit.la
 
 libecalendar_conduit_la_SOURCES = 	\
 	calendar-conduit.c
@@ -16,7 +16,7 @@ libecalendar_conduit_la_LIBADD = 					\
 	$(EVOLUTION_CALENDAR_CONDUIT_LIBS)
 
 e-calendar-$(BASE_VERSION).conduit: e-calendar.conduit.in
-	sed -e 's^\@privlibdir\@^$(privlibdir)^g' 				\
+	sed -e 's^\@privconduitdir\@^$(privconduitdir)^g' 				\
 	    -e 's^\@datadir\@^$(datadir)^g' 				\
 	    -e 's^\@BASE_VERSION\@^$(BASE_VERSION)^g' 			\
 	    $< > $@

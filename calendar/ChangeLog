@@ -1,5 +1,15 @@
 2003-12-01  JP Rosevear <jpr@ximian.com>
 
+	* conduits/todo/Makefile.am: put the conduits in their own dir
+
+	* conduits/calendar/Makefile.am: ditto
+	
+	* conduits/todo/e-todo.conduit.in: subst in correct thing
+
+	* conduits/calendar/e-calendar.conduit.in: ditto
+
+2003-12-01  JP Rosevear <jpr@ximian.com>
+
 	* conduits/todo/Makefile.am: install to privlibdir
 
 	* conduits/calendar/Makefile.am: ditto
