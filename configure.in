@@ -647,7 +647,7 @@ dnl If the user specifies --with-foo or --enable-nss=static, then we have to do 
 		PKG_CHECK_MODULES(NSS, mozilla-nss, have_nss="yes")
 		if test "x${have_nss}" = "xyes"; then
 			msg_ssl="yes (Mozilla NSS)"
-			if test "$enable_smime" = "xyes"; then
+			if test "x$enable_smime" = "xyes"; then
 				AC_DEFINE(ENABLE_SMIME,1,[Define if SMIME should be enabled])
 				msg_smime="yes (Mozilla NSS)"
 			fi				    
