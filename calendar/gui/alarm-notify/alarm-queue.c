@@ -390,20 +390,38 @@ load_alarms (ClientAlarms *ca, time_t start, time_t end)
 {
 	/* create the live query */
 	if (!ca->query) {
-		/* FIXME: handle errors */
-		if (!e_cal_get_query (ca->client, "(has-alarms?)", &ca->query, NULL)) {
-			g_warning (G_STRLOC ": Could not get query for client");
+		char *str_query, *iso_start, *iso_end;
+
+		iso_start = isodate_from_time_t (start);
+		if (!iso_start)
+			return;
+                                                                               
+		iso_end = isodate_from_time_t (end);
+		if (!iso_end) {
+			g_free (iso_start);
 			return;
 		}
 
-		g_signal_connect (G_OBJECT (ca->query), "objects_added",
-				  G_CALLBACK (query_objects_changed_cb), ca);
-		g_signal_connect (G_OBJECT (ca->query), "objects_modified",
-				  G_CALLBACK (query_objects_changed_cb), ca);
-		g_signal_connect (G_OBJECT (ca->query), "objects_removed",
-				  G_CALLBACK (query_objects_removed_cb), ca);
+		str_query = g_strdup_printf ("(has-alarms-in-range? (make-time \"%s\") (make-time \"%s\"))",
+					     iso_start, iso_end);
+		g_free (iso_start);
+		g_free (iso_end);
 
-		e_cal_view_start (ca->query);
+		/* FIXME: handle errors */
+		if (!e_cal_get_query (ca->client, str_query, &ca->query, NULL)) {
+			g_warning (G_STRLOC ": Could not get query for client");
+		} else {
+			g_signal_connect (G_OBJECT (ca->query), "objects_added",
+					  G_CALLBACK (query_objects_changed_cb), ca);
+			g_signal_connect (G_OBJECT (ca->query), "objects_modified",
+					  G_CALLBACK (query_objects_changed_cb), ca);
+			g_signal_connect (G_OBJECT (ca->query), "objects_removed",
+					  G_CALLBACK (query_objects_removed_cb), ca);
+
+			e_cal_view_start (ca->query);
+		}
+
+		g_free (str_query);
 	}
 }
 
@@ -1292,14 +1310,13 @@ alarm_queue_add_client (ECal *client)
 
 	ca->uid_alarms_hash = g_hash_table_new (g_str_hash, g_str_equal);
 
-	if (e_cal_get_load_state (client) != E_CAL_LOAD_LOADED)
+	if (e_cal_get_load_state (client) != E_CAL_LOAD_LOADED) {
+		load_alarms_for_today (ca);
+		load_missed_alarms (ca);
+	} else {
 		g_signal_connect (client, "cal_opened",
 				  G_CALLBACK (cal_opened_cb),
 				  ca);
-
-	if (e_cal_get_load_state (client) == E_CAL_LOAD_LOADED) {
-		load_alarms_for_today (ca);
-		load_missed_alarms (ca);
 	}
 }
 
