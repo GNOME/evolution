@@ -2,15 +2,31 @@
 <filterdescription>
 <partset>
  <part name="sender">
-  <title>Sender</title>
+   <title>Sender</title>
    <input type="optionlist" name="sender-type">
     <option value="contains">
-        <title>contains</title>
-	<code>(match-all (header-contains "From" ${sender}))</code>
+     <title>contains</title>
+     <code>
+        (match-all (header-contains "From" ${sender}))
+     </code>
     </option>
     <option value="not contains">
-        <title>does not contain</title>
-        <code>(match-all (not (header-contains "From" ${sender})))</code>
+     <title>does not contain</title>
+     <code>
+        (match-all (not (header-contains "From" ${sender})))
+     </code>
+    </option>
+    <option value="matches regex">
+     <title>matches regex</title>
+     <code>
+        (match-all (header-regex "From" ${sender}))
+     </code>
+    </option>
+    <option value="not match regex">
+     <title>does not match regex</title>
+     <code>
+        (match-all (not (header-regex "From" ${sender})))
+     </code>
     </option>
    </input>
    <input type="string" name="sender"/>
@@ -34,6 +50,21 @@
 	       (header-contains "Cc" ${recipient}))))
      </code>
     </option>
+    <option value="matches regex">
+     <title>matches regex</title>
+     <code>
+	(match-all (or (header-regex "To" ${recipient})
+	    	       (header-regex "Cc" ${recipient})))
+     </code>
+    </option>
+    <option value="not match regex">
+     <title>does not match regex</title>
+     <code>
+	(match-all (not (or
+               (header-regex "To" ${recipient})
+	       (header-regex "Cc" ${recipient}))))
+     </code>
+    </option>
    </input>
    <input type="address" name="recipient"/>
  </part>
@@ -51,6 +82,18 @@
      <title>does not contain</title>
      <code>
 	(match-all (not (header-contains "Subject" ${subject})))
+     </code>
+    </option>
+    <option value="matches regex">
+     <title>matches regex</title>
+     <code>
+	(match-all (header-regex "Subject" ${subject}))
+     </code>
+    </option>
+    <option value="not match regex">
+     <title>does not match regex</title>
+     <code>
+	(match-all (not (header-regex "Subject" ${subject}))
      </code>
     </option>
    </input>
@@ -73,6 +116,18 @@
 	(match-all (not (header-contains ${header-field} ${word})))
      </code>
     </option>
+    <option value="matches regex">
+     <title>matches regex</title>
+     <code>
+	(match-all (header-regex ${header-field} ${word}))
+     </code>
+    </option>
+    <option value="not match regex">
+     <title>does not match regex</title>
+     <code>
+	(match-all (not (header-regex ${header-field} ${word}))
+     </code>
+    </option>
    </input>
    <input type="string" name="word"/>
  </part>
@@ -89,7 +144,19 @@
     <option value="not contains">
      <title>does not contain</title>
      <code>
-	(not (body-contains "Subject" ${word}))
+	(not (body-contains ${word}))
+     </code>
+    </option>
+    <option value="matches regex">
+     <title>matches regex</title>
+     <code>
+	(body-regex ${word})
+     </code>
+    </option>
+    <option value="not match regex">
+     <title>does not match regex</title>
+     <code>
+	(not (body-regex ${word}))
      </code>
     </option>
    </input>

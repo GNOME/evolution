@@ -23,6 +23,7 @@
 #include "filter-message-search.h"
 #include <e-util/e-sexp.h>
 #include <regex.h>
+#include <string.h>
 
 typedef struct {
 	CamelMimeMessage *message;
@@ -33,8 +34,10 @@ typedef struct {
 
 /* ESExp callbacks */
 static ESExpResult *header_contains (struct _ESExp *f, int argc, struct _ESExpResult **argv, FilterMessageSearch *fms);
+static ESExpResult *header_regex (struct _ESExp *f, int argc, struct _ESExpResult **argv, FilterMessageSearch *fms);
 static ESExpResult *match_all (struct _ESExp *f, int argc, struct _ESExpTerm **argv, FilterMessageSearch *fms);
 static ESExpResult *body_contains (struct _ESExp *f, int argc, struct _ESExpResult **argv, FilterMessageSearch *fms);
+static ESExpResult *body_regex (struct _ESExp *f, int argc, struct _ESExpResult **argv, FilterMessageSearch *fms);
 static ESExpResult *user_flag (struct _ESExp *f, int argc, struct _ESExpResult **argv, FilterMessageSearch *fms);
 static ESExpResult *user_tag (struct _ESExp *f, int argc, struct _ESExpResult **argv, FilterMessageSearch *fms);
 static ESExpResult *get_sent_date (struct _ESExp *f, int argc, struct _ESExpResult **argv, FilterMessageSearch *fms);
@@ -52,7 +55,9 @@ static struct {
 } symbols[] = {
 	{ "match-all",         (ESExpFunc *) match_all,         0 },
 	{ "body-contains",     (ESExpFunc *) body_contains,     0 },
+	{ "body-regex",        (ESExpFunc *) body_regex,        0 },
 	{ "header-contains",   (ESExpFunc *) header_contains,   0 },
+	{ "header-regex",      (ESExpFunc *) header_regex,      0 },
 	{ "user-tag",          (ESExpFunc *) user_tag,          0 },
 	{ "user-flag",         (ESExpFunc *) user_flag,         0 },
 	{ "get-sent-date",     (ESExpFunc *) get_sent_date,     0 },
@@ -64,6 +69,31 @@ static struct {
 
 static ESExpResult *
 header_contains (struct _ESExp *f, int argc, struct _ESExpResult **argv, FilterMessageSearch *fms)
+{
+	gboolean matched = FALSE;
+	ESExpResult *r;
+	
+	if (argc == 2) {
+		char *header = (argv[0])->value.string;
+		char *match = (argv[1])->value.string;
+		const char *contents;
+		
+		contents = camel_medium_get_header (CAMEL_MEDIUM (fms->message), header);
+		
+		if (contents) {
+			if (strstr (contents, match))
+				matched = TRUE;
+		}
+	}
+	
+	r = e_sexp_result_new (ESEXP_RES_BOOL);
+	r->value.bool = matched;
+	
+	return r;
+}
+
+static ESExpResult *
+header_regex (struct _ESExp *f, int argc, struct _ESExpResult **argv, FilterMessageSearch *fms)
 {
 	gboolean matched = FALSE;
 	ESExpResult *r;
@@ -127,7 +157,7 @@ match_all (struct _ESExp *f, int argc, struct _ESExpTerm **argv, FilterMessageSe
 }
 
 static gboolean
-mime_part_matches (CamelMimePart *mime_part, const char *match, CamelException *ex)
+mime_part_matches (CamelMimePart *mime_part, const char *match, gboolean regex, CamelException *ex)
 {
 	CamelStream *stream;
 	GByteArray *array;
@@ -142,38 +172,46 @@ mime_part_matches (CamelMimePart *mime_part, const char *match, CamelException *
 	array = g_byte_array_new ();
 	stream = camel_stream_mem_new_with_byte_array (array);
 	camel_data_wrapper_write_to_stream (CAMEL_DATA_WRAPPER (mime_part), stream);
-	camel_stream_reset (stream);
+	camel_object_unref (CAMEL_OBJECT (stream));
+	
 	g_byte_array_append (array, "", 1);
 	
 	text = array->data;
 	
-	regerr = regcomp (&regexpat, match, REG_EXTENDED | REG_NEWLINE | REG_ICASE);
-	if (regerr) {
-		/* regerror gets called twice to get the full error string 
-		   length to do proper posix error reporting */
-		reglen = regerror (regerr, &regexpat, 0, 0);
-		regmsg = g_malloc0 (reglen + 1);
-		regerror (regerr, &regexpat, regmsg, reglen);
-		camel_exception_setv (ex, CAMEL_EXCEPTION_SYSTEM,
-				      "Failed to perform regex search on message body: %s",
-				      regmsg);
-		g_free (regmsg);
-		regfree (&regexpat);
+	if (regex) {
+		regerr = regcomp (&regexpat, match, REG_EXTENDED | REG_NEWLINE | REG_ICASE);
+		if (regerr) {
+			/* regerror gets called twice to get the full error string 
+			   length to do proper posix error reporting */
+			reglen = regerror (regerr, &regexpat, 0, 0);
+			regmsg = g_malloc0 (reglen + 1);
+			regerror (regerr, &regexpat, regmsg, reglen);
+			camel_exception_setv (ex, CAMEL_EXCEPTION_SYSTEM,
+					      "Failed to perform regex search on message body: %s",
+					      regmsg);
+			g_free (regmsg);
+			regfree (&regexpat);
+		} else {
+			fltmatch = g_new0 (regmatch_t, regexpat.re_nsub);
+			
+			if (!regexec (&regexpat, text, regexpat.re_nsub, fltmatch, 0))
+				matched = TRUE;
+			
+			g_free (fltmatch);
+			regfree (&regexpat);
+		}
 	} else {
-		fltmatch = g_new0 (regmatch_t, regexpat.re_nsub);
-		
-		if (!regexec (&regexpat, text, regexpat.re_nsub, fltmatch, 0))
+		if (strstr (text, match))
 			matched = TRUE;
-		
-		g_free (fltmatch);
-		regfree (&regexpat);
 	}
+	
+	g_byte_array_free (array, TRUE);
 	
 	return matched;
 }
 
 static gboolean
-handle_multipart (CamelMultipart *multipart, const char *match, CamelException *ex)
+handle_multipart (CamelMultipart *multipart, const char *match, gboolean regex, CamelException *ex)
 {
 	gboolean matched = FALSE;
 	int i, nparts;
@@ -189,7 +227,7 @@ handle_multipart (CamelMultipart *multipart, const char *match, CamelException *
 		
 		if (gmime_content_field_is_type (content, "text", "*")) {
 			/* we only want to match text parts */
-			matched = mime_part_matches (mime_part, match, ex);
+			matched = mime_part_matches (mime_part, match, regex, ex);
 			
 			if (camel_exception_is_set (ex))
 				break;
@@ -200,7 +238,7 @@ handle_multipart (CamelMultipart *multipart, const char *match, CamelException *
 			wrapper = camel_medium_get_content_object (CAMEL_MEDIUM (mime_part));
 			mpart = CAMEL_MULTIPART (wrapper);
 			
-			matched = handle_multipart (mpart, match, ex);
+			matched = handle_multipart (mpart, match, regex, ex);
 			
 			if (camel_exception_is_set (ex))
 				break;
@@ -231,10 +269,44 @@ body_contains (struct _ESExp *f, int argc, struct _ESExpResult **argv, FilterMes
 			wrapper = camel_medium_get_content_object (CAMEL_MEDIUM (CAMEL_MIME_PART (fms->message)));
 			multipart = CAMEL_MULTIPART (wrapper);
 			
-			matched = handle_multipart (multipart, match, fms->ex);
+			matched = handle_multipart (multipart, match, FALSE, fms->ex);
 		} else {
 			/* single-part message so just search the entire message */
-			matched = mime_part_matches (CAMEL_MIME_PART (fms->message), match, fms->ex);
+			matched = mime_part_matches (CAMEL_MIME_PART (fms->message), match, FALSE, fms->ex);
+		}
+	}
+	
+	r = e_sexp_result_new (ESEXP_RES_BOOL);
+	r->value.bool = matched;
+	
+	return r;
+}
+
+static ESExpResult *
+body_regex (struct _ESExp *f, int argc, struct _ESExpResult **argv, FilterMessageSearch *fms)
+{
+	gboolean matched = FALSE;
+	ESExpResult *r;
+	
+	if (argc > 0) {
+		GMimeContentField *content;
+		char *match;
+		
+		match = (*argv)->value.string;
+		
+		content = camel_mime_part_get_content_type (CAMEL_MIME_PART (fms->message));
+		
+		if (gmime_content_field_is_type (content, "multipart", "*")) {
+			CamelDataWrapper *wrapper;
+			CamelMultipart *multipart;
+			
+			wrapper = camel_medium_get_content_object (CAMEL_MEDIUM (CAMEL_MIME_PART (fms->message)));
+			multipart = CAMEL_MULTIPART (wrapper);
+			
+			matched = handle_multipart (multipart, match, TRUE, fms->ex);
+		} else {
+			/* single-part message so just search the entire message */
+			matched = mime_part_matches (CAMEL_MIME_PART (fms->message), match, TRUE, fms->ex);
 		}
 	}
 	
