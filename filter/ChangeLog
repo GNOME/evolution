@@ -1,3 +1,27 @@
+2000-12-01  Jeffrey Stedfast  <fejj@helixcode.com>
+
+	* filter-element.c (filter_element_new_type_name): Added support
+	for the system-flag type.
+
+	* Makefile.am: Added filter-system-flag.[c,h].
+
+	* filter-system-flag.[c,h]: New type for system flags.
+
+	* filtertypes.xml: Oops, looks like we were still using integers
+	as arguments to set-flag. Change over to using strings which are
+	safer and also change the name to set-system-flag.
+
+	* filter-driver.c (do_flag): Use strings instead of integers.
+	Instead of set-flag, the callback is now set-system-flag for less
+	confusion. Sorry Ettore, but you'll have to change your filters.
+
+	* filtertypes.xml: Added system-flags stuff.
+
+	* vfoldertypes.xml: And here too.
+
+	* filter-message-search.c (system_flag): New ESExp callback for
+	filtering on system flags.
+
 2000-11-30  Jeffrey Stedfast  <fejj@helixcode.com>
 
 	* filter-driver.c (filter_driver_filter_message): Use

@@ -47,6 +47,7 @@ static ESExpResult *body_contains (struct _ESExp *f, int argc, struct _ESExpResu
 static ESExpResult *body_regex (struct _ESExp *f, int argc, struct _ESExpResult **argv, FilterMessageSearch *fms);
 static ESExpResult *user_flag (struct _ESExp *f, int argc, struct _ESExpResult **argv, FilterMessageSearch *fms);
 static ESExpResult *user_tag (struct _ESExp *f, int argc, struct _ESExpResult **argv, FilterMessageSearch *fms);
+static ESExpResult *system_flag (struct _ESExp *f, int argc, struct _ESExpResult **argv, FilterMessageSearch *fms);
 static ESExpResult *get_sent_date (struct _ESExp *f, int argc, struct _ESExpResult **argv, FilterMessageSearch *fms);
 static ESExpResult *get_received_date (struct _ESExp *f, int argc, struct _ESExpResult **argv, FilterMessageSearch *fms);
 static ESExpResult *get_current_date (struct _ESExp *f, int argc, struct _ESExpResult **argv, FilterMessageSearch *fms);
@@ -73,6 +74,7 @@ static struct {
 	{ "header-full-regex",  (ESExpFunc *) header_full_regex,  0 },
 	{ "user-tag",           (ESExpFunc *) user_tag,           0 },
 	{ "user-flag",          (ESExpFunc *) user_flag,          0 },
+	{ "system-flag",        (ESExpFunc *) system_flag,        0 },
 	{ "get-sent-date",      (ESExpFunc *) get_sent_date,      0 },
 	{ "get-received-date",  (ESExpFunc *) get_received_date,  0 },
 	{ "get-current-date",   (ESExpFunc *) get_current_date,   0 },
@@ -656,6 +658,21 @@ user_flag (struct _ESExp *f, int argc, struct _ESExpResult **argv, FilterMessage
 			break;
 		}
 	}
+	
+	r = e_sexp_result_new (ESEXP_RES_BOOL);
+	r->value.bool = truth;
+	
+	return r;
+}
+
+static ESExpResult *
+system_flag (struct _ESExp *f, int argc, struct _ESExpResult **argv, FilterMessageSearch *fms)
+{
+	ESExpResult *r;
+	gboolean truth = FALSE;
+	
+	if (argc == 1)
+		truth = camel_system_flag_get (fms->info->flags, argv[0]->value.string);
 	
 	r = e_sexp_result_new (ESEXP_RES_BOOL);
 	r->value.bool = truth;

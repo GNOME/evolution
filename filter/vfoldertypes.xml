@@ -140,5 +140,25 @@
   <input type="datespec" name="versus">
   </input>
  </part>
+
+ <part name="status">
+  <title>Status</title>
+  <input type="optionlist" name="match-type">
+   <option value="is">
+    <title>is</title>
+    <code>
+     (match-all (system-flag ${flag}))
+    </code>
+   </option>
+   <option value="is-not">
+    <title>is not</title>
+    <code>
+     (match-all (not (system-flag ${flag})))
+    </code>
+   </option>
+  </input>
+  <input type="system-flag" name="flag"/>
+ </part>
+
 </partset>
 </filterdescription>

@@ -28,6 +28,7 @@
 #include "filter-colour.h"
 #include "filter-datespec.h"
 #include "filter-score.h"
+#include "filter-system-flag.h"
 #include "filter-folder.h"
 #include "filter-url.h"
 
@@ -264,6 +265,8 @@ filter_element_new_type_name (const char *type)
 		return (FilterElement *)filter_url_new ();
 	} else if (!strcmp (type, "regex")) {
 		return (FilterElement *)filter_input_new_type_name (type);
+	} else if (!strcmp (type, "system-flag")) {
+		return (FilterElement *)filter_system_flag_new ();
 	} else {
 		g_warning("Unknown filter type '%s'", type);
 		return 0;

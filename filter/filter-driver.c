@@ -111,14 +111,14 @@ static struct {
 	int type;		/* set to 1 if a function can perform shortcut evaluation, or
 				   doesn't execute everything, 0 otherwise */
 } symbols[] = {
-	{ "delete",     (ESExpFunc *) do_delete,    0 },
-	{ "forward-to", (ESExpFunc *) mark_forward, 0 },
-	{ "copy-to",    (ESExpFunc *) do_copy,      0 },
-	{ "move-to",    (ESExpFunc *) do_move,      0 },
-	{ "stop",       (ESExpFunc *) do_stop,      0 },
-	{ "set-colour", (ESExpFunc *) do_colour,    0 },
-	{ "set-score",  (ESExpFunc *) do_score,     0 },
-	{ "set-flag",   (ESExpFunc *) do_flag,      0 }
+	{ "delete",          (ESExpFunc *) do_delete,    0 },
+	{ "forward-to",      (ESExpFunc *) mark_forward, 0 },
+	{ "copy-to",         (ESExpFunc *) do_copy,      0 },
+	{ "move-to",         (ESExpFunc *) do_move,      0 },
+	{ "stop",            (ESExpFunc *) do_stop,      0 },
+	{ "set-colour",      (ESExpFunc *) do_colour,    0 },
+	{ "set-score",       (ESExpFunc *) do_score,     0 },
+	{ "set-system-flag", (ESExpFunc *) do_flag,      0 }
 };
 
 static GtkObjectClass *filter_driver_parent;
@@ -450,34 +450,9 @@ do_flag (struct _ESExp *f, int argc, struct _ESExpResult **argv, FilterDriver *d
 	struct _FilterDriverPrivate *p = _PRIVATE (driver);
 	
 	d(fprintf (stderr, "setting flag\n"));
-	if (argc > 0 && argv[0]->type == ESEXP_RES_INT) {
-		char *flag;
-		
-		switch (argv[0]->value.number) {
-		case CAMEL_MESSAGE_ANSWERED:
-			p->info->flags |= CAMEL_MESSAGE_ANSWERED;
-			flag = "Answered";
-			break;
-		case CAMEL_MESSAGE_DELETED:
-			p->info->flags |= CAMEL_MESSAGE_DELETED;
-			flag = "Deleted";
-			break;
-		case CAMEL_MESSAGE_DRAFT:
-			p->info->flags |= CAMEL_MESSAGE_DRAFT;
-			flag = "Draft";
-			break;
-		case CAMEL_MESSAGE_FLAGGED:
-			p->info->flags |= CAMEL_MESSAGE_FLAGGED;
-			flag = "Flagged";
-			break;
-		case CAMEL_MESSAGE_SEEN:
-			p->info->flags |= CAMEL_MESSAGE_SEEN;
-			flag = "Seen";
-			break;
-		default:
-			flag = "Unknown";
-		}
-		filter_driver_log (driver, FILTER_LOG_ACTION, "Set %s flag", flag);
+	if (argc == 1 && argv[0]->type == ESEXP_RES_STRING) {
+		p->info->flags |= camel_system_flag (argv[0]->value.string);
+		filter_driver_log (driver, FILTER_LOG_ACTION, "Set %s flag", argv[0]->value.string);
 	}
 	
 	return NULL;

@@ -414,6 +414,25 @@
   <input type="score" name="versus"/>
  </part>
 
+ <part name="status">
+  <title>Status</title>
+  <input type="optionlist" name="match-type">
+   <option value="is">
+    <title>is</title>
+    <code>
+     (match-all (system-flag ${flag}))
+    </code>
+   </option>
+   <option value="is-not">
+    <title>is not</title>
+    <code>
+     (match-all (not (system-flag ${flag})))
+    </code>
+   </option>
+  </input>
+  <input type="system-flag" name="flag"/>
+ </part>
+
  <part name="regex">
   <title>Regex Match</title>
   <input type="optionlist" name="match-type">
@@ -490,40 +509,10 @@
   <code>(set-score ${score})</code>
   <input type="score" name="score"/>
  </part>
- <part name="flag">
-  <title>Set Flag</title>
-   <input type="optionlist" name="flag-type">
-   <option value="answered">
-    <title>Answered</title>
-    <code>
-       (set-flag 1)
-    </code>
-   </option>
-   <option value="deleted">
-    <title>Deleted</title>
-    <code>
-       (set-flag 2)
-    </code>
-   </option>
-   <option value="draft">
-    <title>Draft</title>
-    <code>
-       (set-flag 4)
-    </code>
-   </option>
-   <option value="flagged">
-    <title>Flagged</title>
-    <code>
-       (set-flag 8)
-    </code>
-   </option>
-   <option value="seen">
-    <title>Seen</title>
-    <code>
-       (set-flag 16)
-    </code>
-   </option>
-   </input>
+ <part name="set-status">
+  <title>Set Status</title>
+  <code>(set-system-flag ${flag})</code>
+  <input type="system-flag" name="flag"/>
  </part>
 </actionset>
 </filterdescription>
