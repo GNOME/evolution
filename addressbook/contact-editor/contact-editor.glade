@@ -370,7 +370,7 @@
 
 	<widget>
 	  <class>GtkEntry</class>
-	  <name>entry-phone1</name>
+	  <name>entry-phone1b</name>
 	  <can_focus>True</can_focus>
 	  <editable>True</editable>
 	  <text_visible>True</text_visible>
@@ -961,6 +961,7 @@
 	  <widget>
 	    <class>GtkCheckButton</class>
 	    <name>checkbutton-htmlmail</name>
+	    <visible>False</visible>
 	    <label>Wants to receive _HTML mail</label>
 	    <active>False</active>
 	    <draw_indicator>True</draw_indicator>
@@ -1054,7 +1055,6 @@
 	    <yalign>0.5</yalign>
 	    <xpad>0</xpad>
 	    <ypad>0</ypad>
-	    <focus_target>entry-phone1</focus_target>
 	  </widget>
 	</widget>
 
@@ -1243,6 +1243,7 @@
 	  <widget>
 	    <class>GtkCheckButton</class>
 	    <name>checkbutton-mailingaddress</name>
+	    <visible>False</visible>
 	    <label>_This is the mailing address</label>
 	    <active>False</active>
 	    <draw_indicator>True</draw_indicator>
@@ -1289,7 +1290,7 @@
 
 	<widget>
 	  <class>GtkAlignment</class>
-	  <name>alignment12</name>
+	  <name>alignment-contacts</name>
 	  <xalign>0.5</xalign>
 	  <yalign>0.5</yalign>
 	  <xscale>1</xscale>

@@ -933,7 +933,7 @@ setup_tab_order(GladeXML *gui)
 		list = add_to_tab_order(list, gui, "entry-email1");
 		list = add_to_tab_order(list, gui, "entry-web");
 		list = add_to_tab_order(list, gui, "text-address");
-		list = add_to_tab_order(list, gui, "button-contacts");
+		list = add_to_tab_order(list, gui, "alignment-contacts");
 		list = g_list_reverse(list);
 		e_container_change_tab_order(GTK_CONTAINER(container), list);
 	}
