@@ -40,9 +40,9 @@
 #include "comp-util.h"
 #include "calendar-config.h"
 #include "common/authentication.h"
+#include "dialogs/calendar-setup.h"
 #include "dialogs/comp-editor.h"
 #include "dialogs/copy-source-dialog.h"
-#include "dialogs/new-task-list.h"
 #include "dialogs/task-editor.h"
 #include "widgets/misc/e-source-selector.h"
 
@@ -367,15 +367,14 @@ delete_task_list_cb (GtkWidget *widget, TasksComponent *comp)
 static void
 new_task_list_cb (GtkWidget *widget, TasksComponent *component)
 {
-	new_task_list_dialog (GTK_WINDOW (gtk_widget_get_toplevel (widget)));
+	calendar_setup_new_task_list (GTK_WINDOW (gtk_widget_get_toplevel (widget)));
 }
 
 static void
-rename_task_list_cb (GtkWidget *widget, TasksComponent *comp)
+edit_task_list_cb (GtkWidget *widget, TasksComponent *comp)
 {
 	TasksComponentPrivate *priv;
 	ESource *selected_source;
-	GtkWidget *dialog, *entry;
 
 	priv = comp->priv;
 	
@@ -383,22 +382,7 @@ rename_task_list_cb (GtkWidget *widget, TasksComponent *comp)
 	if (!selected_source)
 		return;
 
-	/* create the dialog to prompt the user for the new name */
-	dialog = gtk_message_dialog_new (GTK_WINDOW (gtk_widget_get_toplevel (widget)),
-					 GTK_DIALOG_MODAL,
-					 GTK_MESSAGE_QUESTION,
-					 GTK_BUTTONS_OK_CANCEL,
-					 _("Rename this task list to"));
-	gtk_dialog_set_has_separator (GTK_DIALOG (dialog), FALSE);
-	entry = gtk_entry_new ();
-	gtk_entry_set_text (GTK_ENTRY (entry), e_source_peek_name (selected_source));
-	gtk_widget_show (entry);
-	gtk_box_pack_start (GTK_BOX (GTK_DIALOG (dialog)->vbox), entry, TRUE, FALSE, 6);
-
-	if (gtk_dialog_run (GTK_DIALOG (dialog)) == GTK_RESPONSE_OK)
-		e_source_set_name (selected_source, gtk_entry_get_text (GTK_ENTRY (entry)));
-
-	gtk_widget_destroy (dialog);
+	calendar_setup_edit_task_list (GTK_WINDOW (gtk_widget_get_toplevel (widget)), selected_source);
 }
 
 static void
@@ -413,9 +397,9 @@ fill_popup_menu_cb (ESourceSelector *selector, GtkMenu *menu, TasksComponent *co
 			     G_CALLBACK (new_task_list_cb), component, TRUE);
 	add_popup_menu_item (menu, _("Copy"), EVOLUTION_IMAGESDIR "/folder-copy-16.png",
 			     G_CALLBACK (copy_task_list_cb), component, sensitive);
-	add_popup_menu_item (menu, _("Rename"), NULL, G_CALLBACK (rename_task_list_cb),
-			     component, sensitive);
 	add_popup_menu_item (menu, _("Delete"), GTK_STOCK_DELETE, G_CALLBACK (delete_task_list_cb),
+			     component, sensitive);
+	add_popup_menu_item (menu, _("Properties..."), NULL, G_CALLBACK (edit_task_list_cb),
 			     component, sensitive);
 }
 
@@ -769,7 +753,7 @@ impl_requestCreateItem (PortableServer_Servant servant,
 
 		e_comp_editor_registry_add (comp_editor_registry, COMP_EDITOR (editor), TRUE);
 	} else if (strcmp (item_type_name, CREATE_TASK_LIST_ID) == 0) {
-		new_task_list_dialog (GTK_WINDOW (gtk_widget_get_toplevel (GTK_WIDGET (priv->tasks))));
+		calendar_setup_new_task_list (GTK_WINDOW (gtk_widget_get_toplevel (GTK_WIDGET (priv->tasks))));
 	} else {
 		bonobo_exception_set (ev, ex_GNOME_Evolution_Component_UnknownType);
 		return;

@@ -36,9 +36,36 @@
 #include <libedataserver/e-source-list.h>
 #include <e-util/e-dialog-utils.h>
 #include <e-util/e-url.h>
-#include "calendar-config.h"
+#include "calendar-setup.h"
 
-#define GLADE_FILE_NAME "calendar-config.glade"
+#define GLADE_FILE_NAME "calendar-setup.glade"
+
+typedef struct
+{
+	GladeXML     *gui_xml;
+
+	/* Main widgets */
+	GtkWidget    *window;
+	GtkWidget    *druid;
+
+	/* Source selection */
+	ESourceList  *source_list;
+	GtkWidget    *group_optionmenu;
+
+	/* ESource we're currently editing (if any) */
+	ESource      *source;
+
+	/* Source group we're creating/editing source in */
+	ESourceGroup *source_group;
+
+	/* General page fields */
+	GtkWidget    *name_entry;
+
+	/* Location page fields */
+	GtkWidget    *uri_entry;
+	GtkWidget    *refresh_spin;
+}
+SourceDialog;
 
 static gchar *
 print_uri_noproto (EUri *uri)
@@ -236,32 +263,16 @@ create_new_source_with_group (GtkWindow *parent,
 	return source;
 }
 
-typedef struct
+static void
+source_dialog_destroy (SourceDialog *source_dialog)
 {
-	GladeXML     *gui_xml;
+	g_object_unref (source_dialog->gui_xml);
 
-	/* Main widgets */
-	GtkWidget    *window;
-	GtkWidget    *druid;
+	if (source_dialog->source)
+		g_object_unref (source_dialog->source);
 
-	/* Source selection */
-	ESourceList  *source_list;
-	GtkWidget    *group_optionmenu;
-
-	/* ESource we're currently editing (if any) */
-	ESource      *source;
-
-	/* Source group we're creating/editing source in */
-	ESourceGroup *source_group;
-
-	/* General page fields */
-	GtkWidget    *name_entry;
-
-	/* Location page fields */
-	GtkWidget    *uri_entry;
-	GtkWidget    *refresh_spin;
+	g_free (source_dialog);
 }
-SourceDialog;
 
 static void
 source_to_dialog (SourceDialog *source_dialog)
@@ -475,19 +486,8 @@ new_calendar_cancel (SourceDialog *source_dialog)
 	gtk_widget_destroy (source_dialog->window);
 }
 
-static void
-source_dialog_destroy (SourceDialog *source_dialog)
-{
-	g_object_unref (source_dialog->gui_xml);
-
-	if (source_dialog->source)
-		g_object_unref (source_dialog->source);
-
-	g_free (source_dialog);
-}
-
 gboolean
-calendar_config_new_calendar (GtkWindow *parent)
+calendar_setup_new_calendar (GtkWindow *parent)
 {
 	SourceDialog *source_dialog = g_new0 (SourceDialog, 1);
 	GConfClient  *gconf_client;
@@ -580,7 +580,7 @@ edit_calendar_cancel (SourceDialog *source_dialog)
 }
 
 gboolean
-calendar_config_edit_calendar (GtkWindow *parent, ESource *source)
+calendar_setup_edit_calendar (GtkWindow *parent, ESource *source)
 {
 	SourceDialog *source_dialog = g_new0 (SourceDialog, 1);
 
@@ -629,6 +629,145 @@ calendar_config_edit_calendar (GtkWindow *parent, ESource *source)
 
 	if (!source_is_remote (source_dialog->source))
 		gtk_widget_hide (glade_xml_get_widget (source_dialog->gui_xml, "remote-page"));
+
+	return TRUE;
+}
+
+static void
+new_task_list_finish (SourceDialog *source_dialog)
+{
+	source_dialog->source =
+		create_new_source_with_group (GTK_WINDOW (source_dialog->window), source_dialog->source_group, 
+					      gtk_entry_get_text (GTK_ENTRY (source_dialog->name_entry)),
+					      gtk_entry_get_text (GTK_ENTRY (source_dialog->uri_entry)));
+	dialog_to_source (source_dialog);
+
+	gtk_widget_destroy (source_dialog->window);
+}
+
+static void
+new_task_list_cancel (SourceDialog *source_dialog)
+{
+	gtk_widget_destroy (source_dialog->window);
+}
+
+gboolean
+calendar_setup_new_task_list (GtkWindow *parent)
+{
+	SourceDialog *source_dialog = g_new0 (SourceDialog, 1);
+	GConfClient  *gconf_client;
+	GtkWidget    *page;
+
+	source_dialog->gui_xml = glade_xml_new (EVOLUTION_GLADEDIR "/" GLADE_FILE_NAME, "task-list-druid-window", NULL);
+	if (!source_dialog->gui_xml) {
+		g_warning (G_STRLOC ": Cannot load Glade file.");
+		g_free (source_dialog);
+		return FALSE;
+	}
+
+	source_dialog->window = glade_xml_get_widget (source_dialog->gui_xml, "task-list-druid-window");
+	source_dialog->druid  = glade_xml_get_widget (source_dialog->gui_xml, "druid");
+
+	/* General page */
+	page = glade_xml_get_widget (source_dialog->gui_xml, "general-page");
+	source_dialog->name_entry = glade_xml_get_widget (source_dialog->gui_xml, "name-entry");
+	g_signal_connect_swapped (source_dialog->name_entry, "changed",
+				  G_CALLBACK (general_page_modified), source_dialog);
+	g_signal_connect_after (page, "prepare",
+				G_CALLBACK (general_page_prepare), source_dialog);
+
+	gconf_client = gconf_client_get_default ();
+	source_dialog->source_list =
+		e_source_list_new_for_gconf (gconf_client, "/apps/evolution/tasks/sources");
+	source_dialog->group_optionmenu =
+		glade_xml_get_widget (source_dialog->gui_xml, "group-optionmenu");
+	if (!GTK_IS_MENU (gtk_option_menu_get_menu (GTK_OPTION_MENU (source_dialog->group_optionmenu)))) {
+		GtkWidget *menu = gtk_menu_new ();
+		gtk_option_menu_set_menu (GTK_OPTION_MENU (source_dialog->group_optionmenu), menu);
+		gtk_widget_show (menu);
+	}
+
+	/* NOTE: This assumes that we have sources. If they don't exist, they're set up
+	 * on startup of the calendar component. */
+	source_group_menu_add_groups (GTK_MENU_SHELL (gtk_option_menu_get_menu (
+		GTK_OPTION_MENU (source_dialog->group_optionmenu))), source_dialog->source_list);
+	gtk_option_menu_set_history (GTK_OPTION_MENU (source_dialog->group_optionmenu), 0);
+	source_dialog->source_group = e_source_list_peek_groups (source_dialog->source_list)->data;
+	g_signal_connect_swapped (source_dialog->group_optionmenu, "changed",
+				  G_CALLBACK (source_group_changed), source_dialog);
+
+	/* Finish page */
+	page = glade_xml_get_widget (source_dialog->gui_xml, "finish-page");
+	g_signal_connect_swapped (page, "finish",
+				  G_CALLBACK (new_task_list_finish), source_dialog);
+	g_signal_connect_swapped (source_dialog->druid, "cancel",
+				  G_CALLBACK (new_task_list_cancel), source_dialog);
+	g_object_weak_ref (G_OBJECT (source_dialog->window),
+			   (GWeakNotify) source_dialog_destroy, source_dialog);
+
+	/* Prepare and show dialog */
+	source_to_dialog (source_dialog);
+
+	gtk_window_set_type_hint (GTK_WINDOW (source_dialog->window), GDK_WINDOW_TYPE_HINT_DIALOG);
+	gtk_window_set_modal (GTK_WINDOW (source_dialog->window), TRUE);
+
+	gtk_widget_show_all (source_dialog->window);
+
+	return TRUE;
+}
+
+static void
+edit_task_list_finish (SourceDialog *source_dialog)
+{
+	dialog_to_source (source_dialog);
+	gtk_widget_destroy (source_dialog->window);
+}
+
+static void
+edit_task_list_cancel (SourceDialog *source_dialog)
+{
+	gtk_widget_destroy (source_dialog->window);
+}
+
+gboolean
+calendar_setup_edit_task_list (GtkWindow *parent, ESource *source)
+{
+	SourceDialog *source_dialog = g_new0 (SourceDialog, 1);
+
+	g_return_val_if_fail (source != NULL, FALSE);
+
+	source_dialog->gui_xml = glade_xml_new (EVOLUTION_GLADEDIR "/" GLADE_FILE_NAME, "task-list-editor-window", NULL);
+	if (!source_dialog->gui_xml) {
+		g_warning (G_STRLOC ": Cannot load Glade file.");
+		g_free (source_dialog);
+		return FALSE;
+	}
+
+	source_dialog->source = source;
+	g_object_ref (source);
+
+	source_dialog->window = glade_xml_get_widget (source_dialog->gui_xml, "task-list-editor-window");
+
+	/* General page */
+	source_dialog->name_entry = glade_xml_get_widget (source_dialog->gui_xml, "name-entry");
+	g_signal_connect_swapped (source_dialog->name_entry, "changed",
+				  G_CALLBACK (general_page_modified), source_dialog);
+
+	/* Finishing */
+	g_signal_connect_swapped (glade_xml_get_widget (source_dialog->gui_xml, "ok-button"), "clicked",
+				  G_CALLBACK (edit_task_list_finish), source_dialog);
+	g_signal_connect_swapped (glade_xml_get_widget (source_dialog->gui_xml, "cancel-button"), "clicked",
+				  G_CALLBACK (edit_task_list_cancel), source_dialog);
+	g_object_weak_ref (G_OBJECT (source_dialog->window),
+			   (GWeakNotify) source_dialog_destroy, source_dialog);
+
+	/* Prepare and show dialog */
+	source_to_dialog (source_dialog);
+
+	gtk_window_set_type_hint (GTK_WINDOW (source_dialog->window), GDK_WINDOW_TYPE_HINT_DIALOG);
+	gtk_window_set_modal (GTK_WINDOW (source_dialog->window), TRUE);
+
+	gtk_widget_show_all (source_dialog->window);
 
 	return TRUE;
 }

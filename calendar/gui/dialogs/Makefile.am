@@ -37,8 +37,8 @@ libcal_dialogs_la_SOURCES =	\
 	alarm-page.h		\
 	cal-prefs-dialog.c	\
 	cal-prefs-dialog.h	\
-	calendar-config.c	\
-	calendar-config.h	\
+	calendar-setup.c	\
+	calendar-setup.h	\
 	cancel-comp.c		\
 	cancel-comp.h		\
 	changed-comp.c		\
@@ -63,8 +63,6 @@ libcal_dialogs_la_SOURCES =	\
 	event-page.h		\
 	meeting-page.c		\
 	meeting-page.h		\
-	new-task-list.c		\
-	new-task-list.h		\
 	recurrence-page.c	\
 	recurrence-page.h	\
 	recur-comp.c		\
@@ -86,11 +84,10 @@ glade_DATA =				\
 	alarm-options.glade		\
 	alarm-page.glade		\
 	cal-prefs-dialog.glade		\
-	calendar-config.glade		\
+	calendar-setup.glade		\
 	e-delegate-dialog.glade		\
 	event-page.glade		\
 	meeting-page.glade		\
-	new-task-list.glade		\
 	recurrence-page.glade		\
 	schedule-page.glade		\
 	task-details-page.glade		\

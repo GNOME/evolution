@@ -39,7 +39,7 @@
 #include "e-comp-editor-registry.h"
 #include "comp-util.h"
 #include "common/authentication.h"
-#include "dialogs/calendar-config.h"
+#include "dialogs/calendar-setup.h"
 #include "dialogs/comp-editor.h"
 #include "dialogs/copy-source-dialog.h"
 #include "dialogs/event-editor.h"
@@ -375,7 +375,7 @@ delete_calendar_cb (GtkWidget *widget, CalendarComponent *comp)
 static void
 new_calendar_cb (GtkWidget *widget, CalendarComponent *comp)
 {
-	calendar_config_new_calendar (GTK_WINDOW (gtk_widget_get_toplevel (widget)));
+	calendar_setup_new_calendar (GTK_WINDOW (gtk_widget_get_toplevel (widget)));
 }
 
 static void
@@ -390,7 +390,7 @@ edit_calendar_cb (GtkWidget *widget, CalendarComponent *comp)
 	if (!selected_source)
 		return;
 
-	calendar_config_edit_calendar (GTK_WINDOW (gtk_widget_get_toplevel (widget)), selected_source);
+	calendar_setup_edit_calendar (GTK_WINDOW (gtk_widget_get_toplevel (widget)), selected_source);
 }
 
 static void
@@ -837,7 +837,7 @@ impl_requestCreateItem (PortableServer_Servant servant,
 		comp = get_default_event (priv->create_ecal, FALSE);
 		is_meeting = TRUE;
 	} else if (strcmp (item_type_name, CREATE_CALENDAR_ID) == 0) {
-		calendar_config_new_calendar (GTK_WINDOW (gtk_widget_get_toplevel (GTK_WIDGET (priv->calendar))));
+		calendar_setup_new_calendar (GTK_WINDOW (gtk_widget_get_toplevel (GTK_WIDGET (priv->calendar))));
 		return;
 	} else {
 		bonobo_exception_set (ev, ex_GNOME_Evolution_Component_UnknownType);

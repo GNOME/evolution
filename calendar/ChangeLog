@@ -1,3 +1,27 @@
+2004-01-09  Hans Petter Jansson  <hpj@ximian.com>
+
+	* gui/calendar-component.c (new_calendar_cb): calendar_config ->
+	calendar_setup.
+	(edit_calendar_cb): Ditto.
+	(impl_requestCreateItem): Ditto.
+
+	* gui/tasks-component.c (new_task_list_cb): Use calendar_setup.
+	(edit_task_list_cb): Implement properties callback.
+	(rename_task_list_cb): Remove.
+	(fill_popup_menu_cb): Remove "rename" and add "properties".
+	(impl_requestCreateItem): Use calendar_setup.
+
+	* gui/dialogs/Makefile.am (libcal_dialogs_la_SOURCES): calendar_config
+	-> calendar_setup. Remove new-task-list.[ch].
+	(glade_DATA): calendar_config -> calendar_setup. Remove
+	new-task-list.glade.
+
+	* gui/dialogs/new-task-list.[ch]: Remove.
+
+	* gui/dialogs/calendar-config.[ch]: Rename to calendar-setup.[ch].
+
+	* gui/dialogs/calendar-config.glade: Rename to calendar-setup.glade.
+
 2004-01-09  JP Rosevear <jpr@ximian.com>
 
 	* gui/calendar-component.c (impl_upgradeFromVersion): make sure we
@@ -10,7 +34,7 @@
 	* gui/calendar-component.c (impl_upgradeFromVersion): Create
 	ESource for anniversaries
 
-2003-01-09  Hans Petter Jansson  <hpj@ximian.com>
+2004-01-09  Hans Petter Jansson  <hpj@ximian.com>
 
 	* gui/calendar-component.c (new_calendar_cb): Call
 	calendar_config_new_calendar().
