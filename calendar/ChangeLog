@@ -1,5 +1,17 @@
 2003-10-29  JP Rosevear <jpr@ximian.com>
 
+	* gui/e-day-view-config.c (set_twentyfour_hour): set the format on
+	the cal view
+
+	* gui/e-week-view-config.c (set_twentyfour_hour): ditto
+	
+	* gui/e-cal-list-view-config.c (set_twentyfour_hour): set the 24
+	hour format on the view
+	(twentyfour_hour_changed_cb): 24 hour format change callback
+	(e_cal_list_view_config_set_view): handle 24 hour format changes
+
+2003-10-29  JP Rosevear <jpr@ximian.com>
+
 	* gui/dialogs/recurrence-page.c (recurrence_page_finalize): unref
 	config manager
 	(init_widgets): create config manager for the e-calendar

@@ -214,7 +214,7 @@ set_twentyfour_hour (EWeekView *week_view)
 
 	use_24_hour = calendar_config_get_24_hour_format ();
 
-	e_week_view_set_24_hour_format (week_view, use_24_hour);
+	e_cal_view_set_use_24_hour_format (E_CAL_VIEW (week_view), use_24_hour);
 }
 
 static void

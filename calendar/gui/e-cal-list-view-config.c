@@ -183,6 +183,27 @@ timezone_changed_cb (GConfClient *client, guint id, GConfEntry *entry, gpointer 
 	set_timezone (priv->view);
 }
 
+static void
+set_twentyfour_hour (ECalListView *list_view) 
+{
+	gboolean use_24_hour;
+
+	use_24_hour = calendar_config_get_24_hour_format ();
+
+	e_cal_view_set_use_24_hour_format (E_CAL_VIEW (list_view), use_24_hour);
+}
+
+static void
+twentyfour_hour_changed_cb (GConfClient *client, guint id, GConfEntry *entry, gpointer data)
+{
+	ECalListViewConfig *view_config = data;
+	ECalListViewConfigPrivate *priv;
+	
+	priv = view_config->priv;
+	
+	set_twentyfour_hour (priv->view);
+}
+
 void
 e_cal_list_view_config_set_view (ECalListViewConfig *view_config, ECalListView *list_view) 
 {
@@ -216,5 +237,11 @@ e_cal_list_view_config_set_view (ECalListViewConfig *view_config, ECalListView *
 	set_timezone (list_view);
 	
 	not = calendar_config_add_notification_timezone (timezone_changed_cb, view_config);
+	priv->notifications = g_list_prepend (priv->notifications, GUINT_TO_POINTER (not));
+
+	/* 24 Hour format */
+	set_twentyfour_hour (list_view);	
+
+	not = calendar_config_add_notification_24_hour_format (twentyfour_hour_changed_cb, view_config);
 	priv->notifications = g_list_prepend (priv->notifications, GUINT_TO_POINTER (not));
 }
