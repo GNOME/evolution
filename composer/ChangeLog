@@ -1,3 +1,9 @@
+2001-03-28  Dan Winship  <danw@ximian.com>
+
+	* e-msg-composer.c (save_draft): Use the drafts folder specified
+	by the account, if possible. Also, fix the setting of "send_html"
+	after saving the draft in case the user plans to keep editting...
+
 2001-03-27  Larry Ewing  <lewing@ximian.com>
 
 	* e-msg-composer.c (e_msg_composer_set_send_html): set the

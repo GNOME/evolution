@@ -55,6 +55,7 @@
 #include "mail/mail-crypto.h"
 #include "mail/mail-tools.h"
 #include "mail/mail-ops.h"
+#include "mail/mail-mt.h"
 
 #include "e-util/e-html-utils.h"
 #include <gal/widgets/e-gui-utils.h>
@@ -762,16 +763,65 @@ save_done (CamelFolder *folder, CamelMimeMessage *msg, CamelMessageInfo *info, i
 	g_free (si);
 }
 
+extern CamelFolder *drafts_folder;
+extern char *default_drafts_folder_uri;
+
+static void
+use_default_drafts_cb (gint reply, gpointer data)
+{
+	CamelFolder **folder = data;
+
+	if (reply == 0)
+		*folder = drafts_folder;
+}
+
+static void
+save_folder (char *uri, CamelFolder *folder, gpointer data)
+{
+	CamelFolder **save = data;
+
+	if (folder) {
+		*save = folder;
+		camel_object_ref (CAMEL_OBJECT (folder));
+	}
+}
+
 static void
 save_draft (EMsgComposer *composer, int quitok)
 {
 	CamelMimeMessage *msg;
 	CamelMessageInfo *info;
-	extern CamelFolder *drafts_folder;
+	const MailConfigAccount *account;
 	struct _save_info *si;
-	
-	composer->send_html = TRUE;  /* always save drafts as HTML to keep formatting */
+	gboolean old_send_html;
+	CamelFolder *folder = NULL;
+
+	account = e_msg_composer_get_preferred_account (composer);
+	if (account && account->drafts_folder_uri &&
+	    strcmp (account->drafts_folder_uri, default_drafts_folder_uri) != 0) {
+		int id;
+
+		id = mail_get_folder (account->drafts_folder_uri, save_folder, &folder);
+		mail_msg_wait (id);
+
+		if (!folder) {
+			GtkWidget *dialog;
+
+			dialog = gnome_ok_cancel_dialog_parented (_("Unable to open the drafts folder for this account.\n"
+								    "Would you like to use the default drafts folder?"),
+								  use_default_drafts_cb, &folder, GTK_WINDOW (composer));
+			gnome_dialog_run_and_close (GNOME_DIALOG (dialog));
+			if (!folder)
+				return;
+		}
+	} else
+		folder = drafts_folder;
+
+	/* always save drafts as HTML to keep formatting */
+	old_send_html = composer->send_html;
+	composer->send_html = TRUE;
 	msg = e_msg_composer_get_message (composer);
+	composer->send_html = old_send_html;
 	
 	info = g_new0 (CamelMessageInfo, 1);
 	info->flags = CAMEL_MESSAGE_DRAFT;
@@ -781,7 +831,7 @@ save_draft (EMsgComposer *composer, int quitok)
 	gtk_object_ref (GTK_OBJECT (composer));
 	si->quitok = quitok;
 	
-	mail_append_mail (drafts_folder, msg, info, save_done, si);
+	mail_append_mail (folder, msg, info, save_done, si);
 	camel_object_unref (CAMEL_OBJECT (msg));
 }
 
