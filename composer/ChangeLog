@@ -1,3 +1,8 @@
+2004-12-07  Not Zed  <NotZed@Ximian.com>
+
+	* e-msg-composer.c: include camel-cipher-context.h so we build if
+	nss isn't available.
+
 2004-11-26  JP Rosevear  <jpr@novell.com>
 
 	* e-msg-composer.c (create_composer): get image from icon factory

@@ -105,6 +105,7 @@
 #include <camel/camel-multipart-signed.h>
 #include <camel/camel-multipart-encrypted.h>
 #include <camel/camel-string-utils.h>
+#include <camel/camel-cipher-context.h>
 #if defined (HAVE_NSS) && defined (SMIME_SUPPORTED)
 #include <camel/camel-smime-context.h>
 #endif
