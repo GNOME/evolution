@@ -542,10 +542,11 @@ get_data_uri (const char *uri, CalComponentVType vtype)
 	if (uri) {
 		if (*uri != '/' && strncmp (uri, "file:", 5) != 0)
 			return g_strdup (uri);
+
 		if (vtype == CAL_COMPONENT_EVENT)
-			return g_concat_dir_and_file (uri, "calendar.ics");
+			return cal_util_expand_uri ((char *) uri, FALSE);
 		else if (vtype == CAL_COMPONENT_TODO)
-			return g_concat_dir_and_file (uri, "tasks.ics");
+			return cal_util_expand_uri ((char *) uri, TRUE);
 		else
 			g_assert_not_reached ();
 	} else {
@@ -631,34 +632,48 @@ sc_user_create_new_item_cb (EvolutionShellComponent *shell_component,
 			    const char *parent_folder_physical_uri,
 			    const char *parent_folder_type)
 {
+	char *tmp_uri;
+
 	if (strcmp (id, CREATE_EVENT_ID) == 0) {
 		if (type_is_calendar (parent_folder_type))
 			create_component (parent_folder_physical_uri, 
 					  GNOME_Evolution_Calendar_CompEditorFactory_EDITOR_MODE_EVENT);
-		else
-			create_component (NULL,
+		else {
+			tmp_uri = calendar_config_default_calendar_folder ();
+			create_component (tmp_uri,
 					  GNOME_Evolution_Calendar_CompEditorFactory_EDITOR_MODE_EVENT);
+			g_free (tmp_uri);
+		}
  	} else if (strcmp (id, CREATE_ALLDAY_EVENT_ID) == 0) {
 		if (type_is_calendar (parent_folder_type))
 			create_component (parent_folder_physical_uri, 
 					  GNOME_Evolution_Calendar_CompEditorFactory_EDITOR_MODE_ALLDAY_EVENT);
-		else
-			create_component (NULL,
+		else {
+			tmp_uri = calendar_config_default_calendar_folder ();
+			create_component (tmp_uri,
 					  GNOME_Evolution_Calendar_CompEditorFactory_EDITOR_MODE_ALLDAY_EVENT);
+			g_free (tmp_uri);
+		}
 	} else if (strcmp (id, CREATE_MEETING_ID) == 0) {
 		if (type_is_calendar (parent_folder_type))
 			create_component (parent_folder_physical_uri,
 					  GNOME_Evolution_Calendar_CompEditorFactory_EDITOR_MODE_MEETING);
-		else
-			create_component (NULL,
+		else {
+			tmp_uri = calendar_config_default_calendar_folder ();
+			create_component (tmp_uri,
 					  GNOME_Evolution_Calendar_CompEditorFactory_EDITOR_MODE_MEETING);
+			g_free (tmp_uri);
+		}
 	} else if (strcmp (id, CREATE_TASK_ID) == 0) {
 		if (type_is_tasks (parent_folder_type))
 			create_component (parent_folder_physical_uri,
 					  GNOME_Evolution_Calendar_CompEditorFactory_EDITOR_MODE_TODO);
-		else
-			create_component (NULL, 
+		else {
+			tmp_uri = calendar_config_default_tasks_folder ();
+			create_component (tmp_uri, 
 					  GNOME_Evolution_Calendar_CompEditorFactory_EDITOR_MODE_TODO);
+			g_free (tmp_uri);
+		}
 	} else
 		g_assert_not_reached ();
 }

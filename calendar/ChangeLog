@@ -1,3 +1,11 @@
+2002-10-23  Rodrigo Moya <rodrigo@ximian.com>
+
+	Fixes #32613
+
+	* gui/component-factory.c (sc_user_create_new_item_cb): use the
+	default calendar/tasks folder to activate the component editor.
+	(get_data_uri): deal correctly with the URIs being used.
+
 2002-10-23  JP Rosevear  <jpr@ximian.com>
 
 	* gui/e-itip-control.c (show_current): fix warning
