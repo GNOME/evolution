@@ -236,6 +236,8 @@ fetch_mail (GtkWidget *button, gpointer user_data)
 		goto cleanup;
 	}
 
+	folder_browser_clear_search (fb);
+
 	/* apply filtering rules to this inbox */
 	filter = filter_driver_new();
 	userrules = g_strdup_printf ("%s/filters.xml", evolution_dir);

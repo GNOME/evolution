@@ -61,5 +61,6 @@ gboolean       folder_browser_set_uri  (FolderBrowser *folder_browser,
 					const char *uri);
 void           folder_browser_set_message_preview (FolderBrowser *folder_browser,
 						   gboolean show_message_preview);
+void           folder_browser_clear_search (FolderBrowser *fb);
 
 #endif /* _FOLDER_BROWSER_H_ */

@@ -259,6 +259,14 @@ search_activate(GtkEntry *entry, FolderBrowser *fb)
 	search_set(fb);
 }
 
+void
+folder_browser_clear_search (FolderBrowser *fb)
+{
+	gtk_entry_set_text (GTK_ENTRY (fb->search_entry), "");
+	gtk_option_menu_set_history (GTK_OPTION_MENU (fb->search_menu), 0);
+	message_list_set_search (fb->message_list, NULL);
+}
+
 static int
 etable_key (ETable *table, int row, int col, GdkEvent *ev, FolderBrowser *fb)
 {

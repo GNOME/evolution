@@ -1,5 +1,10 @@
 2000-06-15  Dan Winship  <danw@helixcode.com>
 
+	* folder-browser.c (folder_browser_clear_search): New function to
+	revert back to non-searching mode.
+
+	* mail-ops.c (fetch_mail): Use folder_browser_clear_search.
+
 	* mail-display.c (on_url_requested): if the document requests an
 	unknown URL, it's not an error; just ignore the URL.
 
