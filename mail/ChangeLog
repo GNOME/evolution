@@ -1,3 +1,18 @@
+2003-07-02  Jeffrey Stedfast  <fejj@ximian.com>
+
+	* mail-tools.c (mail_tool_forward_message): Strip the signature
+	from the body text. Fixes bug #45523. While we're here, also fix
+	the code to quote exactly the same way as the
+	mail_tool_quote_message() function.
+	(mail_tool_quote_message): The last arg should not be
+	'want_plain', because that arg is for whether or not the body
+	should be quoted.
+
+	* folder-browser.c (message_list_drag_data_get): Apply a
+	From-filter when dragging as a test/uri-list and
+	message/rfc822. Fixes bug #45617. Also free the uids ptrarray for
+	the text/uri-list case.
+
 2003-07-01  Dan Winship  <danw@ximian.com>
 
 	* mail-display.c (pixbuf_for_mime_type): Gone

@@ -317,6 +317,8 @@ message_list_drag_data_get (ETree *tree, int row, ETreePath path, int col,
 	{
 		const char *filename, *tmpdir;
 		CamelMimeMessage *message;
+		CamelMimeFilter *filter;
+		CamelStream *fstream;
 		CamelStream *stream;
 		char *uri_list;
 		int fd;
@@ -351,7 +353,7 @@ message_list_drag_data_get (ETree *tree, int row, ETreePath path, int col,
 		fd = open (uri_list + 7, O_WRONLY | O_CREAT | O_EXCL, 0600);
 		if (fd == -1) {
 			/* cleanup and abort */
-			camel_object_unref (CAMEL_OBJECT (message));
+			camel_object_unref (message);
 			for (i = 1; i < uids->len; i++)
 				g_free (uids->pdata[i]);
 			g_ptr_array_free (uids, TRUE);
@@ -359,20 +361,28 @@ message_list_drag_data_get (ETree *tree, int row, ETreePath path, int col,
 			return;
 		}
 		
-		stream = camel_stream_fs_new_with_fd (fd);
+		fstream = camel_stream_fs_new_with_fd (fd);
 		
-		camel_stream_write (stream, "From - \n", 8);
+		stream = camel_stream_filter_new_with_stream (fstream);
+		filter = camel_mime_filter_from_new ();
+		camel_stream_filter_add (CAMEL_STREAM_FILTER (stream), filter);
+		camel_object_unref (filter);
+		
+		camel_stream_write (fstream, "From - \n", 8);
 		camel_data_wrapper_write_to_stream (CAMEL_DATA_WRAPPER (message), stream);
-		camel_object_unref (CAMEL_OBJECT (message));
+		camel_object_unref (message);
 		for (i = 1; i < uids->len; i++) {
 			message = camel_folder_get_message (fb->folder, uids->pdata[i], NULL);
-			camel_stream_write (stream, "From - \n", 8);
+			camel_stream_write (fstream, "From - \n", 8);
 			camel_data_wrapper_write_to_stream (CAMEL_DATA_WRAPPER (message), stream);
-			camel_object_unref (CAMEL_OBJECT (message));
+			camel_object_unref (message);
 			g_free (uids->pdata[i]);
 		}
 		
-		camel_object_unref (CAMEL_OBJECT (stream));
+		g_ptr_array_free (uids, TRUE);
+		
+		camel_object_unref (stream);
+		camel_object_unref (fstream);
 		
 		gtk_selection_data_set (selection_data, selection_data->target, 8,
 					uri_list, strlen (uri_list));
@@ -381,13 +391,16 @@ message_list_drag_data_get (ETree *tree, int row, ETreePath path, int col,
 	break;
 	case DND_TARGET_TYPE_MESSAGE_RFC822:
 	{
-		/* FIXME: this'll be fucking slow for the user... pthread this? */
+		CamelMimeFilter *filter;
 		CamelStream *stream;
-		GByteArray *bytes;
+		CamelStream *mem;
 		
-		bytes = g_byte_array_new ();
-		stream = camel_stream_mem_new ();
-		camel_stream_mem_set_byte_array (CAMEL_STREAM_MEM (stream), bytes);
+		mem = camel_stream_mem_new ();
+		
+		stream = camel_stream_filter_new_with_stream (mem);
+		filter = camel_mime_filter_from_new ();
+		camel_stream_filter_add (CAMEL_STREAM_FILTER (stream), filter);
+		camel_object_unref (filter);
 		
 		for (i = 0; i < uids->len; i++) {
 			CamelMimeMessage *message;
@@ -398,17 +411,18 @@ message_list_drag_data_get (ETree *tree, int row, ETreePath path, int col,
 			if (message) {			
 				camel_stream_write (stream, "From - \n", 8);
 				camel_data_wrapper_write_to_stream (CAMEL_DATA_WRAPPER (message), stream);
-				camel_object_unref (CAMEL_OBJECT (message));
+				camel_object_unref (message);
 			}
 		}
 		
 		g_ptr_array_free (uids, TRUE);
-		camel_object_unref (CAMEL_OBJECT (stream));
+		camel_object_unref (stream);
 		
 		gtk_selection_data_set (selection_data, selection_data->target, 8,
-					bytes->data, bytes->len);
+					CAMEL_STREAM_MEM (mem)->buffer->data,
+					CAMEL_STREAM_MEM (mem)->buffer->len);
 		
-		g_byte_array_free (bytes, TRUE);
+		camel_object_unref (mem);
 	}
 	break;
 	case DND_TARGET_TYPE_X_EVOLUTION_MESSAGE:
