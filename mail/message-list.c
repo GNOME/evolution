@@ -71,7 +71,7 @@ get_message_info(MessageList *message_list, gint row)
 				char *uid = g_list_nth_data(message_list->matches, row);
 				if (uid) {
 					info = message_list->summary_search_cache->pdata[row] =
-						(CamelMessageInfo *) camel_folder_summary_get_by_uid(message_list->folder, uid);
+						(CamelMessageInfo *) camel_folder_get_message_info (message_list->folder, uid);
 					if (!info)
 						g_warning ("get_message_info: unknown uid %s", uid);
 				} else
@@ -152,9 +152,8 @@ select_msg (MessageList *message_list, gint row)
 
 	msg_info = get_message_info(message_list, row);
 	if (msg_info) {
-		message = camel_folder_get_message_by_uid (message_list->folder, 
-							   msg_info->uid,
-							   &ex);
+		message = camel_folder_get_message (message_list->folder, 
+						    msg_info->uid, &ex);
 		if (camel_exception_get_id (&ex)) {
 			printf ("Unable to get message: %s\n",
 				ex.desc?ex.desc:"unknown_reason");

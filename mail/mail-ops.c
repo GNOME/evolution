@@ -229,7 +229,7 @@ real_fetch_mail (gpointer user_data )
 				CamelMimeMessage *msg;
 				
 				printf("copying message %d to dest\n", i + 1);
-				msg = camel_folder_get_message_by_uid (sourcefolder, uids->pdata[i], ex);
+				msg = camel_folder_get_message (sourcefolder, uids->pdata[i], ex);
 				if (camel_exception_get_id (ex) != CAMEL_EXCEPTION_NONE) {
 					async_mail_exception_dialog ("Unable to read message", ex, fb);
 					gtk_object_unref (GTK_OBJECT (msg));
@@ -245,7 +245,7 @@ real_fetch_mail (gpointer user_data )
 					goto cleanup;
 				}
 
-				camel_folder_delete_message_by_uid (sourcefolder, uids->pdata[i], ex);
+				camel_folder_delete_message (sourcefolder, uids->pdata[i], ex);
 				gtk_object_unref(GTK_OBJECT (msg));
 			}
 			camel_folder_free_uids (sourcefolder, uids);
