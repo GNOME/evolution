@@ -160,6 +160,7 @@ make_mail_dialog_pages (SWData *data)
 			  _("Could not start the Evolution Mailer Assistant interface\n(%s)"), CORBA_exception_id (&ev));
 		g_warning ("Could not start mailer (%s)", CORBA_exception_id (&ev));
 		CORBA_exception_free (&ev);
+		data->mailer = CORBA_OBJECT_NIL;
 		return;
 	}
 
