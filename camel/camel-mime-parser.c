@@ -1563,42 +1563,44 @@ tail_recurse:
 		folder_push_part(s, h);
 		s->state = type;
 		return;
-
+		
 	case HSCAN_HEADER:
 		s->state = HSCAN_BODY;
-
+		
 	case HSCAN_BODY:
 		h = s->parts;
 		*datalength = 0;
 		presize = SCAN_HEAD;
 		f = s->filters;
-
+		
 		do {
-			hb = folder_scan_content(s, &state, databuffer, datalength);
-			if (*datalength>0) {
-				d(printf("Content raw: '%.*s'\n", *datalength, *databuffer));
-
+			hb = folder_scan_content (s, &state, databuffer, datalength);
+			if (*datalength > 0) {
+				d(printf ("Content raw: '%.*s'\n", *datalength, *databuffer));
+				
 				while (f) {
-					camel_mime_filter_filter(f->filter, *databuffer, *datalength, presize,
-								 databuffer, datalength, &presize);
+					camel_mime_filter_filter (f->filter, *databuffer, *datalength, presize,
+								  databuffer, datalength, &presize);
 					f = f->next;
 				}
 				return;
 			}
-		} while (hb==h && *datalength>0);
-
+		} while (hb == h && *datalength > 0);
+		
 		/* check for any filter completion data */
 		while (f) {
-			camel_mime_filter_filter(f->filter, *databuffer, *datalength, presize,
-						 databuffer, datalength, &presize);
+			if (*datalength > 0) {
+				camel_mime_filter_filter (f->filter, *databuffer, *datalength, presize,
+							  databuffer, datalength, &presize);
+			}
 			f = f->next;
 		}
 		if (*datalength > 0)
 			return;
-
+		
 		s->state = HSCAN_BODY_END;
 		break;
-
+		
 	case HSCAN_MULTIPART:
 		h = s->parts;
 		do {
