@@ -1,4 +1,14 @@
-1999-06-22  root  <guiheneu@jean.joudboeuf.fr>
+1999-06-22  bertrand  <Bertrand.Guiheneuf@inria.fr>
+
+	* camel/camel-data-wrapper.c (_get_content_type): 
+	moved all the content-type stuff here.
+	(camel_data_wrapper_init): initialize the instance
+	content-type field.
+
+	* camel/camel-mime-part.c (_parse_header_pair): 
+	parse Content-Type stuff in header. 
+	(_write_to_stream): write the content type stuff to 
+	the stream.
 
 	* camel/gmime-content-field.c (gmime_content_field_get_mime_type): 
 	new function, returns "type/subtype" mime type string.

@@ -37,7 +37,7 @@ extern "C" {
 
 void gmime_write_header_pair_to_stream (CamelStream *stream, gchar* name, GString *value);
 void write_header_table_to_stream (CamelStream *stream, GHashTable *header_table);
-void write_header_with_glist_to_stream (CamelStream *stream, gchar *header_name, GList *header_values);
+void write_header_with_glist_to_stream (CamelStream *stream, gchar *header_name, GList *header_values, gchar *separator);
 
 GHashTable *get_header_table_from_stream (CamelStream *stream);
 

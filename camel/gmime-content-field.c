@@ -26,18 +26,20 @@
 
 #include "gmime-content-field.h"
 #include "gstring-util.h"
+#include "camel-log.h"
 
 
 GMimeContentField *
 gmime_content_field_new (GString *type, GString *subtype)
 {
-	GMimeContentField *ct;
+	GMimeContentField *ctf;
 
-	ct = g_new (GMimeContentField,1);
-	ct->type = type;
-	ct->subtype = subtype;
-	ct->parameters =  g_hash_table_new(g_string_hash, g_string_equal_for_hash);
+	ctf = g_new (GMimeContentField,1);
+	ctf->type = type;
+	ctf->subtype = subtype;
+	ctf->parameters =  g_hash_table_new(g_string_hash, g_string_equal_for_hash);
 	
+	return ctf;
 } 
 
 
@@ -122,16 +124,25 @@ gmime_content_field_construct_from_string (GMimeContentField *content_field, GSt
 	GString *param_name, *param_value;
 	gboolean param_end;
 	
+	CAMEL_LOG (TRACE, "Entering gmime_content_field_construct_from_string\n");
 	g_assert (string);
 	g_assert (string->str);
-
-	if (content_field->type) g_string_free (content_field->type, FALSE);
-	if (content_field->subtype) g_string_free (content_field->subtype, FALSE);
+	g_assert (content_field);
+ 
+	if (content_field->type) {
+		CAMEL_LOG (FULL_DEBUG, "Freeing old mime type string\n");
+		g_string_free (content_field->type, FALSE);
+	}
+	if (content_field->subtype) {
+		CAMEL_LOG (FULL_DEBUG, "Freeing old mime type substring\n");
+		g_string_free (content_field->subtype, FALSE);
+	}
 	
 	str = string->str;
 	first = 0;
 	len = string->len;
 	if (!len) return;
+	CAMEL_LOG (TRACE, "All checks done\n");
 
 	/* find the type */
 	while ( (i<len) && (!strchr ("/;", str[i])) ) i++;
@@ -140,7 +151,7 @@ gmime_content_field_construct_from_string (GMimeContentField *content_field, GSt
 	
 	type = g_string_new (g_strndup (str, i));
 	content_field->type = type;
-	
+	CAMEL_LOG (TRACE, "Found mime type : %s\n", type->str); 
 	if (i == len) {
 		content_field->subtype = NULL;
 		return;
@@ -177,6 +188,7 @@ gmime_content_field_construct_from_string (GMimeContentField *content_field, GSt
 			first = i;
 		}
 	} while ((!param_end) && (first < len));
+
 
 }
 

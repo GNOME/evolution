@@ -71,7 +71,7 @@ write_header_table_to_stream (CamelStream *stream, GHashTable *header_table)
 
 
 void 
-write_header_with_glist_to_stream (CamelStream *stream, gchar *header_name, GList *header_values)
+write_header_with_glist_to_stream (CamelStream *stream, gchar *header_name, GList *header_values, gchar *separator)
 {
 	
 	GString *current;
@@ -86,7 +86,7 @@ write_header_with_glist_to_stream (CamelStream *stream, gchar *header_name, GLis
 			while (header_values) {
 				current = (GString *)header_values->data;
 				if ( (current) && (current->str) ) {
-					if (!first) camel_stream_write (stream, ", ", 2);
+					if (!first) camel_stream_write_string (stream, separator);
 					else first = FALSE;
 					camel_stream_write (stream, current->str, strlen (current->str));
 				}

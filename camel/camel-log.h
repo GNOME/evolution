@@ -34,17 +34,19 @@ extern FILE *camel_log_file_descriptor;
 typedef enum {
 	NO_LOG     =     0,
 	STRANGE    =     5,
-	WARNING    =     7,
+	WARNING    =     6,
+	TRACE      =     8,
 	FULL_DEBUG =     10
 } CamelLogLevel;
 
-#define HARD_LOG_LEVEL FULL_DEBUG
+#define HARD_LOG_LEVEL TRACE
 
 /* the idea here is to be able to have a hard maximum log 
 level, given at compilation time, and a soft one, given at 
 runtime (with camel_debug_level). For the moment, only 
 soft level is implmented, but one day, when performance 
 become important, I will set the hard one too */
+
 
 #define CAMEL_LOG(level, args...) camel_log(level,##args)
 

@@ -58,7 +58,6 @@ typedef struct
 	GString *encoding;
 	GString *filename;
 	GList *header_lines;
-	GMimeContentField *content_type_field;
 
 	CamelDataWrapper *content; /* part real content */
 
@@ -89,8 +88,6 @@ typedef struct {
 	GList * (*get_content_languages) (CamelMimePart *mime_part);
 	void  (*set_header_lines) (CamelMimePart *mime_part, GList *header_lines);
 	GList * (*get_header_lines) (CamelMimePart *mime_part);
-	void  (*set_content_type) (CamelMimePart *mime_part, GString *content_type);
-	GString * (*get_content_type) (CamelMimePart *mime_part);
 
 	gboolean (*parse_header_pair) (CamelMimePart *mime_part, GString *header_name, GString *header_value);
 	
@@ -121,8 +118,6 @@ void camel_mime_part_set_content_languages (CamelMimePart *mime_part, GList *con
 GList *camel_mime_part_get_content_languages (CamelMimePart *mime_part);
 void camel_mime_part_set_header_lines (CamelMimePart *mime_part, GList *header_lines);
 GList *camel_mime_part_get_header_lines (CamelMimePart *mime_part);
-void camel_mime_part_set_content_type (CamelMimePart *mime_part, GString *content_type);
-static GString *camel_mime_part_get_content_type (CamelMimePart *mime_part);
 
 #ifdef __cplusplus
 }

@@ -318,7 +318,7 @@ g_string_trim (GString *string, gchar *chars, TrimOption options)
 	
 	CAMEL_LOG (FULL_DEBUG,"g_string_trim:: trim_options:%d\n", options);
 	if (options & TRIM_STRIP_LEADING)
-		while  ( (first_ok <= last_ok) && (strchr (chars, str[first_ok]) != NULL) )
+		while  ( (first_ok <= last_ok) && (strchr (chars, str[first_ok])) )
 			first_ok++;
 
 	if (options & TRIM_STRIP_TRAILING)

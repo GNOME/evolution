@@ -29,10 +29,12 @@
 static GtkObjectClass *parent_class=NULL;
 
 /* Returns the class for a CamelDataWrapper */
-#define CDH_CLASS(so) CAMEL_DATA_WRAPPER_CLASS (GTK_OBJECT(so)->klass)
+#define CDW_CLASS(so) CAMEL_DATA_WRAPPER_CLASS (GTK_OBJECT(so)->klass)
 
 static void _construct_from_stream (CamelDataWrapper *data_wrapper, CamelStream *stream, guint size);
 static void _write_to_stream (CamelDataWrapper *data_wrapper, CamelStream *stream);
+static void _set_content_type (CamelDataWrapper *data_wrapper, GString *content_type);
+static GString *_get_content_type (CamelDataWrapper *data_wrapper);
 
 static void
 camel_data_wrapper_class_init (CamelDataWrapperClass *camel_data_wrapper_class)
@@ -42,6 +44,8 @@ camel_data_wrapper_class_init (CamelDataWrapperClass *camel_data_wrapper_class)
 	/* virtual method definition */
 	camel_data_wrapper_class->write_to_stream = _write_to_stream;
 	camel_data_wrapper_class->construct_from_stream = _construct_from_stream;
+	camel_data_wrapper_class->set_content_type = _set_content_type;
+	camel_data_wrapper_class->get_content_type = _get_content_type;
 
 	/* virtual method overload */
 }
@@ -49,6 +53,14 @@ camel_data_wrapper_class_init (CamelDataWrapperClass *camel_data_wrapper_class)
 
 
 
+
+static void
+camel_data_wrapper_init (gpointer   object,  gpointer   klass)
+{
+	CamelDataWrapper *camel_data_wrapper = CAMEL_DATA_WRAPPER (object);
+
+	camel_data_wrapper->content_type = gmime_content_field_new (NULL, NULL);
+}
 
 
 
@@ -64,7 +76,7 @@ camel_data_wrapper_get_type (void)
 			sizeof (CamelDataWrapper),
 			sizeof (CamelDataWrapperClass),
 			(GtkClassInitFunc) camel_data_wrapper_class_init,
-			(GtkObjectInitFunc) NULL,
+			(GtkObjectInitFunc) camel_data_wrapper_init,
 				/* reserved_1 */ NULL,
 				/* reserved_2 */ NULL,
 			(GtkClassInitFunc) NULL,
@@ -75,7 +87,6 @@ camel_data_wrapper_get_type (void)
 	
 	return camel_data_wrapper_type;
 }
-
 
 
 
@@ -113,7 +124,7 @@ _write_to_stream (CamelDataWrapper *data_wrapper, CamelStream *stream)
 void 
 camel_data_wrapper_write_to_stream (CamelDataWrapper *data_wrapper, CamelStream *stream)
 {
-	CDH_CLASS(data_wrapper)->write_to_stream (data_wrapper, stream);
+	CDW_CLASS(data_wrapper)->write_to_stream (data_wrapper, stream);
 }
 
 
@@ -130,7 +141,35 @@ _construct_from_stream (CamelDataWrapper *data_wrapper, CamelStream *stream, gui
 void 
 camel_data_wrapper_construct_from_stream (CamelDataWrapper *data_wrapper, CamelStream *stream, guint size)
 {
-	CDH_CLASS(data_wrapper)->construct_from_stream (data_wrapper, stream, size);
+	CDW_CLASS(data_wrapper)->construct_from_stream (data_wrapper, stream, size);
 }
 
 
+
+static void
+_set_content_type (CamelDataWrapper *data_wrapper, GString *content_type)
+{
+	g_assert (content_type);
+	gmime_content_field_construct_from_string (data_wrapper->content_type, content_type);
+}
+
+void 
+camel_data_wrapper_set_content_type (CamelDataWrapper *data_wrapper, GString *content_type)
+{
+	CDW_CLASS(data_wrapper)->set_content_type (data_wrapper, content_type);
+}
+
+static GString *
+_get_content_type (CamelDataWrapper *data_wrapper)
+{
+	GString *mime_type;
+
+	mime_type = gmime_content_field_get_mime_type (data_wrapper->content_type);
+	return mime_type;
+}
+
+static GString *
+camel_data_wrapper_get_content_type (CamelDataWrapper *data_wrapper)
+{
+	return CDW_CLASS(data_wrapper)->get_content_type (data_wrapper);
+}
