@@ -151,8 +151,8 @@ dnl Notice that this is a hack, and we wont be able to use this forever, but
 dnl at least for some time
 dnl
 
-THREADS_LIBS="$PTHREAD_LIB `$GLIB_CONFIG --libs gthread`"
-THREADS_CFLAGS="`$GLIB_CONFIG --cflags gthread`"
+THREADS_LIBS="$PTHREAD_LIB `glib-config --libs gthread`"
+THREADS_CFLAGS="`glib-config --cflags gthread`"
 
 AC_SUBST(THREADS_LIBS)
 AC_SUBST(THREADS_CFLAGS)
