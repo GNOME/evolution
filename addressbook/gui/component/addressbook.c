@@ -41,6 +41,7 @@
 #include "addressbook/printing/e-contact-print.h"
 
 #include <ebook/e-book.h>
+#include <ebook/e-book-util.h>
 #include <widgets/misc/e-search-bar.h>
 #include <widgets/misc/e-filter-bar.h>
 
@@ -664,6 +665,38 @@ addressbook_load_uri (EBook *book, const char *uri,
 	return rv;
 }
 
+gboolean
+addressbook_load_default_book (EBook *book, EBookCallback open_response, gpointer closure)
+{
+	char *val;
+	gboolean rv;
+	CORBA_Environment ev;
+	Bonobo_ConfigDatabase config_db;
+
+	g_return_val_if_fail (book != NULL,          FALSE);
+	g_return_val_if_fail (E_IS_BOOK (book),      FALSE);
+	g_return_val_if_fail (open_response != NULL, FALSE);
+
+	CORBA_exception_init (&ev);
+	config_db = addressbook_config_database (&ev);
+	val = bonobo_config_get_string (config_db, "/Addressbook/default_book_uri", &ev);
+	CORBA_exception_free (&ev);
+
+	if (val) {
+		rv = addressbook_load_uri (book, val, open_response, closure);
+		g_free (val);
+	}
+	else {
+		rv = e_book_load_local_address_book (book, open_response, closure);
+	}
+
+	if (!rv) {
+		g_warning ("Couldn't load default addressbook");
+	}
+
+	return rv;
+}
+
 static void
 set_prop (BonoboPropertyBag *bag,
 	  const BonoboArg   *arg,
@@ -920,7 +953,17 @@ set_folder_bar_label (EAddressbookView *eav, const char *message, AddressbookVie
 	CORBA_exception_free (&ev);
 }
 
+/* Our global singleton config database */
+static Bonobo_ConfigDatabase config_db = NULL;
 
+Bonobo_ConfigDatabase
+addressbook_config_database (CORBA_Environment *ev)
+{
+	if (config_db == NULL)
+		config_db = bonobo_get_object ("wombat:", "Bonobo/ConfigDatabase", ev);
+
+	return config_db;
+}
 
 BonoboControl *
 addressbook_factory_new_control (void)

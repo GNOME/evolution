@@ -1,3 +1,14 @@
+2001-10-26  Chris Toshok  <toshok@ximian.com>
+
+	* gui/component/addressbook.h: add prototypes for
+	addressbook_config_database, and addressbook_load_default_book.
+
+	* gui/component/addressbook.c (addressbook_config_database): new
+	function, so we aren't activating the db everywhere we need to use
+	it.
+	(addressbook_load_default_book): load the default book, after
+	getting the uri from bonobo-config.
+
 2001-10-26  Jon Trowbridge  <trow@ximian.com>
 
 	* backend/ebook/e-book-util.c (simple_query_card_added_cb): Return
