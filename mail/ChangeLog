@@ -1,3 +1,11 @@
+2000-10-22  Ettore Perazzoli  <ettore@helixcode.com>
+
+	* message-list.c (message_list_init): Always display the vertical
+	scrollbar.
+
+	* mail-display.c (mail_display_new): Always display the vertical
+	scrollbar.
+
 2000-10-19  Jeffrey Stedfast  <fejj@helixcode.com>
 
 	* mail-callbacks.c: #include "mail-vfolder.h"
