@@ -292,7 +292,7 @@ ecalph_class_init(EPluginHookClass *klass)
 	int i;
 
 	((GObjectClass *)klass)->finalize = ecalph_finalise;
-	((EPluginHookClass *)klass)->id = "org.gnome.evolution.addressbook.popup:1.0";
+	((EPluginHookClass *)klass)->id = "org.gnome.evolution.calendar.popup:1.0";
 
 	for (i=0;ecalph_targets[i].type;i++)
 		e_popup_hook_class_add_target_map((EPopupHookClass *)klass, &ecalph_targets[i]);
