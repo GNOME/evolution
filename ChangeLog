@@ -1,3 +1,8 @@
+2000-08-13  Chris Toshok  <toshok@helixcode.com>
+
+	* configure.in: offer --enable-pilot-conduits to add pilot
+	conduits if the user wants them.
+
 2000-08-13  Dan Winship  <danw@helixcode.com>
 
 	* configure.in: Fix the name of the binary to look for for PGP5
