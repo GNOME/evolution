@@ -338,15 +338,20 @@ There are, however, some features which are not available:
 	    <listitem>
 	      <para>
 	        If you would like to create and use the Global Address
-	        List maintained on your Exchange server, click the tab
-	        labelled <guilabel>Receiving Options</guilabel> and
-	        check the box labelled <guilabel>Create a Global
-	        Address List folder</guilabel>.  The Global Address
-	        List (GAL) is maintained by your system administrator
-	        and you cannot add, change, or remove items from it
-	        using Ximian Evolution. However, you can use it to
-	        invite people to meetings and to look up addresses and
-	        other information.
+	        List (GAL) maintained on your Exchange server, click
+	        the tab labelled <guilabel>Receiving
+	        Options</guilabel> and check the box labelled
+	        <guilabel>Create a Global Address List
+	        folder</guilabel>.  The GAL is maintained by your
+	        system administrator and you cannot add, change, or
+	        remove items from it using Ximian Evolution. However,
+	        you can use it to invite people to meetings and to
+	        look up addresses and other information. In many
+	        organizations, the GAL is stored on a different server
+	        from email.  If this is the case, you should also
+	        specify the directory server name here. Ask your
+	        system administrator about your Active Directory
+	        Server if you are not sure.
 	    </para>
 	  </listitem>
 	  
@@ -500,6 +505,7 @@ There are, however, some features which are not available:
       </tip>
     </sect1>
 </chapter>
+
 
 
 
