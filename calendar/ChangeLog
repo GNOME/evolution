@@ -1,4 +1,4 @@
-2005-03-29  Chenthill Palanisamy  <pchenthill@novell.com>
+2005-03-31  Chenthill Palanisamy  <pchenthill@novell.com>
 
 	Fixes #73969
 	* gui/e-calendar-view.c: (delete_event): Remove the
