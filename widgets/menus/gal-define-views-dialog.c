@@ -230,8 +230,7 @@ gal_define_views_dialog_init (GalDefineViewsDialog *dialog)
 	gtk_widget_unref(widget);
 
 	gtk_dialog_add_buttons (GTK_DIALOG (dialog),
-				GTK_STOCK_CANCEL, GTK_RESPONSE_CANCEL,
-				GTK_STOCK_OK, GTK_RESPONSE_OK,
+				GTK_STOCK_CLOSE, GTK_RESPONSE_CLOSE,
 				NULL);
 
 	gdvd_connect_signal(dialog, "button-new",    "clicked", G_CALLBACK(gdvd_button_new_callback));
