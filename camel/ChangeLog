@@ -1,5 +1,11 @@
 2001-10-26  Jeffrey Stedfast  <fejj@ximian.com>
 
+	* providers/imap/camel-imap-store.c (delete_folder): Don't bother
+	checking ex since we can rely on the response being NULL on error.
+	(rename_folder): Implemented.
+
+2001-10-26  Jeffrey Stedfast  <fejj@ximian.com>
+
 	* providers/imap/camel-imap-folder.c (imap_get_message): Check to
 	make sure that the dataset is non-NULL before using and/or
 	freeing.

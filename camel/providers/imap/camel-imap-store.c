@@ -79,6 +79,8 @@ static CamelFolder *get_folder_online (CamelStore *store, const char *folder_nam
 static CamelFolder *get_folder_offline (CamelStore *store, const char *folder_name, guint32 flags, CamelException *ex);
 static CamelFolderInfo *create_folder (CamelStore *store, const char *parent_name, const char *folder_name, CamelException *ex);
 static void             delete_folder (CamelStore *store, const char *folder_name, CamelException *ex);
+static void             rename_folder (CamelStore *store, const char *old_name,
+				       const char *new_name, CamelException *ex);
 static CamelFolderInfo *get_folder_info_online (CamelStore *store,
 						const char *top,
 						guint32 flags,
@@ -121,6 +123,7 @@ camel_imap_store_class_init (CamelImapStoreClass *camel_imap_store_class)
 	camel_store_class->compare_folder_name = compare_folder_name;
 	camel_store_class->create_folder = create_folder;
 	camel_store_class->delete_folder = delete_folder;
+	camel_store_class->rename_folder = rename_folder;
 	camel_store_class->free_folder_info = camel_store_free_folder_info_full;
 	camel_store_class->folder_subscribed = folder_subscribed;
 	camel_store_class->subscribe_folder = subscribe_folder;
@@ -1036,10 +1039,8 @@ delete_folder (CamelStore *store, const char *folder_name, CamelException *ex)
 	
 	response = camel_imap_command (imap_store, NULL, ex, "DELETE %F",
 				       folder_name);
-	if (response)
-		camel_imap_response_free (imap_store, response);
 	
-	if (!camel_exception_is_set (ex)) {
+	if (response) {
 		CamelFolderSummary *summary;
 		CamelImapMessageCache *cache;
 		char *summary_file;
@@ -1047,6 +1048,8 @@ delete_folder (CamelStore *store, const char *folder_name, CamelException *ex)
 		char *folder_dir;
 		CamelFolderInfo *fi;
 		const char *name;
+		
+		camel_imap_response_free (imap_store, response);
 		
 		folder_dir = e_path_to_physical (imap_store->storage_path, folder_name);
 		if (access (folder_dir, F_OK) != 0) {
@@ -1078,13 +1081,13 @@ delete_folder (CamelStore *store, const char *folder_name, CamelException *ex)
 		
 		rmdir (folder_dir);
 		g_free (folder_dir);
-
+		
 		name = strrchr (folder_name, imap_store->dir_sep);
 		if (name)
 			name++;
 		else
 			name = folder_name;
-
+		
 		fi = g_new0 (CamelFolderInfo, 1);
 		fi->full_name = g_strdup (folder_name);
 		fi->name = g_strdup (name);
@@ -1093,6 +1096,52 @@ delete_folder (CamelStore *store, const char *folder_name, CamelException *ex)
 		camel_folder_info_build_path (fi, imap_store->dir_sep);
 		camel_object_trigger_event (CAMEL_OBJECT (store), "folder_deleted", fi);
 		camel_folder_info_free (fi);
+	}
+}
+
+static void
+rename_folder (CamelStore *store, const char *old_name, const char *new_name, CamelException *ex)
+{
+	CamelImapStore *imap_store = CAMEL_IMAP_STORE (store);
+	CamelFolderInfo *old_fi, *new_fi;
+	CamelImapResponse *response;
+	
+	if (!camel_disco_store_check_online (CAMEL_DISCO_STORE (store), ex))
+		return;
+	
+	old_fi = get_folder_info_online (store, old_name, CAMEL_STORE_FOLDER_INFO_FAST |
+					 CAMEL_STORE_FOLDER_INFO_RECURSIVE, ex);
+	
+	if (old_fi == NULL)
+		return;
+	
+	/* make sure this folder isn't currently SELECTed - it's
+           actually possible to rename INBOX but if you do another
+           INBOX will immediately be created by the server */
+	response = camel_imap_command (imap_store, NULL, ex, "SELECT INBOX");
+	if (response) {
+		camel_imap_response_free_without_processing (imap_store, response);
+		
+		if (imap_store->current_folder)
+			camel_object_unref (CAMEL_OBJECT (imap_store->current_folder));
+		/* no need to actually create a CamelFolder for INBOX */
+		imap_store->current_folder = NULL;
+	} else
+		return;
+	
+	response = camel_imap_command (imap_store, NULL, ex, "RENAME %F %F",
+				       old_name, new_name);
+	
+	if (response) {
+		camel_imap_response_free (imap_store, response);
+		
+		new_fi = get_folder_info_online (store, new_name, CAMEL_STORE_FOLDER_INFO_FAST |
+						 CAMEL_STORE_FOLDER_INFO_RECURSIVE, ex);
+		
+		if (new_fi == NULL)
+			return;
+		
+		/* emit the renamed event */
 	}
 }
 
@@ -1642,37 +1691,37 @@ unsubscribe_folder (CamelStore *store, const char *folder_name,
 	CamelImapResponse *response;
 	gpointer key, value;
 	CamelFolderInfo *fi;
-	char *name;
-
+	const char *name;
+	
 	if (!camel_disco_store_check_online (CAMEL_DISCO_STORE (store), ex))
 		return;
 	if (!camel_remote_store_connected (CAMEL_REMOTE_STORE (store), ex))
 		return;
-
+	
 	response = camel_imap_command (imap_store, NULL, ex,
 				       "UNSUBSCRIBE %F", folder_name);
 	if (!response)
 		return;
 	camel_imap_response_free (imap_store, response);
-
+	
 	g_hash_table_lookup_extended (imap_store->subscribed_folders,
 				      folder_name, &key, &value);
 	g_hash_table_remove (imap_store->subscribed_folders, folder_name);
 	g_free (key);
-
+	
 	name = strrchr (folder_name, imap_store->dir_sep);
 	if (name)
 		name++;
 	else
 		name = folder_name;
-
+	
 	fi = g_new0 (CamelFolderInfo, 1);
 	fi->full_name = g_strdup (folder_name);
 	fi->name = g_strdup (name);
 	fi->url = g_strdup_printf ("%s/%s", imap_store->base_url, folder_name);
 	fi->unread_message_count = -1;
 	camel_folder_info_build_path (fi, imap_store->dir_sep);
-
+	
 	camel_object_trigger_event (CAMEL_OBJECT (store), "folder_unsubscribed", fi);
 	camel_folder_info_free (fi);
 }
