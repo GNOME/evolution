@@ -512,8 +512,6 @@ new_storage_cb (EStorageSet *storage_set,
 		return;
 	}
 
-	g_free (path);
-
 	/* FIXME: We want a more specialized sort, e.g. the local folders should always be
            on top.  */
 	sort_model = priv->etree_model;
@@ -530,6 +528,7 @@ removed_storage_cb (EStorageSet *storage_set,
 	ETreeModel *etree;
 	ETreePath *node;
 	char *path;
+	char *node_data;
 
 	storage_set_view = E_STORAGE_SET_VIEW (data);
 	priv = storage_set_view->priv;
@@ -539,7 +538,8 @@ removed_storage_cb (EStorageSet *storage_set,
 	node = remove_node_from_hash (storage_set_view, path);
 	g_free (path);
 
-	e_tree_model_node_remove (etree, node);
+	node_data = e_tree_model_node_remove (etree, node);
+	g_free (node_data);
 }
 
 static void
@@ -594,13 +594,15 @@ removed_folder_cb (EStorageSet *storage_set,
 	EStorageSetViewPrivate *priv;
 	ETreeModel *etree;
 	ETreePath *node;
+	char *node_data;
 
 	storage_set_view = E_STORAGE_SET_VIEW (data);
 	priv = storage_set_view->priv;
 	etree = priv->etree_model;
 
 	node = remove_node_from_hash (storage_set_view, path);
-	e_tree_model_node_remove (etree, node);
+	node_data = e_tree_model_node_remove (etree, node);
+	g_free (node_data);
 }
 
 
@@ -821,7 +823,7 @@ e_storage_set_view_construct (EStorageSetView *storage_set_view,
 			    GTK_SIGNAL_FUNC (on_cursor_change), GTK_OBJECT(storage_set_view));
 	gtk_signal_connect (GTK_OBJECT (storage_set_view), "table_drag_begin",
 			    GTK_SIGNAL_FUNC (etable_drag_begin), GTK_OBJECT(storage_set_view));
-	gtk_signal_connect (GTK_OBJECT (storage_set_view), "drag_data_get",
+	gtk_signal_connect (GTK_OBJECT (storage_set_view), "table_drag_data_get",
 			    GTK_SIGNAL_FUNC (etable_drag_data_get), GTK_OBJECT(storage_set_view));
 
 	storage_list = e_storage_set_get_storage_list (storage_set);
@@ -870,18 +872,12 @@ e_storage_set_view_set_current_folder (EStorageSetView *storage_set_view,
 
 	g_return_if_fail (storage_set_view != NULL);
 	g_return_if_fail (E_IS_STORAGE_SET_VIEW (storage_set_view));
-	g_return_if_fail (path == NULL || g_path_is_absolute (path));
+	g_return_if_fail (path != NULL && g_path_is_absolute (path));
 
 	priv = storage_set_view->priv;
 
-	if (path == NULL) {
-		e_table_set_cursor_row (E_TABLE (storage_set_view), -1);
-		return;
-	}
-
 	node = g_hash_table_lookup (priv->path_to_etree_node, path);
 	if (node == NULL) {
-		e_table_set_cursor_row (E_TABLE (storage_set_view), -1);
 		return;
 	}
 
