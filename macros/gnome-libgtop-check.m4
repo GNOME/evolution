@@ -40,7 +40,7 @@ AC_DEFUN([GNOME_LIBGTOP_TYPES],
 [
 	AC_CHECK_HEADERS(sys/bitypes.h)
 	AC_LIBGTOP_CHECK_TYPE(u_int64_t, unsigned long long int)
-	AC_LIBGTOP_CHECK_TYPE(int64_t, signed long long int)
+	AC_LIBGTOP_CHECK_TYPE(int64_t, long long int)
 ])
 
 dnl
@@ -61,6 +61,10 @@ AC_DEFUN([GNOME_LIBGTOP_HOOK],
 	AC_SUBST(LIBGTOP_INCS)
 	AC_SUBST(LIBGTOP_NAMES_LIBS)
 	AC_SUBST(LIBGTOP_NAMES_INCS)
+	AC_SUBST(LIBGTOP_GUILE_INCS)
+	AC_SUBST(LIBGTOP_GUILE_LIBS)
+	AC_SUBST(LIBGTOP_GUILE_NAMES_INCS)
+	AC_SUBST(LIBGTOP_GUILE_NAMES_LIBS)
 	AC_SUBST(LIBGTOP_MAJOR_VERSION)
 	AC_SUBST(LIBGTOP_MINOR_VERSION)
 	AC_SUBST(LIBGTOP_MICRO_VERSION)
@@ -149,13 +153,10 @@ AC_DEFUN([GNOME_LIBGTOP_HOOK],
 	    sed 's/\([[0-9]]*\).\([[0-9]]*\).\([[0-9]]*\)/\2/'`
 	  libgtop_micro_version=`$LIBGTOP_CONFIG --version | \
 	    sed 's/\([[0-9]]*\).\([[0-9]]*\).\([[0-9]]*\)/\3/'`
-	  if test $libgtop_major_version != $min_libgtop_major ; then 
-	    no_libgtop=mismatch
-	  else 
- 	    test $libgtop_minor_version -lt $min_libgtop_minor && no_libgtop=yes
-	    if test $libgtop_minor_version = $min_libgtop_minor ; then
-	      test $libgtop_micro_version -lt $min_libgtop_micro && no_libgtop=yes
-	    fi
+	  test $libgtop_major_version != $min_libgtop_major && no_libgtop=yes
+	  test $libgtop_minor_version -lt $min_libgtop_minor && no_libgtop=yes
+	  if test $libgtop_minor_version = $min_libgtop_minor ; then
+	    test $libgtop_micro_version -lt $min_libgtop_micro && no_libgtop=yes
 	  fi
 	  . $configfile
 	fi
@@ -172,9 +173,6 @@ AC_DEFUN([GNOME_LIBGTOP_HOOK],
 	  ifelse([$2], [], :, [$2])
 	else
 	  AC_MSG_RESULT(no)
-	  if test "$no_libgtop"x = mismatchx; then
-	    AC_MSG_ERROR(LibGTop major version mismatch $libgtop_major_version != $min_libgtop_major)
-	  fi
 	  if test "x$3" = "xfail"; then
 	    AC_MSG_ERROR(LibGTop >= $min_libgtop_version not found)
 	  else
