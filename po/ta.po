@@ -11,7 +11,7 @@ msgstr ""
 "Project-Id-Version: ta\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2004-07-28 03:07+0200\n"
-"PO-Revision-Date: 2004-07-29 18:33+0530\n"
+"PO-Revision-Date: 2004-07-30 16:33+0530\n"
 "Last-Translator: Jayaradha N <jaya@pune.redhat.com>\n"
 "Language-Team: Tamil <zhakanini@yahoogroups.com>\n"
 "MIME-Version: 1.0\n"
@@ -11489,12 +11489,12 @@ msgstr "பாப் சேவகன் %s இல் நுழைய முட�
 #: camel/providers/pop3/camel-pop3-store.c:459
 #, c-format
 msgid "Failed to authenticate on POP server %s: %s"
-msgstr ""
+msgstr "பாப் சேவகனில் அனுமதி பெறுதல் தோல்வியடைந்தது %s: %s"
 
 #: camel/providers/pop3/camel-pop3-store.c:485
 #, c-format
 msgid "%sPlease enter the POP password for %s on host %s"
-msgstr ""
+msgstr "%s தயவு செய்து பாப் கடவுச்சொல் %s ஐ புரவலன் %s இல் உள்ளிடவும்"
 
 #: camel/providers/pop3/camel-pop3-store.c:540
 #: camel/providers/pop3/camel-pop3-store.c:553
@@ -11503,6 +11503,8 @@ msgid ""
 "Unable to connect to POP server %s.\n"
 "Error sending password: %s"
 msgstr ""
+"பாப் சேவகனுடன் இணைக்க முடியவில்லை %s.\n"
+"கடவுச்சொல்லை அனுப்புவதில் பிழை : %s"
 
 #: camel/providers/pop3/camel-pop3-store.c:547
 #, c-format
@@ -11510,205 +11512,207 @@ msgid ""
 "Unable to connect to POP server %s.\n"
 "Error sending username: %s"
 msgstr ""
+"பாப் சேவகனுடன் இணைக்க முடியவில்லை %s.\n"
+"பயனீட்டாளர் பெயரை அனுப்புவதில் பிழை : %s"
 
 #: camel/providers/pop3/camel-pop3-store.c:652
 #, c-format
 msgid "No such folder `%s'."
-msgstr ""
+msgstr "அடைவு இல்லை `%s'"
 
 #: camel/providers/sendmail/camel-sendmail-provider.c:36
 #: mail/mail-config.glade.h:132
 msgid "Sendmail"
-msgstr ""
+msgstr "Sendmail"
 
 #: camel/providers/sendmail/camel-sendmail-provider.c:38
 msgid ""
 "For delivering mail by passing it to the \"sendmail\" program on the local "
 "system."
-msgstr ""
+msgstr "\"sendmail\" நிரல் வழியாக தனி கணிகளுக்கு மின்னஞ்சல் சென்றுகொண்டிருக்கிறது."
 
 #: camel/providers/sendmail/camel-sendmail-transport.c:113
 msgid "Could not parse recipient list"
-msgstr ""
+msgstr "பெறுபவர் பட்டியலை பகுக்க முடியவில்லை"
 
 #: camel/providers/sendmail/camel-sendmail-transport.c:144
 #, c-format
 msgid "Could not create pipe to sendmail: %s: mail not sent"
-msgstr ""
+msgstr "sendmail: %s க்கான வழியை உருவாக்க முடியவில்லை: மின்னஞ்சல் அனுப்பவில்லை"
 
 #: camel/providers/sendmail/camel-sendmail-transport.c:165
 #, c-format
 msgid "Could not fork sendmail: %s: mail not sent"
-msgstr ""
+msgstr "sendmail: %s ஐ பிளக்க முடியவில்லை: மின்னஞ்சல் அனுப்ப முடியவில்லை"
 
 #: camel/providers/sendmail/camel-sendmail-transport.c:205
 #, c-format
 msgid "Could not send message: %s"
-msgstr ""
+msgstr "செய்தி அனுப்ப முடியவில்லை: %s"
 
 #: camel/providers/sendmail/camel-sendmail-transport.c:233
 #, c-format
 msgid "sendmail exited with signal %s: mail not sent."
-msgstr ""
+msgstr "%s சிகனலுடன் சென்மெயில் வெளியேறியது: மின்னஞ்சல் அனுப்ப முடியவில்லை"
 
 #: camel/providers/sendmail/camel-sendmail-transport.c:240
 #, c-format
 msgid "Could not execute %s: mail not sent."
-msgstr ""
+msgstr "%s ஐ இயக்க முடியவில்லை : மின்னஞ்சல் அனுப்ப முடியவில்லை"
 
 #: camel/providers/sendmail/camel-sendmail-transport.c:245
 #, c-format
 msgid "sendmail exited with status %d: mail not sent."
-msgstr ""
+msgstr "%d நிலையுடன் சென்ட்மெயில் வெளியேறியது: மின்னஞ்சல் அனுப்ப முடியவில்லை"
 
 #: camel/providers/sendmail/camel-sendmail-transport.c:259
 msgid "sendmail"
-msgstr ""
+msgstr "சென்ட்மெயில்"
 
 #: camel/providers/sendmail/camel-sendmail-transport.c:261
 msgid "Mail delivery via the sendmail program"
-msgstr ""
+msgstr "சென்ட்மெயில் நிரல் வழியாக மின்னஞ்சல் அனுப்புகிறது"
 
 #: camel/providers/smtp/camel-smtp-provider.c:37 mail/mail-config.glade.h:122
 msgid "SMTP"
-msgstr ""
+msgstr "SMTP"
 
 #: camel/providers/smtp/camel-smtp-provider.c:39
 msgid "For delivering mail by connecting to a remote mailhub using SMTP."
-msgstr ""
+msgstr "தொலை மின்னஞ்சல் மையத்தின் வழியாக SMTP பயன்படுத்தி இணையத்துடன் இணைக்கப்பட்டு மின்னஞ்சல் அனுபப்படுகிறது."
 
 #: camel/providers/smtp/camel-smtp-transport.c:174
 msgid "Syntax error, command unrecognized"
-msgstr ""
+msgstr "தொடரியல் பிழை, கட்டளையை புரிந்துகொள்ள முடியவில்லைிழை"
 
 #: camel/providers/smtp/camel-smtp-transport.c:176
 msgid "Syntax error in parameters or arguments"
-msgstr ""
+msgstr "அளவுரு அல்லது பயனிலையில் தொடர் பிழை"
 
 #: camel/providers/smtp/camel-smtp-transport.c:178
 msgid "Command not implemented"
-msgstr ""
+msgstr "கட்டளையை செயல்படுத்த முடியவில்லை"
 
 #: camel/providers/smtp/camel-smtp-transport.c:180
 msgid "Command parameter not implemented"
-msgstr ""
+msgstr "கட்டளை அளவுருவை செயல்படுத்த முடியவில்லை"
 
 #: camel/providers/smtp/camel-smtp-transport.c:182
 msgid "System status, or system help reply"
-msgstr ""
+msgstr "கணினி நிலை, அல்லது கணினி உதவி பதில்"
 
 #: camel/providers/smtp/camel-smtp-transport.c:184
 msgid "Help message"
-msgstr ""
+msgstr "உதவி செய்திகள்"
 
 #: camel/providers/smtp/camel-smtp-transport.c:186
 msgid "Service ready"
-msgstr ""
+msgstr "சேவை தயார்"
 
 #: camel/providers/smtp/camel-smtp-transport.c:188
 msgid "Service closing transmission channel"
-msgstr ""
+msgstr "சேவை அனுப்பும் பாதை மூடப்படுகிறது"
 
 #: camel/providers/smtp/camel-smtp-transport.c:190
 msgid "Service not available, closing transmission channel"
-msgstr ""
+msgstr "சேவை இல்லை, அனுப்பும் பாதை மூடப்படுகிறது"
 
 #: camel/providers/smtp/camel-smtp-transport.c:192
 msgid "Requested mail action okay, completed"
-msgstr ""
+msgstr "மின்னஞ்சல் செயல்பாட்டுக்கான கோரிக்கை ஏற்கப்பட்டது, முடிவுற்றது"
 
 #: camel/providers/smtp/camel-smtp-transport.c:194
 msgid "User not local; will forward to <forward-path>"
-msgstr ""
+msgstr "உள் பயனீடாளர் இல்லை என்றால், <forward-path> பாதைக்கு அனுப்பப்படும்"
 
 #: camel/providers/smtp/camel-smtp-transport.c:196
 msgid "Requested mail action not taken: mailbox unavailable"
-msgstr ""
+msgstr "கோரப்பட்ட மின்னஞ்சல் செயல் பெறவில்லை :மின்னஞ்சல் பெட்டிபெட்டி கிடைக்கவில்லை"
 
 #: camel/providers/smtp/camel-smtp-transport.c:198
 msgid "Requested action not taken: mailbox unavailable"
-msgstr ""
+msgstr "கோரப்பட்ட செயல் பெறவில்லை: மின்னஞ்சல் பெட்டி கிடைக்கவில்லை "
 
 #: camel/providers/smtp/camel-smtp-transport.c:200
 msgid "Requested action aborted: error in processing"
-msgstr ""
+msgstr "கோரப்பட்ட செயல் தடை செய்யபப்ட்டது: செயல் படுத்துகையில் பிழை"
 
 #: camel/providers/smtp/camel-smtp-transport.c:202
 msgid "User not local; please try <forward-path>"
-msgstr ""
+msgstr "பயனீடாளர் உள்ளூர் இல்லை ; முயற்சிக்கவும் <forward-path>"
 
 #: camel/providers/smtp/camel-smtp-transport.c:204
 msgid "Requested action not taken: insufficient system storage"
-msgstr ""
+msgstr "கோரப்பட்ட செயல் நடைபெறவில்லை : கணினியில் இடம் இல்லை"
 
 #: camel/providers/smtp/camel-smtp-transport.c:206
 msgid "Requested mail action aborted: exceeded storage allocation"
-msgstr ""
+msgstr "கோரப்பட்ட மின்னஞ்சல் செயல் தடை செய்யப்பட்டது: சேமித்த இடம் போதவில்லை"
 
 #: camel/providers/smtp/camel-smtp-transport.c:208
 msgid "Requested action not taken: mailbox name not allowed"
-msgstr ""
+msgstr "கோரப்பட்ட செயல் நடைபெறவில்லை: மின்னஞ்சல் பெட்டியில் பெயருக்கு அனுமதி இல்லை"
 
 #: camel/providers/smtp/camel-smtp-transport.c:210
 msgid "Start mail input; end with <CRLF>.<CRLF>"
-msgstr ""
+msgstr "மின்னஞ்சல் உள்ளீடு துவங்கியது; <CRLF>.<CRLF> ஓடு முடிந்தது"
 
 #: camel/providers/smtp/camel-smtp-transport.c:212
 msgid "Transaction failed"
-msgstr ""
+msgstr "பரிமாற்றம் தோல்வியுற்றது"
 
 #: camel/providers/smtp/camel-smtp-transport.c:216
 msgid "A password transition is needed"
-msgstr ""
+msgstr "கடவுச்சொல் மாற்றம் தேவை"
 
 #: camel/providers/smtp/camel-smtp-transport.c:218
 msgid "Authentication mechanism is too weak"
-msgstr ""
+msgstr "அனுமதி முறை மிகவும் மோசமாக உள்ளது"
 
 #: camel/providers/smtp/camel-smtp-transport.c:220
 msgid "Encryption required for requested authentication mechanism"
-msgstr ""
+msgstr "கோரப்பட்ட அனுமதி முறைமைக்கு குறிமுறையாக்கம் தேவை"
 
 #: camel/providers/smtp/camel-smtp-transport.c:222
 msgid "Temporary authentication failure"
-msgstr ""
+msgstr "தற்காலிக அனுமதி முறைமை தோல்வியுற்றது"
 
 #: camel/providers/smtp/camel-smtp-transport.c:224
 msgid "Authentication required"
-msgstr ""
+msgstr "அனுமதி கோரவேண்டியது அவசியம்"
 
 #: camel/providers/smtp/camel-smtp-transport.c:308
 msgid "Welcome response error"
-msgstr ""
+msgstr "பதில் பிழை வரவேற்பு"
 
 #: camel/providers/smtp/camel-smtp-transport.c:343
 #: camel/providers/smtp/camel-smtp-transport.c:382
 #, c-format
 msgid "Failed to connect to SMTP server %s in secure mode: %s"
-msgstr ""
+msgstr "SMTP சேவகன் %s உடன் பாதுகாப்பாக இணைவது தோல்வியுற்றது : %s"
 
 #: camel/providers/smtp/camel-smtp-transport.c:344
 msgid "server does not appear to support SSL"
-msgstr ""
+msgstr "சேவகனில் SSL க்கு ஆதரவு இல்லை"
 
 #: camel/providers/smtp/camel-smtp-transport.c:358
 #, c-format
 msgid "STARTTLS command failed: %s"
-msgstr ""
+msgstr "STARTTLS கட்டளை தோல்வியுற்றது: %s "
 
 #: camel/providers/smtp/camel-smtp-transport.c:373
 msgid "STARTTLS command failed"
-msgstr ""
+msgstr "STARTTLS கட்டளை தோல்வுயுற்றது"
 
 #: camel/providers/smtp/camel-smtp-transport.c:476
 #, c-format
 msgid "SMTP server %s does not support requested authentication type %s."
-msgstr ""
+msgstr "SMTP சேவகன் %s குறிப்பிட்ட அனுமதி முறைக்கு ஆதரவுதராது %s."
 
 #: camel/providers/smtp/camel-smtp-transport.c:514
 #, c-format
 msgid "%sPlease enter the SMTP password for %s on host %s"
-msgstr ""
+msgstr "%s தயவு செய்து %s க்கான SMTP கடவுச்சொல்லை புரவலன் %s இல் உள்ளிடவும்."
 
 #: camel/providers/smtp/camel-smtp-transport.c:533
 #, c-format
@@ -11717,97 +11721,100 @@ msgid ""
 "%s\n"
 "\n"
 msgstr ""
+"SMTP சேவகனுடன் அனுமதி பெற முடியவில்லை \n"
+"%s\n"
+"\n"
 
 #: camel/providers/smtp/camel-smtp-transport.c:657
 #, c-format
 msgid "SMTP server %s"
-msgstr ""
+msgstr "SMTP சேவகம் %s"
 
 #: camel/providers/smtp/camel-smtp-transport.c:659
 #, c-format
 msgid "SMTP mail delivery via %s"
-msgstr ""
+msgstr "%s SMTP வழியாக மின்னஞ்சல் அனுப்புதல்"
 
 #: camel/providers/smtp/camel-smtp-transport.c:677
 msgid "Cannot send message: service not connected."
-msgstr ""
+msgstr "செய்தி அனுப்ப முடியவில்லை : சேவை இணைப்பில் இல்லை"
 
 #: camel/providers/smtp/camel-smtp-transport.c:683
 msgid "Cannot send message: sender address not valid."
-msgstr ""
+msgstr "செய்தி அனுப்ப முடியவில்லை : அனுப்பியவர் முகவரி செல்லாது"
 
 #: camel/providers/smtp/camel-smtp-transport.c:687
 msgid "Sending message"
-msgstr ""
+msgstr "செய்தி அனுப்பப்படுகிறது"
 
 #: camel/providers/smtp/camel-smtp-transport.c:702
 msgid "Cannot send message: no recipients defined."
-msgstr ""
+msgstr "செய்தி அனுப்ப முடியவில்லை : பெறுபவர் முகவரி குறிப்பிடப்படவில்லை"
 
 #: camel/providers/smtp/camel-smtp-transport.c:713
 msgid "Cannot send message: one or more invalid recipients"
-msgstr ""
+msgstr "செய்தி அனுப்ப முடியவில்லை: ஒன்றுக்கும் மேற்பட்ட செல்லாத பெறுநர் முகவரிகள்"
 
 #: camel/providers/smtp/camel-smtp-transport.c:885
 msgid "SMTP Greeting"
-msgstr ""
+msgstr "SMTP வரவேற்பு"
 
 #: camel/providers/smtp/camel-smtp-transport.c:934
 #, c-format
 msgid "HELO command failed: %s"
-msgstr ""
+msgstr "HELO கட்டளை தோல்வியுற்றது: %s"
 
 #: camel/providers/smtp/camel-smtp-transport.c:951
 msgid "HELO command failed"
-msgstr ""
+msgstr "HELO கட்டளை தோல்வியுற்றது"
 
 #: camel/providers/smtp/camel-smtp-transport.c:1017
 msgid "SMTP Authentication"
-msgstr ""
+msgstr "SMTP அனுமதி முறை"
 
 #: camel/providers/smtp/camel-smtp-transport.c:1023
 msgid "Error creating SASL authentication object."
-msgstr ""
+msgstr "SASL அனுமதியை உருவாக்குவதில் பிழை"
 
 #: camel/providers/smtp/camel-smtp-transport.c:1040
 #: camel/providers/smtp/camel-smtp-transport.c:1051
 #, c-format
 msgid "AUTH command failed: %s"
-msgstr ""
+msgstr "AUTH கட்டளை தோல்வியுற்றது: %s"
 
 #: camel/providers/smtp/camel-smtp-transport.c:1057
 msgid "AUTH command failed"
-msgstr ""
+msgstr "AUTH கட்டளை தோல்வியுற்றது"
 
 #: camel/providers/smtp/camel-smtp-transport.c:1119
 msgid "Bad authentication response from server.\n"
-msgstr ""
+msgstr "சேவகனிலிருந்து மோசமான அனுமதி பதில்\n"
 
 #: camel/providers/smtp/camel-smtp-transport.c:1144
 #, c-format
 msgid "MAIL FROM command failed: %s: mail not sent"
-msgstr ""
+msgstr "MAIL FROM கட்டளை தோல்வியுற்றது: %s: மின்னஞ்சல் அனுப்ப முடியவில்லை"
 
 #: camel/providers/smtp/camel-smtp-transport.c:1161
 msgid "MAIL FROM command failed"
-msgstr ""
+msgstr "MAIL FROM கட்டளை தோல்வியுற்றது"
 
 #: camel/providers/smtp/camel-smtp-transport.c:1185
 #, c-format
 msgid "RCPT TO command failed: %s: mail not sent"
-msgstr ""
+msgstr "RCPT TO கட்டளை தோல்வியுற்றது : %s: மின்னஞ்சல் அனுப்ப முடியவில்லை"
 
 #: camel/providers/smtp/camel-smtp-transport.c:1204
 #, c-format
 msgid "RCPT TO <%s> failed"
-msgstr ""
+msgstr "RCPT TO <%s> தோல்வியுற்றது"
 
 #: camel/providers/smtp/camel-smtp-transport.c:1243
 #: camel/providers/smtp/camel-smtp-transport.c:1301
 #: camel/providers/smtp/camel-smtp-transport.c:1320
 #, c-format
 msgid "DATA command failed: %s: mail not sent"
-msgstr ""
+msgstr "DATA கட்டளை தோல்வியுற்றது : %s: மின்னஞ்சல் அனுப்ப முடியவில்லை"
 
 #. we should have gotten instructions on how to use the DATA command:
 #. * 354 Enter mail, end with "." on a line by itself
@@ -11815,96 +11822,96 @@ msgstr ""
 #: camel/providers/smtp/camel-smtp-transport.c:1260
 #: camel/providers/smtp/camel-smtp-transport.c:1336
 msgid "DATA command failed"
-msgstr ""
+msgstr "DATA கட்டளை தோல்வியுற்றது"
 
 #: camel/providers/smtp/camel-smtp-transport.c:1359
 #, c-format
 msgid "RSET command failed: %s"
-msgstr ""
+msgstr "RSET கட்டளை தோல்வியுற்றது : %s"
 
 #: camel/providers/smtp/camel-smtp-transport.c:1375
 msgid "RSET command failed"
-msgstr ""
+msgstr "RSET கட்டளை தோல்வியுற்றது"
 
 #: camel/providers/smtp/camel-smtp-transport.c:1398
 #, c-format
 msgid "QUIT command failed: %s"
-msgstr ""
+msgstr "QUIT கட்டளை தோல்வியுற்றது: %s"
 
 #: camel/providers/smtp/camel-smtp-transport.c:1412
 msgid "QUIT command failed"
-msgstr ""
+msgstr "QUIT கட்டளை தோல்வியுற்றது"
 
 #: composer/e-msg-composer-attachment-bar.c:106
 #, c-format
 msgid "%.0fK"
-msgstr ""
+msgstr "%.0fK"
 
 #: composer/e-msg-composer-attachment-bar.c:109
 #, c-format
 msgid "%.0fM"
-msgstr ""
+msgstr "%.0fM"
 
 #: composer/e-msg-composer-attachment-bar.c:112
 #, c-format
 msgid "%.0fG"
-msgstr ""
+msgstr "%.0fG"
 
 #: composer/e-msg-composer-attachment-bar.c:298 mail/em-utils.c:410
 msgid "attachment"
-msgstr ""
+msgstr "இணைப்பு"
 
 #: composer/e-msg-composer-attachment-bar.c:454
 msgid "Remove selected items from the attachment list"
-msgstr ""
+msgstr "இணைப்பு பட்டியலிருந்து தேர்ந்தெடுத்த உருப்படிகளை நீக்கு"
 
 #: composer/e-msg-composer-attachment-bar.c:494
 msgid "Add attachment..."
-msgstr ""
+msgstr "இணைப்பை சேர்..."
 
 #: composer/e-msg-composer-attachment-bar.c:495
 msgid "Attach a file to the message"
-msgstr ""
+msgstr "கோப்பை செய்தியுடன் இணை"
 
 #: composer/e-msg-composer-attachment.c:173
 #: composer/e-msg-composer-attachment.c:189
 #, c-format
 msgid "Cannot attach file %s: %s"
-msgstr ""
+msgstr "கோப்பை இணைக்க முடியவில்லை %s: %s"
 
 #: composer/e-msg-composer-attachment.c:181
 #, c-format
 msgid "Cannot attach file %s: not a regular file"
-msgstr ""
+msgstr "கோப்பை இணைக்க முடியவில்லை%s: இயல்பான கோப்பு இல்லை"
 
 #: composer/e-msg-composer-attachment.glade.h:2
 msgid "Attachment Properties"
-msgstr ""
+msgstr "இணைப்பின் குணங்கள்"
 
 #: composer/e-msg-composer-attachment.glade.h:4
 msgid "File name:"
-msgstr ""
+msgstr "கோப்பின் பெயர்:"
 
 #: composer/e-msg-composer-attachment.glade.h:5
 msgid "MIME type:"
-msgstr ""
+msgstr "MIME வகை:"
 
 #: composer/e-msg-composer-attachment.glade.h:6
 #: composer/e-msg-composer-select-file.c:74
 msgid "Suggest automatic display of attachment"
-msgstr ""
+msgstr "இணைப்பை தானாக காட்ட வலியுறுத்து"
 
 #: composer/e-msg-composer-hdrs.c:512
 msgid "Posting destination"
-msgstr ""
+msgstr "சேருமிடத்தில் சமர்பிக்கிறது"
 
 #: composer/e-msg-composer-hdrs.c:513
 msgid "Choose folders to post the message to."
-msgstr ""
+msgstr "செய்தியை சமர்பிப்பதற்கான அடைவை தேர்வு செய்"
 
 #: composer/e-msg-composer-hdrs.c:547
 msgid "Click here for the address book"
-msgstr ""
+msgstr "முகவரி புத்தகத்துக்கு இங்கே க்ளிக் செய்யவும்"
 
 #.
 #. * Reply-To:
@@ -11915,96 +11922,96 @@ msgstr ""
 #.
 #: composer/e-msg-composer-hdrs.c:577
 msgid "Reply-To:"
-msgstr ""
+msgstr "பதில் :"
 
 #.
 #. * From
 #.
 #: composer/e-msg-composer-hdrs.c:583
 msgid "From:"
-msgstr ""
+msgstr "அனுப்புநர்:"
 
 #.
 #. * Subject
 #.
 #: composer/e-msg-composer-hdrs.c:589
 msgid "Subject:"
-msgstr ""
+msgstr "தலைப்பு"
 
 #: composer/e-msg-composer-hdrs.c:598
 msgid "To:"
-msgstr ""
+msgstr "பெறுநர்:"
 
 #: composer/e-msg-composer-hdrs.c:599
 msgid "Enter the recipients of the message"
-msgstr ""
+msgstr "அனுப்புவதற்கான செய்தியை உள்ளிடவும்"
 
 #: composer/e-msg-composer-hdrs.c:602
 msgid "Cc:"
-msgstr ""
+msgstr "கரிநகல்:"
 
 #: composer/e-msg-composer-hdrs.c:603
 msgid "Enter the addresses that will receive a carbon copy of the message"
-msgstr ""
+msgstr "இதே செய்தியை கரிநகலாக அனுப்ப வேண்டிய முகவரியை உள்ளிடவும்"
 
 #: composer/e-msg-composer-hdrs.c:606
 msgid "Bcc:"
-msgstr ""
+msgstr "மறைநகல்:"
 
 #: composer/e-msg-composer-hdrs.c:607
 msgid ""
 "Enter the addresses that will receive a carbon copy of the message without "
 "appearing in the recipient list of the message."
-msgstr ""
+msgstr "இதே செய்தியை மறை நகலாக அனுப்ப வேண்டிய முகவரியை உள்ளிடவும்"
 
 #.
 #. * Post-To
 #.
 #: composer/e-msg-composer-hdrs.c:614
 msgid "Post To:"
-msgstr ""
+msgstr "சமர்பி:"
 
 #: composer/e-msg-composer-hdrs.c:619
 msgid "Click here to select folders to post to"
-msgstr ""
+msgstr "சமர்ப்பிக்க வேண்டிய அடைவை தேர்வு செய்ய இங்கே க்ளிக் செய்யவும்"
 
 #: composer/e-msg-composer-select-file.c:127
 msgid "Attach file(s)"
-msgstr ""
+msgstr "கோப்பு(களை) இணை"
 
 #: composer/e-msg-composer.c:704
 msgid "Cannot sign outgoing message: No signing certificate set for this account"
-msgstr ""
+msgstr "வெளி செல்லிம் செய்திகளை கையொப்பமிட முடியாது. இந்த கணக்கிற்கென சான்றிதழ் எதுவும் இல்லை"
 
 #: composer/e-msg-composer.c:711
 msgid ""
 "Cannot encrypt outgoing message: No encryption certificate set for this "
 "account"
-msgstr ""
+msgstr "வெளியில் செல்லும் செய்திகளை குறிமுறையாக்க முடியாது : இந்த கணக்கிற்கு குறிமுறையாக்க சான்றிதழ் எதுவுமில்லை"
 
 #: composer/e-msg-composer.c:1268
 msgid "Could not open file"
-msgstr ""
+msgstr "கோப்பை திறக்க முடியவில்லை"
 
 #: composer/e-msg-composer.c:1276
 msgid "Unable to retrieve message from editor"
-msgstr ""
+msgstr "தொகுப்பியிலிருந்து செய்தியை பெற முடியவில்லை"
 
 #: composer/e-msg-composer.c:1546
 msgid "Untitled Message"
-msgstr ""
+msgstr "தலைப்பில்லா செய்தி"
 
 #: composer/e-msg-composer.c:1576
 msgid "Open file"
-msgstr ""
+msgstr "கோப்பை திற"
 
 #: composer/e-msg-composer.c:1983 mail/mail-account-gui.c:1491
 msgid "Autogenerated"
-msgstr ""
+msgstr "தானாக உருவாக்கப்பட்ட"
 
 #: composer/e-msg-composer.c:2082
 msgid "Signature:"
-msgstr ""
+msgstr "கையொப்பம்"
 
 #: composer/e-msg-composer.c:2283
 #, c-format
@@ -12015,29 +12022,29 @@ msgstr[1] ""
 
 #: composer/e-msg-composer.c:2312
 msgid "Hide _Attachment Bar (drop attachments here)"
-msgstr ""
+msgstr "(_A)இணைப்பு பட்டியை மறை (இணைப்பை இங்கே விடவும்)"
 
 #: composer/e-msg-composer.c:2315 composer/e-msg-composer.c:3271
 msgid "Show _Attachment Bar (drop attachments here)"
-msgstr ""
+msgstr "இணைப்பு பட்டியை காட்டு (இணைப்பை இங்கே விடவும்)"
 
 #: composer/e-msg-composer.c:2332 composer/e-msg-composer.c:3163
 #: composer/e-msg-composer.c:3164
 msgid "Compose a message"
-msgstr ""
+msgstr "செய்தியை தட்டச்சு செய்"
 
 #: composer/e-msg-composer.c:2634
 #, c-format
 msgid "Attached message - %s"
-msgstr ""
+msgstr "செய்தியை இணை - %s"
 
 #. translators, this count will always be >1
 #: composer/e-msg-composer.c:2639 composer/e-msg-composer.c:2783
 #, c-format
 msgid "Attached message"
 msgid_plural "%d attached messages"
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "இணைக்கப்பட்ட செய்தி"
+msgstr[1] "%d இணைக்கப்பட்ட செய்தி"
 
 #: composer/e-msg-composer.c:4341
 msgid ""
@@ -12048,17 +12055,17 @@ msgstr ""
 #. mail-composer:no-attach primary
 #: composer/mail-composer-errors.xml.h:2
 msgid "You cannot attach the file `{0}' to this message."
-msgstr ""
+msgstr "கோப்பு `{0}' ஐ இந்த செய்தியுடன் இணைக்க முடியாது"
 
 #. mail-composer:attach-notfile primary
 #: composer/mail-composer-errors.xml.h:6
 msgid "The file `{0}' is not a regular file and cannot be sent in a message."
-msgstr ""
+msgstr "கோப்பு `{0}' இயல்பான கோப்பு இல்லை அதனால் இந்த செய்தியுடன் அனுப்ப முடியாத்"
 
 #. mail-composer:attach-directory primary
 #: composer/mail-composer-errors.xml.h:8
 msgid "Directories can not be attached to Messages."
-msgstr ""
+msgstr "அடைவுகளை செய்தியுடன் இணைக்க முடியாது"
 
 #. mail-composer:attach-directory secondary
 #: composer/mail-composer-errors.xml.h:10
@@ -12070,7 +12077,7 @@ msgstr ""
 #. mail-composer:attach-nomessages primary
 #: composer/mail-composer-errors.xml.h:12
 msgid "Could not retrieve messages to attach from {0}."
-msgstr ""
+msgstr "{0} இணைப்பிலிருந்து செய்திகளை பெற முடியாது"
 
 #. mail-composer:attach-nomessages secondary
 #. mail-composer:no-sig-file secondary
@@ -12088,12 +12095,12 @@ msgstr ""
 #. mail-composer:recover-autosave title
 #: composer/mail-composer-errors.xml.h:16
 msgid "Unfinished messages found"
-msgstr ""
+msgstr "முடிக்காத செய்தி உள்ளது"
 
 #. mail-composer:recover-autosave primary
 #: composer/mail-composer-errors.xml.h:18
 msgid "Do you want to recover unfinished messages?"
-msgstr ""
+msgstr "முடிக்காத செய்திகளை மீட்க விரும்புகிறீர்கள?"
 
 #. mail-composer:recover-autosave secondary
 #: composer/mail-composer-errors.xml.h:20
@@ -12104,26 +12111,26 @@ msgstr ""
 
 #: composer/mail-composer-errors.xml.h:21
 msgid "Don't Recover"
-msgstr ""
+msgstr "மீட்காதே"
 
 #: composer/mail-composer-errors.xml.h:22
 msgid "Recover"
-msgstr ""
+msgstr "மீட்கவும்"
 
 #. mail-composer:no-autosave primary
 #: composer/mail-composer-errors.xml.h:24
 msgid "Could not save to autosave file \"{0}\"."
-msgstr ""
+msgstr "\"{0}\" தானாக சேமிக்கும் கோப்பை சேமிக்க முடியவில்லை"
 
 #. mail-composer:no-autosave secondary
 #: composer/mail-composer-errors.xml.h:26
 msgid "Error saving to autosave because \"{1}\"."
-msgstr ""
+msgstr "\"{1}\"தானாக சேமிக்கும் போது பிழை"
 
 #. mail-composer:exit-unsaved title
 #: composer/mail-composer-errors.xml.h:28
 msgid "Warning: Modified Message"
-msgstr ""
+msgstr "எச்சடிக்கை : செய்தி மாற்றப்பட்டது"
 
 #. mail-composer:exit-unsaved primary
 #: composer/mail-composer-errors.xml.h:30
@@ -12142,44 +12149,44 @@ msgstr ""
 
 #: composer/mail-composer-errors.xml.h:34
 msgid "Save Message"
-msgstr ""
+msgstr "செய்தியை சேமி"
 
 #. mail-composer:no-build-message primary
 #: composer/mail-composer-errors.xml.h:36
 msgid "Could not create message."
-msgstr ""
+msgstr "செய்தியை உருவாக்க முடியவில்லை"
 
 #. mail-composer:no-build-message secondary
 #: composer/mail-composer-errors.xml.h:38
 msgid "Because \"{0}\", you may need to select different mail options."
-msgstr ""
+msgstr "ஏனெனில் \"{0}\", வேறு மின்னஞ்சல் தேர்வை தேர்வு செய்ய வேண்டும்"
 
 #. mail-composer:no-sig-file primary
 #: composer/mail-composer-errors.xml.h:40
 msgid "Could not read signature file \"{0}\"."
-msgstr ""
+msgstr "கையொப்ப கோப்பு \"{0}\"  ஐ படிக்க முடியவில்லை"
 
 #. mail-composer:all-accounts-deleted primary
 #: composer/mail-composer-errors.xml.h:44
 msgid "All accounts have been removed."
-msgstr ""
+msgstr "எல்லா கணக்குகளும் நீக்கப்பட்டது"
 
 #. mail-composer:all-accounts-deleted secondary
 #: composer/mail-composer-errors.xml.h:46
 msgid "You need to configure an account before you can compose mail."
-msgstr ""
+msgstr "மின்னஞ்சலை எழுத துவங்கும் முன் உங்கள் மின்னஞ்சல் கணக்கை அமைக்க வேண்டும்"
 
 #. mail-composer:no-address-control primary
 #. mail-composer:no-editor-control primary
 #: composer/mail-composer-errors.xml.h:48
 #: composer/mail-composer-errors.xml.h:52
 msgid "Could not create composer window."
-msgstr ""
+msgstr "தொகுப்பி சாளரத்தை உருவாக்க முடியவில்லை"
 
 #. mail-composer:no-address-control secondary
 #: composer/mail-composer-errors.xml.h:50
 msgid "Unable to activate the address selector control."
-msgstr ""
+msgstr "முகவரி தேர்வு கருவியை செயல்படுத்த முடியவில்லை"
 
 #. mail-composer:no-editor-control secondary
 #: composer/mail-composer-errors.xml.h:54
@@ -12192,19 +12199,19 @@ msgstr ""
 
 #: data/evolution.desktop.in.in.h:1
 msgid "The Ximian Evolution Groupware Suite"
-msgstr ""
+msgstr "சேமியான் எவல்யூஷன் குழுவுக்கான மென்பொருள்"
 
 #: data/evolution.desktop.in.in.h:2
 msgid "Ximian Evolution (Unstable)"
-msgstr ""
+msgstr "சேமியான் எவல்யூஷன்(நிலையற்ற)"
 
 #: data/evolution.keys.in.in.h:1
 msgid "address card"
-msgstr ""
+msgstr "முகவரி அட்டை"
 
 #: data/evolution.keys.in.in.h:2
 msgid "calendar information"
-msgstr ""
+msgstr "நாள்காட்டி தகவல்"
 
 #: designs/OOA/ooa.glade.h:1
 msgid ""
@@ -12215,11 +12222,11 @@ msgstr ""
 
 #: designs/OOA/ooa.glade.h:4
 msgid "<b>Out of Office Message:</b>"
-msgstr ""
+msgstr "<b>அலுவலகத்தில் இல்லை தகவல்</b>"
 
 #: designs/OOA/ooa.glade.h:5
 msgid "<b>Status:</b>"
-msgstr ""
+msgstr "<b>நிலை:</b>"
 
 #: designs/OOA/ooa.glade.h:6
 msgid ""
@@ -12230,23 +12237,23 @@ msgstr ""
 
 #: designs/OOA/ooa.glade.h:8
 msgid "I am currently in the office"
-msgstr ""
+msgstr "நான் தற்போது அலுவலகத்தில் இருக்கிறேன்"
 
 #: designs/OOA/ooa.glade.h:9
 msgid "I am currently out of the office"
-msgstr ""
+msgstr "நான் தற்போது அலுவலகத்தில் இல்லை"
 
 #: designs/OOA/ooa.glade.h:10
 msgid "No, Don't Change Status"
-msgstr ""
+msgstr "இல்லை, என் நிலையை மாற்றாதே"
 
 #: designs/OOA/ooa.glade.h:12
 msgid "Out of Office Assistant"
-msgstr ""
+msgstr "அலுவலக செய்தி அமைக்க உதவி"
 
 #: designs/OOA/ooa.glade.h:13
 msgid "Yes, Change Status"
-msgstr ""
+msgstr "ஆம் நிலையை மாற்று"
 
 #: designs/read_receipts/read.glade.h:1
 msgid "      "
@@ -12254,11 +12261,11 @@ msgstr ""
 
 #: designs/read_receipts/read.glade.h:2
 msgid "<b>Receiving Email</b>"
-msgstr ""
+msgstr "<b>மின்னஞ்சலை பெறுகிறது</b>"
 
 #: designs/read_receipts/read.glade.h:3
 msgid "<b>Sending Email:</b>"
-msgstr ""
+msgstr "<b>மின்னஞ்சல் அனுப்புகிறது</b>"
 
 #: designs/read_receipts/read.glade.h:4
 msgid ""
@@ -12270,27 +12277,27 @@ msgstr ""
 
 #: designs/read_receipts/read.glade.h:6
 msgid "Always send back a read reciept"
-msgstr ""
+msgstr "எப்போதும் பெறுநருக்கு திருப்பி அனுப்பு"
 
 #: designs/read_receipts/read.glade.h:7
 msgid "Ask me if I want to send back a read receipt"
-msgstr ""
+msgstr "படித்த செய்தியை தெரியப்படுத்த வேண்டுமா என கேள்"
 
 #: designs/read_receipts/read.glade.h:8
 msgid "Never send back a read receipt"
-msgstr ""
+msgstr "எப்போதும் பெற்றுக்கொள்பவருக்கு அனுப்ப வேண்டாம்"
 
 #: designs/read_receipts/read.glade.h:9
 msgid "Read Receipts"
-msgstr ""
+msgstr "பெற்றவைகளை படி"
 
 #: designs/read_receipts/read.glade.h:10
 msgid "Request a read receipt for all messages I send"
-msgstr ""
+msgstr "நான் அனுப்பும் எல்லா செய்திகளும் படிக்கபப்பட்டதா என தெரிவி"
 
 #: designs/read_receipts/read.glade.h:11
 msgid "Unless the message is sent to a mailing list, and not to me personally"
-msgstr ""
+msgstr "எனக்கோ அல்லது மின்னஞ்சல் குழுவுக்கோ அனுப்பு செய்தி தவிர"
 
 #: designs/read_receipts/read.glade.h:12
 msgid ""
@@ -12307,23 +12314,23 @@ msgstr ""
 #. system:ask-save-file-exists-overwrite title
 #: e-util/e-dialog-utils.c:255 widgets/misc/e-system-errors.xml.h:2
 msgid "Overwrite file?"
-msgstr ""
+msgstr "கோப்பை மேலெழுத வேண்டுமா"
 
 #: e-util/e-passwords.c:358
 msgid "Remember this password"
-msgstr ""
+msgstr "கடவுச்சொல்லை நினைவில் கொள்"
 
 #: e-util/e-passwords.c:360
 msgid "Remember this password for the remainder of this session"
-msgstr ""
+msgstr "இந்த அமர்விற்கு மற்றும் கடவுச்சொல்லை நினைவில் கொள்"
 
 #: e-util/e-pilot-settings.c:93
 msgid "Sync Private Records:"
-msgstr ""
+msgstr "தனி பதிவேடுகளை ஒத்திசை"
 
 #: e-util/e-pilot-settings.c:102
 msgid "Sync Categories:"
-msgstr ""
+msgstr "வகைகளை ஒத்திசை"
 
 #. strptime format of a weekday, a date and a time,
 #. in 12-hour format, without seconds.
@@ -12331,7 +12338,7 @@ msgstr ""
 #. time, in 12-hour format, without seconds.
 #: e-util/e-time-utils.c:185 e-util/e-time-utils.c:398
 msgid "%a %m/%d/%Y %I:%M %p"
-msgstr ""
+msgstr "%a %m/%d/%Y %I:%M %p"
 
 #. strptime format of a weekday, a date and a time,
 #. in 24-hour format, without seconds.
@@ -12339,65 +12346,65 @@ msgstr ""
 #. time, in 24-hour format, without seconds.
 #: e-util/e-time-utils.c:190 e-util/e-time-utils.c:389
 msgid "%a %m/%d/%Y %H:%M"
-msgstr ""
+msgstr "%a %m/%d/%Y %H:%M"
 
 #. strptime format of a weekday, a date and a time,
 #. in 12-hour format, without minutes or seconds.
 #: e-util/e-time-utils.c:195
 msgid "%a %m/%d/%Y %I %p"
-msgstr ""
+msgstr "%a %m/%d/%Y %I %p"
 
 #. strptime format of a weekday, a date and a time,
 #. in 24-hour format, without minutes or seconds.
 #: e-util/e-time-utils.c:200
 msgid "%a %m/%d/%Y %H"
-msgstr ""
+msgstr "%a %m/%d/%Y %H"
 
 #. strptime format of a date and a time, in 12-hour format.
 #: e-util/e-time-utils.c:211
 msgid "%m/%d/%Y %I:%M:%S %p"
-msgstr ""
+msgstr "%m/%d/%Y %I:%M:%S %p"
 
 #. strptime format of a date and a time, in 24-hour format.
 #: e-util/e-time-utils.c:215
 msgid "%m/%d/%Y %H:%M:%S"
-msgstr ""
+msgstr "%m/%d/%Y %H:%M:%S"
 
 #. strptime format of a date and a time, in 12-hour format,
 #. without seconds.
 #: e-util/e-time-utils.c:220
 msgid "%m/%d/%Y %I:%M %p"
-msgstr ""
+msgstr "%m/%d/%Y %I:%M %p"
 
 #. strptime format of a date and a time, in 24-hour format,
 #. without seconds.
 #: e-util/e-time-utils.c:225
 msgid "%m/%d/%Y %H:%M"
-msgstr ""
+msgstr "%m/%d/%Y %H:%M"
 
 #. strptime format of a date and a time, in 12-hour format,
 #. without minutes or seconds.
 #: e-util/e-time-utils.c:230
 msgid "%m/%d/%Y %I %p"
-msgstr ""
+msgstr "%m/%d/%Y %I %p"
 
 #. strptime format of a date and a time, in 24-hour format,
 #. without minutes or seconds.
 #: e-util/e-time-utils.c:235
 msgid "%m/%d/%Y %H"
-msgstr ""
+msgstr "%m/%d/%Y %H"
 
 #. strptime format for a time of day, in 12-hour format.
 #. strftime format of a time in 12-hour format.
 #: e-util/e-time-utils.c:339 e-util/e-time-utils.c:438
 msgid "%I:%M:%S %p"
-msgstr ""
+msgstr "%I:%M:%S %p"
 
 #. strptime format for a time of day, in 24-hour format.
 #. strftime format of a time in 24-hour format.
 #: e-util/e-time-utils.c:343 e-util/e-time-utils.c:430
 msgid "%H:%M:%S"
-msgstr ""
+msgstr "%H:%M:%S"
 
 #. strptime format for time of day, without seconds,
 #. in 12-hour format.
@@ -12407,7 +12414,7 @@ msgstr ""
 #: e-util/e-time-utils.c:348 e-util/e-time-utils.c:435
 #: widgets/misc/e-dateedit.c:1414 widgets/misc/e-dateedit.c:1639
 msgid "%I:%M %p"
-msgstr ""
+msgstr "%I:%M %p"
 
 #. strptime format for time of day, without seconds 24-hour format.
 #. strftime format of a time in 24-hour format,
@@ -12416,12 +12423,12 @@ msgstr ""
 #: e-util/e-time-utils.c:352 e-util/e-time-utils.c:427
 #: widgets/misc/e-dateedit.c:1411 widgets/misc/e-dateedit.c:1636
 msgid "%H:%M"
-msgstr ""
+msgstr "%H:%M"
 
 #. strptime format for hour and AM/PM, 12-hour format.
 #: e-util/e-time-utils.c:356
 msgid "%I %p"
-msgstr ""
+msgstr "%I %p"
 
 #: filter/filter-datespec.c:73
 #, c-format
@@ -12474,158 +12481,158 @@ msgstr[1] ""
 
 #: filter/filter-datespec.c:280
 msgid "<click here to select a date>"
-msgstr ""
+msgstr "<தேதியை தேர்வு செய்ய இங்கே க்ளிக் செய்யவும்>"
 
 #: filter/filter-datespec.c:283 filter/filter-datespec.c:294
 msgid "now"
-msgstr ""
+msgstr "இப்போது"
 
 #. strftime for date filter display, only needs to show a day date (i.e. no time)
 #: filter/filter-datespec.c:290
 msgid "%d-%b-%Y"
-msgstr ""
+msgstr "%d-%b-%Y"
 
 #: filter/filter-datespec.c:406
 msgid "Select a time to compare against"
-msgstr ""
+msgstr "ஒப்பிட வேண்டிய நேரத்தை தேர்வு செய்யவும்"
 
 #. filter:no-date primary
 #: filter/filter-errors.xml.h:2
 msgid "Missing date."
-msgstr ""
+msgstr "தேதி காணவில்லை"
 
 #. filter:no-date secondary
 #: filter/filter-errors.xml.h:4
 msgid "You must choose a date."
-msgstr ""
+msgstr "தேதியை தேர்வு செய்யவும்"
 
 #. filter:no-file primary
 #: filter/filter-errors.xml.h:6
 msgid "Missing file name."
-msgstr ""
+msgstr "கோப்பின் பெயர் காணவில்லை"
 
 #. filter:no-file secondary
 #. filter:bad-file secondary
 #: filter/filter-errors.xml.h:8 filter/filter-errors.xml.h:12
 msgid "You must specify a file name."
-msgstr ""
+msgstr "கோப்பின் பெயரை குறிப்பிட வேண்டும்"
 
 #. filter:bad-file primary
 #: filter/filter-errors.xml.h:10
 msgid "File \"{0}\" does not exist or is not a regular file."
-msgstr ""
+msgstr "கோப்பு \"{0}\" சாதாரண கோப்பு இல்லை அல்லது காணவில்லை "
 
 #. filter:bad-regexp primary
 #: filter/filter-errors.xml.h:14
 msgid "Bad regular expression \"{0}\"."
-msgstr ""
+msgstr "\"{0}\" மோசமான கூற்று"
 
 #. filter:bad-regexp secondary
 #: filter/filter-errors.xml.h:16
 msgid "Could not compile regular expression \"{1}\"."
-msgstr ""
+msgstr "\"{1}\" இயல்பான கூற்றை தொகுக்க முடியவில்லை"
 
 #. filter:no-name primary
 #. mail:no-name-vfolder primary
 #: filter/filter-errors.xml.h:18 mail/mail-errors.xml.h:214
 msgid "Missing name."
-msgstr ""
+msgstr "பெயர் காணவில்லை"
 
 #. filter:no-name secondary
 #: filter/filter-errors.xml.h:20
 msgid "You must name this filter."
-msgstr ""
+msgstr "இந்த வடிகட்டிக்கு பெயரிடவும்"
 
 #. filter:bad-name-notunique primary
 #: filter/filter-errors.xml.h:22
 msgid "Name \"{0}\" already used."
-msgstr ""
+msgstr "\"{0}\" பெயர் ஏற்கெனவே உள்ளது"
 
 #. filter:bad-name-notunique secondary
 #: filter/filter-errors.xml.h:24
 msgid "Please choose another name."
-msgstr ""
+msgstr "தயவு செய்து வேறு பெயரை தேர்வு செய்யவும்"
 
 #: filter/filter-file.c:288
 msgid "Choose a file"
-msgstr ""
+msgstr "கோப்பை தேர்வு செய்யவும்"
 
 #: filter/filter-label.c:121 mail/em-filter-i18n.h:26 mail/em-migrate.c:1011
 #: mail/mail-config.c:76 mail/mail-config.glade.h:93
 msgid "Important"
-msgstr ""
+msgstr "முக்கியம்"
 
 #. forest green
 #: filter/filter-label.c:124 mail/em-migrate.c:1014 mail/mail-config.c:79
 #: mail/mail-config.glade.h:148
 msgid "To Do"
-msgstr ""
+msgstr "செய்ய வேண்டியவை"
 
 #. blue
 #: filter/filter-label.c:125 mail/em-migrate.c:1015 mail/mail-config.c:80
 #: mail/mail-config.glade.h:97
 msgid "Later"
-msgstr ""
+msgstr "பிறகு"
 
 #: filter/filter-part.c:532 shell/GNOME_Evolution_Test.server.in.in.h:3
 msgid "Test"
-msgstr ""
+msgstr "சோதனை"
 
 #: filter/filter-rule.c:790
 msgid "Rule name:"
-msgstr ""
+msgstr "விதியின் பெயர்"
 
 #: filter/filter-rule.c:817
 msgid "<b>If</b>"
-msgstr ""
+msgstr "<b>If</b>"
 
 #: filter/filter-rule.c:854
 msgid "if all criteria are met"
-msgstr ""
+msgstr "எல்லா விதிகளும் ஒத்துவந்தால்"
 
 #: filter/filter-rule.c:854
 msgid "if any criteria are met"
-msgstr ""
+msgstr "ஏதாவது ஒன்று ஒத்துவந்தால்"
 
 #: filter/filter-rule.c:856
 msgid "Execute actions"
-msgstr ""
+msgstr "செயல் படுத்து"
 
 #: filter/filter-rule.c:877
 msgid "All related"
-msgstr ""
+msgstr "தொடர்புடைய"
 
 #: filter/filter-rule.c:877
 msgid "Replies"
-msgstr ""
+msgstr "பதில்கள்"
 
 #: filter/filter-rule.c:877
 msgid "Replies and parents"
-msgstr ""
+msgstr "பதில்கள் மற்றும் முந்தையவை"
 
 #: filter/filter-rule.c:879
 msgid "Include threads"
-msgstr ""
+msgstr "சேர்த்த இழைகள்"
 
 #: filter/filter-rule.c:974
 msgid "incoming"
-msgstr ""
+msgstr "உள்வரும்"
 
 #: filter/filter-rule.c:974
 msgid "outgoing"
-msgstr ""
+msgstr "வெளி செல்லும்"
 
 #: filter/filter.glade.h:1
 msgid "<b>_Filter Rules</b>"
-msgstr ""
+msgstr "<b>(_F)வடிகட்டி விதிகள்</b>"
 
 #: filter/filter.glade.h:2
 msgid "Compare against"
-msgstr ""
+msgstr "ஒப்பிடு"
 
 #: filter/filter.glade.h:3
 msgid "Incoming"
-msgstr ""
+msgstr "உள்வரும்"
 
 #: filter/filter.glade.h:4
 msgid ""
@@ -12647,144 +12654,144 @@ msgstr ""
 
 #: filter/filter.glade.h:11
 msgid "a time relative to the current time"
-msgstr ""
+msgstr "தற்போதைய நேரத்தோடு தொடர்புடைய நேரம்"
 
 #: filter/filter.glade.h:12
 msgid "ago"
-msgstr ""
+msgstr "முன்பு"
 
 #: filter/filter.glade.h:16
 msgid "months"
-msgstr ""
+msgstr "மாதம்"
 
 #: filter/filter.glade.h:17 mail/mail-config.glade.h:184
 msgid "seconds"
-msgstr ""
+msgstr "நிமிடம்"
 
 #: filter/filter.glade.h:18
 msgid "the current time"
-msgstr ""
+msgstr "தற்போதைய நேரம்"
 
 #: filter/filter.glade.h:19
 msgid "the time you specify"
-msgstr ""
+msgstr "நீங்கள் குறிப்பிட்ட நேரம்"
 
 #: filter/filter.glade.h:21
 msgid "years"
-msgstr ""
+msgstr "வருடங்கள்"
 
 #: filter/rule-editor.c:285
 msgid "Add Rule"
-msgstr ""
+msgstr "விதியை சேர்"
 
 #: filter/rule-editor.c:361
 msgid "Edit Rule"
-msgstr ""
+msgstr "விதியை திருத்து"
 
 #: filter/rule-editor.c:685
 msgid "Rule name"
-msgstr ""
+msgstr "விதியின் பெயர்"
 
 #: mail/GNOME_Evolution_Mail.server.in.in.h:1
 msgid "*Control*F1"
-msgstr ""
+msgstr "*Control*F1"
 
 #: mail/GNOME_Evolution_Mail.server.in.in.h:2
 msgid "Composer Preferences"
-msgstr ""
+msgstr "தொகுப்பியின் முன்னுரிமை"
 
 #: mail/GNOME_Evolution_Mail.server.in.in.h:3
 msgid "Configure mail preferences, including security and message display, here"
-msgstr ""
+msgstr "மின்னஞ்சல் பாதுகாப்பு மற்றும் செய்திக்கான முன்னுரிமையை இங்கே அமைக்கவும்"
 
 #: mail/GNOME_Evolution_Mail.server.in.in.h:4
 msgid "Configure spell-checking, signatures, and the message composer here"
-msgstr ""
+msgstr "பிழை திருத்தி, கையொப்பம் மற்றும் தொகுப்பியை இங்கே அமைக்கவும்"
 
 #: mail/GNOME_Evolution_Mail.server.in.in.h:5
 msgid "Configure your email accounts here"
-msgstr ""
+msgstr "உங்கள் மின்னஞ்சல் கணக்கை இங்கே அமைக்கவும்"
 
 #: mail/GNOME_Evolution_Mail.server.in.in.h:6
 msgid "Evolution Mail"
-msgstr ""
+msgstr "எவல்யூஷன் மின்னஞ்சல்"
 
 #: mail/GNOME_Evolution_Mail.server.in.in.h:7
 msgid "Evolution Mail accounts configuration control"
-msgstr ""
+msgstr "எவல்யூஷன் மின்னஞ்சல் கணக்கு அமைக்கும் கருவி"
 
 #: mail/GNOME_Evolution_Mail.server.in.in.h:8
 msgid "Evolution Mail component"
-msgstr ""
+msgstr "எவல்யூஷன் மின்னஞ்சல் கூறுகள்"
 
 #: mail/GNOME_Evolution_Mail.server.in.in.h:9
 msgid "Evolution Mail composer"
-msgstr ""
+msgstr "எவல்யூஷன் மின்னஞ்சல் தொகுப்பி"
 
 #: mail/GNOME_Evolution_Mail.server.in.in.h:10
 msgid "Evolution Mail composer configuration control"
-msgstr ""
+msgstr "எவல்யூஷன் மின்னஞ்சல் தொகுப்பி அமைப்பு கருவி"
 
 #: mail/GNOME_Evolution_Mail.server.in.in.h:11
 msgid "Evolution Mail preferences control"
-msgstr ""
+msgstr "எவல்யூஷன் மின்னஞ்சல் முன்னுரிமை கருவி"
 
 #: mail/GNOME_Evolution_Mail.server.in.in.h:12 mail/em-folder-view.c:419
 #: mail/importers/elm-importer.c:418 mail/importers/netscape-importer.c:1902
 #: mail/importers/pine-importer.c:474 mail/mail-component.c:506
 #: mail/mail-component.c:557
 msgid "Mail"
-msgstr ""
+msgstr "மின்னஞ்சல்"
 
 #: mail/GNOME_Evolution_Mail.server.in.in.h:13
 msgid "Mail Accounts"
-msgstr ""
+msgstr "மின்னஞ்சல் கணக்கு"
 
 #: mail/GNOME_Evolution_Mail.server.in.in.h:14 mail/mail-config.glade.h:99
 msgid "Mail Preferences"
-msgstr ""
+msgstr "மின்னஞ்சல் முன்னுரிமை"
 
 #: mail/GNOME_Evolution_Mail.server.in.in.h:15
 msgid "_Mail"
-msgstr ""
+msgstr "(_M)மின்னஞ்சல்"
 
 #. translators: default account indicator
 #: mail/em-account-prefs.c:418
 msgid "[Default]"
-msgstr ""
+msgstr "[இயல்பான]"
 
 #: mail/em-account-prefs.c:472
 msgid "Account name"
-msgstr ""
+msgstr "கணக்கின் பெயர்"
 
 #: mail/em-account-prefs.c:474
 msgid "Protocol"
-msgstr ""
+msgstr "விதிமுறை"
 
 #: mail/em-composer-prefs.c:305 mail/em-composer-prefs.c:424
 #: mail/mail-config.c:1045
 msgid "Unnamed"
-msgstr ""
+msgstr "பெயரில்லா"
 
 #: mail/em-composer-prefs.c:909
 msgid "Language(s)"
-msgstr ""
+msgstr "மொழி(கள்)"
 
 #: mail/em-composer-prefs.c:955
 msgid "Add signature script"
-msgstr ""
+msgstr "கையொப்ப நிரலை சேர்க்கவும்"
 
 #: mail/em-composer-prefs.c:975
 msgid "Signature(s)"
-msgstr ""
+msgstr "கையொப்பம்(ங்கள்)"
 
 #: mail/em-composer-utils.c:889
 msgid "-------- Forwarded Message --------"
-msgstr ""
+msgstr "-------- அனுப்பும் செய்தி --------"
 
 #: mail/em-composer-utils.c:1502
 msgid "an unknown sender"
-msgstr ""
+msgstr "தெரியாத அனுப்புநர்"
 
 #. Note to translators: this is the attribution string used when quoting messages.
 #. * each ${Variable} gets replaced with a value. To see a full list of available
@@ -12797,198 +12804,198 @@ msgstr ""
 
 #: mail/em-filter-editor.c:147
 msgid "_Filter Rules"
-msgstr ""
+msgstr "(_F)வடிகட்டி விதிமுறைகள்"
 
 #: mail/em-filter-folder-element.c:237 mail/em-vfolder-rule.c:494
 #: mail/mail-account-gui.c:1347
 msgid "Select Folder"
-msgstr ""
+msgstr "அடைவை தேர்வு செய்"
 
 #. Automatically generated. Do not edit.
 #: mail/em-filter-i18n.h:2
 msgid "Adjust Score"
-msgstr ""
+msgstr "மதிப்பை மாற்று"
 
 #: mail/em-filter-i18n.h:3
 msgid "Assign Color"
-msgstr ""
+msgstr "நிறத்தை ஒதுக்கு"
 
 #: mail/em-filter-i18n.h:4
 msgid "Assign Score"
-msgstr ""
+msgstr "மதிப்பை ஒதுக்கு"
 
 #: mail/em-filter-i18n.h:5
 msgid "Attachments"
-msgstr ""
+msgstr "இணைப்புகள்"
 
 #: mail/em-filter-i18n.h:6
 msgid "Beep"
-msgstr ""
+msgstr "ஒலி"
 
 #: mail/em-filter-i18n.h:7
 msgid "contains"
-msgstr ""
+msgstr "உள்ளது"
 
 #: mail/em-filter-i18n.h:8
 msgid "Copy to Folder"
-msgstr ""
+msgstr "அடைவில் நகலெடு"
 
 #: mail/em-filter-i18n.h:9
 msgid "Date received"
-msgstr ""
+msgstr "தகவல் பெறப்பட்டது"
 
 #: mail/em-filter-i18n.h:10
 msgid "Date sent"
-msgstr ""
+msgstr "தகவல் அனுப்பபட்டது"
 
 #: mail/em-filter-i18n.h:12
 msgid "Deleted"
-msgstr ""
+msgstr "நீக்கப்பட்டது"
 
 #: mail/em-filter-i18n.h:13
 msgid "does not contain"
-msgstr ""
+msgstr "இதில் இல்லை"
 
 #: mail/em-filter-i18n.h:14
 msgid "does not end with"
-msgstr ""
+msgstr "இதில் முடியவில்லை"
 
 #: mail/em-filter-i18n.h:15
 msgid "does not exist"
-msgstr ""
+msgstr "இதில் இல்லை"
 
 #: mail/em-filter-i18n.h:16
 msgid "does not return"
-msgstr ""
+msgstr "தரவில்லை"
 
 #: mail/em-filter-i18n.h:17
 msgid "does not sound like"
-msgstr ""
+msgstr "இது போல் இல்லை"
 
 #: mail/em-filter-i18n.h:18
 msgid "does not start with"
-msgstr ""
+msgstr "இதுபோல் துவங்கவில்லை"
 
 #: mail/em-filter-i18n.h:19
 msgid "Do Not Exist"
-msgstr ""
+msgstr "இது இல்லை"
 
 #: mail/em-filter-i18n.h:20
 msgid "Draft"
-msgstr ""
+msgstr "வரைவு"
 
 #: mail/em-filter-i18n.h:21
 msgid "ends with"
-msgstr ""
+msgstr "முடிவு"
 
 #: mail/em-filter-i18n.h:22
 msgid "Exist"
-msgstr ""
+msgstr "உள்ளது"
 
 #: mail/em-filter-i18n.h:23
 msgid "exists"
-msgstr ""
+msgstr "உள்ளது"
 
 #: mail/em-filter-i18n.h:24
 msgid "Expression"
-msgstr ""
+msgstr "கூற்று"
 
 #: mail/em-filter-i18n.h:25
 msgid "Follow Up"
-msgstr ""
+msgstr "தொடர்"
 
 #: mail/em-filter-i18n.h:27
 msgid "is"
-msgstr ""
+msgstr "இல்"
 
 #: mail/em-filter-i18n.h:28
 msgid "is after"
-msgstr ""
+msgstr "பிறகு"
 
 #: mail/em-filter-i18n.h:29
 msgid "is before"
-msgstr ""
+msgstr "முன்"
 
 #: mail/em-filter-i18n.h:30
 msgid "is Flagged"
-msgstr ""
+msgstr "குறிக்கப்பட்ட"
 
 #: mail/em-filter-i18n.h:31
 msgid "is greater than"
-msgstr ""
+msgstr "விடப்பெரிய"
 
 #: mail/em-filter-i18n.h:32
 msgid "is less than"
-msgstr ""
+msgstr "விட சிறிய"
 
 #: mail/em-filter-i18n.h:33
 msgid "is not"
-msgstr ""
+msgstr "இல்லை"
 
 #: mail/em-filter-i18n.h:34
 msgid "is not Flagged"
-msgstr ""
+msgstr "குறிக்கப்படாத"
 
 #: mail/em-filter-i18n.h:36
 msgid "Junk Test"
-msgstr ""
+msgstr "தேவையற்றவை சோதனை"
 
 #: mail/em-filter-i18n.h:37 mail/em-folder-view.c:932
 #: widgets/misc/e-expander.c:189
 msgid "Label"
-msgstr ""
+msgstr "விளக்கச்சீட்டு"
 
 #: mail/em-filter-i18n.h:38
 msgid "Mailing list"
-msgstr ""
+msgstr "மின்னஞ்சல் பட்டியல்"
 
 #: mail/em-filter-i18n.h:39
 msgid "Message Body"
-msgstr ""
+msgstr "செய்தி உள்ளடக்கம்"
 
 #: mail/em-filter-i18n.h:40
 msgid "Message Header"
-msgstr ""
+msgstr "செய்தி தலைப்பு"
 
 #: mail/em-filter-i18n.h:41
 msgid "Message is Junk"
-msgstr ""
+msgstr "செய்தி தேவையற்றது"
 
 #: mail/em-filter-i18n.h:42
 msgid "Message is not Junk"
-msgstr ""
+msgstr "செய்தி தேவையற்றது இல்லை"
 
 #: mail/em-filter-i18n.h:43
 msgid "Move to Folder"
-msgstr ""
+msgstr "அடைவிற்கு நகர்த்து"
 
 #: mail/em-filter-i18n.h:44
 msgid "Pipe to Program"
-msgstr ""
+msgstr "நிரலுக்கு வழி"
 
 #: mail/em-filter-i18n.h:45
 msgid "Play Sound"
-msgstr ""
+msgstr "ஒலியை இயக்கு"
 
 #: mail/em-filter-i18n.h:46 mail/message-tag-followup.c:79
 msgid "Read"
-msgstr ""
+msgstr "படி"
 
 #: mail/em-filter-i18n.h:47
 msgid "Recipients"
-msgstr ""
+msgstr "பெறுநர்"
 
 #: mail/em-filter-i18n.h:48
 msgid "Regex Match"
-msgstr ""
+msgstr "Regex பொருத்தம்"
 
 #: mail/em-filter-i18n.h:49
 msgid "Replied to"
-msgstr ""
+msgstr "பதிலலி"
 
 #: mail/em-filter-i18n.h:50
 msgid "returns"
-msgstr ""
+msgstr "திருப்பவும்"
 
 #: mail/em-filter-i18n.h:51
 msgid "returns greater than"
@@ -13000,67 +13007,67 @@ msgstr ""
 
 #: mail/em-filter-i18n.h:53
 msgid "Run Program"
-msgstr ""
+msgstr "நிரலை இயக்கு"
 
 #: mail/em-filter-i18n.h:54 mail/message-list.etspec.h:10
 msgid "Score"
-msgstr ""
+msgstr "மதிப்பு"
 
 #: mail/em-filter-i18n.h:55
 msgid "Sender"
-msgstr ""
+msgstr "அனுப்பியவர்"
 
 #: mail/em-filter-i18n.h:56
 msgid "Set Status"
-msgstr ""
+msgstr "நிலையை அமை"
 
 #: mail/em-filter-i18n.h:57
 msgid "Size (kB)"
-msgstr ""
+msgstr "அளவு(kB)"
 
 #: mail/em-filter-i18n.h:58
 msgid "sounds like"
-msgstr ""
+msgstr "இது போல"
 
 #: mail/em-filter-i18n.h:59
 msgid "Source Account"
-msgstr ""
+msgstr "மூல கணக்கு"
 
 #: mail/em-filter-i18n.h:60
 msgid "Specific header"
-msgstr ""
+msgstr "குறிப்பிட்ட தலைப்பு"
 
 #: mail/em-filter-i18n.h:61
 msgid "starts with"
-msgstr ""
+msgstr "துவக்கம்"
 
 #: mail/em-filter-i18n.h:63
 msgid "Stop Processing"
-msgstr ""
+msgstr "செயல்படுத்துவதை நிறுத்து"
 
 #: mail/em-filter-i18n.h:64 mail/em-format-html.c:1550
 #: mail/em-format-quote.c:305 mail/em-format.c:805 mail/em-mailer-prefs.c:87
 #: mail/message-list.etspec.h:13 mail/message-tag-followup.c:329
 #: smime/lib/e-cert.c:1131
 msgid "Subject"
-msgstr ""
+msgstr "தலைப்பு"
 
 #: mail/em-filter-i18n.h:65
 msgid "Unset Status"
-msgstr ""
+msgstr "அமைக்காத நிலை"
 
 #. and now for the action area
 #: mail/em-filter-rule.c:488
 msgid "<b>Then</b>"
-msgstr ""
+msgstr "<b>விட</b>"
 
 #: mail/em-folder-browser.c:129
 msgid "Create _Virtual Folder From Search..."
-msgstr ""
+msgstr "(_V)தேடலிருந்து மெய்நிகர் அடைவை உருவாக்கு"
 
 #: mail/em-folder-properties.c:122
 msgid "Folder Properties"
-msgstr ""
+msgstr "அடைவின் பண்புகள்"
 
 #. TODO: can this be done in a loop?
 #: mail/em-folder-properties.c:161
@@ -13077,236 +13084,236 @@ msgstr[1] ""
 
 #: mail/em-folder-selection-button.c:120
 msgid "<click here to select a folder>"
-msgstr ""
+msgstr "<அடைவை தேர்வு செய்ய இங்கே க்ளிக் செய்யவும்>"
 
 #: mail/em-folder-selector.c:166
 msgid "Create New Folder"
-msgstr ""
+msgstr "புதிய அடைவை உருவாக்கவும்"
 
 #: mail/em-folder-selector.c:166 mail/em-folder-tree.c:2330
 #: mail/mail-component.c:707
 msgid "Specify where to create the folder:"
-msgstr ""
+msgstr "அடைவை உருவாக்க வேண்டுமா என குறிப்பிடவும்"
 
 #: mail/em-folder-selector.c:300
 msgid "Create"
-msgstr ""
+msgstr "உருவாக்கு"
 
 #: mail/em-folder-selector.c:304
 msgid "Folder _name:"
-msgstr ""
+msgstr "(_n) அடைவின் பெயர்"
 
 #: mail/em-folder-tree-model.c:200 mail/em-folder-tree-model.c:202
 #: mail/mail-vfolder.c:872
 msgid "VFolders"
-msgstr ""
+msgstr "Vஅடைவுகள்"
 
 #. UNMATCHED is always last
 #: mail/em-folder-tree-model.c:206 mail/em-folder-tree-model.c:208
 msgid "UNMATCHED"
-msgstr ""
+msgstr "UNMATCHED"
 
 #: mail/em-folder-tree-model.c:476 mail/em-folder-tree-model.c:780
 msgid "Loading..."
-msgstr ""
+msgstr "ஏற்றுகிறது..."
 
 #: mail/em-folder-tree.c:846
 #, c-format
 msgid "Moving folder %s"
-msgstr ""
+msgstr "%s அடைவை நகர்த்துகிறது"
 
 #: mail/em-folder-tree.c:848
 #, c-format
 msgid "Copying folder %s"
-msgstr ""
+msgstr "%s அடைவை நகலெடுக்கிறது"
 
 #: mail/em-folder-tree.c:855 mail/message-list.c:1566
 #, c-format
 msgid "Moving messages into folder %s"
-msgstr ""
+msgstr "%s க்கு செய்திகளை நகர்த்துகிறது"
 
 #: mail/em-folder-tree.c:857 mail/message-list.c:1568
 #, c-format
 msgid "Copying messages into folder %s"
-msgstr ""
+msgstr "%s இல் செய்திகளை நகலெடுக்கிறது"
 
 #: mail/em-folder-tree.c:873
 msgid "Cannot drop message(s) into toplevel store"
-msgstr ""
+msgstr "மேல்மட்ட கிடங்கிற்கு செய்தி(களை) அனுப்ப முடியாது"
 
 #: mail/em-folder-tree.c:963 ui/evolution-mail-message.xml.h:110
 msgid "_Copy to Folder"
-msgstr ""
+msgstr "(_C)அடைவில் நகலெடு"
 
 #: mail/em-folder-tree.c:964 ui/evolution-mail-message.xml.h:119
 msgid "_Move to Folder"
-msgstr ""
+msgstr "(_M)அடைவிற்கு நகர்த்து"
 
 #: mail/em-folder-tree.c:966 mail/em-folder-tree.c:2117
 #: mail/em-folder-view.c:803 mail/message-list.c:1656
 msgid "_Move"
-msgstr ""
+msgstr "(_M)நகர்த்து"
 
 #: mail/em-folder-tree.c:968 mail/message-list.c:1658
 msgid "Cancel _Drag"
-msgstr ""
+msgstr "(_D)இழுப்பதை ரத்து செய்"
 
 #: mail/em-folder-tree.c:2104 mail/em-folder-tree.c:2117
 #: mail/em-folder-view.c:803 mail/em-folder-view.c:817
 #: mail/importers/evolution-mbox-importer.c:119
 #: mail/importers/evolution-outlook-importer.c:133
 msgid "Select folder"
-msgstr ""
+msgstr "அடைவை தேர்வு செய்"
 
 #: mail/em-folder-tree.c:2104 mail/em-folder-view.c:817
 msgid "C_opy"
-msgstr ""
+msgstr "(_o)நகலெடு"
 
 #: mail/em-folder-tree.c:2144
 #, c-format
 msgid "Creating folder `%s'"
-msgstr ""
+msgstr "`%s' அடைவை உருவாக்குகிறது"
 
 #: mail/em-folder-tree.c:2330 mail/mail-component.c:707
 msgid "Create folder"
-msgstr ""
+msgstr "அடைவை உருவாக்குகிறது"
 
 #: mail/em-folder-tree.c:2526
 #, c-format
 msgid "Rename the \"%s\" folder to:"
-msgstr ""
+msgstr "\"%s\" அடைவை மறுபெயரிடு"
 
 #: mail/em-folder-tree.c:2528
 msgid "Rename Folder"
-msgstr ""
+msgstr "அடைவிற்கு மறுபெயரிடு"
 
 #: mail/em-folder-tree.c:2603 ui/evolution-addressbook.xml.h:44
 #: ui/evolution-mail-global.xml.h:18 ui/evolution-mail-messagedisplay.xml.h:8
 #: ui/evolution-message-composer.xml.h:53 ui/evolution.xml.h:37
 msgid "_View"
-msgstr ""
+msgstr "(_V)பார்"
 
 #: mail/em-folder-tree.c:2604
 msgid "Open in _New Window"
-msgstr ""
+msgstr "(_N)புதிய சாளரத்தில் திற"
 
 #: mail/em-folder-tree.c:2608
 msgid "_Copy..."
-msgstr ""
+msgstr "(_C)நகல்..."
 
 #: mail/em-folder-tree.c:2609
 msgid "_Move..."
-msgstr ""
+msgstr "(_M)நகர்த்து..."
 
 #. FIXME: need to disable for nochildren folders
 #: mail/em-folder-tree.c:2613
 msgid "_New Folder..."
-msgstr ""
+msgstr "(_N)புதிய அடைவு"
 
 #: mail/em-folder-tree.c:2616
 msgid "_Rename..."
-msgstr ""
+msgstr "(_R)மறுபெயரிடு"
 
 #: mail/em-folder-tree.c:2619 ui/evolution-mail-list.xml.h:27
 msgid "_Properties"
-msgstr ""
+msgstr "(_P)பண்புகள்"
 
 #. { EM_POPUP_ITEM, "00.select.00", N_("_Open"), G_CALLBACK(emp_popup_open), NULL, NULL, 0 },
 #: mail/em-folder-view.c:900 mail/em-popup.c:690
 #: ui/evolution-mail-message.xml.h:113
 msgid "_Edit as New Message..."
-msgstr ""
+msgstr "(_E)புதிய செய்தியாக தொகு"
 
 #: mail/em-folder-view.c:902
 msgid "_Print"
-msgstr ""
+msgstr "(_P)அச்சடி"
 
 #: mail/em-folder-view.c:905 ui/evolution-mail-message.xml.h:127
 msgid "_Reply to Sender"
-msgstr ""
+msgstr "(_R)அனுப்பியவருக்கு பதிலலி"
 
 #: mail/em-folder-view.c:906 mail/em-popup.c:811
 #: ui/evolution-mail-message.xml.h:88
 msgid "Reply to _List"
-msgstr ""
+msgstr "(_L)குழுவிற்கு பதிலலி"
 
 #: mail/em-folder-view.c:907 mail/em-popup.c:812
 #: ui/evolution-mail-message.xml.h:87
 msgid "Reply to _All"
-msgstr ""
+msgstr "(_A) அனைவருக்கும் பதிலலி"
 
 #: mail/em-folder-view.c:908 mail/em-popup.c:814
 #: ui/evolution-mail-message.xml.h:114
 msgid "_Forward"
-msgstr ""
+msgstr "(_F)அனுப்பு"
 
 #: mail/em-folder-view.c:911
 msgid "Follo_w Up..."
-msgstr ""
+msgstr "(_w)தொடர்..."
 
 #: mail/em-folder-view.c:912
 msgid "Fla_g Completed"
-msgstr ""
+msgstr "(_g) குறித்தல் முடிந்தது"
 
 #: mail/em-folder-view.c:913
 msgid "Cl_ear Flag"
-msgstr ""
+msgstr "(_e)குறிப்பை நீக்கு"
 
 #: mail/em-folder-view.c:916 ui/evolution-mail-message.xml.h:50
 msgid "Mar_k as Read"
-msgstr ""
+msgstr "(_k) படித்தது என குறி"
 
 #: mail/em-folder-view.c:917
 msgid "Mark as _Unread"
-msgstr ""
+msgstr "(_U)படிக்கவில்லை என குறி"
 
 #: mail/em-folder-view.c:918
 msgid "Mark as _Important"
-msgstr ""
+msgstr "(_I)முக்கியம் என குறி"
 
 #: mail/em-folder-view.c:919
 msgid "_Mark as Unimportant"
-msgstr ""
+msgstr "(_M)முக்கியமில்லை என குறி"
 
 #: mail/em-folder-view.c:920 ui/evolution-mail-message.xml.h:54
 msgid "Mark as _Junk"
-msgstr ""
+msgstr "(_J) தேவை இல்லை என குறி"
 
 #: mail/em-folder-view.c:921 ui/evolution-mail-message.xml.h:55
 msgid "Mark as _Not Junk"
-msgstr ""
+msgstr "(_N)தேவையானது என குறி"
 
 #: mail/em-folder-view.c:925
 msgid "U_ndelete"
-msgstr ""
+msgstr "(_n)நீக்கலை ரத்து செய்"
 
 #: mail/em-folder-view.c:928
 msgid "Mo_ve to Folder..."
-msgstr ""
+msgstr "(_v)அடைவிற்கு நகர்த்து"
 
 #: mail/em-folder-view.c:929 ui/evolution-addressbook.xml.h:32
 msgid "_Copy to Folder..."
-msgstr ""
+msgstr "(_C)அடைவில் நகலெடு"
 
 #: mail/em-folder-view.c:937
 msgid "Add Sender to Address_book"
-msgstr ""
+msgstr "(_b) அனுப்பியவரை முகவரி புத்தகத்தில் சேர்"
 
 #: mail/em-folder-view.c:940
 msgid "Appl_y Filters"
-msgstr ""
+msgstr "(_y)வடிகட்டியை அமை"
 
 #: mail/em-folder-view.c:941
 msgid "F_ilter Junk"
-msgstr ""
+msgstr "(_i)தேவையற்றவைகளை வடிகட்டி"
 
 #: mail/em-folder-view.c:944
 msgid "Crea_te Rule From Message"
-msgstr ""
+msgstr "(_t)செய்தியிலிருந்து புதிய விதிமுறையை உருவாக்கு"
 
 #: mail/em-folder-view.c:945
 msgid "VFolder on _Subject"
-msgstr ""
+msgstr "(_S) தலைப்பில் Vஅடைவு"
 
 #: mail/em-folder-view.c:946
 msgid "VFolder on Se_nder"
@@ -13340,30 +13347,30 @@ msgstr ""
 #: mail/em-folder-view.c:1711 mail/em-folder-view.c:1751
 #: mail/mail-config.glade.h:68
 msgid "Default"
-msgstr ""
+msgstr "இயல்பான"
 
 #: mail/em-folder-view.c:1848
 msgid "Print Message"
-msgstr ""
+msgstr "செய்தியை அச்சடி"
 
 #: mail/em-folder-view.c:2109
 msgid "_Copy Link Location"
-msgstr ""
+msgstr "(_C)இணைப்பை நகலெடு"
 
 #: mail/em-folder-view.c:2374
 #, c-format
 msgid "Click to mail %s"
-msgstr ""
+msgstr "%s மின்னஞ்சலுக்கு க்ளிக் செய்யவும்"
 
 #. message-search popup match count string
 #: mail/em-format-html-display.c:410
 #, c-format
 msgid "Matches: %d"
-msgstr ""
+msgstr "பொருத்தம்: %d"
 
 #: mail/em-format-html-display.c:641 mail/em-format-html.c:582
 msgid "Unsigned"
-msgstr ""
+msgstr "கையொப்பமிடாத"
 
 #: mail/em-format-html-display.c:641
 msgid ""
@@ -13373,7 +13380,7 @@ msgstr ""
 
 #: mail/em-format-html-display.c:642 mail/em-format-html.c:583
 msgid "Valid signature"
-msgstr ""
+msgstr "சரியான கையொப்பம்"
 
 #: mail/em-format-html-display.c:642
 msgid ""
@@ -13383,7 +13390,7 @@ msgstr ""
 
 #: mail/em-format-html-display.c:643 mail/em-format-html.c:584
 msgid "Invalid signature"
-msgstr ""
+msgstr "செல்லாத கையொப்பம்"
 
 #: mail/em-format-html-display.c:643
 msgid ""
@@ -13393,7 +13400,7 @@ msgstr ""
 
 #: mail/em-format-html-display.c:644
 msgid "Valid signature, cannot verify sender"
-msgstr ""
+msgstr "சரியான கையொப்பம்  ஆனால் அனுப்பியவரை கண்டுபிடிக்க முடியவில்லை"
 
 #: mail/em-format-html-display.c:644
 msgid ""
@@ -13403,7 +13410,7 @@ msgstr ""
 
 #: mail/em-format-html-display.c:650 mail/em-format-html.c:591
 msgid "Unencrypted"
-msgstr ""
+msgstr "குறிமுறையாக்கப்படாத"
 
 #: mail/em-format-html-display.c:650
 msgid ""
@@ -13413,7 +13420,7 @@ msgstr ""
 
 #: mail/em-format-html-display.c:651 mail/em-format-html.c:592
 msgid "Encrypted, weak"
-msgstr ""
+msgstr "குறிமுறையாக்கப்பட்ட, மோசமான"
 
 #: mail/em-format-html-display.c:651
 msgid ""
@@ -13424,7 +13431,7 @@ msgstr ""
 
 #: mail/em-format-html-display.c:652 mail/em-format-html.c:593
 msgid "Encrypted"
-msgstr ""
+msgstr "குறிமுறையாக்கப்பட்ட"
 
 #: mail/em-format-html-display.c:652
 msgid ""
@@ -13434,7 +13441,7 @@ msgstr ""
 
 #: mail/em-format-html-display.c:653 mail/em-format-html.c:594
 msgid "Encrypted, strong"
-msgstr ""
+msgstr "சரியாக குறிமுறையாக்கப்பட்ட"
 
 #: mail/em-format-html-display.c:653
 msgid ""
@@ -13445,54 +13452,54 @@ msgstr ""
 
 #: mail/em-format-html-display.c:754 smime/gui/smime-ui.glade.h:47
 msgid "_View Certificate"
-msgstr ""
+msgstr "(_V)சான்றிதழை பார்"
 
 #: mail/em-format-html-display.c:769
 msgid "This certificate is not viewable"
-msgstr ""
+msgstr "இந்த சான்றிதழை பார்க்க முடியாது"
 
 #: mail/em-format-html-display.c:1004
 msgid "Completed on %B %d, %Y, %l:%M %p"
-msgstr ""
+msgstr "முடிந்த தேதி %B %d, %Y, %l:%M %p"
 
 #: mail/em-format-html-display.c:1012
 msgid "Overdue:"
-msgstr ""
+msgstr "நிலுவையில்"
 
 #: mail/em-format-html-display.c:1015
 msgid "by %B %d, %Y, %l:%M %p"
-msgstr ""
+msgstr "%B %d, %Y, %l:%M %p"
 
 #: mail/em-format-html-display.c:1054
 msgid "_View Inline"
-msgstr ""
+msgstr "(_V)உள்ளே பார்"
 
 #: mail/em-format-html-display.c:1055
 msgid "_Hide"
-msgstr ""
+msgstr "(_H)மறை"
 
 #: mail/em-format-html-print.c:130
 #, c-format
 msgid "Page %d of %d"
-msgstr ""
+msgstr "பக்கம் %d இல் %d"
 
 #: mail/em-format-html.c:475 mail/em-format-html.c:477
 #, c-format
 msgid "Retrieving `%s'"
-msgstr ""
+msgstr "பெறுகிறது `%s'"
 
 #: mail/em-format-html.c:585
 msgid "Valid signature but cannot verify sender"
-msgstr ""
+msgstr "சரியான கையொப்பம்  ஆனால் அனுப்பியவரை சரிபார்க்க முடியவில்லை"
 
 #: mail/em-format-html.c:848
 msgid "Malformed external-body part."
-msgstr ""
+msgstr "தவறான உள்ளடக்கம்"
 
 #: mail/em-format-html.c:878
 #, c-format
 msgid "Pointer to FTP site (%s)"
-msgstr ""
+msgstr "FTP வலைமனைக்கான (%s) குறி"
 
 #: mail/em-format-html.c:889
 #, c-format
@@ -13516,107 +13523,107 @@ msgstr ""
 
 #: mail/em-format-html.c:1165
 msgid "Formatting message"
-msgstr ""
+msgstr "சரிசெய்யும் செய்தி"
 
 #: mail/em-format-html.c:1441 mail/em-format-quote.c:192 mail/em-format.c:800
 #: mail/em-mailer-prefs.c:82 mail/message-list.etspec.h:7
 #: mail/message-tag-followup.c:325
 msgid "From"
-msgstr ""
+msgstr "அனுப்புநர்"
 
 #: mail/em-format-html.c:1441 mail/em-format-quote.c:192 mail/em-format.c:801
 #: mail/em-mailer-prefs.c:83
 msgid "Reply-To"
-msgstr ""
+msgstr "பதில்-பெறுநர்"
 
 #: mail/em-format-html.c:1441 mail/em-format-quote.c:192 mail/em-format.c:802
 #: mail/em-mailer-prefs.c:84 mail/message-list.etspec.h:14
 msgid "To"
-msgstr ""
+msgstr "பெறுநர்"
 
 #: mail/em-format-html.c:1441 mail/em-format-quote.c:192 mail/em-format.c:803
 #: mail/em-mailer-prefs.c:85
 msgid "Cc"
-msgstr ""
+msgstr "கரிநகல்"
 
 #: mail/em-format-html.c:1441 mail/em-format-quote.c:192 mail/em-format.c:804
 #: mail/em-mailer-prefs.c:86
 msgid "Bcc"
-msgstr ""
+msgstr "மறைநகல்"
 
 #. pseudo-header
 #: mail/em-format-html.c:1554 mail/em-format-quote.c:312
 #: mail/em-mailer-prefs.c:939
 msgid "Mailer"
-msgstr ""
+msgstr "மின்னஞ்சல்"
 
 #. translators: strftime format for local time equivalent in Date header display, with day
 #: mail/em-format-html.c:1581
 msgid "<I> (%a, %R %Z)</I>"
-msgstr ""
+msgstr "<I> (%a, %R %Z)</I>"
 
 #. translators: strftime format for local time equivalent in Date header display, without day
 #: mail/em-format-html.c:1584
 msgid "<I> (%R %Z)</I>"
-msgstr ""
+msgstr "<I> (%R %Z)</I>"
 
 #: mail/em-format-html.c:1594 mail/em-format-quote.c:319 mail/em-format.c:806
 #: mail/em-mailer-prefs.c:88 mail/message-list.etspec.h:2
 msgid "Date"
-msgstr ""
+msgstr "தேதி"
 
 #: mail/em-format-html.c:1617 mail/em-format.c:807 mail/em-mailer-prefs.c:89
 msgid "Newsgroups"
-msgstr ""
+msgstr "செய்தி குழுக்கள்"
 
 #: mail/em-format.c:1056
 #, c-format
 msgid "%s attachment"
-msgstr ""
+msgstr "%s இணைப்புகள்"
 
 #: mail/em-format.c:1095 mail/em-format.c:1228
 msgid "Could not parse S/MIME message: Unknown error"
-msgstr ""
+msgstr "S/MIME செய்தியை பகுக்க முடியவில்லை: தெரியாத பிழை"
 
 #: mail/em-format.c:1218
 msgid "Unsupported encryption type for multipart/encrypted"
-msgstr ""
+msgstr "ஆதரவில்லா குறிமுறை வகை பலவழி/குறிமுறை"
 
 #: mail/em-format.c:1379
 msgid "Could not parse MIME message. Displaying as source."
-msgstr ""
+msgstr "MIME தகவலை பகுக்க முடியாது. நிரலாக காட்டுகிறது"
 
 #: mail/em-format.c:1398
 msgid "Unsupported signature format"
-msgstr ""
+msgstr "ஆதரவு இல்லாத கையொப்பம்"
 
 #: mail/em-format.c:1406
 msgid "Error verifying signature"
-msgstr ""
+msgstr "கையொப்பத்தை சரிபார்க்கும் போது பிழை"
 
 #: mail/em-format.c:1406
 msgid "Unknown error verifying signature"
-msgstr ""
+msgstr "கையொப்பத்தை சரிபார்க்கும் போது  தெரியாத பிழை"
 
 #: mail/em-junk-filter.c:86
 msgid "Spamassassin (built-in)"
-msgstr ""
+msgstr "Spamassassin (built-in)"
 
 #: mail/em-mailer-prefs.c:100
 msgid "Every time"
-msgstr ""
+msgstr "ஒவ்வொரு முறையும்"
 
 #: mail/em-mailer-prefs.c:101
 msgid "Once per day"
-msgstr ""
+msgstr "ஒவ்வொரு நாளும்  ஒரு முறை"
 
 #: mail/em-mailer-prefs.c:102
 msgid "Once per week"
-msgstr ""
+msgstr "வாரம் ஒருமுறை"
 
 #: mail/em-mailer-prefs.c:103
 msgid "Once per month"
-msgstr ""
+msgstr "மாதம் ஒரு முறை"
 
 #: mail/em-migrate.c:1168
 msgid ""
@@ -13629,27 +13636,27 @@ msgstr ""
 #: mail/em-migrate.c:1602
 #, c-format
 msgid "Unable to create new folder `%s': %s"
-msgstr ""
+msgstr "புதிய அடைவை உருவாக்க முடியவில்லை `%s': %s"
 
 #: mail/em-migrate.c:1628
 #, c-format
 msgid "Unable to copy folder `%s' to `%s': %s"
-msgstr ""
+msgstr "அடைவு`%s'ஐ `%s' இல்  நகலெடுக்க முடியவில்லை: %s"
 
 #: mail/em-migrate.c:1813
 #, c-format
 msgid "Unable to scan for existing mailboxes at `%s': %s"
-msgstr ""
+msgstr "ஏற்கெனவே உள்ள மின்னஞ்சல் பெட்டியில் தேட முடியவில்லை %s': %s"
 
 #: mail/em-migrate.c:2017
 #, c-format
 msgid "Unable to open old POP keep-on-server data `%s': %s"
-msgstr ""
+msgstr "பாப் சேவகனில் வைத்த தகவல்களை திறக்க முடியவில்லை`%s': %s"
 
 #: mail/em-migrate.c:2031
 #, c-format
 msgid "Unable to create POP3 keep-on-server data directory `%s': %s"
-msgstr ""
+msgstr "பாப்3 சேவகனில் வைத்த தகவல்களை திறக்க முடியவில்லை`%s': %s"
 
 #: mail/em-migrate.c:2060
 #, c-format
@@ -14259,7 +14266,7 @@ msgstr ""
 #: mail/importers/evolution-outlook-importer.c:257
 #: mail/importers/netscape-importer.c:1253 mail/importers/pine-importer.c:119
 msgid "Please wait"
-msgstr ""
+msgstr "தயவு செய்து காத்திருக்கவும்"
 
 #: mail/importers/elm-importer.c:244
 msgid "Importing Elm data"
@@ -14341,19 +14348,19 @@ msgstr ""
 
 #: mail/importers/netscape-importer.c:1250
 msgid "Evolution is importing your old Netscape data"
-msgstr ""
+msgstr "எவல்யூஷன் பழைய நெட்ஸ்கேப் தகவலை ஏற்றிகிறது "
 
 #: mail/importers/netscape-importer.c:1707
 msgid "Importing Netscape data"
-msgstr ""
+msgstr "நெட்ஸ்கேப் தகவலை ஏற்றுகிறது"
 
 #: mail/importers/netscape-importer.c:1907
 msgid "Settings"
-msgstr ""
+msgstr "அமைப்புகள்"
 
 #: mail/importers/netscape-importer.c:1912
 msgid "Mail Filters"
-msgstr ""
+msgstr "மின்னஞ்சல் வடிகட்டி"
 
 #: mail/importers/netscape-importer.c:1933
 msgid ""
@@ -14363,7 +14370,7 @@ msgstr ""
 
 #: mail/importers/pine-importer.c:116
 msgid "Evolution is importing your old Pine data"
-msgstr ""
+msgstr "எவல்யூஷன் பழைய பைன் தகவல்களை ஏற்றுகிறது"
 
 #: mail/importers/pine-importer.c:314
 msgid "Importing Pine data"
@@ -14371,7 +14378,7 @@ msgstr ""
 
 #: mail/importers/pine-importer.c:479
 msgid "Addressbook"
-msgstr ""
+msgstr "முகவரி புத்தகம்"
 
 #: mail/importers/pine-importer.c:498
 msgid ""
@@ -14381,12 +14388,12 @@ msgstr ""
 
 #: mail/importers/pine-importer.c:506
 msgid "Pine"
-msgstr ""
+msgstr "பைன்"
 
 #. give our dialog an OK button and title
 #: mail/mail-account-editor.c:155
 msgid "Evolution Account Editor"
-msgstr ""
+msgstr "எவயூஷன் கணக்கு தொகுப்பி"
 
 #: mail/mail-account-gui.c:246
 #, c-format
@@ -14400,43 +14407,43 @@ msgstr ""
 #: mail/mail-account-gui.c:252
 #, c-format
 msgid "%s License Agreement"
-msgstr ""
+msgstr "%s ஒப்பந்தப்பத்திரம்"
 
 #: mail/mail-account-gui.c:957 mail/mail-config.glade.h:167
 msgid "_Host:"
-msgstr ""
+msgstr "(_H)புரவலன்"
 
 #: mail/mail-account-gui.c:961 mail/mail-config.glade.h:151
 msgid "User_name:"
-msgstr ""
+msgstr "(_n)பயனீட்டாளர் பெயர்"
 
 #: mail/mail-account-gui.c:965 mail/mail-config.glade.h:173
 msgid "_Path:"
-msgstr ""
+msgstr "(_P)பாதை"
 
 #: mail/mail-autofilter.c:74
 #, c-format
 msgid "Mail to %s"
-msgstr ""
+msgstr "%s பெறுரநர்"
 
 #: mail/mail-autofilter.c:238
 #, c-format
 msgid "Subject is %s"
-msgstr ""
+msgstr "%s தலைப்பு"
 
 #: mail/mail-autofilter.c:254
 #, c-format
 msgid "Mail from %s"
-msgstr ""
+msgstr "%s மின்னஞ்சல் அனுப்பியவர்"
 
 #: mail/mail-autofilter.c:271
 #, c-format
 msgid "%s mailing list"
-msgstr ""
+msgstr "%s மின்னஞ்சல் பட்டியல்"
 
 #: mail/mail-autofilter.c:326
 msgid "Add Filter Rule"
-msgstr ""
+msgstr "வடிகட்டி விதிமுறையை சேர்"
 
 #: mail/mail-component.c:459
 #, c-format
@@ -14489,35 +14496,35 @@ msgstr[1] ""
 
 #: mail/mail-component.c:659
 msgid "New Mail Message"
-msgstr ""
+msgstr "புதிய மின்னஞ்சல் செய்தி"
 
 #: mail/mail-component.c:660
 msgid "_Mail Message"
-msgstr ""
+msgstr "(_M)மின்னஞ்சல் செய்தி"
 
 #: mail/mail-component.c:661
 msgid "Compose a new mail message"
-msgstr ""
+msgstr "புதிய மின்னஞ்சல் செய்தியை தொகு"
 
 #: mail/mail-component.c:667
 msgid "New Mail Folder"
-msgstr ""
+msgstr "புதிய மின்னஞ்சல் அடைவு"
 
 #: mail/mail-component.c:668
 msgid "Mail _Folder"
-msgstr ""
+msgstr "(_F)மின்னஞ்சல் அடைவு"
 
 #: mail/mail-component.c:669
 msgid "Create a new mail folder"
-msgstr ""
+msgstr "புதிய மின்னஞ்சல் அடைவை உருவாக்கு"
 
 #: mail/mail-component.c:801
 msgid "Failed upgrading Mail settings or folders."
-msgstr ""
+msgstr "மின்னஞ்சல் அமைப்புகள் அடைவை மேம்படுத்துதல் தோல்வியுற்றது"
 
 #: mail/mail-config-druid.c:362 mail/mail-config.glade.h:92
 msgid "Identity"
-msgstr ""
+msgstr "உறுப்பினர்கள்"
 
 #: mail/mail-config-druid.c:364
 msgid ""
@@ -14529,7 +14536,7 @@ msgstr ""
 #: mail/mail-config-druid.c:370 mail/mail-config-druid.c:377
 #: mail/mail-config.glade.h:119
 msgid "Receiving Mail"
-msgstr ""
+msgstr "உள்வரும் மின்னஞ்சல்கள்"
 
 #: mail/mail-config-druid.c:372
 msgid ""
@@ -14539,11 +14546,11 @@ msgstr ""
 
 #: mail/mail-config-druid.c:379
 msgid "Please select among the following options"
-msgstr ""
+msgstr "கீழுள்ள தேர்வுகளை ஒன்றை தேர்வு செய்யவும்"
 
 #: mail/mail-config-druid.c:382 mail/mail-config.glade.h:131
 msgid "Sending Mail"
-msgstr ""
+msgstr "மின்னஞ்சல் அனுப்புகிறது"
 
 #: mail/mail-config-druid.c:384
 msgid ""
@@ -14553,7 +14560,7 @@ msgstr ""
 
 #: mail/mail-config-druid.c:389 mail/mail-config.glade.h:37
 msgid "Account Management"
-msgstr ""
+msgstr "கணக்கு மேலாண்மை"
 
 #: mail/mail-config-druid.c:391
 msgid ""
@@ -14566,11 +14573,11 @@ msgstr ""
 
 #: mail/mail-config.c:895
 msgid "Checking Service"
-msgstr ""
+msgstr "சேவைகளை சோதிக்கிறது"
 
 #: mail/mail-config.c:973 mail/mail-config.c:977
 msgid "Connecting to server..."
-msgstr ""
+msgstr "சேவனுடன் இணைகிறது"
 
 #: mail/mail-config.glade.h:1 mail/mail-dialogs.glade.h:5
 msgid "    "
@@ -14578,23 +14585,24 @@ msgstr ""
 
 #: mail/mail-config.glade.h:2
 msgid " Ch_eck for Supported Types "
-msgstr ""
+msgstr "(_e)ஆதரவுள்ள வகைகளை சோதிக்கவும்"
 
 #: mail/mail-config.glade.h:5
 msgid "<b>SSL is not supported in this build of evolution</b>"
-msgstr ""
+msgstr "<b>இந்த எவல்யூஷன் பதிப்பில் SSL ஆதரவு இல்லை"
 
 #: mail/mail-config.glade.h:6
 msgid "<b>S_ignatures</b>"
-msgstr ""
+msgstr "<b>(_i)கையொப்பங்கள்</b>"
 
 #: mail/mail-config.glade.h:7
 msgid "<b>_Languages</b>"
-msgstr ""
+msgstr "<b>(_L)மொழிகள்</b>"
 
 #: mail/mail-config.glade.h:8
 msgid "<small>This will make the the filter more reliable, but slower</small>"
-msgstr ""
+msgstr "<small>இது துல்லியமாக செய்தியை வடிகட்ட பயன்படும் ஆனால் மெதுவாக செயல்படும்</small>"
+
 
 #: mail/mail-config.glade.h:9
 msgid "<span weight=\"bold\">Account Information</span>"
@@ -14610,191 +14618,191 @@ msgstr ""
 
 #: mail/mail-config.glade.h:12
 msgid "<span weight=\"bold\">Authentication</span>"
-msgstr ""
+msgstr "<span weight=\"bold\">அனுமதி</span>"
 
 #: mail/mail-config.glade.h:13
 msgid "<span weight=\"bold\">Checking for New Mail</span>"
-msgstr ""
+msgstr "<span weight=\"bold\">புதிய மின்னஞ்சல் உள்ளதா என சோதிக்கிறது</span>"
 
 #: mail/mail-config.glade.h:14
 msgid "<span weight=\"bold\">Composing Messages</span>"
-msgstr ""
+msgstr "<span weight=\"bold\">செய்தியை தொகுக்கிறது</span>"
 
 #: mail/mail-config.glade.h:15
 msgid "<span weight=\"bold\">Configuration</span>"
-msgstr ""
+msgstr "<span weight=\"bold\">அமைப்பு</span>"
 
 #: mail/mail-config.glade.h:16
 msgid "<span weight=\"bold\">Default Behavior</span>"
-msgstr ""
+msgstr "<span weight=\"bold\">பொதுவான நடத்தை</span>"
 
 #: mail/mail-config.glade.h:17
 msgid "<span weight=\"bold\">Delete Mail</span>"
-msgstr ""
+msgstr "<span weight=\"bold\">மின்னஞ்சலை நீக்கு</span>"
 
 #: mail/mail-config.glade.h:18
 msgid "<span weight=\"bold\">Displayed Mail _Headers</span>"
-msgstr ""
+msgstr "<span weight=\"bold\">(_H)மின்னஞ்சல் தலைப்பை காட்டு</span>"
 
 #: mail/mail-config.glade.h:19
 msgid "<span weight=\"bold\">Filter Options</span>"
-msgstr ""
+msgstr "<span weight=\"bold\">வடிகட்டி தேர்வுகள்</span>"
 
 #: mail/mail-config.glade.h:20
 msgid "<span weight=\"bold\">General</span>"
-msgstr ""
+msgstr "<span weight=\"bold\">பொதுவான</span>"
 
 #: mail/mail-config.glade.h:21
 msgid "<span weight=\"bold\">Labels and Colors</span>"
-msgstr ""
+msgstr "<span weight=\"bold\">அடையாளம் மற்றும் நிறங்கள்</span>"
 
 #: mail/mail-config.glade.h:22
 msgid "<span weight=\"bold\">Loading Images</span>"
-msgstr ""
+msgstr "<span weight=\"bold\">சித்திரங்களை ஏற்றுகிறது</span>"
 
 #: mail/mail-config.glade.h:23
 msgid "<span weight=\"bold\">Message Display</span>"
-msgstr ""
+msgstr "<span weight=\"bold\">செய்தி காட்சி</span>"
 
 #: mail/mail-config.glade.h:24
 msgid "<span weight=\"bold\">Message Fonts</span>"
-msgstr ""
+msgstr "<span weight=\"bold\">செய்தி எழுத்துரு</span>"
 
 #: mail/mail-config.glade.h:25
 msgid "<span weight=\"bold\">New Mail Notification</span>"
-msgstr ""
+msgstr "<span weight=\"bold\">புதிய மின்னஞ்சல் அறிவிப்பு</span>"
 
 #: mail/mail-config.glade.h:26
 msgid "<span weight=\"bold\">Optional Information</span>"
-msgstr ""
+msgstr "<span weight=\"bold\">அவசியமற்ற தகவல்</span>"
 
 #: mail/mail-config.glade.h:27
 msgid "<span weight=\"bold\">Options</span>"
-msgstr ""
+msgstr "<span weight=\"bold\">தேர்வுகள்</span>"
 
 #: mail/mail-config.glade.h:28
 msgid "<span weight=\"bold\">Pretty Good Privacy (PGP/GPG)</span>"
-msgstr ""
+msgstr "<span weight=\"bold\">நல்ல பாதுகாப்பு (PGP/GPG)</span>"
 
 #: mail/mail-config.glade.h:29
 msgid "<span weight=\"bold\">Printed Fonts</span>"
-msgstr ""
+msgstr "<span weight=\"bold\">அச்சடிக்கபப்ட்ட எழுத்துரு</span>"
 
 #: mail/mail-config.glade.h:30
 msgid "<span weight=\"bold\">Required Information</span>"
-msgstr ""
+msgstr "<span weight=\"bold\">தேவையான தகவல்</span>"
 
 #: mail/mail-config.glade.h:31
 msgid "<span weight=\"bold\">Secure MIME (S/MIME)</span>"
-msgstr ""
+msgstr "<span weight=\"bold\">பாதுகாப்பான MIME (S/MIME)</span>"
 
 #: mail/mail-config.glade.h:32
 msgid "<span weight=\"bold\">Security</span>"
-msgstr ""
+msgstr "<span weight=\"bold\">பாதுகாப்பு</span>"
 
 #: mail/mail-config.glade.h:33
 msgid "<span weight=\"bold\">Sent and Draft Messages</span>"
-msgstr ""
+msgstr "<span weight=\"bold\">அனுப்பிய மற்றும் வரைவு செய்திகள்</span>"
 
 #: mail/mail-config.glade.h:34
 msgid "<span weight=\"bold\">Server Configuration</span>"
-msgstr ""
+msgstr "<span weight=\"bold\">சேவகன் அமைப்பு</span>"
 
 #: mail/mail-config.glade.h:35
 msgid "A_lso encrypt to self when sending encrypted mail"
-msgstr ""
+msgstr "(_l) குறிமுறையாக்க மின்னஞ்சல்களை அனுப்பும் போது தானே குறியாக்கிக்கொள்"
 
 #: mail/mail-config.glade.h:36
 msgid "Account Editor"
-msgstr ""
+msgstr "கணக்கு தொகுப்பி"
 
 #: mail/mail-config.glade.h:38
 msgid "Add Ne_w Signature..."
-msgstr ""
+msgstr "(_w)புதிய கையொப்பத்தை சேர்"
 
 #: mail/mail-config.glade.h:39
 msgid "Add _Script"
-msgstr ""
+msgstr "(_S)சிறு நிரலை சேர்"
 
 #: mail/mail-config.glade.h:40
 msgid "Al_ways encrypt to myself when sending encrypted mail"
-msgstr ""
+msgstr "(_w)எப்போதும் என் மின்னஞ்சல்களை அனுப்பும் போது குறிமுறையாக்கி அனுப்பு"
 
 #: mail/mail-config.glade.h:41
 msgid "Alway_s carbon-copy (cc) to:"
-msgstr ""
+msgstr "(_s) எப்போதும் கரிநகல் அனுப்பு:"
 
 #: mail/mail-config.glade.h:43
 msgid "Always _blind carbon-copy (bcc) to:"
-msgstr ""
+msgstr "எப்போது (_b) க்கு மறைநகல் அனுப்பு:"
 
 #: mail/mail-config.glade.h:44
 msgid "Always _sign outgoing messages when using this account"
-msgstr ""
+msgstr "(_s)இந்த கணக்கை பயன்படுத்தி வெளி செல்லும் செய்திகளுக்கு கையொப்பமிடு"
 
 #: mail/mail-config.glade.h:45
 msgid "Always _trust keys in my keyring when encrypting"
-msgstr ""
+msgstr "(_t) வலையில் உள்ள விசைகளை குறிமுறையாக்கத்தின் போது பயன்படுத்து."
 
 #: mail/mail-config.glade.h:46
 msgid "Attach original message"
-msgstr ""
+msgstr "உண்மையான செய்தியை இணை"
 
 #: mail/mail-config.glade.h:47 mail/message-list.etspec.h:1
 msgid "Attachment"
-msgstr ""
+msgstr "இணைப்புகள்"
 
 #: mail/mail-config.glade.h:48
 msgid "Automatically _insert smiley images"
-msgstr ""
+msgstr "(_i)தானாக சிரிப்பு முகங்களை செருகு"
 
 #: mail/mail-config.glade.h:49
 msgid "Automatically check for _new mail every"
-msgstr ""
+msgstr "(_n)புதிய மின்னஞ்சல்களை கால இடைவெளிக்குள் தானாக சோதி"
 
 #: mail/mail-config.glade.h:50
 msgid "Baltic (ISO-8859-13)"
-msgstr ""
+msgstr "பால்டிக் (ISO-8859-13)"
 
 #: mail/mail-config.glade.h:51
 msgid "Baltic (ISO-8859-4)"
-msgstr ""
+msgstr "பால்டிக் (ISO-8859-4)"
 
 #: mail/mail-config.glade.h:52
 msgid "Beep w_hen new mail arrives"
-msgstr ""
+msgstr "(_h)புதிய மின்னஞ்சல் வரும்போது ஒலி எழுப்பு"
 
 #: mail/mail-config.glade.h:53
 msgid "C_haracter set:"
-msgstr ""
+msgstr "(_h)எழுத்துரு வகை:"
 
 #: mail/mail-config.glade.h:54
 msgid "Ch_eck for Supported Types "
-msgstr ""
+msgstr "(_e)ஆதரவுள்ள வகைகளை சோதி"
 
 #: mail/mail-config.glade.h:55
 msgid "Check _incoming mail for junk"
-msgstr ""
+msgstr "(_i)தேவையற்ற மின்னஞ்சல்களை சோதி"
 
 #: mail/mail-config.glade.h:56
 msgid "Check spelling while I _type"
-msgstr ""
+msgstr "(_t)தட்டச்சு செய்யும் போதே சொல்பிழை உள்ளதா என சோதி"
 
 #: mail/mail-config.glade.h:57
 msgid "Checks incoming mail messages to be Junk"
-msgstr ""
+msgstr "தேவையற்ற மின்னஞ்சல்களை சோதி"
 
 #: mail/mail-config.glade.h:58
 msgid "Color for _misspelled words:"
-msgstr ""
+msgstr "(_m)பிழையுள்ள வார்த்தைகளின் நிறம்:"
 
 #: mail/mail-config.glade.h:59
 msgid "Colors"
-msgstr ""
+msgstr "நிறங்கள்"
 
 #: mail/mail-config.glade.h:60
 msgid "Confirm _when expunging a folder"
-msgstr ""
+msgstr "(_w)அடைவு முழுமையாக நீக்கப்படும் போது நினைவூட்டு"
 
 #: mail/mail-config.glade.h:61
 msgid ""
@@ -14805,240 +14813,246 @@ msgid ""
 "\n"
 "Click \"Apply\" to save your settings."
 msgstr ""
+"வாழ்த்துக்கள் உங்கள் மின்னஞ்சல் அமைப்பு வெற்றிகரமாக முடிந்தது\n"
+"\n"
+"இனி நீங்கள் எவல்யூஷனை பயன்படுத்தி மின்னஞ்சலை\n"
+"அனுப்ப பெற முடியும்\n"
+"\n"
+"\"செயல்படுத்து\" என்பதை க்ளிக் செய்து சேமிக்கவும்"
 
 #: mail/mail-config.glade.h:67
 msgid "De_fault"
-msgstr ""
+msgstr "(_f)இயல்பான"
 
 #: mail/mail-config.glade.h:69
 msgid "Default character e_ncoding:"
-msgstr ""
+msgstr "(_n)இயல்பான எழுத்துரு குறியீட்டு முறை"
 
 #: mail/mail-config.glade.h:70
 msgid "Defaults"
-msgstr ""
+msgstr "இயல்பானவைகள்"
 
 #: mail/mail-config.glade.h:72
 msgid "Do not quote original message"
-msgstr ""
+msgstr "உண்மையான செய்தியை எடுத்துக்காட்டாதே"
 
 #: mail/mail-config.glade.h:73
 msgid "Don't sign _meeting requests (for Outlook compatibility)"
-msgstr ""
+msgstr "(_m)கூட்டம் பற்றிய கோரிக்கைக்கு கையொப்பம் தேவை இல்லை(அவுட்லுக்கில் வேலை செய்வதற்காக)"
 
 #: mail/mail-config.glade.h:74 shell/evolution-startup-wizard.glade.h:1
 msgid "Done"
-msgstr ""
+msgstr "முடிந்தது"
 
 #: mail/mail-config.glade.h:75
 msgid "Drafts _Folder:"
-msgstr ""
+msgstr "(_F)வரைவு அடைவு:"
 
 #: mail/mail-config.glade.h:77
 msgid "Email Accounts"
-msgstr ""
+msgstr "மின்னஞ்சல் முகவரிகள்"
 
 #: mail/mail-config.glade.h:78
 msgid "Email _Address:"
-msgstr ""
+msgstr "(_A)மின்னஞ்சல் முகவரிகள்:"
 
 #: mail/mail-config.glade.h:79
 msgid "Empty trash folders on e_xit"
-msgstr ""
+msgstr "(_x)வெளியேறும் போது குப்பை தொட்டி அடைவை காலி செய்"
 
 #: mail/mail-config.glade.h:80
 msgid "Encry_ption certificate:"
-msgstr ""
+msgstr "(_p)குறிமுறையாக்க சான்றிதழ்:"
 
 #: mail/mail-config.glade.h:81
 msgid "Evolution Account Assistant"
-msgstr ""
+msgstr "எவல்யூஷன் கணக்கு உதவி"
 
 #: mail/mail-config.glade.h:82
 msgid "Execute Command..."
-msgstr ""
+msgstr "கட்டளையை இயக்கு...."
 
 #: mail/mail-config.glade.h:83
 msgid "Fi_xed-width:"
-msgstr ""
+msgstr "(_x)நிலையான அகலம்:"
 
 #: mail/mail-config.glade.h:84
 msgid "Font Properties"
-msgstr ""
+msgstr "எழுத்துரு பண்புகள்"
 
 #: mail/mail-config.glade.h:85
 msgid "Format messages in _HTML"
-msgstr ""
+msgstr "(_H)செய்திகளை HTML மின்னஞ்சலாக அமை"
 
 #: mail/mail-config.glade.h:87
 msgid "HTML Mail"
-msgstr ""
+msgstr "HTML மின்னஞ்சல்"
 
 #: mail/mail-config.glade.h:88
 msgid "Headers"
-msgstr ""
+msgstr "தலைப்புகள்"
 
 #: mail/mail-config.glade.h:89
 msgid "Highlight _quotations with"
-msgstr ""
+msgstr "(_q)குறிப்பிட்டவைகலை தனிப்படுத்தி காட்டு"
 
 #: mail/mail-config.glade.h:90
 msgid "IMAPv4 "
-msgstr ""
+msgstr "IMAPv4 "
 
 #: mail/mail-config.glade.h:91
 msgid "I_nclude remote tests"
-msgstr ""
+msgstr "(_n)தொலை சோதனையை சேர்"
 
 #: mail/mail-config.glade.h:94
 msgid "Inline"
-msgstr ""
+msgstr "உள்ளே"
 
 #: mail/mail-config.glade.h:96
 msgid "Kerberos "
-msgstr ""
+msgstr "கர்ப்ரோஸ்"
 
 #: mail/mail-config.glade.h:98
 msgid "Mail Configuration"
-msgstr ""
+msgstr "மின்னஞ்சல் அமைப்பு"
 
 #: mail/mail-config.glade.h:100
 msgid "Mailbox location"
-msgstr ""
+msgstr "மின்னஞ்சல் பெட்டி இருக்குமிடம்"
 
 #: mail/mail-config.glade.h:101
 msgid "Message Composer"
-msgstr ""
+msgstr "செய்தி தொகுப்பி"
 
 #: mail/mail-config.glade.h:104
 msgid ""
 "Note: you will not be prompted for a password until you connect for the "
 "first time"
-msgstr ""
+msgstr "குறிப்பு: முதல் முறை இணைக்கப்படும் போது கடவுச்சொல் கேட்கும்."
 
 #: mail/mail-config.glade.h:105
 msgid "Or_ganization:"
-msgstr ""
+msgstr "(_g)நிறுவனம்:"
 
 #: mail/mail-config.glade.h:106
 msgid "PGP/GPG _Key ID:"
-msgstr ""
+msgstr "PGP/GPG (_K)விசை அடையாளம்:"
 
 #: mail/mail-config.glade.h:111
 msgid "Play sound file when new mail arri_ves"
-msgstr ""
+msgstr "(_v) புதிய மின்னஞ்சல் வரும் போது ஒலிக்கோப்பை இயக்கு"
 
 #: mail/mail-config.glade.h:112
 msgid "Pr_ompt when sending messages with only Bcc recipients defined"
-msgstr ""
+msgstr "(_o)கரிநகலாக மட்டும் மின்னஞ்சல் அனுப்பபடும் போது நினைவூட்டு"
 
 #: mail/mail-config.glade.h:113
 msgid "Qmail maildir "
-msgstr ""
+msgstr "Qmail maildir "
 
 #: mail/mail-config.glade.h:114
 msgid "Quote original message"
-msgstr ""
+msgstr "குறிப்பிடப்பட்ட உண்மையான செய்தி"
 
 #: mail/mail-config.glade.h:115
 msgid "Quoted"
-msgstr ""
+msgstr "குறிப்பிடப்பட்ட"
 
 #: mail/mail-config.glade.h:116
 msgid "Re_member password"
-msgstr ""
+msgstr "(_m)கடவுச்சொல்லை நினைவில் கொள்"
 
 #: mail/mail-config.glade.h:117
 msgid "Re_ply-To:"
-msgstr ""
+msgstr "(_p)பதில் தருக:"
 
 #: mail/mail-config.glade.h:118
 msgid "Receiving Email"
-msgstr ""
+msgstr "மின்னஞ்சல் பெறப்படுகிறது"
 
 #: mail/mail-config.glade.h:120
 msgid "Receiving Options"
-msgstr ""
+msgstr "பெறும் தேர்வுகள்"
 
 #: mail/mail-config.glade.h:121
 msgid "Remember _password"
-msgstr ""
+msgstr "(_p)கடவுச்சொல்லை நினைவில் கொள்"
 
 #: mail/mail-config.glade.h:123
 msgid "S_tandard Font:"
-msgstr ""
+msgstr "(_t)நிலையான எழுத்துரு"
 
 #: mail/mail-config.glade.h:124
 msgid "Security"
-msgstr ""
+msgstr "பாதுகாப்பு"
 
 #: mail/mail-config.glade.h:125
 msgid "Select HTML fixed width font"
-msgstr ""
+msgstr "HTML நிலையான அகலமுள்ள எழுத்துருவை தேர்வு செய்"
 
 #: mail/mail-config.glade.h:126
 msgid "Select HTML fixed width font for printing"
-msgstr ""
+msgstr "HTML நிலையான அகலமுள்ள எழுத்துருவை அச்சடிப்பதற்காக தேர்வு செய்"
 
 #: mail/mail-config.glade.h:127
 msgid "Select HTML variable width font"
-msgstr ""
+msgstr "HTML அகலம் மாறும் எழுத்துருவை தேர்வு செய்"
 
 #: mail/mail-config.glade.h:128
 msgid "Select HTML variable width font for printing"
-msgstr ""
+msgstr "HTML அகலம் மாறும் எழுத்துருவை அச்சடிப்பதற்காக தேர்வு செய்"
 
 #: mail/mail-config.glade.h:129
 msgid "Select..."
-msgstr ""
+msgstr "தேர்வு செய்..."
 
 #: mail/mail-config.glade.h:130
 msgid "Sending Email"
-msgstr ""
+msgstr "மின்னஞ்சல் அனுப்பப்படுகிறது"
 
 #: mail/mail-config.glade.h:133
 msgid "Sent _Messages Folder:"
-msgstr ""
+msgstr "(_M)அனுப்பப்பட்ட செய்தி உள்ள அடைவு:"
 
 #: mail/mail-config.glade.h:134
 msgid "Ser_ver requires authentication"
-msgstr ""
+msgstr "(_v)சேவகனை அணுக அனுமதி தேவை"
 
 #: mail/mail-config.glade.h:135
 msgid "Server _Type: "
-msgstr ""
+msgstr "(_T)சேவகன் வகை:"
 
 #: mail/mail-config.glade.h:136
 msgid "Si_gning certificate:"
-msgstr ""
+msgstr "(_g)சான்றிதழுக்கு கையொப்பமிடுகிறது:"
 
 #: mail/mail-config.glade.h:137
 msgid "Signat_ure:"
-msgstr ""
+msgstr "(_u)கையொப்பம்"
 
 #: mail/mail-config.glade.h:138
 msgid "Signatures"
-msgstr ""
+msgstr "கையொப்பம்"
 
 #: mail/mail-config.glade.h:139
 msgid "Specify _filename:"
-msgstr ""
+msgstr "(_f)கோப்பின் பெயரை உள்ளிடவும்"
 
 #: mail/mail-config.glade.h:140
 msgid "Spell Checking"
-msgstr ""
+msgstr "எழுத்து பிழை திருத்தம்"
 
 #: mail/mail-config.glade.h:141
 msgid "Standard Unix mbox"
-msgstr ""
+msgstr "நிலையான யூனிக்ஸ் mbox"
 
 #: mail/mail-config.glade.h:142
 msgid "T_erminal Font:"
-msgstr ""
+msgstr "(_e)முனைய எழுத்துரு:"
 
 #: mail/mail-config.glade.h:143
 msgid "T_ype: "
-msgstr ""
+msgstr "(_y)வகை"
 
 #: mail/mail-config.glade.h:144
 msgid ""
@@ -15046,23 +15060,28 @@ msgid ""
 "signature. The name you specify will be used\n"
 "for display purposes only. "
 msgstr ""
+"இந்த நிரலின் விளைவு உங்கள்\n"
+"கையொப்பமாக கொள்ளப்படும். இதில் குறிப்பிடும் பெயர்\n"
+"உங்கள் பெயராக காட்டப்படும்."
 
 #: mail/mail-config.glade.h:147
 msgid ""
 "This page allows you to configure spell checking behavior and language. The "
 "list of languages here reflects only the languages for which you have a "
 "dictionary installed."
-msgstr ""
+msgstr "இந்த பக்கம் பிழை திருத்தி மற்றும் மொழி அமைப்புக்கு பயன்படும். இந்த பட்டியலில் உள்ள மொழிகளுக்கான அகராதி நிறுவப்பட்டுவிட்டது என்பதை குறிக்கும்,"
 
 #: mail/mail-config.glade.h:149
 msgid ""
 "Type the name by which you would like to refer to this account.\n"
 "For example: \"Work\" or \"Personal\""
 msgstr ""
+"இந்த கணக்குக்கு என்ன பெயரிடவிருப்புகிறீர்கள் என்பதை உள்ளிடவும் "
+"உதாரணமாக \"வேலை\" அல்லது \"தனிப்பட்ட\""
 
 #: mail/mail-config.glade.h:152
 msgid "V_ariable-width:"
-msgstr ""
+msgstr "(_a)மாற்று-அகலம்"
 
 #: mail/mail-config.glade.h:153
 msgid ""
@@ -15070,86 +15089,89 @@ msgid ""
 "\n"
 "Click \"Forward\" to begin. "
 msgstr ""
+"எவல்யூஷன் மின்னஞ்சல் அமைப்பு உதவி உங்களை வரவேற்கிறது\n"
+"\n"
+"\"அடுத்து\" என்பதை க்ளிக் செய்து துவங்கவும்."
 
 #: mail/mail-config.glade.h:158
 msgid "_Add Signature"
-msgstr ""
+msgstr "(_A)கையொப்பத்தை சேர்"
 
 #: mail/mail-config.glade.h:159
 msgid "_Always load images from the Internet"
-msgstr ""
+msgstr "(_A)இணையத்திலிருந்து படங்களை பெற்றுக்கொள்"
 
 #: mail/mail-config.glade.h:160
 msgid "_Digitally sign outgoing messages (by default)"
-msgstr ""
+msgstr "(_D)வெளி செல்லும் செய்திகளுக்கு டிஜிடல் முறையில் கையொப்பமிடு(இயல்பாக)"
 
 #: mail/mail-config.glade.h:161
 msgid "_Do not notify me when new mail arrives"
-msgstr ""
+msgstr "(_D)புதிய மின்னஞ்சல் வந்தால் எனக்கு தெரியப்படுத்த வேண்டாம்"
 
 #: mail/mail-config.glade.h:163
 msgid "_Enable"
-msgstr ""
+msgstr "(_E)செயல்படுத்து"
 
 #: mail/mail-config.glade.h:164
 msgid "_Encrypt outgoing messages (by default)"
-msgstr ""
+msgstr "(_E)வெளி செல்லும் செய்திகளை குறிமுறையாக்கு(இயல்பாக)"
 
 #: mail/mail-config.glade.h:165
 msgid "_Forward style:"
-msgstr ""
+msgstr "(_F)முன் அனுப்பும் பாணி:"
 
 #: mail/mail-config.glade.h:168
 msgid "_Load images if sender is in address book"
-msgstr ""
+msgstr "(_L)அனுப்பியவர் முகவரி புத்தகத்தில் இருந்தால் மட்டும் சித்திரங்களை பெற்றுக்கொள்ளவும்"
 
 #: mail/mail-config.glade.h:169
 msgid "_Make this my default account"
-msgstr ""
+msgstr "(_M)இதை இயல்பான கணக்காக குறிக்கவும்"
 
 #: mail/mail-config.glade.h:170
 msgid "_Mark messages as read after"
-msgstr ""
+msgstr "(_M) பிறகு படி என குறிக்கவும்"
 
 #: mail/mail-config.glade.h:172
 msgid "_Never load images from the Internet"
-msgstr ""
+msgstr "(_N)எப்போதும் இணையத்திலிருந்து படங்களை ஏற்றாதே"
 
 #: mail/mail-config.glade.h:174
 msgid "_Prompt when sending HTML messages to contacts that don't want them"
-msgstr ""
+msgstr "(_P) HTML செய்தி தேவை இல்லை என்பர்களுக்கு அவ்வாறு அனுப்பினால் நினைவூட்டு"
 
 #: mail/mail-config.glade.h:175
 msgid "_Prompt when sending messages with an empty subject line"
-msgstr ""
+msgstr "(_P)தலைப்பில்லாமல் செய்தி அனுப்பினால் நினைவூட்டு"
 
 #: mail/mail-config.glade.h:176
 msgid "_Reply style:"
-msgstr ""
+msgstr "(_R)பதில் பாணி:"
 
 #: mail/mail-config.glade.h:177
 msgid "_Script:"
-msgstr ""
+msgstr "(_S)சிறுநிரல்:"
 
 #: mail/mail-config.glade.h:178
 msgid "_Show animated images"
-msgstr ""
+msgstr "(S)இயக்கதிலுள்ள சித்திரத்தை காட்டு."
 
 #: mail/mail-config.glade.h:179
 msgid "_Use Secure Connection (SSL):"
-msgstr ""
+msgstr "(_U)பாதுகாப்பான (SSL) இணைப்பை பயன்படுத்து"
 
 #: mail/mail-config.glade.h:180
 msgid "_Use the same fonts as other applications"
-msgstr ""
+msgstr "(_U)மற்ற பயன்பாடுகள் பயன்படுத்தும் எழுத்துருவையே பயன்படுத்து"
 
 #: mail/mail-config.glade.h:181
 msgid "color"
-msgstr ""
+msgstr "நிறம்"
 
 #: mail/mail-config.glade.h:182
 msgid "description"
-msgstr ""
+msgstr "விளக்கம்"
 
 #: mail/mail-dialogs.glade.h:1
 msgid ""
@@ -15157,134 +15179,139 @@ msgid ""
 " Please read carefully the license agreement displayed\n"
 " below and tick the check box for accepting it\n"
 msgstr ""
+"\n"
+"காட்டப்பட்ட ஒப்பந்த பத்திரத்தை கவனமாக படிக்கவும்\n"
+"பிறகு ப்ரிசோதனை பெட்டியில் குறியிட்டு ஒப்பந்தத்தை ஏற்கவும்\n"
 
 #: mail/mail-dialogs.glade.h:7
 msgid "<b>vFolder Sources</b>"
-msgstr ""
+msgstr "<b>vஅடைவு மூலங்கள்</b>"
 
 #: mail/mail-dialogs.glade.h:8
 msgid "<span weight=\"bold\">Digital Signature</span>"
-msgstr ""
+msgstr "<span weight=\"bold\">டிஜிடல் கையொப்பம்</span>"
 
 #: mail/mail-dialogs.glade.h:9
 msgid "<span weight=\"bold\">Encryption</span>"
-msgstr ""
+msgstr "<span weight=\"bold\">குறிமுறையாக்கம்</span>"
 
 #: mail/mail-dialogs.glade.h:10
 msgid "Accept License"
-msgstr ""
+msgstr "ஒப்பந்ததை ஏற்றுக்கொள்"
 
 #: mail/mail-dialogs.glade.h:11 mail/message-tags.glade.h:2
 msgid "C_ompleted"
-msgstr ""
+msgstr "(_o)முடிந்தது"
 
 #: mail/mail-dialogs.glade.h:12
 msgid "Case Sensitive"
-msgstr ""
+msgstr "பெரிய/சிறிய எழுத்துகளை மாற்றி உணர்"
 
 #: mail/mail-dialogs.glade.h:14
 msgid "Find in Message"
-msgstr ""
+msgstr "செய்தியில் கண்டுபிடி"
 
 #: mail/mail-dialogs.glade.h:15
 msgid "Find:"
-msgstr ""
+msgstr "கண்டுபிடி:"
 
 #: mail/mail-dialogs.glade.h:16 mail/message-tag-followup.c:294
 #: mail/message-tags.glade.h:3
 msgid "Flag to Follow Up"
-msgstr ""
+msgstr "தொடர்வதற்காக குறியிடு"
 
 #: mail/mail-dialogs.glade.h:17
 msgid "Folder Subscriptions"
-msgstr ""
+msgstr "அடைவு உறுப்பினர்கள்"
 
 #: mail/mail-dialogs.glade.h:18
 msgid "License Agreement"
-msgstr ""
+msgstr "ஒப்பந்தப்பத்திரம்"
 
 #: mail/mail-dialogs.glade.h:19
 msgid "None Selected"
-msgstr ""
+msgstr "தேர்வு செய்யாத"
 
 #: mail/mail-dialogs.glade.h:20
 msgid "S_erver:"
-msgstr ""
+msgstr "(_e)சேவகன்:"
 
 #: mail/mail-dialogs.glade.h:21
 msgid "Security Information"
-msgstr ""
+msgstr "பாதுகாப்பு தகவல்"
 
 #: mail/mail-dialogs.glade.h:23 mail/message-tags.glade.h:4
 msgid ""
 "The messages you have selected for follow up are listed below.\n"
 "Please select a follow up action from the \"Flag\" menu."
 msgstr ""
+"தொடந்து கவனிப்பதற்காக நீங்கள் தேர்வு செய்த செய்தி பட்டியலிடப்பட்டுள்ளது\n"
+"\"குறி\" பட்டிலிருந்து தொடர் தேர்வை தேர்வு செய்யவும்"
 
 #: mail/mail-dialogs.glade.h:25
 msgid "Tick this to accept the license agreement"
-msgstr ""
+msgstr "ஒப்பந்த பத்திரத்தை ஏற்க க்ளிக் செய்யவும்"
 
 #: mail/mail-dialogs.glade.h:26 mail/message-tags.glade.h:6
 msgid "_Due By:"
-msgstr ""
+msgstr "(_D)நிலுவையில்:"
 
 #: mail/mail-dialogs.glade.h:27 mail/message-tags.glade.h:7
 msgid "_Flag:"
-msgstr ""
+msgstr "(_F)குறி:"
 
 #: mail/mail-dialogs.glade.h:28
 msgid "_Subscribe"
-msgstr ""
+msgstr "(_S)உறுப்பினராக்கு"
 
 #: mail/mail-dialogs.glade.h:29
 msgid "_Unsubscribe"
-msgstr ""
+msgstr "(_U)உறுப்பினர் நீக்கம்"
 
 #: mail/mail-dialogs.glade.h:30
 msgid "specific folders only"
-msgstr ""
+msgstr "குறிப்பிட்ட அடைவுகள் மட்டும்"
 
 #: mail/mail-dialogs.glade.h:31
 msgid "with all active remote folders"
-msgstr ""
+msgstr "எல்லா தொலை அடைவுகளும்"
 
 #: mail/mail-dialogs.glade.h:32
 msgid "with all local and active remote folders"
-msgstr ""
+msgstr "எல்லா உள் மற்றும் செயலில் உள்ள தொலை அடைவுகளும்"
 
 #: mail/mail-dialogs.glade.h:33
 msgid "with all local folders"
-msgstr ""
+msgstr "அனைத்து அடைவுகளோடும்"
 
 #. mail:camel-service-auth-invalid primary
 #: mail/mail-errors.xml.h:2
 msgid "Invalid authentication"
-msgstr ""
+msgstr "செல்லாத அனுமதி முறைமை"
 
 #. mail:camel-service-auth-invalid secondary
 #: mail/mail-errors.xml.h:4
 msgid ""
 "This server does not support this type of authentication and may not support "
 "authentication at all."
-msgstr ""
+msgstr "இந்த சேவகன் இது போன்ற அனுமதி முறைக்கு ஆதரவு தராது அல்லது எந்த  அனுமதி முறைக்கும் ஆதரவு இல்லை."
 
 #. mail:camel-service-auth-failed primary
 #: mail/mail-errors.xml.h:6
 msgid "Your login to your server \"{0}\" as \"{0}\" failed."
-msgstr ""
+msgstr "சேவகனில் \"{0}\" ஆக \"{0}\" உள்நுழைவது தோல்வியுற்றது."
 
 #. mail:camel-service-auth-failed secondary
 #: mail/mail-errors.xml.h:8
 msgid ""
 "Check to make sure your password is spelled correctly.  Remember that many "
 "passwords are case sensitive; your caps lock might be on."
-msgstr ""
+msgstr "கடவுச்சொல்லை சரியாக உள்ளிட்டுள்ளீர்களா என சோதிக்கவும் . பெரிய மற்றும் சிறிய எழுத்துகளை கடவுச்சொல் வேறுபடுத்தி பார்ப்பதால் உங்கள் CAP விசையை சோதிக்கவும்"
 
 #. mail:ask-send-html primary
 #: mail/mail-errors.xml.h:10
 msgid "Are you sure you want to send a message in HTML format?"
-msgstr ""
+msgstr "HTML வடிவத்தில் அனுப்ப விரும்புகிறீர்களா?"
 
 #. mail:ask-send-html secondary
 #: mail/mail-errors.xml.h:12
@@ -15294,29 +15321,32 @@ msgid ""
 "{0}\n"
 "Send anyway?"
 msgstr ""
+"கீழ்கண்ட பெறுநர் HTML மின்னஞ்சலை பெற விரும்புகிறாரா என்பதை உறுதிப்படுத்திக்கொள்ளவும்\n"
+"{0}\n"
+"எப்படி இருந்தாலும் அனுப்பலாமா?"
 
 #: mail/mail-errors.xml.h:15 mail/mail-errors.xml.h:20
 #: mail/mail-errors.xml.h:27 mail/mail-errors.xml.h:32
 msgid "_Send"
-msgstr ""
+msgstr "(_S)அனுப்பு"
 
 #. mail:ask-send-no-subject primary
 #: mail/mail-errors.xml.h:17
 msgid "Are you sure you want to send a message without a subject?"
-msgstr ""
+msgstr "தலைப்பு இல்லாமல் மின்னஞ்சல் அனுப்ப விருப்பமா?"
 
 #. mail:ask-send-no-subject secondary
 #: mail/mail-errors.xml.h:19
 msgid ""
 "Adding a meaningful Subject line to your messages will give your recipients "
 "an idea of what your mail is about."
-msgstr ""
+msgstr "பொருள் தறக்கூடிய தலைப்பை நீங்கள் அனுப்பும் மின்னஞ்சலுக்கு தந்தால் பெறுநருக்கு உங்கள் மின்னஞ்சல் பற்றி எளிதாக புரியும்."
 
 #. mail:ask-send-only-bcc-contact primary
 #. mail:ask-send-only-bcc primary
 #: mail/mail-errors.xml.h:22 mail/mail-errors.xml.h:29
 msgid "Are you sure you want to send a message with only BCC recipients?"
-msgstr ""
+msgstr "மறைநகலாக மட்டுமே இந்த செய்தியை அனுப்ப விரும்புகிறீர்களா?"
 
 #. mail:ask-send-only-bcc-contact secondary
 #: mail/mail-errors.xml.h:24
@@ -15328,6 +15358,9 @@ msgid ""
 "your message. To avoid this, you should add at least one To: or CC: "
 "recipient. "
 msgstr ""
+"நீங்கள் அனுப்பிய தொடர்புகளின் பட்டியல் பெறுநரை மறைக்குமாறு அமைக்கப்பட்டுள்ளது\n"
+"\n"
+"மறைநகலாக மட்டும் அனுப்ப வேண்டிய நேரங்களில் பல மின்னஞ்சல் பயன்பாடுகள் மின்னஞ்சல் தெரியட்டும் தலைப்பை பயன்படுத்தும். இந்த தலைப்பை தேர்வு செய்தால் நீங்கள் மின்னஞ்சல் அனுப்பியவர்களில் பட்டியல் தெரியும். இதை தவிர்க்க ஒரு பெறுநர் முகவரி மற்றும் ஒரு கரிநகல் முகவரியை உள்ளிடவும்."
 
 #. mail:ask-send-only-bcc secondary
 #: mail/mail-errors.xml.h:31
@@ -15336,80 +15369,80 @@ msgid ""
 "BCC recipients. This header, if added, will list all of your recipients to "
 "your message anyway. To avoid this, you should add at least one To: or CC: "
 "recipient."
-msgstr ""
+msgstr "மறைநகலாக மட்டும் அனுப்ப வேண்டிய நேரங்களில் பல மின்னஞ்சல் பயன்பாடுகள் மின்னஞ்சல் தெரியட்டும் தலைப்பை பயன்படுத்தும். இந்த தலைப்பை தேர்வு செய்தால் நீங்கள் மின்னஞ்சல் அனுப்பியவர்களில் பட்டியல் தெரியும். இதை தவிர்க்க ஒரு பெறுநர் முகவரி மற்றும் ஒரு கரிநகல் முகவரியை உள்ளிடவும்."
 
 #. mail:send-no-recipients primary
 #: mail/mail-errors.xml.h:34
 msgid "This message cannot be sent because you have not specified any Recipients"
-msgstr ""
+msgstr "பெறுநர் முகவரி குறிப்பிடப்படவில்லை எனவே செய்தியை அனுப்ப முடியாது"
 
 #. mail:send-no-recipients secondary
 #: mail/mail-errors.xml.h:36
 msgid ""
 "Please enter a valid email address in the To: field. You can search for "
 "email addresses by clicking on the To: button next to the entry box."
-msgstr ""
+msgstr "பெறுநர் புலத்தில் சரியான மின்னஞ்சல் முகவரியை உள்ளிடவும். பெறுநர் புலத்தின் மேல் க்ளிக் செய்து முகவரியை தேடலாம்."
 
 #. mail:ask-default-drafts primary
 #: mail/mail-errors.xml.h:38
 msgid "Use default drafts folder?"
-msgstr ""
+msgstr "இயல்பான வரைவு அடைவை பயன்படுத்தவா?"
 
 #. mail:ask-default-drafts secondary
 #: mail/mail-errors.xml.h:40
 msgid ""
 "Unable to open the drafts folder for this account.  Use the system drafts "
 "folder instead?"
-msgstr ""
+msgstr "வரைவு அடைவை திறக்க முடியவில்லை கணினியில் வரைவு அடைவை பயன்படுத்தவா?"
 
 #: mail/mail-errors.xml.h:41
 msgid "Use _Default"
-msgstr ""
+msgstr "(_D)இயல்பானதை பயன்படுத்து"
 
 #. mail:ask-expunge primary
 #: mail/mail-errors.xml.h:43
 msgid ""
 "Are you sure you want to permanently remove all the deleted message in "
 "folder \"{0}\"?"
-msgstr ""
+msgstr "இந்த அடைவில் உள்ள நீக்கப்பட்ட கோப்புகளை அனைத்தையும் முழுமையாக நீக்க விரும்புகிறீர்களா  \"{0}\"?"
 
 #. mail:ask-expunge secondary
 #. mail:ask-empty-trash secondary
 #: mail/mail-errors.xml.h:45 mail/mail-errors.xml.h:50
 msgid "If you continue, you will not be able to recover these messages."
-msgstr ""
+msgstr "தொடந்தால், உங்களால் செய்தி எதையும் மீட்க முடியாது."
 
 #: mail/mail-errors.xml.h:46
 msgid "_Expunge"
-msgstr ""
+msgstr "(_E)அழிக்கவும்"
 
 #. mail:ask-empty-trash primary
 #: mail/mail-errors.xml.h:48
 msgid ""
 "Are you sure you want to permanently remove all the deleted messages in all "
 "folders?"
-msgstr ""
+msgstr "இந்த அடைவில் உள்ள நீக்கப்பட்ட செய்திகளை நிரந்தரமாக அழிக்க விருப்பமா?"
 
 #: mail/mail-errors.xml.h:51
 msgid "_Empty Trash"
-msgstr ""
+msgstr "(_E)குப்பை தொட்டியை காலி செய்"
 
 #. mail:exit-unsaved primary
 #: mail/mail-errors.xml.h:53
 msgid "You have unsent messages, do you wish to quit anyway?"
-msgstr ""
+msgstr "அனுப்பாத செய்தி உள்ளது, வெளியேற விருப்பமா?"
 
 #. mail:exit-unsaved secondary
 #: mail/mail-errors.xml.h:55
 msgid ""
 "If you quit, these messages will not be sent until Evolution is started "
 "again."
-msgstr ""
+msgstr "வெளியேறினால் எவல்யூஷன் மீண்டும் துவங்கும் வரை இந்த செய்தி அனுப்பப்படாமல் இருக்கும்."
 
 #. mail:camel-exception primary
 #: mail/mail-errors.xml.h:57
 msgid "Your message with the subject \"{0}\" was not delivered."
-msgstr ""
+msgstr " \"{0}\" தலைப்புள்ள செய்தி அனுப்பப்பட்டது"
 
 #. mail:camel-exception secondary
 #: mail/mail-errors.xml.h:59
@@ -15419,41 +15452,43 @@ msgid ""
 "The message is stored in the Outbox folder.  Check the message for errors "
 "and resend."
 msgstr ""
+"இந்த செய்தி \"sendmail\" பயன்பாட்டை பயன்படுத்தி அனுப்பபட்டது. சென்மெயில் நிலை 67: மின்னஞ்சல் அனுப்பப்படவில்லை பிழையை அனுப்பி உள்ளது\n"
+"செய்தி வெளியேற்ற அடைவில் உள்ளது. செய்தியில் உள்ள பிழையை சரிசெய்து மீண்டும் அனுப்பவும்."
 
 #. mail:async-error primary
 #: mail/mail-errors.xml.h:62
 msgid "Error while {0}."
-msgstr ""
+msgstr "{0}.போது பிழை"
 
 #. mail:async-error secondary
 #: mail/mail-errors.xml.h:64
 msgid "{1}."
-msgstr ""
+msgstr "{1}."
 
 #. mail:async-error-nodescribe primary
 #: mail/mail-errors.xml.h:66
 msgid "Error while performing operation."
-msgstr ""
+msgstr "செயல்படும் போது பிழை"
 
 #. mail:async-error-nodescribe secondary
 #: mail/mail-errors.xml.h:68
 msgid "{0}."
-msgstr ""
+msgstr "{0}."
 
 #. mail:ask-session-password primary
 #: mail/mail-errors.xml.h:82
 msgid "Enter password."
-msgstr ""
+msgstr "கடவுச்சொல்லை உள்ளிடவும்"
 
 #. mail:filter-load-error primary
 #: mail/mail-errors.xml.h:86
 msgid "Error loading filter definitions."
-msgstr ""
+msgstr "வடிகட்டி குறிப்பை ஏற்றும்போது பிழை"
 
 #. mail:no-save-path primary
 #: mail/mail-errors.xml.h:90
 msgid "Cannot save to directory \"{0}\"."
-msgstr ""
+msgstr "அடைவு \"{0}\".ஐ சேமிக்க முடியவில்லை"
 
 #. mail:no-create-path primary
 #. mail:no-write-path-exists primary
@@ -15461,37 +15496,37 @@ msgstr ""
 #: mail/mail-errors.xml.h:94 mail/mail-errors.xml.h:102
 #: mail/mail-errors.xml.h:106
 msgid "Cannot save to file \"{0}\"."
-msgstr ""
+msgstr "கோப்பு \"{0}\".ஐ சேமிக்க முடியவில்லை"
 
 #. mail:no-create-path secondary
 #: mail/mail-errors.xml.h:96
 msgid "Cannot create the save directory, because \"{1}\""
-msgstr ""
+msgstr "சேமி அடைவை உருவாக்க முடியாது, காரணம் \"{1}\""
 
 #. mail:no-create-tmp-path primary
 #: mail/mail-errors.xml.h:98
 msgid "Cannot create temporary save directory."
-msgstr ""
+msgstr "தற்காலிக சேமி அடைவை உருவாக்க முடியவில்லை"
 
 #. mail:no-write-path-exists secondary
 #: mail/mail-errors.xml.h:104
 msgid "File exists but cannot overwrite it."
-msgstr ""
+msgstr "கோப்பு ஏற்கெனவே உள்ளது மேலெழுத முடியாது."
 
 #. mail:no-write-path-notfile secondary
 #: mail/mail-errors.xml.h:108
 msgid "File exists but is not a regular file."
-msgstr ""
+msgstr "கோப்பு உள்ளது ஆனால் இயல்பான கோப்பு இல்லை"
 
 #. mail:no-delete-folder primary
 #: mail/mail-errors.xml.h:110
 msgid "Cannot delete folder \"{0}\"."
-msgstr ""
+msgstr "\"{0}\" அடைவை நீக்க முடியாது"
 
 #. mail:no-delete-spethal-folder primary
 #: mail/mail-errors.xml.h:114
 msgid "Cannot delete system folder \"{0}\"."
-msgstr ""
+msgstr "\"{0}\" கணினி அடைவை நீக்க முடியாது"
 
 #. mail:no-delete-spethal-folder secondary
 #. mail:no-rename-spethal-folder secondary
@@ -15499,176 +15534,176 @@ msgstr ""
 msgid ""
 "System folders are required for Ximian Evolution to function correctly and "
 "cannot be renamed, moved, or deleted."
-msgstr ""
+msgstr "சேமினான் எவல்யூஷன் இயங்க கணினி அடைவுகள் சரியாக வேலை செய்ய வேண்டும் மேலும் அந்த அடைவுகளை நகர்த்த, மறுபெயரிட அல்லது நீக்க முடியாது"
 
 #. mail:no-rename-spethal-folder primary
 #: mail/mail-errors.xml.h:118
 msgid "Cannot rename or move system folder \"{0}\"."
-msgstr ""
+msgstr "கணினி அடைவுகளை மறுபெயரிட அல்லது நீக்க முடியாது\"{0}\"."
 
 #. mail:ask-delete-folder title
 #: mail/mail-errors.xml.h:122
 msgid "Delete \"{0}\"?"
-msgstr ""
+msgstr "நீக்க வேண்டுமா\"{0}\"?"
 
 #. mail:ask-delete-folder primary
 #: mail/mail-errors.xml.h:124
 msgid "Really delete folder \"{0}\" and all of its subfolders?"
-msgstr ""
+msgstr "உண்மையாகவே \"{0}\" அடைவையும் உப அடைவுகளையும் நீக்க வேண்டுமா?"
 
 #. mail:ask-delete-folder secondary
 #: mail/mail-errors.xml.h:126
 msgid ""
 "If you delete the folder, all of its contents and its subfolders contents "
 "will be deleted permanently."
-msgstr ""
+msgstr "இந்த அடைவை நீக்கினால் இதில் உள்ள அனைத்து கோப்புகளும் உப அடைவுகளும் நீக்கப்படும்."
 
 #. mail:no-rename-folder-exists primary
 #. mail:no-rename-folder primary
 #: mail/mail-errors.xml.h:128 mail/mail-errors.xml.h:132
 msgid "Cannot rename \"{0}\" to \"{1}\"."
-msgstr ""
+msgstr "\"{0}\" ஐ \"{1}\" ஆக மறுபெயரிட முடியாது"
 
 #. mail:no-rename-folder-exists secondary
 #. mail:vfolder-notunique secondary
 #: mail/mail-errors.xml.h:130 mail/mail-errors.xml.h:192
 msgid "A folder named \"{1}\" already exists. Please use a different name."
-msgstr ""
+msgstr "\"{1}\" அடைவு ஏற்கெனவே உள்ளது. வேறு பெயரை பயன்படுத்தவும்"
 
 #. mail:no-rename-folder secondary
 #: mail/mail-errors.xml.h:134
 msgid "Because \"{2}\"."
-msgstr ""
+msgstr "ஏனெனில் \"{2}\"."
 
 #. mail:no-move-folder-nostore primary
 #. mail:no-move-folder-to-nostore primary
 #: mail/mail-errors.xml.h:136 mail/mail-errors.xml.h:140
 msgid "Cannot move folder \"{0}\" to \"{1}\"."
-msgstr ""
+msgstr " \"{0}\" ஐ \"{1}\" க்கு நகர்த்த முடியாது"
 
 #. mail:no-move-folder-nostore secondary
 #. mail:no-copy-folder-nostore secondary
 #: mail/mail-errors.xml.h:138 mail/mail-errors.xml.h:146
 msgid "Cannot open source \"{2}\"."
-msgstr ""
+msgstr "மூலம் \"{2}\" வை திறக்க முடியாது."
 
 #. mail:no-move-folder-to-nostore secondary
 #. mail:no-copy-folder-to-nostore secondary
 #: mail/mail-errors.xml.h:142 mail/mail-errors.xml.h:150
 msgid "Cannot open target \"{2}\"."
-msgstr ""
+msgstr "சேருமிடம் \"{2}\" வை திறக்க முடியாது."
 
 #. mail:no-copy-folder-nostore primary
 #. mail:no-copy-folder-to-nostore primary
 #: mail/mail-errors.xml.h:144 mail/mail-errors.xml.h:148
 msgid "Cannot copy folder \"{0}\" to \"{1}\"."
-msgstr ""
+msgstr "\"{0}\" ஐ \"{1}\" க்கு நகர்த்த முடியாது."
 
 #. mail:no-create-folder-nostore primary
 #: mail/mail-errors.xml.h:152
 msgid "Cannot create folder \"{0}\"."
-msgstr ""
+msgstr "அடைவு \"{0}\" ஐ உருவாக்க முடியாது."
 
 #. mail:no-create-folder-nostore secondary
 #: mail/mail-errors.xml.h:154
 msgid "Cannot open source \"{1}\""
-msgstr ""
+msgstr "மூலம் \"{1}\" ஐ திறக்க முடியாது"
 
 #. mail:account-incomplete primary
 #. mail:account-notunique primary
 #: mail/mail-errors.xml.h:156 mail/mail-errors.xml.h:160
 msgid "Cannot save changes to account."
-msgstr ""
+msgstr "கணக்கில் மாற்றம் செய்ய முடியாது."
 
 #. mail:account-incomplete secondary
 #: mail/mail-errors.xml.h:158
 msgid "You have not filled in all of the required information."
-msgstr ""
+msgstr "தேவையான அனைத்து தகவல்களையும் உள்ளிடவும்"
 
 #. mail:account-notunique secondary
 #: mail/mail-errors.xml.h:162
 msgid "You may not create two accounts with the same name."
-msgstr ""
+msgstr "ஒரே பெயரில் இரண்டு கணக்குகளை உருவாக்க முடியாது"
 
 #. mail:ask-delete-account title
 #: mail/mail-errors.xml.h:164
 msgid "Delete account?"
-msgstr ""
+msgstr "கணக்கை நீக்க வேண்டுமா?"
 
 #. mail:ask-delete-account primary
 #: mail/mail-errors.xml.h:166
 msgid "Are you sure you want to delete this account?"
-msgstr ""
+msgstr "இந்த கணக்கை நீக்க வேண்டுமா?"
 
 #. mail:ask-delete-account secondary
 #: mail/mail-errors.xml.h:168
 msgid "If you proceed, the account information will be deleted permanently."
-msgstr ""
+msgstr "தொடர்ந்தால்ம, இந்த கணக்கு தகவல்கள் நீக்கப்படும்"
 
 #: mail/mail-errors.xml.h:169
 msgid "Don't delete"
-msgstr ""
+msgstr "நீக்காதே"
 
 #. mail:no-save-signature primary
 #: mail/mail-errors.xml.h:171
 msgid "Could not save signature file."
-msgstr ""
+msgstr "கையொப்பதை சேமிக்க முடியாது"
 
 #. mail:no-save-signature secondary
 #: mail/mail-errors.xml.h:173
 msgid "Because \"{0}\"."
-msgstr ""
+msgstr "ஏனெலில்\"{0}\"."
 
 #. mail:signature-notscript primary
 #: mail/mail-errors.xml.h:175
 msgid "Cannot set signature script \"{0}\"."
-msgstr ""
+msgstr "கையொப்ப நிரலை அமைக்க முடியாது \"{0}\"."
 
 #. mail:signature-notscript secondary
 #: mail/mail-errors.xml.h:177
 msgid "The script file must exist and be executable."
-msgstr ""
+msgstr "நிரல் கோப்பு இருக்க வேண்டும் மற்றும் இயக்கப்பட வேண்டும்"
 
 #. mail:ask-signature-changed title
 #: mail/mail-errors.xml.h:179
 msgid "Discard changed?"
-msgstr ""
+msgstr "மாற்றத்தை அழிக்க வேண்டுமா?"
 
 #. mail:ask-signature-changed primary
 #: mail/mail-errors.xml.h:181
 msgid "Do you wish to save your changes?"
-msgstr ""
+msgstr "மாற்றங்களை சேம்மிக்க வேண்டுமா?"
 
 #. mail:ask-signature-changed secondary
 #: mail/mail-errors.xml.h:183
 msgid "This signature has been changed, but has not been saved."
-msgstr ""
+msgstr "இந்த கையொப்பம் மாற்றப்பட்ட து ஆனால் சேமிக்கப்படவில்லை"
 
 #: mail/mail-errors.xml.h:184
 msgid "_Discard changes"
-msgstr ""
+msgstr "(_D)மாற்றத்தை நிராகரி"
 
 #. mail:vfolder-notexist primary
 #: mail/mail-errors.xml.h:186
 msgid "Cannot edit vFolder \"{0}\" as it does not exist."
-msgstr ""
+msgstr "vஅடைவு \"{0}\" யை திருத்த முடியாது. அடைவு இல்லை"
 
 #. mail:vfolder-notexist secondary
 #: mail/mail-errors.xml.h:188
 msgid ""
 "This folder may have been added implictly, go to the virtual folder editor "
 "to add it explictly, if required."
-msgstr ""
+msgstr "இந்த அடைவு மறைமுகமாக சேர்க்கப்பட்டது, மெய்நிகர் அடைவு தொகுப்பிக்கு சென்று வெளிப்படையாக சேர்க்கவும்"
 
 #. mail:vfolder-notunique primary
 #: mail/mail-errors.xml.h:190
 msgid "Cannot add vFolder \"{0}\"."
-msgstr ""
+msgstr " vஅடைவு \"{0}\" ஐ சேர்க்க முடியவில்லை."
 
 #. mail:vfolder-updated primary
 #: mail/mail-errors.xml.h:194
 msgid "vFolders automatically updated."
-msgstr ""
+msgstr "vஅடைவு தானாக புதுப்பிக்கப்பட்டது"
 
 #. mail:vfolder-updated secondary
 #: mail/mail-errors.xml.h:196
@@ -15679,11 +15714,15 @@ msgid ""
 "    \"{1}\"\n"
 "And have been updated."
 msgstr ""
+"கீழ்கண்ட vஅடைவு(கள்):\n"
+"{0}\n"
+"தற்போது நீக்கப்பட்ட அடைவுகளை பயன்படுத்துகின்றனு:\n"
+"    \"{1}\"\nமேலும் மேம்படுத்தப்பட்டனd."
 
 #. mail:filter-updated primary
 #: mail/mail-errors.xml.h:202
 msgid "Mail filters automatically updated."
-msgstr ""
+msgstr "மின்னஞ்சல் வடிகட்டி தானாக மேம்படுத்தப்பட்டது"
 
 #. mail:filter-updated secondary
 #: mail/mail-errors.xml.h:204
@@ -15694,26 +15733,31 @@ msgid ""
 "    \"{1}\"\n"
 "And have been updated."
 msgstr ""
+"கீழ்கண்ட வடிகட்டி விதிமுறை(கள்):\n"
+"{0}\n"
+"தற்போது நீக்கிய அடைவுகளை பயன்படுத்துகிறது\n"
+"    \"{1}\"\n"
+"மேம்படுத்தப்பட்டது"
 
 #. mail:no-folder primary
 #: mail/mail-errors.xml.h:210
 msgid "Missing folder."
-msgstr ""
+msgstr "அடைவை காணவில்லை"
 
 #. mail:no-folder secondary
 #: mail/mail-errors.xml.h:212
 msgid "You must specify a folder."
-msgstr ""
+msgstr "அடைவின் பெயரை குறிப்பிட வேண்டும்"
 
 #. mail:no-name-vfolder secondary
 #: mail/mail-errors.xml.h:216
 msgid "You must name this vFolder."
-msgstr ""
+msgstr "vஅடைவிற்கு பெயரிட வேண்டும்"
 
 #. mail:vfolder-no-source primary
 #: mail/mail-errors.xml.h:218
 msgid "No sources selected."
-msgstr ""
+msgstr "மூலம் எதுவும் தேர்வு செய்யப்படவில்லை"
 
 #. mail:vfolder-no-source secondary
 #: mail/mail-errors.xml.h:220
@@ -15722,11 +15766,14 @@ msgid ""
 "Either by selecting the folders individually, and/or by selecting\n"
 "all local folders, all remote folders, or both."
 msgstr ""
+"குறைந்தது ஒரேஒரு அடைவையாவது மூலம் என குறிப்பிட வேண்டும்\n"
+"அடைவை தனியாக தேர்வு செய்தோ மற்றும்/அல்லது எல்லா\n"
+"உள் அடைவுகளையும், தொலை அடைவுகளையும் அல்லது அனைத்தையும் தேர்வு செய்தோ குறிப்பிடலாம்."
 
 #. mail:ask-migrate-existing primary
 #: mail/mail-errors.xml.h:224
 msgid "Problem migrating old mail folder \"{0}\"."
-msgstr ""
+msgstr "பழைய மின்னஞ்சல் அடைவை நகர்த்துவதில் சிக்கல் \"{0}\"."
 
 #. mail:ask-migrate-existing secondary
 #: mail/mail-errors.xml.h:226
@@ -15736,36 +15783,39 @@ msgid ""
 "You can choose to ignore this folder, overwrite or append its contents, or "
 "quit.\n"
 msgstr ""
+"\"{1}\" காலி இல்லாத அடைவு ஏற்கெனவே உள்ளது\n"
+"\n"
+"இந்த அடைவை தவிர்க்கலாம் அல்லது மேலெழுதலாம் அல்லது பின் எழுதலாம் அல்லது வெளியேறலாம்.\n"
 
 #: mail/mail-errors.xml.h:230
 msgid "Ignore"
-msgstr ""
+msgstr "தவிர்"
 
 #: mail/mail-errors.xml.h:231 widgets/misc/e-system-errors.xml.h:7
 msgid "_Overwrite"
-msgstr ""
+msgstr "(_O)மேலெழுது"
 
 #: mail/mail-errors.xml.h:232
 msgid "_Append"
-msgstr ""
+msgstr "(_A)பின் எழுது"
 
 #: mail/mail-folder-cache.c:785
 #, c-format
 msgid "Pinging %s"
-msgstr ""
+msgstr "தொடர்புகொள்கிறது %s"
 
 #: mail/mail-ops.c:98
 msgid "Filtering Folder"
-msgstr ""
+msgstr "அடைவை வடிகட்டுகிறது"
 
 #: mail/mail-ops.c:259
 msgid "Fetching Mail"
-msgstr ""
+msgstr "மின்னஞ்சலை கொணர்கிறது"
 
 #: mail/mail-ops.c:542
 #, c-format
 msgid "Failed to apply outgoing filters: %s"
-msgstr ""
+msgstr "வெளிசெல்லும் வடிகட்டிக்கு அனுப்புவதில் தோல்வி : %s"
 
 #: mail/mail-ops.c:567
 #, c-format
@@ -15773,113 +15823,115 @@ msgid ""
 "Failed to append to %s: %s\n"
 "Appending to local `Sent' folder instead."
 msgstr ""
+"பினெழுதுவதில் தோல்வி %s: %s\n"
+"உள் 'அனுப்பு' அடைவில் போய் சேர்ந்துவிட்டது."
 
 #: mail/mail-ops.c:576
 #, c-format
 msgid "Failed to append to local `Sent' folder: %s"
-msgstr ""
+msgstr "உள் 'அனுப்பு' அடைவில் சேர்க்கும் போது தோல்வி : %s"
 
 #: mail/mail-ops.c:672
 #, c-format
 msgid "Sending message %d of %d"
-msgstr ""
+msgstr "%d இல் %d அனுப்பப்படுகிறது"
 
 #: mail/mail-ops.c:703
 #, c-format
 msgid "Failed to send %d of %d messages"
-msgstr ""
+msgstr "%d இல் %d செய்தி அனுப்புவதில் தோல்வி"
 
 #: mail/mail-ops.c:707
 msgid "Complete."
-msgstr ""
+msgstr "முடிந்தது"
 
 #: mail/mail-ops.c:804
 msgid "Saving message to folder"
-msgstr ""
+msgstr "செய்தியை அடைவில் சேமிக்கிறது"
 
 #: mail/mail-ops.c:889
 #, c-format
 msgid "Moving messages to %s"
-msgstr ""
+msgstr "%s க்கு செய்தியை நகர்த்துகிறது"
 
 #: mail/mail-ops.c:889
 #, c-format
 msgid "Copying messages to %s"
-msgstr ""
+msgstr "%s இல் செய்தியை நகலெடுக்கிறது"
 
 #: mail/mail-ops.c:1002
 #, c-format
 msgid "Scanning folders in \"%s\""
-msgstr ""
+msgstr "\"%s\" இல் உள்ள அடைவுகளை சோதிக்கிறது"
 
 #: mail/mail-ops.c:1115
 msgid "Forwarded messages"
-msgstr ""
+msgstr "செய்தியை முன் அனுப்புகிறது"
 
 #: mail/mail-ops.c:1158
 #, c-format
 msgid "Opening folder %s"
-msgstr ""
+msgstr "அடைவை திறக்கிறது %s"
 
 #: mail/mail-ops.c:1230
 #, c-format
 msgid "Opening store %s"
-msgstr ""
+msgstr "கிடங்கை திறக்கிறது %s"
 
 #: mail/mail-ops.c:1308
 #, c-format
 msgid "Removing folder %s"
-msgstr ""
+msgstr "அடைவை நீக்குகிறது %s"
 
 #: mail/mail-ops.c:1402
 #, c-format
 msgid "Storing folder '%s'"
-msgstr ""
+msgstr "அடைவை சேமிக்கிறது  '%s'"
 
 #: mail/mail-ops.c:1467
 #, c-format
 msgid "Expunging and storing account '%s'"
-msgstr ""
+msgstr "கணக்கை சேர்க்கிறது மற்றும் அழிக்கிறது '%s'"
 
 #: mail/mail-ops.c:1468
 #, c-format
 msgid "Storing account '%s'"
-msgstr ""
+msgstr "கணக்கை சேர்க்கிறது '%s'"
 
 #: mail/mail-ops.c:1523
 msgid "Refreshing folder"
-msgstr ""
+msgstr "அடைவை புதுப்பிக்கிறது"
 
 #: mail/mail-ops.c:1559 mail/mail-ops.c:1610
 msgid "Expunging folder"
-msgstr ""
+msgstr "அடைவை அழிக்கிறது"
 
 #: mail/mail-ops.c:1607
 #, c-format
 msgid "Emptying trash in '%s'"
-msgstr ""
+msgstr "குப்பைதொட்டியை காலி செய்கிறது '%s'"
 
 #: mail/mail-ops.c:1608
 msgid "Local Folders"
-msgstr ""
+msgstr "உள் அடைவுகள்"
 
 #: mail/mail-ops.c:1691
 #, c-format
 msgid "Retrieving message %s"
-msgstr ""
+msgstr "செய்திகளை மீட்கிறது %s"
 
 #: mail/mail-ops.c:1763
 #, c-format
 msgid "Retrieving %d message"
 msgid_plural "Retrieving %d messages"
-msgstr[0] ""
+msgstr[0] "%d செய்திகளை மீட்கிறது"
 msgstr[1] ""
 
 #: mail/mail-ops.c:1849
 #, c-format
 msgid "Saving %d message"
 msgid_plural "Saving %d messsages"
-msgstr[0] ""
+msgstr[0] "%d செய்திகளை சேமிக்கிறது"
 msgstr[1] ""
 
 #: mail/mail-ops.c:1899
@@ -15888,6 +15940,8 @@ msgid ""
 "Unable to create output file: %s\n"
 " %s"
 msgstr ""
+"விளைவுக்கோப்பை உருவாக்க முடியவில்லை: %s\n"
+" %s"
 
 #: mail/mail-ops.c:1927
 #, c-format
@@ -15895,10 +15949,12 @@ msgid ""
 "Error saving messages to: %s:\n"
 " %s"
 msgstr ""
+"செய்தியை சேமிக்கும் போது பிழை: %s:\n"
+" %s"
 
 #: mail/mail-ops.c:1998
 msgid "Saving attachment"
-msgstr ""
+msgstr "இணைப்பை சேமிக்கிறது"
 
 #: mail/mail-ops.c:2010
 #, c-format
@@ -15906,388 +15962,390 @@ msgid ""
 "Cannot create output file: %s:\n"
 " %s"
 msgstr ""
+"விளைவுக்கோப்பை உருவாக்க முடியவில்லை: %s:\n"
+" %s"
 
 #: mail/mail-ops.c:2020
 #, c-format
 msgid "Could not write data: %s"
-msgstr ""
+msgstr "தகவலை எழுத முடியவில்லை: %s"
 
 #: mail/mail-ops.c:2168
 #, c-format
 msgid "Disconnecting from %s"
-msgstr ""
+msgstr "%s லிருந்து துண்டிக்கப்படுகிறது"
 
 #: mail/mail-ops.c:2168
 #, c-format
 msgid "Reconnecting to %s"
-msgstr ""
+msgstr "%s இல் மீண்டும் இணைக்கப்படுகிறது"
 
 #: mail/mail-send-recv.c:157
 msgid "Cancelling..."
-msgstr ""
+msgstr "ரத்து செய்கிறது..."
 
 #: mail/mail-send-recv.c:264
 #, c-format
 msgid "Server: %s, Type: %s"
-msgstr ""
+msgstr "சேவகன்: %s வகை: %s"
 
 #: mail/mail-send-recv.c:266
 #, c-format
 msgid "Path: %s, Type: %s"
-msgstr ""
+msgstr "பாதை: %s, வகை : %s"
 
 #: mail/mail-send-recv.c:268
 #, c-format
 msgid "Type: %s"
-msgstr ""
+msgstr "வகை: %s"
 
 #: mail/mail-send-recv.c:320
 msgid "Send & Receive Mail"
-msgstr ""
+msgstr "மின்னஞ்சலை அனுப்பு & பெற்றுக்கொள்"
 
 #: mail/mail-send-recv.c:323
 msgid "Cancel _All"
-msgstr ""
+msgstr "(_A)அனைத்தையும் ரத்து செய்"
 
 #: mail/mail-send-recv.c:412
 msgid "Updating..."
-msgstr ""
+msgstr "மேம்படுத்துகிறது..."
 
 #: mail/mail-send-recv.c:412 mail/mail-send-recv.c:466
 msgid "Waiting..."
-msgstr ""
+msgstr "காத்திருக்கிறது...."
 
 #: mail/mail-session.c:240
 msgid "User canceled operation."
-msgstr ""
+msgstr "செயலை பயனீட்டாளர் ரத்து செய்துவிட்டார்"
 
 #: mail/mail-session.c:274
 #, c-format
 msgid "Enter Password for %s"
-msgstr ""
+msgstr "%s க்கான கடவுச்சொல்லை தேர்வு செய்யவும்"
 
 #: mail/mail-session.c:276
 msgid "Enter Password"
-msgstr ""
+msgstr "கடவுச்சொல்லை உள்ளிடவும்"
 
 #: mail/mail-session.c:304
 msgid "_Remember this password"
-msgstr ""
+msgstr "(_R)இந்த கடவுச்சொல்லை நினைவில் கொள்"
 
 #: mail/mail-session.c:305
 msgid "_Remember this password for the remainder of this session"
-msgstr ""
+msgstr "(_R)இந்த கடவுச்சொல்லை இந்த அமர்வில் மட்டும் நினைவில் கொள்"
 
 #: mail/mail-signature-editor.c:371
 msgid "Edit signature"
-msgstr ""
+msgstr "கையொப்பத்தை திருத்து"
 
 #: mail/mail-signature-editor.c:411
 msgid "Enter a name for this signature."
-msgstr ""
+msgstr "இந்த கையொப்பத்தின் பெயரை உள்ளிடவும்"
 
 #: mail/mail-signature-editor.c:414
 msgid "Name:"
-msgstr ""
+msgstr "பெயர்:"
 
 #: mail/mail-tools.c:114
 #, c-format
 msgid "Could not create spool directory `%s': %s"
-msgstr ""
+msgstr "சுருள் அடைவை உருவாக்க முடியவில்லை`%s': %s"
 
 #: mail/mail-tools.c:141
 #, c-format
 msgid "Trying to movemail a non-mbox source `%s'"
-msgstr ""
+msgstr "மின்னஞ்சல்களை non-mbox மூலத்திற்கு அனுப்ப முயல்கிறது `%s'"
 
 #: mail/mail-tools.c:276
 #, c-format
 msgid "Forwarded message - %s"
-msgstr ""
+msgstr "செய்திகளை அனுப்பு - %s "
 
 #: mail/mail-tools.c:278
 msgid "Forwarded message"
-msgstr ""
+msgstr "செய்திகளை அனுப்பு"
 
 #: mail/mail-tools.c:319
 #, c-format
 msgid "Invalid folder: `%s'"
-msgstr ""
+msgstr "செல்லாத அடைவு`%s'"
 
 #: mail/mail-vfolder.c:87
 #, c-format
 msgid "Setting up vfolder: %s"
-msgstr ""
+msgstr "vஅடைவுகளை அமைக்கிறது :%s"
 
 #: mail/mail-vfolder.c:235
 #, c-format
 msgid "Updating vFolders for '%s:%s'"
-msgstr ""
+msgstr "'%s க்கான vஅடைவுகளை ஏற்றுகிறது:%s'"
 
 #: mail/mail-vfolder.c:242
 #, c-format
 msgid "Updating vFolders for '%s'"
-msgstr ""
+msgstr " '%s' க்கான vஅடைவுகளை ஏற்றுகிறது "
 
 #: mail/mail-vfolder.c:942
 msgid "vFolders"
-msgstr ""
+msgstr "vஅடைவுகள்"
 
 #: mail/mail-vfolder.c:981
 msgid "Edit VFolder"
-msgstr ""
+msgstr "Vஅடைவை திருத்து"
 
 #: mail/mail-vfolder.c:1065
 msgid "New VFolder"
-msgstr ""
+msgstr "புதிய Vஅடைவு"
 
 #: mail/message-list.c:953
 msgid "Unseen"
-msgstr ""
+msgstr "பார்க்காத"
 
 #: mail/message-list.c:954
 msgid "Seen"
-msgstr ""
+msgstr "பார்த்த"
 
 #: mail/message-list.c:955
 msgid "Answered"
-msgstr ""
+msgstr "பதிலலிக்கப்பட்டது"
 
 #: mail/message-list.c:956
 msgid "Multiple Unseen Messages"
-msgstr ""
+msgstr "பார்காத பல செய்திகள்"
 
 #: mail/message-list.c:957
 msgid "Multiple Messages"
-msgstr ""
+msgstr "பல செய்திகள்"
 
 #: mail/message-list.c:961
 msgid "Lowest"
-msgstr ""
+msgstr "குறைவான"
 
 #: mail/message-list.c:962
 msgid "Lower"
-msgstr ""
+msgstr "குறைந்த"
 
 #: mail/message-list.c:966
 msgid "Higher"
-msgstr ""
+msgstr "உயர்ந்த"
 
 #: mail/message-list.c:967
 msgid "Highest"
-msgstr ""
+msgstr "உயரமான"
 
 #: mail/message-list.c:1290
 msgid "?"
-msgstr ""
+msgstr "?"
 
 #: mail/message-list.c:1297
 msgid "Today %l:%M %p"
-msgstr ""
+msgstr "இன்று %l:%M %p"
 
 #: mail/message-list.c:1306
 msgid "Yesterday %l:%M %p"
-msgstr ""
+msgstr "நேற்று %b %d %l:%M %p"
 
 #: mail/message-list.c:1318
 msgid "%a %l:%M %p"
-msgstr ""
+msgstr "%b %d %l:%M %p"
 
 #: mail/message-list.c:1326
 msgid "%b %d %l:%M %p"
-msgstr ""
+msgstr "%b %d %l:%M %p"
 
 #: mail/message-list.c:1328
 msgid "%b %d %Y"
-msgstr ""
+msgstr "%b %d %Y"
 
 #: mail/message-list.c:3329
 msgid "Generating message list"
-msgstr ""
+msgstr "செய்தி பட்டியலை உருவாக்குகிறது"
 
 #: mail/message-list.etspec.h:3
 msgid "Due By"
-msgstr ""
+msgstr "நிலுவை"
 
 #: mail/message-list.etspec.h:4
 msgid "Flag Status"
-msgstr ""
+msgstr "குறிப்பின் நிலை"
 
 #: mail/message-list.etspec.h:5
 msgid "Flagged"
-msgstr ""
+msgstr "குறிக்கப்பட்ட"
 
 #: mail/message-list.etspec.h:6
 msgid "Follow Up Flag"
-msgstr ""
+msgstr "தொடர்வதற்கான அடையாளம்"
 
 #: mail/message-list.etspec.h:8
 msgid "Original Location"
-msgstr ""
+msgstr "உண்மையான இடம்"
 
 #: mail/message-list.etspec.h:9
 msgid "Received"
-msgstr ""
+msgstr "பெற்றுக்கொள்ளப்பட்டது"
 
 #: mail/message-list.etspec.h:11
 msgid "Size"
-msgstr ""
+msgstr "அளவு"
 
 #: mail/message-tag-followup.c:73
 msgid "Call"
-msgstr ""
+msgstr "அழை"
 
 #: mail/message-tag-followup.c:74
 msgid "Do Not Forward"
-msgstr ""
+msgstr "அனுபாதே"
 
 #: mail/message-tag-followup.c:75
 msgid "Follow-Up"
-msgstr ""
+msgstr "தொடரவேண்டும்"
 
 #: mail/message-tag-followup.c:76
 msgid "For Your Information"
-msgstr ""
+msgstr "உங்கள் தகவலுக்காக"
 
 #: mail/message-tag-followup.c:77 ui/evolution-mail-message.xml.h:42
 msgid "Forward"
-msgstr ""
+msgstr "அனுப்பு"
 
 #: mail/message-tag-followup.c:78
 msgid "No Response Necessary"
-msgstr ""
+msgstr "பதில் தேவை இல்லை"
 
 #: mail/message-tag-followup.c:80 ui/evolution-mail-message.xml.h:85
 msgid "Reply"
-msgstr ""
+msgstr "பதில்"
 
 #: mail/message-tag-followup.c:81 ui/evolution-mail-message.xml.h:86
 msgid "Reply to All"
-msgstr ""
+msgstr "அனைவருக்கும் பதிலலி"
 
 #: mail/message-tag-followup.c:82
 msgid "Review"
-msgstr ""
+msgstr "மீள்பார்வை"
 
 #: mail/searchtypes.xml.h:1
 msgid "Body contains"
-msgstr ""
+msgstr "உள்ளடக்கத்தில்"
 
 #: mail/searchtypes.xml.h:2
 msgid "Body does not contain"
-msgstr ""
+msgstr "உள்ளடக்கத்தில் இல்லை"
 
 #: mail/searchtypes.xml.h:3
 msgid "Body or subject contains"
-msgstr ""
+msgstr "உள்ளடக்கம் அல்லது தலைப்பில்"
 
 #: mail/searchtypes.xml.h:4
 msgid "Message contains"
-msgstr ""
+msgstr "செய்தியில்"
 
 #: mail/searchtypes.xml.h:5
 msgid "Recipients contain"
-msgstr ""
+msgstr "பெருபவரில்"
 
 #: mail/searchtypes.xml.h:6
 msgid "Sender contains"
-msgstr ""
+msgstr "அனுப்பியவரில்"
 
 #: mail/searchtypes.xml.h:7
 msgid "Subject contains"
-msgstr ""
+msgstr "தலைப்பில்"
 
 #: mail/searchtypes.xml.h:8
 msgid "Subject does not contain"
-msgstr ""
+msgstr "தலைப்பு இல்லை"
 
 #: shell/GNOME_Evolution_Shell.server.in.in.h:1
 msgid "Evolution Shell"
-msgstr ""
+msgstr "எவல்யூஷன் ஷெல்"
 
 #: shell/GNOME_Evolution_Test.server.in.in.h:1
 msgid "Evolution Test"
-msgstr ""
+msgstr "எவல்யூஷன் சோதனை"
 
 #: shell/GNOME_Evolution_Test.server.in.in.h:2
 msgid "Evolution Test component"
-msgstr ""
+msgstr "எவல்யூஷன் சோதனை பொருள்"
 
 #: shell/apps_evolution_shell.schemas.in.in.h:1
 msgid "480"
-msgstr ""
+msgstr "480"
 
 #: shell/apps_evolution_shell.schemas.in.in.h:2
 msgid "Default width of the folder bar pane"
-msgstr ""
+msgstr "அடைவு பட்டியில் இயல்பான அகலம்"
 
 #: shell/apps_evolution_shell.schemas.in.in.h:3
 msgid "Default window height"
-msgstr ""
+msgstr "சாளரத்தின் இயல்பான உயரம்"
 
 #: shell/apps_evolution_shell.schemas.in.in.h:4
 msgid "Default window width"
-msgstr ""
+msgstr "சாளரத்தின் இயல்பான அகலம்"
 
 #: shell/apps_evolution_shell.schemas.in.in.h:5
 msgid "Evolution configuration version"
-msgstr ""
+msgstr "எவல்யூஷன் அமைப்பு பதிப்பு"
 
 #: shell/apps_evolution_shell.schemas.in.in.h:6
 msgid "ID or alias of the component to be shown by default at start-up."
-msgstr ""
+msgstr "அடையாலம் அல்லது மாற்றுப்பெயராவது துவக்கத்திக் காட்டப்படவேண்டும் "
 
 #: shell/apps_evolution_shell.schemas.in.in.h:7
 msgid ""
 "If set to true, Evolution will start up in offline mode instead of online "
 "mode."
-msgstr ""
+msgstr "உண்மை என அமைக்கப்பட்டால், எவல்யூஷன் இணையம் இல்லாமல் துவங்கும்"
 
 #: shell/apps_evolution_shell.schemas.in.in.h:8
 msgid ""
 "If set to true, the warning dialog in development versions of Evolution is "
 "not displayed."
-msgstr ""
+msgstr "உண்மை என அமைக்கப்பட்டால், நிரலாக்க பதிப்பு பற்றிய எச்சரிக்கை செய்தி காட்டப்பட மாட்டாது."
 
 #: shell/apps_evolution_shell.schemas.in.in.h:9
 msgid "List of paths for the folders to be synchronized to disk for offline usage"
-msgstr ""
+msgstr "இணையத்தில் இல்லாமல் வேலை செய்ய ஒத்திசைக்க வேண்டிய பாதைகளின் பட்டியல்"
 
 #: shell/apps_evolution_shell.schemas.in.in.h:10
 msgid "Toolbar is visible"
-msgstr ""
+msgstr "கருவிப்பட்டி தெரிகிறது"
 
 #: shell/apps_evolution_shell.schemas.in.in.h:11
 msgid "Whether Evolution should start up in offline mode"
-msgstr ""
+msgstr "எவல்யூஷன் இணைய இணைப்பு இல்லாமல் துவங்க வேண்டுமா"
 
 #: shell/apps_evolution_shell.schemas.in.in.h:12
 msgid "Whether the toolbar should be visible."
-msgstr ""
+msgstr "கருவிப்பட்டி தெரிய வேண்டுமா"
 
 #: shell/apps_evolution_shell.schemas.in.in.h:13
 msgid "Whether to skip the development warning dialog"
-msgstr ""
+msgstr "நிரலாக்கம் பற்றிய எச்சரிக்கை செய்திய தவிர்க்க வேண்டுமா"
 
 #: shell/e-active-connection-dialog.glade.h:1
 msgid "<b>Active Connections</b>"
-msgstr ""
+msgstr "<b>செயலில் உள்ள இணைப்புகள்</b>"
 
 #: shell/e-active-connection-dialog.glade.h:2
 msgid "Active Connections"
-msgstr ""
+msgstr "செயலில் உள்ள இணைப்புகள்"
 
 #: shell/e-active-connection-dialog.glade.h:3
 msgid "Click OK to close these connections and go offline"
-msgstr ""
+msgstr "சரி பட்டனை க்ளிக் செய்து இணையத்திலிருந்து வெளியேறவும்"
 
 #: shell/e-shell-folder-title-bar.c:592 shell/e-shell-folder-title-bar.c:593
 msgid "(Untitled)"
-msgstr ""
+msgstr "(தலைப்பில்லா)"
 
 #: shell/e-shell-importer.c:146
 msgid "Choose the type of importer to run:"
-msgstr ""
+msgstr "இயக்க வேண்டிய இறக்கி வகையை தேர்வு செய்யவும்"
 
 #: shell/e-shell-importer.c:149
 msgid ""
@@ -16297,14 +16355,17 @@ msgid ""
 "You can select \"Automatic\" if you do not know, and Evolution will attempt "
 "to work it out."
 msgstr ""
+"நீங்கள் எவல்யூஷனில் பெற வேண்டிய கோப்பை தேர்வு செய்து, பட்டியலிலிருந்து கோப்பின் வகையை தேர்வு செய்யவும்\n"
+"\n"
+"\"தானாக\" பட்டனை க்ளிக் செய்தால் எவல்யூஷன் தானாகவே கோப்பை பெற்றுக்கொள்ளும்"
 
 #: shell/e-shell-importer.c:155
 msgid "Choose the destination for this import"
-msgstr ""
+msgstr "இந்த கோப்புகள் சேருமிடத்தை தேர்வு செய்யவும்"
 
 #: shell/e-shell-importer.c:158 shell/e-shell-startup-wizard.c:748
 msgid "Please select the information that you would like to import:"
-msgstr ""
+msgstr "நீங்கள் பெறவிரும்பும் தகவலை தேர்வு செய்யவும்"
 
 #: shell/e-shell-importer.c:161
 msgid ""
@@ -16313,6 +16374,10 @@ msgid ""
 "that could be imported where found. If you would like to\n"
 "try again, please click the \"Back\" button.\n"
 msgstr ""
+"எவல்யூஷன் பைன், நெட்ஸ்கேப்,Elm,iநாள்காட்டி \n"
+"போன்ற பயன்பாடுகளிிலிருந்து கோப்புகளை பெற முயல்கிறது\n"
+"ஆனால் இது போன்ற பயன்பாடுகள் தென்படவில்லை\n"
+"\"பின் செல்\" பட்டனை க்ளிக் செய்து மீண்டும் முயற்சி செய்யவும்.\n"
 
 #: shell/e-shell-importer.c:229 shell/e-shell-importer.c:260
 #, c-format
@@ -16320,29 +16385,31 @@ msgid ""
 "Importing %s\n"
 "Importing item %d."
 msgstr ""
+"இறக்குகிறது %s\n"
+"உருப்படி %d ஐ இறக்குகிறது."
 
 #: shell/e-shell-importer.c:333
 msgid "Select importer"
-msgstr ""
+msgstr "இறக்கியை தேர்வு செய்"
 
 #: shell/e-shell-importer.c:451 shell/e-shell-importer.c:1055
 #, c-format
 msgid "File %s does not exist"
-msgstr ""
+msgstr "கோப்பு %s இல்லை"
 
 #: shell/e-shell-importer.c:459
 msgid "Importing"
-msgstr ""
+msgstr "இறக்குகிறது"
 
 #: shell/e-shell-importer.c:467
 #, c-format
 msgid "Importing %s.\n"
-msgstr ""
+msgstr "இறக்குகிறது %s\n"
 
 #: shell/e-shell-importer.c:477 shell/e-shell-importer.c:478
 #, c-format
 msgid "Error loading %s"
-msgstr ""
+msgstr "ஏற்றும் போது பிழை %s"
 
 #: shell/e-shell-importer.c:495
 #, c-format
@@ -16350,70 +16417,74 @@ msgid ""
 "Importing %s\n"
 "Importing item 1."
 msgstr ""
+"இறக்குகிறது %s\n"
+"உருப்படி 1 ஐ இறக்குகிறது."
 
 #: shell/e-shell-importer.c:570
 msgid "Automatic"
-msgstr ""
+msgstr "தானாக"
 
 #: shell/e-shell-importer.c:626
 msgid "F_ilename:"
-msgstr ""
+msgstr "(_i)கோப்பின் பெயர்:"
 
 #: shell/e-shell-importer.c:631
 msgid "Select a file"
-msgstr ""
+msgstr "கோப்பை தேர்வு செய்"
 
 #: shell/e-shell-importer.c:642
 msgid "File _type:"
-msgstr ""
+msgstr "(_t)கோப்பு வகை:"
 
 #: shell/e-shell-importer.c:681
 msgid "Import data and settings from _older programs"
-msgstr ""
+msgstr "(_o)பழைய நிரலிலிருந்து தகவலை பெறுகிறது"
 
 #: shell/e-shell-importer.c:684
 msgid "Import a _single file"
-msgstr ""
+msgstr "(_s)ஒரு கோப்பை இறக்குகிறது"
 
 #: shell/e-shell-importer.c:752 shell/e-shell-startup-wizard.c:571
 msgid ""
 "Please wait...\n"
 "Scanning for existing setups"
 msgstr ""
+"தயவு செய்து காத்திருக்கவும்..\n"
+"ஏற்கெனவே உள்ள நிறுவலை சோதிக்கிறது"
 
 #: shell/e-shell-importer.c:756
 msgid "Starting Intelligent Importers"
-msgstr ""
+msgstr "துல்லிய இறக்கியை துவக்குகிறது"
 
 #: shell/e-shell-importer.c:882 shell/e-shell-startup-wizard.c:698
 #, c-format
 msgid "From %s:"
-msgstr ""
+msgstr "அனுப்புனர் %s:"
 
 #: shell/e-shell-importer.c:1073
 #, c-format
 msgid "No importer available for file %s"
-msgstr ""
+msgstr "%s கோப்புக்கான இறக்கி கிடைக்கவில்லை"
 
 #: shell/e-shell-importer.c:1085
 msgid "Unable to execute importer"
-msgstr ""
+msgstr "இறக்கியை இயக்க முடியவில்லை"
 
 #: shell/e-shell-importer.c:1199
 msgid "_Import"
-msgstr ""
+msgstr "(_I)பதிவிறக்கம்"
 
 #: shell/e-shell-offline-handler.c:594
 msgid "Closing connections..."
-msgstr ""
+msgstr "இணைப்பை மூடிகிறது..."
 
 #: shell/e-shell-settings-dialog.c:326
 msgid "Evolution Settings"
-msgstr ""
+msgstr "எவல்யூஷன் அமைப்புகள்"
 
 #: shell/e-shell-startup-wizard.c:575
 msgid "Starting import"
-msgstr ""
+msgstr "ஏற்றத்தை துவக்குகிறது"
 
 #: shell/e-shell-startup-wizard.c:795
 msgid ""
@@ -16423,121 +16494,124 @@ msgid ""
 "\n"
 "Do you want to quit using the Assistant now?"
 msgstr ""
+"எவல்யூஷன் நிறுவல் உதவியில் இருந்து வெளியேறியானால், நீங்கள் உள்ளிட்ட அனைத்து தகவல்களும் காணாமல் போகும். எவல்யூஷனை மீண்டும் பயன்படுத்த இந்த உதவியை இயக்க வேண்டும் \n"
+"\n"
+"வெளியேற விருப்பமா?"
 
 #: shell/e-shell-utils.c:116
 msgid "No folder name specified."
-msgstr ""
+msgstr "அடைவின் பெயர் குறிப்பிடப்படவில்லை"
 
 #: shell/e-shell-utils.c:123
 msgid "Folder name cannot contain the Return character."
-msgstr ""
+msgstr "அடைவில் Return  எழுத்து இருக்கக்கூடாது."
 
 #: shell/e-shell-utils.c:129
 msgid "Folder name cannot contain the character \"/\"."
-msgstr ""
+msgstr "அடைவில் \"/\" எழுத்து இருக்கக்கூடாது."
 
 #: shell/e-shell-utils.c:135
 msgid "Folder name cannot contain the character \"#\"."
-msgstr ""
+msgstr "அடைவில் \"#\" எழுத்து இருக்கக்கூடாது."
 
 #: shell/e-shell-utils.c:141
 msgid "'.' and '..' are reserved folder names."
-msgstr ""
+msgstr "'.' மற்றும் '..' கணினி தொடர்பான அடைவுகள்."
 
 #: shell/e-shell-window-commands.c:66
 msgid "The GNOME Pilot tools do not appear to be installed on this system."
-msgstr ""
+msgstr "க்னோம் பைலட் கருவிகள் இந்த கணினியில் நிறுவப்படவில்லை."
 
 #: shell/e-shell-window-commands.c:74
 #, c-format
 msgid "Error executing %s."
-msgstr ""
+msgstr "இயக்கும் போது பிழை %s."
 
 #: shell/e-shell-window-commands.c:123
 msgid "Bug buddy is not installed."
-msgstr ""
+msgstr "பக் பட்டி நிறுவப்படவில்லை"
 
 #: shell/e-shell-window-commands.c:131
 msgid "Bug buddy could not be run."
-msgstr ""
+msgstr "பக் பட்டியை இயக்க முடியவில்லை"
 
 #: shell/e-shell-window-commands.c:322
 msgid "Groupware Suite"
-msgstr ""
+msgstr "குழுக்களுக்கான மென்பொருள்"
 
 #: shell/e-shell-window-commands.c:562
 msgid "_Work Online"
-msgstr ""
+msgstr "(_W)இணையத்தில் வேலை செய்யவும்"
 
 #: shell/e-shell-window-commands.c:575 ui/evolution.xml.h:39
 msgid "_Work Offline"
-msgstr ""
+msgstr "(_W)இணையத்தொடர்பு இல்லாமல் வேலை செய்யவும்"
 
 #: shell/e-shell-window-commands.c:588 ui/evolution.xml.h:25
 msgid "Work Offline"
-msgstr ""
+msgstr "இணையத்தொடர்பு இல்லாமல் வேலை செய்யவும்"
 
 #: shell/e-shell-window.c:337
 msgid "Evolution is currently online.  Click on this button to work offline."
-msgstr ""
+msgstr "எவல்யூஷன் தற்சமயம் இணையத்தில் உள்ளது. இந்த பட்டனை பயன்படுத்தி இணையத்திலிருந்து வெளியேறவும்"
 
 #: shell/e-shell-window.c:344
 msgid "Evolution is in the process of going offline."
-msgstr ""
+msgstr "எவல்யூஷன் இணையத்திலிருந்து விடுபட்டுக்கொண்டிருக்கிறது"
 
 #: shell/e-shell-window.c:350
 msgid "Evolution is currently offline.  Click on this button to work online."
-msgstr ""
+msgstr "எவல்யூஷன் தற்போது இணையத்தொடர்பில் இல்லை, இந்த பட்டனை க்ளிக் செய்து இணையத்துடன் இணையவும்"
 
 #: shell/e-shell-window.c:637
 #, c-format
 msgid "Switch to %s"
-msgstr ""
+msgstr "%s க்கு மாறு"
 
 #: shell/e-shell.c:565 shell/e-shell.c:566
 #, c-format
 msgid "%ld KB"
-msgstr ""
+msgstr "%ld KB"
 
 #: shell/e-shell.c:751
 msgid "Uknown system error."
-msgstr ""
+msgstr "தெரியாத கணினி பிழை"
 
 #: shell/e-shell.c:1116
 msgid "Invalid arguments"
-msgstr ""
+msgstr "செல்லாத அளவுருக்கள்"
 
 #: shell/e-shell.c:1118
 msgid "Cannot register on OAF"
-msgstr ""
+msgstr "OAF பதிவு செய்ய முடியவில்லை"
 
 #: shell/e-shell.c:1120
 msgid "Configuration Database not found"
-msgstr ""
+msgstr "அமைப்பு தரவுத்தளத்தை காணவில்லை"
 
 #: shell/e-shell.c:1122
 msgid "Generic error"
-msgstr ""
+msgstr "புதுவான பிழை"
 
 #: shell/e-user-creatable-items-handler.c:691
 msgid "New"
-msgstr ""
+msgstr "புதிய"
 
 #: shell/evolution-startup-wizard.glade.h:2
 msgid "Evolution Setup Assistant"
-msgstr ""
+msgstr "எவல்யூஷன் அமைப்பு உதவி"
 
 #: shell/evolution-startup-wizard.glade.h:3
 msgid "Importing Files"
-msgstr ""
+msgstr "கோப்புகளை பதிவிறக்குகிறது"
 
 #: shell/evolution-startup-wizard.glade.h:4
 msgid "Timezone "
-msgstr ""
+msgstr "நேரம் இடம்"
 
 #: shell/evolution-startup-wizard.glade.h:5
 msgid "Welcome"
-msgstr ""
+msgstr "நல்வரவு"
 
 #: shell/evolution-startup-wizard.glade.h:6
 msgid ""
@@ -16547,6 +16621,11 @@ msgid ""
 "\n"
 "Please click the \"Forward\" button to continue. "
 msgstr ""
+"எவல்யூஷன் உங்களை வரவேற்கிறது. இனிவரும் திரைகள்\n"
+"உங்கள் மின்னஞ்சல் கணக்கை எவல்யூஷனில் அமைக்க பயன்படும்t\n"
+"மேலும் மற்ற பயன்பாடுகளையும் பதிவிறக்கம் செய்துகொள்ளலாம்\n"
+"\n"
+"\"அடுத்து\" பட்டனை க்ளிக் செய்து தொடரவும்"
 
 #: shell/evolution-startup-wizard.glade.h:11
 msgid ""
@@ -16555,46 +16634,50 @@ msgid ""
 "\n"
 "Click the \"Apply\" button to save your settings. "
 msgstr ""
+"நீங்கள் எவல்யூஷன் நிறுவுவதற்கான அனைத்து தகவல்களையும்\n"
+"வெற்றிகரமாக உள்ளிட்டுவிட்டீர்கள்\n"
+"\n"
+"\"செயல்படுத்து\" பட்டனை க்ளிக் செய்து உங்கள் அமைப்புகளை சேமிக்கவும்"
 
 #: shell/evolution-test-component.c:140
 msgid "New Test"
-msgstr ""
+msgstr "புதிய சோதனை"
 
 #: shell/evolution-test-component.c:141
 msgid "_Test"
-msgstr ""
+msgstr "(_T)சோதி"
 
 #: shell/evolution-test-component.c:142
 msgid "Create a new test item"
-msgstr ""
+msgstr "புதிய பணியை உருவாக்கு"
 
 #: shell/importer/import.glade.h:1
 msgid "Click \"Import\" to begin importing the file into Evolution. "
-msgstr ""
+msgstr "\"பதிவிறக்கு\" என்பதை க்ளிக் செய்து எவல்யூஷன் கோப்புகளை இறக்கிகொள்ளவும்"
 
 #: shell/importer/import.glade.h:2
 msgid "Evolution Import Assistant"
-msgstr ""
+msgstr "எவல்யூஷன் பதிவிறக்கி உதவி"
 
 #: shell/importer/import.glade.h:3
 msgid "Import File"
-msgstr ""
+msgstr "இறக்க வேண்டிய கோப்பு"
 
 #: shell/importer/import.glade.h:4
 msgid "Import Location"
-msgstr ""
+msgstr "இறக்க வேண்டிய இடம்"
 
 #: shell/importer/import.glade.h:5
 msgid "Importer Type"
-msgstr ""
+msgstr "இறக்கி வகை"
 
 #: shell/importer/import.glade.h:6
 msgid "Select Importers"
-msgstr ""
+msgstr "இறக்கியை தேர்வுசெய்"
 
 #: shell/importer/import.glade.h:7
 msgid "Select a File"
-msgstr ""
+msgstr "கோப்பை தேர்வு செய்"
 
 #: shell/importer/import.glade.h:8
 msgid ""
@@ -16602,26 +16685,29 @@ msgid ""
 "With this assistant you will be guided through the process of\n"
 "importing external files into Evolution."
 msgstr ""
+"எவல்யூஷன் இறக்குமதி கையேடு உங்களை வரவேற்கிறது\n"
+"இதன் உதவியோடு நீங்கள் எவல்யூஷன்\n"
+"கோப்புகளை பதிவிறக்கம் செய்துகொள்ளலாம்."
 
 #: shell/importer/intelligent.c:193
 msgid "Importers"
-msgstr ""
+msgstr "இறக்குமதி செய்பவர்"
 
 #: shell/importer/intelligent.c:195 smime/gui/smime-ui.glade.h:28
 msgid "Import"
-msgstr ""
+msgstr "இறக்குமதி செய்"
 
 #: shell/importer/intelligent.c:199
 msgid "Don't import"
-msgstr ""
+msgstr "இறக்காதே"
 
 #: shell/importer/intelligent.c:203
 msgid "Don't ask me again"
-msgstr ""
+msgstr "என்னிடம் மீண்டும் கேட்காதே"
 
 #: shell/importer/intelligent.c:211
 msgid "Evolution can import data from the following files:"
-msgstr ""
+msgstr "கீழ்கண்ட கோப்பிலிருந்து எவல்யூஷனால் தகவலை பெற்றுக்கொள்ள முடியவில்லை"
 
 #. Preview/Alpha/Beta version warning message
 #: shell/main.c:225
@@ -16643,44 +16729,61 @@ msgid ""
 "We hope that you enjoy the results of our hard work, and we\n"
 "eagerly await your contributions!\n"
 msgstr ""
+"வணக்கம், எவல்யூஷனின் முன் பதிப்பான எவல்யூஷன் குழு பதிப்பை \n"
+"பதிவிறக்கம் செய்தமைக்கு நன்றி\n"
+"\n"
+"எவல்யூஷனின் இந்த பதிப்பு இன்னும் முழுமையடைவில்லை\n"
+"இதில் உள்ள சில பகுதிகள் சரியாக வேலை செய்யாமல் போகலாம்\n"
+"\n"
+"உங்களுக்கு எவல்யூஷனின் நிலையான பதிப்பு தேவை என்றால், \n"
+"இந்த பதிப்பின் நிறுவலை நீக்கிய பின் %s பதிப்பை நிறுவிக்கொள்ளவும்\n"
+"\n"
+"வழு ஏதேனும் இருந்தால் bugzilla.ximian.com க்கு அனுப்பவும்\n"
+"இந்த மென்பொருளுக்கு உத்திரவாதம் எதுவுமில்லை\n"
+"தவறு நேர்ந்தால் நாங்கள் பொருப்பல்ல\n"
+"\n"
+"எங்கள் கடின உழைப்பின் பலனை நீங்கள் புரிந்துகொண்டிருப்பீர்கள் \n"
+"என நம்புகிறோம். உங்கள் பங்களிப்பை எதிர்பார்க்கிறோம்.\n"
 
 #: shell/main.c:249
 msgid ""
 "Thanks\n"
 "The Evolution Team\n"
 msgstr ""
+"நன்றி\n"
+"எவல்யூஷன் குழுவிற்கு\n"
 
 #: shell/main.c:256
 msgid "Don't tell me again"
-msgstr ""
+msgstr "என்னிடம் மீண்டும் சொல்லாதே"
 
 #: shell/main.c:461
 msgid "Start Evolution activating the specified component"
-msgstr ""
+msgstr "குறிப்பிட்ட உருப்படியை துவக்குவதன் மூலம் எவல்யூஷனை துவக்கு"
 
 #: shell/main.c:463
 msgid "Start in offline mode"
-msgstr ""
+msgstr "இணையம் இல்லாமல் துவக்கு"
 
 #: shell/main.c:465
 msgid "Start in online mode"
-msgstr ""
+msgstr "இணையத்தோடு துவக்கு"
 
 #: shell/main.c:468
 msgid "Forcibly shut down all evolution components"
-msgstr ""
+msgstr "எல்லா எவல்யூஷன் விளைவுகளையும் பணிநிறுத்தம் செய்கிறது"
 
 #: shell/main.c:472
 msgid "Forcibly re-migrate from Evolution 1.4"
-msgstr ""
+msgstr "எவல்யூஷன் 1.4 லிருந்து மீண்டும் மாற்றப்படுகிறது"
 
 #: shell/main.c:475
 msgid "Send the debugging output of all components to a file."
-msgstr ""
+msgstr "கோப்பின் எல்லா உருப்படிகளுக்கும் வழுநீக்க விளைவை அனுப்பவும்"
 
 #: shell/main.c:502
 msgid "Evolution"
-msgstr ""
+msgstr "எவல்யூஷன்"
 
 #: shell/main.c:506
 #, c-format
@@ -16688,11 +16791,13 @@ msgid ""
 "%s: --online and --offline cannot be used together.\n"
 "  Use %s --help for more information.\n"
 msgstr ""
+"%s: --online மற்றும் --offline இரண்டையும் ஒரே சமயத்தில் பயன்படுத்த முடியாது.\n"
+"  %s --help பயன்படுத்தி தகவல்களை தெரிந்துகொள்ளவும்.\n"
 
 #. shell:upgrade-nospace primary
 #: shell/shell-errors.xml.h:2
 msgid "Insufficient disk space for upgrade."
-msgstr ""
+msgstr "மேம்படுத்துவதற்கு வட்டில் இடம் இல்லை"
 
 #. shell:upgrade-nospace secondary
 #: shell/shell-errors.xml.h:4
@@ -16703,6 +16808,10 @@ msgid ""
 "You will need to make more space available in your home directory before you "
 "can continue."
 msgstr ""
+"மேம்படுத்த வட்டில் {0} இடம் தேவை ஆனால் உங்களிடம் "
+"{1} இடமே உள்ளது\n"
+"\n"
+"தொடர்வதற்கு முன் உங்கள் கணினி அடைவில் அதிக இடத்தை உருவாக்கிக்கொள்ளவும்"
 
 #. shell:upgrade-failed primary
 #: shell/shell-errors.xml.h:8
@@ -16710,6 +16819,8 @@ msgid ""
 "Upgrade from previous version failed:\n"
 "{0}"
 msgstr ""
+"முந்தைய பதிப்பை மேம்படுத்தல் தோல்வியுற்றது:\n"
+"{0}"
 
 #. shell:upgrade-failed secondary
 #: shell/shell-errors.xml.h:11
@@ -16719,22 +16830,26 @@ msgid ""
 "If you choose to continue, you may not have access to some of your old "
 "data.\n"
 msgstr ""
+"{1}\n"
+"\n"
+"தொடர்வதால் சில பழைய தகவல்களை அணுகமுடியாமல் போகலாம்"
+".\n"
 
 #: shell/shell-errors.xml.h:15
 msgid "Continue"
-msgstr ""
+msgstr "தொடர்க"
 
 #. shell:noshell title
 #. shell:noshell-reason title
 #: shell/shell-errors.xml.h:17 shell/shell-errors.xml.h:25
 msgid "Cannot start Evolution"
-msgstr ""
+msgstr "எவல்யூஷன் துவங்க முடியவில்லை"
 
 #. shell:noshell primary
 #. shell:noshell-reason primary
 #: shell/shell-errors.xml.h:19 shell/shell-errors.xml.h:27
 msgid "Evolution can not start."
-msgstr ""
+msgstr "எவல்யூஷன் துவங்க முடியவில்லை"
 
 #. shell:noshell secondary
 #: shell/shell-errors.xml.h:21
@@ -16743,6 +16858,9 @@ msgid ""
 "\n"
 "Click help for details"
 msgstr ""
+"உங்கள் கணினி அமைப்பு எவல்யூஷன் அமைப்போடு பொருந்தவில்லை:\n"
+"\n"
+"உதவிக்கு இங்கே க்ளிக் செய்யவும்."
 
 #. shell:noshell-reason secondary
 #: shell/shell-errors.xml.h:29
@@ -16753,6 +16871,11 @@ msgid ""
 "\n"
 "Click help for details."
 msgstr ""
+"உங்கள் கணினி அமைப்பு எவல்யூஷன் அமைப்போடு பொருந்தவில்லை:\n"
+"\n"
+"{0}\n"
+"\n"
+"உதவிக்கு இங்கே க்ளிக் செய்யவும்."
 
 #: smime/gui/ca-trust-dialog.c:91
 #, c-format
@@ -16761,66 +16884,69 @@ msgid ""
 "\n"
 "Edit trust settings:"
 msgstr ""
+"சான்றிதழ் '%s' CA சான்றிதழ்.\n"
+"\n"
+"நம்பக அமைப்பை திருத்தவும்:"
 
 #: smime/gui/cert-trust-dialog.c:145
 msgid ""
 "Because you trust the certificate authority that issued this certificate, "
 "then you trust the authenticity of this certificate unless otherwise "
 "indicated here"
-msgstr ""
+msgstr "இந்த சான்றிதழை வழங்கியவரை நீங்கள் ஏற்றாலும் ,சான்றிதழில் அனுமதியை குறிப்பிடாமல் பயன்படுத்த முடியாது"
 
 #: smime/gui/cert-trust-dialog.c:149
 msgid ""
 "Because you do not trust the certificate authority that issued this "
 "certificate, then you do not trust the authenticity of this certificate "
 "unless otherwise indicated here"
-msgstr ""
+msgstr "இந்த சான்றிதழை வழங்கியவரை நீங்கள் ஏற்காததால் ,சான்றிதழில் அனுமதியை குறிப்பிடாமல் பயன்படுத்த முடியாது"
 
 #: smime/gui/certificate-manager.c:130 smime/gui/certificate-manager.c:353
 #: smime/gui/certificate-manager.c:556
 msgid "Select a cert to import..."
-msgstr ""
+msgstr "ஏற்ற வேண்டிய சான்றிதழை தேர்வு செய்யவும்"
 
 #: smime/gui/certificate-manager.c:245 smime/gui/certificate-manager.c:437
 #: smime/gui/certificate-manager.c:638
 msgid "Certificate Name"
-msgstr ""
+msgstr "சான்றிதழ் பெயர்"
 
 #: smime/gui/certificate-manager.c:254 smime/gui/certificate-manager.c:455
 msgid "Purposes"
-msgstr ""
+msgstr "காரணம்"
 
 #: smime/gui/certificate-manager.c:263 smime/gui/smime-ui.glade.h:36
 #: smime/lib/e-cert.c:569
 msgid "Serial Number"
-msgstr ""
+msgstr "வரிசை எண்"
 
 #: smime/gui/certificate-manager.c:271
 msgid "Expires"
-msgstr ""
+msgstr "காலாவதியானது"
 
 #: smime/gui/certificate-manager.c:446
 msgid "E-Mail Address"
-msgstr ""
+msgstr "மின்னஞ்சல் முகவரிகள்"
 
 #: smime/gui/certificate-viewer.c:334
 #, c-format
 msgid "Certificate Viewer: %s"
-msgstr ""
+msgstr "சான்றிதழ் காட்டி: %s"
 
 #: smime/gui/component.c:45
 #, c-format
 msgid "Enter the password for `%s'"
-msgstr ""
+msgstr "`%s' க்கான கடவுச்சொல்லை உள்ளிடவும்"
 
 #. we're setting the password initially
 #: smime/gui/component.c:68
 msgid "Enter new password for certificate database"
-msgstr ""
+msgstr "சான்றிதழ் தரவுதளத்துக்கான புதிய கடவுச்சொல்லை உள்ளிடவும்"
 
 #: smime/gui/component.c:70
 msgid "Enter new password"
-msgstr ""
+msgstr "புதிய கடவுச்சொல்லை உள்ளிடவும்"
 
 #. FIXME: add serial no, validity date, uses
 #: smime/gui/e-cert-selector.c:121
@@ -16829,6 +16955,8 @@ msgid ""
 "Issued to:\n"
 "  Subject: %s\n"
 msgstr ""
+"பெற்றுக்கொண்டவர்:\n"
+"  தலைப்பு: %s\n"
 
 #: smime/gui/e-cert-selector.c:122
 #, c-format
@@ -16836,64 +16964,66 @@ msgid ""
 "Issued by:\n"
 "  Subject: %s\n"
 msgstr ""
+"வழங்கியவர்:\n"
+"  தலைப்பு: %s\n"
 
 #: smime/gui/e-cert-selector.c:169
 msgid "Select certificate"
-msgstr ""
+msgstr "சான்றிதழை தேர்வு செய்"
 
 #: smime/gui/smime-ui.glade.h:1
 msgid "<Not Part of Certificate>"
-msgstr ""
+msgstr "<சான்றிதழின் பகுதி இல்லை>"
 
 #: smime/gui/smime-ui.glade.h:2
 msgid "<b>Certificate Fields</b>"
-msgstr ""
+msgstr "<b>சான்றிதழ் புலங்கள்</b>"
 
 #: smime/gui/smime-ui.glade.h:3
 msgid "<b>Certificate Hierarchy</b>"
-msgstr ""
+msgstr "<b>சான்றிதழ் வரிசை</b>"
 
 #: smime/gui/smime-ui.glade.h:4
 msgid "<b>Field Value</b>"
-msgstr ""
+msgstr "<b>புல மதிப்பு</b>"
 
 #: smime/gui/smime-ui.glade.h:5
 msgid "<b>Fingerprints</b>"
-msgstr ""
+msgstr "<b>கைரேகை</b>"
 
 #: smime/gui/smime-ui.glade.h:6
 msgid "<b>Issued By</b>"
-msgstr ""
+msgstr "<b>வழங்கியவர்</b>"
 
 #: smime/gui/smime-ui.glade.h:7
 msgid "<b>Issued To</b>"
-msgstr ""
+msgstr "<b>பெற்றுக்கொண்டவர்</b>"
 
 #: smime/gui/smime-ui.glade.h:8
 msgid "<b>This certificate has been verified for the following uses:</b>"
-msgstr ""
+msgstr "<b>இந்த சான்றிதழ் கீழ்கண்ட பயன் பாட்டுக்காக சரிபார்க்கப்பட்டது:</b>"
 
 #: smime/gui/smime-ui.glade.h:9
 msgid "<b>Validity</b>"
-msgstr ""
+msgstr "<b>செல்லுபடி</b>"
 
 #: smime/gui/smime-ui.glade.h:10
 msgid "Authorities"
-msgstr ""
+msgstr "அனுமதிஉள்ளவர்கள்"
 
 #: smime/gui/smime-ui.glade.h:11
 msgid "Backup"
-msgstr ""
+msgstr "காப்பு"
 
 #: smime/gui/smime-ui.glade.h:12
 msgid "Backup All"
-msgstr ""
+msgstr "அனைத்தையும் காப்பு எடு"
 
 #: smime/gui/smime-ui.glade.h:13
 msgid ""
 "Before trusting this CA for any purpose, you should examine its certificate "
 "and its policy and procedures (if available)."
-msgstr ""
+msgstr "இந்த CA வை பயன்படுத்துவதற்கு முன் அதன் முறை மற்றும் அனுமதி ஆகியவைகளை சோதிக்கவும்(கிடைத்தால்)"
 
 #: smime/gui/smime-ui.glade.h:14 smime/lib/e-cert.c:1076
 msgid "Certificate"
