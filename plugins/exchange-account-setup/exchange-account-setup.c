@@ -23,6 +23,8 @@
 #endif
 
 #include <string.h>
+#include <unistd.h>
+#include <sys/stat.h>
 #include <glib/gi18n.h>
 #include <glade/glade.h>
 #include <gtk/gtk.h>
@@ -31,6 +33,7 @@
 #include <camel/camel-provider.h>
 #include <camel/camel-url.h>
 #include <camel/camel-service.h>
+#include <libedataserver/e-xml-hash-utils.h>
 #include "mail/em-account-editor.h"
 #include "mail/em-config.h"
 #include "e-util/e-account.h"
@@ -40,9 +43,12 @@ GtkWidget* org_gnome_exchange_settings(EPlugin *epl, EConfigHookItemFactoryData 
 GtkWidget *org_gnome_exchange_owa_url(EPlugin *epl, EConfigHookItemFactoryData *data);
 gboolean org_gnome_exchange_check_options(EPlugin *epl, EConfigHookPageCheckData *data);
 GtkWidget *org_gnome_exchange_auth_section (EPlugin *epl, EConfigHookItemFactoryData *data);
+void org_gnome_exchange_commit (EPlugin *epl, EConfigHookItemFactoryData *data);
 
 /* NB: This should be given a better name, it is NOT a camel service, it is only a camel-exchange one */
 typedef gboolean (CamelProviderValidateUserFunc) (CamelURL *camel_url, const char *url, gboolean *remember_password, CamelException *ex);
+
+#define OOF_INFO_FILE_NAME "oof_info.xml"
 
 typedef struct {
         CamelProviderValidateUserFunc *validate_user;
@@ -71,6 +77,40 @@ CamelServiceAuthType camel_exchange_password_authtype = {
 };
 
 
+typedef struct {
+	gboolean state;
+	char *account_name, *message;
+	GtkWidget *text_view;
+}OOFData;
+
+OOFData *oof_data;
+
+static void
+update_state (GtkTextBuffer *buffer, gpointer data)
+{
+	if (gtk_text_buffer_get_modified (buffer)) {
+		GtkTextIter start, end;
+		if (oof_data->message)
+			g_free (oof_data->message);
+		gtk_text_buffer_get_bounds (buffer, &start, &end);
+		oof_data->message =  gtk_text_buffer_get_text (buffer, &start,
+							       &end, FALSE);
+		gtk_text_buffer_set_modified (buffer, FALSE);
+	}
+}
+
+static void 
+toggled_state (GtkToggleButton *button, gpointer data)
+{
+	gboolean current_oof_state = gtk_toggle_button_get_active (button);
+
+	if (current_oof_state == oof_data->state)
+		return; 
+	oof_data->state = current_oof_state;
+	gtk_widget_set_sensitive (oof_data->text_view, current_oof_state);
+}
+
+
 /* only used in editor */
 GtkWidget *
 org_gnome_exchange_settings(EPlugin *epl, EConfigHookItemFactoryData *data)
@@ -86,7 +126,11 @@ org_gnome_exchange_settings(EPlugin *epl, EConfigHookItemFactoryData *data)
 	GtkWidget *oof_frame;
 	GtkWidget *scrolledwindow_oof;
 	GtkWidget *textview_oof;
-	char *txt;
+	GtkTextBuffer *buffer;
+	GtkTextIter start, end;
+	char *txt, *oof_message, *oof_info_file, *base_dir;
+	GHashTable *oof_props;
+	xmlDoc *doc;
 
 	target_account = (EMConfigTargetAccount *)data->config->target;
 	source_url = e_account_get_string (target_account->account,  E_ACCOUNT_SOURCE_URL);
@@ -103,7 +147,43 @@ org_gnome_exchange_settings(EPlugin *epl, EConfigHookItemFactoryData *data)
 		return data->old;
 	}
 
-	/* FIXME: This out of office data never goes anywhere */
+	oof_data = g_new0 (OOFData, 1);
+
+	/* See if oof info found already */
+	
+	oof_data->account_name =  g_strdup_printf ("%s@%s", url->user, url->host);
+	base_dir = g_strdup_printf ("%s/.evolution/exchange/%s", 
+				    g_get_home_dir (), oof_data->account_name);
+
+	oof_info_file = g_build_filename (base_dir, OOF_INFO_FILE_NAME, NULL);
+	g_free(base_dir);
+
+	oof_data->state = FALSE;
+	oof_data->message = NULL;
+	oof_data->text_view = NULL;
+
+	if (g_file_test (oof_info_file, G_FILE_TEST_EXISTS)) {
+		doc = xmlParseFile (oof_info_file);
+		if (doc) {
+			char *status, *message;
+
+			oof_props = e_xml_to_hash (doc, E_XML_HASH_TYPE_PROPERTY);
+			xmlFreeDoc (doc);
+			status = g_hash_table_lookup (oof_props, "oof-state");
+			if (!strcmp (status, "oof")) {
+				oof_data->state = TRUE;
+				message = g_hash_table_lookup (oof_props, "oof-message");
+				if (message && *message)
+					oof_data->message = g_strdup (message);
+				else
+					oof_data->message = NULL;
+			}
+			g_hash_table_destroy (oof_props);
+		}
+	}
+	g_free (oof_info_file);
+	
+	/* construct page */
 
 	oof_page = gtk_vbox_new (FALSE, 6);
 	gtk_container_set_border_width (GTK_CONTAINER (oof_page), 12);
@@ -136,8 +216,21 @@ org_gnome_exchange_settings(EPlugin *epl, EConfigHookItemFactoryData *data)
 	gtk_table_attach (GTK_TABLE (oof_table), label_status, 0, 1, 0, 1, 
 			  GTK_FILL, GTK_FILL, 0, 0); 
 
-	radiobutton_inoff = gtk_radio_button_new_with_label (NULL, 
+	if (oof_data->state) {
+		radiobutton_oof = gtk_radio_button_new_with_label (NULL,
+					_("I am out of the office"));
+		radiobutton_inoff = gtk_radio_button_new_with_label_from_widget (
+					GTK_RADIO_BUTTON (radiobutton_oof),
+					_("I am in the office"));
+	}
+	else {
+		radiobutton_inoff = gtk_radio_button_new_with_label (NULL,
 						_("I am in the office"));
+		radiobutton_oof = gtk_radio_button_new_with_label_from_widget (
+					GTK_RADIO_BUTTON (radiobutton_inoff),
+					_("I am out of the office"));
+	}
+
 	gtk_table_attach (GTK_TABLE (oof_table), radiobutton_inoff, 1, 2, 0, 1, 
 			  GTK_FILL, GTK_FILL, 0, 0);
 
@@ -148,14 +241,10 @@ org_gnome_exchange_settings(EPlugin *epl, EConfigHookItemFactoryData *data)
 	gtk_label_set_use_markup (GTK_LABEL (label_empty), FALSE);
 	gtk_table_attach (GTK_TABLE (oof_table), label_empty, 0, 1, 1, 2, 
 			  GTK_FILL, GTK_FILL, 0, 0);
-
-	radiobutton_oof = gtk_radio_button_new_with_label_from_widget (
-					GTK_RADIO_BUTTON (radiobutton_inoff), 
-					_("I am out of the office"));
-
-
 	gtk_table_attach (GTK_TABLE (oof_table), radiobutton_oof, 1, 2, 1, 2, 
 			  GTK_FILL, GTK_FILL, 0, 0);
+
+	g_signal_connect (radiobutton_oof, "toggled", G_CALLBACK (toggled_state), NULL);
 
 	/* frame containg oof message text box */
 
@@ -186,13 +275,31 @@ org_gnome_exchange_settings(EPlugin *epl, EConfigHookItemFactoryData *data)
 	gtk_text_view_set_wrap_mode (GTK_TEXT_VIEW (textview_oof), 
 				     GTK_WRAP_WORD);
 	gtk_text_view_set_editable (GTK_TEXT_VIEW (textview_oof), TRUE);
+
+	buffer = gtk_text_view_get_buffer (GTK_TEXT_VIEW (textview_oof));
+	gtk_text_buffer_get_bounds (buffer, &start, &end);
+	oof_message = gtk_text_buffer_get_text (buffer, &start, &end, FALSE);
+	if (oof_message && *oof_message) {
+		/* Will this ever happen? */
+		oof_data->message = oof_message;
+	}
+	if (oof_data->message) {
+		/* previuosly set message */
+		gtk_text_buffer_set_text (buffer, oof_data->message, -1);
+		gtk_text_view_set_buffer (GTK_TEXT_VIEW (textview_oof), buffer);
+		
+	}
+	gtk_text_buffer_set_modified (buffer, FALSE);
+	if (!oof_data->state)
+		gtk_widget_set_sensitive (textview_oof, FALSE);
+	oof_data->text_view = textview_oof;
+	g_signal_connect (buffer, "changed", G_CALLBACK (update_state), NULL);
+
 	gtk_container_add (GTK_CONTAINER (scrolledwindow_oof), textview_oof);	
 	gtk_widget_show_all (scrolledwindow_oof);
 
 	gtk_widget_show_all (oof_page);
-
 	gtk_notebook_insert_page (GTK_NOTEBOOK (data->parent), oof_page, gtk_label_new(_("Exchange Settings")), 4);
-
 	return oof_page;
 }
 
@@ -266,8 +373,7 @@ owa_editor_entry_changed(GtkWidget *entry, EConfig *config)
 		if (owaurl) {
 			active = TRUE;
 
-			/* i'm not sure why we need this, "ssl connection mode" is redundant
-			   since we have it in the owa-url protocol */
+			/* Reading the owa url and setting use_ssl paramemter */
 			if (!strcmp(owaurl->protocol, "https"))
 				ssl = "always";
 			camel_url_free(owaurl);
@@ -398,6 +504,90 @@ org_gnome_exchange_check_options(EPlugin *epl, EConfigHookPageCheckData *data)
 	return status;
 }
 
+static void 
+store_oof_info ()
+{
+	char *oof_storage_base_dir, *oof_storage_file, *status;
+	xmlDocPtr doc;
+	int result;
+	GHashTable *oof_props;
+
+	/* oof information is entered at editor need to be written to the 
+	 * server, dump it to the file */
+	oof_storage_base_dir = g_strdup_printf ("%s/.evolution/exchange/%s",
+				    g_get_home_dir (), oof_data->account_name);
+
+	if (!g_file_test (oof_storage_base_dir, G_FILE_TEST_EXISTS)) {
+		if (mkdir (oof_storage_base_dir, 0755)) {
+			/* Failed to create file */
+			g_free (oof_storage_base_dir);
+			return;
+		}
+	}
+
+	oof_storage_file = g_build_filename (oof_storage_base_dir, 
+					     OOF_INFO_FILE_NAME, NULL);
+	if (g_file_test (oof_storage_file, G_FILE_TEST_EXISTS))
+		unlink (oof_storage_file);
+		
+	if (oof_data->state)
+		status = g_strdup ("oof");
+	else
+		status = g_strdup ("in-office");
+
+	oof_props = g_hash_table_new (g_str_hash, g_str_equal);
+	g_hash_table_insert (oof_props, "oof-state", status);
+	g_hash_table_insert (oof_props, "sync-state", g_strdup("0"));
+	g_hash_table_insert (oof_props, "oof-message", oof_data->message);
+	doc = e_xml_from_hash (oof_props, E_XML_HASH_TYPE_PROPERTY, "oof-info");
+	result = xmlSaveFile (oof_storage_file, doc);
+	xmlFreeDoc (doc);
+	if (result < 0)
+		unlink (oof_storage_file);
+	g_hash_table_destroy (oof_props);
+	g_free (status);
+	g_free (oof_storage_file);
+	g_free (oof_storage_base_dir);
+}
+
+static void
+destroy_oof_data ()
+{
+	if (oof_data->account_name)
+		g_free (oof_data->account_name);
+	if (oof_data->message)
+		g_free (oof_data->message);
+	g_free (oof_data);	
+}
+
+void
+org_gnome_exchange_commit (EPlugin *epl, EConfigHookItemFactoryData *data)
+{
+	EMConfigTargetAccount *target_account;
+	target_account = (EMConfigTargetAccount *)data->config->target;
+	const char *source_url;
+	CamelURL *url;
+	
+	source_url = e_account_get_string (target_account->account,  E_ACCOUNT_SOURCE_URL);
+	url = camel_url_new (source_url, NULL);
+	if (url == NULL
+	    || strcmp (url->protocol, "exchange") != 0) {
+		if (url)
+			camel_url_free (url);
+
+		return;
+	}
+	if (data->old) {
+		camel_url_free(url);
+		return;
+	}
+
+	/* dump oof data so that can be set in exchange account */
+	store_oof_info ();
+	destroy_oof_data ();
+	return;
+}
+
 static void
 exchange_check_authtype (GtkWidget *w, EConfig *config)
 {
@@ -436,6 +626,7 @@ exchange_authtype_changed (GtkComboBox *dropdown, EConfig *config)
 	}
 	camel_url_free(url);
 }
+
 
 GtkWidget *
 org_gnome_exchange_auth_section (EPlugin *epl, EConfigHookItemFactoryData *data)

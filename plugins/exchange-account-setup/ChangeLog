@@ -1,3 +1,16 @@
+2005-02-27  Sushma Rai  <rsushma@novell.com>
+
+	* exchange-account-setup.c (org_gnome_exchange_settings): Storing the 
+	oof data enterted by user to a file, displaying the existing data on
+	this page.
+	(toggled_state): Signal hander for radiobutton, that sets the oof state.
+	(update_state): Signal handler that reads the oof message entered. 
+	(org_gnome_exchange_commit): Stores the oof data and does cleanup.
+	(store_oof_info): Checks for the oof information file, writes the 
+	oof state and message to the file. 
+	(destroy_oof_data): Frees OOFData. 
+	
+
 2005-02-26  Sushma Rai  <rsushma@novell.com>
 
         * exchange-account-setup.c (org_gnome_exchange_check_options):
