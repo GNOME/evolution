@@ -195,28 +195,8 @@ static GtkVBoxClass *parent_class;
 
 
 
-GtkType
-gnome_calendar_get_type (void)
-{
-	static GtkType gnome_calendar_type = 0;
-
-	if (!gnome_calendar_type) {
-		static const GtkTypeInfo gnome_calendar_info = {
-			"GnomeCalendar",
-			sizeof (GnomeCalendar),
-			sizeof (GnomeCalendarClass),
-			(GtkClassInitFunc) gnome_calendar_class_init,
-			(GtkObjectInitFunc) gnome_calendar_init,
-			NULL, /* reserved_1 */
-			NULL, /* reserved_2 */
-			(GtkClassInitFunc) NULL
-		};
-
-		gnome_calendar_type = gtk_type_unique (GTK_TYPE_VBOX, &gnome_calendar_info);
-	}
-
-	return gnome_calendar_type;
-}
+E_MAKE_TYPE (gnome_calendar, "GnomeCalendar", GnomeCalendar, gnome_calendar_class_init,
+	     gnome_calendar_init, GTK_TYPE_VBOX);
 
 /* Class initialization function for the gnome calendar */
 static void
@@ -226,7 +206,7 @@ gnome_calendar_class_init (GnomeCalendarClass *class)
 
 	object_class = (GtkObjectClass *) class;
 
-	parent_class = gtk_type_class (GTK_TYPE_VBOX);
+	parent_class = g_type_class_peek_parent (class);
 
 	gnome_calendar_signals[DATES_SHOWN_CHANGED] =
 		gtk_signal_new ("dates_shown_changed",
@@ -1385,6 +1365,7 @@ gnome_calendar_setup_view_menus (GnomeCalendar *gcal, BonoboUIComponent *uic)
 		gal_view_collection_load (collection);
 	}
 
+	g_print ("Making GAL view instance.\n");
 	priv->view_instance = gal_view_instance_new (collection, cal_client_get_uri (priv->client));
 
 	priv->view_menus = gal_view_menus_new (priv->view_instance);

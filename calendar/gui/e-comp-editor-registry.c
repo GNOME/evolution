@@ -25,6 +25,7 @@
 #endif
 
 #include <gnome.h>
+#include <gal/util/e-util.h>
 #include "e-comp-editor-registry.h"
 
 struct _ECompEditorRegistryPrivate {
@@ -65,7 +66,7 @@ class_init (ECompEditorRegistryClass *klass)
 
 	object_class = GTK_OBJECT_CLASS (klass);
 
-	parent_class = gtk_type_class (gtk_object_get_type ());
+	parent_class = g_type_class_peek_parent (klass);
 
 	object_class->destroy = destroy;
 }
@@ -84,28 +85,8 @@ init (ECompEditorRegistry *reg)
 
 
 
-GtkType
-e_comp_editor_registry_get_type (void)
-{
-	static GtkType type = 0;
-
-	if (type == 0) {
-		static const GtkTypeInfo info = {
-			"ECompEditorRegistry",
-			sizeof (ECompEditorRegistry),
-			sizeof (ECompEditorRegistryClass),
-			(GtkClassInitFunc) class_init,
-			(GtkObjectInitFunc) init,
-			/* reserved_1 */ NULL,
-			/* reserved_2 */ NULL,
-			(GtkClassInitFunc) NULL,
-		};
-
-		type = gtk_type_unique (gtk_object_get_type (), &info);
-	}
-
-	return type;
-}
+E_MAKE_TYPE (e_comp_editor_registry, "ECompEditorRegistry", ECompEditorRegistry,
+	     class_init, init, gtk_object_get_type ());
 
 GtkObject *
 e_comp_editor_registry_new (void)

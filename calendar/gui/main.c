@@ -59,8 +59,6 @@ init_bonobo (int argc, char **argv)
 					bonobo_activation_popt_options, 0, NULL) != 0)
 		g_error (_("Could not initialize GNOME"));
 
-	bonobo_activation_init (argc, argv);
-
 	if (bonobo_init (&argc, argv) == FALSE)
 		g_error (_("Could not initialize Bonobo"));
 

@@ -36,6 +36,10 @@ G_BEGIN_DECLS
 #define IS_CAL_CLIENT(obj)         (G_TYPE_CHECK_INSTANCE_TYPE ((obj), CAL_CLIENT_TYPE))
 #define IS_CAL_CLIENT_CLASS(klass) (G_TYPE_CHECK_CLASS_TYPE ((klass), CAL_CLIENT_TYPE))
 
+#define CAL_CLIENT_OPEN_STATUS_ENUM_TYPE     (cal_client_open_status_enum_get_type ())
+#define CAL_CLIENT_SET_MODE_STATUS_ENUM_TYPE (cal_client_set_mode_status_enum_get_type ())
+#define CAL_MODE_ENUM_TYPE                   (cal_mode_enum_get_type ())
+
 typedef struct _CalClient CalClient;
 typedef struct _CalClientClass CalClientClass;
 
@@ -121,6 +125,10 @@ typedef gchar * (* CalClientAuthFunc) (CalClient *client,
                                       gpointer user_data);
 
 GType cal_client_get_type (void);
+
+GType cal_client_open_status_enum_get_type (void);
+GType cal_client_set_mode_status_enum_get_type (void);
+GType cal_mode_enum_get_type (void);
 
 CalClient *cal_client_construct (CalClient *client);
 

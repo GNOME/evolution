@@ -132,30 +132,8 @@ static void table_destroy_list_cb (ETableScrolled *etable, gpointer data);
 
 static ETableModelClass *parent_class = NULL;
 
-GtkType
-e_meeting_model_get_type (void)
-{
-	static GtkType type = 0;
-
-	if (type == 0)
-	{
-		static const GtkTypeInfo info =
-		{
-			"EMeetingModel",
-			sizeof (EMeetingModel),
-			sizeof (EMeetingModelClass),
-			(GtkClassInitFunc) class_init,
-			(GtkObjectInitFunc) init,
-			/* reserved_1 */ NULL,
-			/* reserved_2 */ NULL,
-			(GtkClassInitFunc) NULL,
-		};
-
-		type = gtk_type_unique (e_table_model_get_type (), &info);
-	}
-
-	return type;
-}
+E_MAKE_TYPE (e_meeting_model, "EMeetingModel", EMeetingModel,
+	     class_init, init, E_TABLE_MODEL_TYPE);
 
 static void
 book_open_cb (EBook *book, EBookStatus status, gpointer data)
@@ -649,7 +627,7 @@ class_init (EMeetingModelClass *klass)
 	object_class = GTK_OBJECT_CLASS (klass);
 	etm_class = E_TABLE_MODEL_CLASS (klass);
 
-	parent_class = gtk_type_class (E_TABLE_MODEL_TYPE);
+	parent_class = g_type_class_peek_parent (klass);
 
 	object_class->destroy = destroy;
 

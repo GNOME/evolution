@@ -27,6 +27,7 @@
 #include <libgnome/gnome-i18n.h>
 #include <libgnomecanvas/gnome-canvas-rect-ellipse.h>
 #include <libgnomecanvas/gnome-canvas-text.h>
+#include <gal/util/e-util.h>
 #include "weekday-picker.h"
 
 
@@ -76,36 +77,8 @@ static guint wp_signals[LAST_SIGNAL];
 
 
 
-/**
- * weekday_picker_get_type:
- * 
- * Registers the #WeekdayPicker class if necessary, and returns the type ID
- * associated to it.
- * 
- * Return value: The type ID of the #WeekdayPicker class.
- **/
-GtkType
-weekday_picker_get_type (void)
-{
-	static GtkType weekday_picker_type = 0;
-
-	if (!weekday_picker_type) {
-		static const GtkTypeInfo weekday_picker_info = {
-			"WeekdayPicker",
-			sizeof (WeekdayPicker),
-			sizeof (WeekdayPickerClass),
-			(GtkClassInitFunc) weekday_picker_class_init,
-			(GtkObjectInitFunc) weekday_picker_init,
-			NULL, /* reserved_1 */
-			NULL, /* reserved_2 */
-			(GtkClassInitFunc) NULL
-		};
-
-		weekday_picker_type = gtk_type_unique (GNOME_TYPE_CANVAS, &weekday_picker_info);
-	}
-
-	return weekday_picker_type;
-}
+E_MAKE_TYPE (weekday_picker, "WeekdayPicker", WeekdayPicker,
+	     weekday_picker_class_init, weekday_picker_init, GNOME_TYPE_CANVAS);
 
 /* Class initialization function for the weekday picker */
 static void
@@ -117,7 +90,7 @@ weekday_picker_class_init (WeekdayPickerClass *class)
 	object_class = (GtkObjectClass *) class;
 	widget_class = (GtkWidgetClass *) class;
 
-	parent_class = gtk_type_class (GNOME_TYPE_CANVAS);
+	parent_class = g_type_class_peek_parent (class);
 
 	wp_signals[CHANGED] =
 		gtk_signal_new ("changed",

@@ -26,6 +26,7 @@
 
 #include <stdlib.h>
 #include <gtk/gtk.h>
+#include <gal/util/e-util.h>
 #include "e-meeting-attendee.h"
 
 struct _EMeetingAttendeePrivate {
@@ -72,31 +73,8 @@ static void destroy	(GtkObject *obj);
 
 static GtkObjectClass *parent_class = NULL;
 
-
-GtkType
-e_meeting_attendee_get_type (void)
-{
-	static GtkType type = 0;
-
-	if (type == 0)
-	{
-		static const GtkTypeInfo info =
-		{
-			"EMeetingAttendee",
-			sizeof (EMeetingAttendee),
-			sizeof (EMeetingAttendeeClass),
-			(GtkClassInitFunc) class_init,
-			(GtkObjectInitFunc) init,
-			/* reserved_1 */ NULL,
-			/* reserved_2 */ NULL,
-			(GtkClassInitFunc) NULL,
-		};
-
-		type = gtk_type_unique (gtk_object_get_type (), &info);
-	}
-
-	return type;
-}
+E_MAKE_TYPE (e_meeting_attendee, "EMeetingAttendee", EMeetingAttendee,
+	     class_init, init, GTK_TYPE_OBJECT);
 
 static void
 class_init (EMeetingAttendeeClass *klass)
@@ -105,7 +83,7 @@ class_init (EMeetingAttendeeClass *klass)
 
 	object_class = GTK_OBJECT_CLASS (klass);
 
-	parent_class = gtk_type_class (gtk_object_get_type ());
+	parent_class = g_type_class_peek_parent (klass);
 
 	signals[CHANGED] =
 		gtk_signal_new ("changed",

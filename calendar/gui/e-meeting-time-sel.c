@@ -218,31 +218,9 @@ static void sort_info_changed_cb (ETableSortInfo *info, gpointer data);
 
 static GtkTableClass *parent_class;
 
-
-GtkType
-e_meeting_time_selector_get_type (void)
-{
-	static guint e_meeting_time_selector_type = 0;
-
-	if (!e_meeting_time_selector_type) {
-		GtkTypeInfo e_meeting_time_selector_info =
-			{
-				"EMeetingTimeSelector",
-				sizeof (EMeetingTimeSelector),
-				sizeof (EMeetingTimeSelectorClass),
-				(GtkClassInitFunc) e_meeting_time_selector_class_init,
-				(GtkObjectInitFunc) e_meeting_time_selector_init,
-				/* reserved_1 */ NULL,
-				/* reserved_2 */ NULL,
-				(GtkClassInitFunc) NULL,
-			};
-
-		e_meeting_time_selector_type = gtk_type_unique (GTK_TYPE_TABLE,
-								&e_meeting_time_selector_info);
-	}
-	return e_meeting_time_selector_type;
-}
-
+E_MAKE_TYPE (e_meeting_time_selector, "EMeetingTimeSelector", EMeetingTimeSelector,
+	     e_meeting_time_selector_class_init, e_meeting_time_selector_init,
+	     GTK_TYPE_TABLE);
 
 static void
 e_meeting_time_selector_class_init (EMeetingTimeSelectorClass * klass)
@@ -250,7 +228,7 @@ e_meeting_time_selector_class_init (EMeetingTimeSelectorClass * klass)
 	GtkObjectClass *object_class;
 	GtkWidgetClass *widget_class;
 
-	parent_class = gtk_type_class (gtk_table_get_type());
+	parent_class = g_type_class_peek_parent (klass);
 	object_class = (GtkObjectClass *) klass;
 	widget_class = (GtkWidgetClass *) klass;
 

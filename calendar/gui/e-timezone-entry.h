@@ -62,7 +62,7 @@ struct _ETimezoneEntryClass {
 	void (* changed)      (ETimezoneEntry    *tentry);
 };
 
-guint      e_timezone_entry_get_type		(void);
+GType      e_timezone_entry_get_type		(void);
 GtkWidget* e_timezone_entry_new			(void);
 
 icaltimezone*   e_timezone_entry_get_timezone	(ETimezoneEntry	*tentry);

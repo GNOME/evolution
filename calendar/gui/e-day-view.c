@@ -476,32 +476,8 @@ static gboolean e_day_view_layout_timeout_cb (gpointer data);
 static GtkTableClass *parent_class;
 static GdkAtom clipboard_atom = GDK_NONE;
 
-
-GtkType
-e_day_view_get_type (void)
-{
-	static GtkType e_day_view_type = 0;
-
-	if (!e_day_view_type){
-		GtkTypeInfo e_day_view_info = {
-			"EDayView",
-			sizeof (EDayView),
-			sizeof (EDayViewClass),
-			(GtkClassInitFunc) e_day_view_class_init,
-			(GtkObjectInitFunc) e_day_view_init,
-			NULL, /* reserved 1 */
-			NULL, /* reserved 2 */
-			(GtkClassInitFunc) NULL
-		};
-
-		parent_class = gtk_type_class (GTK_TYPE_TABLE);
-		e_day_view_type = gtk_type_unique (GTK_TYPE_TABLE,
-						   &e_day_view_info);
-	}
-
-	return e_day_view_type;
-}
-
+E_MAKE_TYPE (e_day_view, "EDayView", EDayView, e_day_view_class_init,
+	     e_day_view_init, GTK_TYPE_TABLE);
 
 static void
 e_day_view_class_init (EDayViewClass *class)
@@ -509,6 +485,7 @@ e_day_view_class_init (EDayViewClass *class)
 	GtkObjectClass *object_class;
 	GtkWidgetClass *widget_class;
 
+	parent_class = g_type_class_peek_parent (class);
 	object_class = (GtkObjectClass *) class;
 	widget_class = (GtkWidgetClass *) class;
 

@@ -39,7 +39,7 @@ struct _CalendarViewFactoryPrivate {
 
 static void calendar_view_factory_class_init (CalendarViewFactoryClass *class);
 static void calendar_view_factory_init (CalendarViewFactory *cal_view_factory);
-static void calendar_view_factory_destroy (GtkObject *object);
+static void calendar_view_factory_finalize (GObject *object);
 
 static const char *calendar_view_factory_get_title (GalViewFactory *factory);
 static const char *calendar_view_factory_get_type_code (GalViewFactory *factory);
@@ -49,55 +49,26 @@ static GalViewFactoryClass *parent_class = NULL;
 
 
 
-/**
- * calendar_view_factory_get_type:
- * 
- * Registers the #CalendarViewFactory class if necessary, and returns the type
- * ID associated to it.
- * 
- * Return value: The type ID of the #CalendarViewFactory class.
- **/
-GtkType
-calendar_view_factory_get_type (void)
-{
-	static GtkType calendar_view_factory_type;
-
-	if (!calendar_view_factory_type) {
-		static const GtkTypeInfo calendar_view_factory_info = {
-			"CalendarViewFactory",
-			sizeof (CalendarViewFactory),
-			sizeof (CalendarViewFactoryClass),
-			(GtkClassInitFunc) calendar_view_factory_class_init,
-			(GtkObjectInitFunc) calendar_view_factory_init,
-			NULL, /* reserved_1 */
-			NULL, /* reserved_2 */
-			(GtkClassInitFunc) NULL
-		};
-
-		calendar_view_factory_type = gtk_type_unique (GAL_VIEW_FACTORY_TYPE,
-							      &calendar_view_factory_info);
-	}
-
-	return calendar_view_factory_type;
-}
+E_MAKE_TYPE (calendar_view_factory, "CalendarViewFactory", CalendarViewFactory,
+	     calendar_view_factory_class_init, calendar_view_factory_init, GAL_VIEW_FACTORY_TYPE);
 
 /* Class initialization function for the calendar view factory */
 static void
 calendar_view_factory_class_init (CalendarViewFactoryClass *class)
 {
 	GalViewFactoryClass *gal_view_factory_class;
-	GtkObjectClass *object_class;
+	GObjectClass *gobject_class;
 
-	parent_class = gtk_type_class (GAL_VIEW_FACTORY_TYPE);
+	parent_class = g_type_class_peek_parent (class);
 
 	gal_view_factory_class = (GalViewFactoryClass *) class;
-	object_class = (GtkObjectClass *) class;
+	gobject_class = (GObjectClass *) class;
 
 	gal_view_factory_class->get_title = calendar_view_factory_get_title;
 	gal_view_factory_class->get_type_code = calendar_view_factory_get_type_code;
 	gal_view_factory_class->new_view = calendar_view_factory_new_view;
 
-	object_class->destroy = calendar_view_factory_destroy;
+	gobject_class->finalize = calendar_view_factory_finalize;
 }
 
 /* Object initialization class for the calendar view factory */
@@ -110,9 +81,9 @@ calendar_view_factory_init (CalendarViewFactory *cal_view_factory)
 	cal_view_factory->priv = priv;
 }
 
-/* Destroy method for the calendar view factory */
+/* Finalize method for the calendar view factory */
 static void
-calendar_view_factory_destroy (GtkObject *object)
+calendar_view_factory_finalize (GObject *object)
 {
 	CalendarViewFactory *cal_view_factory;
 	CalendarViewFactoryPrivate *priv;
@@ -126,8 +97,8 @@ calendar_view_factory_destroy (GtkObject *object)
 	g_free (priv);
 	cal_view_factory->priv = NULL;
 
-	if (GTK_OBJECT_CLASS (parent_class)->destroy)
-		(* GTK_OBJECT_CLASS (parent_class)->destroy) (object);
+	if (G_OBJECT_CLASS (parent_class)->finalize)
+		(* G_OBJECT_CLASS (parent_class)->finalize) (object);
 }
 
 

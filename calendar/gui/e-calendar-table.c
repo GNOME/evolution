@@ -125,32 +125,8 @@ static GdkPixbuf* icon_pixbufs[E_CALENDAR_MODEL_NUM_ICONS] = { 0 };
 static GtkTableClass *parent_class;
 static GdkAtom clipboard_atom = GDK_NONE;
 
-
-GtkType
-e_calendar_table_get_type (void)
-{
-	static GtkType e_calendar_table_type = 0;
-
-	if (!e_calendar_table_type){
-		GtkTypeInfo e_calendar_table_info = {
-			"ECalendarTable",
-			sizeof (ECalendarTable),
-			sizeof (ECalendarTableClass),
-			(GtkClassInitFunc) e_calendar_table_class_init,
-			(GtkObjectInitFunc) e_calendar_table_init,
-			NULL, /* reserved 1 */
-			NULL, /* reserved 2 */
-			(GtkClassInitFunc) NULL
-		};
-
-		parent_class = gtk_type_class (GTK_TYPE_TABLE);
-		e_calendar_table_type = gtk_type_unique (GTK_TYPE_TABLE,
-							 &e_calendar_table_info);
-	}
-
-	return e_calendar_table_type;
-}
-
+E_MAKE_TYPE (e_calendar_table, "ECalendarTable", ECalendarTable, e_calendar_table_class_init,
+	     e_calendar_table_init, GTK_TYPE_TABLE);
 
 static void
 e_calendar_table_class_init (ECalendarTableClass *class)

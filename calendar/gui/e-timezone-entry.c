@@ -34,6 +34,7 @@
 #include <gtk/gtkentry.h>
 #include <gtk/gtksignal.h>
 #include <gnome.h>
+#include <gal/util/e-util.h>
 #include <gal/widgets/e-unicode.h>
 #include <widgets/e-timezone-dialog/e-timezone-dialog.h>
 #include "e-timezone-entry.h"
@@ -87,34 +88,8 @@ static void e_timezone_entry_set_entry_visibility (ETimezoneEntry *tentry);
 static GtkHBoxClass *parent_class;
 static guint timezone_entry_signals[LAST_SIGNAL] = { 0 };
 
-
-/**
- * e_timezone_entry_get_type:
- *
- * Returns the GtkType for the ETimezoneEntry widget
- */
-guint
-e_timezone_entry_get_type		(void)
-{
-	static guint timezone_entry_type = 0;
-
-	if (!timezone_entry_type){
-		GtkTypeInfo timezone_entry_info = {
-			"ETimezoneEntry",
-			sizeof (ETimezoneEntry),
-			sizeof (ETimezoneEntryClass),
-			(GtkClassInitFunc) e_timezone_entry_class_init,
-			(GtkObjectInitFunc) e_timezone_entry_init,
-			NULL,
-			NULL,
-		};
-
-		timezone_entry_type = gtk_type_unique (gtk_hbox_get_type (), &timezone_entry_info);
-	}
-	
-	return timezone_entry_type;
-}
-
+E_MAKE_TYPE (e_timezone_entry, "ETimezoneEntry", ETimezoneEntry,
+	     e_timezone_entry_class_init, e_timezone_entry_init, GTK_TYPE_HBOX);
 
 static void
 e_timezone_entry_class_init		(ETimezoneEntryClass	*class)
@@ -123,7 +98,7 @@ e_timezone_entry_class_init		(ETimezoneEntryClass	*class)
 
 	object_class = (GtkObjectClass*) class;
 
-	parent_class = gtk_type_class (gtk_hbox_get_type ());
+	parent_class = g_type_class_peek_parent (class);
 
 	timezone_entry_signals[CHANGED] =
 		gtk_signal_new ("changed",

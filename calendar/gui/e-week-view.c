@@ -243,32 +243,8 @@ static gboolean e_week_view_layout_timeout_cb (gpointer data);
 static GtkTableClass *parent_class;
 static GdkAtom clipboard_atom = GDK_NONE;
 
-
-GtkType
-e_week_view_get_type (void)
-{
-	static GtkType e_week_view_type = 0;
-
-	if (!e_week_view_type){
-		GtkTypeInfo e_week_view_info = {
-			"EWeekView",
-			sizeof (EWeekView),
-			sizeof (EWeekViewClass),
-			(GtkClassInitFunc) e_week_view_class_init,
-			(GtkObjectInitFunc) e_week_view_init,
-			NULL, /* reserved 1 */
-			NULL, /* reserved 2 */
-			(GtkClassInitFunc) NULL
-		};
-
-		parent_class = gtk_type_class (GTK_TYPE_TABLE);
-		e_week_view_type = gtk_type_unique (GTK_TYPE_TABLE,
-						    &e_week_view_info);
-	}
-
-	return e_week_view_type;
-}
-
+E_MAKE_TYPE (e_week_view, "EWeekView", EWeekView, e_week_view_class_init,
+	     e_week_view_init, GTK_TYPE_TABLE);
 
 static void
 e_week_view_class_init (EWeekViewClass *class)
@@ -276,6 +252,7 @@ e_week_view_class_init (EWeekViewClass *class)
 	GtkObjectClass *object_class;
 	GtkWidgetClass *widget_class;
 
+	parent_class = g_type_class_peek_parent (class);
 	object_class = (GtkObjectClass *) class;
 	widget_class = (GtkWidgetClass *) class;
 

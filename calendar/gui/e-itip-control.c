@@ -106,30 +106,8 @@ static void ok_clicked_cb (GtkHTML *html, const gchar *method, const gchar *url,
 
 static GtkVBoxClass *parent_class = NULL;
 
-
-GtkType
-e_itip_control_get_type (void)
-{
-	static GtkType type = 0;
-
-	if (type == 0) {
-		static const GtkTypeInfo info =
-		{
-			"EItipControl",
-			sizeof (EItipControl),
-			sizeof (EItipControlClass),
-			(GtkClassInitFunc) class_init,
-			(GtkObjectInitFunc) init,
-			/* reserved_1 */ NULL,
-			/* reserved_2 */ NULL,
-			(GtkClassInitFunc) NULL,
-		};
-
-		type = gtk_type_unique (gtk_vbox_get_type (), &info);
-	}
-
-	return type;
-}
+E_MAKE_TYPE (e_itip_control, "EItipControl", EItipControl, class_init, init,
+	     GTK_TYPE_VBOX);
 
 static void
 class_init (EItipControlClass *klass)
@@ -138,7 +116,7 @@ class_init (EItipControlClass *klass)
 
 	object_class = GTK_OBJECT_CLASS (klass);
 
-	parent_class = gtk_type_class (gtk_vbox_get_type ());
+	parent_class = g_type_class_peek_parent (klass);
 
 	object_class->destroy = destroy;
 }

@@ -144,28 +144,9 @@ static ETableModelClass *parent_class;
  *
  * Return value: The type ID of the #CalendarModel class.
  **/
-GtkType
-calendar_model_get_type (void)
-{
-	static GtkType calendar_model_type = 0;
 
-	if (!calendar_model_type) {
-		static GtkTypeInfo calendar_model_info = {
-			"CalendarModel",
-			sizeof (CalendarModel),
-			sizeof (CalendarModelClass),
-			(GtkClassInitFunc) calendar_model_class_init,
-			(GtkObjectInitFunc) calendar_model_init,
-			NULL, /* reserved_1 */
-			NULL, /* reserved_2 */
-			(GtkClassInitFunc) NULL
-		};
-
-		calendar_model_type = gtk_type_unique (E_TABLE_MODEL_TYPE, &calendar_model_info);
-	}
-
-	return calendar_model_type;
-}
+E_MAKE_TYPE (calendar_model, "CalendarModel", CalendarModel, calendar_model_class_init,
+	     calendar_model_init, E_TABLE_MODEL_TYPE);
 
 /* Class initialization function for the calendar table model */
 static void
@@ -177,7 +158,7 @@ calendar_model_class_init (CalendarModelClass *class)
 	object_class = (GtkObjectClass *) class;
 	etm_class = (ETableModelClass *) class;
 
-	parent_class = gtk_type_class (E_TABLE_MODEL_TYPE);
+	parent_class = g_type_class_peek_parent (class);
 
 	object_class->destroy = calendar_model_destroy;
 

@@ -143,6 +143,67 @@ cal_client_get_type (void)
 	return cal_client_type;
 }
 
+GType
+cal_client_open_status_enum_get_type (void)
+{
+	static GType cal_client_open_status_enum_type = 0;
+
+	if (!cal_client_open_status_enum_type) {
+		static GEnumValue values [] = {
+		  { CAL_CLIENT_OPEN_SUCCESS,              "CalClientOpenSuccess",            "success"     },
+		  { CAL_CLIENT_OPEN_ERROR,                "CalClientOpenError",              "error"       },
+		  { CAL_CLIENT_OPEN_NOT_FOUND,            "CalClientOpenNotFound",           "not-found"   },
+		  { CAL_CLIENT_OPEN_PERMISSION_DENIED,    "CalClientOpenPermissionDenied",   "denied"      },
+		  { CAL_CLIENT_OPEN_METHOD_NOT_SUPPORTED, "CalClientOpenMethodNotSupported", "unsupported" },
+		  { -1,                                   NULL,                              NULL          }
+		};
+
+		cal_client_open_status_enum_type = g_enum_register_static ("CalClientOpenStatusEnum", values);
+	}
+
+	return cal_client_open_status_enum_type;
+}
+
+GType
+cal_client_set_mode_status_enum_get_type (void)
+{
+	static GType cal_client_set_mode_status_enum_type = 0;
+
+	if (!cal_client_set_mode_status_enum_type) {
+		static GEnumValue values [] = {
+		  { CAL_CLIENT_SET_MODE_SUCCESS,          "CalClientSetModeSuccess",         "success"     },
+		  { CAL_CLIENT_SET_MODE_ERROR,            "CalClientSetModeError",           "error"       },
+		  { CAL_CLIENT_SET_MODE_NOT_SUPPORTED,    "CalClientSetModeNotSupported",    "unsupported" },
+		  { -1,                                   NULL,                              NULL          }
+		};
+
+		cal_client_set_mode_status_enum_type =
+		  g_enum_register_static ("CalClientSetModeStatusEnum", values);
+	}
+
+	return cal_client_set_mode_status_enum_type;
+}
+
+GType
+cal_mode_enum_get_type (void)
+{
+	static GType cal_mode_enum_type = 0;
+
+	if (!cal_mode_enum_type) {
+		static GEnumValue values [] = {
+		  { CAL_MODE_INVALID,                     "CalModeInvalid",                  "invalid" },
+		  { CAL_MODE_LOCAL,                       "CalModeLocal",                    "local"   },
+		  { CAL_MODE_REMOTE,                      "CalModeRemote",                   "remote"  },
+		  { CAL_MODE_ANY,                         "CalModeAny",                      "any"     },
+		  { -1,                                   NULL,                              NULL      }
+		};
+
+		cal_mode_enum_type = g_enum_register_static ("CalModeEnum", values);
+	}
+
+	return cal_mode_enum_type;
+}
+
 /* Class initialization function for the calendar client */
 static void
 cal_client_class_init (CalClientClass *klass)
@@ -161,7 +222,7 @@ cal_client_class_init (CalClientClass *klass)
 			      NULL, NULL,
 			      g_cclosure_marshal_VOID__ENUM,
 			      G_TYPE_NONE, 1,
-			      G_TYPE_ENUM);
+			      CAL_CLIENT_OPEN_STATUS_ENUM_TYPE);
 	cal_client_signals[CAL_SET_MODE] =
 		g_signal_new ("cal_set_mode",
 			      G_TYPE_FROM_CLASS (klass),
@@ -170,8 +231,8 @@ cal_client_class_init (CalClientClass *klass)
 			      NULL, NULL,
 			      cal_util_marshal_VOID__ENUM_ENUM,
 			      G_TYPE_NONE, 2,
-			      G_TYPE_ENUM,
-			      G_TYPE_ENUM);
+			      CAL_CLIENT_SET_MODE_STATUS_ENUM_TYPE,
+			      CAL_MODE_ENUM_TYPE);
 	cal_client_signals[OBJ_UPDATED] =
 		g_signal_new ("obj_updated",
 			      G_TYPE_FROM_CLASS (klass),
@@ -372,7 +433,7 @@ cal_client_finalize (GObject *object)
 	}
 
 	priv->w_client = NULL;
-	destroy_factories (client);
+	/* destroy_factories (client); */
 	destroy_cal (client);
 
 	priv->load_state = CAL_CLIENT_LOAD_NOT_LOADED;
@@ -645,6 +706,54 @@ client_forget_password_cb (WombatClient *w_client,
 
 
 
+static GList *
+get_factories (void)
+{
+	static GList *factories = NULL;
+	GNOME_Evolution_Calendar_CalFactory factory;
+	Bonobo_ServerInfoList *servers;
+	CORBA_Environment ev;
+	int i;
+
+	if (factories != NULL)
+		return factories;
+
+	CORBA_exception_init (&ev);
+
+	servers = bonobo_activation_query ("repo_ids.has ('IDL:GNOME/Evolution/Calendar/CalFactory:1.0')", NULL, &ev);
+	if (ev._major != CORBA_NO_EXCEPTION) {
+		g_message ("Cannot perform OAF query for Calendar servers.");
+		CORBA_exception_free (&ev);
+		return NULL;
+	}
+
+	if (servers->_length == 0)
+		g_warning ("No Calendar servers installed.");
+
+	for (i = 0; i < servers->_length; i++) {
+		const Bonobo_ServerInfo *info;
+
+		info = servers->_buffer + i;
+
+		factory = (GNOME_Evolution_Calendar_CalFactory)
+			bonobo_activation_activate_from_id (info->iid, 0, NULL, &ev);
+		if (BONOBO_EX (&ev)) {
+#if 0
+			g_warning ("cal_client_construct: Could not activate calendar server %s", info->iid);
+			CORBA_free (servers);
+			CORBA_exception_free (&ev);
+			return NULL;
+#endif
+		}
+		else
+		  factories = g_list_prepend (factories, factory);
+	}
+
+	CORBA_free (servers);
+	CORBA_exception_free (&ev);
+	return factories;
+}
+
 /**
  * cal_client_construct:
  * @client: A calendar client.
@@ -668,39 +777,8 @@ cal_client_construct (CalClient *client)
 	g_return_val_if_fail (IS_CAL_CLIENT (client), NULL);
 
 	priv = client->priv;
+	priv->factories = get_factories ();
 
-	CORBA_exception_init (&ev);
-
-	servers = bonobo_activation_query ("repo_ids.has ('IDL:GNOME/Evolution/Calendar/CalFactory:1.0')", NULL, &ev);
-	if (ev._major != CORBA_NO_EXCEPTION) {
-		g_message ("Cannot perform OAF query for Calendar servers.");
-		CORBA_exception_free (&ev);
-		return NULL;
-	}
-
-	if (servers->_length == 0)
-		g_warning ("No Calendar servers installed.");
-
-	for (i = 0; i < servers->_length; i++) {
-		const Bonobo_ServerInfo *info;
-
-		info = servers->_buffer + i;
-
-		factory = (GNOME_Evolution_Calendar_CalFactory)
-			bonobo_activation_activate_from_id (info->iid, 0, NULL, &ev);
-		if (BONOBO_EX (&ev)) {
-			g_warning ("cal_client_construct: Could not activate calendar server %s", info->iid);
-			CORBA_free (servers);
-			CORBA_exception_free (&ev);
-			return NULL;
-		}
-
-		priv->factories = g_list_prepend (priv->factories, factory);
-	}
-
-	CORBA_free (servers);
-
-	CORBA_exception_free (&ev);
 	return client;
 }
 

@@ -31,6 +31,7 @@
 #include <gtk/gtksignal.h>
 #include <libgnome/gnome-i18n.h>
 #include <gal/widgets/e-unicode.h>
+#include <gal/util/e-util.h>
 #include "cal-search-bar.h"
 
 
@@ -85,36 +86,8 @@ static guint cal_search_bar_signals[LAST_SIGNAL] = { 0 };
 
 
 
-/**
- * cal_search_bar_get_type:
- * 
- * Registers the #CalSearchBar class if necessary and returns the type ID
- * associated to it.
- * 
- * Return value: The type ID of the #CalSearchBar class.
- **/
-GtkType
-cal_search_bar_get_type (void)
-{
-	static GtkType cal_search_bar_type = 0;
-
-	if (!cal_search_bar_type) {
-		static const GtkTypeInfo cal_search_bar_info = {
-			"CalSearchBar",
-			sizeof (CalSearchBar),
-			sizeof (CalSearchBarClass),
-			(GtkClassInitFunc) cal_search_bar_class_init,
-			(GtkObjectInitFunc) cal_search_bar_init,
-			NULL, /* reserved_1 */
-			NULL, /* reserved_2 */
-			(GtkClassInitFunc) NULL
-		};
-
-		cal_search_bar_type = gtk_type_unique (E_SEARCH_BAR_TYPE, &cal_search_bar_info);
-	}
-
-	return cal_search_bar_type;
-}
+E_MAKE_TYPE (cal_search_bar, "CalSearchBar", CalSearchBar, cal_search_bar_class_init,
+	     cal_search_bar_init, E_SEARCH_BAR_TYPE);
 
 /* Class initialization function for the calendar search bar */
 static void
@@ -126,7 +99,7 @@ cal_search_bar_class_init (CalSearchBarClass *class)
 	e_search_bar_class = (ESearchBarClass *) class;
 	object_class = (GtkObjectClass *) class;
 
-	parent_class = gtk_type_class (E_SEARCH_BAR_TYPE);
+	parent_class = g_type_class_peek_parent (class);
 
 	cal_search_bar_signals[SEXP_CHANGED] =
 		gtk_signal_new ("sexp_changed",

@@ -103,30 +103,8 @@ enum {
 	ARG_DAY_VIEW
 };
 
-
-GtkType
-e_day_view_time_item_get_type (void)
-{
-	static GtkType e_day_view_time_item_type = 0;
-
-	if (!e_day_view_time_item_type) {
-		GtkTypeInfo e_day_view_time_item_info = {
-			"EDayViewTimeItem",
-			sizeof (EDayViewTimeItem),
-			sizeof (EDayViewTimeItemClass),
-			(GtkClassInitFunc) e_day_view_time_item_class_init,
-			(GtkObjectInitFunc) e_day_view_time_item_init,
-			NULL, /* reserved_1 */
-			NULL, /* reserved_2 */
-			(GtkClassInitFunc) NULL
-		};
-
-		e_day_view_time_item_type = gtk_type_unique (gnome_canvas_item_get_type (), &e_day_view_time_item_info);
-	}
-
-	return e_day_view_time_item_type;
-}
-
+E_MAKE_TYPE (e_day_view_time_item, "EDayViewTimeItem", EDayViewTimeItem,
+	     e_day_view_time_item_class_init, e_day_view_time_item_init, GNOME_TYPE_CANVAS_ITEM);
 
 static void
 e_day_view_time_item_class_init (EDayViewTimeItemClass *class)
@@ -134,7 +112,7 @@ e_day_view_time_item_class_init (EDayViewTimeItemClass *class)
 	GtkObjectClass  *object_class;
 	GnomeCanvasItemClass *item_class;
 
-	parent_class = gtk_type_class (gnome_canvas_item_get_type());
+	parent_class = g_type_class_peek_parent (class);
 
 	object_class = (GtkObjectClass *) class;
 	item_class = (GnomeCanvasItemClass *) class;

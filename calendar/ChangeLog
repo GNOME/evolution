@@ -1,3 +1,77 @@
+2002-12-06  Hans Petter Jansson  <hpj@ximian.com>
+
+	* cal-client/cal-client.c (cal_client_open_status_enum_get_type):
+	Create a non-abstract enumeration type derived from GEnum.
+	(cal_client_set_mode_status_enum_get_type): Ditto.
+	(cal_mode_enum_get_type): Ditto.
+	(cal_client_class_init): Use our enumerations and not the abstract
+	one.
+	(cal_client_finalize): Don't destroy factories, since the CalClient
+	doesn't own them anymore. They're shared between CalClients now.
+	(get_factories): Implement. Move the factory setup code here from
+	cal_client_construct (), and cache the factories. This is hopefully
+	temporary, until wombat goes away or is fixed.
+	(cal_client_construct): Most of the code moved to get_factories ().
+
+	* cal-client/cal-client.h: Add enumeration type macros and protos.
+
+	* gui/cal-search-bar.c (cal_search_bar_get_type): Removed in favour
+	of E_MAKE_TYPE, which uses GObject calls.
+	(cal_search_bar_class_init): Use g_type_class_peek_parent ().
+
+	* gui/calendar-model.c (calendar_model_get_type):
+	(calendar_model_class_init): Ditto, like above file.
+	* gui/calendar-view.c (calendar_view_get_type):
+	(calendar_view_class_init): Ditto.
+	* gui/e-calendar-table.c (e_calendar_table_get_type):
+	(e_calendar_table_class_init): Ditto.
+	* gui/e-comp-editor-registry.c (e_comp_editor_registry_get_type):
+	(class_init): Ditto.
+	* gui/e-day-view-main-item.c (e_day_view_main_item_get_type):
+	(e_day_view_main_item_class_init): Ditto.
+	* gui/e-day-view-time-item.c (e_day_view_time_item_get_type):
+	(e_day_view_time_item_class_init): Ditto.
+	* gui/e-day-view-top-item.c (e_day_view_top_item_get_type):
+	(e_day_view_top_item_class_init): Ditto.
+	* gui/e-day-view.c (e_day_view_get_type):
+	(e_day_view_class_init): Ditto.
+	* gui/e-itip-control.c (e_itip_control_get_type):
+	(class_init): Ditto.
+	* gui/e-meeting-attendee.c (e_meeting_attendee_get_type):
+	(class_init): Ditto.
+	* gui/e-meeting-model.c (e_meeting_model_get_type):
+	(class_init): Ditto.
+	* gui/e-meeting-time-sel-item.c
+	(e_meeting_time_selector_item_get_type):
+	(e_meeting_time_selector_item_class_init): Ditto.
+	* gui/e-meeting-time-sel.c
+	(e_meeting_time_selector_get_type):
+	(e_meeting_time_selector_class_init): Ditto.
+	* gui/e-timezone-entry.c (e_timezone_entry_get_type):
+	(e_timezone_entry_class_init): Ditto.
+	* gui/e-week-view-event-item.c (e_week_view_event_item_get_type):
+	(e_week_view_event_item_class_init): Ditto.
+	* gui/e-week-view-main-item.c (e_week_view_main_item_get_type):
+	(e_week_view_main_item_class_init): Ditto.
+	* gui/e-week-view-titles-item.c (e_week_view_titles_item_get_type):
+	(e_week_view_titles_item_class_init): Ditto.
+	* gui/gnome-cal.c (gnome_calendar_get_type):
+	(gnome_calendar_class_init): Ditto.
+	* gui/weekday-picker.c (weekday_picker_get_type):
+	(weekday_picker_class_init): Ditto.
+
+	* gui/e-week-view.c (e_week_view_get_type):
+	(e_week_view_class_init): Ditto, but parent_class init was moved
+	from get_type() to class_init().
+
+	* gui/calendar-view-factory.c (calendar_view_factory_get_type):
+	(calendar_view_factory_class_init): Ditto, and set up finalize
+	callback instead of destroy.
+	(calendar_view_factory_finalize): It's a GObject, so implement this.
+	(celendar_view_factory_destroy): Move code to _finalize() and remove.
+
+	* gui/main.c (init_bonobo): Remove extraneous bonobo_activation_init().
+
 2002-11-27  Not Zed  <NotZed@Ximian.com>
 
 	* gui/itip-utils.[ch]: run fix.sh over this.

@@ -104,30 +104,9 @@ enum {
 	ARG_MEETING_TIME_SELECTOR
 };
 
-
-GtkType
-e_meeting_time_selector_item_get_type (void)
-{
-	static GtkType e_meeting_time_selector_item_type = 0;
-
-	if (!e_meeting_time_selector_item_type) {
-		GtkTypeInfo e_meeting_time_selector_item_info = {
-			"EMeetingTimeSelectorItem",
-			sizeof (EMeetingTimeSelectorItem),
-			sizeof (EMeetingTimeSelectorItemClass),
-			(GtkClassInitFunc) e_meeting_time_selector_item_class_init,
-			(GtkObjectInitFunc) e_meeting_time_selector_item_init,
-			NULL, /* reserved_1 */
-			NULL, /* reserved_2 */
-			(GtkClassInitFunc) NULL
-		};
-
-		e_meeting_time_selector_item_type = gtk_type_unique (gnome_canvas_item_get_type (), &e_meeting_time_selector_item_info);
-	}
-
-	return e_meeting_time_selector_item_type;
-}
-
+E_MAKE_TYPE (e_meeting_time_selector_item, "EMeetingTimeSelectorItem", EMeetingTimeSelectorItem,
+	     e_meeting_time_selector_item_class_init, e_meeting_time_selector_item_init,
+	     GNOME_TYPE_CANVAS_ITEM);
 
 static void
 e_meeting_time_selector_item_class_init (EMeetingTimeSelectorItemClass *mts_item_class)
@@ -135,7 +114,7 @@ e_meeting_time_selector_item_class_init (EMeetingTimeSelectorItemClass *mts_item
 	GtkObjectClass  *object_class;
 	GnomeCanvasItemClass *item_class;
 
-	parent_class = gtk_type_class (gnome_canvas_item_get_type());
+	parent_class = g_type_class_peek_parent (mts_item_class);
 
 	object_class = (GtkObjectClass *) mts_item_class;
 	item_class = (GnomeCanvasItemClass *) mts_item_class;

@@ -53,36 +53,8 @@ static GalViewClass *parent_class = NULL;
 
 
 
-/**
- * calendar_view_get_type:
- * 
- * Registers the #CalendarView class if necessary, and returns the type ID
- * associated to it.
- * 
- * Return value: The type ID of the #CalendarView class.
- **/
-GtkType
-calendar_view_get_type (void)
-{
-	static GtkType calendar_view_type;
-
-	if (!calendar_view_type) {
-		static const GtkTypeInfo calendar_view_info = {
-			"CalendarView",
-			sizeof (CalendarView),
-			sizeof (CalendarViewClass),
-			(GtkClassInitFunc) calendar_view_class_init,
-			(GtkObjectInitFunc) calendar_view_init,
-			NULL, /* reserved_1 */
-			NULL, /* reserved_2 */
-			(GtkClassInitFunc) NULL
-		};
-
-		calendar_view_type = gtk_type_unique (GAL_VIEW_TYPE, &calendar_view_info);
-	}
-
-	return calendar_view_type;
-}
+E_MAKE_TYPE (calendar_view, "CalendarView", CalendarView, calendar_view_class_init,
+	     calendar_view_init, GAL_VIEW_TYPE);
 
 /* Class initialization function for the calendar view */
 static void
@@ -91,7 +63,7 @@ calendar_view_class_init (CalendarViewClass *class)
 	GalViewClass *gal_view_class;
 	GtkObjectClass *object_class;
 
-	parent_class = gtk_type_class (GAL_VIEW_TYPE);
+	parent_class = g_type_class_peek_parent (class);
 
 	gal_view_class = (GalViewClass *) class;
 	object_class = (GtkObjectClass *) class;

@@ -72,30 +72,9 @@ enum {
 	ARG_WEEK_VIEW
 };
 
-
-GtkType
-e_week_view_main_item_get_type (void)
-{
-	static GtkType e_week_view_main_item_type = 0;
-
-	if (!e_week_view_main_item_type) {
-		GtkTypeInfo e_week_view_main_item_info = {
-			"EWeekViewMainItem",
-			sizeof (EWeekViewMainItem),
-			sizeof (EWeekViewMainItemClass),
-			(GtkClassInitFunc) e_week_view_main_item_class_init,
-			(GtkObjectInitFunc) e_week_view_main_item_init,
-			NULL, /* reserved_1 */
-			NULL, /* reserved_2 */
-			(GtkClassInitFunc) NULL
-		};
-
-		e_week_view_main_item_type = gtk_type_unique (gnome_canvas_item_get_type (), &e_week_view_main_item_info);
-	}
-
-	return e_week_view_main_item_type;
-}
-
+E_MAKE_TYPE (e_week_view_main_item, "EWeekViewMainItem", EWeekViewMainItem,
+	     e_week_view_main_item_class_init, e_week_view_main_item_init,
+	     GNOME_TYPE_CANVAS_ITEM);
 
 static void
 e_week_view_main_item_class_init (EWeekViewMainItemClass *class)
@@ -103,7 +82,7 @@ e_week_view_main_item_class_init (EWeekViewMainItemClass *class)
 	GtkObjectClass  *object_class;
 	GnomeCanvasItemClass *item_class;
 
-	parent_class = gtk_type_class (gnome_canvas_item_get_type());
+	parent_class = g_type_class_peek_parent (class);
 
 	object_class = (GtkObjectClass *) class;
 	item_class = (GnomeCanvasItemClass *) class;
