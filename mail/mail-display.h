@@ -1,20 +1,9 @@
 /* -*- Mode: C; tab-width: 8; indent-tabs-mode: t; c-basic-offset: 8 -*- */
 
-
-
-
-
-
-
-
-
-
-
-
 #ifndef _MAIL_DISPLAY_H_
 #define _MAIL_DISPLAY_H_
 
-#include <gtk/gtktable.h>
+#include <gtk/gtkvbox.h>
 #include <gtkhtml/gtkhtml.h>
 #include "camel/camel-stream.h"
 #include "camel/camel-mime-message.h"
@@ -28,26 +17,38 @@
 #define IS_MAIL_DISPLAY_CLASS(k) (GTK_CHECK_CLASS_TYPE ((k), MAIL_DISPLAY_TYPE))
 
 struct _MailDisplay {
-	GtkTable parent;
+	GtkVBox parent;
+
+	GtkScrolledWindow *scroll;
+	GtkBox *inner_box;
 
 	FolderBrowser *parent_folder_browser;
-
-	GtkHTML *      headers_html_widget;
-	GtkHTML *      body_html_widget;
-	
 	CamelMimeMessage *current_message;
 };
 
 typedef struct {
-	GtkTableClass parent_class;
+	GtkVBoxClass parent_class;
 } MailDisplayClass;
 
-GtkType        mail_display_get_type (void);
-GtkWidget *    mail_display_new      (FolderBrowser *parent_folder_browser);
+GtkType        mail_display_get_type    (void);
+GtkWidget *    mail_display_new         (FolderBrowser *parent_folder_browser);
 
 void           mail_display_set_message (MailDisplay *mail_display, 
 					 CamelMedium *medium);
 
 
+#define HTML_HEADER "<!DOCTYPE HTML PUBLIC \"-//W3C//DTD HTML 4.0 TRANSITIONAL//EN\">\n<HTML>\n<HEAD>\n<META NAME=\"GENERATOR\" CONTENT=\"Evolution Mail Component\">\n</HEAD>\n"
+
+void           mail_html_new            (GtkHTML **html,
+					 GtkHTMLStreamHandle **stream,
+					 CamelMimeMessage *root,
+					 gboolean init);
+void           mail_html_write          (GtkHTML *html,
+					 GtkHTMLStreamHandle *stream,
+					 const char *format, ...);
+void           mail_html_end            (GtkHTML *html,
+					 GtkHTMLStreamHandle *stream,
+					 gboolean finish,
+					 GtkBox *box);
 
 #endif /* _MAIL_DISPLAY_H_ */

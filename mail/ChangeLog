@@ -1,3 +1,19 @@
+2000-04-25  Dan Winship  <danw@helixcode.com>
+
+	* mail-display.c, mail-format.c: Redo large chunks of this. The
+	mail display now consists of a vbox in a scrolled window, in which
+	we put multiple GtkHTML objects. This means broken HTML in one
+	part can't corrupt other parts. The headers now scroll with the
+	body. Unrecognized attachments look prettier, but still don't do
+	anything, and will probably be changed later. We can also now
+	display nested message/rfc822 parts and multipart/alternatives
+	with multipart subparts. Oh, and text/{richtext,enriched}, since
+	we had all these ancient sample messages that use it and the lack
+	of support annoyed me. :)
+
+	Bonobo embeddables are broken right now, but I don't think that's
+	my fault.
+
 2000-04-23  Dan Winship  <danw@helixcode.com>
 
 	* folder-browser-factory.c: rename "send" to "send_msg", to avoid

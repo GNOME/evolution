@@ -34,11 +34,7 @@ extern "C" {
 #include "camel/camel.h"
 #include "composer/e-msg-composer.h"
 
-void mail_format_mime_message (CamelMimeMessage *mime_message,
-			       GtkHTMLStreamHandle *header_stream,
-			       GtkHTMLStreamHandle *body_stream);
-
-void mail_write_html (GtkHTMLStreamHandle *stream, const char *data);
+void mail_format_mime_message (CamelMimeMessage *mime_message, GtkBox *box);
 
 EMsgComposer *mail_generate_reply (CamelMimeMessage *mime_message,
 				   gboolean to_all);
