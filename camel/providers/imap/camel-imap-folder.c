@@ -251,9 +251,14 @@ imap_refresh_info (CamelFolder *folder, CamelException *ex)
 	char *resp, *uid, *p, *flags;
 	int i, seq, summary_len;
 	CamelMessageInfo *info;
+	gboolean folder_changed = FALSE;
 
 	if (imap_folder->exists == 0) {
-		camel_folder_summary_clear (imap_folder->summary);
+		if (camel_folder_summary_count != 0) {
+			camel_folder_summary_clear (imap_folder->summary);
+			camel_object_trigger_event (CAMEL_OBJECT (folder),
+						    "folder_changed", NULL);
+		}
 		return;
 	}
 
@@ -301,13 +306,19 @@ imap_refresh_info (CamelFolder *folder, CamelException *ex)
 		if (strcmp (info->uid, new[i].uid) != 0) {
 			camel_folder_summary_remove (imap_folder->summary,
 						     info);
+			folder_changed = TRUE;
 			i--;
 			summary_len--;
 			continue;
 		}
 
 		/* Update summary flags */
-		info->flags = new[i].flags;
+		if (info->flags != new[i].flags) {
+			info->flags = new[i].flags;
+			camel_object_trigger_event (CAMEL_OBJECT (folder),
+						    "message_changed",
+						    info->uid);
+		}
 
 		g_free (new[i].uid);
 	}
@@ -316,17 +327,24 @@ imap_refresh_info (CamelFolder *folder, CamelException *ex)
 	while (summary_len > i + 1) {
 		camel_folder_summary_remove_index (imap_folder->summary,
 						   --summary_len);
+		folder_changed = TRUE;
 	}
 
 	/* Add any new folder messages. */
 	if (i < imap_folder->exists) {
 		/* Fetch full summary for the remaining messages. */
 		imap_update_summary (folder, i + 1, imap_folder->exists, ex);
+		folder_changed = TRUE;
 
 		while (i < imap_folder->exists)
 			g_free (new[i++].uid);
 	}
 	g_free (new);
+
+	if (folder_changed) {
+		camel_object_trigger_event (CAMEL_OBJECT (folder),
+					    "folder_changed", NULL);
+	}
 }
 
 static void
