@@ -1,3 +1,9 @@
+2001-08-31  Damon Chaplin  <damon@ximian.com>
+
+	* gui/dialogs/comp-editor-util.c (comp_editor_contacts_to_widget): 
+	(comp_editor_contacts_to_component): fix debugging messages so they
+	use "" rather than NULL. Fixes bug #8559.
+
 2001-08-29  Federico Mena Quintero  <federico@ximian.com>
 
 	* pcs/cal-backend-file.c (cal_backend_file_remove_object): See if

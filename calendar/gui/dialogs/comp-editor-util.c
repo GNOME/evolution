@@ -411,7 +411,7 @@ comp_editor_contacts_to_widget (GtkWidget *contacts_entry,
 	g_ptr_array_add (dest_array, NULL);
 
 	contacts_string = e_destination_exportv ((EDestination**) dest_array->pdata);
-	g_print ("Destinations: %s\n", contacts_string);
+	g_print ("Destinations: %s\n", contacts_string ? contacts_string : "");
 
 	bonobo_widget_set_property (BONOBO_WIDGET (contacts_entry),
 				    "destinations", contacts_string, NULL);
@@ -440,7 +440,7 @@ comp_editor_contacts_to_component (GtkWidget *contacts_entry,
 
 	bonobo_widget_get_property (BONOBO_WIDGET (contacts_entry),
 				    "destinations", &contacts_string, NULL);
-	g_print ("Contacts string: %s\n", contacts_string);
+	g_print ("Contacts string: %s\n", contacts_string ? contacts_string : "");
 
 	contact_destv = e_destination_importv (contacts_string);
 	if (contact_destv) {
