@@ -12,11 +12,11 @@ INCLUDES = -I.. -I$(srcdir)/.. -I$(includedir)	\
 	-I$(top_srcdir)/intl			\
 	$(GTK_INCLUDEDIR) -I$(top_srcdir)/camel
 
-libcamelpop3_la_SOURCES = 			\
+libcamelsmtp_la_SOURCES = 			\
 	camel-smtp-provider.c			\
 	camel-smtp-transport.c
 
-libcamelpop3include_HEADERS =			\
+libcamelsmtpinclude_HEADERS =			\
 	camel-smtp-transport.h
 
 
