@@ -1,5 +1,8 @@
 2000-06-09  Dan Winship  <danw@helixcode.com>
 
+	* session.c (evolution_auth_callback): Update for
+	CamelAuthCallback changes. (Uncache passwords when asked to.)
+
 	* mail-ops.c (fetch_mail): close and expunge the source folder
 	after copying it to a local folder.
 
