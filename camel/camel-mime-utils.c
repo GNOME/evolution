@@ -1979,6 +1979,7 @@ header_decode_param (const char **in, char **paramp, char **valuep, int *is_rfc2
 	if (*inptr == '=') {
 		inptr++;
 		value = header_decode_value (&inptr);
+		
 		if (is_rfc2184) {
 			/* We have ourselves an rfc2184 parameter */
 			
@@ -2000,7 +2001,7 @@ header_decode_param (const char **in, char **paramp, char **valuep, int *is_rfc2
 				 */
 				*is_rfc2184_param = TRUE;
 			}
-		} else if (value && !strcmp (value, "=?")) {
+		} else if (value && !strncmp (value, "=?", 2)) {
 			/* We have a broken param value that is rfc2047 encoded.
 			 * Since both Outlook and Netscape/Mozilla do this, we
 			 * should handle this case.

@@ -1,5 +1,9 @@
 2001-10-29  Jeffrey Stedfast  <fejj@ximian.com>
 
+	* camel-mime-utils.c (header_decode_param): Minor fix - should
+	have been using a strNcmp when checking if it was an rfc2047
+	encoded word.
+
 	* camel-pgp-context.c (pgp_sign): Notify the user that PGP 2.6.x
 	is no longer supported and use camel_exception_set() instead of
 	setv() where appropriate.
