@@ -31,6 +31,7 @@
 #include <stdio.h>
 #include <gdk/gdkkeysyms.h>
 #include <gtk/gtksignal.h>
+#include <gtk/gtktypebuiltins.h>
 #include <libxml/parser.h>
 #include <libgnomecanvas/gnome-canvas.h>
 #include "gal/util/e-util.h"

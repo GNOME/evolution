@@ -46,6 +46,7 @@
 #include <gtk/gtkmain.h>
 #include <gtk/gtkselection.h>
 #include <gtk/gtkwindow.h>
+#include <gtk/gtktypebuiltins.h>
 #include <libgnomecanvas/gnome-canvas-rect-ellipse.h>
 
 #include "gal/util/e-util.h"
