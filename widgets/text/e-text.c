@@ -86,7 +86,8 @@ enum {
 	ARG_HEIGHT,
 	ARG_DRAW_BORDERS,
 	ARG_ALLOW_NEWLINES,
-	ARG_DRAW_BACKGROUND
+	ARG_DRAW_BACKGROUND,
+	ARG_CURSOR_POS
 };
 
 
@@ -286,6 +287,8 @@ e_text_class_init (ETextClass *klass)
 				 GTK_TYPE_BOOL, GTK_ARG_READWRITE, ARG_ALLOW_NEWLINES);
 	gtk_object_add_arg_type ("EText::draw_background",
 				 GTK_TYPE_BOOL, GTK_ARG_READWRITE, ARG_DRAW_BACKGROUND);
+	gtk_object_add_arg_type ("EText::cursor_pos",
+				 GTK_TYPE_INT, GTK_ARG_READWRITE, ARG_CURSOR_POS);
 
 	if (!clipboard_atom)
 		clipboard_atom = gdk_atom_intern ("CLIPBOARD", FALSE);
@@ -1303,6 +1306,17 @@ e_text_set_arg (GtkObject *object, GtkArg *arg, guint arg_id)
 				NULL);
 		break;
 
+	case ARG_CURSOR_POS: {
+		ETextEventProcessorCommand command;
+
+		command.action = E_TEP_MOVE;
+		command.position = E_TEP_VALUE;
+		command.value = GTK_VALUE_INT (*arg);
+		command.time = GDK_CURRENT_TIME;
+		e_text_command (text->tep, &command, text);
+		break;
+	}
+		
 	default:
 		return;
 	}
@@ -1457,6 +1471,10 @@ e_text_get_arg (GtkObject *object, GtkArg *arg, guint arg_id)
 		}
 		break;
 
+	case ARG_CURSOR_POS:
+		GTK_VALUE_INT (*arg) = text->selection_start;
+		break;
+		
 	default:
 		arg->type = GTK_TYPE_INVALID;
 		break;

@@ -65,6 +65,7 @@ enum {
 	ARG_ALLOW_NEWLINES,
 	ARG_DRAW_BORDERS,
 	ARG_DRAW_BACKGROUND,
+	ARG_CURSOR_POS
 };
 
 static void
@@ -283,7 +284,12 @@ et_get_arg (GtkObject *o, GtkArg *arg, guint arg_id)
 				"draw_background", &GTK_VALUE_BOOL (*arg),
 				NULL);
 		break;
-				
+
+	case ARG_CURSOR_POS:
+		gtk_object_get (item,
+				"cursor_pos", &GTK_VALUE_INT (*arg),
+				NULL);
+		
 	default:
 		arg->type = GTK_TYPE_INVALID;
 		break;
@@ -418,10 +424,14 @@ et_set_arg (GtkObject *o, GtkArg *arg, guint arg_id)
 		break;
 	}
 
-	case ARG_DRAW_BACKGROUND:
+	case ARG_CURSOR_POS:
 		gtk_object_set (item,
-				"draw_background", GTK_VALUE_BOOL (*arg),
-				NULL);
+				"cursor_pos", GTK_VALUE_INT (*arg), NULL);
+		break;
+		
+	case ARG_DRAW_BACKGROUND:
+		gtk_object_set (item, "draw_background",
+				GTK_VALUE_BOOL (*arg), NULL);
 		break;
 	}
 }
@@ -497,6 +507,8 @@ e_entry_class_init (GtkObjectClass *object_class)
 				 GTK_TYPE_BOOL, GTK_ARG_READWRITE, ARG_DRAW_BORDERS);
 	gtk_object_add_arg_type ("EEntry::draw_background",
 				 GTK_TYPE_BOOL, GTK_ARG_READWRITE, ARG_DRAW_BACKGROUND);
+	gtk_object_add_arg_type ("EEntry::cursor_pos",
+				 GTK_TYPE_INT, GTK_ARG_READWRITE, ARG_CURSOR_POS);
 }
 
 E_MAKE_TYPE(e_entry, "EEntry", EEntry, e_entry_class_init, e_entry_init, PARENT_TYPE);
