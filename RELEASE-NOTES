@@ -84,3 +84,25 @@ folders, you might experience hangs and/or crashes when specifying
 destination addresses, for example when composing meeting requests.
 Giving a name to all the contact lists will fix the problem.  This
 problem will be fixed in the next Evolution release.
+
+
+NOTE FOR SOLARIS/CDE USERS
+
+This release of Evolution doesn't install icons in the CDE
+"Application" group as Evolution 1.0.x used to do.  While this doesn't
+affect users who are running Ximian Desktop, users who wish to run
+Evolution under the CDE environment will also have to set the PATH,
+GNOME_PATH and LD_LIBRARY_PATH environment variables to point to the
+Evolution installation before launching the `evolution' executable.
+
+This can be done, for example, with a shell script like the following:
+
+	PATH=/opt/gnome/bin:/usr/bin:${PATH}
+	GNOME_PATH=/opt/gnome:/usr
+	LD_LIBRARY_PATH=/opt/gnome/lib:/usr/lib:${LD_LIBRARY_PATH}
+
+	export LD_LIBRARY_PATH GNOME_PATH PATH
+
+	exec evolution
+
+This problem will be fixed in the next release of Evolution.
