@@ -1,4 +1,10 @@
-2003-08-12 Andrew Wu <Yang.Wu@sun.com>
+2003-08-12  Hans Petter Jansson <hpj@ximian.com>
+
+	* gui/e-itip-control.c (html_destroyed):
+	(init):
+	(write_html): Add destroy chaining.
+
+2003-08-12  Andrew Wu <Yang.Wu@sun.com>
 
        * gui/e-week-view.c
        (e_week_view_on_key_up):
