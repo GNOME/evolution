@@ -97,13 +97,11 @@ e_tasks_class_init (ETasksClass *class)
 	e_tasks_signals[SELECTION_CHANGED] =
 		gtk_signal_new ("selection_changed",
 				GTK_RUN_LAST,
-				object_class->type,
+				G_TYPE_FROM_CLASS (object_class), 
 				GTK_SIGNAL_OFFSET (ETasksClass, selection_changed),
 				gtk_marshal_NONE__INT,
 				GTK_TYPE_NONE, 1,
 				GTK_TYPE_INT);
-
-	gtk_object_class_add_signals (object_class, e_tasks_signals, LAST_SIGNAL);
 
 	object_class->destroy = e_tasks_destroy;
 

@@ -37,7 +37,9 @@
 #include "../calendar-commands.h"
 #include "../e-tasks.h"
 
+#include <gtk/gtksignal.h>
 #include <gtk/gtkoptionmenu.h>
+#include <gtk/gtktogglebutton.h>
 #include <libgnomeui/gnome-color-picker.h>
 #include <glade/glade.h>
 #include <gal/util/e-util.h>

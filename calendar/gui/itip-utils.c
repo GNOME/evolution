@@ -26,15 +26,11 @@
 
 #include <bonobo/bonobo-exception.h>
 #include <bonobo/bonobo-object.h>
-#include <bonobo/bonobo-object-client.h>
 #include <bonobo/bonobo-moniker-util.h>
-#include <bonobo-conf/bonobo-config-database.h>
-#include <libgnome/gnome-defs.h>
 #include <libgnome/gnome-i18n.h>
 #include <gtk/gtkwidget.h>
 #include <gal/widgets/e-gui-utils.h>
 #include <gal/widgets/e-unicode.h>
-#include <gal/util/e-unicode-i18n.h>
 #include <gal/util/e-util.h>
 #include <ical.h>
 #include <Evolution-Composer.h>
@@ -459,15 +455,15 @@ comp_subject (CalComponentItipMethod method, CalComponent *comp)
 	else {
 		switch (cal_component_get_vtype (comp)) {
 		case CAL_COMPONENT_EVENT:
-			description = U_("Event information");
+			description = _("Event information");
 		case CAL_COMPONENT_TODO:
-			description = U_("Task information");
+			description = _("Task information");
 		case CAL_COMPONENT_JOURNAL:
-			description = U_("Journal information");
+			description = _("Journal information");
 		case CAL_COMPONENT_FREEBUSY:
-			description = U_("Free/Busy information");
+			description = _("Free/Busy information");
 		default:
-			description = U_("Calendar information");
+			description = _("Calendar information");
 		}
 	}
 
@@ -487,13 +483,13 @@ comp_subject (CalComponentItipMethod method, CalComponent *comp)
 
 			switch (a->status) {
 			case ICAL_PARTSTAT_ACCEPTED:
-				prefix = U_("Accepted");
+				prefix = _("Accepted");
 				break;
 			case ICAL_PARTSTAT_TENTATIVE:
-				prefix = U_("Tentatively Accepted");
+				prefix = _("Tentatively Accepted");
 				break;
 			case ICAL_PARTSTAT_DECLINED:
-				prefix = U_("Declined");
+				prefix = _("Declined");
 				break;
 			default:
 				break;
@@ -503,23 +499,23 @@ comp_subject (CalComponentItipMethod method, CalComponent *comp)
 		break;
 
 	case CAL_COMPONENT_METHOD_ADD:
-		prefix = U_("Updated");
+		prefix = _("Updated");
 		break;
 
 	case CAL_COMPONENT_METHOD_CANCEL:
-		prefix = U_("Cancel");
+		prefix = _("Cancel");
 		break;
 
 	case CAL_COMPONENT_METHOD_REFRESH:
-		prefix = U_("Refresh");
+		prefix = _("Refresh");
 		break;
 
 	case CAL_COMPONENT_METHOD_COUNTER:
-		prefix = U_("Counter-proposal");
+		prefix = _("Counter-proposal");
 		break;
 
 	case CAL_COMPONENT_METHOD_DECLINECOUNTER:
-		prefix = U_("Declined");
+		prefix = _("Declined");
 		break;
 
 	default:
@@ -568,11 +564,11 @@ comp_description (CalComponent *comp)
 
         switch (cal_component_get_vtype (comp)) {
         case CAL_COMPONENT_EVENT:
-                return CORBA_string_dup (U_("Event information"));
+                return CORBA_string_dup (_("Event information"));
         case CAL_COMPONENT_TODO:
-                return CORBA_string_dup (U_("Task information"));
+                return CORBA_string_dup (_("Task information"));
         case CAL_COMPONENT_JOURNAL:
-                return CORBA_string_dup (U_("Journal information"));
+                return CORBA_string_dup (_("Journal information"));
         case CAL_COMPONENT_FREEBUSY:
                 cal_component_get_dtstart (comp, &dt);
                 if (dt.value) {
@@ -589,13 +585,13 @@ comp_description (CalComponent *comp)
                         g_free (tmp_utf);
                         g_free (tmp);
                 } else {
-                        description = CORBA_string_dup (U_("Free/Busy information"));
+                        description = CORBA_string_dup (_("Free/Busy information"));
                 }
                 g_free (start);
                 g_free (end);
                 return description;
         default:
-                return CORBA_string_dup (U_("iCalendar information"));
+                return CORBA_string_dup (_("iCalendar information"));
         }
 }
 
@@ -910,7 +906,7 @@ gboolean
 itip_send_comp (CalComponentItipMethod method, CalComponent *send_comp,
 		CalClient *client, icalcomponent *zones)
 {
-	BonoboObjectClient *bonobo_server;
+	BonoboObject *bonobo_server;
 	GNOME_Evolution_Composer composer_server;
 	CalComponent *comp = NULL;
 	icalcomponent *top_level = NULL;
@@ -928,7 +924,7 @@ itip_send_comp (CalComponentItipMethod method, CalComponent *send_comp,
 	CORBA_exception_init (&ev);
 
 	/* Obtain an object reference for the Composer. */
-	bonobo_server = bonobo_object_activate (GNOME_EVOLUTION_COMPOSER_OAFIID, 0);
+	bonobo_server = bonobo_activation_activate_from_id (GNOME_EVOLUTION_COMPOSER_OAFIID, 0, NULL, &ev);
 	g_return_val_if_fail (bonobo_server != NULL, FALSE);
 	composer_server = BONOBO_OBJREF (bonobo_server);
 	

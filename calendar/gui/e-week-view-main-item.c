@@ -29,7 +29,6 @@
 #include <config.h>
 
 #include <glib.h>
-#include <libgnome/gnome-defs.h>
 #include <libgnome/gnome-i18n.h>
 #include "e-week-view-main-item.h"
 
@@ -238,8 +237,8 @@ e_week_view_main_item_draw_day (EWeekViewMainItem *wvmitem,
 	g_print ("Drawing Day:%i at %i,%i\n", day, x, y);
 #endif
 	week_view = wvmitem->week_view;
-	style = GTK_WIDGET (week_view)->style;
-	font = style->font;
+	style = gtk_widget_get_style (GTK_WIDGET (week_view));
+	font = gtk_style_get_font (style);
 	gc = week_view->main_gc;
 
 	g_return_if_fail (gc != NULL);

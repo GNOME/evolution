@@ -24,10 +24,9 @@
 
 #include <string.h>
 #include <gtk/gtksignal.h>
-#include <libgnome/gnome-defs.h>
 #include <libgnome/gnome-i18n.h>
-#include <libgnomeui/gnome-canvas-rect-ellipse.h>
-#include <libgnomeui/gnome-canvas-text.h>
+#include <libgnomecanvas/gnome-canvas-rect-ellipse.h>
+#include <libgnomecanvas/gnome-canvas-text.h>
 #include "weekday-picker.h"
 
 
@@ -64,7 +63,7 @@ enum {
 
 static void weekday_picker_class_init (WeekdayPickerClass *class);
 static void weekday_picker_init (WeekdayPicker *wp);
-static void weekday_picker_finalize (GtkObject *object);
+static void weekday_picker_destroy (GtkObject *object);
 
 static void weekday_picker_realize (GtkWidget *widget);
 static void weekday_picker_size_request (GtkWidget *widget, GtkRequisition *requisition);
@@ -123,14 +122,12 @@ weekday_picker_class_init (WeekdayPickerClass *class)
 	wp_signals[CHANGED] =
 		gtk_signal_new ("changed",
 				GTK_RUN_FIRST,
-				object_class->type,
+				G_TYPE_FROM_CLASS (object_class),
 				GTK_SIGNAL_OFFSET (WeekdayPickerClass, changed),
 				gtk_marshal_NONE__NONE,
 				GTK_TYPE_NONE, 0);
 
-	gtk_object_class_add_signals (object_class, wp_signals, LAST_SIGNAL);
-
-	object_class->finalize = weekday_picker_finalize;
+	object_class->destroy = weekday_picker_destroy;
 
 	widget_class->realize = weekday_picker_realize;
 	widget_class->size_request = weekday_picker_size_request;
@@ -231,7 +228,7 @@ weekday_picker_init (WeekdayPicker *wp)
 
 /* Finalize handler for the weekday picker */
 static void
-weekday_picker_finalize (GtkObject *object)
+weekday_picker_destroy (GtkObject *object)
 {
 	WeekdayPicker *wp;
 	WeekdayPickerPrivate *priv;
@@ -245,8 +242,8 @@ weekday_picker_finalize (GtkObject *object)
 	g_free (priv);
 	wp->priv = NULL;
 
-	if (GTK_OBJECT_CLASS (parent_class)->finalize)
-		(* GTK_OBJECT_CLASS (parent_class)->finalize) (object);
+	if (GTK_OBJECT_CLASS (parent_class)->destroy)
+		(* GTK_OBJECT_CLASS (parent_class)->destroy) (object);
 }
 
 static void
@@ -332,7 +329,7 @@ configure_items (WeekdayPicker *wp)
 		c = g_strndup (str + day, 1);
 		gnome_canvas_item_set (priv->labels[i],
 				       "text", c,
-				       "font_gdk", GTK_WIDGET (wp)->style->font,
+				       "font_gdk", gtk_style_get_font (gtk_widget_get_style (GTK_WIDGET (wp))),
 				       "x", (double) (i * box_width) + box_width / 2.0,
 				       "y", (double) (1 + PADDING),
 				       "anchor", GTK_ANCHOR_N,
@@ -394,6 +391,7 @@ weekday_picker_style_set (GtkWidget *widget, GtkStyle *previous_style)
 {
 	WeekdayPicker *wp;
 	WeekdayPickerPrivate *priv;
+	GdkFont *font;
 	int max_width;
 	const char *str;
 	int i, len;
@@ -401,8 +399,9 @@ weekday_picker_style_set (GtkWidget *widget, GtkStyle *previous_style)
 	wp = WEEKDAY_PICKER (widget);
 	priv = wp->priv;
 
-	priv->font_ascent = widget->style->font->ascent;
-	priv->font_descent = widget->style->font->descent;
+	font = gtk_style_get_font (gtk_widget_get_style (widget));
+	priv->font_ascent = font->ascent;
+	priv->font_descent = font->descent;
 
 	max_width = 0;
 
@@ -412,7 +411,7 @@ weekday_picker_style_set (GtkWidget *widget, GtkStyle *previous_style)
 	for (i = 0; i < len; i++) {
 		int w;
 
-		w = gdk_char_measure (widget->style->font, str[i]);
+		w = gdk_char_measure (font, str[i]);
 		if (w > max_width)
 			max_width = w;
 	}

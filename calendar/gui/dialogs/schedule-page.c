@@ -30,9 +30,7 @@
 #include <gtk/gtktogglebutton.h>
 #include <gtk/gtkvbox.h>
 #include <gtk/gtkwindow.h>
-#include <libgnome/gnome-defs.h>
 #include <libgnome/gnome-i18n.h>
-#include <libgnomeui/gnome-stock.h>
 #include <libgnomeui/gnome-dialog-util.h>
 #include <glade/glade.h>
 #include <gal/e-table/e-cell-combo.h>
@@ -427,7 +425,7 @@ schedule_page_construct (SchedulePage *spage, EMeetingModel *emm)
 	priv = spage->priv;
 
 	priv->xml = glade_xml_new (EVOLUTION_GLADEDIR 
-				   "/schedule-page.glade", NULL);
+				   "/schedule-page.glade", NULL, NULL);
 	if (!priv->xml) {
 		g_message ("schedule_page_construct(): "
 			   "Could not load the Glade XML file!");

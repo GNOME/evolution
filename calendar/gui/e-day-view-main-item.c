@@ -201,8 +201,8 @@ e_day_view_main_item_draw (GnomeCanvasItem *canvas_item, GdkDrawable *drawable,
 	day_view = dvmitem->day_view;
 	g_return_if_fail (day_view != NULL);
 
-	style = GTK_WIDGET (day_view)->style;
-	font = style->font;
+	style = gtk_widget_get_style (GTK_WIDGET (day_view));
+	font = gtk_style_get_font (style);
 
 	/* Paint the background colors. */
 	gc = day_view->main_gc;

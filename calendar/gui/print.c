@@ -28,22 +28,21 @@
 #include <math.h>
 #include <time.h>
 #include <glib.h>
-#include <libgnome/gnome-defs.h>
+#include <gtk/gtkradiobutton.h>
 #include <libgnome/gnome-i18n.h>
-#include <libgnome/gnome-paper.h>
 #include <libgnomeui/gnome-dialog.h>
 #include <libgnomeui/gnome-uidefs.h>
-#include <libgnomeui/gnome-paper-selector.h>
-#include <libgnomeui/gnome-stock.h>
+#include <libgnomeui/gnome-stock-icons.h>
 #include <libgnomeprint/gnome-print.h>
-#include <libgnomeprint/gnome-print-copies.h>
+#include <libgnomeprint/gnome-print-paper.h>
 #include <libgnomeprint/gnome-print-master.h>
-#include <libgnomeprint/gnome-print-master-preview.h>
-#include <libgnomeprint/gnome-print-preview.h>
-#include <libgnomeprint/gnome-printer-dialog.h>
+#include <libgnomeprintui/gnome-print-master-preview.h>
+#include <libgnomeprintui/gnome-print-paper-selector.h>
+#include <libgnomeprintui/gnome-print-copies.h>
+#include <libgnomeprintui/gnome-print-preview.h>
+#include <libgnomeprintui/gnome-printer-dialog.h>
 #include <e-util/e-dialog-widgets.h>
 #include <e-util/e-time-utils.h>
-#include <gal/util/e-unicode-i18n.h>
 #include <gal/widgets/e-unicode.h>
 #include <cal-util/timeutil.h>
 #include "calendar-commands.h"
@@ -165,7 +164,7 @@ struct einfo
 	int count;
 };
 
-static const GnomePaper *paper_info = NULL;
+static const GnomePrintPaper *paper_info = NULL;
 
 
 /* Convenience function to help the transition to timezone functions.
@@ -259,13 +258,13 @@ get_font_for_size (double h, GnomeFontWeight weight, gboolean italic)
 	GnomeFont *font;
 	double asc, desc, size;
 	
-	face = gnome_font_unsized_closest (DEFAULT_FONT, weight, italic);
+	face = gnome_font_face_find_closest_from_weight_slant (DEFAULT_FONT, weight, italic);
 	asc = gnome_font_face_get_ascender (face);
 	desc = gnome_font_face_get_descender (face);
 	size = h * 1000 / (asc + desc);
 	g_print ("Print Info: %f, %f, %f\n", asc, desc, size);
 	
-	font = gnome_font_new_closest (DEFAULT_FONT, weight, italic, size);
+	font = gnome_font_find_closest_from_weight_slant (DEFAULT_FONT, weight, italic, size);
 
 	gtk_object_unref (GTK_OBJECT (face));
 	
@@ -581,7 +580,7 @@ print_month_small (GnomePrintContext *pc, GnomeCalendar *gcal, time_t month,
 	week_start_day = calendar_config_get_week_start_day ();
 	weekday = week_start_day;
 	for (x = 0; x < 7; x++) {
-		print_text (pc, font_bold, U_(daynames[weekday]), ALIGN_CENTER,
+		print_text (pc, font_bold, _(daynames[weekday]), ALIGN_CENTER,
 			    left + x * col_width, left + (x + 1) * col_width,
 			    top, top - row_height * 1.4);
 		weekday = (weekday + 1) % 7;
@@ -788,9 +787,9 @@ print_day_background (GnomePrintContext *pc, GnomeCalendar *gcal,
 			minute = "00";
 		} else {
 			if (i < 12)
-				minute = U_("am");
+				minute = _("am");
 			else
-				minute = U_("pm");
+				minute = _("pm");
 
 			hour = i % 12;
 			if (hour == 0)
@@ -1774,7 +1773,7 @@ print_todo_details (GnomePrintContext *pc, GnomeCalendar *gcal,
 	gnome_print_setrgbcolor (pc, 0, 0, 0);
 	gnome_print_setlinewidth (pc, 0.0);
 
-	titled_box (pc, U_("Tasks"), font_summary, ALIGN_CENTER | ALIGN_BORDER,
+	titled_box (pc, _("Tasks"), font_summary, ALIGN_CENTER | ALIGN_BORDER,
 		    &left, &right, &top, &bottom, 1.0);
 
 	y = top - 3;
@@ -2244,9 +2243,9 @@ print_comp_item (GnomePrintContext *pc, CalComponent *comp, CalClient *client,
 
 	/* We should only be asked to print VEVENTs or VTODOs. */
 	if (vtype == CAL_COMPONENT_EVENT)
-		title = U_("Appointment");
+		title = _("Appointment");
 	else if (vtype == CAL_COMPONENT_TODO)
-		title = U_("Task");
+		title = _("Task");
 	else
 		return;
 
@@ -2287,23 +2286,23 @@ print_comp_item (GnomePrintContext *pc, CalComponent *comp, CalClient *client,
 		if (status != ICAL_STATUS_NONE) {
 			switch (status) {
 			case ICAL_STATUS_NEEDSACTION:
-				status_string = U_("Not Started");
+				status_string = _("Not Started");
 				break;
 			case ICAL_STATUS_INPROCESS:
-				status_string = U_("In Progress");
+				status_string = _("In Progress");
 				break;
 			case ICAL_STATUS_COMPLETED:
-				status_string = U_("Completed");
+				status_string = _("Completed");
 				break;
 			case ICAL_STATUS_CANCELLED:
-				status_string = U_("Cancelled");
+				status_string = _("Cancelled");
 				break;
 			default:
 				break;
 			}
 
 			if (status_string) {
-				char *text = g_strdup_printf (U_("Status: %s"),
+				char *text = g_strdup_printf (_("Status: %s"),
 							      status_string);
 				top = bound_text (pc, font, text,
 						  left, right, top, bottom, 0);
@@ -2321,7 +2320,7 @@ print_comp_item (GnomePrintContext *pc, CalComponent *comp, CalClient *client,
 			cal_component_free_priority (priority);
 
 			priority_utf8 = e_utf8_from_locale_string (priority_string);
-			text = g_strdup_printf (U_("Priority: %s"),
+			text = g_strdup_printf (_("Priority: %s"),
 						priority_utf8);
 			top = bound_text (pc, font, text,
 					  left, right, top, bottom, 0);
@@ -2335,7 +2334,7 @@ print_comp_item (GnomePrintContext *pc, CalComponent *comp, CalClient *client,
 		if (percent) {
 			char *percent_string;
 
-			percent_string = g_strdup_printf (U_("Percent Complete: %i"), *percent);
+			percent_string = g_strdup_printf (_("Percent Complete: %i"), *percent);
 			cal_component_free_percent (percent);
 
 			top = bound_text (pc, font, percent_string,
@@ -2347,7 +2346,7 @@ print_comp_item (GnomePrintContext *pc, CalComponent *comp, CalClient *client,
 		/* URL */
 		cal_component_get_url (comp, &url);
 		if (url && url[0]) {
-			char *url_string = g_strdup_printf (U_("URL: %s"),
+			char *url_string = g_strdup_printf (_("URL: %s"),
 							    url);
 
 			top = bound_text (pc, font, url_string,
@@ -2361,7 +2360,7 @@ print_comp_item (GnomePrintContext *pc, CalComponent *comp, CalClient *client,
 	/* Categories */
 	cal_component_get_categories (comp, &categories);
 	if (categories && categories[0]) {
-		categories_string = g_strdup_printf (U_("Categories: %s"),
+		categories_string = g_strdup_printf (_("Categories: %s"),
 						     categories);
 		top = bound_text (pc, font, categories_string,
 				  left, right, top, bottom, 0);
@@ -2372,7 +2371,7 @@ print_comp_item (GnomePrintContext *pc, CalComponent *comp, CalClient *client,
 	/* Contacts */
 	cal_component_get_contact_list (comp, &contact_list);
 	if (contact_list) {
-		GString *contacts = g_string_new (U_("Contacts: "));
+		GString *contacts = g_string_new (_("Contacts: "));
 		for (elem = contact_list; elem; elem = elem->next) {
 			CalComponentText *t = elem->data;
 			/* Put a comma between contacts. */
@@ -2409,7 +2408,8 @@ void
 print_calendar (GnomeCalendar *gcal, gboolean preview, time_t date,
 		PrintView default_view)
 {
-	GnomePrinter *printer;
+#if 0
+	GnomePrintConfig *config;
 	GnomePrintMaster *gpm;
 	GnomePrintContext *pc;
 	int copies, collate;
@@ -2418,7 +2418,7 @@ print_calendar (GnomeCalendar *gcal, gboolean preview, time_t date,
 	g_return_if_fail (gcal != NULL);
 	g_return_if_fail (GNOME_IS_CALENDAR (gcal));
 
-	printer = NULL;
+	config = NULL;
 	copies = 1;
 	collate = FALSE;
 
@@ -2427,9 +2427,7 @@ print_calendar (GnomeCalendar *gcal, gboolean preview, time_t date,
 		GtkWidget *range;
 		int view;
 
-		gpd = gnome_print_dialog_new (_("Print Calendar"),
-					      GNOME_PRINT_DIALOG_RANGE
-					      | GNOME_PRINT_DIALOG_COPIES);
+		gpd = gnome_printer_dialog_new_default ();
 
 		view = (int) default_view;
 		range = range_selector_new (gpd, date, &view);
@@ -2525,12 +2523,14 @@ print_calendar (GnomeCalendar *gcal, gboolean preview, time_t date,
 	}
 
 	gtk_object_unref (GTK_OBJECT (gpm));
+#endif
 }
 
 
 void
 print_comp (CalComponent *comp, CalClient *client, gboolean preview)
 {
+#if 0
 	GnomePrinter *printer;
 	GnomePrintMaster *gpm;
 	GnomePrintContext *pc;
@@ -2617,11 +2617,13 @@ print_comp (CalComponent *comp, CalClient *client, gboolean preview)
 	}
 
 	gtk_object_unref (GTK_OBJECT (gpm));
+#endif
 }
 
 void
 print_setup (void)
 {
+#if 0
 	GtkWidget *dlg, *ps;
 	gint btn;
 
@@ -2643,4 +2645,5 @@ print_setup (void)
 	}
 
 	gnome_dialog_close (GNOME_DIALOG (dlg));
+#endif
 }

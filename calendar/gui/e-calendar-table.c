@@ -37,7 +37,6 @@
 #include <gal/e-table/e-cell-toggle.h>
 #include <gal/e-table/e-cell-text.h>
 #include <gal/e-table/e-cell-combo.h>
-#include <gal/util/e-unicode-i18n.h>
 #include <gal/widgets/e-popup-menu.h>
 #include <e-util/e-dialog-utils.h>
 #include <widgets/misc/e-cell-date-edit.h>
@@ -393,9 +392,9 @@ e_calendar_table_init (ECalendarTable *cal_table)
 	gtk_object_unref (GTK_OBJECT (cell));
 
 	strings = NULL;
-	strings = g_list_append (strings, (char*) U_("Public"));
-	strings = g_list_append (strings, (char*) U_("Private"));
-	strings = g_list_append (strings, (char*) U_("Confidential"));
+	strings = g_list_append (strings, (char*) _("Public"));
+	strings = g_list_append (strings, (char*) _("Private"));
+	strings = g_list_append (strings, (char*) _("Confidential"));
 	e_cell_combo_set_popdown_strings (E_CELL_COMBO (popup_cell),
 					  strings);
 
@@ -415,10 +414,10 @@ e_calendar_table_init (ECalendarTable *cal_table)
 	gtk_object_unref (GTK_OBJECT (cell));
 
 	strings = NULL;
-	strings = g_list_append (strings, (char*) U_("High"));
-	strings = g_list_append (strings, (char*) U_("Normal"));
-	strings = g_list_append (strings, (char*) U_("Low"));
-	strings = g_list_append (strings, (char*) U_("Undefined"));
+	strings = g_list_append (strings, (char*) _("High"));
+	strings = g_list_append (strings, (char*) _("Normal"));
+	strings = g_list_append (strings, (char*) _("Low"));
+	strings = g_list_append (strings, (char*) _("Undefined"));
 	e_cell_combo_set_popdown_strings (E_CELL_COMBO (popup_cell),
 					  strings);
 
@@ -437,17 +436,17 @@ e_calendar_table_init (ECalendarTable *cal_table)
 	gtk_object_unref (GTK_OBJECT (cell));
 
 	strings = NULL;
-	strings = g_list_append (strings, (char*) U_("0%"));
-	strings = g_list_append (strings, (char*) U_("10%"));
-	strings = g_list_append (strings, (char*) U_("20%"));
-	strings = g_list_append (strings, (char*) U_("30%"));
-	strings = g_list_append (strings, (char*) U_("40%"));
-	strings = g_list_append (strings, (char*) U_("50%"));
-	strings = g_list_append (strings, (char*) U_("60%"));
-	strings = g_list_append (strings, (char*) U_("70%"));
-	strings = g_list_append (strings, (char*) U_("80%"));
-	strings = g_list_append (strings, (char*) U_("90%"));
-	strings = g_list_append (strings, (char*) U_("100%"));
+	strings = g_list_append (strings, (char*) _("0%"));
+	strings = g_list_append (strings, (char*) _("10%"));
+	strings = g_list_append (strings, (char*) _("20%"));
+	strings = g_list_append (strings, (char*) _("30%"));
+	strings = g_list_append (strings, (char*) _("40%"));
+	strings = g_list_append (strings, (char*) _("50%"));
+	strings = g_list_append (strings, (char*) _("60%"));
+	strings = g_list_append (strings, (char*) _("70%"));
+	strings = g_list_append (strings, (char*) _("80%"));
+	strings = g_list_append (strings, (char*) _("90%"));
+	strings = g_list_append (strings, (char*) _("100%"));
 	e_cell_combo_set_popdown_strings (E_CELL_COMBO (popup_cell),
 					  strings);
 
@@ -467,8 +466,8 @@ e_calendar_table_init (ECalendarTable *cal_table)
 	gtk_object_unref (GTK_OBJECT (cell));
 
 	strings = NULL;
-	strings = g_list_append (strings, (char*) U_("Free"));
-	strings = g_list_append (strings, (char*) U_("Busy"));
+	strings = g_list_append (strings, (char*) _("Free"));
+	strings = g_list_append (strings, (char*) _("Busy"));
 	e_cell_combo_set_popdown_strings (E_CELL_COMBO (popup_cell),
 					  strings);
 
@@ -488,10 +487,10 @@ e_calendar_table_init (ECalendarTable *cal_table)
 	gtk_object_unref (GTK_OBJECT (cell));
 
 	strings = NULL;
-	strings = g_list_append (strings, (char*) U_("Not Started"));
-	strings = g_list_append (strings, (char*) U_("In Progress"));
-	strings = g_list_append (strings, (char*) U_("Completed"));
-	strings = g_list_append (strings, (char*) U_("Cancelled"));
+	strings = g_list_append (strings, (char*) _("Not Started"));
+	strings = g_list_append (strings, (char*) _("In Progress"));
+	strings = g_list_append (strings, (char*) _("Completed"));
+	strings = g_list_append (strings, (char*) _("Cancelled"));
 	e_cell_combo_set_popdown_strings (E_CELL_COMBO (popup_cell),
 					  strings);
 

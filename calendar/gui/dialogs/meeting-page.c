@@ -31,10 +31,9 @@
 #include <gtk/gtktogglebutton.h>
 #include <gtk/gtkvbox.h>
 #include <gtk/gtkwindow.h>
-#include <libgnome/gnome-defs.h>
 #include <libgnome/gnome-i18n.h>
 #include <glade/glade.h>
-#include <libgnomeui/gnome-stock.h>
+#include <libgnomeui/gnome-stock-icons.h>
 #include <gal/e-table/e-cell-combo.h>
 #include <gal/e-table/e-cell-text.h>
 #include <gal/e-table/e-table-simple.h>
@@ -691,8 +690,10 @@ right_click_cb (ETable *etable, gint row, gint col, GdkEvent *event, gpointer da
 	priv->row = e_meeting_model_etable_view_to_model_row (etable, priv->model, view_row);
 	
 	/* FIXME: if you enable Delegate, then change index to '1' */
+#if 0
 	context_menu[0].pixmap_widget = gnome_stock_new_with_icon (GNOME_STOCK_MENU_TRASH);
-	
+#endif
+
 	menu = e_popup_menu_create (context_menu, enable_mask, hide_mask, data);
 	e_auto_kill_popup_menu_on_hide (menu);
 	
@@ -745,7 +746,7 @@ meeting_page_construct (MeetingPage *mpage, EMeetingModel *emm,
 	priv = mpage->priv;
 
 	priv->xml = glade_xml_new (EVOLUTION_GLADEDIR 
-				   "/meeting-page.glade", NULL);
+				   "/meeting-page.glade", NULL, NULL);
 	if (!priv->xml) {
 		g_message ("meeting_page_construct(): "
 			   "Could not load the Glade XML file!");

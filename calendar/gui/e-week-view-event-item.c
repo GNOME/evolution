@@ -488,8 +488,8 @@ e_week_view_draw_time	(EWeekView	*week_view,
 	gint time_y_normal_font, time_y_small_font;
 	gchar buffer[128], *suffix;
 
-	style = GTK_WIDGET (week_view)->style;
-	font = style->font;
+	style = gtk_widget_get_style (GTK_WIDGET (week_view));
+	font = gtk_style_get_font (style);
 	small_font = week_view->small_font;
 	gc = week_view->main_gc;
 

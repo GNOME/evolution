@@ -42,9 +42,10 @@
 #include <gtk/gtkwindow.h>
 #include <gal/e-text/e-text.h>
 #include <gal/widgets/e-canvas-utils.h>
+#include <gal/widgets/e-popup-menu.h>
 #include <gal/widgets/e-gui-utils.h>
 #include <gal/widgets/e-unicode.h>
-#include <libgnomeui/gnome-canvas-rect-ellipse.h>
+#include <libgnomecanvas/gnome-canvas-rect-ellipse.h>
 #include <libgnome/gnome-i18n.h>
 #include <libgnome/gnome-exec.h>
 #include <libgnome/gnome-util.h>
@@ -514,12 +515,11 @@ e_day_view_class_init (EDayViewClass *class)
 	e_day_view_signals[SELECTION_CHANGED] =
 		gtk_signal_new ("selection_changed",
 				GTK_RUN_LAST,
-				object_class->type,
+				G_TYPE_FROM_CLASS (object_class),
 				GTK_SIGNAL_OFFSET (EDayViewClass, selection_changed),
 				gtk_marshal_NONE__NONE,
 				GTK_TYPE_NONE, 0);
 
-	gtk_object_class_add_signals (object_class, e_day_view_signals, LAST_SIGNAL);
 
 	/* Method override */
 	object_class->destroy		= e_day_view_destroy;
@@ -1137,8 +1137,7 @@ e_day_view_unrealize (GtkWidget *widget)
 	day_view->main_gc = NULL;
 
 	colormap = gtk_widget_get_colormap (widget);
-	for (i = 0; i < E_DAY_VIEW_COLOR_LAST; i++)
-		gdk_colors_free (colormap, &day_view->colors[i].pixel, 1, 0);
+	gdk_colormap_free_colors (colormap, day_view->colors, E_DAY_VIEW_COLOR_LAST);
 
 	gdk_pixmap_unref (day_view->reminder_icon);
 	day_view->reminder_icon = NULL;
@@ -1170,7 +1169,7 @@ e_day_view_style_set (GtkWidget *widget,
 		(*GTK_WIDGET_CLASS (parent_class)->style_set)(widget, previous_style);
 
 	day_view = E_DAY_VIEW (widget);
-	font = widget->style->font;
+	font = gtk_style_get_font (gtk_widget_get_style (widget));
 
 	/* Create the large font. */
 	if (day_view->large_font != NULL) 
@@ -1286,12 +1285,10 @@ e_day_view_style_set (GtkWidget *widget,
 
 	/* Set the fonts for the text items used when dragging. */
 	gnome_canvas_item_set (day_view->drag_long_event_item,
-			       "font_gdk", GTK_WIDGET (day_view)->style->font,
-			       NULL);
+			       "font_gdk", font, NULL);
 
 	gnome_canvas_item_set (day_view->drag_item,
-			       "font_gdk", GTK_WIDGET (day_view)->style->font,
-			       NULL);
+			       "font_gdk", font, NULL);
 }
 
 
@@ -1384,7 +1381,7 @@ e_day_view_recalc_cell_sizes	(EDayView	*day_view)
 	char buffer[128];
 
 	g_return_if_fail (((GtkWidget*)day_view)->style != NULL);
-	font = GTK_WIDGET (day_view)->style->font;
+	font = gtk_style_get_font (gtk_widget_get_style (GTK_WIDGET (day_view)));
 
 	/* Calculate the column sizes, using floating point so that pixels
 	   get divided evenly. Note that we use one more element than the
@@ -1471,9 +1468,12 @@ e_day_view_focus_in (GtkWidget *widget, GdkEventFocus *event)
 	gtk_widget_queue_draw (day_view->main_canvas);
 
 	g_assert (GTK_WIDGET_REALIZED (day_view->main_canvas));
+#if 0
+	/* FIXME when gal is fixed */
 	if (E_CANVAS (day_view->main_canvas)->ic)
 		gdk_im_begin (E_CANVAS (day_view->main_canvas)->ic,
 			      GTK_LAYOUT (day_view->main_canvas)->bin_window);
+#endif
 
 	return FALSE;
 }
@@ -1496,8 +1496,12 @@ e_day_view_focus_out (GtkWidget *widget, GdkEventFocus *event)
 	gtk_widget_queue_draw (day_view->main_canvas);
 
 	g_assert (GTK_WIDGET_REALIZED (day_view->main_canvas));
+
+#if 0
+	/* FIXME when gal is fixed */
 	if (E_CANVAS (day_view->main_canvas)->ic)
 		gdk_im_end ();
+#endif
 
 	return FALSE;
 }
@@ -5228,7 +5232,7 @@ e_day_view_reshape_long_event (EDayView *day_view,
 	   draw them on top of the resize rect. Nor when editing. */
 	num_icons = 0;
 	comp = event->comp;
-	font = GTK_WIDGET (day_view)->style->font;
+	font = gtk_style_get_font (gtk_widget_get_style (GTK_WIDGET (day_view)));
 
 	if (day_view->resize_drag_pos != E_DAY_VIEW_POS_NONE
 	    && day_view->resize_event_day == E_DAY_VIEW_LONG_EVENT
@@ -5270,7 +5274,7 @@ e_day_view_reshape_long_event (EDayView *day_view,
 		event->canvas_item =
 			gnome_canvas_item_new (GNOME_CANVAS_GROUP (GNOME_CANVAS (day_view->top_canvas)->root),
 					       e_text_get_type (),
-					       "font_gdk", GTK_WIDGET (day_view)->style->font,
+					       "font_gdk", font,
 					       "anchor", GTK_ANCHOR_NW,
 					       "clip", TRUE,
 					       "max_lines", 1,
@@ -5425,10 +5429,13 @@ e_day_view_reshape_day_event (EDayView *day_view,
 		}
 
 		if (!event->canvas_item) {
+			GdkFont *font;
+			
+			font = gtk_style_get_font (gtk_widget_get_style (GTK_WIDGET (day_view)));
 			event->canvas_item =
 				gnome_canvas_item_new (GNOME_CANVAS_GROUP (GNOME_CANVAS (day_view->main_canvas)->root),
 						       e_text_get_type (),
-						       "font_gdk", GTK_WIDGET (day_view)->style->font,
+						       "font_gdk", font,
 						       "anchor", GTK_ANCHOR_NW,
 						       "line_wrap", TRUE,
 						       "editable", TRUE,
@@ -6860,7 +6867,7 @@ e_day_view_update_top_canvas_drag (EDayView *day_view,
 			       "y2", item_y + item_h - 1,
 			       NULL);
 
-	font = GTK_WIDGET (day_view)->style->font;
+	font = gtk_style_get_font (gtk_widget_get_style (GTK_WIDGET (day_view)));
 	gnome_canvas_item_set (day_view->drag_long_event_item,
 			       "font_gdk", font,
 			       "clip_width", item_w - (E_DAY_VIEW_LONG_EVENT_BORDER_WIDTH + E_DAY_VIEW_LONG_EVENT_X_PAD) * 2,
@@ -7020,7 +7027,7 @@ e_day_view_update_main_canvas_drag (EDayView *day_view,
 			       "y2", item_y + item_h - 1,
 			       NULL);
 
-	font = GTK_WIDGET (day_view)->style->font;
+	font = gtk_style_get_font (gtk_widget_get_style (GTK_WIDGET (day_view)));
 	gnome_canvas_item_set (day_view->drag_item,
 			       "font_gdk", font,
 			       "clip_width", item_w - E_DAY_VIEW_BAR_WIDTH - E_DAY_VIEW_EVENT_X_PAD * 2,
@@ -7730,7 +7737,7 @@ e_day_view_set_status_message (EDayView *day_view, const char *message)
 		char *client_id = g_strdup_printf ("%p", day_view);
 
 		if (progress_icon[0] == NULL)
-			progress_icon[0] = gdk_pixbuf_new_from_file (EVOLUTION_IMAGESDIR "/" EVOLUTION_CALENDAR_PROGRESS_IMAGE);
+			progress_icon[0] = gdk_pixbuf_new_from_file (EVOLUTION_IMAGESDIR "/" EVOLUTION_CALENDAR_PROGRESS_IMAGE, NULL);
 		day_view->activity = evolution_activity_client_new (
 			global_shell_client, client_id,
 			progress_icon, message, TRUE, &display);

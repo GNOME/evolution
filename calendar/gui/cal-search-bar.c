@@ -29,7 +29,6 @@
 #include <gtk/gtkmenuitem.h>
 #include <gtk/gtkoptionmenu.h>
 #include <gtk/gtksignal.h>
-#include <libgnome/gnome-defs.h>
 #include <libgnome/gnome-i18n.h>
 #include <gal/widgets/e-unicode.h>
 #include "cal-search-bar.h"
@@ -132,7 +131,7 @@ cal_search_bar_class_init (CalSearchBarClass *class)
 	cal_search_bar_signals[SEXP_CHANGED] =
 		gtk_signal_new ("sexp_changed",
 				GTK_RUN_FIRST,
-				object_class->type,
+				G_TYPE_FROM_CLASS (object_class),
 				GTK_SIGNAL_OFFSET (CalSearchBarClass, sexp_changed),
 				gtk_marshal_NONE__STRING,
 				GTK_TYPE_NONE, 1,
@@ -141,13 +140,11 @@ cal_search_bar_class_init (CalSearchBarClass *class)
 	cal_search_bar_signals[CATEGORY_CHANGED] =
 		gtk_signal_new ("category_changed",
 				GTK_RUN_FIRST,
-				object_class->type,
+				G_TYPE_FROM_CLASS (object_class),
 				GTK_SIGNAL_OFFSET (CalSearchBarClass, category_changed),
 				gtk_marshal_NONE__STRING,
 				GTK_TYPE_NONE, 1,
 				GTK_TYPE_STRING);
-
-	gtk_object_class_add_signals (object_class, cal_search_bar_signals, LAST_SIGNAL);
 
 	class->sexp_changed = NULL;
 	class->category_changed = NULL;

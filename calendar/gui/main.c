@@ -25,13 +25,11 @@
 #endif
 
 #include <glib.h>
-#include <libgnome/gnome-defs.h>
 #include <libgnome/gnome-i18n.h>
-#include <libgnomeui/gnome-init.h>
+#include <libgnome/gnome-init.h>
 #include <libgnomevfs/gnome-vfs-init.h>
 #include <glade/glade.h>
 
-#include <liboaf/liboaf.h>
 #include <bonobo/bonobo-main.h>
 #include <bonobo/bonobo-generic-factory.h>
 #include <bonobo/bonobo-exception.h>
@@ -58,12 +56,12 @@ static void
 init_bonobo (int argc, char **argv)
 {
 	if (gnome_init_with_popt_table ("evolution-calendar", VERSION, argc, argv,
-					oaf_popt_options, 0, NULL) != 0)
+					bonobo_activation_popt_options, 0, NULL) != 0)
 		g_error (_("Could not initialize GNOME"));
 
-	oaf_init (argc, argv);
+	bonobo_activation_init (argc, argv);
 
-	if (bonobo_init (CORBA_OBJECT_NIL, CORBA_OBJECT_NIL, CORBA_OBJECT_NIL) == FALSE)
+	if (bonobo_init (&argc, argv) == FALSE)
 		g_error (_("Could not initialize Bonobo"));
 
 	if (!bonobo_activate ())
@@ -74,7 +72,7 @@ init_bonobo (int argc, char **argv)
  * references a singleton service object.
  */
 static BonoboObject *
-comp_editor_factory_fn (BonoboGenericFactory *factory, void *data)
+comp_editor_factory_fn (BonoboGenericFactory *factory, const char *id, void *data)
 {
 	if (!comp_editor_factory) {
 		comp_editor_factory = comp_editor_factory_new ();
@@ -115,7 +113,7 @@ launch_alarm_daemon_cb (gpointer data)
 
 	/* activate the alarm daemon */
 	CORBA_exception_init (&ev);
-	an = oaf_activate_from_id ("OAFIID:GNOME_Evolution_Calendar_AlarmNotify", 0, NULL, &ev);
+	an = bonobo_activation_activate_from_id ("OAFIID:GNOME_Evolution_Calendar_AlarmNotify", 0, NULL, &ev);
 
 	if (BONOBO_EX (&ev)) {
 		g_message ("launch_alarm_daemon_cb(): Could not activate the alarm notification service");

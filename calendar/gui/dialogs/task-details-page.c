@@ -27,7 +27,6 @@
 
 #include <gtk/gtksignal.h>
 #include <gtk/gtktogglebutton.h>
-#include <libgnome/gnome-defs.h>
 #include <libgnome/gnome-i18n.h>
 #include <glade/glade.h>
 #include <gal/widgets/e-unicode.h>
@@ -730,7 +729,7 @@ task_details_page_construct (TaskDetailsPage *tdpage)
 	priv = tdpage->priv;
 
 	priv->xml = glade_xml_new (EVOLUTION_GLADEDIR 
-				   "/task-details-page.glade", NULL);
+				   "/task-details-page.glade", NULL, NULL);
 	if (!priv->xml) {
 		g_message ("task_details_page_construct(): "
 			   "Could not load the Glade XML file!");

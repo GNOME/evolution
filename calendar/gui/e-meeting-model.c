@@ -25,11 +25,9 @@
 #endif
 
 #include <glib.h>
-#include <liboaf/liboaf.h>
 #include <bonobo/bonobo-control.h>
 #include <bonobo/bonobo-widget.h>
 #include <bonobo/bonobo-exception.h>
-#include <libgnome/gnome-defs.h>
 #include <libgnome/gnome-i18n.h>
 #include <libgnome/gnome-util.h>
 #include <libgnomevfs/gnome-vfs.h>
@@ -37,7 +35,6 @@
 #include <gal/e-table/e-cell-text.h>
 #include <gal/e-table/e-cell-popup.h>
 #include <gal/e-table/e-cell-combo.h>
-#include <gal/util/e-unicode-i18n.h>
 #include <ebook/e-book.h>
 #include <ebook/e-card-types.h>
 #include <ebook/e-card-cursor.h>
@@ -827,11 +824,11 @@ build_etable (ETableModel *model, const gchar *spec_file, const gchar *state_fil
 	gtk_object_unref (GTK_OBJECT (cell));
 	
 	strings = NULL;
-	strings = g_list_append (strings, (char*) U_("Individual"));
-	strings = g_list_append (strings, (char*) U_("Group"));
-	strings = g_list_append (strings, (char*) U_("Resource"));
-	strings = g_list_append (strings, (char*) U_("Room"));
-	strings = g_list_append (strings, (char*) U_("Unknown"));
+	strings = g_list_append (strings, (char*) _("Individual"));
+	strings = g_list_append (strings, (char*) _("Group"));
+	strings = g_list_append (strings, (char*) _("Resource"));
+	strings = g_list_append (strings, (char*) _("Room"));
+	strings = g_list_append (strings, (char*) _("Unknown"));
 
 	e_cell_combo_set_popdown_strings (E_CELL_COMBO (popup_cell), strings);
 	e_table_extras_add_cell (extras, "typeedit", popup_cell);
@@ -843,11 +840,11 @@ build_etable (ETableModel *model, const gchar *spec_file, const gchar *state_fil
 	gtk_object_unref (GTK_OBJECT (cell));
 	
 	strings = NULL;
-	strings = g_list_append (strings, (char*) U_("Chair"));
-	strings = g_list_append (strings, (char*) U_("Required Participant"));
-	strings = g_list_append (strings, (char*) U_("Optional Participant"));
-	strings = g_list_append (strings, (char*) U_("Non-Participant"));
-	strings = g_list_append (strings, (char*) U_("Unknown"));
+	strings = g_list_append (strings, (char*) _("Chair"));
+	strings = g_list_append (strings, (char*) _("Required Participant"));
+	strings = g_list_append (strings, (char*) _("Optional Participant"));
+	strings = g_list_append (strings, (char*) _("Non-Participant"));
+	strings = g_list_append (strings, (char*) _("Unknown"));
 
 	e_cell_combo_set_popdown_strings (E_CELL_COMBO (popup_cell), strings);
 	e_table_extras_add_cell (extras, "roleedit", popup_cell);
@@ -859,8 +856,8 @@ build_etable (ETableModel *model, const gchar *spec_file, const gchar *state_fil
 	gtk_object_unref (GTK_OBJECT (cell));
 
 	strings = NULL;
-	strings = g_list_append (strings, (char*) U_("Yes"));
-	strings = g_list_append (strings, (char*) U_("No"));
+	strings = g_list_append (strings, (char*) _("Yes"));
+	strings = g_list_append (strings, (char*) _("No"));
 
 	e_cell_combo_set_popdown_strings (E_CELL_COMBO (popup_cell), strings);
 	e_table_extras_add_cell (extras, "rsvpedit", popup_cell);
@@ -872,11 +869,11 @@ build_etable (ETableModel *model, const gchar *spec_file, const gchar *state_fil
 	gtk_object_unref (GTK_OBJECT (cell));
 
 	strings = NULL;
-	strings = g_list_append (strings, (char*) U_("Needs Action"));
-	strings = g_list_append (strings, (char*) U_("Accepted"));
-	strings = g_list_append (strings, (char*) U_("Declined"));
-	strings = g_list_append (strings, (char*) U_("Tentative"));
-	strings = g_list_append (strings, (char*) U_("Delegated"));
+	strings = g_list_append (strings, (char*) _("Needs Action"));
+	strings = g_list_append (strings, (char*) _("Accepted"));
+	strings = g_list_append (strings, (char*) _("Declined"));
+	strings = g_list_append (strings, (char*) _("Tentative"));
+	strings = g_list_append (strings, (char*) _("Delegated"));
 
 	e_cell_combo_set_popdown_strings (E_CELL_COMBO (popup_cell), strings);
 	e_table_extras_add_cell (extras, "statusedit", popup_cell);
@@ -1460,7 +1457,8 @@ cursor_cb (EBook *book, EBookStatus status, ECardCursor *cursor, gpointer data)
 			continue;
 
 		/* Read in free/busy data from the url */
-		gnome_vfs_async_open (&handle, card->fburl, GNOME_VFS_OPEN_READ, async_open, qdata);
+		gnome_vfs_async_open (&handle, card->fburl, GNOME_VFS_OPEN_READ, 
+				      GNOME_VFS_PRIORITY_DEFAULT, async_open, qdata);
 		return;
 	}
 
@@ -1726,7 +1724,7 @@ get_select_name_dialog (EMeetingModel *im)
 	
 	CORBA_exception_init (&ev);
 
-	priv->corba_select_names = oaf_activate_from_id (SELECT_NAMES_OAFID, 0, NULL, &ev);
+	priv->corba_select_names = bonobo_activation_activate_from_id (SELECT_NAMES_OAFID, 0, NULL, &ev);
 
 	for (i = 0; sections[i] != NULL; i++)
 		add_section (priv->corba_select_names, sections[i]);

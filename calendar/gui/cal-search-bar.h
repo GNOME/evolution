@@ -21,11 +21,10 @@
 #ifndef CAL_SEARCH_BAR_H
 #define CAL_SEARCH_BAR_H
 
-#include <libgnome/gnome-defs.h>
 #include "widgets/misc/e-search-bar.h"
 #include "widgets/misc/e-filter-bar.h"
 
-BEGIN_GNOME_DECLS
+G_BEGIN_DECLS
 
 
 
@@ -66,6 +65,6 @@ const char *cal_search_bar_get_category (CalSearchBar *cal_search);
 
 
 
-END_GNOME_DECLS
+G_END_DECLS
 
 #endif

@@ -22,14 +22,14 @@
  */
 
 #include <config.h>
+#include <gtk/gtksignal.h>
 #include <glade/glade.h>
 #include <bonobo/bonobo-control.h>
 #include <bonobo/bonobo-generic-factory.h>
 #include <bonobo/bonobo-persist-file.h>
 #include <bonobo/bonobo-context.h>
+#include <bonobo/bonobo-property-bag.h>
 #include <glade/glade.h>
-
-#include <liboaf/liboaf.h>
 
 #include <cal-util/timeutil.h>
 #include <gui/gnome-cal.h>
@@ -174,22 +174,26 @@ calendar_properties_init (GnomeCalendar *gcal, BonoboControl *control)
 				 _("The type of view to show"),
 				 0);
 
-	bonobo_control_set_properties (control, pbag);
+	bonobo_control_set_properties (control, bonobo_object_corba_objref (BONOBO_OBJECT (pbag)), NULL);
 	bonobo_object_unref (BONOBO_OBJECT (pbag));
 }
 
 /* Callback factory function for calendar controls */
 static BonoboObject *
-control_factory_fn (BonoboGenericFactory *Factory, void *data)
+control_factory_fn (BonoboGenericFactory *Factory, const char *id, void *data)
 {
 	BonoboControl *control;
 
-	control = control_factory_new_control ();
-
-	if (control)
-		return BONOBO_OBJECT (control);
-	else
+	if (strcmp (id, CONTROL_FACTORY_ID) == 0) {
+		control = control_factory_new_control ();
+		if (control)
+			return BONOBO_OBJECT (control);
+		else
+			return NULL;
+	} else {
+		g_warning ("Unknown ID in calendar control factory -- %s", id);
 		return NULL;
+	}
 }
 
 

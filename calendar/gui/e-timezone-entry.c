@@ -128,14 +128,12 @@ e_timezone_entry_class_init		(ETimezoneEntryClass	*class)
 	timezone_entry_signals[CHANGED] =
 		gtk_signal_new ("changed",
 				GTK_RUN_LAST,
-				object_class->type,
+				G_TYPE_FROM_CLASS (object_class),
 				GTK_SIGNAL_OFFSET (ETimezoneEntryClass,
 						   changed),
 				gtk_marshal_NONE__NONE,
 				GTK_TYPE_NONE, 0);
 
-	gtk_object_class_add_signals (object_class, timezone_entry_signals,
-				      LAST_SIGNAL);
 
 	object_class->destroy		= e_timezone_entry_destroy;
 

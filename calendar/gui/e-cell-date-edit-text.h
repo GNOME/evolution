@@ -32,7 +32,7 @@
 #include <ical.h>
 #include <gal/e-table/e-cell-text.h>
 
-BEGIN_GNOME_DECLS
+G_BEGIN_DECLS
 
 #define E_CELL_DATE_EDIT_TEXT_TYPE        (e_cell_date_edit_text_get_type ())
 #define E_CELL_DATE_EDIT_TEXT(o)          (GTK_CHECK_CAST ((o), E_CELL_DATE_EDIT_TEXT_TYPE, ECellDateEditText))
@@ -69,6 +69,6 @@ void	   e_cell_date_edit_text_set_timezone (ECellDateEditText *ecd,
 					       icaltimezone *zone);
 void	   e_cell_date_edit_text_set_use_24_hour_format (ECellDateEditText *ecd,
 							 gboolean use_24_hour);
-END_GNOME_DECLS
+G_END_DECLS
 
 #endif /* _E_CELL_DATE_EDIT_TEXT_H_ */

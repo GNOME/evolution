@@ -1,3 +1,7 @@
+2002-11-07  JP Rosevear  <jpr@ximian.com>
+
+	* Initial port of gui/ subdir to GNOME 2
+
 2002-11-07  Rodrigo Moya <rodrigo@ximian.com>
 
 	* importers/icalendar-importer.c: removed non-existant headers.

@@ -50,7 +50,7 @@
 #include <gtk/gtkvscrollbar.h>
 #include <libgnomeui/gnome-dateedit.h>
 #include <libgnome/gnome-i18n.h>
-#include <libgnomeui/gnome-canvas-widget.h>
+#include <libgnomecanvas/gnome-canvas-widget.h>
 
 #include <gal/widgets/e-canvas.h>
 #include <gal/widgets/e-canvas-utils.h>
@@ -127,8 +127,6 @@ static void e_meeting_time_selector_style_set (GtkWidget *widget,
 					       GtkStyle  *previous_style);
 static gint e_meeting_time_selector_expose_event (GtkWidget *widget,
 						  GdkEventExpose *event);
-static void e_meeting_time_selector_draw (GtkWidget    *widget,
-					  GdkRectangle *area);
 static void e_meeting_time_selector_draw_shadow (EMeetingTimeSelector *mts);
 static void e_meeting_time_selector_hadjustment_changed (GtkAdjustment *adjustment,
 							 EMeetingTimeSelector *mts);
@@ -258,14 +256,11 @@ e_meeting_time_selector_class_init (EMeetingTimeSelectorClass * klass)
 
 	mts_signals [CHANGED] = 
 		gtk_signal_new ("changed", GTK_RUN_FIRST,
-				object_class->type,
+				G_TYPE_FROM_CLASS (object_class),
 				GTK_SIGNAL_OFFSET (EMeetingTimeSelectorClass, 
 						   changed),
 				gtk_signal_default_marshaller,
 				GTK_TYPE_NONE, 0);
-
-	gtk_object_class_add_signals (object_class, mts_signals,
-				      LAST_SIGNAL);
 
 	object_class->destroy = e_meeting_time_selector_destroy;
 
@@ -273,7 +268,6 @@ e_meeting_time_selector_class_init (EMeetingTimeSelectorClass * klass)
 	widget_class->unrealize    = e_meeting_time_selector_unrealize;
 	widget_class->style_set    = e_meeting_time_selector_style_set;
 	widget_class->expose_event = e_meeting_time_selector_expose_event;
-	widget_class->draw	   = e_meeting_time_selector_draw;
 }
 
 
@@ -489,7 +483,9 @@ e_meeting_time_selector_construct (EMeetingTimeSelector * mts, EMeetingModel *em
 	mts->options_menu = gtk_menu_new ();
 	gtk_menu_attach_to_widget (GTK_MENU (mts->options_menu), mts->options_button,
 				   e_meeting_time_selector_options_menu_detacher);
+#if 0
 	menu_accel_group = gtk_menu_ensure_uline_accel_group (GTK_MENU (mts->options_menu));
+#endif
 
 	menuitem = gtk_check_menu_item_new_with_label ("");
 	accel_key = gtk_label_parse_uline (GTK_LABEL (GTK_BIN (menuitem)->child), _("Show _Only Working Hours"));
@@ -584,7 +580,9 @@ e_meeting_time_selector_construct (EMeetingTimeSelector * mts, EMeetingModel *em
 	mts->autopick_menu = gtk_menu_new ();
 	gtk_menu_attach_to_widget (GTK_MENU (mts->autopick_menu), mts->autopick_button,
 				   e_meeting_time_selector_autopick_menu_detacher);
+#if 0
 	menu_accel_group = gtk_menu_ensure_uline_accel_group (GTK_MENU (mts->autopick_menu));
+#endif
 
 	menuitem = gtk_radio_menu_item_new_with_label (NULL, "");
 	mts->autopick_all_item = menuitem;
@@ -693,7 +691,6 @@ e_meeting_time_selector_construct (EMeetingTimeSelector * mts, EMeetingModel *em
 	/* Allocate the colors. */
 	visual = gtk_widget_get_visual (GTK_WIDGET (mts));
 	colormap = gtk_widget_get_colormap (GTK_WIDGET (mts));
-	mts->color_context = gdk_color_context_new (visual, colormap);
 	e_meeting_time_selector_alloc_named_color (mts, "gray75", &mts->bg_color);
 	e_meeting_time_selector_alloc_named_color (mts, "gray50", &mts->all_attendees_bg_color);
 	gdk_color_black (colormap, &mts->grid_color);
@@ -797,17 +794,14 @@ static void
 e_meeting_time_selector_alloc_named_color (EMeetingTimeSelector * mts,
 					   const char *name, GdkColor *c)
 {
-	int failed;
+	GdkColormap *colormap;
 	
 	g_return_if_fail (name != NULL);
 	g_return_if_fail (c != NULL);
 
 	gdk_color_parse (name, c);
-	c->pixel = 0;
-	c->pixel = gdk_color_context_get_pixel (mts->color_context,
-						c->red, c->green, c->blue,
-						&failed);
-	if (failed)
+	colormap = gtk_widget_get_colormap (GTK_WIDGET (mts));
+	if (!gdk_colormap_alloc_color (colormap, c, TRUE, TRUE))
 		g_warning ("Failed to allocate color: %s\n", name);
 }
 
@@ -866,7 +860,6 @@ e_meeting_time_selector_destroy (GtkObject *object)
 
 	e_meeting_time_selector_remove_timeout (mts);
 
-	gdk_color_context_free (mts->color_context);
 	gdk_bitmap_unref (mts->stipple);
 
 	if (mts->model)
@@ -923,7 +916,7 @@ e_meeting_time_selector_style_set (GtkWidget *widget,
 		(*GTK_WIDGET_CLASS (parent_class)->style_set)(widget, previous_style);
 
 	mts = E_MEETING_TIME_SELECTOR (widget);
-	font = widget->style->font;
+	font = gtk_style_get_font (gtk_widget_get_style (widget));
 	efont = e_font_from_gdk_font (font);
 	
 	/* Calculate the widths of the hour strings in the style's font. */
@@ -985,22 +978,6 @@ e_meeting_time_selector_expose_event (GtkWidget *widget,
 
 	return FALSE;
 }
-
-
-static void
-e_meeting_time_selector_draw (GtkWidget    *widget,
-			      GdkRectangle *area)
-{
-	EMeetingTimeSelector *mts;
-
-	mts = E_MEETING_TIME_SELECTOR (widget);
-
-	e_meeting_time_selector_draw_shadow (mts);
-
-	if (GTK_WIDGET_CLASS (parent_class)->draw)
-		(*GTK_WIDGET_CLASS (parent_class)->draw)(widget, area);
-}
-
 
 static void
 e_meeting_time_selector_draw_shadow (EMeetingTimeSelector *mts)
@@ -2069,7 +2046,7 @@ e_meeting_time_selector_recalc_date_format (EMeetingTimeSelector *mts)
 	gchar buffer[128];
 	GdkFont *font;
 
-	font = GTK_WIDGET (mts)->style->font;
+	font = gtk_style_get_font (gtk_widget_get_style (GTK_WIDGET (mts)));
 
 	/* Calculate the maximum date width we can fit into the display. */
 	max_date_width = mts->day_width - 2;

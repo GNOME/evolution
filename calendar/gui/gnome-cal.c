@@ -29,12 +29,10 @@
 #include <sys/wait.h>
 #include <fcntl.h>
 #include <glib.h>
-#include <libgnome/gnome-defs.h>
 #include <libgnome/gnome-i18n.h>
 #include <libgnome/gnome-util.h>
 #include <libgnomeui/gnome-dialog.h>
 #include <libgnomeui/gnome-dialog-util.h>
-#include <liboaf/liboaf.h>
 #include <bonobo/bonobo-exception.h>
 #include <gal/e-paned/e-hpaned.h>
 #include <gal/e-paned/e-vpaned.h>
@@ -233,7 +231,7 @@ gnome_calendar_class_init (GnomeCalendarClass *class)
 	gnome_calendar_signals[DATES_SHOWN_CHANGED] =
 		gtk_signal_new ("dates_shown_changed",
 				GTK_RUN_LAST,
-				object_class->type,
+				G_TYPE_FROM_CLASS (object_class),
 				GTK_SIGNAL_OFFSET (GnomeCalendarClass,
 						   dates_shown_changed),
 				gtk_marshal_NONE__NONE,
@@ -242,7 +240,7 @@ gnome_calendar_class_init (GnomeCalendarClass *class)
 	gnome_calendar_signals[CALENDAR_SELECTION_CHANGED] =
 		gtk_signal_new ("calendar_selection_changed",
 				GTK_RUN_LAST,
-				object_class->type,
+				G_TYPE_FROM_CLASS (object_class),
 				GTK_SIGNAL_OFFSET (GnomeCalendarClass, calendar_selection_changed),
 				gtk_marshal_NONE__NONE,
 				GTK_TYPE_NONE, 0);
@@ -250,7 +248,7 @@ gnome_calendar_class_init (GnomeCalendarClass *class)
 	gnome_calendar_signals[TASKPAD_SELECTION_CHANGED] =
 		gtk_signal_new ("taskpad_selection_changed",
 				GTK_RUN_LAST,
-				object_class->type,
+				G_TYPE_FROM_CLASS (object_class),
 				GTK_SIGNAL_OFFSET (GnomeCalendarClass, taskpad_selection_changed),
 				gtk_marshal_NONE__NONE,
 				GTK_TYPE_NONE, 0);
@@ -258,7 +256,7 @@ gnome_calendar_class_init (GnomeCalendarClass *class)
 	gnome_calendar_signals[CALENDAR_FOCUS_CHANGE] =
 		gtk_signal_new ("calendar_focus_change",
 				GTK_RUN_FIRST,
-				object_class->type,
+				G_TYPE_FROM_CLASS (object_class),
 				GTK_SIGNAL_OFFSET (GnomeCalendarClass, calendar_focus_change),
 				gtk_marshal_NONE__BOOL,
 				GTK_TYPE_NONE, 1,
@@ -267,15 +265,11 @@ gnome_calendar_class_init (GnomeCalendarClass *class)
 	gnome_calendar_signals[TASKPAD_FOCUS_CHANGE] =
 		gtk_signal_new ("taskpad_focus_change",
 				GTK_RUN_FIRST,
-				object_class->type,
+				G_TYPE_FROM_CLASS (object_class),
 				GTK_SIGNAL_OFFSET (GnomeCalendarClass, taskpad_focus_change),
 				gtk_marshal_NONE__BOOL,
 				GTK_TYPE_NONE, 1,
 				GTK_TYPE_BOOL);
-
-	gtk_object_class_add_signals (object_class,
-				      gnome_calendar_signals,
-				      LAST_SIGNAL);
 
 	object_class->destroy = gnome_calendar_destroy;
 
@@ -1933,7 +1927,7 @@ add_alarms (const char *uri)
 	/* Activate the alarm notification service */
 
 	CORBA_exception_init (&ev);
-	an = oaf_activate_from_id ("OAFIID:GNOME_Evolution_Calendar_AlarmNotify", 0, NULL, &ev);
+	an = bonobo_activation_activate_from_id ("OAFIID:GNOME_Evolution_Calendar_AlarmNotify", 0, NULL, &ev);
 
 	if (BONOBO_EX (&ev)) {
 		g_warning ("add_alarms(): Could not activate the alarm notification service: %s",

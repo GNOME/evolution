@@ -27,7 +27,7 @@
 #include <gtk/gtkaccelgroup.h>
 #include <gtk/gtktable.h>
 #include <gtk/gtkwidget.h>
-#include <libgnomeui/gnome-canvas.h>
+#include <libgnomecanvas/gnome-canvas.h>
 #include <gal/e-text/e-text.h>
 #include <gal/e-table/e-table-model.h>
 #include <gal/e-table/e-table.h>
@@ -156,7 +156,6 @@ struct _EMeetingTimeSelector
 	GtkWidget *end_date_edit;
 
 	/* Colors. */
-	GdkColorContext *color_context;
 	GdkColor bg_color;
 	GdkColor all_attendees_bg_color;
 	GdkColor meeting_time_bg_color;

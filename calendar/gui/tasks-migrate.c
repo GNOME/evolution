@@ -24,7 +24,6 @@
 
 #include <gtk/gtkwindow.h>
 #include <gtk/gtksignal.h>
-#include <libgnome/gnome-defs.h>
 #include <libgnome/gnome-i18n.h>
 #include <libgnomeui/gnome-dialog-util.h>
 #include <cal-client/cal-client.h>

@@ -30,15 +30,14 @@
 #include <fcntl.h>
 #include <glib.h>
 #include <gtk/gtkmisc.h>
-#include <libgnome/gnome-defs.h>
 #include <libgnome/gnome-i18n.h>
 #include <libgnome/gnome-util.h>
-#include <libgnomeui/gnome-stock.h>
+#include <libgnomeui/gnome-stock-icons.h>
 #include <libgnomeui/gnome-uidefs.h>
 #include <libgnomeui/gnome-dialog.h>
 #include <libgnomeui/gnome-dialog-util.h>
+#include <bonobo/bonobo-object.h>
 #include <bonobo/bonobo-exception.h>
-#include <gal/util/e-unicode-i18n.h>
 #include <gal/widgets/e-unicode.h>
 #include <gtkhtml/gtkhtml.h>
 #include <gtkhtml/gtkhtml-stream.h>
@@ -583,7 +582,7 @@ write_label_piece (EItipControl *itip, CalComponentDateTime *dt,
 			   timezone name, we use it as-is, as it is already
 			   UTF-8. */
 			if (icaltimezone_get_builtin_timezone (display_name)) {
-				strcat (buffer, U_(display_name));
+				strcat (buffer, _(display_name));
 			} else {
 				strcat (buffer, display_name);
 			}
@@ -612,7 +611,7 @@ set_date_label (EItipControl *itip, GtkHTML *html, GtkHTMLStream *html_stream,
 	cal_component_get_dtstart (comp, &datetime);
 	if (datetime.value) {
 		write_label_piece (itip, &datetime, buffer, 1024,
-				   U_("<b>Starts:</b> "),
+				   _("<b>Starts:</b> "),
 				   "<br>");
 		gtk_html_write (html, html_stream, buffer, strlen(buffer));
 		wrote = TRUE;
@@ -622,7 +621,7 @@ set_date_label (EItipControl *itip, GtkHTML *html, GtkHTMLStream *html_stream,
 	buffer[0] = '\0';
 	cal_component_get_dtend (comp, &datetime);
 	if (datetime.value){
-		write_label_piece (itip, &datetime, buffer, 1024, U_("<b>Ends:</b> "), "<br>");
+		write_label_piece (itip, &datetime, buffer, 1024, _("<b>Ends:</b> "), "<br>");
 		gtk_html_write (html, html_stream, buffer, strlen (buffer));
 		wrote = TRUE;
 	}
@@ -635,7 +634,7 @@ set_date_label (EItipControl *itip, GtkHTML *html, GtkHTMLStream *html_stream,
 		/* Pass TRUE as is_utc, so it gets converted to the current
 		   timezone. */
 		datetime.value->is_utc = TRUE;
-		write_label_piece (itip, &datetime, buffer, 1024, U_("<b>Completed:</b> "), "<br>");
+		write_label_piece (itip, &datetime, buffer, 1024, _("<b>Completed:</b> "), "<br>");
 		gtk_html_write (html, html_stream, buffer, strlen (buffer));
 		wrote = TRUE;
 		task_completed = TRUE;
@@ -645,7 +644,7 @@ set_date_label (EItipControl *itip, GtkHTML *html, GtkHTMLStream *html_stream,
 	buffer[0] = '\0';
 	cal_component_get_due (comp, &datetime);
 	if (type == CAL_COMPONENT_TODO && !task_completed && datetime.value) {
-		write_label_piece (itip, &datetime, buffer, 1024, U_("<b>Due:</b> "), "<br>");
+		write_label_piece (itip, &datetime, buffer, 1024, _("<b>Due:</b> "), "<br>");
 		gtk_html_write (html, html_stream, buffer, strlen (buffer));
 		wrote = TRUE;
 	}
@@ -682,7 +681,7 @@ write_error_html (EItipControl *itip, const gchar *itip_err)
 	html_stream = gtk_html_begin (GTK_HTML (priv->html));
 	gtk_html_stream_printf (html_stream,
 				"<html><head><title>%s</title></head>",
-				U_("iCalendar Information"));
+				_("iCalendar Information"));
 
 	gtk_html_write (GTK_HTML (priv->html), html_stream,
 			HTML_BODY_START, strlen(HTML_BODY_START));
@@ -697,7 +696,7 @@ write_error_html (EItipControl *itip, const gchar *itip_err)
 	gtk_html_stream_printf (html_stream, "<td align=\"left\" valign=\"top\">");
 
 	/* Title */
-	set_message (GTK_HTML (priv->html), html_stream, U_("iCalendar Error"), TRUE);
+	set_message (GTK_HTML (priv->html), html_stream, _("iCalendar Error"), TRUE);
 
 	/* Error */
 	gtk_html_write (GTK_HTML (priv->html), html_stream, itip_err, strlen(itip_err));
@@ -732,7 +731,7 @@ write_html (EItipControl *itip, const gchar *itip_desc, const gchar *itip_title,
 	html_stream = gtk_html_begin (GTK_HTML (priv->html));
 	gtk_html_stream_printf (html_stream,
 				"<html><head><title>%s</title></head>",
-				U_("iCalendar Information"));
+				_("iCalendar Information"));
 	gtk_html_write (GTK_HTML (priv->html), html_stream,
 			HTML_BODY_START, strlen(HTML_BODY_START));
 
@@ -763,7 +762,7 @@ write_html (EItipControl *itip, const gchar *itip_desc, const gchar *itip_title,
 						attendee->cn :
 						itip_strip_mailto (attendee->value));
 		} else {
-			html = g_strdup_printf (itip_desc, U_("An unknown person"));
+			html = g_strdup_printf (itip_desc, _("An unknown person"));
 		}
 		break;
 	case ICAL_METHOD_REQUEST:
@@ -779,7 +778,7 @@ write_html (EItipControl *itip, const gchar *itip_desc, const gchar *itip_title,
 							priv->delegator_name :
 					                priv->delegator_address);
 			else
-				html = g_strdup_printf (itip_desc, U_("An unknown person"),
+				html = g_strdup_printf (itip_desc, _("An unknown person"),
 							priv->delegator_name ?
 							priv->delegator_name :
 					                priv->delegator_address);
@@ -790,7 +789,7 @@ write_html (EItipControl *itip, const gchar *itip_desc, const gchar *itip_title,
 							organizer.cn :
 							itip_strip_mailto (organizer.value));
 			else
-				html = g_strdup_printf (itip_desc, U_("An unknown person"));
+				html = g_strdup_printf (itip_desc, _("An unknown person"));
 		}
 		
 		break;
@@ -807,14 +806,14 @@ write_html (EItipControl *itip, const gchar *itip_desc, const gchar *itip_title,
 						organizer.cn :
 						itip_strip_mailto (organizer.value));
 		else
-			html = g_strdup_printf (itip_desc, U_("An unknown person"));
+			html = g_strdup_printf (itip_desc, _("An unknown person"));
 		break;
 	}
 	gtk_html_write (GTK_HTML (priv->html), html_stream, html, strlen(html));
 	g_free (html);
 
 	/* Describe what the user can do */
-	const_html = U_("<br> Please review the following information, "
+	const_html = _("<br> Please review the following information, "
 			"and then select an action from the menu below.");
 	gtk_html_write (GTK_HTML (priv->html), html_stream, const_html, strlen(const_html));
 
@@ -829,9 +828,9 @@ write_html (EItipControl *itip, const gchar *itip_desc, const gchar *itip_title,
 
 	/* Summary */
 	cal_component_get_summary (priv->comp, &text);
-	html = e_text_to_html (text.value ? text.value : U_("<i>None</i>"), E_TEXT_TO_HTML_CONVERT_NL);
+	html = e_text_to_html (text.value ? text.value : _("<i>None</i>"), E_TEXT_TO_HTML_CONVERT_NL);
 	gtk_html_stream_printf (html_stream, "<b>%s</b><br>%s<br><br>",
-				U_("Summary:"), html);
+				_("Summary:"), html);
 	g_free (html);
 	
 	/* Location */
@@ -839,7 +838,7 @@ write_html (EItipControl *itip, const gchar *itip_desc, const gchar *itip_title,
 	if (string != NULL) {
 		html = e_text_to_html (string, E_TEXT_TO_HTML_CONVERT_NL);
 		gtk_html_stream_printf (html_stream, "<b>%s</b><br>%s<br><br>", 
-					U_("Location:"), html);
+					_("Location:"), html);
 		g_free (html);
 	}
 	
@@ -853,24 +852,24 @@ write_html (EItipControl *itip, const gchar *itip_desc, const gchar *itip_title,
 			CalComponentAttendee *a = alist->data;
 
 			gtk_html_stream_printf (html_stream, "<b>%s</b><br>",
-						U_("Status:"));
+						_("Status:"));
 			
 			switch (a->status) {
 			case ICAL_PARTSTAT_ACCEPTED:
 				gtk_html_stream_printf (html_stream, "%s<br><br>",
-							U_("Accepted"));
+							_("Accepted"));
 				break;
 			case ICAL_PARTSTAT_TENTATIVE:
 				gtk_html_stream_printf (html_stream, "%s<br><br>",
-							U_("Tentatively Accepted"));
+							_("Tentatively Accepted"));
 				break;
 			case ICAL_PARTSTAT_DECLINED:
 				gtk_html_stream_printf (html_stream, "%s<br><br>",
-							U_("Declined"));
+							_("Declined"));
 				break;
 			default:
 				gtk_html_stream_printf (html_stream, "%s<br><br>",
-							U_("Unknown"));
+							_("Unknown"));
 			}
 		}
 		
@@ -885,7 +884,7 @@ write_html (EItipControl *itip, const gchar *itip_desc, const gchar *itip_title,
 	if (l && text.value) {
 		html = e_text_to_html (text.value, E_TEXT_TO_HTML_CONVERT_NL);
 		gtk_html_stream_printf (html_stream, "<b>%s</b><br>%s",
-					U_("Description:"), html);
+					_("Description:"), html);
 		g_free (html);
 	}
 	cal_component_free_text_list (l);
@@ -923,9 +922,9 @@ get_publish_options (gboolean selector)
 				"</select>&nbsp &nbsp "
 				"<input TYPE=Submit name=\"ok\" value=\"%s\">"
 				"</form>",
-				U_("Choose an action:"),
-				U_("Update"),
-				U_("OK"));
+				_("Choose an action:"),
+				_("Update"),
+				_("OK"));
 
 	if (selector) {
 		char *sel;
@@ -951,12 +950,12 @@ get_request_options (gboolean selector)
 				"<input TYPE=\"checkbox\" name=\"rsvp\" value=\"1\" checked>%s&nbsp&nbsp"
 				"<input TYPE=\"submit\" name=\"ok\" value=\"%s\"><br> "
 				"</form>",
-				U_("Choose an action:"),
-				U_("Accept"),
-				U_("Tentatively accept"),
-				U_("Decline"),
-				U_("RSVP"),
-				U_("OK"));
+				_("Choose an action:"),
+				_("Accept"),
+				_("Tentatively accept"),
+				_("Decline"),
+				_("RSVP"),
+				_("OK"));
 
 	if (selector) {
 		char *sel;
@@ -977,9 +976,9 @@ get_request_fb_options ()
 				"<option VALUE=\"F\">%s</option></select>&nbsp &nbsp "
 				"<input TYPE=Submit name=\"ok\" value=\"%s\">"
 				"</form>",
-				U_("Choose an action:"),
-				U_("Send Free/Busy Information"),
-				U_("OK"));
+				_("Choose an action:"),
+				_("Send Free/Busy Information"),
+				_("OK"));
 }
 
 static char*
@@ -990,9 +989,9 @@ get_reply_options ()
 				"<option VALUE=\"R\">%s</option></select>&nbsp &nbsp "
 				"<input TYPE=Submit name=\"ok\" value=\"%s\">"
 				"</form>",
-				U_("Choose an action:"),
-				U_("Update respondent status"),
-				U_("OK"));
+				_("Choose an action:"),
+				_("Update respondent status"),
+				_("OK"));
 }
 
 static char*
@@ -1003,9 +1002,9 @@ get_refresh_options ()
 				"<option VALUE=\"S\">%s</option></select>&nbsp &nbsp "
 				"<input TYPE=Submit name=\"ok\" value=\"%s\">"
 				"</form>",
-				U_("Choose an action:"),
-				U_("Send Latest Information"),
-				U_("OK"));
+				_("Choose an action:"),
+				_("Send Latest Information"),
+				_("OK"));
 }
 
 static char*
@@ -1016,9 +1015,9 @@ get_cancel_options ()
 				"<option VALUE=\"C\">%s</option></select>&nbsp &nbsp "
 				"<input TYPE=Submit name=\"ok\" value=\"%s\">"
 				"</form>",
-				U_("Choose an action:"),
-				U_("Cancel"),
-				U_("OK"));
+				_("Choose an action:"),
+				_("Cancel"),
+				_("OK"));
 }
 
 
@@ -1098,50 +1097,50 @@ show_current_event (EItipControl *itip)
 	
 	switch (priv->method) {
 	case ICAL_METHOD_PUBLISH:
-		itip_desc = U_("<b>%s</b> has published meeting information.");
-		itip_title = U_("Meeting Information");
+		itip_desc = _("<b>%s</b> has published meeting information.");
+		itip_title = _("Meeting Information");
 		options = get_publish_options (priv->event_client ? FALSE : TRUE);
 		break;
 	case ICAL_METHOD_REQUEST:
 		if (priv->delegator_address != NULL)
-			itip_desc = U_("<b>%s</b> requests the presence of %s at a meeting.");
+			itip_desc = _("<b>%s</b> requests the presence of %s at a meeting.");
 		else
-			itip_desc = U_("<b>%s</b> requests your presence at a meeting.");
-		itip_title = U_("Meeting Proposal");
+			itip_desc = _("<b>%s</b> requests your presence at a meeting.");
+		itip_title = _("Meeting Proposal");
 		options = get_request_options (priv->event_client ? FALSE : TRUE);
 		break;
 	case ICAL_METHOD_ADD:
-		itip_desc = U_("<b>%s</b> wishes to add to an existing meeting.");
-		itip_title = U_("Meeting Update");
+		itip_desc = _("<b>%s</b> wishes to add to an existing meeting.");
+		itip_title = _("Meeting Update");
 		options = get_publish_options (priv->event_client ? FALSE : TRUE);
 		break;
 	case ICAL_METHOD_REFRESH:
-		itip_desc = U_("<b>%s</b> wishes to receive the latest meeting information.");
-		itip_title = U_("Meeting Update Request");
+		itip_desc = _("<b>%s</b> wishes to receive the latest meeting information.");
+		itip_title = _("Meeting Update Request");
 		options = get_refresh_options ();
 
 		/* Provide extra info, since its not in the component */
 		adjust_item (itip, priv->comp);
 		break;
 	case ICAL_METHOD_REPLY:
-		itip_desc = U_("<b>%s</b> has replied to a meeting request.");
-		itip_title = U_("Meeting Reply");
+		itip_desc = _("<b>%s</b> has replied to a meeting request.");
+		itip_title = _("Meeting Reply");
 		options = get_reply_options ();
 
 		/* Provide extra info, since might not be in the component */
 		adjust_item (itip, priv->comp);
 		break;
 	case ICAL_METHOD_CANCEL:
-		itip_desc = U_("<b>%s</b> has cancelled a meeting.");
-		itip_title = U_("Meeting Cancellation");
+		itip_desc = _("<b>%s</b> has cancelled a meeting.");
+		itip_title = _("Meeting Cancellation");
 		options = get_cancel_options ();
 
 		/* Provide extra info, since might not be in the component */
 		adjust_item (itip, priv->comp);
 		break;
 	default:
-		itip_desc = U_("<b>%s</b> has sent an unintelligible message.");
-		itip_title = U_("Bad Meeting Message");
+		itip_desc = _("<b>%s</b> has sent an unintelligible message.");
+		itip_title = _("Bad Meeting Message");
 		options = NULL;
 	}
 
@@ -1165,50 +1164,50 @@ show_current_todo (EItipControl *itip)
 
 	switch (priv->method) {
 	case ICAL_METHOD_PUBLISH:
-		itip_desc = U_("<b>%s</b> has published task information.");
-		itip_title = U_("Task Information");
+		itip_desc = _("<b>%s</b> has published task information.");
+		itip_title = _("Task Information");
 		options = get_publish_options (priv->task_client ? FALSE : TRUE);
 		break;
 	case ICAL_METHOD_REQUEST:
 		if (priv->delegator_address != NULL)
-			itip_desc = U_("<b>%s</b> requests %s to perform a task.");
+			itip_desc = _("<b>%s</b> requests %s to perform a task.");
 		else
-			itip_desc = U_("<b>%s</b> requests you perform a task.");
-		itip_title = U_("Task Proposal");
+			itip_desc = _("<b>%s</b> requests you perform a task.");
+		itip_title = _("Task Proposal");
 		options = get_request_options (priv->task_client ? FALSE : TRUE);
 		break;
 	case ICAL_METHOD_ADD:
-		itip_desc = U_("<b>%s</b> wishes to add to an existing task.");
-		itip_title = U_("Task Update");
+		itip_desc = _("<b>%s</b> wishes to add to an existing task.");
+		itip_title = _("Task Update");
 		options = get_publish_options (priv->task_client ? FALSE : TRUE);
 		break;
 	case ICAL_METHOD_REFRESH:
-		itip_desc = U_("<b>%s</b> wishes to receive the latest task information.");
-		itip_title = U_("Task Update Request");
+		itip_desc = _("<b>%s</b> wishes to receive the latest task information.");
+		itip_title = _("Task Update Request");
 		options = get_refresh_options ();
 
 		/* Provide extra info, since its not in the component */
 		adjust_item (itip, priv->comp);
 		break;
 	case ICAL_METHOD_REPLY:
-		itip_desc = U_("<b>%s</b> has replied to a task assignment.");
-		itip_title = U_("Task Reply");
+		itip_desc = _("<b>%s</b> has replied to a task assignment.");
+		itip_title = _("Task Reply");
 		options = get_reply_options ();
 
 		/* Provide extra info, since might not be in the component */
 		adjust_item (itip, priv->comp);
 		break;
 	case ICAL_METHOD_CANCEL:
-		itip_desc = U_("<b>%s</b> has cancelled a task.");
-		itip_title = U_("Task Cancellation");
+		itip_desc = _("<b>%s</b> has cancelled a task.");
+		itip_title = _("Task Cancellation");
 		options = get_cancel_options ();
 
 		/* Provide extra info, since might not be in the component */
 		adjust_item (itip, priv->comp);
 		break;
 	default:
-		itip_desc = U_("<b>%s</b> has sent an unintelligible message.");
-		itip_title = U_("Bad Task Message");
+		itip_desc = _("<b>%s</b> has sent an unintelligible message.");
+		itip_title = _("Bad Task Message");
 		options = NULL;
 	}
 
@@ -1227,23 +1226,23 @@ show_current_freebusy (EItipControl *itip)
 
 	switch (priv->method) {
 	case ICAL_METHOD_PUBLISH:
-		itip_desc = U_("<b>%s</b> has published free/busy information.");
-		itip_title = U_("Free/Busy Information");
+		itip_desc = _("<b>%s</b> has published free/busy information.");
+		itip_title = _("Free/Busy Information");
 		options = NULL;
 		break;
 	case ICAL_METHOD_REQUEST:
-		itip_desc = U_("<b>%s</b> requests your free/busy information.");
-		itip_title = U_("Free/Busy Request");
+		itip_desc = _("<b>%s</b> requests your free/busy information.");
+		itip_title = _("Free/Busy Request");
 		options = get_request_fb_options ();
 		break;
 	case ICAL_METHOD_REPLY:
-		itip_desc = U_("<b>%s</b> has replied to a free/busy request.");
-		itip_title = U_("Free/Busy Reply");
+		itip_desc = _("<b>%s</b> has replied to a free/busy request.");
+		itip_title = _("Free/Busy Reply");
 		options = NULL;
 		break;
 	default:
-		itip_desc = U_("<b>%s</b> has sent an unintelligible message.");
-		itip_title = U_("Bad Free/Busy Message");
+		itip_desc = _("<b>%s</b> has sent an unintelligible message.");
+		itip_title = _("Bad Free/Busy Message");
 		options = NULL;
 	}
 
@@ -1317,7 +1316,7 @@ show_current (EItipControl *itip)
 
 	priv->comp = cal_component_new ();
 	if (!cal_component_set_icalcomponent (priv->comp, priv->ical_comp)) {
-		write_error_html (itip, U_("The message does not appear to be properly formed"));
+		write_error_html (itip, _("The message does not appear to be properly formed"));
 		gtk_object_unref (GTK_OBJECT (priv->comp));
 		priv->comp = NULL;
 		return;
@@ -1379,7 +1378,7 @@ show_current (EItipControl *itip)
 		show_current_freebusy (itip);
 		break;
 	default:
-		write_error_html (itip, U_("The message contains only unsupported requests."));
+		write_error_html (itip, _("The message contains only unsupported requests."));
 	}
 
 	find_my_address (itip, priv->ical_comp);
@@ -1407,13 +1406,13 @@ e_itip_control_set_data (EItipControl *itip, const gchar *text)
 
 	priv->main_comp = icalparser_parse_string (priv->vcalendar);
 	if (priv->main_comp == NULL) {
-		write_error_html (itip, U_("The attachment does not contain a valid calendar message"));
+		write_error_html (itip, _("The attachment does not contain a valid calendar message"));
 		return;
 	}
 
 	prop = icalcomponent_get_first_property (priv->main_comp, ICAL_METHOD_PROPERTY);
 	if (prop == NULL) {
-		write_error_html (itip, U_("The attachment does not contain a valid calendar message"));
+		write_error_html (itip, _("The attachment does not contain a valid calendar message"));
 		return;
 	}
 
@@ -1438,7 +1437,7 @@ e_itip_control_set_data (EItipControl *itip, const gchar *text)
 		priv->ical_comp = get_next (&priv->iter);
 
 	if (priv->ical_comp == NULL) {
-		write_error_html (itip, U_("The attachment has no viewable calendar items"));		
+		write_error_html (itip, _("The attachment has no viewable calendar items"));		
 		return;
 	}
 

@@ -29,7 +29,9 @@
 
 #include <config.h>
 #include <glib.h>
-#include <libgnome/gnome-defs.h>
+#include <gtk/gtksignal.h>
+#include <gtk/gtkradiomenuitem.h>
+#include <gtk/gtkcheckmenuitem.h>
 #include <libgnome/gnome-i18n.h>
 #include <gal/widgets/e-gui-utils.h>
 #include "e-day-view-time-item.h"
@@ -208,9 +210,9 @@ e_day_view_time_item_get_column_width (EDayViewTimeItem *dvtmitem)
 	day_view = dvtmitem->day_view;
 	g_return_val_if_fail (day_view != NULL, 0);
 
-	style = GTK_WIDGET (day_view)->style;
+	style = gtk_widget_get_style (GTK_WIDGET (day_view));
 	g_return_val_if_fail (style != NULL, 0);
-	small_font = style->font;
+	small_font = gtk_style_get_font (style);
 	g_return_val_if_fail (small_font != NULL, 0);
 	large_font = day_view->large_font;
 	g_return_val_if_fail (large_font != NULL, 0);
@@ -279,8 +281,8 @@ e_day_view_time_item_draw (GnomeCanvasItem *canvas_item,
 	day_view = dvtmitem->day_view;
 	g_return_if_fail (day_view != NULL);
 
-	style = GTK_WIDGET (day_view)->style;
-	small_font = style->font;
+	style = gtk_widget_get_style (GTK_WIDGET (day_view));
+	small_font = gtk_style_get_font (style);
 	large_font = day_view->large_font;
 	fg_gc = style->fg_gc[GTK_STATE_NORMAL];
 	dark_gc = style->dark_gc[GTK_STATE_NORMAL];
@@ -547,7 +549,7 @@ e_day_view_time_item_on_set_divisions (GtkWidget *item,
 	day_view = dvtmitem->day_view;
 	g_return_if_fail (day_view != NULL);
 
-	if (!GTK_CHECK_MENU_ITEM (item)->active)
+ 	if (!gtk_check_menu_item_get_active (GTK_CHECK_MENU_ITEM (item)))
 		return;
 
 	divisions = GPOINTER_TO_INT (gtk_object_get_data (GTK_OBJECT (item),

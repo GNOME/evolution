@@ -184,8 +184,8 @@ e_week_view_titles_item_draw (GnomeCanvasItem  *canvas_item,
 	week_view = wvtitem->week_view;
 	g_return_if_fail (week_view != NULL);
 
-	style = GTK_WIDGET (week_view)->style;
-	font = style->font;
+	style = gtk_widget_get_style (GTK_WIDGET (week_view));
+	font = gtk_style_get_font (style);
 	fg_gc = style->fg_gc[GTK_STATE_NORMAL];
 	bg_gc = style->bg_gc[GTK_STATE_NORMAL];
 	light_gc = style->light_gc[GTK_STATE_NORMAL];

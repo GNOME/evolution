@@ -212,14 +212,14 @@ itip_control_factory (BonoboGenericFactory *Factory, void *closure)
 	bonobo_property_bag_add (prop_bag, "from_address", FROM_ADDRESS_ARG_ID, BONOBO_ARG_STRING, NULL,
 				 "from_address", 0 );
 
-	bonobo_control_set_properties (control, prop_bag);
+	bonobo_control_set_properties (control, bonobo_object_corba_objref (BONOBO_OBJECT (prop_bag)), NULL);
 	bonobo_object_unref (BONOBO_OBJECT (prop_bag));
 
 	bonobo_control_set_automerge (control, TRUE);
 
 	stream = bonobo_persist_stream_new (pstream_load, pstream_save,
-					    pstream_get_max_size,
 					    pstream_get_content_types,
+					    "OAFIID:GNOME_Evolution_Calendar_iTip_Control",
 					    itip);
 
 	if (stream == NULL) {

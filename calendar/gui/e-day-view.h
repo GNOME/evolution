@@ -26,7 +26,7 @@
 
 #include <time.h>
 #include <gtk/gtktable.h>
-#include <libgnomeui/gnome-canvas.h>
+#include <libgnomecanvas/gnome-canvas.h>
 #include <gal/widgets/e-popup-menu.h>
 
 #include "gnome-cal.h"

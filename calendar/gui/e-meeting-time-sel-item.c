@@ -34,7 +34,6 @@
 
 #include <time.h>
 #include <glib.h>
-#include <libgnome/gnome-defs.h>
 #include <libgnome/gnome-i18n.h>
 #include "calendar-config.h"
 #include "e-meeting-time-sel-item.h"
@@ -468,7 +467,7 @@ e_meeting_time_selector_item_paint_day_top (EMeetingTimeSelectorItem *mts_item,
 
 	/* Draw the date. Set a clipping rectangle so we don't draw over the
 	   next day. */
-	font = GTK_WIDGET (mts)->style->font;
+	font = gtk_style_get_font (gtk_widget_get_style (GTK_WIDGET (mts)));
 	if (mts->date_format == E_MEETING_TIME_SELECTOR_DATE_FULL)
 		/* This is a strftime() format string %A = full weekday name,
 		   %B = full month name, %d = month day, %Y = full year. */

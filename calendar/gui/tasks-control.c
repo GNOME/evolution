@@ -23,20 +23,23 @@
 
 #include <config.h>
 #include <gtk/gtksignal.h>
-#include <libgnome/gnome-defs.h>
+#include <gtk/gtklabel.h>
+#include <gtk/gtkcheckbutton.h>
 #include <libgnome/gnome-i18n.h>
-#include <libgnome/gnome-paper.h>
 #include <libgnome/gnome-util.h>
 #include <libgnomeui/gnome-dialog.h>
 #include <libgnomeui/gnome-dialog-util.h>
-#include <libgnomeui/gnome-stock.h>
+#include <libgnomeui/gnome-stock-icons.h>
 #include <libgnomeprint/gnome-print.h>
-#include <libgnomeprint/gnome-print-copies.h>
+#include <libgnomeprint/gnome-print-paper.h>
 #include <libgnomeprint/gnome-print-master.h>
-#include <libgnomeprint/gnome-print-master-preview.h>
-#include <libgnomeprint/gnome-print-preview.h>
-#include <libgnomeprint/gnome-printer-dialog.h>
+#include <libgnomeprintui/gnome-print-master-preview.h>
+#include <libgnomeprintui/gnome-print-paper-selector.h>
+#include <libgnomeprintui/gnome-print-copies.h>
+#include <libgnomeprintui/gnome-print-preview.h>
+#include <libgnomeprintui/gnome-printer-dialog.h>
 #include <bonobo/bonobo-control.h>
+#include <bonobo/bonobo-property-bag.h>
 #include <bonobo/bonobo-ui-util.h>
 #include <gal/widgets/e-gui-utils.h>
 #include <e-util/e-dialog-utils.h>
@@ -147,7 +150,7 @@ tasks_control_properties_init		(BonoboControl		*control,
 				 _("The URI of the tasks folder to display"),
 				 0);
 
-	bonobo_control_set_properties (control, pbag);
+	bonobo_control_set_properties (control, bonobo_object_corba_objref (BONOBO_OBJECT (pbag)), NULL);
 	bonobo_object_unref (BONOBO_OBJECT (pbag));
 }
 
@@ -161,7 +164,7 @@ tasks_control_get_property		(BonoboPropertyBag	*bag,
 					 gpointer		 user_data)
 {
 	ETasks *tasks = user_data;
-	char *uri;
+	const char *uri;
 
 	switch (arg_id) {
 
@@ -309,8 +312,8 @@ tasks_control_activate (BonoboControl *control, ETasks *tasks)
 	uic = bonobo_control_get_ui_component (control);
 	g_assert (uic != NULL);
 
-	remote_uih = bonobo_control_get_remote_ui_container (control);
-	bonobo_ui_component_set_container (uic, remote_uih);
+	remote_uih = bonobo_control_get_remote_ui_container (control, NULL);
+	bonobo_ui_component_set_container (uic, remote_uih, NULL);
 	bonobo_object_release_unref (remote_uih, NULL);
 
 	e_tasks_set_ui_component (tasks, uic);
@@ -321,7 +324,8 @@ tasks_control_activate (BonoboControl *control, ETasks *tasks)
 
 	bonobo_ui_util_set_ui (uic, EVOLUTION_DATADIR,
 			       "evolution-tasks.xml",
-			       "evolution-tasks");
+			       "evolution-tasks",
+			       NULL);
 
 	e_pixmaps_update (uic, pixmaps);
 
@@ -366,7 +370,7 @@ tasks_control_deactivate (BonoboControl *control, ETasks *tasks)
 	gtk_signal_disconnect_by_data (GTK_OBJECT (tasks), control);
 
 	bonobo_ui_component_rm (uic, "/", NULL);
- 	bonobo_ui_component_unset_container (uic);
+ 	bonobo_ui_component_unset_container (uic, NULL);
 }
 
 
@@ -503,7 +507,7 @@ print_title (GnomePrintContext *pc,
 	char *text;
 	double w, x, y;
 
-	font = gnome_font_new_closest ("Times", GNOME_FONT_BOLD, 0, 18);
+	font = gnome_font_find_closest_from_weight_slant ("Times", GNOME_FONT_BOLD, 0, 18);
 
 	text = _("Tasks");
 	w = gnome_font_get_width_utf8 (font, text);
@@ -524,12 +528,13 @@ static void
 print_tasks (ETasks *tasks, gboolean preview, gboolean landscape,
 	     int copies, gboolean collate)
 {
+#if 0
 	ECalendarTable *cal_table;
 	EPrintable *printable;
 	ETable *etable;
 	GnomePrintMaster *master;
 	GnomePrintContext *pc;
-	const GnomePaper *paper_info;
+	const GnomePrintPaper *paper_info;
 	double l, r, t, b, page_width, page_height, left_margin, bottom_margin;
 
 	cal_table = e_tasks_get_calendar_table (tasks);
@@ -538,7 +543,7 @@ print_tasks (ETasks *tasks, gboolean preview, gboolean landscape,
 
 	master = gnome_print_master_new ();
 
-	paper_info = gnome_paper_with_name (gnome_paper_name_default ());
+	paper_info = gnome_print_paper_with_name (gnome_paper_name_default ());
 	gnome_print_master_set_paper (master, paper_info);
 
 	gnome_print_master_set_copies (master, copies, collate);
@@ -594,6 +599,7 @@ print_tasks (ETasks *tasks, gboolean preview, gboolean landscape,
 
 	gtk_object_unref (GTK_OBJECT (master));
 	gtk_object_unref (GTK_OBJECT (printable));
+#endif
 }
 
 
@@ -603,6 +609,7 @@ tasks_control_print_cmd (BonoboUIComponent *uic,
 			 gpointer data,
 			 const char *path)
 {
+#if 0
 	ETasks *tasks;
 	GtkWidget *gpd, *mode_box, *portrait_radio, *landscape_radio;
 	GtkWidget *dialog_vbox, *dialog_hbox, *mode_frame;
@@ -674,6 +681,7 @@ tasks_control_print_cmd (BonoboUIComponent *uic,
 	gnome_dialog_close (GNOME_DIALOG (gpd));
 
 	print_tasks (tasks, preview, landscape, copies, collate);
+#endif
 }
 
 static void

@@ -31,7 +31,6 @@
 #include <gtk/gtktogglebutton.h>
 #include <gtk/gtkspinbutton.h>
 #include <gtk/gtkoptionmenu.h>
-#include <libgnome/gnome-defs.h>
 #include <libgnome/gnome-i18n.h>
 #include <glade/glade.h>
 #include <gal/widgets/e-unicode.h>
@@ -868,7 +867,9 @@ init_widgets (TaskPage *tpage)
 			    GTK_SIGNAL_FUNC (summary_changed_cb), tpage);
 
 	/* Description - turn on word wrap. */
+#if 0
 	gtk_text_set_word_wrap (GTK_TEXT (priv->description), TRUE);
+#endif
 
 	/* Dates */
 	gtk_signal_connect (GTK_OBJECT (priv->start_date), "changed",
@@ -948,7 +949,7 @@ task_page_construct (TaskPage *tpage)
 	priv = tpage->priv;
 
 	priv->xml = glade_xml_new (EVOLUTION_GLADEDIR "/task-page.glade",
-				   NULL);
+				   NULL, NULL);
 	if (!priv->xml) {
 		g_message ("task_page_construct(): "
 			   "Could not load the Glade XML file!");

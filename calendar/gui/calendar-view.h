@@ -21,11 +21,10 @@
 #ifndef CALENDAR_VIEW_H
 #define CALENDAR_VIEW_H
 
-#include <libgnome/gnome-defs.h>
 #include <gal/menus/gal-view.h>
 #include "gnome-cal.h"
 
-BEGIN_GNOME_DECLS
+G_BEGIN_DECLS
 
 
 
@@ -62,6 +61,6 @@ GnomeCalendarViewType calendar_view_get_view_type (CalendarView *cal_view);
 
 
 
-END_GNOME_DECLS
+G_END_DECLS
 
 #endif

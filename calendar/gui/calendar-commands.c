@@ -37,11 +37,10 @@
 #include <gtk/gtkmain.h>
 #include <gtk/gtksignal.h>
 
-#include <libgnome/gnome-defs.h>
 #include <libgnome/gnome-util.h>
 #include <libgnomeui/gnome-dialog-util.h>
 #include <libgnomeui/gnome-messagebox.h>
-#include <libgnomeui/gnome-stock.h>
+#include <libgnomeui/gnome-stock-icons.h>
 #include <libgnome/gnome-util.h>
 #include <libgnome/gnome-i18n.h>
 #include <bonobo/bonobo-ui-util.h>
@@ -332,7 +331,7 @@ get_shell_view_interface (BonoboControl *control)
 	GNOME_Evolution_ShellView shell_view;
 	CORBA_Environment ev;
 
-	control_frame = bonobo_control_get_control_frame (control);
+	control_frame = bonobo_control_get_control_frame (control, NULL);
 
 	g_assert (control_frame != CORBA_OBJECT_NIL);
 
@@ -710,8 +709,8 @@ calendar_control_activate (BonoboControl *control,
 	uic = bonobo_control_get_ui_component (control);
 	g_assert (uic != NULL);
 
-	remote_uih = bonobo_control_get_remote_ui_container (control);
-	bonobo_ui_component_set_container (uic, remote_uih);
+	remote_uih = bonobo_control_get_remote_ui_container (control, NULL);
+	bonobo_ui_component_set_container (uic, remote_uih, NULL);
 	bonobo_object_release_unref (remote_uih, NULL);
 
 	gnome_calendar_set_ui_component (gcal, uic);
@@ -722,7 +721,8 @@ calendar_control_activate (BonoboControl *control,
 
 	bonobo_ui_util_set_ui (uic, EVOLUTION_DATADIR,
 			       "evolution-calendar.xml",
-			       "evolution-calendar");
+			       "evolution-calendar",
+			       NULL);
 
 	e_pixmaps_update (uic, pixmaps);
 
@@ -779,7 +779,7 @@ calendar_control_deactivate (BonoboControl *control, GnomeCalendar *gcal)
 	gtk_signal_disconnect_by_data (GTK_OBJECT (gcal), control);
 
 	bonobo_ui_component_rm (uic, "/", NULL);
- 	bonobo_ui_component_unset_container (uic);
+ 	bonobo_ui_component_unset_container (uic, NULL);
 }
 
 /* Removes a calendar from our list of all calendars when it is destroyed. */

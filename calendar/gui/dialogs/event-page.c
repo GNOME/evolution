@@ -26,8 +26,8 @@
 #endif
 
 #include <gtk/gtksignal.h>
+#include <gtk/gtktext.h>
 #include <gtk/gtktogglebutton.h>
-#include <libgnome/gnome-defs.h>
 #include <libgnome/gnome-i18n.h>
 #include <glade/glade.h>
 #include <gal/widgets/e-unicode.h>
@@ -1294,7 +1294,9 @@ init_widgets (EventPage *epage)
 			    GTK_SIGNAL_FUNC (summary_changed_cb), epage);
 
 	/* Description - turn on word wrap. */
+#if 0
 	gtk_text_set_word_wrap (GTK_TEXT (priv->description), TRUE);
+#endif
 
 	/* Start and end times */
 	gtk_signal_connect (GTK_OBJECT (priv->start_time), "changed",
@@ -1396,7 +1398,7 @@ event_page_construct (EventPage *epage)
 	priv = epage->priv;
 
 	priv->xml = glade_xml_new (EVOLUTION_GLADEDIR "/event-page.glade", 
-				   NULL);
+				   NULL, NULL);
 	if (!priv->xml) {
 		g_message ("event_page_construct(): " 
 			   "Could not load the Glade XML file!");

@@ -27,7 +27,6 @@
 
 #include <config.h>
 #include <glib.h>
-#include <libgnome/gnome-defs.h>
 #include <libgnome/gnome-i18n.h>
 #include "e-util/e-categories-config.h"
 #include "cal-util/timeutil.h"
@@ -203,8 +202,8 @@ e_day_view_top_item_draw (GnomeCanvasItem *canvas_item,
 	day_view = dvtitem->day_view;
 	g_return_if_fail (day_view != NULL);
 
-	style = GTK_WIDGET (day_view)->style;
-	font = style->font;
+	style = gtk_widget_get_style (GTK_WIDGET (day_view));
+	font = gtk_style_get_font (style);
 	gc = day_view->main_gc;
 	fg_gc = style->fg_gc[GTK_STATE_NORMAL];
 	bg_gc = style->bg_gc[GTK_STATE_NORMAL];
@@ -388,8 +387,8 @@ e_day_view_top_item_draw_long_event (EDayViewTopItem *dvtitem,
 	event = &g_array_index (day_view->long_events, EDayViewEvent,
 				event_num);
 
-	style = GTK_WIDGET (day_view)->style;
-	font = style->font;
+	style = gtk_widget_get_style (GTK_WIDGET (day_view));
+	font = gtk_style_get_font (style);
 	gc = day_view->main_gc;
 	fg_gc = style->fg_gc[GTK_STATE_NORMAL];
 	bg_gc = style->bg_gc[GTK_STATE_NORMAL];

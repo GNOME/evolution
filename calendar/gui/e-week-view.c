@@ -39,13 +39,11 @@
 #include <gtk/gtkvscrollbar.h>
 #include <gtk/gtkwindow.h>
 #include <gtk/gtkmain.h>
-#include <libgnome/gnome-defs.h>
-#include <libgnome/gnome-i18n.h>
 #include <libgnome/gnome-i18n.h>
 #include <libgnome/gnome-exec.h>
 #include <libgnome/gnome-util.h>
 #include <gdk-pixbuf/gdk-pixbuf.h>
-#include <gdk-pixbuf/gnome-canvas-pixbuf.h>
+#include <libgnomecanvas/gnome-canvas-pixbuf.h>
 #include <gal/e-text/e-text.h>
 #include <gal/widgets/e-canvas-utils.h>
 #include <gal/widgets/e-gui-utils.h>
@@ -284,12 +282,10 @@ e_week_view_class_init (EWeekViewClass *class)
 	e_week_view_signals[SELECTION_CHANGED] =
 		gtk_signal_new ("selection_changed",
 				GTK_RUN_LAST,
-				object_class->type,
+				G_TYPE_FROM_CLASS (object_class),
 				GTK_SIGNAL_OFFSET (EWeekViewClass, selection_changed),
 				gtk_marshal_NONE__NONE,
 				GTK_TYPE_NONE, 0);
-
-	gtk_object_class_add_signals (object_class, e_week_view_signals, LAST_SIGNAL);
 
 	/* Method override */
 	object_class->destroy		= e_week_view_destroy;
@@ -302,7 +298,6 @@ e_week_view_class_init (EWeekViewClass *class)
 	widget_class->focus_out_event	= e_week_view_focus_out;
 	widget_class->key_press_event	= e_week_view_key_press;
 	widget_class->expose_event	= e_week_view_expose_event;
-	widget_class->draw		= e_week_view_draw;
 
 	class->selection_changed = NULL;
 
@@ -649,8 +644,7 @@ e_week_view_unrealize (GtkWidget *widget)
 	week_view->main_gc = NULL;
 
 	colormap = gtk_widget_get_colormap (widget);
-	for (i = 0; i < E_WEEK_VIEW_COLOR_LAST; i++)
-		gdk_colors_free (colormap, &week_view->colors[i].pixel, 1, 0);
+	gdk_colormap_free_colors (colormap, week_view->colors, E_WEEK_VIEW_COLOR_LAST);
 
 	gdk_pixmap_unref (week_view->reminder_icon);
 	week_view->reminder_icon = NULL;
@@ -679,7 +673,7 @@ e_week_view_style_set (GtkWidget *widget,
 		(*GTK_WIDGET_CLASS (parent_class)->style_set)(widget, previous_style);
 
 	week_view = E_WEEK_VIEW (widget);
-	font = widget->style->font;
+	font = gtk_style_get_font (gtk_widget_get_style (widget));
 
 	/* Recalculate the height of each row based on the font size. */
 	week_view->row_height = font->ascent + font->descent + E_WEEK_VIEW_EVENT_BORDER_HEIGHT * 2 + E_WEEK_VIEW_EVENT_TEXT_Y_PAD * 2;
@@ -811,6 +805,7 @@ e_week_view_recalc_cell_sizes (EWeekView *week_view)
 	gfloat canvas_width, canvas_height, offset;
 	gint row, col;
 	GtkWidget *widget;
+	GtkStyle *style;
 	GdkFont *font;
 	gint width, height, time_width;
 
@@ -859,10 +854,12 @@ e_week_view_recalc_cell_sizes (EWeekView *week_view)
 
 	/* If the font hasn't been set yet just return. */
 	widget = GTK_WIDGET (week_view);
-	if (!widget->style || ! widget->style->font)
+	style = gtk_widget_get_style (widget);
+	if (!style)
 		return;
-
-	font = widget->style->font;
+	font = gtk_style_get_font (style);
+	if (!font)
+		return;
 
 	/* Calculate the number of rows of events in each cell, for the large
 	   cells and the compressed weekend cells. */
@@ -966,22 +963,6 @@ e_week_view_expose_event (GtkWidget *widget,
 
 	return FALSE;
 }
-
-
-static void
-e_week_view_draw (GtkWidget    *widget,
-		  GdkRectangle *area)
-{
-	EWeekView *week_view;
-
-	week_view = E_WEEK_VIEW (widget);
-
-	e_week_view_draw_shadow (week_view);
-
-	if (GTK_WIDGET_CLASS (parent_class)->draw)
-		(*GTK_WIDGET_CLASS (parent_class)->draw)(widget, area);
-}
-
 
 static void
 e_week_view_draw_shadow (EWeekView *week_view)
@@ -2666,7 +2647,7 @@ e_week_view_reshape_event_span (EWeekView *week_view,
 	span = &g_array_index (week_view->spans, EWeekViewEventSpan,
 			       event->spans_index + span_num);
 	comp = event->comp;
-	font = GTK_WIDGET (week_view)->style->font;
+	font = gtk_style_get_font (gtk_widget_get_style (GTK_WIDGET (week_view)));
 
 	one_day_event = e_week_view_is_one_day_event (week_view, event_num);
 
@@ -2738,7 +2719,7 @@ e_week_view_reshape_event_span (EWeekView *week_view,
 		span->text_item =
 			gnome_canvas_item_new (GNOME_CANVAS_GROUP (GNOME_CANVAS (week_view->main_canvas)->root),
 					       e_text_get_type (),
-					       "font_gdk", GTK_WIDGET (week_view)->style->font,
+					       "font_gdk", font,
 					       "anchor", GTK_ANCHOR_NW,
 					       "clip", TRUE,
 #if 0
@@ -4416,7 +4397,7 @@ e_week_view_set_status_message (EWeekView *week_view, const char *message)
 		char *client_id = g_strdup_printf ("%p", week_view);
 
 		if (progress_icon[0] == NULL)
-			progress_icon[0] = gdk_pixbuf_new_from_file (EVOLUTION_IMAGESDIR "/" EVOLUTION_CALENDAR_PROGRESS_IMAGE);
+			progress_icon[0] = gdk_pixbuf_new_from_file (EVOLUTION_IMAGESDIR "/" EVOLUTION_CALENDAR_PROGRESS_IMAGE, NULL);
 		week_view->activity = evolution_activity_client_new (
 			global_shell_client, client_id,
 			progress_icon, message, TRUE, &display);

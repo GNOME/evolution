@@ -29,7 +29,7 @@
 
 #include <config.h>
 #include <time.h>
-#include <libgnome/gnome-defs.h>
+#include <gtk/gtksignal.h>
 #include <libgnome/gnome-config.h>
 #include <libgnomeui/gnome-dialog.h>
 #include <widgets/e-timezone-dialog/e-timezone-dialog.h>

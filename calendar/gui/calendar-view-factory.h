@@ -21,11 +21,10 @@
 #ifndef CALENDAR_VIEW_FACTORY_H
 #define CALENDAR_VIEW_FACTORY_H
 
-#include <libgnome/gnome-defs.h>
 #include <gal/menus/gal-view-factory.h>
 #include "gnome-cal.h"
 
-BEGIN_GNOME_DECLS
+G_BEGIN_DECLS
 
 
 
@@ -60,6 +59,6 @@ CalendarViewFactory *calendar_view_factory_new (GnomeCalendarViewType view_type)
 
 
 
-END_GNOME_DECLS
+G_END_DECLS
 
 #endif

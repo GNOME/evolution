@@ -33,7 +33,7 @@
 #include <unistd.h>
 #include <string.h>
 #include <libgnomeui/gnome-messagebox.h>
-#include <libgnomeui/gnome-stock.h>
+#include <libgnomeui/gnome-stock-icons.h> 
 #include <libgnome/gnome-i18n.h>
 #include <gal/util/e-util.h>
 #include <gal/widgets/e-unicode.h>

@@ -25,10 +25,11 @@
 #include <config.h>
 #endif
 
+#include <gtk/gtkmenuitem.h>
 #include <gtk/gtkoptionmenu.h>
+#include <gtk/gtktogglebutton.h>
 #include <gtk/gtksignal.h>
 #include <gtk/gtkspinbutton.h>
-#include <libgnome/gnome-defs.h>
 #include <libgnome/gnome-i18n.h>
 #include <glade/glade.h>
 #include <gal/widgets/e-unicode.h>
@@ -1033,7 +1034,7 @@ month_num_submenu_selection_done_cb (GtkMenuShell *menu_shell, gpointer data)
 	int month_index;
 	
 	item = gtk_menu_get_active (GTK_MENU (menu_shell));
-	item = gtk_menu_get_active (GTK_MENU (GTK_MENU_ITEM (item)->submenu));
+	item = gtk_menu_get_active (GTK_MENU (gtk_menu_item_get_submenu (GTK_MENU_ITEM (item))));
 
 	month_index = GPOINTER_TO_INT (gtk_object_get_user_data (GTK_OBJECT (item)));
 	gtk_object_set_user_data (GTK_OBJECT (data), GINT_TO_POINTER (month_index));
@@ -2427,7 +2428,7 @@ recurrence_page_construct (RecurrencePage *rpage)
 	priv = rpage->priv;
 
 	priv->xml = glade_xml_new (EVOLUTION_GLADEDIR 
-				   "/recurrence-page.glade", NULL);
+				   "/recurrence-page.glade", NULL, NULL);
 	if (!priv->xml) {
 		g_message ("recurrence_page_construct(): "
 			   "Could not load the Glade XML file!");

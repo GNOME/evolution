@@ -25,7 +25,7 @@
 #define _E_WEEK_VIEW_H_
 
 #include <gtk/gtktable.h>
-#include <libgnomeui/gnome-canvas.h>
+#include <libgnomecanvas/gnome-canvas.h>
 #include <gal/widgets/e-popup-menu.h>
 
 #include "gnome-cal.h"

@@ -110,14 +110,12 @@ class_init (EMeetingAttendeeClass *klass)
 	signals[CHANGED] =
 		gtk_signal_new ("changed",
 				GTK_RUN_FIRST,
-				object_class->type,
+				G_TYPE_FROM_CLASS (object_class),
 				GTK_SIGNAL_OFFSET (EMeetingAttendeeClass, changed),
 				gtk_marshal_NONE__NONE,
 				GTK_TYPE_NONE, 0);
 
-	gtk_object_class_add_signals (object_class, signals, LAST_SIGNAL);
-
-	object_class->destroy = destroy;
+ 	object_class->destroy = destroy;
 }
 
 static gchar *

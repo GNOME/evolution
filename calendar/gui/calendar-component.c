@@ -24,6 +24,7 @@
 #include <config.h>
 
 #include <errno.h>
+#include <libgnome/gnome-util.h>
 #include <libgnomevfs/gnome-vfs-types.h>
 #include <libgnomevfs/gnome-vfs-uri.h>
 #include <libgnomevfs/gnome-vfs-ops.h>
@@ -188,7 +189,7 @@ stop_alarms (GnomeVFSURI *uri)
 	/* Activate the alarm notification service */
 
 	CORBA_exception_init (&ev);
-	an = oaf_activate_from_id ("OAFIID:GNOME_Evolution_Calendar_AlarmNotify", 0, NULL, &ev);
+	an = bonobo_activation_activate_from_id ("OAFIID:GNOME_Evolution_Calendar_AlarmNotify", 0, NULL, &ev);
 
 	if (BONOBO_EX (&ev)) {
 		g_message ("stop_alarms(): Could not activate the alarm notification service");
@@ -593,8 +594,8 @@ create_component (const char *uri, GNOME_Evolution_Calendar_CompEditorFactory_Co
 	/* Get the factory */
 
 	CORBA_exception_init (&ev);
-	factory = oaf_activate_from_id ("OAFIID:GNOME_Evolution_Calendar_CompEditorFactory",
-					0, NULL, &ev);
+	factory = bonobo_activation_activate_from_id ("OAFIID:GNOME_Evolution_Calendar_CompEditorFactory",
+						      0, NULL, &ev);
 
 	if (BONOBO_EX (&ev)) {
 		g_message ("create_component(): Could not activate the component editor factory");
@@ -699,7 +700,7 @@ add_creatable_item (EvolutionShellComponent *shell_component,
 		icon = NULL;
 	} else {
 		icon_path = g_concat_dir_and_file (EVOLUTION_ICONSDIR, icon_name);
-		icon = gdk_pixbuf_new_from_file (icon_path);
+		icon = gdk_pixbuf_new_from_file (icon_path, NULL);
 	}
 
 	evolution_shell_component_add_user_creatable_item (shell_component,
@@ -777,12 +778,12 @@ void
 component_factory_init (void)
 {
 	BonoboObject *object;
-	int result;
+	Bonobo_RegistrationResult result;
 
 	object = create_object ();
 
-	result = oaf_active_server_register (COMPONENT_ID, bonobo_object_corba_objref (object));
+	result = bonobo_activation_active_server_register (COMPONENT_ID, bonobo_object_corba_objref (object));
 
-	if (result == OAF_REG_ERROR)
+	if (result != Bonobo_ACTIVATION_REG_SUCCESS)
 		g_error ("Cannot initialize Evolution's calendar component.");
 }
