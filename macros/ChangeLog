@@ -2,6 +2,7 @@
 
 	* gnome-ghttp-check.m4: Umm...I think this works better.  Doesn't
  	break anything anyway.
+	Oooo...it actually works now.  Forgot a ,
 
 1998-08-26  Martin Baulig  <martin@home-of-linux.org>
 
