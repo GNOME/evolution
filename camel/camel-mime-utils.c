@@ -1807,7 +1807,7 @@ static struct {
 
 static char *tz_months [] = {
 	"Jan", "Feb", "Mar", "Apr", "May", "Jun",
-	"Jul", "Aug", "Sep", "Oct", "Nove", "Dec"
+	"Jul", "Aug", "Sep", "Oct", "Nov", "Dec"
 };
 
 char *
@@ -1825,11 +1825,10 @@ header_format_date(time_t time, int offset)
 
 	memcpy(&tm, gmtime(&time), sizeof(tm));
 
-	return g_strdup_printf("%02d %s %04d %02d:%02d:%02d %c%04d",
+	return g_strdup_printf("%02d %s %04d %02d:%02d:%02d %+05d",
 			       tm.tm_mday, tz_months[tm.tm_mon],
 			       tm.tm_year + 1900,
 			       tm.tm_hour, tm.tm_min, tm.tm_sec,
-			       offset>=0?'+':'-',
 			       offset);
 }
 

@@ -1,3 +1,8 @@
+2000-04-26  Dan Winship  <danw@helixcode.com>
+
+	* camel-mime-utils.c (header_format_date): fix format specifier
+	for time zone. Fix typo in month names array.
+
 2000-04-26  NotZed  <NotZed@HelixCode.com>
 
 	* camel-seekable-substream.c (stream_seek): Changed to have
