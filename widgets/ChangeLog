@@ -1,3 +1,13 @@
+2003-05-19  Anna Marie Dirks  <anna@ximian.com>
+
+	* e-timezone-dialog/e-timezone-dialog.glade: HIG-ified the
+	spacing, padding, alignment of this dialog. Fixes bug #41148
+
+2003-05-16  Anna Marie Dirks  <anna@ximian.com>
+
+	* e-timezone-dialog/e-timezone-dialog.glade: HIG-ified the
+	spacing, padding, alignment of this dialog. Fixes bug #41148
+
 2003-05-14  JP Rosevear  <jpr@ximian.com>
 
 	* menus/gal-view-menus.c (gvm_finalize): unref the component
