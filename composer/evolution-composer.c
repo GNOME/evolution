@@ -156,12 +156,12 @@ impl_Composer_set_body (PortableServer_Servant servant,
 	bonobo_object = bonobo_object_from_servant (servant);
 	composer = EVOLUTION_COMPOSER (bonobo_object);
 
-	if (!strcasecmp (mime_type, "text/plain")) {
+	if (!g_ascii_strcasecmp (mime_type, "text/plain")) {
 		char *htmlbody = camel_text_to_html (body, CAMEL_MIME_FILTER_TOHTML_PRE, 0);
 		
 		e_msg_composer_set_body_text (composer->composer, htmlbody);
 		g_free (htmlbody);
-	} else if (!strcasecmp (mime_type, "text/html"))
+	} else if (!g_ascii_strcasecmp (mime_type, "text/html"))
 		e_msg_composer_set_body_text (composer->composer, body);
 	else
 		e_msg_composer_set_body (composer->composer, body, mime_type);

@@ -1,3 +1,18 @@
+2004-02-02  Not Zed  <NotZed@Ximian.com>
+
+	* evolution-composer.c (impl_Composer_set_body): use
+	g_ascii_strcasecmp rather than strcasecmp.
+
+	** See bug #53506, again.
+
+	* e-msg-composer.c (set_editor_text): Add an argument to make
+	adding the signature optional.  Also fix a memleak with the sig
+	content.
+	(e_msg_composer_new_with_type, e_msg_composer_flush_pending_body)
+	(handle_mailto, e_msg_composer_set_body_text)
+	(e_msg_composer_set_body): Fixed callers for above change
+	appropriately.
+
 2004-01-29  Not Zed  <NotZed@Ximian.com>
 
 	* e-msg-composer.c (e_msg_composer_new_with_type): reverted

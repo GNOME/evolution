@@ -1077,14 +1077,15 @@ get_signature_html (EMsgComposer *composer)
 }
 
 static void
-set_editor_text (EMsgComposer *composer, const char *text)
+set_editor_text(EMsgComposer *composer, const char *text, int setsig)
 {
 	Bonobo_PersistStream persist;
 	BonoboStream *stream;
 	BonoboWidget *editor;
 	CORBA_Environment ev;
 	Bonobo_Unknown object;
-	char *sig, *mem = NULL, *content;
+	char *sig, *mem = NULL;
+	const char *content;
 	size_t len;
 
 	g_return_if_fail (composer->persist_stream_interface != CORBA_OBJECT_NIL);
@@ -1096,13 +1097,14 @@ set_editor_text (EMsgComposer *composer, const char *text)
 	CORBA_exception_init (&ev);
 
 	/* This copying bullshit is because the bonobo stream interface is just painful */
-	sig = get_signature_html(composer);
 	len = strlen(text);
-	if (sig) {
+	if (setsig
+	    && (sig = get_signature_html(composer))) {
 		len += strlen(sig);
 		content = mem = g_malloc(len+1);
 		memcpy(mem, text, strlen(text));
 		strcpy(mem + strlen(text), sig);
+		g_free(sig);
 	} else {
 		content = text;
 	}
@@ -3276,7 +3278,7 @@ e_msg_composer_new_with_type (int type)
 	if (new) {
 		e_msg_composer_set_send_html (new, send_html);
 		set_editor_signature (new);
-		set_editor_text (new, "");
+		set_editor_text (new, "", TRUE);
 	}
 
 	return new;
@@ -3331,7 +3333,7 @@ e_msg_composer_flush_pending_body (EMsgComposer *composer, gboolean apply)
 	body = g_object_get_data ((GObject *) composer, "body:text");
 	if (body) {
 		if (apply) 
-			set_editor_text (composer, body);
+			set_editor_text (composer, body, FALSE);
 		
 		g_object_set_data ((GObject *) composer, "body:text", NULL);
 		g_free (body);
@@ -4106,7 +4108,7 @@ handle_mailto (EMsgComposer *composer, const char *mailto)
 		char *htmlbody;
 		
 		htmlbody = camel_text_to_html (body, CAMEL_MIME_FILTER_TOHTML_PRE, 0);
-		set_editor_text (composer, htmlbody);
+		set_editor_text (composer, htmlbody, FALSE);
 		g_free (htmlbody);
 	}
 }
@@ -4199,7 +4201,7 @@ e_msg_composer_set_body_text (EMsgComposer *composer, const char *text)
 {
 	g_return_if_fail (E_IS_MSG_COMPOSER (composer));
 	
-	set_editor_text (composer, text);
+	set_editor_text (composer, text, TRUE);
 }
 
 /**
@@ -4217,9 +4219,7 @@ e_msg_composer_set_body (EMsgComposer *composer, const char *body,
 {
 	g_return_if_fail (E_IS_MSG_COMPOSER (composer));
 	
-	set_editor_text (composer, _("<b>(The composer contains a non-text "
-				     "message body, which cannot be "
-				     "edited.)<b>"));
+	set_editor_text (composer, _("<b>(The composer contains a non-text message body, which cannot be edited.)<b>"), FALSE);
 	e_msg_composer_set_send_html (composer, FALSE);
 	disable_editor (composer);
 	
