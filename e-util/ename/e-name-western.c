@@ -164,7 +164,9 @@ e_name_western_get_one_prefix_at_str (char *str)
 	 */
 	word = e_name_western_get_words_at_idx (str, 0, 1);
 
-	if (strlen (word) > 2 && isalpha (word [0]) && isalpha (word [1]) &&
+	if (strlen (word) > 2 && 
+	    isalpha ((unsigned char) word [0]) &&
+	    isalpha ((unsigned char) word [1]) &&
 	    word [strlen (word) - 1] == '.')
 		return word;
 

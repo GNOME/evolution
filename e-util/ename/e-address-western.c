@@ -149,7 +149,7 @@ e_address_western_is_po_box (gchar *line)
   deemed to be the line in the form of <town, region postal-code>. */
 
 static gboolean
-e_address_western_is_postal (gchar *line)
+e_address_western_is_postal (guchar *line)
 {
 	gboolean retval;
 	int cntr;
@@ -166,7 +166,7 @@ e_address_western_is_postal (gchar *line)
 		while (isspace(line[index]))
 			index++;
 		
-		if (!isalpha(line[index]))
+		if (!isalpha (line[index]))
 			return FALSE;   /* FIXME: ugly control flow. */
 
 		cntr = strlen(line) - 1;

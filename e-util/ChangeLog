@@ -1,3 +1,11 @@
+2000-10-26  Michael Meeks  <michael@helixcode.com>
+
+	* ename/e-address-western.c (e_address_western_is_postal): 
+	unsigned chars.
+
+	* ename/e-name-western.c (e_name_western_get_one_prefix_at_str):
+	cast to unsigned char.
+
 2000-10-25  Dan Winship  <danw@helixcode.com>
 
 	* e-html-utils.c (e_text_to_html): Deal properly with URLs at the
