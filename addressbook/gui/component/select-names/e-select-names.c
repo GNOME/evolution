@@ -413,7 +413,11 @@ new_folder      (EvolutionStorageListener *storage_listener,
 	    || !strcmp(folder->type, "ldap-contacts")) {
 		ESelectNamesFolder *e_folder = g_new(ESelectNamesFolder, 1);
 		e_folder->description  = g_strdup(folder->description );
-		e_folder->display_name = g_strdup(folder->displayName);
+		if (!strcmp (folder->type, "ldap-contacts"))
+			e_folder->display_name = g_strdup_printf ("%s [LDAP]", folder->displayName);
+		else
+			e_folder->display_name = g_strdup(folder->displayName);
+
 		if (!strncmp (folder->physicalUri, "file:", 5))
 			e_folder->uri = g_strdup_printf ("%s/addressbook.db", folder->physicalUri);
 		else
@@ -504,6 +508,57 @@ hookup_listener (ESelectNames *e_select_names,
 }
 
 static void
+add_additional_select_names_uris (ESelectNames *e_select_names, CORBA_Environment *ev)
+{
+	Bonobo_ConfigDatabase config_db;
+	guint32 num_additional_uris;
+	int i;
+
+	config_db = addressbook_config_database (ev);
+
+	num_additional_uris = bonobo_config_get_ulong_with_default (config_db, "/Addressbook/additional_select_names_folders/num", 0, ev);
+	for (i = 0; i < num_additional_uris; i ++) {
+		ESelectNamesFolder *e_folder;
+		char *config_path;
+		char *path;
+		char *name;
+		char *uri;
+
+		config_path = g_strdup_printf ("/Addressbook/additional_select_names_folders/folder_%d_path", i);
+		path = bonobo_config_get_string (config_db, config_path, ev);
+		g_free (config_path);
+
+		config_path = g_strdup_printf ("/Addressbook/additional_select_names_folders/folder_%d_name", i);
+		name = bonobo_config_get_string (config_db, config_path, ev);
+		g_free (config_path);
+
+		config_path = g_strdup_printf ("/Addressbook/additional_select_names_folders/folder_%d_uri", i);
+		uri = bonobo_config_get_string (config_db, config_path, ev);
+		g_free (config_path);
+
+		if (!path || !name || !uri) {
+			g_free (path);
+			g_free (name);
+			g_free (uri);
+			continue;
+		}
+
+		e_folder = g_new(ESelectNamesFolder, 1);
+		e_folder->description  = g_strdup("");
+		e_folder->display_name = g_strdup(name);
+		if (!strncmp (uri, "file:", 5))
+			e_folder->uri = g_strdup_printf ("%s/addressbook.db", uri);
+		else
+			e_folder->uri = g_strdup(uri);
+		g_hash_table_insert(e_select_names->folders,
+				    g_strdup(path), e_folder);
+	}
+
+	if (num_additional_uris)
+		update_option_menu(e_select_names);
+}
+
+static void
 e_select_names_hookup_shell_listeners (ESelectNames *e_select_names)
 {
 	EvolutionStorage *other_contact_storage;
@@ -555,6 +610,12 @@ e_select_names_hookup_shell_listeners (ESelectNames *e_select_names)
 		hookup_listener (e_select_names, storage, e_select_names->other_contacts_listener, &ev);
 	}
 
+	/* XXX kludge to fill in folders for the exchange plugin.  we
+	   latch onto a set of bonobo-conf settings that are
+	   maintained by the plugin and do the right magic to get the
+	   folders displayed in the option menu */
+	add_additional_select_names_uris (e_select_names, &ev);
+	
 	CORBA_exception_free(&ev);
 }
 
