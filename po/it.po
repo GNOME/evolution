@@ -6,9 +6,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Evolution\n"
 "POT-Creation-Date: 2002-10-28 16:49-0500\n"
-"PO-Revision-Date: 2003-01-24 21:21GMT\n"
+"PO-Revision-Date: 2003-01-28 17:51+0100\n"
 "Last-Translator: Marco Ciampa <ciampix@libero.it>\n"
-"Language-Team: italiano <tp@lists.linux.it>\n"
+"Language-Team: Italian <it@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=ISO-8859-1\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -13591,29 +13591,24 @@ msgid "Configuration control for the Evolution Summary."
 msgstr "Controllo configurazione sommario di Evolution."
 
 #: my-evolution/GNOME_Evolution_Summary.oaf.in.h:2
-#, fuzzy
 msgid "Configure the appearance of the Evolution Summary here"
-msgstr "Cartella contente il Sommario di Evolution"
+msgstr "Configura qui l'aspetto del Sommario di Evolution"
 
 #: my-evolution/GNOME_Evolution_Summary.oaf.in.h:3
-#, fuzzy
 msgid "Evolution Summary component."
-msgstr "Compositore della posta di Evolution."
+msgstr "Componente del Sommario di Evolution."
 
 #: my-evolution/GNOME_Evolution_Summary.oaf.in.h:4
-#, fuzzy
 msgid "Factory for Evolution Summary's configuration control."
-msgstr "Fabbrica per il controllo di visualizzazione delle attività di Evolution."
+msgstr "Fabbrica per il controllo di configurazione del Sommario di Evolution."
 
 #: my-evolution/GNOME_Evolution_Summary.oaf.in.h:5
-#, fuzzy
 msgid "Factory for the Evolution Summary component."
-msgstr "Fabbrica per il componente del sommario esecutivo di Evolution."
+msgstr "Fabbrica per il componente del Sommario di Evolution."
 
 #: my-evolution/GNOME_Evolution_Summary.oaf.in.h:6
-#, fuzzy
 msgid "Summary Preferences"
-msgstr "Impostazioni Sommario"
+msgstr "Preferenze Sommario"
 
 #: my-evolution/Locations.h:1
 msgid "Aarhus"
@@ -18013,12 +18008,10 @@ msgid "Kushiro Airport"
 msgstr "Kushiro Aeroporto"
 
 #: my-evolution/Locations.h:1147
-#, fuzzy
 msgid "Kyiv/Boryspil"
 msgstr "Kyyiv/Boryspil"
 
 #: my-evolution/Locations.h:1148
-#, fuzzy
 msgid "Kyiv/Zhulyany"
 msgstr "Kyyiv/Zhulyany"
 
@@ -22139,9 +22132,8 @@ msgid "Tallahassee"
 msgstr "Tallahassee"
 
 #: my-evolution/Locations.h:2211
-#, fuzzy
 msgid "Tallinn"
-msgstr "Talinn"
+msgstr "Tallinn"
 
 #: my-evolution/Locations.h:2212
 msgid "Tamanrasset"
@@ -23475,20 +23467,17 @@ msgid "News Feed"
 msgstr "Notiziario"
 
 #: my-evolution/e-summary-shown.c:519
-#, fuzzy
 msgid "All"
-msgstr "McAllen"
+msgstr "Tutto"
 
 #. Fixme: nice GFX version
 #: my-evolution/e-summary-shown.c:531
-#, fuzzy
 msgid "Add"
-msgstr "A_ggiungi"
+msgstr "Aggiungi"
 
 #: my-evolution/e-summary-shown.c:546 my-evolution/e-summary-table.c:58
-#, fuzzy
 msgid "Shown"
-msgstr "Shannon"
+msgstr "Mostrato"
 
 #: my-evolution/e-summary-tasks.c:328
 msgid "No tasks"
@@ -24713,9 +24702,8 @@ msgid "C_elsius"
 msgstr "C_elsius"
 
 #: my-evolution/my-evolution.glade.h:4
-#, fuzzy
 msgid "Delete news feed"
-msgstr "Aggiungi not_iziario"
+msgstr "Cancella notiziario"
 
 #: my-evolution/my-evolution.glade.h:5
 msgid "How many days should the calendar display at once?"
@@ -24766,7 +24754,6 @@ msgid "Tasks "
 msgstr "Attività "
 
 #: my-evolution/my-evolution.glade.h:17
-#, fuzzy
 msgid "Weather Settings"
 msgstr "Impostazioni Meteo"
 
@@ -24799,18 +24786,16 @@ msgid "_Weather"
 msgstr "_Meteo"
 
 #: shell/GNOME_Evolution_Shell.oaf.in.h:1
-#, fuzzy
 msgid "Configuration control for Evolution folder settings."
-msgstr "Fabbrica per il compositore di Evolution."
+msgstr "Controllo configurazione per le impostazioni cartelle di Evolution."
 
 #: shell/GNOME_Evolution_Shell.oaf.in.h:2
 msgid "Configure special folders and offline folder behavior here"
-msgstr ""
+msgstr "Configura qui il comportamento delle cartelle speciali e non in linea"
 
 #: shell/GNOME_Evolution_Shell.oaf.in.h:3
-#, fuzzy
 msgid "Folder Settings"
-msgstr "Impostazioni Posta"
+msgstr "Impostazioni Cartella"
 
 #: shell/GNOME_Evolution_Shell.oaf.in.h:4
 msgid "The Evolution shell."
@@ -24834,14 +24819,13 @@ msgstr ""
 "%s"
 
 #: shell/e-folder-list.c:113 shell/evolution-folder-selector-button.c:121
-#, fuzzy, c-format
+#, c-format
 msgid "\"%s\" in \"%s\""
-msgstr "Apri in %s..."
+msgstr "\"%s\" in \"%s\""
 
 #: shell/e-folder-list.c:312
-#, fuzzy
 msgid "Add a Folder"
-msgstr "Come Cartella Inviati"
+msgstr "Aggiungi una Cartella"
 
 #: shell/e-local-storage.c:178
 msgid "Drafts"
@@ -24974,41 +24958,34 @@ msgid "Brought to you by"
 msgstr "Sviluppato da"
 
 #: shell/e-shell-config-autocompletion.c:106
-#, fuzzy
 msgid "Extra Completion folders"
-msgstr "Ultimato il"
+msgstr "Cartelle Extra di Completamento"
 
 #: shell/e-shell-config-default-folders.c:133
-#, fuzzy
 msgid "Select Default Folder"
-msgstr "Scegli Cartella"
+msgstr "Scegli Cartella Predefinita"
 
 #: shell/e-shell-config-folder-settings.c:71
-#, fuzzy
 msgid "Default Folders"
-msgstr "Scegli Cartella"
+msgstr "Cartelle Predefinite"
 
 #: shell/e-shell-config-folder-settings.c:74
-#, fuzzy
 msgid "Offline Folders"
-msgstr "Scegli Cartella"
+msgstr "Cartelle non in linea"
 
 #: shell/e-shell-config-folder-settings.c:77
-#, fuzzy
 msgid "Autocompletion Folders"
-msgstr "Ultimato il"
+msgstr "Cartelle di Autocompletamento"
 
 #: shell/e-shell-folder-commands.c:140
-#, fuzzy, c-format
+#, c-format
 msgid "Cannot copy folder: %s"
-msgstr "Impossibile controllare la cartella: %s: %s"
+msgstr "Impossibile copiare la cartella: %s"
 
 #: shell/e-shell-folder-commands.c:143
-#, fuzzy, c-format
+#, c-format
 msgid "Cannot move folder: %s"
-msgstr ""
-"Impossibile rinomincare la cartella:\n"
-"%s"
+msgstr "Impossibile spostare la cartella: %s"
 
 #: shell/e-shell-folder-commands.c:190
 msgid "Cannot move a folder over itself."
@@ -25055,11 +25032,9 @@ msgid "Delete \"%s\""
 msgstr "Elimina \"%s\""
 
 #: shell/e-shell-folder-commands.c:407
-#, fuzzy, c-format
+#, c-format
 msgid "Really delete folder \"%s\"?"
-msgstr ""
-"Impossibile cancellare la cartella:\n"
-"%s"
+msgstr "Sicuri di voler cancellare la cartella \"%s\"?"
 
 #: shell/e-shell-folder-commands.c:488
 #, c-format
@@ -25087,15 +25062,15 @@ msgstr "Il nome della cartella specificato non è valido: %s"
 
 #: shell/e-shell-folder-commands.c:586
 msgid "Selected folder does not belong to another user"
-msgstr ""
+msgstr "La cartella selezionata non appartiene ad un altro utente"
 
 #: shell/e-shell-folder-commands.c:589
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "Cannot remove folder:\n"
 "%s"
 msgstr ""
-"Impossibile rinomincare la cartella:\n"
+"Impossibile rimuovere la cartella:\n"
 "%s"
 
 #: shell/e-shell-folder-creation-dialog.c:122
@@ -25108,9 +25083,8 @@ msgstr ""
 "%s"
 
 #: shell/e-shell-folder-creation-dialog.c:288
-#, fuzzy
 msgid "Create New Folder"
-msgstr "Crea _Nuova cartella..."
+msgstr "Crea Nuova Cartella"
 
 #: shell/e-shell-folder-selection-dialog.c:393
 msgid "New..."
@@ -25152,9 +25126,8 @@ msgstr ""
 "Importazione dell'oggetto %d."
 
 #: shell/e-shell-importer.c:355
-#, fuzzy
 msgid "Select importer"
-msgstr "Scegli Cartella"
+msgstr "Seleziona importatore"
 
 #: shell/e-shell-importer.c:487
 #, c-format
@@ -25265,56 +25238,50 @@ msgid "Closing connections..."
 msgstr "Chiusura connessione..."
 
 #: shell/e-shell-offline-sync.c:161
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "Error synchronizing \"%s\":\n"
 "%s"
 msgstr ""
-"Errore durante '%s':\n"
+"Errore durante la sincronizzazione \"%s\":\n"
 "%s"
 
 #: shell/e-shell-offline-sync.c:239
-#, fuzzy
 msgid "Syncing Folder"
-msgstr "Sincronizzazione cartella"
+msgstr "Sincronizzazione Cartella"
 
 #. Prepare the dialog.
 #: shell/e-shell-offline-sync.c:317
 #, c-format
 msgid "Synchronizing \"%s\" (%d of %d) ..."
-msgstr ""
+msgstr "Sincronizzazione \"%s\" (%d di %d) ..."
 
 #: shell/e-shell-settings-dialog.c:326
-#, fuzzy
 msgid "Evolution Settings"
-msgstr "Evolution "
+msgstr "Impostazioni di Evolution"
 
 #: shell/e-shell-shared-folder-picker-dialog.c:357
-#, fuzzy
 msgid "Opening Folder"
-msgstr "Lettura cartella %s in corso"
+msgstr "Apertura Cartella"
 
 #: shell/e-shell-shared-folder-picker-dialog.c:364
-#, fuzzy, c-format
+#, c-format
 msgid "Opening Folder \"%s\""
-msgstr "Lettura cartella %s in corso"
+msgstr "Apertura Cartella \"%s\""
 
 #: shell/e-shell-shared-folder-picker-dialog.c:369
-#, fuzzy, c-format
+#, c-format
 msgid "in \"%s\" ..."
-msgstr "Apri in %s..."
+msgstr "in \"%s\" ..."
 
 #: shell/e-shell-shared-folder-picker-dialog.c:455
-#, fuzzy, c-format
+#, c-format
 msgid "Could not open shared folder: %s."
-msgstr "Impossibile rinominare la cartella: %s"
+msgstr "Impossibile aprire la cartella condivisa: %s."
 
 #: shell/e-shell-shared-folder-picker-dialog.c:513
-#, fuzzy
 msgid "Cannot find the specified shared folder."
-msgstr ""
-"Impossibile creare la cartella specificata:\n"
-"%s"
+msgstr "Impossibile trovare la cartella condivisa specificata."
 
 #: shell/e-shell-startup-wizard.c:159
 #, c-format
@@ -25381,9 +25348,8 @@ msgid "Select the folder that you want to open"
 msgstr "Selezionare la cartella che si desidera aprire"
 
 #: shell/e-shell-view-menu.c:625
-#, fuzzy
 msgid "Create New Shortcut"
-msgstr "Crea un nuovo collegamento"
+msgstr "Crea Nuova Scorciatoia"
 
 #: shell/e-shell-view-menu.c:626
 msgid "Select the folder you want the shortcut to point to:"
@@ -25431,14 +25397,13 @@ msgstr ""
 "connettersi."
 
 #: shell/e-shell.c:175
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "Cannot activate component %s :\n"
 "The error from the activation system is:\n"
 "%s"
 msgstr ""
-"%s\n"
-"\n"
+"Impossibile attivare il componente %s :\n"
 "L'errore del sistema di attivazione è:\n"
 "%s"
 
@@ -25552,14 +25517,12 @@ msgid "Hide the shortcut bar"
 msgstr "Nascondi la barra dei collegamenti"
 
 #: shell/e-shortcuts-view.c:274
-#, fuzzy
 msgid "Create _Default Shortcuts"
-msgstr "Crea un nuovo collegamento"
+msgstr "Crea scorciatoia predefinita"
 
 #: shell/e-shortcuts-view.c:275
-#, fuzzy
 msgid "Create Default Shortcuts"
-msgstr "Crea un nuovo collegamento"
+msgstr "Crea scorciatoie predefinite"
 
 #: shell/e-shortcuts-view.c:394
 msgid "Rename shortcut"
@@ -25606,9 +25569,8 @@ msgid "Shortcuts"
 msgstr "Collegamenti"
 
 #: shell/e-storage-set-view.etspec.h:1
-#, fuzzy
 msgid "Checkbox"
-msgstr "Chico"
+msgstr "Checkbox"
 
 #: shell/e-storage.c:569
 msgid "No error"
@@ -25664,7 +25626,7 @@ msgstr "Impossibile creare una cartella con quel nome"
 
 #: shell/e-storage.c:599
 msgid "This operation cannot be performed in off-line mode"
-msgstr ""
+msgstr "Quest'operazione non può essere eseguita in modalità fuori linea"
 
 #: shell/e-task-widget.c:191
 #, c-format
@@ -25798,24 +25760,20 @@ msgid "The following connections are currently active:"
 msgstr "Le seguenti connessioni sono al momento attive;"
 
 #: shell/glade/e-shell-config-default-folders.glade.h:1
-#, fuzzy
 msgid "C_alendar:"
-msgstr "Calendario"
+msgstr "C_alendario:"
 
 #: shell/glade/e-shell-config-default-folders.glade.h:2
-#, fuzzy
 msgid "_Contacts:"
-msgstr "Contatti: "
+msgstr "_Contatti: "
 
 #: shell/glade/e-shell-config-default-folders.glade.h:3
-#, fuzzy
 msgid "_Mail:"
-msgstr "_Posta"
+msgstr "Posta:"
 
 #: shell/glade/e-shell-config-default-folders.glade.h:4
-#, fuzzy
 msgid "_Tasks:"
-msgstr "Attività"
+msgstr "Attività:"
 
 #: shell/glade/e-shell-folder-creation-dialog.glade.h:1
 msgid "Folder name:"
@@ -25830,24 +25788,20 @@ msgid "Specify where to create the folder:"
 msgstr "Specificare dove creare la cartella:"
 
 #: shell/glade/e-shell-shared-folder-picker-dialog.glade.h:1
-#, fuzzy
 msgid "Open Other User's Folder"
-msgstr "Crea _Nuova cartella..."
+msgstr "Apri Cartella degli Altri Utenti"
 
 #: shell/glade/e-shell-shared-folder-picker-dialog.glade.h:2
-#, fuzzy
 msgid "_Account:"
-msgstr "Account"
+msgstr "_Account:"
 
 #: shell/glade/e-shell-shared-folder-picker-dialog.glade.h:3
-#, fuzzy
 msgid "_Folder Name:"
 msgstr "Nome della cartella:"
 
 #: shell/glade/e-shell-shared-folder-picker-dialog.glade.h:4
-#, fuzzy
 msgid "_User:"
-msgstr "_Username:"
+msgstr "_Utente:"
 
 #: shell/glade/evolution-startup-wizard.glade.h:3
 msgid "Evolution Setup Assistant"
@@ -25880,7 +25834,6 @@ msgstr ""
 "Premere il pulsante \"Succ\" per proseguire."
 
 #: shell/glade/evolution-startup-wizard.glade.h:15
-#, fuzzy
 msgid ""
 "You have successfully entered all of the information\n"
 "needed to set up Evolution. \n"
@@ -25969,18 +25922,33 @@ msgid ""
 "We hope that you enjoy the results of our hard work, and we\n"
 "eagerly await your contributions!\n"
 msgstr ""
+"Ciao.  Grazie per aver perso del tempo a scaricare questa versione preliminare\n"
+"della Suite di Lavoro di Gruppo Evolution di Ximian.\n"
+"\n"
+"Questa versione di Ximian Evolution non è ancora completa. Ci siamo quasi\n"
+"ma alcune caratteristiche sono incomplete o non funzionano correttamente.\n"
+"\n"
+"Se si desidera una versione stabile di Evolution, si raccomanda di disinstallare\n"
+"questa versione e installare invece una versione della serie 1.0.x (1.0.8).\n"
+"\n"
+"Se trovate dei difetti, si prega di segnalarceli su bugzilla.ximian.com.\n"
+"Questo prodotto non è coperto da alcuna garanzia e ne è sconsigliato\n"
+"l'uso a individui violenti o portati agli eccessi di ira.\n"
+"\n"
+"Speriamo che vi godiate il risultato dei nostri sforzi e attendiamo con ansia\n"
+"i Vostri contributi!\n"
 
 #: shell/main.c:250
-#, fuzzy
 msgid ""
 "Thanks\n"
 "The Ximian Evolution Team\n"
-msgstr "Ximian Evolution"
+msgstr ""
+"Grazie\n"
+"Il Gruppo Evolution di Ximian\n"
 
 #: shell/main.c:259
-#, fuzzy
 msgid "Don't tell me again"
-msgstr "Non chiedere di nuovo"
+msgstr "Non chiedere nuovamente"
 
 #: shell/main.c:394
 msgid "Cannot access the Ximian Evolution shell."
@@ -25996,14 +25964,12 @@ msgid "Disable splash screen"
 msgstr "Disabilita la schermata di avvio"
 
 #: shell/main.c:487
-#, fuzzy
 msgid "Start in offline mode"
-msgstr "Inizio importazione"
+msgstr "Inizia in modalità fuori linea"
 
 #: shell/main.c:489
-#, fuzzy
 msgid "Start in online mode"
-msgstr "Avvio degli Importatori Intelligenti"
+msgstr "Inizia in modalità in linea"
 
 #: shell/main.c:491
 msgid "Send the debugging output of all components to a file."
@@ -26011,7 +25977,7 @@ msgstr "Inviare l'output del debugging di tutte i componenti ad un file"
 
 #: shell/main.c:493
 msgid "Force upgrading of configuration files from Evolution 1.0.x"
-msgstr ""
+msgstr "Forza l'aggiornamento dei file di configurazione da Evolution 1.0.x"
 
 #: shell/main.c:511
 #, c-format
@@ -26019,6 +25985,8 @@ msgid ""
 "%s: --online and --offline cannot be used together.\n"
 "  Use %s --help for more information.\n"
 msgstr ""
+"%s: --online e --offline non possono essere usati insieme.\n"
+"  Usa %s --help per ulteriori informazioni.\n"
 
 #: shell/main.c:542
 msgid "Cannot initialize the Bonobo component system."
@@ -26044,18 +26012,16 @@ msgid "No filename provided."
 msgstr "È necessario fornire un nome di file."
 
 #: ui/evolution-addressbook.xml.h:3
-#, fuzzy
 msgid "Copy Contact(s) to Another Folder..."
-msgstr "Copia i messaggi selezionati in una nuova cartella"
+msgstr "Copia Contatto(i) su un'Altra Cartella..."
 
 #: ui/evolution-addressbook.xml.h:4 ui/evolution-calendar.xml.h:2
 msgid "Copy the selection"
 msgstr "Copia selezionato"
 
 #: ui/evolution-addressbook.xml.h:5
-#, fuzzy
 msgid "Copy to Folder..."
-msgstr "_Copia nella Cartella..."
+msgstr "Copia nella Cartella..."
 
 #: ui/evolution-addressbook.xml.h:7 ui/evolution-calendar.xml.h:3
 msgid "Cut the selection"
@@ -26066,14 +26032,12 @@ msgid "Delete selected contacts"
 msgstr "Cancella il contatto selezionato"
 
 #: ui/evolution-addressbook.xml.h:11
-#, fuzzy
 msgid "Move Contact(s) to Another Folder..."
-msgstr "Sposta i messaggi in un'altra cartella"
+msgstr "Sposta Contatto(i) in un'altra cartella..."
 
 #: ui/evolution-addressbook.xml.h:12
-#, fuzzy
 msgid "Move to Folder..."
-msgstr "_Sposta nella Cartella..."
+msgstr "Sposta nella Cartella..."
 
 #: ui/evolution-addressbook.xml.h:14 ui/evolution-calendar.xml.h:14
 msgid "Paste the clipboard"
@@ -26160,9 +26124,8 @@ msgid "_Select All"
 msgstr "_Seleziona Tutto"
 
 #: ui/evolution-addressbook.xml.h:42
-#, fuzzy
 msgid "_Send Message to Contact..."
-msgstr "Invia un _Messaggio al Contatto..."
+msgstr "Invia un Messaggio al Contatto..."
 
 #: ui/evolution-calendar.xml.h:4
 msgid "Day"
@@ -26363,7 +26326,6 @@ msgid "Schedule a meeting for this item"
 msgstr "Pianifica una Riunione su questo argomento"
 
 #: ui/evolution-executive-summary.xml.h:1
-#, fuzzy
 msgid "Customize My Evolution"
 msgstr "Personalizza Evolution"
 
@@ -26404,19 +26366,16 @@ msgid "Permanently remove all deleted messages from all folders"
 msgstr "Rimuovi permanentemente i messaggi cancellati da tutte le cartelle"
 
 #: ui/evolution-mail-global.xml.h:11
-#, fuzzy
 msgid "Post New Message"
 msgstr "Nuovo Messaggio"
 
 #: ui/evolution-mail-global.xml.h:12
-#, fuzzy
 msgid "Post a message to a Public folder"
-msgstr "Sposta il messaggio in una nuova cartella"
+msgstr "Nuovo messaggio per una cartella Pubblica"
 
 #: ui/evolution-mail-global.xml.h:13
-#, fuzzy
 msgid "S_ubscribe to Folders..."
-msgstr "_Sottoscrizione Cartelle..."
+msgstr "_Sottoscrizione a Cartelle..."
 
 #: ui/evolution-mail-global.xml.h:14
 msgid "Show message preview window"
@@ -26443,18 +26402,16 @@ msgid "Change the properties of this folder"
 msgstr "Moifica le proprietà di questa cartella"
 
 #: ui/evolution-mail-list.xml.h:2
-#, fuzzy
 msgid "Copy selected message(s) to the clipboard"
-msgstr "Copia i messaggi selezionati in una nuova cartella"
+msgstr "Copia messaggio(i) selezionato(i) negli appunti"
 
 #: ui/evolution-mail-list.xml.h:3
 msgid "Cu_t"
 msgstr "_Taglia"
 
 #: ui/evolution-mail-list.xml.h:4
-#, fuzzy
 msgid "Cut selected message(s) to the clipboard"
-msgstr "Incolla il messaggio agli appunti"
+msgstr "Taglia messaggio(i) selezionato(i) negli appunti"
 
 #: ui/evolution-mail-list.xml.h:5
 msgid "Hide S_elected Messages"
@@ -26483,9 +26440,8 @@ msgid "Mark all visible messages as read"
 msgstr "Segna tutti  i messaggi visibili come letti"
 
 #: ui/evolution-mail-list.xml.h:11
-#, fuzzy
 msgid "Paste message(s) from the clipboard"
-msgstr "Incolla il messaggio agli appunti"
+msgstr "Incolla messaggio(i) dagli appunti"
 
 #: ui/evolution-mail-list.xml.h:12
 msgid "Permanently remove all deleted messages from this folder"
@@ -26554,17 +26510,14 @@ msgid "_Threaded Message List"
 msgstr "Raggruppa per _Discussioni"
 
 #: ui/evolution-mail-message.xml.h:1
-#, fuzzy
 msgid "A_dd Sender to Addressbook"
 msgstr "Aggiungi Mittente alla Rubrica"
 
 #: ui/evolution-mail-message.xml.h:2
-#, fuzzy
 msgid "A_pply Filters"
-msgstr "Applica Filtri"
+msgstr "A_pplica Filtri"
 
 #: ui/evolution-mail-message.xml.h:3
-#, fuzzy
 msgid "Add Sender to Addressbook"
 msgstr "Aggiungi Mittente alla Rubrica"
 
@@ -26657,9 +26610,8 @@ msgid "Display the previous unread message"
 msgstr "Mostra il messaggio non letto precedente"
 
 #: ui/evolution-mail-message.xml.h:28
-#, fuzzy
 msgid "F_orward"
-msgstr "Inoltra"
+msgstr "In_oltra"
 
 #: ui/evolution-mail-message.xml.h:29
 msgid "Filter on Mailing _List..."
@@ -26679,11 +26631,11 @@ msgstr "Filtra sull'_Oggetto..."
 
 #: ui/evolution-mail-message.xml.h:33
 msgid "Flag selected message(s) for follow-up"
-msgstr ""
+msgstr "Segnala messaggio(i) selezionato(i) come seguente"
 
 #: ui/evolution-mail-message.xml.h:34
 msgid "Follow _Up..."
-msgstr ""
+msgstr "Segue..."
 
 #: ui/evolution-mail-message.xml.h:35
 msgid "Force images in HTML mail to be loaded"
@@ -26758,17 +26710,14 @@ msgid "Next"
 msgstr "Successivo"
 
 #: ui/evolution-mail-message.xml.h:55
-#, fuzzy
 msgid "Next _Important Message"
 msgstr "Messaggio Importante Successivo"
 
 #: ui/evolution-mail-message.xml.h:56
-#, fuzzy
 msgid "Next _Thread"
 msgstr "Discussione Successiva"
 
 #: ui/evolution-mail-message.xml.h:57
-#, fuzzy
 msgid "Next _Unread Message"
 msgstr "Messaggo Non Letto Successivo"
 
@@ -26785,24 +26734,20 @@ msgid "Original Si_ze"
 msgstr "Dimensione _Predefinita"
 
 #: ui/evolution-mail-message.xml.h:61
-#, fuzzy
 msgid "P_revious Unread Message"
-msgstr "Messaggio Non Letto Precedente"
+msgstr "Messaggio Non Letto P_recedente"
 
 #: ui/evolution-mail-message.xml.h:62
-#, fuzzy
 msgid "Post a Reply"
-msgstr "Risposta all'Attività"
+msgstr "Invia una Risposta"
 
 #: ui/evolution-mail-message.xml.h:63
-#, fuzzy
 msgid "Post a reply to a message message in a Public folder"
-msgstr "Controlla se ci sono nuovi messaggio in tutte le cartelle"
+msgstr "Invia una risposta ad un messaggio in una Cartella Pubblica"
 
 #: ui/evolution-mail-message.xml.h:64
-#, fuzzy
 msgid "Pr_evious Important Message"
-msgstr "Messaggio Importante Precedente"
+msgstr "Messaggio Importante Pr_ecedente"
 
 #: ui/evolution-mail-message.xml.h:65
 msgid "Preview the message to be printed"
@@ -26845,7 +26790,6 @@ msgid "Search for text in the body of the displayed message"
 msgstr "Effettua una ricerca nel messaggio visualizzato"
 
 #: ui/evolution-mail-message.xml.h:81
-#, fuzzy
 msgid "Set up the page settings for your current printer"
 msgstr "Imposta i parametri della pagina per la stampante corrente"
 
@@ -26910,9 +26854,8 @@ msgid "_Forward Message"
 msgstr "_Inoltra Messaggio"
 
 #: ui/evolution-mail-message.xml.h:99
-#, fuzzy
 msgid "_Go To"
-msgstr "Vai al"
+msgstr "Vai a"
 
 #: ui/evolution-mail-message.xml.h:100
 msgid "_Inline"
@@ -26931,7 +26874,6 @@ msgid "_Move to Folder"
 msgstr "_Sposta nella Cartella"
 
 #: ui/evolution-mail-message.xml.h:104
-#, fuzzy
 msgid "_Next Message"
 msgstr "Messaggio Successivo"
 
@@ -26944,18 +26886,16 @@ msgid "_Open Message"
 msgstr "_Apri Messaggio"
 
 #: ui/evolution-mail-message.xml.h:107
-#, fuzzy
 msgid "_Previous Message"
-msgstr "Messaggio Precedente"
+msgstr "Messaggio _Precedente"
 
 #: ui/evolution-mail-message.xml.h:109
 msgid "_Quoted"
 msgstr "_Citato"
 
 #: ui/evolution-mail-message.xml.h:111
-#, fuzzy
 msgid "_Resend..."
-msgstr "_Rinomina..."
+msgstr "_Rispedisci..."
 
 #: ui/evolution-mail-message.xml.h:113 ui/evolution.xml.h:65
 msgid "_Tools"
@@ -27006,9 +26946,8 @@ msgid "For_mat"
 msgstr "For_mato"
 
 #: ui/evolution-message-composer.xml.h:9
-#, fuzzy
 msgid "HT_ML"
-msgstr "H_TML"
+msgstr "HT_ML"
 
 #: ui/evolution-message-composer.xml.h:10
 msgid "Open"
@@ -27069,9 +27008,8 @@ msgid "Send the mail in HTML format"
 msgstr "Invia la posta in formato HTML"
 
 #: ui/evolution-message-composer.xml.h:26
-#, fuzzy
 msgid "Send this message"
-msgstr "Invia questo messaggio adesso"
+msgstr "Invia questo messaggio"
 
 #: ui/evolution-message-composer.xml.h:27
 msgid "Show / hide attachments"
@@ -27151,18 +27089,16 @@ msgid "H_TML"
 msgstr "H_TML"
 
 #: ui/evolution-signature-editor.xml.h:8
-#, fuzzy
 msgid "Save the current file and close the window"
-msgstr "Salva l'oggetto e chiudi la finestra di dialogo"
+msgstr "Salva il documento corrente e chiudi la finestra"
 
 #: ui/evolution-signature-editor.xml.h:13 ui/evolution.xml.h:54
 msgid "_Help"
 msgstr "_Aiuto"
 
 #: ui/evolution-signature-editor.xml.h:16
-#, fuzzy
 msgid "_Signature editor"
-msgstr "Salva firma"
+msgstr "Editor della Firma"
 
 #: ui/evolution-subscribe.xml.h:1
 msgid "Add folder to your list of subscribed folders"
@@ -27237,14 +27173,12 @@ msgid "Paste task from the clipboard"
 msgstr "Incolla attività dagli appunti"
 
 #: ui/evolution-tasks.xml.h:11
-#, fuzzy
 msgid "Previews the list of tasks to be printed"
-msgstr "Anteprime dei contatti da stampare"
+msgstr "Anteprime degli elenchi delle azioni da stampare"
 
 #: ui/evolution-tasks.xml.h:13
-#, fuzzy
 msgid "Print the list of tasks"
-msgstr "Stampa questo messaggio"
+msgstr "Stampa l'elenco delle azioni"
 
 #: ui/evolution.xml.h:1
 msgid "About Ximian Evolution..."
@@ -27255,9 +27189,8 @@ msgid "Add to _Shortcut Bar"
 msgstr "Aggiungi alla _Barra dei Collegamenti"
 
 #: ui/evolution.xml.h:3
-#, fuzzy
 msgid "Change Evolution's settings"
-msgstr "Evolution "
+msgstr "Cambia le impostazioni di Evolution"
 
 #: ui/evolution.xml.h:4
 msgid "Change the name of this folder"
@@ -27284,9 +27217,8 @@ msgid "Create a new shortcut"
 msgstr "Crea un nuovo collegamento"
 
 #: ui/evolution.xml.h:12
-#, fuzzy
 msgid "Create a new window displaying this folder"
-msgstr "Crea nuova cartella"
+msgstr "Crea una nuova finestra che mostra questa cartella"
 
 #: ui/evolution.xml.h:13
 msgid "Delete this folder"
@@ -27317,13 +27249,12 @@ msgid "Move this folder to another place"
 msgstr "Sposta questa cartella altrove"
 
 #: ui/evolution.xml.h:21
-#, fuzzy
 msgid "Open Other _User's Folder..."
-msgstr "Crea _Nuova cartella..."
+msgstr "Apri Cartella degli Altri _Utenti..."
 
 #: ui/evolution.xml.h:22
 msgid "Open a folder belonging to some other user on the server"
-msgstr ""
+msgstr "Apri una cartella appartenente a qualche altro utente sul server"
 
 #: ui/evolution.xml.h:23
 msgid "Open in New Window"
@@ -27334,19 +27265,16 @@ msgid "Open this folder in an other window"
 msgstr "Apre questa cartella in una nuova finestra"
 
 #: ui/evolution.xml.h:26
-#, fuzzy
 msgid "Pi_lot Settings..."
-msgstr "Impostazioni _Pilot..."
+msgstr "Impostazioni Pi_lot..."
 
 #: ui/evolution.xml.h:27
-#, fuzzy
 msgid "Pilot Con_duit Settings..."
-msgstr "Impostazioni _Pilot..."
+msgstr "Impostazioni Pilot Con_duit..."
 
 #: ui/evolution.xml.h:28
-#, fuzzy
 msgid "Remove a folder added with \"Open Other User's Folder\""
-msgstr "Crea _Nuova cartella..."
+msgstr "Elimina una cartella aggiunta con \"Apri Cartella degli Altri Utenti\""
 
 #: ui/evolution.xml.h:29
 msgid "Send / Receive"
