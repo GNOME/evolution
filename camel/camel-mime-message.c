@@ -51,6 +51,9 @@ static void _add_recipient (CamelMimeMessage *mime_message, GString *recipient_t
 static void _remove_recipient (CamelMimeMessage *mime_message, GString *recipient_type, GString *recipient);
 static GList *_get_recipients (CamelMimeMessage *mime_message, GString *recipient_type);
 
+static void _set_flag (CamelMimeMessage *mime_message, GString *flag, gboolean value);
+static gboolean _get_flag (CamelMimeMessage *mime_message, GString *flag);
+
 /* Returns the class for a CamelMimeMessage */
 #define CMM_CLASS(so) CAMEL_MIME_MESSAGE_CLASS (GTK_OBJECT(so)->klass)
 
@@ -80,6 +83,8 @@ camel_mime_message_class_init (CamelMimeMessageClass *camel_mime_message_class)
 	camel_mime_message_class->add_recipient = _add_recipient; 
 	camel_mime_message_class->remove_recipient = _remove_recipient;
 	camel_mime_message_class->get_recipients = _get_recipients;
+	camel_mime_message_class->set_flag = _set_flag;
+	camel_mime_message_class->get_flag = _get_flag;
 	
 	/* virtual method overload */
 }
@@ -93,7 +98,8 @@ camel_mime_message_init (gpointer   object,  gpointer   klass)
 	CamelMimeMessage *camel_mime_message = CAMEL_MIME_MESSAGE (object);
 
 	camel_mime_message->recipients =  g_hash_table_new(g_string_hash, g_string_equal_for_hash);
-
+	camel_mime_message->flags = g_hash_table_new(g_string_hash, g_string_equal_for_hash);
+	
 }
 
 
@@ -133,7 +139,7 @@ static void
 _set_field (CamelMimeMessage *mime_message, GString *name, GString *value, GString **variable)
 {
 	if (variable) {
-		if (*variable) G_string_free (*variable, TRUE);
+		if (*variable) G_string_free (*variable, FALSE);
 		*variable = value;
 	}
 }
@@ -283,6 +289,7 @@ get_from (CamelMimeMessage *mime_message)
 static void
 _add_recipient (CamelMimeMessage *mime_message, GString *recipient_type, GString *recipient) 
 {
+	/* be careful, recipient_type and recipient may be freed within this func */
 	GList *recipients_list;
 	GList *existent_list;
 
@@ -290,9 +297,11 @@ _add_recipient (CamelMimeMessage *mime_message, GString *recipient_type, GString
 	existent_list = (GList *)g_hash_table_lookup (mime_message->recipients, recipient_type);
 
 	/* if the recipient is already in this list, do nothing */
-	if ( existent_list && g_list_find_custom (existent_list, (gpointer)recipient, g_string_equal_for_hash) )
+	if ( existent_list && g_list_find_custom (existent_list, (gpointer)recipient, g_string_equal_for_hash) ) {
+		g_string_free (recipient_type, FALSE);
+		g_string_free (recipient, FALSE);
 		return;
-
+	}
 	/* append the new recipient to the recipient list
 	   if the existent_list is NULL, then a new GList is
 	   automagically created */	
@@ -300,6 +309,24 @@ _add_recipient (CamelMimeMessage *mime_message, GString *recipient_type, GString
 
 	if (!existent_list) /* if there was no recipient of this type create the section */
 		g_hash_table_insert (mime_message->recipients, recipient_type, recipients_list);
+	else 
+		g_string_free (recipient_type, FALSE);
+}
+
+
+/**
+ * add_recipient:
+ * @mime_message: 
+ * @recipient_type: 
+ * @recipient: 
+ * 
+ * Have to write the doc. IMPORTANT : @recipient_type and 
+ * @recipient may be freed within this func
+ **/
+void
+add_recipient (CamelMimeMessage *mime_message, GString *recipient_type, GString *recipient) 
+{
+	 CMM_CLASS (mime_message)->add_recipient (mime_message, recipient_type, recipient);
 }
 
 
@@ -338,11 +365,17 @@ _remove_recipient (CamelMimeMessage *mime_message, GString *recipient_type, GStr
 		if (new_recipients_list != recipients_list)
 			g_hash_table_insert (mime_message->recipients, old_recipient_type, new_recipients_list);
 
-		g_string_free( (GString *)(old_element->data), TRUE);
+		g_string_free( (GString *)(old_element->data), FALSE);
 		g_list_free_1(old_element);
 	}
 }
 
+
+void
+remove_recipient (CamelMimeMessage *mime_message, GString *recipient_type, GString *recipient) 
+{
+	 CMM_CLASS (mime_message)->remove_recipient (mime_message, recipient_type, recipient);
+}
 
 
 
@@ -352,3 +385,61 @@ _get_recipients (CamelMimeMessage *mime_message, GString *recipient_type)
 {
 	return (GList *)g_hash_table_lookup (mime_message->recipients, recipient_type);
 }
+
+GList *
+get_recipients (CamelMimeMessage *mime_message, GString *recipient_type)
+{
+	return CMM_CLASS (mime_message)->get_recipients (mime_message, recipient_type);
+}
+
+
+
+
+static void
+_set_flag (CamelMimeMessage *mime_message, GString *flag, gboolean value)
+{
+	GString old_flags;
+	gboolean *ptr_value;
+	if (! g_hash_table_lookup_extended (mime_message->flags, 
+					    flag, 
+					    (gpointer)&(old_flags),
+					    (gpointer)&(ptr_value)) ) {
+		
+		ptr_value = g_new (gboolean, 1);
+		g_hash_table_insert (mime_message->flags, flag, ptr_value);
+	} else {
+		g_string_free (flag, FALSE);
+	}
+	*ptr_value = value;
+		
+}
+
+void
+set_flag (CamelMimeMessage *mime_message, GString *flag, gboolean value)
+{
+	CMM_CLASS (mime_message)->set_flag (mime_message, flag, value);
+}
+
+
+
+static gboolean 
+_get_flag (CamelMimeMessage *mime_message, GString *flag)
+{
+	gboolean *value;
+	value = (gboolean *)g_hash_table_lookup (mime_message->flags, flag);
+	return ( (value) && (*value));
+}
+
+gboolean 
+get_flag (CamelMimeMessage *mime_message, GString *flag)
+{
+	return CMM_CLASS (mime_message)->get_flag (mime_message, flag);
+}
+
+
+
+
+
+
+
+

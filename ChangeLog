@@ -1,3 +1,8 @@
+1999-05-15  bertrand  <Bertrand.Guiheneuf@inria.fr>
+
+	* camel/camel-mime-message.c (*_flag): 
+	flags handling methods
+
 1999-05-14  bertrand  <Bertrand.Guiheneuf@inria.fr>
 
 	* camel/camel-mime-message.c (camel_mime_message_class_init): 

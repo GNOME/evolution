@@ -63,7 +63,8 @@ typedef struct
 	
 	/* other fields */
 	GHashTable *flags; /* boolean values */
-	gboolean expunged;
+	/* gboolean expunged;
+	   Will be enabled if proves necessary in the future */
 	guint message_number; /* set by folder object when retrieving message */
 	CamelFolder *folder;
 	CamelSession *session;
@@ -88,6 +89,8 @@ typedef struct {
 	void (*add_recipient) (CamelMimeMessage *mime_message, GString *recipient_type, GString *recipient); 
 	void (*remove_recipient) (CamelMimeMessage *mime_message, GString *recipient_type, GString *recipient);
 	GList * (*get_recipients) (CamelMimeMessage *mime_message, GString *recipient_type);
+	void  (*set_flag) (CamelMimeMessage *mime_message, GString *flag, gboolean value);
+	gboolean  (*get_flag) (CamelMimeMessage *mime_message, GString *flag);
 
 } CamelMimeMessageClass;
 
@@ -109,7 +112,12 @@ GString *get_subject (CamelMimeMessage *mime_message);
 void set_from (CamelMimeMessage *mime_message, GString *from);
 GString *get_from (CamelMimeMessage *mime_message);
 
+void add_recipient (CamelMimeMessage *mime_message, GString *recipient_type, GString *recipient);
+void remove_recipient (CamelMimeMessage *mime_message, GString *recipient_type, GString *recipient);
+GList *get_recipients (CamelMimeMessage *mime_message, GString *recipient_type);
 
+void set_flag (CamelMimeMessage *mime_message, GString *flag, gboolean value);
+gboolean get_flag (CamelMimeMessage *mime_message, GString *flag);
 
 
 #ifdef __cplusplus
