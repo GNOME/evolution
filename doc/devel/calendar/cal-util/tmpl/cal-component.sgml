@@ -83,6 +83,12 @@ RFC 2445 iCalendar component object.
     vtype of an uninitialized #CalComponent.
   </para>
 
+@CAL_COMPONENT_NO_TYPE: 
+@CAL_COMPONENT_EVENT: 
+@CAL_COMPONENT_TODO: 
+@CAL_COMPONENT_JOURNAL: 
+@CAL_COMPONENT_FREEBUSY: 
+@CAL_COMPONENT_TIMEZONE: 
 
 <!-- ##### ENUM CalComponentField ##### -->
   <para>
@@ -90,6 +96,25 @@ RFC 2445 iCalendar component object.
     are used by the calendar GUI code in &Evolution;.
   </para>
 
+@CAL_COMPONENT_FIELD_CATEGORIES: 
+@CAL_COMPONENT_FIELD_CLASSIFICATION: 
+@CAL_COMPONENT_FIELD_COMPLETED: 
+@CAL_COMPONENT_FIELD_DTEND: 
+@CAL_COMPONENT_FIELD_DTSTART: 
+@CAL_COMPONENT_FIELD_DUE: 
+@CAL_COMPONENT_FIELD_GEO: 
+@CAL_COMPONENT_FIELD_PERCENT: 
+@CAL_COMPONENT_FIELD_PRIORITY: 
+@CAL_COMPONENT_FIELD_SUMMARY: 
+@CAL_COMPONENT_FIELD_TRANSPARENCY: 
+@CAL_COMPONENT_FIELD_URL: 
+@CAL_COMPONENT_FIELD_HAS_ALARMS: 
+@CAL_COMPONENT_FIELD_ICON: 
+@CAL_COMPONENT_FIELD_COMPLETE: 
+@CAL_COMPONENT_FIELD_RECURRING: 
+@CAL_COMPONENT_FIELD_OVERDUE: 
+@CAL_COMPONENT_FIELD_COLOR: 
+@CAL_COMPONENT_FIELD_NUM_FIELDS: 
 
 <!-- ##### ENUM CalComponentClassification ##### -->
   <para>
@@ -97,24 +122,35 @@ RFC 2445 iCalendar component object.
     component.
   </para>
 
+@CAL_COMPONENT_CLASS_NONE: 
+@CAL_COMPONENT_CLASS_PUBLIC: 
+@CAL_COMPONENT_CLASS_PRIVATE: 
+@CAL_COMPONENT_CLASS_CONFIDENTIAL: 
+@CAL_COMPONENT_CLASS_UNKNOWN: 
 
 <!-- ##### STRUCT CalComponentDateTime ##### -->
   <para>
     This structure defines a date and time value.
   </para>
 
+@value: 
+@tzid: 
 
 <!-- ##### ENUM CalComponentPeriodType ##### -->
   <para>
     Defines how a period of time is specified.
   </para>
 
+@CAL_COMPONENT_PERIOD_DATETIME: 
+@CAL_COMPONENT_PERIOD_DURATION: 
 
 <!-- ##### STRUCT CalComponentPeriod ##### -->
   <para>
     This structure defines a period of time.
   </para>
 
+@type: 
+@start: 
 
 <!-- ##### STRUCT CalComponentText ##### -->
   <para>
@@ -122,12 +158,18 @@ RFC 2445 iCalendar component object.
     an alternate representation parameter.
   </para>
 
+@value: 
+@altrep: 
 
 <!-- ##### ENUM CalComponentTransparency ##### -->
 <para>
 
 </para>
 
+@CAL_COMPONENT_TRANSP_NONE: 
+@CAL_COMPONENT_TRANSP_TRANSPARENT: 
+@CAL_COMPONENT_TRANSP_OPAQUE: 
+@CAL_COMPONENT_TRANSP_UNKNOWN: 
 
 <!-- ##### FUNCTION cal_component_gen_uid ##### -->
 <para>
@@ -811,30 +853,46 @@ RFC 2445 iCalendar component object.
 
 </para>
 
+@auid: 
+@trigger: 
+@occur: 
 
 <!-- ##### STRUCT CalComponentAlarms ##### -->
 <para>
 
 </para>
 
+@comp: 
+@alarms: 
 
 <!-- ##### ENUM CalAlarmAction ##### -->
 <para>
 
 </para>
 
+@CAL_ALARM_NONE: 
+@CAL_ALARM_AUDIO: 
+@CAL_ALARM_DISPLAY: 
+@CAL_ALARM_EMAIL: 
+@CAL_ALARM_PROCEDURE: 
+@CAL_ALARM_UNKNOWN: 
 
 <!-- ##### ENUM CalAlarmTriggerType ##### -->
 <para>
 
 </para>
 
+@CAL_ALARM_TRIGGER_NONE: 
+@CAL_ALARM_TRIGGER_RELATIVE_START: 
+@CAL_ALARM_TRIGGER_RELATIVE_END: 
+@CAL_ALARM_TRIGGER_ABSOLUTE: 
 
 <!-- ##### STRUCT CalAlarmTrigger ##### -->
 <para>
 
 </para>
 
+@type: 
 
 <!-- ##### FUNCTION cal_component_has_alarms ##### -->
 <para>

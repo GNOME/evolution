@@ -1,3 +1,11 @@
+2001-01-10  Federico Mena Quintero  <federico@helixcode.com>
+
+	* Makefile.am: Make it work when gtk-doc is not installed.
+
+	* calendar/cal-client/Makefile.am: Likewise.
+
+	* calendar/cal-util/Makefile.am: Likewise.
+
 2000-12-19  Federico Mena Quintero  <federico@helixcode.com>
 
 	Added proper dependency lists to the gtk-doc mess.

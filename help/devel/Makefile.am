@@ -53,6 +53,7 @@ clean-local:
 maintainer-clean-local:
 	cd $(srcdir) && rm -rf html
 
+if ENABLE_GTK_DOC
 install-data-local:
 	$(mkinstalldirs) $(DESTDIR)$(TARGET_DIR)
 	(installfiles=`echo $(srcdir)/html/*.html`; \
@@ -68,6 +69,7 @@ install-data-local:
 	  echo '-- Fixing Crossreferences' ; \
 	  gtkdoc-fixxref --module=$(DOC_MODULE) --html-dir=$(HTML_DIR)|| true; \
 	fi)
+endif
 
 dist-hook:
 	mkdir $(distdir)/html

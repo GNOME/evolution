@@ -98,6 +98,7 @@ EXTRA_DIST = 					\
 
 all: $(sgml_generated)
 
+if ENABLE_GTK_DOC
 scan $(scan_generated): $(SOURCE_FILES)
 	-(cd $(srcdir)									\
 	  && env CFLAGS=$(CFLAGS) LDFLAGS=$(LDFLAGS)					\
@@ -111,6 +112,13 @@ templates $(tmpl_sources) $(tmpl_generated): $(tmpl_dependencies)
 sgml $(sgml_generated): $(sgml_dependencies)
 	cd $(srcdir) \
 	&& gtkdoc-mkdb --module=$(DOC_MODULE) --source-dir=$(DOC_SOURCE_DIR)
+else
+scan $(scan_generated): $(SOURCE_FILES)
+
+templates $(tmpl_sources) $(tmpl_generated): $(tmpl_dependencies)
+
+sgml $(sgml_generated): $(sgml_dependencies)
+endif
 
 clean-local:
 	rm -f *~ *.bak *.signals *-unused.txt
