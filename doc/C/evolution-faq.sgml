@@ -534,7 +534,7 @@ cp -r ~/evolution/local/Inbox/subfolders/Foo ~/evolution/local/Inbox/subfolders/
 	    <itemizedlist>
 	      <listitem>
 		<para>
-		  <filename>oafd</filename> is listen in your <envar>PATH</envar>
+		  <filename>oafd</filename> is listed in your <envar>PATH</envar>
 		  environment variable.
 		</para>
 	      </listitem>
