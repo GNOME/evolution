@@ -1,3 +1,7 @@
+2003-08-21  Not Zed  <NotZed@Ximian.com>
+
+	* HACKING: Wrote one.
+
 2003-07-29  Dan Winship  <danw@ximian.com>
 
 	* configure.in: Check for gnome-icon-lookup.h (which could mean
