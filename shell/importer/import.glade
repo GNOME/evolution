@@ -19,7 +19,7 @@
   <class>GtkWindow</class>
   <name>importwizard</name>
   <visible>False</visible>
-  <title>Evolution Importer Utility</title>
+  <title>Evolution Importer Assistant</title>
   <type>GTK_WINDOW_TOPLEVEL</type>
   <position>GTK_WIN_POS_NONE</position>
   <modal>False</modal>
@@ -34,26 +34,26 @@
     <widget>
       <class>GnomeDruidPageStart</class>
       <name>page1</name>
-      <title>Evolution Import Utility</title>
-      <text>Welcome to the Evolution Import Utility.
-With this wizard you will be guided through the process of
+      <title>Evolution Import Assistant</title>
+      <text>Welcome to the Evolution Import Assistant.
+With this assistant you will be guided through the process of
 importing external files into Evolution.</text>
-      <title_color>1,1,1</title_color>
+      <title_color>255,255,255</title_color>
       <text_color>0,0,0</text_color>
-      <background_color>153,174,191</background_color>
-      <logo_background_color>255,255,255</logo_background_color>
+      <background_color>1,1,1</background_color>
+      <logo_background_color>1,1,1</logo_background_color>
       <textbox_color>255,255,255</textbox_color>
-      <logo_image>../../images/evolution/import.png</logo_image>
+      <logo_image>import.png</logo_image>
     </widget>
 
     <widget>
       <class>GnomeDruidPageStandard</class>
       <name>page2</name>
-      <title>Select a file</title>
-      <title_color>1,1,1</title_color>
-      <background_color>153,174,191</background_color>
-      <logo_background_color>255,255,255</logo_background_color>
-      <logo_image>../../images/evolution/import.png</logo_image>
+      <title>Select a File (step 1 of 2)</title>
+      <title_color>255,255,255</title_color>
+      <background_color>1,1,1</background_color>
+      <logo_background_color>1,1,1</logo_background_color>
+      <logo_image>import.png</logo_image>
 
       <widget>
 	<class>GtkVBox</class>
@@ -76,14 +76,14 @@ importing external files into Evolution.</text>
     <widget>
       <class>GnomeDruidPageFinish</class>
       <name>page3</name>
-      <title>Import</title>
+      <title>Import File (Step 2 of 2)</title>
       <text>Click &quot;Import&quot; to begin importing the file into Evolution. </text>
-      <background_color>153,174,191</background_color>
-      <logo_background_color>255,255,255</logo_background_color>
+      <background_color>1,1,1</background_color>
+      <logo_background_color>1,1,1</logo_background_color>
       <textbox_color>255,255,255</textbox_color>
       <text_color>0,0,0</text_color>
-      <title_color>1,1,1</title_color>
-      <logo_image>../../images/evolution/import.png</logo_image>
+      <title_color>255,255,255</title_color>
+      <logo_image>import.png</logo_image>
     </widget>
   </widget>
 </widget>

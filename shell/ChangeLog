@@ -1,3 +1,7 @@
+2001-08-13  Anna Marie Dirks  <anna@ximian.com>
+	* importer/import.glade : Changed all instances of "druid"
+	and "wizard" to "assistant". 
+
 2001-08-13  Ettore Perazzoli  <ettore@ximian.com>
 
 	* main.c (idle_cb): Replaced the chained `if' statements with a
