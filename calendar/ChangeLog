@@ -1,9 +1,20 @@
+2003-10-29  JP Rosevear <jpr@ximian.com>
+
+	* gui/Makefile.am: build new files
+
+	* gui/dialogs/comp-editor-util.c (date_edit_destroy_cb): unref the
+	config manager
+	(comp_editor_new_date_edit): set up a config manager for the date
+	editor
+
+	* gui/e-date-edit-config.[hc]: config manager for e-date-edit
+
 2003-10-29  Dan Winship  <danw@ximian.com>
 
 	* gui/calendar-component.c (impl_createControls): set an exception
 	if we fail, so evo won't crash.
 
-2003-10-29    <jpr@ximian.com>
+2003-10-29  JP Rosevear <jpr@ximian.com>
 
 	* gui/dialogs/cal-prefs-dialog.c (update_config): no need to
 	update config settings everywhere explicitly

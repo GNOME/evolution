@@ -34,6 +34,7 @@
 #include <e-util/e-time-utils.h>
 #include <cal-util/timeutil.h>
 #include "../calendar-config.h"
+#include "../e-date-edit-config.h"
 #include "comp-editor-util.h"
 
 
@@ -202,6 +203,14 @@ comp_editor_date_label (CompEditorPageDates *dates, GtkWidget *label)
 	gtk_label_set_text (GTK_LABEL (label), buffer);
 }
 
+static void
+date_edit_destroy_cb (EDateEdit *date_edit, gpointer data)
+{
+	EDateEditConfig *config = data;
+	
+	g_object_unref (config);
+}
+
 /**
  * comp_editor_new_date_edit:
  * @show_date: Whether to show a date picker in the widget.
@@ -219,7 +228,8 @@ comp_editor_new_date_edit (gboolean show_date, gboolean show_time,
 			   gboolean make_time_insensitive)
 {
 	EDateEdit *dedit;
-
+	EDateEditConfig *config;
+	
 	dedit = E_DATE_EDIT (e_date_edit_new ());
 
 	e_date_edit_set_show_date (dedit, show_date);
@@ -229,8 +239,10 @@ comp_editor_new_date_edit (gboolean show_date, gboolean show_time,
 #else
 	e_date_edit_set_make_time_insensitive (dedit, FALSE);
 #endif
-	calendar_config_configure_e_date_edit (dedit);
-
+	
+	config = e_date_edit_config_new (dedit);
+	g_signal_connect (G_OBJECT (dedit), "destroy", G_CALLBACK (date_edit_destroy_cb), config);
+	
 	return GTK_WIDGET (dedit);
 }
 

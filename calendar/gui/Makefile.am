@@ -122,6 +122,8 @@ libevolution_calendar_la_SOURCES =		\
 	e-cell-date-edit-text.c			\
 	e-comp-editor-registry.c		\
 	e-comp-editor-registry.h		\
+	e-date-edit-config.c			\
+	e-date-edit-config.h			\
 	e-date-time-list.c                      \
 	e-date-time-list.h                      \
 	e-day-view-config.c			\
