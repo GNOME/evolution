@@ -1,187 +1,312 @@
-<chapter id="usage-exec-summary">
-   <title>My Evolution</title>
+<!--
+<!DOCTYPE Chapter PUBLIC "-//GNOME//DTD DocBook PNG Variant V1.1//EN">
+-->
+<chapter id="usage-summary">
+  <title>Using the Ximian Evolution Summary</title>
+  
+  <sect1 id="summary-intro">
+    <title>Introducing the Summary</title>
     <para>
-       My Evolution is designed to show you a
-       summary of important information: the appointments for a given
-       day, important email, and so forth. To see your My Evolution, 
-       click on the <guibutton>My Evolution</guibutton>
-       button in the shortcut bar, or select the
-       <guilabel>My Evolution</guilabel> folder in the folder
-       bar.
-    </para>
-
-    <sect1 id="exec-intro">
-      <title>Introducing My Evolution</title>
-      <para>
-        The first thing you'll want to do with My Evolution
-        is add a service. Go to
-      <menuchoice>
-	<guimenu>Tools</guimenu>
-	<guimenuitem>My Evolution Settings</guimenuitem>
-      </menuchoice>
-      then select one of the available
-      services.  Services may vary depending upon your system, but
-      most installations will have at least the following options:
-      <variablelist>
-
-	<varlistentry>
-	  <term>Mail</term>
-	  <listitem>
-	    <para>
-	      Display amount of unread email in your selected folders.
-	    </para>
-	  </listitem>
-	</varlistentry>
-
-          <varlistentry>
-             <term>RDF Summary</term>
-             <listitem>
-               <para>
-                  News headlines from sites that allow this
-                  feature.  The default
-                  is news about the GNOME project from <ulink
-                  url="www.gnome.org/gnome-news/">gnotices</ulink>.
-               </para>
-             </listitem>
-           </varlistentry>
-
-	<varlistentry>
-	  <term>Weather</term>
-	  <listitem>
-	    <para>
-	      Shows you the current weather for the cities of your choice.
-	    </para>
-	  </listitem>
-	</varlistentry>
-
-	<varlistentry>
-	  <term>Schedule</term>
-	  <listitem>
-	    <para>
-	      Lets you see the events for the day.
-	    </para>
-	  </listitem>
-	</varlistentry>
-      </variablelist>
+      The Ximian Evolution Summary can show you what you need to know
+      quickly.  It will show you your tasks for that day, how many
+      emails are waiting for you, and much more.
     </para>
     <para>
-      <application>Evolution</application> comes with ... enabled by
-      default.
+      To begin using your Summary, click on the <guilabel>Shortcut
+      Bar</guilabel> or <guilabel>Summary</guilabel> at the top of the
+      <guilabel>Folder Bar</guilabel>.  By default, you will see:
+      <itemizedlist>
+	<listitem>
+	  <para>
+	    Weather Reports
+	  </para>
+	</listitem>
+	<listitem>
+	  <para>
+	    News feeds from the Internet
+	  </para>
+	</listitem>
+	<listitem>
+	  <para>
+	    Your mail summary, showing you how many new emails are
+	    waiting in selected mail boxes.
+	  </para>
+	</listitem>
+	<listitem>
+	  <para>
+	    Appointments
+	  </para>
+	</listitem>
+	<listitem>
+	  <para>
+	    Tasks
+	  </para>
+	</listitem>
+      </itemizedlist>
     </para>
-    <sect2 id="new-components">
-      <title>Adding New Components</title>
+  </sect1>
+  <sect1 id="customizing-summary">
+    <title>Customizing the Summary's Modules</title>
+    <para>
+      <application>Evolution's</application> modules can be customized
+      to suit your needs.  For example, you can choose which mail
+      boxes are summarized, and which news services appear.
+    </para>
+
+
+  <note id="summary-http-proxy">
+	<title>Using the Summary through an HTTP Proxy</title>
+        <para>
+           If you use an HTTP proxy, <application>Ximian
+           Evolution</application> must be able to find it through the
+           <systemitem>gnome-vfs</systemitem> subsystem before it can
+           access news and weather from the Internet.  This is also
+           the case if you wish to load remote images into HTML mail
+           message.  You can tell the GNOME Virtual File System about
+           your HTTP proxy in one of two ways:
+            <variablelist>
+	    <varlistentry>
+	      <term>Configure it with Nautilus</term>
+	      <listitem>
+		<para>
+                 <orderedlist numeration="arabic">
+		    <listitem>
+		      <para>
+			Open a Nautilus window
+	               </para>
+		    </listitem>
+      		    <listitem>
+		      <para>
+	                 Select <menuchoice>
+			  <guimenu>Preferences</guimenu>
+			  <guimenuitem>Edit Preferences</guimenuitem>
+			</menuchoice>.
+	               </para>
+		    </listitem>
+      		    <listitem>
+		      <para>
+			Go to the <guilabel>Navigation</guilabel> tab.
+	               </para>
+		    </listitem>
+      		    <listitem>
+		      <para>
+			Click the <guilabel>Use HTTP Proxy</guilabel>
+			checkbox and enter the location of your HTTP
+			proxy in the <guilabel>Location</guilabel> field.
+	               </para>
+		    </listitem>
+		  </orderedlist>
+                </para>
+	      </listitem>
+	    </varlistentry>
+	    <varlistentry>
+	      <term>Configure it with the gconftool command</term>
+	      <listitem>
+	      <para>
+                 <orderedlist numeration="arabic">
+		    <listitem>
+		      <para>
+                        Open a terminal.
+                      </para>
+		    </listitem>
+		    <listitem>
+		      <para>
+                        Enter the command 
+                        <command>
+                        gconftool --type=bool --set /system/gnome-vfs/use-http-proxy "TRUE"
+                        </command>
+                      </para>
+		    </listitem>
+		    <listitem>
+		      <para>
+                        Enter the command 
+                        <command>
+      gconftool --type=string --set /system/gnome-vfs/http-proxy-host "your-proxy-url"
+                        </command>
+                      </para>
+		    </listitem>
+		    <listitem>
+		      <para>
+                        Enter the command 
+                        <command>
+                        gconftool --type=int --set /system/gnome-vfs/http-proxy-port "8080"
+                        </command>                  
+                      </para>
+		    </listitem>
+		  </orderedlist>
+                </para>
+		<para>
+                  For more information about the gconftool command,
+                  read the gconftool man page.
+                </para>
+	      </listitem>
+	    </varlistentry>
+	  </variablelist>
+         </para>
+      </note>
+
+
+    <sect2 id="customizing-summary-weather">
+      <title>Customizing the Weather Summary</title>
       <para>
-	To add a new service:
+	To add a city to be displayed in the weather:
 	<orderedlist numeration="arabic">
 	  <listitem>
 	    <para>
-	      Choose
+	      Click <guilabel>Summary</guilabel> in the <guilabel>Shortcut Bar</guilabel>.
+	    </para>
+	  </listitem>
+	  <listitem>
+	    <para>
+	      Click
 	      <menuchoice>
 		<guimenu>Tools</guimenu>
-		<guimenuitem>My Evolution Settings</guimenuitem>
-	      </menuchoice>
-	      from the menubar.
+		<guimenuitem>Summary Settings</guimenuitem>
+	      </menuchoice>.
 	    </para>
 	  </listitem>
 	  <listitem>
 	    <para>
-	      Select the service you wish to add by clicking on the respective
-	      tab.
+	      Click the <guilabel>Weather</guilabel> tab.
 	    </para>
 	  </listitem>
 	  <listitem>
 	    <para>
-	      Choose <guibutton>OK</guibutton> when finished configuring the
-	      item.
+	      Select the city on the left hand column.
+	    </para>
+	  </listitem>
+	  <listitem>
+	    <para>
+	      Click the <guibutton>Add</guibutton> button.
+	    </para>
+	  </listitem>
+	</orderedlist>
+	<tip id="measurments">
+	  <title>Metric or Imperial?</title>
+	  <para>
+	    <application>Evolution</application> supports both
+	    Imperial and Metric measurement for weather reports.
+	  </para>
+	</tip>
+      </para>
+    </sect2>
+    <sect2 id="customizing-feeds">
+      <title>Customizing Your News Feeds</title>
+      <para>
+	To customize your news feeds:
+	<orderedlist numeration="arabic">
+	  <listitem>
+	    <para>
+	      Click <guilabel>Summary</guilabel> in the <guilabel>Shortcut Bar</guilabel>.
+	    </para>
+	  </listitem>
+	  <listitem>
+	    <para>
+	      Click
+	      <menuchoice>
+		<guimenu>Tools</guimenu>
+		<guimenuitem>Summary Settings</guimenuitem>
+	      </menuchoice>.
+	    </para>
+	  </listitem>
+	  <listitem>
+	    <para>
+	      Click the <guilabel>News Feeds</guilabel> tab.
+	    </para>
+	  </listitem>
+	  <listitem>
+	    <para>
+	      Select the news news feed on the left column.
+	    </para>
+	  </listitem>
+	  <listitem>
+	    <para>
+	      Click the <guibutton>Add</guibutton> button.
+	    </para>
+	  </listitem>
+	  <listitem>
+	    <para>
+	      Click <guibutton>OK</guibutton>.
 	    </para>
 	  </listitem>
 	</orderedlist>
       </para>
     </sect2>
-    <sect2 id="delete-components">
-      <title>Deleting Components</title>
+    <sect2 id="customizing-mail">
+      <title>Customizing Your Mail Summary</title>
       <para>
-	To remove a service from My Evolution, do the following:
+	To customize your mail summary:
 	<orderedlist numeration="arabic">
 	  <listitem>
 	    <para>
-	      Choose
-	      <menuchoice>
-		<guimenu>Tools</guimenu>
-		<guimenuitem>My Evolution Settings</guimenuitem>
-	      </menuchoice>
-	      from the menubar.
+	      Click <guilabel>Summary</guilabel> in the <guilabel>Shortcut Bar</guilabel>.
 	    </para>
 	  </listitem>
 	  <listitem>
 	    <para>
-	      Click the <guilabel>Enable</guilabel> button in the component you
-	      would like to disable.
-	      <!-- This is incorrect.  I am going to ask Iain if he could throw
-	      in an Enable button -->
+	      Click
+	      <menuchoice>
+		<guimenu>Tools</guimenu>
+		<guimenuitem>Summary Settings</guimenuitem>
+	      </menuchoice>.
+	    </para>
+	  </listitem>
+	  <listitem>
+	    <para>
+	      Click the <guibutton>Mail</guibutton> tab.
+	    </para>
+	  </listitem>
+	  <listitem>
+	    <para>
+	      Select the mail folder you want to see in the preview on the left.
+	    </para>
+	  </listitem>
+	  <listitem>
+	    <para>
+	      Click <guibutton>Add</guibutton>.
 	    </para>
 	  </listitem>
 	</orderedlist>
       </para>
     </sect2>
-    <sect2 id="modifying-components">
-      <title>Modifying Components</title>
+    <sect2 id="customizing-cal">
+      <title>Customizing Your Schedule Summary</title>
       <para>
-	Chances are, the components that you setup aren't going to be setup for
-	your needs.  For instance, you may choose that you want to use different
-	city choices than the default settings.
-	<application>Evolution</application> lets you configure all the
-	components in My Evolution.
+	To customize your calendar summary:
+	<orderedlist numeration="arabic">
+	  <listitem>
+	    <para>
+	      Click <guilabel>Summary</guilabel> in the <guilabel>Shortcut Bar</guilabel>.
+	    </para>
+	  </listitem>
+	  <listitem>
+	    <para>
+	      Click
+	      <menuchoice>
+		<guimenu>Tools</guimenu>
+		<guimenuitem>Summary Settings</guimenuitem>
+	      </menuchoice>.
+	    </para>
+	  </listitem>
+	  <listitem>
+	    <para>
+	      Click the <guibutton>Schedule</guibutton> tab.
+	    </para>
+	  </listitem>
+	  <listitem>
+	    <para>
+	      Choose whether you'd like appointments displayed for one
+	      day, five days, a week, or a month.
+	    </para>
+	  </listitem>
+	  <listitem>
+	    <para>
+            Choose whether you'd like to display all tasks, or just
+            the tasks due today.
+	    </para>
+	  </listitem>
+	</orderedlist>
       </para>
-      <sect3 id="modifying-components-mail">
-	<title>Customizing My Evolution Mail Summary</title>
-	<para>
-	  To modify mail:
-	  <orderedlist numeration="arabic">
-	    <listitem>
-	      <para>
-		Choose
-		<menuchoice>
-		  <guimenu>Tools</guimenu>
-		  <guimenuitem>My Evolution Settings</guimenuitem>
-		</menuchoice>
-		from the menubar.
-	      </para>
-	    </listitem>
-	    <listitem>
-	      <para>
-		Click the <guilabel>Mail</guilabel> tab at the top of the
-		window.
-	      </para>
-	    </listitem>
-	  </orderedlist>
-	</para>
-	<para>
-	  The <guilabel>Mail</guilabel> service window is broken up into two
-	  sections.  The left section is where your mail folders are listed.
-	  The right section shows which folders are displayed.
-	</para>
-	<para>
-	  To add a folder to the summary, click on a folder in the
-	  <guilabel>All folders</guilabel> section and click the
-	  <guibutton>Add</guibutton> button.
-	</para>
-	<para>
-	  To remove a folder from the service, click on the folder in the
-	  <guilabel>Display folders</guilabel> section and click the
-	  <guibutton>Remove</guibutton> button.
-	</para>
-      </sect3>
     </sect2>
   </sect1>
 </chapter>
-
-
-
-
-
-
-
-
-
-

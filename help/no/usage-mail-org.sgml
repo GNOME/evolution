@@ -5,7 +5,7 @@
       want to sort and organize them.  When you get a hundred a day
       and you want to refer to a message you received six weeks ago,
       you <emphasis>need</emphasis> to sort and organize them.
-      Fortunately, <application>Evolution</application> has the tools
+      Fortunately, <application>Ximian Evolution</application> has the tools
       to help you do it.
     </para>
 
@@ -43,8 +43,7 @@
       <para>
 	Right-click on one of the column headers to get a list of
 	options:
-	<variablelist>
-	  
+	<variablelist>	  
 	<varlistentry>
 	  <term><guimenuitem>Sort Ascending</guimenuitem></term>
 	  <listitem><para>
@@ -93,7 +92,7 @@
     <sect1 id="usage-mail-organize-folders">
       <title>Getting Organized with Folders</title>
       <para>
-	<application>Evolution</application> keeps mail, as well as
+	<application>Ximian Evolution</application> keeps mail, as well as
 	address cards and calendars, in folders.  You start out with a
 	few, like <guilabel>Inbox</guilabel>,
 	<guilabel>Outbox</guilabel>, and <guilabel>Drafts</guilabel>,
@@ -101,7 +100,7 @@
 	selecting <guisubmenu>New</guisubmenu> and then
 	<guimenuitem>Folder</guimenuitem> from the
 	<guimenu>File</guimenu> menu.
-	<application>Evolution</application> will as you for the name
+	<application>Ximian Evolution</application> will as you for the name
 	and the type of the folder, and will provide you with a folder
 	tree so you can pick where it goes.
       </para>
@@ -123,7 +122,7 @@
       <title>Searching for Messages</title>
       <para>
 	Most mail clients can search through your messages for you,
-	but <application>Evolution</application> does it faster. You
+	but <application>Ximian Evolution</application> does it faster. You
 	can search through just the message subjects, just the message
 	body, or both body and subject.
       </para>
@@ -183,14 +182,14 @@
 	</variablelist>
 
         When you've entered your search phrase, press
-        <keycap>Enter</keycap>.  <application>Evolution</application>
+        <keycap>Enter</keycap>.  <application>Ximian Evolution</application>
         will show your search results in the message list.
       </para>
 
       <para>
          If you think you'll want to return to a search again, you can
          save it as a virtual folder by selecting <guilabel>Store
-         Search as Virtual Folder</guilabel>.
+         Search as vFolder</guilabel>.
       </para>
 
       <para>
@@ -216,7 +215,7 @@
 
      <para>
         You'll see a similar approach to sorting messages when you
-        create filters and virtual folders in the next few sections.
+        create filters and vFolders in the next few sections.
      </para>
 
     </sect1>
@@ -290,7 +289,7 @@
 		  <para>
 		    Expression - For programmers only: match a message according to an
 		    expression you write in the Scheme language, used to
-		    define filters in <application>Evolution</application>.
+		    define filters in <application>Ximian Evolution</application>.
 		  </para>
 		</listitem>
 		
@@ -302,7 +301,7 @@
 		    message's time-stamp to the system clock when the filter
 		    is run, or to a specific time and date you choose from a
 		    calendar.  You can even have it look for messages within a
-		    range of time relative to the filter &mdash perhaps you're
+		    range of time relative to the filter &mdash; perhaps you're
 		    looking for messages less than two days old.
 		  </para></listitem>
 		
@@ -367,7 +366,7 @@
 	  <listitem>
 	    <para>
 	      Select the criterion for the condition.   If you want multiple
-	      criterion for this filter, press <guibutton>Add
+	      criteria for this filter, press <guibutton>Add
 		criterion</guibutton> and repeat the previous step.
 	    </para>
 	  </listitem>
@@ -377,14 +376,14 @@
 	      section.  You can select any of the following options.
 	      <itemizedlist>
 		<listitem><para>
-		    Move to Folder - If you select this item, <application>Evolution</application>
+		    Move to Folder - If you select this item, <application>Ximian Evolution</application>
 		    will put the messages into a folder you specify.  Click the 
 		    <guibutton>&lt;click here to select a folder&gt;</guibutton> button
 		    to select a folder. 
 		  </para></listitem>
 
 		<listitem><para>
-		    Copy to Folder - If you select this item, <application>Evolution</application>
+		    Copy to Folder - If you select this item, <application>Ximian Evolution</application>
 		    will put the messages into a folder you specify.  Click the 
 		    <guibutton>&lt;click here to select a folder&gt;</guibutton> button
 		    to select a folder. 
@@ -408,7 +407,7 @@
 		  </para></listitem>
 		
 		<listitem><para>
-		    Assign Color - Select this item, and <application>Evolution</application>
+		    Assign Color - Select this item, and <application>Ximian Evolution</application>
 		    will mark the message with whatever color you please.
 		  </para></listitem>
 		
@@ -434,7 +433,57 @@
 	  </listitem>
 	</orderedlist>
       </para>
+      <example id="filter-example">
+         <title>Using a Filter to Avoid Spam</title>
+         <para>
+           The majority of bulk mail is tagged with the
+           <computeroutput>Precedence: Bulk</computeroutput> header at
+           one point or another.  Some of these messages, of course,
+           could be in mailing lists you've subscribed to, but many of
+           them are unsolicited commercial email.  
+         </para>
+         <para>
+           To catch them and put them all in one place, create a
+           new filter for incoming mail. Then:
+            <orderedlist>
+             <listitem><para>
+               Set the first part of your search critera to look in a <guilabel>Specific header</guilabel>.
+             </para></listitem>
+
+             <listitem><para>
+               Enter <userinput>Precedence</userinput> as the name of the header.
+             </para></listitem>
+
+             <listitem><para>
+               Choose <guilabel>contains</guilabel> at the second drop-down box.
+             </para></listitem>
+
+             <listitem><para>
+               Enter <userinput>Bulk</userinput> as the content to search for. 
+               You're now working with all email that has the word "Bulk" in the 
+               "Precedence" header.
+             </para></listitem>
+
+             <listitem><para>
+               For actions, select "Move to Folder" and choose the
+               folder where you'd like to place bulk mail.
+             </para></listitem>
+
+             <listitem><para>
+               If you like, add an action and choose <guilabel>Stop
+               Processing</guilabel> if you'd like this message to be
+               ignored by all other filters.
+             </para></listitem>
+
+             <listitem><para>
+                Click OK. You're done.
+    	     </para></listitem>
+	   </orderedlist>
+	 </para>
+      </example>
     </sect2>
+
+
     
     <sect2 id="filters-edit">
       <title>Editing Filters</title>
@@ -516,33 +565,33 @@
   </sect1>
     
     <sect1 id="usage-mail-organize-vfolders">
-      <title>Getting Really Organized with Virtual Folders</title>
+      <title>Getting Really Organized with vFolders</title>
       <para>
 	If filters aren't flexible enough for you, or you find
 	yourself performing the same search again and again, consider
-	a virtual folder. Virtual folders, or vFolders, are an
-	advanced way of viewing your email messages within
-	<application>Evolution</application>.  If you get a lot of
-	mail or often forget where you put messages, virtual folders can help
-	you stay on top of things.
+	a vFolder. vFolders, or virtual folders, are an advanced way
+	of viewing your email messages within
+	<application>Ximian Evolution</application>.  If you get a lot of
+	mail or often forget where you put messages, vFolders
+	can help you stay on top of things.
       </para>
       <para>
-	A virtual folder is really a hybrid of all the other organizational
+	A vFolder is really a hybrid of all the other organizational
 	tools: it looks like a folder, it acts like a search, and you
 	set it up like a filter.  In other words, while a conventional
-	folder actually contains messages, a virtual folder is a view of
+	folder actually contains messages, a vFolder is a view of
 	messages that may be in several different folders.  The
 	messages it contains are determined on the fly using a set of
 	criteria you choose in advance.
       </para>
 
       <para>
-	As messages that meet the virtual folder criteria arrive or are
-	deleted, <application>Evolution</application> will
+	As messages that meet the vFolder criteria arrive or are
+	deleted, <application>Ximian Evolution</application> will
 	automatically place them in and remove them from the
-	virtual folder contents list.  When you delete a message, it gets
+	vFolder contents list.  When you delete a message, it gets
 	erased from the folder in which it actually exists, as well as
-	any virtual folders which display it.
+	any vFolders which display it.
       </para>
 
       <para>
@@ -551,7 +600,7 @@
 	changing groups of faculty, staff, administrators and
 	students.  The more mail you need to organize, the less you
 	can afford the sort of confusion that stems from an
-	organizational system that's not flexible enough.  Virtual folders
+	organizational system that's not flexible enough.  vFolders
 	make for better organization because they can accept
 	overlapping groups in a way that regular folders and filing
 	systems can't.
@@ -559,44 +608,44 @@
 
 
     <note id="unmatched-vfolder">
-      <title>The Unmatched Virtual Folder</title>
+      <title>The Unmatched vFolder</title>
       <para>
-	Obveously, not all messages will fit into all your Virtual
-	Folders.  That's why <application>Evolution</application>
-	includes an UNMATCHED Virtual Folder.  The UNMATCHED Virtual
-	Folder displays messages that are not matched by other rules.
+	Obviously, not all messages will fit into all your Virtual
+	Folders.  That's why <application>Ximian Evolution</application>
+	includes an UNMATCHED vFolder.  The UNMATCHED 
+	vFolder displays messages that are not matched by other rules.
       </para>
     </note>
 
 
     <example id="usage-mail-organize-vFolders-ex">
-      <title>Using Folders, Searches, and Virtual Folders</title>
+      <title>Using Folders, Searches, and vFolders</title>
       <para>
 	To organize his mailbox, Jim sets up a virtual volder for emails from
 	his friend and co-worker Anna.  He has another one for messages that
-	have ximian.com in the address and <application>Evolution</application> in the subject line, so he
+	have ximian.com in the address and <application>Ximian Evolution</application> in the subject line, so he
 	can keep a record of what people from work send him about
 	<application>evolution</application>.  If Anna sends him a message about
-	anything other than <application>Evolution</application>, it only shows up in the "Anna" folder.
+	anything other than <application>Ximian Evolution</application>, it only shows up in the "Anna" folder.
 	When Anna sends him mail about the user interface for
 	<application>evolution</application>, he can see that message both in
-	the "Anna" virtual folder and in the "Internal Evolution Discussion"
-	virtual folder.
+	the "Anna" vFolder and in the "Internal Evolution Discussion"
+	vFolder.
        </para>
       </example>
 
-	<!--  (INSERT SCREENSHOT HERE: virtual folders in action) -->
+	<!--  (INSERT SCREENSHOT HERE: vFolders in action) -->
 
     <sect2 id="vfolder-create">
-      <title>Creating Virtual Folders</title>
+      <title>Creating vFolders</title>
       <para>
-	To create a virtual folder:
+	To create a vFolder:
 	<orderedlist numeration="arabic">
 	  <listitem>
 	    <para>
 	    <menuchoice>
 	      <guimenu>Tools</guimenu>
-	      <guimenuitem>Virtual Folder Editor</guimenuitem>
+	      <guimenuitem>vFolder Editor</guimenuitem>
 	    </menuchoice>
 	    </para>
 	  </listitem>
@@ -607,7 +656,7 @@
 	  </listitem>
 	  <listitem>
 	    <para>
-	      Name your virtual folder in the <guilabel>Rule name</guilabel> field.
+	      Name your vFolder in the <guilabel>Rule name</guilabel> field.
 
 	    </para>
 	  </listitem>
@@ -631,7 +680,7 @@
 		  </para></listitem>
 		
 		<listitem><para>
-		    Specific Header - The virtual folder can look at any header you
+		    Specific Header - The vFolder can look at any header you
 		    want, even obscure or custom ones. Enter the header name
 		    in the first text box, and put your search text in the
 		    second one.
@@ -645,7 +694,7 @@
 		  <para>
 		    Expression - For programmers only: match a message according to an
 		    expression you write in the Scheme language, used to
-		    define virtual folders in <application>Evolution</application>.
+		    define vFolders in <application>Ximian Evolution</application>.
 		  </para>
 		</listitem>
 		
@@ -653,11 +702,11 @@
 		    which they were sent: First, choose the conditions you
 		    want a message to meet &mdash; <guilabel>before</guilabel>
 		    a given time, <guilabel>after</guilabel> it, and so forth.
-		    Then, choose the time. The virtual folder will compare the
+		    Then, choose the time. The vFolder will compare the
 		    message's time-stamp to the system clock when the filter
 		    is run, or to a specific time and date you choose from a
 		    calendar.  You can even have it look for messages within a
-		    range of time relative to the filter &mdash perhaps you're
+		    range of time relative to the filter &mdash; perhaps you're
 		    looking for messages less than two days old.
 		  </para></listitem>
 		
@@ -669,9 +718,9 @@
 		
 		<listitem><para>
 		    Score - Emails have a standard priority range from -3 (least
-		    important) to 3 (most important). You can have virtual folders set the
+		    important) to 3 (most important). You can have vFolders set the
 		    priority of messages you recieve, and then have other
-		    virtual folders 
+		    vFolders 
 		    applied only to those messages which have a certain priority.
 		  </para></listitem>
 		
@@ -690,7 +739,7 @@
 		
 		<listitem>
 		  <para>
-		    Attachments - Create a virtual folder based on  whether or not you have an
+		    Attachments - Create a vFolder based on  whether or not you have an
 		    attachment in the email.
 		  </para>
 		</listitem>
@@ -698,14 +747,6 @@
 		<listitem>
 		  <para>
 		    Mailing List - Search based on the mailing list it came from.
-		  </para>
-		</listitem>
-		
-		<listitem>
-		  <para>
-		    Regex Match - If you know your way around a <glossterm
-									   linkend="regular-expression">regex</glossterm>, or
-		    regular expression, put your knowledge to use here.
 		  </para>
 		</listitem>
 		
@@ -763,11 +804,13 @@
     </orderedlist>
 
       <figure id="usage-mail-vfolder-fig-createrule">
-	<title>Selecting a Virtual Folder Rule</title>
+	<title>Selecting a vFolder Rule</title>
 	<screenshot>
-	  <screeninfo>Creating a Virtual Folder Rule</screeninfo>
-	  <graphic fileref="figures/vfolder-createrule-fig" format="png" srccredit="Aaron Weber">
-	  </graphic>
+	  <screeninfo>Creating a vFolder Rule</screeninfo>
+	  <mediaobject><imageobject><imagedata
+	  fileref="figures/vfolder-createrule-fig" format="png"
+	  srccredit="Aaron Weber">
+	  </imageobject></mediaobject>
 	</screenshot>
       </figure>
       </para>
@@ -777,7 +820,7 @@
     <sect1 id="usage-mail-subscriptions">
       <title>Subscription Management</title>
       <para>
-         <application>Evolution</application> lets you handle your
+         <application>Ximian Evolution</application> lets you handle your
          IMAP and newsgroup subscriptions with the same tool: the
          subscriptions manager.  To start using it, choose
          <menuchoice> <guimenu>Settings</guimenu> <guimenuitem>Manage

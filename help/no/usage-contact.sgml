@@ -1,100 +1,34 @@
 <!--
 <!DOCTYPE Chapter PUBLIC "-//GNOME//DTD DocBook PNG Variant V1.1//EN">
 -->
-
 <chapter id="usage-contact">
   <title>Working with Your Contacts</title>
-  <abstract>
-    <para>
-      The <application>Evolution</application> address book can
-      handle all of the functions of an address book, phone book, or
-      Rolodex.  Of course, it's a lot easier to update
-      <application>Evolution</application> than it is to change an
-      actual paper book. <application>Evolution</application> also
-      allows easy synchronization with hand-held devices.  Since
-      <application>Evolution</application> supports the <glossterm
-      linkend="ldap">LDAP</glossterm> directory protocol, you can use
-      it with almost any type of existing directory server on your
-      network.
-    </para>
-    <para>
-      Another advantage of the <application>Evolution</application>
-      address book is its integration with the rest of the
-      application.  When you look for someone's address, you can also
-      see a history of appointments with that person.  Or, you can
-      create address cards from emails with just a few clicks.  In
-      addition, searches and folders work in the same way they do in
-      the rest of <application>Evolution</application>.
-    </para>
-    <para>
-      This chapter will show you how to use the
-      <application>Evolution</application> address book to organize
-      any amount of contact information, share addresses over a
-      network, and several ways to save time with everyday tasks. To
-      learn about configuring the address book, see <xref
-      linkend="config-prefs-contact">.
-    </para>
-  </abstract>
-  <sect1 id="usage-contact-basic">
-    <title>Getting Started With the Address Book</title>	
-    
-    <figure id="usage-contact-fig">
-      <title>Evolution Contact Interface</title>
-      <screenshot>
-	<screeninfo>Evolution Contact List Window</screeninfo>
-	<graphic fileref="figures/contact" format="png" srccredit="Kevin Breit">
-	</graphic>
-      </screenshot>
-    </figure>
-
-    <para>
-      <inlinegraphic fileref="figures/full-1" format="png"></inlinegraphic>
-      <guilabel>Contact List</guilabel>
-    </para>
-
-    <para>
-      The <guilabel>Contact List</guilabel> lists your contacts.
-    </para>
-
-    <para>
-       To open your address book, click on
-       <guibutton>Contacts</guibutton> in the shortcut bar, or select
-       one of your contacts folders from the folder bar.  <xref
-       linkend="usage-contact-fig"> shows the address book in all
-       its organizational glory.  By default, the address book
-       shows all your cards in alphabetical order, in a <glossterm
-       linkend="minicard">minicard</glossterm> view.  You can select
-       other views from the <guimenu>View</guimenu> menu, and adjust
-       the width of the columns by clicking and dragging the grey
-       column dividers.
-    </para>
+      <para>
+        This chapter will show you how to use the
+        <application>Evolution</application> address book to organize
+        any amount of contact information, share addresses over a
+        network, and several ways to save time with everyday tasks. To
+        learn about configuring the address book, see <xref
+        linkend="config-prefs-contact">.
+      </para>
 
     <para>
        The toolbar for the address book is quite simple.
        <itemizedlist>
 	<listitem><para>
-           <guibutton>New</guibutton> creates a new card.
+           Click <guibutton>New Contact</guibutton> to create a new card, or double-click 
+           in a blank space in the contact list. 
 	</para></listitem>
 
 	<listitem><para>
-           <guibutton>Find</guibutton> brings up an in-depth search window.
-         </para></listitem>
-	
-	<listitem><para>
-	    <guibutton>Print</guibutton> sends one or more of your cards to the printer.
+           Click <guibutton>New List</guibutton> to create a new card, or double-click 
+           in a blank space in the contact list. 
 	</para></listitem>
-        <listitem><para>
-           <guibutton>Delete</guibutton> deletes a selected card.
-        </para></listitem>
 
-        <listitem><para> <guibutton>View All</guibutton> displays all
-           the address information in the folder.  Use this button to
-           refresh the display for a network folder, or to switch from
-           viewing the results of a search and see all your contacts.
-	    <!-- Lets xref to search feature -->
-           </para></listitem>
+	<listitem><para> The <guiicon>printer</guiicon> icon sends one
+	    or more of your cards to the printer.  </para></listitem>
 
-        <listitem><para> <guibutton>Stop</guibutton> stops loading
+        <listitem><para> The <guiicon>stop sign</guiicon> icon stops loading
            contact data from the network.  This button is only
            relevant if you are looking at contact information on a
            network.  </para></listitem>
@@ -108,7 +42,6 @@
        more than a few people listed, you'll want some way of finding
        them more quickly, which is why there's a search feature.
     </para>
-  </sect1>
 
   <sect1 id="usage-contact-cards">
     <title>The Contact Editor</title>
@@ -138,21 +71,22 @@
     
     <para>
       The contact editor window has two tabs,
-      <guilabel>General</guilabel>, for basic contact information,
-      and <guilabel>Details</guilabel>, for a more specific
-      description of the person.  In addition, it contains a
-      <guimenu>File</guimenu> menu, (see <xref
-					       linkend="menuref-contact-editor">) and a toolbar with three
-    	items: <guilabel>Save and Close</guilabel>,
-    	<guilabel>Print</guilabel>, and <guilabel>Delete</guilabel>.
+      <guilabel>General</guilabel>, for basic contact information, and
+      <guilabel>Details</guilabel>, for a more specific description of
+      the person.  In addition, it contains a <guimenu>File</guimenu>
+      menu and a toolbar with three items: <guilabel>Save and
+      Close</guilabel>, <guilabel>Print</guilabel>, and
+      <guilabel>Delete</guilabel>.
       </para>
     
     <figure id="usage-contact-editor-fig">
       <title>Evolution Contact Editor</title>
       <screenshot>
 	<screeninfo>Evolution Contact Editor</screeninfo>
-	<graphic fileref="figures/contact-editor" format="png" srccredit="Aaron Weber">
-	</graphic>
+	<mediaobject><imageobject><imagedata
+	fileref="figures/contact-editor" format="png" srccredit="Aaron
+	Weber">
+	</imageobject></mediaobject>
       </screenshot>
     </figure>
     
@@ -246,13 +180,14 @@
 	  <term>Multiple Values for Fields</term>
             <listitem>
 	      <para>
-                If you click on the small arrow buttons next to the
-                <guilabel>Primary Email</guilabel> field, you can also
-                choose <guilabel>Email 2</guilabel> and
+                If you click on the downward pointing triangle buttons
+                next to the <guilabel>Primary Email</guilabel> field,
+                you can also choose <guilabel>Email 2</guilabel> and
                 <guilabel>Email 3</guilabel>.  Although the contact
                 editor will only display one of those at any given
-                time, <application>Evolution</application> will
-                store them all.  The arrow buttons next to the
+                time, <application>Evolution</application> will store
+                them all.  Entries that have information in them have
+                a check mark next to them.  The buttons next to the
                 telephone and postal address fields work in the same
                 way.
               </para>
@@ -427,7 +362,9 @@
          to organize your cards.  The first way is to use folders;
          this works the same way mail folders do.  For more
          flexibility, you can also mark contacts as elements of
-         different categories.
+         different categories.  To better integrate with email tools,
+         you can also create lists of contacts that you can send mail
+         to as a single person.
       </para>
 
       <sect3 id="usage-contact-organize-group-folder">
@@ -476,11 +413,6 @@
            right.  From the dialog box that appears, you can check as
            many or as few categories as you like.
         </para>
-	<para>
-           Then, you can refer to all the cards in that category by:
-           <!-- FIXME --> Waiting for Evolution to support the
-           operation.
-         </para>
 
        <!-- FIXME: Feature Not Implemented
 	<para>
@@ -494,6 +426,73 @@
        -->
 
       </sect3>
+
+      <sect3 id="usage-contact-organize-group-list">
+	<title>Creating a List of Contacts</title>
+	<para>
+           To create a list of contacts:
+
+         <orderedlist numeration="arabic">
+	    <listitem>
+	      <para>
+                Open the list creation dialog box by clicking the
+                <guibutton>New List</guibutton> button or selecting
+                 <menuchoice>
+		  <guimenu>
+                     File
+                  </guimenu>
+		  <guisubmenu>
+                      New
+                   </guisubmenu>
+		  <guimenuitem>
+                     Contact List
+                   </guimenuitem>
+		</menuchoice>.
+               </para>
+	    </listitem>
+	    
+	    <listitem>
+	      <para>
+                Enter a name for the list.
+              </para>
+	    </listitem>
+	    <listitem>
+	      <para>
+                Enter names or email addresses of contacts, or just
+	        drag contacts from the main window into the list.
+              </para>
+	    </listitem>
+
+	    <listitem>
+	      <para>
+                 Choose whether you would like to hide the email
+                 addresses when you send a message to the list.
+                 Unless it is a very small list, it is recommended
+                 that you leave the addresses hidden.  This is the
+                 same thing as using the "Bcc:" feature discussed in
+                 <xref linkend="usage-mail-getnsend-send-to-types">.
+              </para>
+	    </listitem>
+	    
+	  </orderedlist>
+        </para>
+	<para>
+           When you are done, click <guibutton>OK</guibutton>. The
+           list will appear as a contact card, which you can use as
+           you would any other. That includes emailing the list to
+           another person, and, of course, sending email to the list.
+        </para>
+	<para>
+           To mail the list, open a new email and type the name you
+           chose for the list. Ximian Evolution will address the
+           message to the entire list when you send it. You can also
+           right-click on the list's address card in the Contact
+           Manager and select <guimenuitem>Send Message to
+           List</guimenuitem>.
+        </para>
+      </sect3>
+
+
     </sect2>
   </sect1>
   
@@ -573,18 +572,7 @@
      </para>
   </sect1>
 
-  <sect1 id="usage-contact-automate">
-    <title>Address Book Tools</title>
-    <para>
-       The address book works closely with
-       <application>Evolution</application>'s mail and calendar tools.
-       For example, you can use the address book to help you manage
-       mailing lists, and send or recieve address cards over email.
-       More tools are on the way, and when they arrive, <!-- FIXME -->
-       they will be described in this section.
-    </para>
-
-    <sect2 id="contact-automation-basic">
+    <sect1 id="contact-automation-basic">
       <title>Send me a Card: Adding New Cards Quickly</title>
       <para>
 	As noted before, when you get information about a person in
@@ -596,10 +584,10 @@
 	hand-held device during HotSync operation.  For more
 	information about that, see <xref linkend="usage-sync">.
       </para>
-    </sect2>
+    </sect1>
 
-    <sect2 id="contact-automation-lists">
-      <title>Managing a Mailing list</title>
+    <sect1 id="contact-automation-lists">
+      <title>Sending Mail to Categories of Contacts</title>
       <para>
 	 You already know that when you are writing an email, you can
 	 address it to one or more people, and that
@@ -621,9 +609,10 @@
       </para>
  -->
 
-    </sect2>
+    </sect1>
+
     <!---  FIXME this feature not yet implemented 
-  <sect2 id="usage-contact-automation-extra">
+  <sect1 id="usage-contact-automation-extra">
   <title>Map It!</title>
   <para>
     Need a map or directions? Click
@@ -635,5 +624,5 @@
     -->
     
     
-  </sect1>
+
 </chapter> 

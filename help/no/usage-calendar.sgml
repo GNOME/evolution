@@ -4,73 +4,47 @@
 
 <chapter id="usage-calendar">
   <title>Managing your Schedule</title>
-  <para>
-    To begin using the calendar, select
-    <guibutton>Calendar</guibutton> from the <interface>shortcut
-    bar</interface>.  By default, the calendar starts showing today's
-    schedule on a ruled background.  At the upper right, there's a
-    monthly calendar you can use to switch days.  Below that, there's
-    a <guilabel>TaskPad</guilabel>, where you can keep a list of tasks
-    separate from your calendar appointments.  The calendar's daily
-    view is shown in <xref linkend="usage-calendar-fig">.
 
-   <!-- ============== Figure ============================= -->
-    <figure id="usage-calendar-fig">
-      <title>Evolution Calendar View</title>
-      <screenshot>
-	<screeninfo>Evolution Contact Manager Window</screeninfo>
-	<graphic fileref="figures/calendar" format="png" srccredit="Aaron Weber">
-	</graphic>
-      </screenshot>
-    </figure>
-  <!-- ============== End of Figure ============================= --> 
+     <para>
+      This chapter will show you how to use the Ximian Evolution
+      Calendar to manage your schedule alone or in conjunction with
+      others.
+<!-- Others what? -->
+     </para>
 
-  </para>
-
-  <para>
-    <inlinegraphic fileref="figures/full-1" format="png"></inlinegraphic>
-    <guilabel>Event List</guilabel>
-  </para>
-  
-  <para>
-    The <guilabel>Event List</guilabel> is responsible for showing you all of
-    your scheduled events, whether they are all day events or simply one time
-    events that last a half an hour.
-  </para>
-
-  <para>
-    <inlinegraphic fileref="figures/full-2" format="png"></inlinegraphic>
-    <guilabel>Todo List</guilabel>
-  </para>
-  
-  <para>
-    The <guilabel>Todo List</guilabel> compliments the <guilabel>Event List
-    </guilabel> as it keeps track of your chores or tasks which don't have
-    any time associated with them.  These may include "Clean Room" or "Call
-    Repairman".
-  </para>
-
-  <para>
-    <inlinegraphic fileref="figures/full-3" format="png"></inlinegraphic>
-    <guilabel>Calendar Window</guilabel>
-  </para>
-  
-  <para>
-    The <guilabel>Calendar Window</guilabel> has a graphical representation of
-    the calendar, so you can select what days to view in the <guilabel>Event
-    List</guilabel>.
-  </para>
-  
     <sect1 id ="usage-calendar-view"> 
     <title>Ways of Looking at your Calendar</title>
-
     <para>
        The toolbar offers you four different views of your calendar:
-       one day, five days, a week, or a month at once. Press the
-       calendar-shaped buttons on the right side of the toolbar to
-       switch between views. You can also select a range of
-       days&mdash; three days, ten days, a fortnight if you want
-       &mdash; in the small calendar at the upper right.
+       <itemizedlist>
+	<listitem>
+	  <para>
+	    Day
+	  </para>
+	</listitem>
+	<listitem>
+	  <para>
+	    Work Week
+	  </para>
+	</listitem>
+	<listitem>
+	  <para>
+	    Week
+	  </para>
+	</listitem>
+	<listitem>
+	  <para>
+	    Month
+	  </para>
+	</listitem>
+      </itemizedlist>
+
+      Press the calendar-shaped buttons on the right side of the toolbar to
+      switch between views. 
+<!--QUESTION What does the following mean?  I can't find this functionality -->
+      You can also select a range of
+      days&mdash; three days, ten days, or a fortnight if you want
+      &mdash; in the small calendar at the upper right.
     </para>
     <para>
        The <guibutton>Prev</guibutton> and <guibutton>Next</guibutton>
@@ -87,29 +61,17 @@
        box that appears.
     </para>
 
-
-<!-- ############### FIXME FIXME FIXME ############
-Feature not yet implemented, and may not be implemented due to
-lack of time, resources, and interest.
-    <para>
-       In addition, <application>Evolution</application> supports
-       Hebrew, Muslim, and other calendar formats.  To switch to a
-       different calendar format, choose
-       <guimenuitem>GUIMENUITEM</guimenuitem> from the
-       <guimenu>GUIMENU</guimenu>.
-    </para>
-################  END FIXME AREA   ##################   -->
-
   </sect1>
   <sect1 id="usage-calendar-apts">
     <title>Scheduling With the Evolution Calendar</title>
     <para>
       Of course, you'll want to use the calendar to do more than find
       out what day it is. This section will tell you how to schedule
-      events, set alarms, and determine event recurrence.
+      appointments, set alarms, and determine appointment recurrence.
     </para>
+
     <sect2 id="usage-calendar-apts-basic">
-      <title>Creating events</title>
+      <title>Creating appointments</title>
       <para>
 	To create a new appointment, select
         <menuchoice>
@@ -119,7 +81,7 @@ lack of time, resources, and interest.
 	</menuchoice>
 	or click the <guibutton>New</guibutton> button on the left end
 	of the toolbar. The <interface>New Appointment</interface>
-	dialog will pop up with the usual menu bar, tool bar, and
+	dialog will pop up with the menu bar, tool bar, and
 	window full of choices for you.
       </para>
       <tip id="new-appointment-shortcut">
@@ -133,22 +95,22 @@ lack of time, resources, and interest.
       </tip>
 
       <para>
-        Your event must have a starting and ending date &mdash; by
+        Your appointment must have a starting and ending date &mdash; by
         default, today &mdash; but you can choose whether to give it
         starting and ending times or to mark it as an <guilabel>All
         day event</guilabel>. An <guilabel>All day event</guilabel>
-        appears at the top of a day's event list rather than inside
-        it.  That makes it easy to have events that overlap and fit
+        appears at the top of a day's appointment list, in the grey header under the date, rather than inside
+        it.  That makes it easy to have appointments that overlap and fit
         inside each other.  For example, a conference might be an all
-        day event, and the meetings at the conference would be timed
-        events.  Of course, events with specific starting and ending
+        day appointment, and the meetings at the conference would be timed
+        appointments.  Of course, appointments with specific starting and ending
         times can also overlap.  When they do they're displayed as
         multiple columns in the day view of the calendar.
       </para>
       <note>
-       <title>Doing Two Things At Once</title>
+       <title>Multiple Simultanious Appointments</title>
          <para>
-           If you create calendar events that overlap,
+           If you create calendar appointments that overlap,
            <application>Evolution</application> will display them side
            by side in your calendar.  However,
            <application>Evolution</application> cannot help you do
@@ -157,7 +119,7 @@ lack of time, resources, and interest.
       </note>
       <para>
          You can have as many as four different
-         <guilabel>Alarms</guilabel>, any time prior to the event
+         <guilabel>Alarms</guilabel>, any time prior to the appointment
          you've scheduled.  You can have one alarm of each of the following types:
           <variablelist>
            <varlistentry>
@@ -165,7 +127,7 @@ lack of time, resources, and interest.
 	    <listitem>
 	      <para>
 	        A window will pop up on your screen to remind you of
-	        your event.
+	        your appointment.
               </para>
 	    </listitem>
 	  </varlistentry>
@@ -204,14 +166,12 @@ lack of time, resources, and interest.
       </para>
       <para>
          <guilabel>Classification</guilabel> 
-          and only applies to calendars on a
+         only applies to calendars on a
          network. <guilabel>Public</guilabel> is the default category,
-         and a public event can be viewed by anyone on the calendar
+         and a public appointment can be viewed by anyone on the calendar
          sharing network.  <guilabel>Private</guilabel> denotes one
-         level of security, and <guilabel>Confidential</guilabel> a
-         higher level.  <!-- FIXME --> Exact determinations and
-         implementations of this feature have yet to be
-         determined. <!-- FIXME -->
+         level of security, and <guilabel>Confidential</guilabel> an even 
+         higher level.
       </para>
       <para>
         <application>Evolution</application> lets you categorize your
@@ -221,10 +181,10 @@ lack of time, resources, and interest.
       </para>
       
       <tip>
-      <title>Adding a New Category</title>
+      <title>Adding a New Appointment Category</title>
 	<para>
 	 You can add a new category to your category list by clicking on
-         <guibutton>Edit Master Category List...</guibutton> and single-clicking
+         <guibutton>Edit Master Category List</guibutton> and single-clicking
 	 on <guilabel> Click here to add a category</guilabel>.
 	</para>
       </tip>
@@ -237,22 +197,22 @@ lack of time, resources, and interest.
 
       <para>
 	Clicking on the <guibutton>Categories</guibutton> button opens up the category
-	list.  To associate a category to an event, simply click the check box. 
+	list.  To associate a category to an appointment, simply click the check box. 
       </para>
       <para>
 	Once you've selected your categories, click <guibutton>OK</guibutton> to
-	assign these categories to the event.  The categories you selected are now
+	assign these categories to the appointment.  The categories you selected are now
 	listed in the text box to the right of the <guibutton>Categories...</guibutton>
 	button.
       </para>
 
       <para>
         The <guilabel>Recurrence</guilabel> tab lets you describe
-        repetition in events ranging from once every day up to once
+        repetition in appointments ranging from once every day up to once
         every 100 years.  You can then choose a time and date when the
-        event will stop recurring, and, under
+        appointment will stop recurring, and, under
         <guilabel>Exceptions</guilabel>, pick individual days when the
-        event will <emphasis>not</emphasis> recur. Make your
+        appointment will <emphasis>not</emphasis> recur. Make your
         selections from left to right, and you'll form a sentence:
         "Every two weeks on Monday and Friday until January 3, 2003"
         or "Every month on the first Friday for 12 occurrences."
@@ -260,17 +220,17 @@ lack of time, resources, and interest.
 
       <para>
 	Once you're done with all those settings, click on the disk
-	icon in the toolbar.  That will save the event and close the
-	event editor window. If you want, you can alter an event
+	icon in the toolbar to save and close the appointment editor window. 
+	If you want, you can alter an appointment
 	summary in the calendar view by clicking on it and typing. You
-	can change other settings by right-clicking on the event then
+	can change other settings by right-clicking on the appointment then
 	choosing <guimenuitem>Edit this Appointment</guimenuitem>.
       </para>
     </sect2>
     <sect2 id="usage-calendar-rsvp">
-      <title>RSVPs with the Calendar</title>
+      <title>Sending an RSVP with the Calendar</title>
       <para>
-	<application>Evolution</application> can be used to setup group events
+	<application>Evolution</application> can be used to setup group appointments
 	and help you manage RSVPs.
       </para>
       <para>
@@ -279,46 +239,125 @@ lack of time, resources, and interest.
 	easily reply to you with their response.  If they aren't sure if they
 	can attend, they can always reply to the mail later.
       </para>
+      <para>
+	To select receipients to be invited to an event:
+	<orderedlist numeration="arabic">
+	  <listitem>
+	    <para>
+	      Click
+	      <menuchoice>
+		<guimenu>Actions</guimenu>
+		<guimenuitem>Schedule Meeting</guimenuitem>
+	      </menuchoice>.  The <guilabel>Scheduling</guilabel> and <guilabel>Meeting</guilabel> tab open.
+	    </para>
+	  </listitem>
+	  <listitem>
+	    <para>
+	      If you have multiple identities setup, select the identity to use in the <guilabel>Sent By</guilabel> field.
+	    </para>
+	  </listitem>
+	  <listitem>
+	    <para>
+	      Click in the white box.
+	    </para>
+	  </listitem>
+	  <listitem>
+	    <para>
+	      Click <guibutton>Invite Others</guibutton>.
+	    </para>
+	  </listitem>
+	  <listitem>
+	    <para>
+	    Select a person in the <guilabel>Contacts</guilabel> field and click one of the four choices to move them to be an RSVP reciever.
+	    </para>
+	  </listitem>
+	  <listitem>
+	    <para>
+	      Click <guibutton>OK</guibutton>.
+	    </para>
+	  </listitem>
+	  <listitem>
+	    <para>
+	      Save the Appointment.
+	    </para>
+	  </listitem>
+	</orderedlist>
+	An email is now sent out to all the recipients, inviting them to your event.
+      </para>
     </sect2>
+    <sect2 id="replying-to-rsvp">
+      <title>Replying to an RSVP</title>
+      <para>
+	If you recieve an RSVP, the RSVP will be attached as an ical file.  Click on the attachment and view it inline.   All the details are shown about the event including time and dates.  Then you can choose how to reply to the RSVP.  Your choices are:
+	<itemizedlist>
+	  <listitem>
+	    <para>
+	      Accept
+	    </para>
+	  </listitem>
+	  <listitem>
+	    <para>
+	      Tentativly Accept
+	    </para>
+	  </listitem>
+	  <listitem>
+	    <para>
+	      Decline
+	    </para>
+	  </listitem>
+	</itemizedlist>
+	Click <guibutton>OK</guibutton> and an email will be sent to the organizer with your answer.  The event will also be added to your calendar if you accept.
+      </para>
+    </sect2>
+
+    <sect2 id="recieving-rsvp-response">
+      <title>Recieving an RSVP Response</title>
+      <para>
+	Once you recieve an RSVP, you'll need to view it inline in the email.  Click the attachment and select <guibutton>View Inline</guibutton>.  At the bottom, you can choose an action.  Click <guibutton>OK</guibutton> to update your attendee list.
+      </para>
+    </sect2>
+
 <!-- ############UNIMPLEMENTED FEATURES ###################
 
     <sect2 id="usage-calendar-apts-group">
       <title>Appointments for Groups</title>
       <para>
-	If you have your calendar set up to work with other
-	calendars over a network, you can see when others are
-	available to meet with you. 
-      </para>
-      <note>
-	<title>Unimplemented Feature</title>
-	<para>This feature is not yet implemented.</para>
-      </note>
-
-      <para>
-	In addition, you can use <application>Evolution</application>
-	to mark a meeting request on another person's calendar.  To do
-	it, click <guibutton>New</guibutton> in the calendar toolbar,
-	or select <menuchoice> <guimenu>File</guimenu>
+	You can use <application>Evolution</application> to mark a
+	meeting request on another person's calendar.  To do it, click
+	<guibutton>New</guibutton> in the calendar toolbar, or select
+	<menuchoice> <guimenu>File</guimenu>
 	<guisubmenu>New</guisubmenu>
 	<guimenuitem>Appointment</guimenuitem> </menuchoice> to bring
-	up the <interface>new event</interface> window.  Then describe
-	the event as you would any other.  Before you click
-	<guibutton>OK</guibutton>, (INSERT DESCRIPTION HERE...).
+	up the <interface>new appointment</interface> window.  Then
+	describe the appointment as you would any other. When you are
+	ready to send the invitation <guibutton>OK</guibutton>
 	<application>Evolution</application> will automatically send
 	email to each person on the request list, notifying of the
 	time and date of the meeting you have requested with them.  In
-	addition, it will mark the event on your calendar and on
-	theirs as tentative, rather than a confirmed, event.
+	addition, it will mark the appointment on your calendar and on
+	theirs as tentative, rather than a confirmed, appointment.
       </para>
       <para>
-	To mark a tentative event as confirmed, click once on the
-	event in the <interface>calendar view</interface> to select
-	it, and then choose <guimenuitem>Event
+	To mark a tentative appointment as confirmed, click once on the
+	appointment in the <interface>calendar view</interface> to select
+	it, and then choose <guimenuitem>Appointment
 	Properties</guimenuitem> from the <guimenu>Settings</guimenu>
-	menu.  In the <interface>Event Properties</interface> dialog
+	menu.  In the <interface>Appointment Properties</interface> dialog
 	window, click the "tentative" button to De-select the
-	event.
+	appointment.
       </para>
+      <para>
+        When your meeting attendees get the email inviting them to the
+        meeting, they'll be able to enter the information into their
+        calendars and let you know if they'll be able to attend; if
+        they use <application>Ximian Evolution</application> or
+        another iCal compliant mail client, they can do this with just
+        one click. When you get a response from them, it will include
+        an iCal attachment. Opening and accepting this attachment will
+        change the meeting data in your calendar to indicate that they
+        have responded to your invitation, and whether they will be in
+        attendance.
+     </para>
     </sect2>
 
 
@@ -342,58 +381,69 @@ lack of time, resources, and interest.
     <para>
        The Task Pad, located in the lower right corner of the
        calendar, lets you keep a list of tasks separate from your
-       calendar events.  Tasks are colored and sorted by priority and
+       calendar appointments.  Tasks are colored and sorted by priority and
        due-date (see <xref linkend="config-prefs"> for more
        information), and are included with calendar data during
-       synchronization with a hand-held device.  You can use the list
+       synchronization  with a hand-held device.  You can use the list
        in a larger format by choosing the <guibutton>Tasks</guibutton>
        button in the shortcut bar or in the folder tree.
     </para>
     <para>
        To record a new task, click the <guibutton>Add</guibutton>
-       button below the list.  <application>Evolution</application>
+       button in the toolbar.  <application>Evolution</application>
        will pop up a small window with five items in it:
      
         <variablelist>
-	  <varlistentry>
+	<varlistentry>
 	  <term> <guilabel>Summary:</guilabel></term>
 	  <listitem>
             <para>
               The description you enter here will appear in the To Do
               list itself.
-          </para>
+	    </para>
 	  </listitem>
-	  </varlistentry>
+	</varlistentry>
 	
 	<varlistentry>
 	  <term> <guilabel>Due Date:</guilabel></term>
 	  <listitem>
 	    <para>
-            Decide when this item is
-            due.  You can either type in a date and time, or select one from
-            the <guibutton>Calendar</guibutton> and time drop-down menus.
+	      Decide when this item is
+	      due.  You can either type in a date and time, or select one from
+	      the <guibutton>Calendar</guibutton> and time drop-down menus.
           </para>
 	  </listitem>
 	</varlistentry>
 	<varlistentry>
-	  <term><guilabel>Priority:</guilabel></term>
+	  <term><guilabel>Start Date</guilabel></term>
 	  <listitem>
 	    <para>
-             Select a level of importance from 1 (most important) to 9
-              (least important).
-            </para>
-	  </listitem> 
+	      The date you intend to start working.  <!-- NOTE Check this please --> The item will not show up on the list until the start date.
+	    </para>
+	  </listitem>
 	</varlistentry>
 	<varlistentry>
-	  <term> <guilabel>Item Comments:</guilabel></term>
+	  <term> <guilabel>Description:</guilabel></term>
 	  <listitem>
 	    <para>
               If you wish, you can keep a more detailed description of
-              the item here.
+              the item here. For example, you can note that a task is
+              in progress, and display how close it is to completion.
             </para>
 	  </listitem>
 	</varlistentry>
+	<varlistentry>
+	  <term><guilabel>Classification</guilabel></term>
+	  <listitem>
+	    <para>
+	      Sets who will see it if your calendar is shared.
+	    </para>
+	  </listitem>
+	</varlistentry>
       </variablelist>
+    </para>
+    <para>
+      There are more options in the <guilabel>Details</guilabel> tab such as priority and progress settings.
     </para>
     <para>
        Once you've added a task to your to-do list, its summary
@@ -403,6 +453,14 @@ lack of time, resources, and interest.
        <guibutton>Edit</guibutton>.  You can delete items by selecting
        them and clicking on the <guibutton>Delete</guibutton> button.
     </para>
+    <para>
+      The list of tasks is sorted in a similar way to the list of
+      email messages in <application>Ximian Evolution
+      Mail</application>.  Click once on the message headers to change
+      the direction and type of sorting, or right-click to add or
+      remove columns from the display.
+    </para>
+
   </sect1>
 
   <sect1 id="usage-calendar-multiple">
@@ -422,7 +480,7 @@ lack of time, resources, and interest.
         maintains one for the conference room, so people know when
         they can schedule meetings.  Next to that, she maintains a
         calendar that reflects when consultants are going to be on
-        site, and another that keeps track of when the Red Sox are
+        site, and another that keeps track of when the Cubs are
         playing.
       </para>
     </example>
@@ -430,22 +488,12 @@ lack of time, resources, and interest.
       To create a new calendar, select 
       <menuchoice>
 	<guimenu>File</guimenu> <guisubmenu>New</guisubmenu>
-	<guimenuitem>Calendar</guimenuitem>
+	<guimenuitem>Folder</guimenuitem>
       </menuchoice>.
-       You can place the calendar in any calendar folder and access it
+       You'll need to tell the <guilabel>New Folder</guilabel> dialog that the new folder should be of the calendar type.  You can place the calendar in any calendar folder and access it
        from the folder view.  Alarms, configuration, and display for
        each calendar are separate from each other.
     </para>
     
   </sect1>
 </chapter>
-
-
-
-
-
-
-
-
-
-

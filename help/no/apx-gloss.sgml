@@ -69,17 +69,6 @@
   </glossdef>
  </glossentry>
 
-<glossentry id="emoticon">
-  <glossterm>Emoticon</glossterm>
-  <glossdef>
-   <para>
-     Also called "smileys," emoticons are the little sideways faces made
-     of colons and parentheses which people use to convey emotion in email.
-     Examples: :-) or ;(  .
-   </para>
-  </glossdef>
- </glossentry>
-
  <glossentry id="evolution">
   <glossterm>Evolution</glossterm>
   <glossdef>
@@ -123,11 +112,11 @@
      A way of describing a group of files on a computer.  With the
      perversity typical of computer (and especially Unix and Linux)
      nomenclature, the top of the tree is called the root directory,
-     and denoted by <systemitem><filename>/</filename></systemitem>.
+     and denoted by <filename>/</filename>.
      The rest of the "branches" spread downwards from the root.  Don't
-     confuse the root directory with the <systemitem>root</systemitem>
+     confuse the root directory with the root
      account, or root's home directory,
-     <systemitem><filename>/home/root</filename></systemitem>.
+     <filename>/home/root</filename>.b
    </para>
   </glossdef>
  </glossentry>
@@ -162,17 +151,6 @@
     of people work together.  Typically, a groupware application will
     have several productivity features built into one program,
     including email, calendar, and addressbook tools.
-   </para>
-  </glossdef>
- </glossentry>
-
- <glossentry id="haiku">
-  <glossterm>Haiku</glossterm>
-  <glossdef>
-   <para>
-     A traditional Japanese form of poetry.  The poems are three lines
-     long, with first and last lines having five syllables, and the
-     second line seven syllables.
    </para>
   </glossdef>
  </glossentry>
@@ -281,15 +259,6 @@
   </glossdef>
  </glossentry>
 
- <glossentry id="nickname">
-  <glossterm>Nickname</glossterm>
-  <glossdef>
-   <para>
-    An alias for an e-mail address.
-   </para>
-  </glossdef>
- </glossentry>
-
  <glossentry id="pop">
   <glossterm>POP</glossterm>
   <glossdef>
@@ -309,10 +278,23 @@
      sending particular types of information between computer systems.
      Examples include POP (Post Office Protocol), for email, and HTTP
      (HypterText Transfer Protocol), for web pages.
-
    </para>
   </glossdef>
  </glossentry>
+
+ <glossentry id="public-key-encryption">
+  <glossterm>Public Key Encryption</glossterm>
+  <glossdef>
+   <para>
+     A strong encryption method that uses a set of two "keys," one of
+     which is made public, and one of which is kept private. Data
+     encrypted using the public key can only be decrypted using the
+     private key.  The longer the keys, the more difficult it is to
+     break the encryption.
+   </para>
+  </glossdef>
+ </glossentry>
+
 
 
  <glossentry id="regular-expression">
@@ -391,19 +373,6 @@
    </glossdef>
   </glossentry> 
 
- <glossentry id="spam">
-  <glossterm>Spam</glossterm>
-  <glossdef>
-   <para>
-    Useless, unsolicited e-mail.  Spam normally comes in forms of
-    chain letters and advertisements for unscrupulous or clueless
-    companies.  Messages that are merely useless are called "opt-in
-    newsletters."
-   </para>
-  </glossdef>
- </glossentry>
-
-
  <glossentry id="tooltip">
   <glossterm>Tool-Tip</glossterm>
   <glossdef>
@@ -415,17 +384,15 @@
   </glossdef>
  </glossentry>
 
-
-
-
  <glossentry id="virus">
   <glossterm>Virus</glossterm>
   <glossdef>
    <para>
-    A malicious program which inserts itself into others so that it will be 
-    executed, allowing it to spread to still more programs and other computers.
-    A virus can cause substantial damage by clogging networks or disk drives, 
-    deleting files, or opening security holes.
+    A program which inserts itself into other files or programs and
+    which, when executed, spreads to more programs and other
+    computers.  A virus can cause substantial damage by clogging
+    networks or disk drives, deleting files, or opening security
+    holes.
    </para>
   </glossdef>
  </glossentry>

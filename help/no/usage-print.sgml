@@ -13,6 +13,7 @@
   preview feature to see how your printed output will look.
 </para>
 
+
   <sect1 id="printpreview">
     <title>Print Preview</title>
     <para>
@@ -44,8 +45,8 @@
 	  <title>Print Preview</title>
 	  <screenshot>
 	    <screeninfo>Print Preview</screeninfo>
-	    <graphic fileref="figures/print-preview" format="png" srccredit="Aaron Weber">
-	</graphic>
+	    <mediaobject><imageobject><imagedata fileref="figures/print-preview" format="png" srccredit="Aaron Weber">
+	</imageobject></mediaobject>
 	</screenshot>
       </figure>
 <!-- ==============End of Figure============================== -->
@@ -57,14 +58,25 @@
     <para>
        The printer selection window, shown in <xref
        linkend="print-dest">, lets you choose the format for
-       printing&mdash; <guilabel>Generic
-       Postscript</guilabel>, whether to write to a PDF file,  and whether to print
-       to a file or to an actual printer in Generic Postscript.  If you choose a printer,
-       you'll be asked for the printer command (probably
+       printing&mdash; <guilabel>Generic Postscript</guilabel>,
+       whether to write to a PDF file, and whether to print to a file
+       or to an actual printer in Generic Postscript.  If you choose a
+       printer, you'll be asked for the printer command (probably
        <guilabel>lpr</guilabel>) which your system uses.  If you
        choose to print to a file, you'll need to decide upon a
        filename.  And of course, you'll want to choose a number of
        copies, and whether to collate them.
+
+	<note id="windows-ps">
+	  <title>Printing to PostScript?</title>
+	  <para>
+           PostScript is the file format used by most laser printers,
+           and in UNIX world is the easiest way to print to a file.
+           However, most systems running Microsoft Windows can't
+           recognize or handle PostScript files.  You'll need to print
+           to PDF if you want to share your file with Windows users.
+	  </para>
+	</note>
     </para>
 
  <!-- ==============Figure=================================== -->
@@ -73,8 +85,8 @@
 	  <title>Choosing a Printer</title>
 	  <screenshot>
 	    <screeninfo>Choosing a Printer</screeninfo>
-	    <graphic fileref="figures/print-dest" format="png" srccredit="Aaron Weber">
-	</graphic>
+	    <mediaobject><imageobject><imagedata fileref="figures/print-dest" format="png" srccredit="Aaron Weber">
+	</imageobject></mediaobject>
 	</screenshot>
       </figure>
 <!-- ==============End of Figure============================== -->
