@@ -26,9 +26,9 @@
 #include <string.h>
 #include <stdio.h>
 #include <gtk/gtk.h>
-#include <gal/util/e-util.h>
 #include "e-completion.h"
 #include "gal/util/e-util.h"
+#include "gal/util/e-marshal.h"
 
 enum {
 	E_COMPLETION_REQUEST_COMPLETION,
@@ -65,7 +65,7 @@ typedef struct {
 
 static void e_completion_class_init (ECompletionClass *klass);
 static void e_completion_init       (ECompletion *complete);
-static void e_completion_destroy    (GtkObject *object);
+static void e_completion_dispose    (GObject *object);
 
 static void     e_completion_add_match          (ECompletion *complete, ECompletionMatch *);
 static void     e_completion_clear_search_stack (ECompletion *complete);
@@ -73,109 +73,101 @@ static void     e_completion_clear_matches      (ECompletion *complete);
 static gboolean e_completion_sort               (ECompletion *complete);
 static void     e_completion_restart            (ECompletion *complete);
 
+#define PARENT_TYPE GTK_TYPE_OBJECT
 static GtkObjectClass *parent_class;
 
 
 
-GtkType
-e_completion_get_type (void)
-{
-	static GtkType complete_type = 0;
-  
-	if (!complete_type) {
-		GtkTypeInfo complete_info = {
-			"ECompletion",
-			sizeof (ECompletion),
-			sizeof (ECompletionClass),
-			(GtkClassInitFunc) e_completion_class_init,
-			(GtkObjectInitFunc) e_completion_init,
-			NULL, NULL, /* reserved */
-			(GtkClassInitFunc) NULL
-		};
-
-		complete_type = gtk_type_unique (gtk_object_get_type (), &complete_info);
-	}
-
-	return complete_type;
-}
+E_MAKE_TYPE (e_completion,
+	     "ECompletion",
+	     ECompletion,
+	     e_completion_class_init,
+	     e_completion_init,
+	     PARENT_TYPE)
 
 static void
 e_completion_class_init (ECompletionClass *klass)
 {
-	GtkObjectClass *object_class = (GtkObjectClass *) klass;
+	GObjectClass *object_class = (GObjectClass *) klass;
 
-	parent_class = GTK_OBJECT_CLASS (gtk_type_class (gtk_object_get_type ()));
+	parent_class = g_type_class_ref (PARENT_TYPE);
 
 	e_completion_signals[E_COMPLETION_REQUEST_COMPLETION] =
-		gtk_signal_new ("request_completion",
-				GTK_RUN_LAST,
-				E_OBJECT_CLASS_TYPE (object_class),
-				GTK_SIGNAL_OFFSET (ECompletionClass, request_completion),
-				e_marshal_NONE__POINTER_INT_INT,
-				GTK_TYPE_NONE, 3,
-				GTK_TYPE_POINTER, GTK_TYPE_INT, GTK_TYPE_INT);
+		g_signal_new ("request_completion",
+			      G_OBJECT_CLASS_TYPE (object_class),
+			      G_SIGNAL_RUN_LAST,
+			      G_STRUCT_OFFSET (ECompletionClass, request_completion),
+			      NULL, NULL,
+			      e_marshal_NONE__POINTER_INT_INT,
+			      G_TYPE_NONE, 3,
+			      G_TYPE_POINTER, G_TYPE_INT, G_TYPE_INT);
 
 	e_completion_signals[E_COMPLETION_BEGIN_COMPLETION] =
-		gtk_signal_new ("begin_completion",
-				GTK_RUN_LAST,
-				E_OBJECT_CLASS_TYPE (object_class),
-				GTK_SIGNAL_OFFSET (ECompletionClass, begin_completion),
-				e_marshal_NONE__POINTER_INT_INT,
-				GTK_TYPE_NONE, 3,
-				GTK_TYPE_POINTER, GTK_TYPE_INT, GTK_TYPE_INT);
+		g_signal_new ("begin_completion",
+			      G_OBJECT_CLASS_TYPE (object_class),
+			      G_SIGNAL_RUN_LAST,
+			      G_STRUCT_OFFSET (ECompletionClass, begin_completion),
+			      NULL, NULL,
+			      e_marshal_NONE__POINTER_INT_INT,
+			      G_TYPE_NONE, 3,
+			      G_TYPE_POINTER, G_TYPE_INT, G_TYPE_INT);
 
 	e_completion_signals[E_COMPLETION_COMPLETION] =
-		gtk_signal_new ("completion",
-				GTK_RUN_LAST,
-				E_OBJECT_CLASS_TYPE (object_class),
-				GTK_SIGNAL_OFFSET (ECompletionClass, completion),
-				gtk_marshal_NONE__POINTER,
-				GTK_TYPE_NONE, 1,
-				GTK_TYPE_POINTER);
+		g_signal_new ("completion",
+			      G_OBJECT_CLASS_TYPE (object_class),
+			      G_SIGNAL_RUN_LAST,
+			      G_STRUCT_OFFSET (ECompletionClass, completion),
+			      NULL, NULL,
+			      e_marshal_NONE__POINTER,
+			      G_TYPE_NONE, 1,
+			      G_TYPE_POINTER);
 
 	e_completion_signals[E_COMPLETION_RESTART_COMPLETION] =
-		gtk_signal_new ("restart_completion",
-				GTK_RUN_LAST,
-				E_OBJECT_CLASS_TYPE (object_class),
-				GTK_SIGNAL_OFFSET (ECompletionClass, restart_completion),
-				gtk_marshal_NONE__NONE,
-				GTK_TYPE_NONE, 0);
-
+		g_signal_new ("restart_completion",
+			      G_OBJECT_CLASS_TYPE (object_class),
+			      G_SIGNAL_RUN_LAST,			      
+			      G_STRUCT_OFFSET (ECompletionClass, restart_completion),
+			      NULL, NULL,
+			      e_marshal_NONE__NONE,
+			      G_TYPE_NONE, 0);
+	
 	e_completion_signals[E_COMPLETION_CANCEL_COMPLETION] =
-		gtk_signal_new ("cancel_completion",
-				GTK_RUN_LAST,
-				E_OBJECT_CLASS_TYPE (object_class),
-				GTK_SIGNAL_OFFSET (ECompletionClass, cancel_completion),
-				gtk_marshal_NONE__NONE,
-				GTK_TYPE_NONE, 0);
-
+		g_signal_new ("cancel_completion",
+			      G_OBJECT_CLASS_TYPE (object_class),
+			      G_SIGNAL_RUN_LAST,
+			      G_STRUCT_OFFSET (ECompletionClass, cancel_completion),
+			      NULL, NULL,
+			      e_marshal_NONE__NONE,
+			      G_TYPE_NONE, 0);
+	
 	e_completion_signals[E_COMPLETION_END_COMPLETION] =
-		gtk_signal_new ("end_completion",
-				GTK_RUN_LAST,
-				E_OBJECT_CLASS_TYPE (object_class),
-				GTK_SIGNAL_OFFSET (ECompletionClass, end_completion),
-				gtk_marshal_NONE__NONE,
-				GTK_TYPE_NONE, 0);
+		g_signal_new ("end_completion",
+			      G_OBJECT_CLASS_TYPE (object_class),
+			      G_SIGNAL_RUN_LAST,
+			      G_STRUCT_OFFSET (ECompletionClass, end_completion),
+			      NULL, NULL,
+			      e_marshal_NONE__NONE,
+			      G_TYPE_NONE, 0);
 
 	e_completion_signals[E_COMPLETION_CLEAR_COMPLETION] = 
-		gtk_signal_new ("clear_completion",
-				GTK_RUN_LAST,
-				E_OBJECT_CLASS_TYPE (object_class),
-				GTK_SIGNAL_OFFSET (ECompletionClass, clear_completion),
-				gtk_marshal_NONE__NONE,
-				GTK_TYPE_NONE, 0);
+		g_signal_new ("clear_completion",
+			      G_OBJECT_CLASS_TYPE (object_class),
+			      G_SIGNAL_RUN_LAST,
+			      G_STRUCT_OFFSET (ECompletionClass, clear_completion),
+			      NULL, NULL,
+			      e_marshal_NONE__NONE,
+			      G_TYPE_NONE, 0);
 
 	e_completion_signals[E_COMPLETION_LOST_COMPLETION] =
-		gtk_signal_new ("lost_completion",
-				GTK_RUN_LAST,
-				E_OBJECT_CLASS_TYPE (object_class),
-				GTK_SIGNAL_OFFSET (ECompletionClass, lost_completion),
-				gtk_marshal_NONE__POINTER,
-				GTK_TYPE_NONE, 1, GTK_TYPE_POINTER);
+		g_signal_new ("lost_completion",
+			      G_OBJECT_CLASS_TYPE (object_class),
+			      G_SIGNAL_RUN_LAST,
+			      G_STRUCT_OFFSET (ECompletionClass, lost_completion),
+			      NULL, NULL,
+			      e_marshal_NONE__POINTER,
+			      G_TYPE_NONE, 1, G_TYPE_POINTER);
 
-	E_OBJECT_CLASS_ADD_SIGNALS (object_class, e_completion_signals, E_COMPLETION_LAST_SIGNAL);
-
-	object_class->destroy = e_completion_destroy;
+	object_class->dispose = e_completion_dispose;
 }
 
 static void
@@ -186,7 +178,7 @@ e_completion_init (ECompletion *complete)
 }
 
 static void
-e_completion_destroy (GtkObject *object)
+e_completion_dispose (GObject *object)
 {
 	ECompletion *complete = E_COMPLETION (object);
 
@@ -204,8 +196,8 @@ e_completion_destroy (GtkObject *object)
 		complete->priv = NULL;
 	}
 
-	if (parent_class->destroy)
-		(parent_class->destroy) (object);
+	if (G_OBJECT_CLASS (parent_class)->dispose)
+		(G_OBJECT_CLASS (parent_class)->dispose) (object);
 }
 
 static void
@@ -262,7 +254,7 @@ e_completion_clear (ECompletion *complete)
 	e_completion_clear_search_stack (complete);
 	complete->priv->refinement_count = 0;
 	complete->priv->match_count = 0;
-	gtk_signal_emit (GTK_OBJECT (complete), e_completion_signals[E_COMPLETION_CLEAR_COMPLETION]);
+	g_signal_emit (complete, e_completion_signals[E_COMPLETION_CLEAR_COMPLETION], 0);
 }
 
 static void
@@ -328,7 +320,7 @@ e_completion_refine_search (ECompletion *comp, const gchar *text, gint pos, ECom
 
 	e_completion_push_search (comp, text, pos);
 
-	gtk_signal_emit (GTK_OBJECT (comp), e_completion_signals[E_COMPLETION_BEGIN_COMPLETION], text, pos, comp->priv->limit);
+	g_signal_emit (comp, e_completion_signals[E_COMPLETION_BEGIN_COMPLETION], 0, text, pos, comp->priv->limit);
 
 	comp->priv->match_count = 0;
 
@@ -340,14 +332,14 @@ e_completion_refine_search (ECompletion *comp, const gchar *text, gint pos, ECom
 		if (comp->priv->refinement_count == match->hit_count
 		    && refine_fn (comp, match, text, pos)) {
 			++match->hit_count;
-			gtk_signal_emit (GTK_OBJECT (comp), e_completion_signals[E_COMPLETION_COMPLETION], match);
+			g_signal_emit (comp, e_completion_signals[E_COMPLETION_COMPLETION], 0, match);
 			++comp->priv->match_count;
 		}
 	}
 
 	++comp->priv->refinement_count;
 
-	gtk_signal_emit (GTK_OBJECT (comp), e_completion_signals[E_COMPLETION_END_COMPLETION]);
+	g_signal_emit (comp, e_completion_signals[E_COMPLETION_END_COMPLETION], 0);
 
 	comp->priv->searching = FALSE;
 	comp->priv->refining  = FALSE;
@@ -363,7 +355,8 @@ e_completion_unrefine_search (ECompletion *comp)
 
 	e_completion_pop_search (comp);
 
-	gtk_signal_emit (GTK_OBJECT (comp), e_completion_signals[E_COMPLETION_BEGIN_COMPLETION], comp->priv->search_text, comp->priv->pos, comp->priv->limit);
+	g_signal_emit (comp, e_completion_signals[E_COMPLETION_BEGIN_COMPLETION], 0,
+		comp->priv->search_text, comp->priv->pos, comp->priv->limit);
 
 	comp->priv->match_count = 0;
 	--comp->priv->refinement_count;
@@ -375,12 +368,12 @@ e_completion_unrefine_search (ECompletion *comp)
 		ECompletionMatch *match = g_ptr_array_index (m, i);
 		if (comp->priv->refinement_count <= match->hit_count) {
 			match->hit_count = comp->priv->refinement_count;
-			gtk_signal_emit (GTK_OBJECT (comp), e_completion_signals[E_COMPLETION_COMPLETION], match);
+			g_signal_emit (comp, e_completion_signals[E_COMPLETION_COMPLETION], 0, match);
 			++comp->priv->match_count;
 		}
 	}
 
-	gtk_signal_emit (GTK_OBJECT (comp), e_completion_signals[E_COMPLETION_END_COMPLETION]);
+	g_signal_emit (comp, e_completion_signals[E_COMPLETION_END_COMPLETION], 0);
 
 	comp->priv->searching = FALSE;
 	comp->priv->refining  = FALSE;
@@ -439,8 +432,8 @@ e_completion_begin_search (ECompletion *complete, const gchar *text, gint pos, g
 	complete->priv->limit = limit > 0 ? limit : G_MAXINT;
 	complete->priv->refinement_count = 0;
 
-	gtk_signal_emit (GTK_OBJECT (complete), e_completion_signals[E_COMPLETION_BEGIN_COMPLETION], text, pos, limit);
-	gtk_signal_emit (GTK_OBJECT (complete), e_completion_signals[E_COMPLETION_REQUEST_COMPLETION], text, pos, limit);
+	g_signal_emit (complete, e_completion_signals[E_COMPLETION_BEGIN_COMPLETION], 0, text, pos, limit);
+	g_signal_emit (complete, e_completion_signals[E_COMPLETION_REQUEST_COMPLETION], 0, text, pos, limit);
 }
 
 void
@@ -453,7 +446,7 @@ e_completion_cancel_search (ECompletion *complete)
 	if (!complete->priv->searching)
 		return;
 
-	gtk_signal_emit (GTK_OBJECT (complete), e_completion_signals[E_COMPLETION_CANCEL_COMPLETION]);
+	g_signal_emit (complete, e_completion_signals[E_COMPLETION_CANCEL_COMPLETION], 0);
 
 	complete->priv->searching = FALSE;
 }
@@ -527,7 +520,7 @@ e_completion_foreach_match (ECompletion *complete, ECompletionMatchFn fn, gpoint
 ECompletion *
 e_completion_new (void)
 {
-	return E_COMPLETION (gtk_type_new (e_completion_get_type ()));
+	return E_COMPLETION (g_object_new (E_COMPLETION_TYPE, NULL));
 }
 
 static gboolean
@@ -568,15 +561,15 @@ e_completion_restart (ECompletion *complete)
 	GPtrArray *m;
 	gint i, count;
 
-	gtk_signal_emit (GTK_OBJECT (complete), e_completion_signals[E_COMPLETION_RESTART_COMPLETION]);
+	g_signal_emit (complete, e_completion_signals[E_COMPLETION_RESTART_COMPLETION], 0);
 	
 	m = complete->priv->matches;
 	for (i = count = 0; 
 	     i < m->len && count < complete->priv->limit; 
 	     i++, count++) {
-		gtk_signal_emit (GTK_OBJECT (complete),
-				 e_completion_signals[E_COMPLETION_COMPLETION], 
-				 g_ptr_array_index (m, i));
+		g_signal_emit (complete,
+			       e_completion_signals[E_COMPLETION_COMPLETION], 0,
+			       g_ptr_array_index (m, i));
 	}
 }
 
@@ -601,7 +594,7 @@ e_completion_found_match (ECompletion *complete, ECompletionMatch *match)
 
 	e_completion_add_match (complete, match);
 
-	gtk_signal_emit (GTK_OBJECT (complete), e_completion_signals[E_COMPLETION_COMPLETION], match);
+	g_signal_emit (complete, e_completion_signals[E_COMPLETION_COMPLETION], 0, match);
 }
 
 /* to optimize this, make the match a hash table */
@@ -620,7 +613,7 @@ e_completion_lost_match (ECompletion *complete, ECompletionMatch *match)
 	/* maybe just return here? */
 	g_return_if_fail (removed);
 
-	gtk_signal_emit (GTK_OBJECT (complete), e_completion_signals[E_COMPLETION_LOST_COMPLETION], match);
+	g_signal_emit (complete, e_completion_signals[E_COMPLETION_LOST_COMPLETION], 0, match);
 
 	e_completion_match_unref (match);
 }
@@ -639,7 +632,7 @@ e_completion_end_search (ECompletion *complete)
 	if (e_completion_sort (complete))
 		e_completion_restart (complete);
 
-	gtk_signal_emit (GTK_OBJECT (complete), e_completion_signals[E_COMPLETION_END_COMPLETION]);
+	g_signal_emit (complete, e_completion_signals[E_COMPLETION_END_COMPLETION], 0);
 
 	complete->priv->searching = FALSE;
 	complete->priv->done_search = TRUE;

@@ -31,10 +31,10 @@
 G_BEGIN_DECLS
 
 #define E_COMPLETION_TYPE        (e_completion_get_type ())
-#define E_COMPLETION(o)          (GTK_CHECK_CAST ((o), E_COMPLETION_TYPE, ECompletion))
-#define E_COMPLETION_CLASS(k)    (GTK_CHECK_CLASS_CAST ((k), E_COMPLETION_TYPE, ECompletionClass))
-#define E_IS_COMPLETION(o)       (GTK_CHECK_TYPE ((o), E_COMPLETION_TYPE))
-#define E_IS_COMPLETION_CLASS(k) (GTK_CHECK_CLASS_TYPE ((k), E_COMPLETION_TYPE))
+#define E_COMPLETION(o)          (G_TYPE_CHECK_INSTANCE_CAST ((o), E_COMPLETION_TYPE, ECompletion))
+#define E_COMPLETION_CLASS(k)    (G_TYPE_CHECK_CLASS_CAST ((k), E_COMPLETION_TYPE, ECompletionClass))
+#define E_IS_COMPLETION(o)       (G_TYPE_CHECK_INSTANCE_TYPE ((o), E_COMPLETION_TYPE))
+#define E_IS_COMPLETION_CLASS(k) (G_TYPE_CHECK_CLASS_TYPE ((k), E_COMPLETION_TYPE))
 
 typedef struct _ECompletion ECompletion;
 typedef struct _ECompletionClass ECompletionClass;

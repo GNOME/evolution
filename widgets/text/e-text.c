@@ -50,6 +50,7 @@
 #include <libgnomecanvas/gnome-canvas-rect-ellipse.h>
 
 #include "gal/util/e-util.h"
+#include "gal/util/e-i18n.h"
 #include "gal/widgets/e-canvas.h"
 #include "gal/widgets/e-canvas-utils.h"
 #include "gal/widgets/e-unicode.h"
@@ -85,43 +86,43 @@ struct line {
 
 /* Object argument IDs */
 enum {
-	ARG_0,
-	ARG_MODEL,
-	ARG_EVENT_PROCESSOR,
-	ARG_TEXT,
-	ARG_FONT,
-        ARG_FONTSET,
-	ARG_FONT_GDK,
-	ARG_FONT_E,
-	ARG_BOLD,
-	ARG_STRIKEOUT,
-	ARG_ANCHOR,
-	ARG_JUSTIFICATION,
-	ARG_CLIP_WIDTH,
-	ARG_CLIP_HEIGHT,
-	ARG_CLIP,
-	ARG_FILL_CLIP_RECTANGLE,
-	ARG_X_OFFSET,
-	ARG_Y_OFFSET,
-	ARG_FILL_COLOR,
-	ARG_FILL_COLOR_GDK,
-	ARG_FILL_COLOR_RGBA,
-	ARG_FILL_STIPPLE,
-	ARG_TEXT_WIDTH,
-	ARG_TEXT_HEIGHT,
-	ARG_EDITABLE,
-	ARG_USE_ELLIPSIS,
-	ARG_ELLIPSIS,
-	ARG_LINE_WRAP,
-	ARG_BREAK_CHARACTERS,
-	ARG_MAX_LINES,
-	ARG_WIDTH,
-	ARG_HEIGHT,
-	ARG_DRAW_BORDERS,
-	ARG_ALLOW_NEWLINES,
-	ARG_DRAW_BACKGROUND,
-	ARG_DRAW_BUTTON,
-	ARG_CURSOR_POS
+	PROP_0,
+	PROP_MODEL,
+	PROP_EVENT_PROCESSOR,
+	PROP_TEXT,
+	PROP_FONT,
+        PROP_FONTSET,
+	PROP_FONT_GDK,
+	PROP_FONT_E,
+	PROP_BOLD,
+	PROP_STRIKEOUT,
+	PROP_ANCHOR,
+	PROP_JUSTIFICATION,
+	PROP_CLIP_WIDTH,
+	PROP_CLIP_HEIGHT,
+	PROP_CLIP,
+	PROP_FILL_CLIP_RECTANGLE,
+	PROP_X_OFFSET,
+	PROP_Y_OFFSET,
+	PROP_FILL_COLOR,
+	PROP_FILL_COLOR_GDK,
+	PROP_FILL_COLOR_RGBA,
+	PROP_FILL_STIPPLE,
+	PROP_TEXT_WIDTH,
+	PROP_TEXT_HEIGHT,
+	PROP_EDITABLE,
+	PROP_USE_ELLIPSIS,
+	PROP_ELLIPSIS,
+	PROP_LINE_WRAP,
+	PROP_BREAK_CHARACTERS,
+	PROP_MAX_LINES,
+	PROP_WIDTH,
+	PROP_HEIGHT,
+	PROP_DRAW_BORDERS,
+	PROP_ALLOW_NEWLINES,
+	PROP_DRAW_BACKGROUND,
+	PROP_DRAW_BUTTON,
+	PROP_CURSOR_POS
 };
 
 
@@ -177,6 +178,7 @@ static void calc_height (EText *text);
 static void calc_line_widths (EText *text);
 static void split_into_lines (EText *text);
 
+#define PARENT_TYPE GNOME_TYPE_CANVAS_ITEM
 static GnomeCanvasItemClass *parent_class;
 static GdkAtom clipboard_atom = GDK_NONE;
 
@@ -198,7 +200,7 @@ e_text_style_set (EText *text, GtkStyle *previous_style)
 }
 
 static void
-e_text_destroy (GtkObject *object)
+e_text_dispose (GObject *object)
 {
 	EText *text;
 
@@ -212,30 +214,30 @@ e_text_destroy (GtkObject *object)
 	text->tooltip_owner = 0;
 
 	if (text->model_changed_signal_id)
-		gtk_signal_disconnect (GTK_OBJECT (text->model), 
-				       text->model_changed_signal_id);
+		g_signal_handler_disconnect (text->model,
+					     text->model_changed_signal_id);
 	text->model_changed_signal_id = 0;
 
 	if (text->model_repos_signal_id)
-		gtk_signal_disconnect (GTK_OBJECT (text->model),
-				       text->model_repos_signal_id);
+		g_signal_handler_disconnect (text->model,
+					     text->model_repos_signal_id);
 	text->model_repos_signal_id = 0;
 
 	if (text->model)
-		gtk_object_unref(GTK_OBJECT(text->model));
+		g_object_unref(text->model);
 	text->model = NULL;
 
 	if (text->tep_command_id)
-		gtk_signal_disconnect(GTK_OBJECT(text->tep),
-				      text->tep_command_id);
+		g_signal_handler_disconnect(text->tep,
+					    text->tep_command_id);
 	text->tep_command_id = 0;
 
 	if (text->tep)
-		gtk_object_unref (GTK_OBJECT(text->tep));
+		g_object_unref (text->tep);
 	text->tep = NULL;
 	
 	if (text->invisible)
-		gtk_object_unref (GTK_OBJECT(text->invisible));
+		g_object_unref (text->invisible);
 	text->invisible = NULL;
 
 	g_free (text->lines);
@@ -289,8 +291,8 @@ e_text_destroy (GtkObject *object)
 		text->tpl_timeout = 0;
 	}
 
-	if (GTK_OBJECT_CLASS (parent_class)->destroy)
-		(* GTK_OBJECT_CLASS (parent_class)->destroy) (object);
+	if (G_OBJECT_CLASS (parent_class)->dispose)
+		(* G_OBJECT_CLASS (parent_class)->dispose) (object);
 }
 
 static void
@@ -309,7 +311,7 @@ e_text_text_model_changed (ETextModel *model, EText *text)
 	e_canvas_item_request_reflow (GNOME_CANVAS_ITEM(text));
 	gnome_canvas_item_request_update (GNOME_CANVAS_ITEM (text));
 
-	gtk_signal_emit (GTK_OBJECT (text), e_text_signals[E_TEXT_CHANGED]);
+	g_signal_emit (text, e_text_signals[E_TEXT_CHANGED], 0);
 }
 
 static void
@@ -842,7 +844,10 @@ set_stipple (EText *text, GdkBitmap *stipple, int reconfigure)
 
 /* Set_arg handler for the text item */
 static void
-e_text_set_arg (GtkObject *object, GtkArg *arg, guint arg_id)
+e_text_set_property (GObject *object,
+		     guint prop_id,
+		     const GValue *value,
+		     GParamSpec *pspec)
 {
 	GnomeCanvasItem *item;
 	EText *text;
@@ -860,71 +865,71 @@ e_text_set_arg (GtkObject *object, GtkArg *arg, guint arg_id)
 	color_changed = FALSE;
 	have_pixel = FALSE;
 
-	switch (arg_id) {
-	case ARG_MODEL:
+	switch (prop_id) {
+	case PROP_MODEL:
 
 		if ( text->model_changed_signal_id )
-			gtk_signal_disconnect (GTK_OBJECT (text->model),
-					       text->model_changed_signal_id);
+			g_signal_handler_disconnect (text->model,
+						     text->model_changed_signal_id);
 
 		if ( text->model_repos_signal_id )
-			gtk_signal_disconnect (GTK_OBJECT (text->model),
-					       text->model_repos_signal_id);
+			g_signal_handler_disconnect (text->model,
+						     text->model_repos_signal_id);
 
-		gtk_object_unref (GTK_OBJECT (text->model));
-		text->model = E_TEXT_MODEL (GTK_VALUE_OBJECT (*arg));
-		gtk_object_ref (GTK_OBJECT (text->model));
+		g_object_unref (text->model);
+		text->model = E_TEXT_MODEL (g_value_get_object (value));
+		g_object_ref (text->model);
 
 		text->model_changed_signal_id =
-			gtk_signal_connect (GTK_OBJECT (text->model),
-					    "changed",
-					    GTK_SIGNAL_FUNC (e_text_text_model_changed),
-					    text);
+			g_signal_connect (text->model,
+					  "changed",
+					  G_CALLBACK (e_text_text_model_changed),
+					  text);
 
 		text->model_repos_signal_id =
-			gtk_signal_connect (GTK_OBJECT (text->model),
-					    "reposition",
-					    GTK_SIGNAL_FUNC (e_text_text_model_reposition),
-					    text);
+			g_signal_connect (text->model,
+					  "reposition",
+					  G_CALLBACK (e_text_text_model_reposition),
+					  text);
 
 		e_text_free_lines(text);
 
 		text->text = e_text_model_get_text(text->model);
-		gtk_signal_emit (GTK_OBJECT (text), e_text_signals[E_TEXT_CHANGED]);
+		g_signal_emit (text, e_text_signals[E_TEXT_CHANGED], 0);
 
 		text->needs_split_into_lines = 1;
 		needs_reflow = 1;
 		break;
 
-	case ARG_EVENT_PROCESSOR:
+	case PROP_EVENT_PROCESSOR:
 		if ( text->tep && text->tep_command_id )
-			gtk_signal_disconnect(GTK_OBJECT(text->tep),
-					      text->tep_command_id);
+			g_signal_handler_disconnect(text->tep,
+						    text->tep_command_id);
 		if ( text->tep ) {
-			gtk_object_unref(GTK_OBJECT(text->tep));
+			g_object_unref(text->tep);
 		}
-		text->tep = E_TEXT_EVENT_PROCESSOR(GTK_VALUE_OBJECT (*arg));
-		gtk_object_ref(GTK_OBJECT(text->tep));
+		text->tep = E_TEXT_EVENT_PROCESSOR(g_value_get_object (value));
+		g_object_ref(text->tep);
 		text->tep_command_id = 
-			gtk_signal_connect(GTK_OBJECT(text->tep),
-					   "command",
-					   GTK_SIGNAL_FUNC(e_text_command),
-					   text);
+			g_signal_connect (text->tep,
+					  "command",
+					  G_CALLBACK(e_text_command),
+					  text);
 		if (!text->allow_newlines)
-			gtk_object_set (GTK_OBJECT (text->tep),
-					"allow_newlines", FALSE,
-					NULL);
+			g_object_set (text->tep,
+				      "allow_newlines", FALSE,
+				      NULL);
 		break;
 
-	case ARG_TEXT:
-		e_text_model_set_text(text->model, GTK_VALUE_STRING (*arg));
+	case PROP_TEXT:
+		e_text_model_set_text(text->model, g_value_get_string (value));
 		break;
 
-	case ARG_FONT:
+	case PROP_FONT:
 		if (text->font)
   			e_font_unref (text->font);
 
-		text->font = e_font_from_gdk_name (GTK_VALUE_STRING (*arg));
+		text->font = e_font_from_gdk_name (g_value_get_string (value));
 		
 		calc_ellipsis (text);
 		if ( text->line_wrap )
@@ -936,11 +941,11 @@ e_text_set_arg (GtkObject *object, GtkArg *arg, guint arg_id)
 		needs_reflow = 1;
 		break;
 
-	case ARG_FONTSET:
+	case PROP_FONTSET:
 		if (text->font)
   			e_font_unref (text->font); 
 
-		text->font = e_font_from_gdk_name (GTK_VALUE_STRING (*arg));
+		text->font = e_font_from_gdk_name (g_value_get_string (value));
 
 		calc_ellipsis (text);
 		if ( text->line_wrap )
@@ -952,14 +957,14 @@ e_text_set_arg (GtkObject *object, GtkArg *arg, guint arg_id)
 		needs_reflow = 1;
 		break;
 
-	case ARG_FONT_GDK:
+	case PROP_FONT_GDK:
 		/* Ref the font in case it was the font that is stored
 		   in the e-font */
-		gdk_font_ref (GTK_VALUE_POINTER (*arg));
+		gdk_font_ref (g_value_get_boxed (value));
 		if (text->font)
   			e_font_unref (text->font); 
 
-		text->font = e_font_from_gdk_font (GTK_VALUE_POINTER (*arg));
+		text->font = e_font_from_gdk_font (g_value_get_boxed (value));
 
 		calc_ellipsis (text);
 		if ( text->line_wrap )
@@ -971,11 +976,11 @@ e_text_set_arg (GtkObject *object, GtkArg *arg, guint arg_id)
 		needs_reflow = 1;
 		break;
 
-	case ARG_FONT_E:
+	case PROP_FONT_E:
 		if (text->font)
 			e_font_unref (text->font);
 
-		text->font = GTK_VALUE_POINTER (*arg);
+		text->font = g_value_get_pointer (value);
 		e_font_ref (text->font);
 
 		calc_ellipsis (text);
@@ -988,8 +993,8 @@ e_text_set_arg (GtkObject *object, GtkArg *arg, guint arg_id)
 		needs_reflow = 1;
 		break;
 
-	case ARG_BOLD:
-		text->bold = GTK_VALUE_BOOL (*arg);
+	case PROP_BOLD:
+		text->bold = g_value_get_boolean (value);
 		text->style = text->bold ? E_FONT_BOLD : E_FONT_PLAIN;
 
 		text->needs_redraw = 1;
@@ -1004,26 +1009,26 @@ e_text_set_arg (GtkObject *object, GtkArg *arg, guint arg_id)
 		needs_reflow = 1;
 		break;
 
-	case ARG_STRIKEOUT:
-		text->strikeout = GTK_VALUE_BOOL (*arg);
+	case PROP_STRIKEOUT:
+		text->strikeout = g_value_get_boolean (value);
 		text->needs_redraw = 1;
 		needs_update = 1;
 		break;
 
-	case ARG_ANCHOR:
-		text->anchor = GTK_VALUE_INT (*arg);
+	case PROP_ANCHOR:
+		text->anchor = g_value_get_enum (value);
 		text->needs_recalc_bounds = 1;
 		needs_update = 1;
 		break;
 
-	case ARG_JUSTIFICATION:
-		text->justification = GTK_VALUE_INT (*arg);
+	case PROP_JUSTIFICATION:
+		text->justification = g_value_get_enum (value);
 		text->needs_redraw = 1;
 		needs_update = 1;
 		break;
 
-	case ARG_CLIP_WIDTH:
-		text->clip_width = fabs (GTK_VALUE_DOUBLE (*arg));
+	case PROP_CLIP_WIDTH:
+		text->clip_width = fabs (g_value_get_double (value));
 		calc_ellipsis (text);
 		if ( text->line_wrap )
 			text->needs_split_into_lines = 1;
@@ -1034,14 +1039,14 @@ e_text_set_arg (GtkObject *object, GtkArg *arg, guint arg_id)
 		needs_reflow = 1;
 		break;
 
-	case ARG_CLIP_HEIGHT:
-		text->clip_height = fabs (GTK_VALUE_DOUBLE (*arg));
+	case PROP_CLIP_HEIGHT:
+		text->clip_height = fabs (g_value_get_double (value));
 		text->needs_recalc_bounds = 1;
 		needs_reflow = 1;
 		break;
 
-	case ARG_CLIP:
-		text->clip = GTK_VALUE_BOOL (*arg);
+	case PROP_CLIP:
+		text->clip = g_value_get_boolean (value);
 		calc_ellipsis (text);
 		if ( text->line_wrap )
 			text->needs_split_into_lines = 1;
@@ -1052,26 +1057,26 @@ e_text_set_arg (GtkObject *object, GtkArg *arg, guint arg_id)
 		needs_reflow = 1;
 		break;
 
-	case ARG_FILL_CLIP_RECTANGLE:
-		text->fill_clip_rectangle = GTK_VALUE_BOOL (*arg);
+	case PROP_FILL_CLIP_RECTANGLE:
+		text->fill_clip_rectangle = g_value_get_boolean (value);
 		needs_update = 1;
 		break;
 
-	case ARG_X_OFFSET:
-		text->xofs = GTK_VALUE_DOUBLE (*arg);
+	case PROP_X_OFFSET:
+		text->xofs = g_value_get_double (value);
 		text->needs_recalc_bounds = 1;
 		needs_update = 1;
 		break;
 
-	case ARG_Y_OFFSET:
-		text->yofs = GTK_VALUE_DOUBLE (*arg);
+	case PROP_Y_OFFSET:
+		text->yofs = g_value_get_double (value);
 		text->needs_recalc_bounds = 1;
 		needs_update = 1;
 		break;
 
-        case ARG_FILL_COLOR:
-		if (GTK_VALUE_STRING (*arg))
-			gdk_color_parse (GTK_VALUE_STRING (*arg), &color);
+        case PROP_FILL_COLOR:
+		if (g_value_get_string (value))
+			gdk_color_parse (g_value_get_string (value), &color);
 
 		text->rgba = ((color.red & 0xff00) << 16 |
 			      (color.green & 0xff00) << 8 |
@@ -1080,8 +1085,8 @@ e_text_set_arg (GtkObject *object, GtkArg *arg, guint arg_id)
 		color_changed = TRUE;
 		break;
 
-	case ARG_FILL_COLOR_GDK:
-		pcolor = GTK_VALUE_BOXED (*arg);
+	case PROP_FILL_COLOR_GDK:
+		pcolor = g_value_get_pointer (value);
 		if (pcolor) {
 			color = *pcolor;
 		}
@@ -1093,67 +1098,67 @@ e_text_set_arg (GtkObject *object, GtkArg *arg, guint arg_id)
 		color_changed = TRUE;
 		break;
 
-        case ARG_FILL_COLOR_RGBA:
-		text->rgba = GTK_VALUE_UINT (*arg);
+        case PROP_FILL_COLOR_RGBA:
+		text->rgba = g_value_get_uint (value);
 		color.red = ((text->rgba >> 24) & 0xff) * 0x101;
 		color.green = ((text->rgba >> 16) & 0xff) * 0x101;
 		color.blue = ((text->rgba >> 8) & 0xff) * 0x101;
 		color_changed = TRUE;
 		break;
 
-	case ARG_FILL_STIPPLE:
-		set_stipple (text, GTK_VALUE_BOXED (*arg), FALSE);
+	case PROP_FILL_STIPPLE:
+		set_stipple (text, g_value_get_object (value), FALSE);
 		text->needs_redraw = 1;
 		needs_update = 1;
 		break;
 
-	case ARG_EDITABLE:
-		text->editable = GTK_VALUE_BOOL (*arg);
+	case PROP_EDITABLE:
+		text->editable = g_value_get_boolean (value);
 		text->needs_redraw = 1;
 		needs_update = 1;
 		break;
 
-	case ARG_USE_ELLIPSIS:
-		text->use_ellipsis = GTK_VALUE_BOOL (*arg);
+	case PROP_USE_ELLIPSIS:
+		text->use_ellipsis = g_value_get_boolean (value);
 		text->needs_calc_line_widths = 1;
 		needs_reflow = 1;
 		break;
 
-	case ARG_ELLIPSIS:
+	case PROP_ELLIPSIS:
 		if (text->ellipsis)
 			g_free (text->ellipsis);
 
-		text->ellipsis = g_strdup (GTK_VALUE_STRING (*arg));
+		text->ellipsis = g_strdup (g_value_get_string (value));
 		calc_ellipsis (text);
 		text->needs_calc_line_widths = 1;
 		needs_reflow = 1;
 		break;
 
-	case ARG_LINE_WRAP:
-		text->line_wrap = GTK_VALUE_BOOL (*arg);
+	case PROP_LINE_WRAP:
+		text->line_wrap = g_value_get_boolean (value);
 		text->needs_split_into_lines = 1;
 		needs_reflow = 1;
 		break;
 		
-	case ARG_BREAK_CHARACTERS:
+	case PROP_BREAK_CHARACTERS:
 		if ( text->break_characters ) {
 			g_free(text->break_characters);
 			text->break_characters = NULL;
 		}
-		if ( GTK_VALUE_STRING (*arg) )
-			text->break_characters = g_strdup( GTK_VALUE_STRING (*arg) );
+		if ( g_value_get_string (value) )
+			text->break_characters = g_strdup( g_value_get_string (value) );
 		text->needs_split_into_lines = 1;
 		needs_reflow = 1;
 		break;
 
-	case ARG_MAX_LINES:
-		text->max_lines = GTK_VALUE_INT (*arg);
+	case PROP_MAX_LINES:
+		text->max_lines = g_value_get_int (value);
 		text->needs_split_into_lines = 1;
 		needs_reflow = 1;
 		break;
 
-	case ARG_WIDTH:
-		text->clip_width = fabs (GTK_VALUE_DOUBLE (*arg));
+	case PROP_WIDTH:
+		text->clip_width = fabs (g_value_get_double (value));
 		calc_ellipsis (text);
 		if ( text->line_wrap )
 			text->needs_split_into_lines = 1;
@@ -1164,9 +1169,9 @@ e_text_set_arg (GtkObject *object, GtkArg *arg, guint arg_id)
 		needs_reflow = 1;
 		break;
 		
-	case ARG_DRAW_BORDERS:
-		if (text->draw_borders != GTK_VALUE_BOOL (*arg)) {
-			text->draw_borders = GTK_VALUE_BOOL (*arg);
+	case PROP_DRAW_BORDERS:
+		if (text->draw_borders != g_value_get_boolean (value)) {
+			text->draw_borders = g_value_get_boolean (value);
 			text->needs_calc_height = 1;
 			text->needs_redraw = 1;
 			needs_reflow = 1;
@@ -1174,34 +1179,34 @@ e_text_set_arg (GtkObject *object, GtkArg *arg, guint arg_id)
 		}
 		break;
 
-	case ARG_DRAW_BACKGROUND:
-		if (text->draw_background != GTK_VALUE_BOOL (*arg)){
-			text->draw_background = GTK_VALUE_BOOL (*arg);
+	case PROP_DRAW_BACKGROUND:
+		if (text->draw_background != g_value_get_boolean (value)) {
+			text->draw_background = g_value_get_boolean (value);
 			text->needs_redraw = 1;
 		}
 		break;
 
-	case ARG_DRAW_BUTTON:
-		if (text->draw_button != GTK_VALUE_BOOL (*arg)){
-			text->draw_button = GTK_VALUE_BOOL (*arg);
+	case PROP_DRAW_BUTTON:
+		if (text->draw_button != g_value_get_boolean (value)) {
+			text->draw_button = g_value_get_boolean (value);
 			text->needs_redraw = 1;
 		}
 		break;
 
-	case ARG_ALLOW_NEWLINES:
-		text->allow_newlines = GTK_VALUE_BOOL (*arg);
+	case PROP_ALLOW_NEWLINES:
+		text->allow_newlines = g_value_get_boolean (value);
 		_get_tep(text);
-		gtk_object_set (GTK_OBJECT (text->tep),
-				"allow_newlines", GTK_VALUE_BOOL (*arg),
-				NULL);
+		g_object_set (text->tep,
+			      "allow_newlines", g_value_get_boolean (value),
+			      NULL);
 		break;
 
-	case ARG_CURSOR_POS: {
+	case PROP_CURSOR_POS: {
 		ETextEventProcessorCommand command;
 
 		command.action = E_TEP_MOVE;
 		command.position = E_TEP_VALUE;
-		command.value = GTK_VALUE_INT (*arg);
+		command.value = g_value_get_int (value);
 		command.time = GDK_CURRENT_TIME;
 		e_text_command (text->tep, &command, text);
 		break;
@@ -1237,144 +1242,147 @@ e_text_set_arg (GtkObject *object, GtkArg *arg, guint arg_id)
 
 /* Get_arg handler for the text item */
 static void
-e_text_get_arg (GtkObject *object, GtkArg *arg, guint arg_id)
+e_text_get_property (GObject *object,
+		     guint prop_id,
+		     GValue *value,
+		     GParamSpec *pspec)
 {
 	EText *text;
 
 	text = E_TEXT (object);
 
-	switch (arg_id) {
-	case ARG_MODEL:
-		GTK_VALUE_OBJECT (*arg) = GTK_OBJECT(text->model);
+	switch (prop_id) {
+	case PROP_MODEL:
+		g_value_set_object (value, text->model);
 		break;
 
-	case ARG_EVENT_PROCESSOR:
+	case PROP_EVENT_PROCESSOR:
 		_get_tep(text);
-		GTK_VALUE_OBJECT (*arg) = GTK_OBJECT(text->tep);
+		g_value_set_object (value, text->tep);
 		break;
 
-	case ARG_TEXT:
-		GTK_VALUE_STRING (*arg) = g_strdup (text->text);
+	case PROP_TEXT:
+		g_value_set_string (value, g_strdup (text->text));
 		break;
 
-	case ARG_FONT_E:
-		GTK_VALUE_BOXED (*arg) = text->font;
+	case PROP_FONT_E:
+		g_value_set_pointer (value, text->font);
 		break;
 
-	case ARG_BOLD:
-		GTK_VALUE_BOOL (*arg) = text->bold;
+	case PROP_BOLD:
+		g_value_set_boolean (value, text->bold);
 		break;
 
-	case ARG_STRIKEOUT:
-		GTK_VALUE_BOOL (*arg) = text->strikeout;
+	case PROP_STRIKEOUT:
+		g_value_set_boolean (value, text->strikeout);
 		break;
 
-	case ARG_ANCHOR:
-		GTK_VALUE_INT (*arg) = text->anchor;
+	case PROP_ANCHOR:
+		g_value_set_enum (value, text->anchor);
 		break;
 
-	case ARG_JUSTIFICATION:
-		GTK_VALUE_INT (*arg) = text->justification;
+	case PROP_JUSTIFICATION:
+		g_value_set_enum (value, text->justification);
 		break;
 
-	case ARG_CLIP_WIDTH:
-		GTK_VALUE_DOUBLE (*arg) = text->clip_width;
+	case PROP_CLIP_WIDTH:
+		g_value_set_double (value, text->clip_width);
 		break;
 
-	case ARG_CLIP_HEIGHT:
-		GTK_VALUE_DOUBLE (*arg) = text->clip_height;
+	case PROP_CLIP_HEIGHT:
+		g_value_set_double (value, text->clip_height);
 		break;
 
-	case ARG_CLIP:
-		GTK_VALUE_BOOL (*arg) = text->clip;
+	case PROP_CLIP:
+		g_value_set_boolean (value, text->clip);
 		break;
 
-	case ARG_FILL_CLIP_RECTANGLE:
-		GTK_VALUE_BOOL (*arg) = text->fill_clip_rectangle;
+	case PROP_FILL_CLIP_RECTANGLE:
+		g_value_set_boolean (value, text->fill_clip_rectangle);
 		break;
 
-	case ARG_X_OFFSET:
-		GTK_VALUE_DOUBLE (*arg) = text->xofs;
+	case PROP_X_OFFSET:
+		g_value_set_double (value, text->xofs);
 		break;
 
-	case ARG_Y_OFFSET:
-		GTK_VALUE_DOUBLE (*arg) = text->yofs;
+	case PROP_Y_OFFSET:
+		g_value_set_double (value, text->yofs);
 		break;
 
-	case ARG_FILL_COLOR_GDK:
-		GTK_VALUE_BOXED (*arg) = gdk_color_copy (&text->color);
+	case PROP_FILL_COLOR_GDK:
+		g_value_set_pointer (value, gdk_color_copy (&text->color));
 		break;
 
-	case ARG_FILL_COLOR_RGBA:
-		GTK_VALUE_UINT (*arg) = text->rgba;
+	case PROP_FILL_COLOR_RGBA:
+		g_value_set_uint (value, text->rgba);
 		break;
 
-	case ARG_FILL_STIPPLE:
-		GTK_VALUE_BOXED (*arg) = text->stipple;
+	case PROP_FILL_STIPPLE:
+		g_value_set_object (value, text->stipple);
 		break;
 
-	case ARG_TEXT_WIDTH:
-		GTK_VALUE_DOUBLE (*arg) = text->max_width / text->item.canvas->pixels_per_unit;
+	case PROP_TEXT_WIDTH:
+		g_value_set_double (value, text->max_width / text->item.canvas->pixels_per_unit);
 		break;
 
-	case ARG_TEXT_HEIGHT:
-		GTK_VALUE_DOUBLE (*arg) = text->height / text->item.canvas->pixels_per_unit;
+	case PROP_TEXT_HEIGHT:
+		g_value_set_double (value, text->height / text->item.canvas->pixels_per_unit);
 		break;
 
-	case ARG_EDITABLE:
-		GTK_VALUE_BOOL (*arg) = text->editable;
+	case PROP_EDITABLE:
+		g_value_set_boolean (value, text->editable);
 		break;
 
-	case ARG_USE_ELLIPSIS:
-		GTK_VALUE_BOOL (*arg) = text->use_ellipsis;
+	case PROP_USE_ELLIPSIS:
+		g_value_set_boolean (value, text->use_ellipsis);
 		break;
 
-	case ARG_ELLIPSIS:
-		GTK_VALUE_STRING (*arg) = g_strdup (text->ellipsis);
+	case PROP_ELLIPSIS:
+		g_value_set_string (value, g_strdup (text->ellipsis));
 		break;
 
-	case ARG_LINE_WRAP:
-		GTK_VALUE_BOOL (*arg) = text->line_wrap;
+	case PROP_LINE_WRAP:
+		g_value_set_boolean (value, text->line_wrap);
 		break;
 		
-	case ARG_BREAK_CHARACTERS:
-		GTK_VALUE_STRING (*arg) = g_strdup (text->break_characters);
+	case PROP_BREAK_CHARACTERS:
+		g_value_set_string (value, g_strdup (text->break_characters));
 		break;
 
-	case ARG_MAX_LINES:
-		GTK_VALUE_INT (*arg) = text->max_lines;
+	case PROP_MAX_LINES:
+		g_value_set_int (value, text->max_lines);
 		break;
 
-	case ARG_WIDTH:
-		GTK_VALUE_DOUBLE (*arg) = text->clip_width;
+	case PROP_WIDTH:
+		g_value_set_double (value, text->clip_width);
 		break;
 
-	case ARG_HEIGHT:
-		GTK_VALUE_DOUBLE (*arg) = text->clip && text->clip_height != -1 ? text->clip_height : text->height / text->item.canvas->pixels_per_unit;
+	case PROP_HEIGHT:
+		g_value_set_double (value, text->clip && text->clip_height != -1 ? text->clip_height : text->height / text->item.canvas->pixels_per_unit);
 		break;
 
-	case ARG_DRAW_BORDERS:
-		GTK_VALUE_BOOL (*arg) = text->draw_borders;
+	case PROP_DRAW_BORDERS:
+		g_value_set_boolean (value, text->draw_borders);
 		break;
 
-	case ARG_DRAW_BACKGROUND:
-		GTK_VALUE_BOOL (*arg) = text->draw_background;
+	case PROP_DRAW_BACKGROUND:
+		g_value_set_boolean (value, text->draw_background);
 		break;
 		
-	case ARG_DRAW_BUTTON:
-		GTK_VALUE_BOOL (*arg) = text->draw_button;
+	case PROP_DRAW_BUTTON:
+		g_value_set_boolean (value, text->draw_button);
 		break;
 		
-	case ARG_ALLOW_NEWLINES:
-		GTK_VALUE_BOOL (*arg) = text->allow_newlines;
+	case PROP_ALLOW_NEWLINES:
+		g_value_set_boolean (value, text->allow_newlines);
 		break;
 
-	case ARG_CURSOR_POS:
-		GTK_VALUE_INT (*arg) = text->selection_start;
+	case PROP_CURSOR_POS:
+		g_value_set_int (value, text->selection_start);
 		break;
 		
 	default:
-		arg->type = GTK_TYPE_INVALID;
+		G_OBJECT_WARN_INVALID_PROPERTY_ID (object, prop_id, pspec);
 		break;
 	}
 }
@@ -1671,13 +1679,13 @@ _get_tep(EText *text)
 {
 	if (!text->tep) {
 		text->tep = e_text_event_processor_emacs_like_new();
-		gtk_object_ref (GTK_OBJECT (text->tep));
+		g_object_ref (text->tep);
 		gtk_object_sink (GTK_OBJECT (text->tep));
 		text->tep_command_id = 
-			gtk_signal_connect(GTK_OBJECT(text->tep),
-					   "command",
-					   GTK_SIGNAL_FUNC(e_text_command),
-					   (gpointer) text);
+			g_signal_connect (text->tep,
+					  "command",
+					  G_CALLBACK(e_text_command),
+					  (gpointer) text);
 	}
 }
 
@@ -1715,10 +1723,10 @@ e_text_draw (GnomeCanvasItem *item, GdkDrawable *drawable,
 		gdouble thiswidth, thisheight;
 		GtkWidget *widget = GTK_WIDGET(item->canvas);
 
-		gtk_object_get(GTK_OBJECT(text),
-			       "width", &thiswidth,
-			       "height", &thisheight,
-			       NULL);
+		g_object_get(text,
+			     "width", &thiswidth,
+			     "height", &thisheight,
+			     NULL);
 		
 		if (text->draw_borders){
 
@@ -2530,8 +2538,8 @@ tooltip_event(GtkWidget *tooltip, GdkEvent *event, EText *text)
 			e_canvas_hide_tooltip (E_CANVAS(GNOME_CANVAS_ITEM(text)->canvas));
 		}
 		/* Forward events to the text item */
-		gtk_signal_emit_by_name (GTK_OBJECT (text), "event", event,
-					 &ret_val);
+		g_signal_emit_by_name (text, "event", event,
+				       &ret_val);
 		if (!ret_val)
 			gtk_propagate_event (GTK_WIDGET(GNOME_CANVAS_ITEM(text)->canvas), event);
 		ret_val = TRUE;
@@ -2542,10 +2550,11 @@ tooltip_event(GtkWidget *tooltip, GdkEvent *event, EText *text)
 }
 
 static void
-tooltip_destroy(GtkWidget *tooltip, EText *text)
+tooltip_destroy(gpointer data, GObject *where_object_was)
 {
+	EText *text = data;
 	text->tooltip_owner = FALSE;
-	gtk_object_unref (GTK_OBJECT (text));
+	g_object_unref (text);
 }
 
 static gboolean
@@ -2723,11 +2732,11 @@ _do_tooltip (gpointer data)
 					(double)tooltip_height + (text->draw_borders ? BORDER_INDENT * 2 : 0));
 	gtk_widget_show (canvas);
 	gtk_widget_realize (tooltip_window);
-	gtk_signal_connect (GTK_OBJECT(tooltip_window), "event",
-			    GTK_SIGNAL_FUNC(tooltip_event), text);
-	gtk_signal_connect (GTK_OBJECT(tooltip_window), "destroy",
-			    GTK_SIGNAL_FUNC(tooltip_destroy), text);
-	gtk_object_ref (GTK_OBJECT (text));
+	g_signal_connect (tooltip_window, "event",
+			  G_CALLBACK(tooltip_event), text);
+	g_object_weak_ref (G_OBJECT (tooltip_window),
+			   tooltip_destroy, text);
+	g_object_ref (text);
 
 	e_canvas_popup_tooltip (E_CANVAS(GNOME_CANVAS_ITEM(text)->canvas),
 				tooltip_window,
@@ -2861,8 +2870,8 @@ e_text_event (GnomeCanvasItem *item, GdkEvent *event)
 			ret = e_text_event_processor_handle_event (text->tep, &e_tep_event);
 
 			if (event->type == GDK_KEY_PRESS)
-				gtk_signal_emit (GTK_OBJECT (text), e_text_signals[E_TEXT_KEYPRESS],
-						 e_tep_event.key.keyval, e_tep_event.key.state);
+				g_signal_emit (text, e_text_signals[E_TEXT_KEYPRESS], 0,
+					       e_tep_event.key.keyval, e_tep_event.key.state);
 			
 
 			if (e_tep_event.key.string)
@@ -2912,10 +2921,10 @@ e_text_event (GnomeCanvasItem *item, GdkEvent *event)
 
 		/* We follow convention and emit popup events on right-clicks. */
 		if (event->type == GDK_BUTTON_PRESS && event->button.button == 3) {
-			gtk_signal_emit (GTK_OBJECT (text),
-					 e_text_signals[E_TEXT_POPUP],
-					 &(event->button),
-					 _get_position_from_xy (text, event->button.x, event->button.y));
+			g_signal_emit (text,
+				       e_text_signals[E_TEXT_POPUP], 0,
+				       &(event->button),
+				       _get_position_from_xy (text, event->button.x, event->button.y));
 
 			break;
 		}
@@ -3444,7 +3453,7 @@ e_text_command(ETextEventProcessor *tep, ETextEventProcessorCommand *command, gp
 		e_text_get_selection (text, GDK_SELECTION_PRIMARY, command->time);
 		break;
 	case E_TEP_ACTIVATE:
-		gtk_signal_emit (GTK_OBJECT (text), e_text_signals[E_TEXT_ACTIVATE]);
+		g_signal_emit (text, e_text_signals[E_TEXT_ACTIVATE], 0);
 		if (text->timer) {
 			g_timer_reset(text->timer);
 		}
@@ -3530,9 +3539,9 @@ e_text_command(ETextEventProcessor *tep, ETextEventProcessorCommand *command, gp
 }
 
 static void 
-_invisible_destroy (GtkInvisible *invisible,
-				EText *text)
+_invisible_destroy (gpointer data, GObject *where_object_was)
 {
+	EText *text = data;
 	text->invisible = NULL;
 }
 
@@ -3562,19 +3571,18 @@ e_text_get_invisible(EText *text)
 					   clipboard_atom,
 					   targets, n_targets);
 		
-		gtk_signal_connect (GTK_OBJECT(invisible), "selection_get",
-				    GTK_SIGNAL_FUNC (_selection_get), 
-				    text);
-		gtk_signal_connect (GTK_OBJECT(invisible), "selection_clear_event",
-				    GTK_SIGNAL_FUNC (_selection_clear_event),
-				    text);
-		gtk_signal_connect (GTK_OBJECT(invisible), "selection_received",
-				    GTK_SIGNAL_FUNC (_selection_received),
-				    text);
+		g_signal_connect (invisible, "selection_get",
+				  G_CALLBACK (_selection_get), 
+				  text);
+		g_signal_connect (invisible, "selection_clear_event",
+				  G_CALLBACK (_selection_clear_event),
+				  text);
+		g_signal_connect (invisible, "selection_received",
+				  G_CALLBACK (_selection_received),
+				  text);
 		
-		gtk_signal_connect (GTK_OBJECT(invisible), "destroy",
-				    GTK_SIGNAL_FUNC (_invisible_destroy),
-				    text);
+		g_object_weak_ref (G_OBJECT (invisible),
+				   _invisible_destroy, text);
 	}
 	return invisible;
 }
@@ -3968,133 +3976,20 @@ e_suck_font_free (ETextSuckFont *suckfont)
 static void
 e_text_class_init (ETextClass *klass)
 {
-	GtkObjectClass *object_class;
+	GObjectClass *object_class;
 	GnomeCanvasItemClass *item_class;
 
-	object_class = (GtkObjectClass *) klass;
+	object_class = (GObjectClass *) klass;
 	item_class = (GnomeCanvasItemClass *) klass;
 
-	parent_class = gtk_type_class (gnome_canvas_item_get_type ());
-
-	e_text_signals[E_TEXT_CHANGED] =
-		gtk_signal_new ("changed",
-				GTK_RUN_LAST,
-				E_OBJECT_CLASS_TYPE (object_class),
-				GTK_SIGNAL_OFFSET (ETextClass, changed),
-				gtk_marshal_NONE__NONE,
-				GTK_TYPE_NONE, 0);
-
-	e_text_signals[E_TEXT_ACTIVATE] =
-		gtk_signal_new ("activate",
-				GTK_RUN_LAST,
-				E_OBJECT_CLASS_TYPE (object_class),
-				GTK_SIGNAL_OFFSET (ETextClass, activate),
-				gtk_marshal_NONE__NONE,
-				GTK_TYPE_NONE, 0);
-
-	e_text_signals[E_TEXT_KEYPRESS] =
-		gtk_signal_new ("keypress",
-				GTK_RUN_LAST,
-				E_OBJECT_CLASS_TYPE (object_class),
-				GTK_SIGNAL_OFFSET (ETextClass, keypress),
-				gtk_marshal_NONE__INT_INT,
-				GTK_TYPE_NONE, 2, GTK_TYPE_UINT, GTK_TYPE_UINT);
-
-	e_text_signals[E_TEXT_POPUP] =
-		gtk_signal_new ("popup",
-				GTK_RUN_LAST,
-				E_OBJECT_CLASS_TYPE (object_class),
-				GTK_SIGNAL_OFFSET (ETextClass, popup),
-				e_marshal_NONE__POINTER_INT,
-				GTK_TYPE_NONE, 2, GTK_TYPE_POINTER, GTK_TYPE_INT);
-
-	E_OBJECT_CLASS_ADD_SIGNALS (object_class, e_text_signals, E_TEXT_LAST_SIGNAL);
-
-
-	gtk_object_add_arg_type ("EText::model",
-				 GTK_TYPE_OBJECT, GTK_ARG_READWRITE, ARG_MODEL);  
-	gtk_object_add_arg_type ("EText::event_processor",
-				 GTK_TYPE_OBJECT, GTK_ARG_READWRITE, ARG_EVENT_PROCESSOR);
-	gtk_object_add_arg_type ("EText::text",
-				 GTK_TYPE_STRING, GTK_ARG_READWRITE, ARG_TEXT);
-	gtk_object_add_arg_type ("EText::font",
-				 GTK_TYPE_STRING, GTK_ARG_WRITABLE, ARG_FONT);
-	gtk_object_add_arg_type ("EText::fontset",
-				 GTK_TYPE_STRING, GTK_ARG_WRITABLE, ARG_FONTSET);
-	gtk_object_add_arg_type ("EText::font_gdk",
-				 GDK_TYPE_FONT, GTK_ARG_WRITABLE, ARG_FONT_GDK);
-	gtk_object_add_arg_type ("EText::font_e",
-				 GTK_TYPE_POINTER, GTK_ARG_READWRITE, ARG_FONT_E);
-	gtk_object_add_arg_type ("EText::bold",
-				 GTK_TYPE_BOOL, GTK_ARG_READWRITE, ARG_BOLD);
-	gtk_object_add_arg_type ("EText::strikeout",
-				 GTK_TYPE_BOOL, GTK_ARG_READWRITE, ARG_STRIKEOUT);
-	gtk_object_add_arg_type ("EText::anchor",
-				 GTK_TYPE_ANCHOR_TYPE, GTK_ARG_READWRITE, ARG_ANCHOR);
-	gtk_object_add_arg_type ("EText::justification",
-				 GTK_TYPE_JUSTIFICATION, GTK_ARG_READWRITE, ARG_JUSTIFICATION);
-	gtk_object_add_arg_type ("EText::clip_width",
-				 GTK_TYPE_DOUBLE, GTK_ARG_READWRITE, ARG_CLIP_WIDTH);
-	gtk_object_add_arg_type ("EText::clip_height",
-				 GTK_TYPE_DOUBLE, GTK_ARG_READWRITE, ARG_CLIP_HEIGHT);
-	gtk_object_add_arg_type ("EText::clip",
-				 GTK_TYPE_BOOL, GTK_ARG_READWRITE, ARG_CLIP);
-	gtk_object_add_arg_type ("EText::fill_clip_rectangle",
-				 GTK_TYPE_BOOL, GTK_ARG_READWRITE, ARG_FILL_CLIP_RECTANGLE);
-	gtk_object_add_arg_type ("EText::x_offset",
-				 GTK_TYPE_DOUBLE, GTK_ARG_READWRITE, ARG_X_OFFSET);
-	gtk_object_add_arg_type ("EText::y_offset",
-				 GTK_TYPE_DOUBLE, GTK_ARG_READWRITE, ARG_Y_OFFSET);
-	gtk_object_add_arg_type ("EText::fill_color",
-				 GTK_TYPE_STRING, GTK_ARG_WRITABLE, ARG_FILL_COLOR);
-	gtk_object_add_arg_type ("EText::fill_color_gdk",
-				 GDK_TYPE_COLOR, GTK_ARG_READWRITE, ARG_FILL_COLOR_GDK);
-	gtk_object_add_arg_type ("EText::fill_color_rgba",
-				 GTK_TYPE_UINT, GTK_ARG_READWRITE, ARG_FILL_COLOR_RGBA);
-	gtk_object_add_arg_type ("EText::fill_stipple",
-				 GDK_TYPE_WINDOW, GTK_ARG_READWRITE, ARG_FILL_STIPPLE);
-	gtk_object_add_arg_type ("EText::text_width",
-				 GTK_TYPE_DOUBLE, GTK_ARG_READABLE, ARG_TEXT_WIDTH);
-	gtk_object_add_arg_type ("EText::text_height",
-				 GTK_TYPE_DOUBLE, GTK_ARG_READABLE, ARG_TEXT_HEIGHT);
-	gtk_object_add_arg_type ("EText::editable",
-				 GTK_TYPE_BOOL, GTK_ARG_READWRITE, ARG_EDITABLE);
-	gtk_object_add_arg_type ("EText::use_ellipsis",
-				 GTK_TYPE_BOOL, GTK_ARG_READWRITE, ARG_USE_ELLIPSIS);
-	gtk_object_add_arg_type ("EText::ellipsis",
-				 GTK_TYPE_STRING, GTK_ARG_READWRITE, ARG_ELLIPSIS);
-	gtk_object_add_arg_type ("EText::line_wrap",
-				 GTK_TYPE_BOOL, GTK_ARG_READWRITE, ARG_LINE_WRAP);
-	gtk_object_add_arg_type ("EText::break_characters",
-				 GTK_TYPE_STRING, GTK_ARG_READWRITE, ARG_BREAK_CHARACTERS);
-	gtk_object_add_arg_type ("EText::max_lines",
-				 GTK_TYPE_INT, GTK_ARG_READWRITE, ARG_MAX_LINES);
-	gtk_object_add_arg_type ("EText::width",
-				 GTK_TYPE_DOUBLE, GTK_ARG_READWRITE, ARG_WIDTH);
-	gtk_object_add_arg_type ("EText::height",
-				 GTK_TYPE_DOUBLE, GTK_ARG_READABLE, ARG_HEIGHT);
-	gtk_object_add_arg_type ("EText::draw_borders",
-				 GTK_TYPE_BOOL, GTK_ARG_READWRITE, ARG_DRAW_BORDERS);
-	gtk_object_add_arg_type ("EText::allow_newlines",
-				 GTK_TYPE_BOOL, GTK_ARG_READWRITE, ARG_ALLOW_NEWLINES);
-	gtk_object_add_arg_type ("EText::draw_background",
-				 GTK_TYPE_BOOL, GTK_ARG_READWRITE, ARG_DRAW_BACKGROUND);
-	gtk_object_add_arg_type ("EText::draw_button",
-				 GTK_TYPE_BOOL, GTK_ARG_READWRITE, ARG_DRAW_BUTTON);
-	gtk_object_add_arg_type ("EText::cursor_pos",
-				 GTK_TYPE_INT, GTK_ARG_READWRITE, ARG_CURSOR_POS);
-
-	if (!clipboard_atom)
-		clipboard_atom = gdk_atom_intern ("CLIPBOARD", FALSE);
-
-
+	parent_class = g_type_class_ref (PARENT_TYPE);
 
 	klass->changed = NULL;
 	klass->activate = NULL;
 
-	object_class->destroy = e_text_destroy;
-	object_class->set_arg = e_text_set_arg;
-	object_class->get_arg = e_text_get_arg;
+	object_class->dispose = e_text_dispose;
+	object_class->set_property = e_text_set_property;
+	object_class->get_property = e_text_get_property;
 
 	item_class->update = e_text_update;
 	item_class->realize = e_text_realize;
@@ -4104,6 +3999,300 @@ e_text_class_init (ETextClass *klass)
 	item_class->bounds = e_text_bounds;
 	item_class->render = e_text_render;
 	item_class->event = e_text_event;
+
+	e_text_signals[E_TEXT_CHANGED] =
+		g_signal_new ("changed",
+			      G_OBJECT_CLASS_TYPE (object_class),
+			      G_SIGNAL_RUN_LAST,
+			      G_STRUCT_OFFSET (ETextClass, changed),
+			      NULL, NULL,
+			      e_marshal_NONE__NONE,
+			      G_TYPE_NONE, 0);
+
+	e_text_signals[E_TEXT_ACTIVATE] =
+		g_signal_new ("activate",
+			      G_OBJECT_CLASS_TYPE (object_class),
+			      G_SIGNAL_RUN_LAST,
+			      G_STRUCT_OFFSET (ETextClass, activate),
+			      NULL, NULL,
+			      e_marshal_NONE__NONE,
+			      G_TYPE_NONE, 0);
+
+	e_text_signals[E_TEXT_KEYPRESS] =
+		g_signal_new ("keypress",
+			      G_OBJECT_CLASS_TYPE (object_class),
+			      G_SIGNAL_RUN_LAST,
+			      G_STRUCT_OFFSET (ETextClass, keypress),
+			      NULL, NULL,
+			      e_marshal_NONE__INT_INT,
+			      G_TYPE_NONE, 2, G_TYPE_UINT, G_TYPE_UINT);
+
+	e_text_signals[E_TEXT_POPUP] =
+		g_signal_new ("popup",
+			      G_OBJECT_CLASS_TYPE (object_class),
+			      G_SIGNAL_RUN_LAST,
+			      G_STRUCT_OFFSET (ETextClass, popup),
+			      NULL, NULL,
+			      e_marshal_NONE__POINTER_INT,
+			      G_TYPE_NONE, 2, G_TYPE_POINTER, G_TYPE_INT);
+
+	g_object_class_install_property (object_class, PROP_MODEL,
+					 g_param_spec_object ("model",
+							      _( "Model" ),
+							      _( "Model" ),
+							      E_TYPE_TEXT_MODEL,
+							      G_PARAM_READWRITE));
+
+	g_object_class_install_property (object_class, PROP_EVENT_PROCESSOR,
+					 g_param_spec_object ("event_processor",
+							      _( "Event Processor" ),
+							      _( "Event Processor" ),
+							      E_TEXT_EVENT_PROCESSOR_TYPE,
+							      G_PARAM_READWRITE));
+
+	g_object_class_install_property (object_class, PROP_TEXT,
+					 g_param_spec_string ("text",
+							      _( "Text" ),
+							      _( "Text" ),
+							      NULL,
+							      G_PARAM_READWRITE));
+
+	g_object_class_install_property (object_class, PROP_FONT,
+					 g_param_spec_string ("font",
+							      _( "Font" ),
+							      _( "Font" ),
+							      NULL,
+							      G_PARAM_READWRITE));
+
+	g_object_class_install_property (object_class, PROP_FONTSET,
+					 g_param_spec_string ("fontset",
+							      _( "Fontset" ),
+							      _( "Fontset" ),
+							      NULL,
+							      G_PARAM_READWRITE));
+
+	g_object_class_install_property (object_class, PROP_FONT_GDK,
+					 g_param_spec_boxed ("font_gdk",
+							     _( "GDKFont" ),
+							     _( "GDKFont" ),
+							     GDK_TYPE_FONT,
+							     G_PARAM_WRITABLE));
+					 
+	g_object_class_install_property (object_class, PROP_FONT_E,
+					 g_param_spec_pointer ("font_e",
+							       _( "EFont" ),
+							       _( "EFont" ),
+							       G_PARAM_READWRITE));
+
+	g_object_class_install_property (object_class, PROP_BOLD,
+					 g_param_spec_boolean ("bold",
+							       _( "Bold" ),
+							       _( "Bold" ),
+							       FALSE,
+							       G_PARAM_READWRITE));
+
+	g_object_class_install_property (object_class, PROP_STRIKEOUT,
+					 g_param_spec_boolean ("strikeout",
+							       _( "Strikeout" ),
+							       _( "Strikeout" ),
+							       FALSE,
+							       G_PARAM_READWRITE));
+		
+	g_object_class_install_property (object_class, PROP_ANCHOR,
+					 g_param_spec_enum ("anchor",
+							    _( "Anchor" ),
+							    _( "Anchor" ),
+							    GTK_TYPE_ANCHOR_TYPE, GTK_ANCHOR_CENTER,
+							    G_PARAM_READWRITE));
+
+
+	g_object_class_install_property (object_class, PROP_JUSTIFICATION,
+					 g_param_spec_enum ("justification",
+							    _( "Justification" ),
+							    _( "Justification" ),
+							    GTK_TYPE_JUSTIFICATION, GTK_JUSTIFY_LEFT,
+							    G_PARAM_READWRITE));
+
+	g_object_class_install_property (object_class, PROP_CLIP_WIDTH,
+					 g_param_spec_double ("clip_width",
+							      _( "Clip Width" ),
+							      _( "Clip Width" ),
+							      0.0, G_MAXDOUBLE, 0.0,
+							      G_PARAM_READWRITE));
+
+	g_object_class_install_property (object_class, PROP_CLIP_HEIGHT,
+					 g_param_spec_double ("clip_height",
+							      _( "Clip Height" ),
+							      _( "Clip Height" ),
+							      0.0, G_MAXDOUBLE, 0.0,
+							      G_PARAM_READWRITE));
+
+	g_object_class_install_property (object_class, PROP_CLIP,
+					 g_param_spec_boolean ("clip",
+							       _( "Clip" ),
+							       _( "Clip" ),
+							       FALSE,
+							       G_PARAM_READWRITE));
+
+	g_object_class_install_property (object_class, PROP_FILL_CLIP_RECTANGLE,
+					 g_param_spec_boolean ("fill_clip_rectangle",
+							       _( "Fill clip rectangle" ),
+							       _( "Fill clip rectangle" ),
+							       FALSE,
+							       G_PARAM_READWRITE));
+
+	g_object_class_install_property (object_class, PROP_X_OFFSET,
+					 g_param_spec_double ("x_offset",
+							      _( "X Offset" ),
+							      _( "X Offset" ),
+							      0.0, G_MAXDOUBLE, 0.0,
+							      G_PARAM_READWRITE));
+
+	g_object_class_install_property (object_class, PROP_Y_OFFSET,
+					 g_param_spec_double ("y_offset",
+							      _( "Y Offset" ),
+							      _( "Y Offset" ),
+							      0.0, G_MAXDOUBLE, 0.0,
+							      G_PARAM_READWRITE));
+
+	g_object_class_install_property (object_class, PROP_FILL_COLOR,
+					 g_param_spec_string ("fill_color",
+							      _( "Fill color" ),
+							      _( "Fill color" ),
+							      NULL,
+							      G_PARAM_READWRITE));
+
+	g_object_class_install_property (object_class, PROP_FILL_COLOR_GDK,
+					 g_param_spec_pointer ("fill_color_gdk",
+							       _( "GDK fill color" ),
+							       _( "GDK fill color" ),
+							       G_PARAM_READWRITE));
+
+
+	g_object_class_install_property (object_class, PROP_FILL_COLOR_RGBA,
+					 g_param_spec_uint ("fill_color_rgba",
+							    _( "GDK fill color" ),
+							    _( "GDK fill color" ),
+							    0, G_MAXUINT, 0,
+							    G_PARAM_READWRITE));
+
+	g_object_class_install_property (object_class, PROP_FILL_STIPPLE,
+					 g_param_spec_object ("fill_stipple",
+							      _( "Fill stipple" ),
+							      _( "FIll stipple" ),
+							      GDK_TYPE_WINDOW,
+							      G_PARAM_READWRITE));
+
+	g_object_class_install_property (object_class, PROP_TEXT_WIDTH,
+					 g_param_spec_double ("text_width",
+							      _( "Text width" ),
+							      _( "Text width" ),
+							      0.0, G_MAXDOUBLE, 0.0,
+							      G_PARAM_READABLE));
+
+	g_object_class_install_property (object_class, PROP_TEXT_HEIGHT,
+					 g_param_spec_double ("text_height",
+							      _( "Text height" ),
+							      _( "Text height" ),
+							      0.0, G_MAXDOUBLE, 0.0,
+							      G_PARAM_READABLE));
+
+
+	g_object_class_install_property (object_class, PROP_EDITABLE,
+					 g_param_spec_boolean ("editable",
+							       _( "Editable" ),
+							       _( "Editable" ),
+							       FALSE,
+							       G_PARAM_READWRITE));
+
+	g_object_class_install_property (object_class, PROP_USE_ELLIPSIS,
+					 g_param_spec_boolean ("use_ellipsis",
+							       _( "Use ellipsis" ),
+							       _( "Use ellipsis" ),
+							       FALSE,
+							       G_PARAM_READWRITE));
+
+	g_object_class_install_property (object_class, PROP_ELLIPSIS,
+					 g_param_spec_string ("ellipsis",
+							      _( "Ellipsis" ),
+							      _( "Ellipsis" ),
+							      NULL,
+							      G_PARAM_READWRITE));
+
+	g_object_class_install_property (object_class, PROP_LINE_WRAP,
+					 g_param_spec_boolean ("line_wrap",
+							       _( "Line wrap" ),
+							       _( "Line wrap" ),
+							       FALSE,
+							       G_PARAM_READWRITE));
+
+	g_object_class_install_property (object_class, PROP_BREAK_CHARACTERS,
+					 g_param_spec_string ("break_characters",
+							      _( "Break characters" ),
+							      _( "Break characters" ),
+							      NULL,
+							      G_PARAM_READWRITE));
+
+
+	g_object_class_install_property (object_class, PROP_MAX_LINES,
+					 g_param_spec_int ("max_lines",
+							   _( "Max lines" ),
+							   _( "Max lines" ),
+							   0, G_MAXINT, 0,
+							   G_PARAM_READWRITE));
+
+	g_object_class_install_property (object_class, PROP_WIDTH,
+					 g_param_spec_double ("width",
+							      _( "Width" ),
+							      _( "Width" ),
+							      0.0, G_MAXDOUBLE, 0.0,
+							      G_PARAM_READWRITE));
+
+
+	g_object_class_install_property (object_class, PROP_HEIGHT,
+					 g_param_spec_double ("height",
+							      _( "Height" ),
+							      _( "Height" ),
+							      0.0, G_MAXDOUBLE, 0.0,
+							      G_PARAM_READWRITE));
+
+	g_object_class_install_property (object_class, PROP_DRAW_BORDERS,
+					 g_param_spec_boolean ("draw_borders",
+							       _( "Draw borders" ),
+							       _( "Draw borders" ),
+							       FALSE,
+							       G_PARAM_READWRITE));
+
+	g_object_class_install_property (object_class, PROP_ALLOW_NEWLINES,
+					 g_param_spec_boolean ("allow_newlines",
+							       _( "Allow newlines" ),
+							       _( "Allow newlines" ),
+							       FALSE,
+							       G_PARAM_READWRITE));
+
+	g_object_class_install_property (object_class, PROP_DRAW_BACKGROUND,
+					 g_param_spec_boolean ("draw_background",
+							       _( "Draw background" ),
+							       _( "Draw background" ),
+							       FALSE,
+							       G_PARAM_READWRITE));
+
+	g_object_class_install_property (object_class, PROP_DRAW_BUTTON,
+					 g_param_spec_boolean ("draw_button",
+							       _( "Draw button" ),
+							       _( "Draw button" ),
+							       FALSE,
+							       G_PARAM_READWRITE));
+
+	g_object_class_install_property (object_class, PROP_CURSOR_POS,
+					 g_param_spec_int ("cursor_pos",
+							   _( "Cursor position" ),
+							   _( "Cursor position" ),
+							   0, G_MAXINT, 0,
+							   G_PARAM_READWRITE));
+
+	if (!clipboard_atom)
+		clipboard_atom = gdk_atom_intern ("CLIPBOARD", FALSE);
 }
 
 /* Object initialization function for the text item */
@@ -4115,19 +4304,19 @@ e_text_init (EText *text)
 
 	text->revert                  = NULL;
 
-	gtk_object_ref (GTK_OBJECT (text->model));
+	g_object_ref (text->model);
 	gtk_object_sink (GTK_OBJECT (text->model));
 
 	text->model_changed_signal_id = 
-		gtk_signal_connect (GTK_OBJECT (text->model),
-				    "changed",
-				    GTK_SIGNAL_FUNC (e_text_text_model_changed),
-				    text);
+		g_signal_connect (text->model,
+				  "changed",
+				  G_CALLBACK (e_text_text_model_changed),
+				  text);
 	text->model_repos_signal_id   = 
-		gtk_signal_connect (GTK_OBJECT (text->model),
-				    "reposition",
-				    GTK_SIGNAL_FUNC (e_text_text_model_reposition),
-				    text);
+		g_signal_connect (text->model,
+				  "reposition",
+				  G_CALLBACK (e_text_text_model_reposition),
+				  text);
 
 	text->anchor                  = GTK_ANCHOR_CENTER;
 	text->justification           = GTK_JUSTIFY_LEFT;
@@ -4208,26 +4397,9 @@ e_text_init (EText *text)
  * 
  * Return value: The type ID of the &EText class.
  **/
-GtkType
-e_text_get_type (void)
-{
-	static GtkType text_type = 0;
-
-	if (!text_type) {
-		GtkTypeInfo text_info = {
-			"EText",
-			sizeof (EText),
-			sizeof (ETextClass),
-			(GtkClassInitFunc) e_text_class_init,
-			(GtkObjectInitFunc) e_text_init,
-			NULL, /* reserved_1 */
-			NULL, /* reserved_2 */
-			(GtkClassInitFunc) NULL
-		};
-
-		text_type = gtk_type_unique (gnome_canvas_item_get_type (), &text_info);
-	}
-
-	return text_type;
-}
-
+E_MAKE_TYPE (e_text,
+	     "EText",
+	     EText,
+	     e_text_class_init,
+	     e_text_init,
+	     PARENT_TYPE)

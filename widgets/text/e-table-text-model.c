@@ -29,7 +29,7 @@
 
 static void e_table_text_model_class_init (ETableTextModelClass *class);
 static void e_table_text_model_init (ETableTextModel *model);
-static void e_table_text_model_destroy (GtkObject *object);
+static void e_table_text_model_dispose (GObject *object);
 
 static const gchar *e_table_text_model_get_text (ETextModel *model);
 static void e_table_text_model_set_text (ETextModel *model, const gchar *text);
@@ -37,6 +37,7 @@ static void e_table_text_model_insert (ETextModel *model, gint postion, const gc
 static void e_table_text_model_insert_length (ETextModel *model, gint postion, const gchar *text, gint length);
 static void e_table_text_model_delete (ETextModel *model, gint postion, gint length);
 
+#define PARENT_TYPE E_TYPE_TEXT_MODEL
 static GtkObject *parent_class;
 
 
@@ -50,40 +51,24 @@ static GtkObject *parent_class;
  * 
  * Return value: The type ID of the &ETableTextModel class.
  **/
-GtkType
-e_table_text_model_get_type (void)
-{
-	static GtkType model_type = 0;
-
-	if (!model_type) {
-		GtkTypeInfo model_info = {
-			"ETableTextModel",
-			sizeof (ETableTextModel),
-			sizeof (ETableTextModelClass),
-			(GtkClassInitFunc) e_table_text_model_class_init,
-			(GtkObjectInitFunc) e_table_text_model_init,
-			NULL, /* reserved_1 */
-			NULL, /* reserved_2 */
-			(GtkClassInitFunc) NULL
-		};
-
-		model_type = gtk_type_unique (e_text_model_get_type (), &model_info);
-	}
-
-	return model_type;
-}
-
+E_MAKE_TYPE (e_table_text_model,
+	     "ETableTextModel",
+	     ETableTextModel,
+	     e_table_text_model_class_init,
+	     e_table_text_model_init,
+	     PARENT_TYPE)
+	     
 /* Class initialization function for the text item */
 static void
 e_table_text_model_class_init (ETableTextModelClass *klass)
 {
-	GtkObjectClass *object_class;
+	GObjectClass *object_class;
 	ETextModelClass *model_class;
 
-	object_class = (GtkObjectClass *) klass;
+	object_class = (GObjectClass *) klass;
 	model_class = (ETextModelClass *) klass;
 
-	parent_class = gtk_type_class (e_text_model_get_type ());
+	parent_class = g_type_class_ref (PARENT_TYPE);
 
 	model_class->get_text = e_table_text_model_get_text;
 	model_class->set_text = e_table_text_model_set_text;
@@ -91,7 +76,7 @@ e_table_text_model_class_init (ETableTextModelClass *klass)
 	model_class->insert_length = e_table_text_model_insert_length;
 	model_class->delete = e_table_text_model_delete;
 	
-	object_class->destroy = e_table_text_model_destroy;
+	object_class->dispose = e_table_text_model_dispose;
 }
 
 /* Object initialization function for the text item */
@@ -105,9 +90,9 @@ e_table_text_model_init (ETableTextModel *model)
 	model->row_changed_signal_id = 0;
 }
 
-/* Destroy handler for the text item */
+/* Dispose handler for the text item */
 static void
-e_table_text_model_destroy (GtkObject *object)
+e_table_text_model_dispose (GObject *object)
 {
 	ETableTextModel *model;
 
@@ -120,21 +105,21 @@ e_table_text_model_destroy (GtkObject *object)
 		g_assert (GTK_IS_OBJECT (model->model));
 
 	if (model->cell_changed_signal_id)
-		gtk_signal_disconnect (GTK_OBJECT(model->model), 
-				      model->cell_changed_signal_id);
+		g_signal_handler_disconnect (model->model, 
+					     model->cell_changed_signal_id);
 	model->cell_changed_signal_id = 0;
 
 	if (model->row_changed_signal_id)
-		gtk_signal_disconnect (GTK_OBJECT(model->model), 
-				      model->row_changed_signal_id);
+		g_signal_handler_disconnect (model->model, 
+					     model->row_changed_signal_id);
 	model->row_changed_signal_id = 0;
 
 	if (model->model)
-		gtk_object_unref (GTK_OBJECT(model->model));
+		g_object_unref (model->model);
 	model->model = NULL;
 
-	if (GTK_OBJECT_CLASS (parent_class)->destroy)
-		(* GTK_OBJECT_CLASS (parent_class)->destroy) (object);
+	if (G_OBJECT_CLASS (parent_class)->dispose)
+		(* G_OBJECT_CLASS (parent_class)->dispose) (object);
 }
 static const gchar *
 e_table_text_model_get_text (ETextModel *text_model)
@@ -227,20 +212,20 @@ e_table_text_model_new (ETableModel *table_model, int row, int model_col)
 	g_return_val_if_fail(table_model != NULL, NULL);
 	g_return_val_if_fail(E_IS_TABLE_MODEL(table_model), NULL);
 
-	model = gtk_type_new (e_table_text_model_get_type ());
+	model = g_object_new (E_TYPE_TABLE_TEXT_MODEL, NULL);
 	model->model = table_model;
 	if (model->model){
-		gtk_object_ref (GTK_OBJECT(model->model));
+		g_object_ref (model->model);
 		model->cell_changed_signal_id = 
-			gtk_signal_connect (GTK_OBJECT(model->model),
-					   "model_cell_changed",
-					   GTK_SIGNAL_FUNC(cell_changed),
-					   model);
+			g_signal_connect (model->model,
+					  "model_cell_changed",
+					  G_CALLBACK(cell_changed),
+					  model);
 		model->row_changed_signal_id = 
-			gtk_signal_connect (GTK_OBJECT(model->model),
-					   "model_row_changed",
-					   GTK_SIGNAL_FUNC(row_changed),
-					   model);
+			g_signal_connect (model->model,
+					  "model_row_changed",
+					  G_CALLBACK(row_changed),
+					  model);
 	}
 	model->row = row;
 	model->model_col = model_col;

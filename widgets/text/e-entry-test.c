@@ -27,7 +27,7 @@
 #include "e-entry.h"
 #include <gal/util/e-i18n.h>
 
-static void destroy_callback(GtkWidget *app, gpointer data)
+static void destroy_callback(gpointer data, GObject *where_object_was)
 {
   exit(0);
 }
@@ -64,16 +64,15 @@ int main( int argc, char *argv[] )
   app = gnome_app_new("EEntry Test", NULL);
 
   entry = e_entry_new();
-  gtk_object_set(GTK_OBJECT(entry),
-		 "editable", TRUE,
-		 "use_ellipsis", TRUE,
-		 NULL);
+  g_object_set(entry,
+	       "editable", TRUE,
+	       "use_ellipsis", TRUE,
+	       NULL);
   gnome_app_set_contents( GNOME_APP( app ), entry );
 
   /* Connect the signals */
-  gtk_signal_connect( GTK_OBJECT( app ), "destroy",
-		      GTK_SIGNAL_FUNC( destroy_callback ),
-		      ( gpointer ) app );
+  g_object_weak_ref (G_OBJECT (app),
+		     destroy_callback, app);
 
   gtk_widget_show_all( app );
 

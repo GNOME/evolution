@@ -30,10 +30,10 @@
 G_BEGIN_DECLS
 
 #define E_TYPE_TABLE_TEXT_MODEL            (e_table_text_model_get_type ())
-#define E_TABLE_TEXT_MODEL(obj)            (GTK_CHECK_CAST ((obj), E_TYPE_TABLE_TEXT_MODEL, ETableTextModel))
-#define E_TABLE_TEXT_MODEL_CLASS(klass)    (GTK_CHECK_CLASS_CAST ((klass), E_TYPE_TABLE_TEXT_MODEL, ETableTextModelClass))
-#define E_IS_TABLE_TEXT_MODEL(obj)         (GTK_CHECK_TYPE ((obj), E_TYPE_TABLE_TEXT_MODEL))
-#define E_IS_TABLE_TEXT_MODEL_CLASS(klass) (GTK_CHECK_CLASS_TYPE ((klass), E_TYPE_TABLE_TEXT_MODEL))
+#define E_TABLE_TEXT_MODEL(obj)            (G_TYPE_CHECK_INSTANCE_CAST ((obj), E_TYPE_TABLE_TEXT_MODEL, ETableTextModel))
+#define E_TABLE_TEXT_MODEL_CLASS(klass)    (G_TYPE_CHECK_CLASS_CAST ((klass), E_TYPE_TABLE_TEXT_MODEL, ETableTextModelClass))
+#define E_IS_TABLE_TEXT_MODEL(obj)         (G_TYPE_CHECK_INSTANCE_TYPE ((obj), E_TYPE_TABLE_TEXT_MODEL))
+#define E_IS_TABLE_TEXT_MODEL_CLASS(klass) (G_TYPE_CHECK_CLASS_TYPE ((klass), E_TYPE_TABLE_TEXT_MODEL))
 
 typedef struct _ETableTextModel ETableTextModel;
 typedef struct _ETableTextModelClass ETableTextModelClass;

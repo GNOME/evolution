@@ -34,10 +34,10 @@
 G_BEGIN_DECLS
 
 #define E_ENTRY_TYPE        (e_entry_get_type ())
-#define E_ENTRY(o)          (GTK_CHECK_CAST ((o), E_ENTRY_TYPE, EEntry))
-#define E_ENTRY_CLASS(k)    (GTK_CHECK_CLASS_CAST((k), E_ENTRY_TYPE, EEntryClass))
-#define E_IS_ENTRY(o)       (GTK_CHECK_TYPE ((o), E_ENTRY_TYPE))
-#define E_IS_ENTRY_CLASS(k) (GTK_CHECK_CLASS_TYPE ((k), E_ENTRY_TYPE))
+#define E_ENTRY(o)          (G_TYPE_CHECK_INSTANCE_CAST ((o), E_ENTRY_TYPE, EEntry))
+#define E_ENTRY_CLASS(k)    (G_TYPE_CHECK_CLASS_CAST((k), E_ENTRY_TYPE, EEntryClass))
+#define E_IS_ENTRY(o)       (G_TYPE_CHECK_INSTANCE_TYPE ((o), E_ENTRY_TYPE))
+#define E_IS_ENTRY_CLASS(k) (G_TYPE_CHECK_CLASS_TYPE ((k), E_ENTRY_TYPE))
 
 typedef struct _EEntry EEntry;
 typedef struct _EEntryClass EEntryClass;

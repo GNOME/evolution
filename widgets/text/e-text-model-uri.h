@@ -29,10 +29,10 @@
 G_BEGIN_DECLS
 
 #define E_TYPE_TEXT_MODEL_URI            (e_text_model_get_type ())
-#define E_TEXT_MODEL_URI(obj)            (GTK_CHECK_CAST ((obj), E_TYPE_TEXT_MODEL_URI, ETextModelURI))
-#define E_TEXT_MODEL_URI_CLASS(klass)    (GTK_CHECK_CLASS_CAST ((klass), E_TYPE_TEXT_MODEL_URI, ETextModelURIClass))
-#define E_IS_TEXT_MODEL_URI(obj)         (GTK_CHECK_TYPE ((obj), E_TYPE_TEXT_MODEL_URI))
-#define E_IS_TEXT_MODEL_URI_CLASS(klass) (GTK_CHECK_CLASS_TYPE ((klass), E_TYPE_TEXT_MODEL_URI))
+#define E_TEXT_MODEL_URI(obj)            (G_TYPE_CHECK_INSTANCE_CAST ((obj), E_TYPE_TEXT_MODEL_URI, ETextModelURI))
+#define E_TEXT_MODEL_URI_CLASS(klass)    (G_TYPE_CHECK_CLASS_CAST ((klass), E_TYPE_TEXT_MODEL_URI, ETextModelURIClass))
+#define E_IS_TEXT_MODEL_URI(obj)         (G_TYPE_CHECK_INSTANCE_TYPE ((obj), E_TYPE_TEXT_MODEL_URI))
+#define E_IS_TEXT_MODEL_URI_CLASS(klass) (G_TYPE_CHECK_CLASS_TYPE ((klass), E_TYPE_TEXT_MODEL_URI))
 
 typedef struct _ETextModelURI ETextModelURI;
 typedef struct _ETextModelURIClass ETextModelURIClass;

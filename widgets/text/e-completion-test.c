@@ -188,28 +188,28 @@ main (int argc, gchar **argv)
   read_dict ();
 
   complete = e_completion_new ();
-  gtk_signal_connect (GTK_OBJECT (complete),
-		      "request_completion",
-		      GTK_SIGNAL_FUNC (request_dict_search),
-		      NULL);
-  gtk_signal_connect (GTK_OBJECT (complete),
-		      "end_completion",
-		      GTK_SIGNAL_FUNC (end_dict_search),
-		      NULL);
-  gtk_signal_connect (GTK_OBJECT (complete),
-		      "cancel_completion",
-		      GTK_SIGNAL_FUNC (end_dict_search),
-		      NULL);
+  g_signal_connect (complete,
+		    "request_completion",
+		    G_CALLBACK (request_dict_search),
+		    NULL);
+  g_signal_connect (complete,
+		    "end_completion",
+		    G_CALLBACK (end_dict_search),
+		    NULL);
+  g_signal_connect (complete,
+		    "cancel_completion",
+		    G_CALLBACK (end_dict_search),
+		    NULL);
 
   win = gtk_window_new (GTK_WINDOW_TOPLEVEL);
   entry = e_entry_new ();
   e_entry_enable_completion_full (E_ENTRY (entry), complete, 0, NULL);
   e_entry_set_editable (E_ENTRY (entry), TRUE);
 
-  gtk_signal_connect (GTK_OBJECT (entry),
-		      "popup",
-		      GTK_SIGNAL_FUNC (popup_cb),
-		      NULL);
+  g_signal_connect (entry,
+		    "popup",
+		    G_CALLBACK (popup_cb),
+		    NULL);
 
   gtk_container_add (GTK_CONTAINER (win), entry);
   gtk_widget_show_all (win);

@@ -31,6 +31,7 @@
 #include <gal/e-table/e-table-simple.h>
 #include <gal/e-table/e-table-scrolled.h>
 #include <gal/util/e-i18n.h>
+#include "gal/util/e-marshal.h"
 
 enum {
 	E_COMPLETION_VIEW_NONEMPTY,
@@ -54,8 +55,9 @@ static gint    e_completion_view_key_press_handler (GtkWidget *w, GdkEventKey *k
 
 static void    e_completion_view_class_init (ECompletionViewClass *klass);
 static void    e_completion_view_init       (ECompletionView *completion);
-static void    e_completion_view_destroy    (GtkObject *object);
+static void    e_completion_view_dispose    (GObject *object);
 
+#define PARENT_TYPE GTK_TYPE_EVENT_BOX
 static GtkObjectClass *parent_class;
 
 
@@ -193,89 +195,78 @@ e_completion_view_size_allocate (GtkWidget *widget, GtkAllocation *allocation)
 	}
 }
 
-GtkType
-e_completion_view_get_type (void)
-{
-	static GtkType completion_view_type = 0;
-  
-	if (!completion_view_type) {
-		GtkTypeInfo completion_view_info = {
-			"ECompletionView",
-			sizeof (ECompletionView),
-			sizeof (ECompletionViewClass),
-			(GtkClassInitFunc) e_completion_view_class_init,
-			(GtkObjectInitFunc) e_completion_view_init,
-			NULL, NULL, /* reserved */
-			(GtkClassInitFunc) NULL
-		};
-
-		completion_view_type = gtk_type_unique (gtk_event_box_get_type (), &completion_view_info);
-	}
-
-	return completion_view_type;
-}
-
+E_MAKE_TYPE (e_completion_view,
+	     "ECompletionView",
+	     ECompletionView,
+	     e_completion_view_class_init,
+	     e_completion_view_init,
+	     PARENT_TYPE)
+	     
 static void
 e_completion_view_class_init (ECompletionViewClass *klass)
 {
-	GtkObjectClass *object_class = (GtkObjectClass *) klass;
+	GObjectClass *object_class = (GObjectClass *) klass;
 	GtkWidgetClass *widget_class = GTK_WIDGET_CLASS (klass);
 
-	parent_class = GTK_OBJECT_CLASS (gtk_type_class (gtk_event_box_get_type ()));
+	parent_class = g_type_class_ref (PARENT_TYPE);
 
 	e_completion_view_signals[E_COMPLETION_VIEW_NONEMPTY] =
-		gtk_signal_new ("nonempty",
-				GTK_RUN_LAST,
-				E_OBJECT_CLASS_TYPE (object_class),
-				GTK_SIGNAL_OFFSET (ECompletionViewClass, nonempty),
-				gtk_marshal_NONE__NONE,
-				GTK_TYPE_NONE, 0);
+		g_signal_new ("nonempty",
+			      G_OBJECT_CLASS_TYPE (object_class),
+			      G_SIGNAL_RUN_LAST,
+			      G_STRUCT_OFFSET (ECompletionViewClass, nonempty),
+			      NULL, NULL,
+			      e_marshal_NONE__NONE,
+			      G_TYPE_NONE, 0);
 
 	e_completion_view_signals[E_COMPLETION_VIEW_ADDED] =
-		gtk_signal_new ("added",
-				GTK_RUN_LAST,
-				E_OBJECT_CLASS_TYPE (object_class),
-				GTK_SIGNAL_OFFSET (ECompletionViewClass, added),
-				gtk_marshal_NONE__NONE,
-				GTK_TYPE_NONE, 0);
+		g_signal_new ("added",
+			      G_OBJECT_CLASS_TYPE (object_class),
+			      G_SIGNAL_RUN_LAST,
+			      G_STRUCT_OFFSET (ECompletionViewClass, added),
+			      NULL, NULL,
+			      e_marshal_NONE__NONE,
+			      G_TYPE_NONE, 0);
 
 	e_completion_view_signals[E_COMPLETION_VIEW_FULL] =
-		gtk_signal_new ("full",
-				GTK_RUN_LAST,
-				E_OBJECT_CLASS_TYPE (object_class),
-				GTK_SIGNAL_OFFSET (ECompletionViewClass, full),
-				gtk_marshal_NONE__NONE,
-				GTK_TYPE_NONE, 0);
+		g_signal_new ("full",
+			      G_OBJECT_CLASS_TYPE (object_class),
+			      G_SIGNAL_RUN_LAST,
+			      G_STRUCT_OFFSET (ECompletionViewClass, full),
+			      NULL, NULL,
+			      e_marshal_NONE__NONE,
+			      G_TYPE_NONE, 0);
 
 	e_completion_view_signals[E_COMPLETION_VIEW_BROWSE] =
-		gtk_signal_new ("browse",
-				GTK_RUN_LAST,
-				E_OBJECT_CLASS_TYPE (object_class),
-				GTK_SIGNAL_OFFSET (ECompletionViewClass, browse),
-				gtk_marshal_NONE__POINTER,
-				GTK_TYPE_NONE, 1,
-				GTK_TYPE_POINTER);
+		g_signal_new ("browse",
+			      G_OBJECT_CLASS_TYPE (object_class),
+			      G_SIGNAL_RUN_LAST,
+			      G_STRUCT_OFFSET (ECompletionViewClass, browse),
+			      NULL, NULL,
+			      e_marshal_NONE__POINTER,
+			      G_TYPE_NONE, 1,
+			      G_TYPE_POINTER);
 
 	e_completion_view_signals[E_COMPLETION_VIEW_UNBROWSE] =
-		gtk_signal_new ("unbrowse",
-				GTK_RUN_LAST,
-				E_OBJECT_CLASS_TYPE (object_class),
-				GTK_SIGNAL_OFFSET (ECompletionViewClass, unbrowse),
-				gtk_marshal_NONE__NONE,
-				GTK_TYPE_NONE, 0);
+		g_signal_new ("unbrowse",
+			      G_OBJECT_CLASS_TYPE (object_class),
+			      G_SIGNAL_RUN_LAST,
+			      G_STRUCT_OFFSET (ECompletionViewClass, unbrowse),
+			      NULL, NULL,
+			      e_marshal_NONE__NONE,
+			      G_TYPE_NONE, 0);
 
 	e_completion_view_signals[E_COMPLETION_VIEW_ACTIVATE] =
-		gtk_signal_new ("activate",
-				GTK_RUN_LAST,
-				E_OBJECT_CLASS_TYPE (object_class),
-				GTK_SIGNAL_OFFSET (ECompletionViewClass, activate),
-				gtk_marshal_NONE__POINTER,
-				GTK_TYPE_NONE, 1,
-				GTK_TYPE_POINTER);
+		g_signal_new ("activate",
+			      G_OBJECT_CLASS_TYPE (object_class),
+			      G_SIGNAL_RUN_LAST,
+			      G_STRUCT_OFFSET (ECompletionViewClass, activate),
+			      NULL, NULL,
+			      e_marshal_NONE__POINTER,
+			      G_TYPE_NONE, 1,
+			      G_TYPE_POINTER);
 
-	E_OBJECT_CLASS_ADD_SIGNALS (object_class, e_completion_view_signals, E_COMPLETION_VIEW_LAST_SIGNAL);
-
-	object_class->destroy = e_completion_view_destroy;
+	object_class->dispose = e_completion_view_dispose;
 
 	widget_class->key_press_event = e_completion_view_local_key_press_handler;
 	widget_class->expose_event = e_completion_view_expose_event;
@@ -291,7 +282,7 @@ e_completion_view_init (ECompletionView *completion)
 }
 
 static void
-e_completion_view_destroy (GtkObject *object)
+e_completion_view_dispose (GObject *object)
 {
 	ECompletionView *cv = E_COMPLETION_VIEW (object);
 
@@ -305,17 +296,17 @@ e_completion_view_destroy (GtkObject *object)
 	}
 
 	if (cv->key_widget) {
-		gtk_signal_disconnect (GTK_OBJECT (cv->key_widget), cv->key_signal_id);
-		gtk_object_unref (GTK_OBJECT (cv->key_widget));
+		g_signal_handler_disconnect (cv->key_widget, cv->key_signal_id);
+		g_object_unref (cv->key_widget);
 		cv->key_widget = NULL;
 	}
 
 	if (cv->completion)
-		gtk_object_unref (GTK_OBJECT (cv->completion));
+		g_object_unref (cv->completion);
 	cv->completion = NULL;
 
-	if (parent_class->destroy)
-		(parent_class->destroy) (object);
+	if (G_OBJECT_CLASS (parent_class)->dispose)
+		(G_OBJECT_CLASS (parent_class)->dispose) (object);
 }
 
 static void
@@ -325,19 +316,19 @@ e_completion_view_disconnect (ECompletionView *cv)
 	g_return_if_fail (E_IS_COMPLETION_VIEW (cv));
 
 	if (cv->begin_signal_id)
-		gtk_signal_disconnect (GTK_OBJECT (cv->completion), cv->begin_signal_id);
+		g_signal_handler_disconnect (cv->completion, cv->begin_signal_id);
 	if (cv->comp_signal_id)
-		gtk_signal_disconnect (GTK_OBJECT (cv->completion), cv->comp_signal_id);
+		g_signal_handler_disconnect (cv->completion, cv->comp_signal_id);
 	if (cv->restart_signal_id)
-		gtk_signal_disconnect (GTK_OBJECT (cv->completion), cv->restart_signal_id);
+		g_signal_handler_disconnect (cv->completion, cv->restart_signal_id);
 	if (cv->cancel_signal_id)
-		gtk_signal_disconnect (GTK_OBJECT (cv->completion), cv->cancel_signal_id);
+		g_signal_handler_disconnect (cv->completion, cv->cancel_signal_id);
 	if (cv->end_signal_id)
-		gtk_signal_disconnect (GTK_OBJECT (cv->completion), cv->end_signal_id);
+		g_signal_handler_disconnect (cv->completion, cv->end_signal_id);
 	if (cv->clear_signal_id)
-		gtk_signal_disconnect (GTK_OBJECT (cv->completion), cv->clear_signal_id);
+		g_signal_handler_disconnect (cv->completion, cv->clear_signal_id);
 	if (cv->lost_signal_id)
-		gtk_signal_disconnect (GTK_OBJECT (cv->completion), cv->lost_signal_id);
+		g_signal_handler_disconnect (cv->completion, cv->lost_signal_id);
 
 	cv->begin_signal_id   = 0;
 	cv->comp_signal_id    = 0;
@@ -450,7 +441,7 @@ e_completion_view_select (ECompletionView *cv, gint r)
 
 	cv->selection = r;
 	e_completion_view_set_cursor_row (cv, r);
-	gtk_signal_emit (GTK_OBJECT (cv), e_completion_view_signals[E_COMPLETION_VIEW_ACTIVATE], match);
+	g_signal_emit (cv, e_completion_view_signals[E_COMPLETION_VIEW_ACTIVATE], 0, match);
 }
 
 static gint
@@ -474,14 +465,14 @@ e_completion_view_key_press_handler (GtkWidget *w, GdkEventKey *key_event, gpoin
 	
 	/* Start up a completion.*/
 	if (complete_key && !cv->editable) {
-		gtk_signal_emit (GTK_OBJECT (cv), e_completion_view_signals[E_COMPLETION_VIEW_BROWSE], NULL);
+		g_signal_emit (cv, e_completion_view_signals[E_COMPLETION_VIEW_BROWSE], 0, NULL);
 		goto stop_emission;
 	}
 
 	/* Stop our completion. */
 	if (uncomplete_key && cv->editable && cv->selection < 0) {
 		e_completion_view_set_cursor_row (cv, -1);
-		gtk_signal_emit (GTK_OBJECT (cv), e_completion_view_signals[E_COMPLETION_VIEW_UNBROWSE]);
+		g_signal_emit (cv, e_completion_view_signals[E_COMPLETION_VIEW_UNBROWSE], 0);
 		goto stop_emission;
 	}
 
@@ -577,15 +568,15 @@ e_completion_view_key_press_handler (GtkWidget *w, GdkEventKey *key_event, gpoin
 	e_completion_view_set_cursor_row (cv, cv->selection);
 
 	if (cv->selection >= 0)
-		gtk_signal_emit (GTK_OBJECT (cv), e_completion_view_signals[E_COMPLETION_VIEW_BROWSE], 
-				 g_ptr_array_index (cv->choices, cv->selection));
+		g_signal_emit (cv, e_completion_view_signals[E_COMPLETION_VIEW_BROWSE], 0,
+			       g_ptr_array_index (cv->choices, cv->selection));
 	else
-		gtk_signal_emit (GTK_OBJECT (cv), e_completion_view_signals[E_COMPLETION_VIEW_UNBROWSE]);
+		g_signal_emit (cv, e_completion_view_signals[E_COMPLETION_VIEW_UNBROWSE], 0);
 
  stop_emission:
 	
 	if (key_handled)
-		gtk_signal_emit_stop_by_name (GTK_OBJECT (w), "key_press_event");
+		g_signal_stop_emission_by_name (w, "key_press_event");
 
 	return key_handled;
 }
@@ -619,7 +610,7 @@ cancel_completion_cb (ECompletion *completion, gpointer user_data)
 	e_completion_view_set_cursor_row (cv, -1);
 	e_table_model_changed (cv->model);
 
-	gtk_signal_emit (GTK_OBJECT (cv), e_completion_view_signals[E_COMPLETION_VIEW_UNBROWSE]);
+	g_signal_emit (cv, e_completion_view_signals[E_COMPLETION_VIEW_UNBROWSE] ,0);
 }
 
 static void
@@ -635,9 +626,9 @@ completion_cb (ECompletion *completion, ECompletionMatch *match, gpointer user_d
 	e_table_model_row_inserted (cv->model, r);
 
 	if (first)
-		gtk_signal_emit (GTK_OBJECT (cv), e_completion_view_signals[E_COMPLETION_VIEW_NONEMPTY]);
+		g_signal_emit (cv, e_completion_view_signals[E_COMPLETION_VIEW_NONEMPTY], 0);
 
-	gtk_signal_emit (GTK_OBJECT (cv), e_completion_view_signals[E_COMPLETION_VIEW_ADDED]);
+	g_signal_emit (cv, e_completion_view_signals[E_COMPLETION_VIEW_ADDED], 0);
 }
 
 static void
@@ -649,7 +640,7 @@ end_completion_cb (ECompletion *completion, gpointer user_data)
 	e_table_model_changed (cv->model);
 
 	cv->have_all_choices = TRUE;
-	gtk_signal_emit (GTK_OBJECT (cv), e_completion_view_signals[E_COMPLETION_VIEW_FULL]);
+	g_signal_emit (cv, e_completion_view_signals[E_COMPLETION_VIEW_FULL], 0);
 }
 
 static void
@@ -755,36 +746,36 @@ e_completion_view_construct (ECompletionView *cv, ECompletion *completion)
 	GTK_WIDGET_SET_FLAGS (GTK_WIDGET (cv), GTK_CAN_FOCUS);
 
 	cv->completion = completion;
-	gtk_object_ref (GTK_OBJECT (completion));
+	g_object_ref (completion);
 
-	cv->begin_signal_id   = gtk_signal_connect (GTK_OBJECT (completion),
-						    "begin_completion",
-						    GTK_SIGNAL_FUNC (begin_completion_cb),
-						    cv);
-	cv->comp_signal_id    = gtk_signal_connect (GTK_OBJECT (completion),
-						    "completion",
-						    GTK_SIGNAL_FUNC (completion_cb),
-						    cv);
-	cv->restart_signal_id = gtk_signal_connect (GTK_OBJECT (completion),
-						    "restart_completion",
-						    GTK_SIGNAL_FUNC (restart_completion_cb),
-						    cv);
-	cv->cancel_signal_id  = gtk_signal_connect (GTK_OBJECT (completion),
-						    "cancel_completion",
-						    GTK_SIGNAL_FUNC (cancel_completion_cb),
-						    cv);
-	cv->end_signal_id     = gtk_signal_connect (GTK_OBJECT (completion),
-						    "end_completion",
-						    GTK_SIGNAL_FUNC (end_completion_cb),
-						    cv);
-	cv->clear_signal_id   = gtk_signal_connect (GTK_OBJECT (completion),
-						    "clear_completion",
-						    GTK_SIGNAL_FUNC (clear_completion_cb),
-						    cv);
-	cv->lost_signal_id    = gtk_signal_connect (GTK_OBJECT (completion),
-						    "lost_completion",
-						    GTK_SIGNAL_FUNC (lost_completion_cb),
-						    cv);
+	cv->begin_signal_id   = g_signal_connect (completion,
+						  "begin_completion",
+						  G_CALLBACK (begin_completion_cb),
+						  cv);
+	cv->comp_signal_id    = g_signal_connect (completion,
+						  "completion",
+						  G_CALLBACK (completion_cb),
+						  cv);
+	cv->restart_signal_id = g_signal_connect (completion,
+						  "restart_completion",
+						  G_CALLBACK (restart_completion_cb),
+						  cv);
+	cv->cancel_signal_id  = g_signal_connect (completion,
+						  "cancel_completion",
+						  G_CALLBACK (cancel_completion_cb),
+						  cv);
+	cv->end_signal_id     = g_signal_connect (completion,
+						  "end_completion",
+						  G_CALLBACK (end_completion_cb),
+						  cv);
+	cv->clear_signal_id   = g_signal_connect (completion,
+						  "clear_completion",
+						  G_CALLBACK (clear_completion_cb),
+						  cv);
+	cv->lost_signal_id    = g_signal_connect (completion,
+						  "lost_completion",
+						  G_CALLBACK (lost_completion_cb),
+						  cv);
 
 	cv->model = e_table_simple_new (table_col_count,
 					table_row_count,
@@ -801,7 +792,7 @@ e_completion_view_construct (ECompletionView *cv, ECompletion *completion)
 					cv);
 
 	cv->table = e_table_scrolled_new (cv->model, NULL, simple_spec, NULL);
-	gtk_object_unref (GTK_OBJECT (cv->model));
+	g_object_unref (cv->model);
 
 	e_scroll_frame_set_shadow_type (E_SCROLL_FRAME (cv->table), GTK_SHADOW_NONE);
 	e_scroll_frame_set_scrollbar_spacing (E_SCROLL_FRAME (cv->table), 0);
@@ -810,10 +801,10 @@ e_completion_view_construct (ECompletionView *cv, ECompletion *completion)
 	gtk_container_add (GTK_CONTAINER (cv), cv->table);
 	gtk_widget_show_all (cv->table);
 
-	gtk_signal_connect (GTK_OBJECT (e_completion_view_table (cv)),
-			    "click",
-			    GTK_SIGNAL_FUNC (table_click_cb),
-			    cv);
+	g_signal_connect (e_completion_view_table (cv),
+			  "click",
+			  G_CALLBACK (table_click_cb),
+			  cv);
 
 	cv->selection = -1;
 }
@@ -826,7 +817,7 @@ e_completion_view_new (ECompletion *completion)
 	g_return_val_if_fail (completion != NULL, NULL);
 	g_return_val_if_fail (E_IS_COMPLETION (completion), NULL);
 
-	p = gtk_type_new (e_completion_view_get_type ());
+	p = g_object_new (E_COMPLETION_VIEW_TYPE, NULL);
 
 	e_completion_view_construct (E_COMPLETION_VIEW (p), completion);
 
@@ -841,18 +832,18 @@ e_completion_view_connect_keys (ECompletionView *cv, GtkWidget *w)
 	g_return_if_fail (w == NULL || GTK_IS_WIDGET (w));
 
 	if (cv->key_widget) {
-		gtk_signal_disconnect (GTK_OBJECT (cv->key_widget), cv->key_signal_id);
-		gtk_object_unref (GTK_OBJECT (cv->key_widget));
+		g_signal_handler_disconnect (cv->key_widget, cv->key_signal_id);
+		g_object_unref (cv->key_widget);
 	}
 
 	if (w) {
 		cv->key_widget = w;
-		gtk_object_ref (GTK_OBJECT (w));
+		g_object_ref (w);
 
-		cv->key_signal_id = gtk_signal_connect (GTK_OBJECT (w),
-							"key_press_event",
-							GTK_SIGNAL_FUNC (e_completion_view_key_press_handler),
-							cv);
+		cv->key_signal_id = g_signal_connect (w,
+						      "key_press_event",
+						      G_CALLBACK (e_completion_view_key_press_handler),
+						      cv);
 	} else {
 		cv->key_widget = NULL;
 		cv->key_signal_id = 0;

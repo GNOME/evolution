@@ -30,10 +30,11 @@
 #include <regex.h>
 #include <gtk/gtkmain.h>
 #include <libgnome/gnome-url.h>
+#include <gal/util/e-util.h>
 
 static void e_text_model_uri_class_init (ETextModelURIClass *class);
 static void e_text_model_uri_init (ETextModelURI *model);
-static void e_text_model_uri_destroy (GtkObject *object);
+static void e_text_model_uri_dispose (GObject *object);
 
 static void objectify_uris (ETextModelURI *model);
 
@@ -48,43 +49,28 @@ struct _ObjInfo {
 	gint offset, len;
 };
 
+#define PARENT_TYPE E_TYPE_TEXT_MODEL
 static GtkObject *parent_class;
 
-GtkType
-e_text_model_uri_get_type (void)
-{
-	static GtkType model_uri_type = 0;
-	
-	if (!model_uri_type) {
-		GtkTypeInfo model_uri_info = {
-			"ETextModelURI",
-			sizeof (ETextModelURI),
-			sizeof (ETextModelURIClass),
-			(GtkClassInitFunc) e_text_model_uri_class_init,
-			(GtkObjectInitFunc) e_text_model_uri_init,
-			NULL, /* reserved_1 */
-			NULL, /* reserved_2 */
-			(GtkClassInitFunc) NULL
-		};
-		
-		model_uri_type = gtk_type_unique (e_text_model_get_type (), &model_uri_info);
-	}
-	
-	return model_uri_type;
-}
-
+E_MAKE_TYPE (e_text_model_uri,
+	     "ETextModelURI",
+	     ETextModelURI,
+	     e_text_model_uri_class_init,
+	     e_text_model_uri_init,
+	     PARENT_TYPE)
+	     
 static void
 e_text_model_uri_class_init (ETextModelURIClass *klass)
 {
-	GtkObjectClass *object_class;
+	GObjectClass *object_class;
 	ETextModelClass *model_class;
 
-	object_class = (GtkObjectClass *) klass;
+	object_class = (GObjectClass *) klass;
 	model_class = E_TEXT_MODEL_CLASS (klass);
 
-	parent_class = gtk_type_class (e_text_model_get_type ());
+	parent_class = g_type_class_ref (PARENT_TYPE);
 
-	object_class->destroy = e_text_model_uri_destroy;
+	object_class->dispose = e_text_model_uri_dispose;
 
 	model_class->object_activated = e_text_model_uri_activate_nth_object;
 
@@ -102,7 +88,7 @@ e_text_model_uri_init (ETextModelURI *model)
 }
 
 static void
-e_text_model_uri_destroy (GtkObject *object)
+e_text_model_uri_dispose (GObject *object)
 {
 	ETextModelURI *model_uri = E_TEXT_MODEL_URI (object);
 	GList *iter;
@@ -117,8 +103,8 @@ e_text_model_uri_destroy (GtkObject *object)
 	g_list_free (model_uri->uris);
 	model_uri->uris = NULL;
 
-	if (GTK_OBJECT_CLASS (parent_class)->destroy)
-		(* GTK_OBJECT_CLASS (parent_class)->destroy) (object);
+	if (G_OBJECT_CLASS (parent_class)->dispose)
+		(* G_OBJECT_CLASS (parent_class)->dispose) (object);
 
 }
 
@@ -351,7 +337,7 @@ e_text_model_uri_activate_nth_object (ETextModel *model, gint i)
 ETextModel *
 e_text_model_uri_new (void)
 {
-	return E_TEXT_MODEL (gtk_type_new (e_text_model_uri_get_type ()));
+	return E_TEXT_MODEL (g_object_new (E_TYPE_TEXT_MODEL_URI, NULL));
 }
 
 

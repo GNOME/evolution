@@ -53,7 +53,7 @@ struct _ETextModelPrivate {
 
 static void e_text_model_class_init (ETextModelClass *class);
 static void e_text_model_init       (ETextModel *model);
-static void e_text_model_destroy    (GtkObject *object);
+static void e_text_model_dispose    (GObject *object);
 
 static gint         e_text_model_real_validate_position (ETextModel *, gint pos);
 static const gchar *e_text_model_real_get_text          (ETextModel *model);
@@ -63,6 +63,7 @@ static void         e_text_model_real_insert            (ETextModel *model, gint
 static void         e_text_model_real_insert_length     (ETextModel *model, gint postion, const gchar *text, gint length);
 static void         e_text_model_real_delete            (ETextModel *model, gint postion, gint length);
 
+#define PARENT_TYPE GTK_TYPE_OBJECT
 static GtkObject *parent_class;
 
 
@@ -76,74 +77,60 @@ static GtkObject *parent_class;
  * 
  * Return value: The type ID of the &ETextModel class.
  **/
-GtkType
-e_text_model_get_type (void)
-{
-	static GtkType model_type = 0;
-
-	if (!model_type) {
-		GtkTypeInfo model_info = {
-			"ETextModel",
-			sizeof (ETextModel),
-			sizeof (ETextModelClass),
-			(GtkClassInitFunc) e_text_model_class_init,
-			(GtkObjectInitFunc) e_text_model_init,
-			NULL, /* reserved_1 */
-			NULL, /* reserved_2 */
-			(GtkClassInitFunc) NULL
-		};
-
-		model_type = gtk_type_unique (gtk_object_get_type (), &model_info);
-	}
-
-	return model_type;
-}
+E_MAKE_TYPE (e_text_model,
+	     "ETextModel",
+	     ETextModel,
+	     e_text_model_class_init,
+	     e_text_model_init,
+	     PARENT_TYPE)
 
 /* Class initialization function for the text item */
 static void
 e_text_model_class_init (ETextModelClass *klass)
 {
-	GtkObjectClass *object_class;
+	GObjectClass *object_class;
 
-	object_class = (GtkObjectClass *) klass;
+	object_class = (GObjectClass *) klass;
 
-	parent_class = gtk_type_class (gtk_object_get_type ());
+	parent_class = g_type_class_ref (PARENT_TYPE);
 
 	e_text_model_signals[E_TEXT_MODEL_CHANGED] =
-		gtk_signal_new ("changed",
-				GTK_RUN_LAST,
-				E_OBJECT_CLASS_TYPE (object_class),
-				GTK_SIGNAL_OFFSET (ETextModelClass, changed),
-				gtk_marshal_NONE__NONE,
-				GTK_TYPE_NONE, 0);
+		g_signal_new ("changed",
+			      G_OBJECT_CLASS_TYPE (object_class),
+			      G_SIGNAL_RUN_LAST,
+			      G_STRUCT_OFFSET (ETextModelClass, changed),
+			      NULL, NULL,
+			      e_marshal_NONE__NONE,
+			      G_TYPE_NONE, 0);
 
 	e_text_model_signals[E_TEXT_MODEL_REPOSITION] =
-		gtk_signal_new ("reposition",
-				GTK_RUN_LAST,
-				E_OBJECT_CLASS_TYPE (object_class),
-				GTK_SIGNAL_OFFSET (ETextModelClass, reposition),
-				e_marshal_NONE__POINTER_POINTER,
-				GTK_TYPE_NONE, 2,
-				GTK_TYPE_POINTER, GTK_TYPE_POINTER);
+		g_signal_new ("reposition",
+			      G_OBJECT_CLASS_TYPE (object_class),
+			      G_SIGNAL_RUN_LAST,
+			      G_STRUCT_OFFSET (ETextModelClass, reposition),
+			      NULL, NULL,
+			      e_marshal_NONE__POINTER_POINTER,
+			      G_TYPE_NONE, 2,
+			      G_TYPE_POINTER, G_TYPE_POINTER);
 
 	e_text_model_signals[E_TEXT_MODEL_OBJECT_ACTIVATED] =
-		gtk_signal_new ("object_activated",
-				GTK_RUN_LAST,
-				E_OBJECT_CLASS_TYPE (object_class),
-				GTK_SIGNAL_OFFSET (ETextModelClass, object_activated),
-				gtk_marshal_NONE__INT,
-				GTK_TYPE_NONE, 1,
-				GTK_TYPE_INT);
+		g_signal_new ("object_activated",
+			      G_OBJECT_CLASS_TYPE (object_class),
+			      G_SIGNAL_RUN_LAST,
+			      G_STRUCT_OFFSET (ETextModelClass, object_activated),
+			      NULL, NULL,
+			      e_marshal_NONE__INT,
+			      G_TYPE_NONE, 1,
+			      G_TYPE_INT);
 
 	e_text_model_signals[E_TEXT_MODEL_CANCEL_COMPLETION] =
-		gtk_signal_new ("cancel_completion",
-				GTK_RUN_LAST,
-				E_OBJECT_CLASS_TYPE (object_class),
-				GTK_SIGNAL_OFFSET (ETextModelClass, cancel_completion),
-				gtk_marshal_NONE__NONE,
-				GTK_TYPE_NONE, 0);
-	
-	E_OBJECT_CLASS_ADD_SIGNALS (object_class, e_text_model_signals, E_TEXT_MODEL_LAST_SIGNAL);
+		g_signal_new ("cancel_completion",
+			      G_OBJECT_CLASS_TYPE (object_class),
+			      G_SIGNAL_RUN_LAST,
+			      G_STRUCT_OFFSET (ETextModelClass, cancel_completion),
+			      NULL, NULL,
+			      e_marshal_NONE__NONE,
+			      G_TYPE_NONE, 0);
 	
 	/* No default signal handlers. */
 	klass->changed          = NULL;
@@ -164,7 +151,7 @@ e_text_model_class_init (ETextModelClass *klass)
 	klass->obj_count        = NULL;
 	klass->get_nth_obj      = NULL;
 	
-	object_class->destroy = e_text_model_destroy;
+	object_class->dispose = e_text_model_dispose;
 }
 
 /* Object initialization function for the text item */
@@ -176,9 +163,9 @@ e_text_model_init (ETextModel *model)
 	model->priv->len  = 0;
 }
 
-/* Destroy handler for the text item */
+/* Dispose handler for the text item */
 static void
-e_text_model_destroy (GtkObject *object)
+e_text_model_dispose (GObject *object)
 {
 	ETextModel *model;
 
@@ -194,8 +181,8 @@ e_text_model_destroy (GtkObject *object)
 		model->priv = NULL;
 	}
 
-	if (GTK_OBJECT_CLASS (parent_class)->destroy)
-		GTK_OBJECT_CLASS (parent_class)->destroy (object);
+	if (G_OBJECT_CLASS (parent_class)->dispose)
+		G_OBJECT_CLASS (parent_class)->dispose (object);
 }
 
 static gint
@@ -370,8 +357,8 @@ e_text_model_changed (ETextModel *model)
 	if (CLASS (model)->objectify)
 		CLASS (model)->objectify (model);
 
-	gtk_signal_emit (GTK_OBJECT (model),
-			 e_text_model_signals[E_TEXT_MODEL_CHANGED]);
+	g_signal_emit (model,
+		       e_text_model_signals[E_TEXT_MODEL_CHANGED], 0);
 }
 
 void
@@ -379,7 +366,7 @@ e_text_model_cancel_completion (ETextModel *model)
 {
 	g_return_if_fail (E_IS_TEXT_MODEL (model));
 	
-	gtk_signal_emit (GTK_OBJECT (model), e_text_model_signals[E_TEXT_MODEL_CANCEL_COMPLETION]);
+	g_signal_emit (model, e_text_model_signals[E_TEXT_MODEL_CANCEL_COMPLETION], 0);
 }
 
 void
@@ -389,9 +376,9 @@ e_text_model_reposition (ETextModel *model, ETextModelReposFn fn, gpointer repos
 	g_return_if_fail (E_IS_TEXT_MODEL (model));
 	g_return_if_fail (fn != NULL);
 
-	gtk_signal_emit (GTK_OBJECT (model),
-			 e_text_model_signals[E_TEXT_MODEL_REPOSITION],
-			 fn, repos_data);
+	g_signal_emit (model,
+		       e_text_model_signals[E_TEXT_MODEL_REPOSITION], 0,
+		       fn, repos_data);
 }
 
 gint
@@ -637,12 +624,12 @@ e_text_model_activate_nth_object (ETextModel *model, gint n)
 	g_return_if_fail (n >= 0);
 	g_return_if_fail (n < e_text_model_object_count (model));
 
-	gtk_signal_emit (GTK_OBJECT (model), e_text_model_signals[E_TEXT_MODEL_OBJECT_ACTIVATED], n);
+	g_signal_emit (model, e_text_model_signals[E_TEXT_MODEL_OBJECT_ACTIVATED], 0, n);
 }
 
 ETextModel *
 e_text_model_new (void)
 {
-	ETextModel *model = gtk_type_new (e_text_model_get_type ());
+	ETextModel *model = g_object_new (E_TYPE_TEXT_MODEL, NULL);
 	return model;
 }

@@ -32,10 +32,10 @@
 G_BEGIN_DECLS
 
 #define E_COMPLETION_VIEW_TYPE        (e_completion_view_get_type ())
-#define E_COMPLETION_VIEW(o)          (GTK_CHECK_CAST ((o), E_COMPLETION_VIEW_TYPE, ECompletionView))
-#define E_COMPLETION_VIEW_CLASS(k)    (GTK_CHECK_CLASS_CAST ((k), E_COMPLETION_VIEW_TYPE, ECompletionViewClass))
-#define E_IS_COMPLETION_VIEW(o)       (GTK_CHECK_TYPE ((o), E_COMPLETION_VIEW_TYPE))
-#define E_IS_COMPLETION_VIEW_CLASS(k) (GTK_CHECK_CLASS_TYPE ((k), E_COMPLETION_VIEW_TYPE))
+#define E_COMPLETION_VIEW(o)          (G_TYPE_CHECK_INSTANCE_CAST ((o), E_COMPLETION_VIEW_TYPE, ECompletionView))
+#define E_COMPLETION_VIEW_CLASS(k)    (G_TYPE_CHECK_CLASS_CAST ((k), E_COMPLETION_VIEW_TYPE, ECompletionViewClass))
+#define E_IS_COMPLETION_VIEW(o)       (G_TYPE_CHECK_INSTANCE_TYPE ((o), E_COMPLETION_VIEW_TYPE))
+#define E_IS_COMPLETION_VIEW_CLASS(k) (G_TYPE_CHECK_CLASS_TYPE ((k), E_COMPLETION_VIEW_TYPE))
 
 typedef struct _ECompletionView ECompletionView;
 typedef struct _ECompletionViewClass ECompletionViewClass;

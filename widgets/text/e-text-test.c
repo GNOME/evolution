@@ -34,9 +34,9 @@ static void allocate_callback(GtkWidget *canvas, GtkAllocation *allocation, Gnom
   gnome_canvas_item_set( item,
 			 "width", (double) allocation->width,
 			 NULL );
-  gtk_object_get(GTK_OBJECT(item),
-		 "height", &height,
-		 NULL);
+  g_object_get(item,
+	       "height", &height,
+	       NULL);
   height = MAX(height, allocation->height);
   gnome_canvas_set_scroll_region(GNOME_CANVAS( canvas ), 0, 0, allocation->width, height );
   gnome_canvas_item_set( rect,
@@ -49,9 +49,9 @@ static void
 reflow (GtkWidget *canvas, GnomeCanvasItem *item)
 {
   double height;
-  gtk_object_get(GTK_OBJECT(item),
-		 "height", &height,
-		 NULL);
+  g_object_get(item,
+	       "height", &height,
+	       NULL);
   height = MAX(height, canvas->allocation.height);
   gnome_canvas_set_scroll_region(GNOME_CANVAS( canvas ), 0, 0, canvas->allocation.width, height );
   gnome_canvas_item_set( rect,
@@ -61,8 +61,7 @@ reflow (GtkWidget *canvas, GnomeCanvasItem *item)
 }
 
 static void
-quit_cb (GtkWidget *widget,
-	 gpointer data)
+quit_cb (gpointer data, GObject *where_object_was)
 {
   gtk_main_quit ();
 }
@@ -102,8 +101,8 @@ main (int argc,
   gnome_init ("ETextTest", "0.0.1", argc, argv);
   window = gtk_window_new (GTK_WINDOW_TOPLEVEL);
   gtk_window_set_title (GTK_WINDOW (window), "EText Test");
-  gtk_signal_connect (GTK_OBJECT (window), "destroy",
-		      GTK_SIGNAL_FUNC (quit_cb), NULL);
+  g_object_weak_ref (G_OBJECT (window),
+		     quit_cb, NULL);
 
   gtk_widget_push_colormap (gdk_rgb_get_cmap ());
   canvas = e_canvas_new ();
@@ -150,17 +149,17 @@ main (int argc,
 				"width", 150.0,
 				NULL);
 
-  gtk_signal_connect (GTK_OBJECT (text), "activate",
-		      GTK_SIGNAL_FUNC (change_text_cb), item);
-  gtk_signal_connect (GTK_OBJECT (font), "activate",
-		      GTK_SIGNAL_FUNC (change_font_cb), item);
+  g_signal_connect (text, "activate",
+		    G_CALLBACK (change_text_cb), item);
+  g_signal_connect (font, "activate",
+		    G_CALLBACK (change_font_cb), item);
 
-  gtk_signal_connect( GTK_OBJECT( canvas ), "size_allocate",
-		      GTK_SIGNAL_FUNC( allocate_callback ),
-		      item );
-  gtk_signal_connect( GTK_OBJECT( canvas ), "reflow",
-		      GTK_SIGNAL_FUNC( reflow ),
-		      item );
+  g_signal_connect (canvas , "size_allocate",
+		    G_CALLBACK (allocate_callback),
+		    item );
+  g_signal_connect (canvas , "reflow",
+		    G_CALLBACK (reflow),
+		    item );
   gnome_canvas_set_scroll_region (GNOME_CANVAS (canvas), 0.0, 0.0, 400.0, 400.0);
   gtk_widget_show_all (window);
   gtk_main ();
