@@ -1,5 +1,12 @@
 2000-10-19  Michael Meeks  <michael@helixcode.com>
 
+	* evolution-message-composer.xml: add.
+
+	* checking all generated .h files ( sim. to glade ) to make
+	translator's lives easier.
+
+2000-10-19  Michael Meeks  <michael@helixcode.com>
+
 	* evolution-event-editor.xml: added.
 
 2000-10-18  Michael Meeks  <michael@helixcode.com>
