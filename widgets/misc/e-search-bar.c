@@ -781,10 +781,14 @@ impl_dispose (GObject *object)
 		bonobo_object_unref (BONOBO_OBJECT (esb->ui_component));
 		esb->ui_component = NULL;
 	}
-	if (esb->entry)
+	if (esb->entry) {
 		g_object_unref (esb->entry);
-	if (esb->suboption)
+		esb->entry = NULL;
+	}
+	if (esb->suboption) {
 		g_object_unref (esb->suboption);
+		esb->suboption = NULL;
+	}
 	
 	if (esb->pending_activate) {
 		g_source_remove (esb->pending_activate);

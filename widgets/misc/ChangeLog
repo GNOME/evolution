@@ -1,3 +1,8 @@
+2002-12-03  Not Zed  <NotZed@Ximian.com>
+
+	* e-search-bar.c (impl_dispose): dispose can be run multiple times
+	too ... bloody gobject crap.
+
 2002-11-27  Not Zed  <NotZed@Ximian.com>
 
 	* e-charset-picker.c: Add include of gnome-dialog.h
