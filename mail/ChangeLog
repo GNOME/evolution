@@ -2,6 +2,7 @@
 
 	* mail-autofilter.c (filter_gui_add_from_message): Helper function to add with confirm.
 	(rule_match_recipients): Dont set real name if its empty for the filter name.
+	(rule_match_subject): was cutting ] off mailing list names.
 
 	* message-list.c (on_right_click): Added menu to install vfolders/filters from message.
 

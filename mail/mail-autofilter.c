@@ -153,9 +153,9 @@ rule_match_subject(RuleContext *context, FilterRule *rule, const char *subject)
 	s2 = strchr(s, ']');
 	if (s1 && s2 && s1<s2) {
 		/* probably a mailing list, match on the mailing list name */
-		tmp = alloca(s2-s1+1);
-		memcpy(tmp, s1, s2-s1);
-		tmp[s2-s1] = 0;
+		tmp = alloca(s2-s1+2);
+		memcpy(tmp, s1, s2-s1+1);
+		tmp[s2-s1+1] = 0;
 		g_strstrip(tmp);
 		rule_add_subject(context, rule, tmp);
 		s = s2+1;
