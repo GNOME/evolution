@@ -36,8 +36,6 @@
 #include <fcntl.h>
 #include <ctype.h>
 
-#include <gal/util/e-util.h>
-
 #include "camel-imap-folder.h"
 #include "camel-imap-command.h"
 #include "camel-imap-message-cache.h"

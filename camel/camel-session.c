@@ -42,7 +42,6 @@
 #include "string-utils.h"
 #include "camel-url.h"
 #include "hash-table-utils.h"
-#include <gal/util/e-util.h>
 #include "camel-vee-store.h"
 
 #include "camel-private.h"
@@ -429,6 +428,7 @@ camel_session_get_service_connected (CamelSession *session,
 	return svc;
 }
 
+
 /**
  * camel_session_get_storage_path:
  * @session: session object
@@ -449,22 +449,22 @@ camel_session_get_storage_path (CamelSession *session, CamelService *service,
 				CamelException *ex)
 {
 	char *path, *p;
-
+	
 	p = camel_service_get_path (service);
 	path = g_strdup_printf ("%s/%s", session->storage_path, p);
 	g_free (p);
-
+	
 	if (access (path, F_OK) == 0)
 		return path;
-
-	if (e_mkdir_hier (path, S_IRWXU) == -1) {
+	
+	if (camel_mkdir_hier (path, S_IRWXU) == -1) {
 		camel_exception_setv (ex, CAMEL_EXCEPTION_SYSTEM,
 				      _("Could not create directory %s:\n%s"),
 				      path, g_strerror (errno));
 		g_free (path);
 		return NULL;
 	}
-
+	
 	return path;
 }
 

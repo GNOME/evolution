@@ -42,8 +42,6 @@
 #include "camel-url.h"
 #include "string-utils.h"
 
-#include <gal/util/e-util.h>
-
 #define NNTP_PORT 119
 
 #define DUMP_EXTENSIONS
@@ -843,7 +841,7 @@ ensure_news_dir_exists (CamelNNTPStore *store)
 		return TRUE;
 	}
 
-	if (e_mkdir_hier (dir, S_IRWXU) == -1) {
+	if (camel_mkdir_hier (dir, S_IRWXU) == -1) {
 		g_free (dir);
 		return FALSE;
 	}

@@ -32,7 +32,6 @@
 #include <unistd.h>
 #include <errno.h>
 
-#include <gal/util/e-util.h>
 #include "e-util/e-path.h"
 
 #include "camel-imap-store.h"
@@ -580,11 +579,11 @@ imap_store_setup_online (CamelImapStore *store, CamelException *ex)
 		result = camel_imap_response_extract (response, "NAMESPACE", ex);
 		if (!result)
 			return FALSE;
-
-		name = e_strstrcase (result, "NAMESPACE ((");
+		
+		name = strstrcase (result, "NAMESPACE ((");
 		if (name) {
 			char *sep;
-
+			
 			name += 12;
 			store->namespace = imap_parse_string (&name, &len);
 			if (name && *name++ == ' ') {
@@ -870,7 +869,7 @@ get_folder (CamelStore *store, const char *folder_name, guint32 flags,
 
 	folder_dir = e_path_to_physical (imap_store->storage_path,
 					 folder_name);
-	if (e_mkdir_hier (folder_dir, S_IRWXU) == 0) {
+	if (camel_mkdir_hier (folder_dir, S_IRWXU) == 0) {
 		new_folder = camel_imap_folder_new (store, folder_name,
 						    short_name, folder_dir,
 						    ex);
@@ -1064,8 +1063,8 @@ get_unread_online (CamelImapStore *imap_store, CamelFolderInfo *fi)
 	status = camel_imap_response_extract (response, "STATUS", NULL);
 	if (!status)
 		return;
-
-	p = e_strstrcase (status, "UNSEEN");
+	
+	p = strstrcase (status, "UNSEEN");
 	if (p)
 		fi->unread_message_count = strtoul (p + 6, NULL, 10);
 	g_free (status);

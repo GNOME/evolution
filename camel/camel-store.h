@@ -184,6 +184,10 @@ void             camel_store_unsubscribe_folder       (CamelStore *store,
 						       const char *folder_name,
 						       CamelException *ex);
 
+
+/* utility needed by some stores */
+int camel_mkdir_hier (const char *path, mode_t mode);
+
 #ifdef __cplusplus
 }
 #endif /* __cplusplus */

@@ -17,7 +17,6 @@ INCLUDES = -I.. -I$(srcdir)/.. 			 \
 	$(KRB4_CFLAGS)				 \
 	$(NSPR_CFLAGS)				 \
 	$(NSS_CFLAGS)				 \
-	$(EXTRA_GNOME_CFLAGS)			 \
 	-DCAMEL_PROVIDERDIR=\""$(providerdir)"\" \
 	-DG_LOG_DOMAIN=\"camel\"
 

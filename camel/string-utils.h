@@ -61,6 +61,8 @@ void    string_unquote          (gchar *string);
 
 gchar   *strip                  (gchar *string, gchar c);
 
+char    *strstrcase             (char *haystack, const char *needle);
+
 #ifdef __cplusplus
 }
 #endif /* __cplusplus */

@@ -1,3 +1,36 @@
+2001-04-16  Jeffrey Stedfast  <fejj@ximian.com>
+
+	* Makefile.am: Remove the EXTRA_GNOME_CFLAGS include.
+
+	* camel-store.c (camel_mkdir_hier): Convenience function that it
+	seems a number of camel-store implementations used gal for.
+
+	* providers/nntp/camel-nntp-store.c (ensure_news_dir_exists): Lets
+	not depend on gal for just e_mkdir_hier() - use camel_mkdir_hier()
+	instead.
+
+	* providers/nntp/camel-imap-store.c: Lets not depend on gal for
+	just e_mkdir_hier() - use camel_mkdir_hier() instead.
+
+	* camel-session.c (camel_session_get_storage_path): Don't depend
+	on e_mkdir_heir() anymore, use the CamelStore version.
+
+	* camel-folder-search.h: Removed gal dependency, why was this even
+	there in the first place?
+
+	* providers/imap/camel-imap-folder.c: Don't need gal/util/e-util.h
+	here, so remove it.
+
+	* string-utils.c (strstrcase): New function, well more like old
+	function brought back to life so we don't have to depend on gal.
+
+	* providers/imap/camel-imap-store.c (imap_store_setup_online): Use
+	strstrcase rather than e_strstrcase so we don't depend on gal.
+	(get_unread_online): Same here.
+
+	* providers/smtp/camel-smtp-transport.c (smtp_helo): Use
+	strstrcase.
+
 2001-04-15  Jeffrey Stedfast  <fejj@ximian.com>
 
 	* camel-mime-utils.c (header_raw_check_mailing_list): regex

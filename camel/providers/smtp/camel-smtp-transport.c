@@ -56,7 +56,7 @@
 #include "camel-session.h"
 #include "camel-exception.h"
 #include "camel-sasl.h"
-#include <gal/util/e-util.h>
+#include "string-utils.h"
 
 #define d(x) x
 
@@ -690,7 +690,7 @@ smtp_helo (CamelSmtpTransport *transport, CamelException *ex)
 			return FALSE;
 		}
 		
-		if (e_strstrcase (respbuf, "8BITMIME")) {
+		if (strstrcase (respbuf, "8BITMIME")) {
 			d(fprintf (stderr, "This server supports 8bit MIME\n"));
 			CAMEL_TRANSPORT (transport)->supports_8bit = TRUE;
 		}

@@ -777,3 +777,28 @@ camel_store_unsubscribe_folder (CamelStore *store,
 
 	CAMEL_STORE_UNLOCK(store, folder_lock);
 }
+
+
+int
+camel_mkdir_hier (const char *path, mode_t mode)
+{
+	char *copy, *p;
+	
+	p = copy = g_strdup (path);
+	do {
+		p = strchr (p + 1, '/');
+		if (p)
+			*p = '\0';
+		if (access (copy, F_OK) == -1) {
+			if (mkdir (copy, mode) == -1) {
+				g_free (copy);
+				return -1;
+			}
+		}
+		if (p)
+			*p = '/';
+	} while (p);
+	
+	g_free (copy);
+	return 0;
+}
