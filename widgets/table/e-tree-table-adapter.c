@@ -236,6 +236,8 @@ kill_gnode(GNode *node, ETreeTableAdapter *etta)
 	}
 
 	g_free(node->data);
+	if (node == etta->priv->root)
+		etta->priv->root = NULL;
 	g_node_destroy(node);
 }
 
