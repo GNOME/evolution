@@ -126,6 +126,7 @@
 		  _label="_Send Message to Contact..." verb=""/>
 	<menuitem name="ContactsCopyToFolder" _label="_Copy to Folder..." verb=""/>
 	<menuitem name="ContactsMoveToFolder" _label="_Move to Folder..." verb=""/>
+	<menuitem name="ContactActionStop" verb="ContactStop" _label="Stop"/>
       </placeholder>
     </submenu>
 

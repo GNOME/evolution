@@ -1,3 +1,9 @@
+2002-06-06  jacob berkman  <jacob@ximian.com>
+
+	* evolution-addressbook.xml: 
+	* evolution-mail-global.xml: add a 'stop' menu item (fixes ximian
+	#17242)
+
 2002-05-22  Ettore Perazzoli  <ettore@ximian.com>
 
 	* evolution.xml: Put the search menu in a SearchPlaceholder.

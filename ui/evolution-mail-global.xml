@@ -70,6 +70,7 @@
     <submenu name="Actions" _label="_Actions">
       <placeholder name="ComponentActionsPlaceholder">
         <menuitem name="ActionCompose" verb="MailCompose" _label="Compose _New Message"/>
+	<menuitem name="ActionStop" verb="MailStop" _label="Cancel"/>
 
 	<separator f="" name="emailglobal"/>
 
