@@ -1,3 +1,9 @@
+2000-01-20  Matt Loper  <matt.loper@splashtech.com>
+
+	* camel/camel-formatter.c, camel/camel-formatter.h: New
+	files. You'll be able to use a CamelFormatter to get
+	html-formatted versions of a CamelMimeMessage.
+	
 2000-01-20  Christopher James Lahey  <clahey@helixcode.com>
 
 	* widgets/e-text-event-processor-types.h: Changed some line

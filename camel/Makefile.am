@@ -41,6 +41,7 @@ libcamel_la_SOURCES = 				\
 	camel-folder.c				\
 	camel-folder-summary.c			\
 	camel-folder-utils.c			\
+	camel-formatter.c			\
 	camel-medium.c				\
 	camel-marshal-utils.c			\
 	camel-mime-body-part.c			\
@@ -80,6 +81,7 @@ libcamelinclude_HEADERS =			\
 	camel-folder.h				\
 	camel-folder-summary.h			\
 	camel-folder-utils.h			\
+	camel-formatter.h			\
 	camel-mime-body-part.h			\
 	camel-marshal-utils.h			\
 	camel-medium.h				\
