@@ -92,8 +92,6 @@ set_session_parameters (char **argv)
 static BonoboObject *
 alarm_notify_factory_fn (BonoboGenericFactory *factory, void *data)
 {
-	g_assert (alarm_notify_service != NULL);
-
 	if (!alarm_notify_service) {
 		alarm_notify_service = alarm_notify_new ();
 		g_assert (alarm_notify_service != NULL);
