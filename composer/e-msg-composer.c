@@ -96,6 +96,18 @@ enum {
 
 static guint signals[LAST_SIGNAL] = { 0 };
 
+enum {
+	DND_TYPE_MESSAGE_RFC822,
+	DND_TYPE_TEXT_URI_LIST,
+};
+
+static GtkTargetEntry drop_types[] = {
+	{ "message/rfc822", 0, DND_TYPE_MESSAGE_RFC822 },
+	{ "text/uri-list", 0, DND_TYPE_TEXT_URI_LIST },
+};
+
+static const int num_drop_types = sizeof (drop_types) / sizeof (drop_types[0]);
+
 static GnomeAppClass *parent_class = NULL;
 
 /* local prototypes */
@@ -1684,6 +1696,40 @@ delete_event (GtkWidget *widget,
 }
 
 static void
+message_rfc822_dnd (EMsgComposer *composer, CamelStream *stream)
+{
+	CamelMimeParser *mp;
+	CamelException *ex;
+	
+	mp = camel_mime_parser_new ();
+	camel_mime_parser_scan_from (mp, TRUE);
+	camel_mime_parser_init_with_stream (mp, stream);
+	
+	ex = camel_exception_new ();
+	
+	while (camel_mime_parser_step (mp, 0, 0) == HSCAN_FROM) {
+		CamelMimeMessage *message;
+		
+		message = camel_mime_message_new ();
+		if (camel_mime_part_construct_from_parser (CAMEL_MIME_PART (message), mp) == -1) {
+			camel_object_unref (CAMEL_OBJECT (message));
+			break;
+		}
+		
+		e_msg_composer_attachment_bar_attach_mime_part (E_MSG_COMPOSER_ATTACHMENT_BAR (composer->attachment_bar),
+								CAMEL_MIME_PART (message));
+		camel_object_unref (CAMEL_OBJECT (message));
+		camel_exception_clear (ex);
+		
+		/* skip over the FROM_END state */
+		camel_mime_parser_step (mp, 0, 0);
+	}
+	
+	camel_object_unref (CAMEL_OBJECT (mp));
+	camel_exception_free (ex);
+}
+
+static void
 drag_data_received (EMsgComposer *composer,
 		    GdkDragContext *context,
 		    gint x,
@@ -1693,27 +1739,41 @@ drag_data_received (EMsgComposer *composer,
 		    guint time)
 {
 	gchar *temp, *filename;
+	CamelStream *stream;
+	CamelURL *url;
 	
-	filename = g_strdup (selection->data);
-	temp = strchr (filename, '\n');
-	if (temp) {
-		if (*(temp - 1) == '\r')
-			*(temp - 1) = '\0';
-		*temp = '\0';
-	}
-	
-	/* Chop the file: part off */
-	if (strncasecmp (filename, "file:", 5) == 0) {
-		temp = g_strdup (filename + 5);
+	switch (info) {
+	case DND_TYPE_MESSAGE_RFC822:
+		/* write the message(s) out to a CamelStream so we can use it */
+		stream = camel_stream_mem_new ();
+		camel_stream_write (stream, selection->data, selection->length);
+		camel_stream_reset (stream);
+		
+		message_rfc822_dnd (composer, stream);
+		camel_object_unref (CAMEL_OBJECT (stream));
+		break;
+	case DND_TYPE_TEXT_URI_LIST:
+		filename = g_strndup (selection->data, selection->length);
+		temp = strchr (filename, '\n');
+		if (temp)
+			*temp = '\0';
+		g_strstrip (filename);
+		
+		url = camel_url_new (filename, NULL);
 		g_free (filename);
-		filename = temp;
+		filename = url->path;
+		url->path = NULL;
+		camel_url_free (url);
+		
+		e_msg_composer_attachment_bar_attach
+			(E_MSG_COMPOSER_ATTACHMENT_BAR (composer->attachment_bar),
+			 filename);
+		
+		g_free (filename);
+		break;
+	default:
+		break;
 	}
-	
-	e_msg_composer_attachment_bar_attach
-		(E_MSG_COMPOSER_ATTACHMENT_BAR (composer->attachment_bar),
-		 filename);
-	
-	g_free (filename);
 }
 
 
@@ -1914,10 +1974,6 @@ e_msg_composer_construct (EMsgComposer *composer)
 	BonoboObject *editor_server;
 	gint vis;
 	
-	static GtkTargetEntry drop_types[] = {
-		{"text/uri-list", 0, 1}
-	};
-	
 	g_return_if_fail (gtk_main_level () > 0);
 	
 	gtk_window_set_default_size (GTK_WINDOW (composer),
@@ -1928,7 +1984,7 @@ e_msg_composer_construct (EMsgComposer *composer)
 	
 	/* DND support */
 	gtk_drag_dest_set (GTK_WIDGET (composer), GTK_DEST_DEFAULT_ALL,
-			   drop_types, 1, GDK_ACTION_COPY);
+			   drop_types, num_drop_types, GDK_ACTION_COPY);
 	gtk_signal_connect (GTK_OBJECT (composer), "drag_data_received",
 			    GTK_SIGNAL_FUNC (drag_data_received), NULL);
 	e_msg_composer_load_config (composer);

@@ -1,3 +1,10 @@
+2001-06-19  Jeffrey Stedfast  <fejj@ximian.com>
+
+	* e-msg-composer.c (e_msg_composer_construct): Don't define the
+	drop_types here.
+	(drag_data_received): Implement message/rfc822 dnd drop type
+	handling.
+
 2001-06-12  Dan Winship  <danw@ximian.com>
 
 	* e-msg-composer-attachment.glade: Replace the disposition option
