@@ -83,7 +83,8 @@ struct _EMinicard
 	guint changed : 1;
 
 	guint selected : 1;
-	
+	guint has_cursor : 1;
+
 	guint has_focus : 1;
 
 	guint editable : 1;
