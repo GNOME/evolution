@@ -1090,7 +1090,7 @@ efhd_attachment_popup(GtkWidget *w, GdkEventButton *event, struct _attach_puri *
 		return FALSE;
 	}
 
-	emp = em_popup_new("com.ximian.mail.formathtmldisplay.popup.part");
+	emp = em_popup_new("org.gnome.mail.formathtmldisplay.popup.part");
 	target = em_popup_target_new_part(emp, info->puri.part, info->handle?info->handle->mime_type:NULL);
 	target->target.widget = w;
 

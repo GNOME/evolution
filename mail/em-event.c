@@ -113,7 +113,7 @@ EMEvent *em_event_peek(void)
 {
 	if (em_event == NULL) {
 		em_event = g_object_new(em_event_get_type(), 0);
-		e_event_construct(&em_event->popup, "com.ximian.evolution.mail.events");
+		e_event_construct(&em_event->popup, "org.gnome.evolution.mail.events");
 	}
 
 	return em_event;
@@ -158,7 +158,7 @@ emeh_class_init(EPluginHookClass *klass)
 	int i;
 
 	((GObjectClass *)klass)->finalize = emeh_finalise;
-	((EPluginHookClass *)klass)->id = "com.ximian.evolution.mail.events:1.0";
+	((EPluginHookClass *)klass)->id = "org.gnome.evolution.mail.events:1.0";
 
 	for (i=0;emeh_targets[i].type;i++)
 		e_event_hook_class_add_target_map((EEventHookClass *)klass, &emeh_targets[i]);

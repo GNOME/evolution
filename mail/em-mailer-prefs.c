@@ -717,7 +717,7 @@ em_mailer_prefs_construct (EMMailerPrefs *prefs)
 	gui = glade_xml_new (EVOLUTION_GLADEDIR "/mail-config.glade", "preferences_toplevel", NULL);
 	prefs->gui = gui;
 
-	ec = em_config_new(E_CONFIG_BOOK, "com.novell.evolution.mail.prefs");
+	ec = em_config_new(E_CONFIG_BOOK, "org.gnome.evolution.mail.prefs");
 	l = NULL;
 	for (i=0;i<sizeof(emmp_items)/sizeof(emmp_items[0]);i++)
 		l = g_slist_prepend(l, &emmp_items[i]);

@@ -2052,7 +2052,7 @@ emae_widget_glade(EConfig *ec, EConfigItem *item, struct _GtkWidget *parent, str
 	return glade_xml_get_widget(emae->priv->xml, item->label);
 }
 
-/* plugin meta-data for "com.novell.evolution.mail.config.accountEditor" */
+/* plugin meta-data for "org.gnome.evolution.mail.config.accountEditor" */
 static EMConfigItem emae_editor_items[] = {
 	{ E_CONFIG_BOOK, "", "account_editor_notebook", emae_widget_glade },
 	{ E_CONFIG_PAGE, "00.identity", "vboxIdentityBorder", emae_identity_page },
@@ -2128,7 +2128,7 @@ emae_widget_druid_glade(EConfig *ec, EConfigItem *item, struct _GtkWidget *paren
 	return w;
 }
 
-/* plugin meta-data for "com.novell.evolution.mail.config.accountDruid" */
+/* plugin meta-data for "org.gnome.evolution.mail.config.accountDruid" */
 static EMConfigItem emae_druid_items[] = {
 	{ E_CONFIG_DRUID, "", "druid", emae_widget_druid_glade },
 	{ E_CONFIG_PAGE_START, "0.start", "start_page", emae_widget_druid_glade },
@@ -2414,10 +2414,10 @@ em_account_editor_construct(EMAccountEditor *emae, EAccount *account, em_account
 	gui->providers = g_list_sort(camel_provider_list(TRUE), (GCompareFunc)provider_compare);
 
 	if (type == EMAE_NOTEBOOK) {
-		ec = em_config_new(E_CONFIG_BOOK, "com.novell.evolution.mail.config.accountEditor");
+		ec = em_config_new(E_CONFIG_BOOK, "org.gnome.evolution.mail.config.accountEditor");
 		items = emae_editor_items;
 	} else {
-		ec = em_config_new(E_CONFIG_DRUID, "com.novell.evolution.mail.config.accountDruid");
+		ec = em_config_new(E_CONFIG_DRUID, "org.gnome.evolution.mail.config.accountDruid");
 		items = emae_druid_items;
 	}
 

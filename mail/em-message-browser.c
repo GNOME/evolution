@@ -176,7 +176,7 @@ GtkWidget *em_message_browser_new(void)
 {
 	EMMessageBrowser *emmb = g_object_new(em_message_browser_get_type(), 0);
 
-	((EMFolderView *)emmb)->menu = em_menu_new("com.novell.evolution.mail.messagebrowser");
+	((EMFolderView *)emmb)->menu = em_menu_new("org.gnome.evolution.mail.messagebrowser");
 
 	return (GtkWidget *)emmb;
 }

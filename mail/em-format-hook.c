@@ -44,7 +44,7 @@ static GHashTable *emfh_types;
 /* Mail formatter handler plugin */
 
 /*
-  <hook class="com.novell.evolution.mail.format:1.0">
+  <hook class="org.gnome.evolution.mail.format:1.0">
   <group id="EMFormatHTML">
      <item flags="inline,inline_disposition"
            mime_type="text/vcard"
@@ -235,7 +235,7 @@ emfh_class_init(EPluginHookClass *klass)
 	((GObjectClass *)klass)->finalize = emfh_finalise;
 	klass->construct = emfh_construct;
 	klass->enable = emfh_enable;
-	klass->id = "com.novell.evolution.mail.format:1.0";
+	klass->id = "org.gnome.evolution.mail.format:1.0";
 }
 
 GType

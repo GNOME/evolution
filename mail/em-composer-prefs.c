@@ -892,7 +892,7 @@ em_composer_prefs_construct (EMComposerPrefs *prefs)
 	prefs->gui = gui;
 	prefs->sig_script_gui = glade_xml_new (EVOLUTION_GLADEDIR "/mail-config.glade", "vbox_add_script_signature", NULL);
 
-	ec = em_config_new(E_CONFIG_BOOK, "com.novell.evolution.mail.composerPrefs");
+	ec = em_config_new(E_CONFIG_BOOK, "org.gnome.evolution.mail.composerPrefs");
 	l = NULL;
 	for (i=0;i<sizeof(emcp_items)/sizeof(emcp_items[0]);i++)
 		l = g_slist_prepend(l, &emcp_items[i]);

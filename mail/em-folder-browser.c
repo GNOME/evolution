@@ -287,7 +287,7 @@ GtkWidget *em_folder_browser_new(void)
 {
 	EMFolderBrowser *emfb = g_object_new(em_folder_browser_get_type(), 0);
 
-	((EMFolderView *)emfb)->menu = em_menu_new("com.novell.evolution.mail.browser");
+	((EMFolderView *)emfb)->menu = em_menu_new("org.gnome.evolution.mail.browser");
 
 	return (GtkWidget *)emfb;
 }

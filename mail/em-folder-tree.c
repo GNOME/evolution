@@ -1092,7 +1092,7 @@ tree_drag_data_received(GtkWidget *widget, GdkDragContext *context, int x, int y
 		GSList *menus = NULL;
 		GtkMenu *menu;
 
-		emp = em_popup_new("com.ximian.mail.storageset.popup.drop");
+		emp = em_popup_new("org.gnome.mail.storageset.popup.drop");
 		if (info != DND_DROP_TYPE_FOLDER)
 			mask = ~1;
 		else
@@ -2809,7 +2809,7 @@ emft_popup (EMFolderTree *emft, GdkEvent *event)
 	}
 
 	/* handle right-click by opening a context menu */
-	emp = em_popup_new ("com.ximian.mail.storageset.popup.select");
+	emp = em_popup_new ("org.gnome.mail.storageset.popup.select");
 	
 	/* FIXME: pass valid fi->flags here */
 	target = em_popup_target_new_folder (emp, uri, info_flags, flags);

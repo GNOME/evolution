@@ -1013,7 +1013,7 @@ emfv_popup(EMFolderView *emfv, GdkEvent *event)
 	EMPopupTargetSelect *target;
 	int i;
 
-	emp = em_popup_new("com.ximian.mail.folderview.popup.select");
+	emp = em_popup_new("org.gnome.mail.folderview.popup.select");
 	target = em_folder_view_get_popup_target(emfv, emp);
 
 	for (i=0;i<sizeof(emfv_popup_items)/sizeof(emfv_popup_items[0]);i++)
@@ -2195,7 +2195,7 @@ emfv_format_popup_event(EMFormatHTMLDisplay *efhd, GdkEventButton *event, const 
 	/* FIXME: this maybe should just fit on em-html-display, it has access to the
 	   snooped part type */
 
-	emp = em_popup_new("com.ximian.mail.folderview.popup.uri");
+	emp = em_popup_new("org.gnome.mail.folderview.popup.uri");
 	if (part)
 		target = (EPopupTarget *)em_popup_target_new_part(emp, part, NULL);
 	else {

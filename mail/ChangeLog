@@ -4,7 +4,8 @@
 	em-event.c, em-folder-browser.c, em-folder-properties.c,
 	em-folder-tree.c, em-folder-view.c, em-format-hook.c,
 	em-format-html-display.c, em-mailer-prefs.c, em-menu.c,
-	em-message-browser.c, em-popup.c, message-list.c: convert to org.gnome hook names
+	em-message-browser.c, em-popup.c, message-list.c: convert to
+	org.gnome hook names
 
 2004-10-19  JP Rosevear  <jpr@novell.com>
 	

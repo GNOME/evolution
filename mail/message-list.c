@@ -1750,7 +1750,7 @@ ml_tree_drag_data_received (ETree *tree, int row, ETreePath path, int col,
 		GtkMenu *menu;
 		int i;
 
-		emp = em_popup_new("com.ximian.mail.messagelist.popup.drop");
+		emp = em_popup_new("org.gnome.mail.messagelist.popup.drop");
 		for (i=0;i<sizeof(ml_drop_popup_menu)/sizeof(ml_drop_popup_menu[0]);i++)
 			menus = g_slist_append(menus, &ml_drop_popup_menu[i]);
 

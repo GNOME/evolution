@@ -274,7 +274,7 @@ emfp_dialog_got_folder (char *uri, CamelFolder *folder, void *data)
 	gtk_widget_ensure_style (dialog);
 	gtk_container_set_border_width ((GtkContainer *) ((GtkDialog *) dialog)->vbox, 12);
 
-	ec = em_config_new(E_CONFIG_BOOK, "com.novell.evolution.mail.folderConfig");
+	ec = em_config_new(E_CONFIG_BOOK, "org.gnome.evolution.mail.folderConfig");
 	prop_data->config = ec;
 	l = NULL;
 	for (i=0;i<sizeof(emfp_items)/sizeof(emfp_items[0]);i++)
