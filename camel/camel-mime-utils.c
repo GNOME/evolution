@@ -1022,65 +1022,69 @@ static char *
 header_decode_text (const char *in, int inlen)
 {
 	GString *out;
-	char *inptr, *inend, *start;
+	char *inptr, *inend, *start, *word_start;
 	char *decoded;
-	unsigned char lastc = 0;
-	int wasdword = FALSE;
+	gboolean wasdword = FALSE;
+	gboolean wasspace = FALSE;
 	
 	out = g_string_new ("");
 	start = inptr = (char *) in;
 	inend = inptr + inlen;
 	
+	word_start = NULL;
 	while (inptr && inptr < inend) {
 		unsigned char c = *inptr++;
 		
-		if (is_lwsp (c)) {
+		if (is_lwsp (c) && !wasspace) {
 			char *word, *dword;
-			guint len;
 			
-			len = inptr - start - 1;
-			word = start;
+			if (word_start)
+				word = word_start;
+			else
+				word = start;
 			
-			dword = rfc2047_decode_word (word, len);
+			dword = rfc2047_decode_word (word, inptr - word - 1);
 			
 			if (dword) {
-				if (!wasdword && lastc)
-					g_string_append_c (out, lastc);
-					
+				if (!wasdword && word_start)
+					g_string_append_len (out, start, word_start - start);
+				
 				g_string_append (out, dword);
 				g_free (dword);
-				lastc = c;
 				wasdword = TRUE;
 			} else {
-				if (lastc)
-					g_string_append_c (out, lastc);
-				out = append_latin1 (out, word, len);
-				lastc = c;
+				out = append_latin1 (out, start, inptr - start - 1);
 				wasdword = FALSE;
 			}
 			
-			start = inptr;
+			start = inptr - 1;
+			word_start = NULL;
+			wasspace = TRUE;
+		} else if (!is_lwsp (c)) {
+			wasspace = FALSE;
+			if (!word_start)
+				word_start = inptr - 1;
 		}
 	}
 	
 	if (inptr - start) {
 		char *word, *dword;
-		guint len;
 		
-		len = inptr - start;
-		word = start;
+		if (word_start)
+			word = word_start;
+		else
+			word = start;
 		
-		dword = rfc2047_decode_word (word, len);
+		dword = rfc2047_decode_word (word, inptr - word);
 		
 		if (dword) {
-			if (!wasdword && lastc)
-				g_string_append_c (out, lastc);
+			if (!wasdword && word_start)
+				g_string_append_len (out, start, word_start - start);
+			
 			g_string_append (out, dword);
 			g_free (dword);
 		} else {
-			if (lastc)
-				g_string_append_c (out, lastc);
-			out = append_latin1 (out, word, len);
+			out = append_latin1 (out, start, inptr - start);
 		}
 	}
 	
@@ -1243,82 +1247,125 @@ rfc2047_encode_word(GString *outstring, const char *in, int len, const char *typ
 
 /* TODO: Should this worry about quotes?? */
 char *
-header_encode_string(const unsigned char *in)
+header_encode_string (const unsigned char *in)
 {
-	GString *out;
-	const unsigned char *inptr = in, *start;
+	const unsigned char *inptr = in, *start, *word;
+	gboolean last_was_encoded = FALSE;
+	gboolean last_was_space = FALSE;
 	int encoding;
+	GString *out;
 	char *outstr;
-
+	
 	if (in == NULL)
 		return NULL;
-
+	
 	/* do a quick us-ascii check (the common case?) */
 	while (*inptr) {
 		if (*inptr > 127)
 			break;
 		inptr++;
 	}
-	if (*inptr == 0)
-		return g_strdup(in);
-
+	if (*inptr == '\0')
+		return g_strdup (in);
+	
 	/* This gets each word out of the input, and checks to see what charset
 	   can be used to encode it. */
 	/* TODO: Work out when to merge subsequent words, or across word-parts */
-	out = g_string_new("");
+	out = g_string_new ("");
 	inptr = in;
 	encoding = 0;
+	word = NULL;
 	start = inptr;
 	while (inptr && *inptr) {
 		unicode_char_t c;
 		const char *newinptr;
-		newinptr = unicode_get_utf8(inptr, &c);
+		
+		newinptr = unicode_get_utf8 (inptr, &c);
 		if (newinptr == NULL) {
-			w(g_warning("Invalid UTF-8 sequence encountered (pos %d, char '%c'): %s", (inptr-in), inptr[0], in));
+			w(g_warning ("Invalid UTF-8 sequence encountered (pos %d, char '%c'): %s",
+				     (inptr-in), inptr[0], in));
 			inptr++;
 			continue;
 		}
-		inptr = newinptr;
-		if (unicode_isspace(c)) {
+		
+		if (unicode_isspace (c) && !last_was_space) {
 			/* we've reached the end of a 'word' */
+			if (word && !(last_was_encoded && encoding)) {
+				g_string_append_len (out, start, word - start);
+				start = word;
+			}
+			
 			switch (encoding) {
 			case 0:
-				out = g_string_append_len(out, start, inptr-start);
+				out = g_string_append_len (out, word, inptr - start);
+				last_was_encoded = FALSE;
 				break;
 			case 1:
-				rfc2047_encode_word(out, start, inptr-start-1, "ISO-8859-1", IS_ESAFE);
-				out = g_string_append_c (out, c);
+				if (last_was_encoded)
+					g_string_append_c (out, ' ');
+				
+				rfc2047_encode_word (out, start, inptr - start, "ISO-8859-1", IS_ESAFE);
+				last_was_encoded = TRUE;
 				break;
 			case 2:
-				rfc2047_encode_word(out, start, inptr-start-1,
-						    camel_charset_best(start, inptr-start-1), IS_ESAFE);
-				out = g_string_append_c(out, c);
+				if (last_was_encoded)
+					g_string_append_c (out, ' ');
+				
+				rfc2047_encode_word (out, start, inptr - start,
+						     camel_charset_best (start, inptr - start), IS_ESAFE);
+				last_was_encoded = TRUE;
 				break;
 			}
+			
+			last_was_space = TRUE;
 			start = inptr;
+			word = NULL;
 			encoding = 0;
 		} else if (c > 127 && c < 256) {
-			encoding = MAX(encoding, 1);
+			encoding = MAX (encoding, 1);
+			last_was_space = FALSE;
 		} else if (c >= 256) {
-			encoding = MAX(encoding, 2);
+			encoding = MAX (encoding, 2);
+			last_was_space = FALSE;
+		} else if (!unicode_isspace (c)) {
+			last_was_space = FALSE;
 		}
+		
+		if (!unicode_isspace (c) && !word)
+			word = inptr;
+		
+		inptr = newinptr;
 	}
-	if (inptr-start) {
+	
+	if (inptr - start) {
+		if (word && !(last_was_encoded && encoding)) {
+			g_string_append_len (out, start, word - start);
+			start = word;
+		}
+		
 		switch (encoding) {
 		case 0:
-			out = g_string_append_len(out, start, inptr-start);
+			out = g_string_append_len (out, start, inptr - start);
 			break;
 		case 1:
-			rfc2047_encode_word(out, start, inptr-start, "ISO-8859-1", IS_ESAFE);
+			if (last_was_encoded)
+				g_string_append_c (out, ' ');
+			
+			rfc2047_encode_word (out, start, inptr - start, "ISO-8859-1", IS_ESAFE);
 			break;
 		case 2:
-			rfc2047_encode_word(out, start, inptr-start,
-					    camel_charset_best(start, inptr-start-1), IS_ESAFE);
+			if (last_was_encoded)
+				g_string_append_c (out, ' ');
+			
+			rfc2047_encode_word (out, start, inptr - start,
+					     camel_charset_best (start, inptr - start - 1), IS_ESAFE);
 			break;
 		}
 	}
+	
 	outstr = out->str;
-	g_string_free(out, FALSE);
+	g_string_free (out, FALSE);
+	
 	return outstr;
 }
 
@@ -1359,110 +1406,102 @@ struct _phrase_word {
    merge common word types
    clean up
 */
-/* encodes a phrase sequence (different quoting/encoding rules to strings) */
-char *
-header_encode_phrase(const unsigned char *in)
+
+static GList *
+header_encode_phrase_get_words (const unsigned char *in)
 {
-	GString *out;
 	const unsigned char *inptr = in, *start, *last;
-	int encoding;
-	char *outstr;
-	struct _phrase_word *word, *next;
+	struct _phrase_word *word;
 	enum _phrase_word_t type;
-	GList *words = NULL, *wordl, *nextl;
-	int count;
-
-	if (in == NULL)
-		return NULL;
-
-	out = g_string_new("");
-
-#if 0
-	{
-		int i;
-
-		printf("encoding phrase: %s\n", in);
-		for (i=0;in[i];i++) {
-			printf(" %02x", in[i]);
-			if (((i) & 15) == 15)
-				printf("\n");
-		}
-		printf("\n");
-	}
-#endif
-
+	int encoding, count = 0;
+	GList *words = NULL;
+	
 	/* break the input into words */
 	type = WORD_ATOM;
-	count = 0;
 	last = inptr;
 	start = inptr;
 	encoding = 0;
 	while (inptr && *inptr) {
 		unicode_char_t c;
 		const char *newinptr;
-		newinptr = unicode_get_utf8(inptr, &c);
+		
+		newinptr = unicode_get_utf8 (inptr, &c);
 		if (newinptr == NULL) {
-			w(g_warning("Invalid UTF-8 sequence encountered (pos %d, char '%c'): %s", (inptr-in), inptr[0], in));
+			w(g_warning ("Invalid UTF-8 sequence encountered (pos %d, char '%c'): %s",
+				     (inptr - in), inptr[0], in));
 			inptr++;
 			continue;
 		}
+		
 		inptr = newinptr;
-		/* save this word out, multiple whitespace is not explicitly counted (?) */
-		if (unicode_isspace(c)) {
+		if (unicode_isspace (c)) {
 			if (count > 0) {
-				word = g_malloc0(sizeof(*word));
+				word = g_new0 (struct _phrase_word, 1);
 				word->start = start;
 				word->end = last;
 				word->type = type;
 				word->encoding = encoding;
-				words = g_list_append(words, word);
+				words = g_list_append (words, word);
 				count = 0;
 			}
+			
 			start = inptr;
 			type = WORD_ATOM;
 			encoding = 0;
 		} else {
 			count++;
-			if (c<128) {
-				if (!is_atom(c))
-					type = MAX(type, WORD_QSTRING);
-			} else if (c>127 && c < 256) {
+			if (c < 128) {
+				if (!is_atom (c))
+					type = MAX (type, WORD_QSTRING);
+			} else if (c > 127 && c < 256) {
 				type = WORD_2047;
-				encoding = MAX(encoding, 1);
-			} else if (c >=256) {
+				encoding = MAX (encoding, 1);
+			} else if (c >= 256) {
 				type = WORD_2047;
-				encoding = MAX(encoding, 2);
+				encoding = MAX (encoding, 2);
 			}
 		}
+		
 		last = inptr;
 	}
+	
 	if (count > 0) {
-		word = g_malloc0(sizeof(*word));
+		word = g_new0 (struct _phrase_word, 1);
 		word->start = start;
 		word->end = last;
 		word->type = type;
 		word->encoding = encoding;
-		words = g_list_append(words, word);
+		words = g_list_append (words, word);
 	}
+	
+	return words;
+}
 
-	/* now scan the list, checking for words of similar types that can be merged */
+static void
+header_encode_phrase_merge_words (GList **wordsp)
+{
+	GList *wordl, *nextl, *words = *wordsp;
+	struct _phrase_word *word, *next;
+	
+	/* scan the list, checking for words of similar types that can be merged */
 	wordl = words;
 	while (wordl) {
 		word = wordl->data;
 		/* leave atoms as atoms (unless they're surrounded by quoted words??) */
 		if (word->type != WORD_ATOM) {
-			nextl = g_list_next(wordl);
+			nextl = g_list_next (wordl);
 			while (nextl) {
 				next = nextl->data;
 				/* merge nodes of the same type AND we are not creating too long a string */
 				if (word->type == next->type) {
 					if (next->end - word->start < CAMEL_FOLD_PREENCODED) {
 						word->end = next->end;
-						words = g_list_remove_link(words, nextl);
-						g_free(next);
-						nextl = g_list_next(wordl);
+						words = g_list_remove_link (words, nextl);
+						g_free (next);
+						nextl = g_list_next (wordl);
 					} else {
-						/* if it is going to be too long, make sure we include the separating whitespace */
+						/* if it is going to be too long, make sure we include the
+						   separating whitespace */
 						word->end = next->start;
 						break;
 					}
@@ -1471,51 +1510,89 @@ header_encode_phrase(const unsigned char *in)
 				}
 			}
 		}
-		wordl = g_list_next(wordl);
+		wordl = g_list_next (wordl);
 	}
+	
+	*wordsp = words;
+}
 
+/* encodes a phrase sequence (different quoting/encoding rules to strings) */
+char *
+header_encode_phrase (const unsigned char *in)
+{
+	struct _phrase_word *word = NULL, *last_word = NULL;
+	GList *words, *wordl;
+	GString *out;
+	char *outstr;
+	
+	if (in == NULL)
+		return NULL;
+	
+	words = header_encode_phrase_get_words (in);
+	if (!words)
+		return NULL;
+	
+	header_encode_phrase_merge_words (&words);
+	
+	out = g_string_new ("");
+	
 	/* output words now with spaces between them */
 	wordl = words;
 	while (wordl) {
+		const char *start;
+		int len;
+		
 		word = wordl->data;
+		
+		/* append correct number of spaces between words */
+		if (last_word && !(last_word->type == WORD_2047 && word->type == WORD_2047)) {
+			/* one or both of the words are not encoded so we write the spaces out untouched */
+			len = word->start - last_word->end;
+			out = g_string_append_len (out, last_word->end, len);
+		}
+		
 		switch (word->type) {
 		case WORD_ATOM:
-			out = g_string_append_len(out, word->start, word->end-word->start);
+			out = g_string_append_len (out, word->start, word->end - word->start);
 			break;
 		case WORD_QSTRING:
-			quote_word(out, TRUE, word->start, word->end-word->start);
+			quote_word (out, TRUE, word->start, word->end - word->start);
 			break;
 		case WORD_2047:
+			if (last_word && last_word->type == WORD_2047) {
+				/* include the whitespace chars between these 2 words in the
+                                   resulting rfc2047 encoded word. */
+				len = word->end - last_word->end;
+				start = last_word->end;
+				
+				/* encoded words need to be separated by linear whitespace */
+				g_string_append_c (out, ' ');
+			} else {
+				len = word->end - word->start;
+				start = word->start;
+			}
+			
 			if (word->encoding == 1)
-				rfc2047_encode_word(out, word->start, word->end-word->start, "ISO-8859-1", IS_PSAFE);
+				rfc2047_encode_word (out, start, len, "ISO-8859-1", IS_PSAFE);
 			else
-				rfc2047_encode_word(out, word->start, word->end-word->start,
-						    camel_charset_best(word->start, word->end-word->start), IS_PSAFE);
+				rfc2047_encode_word (out, start, len,
+						     camel_charset_best (start, len), IS_PSAFE);
 			break;
 		}
-
-		/* copy across the right number of spaces between words */
-		nextl = g_list_next(wordl);
-		if (nextl) {
-			int i;
-			next = nextl->data;
-			/* if they are adjacent, it means we already had the spaces encoded internally,
-			   so now we just need to output 1 space */
-			i=next->start-word->end;
-			if (i==0)
-				i=1;
-			for (;i>0;i--)
-				out = g_string_append_c(out, ' ');
-		}
-
-		g_free(word);
-		wordl = g_list_next(wordl);
+		
+		g_free (last_word);
+		wordl = g_list_next (wordl);
+		
+		last_word = word;
 	}
+	
 	/* and we no longer need the list */
-	g_list_free(words);
-
+	g_free (word);
+	g_list_free (words);
+	
 	outstr = out->str;
-	g_string_free(out, FALSE);
+	g_string_free (out, FALSE);
+	
 	return outstr;
 }
 

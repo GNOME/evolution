@@ -1,3 +1,14 @@
+2001-04-03  Jeffrey Stedfast  <fejj@ximian.com>
+
+	* Makefile.am: Added tests/ back in
+
+	* camel-mime-utils.c (header_decode_text): Ignore whitespace
+	between encoded words (there were a few cases where it didn't
+	before).
+	(header_encode_string): Preserve whitespace between words that are
+	to be encoded by encoding them too.
+	(header_encode_phrase): Same here but with phrases.
+
 2001-04-03  Dan Winship  <danw@ximian.com>
 
 	* providers/imap/camel-imap-folder.c (imap_sync): If we don't
