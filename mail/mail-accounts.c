@@ -228,7 +228,6 @@ account_delete_clicked (GtkButton *button, gpointer user_data)
 	
 	ans = gtk_dialog_run ((GtkDialog *) confirm);
 	gtk_widget_destroy (confirm);
-	g_object_unref (confirm);
 	
 	if (ans == GTK_RESPONSE_YES) {
 		int len;

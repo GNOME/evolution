@@ -886,7 +886,6 @@ mail_config_remove_account (EAccount *account)
 	}
 	
 	e_list_remove ((EList *) config->accounts, account);
-	g_object_unref (account);
 	
 	mail_config_save_accounts ();
 }

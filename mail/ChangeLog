@@ -1,3 +1,11 @@
+2003-01-21  Jeffrey Stedfast  <fejj@ximian.com>
+
+	* mail-config.c (mail_config_remove_account): Don't unref the
+	account object, e_list_remove() apparently handles this for us.
+
+	* mail-accounts.c (account_delete_clicked): Don't unref the
+	confirm dialog, it was already destroyed.
+
 2003-01-20  Jeffrey Stedfast  <fejj@ximian.com>
 
 	* evolution-mail.schemas: Default to hiding deleted
