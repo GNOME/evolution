@@ -287,6 +287,13 @@ GtkWidget *em_folder_browser_new(void)
 {
 	EMFolderBrowser *emfb = g_object_new(em_folder_browser_get_type(), 0);
 
+	/** @HookPoint-EMMenu: Main Mail Menu
+	 * @Id: org.gnome.evolution.mail.browser
+	 * @Class: org.gnome.evolution.mail.bonobomenu:1.0
+	 * @Target: EMMenuTargetSelect
+	 *
+	 * The main menu of mail view of the main application window.
+	 */
 	((EMFolderView *)emfb)->menu = em_menu_new("org.gnome.evolution.mail.browser");
 
 	return (GtkWidget *)emfb;

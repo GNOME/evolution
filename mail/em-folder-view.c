@@ -1014,7 +1014,14 @@ emfv_popup(EMFolderView *emfv, GdkEvent *event)
 	EMPopupTargetSelect *target;
 	int i;
 
-	emp = em_popup_new("org.gnome.mail.folderview.popup.select");
+	/** @HookPoint-EMPopup: Message List Context Menu
+	 * @Id: org.gnome.evolution.mail.folderview.popup.select
+	 * @Type: EMPopup
+	 * @Target: EMPopupTargetSelect
+	 *
+	 * This is the context menu shown on the message list or over a message.
+	 */
+	emp = em_popup_new("org.gnome.mail.folderview.popup");
 	target = em_folder_view_get_popup_target(emfv, emp);
 
 	for (i=0;i<sizeof(emfv_popup_items)/sizeof(emfv_popup_items[0]);i++)
@@ -1997,8 +2004,7 @@ emfv_list_done_message_selected(CamelFolder *folder, const char *uid, CamelMimeM
 		return;
 	}
 		
-	/**
-	 * @Event: message.reading
+	/** @Event: message.reading
 	 * @Title: Viewing a message
 	 * @Target: EMEventTargetMessage
 	 * 
@@ -2210,7 +2216,25 @@ emfv_format_popup_event(EMFormatHTMLDisplay *efhd, GdkEventButton *event, const 
 	/* FIXME: this maybe should just fit on em-html-display, it has access to the
 	   snooped part type */
 
-	emp = em_popup_new("org.gnome.evolution.mail.folderview.popup.uri");
+	/** @HookPoint-EMPopup: Inline URI Context Menu
+	 * @Id: org.gnome.evolution.mail.folderview.popup
+	 * @Class: org.gnome.evolution.mail.popup:1.0
+	 * @Target: EMPopupTargetURI
+	 *
+	 * This is the context menu shown when clicking on inline URIs,
+	 * including addresses or normal HTML links that are displayed inside
+	 * the message view.
+	 */
+
+	/** @HookPoint-EMPopup: Inline Object Context Menu
+	 * @Id: org.gnome.evolution.mail.folderview.popup
+	 * @Class: org.gnome.evolution.mail.popup:1.0
+	 * @Target: EMPopupTargetPart
+	 *
+	 * This is the context menu shown when clicking on inline
+	 * content such as a picture.
+	 */
+	emp = em_popup_new("org.gnome.evolution.mail.folderview.popup");
 	if (part)
 		target = (EPopupTarget *)em_popup_target_new_part(emp, part, NULL);
 	else {

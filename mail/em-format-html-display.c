@@ -1090,7 +1090,15 @@ efhd_attachment_popup(GtkWidget *w, GdkEventButton *event, struct _attach_puri *
 		return FALSE;
 	}
 
-	emp = em_popup_new("org.gnome.mail.formathtmldisplay.popup.part");
+	/** @HookPoint-EMPopup: Attachment Button Context Menu
+	 * @Id: org.gnome.evolution.mail.formathtmldisplay.popup
+	 * @Class: org.gnome.evolution.mail.popup:1.0
+	 * @Target: EMPopupTargetPart
+	 *
+	 * This is the drop-down menu shown when a user clicks on the down arrow
+	 * of the attachment button in inline mail content.
+	 */
+	emp = em_popup_new("org.gnome.evolution.mail.formathtmldisplay.popup");
 	target = em_popup_target_new_part(emp, info->puri.part, info->handle?info->handle->mime_type:NULL);
 	target->target.widget = w;
 

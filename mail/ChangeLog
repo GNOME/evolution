@@ -1,3 +1,19 @@
+2004-10-28  Not Zed  <NotZed@Ximian.com>
+
+	* mail-folder-cache.c (real_flush_updates): 
+	* em-message-browser.c (em_message_browser_new): 
+	* em-mailer-prefs.c (em_mailer_prefs_construct): 
+	* em-format-html-display.c (efhd_attachment_popup): 
+	* em-folder-view.c (emfv_popup, emfv_list_done_message_selected) 
+	(emfv_format_popup_event): 
+	* em-folder-tree.c (emft_popup): 
+	* em-folder-properties.c (emfp_dialog_got_folder): 
+	* em-folder-browser.c (em_folder_browser_new): 
+	* em-composer-utils.c (em_utils_reply_to_message): 
+	* em-composer-prefs.c (em_composer_prefs_construct): 
+	* em-account-editor.c (em_account_editor_construct): added hook
+	docs, and cleaned up some of the hook point names.
+
 2004-10-22  Jeffrey Stedfast  <fejj@novell.com>
 
 	* em-folder-tree.c: Give the Rename item a different path than the

@@ -892,6 +892,14 @@ em_composer_prefs_construct (EMComposerPrefs *prefs)
 	prefs->gui = gui;
 	prefs->sig_script_gui = glade_xml_new (EVOLUTION_GLADEDIR "/mail-config.glade", "vbox_add_script_signature", NULL);
 
+	/** @HookPoint-EMConfig: Mail Composer Preferences
+	 * @Id: org.gnome.evolution.mail.composerPrefs
+	 * @Type: E_CONFIG_BOOK
+	 * @Class: org.gnome.evolution.mail.config:1.0
+	 * @Target: EMConfigTargetPrefs
+	 *
+	 * The mail composer preferences settings page.
+	 */
 	ec = em_config_new(E_CONFIG_BOOK, "org.gnome.evolution.mail.composerPrefs");
 	l = NULL;
 	for (i=0;i<sizeof(emcp_items)/sizeof(emcp_items[0]);i++)

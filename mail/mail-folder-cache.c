@@ -245,8 +245,7 @@ real_flush_updates(void *o, void *event_data, void *data)
 			EMEvent *e = em_event_peek();
 			EMEventTargetFolder *t = em_event_target_new_folder(e, up->uri, up->new?EM_EVENT_FOLDER_NEWMAIL:0);
 
-			/**
-			 * @Event: folder.changed
+			/** @Event: folder.changed
 			 * @Title: Folder changed
 			 * @Target: EMEventTargetFolder
 			 * 

@@ -2808,8 +2808,14 @@ emft_popup (EMFolderTree *emft, GdkEvent *event)
 			info_flags |= CAMEL_FOLDER_VIRTUAL | CAMEL_FOLDER_NOINFERIORS;
 	}
 
-	/* handle right-click by opening a context menu */
-	emp = em_popup_new ("org.gnome.mail.storageset.popup.select");
+	/** @HookPoint-EMPopup: Folder Tree Context Menu
+	 * @Id: org.gnome.evolution.mail.foldertree.popup
+	 * @Class: org.gnome.evolution.mail.popup:1.0
+	 * @Target: EMPopupTargetFolder
+	 *
+	 * This is the context menu shown on the folder tree.
+	 */
+	emp = em_popup_new ("org.gnome.evolution.mail.foldertree.popup");
 	
 	/* FIXME: pass valid fi->flags here */
 	target = em_popup_target_new_folder (emp, uri, info_flags, flags);

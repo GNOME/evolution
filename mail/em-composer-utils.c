@@ -1762,8 +1762,7 @@ em_utils_reply_to_message(CamelFolder *folder, const char *uid, CamelMimeMessage
 
 	g_return_if_fail(message != NULL);
 
-	/**
-	 * @Event: message.replying
+	/** @Event: message.replying
 	 * @Title: Message being replied to
 	 * @Target: EMEventTargetMessage
 	 * 
