@@ -1,5 +1,8 @@
 2001-10-22  Jeffrey Stedfast  <fejj@ximian.com>
 
+	* mail-format.c (write_one_text_plain_chunk): Oops, revert my
+	change to this function.  
+
 	* mail-display.h (mail_html_write_string): New fun macro.
 
 	* mail-format.c (write_one_text_plain_chunk): Use gtk_html_write

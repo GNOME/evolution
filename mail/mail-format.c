@@ -1122,7 +1122,7 @@ write_one_text_plain_chunk (const char *text, int len, MailDisplay *md)
 {
 	mail_html_write_string (md->html, md->stream,
 			       "<table cellspacing=0 cellpadding=10 width=\"100%\"><tr><td>\n");
-	gtk_html_write  (md->html, md->stream, text, len);
+	mail_text_write  (md->html, md->stream, "%.*s", len, text);
 	mail_html_write_string (md->html, md->stream, "</td></tr></table>\n");
 }
 
