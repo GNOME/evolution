@@ -100,7 +100,7 @@ evolution_mail_SOURCES =		\
 
 evolution_mail_LDADD = 					\
 	$(top_builddir)/shell/libeshell.a		\
-	$(top_builddir)/composer/libcomposer.la		\
+	$(top_builddir)/composer/libcomposer.a		\
 	$(top_builddir)/widgets/misc/libemiscwidgets.a	\
 	$(CAMEL_OBJS_EXTRA)				\
 	$(top_builddir)/camel/libcamel.la		\
