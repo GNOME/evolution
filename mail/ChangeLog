@@ -1,3 +1,10 @@
+2001-10-01  Jon Trowbridge  <trow@ximian.com>
+
+	* mail-display.c (on_url_requested): Make sure we aren't dealing
+	with a pathological message w/o a From: header.
+	(ebook_callback): Properly check that the address we queried
+	matches the address on the current message. (Bug #10038)
+
 2001-10-01  Iain Holmes  <iain@ximian.com>
 
 	* component-factory.c (component_factory_init): Check for errors.

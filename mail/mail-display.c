@@ -952,7 +952,7 @@ ebook_callback (EBook *book, const gchar *addr, ECard *card, gpointer data)
 		/* We are extra anal, in case we are dealing with some sort of pathological message
 		   w/o a From: header. */
 		if (from != NULL && camel_internet_address_get (from, 0, &md_name, &md_addr)) {
-			if (md_addr != NULL && strcmp (addr, md_addr))
+			if (md_addr != NULL && !strcmp (addr, md_addr))
 				mail_display_load_images (md);
 		}
 	}
@@ -1026,7 +1026,9 @@ on_url_requested (GtkHTML *html, const char *url, GtkHTMLStream *handle,
 
 			g_datalist_set_data (md->data, "checking_from",
 					     GINT_TO_POINTER (1));
-			if (camel_internet_address_get (from, 0, &name, &addr))
+
+			/* Make sure we aren't deal w/ some sort of a pathological message w/o a From: header */
+			if (from != NULL && camel_internet_address_get (from, 0, &name, &addr))
 				e_book_query_address_locally (addr, ebook_callback, md);
 			else
 				gtk_html_end (html, handle, GTK_HTML_STREAM_ERROR);
