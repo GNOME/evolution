@@ -30,7 +30,7 @@ contact_list_value_at (ETableModel *etc, int col, int row)
 	EContactListModel *model = E_CONTACT_LIST_MODEL (etc);
 
 	if (row < model->simple_count)
-		return (char*)e_card_simple_get_const (model->simples[row], E_CARD_SIMPLE_FIELD_EMAIL);
+		return model->simples[row]->string;
 	else
 		return model->emails [row - model->simple_count];
 }
@@ -84,6 +84,21 @@ contact_list_value_to_string (ETableModel *etc, int col, const void *value)
 static void
 contact_list_model_destroy (GtkObject *o)
 {
+	EContactListModel *model = E_CONTACT_LIST_MODEL (o);
+	int i;
+
+	for (i = 0; i < model->simple_count; i ++) {
+		g_free (model->simples[i]->string);
+		gtk_object_unref (GTK_OBJECT(model->simples[i]->simple));
+		g_free (model->simples[i]);
+	}
+	g_free (model->simples);
+	model->simple_count = 0;
+
+	for (i = 0; i < model->email_count; i ++)
+		g_free (model->emails[i]);
+	g_free (model->emails);
+	model->email_count = 0;
 }
 
 static void
@@ -112,9 +127,12 @@ e_contact_list_model_init (GtkObject *object)
 {
 	EContactListModel *model = E_CONTACT_LIST_MODEL(object);
 
-	model->simples = NULL;
+	model->simple_alloc = 10;
+	model->simples = g_new (SimpleAndString*, model->simple_alloc);
 	model->simple_count = 0;
-	model->emails = NULL;
+
+	model->email_alloc = 10;
+	model->emails = g_new (char*, model->email_alloc);
 	model->email_count = 0;
 }
 
@@ -162,9 +180,12 @@ void
 e_contact_list_model_add_email (EContactListModel *model,
 				const char *email)
 {
-	model->email_count ++;
-	model->emails = g_renew (char*, model->emails, model->email_count);
-	model->emails[model->email_count - 1] = g_strdup (email);
+	if (model->email_count + 1 >= model->email_alloc) {
+		model->email_alloc *= 2;
+		model->emails = g_renew (char*, model->emails, model->email_alloc);
+	}
+
+	model->emails[model->email_count ++] = g_strdup (email);
 	e_table_model_changed (E_TABLE_MODEL (model));
 }
 
@@ -172,12 +193,43 @@ void
 e_contact_list_model_add_card (EContactListModel *model,
 			       ECardSimple *simple)
 {
+	char *email, *name;
+
+	name = e_card_simple_get (simple, E_CARD_SIMPLE_FIELD_NAME_OR_ORG);
+	email = e_card_simple_get (simple, E_CARD_SIMPLE_FIELD_EMAIL);
+
+	if (! name && ! email) {
+		/* what to do here? */
+		return;
+	}
+	    
+
+	if (model->simple_count + 1 >= model->simple_alloc) {
+		model->simple_alloc *= 2;
+		model->simples = g_renew (SimpleAndString*, model->simples, model->simple_alloc);
+	}
+
+	model->simples[model->simple_count] = g_new (SimpleAndString, 1);
+
+	model->simples[model->simple_count]->simple = simple;
+	model->simples[model->simple_count]->string = g_strconcat (name ? name : "",
+								   email ? " <" : "", email ? email : "", email ? ">" : "",
+								   NULL);
+
+	model->simple_count++;
+
+	gtk_object_ref (GTK_OBJECT (simple));
+
+	e_table_model_changed (E_TABLE_MODEL (model));
 }
 
 void
 e_contact_list_model_remove_row (EContactListModel *model, int row)
 {
 	if (row < model->simple_count) {
+		g_free (model->simples[row]->string);
+		gtk_object_unref (GTK_OBJECT(model->simples[row]->simple));
+		g_free (model->simples[row]);
 		memcpy (model->simples + row, model->simples + row + 1, model->simple_count - row);
 		model->simple_count --;
 	}

@@ -16,13 +16,20 @@
 typedef struct _EContactListModel EContactListModel;
 typedef struct _EContactListModelClass EContactListModelClass;
 
+typedef struct {
+	ECardSimple *simple;
+	char *string;
+} SimpleAndString;
+
 struct _EContactListModel {
 	ETableModel parent;
 
-	ECardSimple **simples;
+	SimpleAndString **simples;
 	int simple_count;
+	int simple_alloc;
 	char **emails;
 	int email_count;
+	int email_alloc;
 };
 
 

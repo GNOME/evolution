@@ -1,3 +1,39 @@
+2001-06-25  Chris Toshok  <toshok@ximian.com>
+
+	* gui/contact-list-editor/contact-list-editor.glade: change layout
+	slightly, the icon no longer pushes everything to the left, and
+	make the buttons on the right smaller and more in line with the
+	other widgets.
+
+	* gui/contact-list-editor/e-contact-list-model.c
+	(contact_list_value_at): return the SimpleAndString->string
+	instead of querying the ecardsimple.
+	(e_contact_list_model_init): initially allocate 10 of each type
+	(email and simple).
+	(e_contact_list_model_add_email): realloc if need be.
+	(e_contact_list_model_add_card): same, and initialize the string
+	displayed to be "[Name] [<email>]".
+	(e_contact_list_model_remove_row): change for SimpleAndString.
+	(contact_list_model_destroy): free our 2 arrays.
+
+	* gui/contact-list-editor/e-contact-list-model.h: add alloc counts
+	and the SimpleAndString struct.
+
+	* gui/contact-list-editor/e-contact-list-editor.c: Helix Code =>
+	Ximian.
+	(e_contact_list_editor_init): hook up d&d destination signals, and
+	un-#if 0 the delete_event signal.
+	(table_drag_motion_cb): new function.
+	(table_drag_drop_cb): new function.
+	(table_drag_data_received_cb): new function.
+	(file_close_cb): new function.
+	(verbs) uncomment the close verb.
+	(close_dialog): new function.
+	(app_delete_event_cb): new function.
+
+	* gui/contact-list-editor/e-contact-list-editor.h: Helix Code =>
+	Ximian.
+
 2001-06-25  Jon Trowbridge  <trow@ximian.com>
 
 	* gui/component/e-address-popup.c: Add a huge steaming pile of

@@ -1,7 +1,7 @@
 /* -*- Mode: C; tab-width: 8; indent-tabs-mode: t; c-basic-offset: 8 -*- */
 /* e-contact-list-editor.c
- * Copyright (C) 2000  Helix Code, Inc.
- * Author: Chris Toshok <toshok@helixcode.com>
+ * Copyright (C) 2001  Ximian, Inc.
+ * Author: Chris Toshok <toshok@ximian.com>
  *
  * This library is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License as
@@ -45,14 +45,34 @@ static void e_contact_list_editor_destroy (GtkObject *object);
 static void create_ui (EContactListEditor *ce);
 static void set_editable (EContactListEditor *editor);
 static void command_state_changed (EContactListEditor *editor);
+static void close_dialog (EContactListEditor *cle);
 
 static void add_email_cb (GtkWidget *w, EContactListEditor *editor);
 static void remove_entry_cb (GtkWidget *w, EContactListEditor *editor);
 static void list_name_changed_cb (GtkWidget *w, EContactListEditor *editor);
+static gint app_delete_event_cb (GtkWidget *widget, GdkEvent *event, gpointer data);
+static gboolean table_drag_drop_cb (ETable *table, int row, int col, GdkDragContext *context,
+				    gint x, gint y, guint time, EContactListEditor *editor);
+static gboolean table_drag_motion_cb (ETable *table, int row, int col, GdkDragContext *context,
+				      gint x, gint y, guint time, EContactListEditor *editor);
+static void table_drag_data_received_cb (ETable *table, int row, int col,
+					 GdkDragContext *context,
+					 gint x, gint y,
+					 GtkSelectionData *selection_data, guint info, guint time,
+					 EContactListEditor *editor);
 
 static GtkObjectClass *parent_class = NULL;
 
 static guint contact_list_editor_signals[LAST_SIGNAL];
+
+enum DndTargetType {
+	DND_TARGET_TYPE_VCARD,
+};
+#define VCARD_TYPE "text/x-vcard"
+static GtkTargetEntry drag_types[] = {
+	{ VCARD_TYPE, 0, DND_TARGET_TYPE_VCARD },
+};
+static const int num_drag_types = sizeof (drag_types) / sizeof (drag_types[0]);
 
 /* The arguments we take */
 enum {
@@ -236,19 +256,37 @@ e_contact_list_editor_init (EContactListEditor *editor)
 	gtk_signal_connect (GTK_OBJECT(editor->list_name_entry),
 			    "changed", GTK_SIGNAL_FUNC(list_name_changed_cb), editor);
 
+	e_table_drag_dest_set (e_table_scrolled_get_table (E_TABLE_SCROLLED (editor->table)),
+			       0, drag_types, num_drag_types, GDK_ACTION_LINK);
+
+	gtk_signal_connect (GTK_OBJECT(e_table_scrolled_get_table (E_TABLE_SCROLLED (editor->table))),
+			    "table_drag_motion", GTK_SIGNAL_FUNC(table_drag_motion_cb), editor);
+	gtk_signal_connect (GTK_OBJECT(e_table_scrolled_get_table (E_TABLE_SCROLLED (editor->table))),
+			    "table_drag_drop", GTK_SIGNAL_FUNC(table_drag_drop_cb), editor);
+	gtk_signal_connect (GTK_OBJECT(e_table_scrolled_get_table (E_TABLE_SCROLLED (editor->table))),
+			    "table_drag_data_received", GTK_SIGNAL_FUNC(table_drag_data_received_cb), editor);
+
 	command_state_changed (editor);
 
 	/* Connect to the deletion of the dialog */
 
-#if 0
 	gtk_signal_connect (GTK_OBJECT (editor->app), "delete_event",
 			    GTK_SIGNAL_FUNC (app_delete_event_cb), editor);
-#endif
 }
 
 static void
 e_contact_list_editor_destroy (GtkObject *object)
 {
+}
+
+/* File/Close callback */
+static void
+file_close_cb (GtkWidget *widget, gpointer data)
+{
+	EContactListEditor *cle;
+
+	cle = E_CONTACT_LIST_EDITOR (data);
+	close_dialog (cle);
 }
 
 static
@@ -260,11 +298,8 @@ BonoboUIVerb verbs [] = {
 	BONOBO_UI_UNSAFE_VERB ("ContactEditorSendAs", file_send_as_cb),
 	BONOBO_UI_UNSAFE_VERB ("ContactEditorSendTo", file_send_to_cb),
 	BONOBO_UI_UNSAFE_VERB ("ContactEditorDelete", delete_cb),
-	BONOBO_UI_UNSAFE_VERB ("ContactEditorPrint", print_cb),
-	BONOBO_UI_UNSAFE_VERB ("ContactEditorPrintEnvelope", print_envelope_cb),
-	/*	BONOBO_UI_UNSAFE_VERB ("ContactEditorPageSetup", file_page_setup_menu), */
-	BONOBO_UI_UNSAFE_VERB ("ContactEditorClose", file_close_cb),
-#endif	
+#endif
+	BONOBO_UI_UNSAFE_VERB ("ContactListEditorClose", file_close_cb),
 	BONOBO_UI_VERB_END
 };
 
@@ -477,6 +512,97 @@ set_editable (EContactListEditor *editor)
 	gtk_widget_set_sensitive (editor->add_button, editor->editable);
 	gtk_widget_set_sensitive (editor->remove_button, editor->editable);
 	gtk_widget_set_sensitive (editor->table, editor->editable);
+}
+
+/* Closes the dialog box and emits the appropriate signals */
+static void
+close_dialog (EContactListEditor *cle)
+{
+	g_assert (cle->app != NULL);
+
+	gtk_widget_destroy (cle->app);
+	cle->app = NULL;
+
+	gtk_signal_emit (GTK_OBJECT (cle), contact_list_editor_signals[EDITOR_CLOSED]);
+}
+
+/* Callback used when the editor is destroyed */
+static gint
+app_delete_event_cb (GtkWidget *widget, GdkEvent *event, gpointer data)
+{
+	EContactListEditor *ce;
+
+	ce = E_CONTACT_LIST_EDITOR (data);
+
+	close_dialog (ce);
+	return TRUE;
+}
+
+static gboolean
+table_drag_motion_cb (ETable *table, int row, int col,
+		      GdkDragContext *context,
+		      gint x, gint y, guint time, EContactListEditor *editor)
+{
+	GList *p;
+
+	for (p = context->targets; p != NULL; p = p->next) {
+		char *possible_type;
+
+		possible_type = gdk_atom_name ((GdkAtom) p->data);
+		if (!strcmp (possible_type, VCARD_TYPE)) {
+			g_free (possible_type);
+			gdk_drag_status (context, GDK_ACTION_LINK, time);
+			return TRUE;
+		}
+
+		g_free (possible_type);
+	}
+
+	return FALSE;
+}
+
+static gboolean
+table_drag_drop_cb (ETable *table, int row, int col,
+		    GdkDragContext *context,
+		    gint x, gint y, guint time, EContactListEditor *editor)
+{
+	if (context->targets != NULL) {
+		gtk_drag_get_data (GTK_WIDGET (table), context,
+				   GPOINTER_TO_INT (context->targets->data),
+				   time);
+		return TRUE;
+	}
+
+	return FALSE;
+}
+
+static void
+table_drag_data_received_cb (ETable *table, int row, int col,
+			     GdkDragContext *context,
+			     gint x, gint y,
+			     GtkSelectionData *selection_data,
+			     guint info, guint time, EContactListEditor *editor)
+{
+	char *target_type;
+
+	target_type = gdk_atom_name (selection_data->target);
+
+	if (!strcmp (target_type, VCARD_TYPE)) {
+		GList *card_list = e_card_load_cards_from_string (selection_data->data);
+		GList *c;
+
+		for (c = card_list; c; c = c->next) {
+			ECard *ecard = c->data;
+			ECardSimple *simple = e_card_simple_new (ecard);
+
+			e_contact_list_model_add_card (E_CONTACT_LIST_MODEL (editor->model),
+						       simple);
+
+			gtk_object_unref (GTK_OBJECT (simple));
+		}
+		g_list_foreach (card_list, (GFunc)gtk_object_unref, NULL);
+		g_list_free (card_list);
+	}
 }
 
 static void
