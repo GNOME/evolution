@@ -85,7 +85,7 @@ images_DATA = \
 	meeting-request.png		\
 	meeting-request.png 		\
 	meeting.xpm			\
-	monkey.png			\
+	monkey-16.png			\
 	move_message.xpm		\
 	myevo-appointments.png		\
 	myevo-mail-summary.png		\
