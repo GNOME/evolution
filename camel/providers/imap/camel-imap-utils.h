@@ -30,9 +30,9 @@ extern "C" {
 
 #include <glib.h>
 
-char *imap_next_word (char *buf);
+char *imap_next_word (const char *buf);
 
-gboolean imap_parse_list_response (char *buf, char *namespace, char **flags, char **sep, char **folder);
+gboolean imap_parse_list_response (const char *buf, const char *namespace, char **flags, char **sep, char **folder);
 
 char *imap_translate_sexp (const char *expression);
 

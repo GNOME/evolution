@@ -54,8 +54,6 @@ struct _CamelFolder
 	CamelStore *parent_store;
 
 	guint32 permanent_flags;
-	gboolean can_hold_folders:1;
-	gboolean can_hold_messages:1;
 	gboolean has_summary_capability:1;
 	gboolean has_search_capability:1;
 };
@@ -73,13 +71,6 @@ typedef struct {
 	const char *  (*get_full_name)   (CamelFolder *folder);
 
 	CamelStore *  (*get_parent_store) (CamelFolder *folder);
-
-	gboolean   (*can_hold_folders)   (CamelFolder *folder);
-	gboolean   (*can_hold_messages)  (CamelFolder *folder);
-
-	GPtrArray * (*get_subfolder_info)(CamelFolder *folder);
-	void (*free_subfolder_info)      (CamelFolder *folder,
-					  GPtrArray *subfolders);
 
 	void (*expunge)  (CamelFolder *folder, 
 			  CamelException *ex);
@@ -163,10 +154,6 @@ void               camel_folder_construct              (CamelFolder *folder,
 							CamelStore *parent_store,
 							const char *full_name,
 							const char *name);
-
-GPtrArray *        camel_folder_get_subfolder_info     (CamelFolder *folder);
-void               camel_folder_free_subfolder_info    (CamelFolder *folder,
-						        GPtrArray *array);
 
 void               camel_folder_refresh_info           (CamelFolder * folder, 
 							CamelException * ex);

@@ -1505,20 +1505,6 @@ camel_message_info_free(CamelMessageInfo *mi)
 	g_free(mi);
 }
 
-/**
- * camel_folder_info_free:
- * @fi: the folder info
- *
- * Frees a CamelFolderInfo and its contents.
- **/
-void
-camel_folder_info_free(CamelFolderInfo *fi)
-{
-	g_free(fi->name);
-	g_free(fi->full_name);
-	g_free(fi);
-}
-
 #if 0
 static void
 content_info_dump(CamelMessageContentInfo *ci, int depth)

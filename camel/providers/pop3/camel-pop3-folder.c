@@ -78,8 +78,6 @@ camel_pop3_folder_init (gpointer object)
 	CamelFolder *folder = CAMEL_FOLDER (object);
 	CamelPop3Folder *pop3_folder = CAMEL_POP3_FOLDER (object);
 
-	folder->can_hold_messages = TRUE;
-	folder->can_hold_folders = FALSE;
 	folder->has_summary_capability = FALSE;
 	folder->has_search_capability = FALSE;
 

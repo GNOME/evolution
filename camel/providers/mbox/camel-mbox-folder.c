@@ -64,7 +64,6 @@ static void mbox_append_message(CamelFolder *folder, CamelMimeMessage * message,
 
 				CamelException *ex);
 static GPtrArray *mbox_get_uids(CamelFolder *folder);
-static GPtrArray *mbox_get_subfolder_info(CamelFolder *folder);
 static GPtrArray *mbox_get_summary(CamelFolder *folder);
 static CamelMimeMessage *mbox_get_message(CamelFolder *folder, const gchar * uid, CamelException *ex);
 
@@ -102,8 +101,6 @@ camel_mbox_folder_class_init(CamelMboxFolderClass * camel_mbox_folder_class)
 	camel_folder_class->append_message = mbox_append_message;
 	camel_folder_class->get_uids = mbox_get_uids;
 	camel_folder_class->free_uids = camel_folder_free_deep;
-	camel_folder_class->get_subfolder_info = mbox_get_subfolder_info;
-	camel_folder_class->free_subfolder_info = camel_folder_free_shallow;
 	camel_folder_class->get_summary = mbox_get_summary;
 	camel_folder_class->free_summary = camel_folder_free_nop;
 	camel_folder_class->expunge = mbox_expunge;
@@ -129,8 +126,6 @@ mbox_init(gpointer object, gpointer klass)
 	CamelFolder *folder = object;
 	CamelMboxFolder *mbox_folder = object;
 
-	folder->can_hold_messages = TRUE;
-	folder->can_hold_folders = TRUE;
 	folder->has_summary_capability = TRUE;
 	folder->has_search_capability = TRUE;
 
@@ -436,13 +431,6 @@ mbox_get_uids(CamelFolder *folder)
 	}
 
 	return array;
-}
-
-static GPtrArray *
-mbox_get_subfolder_info(CamelFolder *folder)
-{
-	/* No subfolders. */
-	return g_ptr_array_new();
 }
 
 static CamelMimeMessage *

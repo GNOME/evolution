@@ -1,3 +1,31 @@
+2000-10-02  Dan Winship  <danw@helixcode.com>
+
+	* camel-folder.[ch]: Remove
+	camel_folder_{get,free}_subfolder_info, as we want to be able to
+	scan the whole subfolder tree without having to open any folders,
+	so this needs to be in CamelStore. Remove can_hold_folders and
+	can_hold_messages flags; things that don't hold messages are no
+	longer considered CamelFolders.
+
+	* camel-folder-summary.[ch]: Remove CamelFolderInfo stuff.
+
+	* camel-store.[ch]: Add camel_store_{get,free}_folder_info, as
+	well as camel_store_free_folder_info_full and ..._nop for default
+	implementations, and camel_folder_info_free and
+	camel_folder_info_build as convenience functions. Turn
+	CamelFolderInfo into a tree structure and also add an "url"
+	member.
+
+	* providers/*/camel-*-folder.c: Remove subfolder_info and can_hold
+	stuff.
+	* providers/*/camel-*-store.c: Add folder_info stuff.
+
+	* providers/imap/camel-imap-folder.c (imap_summary_free): Free the
+	summary elements with camel_message_info_free, not
+	camel_folder_info_free. Oops.
+
+	* providers/imap/camel-imap-utils.c: const poison
+
 2000-09-28  Jeffrey Stedfast  <fejj@helixcode.com>
 
 	* providers/smtp/camel-smtp-transport.c: Fixed some memory leaks.

@@ -45,6 +45,9 @@ static CamelFolder *get_folder(CamelStore * store, const char *folder_name, gboo
 static void delete_folder(CamelStore * store, const char *folder_name, CamelException * ex);
 static void rename_folder(CamelStore *store, const char *old_name, const char *new_name, CamelException *ex);
 static char *get_folder_name(CamelStore * store, const char *folder_name, CamelException * ex);
+static CamelFolderInfo *get_folder_info (CamelStore *store, const char *top,
+					 gboolean fast, gboolean recursive,
+					 CamelException *ex);
 
 static void camel_mh_store_class_init(CamelObjectClass * camel_mh_store_class)
 {
@@ -58,6 +61,8 @@ static void camel_mh_store_class_init(CamelObjectClass * camel_mh_store_class)
 	camel_store_class->delete_folder = delete_folder;
 	camel_store_class->rename_folder = rename_folder;
 	camel_store_class->get_folder_name = get_folder_name;
+	camel_store_class->get_folder_info = get_folder_info;
+	camel_store_class->free_folder_info = camel_store_free_folder_info_full;
 }
 
 static void camel_mh_store_init(CamelObject * object)
@@ -206,4 +211,16 @@ static char *get_name(CamelService * service, gboolean brief)
 		return g_strdup(service->url->path);
 	else
 		return g_strdup_printf("Local mail file %s", service->url->path);
+}
+
+
+static CamelFolderInfo *
+get_folder_info (CamelStore *store, const char *top,
+		 gboolean fast, gboolean recursive,
+		 CamelException *ex)
+{
+	/* FIXME: This is broken, but it corresponds to what was
+	 * there before.
+	 */
+	return NULL;
 }

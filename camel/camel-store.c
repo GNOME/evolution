@@ -25,6 +25,8 @@
  * USA
  */
 #include <config.h>
+#include <string.h>
+
 #include "camel-store.h"
 #include "camel-folder.h"
 #include "camel-exception.h"
@@ -46,6 +48,11 @@ static char *get_folder_name (CamelStore *store, const char *folder_name,
 static char *get_root_folder_name (CamelStore *store, CamelException *ex);
 static char *get_default_folder_name (CamelStore *store, CamelException *ex);
 
+static CamelFolderInfo *get_folder_info (CamelStore *store, const char *top,
+					 gboolean fast, gboolean recursive,
+					 CamelException *ex);
+static void free_folder_info (CamelStore *store, CamelFolderInfo *tree);
+
 static CamelFolder *lookup_folder (CamelStore *store, const char *folder_name);
 static void cache_folder (CamelStore *store, const char *folder_name,
 			  CamelFolder *folder);
@@ -63,6 +70,8 @@ camel_store_class_init (CamelStoreClass *camel_store_class)
 	camel_store_class->get_folder_name = get_folder_name;
 	camel_store_class->get_root_folder_name = get_root_folder_name;
 	camel_store_class->get_default_folder_name = get_default_folder_name;
+	camel_store_class->get_folder_info = get_folder_info;
+	camel_store_class->free_folder_info = free_folder_info;
 	camel_store_class->lookup_folder = lookup_folder;
 	camel_store_class->cache_folder = cache_folder;
 	camel_store_class->uncache_folder = uncache_folder;
@@ -369,4 +378,183 @@ camel_store_get_default_folder (CamelStore *store, CamelException *ex)
 		g_free (name);
 	}
 	return folder;
+}
+
+
+static CamelFolderInfo *
+get_folder_info (CamelStore *store, const char *top,
+		 gboolean fast, gboolean recursive,
+		 CamelException *ex)
+{
+	g_warning ("CamelStore::get_folder_info not implemented for `%s'",
+		   camel_type_to_name (CAMEL_OBJECT_GET_TYPE (store)));
+	return NULL;
+}
+
+/**
+ * camel_store_get_folder_info:
+ * @store: a CamelStore
+ * @top: the name of the folder to start from
+ * @fast: whether or not to do a "fast" scan.
+ * @recursive: whether to include information for subfolders
+ * @ex: a CamelException
+ *
+ * This fetches information about the folder structure of @store,
+ * starting with @top, and returns a tree of CamelFolderInfo
+ * structures. If @fast is %TRUE, the message_count or
+ * unread_message_count fields of some or all of the structures may be
+ * set to -1, if the store cannot determine that information quickly.
+ * If @recursive is %TRUE, the returned tree will include all levels of
+ * hierarchy below @top. If it is %FALSE, it will only include the
+ * immediate subfolders of @top.
+ *
+ * Return value: a CamelFolderInfo tree, which must be freed with
+ * camel_store_free_folder_info.
+ **/
+CamelFolderInfo *
+camel_store_get_folder_info (CamelStore *store, const char *top,
+			     gboolean fast, gboolean recursive,
+			     CamelException *ex)
+{
+	g_return_val_if_fail (CAMEL_IS_STORE (store), NULL);
+
+	return CS_CLASS (store)->get_folder_info (store, top, fast,
+						  recursive, ex);
+}
+
+
+static void
+free_folder_info (CamelStore *store, CamelFolderInfo *fi)
+{
+	g_warning ("CamelStore::free_folder_info not implemented for `%s'",
+		   camel_type_to_name (CAMEL_OBJECT_GET_TYPE (store)));
+}
+
+/**
+ * camel_store_free_folder_info:
+ * @store: a CamelStore
+ * @tree: the tree returned by camel_store_get_folder_info()
+ *
+ * Frees the data returned by camel_store_get_folder_info().
+ **/
+void
+camel_store_free_folder_info (CamelStore *store, CamelFolderInfo *fi)
+{
+	g_return_if_fail (CAMEL_IS_STORE (store));
+
+	CS_CLASS (store)->free_folder_info (store, fi);
+}
+
+/**
+ * camel_store_free_folder_info_full:
+ * @store: a CamelStore
+ * @tree: the tree returned by camel_store_get_folder_info()
+ *
+ * An implementation for CamelStore::free_folder_info. Frees all
+ * of the data.
+ **/
+void
+camel_store_free_folder_info_full (CamelStore *store, CamelFolderInfo *fi)
+{
+	camel_folder_info_free (fi);
+}
+
+/**
+ * camel_store_free_folder_info_nop:
+ * @store: a CamelStore
+ * @tree: the tree returned by camel_store_get_folder_info()
+ *
+ * An implementation for CamelStore::free_folder_info. Does nothing.
+ **/
+void
+camel_store_free_folder_info_nop (CamelStore *store, CamelFolderInfo *fi)
+{
+	;
+}
+
+
+/**
+ * camel_folder_info_free:
+ * @fi: the CamelFolderInfo
+ *
+ * Frees @fi.
+ **/
+void
+camel_folder_info_free (CamelFolderInfo *fi)
+{
+	if (fi) {
+		camel_folder_info_free (fi->sibling);
+		camel_folder_info_free (fi->child);
+		g_free (fi->name);
+		g_free (fi->full_name);
+		g_free (fi->url);
+		g_free (fi);
+	}
+}
+
+
+/**
+ * camel_folder_info_build:
+ * @folders: an array of CamelFolderInfo
+ * @top: the top of the folder tree
+ * @separator: the hieararchy separator character
+ * @short_names: %TRUE if the (short) name of a folder is the part after
+ * the last @separator in the full name. %FALSE if it is the full name.
+ *
+ * This takes an array of folders and attaches them together. @top points
+ * to the (or at least, "a") top-level element of the tree: it may or may
+ * not also be an element of @folders. If necessary, camel_folder_info_build
+ * will create additional CamelFolderInfo with %NULL urls to fill in gaps
+ * in the tree. The value of @short_names is used in constructing the
+ * names of these intermediate folders.
+ **/
+void
+camel_folder_info_build (GPtrArray *folders, CamelFolderInfo *top,
+			 char separator, gboolean short_names)
+{
+	CamelFolderInfo *fi, *pfi;
+	GHashTable *hash;
+	char *p, *pname;
+	int i;
+
+	/* Hash the folders. */
+	hash = g_hash_table_new (g_str_hash, g_str_equal);
+	for (i = 0; i < folders->len; i++) {
+		fi = folders->pdata[i];
+		g_hash_table_insert (hash, fi->full_name, fi);
+	}
+
+	/* Now find parents. */
+	for (i = 0; i < folders->len; i++) {
+		fi = folders->pdata[i];
+		if (fi == top)
+			continue;
+
+		p = strrchr (fi->full_name, separator);
+		if (p) {
+			pname = g_strndup (fi->full_name, p - fi->full_name);
+			pfi = g_hash_table_lookup (hash, pname);
+			if (pfi) {
+				g_free (pname);
+			} else {
+				pfi = g_new0 (CamelFolderInfo, 1);
+				pfi->full_name = pname;
+				if (short_names) {
+					pfi->name = strrchr (pname, separator);
+					if (pfi->name)
+						pfi->name = g_strdup (pfi->name + 1);
+					else
+						pfi->name = g_strdup (pname);
+				} else
+					pfi->name = g_strdup (pname);
+				g_hash_table_insert (hash, pname, pfi);
+				g_ptr_array_add (folders, pfi);
+			}
+			fi->sibling = pfi->child;
+			pfi->child = fi;
+		} else {
+			fi->sibling = top->child;
+			top->child = fi;
+		}
+	}
 }

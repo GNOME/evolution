@@ -262,37 +262,6 @@ nntp_folder_get_summary (CamelFolder *folder)
 	return nntp_folder->summary->messages;
 }
 
-static GPtrArray *
-nntp_folder_get_subfolder_info (CamelFolder *folder)
-{
-	CamelNNTPNewsrc *newsrc;
-	GPtrArray *names, *info;
-	CamelFolderInfo *fi;
-	int i;
-		
-	/* Only top-level folder has subfolders. */
-	if (*folder->name)
-		return NULL;
-
-	newsrc = CAMEL_NNTP_STORE (camel_folder_get_parent_store (folder))->newsrc;
-	if (!newsrc)
-		return NULL;
-
-	info = g_ptr_array_new ();
-	names = camel_nntp_newsrc_get_subscribed_group_names (newsrc);
-	for (i = 0; i < names->len; i++) {
-		fi = g_new (CamelFolderInfo, 1);
-		fi->name = fi->full_name = names->pdata[i];
-		/* FIXME */
-		fi->message_count = 0;
-		fi->unread_message_count = 0;
-		g_ptr_array_add (info, fi);
-	}
-	camel_nntp_newsrc_free_group_names (newsrc, names);
-	
-	return info;
-}
-
 static GPtrArray*
 nntp_folder_search_by_expression (CamelFolder *folder, const char *expression, CamelException *ex)
 {
@@ -336,8 +305,6 @@ camel_nntp_folder_class_init (CamelNNTPFolderClass *camel_nntp_folder_class)
 	camel_folder_class->free_uids = camel_folder_free_deep;
 	camel_folder_class->get_summary = nntp_folder_get_summary;
 	camel_folder_class->free_summary = camel_folder_free_nop;
-	camel_folder_class->get_subfolder_info = nntp_folder_get_subfolder_info;
-	camel_folder_class->free_subfolder_info = camel_folder_free_deep;
 	camel_folder_class->search_by_expression = nntp_folder_search_by_expression;
 	camel_folder_class->get_message_info = nntp_folder_get_message_info;
 }
@@ -366,18 +333,7 @@ camel_nntp_folder_new (CamelStore *parent, const char *folder_name, CamelExcepti
 	CamelFolder *folder = CAMEL_FOLDER (camel_object_new (CAMEL_NNTP_FOLDER_TYPE));
 
 	camel_folder_construct (folder, parent, folder_name, folder_name);
-
-	/* set flags */
-	if (!*folder->name) {
-		/* the root folder is the only folder that has "subfolders" */
-		folder->can_hold_folders = TRUE;
-		folder->can_hold_messages = FALSE;
-	}
-	else {
-		folder->can_hold_folders = FALSE;
-		folder->can_hold_messages = TRUE;
-		folder->has_summary_capability = TRUE;
-	}
+	folder->has_summary_capability = TRUE;
 
 	camel_folder_refresh_info (folder, ex);
 	if (camel_exception_is_set (ex)) {

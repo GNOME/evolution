@@ -47,8 +47,6 @@ static const gchar *get_name (CamelFolder *folder);
 static const gchar *get_full_name (CamelFolder *folder);
 static CamelStore *get_parent_store   (CamelFolder *folder);
 
-static gboolean can_hold_folders (CamelFolder *folder);
-static gboolean can_hold_messages (CamelFolder *folder);
 static guint32 get_permanent_flags (CamelFolder *folder);
 static guint32 get_message_flags (CamelFolder *folder, const char *uid);
 static void set_message_flags (CamelFolder *folder, const char *uid,
@@ -58,10 +56,6 @@ static void set_message_user_flag (CamelFolder *folder, const char *uid,
 				   const char *name, gboolean value);
 static const char *get_message_user_tag(CamelFolder *folder, const char *uid, const char *name);
 static void set_message_user_tag(CamelFolder *folder, const char *uid, const char *name, const char *value);
-
-static GPtrArray *get_subfolder_info  (CamelFolder *folder);
-static void      free_subfolder_info  (CamelFolder *folder,
-				       GPtrArray *array);
 
 static gint get_message_count (CamelFolder *folder);
 static gint get_unread_message_count (CamelFolder *folder);
@@ -126,10 +120,6 @@ camel_folder_class_init (CamelFolderClass *camel_folder_class)
 	camel_folder_class->get_name = get_name;
 	camel_folder_class->get_full_name = get_full_name;
 	camel_folder_class->get_parent_store = get_parent_store;
-	camel_folder_class->can_hold_folders = can_hold_folders;
-	camel_folder_class->can_hold_messages = can_hold_messages;
-	camel_folder_class->get_subfolder_info = get_subfolder_info;
-	camel_folder_class->free_subfolder_info = free_subfolder_info;
 	camel_folder_class->expunge = expunge;
 	camel_folder_class->get_message_count = get_message_count;
 	camel_folder_class->get_unread_message_count = get_unread_message_count;
@@ -327,67 +317,6 @@ camel_folder_get_full_name (CamelFolder *folder)
 	g_return_val_if_fail (CAMEL_IS_FOLDER (folder), NULL);
 
 	return CF_CLASS (folder)->get_full_name (folder);
-}
-
-
-static gboolean 
-can_hold_folders (CamelFolder * folder)
-{
-	return folder->can_hold_folders;
-}
-
-static gboolean
-can_hold_messages (CamelFolder * folder)
-{
-	return folder->can_hold_messages;
-}
-
-
-static GPtrArray *
-get_subfolder_info (CamelFolder *folder)
-{
-	g_warning ("CamelFolder::get_subfolder_info not implemented for `%s'",
-		   camel_type_to_name (CAMEL_OBJECT_GET_TYPE (folder)));
-	return NULL;
-}
-
-/**
- * camel_folder_get_subfolder_info:
- * @folder: the folder
- *
- * Return value: an array containing a CamelFolderInfo for each of
- * @folder's subfolders. The array should not be modified and must be
- * freed with camel_folder_free_subfolder_info().
- **/
-GPtrArray *
-camel_folder_get_subfolder_info (CamelFolder *folder)
-{
-	g_return_val_if_fail (CAMEL_IS_FOLDER (folder), NULL);
-
-	return CF_CLASS (folder)->get_subfolder_info (folder);
-}
-
-
-static void
-free_subfolder_info (CamelFolder *folder, GPtrArray *array)
-{
-       g_warning ("CamelFolder::free_subfolder_info not implemented "
-                  "for `%s'", camel_type_to_name (CAMEL_OBJECT_GET_TYPE (folder)));
-}
-
-/**
- * camel_folder_free_subfolder_info:
- * @folder: folder object
- * @array: the array of subfolder info to free
- *
- * Frees the array of info returned by camel_folder_get_subfolder_info().
- **/
-void
-camel_folder_free_subfolder_info (CamelFolder *folder, GPtrArray *array)
-{
-	g_return_if_fail (CAMEL_IS_FOLDER (folder));
-
-	CF_CLASS (folder)->free_subfolder_info (folder, array);
 }
 
 
@@ -1152,12 +1081,11 @@ message_changed (CamelObject *obj, /*const char *uid*/gpointer event_data)
 /**
  * camel_folder_free_nop:
  * @folder: a folder
- * @array: an array of uids, CamelFolderInfo, or CamelMessageInfo
+ * @array: an array of uids or CamelMessageInfo
  *
  * "Frees" the provided array by doing nothing. Used by CamelFolder
- * subclasses as an implementation for free_uids, free_summary,
- * or free_subfolder_info when the returned array is "static"
- * information and should not be freed.
+ * subclasses as an implementation for free_uids, or free_summary when
+ * the returned array is "static" information and should not be freed.
  **/
 void
 camel_folder_free_nop (CamelFolder *folder, GPtrArray *array)
@@ -1168,12 +1096,12 @@ camel_folder_free_nop (CamelFolder *folder, GPtrArray *array)
 /**
  * camel_folder_free_shallow:
  * @folder: a folder
- * @array: an array of uids, CamelFolderInfo, or CamelMessageInfo
+ * @array: an array of uids or CamelMessageInfo
  *
  * Frees the provided array but not its contents. Used by CamelFolder
- * subclasses as an implementation for free_uids, free_summary, or
- * free_subfolder_info when the returned array needs to be freed
- * but its contents come from "static" information.
+ * subclasses as an implementation for free_uids or free_summary when
+ * the returned array needs to be freed but its contents come from
+ * "static" information.
  **/
 void
 camel_folder_free_shallow (CamelFolder *folder, GPtrArray *array)

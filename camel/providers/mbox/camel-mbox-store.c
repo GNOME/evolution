@@ -47,6 +47,9 @@ static void delete_folder (CamelStore *store, const char *folder_name,
 static void rename_folder(CamelStore *store, const char *old_name, const char *new_name, CamelException *ex);
 static char *get_folder_name (CamelStore *store, const char *folder_name,
 			      CamelException *ex);
+static CamelFolderInfo *get_folder_info (CamelStore *store, const char *top,
+					 gboolean fast, gboolean recursive,
+					 CamelException *ex);
 
 static void
 camel_mbox_store_class_init (CamelMboxStoreClass *camel_mbox_store_class)
@@ -61,6 +64,8 @@ camel_mbox_store_class_init (CamelMboxStoreClass *camel_mbox_store_class)
 	camel_store_class->delete_folder = delete_folder;
 	camel_store_class->rename_folder = rename_folder;
 	camel_store_class->get_folder_name = get_folder_name;
+	camel_store_class->get_folder_info = get_folder_info;
+	camel_store_class->free_folder_info = camel_store_free_folder_info_full;
 }
 
 static void
@@ -117,8 +122,8 @@ get_folder (CamelStore *store, const char *folder_name, gboolean create,
 
 		if (errno != ENOENT) {
 			camel_exception_setv (ex, CAMEL_EXCEPTION_SYSTEM,
-					      "Could not open folder `%s':"
-					      "\n%s", folder_name,
+					      "Could not open file `%s':"
+					      "\n%s", name,
 					      g_strerror (errno));
 			g_free (name);
 			return NULL;
@@ -135,8 +140,8 @@ get_folder (CamelStore *store, const char *folder_name, gboolean create,
 		g_free (name);
 		if (fd == -1) {
 			camel_exception_setv (ex, CAMEL_EXCEPTION_SYSTEM,
-					      "Could not create folder `%s':"
-					      "\n%s", folder_name,
+					      "Could not create file `%s':"
+					      "\n%s", name,
 					      g_strerror (errno));
 			return NULL;
 		}
@@ -276,4 +281,15 @@ get_name (CamelService *service, gboolean brief)
 		return g_strdup (service->url->path);
 	else
 		return g_strdup_printf ("Local mail file %s", service->url->path);
+}
+
+static CamelFolderInfo *
+get_folder_info (CamelStore *store, const char *top,
+		 gboolean fast, gboolean recursive,
+		 CamelException *ex)
+{
+	/* FIXME: This is broken, but it corresponds to what was
+	 * there before.
+	 */
+	return NULL;
 }

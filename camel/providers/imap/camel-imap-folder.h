@@ -48,8 +48,6 @@ typedef struct {
 
 	GPtrArray *summary;
 	GHashTable *summary_hash;
-	
-	GPtrArray *lsub;
 } CamelImapFolder;
 
 

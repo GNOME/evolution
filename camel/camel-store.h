@@ -37,6 +37,14 @@ extern "C" {
 #include <camel/camel-object.h>
 #include <camel/camel-service.h>
 
+
+typedef struct _CamelFolderInfo {
+	struct _CamelFolderInfo *sibling, *child;
+	char *url, *full_name, *name;
+	int message_count, unread_message_count;
+} CamelFolderInfo;
+
+
 #define CAMEL_STORE_TYPE     (camel_store_get_type ())
 #define CAMEL_STORE(obj)     (CAMEL_CHECK_CAST((obj), CAMEL_STORE_TYPE, CamelStore))
 #define CAMEL_STORE_CLASS(k) (CAMEL_CHECK_CLASS_CAST ((k), CAMEL_STORE_TYPE, CamelStoreClass))
@@ -84,6 +92,14 @@ typedef struct {
         void            (*uncache_folder)           (CamelStore *store,
 						     CamelFolder *folder);
 
+	CamelFolderInfo *(*get_folder_info)         (CamelStore *store,
+						     const char *top,
+						     gboolean fase,
+						     gboolean recursive,
+						     CamelException *ex);
+	void            (*free_folder_info)         (CamelStore *store,
+						     CamelFolderInfo *fi);
+
 } CamelStoreClass;
 
 
@@ -107,6 +123,26 @@ void             camel_store_rename_folder      (CamelStore *store,
 						 const char *old_name,
 						 const char *new_name,
 						 CamelException *ex);
+
+CamelFolderInfo *camel_store_get_folder_info    (CamelStore *store,
+						 const char *top,
+						 gboolean fase,
+						 gboolean recursive,
+						 CamelException *ex);
+void             camel_store_free_folder_info   (CamelStore *store,
+						 CamelFolderInfo *fi);
+
+
+void             camel_store_free_folder_info_full (CamelStore *store,
+						    CamelFolderInfo *fi);
+void             camel_store_free_folder_info_nop  (CamelStore *store,
+						    CamelFolderInfo *fi);
+
+void             camel_folder_info_free            (CamelFolderInfo *fi);
+void             camel_folder_info_build           (GPtrArray *folders,
+						    CamelFolderInfo *top,
+						    char separator,
+						    gboolean short_names);
 
 #ifdef __cplusplus
 }

@@ -60,6 +60,9 @@ static CamelFolder *get_folder (CamelStore *store, const char *folder_name, gboo
 static char *get_folder_name (CamelStore *store, const char *folder_name,
 			      CamelException *ex);
 static char *get_root_folder_name (CamelStore *store, CamelException *ex);
+static CamelFolderInfo *get_folder_info (CamelStore *store, const char *top,
+					 gboolean fast, gboolean recursive,
+					 CamelException *ex);
 static void imap_keepalive (CamelRemoteStore *store);
 /*static gboolean stream_is_alive (CamelStream *istream);*/
 static int camel_imap_status (char *cmdid, char *respbuf);
@@ -87,6 +90,8 @@ camel_imap_store_class_init (CamelImapStoreClass *camel_imap_store_class)
 	camel_store_class->get_folder = get_folder;
 	camel_store_class->get_folder_name = get_folder_name;
 	camel_store_class->get_root_folder_name = get_root_folder_name;
+	camel_store_class->get_folder_info = get_folder_info;
+	camel_store_class->free_folder_info = camel_store_free_folder_info_full;
 	
 	camel_remote_store_class->keepalive = imap_keepalive;
 }
@@ -393,33 +398,35 @@ get_folder (CamelStore *store, const char *folder_name, gboolean create, CamelEx
 	CamelImapStore *imap_store = CAMEL_IMAP_STORE (store);
 	CamelFolder *new_folder;
 	char *folder_path;
-	gboolean exists = FALSE;
 	gboolean selectable;
 	
-	new_folder = camel_imap_folder_new (store, folder_name);
-
-	/* this is the top-level dir, we already know it exists - it has to! */
-	if (!*folder_name) {
-		camel_folder_refresh_info (new_folder, ex);
-		return new_folder;
-	}
-
 	folder_path = camel_imap_store_folder_path (imap_store, folder_name);
-	if (imap_folder_exists (imap_store, folder_path, &selectable, ex)) {
-		exists = TRUE;
-		if (!selectable)
-			new_folder->can_hold_messages = FALSE;
-	}
+	if (!imap_folder_exists (imap_store, folder_path, &selectable, ex)) {
+		if (!create) {
+			g_free (folder_path);
+			return NULL;
+		}
 
-	if (!exists && create && !imap_create (imap_store, folder_path, ex)) {
+		if (!imap_create (imap_store, folder_path, ex)) {
+			g_free (folder_path);
+			return NULL;
+		}
+	} else if (!selectable) {
+		camel_exception_setv (ex, CAMEL_EXCEPTION_STORE_NO_FOLDER,
+				      "%s is not a selectable folder",
+				      folder_name);
 		g_free (folder_path);
+		return NULL;
+	}
+	g_free (folder_path);
+
+	new_folder = camel_imap_folder_new (store, folder_name);
+	camel_folder_refresh_info (new_folder, ex);
+	if (camel_exception_is_set (ex)) {
 		camel_object_unref (CAMEL_OBJECT (new_folder));
 		return NULL;
 	}
 
-	/* this is where we *should refresh_info, not in imap_folder_new() */
-	camel_folder_refresh_info (new_folder, ex);
-	
 	return new_folder;
 }
 
@@ -440,6 +447,138 @@ get_root_folder_name (CamelStore *store, CamelException *ex)
 	return g_strdup ("");
 }
 
+static CamelFolderInfo *
+parse_list_response_as_folder_info (const char *response,
+				    const char *namespace,
+				    const char *base_url)
+{
+	CamelFolderInfo *fi;
+	char *flags, *sep, *dir;
+
+	if (!imap_parse_list_response (response, namespace,
+				       &flags, &sep, &dir))
+		return NULL;
+
+	fi = g_new0 (CamelFolderInfo, 1);
+	fi->full_name = dir;
+	fi->name = strrchr (dir, *sep);
+	if (fi->name)
+		fi->name = g_strdup (fi->name + 1);
+	else
+		fi->name = g_strdup (dir);
+	g_free (sep);
+	if (!e_strstrcase (flags, "\\NoSelect"))
+		fi->url = g_strdup_printf ("%s%s", base_url, dir);
+	g_free (flags);
+	/* FIXME: read/unread msg count */
+
+	return fi;
+}
+
+static CamelFolderInfo *
+get_folder_info (CamelStore *store, const char *top, gboolean fast,
+		 gboolean recursive, CamelException *ex)
+{
+	CamelImapStore *imap_store = CAMEL_IMAP_STORE (store);
+	CamelURL *url = CAMEL_SERVICE (store)->url;
+	gboolean found_inbox = FALSE;
+	int status, len, i;
+	GPtrArray *response;
+	char *dir_sep, *namespace, *base_url, *list;
+	CamelFolderInfo *topfi, *fi;
+
+	if (!top)
+		top = "";
+	dir_sep = imap_store->dir_sep;
+	namespace = camel_imap_store_folder_path (imap_store, top);
+
+	/* Yah! I am complicated! */
+	base_url = camel_url_to_string (url, FALSE);
+	len = strlen (base_url);
+	if (url->path && base_url[len - 1] != *dir_sep) {
+		base_url = g_realloc (base_url, len + 2);
+		base_url[len] = *dir_sep;
+		base_url[len + 1] = '\0';
+	} else if (!url->path) {
+		base_url = g_realloc (base_url, len + 2);
+		base_url[len] = '/';
+		base_url[len + 1] = '\0';
+	}
+
+	status = camel_imap_command_extended (imap_store, NULL, &response, ex,
+					      "LIST \"\" \"%s\"", namespace);
+	if (status != CAMEL_IMAP_OK) {
+		g_free (namespace);
+		g_free (base_url);
+		return NULL;
+	}
+	list = camel_imap_response_extract (response, "LIST", ex);
+	if (!list) {
+		g_free (namespace);
+		g_free (base_url);
+		return NULL;
+	}
+	topfi = parse_list_response_as_folder_info (list, namespace, base_url);
+	g_free (list);
+
+	status = camel_imap_command_extended (imap_store, NULL, &response, ex,
+					      "LIST \"\" \"%s%s%c\"",
+					      namespace,
+					      *namespace ? dir_sep : "",
+					      recursive ? '*' : '%');
+	if (status != CAMEL_IMAP_OK) {
+		g_free (namespace);
+		g_free (base_url);
+		return NULL;
+	}
+
+	/* Turn responses into CamelFolderInfo and remove any
+	 * extraneous responses.
+	 */
+	for (i = 0; i < response->len; i++) {
+		list = response->pdata[i];
+		response->pdata[i] = fi =
+			parse_list_response_as_folder_info (list, namespace,
+							    base_url);
+		g_free (list);
+
+		if (!response->pdata[i]) {
+			g_ptr_array_remove_index_fast (response, i--);
+			continue;
+		}
+
+		if (!g_strcasecmp (fi->full_name, "INBOX"))
+			found_inbox = TRUE;
+	}
+
+	/* Add INBOX, if necessary */	
+	if (!*top && !found_inbox) {
+		fi = g_new0 (CamelFolderInfo, 1);
+		fi->full_name = g_strdup ("INBOX");
+		fi->name = g_strdup ("INBOX");
+		fi->url = g_strdup_printf ("%sINBOX", base_url);
+		/* FIXME: read/unread msg count */
+
+		g_ptr_array_add (response, fi);
+	}
+
+	/* And assemble */
+	camel_folder_info_build (response, topfi, *dir_sep, TRUE);
+	g_ptr_array_free (response, FALSE);
+
+	/* Remove the top if it's the root of the store. */
+	if (!*top && !topfi->sibling) {
+		fi = topfi;
+		topfi = topfi->child;
+		fi->child = NULL;
+		camel_folder_info_free (fi);
+	}
+
+	g_free (namespace);
+	g_free (base_url);
+	return topfi;
+}
+
 static void
 imap_keepalive (CamelRemoteStore *store)
 {
@@ -447,25 +586,6 @@ imap_keepalive (CamelRemoteStore *store)
 	
 	camel_imap_command_extended (imap_store, NULL, NULL, NULL, "NOOP");
 }
-
-#if 0
-static gboolean
-stream_is_alive (CamelStream *istream)
-{
-	CamelStreamFs *fs_stream;
-	char buf;
-	
-	g_return_val_if_fail (istream != NULL, FALSE);
-	
-	fs_stream = CAMEL_STREAM_FS (CAMEL_STREAM_BUFFER (istream)->stream);
-	g_return_val_if_fail (fs_stream->fd != -1, FALSE);
-	
-	if (read (fs_stream->fd, (void *) &buf, 0) == 0)
-		return TRUE;
-	
-	return FALSE;
-}
-#endif
 
 static int
 camel_imap_status (char *cmdid, char *respbuf)

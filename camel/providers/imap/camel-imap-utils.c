@@ -33,12 +33,12 @@
 #define d(x) x
 
 char *
-imap_next_word (char *buf)
+imap_next_word (const char *buf)
 {
 	char *word;
 	
 	/* skip over current word */
-	for (word = buf; *word && *word != ' '; word++);
+	for (word = (char *)buf; *word && *word != ' '; word++);
 	
 	/* skip over white space */
 	for ( ; *word && *word == ' '; word++);
@@ -47,7 +47,7 @@ imap_next_word (char *buf)
 }
 
 gboolean
-imap_parse_list_response (char *buf, char *namespace, char **flags, char **sep, char **folder)
+imap_parse_list_response (const char *buf, const char *namespace, char **flags, char **sep, char **folder)
 {
 	char *word, *ep, *f;
 	
@@ -96,7 +96,9 @@ imap_parse_list_response (char *buf, char *namespace, char **flags, char **sep, 
 	
 	/* chop out the folder prefix */
 	if (*namespace && !strncmp (*folder, namespace, strlen (namespace))) {
-		f = *folder + strlen (namespace) + strlen (*sep);
+		f = *folder + strlen (namespace);
+		if (!strncmp (f, *sep, strlen (*sep)))
+			f += strlen (*sep);
 		memmove (*folder, f, strlen (f) + 1);
 	}
 	

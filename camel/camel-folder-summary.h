@@ -35,11 +35,6 @@
 /*typedef struct _CamelFolderSummary      CamelFolderSummary;*/
 typedef struct _CamelFolderSummaryClass CamelFolderSummaryClass;
 
-typedef struct {
-	char *full_name, *name;
-	int message_count, unread_message_count;
-} CamelFolderInfo;
-
 /* A tree of message content info structures
    describe the content structure of the message (if it has any) */
 typedef struct _CamelMessageContentInfo {
@@ -230,8 +225,5 @@ void		camel_tag_list_free(CamelTag **list);
 /* message info utils */
 void camel_message_info_dup_to(const CamelMessageInfo *from, CamelMessageInfo *to);
 void camel_message_info_free(CamelMessageInfo *mi);
-
-/* folder info utils */
-void camel_folder_info_free(CamelFolderInfo *fi);
 
 #endif /* ! _CAMEL_FOLDER_SUMMARY_H */

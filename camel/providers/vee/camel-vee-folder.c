@@ -119,8 +119,6 @@ camel_vee_folder_init (CamelVeeFolder *obj)
 
 	p = _PRIVATE(obj) = g_malloc0(sizeof(*p));
 
-	folder->can_hold_messages = TRUE;
-	folder->can_hold_folders = FALSE;
 	folder->has_summary_capability = TRUE;
 	folder->has_search_capability = TRUE;
 

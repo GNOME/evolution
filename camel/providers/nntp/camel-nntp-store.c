@@ -296,6 +296,50 @@ nntp_store_get_folder (CamelStore *store, const gchar *folder_name,
 	return camel_nntp_folder_new (store, folder_name, ex);
 }
 
+static CamelFolderInfo *
+nntp_store_get_folder_info (CamelStore *store, const char *top,
+			    gboolean fast, gboolean recursive,
+			    CamelException *ex)
+{
+	CamelNNTPStore *nntp_store = (CamelNNTPStore *)store;
+	GPtrArray *names;
+	CamelFolderInfo *topfi, *last = NULL, *fi;
+	int i;
+
+	if (!nntp_store->newsrc)
+		return NULL;
+
+	topfi = g_new0 (CamelFolderInfo, 1);
+	topfi->name = g_strdup (top);
+	topfi->full_name = g_strdup (top);
+	if (*top)
+		topfi->url = g_strdup_printf ("news:%s", top);
+	/* FIXME: message_count if top != "" */
+	topfi->message_count = topfi->unread_message_count = -1;
+
+	if (!recursive || *top)
+		return topfi;
+
+	names = camel_nntp_newsrc_get_subscribed_group_names (nntp_store->newsrc);
+	for (i = 0; i < names->len; i++) {
+		fi = g_new0 (CamelFolderInfo, 1);
+		fi->name = g_strdup (names->pdata[i]);
+		fi->full_name = g_strdup (names->pdata[i]);
+		fi->url = g_strdup_printf ("news:%s", (char *)names->pdata[i]);
+		/* FIXME */
+		fi->message_count = fi->unread_message_count = -1;
+
+		if (last)
+			last->sibling = fi;
+		else
+			topfi->child = fi;
+		last = fi;
+	}
+	camel_nntp_newsrc_free_group_names (nntp_store->newsrc, names);
+
+	return topfi;
+}
+
 static char *
 nntp_store_get_root_folder_name (CamelStore *store, CamelException *ex)
 {
@@ -332,6 +376,8 @@ camel_nntp_store_class_init (CamelNNTPStoreClass *camel_nntp_store_class)
 
 	camel_store_class->get_folder = nntp_store_get_folder;
 	camel_store_class->get_root_folder_name = nntp_store_get_root_folder_name;
+	camel_store_class->get_folder_info = nntp_store_get_folder_info;
+	camel_store_class->free_folder_info = camel_store_free_folder_info_full;
 }
 
 

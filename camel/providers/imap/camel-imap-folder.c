@@ -79,10 +79,6 @@ static void imap_copy_message_to (CamelFolder *source, const char *uid,
 static void imap_move_message_to (CamelFolder *source, const char *uid,
 				  CamelFolder *destination, CamelException *ex);
 
-/* subfolder listing */
-static GPtrArray *imap_get_subfolder_info_internal (CamelFolder *folder, CamelException *ex);
-static GPtrArray *imap_get_subfolder_info (CamelFolder *folder);
-
 /* summary info */
 static GPtrArray *imap_get_uids (CamelFolder *folder);
 static GPtrArray *imap_get_summary_internal (CamelFolder *folder, CamelException *ex);
@@ -116,8 +112,6 @@ camel_imap_folder_class_init (CamelImapFolderClass *camel_imap_folder_class)
 	
 	camel_folder_class->get_uids = imap_get_uids;
 	camel_folder_class->free_uids = camel_folder_free_nop;
-	camel_folder_class->get_subfolder_info = imap_get_subfolder_info;
-	camel_folder_class->free_subfolder_info = camel_folder_free_nop;
 	
 	camel_folder_class->get_message_count = imap_get_message_count;
 	camel_folder_class->get_unread_message_count = imap_get_unread_message_count;
@@ -144,14 +138,11 @@ camel_imap_folder_init (gpointer object, gpointer klass)
 	CamelImapFolder *imap_folder = CAMEL_IMAP_FOLDER (object);
 	CamelFolder *folder = CAMEL_FOLDER (object);
 	
-	folder->can_hold_messages = TRUE;
-	folder->can_hold_folders = TRUE;
 	folder->has_summary_capability = TRUE;
 	folder->has_search_capability = TRUE;
 	
 	imap_folder->summary = NULL;
 	imap_folder->summary_hash = NULL;
-	imap_folder->lsub = NULL;
 
         /* some IMAP daemons support user-flags              *
 	 * I would not, however, rely on this feature as     *
@@ -197,9 +188,6 @@ camel_imap_folder_new (CamelStore *parent, const char *folder_name)
 		short_name = folder_name;
 	camel_folder_construct (folder, parent, folder_name, short_name);
 	
-	if (!*folder_name)
-		folder->can_hold_messages = FALSE;
-	
 	return folder;
 }
 
@@ -211,7 +199,7 @@ imap_summary_free (GPtrArray **summary)
 	
 	if (array) {
 		for (i = 0; i < array->len; i++)
-			camel_folder_info_free (array->pdata[i]);
+			camel_message_info_free (array->pdata[i]);
 		
 		g_ptr_array_free (array, TRUE);
 		*summary = NULL;
@@ -233,25 +221,14 @@ static void
 imap_finalize (CamelObject *object)
 {
 	CamelImapFolder *imap_folder = CAMEL_IMAP_FOLDER (object);
-	gint i;
-	
+
 	imap_folder_summary_free (imap_folder);
-	
-	if (imap_folder->lsub) {
-		for (i = 0; i < imap_folder->lsub->len; i++)
-			camel_folder_info_free (imap_folder->lsub->pdata[i]);
-		
-		g_ptr_array_free (imap_folder->lsub, TRUE);
-	}
 }
 
 static void
 imap_refresh_info (CamelFolder *folder, CamelException *ex)
 {
-	imap_get_subfolder_info_internal (folder, ex);
-	
-	if (folder->can_hold_messages)
-		imap_get_summary_internal (folder, ex);
+	imap_get_summary_internal (folder, ex);
 }
 
 static void
@@ -307,8 +284,6 @@ imap_get_message_count_internal (CamelFolder *folder, CamelException *ex)
 	gchar *result, *msg_count, *folder_path;
 	GPtrArray *response;
 	gint status, count = 0;
-	
-	g_return_val_if_fail (folder->can_hold_messages, 0);
 	
 	folder_path = camel_imap_store_folder_path (store, folder->full_name);
 	
@@ -499,92 +474,6 @@ imap_get_uids (CamelFolder *folder)
 	}
 	
 	return array;
-}
-
-static GPtrArray *
-imap_get_subfolder_info_internal (CamelFolder *folder, CamelException *ex)
-{
-	CamelImapFolder *imap_folder = CAMEL_IMAP_FOLDER (folder);
-	CamelImapStore *store = CAMEL_IMAP_STORE (folder->parent_store);
-	GPtrArray *response, *listing;
-	gboolean found_inbox = FALSE;
-	gint status, i;
-	gchar *namespace;
-	CamelFolderInfo *fi;
-	
-	g_return_val_if_fail (folder != NULL, g_ptr_array_new ());
-	
-	namespace = camel_imap_store_folder_path (store, folder->full_name);
-	status = camel_imap_command_extended (store, NULL, &response, ex,
-					      "LIST \"\" \"%s%s*\"", namespace,
-					      *namespace ? store->dir_sep : "");
-	
-	if (status != CAMEL_IMAP_OK) {
-		g_free (namespace);
-		
-		imap_folder->lsub = g_ptr_array_new ();
-		return imap_folder->lsub;
-	}
-	
-	/* parse out the subfolders */
-	listing = g_ptr_array_new ();
-	if (response) {
-		for (i = 0; i < response->len; i++) {
-			gchar *resp, *flags, *sep, *dir;
-
-			resp = response->pdata[i];
-			if (!imap_parse_list_response (resp, namespace, &flags, &sep, &dir)) {
-				g_free (flags);
-				g_free (sep);
-				g_free (dir);
-				continue;
-			}
-
-			g_free (flags);
-
-			if (*dir) {
-				d(fprintf (stderr, "adding folder: %s\n", dir));
-				fi = g_new0 (CamelFolderInfo, 1);
-				fi->full_name = dir;
-				fi->name = strrchr (dir, *sep);
-				if (fi->name)
-					fi->name = g_strdup (fi->name + 1);
-				else
-					fi->name = g_strdup (dir);
-				/* FIXME: read/unread msg count */
-
-				if (!g_strcasecmp (dir, "INBOX"))
-					found_inbox = TRUE;
-				g_ptr_array_add (listing, fi);
-			}
-
-			g_free (sep);
-		}
-		camel_imap_response_free (response);
-	}
-	
-	if (!*folder->name && !found_inbox) {
-		fi = g_new0 (CamelFolderInfo, 1);
-		fi->full_name = g_strdup ("INBOX");
-		fi->name = g_strdup ("INBOX");
-		/* FIXME: read/unread msg count */
-
-		g_ptr_array_add (listing, fi);
-	}
-	
-	g_free (namespace);
-	
-	imap_folder->lsub = listing;
-	
-	return listing;
-}
-
-static GPtrArray *
-imap_get_subfolder_info (CamelFolder *folder)
-{
-	CamelImapFolder *imap_folder = CAMEL_IMAP_FOLDER (folder);
-	
-	return imap_folder->lsub;
 }
 
 static CamelMimeMessage *
