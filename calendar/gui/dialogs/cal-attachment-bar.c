@@ -804,12 +804,14 @@ cal_attachment_bar_get_attachment_list (CalAttachmentBar *bar)
 		if (fd == -1) {
 			/* TODO handle error conditions */
 			g_message ("DEBUG: could not open the file descriptor\n");
+			continue;
 		}
 
 		/* write the camel mime part  (attachment->body) into the file*/
 		if (camel_write (fd, buffer, mstream->buffer->len) == -1) {
 			/* TODO handle error condition */
 			g_message ("DEBUG: camel write failed.\n");
+			continue;
 		}
 		list = g_slist_append (list, g_strdup (attach_file_url));
 		/* do i need to close the fd */
@@ -866,10 +868,12 @@ cal_attachment_bar_set_attachment_list (CalAttachmentBar *bar, GSList *attach_li
 		/* set file name correctly on the display */
 		attach =  g_slist_nth_data (priv->attachments,
 				priv->num_attachments-1);
-		camel_mime_part_set_filename (attach->body,
-				attach_filename + strlen (priv->local_attachment_store)+ 
-				strlen (priv->comp_uid) + 1); 
-		update (bar);
+		if (attach) {
+			camel_mime_part_set_filename (attach->body,
+					attach_filename + strlen (priv->local_attachment_store)+ 
+					strlen (priv->comp_uid) + 1); 
+			update (bar);
+		}
 	}
 }
 
